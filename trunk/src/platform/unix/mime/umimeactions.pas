@@ -558,6 +558,7 @@ end;
 function AddDesktopEntry(const MimeType, DesktopEntry: String; DefaultAction: Boolean): Boolean;
 var
   Value: String;
+  Args: TStringArray;
   CustomFile: String;
   UserDataDir: String;
   DesktopFile: TIniFileEx;
@@ -584,13 +585,14 @@ var
 
 begin
   CustomFile:= DesktopEntry;
-  UserDataDir:= GetUserDataDir;
-  mbForceDirectory(UserDataDir + '/applications');
+  UserDataDir:= GetUserDataDir + '/applications';
   if (StrEnds(DesktopEntry, '.desktop') = False) then
   begin
+    mbForceDirectory(UserDataDir);
     // Create new desktop entry file for user command
-    CustomFile:= 'dc_' + ExtractFileName(DesktopEntry) + '_';
-    CustomFile:= UserDataDir + '/applications/' + CustomFile;
+    SplitCmdLine(CustomFile, Value, Args);
+    CustomFile:= 'dc_' + ExtractFileName(Value) + '_';
+    CustomFile:= UserDataDir + PathDelim + CustomFile;
     CustomFile:= GetTempName(CustomFile) + '.desktop';
     try
       DesktopFile:= TIniFileEx.Create(CustomFile, fmCreate or fmOpenReadWrite);
@@ -598,7 +600,7 @@ begin
         DesktopFile.WriteBool(DESKTOP_GROUP, DESKTOP_KEY_NO_DISPLAY, True);
         DesktopFile.WriteString(DESKTOP_GROUP, DESKTOP_KEY_EXEC, DesktopEntry);
         DesktopFile.WriteString(DESKTOP_GROUP, DESKTOP_KEY_MIME_TYPE, MimeType);
-        DesktopFile.WriteString(DESKTOP_GROUP, DESKTOP_KEY_NAME, ExtractFileName(DesktopEntry));
+        DesktopFile.WriteString(DESKTOP_GROUP, DESKTOP_KEY_NAME, ExtractFileName(Value));
         DesktopFile.WriteString(DESKTOP_GROUP, DESKTOP_KEY_TYPE, KEY_FILE_DESKTOP_TYPE_APPLICATION);
         DesktopFile.UpdateFile;
       finally
