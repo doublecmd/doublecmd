@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Internal diff and merge tool
 
-   Copyright (C) 2010-2020 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2010-2021 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
@@ -221,6 +221,7 @@ type
     ScrollLock: LongInt;
     FShowIdentical: Boolean;
     FWaitData: TWaitData;
+    FElevate: TDuplicates;
     FCommands: TFormCommands;
     procedure ShowIdentical;
     procedure Clear(bLeft, bRight: Boolean);
@@ -266,7 +267,7 @@ implementation
 
 uses
   LCLType, LazFileUtils, LConvEncoding, SynEditTypes, uHash, uLng, uGlobs,
-  uShowMsg, DCClassesUtf8, dmCommonData, DCOSUtils, uConvEncoding;
+  uShowMsg, DCClassesUtf8, dmCommonData, DCOSUtils, uConvEncoding, uAdministrator;
 
 const
   HotkeysCategory = 'Differ';
@@ -467,7 +468,12 @@ begin
   dmComData.SaveDialog.FileName:= edtFileNameLeft.FileName;
   if dmComData.SaveDialog.Execute then
   begin
-    SaveToFile(SynDiffEditLeft, dmComData.SaveDialog.FileName);
+    PushPop(FElevate);
+    try
+      SaveToFile(SynDiffEditLeft, dmComData.SaveDialog.FileName);
+    finally
+      PushPop(FElevate);
+    end;
     edtFileNameLeft.FileName:= dmComData.SaveDialog.FileName;
   end;
 end;
@@ -477,7 +483,12 @@ begin
   dmComData.SaveDialog.FileName:= edtFileNameRight.FileName;
   if dmComData.SaveDialog.Execute then
   begin
-    SaveToFile(SynDiffEditRight, dmComData.SaveDialog.FileName);
+    PushPop(FElevate);
+    try
+      SaveToFile(SynDiffEditRight, dmComData.SaveDialog.FileName);
+    finally
+      PushPop(FElevate);
+    end;
     edtFileNameRight.FileName:= dmComData.SaveDialog.FileName;
   end;
 end;
@@ -510,9 +521,14 @@ begin
 
   if actBinaryCompare.Checked then
     begin
-      BinaryDiffList.Clear;
-      BinaryViewerLeft.FileName:= edtFileNameLeft.Text;
-      BinaryViewerRight.FileName:= edtFileNameRight.Text;
+      PushPop(FElevate);
+      try
+        BinaryDiffList.Clear;
+        BinaryViewerLeft.FileName:= edtFileNameLeft.Text;
+        BinaryViewerRight.FileName:= edtFileNameRight.Text;
+      finally
+        PushPop(FElevate);
+      end;
       StatusBar.Panels[0].Text := EmptyStr;
       StatusBar.Panels[1].Text := EmptyStr;
       StatusBar.Panels[2].Text := EmptyStr;
@@ -675,6 +691,9 @@ begin
   BinaryDiffList:= TFPList.Create;
   BinaryViewerLeft:= TBinaryDiffViewer.Create(Self);
   BinaryViewerRight:= TBinaryDiffViewer.Create(Self);
+
+  BinaryViewerLeft.OnFileOpen:= @FileOpenUAC;
+  BinaryViewerRight.OnFileOpen:= @FileOpenUAC;
 
   BinaryViewerLeft.Visible:= False;
   BinaryViewerRight.Visible:= False;
@@ -1061,12 +1080,22 @@ end;
 
 procedure TfrmDiffer.cm_SaveLeft(const Params: array of string);
 begin
-  SaveToFile(SynDiffEditLeft, edtFileNameLeft.FileName);
+  PushPop(FElevate);
+  try
+    SaveToFile(SynDiffEditLeft, edtFileNameLeft.FileName);
+  finally
+    PushPop(FElevate);
+  end;
 end;
 
 procedure TfrmDiffer.cm_SaveRight(const Params: array of string);
 begin
-  SaveToFile(SynDiffEditRight, edtFileNameRight.FileName);
+  PushPop(FElevate);
+  try
+    SaveToFile(SynDiffEditRight, edtFileNameRight.FileName);
+  finally
+    PushPop(FElevate);
+  end;
 end;
 
 constructor TfrmDiffer.Create(TheOwner: TComponent);
@@ -1180,10 +1209,10 @@ end;
 procedure TfrmDiffer.LoadFromFile(SynDiffEdit: TSynDiffEdit; const FileName: String);
 var
   AText: String;
-  fsFileStream: TFileStreamEx;
+  fsFileStream: TFileStreamUAC;
 begin
   try
-    fsFileStream:= TFileStreamEx.Create(FileName, fmOpenRead or fmShareDenyNone);
+    fsFileStream:= TFileStreamUAC.Create(FileName, fmOpenRead or fmShareDenyNone);
     try
       SetLength(AText, fsFileStream.Size);
       fsFileStream.Read(Pointer(AText)^, Length(AText));
@@ -1232,12 +1261,12 @@ begin
   end;
   // save to file
   try
-    if not mbFileExists(FileName) then
+    if not FileExistsUAC(FileName) then
       AMode:= fmCreate
     else begin
       AMode:= fmOpenWrite or fmShareDenyWrite;
     end;
-    with TFileStreamEx.Create(FileName, AMode) do
+    with TFileStreamUAC.Create(FileName, AMode) do
     try
       WriteBuffer(Pointer(AText)^, Length(AText));
       if (AMode <> fmCreate) then Size:= Position;
@@ -1253,39 +1282,49 @@ end;
 
 procedure TfrmDiffer.OpenFileLeft(const FileName: String);
 begin
-  if not mbFileExists(FileName) then Exit;
-  if actBinaryCompare.Checked then
-  begin
-    BinaryDiffList.Clear;
-    BinaryViewerLeft.FileName:= FileName
-  end
-  else try
-    Clear(True, False);
-    LoadFromFile(SynDiffEditLeft, FileName);
-    BuildHashList(True, False);
-    SynDiffEditLeft.Repaint;
-  except
-    on EFOpenError do
-      msgWarning(rsMsgErrEOpen + ' ' + FileName);
+  PushPop(FElevate);
+  try
+    if not FileExistsUAC(FileName) then Exit;
+    if actBinaryCompare.Checked then
+    begin
+      BinaryDiffList.Clear;
+      BinaryViewerLeft.FileName:= FileName
+    end
+    else try
+      Clear(True, False);
+      LoadFromFile(SynDiffEditLeft, FileName);
+      BuildHashList(True, False);
+      SynDiffEditLeft.Repaint;
+    except
+      on EFOpenError do
+        msgWarning(rsMsgErrEOpen + ' ' + FileName);
+    end;
+  finally
+    PushPop(FElevate);
   end;
 end;
 
 procedure TfrmDiffer.OpenFileRight(const FileName: String);
 begin
-  if not mbFileExists(FileName) then Exit;
-  if actBinaryCompare.Checked then
-  begin
-    BinaryDiffList.Clear;
-    BinaryViewerRight.FileName:= FileName
-  end
-  else try
-    Clear(False, True);
-    LoadFromFile(SynDiffEditRight, FileName);
-    BuildHashList(False, True);
-    SynDiffEditRight.Repaint;
-  except
-    on EFOpenError do
-      msgWarning(rsMsgErrEOpen + ' ' + FileName);
+  PushPop(FElevate);
+  try
+    if not FileExistsUAC(FileName) then Exit;
+    if actBinaryCompare.Checked then
+    begin
+      BinaryDiffList.Clear;
+      BinaryViewerRight.FileName:= FileName
+    end
+    else try
+      Clear(False, True);
+      LoadFromFile(SynDiffEditRight, FileName);
+      BuildHashList(False, True);
+      SynDiffEditRight.Repaint;
+    except
+      on EFOpenError do
+        msgWarning(rsMsgErrEOpen + ' ' + FileName);
+    end;
+  finally
+    PushPop(FElevate);
   end;
 end;
 
