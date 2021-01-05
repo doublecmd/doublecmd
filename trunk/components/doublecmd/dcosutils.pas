@@ -41,6 +41,12 @@ const
   fmOpenDirect  = $20000;
   fmOpenNoATime = $40000;
 
+{$IF DEFINED(UNIX)}
+  ERROR_NOT_SAME_DEVICE = ESysEXDEV;
+{$ELSE}
+  ERROR_NOT_SAME_DEVICE = Windows.ERROR_NOT_SAME_DEVICE;
+{$ENDIF}
+
 type
   TFileMapRec = record
     FileHandle : System.THandle;
