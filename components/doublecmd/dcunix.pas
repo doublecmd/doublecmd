@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    This unit contains Unix specific functions
 
-   Copyright (C) 2015-2019 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2015-2021 Alexander Koblov (alexx2000@mail.ru)
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Lesser General Public
@@ -115,6 +115,10 @@ function fpLocalTime(timer: PTime; tp: PTimeStruct): PTimeStruct;
 {$IF DEFINED(LINUX)}
 function fpFDataSync(fd: cint): cint;
 function fpFAllocate(fd: cint; mode: cint; offset, len: coff_t): cint;
+{$ENDIF}
+
+{$IF DEFINED(UNIX) AND NOT DEFINED(DARWIN)}
+function fnmatch(const pattern: PAnsiChar; const str: PAnsiChar; flags: cint): cint; cdecl; external clib;
 {$ENDIF}
 
 implementation
