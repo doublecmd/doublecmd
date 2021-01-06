@@ -69,7 +69,7 @@ implementation
 
 uses
   dbus, fpjson, jsonparser, jsonscanner, unix, baseunix,
-  uGlobs, uGlobsPaths, uMyUnix, uPython
+  DCUnix, DCClassesUtf8, uGlobs, uGlobsPaths, uMyUnix, uPython
 {$IF DEFINED(LCLQT) or DEFINED(LCLQT5)}
   , uGObject2
 {$ENDIF}
@@ -84,6 +84,9 @@ var
   conn: PDBusConnection = nil;
   PythonModule: PPyObject = nil;
   ShellContextMenu: PPyObject = nil;
+  PythonVersion: array[Byte] of AnsiChar;
+
+procedure Initialize(Self: TObject); forward;
 
 procedure Print(const sMessage: String);
 begin
@@ -333,29 +336,75 @@ begin
   end;
 end;
 
-function CheckPackage: Boolean;
+function FindPython(const Path: String): String;
 const
-  PythonVersion: array[0..2] of String = ('2.7', '3.8', '3.9');
-var
-  Index: Integer;
-  Debian: Boolean;
-  PackageFormat: String = '/usr/lib/python%s/';
+  Debian = '/usr/share/python3/debian_defaults';
 begin
-  Debian:= fpAccess('/etc/debian_version', F_OK) = 0;
-  if Debian then
-    PackageFormat+= 'dist-packages/rabbitvcs'
-  else begin
-    PackageFormat+= 'site-packages/rabbitvcs';
-  end;
-  for Index:= 0 to High(PythonVersion) do
+  Result:= ExtractFileName(Path);
+  Result:= StringReplace(Result, 'python', '', []);
+  if Length(Result) > 0 then
   begin
-    if (fpAccess(Format(PackageFormat, [PythonVersion[Index]]), F_OK) = 0) then
-    begin
-      Result:= PythonInitialize(PythonVersion[Index]);
-      Exit;
+    if Result[1] = '2' then Exit;
+    if fpAccess(Debian, F_OK) = 0 then
+    try
+      with TIniFileEx.Create(Debian, fmOpenRead) do
+      try
+        Result:= ReadString('DEFAULT', 'default-version', Result);
+        Result:= StringReplace(Trim(Result), 'python', '', []);
+      finally
+        Free;
+      end;
+    except
+      // Ignore
     end;
   end;
-  Result:= False;
+end;
+
+function CheckPackage({%H-}Parameter : Pointer): PtrInt;
+const
+  Path = '/usr/lib';
+var
+  DirPtr: pDir;
+  Handler: TMethod;
+  Directory: String;
+  DirEntPtr: pDirent;
+  PackageFormat: String;
+begin
+  if fpAccess('/etc/debian_version', F_OK) = 0 then
+    PackageFormat:= 'dist-packages/rabbitvcs'
+  else begin
+    PackageFormat:= 'site-packages/rabbitvcs';
+  end;
+  DirPtr:= fpOpenDir(Path);
+  if Assigned(DirPtr) then
+  try
+    DirEntPtr:= fpReadDir(DirPtr^);
+    while DirEntPtr <> nil do
+    begin
+      if (DirEntPtr^.d_name <> '..') and (DirEntPtr^.d_name <> '.') then
+      begin
+        if FNMatch('python*', DirEntPtr^.d_name, 0) = 0 then
+        begin
+          Directory:= Path + PathDelim + DirEntPtr^.d_name;
+          if (fpAccess(Directory + PathDelim + PackageFormat, F_OK) = 0) then
+          begin
+            PythonVersion:= FindPython(Directory);
+            if Length(PythonVersion) > 0 then
+            begin
+              Handler.Data:= nil;
+              Handler.Code:= @Initialize;
+              TThread.Synchronize(nil, TThreadMethod(Handler));
+              Exit(0);
+            end;
+          end;
+        end;
+      end;
+      DirEntPtr:= fpReadDir(DirPtr^);
+    end;
+  finally
+    fpCloseDir(DirPtr^);
+  end;
+  Result:= 1;
 end;
 
 function CheckVersion: Boolean;
@@ -415,15 +464,16 @@ begin
   end;
 end;
 
-procedure Initialize;
+procedure Initialize(Self: TObject);
 begin
   dbus_error_init(@error);
   conn := dbus_bus_get(DBUS_BUS_SESSION, @error);
   if CheckError('Cannot acquire connection to DBUS session bus', @error) then
     Exit;
-  if CheckPackage then
+  if PythonInitialize(PythonVersion) then
   begin
     if not CheckVersion then Exit;
+    Print('Python version ' + PythonVersion);
     PythonAddModulePath(gpExePath + 'scripts');
     PythonModule:= PythonLoadModule(MODULE_NAME);
     RabbitVCS:= Assigned(PythonModule) and CheckService;
@@ -437,7 +487,7 @@ begin
 end;
 
 initialization
-  RegisterInitialization(@Initialize);
+  BeginThread(@CheckPackage);
 
 finalization
   Finalize;
