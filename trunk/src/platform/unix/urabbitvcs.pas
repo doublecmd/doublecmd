@@ -393,9 +393,10 @@ begin
             begin
               Handler.Data:= nil;
               Handler.Code:= @Initialize;
+              while (gConfig = nil) do Sleep(10);
               TThread.Synchronize(nil, TThreadMethod(Handler));
-              Exit(0);
             end;
+            Exit(0);
           end;
         end;
       end;
