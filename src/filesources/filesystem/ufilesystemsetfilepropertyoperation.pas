@@ -322,8 +322,7 @@ var
 
 var
 {$IFDEF UNIX}
-  tmpFileName: String;
-  OldFileStat, NewFileStat: stat;
+  OldAttr, NewAttr: TFileAttributeData;
 {$ELSE}
   NewFileAttrs: TFileAttrs;
 {$ENDIF}
@@ -337,84 +336,28 @@ begin
     Exit(sfprSkipped);
 
 {$IFDEF UNIX}
-  if fpLstat(UTF8ToSys(OldName), OldFileStat) <> 0 then
-    Exit(sfprError);
-
   // Check if target file exists.
-  if fpLstat(UTF8ToSys(NewName), NewFileStat) = 0 then
+  if FileGetAttrUAC(NewName, NewAttr) then
   begin
+    // Special case when filenames differ only by case,
+    // see comments in mbRenameFile function for details
+    if (UTF8LowerCase(OldName) <> UTF8LowerCase(NewName)) then
+      OldAttr.FindData.st_ino:= not NewAttr.FindData.st_ino
+    else begin
+      if not FileGetAttrUAC(OldName, OldAttr) then
+        Exit(sfprError);
+    end;
     // Check if source and target are the same files (same inode and same device).
-    if (OldFileStat.st_ino = NewFileStat.st_ino) and
-       (OldFileStat.st_dev = NewFileStat.st_dev) then
+    if (OldAttr.FindData.st_ino = NewAttr.FindData.st_ino) and
+       (OldAttr.FindData.st_dev = NewAttr.FindData.st_dev) and
+       // Check number of links, if it is 1 then source and target names most
+       // probably differ only by case on a case-insensitive filesystem.
+       ((NewAttr.FindData.st_nlink = 1) {$IFNDEF DARWIN}or fpS_ISDIR(NewAttr.FindData.st_mode){$ENDIF}) then
     begin
-      // Check number of links.
-      // If it is 1 then source and target names most probably differ only
-      // by case on a case-insensitive filesystem. Direct rename() in such case
-      // fails on Linux, so we use a temporary file name and rename in two stages.
-      // If number of links is more than 1 then it's enough to simply unlink
-      // the source file, since both files are technically identical.
-      // (On Linux rename() returns success but doesn't do anything
-      // if renaming a file to its hard link.)
-      // We cannot use st_nlink for directories because it means "number of
-      // subdirectories"; hard links to directories are not supported on Linux
-      // or Windows anyway (on MacOSX they are). Therefore we always treat
-      // directories as if they were a single link and rename them using temporary name.
-
-      if (NewFileStat.st_nlink = 1) or BaseUnix.fpS_ISDIR(NewFileStat.st_mode) then
-      begin
-        tmpFileName := GetTempName(OldName);
-
-        if FpRename(UTF8ToSys(OldName), UTF8ToSys(tmpFileName)) = 0 then
-        begin
-          if fpLstat(UTF8ToSys(NewName), NewFileStat) = 0 then
-          begin
-            // We have renamed the old file but the new file name still exists,
-            // so this wasn't a single file on a case-insensitive filesystem
-            // accessible by two names that differ by case.
-
-            FpRename(UTF8ToSys(tmpFileName), UTF8ToSys(OldName));  // Restore old file.
-{$IFDEF DARWIN}
-            // If it was a directory with multiple hard links then fall through
-            // to asking for overwrite and unlinking source link.
-            if not (BaseUnix.fpS_ISDIR(NewFileStat.st_mode) and (NewFileStat.st_nlink > 1)) then
-{$ENDIF}
-            Exit(sfprError);
-          end
-          else if FpRename(UTF8ToSys(tmpFileName), UTF8ToSys(NewName)) = 0 then
-          begin
-            Exit(sfprSuccess);
-          end
-          else
-          begin
-            FpRename(UTF8ToSys(tmpFileName), UTF8ToSys(OldName));  // Restore old file.
-            Exit(sfprError);
-          end;
-        end
-        else
-          Exit(sfprError);
-      end;
-
-      // Both names are hard links to the same file.
-
-      case AskIfOverwrite(NewFileStat.st_mode) of
-        fsourOverwrite: ; // continue
-        fsourSkip:
-          Exit(sfprSkipped);
-        fsourAbort:
-          RaiseAbortOperation;
-      end;
-
-      // Multiple links - simply unlink the source file.
-      if fpUnLink(UTF8ToSys(OldName)) = 0 then
-        Result := sfprSuccess
-      else
-        Result := sfprError;
-
-      Exit;
+      // File names differ only by case on a case-insensitive filesystem.
     end
-    else
-    begin
-      case AskIfOverwrite(NewFileStat.st_mode) of
+    else begin
+      case AskIfOverwrite(NewAttr.FindData.st_mode) of
         fsourOverwrite: ; // continue
         fsourSkip:
           Exit(sfprSkipped);
@@ -423,14 +366,7 @@ begin
       end;
     end;
   end;
-
-  if FpRename(UTF8ToSys(OldName), UTF8ToSys(NewName)) = 0 then
-    Result := sfprSuccess
-  else
-    Result := sfprError;
-
 {$ELSE}
-
   // Windows XP doesn't allow two filenames that differ only by case (even on NTFS).
   if UTF8LowerCase(OldName) <> UTF8LowerCase(NewName) then
   begin
@@ -446,12 +382,12 @@ begin
       end;
     end;
   end;
+{$ENDIF}
 
   if RenameFileUAC(OldName, NewName) then
     Result := sfprSuccess
   else
     Result := sfprError;
-{$ENDIF}
 end;
 
 end.
