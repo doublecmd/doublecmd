@@ -339,6 +339,9 @@ begin
   // Check if target file exists.
   if FileGetAttrUAC(NewName, NewAttr) then
   begin
+    // Cannot overwrite file by directory and vice versa
+    if fpS_ISDIR(NewAttr.FindData.st_mode) <> aFile.IsDirectory then
+      Exit(sfprError);
     // Special case when filenames differ only by case,
     // see comments in mbRenameFile function for details
     if (UTF8LowerCase(OldName) <> UTF8LowerCase(NewName)) then
@@ -373,6 +376,9 @@ begin
     NewFileAttrs := FileGetAttrUAC(NewName);
     if NewFileAttrs <> faInvalidAttributes then  // If target file exists.
     begin
+      // Cannot overwrite file by directory and vice versa
+      if fpS_ISDIR(NewFileAttrs) <> aFile.IsDirectory then
+        Exit(sfprError);
       case AskIfOverwrite(NewFileAttrs) of
         fsourOverwrite: ; // continue
         fsourSkip:
