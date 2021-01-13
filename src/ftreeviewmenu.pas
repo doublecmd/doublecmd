@@ -1190,7 +1190,7 @@ var
   var
     iChar: integer;
   begin
-    if UTF8Pos('&', sMenuCaption) = 0 then
+    if Pos('&', sMenuCaption) = 0 then
     begin
       Result := sMenuCaption;
     end
@@ -1198,15 +1198,15 @@ var
     begin
       Result := '';
       iChar := 1;
-      while iChar <= UTF8Length(sMenuCaption) do
+      while iChar <= Length(sMenuCaption) do
       begin
-        if copy(sMenuCaption, iChar, 1) <> '&' then
-          Result := Result + copy(sMenuCaption, iChar, 1)
+        if sMenuCaption[iChar] <> '&' then
+          Result := Result + sMenuCaption[iChar]
         else
         begin
-          if iChar < UTF8Length(sMenuCaption) then
+          if iChar < Length(sMenuCaption) then
           begin
-            if copy(sMenuCaption, iChar + 1, 1) = '&' then
+            if sMenuCaption[iChar + 1] = '&' then
             begin
               Result := Result + '&';
               Inc(iChar);
