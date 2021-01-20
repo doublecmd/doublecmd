@@ -10906,6 +10906,10 @@ msgstr ""
 msgid "You can not copy/move a file \"%s\" to itself!"
 msgstr "Нельзя скопировать/переместить файл \"%s\" сам в себя!"
 
+#: ulng.rsmsgcannotcopyspecialfile
+msgid "Cannot copy special file %s"
+msgstr "Невозможно скопировать специальный файл %s"
+
 #: ulng.rsmsgcannotdeletedirectory
 msgid "Cannot delete directory %s"
 msgstr "Не удалось удалить каталог %s"
@@ -11021,6 +11025,10 @@ msgstr "Не удалось соединиться с сервером: \"%s\""
 #: ulng.rsmsgerrcannotcopyfile
 msgid "Cannot copy file %s to %s"
 msgstr "Не удалось скопировать файл из %s в %s"
+
+#: ulng.rsmsgerrcannotmovefile
+msgid "Cannot move file %s"
+msgstr "Невозможно переместить файл %s"
 
 #: ulng.rsmsgerrcreatefiledirectoryexists
 msgid "There already exists a directory named \"%s\"."

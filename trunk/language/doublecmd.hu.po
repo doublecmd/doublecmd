@@ -11016,6 +11016,10 @@ msgstr ""
 msgid "You can not copy/move a file \"%s\" to itself!"
 msgstr "Nem másolhatja/helyezheti a fájlt \"%s\" saját magára!"
 
+#: ulng.rsmsgcannotcopyspecialfile
+msgid "Cannot copy special file %s"
+msgstr ""
+
 #: ulng.rsmsgcannotdeletedirectory
 msgid "Cannot delete directory %s"
 msgstr "A mappa \"%s\" nem törölhető"
@@ -11131,6 +11135,10 @@ msgstr "Nem bír csatlakozni a szerverhez : \"%s\""
 #: ulng.rsmsgerrcannotcopyfile
 msgid "Cannot copy file %s to %s"
 msgstr "Nem tudom %s fájlt ide másolni : %s"
+
+#: ulng.rsmsgerrcannotmovefile
+msgid "Cannot move file %s"
+msgstr ""
 
 #: ulng.rsmsgerrcreatefiledirectoryexists
 msgid "There already exists a directory named \"%s\"."

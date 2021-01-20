@@ -11652,6 +11652,10 @@ msgstr ""
 msgid "You can not copy/move a file \"%s\" to itself!"
 msgstr "你不能複製/移動檔案【%s】到相同目錄"
 
+#: ulng.rsmsgcannotcopyspecialfile
+msgid "Cannot copy special file %s"
+msgstr ""
+
 #: ulng.rsmsgcannotdeletedirectory
 msgid "Cannot delete directory %s"
 msgstr "無法刪除資料夾【%s】"
@@ -11767,6 +11771,10 @@ msgstr "無法連接到伺服器:【%s】"
 #: ulng.rsmsgerrcannotcopyfile
 msgid "Cannot copy file %s to %s"
 msgstr "無法複製檔案 %s 到 %s"
+
+#: ulng.rsmsgerrcannotmovefile
+msgid "Cannot move file %s"
+msgstr ""
 
 #: ulng.rsmsgerrcreatefiledirectoryexists
 msgid "There already exists a directory named \"%s\"."

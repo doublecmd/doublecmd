@@ -10742,6 +10742,10 @@ msgstr ""
 msgid "You can not copy/move a file \"%s\" to itself!"
 msgstr "Datoteke »%s« ni mogoče kopirati oziroma premakniti samo vase!"
 
+#: ulng.rsmsgcannotcopyspecialfile
+msgid "Cannot copy special file %s"
+msgstr ""
+
 #: ulng.rsmsgcannotdeletedirectory
 msgid "Cannot delete directory %s"
 msgstr "Ni mogoče izbrisati mape %s"
@@ -10857,6 +10861,10 @@ msgstr "Ni se mogoče povezati s strežnikom: »%s«"
 #: ulng.rsmsgerrcannotcopyfile
 msgid "Cannot copy file %s to %s"
 msgstr "Ni mogoče kopirati datoteke %s v %s"
+
+#: ulng.rsmsgerrcannotmovefile
+msgid "Cannot move file %s"
+msgstr ""
 
 #: ulng.rsmsgerrcreatefiledirectoryexists
 msgid "There already exists a directory named \"%s\"."

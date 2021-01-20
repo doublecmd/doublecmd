@@ -10886,6 +10886,10 @@ msgstr ""
 msgid "You can not copy/move a file \"%s\" to itself!"
 msgstr "Δεν μπορείτε να αντιγράψετε/μετακινήσετε ένα αρχείο \"%s\" σε αυτό το ίδιο!"
 
+#: ulng.rsmsgcannotcopyspecialfile
+msgid "Cannot copy special file %s"
+msgstr ""
+
 #: ulng.rsmsgcannotdeletedirectory
 msgid "Cannot delete directory %s"
 msgstr "Αδυναμία διαγραφής καταλόγου %s"
@@ -11001,6 +11005,10 @@ msgstr "Αδυναμία σύνδεσης στον διακομιστή: \"%s\""
 #: ulng.rsmsgerrcannotcopyfile
 msgid "Cannot copy file %s to %s"
 msgstr "Αδυναμία αντιγραφής αρχείου %s στο %s"
+
+#: ulng.rsmsgerrcannotmovefile
+msgid "Cannot move file %s"
+msgstr ""
 
 #: ulng.rsmsgerrcreatefiledirectoryexists
 msgid "There already exists a directory named \"%s\"."

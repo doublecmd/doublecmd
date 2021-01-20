@@ -10652,7 +10652,7 @@ msgstr "ビューア"
 msgid ""
 "A setup with that name already exists.\n"
 "Do you want to overwrite it?\n"
-msgstr "その名前のセットアップは既に存在します.上書きしますか？\n"
+msgstr "その名前のセットアップは既に存在します.上書きしますか？"
 
 #: ulng.rshotkeyfileconfirmdefault
 msgid "Are you sure you want to restore default?"
@@ -10875,6 +10875,10 @@ msgstr ""
 msgid "You can not copy/move a file \"%s\" to itself!"
 msgstr "ファイル＜%s＞をそれ自身にコピー/移動することはできません！"
 
+#: ulng.rsmsgcannotcopyspecialfile
+msgid "Cannot copy special file %s"
+msgstr ""
+
 #: ulng.rsmsgcannotdeletedirectory
 msgid "Cannot delete directory %s"
 msgstr "ディレクトリ＜%s＞を削除できません"
@@ -10990,6 +10994,10 @@ msgstr "サーバー＜%s＞に接続できません."
 #: ulng.rsmsgerrcannotcopyfile
 msgid "Cannot copy file %s to %s"
 msgstr "ファイル＜%s＞を＜%s＞にコピーできません"
+
+#: ulng.rsmsgerrcannotmovefile
+msgid "Cannot move file %s"
+msgstr ""
 
 #: ulng.rsmsgerrcreatefiledirectoryexists
 msgid "There already exists a directory named \"%s\"."
@@ -12533,6 +12541,7 @@ msgid "Export archiver configuration"
 msgstr "アーカイ構成のエクスポート"
 
 #: ulng.rsoptarchiverexportdone
+#, fuzzy,badformat
 msgctxt "ulng.rsoptarchiverexportdone"
 msgid "Exportation of %d elements to file \"%s\" completed."
 msgstr "ファイル “%s”への%d要素のエクスポートが完了しました."
@@ -12555,6 +12564,7 @@ msgid "Import archiver configuration"
 msgstr "アーカイバ構成のインポート"
 
 #: ulng.rsoptarchiverimportdone
+#, fuzzy,badformat
 msgctxt "ulng.rsoptarchiverimportdone"
 msgid "Importation of %d elements from file \"%s\" completed."
 msgstr "ファイル”%s”からの%d要素のインポートが完了しました."
@@ -13105,6 +13115,7 @@ msgid "Export tooltip file type configuration"
 msgstr "ツールヒント ファイル タイプの構成をエクスポート"
 
 #: ulng.rsopttooltipfiletypeexportdone
+#, fuzzy,badformat
 msgctxt "ulng.rsopttooltipfiletypeexportdone"
 msgid "Exportation of %d elements to file \"%s\" completed."
 msgstr "ファイル “%s”への%d要素のエクスポートが完了しました."
@@ -13119,6 +13130,7 @@ msgid "Import tooltip file type configuration"
 msgstr "ツールヒント ファイル タイプの構成をインポート"
 
 #: ulng.rsopttooltipfiletypeimportdone
+#, fuzzy,badformat
 msgctxt "ulng.rsopttooltipfiletypeimportdone"
 msgid "Importation of %d elements from file \"%s\" completed."
 msgstr "ファイル”%s”からの%d要素のインポートが完了しました."
@@ -13805,3 +13817,4 @@ msgstr "置換の回数：%d"
 #: ulng.rszeroreplacement
 msgid "No replacement took place."
 msgstr "置換は起こりませんでした."
+
