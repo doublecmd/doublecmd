@@ -34,6 +34,7 @@ resourcestring
   rsMsgCannotCopySpecialFile = 'Cannot copy special file %s';
   rsMsgErrDirExists = 'Directory %s exists!';
   rsMsgErrRename = 'Cannot rename file %s to %s';
+  rsMsgErrCannotMoveFile = 'Cannot move file %s';
   rsMsgErrCannotCopyFile = 'Cannot copy file %s to %s';
   rsMsgFileExistsOverwrite = 'Overwrite:';
   rsMsgFileExistsWithFile = 'With file:';
