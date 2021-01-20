@@ -10618,6 +10618,10 @@ msgstr ""
 msgid "You can not copy/move a file \"%s\" to itself!"
 msgstr ""
 
+#: ulng.rsmsgcannotcopyspecialfile
+msgid "Cannot copy special file %s"
+msgstr ""
+
 #: ulng.rsmsgcannotdeletedirectory
 msgid "Cannot delete directory %s"
 msgstr ""
@@ -10732,6 +10736,10 @@ msgstr ""
 
 #: ulng.rsmsgerrcannotcopyfile
 msgid "Cannot copy file %s to %s"
+msgstr ""
+
+#: ulng.rsmsgerrcannotmovefile
+msgid "Cannot move file %s"
 msgstr ""
 
 #: ulng.rsmsgerrcreatefiledirectoryexists
