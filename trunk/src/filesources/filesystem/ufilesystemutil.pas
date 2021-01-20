@@ -74,6 +74,7 @@ type
 {$IF DEFINED(UNIX)}
     FSkipAllSpecialFiles: Boolean;
 {$ENDIF}
+    FSkipRenameError: Boolean;
     FSkipOpenForReadingError: Boolean;
     FSkipOpenForWritingError: Boolean;
     FSkipReadError: Boolean;
@@ -847,14 +848,28 @@ function TFileSystemOperationHelper.MoveFile(SourceFile: TFile; TargetFileName: 
   Mode: TFileSystemOperationHelperCopyMode): Boolean;
 var
   Message: String;
+  RetryRename: Boolean;
   RetryDelete: Boolean;
 begin
   if not (Mode in [fsohcmAppend, fsohcmResume]) then
   begin
-    if RenameFileUAC(SourceFile.FullPath, TargetFileName) then
-      Exit(True);
-    if (GetLastOSError <> ERROR_NOT_SAME_DEVICE) then
-      Exit(False);
+    repeat
+      RetryRename := True;
+      if RenameFileUAC(SourceFile.FullPath, TargetFileName) then
+        Exit(True);
+      if (GetLastOSError <> ERROR_NOT_SAME_DEVICE) then
+      begin
+        if FSkipRenameError then Exit(False);
+        Message := Format(rsMsgErrCannotMoveFile, [WrapTextSimple(SourceFile.FullPath, 100)]) +
+                   LineEnding + LineEnding + mbSysErrorMessage;
+        case AskQuestion('', Message, [fsourSkip, fsourRetry, fsourAbort, fsourSkipAll], fsourSkip, fsourAbort) of
+          fsourSkip: Exit(False);
+          fsourAbort: AbortOperation;
+          fsourRetry: RetryRename := False;
+          fsourSkipAll: FSkipRenameError := True;
+        end;
+      end;
+    until RetryRename;
   end;
 
   if FVerify then FStatistics.TotalBytes += SourceFile.Size;
