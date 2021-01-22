@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    This unit contains TFileViewPage and TFileViewNotebook objects.
 
-   Copyright (C) 2016-2019 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2016-2021 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -105,6 +105,7 @@ type
 
   TFileViewNotebook = class(TPageControl)
   private
+    FCanChangePageIndex: Boolean;
     FNotebookSide: TFilePanelSelect;
     FStartDrag: Boolean;
     FDraggedPageIndex: Integer;
@@ -137,6 +138,7 @@ type
     procedure WndProc(var Message: TLMessage); override;
 {$ENDIF}
     function AddPage: TFileViewPage;
+    function CanChangePageIndex: Boolean; override;
     function InsertPage(Index: Integer): TFileViewPage; reintroduce;
     function NewEmptyPage: TFileViewPage;
     function NewPage(CloneFromPage: TFileViewPage): TFileViewPage;
@@ -403,6 +405,7 @@ begin
   ShowHint := True;
 
   FHintPageIndex := -1;
+  FCanChangePageIndex := True;
   FNotebookSide := NotebookSide;
   FStartDrag := False;
 
@@ -451,6 +454,11 @@ end;
 function TFileViewNotebook.AddPage: TFileViewPage;
 begin
   Result := InsertPage(PageCount);
+end;
+
+function TFileViewNotebook.CanChangePageIndex: Boolean;
+begin
+  Result:= (inherited CanChangePageIndex) and FCanChangePageIndex;
 end;
 
 function TFileViewNotebook.InsertPage(Index: Integer): TFileViewPage;
@@ -535,11 +543,13 @@ procedure TFileViewNotebook.DestroyAllPages;
 var
    tPage:TFileViewPage;
 begin
+  FCanChangePageIndex:= False;
   while PageCount > 0 do
   begin
     tPage:=Page[0];
     if tPage<>nil then FreeAndNil(tPage);
   end;
+  FCanChangePageIndex:= True;
 end;
 
 procedure TFileViewNotebook.ActivatePrevTab;
