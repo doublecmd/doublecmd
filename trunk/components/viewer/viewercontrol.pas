@@ -2712,7 +2712,7 @@ var
 
   function XYPos2AdrText: PtrInt;
   var
-    i: Integer;
+    i: PtrInt;
     charWidth: Integer;
     textWidth: Integer;
     len: Integer = 0;
