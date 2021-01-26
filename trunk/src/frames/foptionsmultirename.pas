@@ -128,7 +128,7 @@ begin
     gMulRenSaveRenamingLog := mrsrlPerPreset
   else
     gMulRenSaveRenamingLog := mrsrlAppendSameLog;
-  fneMulRenLogFilename.FileName := gMulRenLogFilename;
+  gMulRenLogFilename := fneMulRenLogFilename.FileName;
   gMultRenDailyIndividualDirLog := ckbDailyIndividualDirMultRenLog.Checked;
   gMulRenFilenameWithFullPathInLog := ckbFilenameWithFullPathInLog.Checked;
 end;
