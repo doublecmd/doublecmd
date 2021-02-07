@@ -49,7 +49,8 @@ end;
 
 function TSearchResultFileSource.GetProperties: TFileSourceProperties;
 begin
-  Result := inherited GetProperties + [fspLinksToLocalFiles] - [fspNoneParent, fspListFlatView];
+  Result := inherited GetProperties - [fspNoneParent, fspListFlatView];
+  if (fspDirectAccess in Result) then Result+= [fspLinksToLocalFiles];
 end;
 
 function TSearchResultFileSource.SetCurrentWorkingDirectory(NewDir: String): Boolean;
