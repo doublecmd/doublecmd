@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Find dialog, with searching in thread
 
-   Copyright (C) 2006-2020 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2006-2021 Alexander Koblov (alexx2000@mail.ru)
    Copyright (C) 2003-2004 Radek Cervinka (radek.cervinka@centrum.cz)
 
    This program is free software; you can redistribute it and/or modify
@@ -32,7 +32,7 @@ uses
   fAttributesEdit, uDsxModule, DsxPlugin, uFindThread, uFindFiles,
   uSearchTemplate, fSearchPlugin, uFileView, types, DCStrUtils,
   ActnList, uOSForms, uShellContextMenu, uExceptions, uFileSystemFileSource,
-  uFormCommands, uHotkeyManager, LCLVersion, uWcxModule;
+  uFormCommands, uHotkeyManager, LCLVersion, uWcxModule, uFileSource;
 
 {$IF DEFINED(LCLGTK2) or DEFINED(LCLQT) or DEFINED(LCLQT5)}
   {$DEFINE FIX_DEFAULT}
@@ -290,6 +290,7 @@ type
     FSearchWithWDXPluginInProgress: boolean;
     FFreeOnClose: boolean;
     FAtLeastOneSearchWasDone: boolean;
+    FFileSource: IFileSource;
     FWcxModule: TWcxModule;
 
     property Commands: TFormCommands read FCommands implements IFormCommands;
@@ -390,7 +391,7 @@ implementation
 
 uses
   LCLProc, LCLType, LConvEncoding, StrUtils, HelpIntfs, fViewer, fMain,
-  uLng, uGlobs, uShowForm, uDCUtils, uFileSource, uFileSourceUtil,
+  uLng, uGlobs, uShowForm, uDCUtils, uFileSourceUtil,
   uSearchResultFileSource, uFile, uFileProperty, uColumnsFileView,
   uFileViewNotebook, uKeyboard, uOSUtils, uArchiveFileSourceUtil,
   DCOSUtils, RegExpr, uDebug, uShowMsg, uConvEncoding, uColumns,
@@ -641,6 +642,7 @@ begin
   DsxPlugins := TDSXModuleList.Create;
   DsxPlugins.Assign(gDSXPlugins);
   FoundedStringCopy := TStringListTemp.Create;
+  FoundedStringCopy.OwnsObjects := True;
   FFreeOnClose := False;
   FAtLeastOneSearchWasDone := False;
   FSearchWithDSXPluginInProgress := False;
@@ -1334,7 +1336,8 @@ var
   AEnabled: Boolean;
   AFileSource: IWcxArchiveFileSource;
 begin
-  AEnabled:= aFileView.FileSource.IsClass(TWcxArchiveFileSource);
+  FFileSource:= aFileView.FileSource;
+  AEnabled:= FFileSource.IsClass(TWcxArchiveFileSource);
 
   cbOpenedTabs.Visible:= not AEnabled;
   cbSelectedFiles.Visible:= not AEnabled;
@@ -1351,7 +1354,7 @@ begin
   if not AEnabled then
     FWcxModule:= nil
   else begin
-    AFileSource:= (aFileView.FileSource as IWcxArchiveFileSource);
+    AFileSource:= (FFileSource as IWcxArchiveFileSource);
     FWcxModule:= AFileSource.WcxModule;
   end;
 
@@ -1822,19 +1825,26 @@ var
   AProperty: TFileVariantProperty;
   ANewSet: TPanelColumnsClass;
   NewSorting: TFileSortings;
+  AHeader: TWCXHeader;
 begin
   StopSearch;
 
   FileList := TFileTree.Create;
   for i := 0 to lsFoundedFiles.Items.Count - 1 do
   begin
-    sFileName := lsFoundedFiles.Items[I];
-    try
+    if Assigned(FWcxModule) then
+    begin
+      AHeader:= TWCXHeader(lsFoundedFiles.Items.Objects[I]);
+      aFile := TWcxArchiveFileSource.CreateFile(ExtractFilePath(AHeader.FileName), AHeader);
+      FileList.AddSubNode(aFile);
+    end
+    else try
+      sFileName := lsFoundedFiles.Items[I];
       aFile := TFileSystemFileSource.CreateFileFromFile(sFileName);
       if FLastSearchTemplate.SearchRecord.Duplicates then
       begin
         AProperty:= TFileVariantProperty.Create(PluginDuplicate);
-        AProperty.Value:= IntPtr(lsFoundedFiles.Items.Objects[I]);
+        AProperty.Value:= TDuplicate(lsFoundedFiles.Items.Objects[I]).Index;
         aFile.Properties[fpVariant]:= AProperty;
       end;
       FileList.AddSubNode(aFile);
@@ -1846,7 +1856,7 @@ begin
   // Create search result file source.
   // Currently only searching FileSystem is supported.
   SearchResultFS := TSearchResultFileSource.Create;
-  SearchResultFS.AddList(FileList, TFileSystemFileSource.GetFileSource);
+  SearchResultFS.AddList(FileList, FFileSource);
 
   // Add new tab for search results.
   Notebook := frmMain.ActiveNotebook;
@@ -2060,12 +2070,11 @@ end;
 function TfrmFindDlg.ObjectType(Index: Integer): TCheckBoxState;
 var
   ATemp: TObject;
-  AValue: PtrInt absolute ATemp;
 begin
   ATemp:= lsFoundedFiles.Items.Objects[Index];
-  if (ATemp) = nil then
+  if (ATemp = nil) then
     Result:= cbUnchecked
-  else if (AValue = High(PtrInt)) then
+  else if (ATemp is TWcxHeader) then
     Result:= cbChecked
   else
     Result:= cbGrayed;

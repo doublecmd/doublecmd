@@ -33,10 +33,13 @@ uses
 
 type
 
+  { TDuplicate }
+
   TDuplicate = class
     Name: String;
     Index: IntPtr;
     Count: Integer;
+    function Clone: TDuplicate;
   end;
 
   { TFindThread }
@@ -62,6 +65,7 @@ type
     FExcludeFilesRegExp: TRegExprW;
     FRegExpr: TRegExpr;
     FArchive: TWcxModule;
+    FHeader: TWcxHeader;
 
     FTimeSearchStart:TTime;
     FTimeSearchEnd:TTime;
@@ -124,6 +128,14 @@ begin
     Result:= 0
   else
     Result:= 1;
+end;
+
+{ TDuplicate }
+
+function TDuplicate.Clone: TDuplicate;
+begin
+  Result:= TDuplicate.Create;
+  Result.Index:= Self.Index;
 end;
 
 { TFindThread }
@@ -283,7 +295,7 @@ end;
 
 procedure TFindThread.AddArchiveFile;
 begin
-  FItems.AddObject(FFoundFile, TObject(High(IntPtr)));
+  FItems.AddObject(FFoundFile, FHeader.Clone);
 end;
 
 procedure TFindThread.AddDuplicateFile;
@@ -294,10 +306,10 @@ begin
   if AData.Count = 1 then
   begin
     Inc(FFilesFound);
-    FItems.AddObject(AData.Name, TObject(AData.Index));
+    FItems.AddObject(AData.Name, AData.Clone);
   end;
   Inc(FFilesFound);
-  FItems.AddObject(FFoundFile, TObject(AData.Index));
+  FItems.AddObject(FFoundFile, AData.Clone);
 end;
 
 function TFindThread.CheckDirectory(const CurrentDir, FolderName : String): Boolean;
@@ -491,7 +503,6 @@ end;
 procedure TFindThread.FindInArchive(const FileName: String);
 var
   Index: Integer;
-  Header: TWcxHeader;
 
   function CheckHeader: Boolean;
   var
@@ -505,28 +516,28 @@ var
       if IsFindText then
       begin
         // Skip directories
-        if (Header.FileAttr and faFolder) <> 0 then Exit(False);
+        if (FHeader.FileAttr and faFolder) <> 0 then Exit(False);
         // Some plugins end directories with path delimiter.
         // And not set directory attribute. Process this case.
-        NameLength := Length(Header.FileName);
-        if (NameLength > 0) and (Header.FileName[NameLength] = PathDelim) then
+        NameLength := Length(FHeader.FileName);
+        if (NameLength > 0) and (FHeader.FileName[NameLength] = PathDelim) then
           Exit(False);
       end;
 
-      DirectoryName:= ExtractFileName(ExtractFileDir(Header.FileName));
+      DirectoryName:= ExtractFileName(ExtractFileDir(FHeader.FileName));
       if not CheckDirectoryName(DirectoryName) then Exit(False);
 
-      if not CheckFileName(ExtractFileName(Header.FileName)) then
+      if not CheckFileName(ExtractFileName(FHeader.FileName)) then
         Exit(False);
 
       if (IsDateFrom or IsDateTo or IsTimeFrom or IsTimeTo or IsNotOlderThan) then
-        Result := CheckFileDateTime(FFileChecks, WcxFileTimeToDateTime(Header.FileTime));
+        Result := CheckFileDateTime(FFileChecks, WcxFileTimeToDateTime(FHeader.FileTime));
 
       if (IsFileSizeFrom or IsFileSizeTo) and Result then
-        Result := CheckFileSize(FFileChecks, Header.UnpSize);
+        Result := CheckFileSize(FFileChecks, FHeader.UnpSize);
 
       if Result then
-        Result := CheckFileAttributes(FFileChecks, Header.FileAttr);
+        Result := CheckFileAttributes(FFileChecks, FHeader.FileAttr);
     end;
   end;
 
@@ -581,12 +592,12 @@ begin
       WcxModule.WcxSetChangeVolProc(ArcHandle);
       WcxModule.WcxSetProcessDataProc(ArcHandle, @ProcessDataProcAG, @ProcessDataProcWG);
 
-      while (WcxModule.ReadWCXHeader(ArcHandle, Header) = E_SUCCESS) do
+      while (WcxModule.ReadWCXHeader(ArcHandle, FHeader) = E_SUCCESS) do
       begin
         Result:= CheckHeader;
         if Terminated then Break;
         Flags:= IfThen(Result, Operation, PK_SKIP);
-        if Flags = PK_EXTRACT then TargetFileName:= TargetPath + PathDelim + ExtractFileName(Header.FileName);
+        if Flags = PK_EXTRACT then TargetFileName:= TargetPath + PathDelim + ExtractFileName(FHeader.FileName);
         if WcxModule.WcxProcessFile(ArcHandle, Flags, EmptyStr, TargetFileName) = E_SUCCESS then
         begin
           with FSearchTemplate do
@@ -601,11 +612,11 @@ begin
         end;
         if Result then
         begin
-          FFoundFile := FileName + ReversePathDelim + Header.FileName;
+          FFoundFile := FileName + ReversePathDelim + FHeader.FileName;
           Synchronize(@AddArchiveFile);
           Inc(FFilesFound);
         end;
-        FreeAndNil(Header);
+        FreeAndNil(FHeader);
       end;
       if Operation = PK_EXTRACT then mbRemoveDir(TargetPath);
     finally
