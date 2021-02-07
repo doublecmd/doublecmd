@@ -4,6 +4,10 @@ unit uWin32WidgetSetFix;
 
 interface
 
+uses
+  LCLVersion;
+
+
 implementation
 
 uses
@@ -112,7 +116,9 @@ begin
 end;
 
 initialization
+{$if lcl_fullversion < 2010000}
   Initialize;
+{$endif}
 
 end.
 

@@ -43,10 +43,10 @@ interface
 
 uses
   Classes, SysUtils, Controls, Forms, Grids, Types, uExts, uColorExt, Graphics,
-  DCClassesUtf8, uMultiArc, uColumns, uHotkeyManager, uSearchTemplate,
+  LCLVersion, DCClassesUtf8, uMultiArc, uColumns, uHotkeyManager, uSearchTemplate,
   uFileSourceOperationOptions, uWFXModule, uWCXModule, uWDXModule, uwlxmodule,
   udsxmodule, DCXmlConfig, uInfoToolTip, fQuickSearch, uTypes, uClassesEx,
-  uHotDir, uSpecialDir, SynEdit, uFavoriteTabs, fTreeViewMenu, uConvEncoding;
+  uHotDir, uSpecialDir, SynEdit, SynEditTypes, uFavoriteTabs, fTreeViewMenu, uConvEncoding;
 
 type
   { Configuration options }
@@ -719,6 +719,9 @@ uses
    {$IF DEFINED(MSWINDOWS)}
     , ShlObj
    {$ENDIF}
+   {$if lcl_fullversion >= 2010000}
+   , SynEditMiscClasses
+   {$endif}
    ;
 
 const

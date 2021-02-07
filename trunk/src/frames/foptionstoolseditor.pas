@@ -27,7 +27,7 @@ unit fOptionsToolsEditor;
 interface
 
 uses
-  Classes, SysUtils, StdCtrls, ExtCtrls, Dialogs,
+  Classes, SysUtils, StdCtrls, ExtCtrls, Dialogs, LCLVersion,
   Buttons, EditBtn, Menus, SpinEx, fOptionsFrame, fOptionsToolBase;
 
 type
@@ -63,7 +63,12 @@ implementation
 {$R *.lfm}
 
 uses
-  SynEdit, uGlobs, uLng, fEditor;
+  {$if lcl_fullversion < 2010000}
+  SynEdit
+  {$else}
+  SynEditTypes
+  {$endif}
+  , uGlobs, uLng, fEditor;
 
 { TfrmOptionsEditor }
 
