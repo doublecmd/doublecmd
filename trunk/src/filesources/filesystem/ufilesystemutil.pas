@@ -1314,7 +1314,7 @@ var
 
 begin
   repeat
-    Attrs := mbFileGetAttr(AbsoluteTargetFileName);
+    Attrs := FileGetAttrUAC(AbsoluteTargetFileName);
     if Attrs <> faInvalidAttributes then
     begin
       SourceFile := aNode.TheFile;
