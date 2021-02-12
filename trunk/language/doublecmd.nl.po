@@ -5070,7 +5070,7 @@ msgstr ""
 msgid "Internal editor options"
 msgstr "Opties voor interne bewerker"
 
-#: tfrmoptionseditor.lblrightedge.caption
+#: tfrmoptionseditor.chkrightedge.caption
 msgid "Right margin:"
 msgstr "Rechterkantlijn:"
 

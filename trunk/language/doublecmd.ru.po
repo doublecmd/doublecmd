@@ -5165,7 +5165,7 @@ msgstr "Обратите внимание, опция \"Умные табуля�
 msgid "Internal editor options"
 msgstr "Опции встроенного редактора"
 
-#: tfrmoptionseditor.lblrightedge.caption
+#: tfrmoptionseditor.chkrightedge.caption
 msgid "Right margin:"
 msgstr "Правая граница:"
 

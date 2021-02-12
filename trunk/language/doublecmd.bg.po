@@ -5262,7 +5262,7 @@ msgstr ""
 msgid "Internal editor options"
 msgstr "Възможности на вътрешния обработчик"
 
-#: tfrmoptionseditor.lblrightedge.caption
+#: tfrmoptionseditor.chkrightedge.caption
 msgid "Right margin:"
 msgstr ""
 

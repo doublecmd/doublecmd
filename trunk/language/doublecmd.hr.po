@@ -5468,7 +5468,7 @@ msgstr ""
 msgid "Internal editor options"
 msgstr "Opcije za interni uređivač"
 
-#: tfrmoptionseditor.lblrightedge.caption
+#: tfrmoptionseditor.chkrightedge.caption
 msgid "Right margin:"
 msgstr ""
 

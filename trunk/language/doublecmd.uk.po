@@ -5183,7 +5183,7 @@ msgstr "Зверніть увагу, опція \"Розумні табуляц�
 msgid "Internal editor options"
 msgstr "Опції вбудованого редактора"
 
-#: tfrmoptionseditor.lblrightedge.caption
+#: tfrmoptionseditor.chkrightedge.caption
 msgid "Right margin:"
 msgstr ""
 
