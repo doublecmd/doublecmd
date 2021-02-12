@@ -384,6 +384,7 @@ object frmViewer: TfrmViewer
         Height = 288
         Top = 96
         Width = 376
+        AntialiasingMode = amOn
         Align = alCustom
         BorderSpacing.CellAlignHorizontal = ccaCenter
         BorderSpacing.CellAlignVertical = ccaCenter
