@@ -122,7 +122,7 @@ begin
   if mbDirectoryExists(gpExePath + 'doc' + PathDelim + gHelpLang) then
     HTMLHelpDatabase.BaseURL:= 'file://' + gpExePath + 'doc' + PathDelim + gHelpLang
   else begin
-    HTMLHelpDatabase.BaseURL:= 'http://doublecmd.github.io/doc/' + gHelpLang;
+    HTMLHelpDatabase.BaseURL:= 'https://doublecmd.github.io/doc/' + gHelpLang;
   end;
 
   HTMLHelpDatabase.KeywordPrefix:= '/';
