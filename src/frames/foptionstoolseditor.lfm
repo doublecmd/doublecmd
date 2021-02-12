@@ -140,31 +140,33 @@ inherited frmOptionsEditor: TfrmOptionsEditor
       FocusControl = edTabWidth
       ParentColor = False
     end
-    object lblRightEdge: TLabel
+    object chkRightEdge: TCheckBox
       AnchorSideLeft.Control = edTabWidth
       AnchorSideLeft.Side = asrBottom
       AnchorSideTop.Control = lblTabWidth
       AnchorSideTop.Side = asrCenter
       Left = 189
-      Height = 20
-      Top = 121
-      Width = 89
+      Height = 24
+      Top = 119
+      Width = 113
       BorderSpacing.Left = 12
       Caption = 'Right margin:'
+      Color = clDefault
       ParentColor = False
+      TabOrder = 2
     end
     object seeRightEdge: TSpinEditEx
-      AnchorSideLeft.Control = lblRightEdge
+      AnchorSideLeft.Control = chkRightEdge
       AnchorSideLeft.Side = asrBottom
       AnchorSideTop.Control = edTabWidth
       AnchorSideTop.Side = asrCenter
-      Left = 282
+      Left = 306
       Height = 28
       Top = 117
       Width = 129
       BorderSpacing.Left = 4
       MaxLength = 0
-      TabOrder = 2
+      TabOrder = 3
       MaxValue = 512
       MinValue = 16
       Value = 80
