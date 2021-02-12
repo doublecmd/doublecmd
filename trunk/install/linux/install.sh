@@ -70,6 +70,7 @@ mkdir -p $DC_INSTALL_DIR/plugins/dsx/dsxlocate
 
 # Copy files
 cp -a doublecmd                    $DC_INSTALL_DIR/
+cp -a doublecmd.help               $DC_INSTALL_DIR/
 cp -a doublecmd.zdli               $DC_INSTALL_DIR/
 cp -a doublecmd.ext.example        $DC_INSTALL_DIR/
 cp -a pixmaps.txt                  $DC_INSTALL_DIR/

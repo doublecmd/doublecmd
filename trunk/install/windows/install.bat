@@ -31,6 +31,7 @@ xcopy /E highlighters %DC_INSTALL_DIR%\highlighters\
 rem Copy files
 copy doc\*.txt                      %DC_INSTALL_DIR%\doc\
 copy doublecmd.exe                  %DC_INSTALL_DIR%\
+copy doublecmd.help                 %DC_INSTALL_DIR%\
 copy doublecmd.zdli                 %DC_INSTALL_DIR%\
 copy doublecmd.ext.example          %DC_INSTALL_DIR%\
 copy pixmaps.txt                    %DC_INSTALL_DIR%\
