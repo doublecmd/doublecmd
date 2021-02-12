@@ -5154,7 +5154,7 @@ msgstr "「スマートタブ」オプションは,テーブル化の実行よ�
 msgid "Internal editor options"
 msgstr "内部エディターのオプション"
 
-#: tfrmoptionseditor.lblrightedge.caption
+#: tfrmoptionseditor.chkrightedge.caption
 msgid "Right margin:"
 msgstr "右マージン:"
 

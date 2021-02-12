@@ -5066,7 +5066,7 @@ msgstr "Майце на ўвазе, што параметр \"Разумныя �
 msgid "Internal editor options"
 msgstr "Параметры ўнутранага рэдактара"
 
-#: tfrmoptionseditor.lblrightedge.caption
+#: tfrmoptionseditor.chkrightedge.caption
 msgid "Right margin:"
 msgstr "Правая мяжа:"
 

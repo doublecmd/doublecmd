@@ -5228,7 +5228,7 @@ msgstr "Legg merke til at \"Smart tab\"-tilvalget har forrang foran pågående t
 msgid "Internal editor options"
 msgstr "Innstillinger (Intern editor, F4)"
 
-#: tfrmoptionseditor.lblrightedge.caption
+#: tfrmoptionseditor.chkrightedge.caption
 msgid "Right margin:"
 msgstr ""
 

@@ -5076,7 +5076,7 @@ msgstr "Zwróć uwagę, że opcja \"Inteligentne tabulatory\" ma pierwszeństwo 
 msgid "Internal editor options"
 msgstr "Opcje edytora wewnętrznego"
 
-#: tfrmoptionseditor.lblrightedge.caption
+#: tfrmoptionseditor.chkrightedge.caption
 msgid "Right margin:"
 msgstr ""
 

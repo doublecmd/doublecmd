@@ -5061,7 +5061,7 @@ msgstr "Volba \"Smart Tab\" má přednost před klasickým tabelátorem"
 msgid "Internal editor options"
 msgstr "Možnosti interního editoru"
 
-#: tfrmoptionseditor.lblrightedge.caption
+#: tfrmoptionseditor.chkrightedge.caption
 msgid "Right margin:"
 msgstr "Pravý okraj:"
 

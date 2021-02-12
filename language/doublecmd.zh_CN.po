@@ -5079,7 +5079,7 @@ msgstr "请注意：<智能制表符> 选项优先于要执行的制表"
 msgid "Internal editor options"
 msgstr "内部编辑器选项"
 
-#: tfrmoptionseditor.lblrightedge.caption
+#: tfrmoptionseditor.chkrightedge.caption
 msgid "Right margin:"
 msgstr ""
 

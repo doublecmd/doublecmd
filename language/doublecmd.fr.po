@@ -5192,7 +5192,7 @@ msgstr "Veuillez noter que l'option \"Tabulation astucieuse\" est prioritaire su
 msgid "Internal editor options"
 msgstr "Options de l'éditeur interne"
 
-#: tfrmoptionseditor.lblrightedge.caption
+#: tfrmoptionseditor.chkrightedge.caption
 msgid "Right margin:"
 msgstr ""
 

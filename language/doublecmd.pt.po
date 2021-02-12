@@ -5176,7 +5176,7 @@ msgstr ""
 msgid "Internal editor options"
 msgstr "Opções internas do editor"
 
-#: tfrmoptionseditor.lblrightedge.caption
+#: tfrmoptionseditor.chkrightedge.caption
 msgid "Right margin:"
 msgstr ""
 
