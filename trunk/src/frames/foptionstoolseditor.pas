@@ -36,7 +36,7 @@ type
 
   TfrmOptionsEditor = class(TfrmOptionsToolBase)
     gbInternalEditor: TGroupBox;
-    lblRightEdge: TLabel;
+    chkRightEdge: TCheckBox;
     pnlBooleanOptions: TPanel;
     chkAutoIndent: TCheckBox;
     chkTrimTrailingSpaces: TCheckBox;
@@ -88,6 +88,7 @@ begin
   chkAutoIndent.Checked := eoAutoIndent in gEditorSynEditOptions;
   chkTabIndent.Checked := eoTabIndent in gEditorSynEditOptions;
   chkSmartTabs.Checked := eoSmartTabs in gEditorSynEditOptions;
+  chkRightEdge.Checked := not (eoHideRightMargin in gEditorSynEditOptions);
   edTabWidth.Text := IntToStr(gEditorSynEditTabWidth);
   seeRightEdge.Value := gEditorSynEditRightEdge;
 end;
@@ -104,6 +105,7 @@ function TfrmOptionsEditor.Save: TOptionsEditorSaveFlags;
 
 begin
   Result:= inherited Save;
+  UpdateOptionFromBool(not chkRightEdge.Checked, eoHideRightMargin);
   UpdateOptionFromBool(chkScrollPastEndLine.Checked, eoScrollPastEoL);
   UpdateOptionFromBool(chkShowSpecialChars.Checked, eoShowSpecialChars);
   UpdateOptionFromBool(chkTrimTrailingSpaces.Checked, eoTrimTrailingSpaces);
