@@ -3,7 +3,7 @@
     -------------------------------------------------------------------------
     Help manager
 
-    Copyright (C) 2008  Koblov Alexander (Alexx2000@mail.ru)
+    Copyright (C) 2008-2021 Alexander Koblov (alexx2000@mail.ru)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -16,8 +16,7 @@
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with this program; if not, write to the Free Software
-    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+    along with this program. If not, see <http://www.gnu.org/licenses/>.
 }
 
 unit dmHelpManager;
@@ -58,7 +57,7 @@ uses
   {$ELSE}
   HelpIntfs,
   {$ENDIF}
-  uGlobsPaths, uGlobs, DCStrUtils, DCOSUtils, StrUtils;
+  uGlobsPaths, uGlobs, DCStrUtils, DCOSUtils, StrUtils, DCClassesUtf8;
 
 {$IF DEFINED(MSWINDOWS)}
 procedure OpenURLWithAnchor(URL: String);
@@ -100,15 +99,25 @@ procedure TdmHelpManager.DataModuleCreate(Sender: TObject);
 var
   ABrowser, AParams: String;
 {$ENDIF}
+var
+  ATranslations: TStringList;
 begin
   if NumCountChars('.', gPOFileName) < 2 then
     gHelpLang:= 'en'
-  else
+  else begin
+    gHelpLang:= ExtractDelimited(2, gPOFileName, ['.']);
+    if not mbDirectoryExists(gpExePath + 'doc' + PathDelim + gHelpLang) then
     begin
-      gHelpLang:= ExtractDelimited(2, gPOFileName, ['.']);
-      if not mbDirectoryExists(gpExePath + 'doc' + PathDelim + gHelpLang) then
+      ATranslations:= TStringListEx.Create;
+      try
+        ATranslations.LoadFromFile(gpExePath + 'doublecmd.help');
+        if ATranslations.IndexOf(gHelpLang) < 0 then gHelpLang:= 'en';
+      except
         gHelpLang:= 'en';
+      end;
+      ATranslations.Free;
     end;
+  end;
 
   if mbDirectoryExists(gpExePath + 'doc' + PathDelim + gHelpLang) then
     HTMLHelpDatabase.BaseURL:= 'file://' + gpExePath + 'doc' + PathDelim + gHelpLang
