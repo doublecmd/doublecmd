@@ -3046,6 +3046,7 @@ procedure TfrmViewer.cm_ShowGraphics(const Params: array of string);
 begin
   if CheckGraphics(FileList.Strings[iActiveFile]) then
   begin
+    ExitPluginMode;
     ViewerControl.FileName := ''; // unload current file if any is loaded
     if LoadGraphics(FileList.Strings[iActiveFile]) then
       ActivatePanel(pnlImage)
