@@ -2345,9 +2345,9 @@ var
   bTextFound: Boolean;
   sSearchTextU: String;
   sSearchTextA: AnsiString;
-  iSearchParameter: Integer;
   RecodeTable: TRecodeTable;
   Options: TTextSearchOptions;
+  iSearchParameter: Integer = 0;
 begin
   // in first use create dialog
   if not Assigned(FFindDialog) then
@@ -2372,6 +2372,7 @@ begin
         // if plugin has specific search dialog
         if FWlxModule.CallListSearchDialog(0) = LISTPLUGIN_OK then
           Exit;
+        iSearchParameter:= iSearchParameter or lcs_findfirst;
       end;
 
       FFindDialog.chkHex.Visible:= not bPlugin;
@@ -2407,15 +2408,14 @@ begin
         sSearchTextU:= glsSearchHistory[0];
     end;
 
-    if FFindDialog.cbRegExp.Checked then
-    begin
-      FRegExp.SetInputString(ViewerControl.GetDataAdr, ViewerControl.FileSize)
-    end;
+  if FFindDialog.cbRegExp.Checked then
+  begin
+    FRegExp.SetInputString(ViewerControl.GetDataAdr, ViewerControl.FileSize)
+  end;
 
   if bPlugin then
   begin
-    iSearchParameter:= 0;
-    if bSearchBackwards then iSearchParameter:= lcs_backwards;
+    if bSearchBackwards then iSearchParameter:= iSearchParameter or lcs_backwards;
     if FFindDialog.cbCaseSens.Checked then iSearchParameter:= iSearchParameter or lcs_matchcase;
     FWlxModule.CallListSearchText(sSearchTextU, iSearchParameter);
   end
