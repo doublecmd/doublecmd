@@ -260,12 +260,11 @@ begin
       drLegacyWithCopy:
         begin
 {$IFDEF UNIX}
-        if (Length(sFileName) > 0) and (sFileName[1] = ExtensionSeparator) then
-          Result := sFilePath + ExtensionSeparator + Format(rsCopyNameTemplate, [CopyNumber, Copy(sFileName, 2, MaxInt)])
-        else
-{$ELSE}
-          Result := sFilePath + Format(rsCopyNameTemplate, [CopyNumber, sFileName]);
+          if (Length(sFileName) > 0) and (sFileName[1] = ExtensionSeparator) then
+            Result := sFilePath + ExtensionSeparator + Format(rsCopyNameTemplate, [CopyNumber, Copy(sFileName, 2, MaxInt)])
+          else
 {$ENDIF}
+          Result := sFilePath + Format(rsCopyNameTemplate, [CopyNumber, sFileName]);
         end;
       drLikeWindows7, drLikeTC:
         begin
