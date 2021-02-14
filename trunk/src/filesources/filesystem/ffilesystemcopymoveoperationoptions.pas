@@ -67,7 +67,7 @@ implementation
 
 uses
   uGlobs, uLng, uFileSourceOperationOptions, DCOSUtils, DCStrUtils,
-  fFindDlg;
+  fFindDlg, uFileCopyEx;
 
 procedure SetCopyOption(var Options: TCopyAttributesOptions; Option: TCopyAttributesOption; IsSet: Boolean);
 begin
@@ -119,6 +119,12 @@ begin
   cbCopyOwnership.Visible := False;
   cbCopyPermissions.Visible := True;
   {$ENDIF}
+
+  if Assigned(FileCopyEx) then
+  begin
+    cbReserveSpace.Visible:= False;
+    cbCopyAttributes.Visible:= False;
+  end;
 
   ParseLineToList(rsFileOpFileExistsOptions, cmbFileExists.Items);
   ParseLineToList(rsFileOpDirectoryExistsOptions, cmbDirectoryExists.Items);
@@ -307,8 +313,8 @@ end;
 constructor TFileSystemCopyOperationOptionsUI.Create(AOwner: TComponent; AFileSource: IInterface);
 begin
   inherited;
-  cbDropReadOnlyFlag.Visible := True;
   cbFollowLinks.Visible := True;
+  cbDropReadOnlyFlag.Visible := (FileCopyEx = nil);
 end;
 
 end.
