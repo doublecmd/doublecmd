@@ -5,7 +5,7 @@ unit uAdministrator;
 interface
 
 uses
-  Classes, SysUtils, DCBasicTypes, DCClassesUtf8, DCOSUtils, uFindEx;
+  Classes, SysUtils, DCBasicTypes, DCClassesUtf8, DCOSUtils, uFindEx, uFileCopyEx;
 
 procedure PushPop(var Elevate: TDuplicates);
 
@@ -23,6 +23,9 @@ function FileCopyAttrUAC(const sSrc, sDst: String;
 
 function FileOpenUAC(const FileName: String; Mode: LongWord): System.THandle;
 function FileCreateUAC(const FileName: String; Mode: LongWord): System.THandle;
+
+function FileCopyUAC(const Source, Target: String; Options: UInt32;
+                     UpdateProgress: TFileCopyProgress; UserData: Pointer): Boolean;
 
 function DeleteFileUAC(const FileName: String): LongBool;
 function RenameFileUAC(const OldName, NewName: String): LongBool;
@@ -254,6 +257,22 @@ begin
     LastError:= GetLastOSError;
     if RequestElevation(rsElevationRequiredCreate, FileName) then
       Result:= TWorkerProxy.Instance.FileCreate(FileName, Mode)
+    else
+      SetLastOSError(LastError);
+  end;
+end;
+
+function FileCopyUAC(const Source, Target: String; Options: UInt32;
+  UpdateProgress: TFileCopyProgress; UserData: Pointer): Boolean;
+var
+  LastError: Integer;
+begin
+  Result:= FileCopyEx(Source, Target, Options, UpdateProgress, UserData);
+  if (not Result) and ElevationRequired then
+  begin
+    LastError:= GetLastOSError;
+    if RequestElevation(rsElevationRequiredOpen, Source) then
+      Result:= TWorkerProxy.Instance.FileCopy(Source, Target, Options, UpdateProgress, UserData)
     else
       SetLastOSError(LastError);
   end;

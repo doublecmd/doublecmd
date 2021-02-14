@@ -33,6 +33,8 @@ const
   RPC_FileSetReadOnly = 14;
   RPC_FileCopyAttr = 15;
 
+  RPC_FileCopy = 19;
+
   RPC_FindFirst = 16;
   RPC_FindNext = 17;
   RPC_FindClose = 18;
@@ -60,7 +62,18 @@ var
 implementation
 
 uses
-  DCBasicTypes, DCOSUtils, uFindEx, uDebug;
+  DCBasicTypes, DCOSUtils, uFindEx, uDebug, uFileCopyEx;
+
+function FileCopyProgress(TotalBytes, DoneBytes: Int64; UserData: Pointer): LongBool;
+var
+  Code: UInt32 = 1;
+  ATransport: TBaseTransport absolute UserData;
+begin
+  ATransport.WriteBuffer(Code, SizeOf(UInt32));
+  ATransport.WriteBuffer(TotalBytes, SizeOf(TotalBytes));
+  ATransport.WriteBuffer(DoneBytes, SizeOf(DoneBytes));
+  ATransport.ReadBuffer(Result, SizeOf(Result));
+end;
 
 { TMasterService }
 
@@ -101,6 +114,7 @@ var
   Mode: Integer;
   Index: Integer;
   Handle: THandle;
+  Options: UInt32;
   NewName: String;
   FileName: String;
   Result: LongBool;
@@ -326,6 +340,18 @@ begin
     DCDebug('DirectoryExists ', FileName);
     Result:= mbDirectoryExists(FileName);
     LastError:= GetLastOSError;
+    ATransport.WriteBuffer(Result, SizeOf(Result));
+    ATransport.WriteBuffer(LastError, SizeOf(LastError));
+  end;
+  RPC_FileCopy:
+  begin
+    FileName:= ARequest.ReadAnsiString;
+    NewName:= ARequest.ReadAnsiString;
+    ARequest.ReadBuffer(Options, SizeOf(Options));
+    Result:= FileCopyEx(FileName, NewName, Options, @FileCopyProgress, ATransport);
+    LastError:= GetLastOSError;
+    Index:= 0;
+    ATransport.WriteBuffer(Index, SizeOf(Index));
     ATransport.WriteBuffer(Result, SizeOf(Result));
     ATransport.WriteBuffer(LastError, SizeOf(LastError));
   end;
