@@ -79,6 +79,7 @@ type
     FSkipOpenForWritingError: Boolean;
     FSkipReadError: Boolean;
     FSkipWriteError: Boolean;
+    FSkipCopyError: Boolean;
     FAutoRenameItSelf: Boolean;
     FCorrectSymLinks: Boolean;
     FCopyAttributesOptions: TCopyAttributesOptions;
@@ -102,6 +103,7 @@ type
     procedure LogMessage(sMessage: String; logOptions: TLogOptions; logMsgType: TLogMsgType);
 
     function CheckFileHash(const FileName, Hash: String; Size: Int64): Boolean;
+    function CompareFiles(const FileName1, FileName2: String; Size: Int64): Boolean;
     function CopyFile(SourceFile: TFile; TargetFileName: String; Mode: TFileSystemOperationHelperCopyMode): Boolean;
     function MoveFile(SourceFile: TFile; TargetFileName: String; Mode: TFileSystemOperationHelperCopyMode): Boolean;
     procedure CopyProperties(SourceFile: TFile; TargetFileName: String);
@@ -160,7 +162,7 @@ implementation
 uses
   uDebug, uOSUtils, DCStrUtils, FileUtil, uFindEx, DCClassesUtf8, uFileProcs, uLng,
   DCBasicTypes, uFileSource, uFileSystemFileSource, uFileProperty, uAdministrator,
-  StrUtils, DCDateTimeUtils, uShowMsg, Forms, LazUTF8, uHash
+  StrUtils, DCDateTimeUtils, uShowMsg, Forms, LazUTF8, uHash, uFileCopyEx, SysConst
 {$IFDEF UNIX}
   , BaseUnix
 {$ENDIF}
@@ -276,6 +278,25 @@ begin
   end;
   Result:= Result + LineEnding + rsMsgFileExistsWithFile + LineEnding + WrapTextSimple(SourceName, 100) + LineEnding +
            Format(rsMsgFileExistsFileInfo, [Numb2USA(IntToStr(SourceSize)), DateTimeToStr(SourceTime)]);
+end;
+
+function FileCopyProgress(TotalBytes, DoneBytes: Int64; UserData: Pointer): LongBool;
+var
+  Helper: TFileSystemOperationHelper absolute UserData;
+begin
+  if (DoneBytes > 0) then
+    Helper.FStatistics.DoneBytes+= (DoneBytes - Helper.FStatistics.CurrentFileDoneBytes);
+
+  //Helper.FStatistics.CurrentFileTotalBytes:= TotalBytes;
+  Helper.FStatistics.CurrentFileDoneBytes:= DoneBytes;
+  Helper.UpdateStatistics(Helper.FStatistics);
+  try
+    Helper.CheckOperationState;
+  except
+    on E: EFileSourceOperationAborting do
+      Exit(False);
+  end;
+  Result:= True;
 end;
 
 // ----------------------------------------------------------------------------
@@ -464,6 +485,7 @@ var
   TotalBytesToRead: Int64 = 0;
   NewPos: Int64;
   Hash: String;
+  Options: UInt32;
   Context: THashContext;
   DeleteFile: Boolean = False;
 
@@ -607,6 +629,45 @@ begin
         end;
       end;
     end;
+  end;
+
+  if Assigned(FileCopyEx) and (Mode = fsohcmDefault) then
+  begin
+    if FVerify then
+      Options:= FILE_COPY_NO_BUFFERING
+    else begin
+      Options:= 0;
+    end;
+    repeat
+      bRetryWrite:= False;
+      Result:= FileCopyUAC(SourceFile.FullPath, TargetFileName, Options, @FileCopyProgress, Self);
+      if not Result then
+      begin
+        if FSkipCopyError then Exit;
+        case AskQuestion('',
+                         Format(rsMsgErrCannotCopyFile, [WrapTextSimple(SourceFile.FullPath, 64), WrapTextSimple(TargetFileName, 64)]) +
+                         LineEnding + LineEnding + mbSysErrorMessage,
+                         [fsourRetry, fsourSkip, fsourSkipAll, fsourAbort],
+                         fsourRetry, fsourSkip) of
+          fsourRetry:
+            bRetryWrite := True;
+          fsourAbort:
+            AbortOperation;
+          fsourSkip:
+            Exit;
+          fsourSkipAll:
+            begin
+              FSkipCopyError := True;
+              Exit;
+            end;
+        end; // case
+      end;
+    until not bRetryWrite;
+    if Result and FVerify then
+    begin
+      Result:= CompareFiles(SourceFile.FullPath, TargetFileName, SourceFile.Size);
+    end;
+    Exit;
   end;
 
   SourceFileStream := nil;
@@ -1755,6 +1816,83 @@ begin
         end; // case
       end;
     end;
+  end;
+end;
+
+function TFileSystemOperationHelper.CompareFiles(const FileName1, FileName2: String;
+  Size: Int64): Boolean;
+const
+  BLOCK_SIZE = $20000;
+  BUF_LEN = 1024 * 1024 * 8;
+var
+  Count: Int64;
+  Buffer1, Buffer2: PByte;
+  Aligned1, Aligned2: PByte;
+  File1, File2: TFileStreamUAC;
+begin
+  Buffer1:= GetMem(BUF_LEN * 2);
+  Buffer2:= GetMem(BUF_LEN * 2);
+  try
+    if (Buffer1 = nil) or (Buffer2 = nil) then
+      raise EOutOfMemory.Create(SOutOfMemory);
+
+    Aligned1:= Align(Buffer1, BLOCK_SIZE);
+    Aligned2:= Align(Buffer2, BLOCK_SIZE);
+    try
+      File1 := TFileStreamUAC.Create(FileName1, fmOpenRead or fmShareDenyWrite or fmOpenSync or fmOpenDirect);
+      try
+        File2 := TFileStreamUAC.Create(FileName2, fmOpenRead or fmShareDenyWrite or fmOpenSync or fmOpenDirect);
+        try
+          FStatistics.CurrentFileDoneBytes:= 0;
+
+          repeat
+            if Size - FStatistics.CurrentFileDoneBytes <= BUF_LEN then
+              Count := Size - FStatistics.CurrentFileDoneBytes
+            else begin
+              Count := BUF_LEN;
+            end;
+
+            File1.ReadBuffer(Aligned1^, Count);
+            File2.ReadBuffer(Aligned2^, Count);
+
+            if (Count <> BUF_LEN) then
+              Result := CompareMem(Aligned1, Aligned2, Count)
+            else begin
+              Result := CompareDWord(Aligned1^, Aligned2^, Count div SizeOf(Dword)) = 0;
+            end;
+
+            with FStatistics do
+            begin
+              DoneBytes += Count;
+              CurrentFileDoneBytes += Count;
+              UpdateStatistics(FStatistics);
+            end;
+
+            CheckOperationState; // check pause and stop
+
+          until not Result or (FStatistics.CurrentFileDoneBytes >= Size);
+        finally
+          File2.Free;
+        end;
+      finally
+        File1.Free;
+      end;
+    except
+      on E: Exception do
+      begin
+        case AskQuestion(rsMsgVerify, E.Message,
+                         [fsourSkip, fsourAbort],
+                         fsourAbort, fsourSkip) of
+          fsourAbort:
+            AbortOperation();
+          fsourSkip:
+            Exit(False);
+        end; // case
+      end;
+    end;
+  finally
+    if Assigned(Buffer1) then FreeMem(Buffer1);
+    if Assigned(Buffer2) then FreeMem(Buffer2);
   end;
 end;
 

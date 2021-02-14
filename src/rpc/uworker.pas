@@ -347,7 +347,8 @@ begin
   begin
     FileName:= ARequest.ReadAnsiString;
     NewName:= ARequest.ReadAnsiString;
-    ARequest.ReadBuffer(Options, SizeOf(Options));
+    Options:= ARequest.ReadDWord;
+    DCDebug('FileCopy ', FileName);
     Result:= FileCopyEx(FileName, NewName, Options, @FileCopyProgress, ATransport);
     LastError:= GetLastOSError;
     Index:= 0;
