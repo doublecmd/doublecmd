@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, DCBasicTypes, DCOSUtils,
-  uClientServer, uService, uWorker, uFindEx;
+  uClientServer, uService, uWorker, uFindEx, uFileCopyEx;
 
 type
 
@@ -48,6 +48,8 @@ type
                           Options: TCopyAttributesOptions): TCopyAttributesOptions;
     function FileOpen(const FileName: String; Mode: Integer): THandle; inline;
     function FileCreate(const FileName: String; Mode: Integer): THandle; inline;
+    function FileCopy(const Source, Target: String; Options: UInt32;
+                      UpdateProgress: TFileCopyProgress; UserData: Pointer): LongBool;
     function DeleteFile(const FileName: String): LongBool; inline;
     function RenameFile(const OldName, NewName: String): LongBool; inline;
     function FindFirst(const Path: String; Flags: UInt32; out SearchRec: TSearchRecEx): Integer;
@@ -479,6 +481,52 @@ end;
 function TWorkerProxy.FileCreate(const FileName: String; Mode: Integer): THandle;
 begin
   Result:= ProcessObject(RPC_FileCreate, FileName, Mode);
+end;
+
+function TWorkerProxy.FileCopy(const Source, Target: String; Options: UInt32;
+  UpdateProgress: TFileCopyProgress; UserData: Pointer): LongBool;
+var
+  LastError: Integer;
+  Stream: TMemoryStream;
+  TotalBytes, DoneBytes: Int64;
+begin
+  Result:= False;
+  try
+    Stream:= TMemoryStream.Create;
+    try
+      // Write header
+      Stream.WriteDWord(RPC_FileCopy);
+      Stream.Seek(SizeOf(UInt32), soFromCurrent);
+      // Write arguments
+      Stream.WriteAnsiString(Source);
+      Stream.WriteAnsiString(Target);
+      Stream.WriteBuffer(Options, SizeOf(Options));
+      // Write data size
+      Stream.Seek(SizeOf(UInt32), soFromBeginning);
+      Stream.WriteDWord(Stream.Size - SizeOf(UInt32) * 2);
+      // Send command
+      FClient.WriteBuffer(Stream.Memory^, Stream.Size);
+      repeat
+        FClient.ReadBuffer(LastError, SizeOf(LastError));
+        // Receive progress info
+        if (LastError = 1) then
+        begin
+          FClient.ReadBuffer(TotalBytes, SizeOf(TotalBytes));
+          FClient.ReadBuffer(DoneBytes, SizeOf(DoneBytes));
+          Result:= UpdateProgress(TotalBytes, DoneBytes, UserData);
+          FClient.WriteBuffer(Result, SizeOf(Result));
+        end;
+      until (LastError <> 1);
+      // Receive command result
+      FClient.ReadBuffer(Result, SizeOf(Result));
+      FClient.ReadBuffer(LastError, SizeOf(LastError));
+      SetLastOSError(LastError);
+    finally
+      Stream.Free;
+    end;
+  except
+    on E: Exception do DCDebug(E.Message);
+  end;
 end;
 
 function TWorkerProxy.DeleteFile(const FileName: String): LongBool;
