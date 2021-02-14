@@ -122,6 +122,7 @@ begin
 
   if Assigned(FileCopyEx) then
   begin
+    cbCopyTime.Visible:= False;
     cbReserveSpace.Visible:= False;
     cbCopyAttributes.Visible:= False;
   end;
