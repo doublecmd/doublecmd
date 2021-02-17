@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Enumerating and monitoring drives in the system.
 
-   Copyright (C) 2006-2020  Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2006-2021  Alexander Koblov (alexx2000@mail.ru)
    Copyright (C) 2010  Przemyslaw Nagay (cobines@gmail.com)
 
    This program is free software; you can redistribute it and/or modify
@@ -61,7 +61,7 @@ uses
   {$ENDIF}
   {$IFDEF MSWINDOWS}
   uMyWindows, Windows, JwaDbt, LazUTF8, JwaWinNetWk, ShlObj, DCOSUtils, uDebug,
-  uShlObjAdditional
+  uShlObjAdditional, JwaNative
   {$ENDIF}
   ;
 
@@ -566,7 +566,8 @@ begin
       case WinDriveType of
         DRIVE_REMOVABLE:
           begin
-            if DriveLetter in ['a', 'b'] then
+            WinDriveType:= mbGetDriveType(DriveLetter);
+            if (WinDriveType and FILE_FLOPPY_DISKETTE <> 0) then
               DriveType := dtFloppy
             else begin
               DriveType := dtFlash;

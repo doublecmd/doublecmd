@@ -3,7 +3,7 @@
     -------------------------------------------------------------------------
     This unit contains specific WINDOWS functions.
 
-    Copyright (C) 2006-2020 Alexander Koblov (alexx2000@mail.ru)
+    Copyright (C) 2006-2021 Alexander Koblov (alexx2000@mail.ru)
 
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License
@@ -83,6 +83,7 @@ procedure mbWaitLabelChange(const sDrv: String; const sCurLabel: String);
    @param(sDrv  String specifying the root directory of a drive)
 }
 procedure mbCloseCD(const sDrv: String);
+function mbGetDriveType(Drive: AnsiChar): UInt32;
 function mbDriveBusType(Drive: AnsiChar): UInt32;
 {en
    Get physical drive serial number
@@ -452,6 +453,11 @@ const
   IOCTL_STORAGE_QUERY_PROPERTY = $2D1400;
 
 type
+  FILE_FS_DEVICE_INFORMATION = record
+    DeviceType: ULONG;
+    Characteristics: ULONG;
+  end;
+
   STORAGE_PROPERTY_QUERY = record
     PropertyId: DWORD;
     QueryType: DWORD;
@@ -473,6 +479,30 @@ type
     RawPropertiesLength: DWORD;
     RawDeviceProperties: array[0..0] of Byte;
   end;
+
+function mbGetDriveType(Drive: AnsiChar): UInt32;
+var
+  Handle: THandle;
+  IoStatusBlock: IO_STATUS_BLOCK;
+  VolumePath: UnicodeString = '\\.\X:';
+  FileFsDeviceInfo: FILE_FS_DEVICE_INFORMATION;
+begin
+  Result:= 0;
+  VolumePath[5] := WideChar(Drive);
+  Handle:= CreateFileW(PWideChar(VolumePath), 0,
+                       FILE_SHARE_READ or FILE_SHARE_WRITE, nil, OPEN_EXISTING, 0, 0);
+
+  if Handle <> INVALID_HANDLE_VALUE then
+  begin
+    if (NtQueryVolumeInformationFile(Handle, @IoStatusBlock,
+                                     @FileFsDeviceInfo, SizeOf(FileFsDeviceInfo),
+                                     FileFsDeviceInformation) = STATUS_SUCCESS) then
+    begin
+      Result:= FileFsDeviceInfo.Characteristics;
+    end;
+    CloseHandle(Handle);
+  end;
+end;
 
 function mbDriveBusType(Drive: AnsiChar): UInt32;
 var
@@ -521,7 +551,7 @@ begin
 
   if Handle <> INVALID_HANDLE_VALUE then
   begin
-    ZeroMemory(@ABuffer[0], SizeOf(ABuffer));
+     ZeroMemory(@ABuffer[0], SizeOf(ABuffer));
     ZeroMemory(@Query, SizeOf(STORAGE_PROPERTY_QUERY));
 
     if DeviceIoControl(Handle, IOCTL_STORAGE_QUERY_PROPERTY,
