@@ -1023,6 +1023,7 @@ object frmFindDlg: TfrmFindDlg
           BorderSpacing.Top = 10
           Enabled = False
           ItemHeight = 15
+          Style = csDropDownList
           TabOrder = 1
         end
         inline frmContentPlugins: TfrmSearchPlugin
