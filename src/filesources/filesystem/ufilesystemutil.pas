@@ -1880,6 +1880,9 @@ begin
     except
       on E: Exception do
       begin
+        if E is EFileSourceOperationAborting then
+          raise;
+
         case AskQuestion(rsMsgVerify, E.Message,
                          [fsourSkip, fsourAbort],
                          fsourAbort, fsourSkip) of
