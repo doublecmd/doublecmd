@@ -5,7 +5,7 @@
 # Copyright (C) 2009 Jason Heeris <jason.heeris@gmail.com>
 # Copyright (C) 2009 Bruce van der Kooij <brucevdkooij@gmail.com>
 # Copyright (C) 2009 Adam Plumb <adamplumb@gmail.com>
-# Copyright (C) 2014-2020 Alexander Koblov <alexx2000@mail.ru>
+# Copyright (C) 2014-2021 Alexander Koblov <alexx2000@mail.ru>
 #
 # RabbitVCS is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -25,9 +25,9 @@ import os, os.path
 import sys
 
 try:
-  import rabbitvcs.services.checkerservice
   from rabbitvcs.util.contextmenuitems import MenuItem, MenuSeparator
   from rabbitvcs.util.contextmenu import MenuBuilder, MainContextMenu, MainContextMenuCallbacks
+  import rabbitvcs.services.checkerservice
 except Exception as e:
   print("RabbitVCS: {}".format(e))
   exit(1)
