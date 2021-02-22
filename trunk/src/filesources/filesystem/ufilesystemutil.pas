@@ -284,17 +284,25 @@ function FileCopyProgress(TotalBytes, DoneBytes: Int64; UserData: Pointer): Long
 var
   Helper: TFileSystemOperationHelper absolute UserData;
 begin
-  if (DoneBytes > 0) then
-    Helper.FStatistics.DoneBytes+= (DoneBytes - Helper.FStatistics.CurrentFileDoneBytes);
+  with Helper do
+  begin
+    FStatistics.DoneBytes+= (DoneBytes - FStatistics.CurrentFileDoneBytes);
 
-  //Helper.FStatistics.CurrentFileTotalBytes:= TotalBytes;
-  Helper.FStatistics.CurrentFileDoneBytes:= DoneBytes;
-  Helper.UpdateStatistics(Helper.FStatistics);
-  try
-    Helper.CheckOperationState;
-  except
-    on E: EFileSourceOperationAborting do
-      Exit(False);
+    // File has alternate data streams
+    if TotalBytes > FStatistics.CurrentFileTotalBytes then
+    begin
+      FStatistics.TotalBytes+= (TotalBytes - FStatistics.CurrentFileTotalBytes);
+      FStatistics.CurrentFileTotalBytes:= TotalBytes;
+    end;
+
+    FStatistics.CurrentFileDoneBytes:= DoneBytes;
+    UpdateStatistics(FStatistics);
+    try
+      CheckOperationState;
+    except
+      on E: EFileSourceOperationAborting do
+        Exit(False);
+    end;
   end;
   Result:= True;
 end;
