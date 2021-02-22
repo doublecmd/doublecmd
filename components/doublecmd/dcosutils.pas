@@ -488,6 +488,15 @@ begin
     end;
   end;
 
+  if caoCopyXattributes in Options then
+  begin
+    if not mbFileCopyXattr(sSrc, sDst) then
+    begin
+      Include(Result, caoCopyXattributes);
+      if Assigned(Errors) then Errors^[caoCopyXattributes]:= GetLastOSError;
+    end;
+  end;
+
   if caoCopyTime in Options then
   begin
     if not (mbFileGetTime(sSrc, ModificationTime, CreationTime, LastAccessTime) and

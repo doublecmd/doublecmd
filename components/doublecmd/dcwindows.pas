@@ -48,6 +48,11 @@ function EnablePrivilege(hToken: HANDLE; lpszPrivilege: LPCTSTR): Boolean;
 }
 function CopyNtfsPermissions(const Source, Target: String): Boolean;
 {en
+   Copy extended attributes
+   specific to the NTFS file system, like FILE_ATTRIBUTE_COMPRESSED
+}
+function mbFileCopyXattr(const Source, Target: String): Boolean;
+{en
    Retrieves the final path for the specified file
 }
 function GetFinalPathNameByHandle(hFile: THandle): UnicodeString;
@@ -151,6 +156,44 @@ begin
     LocalFree(HLOCAL(SecDescPtr));
     {$POP}
   end;
+end;
+
+function mbFileCopyXattr(const Source, Target: String): Boolean;
+const
+  FSCTL_SET_COMPRESSION = $9C040;
+  COMPRESSION_FORMAT_DEFAULT = 1;
+var
+  dwFlags: DWORD;
+  Handle: THandle;
+  LastError: DWORD;
+  BytesReturned: DWORD;
+  dwFileAttributes: DWORD;
+  Format: UInt16 = COMPRESSION_FORMAT_DEFAULT;
+begin
+  Result:= True;
+  dwFileAttributes:= GetFileAttributesW(PWideChar(UTF16LongName(Source)));
+  if (dwFileAttributes and FILE_ATTRIBUTE_COMPRESSED <> 0) then
+  begin
+    if (dwFileAttributes and FILE_ATTRIBUTE_DIRECTORY <> 0) then
+      dwFlags:= FILE_FLAG_BACKUP_SEMANTICS
+    else begin
+      dwFlags:= 0;
+    end;
+    dwFileAttributes:= GetFileAttributesW(PWideChar(UTF16LongName(Target)));
+
+    if (dwFileAttributes and FILE_ATTRIBUTE_COMPRESSED <> 0) or
+       (dwFileAttributes and FILE_ATTRIBUTE_ENCRYPTED <> 0) then
+       Exit;
+
+    Handle:= CreateFileW(PWideChar(UTF16LongName(Target)), GENERIC_READ or GENERIC_WRITE, 0, nil, OPEN_EXISTING, dwFlags, 0);
+    if Handle <> INVALID_HANDLE_VALUE then
+    begin
+      Result:= DeviceIoControl(Handle, FSCTL_SET_COMPRESSION, @Format, SizeOf(Format), nil, 0, @BytesReturned, nil);
+      if not Result then LastError:= GetLastError;
+      CloseHandle(Handle);
+    end;
+  end;
+  if not Result then SetLastError(LastError);
 end;
 
 function GetFinalPathNameByHandle(hFile: THandle): UnicodeString;

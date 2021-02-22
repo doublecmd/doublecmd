@@ -667,6 +667,11 @@ begin
     begin
       Result:= CompareFiles(SourceFile.FullPath, TargetFileName, SourceFile.Size);
     end;
+    if Result and (FCopyAttributesOptions <> []) then
+    begin
+      FCopyAttributesOptions := FCopyAttributesOptions * [caoCopyXattributes];
+      CopyProperties(SourceFile, TargetFileName);
+    end;
     Exit;
   end;
 
