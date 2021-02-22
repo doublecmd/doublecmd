@@ -877,13 +877,15 @@ begin
         fsoospeNone:
           begin
             if caoCopyAttributes in CopyAttrResult then
-              AddStrWithSep(Msg, Format(rsMsgErrSetAttribute, [SourceFile.FullPath]), LineEnding);
+              AddStrWithSep(Msg, Format(rsMsgErrSetAttribute, [TargetFileName]), LineEnding);
             if caoCopyTime in CopyAttrResult then
-              AddStrWithSep(Msg, Format(rsMsgErrSetDateTime, [SourceFile.FullPath]), LineEnding);
+              AddStrWithSep(Msg, Format(rsMsgErrSetDateTime, [TargetFileName]), LineEnding);
             if caoCopyOwnership in CopyAttrResult then
-              AddStrWithSep(Msg, Format(rsMsgErrSetOwnership, [SourceFile.FullPath]), LineEnding);
+              AddStrWithSep(Msg, Format(rsMsgErrSetOwnership, [TargetFileName]), LineEnding);
             if caoCopyPermissions in CopyAttrResult then
-              AddStrWithSep(Msg, Format(rsMsgErrSetPermissions, [SourceFile.FullPath]), LineEnding);
+              AddStrWithSep(Msg, Format(rsMsgErrSetPermissions, [TargetFileName]), LineEnding);
+            if caoCopyXattributes in CopyAttrResult then
+              AddStrWithSep(Msg, Format(rsMsgErrSetXattribute, [TargetFileName]), LineEnding);
 
             case AskQuestion(Msg, '',
                              [fsourSkip, fsourSkipAll, fsourIgnoreAll, fsourAbort],
