@@ -669,7 +669,7 @@ begin
     end;
     if Result and (FCopyAttributesOptions <> []) then
     begin
-      FCopyAttributesOptions := FCopyAttributesOptions * [caoCopyXattributes];
+      FCopyAttributesOptions := FCopyAttributesOptions * [caoCopyXattributes, caoCopyPermissions];
       CopyProperties(SourceFile, TargetFileName);
     end;
     Exit;
