@@ -83,6 +83,7 @@ type
                            caoCopyTime,
                            caoCopyOwnership,
                            caoCopyPermissions,
+                           caoCopyXattributes,
                            caoRemoveReadOnlyAttr);
   TCopyAttributesOptions = set of TCopyAttributesOption;
   TCopyAttributesResult = array[TCopyAttributesOption] of Integer;
@@ -569,6 +570,17 @@ begin
           if Assigned(Errors) then Errors^[caoCopyAttributes]:= GetLastOSError;
         end;
       end;
+
+{$IFDEF LINUX}
+      if caoCopyXattributes in Options then
+      begin
+        if not mbFileCopyXattr(sSrc, sDst) then
+        begin
+          Include(Result, caoCopyXattributes);
+          if Assigned(Errors) then Errors^[caoCopyXattributes]:= GetLastOSError;
+        end;
+      end;
+{$ENDIF}
     end;
   end;
 end;

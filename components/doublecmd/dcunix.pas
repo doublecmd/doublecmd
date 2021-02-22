@@ -28,7 +28,7 @@ unit DCUnix;
 interface
 
 uses
-  InitC, BaseUnix;
+  InitC, BaseUnix, SysUtils;
 
 const
 {$IF DEFINED(LINUX)}
@@ -115,6 +115,9 @@ function fpLocalTime(timer: PTime; tp: PTimeStruct): PTimeStruct;
 {$IF DEFINED(LINUX)}
 function fpFDataSync(fd: cint): cint;
 function fpFAllocate(fd: cint; mode: cint; offset, len: coff_t): cint;
+
+function mbFileGetXattr(const FileName: String): TStringArray;
+function mbFileCopyXattr(const Source, Target: String): Boolean;
 {$ENDIF}
 
 {$IF DEFINED(UNIX) AND NOT DEFINED(DARWIN)}
@@ -124,7 +127,7 @@ function fnmatch(const pattern: PAnsiChar; const str: PAnsiChar; flags: cint): c
 implementation
 
 uses
-  SysUtils, Unix, DCConvertEncoding;
+  Unix, DCConvertEncoding;
 
 {$IF DEFINED(BSD)}
 type rlim_t = Int64;
@@ -147,6 +150,11 @@ function lchown(path : PChar; owner : TUid; group : TGid): cInt; cdecl; external
 {$IF DEFINED(LINUX)}
 function fdatasync(fd: cint): cint; cdecl; external clib;
 function fallocate(fd: cint; mode: cint; offset, len: coff_t): cint; cdecl; external clib;
+
+function lremovexattr(const path, name: PAnsiChar): cint; cdecl; external clib;
+function llistxattr(const path: PAnsiChar; list: PAnsiChar; size: csize_t): ssize_t; cdecl; external clib;
+function lgetxattr(const path, name: PAnsiChar; value: Pointer; size: csize_t): ssize_t; cdecl; external clib;
+function lsetxattr(const path, name: PAnsiChar; const value: Pointer; size: csize_t; flags: cint): cint; cdecl; external clib;
 {$ENDIF}
 
 procedure FileCloseOnExecAll;
@@ -236,6 +244,99 @@ function fpFAllocate(fd: cint; mode: cint; offset, len: coff_t): cint;
 begin
   Result := fallocate(fd, mode, offset, len);
   if Result = -1 then fpseterrno(fpgetCerrno);
+end;
+
+function mbFileGetXattr(const FileName: String): TStringArray;
+var
+  AList: String;
+  ALength: ssize_t;
+  AFileName: String;
+begin
+  SetLength(AList, MaxSmallint);
+  Result:= Default(TStringArray);
+  AFileName:= CeUtf8ToSys(FileName);
+  ALength:= llistxattr(PAnsiChar(AFileName), Pointer(AList), Length(AList));
+  if (ALength < 0) then
+  begin
+    if (fpgetCerrno <> ESysERANGE) then
+    begin
+      fpseterrno(fpgetCerrno);
+      Exit;
+    end
+    else begin
+      ALength:= llistxattr(PAnsiChar(AFileName), nil, 0);
+      if ALength < 0 then
+      begin
+        fpseterrno(fpgetCerrno);
+        Exit;
+      end;
+      SetLength(AList, ALength);
+      ALength:= llistxattr(PAnsiChar(AFileName), Pointer(AList), ALength);
+      if ALength < 0 then
+      begin
+        fpseterrno(fpgetCerrno);
+        Exit;
+      end;
+    end;
+  end;
+  if (ALength > 0) then
+  begin
+    SetLength(AList, ALength - 1);
+    Result:= AList.Split(#0);
+  end;
+end;
+
+function mbFileCopyXattr(const Source, Target: String): Boolean;
+var
+  Value: String;
+  Index: Integer;
+  ALength: ssize_t;
+  Names: TStringArray;
+  ASource, ATarget: String;
+begin
+  Result:= True;
+  ASource:= CeUtf8ToSys(Source);
+  ATarget:= CeUtf8ToSys(Target);
+  // Remove attributes from target
+  Names:= mbFileGetXattr(Target);
+  for Index:= 0 to High(Names) do
+  begin
+    lremovexattr(PAnsiChar(ATarget), PAnsiChar(Names[Index]));
+  end;
+  SetLength(Value, MaxSmallint);
+  Names:= mbFileGetXattr(Source);
+  for Index:= 0 to High(Names) do
+  begin
+    ALength:= lgetxattr(PAnsiChar(ASource), PAnsiChar(Names[Index]), Pointer(Value), Length(Value));
+    if (ALength < 0) then
+    begin
+      if (fpgetCerrno <> ESysERANGE) then
+      begin
+        fpseterrno(fpgetCerrno);
+        Exit(False);
+      end
+      else begin
+        ALength:= lgetxattr(PAnsiChar(ASource), PAnsiChar(Names[Index]), nil, 0);
+        if ALength < 0 then
+        begin
+          fpseterrno(fpgetCerrno);
+          Exit(False);
+        end;
+        SetLength(Value, ALength);
+        ALength:= lgetxattr(PAnsiChar(ASource), PAnsiChar(Names[Index]), Pointer(Value), Length(Value));
+        if ALength < 0 then
+        begin
+          fpseterrno(fpgetCerrno);
+          Exit(False);
+        end;
+      end;
+    end;
+    if (lsetxattr(PAnsiChar(ATarget), PAnsiChar(Names[Index]), Pointer(Value), ALength, 0) < 0) then
+    begin
+      fpseterrno(fpgetCerrno);
+      Exit(False);
+    end;
+  end;
 end;
 {$ENDIF}
 
