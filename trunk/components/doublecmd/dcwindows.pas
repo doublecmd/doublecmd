@@ -169,6 +169,7 @@ var
   BytesReturned: DWORD;
   dwFileAttributes: DWORD;
   Format: UInt16 = COMPRESSION_FORMAT_DEFAULT;
+  lpszVolumePathName: array[0..maxSmallint] of WideChar;
 begin
   Result:= True;
   dwFileAttributes:= GetFileAttributesW(PWideChar(UTF16LongName(Source)));
@@ -184,6 +185,14 @@ begin
     if (dwFileAttributes and FILE_ATTRIBUTE_COMPRESSED <> 0) or
        (dwFileAttributes and FILE_ATTRIBUTE_ENCRYPTED <> 0) then
        Exit;
+
+    if GetVolumePathNameW(PWideChar(UTF16LongName(Target)), PWideChar(lpszVolumePathName), maxSmallint) then
+    begin
+      if GetVolumeInformationW(lpszVolumePathName, nil, 0, nil, LastError, dwFileAttributes, nil, 0) then
+      begin
+        if (dwFileAttributes and FILE_FILE_COMPRESSION = 0) then Exit;
+      end;
+    end;
 
     Handle:= CreateFileW(PWideChar(UTF16LongName(Target)), GENERIC_READ or GENERIC_WRITE, 0, nil, OPEN_EXISTING, dwFlags, 0);
     if Handle <> INVALID_HANDLE_VALUE then
