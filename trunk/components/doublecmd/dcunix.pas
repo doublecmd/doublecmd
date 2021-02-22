@@ -334,7 +334,7 @@ begin
     if (lsetxattr(PAnsiChar(ATarget), PAnsiChar(Names[Index]), Pointer(Value), ALength, 0) < 0) then
     begin
       fpseterrno(fpgetCerrno);
-      Exit(False);
+      Exit(fpgeterrno = ESysEOPNOTSUPP);
     end;
   end;
 end;
