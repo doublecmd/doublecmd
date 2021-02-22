@@ -5108,6 +5108,10 @@ msgstr "Автоматический отступ"
 msgid "Allows to indent the caret, when new line is created with <Enter>, with the same amount of leading white space as the preceding line"
 msgstr "При нажатии клавиши Enter новая строка будет создана с тем же отступом, что и у предыдущей"
 
+#: tfrmoptionseditor.chkrightedge.caption
+msgid "Right margin:"
+msgstr "Правая граница:"
+
 #: tfrmoptionseditor.chkscrollpastendline.caption
 msgid "Caret past end of line"
 msgstr "Прокручивать за конец строки"
@@ -5164,10 +5168,6 @@ msgstr "Обратите внимание, опция \"Умные табуля�
 #: tfrmoptionseditor.gbinternaleditor.caption
 msgid "Internal editor options"
 msgstr "Опции встроенного редактора"
-
-#: tfrmoptionseditor.chkrightedge.caption
-msgid "Right margin:"
-msgstr "Правая граница:"
 
 #: tfrmoptionseditor.lbltabwidth.caption
 msgid "Tab width:"
@@ -11129,6 +11129,10 @@ msgstr "Не удалось установить владельца/группу
 #: ulng.rsmsgerrsetpermissions
 msgid "Can not set permissions for \"%s\""
 msgstr "Не удалось установить права доступа для \"%s\""
+
+#: ulng.rsmsgerrsetxattribute
+msgid "Can not set extended attributes for \"%s\""
+msgstr "Не удалось установить расширенные атрибуты для \"%s\""
 
 #: ulng.rsmsgerrsmallbuf
 msgid "Buffer too small"

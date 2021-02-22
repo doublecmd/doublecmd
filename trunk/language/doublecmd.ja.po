@@ -5097,6 +5097,10 @@ msgstr "自動インデント"
 msgid "Allows to indent the caret, when new line is created with <Enter>, with the same amount of leading white space as the preceding line"
 msgstr "Enterで新しい行が作成されたとき,前の行と同じ行頭の空白文字数分だけキャレットをインデントする"
 
+#: tfrmoptionseditor.chkrightedge.caption
+msgid "Right margin:"
+msgstr "右マージン:"
+
 #: tfrmoptionseditor.chkscrollpastendline.caption
 msgid "Caret past end of line"
 msgstr "キャレットが行末を通過する"
@@ -5153,10 +5157,6 @@ msgstr "「スマートタブ」オプションは,テーブル化の実行よ�
 #: tfrmoptionseditor.gbinternaleditor.caption
 msgid "Internal editor options"
 msgstr "内部エディターのオプション"
-
-#: tfrmoptionseditor.chkrightedge.caption
-msgid "Right margin:"
-msgstr "右マージン:"
 
 #: tfrmoptionseditor.lbltabwidth.caption
 msgid "Tab width:"
@@ -11101,6 +11101,10 @@ msgstr "＜%s＞の所有者/グループを設定出来ません."
 msgid "Can not set permissions for \"%s\""
 msgstr "＜%s＞のファイル権限が設定できません"
 
+#: ulng.rsmsgerrsetxattribute
+msgid "Can not set extended attributes for \"%s\""
+msgstr ""
+
 #: ulng.rsmsgerrsmallbuf
 msgid "Buffer too small"
 msgstr "バッファが小さすぎます"
@@ -13815,3 +13819,4 @@ msgstr "置換の回数：%d"
 #: ulng.rszeroreplacement
 msgid "No replacement took place."
 msgstr "置換は起こりませんでした."
+

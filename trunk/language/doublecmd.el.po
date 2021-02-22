@@ -5103,6 +5103,10 @@ msgstr "Αυτόματη Εσοχή"
 msgid "Allows to indent the caret, when new line is created with <Enter>, with the same amount of leading white space as the preceding line"
 msgstr "Επιτρέπει τη δημιουργία εσοχής καρέ, όταν νέα γραμμή δημιουργείται με το <Enter>, με την ίδια ποσότητα αρχικού λευκού διαστήματος σαν προηγούμενη γραμμή"
 
+#: tfrmoptionseditor.chkrightedge.caption
+msgid "Right margin:"
+msgstr "Δεξί περιθώριο:"
+
 #: tfrmoptionseditor.chkscrollpastendline.caption
 msgid "Caret past end of line"
 msgstr "Κέρσορας μετά το τέλος γραμμής"
@@ -5159,10 +5163,6 @@ msgstr "Παρακαλώ σημειώσατε οτι η ιδιότητα \"Smart
 #: tfrmoptionseditor.gbinternaleditor.caption
 msgid "Internal editor options"
 msgstr "Ιδιότητες Εσωτερικού επεξεργαστή"
-
-#: tfrmoptionseditor.chkrightedge.caption
-msgid "Right margin:"
-msgstr "Δεξί περιθώριο:"
 
 #: tfrmoptionseditor.lbltabwidth.caption
 msgid "Tab width:"
@@ -11109,6 +11109,10 @@ msgstr "Αδυναμία ορισμού ιδιοκτήτη/γκρουπ για \
 #: ulng.rsmsgerrsetpermissions
 msgid "Can not set permissions for \"%s\""
 msgstr "Αδυναμία ορισμού αδειών για \"%s\""
+
+#: ulng.rsmsgerrsetxattribute
+msgid "Can not set extended attributes for \"%s\""
+msgstr ""
 
 #: ulng.rsmsgerrsmallbuf
 msgid "Buffer too small"

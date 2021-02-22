@@ -5135,6 +5135,10 @@ msgstr "Indentation automatique"
 msgid "Allows to indent the caret, when new line is created with <Enter>, with the same amount of leading white space as the preceding line"
 msgstr "Lorsqu'une nouvelle ligne est crée avec <Enter>, indenter la nouvelle ligne créée de la même distance de l'indentation de la ligne précédente"
 
+#: tfrmoptionseditor.chkrightedge.caption
+msgid "Right margin:"
+msgstr ""
+
 #: tfrmoptionseditor.chkscrollpastendline.caption
 msgid "Caret past end of line"
 msgstr "Le curseur a passé la fin de la ligne"
@@ -5191,10 +5195,6 @@ msgstr "Veuillez noter que l'option \"Tabulation astucieuse\" est prioritaire su
 #: tfrmoptionseditor.gbinternaleditor.caption
 msgid "Internal editor options"
 msgstr "Options de l'éditeur interne"
-
-#: tfrmoptionseditor.chkrightedge.caption
-msgid "Right margin:"
-msgstr ""
 
 #: tfrmoptionseditor.lbltabwidth.caption
 msgid "Tab width:"
@@ -11169,6 +11169,10 @@ msgstr "On ne peut pas ajuster le propiétaire/groupe pour \"%s\""
 #: ulng.rsmsgerrsetpermissions
 msgid "Can not set permissions for \"%s\""
 msgstr "On ne peut ajuster les permissions pour \"%s\""
+
+#: ulng.rsmsgerrsetxattribute
+msgid "Can not set extended attributes for \"%s\""
+msgstr ""
 
 #: ulng.rsmsgerrsmallbuf
 msgid "Buffer too small"
