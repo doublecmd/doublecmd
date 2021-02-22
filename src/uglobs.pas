@@ -1804,7 +1804,7 @@ begin
   gOperationOptionFileExists := fsoofeNone;
   gOperationOptionDirectoryExists := fsoodeNone;
   gOperationOptionSetPropertyError := fsoospeNone;
-  gOperationOptionReserveSpace := False;
+  gOperationOptionReserveSpace := True;
   gOperationOptionCheckFreeSpace := True;
   gOperationOptionCopyAttributes := True;
   gOperationOptionCopyXattributes := True;
