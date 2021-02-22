@@ -2160,7 +2160,7 @@ begin
     if Length(AModule.Descr) = 0 then
       cmbPlugin.Items.Add(AModule.Name)
     else
-      cmbPlugin.Items.Add(AModule.Name + ' (' + AModule.Descr + ' )');
+      cmbPlugin.Items.Add(AModule.Name + ' (' + AModule.Descr + ')');
   end;
   cbUsePlugin.Enabled := (cmbPlugin.Items.Count > 0);
   if (cbUsePlugin.Enabled) then cmbPlugin.ItemIndex := 0;
