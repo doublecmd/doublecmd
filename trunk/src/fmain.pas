@@ -906,7 +906,7 @@ uses
   uFileSourceOperationOptionsUI, uDebug, uHotkeyManager, uFileSourceUtil, uTempFileSystemFileSource,
   Laz2_XMLRead, DCOSUtils, DCStrUtils, fOptions, fOptionsFrame, fOptionsToolbar, uClassesEx,
   uHotDir, uFileSorting, DCBasicTypes, foptionsDirectoryHotlist, uConnectionManager,
-  fOptionsToolbarBase, fOptionsToolbarMiddle
+  fOptionsToolbarBase, fOptionsToolbarMiddle, fEditor
   {$IFDEF COLUMNSFILEVIEW_VTV}
   , uColumnsFileViewVtv
   {$ELSE}
@@ -1664,6 +1664,9 @@ begin
 end;
 
 procedure TfrmMain.FormCloseQuery(Sender: TObject; var CanClose: boolean);
+var
+  Index: Integer;
+  AForm: TfrmEditor;
 begin
   if OperationsManager.OperationsCount > 0 then
   begin
@@ -1673,6 +1676,27 @@ begin
   end
   else
     CanClose := True;
+
+  if CanClose then
+  begin
+    for Index:= 0 to Screen.FormCount - 1 do
+    begin
+      if Screen.Forms[Index] is TfrmEditor then
+      begin
+        AForm:= TfrmEditor(Screen.Forms[Index]);
+        if AForm.Editor.Modified then
+        begin
+          if Assigned(AForm.OnCloseQuery) then
+          begin
+            AForm.ShowOnTop;
+            AForm.OnCloseQuery(AForm, CanClose);
+            if not CanClose then Exit;
+          end;
+        end;
+      end;
+    end;
+  end;
+
 {$IF (DEFINED(LCLQT) or DEFINED(LCLQT5)) and not DEFINED(MSWINDOWS)}
   CloseQueryResult:= CanClose;
 {$ENDIF}
