@@ -5171,6 +5171,10 @@ msgstr "Auto-innrykk"
 msgid "Allows to indent the caret, when new line is created with <Enter>, with the same amount of leading white space as the preceding line"
 msgstr "Tillat innrykk når ny linje er dannet med <Enter>, med samme venstremarg som foregående linje"
 
+#: tfrmoptionseditor.chkrightedge.caption
+msgid "Right margin:"
+msgstr ""
+
 #: tfrmoptionseditor.chkscrollpastendline.caption
 msgid "Caret past end of line"
 msgstr "Tillat skrivemerket bak linjeslutt"
@@ -5227,10 +5231,6 @@ msgstr "Legg merke til at \"Smart tab\"-tilvalget har forrang foran pågående t
 #: tfrmoptionseditor.gbinternaleditor.caption
 msgid "Internal editor options"
 msgstr "Innstillinger (Intern editor, F4)"
-
-#: tfrmoptionseditor.chkrightedge.caption
-msgid "Right margin:"
-msgstr ""
 
 #: tfrmoptionseditor.lbltabwidth.caption
 msgid "Tab width:"
@@ -11393,6 +11393,10 @@ msgstr "Kan ikke opprette eier/gruppe for \"%s\""
 #: ulng.rsmsgerrsetpermissions
 msgid "Can not set permissions for \"%s\""
 msgstr "Kan ikke innstille tillatelser for \"%s\""
+
+#: ulng.rsmsgerrsetxattribute
+msgid "Can not set extended attributes for \"%s\""
+msgstr ""
 
 #: ulng.rsmsgerrsmallbuf
 msgid "Buffer too small"

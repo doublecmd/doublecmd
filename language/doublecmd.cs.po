@@ -5004,6 +5004,10 @@ msgstr "Automatické odsazení"
 msgid "Allows to indent the caret, when new line is created with <Enter>, with the same amount of leading white space as the preceding line"
 msgstr "Po stisku <ENTER> nastaví kurzor na stejnou pozici na jaké začíná text předchozího řádku"
 
+#: tfrmoptionseditor.chkrightedge.caption
+msgid "Right margin:"
+msgstr "Pravý okraj:"
+
 #: tfrmoptionseditor.chkscrollpastendline.caption
 msgid "Caret past end of line"
 msgstr "Nastavení kurzoru v prázdném řádku"
@@ -5060,10 +5064,6 @@ msgstr "Volba \"Smart Tab\" má přednost před klasickým tabelátorem"
 #: tfrmoptionseditor.gbinternaleditor.caption
 msgid "Internal editor options"
 msgstr "Možnosti interního editoru"
-
-#: tfrmoptionseditor.chkrightedge.caption
-msgid "Right margin:"
-msgstr "Pravý okraj:"
 
 #: tfrmoptionseditor.lbltabwidth.caption
 msgid "Tab width:"
@@ -10870,6 +10870,10 @@ msgstr "Nelze nastavit vlastníka/skupinu pro \"%s \""
 #: ulng.rsmsgerrsetpermissions
 msgid "Can not set permissions for \"%s\""
 msgstr "Oprávnění pro \"%s\" nelze nastavit"
+
+#: ulng.rsmsgerrsetxattribute
+msgid "Can not set extended attributes for \"%s\""
+msgstr ""
 
 #: ulng.rsmsgerrsmallbuf
 msgid "Buffer too small"
