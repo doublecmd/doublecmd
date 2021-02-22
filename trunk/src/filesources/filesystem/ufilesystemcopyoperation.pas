@@ -121,10 +121,14 @@ begin
 
   if gOperationOptionCopyAttributes then
     FCopyAttributesOptions := FCopyAttributesOptions + [caoCopyAttributes];
+  if gOperationOptionCopyXattributes then
+    FCopyAttributesOptions := FCopyAttributesOptions + [caoCopyXattributes];
   if gOperationOptionCopyTime then
     FCopyAttributesOptions := FCopyAttributesOptions + [caoCopyTime];
   if gOperationOptionCopyOwnership then
     FCopyAttributesOptions := FCopyAttributesOptions + [caoCopyOwnership];
+  if gOperationOptionCopyPermissions then
+    FCopyAttributesOptions := FCopyAttributesOptions + [caoCopyPermissions];
   if gDropReadOnlyFlag then
     FCopyAttributesOptions := FCopyAttributesOptions + [caoRemoveReadOnlyAttr];
 end;

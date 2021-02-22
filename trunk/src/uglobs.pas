@@ -573,6 +573,7 @@ var
   gOperationOptionReserveSpace: Boolean;
   gOperationOptionCheckFreeSpace: Boolean;
   gOperationOptionCopyAttributes: Boolean;
+  gOperationOptionCopyXattributes: Boolean;
   gOperationOptionCopyTime: Boolean;
   gOperationOptionVerify: Boolean;
   gOperationOptionCopyOwnership: Boolean;
@@ -1806,6 +1807,7 @@ begin
   gOperationOptionReserveSpace := False;
   gOperationOptionCheckFreeSpace := True;
   gOperationOptionCopyAttributes := True;
+  gOperationOptionCopyXattributes := True;
   gOperationOptionCopyTime := True;
   gOperationOptionVerify := False;
   gOperationOptionCopyOwnership := False;
@@ -2788,6 +2790,7 @@ begin
         gOperationOptionReserveSpace := GetValue(SubNode, 'ReserveSpace', gOperationOptionReserveSpace);
         gOperationOptionCheckFreeSpace := GetValue(SubNode, 'CheckFreeSpace', gOperationOptionCheckFreeSpace);
         gOperationOptionCopyAttributes := GetValue(SubNode, 'CopyAttributes', gOperationOptionCopyAttributes);
+        gOperationOptionCopyXattributes := GetValue(SubNode, 'CopyXattributes', gOperationOptionCopyXattributes);
         gOperationOptionVerify := GetValue(SubNode, 'Verify', gOperationOptionVerify);
         gOperationOptionCopyTime := GetValue(SubNode, 'CopyTime', gOperationOptionCopyTime);
         gOperationOptionCopyOwnership := GetValue(SubNode, 'CopyOwnership', gOperationOptionCopyOwnership);
@@ -3452,6 +3455,7 @@ begin
     SetValue(SubNode, 'ReserveSpace', gOperationOptionReserveSpace);
     SetValue(SubNode, 'CheckFreeSpace', gOperationOptionCheckFreeSpace);
     SetValue(SubNode, 'CopyAttributes', gOperationOptionCopyAttributes);
+    SetValue(SubNode, 'CopyXattributes', gOperationOptionCopyXattributes);
     SetValue(SubNode, 'Verify', gOperationOptionVerify);
     SetValue(SubNode, 'CopyTime', gOperationOptionCopyTime);
     SetValue(SubNode, 'CopyOwnership', gOperationOptionCopyOwnership);
