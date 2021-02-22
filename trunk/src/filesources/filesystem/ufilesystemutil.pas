@@ -716,6 +716,7 @@ begin
                 else if BytesWritten < BytesRead then
                 begin
                   bRetryWrite := True;   // repeat and try to write the rest
+                  Dec(BytesRead, BytesWrittenTry);
                 end;
               except
                 on E: EWriteError do
