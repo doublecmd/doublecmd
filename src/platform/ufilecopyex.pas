@@ -50,8 +50,10 @@ begin
   ACopyInfo:= TCopyInfo.Create;
   ACopyInfo.UserData:= UserData;
   ACopyInfo.UpdateProgress:= UpdateProgress;
-  if (Options and FILE_COPY_NO_BUFFERING <> 0) then begin
-    dwCopyFlags:= dwCopyFlags or COPY_FILE_NO_BUFFERING;
+  if (Options and FILE_COPY_NO_BUFFERING <> 0) then
+  begin
+    if (Win32MajorVersion > 5) then
+      dwCopyFlags:= dwCopyFlags or COPY_FILE_NO_BUFFERING;
   end;
   Result:= CopyFileExW(PWideChar(UTF16LongName(Source)), PWideChar(UTF16LongName(Target)), @Progress, ACopyInfo, nil, dwCopyFlags) <> 0;
   ACopyInfo.Free;
