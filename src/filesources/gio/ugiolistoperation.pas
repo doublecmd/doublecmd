@@ -55,33 +55,45 @@ begin
       begin
         AFileEnum := g_file_enumerate_children (AFolder, CONST_DEFAULT_QUERY_INFO_ATTRIBUTES,
                                                 G_FILE_QUERY_INFO_NOFOLLOW_SYMLINKS, nil, @AError);
-        // Mount the target
-        if (Assigned(AError) and g_error_matches (AError, G_IO_ERROR, G_IO_ERROR_NOT_MOUNTED)) then
+        if Assigned(AError) then
         begin
-          FreeAndNil(AError);
-          if FGioFileSource.MountPath(AFolder, AError) then
-            Continue
+          // Mount the target
+          if g_error_matches(AError, G_IO_ERROR, G_IO_ERROR_NOT_MOUNTED) then
+          begin
+            FreeAndNil(AError);
+            if FGioFileSource.MountPath(AFolder, AError) then
+              Continue
+            else begin
+              ShowError(AError);
+              Exit;
+            end;
+          end
+          else if g_error_matches(AError, G_IO_ERROR, G_IO_ERROR_NOT_FOUND) then
+          begin
+            FreeAndNil(AError);
+            Exit;
+          end
           else begin
             ShowError(AError);
-            Break;
+            Exit;
           end;
-        end;
-        // List files
-        try
-          AInfo:= g_file_enumerator_next_file(AFileEnum, nil, @AError);
-          while Assigned(AInfo) do
-          begin
-            CheckOperationState;
-            AFile:= TGioFileSource.CreateFile(Path, AFolder, AInfo);
-            g_object_unref(AInfo);
-            FFiles.Add(AFile);
-            AInfo:= g_file_enumerator_next_file(AFileEnum, nil, @AError);
-          end;
-          if Assigned(AError) then ShowError(AError);
-        finally
-          g_object_unref(AFileEnum);
         end;
         Break;
+      end;
+      // List files
+      try
+        AInfo:= g_file_enumerator_next_file(AFileEnum, nil, @AError);
+        while Assigned(AInfo) do
+        begin
+          CheckOperationState;
+          AFile:= TGioFileSource.CreateFile(Path, AFolder, AInfo);
+          g_object_unref(AInfo);
+          FFiles.Add(AFile);
+          AInfo:= g_file_enumerator_next_file(AFileEnum, nil, @AError);
+        end;
+        if Assigned(AError) then ShowError(AError);
+      finally
+        g_object_unref(AFileEnum);
       end;
     finally
       g_object_unref(PGObject(AFolder));
