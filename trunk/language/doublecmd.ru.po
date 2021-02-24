@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 1.0.0 alpha\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2020-12-20 15:25+0300\n"
+"PO-Revision-Date: 2021-02-22 16:31+0300\n"
 "Last-Translator: Alexander Koblov <alexx2000@mail.ru>\n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -4182,7 +4182,7 @@ msgstr "Кэш эскизов:"
 #: tfrmoptionsconfiguration.rbprogramdir.caption
 msgctxt "TFRMOPTIONSCONFIGURATION.RBPROGRAMDIR.CAPTION"
 msgid "P&rogram directory (portable version)"
-msgstr "&Каталог программы (portable version)"
+msgstr "&Каталог программы (портативная версия)"
 
 #: tfrmoptionsconfiguration.rbuserhomedir.caption
 msgctxt "TFRMOPTIONSCONFIGURATION.RBUSERHOMEDIR.CAPTION"
@@ -4557,19 +4557,19 @@ msgstr "Рамка вокруг курсора"
 
 #: tfrmoptionscustomcolumns.cbuseframecursor.caption
 msgid "Use Frame Cursor"
-msgstr "Использовать курсор-рамку"
+msgstr "Курсор-рамка"
 
 #: tfrmoptionscustomcolumns.cbuseinactiveselcolor.caption
 msgid "Use Inactive Selection Color"
-msgstr "Выделение в неактивной панели"
+msgstr "Курсор в неактивной панели"
 
 #: tfrmoptionscustomcolumns.cbuseinvertedselection.caption
 msgid "Use Inverted Selection"
-msgstr "Использовать инверсное выделение"
+msgstr "Инверсное выделение"
 
 #: tfrmoptionscustomcolumns.chkusecustomview.caption
 msgid "Use custom font and color for this view"
-msgstr "Использовать пользовательский шрифт и цвет"
+msgstr "Изменить шрифт и цвет для этого набора"
 
 #: tfrmoptionscustomcolumns.lblbackcolor.caption
 msgctxt "tfrmoptionscustomcolumns.lblbackcolor.caption"
@@ -5767,7 +5767,7 @@ msgstr "Расширенное контекстное меню"
 
 #: tfrmoptionsfileassocextra.cbincludeconfigfileassoc.caption
 msgid "File association configuration"
-msgstr "Настроить файловые ассоциации"
+msgstr "Настройки файловых ассоциаций"
 
 #: tfrmoptionsfileassocextra.cboffertoaddtofileassociations.caption
 msgid "Offer to add selection to file association when not included already"
@@ -5900,7 +5900,7 @@ msgstr "Размер буфера для вычисления &хеша (Кб):"
 
 #: tfrmoptionsfileoperations.lblprogresskind.caption
 msgid "Show operations progress &initially in"
-msgstr "Показыват&ь прогресс операций в"
+msgstr "Показат&ь прогресс операций в"
 
 #: tfrmoptionsfileoperations.lbltypeofduplicatedrename.caption
 msgctxt "tfrmoptionsfileoperations.lbltypeofduplicatedrename.caption"
@@ -6241,7 +6241,7 @@ msgstr "Фильтр для файлов в стиле Windows (\"*.*\" выде
 #: tfrmoptionsfilesviewscomplement.chkmarkmaskshowattribute.caption
 msgctxt "tfrmoptionsfilesviewscomplement.chkmarkmaskshowattribute.caption"
 msgid "Use an independent attribute filter in mask input dialog each time"
-msgstr "Каждый раз показывать в окне ввода независимый фильтр маски атрибутов"
+msgstr "Использовать в диалоге выбора маски независимый фильтр атрибутов"
 
 #: tfrmoptionsfilesviewscomplement.gbmarking.caption
 msgctxt "tfrmoptionsfilesviewscomplement.gbmarking.caption"
@@ -6813,7 +6813,7 @@ msgstr "Комментарии к файлам (descript.ion)"
 
 #: tfrmoptionsmisc.gbtcexportimport.caption
 msgid "Regarding TC export/import:"
-msgstr "Касательно TC экспорта/импорта:"
+msgstr "Импортирование из TC и экспортирование:"
 
 #: tfrmoptionsmisc.lbldescrdefaultencoding.caption
 msgctxt "tfrmoptionsmisc.lbldescrdefaultencoding.caption"
@@ -6847,7 +6847,7 @@ msgstr "&Размер эскизов:"
 
 #: tfrmoptionsmouse.cbselectionbymouse.caption
 msgid "&Selection by mouse"
-msgstr "&Выбор с помощью мыши"
+msgstr "&Выделение с помощью мыши"
 
 #: tfrmoptionsmouse.chkcursornofollow.caption
 msgid "The text cursor no longer follows the mouse cursor"
@@ -6868,11 +6868,11 @@ msgstr "Прокрутка"
 
 #: tfrmoptionsmouse.gbselection.caption
 msgid "Selection"
-msgstr "Выбор"
+msgstr "Выделение"
 
 #: tfrmoptionsmouse.lblmousemode.caption
 msgid "&Mode:"
-msgstr "Р&ежим"
+msgstr "Р&ежим:"
 
 #: tfrmoptionsmouse.rbdoubleclick.caption
 msgid "Double click"
@@ -7157,7 +7157,7 @@ msgstr "&Конец (последние символы до набранной �
 #: tfrmoptionsquicksearchfilter.cgpoptions.caption
 msgctxt "TFRMOPTIONSQUICKSEARCHFILTER.CGPOPTIONS.CAPTION"
 msgid "Options"
-msgstr "Настройка"
+msgstr "Настройки"
 
 #: tfrmoptionsquicksearchfilter.gbexactnamematch.caption
 msgctxt "TFRMOPTIONSQUICKSEARCHFILTER.GBEXACTNAMEMATCH.CAPTION"
@@ -7298,7 +7298,7 @@ msgstr "Дополнительные параметры избранных вк�
 
 #: tfrmoptionstabsextra.lbldefaultexistingtabstokeep.caption
 msgid "When restoring tab, existing tabs to keep:"
-msgstr "Сохранить существующие вкладки при восстановлении:"
+msgstr "При восстановлении сохранить существующие вкладки:"
 
 #: tfrmoptionstabsextra.lbldefaulttargetpanelleftsaved.caption
 msgid "Tabs saved on left will be restored to:"
@@ -7441,7 +7441,7 @@ msgstr "Показывать надписи"
 
 #: tfrmoptionstoolbarbase.edtinternalparameters.hint
 msgid "Enter command parameters, each in a separate line. Press F1 to see help on parameters."
-msgstr "Параметры команды, каждый на отдельной строке. F1 - помощь"
+msgstr "Параметры команды, каждый на отдельной строке. F1 - помощь."
 
 #: tfrmoptionstoolbarbase.gbgroupbox.caption
 msgctxt "tfrmoptionstoolbarbase.gbgroupbox.caption"
@@ -9969,7 +9969,7 @@ msgstr "Всего:"
 
 #: ulng.rsclearfiltersornot
 msgid "Do you want to clear filters for this new search?"
-msgstr "Хотите очистить фильтры для этого нового поиска?"
+msgstr "Хотите очистить фильтры для нового поиска?"
 
 #: ulng.rsclipboardcontainsinvalidtoolbardata
 msgid "Clipboard doesn't contain any valid toolbar data."
@@ -10908,7 +10908,7 @@ msgstr "Нельзя скопировать/переместить файл \"%s
 
 #: ulng.rsmsgcannotcopyspecialfile
 msgid "Cannot copy special file %s"
-msgstr "Невозможно скопировать специальный файл %s"
+msgstr "Не удалось скопировать специальный файл %s"
 
 #: ulng.rsmsgcannotdeletedirectory
 msgid "Cannot delete directory %s"
@@ -11028,7 +11028,7 @@ msgstr "Не удалось скопировать файл из %s в %s"
 
 #: ulng.rsmsgerrcannotmovefile
 msgid "Cannot move file %s"
-msgstr "Невозможно переместить файл %s"
+msgstr "Не удалось переместить файл %s"
 
 #: ulng.rsmsgerrcreatefiledirectoryexists
 msgid "There already exists a directory named \"%s\"."
@@ -11461,7 +11461,7 @@ msgid ""
 "Do you want to delete all elements inside the sub-menu [%s]?\n"
 "Answering NO will delete only menu delimiters but will keep element inside sub-menu.\n"
 msgstr ""
-"Вы хотите удалить все элементы внутри подменю [%s]?\n"
+"Хотите удалить все элементы внутри подменю [%s]?\n"
 "Ответ НЕТ удалит только разделители меню и оставит элементы внутри подменю.\n"
 
 #: ulng.rsmsghotdirwheretosave
@@ -12678,7 +12678,7 @@ msgstr "Добавить в начало;Добавить в конец;По а�
 
 #: ulng.rsoptfileoperationsprogresskind
 msgid "separate window;minimized separate window;operations panel"
-msgstr "отдельное окно;минимизировать отдельное окно;панель операций"
+msgstr "отдельное окно;свёрнутое отдельное окно;панель операций"
 
 #: ulng.rsoptfilesizefloat
 msgid "float"
@@ -13015,7 +13015,7 @@ msgstr "Левая клавиша;Правая клавиша;"
 
 #: ulng.rsoptnewfilesposition
 msgid "at the top of the file list;after directories (if directories are sorted before files);at sorted position;at the bottom of the file list"
-msgstr "сверху списка файлов;после каталогов (если каталоги отсортированы перед файлами);в отсортированной позиции;внизу списка файлов"
+msgstr "вверху списка файлов;после каталогов (если каталоги отсортированы перед файлами);в отсортированной позиции;внизу списка файлов"
 
 #: ulng.rsoptpersonalizedfilesizeformat
 msgid "Personalized float;Personalized byte;Personalized kilobyte;Personalized megabyte;Personalized gigabyte;Personalized terabyte"
@@ -13633,7 +13633,7 @@ msgstr "Путь панели"
 
 #: ulng.rsvarencloseelement
 msgid "Enclose each name in brackets or what you want"
-msgstr "Заключить каждое имя в квадратные скобки или что вы хотите"
+msgstr "Заключить каждое имя в квадратные скобки или то, что вы хотите"
 
 #: ulng.rsvarfilenamenoext
 msgid "Just filename, no extension"
@@ -13717,11 +13717,11 @@ msgstr "Возвращает знак процента"
 
 #: ulng.rsvarpoundchangetopercent
 msgid "From here to the end of the line, the percent-variable indicator is back the \"%\" sign"
-msgstr "Обратно, отсюда и до конца строки указателем переменной с процентами будет знак \"%\""
+msgstr "Отсюда и до конца строки указателем переменной с процентами снова будет знак \"%\""
 
 #: ulng.rsvarprependelement
 msgid "Prepend each name with \"-a \" or what you want"
-msgstr "Представить каждое имя в виде \"-a \" или как вы хотите"
+msgstr "Добавить перед каждым именем \"-a \" или то, что вы хотите"
 
 #: ulng.rsvarpromptuserforparam
 msgid "%[Prompt user for param;Default value proposed]"
