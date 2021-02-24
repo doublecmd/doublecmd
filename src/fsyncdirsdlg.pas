@@ -1221,7 +1221,12 @@ var
           f := fs.Items[i];
           if (Template = nil) or Template.CheckFile(f) then
           begin
-            if not f.IsDirectory and ((MaskList = nil) or MaskList.Matches(f.Name)) then
+            if f.IsDirectory then
+            begin
+              if (f.NameNoExt <> '.') and (f.NameNoExt <> '..') then
+                dirs.Add(f.Name);
+            end
+            else if ((MaskList = nil) or MaskList.Matches(f.Name)) then
             begin
               j := it.IndexOf(f.Name);
               if j < 0 then
@@ -1242,9 +1247,7 @@ var
                 end;
               end;
               it.AddObject(f.Name, r);
-            end else
-            if (f.NameNoExt <> '.') and (f.NameNoExt <> '..') then
-              dirs.Add(f.Name);
+            end;
           end;
         end;
       finally
