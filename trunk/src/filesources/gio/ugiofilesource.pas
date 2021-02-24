@@ -36,6 +36,7 @@ type
       class function IsSupportedPath(const Path: String): Boolean; override;
 
       function CreateDirectory(const Path: String): Boolean; override;
+      function FileSystemEntryExists(const Path: String): Boolean; override;
       function GetFreeSpace(Path: String; out FreeSize, TotalSize : Int64) : Boolean; override;
 
       class function CreateFile(const APath: String): TFile; override;
@@ -353,9 +354,30 @@ end;
 function TGioFileSource.CreateDirectory(const Path: String): Boolean;
 var
   AGFile: PGFile;
+  TargetPath: String;
 begin
-  AGFile:= GioNewFile(Path);
+  if StrBegins(Path, FCurrentAddress) then
+    TargetPath := Path
+  else begin
+    TargetPath := FCurrentAddress + Path;
+  end;
+  AGFile:= GioNewFile(TargetPath);
   Result:= g_file_make_directory_with_parents(AGFile, nil, nil);
+  g_object_unref(PGObject(AGFile));
+end;
+
+function TGioFileSource.FileSystemEntryExists(const Path: String): Boolean;
+var
+  AGFile: PGFile;
+  TargetPath: String;
+begin
+  if StrBegins(Path, FCurrentAddress) then
+    TargetPath := Path
+  else begin
+    TargetPath := FCurrentAddress + Path;
+  end;
+  AGFile := GioNewFile(TargetPath);
+  Result := g_file_query_exists (AGFile, nil);
   g_object_unref(PGObject(AGFile));
 end;
 
