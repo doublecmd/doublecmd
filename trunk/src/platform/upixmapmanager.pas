@@ -1786,7 +1786,7 @@ begin
   {$ENDIF}
   end
   else
-  {$IFDEF LCLWIN32}
+  {$IFDEF MSWINDOWS}
   if iIndex >= SystemIconIndexStart then
     try
       if ImageList_GetIconSize(FSysImgList, @cx, @cy) then
@@ -1794,6 +1794,7 @@ begin
       else
         TrySetSize(gIconsSize, gIconsSize);
 
+      {$IF DEFINED(LCLWIN32)}
       if (cx = Width) and (cy = Height) then
         ImageList_Draw(FSysImgList, iIndex - SystemIconIndexStart, Canvas.Handle, X, Y, ILD_TRANSPARENT)
       else
@@ -1808,6 +1809,17 @@ begin
           DestroyIcon(hicn);
         end;
       end;
+      {$ELSEIF DEFINED(LCLQT5)}
+      hicn:= ImageList_GetIcon(FSysImgList, iIndex - SystemIconIndexStart, ILD_NORMAL);
+      try
+        Bitmap:= BitmapCreateFromHICON(hicn);
+        aRect := Classes.Bounds(X, Y, Width, Height);
+        Canvas.StretchDraw(aRect, Bitmap);
+      finally
+        FreeAndNil(Bitmap);
+        DestroyIcon(hicn);
+      end
+      {$ENDIF}
     except
       Result:= False;
     end;
