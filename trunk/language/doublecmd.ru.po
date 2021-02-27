@@ -11315,15 +11315,15 @@ msgstr "Это запустит следующую команду:"
 
 #: ulng.rsmsghotdirdemoname
 msgid "This is hot dir named "
-msgstr "Это избранный каталог по имени "
+msgstr "Избранный каталог по имени "
 
 #: ulng.rsmsghotdirdemopath
 msgid "This will change active frame to the following path:"
-msgstr "Это изменит активную панель на следующий путь:"
+msgstr "Изменит путь активной панели на следующий:"
 
 #: ulng.rsmsghotdirdemotarget
 msgid "And inactive frame would change to the following path:"
-msgstr "И изменит неактивную панель на следующий путь:"
+msgstr "И путь неактивной панели на:"
 
 #: ulng.rsmsghotdirerrorbackuping
 msgid "Error backuping entries..."
