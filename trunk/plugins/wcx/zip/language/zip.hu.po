@@ -1,0 +1,50 @@
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Project-Id-Version: Double Commander Zip WCX plugin\n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: Forge Studios Ltd. <kroy <kroysoft@citromail.hu>>\n"
+"MIME-Version: 1.0\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: hu\n"
+"X-Generator: Poedit 1.8.8\n"
+
+#: tdialogbox.caption
+msgid "Zip plugin configuration"
+msgstr "Zip plugin beállítások"
+
+#: tdialogbox.lblAbout.caption
+msgid ""
+"Zip plugin supports PKZIP-compatible, TAR, GZip and BZip2 data compression and archiving.\n"
+"\n"
+"'Copyright (C) 2006-2020 Alexander Koblov (alexx2000@mail.ru)"
+msgstr ""
+"A Zip plugin a PKZIP-kompatibilis, TAR, GZip és BZip2 adattömörítést és archiválást támogatja.\n"
+"\n"
+"'Szerzői jog (C) 2006–2020, Alexander Koblov (alexx2000@mail.ru)"
+
+#: tdialogbox.gbCompression.caption
+msgid "Compression"
+msgstr "Tömörítés"
+
+#: tdialogbox.gbCompression.lblCompressionMethodToUse.caption
+msgid "Compression method:"
+msgstr "Tömörítési módszer:"
+
+#: tdialogbox.gbCompression.lblDeflationOption.caption
+msgid "Compression level:"
+msgstr "Tömörítési szint:"
+
+#: tdialogbox.chkTarAutoHandle.caption
+msgid "Open *.tar.xyz archives at one step (slowly with big archives)"
+msgstr "Nyissa meg a * .tar.xyz archívumokat egy lépésben (nagy archívumokkal lassú)"
+
+#: tdialogbox.btnCancel.caption
+msgid "Cancel"
+msgstr "Mégsem"
+
+#: tdialogbox.btnOK.caption
+msgid "OK"
+msgstr "OK"

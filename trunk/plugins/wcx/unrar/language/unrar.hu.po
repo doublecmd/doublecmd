@@ -1,0 +1,60 @@
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Project-Id-Version: Double Commander unrar WCX plugin\n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: Forge Studios Ltd. <kroy <kroysoft@citromail.hu>>\n"
+"MIME-Version: 1.0\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: hu_HU\n"
+"X-Generator: Poedit 1.8.8\n"
+
+#: tdialogbox.caption
+msgid "Options"
+msgstr "Beállítások"
+
+#: tdialogbox.lblpath.caption
+msgid "Path to Win&RAR executable"
+msgstr "Win&RAR futtatható állomány helye"
+
+#: tdialogbox.gboptions.caption
+msgid "Archiving options"
+msgstr "Archiválási beállítások"
+
+#: tdialogbox.gboptions.chkrecovery.caption
+msgid "Add r&ecovery record"
+msgstr "&Helyreállítási jegyzék hozzáadása"
+
+#: tdialogbox.gboptions.chkencrypt.caption
+msgid "Encrypt file &names"
+msgstr "Fájl&nevek titkosítása"
+
+#: tdialogbox.gboptions.chksolid.caption
+msgid "Create &solid archive"
+msgstr "&Tömör archívum létrehozása"
+
+#: tdialogbox.lblmethod.caption
+msgid "&Compression method"
+msgstr "Tö&mörítési eljárás"
+
+#: tdialogbox.brncancel.caption
+msgid "Cancel"
+msgstr "Mégsem"
+
+#: tdialogbox.btnsave.caption
+msgid "OK"
+msgstr "OK"
+
+#: tdialogbox.lblargs.caption
+msgid "Additional parameters"
+msgstr "További paraméterek"
+
+#: dropdown list content
+msgid "Store;Fastest;Fast;Normal;Good;Best"
+msgstr "Tároló;Leggyorsabb;Gyors;Normál;Jó;Legjobb"
+
+msgid "Normal"
+msgstr "Normál"

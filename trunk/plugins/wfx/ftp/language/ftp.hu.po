@@ -1,0 +1,164 @@
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Project-Id-Version: Double Commander FTP WFX plugin\n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: Forge Studios Ltd. < kroy <kroysoft@citromail.hu>>\n"
+"MIME-Version: 1.0\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: hu\n"
+"X-Generator: Poedit 1.8.8\n"
+
+#: tdialogbox.btnadd.caption
+msgid "+"
+msgstr "+"
+
+#: tdialogbox.btnanonymous.caption
+msgid "Anonymous"
+msgstr "Vendég"
+
+#: tdialogbox.btncancel.caption
+msgid "Cancel"
+msgstr "Mégsem"
+
+#: tdialogbox.btnchangepassword.caption
+msgid "Change password..."
+msgstr "Jelszó módosítása..."
+
+#: tdialogbox.btndelete.caption
+msgid "-"
+msgstr "-"
+
+#: tdialogbox.btnok.caption
+msgid "&OK"
+msgstr "&OK"
+
+#: tdialogbox.caption
+msgctxt "tdialogbox.caption"
+msgid "FTP"
+msgstr "FTP"
+
+#: tdialogbox.chkcopyscp.caption
+msgid "Copy using SCP protocol (faster)"
+msgstr "SCP protokoll a másoláshoz (gyorsabb)"
+
+#: tdialogbox.chkautotls.caption
+msgid "TLS"
+msgstr "TLS"
+
+#: tdialogbox.chkkeepalivetransfer.caption
+msgid "Send keepalive during a transfer"
+msgstr "Életjel küldése az  átvitel alatt"
+
+#: tdialogbox.chkmasterpassword.caption
+msgid "Use master password to protect the password"
+msgstr "Mesterjelszóval védett jelszó használata"
+
+#: tdialogbox.chkonlyscp.caption
+msgid "Use SSH+SCP protocol (no SFTP)"
+msgstr "SSH+SCP protokoll használata (nincs SFTP)"
+
+#: tdialogbox.chkopenssh.caption
+msgctxt "tdialogbox.chkopenssh.caption"
+msgid "SSH"
+msgstr "SSH"
+
+#: tdialogbox.chkpassivemode.caption
+msgid "Use passive mode for transfers (like a WWW browser)"
+msgstr "Passzív módú átvitel használata (mint egy WWW böngésző)"
+
+#: tdialogbox.chkshowhidden.caption
+msgid "Use 'LIST -la' command to reveal hidden items"
+msgstr "A 'LIST -la' parancs mutassa a rejtett elemeket"
+
+#: tdialogbox.cmbencoding.text
+msgid "Auto"
+msgstr "Automatikus"
+
+#: tdialogbox.dividerbevel.caption
+msgid "Client certificate for authentication:"
+msgstr "Ügyfél hitelesítő tanúsítványa:"
+
+#: tdialogbox.gbftp.caption
+msgctxt "tdialogbox.gbftp.caption"
+msgid "FTP"
+msgstr "FTP"
+
+#: tdialogbox.gblogon.caption
+msgid "Firewall logon"
+msgstr "Tűzfal belépés"
+
+#: tdialogbox.gbssh.caption
+msgctxt "tdialogbox.gbssh.caption"
+msgid "SSH"
+msgstr "SSH"
+
+#: tdialogbox.lblencoding.caption
+msgid "Encoding:"
+msgstr "Kódolás:"
+
+#: tdialogbox.lblhost.caption
+msgid "Host[:Port]:"
+msgstr "Kiszolgáló[:port]:"
+
+#: tdialogbox.lblinitcommands.caption
+msgid "Init commands:"
+msgstr "Kezdőparancsok:"
+
+#: tdialogbox.lblname.caption
+msgid "Connection name:"
+msgstr "Kapcsolat neve:"
+
+#: tdialogbox.lblpassword.caption
+msgid "Password:"
+msgstr "Jelszó:"
+
+#: tdialogbox.lblprivatekey.caption
+msgid "Private key file (*.pem):"
+msgstr "Privát kulcs fájl (*.pub):"
+
+#: tdialogbox.lblproxy.caption
+msgid "Use firewall (proxy server)"
+msgstr "Tűzfal használata (proxy kiszolgáló)"
+
+#: tdialogbox.lblproxyhost.caption
+msgid "&Host name:"
+msgstr "&Kiszolgálónév:"
+
+#: tdialogbox.lblproxypassword.caption
+msgid "&Password:"
+msgstr "&Jelszó:"
+
+#: tdialogbox.lblproxyuser.caption
+msgid "&User name:"
+msgstr "&Felhasználónév:"
+
+#: tdialogbox.lblpublickey.caption
+msgid "Public key file (*.pub):"
+msgstr "Publikus kulcs fájl (*.pub):"
+
+#: tdialogbox.lblremotedir.caption
+msgid "Remote dir:"
+msgstr "Távoli könyvtár:"
+
+#: tdialogbox.lblusername.caption
+msgid "User name:"
+msgstr "Felhasználónév:"
+
+#: tdialogbox.rgproxytype.caption
+msgid "Connect method"
+msgstr "Csatlakozás módja"
+
+#: tdialogbox.tsadvanced.caption
+msgid "Advanced"
+msgstr "Haladó"
+
+#: tdialogbox.tsgeneral.caption
+msgid "General"
+msgstr "Általános"
+
+#: tdialogbox.tsproxy.caption
+msgid "Proxy"
+msgstr "Proxy"
