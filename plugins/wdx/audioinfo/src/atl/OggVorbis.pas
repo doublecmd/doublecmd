@@ -78,6 +78,8 @@ const
   VORBIS_MODE: array [0..3] of string = ('Unknown', 'Mono', 'Stereo', 'Multichannel');
 
 type
+  TOggCodecType = (octVorbis, octOpus, octSpeex);
+
   { Class TOggVorbis }
   TOggVorbis = class(TObject)
     private
@@ -96,6 +98,7 @@ type
       FGenre: string;
       FComment: string;
       FVendor: string;
+      FCodec: String;
       procedure FResetData;
       function FGetChannelMode: string;
       function FGetDuration: Double;
@@ -130,6 +133,7 @@ type
       property Valid: Boolean read FIsValid;             { True if file valid }
       property Ratio: Double read FGetRatio;          { Compression ratio (%) }
       property Encoder: String read FGetEncoder;             { Encoder string }
+      property Codec: String read FCodec;                      { Codec string }
   end;
 
 implementation
@@ -140,9 +144,12 @@ const
 
   { Vorbis parameter frame ID }
   VORBIS_PARAMETERS_ID = #1 + 'vorbis';
+  OPUS_PARAMETERS_ID   = 'OpusHead';
+  SPEEX_PARAMETERS_ID  = 'Speex   ';
 
   { Vorbis tag frame ID }
   VORBIS_TAG_ID = #3 + 'vorbis';
+  OPUS_TAG_ID   = 'OpusTags';
 
   { Max. number of supported comment fields }
   VORBIS_FIELD_COUNT = 9;
@@ -201,7 +208,7 @@ const
 type
   { Ogg page header }
   OggHeader = packed record
-    ID: array [1..4] of Char;                                 { Always "OggS" }
+    ID: array [1..4] of AnsiChar;                             { Always "OggS" }
     StreamVersion: Byte;                           { Stream structure version }
     TypeFlag: Byte;                                        { Header type flag }
     AbsolutePosition: Int64;                      { Absolute granule position }
@@ -214,7 +221,7 @@ type
 
   { Vorbis parameter header }
   VorbisHeader = packed record
-    ID: array [1..7] of Char;                          { Always #1 + "vorbis" }
+    ID: array [1..7] of AnsiChar;                      { Always #1 + "vorbis" }
     BitstreamVersion: array [1..4] of Byte;        { Bitstream version number }
     ChannelMode: Byte;                                   { Number of channels }
     SampleRate: Integer;                                   { Sample rate (hz) }
@@ -225,9 +232,46 @@ type
     StopFlag: Byte;                                                { Always 1 }
   end;
 
+  // Opus parameter header
+  TOpusHeader = packed record
+    ID: array [1..8] of AnsiChar;                         { Always "OpusHead" }
+    BitstreamVersion: Byte;                        { Bitstream version number }
+    ChannelCount: Byte;                                  { Number of channels }
+    PreSkip: Word;
+    SampleRate: LongWord;                                  { Sample rate (hz) }
+    OutputGain: Word;
+    MappingFamily: Byte;                                            { 0,1,255 }
+  end;
+
+  // Speex parameter header
+  TSpeexHeader = packed record
+    ID: array [1..8] of AnsiChar;
+    speex_version: array [1..20] of AnsiChar;
+    speex_version_id: Integer;
+    header_size: Integer;
+    rate: Integer;
+    mode: Integer;
+    mode_bitstream_version: Integer;
+    nb_channels: Integer;
+    bitrate: Integer;
+    frame_size: Integer;
+    vbr: Integer;
+    frames_per_packet: Integer;
+    extra_headers: Integer;
+    reserved1: Integer;
+    reserved2: Integer;
+  end;
+
   { Vorbis tag data }
   VorbisTag = record
-    ID: array [1..7] of Char;                          { Always #3 + "vorbis" }
+    ID: array [1..7] of AnsiChar;                      { Always #3 + "vorbis" }
+    Fields: Integer;                                   { Number of tag fields }
+    FieldData: array [0..VORBIS_FIELD_COUNT] of string;      { Tag field data }
+  end;
+
+  // Opus tag data
+  TOpusTags = record
+    ID: array [1..8] of AnsiChar;                         { Always "OpusTags" }
     Fields: Integer;                                   { Number of tag fields }
     FieldData: array [0..VORBIS_FIELD_COUNT] of string;      { Tag field data }
   end;
@@ -235,8 +279,11 @@ type
   { File data }
   FileInfo = record
     FPage, SPage, LPage: OggHeader;             { First, second and last page }
+    CodecType: TOggCodecType;
     Parameters: VorbisHeader;                       { Vorbis parameter header }
     Tag: VorbisTag;                                         { Vorbis tag data }
+    OpusHeader: TOpusHeader;
+    SpeexHeader: TSpeexHeader;
     FileSize: Integer;                                    { File size (bytes) }
     Samples: Integer;                               { Total number of samples }
     ID3v2Size: Integer;                              { ID3v2 tag size (bytes) }
@@ -249,7 +296,7 @@ type
 function GetID3v2Size(const Source: TFileStreamEx): Integer;
 type
   ID3v2Header = record
-    ID: array [1..3] of Char;
+    ID: array [1..3] of AnsiChar;
     Version: Byte;
     Revision: Byte;
     Flags: Byte;
@@ -300,7 +347,7 @@ end;
 procedure ReadTag(const Source: TFileStreamEx; var Info: FileInfo);
 var
   Index, Size, Position: Integer;
-  Data: array [1..250] of Char;
+  Data: array [1..250] of AnsiChar;
 begin
   { Read Vorbis tag }
   Index := 0;
@@ -324,7 +371,7 @@ end;
 function GetSamples(const Source: TFileStreamEx): Integer;
 var
   Index, DataIndex, Iterator: Integer;
-  Data: array [0..250] of Char;
+  Data: array [0..250] of AnsiChar;
   Header: OggHeader;
 begin
   { Get total number of samples }
@@ -354,6 +401,9 @@ end;
 function GetInfo(const FileName: String; var Info: FileInfo): Boolean;
 var
   SourceFile: TFileStreamEx;
+  OpusTags: TOpusTags;
+  CodecID: array [1..8] of AnsiChar;
+  TagsID: array [1..8] of AnsiChar;
 begin
   { Get info from file }
   Result := false;
@@ -365,16 +415,54 @@ begin
     SourceFile.Seek(Info.ID3v2Size, soFromBeginning);
     SourceFile.Read(Info.FPage, SizeOf(Info.FPage));
     if Info.FPage.ID <> OGG_PAGE_ID then exit;
+
+    // Read the codec ID signature
     SourceFile.Seek(Info.ID3v2Size + Info.FPage.Segments + 27, soFromBeginning);
-    { Read Vorbis parameter header }
-    SourceFile.Read(Info.Parameters, SizeOf(Info.Parameters));
-    if Info.Parameters.ID <> VORBIS_PARAMETERS_ID then exit;
+    SourceFile.Read(CodecID, SizeOf(CodecID));
+
+    // Check codec
+    if Copy(CodecID, 1, 7) = VORBIS_PARAMETERS_ID then
+      Info.CodecType:= octVorbis
+    else if CodecID = OPUS_PARAMETERS_ID then
+      Info.CodecType:= octOpus
+    else if CodecID = SPEEX_PARAMETERS_ID then
+      Info.CodecType:= octSpeex
+    else
+      Exit;
+
+    // Back to header start position
+    SourceFile.Seek(Info.ID3v2Size + Info.FPage.Segments + 27, soFromBeginning);
+    case Info.CodecType of
+      octVorbis: { Read Vorbis parameter header }
+        SourceFile.Read(Info.Parameters, SizeOf(Info.Parameters));
+      octOpus:
+        SourceFile.Read(Info.OpusHeader, SizeOf(TOpusHeader));
+      octSpeex:
+        SourceFile.Read(Info.SpeexHeader, SizeOf(TSpeexHeader));
+    end;
+
     Info.SPagePos := SourceFile.Position;
     SourceFile.Read(Info.SPage, SizeOf(Info.SPage));
     SourceFile.Seek(Info.SPagePos + Info.SPage.Segments + 27, soFromBeginning);
-    SourceFile.Read(Info.Tag.ID, SizeOf(Info.Tag.ID));
-    { Read Vorbis tag }
-    if Info.Tag.ID = VORBIS_TAG_ID then ReadTag(SourceFile, Info);
+    SourceFile.Read(TagsID, SizeOf(TagsID));
+
+    if not (((Info.CodecType = octVorbis) and (Copy(TagsID, 1, 7) = VORBIS_TAG_ID)) or
+            ((Info.CodecType = octOpus)   and (TagsID = OPUS_TAG_ID)) or
+             (Info.CodecType = octSpeex)) then Exit;
+
+    // Back to tags start position
+    SourceFile.Seek(Info.SPagePos + Info.SPage.Segments + 27, soFromBeginning);
+
+    // Speex tags block has no header, so in case of it we not read anything
+    case Info.CodecType of
+      octVorbis: { Read Vorbis parameter header }
+        SourceFile.Read(Info.Tag.ID, SizeOf(Info.Tag.ID));
+      octOpus:
+        SourceFile.Read(OpusTags.ID, SizeOf(OpusTags.ID));
+    end;
+    { Read Vorbis, Opus or Speex tags }
+    ReadTag(SourceFile, Info);
+
     { Get total number of samples }
     Info.Samples := GetSamples(SourceFile);
     Result := true;
@@ -552,6 +640,7 @@ begin
   FGenre := '';
   FComment := '';
   FVendor := '';
+  FCodec := '';
 end;
 
 { --------------------------------------------------------------------------- }
@@ -638,9 +727,27 @@ begin
   begin
     { Fill variables }
     FFileSize := Info.FileSize;
-    FChannelModeID := Info.Parameters.ChannelMode;
-    FSampleRate := Info.Parameters.SampleRate;
-    FBitRateNominal := Info.Parameters.BitRateNominal div 1000;
+    case Info.CodecType of
+      octVorbis:
+      begin
+        FChannelModeID := Info.Parameters.ChannelMode;
+        FSampleRate := Info.Parameters.SampleRate;
+        FBitRateNominal := Info.Parameters.BitRateNominal div 1000;
+        FCodec:='Vorbis';
+      end;
+      octOpus:
+      begin
+        FChannelModeID := Info.OpusHeader.ChannelCount;
+        FSampleRate := Info.OpusHeader.SampleRate;
+        FCodec:='Opus';
+      end;
+      octSpeex:
+      begin
+        FChannelModeID := Info.SpeexHeader.nb_channels;
+        FSampleRate := Info.SpeexHeader.rate;
+        FCodec:='Speex';
+      end;
+    end;
     FSamples := Info.Samples;
     FID3v2Size := Info.ID3v2Size;
     FTitle := Info.Tag.FieldData[1];
