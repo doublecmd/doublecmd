@@ -68,6 +68,10 @@ type
       function GetOverlayIconIndex(pidl : PItemIDList; var IconIndex : Integer) : HResult; stdcall;
    end; { IShellIconOverlay }
 
+const
+  SIID_DRIVENET = 9;
+  SIID_ZIPFILE = 105;
+
 type
   TSHStockIconInfo = record
     cbSize: DWORD;
@@ -78,6 +82,7 @@ type
   end;
 
 function SHGetSystemImageList(iImageList: Integer): HIMAGELIST;
+function SHGetStockIconInfo(siid: Int32; uFlags: UINT; out psii: TSHStockIconInfo): Boolean;
 function SHChangeIconDialog(hOwner: HWND; var FileName: String; var IconIndex: Integer): Boolean;
 function SHGetOverlayIconIndex(const sFilePath, sFileName: String): Integer;
 function SHGetInfoTip(const sFilePath, sFileName: String): String;
@@ -135,6 +140,22 @@ begin
       if @SHGetImageList = nil then SHGetImageList:= @SHGetImageListFallback;
     end;
     SHGetImageList(iImageList, IID_IImageList, Result);
+  end;
+end;
+
+function SHGetStockIconInfo(siid: Int32; uFlags: UINT; out psii: TSHStockIconInfo): Boolean;
+var
+  SHGetStockIconInfo: function(siid: Int32; uFlags: UINT; var psii: TSHStockIconInfo): HRESULT; stdcall;
+begin
+  Result:= False;
+  if (Win32MajorVersion > 5) then
+  begin
+    @SHGetStockIconInfo:= GetProcAddress(GetModuleHandle(Shell32), 'SHGetStockIconInfo');
+    if Assigned(SHGetStockIconInfo) then
+    begin
+      psii.cbSize:= SizeOf(TSHStockIconInfo);
+      Result:= SHGetStockIconInfo(siid, uFlags, psii) = S_OK;
+    end;
   end;
 end;
 
