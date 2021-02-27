@@ -11,7 +11,7 @@ const
                           '(EXT="WAV") | (EXT="VQF") | (EXT="AAC") | (EXT="APE") | (EXT="MPC") | ' +
                           '(EXT="FLAC") | (EXT="CDA") | (EXT="TTA") | (EXT="AC3") | (EXT="DTS") | ' +
                           '(EXT="WV") | (EXT="WVC") | (EXT="OFR") | (EXT="OFS") | (EXT="M4A") | ' +
-                          '(EXT="MP4")';
+                          '(EXT="MP4") | (EXT="OPUS")';
 
 const
   FIELD_COUNT = 20;

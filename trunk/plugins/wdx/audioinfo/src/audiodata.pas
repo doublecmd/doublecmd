@@ -565,7 +565,7 @@ begin
   begin
     Result:= ReadMPEGplus;
   end
-  else if (FileExt = 'ogg') then
+  else if (FileExt = 'ogg') or (FileExt = 'opus') then
   begin
     Result:= ReadOggVorbis;
   end
