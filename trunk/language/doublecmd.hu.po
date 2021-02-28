@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Double Commander 1.0.0 alpha r9692\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-01-17 23:08+0300\n"
-"PO-Revision-Date: 2021-02-27 14:18+0100\n"
+"PO-Revision-Date: 2021-02-28 18:20+0100\n"
 "Last-Translator: kroy <kroysoft@citromail.hu>\n"
 "Language-Team: unDoRito -- HTC-iP <dr.dabzse@gmail.com>\n"
 "Language: hu\n"
@@ -4961,7 +4961,7 @@ msgstr "Ugrás a T&C-re vonatkozó beállításokhoz"
 
 #: tfrmoptionsdirectoryhotlist.mihotdirtestmenu.caption
 msgid "HotDirTestMenu"
-msgstr ""
+msgstr "HotDirTestMenu"
 
 #: tfrmoptionsdirectoryhotlist.miimportfromhotlistfile.caption
 msgid "from a Directory &Hotlist file (.hotlist)"
@@ -5451,7 +5451,7 @@ msgstr "A kijelöltek exportálása régi .tab fájl(ok)ba"
 
 #: tfrmoptionsfavoritetabs.mifavoritetabstestmenu.caption
 msgid "FavoriteTabsTestMenu"
-msgstr ""
+msgstr "FavoriteTabsTestMenu"
 
 #: tfrmoptionsfavoritetabs.miimportlegacytabfilesaccsetting.caption
 msgid "Import legacy .tab file(s) according to default setting"
@@ -5687,7 +5687,7 @@ msgstr "Para&méterek:"
 #: tfrmoptionsfileassoc.lblstartpath.caption
 msgctxt "tfrmoptionsfileassoc.lblstartpath.caption"
 msgid "Start pat&h:"
-msgstr "Ki&induló útvonal:"
+msgstr "&Indítási útvonal:"
 
 #: tfrmoptionsfileassoc.menuitem3.caption
 msgid "Custom with..."
@@ -5805,7 +5805,7 @@ msgstr "Ikonok"
 #: tfrmoptionsfileassocextra.ckbfileassocstartpath.caption
 msgctxt "tfrmoptionsfileassocextra.ckbfileassocstartpath.caption"
 msgid "Starting paths"
-msgstr "Kiinduló útvonalak"
+msgstr "Indítási útvonalak"
 
 #: tfrmoptionsfileassocextra.gbextendedcontextmenuoptions.caption
 msgid "Extended options items:"
@@ -6490,9 +6490,8 @@ msgid " Show icons to the left of the filename "
 msgstr " Ikonok megjelenítése a fájlnév bal oldalán "
 
 #: tfrmoptionsicons.lbldiskpanel.caption
-#, fuzzy
 msgid "Disk panel:"
-msgstr "Meghajtó panel:"
+msgstr "Lemezegység gombsor:"
 
 #: tfrmoptionsicons.lblfilepanel.caption
 msgid "File panel:"
@@ -7326,22 +7325,19 @@ msgid "Default position in menu when saving a new Favorite Tabs:"
 msgstr "Alapértelmezett menü pozíció új Kedvenc fülek mentéskor:"
 
 #: tfrmoptionsterminal.edrunintermcloseparams.hint
-#, fuzzy
 msgctxt "tfrmoptionsterminal.edrunintermcloseparams.hint"
 msgid "{command} should normally be present here to reflect the command to be run in terminal"
-msgstr "A {parancs}-nak általában itt kell lennie, hogy tükrözze a terminálban futtatandó parancsot"
+msgstr "A \"{command}\" kifejezésnek általában itt kell lennie, hogy a terminálban futtatandó parancs ténylegesen átadásra kerüljön"
 
 #: tfrmoptionsterminal.edrunintermstayopenparams.hint
-#, fuzzy
 msgctxt "tfrmoptionsterminal.edrunintermstayopenparams.hint"
 msgid "{command} should normally be present here to reflect the command to be run in terminal"
-msgstr "A {parancs}-nak általában itt kell lennie, hogy tükrözze a terminálban futtatandó parancsot"
+msgstr "A \"{command}\" kifejezésnek általában itt kell lennie, hogy a terminálban futtatandó parancs ténylegesen átadásra kerüljön"
 
 #: tfrmoptionsterminal.edruntermparams.hint
-#, fuzzy
 msgctxt "tfrmoptionsterminal.edruntermparams.hint"
 msgid "{command} should normally be present here to reflect the command to be run in terminal"
-msgstr "A {parancs}-nak általában itt kell lennie, hogy tükrözze a terminálban futtatandó parancsot"
+msgstr "A \"{command}\" kifejezésnek általában itt kell lennie, hogy a terminálban futtatandó parancs ténylegesen átadásra kerüljön"
 
 #: tfrmoptionsterminal.gbjustrunterminal.caption
 msgid "Command for just running terminal:"
@@ -7506,7 +7502,7 @@ msgstr "&Paraméterek:"
 #: tfrmoptionstoolbarbase.lblstartpath.caption
 msgctxt "tfrmoptionstoolbarbase.lblstartpath.caption"
 msgid "Start pat&h:"
-msgstr "Ki&induló útvonal:"
+msgstr "&Indítási útvonal:"
 
 #: tfrmoptionstoolbarbase.lblstyle.caption
 msgid "Style:"
@@ -7864,7 +7860,7 @@ msgstr "Ikonok"
 #: tfrmoptionstoolbarextra.ckbtoolbarstartpath.caption
 msgctxt "tfrmoptionstoolbarextra.ckbtoolbarstartpath.caption"
 msgid "Starting paths"
-msgstr "Kiinduló útvonalak"
+msgstr "Indítási útvonalak"
 
 #: tfrmoptionstoolbarextra.gbtoolbaroptionsextra.caption
 msgctxt "tfrmoptionstoolbarextra.gbtoolbaroptionsextra.caption"
@@ -8562,12 +8558,12 @@ msgstr "Vála&szd ki a beillesztendő könyvtárneveket (többet is kijelölhets
 #: tfrmselectpathrange.rbfirstfromend.caption
 msgctxt "tfrmselectpathrange.rbfirstfromend.caption"
 msgid "The en&d"
-msgstr ""
+msgstr "a &végéről"
 
 #: tfrmselectpathrange.rbfirstfromstart.caption
 msgctxt "tfrmselectpathrange.rbfirstfromstart.caption"
 msgid "The sta&rt"
-msgstr ""
+msgstr "az &elejétől"
 
 #: tfrmselecttextrange.buttonpanel.cancelbutton.caption
 msgctxt "tfrmselecttextrange.buttonpanel.cancelbutton.caption"
@@ -8581,11 +8577,11 @@ msgstr "&OK"
 
 #: tfrmselecttextrange.gbcountfirstfrom.caption
 msgid "Count first from"
-msgstr ""
+msgstr "Az elsőt számolja..."
 
 #: tfrmselecttextrange.gbcountlastfrom.caption
 msgid "Count last from"
-msgstr ""
+msgstr "Az utolsót számolja..."
 
 #: tfrmselecttextrange.gbrangedescription.caption
 msgid "Range description"
@@ -8602,29 +8598,29 @@ msgstr "karakterek kivála&sztása beszúráshoz:"
 
 #: tfrmselecttextrange.rbdescriptionfirstlast.caption
 msgid "[&First:Last]"
-msgstr ""
+msgstr "[Első;&Utolsó]"
 
 #: tfrmselecttextrange.rbdescriptionfirstlength.caption
 msgid "[First,&Length]"
-msgstr ""
+msgstr "[Első,&Hossz]"
 
 #: tfrmselecttextrange.rbfirstfromend.caption
 msgctxt "tfrmselecttextrange.rbfirstfromend.caption"
 msgid "The en&d"
-msgstr ""
+msgstr "a &végéről"
 
 #: tfrmselecttextrange.rbfirstfromstart.caption
 msgctxt "tfrmselecttextrange.rbfirstfromstart.caption"
 msgid "The sta&rt"
-msgstr ""
+msgstr "az &elejétől"
 
 #: tfrmselecttextrange.rblastfromend.caption
 msgid "The &end"
-msgstr "…&visszafelé"
+msgstr "a &végéről"
 
 #: tfrmselecttextrange.rblastfromstart.caption
 msgid "The s&tart"
-msgstr "...&előre"
+msgstr "az e&lejétől"
 
 #: tfrmsetfileproperties.btncancel.caption
 msgctxt "TFRMSETFILEPROPERTIES.BTNCANCEL.CAPTION"
@@ -8797,8 +8793,9 @@ msgid "&OK"
 msgstr "&OK"
 
 #: tfrmsortanything.caption
+#, fuzzy
 msgid "frmSortAnything"
-msgstr ""
+msgstr "frmSortAnything"
 
 #: tfrmsortanything.lblsortanything.caption
 msgid "Drag and drop elements to sort them"
@@ -8898,7 +8895,7 @@ msgstr "Verzió:"
 
 #: tfrmstartingsplash.lblwidgetsetver.caption
 msgid "WidgetsetVer"
-msgstr ""
+msgstr "WidgetsetVer"
 
 #: tfrmsymlink.btncancel.caption
 msgctxt "TFRMSYMLINK.BTNCANCEL.CAPTION"
@@ -9823,7 +9820,7 @@ msgstr "Paraméterek:"
 
 #: ttfrmconfirmcommandline.lblestartpath.editlabel.caption
 msgid "Start path:"
-msgstr "Kiinduló útvonal:"
+msgstr "Kezdő útvonal:"
 
 #: twcxarchivecopyoperationoptionsui.lblfileexists.caption
 msgctxt "TWCXARCHIVECOPYOPERATIONOPTIONSUI.LBLFILEEXISTS.CAPTION"
@@ -10097,27 +10094,27 @@ msgstr "TB"
 
 #: ulng.rsdefaultsuffixdroppedtext
 msgid "_DroppedText"
-msgstr ""
+msgstr "_EjtettSzoveg"
 
 #: ulng.rsdefaultsuffixdroppedtexthtmlfilename
 msgid "_DroppedHTMLtext"
-msgstr ""
+msgstr "_EjtettHTMLSzoveg"
 
 #: ulng.rsdefaultsuffixdroppedtextrichtextfilename
 msgid "_DroppedRichtext"
-msgstr ""
+msgstr "_EjtettRichtextSzoveg"
 
 #: ulng.rsdefaultsuffixdroppedtextsimplefilename
 msgid "_DroppedSimpleText"
-msgstr ""
+msgstr "_EjtettEgyszeruSzoveg"
 
 #: ulng.rsdefaultsuffixdroppedtextunicodeutf16filename
 msgid "_DroppedUnicodeUTF16text"
-msgstr ""
+msgstr "_EjtettUnicodeUTF16Szoveg"
 
 #: ulng.rsdefaultsuffixdroppedtextunicodeutf8filename
 msgid "_DroppedUnicodeUTF8text"
-msgstr ""
+msgstr "_EjtettUnicodeUTF8Szoveg"
 
 #: ulng.rsdiffadds
 msgid " Adds: "
@@ -10391,7 +10388,7 @@ msgstr "Nem;Igen"
 
 #: ulng.rsfilenameexportedtcbarprefix
 msgid "Exported_from_DC"
-msgstr ""
+msgstr "DC-bol_exportalva"
 
 #: ulng.rsfileopcopymovefileexistsoptions
 msgid "Ask;Overwrite;Skip"
@@ -10515,7 +10512,7 @@ msgstr "A vizsgálat ideje: "
 
 #: ulng.rsfindwherebeg
 msgid "Begin at"
-msgstr "Kezdés"
+msgstr "Keresés helye"
 
 #: ulng.rsfontusageconsole
 msgid "&Console Font"
@@ -10698,7 +10695,6 @@ msgid "Viewer"
 msgstr "Nézőke"
 
 #: ulng.rshotkeyfilealreadyexists
-#, fuzzy
 msgid ""
 "A setup with that name already exists.\n"
 "Do you want to overwrite it?\n"
@@ -10711,17 +10707,16 @@ msgid "Are you sure you want to restore default?"
 msgstr "Biztosan visszaállítod alapértékre?"
 
 #: ulng.rshotkeyfileconfirmerasure
-#, fuzzy
 msgid "Are you sure you want to erase setup \"%s\"?"
 msgstr "Biztosan törlöd ezt a beállítást: \"%s\"?"
 
 #: ulng.rshotkeyfilecopyof
 msgid "Copy of %s"
-msgstr "%s másolása"
+msgstr "%s másolata"
 
 #: ulng.rshotkeyfileinputnewname
 msgid "Input your new name"
-msgstr "Add meg a neved"
+msgstr "Add meg az új nevet"
 
 #: ulng.rshotkeyfilemustkeepone
 msgid "You must keep at least one shortcut file."
@@ -10732,7 +10727,6 @@ msgid "New name"
 msgstr "Új név"
 
 #: ulng.rshotkeyfilesavemodified
-#, fuzzy
 msgid ""
 "\"%s\" setup has been modified.\n"
 "Do you want to save it now?\n"
@@ -11335,7 +11329,7 @@ msgstr "Futtatni fogja a következő parancsot:"
 
 #: ulng.rsmsghotdirdemoname
 msgid "This is hot dir named "
-msgstr ""
+msgstr "Ez egy Kedvenc könyvtár, melynek neve "
 
 #: ulng.rsmsghotdirdemopath
 msgid "This will change active frame to the following path:"
@@ -12235,7 +12229,6 @@ msgstr ""
 "Mented a változásait?\n"
 
 #: ulng.rsmulrensortingpresets
-#, fuzzy
 msgid "Sorting presets"
 msgstr "Mentett beállítások rendezése"
 
@@ -12296,7 +12289,7 @@ msgstr "Hálózat"
 
 #: ulng.rsopenwithoffice
 msgid "Office"
-msgstr ""
+msgstr "Irodai csomag"
 
 #: ulng.rsopenwithother
 msgctxt "ulng.rsopenwithother"
@@ -12581,7 +12574,7 @@ msgstr "Exportált tömörítő beállítás"
 
 #: ulng.rsoptarchivererrorlevel
 msgid "errorlevel"
-msgstr ""
+msgstr "hibakód"
 
 #: ulng.rsoptarchiverexportcaption
 msgid "Export archiver configuration"
@@ -13207,7 +13200,7 @@ msgstr "Teljes abszulút útvonallal;Relatív útvonallal ehhez: %COMMANDER_PATH
 
 #: ulng.rspluginsearchcontainscasesenstive
 msgid "contains(case)"
-msgstr ""
+msgstr "tartalmazza (betűméret számít)"
 
 #: ulng.rspluginsearchcontainsnotcase
 msgid "contains"
@@ -13215,7 +13208,7 @@ msgstr "tartalmazza"
 
 #: ulng.rspluginsearchequalcasesensitive
 msgid "=(case)"
-msgstr ""
+msgstr "= (betűméret számít)"
 
 #: ulng.rspluginsearchequalnotcase
 msgctxt "ulng.rspluginsearchequalnotcase"
@@ -13228,15 +13221,15 @@ msgstr "A mező (\"%s\") nem található!"
 
 #: ulng.rspluginsearchnotcontainscasesenstive
 msgid "!contains(case)"
-msgstr ""
+msgstr "nem tartalmazza (betűméret számít)"
 
 #: ulng.rspluginsearchnotcontainsnotcase
 msgid "!contains"
-msgstr ""
+msgstr "nem tartalmazza"
 
 #: ulng.rspluginsearchnotequacasesensitive
 msgid "!=(case)"
-msgstr ""
+msgstr "!= (betűméret számít)"
 
 #: ulng.rspluginsearchnotequalnotcase
 msgctxt "ulng.rspluginsearchnotequalnotcase"
@@ -13245,7 +13238,7 @@ msgstr "!="
 
 #: ulng.rspluginsearchnotregexpr
 msgid "!regexp"
-msgstr ""
+msgstr "!reguláris kif."
 
 #: ulng.rspluginsearchpluginnotfound
 msgid "Plugin \"%s\" not found!"
@@ -13253,7 +13246,7 @@ msgstr "A(z) \"%s\" beépülő nem található!"
 
 #: ulng.rspluginsearchregexpr
 msgid "regexp"
-msgstr ""
+msgstr "reguláris kif."
 
 #: ulng.rspluginsearchunitnotfoundforfield
 msgctxt "ulng.rspluginsearchunitnotfoundforfield"
@@ -13478,7 +13471,6 @@ msgid "Others"
 msgstr "Egyebek"
 
 #: ulng.rsstrpreviewsearchingletters
-#, fuzzy
 msgid "OU"
 msgstr "OU"
 
