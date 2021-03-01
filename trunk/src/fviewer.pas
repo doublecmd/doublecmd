@@ -2411,6 +2411,7 @@ begin
       end;
       if glsSearchHistory.Count > 0 then
         sSearchTextU:= glsSearchHistory[0];
+      FFindDialog.cbBackwards.Checked:= bSearchBackwards;
     end;
 
   if FFindDialog.cbRegExp.Checked then
