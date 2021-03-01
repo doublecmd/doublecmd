@@ -1756,6 +1756,10 @@ msgctxt "tfrmfindview.caption"
 msgid "Find"
 msgstr "Znajdź"
 
+#: tfrmfindview.cbbackwards.caption
+msgid "&Backwards"
+msgstr ""
+
 #: tfrmfindview.cbcasesens.caption
 msgid "C&ase sensitive"
 msgstr "&Uwzględniaj wielkość liter"

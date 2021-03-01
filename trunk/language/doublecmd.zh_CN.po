@@ -1770,6 +1770,10 @@ msgctxt "TFRMFINDVIEW.CAPTION"
 msgid "Find"
 msgstr "查找"
 
+#: tfrmfindview.cbbackwards.caption
+msgid "&Backwards"
+msgstr ""
+
 #: tfrmfindview.cbcasesens.caption
 msgid "C&ase sensitive"
 msgstr "区分大小写(&A)"
