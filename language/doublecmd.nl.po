@@ -1767,6 +1767,10 @@ msgctxt "TFRMFINDVIEW.CAPTION"
 msgid "Find"
 msgstr "Zoeken"
 
+#: tfrmfindview.cbbackwards.caption
+msgid "&Backwards"
+msgstr ""
+
 #: tfrmfindview.cbcasesens.caption
 msgid "C&ase sensitive"
 msgstr "Hoofdlettergevoelig"
@@ -4497,7 +4501,6 @@ msgid "Background 2:"
 msgstr "Achtergrond 2:"
 
 #: tfrmoptionscustomcolumns.lblconfigcolumns.caption
-#| msgid "Con&figure columns view:"
 msgid "&Columns view:"
 msgstr "Kolomweergave:"
 
@@ -5521,12 +5524,10 @@ msgid "Name of the action. It is never passed to the system, it's just a mnemoni
 msgstr "Naam van de actie. Niet voor het systeem, alleen voor u"
 
 #: tfrmoptionsfileassoc.edtparams.hint
-#| msgid "Parameter to pass to the command. Long filename with spaces should be quoted."
 msgid "Parameter to pass to the command. Long filename with spaces should be quoted (manually entering)."
 msgstr "Parameter om mee te geven aan de opdracht. Let op juiste omgang met spaties in bestandnamen."
 
 #: tfrmoptionsfileassoc.fnecommand.hint
-#| msgid "Command to execute. Long filename with space should be quoted."
 msgid "Command to execute. Never quote this string."
 msgstr "Opdracht om uit te voeren. Gebruik geen aanhalingstekens."
 
@@ -6606,7 +6607,6 @@ msgid "&Remove thumbnails for no longer existing files"
 msgstr "Verwijder miniaturen van niet langer bestaande bestanden"
 
 #: tfrmoptionsmisc.btnviewconfigfile.hint
-#| msgid "View log file content"
 msgctxt "TFRMOPTIONSMISC.BTNVIEWCONFIGFILE.HINT"
 msgid "View configuration file content"
 msgstr "Toon inhoud van instellingenbestand"
@@ -8610,7 +8610,6 @@ msgid "Size and number of parts"
 msgstr "Grootte en aantal van onderdelen"
 
 #: tfrmsplitter.lbdirtarget.caption
-#| msgid "Directory &target"
 msgid "Split the file to directory:"
 msgstr "Splits het bestand naar map:"
 
@@ -8779,7 +8778,6 @@ msgid "Synchronize directories"
 msgstr "Synchroniseer mappen"
 
 #: tfrmsyncdirsdlg.cbextfilter.text
-#| msgid "*.*"
 msgctxt "TFRMSYNCDIRSDLG.CBEXTFILTER.TEXT"
 msgid "*"
 msgstr "*"
