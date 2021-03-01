@@ -2988,8 +2988,18 @@ begin
 end;
 
 procedure TfrmViewer.cm_Find(const Params: array of string);
+var
+  bSearchBackwards: Boolean;
 begin
-  if not miGraphics.Checked then DoSearch(False, False);
+  if not miGraphics.Checked then
+  begin
+    if (FFindDialog = nil) then
+      bSearchBackwards:= False
+    else begin
+      bSearchBackwards:= FFindDialog.cbBackwards.Checked;
+    end;
+    DoSearch(False, bSearchBackwards);
+  end;
 end;
 
 procedure TfrmViewer.cm_FindNext(const Params: array of string);
