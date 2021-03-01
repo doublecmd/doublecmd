@@ -29,8 +29,11 @@ type
     btnFind: TBitBtn;
     btnClose: TBitBtn;
     cbCaseSens: TCheckBox;
+    cbBackwards: TCheckBox;
     chkHex: TCheckBox;
     cbRegExp: TCheckBox;
+    procedure cbBackwardsChange(Sender: TObject);
+    procedure cbRegExpChange(Sender: TObject);
     procedure chkHexChange(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure btnFindClick(Sender: TObject);
@@ -72,6 +75,16 @@ begin
   cbCaseSens.Enabled:= not chkHex.Checked;
 end;
 
+procedure TfrmFindView.cbBackwardsChange(Sender: TObject);
+begin
+  if cbBackwards.Checked then cbRegExp.Checked:= False
+end;
+
+procedure TfrmFindView.cbRegExpChange(Sender: TObject);
+begin
+  if cbRegExp.Checked then cbBackwards.Checked:= False;
+end;
+
 procedure TfrmFindView.btnFindClick(Sender: TObject);
 begin
   InsertFirstItem(cbDataToFind.Text, cbDataToFind, GetTextSearchOptions);
@@ -81,7 +94,6 @@ end;
 procedure TfrmFindView.cbDataToFindKeyUp(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
-  inherited;
   if (Key = VK_Down) and (cbDataToFind.Items.Count > 0) then
     cbDataToFind.DroppedDown:= True;
   if Key = 13 then

@@ -3,5 +3,7 @@
 {"hash":2805828,"name":"tfrmfindview.btnfind.caption","sourcebytes":[38,70,105,110,100],"value":"&Find"},
 {"hash":177752476,"name":"tfrmfindview.btnclose.caption","sourcebytes":[38,67,97,110,99,101,108],"value":"&Cancel"},
 {"hash":219655237,"name":"tfrmfindview.cbcasesens.caption","sourcebytes":[67,38,97,115,101,32,115,101,110,115,105,116,105,118,101],"value":"C&ase sensitive"},
-{"hash":183979276,"name":"tfrmfindview.chkhex.caption","sourcebytes":[72,101,120,97,100,101,99,105,109,97,108],"value":"Hexadecimal"}
+{"hash":183979276,"name":"tfrmfindview.chkhex.caption","sourcebytes":[72,101,120,97,100,101,99,105,109,97,108],"value":"Hexadecimal"},
+{"hash":8115171,"name":"tfrmfindview.cbregexp.caption","sourcebytes":[38,82,101,103,117,108,97,114,32,101,120,112,114,101,115,115,105,111,110,115],"value":"&Regular expressions"},
+{"hash":170860739,"name":"tfrmfindview.cbbackwards.caption","sourcebytes":[38,66,97,99,107,119,97,114,100,115],"value":"&Backwards"}
 ]}
