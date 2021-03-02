@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Double Commander 1.0.0 alpha r9692\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-01-17 23:08+0300\n"
-"PO-Revision-Date: 2021-02-28 19:10+0100\n"
+"PO-Revision-Date: 2021-03-02 11:38+0100\n"
 "Last-Translator: kroy <kroysoft@citromail.hu>\n"
 "Language-Team: unDoRito -- HTC-iP <dr.dabzse@gmail.com>\n"
 "Language: hu\n"
@@ -341,7 +341,7 @@ msgstr "Ellenőrző összeg vizsgálata..."
 #: tfrmconnectionmanager.btnadd.caption
 msgctxt "TFRMCONNECTIONMANAGER.BTNADD.CAPTION"
 msgid "A&dd"
-msgstr "Hozzáadás"
+msgstr "&Hozzáadás"
 
 #: tfrmconnectionmanager.btncancel.caption
 msgctxt "TFRMCONNECTIONMANAGER.BTNCANCEL.CAPTION"
@@ -1798,7 +1798,7 @@ msgstr "Keresés"
 
 #: tfrmfindview.cbbackwards.caption
 msgid "&Backwards"
-msgstr ""
+msgstr "&Visszafelé"
 
 #: tfrmfindview.cbcasesens.caption
 msgid "C&ase sensitive"
@@ -3739,7 +3739,7 @@ msgstr "Beállítások"
 
 #: tfrmoptions.lblemptyeditor.caption
 msgid "Please select one of the subpages, this page does not contain any settings."
-msgstr "Kérem, válasszon egyet az aloldalak közül, ez az oldal nem tartalmaz beállításokat"
+msgstr "Kérlek, válassz egyet az alábbi oldalak közül, ez az oldal nem tartalmaz beállításokat."
 
 #: tfrmoptionsarchivers.btnarchiveradd.caption
 msgctxt "tfrmoptionsarchivers.btnarchiveradd.caption"
@@ -5122,7 +5122,7 @@ msgstr "Jobb margó:"
 
 #: tfrmoptionseditor.chkscrollpastendline.caption
 msgid "Caret past end of line"
-msgstr "Sorvége utáni görgetés"
+msgstr "Sorvége mögé pozícionálás"
 
 #: tfrmoptionseditor.chkscrollpastendline.hint
 msgid "Allows caret to go into empty space beyond end-of-line position"
@@ -5842,11 +5842,11 @@ msgstr "Megerősítő ablak megjelenítése:"
 
 #: tfrmoptionsfileoperations.cbcopyconfirmation.caption
 msgid "Cop&y operation"
-msgstr "Művelet &másolása"
+msgstr "&Másolás művelet"
 
 #: tfrmoptionsfileoperations.cbdeleteconfirmation.caption
 msgid "&Delete operation"
-msgstr "Művelet &törlése"
+msgstr "&Törlés művelet"
 
 #: tfrmoptionsfileoperations.cbdeletetotrash.caption
 msgctxt "TFRMOPTIONSFILEOPERATIONS.CBDELETETOTRASH.CAPTION"
@@ -5855,7 +5855,7 @@ msgstr "&F8/Del gomb a Kukába helyez (Shifttel együtt töröl)"
 
 #: tfrmoptionsfileoperations.cbdeletetotrashconfirmation.caption
 msgid "D&elete to trash operation"
-msgstr "&Törlés a kukába művelet"
+msgstr "Törlés a &kukába művelet"
 
 #: tfrmoptionsfileoperations.cbdropreadonlyflag.caption
 msgctxt "TFRMOPTIONSFILEOPERATIONS.CBDROPREADONLYFLAG.CAPTION"
@@ -5864,7 +5864,7 @@ msgstr "Írásvédelmi attribútum elhagyása"
 
 #: tfrmoptionsfileoperations.cbmoveconfirmation.caption
 msgid "&Move operation"
-msgstr "&Mozgatás művelet"
+msgstr "Mo&zgatás művelet"
 
 #: tfrmoptionsfileoperations.cbprocesscomments.caption
 msgctxt "TFRMOPTIONSFILEOPERATIONS.CBPROCESSCOMMENTS.CAPTION"
@@ -6955,7 +6955,7 @@ msgstr "Előre beállított érték indításkor"
 #: tfrmoptionspluginsbase.btnaddplugin.caption
 msgctxt "tfrmoptionspluginsbase.btnaddplugin.caption"
 msgid "A&dd"
-msgstr "Hozzáadás"
+msgstr "&Hozzáadás"
 
 #: tfrmoptionspluginsbase.btnconfigplugin.caption
 msgctxt "tfrmoptionspluginsbase.btnconfigplugin.caption"
@@ -11698,7 +11698,7 @@ msgstr "A jelszavak különböznek!"
 
 #: ulng.rsmsgpasswordenter
 msgid "Please enter the password:"
-msgstr "Kérem, írja be a jelszavat:"
+msgstr "Kérlek, add meg a jelszót:"
 
 #: ulng.rsmsgpasswordfirewall
 msgid "Password (Firewall):"
@@ -11706,7 +11706,7 @@ msgstr "Jelszó (Tűzfal):"
 
 #: ulng.rsmsgpasswordverify
 msgid "Please re-enter the password for verification:"
-msgstr "Kérem, írja be újból a jelszavat az ellenőrzéshez:"
+msgstr "Kérlek, add meg a jelszót ismét, ellenőrzés céljából:"
 
 #: ulng.rsmsgpopuphotdelete
 msgid "&Delete %s"
@@ -11758,7 +11758,7 @@ msgstr "Szeretnéd lecserélni ezt a szöveget?"
 
 #: ulng.rsmsgrestartforapplychanges
 msgid "Please, restart Double Commander in order to apply changes"
-msgstr "Kérem indítsa újra a Double Commander-t, hogy érvényesítse a változásokat"
+msgstr "Kérlek, indítsd újra a Double Commander-t, hogy érvényesíthessük a változásokat"
 
 #: ulng.rsmsgscriptcantfindlibrary
 msgid "ERROR: Problem loading Lua library file \"%s\""
@@ -11778,7 +11778,7 @@ msgstr "Válassz futtatható állományt ehhez"
 
 #: ulng.rsmsgselectonlychecksumfiles
 msgid "Please select only checksum files!"
-msgstr "Kérem, csak ellenőrzőösszeg-fájlokat jelöljön ki!"
+msgstr "Kérlek, csak ellenőrzőösszeg-fájlokat jelölj ki!"
 
 #: ulng.rsmsgsellocnextvol
 msgid "Please select location of next volume"
@@ -11999,7 +11999,7 @@ msgstr "Kötet címke:"
 
 #: ulng.rsmsgvolumesizeenter
 msgid "Please enter the volume size:"
-msgstr "Kérem, írja be a kötet méretét:"
+msgstr "Kérlek add meg a kötet méretét:"
 
 #: ulng.rsmsgwanttoconfigurelibrarylocation
 msgid "Do you want to configure Lua library location?"
@@ -12215,9 +12215,8 @@ msgid "Save preset as"
 msgstr "Beállítás mentése más néven"
 
 #: ulng.rsmulrenpromptnewnameexists
-#, fuzzy,badformat
 msgid "Preset name already exists. Overwrite?"
-msgstr "Ez a beállítás már létezik: \"%s\". Felülírod?"
+msgstr "Ez a beállítás már létezik. Felülírod?"
 
 #: ulng.rsmulrenpromptnewpresetname
 msgid "Enter new preset name"
@@ -12705,7 +12704,7 @@ msgstr "lebegőpontos"
 
 #: ulng.rsopthotkeysadddeleteshortcutlong
 msgid "Shortcut %s for cm_Delete will be registered, so it can be used to reverse this setting."
-msgstr "A gyorsbillentyű \"%s\" a cm_Delete-tel lesz bejegyezve, így azt fel lehet használni, hogy megfordítsuk ezt a beállítást."
+msgstr "A cm_Delete %s gyorsbillentyűje hozzárendelésre kerül, így felhasználható e beállítás megfordítására."
 
 #: ulng.rsopthotkeysaddhotkey
 msgid "Add hotkey for %s"
@@ -12731,12 +12730,12 @@ msgstr "Parancs"
 #: ulng.rsopthotkeysdeletetrashcanoverrides
 msgctxt "ulng.rsopthotkeysdeletetrashcanoverrides"
 msgid "Shortcut %s for cm_Delete has a parameter that overrides this setting. Do you want to change this parameter to use the global setting?"
-msgstr "A cm_Delete gyorsbillentyűje \"%s\" rendelkezik paraméterrel amely felülírja ezt a beállítást. Szeretné megváltoztatni ezt a paramétert és használni a globális beállítást?"
+msgstr "A cm_Delete %s gyorsbillentyűje olyan paraméterrel rendelkezik, amely felülírja ezt a beállítást. Szeretnéd megváltoztatni ezt a paramétert és a globális beállítást használni helyette?"
 
 #: ulng.rsopthotkeysdeletetrashcanparameterexists
 msgctxt "ulng.rsopthotkeysdeletetrashcanparameterexists"
 msgid "Shortcut %s for cm_Delete needs to have a parameter changed to match shortcut %s. Do you want to change it?"
-msgstr "A gyorsbillentyű \"%s\" a cm_Delete-hez paraméterváltozást igényel, hogy egyezzen \"%s\" gyorsbillentyűvel. Szeretné megváltoztatni?"
+msgstr "A cm_Delete %s gyorsbillentyűje a paramétere megváltoztatását igényli, hogy megfeleljen a(z) \"%s\" gyorsbillentyű működésének. Megváltoztatod?"
 
 #: ulng.rsopthotkeysdescription
 msgctxt "ulng.rsopthotkeysdescription"
@@ -12749,7 +12748,7 @@ msgstr "Gyorsbillentyű szerkesztése ehhez: %s"
 
 #: ulng.rsopthotkeysfixparameter
 msgid "Fix parameter"
-msgstr "Állandó paraméter"
+msgstr "Paraméter javítás"
 
 #: ulng.rsopthotkeyshotkey
 msgctxt "ulng.rsopthotkeyshotkey"
@@ -12772,7 +12771,7 @@ msgstr "Paraméterek"
 
 #: ulng.rsopthotkeyssetdeleteshortcut
 msgid "Set shortcut to delete file"
-msgstr "Gyorsbillentyű beállítása törlésre"
+msgstr "Gyorsbillentyű beállítása fájl törlésre"
 
 #: ulng.rsopthotkeysshortcutfordeletealreadyassigned
 msgid "For this setting to work with shortcut %s, shortcut %s must be assigned to cm_Delete but it is already assigned to %s. Do you want to change it?"
@@ -12780,7 +12779,7 @@ msgstr "Ahhoz, hogy a(z)\"%s\" gyorsbillentyű működjön, a(z) \"%s\" gyorsbil
 
 #: ulng.rsopthotkeysshortcutfordeleteissequence
 msgid "Shortcut %s for cm_Delete is a sequence shortcut for which a hotkey with reversed Shift cannot be assigned. This setting might not work."
-msgstr "A gyorsbillentyű \"%s\" a cm_Delete-hez egy olyan szekvencia gyorsbillentyű amely a fordított Shift forrógombbal nem használható. Ez a beállítás valószínűleg nem fog működni."
+msgstr "A cm_Delete %s gyorsbillentyűje egy olyan szekvenciaparancs, amelyhez nem lehet hozzárendelni fordított Shift-tel működő gyorsbillentyűt. Ez a beállítás valószínűleg nem fog működni."
 
 #: ulng.rsopthotkeysshortcutused
 msgid "Shortcut in use"
@@ -13048,7 +13047,7 @@ msgstr "A beépülő (%s) már hozzá van rendelve a következő kiterjesztés(e
 
 #: ulng.rsoptplugindisable
 msgid "D&isable"
-msgstr "Letiltás"
+msgstr "&Letiltás"
 
 #: ulng.rsoptpluginenable
 msgctxt "ulng.rsoptpluginenable"
@@ -13638,7 +13637,7 @@ msgstr "Nézőke"
 
 #: ulng.rsunhandledexceptionmessage
 msgid "Please report this error to the bug tracker with a description of what you were doing and the following file:%sPress %s to continue or %s to abort the program."
-msgstr "Kérjük, jelezze a hibát a 'bug tracker'-en egy leírással, hogy mit csinált, és a következő fájlt: %s. Nyomja meg \"%s\" gombot a folytatáshoz, vagy \"%s\" gombot a programból való kilépéshez."
+msgstr "Kérlek, jelezd a hibát a 'bug tracker'-en egy leírással arra vonatkozóan, hogy mit csináltál éppen és csatold a következő fájlt: %s. Nyomd meg a (z) \"%s\" gombot a folytatáshoz, vagy a(z) \"%s\" gombot a programból való kilépéshez."
 
 #: ulng.rsvarbothpanelactivetoinactive
 msgid "Both panels, from active to inactive"
