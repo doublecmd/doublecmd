@@ -90,52 +90,53 @@ uses
   
 function TParserControl.calculate(aFile: TFile; operand1,operand2,Aoperator:Tmathchar):string;
 var
+  ASize: Int64;
   tmp, data1: String;
 begin
- result:='false';
- data1:= UpperCase(operand1.data);
+  Result:= 'false';
+  data1:= UpperCase(operand1.data);
 
- //Not
- if (operand1.data='NOT') and ((operand2.data='true') or (operand2.data='false')) then
+  //Not
+  if (operand1.data = 'NOT') and ((operand2.data = 'true') or (operand2.data = 'false')) then
   begin
-    Result:=BooleanToStr(Not StrToBoolean(operand2.data));
+    Result:= BooleanToStr(not StrToBoolean(operand2.data));
   end;
 
   // & |
-  if ((operand1.data='true') or (operand1.data='false')) and
-     ((operand2.data='true') or (operand2.data='false')) then
-    begin
-      case Aoperator.op of
-        moand: result:= BooleanToStr((StrToBoolean(operand1.data)) and (StrToBoolean(operand2.data)));
-        moor: result:=BooleanToStr((StrToBoolean(operand1.data)) or (StrToBoolean(operand2.data)));
-      end;
+  if ((operand1.data = 'true') or (operand1.data = 'false')) and
+     ((operand2.data = 'true') or (operand2.data = 'false')) then
+  begin
+    case Aoperator.op of
+      moand: Result:= BooleanToStr((StrToBoolean(operand1.data)) and (StrToBoolean(operand2.data)));
+      moor: Result:= BooleanToStr((StrToBoolean(operand1.data)) or (StrToBoolean(operand2.data)));
     end;
+  end;
 
    //EXT= EXT!=
    if (data1 = 'EXT') then
-     begin
-       //---------------------
-       tmp:= aFile.Extension;
-       tmp:= UpperCase(tmp);
-       tmp:= '"'+tmp+'"';
-       //---------------------
-       case Aoperator.op of
-        moequ: Result:=BooleanToStr(MatchesMask(tmp,operand2.data));
-        moneq: Result:=BooleanToStr(not MatchesMask(tmp,operand2.data));
-       end;
+   begin
+     tmp:= aFile.Extension;
+     tmp:= UpperCase(tmp);
+     tmp:= '"' + tmp + '"';
+     case Aoperator.op of
+      moequ: Result:= BooleanToStr(MatchesMask(tmp, operand2.data));
+      moneq: Result:= BooleanToStr(not MatchesMask(tmp, operand2.data));
      end;
+   end;
 
    //SIZE > < = !=
    if (data1 = 'SIZE') and (fpSize in aFile.SupportedProperties) then
+   begin
+     if TryStrToInt64(operand2.data, ASize) then
      begin
-       tmp:= IntToStr(aFile.Size);
-        case Aoperator.op of
-           moequ: Result:= BooleanToStr(strtoint(tmp)=strtoint(operand2.data));
-           moneq: Result:= BooleanToStr(strtoint(tmp)<>strtoint(operand2.data));
-           moles: Result:= BooleanToStr(strtoint(tmp)<strtoint(operand2.data));
-           momor: Result:= BooleanToStr(strtoint(tmp)>strtoint(operand2.data));
-        end;
+       case Aoperator.op of
+         moequ: Result:= BooleanToStr(aFile.Size = ASize);
+         moneq: Result:= BooleanToStr(aFile.Size <> ASize);
+         moles: Result:= BooleanToStr(aFile.Size < ASize);
+         momor: Result:= BooleanToStr(aFile.Size > ASize);
+       end;
      end;
+   end;
 end;
 
 function TParserControl.TestFileResult(const aFile: TFile):boolean;
