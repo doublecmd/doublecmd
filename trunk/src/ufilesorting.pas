@@ -709,6 +709,12 @@ begin
                                   File2.TypeProperty.Value);
           if bNegative then Result := -Result;
         end;
+      fsfComment:
+        begin
+          Result := mbCompareText(File1.CommentProperty.Value,
+                                  File2.CommentProperty.Value);
+          if bNegative then Result := -Result;
+        end;
       // Variant properties from plugins
       else if FileSorting.SortFunctions[i] in fsfVariantAll then
       begin
