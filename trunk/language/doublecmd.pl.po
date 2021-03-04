@@ -9865,7 +9865,7 @@ msgstr "&Dołącz"
 
 #: ulng.rsdlgbuttoncopyintoall
 msgid "Mer&ge All"
-msgstr "Dołącz &wszystkie"
+msgstr "Dołą&cz wszystkie"
 
 #: ulng.rsdlgbuttonexitprogram
 msgid "E&xit program"
@@ -9894,7 +9894,7 @@ msgstr "&OK"
 
 #: ulng.rsdlgbuttonother
 msgid "Ot&her"
-msgstr "&Więcej opcji>>"
+msgstr "Więcej &opcji>>"
 
 #: ulng.rsdlgbuttonoverwrite
 msgid "&Overwrite"
@@ -9927,11 +9927,11 @@ msgstr "&Wznów"
 
 #: ulng.rsdlgbuttonretry
 msgid "Re&try"
-msgstr "&Ponów"
+msgstr "Po&nów"
 
 #: ulng.rsdlgbuttonretryadmin
 msgid "As Ad&ministrator"
-msgstr "Jako Ad&ministrator"
+msgstr "Jako &Administrator"
 
 #: ulng.rsdlgbuttonskip
 msgid "&Skip"
@@ -9939,7 +9939,7 @@ msgstr "&Pomiń"
 
 #: ulng.rsdlgbuttonskipall
 msgid "S&kip All"
-msgstr "P&omiń wszystkie"
+msgstr "Po&miń wszystkie"
 
 #: ulng.rsdlgbuttonunlock
 msgid "&Unlock"
@@ -11543,9 +11543,8 @@ msgid "Use Windows special folder (TC)..."
 msgstr "Użyj specjalnego folderu Windows (TC)..."
 
 #: ulng.rsmsgtabforopeninginnewtab
-#, fuzzy,badformat
 msgid "This tab (%s) is locked! Open directory in another tab?"
-msgstr "Ta zakładka (5s) jest zablokowana! Otworzyć katalog w innej zakładce?"
+msgstr "Ta zakładka (%s) jest zablokowana! Otworzyć katalog w innej zakładce?"
 
 #: ulng.rsmsgtabrenamecaption
 msgid "Rename tab"
