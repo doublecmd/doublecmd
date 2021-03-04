@@ -267,7 +267,7 @@ implementation
 
 uses
   LCLType, LazFileUtils, LConvEncoding, SynEditTypes, uHash, uLng, uGlobs,
-  uShowMsg, DCClassesUtf8, dmCommonData, DCOSUtils, uConvEncoding, uAdministrator;
+  uShowMsg, DCClassesUtf8, dmCommonData, uDCUtils, uConvEncoding, uAdministrator;
 
 const
   HotkeysCategory = 'Differ';
@@ -1224,9 +1224,14 @@ begin
       with SynDiffEdit do
       begin
         if (Encoding = EncodingUTF16LE) or (Encoding = EncodingUTF16BE) then
+        begin
           AText:= Copy(AText, 3, MaxInt); // Skip BOM
+        end;
+        AText:= ConvertEncoding(AText, Encoding, EncodingUTF8);
       end;
-      SynDiffEdit.Lines.Text:= ConvertEncoding(AText, SynDiffEdit.Encoding, EncodingUTF8)
+      SynDiffEdit.Lines.Text:= AText;
+      // Determine line break style
+      SynDiffEdit.Lines.TextLineBreakStyle := GuessLineBreakStyle(AText);
     finally
       FreeAndNil(fsFileStream);
     end;
