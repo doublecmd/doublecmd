@@ -1427,7 +1427,7 @@ begin
     begin
       // extension file
       if not mbFileExists(gpCfgDir + gcfExtensionAssociation) then
-        CopyFile(gpGlobalCfgDir + 'extassoc.xml', gpCfgDir + 'ExtAssoc.xml');
+        CopyFile(gpGlobalCfgDir + gcfExtensionAssociation, gpCfgDir + gcfExtensionAssociation);
       // pixmaps file
       if not mbFileExists(gpCfgDir + 'pixmaps.txt') then
         CopyFile(gpGlobalCfgDir + 'pixmaps.txt', gpCfgDir + 'pixmaps.txt');
