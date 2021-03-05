@@ -114,6 +114,7 @@ resourcestring
   rsFilterArchiverConfigFiles = 'Archiver config files';
   rsFilterPluginFiles = 'Plugin files';
   rsFilterLibraries = 'Library files';
+  rsFilterProgramsLibraries = 'Programs and Libraries';
 
   // Archiver section.
   rsMsgArchiverCustomParams = 'Additional parameters for archiver command-line:';
