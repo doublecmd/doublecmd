@@ -84,6 +84,7 @@ uses
 { TfrmOptionsPluginsGroup.Init }
 procedure TfrmOptionsPluginsGroup.Init;
 begin
+  fneLuaLibraryFilename.DialogTitle := rsOptPluginsSelectLuaLibrary;
   ParseLineToList(rsPluginFilenameStyleList, cbPluginFilenameStyle.Items);
   {$IF DEFINED(MSWINDOWS)}
   fneLuaLibraryFilename.Filter := ParseLineToFileFilter([rsFilterLibraries, '*.dll', rsFilterAnyFiles, '*.*']);
