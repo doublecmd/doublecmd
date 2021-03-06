@@ -1091,6 +1091,10 @@ msgctxt "TFRMEDITSEARCHREPLACE.RGSEARCHDIRECTION.CAPTION"
 msgid "Direction"
 msgstr "方向"
 
+#: tfrmelevation.chkelevateall.caption
+msgid "Do this for &all current objects"
+msgstr ""
+
 #: tfrmextractdlg.caption
 msgctxt "TFRMEXTRACTDLG.CAPTION"
 msgid "Unpack files"
@@ -1804,6 +1808,12 @@ msgstr ""
 #: tfrmfindview.cbcasesens.caption
 msgid "C&ase sensitive"
 msgstr "大文字と小文字を区別(&a)"
+
+#: tfrmfindview.cbregexp.caption
+#, fuzzy
+msgctxt "tfrmfindview.cbregexp.caption"
+msgid "&Regular expressions"
+msgstr "正規表現(&R)"
 
 #: tfrmfindview.chkhex.caption
 msgctxt "tfrmfindview.chkhex.caption"
@@ -9799,6 +9809,10 @@ msgstr "a;a;a;a;a;a;c;e;e;e;e;i;i;i;i;n;o;o;o;o;o;o;u;u;u;u;y;A;A;A;A;A;A;C;E;E;
 msgid "You need to provide administrator permission"
 msgstr "管理者権限を与える必要があります"
 
+#: uadministrator.rselevationrequiredcopy
+msgid "to copy this object:"
+msgstr ""
+
 #: uadministrator.rselevationrequiredcreate
 msgid "to create this object:"
 msgstr "このオブジェクトを作成する:"
@@ -10399,6 +10413,10 @@ msgstr "ライブラリ ファイル"
 #: ulng.rsfilterpluginfiles
 msgid "Plugin files"
 msgstr "プラグインファイル"
+
+#: ulng.rsfilterprogramslibraries
+msgid "Programs and Libraries"
+msgstr ""
 
 #: ulng.rsfilterstatus
 msgid "FILTER"
@@ -13060,6 +13078,10 @@ msgstr "WCXプラグインのソートは,プラグインを拡張子で表示�
 msgctxt "ulng.rsoptpluginsregisteredfor"
 msgid "Registered for"
 msgstr "登録済み"
+
+#: ulng.rsoptpluginsselectlualibrary
+msgid "Select Lua library file"
+msgstr ""
 
 #: ulng.rsoptrenamingtooltipfiletype
 msgid "Renaming tooltip file type"

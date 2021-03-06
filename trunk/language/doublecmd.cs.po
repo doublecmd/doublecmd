@@ -1042,6 +1042,7 @@ msgid "S&earch from caret"
 msgstr "H&ledat od ukazatele"
 
 #: tfrmeditsearchreplace.cbsearchregexp.caption
+msgctxt "tfrmeditsearchreplace.cbsearchregexp.caption"
 msgid "&Regular expressions"
 msgstr "&Regulární výrazy"
 
@@ -1068,6 +1069,10 @@ msgstr "&Vyhledat:"
 #: tfrmeditsearchreplace.rgsearchdirection.caption
 msgid "Direction"
 msgstr "Směr"
+
+#: tfrmelevation.chkelevateall.caption
+msgid "Do this for &all current objects"
+msgstr ""
 
 #: tfrmextractdlg.caption
 msgid "Unpack files"
@@ -1772,6 +1777,12 @@ msgstr ""
 #: tfrmfindview.cbcasesens.caption
 msgid "C&ase sensitive"
 msgstr "Rozlišovat velikost"
+
+#: tfrmfindview.cbregexp.caption
+#, fuzzy
+msgctxt "tfrmfindview.cbregexp.caption"
+msgid "&Regular expressions"
+msgstr "&Regulární výrazy"
 
 #: tfrmfindview.chkhex.caption
 msgctxt "tfrmfindview.chkhex.caption"
@@ -9589,6 +9600,10 @@ msgstr "a;a;a;a;a;a;c;e;e;e;e;i;i;i;i;n;o;o;o;o;o;o;u;u;u;u;y;A;A;A;A;A;A;C;E;E;
 msgid "You need to provide administrator permission"
 msgstr "Pro provedení potřebujete administrátorské oprávnění"
 
+#: uadministrator.rselevationrequiredcopy
+msgid "to copy this object:"
+msgstr ""
+
 #: uadministrator.rselevationrequiredcreate
 msgid "to create this object:"
 msgstr "vytvoření objektu:"
@@ -10174,6 +10189,10 @@ msgstr "Knihovna souborů"
 #: ulng.rsfilterpluginfiles
 msgid "Plugin files"
 msgstr "Soubory doplňků"
+
+#: ulng.rsfilterprogramslibraries
+msgid "Programs and Libraries"
+msgstr ""
 
 #: ulng.rsfilterstatus
 msgid "FILTER"
@@ -12795,6 +12814,10 @@ msgstr "Seřazení WCX doplňků je možné pouze při seřazení podle přípon
 msgctxt "ulng.rsoptpluginsregisteredfor"
 msgid "Registered for"
 msgstr "Registrováno pro"
+
+#: ulng.rsoptpluginsselectlualibrary
+msgid "Select Lua library file"
+msgstr ""
 
 #: ulng.rsoptrenamingtooltipfiletype
 msgid "Renaming tooltip file type"

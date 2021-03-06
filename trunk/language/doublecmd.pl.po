@@ -1036,6 +1036,7 @@ msgid "S&earch from caret"
 msgstr "&Szukaj od kursora"
 
 #: tfrmeditsearchreplace.cbsearchregexp.caption
+msgctxt "tfrmeditsearchreplace.cbsearchregexp.caption"
 msgid "&Regular expressions"
 msgstr "Wyrażenia &regularne"
 
@@ -1062,6 +1063,10 @@ msgstr "&Wyszukaj:"
 #: tfrmeditsearchreplace.rgsearchdirection.caption
 msgid "Direction"
 msgstr "Kierunek"
+
+#: tfrmelevation.chkelevateall.caption
+msgid "Do this for &all current objects"
+msgstr ""
 
 #: tfrmextractdlg.caption
 msgid "Unpack files"
@@ -1763,6 +1768,12 @@ msgstr ""
 #: tfrmfindview.cbcasesens.caption
 msgid "C&ase sensitive"
 msgstr "&Uwzględniaj wielkość liter"
+
+#: tfrmfindview.cbregexp.caption
+#, fuzzy
+msgctxt "tfrmfindview.cbregexp.caption"
+msgid "&Regular expressions"
+msgstr "Wyrażenia &regularne"
 
 #: tfrmfindview.chkhex.caption
 msgid "Hexadecimal"
@@ -9542,6 +9553,10 @@ msgstr "a;a;a;a;a;a;c;e;e;e;e;i;i;i;i;n;o;o;o;o;o;o;u;u;u;u;y;A;A;A;A;A;A;C;E;E;
 msgid "You need to provide administrator permission"
 msgstr "Musisz podać uprawnienia administratora,"
 
+#: uadministrator.rselevationrequiredcopy
+msgid "to copy this object:"
+msgstr ""
+
 #: uadministrator.rselevationrequiredcreate
 msgid "to create this object:"
 msgstr "aby utworzyć ten obiekt:"
@@ -10127,6 +10142,10 @@ msgstr "Pliki bibliotek"
 #: ulng.rsfilterpluginfiles
 msgid "Plugin files"
 msgstr "Pliki wtyczek"
+
+#: ulng.rsfilterprogramslibraries
+msgid "Programs and Libraries"
+msgstr ""
 
 #: ulng.rsfilterstatus
 msgid "FILTER"
@@ -12747,6 +12766,10 @@ msgstr "Sortowanie wtyczek WCX jest możliwe tylko przy wyświetlaniu wtyczek wg
 msgctxt "ulng.rsoptpluginsregisteredfor"
 msgid "Registered for"
 msgstr "Zarejestrowany dla"
+
+#: ulng.rsoptpluginsselectlualibrary
+msgid "Select Lua library file"
+msgstr ""
 
 #: ulng.rsoptrenamingtooltipfiletype
 msgid "Renaming tooltip file type"

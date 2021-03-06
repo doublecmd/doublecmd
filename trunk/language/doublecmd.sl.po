@@ -1052,6 +1052,7 @@ msgid "S&earch from caret"
 msgstr "Išči od &kazalke naprej"
 
 #: tfrmeditsearchreplace.cbsearchregexp.caption
+msgctxt "tfrmeditsearchreplace.cbsearchregexp.caption"
 msgid "&Regular expressions"
 msgstr "&Logični izraz"
 
@@ -1078,6 +1079,10 @@ msgstr "&Poišči:"
 #: tfrmeditsearchreplace.rgsearchdirection.caption
 msgid "Direction"
 msgstr "Smer"
+
+#: tfrmelevation.chkelevateall.caption
+msgid "Do this for &all current objects"
+msgstr ""
 
 #: tfrmextractdlg.caption
 msgid "Unpack files"
@@ -1787,6 +1792,12 @@ msgstr ""
 #: tfrmfindview.cbcasesens.caption
 msgid "C&ase sensitive"
 msgstr "&Razlikovanje velikosti črk"
+
+#: tfrmfindview.cbregexp.caption
+#, fuzzy
+msgctxt "tfrmfindview.cbregexp.caption"
+msgid "&Regular expressions"
+msgstr "&Logični izraz"
 
 #: tfrmfindview.chkhex.caption
 msgctxt "tfrmfindview.chkhex.caption"
@@ -9682,6 +9693,10 @@ msgstr "a;a;a;a;a;a;c;e;e;e;e;i;i;i;i;n;o;o;o;o;o;o;u;u;u;u;y;A;A;A;A;A;A;C;E;E;
 msgid "You need to provide administrator permission"
 msgstr ""
 
+#: uadministrator.rselevationrequiredcopy
+msgid "to copy this object:"
+msgstr ""
+
 #: uadministrator.rselevationrequiredcreate
 msgid "to create this object:"
 msgstr ""
@@ -10266,6 +10281,10 @@ msgstr ""
 
 #: ulng.rsfilterpluginfiles
 msgid "Plugin files"
+msgstr ""
+
+#: ulng.rsfilterprogramslibraries
+msgid "Programs and Libraries"
 msgstr ""
 
 #: ulng.rsfilterstatus
@@ -12890,6 +12909,10 @@ msgstr ""
 msgctxt "ulng.rsoptpluginsregisteredfor"
 msgid "Registered for"
 msgstr "Vpisano za"
+
+#: ulng.rsoptpluginsselectlualibrary
+msgid "Select Lua library file"
+msgstr ""
 
 #: ulng.rsoptrenamingtooltipfiletype
 msgid "Renaming tooltip file type"

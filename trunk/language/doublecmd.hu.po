@@ -1090,6 +1090,10 @@ msgctxt "TFRMEDITSEARCHREPLACE.RGSEARCHDIRECTION.CAPTION"
 msgid "Direction"
 msgstr "Irány"
 
+#: tfrmelevation.chkelevateall.caption
+msgid "Do this for &all current objects"
+msgstr ""
+
 #: tfrmextractdlg.caption
 msgctxt "TFRMEXTRACTDLG.CAPTION"
 msgid "Unpack files"
@@ -1803,6 +1807,12 @@ msgstr "&Visszafelé"
 #: tfrmfindview.cbcasesens.caption
 msgid "C&ase sensitive"
 msgstr "Be&tűméret számít"
+
+#: tfrmfindview.cbregexp.caption
+#, fuzzy
+msgctxt "tfrmfindview.cbregexp.caption"
+msgid "&Regular expressions"
+msgstr "&Reguláris kifejezések"
 
 #: tfrmfindview.chkhex.caption
 msgctxt "tfrmfindview.chkhex.caption"
@@ -9857,6 +9867,10 @@ msgstr "a;a;a;a;a;a;c;e;e;e;e;i;i;i;i;n;o;o;o;o;o;o;u;u;u;u;y;A;A;A;A;A;A;C;E;E;
 msgid "You need to provide administrator permission"
 msgstr "Adminisztrátori jogosultság szükséges"
 
+#: uadministrator.rselevationrequiredcopy
+msgid "to copy this object:"
+msgstr ""
+
 #: uadministrator.rselevationrequiredcreate
 msgid "to create this object:"
 msgstr "ennek az objektumnak a létrehozásához:"
@@ -10446,6 +10460,10 @@ msgstr "Könyvtár fájlok"
 #: ulng.rsfilterpluginfiles
 msgid "Plugin files"
 msgstr "Beépülő fájlok"
+
+#: ulng.rsfilterprogramslibraries
+msgid "Programs and Libraries"
+msgstr ""
 
 #: ulng.rsfilterstatus
 msgid "FILTER"
@@ -13090,6 +13108,10 @@ msgstr "A WCX beépülők rendezése csak a kiterjesztés szerinti megjeleníté
 msgctxt "ulng.rsoptpluginsregisteredfor"
 msgid "Registered for"
 msgstr "Hozzárendelések"
+
+#: ulng.rsoptpluginsselectlualibrary
+msgid "Select Lua library file"
+msgstr ""
 
 #: ulng.rsoptrenamingtooltipfiletype
 msgid "Renaming tooltip file type"

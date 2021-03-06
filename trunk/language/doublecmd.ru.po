@@ -1089,6 +1089,10 @@ msgctxt "TFRMEDITSEARCHREPLACE.RGSEARCHDIRECTION.CAPTION"
 msgid "Direction"
 msgstr "Направление"
 
+#: tfrmelevation.chkelevateall.caption
+msgid "Do this for &all current objects"
+msgstr "Выполнить для &всех текущих объектов"
+
 #: tfrmextractdlg.caption
 msgctxt "TFRMEXTRACTDLG.CAPTION"
 msgid "Unpack files"
@@ -1802,6 +1806,11 @@ msgstr "&Назад"
 #: tfrmfindview.cbcasesens.caption
 msgid "C&ase sensitive"
 msgstr "С учётом &регистра"
+
+#: tfrmfindview.cbregexp.caption
+msgctxt "tfrmfindview.cbregexp.caption"
+msgid "&Regular expressions"
+msgstr "&Регулярные выражения"
 
 #: tfrmfindview.chkhex.caption
 msgctxt "tfrmfindview.chkhex.caption"
@@ -9843,6 +9852,10 @@ msgstr "a;a;a;a;a;a;c;e;e;e;e;i;i;i;i;n;o;o;o;o;o;o;u;u;u;u;y;A;A;A;A;A;A;C;E;E;
 msgid "You need to provide administrator permission"
 msgstr "Нужно обладать правами администратора"
 
+#: uadministrator.rselevationrequiredcopy
+msgid "to copy this object:"
+msgstr "для копирования этого объекта:"
+
 #: uadministrator.rselevationrequiredcreate
 msgid "to create this object:"
 msgstr "для создания этого объекта:"
@@ -10432,6 +10445,10 @@ msgstr "Файлы библиотек"
 #: ulng.rsfilterpluginfiles
 msgid "Plugin files"
 msgstr "Файлы плагинов"
+
+#: ulng.rsfilterprogramslibraries
+msgid "Programs and Libraries"
+msgstr "Программы и библиотеки"
 
 #: ulng.rsfilterstatus
 msgid "FILTER"
@@ -13074,6 +13091,10 @@ msgstr "Сортировка WCX-плагинов возможна только 
 msgctxt "ulng.rsoptpluginsregisteredfor"
 msgid "Registered for"
 msgstr "Ассоциация"
+
+#: ulng.rsoptpluginsselectlualibrary
+msgid "Select Lua library file"
+msgstr "Выберите библиотеку Lua"
 
 #: ulng.rsoptrenamingtooltipfiletype
 msgid "Renaming tooltip file type"
