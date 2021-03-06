@@ -1096,6 +1096,10 @@ msgctxt "TFRMEDITSEARCHREPLACE.RGSEARCHDIRECTION.CAPTION"
 msgid "Direction"
 msgstr "Κατεύθυνση"
 
+#: tfrmelevation.chkelevateall.caption
+msgid "Do this for &all current objects"
+msgstr ""
+
 #: tfrmextractdlg.caption
 msgctxt "TFRMEXTRACTDLG.CAPTION"
 msgid "Unpack files"
@@ -1809,6 +1813,12 @@ msgstr "Ανάποδα"
 #: tfrmfindview.cbcasesens.caption
 msgid "C&ase sensitive"
 msgstr "Με Διάκριση Πεζών-Κεφαλαίων"
+
+#: tfrmfindview.cbregexp.caption
+#, fuzzy
+msgctxt "tfrmfindview.cbregexp.caption"
+msgid "&Regular expressions"
+msgstr "Συνήθεις Φράσεις"
 
 #: tfrmfindview.chkhex.caption
 msgctxt "tfrmfindview.chkhex.caption"
@@ -9817,6 +9827,10 @@ msgstr "a;a;a;a;a;a;c;e;e;e;e;i;i;i;i;n;o;o;o;o;o;o;u;u;u;u;y;A;A;A;A;A;A;C;E;E;
 msgid "You need to provide administrator permission"
 msgstr "Απαιτείται χορήγηση άδειας διαχειριστή"
 
+#: uadministrator.rselevationrequiredcopy
+msgid "to copy this object:"
+msgstr ""
+
 #: uadministrator.rselevationrequiredcreate
 msgid "to create this object:"
 msgstr "για τη δημιουργία αυτού του αντικειμένου:"
@@ -10406,6 +10420,10 @@ msgstr "Αρχεία βιβλιοθηκών"
 #: ulng.rsfilterpluginfiles
 msgid "Plugin files"
 msgstr "Αρχεία προσθέτων"
+
+#: ulng.rsfilterprogramslibraries
+msgid "Programs and Libraries"
+msgstr ""
 
 #: ulng.rsfilterstatus
 msgid "FILTER"
@@ -13049,6 +13067,10 @@ msgstr "Κατάταξη προσθέτων WCX είναι δυνατή μόνο
 msgctxt "ulng.rsoptpluginsregisteredfor"
 msgid "Registered for"
 msgstr "Έχει καταχωρηθεί σε"
+
+#: ulng.rsoptpluginsselectlualibrary
+msgid "Select Lua library file"
+msgstr ""
 
 #: ulng.rsoptrenamingtooltipfiletype
 msgid "Renaming tooltip file type"

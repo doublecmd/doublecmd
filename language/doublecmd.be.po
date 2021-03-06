@@ -1043,6 +1043,7 @@ msgid "S&earch from caret"
 msgstr "Шу&каць ад курсора"
 
 #: tfrmeditsearchreplace.cbsearchregexp.caption
+msgctxt "tfrmeditsearchreplace.cbsearchregexp.caption"
 msgid "&Regular expressions"
 msgstr "&Рэгулярны выраз"
 
@@ -1069,6 +1070,10 @@ msgstr "&Шукаць для:"
 #: tfrmeditsearchreplace.rgsearchdirection.caption
 msgid "Direction"
 msgstr "Напрамак"
+
+#: tfrmelevation.chkelevateall.caption
+msgid "Do this for &all current objects"
+msgstr ""
 
 #: tfrmextractdlg.caption
 msgid "Unpack files"
@@ -1773,6 +1778,12 @@ msgstr ""
 #: tfrmfindview.cbcasesens.caption
 msgid "C&ase sensitive"
 msgstr "&Зважаць на рэгістр"
+
+#: tfrmfindview.cbregexp.caption
+#, fuzzy
+msgctxt "tfrmfindview.cbregexp.caption"
+msgid "&Regular expressions"
+msgstr "&Рэгулярны выраз"
 
 #: tfrmfindview.chkhex.caption
 msgctxt "tfrmfindview.chkhex.caption"
@@ -9592,6 +9603,10 @@ msgstr "a;a;a;a;a;a;c;e;e;e;e;i;i;i;i;n;o;o;o;o;o;o;u;u;u;u;y;A;A;A;A;A;A;C;E;E;
 msgid "You need to provide administrator permission"
 msgstr "Неабходна мець правы адміністратара"
 
+#: uadministrator.rselevationrequiredcopy
+msgid "to copy this object:"
+msgstr ""
+
 #: uadministrator.rselevationrequiredcreate
 msgid "to create this object:"
 msgstr "для стварэння гэтага аб’екта:"
@@ -10177,6 +10192,10 @@ msgstr "Файлы бібліятэк"
 #: ulng.rsfilterpluginfiles
 msgid "Plugin files"
 msgstr "Файлы ўбудоў"
+
+#: ulng.rsfilterprogramslibraries
+msgid "Programs and Libraries"
+msgstr ""
 
 #: ulng.rsfilterstatus
 msgid "FILTER"
@@ -12799,6 +12818,10 @@ msgstr "Сартаваць убудовы WCX магчыма толькі, ка�
 msgctxt "ulng.rsoptpluginsregisteredfor"
 msgid "Registered for"
 msgstr "Зарэгістравана на"
+
+#: ulng.rsoptpluginsselectlualibrary
+msgid "Select Lua library file"
+msgstr ""
 
 #: ulng.rsoptrenamingtooltipfiletype
 msgid "Renaming tooltip file type"
