@@ -290,7 +290,7 @@ end;"/>
         <MinVersion Minor="3" Valid="True"/>
       </Item12>
     </RequiredPackages>
-    <Units Count="265">
+    <Units Count="266">
       <Unit0>
         <Filename Value="doublecmd.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -1927,6 +1927,12 @@ end;"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="fSelectDuplicates"/>
       </Unit264>
+      <Unit265>
+        <Filename Value="rpc\sys\felevation.pas"/>
+        <IsPartOfProject Value="True"/>
+        <HasResources Value="True"/>
+        <UnitName Value="fElevation"/>
+      </Unit265>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
