@@ -72,6 +72,7 @@ resourcestring
   rsElevationRequired = 'You need to provide administrator permission';
   rsElevationRequiredDelete = 'to delete this object:';
   rsElevationRequiredOpen = 'to open this object:';
+  rsElevationRequiredCopy = 'to copy this object:';
   rsElevationRequiredCreate = 'to create this object:';
   rsElevationRequiredRename = 'to rename this object:';
   rsElevationRequiredHardLink = 'to create this hard link:';
@@ -271,7 +272,7 @@ begin
   if (not Result) and ElevationRequired then
   begin
     LastError:= GetLastOSError;
-    if RequestElevation(rsElevationRequiredOpen, Source) then
+    if RequestElevation(rsElevationRequiredCopy, Source) then
       Result:= TWorkerProxy.Instance.FileCopy(Source, Target, Options, UpdateProgress, UserData)
     else
       SetLastOSError(LastError);
