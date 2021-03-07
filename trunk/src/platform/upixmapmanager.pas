@@ -1928,20 +1928,16 @@ begin
       {$ELSEIF DEFINED(UNIX) AND NOT DEFINED(DARWIN)}
       if (IconsMode = sim_all_and_exe) and (DirectAccess) then
       begin
+        if not LoadIcon then Exit(-1);
+
         if mbFileAccess(Path + Name + '/.directory', fmOpenRead) then
         begin
-          if LoadIcon then
-            Result := GetIconByDesktopFile(Path + Name + '/.directory', FiDirIconID)
-          else
-            Result := -1;
+          Result := GetIconByDesktopFile(Path + Name + '/.directory', FiDirIconID);
           Exit;
         end
         else if (FHomeFolder = Path) then
         begin
-          if LoadIcon then
-            Result := CheckAddThemePixmap(GioFileGetIcon(FullPath))
-          else
-            Result := -1;
+          Result := CheckAddThemePixmap(GioFileGetIcon(FullPath));
           Exit;
         end
         else Exit(FiDirIconID);
