@@ -201,7 +201,7 @@ begin
       // If searching for single specific file, just check if it exists and exit.
       if (Pos('?', SearchRec.Name) = 0) and (Pos('*', SearchRec.Name) = 0) then
         begin
-          if FileExists(UTF8ToSys(Path)) and (mbFindMatchingFile(SearchRec) = 0) then
+          if mbFileSystemEntryExists(Path) and (mbFindMatchingFile(SearchRec) = 0) then
             Exit(0)
           else
             Exit(-1);
