@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Double Commander 1.0.0 alpha\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-01-17 23:08+0300\n"
-"PO-Revision-Date: 2021-02-21 21:38+0200\n"
+"PO-Revision-Date: 2021-03-07 20:12+0200\n"
 "Last-Translator: Andrzej Kamiński <endriusk@interia.pl> and Maciej Bojakowski <maciejbojakowski@gmail.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -1763,7 +1763,7 @@ msgstr "Znajdź"
 
 #: tfrmfindview.cbbackwards.caption
 msgid "&Backwards"
-msgstr ""
+msgstr "&Wstecz"
 
 #: tfrmfindview.cbcasesens.caption
 msgid "C&ase sensitive"
@@ -9393,7 +9393,7 @@ msgstr "&Rozpocznij"
 
 #: tfrmviewoperations.btnstop.caption
 msgid "S&top"
-msgstr "Za&trzymaj"
+msgstr "&Zatrzymaj"
 
 #: tfrmviewoperations.caption
 msgctxt "tfrmviewoperations.caption"
@@ -9975,7 +9975,7 @@ msgstr "Przenieś plik(i)"
 
 #: ulng.rsdlgoppause
 msgid "Pau&se"
-msgstr "&Wstrzymaj"
+msgstr "W&strzymaj"
 
 #: ulng.rsdlgopstart
 msgctxt "ulng.rsdlgopstart"
@@ -10849,7 +10849,7 @@ msgstr "Nie można ustawić uprawnień dla \"%s\""
 
 #: ulng.rsmsgerrsetxattribute
 msgid "Can not set extended attributes for \"%s\""
-msgstr ""
+msgstr "Nie można ustawić atrybutów rozszerzonych dla \"%s\""
 
 #: ulng.rsmsgerrsmallbuf
 msgid "Buffer too small"

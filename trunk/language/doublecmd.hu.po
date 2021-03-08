@@ -1,9 +1,9 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: Double Commander 1.0.0 alpha r9692\n"
+"Project-Id-Version: Double Commander 1.0.0 alpha r9716\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-01-17 23:08+0300\n"
-"PO-Revision-Date: 2021-03-02 11:38+0100\n"
+"PO-Revision-Date: 2021-03-08 10:07+0100\n"
 "Last-Translator: kroy <kroysoft@citromail.hu>\n"
 "Language-Team: unDoRito -- HTC-iP <dr.dabzse@gmail.com>\n"
 "Language: hu\n"
@@ -90,7 +90,7 @@ msgstr "E&llenőrzés"
 
 #: tfilesystemcopymoveoperationoptionsui.cmbsetpropertyerror.hint
 msgid "What to do when cannot set file time, attributes, etc."
-msgstr "Mit tegyen, ha nem bírja beállítani a fájl idejét, attribútumait, stb."
+msgstr "Mit tegyen, ha nem bírja beállítani a fájl idejét, attribútumait stb."
 
 #: tfilesystemcopymoveoperationoptionsui.gbfiletemplate.caption
 msgid "Use file template"
@@ -548,7 +548,7 @@ msgstr "Első eltérés"
 
 #: tfrmdiffer.actignorecase.caption
 msgid "Ignore Case"
-msgstr "Karakterkészlet figyelmen kívül hagyása"
+msgstr "Betűméret figyelmen kívül hagyása"
 
 #: tfrmdiffer.actignorewhitespace.caption
 msgid "Ignore Blanks"
@@ -556,7 +556,7 @@ msgstr "Üres helyek figyelmen kívül hagyása"
 
 #: tfrmdiffer.actkeepscrolling.caption
 msgid "Keep Scrolling"
-msgstr "Folyamatos görgetés"
+msgstr "Görgetés egyszerre"
 
 #: tfrmdiffer.actlastdifference.caption
 msgctxt "TFRMDIFFER.ACTLASTDIFFERENCE.CAPTION"
@@ -1092,7 +1092,7 @@ msgstr "Irány"
 
 #: tfrmelevation.chkelevateall.caption
 msgid "Do this for &all current objects"
-msgstr ""
+msgstr "&Minden elem esetén ugyanígy járjunk el"
 
 #: tfrmextractdlg.caption
 msgctxt "TFRMEXTRACTDLG.CAPTION"
@@ -1809,7 +1809,6 @@ msgid "C&ase sensitive"
 msgstr "Be&tűméret számít"
 
 #: tfrmfindview.cbregexp.caption
-#, fuzzy
 msgctxt "tfrmfindview.cbregexp.caption"
 msgid "&Regular expressions"
 msgstr "&Reguláris kifejezések"
@@ -2286,31 +2285,31 @@ msgstr "Fa elrendezésre fókuszálás"
 
 #: tfrmmain.actfocustreeview.hint
 msgid "Switch between current file list and tree view (if enabled)"
-msgstr "Váltás a jelenlegi fájl lista ls a fa elrendezésű nézet közt (ha engedélyezett)"
+msgstr "Váltás a jelenlegi fájl lista és a fa elrendezésű nézet közt (ha engedélyezett)"
 
 #: tfrmmain.actgotofirstentry.caption
 msgid "Place cursor on first folder or file"
-msgstr "Vigye a kurzort az első mappára vagy fájlra"
+msgstr "Vidd a kurzort az első mappára vagy fájlra"
 
 #: tfrmmain.actgotofirstfile.caption
 msgid "Place cursor on first file in list"
-msgstr "Kurzor helyezése az első fájlra"
+msgstr "Vidd a kurzort az első fájlra"
 
 #: tfrmmain.actgotolastentry.caption
 msgid "Place cursor on last folder or file"
-msgstr "Vigye a kurzort az utolsó mappára vagy fájlra"
+msgstr "Vidd a kurzort az utolsó mappára vagy fájlra"
 
 #: tfrmmain.actgotolastfile.caption
 msgid "Place cursor on last file in list"
-msgstr "Kurzor helyezése az utolsó fájlra"
+msgstr "Vidd a kurzort az utolsó fájlra"
 
 #: tfrmmain.actgotonextentry.caption
 msgid "Place cursor on next folder or file"
-msgstr "Vigye a kurzort a következő mappára vagy fájlra"
+msgstr "Vidd a kurzort a következő mappára vagy fájlra"
 
 #: tfrmmain.actgotopreventry.caption
 msgid "Place cursor on previous folder or file"
-msgstr "Kurzor helyezése az első fájlra"
+msgstr "Vidd a kurzort az előző mappára vagy fájlra"
 
 #: tfrmmain.acthardlink.caption
 msgctxt "TFRMMAIN.ACTHARDLINK.CAPTION"
@@ -7053,13 +7052,10 @@ msgstr "Konfiguráció:"
 msgid "Lua library file to use:"
 msgstr "LUA könyvtár helye:"
 
-# this one was put here manually (doesn't work, anyway):
 #: tfrmoptionspluginsgroup.lbpathtoberelativeto.caption
-#, fuzzy
-#| msgid "Select Lua library filePath to be relative to:"
 msgctxt "tfrmoptionspluginsgroup.lbpathtoberelativeto.caption"
 msgid "Path to be relative to:"
-msgstr "Válaszd ki a Lua könyvtár fájltRelatív útvonal ettől:"
+msgstr "Relatív útvonal ettől:"
 
 #: tfrmoptionspluginsgroup.lbpluginfilenamestyle.caption
 msgid "Plugin filename style when adding a new plugin:"
@@ -7143,7 +7139,7 @@ msgstr "Fájl neve"
 #: tfrmoptionspluginswlx.lblplugindescription.caption
 msgctxt "tfrmoptionspluginswlx.lblplugindescription.caption"
 msgid "Vie&wer plugins allow one to display file formats like images, spreadsheets, databases etc. in Viewer (F3, Ctrl+Q)"
-msgstr "A né&zőke beépülők képek, táblázatok, adatbázisok, stb. megtekintését teszik lehetővé a Nézőkében (F3, Ctrl+Q)"
+msgstr "A né&zőke beépülők képek, táblázatok, adatbázisok stb. megtekintését teszik lehetővé a Nézőkében (F3, Ctrl+Q)"
 
 #: tfrmoptionspluginswlx.stgplugins.columns[0].title.caption
 msgctxt "tfrmoptionspluginswlx.stgplugins.columns[0].title.caption"
@@ -9744,11 +9740,11 @@ msgstr "Megjelenítés külön ablakban"
 
 #: tfrmviewoperations.mnuputfirstinqueue.caption
 msgid "Put first in queue"
-msgstr "Tegye az első helyre a sorban"
+msgstr "Tedd az első helyre a sorban"
 
 #: tfrmviewoperations.mnuputlastinqueue.caption
 msgid "Put last in queue"
-msgstr "Tegye az utolsó helyre a sorban"
+msgstr "Tedd az utolsó helyre a sorban"
 
 #: tfrmviewoperations.mnuqueue.caption
 msgctxt "tfrmviewoperations.mnuqueue.caption"
@@ -9869,7 +9865,7 @@ msgstr "Adminisztrátori jogosultság szükséges"
 
 #: uadministrator.rselevationrequiredcopy
 msgid "to copy this object:"
-msgstr ""
+msgstr "ennek az objektumnak a másolásához:"
 
 #: uadministrator.rselevationrequiredcreate
 msgid "to create this object:"
@@ -10463,7 +10459,7 @@ msgstr "Beépülő fájlok"
 
 #: ulng.rsfilterprogramslibraries
 msgid "Programs and Libraries"
-msgstr ""
+msgstr "Programok és dinamikus könyvtárak"
 
 #: ulng.rsfilterstatus
 msgid "FILTER"
@@ -10682,7 +10678,7 @@ msgstr "Párbeszédablak másolása/mozgatása"
 #: ulng.rshotkeycategorydiffer
 msgctxt "ulng.rshotkeycategorydiffer"
 msgid "Differ"
-msgstr "Eltérésnézőke"
+msgstr "Különbségvizsgáló"
 
 #: ulng.rshotkeycategoryeditcommentdialog
 msgid "Edit Comment Dialog"
@@ -13111,7 +13107,7 @@ msgstr "Hozzárendelések"
 
 #: ulng.rsoptpluginsselectlualibrary
 msgid "Select Lua library file"
-msgstr ""
+msgstr "Válaszd ki a Lua könyvtár fájlt"
 
 #: ulng.rsoptrenamingtooltipfiletype
 msgid "Renaming tooltip file type"
