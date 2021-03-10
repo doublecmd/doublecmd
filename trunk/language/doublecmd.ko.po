@@ -11281,6 +11281,10 @@ msgstr "서버에 연결할 수 없습니다: \"%s\""
 msgid "Cannot copy file %s to %s"
 msgstr "%s 에서 %s로 복사할 수 없음"
 
+#: ulng.rsmsgerrcannotmovedirectory
+msgid "Cannot move directory %s"
+msgstr ""
+
 #: ulng.rsmsgerrcannotmovefile
 msgid "Cannot move file %s"
 msgstr ""

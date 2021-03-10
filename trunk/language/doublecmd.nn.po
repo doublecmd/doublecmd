@@ -11312,6 +11312,10 @@ msgstr "Kan ikkje kopla til server: \"%s\""
 msgid "Cannot copy file %s to %s"
 msgstr "Kan ikkje kopiera fil %s til %s"
 
+#: ulng.rsmsgerrcannotmovedirectory
+msgid "Cannot move directory %s"
+msgstr ""
+
 #: ulng.rsmsgerrcannotmovefile
 msgid "Cannot move file %s"
 msgstr ""

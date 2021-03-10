@@ -11024,6 +11024,10 @@ msgstr "Αδυναμία σύνδεσης στον διακομιστή: \"%s\""
 msgid "Cannot copy file %s to %s"
 msgstr "Αδυναμία αντιγραφής αρχείου %s στο %s"
 
+#: ulng.rsmsgerrcannotmovedirectory
+msgid "Cannot move directory %s"
+msgstr ""
+
 #: ulng.rsmsgerrcannotmovefile
 msgid "Cannot move file %s"
 msgstr "Αδυναμία μετακίνησης ειδικού αρχείου %s"

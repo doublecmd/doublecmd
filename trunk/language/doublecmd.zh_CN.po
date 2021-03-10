@@ -10839,6 +10839,10 @@ msgstr "无法连接到服务器：\"%s\""
 msgid "Cannot copy file %s to %s"
 msgstr "无法将文件 %s 复制到 %s"
 
+#: ulng.rsmsgerrcannotmovedirectory
+msgid "Cannot move directory %s"
+msgstr ""
+
 #: ulng.rsmsgerrcannotmovefile
 msgid "Cannot move file %s"
 msgstr ""
