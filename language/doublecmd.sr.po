@@ -11316,6 +11316,10 @@ msgstr "Нисам успео да се повежем са служитељем
 msgid "Cannot copy file %s to %s"
 msgstr "Нисам успео да умножим датотеку %s у %s"
 
+#: ulng.rsmsgerrcannotmovedirectory
+msgid "Cannot move directory %s"
+msgstr ""
+
 #: ulng.rsmsgerrcannotmovefile
 msgid "Cannot move file %s"
 msgstr ""

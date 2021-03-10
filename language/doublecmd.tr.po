@@ -11471,6 +11471,10 @@ msgstr "Sunucuya bağlanamıyor \"%s\""
 msgid "Cannot copy file %s to %s"
 msgstr "Dosya %s kopyalanamıyor %s"
 
+#: ulng.rsmsgerrcannotmovedirectory
+msgid "Cannot move directory %s"
+msgstr ""
+
 #: ulng.rsmsgerrcannotmovefile
 msgid "Cannot move file %s"
 msgstr ""

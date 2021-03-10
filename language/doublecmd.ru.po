@@ -11047,6 +11047,10 @@ msgstr "Не удалось соединиться с сервером: \"%s\""
 msgid "Cannot copy file %s to %s"
 msgstr "Не удалось скопировать файл из %s в %s"
 
+#: ulng.rsmsgerrcannotmovedirectory
+msgid "Cannot move directory %s"
+msgstr "Не удалось переместить каталог %s"
+
 #: ulng.rsmsgerrcannotmovefile
 msgid "Cannot move file %s"
 msgstr "Не удалось переместить файл %s"

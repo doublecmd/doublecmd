@@ -10790,6 +10790,10 @@ msgstr "Nelze se připojit k serveru: \"%s\""
 msgid "Cannot copy file %s to %s"
 msgstr "Nelze zkopírovat soubor %s do %s"
 
+#: ulng.rsmsgerrcannotmovedirectory
+msgid "Cannot move directory %s"
+msgstr ""
+
 #: ulng.rsmsgerrcannotmovefile
 msgid "Cannot move file %s"
 msgstr ""

@@ -11060,6 +11060,10 @@ msgstr "Nem bír csatlakozni a szerverhez: \"%s\""
 msgid "Cannot copy file %s to %s"
 msgstr "Nem tudom a(z) %s fájlt ide másolni: %s"
 
+#: ulng.rsmsgerrcannotmovedirectory
+msgid "Cannot move directory %s"
+msgstr ""
+
 #: ulng.rsmsgerrcannotmovefile
 msgid "Cannot move file %s"
 msgstr "%s fájl nem mozgatható"

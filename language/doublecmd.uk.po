@@ -11128,6 +11128,10 @@ msgstr "Неможливо з'єднатися з серевером: \"%s\""
 msgid "Cannot copy file %s to %s"
 msgstr "Помилка при копіюванні файлу %s в %s"
 
+#: ulng.rsmsgerrcannotmovedirectory
+msgid "Cannot move directory %s"
+msgstr ""
+
 #: ulng.rsmsgerrcannotmovefile
 msgid "Cannot move file %s"
 msgstr ""

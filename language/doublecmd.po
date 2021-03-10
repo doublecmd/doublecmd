@@ -10760,6 +10760,10 @@ msgstr ""
 msgid "Cannot copy file %s to %s"
 msgstr ""
 
+#: ulng.rsmsgerrcannotmovedirectory
+msgid "Cannot move directory %s"
+msgstr ""
+
 #: ulng.rsmsgerrcannotmovefile
 msgid "Cannot move file %s"
 msgstr ""
