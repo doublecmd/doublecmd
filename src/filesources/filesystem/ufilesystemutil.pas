@@ -68,6 +68,7 @@ type
     FRenamingRootDir: Boolean;
     FRootDir: TFile;
     FVerify,
+    FRecursive,
     FReserveSpace,
     FCheckFreeSpace: Boolean;
     FSkipAllBigFiles: Boolean;
@@ -145,6 +146,7 @@ type
     procedure ProcessTree(aFileTree: TFileTree);
 
     property Verify: Boolean read FVerify write FVerify;
+    property Recursive: Boolean read FRecursive write FRecursive;
     property FileExistsOption: TFileSourceOperationOptionFileExists read FFileExistsOption write FFileExistsOption;
     property DirExistsOption: TFileSourceOperationOptionDirectoryExists read FDirExistsOption write FDirExistsOption;
     property CheckFreeSpace: Boolean read FCheckFreeSpace write FCheckFreeSpace;
@@ -391,6 +393,7 @@ begin
   FBufferSize := gCopyBlockSize;
   GetMem(FBuffer, FBufferSize);
 
+  FRecursive := True;
   FCheckFreeSpace := True;
   FSkipAllBigFiles := False;
   FSkipReadError := False;
@@ -1112,7 +1115,7 @@ begin
           Result := True;
           bRemoveDirectory := False;
         end
-        else
+        else if FRecursive then
         begin
           // Create target directory.
           if CreateDirectoryUAC(AbsoluteTargetFileName) then
@@ -1125,10 +1128,15 @@ begin
           else
           begin
             // Error - all files inside not copied/moved.
-            ShowError(rsMsgLogError + Format(rsMsgErrForceDir, [AbsoluteTargetFileName]));
+            ShowError(rsMsgLogError + Format(rsMsgErrForceDir, [AbsoluteTargetFileName]) + LineEnding + LineEnding + mbSysErrorMessage);
             Result := False;
             CountStatistics(aNode);
           end;
+        end
+        else begin
+          ShowError(rsMsgLogError + Format(rsMsgErrCannotMoveDirectory, [aNode.TheFile.FullPath]) + LineEnding + LineEnding + mbSysErrorMessage);
+          Result := False;
+          CountStatistics(aNode);
         end;
       end;
 

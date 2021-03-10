@@ -39,6 +39,7 @@ type
     procedure SetSearchTemplate(AValue: TSearchTemplate);
 
   protected
+    function Recursive: Boolean;
 
   public
     constructor Create(aFileSource: IFileSource;
@@ -70,7 +71,7 @@ type
 implementation
 
 uses
-  fFileSystemCopyMoveOperationOptions, uGlobs;
+  fFileSystemCopyMoveOperationOptions, uGlobs, uAdministrator;
 
 constructor TFileSystemMoveOperation.Create(aFileSource: IFileSource;
                                             var theSourceFiles: TFiles;
@@ -106,8 +107,10 @@ end;
 
 procedure TFileSystemMoveOperation.Initialize;
 var
+  ARecursive: Boolean;
   TreeBuilder: TFileSystemTreeBuilder;
 begin
+  ARecursive:= Recursive;
   // Get initialized statistics; then we change only what is needed.
   FStatistics := RetrieveStatistics;
 
@@ -115,6 +118,7 @@ begin
                         @AskQuestion,
                         @CheckOperationState);
   try
+    TreeBuilder.Recursive := ARecursive;
     // In move operation don't follow symlinks.
     TreeBuilder.SymLinkOption := fsooslDontFollow;
     TreeBuilder.SearchTemplate := Self.SearchTemplate;
@@ -144,6 +148,7 @@ begin
                         FStatistics);
 
   FOperationHelper.Verify := FVerify;
+  FOperationHelper.Recursive := ARecursive;
   FOperationHelper.RenameMask := RenameMask;
   FOperationHelper.ReserveSpace :=  FReserveSpace;
   FOperationHelper.CheckFreeSpace := CheckFreeSpace;
@@ -165,6 +170,34 @@ procedure TFileSystemMoveOperation.SetSearchTemplate(AValue: TSearchTemplate);
 begin
   FSearchTemplate.Free;
   FSearchTemplate := AValue;
+end;
+
+function TFileSystemMoveOperation.Recursive: Boolean;
+var
+  Index: Integer;
+begin
+  // First check that both paths on the same volume
+  if not mbFileSameVolume(ExcludeTrailingBackslash(SourceFiles.Path),
+                          ExcludeTrailingBackslash(TargetPath)) then
+  begin
+    Exit(True);
+  end;
+
+  if ((RenameMask <> '*.*') and (RenameMask <> '')) or
+     (FCorrectSymlinks) or Assigned(FSearchTemplate) then
+  begin
+    Exit(True);
+  end;
+
+  for Index:= 0 to SourceFiles.Count - 1 do
+  begin
+    if SourceFiles[Index].IsDirectory then
+    begin
+      if DirectoryExistsUAC(TargetPath + SourceFiles[Index].Name) then
+        Exit(True);
+    end;
+  end;
+  Result:= False;
 end;
 
 procedure TFileSystemMoveOperation.Finalize;
