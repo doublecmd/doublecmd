@@ -68,7 +68,6 @@ type
     FRenamingRootDir: Boolean;
     FRootDir: TFile;
     FVerify,
-    FRecursive,
     FReserveSpace,
     FCheckFreeSpace: Boolean;
     FSkipAllBigFiles: Boolean;
@@ -146,7 +145,6 @@ type
     procedure ProcessTree(aFileTree: TFileTree);
 
     property Verify: Boolean read FVerify write FVerify;
-    property Recursive: Boolean read FRecursive write FRecursive;
     property FileExistsOption: TFileSourceOperationOptionFileExists read FFileExistsOption write FFileExistsOption;
     property DirExistsOption: TFileSourceOperationOptionDirectoryExists read FDirExistsOption write FDirExistsOption;
     property CheckFreeSpace: Boolean read FCheckFreeSpace write FCheckFreeSpace;
@@ -327,7 +325,7 @@ begin
       // Add link to current node.
       AddedIndex := CurrentNode.AddSubNode(aFile);
       AddedNode := CurrentNode.SubNodes[AddedIndex];
-      AddedNode.Data := TFileTreeNodeData.Create;
+      AddedNode.Data := TFileTreeNodeData.Create(FRecursive);
       (CurrentNode.Data as TFileTreeNodeData).SubnodesHaveLinks := True;
 
       // Then add linked file/directory as a subnode of the link.
@@ -393,7 +391,6 @@ begin
   FBufferSize := gCopyBlockSize;
   GetMem(FBuffer, FBufferSize);
 
-  FRecursive := True;
   FCheckFreeSpace := True;
   FSkipAllBigFiles := False;
   FSkipReadError := False;
@@ -1115,7 +1112,7 @@ begin
           Result := True;
           bRemoveDirectory := False;
         end
-        else if FRecursive then
+        else if NodeData.Recursive then
         begin
           // Create target directory.
           if CreateDirectoryUAC(AbsoluteTargetFileName) then
@@ -1142,6 +1139,20 @@ begin
 
     fsoterAddToTarget:
       begin
+        if (FMode = fsohmMove) and (not NodeData.Recursive) then
+        begin
+          with TFileSystemTreeBuilder.Create(AskQuestion, CheckOperationState) do
+          try
+            // In move operation don't follow symlinks.
+            SymLinkOption := fsooslDontFollow;
+
+            BuildFromNode(aNode);
+            FStatistics.TotalFiles += FilesCount;
+            FStatistics.TotalBytes += FilesSize;
+          finally
+            Free;
+          end;
+        end;
         // Don't create existing directory, but copy files into it.
         Result := ProcessNode(aNode, IncludeTrailingPathDelimiter(AbsoluteTargetFileName));
       end;
