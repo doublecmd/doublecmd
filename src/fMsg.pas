@@ -33,7 +33,7 @@ implementation
 {$R *.lfm}
 
 uses
-  LCLType;
+  LCLType, LazUTF8, Clipbrd;
 
 procedure TfrmMsg.FormCreate(Sender: TObject);
 begin
@@ -67,6 +67,11 @@ begin
         end;
       end;
     end;
+  end
+  else if (Key = VK_C) and (ssModifier in Shift) then
+  begin
+    Clipboard.AsText:= Caption + LineEnding + StringOfChar('-', UTF8Length(Caption)) +
+                       LineEnding + LineEnding + lblMsg.Caption;
   end;
 end;
 
