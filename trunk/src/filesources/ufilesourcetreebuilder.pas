@@ -15,12 +15,18 @@ uses
 
 type
   // Additional data for the filesystem tree node.
+
+  { TFileTreeNodeData }
+
   TFileTreeNodeData = class
   public
+    Recursive: Boolean;
     // True if any of the subnodes (recursively) are links.
     SubnodesHaveLinks: Boolean;
     // Whether directory or subdirectories have any elements that will not be copied/moved.
     SubnodesHaveExclusions: Boolean;
+
+    constructor Create(ARecursive: Boolean); overload;
   end;
 
   { TFileSourceTreeBuilder }
@@ -58,6 +64,7 @@ type
                        CheckOperationStateFunction: TCheckOperationStateFunction);
     destructor Destroy; override;
 
+    procedure BuildFromNode(aNode: TFileTreeNode);
     procedure BuildFromFiles(Files: TFiles);
     function ReleaseTree: TFileTree;
 
@@ -82,6 +89,13 @@ implementation
 uses
   uGlobs, uLng;
 
+{ TFileTreeNodeData }
+
+constructor TFileTreeNodeData.Create(ARecursive: Boolean);
+begin
+  Recursive:= ARecursive;
+end;
+
 constructor TFileSourceTreeBuilder.Create(AskQuestionFunction: TAskQuestionFunction;
                                           CheckOperationStateFunction: TCheckOperationStateFunction);
 begin
@@ -98,6 +112,22 @@ begin
   FFilesTree.Free;
 end;
 
+procedure TFileSourceTreeBuilder.BuildFromNode(aNode: TFileTreeNode);
+begin
+  FFilesSize := 0;
+  FFilesCount := 0;
+  FCurrentDepth := 0;
+  FDirectoriesCount := 0;
+
+  FFilesTree := aNode;
+  FRootDir :=  aNode.TheFile.Path;
+  TFileTreeNodeData(FFilesTree.Data).Recursive:= FRecursive;
+
+  AddFilesInDirectory(aNode.TheFile.FullPath + DirectorySeparator, FFilesTree);
+
+  FFilesTree := nil;
+end;
+
 procedure TFileSourceTreeBuilder.BuildFromFiles(Files: TFiles);
 var
   i: Integer;
@@ -105,7 +135,7 @@ begin
   FreeAndNil(FFilesTree);
 
   FFilesTree := TFileTreeNode.Create;
-  FFilesTree.Data := TFileTreeNodeData.Create;
+  FFilesTree.Data := TFileTreeNodeData.Create(FRecursive);
   FFilesSize := 0;
   FFilesCount := 0;
   FDirectoriesCount := 0;
@@ -135,7 +165,7 @@ var
 begin
   AddedIndex := CurrentNode.AddSubNode(aFile);
   AddedNode := CurrentNode.SubNodes[AddedIndex];
-  AddedNode.Data := TFileTreeNodeData.Create;
+  AddedNode.Data := TFileTreeNodeData.Create(FRecursive);
 
   Inc(FFilesCount);
   FFilesSize:= FFilesSize + aFile.Size;
@@ -149,7 +179,7 @@ var
 begin
   AddedIndex := CurrentNode.AddSubNode(aFile);
   AddedNode := CurrentNode.SubNodes[AddedIndex];
-  AddedNode.Data := TFileTreeNodeData.Create;
+  AddedNode.Data := TFileTreeNodeData.Create(FRecursive);
 
   (CurrentNode.Data as TFileTreeNodeData).SubnodesHaveLinks := True;
 
@@ -164,7 +194,7 @@ var
 begin
   AddedIndex := CurrentNode.AddSubNode(aFile);
   AddedNode := CurrentNode.SubNodes[AddedIndex];
-  NodeData := TFileTreeNodeData.Create;
+  NodeData := TFileTreeNodeData.Create(FRecursive);
   AddedNode.Data := NodeData;
 
   Inc(FDirectoriesCount);
