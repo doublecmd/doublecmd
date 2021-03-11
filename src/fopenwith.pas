@@ -251,6 +251,7 @@ procedure TfrmOpenWith.LoadApplicationList;
 const
   APPS = 'applications';
 var
+  Folder: String;
   I, J, K: Integer;
   TreeNode: TTreeNode;
   Index, Count: Integer;
@@ -280,15 +281,15 @@ var
 begin
   Folders:= TStringList.Create;
   Folders.CaseSensitive:= True;
-  Folders.SortStyle:= sslAuto;
-  Folders.Duplicates:= dupIgnore;
   // $XDG_DATA_HOME
-  Folders.Add(IncludeTrailingBackslash(GetUserDataDir) + APPS);
+  Folder:= IncludeTrailingBackslash(GetUserDataDir) + APPS;
+  if (Folders.IndexOf(Folder) < 0) then Folders.Add(Folder);
   // $XDG_DATA_DIRS
   DataDirs:= GetSystemDataDirs;
   for I:= Low(DataDirs) to High(DataDirs) do
   begin
-    Folders.Add(IncludeTrailingBackslash(DataDirs[I]) + APPS);
+    Folder:= IncludeTrailingBackslash(DataDirs[I]) + APPS;
+    if (Folders.IndexOf(Folder) < 0) then Folders.Add(Folder);
   end;
   for I:= 0 to Folders.Count - 1 do
   begin
