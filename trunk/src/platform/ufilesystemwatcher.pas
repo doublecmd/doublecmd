@@ -647,6 +647,10 @@ begin
       begin
         ev := pinotify_event(buf + p);
 
+        {$IFDEF DEBUG_WATCHER}
+        DCDebug('FSWatcher: Read event, mask %s, name %s', [HexStr(ev^.mask, 8), StrPas(PChar(@ev^.name))]);
+        {$ENDIF};
+
         for i := 0 to FOSWatchers.Count - 1 do
         begin
           if ev^.wd = FOSWatchers[i].Handle then
@@ -695,8 +699,12 @@ begin
                 begin
                   // Watched file/directory was deleted or moved.
                 end
-              else
+              else begin
                 EventType := fswUnknownChange;
+              end;
+              {$IFDEF DEBUG_WATCHER}
+              DCDebug('FSWatcher: Send event, Path %s, FileName %s, EventType %d', [Path, FileName, EventType]);
+              {$ENDIF};
             end;
 
             // call event handler
