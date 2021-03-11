@@ -254,9 +254,9 @@ var
   I, J, K: Integer;
   TreeNode: TTreeNode;
   Index, Count: Integer;
-  Applications: TStringList;
+  DataDirs: TStringArray;
   DesktopFile: PDesktopFileEntry;
-  Folders, DataDirs: TStringArray;
+  Applications, Folders: TStringList;
 
   function GetCategoryIndex(const Category: String): Integer;
   var
@@ -278,15 +278,19 @@ var
   end;
 
 begin
+  Folders:= TStringList.Create;
+  Folders.CaseSensitive:= True;
+  Folders.SortStyle:= sslAuto;
+  Folders.Duplicates:= dupIgnore;
   // $XDG_DATA_HOME
-  AddString(Folders, IncludeTrailingBackslash(GetUserDataDir) + APPS);
+  Folders.Add(IncludeTrailingBackslash(GetUserDataDir) + APPS);
   // $XDG_DATA_DIRS
   DataDirs:= GetSystemDataDirs;
   for I:= Low(DataDirs) to High(DataDirs) do
   begin
-    AddString(Folders, IncludeTrailingBackslash(DataDirs[I]) + APPS);
+    Folders.Add(IncludeTrailingBackslash(DataDirs[I]) + APPS);
   end;
-  for I:= Low(Folders) to High(Folders) do
+  for I:= 0 to Folders.Count - 1 do
   begin
     Applications:= FindAllFiles(Folders[I], '*.desktop', True);
     for J:= 0 to Applications.Count - 1 do
@@ -326,6 +330,7 @@ begin
     end;
     Applications.Free;
   end;
+  Folders.Free;
   // Hide empty categories
   for Index:= 0 to tvApplications.Items.TopLvlCount - 1 do
   begin
