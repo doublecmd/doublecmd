@@ -1,3 +1,3 @@
 libbzip2
-http://bzip.org/1.0.6/bzip2-1.0.6.tar.gz
-Version 1.0.6 (20/09/2010)
+https://sourceware.org/pub/bzip2/bzip2-1.0.8.tar.gz
+Version 1.0.8 (13/07/2019)
