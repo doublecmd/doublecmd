@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Double Commander 1.0.0 alpha\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-01-17 23:08+0300\n"
-"PO-Revision-Date: 2021-03-07 20:12+0200\n"
+"PO-Revision-Date: 2021-03-10 22:00+0200\n"
 "Last-Translator: Andrzej Kamiński <endriusk@interia.pl> and Maciej Bojakowski <maciejbojakowski@gmail.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -1066,7 +1066,7 @@ msgstr "Kierunek"
 
 #: tfrmelevation.chkelevateall.caption
 msgid "Do this for &all current objects"
-msgstr ""
+msgstr "Wykonaj dla &wszystkich obiektów bieżących"
 
 #: tfrmextractdlg.caption
 msgid "Unpack files"
@@ -1770,8 +1770,6 @@ msgid "C&ase sensitive"
 msgstr "&Uwzględniaj wielkość liter"
 
 #: tfrmfindview.cbregexp.caption
-#, fuzzy
-msgctxt "tfrmfindview.cbregexp.caption"
 msgid "&Regular expressions"
 msgstr "Wyrażenia &regularne"
 
@@ -9555,7 +9553,7 @@ msgstr "Musisz podać uprawnienia administratora,"
 
 #: uadministrator.rselevationrequiredcopy
 msgid "to copy this object:"
-msgstr ""
+msgstr "aby skopiować ten obiekt:"
 
 #: uadministrator.rselevationrequiredcreate
 msgid "to create this object:"
@@ -9842,7 +9840,7 @@ msgstr "Zmodyfikowane:"
 
 #: ulng.rsdlgbuttonabort
 msgid "Ab&ort"
-msgstr "Pr&zerwij"
+msgstr "P&rzerwij"
 
 #: ulng.rsdlgbuttonall
 msgctxt "ulng.rsdlgbuttonall"
@@ -10145,7 +10143,7 @@ msgstr "Pliki wtyczek"
 
 #: ulng.rsfilterprogramslibraries
 msgid "Programs and Libraries"
-msgstr ""
+msgstr "Programy i biblioteki"
 
 #: ulng.rsfilterstatus
 msgid "FILTER"
@@ -10745,7 +10743,7 @@ msgstr "Nie można skopiować pliku %s do %s"
 
 #: ulng.rsmsgerrcannotmovedirectory
 msgid "Cannot move directory %s"
-msgstr ""
+msgstr "Nie można przenieść katalogu %s"
 
 #: ulng.rsmsgerrcannotmovefile
 msgid "Cannot move file %s"
@@ -12773,7 +12771,7 @@ msgstr "Zarejestrowany dla"
 
 #: ulng.rsoptpluginsselectlualibrary
 msgid "Select Lua library file"
-msgstr ""
+msgstr "Wybierz plik biblioteki Lua"
 
 #: ulng.rsoptrenamingtooltipfiletype
 msgid "Renaming tooltip file type"
