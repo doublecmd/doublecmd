@@ -1,15 +1,16 @@
 object frmStartingSplash: TfrmStartingSplash
   Left = 120
-  Height = 314
+  Height = 413
   Top = 207
-  Width = 256
+  Width = 258
   Anchors = []
   AutoSize = True
   BorderIcons = []
   BorderStyle = bsNone
   Caption = 'Double Commander'
-  ClientHeight = 314
-  ClientWidth = 256
+  ClientHeight = 413
+  ClientWidth = 258
+  DesignTimePPI = 120
   FormStyle = fsSplash
   Icon.Data = {
     267D000000000100040010100000010020006804000046000000202000000100
@@ -1017,36 +1018,37 @@ object frmStartingSplash: TfrmStartingSplash
   }
   OnCreate = FormCreate
   Position = poScreenCenter
-  LCLVersion = '1.4.4.0'
+  LCLVersion = '2.0.12.0'
   object pnlInfo: TPanel
     AnchorSideLeft.Control = Owner
     AnchorSideTop.Control = Owner
-    Left = 11
-    Height = 283
-    Top = 11
-    Width = 196
+    Left = 14
+    Height = 384
+    Top = 14
+    Width = 228
     AutoSize = True
-    BorderSpacing.Around = 11
+    BorderSpacing.Around = 14
     BevelInner = bvRaised
     BevelOuter = bvLowered
     BevelWidth = 2
     ChildSizing.Layout = cclLeftToRightThenTopToBottom
     ChildSizing.ControlsPerLine = 1
-    ClientHeight = 283
-    ClientWidth = 196
+    ClientHeight = 384
+    ClientWidth = 228
     Color = clForm
     ParentColor = False
+    ParentFont = False
     TabOrder = 0
     object lblTitle: TLabel
       AnchorSideLeft.Control = pnlInfo
       AnchorSideLeft.Side = asrCenter
       AnchorSideTop.Control = imgLogo
       AnchorSideTop.Side = asrBottom
-      Left = 43
-      Height = 15
-      Top = 96
-      Width = 111
-      BorderSpacing.Top = 6
+      Left = 44
+      Height = 20
+      Top = 120
+      Width = 140
+      BorderSpacing.Top = 8
       BorderSpacing.CellAlignHorizontal = ccaLeftTop
       Caption = 'Double Commander'
       Font.Color = clRed
@@ -1061,128 +1063,149 @@ object frmStartingSplash: TfrmStartingSplash
       AnchorSideRight.Side = asrBottom
       AnchorSideBottom.Control = pnlInfo
       AnchorSideBottom.Side = asrBottom
-      Left = 24
-      Height = 168
-      Top = 111
-      Width = 104
+      Left = 29
+      Height = 240
+      Top = 140
+      Width = 130
       AutoSize = True
-      BorderSpacing.Left = 20
-      BorderSpacing.Right = 20
+      BorderSpacing.Left = 25
+      BorderSpacing.Right = 25
       BevelOuter = bvNone
       ChildSizing.TopBottomSpacing = 10
-      ClientHeight = 168
-      ClientWidth = 104
+      ClientHeight = 240
+      ClientWidth = 130
+      ParentFont = False
       TabOrder = 0
       object lblVersion: TLabel
         AnchorSideLeft.Control = pnlVersionInfos
         AnchorSideTop.Control = pnlVersionInfos
         Left = 0
-        Height = 15
+        Height = 20
         Top = 10
-        Width = 38
-        BorderSpacing.Top = 4
-        BorderSpacing.Right = 10
+        Width = 48
+        BorderSpacing.Top = 5
+        BorderSpacing.Right = 12
         BorderSpacing.CellAlignHorizontal = ccaLeftTop
         Caption = 'Version'
         ParentColor = False
+        ParentFont = False
       end
       object lblRevision: TLabel
         AnchorSideLeft.Control = lblVersion
         AnchorSideTop.Control = lblVersion
         AnchorSideTop.Side = asrBottom
         Left = 0
-        Height = 15
-        Top = 29
-        Width = 44
-        BorderSpacing.Top = 4
-        BorderSpacing.Right = 10
+        Height = 20
+        Top = 35
+        Width = 55
+        BorderSpacing.Top = 5
+        BorderSpacing.Right = 12
         BorderSpacing.CellAlignHorizontal = ccaLeftTop
         Caption = 'Revision'
+        ParentColor = False
+        ParentFont = False
+      end
+      object lblCommit: TLabel
+        AnchorSideTop.Control = lblRevision
+        AnchorSideTop.Side = asrBottom
+        Left = 0
+        Height = 20
+        Top = 60
+        Width = 53
+        BorderSpacing.Top = 5
+        BorderSpacing.CellAlignHorizontal = ccaLeftTop
+        Caption = 'Commit'
         ParentColor = False
       end
       object lblBuild: TLabel
         AnchorSideLeft.Control = lblVersion
-        AnchorSideTop.Control = lblRevision
+        AnchorSideTop.Control = lblCommit
         AnchorSideTop.Side = asrBottom
         Left = 0
-        Height = 15
-        Top = 48
-        Width = 27
-        BorderSpacing.Top = 4
-        BorderSpacing.Right = 10
+        Height = 20
+        Top = 85
+        Width = 34
+        BorderSpacing.Top = 5
+        BorderSpacing.Right = 12
         BorderSpacing.CellAlignHorizontal = ccaLeftTop
         Caption = 'Build'
         ParentColor = False
+        ParentFont = False
       end
       object lblLazarusVer: TLabel
         AnchorSideLeft.Control = lblVersion
         AnchorSideTop.Control = lblBuild
         AnchorSideTop.Side = asrBottom
         Left = 0
-        Height = 15
-        Top = 67
-        Width = 39
-        BorderSpacing.Top = 4
-        BorderSpacing.Right = 10
+        Height = 20
+        Top = 110
+        Width = 49
+        BorderSpacing.Top = 5
+        BorderSpacing.Right = 12
         BorderSpacing.CellAlignHorizontal = ccaLeftTop
         Caption = 'Lazarus'
         ParentColor = False
+        ParentFont = False
       end
       object lblFreePascalVer: TLabel
         AnchorSideLeft.Control = lblVersion
         AnchorSideTop.Control = lblLazarusVer
         AnchorSideTop.Side = asrBottom
         Left = 0
-        Height = 15
-        Top = 86
-        Width = 58
-        BorderSpacing.Top = 4
-        BorderSpacing.Right = 10
+        Height = 20
+        Top = 135
+        Width = 72
+        BorderSpacing.Top = 5
+        BorderSpacing.Right = 12
         BorderSpacing.CellAlignHorizontal = ccaLeftTop
         Caption = 'Free Pascal'
         ParentColor = False
+        ParentFont = False
       end
       object lblPlatform: TLabel
         AnchorSideLeft.Control = lblVersion
         AnchorSideTop.Control = lblFreePascalVer
         AnchorSideTop.Side = asrBottom
         Left = 0
-        Height = 15
-        Top = 105
-        Width = 46
-        BorderSpacing.Top = 4
-        BorderSpacing.Right = 10
+        Height = 20
+        Top = 160
+        Width = 57
+        BorderSpacing.Top = 5
+        BorderSpacing.Right = 12
         BorderSpacing.CellAlignHorizontal = ccaLeftTop
         Caption = 'Platform'
         ParentColor = False
+        ParentFont = False
       end
       object lblOperatingSystem: TLabel
         AnchorSideLeft.Control = lblVersion
         AnchorSideTop.Control = lblPlatform
         AnchorSideTop.Side = asrBottom
         Left = 0
-        Height = 15
-        Top = 124
-        Width = 94
-        BorderSpacing.Top = 4
-        BorderSpacing.Right = 10
+        Height = 20
+        Top = 185
+        Width = 118
+        BorderSpacing.Top = 5
+        BorderSpacing.Right = 12
         BorderSpacing.CellAlignHorizontal = ccaLeftTop
         Caption = 'Operating System'
         ParentColor = False
+        ParentFont = False
       end
       object lblWidgetsetVer: TLabel
         AnchorSideLeft.Control = lblVersion
         AnchorSideTop.Control = lblOperatingSystem
         AnchorSideTop.Side = asrBottom
         Left = 0
-        Height = 15
-        Top = 143
-        Width = 69
-        BorderSpacing.Top = 4
-        BorderSpacing.Right = 10
+        Height = 20
+        Top = 210
+        Width = 89
+        BorderSpacing.Top = 5
+        BorderSpacing.Right = 12
         BorderSpacing.CellAlignHorizontal = ccaLeftTop
         Caption = 'WidgetsetVer'
         ParentColor = False
+        ParentFont = False
       end
     end
     object imgLogo: TImage
@@ -1190,14 +1213,14 @@ object frmStartingSplash: TfrmStartingSplash
       AnchorSideTop.Control = pnlInfo
       AnchorSideRight.Control = pnlInfo
       AnchorSideRight.Side = asrBottom
-      Left = 66
-      Height = 64
-      Top = 26
+      Left = 82
+      Height = 80
+      Top = 32
       Width = 64
       Anchors = [akTop, akLeft, akRight]
-      BorderSpacing.Left = 62
-      BorderSpacing.Top = 22
-      BorderSpacing.Right = 62
+      BorderSpacing.Left = 78
+      BorderSpacing.Top = 28
+      BorderSpacing.Right = 78
       Center = True
       Picture.Data = {
         1754506F727461626C654E6574776F726B47726170686963F511000089504E47

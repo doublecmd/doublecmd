@@ -5,6 +5,7 @@
 {"hash":185879090,"name":"tfrmabout.lbltitle.caption","sourcebytes":[68,111,117,98,108,101,32,67,111,109,109,97,110,100,101,114],"value":"Double Commander"},
 {"hash":214540302,"name":"tfrmabout.lblversion.caption","sourcebytes":[86,101,114,115,105,111,110],"value":"Version"},
 {"hash":214997982,"name":"tfrmabout.lblrevision.caption","sourcebytes":[82,101,118,105,115,105,111,110],"value":"Revision"},
+{"hash":78005252,"name":"tfrmabout.lblcommit.caption","sourcebytes":[67,111,109,109,105,116],"value":"Commit"},
 {"hash":4833316,"name":"tfrmabout.lblbuild.caption","sourcebytes":[66,117,105,108,100],"value":"Build"},
 {"hash":43026835,"name":"tfrmabout.lbllazarusver.caption","sourcebytes":[76,97,122,97,114,117,115],"value":"Lazarus"},
 {"hash":86315532,"name":"tfrmabout.lblfreepascalver.caption","sourcebytes":[70,114,101,101,32,80,97,115,99,97,108],"value":"Free Pascal"},

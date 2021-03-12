@@ -8,5 +8,6 @@
 {"hash":86315532,"name":"tfrmstartingsplash.lblfreepascalver.caption","sourcebytes":[70,114,101,101,32,80,97,115,99,97,108],"value":"Free Pascal"},
 {"hash":42652669,"name":"tfrmstartingsplash.lblplatform.caption","sourcebytes":[80,108,97,116,102,111,114,109],"value":"Platform"},
 {"hash":222234861,"name":"tfrmstartingsplash.lbloperatingsystem.caption","sourcebytes":[79,112,101,114,97,116,105,110,103,32,83,121,115,116,101,109],"value":"Operating System"},
-{"hash":239284482,"name":"tfrmstartingsplash.lblwidgetsetver.caption","sourcebytes":[87,105,100,103,101,116,115,101,116,86,101,114],"value":"WidgetsetVer"}
+{"hash":239284482,"name":"tfrmstartingsplash.lblwidgetsetver.caption","sourcebytes":[87,105,100,103,101,116,115,101,116,86,101,114],"value":"WidgetsetVer"},
+{"hash":78005252,"name":"tfrmstartingsplash.lblcommit.caption","sourcebytes":[67,111,109,109,105,116],"value":"Commit"}
 ]}

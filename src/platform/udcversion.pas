@@ -50,11 +50,12 @@ var
 
 procedure InitializeVersionInfo;
 function GetLazarusVersion: String;
+function GetCommitTime: String;
 
 implementation
 
 uses
-  InterfaceBase
+  InterfaceBase, DateUtils
   {$IF DEFINED(UNIX)}
   , BaseUnix, DCOSUtils, uDCUtils, DCClassesUtf8
     {$IFDEF DARWIN}
@@ -464,6 +465,11 @@ begin
   if (I > 1) then begin
     Result += '-' + Copy(lazRevision, 1, I - 1);
   end;
+end;
+
+function GetCommitTime: String;
+begin
+  Result:= FormatDateTime('yymmdd hhnnss', UnixToDateTime(dcCommit));
 end;
 
 procedure Initialize;

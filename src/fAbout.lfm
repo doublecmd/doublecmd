@@ -1,17 +1,18 @@
 object frmAbout: TfrmAbout
-  Left = 26
-  Height = 400
-  Top = 125
-  Width = 667
+  Left = 572
+  Height = 500
+  Top = 209
+  Width = 834
   BorderIcons = [biSystemMenu, biMaximize]
   Caption = 'About'
-  ClientHeight = 400
-  ClientWidth = 667
+  ClientHeight = 500
+  ClientWidth = 834
+  DesignTimePPI = 120
   KeyPreview = True
   OnKeyDown = FormKeyDown
   OnShow = frmAboutShow
   Position = poScreenCenter
-  LCLVersion = '1.0.1.3'
+  LCLVersion = '2.0.12.0'
   object pnlText: TPanel
     AnchorSideLeft.Control = pnlInfo
     AnchorSideLeft.Side = asrBottom
@@ -20,31 +21,33 @@ object frmAbout: TfrmAbout
     AnchorSideRight.Side = asrBottom
     AnchorSideBottom.Control = Owner
     AnchorSideBottom.Side = asrBottom
-    Left = 168
-    Height = 384
-    Top = 8
-    Width = 491
+    Left = 167
+    Height = 480
+    Top = 10
+    Width = 657
     Anchors = [akTop, akLeft, akRight, akBottom]
-    BorderSpacing.Around = 8
+    BorderSpacing.Around = 10
     BevelInner = bvRaised
     BevelOuter = bvLowered
-    ClientHeight = 384
-    ClientWidth = 491
+    ClientHeight = 480
+    ClientWidth = 657
     FullRepaint = False
+    ParentFont = False
     TabOrder = 0
     object lblHomePage: TLabel
       AnchorSideLeft.Control = memInfo
       AnchorSideTop.Side = asrBottom
       AnchorSideBottom.Control = pnlText
       AnchorSideBottom.Side = asrBottom
-      Left = 10
-      Height = 22
-      Top = 345
-      Width = 81
+      Left = 12
+      Height = 20
+      Top = 439
+      Width = 80
       Anchors = [akLeft, akBottom]
-      BorderSpacing.Bottom = 15
+      BorderSpacing.Bottom = 19
       Caption = 'Home Page:'
       ParentColor = False
+      ParentFont = False
     end
     object lblHomePageAddress: TLabel
       AnchorSideLeft.Control = lblHomePage
@@ -52,14 +55,14 @@ object frmAbout: TfrmAbout
       AnchorSideTop.Side = asrBottom
       AnchorSideBottom.Control = pnlText
       AnchorSideBottom.Side = asrBottom
-      Left = 97
-      Height = 22
-      Top = 345
-      Width = 231
+      Left = 100
+      Height = 20
+      Top = 439
+      Width = 222
       Anchors = [akLeft, akBottom]
-      BorderSpacing.Left = 6
-      BorderSpacing.Top = 8
-      BorderSpacing.Bottom = 15
+      BorderSpacing.Left = 8
+      BorderSpacing.Top = 10
+      BorderSpacing.Bottom = 19
       Caption = 'https://doublecmd.sourceforge.io'
       Font.Color = clBlue
       ParentColor = False
@@ -74,47 +77,50 @@ object frmAbout: TfrmAbout
       AnchorSideRight.Control = pnlText
       AnchorSideRight.Side = asrBottom
       AnchorSideBottom.Control = lblHomePage
-      Left = 10
-      Height = 327
-      Top = 10
-      Width = 471
+      Left = 12
+      Height = 417
+      Top = 12
+      Width = 633
       Anchors = [akTop, akLeft, akRight, akBottom]
-      BorderSpacing.Left = 8
-      BorderSpacing.Top = 8
-      BorderSpacing.Right = 8
-      BorderSpacing.Bottom = 8
+      BorderSpacing.Left = 10
+      BorderSpacing.Top = 10
+      BorderSpacing.Right = 10
+      BorderSpacing.Bottom = 10
+      ParentFont = False
       ReadOnly = True
       ScrollBars = ssAutoBoth
       TabOrder = 0
     end
   end
   object pnlInfo: TPanel
-    Left = 9
-    Height = 290
-    Top = 9
-    Width = 151
+    Left = 11
+    Height = 305
+    Top = 11
+    Width = 146
     AutoSize = True
-    BorderSpacing.Around = 8
+    BorderSpacing.Around = 10
     BevelOuter = bvNone
     ChildSizing.VerticalSpacing = 4
     ChildSizing.Layout = cclLeftToRightThenTopToBottom
     ChildSizing.ControlsPerLine = 1
-    ClientHeight = 290
-    ClientWidth = 151
+    ClientHeight = 305
+    ClientWidth = 146
+    ParentFont = False
     TabOrder = 1
     object pnlLogo: TPanel
-      Left = 39
+      Left = 37
       Height = 72
-      Top = 8
+      Top = 10
       Width = 72
-      BorderSpacing.Top = 8
-      BorderSpacing.Bottom = 8
+      BorderSpacing.Top = 10
+      BorderSpacing.Bottom = 10
       BorderSpacing.CellAlignHorizontal = ccaCenter
       BevelInner = bvRaised
       BevelOuter = bvLowered
       BevelWidth = 2
       ClientHeight = 72
       ClientWidth = 72
+      ParentFont = False
       TabOrder = 0
       object imgLogo: TImage
         Left = 4
@@ -275,9 +281,9 @@ object frmAbout: TfrmAbout
     end
     object lblTitle: TLabel
       Left = 0
-      Height = 22
-      Top = 88
-      Width = 151
+      Height = 20
+      Top = 92
+      Width = 140
       BorderSpacing.CellAlignHorizontal = ccaLeftTop
       Caption = 'Double Commander'
       Font.Color = clRed
@@ -287,83 +293,101 @@ object frmAbout: TfrmAbout
     end
     object lblVersion: TLabel
       Left = 0
-      Height = 22
-      Top = 114
-      Width = 51
+      Height = 20
+      Top = 116
+      Width = 48
       BorderSpacing.CellAlignHorizontal = ccaLeftTop
       Caption = 'Version'
       ParentColor = False
+      ParentFont = False
     end
     object lblRevision: TLabel
       Left = 0
-      Height = 22
+      Height = 20
       Top = 140
-      Width = 58
+      Width = 55
       BorderSpacing.CellAlignHorizontal = ccaLeftTop
       Caption = 'Revision'
+      ParentColor = False
+      ParentFont = False
+    end
+    object lblCommit: TLabel
+      Left = 0
+      Height = 20
+      Top = 164
+      Width = 53
+      BorderSpacing.CellAlignHorizontal = ccaLeftTop
+      Caption = 'Commit'
       ParentColor = False
     end
     object lblBuild: TLabel
       Left = 0
-      Height = 22
-      Top = 166
-      Width = 37
+      Height = 20
+      Top = 188
+      Width = 34
       BorderSpacing.CellAlignHorizontal = ccaLeftTop
       Caption = 'Build'
       ParentColor = False
+      ParentFont = False
     end
     object lblLazarusVer: TLabel
       Left = 0
-      Height = 22
-      Top = 192
-      Width = 53
+      Height = 20
+      Top = 212
+      Width = 49
       BorderSpacing.CellAlignHorizontal = ccaLeftTop
       Caption = 'Lazarus'
       ParentColor = False
+      ParentFont = False
     end
     object lblFreePascalVer: TLabel
       Left = 0
-      Height = 22
-      Top = 218
-      Width = 77
+      Height = 20
+      Top = 236
+      Width = 72
       BorderSpacing.CellAlignHorizontal = ccaLeftTop
       Caption = 'Free Pascal'
       ParentColor = False
+      ParentFont = False
     end
     object lblPlatform: TLabel
       Left = 0
       Height = 1
-      Top = 244
+      Top = 260
       Width = 1
       BorderSpacing.CellAlignHorizontal = ccaLeftTop
       ParentColor = False
+      ParentFont = False
     end
     object lblOperatingSystem: TLabel
       Left = 0
       Height = 1
-      Top = 249
+      Top = 265
       Width = 1
       BorderSpacing.CellAlignHorizontal = ccaLeftTop
       ParentColor = False
+      ParentFont = False
     end
     object lblWidgetsetVer: TLabel
       Left = 0
       Height = 1
-      Top = 254
+      Top = 270
       Width = 1
       BorderSpacing.CellAlignHorizontal = ccaLeftTop
       ParentColor = False
+      ParentFont = False
     end
     object btnCopyToClipboard: TButton
-      Left = 4
-      Height = 31
-      Top = 259
-      Width = 143
+      Left = 0
+      Height = 30
+      Top = 275
+      Width = 146
       AutoSize = True
       BorderSpacing.CellAlignHorizontal = ccaCenter
       Caption = 'Copy to clipboard'
-      Constraints.MinWidth = 100
+      Constraints.MinWidth = 125
       OnClick = btnCopyToClipboardClick
+      ParentFont = False
       TabOrder = 1
     end
   end
@@ -372,19 +396,20 @@ object frmAbout: TfrmAbout
     AnchorSideLeft.Side = asrCenter
     AnchorSideBottom.Control = Owner
     AnchorSideBottom.Side = asrBottom
-    Left = 34
-    Height = 35
-    Top = 357
-    Width = 100
+    Left = 22
+    Height = 34
+    Top = 456
+    Width = 125
     Anchors = [akLeft, akBottom]
     AutoSize = True
-    BorderSpacing.Bottom = 8
+    BorderSpacing.Bottom = 10
     BorderSpacing.InnerBorder = 2
     Caption = '&Close'
-    Constraints.MinWidth = 100
+    Constraints.MinWidth = 125
     Default = True
     Kind = bkClose
     ModalResult = 11
+    ParentFont = False
     TabOrder = 2
   end
 end

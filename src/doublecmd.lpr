@@ -158,6 +158,7 @@ begin
 
   DCDebug('Double Commander ' + dcVersion);
   DCDebug('Revision: ' + dcRevision);
+  DCDebug('Commit: ' + GetCommitTime);
   DCDebug('Build: ' + dcBuildDate);
   DCDebug('Lazarus: ' + GetLazarusVersion);
   DCDebug('Free Pascal: ' + fpcVersion);

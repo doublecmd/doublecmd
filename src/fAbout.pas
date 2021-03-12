@@ -30,6 +30,7 @@ type
     btnClose: TBitBtn;
     btnCopyToClipboard: TButton;
     imgLogo: TImage;
+    lblCommit: TLabel;
     lblWidgetsetVer: TLabel;
     lblPlatform: TLabel;
     lblOperatingSystem: TLabel;
@@ -154,12 +155,13 @@ begin
   StrInfo := Format('Double Commander' + LineEnding +
                     'Version: %s' + LineEnding +
                     'Revision: %s' + LineEnding +
+                    'Commit: %s' + LineEnding +
                     'Build date: %s' + LineEnding +
                     'Lazarus: %s' + LineEnding +
                     'FPC: %s' + LineEnding +
                     'Platform: %s' + LineEnding +
                     'OS version: %s' + LineEnding,
-                    [dcVersion, dcRevision, dcBuildDate,
+                    [dcVersion, dcRevision, GetCommitTime, dcBuildDate,
                     GetLazarusVersion, fpcVersion,
                     TargetCPU + '-' + TargetOS + '-' + TargetWS,
                     OSVersion]);
@@ -179,14 +181,19 @@ procedure TfrmAbout.frmAboutShow(Sender: TObject);
 begin
   memInfo.Lines.Text         := cAboutMsg;
   memInfo.CaretPos           := Classes.Point(0, 0);
+
   lblVersion.Caption         := lblVersion.Caption + #32 + dcVersion;
   lblRevision.Caption        := lblRevision.Caption + #32 + dcRevision;
+  lblCommit.Caption          := lblCommit.Caption + #32 + GetCommitTime;
   lblBuild.Caption           := lblBuild.Caption + #32 + dcBuildDate;
   lblLazarusVer.Caption      := lblLazarusVer.Caption + #32 + GetLazarusVersion;
   lblFreePascalVer.Caption   := lblFreePascalVer.Caption + #32 + fpcVersion;
   lblPlatform.Caption        := TargetCPU + '-' + TargetOS + '-' + TargetWS;
   lblOperatingSystem.Caption := OSVersion;
   lblWidgetsetVer.Caption    := WSVersion;
+
+  lblBuild.Visible           := (dcCommit = 0);
+  lblCommit.Visible          := (dcCommit > 0);
 end;
 
 end.
