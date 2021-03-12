@@ -66,7 +66,7 @@
           <Other>
             <CustomOptions Value="-dHEAPTRC -dHEAPTRC_EXTRA"/>
             <ExecuteBefore>
-              <Command Value="$(ProjPath)\platform\svn2revisioninc$(ExeExt).cmd $MakeFile($(ProjOutDir))"/>
+              <Command Value="$(ProjPath)\platform\git2revisioninc$(ExeExt).cmd $MakeFile($(ProjOutDir))"/>
               <CompileReasons Run="False"/>
             </ExecuteBefore>
           </Other>
@@ -105,7 +105,7 @@
           </Linking>
           <Other>
             <ExecuteBefore>
-              <Command Value="$(ProjPath)\platform\svn2revisioninc$(ExeExt).cmd $MakeFile($(ProjOutDir))"/>
+              <Command Value="$(ProjPath)\platform\git2revisioninc$(ExeExt).cmd $MakeFile($(ProjOutDir))"/>
               <CompileReasons Run="False"/>
             </ExecuteBefore>
           </Other>
@@ -147,7 +147,7 @@
           <Other>
             <CustomOptions Value="-dNIGHTLY_BUILD"/>
             <ExecuteBefore>
-              <Command Value="$(ProjPath)\platform\svn2revisioninc$(ExeExt).cmd $MakeFile($(ProjOutDir))"/>
+              <Command Value="$(ProjPath)\platform\git2revisioninc$(ExeExt).cmd $MakeFile($(ProjOutDir))"/>
               <CompileReasons Run="False"/>
             </ExecuteBefore>
           </Other>
@@ -221,7 +221,7 @@ end;"/>
             </Verbosity>
             <CustomOptions Value="-dNIGHTLY_BUILD"/>
             <ExecuteBefore>
-              <Command Value="$(ProjPath)\platform\svn2revisioninc$(ExeExt).cmd $MakeFile($(ProjOutDir))"/>
+              <Command Value="$(ProjPath)\platform\git2revisioninc$(ExeExt).cmd $MakeFile($(ProjOutDir))"/>
               <CompileReasons Run="False"/>
             </ExecuteBefore>
           </Other>
@@ -1975,7 +1975,7 @@ end;"/>
     </Linking>
     <Other>
       <ExecuteBefore>
-        <Command Value="$(ProjPath)\platform\svn2revisioninc$(ExeExt).cmd $MakeFile($(ProjOutDir))"/>
+        <Command Value="$(ProjPath)\platform\git2revisioninc$(ExeExt).cmd $MakeFile($(ProjOutDir))"/>
         <CompileReasons Run="False"/>
       </ExecuteBefore>
     </Other>
