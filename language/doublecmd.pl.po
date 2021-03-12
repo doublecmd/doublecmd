@@ -129,6 +129,11 @@ msgctxt "tfrmabout.lblbuild.caption"
 msgid "Build"
 msgstr "Kompilacja"
 
+#: tfrmabout.lblcommit.caption
+msgctxt "tfrmabout.lblcommit.caption"
+msgid "Commit"
+msgstr ""
+
 #: tfrmabout.lblfreepascalver.caption
 msgctxt "tfrmabout.lblfreepascalver.caption"
 msgid "Free Pascal"
@@ -1770,6 +1775,7 @@ msgid "C&ase sensitive"
 msgstr "&Uwzględniaj wielkość liter"
 
 #: tfrmfindview.cbregexp.caption
+msgctxt "tfrmfindview.cbregexp.caption"
 msgid "&Regular expressions"
 msgstr "Wyrażenia &regularne"
 
@@ -8586,6 +8592,11 @@ msgstr "Double Commander"
 msgctxt "TFRMSTARTINGSPLASH.LBLBUILD.CAPTION"
 msgid "Build"
 msgstr "Kompilacja"
+
+#: tfrmstartingsplash.lblcommit.caption
+msgctxt "tfrmstartingsplash.lblcommit.caption"
+msgid "Commit"
+msgstr ""
 
 #: tfrmstartingsplash.lblfreepascalver.caption
 msgctxt "TFRMSTARTINGSPLASH.LBLFREEPASCALVER.CAPTION"

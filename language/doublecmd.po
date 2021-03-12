@@ -129,6 +129,11 @@ msgctxt "tfrmabout.lblbuild.caption"
 msgid "Build"
 msgstr ""
 
+#: tfrmabout.lblcommit.caption
+msgctxt "tfrmabout.lblcommit.caption"
+msgid "Commit"
+msgstr ""
+
 #: tfrmabout.lblfreepascalver.caption
 msgctxt "tfrmabout.lblfreepascalver.caption"
 msgid "Free Pascal"
@@ -8616,6 +8621,11 @@ msgstr ""
 #: tfrmstartingsplash.lblbuild.caption
 msgctxt "TFRMSTARTINGSPLASH.LBLBUILD.CAPTION"
 msgid "Build"
+msgstr ""
+
+#: tfrmstartingsplash.lblcommit.caption
+msgctxt "tfrmstartingsplash.lblcommit.caption"
+msgid "Commit"
 msgstr ""
 
 #: tfrmstartingsplash.lblfreepascalver.caption
