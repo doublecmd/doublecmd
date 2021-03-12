@@ -1,0 +1,1 @@
+**Double Commander** is a [free](https://www.gnu.org/philosophy/free-sw.html) cross platform open source file manager with two panels side by side. It is inspired by Total Commander and features some new ideas. 
