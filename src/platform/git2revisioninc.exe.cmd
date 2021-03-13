@@ -1,7 +1,9 @@
 @echo off
 
-set REVISION_TXT=%1\revision.txt
-set REVISION_INC=%1\dcrevision.inc
+if not exist "%1" ( md "%1" )
+
+set REVISION_TXT="%1\revision.txt"
+set REVISION_INC="%1\dcrevision.inc"
 
 del /Q %REVISION_TXT% 2> nul
 del /Q %REVISION_INC% 2> nul

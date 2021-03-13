@@ -1,5 +1,7 @@
 #!/bin/sh
 
+mkdir -p $1
+
 export REVISION_INC=$1/dcrevision.inc
 
 rm -f $REVISION_INC
