@@ -86,6 +86,7 @@ begin
                 // Picture type
                 AStream.ReadByte;
                 // Description
+                AData:= 0;
                 repeat
                   AStream.ReadBuffer(AData, AInc);
                 until (AData = 0);
@@ -101,6 +102,9 @@ begin
                 else if AMimeType = 'image/jpeg' then
                 begin
                   ABitmap:= TJPEGImage.Create;
+                end
+                else begin
+                  ABitmap:= nil;
                 end;
                 if Assigned(ABitmap) then
                 try
