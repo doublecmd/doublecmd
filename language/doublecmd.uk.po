@@ -6639,6 +6639,10 @@ msgctxt "TFRMOPTIONSLAYOUT.CBSHOWCMDLINE.CAPTION"
 msgid "Show command l&ine"
 msgstr "Показувати &командний рядок"
 
+#: tfrmoptionslayout.cbshowcolonafterdrive.caption
+msgid "Show colon (&:) after drive letter"
+msgstr ""
+
 #: tfrmoptionslayout.cbshowcurdir.caption
 msgctxt "TFRMOPTIONSLAYOUT.CBSHOWCURDIR.CAPTION"
 msgid "Show current director&y"
@@ -6701,6 +6705,10 @@ msgstr "Показувати вікно терм&іналу"
 msgctxt "TFRMOPTIONSLAYOUT.CBTWODISKPANELS.CAPTION"
 msgid "Show two drive button bars (fi&xed width, above file windows)"
 msgstr "Показувати д&ві панелі кнопок дисків (фіксована довжина, над файловими панелями)"
+
+#: tfrmoptionslayout.cbuppercasedriveletter.caption
+msgid "&Uppercase drive letter"
+msgstr ""
 
 #: tfrmoptionslayout.chkshowmiddletoolbar.caption
 msgid "Show middle toolbar"

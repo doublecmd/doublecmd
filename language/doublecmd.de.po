@@ -6612,6 +6612,10 @@ msgstr "Zeige allgemeinen Fortschritt in der Menü-Zeile"
 msgid "Show command l&ine"
 msgstr "Befehlsze&ile anzeigen"
 
+#: tfrmoptionslayout.cbshowcolonafterdrive.caption
+msgid "Show colon (&:) after drive letter"
+msgstr "Doppelpunkt (&:) nach Laufwerksbuchstabe anzeigen"
+
 #: tfrmoptionslayout.cbshowcurdir.caption
 msgctxt "TFRMOPTIONSLAYOUT.CBSHOWCURDIR.CAPTION"
 msgid "Show current director&y"
@@ -6672,6 +6676,10 @@ msgstr "Konsolenfenste&r zeigen"
 msgctxt "TFRMOPTIONSLAYOUT.CBTWODISKPANELS.CAPTION"
 msgid "Show two drive button bars (fi&xed width, above file windows)"
 msgstr "Zeige zwei &Laufwerksleisten (feste Breite, über den Dateifenstern)"
+
+#: tfrmoptionslayout.cbuppercasedriveletter.caption
+msgid "&Uppercase drive letter"
+msgstr "Laufwerksb&uchstaben in Größ"
 
 #: tfrmoptionslayout.chkshowmiddletoolbar.caption
 msgid "Show middle toolbar"

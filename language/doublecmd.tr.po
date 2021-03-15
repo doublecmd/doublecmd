@@ -6851,6 +6851,10 @@ msgstr "Genel ilerlemeyi menü çubuğunda göster"
 msgid "Show command l&ine"
 msgstr ""
 
+#: tfrmoptionslayout.cbshowcolonafterdrive.caption
+msgid "Show colon (&:) after drive letter"
+msgstr ""
+
 #: tfrmoptionslayout.cbshowcurdir.caption
 msgid "Show current director&y"
 msgstr ""
@@ -6907,6 +6911,10 @@ msgstr ""
 
 #: tfrmoptionslayout.cbtwodiskpanels.caption
 msgid "Show two drive button bars (fi&xed width, above file windows)"
+msgstr ""
+
+#: tfrmoptionslayout.cbuppercasedriveletter.caption
+msgid "&Uppercase drive letter"
 msgstr ""
 
 #: tfrmoptionslayout.chkshowmiddletoolbar.caption

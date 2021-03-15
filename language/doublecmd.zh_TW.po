@@ -7089,6 +7089,10 @@ msgctxt "TFRMOPTIONSLAYOUT.CBSHOWCMDLINE.CAPTION"
 msgid "Show command l&ine"
 msgstr "顯示指令行 (&I)"
 
+#: tfrmoptionslayout.cbshowcolonafterdrive.caption
+msgid "Show colon (&:) after drive letter"
+msgstr ""
+
 #: tfrmoptionslayout.cbshowcurdir.caption
 #, fuzzy
 #| msgid "Show &current directory"
@@ -7169,6 +7173,10 @@ msgstr "顯示終端機視窗 (&R)"
 msgctxt "TFRMOPTIONSLAYOUT.CBTWODISKPANELS.CAPTION"
 msgid "Show two drive button bars (fi&xed width, above file windows)"
 msgstr "顯示兩個磁碟按鈕列 (&X)"
+
+#: tfrmoptionslayout.cbuppercasedriveletter.caption
+msgid "&Uppercase drive letter"
+msgstr ""
 
 #: tfrmoptionslayout.chkshowmiddletoolbar.caption
 msgid "Show middle toolbar"

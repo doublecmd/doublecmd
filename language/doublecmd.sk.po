@@ -6444,6 +6444,10 @@ msgstr "Zobraziť celkový postup v lište menu"
 msgid "Show command l&ine"
 msgstr "Zobraziť príkazový ria&dok"
 
+#: tfrmoptionslayout.cbshowcolonafterdrive.caption
+msgid "Show colon (&:) after drive letter"
+msgstr ""
+
 #: tfrmoptionslayout.cbshowcurdir.caption
 msgid "Show current director&y"
 msgstr "Zobraziť aktuáln&y adresár"
@@ -6495,6 +6499,10 @@ msgstr "Zobraziť okno terminálu"
 #: tfrmoptionslayout.cbtwodiskpanels.caption
 msgid "Show two drive button bars (fi&xed width, above file windows)"
 msgstr "Zobraziť dve tlačidlové panely diskov (pevná šírka, nad oknami so súbormi)"
+
+#: tfrmoptionslayout.cbuppercasedriveletter.caption
+msgid "&Uppercase drive letter"
+msgstr ""
 
 #: tfrmoptionslayout.chkshowmiddletoolbar.caption
 msgid "Show middle toolbar"

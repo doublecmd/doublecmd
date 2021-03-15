@@ -59,7 +59,7 @@ inherited frmOptionsLayout: TfrmOptionsLayout
       AnchorSideTop.Side = asrBottom
       Left = 12
       Height = 22
-      Top = 148
+      Top = 118
       Width = 156
       BorderSpacing.Top = 2
       Caption = 'Show drives list bu&tton'
@@ -70,7 +70,7 @@ inherited frmOptionsLayout: TfrmOptionsLayout
       AnchorSideTop.Side = asrBottom
       Left = 12
       Height = 22
-      Top = 268
+      Top = 213
       Width = 154
       BorderSpacing.Top = 2
       Caption = 'Show current director&y'
@@ -81,7 +81,7 @@ inherited frmOptionsLayout: TfrmOptionsLayout
       AnchorSideTop.Side = asrBottom
       Left = 12
       Height = 22
-      Top = 292
+      Top = 232
       Width = 146
       BorderSpacing.Top = 2
       Caption = 'S&how tabstop header'
@@ -92,33 +92,33 @@ inherited frmOptionsLayout: TfrmOptionsLayout
       AnchorSideTop.Side = asrBottom
       Left = 12
       Height = 22
-      Top = 316
+      Top = 251
       Width = 118
       BorderSpacing.Top = 2
       Caption = 'Show &status bar'
       TabOrder = 13
     end
     object cbShowCmdLine: TCheckBox
-      AnchorSideTop.Control = cbShowStatusBar
+      AnchorSideTop.Control = cbShowColonAfterDrive
       AnchorSideTop.Side = asrBottom
       Left = 12
       Height = 22
-      Top = 340
+      Top = 308
       Width = 141
       BorderSpacing.Top = 2
       Caption = 'Show command l&ine'
-      TabOrder = 14
+      TabOrder = 16
     end
     object cbShowKeysPanel: TCheckBox
       AnchorSideTop.Control = cbShowCmdLine
       AnchorSideTop.Side = asrBottom
       Left = 12
       Height = 22
-      Top = 364
+      Top = 327
       Width = 178
       BorderSpacing.Top = 2
       Caption = 'Show function &key buttons'
-      TabOrder = 15
+      TabOrder = 17
     end
     object cbFlatDiskPanel: TCheckBox
       AnchorSideLeft.Control = cbTwoDiskPanels
@@ -126,7 +126,7 @@ inherited frmOptionsLayout: TfrmOptionsLayout
       AnchorSideTop.Side = asrBottom
       Left = 28
       Height = 22
-      Top = 124
+      Top = 99
       Width = 93
       BorderSpacing.Top = 2
       Caption = '&Flat buttons'
@@ -139,7 +139,7 @@ inherited frmOptionsLayout: TfrmOptionsLayout
       AnchorSideTop.Side = asrBottom
       Left = 28
       Height = 22
-      Top = 100
+      Top = 80
       Width = 372
       BorderSpacing.Left = 16
       BorderSpacing.Top = 2
@@ -152,7 +152,7 @@ inherited frmOptionsLayout: TfrmOptionsLayout
       AnchorSideTop.Side = asrBottom
       Left = 12
       Height = 22
-      Top = 244
+      Top = 194
       Width = 121
       BorderSpacing.Top = 2
       Caption = 'Sho&w folder tabs'
@@ -163,40 +163,40 @@ inherited frmOptionsLayout: TfrmOptionsLayout
       AnchorSideTop.Side = asrBottom
       Left = 12
       Height = 22
-      Top = 388
+      Top = 346
       Width = 100
       BorderSpacing.Top = 2
       Caption = 'Flat i&nterface'
-      TabOrder = 16
+      TabOrder = 18
     end
     object cbLogWindow: TCheckBox
       AnchorSideTop.Control = cbFlatInterface
       AnchorSideTop.Side = asrBottom
       Left = 12
       Height = 22
-      Top = 412
+      Top = 365
       Width = 123
       BorderSpacing.Top = 2
       Caption = 'Show lo&g window'
-      TabOrder = 17
+      TabOrder = 19
     end
     object cbTermWindow: TCheckBox
       AnchorSideTop.Control = cbLogWindow
       AnchorSideTop.Side = asrBottom
       Left = 12
       Height = 22
-      Top = 436
+      Top = 384
       Width = 152
       BorderSpacing.Top = 2
       Caption = 'Show te&rminal window'
-      TabOrder = 18
+      TabOrder = 20
     end
     object cbFreespaceInd: TCheckBox
       AnchorSideTop.Control = cbShowShortDriveFreeSpace
       AnchorSideTop.Side = asrBottom
       Left = 12
       Height = 22
-      Top = 220
+      Top = 175
       Width = 255
       BorderSpacing.Top = 2
       Caption = 'Show fr&ee space indicator on drive label'
@@ -207,29 +207,29 @@ inherited frmOptionsLayout: TfrmOptionsLayout
       AnchorSideTop.Side = asrBottom
       Left = 12
       Height = 22
-      Top = 460
+      Top = 403
       Width = 236
       BorderSpacing.Top = 2
       Caption = 'Show common progress in menu bar'
-      TabOrder = 19
+      TabOrder = 21
     end
     object cbPanelOfOperations: TCheckBox
       AnchorSideTop.Control = cbProgInMenuBar
       AnchorSideTop.Side = asrBottom
       Left = 12
       Height = 22
-      Top = 484
+      Top = 422
       Width = 248
       BorderSpacing.Top = 2
       Caption = 'Show panel of operation in background'
-      TabOrder = 20
+      TabOrder = 22
     end
     object cbShowDriveFreeSpace: TCheckBox
       AnchorSideTop.Control = cbShowDrivesListButton
       AnchorSideTop.Side = asrBottom
       Left = 12
       Height = 22
-      Top = 172
+      Top = 137
       Width = 152
       BorderSpacing.Top = 2
       Caption = 'Show free s&pace label'
@@ -242,7 +242,7 @@ inherited frmOptionsLayout: TfrmOptionsLayout
       AnchorSideTop.Side = asrBottom
       Left = 28
       Height = 22
-      Top = 196
+      Top = 156
       Width = 185
       BorderSpacing.Top = 2
       Caption = 'Show short free space &label'
@@ -254,10 +254,34 @@ inherited frmOptionsLayout: TfrmOptionsLayout
       AnchorSideTop.Side = asrBottom
       Left = 12
       Height = 22
-      Top = 52
+      Top = 42
       Width = 141
       Caption = 'Show middle toolbar'
       TabOrder = 2
+    end
+    object cbUppercaseDriveLetter: TCheckBox
+      AnchorSideLeft.Control = cbShowStatusBar
+      AnchorSideTop.Control = cbShowStatusBar
+      AnchorSideTop.Side = asrBottom
+      Left = 12
+      Height = 22
+      Top = 270
+      Width = 127
+      BorderSpacing.Top = 2
+      Caption = '&Uppercase drive letter'
+      TabOrder = 14
+    end
+    object cbShowColonAfterDrive: TCheckBox
+      AnchorSideLeft.Control = cbUppercaseDriveLetter
+      AnchorSideTop.Control = cbUppercaseDriveLetter
+      AnchorSideTop.Side = asrBottom
+      Left = 12
+      Height = 22
+      Top = 289
+      Width = 172
+      BorderSpacing.Top = 2
+      Caption = 'Show colon (&:) after drive letter'
+      TabOrder = 15
     end
   end
 end

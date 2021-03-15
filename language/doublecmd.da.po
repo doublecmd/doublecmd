@@ -7089,6 +7089,10 @@ msgstr "Vis fremskridt i menulin&je"
 msgid "Show command l&ine"
 msgstr "Vis kommandolinje"
 
+#: tfrmoptionslayout.cbshowcolonafterdrive.caption
+msgid "Show colon (&:) after drive letter"
+msgstr ""
+
 # Opsætning - Indstillinger - Layout
 #: tfrmoptionslayout.cbshowcurdir.caption
 msgid "Show current director&y"
@@ -7153,6 +7157,10 @@ msgstr "Vis te&rminalvindue"
 #: tfrmoptionslayout.cbtwodiskpanels.caption
 msgid "Show two drive button bars (fi&xed width, above file windows)"
 msgstr "V&is to knappaneler for drev (fast bredde, over filvindue)"
+
+#: tfrmoptionslayout.cbuppercasedriveletter.caption
+msgid "&Uppercase drive letter"
+msgstr ""
 
 #: tfrmoptionslayout.chkshowmiddletoolbar.caption
 msgid "Show middle toolbar"

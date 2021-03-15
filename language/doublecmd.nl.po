@@ -6463,6 +6463,10 @@ msgstr "Toon algemene voortgang in menubalk"
 msgid "Show command l&ine"
 msgstr "Toon opdrachtregel"
 
+#: tfrmoptionslayout.cbshowcolonafterdrive.caption
+msgid "Show colon (&:) after drive letter"
+msgstr ""
+
 #: tfrmoptionslayout.cbshowcurdir.caption
 msgid "Show current director&y"
 msgstr "Toon huidige map"
@@ -6514,6 +6518,10 @@ msgstr "Toon terminalvenster"
 #: tfrmoptionslayout.cbtwodiskpanels.caption
 msgid "Show two drive button bars (fi&xed width, above file windows)"
 msgstr "Toon twee schijfknoppenbalken (vaste breedte, boven bestandenvensters)"
+
+#: tfrmoptionslayout.cbuppercasedriveletter.caption
+msgid "&Uppercase drive letter"
+msgstr ""
 
 #: tfrmoptionslayout.chkshowmiddletoolbar.caption
 msgid "Show middle toolbar"

@@ -7098,6 +7098,10 @@ msgctxt "tfrmoptionslayout.cbshowcmdline.caption"
 msgid "Show command l&ine"
 msgstr "Mostra &línia d'ordres"
 
+#: tfrmoptionslayout.cbshowcolonafterdrive.caption
+msgid "Show colon (&:) after drive letter"
+msgstr ""
+
 #: tfrmoptionslayout.cbshowcurdir.caption
 #, fuzzy
 #| msgid "Show &current directory"
@@ -7176,6 +7180,10 @@ msgstr "Mostra finestra de terminal"
 msgctxt "tfrmoptionslayout.cbtwodiskpanels.caption"
 msgid "Show two drive button bars (fi&xed width, above file windows)"
 msgstr "Barra de &botons d'unitats (amplada fixa, sobre llista de fitxers)"
+
+#: tfrmoptionslayout.cbuppercasedriveletter.caption
+msgid "&Uppercase drive letter"
+msgstr ""
 
 #: tfrmoptionslayout.chkshowmiddletoolbar.caption
 msgid "Show middle toolbar"

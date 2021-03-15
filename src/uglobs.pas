@@ -271,6 +271,8 @@ var
   gProgInMenuBar,
   gPanelOfOp,
   gHorizontalFilePanels,
+  gUppercaseDriveLetter,
+  gShowColonAfterDrive,
   gShortFormatDriveInfo: Boolean;
   gDrivesListButtonOptions: TDrivesListButtonOptions;
   gSeparateTree: Boolean;
@@ -1746,6 +1748,8 @@ begin
   gPanelOfOp := True;
   gShortFormatDriveInfo := True;
   gHorizontalFilePanels := False;
+  gUppercaseDriveLetter := False;
+  gShowColonAfterDrive := False;
   gDrivesListButtonOptions := [dlbShowLabel, dlbShowFileSystem, dlbShowFreeSpace];
   gSeparateTree := False;
 
@@ -2694,6 +2698,8 @@ begin
       gPanelOfOp := GetValue(Node, 'PanelOfOperationsInBackground', gPanelOfOp);
       gHorizontalFilePanels := GetValue(Node, 'HorizontalFilePanels', gHorizontalFilePanels);
       gShortFormatDriveInfo := GetValue(Node, 'ShortFormatDriveInfo', gShortFormatDriveInfo);
+      gUppercaseDriveLetter := GetValue(Node, 'UppercaseDriveLetter', gUppercaseDriveLetter);
+      gShowColonAfterDrive := GetValue(Node, 'ShowColonAfterDrive', gShowColonAfterDrive);
     end;
 
     { Files views }
@@ -3385,6 +3391,8 @@ begin
     SetValue(Node, 'PanelOfOperationsInBackground', gPanelOfOp);
     SetValue(Node, 'HorizontalFilePanels', gHorizontalFilePanels);
     SetValue(Node, 'ShortFormatDriveInfo', gShortFormatDriveInfo);
+    SetValue(Node, 'UppercaseDriveLetter', gUppercaseDriveLetter);
+    SetValue(Node, 'ShowColonAfterDrive', gShowColonAfterDrive);
 
     { Files views }
     Node := FindNode(Root, 'FilesViews', True);

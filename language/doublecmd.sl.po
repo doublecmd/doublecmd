@@ -6490,6 +6490,10 @@ msgstr "Pokaži splošni napredek dejavnosti v menijski vrstici"
 msgid "Show command l&ine"
 msgstr "Pokaži &ukazno vrstico"
 
+#: tfrmoptionslayout.cbshowcolonafterdrive.caption
+msgid "Show colon (&:) after drive letter"
+msgstr ""
+
 #: tfrmoptionslayout.cbshowcurdir.caption
 msgid "Show current director&y"
 msgstr "Pokaži &trenutno mapo"
@@ -6541,6 +6545,10 @@ msgstr "Pokaži okno &terminala"
 #: tfrmoptionslayout.cbtwodiskpanels.caption
 msgid "Show two drive button bars (fi&xed width, above file windows)"
 msgstr "Pokaži dve orodni vrstici gumbov pogonov (&določene širine nad okni)"
+
+#: tfrmoptionslayout.cbuppercasedriveletter.caption
+msgid "&Uppercase drive letter"
+msgstr ""
 
 #: tfrmoptionslayout.chkshowmiddletoolbar.caption
 msgid "Show middle toolbar"

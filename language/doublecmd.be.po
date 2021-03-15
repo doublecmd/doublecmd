@@ -6447,6 +6447,10 @@ msgstr "Паказваць бягучы прагрэс на панэлі мен�
 msgid "Show command l&ine"
 msgstr "Паказваць загадны ра&док"
 
+#: tfrmoptionslayout.cbshowcolonafterdrive.caption
+msgid "Show colon (&:) after drive letter"
+msgstr ""
+
 #: tfrmoptionslayout.cbshowcurdir.caption
 msgid "Show current director&y"
 msgstr "Паказваць бягучы катал&ог"
@@ -6498,6 +6502,10 @@ msgstr "Паказваць акно тэр&мінала"
 #: tfrmoptionslayout.cbtwodiskpanels.caption
 msgid "Show two drive button bars (fi&xed width, above file windows)"
 msgstr "Дзве панэлі кнопак дыскаў (па-над файлавымі панэлямі)"
+
+#: tfrmoptionslayout.cbuppercasedriveletter.caption
+msgid "&Uppercase drive letter"
+msgstr ""
 
 #: tfrmoptionslayout.chkshowmiddletoolbar.caption
 msgid "Show middle toolbar"

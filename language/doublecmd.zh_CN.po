@@ -6466,6 +6466,10 @@ msgstr "在菜单栏中显示常见进度"
 msgid "Show command l&ine"
 msgstr "显示命令行(&I)"
 
+#: tfrmoptionslayout.cbshowcolonafterdrive.caption
+msgid "Show colon (&:) after drive letter"
+msgstr ""
+
 #: tfrmoptionslayout.cbshowcurdir.caption
 msgid "Show current director&y"
 msgstr "显示当前文件夹(&Y)"
@@ -6517,6 +6521,10 @@ msgstr "显示终端窗口(&R)"
 #: tfrmoptionslayout.cbtwodiskpanels.caption
 msgid "Show two drive button bars (fi&xed width, above file windows)"
 msgstr "显示两个驱动按钮栏"
+
+#: tfrmoptionslayout.cbuppercasedriveletter.caption
+msgid "&Uppercase drive letter"
+msgstr ""
 
 #: tfrmoptionslayout.chkshowmiddletoolbar.caption
 msgid "Show middle toolbar"

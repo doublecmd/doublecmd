@@ -6455,6 +6455,10 @@ msgstr "Zobrazovat běžný průběh v liště nabídky"
 msgid "Show command l&ine"
 msgstr "Zobrazit příkazový řá&dek"
 
+#: tfrmoptionslayout.cbshowcolonafterdrive.caption
+msgid "Show colon (&:) after drive letter"
+msgstr ""
+
 #: tfrmoptionslayout.cbshowcurdir.caption
 msgid "Show current director&y"
 msgstr "Zobrazit aktuální adresá&ř"
@@ -6506,6 +6510,10 @@ msgstr "Zobrazit okno te&rminálu"
 #: tfrmoptionslayout.cbtwodiskpanels.caption
 msgid "Show two drive button bars (fi&xed width, above file windows)"
 msgstr "Zobrazit 2 seznamy disků (pe&vná šířka, nad souborovými okny)"
+
+#: tfrmoptionslayout.cbuppercasedriveletter.caption
+msgid "&Uppercase drive letter"
+msgstr ""
 
 #: tfrmoptionslayout.chkshowmiddletoolbar.caption
 msgid "Show middle toolbar"

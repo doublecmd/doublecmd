@@ -6489,6 +6489,10 @@ msgstr "Mostrar el progreso com&ún en la barra de menús"
 msgid "Show command l&ine"
 msgstr "Mostrar la línea de co&mandos"
 
+#: tfrmoptionslayout.cbshowcolonafterdrive.caption
+msgid "Show colon (&:) after drive letter"
+msgstr ""
+
 #: tfrmoptionslayout.cbshowcurdir.caption
 msgid "Show current director&y"
 msgstr "Mostrar barra de nave&gación"
@@ -6540,6 +6544,10 @@ msgstr "Mostrar la &ventana de terminal"
 #: tfrmoptionslayout.cbtwodiskpanels.caption
 msgid "Show two drive button bars (fi&xed width, above file windows)"
 msgstr "Mostrar &dos barras de botones de unidad (ancho fijo, sobre la lista de archivos)"
+
+#: tfrmoptionslayout.cbuppercasedriveletter.caption
+msgid "&Uppercase drive letter"
+msgstr ""
 
 #: tfrmoptionslayout.chkshowmiddletoolbar.caption
 msgid "Show middle toolbar"

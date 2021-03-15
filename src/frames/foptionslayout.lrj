@@ -20,5 +20,7 @@
 {"hash":11318116,"name":"tfrmoptionslayout.cbpanelofoperations.caption","sourcebytes":[83,104,111,119,32,112,97,110,101,108,32,111,102,32,111,112,101,114,97,116,105,111,110,32,105,110,32,98,97,99,107,103,114,111,117,110,100],"value":"Show panel of operation in background"},
 {"hash":157748028,"name":"tfrmoptionslayout.cbshowdrivefreespace.caption","sourcebytes":[83,104,111,119,32,102,114,101,101,32,115,38,112,97,99,101,32,108,97,98,101,108],"value":"Show free s&pace label"},
 {"hash":176489292,"name":"tfrmoptionslayout.cbshowshortdrivefreespace.caption","sourcebytes":[83,104,111,119,32,115,104,111,114,116,32,102,114,101,101,32,115,112,97,99,101,32,38,108,97,98,101,108],"value":"Show short free space &label"},
-{"hash":219781266,"name":"tfrmoptionslayout.chkshowmiddletoolbar.caption","sourcebytes":[83,104,111,119,32,109,105,100,100,108,101,32,116,111,111,108,98,97,114],"value":"Show middle toolbar"}
+{"hash":219781266,"name":"tfrmoptionslayout.chkshowmiddletoolbar.caption","sourcebytes":[83,104,111,119,32,109,105,100,100,108,101,32,116,111,111,108,98,97,114],"value":"Show middle toolbar"},
+{"hash":221771938,"name":"tfrmoptionslayout.cbuppercasedriveletter.caption","sourcebytes":[38,85,112,112,101,114,99,97,115,101,32,100,114,105,118,101,32,108,101,116,116,101,114],"value":"&Uppercase drive letter"},
+{"hash":11491346,"name":"tfrmoptionslayout.cbshowcolonafterdrive.caption","sourcebytes":[83,104,111,119,32,99,111,108,111,110,32,40,38,58,41,32,97,102,116,101,114,32,100,114,105,118,101,32,108,101,116,116,101,114],"value":"Show colon (&:) after drive letter"}
 ]}

@@ -55,6 +55,8 @@ type
     cbTermWindow: TCheckBox;
     cbTwoDiskPanels: TCheckBox;
     cbShowShortDriveFreeSpace: TCheckBox;
+    cbUppercaseDriveLetter: TCheckBox;
+    cbShowColonAfterDrive: TCheckBox;
     chkShowMiddleToolBar: TCheckBox;
     gbScreenLayout: TGroupBox;
     procedure cbShowDiskPanelChange(Sender: TObject);
@@ -121,6 +123,8 @@ begin
   cbProgInMenuBar.Checked := gProgInMenuBar;
   cbPanelOfOperations.Checked := gPanelOfOp;
   cbShowShortDriveFreeSpace.Checked:= gShortFormatDriveInfo;
+  cbUppercaseDriveLetter.Checked := gUppercaseDriveLetter;
+  cbShowColonAfterDrive.Checked := gShowColonAfterDrive;
 end;
 
 function TfrmOptionsLayout.Save: TOptionsEditorSaveFlags;
@@ -148,6 +152,8 @@ begin
   gProgInMenuBar := cbProgInMenuBar.Checked;
   gPanelOfOp := cbPanelOfOperations.Checked;
   gShortFormatDriveInfo := cbShowShortDriveFreeSpace.Checked;
+  gUppercaseDriveLetter := cbUppercaseDriveLetter.Checked;
+  gShowColonAfterDrive := cbShowColonAfterDrive.Checked;
 end;
 
 end.
