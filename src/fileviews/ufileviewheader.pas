@@ -83,7 +83,7 @@ type
 implementation
 
 uses
-  LCLType, ShellCtrls, uDCUtils, DCOSUtils, DCStrUtils, uKeyboard,
+  LCLType, ShellCtrls, Graphics, uDCUtils, DCOSUtils, DCStrUtils, uKeyboard,
   fMain, uFileSourceUtil, uGlobs, uPixMapManager, uLng, uFileFunctions,
   uArchiveFileSource, uFileViewWithPanels;
 
@@ -546,6 +546,7 @@ end;
 constructor TFileViewFixedHeader.Create(AOwner: TFileView; AParent: TWinControl);
 var
   I: Integer;
+  ABitmap: TBitmap;
 begin
   inherited Create(AOwner);
 
@@ -561,8 +562,14 @@ begin
   Sections.Add.Text:= rsColAttr;
 
   Images:= TImageList.CreateSize(gIconsSize, gIconsSize);
-  Images.Add(PixMapManager.GetBitmap(PixMapManager.GetIconBySortingDirection(sdAscending)), nil);
-  Images.Add(PixMapManager.GetBitmap(PixMapManager.GetIconBySortingDirection(sdDescending)), nil);
+
+  ABitmap:= PixMapManager.GetBitmap(PixMapManager.GetIconBySortingDirection(sdAscending));
+  Images.Add(ABitmap, nil);
+  ABitmap.Free;
+
+  ABitmap:= PixMapManager.GetBitmap(PixMapManager.GetIconBySortingDirection(sdDescending));
+  Images.Add(ABitmap, nil);
+  ABitmap.Free;;
 
   SetLength(FSorting, 5);
   for I:= Low(FSorting) to High(FSorting) do
