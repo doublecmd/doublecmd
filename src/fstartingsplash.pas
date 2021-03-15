@@ -49,16 +49,13 @@ procedure TfrmStartingSplash.FormCreate(Sender: TObject);
 begin
   lblVersion.Caption         := lblVersion.Caption + #32 + dcVersion;
   lblRevision.Caption        := lblRevision.Caption + #32 + dcRevision;
-  lblCommit.Caption          := lblCommit.Caption + #32 + GetCommitTime;
+  lblCommit.Caption          := lblCommit.Caption + #32 + dcCommit;
   lblBuild.Caption           := lblBuild.Caption + #32 + dcBuildDate;
   lblLazarusVer.Caption      := lblLazarusVer.Caption + #32 + GetLazarusVersion;
   lblFreePascalVer.Caption   := lblFreePascalVer.Caption + #32 + fpcVersion;
   lblPlatform.Caption        := TargetCPU + '-' + TargetOS + '-' + TargetWS;
   lblOperatingSystem.Caption := OSVersion;
   lblWidgetsetVer.Caption    := WSVersion;
-
-  lblBuild.Visible           := (dcCommit = 0);
-  lblCommit.Visible          := (dcCommit > 0);
 end;
 
 end.

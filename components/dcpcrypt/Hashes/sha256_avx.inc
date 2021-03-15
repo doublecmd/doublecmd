@@ -61,16 +61,16 @@ asm
   movq   %rsi, 16(%rsp)
   movq   %rdi, 24(%rsp)
   subq   $168, %rsp
-  vmovaps %xmm6, (%rsp)
-  vmovaps %xmm7, 16(%rsp)
-  vmovaps %xmm8, 32(%rsp)
-  vmovaps %xmm9, 48(%rsp)
-  vmovaps %xmm10, 64(%rsp)
-  vmovaps %xmm11, 80(%rsp)
-  vmovaps %xmm12, 96(%rsp)
-  vmovaps %xmm13, 112(%rsp)
-  vmovaps %xmm14, 128(%rsp)
-  vmovaps %xmm15, 144(%rsp)
+  movdqa %xmm6, (%rsp)
+  movdqa %xmm7, 16(%rsp)
+  movdqa %xmm8, 32(%rsp)
+  movdqa %xmm9, 48(%rsp)
+  movdqa %xmm10, 64(%rsp)
+  movdqa %xmm11, 80(%rsp)
+  movdqa %xmm12, 96(%rsp)
+  movdqa %xmm13, 112(%rsp)
+  movdqa %xmm14, 128(%rsp)
+  movdqa %xmm15, 144(%rsp)
   movq   %rcx, %rdi
   movq   %rdx, %rsi
   movq   %r8,  %rdx
@@ -1408,16 +1408,16 @@ asm
 
 .LB163f:
 {$IF DEFINED(WIN64)}
-  vmovaps (%rsp),%xmm6
-  vmovaps 0x10(%rsp),%xmm7
-  vmovaps 0x20(%rsp),%xmm8
-  vmovaps 0x30(%rsp),%xmm9
-  vmovaps 0x40(%rsp),%xmm10
-  vmovaps 0x50(%rsp),%xmm11
-  vmovaps 0x60(%rsp),%xmm12
-  vmovaps 0x70(%rsp),%xmm13
-  vmovaps 0x80(%rsp),%xmm14
-  vmovaps 0x90(%rsp),%xmm15
+  movdqa  (%rsp),%xmm6
+  movdqa  0x10(%rsp),%xmm7
+  movdqa  0x20(%rsp),%xmm8
+  movdqa  0x30(%rsp),%xmm9
+  movdqa  0x40(%rsp),%xmm10
+  movdqa  0x50(%rsp),%xmm11
+  movdqa  0x60(%rsp),%xmm12
+  movdqa  0x70(%rsp),%xmm13
+  movdqa  0x80(%rsp),%xmm14
+  movdqa  0x90(%rsp),%xmm15
   addq    $168, %rsp
   movq    16(%rsp), %rsi
   movq    24(%rsp), %rdi
