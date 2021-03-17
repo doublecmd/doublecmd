@@ -341,6 +341,8 @@ var
   glsReplaceHistory : TStringListEx;
   glsReplacePathHistory : TStringListEx;
   glsCreateDirectoriesHistory : TStringListEx;
+  glsRenameNameMaskHistory : TStringListEx;
+  glsRenameExtMaskHistory : TStringListEx;
   glsSearchDirectories: TStringList;
   glsSearchExcludeFiles: TStringList;
   glsSearchExcludeDirectories: TStringList;
@@ -886,6 +888,8 @@ begin
       LoadHistory('ReplaceText', glsReplaceHistory);
       LoadHistory('ReplaceTextPath', glsReplacePathHistory);
       LoadHistory('CreateDirectories', glsCreateDirectoriesHistory);
+      LoadHistory('RenameNameMask', glsRenameNameMaskHistory);
+      LoadHistory('RenameExtMask', glsRenameExtMaskHistory);
       LoadHistory('SearchDirectories', glsSearchDirectories);
       LoadHistory('SearchExcludeFiles', glsSearchExcludeFiles);
       LoadHistory('SearchExcludeDirectories', glsSearchExcludeDirectories);
@@ -933,6 +937,8 @@ begin
       SaveHistory('ReplaceText', glsReplaceHistory);
       SaveHistory('ReplaceTextPath', glsReplacePathHistory);
       SaveHistory('CreateDirectories', glsCreateDirectoriesHistory);
+      SaveHistory('RenameNameMask', glsRenameNameMaskHistory);
+      SaveHistory('RenameExtMask', glsRenameExtMaskHistory);
       SaveHistory('SearchDirectories', glsSearchDirectories);
       SaveHistory('SearchExcludeFiles', glsSearchExcludeFiles);
       SaveHistory('SearchExcludeDirectories', glsSearchExcludeDirectories);
@@ -1452,6 +1458,8 @@ begin
   glsReplaceHistory := TStringListEx.Create;
   glsReplacePathHistory := TStringListEx.Create;
   glsCreateDirectoriesHistory := TStringListEx.Create;
+  glsRenameNameMaskHistory := TStringListEx.Create;
+  glsRenameExtMaskHistory := TStringListEx.Create;
   glsIgnoreList := TStringListEx.Create;
   glsSearchDirectories := TStringList.Create;
   glsSearchExcludeFiles:= TStringList.Create;
@@ -1482,6 +1490,8 @@ begin
   FreeThenNil(glsReplaceHistory);
   FreeThenNil(glsReplacePathHistory);
   FreeAndNil(glsCreateDirectoriesHistory);
+  FreeAndNil(glsRenameNameMaskHistory);
+  FreeAndNil(glsRenameExtMaskHistory);
   FreeThenNil(glsIgnoreList);
   FreeThenNil(glsSearchDirectories);
   FreeThenNil(glsSearchExcludeFiles);

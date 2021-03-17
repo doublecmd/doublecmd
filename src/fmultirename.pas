@@ -124,11 +124,11 @@ type
     pnlOptionsLeft: TPanel;
     gbMaska: TGroupBox;
     lbName: TLabel;
-    edName: TEdit;
+    cbName: TComboBox;
     btnAnyNameMask: TBitBtn;
     cbNameMaskStyle: TComboBox;
     lbExt: TLabel;
-    edExt: TEdit;
+    cbExt: TComboBox;
     btnAnyExtMask: TBitBtn;
     cmbExtensionStyle: TComboBox;
     gbPresets: TGroupBox;
@@ -296,7 +296,7 @@ type
     procedure MenuItemDirectorySelectorMaskClick(Sender: TObject);
     procedure PopupDynamicMenuAtThisControl(APopUpMenu: TPopupMenu; AControl: TControl);
     procedure miPluginClick(Sender: TObject);
-    procedure InsertMask(const Mask: string; edChoose: TEdit);
+    procedure InsertMask(const Mask: string; edChoose: TComboBox);
     procedure InsertMask(const Mask: string; TargetForMask: tTargetForMask);
     function sReplace(sMask: string; ItemNr: integer): string;
     function sReplaceXX(const sFormatStr, sOrig: string): string;
@@ -606,6 +606,9 @@ begin
   HMMultiRename := HotMan.Register(Self, HotkeysCategoryMultiRename);
   HMMultiRename.RegisterActionList(actList);
 
+  cbExt.Items.Assign(glsRenameExtMaskHistory);
+  cbName.Items.Assign(glsRenameNameMaskHistory);
+
   // Set default values for controls.
   cm_ResetAll([sREFRESHCOMMANDS + '=0']);
 
@@ -641,6 +644,9 @@ end;
 procedure TfrmMultiRename.FormClose(Sender: TObject; var CloseAction: TCloseAction);
 begin
   SavePreset(sLASTPRESET);
+
+  glsRenameExtMaskHistory.Assign(cbExt.Items);
+  glsRenameNameMaskHistory.Assign(cbName.Items);
 
   CloseAction := caFree;
   with StringGrid.Columns do
@@ -760,8 +766,8 @@ end;
 { TfrmMultiRename.cbPresetsCloseUp }
 procedure TfrmMultiRename.cbPresetsCloseUp(Sender: TObject);
 begin
-  if edName.Enabled and gbMaska.Enabled then ActiveControl := edName;
-  edName.SelStart := UTF8Length(edName.Text);
+  if cbName.Enabled and gbMaska.Enabled then ActiveControl := cbName;
+  cbName.SelStart := UTF8Length(cbName.Text);
 end;
 
 { TfrmMultiRename.edFindChange }
@@ -1041,8 +1047,8 @@ begin
       PresetIndex := FMultiRenamePresetList.Add(AMultiRenamePresetObject);
     end;
 
-    FMultiRenamePresetList.MultiRenamePreset[PresetIndex].FileName := edName.Text;
-    FMultiRenamePresetList.MultiRenamePreset[PresetIndex].Extension := edExt.Text;
+    FMultiRenamePresetList.MultiRenamePreset[PresetIndex].FileName := cbName.Text;
+    FMultiRenamePresetList.MultiRenamePreset[PresetIndex].Extension := cbExt.Text;
     FMultiRenamePresetList.MultiRenamePreset[PresetIndex].FileNameStyle := cbNameMaskStyle.ItemIndex;
     FMultiRenamePresetList.MultiRenamePreset[PresetIndex].ExtensionStyle := cmbExtensionStyle.ItemIndex;
     FMultiRenamePresetList.MultiRenamePreset[PresetIndex].Find := edFind.Text;
@@ -1481,8 +1487,8 @@ procedure TfrmMultiRename.BuildMenuAndPopup(iTarget: tTargetForMask; iMenuTypeMa
 begin
   BuildMaskMenu(pmDynamicMasks, iTarget, iMenuTypeMask);
   case iTarget of
-    tfmFilename: PopupDynamicMenuAtThisControl(pmDynamicMasks, edName);
-    tfmExtension: PopupDynamicMenuAtThisControl(pmDynamicMasks, edExt);
+    tfmFilename: PopupDynamicMenuAtThisControl(pmDynamicMasks, cbName);
+    tfmExtension: PopupDynamicMenuAtThisControl(pmDynamicMasks, cbExt);
   end;
 end;
 
@@ -1648,13 +1654,13 @@ begin
   case tTargetForMask(TMenuItem(Sender).Tag and iTARGETMASK) of
     tfmFilename:
     begin
-      InsertMask(sMaks, edName);
-      edName.SetFocus;
+      InsertMask(sMaks, cbName);
+      cbName.SetFocus;
     end;
     tfmExtension:
     begin
-      InsertMask(sMaks, edExt);
-      edExt.SetFocus;
+      InsertMask(sMaks, cbExt);
+      cbExt.SetFocus;
     end;
   end;
 end;
@@ -1696,19 +1702,19 @@ begin
   case FPluginDispatcher of
     tfmFilename:
     begin
-      InsertMask(sMask, edName);
-      edName.SetFocus;
+      InsertMask(sMask, cbName);
+      cbName.SetFocus;
     end;
     tfmExtension:
     begin
-      InsertMask(sMask, edExt);
-      edExt.SetFocus;
+      InsertMask(sMask, cbExt);
+      cbExt.SetFocus;
     end;
   end;
 end;
 
 { TfrmMultiRename.InsertMask }
-procedure TfrmMultiRename.InsertMask(const Mask: string; edChoose: TEdit);
+procedure TfrmMultiRename.InsertMask(const Mask: string; edChoose: TComboBox);
 var
   sTmp, sInitialString: string;
   I: integer;
@@ -1735,14 +1741,14 @@ begin
   case TargetForMask of
     tfmFilename:
     begin
-      InsertMask(Mask, edName);
-      edName.SetFocus;
+      InsertMask(Mask, cbName);
+      cbName.SetFocus;
     end;
 
     tfmExtension:
     begin
-      InsertMask(Mask, edExt);
-      edExt.SetFocus;
+      InsertMask(Mask, cbExt);
+      cbExt.SetFocus;
     end;
   end;
 end;
@@ -2017,8 +2023,8 @@ begin
   else
   begin
     // Use mask
-    sTmpName := sReplace(edName.Text, ItemIndex);
-    sTmpExt := sReplace(edExt.Text, ItemIndex);
+    sTmpName := sReplace(cbName.Text, ItemIndex);
+    sTmpExt := sReplace(cbExt.Text, ItemIndex);
 
     // Join
     Result := sTmpName;
@@ -2205,10 +2211,10 @@ begin
   for Param in Params do
     GetParamBoolValue(Param, sREFRESHCOMMANDS, bNeedRefreshActivePresetCommands);
 
-  edName.Text := '[N]';
-  edName.SelStart := UTF8Length(edName.Text);
-  edExt.Text := '[E]';
-  edExt.SelStart := UTF8Length(edExt.Text);
+  cbName.Text := '[N]';
+  cbName.SelStart := UTF8Length(cbName.Text);
+  cbExt.Text := '[E]';
+  cbExt.SelStart := UTF8Length(cbExt.Text);
   edFind.Text := '';
   edReplace.Text := '';
   cbRegExp.Checked := False;
@@ -2456,6 +2462,8 @@ begin
         end;
         OperationsManager.AddOperationModal(Operation);
       end;
+      InsertFirstItem(cbExt.Text, cbExt);
+      InsertFirstItem(cbName.Text, cbName);
     finally
       if cbLog.Checked then
       begin
@@ -2535,10 +2543,10 @@ begin
       PresetIndex := FMultiRenamePresetList.Find(sPresetName);
       if PresetIndex <> -1 then
       begin
-        edName.Text := FMultiRenamePresetList.MultiRenamePreset[PresetIndex].FileName;
-        edName.SelStart := UTF8Length(edName.Text);
-        edExt.Text := FMultiRenamePresetList.MultiRenamePreset[PresetIndex].Extension;
-        edExt.SelStart := UTF8Length(edExt.Text);
+        cbName.Text := FMultiRenamePresetList.MultiRenamePreset[PresetIndex].FileName;
+        cbName.SelStart := UTF8Length(cbName.Text);
+        cbExt.Text := FMultiRenamePresetList.MultiRenamePreset[PresetIndex].Extension;
+        cbExt.SelStart := UTF8Length(cbExt.Text);
         cbNameMaskStyle.ItemIndex := FMultiRenamePresetList.MultiRenamePreset[PresetIndex].FileNameStyle;
         cmbExtensionStyle.ItemIndex := FMultiRenamePresetList.MultiRenamePreset[PresetIndex].ExtensionStyle;
         edFind.Text := FMultiRenamePresetList.MultiRenamePreset[PresetIndex].Find;
@@ -2582,10 +2590,10 @@ begin
         SetConfigurationState(CONFIG_SAVED);
 
         //8. If we're from anything else the preset droplist itself, let's go to focus on the name ready to edit it if necessary..
-        if (ActiveControl <> cbPresets) and (ActiveControl <> edName) and (edName.Enabled and gbMaska.Enabled) then
+        if (ActiveControl <> cbPresets) and (ActiveControl <> cbName) and (cbName.Enabled and gbMaska.Enabled) then
         begin
-          ActiveControl := edName;
-          edName.SelStart := UTF8Length(edName.Text);
+          ActiveControl := cbName;
+          cbName.SelStart := UTF8Length(cbName.Text);
         end;
       end;
     end;
@@ -2850,10 +2858,10 @@ end;
 { TfrmMultiRename.cm_ClearNameMask }
 procedure TfrmMultiRename.cm_ClearNameMask(const {%H-}Params: array of string);
 begin
-  edName.Text := '';
-  cbNameStyleChange(edExt);
-  if edName.CanFocus then
-    edName.SetFocus;
+  cbName.Text := '';
+  cbNameStyleChange(cbExt);
+  if cbName.CanFocus then
+    cbName.SetFocus;
 end;
 
 { TfrmMultiRename.cm_AnyExtMask }
@@ -2903,9 +2911,9 @@ end;
 { TfrmMultiRename.cm_ClearExtMask }
 procedure TfrmMultiRename.cm_ClearExtMask(const {%H-}Params: array of string);
 begin
-  edExt.Text := '';
-  cbNameStyleChange(edExt);
-  if edExt.CanFocus then edExt.SetFocus;
+  cbExt.Text := '';
+  cbNameStyleChange(cbExt);
+  if cbExt.CanFocus then cbExt.SetFocus;
 end;
 
 { TfrmMultiRename.cm_ViewRenameLogFile }
@@ -2939,8 +2947,4 @@ initialization
   TFormCommands.RegisterCommandsForm(TfrmMultiRename, HotkeysCategoryMultiRename, @rsHotkeyCategoryMultiRename);
 
 end.
-
-
-
-
 

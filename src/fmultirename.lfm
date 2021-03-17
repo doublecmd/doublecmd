@@ -3,7 +3,7 @@ object frmMultiRename: TfrmMultiRename
   Height = 466
   Top = 132
   Width = 804
-  ActiveControl = edName
+  ActiveControl = cbName
   Caption = 'Multi-Rename Tool'
   ClientHeight = 446
   ClientWidth = 804
@@ -16,7 +16,7 @@ object frmMultiRename: TfrmMultiRename
   SessionProperties = 'Height;Left;Top;Width;WindowState;pnlOptionsLeft.Width'
   ShowHint = True
   ShowInTaskBar = stAlways
-  LCLVersion = '2.0.6.0'
+  LCLVersion = '2.0.10.0'
   object StringGrid: TStringGrid
     Left = 6
     Height = 217
@@ -111,13 +111,13 @@ object frmMultiRename: TfrmMultiRename
         object lbName: TLabel
           AnchorSideLeft.Control = gbMaska
           AnchorSideTop.Control = gbMaska
-          AnchorSideBottom.Control = edName
+          AnchorSideBottom.Control = cbName
           Left = 4
           Height = 15
           Top = 0
           Width = 53
           Caption = 'File &Name'
-          FocusControl = edName
+          FocusControl = cbName
           ParentColor = False
           ParentFont = False
         end
@@ -130,14 +130,14 @@ object frmMultiRename: TfrmMultiRename
           Top = 69
           Width = 51
           Caption = '&Extension'
-          FocusControl = edExt
+          FocusControl = cbExt
           ParentColor = False
           ParentFont = False
         end
         object cbNameMaskStyle: TComboBox
           AnchorSideLeft.Control = btnAnyNameMask
           AnchorSideLeft.Side = asrBottom
-          AnchorSideTop.Control = edName
+          AnchorSideTop.Control = cbName
           AnchorSideTop.Side = asrBottom
           AnchorSideRight.Control = gbMaska
           AnchorSideRight.Side = asrBottom
@@ -156,7 +156,7 @@ object frmMultiRename: TfrmMultiRename
         object cmbExtensionStyle: TComboBox
           AnchorSideLeft.Control = btnAnyExtMask
           AnchorSideLeft.Side = asrBottom
-          AnchorSideTop.Control = edExt
+          AnchorSideTop.Control = cbExt
           AnchorSideTop.Side = asrBottom
           AnchorSideRight.Control = gbMaska
           AnchorSideRight.Side = asrBottom
@@ -203,7 +203,7 @@ object frmMultiRename: TfrmMultiRename
           Spacing = 0
           TabOrder = 4
         end
-        object edName: TEdit
+        object cbName: TComboBox
           AnchorSideLeft.Control = gbMaska
           AnchorSideTop.Control = lbName
           AnchorSideTop.Side = asrBottom
@@ -219,7 +219,7 @@ object frmMultiRename: TfrmMultiRename
           ParentFont = False
           TabOrder = 0
         end
-        object edExt: TEdit
+        object cbExt: TComboBox
           AnchorSideLeft.Control = gbMaska
           AnchorSideTop.Control = lbExt
           AnchorSideTop.Side = asrBottom
