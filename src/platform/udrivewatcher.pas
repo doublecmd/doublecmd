@@ -708,6 +708,10 @@ end;
          (mnt_type = 'hugetlbfs') or
          (mnt_type = 'selinuxfs') or
          (mnt_type = 'rpc_pipefs') then Exit;
+
+      // check mount options
+      if (StrPos(mnt_opts, 'bind') <> nil) or
+         (StrPos(mnt_opts, 'x-gvfs-hide') <> nil) then Exit;
     end;
     Result:= True;
   end;
