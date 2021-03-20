@@ -5,7 +5,7 @@ unit fElevation;
 interface
 
 uses
-  Classes, SysUtils, Forms, Controls, Graphics, Dialogs, StdCtrls, Buttons,
+  Classes, SysUtils, Forms, Controls, Graphics, Dialogs, StdCtrls, ButtonPanel,
   ExtCtrls, uShowMsg;
 
 type
@@ -13,8 +13,7 @@ type
   { TfrmElevation }
 
   TfrmElevation = class(TForm)
-    btnOK: TBitBtn;
-    btnCancel: TBitBtn;
+    ButtonPanel: TButtonPanel;
     chkElevateAll: TCheckBox;
     imgShield: TImage;
     lblText: TLabel;

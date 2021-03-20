@@ -11,7 +11,7 @@ object frmElevation: TfrmElevation
   ClientWidth = 400
   DesignTimePPI = 120
   Position = poScreenCenter
-  LCLVersion = '2.0.4.0'
+  LCLVersion = '2.0.12.0'
   object lblText: TLabel
     AnchorSideLeft.Control = imgShield
     AnchorSideLeft.Side = asrBottom
@@ -37,41 +37,7 @@ object frmElevation: TfrmElevation
     Caption = 'Do this for &all current objects'
     Checked = True
     State = cbChecked
-    TabOrder = 2
-  end
-  object btnCancel: TBitBtn
-    AnchorSideTop.Control = chkElevateAll
-    AnchorSideTop.Side = asrBottom
-    AnchorSideRight.Control = Owner
-    AnchorSideRight.Side = asrBottom
-    Left = 294
-    Height = 38
-    Top = 92
-    Width = 94
-    Anchors = [akTop, akRight]
-    BorderSpacing.Top = 24
-    Cancel = True
-    DefaultCaption = True
-    Kind = bkCancel
-    ModalResult = 2
     TabOrder = 1
-  end
-  object btnOK: TBitBtn
-    AnchorSideTop.Control = chkElevateAll
-    AnchorSideTop.Side = asrBottom
-    AnchorSideRight.Control = btnCancel
-    Left = 188
-    Height = 38
-    Top = 92
-    Width = 94
-    Anchors = [akTop, akRight]
-    BorderSpacing.Top = 24
-    BorderSpacing.Right = 12
-    Default = True
-    DefaultCaption = True
-    Kind = bkOK
-    ModalResult = 1
-    TabOrder = 0
   end
   object imgShield: TImage
     AnchorSideLeft.Control = Owner
@@ -325,5 +291,27 @@ object frmElevation: TfrmElevation
       E5BFB04CF30F7B3ADB3BCFF77EFD7F6DEB37CCF812920B76C12ED805BB6017EC
       2DEDFF02651502B1A25FA0770000000049454E44AE426082
     }
+  end
+  object ButtonPanel: TButtonPanel
+    AnchorSideTop.Control = chkElevateAll
+    AnchorSideTop.Side = asrBottom
+    Left = 12
+    Height = 33
+    Top = 100
+    Width = 376
+    Anchors = [akTop, akLeft, akRight]
+    BorderSpacing.Top = 24
+    BorderSpacing.Around = 8
+    OKButton.Name = 'OKButton'
+    OKButton.DefaultCaption = True
+    HelpButton.Name = 'HelpButton'
+    HelpButton.DefaultCaption = True
+    CloseButton.Name = 'CloseButton'
+    CloseButton.DefaultCaption = True
+    CancelButton.Name = 'CancelButton'
+    CancelButton.DefaultCaption = True
+    TabOrder = 0
+    ShowButtons = [pbOK, pbCancel]
+    ShowBevel = False
   end
 end
