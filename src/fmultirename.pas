@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Multi-Rename Tool dialog window
 
-   Copyright (C) 2007-2020 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2007-2021 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -43,6 +43,7 @@ uses
   //Lazarus, Free-Pascal, etc.
   LazUtf8, SysUtils, Classes, Graphics, Forms, StdCtrls, Menus, Controls,
   LCLType, StringHashList, Grids, ExtCtrls, Buttons, ActnList, EditBtn,
+  KASButton,
 
   //DC
   DCXmlConfig, uOSForms, uRegExprW, uFileProperty, uFormCommands,
@@ -125,11 +126,11 @@ type
     gbMaska: TGroupBox;
     lbName: TLabel;
     cbName: TComboBox;
-    btnAnyNameMask: TBitBtn;
+    btnAnyNameMask: TKASButton;
     cbNameMaskStyle: TComboBox;
     lbExt: TLabel;
     cbExt: TComboBox;
-    btnAnyExtMask: TBitBtn;
+    btnAnyExtMask: TKASButton;
     cmbExtensionStyle: TComboBox;
     gbPresets: TGroupBox;
     cbPresets: TComboBox;
@@ -1256,11 +1257,9 @@ var
 begin
   btnAnyNameMask.Action := actAnyNameMask;
   btnAnyNameMask.Caption := '...';
-  btnAnyNameMask.Glyph.Clear;
   btnAnyNameMask.Width := fneRenameLogFileFilename.ButtonWidth;;
   btnAnyExtMask.Action := actAnyExtMask;
   btnAnyExtMask.Caption := '...';
-  btnAnyExtMask.Glyph.Clear;
   btnAnyExtMask.Width := fneRenameLogFileFilename.ButtonWidth;;;
   btnRelativeRenameLogFile.Action := actInvokeRelativePath;
   btnRelativeRenameLogFile.Caption := '';

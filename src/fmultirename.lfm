@@ -173,7 +173,7 @@ object frmMultiRename: TfrmMultiRename
           Style = csDropDownList
           TabOrder = 5
         end
-        object btnAnyNameMask: TBitBtn
+        object btnAnyNameMask: TKASButton
           AnchorSideLeft.Control = gbMaska
           AnchorSideTop.Control = cbNameMaskStyle
           AnchorSideBottom.Control = cbNameMaskStyle
@@ -183,12 +183,9 @@ object frmMultiRename: TfrmMultiRename
           Top = 42
           Width = 23
           Anchors = [akTop, akLeft, akBottom]
-          ParentBidiMode = False
-          ParentFont = False
-          Spacing = 0
           TabOrder = 1
         end
-        object btnAnyExtMask: TBitBtn
+        object btnAnyExtMask: TKASButton
           AnchorSideLeft.Control = gbMaska
           AnchorSideTop.Control = cmbExtensionStyle
           AnchorSideBottom.Control = cmbExtensionStyle
@@ -198,9 +195,6 @@ object frmMultiRename: TfrmMultiRename
           Top = 111
           Width = 23
           Anchors = [akTop, akLeft, akBottom]
-          ParentBidiMode = False
-          ParentFont = False
-          Spacing = 0
           TabOrder = 4
         end
         object cbName: TComboBox
