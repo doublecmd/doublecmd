@@ -440,6 +440,10 @@ var
   gLogErrorColor,
   gLogSuccessColor: TColor;
 
+  gSyncLeftColor,
+  gSyncRightColor,
+  gSyncUnknownColor: TColor;
+
   gShowIcons: TShowIconsMode;
   gShowIconsNew: TShowIconsMode;
   gIconOverlays : Boolean;
@@ -1716,6 +1720,10 @@ begin
   gLogInfoColor:= clNavy;
   gLogErrorColor:= clRed;
   gLogSuccessColor:= clGreen;
+
+  gSyncLeftColor:= clGreen;
+  gSyncRightColor:= clBlue;
+  gSyncUnknownColor:= clRed;
 
   { Layout page }
   gMainMenu := True;
@@ -3062,6 +3070,13 @@ begin
       gSyncDirsShowFilterDuplicates := GetValue(Node, 'FilterDuplicates', gSyncDirsShowFilterDuplicates);
       gSyncDirsShowFilterSingles := GetValue(Node, 'FilterSingles', gSyncDirsShowFilterSingles);
       gSyncDirsFileMask := GetValue(Node, 'FileMask', gSyncDirsFileMask);
+      SubNode := FindNode(Node, 'Colors');
+      if Assigned(SubNode) then
+      begin
+        gSyncLeftColor := GetValue(SubNode, 'Left', gSyncLeftColor);
+        gSyncRightColor := GetValue(SubNode, 'Right', gSyncRightColor);
+        gSyncUnknownColor := GetValue(SubNode, 'Unknown', gSyncUnknownColor);
+      end;
     end;
 
     { Internal Associations}
@@ -3643,6 +3658,10 @@ begin
     SetValue(Node, 'FilterDuplicates', gSyncDirsShowFilterDuplicates);
     SetValue(Node, 'FilterSingles', gSyncDirsShowFilterSingles);
     SetValue(Node, 'FileMask', gSyncDirsFileMask);
+    SubNode := FindNode(Node, 'Colors', True);
+    SetValue(SubNode, 'Left', gSyncLeftColor);
+    SetValue(SubNode, 'Right', gSyncRightColor);
+    SetValue(SubNode, 'Unknown', gSyncUnknownColor);
 
     { Internal Associations}
     Node := FindNode(Root, 'InternalAssociations', True);
