@@ -1,11 +1,15 @@
 #!/bin/sh
 
+export REVISION_INC=$2/units/dcrevision.inc
+
 # DC revision number
-export DC_REVISION=$(svnversion $1 | sed -e 's/\([0-9]*\).*/\1/')
+export REVISION=$(git -C $1 rev-list --count HEAD)
+export COMMIT=$(git -C $1 rev-parse --short HEAD)
 
 # Update dcrevision.inc
-echo "// Created by Svn2RevisionInc"      >  $2/units/dcrevision.inc
-echo "const dcRevision = '$DC_REVISION';" >> $2/units/dcrevision.inc
+echo "// Created by Git2RevisionInc"   >  $REVISION_INC
+echo "const dcRevision = '$REVISION';" >> $REVISION_INC
+echo "const dcCommit = '$COMMIT';"     >> $REVISION_INC
 
 # Return revision
-echo $DC_REVISION
+echo $REVISION
