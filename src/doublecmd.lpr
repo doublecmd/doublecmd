@@ -10,9 +10,6 @@ uses
   uDarkStyle,
   {$ENDIF}
   {$ENDIF}
-  {$IFDEF DARWIN}
-  uAppleMagnifiedModeFix,
-  {$ENDIF}
   {$IF DEFINED(WIN64) AND (FPC_FULLVERSION < 30000)}
   uExceptionHandlerFix,
   {$ENDIF}
@@ -23,6 +20,9 @@ uses
   {$ENDIF}
   cwstring,
   clocale,
+  {$IFDEF DARWIN}
+  uAppleMagnifiedModeFix,
+  {$ENDIF}
   uElevation,
   {$IFDEF LINUX}
   uAppImage,

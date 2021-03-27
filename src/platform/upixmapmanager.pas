@@ -48,11 +48,7 @@ uses
   , fgl
   {$ELSEIF DEFINED(UNIX)}
   , DCFileAttributes
-    {$IF DEFINED(DARWIN)}
-      {$IF (FPC_FULLVERSION >= 30000)}
-      , uDCTiffImage
-      {$ENDIF}
-    {$ELSE}
+    {$IF NOT DEFINED(DARWIN)}
     , contnrs, uDCReadSVG, uGio
       {$IFDEF LCLGTK2}
       , gtk2
