@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Path edit class with auto complete feature
 
-   Copyright (C) 2012-2014  Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2012-2021 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
@@ -16,9 +16,7 @@
    General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   in a file called COPYING along with this program; if not, write to
-   the Free Software Foundation, Inc., 675 Mass Ave, Cambridge, MA
-   02139, USA.
+   along with this program. If not, see <http://www.gnu.org/licenses/>.
 }
 
 unit KASPathEdit;
@@ -71,9 +69,12 @@ procedure Register;
 implementation
 
 uses
-  LazUTF8, Math
+  LazUTF8, Math, LazFileUtils
   {$IF DEFINED(LCLWIN32)}
   , ComObj
+  {$ENDIF}
+  {$IF DEFINED(MSWINDOWS)}
+  , Windows
   {$ENDIF}
   ;
 
@@ -107,6 +108,81 @@ begin
   RegisterComponents('KASComponents', [TKASPathEdit]);
 end;
 
+function FilesSortAlphabet(List: TStringList; Index1, Index2: Integer): Integer;
+begin
+  Result:= CompareFilenames(List[Index1], List[Index2]);
+end;
+
+function FilesSortFoldersFirst(List: TStringList; Index1, Index2: Integer): Integer;
+var
+  Attr1, Attr2: IntPtr;
+begin
+  Attr1:= IntPtr(List.Objects[Index1]);
+  Attr2:= IntPtr(List.Objects[Index2]);
+  if (Attr1 and faDirectory <> 0) and (Attr2 and faDirectory <> 0) then
+    Result:= CompareFilenames(List[Index1], List[Index2])
+  else begin
+    if (Attr1 and faDirectory <> 0) then
+      Result:= -1
+    else begin
+      Result:=  1;
+    end;
+  end;
+end;
+
+procedure GetFilesInDir(const ABaseDir: String; AMask: String; AObjectTypes: TObjectTypes;
+                        AResult: TStrings; AFileSortType: TFileSortType);
+var
+  AList: TStringList;
+  ExcludeAttr: Integer;
+  SearchRec: TSearchRec;
+{$IF DEFINED(MSWINDOWS)}
+  ErrMode : LongWord;
+{$ENDIF}
+begin
+{$IF DEFINED(MSWINDOWS)}
+  ErrMode:= SetErrorMode(SEM_FAILCRITICALERRORS or SEM_NOALIGNMENTFAULTEXCEPT or SEM_NOGPFAULTERRORBOX or SEM_NOOPENFILEERRORBOX);
+  try
+{$ENDIF}
+  if FindFirst(ABaseDir + AMask, faAnyFile, SearchRec) = 0 then
+  begin
+    ExcludeAttr:= 0;
+    AList:= TStringList.Create;
+
+    if not (otHidden in AObjectTypes) then
+      ExcludeAttr:= ExcludeAttr or faHidden;
+    if not (otFolders in AObjectTypes) then
+      ExcludeAttr:= ExcludeAttr or faDirectory;
+
+    repeat
+      if (SearchRec.Attr and ExcludeAttr <> 0) then
+        Continue;
+      if (SearchRec.Name = '.') or (SearchRec.Name = '..')then
+        Continue;
+      if (SearchRec.Attr and faDirectory = 0) and not (otNonFolders in AObjectTypes) then
+        Continue;
+
+      AList.AddObject(SearchRec.Name, TObject(IntPtr(SearchRec.Attr)));
+    until FindNext(SearchRec) <> 0;
+
+    if AList.Count > 0 then
+    begin
+      case AFileSortType of
+        fstAlphabet:     AList.CustomSort(@FilesSortAlphabet);
+        fstFoldersFirst: AList.CustomSort(@FilesSortFoldersFirst);
+      end;
+      AResult.Assign(AList);
+    end;
+    AList.Free;
+  end;
+  SysUtils.FindClose(SearchRec);
+{$IF DEFINED(MSWINDOWS)}
+  finally
+    SetErrorMode(ErrMode);
+  end;
+{$ENDIF}
+end;
+
 { TKASPathEdit }
 
 procedure TKASPathEdit.AutoComplete(const Path: String);
@@ -118,13 +194,13 @@ begin
   if Pos(PathDelim, Path) > 0 then
   begin
     BasePath:= ExtractFilePath(Path);
-    TCustomShellTreeView.GetFilesInDir(
-                                       BasePath,
-                                       ExtractFileName(Path) + '*',
-                                       FObjectTypes,
-                                       FListBox.Items,
-                                       FFileSortType
-                                       );
+    GetFilesInDir(
+                  BasePath,
+                  ExtractFileName(Path) + '*',
+                  FObjectTypes,
+                  FListBox.Items,
+                  FFileSortType
+                 );
     if (FListBox.Items.Count > 0) then
     begin
       ShowListBox;
