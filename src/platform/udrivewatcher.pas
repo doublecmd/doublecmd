@@ -84,6 +84,10 @@ const
   NOTE_MOUNTED = $0008;
   NOTE_UMOUNTED = $0010;
 
+{$IFDEF DARWIN}
+  MNT_DONTBROWSE = $00100000;
+{$ENDIF}
+
 type
   TKQueueDriveEvent = procedure(Event: TDriveWatcherEvent);
 
@@ -1178,6 +1182,11 @@ begin
   for iMounted := 0 to count - 1 do
   begin
     fs := fsList[iMounted];
+
+{$IF DEFINED(DARWIN)}
+    if (fs.fflags and MNT_DONTBROWSE <> 0) then
+      Continue;
+{$ENDIF}
 
     // check if already added using fstab
     found := false;
