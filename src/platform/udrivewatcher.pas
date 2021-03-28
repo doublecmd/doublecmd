@@ -1072,6 +1072,8 @@ end;
 {$IF DEFINED(DARWIN)}
     else if FSType = 'hfs' then
       Result := dtHardDisk
+    else if FSType = 'apfs' then
+      Result := dtHardDisk
     else if FSType = 'ntfs' then
       Result := dtHardDisk
     else if FSType = 'msdos' then
