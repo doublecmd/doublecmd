@@ -4411,6 +4411,7 @@ begin
 
     with ShellTreeView as TShellTreeView do
     begin
+      UpdateTreeView;
       ReadOnly := True;
       RightClickSelect := True;
       FileSortType := fstNone;
