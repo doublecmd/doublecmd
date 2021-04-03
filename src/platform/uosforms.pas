@@ -148,6 +148,9 @@ uses
     {$IF DEFINED(LCLQT) and not DEFINED(DARWIN)}
     , qt4, qtwidgets
     {$ENDIF}
+    {$IF DEFINED(LCLQT5) and not DEFINED(DARWIN)}
+    , qt5, qtwidgets
+    {$ENDIF}
     {$IF DEFINED(LCLGTK2)}
     , gtk2
     {$ENDIF}
@@ -519,7 +522,7 @@ begin
 end;
 {$ENDIF}
 
-{$IF DEFINED(LCLGTK2) or (DEFINED(LCLQT) and not DEFINED(DARWIN))}
+{$IF DEFINED(LCLGTK2) or ((DEFINED(LCLQT) or DEFINED(LCLQT5)) and not DEFINED(DARWIN))}
 
 procedure ScreenFormEvent(Self, Sender: TObject; Form: TCustomForm);
 {$IF DEFINED(LCLGTK2)}
@@ -529,7 +532,7 @@ begin
   ClassName:= Form.ClassName;
   gtk_window_set_role(PGtkWindow(Form.Handle), PAnsiChar(ClassName));
 end;
-{$ELSEIF DEFINED(LCLQT)}
+{$ELSEIF DEFINED(LCLQT) or DEFINED(LCLQT5)}
 var
   ClassName: WideString;
 begin
@@ -626,7 +629,7 @@ begin
   end;
 end;
 {$ELSE}
-{$IF DEFINED(LCLQT) or DEFINED(LCLGTK2) or DEFINED(DARWIN)}
+{$IF DEFINED(LCLQT) or DEFINED(LCLQT5) or DEFINED(LCLGTK2) or DEFINED(DARWIN)}
 var
   Handler: TMethod;
 {$ENDIF}
@@ -646,7 +649,7 @@ begin
   Handler.Data:= MainForm;
   Handler.Code:= @ActiveFormChangedHandler;
   Screen.AddHandlerActiveFormChanged(TScreenFormEvent(Handler), True);
-  {$ELSEIF DEFINED(LCLGTK2) or DEFINED(LCLQT)}
+  {$ELSEIF DEFINED(LCLGTK2) or DEFINED(LCLQT) or DEFINED(LCLQT5)}
   Handler.Data:= MainForm;
   Handler.Code:= @ScreenFormEvent;
   ScreenFormEvent(MainForm, MainForm, MainForm);
