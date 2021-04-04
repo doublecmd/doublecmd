@@ -1216,6 +1216,8 @@ type
   TCustomSSL = class(TObject)
   private
   protected
+    FSessionOld: Pointer;
+    FSessionNew: Pointer;
     FOnVerifyCert: THookVerifyCert;
     FSocket: TTCPBlockSocket;
     FSSLEnabled: Boolean;
@@ -1350,6 +1352,9 @@ type
 
     {:Return error description of last SSL operation.}
     property LastErrorDesc: string read FLastErrorDesc;
+
+    {:Used for session resumption }
+    property Session: Pointer read FSessionNew write FSessionOld;
   published
     {:Here you can specify requested SSL/TLS mode. Default is autodetection, but
      on some servers autodetection not working properly. In this case you must

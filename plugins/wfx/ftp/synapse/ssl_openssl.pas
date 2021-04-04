@@ -484,6 +484,11 @@ end;
 function TSSLOpenSSL.DeInit: Boolean;
 begin
   Result := True;
+  if Assigned(FSessionNew) then
+  begin
+    SslSessionFree(FSessionNew);
+    FSessionNew := nil;
+  end;
   if assigned (Fssl) then
     sslfree(Fssl);
   Fssl := nil;
@@ -526,6 +531,10 @@ begin
       SSLCheck;
       Exit;
     end;
+    // Reuse session
+    if Assigned(FSessionOld) then begin
+      SslSetSession(Fssl, FSessionOld);
+    end;
     if SNIHost<>'' then
       SSLCtrl(Fssl, SSL_CTRL_SET_TLSEXT_HOSTNAME, TLSEXT_NAMETYPE_host_name, PAnsiChar(AnsiString(SNIHost)));
     if FSocket.ConnectionTimeout <= 0 then //do blocking call of SSL_Connect
@@ -563,6 +572,9 @@ begin
       Exit;
     FSSLEnabled := True;
     Result := True;
+  end;
+  if Result and (FSessionOld = nil) then begin
+    FSessionNew := SslGet1Session(Fssl);
   end;
 end;
 

@@ -28,4 +28,152 @@ Index: ssfpc.inc
 +    Result := ntohs(ServEnt.port);
    end;
  end;
- 
+Index: blcksock.pas
+===================================================================
+--- blcksock.pas	(revision 209)
++++ blcksock.pas	(working copy)
+@@ -1216,6 +1216,8 @@
+   TCustomSSL = class(TObject)
+   private
+   protected
++    FSessionOld: Pointer;
++    FSessionNew: Pointer;
+     FOnVerifyCert: THookVerifyCert;
+     FSocket: TTCPBlockSocket;
+     FSSLEnabled: Boolean;
+@@ -1350,6 +1352,9 @@
+
+     {:Return error description of last SSL operation.}
+     property LastErrorDesc: string read FLastErrorDesc;
++
++    {:Used for session resumption }
++    property Session: Pointer read FSessionNew write FSessionOld;
+   published
+     {:Here you can specify requested SSL/TLS mode. Default is autodetection, but
+      on some servers autodetection not working properly. In this case you must
+Index: ftpsend.pas
+===================================================================
+--- ftpsend.pas	(revision 209)
++++ ftpsend.pas	(working copy)
+@@ -870,6 +870,11 @@
+       end;
+     FDSock.CloseSocket;
+     FDSock.Bind(FIPInterface, cAnyPort);
++
++    if FIsDataTLS then begin
++      FDSock.SSL.Session := FSock.SSL.Session;
++    end;
++
+     FDSock.Connect(FDataIP, FDataPort);
+     Result := FDSock.LastError = 0;
+   end
+Index: ssl_openssl.pas
+===================================================================
+--- ssl_openssl.pas	(revision 209)
++++ ssl_openssl.pas	(working copy)
+@@ -484,6 +484,11 @@
+ function TSSLOpenSSL.DeInit: Boolean;
+ begin
+   Result := True;
++  if Assigned(FSessionNew) then
++  begin
++    SslSessionFree(FSessionNew);
++    FSessionNew := nil;
++  end;
+   if assigned (Fssl) then
+     sslfree(Fssl);
+   Fssl := nil;
+@@ -526,6 +531,10 @@
+       SSLCheck;
+       Exit;
+     end;
++    // Reuse session
++    if Assigned(FSessionOld) then begin
++      SslSetSession(Fssl, FSessionOld);
++    end;
+     if SNIHost<>'' then
+       SSLCtrl(Fssl, SSL_CTRL_SET_TLSEXT_HOSTNAME, TLSEXT_NAMETYPE_host_name, PAnsiChar(AnsiString(SNIHost)));
+     if FSocket.ConnectionTimeout <= 0 then //do blocking call of SSL_Connect
+@@ -564,6 +573,9 @@
+     FSSLEnabled := True;
+     Result := True;
+   end;
++  if Result and (FSessionOld = nil) then begin
++    FSessionNew := SslGet1Session(Fssl);
++  end;
+ end;
+
+ function TSSLOpenSSL.Accept: boolean;
+Index: ssl_openssl_lib.pas
+===================================================================
+--- ssl_openssl_lib.pas	(revision 209)
++++ ssl_openssl_lib.pas	(working copy)
+@@ -757,6 +757,9 @@
+   function SSLCipherGetBits(c: SslPtr; var alg_bits: Integer):Integer;
+   function SSLGetVerifyResult(ssl: PSSL):Integer;
+   function SSLCtrl(ssl: PSSL; cmd: integer; larg: integer; parg: SslPtr):Integer;
++  procedure SslSessionFree(session: PSslPtr);
++  function SslGet1Session(ssl: PSSL):PSslPtr;
++  function SslSetSession(ssl: PSSL; session: PSslPtr): Integer;
+
+ // libeay.dll
+   function X509New: PX509;
+@@ -883,6 +886,9 @@
+   TSSLCipherGetBits = function(c: SslPtr; alg_bits: PInteger):Integer; cdecl;
+   TSSLGetVerifyResult = function(ssl: PSSL):Integer; cdecl;
+   TSSLCtrl = function(ssl: PSSL; cmd: integer; larg: integer; parg: SslPtr):Integer; cdecl;
++  TSslSessionFree = procedure(session: PSslPtr); cdecl;
++  TSslGet1Session = function(ssl: PSSL):PSslPtr; cdecl;
++  TSslSetSession = function(ssl: PSSL; session: PSslPtr): Integer; cdecl;
+
+   TSSLSetTlsextHostName = function(ssl: PSSL; buf: PAnsiChar):Integer; cdecl;
+
+@@ -991,6 +997,9 @@
+   _SSLCipherGetBits: TSSLCipherGetBits = nil;
+   _SSLGetVerifyResult: TSSLGetVerifyResult = nil;
+   _SSLCtrl: TSSLCtrl = nil;
++  _SslSessionFree: TSslSessionFree = nil;
++  _SslGet1Session: TSslGet1Session = nil;
++  _SslSetSession: TSslSetSession = nil;
+
+ // libeay.dll
+   _X509New: TX509New = nil;
+@@ -1408,6 +1417,28 @@
+     Result := X509_V_ERR_APPLICATION_VERIFICATION;
+ end;
+
++procedure SslSessionFree(session: PSslPtr);
++begin
++  if InitSSLInterface and Assigned(_SslSessionFree) then
++    _SslSessionFree(session);
++end;
++
++function SslGet1Session(ssl: PSSL): PSslPtr;
++begin
++  if InitSSLInterface and Assigned(_SslGet1Session) then
++    Result := _SslGet1Session(ssl)
++  else
++    Result := nil;
++end;
++
++function SslSetSession(ssl: PSSL; session: PSslPtr): Integer;
++begin
++  if InitSSLInterface and Assigned(_SslSetSession) then
++    Result := _SslSetSession(ssl, session)
++  else
++    Result := 0;
++end;
++
+ // libeay.dll
+ function X509New: PX509;
+ begin
+@@ -1933,6 +1964,9 @@
+         _SslCipherGetBits := GetProcAddr(SSLLibHandle, 'SSL_CIPHER_get_bits');
+         _SslGetVerifyResult := GetProcAddr(SSLLibHandle, 'SSL_get_verify_result');
+         _SslCtrl := GetProcAddr(SSLLibHandle, 'SSL_ctrl');
++        _SslSessionFree := GetProcAddr(SSLLibHandle, 'SSL_SESSION_free');
++        _SslGet1Session := GetProcAddr(SSLLibHandle, 'SSL_get1_session');
++        _SslSetSession := GetProcAddr(SSLLibHandle, 'SSL_set_session');
+
+         _X509New := GetProcAddr(SSLUtilHandle, 'X509_new');
+         _X509Free := GetProcAddr(SSLUtilHandle, 'X509_free');

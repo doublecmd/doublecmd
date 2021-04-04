@@ -757,6 +757,9 @@ var
   function SSLCipherGetBits(c: SslPtr; var alg_bits: Integer):Integer;
   function SSLGetVerifyResult(ssl: PSSL):Integer;
   function SSLCtrl(ssl: PSSL; cmd: integer; larg: integer; parg: SslPtr):Integer;
+  procedure SslSessionFree(session: PSslPtr);
+  function SslGet1Session(ssl: PSSL):PSslPtr;
+  function SslSetSession(ssl: PSSL; session: PSslPtr): Integer;
 
 // libeay.dll
   function X509New: PX509;
@@ -883,6 +886,9 @@ type
   TSSLCipherGetBits = function(c: SslPtr; alg_bits: PInteger):Integer; cdecl;
   TSSLGetVerifyResult = function(ssl: PSSL):Integer; cdecl;
   TSSLCtrl = function(ssl: PSSL; cmd: integer; larg: integer; parg: SslPtr):Integer; cdecl;
+  TSslSessionFree = procedure(session: PSslPtr); cdecl;
+  TSslGet1Session = function(ssl: PSSL):PSslPtr; cdecl;
+  TSslSetSession = function(ssl: PSSL; session: PSslPtr): Integer; cdecl;
 
   TSSLSetTlsextHostName = function(ssl: PSSL; buf: PAnsiChar):Integer; cdecl;
 
@@ -991,6 +997,9 @@ var
   _SSLCipherGetBits: TSSLCipherGetBits = nil;
   _SSLGetVerifyResult: TSSLGetVerifyResult = nil;
   _SSLCtrl: TSSLCtrl = nil;
+  _SslSessionFree: TSslSessionFree = nil;
+  _SslGet1Session: TSslGet1Session = nil;
+  _SslSetSession: TSslSetSession = nil;
 
 // libeay.dll
   _X509New: TX509New = nil;
@@ -1406,6 +1415,28 @@ begin
     Result := _SSLCtrl(ssl, cmd, larg, parg)
   else
     Result := X509_V_ERR_APPLICATION_VERIFICATION;
+end;
+
+procedure SslSessionFree(session: PSslPtr);
+begin
+  if InitSSLInterface and Assigned(_SslSessionFree) then
+    _SslSessionFree(session);
+end;
+
+function SslGet1Session(ssl: PSSL): PSslPtr;
+begin
+  if InitSSLInterface and Assigned(_SslGet1Session) then
+    Result := _SslGet1Session(ssl)
+  else
+    Result := nil;
+end;
+
+function SslSetSession(ssl: PSSL; session: PSslPtr): Integer;
+begin
+  if InitSSLInterface and Assigned(_SslSetSession) then
+    Result := _SslSetSession(ssl, session)
+  else
+    Result := 0;
 end;
 
 // libeay.dll
@@ -1933,6 +1964,9 @@ begin
         _SslCipherGetBits := GetProcAddr(SSLLibHandle, 'SSL_CIPHER_get_bits');
         _SslGetVerifyResult := GetProcAddr(SSLLibHandle, 'SSL_get_verify_result');
         _SslCtrl := GetProcAddr(SSLLibHandle, 'SSL_ctrl');
+        _SslSessionFree := GetProcAddr(SSLLibHandle, 'SSL_SESSION_free');
+        _SslGet1Session := GetProcAddr(SSLLibHandle, 'SSL_get1_session');
+        _SslSetSession := GetProcAddr(SSLLibHandle, 'SSL_set_session');
 
         _X509New := GetProcAddr(SSLUtilHandle, 'X509_new');
         _X509Free := GetProcAddr(SSLUtilHandle, 'X509_free');

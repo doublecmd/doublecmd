@@ -870,6 +870,11 @@ begin
       end;
     FDSock.CloseSocket;
     FDSock.Bind(FIPInterface, cAnyPort);
+
+    if FIsDataTLS then begin
+      FDSock.SSL.Session := FSock.SSL.Session;
+    end;
+
     FDSock.Connect(FDataIP, FDataPort);
     Result := FDSock.LastError = 0;
   end
