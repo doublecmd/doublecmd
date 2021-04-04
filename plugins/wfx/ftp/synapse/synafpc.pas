@@ -1,9 +1,9 @@
 {==============================================================================|
-| Project : Ararat Synapse                                       | 001.002.000 |
+| Project : Ararat Synapse                                       | 001.003.001 |
 |==============================================================================|
 | Content: Utils for FreePascal compatibility                                  |
 |==============================================================================|
-| Copyright (c)1999-2011, Lukas Gebauer                                        |
+| Copyright (c)1999-2013, Lukas Gebauer                                        |
 | All rights reserved.                                                         |
 |                                                                              |
 | Redistribution and use in source and binary forms, with or without           |
@@ -33,10 +33,11 @@
 | DAMAGE.                                                                      |
 |==============================================================================|
 | The Initial Developer of the Original Code is Lukas Gebauer (Czech Republic).|
-| Portions created by Lukas Gebauer are Copyright (c)2003-2011.                |
+| Portions created by Lukas Gebauer are Copyright (c)2003-2013.                |
 | All Rights Reserved.                                                         |
 |==============================================================================|
 | Contributor(s):                                                              |
+|   Tomas Hajny (OS2 support)                                                  |
 |==============================================================================|
 | History: see HISTORY.HTM from distribution package                           |
 |          (Found at URL: http://www.ararat.cz/synapse/)                       |
@@ -78,14 +79,16 @@ function LoadLibrary(ModuleName: PChar): TLibHandle;
 function FreeLibrary(Module: TLibHandle): LongBool;
 function GetProcAddress(Module: TLibHandle; Proc: PChar): Pointer;
 function GetModuleFileName(Module: TLibHandle; Buffer: PChar; BufLen: Integer): Integer;
-{$ELSE}
+{$ELSE} //not FPC
 type
   {$IFDEF CIL}
   TLibHandle = Integer;
   PtrInt = Integer;
   {$ELSE}
   TLibHandle = HModule;
-    {$IFNDEF WIN64}
+    {$IFDEF WIN64}
+  PtrInt = NativeInt;
+    {$ELSE}
   PtrInt = Integer;
     {$ENDIF}
   {$ENDIF}
@@ -113,7 +116,11 @@ end;
 
 function GetProcAddress(Module: TLibHandle; Proc: PChar): Pointer;
 begin
+{$IFDEF OS2GCC}
+  Result := dynlibs.GetProcedureAddress(Module, '_' + Proc);
+{$ELSE OS2GCC}
   Result := dynlibs.GetProcedureAddress(Module, Proc);
+{$ENDIF OS2GCC}
 end;
 
 function GetModuleFileName(Module: TLibHandle; Buffer: PChar; BufLen: Integer): Integer;
