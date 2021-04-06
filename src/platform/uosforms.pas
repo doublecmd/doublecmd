@@ -522,7 +522,7 @@ begin
 end;
 {$ENDIF}
 
-{$IF DEFINED(LCLGTK2) or ((DEFINED(LCLQT) or DEFINED(LCLQT5)) and not DEFINED(DARWIN))}
+{$IF DEFINED(LCLGTK2) or ((DEFINED(LCLQT) or DEFINED(LCLQT5)) and not (DEFINED(DARWIN) or DEFINED(MSWINDOWS)))}
 
 procedure ScreenFormEvent(Self, Sender: TObject; Form: TCustomForm);
 {$IF DEFINED(LCLGTK2)}
