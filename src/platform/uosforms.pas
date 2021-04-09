@@ -839,7 +839,7 @@ begin
     begin
       if bFlagKeepGoing then
       begin
-        Result := SHChangeIconDialog(Owner.Handle, sFileName, iIconIndex);
+        Result := SHChangeIconDialog(GetWindowHandle(Owner), sFileName, iIconIndex);
         if Result then sFileName := sFileName + ',' + IntToStr(iIconIndex);
       end;
     end
