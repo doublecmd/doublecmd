@@ -1595,6 +1595,14 @@ msgstr "Găsește fișierele care NU c&onțin textul"
 msgid "N&ot older than:"
 msgstr "Nu mai vechi (&o) decât:"
 
+#: tfrmfinddlg.cbofficexml.caption
+msgid "Offi&ce XML"
+msgstr ""
+
+#: tfrmfinddlg.cbofficexml.hint
+msgid "Office XML (*.docx)"
+msgstr ""
+
 #: tfrmfinddlg.cbopenedtabs.caption
 msgid "Opened tabs"
 msgstr ""

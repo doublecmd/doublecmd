@@ -1555,6 +1555,14 @@ msgstr "Hľadať súbory NE&obsahujúce text"
 msgid "N&ot older than:"
 msgstr "Nie staršie ako:"
 
+#: tfrmfinddlg.cbofficexml.caption
+msgid "Offi&ce XML"
+msgstr ""
+
+#: tfrmfinddlg.cbofficexml.hint
+msgid "Office XML (*.docx)"
+msgstr ""
+
 #: tfrmfinddlg.cbopenedtabs.caption
 msgid "Opened tabs"
 msgstr "Otvorené karty"

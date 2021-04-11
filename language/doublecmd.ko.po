@@ -1611,6 +1611,14 @@ msgstr "문자열 포함하지 않은 파일 찾기(&O)"
 msgid "N&ot older than:"
 msgstr "오래되지 않은(&O):"
 
+#: tfrmfinddlg.cbofficexml.caption
+msgid "Offi&ce XML"
+msgstr ""
+
+#: tfrmfinddlg.cbofficexml.hint
+msgid "Office XML (*.docx)"
+msgstr ""
+
 #: tfrmfinddlg.cbopenedtabs.caption
 msgid "Opened tabs"
 msgstr ""

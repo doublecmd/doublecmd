@@ -1629,6 +1629,14 @@ msgstr "Localizar arquivos S&EM o texto."
 msgid "N&ot older than:"
 msgstr "Mais recentes q&ue:"
 
+#: tfrmfinddlg.cbofficexml.caption
+msgid "Offi&ce XML"
+msgstr ""
+
+#: tfrmfinddlg.cbofficexml.hint
+msgid "Office XML (*.docx)"
+msgstr ""
+
 #: tfrmfinddlg.cbopenedtabs.caption
 msgid "Opened tabs"
 msgstr ""

@@ -1587,6 +1587,14 @@ msgstr "Шукати файли, що &НЕ містять текст"
 msgid "N&ot older than:"
 msgstr "Н&е старші ніж:"
 
+#: tfrmfinddlg.cbofficexml.caption
+msgid "Offi&ce XML"
+msgstr ""
+
+#: tfrmfinddlg.cbofficexml.hint
+msgid "Office XML (*.docx)"
+msgstr ""
+
 #: tfrmfinddlg.cbopenedtabs.caption
 msgid "Opened tabs"
 msgstr "У відкритих вкладках"

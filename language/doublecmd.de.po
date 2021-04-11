@@ -1566,6 +1566,14 @@ msgstr "Suche Dateien die &NICHT den Text enthalten"
 msgid "N&ot older than:"
 msgstr "Nicht &älter als:"
 
+#: tfrmfinddlg.cbofficexml.caption
+msgid "Offi&ce XML"
+msgstr ""
+
+#: tfrmfinddlg.cbofficexml.hint
+msgid "Office XML (*.docx)"
+msgstr ""
+
 #: tfrmfinddlg.cbopenedtabs.caption
 msgid "Opened tabs"
 msgstr "Geöffnete Tabs"

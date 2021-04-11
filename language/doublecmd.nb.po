@@ -1591,6 +1591,14 @@ msgstr "&Finn filer som IKKE inneholder tekst"
 msgid "N&ot older than:"
 msgstr "&Ikke eldre enn:"
 
+#: tfrmfinddlg.cbofficexml.caption
+msgid "Offi&ce XML"
+msgstr ""
+
+#: tfrmfinddlg.cbofficexml.hint
+msgid "Office XML (*.docx)"
+msgstr ""
+
 #: tfrmfinddlg.cbopenedtabs.caption
 msgid "Opened tabs"
 msgstr "Åpn faner"

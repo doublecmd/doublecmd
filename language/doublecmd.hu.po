@@ -1584,6 +1584,14 @@ msgstr "A szöveget &NEM tartalmazó fájlok keresése"
 msgid "N&ot older than:"
 msgstr "Nem régebbi mint:"
 
+#: tfrmfinddlg.cbofficexml.caption
+msgid "Offi&ce XML"
+msgstr ""
+
+#: tfrmfinddlg.cbofficexml.hint
+msgid "Office XML (*.docx)"
+msgstr ""
+
 #: tfrmfinddlg.cbopenedtabs.caption
 msgid "Opened tabs"
 msgstr "Megnyitott fülek"

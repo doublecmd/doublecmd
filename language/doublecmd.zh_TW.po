@@ -1692,6 +1692,14 @@ msgstr "尋找不包含這些文字的檔案 (&O)"
 msgid "N&ot older than:"
 msgstr "不早於 (&O):"
 
+#: tfrmfinddlg.cbofficexml.caption
+msgid "Offi&ce XML"
+msgstr ""
+
+#: tfrmfinddlg.cbofficexml.hint
+msgid "Office XML (*.docx)"
+msgstr ""
+
 #: tfrmfinddlg.cbopenedtabs.caption
 msgid "Opened tabs"
 msgstr ""
