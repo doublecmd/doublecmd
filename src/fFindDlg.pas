@@ -667,6 +667,8 @@ begin
   cmbFileSizeUnit.Items.Add(rsSizeUnitGBytes);
   cmbFileSizeUnit.Items.Add(rsSizeUnitTBytes);
 
+  cbOfficeXML.Hint := StripHotkey(cbOfficeXML.Caption) + ' (*.docx, *.odt)';
+
   // fill search depth combobox
   cmbSearchDepth.Items.Add(rsFindDepthAll);
   cmbSearchDepth.Items.Add(rsFindDepthCurDir);

@@ -526,7 +526,6 @@ object frmFindDlg: TfrmFindDlg
             AnchorSideTop.Control = cbTextRegExp
             Left = 592
             Height = 24
-            Hint = 'Office XML (*.docx)'
             Top = 67
             Width = 93
             BorderSpacing.Left = 15

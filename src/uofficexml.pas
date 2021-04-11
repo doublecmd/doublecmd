@@ -1,7 +1,7 @@
 {
    Double commander
    -------------------------------------------------------------------------
-   Load text from office xml (*.docx)
+   Load text from office xml (*.docx, *.odt)
 
    Copyright (C) 2021 Alexander Koblov (alexx2000@mail.ru)
 
@@ -35,7 +35,27 @@ implementation
 uses
   Unzip, ZipUtils, Laz2_DOM, laz2_XMLRead;
 
-procedure ProcessNodes(var S: String; ANode: TDOMNode);
+function ExtractFile(ZipFile: unzFile; MemoryStream: TMemoryStream): Boolean;
+var
+  ASize: LongInt;
+  FileInfo: unz_file_info;
+begin
+  Result:= unzGetCurrentFileInfo(ZipFile, @FileInfo, nil, 0, nil, 0, nil, 0) = UNZ_OK;
+  if Result then
+  begin
+    MemoryStream.SetSize(FileInfo.uncompressed_size);
+    if unzOpenCurrentFile(ZipFile) = UNZ_OK then
+    begin
+      ASize:= unzReadCurrentFile(ZipFile, MemoryStream.Memory, FileInfo.uncompressed_size);
+      Result:= (ASize = FileInfo.uncompressed_size);
+      unzCloseCurrentFile(ZipFile);
+    end;
+  end;
+end;
+
+{ Office Open XML }
+
+procedure ProcessOfficeOpenNodes(var S: String; ANode: TDOMNode);
 var
   I: Integer;
   ASubNode: TDOMNode;
@@ -59,25 +79,7 @@ begin
       S += #9;
 
     if ASubNode.ChildNodes.Count > 0 then
-      ProcessNodes(S, ASubNode);
-  end;
-end;
-
-function ExtractFile(ZipFile: unzFile; FileName: PAnsiChar; MemoryStream: TMemoryStream): Boolean;
-var
-  ASize: LongInt;
-  FileInfo: unz_file_info;
-begin
-  Result:= unzGetCurrentFileInfo(ZipFile, @FileInfo, nil, 0, nil, 0, nil, 0) = UNZ_OK;
-  if Result then
-  begin
-    MemoryStream.SetSize(FileInfo.uncompressed_size);
-    if unzOpenCurrentFile(ZipFile) = UNZ_OK then
-    begin
-      ASize:= unzReadCurrentFile(ZipFile, MemoryStream.Memory, FileInfo.uncompressed_size);
-      Result:= (ASize = FileInfo.uncompressed_size);
-      unzCloseCurrentFile(ZipFile);
-    end;
+      ProcessOfficeOpenNodes(S, ASubNode);
   end;
 end;
 
@@ -90,12 +92,12 @@ begin
   begin
     AStream:= TMemoryStream.Create;
     try
-      if ExtractFile(ZipFile, PAnsiChar(FileName), AStream) then
+      if ExtractFile(ZipFile, AStream) then
       begin
         ReadXMLFile(ADoc, AStream, [xrfPreserveWhiteSpace]);
         if Assigned (ADoc) then
         begin
-          ProcessNodes(AText, ADoc.DocumentElement);
+          ProcessOfficeOpenNodes(AText, ADoc.DocumentElement);
           ADoc.Free;
         end;
       end;
@@ -105,7 +107,7 @@ begin
   end;
 end;
 
-function LoadFromOffice(const FileName: String; out AText: String): Boolean;
+function LoadFromOfficeOpen(const FileName: String; out AText: String): Boolean;
 const
   HEADER_XML = 'word/header%d.xml';
   FOOTER_XML = 'word/footer%d.xml';
@@ -134,6 +136,101 @@ begin
   finally
     unzClose(ZipFile);
   end;
+end;
+
+{ Open Document Format }
+
+procedure ProcessOpenOfficeNodes(var S: String; ANode: TDOMNode);
+var
+  I: Integer;
+  ASubNode: TDOMNode;
+  ANodeName: DOMString;
+
+  procedure ParseSubNode(ANode: TDOMNode);
+  var
+    J: Integer;
+    ASubNode: TDOMNode;
+  begin
+    for J:= 0 to ANode.ChildNodes.Count - 1 do
+    begin
+      ASubNode := ANode.ChildNodes.Item[J];
+      ANodeName := ASubNode.NodeName;
+
+      if ANodeName = 'text:s' then
+        S += ' '
+      else if ANodeName = 'text:tab' then
+        S += #9
+      else if ANodeName = 'text:line-break' then
+        S += LineEnding
+      else if (ASubNode.NodeType = TEXT_NODE) then
+        S += ASubNode.NodeValue
+      else begin
+        ParseSubNode(ASubNode);
+      end;
+    end;
+  end;
+
+begin
+  for I:= 0 to ANode.ChildNodes.Count - 1 do
+  begin
+    ASubNode := ANode.ChildNodes.Item[I];
+    ANodeName := ASubNode.NodeName;
+
+    if (ANodeName = 'text:p') or (ANodeName = 'text:h')then
+    begin
+      if ASubNode.ChildNodes.Count > 0 then
+      begin
+        ParseSubNode(ASubNode);
+        S += LineEnding;
+      end;
+    end
+    else if ASubNode.ChildNodes.Count > 0 then
+      ProcessOpenOfficeNodes(S, ASubNode);
+  end;
+end;
+
+function LoadFromOpenOffice(const FileName: String; out AText: String): Boolean;
+const
+  CONTENT_XML = 'content.xml';
+var
+  ZipFile: unzFile;
+  ADoc: TXMLDocument;
+  AStream: TMemoryStream;
+begin
+  Result:= False;
+  AText:= EmptyStr;
+  ZipFile:= unzOpen(PAnsiChar(FileName));
+  if Assigned(ZipFile) then
+  try
+    if unzLocateFile(ZipFile, CONTENT_XML, 0) = UNZ_OK then
+    begin
+      AStream:= TMemoryStream.Create;
+      try
+        if ExtractFile(ZipFile, AStream) then
+        begin
+          ReadXMLFile(ADoc, AStream, [xrfPreserveWhiteSpace]);
+          if Assigned (ADoc) then
+          begin
+            ProcessOpenOfficeNodes(AText, ADoc.DocumentElement);
+            ADoc.Free;
+          end;
+        end;
+      finally
+        AStream.Free;
+      end;
+    end;
+    Result:= Length(AText) > 0;
+  finally
+    unzClose(ZipFile);
+  end;
+end;
+
+function LoadFromOffice(const FileName: String; out AText: String): Boolean;
+begin
+  if SameText(ExtractFileExt(FileName), '.docx') then
+    Result:= LoadFromOfficeOpen(FileName, AText)
+  else
+    Result:= LoadFromOpenOffice(FileName, AText);
 end;
 
 end.
