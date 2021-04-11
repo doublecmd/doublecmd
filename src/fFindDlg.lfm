@@ -520,18 +520,18 @@ object frmFindDlg: TfrmFindDlg
             OnChange = chkHexChange
             TabOrder = 8
           end
-          object cbOffceXML: TCheckBox
+          object cbOfficeXML: TCheckBox
             AnchorSideLeft.Control = cbTextRegExp
             AnchorSideLeft.Side = asrBottom
             AnchorSideTop.Control = cbTextRegExp
             Left = 592
             Height = 24
-            Hint = 'Offce XML (*.docx)'
+            Hint = 'Office XML (*.docx)'
             Top = 67
             Width = 93
             BorderSpacing.Left = 15
-            Caption = 'Offce XML'
-            OnChange = cbOffceXMLChange
+            Caption = 'Offi&ce XML'
+            OnChange = cbOfficeXMLChange
             ParentShowHint = False
             ShowHint = True
             TabOrder = 6

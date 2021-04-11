@@ -99,7 +99,7 @@ type
     cbTextRegExp: TCheckBox;
     cbFindInArchive: TCheckBox;
     cbOpenedTabs: TCheckBox;
-    cbOffceXML: TCheckBox;
+    cbOfficeXML: TCheckBox;
     chkDuplicateContent: TCheckBox;
     chkDuplicateSize: TCheckBox;
     chkDuplicateHash: TCheckBox;
@@ -212,7 +212,7 @@ type
     procedure cbDateFromChange(Sender: TObject);
     procedure cbDateToChange(Sender: TObject);
     procedure cbFindInArchiveChange(Sender: TObject);
-    procedure cbOffceXMLChange(Sender: TObject);
+    procedure cbOfficeXMLChange(Sender: TObject);
     procedure cbOpenedTabsChange(Sender: TObject);
     procedure cbPartialNameSearchChange(Sender: TObject);
     procedure cbRegExpChange(Sender: TObject);
@@ -807,7 +807,7 @@ begin
   EnableControl(cbReplaceText, cbFindText.Checked and not cbFindInArchive.Checked);
   EnableControl(cbNotContainingText, cbFindText.Checked);
   EnableControl(cbTextRegExp, cbFindText.Checked);
-  EnableControl(cbOffceXML, cbFindText.Checked);
+  EnableControl(cbOfficeXML, cbFindText.Checked);
   lblEncoding.Enabled := cbFindText.Checked;
   cbReplaceText.Checked := False;
   cmbEncodingSelect(nil);
@@ -1002,14 +1002,14 @@ begin
   cbReplaceTextChange(cbReplaceText);
 end;
 
-procedure TfrmFindDlg.cbOffceXMLChange(Sender: TObject);
+procedure TfrmFindDlg.cbOfficeXMLChange(Sender: TObject);
 begin
-  if cbOffceXML.Checked then
+  if cbOfficeXML.Checked then
   begin
     chkHex.Checked:= False;
     cbReplaceText.Checked:= False;
   end;
-  cbReplaceText.Enabled:= not (chkHex.Checked or cbOffceXML.Checked);
+  cbReplaceText.Enabled:= not (chkHex.Checked or cbOfficeXML.Checked);
 end;
 
 { TfrmFindDlg.cbOpenedTabsChange }
@@ -1101,7 +1101,7 @@ begin
     begin
       cbCaseSens.Tag := Integer(cbCaseSens.Checked);
     end;
-    cbOffceXML.Checked:= False;
+    cbOfficeXML.Checked:= False;
     cbReplaceText.Checked:= False;
   end
   else if not cbCaseSens.Enabled then
@@ -1109,7 +1109,7 @@ begin
     cbCaseSens.Checked := Boolean(cbCaseSens.Tag);
   end;
   cmbEncoding.Enabled:= not chkHex.Checked;
-  cbReplaceText.Enabled:= not (chkHex.Checked or cbOffceXML.Checked);
+  cbReplaceText.Enabled:= not (chkHex.Checked or cbOfficeXML.Checked);
   cmbEncodingSelect(cmbEncoding);
 end;
 
@@ -1203,7 +1203,7 @@ begin
     NotContainingText := cbNotContainingText.Checked;
     TextRegExp := cbTextRegExp.Checked;
     TextEncoding := cmbEncoding.Text;
-    OfficeXML := cbOffceXML.Checked;
+    OfficeXML := cbOfficeXML.Checked;
     { Duplicates }
     Duplicates:= chkDuplicates.Checked;
     DuplicateName:= chkDuplicateName.Checked;
@@ -2306,7 +2306,7 @@ begin
     cbNotContainingText.Checked := NotContainingText;
     cbTextRegExp.Checked := TextRegExp;
     cmbEncoding.Text := TextEncoding;
-    cbOffceXML.Checked := OfficeXML;
+    cbOfficeXML.Checked := OfficeXML;
 
     if cbFindInArchive.Enabled then
     begin
