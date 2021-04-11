@@ -86,6 +86,7 @@ type
     NotContainingText: Boolean;
     TextRegExp: Boolean;
     TextEncoding: String;
+    OfficeXML: Boolean;
     { Duplicates }
     Duplicates: Boolean;
     DuplicateName: Boolean;

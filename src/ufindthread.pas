@@ -53,6 +53,7 @@ type
     FFoundFile:String;
     FCurrentDepth: Integer;
     FTextSearchType: TTextSearch;
+    FSearchText: String;
     FSearchTemplate: TSearchTemplateRec;
     FSelectedFiles: TStringList;
     FFileChecks: TFindFileChecks;
@@ -112,7 +113,7 @@ implementation
 uses
   LCLProc, LazUtf8, StrUtils, LConvEncoding, DCStrUtils,
   uLng, DCClassesUtf8, uFindMmap, uGlobs, uShowMsg, DCOSUtils, uOSUtils, uHash,
-  uLog, WcxPlugin, Math, uDCUtils, uConvEncoding, DCDateTimeUtils;
+  uLog, WcxPlugin, Math, uDCUtils, uConvEncoding, DCDateTimeUtils, uOfficeXML;
 
 function ProcessDataProcAG(FileName: PAnsiChar; Size: LongInt): LongInt; dcpcall;
 begin
@@ -157,6 +158,8 @@ begin
 
     if IsFindText then
     begin
+      FSearchText := FindText;
+
       if HexValue then
       begin
         TextEncoding := EncodingAnsi;
@@ -351,6 +354,21 @@ var
 begin
   Result := False;
   if sData = '' then Exit;
+
+  if FSearchTemplate.OfficeXML and MatchesMask(sFileName, '*.docx') then
+  begin
+    if LoadFromOffice(sFileName, S) then
+    begin
+      if bRegExp then
+        Result:= uRegExprW.ExecRegExpr(UTF8ToUTF16(FSearchText), UTF8ToUTF16(S))
+      else if FSearchTemplate.CaseSensitive then
+        Result:= PosMem(Pointer(S), Length(S), 0, FSearchText, False, False) <> Pointer(-1)
+      else begin
+        Result:= PosMemU(Pointer(S), Length(S), 0, FSearchText, False) <> Pointer(-1);
+      end;
+    end;
+    Exit;
+  end;
 
   // Simple regular expression search (don't work for very big files)
   if bRegExp then

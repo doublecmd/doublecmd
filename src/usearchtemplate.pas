@@ -231,10 +231,12 @@ begin
           IsReplaceText:= AConfig.GetValue(ANode, 'IsReplaceText', False);
           if IsReplaceText then
             ReplaceText:= AConfig.GetValue(ANode, 'ReplaceText', '');
+          // text search options
           HexValue:= AConfig.GetValue(ANode, 'HexValue', False);
           CaseSensitive:= AConfig.GetValue(ANode, 'CaseSensitive', False);
           NotContainingText:= AConfig.GetValue(ANode, 'NotContainingText', False);
           TextRegExp:= AConfig.GetValue(ANode, 'TextRegExp', False);
+          OfficeXML:= AConfig.GetValue(ANode, 'OfficeXML', False);
           TextEncoding:= AConfig.GetValue(ANode, 'TextEncoding', '');
           if TextEncoding = 'UTF-8BOM' then TextEncoding:= 'UTF-8';
           if TextEncoding = 'UCS-2LE' then TextEncoding:= 'UTF-16LE';
@@ -336,11 +338,13 @@ begin
       AConfig.AddValue(SubNode, 'IsReplaceText', IsReplaceText);
       if IsReplaceText then
         AConfig.AddValue(SubNode, 'ReplaceText', ReplaceText);
+      // text search options
       AConfig.AddValue(SubNode, 'HexValue', HexValue);
       AConfig.AddValue(SubNode, 'CaseSensitive', CaseSensitive);
       AConfig.AddValue(SubNode, 'NotContainingText', NotContainingText);
       AConfig.AddValue(SubNode, 'TextRegExp', TextRegExp);
       AConfig.AddValue(SubNode, 'TextEncoding', TextEncoding);
+      AConfig.AddValue(SubNode, 'OfficeXML', OfficeXML);
       // duplicates
       Node := AConfig.AddNode(SubNode, 'Duplicates');
       AConfig.SetAttr(Node, 'Enabled', Duplicates);

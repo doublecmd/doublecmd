@@ -411,7 +411,7 @@ object frmFindDlg: TfrmFindDlg
             ItemHeight = 15
             OnSelect = cmbEncodingSelect
             Style = csDropDownList
-            TabOrder = 6
+            TabOrder = 7
           end
           object cmbFindText: TComboBoxWithDelItems
             AnchorSideLeft.Control = CheksPanel
@@ -518,7 +518,23 @@ object frmFindDlg: TfrmFindDlg
             Width = 88
             Caption = 'Hexadeci&mal'
             OnChange = chkHexChange
-            TabOrder = 7
+            TabOrder = 8
+          end
+          object cbOffceXML: TCheckBox
+            AnchorSideLeft.Control = cbTextRegExp
+            AnchorSideLeft.Side = asrBottom
+            AnchorSideTop.Control = cbTextRegExp
+            Left = 592
+            Height = 24
+            Hint = 'Offce XML (*.docx)'
+            Top = 67
+            Width = 93
+            BorderSpacing.Left = 15
+            Caption = 'Offce XML'
+            OnChange = cbOffceXMLChange
+            ParentShowHint = False
+            ShowHint = True
+            TabOrder = 6
           end
         end
       end
