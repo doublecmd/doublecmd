@@ -804,7 +804,7 @@ begin
   EnableControl(cmbFindText, cbFindText.Checked);
   EnableControl(cmbEncoding, cbFindText.Checked);
   EnableControl(cbCaseSens, cbFindText.Checked);
-  EnableControl(cbReplaceText, cbFindText.Checked and not cbFindInArchive.Checked);
+  EnableControl(cbReplaceText, cbFindText.Checked and not (cbFindInArchive.Checked or chkHex.Checked or cbOfficeXML.Checked));
   EnableControl(cbNotContainingText, cbFindText.Checked);
   EnableControl(cbTextRegExp, cbFindText.Checked);
   EnableControl(cbOfficeXML, cbFindText.Checked);
@@ -883,6 +883,7 @@ begin
   cbFindText.Checked := False;
   cbReplaceText.Checked := False;
   cbCaseSens.Checked := False;
+  cbOfficeXML.Checked := False;
   cbNotContainingText.Checked := False;
   cmbEncoding.ItemIndex := 0;
   cmbEncodingSelect(nil);
@@ -1365,7 +1366,7 @@ begin
   cbOpenedTabs.Visible:= not AEnabled;
   cbSelectedFiles.Visible:= not AEnabled;
   cbFindInArchive.Enabled:= not AEnabled;
-  cbReplaceText.Enabled:= not AEnabled;
+  cbReplaceText.Enabled:= (not AEnabled) and (cbFindText.Checked);
   cmbFindPathStart.Enabled:= not AEnabled;
   btnChooseFolder.Enabled:= not AEnabled;
   chkDuplicates.Enabled:= not AEnabled;
