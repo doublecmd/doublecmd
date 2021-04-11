@@ -1587,10 +1587,6 @@ msgstr "Н&е старше:"
 msgid "Offi&ce XML"
 msgstr "Офи&сные XML"
 
-#: tfrmfinddlg.cbofficexml.hint
-msgid "Office XML (*.docx)"
-msgstr "Офисные XML (*.docx)"
-
 #: tfrmfinddlg.cbopenedtabs.caption
 msgid "Opened tabs"
 msgstr "В открытых вкладках"

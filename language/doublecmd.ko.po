@@ -1615,10 +1615,6 @@ msgstr "오래되지 않은(&O):"
 msgid "Offi&ce XML"
 msgstr ""
 
-#: tfrmfinddlg.cbofficexml.hint
-msgid "Office XML (*.docx)"
-msgstr ""
-
 #: tfrmfinddlg.cbopenedtabs.caption
 msgid "Opened tabs"
 msgstr ""

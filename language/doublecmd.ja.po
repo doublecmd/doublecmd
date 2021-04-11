@@ -1589,10 +1589,6 @@ msgstr "これより古くない(&o)："
 msgid "Offi&ce XML"
 msgstr ""
 
-#: tfrmfinddlg.cbofficexml.hint
-msgid "Office XML (*.docx)"
-msgstr ""
-
 #: tfrmfinddlg.cbopenedtabs.caption
 msgid "Opened tabs"
 msgstr "開いているタブ"

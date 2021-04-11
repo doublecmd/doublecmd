@@ -1562,10 +1562,6 @@ msgstr "不早于(&O)："
 msgid "Offi&ce XML"
 msgstr ""
 
-#: tfrmfinddlg.cbofficexml.hint
-msgid "Office XML (*.docx)"
-msgstr ""
-
 #: tfrmfinddlg.cbopenedtabs.caption
 msgid "Opened tabs"
 msgstr "打开的标签"

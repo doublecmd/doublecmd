@@ -1617,10 +1617,6 @@ msgstr "Ikke &ældre end:"
 msgid "Offi&ce XML"
 msgstr ""
 
-#: tfrmfinddlg.cbofficexml.hint
-msgid "Office XML (*.docx)"
-msgstr ""
-
 # Kommandoer - Find_filer
 #: tfrmfinddlg.cbopenedtabs.caption
 msgid "Opened tabs"

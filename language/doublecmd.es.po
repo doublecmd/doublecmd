@@ -1567,10 +1567,6 @@ msgstr "N&o más antiguo de:"
 msgid "Offi&ce XML"
 msgstr ""
 
-#: tfrmfinddlg.cbofficexml.hint
-msgid "Office XML (*.docx)"
-msgstr ""
-
 #: tfrmfinddlg.cbopenedtabs.caption
 msgid "Opened tabs"
 msgstr "Pestañas abiertas"
