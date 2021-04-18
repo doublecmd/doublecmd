@@ -257,6 +257,7 @@ procedure ZeroMemory(Destination: Pointer; Length: PtrUInt);
 
 {$IF DEFINED(CPUX86_64)}
 
+function BMI2Support: LongBool;
 function SSSE3Support: LongBool;
 
 {$ENDIF}
@@ -705,7 +706,18 @@ end;
 
 {$IF DEFINED(CPUX86_64)}
 
-function SSSE3Support: LongBool; assembler;
+function BMI2Support: LongBool; assembler; nostackframe;
+asm
+  pushq %rbx
+  movl $7,%eax
+  movl $0,%ecx
+  cpuid
+  andl $256,%ebx
+  movl %ebx,%eax
+  popq %rbx
+end;
+
+function SSSE3Support: LongBool; assembler; nostackframe;
 asm
   pushq %rbx
   movl $1,%eax

@@ -208,7 +208,7 @@ end;
 procedure TDCP_sha256base.Init;
 begin
 {$IF DEFINED(CPUX86_64)}
-  if AVX2Support then
+  if AVX2Support and BMI2Support then
     FCompress:= @sha256_compress_avx
   else if SSSE3Support then
     FCompress:= @sha256_compress_sse
