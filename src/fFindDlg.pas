@@ -394,7 +394,7 @@ implementation
 
 uses
   LCLProc, LCLType, LConvEncoding, StrUtils, HelpIntfs, fViewer, fMain,
-  uLng, uGlobs, uShowForm, uDCUtils, uFileSourceUtil,
+  uLng, uGlobs, uShowForm, uDCUtils, uFileSourceUtil, uOfficeXML,
   uSearchResultFileSource, uFile, uFileProperty, uColumnsFileView,
   uFileViewNotebook, uKeyboard, uOSUtils, uArchiveFileSourceUtil,
   DCOSUtils, RegExpr, uDebug, uShowMsg, uConvEncoding, uColumns,
@@ -667,7 +667,7 @@ begin
   cmbFileSizeUnit.Items.Add(rsSizeUnitGBytes);
   cmbFileSizeUnit.Items.Add(rsSizeUnitTBytes);
 
-  cbOfficeXML.Hint := StripHotkey(cbOfficeXML.Caption) + ' (*.docx, *.odt)';
+  cbOfficeXML.Hint := StripHotkey(cbOfficeXML.Caption) + ' ' + OFFICE_FILTER;
 
   // fill search depth combobox
   cmbSearchDepth.Items.Add(rsFindDepthAll);

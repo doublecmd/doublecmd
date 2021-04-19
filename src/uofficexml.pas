@@ -26,7 +26,13 @@ unit uOfficeXML;
 interface
 
 uses
-  Classes, SysUtils;
+  Classes, SysUtils, uMasks;
+
+var
+  OfficeMask: TMaskList;
+
+const
+  OFFICE_FILTER = '(*.docx, *.odt, *.ods)';
 
 function LoadFromOffice(const FileName: String; out AText: String): Boolean;
 
@@ -232,6 +238,12 @@ begin
   else
     Result:= LoadFromOpenOffice(FileName, AText);
 end;
+
+initialization
+  OfficeMask:= TMaskList.Create('*.docx;*.odt;*.ods');
+
+finalization
+  OfficeMask.Free;
 
 end.
 

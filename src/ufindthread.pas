@@ -355,7 +355,7 @@ begin
   Result := False;
   if sData = '' then Exit;
 
-  if FSearchTemplate.OfficeXML and MatchesMaskList(sFileName, '*.docx;*.odt') then
+  if FSearchTemplate.OfficeXML and OfficeMask.Matches(sFileName) then
   begin
     if LoadFromOffice(sFileName, S) then
     begin
