@@ -57,6 +57,7 @@ procedure sha256_compress_avx(CurrentHash: PLongWord; HashBuffer: PByte; BufferC
 // UNIX    RDI, RSI, RDX
 // WIN64:  RCX, RDX, R8
 asm
+.balign 32
 {$IF DEFINED(WIN64)}
   movq   %rsi, 16(%rsp)
   movq   %rdi, 24(%rsp)
@@ -96,6 +97,7 @@ asm
   shl    $0x6,%rdx
   lea    -0x40(%rdx,%rdi,1),%rdx
   mov    %rdx,0x200(%rsp)
+  cmp    %rdi,%rdx
   mov    (%rsi),%eax
   mov    0x4(%rsi),%ebx
   mov    0x8(%rsi),%ecx
@@ -105,6 +107,7 @@ asm
   mov    0x18(%rsi),%r10d
   mov    0x1c(%rsi),%r11d
   mov    %rsi,0x210(%rsp)
+  je     .LB1535
 
 .LB7b:
   lea    .LK256(%rip),%rbp
@@ -133,9 +136,8 @@ asm
   vmovdqa %ymm9,0x40(%rsp)
   vpaddd 0x60(%rbp),%ymm7,%ymm9
   vmovdqa %ymm9,0x60(%rsp)
-  // nopl   0x0(%rax,%rax,1)
-  .byte 0x0f,0x1f,0x44,0x00,0x00
 
+.balign 16
 .LB100:
   vpalignr $0x4,%ymm6,%ymm7,%ymm0
   vpaddd %ymm4,%ymm0,%ymm0
@@ -1117,8 +1119,8 @@ asm
   cmp    0x200(%rsp),%rdi
   ja     .LB15a5
   xor    %rsi,%rsi
-  xchg   %ax,%ax
 
+.balign 16
 .LB1170:
   mov    %edx,%edi
   add    0x10(%rsp,%rsi,1),%r11d
@@ -1459,6 +1461,7 @@ asm
   .long	0x90befffa,0xa4506ceb,0xbef9a3f7,0xc67178f2
   .long	0x90befffa,0xa4506ceb,0xbef9a3f7,0xc67178f2
 
+.balign 32
 .LPSHUFFLE_BYTE_FLIP_MASK:
   .long  66051, 67438087, 134810123, 202182159
   .long  66051, 67438087, 134810123, 202182159
