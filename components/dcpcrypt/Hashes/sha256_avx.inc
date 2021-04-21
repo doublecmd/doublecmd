@@ -53,6 +53,16 @@
  */
 }
 
+{$CODEALIGN CONSTMIN=32}
+
+const
+  _BYTE_FLIP_MASK: array [0..7] of UInt32 = (66051, 67438087, 134810123, 202182159,
+                                             66051, 67438087, 134810123, 202182159);
+  _SHUF_00BA: array [0..7] of UInt32 = (50462976, 185207048, $FFFFFFFF, $FFFFFFFF,
+                                        50462976, 185207048, $FFFFFFFF, $FFFFFFFF);
+  _SHUF_DC00: array [0..7] of UInt32 = ($FFFFFFFF, $FFFFFFFF, 50462976, 185207048,
+                                        $FFFFFFFF, $FFFFFFFF, 50462976, 185207048);
+
 procedure sha256_compress_avx(CurrentHash: PLongWord; HashBuffer: PByte; BufferCount: UIntPtr); assembler; nostackframe;
 // UNIX    RDI, RSI, RDX
 // WIN64:  RCX, RDX, R8
@@ -87,9 +97,9 @@ asm
   push   %r14
   push   %r15
   vzeroupper
-  vmovdqa .LPSHUFFLE_BYTE_FLIP_MASK(%rip),%ymm13
-  vmovdqa .L_SHUF_00BA(%rip),%ymm10
-  vmovdqa .L_SHUF_DC00(%rip),%ymm12
+  vmovdqa _BYTE_FLIP_MASK(%rip),%ymm13
+  vmovdqa _SHUF_00BA(%rip),%ymm10
+  vmovdqa _SHUF_DC00(%rip),%ymm12
   mov    %rsp,%rax
   sub    $0x220,%rsp
   and    $0xffffffffffffffc0,%rsp
@@ -1375,9 +1385,9 @@ asm
   mov    0x14(%rsi),%r9d
   mov    0x18(%rsi),%r10d
   mov    0x1c(%rsi),%r11d
-  vmovdqa .LPSHUFFLE_BYTE_FLIP_MASK(%rip),%ymm13
-  vmovdqa .L_SHUF_00BA(%rip),%ymm10
-  vmovdqa .L_SHUF_DC00(%rip),%ymm12
+  vmovdqa _BYTE_FLIP_MASK(%rip),%ymm13
+  vmovdqa _SHUF_00BA(%rip),%ymm10
+  vmovdqa _SHUF_DC00(%rip),%ymm12
   mov    %rsi,0x210(%rsp)
   jmp    .LB1535
 
@@ -1460,18 +1470,5 @@ asm
   .long	0x748f82ee,0x78a5636f,0x84c87814,0x8cc70208
   .long	0x90befffa,0xa4506ceb,0xbef9a3f7,0xc67178f2
   .long	0x90befffa,0xa4506ceb,0xbef9a3f7,0xc67178f2
-
-.balign 32
-.LPSHUFFLE_BYTE_FLIP_MASK:
-  .long  66051, 67438087, 134810123, 202182159
-  .long  66051, 67438087, 134810123, 202182159
-
-.L_SHUF_00BA:
-  .long  50462976, 185207048, -1, -1
-  .long  50462976, 185207048, -1, -1
-
-.L_SHUF_DC00:
-  .long  -1, -1, 50462976, 185207048
-  .long  -1, -1, 50462976, 185207048
 end;
 
