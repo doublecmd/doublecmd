@@ -194,6 +194,9 @@ var
   lockop: cint;
   lockres: cint;
   lockerr: cint;
+{$IFDEF LINUX}
+  Sbfs: TStatFS;
+{$ENDIF}
 begin
   Result:= Handle;
   case (Mode and $F0) of
@@ -205,6 +208,12 @@ begin
     else
       Exit;
   end;
+{$IFDEF LINUX}
+  if (fpFStatFS(Handle, @Sbfs) = 0) then
+  begin
+    if (Sbfs.fstype = CIFS_MAGIC_NUMBER) then Exit;
+  end;
+{$ENDIF}
   repeat
     lockres:= fpFlock(Handle, lockop);
   until (lockres = 0) or (fpgeterrno <> ESysEIntr);
