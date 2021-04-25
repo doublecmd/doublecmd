@@ -198,7 +198,6 @@ begin
       if gLogWindow = False then
       begin
         ShowLogWindow(PtrInt(False));
-        Application.QueueAsyncCall(ShowLogWindow, PtrInt(False));
       end;
     end;
     UpdateDiskCount;

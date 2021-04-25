@@ -44,7 +44,6 @@ uses
 type
   PLogMessage = ^TLogMessage;
   TLogMessage = record
-    Force: Boolean;
     Message: String;
     case Boolean of
       True: (ObjectType: TObject);
@@ -59,6 +58,7 @@ type
   private
     FMutex: TRTLCriticalSection;
   private
+    procedure ShowLogWindow;
     procedure WriteInMainThread(Data: PtrInt);
   public
     constructor Create;
@@ -102,6 +102,11 @@ end;
 
 { TLogWriter }
 
+procedure TLogWriter.ShowLogWindow;
+begin
+  frmMain.ShowLogWindow(PtrInt(True));
+end;
+
 procedure TLogWriter.WriteInMainThread(Data: PtrInt);
 var
   Msg: PLogMessage absolute Data;
@@ -110,9 +115,6 @@ begin
   begin
     with fMain.frmMain do
     try
-      if Msg^.Force and (not seLogWindow.Visible) then
-        ShowLogWindow(PtrInt(True));
-
       seLogWindow.CaretY:= seLogWindow.Lines.AddObject(Msg^.Message, Msg^.ObjectType) + 1;
     finally
       Dispose(Msg);
@@ -142,8 +144,14 @@ var
 begin
   if Assigned(fMain.frmMain) and (bForce or gLogWindow) then
   begin
+    if bForce and (not frmMain.seLogWindow.Visible) then
+    begin
+      if GetCurrentThreadId = MainThreadID then
+        Self.ShowLogWindow
+      else
+        TThread.Synchronize(nil, @Self.ShowLogWindow);
+    end;
     New(LogMessage);
-    LogMessage^.Force:= bForce;
     LogMessage^.Message:= sText;
     LogMessage^.MessageType:= LogMsgType;
     Application.QueueAsyncCall(@WriteInMainThread, {%H-}PtrInt(LogMessage));
