@@ -5,9 +5,18 @@ unit uNetworkThread;
 interface
 
 uses
-  Classes, SysUtils, SyncObjs, JwaWinNetWk, Windows;
+  Classes, SysUtils, SyncObjs, JwaWinNetWk, Windows, Forms, Graphics, uDrive;
 
 type
+
+  { TDriveIcon }
+
+  TDriveIcon = class
+  public
+    Drive: TDrive;
+    Bitmap: TBitmap;
+    destructor Destroy; override;
+  end;
 
   { TNetworkThread }
 
@@ -25,10 +34,57 @@ type
     class function Connect(lpLocalName, lpRemoteName: LPWSTR; dwType: DWORD; CheckOperationState: TThreadMethod = nil): Integer;
   end;
 
+  { TNetworkDriveLoader }
+
+  TNetworkDriveLoader = class(TThread)
+  private
+    FDrive: TDrive;
+    FIconSize: Integer;
+    FBackColor: TColor;
+    FCallback: TDataEvent;
+  protected
+    procedure Execute; override;
+  public
+    constructor Create(ADrive: PDrive; AIconSize: Integer; ABackColor: TColor; ACallback: TDataEvent); reintroduce;
+  end;
+
 implementation
 
 uses
-  uMyWindows;
+   uMyWindows, uPixMapManager;
+
+{ TDriveIcon }
+
+destructor TDriveIcon.Destroy;
+begin
+  Bitmap.Free;
+  inherited Destroy;
+end;
+
+{ TNetworkDriveLoader }
+
+procedure TNetworkDriveLoader.Execute;
+var
+  AIcon: TDriveIcon;
+  AData: PtrInt absolute AIcon;
+begin
+  AIcon:= TDriveIcon.Create;
+  AIcon.Drive:= FDrive;
+  AIcon.Bitmap:= PixMapManager.GetDriveIcon(@FDrive, FIconSize, FBackColor);
+
+  Application.QueueAsyncCall(FCallback, AData);
+end;
+
+constructor TNetworkDriveLoader.Create(ADrive: PDrive; AIconSize: Integer;
+  ABackColor: TColor; ACallback: TDataEvent);
+begin
+  FDrive:= ADrive^;
+  FIconSize:= AIconSize;
+  FBackColor:= ABackColor;
+  FCallback:= ACallback;
+  inherited Create(True);
+  FreeOnTerminate:= True;
+end;
 
 { TNetworkThread }
 

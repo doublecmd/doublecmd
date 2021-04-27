@@ -744,6 +744,9 @@ type
     procedure UpdateDriveToolbarSelection(DriveToolbar: TKAStoolBar; FileView: TFileView);
     procedure UpdateDriveButtonSelection(DriveButton: TSpeedButton; FileView: TFileView);
     procedure UpdateSelectedDrive(ANoteBook: TFileViewNotebook);
+{$IF DEFINED(MSWINDOWS)}
+    procedure OnDriveIconLoaded(Data: PtrInt);
+{$ENDIF}
     procedure OnDriveWatcherEvent(EventType: TDriveWatcherEvent; const ADrive: PDrive);
     procedure AppActivate(Sender: TObject);
     procedure AppDeActivate(Sender: TObject);
@@ -912,6 +915,9 @@ uses
   {$ELSE}
   , uColumnsFileView
   {$ENDIF}
+{$IFDEF MSWINDOWS}
+  , uNetworkThread
+{$ENDIF}
   ;
 
 const
@@ -4483,13 +4489,28 @@ begin
 
   { Delete drives that in drives black list }
   for I:= DrivesList.Count - 1 downto 0 do
+  begin
+    Drive := DrivesList[I];
+    if (gDriveBlackListUnmounted and not Drive^.IsMounted) or
+       MatchesMaskList(Drive^.Path, gDriveBlackList) or
+       MatchesMaskList(Drive^.DeviceId, gDriveBlackList) then
+      DrivesList.Remove(I);
+  end;
+
+{$IF DEFINED(MSWINDOWS)}
+  if (not (cimDrive in gCustomIcons)) then
+  begin
+    for I:= DrivesList.Count - 1 downto 0 do
     begin
       Drive := DrivesList[I];
-      if (gDriveBlackListUnmounted and not Drive^.IsMounted) or
-         MatchesMaskList(Drive^.Path, gDriveBlackList) or
-         MatchesMaskList(Drive^.DeviceId, gDriveBlackList) then
-        DrivesList.Remove(I);
+      if Drive^.DriveType = dtNetwork then
+      begin
+        with TNetworkDriveLoader.Create(Drive, dskRight.GlyphSize, clBtnFace, @OnDriveIconLoaded) do
+          Start;
+      end;
     end;
+  end;
+{$ENDIF}
 
   UpdateDriveList(DrivesList);
 
@@ -4567,7 +4588,7 @@ begin
       Button := dskPanel.AddButton(ToolItem);
 
       // Set drive icon.
-      BitmapTmp := PixMapManager.GetDriveIcon(Drive, dskPanel.GlyphSize, clBtnFace);
+      BitmapTmp := PixMapManager.GetDriveIcon(Drive, dskPanel.GlyphSize, clBtnFace, False);
       Button.Glyph.Assign(BitmapTmp);
       FreeAndNil(BitmapTmp);
 
@@ -6002,6 +6023,37 @@ begin
     end;
   end;
 end;
+
+{$IF DEFINED(MSWINDOWS)}
+procedure TfrmMain.OnDriveIconLoaded(Data: PtrInt);
+var
+  ADrive: TKASDriveItem;
+  AIcon: TDriveIcon absolute Data;
+
+  procedure UpdateDriveIcon(dskPanel: TKASToolBar);
+  var
+    Index: Integer;
+  begin
+    for Index:= 0 to dskPanel.ButtonCount - 1 do
+    begin
+     if dskPanel.Buttons[Index].ToolItem is TKASDriveItem then
+     begin
+       ADrive:= TKASDriveItem(dskPanel.Buttons[Index].ToolItem);
+       if SameText(ADrive.Drive^.Path, AIcon.Drive.Path) then
+       begin
+         dskPanel.Buttons[Index].Glyph.Assign(AIcon.Bitmap);
+         Break;
+       end;
+     end;
+    end;
+  end;
+
+begin
+  UpdateDriveIcon(dskLeft);
+  UpdateDriveIcon(dskRight);
+  AIcon.Free;
+end;
+{$ENDIF}
 
 procedure TfrmMain.UpdateSelectedDrives;
 begin

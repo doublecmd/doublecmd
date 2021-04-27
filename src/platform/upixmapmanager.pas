@@ -310,7 +310,7 @@ type
     {$ENDIF}
     function GetIconByName(const AIconName: String): PtrInt;
     function GetThemeIcon(const AIconName: String; AIconSize: Integer) : Graphics.TBitmap;
-    function GetDriveIcon(Drive : PDrive; IconSize : Integer; clBackColor : TColor) : Graphics.TBitmap;
+    function GetDriveIcon(Drive : PDrive; IconSize : Integer; clBackColor : TColor; LoadIcon: Boolean = True) : Graphics.TBitmap;
     function GetDefaultDriveIcon(IconSize : Integer; clBackColor : TColor) : Graphics.TBitmap;
     function GetArchiveIcon(IconSize: Integer; clBackColor : TColor) : Graphics.TBitmap;
     function GetFolderIcon(IconSize: Integer; clBackColor : TColor) : Graphics.TBitmap;
@@ -1327,27 +1327,16 @@ begin
 end;
 
 function TPixMapManager.GetSystemArchiveIcon: PtrInt;
-const
-  SIID_ZIPFILE = 105;
 var
   psii: TSHStockIconInfo;
-  SHGetStockIconInfo: function(siid: Int32; uFlags: UINT; var psii: TSHStockIconInfo): HRESULT; stdcall;
 begin
-  Result:= -1;
-  if (Win32MajorVersion > 5) then
-  begin
-    Pointer(SHGetStockIconInfo):= GetProcAddress(GetModuleHandle(Shell32), 'SHGetStockIconInfo');
-    if Assigned(SHGetStockIconInfo) then
-    begin
-      psii.cbSize:= SizeOf(TSHStockIconInfo);
-      if SHGetStockIconInfo(SIID_ZIPFILE, SHGFI_SYSICONINDEX, psii) = S_OK then
-      begin
-        Result:= psii.iSysImageIndex + SystemIconIndexStart;
+  if not SHGetStockIconInfo(SIID_ZIPFILE, SHGFI_SYSICONINDEX, psii) then
+    Result:= -1
+  else begin
+    Result:= psii.iSysImageIndex + SystemIconIndexStart;
 {$IF DEFINED(LCLQT5)}
-        Result := CheckAddSystemIcon(Result);
+    Result := CheckAddSystemIcon(Result);
 {$ENDIF}
-      end;
-    end;
   end;
 end;
 
@@ -2162,13 +2151,14 @@ begin
   end;
 end;
 
-function TPixMapManager.GetDriveIcon(Drive : PDrive; IconSize : Integer; clBackColor : TColor) : Graphics.TBitmap;
+function TPixMapManager.GetDriveIcon(Drive : PDrive; IconSize : Integer; clBackColor : TColor; LoadIcon: Boolean) : Graphics.TBitmap;
 {$IFDEF MSWINDOWS}
 var
   SFI: TSHFileInfoW;
   uFlags: UINT;
   iIconSmall,
   iIconLarge: Integer;
+  psii: TSHStockIconInfo;
 {$ENDIF}
 begin
   if Drive^.DriveType = dtVirtual then
@@ -2181,6 +2171,12 @@ begin
   if ScreenInfo.ColorDepth < 15 then Exit;
   if (not (cimDrive in gCustomIcons)) and (ScreenInfo.ColorDepth > 16) then
     begin
+      if (Win32MajorVersion < 6) and (not LoadIcon) and (Drive^.DriveType = dtNetwork) then
+      begin
+        Result := GetBuiltInDriveIcon(Drive, IconSize, clBackColor);
+        Exit;
+      end;
+
       SFI.hIcon := 0;
       Result := Graphics.TBitMap.Create;
       iIconLarge:= GetSystemMetrics(SM_CXICON);
@@ -2191,19 +2187,22 @@ begin
       else begin
         uFlags := SHGFI_LARGEICON; // Use large icon
       end;
+      uFlags := uFlags or SHGFI_ICON;
 
-      if (SHGetFileInfoW(PWideChar(UTF8Decode(Drive^.Path)), 0, SFI,
-                         SizeOf(SFI), uFlags or SHGFI_ICON) <> 0) then
-      begin
-        if (SFI.hIcon <> 0) then
-        try
-          Result:= BitmapCreateFromHICON(SFI.hIcon);
-          Result.Masked := True; // Need to explicitly set Masked=True, Lazarus issue #0019747
-          if (IconSize <> iIconSmall) and (IconSize <> iIconLarge) then // non standart icon size
-            Result := StretchBitmap(Result, IconSize, clBackColor, True);
-        finally
-          DestroyIcon(SFI.hIcon);
-        end;
+      if (not LoadIcon) and (Drive^.DriveType = dtNetwork) and SHGetStockIconInfo(SIID_DRIVENET, uFlags, psii) then
+        SFI.hIcon:= psii.hIcon
+      else if (SHGetFileInfoW(PWideChar(UTF8Decode(Drive^.Path)), 0, SFI, SizeOf(SFI), uFlags) = 0) then begin
+        SFI.hIcon := 0;
+      end;
+
+      if (SFI.hIcon <> 0) then
+      try
+        Result:= BitmapCreateFromHICON(SFI.hIcon);
+        Result.Masked := True; // Need to explicitly set Masked=True, Lazarus issue #0019747
+        if (IconSize <> iIconSmall) and (IconSize <> iIconLarge) then // non standart icon size
+          Result := StretchBitmap(Result, IconSize, clBackColor, True);
+      finally
+        DestroyIcon(SFI.hIcon);
       end;
     end // not gCustomDriveIcons
   else
