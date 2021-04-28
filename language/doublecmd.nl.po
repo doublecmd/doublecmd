@@ -30,16 +30,12 @@ msgid "Files found: %d  (Identical: %d, Different: %d, Unique left: %d, Unique r
 msgstr "Gevonden bestanden: %d (Identiek: %d, Verschillend: %d, Uniek links: %d, Uniek rechts: %d)"
 
 #: fsyncdirsdlg.rslefttorightcopy
-#, fuzzy,badformat
-#| msgid "Left to Right: Copy %d files, total size: %d bytes"
 msgid "Left to Right: Copy %d files, total size: %s (%s)"
-msgstr "Links naar rechts: kopieer %d bestanden, totale grootte: %d bytes"
+msgstr "Links naar rechts: kopieer %d bestanden, totale grootte: %s (%s)"
 
 #: fsyncdirsdlg.rsrighttoleftcopy
-#, fuzzy,badformat
-#| msgid "Right to Left: Copy %d files, total size: %d bytes"
 msgid "Right to Left: Copy %d files, total size: %s (%s)"
-msgstr "Rechts naar links: kopieer %d bestanden, totale grootte: %d bytes"
+msgstr "Rechts naar links: kopieer %d bestanden, totale grootte: %s (%s)"
 
 #: tfilesystemcopymoveoperationoptionsui.btnsearchtemplate.hint
 msgid "Choose template..."
@@ -11314,9 +11310,8 @@ msgid "This is not a valid plugin!"
 msgstr "Dit is geen geldige invoegsel."
 
 #: ulng.rsmsginvalidpluginarchitecture
-#, fuzzy,badformat
 msgid "This plugin is built for Double Commander for %s.%sIt can not work with Double Commander for %s!"
-msgstr "Dit invoegsel is gemaakt voor Double Commander voor %s.Het werkt niet met Double Commander voor %s."
+msgstr "Dit invoegsel is gemaakt voor Double Commander voor %s.%sHet werkt niet met Double Commander voor %s."
 
 #: ulng.rsmsginvalidquoting
 msgid "Invalid quoting"
@@ -11645,9 +11640,8 @@ msgid "Use Windows special folder (TC)..."
 msgstr "Gebruik speciale map van Windows (TC)..."
 
 #: ulng.rsmsgtabforopeninginnewtab
-#, fuzzy,badformat
 msgid "This tab (%s) is locked! Open directory in another tab?"
-msgstr "Dit tabblad is vergrendeld. Map openen in ander tabblad?"
+msgstr "Dit tabblad (%s) is vergrendeld. Map openen in ander tabblad?"
 
 #: ulng.rsmsgtabrenamecaption
 msgid "Rename tab"
@@ -12481,9 +12475,8 @@ msgid "float"
 msgstr "drijvend"
 
 #: ulng.rsopthotkeysadddeleteshortcutlong
-#, fuzzy,badformat
 msgid "Shortcut %s for cm_Delete will be registered, so it can be used to reverse this setting."
-msgstr "Sneltoets voor cm_Delete zal geregistreerd worden, zodat het gebruikt kan worden om deze instelling om te keren."
+msgstr "Sneltoets %s voor cm_Delete zal geregistreerd worden, zodat het gebruikt kan worden om deze instelling om te keren."
 
 #: ulng.rsopthotkeysaddhotkey
 msgid "Add hotkey for %s"
@@ -12551,9 +12544,8 @@ msgid "Set shortcut to delete file"
 msgstr "Instellen sneltoets om bestand te verwijderen"
 
 #: ulng.rsopthotkeysshortcutfordeletealreadyassigned
-#, fuzzy,badformat
 msgid "For this setting to work with shortcut %s, shortcut %s must be assigned to cm_Delete but it is already assigned to %s. Do you want to change it?"
-msgstr "Om met deze instelling te werken, moet deze toegewezen worden aan cm_Delete, maar die is reeds toegewezen aan %s. Wilt u dit wijzigen? "
+msgstr "Om met deze instelling te werken %s, sneltoets %s moet worden toegewezen aan cm_Delete, maar die is reeds toegewezen aan %s. Wilt u dit wijzigen?"
 
 #: ulng.rsopthotkeysshortcutfordeleteissequence
 msgid "Shortcut %s for cm_Delete is a sequence shortcut for which a hotkey with reversed Shift cannot be assigned. This setting might not work."
