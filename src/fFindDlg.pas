@@ -703,6 +703,7 @@ begin
 
   cmbNotOlderThanUnit.ItemIndex := 3; // Days
   cmbFileSizeUnit.ItemIndex := 1; // Kilobytes
+  cbPartialNameSearch.Checked := gPartialNameSearch;
   FontOptionsToFont(gFonts[dcfSearchResults], lsFoundedFiles.Font);
 
   InitPropStorage(Self);
@@ -2192,7 +2193,6 @@ begin
   if cmbFindFileMask.Visible then
     cmbFindFileMask.SelectAll;
 
-  cbPartialNameSearch.Checked := gPartialNameSearch;
   lsFoundedFiles.Canvas.Font := lsFoundedFiles.Font;
 
   if pgcSearch.ActivePage = tsStandard then
