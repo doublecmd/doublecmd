@@ -578,7 +578,7 @@ begin
       Result := (ShowModal = mrOk);
       if Result and (lbSearchTemplates.Count > 0) then
       begin
-        TemplateName := lbSearchTemplates.Items[lbSearchTemplates.Count - 1];
+        TemplateName := FLastTemplateName;
       end;
     end;
   finally
