@@ -578,7 +578,7 @@ begin
       Result := (ShowModal = mrOk);
       if Result and (lbSearchTemplates.Count > 0) then
       begin
-        TemplateName := lbSearchTemplates.Items[lbSearchTemplates.Count - 1];
+        TemplateName := FLastTemplateName;
       end;
     end;
   finally
@@ -703,6 +703,7 @@ begin
 
   cmbNotOlderThanUnit.ItemIndex := 3; // Days
   cmbFileSizeUnit.ItemIndex := 1; // Kilobytes
+  cbPartialNameSearch.Checked := gPartialNameSearch;
   FontOptionsToFont(gFonts[dcfSearchResults], lsFoundedFiles.Font);
 
   InitPropStorage(Self);
@@ -2192,7 +2193,6 @@ begin
   if cmbFindFileMask.Visible then
     cmbFindFileMask.SelectAll;
 
-  cbPartialNameSearch.Checked := gPartialNameSearch;
   lsFoundedFiles.Canvas.Font := lsFoundedFiles.Font;
 
   if pgcSearch.ActivePage = tsStandard then

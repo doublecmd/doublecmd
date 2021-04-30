@@ -175,13 +175,19 @@ end;
 
 procedure TfrmMaskInputDlg.btnDefineTemplateClick(Sender: TObject);
 var
-  sTemplateName: string;
+  Index: Integer;
+  sTemplateName: String;
 begin
   if lbxSearchTemplate.ItemIndex >= 0 then
     sTemplateName := lbxSearchTemplate.Items[lbxSearchTemplate.ItemIndex];
   if ShowDefineTemplateDlg(sTemplateName) then
   begin
-    lbxSearchTemplate.ItemIndex := lbxSearchTemplate.Items.Add(sTemplateName);
+    Index:= lbxSearchTemplate.Items.IndexOf(sTemplateName);
+    if Index >= 0 then
+      lbxSearchTemplate.ItemIndex := Index
+    else begin
+      lbxSearchTemplate.ItemIndex := lbxSearchTemplate.Items.Add(sTemplateName);
+    end;
     cmbMask.Text := cTemplateSign + sTemplateName;
   end;
 end;
