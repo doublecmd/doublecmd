@@ -3,8 +3,8 @@ msgstr ""
 "Project-Id-Version: Double Commander 0.7.8 beta\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-04-22 23:08+030\n"
-"PO-Revision-Date: 2021-04-28 17:03+0900\n"
-"Last-Translator: Sangjin <comsem1104@naver.com>\n"
+"PO-Revision-Date: 2021-04-30 16:11+0900\n"
+"Last-Translator: sragin <sragin@naver.com>\n"
 "Language-Team: Language <email@address>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -2095,7 +2095,7 @@ msgstr "전체 보기"
 
 #: tfrmmain.actcolumnsview.hint
 msgid "Columns View"
-msgstr "파일속성열 보기"
+msgstr "컬럼 보기"
 
 #: tfrmmain.actcomparecontents.caption
 msgid "Compare by &Contents"
@@ -2113,7 +2113,7 @@ msgstr "폴더 비교"
 
 #: tfrmmain.actconfigarchivers.caption
 msgid "Configuration of Archivers"
-msgstr ""
+msgstr "압축도구 설정"
 
 #: tfrmmain.actconfigdirhotlist.caption
 msgctxt "TFRMMAIN.ACTCONFIGDIRHOTLIST.CAPTION"
@@ -2139,11 +2139,11 @@ msgstr ""
 
 #: tfrmmain.actconfigsavepos.caption
 msgid "Save Position"
-msgstr ""
+msgstr "창위치 저장"
 
 #: tfrmmain.actconfigsavesettings.caption
 msgid "Save Settings"
-msgstr ""
+msgstr "설정 저장"
 
 #: tfrmmain.actconfigsearches.caption
 msgid "Configuration of searches"
@@ -2845,11 +2845,11 @@ msgstr "활성보기에 방문 경로 히스토리 표시"
 
 #: tfrmmain.actviewhistorynext.caption
 msgid "Go to next entry in history"
-msgstr "히스토리 다음 항목 가기"
+msgstr "히스토리 다음 항목으로 가기"
 
 #: tfrmmain.actviewhistoryprev.caption
 msgid "Go to previous entry in history"
-msgstr "히스토리 이전 항목 가기"
+msgstr "히스토리 이전 항목으로 가기"
 
 #: tfrmmain.actviewlogfile.caption
 msgid "View log file"
@@ -3921,7 +3921,7 @@ msgstr "추가(&I):"
 #: tfrmoptionsarchivers.lblarchiverarchiver.caption
 msgctxt "tfrmoptionsarchivers.lblarchiverarchiver.caption"
 msgid "Arc&hiver:"
-msgstr "압축기(&H):"
+msgstr "압축도구(&H):"
 
 #: tfrmoptionsarchivers.lblarchiverdelete.caption
 msgid "De&lete:"
@@ -3965,7 +3965,7 @@ msgstr "목록(&L):"
 
 #: tfrmoptionsarchivers.lblarchiverlistbox.caption
 msgid "Archi&vers:"
-msgstr "압축기:"
+msgstr "압축도구(&V):"
 
 #: tfrmoptionsarchivers.lblarchiverlistend.caption
 msgctxt "tfrmoptionsarchivers.lblarchiverlistend.caption"
@@ -4700,149 +4700,142 @@ msgstr "비교후 창의 위치:"
 
 #: tfrmoptionsdirectoryhotlist.actaddactiveframedir.caption
 msgid "Add directory of the &active frame"
-msgstr ""
+msgstr "활성창의 폴더 추가(&A)"
 
 #: tfrmoptionsdirectoryhotlist.actaddbothframedir.caption
 msgid "Add &directories of the active && inactive frames"
-msgstr ""
+msgstr "활성창과 비활성창의 폴더 추가(&D)"
 
 #: tfrmoptionsdirectoryhotlist.actaddbrowseddir.caption
 msgid "Add directory I will bro&wse to"
-msgstr ""
+msgstr "추가할 폴더를 탐색창을 열어 선택(&W)"
 
 #: tfrmoptionsdirectoryhotlist.actaddcopyofentry.caption
-#, fuzzy
 msgctxt "tfrmoptionsdirectoryhotlist.actaddcopyofentry.caption"
 msgid "Add a copy of the selected entry"
-msgstr "선택 목록 복사 추가"
+msgstr "폴더 바로 가기 목록에서 선택한 폴더 추가"
 
 #: tfrmoptionsdirectoryhotlist.actaddselectionsfromframe.caption
 msgid "Add current &selected or active directories of active frame"
-msgstr ""
+msgstr "활성창에서 선택되거나 활성화된 폴더 추가(&S)"
 
 #: tfrmoptionsdirectoryhotlist.actaddseparator.caption
-#, fuzzy
 msgctxt "tfrmoptionsdirectoryhotlist.actaddseparator.caption"
 msgid "Add a separator"
 msgstr "구분자 추가"
 
 #: tfrmoptionsdirectoryhotlist.actaddsubmenu.caption
 msgid "Add a sub menu"
-msgstr ""
+msgstr "하위 메뉴 추가"
 
 #: tfrmoptionsdirectoryhotlist.actaddtypeddir.caption
-#, fuzzy
 msgctxt "tfrmoptionsdirectoryhotlist.actaddtypeddir.caption"
 msgid "Add directory I will type"
-msgstr "타이핑 입력할 폴더 추가"
+msgstr "추가할 폴더를 직접 타이핑"
 
 #: tfrmoptionsdirectoryhotlist.actcollapseall.caption
-#, fuzzy
 msgctxt "tfrmoptionsdirectoryhotlist.actcollapseall.caption"
 msgid "Collapse all"
-msgstr "전부 접기"
+msgstr "모두 접기"
 
 #: tfrmoptionsdirectoryhotlist.actcollapseitem.caption
 msgid "Collapse item"
-msgstr ""
+msgstr "아이템 접기"
 
 #: tfrmoptionsdirectoryhotlist.actcut.caption
 msgid "Cut selection of entries"
-msgstr ""
+msgstr "선택된 목록 잘라내기"
 
 #: tfrmoptionsdirectoryhotlist.actdeleteall.caption
 msgid "Delete all!"
-msgstr ""
+msgstr "전체 삭제!"
 
 #: tfrmoptionsdirectoryhotlist.actdeleteselecteditem.caption
-#, fuzzy
 msgctxt "tfrmoptionsdirectoryhotlist.actdeleteselecteditem.caption"
 msgid "Delete selected item"
 msgstr "선택된 항목 삭제"
 
 #: tfrmoptionsdirectoryhotlist.actdeletesubmenuandelem.caption
 msgid "Delete sub-menu and all its elements"
-msgstr ""
+msgstr "하위 메뉴와 소속된 전체 항목 삭제"
 
 #: tfrmoptionsdirectoryhotlist.actdeletesubmenukeepelem.caption
 msgid "Delete just sub-menu but keep elements"
-msgstr ""
+msgstr "하위 메뉴만 삭제하고 소속된 항목은 유지"
 
 #: tfrmoptionsdirectoryhotlist.actexpanditem.caption
 msgid "Expand item"
-msgstr ""
+msgstr "아이템 확장"
 
 #: tfrmoptionsdirectoryhotlist.actfocustreewindow.caption
 msgid "Focus tree window"
-msgstr ""
+msgstr "폴더 바로 가기 목록 포커스"
 
 #: tfrmoptionsdirectoryhotlist.actgotofirstitem.caption
 msgid "Goto first item"
-msgstr ""
+msgstr "첫 번째 아이템으로 이동"
 
 #: tfrmoptionsdirectoryhotlist.actgotolastitem.caption
 msgid "Goto last item"
-msgstr ""
+msgstr "마지막 아이템으로 이동"
 
 #: tfrmoptionsdirectoryhotlist.actgotonextitem.caption
 msgid "Go to next item"
-msgstr ""
+msgstr "다음 아이템으로 이동"
 
 #: tfrmoptionsdirectoryhotlist.actgotopreviousitem.caption
 msgid "Go to previous item"
-msgstr ""
+msgstr "이전 아이템으로 이동"
 
 #: tfrmoptionsdirectoryhotlist.actinsertactiveframedir.caption
 msgid "Insert directory of the &active frame"
-msgstr ""
+msgstr "활성창의 폴더 삽입(&A)"
 
 #: tfrmoptionsdirectoryhotlist.actinsertbothframedir.caption
 msgid "Insert &directories of the active && inactive frames"
-msgstr ""
+msgstr "활성창과 비활성창의 폴더 삽입(&D)"
 
 #: tfrmoptionsdirectoryhotlist.actinsertbrowseddir.caption
 msgid "Insert directory I will bro&wse to"
-msgstr ""
+msgstr "삽입할 폴더를 탐색창을 열어 선택(&W)"
 
 #: tfrmoptionsdirectoryhotlist.actinsertcopyofentry.caption
 msgid "Insert a copy of the selected entry"
-msgstr ""
+msgstr "폴더 바로 가기 목록에서 선택한 폴더 삽입"
 
 #: tfrmoptionsdirectoryhotlist.actinsertselectionsfromframe.caption
 msgid "Insert current &selected or active directories of active frame"
-msgstr ""
+msgstr "활성창에서 선택되거나 활성화된 폴더 삽입(&S)"
 
 #: tfrmoptionsdirectoryhotlist.actinsertseparator.caption
 msgid "Insert a separator"
-msgstr ""
+msgstr "구분자 추가"
 
 #: tfrmoptionsdirectoryhotlist.actinsertsubmenu.caption
 msgid "Insert sub menu"
-msgstr ""
+msgstr "하위 메뉴 추가"
 
 #: tfrmoptionsdirectoryhotlist.actinserttypeddir.caption
-#, fuzzy
 msgctxt "tfrmoptionsdirectoryhotlist.actinserttypeddir.caption"
 msgid "Insert directory I will type"
-msgstr "타이핑 입력할 폴더 삽입"
+msgstr "삽입할 폴더를 직접 타이핑"
 
 #: tfrmoptionsdirectoryhotlist.actmovetonext.caption
 msgid "Move to next"
-msgstr ""
+msgstr "다음으로 옮기기"
 
 #: tfrmoptionsdirectoryhotlist.actmovetoprevious.caption
 msgid "Move to previous"
-msgstr ""
+msgstr "이전으로 옮기기"
 
 #: tfrmoptionsdirectoryhotlist.actopenallbranches.caption
-#, fuzzy
 msgctxt "tfrmoptionsdirectoryhotlist.actopenallbranches.caption"
 msgid "Open all branches"
 msgstr "모든 하위 트리 열기"
 
 #: tfrmoptionsdirectoryhotlist.actpaste.caption
 msgid "Paste what was cut"
-msgstr ""
+msgstr "잘라낸 목록 붙여넣기"
 
 #: tfrmoptionsdirectoryhotlist.actsearchandreplaceinpath.caption
 msgid "Search && replace in &path"
@@ -4858,66 +4851,50 @@ msgstr ""
 
 #: tfrmoptionsdirectoryhotlist.acttweakpath.caption
 msgid "Tweak path"
-msgstr ""
+msgstr "활성창 경로 수정"
 
 #: tfrmoptionsdirectoryhotlist.acttweaktargetpath.caption
 msgid "Tweak target path"
-msgstr ""
+msgstr "비활성창 경로 수정"
 
 #: tfrmoptionsdirectoryhotlist.btnadd.caption
-#, fuzzy
-#| msgid "Add..."
 msgctxt "tfrmoptionsdirectoryhotlist.btnadd.caption"
 msgid "A&dd..."
-msgstr "추가..."
+msgstr "추가(&D)..."
 
 #: tfrmoptionsdirectoryhotlist.btnbackup.caption
-#, fuzzy
-#| msgid "Backup..."
 msgctxt "tfrmoptionsdirectoryhotlist.btnbackup.caption"
 msgid "Bac&kup..."
-msgstr "백업..."
+msgstr "백업(&K)..."
 
 #: tfrmoptionsdirectoryhotlist.btndelete.caption
-#, fuzzy
-#| msgid "Delete..."
 msgctxt "tfrmoptionsdirectoryhotlist.btndelete.caption"
 msgid "De&lete..."
-msgstr "삭제..."
+msgstr "삭제(&L)..."
 
 #: tfrmoptionsdirectoryhotlist.btnexport.caption
-#, fuzzy
-#| msgid "Export..."
 msgctxt "tfrmoptionsdirectoryhotlist.btnexport.caption"
 msgid "E&xport..."
-msgstr "내보내기..."
+msgstr "내보내기(&X)..."
 
 #: tfrmoptionsdirectoryhotlist.btnhelp.caption
-#, fuzzy
-#| msgid "Help"
 msgctxt "tfrmoptionsdirectoryhotlist.btnhelp.caption"
 msgid "&Help"
-msgstr "도움말"
+msgstr "도움말(&H)"
 
 #: tfrmoptionsdirectoryhotlist.btnimport.caption
-#, fuzzy
-#| msgid "Import..."
 msgctxt "tfrmoptionsdirectoryhotlist.btnimport.caption"
 msgid "Impo&rt..."
-msgstr "가져오기..."
+msgstr "가져오기(&R)..."
 
 #: tfrmoptionsdirectoryhotlist.btninsert.caption
-#, fuzzy
-#| msgid "Insert..."
 msgctxt "tfrmoptionsdirectoryhotlist.btninsert.caption"
 msgid "&Insert..."
-msgstr "삽입..."
+msgstr "삽입(&I)..."
 
 #: tfrmoptionsdirectoryhotlist.btnmiscellaneous.caption
-#, fuzzy
-#| msgid "Miscellaneous..."
 msgid "&Miscellaneous..."
-msgstr "기타..."
+msgstr "기타(&M)..."
 
 #: tfrmoptionsdirectoryhotlist.btnrelativepath.hint
 msgctxt "TFRMOPTIONSDIRECTORYHOTLIST.BTNRELATIVEPATH.HINT"
@@ -4930,36 +4907,26 @@ msgid "Some functions to select appropriate target"
 msgstr "적절한 대상 파일 선택 기능"
 
 #: tfrmoptionsdirectoryhotlist.btnsort.caption
-#, fuzzy
-#| msgid "Sort..."
 msgctxt "tfrmoptionsdirectoryhotlist.btnsort.caption"
 msgid "&Sort..."
-msgstr "정렬..."
+msgstr "정렬(&S)..."
 
 #: tfrmoptionsdirectoryhotlist.cbaddtarget.caption
-#, fuzzy
-#| msgid "When adding directory, add also target"
 msgid "&When adding directory, add also target"
-msgstr "폴더 추가할 때 대상 파일로 추가"
+msgstr "폴더 추가할 때 비활성창에도 추가(&W)"
 
 #: tfrmoptionsdirectoryhotlist.cbfullexpandtree.caption
-#, fuzzy
-#| msgid "Always expand tree"
 msgctxt "tfrmoptionsdirectoryhotlist.cbfullexpandtree.caption"
 msgid "Alwa&ys expand tree"
-msgstr "항상 트리 확장"
+msgstr "항상 트리 확장(&Y)"
 
 #: tfrmoptionsdirectoryhotlist.cbshowonlyvalidenv.caption
-#, fuzzy
-#| msgid "Show only valid environment variables"
 msgid "Show only &valid environment variables"
-msgstr "유효 환경변수만 보이기"
+msgstr "유효한 환경변수만 보이기(&V)"
 
 #: tfrmoptionsdirectoryhotlist.cbshowpathinpopup.caption
-#, fuzzy
-#| msgid "In popup, show [path also]"
 msgid "In pop&up, show [path also]"
-msgstr "팝업, 보이기[또한 경로]"
+msgstr "팝업에서 [경로] 보이기(&U)"
 
 #: tfrmoptionsdirectoryhotlist.cbsorthotdirpath.text
 msgctxt "TFRMOPTIONSDIRECTORYHOTLIST.CBSORTHOTDIRPATH.TEXT"
@@ -4973,7 +4940,7 @@ msgstr "파일명, a-z"
 
 #: tfrmoptionsdirectoryhotlist.gbdirectoryhotlist.caption
 msgid "Directory Hotlist (reorder by drag && drop)"
-msgstr "즐겨찾기 디렉터리(드래그 && 드롭 재정렬)"
+msgstr "폴더 바로 가기(드래그 && 드롭으로 정렬)"
 
 #: tfrmoptionsdirectoryhotlist.gbhotlistotheroptions.caption
 msgctxt "tfrmoptionsdirectoryhotlist.gbhotlistotheroptions.caption"
@@ -4983,160 +4950,120 @@ msgstr "다른 옵션"
 #: tfrmoptionsdirectoryhotlist.lbledithotdirname.editlabel.caption
 msgctxt "TFRMOPTIONSDIRECTORYHOTLIST.LBLEDITHOTDIRNAME.EDITLABEL.CAPTION"
 msgid "Name:"
-msgstr "파일명:"
+msgstr "바로 가기 이름:"
 
 #: tfrmoptionsdirectoryhotlist.lbledithotdirpath.editlabel.caption
 msgctxt "TFRMOPTIONSDIRECTORYHOTLIST.LBLEDITHOTDIRPATH.EDITLABEL.CAPTION"
 msgid "Path:"
-msgstr "경로:"
+msgstr "활성창 경로:"
 
 #: tfrmoptionsdirectoryhotlist.lbledithotdirtarget.editlabel.caption
-#, fuzzy
-#| msgid "Target:"
 msgctxt "TFRMOPTIONSDIRECTORYHOTLIST.LBLEDITHOTDIRTARGET.EDITLABEL.CAPTION"
 msgid "&Target:"
-msgstr "비활성창:"
+msgstr "비활성창 경로(&T):"
 
 #: tfrmoptionsdirectoryhotlist.micurrentlevelofitemonly.caption
-#, fuzzy
-#| msgid "...current level of item(s) selected only"
 msgctxt "tfrmoptionsdirectoryhotlist.micurrentlevelofitemonly.caption"
 msgid "...current le&vel of item(s) selected only"
-msgstr "...선택된 목록 현재 레벨"
+msgstr "...아이템이 선택된 레벨만(&V)"
 
 #: tfrmoptionsdirectoryhotlist.midetectifpathexist.caption
-#, fuzzy
-#| msgid "Scan all hotdir's path to validate the ones that actually exist"
 msgctxt "TFRMOPTIONSDIRECTORYHOTLIST.MIDETECTIFPATHEXIST.CAPTION"
 msgid "Scan all &hotdir's path to validate the ones that actually exist"
-msgstr "바로 가기 경로 존재여부 점검하기"
+msgstr "바로 가기 경로 유효성 점검하기"
 
 #: tfrmoptionsdirectoryhotlist.midetectifpathtargetexist.caption
-#, fuzzy
-#| msgid "Scan all hotdir's path && target to validate the ones that actually exist"
 msgctxt "TFRMOPTIONSDIRECTORYHOTLIST.MIDETECTIFPATHTARGETEXIST.CAPTION"
 msgid "&Scan all hotdir's path && target to validate the ones that actually exist"
-msgstr "바로 가기 경로 && 타깃 유효성 점검하기"
+msgstr "비활성창까지 바로 가기 경로 유효성 점검하기"
 
 #: tfrmoptionsdirectoryhotlist.miexporttohotlistfile.caption
-#, fuzzy
-#| msgid "to a Directory Hotlist file (.hotlist)"
 msgid "to a Directory &Hotlist file (.hotlist)"
-msgstr "폴더 바로 가기 목록 파일(.hotlist)"
+msgstr "폴더 바로 가기 파일 (.hotlist)(&H)"
 
 #: tfrmoptionsdirectoryhotlist.miexporttototalcommanderk.caption
-#, fuzzy
-#| msgid "to a \"wincmd.ini\" of TC (keep existing)"
 msgctxt "tfrmoptionsdirectoryhotlist.miexporttototalcommanderk.caption"
 msgid "to a \"wincmd.ini\" of TC (&keep existing)"
-msgstr "TC의 \"wincmd.ini\"로 (기존파일 유지)"
+msgstr "TC의 \"wincmd.ini\" (기존파일 유지)"
 
 #: tfrmoptionsdirectoryhotlist.miexporttototalcommandernk.caption
-#, fuzzy
-#| msgid "to a \"wincmd.ini\" of TC (erase existing)"
 msgctxt "tfrmoptionsdirectoryhotlist.miexporttototalcommandernk.caption"
 msgid "to a \"wincmd.ini\" of TC (&erase existing)"
-msgstr "TC의 \"wincmd.ini\"로 (기존파일 삭제)"
+msgstr "TC의 \"wincmd.ini\" (기존파일 삭제)"
 
 #: tfrmoptionsdirectoryhotlist.migotoconfiguretcinfo1.caption
-#, fuzzy
-#| msgid "Go to configure TC related info"
 msgctxt "tfrmoptionsdirectoryhotlist.migotoconfiguretcinfo1.caption"
 msgid "Go to &configure TC related info"
-msgstr "TC(토탈커맨더)정보와 관련된 환경설정 가기"
+msgstr "TC 관련 설정으로 이동(&C)"
 
 #: tfrmoptionsdirectoryhotlist.migotoconfiguretcinfo2.caption
-#, fuzzy
-#| msgid "Go to configure TC related info"
 msgctxt "TFRMOPTIONSDIRECTORYHOTLIST.MIGOTOCONFIGURETCINFO2.CAPTION"
 msgid "Go to &configure TC related info"
-msgstr "TC(토탈커맨더)정보와 관련된 환경설정 가기"
+msgstr "TC 관련 설정으로 이동(&C)"
 
 #: tfrmoptionsdirectoryhotlist.mihotdirtestmenu.caption
 msgid "HotDirTestMenu"
-msgstr "바로 가기테스트메뉴"
+msgstr "바로 가기 테스트 메뉴"
 
 #: tfrmoptionsdirectoryhotlist.miimportfromhotlistfile.caption
-#, fuzzy
-#| msgid "from a Directory Hotlist file (.hotlist)"
 msgid "from a Directory &Hotlist file (.hotlist)"
-msgstr "폴더 바로 가기 파일로 부터(.hotlist)"
+msgstr "폴더 바로 가기 파일 (.hotlist)(&H)"
 
 #: tfrmoptionsdirectoryhotlist.miimporttotalcommander.caption
-#, fuzzy
-#| msgid "from \"wincmd.ini\" of TC"
 msgid "from \"&wincmd.ini\" of TC"
-msgstr "TC의 \"wincmd.ini\"로 부터"
+msgstr "TC의 \"wincmd.ini\""
 
 #: tfrmoptionsdirectoryhotlist.minavigate.caption
 msgid "&Navigate..."
-msgstr ""
+msgstr "탐색(&N)..."
 
 #: tfrmoptionsdirectoryhotlist.mirestorebackuphotlist.caption
-#, fuzzy
-#| msgid "Restore a backup of Directory Hotlist"
 msgid "&Restore a backup of Directory Hotlist"
-msgstr "폴더 바로 가기 백업에서 복구"
+msgstr "폴더 바로 가기 목록 복구(&R)"
 
 #: tfrmoptionsdirectoryhotlist.misavebackuphotlist.caption
-#, fuzzy
-#| msgid "Save a backup of current Directory Hotlist"
 msgid "&Save a backup of current Directory Hotlist"
-msgstr "현재 폴더 바로 가기 백업 저장"
+msgstr "폴더 바로 가기 목록 백업(&S)"
 
 #: tfrmoptionsdirectoryhotlist.misearchandreplace.caption
-#, fuzzy
-#| msgid "Search and replace..."
 msgctxt "tfrmoptionsdirectoryhotlist.misearchandreplace.caption"
 msgid "Search and &replace..."
-msgstr "찾아 바꾸기..."
+msgstr "찾아 바꾸기(&R)..."
 
 #: tfrmoptionsdirectoryhotlist.misorteverything.caption
-#, fuzzy
-#| msgid "...everything, from A to Z!"
 msgctxt "tfrmoptionsdirectoryhotlist.misorteverything.caption"
 msgid "...everything, from A to &Z!"
-msgstr "...A에서 Z까지 모두!"
+msgstr "...A에서 Z까지 모두!(&Z)"
 
 #: tfrmoptionsdirectoryhotlist.misortsinglegroup.caption
-#, fuzzy
-#| msgid "...single group of item(s) only"
 msgctxt "tfrmoptionsdirectoryhotlist.misortsinglegroup.caption"
 msgid "...single &group of item(s) only"
-msgstr "...단일 그룹 목록만"
+msgstr "...단일 그룹 목록만(&G)"
 
 #: tfrmoptionsdirectoryhotlist.misortsinglesubmenu.caption
-#, fuzzy
-#| msgid "...content of submenu(s) selected, no sublevel"
 msgctxt "tfrmoptionsdirectoryhotlist.misortsinglesubmenu.caption"
 msgid "...&content of submenu(s) selected, no sublevel"
-msgstr "...하위메뉴 내용 선택, 하위수준 없음"
+msgstr "...선택된 하위 메뉴만, 하위 수준은 제외(&C)"
 
 #: tfrmoptionsdirectoryhotlist.misortsubmenuandsublevel.caption
-#, fuzzy
-#| msgid "...content of submenu(s) selected and all sublevels"
 msgctxt "tfrmoptionsdirectoryhotlist.misortsubmenuandsublevel.caption"
 msgid "...content of submenu(s) selected and &all sublevels"
-msgstr "..선택된 하위 메뉴 내용과 모든 하위 수준"
+msgstr "...선택된 하위 메뉴와 모든 하위 수준(&A)"
 
 #: tfrmoptionsdirectoryhotlist.mitestresultinghotlistmenu.caption
-#, fuzzy
-#| msgid "Test resulting menu"
 msgctxt "TFRMOPTIONSDIRECTORYHOTLIST.MITESTRESULTINGHOTLISTMENU.CAPTION"
 msgid "Test resultin&g menu"
-msgstr "결과 메뉴 검증"
+msgstr "결과 메뉴 테스트(&G)"
 
 #: tfrmoptionsdirectoryhotlist.mitweakpath.caption
 msgid "Tweak &path"
-msgstr ""
+msgstr "활성창 경로 수정(&P)"
 
 #: tfrmoptionsdirectoryhotlist.mitweaktargetpath.caption
 msgid "Tweak &target path"
-msgstr ""
+msgstr "비활성창 경로 수정(&T)"
 
 #: tfrmoptionsdirectoryhotlist.rgwheretoadd.caption
-#, fuzzy
-#| msgid "Addition from main panel:"
 msgid "Addition from main panel"
 msgstr "메인창에서 추가:"
 
@@ -5528,7 +5455,7 @@ msgstr "모두 없애기"
 #: tfrmoptionsfavoritetabs.micurrentlevelofitemonly.caption
 msgctxt "TFRMOPTIONSFAVORITETABS.MICURRENTLEVELOFITEMONLY.CAPTION"
 msgid "...current level of item(s) selected only"
-msgstr "...선택 목록 레벨"
+msgstr "...아이템이 선택된 레벨만"
 
 #: tfrmoptionsfavoritetabs.micutselection.caption
 msgctxt "TFRMOPTIONSFAVORITETABS.MICUTSELECTION.CAPTION"
@@ -11509,15 +11436,15 @@ msgstr "가져오기하려는 다음 텍스트 형태 선택"
 
 #: ulng.rsmsghotdiraddselecteddirectories
 msgid "Add %d selected dirs"
-msgstr "%d 선택된 폴더(디렉토리)추가"
+msgstr "%d 선택된 폴더 추가"
 
 #: ulng.rsmsghotdiraddselecteddirectory
 msgid "Add selected dir: "
-msgstr "선택된 폴더(디렉토리)추가: "
+msgstr "선택된 폴더 추가: "
 
 #: ulng.rsmsghotdiraddthisdirectory
 msgid "Add current dir: "
-msgstr "현재 디렉토리(폴더)추가: "
+msgstr "현재 폴더 추가: "
 
 #: ulng.rsmsghotdircommandname
 msgid "Do command"
@@ -11587,11 +11514,9 @@ msgid "Import selected"
 msgstr "선택 불러오기"
 
 #: ulng.rsmsghotdirjustpath
-#, fuzzy
-#| msgid "Path"
 msgctxt "ulng.rsmsghotdirjustpath"
 msgid "&Path:"
-msgstr "경로"
+msgstr "활성창 경로(&P):"
 
 #: ulng.rsmsghotdirlocatehotlistfile
 msgid "Locate \".hotlist\" file to import"
@@ -11636,18 +11561,14 @@ msgid "(end of sub menu)"
 msgstr "(하위메뉴 끝)"
 
 #: ulng.rsmsghotdirsimplemenu
-#, fuzzy
-#| msgid "Menu name:"
 msgctxt "ulng.rsmsghotdirsimplemenu"
 msgid "Menu &name:"
-msgstr "메뉴명:"
+msgstr "메뉴명(&N):"
 
 #: ulng.rsmsghotdirsimplename
-#, fuzzy
-#| msgid "Name:"
 msgctxt "ulng.rsmsghotdirsimplename"
 msgid "&Name:"
-msgstr "파일명:"
+msgstr "이름(&N):"
 
 #: ulng.rsmsghotdirsimpleseparator
 msgctxt "ulng.rsmsghotdirsimpleseparator"
@@ -11695,7 +11616,7 @@ msgid ""
 "Answering NO will delete only menu delimiters but will keep element inside sub-menu.\n"
 msgstr ""
 "하위메뉴의 모든 요소를 삭제하시겠습니까? [%s]?\n"
-"'아니오'를 선택하면 메뉴 구분문자만 삭제하고 하위메뉴 요소는 보관됩니다.\n"
+"'아니오'를 선택하면 하위메뉴만 삭제하고 하위메뉴의 요소는 삭제하지 않습니다.\n"
 
 #: ulng.rsmsghotdirwheretosave
 msgid "Enter location and filename where to save a Directory Hotlist file"
@@ -12010,11 +11931,11 @@ msgstr "특별 디렉토리"
 
 #: ulng.rsmsgspecialdiraddacti
 msgid "Add path from active frame"
-msgstr "활성 프레임에 경로 추가"
+msgstr "활성 프레임의 경로를 가져오기"
 
 #: ulng.rsmsgspecialdiraddnonacti
 msgid "Add path from inactive frame"
-msgstr "비활성 프레임에 경로 추가"
+msgstr "비활성 프레임의 경로를 가져오기"
 
 #: ulng.rsmsgspecialdirbrowssel
 msgid "Browse and use selected path"
@@ -12042,7 +11963,7 @@ msgstr "윈도 특별 폴더(TC)로 가기..."
 
 #: ulng.rsmsgspecialdirmakereltohotdir
 msgid "Make relative to hotdir path"
-msgstr "상대경로 바로 가기 경로 만들기"
+msgstr "바로 가기 경로 기준으로 상대경로 만들기"
 
 #: ulng.rsmsgspecialdirmkabso
 msgid "Make path absolute"
@@ -12050,19 +11971,19 @@ msgstr "절대경로 만들기"
 
 #: ulng.rsmsgspecialdirmkdcrel
 msgid "Make relative to Double Commander special path..."
-msgstr "더블커맨더 특별경로 상대경로 만들기..."
+msgstr "더블커맨더 특별경로기준으로 상대경로 만들기..."
 
 #: ulng.rsmsgspecialdirmkenvrel
 msgid "Make relative to environment variable..."
-msgstr "환경변수에 대한 상대값 만들기..."
+msgstr "환경변수 기준으로 상대경로 만들기..."
 
 #: ulng.rsmsgspecialdirmktctel
 msgid "Make relative to Windows special folder (TC)..."
-msgstr "윈도 특별 폴더(TC) 상대경로 만들기..."
+msgstr "윈도 특별 폴더(TC) 기준으로 상대경로 만들기..."
 
 #: ulng.rsmsgspecialdirmkwnrel
 msgid "Make relative to other Windows special folder..."
-msgstr "다른 윈도 특별 폴더에 상대경로 만들기..."
+msgstr "다른 윈도 특별 폴더 기준으로 상대경로 만들기..."
 
 #: ulng.rsmsgspecialdirusedc
 msgid "Use Double Commander special path..."
@@ -12746,10 +12667,8 @@ msgid "Working"
 msgstr "작업중"
 
 #: ulng.rsoptaddfrommainpanel
-#, fuzzy
-#| msgid "Add at beginning;Add at the end;Smart add"
 msgid "Add at &beginning;Add at the end;Smart add"
-msgstr "시작에 추가;마지막에 추가;스마트 추가"
+msgstr "시작에 추가(&B);마지막에 추가;스마트하게 추가"
 
 #: ulng.rsoptaddingtooltipfiletype
 msgid "Adding new tooltip file type"
@@ -13572,7 +13491,7 @@ msgstr "범주"
 
 #: ulng.rssimplewordcolumnsingular
 msgid "Column"
-msgstr "파일속성열"
+msgstr "컬럼"
 
 #: ulng.rssimplewordcommand
 msgctxt "ulng.rssimplewordcommand"
@@ -13767,7 +13686,7 @@ msgstr "일반 텍스트"
 
 #: ulng.rstabsactionondoubleclickchoices
 msgid "Do nothing;Close tab;Access Favorite Tabs;Tabs popup menu"
-msgstr "아무것도 하지 않음;탭 닫기;즐겨찾기탭 액세소;탭 팝업 메뉴"
+msgstr "아무것도 하지 않음;탭 닫기;즐겨찾기탭 엑세스;탭 팝업 메뉴"
 
 #: ulng.rstimeunitday
 msgctxt "ulng.rstimeunitday"
