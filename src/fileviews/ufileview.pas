@@ -1049,6 +1049,7 @@ begin
       on EFileSourceException do
         begin
           FreeAndNil(AFile);
+          Reload(APath);
           Exit;
         end;
     end;
