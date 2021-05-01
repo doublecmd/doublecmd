@@ -13891,3 +13891,7 @@ msgctxt "ulng.rsmsgfavoritetabsendofmenuulng.rsmsgfavoritetabssimpleseparator"
 msgid "No replacement took place."
 msgstr "Nem történt csere."
 
+#: umaincommands.rsfavoritetabs_setupnotexist
+msgid "No setup named \"%s\""
+msgstr ""
+

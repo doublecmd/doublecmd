@@ -14069,3 +14069,7 @@ msgstr "Número de substituições: %d"
 msgid "No replacement took place."
 msgstr "Não houve substituição."
 
+#: umaincommands.rsfavoritetabs_setupnotexist
+msgid "No setup named \"%s\""
+msgstr ""
+

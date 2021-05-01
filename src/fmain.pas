@@ -63,6 +63,7 @@ type
   { TfrmMain }
 
   TfrmMain = class(TAloneForm, IFormCommands)
+    actAddPlugin: TAction;
     actExtractFiles: TAction;
     actAddPathToCmdLine: TAction;
     actFileAssoc: TAction;

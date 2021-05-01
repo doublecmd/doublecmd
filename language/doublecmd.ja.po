@@ -13864,3 +13864,7 @@ msgstr "置換の回数：%d"
 msgid "No replacement took place."
 msgstr "置換は起こりませんでした."
 
+#: umaincommands.rsfavoritetabs_setupnotexist
+msgid "No setup named \"%s\""
+msgstr ""
+

@@ -31,13 +31,13 @@ msgid "Files found: %d  (Identical: %d, Different: %d, Unique left: %d, Unique r
 msgstr "파일 찾음; %d (동일: %d, 다름: %d, 왼쪽 유일함: %d, 오른쪽 유일함: %d)"
 
 #: fsyncdirsdlg.rslefttorightcopy
-#, fuzzy
+#, fuzzy,badformat
 #| msgid "Left to Right: Copy %d files, total size: %d bytes"
 msgid "Left to Right: Copy %d files, total size: %s (%s)"
 msgstr "왼쪽에서 오른쪽: %d개 파일 복사, 총 용량: %d 바이트"
 
 #: fsyncdirsdlg.rsrighttoleftcopy
-#, fuzzy
+#, fuzzy,badformat
 #| msgid "Right to Left: Copy %d files, total size: %d bytes"
 msgid "Right to Left: Copy %d files, total size: %s (%s)"
 msgstr "오른쪽에서 왼쪽: %d 개 파일 복사, 총 용량: %d 바이트"
@@ -11060,7 +11060,7 @@ msgid "Cannot copy special file %s"
 msgstr ""
 
 #: ulng.rsmsgcannotdeletedirectory
-#, fuzzy
+#, fuzzy,badformat
 msgid "Cannot delete directory %s"
 msgstr "폴더(디렉토리)삭제 할 수 없음"
 
@@ -11225,7 +11225,7 @@ msgid "Error writing to file"
 msgstr "파일에 쓰기 오류"
 
 #: ulng.rsmsgerrforcedir
-#, fuzzy
+#, fuzzy,badformat
 msgid "Can not create directory %s!"
 msgstr "폴더(디렉토리)를 생성할 수 없음!"
 
@@ -11671,7 +11671,7 @@ msgid "This is not a valid plugin!"
 msgstr "유효한 플러그인 아님!"
 
 #: ulng.rsmsginvalidpluginarchitecture
-#, fuzzy
+#, fuzzy,badformat
 msgid "This plugin is built for Double Commander for %s.%sIt can not work with Double Commander for %s!"
 msgstr "이것은 더블커맨더 %를 위한 플러그인입니다!"
 
@@ -13989,3 +13989,8 @@ msgstr "바꾸기한 갯수: %d 개"
 #: ulng.rszeroreplacement
 msgid "No replacement took place."
 msgstr "바꾸기 없음."
+
+#: umaincommands.rsfavoritetabs_setupnotexist
+msgid "No setup named \"%s\""
+msgstr ""
+

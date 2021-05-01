@@ -4,7 +4,7 @@
    This unit contains DC actions of the main form
 
    Copyright (C) 2008  Dmitry Kolomiets (B4rr4cuda@rambler.ru)
-   Copyright (C) 2008-2020 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2008-2021 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -400,6 +400,9 @@ uses fOptionsPluginsBase, fOptionsPluginsDSX, fOptionsPluginsWCX,
      , uColumnsFileView
      {$ENDIF}
      ;
+
+resourcestring
+  rsFavoriteTabs_SetupNotExist = 'No setup named "%s"';
 
 procedure ReadCopyRenameParams(
   const Params: array of string;
@@ -4888,6 +4891,8 @@ end;
 
 { TMainCommands.cm_LoadFavoriteTabs }
 procedure TMainCommands.cm_LoadFavoriteTabs(const Params: array of string);
+const
+  sNOSETUPPARAMLEGACY = 'd93525d5-e711-4b9d-ad2c-54d815354819';
 var
   bUseTreeViewMenu: boolean = false;
   bUsePanel: boolean = true;
@@ -4895,31 +4900,62 @@ var
   iWantedWidth: integer = 0;
   iWantedHeight: integer = 0;
   sMaybeMenuItem: TMenuItem = nil;
+  sParam, sMaybeValue, sSearchedFavoriteTabsName: string;
+  iMaybeIndex: integer;
 begin
-  // 1. Let's parse our parameters.
-  DoParseParametersForPossibleTreeViewMenu(Params, gUseTreeViewMenuWithFavoriteTabsFromMenuCommand, gUseTreeViewMenuWithFavoriteTabsFromDoubleClick, bUseTreeViewMenu, bUsePanel, p);
+  // 1. Check if we have the parameter "setup".
+  sSearchedFavoriteTabsName := sNOSETUPPARAMLEGACY;
+  for sParam in Params do
+    if GetParamValue(sParam, 'setup', sMaybeValue) then
+      sSearchedFavoriteTabsName := Trim(sMaybeValue);
 
-  // 2. No matter what, we need to fill in the popup menu structure.
-  gFavoriteTabsList.PopulateMenuWithFavoriteTabs(frmMain.pmFavoriteTabs, @DoOnClickMenuJobFavoriteTabs, ftmp_FAVTABSWITHCONFIG);
-  Application.ProcessMessages;
-
-  // 3. Show the appropriate menu.
-  if bUseTreeViewMenu then
+  // 2. Check if we've seen the 'setup' parameter.
+  if sSearchedFavoriteTabsName = sNOSETUPPARAMLEGACY then
   begin
-    if not bUsePanel then
-      iWantedHeight := 0
+    // If we not see the 'setup' parameter, we do thing as legacy, which means showing the menu to select the favorite tabs so user select it.
+    DoParseParametersForPossibleTreeViewMenu(Params, gUseTreeViewMenuWithFavoriteTabsFromMenuCommand, gUseTreeViewMenuWithFavoriteTabsFromDoubleClick, bUseTreeViewMenu, bUsePanel, p);
+
+    // We fill in the popup menu structure.
+    gFavoriteTabsList.PopulateMenuWithFavoriteTabs(frmMain.pmFavoriteTabs, @DoOnClickMenuJobFavoriteTabs, ftmp_FAVTABSWITHCONFIG);
+    Application.ProcessMessages;
+
+    // Show the appropriate menu.
+    if bUseTreeViewMenu then
+    begin
+      if not bUsePanel then
+        iWantedHeight := 0
+      else
+      begin
+        iWantedWidth := frmMain.ActiveFrame.Width;
+        iWantedHeight := frmMain.ActiveFrame.Height;
+      end;
+
+      sMaybeMenuItem := GetUserChoiceFromTreeViewMenuLoadedFromPopupMenu(frmMain.pmFavoriteTabs, tvmcFavoriteTabs, p.X, p.Y, iWantedWidth, iWantedHeight);
+      if sMaybeMenuItem <> nil then sMaybeMenuItem.Click;
+    end
     else
     begin
-      iWantedWidth := frmMain.ActiveFrame.Width;
-      iWantedHeight := frmMain.ActiveFrame.Height;
+      frmMain.pmFavoriteTabs.Popup(p.X, p.Y);
     end;
-
-    sMaybeMenuItem := GetUserChoiceFromTreeViewMenuLoadedFromPopupMenu(frmMain.pmFavoriteTabs, tvmcFavoriteTabs, p.X, p.Y, iWantedWidth, iWantedHeight);
-    if sMaybeMenuItem <> nil then sMaybeMenuItem.Click;
   end
   else
   begin
-    frmMain.pmFavoriteTabs.Popup(p.X, p.Y);
+    // If we've seen the 'setup' parameter, let's see if user provided a name or not.
+    if sSearchedFavoriteTabsName<>'' then
+    begin
+      // If we got a name, let's attempt to load a setup with that name.
+      iMaybeIndex := gFavoriteTabsList.GetIndexForSuchFavoriteTabsName(sSearchedFavoriteTabsName);
+      if iMaybeIndex <> -1 then
+        gFavoriteTabsList.LoadTabsFromXmlEntry(iMaybeIndex)
+      else
+        if gToolbarReportErrorWithCommands then
+          msgError(Format(rsFavoriteTabs_SetupNotExist,[sSearchedFavoriteTabsName]));
+    end
+    else
+    begin
+      // If no name provided, it means user want to unselect current setup.
+      gFavoriteTabsList.LastFavoriteTabsLoadedUniqueId := DCGetNewGUID;
+    end;
   end;
 end;
 

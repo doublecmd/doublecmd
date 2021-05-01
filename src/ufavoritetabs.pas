@@ -96,7 +96,6 @@ type
     FAssociatedMainMenuItem: TMenuItem;
     function GetFavoriteTabs(Index: integer): TFavoriteTabs;
     function GetBestIndexForAlphabeticalNewFavoriteTabs(sFavoriteTabsNameToFindAPlaceFor: string): integer;
-    function GetIndexForSuchFavoriteTabsName(sSearchedFavoriteTabsName: string): integer;
     procedure AddToListAndToXmlFileHeader(paramFavoriteTabs: TFavoriteTabs; AConfig: TXmlConfig; SpecifiedIndex: integer = -1);
     function ActualDumpFavoriteTabsListInXml(AConfig: TXmlConfig): boolean;
   public
@@ -124,6 +123,7 @@ type
     procedure RefreshFromTTreeView(ParamTreeView: TTreeView);
     function ImportFromLegacyTabsFile(paramFilename: string; SpecifiedIndex: integer = -1): boolean;
     function ExportToLegacyTabsFile(index: integer; OutputDirectory: string): boolean;
+    function GetIndexForSuchFavoriteTabsName(sSearchedFavoriteTabsName: string): integer;
     property FavoriteTabs[Index: integer]: TFavoriteTabs read GetFavoriteTabs;
     property LastFavoriteTabsLoadedUniqueId: TGUID read FLastFavoriteTabsLoadedUniqueId write FLastFavoriteTabsLoadedUniqueId;
     property AssociatedMainMenuItem: TMenuItem read FAssociatedMainMenuItem write FAssociatedMainMenuItem;

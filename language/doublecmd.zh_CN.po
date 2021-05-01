@@ -13644,3 +13644,7 @@ msgstr "替换次数：%d"
 msgid "No replacement took place."
 msgstr "没有发生替换。"
 
+#: umaincommands.rsfavoritetabs_setupnotexist
+msgid "No setup named \"%s\""
+msgstr ""
+
