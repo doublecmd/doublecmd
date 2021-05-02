@@ -14319,3 +14319,7 @@ msgstr "Broj zamjene"
 msgid "No replacement took place."
 msgstr "Nije bilo zamjene"
 
+#: umaincommands.rsfavoritetabs_setupnotexist
+msgid "No setup named \"%s\""
+msgstr ""
+

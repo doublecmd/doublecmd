@@ -13544,3 +13544,7 @@ msgstr "Liczba zamian: %d"
 msgid "No replacement took place."
 msgstr "Nie było zamian."
 
+#: umaincommands.rsfavoritetabs_setupnotexist
+msgid "No setup named \"%s\""
+msgstr ""
+

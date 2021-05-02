@@ -13960,3 +13960,7 @@ msgstr "Кількість замін: %d"
 msgid "No replacement took place."
 msgstr "Заміна не відбулася."
 
+#: umaincommands.rsfavoritetabs_setupnotexist
+msgid "No setup named \"%s\""
+msgstr ""
+

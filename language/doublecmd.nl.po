@@ -13602,3 +13602,7 @@ msgstr "Aantal vervangingen: %d"
 msgid "No replacement took place."
 msgstr "Er vond geen vervanging plaats."
 
+#: umaincommands.rsfavoritetabs_setupnotexist
+msgid "No setup named \"%s\""
+msgstr ""
+

@@ -13597,3 +13597,7 @@ msgstr "Колькасць замен: %d"
 msgid "No replacement took place."
 msgstr "Замен не адбылося."
 
+#: umaincommands.rsfavoritetabs_setupnotexist
+msgid "No setup named \"%s\""
+msgstr ""
+

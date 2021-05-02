@@ -14810,3 +14810,7 @@ msgstr "Antal erstattede: %d"
 msgid "No replacement took place."
 msgstr "Ingen erstatning fandt sted."
 
+#: umaincommands.rsfavoritetabs_setupnotexist
+msgid "No setup named \"%s\""
+msgstr ""
+

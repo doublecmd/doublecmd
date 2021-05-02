@@ -13690,3 +13690,7 @@ msgstr "Število zamenjav: %d"
 msgid "No replacement took place."
 msgstr "Zamenjava ni bila izvršena."
 
+#: umaincommands.rsfavoritetabs_setupnotexist
+msgid "No setup named \"%s\""
+msgstr ""
+

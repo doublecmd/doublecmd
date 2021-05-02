@@ -13539,3 +13539,7 @@ msgstr "Počet nahradení: %d"
 msgid "No replacement took place."
 msgstr "Žiadne nahradenie nebolo vykonané."
 
+#: umaincommands.rsfavoritetabs_setupnotexist
+msgid "No setup named \"%s\""
+msgstr ""
+

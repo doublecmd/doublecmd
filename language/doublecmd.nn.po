@@ -14155,3 +14155,7 @@ msgstr "Antal bytta ut: %d"
 msgid "No replacement took place."
 msgstr "Ingen utbytting er utført."
 
+#: umaincommands.rsfavoritetabs_setupnotexist
+msgid "No setup named \"%s\""
+msgstr ""
+
