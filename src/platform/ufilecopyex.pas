@@ -5,7 +5,7 @@ unit uFileCopyEx;
 interface
 
 uses
-  Classes, SysUtils;
+  Classes, SysUtils, DCOSUtils;
 
 const
   FILE_COPY_NO_BUFFERING = $01;
@@ -17,12 +17,13 @@ type
 
 var
   FileCopyEx: TFileCopyEx = nil;
+  CopyAttributesOptionEx: TCopyAttributesOptions = [];
 
 implementation
 
 {$IF DEFINED(MSWINDOWS)}
 uses
-  Windows, DCWindows, DCOSUtils;
+  Windows, DCWindows;
 
 type
   TCopyInfo = class
@@ -61,6 +62,7 @@ end;
 
 initialization
   FileCopyEx:= @CopyFile;
+  CopyAttributesOptionEx:= [caoCopyTimeEx, caoCopyAttrEx];
 {$ENDIF}
 
 end.

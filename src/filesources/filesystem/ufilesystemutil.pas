@@ -675,9 +675,7 @@ begin
     begin
       Result:= CompareFiles(SourceFile.FullPath, TargetFileName, SourceFile.Size);
     end;
-    if Result and (FCopyAttributesOptions <> []) then
-    begin
-      FCopyAttributesOptions := FCopyAttributesOptions * [caoCopyXattributes, caoCopyPermissions];
+    if Result then begin
       CopyProperties(SourceFile, TargetFileName);
     end;
     Exit;
@@ -861,23 +859,37 @@ procedure TFileSystemOperationHelper.CopyProperties(SourceFile: TFile;
 var
   Msg: String = '';
   ACopyTime: Boolean;
+  CreationTime, LastAccessTime: TFileTime;
   CopyAttrResult: TCopyAttributesOptions = [];
   ACopyAttributesOptions: TCopyAttributesOptions;
 begin
   if FCopyAttributesOptions <> [] then
   begin
     ACopyAttributesOptions := FCopyAttributesOptions;
-    ACopyTime := (FMode = fsohmMove) and (caoCopyTime in ACopyAttributesOptions);
-    if ACopyTime then ACopyAttributesOptions -= [caoCopyTime];
+    if SourceFile.IsDirectory or SourceFile.IsLink then ACopyAttributesOptions += CopyAttributesOptionEx;
+    ACopyTime := (FMode = fsohmMove) and ([caoCopyTime, caoCopyTimeEx] * ACopyAttributesOptions <> []);
+    if ACopyTime then ACopyAttributesOptions -= [caoCopyTime, caoCopyTimeEx];
     if ACopyAttributesOptions <> [] then begin
       CopyAttrResult := FileCopyAttrUAC(SourceFile.FullPath, TargetFileName, ACopyAttributesOptions);
     end;
     if ACopyTime then
     try
+      if not (caoCopyTimeEx in CopyAttributesOptionEx) then
+      begin
+        if fpCreationTime in SourceFile.AssignedProperties then
+          CreationTime:= DateTimeToFileTime(SourceFile.CreationTime)
+        else begin
+          CreationTime:= 0;
+        end;
+        LastAccessTime:= DateTimeToFileTime(SourceFile.LastAccessTime);
+      end
+      else begin
+        CreationTime:= 0;
+        LastAccessTime:= 0;
+      end;
       // Copy time from properties because move operation change time of original folder
       if not FileSetTimeUAC(TargetFileName, DateTimeToFileTime(SourceFile.ModificationTime),
-                    {$IF DEFINED(MSWINDOWS)}DateTimeToFileTime(SourceFile.CreationTime){$ELSE}0{$ENDIF},
-                                            DateTimeToFileTime(SourceFile.LastAccessTime)) then
+                                            CreationTime, LastAccessTime) then
         CopyAttrResult += [caoCopyTime];
     except
       on E: EDateOutOfRange do CopyAttrResult += [caoCopyTime];

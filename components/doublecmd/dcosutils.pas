@@ -84,6 +84,9 @@ type
                            caoCopyOwnership,
                            caoCopyPermissions,
                            caoCopyXattributes,
+                           // Modifiers
+                           caoCopyTimeEx,
+                           caoCopyAttrEx,
                            caoRemoveReadOnlyAttr);
   TCopyAttributesOptions = set of TCopyAttributesOption;
   TCopyAttributesResult = array[TCopyAttributesOption] of Integer;
@@ -470,11 +473,13 @@ var
 begin
   Result := [];
 
-  if caoCopyAttributes in Options then
+  if [caoCopyAttributes, caoCopyAttrEx] * Options <> [] then
   begin
     Attr := mbFileGetAttr(sSrc);
     if Attr <> faInvalidAttributes then
     begin
+      if (not (caoCopyAttributes in Options)) and (Attr and faDirectory = 0) then
+        Attr := (Attr or faArchive);
       if (caoRemoveReadOnlyAttr in Options) and ((Attr and faReadOnly) <> 0) then
         Attr := (Attr and not faReadOnly);
       if not mbFileSetAttr(sDst, Attr) then
@@ -498,13 +503,25 @@ begin
     end;
   end;
 
-  if caoCopyTime in Options then
+  if [caoCopyTime, caoCopyTimeEx] * Options <> [] then
   begin
-    if not (mbFileGetTime(sSrc, ModificationTime, CreationTime, LastAccessTime) and
-            mbFileSetTime(sDst, ModificationTime, CreationTime, LastAccessTime)) then
+    if not mbFileGetTime(sSrc, ModificationTime, CreationTime, LastAccessTime) then
     begin
       Include(Result, caoCopyTime);
       if Assigned(Errors) then Errors^[caoCopyTime]:= GetLastOSError;
+    end
+    else begin
+      if not (caoCopyTime in Options) then
+      begin
+        CreationTime:= 0;
+        LastAccessTime:= 0;
+      end;
+
+      if not mbFileSetTime(sDst, ModificationTime, CreationTime, LastAccessTime) then
+      begin
+        Include(Result, caoCopyTime);
+        if Assigned(Errors) then Errors^[caoCopyTime]:= GetLastOSError;
+      end;
     end;
   end;
 
