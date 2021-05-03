@@ -102,6 +102,7 @@ type
     procedure ShowError(sMessage: String);
     procedure LogMessage(sMessage: String; logOptions: TLogOptions; logMsgType: TLogMsgType);
 
+    function DeleteFile(SourceFile: TFile): Boolean;
     function CheckFileHash(const FileName, Hash: String; Size: Int64): Boolean;
     function CompareFiles(const FileName1, FileName2: String; Size: Int64): Boolean;
     function CopyFile(SourceFile: TFile; TargetFileName: String; Mode: TFileSystemOperationHelperCopyMode): Boolean;
@@ -495,7 +496,7 @@ var
   Hash: String;
   Options: UInt32;
   Context: THashContext;
-  DeleteFile: Boolean = False;
+  bDeleteFile: Boolean = False;
 
   procedure OpenSourceFile;
   var
@@ -749,7 +750,7 @@ begin
                       end
                     else
                       begin
-                        DeleteFile := FSkipWriteError and not (Mode in [fsohcmAppend, fsohcmResume]);
+                        bDeleteFile := FSkipWriteError and not (Mode in [fsohcmAppend, fsohcmResume]);
                         if FSkipWriteError then Exit;
                         case AskQuestion(rsMsgErrEWrite + ' ' + TargetFileName + ':',
                                          E.Message,
@@ -763,7 +764,7 @@ begin
                             Exit;
                           fsourSkipAll:
                             begin
-                              DeleteFile := not (Mode in [fsohcmAppend, fsohcmResume]);
+                              bDeleteFile := not (Mode in [fsohcmAppend, fsohcmResume]);
                               FSkipWriteError := True;
                               Exit;
                             end;
@@ -776,7 +777,7 @@ begin
           except
             on E: EReadError do
               begin
-                DeleteFile := FSkipReadError and not (Mode in [fsohcmAppend, fsohcmResume]);
+                bDeleteFile := FSkipReadError and not (Mode in [fsohcmAppend, fsohcmResume]);
                 if FSkipReadError then Exit;
                 case AskQuestion(rsMsgErrERead + ' ' + SourceFile.FullPath + ':',
                                  E.Message,
@@ -790,7 +791,7 @@ begin
                     Exit;
                   fsourSkipAll:
                     begin
-                      DeleteFile := not (Mode in [fsohcmAppend, fsohcmResume]);
+                      bDeleteFile := not (Mode in [fsohcmAppend, fsohcmResume]);
                       FSkipReadError := True;
                       Exit;
                     end;
@@ -823,7 +824,7 @@ begin
       on EFileSourceOperationAborting do
       begin
         // Always delete file when user aborted operation.
-        DeleteFile := True;
+        bDeleteFile := True;
         raise;
       end;
     end;
@@ -838,7 +839,7 @@ begin
       begin
         // There was some error, because not all of the file has been copied.
         // Ask if delete the not completed target file.
-        if DeleteFile or
+        if bDeleteFile or
            (AskQuestion('', rsMsgDeletePartiallyCopied,
                         [fsourYes, fsourNo], fsourYes, fsourNo) = fsourYes) then
         begin
@@ -938,7 +939,6 @@ function TFileSystemOperationHelper.MoveFile(SourceFile: TFile; TargetFileName: 
 var
   Message: String;
   RetryRename: Boolean;
-  RetryDelete: Boolean;
 begin
   if not (Mode in [fsohcmAppend, fsohcmResume]) then
   begin
@@ -964,21 +964,7 @@ begin
   if FVerify then FStatistics.TotalBytes += SourceFile.Size;
   if CopyFile(SourceFile, TargetFileName, Mode) then
   begin
-    repeat
-      RetryDelete := True;
-      if FileIsReadOnly(SourceFile.Attributes) then
-        FileSetReadOnlyUAC(SourceFile.FullPath, False);
-      Result := DeleteFileUAC(SourceFile.FullPath);
-      if (not Result) and (FDeleteFileOption = fsourInvalid) then
-      begin
-        Message := Format(rsMsgNotDelete, [WrapTextSimple(SourceFile.FullPath, 100)]) + LineEnding + LineEnding + mbSysErrorMessage;
-        case AskQuestion('', Message, [fsourSkip, fsourRetry, fsourAbort, fsourSkipAll], fsourSkip, fsourAbort) of
-          fsourAbort: AbortOperation;
-          fsourRetry: RetryDelete := False;
-          fsourSkipAll: FDeleteFileOption := fsourSkipAll;
-        end;
-      end;
-    until RetryDelete;
+    Result:= DeleteFile(SourceFile);
   end
   else
     Result := False;
@@ -1232,6 +1218,7 @@ begin
             if CreateSymbolicLinkUAC(LinkTarget, AbsoluteTargetFileName) then
             begin
               CopyProperties(aFile, AbsoluteTargetFileName);
+              if (FMode = fsohmMove) then Result:= DeleteFile(aFile);
             end
             else
             begin
@@ -1755,6 +1742,28 @@ begin
   begin
     logWrite(FOperationThread, sMessage, logMsgType);
   end;
+end;
+
+function TFileSystemOperationHelper.DeleteFile(SourceFile: TFile): Boolean;
+var
+  Message: String;
+  RetryDelete: Boolean;
+begin
+  repeat
+    RetryDelete := True;
+    if FileIsReadOnly(SourceFile.Attributes) then
+      FileSetReadOnlyUAC(SourceFile.FullPath, False);
+    Result := DeleteFileUAC(SourceFile.FullPath);
+    if (not Result) and (FDeleteFileOption = fsourInvalid) then
+    begin
+      Message := Format(rsMsgNotDelete, [WrapTextSimple(SourceFile.FullPath, 100)]) + LineEnding + LineEnding + mbSysErrorMessage;
+      case AskQuestion('', Message, [fsourSkip, fsourRetry, fsourAbort, fsourSkipAll], fsourSkip, fsourAbort) of
+        fsourAbort: AbortOperation;
+        fsourRetry: RetryDelete := False;
+        fsourSkipAll: FDeleteFileOption := fsourSkipAll;
+      end;
+    end;
+  until RetryDelete;
 end;
 
 function TFileSystemOperationHelper.CheckFileHash(const FileName, Hash: String;
