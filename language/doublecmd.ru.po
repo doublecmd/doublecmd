@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 1.0.0 alpha\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2021-02-22 16:31+0300\n"
+"PO-Revision-Date: 2021-05-02 16:31+0300\n"
 "Last-Translator: Alexander Koblov <alexx2000@mail.ru>\n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -787,7 +787,7 @@ msgstr "&Настройки"
 #: tfrmeditor.actconfhigh.hint
 msgctxt "tfrmeditor.actconfhigh.hint"
 msgid "Configuration"
-msgstr "Конфигурация"
+msgstr "Настройки"
 
 #: tfrmeditor.acteditcopy.caption
 msgctxt "TFRMEDITOR.ACTEDITCOPY.CAPTION"
@@ -1305,7 +1305,7 @@ msgstr "Последнее изменение:"
 
 #: tfrmfileproperties.lbllaststchangestr.caption
 msgid "Last status change:"
-msgstr "Последнее изменение статуса:"
+msgstr "Изменение статуса:"
 
 #: tfrmfileproperties.lbloctal.caption
 msgctxt "TFRMFILEPROPERTIES.LBLOCTAL.CAPTION"
@@ -3389,7 +3389,7 @@ msgstr "&Закрыть"
 
 #: tfrmmultirename.actconfig.caption
 msgid "Confi&guration"
-msgstr "Конфигурация"
+msgstr "Настройки"
 
 #: tfrmmultirename.actctrextmask.caption
 msgctxt "tfrmmultirename.actctrextmask.caption"
@@ -13879,5 +13879,5 @@ msgstr "Замена не состоялась."
 
 #: umaincommands.rsfavoritetabs_setupnotexist
 msgid "No setup named \"%s\""
-msgstr ""
+msgstr "Набор \"%s\" не существует"
 
