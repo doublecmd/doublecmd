@@ -61,6 +61,8 @@ type
     FShellMenu1: IContextMenu;
     FShellMenu: HMENU;
     FUserWishForContextMenu: TUserWishForContextMenu;
+  protected
+    procedure Execute(Data: PtrInt);
   public
     constructor Create(Parent: TWinControl; var Files: TFiles; Background: boolean; UserWishForContextMenu: TUserWishForContextMenu = uwcmComplete); reintroduce;
     destructor Destroy; override;
@@ -76,7 +78,8 @@ implementation
 uses
   graphtype, intfgraphics, Graphics, uPixMapManager, Dialogs, uLng, uMyWindows,
   uShellExecute, fMain, uDCUtils, uFormCommands, DCOSUtils, uOSUtils, uShowMsg,
-  uExts, uFileSystemFileSource, DCConvertEncoding, LazUTF8, uOSForms, uGraphics;
+  uExts, uFileSystemFileSource, DCConvertEncoding, LazUTF8, uOSForms, uGraphics,
+  Forms;
 
 const
   USER_CMD_ID = $1000;
@@ -476,6 +479,28 @@ end;
 
 { TShellContextMenu }
 
+procedure TShellContextMenu.Execute(Data: PtrInt);
+var
+  UserSelectedCommand: TExtActionCommand absolute Data;
+begin
+  try
+    with frmMain.ActiveFrame do
+    begin
+      try
+        //For the %-Variable replacement that follows it might sounds incorrect to do it with "nil" instead of "aFile",
+        //but original code was like that. It is useful, at least, when more than one file is selected so because of that,
+        //it's pertinent and should be kept!
+        ProcessExtCommandFork(UserSelectedCommand.CommandName, UserSelectedCommand.Params, UserSelectedCommand.StartPath, nil);
+      except
+        on e: EInvalidCommandLine do
+          MessageDlg(rsMsgErrorInContextMenuCommand, rsMsgInvalidCommandLine + ': ' + e.Message, mtError, [mbOK], 0);
+      end;
+    end;
+  finally
+    FreeAndNil(UserSelectedCommand);
+  end;
+end;
+
 { TShellContextMenu.Create }
 constructor TShellContextMenu.Create(Parent: TWinControl; var Files: TFiles; Background: boolean; UserWishForContextMenu: TUserWishForContextMenu);
 var
@@ -737,33 +762,15 @@ begin
         end
         else
         begin
-          try
-            with frmMain.ActiveFrame do
-            begin
-              try
-                //For the %-Variable replacement that follows it might sounds incorrect to do it with "nil" instead of "aFile",
-                //but original code was like that. It is useful, at least, when more than one file is selected so because of that,
-                //it's pertinent and should be kept!
-                ProcessExtCommandFork(UserSelectedCommand.CommandName, UserSelectedCommand.Params, UserSelectedCommand.StartPath, nil);
-              except
-                on e: EInvalidCommandLine do
-                  MessageDlg(rsMsgErrorInContextMenuCommand, rsMsgInvalidCommandLine + ': ' + e.Message, mtError, [mbOK], 0);
-              end;
-            end;
-          finally
-            bHandled := True;
-          end;
+          Application.QueueAsyncCall(Execute, PtrInt(UserSelectedCommand));
+          UserSelectedCommand := nil;
+          bHandled := True;
         end;
       end;
     finally
-      if Assigned(InnerExtActionList) then
-        FreeAndNil(InnerExtActionList);
-
-      if Assigned(UserSelectedCommand) then
-        FreeAndNil(UserSelectedCommand);
-
-      if Assigned(ContextMenuDCIcon) then
-        FreeAndNil(ContextMenuDCIcon);
+      FreeAndNil(InnerExtActionList);
+      FreeAndNil(UserSelectedCommand);
+      FreeAndNil(ContextMenuDCIcon);
     end;
 
   except
