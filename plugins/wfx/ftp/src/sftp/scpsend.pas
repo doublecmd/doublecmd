@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Wfx plugin for working with File Transfer Protocol
 
-   Copyright (C) 2013-2019 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2013-2021 Alexander Koblov (alexx2000@mail.ru)
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Lesser General Public
@@ -317,9 +317,10 @@ begin
       //* Since we have not set non-blocking, tell libssh2 we are blocking */
       libssh2_session_set_blocking(FSession, 1);
 
-      if libssh2_session_handshake(FSession, FSock.Socket) <> 0 then
+      FLastError:= libssh2_session_handshake(FSession, FSock.Socket);
+      if FLastError <> 0 then
       begin
-        DoStatus(False, 'Cannot establishing SSH session');
+        DoStatus(False, 'Cannot perform the SSH handshake ' + IntToStr(FLastError));
         Exit(False);
       end;
       LogProc(PluginNumber, MSGTYPE_CONNECT, nil);
