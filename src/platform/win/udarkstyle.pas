@@ -3,8 +3,8 @@
   -------------------------------------------------------------------------
   Dark mode support unit (Windows 10 + Qt5).
 
-  Copyright (C) 2019 Richard Yu
-  Copyright (C) 2019-2020 Alexander Koblov (alexx2000@mail.ru)
+  Copyright (C) 2019-2021 Richard Yu
+  Copyright (C) 2019-2021 Alexander Koblov (alexx2000@mail.ru)
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -46,7 +46,7 @@ function AllowDarkModeForWindow(hWnd: HWND; allow: bool): bool;
 implementation
 
 uses
-  UxTheme, JwaWinUser, Qt5;
+  UxTheme, JwaWinUser, FileInfo, Qt5;
 
 type
   // Insider 18334
@@ -183,50 +183,68 @@ const
 function CheckBuildNumber(buildNumber: DWORD): Boolean; inline;
 begin
   Result := (buildNumber = 17763) or // 1809
-            (buildNumber = 18362) or // 1903
-            (buildNumber = 18363) or // 1909
-            (buildNumber = 19041) or // 2004
-            (buildNumber = 19042);   // 2009
+            (buildNumber = 18362) or // 1903 & 1909
+            (buildNumber = 19041);   // 2004 & 20H2 & 21H1
+end;
+
+function GetBuildNumber(Instance: THandle): DWORD;
+begin
+  try
+    with TVersionInfo.Create do
+    try
+      Load(Instance);
+      Result:= FixedInfo.FileVersion[2];
+    finally
+      Free;
+    end;
+  except
+    Exit(0);
+  end;
 end;
 
 procedure InitDarkMode();
 var
   hUxtheme: HMODULE;
-  major, minor: DWORD;
+  major, minor, build: DWORD;
 begin
   @RtlGetNtVersionNumbers := GetProcAddress(GetModuleHandleW('ntdll.dll'), 'RtlGetNtVersionNumbers');
   if Assigned(RtlGetNtVersionNumbers) then
   begin
-    RtlGetNtVersionNumbers(@major, @minor, @g_buildNumber);
-    g_buildNumber:= g_buildNumber and not $F0000000;
-    if (major = 10) and (minor = 0) and CheckBuildNumber(g_buildNumber) then
+    RtlGetNtVersionNumbers(@major, @minor, @build);
+
+    if (major = 10) and (minor = 0) then
     begin
       hUxtheme := LoadLibraryExW('uxtheme.dll', 0, LOAD_LIBRARY_SEARCH_SYSTEM32);
       if (hUxtheme <> 0) then
       begin
-        @_RefreshImmersiveColorPolicyState := GetProcAddress(hUxtheme, MAKEINTRESOURCEA(104));
-        @_ShouldAppsUseDarkMode := GetProcAddress(hUxtheme, MAKEINTRESOURCEA(132));
-        @_AllowDarkModeForWindow := GetProcAddress(hUxtheme, MAKEINTRESOURCEA(133));
+        g_buildNumber:= GetBuildNumber(hUxtheme);
 
-        if (g_buildNumber < 18362) then
-          @_AllowDarkModeForApp := GetProcAddress(hUxtheme, MAKEINTRESOURCEA(135))
-        else
-          @_SetPreferredAppMode := GetProcAddress(hUxtheme, MAKEINTRESOURCEA(135));
-
-        @_IsDarkModeAllowedForWindow := GetProcAddress(hUxtheme, MAKEINTRESOURCEA(137));
-
-        @_SetWindowCompositionAttribute := GetProcAddress(GetModuleHandleW(user32), 'SetWindowCompositionAttribute');
-
-        if Assigned(_RefreshImmersiveColorPolicyState) and
-           Assigned(_ShouldAppsUseDarkMode) and
-           Assigned(_AllowDarkModeForWindow) and
-           (Assigned(_AllowDarkModeForApp) or Assigned(_SetPreferredAppMode)) and
-           Assigned(_IsDarkModeAllowedForWindow) then
+        if CheckBuildNumber(g_buildNumber) then
         begin
-          g_darkModeSupported := true;
-          AllowDarkModeForApp(true);
-          _RefreshImmersiveColorPolicyState();
-          g_darkModeEnabled := _ShouldAppsUseDarkMode() and not IsHighContrast();
+          @_RefreshImmersiveColorPolicyState := GetProcAddress(hUxtheme, MAKEINTRESOURCEA(104));
+          @_ShouldAppsUseDarkMode := GetProcAddress(hUxtheme, MAKEINTRESOURCEA(132));
+          @_AllowDarkModeForWindow := GetProcAddress(hUxtheme, MAKEINTRESOURCEA(133));
+
+          if (g_buildNumber < 18362) then
+            @_AllowDarkModeForApp := GetProcAddress(hUxtheme, MAKEINTRESOURCEA(135))
+          else
+            @_SetPreferredAppMode := GetProcAddress(hUxtheme, MAKEINTRESOURCEA(135));
+
+          @_IsDarkModeAllowedForWindow := GetProcAddress(hUxtheme, MAKEINTRESOURCEA(137));
+
+          @_SetWindowCompositionAttribute := GetProcAddress(GetModuleHandleW(user32), 'SetWindowCompositionAttribute');
+
+          if Assigned(_RefreshImmersiveColorPolicyState) and
+             Assigned(_ShouldAppsUseDarkMode) and
+             Assigned(_AllowDarkModeForWindow) and
+             (Assigned(_AllowDarkModeForApp) or Assigned(_SetPreferredAppMode)) and
+             Assigned(_IsDarkModeAllowedForWindow) then
+          begin
+            g_darkModeSupported := true;
+            AllowDarkModeForApp(true);
+            _RefreshImmersiveColorPolicyState();
+            g_darkModeEnabled := _ShouldAppsUseDarkMode() and not IsHighContrast();
+          end;
         end;
       end;
     end;
