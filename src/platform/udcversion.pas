@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Version information about DC, building tools and running environment.
 
-   Copyright (C) 2006-2018  Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2006-2021  Alexander Koblov (alexx2000@mail.ru)
    Copyright (C) 2010       Przemyslaw Nagay (cobines@gmail.com)
 
    This program is free software; you can redistribute it and/or modify
@@ -370,7 +370,7 @@ begin
                       OSVersion := OSVersion + ' 10';
                       if (osvi.wSuiteMask and VER_SUITE_PERSONAL <> 0) then
                         OSVersion := OSVersion + ' Home';
-                      if RegReadKey(HKEY_LOCAL_MACHINE, CURRENT_VERSION, 'ReleaseId', ReleaseId) then
+                      if RegReadKey(HKEY_LOCAL_MACHINE, CURRENT_VERSION, 'DisplayVersion', ReleaseId) then
                         OSVersion := OSVersion + ' ' + String(ReleaseId);
                     end
               end;
