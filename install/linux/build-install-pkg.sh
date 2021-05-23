@@ -18,8 +18,11 @@ fi
 rm -rf $DC_TEMP_DIR
 mkdir -p $DC_TEMP_DIR
 
-# Export from SVN
-svn export ../../ $DC_SOURCE_DIR
+# Export from GIT
+pushd ../../
+mkdir -p $DC_SOURCE_DIR
+git archive HEAD | tar -x -C $DC_SOURCE_DIR
+popd
 
 # Save revision number
 DC_REVISION=`$(pwd)/update-revision.sh ../../ $DC_SOURCE_DIR`
