@@ -61,7 +61,7 @@ uses
   {$ENDIF}
   {$IFDEF MSWINDOWS}
   uMyWindows, Windows, JwaDbt, LazUTF8, JwaWinNetWk, ShlObj, DCOSUtils, uDebug,
-  uShlObjAdditional, JwaNative
+  uShlObjAdditional, JwaNative, uGlobs
   {$ENDIF}
   ;
 
@@ -176,11 +176,17 @@ var
   function GetDrivePath(UnitMask: ULONG): String;
   var
     DriveNum: Byte;
+    DriveLetterOffset: Integer;
   begin
+    if (gUpperCaseDriveLetter) then
+      DriveLetterOffset := Ord('A')
+    else begin
+      DriveLetterOffset := Ord('a')
+    end;
     for DriveNum:= 0 to 25 do
     begin
       if ((UnitMask shr DriveNum) and $01) <> 0 then
-        Exit(AnsiChar(DriveNum + Ord('a')) + ':\');
+        Exit(AnsiChar(DriveNum + DriveLetterOffset) + ':\');
      end;
   end;
 
@@ -507,15 +513,27 @@ var
   DrivePath: String;
   WinDriveType: UINT;
   nFile: TNetResourceW;
+  OptionalColon: String;
   DriveLetter: AnsiChar;
   NetworkPathSize: DWORD;
   lpBuffer: Pointer = nil;
   nFileList: PNetResourceW;
+  DriveLetterOffset: Integer;
   RegDrivePath: UnicodeString;
   dwCount, dwBufferSize: DWORD;
   hEnum: THandle = INVALID_HANDLE_VALUE;
   NetworkPath: array[0..MAX_PATH] of WideChar;
 begin
+  if gUpperCaseDriveLetter then
+    DriveLetterOffset := Ord('A')
+  else begin
+    DriveLetterOffset := Ord('a');
+  end;
+  if gShowColonAfterDrive then
+    OptionalColon := ':'
+  else begin
+    OptionalColon := EmptyStr;
+  end;
   Result := TDrivesList.Create;
   { fill list }
   DriveBits := GetLogicalDrives;
@@ -524,7 +542,7 @@ begin
     if ((DriveBits shr DriveNum) and $1) = 0 then
     begin
       // Try to find in mapped network drives
-      DriveLetter := AnsiChar(DriveNum + Ord('a'));
+      DriveLetter := AnsiChar(DriveNum + DriveLetterOffset);
       RegDrivePath := 'Network' + PathDelim + WideChar(DriveLetter);
       if RegOpenKeyExW(HKEY_CURRENT_USER, PWideChar(RegDrivePath), 0, KEY_READ, Key) = ERROR_SUCCESS then
       begin
@@ -537,7 +555,7 @@ begin
           with Drive^ do
           begin
             Path := DriveLetter + ':\';
-            DisplayName := DriveLetter;
+            DisplayName := DriveLetter + OptionalColon;
             DriveLabel := UTF16ToUTF8(UnicodeString(NetworkPath));
             DriveType := dtNetwork;
             AutoMount := True;
@@ -548,7 +566,7 @@ begin
       Continue;
     end;
 
-    DriveLetter := AnsiChar(DriveNum + Ord('a'));
+    DriveLetter := AnsiChar(DriveNum + DriveLetterOffset);
     DrivePath := DriveLetter + ':\';
     WinDriveType := GetDriveType(PChar(DrivePath));
     if WinDriveType = DRIVE_NO_ROOT_DIR then Continue;
@@ -558,7 +576,7 @@ begin
     begin
       DeviceId := EmptyStr;
       Path := DrivePath;
-      DisplayName := DriveLetter;
+      DisplayName := DriveLetter + OptionalColon;
       DriveLabel := EmptyStr;
       FileSystem := EmptyStr;
       IsMediaAvailable := True;
