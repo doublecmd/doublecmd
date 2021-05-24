@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    This unit contains specific DARWIN functions.
 
-   Copyright (C) 2016-2017 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2016-2021 Alexander Koblov (alexx2000@mail.ru)
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Lesser General Public
@@ -30,6 +30,8 @@ interface
 uses
   Classes, SysUtils, MacOSAll, CocoaAll;
 
+function NSGetTempPath: String;
+
 function StringToNSString(const S: String): NSString;
 function StringToCFStringRef(const S: String): CFStringRef;
 
@@ -45,6 +47,11 @@ implementation
 
 uses
   DynLibs;
+
+function NSGetTempPath: String;
+begin
+  Result:= IncludeTrailingBackslash(NSTemporaryDirectory.UTF8String);
+end;
 
 function StringToNSString(const S: String): NSString;
 begin
@@ -137,4 +144,3 @@ finalization
   Finalize;
 
 end.
-

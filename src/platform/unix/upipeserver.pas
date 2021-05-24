@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Unix implementation of one-way IPC between 2 processes
 
-   Copyright (C) 2015-2019 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2015-2021 Alexander Koblov (alexx2000@mail.ru)
 
    Based on simpleipc.inc from Free Component Library.
    Copyright (c) 2005 by Michael Van Canneyt, member of
@@ -32,7 +32,9 @@ implementation
 
 uses
   SimpleIPC, BaseUnix, uPollThread
-{$IF DEFINED(LINUX)}
+{$IF DEFINED(DARWIN)}
+  , uMyDarwin
+{$ELSE}
   , uXdg
 {$ENDIF}
   ;
@@ -65,10 +67,10 @@ Type
 
 function GetPipeFileName(const FileName: String; Global : Boolean): String;
 begin
-{$IF DEFINED(LINUX)}
-  Result:= IncludeTrailingBackslash(GetUserRuntimeDir) + FileName;
+{$IF DEFINED(DARWIN)}
+  Result:= NSGetTempPath + FileName;
 {$ELSE}
-  Result:= GetTempDir(Global) + ApplicationName + '-' + IntToStr(fpGetUID) + PathDelim + FileName;
+  Result:= IncludeTrailingBackslash(GetUserRuntimeDir) + FileName;
 {$ENDIF}
   Result:= Result + '.pipe'
 end;
@@ -89,11 +91,6 @@ begin
 end;
 
 constructor TPipeServerComm.Create(AOWner: TSimpleIPCServer);
-{$IF NOT DEFINED(LINUX)}
-var
-  Info: TStat;
-  Directory: String;
-{$ENDIF}
 begin
   inherited Create(AOWner);
   FFileName:= Owner.ServerID;
@@ -101,21 +98,6 @@ begin
     FFileName:= FFileName + '-' + IntToStr(fpGetPID);
   if FFileName[1] <> '/' then
     FFileName:= GetPipeFileName(FFileName, Owner.Global);
-{$IF NOT DEFINED(LINUX)}
-  // Verify directory owner
-  Directory:= ExtractFileDir(FFileName);
-  if not DirectoryExists(Directory) then
-  begin
-    if fpMkDir(Directory, &700) <> 0 then
-      raise EIPCError.Create(SysErrorMessage(GetLastOSError));
-  end
-  else begin
-    if fpStat(Directory, Info) <> 0 then
-      raise EIPCError.Create(SysErrorMessage(GetLastOSError));
-    if (Info.st_uid <> fpGetUID) or (Info.st_gid <> fpGetGID) then
-      DoError(SErrFailedToCreatePipe, [FFileName]);
-  end;
-{$ENDIF}
 end;
 
 procedure TPipeServerComm.StartServer;
@@ -169,4 +151,3 @@ initialization
   DefaultIPCServerClass:= TPipeServerComm;
 
 end.
-
