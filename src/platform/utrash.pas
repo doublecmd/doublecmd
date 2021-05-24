@@ -207,8 +207,11 @@ begin
   // Get user home directory
   sHomeDir:= GetHomeDir;
   // Check if file in home directory
-  if (fpLStat(UTF8ToSys(sHomeDir), st1) >= 0)
+  // If it's a file, stat the parent directory instead for correct behavior on OverlayFS,
+  // it shouldn't make any difference in other cases
+  if (fpStat(UTF8ToSys(sHomeDir), st1) >= 0)
      and (fpLStat(UTF8ToSys(FileName), st2) >= 0)
+     and (fpS_ISDIR(st2.st_mode) or (fpStat(UTF8ToSys(ExtractFileDir(FileName)), st2) >= 0))
      and (st1.st_dev = st2.st_dev) then
   begin
     // Get trash directory in $XDG_DATA_HOME
@@ -328,4 +331,3 @@ initialization
 {$ENDIF}
 
 end.
-
