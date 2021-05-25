@@ -468,20 +468,67 @@ uses
 { ****************** Helper functions Not from Classes Above ***************** }
 function OctalToInt(const Oct : PAnsiChar; aLen : integer): Int64;
 var
+  r : UInt64;
   i : integer;
+  c, sign : Byte;
 begin
   Result := 0;
   if (aLen = 0 ) then
    Exit;
    
   { detect binary number format }
-  if ((Ord(Oct[0]) and $80) <> 0) then begin
-    i := 1;
-    while (i < aLen) do begin
-      Result := (Result * 256) + Ord(Oct[i]);
-      inc(i);
+  if ((Ord(Oct[0]) and $80) <> 0) then
+  begin
+    c:= Ord(Oct[0]);
+
+    if (c and $40 <> 0) then
+    begin
+      sign := $FF;
+      r := High(UInt64);
+    end
+    else begin
+      r := 0;
+      sign := 0;
+      c := c and $7F;
     end;
-    Exit;
+
+    i:= 1;
+    while (aLen > SizeOf(Int64)) do
+    begin
+      if (c <> sign) then
+      begin
+        if (sign <> 0) then
+          Result:= Low(Int64)
+        else begin
+          Result:= High(Int64);
+        end;
+        Exit;
+      end;
+      c := Ord(Oct[i]);
+      Dec(aLen);
+      Inc(i);
+    end;
+
+    if ((c xor sign) and $80 <> 0) then
+    begin
+      if (sign <> 0) then
+        Result:= Low(Int64)
+      else begin
+        Result:= High(Int64);
+      end;
+      Exit;
+    end;
+
+    while (aLen > 1) do
+    begin
+      r := (r shl 8) or c;
+      c:= Ord(Oct[i]);
+      Dec(aLen);
+      Inc(i);
+    end;
+    r := (r shl 8) or c;
+
+    Exit(Int64(r));
   end;
 
   i := 0;

@@ -1460,7 +1460,7 @@ Index: AbTarTyp.pas
  function VerifyTar(Strm : TStream) : TAbArchiveType;
 
 
-@@ -454,10 +462,8 @@
+@@ -454,18 +462,75 @@
  implementation
 
  uses
@@ -1473,7 +1473,74 @@ Index: AbTarTyp.pas
 
  { ****************** Helper functions Not from Classes Above ***************** }
  function OctalToInt(const Oct : PAnsiChar; aLen : integer): Int64;
-@@ -566,7 +572,58 @@
+ var
++  r : UInt64;
+   i : integer;
++  c, sign : Byte;
+ begin
+   Result := 0;
++  if (aLen = 0 ) then
++   Exit;
++
++  { detect binary number format }
++  if ((Ord(Oct[0]) and $80) <> 0) then
++  begin
++    c:= Ord(Oct[0]);
+
++    if (c and $40 <> 0) then
++    begin
++      sign := $FF;
++      r := High(UInt64);
++    end
++    else begin
++      r := 0;
++      sign := 0;
++      c := c and $7F;
++    end;
++
++    i:= 1;
++    while (aLen > SizeOf(Int64)) do
++    begin
++      if (c <> sign) then
++      begin
++        if (sign <> 0) then
++          Result:= Low(Int64)
++        else begin
++          Result:= High(Int64);
++        end;
++        Exit;
++      end;
++      c := Ord(Oct[i]);
++      Dec(aLen);
++      Inc(i);
++    end;
++
++    if ((c xor sign) and $80 <> 0) then
++    begin
++      if (sign <> 0) then
++        Result:= Low(Int64)
++      else begin
++        Result:= High(Int64);
++      end;
++      Exit;
++    end;
++
++    while (aLen > 1) do
++    begin
++      r := (r shl 8) or c;
++      c:= Ord(Oct[i]);
++      Dec(aLen);
++      Inc(i);
++    end;
++    r := (r shl 8) or c;
++
++    Exit(Int64(r));
++  end;
++
+   i := 0;
+   while (i < aLen) and (Oct[i] = ' ') do
+     inc(i);
+@@ -566,7 +631,58 @@
               not (AB_TAR_RECORDSIZE - 1);
  end;
 
@@ -1532,7 +1599,7 @@ Index: AbTarTyp.pas
  { ****************************** TAbTarItem ********************************** }
  constructor TAbTarItem.Create;
  begin
-@@ -632,7 +689,7 @@
+@@ -632,7 +748,7 @@
 
  function TAbTarItem.GetExternalFileAttributes: LongWord;
  begin
@@ -1541,7 +1608,7 @@ Index: AbTarTyp.pas
  end;
 
  function TAbTarItem.GetFileName: string;
-@@ -678,6 +735,19 @@
+@@ -678,6 +794,19 @@
    Result := AbUnixTimeToLocalDateTime(FTarItem.ModTime);
  end;
 
@@ -1561,7 +1628,7 @@ Index: AbTarTyp.pas
  function TAbTarItem.GetLinkName: string;
  begin
    Result := FTarItem.LinkName;
-@@ -734,7 +804,7 @@
+@@ -734,7 +863,7 @@
    { GNU_FORMAT is detected by the presence of GNU extended headers. }
 
    { These detections are similar to GNU tar's. }
@@ -1570,7 +1637,7 @@ Index: AbTarTyp.pas
    begin { We have one of three types, STAR_FORMAT, USTAR_FORMAT, POSIX_FORMAT }
      { Detect STAR format.  Leave disabled until explicit STAR support is added. }
      {if (PTarHeader.star.Prefix[130] = #00) and
-@@ -750,7 +820,7 @@
+@@ -750,7 +879,7 @@
      { This can define false positives, Pax headers/ STAR format could be detected as this }
      FTarItem.ArchiveFormat := USTAR_FORMAT;
    end
@@ -1579,7 +1646,7 @@ Index: AbTarTyp.pas
    begin
      FTarItem.ArchiveFormat := OLDGNU_FORMAT;
    end
-@@ -819,7 +889,7 @@
+@@ -819,7 +948,7 @@
        RawFileName := PTarHeader.Name;
    end; { End not FoundName }
 
@@ -1588,7 +1655,7 @@ Index: AbTarTyp.pas
  end;
 
  { Extract the file name from the headers }
-@@ -876,7 +946,7 @@
+@@ -876,7 +1005,7 @@
    if not FoundName then
      RawLinkName := PHeader.LinkName;
 
@@ -1597,7 +1664,7 @@ Index: AbTarTyp.pas
  end;
 
  { Return True if CheckSum passes out. }
-@@ -935,6 +1005,107 @@
+@@ -935,6 +1064,107 @@
    { FTarItem.Dirty; Stuffed upon creaction }
  end;
 
@@ -1705,7 +1772,7 @@ Index: AbTarTyp.pas
  procedure TAbTarItem.LoadTarHeaderFromStream(AStream: TStream);
  var
    NumMHeaders : Integer;
-@@ -968,7 +1139,7 @@
+@@ -968,7 +1198,7 @@
      begin { This Header type is in the Set of un/supported Meta data type headers }
        if PTarHeader.LinkFlag in AB_UNSUPPORTED_MD_HEADERS then
          FTarItem.ItemReadOnly := True; { We don't fully support this meta-data type }
@@ -1714,7 +1781,14 @@ Index: AbTarTyp.pas
          FTarItem.ArchiveFormat := POSIX_FORMAT; { We have a POSIX_FORMAT, has x headers, and Magic matches }
        if PTarHeader.LinkFlag in AB_GNU_MD_HEADERS then
          FTarItem.ArchiveFormat := OLDGNU_FORMAT; { We have a OLDGNU_FORMAT, has L/K headers }
-@@ -1016,9 +1187,10 @@
+@@ -1010,15 +1240,16 @@
+   { PTarHeader points to FTarHeaderList.Items[FTarHeaderList.Count-1]; }
+
+   { Re-wind the Stream back to the begining of this Item inc. all headers }
+-  AStream.Seek(-(FTarHeaderList.Count*AB_TAR_RECORDSIZE), soFromCurrent);
++  AStream.Seek(-(FTarHeaderList.Count*AB_TAR_RECORDSIZE), soCurrent);
+   { AStream.Position := FTarItem.StreamPosition; } { This should be equivalent as above }
+   FTarItem.FileHeaderCount := FTarHeaderList.Count;
    if FTarItem.ItemType <> UNKNOWN_ITEM then
    begin
      ParseTarHeaders; { Update FTarItem values }
@@ -1727,7 +1801,7 @@ Index: AbTarTyp.pas
    end;
    Action := aaNone;
    Tagged := False;
-@@ -1142,14 +1314,21 @@
+@@ -1142,14 +1373,21 @@
  var
    S : AnsiString;
    I: Integer;
@@ -1751,7 +1825,7 @@ Index: AbTarTyp.pas
    FTarItem.Dirty := True;
  end;
 
-@@ -1297,9 +1476,9 @@
+@@ -1297,9 +1535,9 @@
    { Finally we need to stuff the file type Header. }
    { Note: Value.length > AB_TAR_NAMESIZE(100) }
    if LinkFlag = AB_TAR_LF_LONGNAME then
@@ -1763,7 +1837,7 @@ Index: AbTarTyp.pas
  end;
 
  procedure TAbTarItem.SetFileName(const Value: string);
-@@ -1333,7 +1512,7 @@
+@@ -1333,7 +1571,7 @@
           OLD_GNU & GNU: Add N Headers for name, Update name in MD header, update name field in File Headers, min 3 headers
 
        Add headers to length of new Name Length, update name in file header, update name fields }
@@ -1772,7 +1846,7 @@ Index: AbTarTyp.pas
    { In all cases zero out the name fields in the File Header. }
    if Length(RawFileName) > AB_TAR_NAMESIZE then begin { Must be null terminated except at 100 char length }
      { Look for long name meta-data headers already in the archive. }
-@@ -1431,8 +1610,8 @@
+@@ -1431,8 +1669,8 @@
 
    { Update the inherited file names. }
    FFileName := FTarItem.Name;
@@ -1783,7 +1857,7 @@ Index: AbTarTyp.pas
    FTarItem.Dirty := True;
  end;
 
-@@ -1527,7 +1706,7 @@
+@@ -1527,7 +1765,7 @@
        if old was Long,
           OLD_GNU & GNU: Add N Headers for name, Update name in MD header, update name field in File Headers, min 3 headers
        STAR & PAX: And should not yet get here.}
@@ -1792,7 +1866,52 @@ Index: AbTarTyp.pas
    if Length(RawLinkName) > AB_TAR_NAMESIZE then { Must be null terminated except at 100 char length }
    begin
      { Look for long name meta-data headers already in the archive. }
-@@ -1838,16 +2017,19 @@
+@@ -1672,7 +1910,7 @@
+     { copy stored data to output }
+     AStream.CopyFrom(FStream, FCurrItemSize);
+     {reset the stream to the start of the item}
+-    FStream.Seek(-(FCurrItemPreHdrs*AB_TAR_RECORDSIZE+FCurrItemSize), soFromCurrent);
++    FStream.Seek(-(FCurrItemPreHdrs*AB_TAR_RECORDSIZE+FCurrItemSize), soCurrent);
+   end;
+   { else do nothing }
+ end;
+@@ -1699,7 +1937,7 @@
+     begin { We have a un/supported Meta-Data Header }
+       { FoundItem := False } { Value remains False. }
+       SkipHdrs := Ceil(OctalToInt(FTarHeader.Size, SizeOf(FTarHeader.Size))/AB_TAR_RECORDSIZE);
+-      FStream.Seek(SkipHdrs*AB_TAR_RECORDSIZE, soFromCurrent);
++      FStream.Seek(SkipHdrs*AB_TAR_RECORDSIZE, soCurrent);
+       { Tally new Headers: Consumed + Current }
+       FCurrItemPreHdrs := FCurrItemPreHdrs + SkipHdrs + 1;
+       { Read our next header, Loop, and re-parse }
+@@ -1725,7 +1963,7 @@
+   { Rewind to the "The Beginning" of this Item }
+   { Really that means to the first supported Header Type before a supported Item Type }
+   if FoundItem then
+-    FStream.Seek(-(FCurrItemPreHdrs*AB_TAR_RECORDSIZE), soFromCurrent);
++    FStream.Seek(-(FCurrItemPreHdrs*AB_TAR_RECORDSIZE), soCurrent);
+   Result := FoundItem;
+ end;
+
+@@ -1732,7 +1970,7 @@
+ { Should only be used from LoadArchive, as it is slow. }
+ function TAbTarStreamHelper.FindFirstItem: Boolean;
+ begin
+-  FStream.Seek(0, soFromBeginning);
++  FStream.Seek(0, soBeginning);
+   Result := FindItem;
+ end;
+
+@@ -1740,7 +1978,7 @@
+ function TAbTarStreamHelper.FindNextItem: Boolean;
+ begin
+   { Fast Forward Past the current Item }
+-  FStream.Seek((FCurrItemPreHdrs*AB_TAR_RECORDSIZE + RoundToTarBlock(FCurrItemSize)), soFromCurrent);
++  FStream.Seek((FCurrItemPreHdrs*AB_TAR_RECORDSIZE + RoundToTarBlock(FCurrItemSize)), soCurrent);
+   Result := FindItem;
+ end;
+
+@@ -1838,16 +2076,19 @@
    FArchFormat := V7_FORMAT;  // Default for new archives
  end;
 
@@ -1815,7 +1934,7 @@ Index: AbTarTyp.pas
    Item := TAbTarItem.Create;
    try
    //  HeaderFormat = (UNKNOWN_FORMAT, V7_FORMAT, OLDGNU_FORMAT, GNU_FORMAT, USTAR_FORMAT, STAR_FORMAT, POSIX_FORMAT);
-@@ -1863,7 +2045,7 @@
+@@ -1863,7 +2104,7 @@
        Item.LinkFlag := AB_TAR_LF_NORMAL;
        Item.Magic := AB_TAR_MAGIC_VAL+AB_TAR_MAGIC_VER;
      end
@@ -1824,7 +1943,7 @@ Index: AbTarTyp.pas
        begin { Switch the rep over to GNU so it can have long file names. }
        FArchFormat := OLDGNU_FORMAT;
        Item.ArchiveFormat := OLDGNU_FORMAT;
-@@ -1882,9 +2064,10 @@
+@@ -1882,9 +2123,10 @@
 
      { Most others are initialized in the .Create }
      Item.CRC32 := 0;
@@ -1837,7 +1956,7 @@ Index: AbTarTyp.pas
      Item.Action := aaNone;
    finally
      Result := Item;
-@@ -1894,12 +2077,13 @@
+@@ -1894,12 +2136,13 @@
 
  procedure TAbTarArchive.ExtractItemAt(Index: Integer; const UseName: string);
  var
@@ -1853,7 +1972,7 @@ Index: AbTarTyp.pas
 
    CurItem := TAbTarItem(ItemList[Index]);
 
-@@ -1911,21 +2095,50 @@
+@@ -1911,21 +2154,50 @@
      raise EAbTarBadOp.Create; { Unsupported Type, Cannot Extract }
    { We will allow extractions if the file name/Link name are strickly less than 100 chars }
 
@@ -1916,7 +2035,7 @@ Index: AbTarTyp.pas
      end;
    end;
    AbSetFileTime(UseName, CurItem.LastModTimeAsDateTime);
-@@ -2060,7 +2273,7 @@
+@@ -2060,7 +2332,7 @@
      AbStripDrive( lValue );
 
    { check for a leading slash }
@@ -1925,7 +2044,7 @@ Index: AbTarTyp.pas
      System.Delete( lValue, 1, 1 );
 
    if soStripPath in StoreOptions then
-@@ -2097,7 +2310,6 @@
+@@ -2097,7 +2369,6 @@
    i              : Integer;
    NewStream      : TAbVirtualMemoryStream;
    TempStream     : TStream;
@@ -1933,7 +2052,7 @@ Index: AbTarTyp.pas
    CurItem        : TAbTarItem;
    AttrEx         : TAbAttrExRec;
  begin
-@@ -2145,24 +2357,27 @@
+@@ -2145,24 +2416,27 @@
 
          aaAdd, aaFreshen, aaReplace: begin
            try
@@ -1977,7 +2096,7 @@ Index: AbTarTyp.pas
                    fmOpenRead or fmShareDenyWrite );
                  try { TempStream }
                    CurItem.UncompressedSize := TempStream.Size;
-@@ -2173,9 +2388,13 @@
+@@ -2173,9 +2447,13 @@
                    TempStream.Free;
                  end; { TempStream }
                end;
@@ -1994,7 +2113,7 @@ Index: AbTarTyp.pas
            except
              ItemList[i].Action := aaDelete;
              DoProcessItemFailure(ItemList[i], ptAdd, ecFileOpenError, 0);
-@@ -2200,7 +2419,7 @@
+@@ -2200,7 +2478,7 @@
      else begin
        { need new stream to write }
        FreeAndNil(FStream);
