@@ -234,7 +234,7 @@ uses
   DCClassesUtf8, uFileSystemFileSource, uFileSourceOperationOptions, DCDateTimeUtils,
   uDCUtils, uFileSourceUtil, uFileSourceOperationTypes, uShowForm, uAdministrator,
   uOSUtils, uLng, uMasks, Math, uClipboard, IntegerList, fMaskInputDlg, uSearchTemplate,
-  StrUtils, uTypes;
+  StrUtils, uTypes, uFileSystemDeleteOperation;
 
 {$R *.lfm}
 
@@ -1706,6 +1706,10 @@ begin
   begin
     MessageDlg(rsMsgErrNotSupported, mtError, [mbOK], 0);
     Exit(False);
+  end;
+  if (FOperation is TFileSystemDeleteOperation) then
+  begin
+    TFileSystemDeleteOperation(FOperation).Recycle:= gUseTrash;
   end;
   FOperation.Elevate:= ElevateAction;
   FOperation.AddUserInterface(FFileSourceOperationMessageBoxesUI);
