@@ -1247,11 +1247,12 @@ end;
 
 function TFileSystemOperationHelper.ProcessFile(aNode: TFileTreeNode; AbsoluteTargetFileName: String): Boolean;
 var
-  OldDoneBytes: Int64; // for if there was an error
+  OldDoneBytes, OldTotalBytes: Int64; // for if there was an error
 begin
   // If there will be an error the DoneBytes value
   // will be inconsistent, so remember it here.
   OldDoneBytes := FStatistics.DoneBytes;
+  OldTotalBytes := FStatistics.TotalBytes;
 
   // Skip descript.ion, it will be processed below
   if gProcessComments and (FStatistics.TotalFiles > 1) and mbCompareFileNames(aNode.TheFile.Name, DESCRIPT_ION) then
@@ -1322,7 +1323,13 @@ begin
   with FStatistics do
   begin
     DoneFiles := DoneFiles + 1;
-    DoneBytes := OldDoneBytes + aNode.TheFile.Size;
+    if not Result then
+    begin
+      DoneBytes := OldDoneBytes + aNode.TheFile.Size;
+      // Increase DoneBytes twice when copy file or move file between different partitions
+      if FVerify and ((FMode = fsohmCopy) or (OldTotalBytes <> TotalBytes)) then
+        DoneBytes += aNode.TheFile.Size;
+    end;
     UpdateStatistics(FStatistics);
   end;
 end;
