@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Multi archive dynamic parser
 
-   Copyright (C) 2016 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2016-2021 Alexander Koblov (alexx2000@mail.ru)
 
    Based on TFTPList (http://www.ararat.cz/synapse)
    Copyright (C) 1999-2011, Lukas Gebauer
@@ -77,7 +77,6 @@ type
     constructor Create(AMultiArcItem: TMultiArcItem); override;
     destructor Destroy; override;
 
-    procedure Clear; virtual;
     procedure Prepare; override;
     procedure ParseLines; override;
     procedure AddLine(const Str: String); override;
@@ -106,21 +105,16 @@ end;
 
 destructor TMultiArchiveDynamicParser.Destroy;
 begin
-  Clear;
+  Prepare;
   FLines.Free;
   FUnparsedLines.Free;
   inherited Destroy;
 end;
 
-procedure TMultiArchiveDynamicParser.Clear;
+procedure TMultiArchiveDynamicParser.Prepare;
 begin
   FLines.Clear;
   FUnparsedLines.Clear;
-end;
-
-procedure TMultiArchiveDynamicParser.Prepare;
-begin
-
 end;
 
 procedure TMultiArchiveDynamicParser.ClearStore;
