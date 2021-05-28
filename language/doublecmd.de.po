@@ -3600,7 +3600,7 @@ msgstr "Su&chen ..."
 
 #: tfrmmultirename.lbinterval.caption
 msgid "&Interval"
-msgstr "&Interval"
+msgstr "&Intervall"
 
 #: tfrmmultirename.lbname.caption
 msgid "File &Name"
@@ -6181,7 +6181,7 @@ msgstr "Dateiliste nicht laden, bis ein Tab aktiviert ist"
 #: tfrmoptionsfilesviewscomplement.cbdirbrackets.caption
 msgctxt "tfrmoptionsfilesviewscomplement.cbdirbrackets.caption"
 msgid "S&how square brackets around directories"
-msgstr "Eckige Klammern um Verzeic&hnisse anzeigen  ->  [Sieht dann so.aus]"
+msgstr "Eckige Klammern um Verzeic&hnisse anzeigen"
 
 #: tfrmoptionsfilesviewscomplement.cbhighlightupdatedfiles.caption
 msgctxt "tfrmoptionsfilesviewscomplement.cbhighlightupdatedfiles.caption"
@@ -7138,7 +7138,7 @@ msgstr "Suche nach diesen Elementen"
 
 #: tfrmoptionstabs.cbkeeprenamednamebacktonormal.caption
 msgid "Keep renamed name when unlocking a tab"
-msgstr "Umbennung erhalten, wenn ein Tab entsperrt wird"
+msgstr "Umbenennung erhalten, wenn ein Tab entsperrt wird"
 
 #: tfrmoptionstabs.cbtabsactivateonclick.caption
 msgctxt "TFRMOPTIONSTABS.CBTABSACTIVATEONCLICK.CAPTION"
@@ -8195,7 +8195,7 @@ msgstr "Dateien packen"
 
 #: tfrmpackdlg.cbcreateseparatearchives.caption
 msgid "C&reate separate archives, one per selected file/dir"
-msgstr "Für jede gewählte Datei/Verzeichnis ein seperates Archiv erstellen"
+msgstr "Für jede gewählte Datei/Verzeichnis ein separates Archiv erstellen"
 
 #: tfrmpackdlg.cbcreatesfx.caption
 msgid "Create self e&xtracting archive"
@@ -8944,7 +8944,7 @@ msgstr "*"
 
 #: tfrmsyncdirsdlg.chkasymmetric.caption
 msgid "asymmetric"
-msgstr "asymetrisch"
+msgstr "asymmetrisch"
 
 #: tfrmsyncdirsdlg.chkbycontent.caption
 msgid "by content"
@@ -11004,7 +11004,7 @@ msgstr "Ein Verzeichnis mit Namen \"%s\" besteht bereits."
 
 #: ulng.rsmsgerrdatenotsupported
 msgid "Date %s is not supported"
-msgstr "Datum %s wird nicht nicht unterstützt"
+msgstr "Datum %s wird nicht unterstützt"
 
 #: ulng.rsmsgerrdirexists
 msgid "Directory %s exists!"
@@ -11899,7 +11899,7 @@ msgstr ""
 
 #: ulng.rsmsgtoomanyfilesselected
 msgid "Too many files selected."
-msgstr "Zuviele Dateien ausgewählt."
+msgstr "Zu viele Dateien ausgewählt."
 
 #: ulng.rsmsgundeterminednumberoffile
 msgid "Undetermined"
@@ -12619,7 +12619,7 @@ msgstr "Name des Archiv-Typs:"
 
 #: ulng.rsoptassocpluginwith
 msgid "Associate plugin \"%s\" with:"
-msgstr "PlugIn \"%s\" zuordnen:"
+msgstr "Plugin \"%s\" zuordnen:"
 
 #: ulng.rsoptautosizecolumn
 msgid "First;Last;"
@@ -13492,7 +13492,7 @@ msgstr "Datei oder Verzeichnis wählen"
 
 #: ulng.rssymerrcreate
 msgid "Error creating symlink."
-msgstr "Fehler beim Erstellen des symb. Link."
+msgstr "Fehler beim Erstellen des Symlink."
 
 #: ulng.rssyndefaulttext
 msgctxt "ulng.rssyndefaulttext"
@@ -13784,7 +13784,7 @@ msgstr "Bildtyp"
 #: ulng.rsviewnewsize
 msgctxt "ulng.rsviewnewsize"
 msgid "New Size"
-msgstr "Neue Grösse"
+msgstr "Neue Größe"
 
 #: ulng.rsviewnotfound
 msgid "%s not found!"
