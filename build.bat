@@ -1,9 +1,8 @@
 @echo off
 
-rem the next two line must be changed before run on your computer
-set lazpath=D:\Alexx\Prog\FreePascal\Lazarus
-
-set PATH=%lazpath%;%PATH%
+rem Add Lazarus installation to path
+if [%LAZARUS_HOME%] == [] set LAZARUS_HOME=D:\Alexx\Prog\FreePascal\Lazarus
+set PATH=%LAZARUS_HOME%;%PATH%
 
 rem You can execute this script with different parameters:
 rem components - compiling components needed for DC
