@@ -10766,7 +10766,7 @@ msgstr "Namen mit UNC-Pfad kopieren"
 
 #: ulng.rsmnucreateshortcut
 msgid "Create Shortcut..."
-msgstr "Tastaturkürzel erstellen ..."
+msgstr "Verknüpfung erstellen ..."
 
 #: ulng.rsmnudisconnectnetworkdrive
 msgid "Disconnect Network Drive..."
