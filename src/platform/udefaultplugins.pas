@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Some useful functions to work with plugins
 
-   Copyright (C) 2011-2018 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2011-2021 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -300,7 +300,7 @@ begin
 
   if gWdxPlugins.IndexOfName('audioinfo') < 0 then
   begin
-    gWdxPlugins.Add(GetCmdDirFromEnvVar(Folder) + 'audioinfo' + PathDelim + 'audioinfo.wdx');
+    gWdxPlugins.Add(Folder + 'audioinfo' + PathDelim + 'audioinfo.wdx');
   end;
 
   // Wfx plugins
@@ -318,15 +318,25 @@ begin
   end;
   {$ENDIF}
 
-  {$IF DEFINED(LINUX)}
+  {$IF DEFINED(LINUX) or DEFINED(MSWINDOWS)}
   // Wlx plugins
   Folder:= '%commander_path%' + PathDelim + 'plugins' + PathDelim + 'wlx' + PathDelim;
 
+  {$IF DEFINED(LINUX)}
   I:= gWlxPlugins.IndexOfName('wlxMplayer');
   if I >= 0 then
   begin
     gWlxPlugins.GetWlxModule(I).FileName:= Folder + 'wlxmplayer' + PathDelim + 'wlxmplayer.wlx';
   end;
+  {$ENDIF}
+
+  {$IF DEFINED(MSWINDOWS)}
+  if gWlxPlugins.IndexOfName('preview') < 0 then
+  begin
+    gWlxPlugins.Add(Folder + 'preview' + PathDelim + 'preview.wlx');
+  end;
+  {$ENDIF}
+
   {$ENDIF}
 end;
 
