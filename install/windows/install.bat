@@ -22,6 +22,9 @@ mkdir  %DC_INSTALL_DIR%\plugins\wdx\audioinfo
 rem WFX plugins directories
 mkdir  %DC_INSTALL_DIR%\plugins\wfx
 mkdir  %DC_INSTALL_DIR%\plugins\wfx\ftp
+rem WLX plugins directories
+mkdir  %DC_INSTALL_DIR%\plugins\wlx
+mkdir  %DC_INSTALL_DIR%\plugins\wlx\preview
 
 mkdir  %DC_INSTALL_DIR%\doc
 rem Copy directories
@@ -56,3 +59,5 @@ copy  plugins\wdx\audioinfo\audioinfo.lng %DC_INSTALL_DIR%\plugins\wdx\audioinfo
 rem WFX
 copy  plugins\wfx\ftp\ftp.wfx             %DC_INSTALL_DIR%\plugins\wfx\ftp\
 xcopy /E plugins\wfx\ftp\language         %DC_INSTALL_DIR%\plugins\wfx\ftp\language\
+rem WLX
+copy  plugins\wlx\preview\preview.wlx     %DC_INSTALL_DIR%\plugins\wlx\preview\
