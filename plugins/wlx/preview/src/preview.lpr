@@ -24,16 +24,57 @@ library Preview;
 {$mode objfpc}{$H+}
 
 uses
-  SysUtils,
-  Windows,
-  Messages,
-  WlxPlugin,
-  uPreviewHandler;
+  SysUtils, JwaWinUser, Windows, Messages, WlxPlugin, uPreviewHandler;
+
+const
+  WH_KEYBOARD_LL = 13;
+  PREVIEW_HANDLER = UnicodeString('IPreviewHandler');
 
 type
   TPreviewData = class
     Handler: IPreviewHandler;
   end;
+
+var
+  hhk: HHOOK;
+  Count: Integer = 0;
+  ProcessIdWide: PWideChar;
+  ProcessIdAtom: ATOM absolute ProcessIdWide;
+
+procedure DLL_Entry_Hook(lpReserved : PtrInt);
+begin
+  GlobalDeleteAtom(ProcessIdAtom);
+end;
+
+function LowLevelKeyboardProc(nCode: Integer; wParam: WPARAM; lParam: LPARAM): LRESULT; stdcall;
+var
+  ParentWin: HWND;
+  ProcessId: HANDLE;
+  Msg: PKbDllHookStruct absolute lParam;
+
+  function IsKeyUp(Key: Integer): Boolean; inline;
+  begin
+    Result := (GetKeyState(Key) and $8000) = 0;
+  end;
+
+begin
+  if (nCode = HC_ACTION) then
+  begin
+    if (wParam = WM_KEYDOWN) and (Msg^.vkCode = VK_ESCAPE) then
+    begin
+      ParentWin:= Windows.GetAncestor(GetForegroundWindow, GA_ROOT);
+      ProcessId:= Windows.GetPropW(ParentWin, ProcessIdWide);
+      if (ProcessId <> 0) and (ProcessId = GetProcessID) then
+      begin
+        if IsKeyUp(VK_MENU) and IsKeyUp(VK_CONTROL) and IsKeyUp(VK_MENU) then
+        begin
+          PostMessage(ParentWin, WM_SYSCOMMAND, SC_CLOSE, 0);
+        end;
+      end;
+    end;
+  end;
+  Result:= CallNextHookEx(hhk, nCode, wParam, lParam);
+end;
 
 function WindowProc(hWnd: HWND; uiMsg: UINT; wParam: WPARAM; lParam: LPARAM): LRESULT; stdcall;
 var
@@ -79,22 +120,27 @@ begin
     lpfnWndProc := @WindowProc;
     cbWndExtra := SizeOf(Pointer);
     hCursor := LoadCursor(0, IDC_ARROW);
-    lpszClassName := 'IPreviewHandler';
+    lpszClassName := PREVIEW_HANDLER;
     hInstance := GetModuleHandleW(nil);
   end;
   Windows.RegisterClassW(WindowClassW);
 
-  Result:= CreateWindowW('IPreviewHandler', 'PreviewHandler', WS_CHILD or WS_VISIBLE, 0, 0, 640,
+  Result:= CreateWindowW(PREVIEW_HANDLER, 'PreviewHandler', WS_CHILD or WS_VISIBLE, 0, 0, 640,
                          480, ParentWin, 0, WindowClassW.hInstance, nil);
 
   if (Result <> wlxInvalidHandle) then
   begin
     AData:= TPreviewData.Create;
     AData.Handler:= AHandler;
+    SetPropW(ParentWin, ProcessIdWide, GetProcessID);
     SetWindowLongPtr(Result, GWLP_USERDATA, AHandle);
     ARect:= TRect.Create(0, 0, 640, 480);
     AHandler.SetWindow(Result, ARect);
     AData.Handler.DoPreview();
+    Inc(Count);
+    if (Count = 1) then begin
+      hhk:= SetWindowsHookExW(WH_KEYBOARD_LL, @LowLevelKeyboardProc, WindowClassW.hInstance, 0);
+    end;
   end;
 end;
 
@@ -109,6 +155,10 @@ begin
   begin
     AData.Handler.Unload();
     AData.Free;
+    Dec(Count);
+    if Count = 0 then begin
+      UnhookWindowsHookEx(hhk);
+    end;
   end;
 end;
 
@@ -117,10 +167,17 @@ begin
   StrLCopy(DetectString, '(EXT="HTM")|(EXT="HTML")|(EXT="MHT")|(EXT="MHTML")', MaxLen);
 end;
 
+procedure ListSetDefaultParams(dps: PListDefaultParamStruct); stdcall;
+begin
+  Dll_Process_Detach_Hook:= @DLL_Entry_Hook;
+  ProcessIdAtom := GlobalAddAtomW(PREVIEW_HANDLER);
+end;
+
 exports
   ListLoadW,
   ListCloseWindow,
-  ListGetDetectString;
+  ListGetDetectString,
+  ListSetDefaultParams;
 
 end.
 
