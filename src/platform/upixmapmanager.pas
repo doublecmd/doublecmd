@@ -525,9 +525,9 @@ var
   IconFileName: String;
 {$ENDIF}
   AFile: TFile;
+  AIcon: TIcon;
+  sExt : String;
   iIndex : PtrInt;
-  sExtFilter,
-  sGraphicFilter : String;
   bmStandartBitmap : Graphics.TBitMap = nil;
 begin
   Result := nil;
@@ -569,13 +569,32 @@ begin
   else
 {$ENDIF}
     begin
-      sExtFilter := UTF8LowerCase(ExtractFileExt(sFileName)) + ';';
-      sGraphicFilter := GraphicFilter(TGraphic);
       // if file is graphic
-      if (Length(sExtFilter) > 1) and (Pos(sExtFilter, sGraphicFilter) <> 0) and mbFileExists(sFileName) then
+      sExt := UTF8LowerCase(ExtractOnlyFileExt(sFileName));
+      if (GetGraphicClassForFileExtension(sExt) <> nil) and mbFileExists(sFileName) then
       begin
-        LoadBitmapFromFile(sFileName, bmStandartBitmap);
-        if fromWhatItWasLoaded<> nil then fromWhatItWasLoaded^ := fwbwlGraphicFile;
+        if (sExt = 'ico') then
+        begin
+          AIcon:= TIcon.Create;
+          try
+            AIcon.LoadFromFile(sFileName);
+            AIcon.Current:= AIcon.GetBestIndexForSize(TSize.Create(iIconSize, iIconSize));
+            bmStandartBitmap:= Graphics.TBitmap.Create;
+            try
+              BitmapAssign(bmStandartBitmap, AIcon);
+            except
+              FreeAndNil(bmStandartBitmap);
+            end;
+          except
+            on E: Exception do
+              DCDebug(Format('Error: Cannot load icon [%s] : %s',[sFileName, E.Message]));
+          end;
+          AIcon.Free;
+        end
+        else begin
+          LoadBitmapFromFile(sFileName, bmStandartBitmap);
+        end;
+        if fromWhatItWasLoaded <> nil then fromWhatItWasLoaded^ := fwbwlGraphicFile;
       end;
     end;
 
