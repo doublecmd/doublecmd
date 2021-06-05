@@ -259,10 +259,10 @@ begin
   BuildPlugins;
   // Set default build mode
   if Pos('--bm=', FLazBuildParams) = 0 then
-    FLazBuildParams+= ' --bm=beta';
+    FLazBuildParams+= ' --bm=release';
   // Build Double Commander
   BuildEngine.ExecuteCommand(FLazBuild, SetDirSeparators('src/doublecmd.lpi') + FLazBuildParams);
-  if Pos('--bm=beta', FLazBuildParams) > 0 then
+  if Pos('--bm=release', FLazBuildParams) > 0 then
   begin
     // Build Dwarf LineInfo Extractor
     BuildEngine.ExecuteCommand(FLazBuild, SetDirSeparators('tools/extractdwrflnfo.lpi'));

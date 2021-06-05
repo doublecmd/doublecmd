@@ -40,7 +40,7 @@ prepare() {
 build() {
     msg 'Build GTK'
     cd "${srcdir}"
-    ./build.sh beta gtk2
+    ./build.sh release gtk2
 }
 
 package() {

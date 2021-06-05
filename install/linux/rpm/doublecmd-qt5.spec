@@ -34,7 +34,7 @@ It is inspired by Total Commander and features some new ideas.
 %setup -q -n %{doublecmd}-%{version}
 
 %build
-./build.sh beta qt5
+./build.sh release qt5
 
 %install
 install/linux/install.sh --install-prefix=%{buildroot}

@@ -27,7 +27,7 @@
       <MajorVersionNr Value="1"/>
       <StringTable FileDescription="Double Commander is a cross platform open source file manager with two panels side by side" InternalName="DOUBLECMD" LegalCopyright="Copyright (C) 2006-2021 Alexander Koblov" ProductName="Double Commander"/>
     </VersionInfo>
-    <BuildModes Count="5">
+    <BuildModes Count="4">
       <Item1 Name="Debug" Default="True"/>
       <Item2 Name="Debug + HeapTrc">
         <CompilerOptions>
@@ -111,49 +111,7 @@
           </Other>
         </CompilerOptions>
       </Item3>
-      <Item4 Name="Nightly">
-        <CompilerOptions>
-          <Version Value="11"/>
-          <PathDelim Value="\"/>
-          <Target>
-            <Filename Value="..\doublecmd"/>
-          </Target>
-          <SearchPaths>
-            <IncludeFiles Value="$(LazarusDir)\ide;$(ProjOutDir);..\sdk;..\units"/>
-            <OtherUnitFiles Value="platform;platform\$(SrcOS);platform\$(SrcOS)\$(TargetOS);..\sdk;frames;fileviews;filesources;filesources\filesystem;filesources\multiarchive;filesources\multilist;filesources\searchresult;filesources\tempfilesystem;filesources\vfs;filesources\wcxarchive;filesources\wfxplugin;filesources\winnet;platform\unix\glib;platform\unix\mime;filesources\gio;rpc;rpc\sys\$(SrcOS);rpc\sys"/>
-            <UnitOutputDirectory Value="..\units\$(TargetCPU)-$(TargetOS)-$(LCLWidgetType)"/>
-            <SrcPath Value="$(LazarusDir)\lcl;$(LazarusDir)\lcl\interfaces\$(LCLWidgetType);$(fpcsrcdir)\packages\fcl-base\src"/>
-          </SearchPaths>
-          <Parsing>
-            <SyntaxOptions>
-              <IncludeAssertionCode Value="True"/>
-            </SyntaxOptions>
-          </Parsing>
-          <CodeGeneration>
-            <Checks>
-              <IOChecks Value="True"/>
-            </Checks>
-            <Optimizations>
-              <OptimizationLevel Value="0"/>
-            </Optimizations>
-          </CodeGeneration>
-          <Linking>
-            <Debugging>
-              <DebugInfoType Value="dsDwarf2Set"/>
-              <UseLineInfoUnit Value="False"/>
-              <UseExternalDbgSyms Value="True"/>
-            </Debugging>
-          </Linking>
-          <Other>
-            <CustomOptions Value="-dNIGHTLY_BUILD"/>
-            <ExecuteBefore>
-              <Command Value="$(ProjPath)\platform\git2revisioninc$(ExeExt).cmd $MakeFile($(ProjOutDir))"/>
-              <CompileReasons Run="False"/>
-            </ExecuteBefore>
-          </Other>
-        </CompilerOptions>
-      </Item4>
-      <Item5 Name="Beta">
+      <Item4 Name="Release">
         <CompilerOptions>
           <Version Value="11"/>
           <PathDelim Value="\"/>
@@ -226,7 +184,7 @@ end;"/>
             </ExecuteBefore>
           </Other>
         </CompilerOptions>
-      </Item5>
+      </Item4>
     </BuildModes>
     <PublishOptions>
       <Version Value="2"/>

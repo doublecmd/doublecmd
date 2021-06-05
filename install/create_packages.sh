@@ -90,7 +90,7 @@ cp -a linux/lib/$CPU_TARGET/$lcl/*.so*    $BUILD_DC_TMP_DIR/
 cd $BUILD_DC_TMP_DIR
 
 # Build all components of Double Commander
-./build.sh beta
+./build.sh release
 
 # Export variables for checkinstall
 export MAINTAINER="Alexander Koblov <Alexx2000@mail.ru>"

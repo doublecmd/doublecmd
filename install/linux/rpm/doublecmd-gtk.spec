@@ -30,7 +30,7 @@ It is inspired by Total Commander and features some new ideas.
 %setup -q -n doublecmd-%{version}
 
 %build
-./build.sh beta gtk2
+./build.sh release gtk2
 
 %install
 install/linux/install.sh --install-prefix=%{buildroot}

@@ -14,12 +14,12 @@ override_dh_install:
 	rm -f plugins/wlx/WlxMplayer/src/qt4.pas
 
 	# Build GTK2 version
-	./build.sh beta gtk2
+	./build.sh release gtk2
 	./install/linux/install.sh --install-prefix=$(CURDIR)/debian/doublecmd-common
 	./clean.sh
 
 	# Build Qt5 version
-	./build.sh beta qt5
+	./build.sh release qt5
 	./install/linux/install.sh --install-prefix=$(CURDIR)/debian/doublecmd-qt-temp
 	./clean.sh
 

@@ -5,11 +5,11 @@ if [%LAZARUS_HOME%] == [] set LAZARUS_HOME=D:\Alexx\Prog\FreePascal\Lazarus
 set PATH=%LAZARUS_HOME%;%PATH%
 
 rem You can execute this script with different parameters:
-rem components - compiling components needed for DC
-rem plugins - compiling all DC plugins
-rem all - compiling components, plugins and DC
-rem default - compiling DC only 
-rem beta - compile in beta mode (using by default)
+rem components - compiling components needed for doublecmd
+rem doublecmd - compiling doublecmd only (release mode)
+rem plugins - compiling all doublecmd plugins
+rem debug - compiling components, plugins and doublecmd (debug mode)
+rem release - compile in release mode (using by default)
 if not "%OS_TARGET%" == "" (
   set DC_ARCH=%DC_ARCH% --os=%OS_TARGET%
 )
@@ -24,18 +24,18 @@ if "%1"=="components" ( call :components
 ) else (
 if "%1"=="plugins" ( call :plugins
 ) else (
-if "%1"=="beta" ( call :beta
+if "%1"=="beta" ( call :release
 ) else (
-if "%1"=="default" ( call :default
+if "%1"=="doublecmd" ( call :doublecmd
 ) else (
-if "%1"=="nightly" ( call :nightly
+if "%1"=="release" ( call :release
 ) else (
-if "%1"=="all" ( call :all
+if "%1"=="debug" ( call :debug
 ) else (
-if "%1"=="" ( call :beta
+if "%1"=="" ( call :release
 ) else (
   echo ERROR: Mode not defined: %1
-  echo Available modes: components, plugins, default, nightly, all, beta
+  echo Available modes: components, plugins, doublecmd, release, debug
 )))))))
 
 pause
@@ -49,35 +49,31 @@ GOTO:EOF
   call plugins\build.bat
 GOTO:EOF
 
-:beta
+:release
+  call :components
+  call :plugins
+  call :doublecmd
+GOTO:EOF
+
+:debug
   call :components
   call :plugins
 
   rem Build Double Commander
   call :replace_old
-  lazbuild src\doublecmd.lpi --bm=beta %DC_ARCH%
+  lazbuild src\doublecmd.lpi --bm=debug %DC_ARCH%
+GOTO:EOF
+
+:doublecmd
+  rem Build Double Commander
+  call :replace_old
+  lazbuild src\doublecmd.lpi --bm=release %DC_ARCH%
 
   rem Build Dwarf LineInfo Extractor
   lazbuild tools\extractdwrflnfo.lpi
 
   rem Extract debug line info
   tools\extractdwrflnfo doublecmd.dbg
-GOTO:EOF
-
-:all
-  call :components
-  call :plugins
-  call :default
-GOTO:EOF
-
-:default
-  call :replace_old
-  lazbuild src\doublecmd.lpi %DC_ARCH%
-GOTO:EOF
-
-:nightly
-  call :replace_old
-  lazbuild src\doublecmd.lpi --bm=nightly %DC_ARCH%
 GOTO:EOF
 
 :replace_old

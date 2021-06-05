@@ -40,7 +40,7 @@ prepare() {
 build() {
     msg 'Build Qt'
     cd "${srcdir}"
-    ./build.sh beta qt
+    ./build.sh release qt
 }
 
 package() {
