@@ -125,8 +125,11 @@ begin
   end;
   Windows.RegisterClassW(WindowClassW);
 
-  Result:= CreateWindowW(PREVIEW_HANDLER, 'PreviewHandler', WS_CHILD or WS_VISIBLE, 0, 0, 640,
-                         480, ParentWin, 0, WindowClassW.hInstance, nil);
+  if not GetClientRect(ParentWin, ARect) then
+    ARect:= TRect.Create(0, 0, 640, 480);
+
+  Result:= CreateWindowW(PREVIEW_HANDLER, 'PreviewHandler', WS_CHILD or WS_VISIBLE, ARect.Left, ARect.Top,
+                         ARect.Right, ARect.Bottom, ParentWin, 0, WindowClassW.hInstance, nil);
 
   if (Result <> wlxInvalidHandle) then
   begin
@@ -134,7 +137,6 @@ begin
     AData.Handler:= AHandler;
     SetPropW(ParentWin, ProcessIdWide, GetProcessID);
     SetWindowLongPtr(Result, GWLP_USERDATA, AHandle);
-    ARect:= TRect.Create(0, 0, 640, 480);
     AHandler.SetWindow(Result, ARect);
     AData.Handler.DoPreview();
     Inc(Count);
