@@ -378,84 +378,32 @@ end;
 
 function StretchBitmap(var bmBitmap : Graphics.TBitmap; iIconSize : Integer;
                        clBackColor : TColor; bFreeAtEnd : Boolean = False) : Graphics.TBitmap;
-var
-  memstream: TMemoryStream;
-  {$IFDEF MSWINDOWS}
-  liiSource: TLazIntfImage = nil;
-  liiDestination: TLazIntfImage = nil;
-  ImgFormatDescription:TRawImageDescription;
-  {$ENDIF}
-
 begin
-  {$IFDEF MSWINDOWS}
-  //Let's make sure we're working with 32-bits bitmap
-  if bmBitmap.PixelFormat<>pf32bit then
-    begin
-      liiSource:=bmBitmap.CreateIntfImage;
-      liiDestination:=TLazIntfImage.Create(bmBitmap.Width,bmBitmap.Height);
-	  try
-        ImgFormatDescription.Init_BPP32_B8G8R8A8_BIO_TTB(bmBitmap.Width,bmBitmap.Height);
-        liiDestination.DataDescription:=ImgFormatDescription;
-        liiDestination.CopyPixels(liiSource);
-        bmBitmap.FreeImage;
-        bmBitmap.PixelFormat:=pf32bit;
-        bmBitmap.LoadFromIntfImage(liiDestination);
-	  finally
-        liiDestination.Free;
-        liiSource.Free;
-	  end;
-    end;
-  {$ENDIF}
-
   if (iIconSize <> bmBitmap.Height) or (iIconSize <> bmBitmap.Width) then
   begin
     Result := Graphics.TBitMap.Create;
     try
       Result.SetSize(iIconSize, iIconSize);
-      if bmBitmap.RawImage.Description.AlphaPrec <> 0 then // if bitmap has alpha channel
-        Stretch(bmBitmap, Result, ResampleFilters[2].Filter, ResampleFilters[2].Width)
-      else
-        with Result do
-        begin
-          Canvas.Brush.Color := clBackColor;
-          Canvas.FillRect(Canvas.ClipRect);
-          Canvas.StretchDraw(Canvas.ClipRect, bmBitmap);
-          { For drawing color transparent bitmaps }
-          memstream := TMemoryStream.Create;
-          try
-            SaveToStream(memstream);
-            memstream.position := 0;
-            LoadFromStream(memstream);
-          finally
-            memstream.free;
-          end;
-          Transparent := True;
-          if bmBitmap.RawImage.Description.MaskBitsPerPixel = 0 then
-            TransparentColor := clBackColor;
-        end; //  with
-      if bFreeAtEnd then
-        FreeAndNil(bmBitmap);
+      Stretch(bmBitmap, Result, ResampleFilters[2].Filter, ResampleFilters[2].Width);
+      if bFreeAtEnd then FreeAndNil(bmBitmap);
     except
       FreeAndNil(Result);
       raise;
     end;
   end
-  else // Don't need to stretch.
+  // Don't need to stretch.
+  else if bFreeAtEnd then
   begin
-    if bFreeAtEnd then
-    begin
-      Result := bmBitmap;
-      bmBitmap := nil;
-    end
-    else
-    begin
-      Result := Graphics.TBitMap.Create;
-      try
-        Result.Assign(bmBitmap);
-      except
-        FreeAndNil(Result);
-        raise;
-      end;
+    Result := bmBitmap;
+    bmBitmap := nil;
+  end
+  else begin
+    Result := Graphics.TBitMap.Create;
+    try
+      Result.Assign(bmBitmap);
+    except
+      FreeAndNil(Result);
+      raise;
     end;
   end;
 end;
@@ -494,7 +442,7 @@ begin
     try
       Picture.LoadFromFile(AIconFileName);
       //Picture.Graphic.Transparent := True;
-      ABitmap.Assign(Picture.Bitmap);
+      ABitmap.Assign(Picture.Graphic);
 
       // if unsupported BitsPerPixel then exit
       if ABitmap.RawImage.Description.BitsPerPixel > 32 then
@@ -526,8 +474,8 @@ var
 {$ENDIF}
   AFile: TFile;
   AIcon: TIcon;
-  sExt : String;
   iIndex : PtrInt;
+  GraphicClass: TGraphicClass;
   bmStandartBitmap : Graphics.TBitMap = nil;
 begin
   Result := nil;
@@ -570,10 +518,10 @@ begin
 {$ENDIF}
     begin
       // if file is graphic
-      sExt := UTF8LowerCase(ExtractOnlyFileExt(sFileName));
-      if (GetGraphicClassForFileExtension(sExt) <> nil) and mbFileExists(sFileName) then
+      GraphicClass:= GetGraphicClassForFileExtension(ExtractOnlyFileExt(sFileName));
+      if (GraphicClass <> nil) and mbFileExists(sFileName) then
       begin
-        if (sExt = 'ico') then
+        if (GraphicClass = TIcon) then
         begin
           AIcon:= TIcon.Create;
           try
@@ -703,16 +651,6 @@ begin
             begin
               // Shrink big bitmaps before putting them into PixmapManager,
               // to speed up later drawing.
-              //
-              // Note: Transparent bitmaps may lose transparency, because
-              // they must drawn onto a background, so we allow smaller bitmaps
-              // up to 48x48 (icons for example) to load in full size and they
-              // are resized upon drawing.
-              //
-              // TODO:
-              // This should resize any non-transparent,
-              // non-alpha channel bitmaps to gIconsSize
-              // (so if Width<>gIconsSize or Height<>gIconsSize then Resize).
               if (bmpBitmap.Width > 48) or (bmpBitmap.Height > 48) then
               begin
                 bmpBitmap := StretchBitmap(bmpBitmap, AIconSize, clBlack, True);
