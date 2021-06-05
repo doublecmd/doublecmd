@@ -1566,7 +1566,7 @@ begin
   gSortCaseSensitivity := cstNotSensitive;
   gSortNatural := False;
   gSortSpecial := False;
-  gSortFolderMode := sfmSortNameShowFirst;
+  gSortFolderMode := sfmSortLikeFileShowFirst;
   gNewFilesPosition := nfpSortedPosition;
   gUpdatedFilesPosition := ufpNoChange;
   gFileSizeFormat := fsfFloat;
