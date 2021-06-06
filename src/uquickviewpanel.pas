@@ -60,7 +60,7 @@ var
 implementation
 
 uses
-  LCLProc, Forms, Controls, uTempFileSystemFileSource,
+  LCLProc, Forms, Controls, fMain, uTempFileSystemFileSource,
   uFileSourceProperty, uFileSourceOperation, uFileSourceOperationTypes;
 
 procedure QuickViewShow(aFileViewPage: TFileViewPage; aFileView: TFileView);
@@ -75,11 +75,13 @@ begin
   finally
     FreeAndNil(aFile);
   end;
+  frmMain.actQuickView.Checked:= True;
 end;
 
 procedure QuickViewClose;
 begin
   FreeAndNil(QuickViewPanel);
+  frmMain.actQuickView.Checked:= False;
 end;
 
 { TQuickViewPanel }
