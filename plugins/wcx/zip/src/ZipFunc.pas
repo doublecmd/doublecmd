@@ -246,10 +246,13 @@ begin
         DestNameUtf8 := UTF16ToUTF8(UnicodeString(DestName));
         if (DestPath <> nil) and (DestPath[0] <> #0) then
           Arc.BaseDirectory := DestPath
-        else
+        else begin
           Arc.BaseDirectory := ExtractFilePath(DestNameUtf8);
-        Arc.ExtractAt(Arc.Tag, DestNameUtf8);
-
+        end;
+        repeat
+          Arc.FOperationResult := E_SUCCESS;
+          Arc.ExtractAt(Arc.Tag, DestNameUtf8);
+        until (Arc.FOperationResult <> maxLongint);
         // Show progress and ask if aborting.
         if Assigned(Arc.FProcessDataProcW) then
         begin
@@ -493,43 +496,57 @@ begin
   // Unknown error
   FOperationResult:= E_UNKNOWN;
   // Check error class
-  case ErrorClass of
-  ecFileOpenError:
-    begin
-      ErrorClass:= ecAbbrevia;
-      ErrorCode:= AbFCIFileOpenError;
-      FOperationResult:= E_EOPEN;
+  if (ErrorClass = ecAbbrevia) then
+  begin
+    case ErrorCode of
+      AbUserAbort:
+        FOperationResult:= E_EABORTED;
+      AbZipBadCRC:
+        FOperationResult:= E_BAD_ARCHIVE;
+      AbFileNotFound:
+        FOperationResult:= E_NO_FILES;
+      AbReadError:
+        FOperationResult:= E_EREAD;
     end;
-  ecFileCreateError:
-    begin
-      ErrorClass:= ecAbbrevia;
-      ErrorCode:= AbFCICreateError;
-      FOperationResult:= E_ECREATE;
-    end;
-  ecAbbrevia:
-    begin
-      case ErrorCode of
-        AbUserAbort:
-          FOperationResult:= E_EABORTED;
-        AbZipBadCRC:
-          FOperationResult:= E_BAD_ARCHIVE;
-        AbFileNotFound:
-          FOperationResult:= E_NO_FILES;
-        AbReadError:
-          FOperationResult:= E_EREAD;
-      end;
-    end;
+  end
   // Has exception message? Show it!
   else if Assigned(ExceptObject) and (ExceptObject is Exception) then
+  begin
+    Message := Exception(ExceptObject).Message;
+    if Assigned(Item) then Message += LineEnding + LineEnding + Item.FileName;
+    if (ProcessType = ptExtract) then
     begin
-      Message := Exception(ExceptObject).Message;
-      if Assigned(Item) then Message += LineEnding + LineEnding + Item.FileName;
+      case gStartupInfo.MessageBox(PAnsiChar(Message), nil, MB_ABORTRETRYIGNORE or MB_ICONERROR) of
+      ID_RETRY:
+        FOperationResult:= maxLongint;
+      ID_IGNORE:
+        FOperationResult:= E_HANDLED;
+      ID_ABORT:
+        raise EAbUserAbort.Create;
+      end;
+    end
+    else begin
       if gStartupInfo.MessageBox(PAnsiChar(Message), nil, MB_OKCANCEL or MB_ICONERROR) = ID_OK then
         FOperationResult:= E_HANDLED
       else begin
         raise EAbUserAbort.Create;
       end;
     end;
+  end
+  // Check error class
+  else case ErrorClass of
+    ecFileOpenError:
+      begin
+        ErrorClass:= ecAbbrevia;
+        ErrorCode:= AbFCIFileOpenError;
+        FOperationResult:= E_EOPEN;
+      end;
+    ecFileCreateError:
+      begin
+        ErrorClass:= ecAbbrevia;
+        ErrorCode:= AbFCICreateError;
+        FOperationResult:= E_ECREATE;
+      end;
   end;
   // Show abbrevia specific errors
   if (ErrorClass = ecAbbrevia) and (ProcessType in [ptAdd, ptFreshen, ptReplace]) then
