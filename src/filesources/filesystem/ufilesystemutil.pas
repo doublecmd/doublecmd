@@ -1026,7 +1026,7 @@ begin
     end;
 
     // Check MAX_PATH
-    if UTF8Length(TargetName) > MAX_PATH - 1 then
+    if gLongNameAlert and (UTF8Length(TargetName) > MAX_PATH - 1) then
     begin
       if FMaxPathOption <> fsourInvalid then
         AskResult := FMaxPathOption

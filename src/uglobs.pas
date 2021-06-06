@@ -469,6 +469,7 @@ var
   gKeyTyping: array[TKeyTypingModifier] of TKeyTypingAction;
 
   { File operations page }
+  gLongNameAlert: Boolean;
   gCopyBlockSize : Integer;
   gHashBlockSize : Integer;
   gUseMmapInSearch : Boolean;
@@ -1777,6 +1778,7 @@ begin
   gKeyTyping[ktmCtrlAlt] := ktaQuickFilter;
 
   { File operations page }
+  gLongNameAlert := True;
   gCopyBlockSize := 524288;
   gHashBlockSize := 8388608;
   gUseMmapInSearch := False;
@@ -2775,6 +2777,7 @@ begin
     if Assigned(Node) then
     begin
       gCopyBlockSize := GetValue(Node, 'BufferSize', gCopyBlockSize);
+      gLongNameAlert := GetValue(Node, 'LongNameAlert', gLongNameAlert);
       gHashBlockSize := GetValue(Node, 'HashBufferSize', gHashBlockSize);
       gUseMmapInSearch := GetValue(Node, 'UseMmapInSearch', gUseMmapInSearch);
       gPartialNameSearch := GetValue(Node, 'PartialNameSearch', gPartialNameSearch);
@@ -3451,6 +3454,7 @@ begin
     { File operations page }
     Node := FindNode(Root, 'FileOperations', True);
     SetValue(Node, 'BufferSize', gCopyBlockSize);
+    SetValue(Node, 'LongNameAlert', gLongNameAlert);
     SetValue(Node, 'HashBufferSize', gHashBlockSize);
     SetValue(Node, 'UseMmapInSearch', gUseMmapInSearch);
     SetValue(Node, 'PartialNameSearch', gPartialNameSearch);
