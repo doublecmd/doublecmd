@@ -36,8 +36,14 @@ uses
   ShlObj, ComObj, uShellFolder, uShlObjAdditional;
 
 function TWinNetListOperation.Linux: Boolean;
+var
+  APath: String;
 begin
-  Result:= CheckWin32Version(10) and StrBegins(Path, '\\wsl$\');
+  Result:= CheckWin32Version(10);
+  if Result then begin
+    APath:= LowerCase(Path);
+    Result:= StrBegins(APath, '\\wsl$\') or StrBegins(APath, '\\wsl.localhost\');
+  end;
 end;
 
 function TWinNetListOperation.Connect: Boolean;
