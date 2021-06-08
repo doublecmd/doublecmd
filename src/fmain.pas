@@ -748,6 +748,7 @@ type
 {$IF DEFINED(MSWINDOWS)}
     procedure OnDriveIconLoaded(Data: PtrInt);
 {$ENDIF}
+    procedure OnDriveGetFreeSpace(Data: PtrInt);
     procedure OnDriveWatcherEvent(EventType: TDriveWatcherEvent; const ADrive: PDrive);
     procedure AppActivate(Sender: TObject);
     procedure AppDeActivate(Sender: TObject);
@@ -958,6 +959,18 @@ var
 
 type
 
+  { TFreeSpaceData }
+
+  TFreeSpaceData = class
+    Path: String;
+    Result: Boolean;
+    OnFinish: TDataEvent;
+    Panel: TFilePanelSelect;
+    FileSource: IFileSource;
+    FreeSize, TotalSize : Int64;
+    procedure GetFreeSpaceInThread;
+  end;
+
   { TShellTreeView }
 
   TShellTreeView = class(ShellCtrls.TShellTreeView)
@@ -975,6 +988,15 @@ procedure HistoryIndexesFromTag(aTag: Longint; out aFileSourceIndex, aPathIndex:
 begin
   aFileSourceIndex := aTag >> 16;
   aPathIndex := aTag and ((1<<16) - 1);
+end;
+
+{ TFreeSpaceData }
+
+procedure TFreeSpaceData.GetFreeSpaceInThread;
+begin
+  Result:= FileSource.GetFreeSpace(Path, FreeSize, TotalSize);
+  if Assigned(Application) and not (AppDoNotCallAsyncQueue in Application.Flags) then
+    Application.QueueAsyncCall(OnFinish, PtrInt(Self));
 end;
 
 { TShellTreeView }
@@ -6292,53 +6314,87 @@ begin
   end;
 end;
 
-procedure TfrmMain.UpdateFreeSpace(Panel: TFilePanelSelect);
+procedure TfrmMain.OnDriveGetFreeSpace(Data: PtrInt);
 var
-  FreeSize, TotalSize: Int64;
   aFileView: TFileView;
   sboxDrive: TPaintBox;
   lblDriveInfo: TLabel;
+  AData: TFreeSpaceData absolute Data;
+begin
+  if AData.Result then
+  begin
+    case AData.Panel of
+      fpLeft :
+        begin
+          sboxDrive := pbxLeftDrive;
+          aFileView := FrameLeft;
+          lblDriveInfo :=lblLeftDriveInfo;
+        end;
+      fpRight:
+        begin
+          sboxDrive := pbxRightDrive;
+          aFileView := FrameRight;
+          lblDriveInfo := lblRightDriveInfo;
+        end;
+    end;
+
+    if mbCompareFileNames(AData.Path, aFileView.CurrentPath) then
+    begin
+      if gDriveInd = True then
+      begin
+        if AData.TotalSize > 0 then
+          sboxDrive.Tag := 100 - Round((AData.FreeSize / AData.TotalSize) * 100) // Save busy percent
+        else begin
+          sboxDrive.Tag := -1;
+        end;
+        sboxDrive.Invalidate;
+      end;
+      lblDriveInfo.Hint := Format(rsFreeMsg, [cnvFormatFileSize(AData.FreeSize, uoscHeaderFooter), cnvFormatFileSize(AData.TotalSize, uoscHeaderFooter)]);
+      if gShortFormatDriveInfo then
+        lblDriveInfo.Caption := Format(rsFreeMsgShort, [cnvFormatFileSize(AData.FreeSize, uoscHeaderFooter)])
+      else begin
+        lblDriveInfo.Caption := lblDriveInfo.Hint;
+      end;
+      sboxDrive.Hint := lblDriveInfo.Hint;
+    end;
+  end;
+  AData.Free;
+end;
+
+procedure TfrmMain.UpdateFreeSpace(Panel: TFilePanelSelect);
+var
+  aFileView: TFileView;
+  sboxDrive: TPaintBox;
+  lblDriveInfo: TLabel;
+  AData: TFreeSpaceData;
 begin
   case Panel of
     fpLeft :
       begin
         sboxDrive := pbxLeftDrive;
         aFileView := FrameLeft;
-        lblDriveInfo:=lblLeftDriveInfo;
+        lblDriveInfo := lblLeftDriveInfo;
       end;
     fpRight:
       begin
         sboxDrive := pbxRightDrive;
         aFileView := FrameRight;
-        lblDriveInfo:=lblRightDriveInfo;
+        lblDriveInfo := lblRightDriveInfo;
       end;
   end;
 
-  if aFileView.FileSource.GetFreeSpace(aFileView.CurrentPath, FreeSize, TotalSize) then
-    begin
-      if gDriveInd = True then
-        begin
-          if TotalSize > 0 then
-            sboxDrive.Tag:= 100 - Round((FreeSize / TotalSize) * 100) // Save busy percent
-          else
-            sboxDrive.Tag := -1;
-          sboxDrive.Invalidate;
-        end;
-      lblDriveInfo.Hint := Format(rsFreeMsg, [cnvFormatFileSize(FreeSize, uoscHeaderFooter), cnvFormatFileSize(TotalSize, uoscHeaderFooter)]); //It's not an "operation" but most probably the closest wanted form.
-      if gShortFormatDriveInfo then
-        lblDriveInfo.Caption := Format(rsFreeMsgShort, [cnvFormatFileSize(FreeSize, uoscHeaderFooter)])
-      else
-        lblDriveInfo.Caption := lblDriveInfo.Hint;
-      sboxDrive.Hint := lblDriveInfo.Hint;
-    end
-  else
-    begin
-      lblDriveInfo.Caption := '';
-      lblDriveInfo.Hint := '';
-      sboxDrive.Hint := '';
-      sboxDrive.Tag := -1;
-      sboxDrive.Invalidate;
-    end;
+  lblDriveInfo.Caption := ' ';
+  lblDriveInfo.Hint := ' ';
+  sboxDrive.Hint := ' ';
+  sboxDrive.Tag := -1;
+  sboxDrive.Invalidate;
+
+  AData := TFreeSpaceData.Create;
+  AData.Panel := Panel;
+  AData.Path := aFileView.CurrentPath;
+  AData.OnFinish := @OnDriveGetFreeSpace;
+  AData.FileSource := aFileView.FileSource;
+  TThread.ExecuteInThread(@AData.GetFreeSpaceInThread);
 end;
 
 procedure TfrmMain.CloseNotebook(ANotebook: TFileViewNotebook);
