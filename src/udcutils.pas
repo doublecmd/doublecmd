@@ -58,7 +58,7 @@ const
   EnvVarTodaysDate    = VARDELIMITER + 'DC_TODAYSDATE' + VARDELIMITER_END;
 
 type
-  TUsageOfSizeConversion = (uoscFile, uoscHeaderFooter, uoscOperation, uoscNoUnit);
+  TUsageOfSizeConversion = (uoscFile, uoscHeader, uoscFooter, uoscOperation, uoscNoUnit);
 
 function GetCmdDirFromEnvVar(const sPath : String) : String;
 function SetCmdDirAsEnvVar(const sPath : String) : String;
@@ -375,7 +375,8 @@ begin
         end;
       end;
     uoscFile: Result := cnvFormatFileSize(iSize, gFileSizeFormat, gFileSizeDigits);
-    uoscHeaderFooter: Result := cnvFormatFileSize(iSize, gHeaderFooterSizeFormat, gHeaderFooterDigits);
+    uoscHeader: Result := cnvFormatFileSize(iSize, gHeaderSizeFormat, gHeaderDigits);
+    uoscFooter: Result := cnvFormatFileSize(iSize, gFooterSizeFormat, gFooterDigits);
     uoscNoUnit: Result := IntToStr(iSize);
   end;
 end;

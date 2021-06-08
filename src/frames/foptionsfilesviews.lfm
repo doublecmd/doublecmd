@@ -304,25 +304,25 @@ inherited frmOptionsFilesViews: TfrmOptionsFilesViews
       OnChange = RefreshOurExamples
       TabOrder = 2
     end
-    object lblHeaderFooterSizeFormat: TLabel
+    object lblHeaderSizeFormat: TLabel
       Left = 12
-      Height = 15
-      Top = 62
-      Width = 117
-      Caption = '&Header/footer format:'
-      FocusControl = cbHeaderFooterSizeFormat
+      Height = 20
+      Top = 72
+      Width = 148
+      Caption = '&Header format:'
+      FocusControl = cbHeaderSizeFormat
       ParentColor = False
     end
-    object cbHeaderFooterSizeFormat: TComboBox
-      AnchorSideLeft.Control = lblHeaderFooterSizeFormat
+    object cbHeaderSizeFormat: TComboBox
+      AnchorSideLeft.Control = lblHeaderSizeFormat
       AnchorSideLeft.Side = asrBottom
-      AnchorSideTop.Control = lblHeaderFooterSizeFormat
+      AnchorSideTop.Control = lblHeaderSizeFormat
       AnchorSideTop.Side = asrCenter
-      AnchorSideRight.Control = speNumberOfDigitsHeaderFooter
-      Left = 139
-      Height = 23
-      Top = 58
-      Width = 379
+      AnchorSideRight.Control = speNumberOfDigitsHeader
+      Left = 170
+      Height = 28
+      Top = 68
+      Width = 335
       Anchors = [akTop, akLeft, akRight]
       BorderSpacing.Left = 10
       DropDownCount = 12
@@ -331,29 +331,88 @@ inherited frmOptionsFilesViews: TfrmOptionsFilesViews
       Style = csDropDownList
       TabOrder = 3
     end
-    object speNumberOfDigitsHeaderFooter: TSpinEdit
-      AnchorSideLeft.Control = cbHeaderFooterSizeFormat
+    object speNumberOfDigitsHeader: TSpinEdit
+      AnchorSideLeft.Control = cbHeaderSizeFormat
       AnchorSideLeft.Side = asrBottom
-      AnchorSideTop.Control = cbHeaderFooterSizeFormat
+      AnchorSideTop.Control = cbHeaderSizeFormat
       AnchorSideTop.Side = asrCenter
-      AnchorSideRight.Control = lblHeaderFooterSizeExample
-      Left = 524
-      Height = 23
-      Top = 58
-      Width = 50
+      AnchorSideRight.Control = lblHeaderSizeExample
+      Left = 511
+      Height = 28
+      Top = 68
+      Width = 63
       Anchors = [akTop, akRight]
       MaxValue = 3
       OnChange = RefreshOurExamples
       TabOrder = 4
     end
-    object lblHeaderFooterSizeExample: TLabel
-      AnchorSideTop.Control = cbHeaderFooterSizeFormat
+    object lblHeaderSizeExample: TLabel
+      AnchorSideTop.Control = cbHeaderSizeFormat
       AnchorSideTop.Side = asrCenter
       AnchorSideRight.Control = gbFormatting
       AnchorSideRight.Side = asrBottom
       Left = 580
       Height = 12
       Top = 63
+      Width = 32
+      Alignment = taRightJustify
+      Anchors = [akTop, akRight]
+      Constraints.MinHeight = 12
+      Constraints.MinWidth = 32
+      Font.Style = [fsBold]
+      ParentColor = False
+      ParentFont = False
+    end
+    object lblFooterSizeFormat: TLabel
+      Left = 12
+      Height = 20
+      Top = 104
+      Width = 148
+      Caption = '&Footer format:'
+      FocusControl = cbFooterSizeFormat
+      ParentColor = False
+    end
+    object cbFooterSizeFormat: TComboBox
+      AnchorSideLeft.Control = lblFooterSizeFormat
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = lblFooterSizeFormat
+      AnchorSideTop.Side = asrCenter
+      AnchorSideRight.Control = speNumberOfDigitsFooter
+      Left = 170
+      Height = 28
+      Top = 100
+      Width = 335
+      Anchors = [akTop, akLeft, akRight]
+      BorderSpacing.Left = 10
+      DropDownCount = 12
+      ItemHeight = 20
+      OnChange = RefreshOurExamples
+      Style = csDropDownList
+      TabOrder = 5
+    end
+    object speNumberOfDigitsFooter: TSpinEdit
+      AnchorSideLeft.Control = cbFooterSizeFormat
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = cbFooterSizeFormat
+      AnchorSideTop.Side = asrCenter
+      AnchorSideRight.Control = lblFooterSizeExample
+      Left = 511
+      Height = 28
+      Top = 100
+      Width = 63
+      Anchors = [akTop, akRight]
+      MaxValue = 3
+      OnChange = RefreshOurExamples
+      TabOrder = 6
+    end
+    object lblFooterSizeExample: TLabel
+      AnchorSideTop.Control = cbFooterSizeFormat
+      AnchorSideTop.Side = asrCenter
+      AnchorSideRight.Control = gbFormatting
+      AnchorSideRight.Side = asrBottom
+      Left = 580
+      Height = 12
+      Top = 108
       Width = 32
       Alignment = taRightJustify
       Anchors = [akTop, akRight]
@@ -410,7 +469,7 @@ inherited frmOptionsFilesViews: TfrmOptionsFilesViews
       Anchors = [akTop, akRight]
       MaxValue = 3
       OnChange = RefreshOurExamples
-      TabOrder = 6
+      TabOrder = 8
     end
     object cbOperationSizeFormat: TComboBox
       AnchorSideLeft.Control = lblOperationSizeFormat
@@ -428,7 +487,7 @@ inherited frmOptionsFilesViews: TfrmOptionsFilesViews
       ItemHeight = 15
       OnChange = RefreshOurExamples
       Style = csDropDownList
-      TabOrder = 5
+      TabOrder = 7
     end
     object lblOperationSizeFormat: TLabel
       Left = 12

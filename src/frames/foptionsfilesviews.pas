@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Files views options page
 
-   Copyright (C) 2006-2018 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2006-2021 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -36,7 +36,8 @@ type
   TfrmOptionsFilesViews = class(TOptionsEditor)
     btnDefault: TButton;
     cbDateTimeFormat: TComboBox;
-    cbHeaderFooterSizeFormat: TComboBox;
+    cbHeaderSizeFormat: TComboBox;
+    cbFooterSizeFormat: TComboBox;
     cbOperationSizeFormat: TComboBox;
     cbUpdatedFilesPosition: TComboBox;
     cbNewFilesPosition: TComboBox;
@@ -57,8 +58,10 @@ type
     lblMegabyte: TLabel;
     lblGigabyte: TLabel;
     lblTerabyte: TLabel;
-    lblHeaderFooterSizeExample: TLabel;
-    lblHeaderFooterSizeFormat: TLabel;
+    lblHeaderSizeExample: TLabel;
+    lblHeaderSizeFormat: TLabel;
+    lblFooterSizeExample: TLabel;
+    lblFooterSizeFormat: TLabel;
     lblOperationSizeExample: TLabel;
     lblOperationSizeFormat: TLabel;
     lblFileSizeExample: TLabel;
@@ -72,7 +75,8 @@ type
     lblFileSizeFormat: TLabel;
     pnlDateTime: TPanel;
     speNumberOfDigitsFile: TSpinEdit;
-    speNumberOfDigitsHeaderFooter: TSpinEdit;
+    speNumberOfDigitsHeader: TSpinEdit;
+    speNumberOfDigitsFooter: TSpinEdit;
     speNumberOfDigitsOperation: TSpinEdit;
     procedure btnDefaultClick(Sender: TObject);
     procedure cbDateTimeFormatChange(Sender: TObject);
@@ -126,7 +130,8 @@ begin
   try
     TransferUnitsToOfficialUnits;
     lblFileSizeExample.Caption := CnvFormatFileSize(cFileSizeExample, TFileSizeFormat(cbFileSizeFormat.ItemIndex), speNumberOfDigitsFile.Value);
-    lblHeaderFooterSizeExample.Caption := CnvFormatFileSize(cFileSizeExample, TFileSizeFormat(cbHeaderFooterSizeFormat.ItemIndex), speNumberOfDigitsHeaderFooter.Value);
+    lblHeaderSizeExample.Caption := CnvFormatFileSize(cFileSizeExample, TFileSizeFormat(cbHeaderSizeFormat.ItemIndex), speNumberOfDigitsHeader.Value);
+    lblFooterSizeExample.Caption := CnvFormatFileSize(cFileSizeExample, TFileSizeFormat(cbFooterSizeFormat.ItemIndex), speNumberOfDigitsFooter.Value);
     lblOperationSizeExample.Caption := CnvFormatFileSize(cFileSizeExample, TFileSizeFormat(cbOperationSizeFormat.ItemIndex), speNumberOfDigitsOperation.Value);
   finally
     //We restore the previous units.
@@ -142,7 +147,8 @@ begin
   ParseLineToList(rsOptNewFilesPosition, cbNewFilesPosition.Items);
   ParseLineToList(rsOptUpdatedFilesPosition, cbUpdatedFilesPosition.Items);
   ParseLineToList(rsOptFileSizeFloat + ';' + rsLegacyOperationByteSuffixLetter + ';' + rsLegacyDisplaySizeSingleLetterKilo + ';' + rsLegacyDisplaySizeSingleLetterMega + ';' + rsLegacyDisplaySizeSingleLetterGiga + ';' + rsLegacyDisplaySizeSingleLetterTera + ';' + rsOptPersonalizedFileSizeFormat, cbFileSizeFormat.Items);
-  cbHeaderFooterSizeFormat.Items.Assign(cbFileSizeFormat.Items);
+  cbHeaderSizeFormat.Items.Assign(cbFileSizeFormat.Items);
+  cbFooterSizeFormat.Items.Assign(cbFileSizeFormat.Items);
   cbOperationSizeFormat.Items.Assign(cbFileSizeFormat.Items);
 end;
 
@@ -176,10 +182,12 @@ begin
     ufpSortedPosition: cbUpdatedFilesPosition.ItemIndex := 2;
   end;
   cbFileSizeFormat.ItemIndex := Ord(gFileSizeFormat);
-  cbHeaderFooterSizeFormat.ItemIndex := Ord(gHeaderFooterSizeFormat);
+  cbHeaderSizeFormat.ItemIndex := Ord(gHeaderSizeFormat);
+  cbFooterSizeFormat.ItemIndex := Ord(gFooterSizeFormat);
   cbOperationSizeFormat.ItemIndex := Ord(gOperationSizeFormat);
   speNumberOfDigitsFile.Value := gFileSizeDigits;
-  speNumberOfDigitsHeaderFooter.Value := gHeaderFooterDigits;
+  speNumberOfDigitsHeader.Value := gHeaderDigits;
+  speNumberOfDigitsFooter.Value := gFooterDigits;
   speNumberOfDigitsOperation.Value := gOperationSizeDigits;
   edByte.Text := Trim(gSizeDisplayUnits[fsfPersonalizedByte]);
   edKilo.Text := Trim(gSizeDisplayUnits[fsfPersonalizedKilo]);
@@ -190,7 +198,8 @@ begin
   lblDateTimeExample.Caption := FormatDateTime(cbDateTimeFormat.Text, Now);
 
   lblFileSizeExample.Constraints.MinWidth := lblFileSizeExample.Canvas.TextWidth(CnvFormatFileSize(cFileSizeExample, fsfKilo, speNumberOfDigitsFile.MaxValue) + 'WWW');
-  lblHeaderFooterSizeExample.Constraints.MinWidth := lblHeaderFooterSizeExample.Canvas.TextWidth(CnvFormatFileSize(cFileSizeExample, fsfKilo, speNumberOfDigitsHeaderFooter.MaxValue) + 'WWW');
+  lblHeaderSizeExample.Constraints.MinWidth := lblHeaderSizeExample.Canvas.TextWidth(CnvFormatFileSize(cFileSizeExample, fsfKilo, speNumberOfDigitsHeader.MaxValue) + 'WWW');
+  lblFooterSizeExample.Constraints.MinWidth := lblFooterSizeExample.Canvas.TextWidth(CnvFormatFileSize(cFileSizeExample, fsfKilo, speNumberOfDigitsFooter.MaxValue) + 'WWW');
   lblOperationSizeExample.Constraints.MinWidth := lblOperationSizeExample.Canvas.TextWidth(CnvFormatFileSize(cFileSizeExample, fsfKilo, speNumberOfDigitsOperation.MaxValue) + 'WWW');
 
   Self.RefreshOurExamples(nil);
@@ -222,10 +231,12 @@ begin
     2: gUpdatedFilesPosition := ufpSortedPosition;
   end;
   gFileSizeFormat := TFileSizeFormat(cbFileSizeFormat.ItemIndex);
-  gHeaderFooterSizeFormat := TFileSizeFormat(cbHeaderFooterSizeFormat.ItemIndex);
+  gHeaderSizeFormat := TFileSizeFormat(cbHeaderSizeFormat.ItemIndex);
+  gFooterSizeFormat := TFileSizeFormat(cbFooterSizeFormat.ItemIndex);
   gOperationSizeFormat := TFileSizeFormat(cbOperationSizeFormat.ItemIndex);
   gFileSizeDigits := speNumberOfDigitsFile.Value;
-  gHeaderFooterDigits := speNumberOfDigitsHeaderFooter.Value;
+  gHeaderDigits := speNumberOfDigitsHeader.Value;
+  gFooterDigits := speNumberOfDigitsFooter.Value;
   gOperationSizeDigits := speNumberOfDigitsOperation.Value;
   TransferUnitsToOfficialUnits;
   gDateTimeFormat := GetValidDateTimeFormat(cbDateTimeFormat.Text, gDateTimeFormat);

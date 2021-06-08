@@ -588,12 +588,12 @@ begin
          GetDiskFreeSpace(Drive^.Path, FreeSize, TotalSize) then
       begin
         Cells[4, RowNr] :=
-          Format('%s/%s', [cnvFormatFileSize(FreeSize, uoscHeaderFooter),
-                           cnvFormatFileSize(TotalSize, uoscHeaderFooter)])
+          Format('%s/%s', [cnvFormatFileSize(FreeSize, uoscHeader),
+                           cnvFormatFileSize(TotalSize, uoscHeader)])
       end
       else if (Drive^.DriveSize > 0) then
       begin
-        Cells[4, RowNr] := cnvFormatFileSize(Drive^.DriveSize, uoscHeaderFooter);
+        Cells[4, RowNr] := cnvFormatFileSize(Drive^.DriveSize, uoscHeader);
       end
     end; // for
 end;

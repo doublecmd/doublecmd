@@ -238,8 +238,8 @@ begin
       UpdateFlatFileName
     else
       lblInfo.Caption := Format(rsMsgSelectedInfo,
-                                [cnvFormatFileSize(SizeSelected, uoscHeaderFooter),
-                                 cnvFormatFileSize(SizeInDir, uoscHeaderFooter),
+                                [cnvFormatFileSize(SizeSelected, uoscFooter),
+                                 cnvFormatFileSize(SizeInDir, uoscFooter),
                                  FilesSelected,
                                  FilesInDir,
                                  FolderSelected,

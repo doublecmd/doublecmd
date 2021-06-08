@@ -204,8 +204,9 @@ const
   // 9   - few new options regarding tabs
   // 10  - changed Icons/CustomDriveIcons to Icons/CustomIcons
   // 11  - During the last 2-3 years the default font for search result was set in file, not loaded and different visually than was was stored.
+  // 12  - Split Behaviours/HeaderFooterSizeFormat to Behaviours/HeaderSizeFormat and Behaviours/FooterSizeFormat
   //       Loading a config prior of version 11 should ignore that setting and keep default.
-  ConfigVersion = 11;
+  ConfigVersion = 12;
 
   // Configuration related filenames
   sMULTIARC_FILENAME = 'multiarc.ini';
@@ -358,10 +359,12 @@ var
   gAlwaysShowTrayIcon: Boolean;
   gMinimizeToTray: Boolean;
   gFileSizeFormat: TFileSizeFormat;
-  gHeaderFooterSizeFormat: TFileSizeFormat;
+  gHeaderSizeFormat: TFileSizeFormat;
+  gFooterSizeFormat: TFileSizeFormat;
   gOperationSizeFormat: TFileSizeFormat;
   gFileSizeDigits: Integer;
-  gHeaderFooterDigits: Integer;
+  gHeaderDigits: Integer;
+  gFooterDigits: Integer;
   gOperationSizeDigits: Integer;
   gSizeDisplayUnits: array[LOW(TFileSizeFormat) .. HIGH(TFileSizeFormat)] of string;
   gDateTimeFormat : String;
@@ -1571,10 +1574,12 @@ begin
   gNewFilesPosition := nfpSortedPosition;
   gUpdatedFilesPosition := ufpNoChange;
   gFileSizeFormat := fsfFloat;
-  gHeaderFooterSizeFormat := fsfFloat;
+  gHeaderSizeFormat := fsfFloat;
+  gFooterSizeFormat := fsfFloat;
   gOperationSizeFormat := fsfFloat;
   gFileSizeDigits := 1;
-  gHeaderFooterDigits := 1;
+  gHeaderDigits := 1;
+  gFooterDigits := 1;
   gOperationSizeDigits := 1;
   //NOTES: We're intentionnaly not setting our default memory immediately because language file has not been loaded yet.
   //       We'll set them *after* after language has been loaded since we'll know the correct default to use.
@@ -2547,10 +2552,21 @@ begin
       begin
         gFileSizeFormat := TFileSizeFormat(GetValue(Node, 'FileSizeFormat', Ord(gFileSizeFormat)));
       end;
-      gHeaderFooterSizeFormat := TFileSizeFormat(GetValue(Node,'HeaderFooterSizeFormat', ord(gHeaderFooterSizeFormat)));
+      if LoadedConfigVersion < 12 then
+      begin
+        gHeaderDigits := GetValue(Node, 'HeaderFooterDigits', gHeaderDigits);
+        gFooterDigits := GetValue(Node, 'HeaderFooterDigits', gFooterDigits);
+        gHeaderSizeFormat := TFileSizeFormat(GetValue(Node,'HeaderFooterSizeFormat', ord(gHeaderSizeFormat)));
+        gFooterSizeFormat := TFileSizeFormat(GetValue(Node,'HeaderFooterSizeFormat', ord(gFooterSizeFormat)));
+      end
+      else begin
+        gHeaderDigits := GetValue(Node, 'HeaderDigits', gHeaderDigits);
+        gFooterDigits := GetValue(Node, 'FooterDigits', gFooterDigits);
+        gHeaderSizeFormat := TFileSizeFormat(GetValue(Node,'HeaderSizeFormat', ord(gHeaderSizeFormat)));
+        gFooterSizeFormat := TFileSizeFormat(GetValue(Node,'FooterSizeFormat', ord(gFooterSizeFormat)));
+      end;
       gOperationSizeFormat := TFileSizeFormat(GetValue(Node, 'OperationSizeFormat', Ord(gOperationSizeFormat)));
       gFileSizeDigits := GetValue(Node, 'FileSizeDigits', gFileSizeDigits);
-      gHeaderFooterDigits := GetValue(Node, 'HeaderFooterDigits', gHeaderFooterDigits);
       gOperationSizeDigits := GetValue(Node, 'OperationSizeDigits', gOperationSizeDigits);
       gSizeDisplayUnits[fsfPersonalizedByte] := Trim(GetValue(Node, 'PersonalizedByte', gSizeDisplayUnits[fsfPersonalizedByte]));
       if gSizeDisplayUnits[fsfPersonalizedByte]<>'' then gSizeDisplayUnits[fsfPersonalizedByte] := ' ' + gSizeDisplayUnits[fsfPersonalizedByte];
@@ -3272,9 +3288,11 @@ begin
     SetValue(Node, 'LynxLike', gLynxLike);
     SetValue(Node, 'FileSizeFormat', Ord(gFileSizeFormat));
     SetValue(Node, 'OperationSizeFormat', Ord(gOperationSizeFormat));
-    SetValue(Node, 'HeaderFooterSizeFormat', Ord(gHeaderFooterSizeFormat));
+    SetValue(Node, 'HeaderSizeFormat', Ord(gHeaderSizeFormat));
+    SetValue(Node, 'FooterSizeFormat', Ord(gFooterSizeFormat));
     SetValue(Node, 'FileSizeDigits', gFileSizeDigits);
-    SetValue(Node, 'HeaderFooterDigits', gHeaderFooterDigits);
+    SetValue(Node, 'HeaderDigits', gHeaderDigits);
+    SetValue(Node, 'FooterDigits', gFooterDigits);
     SetValue(Node, 'OperationSizeDigits', gOperationSizeDigits);
     SetValue(Node, 'PersonalizedByte', Trim(gSizeDisplayUnits[fsfPersonalizedByte]));
     SetValue(Node, 'PersonalizedKilo', Trim(gSizeDisplayUnits[fsfPersonalizedKilo]));
