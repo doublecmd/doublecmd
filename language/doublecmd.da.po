@@ -6586,6 +6586,10 @@ msgstr "&Dato- og tidsformat:"
 msgid "File si&ze format:"
 msgstr "Vis &filstørrelse i:"
 
+#: tfrmoptionsfilesviews.lblfootersizeformat.caption
+msgid "&Footer format:"
+msgstr ""
+
 # Opsætning  - Indstillinger - Visning
 #: tfrmoptionsfilesviews.lblgigabyte.caption
 #, fuzzy
@@ -6593,10 +6597,9 @@ msgstr "Vis &filstørrelse i:"
 msgid "&Gigabyte:"
 msgstr "&Gigabyte: "
 
-# Opsætning  - Indstillinger - Visning
-#: tfrmoptionsfilesviews.lblheaderfootersizeformat.caption
-msgid "&Header/footer format:"
-msgstr "Format af sidehoved/sidefod: "
+#: tfrmoptionsfilesviews.lblheadersizeformat.caption
+msgid "&Header format:"
+msgstr ""
 
 # Opsætning  - Indstillinger - Visning
 #: tfrmoptionsfilesviews.lblkilobyte.caption

@@ -6139,13 +6139,17 @@ msgstr "Μορφοποίηση Ημερομηνίας και Χρονιάς:"
 msgid "File si&ze format:"
 msgstr "Μορφή μεγέθους Αρχείου:"
 
+#: tfrmoptionsfilesviews.lblfootersizeformat.caption
+msgid "&Footer format:"
+msgstr ""
+
 #: tfrmoptionsfilesviews.lblgigabyte.caption
 msgid "&Gigabyte:"
 msgstr "Gigabyte:"
 
-#: tfrmoptionsfilesviews.lblheaderfootersizeformat.caption
-msgid "&Header/footer format:"
-msgstr "Είδος αρχείου Επικεφαλίδας/υποσέλιδου:"
+#: tfrmoptionsfilesviews.lblheadersizeformat.caption
+msgid "&Header format:"
+msgstr ""
 
 #: tfrmoptionsfilesviews.lblkilobyte.caption
 msgid "&Kilobyte:"
