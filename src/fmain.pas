@@ -699,6 +699,7 @@ type
     FDropParams: TDropParams;
     FDrivesListPopup: TDrivesListPopup;
     FOperationsPanel: TOperationsPanel;
+    FSyncChangeParent: Boolean;
     FSyncChangeDir: String;
 
     // frost_asm begin
@@ -4286,10 +4287,11 @@ end;
 
 function TfrmMain.FileViewBeforeChangePath(FileView: TFileView; NewFileSource: IFileSource; const NewPath: String): Boolean;
 var
+  i: Integer;
+  AFileSource: IFileSource;
   ANoteBook: TFileViewNotebook;
   Page, NewPage: TFileViewPage;
   PageAlreadyExists: Boolean = False;
-  i: Integer;
   tlsLockStateToEvaluate: TTabLockState;
 begin
   Result:= True;
@@ -4346,7 +4348,20 @@ begin
         begin
           actSyncChangeDir.Checked:= False;
           Exit(False);
-        end;
+        end
+        else if not FSyncChangeParent then
+        begin
+          if Assigned(NewFileSource) then
+            AFileSource:= NewFileSource
+          else begin
+            AFileSource:= FileView.FileSource;
+          end;
+          if not AFileSource.FileSystemEntryExists(ExcludeTrailingBackslash(NewPath)) then
+          begin
+            actSyncChangeDir.Checked:= False;
+            Exit(False);
+          end;
+        end
       end;
     end;
   end;
@@ -4389,6 +4404,7 @@ begin
             // Go to child directory
             if Length(S) > Length(FSyncChangeDir) then
             begin
+              FSyncChangeParent:= False;
               if ExtractFileDir(S) = FSyncChangeDir then
                 NotActiveFrame.CurrentPath:= NotActiveFrame.CurrentPath + ExtractFileName(S)
               else
@@ -4396,6 +4412,7 @@ begin
             end
             // Go to parent directory
             else begin
+              FSyncChangeParent:= True;
               if S = ExtractFileDir(FSyncChangeDir) then
                 NotActiveFrame.ChangePathToParent(True)
               else
