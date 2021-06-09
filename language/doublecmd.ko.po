@@ -2777,6 +2777,14 @@ msgctxt "TFRMMAIN.ACTSYMLINK.CAPTION"
 msgid "Create Symbolic &Link..."
 msgstr "바로 가기 생성(&L)..."
 
+#: tfrmmain.actsyncchangedir.caption
+msgid "Synchronous navigation"
+msgstr ""
+
+#: tfrmmain.actsyncchangedir.hint
+msgid "Synchronous directory changing in both panels"
+msgstr ""
+
 #: tfrmmain.actsyncdirs.caption
 msgid "Syn&chronize dirs..."
 msgstr "폴더 동기화..."

@@ -2695,6 +2695,14 @@ msgstr "Povoliť/zakázať zoznam súborov, ktoré sa nemajú zobrazovať"
 msgid "Create Symbolic &Link..."
 msgstr "Vytvoriť Symbolický odkaz..."
 
+#: tfrmmain.actsyncchangedir.caption
+msgid "Synchronous navigation"
+msgstr ""
+
+#: tfrmmain.actsyncchangedir.hint
+msgid "Synchronous directory changing in both panels"
+msgstr ""
+
 #: tfrmmain.actsyncdirs.caption
 msgid "Syn&chronize dirs..."
 msgstr "Syn&chronizovať priečinky..."

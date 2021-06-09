@@ -2697,6 +2697,14 @@ msgstr "Povolit/zakázat použití seznamu ignorovaných souborů a složek"
 msgid "Create Symbolic &Link..."
 msgstr "Vytvořit symlink..."
 
+#: tfrmmain.actsyncchangedir.caption
+msgid "Synchronous navigation"
+msgstr ""
+
+#: tfrmmain.actsyncchangedir.hint
+msgid "Synchronous directory changing in both panels"
+msgstr ""
+
 #: tfrmmain.actsyncdirs.caption
 msgid "Syn&chronize dirs..."
 msgstr "Synchronizovat složky..."

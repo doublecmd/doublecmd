@@ -2686,6 +2686,14 @@ msgstr "Włącz/Wyłącz plik listy ignorowanych, aby nie pokazywać nazw plikó
 msgid "Create Symbolic &Link..."
 msgstr "Utwórz link &symboliczny..."
 
+#: tfrmmain.actsyncchangedir.caption
+msgid "Synchronous navigation"
+msgstr ""
+
+#: tfrmmain.actsyncchangedir.hint
+msgid "Synchronous directory changing in both panels"
+msgstr ""
+
 #: tfrmmain.actsyncdirs.caption
 msgid "Syn&chronize dirs..."
 msgstr "Syn&chronizuj katalogi..."

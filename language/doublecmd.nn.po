@@ -2770,6 +2770,14 @@ msgctxt "TFRMMAIN.ACTSYMLINK.CAPTION"
 msgid "Create Symbolic &Link..."
 msgstr "&Opprett symbolsk link..."
 
+#: tfrmmain.actsyncchangedir.caption
+msgid "Synchronous navigation"
+msgstr ""
+
+#: tfrmmain.actsyncchangedir.hint
+msgid "Synchronous directory changing in both panels"
+msgstr ""
+
 #: tfrmmain.actsyncdirs.caption
 msgid "Syn&chronize dirs..."
 msgstr "&Synkronisér mapper..."

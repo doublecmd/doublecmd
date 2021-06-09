@@ -2890,6 +2890,14 @@ msgstr "Aktiver/deaktiver filliste for ikke at vist filnavne"
 msgid "Create Symbolic &Link..."
 msgstr "Dan symbolsk &link..."
 
+#: tfrmmain.actsyncchangedir.caption
+msgid "Synchronous navigation"
+msgstr ""
+
+#: tfrmmain.actsyncchangedir.hint
+msgid "Synchronous directory changing in both panels"
+msgstr ""
+
 # Kommandoer
 #: tfrmmain.actsyncdirs.caption
 msgid "Syn&chronize dirs..."

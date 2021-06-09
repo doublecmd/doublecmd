@@ -2698,6 +2698,14 @@ msgstr "Уключыць/выключыць функцыю выключэння 
 msgid "Create Symbolic &Link..."
 msgstr "Стварыць сімвалічную &спасылку..."
 
+#: tfrmmain.actsyncchangedir.caption
+msgid "Synchronous navigation"
+msgstr ""
+
+#: tfrmmain.actsyncchangedir.hint
+msgid "Synchronous directory changing in both panels"
+msgstr ""
+
 #: tfrmmain.actsyncdirs.caption
 msgid "Syn&chronize dirs..."
 msgstr "Сінхранізаваць каталогі..."

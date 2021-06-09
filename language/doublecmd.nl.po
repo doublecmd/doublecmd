@@ -2695,6 +2695,14 @@ msgstr "In-/uitschakelen negeer-lijstbestand (om geen bestandnamen te tonen)"
 msgid "Create Symbolic &Link..."
 msgstr "Maak symbolische koppeling..."
 
+#: tfrmmain.actsyncchangedir.caption
+msgid "Synchronous navigation"
+msgstr ""
+
+#: tfrmmain.actsyncchangedir.hint
+msgid "Synchronous directory changing in both panels"
+msgstr ""
+
 #: tfrmmain.actsyncdirs.caption
 msgid "Syn&chronize dirs..."
 msgstr "Synchroniseer mappen..."

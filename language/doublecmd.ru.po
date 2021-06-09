@@ -2747,6 +2747,14 @@ msgctxt "TFRMMAIN.ACTSYMLINK.CAPTION"
 msgid "Create Symbolic &Link..."
 msgstr "Создать символ&ьную ссылку..."
 
+#: tfrmmain.actsyncchangedir.caption
+msgid "Synchronous navigation"
+msgstr "Синхронная навигация"
+
+#: tfrmmain.actsyncchangedir.hint
+msgid "Synchronous directory changing in both panels"
+msgstr "Синхронная смена каталогов в панелях"
+
 #: tfrmmain.actsyncdirs.caption
 msgid "Syn&chronize dirs..."
 msgstr "&Синхронизировать каталоги..."

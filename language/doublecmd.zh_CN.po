@@ -2705,6 +2705,14 @@ msgstr "启用/禁用忽略列表文件以不显示文件名"
 msgid "Create Symbolic &Link..."
 msgstr "创建符号链接(&L)..."
 
+#: tfrmmain.actsyncchangedir.caption
+msgid "Synchronous navigation"
+msgstr ""
+
+#: tfrmmain.actsyncchangedir.hint
+msgid "Synchronous directory changing in both panels"
+msgstr ""
+
 #: tfrmmain.actsyncdirs.caption
 msgid "Syn&chronize dirs..."
 msgstr "同步文件夹(&C)..."
