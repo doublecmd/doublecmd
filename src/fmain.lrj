@@ -142,6 +142,8 @@
 {"hash":253252116,"name":"tfrmmain.actrightopendrives.caption","sourcebytes":[79,112,101,110,32,114,105,103,104,116,32,100,114,105,118,101,32,108,105,115,116],"value":"Open right drive list"},
 {"hash":104366453,"name":"tfrmmain.actfocuscmdline.caption","sourcebytes":[70,111,99,117,115,32,99,111,109,109,97,110,100,32,108,105,110,101],"value":"Focus command line"},
 {"hash":66134857,"name":"tfrmmain.actshowcmdlinehistory.caption","sourcebytes":[83,104,111,119,32,99,111,109,109,97,110,100,32,108,105,110,101,32,104,105,115,116,111,114,121],"value":"Show command line history"},
+{"hash":175182782,"name":"tfrmmain.actsyncchangedir.caption","sourcebytes":[83,121,110,99,104,114,111,110,111,117,115,32,110,97,118,105,103,97,116,105,111,110],"value":"Synchronous navigation"},
+{"hash":193097747,"name":"tfrmmain.actsyncchangedir.hint","sourcebytes":[83,121,110,99,104,114,111,110,111,117,115,32,100,105,114,101,99,116,111,114,121,32,99,104,97,110,103,105,110,103,32,105,110,32,98,111,116,104,32,112,97,110,101,108,115],"value":"Synchronous directory changing in both panels"},
 {"hash":109035716,"name":"tfrmmain.actchangedirtoparent.caption","sourcebytes":[67,104,97,110,103,101,32,68,105,114,101,99,116,111,114,121,32,84,111,32,80,97,114,101,110,116],"value":"Change Directory To Parent"},
 {"hash":74842917,"name":"tfrmmain.actchangedirtohome.caption","sourcebytes":[67,104,97,110,103,101,32,100,105,114,101,99,116,111,114,121,32,116,111,32,104,111,109,101],"value":"Change directory to home"},
 {"hash":74752884,"name":"tfrmmain.actchangedirtoroot.caption","sourcebytes":[67,104,97,110,103,101,32,100,105,114,101,99,116,111,114,121,32,116,111,32,114,111,111,116],"value":"Change directory to root"},

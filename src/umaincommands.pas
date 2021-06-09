@@ -319,6 +319,7 @@ type
    procedure cm_CopyToClipboard(const Params: array of string);
    procedure cm_CutToClipboard(const Params: array of string);
    procedure cm_PasteFromClipboard(const Params: array of string);
+   procedure cm_SyncChangeDir(const Params: array of string);
    procedure cm_ChangeDirToRoot(const Params: array of string);
    procedure cm_ChangeDirToHome(const Params: array of string);
    procedure cm_ChangeDirToParent(const Params: array of string);
@@ -4278,6 +4279,16 @@ begin
       if Assigned(Files) then
         FreeAndNil(Files);
     end;
+  end;
+end;
+
+procedure TMainCommands.cm_SyncChangeDir(const Params: array of string);
+begin
+  with frmMain do
+  begin
+    actSyncChangeDir.Checked:= not actSyncChangeDir.Checked;
+    if actSyncChangeDir.Checked then
+      SyncChangeDir:= ExcludeTrailingBackslash(ActiveFrame.CurrentPath);
   end;
 end;
 

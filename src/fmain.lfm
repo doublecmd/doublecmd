@@ -2159,6 +2159,13 @@ object frmMain: TfrmMain
       HelpType = htKeyword
       OnExecute = actExecute
     end
+    object actSyncChangeDir: TAction
+      Tag = 14
+      Category = 'Navigation'
+      Caption = 'Synchronous navigation'
+      Hint = 'Synchronous directory changing in both panels'
+      OnExecute = actExecute
+    end
     object actChangeDirToParent: TAction
       Tag = 14
       Category = 'Navigation'

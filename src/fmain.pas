@@ -73,6 +73,7 @@ type
     actCopyFullNamesToClip: TAction;
     actCutToClipboard: TAction;
     actCopyToClipboard: TAction;
+    actSyncChangeDir: TAction;
     actChangeDirToRoot: TAction;
     actCountDirContent: TAction;
     actCheckSumVerify: TAction;
@@ -698,6 +699,7 @@ type
     FDropParams: TDropParams;
     FDrivesListPopup: TDrivesListPopup;
     FOperationsPanel: TOperationsPanel;
+    FSyncChangeDir: String;
 
     // frost_asm begin
     // mainsplitter
@@ -885,6 +887,7 @@ type
 
 
     property Drives: TDrivesList read DrivesList;
+    property SyncChangeDir: String write FSyncChangeDir;
     property Commands: TMainCommands read FCommands implements IFormCommands;
     property SelectedPanel: TFilePanelSelect read PanelSelected write SetPanelSelected;
     property LeftTabs: TFileViewNotebook read nbLeft;
@@ -4333,11 +4336,25 @@ begin
           end;
         end;
     end;
+
+    if actSyncChangeDir.Checked and (FileView = NotActiveFrame) then
+    begin
+      if not Result then
+        actSyncChangeDir.Checked:= False
+      else begin
+        if Assigned(NewFileSource) and not NewFileSource.SetCurrentWorkingDirectory(NewPath) then
+        begin
+          actSyncChangeDir.Checked:= False;
+          Exit(False);
+        end;
+      end;
+    end;
   end;
 end;
 
 procedure TfrmMain.FileViewAfterChangePath(FileView: TFileView);
 var
+  S: String;
   Index: Integer;
   Page: TFileViewPage;
   ANoteBook : TFileViewNotebook;
@@ -4364,6 +4381,31 @@ begin
               glsDirHistory.Move(Index, 0);
             end;
             UpdateTreeViewPath;
+          end;
+
+          if actSyncChangeDir.Checked and (FileView = ActiveFrame) then
+          begin
+            S:= ExcludeTrailingBackslash(FileView.CurrentPath);
+            // Go to child directory
+            if Length(S) > Length(FSyncChangeDir) then
+            begin
+              if ExtractFileDir(S) = FSyncChangeDir then
+                NotActiveFrame.CurrentPath:= NotActiveFrame.CurrentPath + ExtractFileName(S)
+              else
+                actSyncChangeDir.Checked:= False;
+            end
+            // Go to parent directory
+            else begin
+              if S = ExtractFileDir(FSyncChangeDir) then
+                NotActiveFrame.ChangePathToParent(True)
+              else
+                actSyncChangeDir.Checked:= False;
+            end;
+            if actSyncChangeDir.Checked then
+              FSyncChangeDir:= S
+            else begin
+              FSyncChangeDir:= EmptyStr;
+            end;
           end;
 
           UpdateSelectedDrive(ANoteBook);
