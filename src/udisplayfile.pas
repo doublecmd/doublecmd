@@ -27,6 +27,7 @@ type
     // Other properties.
     FTag: PtrInt;            //<en File view related info
     FSelected: Boolean;      //<en If is selected
+    FBusy: Boolean;          //<en File properties is busy
     FIconID: PtrInt;         //<en Icon ID for PixmapManager
     FIconOverlayID: PtrInt;  //<en Overlay icon ID for PixmapManager
     FTextColor: TColor;      //<en Text color in file list
@@ -73,6 +74,7 @@ type
     property TextColor: TColor read FTextColor write FTextColor;
     property DisplayStrings: TStringList read FDisplayStrings;
     property RecentlyUpdatedPct: Integer read FRecentlyUpdatedPct write FRecentlyUpdatedPct;
+    property Busy: Boolean read FBusy write FBusy;
     property Tag: PtrInt read FTag write FTag;
 
   end;

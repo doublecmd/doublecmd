@@ -99,6 +99,8 @@ type
     }
     function SetActiveFileNow(aFilePath: String; ScrollTo: Boolean = True; aLastTopRowIndex: PtrInt = -1): Boolean;
 
+    procedure PropertiesRetrieverOnAbort(AStart: Integer; AList: TFPList);
+
   public
     procedure CloneTo(AFileView: TFileView); override;
     procedure SetActiveFile(aFilePath: String); override; overload;
@@ -464,7 +466,7 @@ begin
       for i := VisibleFiles.First to VisibleFiles.Last do
       begin
         AFile := FFiles[i];
-        if (AFile.FSFile.Name <> '..') and
+        if (AFile.FSFile.Name <> '..') and (not AFile.Busy) and
            (FileSource.CanRetrieveProperties(AFile.FSFile, AFilePropertiesNeeded) or
            (AFile.TextColor = clNone) or
            (HaveIcons and ((AFile.IconID < 0)
@@ -476,6 +478,7 @@ begin
           if not Assigned(AFileList) then
             AFileList := TFVWorkerFileList.Create;
           AFileList.AddClone(AFile, AFile);
+          AFile.Busy := True;
         end;
       end;
 
@@ -487,6 +490,7 @@ begin
           AFilePropertiesNeeded,
           GetVariantFileProperties,
           @PropertiesRetrieverOnUpdate,
+          @PropertiesRetrieverOnAbort,
           AFileList);
 
         AddWorker(Worker, False);
@@ -896,6 +900,18 @@ begin
     end;
   end;
   Result := False;
+end;
+
+procedure TOrderedFileView.PropertiesRetrieverOnAbort(AStart: Integer; AList: TFPList);
+var
+  ADisplayFile: TDisplayFile;
+begin
+  while AStart < AList.Count do
+  begin
+    ADisplayFile := TDisplayFile(AList[AStart]);
+    if IsReferenceValid(ADisplayFile) then ADisplayFile.Busy:= False;
+    Inc(AStart);
+  end;
 end;
 
 procedure TOrderedFileView.SetLastActiveFile(FileIndex, TopRowIndex: PtrInt);
