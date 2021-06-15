@@ -115,6 +115,10 @@ type
     {$IF DEFINED(MSWINDOWS)}
     FSysImgList : THandle;
     FiSysDirIconID : PtrInt;
+    FiEmblemPinned: PtrInt;
+    FiEmblemOnline: PtrInt;
+    FiEmblemOffline: PtrInt;
+    FOneDrivePath: String;
     {$ELSEIF DEFINED(DARWIN)}
     FUseSystemTheme: Boolean;
     {$ELSEIF DEFINED(UNIX)}
@@ -346,7 +350,7 @@ uses
   {$ENDIF}
   {$IFDEF MSWINDOWS}
     , CommCtrl, ShellAPI, Windows, DCFileAttributes, uBitmap, uGdiPlus,
-      IntfGraphics, uShlObjAdditional
+      IntfGraphics, uShlObjAdditional, uShellFolder
   {$ELSE}
     , StrUtils, Types, DCBasicTypes
   {$ENDIF}
@@ -1480,6 +1484,13 @@ begin
   FiDefaultIconID:=CheckAddThemePixmap('unknown');
   {$IF DEFINED(MSWINDOWS)}
   FiSysDirIconID := GetSystemFolderIcon;
+  if (Win32MajorVersion >= 10) then
+  begin
+    FiEmblemPinned:= CheckAddThemePixmap('emblem-cloud-pinned', I);
+    FiEmblemOnline:= CheckAddThemePixmap('emblem-cloud-online', I);
+    FiEmblemOffline:= CheckAddThemePixmap('emblem-cloud-offline', I);
+    GetKnownFolderPath(FOLDERID_SkyDrive, FOneDrivePath);
+  end;
   {$ENDIF}
   {$IF DEFINED(MSWINDOWS) or DEFINED(DARWIN)}
   FiDirIconID := -1;
@@ -1787,13 +1798,20 @@ begin
     end
   {$IF DEFINED(MSWINDOWS) OR DEFINED(RabbitVCS)}
   else
-    // Windows XP doesn't draw link overlay icon for soft links (don't know about Vista or 7).
     if DirectAccess then
     begin
       if AFile.IconOverlayID >= SystemIconIndexStart then
         Result:= DrawBitmap(AFile.IconOverlayID
                             {$IFDEF RabbitVCS} - SystemIconIndexStart {$ENDIF},
-                            Canvas, X, Y);
+                            Canvas, X, Y)
+      {$IF DEFINED(MSWINDOWS)}
+      // Special case for OneDrive
+      else if AFile.IconOverlayID > 0 then
+      begin
+        I:= gIconsSize div 2;
+        Result:= DrawBitmap(AFile.IconOverlayID, Canvas, X, Y + I, I, I);
+      end;
+      {$ENDIF}
     end;
   {$ENDIF}
     ;
@@ -2064,10 +2082,33 @@ end;
 {$IF DEFINED(MSWINDOWS)}
 function TPixMapManager.GetIconOverlayByFile(AFile: TFile; DirectAccess: Boolean): PtrInt;
 begin
-  if DirectAccess then
-    Result:= SHGetOverlayIconIndex(AFile.Path, AFile.Name) + SystemIconIndexStart
+  if not DirectAccess then Exit(-1);
+  Result:= SHGetOverlayIconIndex(AFile.Path, AFile.Name);
+  if Result >= 0 then begin
+    Result += SystemIconIndexStart;
+  end
+  // Special case for OneDrive
+  else if (Win32MajorVersion >= 10) then
+  begin
+    if AFile.Attributes and FILE_ATTRIBUTE_PINNED <> 0 then
+      Result:= FiEmblemPinned
+    else if AFile.Attributes and FILE_ATTRIBUTE_RECALL_ON_DATA_ACCESS <> 0 then
+      Result:= FiEmblemOnline
+    else if IsInPath(FOneDrivePath, AFile.Path, True, True) then
+    begin
+      Result:= SHGetStorePropertyValue(AFile.FullPath, PKEY_StorageProviderState);
+      case Result of
+        1:
+          Result:= FiEmblemOnline;
+        2:
+          Result:= FiEmblemOffline;
+        else
+          Result:= 0;
+      end;
+    end;
+  end
   else
-    Result:= -1;
+    Result:= 0;
 end;
 {$ELSEIF DEFINED(RabbitVCS)}
 function TPixMapManager.GetIconOverlayByFile(AFile: TFile; DirectAccess: Boolean): PtrInt;
