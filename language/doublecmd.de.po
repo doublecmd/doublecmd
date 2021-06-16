@@ -2725,11 +2725,11 @@ msgstr "Symlink erstellen ..."
 
 #: tfrmmain.actsyncchangedir.caption
 msgid "Synchronous navigation"
-msgstr ""
+msgstr "Synchrone Navigation"
 
 #: tfrmmain.actsyncchangedir.hint
 msgid "Synchronous directory changing in both panels"
-msgstr ""
+msgstr "Synchroner Verzeichniswechsel in beiden Dateifenstern"
 
 #: tfrmmain.actsyncdirs.caption
 msgid "Syn&chronize dirs..."
@@ -6127,7 +6127,7 @@ msgstr "Format der Dateigr&öße:"
 
 #: tfrmoptionsfilesviews.lblfootersizeformat.caption
 msgid "&Footer format:"
-msgstr ""
+msgstr "&Fußzeilenformat:"
 
 #: tfrmoptionsfilesviews.lblgigabyte.caption
 msgid "&Gigabyte:"
@@ -6135,7 +6135,7 @@ msgstr "Gigabyte:"
 
 #: tfrmoptionsfilesviews.lblheadersizeformat.caption
 msgid "&Header format:"
-msgstr ""
+msgstr "K&opfzeilenformat"
 
 #: tfrmoptionsfilesviews.lblkilobyte.caption
 msgid "&Kilobyte:"
@@ -13824,5 +13824,5 @@ msgstr "Eine Ersetzung hat nicht stattgefunden."
 
 #: umaincommands.rsfavoritetabs_setupnotexist
 msgid "No setup named \"%s\""
-msgstr ""
+msgstr "Einstellung \"%s\" nicht vorhanden"
 
