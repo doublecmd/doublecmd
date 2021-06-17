@@ -2088,20 +2088,21 @@ begin
     Result += SystemIconIndexStart;
   end
   // Special case for OneDrive
-  else if (Win32MajorVersion >= 10) then
+  else if (Win32MajorVersion >= 10) and IsInPath(FOneDrivePath, AFile.Path, True, True) then
   begin
     if AFile.Attributes and FILE_ATTRIBUTE_PINNED <> 0 then
       Result:= FiEmblemPinned
     else if AFile.Attributes and FILE_ATTRIBUTE_RECALL_ON_DATA_ACCESS <> 0 then
       Result:= FiEmblemOnline
-    else if IsInPath(FOneDrivePath, AFile.Path, True, True) then
-    begin
+    else begin
       Result:= SHGetStorePropertyValue(AFile.FullPath, PKEY_StorageProviderState);
       case Result of
         1:
           Result:= FiEmblemOnline;
         2:
           Result:= FiEmblemOffline;
+        3:
+          Result:= FiEmblemPinned;
         else
           Result:= 0;
       end;
