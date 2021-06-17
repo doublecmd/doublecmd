@@ -5763,6 +5763,9 @@ begin
   PanelSelected := AValue;
   UpdateTreeViewPath;
   UpdatePrompt;
+  if actSyncChangeDir.Checked then begin
+    FSyncChangeDir:= ExcludeTrailingBackslash(ActiveFrame.CurrentPath);
+  end;
 end;
 
 procedure TfrmMain.TypeInCommandLine(Str: String);
