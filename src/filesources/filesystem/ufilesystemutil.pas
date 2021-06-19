@@ -1079,6 +1079,7 @@ end;
 
 function TFileSystemOperationHelper.ProcessDirectory(aNode: TFileTreeNode; AbsoluteTargetFileName: String): Boolean;
 var
+  bRenameDirectory: Boolean;
   bRemoveDirectory: Boolean;
   NodeData: TFileTreeNodeData;
 begin
@@ -1099,11 +1100,35 @@ begin
         // Try moving whole directory tree. It can be done only if we don't have
         // to process each subnode: if there are no links, or they're not being
         // processed, if the files are not being renamed or excluded.
-        if (FMode = fsohmMove) and
-           (not FRenamingFiles) and
-           ((FCorrectSymlinks = False) or (NodeData.SubnodesHaveLinks = False)) and
-           (NodeData.SubnodesHaveExclusions = False) and
-           RenameFileUAC(aNode.TheFile.FullPath, AbsoluteTargetFileName) then
+        bRenameDirectory:= (FMode = fsohmMove) and (not FRenamingFiles) and
+                           ((FCorrectSymlinks = False) or (NodeData.SubnodesHaveLinks = False)) and
+                           (NodeData.SubnodesHaveExclusions = False);
+
+        if bRenameDirectory then
+        begin
+          bRenameDirectory:= RenameFileUAC(aNode.TheFile.FullPath, AbsoluteTargetFileName);
+
+          if not bRenameDirectory and (GetLastOSError = ERROR_NOT_SAME_DEVICE) then
+          begin
+            if (not NodeData.Recursive) then
+            begin
+              with TFileSystemTreeBuilder.Create(AskQuestion, CheckOperationState) do
+              try
+                // In move operation don't follow symlinks.
+                SymLinkOption := fsooslDontFollow;
+
+                BuildFromNode(aNode);
+                FStatistics.TotalFiles += FilesCount;
+                FStatistics.TotalBytes += FilesSize;
+              finally
+                Free;
+              end;
+              NodeData.Recursive:= True;
+            end;
+          end;
+        end;
+
+        if bRenameDirectory then
         begin
           // Success.
           CountStatistics(aNode);
@@ -2003,4 +2028,3 @@ begin
 end;
 
 end.
-
