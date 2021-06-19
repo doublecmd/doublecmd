@@ -88,6 +88,10 @@ msgstr "&Следване на връзките"
 msgid "&Reserve space"
 msgstr "Запазване на &място"
 
+#: tfilesystemcopymoveoperationoptionsui.chkcopyonwrite.caption
+msgid "Copy on write"
+msgstr ""
+
 #: tfilesystemcopymoveoperationoptionsui.chkverify.caption
 msgid "&Verify"
 msgstr ""

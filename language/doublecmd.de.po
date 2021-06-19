@@ -84,6 +84,10 @@ msgstr "Links folgen"
 msgid "&Reserve space"
 msgstr "Speicherplatz &reservieren"
 
+#: tfilesystemcopymoveoperationoptionsui.chkcopyonwrite.caption
+msgid "Copy on write"
+msgstr ""
+
 #: tfilesystemcopymoveoperationoptionsui.chkverify.caption
 msgid "&Verify"
 msgstr "Verifizieren"

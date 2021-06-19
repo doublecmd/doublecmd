@@ -83,6 +83,10 @@ msgstr "Nas&ledovať odkazy"
 msgid "&Reserve space"
 msgstr "Vyh&radený priestor"
 
+#: tfilesystemcopymoveoperationoptionsui.chkcopyonwrite.caption
+msgid "Copy on write"
+msgstr ""
+
 #: tfilesystemcopymoveoperationoptionsui.chkverify.caption
 msgid "&Verify"
 msgstr "Overiť"

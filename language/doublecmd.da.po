@@ -97,6 +97,10 @@ msgstr "Fø&lg links"
 msgid "&Reserve space"
 msgstr "&Reserver plads"
 
+#: tfilesystemcopymoveoperationoptionsui.chkcopyonwrite.caption
+msgid "Copy on write"
+msgstr ""
+
 # F5 - Indstillinger
 #: tfilesystemcopymoveoperationoptionsui.chkverify.caption
 msgid "&Verify"

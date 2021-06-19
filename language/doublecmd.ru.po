@@ -82,6 +82,10 @@ msgstr "С&ледовать ссылкам"
 msgid "&Reserve space"
 msgstr "Р&езервировать место"
 
+#: tfilesystemcopymoveoperationoptionsui.chkcopyonwrite.caption
+msgid "Copy on write"
+msgstr "Копирование при записи"
+
 #: tfilesystemcopymoveoperationoptionsui.chkverify.caption
 msgid "&Verify"
 msgstr "Проверить после &завершения"

@@ -85,6 +85,10 @@ msgstr "リンクを辿る(&l)"
 msgid "&Reserve space"
 msgstr "スペースを確保(&R)"
 
+#: tfilesystemcopymoveoperationoptionsui.chkcopyonwrite.caption
+msgid "Copy on write"
+msgstr ""
+
 #: tfilesystemcopymoveoperationoptionsui.chkverify.caption
 msgid "&Verify"
 msgstr "確認（&V）"

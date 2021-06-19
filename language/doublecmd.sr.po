@@ -91,6 +91,10 @@ msgstr "С&леди везе"
 msgid "&Reserve space"
 msgstr "&Чувај слободан простор"
 
+#: tfilesystemcopymoveoperationoptionsui.chkcopyonwrite.caption
+msgid "Copy on write"
+msgstr ""
+
 #: tfilesystemcopymoveoperationoptionsui.chkverify.caption
 msgid "&Verify"
 msgstr ""

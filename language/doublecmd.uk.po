@@ -87,6 +87,10 @@ msgstr "Перейти за поси&ланнями"
 msgid "&Reserve space"
 msgstr "Зарезервувати &місце"
 
+#: tfilesystemcopymoveoperationoptionsui.chkcopyonwrite.caption
+msgid "Copy on write"
+msgstr ""
+
 #: tfilesystemcopymoveoperationoptionsui.chkverify.caption
 msgid "&Verify"
 msgstr "Перевірити після &завершення"
