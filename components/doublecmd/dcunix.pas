@@ -114,6 +114,7 @@ function fpLocalTime(timer: PTime; tp: PTimeStruct): PTimeStruct;
 
 {$IF DEFINED(LINUX)}
 function fpFDataSync(fd: cint): cint;
+function fpCloneFile(src_fd, dst_fd: cint): Boolean;
 function fpFAllocate(fd: cint; mode: cint; offset, len: coff_t): cint;
 
 function mbFileGetXattr(const FileName: String): TStringArray;
@@ -136,6 +137,7 @@ type rlim_t = Int64;
 const
   {$IF DEFINED(LINUX)}
   _SC_OPEN_MAX  = 4;
+  FICLONE       = $40049409;
   RLIM_INFINITY = rlim_t(-1);
   {$ELSEIF DEFINED(BSD)}
   _SC_OPEN_MAX  = 5;
@@ -247,6 +249,13 @@ function fpFDataSync(fd: cint): cint;
 begin
   Result := fdatasync(fd);
   if Result = -1 then fpseterrno(fpgetCerrno);
+end;
+
+function fpCloneFile(src_fd, dst_fd: cint): Boolean;
+var
+  ASource: Pointer absolute src_fd;
+begin
+  Result:= (FpIOCtl(dst_fd, FICLONE, ASource) = 0);
 end;
 
 function fpFAllocate(fd: cint; mode: cint; offset, len: coff_t): cint;

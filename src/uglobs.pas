@@ -579,6 +579,7 @@ var
   {Copy/Move operation options}
   gOperationOptionSymLinks: TFileSourceOperationOptionSymLink;
   gOperationOptionCorrectLinks: Boolean;
+  gOperationOptionCopyOnWrite: TFileSourceOperationOptionGeneral;
   gOperationOptionFileExists: TFileSourceOperationOptionFileExists;
   gOperationOptionDirectoryExists: TFileSourceOperationOptionDirectoryExists;
   gOperationOptionSetPropertyError: TFileSourceOperationOptionSetPropertyError;
@@ -1830,6 +1831,7 @@ begin
   // Operations options
   gOperationOptionSymLinks := fsooslNone;
   gOperationOptionCorrectLinks := False;
+  gOperationOptionCopyOnWrite := fsoogNo;
   gOperationOptionFileExists := fsoofeNone;
   gOperationOptionDirectoryExists := fsoodeNone;
   gOperationOptionSetPropertyError := fsoospeNone;
@@ -2827,6 +2829,7 @@ begin
       begin
         gOperationOptionSymLinks := TFileSourceOperationOptionSymLink(GetValue(SubNode, 'Symlink', Integer(gOperationOptionSymLinks)));
         gOperationOptionCorrectLinks := GetValue(SubNode, 'CorrectLinks', gOperationOptionCorrectLinks);
+        gOperationOptionCopyOnWrite := TFileSourceOperationOptionGeneral(GetValue(SubNode, 'CopyOnWrite', Integer(gOperationOptionCopyOnWrite)));
         gOperationOptionFileExists := TFileSourceOperationOptionFileExists(GetValue(SubNode, 'FileExists', Integer(gOperationOptionFileExists)));
         gOperationOptionDirectoryExists := TFileSourceOperationOptionDirectoryExists(GetValue(SubNode, 'DirectoryExists', Integer(gOperationOptionDirectoryExists)));
         gOperationOptionSetPropertyError := TFileSourceOperationOptionSetPropertyError(GetValue(SubNode, 'SetPropertyError', Integer(gOperationOptionSetPropertyError)));
@@ -3504,6 +3507,7 @@ begin
     SubNode := FindNode(Node, 'Options', True);
     SetValue(SubNode, 'Symlink', Integer(gOperationOptionSymLinks));
     SetValue(SubNode, 'CorrectLinks', gOperationOptionCorrectLinks);
+    SetValue(SubNode, 'CopyOnWrite', Integer(gOperationOptionCopyOnWrite));
     SetValue(SubNode, 'FileExists', Integer(gOperationOptionFileExists));
     SetValue(SubNode, 'DirectoryExists', Integer(gOperationOptionDirectoryExists));
     SetValue(SubNode, 'SetPropertyError', Integer(gOperationOptionSetPropertyError));

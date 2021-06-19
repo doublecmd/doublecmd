@@ -26,6 +26,7 @@ type
     FOperationHelper: TFileSystemOperationHelper;
     FExcludeEmptyTemplateDirectories: Boolean;
     FSearchTemplate: TSearchTemplate;
+    FCopyOnWrite: TFileSourceOperationOptionGeneral;
     FSetPropertyError: TFileSourceOperationOptionSetPropertyError;
     FSourceFilesTree: TFileTree;  // source files including all files/dirs in subdirectories
     FStatistics: TFileSourceCopyOperationStatistics; // local copy of statistics
@@ -59,6 +60,7 @@ type
     property SkipAllBigFiles: Boolean read FSkipAllBigFiles write FSkipAllBigFiles;
     property AutoRenameItSelf: Boolean read FAutoRenameItSelf write FAutoRenameItSelf;
     property CorrectSymLinks: Boolean read FCorrectSymLinks write FCorrectSymLinks;
+    property CopyOnWrite: TFileSourceOperationOptionGeneral read FCopyOnWrite write FCopyOnWrite;
     property SetPropertyError: TFileSourceOperationOptionSetPropertyError read FSetPropertyError write FSetPropertyError;
     property ExcludeEmptyTemplateDirectories: Boolean read FExcludeEmptyTemplateDirectories write FExcludeEmptyTemplateDirectories;
     {en
@@ -116,6 +118,7 @@ begin
   inherited Create(aSourceFileSource, aTargetFileSource, theSourceFiles, aTargetPath);
 
   // Here we can read global settings if there are any
+  FCopyOnWrite := gOperationOptionCopyOnWrite;
   FFileExistsOption := gOperationOptionFileExists;
   FDirExistsOption := gOperationOptionDirectoryExists;
 
@@ -182,6 +185,7 @@ begin
 
   FOperationHelper.Verify := FVerify;
   FOperationHelper.RenameMask := RenameMask;
+  FOperationHelper.CopyOnWrite := FCopyOnWrite;
   FOperationHelper.ReserveSpace :=  FReserveSpace;
   FOperationHelper.CheckFreeSpace := CheckFreeSpace;
   FOperationHelper.CopyAttributesOptions := CopyAttributesOptions;

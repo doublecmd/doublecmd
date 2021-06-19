@@ -27,6 +27,7 @@ type
     cbExcludeEmptyDirectories: TCheckBox;
     cbReserveSpace: TCheckBox;
     cbCopyPermissions: TCheckBox;
+    chkCopyOnWrite: TCheckBox;
     chkVerify: TCheckBox;
     cmbDirectoryExists: TComboBoxAutoWidth;
     cmbFileExists: TComboBoxAutoWidth;
@@ -120,6 +121,10 @@ begin
   cbCopyPermissions.Visible := True;
   {$ENDIF}
 
+  {$IFNDEF LINUX}
+  chkCopyOnWrite.Visible := False;
+  {$ENDIF}
+
   if Assigned(FileCopyEx) then
   begin
     cbCopyTime.Visible:= False;
@@ -149,6 +154,12 @@ begin
     fsoospeNone         : cmbSetPropertyError.ItemIndex := 0;
     fsoospeDontSet      : cmbSetPropertyError.ItemIndex := 1;
     fsoospeIgnoreErrors : cmbSetPropertyError.ItemIndex := 2;
+  end;
+
+  case gOperationOptionCopyOnWrite of
+    fsoogNone : chkCopyOnWrite.State:= cbGrayed;
+    fsoogYes  : chkCopyOnWrite.State:= cbChecked;
+    fsoogNo   : chkCopyOnWrite.State:= cbUnchecked;
   end;
 
   cbCopyAttributes.Checked   := gOperationOptionCopyAttributes;
@@ -193,6 +204,11 @@ begin
     0: gOperationOptionSetPropertyError := fsoospeNone;
     1: gOperationOptionSetPropertyError := fsoospeDontSet;
     2: gOperationOptionSetPropertyError := fsoospeIgnoreErrors;
+  end;
+  case chkCopyOnWrite.State of
+    cbGrayed    : gOperationOptionCopyOnWrite := fsoogNone;
+    cbChecked   : gOperationOptionCopyOnWrite := fsoogYes;
+    cbUnchecked : gOperationOptionCopyOnWrite := fsoogNo;
   end;
 
   gOperationOptionVerify          :=  chkVerify.Checked;
@@ -247,6 +263,11 @@ begin
       cbChecked  : SymLinkOption := fsooslFollow;
       cbUnchecked: SymLinkOption := fsooslDontFollow;
       cbGrayed   : SymLinkOption := fsooslNone;
+    end;
+    case chkCopyOnWrite.State of
+      cbGrayed    : CopyOnWrite := fsoogNone;
+      cbChecked   : CopyOnWrite := fsoogYes;
+      cbUnchecked : CopyOnWrite := fsoogNo;
     end;
     Options := CopyAttributesOptions;
     SetCopyOption(Options, caoCopyAttributes, cbCopyAttributes.Checked);

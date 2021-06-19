@@ -84,6 +84,7 @@ type
     FCorrectSymLinks: Boolean;
     FCopyAttributesOptions: TCopyAttributesOptions;
     FMaxPathOption: TFileSourceOperationUIResponse;
+    FCopyOnWrite: TFileSourceOperationOptionGeneral;
     FDeleteFileOption: TFileSourceOperationUIResponse;
     FFileExistsOption: TFileSourceOperationOptionFileExists;
     FDirExistsOption: TFileSourceOperationOptionDirectoryExists;
@@ -146,6 +147,7 @@ type
     procedure ProcessTree(aFileTree: TFileTree);
 
     property Verify: Boolean read FVerify write FVerify;
+    property CopyOnWrite: TFileSourceOperationOptionGeneral read FCopyOnWrite write FCopyOnWrite;
     property FileExistsOption: TFileSourceOperationOptionFileExists read FFileExistsOption write FFileExistsOption;
     property DirExistsOption: TFileSourceOperationOptionDirectoryExists read FDirExistsOption write FDirExistsOption;
     property CheckFreeSpace: Boolean read FCheckFreeSpace write FCheckFreeSpace;
@@ -165,7 +167,7 @@ uses
   DCBasicTypes, uFileSource, uFileSystemFileSource, uFileProperty, uAdministrator,
   StrUtils, DCDateTimeUtils, uShowMsg, Forms, LazUTF8, uHash, uFileCopyEx, SysConst
 {$IFDEF UNIX}
-  , BaseUnix
+  , BaseUnix, DCUnix
 {$ENDIF}
   ;
 
@@ -691,6 +693,48 @@ begin
       OpenSourceFile;
       if not Assigned(SourceFileStream) then
         Exit;
+
+{$IF DEFINED(LINUX)}
+      if (Mode = fsohcmDefault) and ((FCopyOnWrite <> fsoogNo) or (FMode = fsohmMove)) then
+      begin
+        bRetryWrite:= FReserveSpace;
+        FReserveSpace:= False;
+        OpenTargetFile;
+        if not Assigned(TargetFileStream) then
+          Exit;
+
+        Result:= fpCloneFile(SourceFileStream.Handle, TargetFileStream.Handle);
+
+        if Result then
+        begin
+          FreeAndNil(TargetFileStream);
+          CopyProperties(SourceFile, TargetFileName);
+          Exit;
+        end
+        else if (FCopyOnWrite = fsoogYes) then
+        begin
+          bDeleteFile := True;
+          if FSkipCopyError then Exit;
+          case AskQuestion('',
+                           Format(rsMsgErrCannotCopyFile, [WrapTextSimple(SourceFile.FullPath, 64), WrapTextSimple(TargetFileName, 64)]) +
+                           LineEnding + LineEnding + mbSysErrorMessage,
+                           [fsourSkip, fsourSkipAll, fsourAbort],
+                           fsourSkip, fsourAbort) of
+            fsourAbort:
+              AbortOperation;
+            fsourSkipAll:
+              FSkipCopyError := True;
+          end; // case
+          Exit;
+        end;
+
+        if bRetryWrite then
+        begin
+          TargetFileStream.Size:= SourceFileStream.Size;
+          TargetFileStream.Seek(0, fsFromBeginning);
+        end;
+      end else
+{$ENDIF}
 
       OpenTargetFile;
       if not Assigned(TargetFileStream) then
