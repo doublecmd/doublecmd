@@ -699,16 +699,6 @@ begin
                 begin
                   // Watched file/directory was deleted or moved.
                   EventType := fswSelfDeleted;
-                  // call event handler
-                  Synchronize(@DoWatcherEvent);
-                  // Remove directory from watchers
-                  FWatcherLock.Acquire;
-                  try
-                    RemoveOSWatchLocked(i);
-                  finally
-                    FWatcherLock.Release;
-                  end;
-                  Break;
                 end
               else begin
                 EventType := fswUnknownChange;
