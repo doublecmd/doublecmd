@@ -3286,6 +3286,8 @@ begin
       Self.RemoveFile(EventData.FileName);
     fswFileRenamed:
       Self.RenameFile(EventData.NewFileName, EventData.FileName, EventData.Path, NewFilesPosition, UpdatedFilesPosition);
+    fswSelfDeleted:
+      CurrentPath:= GetDeepestExistingPath(CurrentPath);
     else
       Reload(EventData.Path);
   end;
