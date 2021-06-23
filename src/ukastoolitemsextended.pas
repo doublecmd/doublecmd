@@ -35,11 +35,12 @@ type
 
   TKASCommandItem = class(TKASNormalItem)
   strict private
+    FCommand: String;
     FCommands: IFormCommands;
+    procedure SetCommand(const AValue: String);
   strict protected
     procedure SaveHint(Config: TXmlConfig; Node: TXmlNode); override;
   public
-    Command: String;
     Params:  TDynamicStringArray;
     constructor Create(AFormCommands: IFormCommands); reintroduce;
     procedure Assign(OtherItem: TKASToolItem); override;
@@ -47,6 +48,7 @@ type
     function ConfigNodeName: String; override;
     procedure Load(Config: TXmlConfig; Node: TXmlNode; Loader: TKASToolBarLoader); override;
     procedure SaveContents(Config: TXmlConfig; Node: TXmlNode); override;
+    property Command: String read FCommand write SetCommand;
   end;
 
   { TKASProgramItem }
@@ -191,6 +193,15 @@ begin
   Config.AddValue(Node, 'Command', Command);
   for AParam in Params do
     Config.AddValueDef(Node, 'Param', AParam, '');
+end;
+
+procedure TKASCommandItem.SetCommand(const AValue: String);
+begin
+  if FCommand <> AValue then
+  begin
+    FCommand:= AValue;
+    FAction:= FCommands.GetCommandAction(FCommand);
+  end;
 end;
 
 procedure TKASCommandItem.SaveHint(Config: TXmlConfig; Node: TXmlNode);

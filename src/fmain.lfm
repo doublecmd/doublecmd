@@ -1492,6 +1492,7 @@ object frmMain: TfrmMain
       Tag = 16
       Category = 'Window'
       Caption = '&Horizontal Panels Mode'
+      GroupIndex = 5
       OnExecute = actExecute
     end
     object actPanelsSplitterPerPos: TAction
@@ -1650,6 +1651,7 @@ object frmMain: TfrmMain
       Category = 'View'
       Caption = 'Show &Hidden/System Files'
       Checked = True
+      GroupIndex = 2
       HelpType = htKeyword
       OnExecute = actExecute
     end
@@ -1928,6 +1930,7 @@ object frmMain: TfrmMain
       Tag = 19
       Category = 'View'
       Caption = 'Enable/disable ignore list file to not show file names'
+      GroupIndex = 4
       OnExecute = actExecute
     end
     object actCopyNamesToClip: TAction
@@ -2251,6 +2254,7 @@ object frmMain: TfrmMain
       Tag = 1
       Category = 'Active Panel'
       Caption = '&Quick View Panel'
+      GroupIndex = 1
       OnExecute = actExecute
     end
     object actSortByName: TAction
@@ -2563,6 +2567,7 @@ object frmMain: TfrmMain
       Tag = 16
       Category = 'Window'
       Caption = '&Tree View Panel'
+      GroupIndex = 3
       OnExecute = actExecute
     end
     object actFocusTreeView: TAction

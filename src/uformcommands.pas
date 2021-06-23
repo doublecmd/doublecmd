@@ -81,6 +81,7 @@ type
     function ExecuteCommand(Command: String; const Params: array of string): TCommandFuncResult;
     function GetCommandCaption(Command: String; CaptionType: TCommandCaptionType = cctShort): String;
     procedure GetCommandsList(List: TStrings);
+    function GetCommandAction(const Command: String): TAction;
     procedure GetCommandCategoriesList(List: TStringList; CommandCategorySortOrder:TCommandCategorySortOrder);
     procedure GetCommandsListForACommandCategory(List: TStringList; sCategoryName:String; CommandSortOrder: TCommandSortOrder);
     procedure ExtractCommandFields(ItemInList: string; var sCategory:string; var sCommand: string; var sHint: string; var sHotKey: string; var FlagCategoryTitle: boolean);
@@ -144,6 +145,7 @@ type
     function GetCommandName(Index: Integer): String;
     function GetCommandRec(Command: String): PCommandRec;
     procedure GetCommandsList(List: TStrings);
+    function GetCommandAction(const Command: String): TAction;
     procedure GetCommandCategoriesList(List: TStringList; CommandCategorySortOrder:TCommandCategorySortOrder);
     procedure GetCommandsListForACommandCategory(List: TStringList; sCategoryName:String; CommandSortOrder: TCommandSortOrder);
     procedure ExtractCommandFields(ItemInList: string; var sCategory: string; var sCommand: string; var sHint: string; var sHotKey: string; var FlagCategoryTitle: boolean);
@@ -298,6 +300,18 @@ begin
     end;
   finally
     List.EndUpdate;
+  end;
+end;
+
+function TFormCommands.GetCommandAction(const Command: String): TAction;
+var
+  CommandRec: PCommandRec;
+begin
+  CommandRec := GetCommandRec(Command);
+  if Assigned(CommandRec) then
+    Result:= CommandRec^.Action
+  else begin
+    Result:= nil;
   end;
 end;
 
