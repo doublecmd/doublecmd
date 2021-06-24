@@ -835,6 +835,7 @@ type
                                         out DestPath, DestMask: String); overload;
     procedure SetActiveFrame(panel: TFilePanelSelect);
     procedure SetActiveFrame(FileView: TFileView);
+    procedure UpdateFileView;
     procedure UpdateShellTreeView;
     procedure UpdateTreeViewPath;
     procedure UpdateTreeView;
@@ -4451,6 +4452,7 @@ begin
       UpdateSelectedDrive(Page.Notebook);
       UpdateFreeSpace(Page.Notebook.Side);
     end;
+  UpdateFileView;
 end;
 
 procedure TfrmMain.FileViewFilesChanged(FileView: TFileView);
@@ -4482,6 +4484,19 @@ begin
     if gTermWindow and Assigned(Cons) then
       Cons.Terminal.SetCurrentDir(FileView.CurrentPath);
   end;
+end;
+
+procedure TfrmMain.UpdateFileView;
+var
+  AFileView: TFileView;
+begin
+  AFileView:= ActiveFrame;
+  if AFileView is TColumnsFileView then
+    actColumnsView.Checked:= True
+  else if AFileView is TBriefFileView then
+    actBriefView.Checked:= True
+  else if AFileView is TThumbFileView then
+    actThumbnailsView.Checked:= True;
 end;
 
 procedure TfrmMain.UpdateShellTreeView;

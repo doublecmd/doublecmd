@@ -2220,21 +2220,27 @@ object frmMain: TfrmMain
     object actBriefView: TAction
       Tag = 1
       Category = 'Active Panel'
+      AutoCheck = True
       Caption = 'Brief view'
+      GroupIndex = 6
       Hint = 'Brief View'
       OnExecute = actExecute
     end
     object actColumnsView: TAction
       Tag = 1
       Category = 'Active Panel'
+      AutoCheck = True
       Caption = 'Full'
+      GroupIndex = 6
       Hint = 'Columns View'
       OnExecute = actExecute
     end
     object actThumbnailsView: TAction
       Tag = 1
       Category = 'Active Panel'
+      AutoCheck = True
       Caption = 'Thumbnails'
+      GroupIndex = 6
       Hint = 'Thumbnails View'
       OnExecute = actExecute
     end
