@@ -2627,7 +2627,7 @@ begin
   begin
     pnlImage.TabStop:= True;
     Status.Panels[sbpTextEncoding].Text:= EmptyStr;
-    if CanFocus and pnlImage.CanFocus then pnlImage.SetFocus;
+    if (not bQuickView) and CanFocus and pnlImage.CanFocus then pnlImage.SetFocus;
     PanelEditImage.Visible:= not (bQuickView or (miFullScreen.Checked and not PanelEditImage.MouseEntered));
   end;
 
