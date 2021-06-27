@@ -369,14 +369,15 @@ var
   FindRec: PFindRec;
 begin
   Result := libssh2_sftp_opendir(FSFTPSession, PAnsiChar(Path));
-  if Assigned(Result) then
-  begin
+  if (Result = nil) then
+    PrintLastError
+  else begin
     New(FindRec);
     FindRec.Path:= Path;
     FindRec.Handle:= Result;
     FsFindNextW(FindRec, FindData);
     Result:= FindRec;
-end;
+  end;
 end;
 
 function TSftpSend.FsFindNextW(Handle: Pointer; var FindData: TWin32FindDataW): BOOL;

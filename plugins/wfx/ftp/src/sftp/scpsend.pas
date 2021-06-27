@@ -55,6 +55,7 @@ type
     SourceName, TargetName: PWideChar;
     procedure DoProgress(Percent: Int64);
   protected
+    procedure PrintLastError;
     procedure DetectEncoding;
     function AuthKey: Boolean;
     function Connect: Boolean; override;
@@ -63,6 +64,7 @@ type
     function Login: Boolean; override;
     function Logout: Boolean; override;
     function GetCurrentDir: String; override;
+    function NetworkError: Boolean; override;
     procedure CloneTo(AValue: TFTPSendEx); override;
     function FileSize(const FileName: String): Int64; override;
     function FileExists(const FileName: String): Boolean; override;
@@ -159,7 +161,11 @@ begin
     if not Assigned(FChannel) then
     begin
       FLastError:= libssh2_session_last_errno(FSession);
-      if (FLastError <> LIBSSH2_ERROR_EAGAIN) then Exit(False);
+      if (FLastError <> LIBSSH2_ERROR_EAGAIN) then
+      begin
+        PrintLastError;
+        Exit(False);
+      end;
     end;
   until not ((FChannel = nil) and (FLastError = LIBSSH2_ERROR_EAGAIN));
   Result:= Assigned(FChannel);
@@ -220,6 +226,17 @@ procedure TScpSend.DoProgress(Percent: Int64);
 begin
   if ProgressProc(PluginNumber, SourceName, TargetName, Percent) = 1 then
     raise EUserAbort.Create(EmptyStr);
+end;
+
+procedure TScpSend.PrintLastError;
+var
+  Message: String;
+  errmsg_len: cint;
+  errmsg: PAnsiChar;
+begin
+  FLastError:= libssh2_session_last_error(FSession, @errmsg, @errmsg_len, 0);
+  SetString(Message, errmsg, errmsg_len);
+  LogProc(PluginNumber, msgtype_importanterror, PWideChar(UnicodeString('SSH ERROR ' + Message)));
 end;
 
 procedure TScpSend.DetectEncoding;
@@ -463,6 +480,11 @@ end;
 function TScpSend.GetCurrentDir: String;
 begin
   Result:= FCurrentDir;
+end;
+
+function TScpSend.NetworkError: Boolean;
+begin
+  Result:= FSock.CanRead(0) and (libssh2_session_last_errno(FSession) <> 0);
 end;
 
 procedure TScpSend.CloneTo(AValue: TFTPSendEx);

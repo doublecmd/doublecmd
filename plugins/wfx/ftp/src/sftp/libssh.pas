@@ -211,6 +211,8 @@ var
   libssh2_session_set_blocking: procedure(session: PLIBSSH2_SESSION; blocking: cint); cdecl;
   libssh2_session_last_errno: function(session: PLIBSSH2_SESSION): cint; cdecl;
   libssh2_session_set_timeout: procedure(session: PLIBSSH2_SESSION; timeout: clong); cdecl;
+  libssh2_session_last_error: function(session: PLIBSSH2_SESSION; errmsg: PPAnsiChar;
+                                       errmsg_len: pcint; want_buf: cint): cint; cdecl;
   //* Userauth API */
   libssh2_userauth_list: function(session: PLIBSSH2_SESSION;
                                   const username: PAnsiChar; username_len: cuint): PAnsiChar; cdecl;
@@ -525,6 +527,7 @@ begin
     libssh2_session_free:= SafeGetProcAddress(libssh2, 'libssh2_session_free');
     libssh2_session_set_blocking:= SafeGetProcAddress(libssh2, 'libssh2_session_set_blocking');
     libssh2_session_last_errno:= SafeGetProcAddress(libssh2, 'libssh2_session_last_errno');
+    libssh2_session_last_error:= SafeGetProcAddress(libssh2, 'libssh2_session_last_error');
     libssh2_session_set_timeout:= SafeGetProcAddress(libssh2, 'libssh2_session_set_timeout');
     //* Userauth API */
     libssh2_userauth_list:= SafeGetProcAddress(libssh2, 'libssh2_userauth_list');
