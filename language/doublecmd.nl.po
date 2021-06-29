@@ -83,6 +83,10 @@ msgstr "Volg koppelingen"
 msgid "&Reserve space"
 msgstr "Reserveer ruimte"
 
+#: tfilesystemcopymoveoperationoptionsui.chkcopyonwrite.caption
+msgid "Copy on write"
+msgstr ""
+
 #: tfilesystemcopymoveoperationoptionsui.chkverify.caption
 msgid "&Verify"
 msgstr "Verifiëren"

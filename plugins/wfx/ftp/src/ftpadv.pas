@@ -128,7 +128,7 @@ type
     function List(Directory: String; NameList: Boolean): Boolean; override;
     function StoreFile(const FileName: string; Restore: Boolean): Boolean; override;
     function RetrieveFile(const FileName: string; FileSize: Int64; Restore: Boolean): Boolean; virtual; overload;
-    function NetworkError(): Boolean;
+    function NetworkError(): Boolean; virtual;
   public
     property Encoding: String write SetEncoding;
     property UseAllocate: Boolean write FUseAllocate;

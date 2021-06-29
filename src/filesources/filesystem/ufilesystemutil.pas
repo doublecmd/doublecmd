@@ -84,6 +84,7 @@ type
     FCorrectSymLinks: Boolean;
     FCopyAttributesOptions: TCopyAttributesOptions;
     FMaxPathOption: TFileSourceOperationUIResponse;
+    FCopyOnWrite: TFileSourceOperationOptionGeneral;
     FDeleteFileOption: TFileSourceOperationUIResponse;
     FFileExistsOption: TFileSourceOperationOptionFileExists;
     FDirExistsOption: TFileSourceOperationOptionDirectoryExists;
@@ -146,6 +147,7 @@ type
     procedure ProcessTree(aFileTree: TFileTree);
 
     property Verify: Boolean read FVerify write FVerify;
+    property CopyOnWrite: TFileSourceOperationOptionGeneral read FCopyOnWrite write FCopyOnWrite;
     property FileExistsOption: TFileSourceOperationOptionFileExists read FFileExistsOption write FFileExistsOption;
     property DirExistsOption: TFileSourceOperationOptionDirectoryExists read FDirExistsOption write FDirExistsOption;
     property CheckFreeSpace: Boolean read FCheckFreeSpace write FCheckFreeSpace;
@@ -165,7 +167,7 @@ uses
   DCBasicTypes, uFileSource, uFileSystemFileSource, uFileProperty, uAdministrator,
   StrUtils, DCDateTimeUtils, uShowMsg, Forms, LazUTF8, uHash, uFileCopyEx, SysConst
 {$IFDEF UNIX}
-  , BaseUnix
+  , BaseUnix, DCUnix
 {$ENDIF}
   ;
 
@@ -692,6 +694,48 @@ begin
       if not Assigned(SourceFileStream) then
         Exit;
 
+{$IF DEFINED(LINUX)}
+      if (Mode = fsohcmDefault) and ((FCopyOnWrite <> fsoogNo) or (FMode = fsohmMove)) then
+      begin
+        bRetryWrite:= FReserveSpace;
+        FReserveSpace:= False;
+        OpenTargetFile;
+        if not Assigned(TargetFileStream) then
+          Exit;
+
+        Result:= fpCloneFile(SourceFileStream.Handle, TargetFileStream.Handle);
+
+        if Result then
+        begin
+          FreeAndNil(TargetFileStream);
+          CopyProperties(SourceFile, TargetFileName);
+          Exit;
+        end
+        else if (FCopyOnWrite = fsoogYes) then
+        begin
+          bDeleteFile := True;
+          if FSkipCopyError then Exit;
+          case AskQuestion('',
+                           Format(rsMsgErrCannotCopyFile, [WrapTextSimple(SourceFile.FullPath, 64), WrapTextSimple(TargetFileName, 64)]) +
+                           LineEnding + LineEnding + mbSysErrorMessage,
+                           [fsourSkip, fsourSkipAll, fsourAbort],
+                           fsourSkip, fsourAbort) of
+            fsourAbort:
+              AbortOperation;
+            fsourSkipAll:
+              FSkipCopyError := True;
+          end; // case
+          Exit;
+        end;
+
+        if bRetryWrite then
+        begin
+          TargetFileStream.Size:= SourceFileStream.Size;
+          TargetFileStream.Seek(0, fsFromBeginning);
+        end;
+      end else
+{$ENDIF}
+
       OpenTargetFile;
       if not Assigned(TargetFileStream) then
         Exit;
@@ -1079,6 +1123,7 @@ end;
 
 function TFileSystemOperationHelper.ProcessDirectory(aNode: TFileTreeNode; AbsoluteTargetFileName: String): Boolean;
 var
+  bRenameDirectory: Boolean;
   bRemoveDirectory: Boolean;
   NodeData: TFileTreeNodeData;
 begin
@@ -1099,11 +1144,35 @@ begin
         // Try moving whole directory tree. It can be done only if we don't have
         // to process each subnode: if there are no links, or they're not being
         // processed, if the files are not being renamed or excluded.
-        if (FMode = fsohmMove) and
-           (not FRenamingFiles) and
-           ((FCorrectSymlinks = False) or (NodeData.SubnodesHaveLinks = False)) and
-           (NodeData.SubnodesHaveExclusions = False) and
-           RenameFileUAC(aNode.TheFile.FullPath, AbsoluteTargetFileName) then
+        bRenameDirectory:= (FMode = fsohmMove) and (not FRenamingFiles) and
+                           ((FCorrectSymlinks = False) or (NodeData.SubnodesHaveLinks = False)) and
+                           (NodeData.SubnodesHaveExclusions = False);
+
+        if bRenameDirectory then
+        begin
+          bRenameDirectory:= RenameFileUAC(aNode.TheFile.FullPath, AbsoluteTargetFileName);
+
+          if not bRenameDirectory and (GetLastOSError = ERROR_NOT_SAME_DEVICE) then
+          begin
+            if (not NodeData.Recursive) then
+            begin
+              with TFileSystemTreeBuilder.Create(AskQuestion, CheckOperationState) do
+              try
+                // In move operation don't follow symlinks.
+                SymLinkOption := fsooslDontFollow;
+
+                BuildFromNode(aNode);
+                FStatistics.TotalFiles += FilesCount;
+                FStatistics.TotalBytes += FilesSize;
+              finally
+                Free;
+              end;
+              NodeData.Recursive:= True;
+            end;
+          end;
+        end;
+
+        if bRenameDirectory then
         begin
           // Success.
           CountStatistics(aNode);
@@ -2003,4 +2072,3 @@ begin
 end;
 
 end.
-

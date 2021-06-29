@@ -72,6 +72,8 @@ const
   SIID_DRIVENET = 9;
   SIID_ZIPFILE = 105;
 
+  PKEY_StorageProviderState: PROPERTYKEY = (fmtid: '{E77E90DF-6271-4F5B-834F-2DD1F245DDA4}'; pid: 3);
+
 type
   TSHStockIconInfo = record
     cbSize: DWORD;
@@ -84,6 +86,7 @@ type
 function SHGetSystemImageList(iImageList: Integer): HIMAGELIST;
 function SHGetStockIconInfo(siid: Int32; uFlags: UINT; out psii: TSHStockIconInfo): Boolean;
 function SHChangeIconDialog(hOwner: HWND; var FileName: String; var IconIndex: Integer): Boolean;
+function SHGetStorePropertyValue(const FileName: String; const Key: PROPERTYKEY): Integer;
 function SHGetOverlayIconIndex(const sFilePath, sFileName: String): Integer;
 function SHGetInfoTip(const sFilePath, sFileName: String): String;
 function SHFileIsLinkToFolder(const FileName: String; out LinkTarget: String): Boolean;
@@ -105,6 +108,11 @@ implementation
 
 uses
   SysUtils, JwaShlGuid, ComObj, LazUTF8, DCOSUtils;
+
+var
+  SHGetPropertyStoreFromParsingName: function(pszPath: PCWSTR; const pbc: IBindCtx;
+                                              flags: GETPROPERTYSTOREFLAGS;
+                                              const riid: TIID; out ppv): HRESULT; stdcall;
 
 function SHGetImageListFallback(iImageList: Integer; const riid: TGUID; var ImageList: HIMAGELIST): HRESULT; stdcall;
 var
@@ -181,6 +189,19 @@ begin
       if Result then FileName := UTF16ToUTF8(UnicodeString(FileNameW));
     end
   end;
+end;
+
+function SHGetStorePropertyValue(const FileName: String; const Key: PROPERTYKEY): Integer;
+var
+  AValue: Variant;
+  AStorage: IPropertyStore;
+begin
+  if Succeeded(SHGetPropertyStoreFromParsingName(PWideChar(UTF8Decode(FileName)), nil, GPS_DEFAULT, IPropertyStore, AStorage)) then
+  begin
+    if Succeeded(AStorage.GetValue(@Key, TPROPVARIANT(AValue))) then
+      Exit(AValue);
+  end;
+  Result:= -1;
 end;
 
 function SHGetOverlayIconIndex(const sFilePath, sFileName: String): Integer;
@@ -309,5 +330,9 @@ procedure OleCheckUTF8(Result: HResult);
 begin
   if not Succeeded(Result) then OleErrorUTF8(Result);
 end;
+
+initialization
+  SHGetPropertyStoreFromParsingName:= GetProcAddress(GetModuleHandle('shell32.dll'),
+                                                     'SHGetPropertyStoreFromParsingName');
 
 end. { ShlObjAdditional }

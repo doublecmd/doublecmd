@@ -102,6 +102,10 @@ msgctxt "tfilesystemcopymoveoperationoptionsui.cbreservespace.caption"
 msgid "&Reserve space"
 msgstr "&Čuvaj slobodan prostor"
 
+#: tfilesystemcopymoveoperationoptionsui.chkcopyonwrite.caption
+msgid "Copy on write"
+msgstr ""
+
 #: tfilesystemcopymoveoperationoptionsui.chkverify.caption
 msgid "&Verify"
 msgstr ""

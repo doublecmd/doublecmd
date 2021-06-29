@@ -3,8 +3,8 @@
     -------------------------------------------------------------------------
     This is a thread-component sends an event when a change in the file system occurs.
 
-    Copyright (C) 2009  Koblov Alexander (Alexx2000@mail.ru)
-    Copyright (C) 2011  Przemyslaw Nagay (cobines@gmail.com)
+    Copyright (C) 2009-2021 Alexander Koblov (alexx2000@mail.ru)
+    Copyright (C) 2011      Przemyslaw Nagay (cobines@gmail.com)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -17,8 +17,7 @@
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with this program; if not, write to the Free Software
-    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+    along with this program. If not, see <http://www.gnu.org/licenses/>.
 }
 
 unit uFileSystemWatcher;
@@ -39,6 +38,7 @@ type
                          fswFileChanged,
                          fswFileDeleted,
                          fswFileRenamed,
+                         fswSelfDeleted,
                          fswUnknownChange);
   TFSWatcherEventTypes = set of TFSWatcherEventType;
 
@@ -698,6 +698,7 @@ begin
                                      IN_MOVE_SELF)) <> 0 then
                 begin
                   // Watched file/directory was deleted or moved.
+                  EventType := fswSelfDeleted;
                 end
               else begin
                 EventType := fswUnknownChange;
@@ -1334,10 +1335,10 @@ begin
 end;
 {$ELSEIF DEFINED(LINUX)}
 var
-  hNotifyFilter: cuint32 = 0;
+  hNotifyFilter: cuint32 = IN_DELETE_SELF or IN_MOVE_SELF;
 begin
   if wfFileNameChange in FWatchFilter then
-    hNotifyFilter := hNotifyFilter or IN_CREATE or IN_DELETE or IN_DELETE_SELF or IN_MOVE or IN_MOVE_SELF;
+    hNotifyFilter := hNotifyFilter or IN_CREATE or IN_DELETE or IN_MOVE;
   if wfAttributesChange in FWatchFilter then
     hNotifyFilter := hNotifyFilter or IN_ATTRIB or IN_MODIFY;
 

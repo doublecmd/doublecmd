@@ -236,6 +236,18 @@ object FileSystemCopyMoveOperationOptionsUI: TFileSystemCopyMoveOperationOptions
       Caption = '&Verify'
       TabOrder = 0
     end
+    object chkCopyOnWrite: TCheckBox
+      AnchorSideLeft.Control = cbCopyPermissions
+      AnchorSideTop.Control = cbCopyPermissions
+      AnchorSideTop.Side = asrBottom
+      Left = 0
+      Height = 23
+      Top = 230
+      Width = 111
+      AllowGrayed = True
+      Caption = 'Copy on write'
+      TabOrder = 10
+    end
   end
   object gbFileTemplate: TGroupBox
     AnchorSideLeft.Control = Owner

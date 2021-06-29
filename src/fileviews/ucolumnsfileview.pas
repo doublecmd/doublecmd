@@ -771,6 +771,7 @@ begin
   FilePropertiesNeeded := GetFilePropertiesNeeded;
   if FilePropertiesNeeded >= OldFilePropertiesNeeded then
   begin
+    ReleaseBusy;
     Notify([fvnVisibleFilePropertiesChanged]);
   end;
 end;

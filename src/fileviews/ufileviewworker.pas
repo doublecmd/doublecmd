@@ -74,6 +74,7 @@ type
                                   var NewFilteredDisplayFiles: TDisplayFiles) of object;
   TUpdateFileMethod = procedure (const UpdatedFile: TDisplayFile;
                                  const UserData: Pointer) of object;
+  TAbortFileMethod = procedure (AStart: Integer; AList: TFPList) of object;
 
   { TFileListBuilder }
 
@@ -172,10 +173,12 @@ type
 
   TFilePropertiesRetriever = class(TFileViewWorker)
   private
+    FIndex: Integer;
     FWorkingFile: TDisplayFile;
     FWorkingUserData: Pointer;
     FFileList: TFVWorkerFileList;
     FUpdateFileMethod: TUpdateFileMethod;
+    FAbortFileMethod: TAbortFileMethod;
     FFileSource: IFileSource;
     FVariantProperties: TDynamicStringArray;
     FFilePropertiesNeeded: TFilePropertiesTypes;
@@ -185,6 +188,7 @@ type
        It is called from GUI thread.
     }
     procedure DoUpdateFile;
+    procedure DoAbortFile;
 
   protected
     procedure Execute; override;
@@ -195,6 +199,7 @@ type
                        AFilePropertiesNeeded: TFilePropertiesTypes;
                        AVariantProperties: TDynamicStringArray;
                        AUpdateFileMethod: TUpdateFileMethod;
+                       ABreakFileMethod: TAbortFileMethod;
                        var AFileList: TFVWorkerFileList); reintroduce;
     destructor Destroy; override;
   end;
@@ -860,7 +865,8 @@ end;
 constructor TFilePropertiesRetriever.Create(AFileSource: IFileSource;
   AThread: TThread; AFilePropertiesNeeded: TFilePropertiesTypes;
   AVariantProperties: TDynamicStringArray;
-  AUpdateFileMethod: TUpdateFileMethod; var AFileList: TFVWorkerFileList);
+  AUpdateFileMethod: TUpdateFileMethod; ABreakFileMethod: TAbortFileMethod;
+  var AFileList: TFVWorkerFileList);
 begin
   inherited Create(AThread);
 
@@ -871,6 +877,7 @@ begin
   FVariantProperties    := AVariantProperties;
   FFilePropertiesNeeded := AFilePropertiesNeeded;
   FUpdateFileMethod     := AUpdateFileMethod;
+  FAbortFileMethod      := ABreakFileMethod;
 end;
 
 destructor TFilePropertiesRetriever.Destroy;
@@ -881,7 +888,6 @@ end;
 
 procedure TFilePropertiesRetriever.Execute;
 var
-  i: Integer;
   HaveIcons: Boolean;
   DirectAccess: Boolean;
 begin
@@ -891,14 +897,14 @@ begin
   begin
     DirectAccess := not IsInPathList(gIconsExcludeDirs, FFileList.Files[0].FSFile.Path);
   end;
-  for i := 0 to FFileList.Count - 1 do
+  while FIndex < FFileList.Count do
   begin
     if Aborted then
-      Exit;
+      Break;
 
     try
-      FWorkingFile := FFileList.Files[i];
-      FWorkingUserData := FFileList.Data[i];
+      FWorkingFile := FFileList.Files[FIndex];
+      FWorkingUserData := FFileList.Data[FIndex];
 
       if FFileSource.CanRetrieveProperties(FWorkingFile.FSFile, FFilePropertiesNeeded) then
         FFileSource.RetrieveProperties(FWorkingFile.FSFile, FFilePropertiesNeeded, FVariantProperties);
@@ -925,7 +931,7 @@ begin
       end;
 
       if Aborted then
-        Exit;
+        Break;
 
       TThread.Synchronize(Thread, @DoUpdateFile);
 
@@ -933,6 +939,11 @@ begin
       on EListError do;
       on EFileNotFound do;
     end;
+    Inc(FIndex);
+  end;
+  if Aborted  and Assigned(FAbortFileMethod) then
+  begin
+    TThread.Synchronize(Thread, @DoAbortFile);
   end;
 end;
 
@@ -940,6 +951,11 @@ procedure TFilePropertiesRetriever.DoUpdateFile;
 begin
   if not Aborted and Assigned(FUpdateFileMethod) then
     FUpdateFileMethod(FWorkingFile, FWorkingUserData);
+end;
+
+procedure TFilePropertiesRetriever.DoAbortFile;
+begin
+  FAbortFileMethod(FIndex, FFileList.FUserData);
 end;
 
 { TCalculateSpaceWorker }

@@ -85,6 +85,10 @@ msgstr "保留链接(&L)"
 msgid "&Reserve space"
 msgstr "保留空间(&R)"
 
+#: tfilesystemcopymoveoperationoptionsui.chkcopyonwrite.caption
+msgid "Copy on write"
+msgstr "写入时复制"
+
 #: tfilesystemcopymoveoperationoptionsui.chkverify.caption
 msgid "&Verify"
 msgstr "校验(&V)"
@@ -12661,7 +12665,7 @@ msgid "Directory Hotlist"
 msgstr "常用文件夹列表"
 
 #: ulng.rsoptionseditordirectoryhotlistextra
-msgid "Directory Hostlist Extra"
+msgid "Directory Hotlist Extra"
 msgstr "常用文件夹列表扩展"
 
 #: ulng.rsoptionseditordraganddrop

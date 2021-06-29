@@ -233,7 +233,7 @@ const
     (TCCommand: 'cm_ContextMenuInternal';       TCIcon: -1; DCCommand: '';                          DCParameters: ''          ), //Show context menu for internal associations
     (TCCommand: 'cm_ContextMenuInternalCursor'; TCIcon: -1; DCCommand: '';                          DCParameters: ''          ), //Internal context menu for file under cursor
     (TCCommand: 'cm_ShowRemoteMenu';            TCIcon: -1; DCCommand: '';                          DCParameters: ''          ), //Context menu for Media Center remote control Play/Pause
-    (TCCommand: 'cm_SyncChangeDir';             TCIcon: 75; DCCommand: '';                          DCParameters: ''          ), //Synchronous directory changing in both windows
+    (TCCommand: 'cm_SyncChangeDir';             TCIcon: 75; DCCommand: 'cm_SyncChangeDir';          DCParameters: ''          ), //Synchronous directory changing in both windows
     (TCCommand: 'cm_EditComment';               TCIcon: -1; DCCommand: 'cm_EditComment';            DCParameters: ''          ), //Edit file comment
     (TCCommand: 'cm_FocusLeft';                 TCIcon: -1; DCCommand: 'cm_FocusSwap';              DCParameters: 'side=left' ), //Focus on left file list
     (TCCommand: 'cm_FocusRight';                TCIcon: -1; DCCommand: 'cm_FocusSwap';              DCParameters: 'side=right'), //Focus on right file list

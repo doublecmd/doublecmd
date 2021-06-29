@@ -82,6 +82,10 @@ msgstr "允許連結 (&L)"
 msgid "&Reserve space"
 msgstr "預留空間 (&R)"
 
+#: tfilesystemcopymoveoperationoptionsui.chkcopyonwrite.caption
+msgid "Copy on write"
+msgstr ""
+
 #: tfilesystemcopymoveoperationoptionsui.chkverify.caption
 msgid "&Verify"
 msgstr ""

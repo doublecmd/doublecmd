@@ -90,6 +90,10 @@ msgstr "Bağlantıları İzle"
 msgid "&Reserve space"
 msgstr ""
 
+#: tfilesystemcopymoveoperationoptionsui.chkcopyonwrite.caption
+msgid "Copy on write"
+msgstr ""
+
 #: tfilesystemcopymoveoperationoptionsui.chkverify.caption
 msgid "&Verify"
 msgstr ""

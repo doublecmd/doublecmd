@@ -59,6 +59,7 @@ type
     FToolOwner: IToolOwner;
     FUserData: Pointer;
   protected
+    FAction: TBasicAction;
     property ToolOwner: IToolOwner read FToolOwner;
   public
     procedure Assign(OtherItem: TKASToolItem); virtual;
@@ -72,6 +73,7 @@ type
     procedure SaveContents(Config: TXmlConfig; Node: TXmlNode); virtual; abstract;
     procedure SetToolOwner(AToolOwner: IToolOwner); virtual;
     property UserData: Pointer read FUserData write FUserData;
+    property Action: TBasicAction read FAction;
   end;
   TKASToolItemClass = class of TKASToolItem;
 

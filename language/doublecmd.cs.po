@@ -85,6 +85,10 @@ msgstr "Ná&sledovat odkazy"
 msgid "&Reserve space"
 msgstr "&Rezervní prostor"
 
+#: tfilesystemcopymoveoperationoptionsui.chkcopyonwrite.caption
+msgid "Copy on write"
+msgstr ""
+
 #: tfilesystemcopymoveoperationoptionsui.chkverify.caption
 msgid "&Verify"
 msgstr "O&věřit"

@@ -1,0 +1,42 @@
+msgid ""
+msgstr "Content-Type: text/plain; charset=UTF-8"
+
+#: tdialogbox.caption
+msgid "Options"
+msgstr "选项"
+
+#: tdialogbox.lblpath.caption
+msgid "Path to Win&RAR executable"
+msgstr "WinRAR 可执行文件的路径(&R)"
+
+#: tdialogbox.gboptions.caption
+msgid "Archiving options"
+msgstr "存档选项"
+
+#: tdialogbox.gboptions.chkrecovery.caption
+msgid "Add r&ecovery record"
+msgstr "添加恢复记录(&E)"
+
+#: tdialogbox.gboptions.chkencrypt.caption
+msgid "Encrypt file &names"
+msgstr "加密文件名(&N)"
+
+#: tdialogbox.gboptions.chksolid.caption
+msgid "Create &solid archive"
+msgstr "创建可靠的存档(&S)"
+
+#: tdialogbox.lblmethod.caption
+msgid "&Compression method"
+msgstr "压缩方式(&C)"
+
+#: tdialogbox.brncancel.caption
+msgid "Cancel"
+msgstr "取消"
+
+#: tdialogbox.btnsave.caption
+msgid "OK"
+msgstr "确定"
+
+#: tdialogbox.lblargs.caption
+msgid "Additional parameters"
+msgstr "附加参数"

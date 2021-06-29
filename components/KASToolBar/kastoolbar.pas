@@ -63,9 +63,11 @@ type
       PreferredHeight: integer; WithThemeSpace: Boolean); override;
     function DrawGlyph(ACanvas: TCanvas; const AClient: TRect; const AOffset: TPoint;
       AState: TButtonState; ATransparent: Boolean; BiDiFlags: Longint): TRect; override;
+    procedure ActionChange(Sender: TObject; CheckDefaults: Boolean); override;
   public
     constructor Create(AOwner: TComponent; Item: TKASToolItem); reintroduce;
     destructor Destroy; override;
+    procedure Click; override;
   public
     property ToolBar: TKASToolBar read GetToolBar;
     property ToolItem: TKASToolItem read FToolItem;
@@ -201,7 +203,7 @@ procedure Register;
 implementation
 
 uses
-  Themes, types, math, DCOSUtils;
+  Themes, Types, Math, ActnList, DCOSUtils;
 
 type
   PToolItemExecutor = ^TToolItemExecutor;
@@ -854,6 +856,11 @@ begin
       Result.Hint     := Item.GetEffectiveHint;
       if ShowCaptions and (Result.Caption = '') then
         Result.Caption := Result.Hint;
+      if Assigned(Item.Action) then
+      begin
+        Result.AllowAllUp := True;
+        Result.Action := Item.Action;
+      end;
     end;
 
     Result.Flat := FFlat;
@@ -1064,6 +1071,24 @@ begin
   end;
 end;
 
+procedure TKASToolButton.ActionChange(Sender: TObject; CheckDefaults: Boolean);
+begin
+  if Sender is TCustomAction then
+  begin
+    with TCustomAction(Sender) do
+    begin
+      if CheckDefaults or (Self.GroupIndex = 0) then
+        Self.GroupIndex := GroupIndex;
+      if not CheckDefaults or Enabled then
+        Self.Enabled := Enabled;
+      if not CheckDefaults or Visible then
+        Self.Visible := Visible;
+      if not CheckDefaults or Checked then
+        Self.Down := Checked;
+    end;
+  end;
+end;
+
 constructor TKASToolButton.Create(AOwner: TComponent; Item: TKASToolItem);
 begin
   inherited Create(AOwner);
@@ -1074,6 +1099,11 @@ destructor TKASToolButton.Destroy;
 begin
   inherited Destroy;
   FOverlay.Free;
+end;
+
+procedure TKASToolButton.Click;
+begin
+  if Assigned(OnClick) then OnClick(Self);
 end;
 
 function TKASToolButton.GetToolBar: TKASToolBar;

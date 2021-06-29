@@ -94,6 +94,10 @@ msgstr "Sledi &povezavam"
 msgid "&Reserve space"
 msgstr "&Zadrži prostor"
 
+#: tfilesystemcopymoveoperationoptionsui.chkcopyonwrite.caption
+msgid "Copy on write"
+msgstr ""
+
 #: tfilesystemcopymoveoperationoptionsui.chkverify.caption
 msgid "&Verify"
 msgstr "&Preveri"

@@ -238,6 +238,7 @@ type
     procedure CalculateSpaceOnUpdate(const UpdatedFile: TDisplayFile;
                                      const UserData: Pointer);
     procedure CancelLastPathChange;
+    procedure ReleaseBusy;
     procedure ClearFiles;
     {en
        Called when display file list (filtered list) has changed.
@@ -1106,6 +1107,7 @@ begin
       ADisplayFile.FSFile.Name := NewFileName;
       FHashedNames.Remove(OldFileName);
       FHashedNames.Add(NewFileName, ADisplayFile);
+      ADisplayFile.Busy:= False;
       ADisplayFile.IconID := -1;
       ADisplayFile.Selected := False;
       ADisplayFile.IconOverlayID := -1;
@@ -1242,6 +1244,7 @@ begin
           Exit;
         end;
     end;
+    ADisplayFile.Busy := False;
     ADisplayFile.TextColor := clNone;
     ADisplayFile.IconOverlayID := -1;
     ADisplayFile.DisplayStrings.Clear;
@@ -1454,6 +1457,14 @@ begin
   end
   else
     ClearFiles;
+end;
+
+procedure TFileView.ReleaseBusy;
+var
+  Index: Integer;
+begin
+  for Index := 0 to FFiles.Count - 1 do
+    FFiles[Index].Busy:= False;
 end;
 
 procedure TFileView.DoOnFileListChanged;
@@ -1942,6 +1953,8 @@ begin
     OrigDisplayFile.TextColor := UpdatedFile.TextColor;
 
   DoFileUpdated(OrigDisplayFile);
+
+  OrigDisplayFile.Busy:= False;
 end;
 
 function TFileView.GetActiveFileName: String;
@@ -3092,6 +3105,7 @@ begin
       else if fvnDisplayFileListChanged in FNotifications then
       begin
         FNotifications := FNotifications - [fvnDisplayFileListChanged];
+        ReleaseBusy;
         DisplayFileListChanged;
         StartRecentlyUpdatedTimerIfNeeded;
       end
@@ -3272,6 +3286,8 @@ begin
       Self.RemoveFile(EventData.FileName);
     fswFileRenamed:
       Self.RenameFile(EventData.NewFileName, EventData.FileName, EventData.Path, NewFilesPosition, UpdatedFilesPosition);
+    fswSelfDeleted:
+      CurrentPath:= GetDeepestExistingPath(CurrentPath);
     else
       Reload(EventData.Path);
   end;

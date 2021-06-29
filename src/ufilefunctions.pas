@@ -273,23 +273,39 @@ begin
 
       fsfModificationTime:
         if fpModificationTime in AFile.SupportedProperties then
-          Result := AFile.Properties[fpModificationTime].Format(
-            DefaultFilePropertyFormatter);
+        begin
+          if Length(AParam) > 0 then
+            Result := SysUtils.FormatDateTime(AParam, AFile.ModificationTime)
+          else
+            Result := AFile.Properties[fpModificationTime].Format(DefaultFilePropertyFormatter);
+        end;
 
       fsfCreationTime:
         if fpCreationTime in AFile.SupportedProperties then
-          Result := AFile.Properties[fpCreationTime].Format(
-            DefaultFilePropertyFormatter);
+        begin
+          if Length(AParam) > 0 then
+            Result := SysUtils.FormatDateTime(AParam, AFile.CreationTime)
+          else
+            Result := AFile.Properties[fpCreationTime].Format(DefaultFilePropertyFormatter);
+        end;
 
       fsfLastAccessTime:
         if fpLastAccessTime in AFile.SupportedProperties then
-          Result := AFile.Properties[fpLastAccessTime].Format(
-            DefaultFilePropertyFormatter);
+        begin
+          if Length(AParam) > 0 then
+            Result := SysUtils.FormatDateTime(AParam, AFile.LastAccessTime)
+          else
+            Result := AFile.Properties[fpLastAccessTime].Format(DefaultFilePropertyFormatter);
+        end;
 
       fsfChangeTime:
         if fpChangeTime in AFile.SupportedProperties then
-          Result := AFile.Properties[fpChangeTime].Format(
-            DefaultFilePropertyFormatter);
+        begin
+          if Length(AParam) > 0 then
+            Result := SysUtils.FormatDateTime(AParam, AFile.ChangeTime)
+          else
+            Result := AFile.Properties[fpChangeTime].Format(DefaultFilePropertyFormatter);
+        end;
 
       fsfLinkTo:
         if fpLink in AFile.SupportedProperties then

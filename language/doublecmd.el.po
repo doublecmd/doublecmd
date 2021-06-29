@@ -90,6 +90,10 @@ msgstr "Ακολουθείστε τους δεσμούς"
 msgid "&Reserve space"
 msgstr "Κράτηση Χώρου"
 
+#: tfilesystemcopymoveoperationoptionsui.chkcopyonwrite.caption
+msgid "Copy on write"
+msgstr ""
+
 #: tfilesystemcopymoveoperationoptionsui.chkverify.caption
 msgid "&Verify"
 msgstr "Επαλήθευση"
