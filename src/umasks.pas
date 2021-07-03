@@ -93,7 +93,7 @@ uses
   LazUTF8,
 
   //DC
-  uAccentsUtils;
+  uPinyin, uAccentsUtils;
 
 
 { MatchesMask }
@@ -275,7 +275,7 @@ var
           begin
             if CharIndex > L then Exit;
             //DCDebug('Match ' + S[CharIndex] + '<?>' + FMask.Chars[I].CharValue);
-            if S[CharIndex] <> FMask.Chars[I].CharValue then Exit;
+            if not PinyinMatch(S[CharIndex], FMask.Chars[I].CharValue) then Exit;
             Inc(CharIndex);
           end;
         mcAnyChar:
