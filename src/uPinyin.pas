@@ -20,7 +20,7 @@ var
   f:file of pinyinarray;
 begin
   if PINYINTABLELOADED then exit;
-  Assign(f, ExtractFileDir(Paramstr(0)) + '/tcmatch.tbl');
+  Assign(f, ExtractFilePath(Paramstr(0)) + 'tcmatch.tbl');
   Reset(f);
   seek(f,0);
   Read(f, PINYINTABLE);

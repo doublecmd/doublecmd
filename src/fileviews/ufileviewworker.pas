@@ -640,7 +640,7 @@ begin
     else
     begin
       // Match the file name and Pinyin letter
-      if aMasks.Matches(AFile.Name) then
+      if aMasks.Matches(AFile.Name, True) then
          Result := False;
     end;
   end
