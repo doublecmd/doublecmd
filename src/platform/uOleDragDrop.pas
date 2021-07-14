@@ -21,7 +21,7 @@ unit uOleDragDrop;
 interface
 
 uses
-  DCBasicTypes, Windows, ActiveX, Classes, Controls, uDragDropEx;
+  DCBasicTypes, Windows, ActiveX, Classes, Controls, ShlObj, uDragDropEx;
 
 type
 
@@ -97,7 +97,7 @@ type
        @returns(List of filenames or nil in case of an error.)
     }
     function GetDropFileGroupFilenames(const dataObj: IDataObject; var Medium: TSTGMedium; Format: TFormatETC): TStringList;
-    function SaveCfuContentToFile(const dataObj:IDataObject; Index:Integer; WantedFilename:String; WantedCreationTime, WantedModificationTime, WantedLastAccessTime:DCBasicTypes.TFileTime):boolean;
+    function SaveCfuContentToFile(const dataObj:IDataObject; Index:Integer; WantedFilename:String; FileInfo: PFileDescriptorW):boolean;
 
     {en
        Retrieves the text from the CF_UNICODETEXT/CF_TEXT format, will store this in a single file
@@ -194,7 +194,7 @@ implementation
 
 uses
   //Lazarus, Free-Pascal, etc.
-  LazUTF8, SysUtils, ShellAPI, ShlObj, LCLIntf, ComObj,
+  LazUTF8, SysUtils, ShellAPI, LCLIntf, ComObj,
   DCDateTimeUtils, Forms, DCConvertEncoding,
 
   //DC
@@ -988,7 +988,8 @@ begin
 end;
 
 { TFileDropTarget.SaveCfuContentToFile }
-function TFileDropTarget.SaveCfuContentToFile(const dataObj:IDataObject; Index:Integer; WantedFilename:String; WantedCreationTime, WantedModificationTime, WantedLastAccessTime:DCBasicTypes.TFileTime):boolean;
+function TFileDropTarget.SaveCfuContentToFile(const dataObj: IDataObject;
+  Index: Integer; WantedFilename: String; FileInfo: PFileDescriptorW): boolean;
 const
   TEMPFILENAME='CfuContentFile.bin';
 var
@@ -998,6 +999,7 @@ var
   tIID : PGuid;
   hFile: THandle;
   pvStrm: IStream;
+  statstg: TStatStg;
   dwSize:     LongInt;
   AnyPointer: PAnsiChar;
   InnerFilename: String;
@@ -1043,100 +1045,85 @@ begin
     end
     else
     begin
-      pvStrm:=IStream(Medium.pstm);
+      pvStrm:= IStream(Medium.pstm);
       // Figure out how large the data is
-      if (pvStrm.Seek(0, STREAM_SEEK_END, i64Size) = S_OK) then
-      begin
+      if (FileInfo^.dwFlags and FD_FILESIZE <> 0) then
+        i64Size:= Int64(FileInfo.nFileSizeLow) or (Int64(FileInfo.nFileSizeHigh) shl 32)
+      else if (pvStrm.Stat(statstg, STATFLAG_DEFAULT) = S_OK) then
+        i64Size:= statstg.cbSize
+      else if (pvStrm.Seek(0, STREAM_SEEK_END, i64Size) = S_OK) then
         // Seek back to start of stream
-        pvStrm.Seek(0, STREAM_SEEK_SET, i64Move);
-        // Create memory stream to convert to
-        msStream:=TMemoryStream.Create;
-        // Allocate size
-        msStream.Size:=i64Size;
-        // Read from the IStream into the memory for the TMemoryStream
-        if pvStrm.Read(msStream.Memory, i64Size, @dwSize)=S_OK then
-          msStream.Size:=dwSize
-        else
-          msStream.Size:=0;
-        // Release interface
-        pvStrm:=nil;
-
-        msStream.Position:=0;
-        msStream.SaveToFile(UTF8ToSys(InnerFilename));
-        msStream.Free;
+        pvStrm.Seek(0, STREAM_SEEK_SET, i64Move)
+      else begin
+        Exit;
       end;
+
+      // Create memory stream to convert to
+      msStream:= TMemoryStream.Create;
+      // Allocate size
+      msStream.Size:= i64Size;
+      // Read from the IStream into the memory for the TMemoryStream
+      if pvStrm.Read(msStream.Memory, i64Size, @dwSize) = S_OK then
+        msStream.Size:= dwSize
+      else
+        msStream.Size:= 0;
+      // Release interface
+      pvStrm:=nil;
+
+      msStream.Position:=0;
+      msStream.SaveToFile(UTF8ToSys(InnerFilename));
+      msStream.Free;
     end;
   end;
 
   if mbFileExists(InnerFilename) then
   begin
-    mbRenameFile(InnerFilename,WantedFilename);
-    if mbFileExists(WantedFilename) then result:=mbFileSetTime(WantedFilename, WantedModificationTime, WantedCreationTime, WantedLastAccessTime);
+    if mbRenameFile(InnerFilename, WantedFilename) then
+    begin
+      if (FileInfo^.dwFlags and FD_CREATETIME = 0) then TWinFileTime(FileInfo^.ftCreationTime):= 0;
+      if (FileInfo^.dwFlags and FD_WRITESTIME = 0) then TWinFileTime(FileInfo^.ftLastWriteTime):= 0;
+      if (FileInfo^.dwFlags and FD_ACCESSTIME = 0) then TWinFileTime(FileInfo^.ftLastAccessTime):= 0;
+      Result:= mbFileSetTime(WantedFilename, TWinFileTime(FileInfo^.ftLastWriteTime),
+                             TWinFileTime(FileInfo^.ftCreationTime), TWinFileTime(FileInfo^.ftLastAccessTime));
+    end;
   end;
 end;
 
 { TFileDropTarget.GetDropFileGroupFilenames }
 function TFileDropTarget.GetDropFileGroupFilenames(const dataObj: IDataObject; var Medium: TSTGMedium; Format: TFormatETC): TStringList;
 var
+  SuffixStr: String;
   AnyPointer: Pointer;
-  DC_FileGroupeDescriptorW: FILEGROUPDESCRIPTORW;
-  DC_FileGroupeDescriptor: FILEGROUPDESCRIPTOR;
-  DC_FileDescriptorW: FILEDESCRIPTORW;
-  DC_FileDescriptor: FILEDESCRIPTOR;
-  NumberOfFiles, CopyNumber, IndexFile: integer;
+  DC_FileDescriptorW: PFILEDESCRIPTORW;
   ActualFilename, DroppedTextFilename: String;
-  SuffixStr: string;
-  WantedCreationTime, WantedModificationTime, WantedLastAccessTime : DCBasicTypes.TFileTime;
+  NumberOfFiles, CopyNumber, IndexFile: Integer;
+  DC_FileDescriptorA: PFILEDESCRIPTORA absolute DC_FileDescriptorW;
+  DC_FileGroupeDescriptorW: PFILEGROUPDESCRIPTORW absolute AnyPointer;
 begin
   Result := nil;
 
   AnyPointer := GlobalLock(Medium.HGLOBAL);
   try
-    // Copy the structure
-    if Format.CfFormat=CFU_FILEGROUPDESCRIPTORW then
-    begin
-      MoveMemory(@DC_FileGroupeDescriptorW, AnyPointer, SizeOf(FILEGROUPDESCRIPTORW));
-      NumberOfFiles:=DC_FileGroupeDescriptorW.cItems;
-    end
-    else
-    begin
-      MoveMemory(@DC_FileGroupeDescriptor, AnyPointer, SizeOf(FILEGROUPDESCRIPTOR));
-      NumberOfFiles:=DC_FileGroupeDescriptor.cItems;
-    end;
+    NumberOfFiles:= DC_FileGroupeDescriptorW.cItems;
 
     // Return the number of messages
-    if NumberOfFiles>0 then
+    if NumberOfFiles > 0 then
     begin
-      if Format.CfFormat=CFU_FILEGROUPDESCRIPTORW then
-        AnyPointer:=AnyPointer+SizeOf(FILEGROUPDESCRIPTORW.cItems)
-      else
-        AnyPointer:=AnyPointer+SizeOf(FILEGROUPDESCRIPTOR.cItems);
+      DC_FileDescriptorW:= AnyPointer + SizeOf(FILEGROUPDESCRIPTORW.cItems);
 
-      result:=TStringList.Create;
+      Result:= TStringList.Create;
 
-      for IndexFile:=0 to pred(NumberOfFiles) do
+      for IndexFile:= 0 to Pred(NumberOfFiles) do
       begin
-        if Format.CfFormat=CFU_FILEGROUPDESCRIPTORW then
-        begin
-          MoveMemory(@DC_FileDescriptorW, AnyPointer, SizeOf(FILEDESCRIPTORW));
-          AnyPointer:=AnyPointer+SizeOf(FILEDESCRIPTORW);
-          ActualFilename:=UTF16ToUTF8(UnicodeString(DC_FileDescriptorW.cFileName));
-          WantedCreationTime:=DCBasicTypes.TFileTime(DC_FileDescriptorW.ftCreationTime);
-          WantedModificationTime:=DCBasicTypes.TFileTime(DC_FileDescriptorW.ftLastWriteTime);
-          WantedLastAccessTime:=DCBasicTypes.TFileTime(DC_FileDescriptorW.ftLastAccessTime);
-        end
-        else
-        begin
-          MoveMemory(@DC_FileDescriptor, AnyPointer, SizeOf(FILEDESCRIPTOR));
-          AnyPointer:=AnyPointer+SizeOf(FILEDESCRIPTOR);
-          ActualFilename:=CeSysToUTF8(AnsiString(DC_FileDescriptor.cFileName));
-          WantedCreationTime:=DCBasicTypes.TFileTime(DC_FileDescriptor.ftCreationTime);
-          WantedModificationTime:=DCBasicTypes.TFileTime(DC_FileDescriptor.ftLastWriteTime);
-          WantedLastAccessTime:=DCBasicTypes.TFileTime(DC_FileDescriptor.ftLastAccessTime);
+        if Format.CfFormat = CFU_FILEGROUPDESCRIPTORW then
+          ActualFilename:= UTF16ToUTF8(UnicodeString(DC_FileDescriptorW^.cFileName))
+        else begin
+          ActualFilename:= CeSysToUTF8(AnsiString(DC_FileDescriptorA^.cFileName));
         end;
 
-        DroppedTextFilename := GetTempFolderDeletableAtTheEnd+ActualFilename;
-        if result.IndexOf(DroppedTextFilename) <> -1 then
+        DroppedTextFilename := GetTempFolderDeletableAtTheEnd + ActualFilename;
+
+        if Result.IndexOf(DroppedTextFilename) <> -1 then
         begin
           CopyNumber := 2;
           repeat
@@ -1150,14 +1137,20 @@ begin
               drLikeWindows7, drLikeTC: DroppedTextFilename := GetTempFolderDeletableAtTheEnd+RemoveFileExt(ActualFilename) + SuffixStr + ExtractFileExt(ActualFilename);
             end;
             Inc(CopyNumber);
-          until result.IndexOf(DroppedTextFilename) = -1;
+          until Result.IndexOf(DroppedTextFilename) = -1;
         end;
 
-        if SaveCfuContentToFile(dataObj, IndexFile, DroppedTextFilename, WantedCreationTime, WantedModificationTime, WantedLastAccessTime) then result.Add(DroppedTextFilename);
+        if SaveCfuContentToFile(dataObj, IndexFile, DroppedTextFilename, DC_FileDescriptorW) then Result.Add(DroppedTextFilename);
+
+        if Format.CfFormat = CFU_FILEGROUPDESCRIPTORW then
+          Inc(DC_FileDescriptorW)
+        else begin
+          Inc(DC_FileDescriptorA);
+        end;
       end;
     end;
   finally
-  // Release the pointer
+    // Release the pointer
     GlobalUnlock(Medium.HGLOBAL);
   end;
 end;

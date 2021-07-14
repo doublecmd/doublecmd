@@ -6060,25 +6060,23 @@ end;
 
 procedure TfrmMain.UpdateDriveButtonSelection(DriveButton: TSpeedButton; FileView: TFileView);
 var
-  BitmapTmp: Graphics.TBitmap = nil;
-  DriveIndex: Integer;
   Drive: PDrive;
+  BitmapTmp: Graphics.TBitmap = nil;
 begin
+  DriveButton.Tag := FindMatchingDrive(FileView.CurrentAddress, FileView.CurrentPath);
+
   if not gDrivesListButton then
     Exit;
 
-  DriveIndex := FindMatchingDrive(FileView.CurrentAddress, FileView.CurrentPath);
-  if DriveIndex >= 0 then
+  if DriveButton.Tag >= 0 then
   begin
-    Drive := DrivesList[DriveIndex];
+    Drive := DrivesList[DriveButton.Tag];
     DriveButton.Caption := Drive^.DisplayName;
-    DriveButton.Tag := DriveIndex;
     BitmapTmp := PixMapManager.GetDriveIcon(Drive, gDiskIconsSize, DriveButton.Color);
   end
   else
   begin
     DriveButton.Caption := '';
-    DriveButton.Tag := -1;
 
     if FileView.FileSource.IsClass(TArchiveFileSource) then
       BitmapTmp := PixMapManager.GetArchiveIcon(gDiskIconsSize, DriveButton.Color)
