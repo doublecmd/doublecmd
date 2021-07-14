@@ -23,7 +23,7 @@ msgstr ""
 
 #: tdialogbox.btnok.caption
 msgid "&OK"
-msgstr "好(&O)"
+msgstr "确定(&O)"
 
 #: tdialogbox.caption
 msgctxt "tdialogbox.caption"
