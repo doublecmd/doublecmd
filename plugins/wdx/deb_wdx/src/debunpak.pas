@@ -13,7 +13,7 @@ function Deb_ExtractCtrlInfoFile(const DebFile: String; var DescFile: String): B
 implementation
 
 uses
-  dpkg_deb, libtar, AbXz, ZStream;
+  dpkg_deb, libtar, AbXz, ZStream, AbZstd;
 
 var
   DebPkg: TDebianPackage;
@@ -95,6 +95,20 @@ begin
   end;
 end;
 
+function ExtractZstd(InStream, OutStream: TStream): Boolean;
+var
+  AStream: TStream;
+begin
+  Result:= False;
+  AStream:= TZstdDecompressionStream.Create(InStream);
+  try
+    OutStream.CopyFrom(AStream, 0);
+    Result:= True;
+  finally
+    AStream.Free;
+  end;
+end;
+
 function UnpackDebFile(const DebFile: String; MemberIdx: Integer; OutStream: TStream): Boolean;
 var
   Index: Integer;
@@ -113,28 +127,19 @@ begin
     if Index = 0 then Exit;
     FileExt:= Copy(FileExt, Index, MaxInt);
 
-    if (FileExt = '.tar.xz') then
+    if (FileExt = '.tar.xz') or (FileExt = '.tar.gz') or (FileExt = '.tar.zst') then
     begin
       TempStream:= TMemoryStream.Create;
       try
         if DebPkg.ExtractMemberToStream(MemberIdx, TempStream) then
         begin
           TempStream.Position:= 0;
-          Result:= ExtractXz(TempStream, OutStream);
-        end;
-      finally
-        TempStream.Free;
-      end;
-    end;
 
-    if (FileExt = '.tar.gz') then
-    begin
-      TempStream:= TMemoryStream.Create;
-      try
-        if DebPkg.ExtractMemberToStream(MemberIdx, TempStream) then
-        begin
-          TempStream.Position:= 0;
-          Result:= ExtractGzip(TempStream, OutStream);
+          case FileExt[6] of
+          'x': Result:= ExtractXz(TempStream, OutStream);
+          'g': Result:= ExtractGzip(TempStream, OutStream);
+          'z': Result:= ExtractZstd(TempStream, OutStream);
+          end;
         end;
       finally
         TempStream.Free;
