@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: b5aaebc75354984d7cee90405a1f6642\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-01-17 23:08+0300\n"
-"PO-Revision-Date: 2021-07-05 20:19\n"
+"PO-Revision-Date: 2021-07-19 20:03\n"
 "Last-Translator: Full Name <email@address>\n"
 "Language-Team: Belarusian\n"
 "MIME-Version: 1.0\n"
@@ -90,7 +90,7 @@ msgstr "&Рэзерваваць прастору"
 
 #: tfilesystemcopymoveoperationoptionsui.chkcopyonwrite.caption
 msgid "Copy on write"
-msgstr ""
+msgstr "Капіяванне падчас запісу"
 
 #: tfilesystemcopymoveoperationoptionsui.chkverify.caption
 msgid "&Verify"
@@ -1084,7 +1084,7 @@ msgstr "Напрамак"
 
 #: tfrmelevation.chkelevateall.caption
 msgid "Do this for &all current objects"
-msgstr ""
+msgstr "Выканаць для &ўсіх бягучых аб'ектаў"
 
 #: tfrmextractdlg.caption
 msgid "Unpack files"
@@ -1566,7 +1566,7 @@ msgstr "Не& старэйшыя за:"
 
 #: tfrmfinddlg.cbofficexml.caption
 msgid "Offi&ce XML"
-msgstr ""
+msgstr "Офі&сныя XML"
 
 #: tfrmfinddlg.cbopenedtabs.caption
 msgid "Opened tabs"
@@ -2705,11 +2705,11 @@ msgstr "Стварыць сімвалічную &спасылку..."
 
 #: tfrmmain.actsyncchangedir.caption
 msgid "Synchronous navigation"
-msgstr ""
+msgstr "Сінхронная навігацыя"
 
 #: tfrmmain.actsyncchangedir.hint
 msgid "Synchronous directory changing in both panels"
-msgstr ""
+msgstr "Сінхронная змена каталогаў на абедзвюх панэлях"
 
 #: tfrmmain.actsyncdirs.caption
 msgid "Syn&chronize dirs..."
@@ -6047,7 +6047,7 @@ msgstr "Фармат па&меру файла:"
 
 #: tfrmoptionsfilesviews.lblfootersizeformat.caption
 msgid "&Footer format:"
-msgstr ""
+msgstr "&Фармат ніжняга калантытула:"
 
 #: tfrmoptionsfilesviews.lblgigabyte.caption
 msgid "&Gigabyte:"
@@ -6055,7 +6055,7 @@ msgstr "&Гігабайтаў:"
 
 #: tfrmoptionsfilesviews.lblheadersizeformat.caption
 msgid "&Header format:"
-msgstr ""
+msgstr "&Фармат загалоўка:"
 
 #: tfrmoptionsfilesviews.lblkilobyte.caption
 msgid "&Kilobyte:"
@@ -9625,7 +9625,7 @@ msgstr "Неабходна мець правы адміністратара"
 
 #: uadministrator.rselevationrequiredcopy
 msgid "to copy this object:"
-msgstr ""
+msgstr "для капіявання гэтага аб'екта:"
 
 #: uadministrator.rselevationrequiredcreate
 msgid "to create this object:"
@@ -10211,7 +10211,7 @@ msgstr "Файлы ўбудоў"
 
 #: ulng.rsfilterprogramslibraries
 msgid "Programs and Libraries"
-msgstr ""
+msgstr "Праграмы і бібліятэкі"
 
 #: ulng.rsfilterstatus
 msgid "FILTER"
@@ -10679,7 +10679,7 @@ msgstr "Нельга скапіяваць/перамясціць файл \"%s\"
 
 #: ulng.rsmsgcannotcopyspecialfile
 msgid "Cannot copy special file %s"
-msgstr ""
+msgstr "Немагчыма скапіяваць адмысловы файл %s"
 
 #: ulng.rsmsgcannotdeletedirectory
 msgid "Cannot delete directory %s"
@@ -10799,11 +10799,11 @@ msgstr "Немагчыма скапіяваць файл %s у %s"
 
 #: ulng.rsmsgerrcannotmovedirectory
 msgid "Cannot move directory %s"
-msgstr ""
+msgstr "Немагчыма перамясціць каталог %s"
 
 #: ulng.rsmsgerrcannotmovefile
 msgid "Cannot move file %s"
-msgstr ""
+msgstr "Немагчыма перамясціць файл %s"
 
 #: ulng.rsmsgerrcreatefiledirectoryexists
 msgid "There already exists a directory named \"%s\"."
@@ -10907,7 +10907,7 @@ msgstr "Немагчыма прызначыць дазволы для \"%s\""
 
 #: ulng.rsmsgerrsetxattribute
 msgid "Can not set extended attributes for \"%s\""
-msgstr ""
+msgstr "Немагчыма прызначыць дадатковыя атрыбуты для \"%s\""
 
 #: ulng.rsmsgerrsmallbuf
 msgid "Buffer too small"
@@ -12795,7 +12795,7 @@ msgstr "Зарэгістравана на"
 
 #: ulng.rsoptpluginsselectlualibrary
 msgid "Select Lua library file"
-msgstr ""
+msgstr "Абярыце бібліятэку Lua"
 
 #: ulng.rsoptrenamingtooltipfiletype
 msgid "Renaming tooltip file type"
@@ -13551,5 +13551,5 @@ msgstr "Замен не адбылося."
 
 #: umaincommands.rsfavoritetabs_setupnotexist
 msgid "No setup named \"%s\""
-msgstr ""
+msgstr "Набор \"%s\" не існуе"
 
