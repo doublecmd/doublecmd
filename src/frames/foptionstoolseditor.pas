@@ -35,8 +35,10 @@ type
   { TfrmOptionsEditor }
 
   TfrmOptionsEditor = class(TfrmOptionsToolBase)
+    cmbEncoding: TComboBox;
     gbInternalEditor: TGroupBox;
     chkRightEdge: TCheckBox;
+    lblEncoding: TLabel;
     pnlBooleanOptions: TPanel;
     chkAutoIndent: TCheckBox;
     chkTrimTrailingSpaces: TCheckBox;
@@ -68,17 +70,23 @@ uses
   {$else}
   SynEditTypes
   {$endif}
-  , uGlobs, uLng, fEditor;
+  , uGlobs, uLng, fEditor, uConvEncoding;
 
 { TfrmOptionsEditor }
 
 procedure TfrmOptionsEditor.Init;
 begin
   ExternalTool := etEditor;
+  // encoding combobox
+  cmbEncoding.Items.Clear;
+  GetSupportedEncodings(cmbEncoding.Items);
+  cmbEncoding.Items.Insert(0, AutoDetectEncoding);
   inherited Init;
 end;
 
 procedure TfrmOptionsEditor.Load;
+var
+  I: Integer;
 begin
   inherited Load;
   chkScrollPastEndLine.Checked := eoScrollPastEoL in gEditorSynEditOptions;
@@ -91,6 +99,12 @@ begin
   chkRightEdge.Checked := not (eoHideRightMargin in gEditorSynEditOptions);
   edTabWidth.Text := IntToStr(gEditorSynEditTabWidth);
   seeRightEdge.Value := gEditorSynEditRightEdge;
+  // encoding combobox
+  I := cmbEncoding.Items.IndexOf(gEditorEncodingIn);
+  if I >= 0 then
+    cmbEncoding.ItemIndex := I
+  else
+    cmbEncoding.ItemIndex := cmbEncoding.Items.IndexOf(AutoDetectEncoding);
 end;
 
 function TfrmOptionsEditor.Save: TOptionsEditorSaveFlags;
@@ -118,6 +132,7 @@ begin
   gEditorSynEditRightEdge := seeRightEdge.Value;
   if LastEditorUsedForConfiguration<>nil then
     LastEditorUsedForConfiguration.LoadGlobalOptions;
+  gEditorEncodingIn := cmbEncoding.Text;
 end;
 
 constructor TfrmOptionsEditor.Create(TheOwner: TComponent);

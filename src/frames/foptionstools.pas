@@ -39,9 +39,11 @@ type
     btnFontViewerColor: TButton;
     cbBackgroundColorViewerBook: TColorBox;
     cbFontColorViewerBook: TColorBox;
+    cmbEncoding: TComboBox;
     gbViewerBookMode: TGroupBox;
     gbViewerExample: TGroupBox;
     lblBackgroundColorViewerBook: TLabel;
+    lblEncoding: TLabel;
     lblFontColorViewerBook: TLabel;
     lblNumberColumnsViewer: TLabel;
     optColorDialog: TColorDialog;
@@ -69,7 +71,7 @@ implementation
 {$R *.lfm}
 
 uses
-  uDCUtils, uGlobs, uLng;
+  uDCUtils, uGlobs, uLng, ViewerControl;
 
 const
   ViewerBookPreviewText = 'Text';
@@ -141,6 +143,8 @@ begin
 end;
 
 procedure TfrmOptionsViewer.Init;
+var
+  ViewerControl: TViewerControl = Nil;
 begin
   ExternalTool := etViewer;
   OnUseExternalProgramChange := @UseExternalProgramChanged;
@@ -148,6 +152,9 @@ begin
   pbViewerBook.Font.Name := gFonts[dcfViewerBook].Name;
   pbViewerBook.Font.Size := gFonts[dcfViewerBook].Size;
   pbViewerBook.Font.Style := gFonts[dcfViewerBook].Style;
+  // encoding combobox
+  cmbEncoding.Items.Clear;
+  ViewerControl.GetSupportedEncodings(cmbEncoding.Items);
 
   inherited Init;
 
@@ -155,11 +162,20 @@ begin
 end;
 
 procedure TfrmOptionsViewer.Load;
+var
+  I: Integer;
 begin
   inherited;
   seNumberColumnsViewer.Value := gColCount;
   SetColorInColorBox(cbBackgroundColorViewerBook,gBookBackgroundColor);
   SetColorInColorBox(cbFontColorViewerBook,gBookFontColor);
+  // encoding combobox
+  I := cmbEncoding.Items.IndexOf(gViewerEncoding);
+  if I >= 0 then
+    cmbEncoding.ItemIndex := I
+  else
+    cmbEncoding.ItemIndex := cmbEncoding.Items.IndexOf(
+      ViewerControl.ViewerEncodingsNames[ViewerControl.veAutoDetect]);
 end;
 
 function TfrmOptionsViewer.Save: TOptionsEditorSaveFlags;
@@ -168,6 +184,7 @@ begin
   gColCount := seNumberColumnsViewer.Value;
   gBookBackgroundColor := cbBackgroundColorViewerBook.Selected;
   gBookFontColor := cbFontColorViewerBook.Selected;
+  gViewerEncoding := cmbEncoding.Text;
 end;
 
 end.

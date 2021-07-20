@@ -5301,6 +5301,11 @@ msgstr ""
 msgid "Internal editor options"
 msgstr "Възможности на вътрешния обработчик"
 
+#: tfrmoptionseditor.lblencoding.caption
+msgctxt "tfrmoptionseditor.lblencoding.caption"
+msgid "Encoding:"
+msgstr "Знаков набор:"
+
 #: tfrmoptionseditor.lbltabwidth.caption
 msgid "Tab width:"
 msgstr ""
@@ -8437,6 +8442,11 @@ msgstr "Пример"
 msgctxt "TFRMOPTIONSVIEWER.LBLBACKGROUNDCOLORVIEWERBOOK.CAPTION"
 msgid "&Background color in book viewer"
 msgstr "&Подцветка на книговидния преглед"
+
+#: tfrmoptionsviewer.lblencoding.caption
+msgctxt "tfrmoptionsviewer.lblencoding.caption"
+msgid "Encoding:"
+msgstr "Знаков набор:"
 
 #: tfrmoptionsviewer.lblfontcolorviewerbook.caption
 msgctxt "TFRMOPTIONSVIEWER.LBLFONTCOLORVIEWERBOOK.CAPTION"

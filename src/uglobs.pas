@@ -622,12 +622,14 @@ var
   gTextPosition:PtrInt;
   gPrintMargins: TRect;
   gShowCaret: Boolean;
+  gViewerEncoding: String;
 
   { Editor }
   gEditWaitTime: Integer;
   gEditorSynEditOptions: TSynEditorOptions;
   gEditorSynEditTabWidth,
   gEditorSynEditRightEdge: Integer;
+  gEditorEncodingIn: String;
 
   { Differ }
   gDifferAddedColor: TColor;
@@ -3057,6 +3059,7 @@ begin
       begin
         gThumbSave := GetValue(Node, 'SaveThumbnails', gThumbSave);
       end;
+      gViewerEncoding := GetValue(Node, 'ViewerEncoding', gViewerEncoding);
     end;
 
     { Editor }
@@ -3067,6 +3070,7 @@ begin
       gEditorSynEditOptions := TSynEditorOptions(GetValue(Node, 'SynEditOptions', Integer(gEditorSynEditOptions)));
       gEditorSynEditTabWidth := GetValue(Node, 'SynEditTabWidth', gEditorSynEditTabWidth);
       gEditorSynEditRightEdge := GetValue(Node, 'SynEditRightEdge', gEditorSynEditRightEdge);
+      gEditorEncodingIn := GetValue(Node, 'EditorEncodingIn', gEditorEncodingIn);
     end;
 
     { Differ }
@@ -3663,6 +3667,7 @@ begin
     SetValue(Node, 'BackgroundColor', gBookBackgroundColor);
     SetValue(Node, 'FontColor', gBookFontColor);
     SetValue(Node, 'TextPosition', gTextPosition);
+    SetValue(Node, 'ViewerEncoding', gViewerEncoding);
 
     { Editor }
     Node := FindNode(Root, 'Editor',True);
@@ -3670,6 +3675,7 @@ begin
     SetValue(Node, 'SynEditOptions', Integer(gEditorSynEditOptions));
     SetValue(Node, 'SynEditTabWidth', gEditorSynEditTabWidth);
     SetValue(Node, 'SynEditRightEdge', gEditorSynEditRightEdge);
+    SetValue(Node, 'EditorEncodingIn', gEditorEncodingIn);
 
     { Differ }
     Node := FindNode(Root, 'Differ',True);

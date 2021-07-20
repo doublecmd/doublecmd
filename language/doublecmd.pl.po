@@ -5076,6 +5076,11 @@ msgstr "Zwróć uwagę, że opcja \"Inteligentne tabulatory\" ma pierwszeństwo 
 msgid "Internal editor options"
 msgstr "Opcje edytora wewnętrznego"
 
+#: tfrmoptionseditor.lblencoding.caption
+msgctxt "tfrmoptionseditor.lblencoding.caption"
+msgid "Encoding:"
+msgstr "Kodowanie:"
+
 #: tfrmoptionseditor.lbltabwidth.caption
 msgid "Tab width:"
 msgstr "Szerokość tabulatora:"
@@ -7999,6 +8004,11 @@ msgstr "Przykład"
 #: tfrmoptionsviewer.lblbackgroundcolorviewerbook.caption
 msgid "&Background color in book viewer"
 msgstr "Kolor &tła w podglądzie książki"
+
+#: tfrmoptionsviewer.lblencoding.caption
+msgctxt "tfrmoptionsviewer.lblencoding.caption"
+msgid "Encoding:"
+msgstr "Kodowanie:"
 
 #: tfrmoptionsviewer.lblfontcolorviewerbook.caption
 msgid "&Font color in book viewer"

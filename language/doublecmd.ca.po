@@ -5573,6 +5573,11 @@ msgstr ""
 msgid "Internal editor options"
 msgstr ""
 
+#: tfrmoptionseditor.lblencoding.caption
+msgctxt "tfrmoptionseditor.lblencoding.caption"
+msgid "Encoding:"
+msgstr "Codificació:"
+
 #: tfrmoptionseditor.lbltabwidth.caption
 msgid "Tab width:"
 msgstr ""
@@ -8850,6 +8855,11 @@ msgstr "Exemple"
 msgctxt "tfrmoptionsviewer.lblbackgroundcolorviewerbook.caption"
 msgid "&Background color in book viewer"
 msgstr "Color de segon pla en vista de llibre"
+
+#: tfrmoptionsviewer.lblencoding.caption
+msgctxt "tfrmoptionsviewer.lblencoding.caption"
+msgid "Encoding:"
+msgstr "Codificació:"
 
 #: tfrmoptionsviewer.lblfontcolorviewerbook.caption
 #, fuzzy

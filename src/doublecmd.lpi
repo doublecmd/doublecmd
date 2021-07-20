@@ -1128,6 +1128,7 @@ end;"/>
       <Unit135>
         <Filename Value="filesources\uvirtualfilesource.pas"/>
         <IsPartOfProject Value="True"/>
+        <UnitName Value="uVirtualFileSource"/>
       </Unit135>
       <Unit136>
         <Filename Value="filesources\filesystem\ffilesystemcopymoveoperationoptions.pas"/>

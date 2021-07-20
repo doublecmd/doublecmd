@@ -41,6 +41,7 @@ uses
 
 const
   HotkeysCategory = 'Editor';
+  AutoDetectEncoding = 'Auto-detect';
 
 type
   { TfrmEditor }
@@ -415,6 +416,7 @@ var
   Buffer: AnsiString;
   Reader: TFileStreamUAC;
   Highlighter: TSynCustomHighlighter;
+  MenuItem: TMenuItem;
 begin
   PushPop(FElevate);
   try
@@ -428,9 +430,17 @@ begin
         Reader.Free;
       end;
 
-      // Try to detect encoding by first 4 kb of text
-      Buffer := Copy(sOriginalText, 1, 4096);
-      sEncodingIn := DetectEncoding(Buffer);
+      // Encoding
+      MenuItem := miEncodingIn.Find(gEditorEncodingIn);
+      if ((MenuItem = Nil) or (gEditorEncodingIn = AutoDetectEncoding)) then begin
+        // Try to detect encoding by first 4 kb of text
+        Buffer := Copy(sOriginalText, 1, 4096);
+        sEncodingIn := DetectEncoding(Buffer);
+      end
+      else begin
+        sEncodingIn := gEditorEncodingIn;
+        MenuItem.Checked := True;
+      end;
       ChooseEncoding(miEncodingIn, sEncodingIn);
       sEncodingOut := sEncodingIn; // by default
       ChooseEncoding(miEncodingOut, sEncodingOut);
@@ -746,6 +756,7 @@ end;
 procedure TfrmEditor.SetEncodingIn(Sender: TObject);
 begin
   sEncodingIn:= (Sender as TMenuItem).Caption;
+  sEncodingStat:=sEncodingIn;
   sEncodingOut:= sEncodingIn;
   ChooseEncoding(miEncodingOut, sEncodingOut);
   Editor.Lines.Text:= ConvertEncoding(sOriginalText, sEncodingIn, EncodingUTF8);
@@ -926,7 +937,7 @@ end;
 procedure TfrmEditor.cm_EditGotoLine(const Params:array of string);
 var
   P: TPoint;
-  Value: String;
+  Value: String = String.Empty;
   NewTopLine: Integer;
 begin
   if ShowInputQuery(rsEditGotoLineTitle, rsEditGotoLineQuery, Value) then

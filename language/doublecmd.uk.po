@@ -5222,6 +5222,11 @@ msgstr "Зверніть увагу, опція \"Розумні табуляц�
 msgid "Internal editor options"
 msgstr "Опції вбудованого редактора"
 
+#: tfrmoptionseditor.lblencoding.caption
+msgctxt "tfrmoptionseditor.lblencoding.caption"
+msgid "Encoding:"
+msgstr "Кодування:"
+
 #: tfrmoptionseditor.lbltabwidth.caption
 msgid "Tab width:"
 msgstr "Ширина табуляції:"
@@ -8306,6 +8311,11 @@ msgstr "Приклад"
 msgctxt "TFRMOPTIONSVIEWER.LBLBACKGROUNDCOLORVIEWERBOOK.CAPTION"
 msgid "&Background color in book viewer"
 msgstr "Колір ф&ону в переглядачі книг"
+
+#: tfrmoptionsviewer.lblencoding.caption
+msgctxt "tfrmoptionsviewer.lblencoding.caption"
+msgid "Encoding:"
+msgstr "Кодування:"
 
 #: tfrmoptionsviewer.lblfontcolorviewerbook.caption
 msgctxt "TFRMOPTIONSVIEWER.LBLFONTCOLORVIEWERBOOK.CAPTION"

@@ -5193,6 +5193,11 @@ msgstr "「スマートタブ」オプションは,テーブル化の実行よ�
 msgid "Internal editor options"
 msgstr "内部エディターのオプション"
 
+#: tfrmoptionseditor.lblencoding.caption
+msgctxt "tfrmoptionseditor.lblencoding.caption"
+msgid "Encoding:"
+msgstr "エンコーディング"
+
 #: tfrmoptionseditor.lbltabwidth.caption
 msgid "Tab width:"
 msgstr "タブ幅:"
@@ -8220,6 +8225,11 @@ msgstr "例"
 #: tfrmoptionsviewer.lblbackgroundcolorviewerbook.caption
 msgid "&Background color in book viewer"
 msgstr "ブックビューアの背景色(&B)"
+
+#: tfrmoptionsviewer.lblencoding.caption
+msgctxt "tfrmoptionsviewer.lblencoding.caption"
+msgid "Encoding:"
+msgstr "エンコーディング"
 
 #: tfrmoptionsviewer.lblfontcolorviewerbook.caption
 msgid "&Font color in book viewer"

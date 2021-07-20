@@ -743,6 +743,8 @@ begin
 end;
 
 procedure TfrmViewer.LoadNextFile(const aFileName: String);
+var
+  MenuItem: TMenuItem;
 begin
   if bPlugin then
     with FWlxModule do
@@ -757,7 +759,16 @@ begin
       end;
     end;
   ExitPluginMode;
-  ViewerControl.ResetEncoding;
+
+  // Encoding
+  MenuItem := miEncoding.Find(gViewerEncoding);
+  if ((MenuItem = Nil) or (gViewerEncoding = ViewerEncodingsNames[veAutoDetect])) then
+    ViewerControl.ResetEncoding
+  else begin
+    ViewerControl.EncodingName := gViewerEncoding;
+    MenuItem.Checked := True;
+  end;
+
   LoadFile(aFileName);
   if ViewerControl.IsFileOpen then
   begin
@@ -1907,6 +1918,14 @@ begin
 
   HotMan.Register(pnlText ,'Text files');
   HotMan.Register(pnlImage,'Image files');
+
+  // Encoding
+  MenuItem := miEncoding.Find(gViewerEncoding);
+  if not ((MenuItem = Nil) or (gViewerEncoding = ViewerEncodingsNames[veAutoDetect])) then
+  begin
+    ViewerControl.EncodingName := gViewerEncoding;
+    MenuItem.Checked := True;
+  end;
 end;
 
 procedure TfrmViewer.FormKeyPress(Sender: TObject; var Key: Char);

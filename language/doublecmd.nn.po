@@ -5267,6 +5267,11 @@ msgstr "Legg merke til at \"Smart tab\"-tilvalet har forrang foran pågående ta
 msgid "Internal editor options"
 msgstr "Innstillingar (Intern editor, F4)"
 
+#: tfrmoptionseditor.lblencoding.caption
+msgctxt "tfrmoptionseditor.lblencoding.caption"
+msgid "Encoding:"
+msgstr "Koding:"
+
 #: tfrmoptionseditor.lbltabwidth.caption
 msgid "Tab width:"
 msgstr "Tab-breidd:"
@@ -8497,6 +8502,11 @@ msgstr "Eksempel"
 msgctxt "TFRMOPTIONSVIEWER.LBLBACKGROUNDCOLORVIEWERBOOK.CAPTION"
 msgid "&Background color in book viewer"
 msgstr "&Bakgrunnsfarge for bokvisning"
+
+#: tfrmoptionsviewer.lblencoding.caption
+msgctxt "tfrmoptionsviewer.lblencoding.caption"
+msgid "Encoding:"
+msgstr "Koding:"
 
 #: tfrmoptionsviewer.lblfontcolorviewerbook.caption
 msgctxt "TFRMOPTIONSVIEWER.LBLFONTCOLORVIEWERBOOK.CAPTION"

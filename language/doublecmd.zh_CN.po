@@ -5119,6 +5119,11 @@ msgstr "请注意：<智能制表符> 选项优先于要执行的制表"
 msgid "Internal editor options"
 msgstr "内部编辑器选项"
 
+#: tfrmoptionseditor.lblencoding.caption
+msgctxt "tfrmoptionseditor.lblencoding.caption"
+msgid "Encoding:"
+msgstr "编码"
+
 #: tfrmoptionseditor.lbltabwidth.caption
 msgid "Tab width:"
 msgstr "制表符宽度："
@@ -8074,6 +8079,11 @@ msgstr "例如"
 #: tfrmoptionsviewer.lblbackgroundcolorviewerbook.caption
 msgid "&Background color in book viewer"
 msgstr "书籍查看器背景颜色(&B)"
+
+#: tfrmoptionsviewer.lblencoding.caption
+msgctxt "tfrmoptionsviewer.lblencoding.caption"
+msgid "Encoding:"
+msgstr "编码"
 
 #: tfrmoptionsviewer.lblfontcolorviewerbook.caption
 msgid "&Font color in book viewer"

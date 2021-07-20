@@ -5518,6 +5518,11 @@ msgstr ""
 msgid "Internal editor options"
 msgstr ""
 
+#: tfrmoptionseditor.lblencoding.caption
+msgctxt "tfrmoptionseditor.lblencoding.caption"
+msgid "Encoding:"
+msgstr "編碼"
+
 #: tfrmoptionseditor.lbltabwidth.caption
 msgid "Tab width:"
 msgstr ""
@@ -8869,6 +8874,11 @@ msgstr "範例"
 msgctxt "TFRMOPTIONSVIEWER.LBLBACKGROUNDCOLORVIEWERBOOK.CAPTION"
 msgid "&Background color in book viewer"
 msgstr "閱讀模式背景色彩 (&B)"
+
+#: tfrmoptionsviewer.lblencoding.caption
+msgctxt "tfrmoptionsviewer.lblencoding.caption"
+msgid "Encoding:"
+msgstr "編碼"
 
 #: tfrmoptionsviewer.lblfontcolorviewerbook.caption
 #, fuzzy

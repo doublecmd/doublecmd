@@ -5,5 +5,6 @@
 {"hash":216549221,"name":"tfrmoptionsviewer.gbviewerexample.caption","sourcebytes":[69,120,97,109,112,108,101],"value":"Example"},
 {"hash":1054,"name":"tfrmoptionsviewer.btnfontviewercolor.caption","sourcebytes":[62,62],"value":">>"},
 {"hash":1054,"name":"tfrmoptionsviewer.btnbackviewercolor.caption","sourcebytes":[62,62],"value":">>"},
-{"hash":250825426,"name":"tfrmoptionsviewer.lblfontcolorviewerbook.caption","sourcebytes":[38,70,111,110,116,32,99,111,108,111,114,32,105,110,32,98,111,111,107,32,118,105,101,119,101,114],"value":"&Font color in book viewer"}
+{"hash":250825426,"name":"tfrmoptionsviewer.lblfontcolorviewerbook.caption","sourcebytes":[38,70,111,110,116,32,99,111,108,111,114,32,105,110,32,98,111,111,107,32,118,105,101,119,101,114],"value":"&Font color in book viewer"},
+{"hash":173721834,"name":"tfrmoptionsviewer.lblencoding.caption","sourcebytes":[69,110,99,111,100,105,110,103,58],"value":"Encoding:"}
 ]}

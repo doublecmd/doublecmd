@@ -5535,6 +5535,11 @@ msgstr "Bemærk, at indstillingen  \"Smart Tabs \" har forrang for tabuleringen,
 msgid "Internal editor options"
 msgstr "Indstillinger (intern fremviser)"
 
+#: tfrmoptionseditor.lblencoding.caption
+msgctxt "tfrmoptionseditor.lblencoding.caption"
+msgid "Encoding:"
+msgstr "Koder:"
+
 # Opsætning - Indstillinger - Værktøjer - Editor
 #: tfrmoptionseditor.lbltabwidth.caption
 msgid "Tab width:"
@@ -8986,6 +8991,11 @@ msgstr "Eksempel"
 #: tfrmoptionsviewer.lblbackgroundcolorviewerbook.caption
 msgid "&Background color in book viewer"
 msgstr "&Baggrundsfarve for bogvisning:"
+
+#: tfrmoptionsviewer.lblencoding.caption
+msgctxt "tfrmoptionsviewer.lblencoding.caption"
+msgid "Encoding:"
+msgstr "Koder:"
 
 # Opsætning - Indstillinger - Værktøjer - Fremviser
 #: tfrmoptionsviewer.lblfontcolorviewerbook.caption

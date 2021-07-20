@@ -5207,6 +5207,11 @@ msgstr "Vigyázat, az \"Okos tabulátor\" opció felülbírálja ezt a beállít
 msgid "Internal editor options"
 msgstr "Belső szerkesztő beállításai"
 
+#: tfrmoptionseditor.lblencoding.caption
+msgctxt "tfrmoptionseditor.lblencoding.caption"
+msgid "Encoding:"
+msgstr "Kódolás:"
+
 #: tfrmoptionseditor.lbltabwidth.caption
 msgid "Tab width:"
 msgstr "Tabulátor szélesség"
@@ -8266,6 +8271,11 @@ msgstr "Példa"
 msgctxt "TFRMOPTIONSVIEWER.LBLBACKGROUNDCOLORVIEWERBOOK.CAPTION"
 msgid "&Background color in book viewer"
 msgstr " Nézőke &háttérszíne könyv módban"
+
+#: tfrmoptionsviewer.lblencoding.caption
+msgctxt "tfrmoptionsviewer.lblencoding.caption"
+msgid "Encoding:"
+msgstr "Kódolás:"
 
 #: tfrmoptionsviewer.lblfontcolorviewerbook.caption
 msgctxt "TFRMOPTIONSVIEWER.LBLFONTCOLORVIEWERBOOK.CAPTION"

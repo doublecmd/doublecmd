@@ -5,8 +5,8 @@ inherited frmOptionsEditor: TfrmOptionsEditor
   ClientWidth = 586
   ParentShowHint = False
   ShowHint = True
-  DesignLeft = 117
-  DesignTop = 255
+  DesignLeft = 418
+  DesignTop = 258
   object gbInternalEditor: TGroupBox[8]
     AnchorSideLeft.Control = fneToolsPath
     AnchorSideTop.Control = cbToolsKeepTerminalOpen
@@ -14,8 +14,8 @@ inherited frmOptionsEditor: TfrmOptionsEditor
     AnchorSideRight.Control = edtToolsParameters
     AnchorSideRight.Side = asrBottom
     Left = 8
-    Height = 176
-    Top = 235
+    Height = 175
+    Top = 200
     Width = 571
     Anchors = [akTop, akLeft, akRight]
     AutoSize = True
@@ -28,12 +28,12 @@ inherited frmOptionsEditor: TfrmOptionsEditor
     ChildSizing.EnlargeHorizontal = crsScaleChilds
     ChildSizing.Layout = cclLeftToRightThenTopToBottom
     ChildSizing.ControlsPerLine = 1
-    ClientHeight = 151
+    ClientHeight = 155
     ClientWidth = 567
     TabOrder = 5
     object pnlBooleanOptions: TPanel
       Left = 6
-      Height = 108
+      Height = 88
       Top = 6
       Width = 555
       AutoSize = True
@@ -44,71 +44,71 @@ inherited frmOptionsEditor: TfrmOptionsEditor
       ChildSizing.EnlargeHorizontal = crsScaleChilds
       ChildSizing.Layout = cclLeftToRightThenTopToBottom
       ChildSizing.ControlsPerLine = 2
-      ClientHeight = 108
+      ClientHeight = 88
       ClientWidth = 555
       TabOrder = 0
       object chkAutoIndent: TCheckBox
         Left = 6
-        Height = 24
+        Height = 19
         Hint = 'Allows to indent the caret, when new line is created with <Enter>, with the same amount of leading white space as the preceding line'
         Top = 6
-        Width = 306
+        Width = 305
         Caption = 'Auto Indent'
         TabOrder = 0
       end
       object chkTrimTrailingSpaces: TCheckBox
-        Left = 324
-        Height = 24
+        Left = 323
+        Height = 19
         Hint = 'Auto delete trailing spaces, this applies only to edited lines'
         Top = 6
-        Width = 225
+        Width = 226
         Caption = 'Delete trailing spaces'
         TabOrder = 1
       end
       object chkScrollPastEndLine: TCheckBox
         AnchorSideTop.Side = asrBottom
         Left = 6
-        Height = 24
+        Height = 19
         Hint = 'Allows caret to go into empty space beyond end-of-line position'
-        Top = 30
-        Width = 306
+        Top = 25
+        Width = 305
         BorderSpacing.Left = 6
         Caption = 'Caret past end of line'
         TabOrder = 2
       end
       object chkShowSpecialChars: TCheckBox
-        Left = 324
-        Height = 24
+        Left = 323
+        Height = 19
         Hint = 'Shows special characters for spaces and tabulations'
-        Top = 30
-        Width = 225
+        Top = 25
+        Width = 226
         Caption = 'Show special characters'
         TabOrder = 3
       end
       object chkTabsToSpaces: TCheckBox
         Left = 6
-        Height = 24
+        Height = 19
         Hint = 'Converts tab characters to a specified number of space characters (when entering)'
-        Top = 54
-        Width = 306
+        Top = 44
+        Width = 305
         Caption = 'Use spaces instead tab characters'
         TabOrder = 4
       end
       object chkTabIndent: TCheckBox
-        Left = 324
-        Height = 24
+        Left = 323
+        Height = 19
         Hint = 'When active <Tab> and <Shift+Tab> act as block indent, unindent when text is selected'
-        Top = 54
-        Width = 225
+        Top = 44
+        Width = 226
         Caption = 'Tab indents blocks'
         TabOrder = 5
       end
       object chkSmartTabs: TCheckBox
         Left = 6
-        Height = 24
+        Height = 19
         Hint = 'When using <Tab> key, caret will go to the next non-space character of the previous line'
-        Top = 78
-        Width = 306
+        Top = 63
+        Width = 305
         Caption = 'Smart Tabs'
         TabOrder = 6
       end
@@ -118,11 +118,11 @@ inherited frmOptionsEditor: TfrmOptionsEditor
       AnchorSideLeft.Side = asrBottom
       AnchorSideTop.Control = pnlBooleanOptions
       AnchorSideTop.Side = asrBottom
-      Left = 77
-      Height = 28
+      Left = 65
+      Height = 23
       Hint = 'Please note that the "Smart Tabs" option takes precedence over the tabulation to be performed'
-      Top = 117
-      Width = 100
+      Top = 97
+      Width = 80
       BorderSpacing.Left = 4
       BorderSpacing.Top = 3
       TabOrder = 1
@@ -132,10 +132,10 @@ inherited frmOptionsEditor: TfrmOptionsEditor
       AnchorSideTop.Control = edTabWidth
       AnchorSideTop.Side = asrCenter
       Left = 6
-      Height = 20
+      Height = 15
       Hint = 'Please note that the "Smart Tabs" option takes precedence over the tabulation to be performed'
-      Top = 121
-      Width = 67
+      Top = 101
+      Width = 55
       Caption = 'Tab width:'
       FocusControl = edTabWidth
       ParentColor = False
@@ -145,10 +145,10 @@ inherited frmOptionsEditor: TfrmOptionsEditor
       AnchorSideLeft.Side = asrBottom
       AnchorSideTop.Control = lblTabWidth
       AnchorSideTop.Side = asrCenter
-      Left = 189
-      Height = 24
-      Top = 119
-      Width = 113
+      Left = 157
+      Height = 19
+      Top = 99
+      Width = 92
       BorderSpacing.Left = 12
       Caption = 'Right margin:'
       Color = clDefault
@@ -160,20 +160,52 @@ inherited frmOptionsEditor: TfrmOptionsEditor
       AnchorSideLeft.Side = asrBottom
       AnchorSideTop.Control = edTabWidth
       AnchorSideTop.Side = asrCenter
-      Left = 306
-      Height = 28
-      Top = 117
-      Width = 129
+      Left = 253
+      Height = 23
+      Top = 97
+      Width = 103
       BorderSpacing.Left = 4
       MaxLength = 0
       TabOrder = 3
       MaxValue = 512
       MinValue = 16
+      NullValue = 0
       Value = 80
+    end
+    object lblEncoding: TLabel
+      AnchorSideLeft.Control = pnlBooleanOptions
+      AnchorSideTop.Control = edTabWidth
+      AnchorSideTop.Side = asrBottom
+      AnchorSideRight.Side = asrBottom
+      Left = 6
+      Height = 15
+      Top = 130
+      Width = 53
+      BorderSpacing.Top = 10
+      BorderSpacing.Right = 6
+      Caption = 'Encoding:'
+      FocusControl = cmbEncoding
+      ParentColor = False
+    end
+    object cmbEncoding: TComboBox
+      AnchorSideLeft.Control = lblEncoding
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = lblEncoding
+      AnchorSideTop.Side = asrCenter
+      Left = 65
+      Height = 23
+      Top = 126
+      Width = 100
+      BorderSpacing.Left = 4
+      BorderSpacing.Top = 3
+      BorderSpacing.Bottom = 3
+      ItemHeight = 15
+      Style = csDropDownList
+      TabOrder = 4
     end
   end
   inherited pmPathHelper: TPopupMenu[9]
-    left = 424
-    top = 8
+    Left = 424
+    Top = 8
   end
 end
