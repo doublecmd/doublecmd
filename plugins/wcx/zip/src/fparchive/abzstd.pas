@@ -237,9 +237,12 @@ end;
 
 destructor TZstdDecompressionStream.Destroy;
 begin
-  FreeMem(FBufferIn.src);
-  FreeMem(FBufferOut.dst);
-  ZSTD_freeDCtx(FContext);
+  if Assigned(FContext) then
+  begin
+    FreeMem(FBufferIn.src);
+    FreeMem(FBufferOut.dst);
+    ZSTD_freeDCtx(FContext);
+  end;
   inherited Destroy;
 end;
 
