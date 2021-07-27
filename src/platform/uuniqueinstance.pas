@@ -297,13 +297,17 @@ begin
     FServerIPC.Active:=False;
     try
       LocalClientIPC:=TSimpleIPCClient.Create(nil);
-      IndexInstance:=1;
-      Result:=FALSE;
-      repeat
-        LocalClientIPC.ServerID:=GetServerIdNameToCheck;
-        Result:=LocalClientIPC.ServerRunning;
-        inc(IndexInstance);
-      until Result OR (IndexInstance>=10);
+      try
+        IndexInstance:=1;
+        Result:=FALSE;
+        repeat
+          LocalClientIPC.ServerID:=GetServerIdNameToCheck;
+          Result:=LocalClientIPC.ServerRunning;
+          inc(IndexInstance);
+        until Result OR (IndexInstance>=10);
+      finally
+        FreeAndNil(LocalClientIPC);
+      end;
     finally
       FServerIPC.Active:=True;
     end;
