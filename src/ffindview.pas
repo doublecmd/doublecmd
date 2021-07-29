@@ -35,6 +35,7 @@ type
     procedure cbBackwardsChange(Sender: TObject);
     procedure cbRegExpChange(Sender: TObject);
     procedure chkHexChange(Sender: TObject);
+    procedure FormActivate(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure btnFindClick(Sender: TObject);
     procedure cbDataToFindKeyUp(Sender: TObject; var Key: Word;
@@ -61,7 +62,6 @@ begin
         cbDataToFind.Text:= cbDataToFind.Items[0];
     end;
   cbDataToFind.SelectAll;
-  cbDataToFind.SetFocus;
 end;
 
 procedure TfrmFindView.chkHexChange(Sender: TObject);
@@ -73,6 +73,11 @@ begin
     cbCaseSens.Checked:= True;
   end;
   cbCaseSens.Enabled:= not chkHex.Checked;
+end;
+
+procedure TfrmFindView.FormActivate(Sender: TObject);
+begin
+  cbDataToFind.SetFocus;
 end;
 
 procedure TfrmFindView.cbBackwardsChange(Sender: TObject);
