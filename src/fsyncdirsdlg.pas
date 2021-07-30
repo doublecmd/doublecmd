@@ -845,7 +845,9 @@ begin
       FillRect(aRect);
       Font.Bold := True;
       Font.Color := clWindowText;
-      TextOut(aRect.Left + 2, aRect.Top + 2, FVisibleItems[aRow]);
+      with hCols[0] do
+        TextRect(Rect(Left, aRect.Top, Left + Width, aRect.Bottom),
+          Left + 2, aRect.Top + 2, FVisibleItems[aRow]);
     end else begin
       case r.FState of
       srsNotEq:       Font.Color := gSyncUnknownColor;
@@ -857,10 +859,15 @@ begin
       end;
       if Assigned(r.FFileL) then
       begin
-        TextOut(aRect.Left + 2, aRect.Top + 2, FVisibleItems[aRow]);
+        with hCols[0] do
+          TextRect(Rect(Left, aRect.Top, Left + Width, aRect.Bottom),
+            Left + 2, aRect.Top + 2, FVisibleItems[aRow]);
         s := IntToStr(r.FFileL.Size);
-        x := hCols[1].Left + hCols[1].Width - 2 - TextWidth(s);
-        TextOut(x, aRect.Top + 2, s);
+        with hCols[1] do begin
+          x := Left + Width - 8 - TextWidth(s);
+          TextRect(Rect(Left, aRect.Top, Left + Width, aRect.Bottom),
+            x, aRect.Top + 2, s);
+        end;
         s := DateTimeToStr(r.FFileL.ModificationTime);
         with hCols[2] do
           TextRect(Rect(Left, aRect.Top, Left + Width, aRect.Bottom),
@@ -868,10 +875,15 @@ begin
       end;
       if Assigned(r.FFileR) then
       begin
-        TextOut(hCols[6].Left + 2, aRect.Top + 2, FVisibleItems[aRow]);
+        with hCols[6] do
+          TextRect(Rect(Left, aRect.Top, Left + Width, aRect.Bottom),
+            Left + 2, aRect.Top + 2, FVisibleItems[aRow]);
         s := IntToStr(r.FFileR.Size);
-        x := hCols[5].Left + hCols[5].Width - 2 - TextWidth(s);
-        TextOut(x, aRect.Top + 2, s);
+        with hCols[5] do begin
+          x := Left + Width - 8 - TextWidth(s);
+          TextRect(Rect(Left, aRect.Top, Left + Width, aRect.Bottom),
+            x, aRect.Top + 2, s);
+        end;
         s := DateTimeToStr(r.FFileR.ModificationTime);
         with hCols[4] do
           TextRect(Rect(Left, aRect.Top, Left + Width, aRect.Bottom),
