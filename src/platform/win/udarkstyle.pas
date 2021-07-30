@@ -184,7 +184,8 @@ function CheckBuildNumber(buildNumber: DWORD): Boolean; inline;
 begin
   Result := (buildNumber = 17763) or // 1809
             (buildNumber = 18362) or // 1903 & 1909
-            (buildNumber = 19041);   // 2004 & 20H2 & 21H1
+            (buildNumber = 19041) or // 2004 & 20H2 & 21H1
+            (buildNumber = 22000);   // 21H2
 end;
 
 function GetBuildNumber(Instance: THandle): DWORD;
