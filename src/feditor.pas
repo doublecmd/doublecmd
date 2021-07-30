@@ -834,7 +834,8 @@ begin
     SearchFromCursor := bSearchFromCaret;
     SearchInSelectionOnly := bSearchSelectionOnly;
     if Editor.SelAvail and not (Editor.BlockBegin.Y = Editor.BlockEnd.Y)
-      then SearchInSelectionOnly := True;
+    then
+      SearchInSelectionOnly := True;
     SearchRegExp := bSearchRegExp;
     // start with last search text
     SearchText := sSearchText;
