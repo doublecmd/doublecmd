@@ -673,11 +673,8 @@ end;
 destructor TSynRule.Destroy;
 begin
 //  FreeList(AttribsList);
-{  if Attribs <> nil then begin
-    Attribs.Free;
-    Attribs := nil;
-  end;}
-  inherited;
+  Attribs.Free;
+  inherited Destroy;
 end;
 
 {function TSynRule.AddAttribute(): integer;
