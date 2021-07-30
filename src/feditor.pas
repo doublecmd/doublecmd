@@ -833,7 +833,8 @@ begin
     SearchCaseSensitive := bSearchCaseSensitive;
     SearchFromCursor := bSearchFromCaret;
     SearchInSelectionOnly := bSearchSelectionOnly;
-	if Length(Editor.SelText) > 0 then SearchInSelectionOnly := True;
+    if Editor.SelAvail and not (Editor.BlockBegin.Y = Editor.BlockEnd.Y)
+      then SearchInSelectionOnly := True;
     SearchRegExp := bSearchRegExp;
     // start with last search text
     SearchText := sSearchText;
