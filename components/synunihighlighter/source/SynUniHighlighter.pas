@@ -711,7 +711,11 @@ begin
     try
       TargetStream.Position:= 0;
       ReadXMLFile(Xml, TargetStream);
-      LoadFromXml(Xml);
+      try
+        LoadFromXml(Xml);
+      finally
+        Xml.Free;
+      end;
     finally
       DefHighlightChange(Self);
     end;
