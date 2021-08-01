@@ -573,6 +573,7 @@ resourcestring
   rsDiffModifies = ' Modifies: ';
   rsDiffAdds = ' Adds: ';
   rsDiffDeletes = ' Deletes: ';
+  rsDiffComparing = 'Comparing...';
   rsDiffFilesIdentical = 'The two files are identical!';
   // Find files dialog
   rsFindSearchFiles = 'Find files';

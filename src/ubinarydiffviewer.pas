@@ -45,6 +45,7 @@ type
     constructor Create(AOwner: TComponent); override;
     property KeepScrolling: Boolean read FKeepScrolling write FKeepScrolling;
     property SecondViewer: TBinaryDiffViewer read FSecondViewer write FSecondViewer;
+    property LastError: String read FLastError;
   end;
 
   { TBinaryCompare }

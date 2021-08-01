@@ -749,4 +749,9 @@ object frmDiffer: TfrmDiffer
     left = 352
     top = 136
   end
+  object tmProgress: TTimer
+    OnTimer = tmProgressTimer
+    Left = 568
+    Top = 170
+  end
 end
