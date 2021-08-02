@@ -1,3 +1,0 @@
-files:
-  - source: /language/doublecmd.po
-    translation: /language/doublecmd.%two_letters_code%.po
