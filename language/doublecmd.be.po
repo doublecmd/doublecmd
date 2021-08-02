@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: b5aaebc75354984d7cee90405a1f6642\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-01-17 23:08+0300\n"
-"PO-Revision-Date: 2021-07-19 20:03\n"
+"PO-Revision-Date: 2021-08-02 10:20\n"
 "Last-Translator: Full Name <email@address>\n"
 "Language-Team: Belarusian\n"
 "MIME-Version: 1.0\n"
@@ -1401,7 +1401,7 @@ msgstr "&Закрыць"
 #: tfrmfinddlg.actconfigfilesearchhotkeys.caption
 msgctxt "TFRMFINDDLG.ACTCONFIGFILESEARCHHOTKEYS.CAPTION"
 msgid "Configuration of hot keys"
-msgstr "Наладзіць гарачыя клавішы"
+msgstr "Налады гарачых клавішаў"
 
 #: tfrmfinddlg.actedit.caption
 msgctxt "tfrmfinddlg.actedit.caption"
@@ -2049,7 +2049,7 @@ msgstr "Параўнаць каталогі"
 
 #: tfrmmain.actconfigarchivers.caption
 msgid "Configuration of Archivers"
-msgstr "Наладка архіватараў"
+msgstr "Налады архіватараў"
 
 #: tfrmmain.actconfigdirhotlist.caption
 msgctxt "tfrmmain.actconfigdirhotlist.caption"
@@ -2067,11 +2067,11 @@ msgstr "Налады ўкладак каталогаў"
 #: tfrmmain.actconfighotkeys.caption
 msgctxt "tfrmmain.actconfighotkeys.caption"
 msgid "Configuration of hot keys"
-msgstr "Наладзіць гарачыя клавішы"
+msgstr "Налады гарачых клавішаў"
 
 #: tfrmmain.actconfigplugins.caption
 msgid "Configuration of Plugins"
-msgstr "Наладка ўбудоў"
+msgstr "Налады ўбудоў"
 
 #: tfrmmain.actconfigsavepos.caption
 msgid "Save Position"
@@ -2083,7 +2083,7 @@ msgstr "Захаваць налады"
 
 #: tfrmmain.actconfigsearches.caption
 msgid "Configuration of searches"
-msgstr "Наладка гарачых клавіш"
+msgstr "Налады гарачых клавішаў"
 
 #: tfrmmain.actconfigtoolbars.caption
 msgid "Toolbar..."
@@ -2091,17 +2091,17 @@ msgstr "Панэль інструментаў..."
 
 #: tfrmmain.actconfigtooltips.caption
 msgid "Configuration of tooltips"
-msgstr "Наладка выплыўных падказак"
+msgstr "Налады выплыўных падказак"
 
 #: tfrmmain.actconfigtreeviewmenus.caption
 msgctxt "tfrmmain.actconfigtreeviewmenus.caption"
 msgid "Configuration of Tree View Menu"
-msgstr "Наладка меню ў выглядзе дрэва"
+msgstr "Налады меню ў выглядзе дрэва"
 
 #: tfrmmain.actconfigtreeviewmenuscolors.caption
 msgctxt "tfrmmain.actconfigtreeviewmenuscolors.caption"
 msgid "Configuration of Tree View Menu Colors"
-msgstr "Наладка колераў меню ў выглядзе дрэва"
+msgstr "Налады колераў меню ў выглядзе дрэва"
 
 #: tfrmmain.actcontextmenu.caption
 msgid "Show context menu"
@@ -3706,7 +3706,7 @@ msgstr "Параметры"
 
 #: tfrmoptions.lblemptyeditor.caption
 msgid "Please select one of the subpages, this page does not contain any settings."
-msgstr "Калі ласка, абярыце адну з падстаронак, на гэтай няма патрэбных налад."
+msgstr "Калі ласка, абярыце адну з падстаронак, на гэтай няма патрэбных наладаў."
 
 #: tfrmoptionsarchivers.btnarchiveradd.caption
 msgctxt "tfrmoptionsarchivers.btnarchiveradd.caption"
@@ -3910,7 +3910,7 @@ msgstr "&Праверыць:"
 
 #: tfrmoptionsarchivers.miarchiverautoconfigure.caption
 msgid "Auto Configure"
-msgstr "Аў&таматычная наладка"
+msgstr "Аў&таматычнае наладжванне"
 
 #: tfrmoptionsarchivers.miarchiverdisableall.caption
 msgid "Disable all"
@@ -4886,12 +4886,12 @@ msgstr "у файл \"wincmd.ini\" TC (&выдаліць існыя)"
 #: tfrmoptionsdirectoryhotlist.migotoconfiguretcinfo1.caption
 msgctxt "tfrmoptionsdirectoryhotlist.migotoconfiguretcinfo1.caption"
 msgid "Go to &configure TC related info"
-msgstr "Перайсці да &налад, звязаных з TC"
+msgstr "Перайсці да &наладаў, звязаных з TC"
 
 #: tfrmoptionsdirectoryhotlist.migotoconfiguretcinfo2.caption
 msgctxt "TFRMOPTIONSDIRECTORYHOTLIST.MIGOTOCONFIGURETCINFO2.CAPTION"
 msgid "Go to &configure TC related info"
-msgstr "Перайсці да &налад, звязаных з TC"
+msgstr "Перайсці да &наладаў, звязаных з TC"
 
 #: tfrmoptionsdirectoryhotlist.mihotdirtestmenu.caption
 msgid "HotDirTestMenu"
