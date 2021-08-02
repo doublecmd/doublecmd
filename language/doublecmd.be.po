@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: b5aaebc75354984d7cee90405a1f6642\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-01-17 23:08+0300\n"
-"PO-Revision-Date: 2021-08-02 10:20\n"
+"PO-Revision-Date: 2021-08-02 10:35\n"
 "Last-Translator: Full Name <email@address>\n"
 "Language-Team: Belarusian\n"
 "MIME-Version: 1.0\n"
@@ -754,7 +754,7 @@ msgstr "Выдаліць апошняе спалучэнне з паслядоў
 
 #: tfrmedithotkey.btnselectfromlist.hint
 msgid "Select shortcut from list of remaining free available keys"
-msgstr "Абраць спалучэнне са спіса апошніх свабодных клавіш"
+msgstr "Абраць спалучэнне са спіса апошніх свабодных клавішаў"
 
 #: tfrmedithotkey.cghkcontrols.caption
 msgid "Only for these controls"
@@ -766,7 +766,7 @@ msgstr "&Параметры (кожны ў асобным радку):"
 
 #: tfrmedithotkey.lblshortcuts.caption
 msgid "Shortcuts:"
-msgstr "Спалучэнні клавіш:"
+msgstr "Спалучэнні клавішаў:"
 
 #: tfrmeditor.actabout.caption
 msgctxt "TFRMEDITOR.ACTABOUT.CAPTION"
@@ -3377,7 +3377,7 @@ msgstr "Вы&даліць"
 
 #: tfrmmultirename.actdropdownpresetlist.caption
 msgid "Drop Down Presets List"
-msgstr "Разгарнуць спіс перадналад"
+msgstr "Разгарнуць спіс перадналадаў"
 
 #: tfrmmultirename.acteditnames.caption
 msgid "Edit Names..."
@@ -6259,11 +6259,11 @@ msgstr "Упарадкаваць па назве загада"
 
 #: tfrmoptionshotkeys.actsortbyhotkeysgrouped.caption
 msgid "Sort by hotkeys (grouped)"
-msgstr "Упарадкаваць па гарачым клавішам (групаваць)"
+msgstr "Упарадкаваць па гарачых клавішах (групаваць)"
 
 #: tfrmoptionshotkeys.actsortbyhotkeysoneperline.caption
 msgid "Sort by hotkeys (one per row)"
-msgstr "Упарадкаваць па гарачым клавішам (адна на радок)"
+msgstr "Упарадкаваць па гарачых клавішах (адна на радок)"
 
 #: tfrmoptionshotkeys.lbfilter.caption
 msgid "&Filter"
@@ -6279,7 +6279,7 @@ msgstr "За&гады:"
 
 #: tfrmoptionshotkeys.lblscfiles.caption
 msgid "&Shortcut files:"
-msgstr "Файлы &спалучэнняў клавіш:"
+msgstr "Файлы &спалучэнняў клавішаў:"
 
 #: tfrmoptionshotkeys.lblsortorder.caption
 msgid "So&rt order:"
@@ -6486,7 +6486,7 @@ msgstr "Паказваць кн&опку спіса дыскаў"
 
 #: tfrmoptionslayout.cbshowkeyspanel.caption
 msgid "Show function &key buttons"
-msgstr "Паказваць кнопкі функцыянальных клавіш"
+msgstr "Паказваць кнопкі функцыянальных клавішаў"
 
 #: tfrmoptionslayout.cbshowmainmenu.caption
 msgid "Show &main menu"
@@ -6872,7 +6872,7 @@ msgstr "Ужыць бягучыя налады да ўсіх дададзены�
 
 #: tfrmoptionspluginsgroup.ckbautotweak.caption
 msgid "When adding a new plugin, automatically go in tweak window"
-msgstr "Падчас дадання новай убудовы аўтаматычна адкрываць акно налад"
+msgstr "Падчас дадання новай убудовы аўтаматычна адкрываць акно наладаў"
 
 #: tfrmoptionspluginsgroup.gbconfiguration.caption
 msgid "Configuration:"
@@ -7110,11 +7110,11 @@ msgstr "Па праваму краю"
 
 #: tfrmoptionstabsextra.cbgotoconfigafterresave.caption
 msgid "Goto to Favorite Tabs Configuration after resaving"
-msgstr "Пераходзіць да налад улюбёных укладак пасля перазахавання"
+msgstr "Пераходзіць да наладаў улюбёных укладак пасля перазахавання"
 
 #: tfrmoptionstabsextra.cbgotoconfigaftersave.caption
 msgid "Goto to Favorite Tabs Configuration after saving a new one"
-msgstr "Пераходзіць да налад улюбёных укладак пасля стварэння новых"
+msgstr "Пераходзіць да наладаў улюбёных укладак пасля стварэння новых"
 
 #: tfrmoptionstabsextra.cbusefavoritetabsextraoptions.caption
 msgid "Enable Favorite Tabs extra options (select target side when restore, etc.)"
@@ -7836,7 +7836,7 @@ msgstr "Падвойная пстрычка па ўкладцы"
 
 #: tfrmoptionstreeviewmenu.ckbshortcutselectandclose.caption
 msgid "When using the keyboard shortcut, it will exit the window returning the current choice"
-msgstr "Калі выкарыстоўваецца спалучэнне клавіш, то акно закрыецца пасля выбару"
+msgstr "Калі выкарыстоўваецца спалучэнне клавішаў, то акно закрыецца пасля выбару"
 
 #: tfrmoptionstreeviewmenu.ckbsingleclickselect.caption
 msgid "Single mouse click in tree select and exit"
@@ -7949,7 +7949,7 @@ msgstr ">>"
 
 #: tfrmoptionstreeviewmenucolor.cbkusagekeyboardshortcut.caption
 msgid "Use and display keyboard shortcut for choosing items"
-msgstr "Выкарыстоўваць і паказваць спалучэнні клавіш для выбару элементаў"
+msgstr "Выкарыстоўваць і паказваць спалучэнні клавішаў для выбару элементаў"
 
 #: tfrmoptionstreeviewmenucolor.gbfont.caption
 msgid "Font"
@@ -8957,12 +8957,12 @@ msgstr "Закрыць меню ў выглядзе дрэва"
 #: tfrmtreeviewmenu.tbconfigurationtreeviewmenus.hint
 msgctxt "TFRMTREEVIEWMENU.TBCONFIGURATIONTREEVIEWMENUS.HINT"
 msgid "Configuration of Tree View Menu"
-msgstr "Наладка меню ў выглядзе дрэва"
+msgstr "Налады меню ў выглядзе дрэва"
 
 #: tfrmtreeviewmenu.tbconfigurationtreeviewmenuscolors.hint
 msgctxt "TFRMTREEVIEWMENU.TBCONFIGURATIONTREEVIEWMENUSCOLORS.HINT"
 msgid "Configuration of Tree View Menu Colors"
-msgstr "Наладка колераў меню ў выглядзе дрэва"
+msgstr "Налады колераў меню ў выглядзе дрэва"
 
 #: tfrmtweakplugin.btnadd.caption
 msgid "A&dd new"
@@ -9004,7 +9004,7 @@ msgstr "&Выдаліць"
 
 #: tfrmtweakplugin.caption
 msgid "Tweak plugin"
-msgstr "Наладка ўбудовы"
+msgstr "Налады ўбудовы"
 
 #: tfrmtweakplugin.cbpk_caps_by_content.caption
 msgid "De&tect archive type by content"
@@ -10292,7 +10292,7 @@ msgstr "Шрыфт &рэдактара"
 
 #: ulng.rsfontusagefunctionbuttons
 msgid "Function Buttons Font"
-msgstr "Шрыфт функцыянальных клавіш"
+msgstr "Шрыфт функцыянальных клавішаў"
 
 #: ulng.rsfontusagelog
 msgid "&Log Font"
@@ -10481,7 +10481,7 @@ msgstr "Увядзіце новую назву"
 
 #: ulng.rshotkeyfilemustkeepone
 msgid "You must keep at least one shortcut file."
-msgstr "Вы мусіце пакінуць не менш за адзін файл гарачых клавіш."
+msgstr "Вы мусіце пакінуць прынамсі адзін файл гарачых клавішаў."
 
 #: ulng.rshotkeyfilenewname
 msgid "New name"
@@ -10871,7 +10871,7 @@ msgstr "Памылка ў кантэкстным меню загада"
 
 #: ulng.rsmsgerrorloadingconfiguration
 msgid "Error when loading configuration"
-msgstr "Падчас загрузкі налад адбылася памылка"
+msgstr "Падчас загрузкі наладаў адбылася памылка"
 
 #: ulng.rsmsgerrregexpsyntax
 msgid "Syntax error in regular expression!"
@@ -11257,7 +11257,7 @@ msgstr "Хібная назва"
 
 #: ulng.rsmsginvalidformatofconfigurationfile
 msgid "Invalid format of configuration file"
-msgstr "Хібны фармат файла налад"
+msgstr "Хібны фармат файла наладаў"
 
 #: ulng.rsmsginvalidhexnumber
 msgid "Invalid hexadecimal number: \"%s\""
@@ -11770,7 +11770,7 @@ msgstr "Дата"
 
 #: ulng.rsmulrendefaultpresetname
 msgid "Preset name"
-msgstr "Назва перадналад"
+msgstr "Назва перадналадаў"
 
 #: ulng.rsmulrendefinevariablename
 msgid "Define variable name"
@@ -11812,7 +11812,7 @@ msgstr "[Апошнія выкарыстаныя]"
 
 #: ulng.rsmulrenlaunchbehavioroptions
 msgid "Last masks under [Last One] preset;Last preset;New fresh masks"
-msgstr "Апошнія маскі [апошніх перадналад]; Апошнія перадналады; Новыя свежыя маскі"
+msgstr "Апошнія маскі [апошніх перадналадаў]; Апошнія перадналады; Новыя свежыя маскі"
 
 #: ulng.rsmulrenlogstart
 msgctxt "ulng.rsmulrenlogstart"
@@ -11949,17 +11949,17 @@ msgstr "Перадналады ўжо існуюць. Перазапісаць?"
 
 #: ulng.rsmulrenpromptnewpresetname
 msgid "Enter new preset name"
-msgstr "Увядзіце новую назву перадналад"
+msgstr "Увядзіце новую назву перадналадаў"
 
 #: ulng.rsmulrensavemodifiedpreset
 msgid "\"%s\" preset has been modified.\n"
 "Do you want to save it now?\n"
 msgstr "Перадналады \"%s\" былі змененыя.\n"
-"Хочаце захаваць яго?\n"
+"Хочаце захаваць?\n"
 
 #: ulng.rsmulrensortingpresets
 msgid "Sorting presets"
-msgstr "Сартаванне перадналад"
+msgstr "Сартаванне перадналадаў"
 
 #: ulng.rsmulrentime
 msgctxt "ulng.rsmulrentime"
