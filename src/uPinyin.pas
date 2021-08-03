@@ -18,15 +18,22 @@ var
 procedure loadPinyinTable;
 var
   f:file of pinyinarray;
+  tblpath:string;
 begin
   if PINYINTABLELOADED then exit;
-  Assign(f, ExtractFilePath(Paramstr(0)) + 'tcmatch.tbl');
-  Reset(f);
-  seek(f,0);
-  Read(f, PINYINTABLE);
-  close(f);
-  PINYINTABLELOADED := True;
-  writeln('code in loadPinyinTable');
+  tblpath := ExtractFilePath(Paramstr(0)) + 'tcmatch.tbl';
+  if fileexists(tblpath) then
+  begin
+    Assign(f, tblpath);
+    try
+      Reset(f);
+      seek(f,0);
+      Read(f, PINYINTABLE);
+      PINYINTABLELOADED := True;
+    finally
+      close(f);
+    end;
+  end;
 end;
 
 function PinyinMatch(a,b:UnicodeChar):boolean;
@@ -36,30 +43,25 @@ var
 begin
   loadPinyinTable;
   PinyinMatch := True;
-  if a = b then exit;
-  i := ord(a) - 19968;
-  code := PINYINTABLE[i];
-  j := code and 31;
-  if(j > 0) and (j+96 = ord(b)) then exit;
-  j := code >> 5 and 31;
-  if(j > 0) and (j+96 = ord(b)) then exit;
-  j := code >> 10 and 31;
-  if(j > 0) and (j+96 = ord(b)) then exit;
-  PinyinMatch := False;
-end;
 
-procedure test;
-  var
-    s:UnicodeString;
-    c:UnicodeChar;
-begin
-  loadPinyinTable;
-  s := UTF8Decode('一重庆');
-  c := s[2];
-  writeln(PinyinMatch(c, UnicodeChar('i')));
-  writeln(PinyinMatch(c, UnicodeChar('v')));
-  writeln(PinyinMatch(c, UnicodeChar('c')));
-  writeln(PinyinMatch(c, UnicodeChar('`')));
+  if a = b then exit;
+
+  if PINYINTABLELOADED then
+  begin
+    if (Ord(a) >= 19968) and (Ord(a) < 40869) then
+    begin
+      i := Ord(a) - 19968;
+      code := PINYINTABLE[i];
+      j := code and 31;
+      if(j > 0) and (j+96 = Ord(b)) then exit;
+      j := code >> 5 and 31;
+      if(j > 0) and (j+96 = Ord(b)) then exit;
+      j := code >> 10 and 31;
+      if(j > 0) and (j+96 = Ord(b)) then exit;
+    end;
+  end;
+
+  PinyinMatch := False;
 end;
 
 end.
