@@ -2177,7 +2177,6 @@ begin
       end;
 
       SFI.hIcon := 0;
-      Result := Graphics.TBitMap.Create;
       iIconLarge:= GetSystemMetrics(SM_CXICON);
       iIconSmall:= GetSystemMetrics(SM_CXSMICON);
 
