@@ -14,7 +14,11 @@ function GetProcessFileNameEx(ProcessId: DWORD): UnicodeString;
 implementation
 
 uses
-  JwaTlHelp32, JwaPsApi;
+  JwaTlHelp32;
+
+var
+  GetProcessImageFileNameW: function(hProcess: HANDLE; lpImageFileName: LPWSTR;
+                                     nSize: DWORD): DWORD; stdcall;
 
 function GetParentProcessId(ProcessId: DWORD): DWORD;
 var
@@ -62,4 +66,7 @@ begin
   end;
 end;
 
+initialization
+  Pointer(GetProcessImageFileNameW):= GetProcAddress(GetModuleHandle('psapi.dll'),
+                                                     'GetProcessImageFileNameW');
 end.

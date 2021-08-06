@@ -165,6 +165,10 @@ end;
 const
   WM_USER_MEDIACHANGED = WM_USER + 200;
 
+var
+  SHChangeNotifyRegister: function(hwnd: HWND; fSources: Longint; fEvents: LONG; wMsg: UINT;
+                                   cEntries: Longint; pshcne: PSHChangeNotifyEntry): ULONG; stdcall;
+
 function MyWndProc(hWnd: HWND; uiMsg: UINT; wParam: WPARAM; lParam: LPARAM): LRESULT; stdcall;
 var
   ADrive: TDrive;
@@ -257,11 +261,14 @@ begin
   {$PUSH}{$HINTS OFF}
   OldWProc := WNDPROC(SetWindowLongPtr(Handle, GWL_WNDPROC, LONG_PTR(@MyWndProc)));
   {$POP}
-  if Succeeded(SHGetFolderLocation(Handle, CSIDL_DRIVES, 0, 0, AEntries.pidl)) then
+  if Assigned(SHChangeNotifyRegister) then
   begin
-    AEntries.fRecursive:= False;
-    SHChangeNotifyRegister(Handle, SHCNRF_InterruptLevel or SHCNRF_ShellLevel or SHCNRF_RecursiveInterrupt,
-                           SHCNE_MEDIAINSERTED or SHCNE_MEDIAREMOVED, WM_USER_MEDIACHANGED, 1, @AEntries);
+    if Succeeded(SHGetFolderLocation(Handle, CSIDL_DRIVES, 0, 0, AEntries.pidl)) then
+    begin
+      AEntries.fRecursive:= False;
+      SHChangeNotifyRegister(Handle, SHCNRF_InterruptLevel or SHCNRF_ShellLevel or SHCNRF_RecursiveInterrupt,
+                             SHCNE_MEDIAINSERTED or SHCNE_MEDIAREMOVED, WM_USER_MEDIACHANGED, 1, @AEntries);
+    end;
   end;
 end;
 {$ENDIF}
@@ -1436,5 +1443,10 @@ begin
 end;
 {$ENDIF}
 
+{$IF DEFINED(MSWINDOWS)}
+initialization
+  Pointer(SHChangeNotifyRegister):= GetProcAddress(GetModuleHandle('shell32.dll'),
+                                                   'SHChangeNotifyRegister');
+{$ENDIF}
 end.
 
