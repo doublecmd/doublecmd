@@ -5,7 +5,7 @@ unit uShellFolder;
 interface
 
 uses
-  Classes, SysUtils, Windows, ShlObj, ActiveX, ComObj;
+  Classes, SysUtils, Windows, ShlObj, ActiveX, ComObj, uShlObjAdditional;
 
 const
   FOLDERID_AccountPictures: TGUID = '{008ca0b1-55b4-4c56-b8a8-4de4b299d3be}';
@@ -58,11 +58,12 @@ const
 function GetKnownFolderPath(const rfid: TGUID; out APath: String): Boolean;
 
 function GetDisplayName(AFolder: IShellFolder; PIDL: PItemIDList; Flags: DWORD): String;
+function GetDetails(AFolder: IShellFolder2; PIDL: PItemIDList; const pscid: SHCOLUMNID): OleVariant;
 
 implementation
 
 uses
-  ShellApi, LazUTF8, DCConvertEncoding, uShlObjAdditional;
+  ShellApi, LazUTF8, DCConvertEncoding;
 
 function StrRetToString(PIDL: PItemIDList; StrRet: TStrRet): String;
 var
@@ -85,6 +86,16 @@ begin
     Result := StrRetToString(PIDL, StrRet);
   if (Length(Result) = 0) and (Flags <> SHGDN_NORMAL) then
     Result := GetDisplayName(AFolder, PIDL, SHGDN_NORMAL);
+end;
+
+function GetDetails(AFolder: IShellFolder2; PIDL: PItemIDList; const pscid: SHCOLUMNID): OleVariant;
+var
+  AValue: OleVariant;
+begin
+ if Succeeded(AFolder.GetDetailsEx(pidl, @pscid, @AValue)) then
+   Result:= AValue
+ else
+   Result:= Unassigned;
 end;
 
 const

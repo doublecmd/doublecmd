@@ -397,6 +397,7 @@ resourcestring
   rsMsgErrInvalidLink = 'Invalid link';
   // Vfs
   rsVfsNetwork = 'Network';
+  rsVfsRecycleBin = 'Recycle Bin';
 
   // Buttons.
   rsDlgButtonOK = '&OK';
