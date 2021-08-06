@@ -13960,6 +13960,10 @@ msgctxt "ulng.rsvfsnetwork"
 msgid "Network"
 msgstr "네트워크"
 
+#: ulng.rsvfsrecyclebin
+msgid "Recycle Bin"
+msgstr ""
+
 #: ulng.rsviewabouttext
 msgid "Internal Viewer of Double Commander."
 msgstr "더블 커맨더 내장뷰어"

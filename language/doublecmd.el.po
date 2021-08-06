@@ -13823,6 +13823,10 @@ msgctxt "ulng.rsvfsnetwork"
 msgid "Network"
 msgstr "Δίκτυο"
 
+#: ulng.rsvfsrecyclebin
+msgid "Recycle Bin"
+msgstr ""
+
 #: ulng.rsviewabouttext
 msgid "Internal Viewer of Double Commander."
 msgstr "Εσωτερικός Προβολέας του Double Commander."

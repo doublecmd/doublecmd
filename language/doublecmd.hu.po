@@ -13860,6 +13860,10 @@ msgctxt "ulng.rsvfsnetwork"
 msgid "Network"
 msgstr "Hálózat"
 
+#: ulng.rsvfsrecyclebin
+msgid "Recycle Bin"
+msgstr ""
+
 #: ulng.rsviewabouttext
 msgid "Internal Viewer of Double Commander."
 msgstr "A Double Commander belső nézőkéje"
@@ -13910,3 +13914,4 @@ msgstr "Nem történt csere."
 #: umaincommands.rsfavoritetabs_setupnotexist
 msgid "No setup named \"%s\""
 msgstr "Nincs \"%s\" nevű beállítás"
+

@@ -14288,6 +14288,10 @@ msgctxt "ulng.rsvfsnetwork"
 msgid "Network"
 msgstr "Mreža"
 
+#: ulng.rsvfsrecyclebin
+msgid "Recycle Bin"
+msgstr ""
+
 #: ulng.rsviewabouttext
 msgid "Internal Viewer of Double Commander."
 msgstr "Unutarnji preglednik Double Commander-a."
