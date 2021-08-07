@@ -172,7 +172,8 @@ type
 
 const
   { Default hotkey list version number }
-  hkVersion = 51;
+  hkVersion = 52;
+  // 52 - In "Main" context, add shortcut "Ctrl+Shift+B" for "cm_FlatViewSel".
   // 51 - In "Multi-Rename" context, added the "Shift+F4" shortcut for the "cm_EditNewNames".
   // 50 - To load shortcut keys for the "Multi-Rename" which is now driven with "cm_Actions".
   // 49 - In "Viewer" context, added the "F6" for "cm_ShowCaret".
@@ -1046,6 +1047,7 @@ begin
       AddIfNotExists(['Ctrl+PgDn'],[],'cm_OpenArchive');
       AddIfNotExists(['Ctrl+PgUp'],[],'cm_ChangeDirToParent');
       AddIfNotExists(['Ctrl+Alt+Enter'],[],'cm_ShellExecute');
+      AddIfNotExists(['Ctrl+Shift+B'],[],'cm_FlatViewSel');
       AddIfNotExists(['Ctrl+Shift+C'],[],'cm_CopyFullNamesToClip');
       AddIfNotExists(['Ctrl+Shift+D'],[],'cm_ConfigDirHotList');
       AddIfNotExists(['Ctrl+Shift+H'],[],'cm_HorizontalFilePanels');
