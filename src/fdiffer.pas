@@ -201,7 +201,6 @@ type
     procedure FormRestoreProperties(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure FormResize(Sender: TObject);
-    procedure FormShow(Sender: TObject);
     procedure btnCancelClick(Sender: TObject);
     procedure tmProgressTimer(Sender: TObject);
   private
@@ -780,12 +779,6 @@ end;
 procedure TfrmDiffer.FormResize(Sender: TObject);
 begin
   pnlLeft.Width:= (ClientWidth div 2) - (Splitter.Width div 2);
-end;
-
-procedure TfrmDiffer.FormShow(Sender: TObject);
-begin
-  if actBinaryCompare.Checked and actAutoCompare.Checked then
-    actStartCompare.Execute;
 end;
 
 procedure TfrmDiffer.btnCancelClick(Sender: TObject);

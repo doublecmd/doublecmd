@@ -13,7 +13,6 @@ object frmDiffer: TfrmDiffer
   OnDestroy = FormDestroy
   OnKeyDown = FormKeyDown
   OnResize = FormResize
-  OnShow = FormShow
   SessionProperties = 'actAutoCompare.Checked;actIgnoreCase.Checked;actIgnoreWhiteSpace.Checked;actKeepScrolling.Checked;actLineDifferences.Checked;actPaintBackground.Checked;Height;Left;Top;Width;WindowState'
   ShowHint = True
   ShowInTaskBar = stAlways
