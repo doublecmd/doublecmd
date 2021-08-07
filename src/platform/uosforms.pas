@@ -583,7 +583,8 @@ begin
 {$ENDIF}
   // Register network file source
   RegisterVirtualFileSource(rsVfsNetwork, TWinNetFileSource);
-  RegisterVirtualFileSource(rsVfsRecycleBin, TRecycleBinFileSource);
+  if CheckWin32Version(5, 1) then
+    RegisterVirtualFileSource(rsVfsRecycleBin, TRecycleBinFileSource);
   if (IsUserAdmin = dupAccept) then // if run under administrator
     MainForm.Caption:= MainForm.Caption + ' - Administrator';
 
