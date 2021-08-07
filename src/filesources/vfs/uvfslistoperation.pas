@@ -65,7 +65,7 @@ begin
         if VfsModule.FileSourceClass.GetMainIcon(APath) then
         begin
           aFile.LinkProperty.LinkTo:= mbExpandFileName(APath);
-          aFile.Attributes:= FILE_ATTRIBUTE_TEMPORARY or FILE_ATTRIBUTE_VIRTUAL;
+          aFile.Attributes:= FILE_ATTRIBUTE_OFFLINE or FILE_ATTRIBUTE_VIRTUAL;
         end;
         FFiles.Add(aFile);
       end;

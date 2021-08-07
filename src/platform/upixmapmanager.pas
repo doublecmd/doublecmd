@@ -1878,7 +1878,7 @@ begin
         end;
         Exit;
       end
-      else if (AFile.Attributes = (FILE_ATTRIBUTE_TEMPORARY or FILE_ATTRIBUTE_VIRTUAL)) and Assigned(AFile.LinkProperty) then
+      else if (AFile.Attributes = (FILE_ATTRIBUTE_OFFLINE or FILE_ATTRIBUTE_VIRTUAL)) and Assigned(AFile.LinkProperty) then
       begin
         if not LoadIcon then
           Result := -1
