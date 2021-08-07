@@ -631,6 +631,11 @@ var
   gEditorSynEditRightEdge: Integer;
 
   { Differ }
+  gDifferIgnoreCase,
+  gDifferKeepScrolling,
+  gDifferLineDifferences,
+  gDifferPaintBackground,
+  gDifferIgnoreWhiteSpace: Boolean;
   gDifferAddedColor: TColor;
   gDifferDeletedColor: TColor;
   gDifferModifiedColor: TColor;
@@ -1988,6 +1993,11 @@ begin
   gEditorSynEditRightEdge := 80;
 
   { Differ }
+  gDifferIgnoreCase := False;
+  gDifferKeepScrolling := True;
+  gDifferPaintBackground := True;
+  gDifferLineDifferences := False;
+  gDifferIgnoreWhiteSpace := False;
   gDifferAddedColor := clPaleGreen;
   gDifferDeletedColor := clPaleRed;
   gDifferModifiedColor := clPaleBlue;
@@ -3075,6 +3085,11 @@ begin
     Node := Root.FindNode('Differ');
     if Assigned(Node) then
     begin
+      gDifferIgnoreCase := GetValue(Node, 'IgnoreCase', gDifferIgnoreCase);
+      gDifferKeepScrolling := GetValue(Node, 'KeepScrolling', gDifferKeepScrolling);
+      gDifferPaintBackground := GetValue(Node, 'PaintBackground', gDifferPaintBackground);
+      gDifferLineDifferences := GetValue(Node, 'LineDifferences', gDifferLineDifferences);
+      gDifferIgnoreWhiteSpace := GetValue(Node, 'IgnoreWhiteSpace', gDifferIgnoreWhiteSpace);
       SubNode := FindNode(Node, 'Colors');
       if Assigned(SubNode) then
       begin
@@ -3675,6 +3690,11 @@ begin
 
     { Differ }
     Node := FindNode(Root, 'Differ',True);
+    SetValue(Node, 'IgnoreCase', gDifferIgnoreCase);
+    SetValue(Node, 'KeepScrolling', gDifferKeepScrolling);
+    SetValue(Node, 'PaintBackground', gDifferPaintBackground);
+    SetValue(Node, 'LineDifferences', gDifferLineDifferences);
+    SetValue(Node, 'IgnoreWhiteSpace', gDifferIgnoreWhiteSpace);
     SubNode := FindNode(Node, 'Colors', True);
     SetValue(SubNode, 'Added', gDifferAddedColor);
     SetValue(SubNode, 'Deleted', gDifferDeletedColor);

@@ -198,7 +198,6 @@ type
     procedure FormCloseQuery(Sender: TObject; var CanClose: boolean);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
-    procedure FormRestoreProperties(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure FormResize(Sender: TObject);
     procedure btnCancelClick(Sender: TObject);
@@ -738,11 +737,19 @@ begin
   FontOptionsToFont(gFonts[dcfViewer], BinaryViewerLeft.Font);
   FontOptionsToFont(gFonts[dcfViewer], BinaryViewerRight.Font);
 
+  // Load settings
+  actIgnoreCase.Checked := gDifferIgnoreCase;
+  actKeepScrolling.Checked := gDifferKeepScrolling;
+  actLineDifferences.Checked := gDifferLineDifferences;
+  actPaintBackground.Checked := gDifferPaintBackground;
+  actIgnoreWhiteSpace.Checked := gDifferIgnoreWhiteSpace;
+
+  // Initialize mode
+  actKeepScrollingExecute(actKeepScrolling);
+  actPaintBackgroundExecute(actPaintBackground);
+
   // Initialize property storage
-  with InitPropStorage(Self) do
-  begin
-    OnRestoreProperties:= @FormRestoreProperties;
-  end;
+  InitPropStorage(Self);
 
   // Fill encoding menu
   EncodingList:= TStringList.Create;
@@ -758,13 +765,6 @@ procedure TfrmDiffer.FormDestroy(Sender: TObject);
 begin
   FreeAndNil(Diff);
   FreeAndNil(BinaryDiffList);
-end;
-
-procedure TfrmDiffer.FormRestoreProperties(Sender: TObject);
-begin
-  // Initialize mode
-  actKeepScrollingExecute(actKeepScrolling);
-  actPaintBackgroundExecute(actPaintBackground);
 end;
 
 procedure TfrmDiffer.FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
@@ -919,6 +919,12 @@ end;
 procedure TfrmDiffer.FormClose(Sender: TObject; var CloseAction: TCloseAction);
 begin
   CloseAction:= caFree;
+  // Save settings
+  gDifferIgnoreCase := actIgnoreCase.Checked;
+  gDifferKeepScrolling := actKeepScrolling.Checked;
+  gDifferLineDifferences := actLineDifferences.Checked;
+  gDifferPaintBackground := actPaintBackground.Checked;
+  gDifferIgnoreWhiteSpace := actIgnoreWhiteSpace.Checked;
 end;
 
 procedure TfrmDiffer.FormCloseQuery(Sender: TObject; var CanClose: boolean);
