@@ -250,6 +250,7 @@ type
                                             var theNewProperties: TFileProperties): TFileSourceOperation; virtual;
     function GetOperationClass(OperationType: TFileSourceOperationType): TFileSourceOperationClass;
 
+    class function GetMainIcon(out Path: String): Boolean; virtual;
     {en
        Returns @true if the given path is supported by the file source,
        @false otherwise.
@@ -716,6 +717,11 @@ end;
 function TFileSource.GetOperationClass(OperationType: TFileSourceOperationType): TFileSourceOperationClass;
 begin
   Result := FOperationsClasses[OperationType];
+end;
+
+class function TFileSource.GetMainIcon(out Path: String): Boolean;
+begin
+  Result := False;
 end;
 
 class function TFileSource.IsSupportedPath(const Path: String): Boolean;

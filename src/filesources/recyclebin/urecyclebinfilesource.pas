@@ -26,6 +26,7 @@ type
   public
     class function IsSupportedPath(const Path: String): Boolean; override;
     class function CreateFile(const APath: String): TFile; override;
+    class function GetMainIcon(out Path: String): Boolean; override;
 
     function GetOperationsTypes: TFileSourceOperationTypes; override;
     function GetSupportedFileProperties: TFilePropertiesTypes; override;
@@ -67,6 +68,12 @@ begin
     LinkProperty := TFileLinkProperty.Create;
     CommentProperty := TFileCommentProperty.Create;
   end;
+end;
+
+class function TRecycleBinFileSource.GetMainIcon(out Path: String): Boolean;
+begin
+  Result:= True;
+  Path:= '%SystemRoot%\System32\shell32.dll,31';
 end;
 
 function TRecycleBinFileSource.GetOperationsTypes: TFileSourceOperationTypes;

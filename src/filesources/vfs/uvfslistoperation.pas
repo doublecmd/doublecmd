@@ -36,6 +36,8 @@ procedure TVfsListOperation.MainExecute;
 var
   I : Integer;
   aFile: TFile;
+  APath: String;
+  VfsModule: TVfsModule;
 begin
   FFiles.Clear;
 
@@ -55,10 +57,16 @@ begin
   for I:= 0 to gVfsModuleList.Count - 1 do
     begin
       CheckOperationState;
-      if TVfsModule(gVfsModuleList.Objects[I]).Visible then
+      VfsModule:= TVfsModule(gVfsModuleList.Objects[I]);
+      if VfsModule.Visible then
       begin
         aFile := TVfsFileSource.CreateFile(Path);
         aFile.Name:= gVfsModuleList.Strings[I];
+        if VfsModule.FileSourceClass.GetMainIcon(APath) then
+        begin
+          aFile.LinkProperty.LinkTo:= mbExpandFileName(APath);
+          aFile.Attributes:= FILE_ATTRIBUTE_TEMPORARY or FILE_ATTRIBUTE_VIRTUAL;
+        end;
         FFiles.Add(aFile);
       end;
     end;

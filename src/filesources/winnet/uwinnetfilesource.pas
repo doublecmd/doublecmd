@@ -42,6 +42,7 @@ type
     constructor Create; override;
 
     class function IsSupportedPath(const Path: String): Boolean; override;
+    class function GetMainIcon(out Path: String): Boolean; override;
 
     function GetParentDir(sPath : String): String; override;
     function IsPathAtRoot(Path: String): Boolean; override;
@@ -200,6 +201,12 @@ end;
 class function TWinNetFileSource.IsSupportedPath(const Path: String): Boolean;
 begin
   Result:= (Pos('\\', Path) = 1);
+end;
+
+class function TWinNetFileSource.GetMainIcon(out Path: String): Boolean;
+begin
+  Result:= True;
+  Path:= '%SystemRoot%\System32\shell32.dll,17';
 end;
 
 function TWinNetFileSource.CreateListOperation(TargetPath: String): TFileSourceOperation;
