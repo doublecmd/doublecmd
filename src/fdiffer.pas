@@ -732,6 +732,9 @@ begin
   BinaryViewerLeft.SecondViewer:= BinaryViewerRight;
   BinaryViewerRight.SecondViewer:= BinaryViewerLeft;
 
+  BinaryViewerLeft.Modified:= gDifferModifiedBinaryColor;
+  BinaryViewerRight.Modified:= gDifferModifiedBinaryColor;
+
   FontOptionsToFont(gFonts[dcfEditor], SynDiffEditLeft.Font);
   FontOptionsToFont(gFonts[dcfEditor], SynDiffEditRight.Font);
   FontOptionsToFont(gFonts[dcfViewer], BinaryViewerLeft.Font);

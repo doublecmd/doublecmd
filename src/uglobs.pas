@@ -639,6 +639,7 @@ var
   gDifferAddedColor: TColor;
   gDifferDeletedColor: TColor;
   gDifferModifiedColor: TColor;
+  gDifferModifiedBinaryColor: TColor;
 
   {SyncDirs}
   gSyncDirsSubdirs,
@@ -2001,6 +2002,7 @@ begin
   gDifferAddedColor := clPaleGreen;
   gDifferDeletedColor := clPaleRed;
   gDifferModifiedColor := clPaleBlue;
+  gDifferModifiedBinaryColor := clRed;
 
   {SyncDirs}
   gSyncDirsSubdirs := False;
@@ -3096,6 +3098,10 @@ begin
         gDifferAddedColor := GetValue(SubNode, 'Added', gDifferAddedColor);
         gDifferDeletedColor := GetValue(SubNode, 'Deleted', gDifferDeletedColor);
         gDifferModifiedColor := GetValue(SubNode, 'Modified', gDifferModifiedColor);
+        SubNode := FindNode(Node, 'Colors/Binary');
+        if Assigned(SubNode) then begin
+          gDifferModifiedBinaryColor := GetValue(SubNode, 'Modified', gDifferModifiedBinaryColor);
+        end;
       end;
     end;
 
@@ -3699,6 +3705,8 @@ begin
     SetValue(SubNode, 'Added', gDifferAddedColor);
     SetValue(SubNode, 'Deleted', gDifferDeletedColor);
     SetValue(SubNode, 'Modified', gDifferModifiedColor);
+    SubNode := FindNode(Node, 'Colors/Binary', True);
+    SetValue(SubNode, 'Modified', gDifferModifiedBinaryColor);
 
     { SyncDirs }
     Node := FindNode(Root, 'SyncDirs', True);
