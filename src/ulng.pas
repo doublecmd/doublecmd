@@ -575,6 +575,10 @@ resourcestring
   rsDiffDeletes = ' Deletes: ';
   rsDiffComparing = 'Comparing...';
   rsDiffFilesIdentical = 'The two files are identical!';
+  rsDiffTextIdentical = 'The text is identical, but the following options are used:';
+  rsDiffTextIdenticalNotMatch =  'The text is identical, but the files do not match!'+#$0A+'The following differences were found:';
+  rsDiffTextDifferenceEncoding = 'Encoding';
+  rsDiffTextDifferenceLineEnding = 'Line-endings';
   // Find files dialog
   rsFindSearchFiles = 'Find files';
   rsFindDefineTemplate = 'Define template';

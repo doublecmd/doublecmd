@@ -230,6 +230,7 @@ type
 private
     procedure ShowDialog;
     procedure ShowIdentical;
+    procedure ShowTextIdentical;
     procedure ShowProgressDialog;
     procedure CloseProgressDialog;
     procedure Clear(bLeft, bRight: Boolean);
@@ -408,6 +409,14 @@ begin
             FShowIdentical:= False;
             Application.QueueAsyncCall(@ShowFirstDifference, 0);
             ShowDialog;
+          end;
+        end
+        else if (modifies = 0) and (adds = 0) and (deletes = 0) then
+        begin
+          if (SynDiffEditLeft.Encoding <> SynDiffEditRight.Encoding) or
+             (SynDiffEditLeft.Lines.TextLineBreakStyle <> SynDiffEditRight.Lines.TextLineBreakStyle) then
+          begin
+            ShowTextIdentical;
           end;
         end;
       end;
@@ -844,15 +853,57 @@ end;
 procedure TfrmDiffer.ShowIdentical;
 var
   Message: String;
+  Encoding, LineBreak: Boolean;
+  DlgType: TMsgDlgType = mtInformation;
 begin
   Message:= rsDiffFilesIdentical + LineEnding + LineEnding;
   Message+= edtFileNameLeft.Text + LineEnding + edtFileNameRight.Text;
-  if MessageDlg(rsToolDiffer, Message, mtWarning, [mbIgnore, mbCancel], 0, mbIgnore) = mrCancel then
+  if not actBinaryCompare.Checked then
+  begin
+    Encoding:= (SynDiffEditLeft.Encoding <> SynDiffEditRight.Encoding);
+    LineBreak:= (SynDiffEditLeft.Lines.TextLineBreakStyle <> SynDiffEditRight.Lines.TextLineBreakStyle);
+    if Encoding or LineBreak then
+    begin
+      DlgType:= mtWarning;
+      Message:= rsDiffTextIdenticalNotMatch;
+      if Encoding then begin
+        Message+= LineEnding + rsDiffTextDifferenceEncoding +
+                  Format(' (%s, %s)', [SynDiffEditLeft.Encoding, SynDiffEditRight.Encoding]);
+      end;
+      if LineBreak then begin
+        Message+= LineEnding + rsDiffTextDifferenceLineEnding;
+      end;
+    end
+    else if actIgnoreCase.Checked or actIgnoreWhiteSpace.Checked then
+    begin
+      DlgType:= mtWarning;
+      Message:= rsDiffTextIdentical;
+      if actIgnoreCase.Checked then begin
+        Message+= LineEnding + actIgnoreCase.Caption;
+      end;
+      if actIgnoreWhiteSpace.Checked then begin
+        Message+= LineEnding + actIgnoreWhiteSpace.Caption;
+      end;
+    end;
+  end;
+  if MessageDlg(rsToolDiffer, Message, DlgType, [mbIgnore, mbCancel], 0, mbIgnore) = mrCancel then
     Close
   else begin
     FShowIdentical:= False;
     ShowDialog;
   end;
+end;
+
+procedure TfrmDiffer.ShowTextIdentical;
+var
+  Message: String;
+begin
+  Message:= rsDiffTextIdenticalNotMatch;
+  if (SynDiffEditLeft.Encoding <> SynDiffEditRight.Encoding) then
+    Message+= LineEnding + rsDiffTextDifferenceEncoding;
+  if (SynDiffEditLeft.Lines.TextLineBreakStyle <> SynDiffEditRight.Lines.TextLineBreakStyle) then
+    Message+= LineEnding + rsDiffTextDifferenceLineEnding;
+  MessageDlg(rsToolDiffer, Message, mtWarning, [mbOK], 0, mbOK);
 end;
 
 procedure TfrmDiffer.ShowProgressDialog;
