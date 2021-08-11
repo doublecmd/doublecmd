@@ -3,7 +3,7 @@ unit uPinyin;
 interface
 
 type
-  pinyinarray=array[0..20901] of word;
+  TPinyinArray = array[0..20901] of Word;
 
 function PinyinMatch(a,b:UnicodeChar):boolean;
 
@@ -12,26 +12,23 @@ implementation
 Uses sysutils;
 
 var
-  PINYINTABLE: pinyinarray;
+  PINYINTABLE: TPinyinArray;
   PINYINTABLELOADED: boolean = False;
 
 procedure loadPinyinTable;
 var
-  f:file of pinyinarray;
-  tblpath:string;
+  f: THandle;
+  tblpath: String;
 begin
-  if PINYINTABLELOADED then exit;
   tblpath := ExtractFilePath(Paramstr(0)) + 'tcmatch.tbl';
-  if fileexists(tblpath) then
+  if FileExists(tblpath) then
   begin
-    Assign(f, tblpath);
-    try
-      Reset(f);
-      seek(f,0);
-      Read(f, PINYINTABLE);
-      PINYINTABLELOADED := True;
-    finally
-      close(f);
+    f:= FileOpen(tblpath, fmOpenRead or fmShareDenyNone);
+    if (f <> feInvalidHandle) then
+    begin
+      if FileRead(f, PINYINTABLE, SizeOf(TPinyinArray)) = SizeOf(TPinyinArray) then
+        PINYINTABLELOADED := True;
+      FileClose(f);
     end;
   end;
 end;
@@ -41,14 +38,13 @@ var
   i,code:word;
   j:byte;
 begin
-  loadPinyinTable;
   PinyinMatch := True;
 
   if a = b then exit;
 
   if PINYINTABLELOADED then
   begin
-    if (Ord(a) >= 19968) and (Ord(a) < 40869) then
+    if (Ord(a) >= 19968) and (Ord(a) <= 40869) then
     begin
       i := Ord(a) - 19968;
       code := PINYINTABLE[i];
@@ -63,5 +59,8 @@ begin
 
   PinyinMatch := False;
 end;
+
+initialization
+  loadPinyinTable;
 
 end.
