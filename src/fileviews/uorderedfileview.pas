@@ -694,7 +694,7 @@ begin
         sFileName := AFile.Name;
 
         // Match the file name and Pinyin letter
-        if not (Masks.Matches(sFileName) or (Masks.Matches(MakeSpellCode(sFileName)))) then
+        if not (Masks.Matches(sFileName, True)) then
           Result := False;
 
         if Result then
