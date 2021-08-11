@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Modified version of standard Masks unit
 
-   Copyright (C) 2010-2016 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2010-2021 Alexander Koblov (alexx2000@mail.ru)
 
    This file is based on masks.pas from the Lazarus Component Library (LCL)
 
@@ -26,6 +26,8 @@ uses
 
 type
   TMaskCharType = (mcChar, mcAnyChar, mcAnyText);
+  TMaskOption = (moCaseSensitive, moIgnoreAccents, moWindowsMask, moPinyin);
+  TMaskOptions = set of TMaskOption;
 
   TMaskChar = record
     case CharType: TMaskCharType of
@@ -44,6 +46,7 @@ type
   private
     FTemplate:string;
     FMask: TMaskString;
+    FUsePinyin: Boolean;
     FCaseSensitive: Boolean;
     fIgnoreAccents: Boolean;
     fWindowsInterpretation: boolean;
@@ -52,10 +55,10 @@ type
     procedure SetTemplate(AValue: String);
     procedure Update;
   public
-    constructor Create(const AValue: string; bCaseSensitive: boolean = False; bIgnoreAccents: boolean = False; bWindowsInterpretation: boolean = False);
-    function Matches(const AFileName: string; usePinyin: boolean = False): boolean;
-    function LegacyMatches(const AFileName: string; usePinyin: boolean = False): boolean;
-    function WindowsMatches(const AFileName: string; usePinyin: boolean = False): boolean;
+    constructor Create(const AValue: string; const AOptions: TMaskOptions = []);
+    function Matches(const AFileName: string): boolean;
+    function LegacyMatches(const AFileName: string): boolean;
+    function WindowsMatches(const AFileName: string): boolean;
     property CaseSensitive:boolean read FCaseSensitive write SetCaseSence;
     property Template:string read FTemplate write SetTemplate;
   end;
@@ -73,18 +76,17 @@ type
     function GetCount: Integer;
     function GetItem(Index: Integer): TMask;
   public
-    constructor Create(const AValue: string; ASeparatorCharset: string = ';'; bCaseSensitive: boolean = False; bIgnoreAccents: boolean = False; bWindowsInterpretation: boolean = False);
+    constructor Create(const AValue: string; ASeparatorCharset: string = ';'; const AOptions: TMaskOptions = []);
     destructor Destroy; override;
 
-    function Matches(const AFileName: String; usePinyin:boolean=False): Boolean;
+    function Matches(const AFileName: String): Boolean;
 
     property Count: Integer read GetCount;
     property Items[Index: Integer]: TMask read GetItem;
   end;
 
-function MatchesMask(const FileName, Mask: String; CaseSensitive: Boolean = False; usePinyin:boolean=False): Boolean;
-function MatchesMaskList(const FileName, Mask: string; ASeparatorCharset: string = ';'; ACaseSensitive: boolean = False; AIgnoreAccents: boolean = False; AWindowsInterpretation: boolean = False; usePinyin:boolean=False): boolean;
-
+function MatchesMask(const FileName, Mask: String; const AOptions: TMaskOptions = []): Boolean;
+function MatchesMaskList(const FileName, Mask: string; ASeparatorCharset: string = ';'; const AOptions: TMaskOptions = []): boolean;
 
 implementation
 
@@ -95,17 +97,16 @@ uses
   //DC
   uPinyin, uAccentsUtils;
 
-
 { MatchesMask }
-function MatchesMask(const FileName, Mask: String; CaseSensitive: Boolean = False; usePinyin:boolean=False ): Boolean;
+function MatchesMask(const FileName, Mask: String; const AOptions: TMaskOptions): Boolean;
 var
   AMask: TMask;
 begin
   if Mask <> '' then
   begin
-    AMask := TMask.Create(Mask, CaseSensitive);
+    AMask := TMask.Create(Mask, AOptions);
     try
-      Result := AMask.Matches(FileName, usePinyin);
+      Result := AMask.Matches(FileName);
     finally
       AMask.Free;
     end;
@@ -115,15 +116,15 @@ begin
 end;
 
 { MatchesMaskList }
-function MatchesMaskList(const FileName, Mask: string; ASeparatorCharset: string; ACaseSensitive: boolean = False; AIgnoreAccents: boolean = False; AWindowsInterpretation: boolean = False; usePinyin:boolean=False): boolean;
+function MatchesMaskList(const FileName, Mask: string; ASeparatorCharset: string; const AOptions: TMaskOptions): boolean;
 var
   AMaskList: TMaskList;
 begin
   if Mask <> '' then
   begin
-    AMaskList := TMaskList.Create(Mask, ASeparatorCharset, ACaseSensitive, AIgnoreAccents, AWindowsInterpretation);
+    AMaskList := TMaskList.Create(Mask, ASeparatorCharset, AOptions);
     try
-      Result := AMaskList.Matches(FileName, usePinyin);
+      Result := AMaskList.Matches(FileName);
     finally
       AMaskList.Free;
     end;
@@ -136,14 +137,15 @@ end;
 { TMask }
 
 { TMask.Create }
-constructor TMask.Create(const AValue: string; bCaseSensitive: boolean = False; bIgnoreAccents: boolean = False; bWindowsInterpretation: boolean = False);
+constructor TMask.Create(const AValue: string; const AOptions: TMaskOptions);
 begin
-  FTemplate:=AValue;
-  FCaseSensitive := bCaseSensitive;
-  fIgnoreAccents := bIgnoreAccents;
-  fWindowsInterpretation := bWindowsInterpretation;
-  if bIgnoreAccents then FTemplate := NormalizeAccentedChar(FTemplate); //Let's set the mask early in straight letters if match attempt has to be with accent and ligature removed.
-  if not bCaseSensitive then FTemplate := UTF8LowerCase(FTemplate); //Let's set the mask early in lowercase if match attempt has to be case insensitive.
+  FTemplate:= AValue;
+  FUsePinyin:= moPinyin in AOptions;
+  FCaseSensitive := moCaseSensitive in AOptions;
+  fIgnoreAccents := moIgnoreAccents in AOptions;
+  fWindowsInterpretation := moWindowsMask in AOptions;
+  if FIgnoreAccents then FTemplate := NormalizeAccentedChar(FTemplate); //Let's set the mask early in straight letters if match attempt has to be with accent and ligature removed.
+  if not FCaseSensitive then FTemplate := UTF8LowerCase(FTemplate); //Let's set the mask early in lowercase if match attempt has to be case insensitive.
   Update;
 end;
 
@@ -236,7 +238,7 @@ begin
 end;
 
 { TMask.Matches }
-function TMask.Matches(const AFileName: string; usePinyin: boolean = False): boolean;
+function TMask.Matches(const AFileName: string): boolean;
 var
   sFilename: string;
 begin
@@ -251,13 +253,13 @@ begin
     sFilename := UTF8LowerCase(sFilename);
 
   if not fWindowsInterpretation then
-    Result := LegacyMatches(sFileName, usePinyin)
+    Result := LegacyMatches(sFileName)
   else
-    Result := WindowsMatches(sFileName, usePinyin);
+    Result := WindowsMatches(sFileName);
 end;
 
 { TMask.LegacyMatches }
-function TMask.LegacyMatches(const AFileName: string; usePinyin: boolean = False): boolean;
+function TMask.LegacyMatches(const AFileName: string): boolean;
 var
   L: Integer;
   S: UnicodeString;
@@ -275,7 +277,7 @@ var
           begin
             if CharIndex > L then Exit;
             //DCDebug('Match ' + S[CharIndex] + '<?>' + FMask.Chars[I].CharValue);
-            if usePinyin then
+            if FUsePinyin then
             begin
               if not PinyinMatch(S[CharIndex], FMask.Chars[I].CharValue) then exit;
             end
@@ -333,7 +335,7 @@ end;
 // *. -> any file without extension ( .foo is a filename without extension according to Windows)
 // foo. matches only foo but not foo.txt
 // foo.* -> match either foo or foo.*
-function TMask.WindowsMatches(const AFileName: string; usePinyin: boolean = False): boolean;
+function TMask.WindowsMatches(const AFileName: string): boolean;
 var
   Ext, sInitialTemplate: string;
   sInitialMask: UnicodeString;
@@ -346,7 +348,7 @@ begin
     sInitialTemplate := FTemplate; //Preserve initial state of FTemplate
     FTemplate := Copy(sInitialMask, 1, Length(sInitialMask) - 2);
     Update;
-    Result := LegacyMatches(AFileName, usePinyin);
+    Result := LegacyMatches(AFileName);
     FTemplate := sInitialTemplate; //Restore initial state of FTemplate
     Update;
   end
@@ -360,7 +362,7 @@ begin
       sInitialTemplate := FTemplate; //Preserve initial state of FTemplate
       FTemplate := Copy(sInitialMask, 1, Length(sInitialMask) - 1);
       Update;
-      Result := LegacyMatches(AFileName, usePinyin);
+      Result := LegacyMatches(AFileName);
       FTemplate := sInitialTemplate; //Restore initial state of FTemplate
       Update;
     end
@@ -373,11 +375,11 @@ begin
   begin
     //First see if we have 'foo'
     Result := (AFileName = Copy(sInitialMask, 1, Length(sInitialMask) - 2));
-    if not Result then Result := LegacyMatches(AFileName, usePinyin);
+    if not Result then Result := LegacyMatches(AFileName);
   end
   else
   begin
-    Result := LegacyMatches(AFileName, usePinyin); //all other cases just call LegacyMatches()
+    Result := LegacyMatches(AFileName); //all other cases just call LegacyMatches()
   end;
 end;
 
@@ -417,7 +419,7 @@ begin
 end;
 
 { TMaskList.Create }
-constructor TMaskList.Create(const AValue: string; ASeparatorCharset: string; bCaseSensitive: boolean = False; bIgnoreAccents: boolean = False; bWindowsInterpretation: boolean = False);
+constructor TMaskList.Create(const AValue: string; ASeparatorCharset: string; const AOptions: TMaskOptions);
 var
   I: Integer;
   S: TParseStringList;
@@ -428,7 +430,7 @@ begin
   S := TParseStringList.Create(AValue, ASeparatorCharset);
   try
     for I := 0 to S.Count - 1 do
-      FMasks.Add(TMask.Create(S[I], bCaseSensitive, bIgnoreAccents, bWindowsInterpretation));
+      FMasks.Add(TMask.Create(S[I], AOptions));
   finally
     S.Free;
   end;
@@ -443,7 +445,7 @@ begin
 end;
 
 { TMaskList.Matches }
-function TMaskList.Matches(const AFileName: string; usePinyin:boolean=False): boolean;
+function TMaskList.Matches(const AFileName: String): Boolean;
 var
   I: integer;
 begin
@@ -451,7 +453,7 @@ begin
 
   for I := 0 to FMasks.Count - 1 do
   begin
-    if TMask(FMasks.Items[I]).Matches(AFileName, usePinyin) then
+    if TMask(FMasks.Items[I]).Matches(AFileName) then
     begin
       Result := True;
       Exit;

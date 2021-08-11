@@ -1777,6 +1777,7 @@ var
   bSelected: Boolean = False;
   bCaseSensitive, bIgnoreAccents, bWindowsInterpretation: boolean;
   LocalMarkFileChecks: TFindFileChecks;
+  AOptions: TMaskOptions = [];
 begin
   BeginUpdate;
   try
@@ -1801,7 +1802,11 @@ begin
       if pbWindowsInterpretation <> nil then bWindowsInterpretation := pbWindowsInterpretation^ else bWindowsInterpretation := gMarkMaskFilterWindows;
       if pMarkFileChecks<> nil then LocalMarkFileChecks:=pMarkFileChecks^ else LocalMarkFileChecks.Attributes:=nil;
 
-      MaskList := TMaskList.Create(sMask, ';,', bCaseSensitive, bIgnoreAccents, bWindowsInterpretation);
+      if bCaseSensitive then AOptions+= [moCaseSensitive];
+      if bIgnoreAccents then AOptions+= [moIgnoreAccents];
+      if bWindowsInterpretation then AOptions+= [moWindowsMask];
+
+      MaskList := TMaskList.Create(sMask, ';,', AOptions);
       for I := 0 to FFiles.Count - 1 do
       begin
         if FFiles[I].FSFile.Name = '..' then Continue;
