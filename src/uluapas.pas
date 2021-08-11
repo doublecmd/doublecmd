@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Push some useful functions to Lua
 
-   Copyright (C) 2016-2019 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2016-2021 Alexander Koblov (alexx2000@mail.ru)
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Lesser General Public
@@ -39,7 +39,7 @@ uses
   Forms, Dialogs, Clipbrd, LazUTF8, LCLVersion, uLng, DCOSUtils,
   DCConvertEncoding, fMain, uFormCommands, uOSUtils, uGlobs, uLog,
   uClipboard, uShowMsg, uLuaStd, uFindEx, uConvEncoding, uFileProcs,
-  uFilePanelSelect;
+  uFilePanelSelect, uMasks;
 
 procedure luaPushSearchRec(L : Plua_State; Rec: PSearchRecEx);
 begin
@@ -192,6 +192,46 @@ function luaExtractFileExt(L : Plua_State) : Integer; cdecl;
 begin
   Result:= 1;
   lua_pushstring(L, ExtractFileExt(lua_tostring(L, 1)));
+end;
+
+function luaMatchesMask(L : Plua_State) : Integer; cdecl;
+var
+  FileName: String;
+  FileMask: String;
+  AOptions: TMaskOptions;
+begin
+  Result:= 1;
+  FileName:= lua_tostring(L, 1);
+  FileMask:= lua_tostring(L, 2);
+  if lua_isnumber(L, 3) then
+    AOptions:= TMaskOptions(Integer(lua_tointeger(L, 3)))
+  else begin
+    AOptions:= [];
+  end;
+  lua_pushboolean(L, MatchesMask(FileName, FileMask, AOptions));
+end;
+
+function luaMatchesMaskList(L : Plua_State) : Integer; cdecl;
+var
+  FileName: String;
+  FileMask: String;
+  AOptions: TMaskOptions;
+  ASeparatorCharset: String;
+begin
+  Result:= 1;
+  FileName:= lua_tostring(L, 1);
+  FileMask:= lua_tostring(L, 2);
+  if lua_isstring(L, 3) then
+    ASeparatorCharset:= lua_tostring(L, 3)
+  else begin
+    ASeparatorCharset:= ';';
+  end;
+  if lua_isnumber(L, 4) then
+    AOptions:= TMaskOptions(Integer(lua_tointeger(L, 4)))
+  else begin
+    AOptions:= [];
+  end;
+  lua_pushboolean(L, MatchesMaskList(FileName, FileMask, ASeparatorCharset, AOptions));
 end;
 
 function luaExtractFileDir(L : Plua_State) : Integer; cdecl;
@@ -444,6 +484,9 @@ begin
     luaP_register(L, 'ExtractFilePath', @luaExtractFilePath);
     luaP_register(L, 'ExtractFileName', @luaExtractFileName);
     luaP_register(L, 'ExtractFileDrive', @luaExtractFileDrive);
+
+    luaP_register(L, 'MatchesMask', @luaMatchesMask);
+    luaP_register(L, 'MatchesMaskList', @luaMatchesMaskList);
 
     luaC_register(L, 'PathDelim', PathDelim);
   lua_setglobal(L, 'SysUtils');
