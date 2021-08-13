@@ -1790,7 +1790,7 @@ msgstr "查找"
 
 #: tfrmfindview.cbbackwards.caption
 msgid "&Backwards"
-msgstr ""
+msgstr "后退(&B)"
 
 #: tfrmfindview.cbcasesens.caption
 msgid "C&ase sensitive"
@@ -8767,7 +8767,7 @@ msgstr "链接名(&L)"
 
 #: tfrmsyncdirsdlg.actdeleteboth.caption
 msgid "Delete on both sides"
-msgstr ""
+msgstr "两边都删除"
 
 #: tfrmsyncdirsdlg.actdeleteleft.caption
 msgid "<- Delete left"
@@ -8798,7 +8798,7 @@ msgid "Select for copying <- (right to left)"
 msgstr "选择复制方向 <- （从右到左）"
 
 #: tfrmsyncdirsdlg.actselectdeleteboth.caption
-msgid "Select for deleting <-> (both)"
+msgid "选择删除 <-> (两边都有)"
 msgstr ""
 
 #: tfrmsyncdirsdlg.actselectdeleteleft.caption
@@ -9944,14 +9944,14 @@ msgstr "_删除的Unicode UTF16 文本"
 
 #: ulng.rsdefaultsuffixdroppedtextunicodeutf8filename
 msgid "_DroppedUnicodeUTF8text"
-msgstr ""
+msgstr "_删除的Unicode UTF8 文本"
 
 #: ulng.rsdiffadds
 msgid " Adds: "
 msgstr " 地址："
 
 #: ulng.rsdiffcomparing
-msgid "Comparing..."
+msgid "比较..."
 msgstr ""
 
 #: ulng.rsdiffdeletes
@@ -9978,17 +9978,19 @@ msgstr "编码"
 
 #: ulng.rsdifftextdifferencelineending
 msgid "Line-endings"
-msgstr ""
+msgstr "行尾"
 
 #: ulng.rsdifftextidentical
 msgid "The text is identical, but the following options are used:"
-msgstr ""
+msgstr "文字相同，但使用了以下选项:"
 
 #: ulng.rsdifftextidenticalnotmatch
 msgid ""
 "The text is identical, but the files do not match!\n"
 "The following differences were found:\n"
 msgstr ""
+"文本相同，但文件不匹配!\n"
+"发现以下差异:\n"
 
 #: ulng.rsdlgbuttonabort
 msgid "Ab&ort"
