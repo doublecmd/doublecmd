@@ -727,6 +727,7 @@ end;
 
 procedure TMainCommands.DoContextMenu(Panel: TFileView; X, Y: Integer; Background: Boolean; UserWishForContextMenu:TUserWishForContextMenu);
 var
+  Index: Integer;
   aFile: TFile = nil;
   aFiles: TFiles = nil;
   sPath, sName: String;
@@ -769,6 +770,14 @@ begin
     try
       if aFiles.Count > 0 then
       try
+        if fspLinksToLocalFiles in Panel.FileSource.Properties then
+        begin
+          for Index:= 0 to aFiles.Count - 1 do
+          begin
+            aFile:= aFiles[Index];
+            Panel.FileSource.GetLocalName(aFile);
+          end;
+        end;
         ShowContextMenu(frmMain, aFiles, X, Y, Background, nil, UserWishForContextMenu);
       except
         on e: EContextMenuException do

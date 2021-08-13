@@ -172,7 +172,8 @@ type
 
 const
   { Default hotkey list version number }
-  hkVersion = 51;
+  hkVersion = 52;
+  // 52 - In "Main" context, add shortcut "Ctrl+Shift+B" for "cm_FlatViewSel".
   // 51 - In "Multi-Rename" context, added the "Shift+F4" shortcut for the "cm_EditNewNames".
   // 50 - To load shortcut keys for the "Multi-Rename" which is now driven with "cm_Actions".
   // 49 - In "Viewer" context, added the "F6" for "cm_ShowCaret".
@@ -630,9 +631,15 @@ var
   gEditorSynEditRightEdge: Integer;
 
   { Differ }
+  gDifferIgnoreCase,
+  gDifferKeepScrolling,
+  gDifferLineDifferences,
+  gDifferPaintBackground,
+  gDifferIgnoreWhiteSpace: Boolean;
   gDifferAddedColor: TColor;
   gDifferDeletedColor: TColor;
   gDifferModifiedColor: TColor;
+  gDifferModifiedBinaryColor: TColor;
 
   {SyncDirs}
   gSyncDirsSubdirs,
@@ -1046,6 +1053,7 @@ begin
       AddIfNotExists(['Ctrl+PgDn'],[],'cm_OpenArchive');
       AddIfNotExists(['Ctrl+PgUp'],[],'cm_ChangeDirToParent');
       AddIfNotExists(['Ctrl+Alt+Enter'],[],'cm_ShellExecute');
+      AddIfNotExists(['Ctrl+Shift+B'],[],'cm_FlatViewSel');
       AddIfNotExists(['Ctrl+Shift+C'],[],'cm_CopyFullNamesToClip');
       AddIfNotExists(['Ctrl+Shift+D'],[],'cm_ConfigDirHotList');
       AddIfNotExists(['Ctrl+Shift+H'],[],'cm_HorizontalFilePanels');
@@ -1986,9 +1994,15 @@ begin
   gEditorSynEditRightEdge := 80;
 
   { Differ }
+  gDifferIgnoreCase := False;
+  gDifferKeepScrolling := True;
+  gDifferPaintBackground := True;
+  gDifferLineDifferences := False;
+  gDifferIgnoreWhiteSpace := False;
   gDifferAddedColor := clPaleGreen;
   gDifferDeletedColor := clPaleRed;
   gDifferModifiedColor := clPaleBlue;
+  gDifferModifiedBinaryColor := clRed;
 
   {SyncDirs}
   gSyncDirsSubdirs := False;
@@ -3073,12 +3087,21 @@ begin
     Node := Root.FindNode('Differ');
     if Assigned(Node) then
     begin
+      gDifferIgnoreCase := GetValue(Node, 'IgnoreCase', gDifferIgnoreCase);
+      gDifferKeepScrolling := GetValue(Node, 'KeepScrolling', gDifferKeepScrolling);
+      gDifferPaintBackground := GetValue(Node, 'PaintBackground', gDifferPaintBackground);
+      gDifferLineDifferences := GetValue(Node, 'LineDifferences', gDifferLineDifferences);
+      gDifferIgnoreWhiteSpace := GetValue(Node, 'IgnoreWhiteSpace', gDifferIgnoreWhiteSpace);
       SubNode := FindNode(Node, 'Colors');
       if Assigned(SubNode) then
       begin
         gDifferAddedColor := GetValue(SubNode, 'Added', gDifferAddedColor);
         gDifferDeletedColor := GetValue(SubNode, 'Deleted', gDifferDeletedColor);
         gDifferModifiedColor := GetValue(SubNode, 'Modified', gDifferModifiedColor);
+        SubNode := FindNode(Node, 'Colors/Binary');
+        if Assigned(SubNode) then begin
+          gDifferModifiedBinaryColor := GetValue(SubNode, 'Modified', gDifferModifiedBinaryColor);
+        end;
       end;
     end;
 
@@ -3673,10 +3696,17 @@ begin
 
     { Differ }
     Node := FindNode(Root, 'Differ',True);
+    SetValue(Node, 'IgnoreCase', gDifferIgnoreCase);
+    SetValue(Node, 'KeepScrolling', gDifferKeepScrolling);
+    SetValue(Node, 'PaintBackground', gDifferPaintBackground);
+    SetValue(Node, 'LineDifferences', gDifferLineDifferences);
+    SetValue(Node, 'IgnoreWhiteSpace', gDifferIgnoreWhiteSpace);
     SubNode := FindNode(Node, 'Colors', True);
     SetValue(SubNode, 'Added', gDifferAddedColor);
     SetValue(SubNode, 'Deleted', gDifferDeletedColor);
     SetValue(SubNode, 'Modified', gDifferModifiedColor);
+    SubNode := FindNode(Node, 'Colors/Binary', True);
+    SetValue(SubNode, 'Modified', gDifferModifiedBinaryColor);
 
     { SyncDirs }
     Node := FindNode(Root, 'SyncDirs', True);

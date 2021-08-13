@@ -10935,6 +10935,10 @@ msgstr "_'Sluppet' UnicodeUTF8-tekst"
 msgid " Adds: "
 msgstr "Føj til:"
 
+#: ulng.rsdiffcomparing
+msgid "Comparing..."
+msgstr ""
+
 #: ulng.rsdiffdeletes
 msgid " Deletes: "
 msgstr "Sletter:"
@@ -10950,6 +10954,26 @@ msgstr "Matcher:"
 #: ulng.rsdiffmodifies
 msgid " Modifies: "
 msgstr "Ændret:"
+
+#: ulng.rsdifftextdifferenceencoding
+#, fuzzy
+msgctxt "ulng.rsdifftextdifferenceencoding"
+msgid "Encoding"
+msgstr "Koder"
+
+#: ulng.rsdifftextdifferencelineending
+msgid "Line-endings"
+msgstr ""
+
+#: ulng.rsdifftextidentical
+msgid "The text is identical, but the following options are used:"
+msgstr ""
+
+#: ulng.rsdifftextidenticalnotmatch
+msgid ""
+"The text is identical, but the files do not match!\n"
+"The following differences were found:\n"
+msgstr ""
 
 #: ulng.rsdlgbuttonabort
 msgid "Ab&ort"
@@ -14777,6 +14801,10 @@ msgstr "Stier får ikke et skilletegn i enden (standard)s"
 msgctxt "ulng.rsvfsnetwork"
 msgid "Network"
 msgstr "Netværk"
+
+#: ulng.rsvfsrecyclebin
+msgid "Recycle Bin"
+msgstr ""
 
 #: ulng.rsviewabouttext
 msgid "Internal Viewer of Double Commander."

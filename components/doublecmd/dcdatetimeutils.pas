@@ -81,6 +81,7 @@ function DosFileTimeToDateTime(const DosTime: TDosFileTime): TDateTime;
 function DateTimeToDosFileTime(const DateTime: TDateTime): TDosFileTime;
 
 {$IFDEF MSWINDOWS}
+function VariantTimeToDateTime(VarTime: Double): TDateTime;
 function WinFileTimeToDateTime(ft : Windows.FILETIME) : TDateTime; inline; overload;
 function WinToDosTime(const WinTime: Windows.FILETIME; var DosTime: TDosFileTime): LongBool; overload;
 function DosToWinTime(const DosTime: TDosFileTime; var WinTime: Windows.FILETIME): LongBool; overload;
@@ -377,6 +378,21 @@ begin
 end;
 
 {$IFDEF MSWINDOWS}
+function VariantTimeToDateTime(VarTime: Double): TDateTime;
+var
+  lpUniversalTime, lpLocalTime: TSystemTime;
+begin
+  if (Win32MajorVersion > 5) then
+  begin
+    DateTimeToSystemTime(VarTime, lpUniversalTime);
+    SystemTimeToTzSpecificLocalTime(nil, @lpUniversalTime, @lpLocalTime);
+    Result := SystemTimeToDateTime(lpLocalTime);
+  end
+  else begin
+    Result := IncMinute(VarTime, -WinTimeZoneBias);
+  end;
+end;
+
 function WinFileTimeToDateTime(ft : Windows.FILETIME) : TDateTime;
 begin
   Result := WinFileTimeToDateTime(TWinFileTime(ft));

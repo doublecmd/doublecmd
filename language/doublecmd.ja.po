@@ -10118,6 +10118,10 @@ msgstr "_DroppedUnicodeUTF8text"
 msgid " Adds: "
 msgstr " 追加: "
 
+#: ulng.rsdiffcomparing
+msgid "Comparing..."
+msgstr ""
+
 #: ulng.rsdiffdeletes
 msgid " Deletes: "
 msgstr " 削除： "
@@ -10133,6 +10137,26 @@ msgstr " 一致: "
 #: ulng.rsdiffmodifies
 msgid " Modifies: "
 msgstr " 変更: "
+
+#: ulng.rsdifftextdifferenceencoding
+#, fuzzy
+msgctxt "ulng.rsdifftextdifferenceencoding"
+msgid "Encoding"
+msgstr "エンコード"
+
+#: ulng.rsdifftextdifferencelineending
+msgid "Line-endings"
+msgstr ""
+
+#: ulng.rsdifftextidentical
+msgid "The text is identical, but the following options are used:"
+msgstr ""
+
+#: ulng.rsdifftextidenticalnotmatch
+msgid ""
+"The text is identical, but the files do not match!\n"
+"The following differences were found:\n"
+msgstr ""
 
 #: ulng.rsdlgbuttonabort
 msgid "Ab&ort"
@@ -13833,6 +13857,10 @@ msgstr "パスには行末の区切り文字がつきません（デフォルト
 msgctxt "ulng.rsvfsnetwork"
 msgid "Network"
 msgstr "ネットワーク"
+
+#: ulng.rsvfsrecyclebin
+msgid "Recycle Bin"
+msgstr ""
 
 #: ulng.rsviewabouttext
 msgid "Internal Viewer of Double Commander."

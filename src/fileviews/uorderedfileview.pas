@@ -619,6 +619,7 @@ var
   sFileName : String;
   AFile: TFile;
   Masks: TMaskList;
+  AOptions: TMaskOptions = [moPinyin];
 
   function NextIndexWrap(Index: PtrInt): PtrInt;
   begin
@@ -667,7 +668,10 @@ begin
 
   StopIndex := Index;
   try
-    Masks:= TMaskList.Create(SearchTerm, ';,', SearchOptions.SearchCase = qscSensitive);
+    if (SearchOptions.SearchCase = qscSensitive) then
+      AOptions += [moCaseSensitive];
+
+    Masks:= TMaskList.Create(SearchTerm, ';,', AOptions);
 
     for I := 0 to Masks.Count - 1 do
     begin
@@ -694,7 +698,7 @@ begin
         sFileName := AFile.Name;
 
         // Match the file name and Pinyin letter
-        if not (Masks.Matches(sFileName) or (Masks.Matches(MakeSpellCode(sFileName)))) then
+        if not (Masks.Matches(sFileName)) then
           Result := False;
 
         if Result then

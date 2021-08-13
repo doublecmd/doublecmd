@@ -10153,6 +10153,10 @@ msgstr ""
 msgid " Adds: "
 msgstr " Добавлено: "
 
+#: ulng.rsdiffcomparing
+msgid "Comparing..."
+msgstr "Сравнение..."
+
 #: ulng.rsdiffdeletes
 msgid " Deletes: "
 msgstr " Удалено: "
@@ -10168,6 +10172,25 @@ msgstr " Совпало: "
 #: ulng.rsdiffmodifies
 msgid " Modifies: "
 msgstr " Изменено: "
+
+#: ulng.rsdifftextdifferenceencoding
+msgctxt "ulng.rsdifftextdifferenceencoding"
+msgid "Encoding"
+msgstr "Кодировка"
+
+#: ulng.rsdifftextdifferencelineending
+msgid "Line-endings"
+msgstr "Концы строк"
+
+#: ulng.rsdifftextidentical
+msgid "The text is identical, but the following options are used:"
+msgstr "Текст идентичный, но использованы следующие опции:"
+
+#: ulng.rsdifftextidenticalnotmatch
+msgid ""
+"The text is identical, but the files do not match!\n"
+"The following differences were found:\n"
+msgstr "Текст идентичный, но файлы не совпадают!\nНайдены следующие различия:"
 
 #: ulng.rsdlgbuttonabort
 msgid "Ab&ort"
@@ -13846,6 +13869,10 @@ msgstr "Пути без разделителя в конце (по умолча�
 msgctxt "ulng.rsvfsnetwork"
 msgid "Network"
 msgstr "Сеть"
+
+#: ulng.rsvfsrecyclebin
+msgid "Recycle Bin"
+msgstr "Корзина"
 
 #: ulng.rsviewabouttext
 msgid "Internal Viewer of Double Commander."

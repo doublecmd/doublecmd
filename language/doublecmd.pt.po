@@ -10209,6 +10209,10 @@ msgstr "_TextoUTF8Largado"
 msgid " Adds: "
 msgstr "Adiciona: "
 
+#: ulng.rsdiffcomparing
+msgid "Comparing..."
+msgstr ""
+
 #: ulng.rsdiffdeletes
 msgid " Deletes: "
 msgstr "Elimina: "
@@ -10224,6 +10228,26 @@ msgstr "Compara: "
 #: ulng.rsdiffmodifies
 msgid " Modifies: "
 msgstr "Modifica: "
+
+#: ulng.rsdifftextdifferenceencoding
+#, fuzzy
+msgctxt "ulng.rsdifftextdifferenceencoding"
+msgid "Encoding"
+msgstr "Codificar"
+
+#: ulng.rsdifftextdifferencelineending
+msgid "Line-endings"
+msgstr ""
+
+#: ulng.rsdifftextidentical
+msgid "The text is identical, but the following options are used:"
+msgstr ""
+
+#: ulng.rsdifftextidenticalnotmatch
+msgid ""
+"The text is identical, but the files do not match!\n"
+"The following differences were found:\n"
+msgstr ""
 
 #: ulng.rsdlgbuttonabort
 msgid "Ab&ort"
@@ -13906,6 +13930,10 @@ msgstr "Caminhos não terão delimitador final (predefinição)"
 msgctxt "ulng.rsvfsnetwork"
 msgid "Network"
 msgstr "Rede"
+
+#: ulng.rsvfsrecyclebin
+msgid "Recycle Bin"
+msgstr ""
 
 #: ulng.rsviewabouttext
 msgid "Internal Viewer of Double Commander."

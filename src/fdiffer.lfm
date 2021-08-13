@@ -13,8 +13,7 @@ object frmDiffer: TfrmDiffer
   OnDestroy = FormDestroy
   OnKeyDown = FormKeyDown
   OnResize = FormResize
-  OnShow = FormShow
-  SessionProperties = 'actAutoCompare.Checked;actIgnoreCase.Checked;actIgnoreWhiteSpace.Checked;actKeepScrolling.Checked;actLineDifferences.Checked;actPaintBackground.Checked;Height;Left;Top;Width;WindowState'
+  SessionProperties = 'actAutoCompare.Checked;Height;Left;Top;Width;WindowState'
   ShowHint = True
   ShowInTaskBar = stAlways
   LCLVersion = '2.0.7.0'
@@ -748,5 +747,10 @@ object frmDiffer: TfrmDiffer
   object pmEncodingRight: TPopupMenu
     left = 352
     top = 136
+  end
+  object tmProgress: TTimer
+    OnTimer = tmProgressTimer
+    Left = 568
+    Top = 170
   end
 end

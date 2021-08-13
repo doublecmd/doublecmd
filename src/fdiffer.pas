@@ -29,7 +29,7 @@ uses
   Classes, SysUtils, FileUtil, Forms, Controls, Dialogs, Menus, ComCtrls,
   ActnList, ExtCtrls, EditBtn, Buttons, SynEdit, uSynDiffControls,
   uPariterControls, uDiffOND, uFormCommands, uHotkeyManager, uOSForms,
-  uBinaryDiffViewer, uShowForm, KASStatusBar, Graphics;
+  uBinaryDiffViewer, uShowForm, KASStatusBar, Graphics, StdCtrls;
 
 type
 
@@ -148,6 +148,7 @@ type
     pmEncodingRight: TPopupMenu;
     Splitter: TSplitter;
     StatusBar: TStatusBar;
+    tmProgress: TTimer;
     ToolBar: TToolBar;
     btnSave: TToolButton;
     btnSaveAs: TToolButton;
@@ -197,10 +198,10 @@ type
     procedure FormCloseQuery(Sender: TObject; var CanClose: boolean);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
-    procedure FormRestoreProperties(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure FormResize(Sender: TObject);
-    procedure FormShow(Sender: TObject);
+    procedure btnCancelClick(Sender: TObject);
+    procedure tmProgressTimer(Sender: TObject);
   private
     BinaryDiffList: TFPList;
     BinaryDiffIndex: Integer;
@@ -220,10 +221,18 @@ type
     EncodingList: TStringList;
     ScrollLock: LongInt;
     FShowIdentical: Boolean;
+    FModal: Boolean;
+    FCancel: Boolean;
+    frmProgress: TForm;
     FWaitData: TWaitData;
     FElevate: TDuplicates;
     FCommands: TFormCommands;
+private
+    procedure ShowDialog;
     procedure ShowIdentical;
+    procedure ShowTextIdentical;
+    procedure ShowProgressDialog;
+    procedure CloseProgressDialog;
     procedure Clear(bLeft, bRight: Boolean);
     procedure BuildHashList(bLeft, bRight: Boolean);
     procedure ChooseEncoding(SynDiffEdit: TSynDiffEdit);
@@ -266,7 +275,7 @@ implementation
 {$R *.lfm}
 
 uses
-  LCLType, LazFileUtils, LConvEncoding, SynEditTypes, uHash, uLng, uGlobs,
+  Math, LCLType, LazFileUtils, LConvEncoding, SynEditTypes, uHash, uLng, uGlobs,
   uShowMsg, DCClassesUtf8, dmCommonData, uDCUtils, uConvEncoding, uAdministrator;
 
 const
@@ -279,27 +288,27 @@ begin
   Differ := TfrmDiffer.Create(Application);
   with Differ do
   begin
+    FModal := Modal;
     FWaitData := WaitData;
+    FShowIdentical := True;
     edtFileNameLeft.Text:= FileNameLeft;
     edtFileNameRight.Text:= FileNameRight;
-    FShowIdentical:= actAutoCompare.Checked;
     SetColors(gDifferAddedColor, gDifferDeletedColor, gDifferModifiedColor);
-    if not (FileIsText(FileNameLeft) and FileIsText(FileNameRight)) then
-      actBinaryCompare.Execute
-    else begin
-      OpenFileLeft(FileNameLeft);
-      OpenFileRight(FileNameRight);
-      if actAutoCompare.Checked then actStartCompare.Execute;
-    end;
-    FShowIdentical:= FShowIdentical and actStartCompare.Enabled;
-    if actBinaryCompare.Checked or (FShowIdentical = False) then
-    begin
-      if Modal then
-        ShowModal
-      else if (WaitData = nil) then
-        ShowOnTop
-      else
-        WaitData.ShowOnTop(Differ);
+    try
+      if not (FileIsText(FileNameLeft) and FileIsText(FileNameRight)) then
+        actBinaryCompare.Execute
+      else begin
+        OpenFileLeft(FileNameLeft);
+        OpenFileRight(FileNameRight);
+        actStartCompare.Execute;
+      end;
+    except
+      on E: Exception do
+      begin
+        tmProgress.Enabled:= False;
+        msgError(E.Message);
+        Free;
+      end;
     end;
   end;
 end;
@@ -312,101 +321,121 @@ var
   LineNumberLeft,
   LineNumberRight: PtrInt;
 begin
-  if actBinaryCompare.Checked then
-  begin
-    if (BinaryViewerLeft.IsFileOpen and BinaryViewerRight.IsFileOpen) then
+  FCancel:= False;
+  try
+    if actBinaryCompare.Checked then
     begin
+      if (BinaryViewerLeft.IsFileOpen and BinaryViewerRight.IsFileOpen) then
+      begin
+        actStartCompare.Enabled := False;
+        actCancelCompare.Enabled := True;
+        actBinaryCompare.Enabled := False;
+        BinaryCompare:= TBinaryCompare.Create(BinaryViewerLeft.GetDataAdr,
+                                              BinaryViewerRight.GetDataAdr,
+                                              BinaryViewerLeft.FileSize,
+                                              BinaryViewerRight.FileSize,
+                                              BinaryDiffList);
+
+        BinaryCompare.OnFinish:= @BinaryCompareFinish;
+        BinaryCompare.Start;
+      end;
+    end
+    else try
+      Inc(ScrollLock);
+      Screen.Cursor := crHourGlass;
+
+      if SynDiffEditLeft.Modified then SynDiffEditLeft.Lines.RemoveFake;
+      if SynDiffEditRight.Modified then SynDiffEditRight.Lines.RemoveFake;
+      BuildHashList(SynDiffEditLeft.Modified, SynDiffEditRight.Modified);
+
+      if (Length(HashListLeft) = 0) or (Length(HashListRight) = 0) then
+      begin
+        FCancel := True;
+        Exit;
+      end;
+
       actStartCompare.Enabled := False;
       actCancelCompare.Enabled := True;
-      actBinaryCompare.Enabled := False;
-      BinaryCompare:= TBinaryCompare.Create(BinaryViewerLeft.GetDataAdr,
-                                            BinaryViewerRight.GetDataAdr,
-                                            BinaryViewerLeft.FileSize,
-                                            BinaryViewerRight.FileSize,
-                                            BinaryDiffList);
 
-      BinaryCompare.OnFinish:= @BinaryCompareFinish;
-      BinaryCompare.Start;
-    end;
-  end
-  else try
-    Inc(ScrollLock);
-    Screen.Cursor := crHourGlass;
+      Diff.Execute(
+                   PInteger(@HashListLeft[0]),
+                   PInteger(@HashListRight[0]),
+                   Length(HashListLeft),
+                   Length(HashListRight)
+                  );
 
-    if SynDiffEditLeft.Modified then SynDiffEditLeft.Lines.RemoveFake;
-    if SynDiffEditRight.Modified then SynDiffEditRight.Lines.RemoveFake;
-    BuildHashList(SynDiffEditLeft.Modified, SynDiffEditRight.Modified);
+      tmProgress.Enabled:= False;
+      if Diff.Cancelled then Exit;
 
-    if (Length(HashListLeft) = 0) or (Length(HashListRight) = 0) then Exit;
-    actStartCompare.Enabled := False;
-    actCancelCompare.Enabled := True;
+      SynDiffEditLeft.StartCompare;
+      SynDiffEditRight.StartCompare;
 
-    Diff.Execute(
-                 PInteger(@HashListLeft[0]),
-                 PInteger(@HashListRight[0]),
-                 Length(HashListLeft),
-                 Length(HashListRight)
-                );
-
-    if Diff.Cancelled then Exit;
-
-    SynDiffEditLeft.StartCompare;
-    SynDiffEditRight.StartCompare;
-
-    for I := 0 to Diff.Count - 1 do
-    with Diff.Compares[I] do
-    begin
-      LineNumberLeft:= oldIndex1 + 1;
-      LineNumberRight:= oldIndex2 + 1;
-      case Kind of
-      ckAdd:
-        begin
-          SynDiffEditLeft.Lines.InsertFake(I, Kind);
-          SynDiffEditRight.Lines.SetKindAndNumber(I, Kind, LineNumberRight);
-        end;
-      ckDelete:
-        begin
-          SynDiffEditLeft.Lines.SetKindAndNumber(I, Kind, LineNumberLeft);
-          SynDiffEditRight.Lines.InsertFake(I, Kind);
-        end;
-      else
-        begin
-          SynDiffEditLeft.Lines.SetKindAndNumber(I, Kind, LineNumberLeft);
-          SynDiffEditRight.Lines.SetKindAndNumber(I, Kind, LineNumberRight);
-        end;
-      end;
-    end;
-    with Diff.DiffStats do
-    begin
-      StatusBar.Panels[0].Text := rsDiffMatches + IntToStr(matches);
-      StatusBar.Panels[1].Text := rsDiffModifies + IntToStr(modifies);
-      StatusBar.Panels[2].Text := rsDiffAdds + IntToStr(adds);
-      StatusBar.Panels[3].Text := rsDiffDeletes + IntToStr(deletes);
-      if FShowIdentical then
+      for I := 0 to Diff.Count - 1 do
+      with Diff.Compares[I] do
       begin
-        FShowIdentical:= (modifies = 0) and (adds = 0) and (deletes = 0);
-        if FShowIdentical then
-          ShowIdentical
-        else begin
-          FShowIdentical:= False;
-          Application.QueueAsyncCall(@ShowFirstDifference, 0);
+        LineNumberLeft:= oldIndex1 + 1;
+        LineNumberRight:= oldIndex2 + 1;
+        case Kind of
+        ckAdd:
+          begin
+            SynDiffEditLeft.Lines.InsertFake(I, Kind);
+            SynDiffEditRight.Lines.SetKindAndNumber(I, Kind, LineNumberRight);
+          end;
+        ckDelete:
+          begin
+            SynDiffEditLeft.Lines.SetKindAndNumber(I, Kind, LineNumberLeft);
+            SynDiffEditRight.Lines.InsertFake(I, Kind);
+          end;
+        else
+          begin
+            SynDiffEditLeft.Lines.SetKindAndNumber(I, Kind, LineNumberLeft);
+            SynDiffEditRight.Lines.SetKindAndNumber(I, Kind, LineNumberRight);
+          end;
         end;
       end;
+      with Diff.DiffStats do
+      begin
+        StatusBar.Panels[0].Text := rsDiffMatches + IntToStr(matches);
+        StatusBar.Panels[1].Text := rsDiffModifies + IntToStr(modifies);
+        StatusBar.Panels[2].Text := rsDiffAdds + IntToStr(adds);
+        StatusBar.Panels[3].Text := rsDiffDeletes + IntToStr(deletes);
+        if FShowIdentical then
+        begin
+          CloseProgressDialog;
+          FShowIdentical:= (modifies = 0) and (adds = 0) and (deletes = 0);
+          if FShowIdentical then
+            ShowIdentical
+          else begin
+            FShowIdentical:= False;
+            Application.QueueAsyncCall(@ShowFirstDifference, 0);
+            ShowDialog;
+          end;
+        end
+        else if (modifies = 0) and (adds = 0) and (deletes = 0) then
+        begin
+          if (SynDiffEditLeft.Encoding <> SynDiffEditRight.Encoding) or
+             (SynDiffEditLeft.Lines.TextLineBreakStyle <> SynDiffEditRight.Lines.TextLineBreakStyle) then
+          begin
+            ShowTextIdentical;
+          end;
+        end;
+      end;
+    finally
+      SynDiffEditLeft.FinishCompare;
+      SynDiffEditRight.FinishCompare;
+      Screen.Cursor := crDefault;
+      actStartCompare.Enabled := True;
+      actCancelCompare.Enabled := False;
+      Dec(ScrollLock);
+    end;
+    if actLineDifferences.Checked then
+    begin
+      SynDiffEditLeft.Highlighter:= SynDiffHighlighterLeft;
+      SynDiffEditRight.Highlighter:= SynDiffHighlighterRight;
     end;
   finally
-    SynDiffEditLeft.FinishCompare;
-    SynDiffEditRight.FinishCompare;
-    Screen.Cursor := crDefault;
-    actStartCompare.Enabled := True;
-    actCancelCompare.Enabled := False;
-    Dec(ScrollLock);
+    if FShowIdentical and FCancel then Free;
   end;
-  if actLineDifferences.Checked then
-  begin
-    SynDiffEditLeft.Highlighter:= SynDiffHighlighterLeft;
-    SynDiffEditRight.Highlighter:= SynDiffHighlighterRight;
-  end;
-  //mnuEdit.Enabled := true;
 end;
 
 procedure TfrmDiffer.actOpenLeftExecute(Sender: TObject);
@@ -529,6 +558,13 @@ begin
       finally
         PushPop(FElevate);
       end;
+      if FShowIdentical then
+      begin
+        if not BinaryViewerLeft.IsFileOpen then
+          raise EFOpenError.Create(BinaryViewerLeft.LastError + LineEnding + edtFileNameLeft.Text);
+        if not BinaryViewerRight.IsFileOpen then
+          raise EFOpenError.Create(BinaryViewerRight.LastError + LineEnding + edtFileNameRight.Text);
+      end;
       StatusBar.Panels[0].Text := EmptyStr;
       StatusBar.Panels[1].Text := EmptyStr;
       StatusBar.Panels[2].Text := EmptyStr;
@@ -542,7 +578,7 @@ begin
       OpenFileRight(edtFileNameRight.Text);
     end;
 
-  if Visible and actAutoCompare.Checked then actStartCompare.Execute;
+  actStartCompare.Execute;
 end;
 
 procedure TfrmDiffer.actCancelCompareExecute(Sender: TObject);
@@ -705,16 +741,27 @@ begin
   BinaryViewerLeft.SecondViewer:= BinaryViewerRight;
   BinaryViewerRight.SecondViewer:= BinaryViewerLeft;
 
+  BinaryViewerLeft.Modified:= gDifferModifiedBinaryColor;
+  BinaryViewerRight.Modified:= gDifferModifiedBinaryColor;
+
   FontOptionsToFont(gFonts[dcfEditor], SynDiffEditLeft.Font);
   FontOptionsToFont(gFonts[dcfEditor], SynDiffEditRight.Font);
   FontOptionsToFont(gFonts[dcfViewer], BinaryViewerLeft.Font);
   FontOptionsToFont(gFonts[dcfViewer], BinaryViewerRight.Font);
 
+  // Load settings
+  actIgnoreCase.Checked := gDifferIgnoreCase;
+  actKeepScrolling.Checked := gDifferKeepScrolling;
+  actLineDifferences.Checked := gDifferLineDifferences;
+  actPaintBackground.Checked := gDifferPaintBackground;
+  actIgnoreWhiteSpace.Checked := gDifferIgnoreWhiteSpace;
+
+  // Initialize mode
+  actKeepScrollingExecute(actKeepScrolling);
+  actPaintBackgroundExecute(actPaintBackground);
+
   // Initialize property storage
-  with InitPropStorage(Self) do
-  begin
-    OnRestoreProperties:= @FormRestoreProperties;
-  end;
+  InitPropStorage(Self);
 
   // Fill encoding menu
   EncodingList:= TStringList.Create;
@@ -732,13 +779,6 @@ begin
   FreeAndNil(BinaryDiffList);
 end;
 
-procedure TfrmDiffer.FormRestoreProperties(Sender: TObject);
-begin
-  // Initialize mode
-  actKeepScrollingExecute(actKeepScrolling);
-  actPaintBackgroundExecute(actPaintBackground);
-end;
-
 procedure TfrmDiffer.FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
 begin
   if Key = VK_ESCAPE then
@@ -753,16 +793,32 @@ begin
   pnlLeft.Width:= (ClientWidth div 2) - (Splitter.Width div 2);
 end;
 
-procedure TfrmDiffer.FormShow(Sender: TObject);
+procedure TfrmDiffer.btnCancelClick(Sender: TObject);
 begin
-  if actBinaryCompare.Checked and actAutoCompare.Checked then
-    actStartCompare.Execute;
+  FCancel:= True;
+  if actBinaryCompare.Checked and Assigned(BinaryCompare) then
+    BinaryCompare.Terminate
+  else begin
+    Diff.Cancel;
+  end;
+  CloseProgressDialog;
+end;
+
+procedure TfrmDiffer.tmProgressTimer(Sender: TObject);
+begin
+  tmProgress.Enabled:= False;
+  ShowProgressDialog;
 end;
 
 procedure TfrmDiffer.BinaryCompareFinish;
 begin
   BinaryCompare:= nil;
+  if FCancel then begin
+    if FShowIdentical then Free;
+    Exit;
+  end;
   BinaryDiffIndex:= -1;
+  tmProgress.Enabled:= False;
   StatusBar.Panels[0].Text := EmptyStr;
   StatusBar.Panels[1].Text := rsDiffModifies + IntToStr(BinaryDiffList.Count);
   StatusBar.Panels[2].Text := EmptyStr;
@@ -772,32 +828,157 @@ begin
   actBinaryCompare.Enabled := True;
   if FShowIdentical then
   begin
+    CloseProgressDialog;
     FShowIdentical:= (BinaryDiffList.Count = 0);
     if FShowIdentical then
       ShowIdentical
     else begin
       FShowIdentical:= False;
       Application.QueueAsyncCall(@ShowFirstDifference, 0);
+      ShowDialog;
     end;
   end;
+end;
+
+procedure TfrmDiffer.ShowDialog;
+begin
+  if FModal then
+    ShowModal
+  else if (FWaitData = nil) then
+    ShowOnTop
+  else
+    FWaitData.ShowOnTop(Self);
 end;
 
 procedure TfrmDiffer.ShowIdentical;
 var
   Message: String;
+  Encoding, LineBreak: Boolean;
+  DlgType: TMsgDlgType = mtInformation;
 begin
   Message:= rsDiffFilesIdentical + LineEnding + LineEnding;
   Message+= edtFileNameLeft.Text + LineEnding + edtFileNameRight.Text;
-  if MessageDlg(rsToolDiffer, Message, mtWarning, [mbIgnore, mbCancel], 0, mbIgnore) = mrCancel then
+  if not actBinaryCompare.Checked then
+  begin
+    Encoding:= (SynDiffEditLeft.Encoding <> SynDiffEditRight.Encoding);
+    LineBreak:= (SynDiffEditLeft.Lines.TextLineBreakStyle <> SynDiffEditRight.Lines.TextLineBreakStyle);
+    if Encoding or LineBreak then
+    begin
+      DlgType:= mtWarning;
+      Message:= rsDiffTextIdenticalNotMatch;
+      if Encoding then begin
+        Message+= LineEnding + rsDiffTextDifferenceEncoding +
+                  Format(' (%s, %s)', [SynDiffEditLeft.Encoding, SynDiffEditRight.Encoding]);
+      end;
+      if LineBreak then begin
+        Message+= LineEnding + rsDiffTextDifferenceLineEnding;
+      end;
+    end
+    else if actIgnoreCase.Checked or actIgnoreWhiteSpace.Checked then
+    begin
+      DlgType:= mtWarning;
+      Message:= rsDiffTextIdentical;
+      if actIgnoreCase.Checked then begin
+        Message+= LineEnding + actIgnoreCase.Caption;
+      end;
+      if actIgnoreWhiteSpace.Checked then begin
+        Message+= LineEnding + actIgnoreWhiteSpace.Caption;
+      end;
+    end;
+  end;
+  if MessageDlg(rsToolDiffer, Message, DlgType, [mbIgnore, mbCancel], 0, mbIgnore) = mrCancel then
     Close
   else begin
     FShowIdentical:= False;
+    ShowDialog;
+  end;
+end;
+
+procedure TfrmDiffer.ShowTextIdentical;
+var
+  Message: String;
+begin
+  Message:= rsDiffTextIdenticalNotMatch;
+  if (SynDiffEditLeft.Encoding <> SynDiffEditRight.Encoding) then
+    Message+= LineEnding + rsDiffTextDifferenceEncoding;
+  if (SynDiffEditLeft.Lines.TextLineBreakStyle <> SynDiffEditRight.Lines.TextLineBreakStyle) then
+    Message+= LineEnding + rsDiffTextDifferenceLineEnding;
+  MessageDlg(rsToolDiffer, Message, mtWarning, [mbOK], 0, mbOK);
+end;
+
+procedure TfrmDiffer.ShowProgressDialog;
+var
+  lblPrompt : TLabel;
+  btnCancel : TBitBtn;
+  pbProgress: TProgressBar;
+begin
+  frmProgress := TModalDialog.CreateNew(nil, 0);
+  with frmProgress do
+  begin
+    BorderStyle := bsDialog;
+    Position := poOwnerFormCenter;
+    AutoSize := True;
+    Height := 120;
+    ChildSizing.TopBottomSpacing := 8;
+    ChildSizing.LeftRightSpacing := 8;
+    Caption := Self.Caption;
+    lblPrompt := TLabel.Create(frmProgress);
+    with lblPrompt do
+    begin
+      Parent := frmProgress;
+      Caption := rsDiffComparing;
+      Top := 6;
+      Left := 6;
+    end;
+    pbProgress:= TProgressBar.Create(frmProgress);
+    with pbProgress do
+    begin
+      Parent := frmProgress;
+      Style:= pbstMarquee;
+      Left := 6;
+      AnchorToNeighbour(akTop, 6, lblPrompt);
+      Constraints.MinWidth := Math.Max(280, Screen.Width div 4);
+    end;
+    btnCancel := TBitBtn.Create(frmProgress);
+    with btnCancel do
+    begin
+      AutoSize := True;
+      Parent := frmProgress;
+      Kind := bkCancel;
+      Cancel := True;
+      OnClick:= @btnCancelClick;
+      Anchors := [akTop, akRight];
+      AnchorToNeighbour(akTop, 18, pbProgress);
+      AnchorSide[akRight].Control := pbProgress;
+      AnchorSide[akRight].Side := asrCenter;
+    end;
+    if FModal then
+      ShowModal
+    else if (FWaitData = nil) then
+      ShowOnTop
+    else
+      FWaitData.ShowOnTop(frmProgress);
+  end;
+end;
+
+procedure TfrmDiffer.CloseProgressDialog;
+begin
+  if Assigned(frmProgress) then
+  begin
+    frmProgress.Close;
+    FreeAndNil(frmProgress);
   end;
 end;
 
 procedure TfrmDiffer.FormClose(Sender: TObject; var CloseAction: TCloseAction);
 begin
   CloseAction:= caFree;
+  // Save settings
+  gDifferIgnoreCase := actIgnoreCase.Checked;
+  gDifferKeepScrolling := actKeepScrolling.Checked;
+  gDifferLineDifferences := actLineDifferences.Checked;
+  gDifferPaintBackground := actPaintBackground.Checked;
+  gDifferIgnoreWhiteSpace := actIgnoreWhiteSpace.Checked;
 end;
 
 procedure TfrmDiffer.FormCloseQuery(Sender: TObject; var CanClose: boolean);
@@ -1238,7 +1419,9 @@ begin
   except
     on E: Exception do
     begin
-      msgError(E.Message + LineEnding + FileName);
+      E.Message:= E.Message + LineEnding + FileName;
+      if FShowIdentical then raise;
+      msgError(E.Message);
     end;
   end;
 end;
@@ -1295,14 +1478,11 @@ begin
       BinaryDiffList.Clear;
       BinaryViewerLeft.FileName:= FileName
     end
-    else try
+    else begin
       Clear(True, False);
       LoadFromFile(SynDiffEditLeft, FileName);
       BuildHashList(True, False);
       SynDiffEditLeft.Repaint;
-    except
-      on EFOpenError do
-        msgWarning(rsMsgErrEOpen + ' ' + FileName);
     end;
   finally
     PushPop(FElevate);
@@ -1319,14 +1499,11 @@ begin
       BinaryDiffList.Clear;
       BinaryViewerRight.FileName:= FileName
     end
-    else try
+    else begin
       Clear(False, True);
       LoadFromFile(SynDiffEditRight, FileName);
       BuildHashList(False, True);
       SynDiffEditRight.Repaint;
-    except
-      on EFOpenError do
-        msgWarning(rsMsgErrEOpen + ' ' + FileName);
     end;
   finally
     PushPop(FElevate);

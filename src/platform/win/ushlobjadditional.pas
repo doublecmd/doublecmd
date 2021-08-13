@@ -68,6 +68,21 @@ type
       function GetOverlayIconIndex(pidl : PItemIDList; var IconIndex : Integer) : HResult; stdcall;
    end; { IShellIconOverlay }
 
+{$IF FPC_FULLVERSION < 30200}
+   PSHColumnID = ^TSHColumnID;
+
+   IShellFolder2 = interface(IShellFolder)
+      ['{93F2F68C-1D1B-11d3-A30E-00C04F79ABD1}']
+      function GetDefaultSearchGUID(out guid:TGUID):HResult;StdCall;
+      function EnumSearches(out ppenum:IEnumExtraSearch):HResult;StdCall;
+      function GetDefaultColumn(dwres:DWORD;psort :pulong; pdisplay:pulong):HResult;StdCall;
+      function GetDefaultColumnState(icolumn:UINT;pscflag:PSHCOLSTATEF):HResult;StdCall;
+      function GetDetailsEx(pidl:LPCITEMIDLIST;pscid:PSHCOLUMNID; pv : pOLEvariant):HResult;StdCall;
+      function GetDetailsOf(pidl:LPCITEMIDLIST;iColumn:UINT;psd:PSHELLDETAILS):HResult;StdCall;
+      function MapColumnToSCID(iColumn:UINT;pscid:PSHCOLUMNID):HResult;StdCall;
+   end;
+{$ENDIF}
+
 const
   SIID_DRIVENET = 9;
   SIID_ZIPFILE = 105;
@@ -93,12 +108,8 @@ function SHFileIsLinkToFolder(const FileName: String; out LinkTarget: String): B
 
 function SHGetFolderLocation(hwnd: HWND; csidl: Longint; hToken: HANDLE; dwFlags: DWORD; var ppidl: LPITEMIDLIST): HRESULT; stdcall; external shell32 name 'SHGetFolderLocation';
 
-function PathIsUNCA(pszPath: LPCSTR): WINBOOL; stdcall; external 'shlwapi' name 'PathIsUNCA';
 function PathIsUNCW(pwszPath: LPCWSTR): WINBOOL; stdcall; external 'shlwapi' name 'PathIsUNCW';
-
-function PathFindNextComponentA(pszPath: LPCSTR): LPSTR; stdcall; external 'shlwapi' name 'PathFindNextComponentA';
 function PathFindNextComponentW(pwszPath: LPCWSTR): LPWSTR; stdcall; external 'shlwapi' name 'PathFindNextComponentW';
-
 function StrRetToBufW(pstr: PSTRRET; pidl: PItemIDList; pszBuf: LPWSTR; cchBuf: UINT): HRESULT; stdcall; external 'shlwapi.dll';
 
 procedure OleErrorUTF8(ErrorCode: HResult);

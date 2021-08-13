@@ -130,6 +130,7 @@ uses
   , uWinNetFileSource, uVfsModule, uLng, uMyWindows, DCStrUtils
   , uDCReadSVG, uFileSourceUtil, uGdiPlusJPEG, uListGetPreviewBitmap
   , Dialogs, Clipbrd, uShowMsg, uDebug, JwaDbt, uThumbnailProvider
+  , uRecycleBinFileSource
     {$IFDEF LCLQT5}
     , qt5, qtwidgets, uDarkStyle
     {$ENDIF}
@@ -582,6 +583,8 @@ begin
 {$ENDIF}
   // Register network file source
   RegisterVirtualFileSource(rsVfsNetwork, TWinNetFileSource);
+  if CheckWin32Version(5, 1) then
+    RegisterVirtualFileSource(rsVfsRecycleBin, TRecycleBinFileSource);
   if (IsUserAdmin = dupAccept) then // if run under administrator
     MainForm.Caption:= MainForm.Caption + ' - Administrator';
 

@@ -10164,6 +10164,10 @@ msgstr "_EjtettUnicodeUTF8Szoveg"
 msgid " Adds: "
 msgstr " Többlet: "
 
+#: ulng.rsdiffcomparing
+msgid "Comparing..."
+msgstr ""
+
 #: ulng.rsdiffdeletes
 msgid " Deletes: "
 msgstr " Hiányzó: "
@@ -10179,6 +10183,26 @@ msgstr "Egyező:"
 #: ulng.rsdiffmodifies
 msgid " Modifies: "
 msgstr "Eltérő:"
+
+#: ulng.rsdifftextdifferenceencoding
+#, fuzzy
+msgctxt "ulng.rsdifftextdifferenceencoding"
+msgid "Encoding"
+msgstr "Kódolás"
+
+#: ulng.rsdifftextdifferencelineending
+msgid "Line-endings"
+msgstr ""
+
+#: ulng.rsdifftextidentical
+msgid "The text is identical, but the following options are used:"
+msgstr ""
+
+#: ulng.rsdifftextidenticalnotmatch
+msgid ""
+"The text is identical, but the files do not match!\n"
+"The following differences were found:\n"
+msgstr ""
 
 #: ulng.rsdlgbuttonabort
 msgid "Ab&ort"
@@ -13860,6 +13884,10 @@ msgctxt "ulng.rsvfsnetwork"
 msgid "Network"
 msgstr "Hálózat"
 
+#: ulng.rsvfsrecyclebin
+msgid "Recycle Bin"
+msgstr ""
+
 #: ulng.rsviewabouttext
 msgid "Internal Viewer of Double Commander."
 msgstr "A Double Commander belső nézőkéje"
@@ -13910,3 +13938,4 @@ msgstr "Nem történt csere."
 #: umaincommands.rsfavoritetabs_setupnotexist
 msgid "No setup named \"%s\""
 msgstr "Nincs \"%s\" nevű beállítás"
+

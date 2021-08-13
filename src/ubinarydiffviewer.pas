@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Binary difference viewer and comparator
 
-   Copyright (C) 2014 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2014-2021 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -35,6 +35,7 @@ type
 
   TBinaryDiffViewer = class(TViewerControl)
   private
+    FModified: TColor;
     FScrollLock: Integer;
     FKeepScrolling: Boolean;
     FSecondViewer: TBinaryDiffViewer;
@@ -45,6 +46,8 @@ type
     constructor Create(AOwner: TComponent); override;
     property KeepScrolling: Boolean read FKeepScrolling write FKeepScrolling;
     property SecondViewer: TBinaryDiffViewer read FSecondViewer write FSecondViewer;
+    property Modified: TColor read FModified write FModified;
+    property LastError: String read FLastError;
   end;
 
   { TBinaryCompare }
@@ -122,9 +125,9 @@ begin
       for I := 0 to MineLength - 1 do
       begin
         if (I > ForeignLength) or (PWord(P1)^ <> PWord(P2)^) then
-          Canvas.Font.Color := clRed
+          Canvas.Font.Color := FModified
         else
-          Canvas.Font.Color := clBlack;
+          Canvas.Font.Color := clWindowText;
         SymbolColor[I]:= Canvas.Font.Color;
         WordHex:= Copy(P1, 1, cWordSize);
         Canvas.TextOut(X, Y, WordHex);
@@ -141,7 +144,7 @@ begin
         Canvas.TextOut(X, Y, WordHex[I]);
         Inc(X, SymbolWidth);
       end;
-      Canvas.Font.Color := clBlack
+      Canvas.Font.Color := clWindowText;
     end;
   end;
 end;
@@ -167,6 +170,7 @@ end;
 constructor TBinaryDiffViewer.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
+  FModified:= clRed;
   Mode:= vcmHex;
 end;
 

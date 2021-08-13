@@ -10169,6 +10169,10 @@ msgstr "_TexteUnicodeUTF8Déposé"
 msgid " Adds: "
 msgstr "Adjouté: "
 
+#: ulng.rsdiffcomparing
+msgid "Comparing..."
+msgstr ""
+
 #: ulng.rsdiffdeletes
 msgid " Deletes: "
 msgstr "Effacé: "
@@ -10184,6 +10188,26 @@ msgstr "Corresponde: "
 #: ulng.rsdiffmodifies
 msgid " Modifies: "
 msgstr "Modifie: "
+
+#: ulng.rsdifftextdifferenceencoding
+#, fuzzy
+msgctxt "ulng.rsdifftextdifferenceencoding"
+msgid "Encoding"
+msgstr "Encodage"
+
+#: ulng.rsdifftextdifferencelineending
+msgid "Line-endings"
+msgstr ""
+
+#: ulng.rsdifftextidentical
+msgid "The text is identical, but the following options are used:"
+msgstr ""
+
+#: ulng.rsdifftextidenticalnotmatch
+msgid ""
+"The text is identical, but the files do not match!\n"
+"The following differences were found:\n"
+msgstr ""
 
 #: ulng.rsdlgbuttonabort
 msgid "Ab&ort"
@@ -13861,6 +13885,10 @@ msgstr "Les chemins n'auront pas de séparateur de dossier à la fin (défaut)"
 msgctxt "ulng.rsvfsnetwork"
 msgid "Network"
 msgstr "Réseau"
+
+#: ulng.rsvfsrecyclebin
+msgid "Recycle Bin"
+msgstr ""
 
 #: ulng.rsviewabouttext
 msgid "Internal Viewer of Double Commander."

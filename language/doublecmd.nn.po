@@ -10417,6 +10417,10 @@ msgstr "_DroppaUTF8"
 msgid " Adds: "
 msgstr " Legg til: "
 
+#: ulng.rsdiffcomparing
+msgid "Comparing..."
+msgstr ""
+
 #: ulng.rsdiffdeletes
 msgid " Deletes: "
 msgstr " Slettar: "
@@ -10432,6 +10436,26 @@ msgstr " Matcher: "
 #: ulng.rsdiffmodifies
 msgid " Modifies: "
 msgstr " Endrar: "
+
+#: ulng.rsdifftextdifferenceencoding
+#, fuzzy
+msgctxt "ulng.rsdifftextdifferenceencoding"
+msgid "Encoding"
+msgstr "Kodar"
+
+#: ulng.rsdifftextdifferencelineending
+msgid "Line-endings"
+msgstr ""
+
+#: ulng.rsdifftextidentical
+msgid "The text is identical, but the following options are used:"
+msgstr ""
+
+#: ulng.rsdifftextidenticalnotmatch
+msgid ""
+"The text is identical, but the files do not match!\n"
+"The following differences were found:\n"
+msgstr ""
 
 #: ulng.rsdlgbuttonabort
 msgid "Ab&ort"
@@ -14124,6 +14148,10 @@ msgstr "Stiar får ikkje skiljeteikn på slutten (standard)"
 msgctxt "ulng.rsvfsnetwork"
 msgid "Network"
 msgstr "Nettverk"
+
+#: ulng.rsvfsrecyclebin
+msgid "Recycle Bin"
+msgstr ""
 
 #: ulng.rsviewabouttext
 msgid "Internal Viewer of Double Commander."

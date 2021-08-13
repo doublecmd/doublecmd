@@ -9994,6 +9994,10 @@ msgstr "_Spuščeno besedilo UTF8"
 msgid " Adds: "
 msgstr "Dodano:"
 
+#: ulng.rsdiffcomparing
+msgid "Comparing..."
+msgstr ""
+
 #: ulng.rsdiffdeletes
 msgid " Deletes: "
 msgstr "Za izbris:"
@@ -10009,6 +10013,26 @@ msgstr "Število razlik:"
 #: ulng.rsdiffmodifies
 msgid " Modifies: "
 msgstr " Spremenjeno:"
+
+#: ulng.rsdifftextdifferenceencoding
+#, fuzzy
+msgctxt "ulng.rsdifftextdifferenceencoding"
+msgid "Encoding"
+msgstr "Nabor znakov"
+
+#: ulng.rsdifftextdifferencelineending
+msgid "Line-endings"
+msgstr ""
+
+#: ulng.rsdifftextidentical
+msgid "The text is identical, but the following options are used:"
+msgstr ""
+
+#: ulng.rsdifftextidenticalnotmatch
+msgid ""
+"The text is identical, but the files do not match!\n"
+"The following differences were found:\n"
+msgstr ""
 
 #: ulng.rsdlgbuttonabort
 msgid "Ab&ort"
@@ -13659,6 +13683,10 @@ msgstr "Poti bodo zapisane brez končnega ločilnika (privzeto)"
 msgctxt "ulng.rsvfsnetwork"
 msgid "Network"
 msgstr "Omrežje"
+
+#: ulng.rsvfsrecyclebin
+msgid "Recycle Bin"
+msgstr ""
 
 #: ulng.rsviewabouttext
 msgid "Internal Viewer of Double Commander."
