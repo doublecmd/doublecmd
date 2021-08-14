@@ -168,6 +168,17 @@ inherited frmOptionsFileOperations: TfrmOptionsFileOperations
       Caption = 'Verify checksum operation'
       TabOrder = 9
     end
+    object cbTestArchiveConfirmation: TCheckBox
+      AnchorSideLeft.Control = cbVerifyChecksumConfirmation
+      AnchorSideTop.Control = cbVerifyChecksumConfirmation
+      AnchorSideTop.Side = asrBottom
+      Left = 10
+      Height = 23
+      Top = 323
+      Width = 161
+      Caption = 'Test archive operation'
+      TabOrder = 10
+    end
   end
   object gbExecutingOperations: TGroupBox[1]
     AnchorSideLeft.Control = Owner
