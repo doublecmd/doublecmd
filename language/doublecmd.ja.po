@@ -5897,6 +5897,10 @@ msgstr "コピー/移動ダイアログボックスにタブ選定パネルを�
 msgid "S&kip file operations errors and write them to log window"
 msgstr "ファイル操作エラーはスキップして,そのエラーをログウィンドウに書く(&k)"
 
+#: tfrmoptionsfileoperations.cbtestarchiveconfirmation.caption
+msgid "Test archive operation"
+msgstr ""
+
 #: tfrmoptionsfileoperations.cbverifychecksumconfirmation.caption
 msgid "Verify checksum operation"
 msgstr "チェックサム操作の確認"
@@ -11961,6 +11965,10 @@ msgstr "トータル・コマンダーTCツールバーファイルを保存す�
 #: ulng.rsmsgterminateprocess
 msgid "WARNING: Terminating a process can cause undesired results including loss of data and system instability. The process will not be given the chance to save its state or data before it is terminated. Are you sure you want to terminate the process?"
 msgstr "警告: プロセスを終了すると,データの損失やシステムの不安定化など,望ましくない結果が生じる可能性があります.プロセスは,終了する前に状態またはデータを保存する機会を与えられません.プロセスを終了しますか?"
+
+#: ulng.rsmsgtestarchive
+msgid "Do you want to test selected archives?"
+msgstr ""
 
 #: ulng.rsmsgthisisnowinclipboard
 msgid "\"%s\" is now in the clipboard"

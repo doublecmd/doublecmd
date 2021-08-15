@@ -5813,6 +5813,10 @@ msgstr "在复制/移动对话框显示标签选择面板(&W)"
 msgid "S&kip file operations errors and write them to log window"
 msgstr "忽略文件操作错误，并记录到日志窗口(&K)"
 
+#: tfrmoptionsfileoperations.cbtestarchiveconfirmation.caption
+msgid "Test archive operation"
+msgstr ""
+
 #: tfrmoptionsfileoperations.cbverifychecksumconfirmation.caption
 msgid "Verify checksum operation"
 msgstr "验证校验和操作"
@@ -11771,6 +11775,10 @@ msgstr "输入要保存的 TC 工具栏文件的位置和文件名"
 #: ulng.rsmsgterminateprocess
 msgid "WARNING: Terminating a process can cause undesired results including loss of data and system instability. The process will not be given the chance to save its state or data before it is terminated. Are you sure you want to terminate the process?"
 msgstr "警告：终止进程可能会导致意外结果，包括数据丢失和系统不稳定。终止前，该进程将无法保存其状态或数据。您确定要终止该进程吗？"
+
+#: ulng.rsmsgtestarchive
+msgid "Do you want to test selected archives?"
+msgstr ""
 
 #: ulng.rsmsgthisisnowinclipboard
 msgid "\"%s\" is now in the clipboard"

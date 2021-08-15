@@ -5769,6 +5769,10 @@ msgstr "&Pokaż pasek postępu podczas kopiowania/przenoszenia"
 msgid "S&kip file operations errors and write them to log window"
 msgstr "P&omiń błędy operacji na plikach i zapisz je w oknie dziennika"
 
+#: tfrmoptionsfileoperations.cbtestarchiveconfirmation.caption
+msgid "Test archive operation"
+msgstr ""
+
 #: tfrmoptionsfileoperations.cbverifychecksumconfirmation.caption
 msgid "Verify checksum operation"
 msgstr "Weryfikuj sumę kontrolną operacji"
@@ -11673,6 +11677,10 @@ msgstr "Wprowadź lokalizację i nazwę pliku, w którym chcesz zapisać plik pa
 #: ulng.rsmsgterminateprocess
 msgid "WARNING: Terminating a process can cause undesired results including loss of data and system instability. The process will not be given the chance to save its state or data before it is terminated. Are you sure you want to terminate the process?"
 msgstr "OSTRZEŻENIE: Zakończenie procesu może spowodować niepożądane skutki, w tym utratę danych i niestabilność systemu. Proces nie będzie miał szansy, aby zapisać jego stan lub dane, zanim zostanie zakończony. Czy na pewno chcesz zakończyć proces?"
+
+#: ulng.rsmsgtestarchive
+msgid "Do you want to test selected archives?"
+msgstr ""
 
 #: ulng.rsmsgthisisnowinclipboard
 msgid "\"%s\" is now in the clipboard"

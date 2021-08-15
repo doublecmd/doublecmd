@@ -5965,6 +5965,10 @@ msgstr "Mos&trar painel de seleção de guia no diálogo Copiar/Mover."
 msgid "S&kip file operations errors and write them to log window"
 msgstr "Saltar erros de &operações de arquivos e escrevê-los no log."
 
+#: tfrmoptionsfileoperations.cbtestarchiveconfirmation.caption
+msgid "Test archive operation"
+msgstr ""
+
 #: tfrmoptionsfileoperations.cbverifychecksumconfirmation.caption
 msgid "Verify checksum operation"
 msgstr ""
@@ -12164,6 +12168,10 @@ msgstr "Digite a localização e o nome do arquivo onde salvar um arquivo da bar
 
 #: ulng.rsmsgterminateprocess
 msgid "WARNING: Terminating a process can cause undesired results including loss of data and system instability. The process will not be given the chance to save its state or data before it is terminated. Are you sure you want to terminate the process?"
+msgstr ""
+
+#: ulng.rsmsgtestarchive
+msgid "Do you want to test selected archives?"
 msgstr ""
 
 #: ulng.rsmsgthisisnowinclipboard

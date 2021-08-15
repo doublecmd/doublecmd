@@ -5916,6 +5916,10 @@ msgctxt "TFRMOPTIONSFILEOPERATIONS.CBSKIPFILEOPERROR.CAPTION"
 msgid "S&kip file operations errors and write them to log window"
 msgstr "Fájlműveleti hibá&k átugrása és írja naplóablakba"
 
+#: tfrmoptionsfileoperations.cbtestarchiveconfirmation.caption
+msgid "Test archive operation"
+msgstr ""
+
 #: tfrmoptionsfileoperations.cbverifychecksumconfirmation.caption
 msgid "Verify checksum operation"
 msgstr "Ellenőrző összeg vizsgálata folyamatban"
@@ -11991,6 +11995,10 @@ msgstr "Add meg a TC eszköztár mentésének helyét és nevét"
 #: ulng.rsmsgterminateprocess
 msgid "WARNING: Terminating a process can cause undesired results including loss of data and system instability. The process will not be given the chance to save its state or data before it is terminated. Are you sure you want to terminate the process?"
 msgstr "FIGYELEM: A folyamat leállítása nemkívánatos eredményeket okozhat, beleértve az adatok elvesztését és a rendszer instabillá válását. A folyamat így nem kap lehetőséget arra, hogy állapotát vagy adatait mentse a leállítása előtt. Biztosan le akarod állítani a folyamatot?"
+
+#: ulng.rsmsgtestarchive
+msgid "Do you want to test selected archives?"
+msgstr ""
 
 #: ulng.rsmsgthisisnowinclipboard
 msgid "\"%s\" is now in the clipboard"

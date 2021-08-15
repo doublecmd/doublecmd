@@ -5794,6 +5794,10 @@ msgstr "Zobra&zit výběr záložky v dialogu kopírovat/přesunout"
 msgid "S&kip file operations errors and write them to log window"
 msgstr "P&řeskočit chyby a zapsat je do okna protokolu"
 
+#: tfrmoptionsfileoperations.cbtestarchiveconfirmation.caption
+msgid "Test archive operation"
+msgstr ""
+
 #: tfrmoptionsfileoperations.cbverifychecksumconfirmation.caption
 msgid "Verify checksum operation"
 msgstr "Ověření kontrolního součtu"
@@ -11722,6 +11726,10 @@ msgstr "Zadání umístění a názvu souboru pro uložení souboru nástrojové
 #: ulng.rsmsgterminateprocess
 msgid "WARNING: Terminating a process can cause undesired results including loss of data and system instability. The process will not be given the chance to save its state or data before it is terminated. Are you sure you want to terminate the process?"
 msgstr "Upozornění: Ukončení procesu může způsobit nežádoucí stav, včetně ztráty dat nebo nestability systému. Proces nebude mít možnost uložit svůj stav nebo data před jeho ukončením. Opravdu si přejete proces ukončit?"
+
+#: ulng.rsmsgtestarchive
+msgid "Do you want to test selected archives?"
+msgstr ""
 
 #: ulng.rsmsgthisisnowinclipboard
 msgid "\"%s\" is now in the clipboard"

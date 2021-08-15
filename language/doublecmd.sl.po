@@ -5824,6 +5824,10 @@ msgstr "Pokaži polje izbire &zavihka v pogovornem oknu kopiranja in premikanja"
 msgid "S&kip file operations errors and write them to log window"
 msgstr "&Preskoči napake datotečnih opravil in jih zapiši v dnevnik"
 
+#: tfrmoptionsfileoperations.cbtestarchiveconfirmation.caption
+msgid "Test archive operation"
+msgstr ""
+
 #: tfrmoptionsfileoperations.cbverifychecksumconfirmation.caption
 msgid "Verify checksum operation"
 msgstr ""
@@ -11815,6 +11819,10 @@ msgstr "Vpis mesta in imena datoteke, kamor naj se shrani datoteka orodne vrstic
 
 #: ulng.rsmsgterminateprocess
 msgid "WARNING: Terminating a process can cause undesired results including loss of data and system instability. The process will not be given the chance to save its state or data before it is terminated. Are you sure you want to terminate the process?"
+msgstr ""
+
+#: ulng.rsmsgtestarchive
+msgid "Do you want to test selected archives?"
 msgstr ""
 
 #: ulng.rsmsgthisisnowinclipboard
