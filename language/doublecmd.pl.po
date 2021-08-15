@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Double Commander 1.0.0 alpha\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-01-17 23:08+0300\n"
-"PO-Revision-Date: 2021-03-10 22:00+0200\n"
+"PO-Revision-Date: 2021-08-14 21:25+0200\n"
 "Last-Translator: Andrzej Kamiński <endriusk@interia.pl> and Maciej Bojakowski <maciejbojakowski@gmail.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -1555,7 +1555,7 @@ msgstr "Nie &starsze niż:"
 
 #: tfrmfinddlg.cbofficexml.caption
 msgid "Offi&ce XML"
-msgstr ""
+msgstr "Offi&ce XML"
 
 #: tfrmfinddlg.cbopenedtabs.caption
 msgid "Opened tabs"
@@ -2692,11 +2692,11 @@ msgstr "Utwórz link &symboliczny..."
 
 #: tfrmmain.actsyncchangedir.caption
 msgid "Synchronous navigation"
-msgstr ""
+msgstr "Nawigacja synchroniczna"
 
 #: tfrmmain.actsyncchangedir.hint
 msgid "Synchronous directory changing in both panels"
-msgstr ""
+msgstr "Synchroniczna zmiana katalogu w obu panelach"
 
 #: tfrmmain.actsyncdirs.caption
 msgid "Syn&chronize dirs..."
@@ -6020,7 +6020,7 @@ msgstr "Format &rozmiaru pliku:"
 
 #: tfrmoptionsfilesviews.lblfootersizeformat.caption
 msgid "&Footer format:"
-msgstr ""
+msgstr "Format &stopki:"
 
 #: tfrmoptionsfilesviews.lblgigabyte.caption
 msgid "&Gigabyte:"
@@ -6028,7 +6028,7 @@ msgstr "&Gigabajtów:"
 
 #: tfrmoptionsfilesviews.lblheadersizeformat.caption
 msgid "&Header format:"
-msgstr ""
+msgstr "Format &nagłówka:"
 
 #: tfrmoptionsfilesviews.lblkilobyte.caption
 msgid "&Kilobyte:"
@@ -7232,7 +7232,7 @@ msgstr "Raportuj błędy z poleceń"
 
 #: tfrmoptionstoolbarbase.cbshowcaptions.caption
 msgid "Sho&w captions"
-msgstr "P&okaż podpisy"
+msgstr "P&okaż etykiety"
 
 #: tfrmoptionstoolbarbase.edtinternalparameters.hint
 msgid "Enter command parameters, each in a separate line. Press F1 to see help on parameters."
@@ -8556,7 +8556,7 @@ msgstr "&OK"
 
 #: tfrmsortanything.caption
 msgid "frmSortAnything"
-msgstr ""
+msgstr "frmSortAnything"
 
 #: tfrmsortanything.lblsortanything.caption
 msgid "Drag and drop elements to sort them"
@@ -9859,7 +9859,7 @@ msgstr "Dodanych:"
 
 #: ulng.rsdiffcomparing
 msgid "Comparing..."
-msgstr ""
+msgstr "Porównywanie..."
 
 #: ulng.rsdiffdeletes
 msgid " Deletes: "
@@ -9878,24 +9878,24 @@ msgid " Modifies: "
 msgstr "Zmodyfikowane:"
 
 #: ulng.rsdifftextdifferenceencoding
-#, fuzzy
-msgctxt "ulng.rsdifftextdifferenceencoding"
 msgid "Encoding"
 msgstr "Kodowanie"
 
 #: ulng.rsdifftextdifferencelineending
 msgid "Line-endings"
-msgstr ""
+msgstr "Zakończenia wierszy"
 
 #: ulng.rsdifftextidentical
 msgid "The text is identical, but the following options are used:"
-msgstr ""
+msgstr "Tekst jest identyczny, ale używane są następujące opcje:"
 
 #: ulng.rsdifftextidenticalnotmatch
 msgid ""
 "The text is identical, but the files do not match!\n"
 "The following differences were found:\n"
 msgstr ""
+"Tekst jest identyczny, ale pliki są niezgodne!\n"
+"Znaleziono następujące różnice:\n"
 
 #: ulng.rsdlgbuttonabort
 msgid "Ab&ort"
@@ -13548,7 +13548,7 @@ msgstr "Sieć"
 
 #: ulng.rsvfsrecyclebin
 msgid "Recycle Bin"
-msgstr ""
+msgstr "Kosz"
 
 #: ulng.rsviewabouttext
 msgid "Internal Viewer of Double Commander."
@@ -13598,5 +13598,5 @@ msgstr "Nie było zamian."
 
 #: umaincommands.rsfavoritetabs_setupnotexist
 msgid "No setup named \"%s\""
-msgstr ""
+msgstr "Brak konfiguracji o nazwie \"%s\""
 
