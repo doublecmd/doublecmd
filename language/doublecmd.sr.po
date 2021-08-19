@@ -2258,6 +2258,10 @@ msgid "Directory &Hotlist"
 msgstr "Брзи списак &фасцикли"
 
 #: tfrmmain.actdoanycmcommand.caption
+msgid "Execute &internal command..."
+msgstr ""
+
+#: tfrmmain.actdoanycmcommand.hint
 msgid "Select any command and execute it"
 msgstr ""
 

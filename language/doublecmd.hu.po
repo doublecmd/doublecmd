@@ -2218,6 +2218,10 @@ msgid "Directory &Hotlist"
 msgstr "Kedvenc &könyvtárak"
 
 #: tfrmmain.actdoanycmcommand.caption
+msgid "Execute &internal command..."
+msgstr ""
+
+#: tfrmmain.actdoanycmcommand.hint
 msgid "Select any command and execute it"
 msgstr "Válassz egy parancsot és futtasd"
 

@@ -2236,6 +2236,10 @@ msgid "Directory &Hotlist"
 msgstr "&Lista da pasta"
 
 #: tfrmmain.actdoanycmcommand.caption
+msgid "Execute &internal command..."
+msgstr ""
+
+#: tfrmmain.actdoanycmcommand.hint
 msgid "Select any command and execute it"
 msgstr "Seleccione qualquer comando e execute-o"
 

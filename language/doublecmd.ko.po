@@ -2247,6 +2247,10 @@ msgid "Directory &Hotlist"
 msgstr "폴더 바로 가기 목록(&H)"
 
 #: tfrmmain.actdoanycmcommand.caption
+msgid "Execute &internal command..."
+msgstr ""
+
+#: tfrmmain.actdoanycmcommand.hint
 msgid "Select any command and execute it"
 msgstr "선택한 어떤 명령이든 실행"
 

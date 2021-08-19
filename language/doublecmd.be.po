@@ -2173,6 +2173,10 @@ msgid "Directory &Hotlist"
 msgstr "&Спіс выбраных каталогаў"
 
 #: tfrmmain.actdoanycmcommand.caption
+msgid "Execute &internal command..."
+msgstr ""
+
+#: tfrmmain.actdoanycmcommand.hint
 msgid "Select any command and execute it"
 msgstr "Абраць загад і выканаць яго"
 

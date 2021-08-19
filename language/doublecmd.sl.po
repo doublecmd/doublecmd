@@ -2193,6 +2193,10 @@ msgid "Directory &Hotlist"
 msgstr "Seznam &hitrih map"
 
 #: tfrmmain.actdoanycmcommand.caption
+msgid "Execute &internal command..."
+msgstr ""
+
+#: tfrmmain.actdoanycmcommand.hint
 msgid "Select any command and execute it"
 msgstr "Izbor kateregakoli ukaza za izvajanje"
 

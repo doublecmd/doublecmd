@@ -2306,6 +2306,10 @@ msgid "Directory &Hotlist"
 msgstr "Brzi spisak &mapa"
 
 #: tfrmmain.actdoanycmcommand.caption
+msgid "Execute &internal command..."
+msgstr ""
+
+#: tfrmmain.actdoanycmcommand.hint
 msgid "Select any command and execute it"
 msgstr "Odaberite bilo koju naredbu za pokretanje"
 

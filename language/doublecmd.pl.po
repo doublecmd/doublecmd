@@ -2165,6 +2165,10 @@ msgid "Directory &Hotlist"
 msgstr "&Ulubione katalogi"
 
 #: tfrmmain.actdoanycmcommand.caption
+msgid "Execute &internal command..."
+msgstr ""
+
+#: tfrmmain.actdoanycmcommand.hint
 msgid "Select any command and execute it"
 msgstr "Wybierz dowolne polecenie i wykonaj je"
 
@@ -9878,6 +9882,7 @@ msgid " Modifies: "
 msgstr "Zmodyfikowane:"
 
 #: ulng.rsdifftextdifferenceencoding
+msgctxt "ulng.rsdifftextdifferenceencoding"
 msgid "Encoding"
 msgstr "Kodowanie"
 

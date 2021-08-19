@@ -2176,6 +2176,10 @@ msgid "Directory &Hotlist"
 msgstr "Oblíbené složky"
 
 #: tfrmmain.actdoanycmcommand.caption
+msgid "Execute &internal command..."
+msgstr ""
+
+#: tfrmmain.actdoanycmcommand.hint
 msgid "Select any command and execute it"
 msgstr "Vybrat příkaz a spustit ho"
 
