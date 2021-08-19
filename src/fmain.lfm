@@ -1195,6 +1195,9 @@ object frmMain: TfrmMain
       object miRunTerm: TMenuItem
         Action = actRunTerm
       end
+      object mnuDoAnyCmCommand: TMenuItem
+        Action = actDoAnyCmCommand
+      end
       object miLine9: TMenuItem
         Caption = '-'
       end
@@ -2478,7 +2481,8 @@ object frmMain: TfrmMain
     object actDoAnyCmCommand: TAction
       Tag = 18
       Category = 'Tools'
-      Caption = 'Select any command and execute it'
+      Caption = 'Execute &internal command...'
+      Hint = 'Select any command and execute it'
       OnExecute = actExecute
     end
     object actSetFileProperties: TAction

@@ -231,6 +231,7 @@ type
     lblRightDriveInfo: TLabel;
     lblLeftDriveInfo: TLabel;
     lblCommandPath: TLabel;
+    mnuDoAnyCmCommand: TMenuItem;
     miConfigArchivers: TMenuItem;
     mnuConfigSavePos: TMenuItem;
     mnuConfigSaveSettings: TMenuItem;
