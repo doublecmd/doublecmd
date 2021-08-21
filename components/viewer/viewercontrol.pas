@@ -429,6 +429,7 @@ type
     function GetText(const StartPos, Len: PtrInt; const Xoffset: Integer): string;
 
   protected
+    function GetClientRect: TRect; override;
     procedure WMSetFocus(var Message: TLMSetFocus); message LM_SETFOCUS;
     procedure WMKillFocus(var Message: TLMKillFocus); message LM_KILLFOCUS;
     procedure FontChanged(Sender: TObject); override;
@@ -828,6 +829,15 @@ function TViewerControl.GetText(const StartPos, Len: PtrInt; const Xoffset: Inte
 begin
   SetString(Result, GetDataAdr + StartPos, Len);
   Result := TransformText(ConvertToUTF8(Result), Xoffset);
+end;
+
+function TViewerControl.GetClientRect: TRect;
+begin
+  Result:= inherited GetClientRect;
+  if Assigned(FScrollBarHorz) and FScrollBarHorz.Visible then
+    Dec(Result.Bottom, FScrollBarHorz.Height);
+  if Assigned(FScrollBarVert) and FScrollBarVert.Visible then
+    Dec(Result.Right, FScrollBarVert.Width);
 end;
 
 procedure TViewerControl.WMSetFocus(var Message: TLMSetFocus);
@@ -1878,14 +1888,8 @@ end;
 
 function TViewerControl.GetClientHeightInLines: Integer;
 begin
-  if FViewerControlMode <> vcmText then
-    Result:= 0
-  else // Take horizontal scrollbar into account
-    Result:= GetSystemMetrics(SM_CYHSCROLL);
-
   if FTextHeight > 0 then
-    Result := (ClientRect.Bottom - ClientRect.Top - Result) div FTextHeight
-             // or Self.Height div FTextHeight?
+    Result := ClientRect.Height div FTextHeight
   else
     Result := 0;
 end;
