@@ -160,7 +160,7 @@ begin
   DCDebug('Revision: ' + dcRevision);
   DCDebug('Commit: ' + dcCommit);
   DCDebug('Build: ' + dcBuildDate);
-  DCDebug('Lazarus: ' + GetLazarusVersion);
+  DCDebug('Lazarus: ' + lazVersion);
   DCDebug('Free Pascal: ' + fpcVersion);
   DCDebug('Platform: ' + TargetCPU + '-' + TargetOS + '-' + TargetWS);
   DCDebug('System: ' + OSVersion);

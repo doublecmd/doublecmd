@@ -31,13 +31,11 @@ uses
   Classes, SysUtils, LCLVersion;
 
 {$I dcrevision.inc} // Double Commander revision number
-{$I revision.inc} // Lazarus revision number
 
 const
   dcVersion   = '1.0.0 alpha';
   dcBuildDate = {$I %DATE%};
   lazVersion  = lcl_version;         // Lazarus version (major.minor.micro)
-  lazRevision = RevisionStr;         // Lazarus SVN revision
   fpcVersion  = {$I %FPCVERSION%};   // FPC version (major.minor.micro)
   TargetCPU   = {$I %FPCTARGETCPU%}; // Target CPU of FPC
   TargetOS    = {$I %FPCTARGETOS%};  // Target Operating System of FPC
@@ -49,7 +47,6 @@ var
   : String;
 
 procedure InitializeVersionInfo;
-function GetLazarusVersion: String;
 
 implementation
 
@@ -452,18 +449,6 @@ begin
                         IntToStr(gtk_minor_version) + '.' +
                         IntToStr(gtk_micro_version);
   {$ENDIF}
-end;
-
-function GetLazarusVersion: String;
-var
-  I: Integer = 1;
-begin
-  Result:= lazVersion;
-  while (I <= Length(lazRevision)) and (lazRevision[I] in ['0'..'9']) do
-    Inc(I);
-  if (I > 1) then begin
-    Result += '-' + Copy(lazRevision, 1, I - 1);
-  end;
 end;
 
 procedure Initialize;
