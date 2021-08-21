@@ -120,7 +120,7 @@ begin
         else
           begin
             Sleep(1);
-            if Assigned(FOnQueryString) and (FProcess.Stderr.NumBytesAvailable > 0) then
+            if Assigned(FOnQueryString) and Assigned(FProcess.Stderr) and (FProcess.Stderr.NumBytesAvailable > 0) then
             begin
               SetLength(OutputBuffer, BufferSize);
               // Waits for the process output
