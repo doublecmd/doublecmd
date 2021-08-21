@@ -18,8 +18,8 @@ const
 
   FIELD_NAME: array[0..Pred(FIELD_COUNT)] of String = (
     'Channels',
-    'Duration',
-    'Duration (H/M/S)',
+    'Duration (seconds)',
+    'Duration (H:M:S)',
     'Sample rate',
     'Bitrate',
     'Bitrate type',
@@ -41,7 +41,7 @@ const
 
   FIELD_TYPE: array[0..Pred(FIELD_COUNT)] of Integer = (
     ft_multiplechoice,
-    ft_time,
+    ft_numeric_32,
     ft_string,
     ft_numeric_32,
     ft_numeric_32,
@@ -125,12 +125,7 @@ begin
 
   case FieldIndex of
     0: Value:= DataAudio.Channels;
-    1:
-      begin
-        Time^.wHour:= DataAudio.Duration div 3600;
-        Time^.wMinute:= DataAudio.Duration mod 3600 div 60;
-        Time^.wSecond:= DataAudio.Duration mod 60;
-      end;
+    1: ValueI^:= DataAudio.Duration;
     2: Value:= DataAudio.DurationHMS;
     3:
       case UnitIndex of

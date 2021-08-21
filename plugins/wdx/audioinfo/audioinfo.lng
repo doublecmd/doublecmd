@@ -1,7 +1,7 @@
 [RUS]
 Channels=Каналы
-Duration=Время
-Duration (H/M/S)=Время (Ч/М/С)
+Duration (seconds)=Время (секунды)
+Duration (H:M:S)=Время (Ч:М:С)
 Sample rate=Частота
 Bitrate=Битрейт
 Bitrate type=Тип битрейта
@@ -25,8 +25,8 @@ CBR|VBR|Unknown=CBR|VBR|Неизвестно
 
 [FRA]
 Channels=Canaux
-Duration=Duree
-Duration (H/M/S)=Duree (H/M/S)
+Duration (seconds)=Duree (secondes)
+Duration (H:M:S)=Duree (H:M:S)
 Sample rate=Échantillonnage
 Bitrate=Débit
 Bitrate type=Type de débit
