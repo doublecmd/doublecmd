@@ -75,8 +75,7 @@ end;
 {$IF DEFINED(UNIX)}
 
 const
-  PATH_SUDO = '/usr/bin/sudo';
-  PATH_PKEXEC = '/usr/bin/pkexec';
+  SYS_PATH: array[0..1] of String = ('/usr/bin/', '/usr/local/bin/');
 
 resourcestring
   rsMsgPasswordEnter = 'Please enter the password:';
@@ -106,6 +105,7 @@ type
   end;
 
 var
+  SuperExe: String;
   SuperProgram: TSuperProgram;
 
 function ExecuteCommand(Command: String; Args: TStringArray; StartPath: String): UIntPtr;
@@ -138,6 +138,19 @@ begin
     Result := 0
   else
     Result := ProcessId;
+end;
+
+function FindExecutable(const FileName: String; out FullName: String): Boolean;
+var
+  Index: Integer;
+begin
+  for Index:= Low(SYS_PATH) to High(SYS_PATH) do
+  begin
+    FullName:= SYS_PATH[Index] + FileName;
+    if fpAccess(FullName, X_OK) = 0 then
+      Exit(True);
+  end;
+  Result:= False;
 end;
 
 function ExecuteSudo(Args: TStringArray; const StartPath: String): UIntPtr;
@@ -194,7 +207,7 @@ begin
   CreateGUID(GUID);
   FPrompt:= GUIDToString(GUID);
   FCtl.Process.Options:= FCtl.Process.Options + [poStderrToOutPut];
-  FCtl.Process.Executable:= PATH_SUDO;
+  FCtl.Process.Executable:= SuperExe;
   FCtl.Process.Parameters.Add('-S');
   FCtl.Process.Parameters.Add('-k');
   FCtl.Process.Parameters.Add('-p');
@@ -298,7 +311,7 @@ begin
 
   case SuperProgram of
     spSudo:   Result:= ExecuteSudo(AParams, sStartPath);
-    spPkexec: Result:= ExecuteCommand(PATH_PKEXEC, AParams, sStartPath);
+    spPkexec: Result:= ExecuteCommand(SuperExe, AParams, sStartPath);
   end;
 end;
 {$ENDIF}
@@ -308,11 +321,11 @@ initialization
   FAdministratorPrivileges:= True;
 {$ELSEIF DEFINED(UNIX)}
   {$IFDEF LINUX}
-  if fpAccess(PATH_PKEXEC, X_OK) = 0 then
+  if FindExecutable('pkexec', SuperExe) then
     SuperProgram:= spPkexec
   else
   {$ENDIF}
-  if fpAccess(PATH_SUDO, X_OK) = 0 then
+  if FindExecutable('sudo', SuperExe) then
     SuperProgram:= spSudo
   else begin
     SuperProgram:= spNone;
