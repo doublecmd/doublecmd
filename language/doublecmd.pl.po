@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Double Commander 1.0.0 alpha\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-01-17 23:08+0300\n"
-"PO-Revision-Date: 2021-08-14 21:25+0200\n"
+"PO-Revision-Date: 2021-08-21 22:05+0200\n"
 "Last-Translator: Andrzej Kamiński <endriusk@interia.pl> and Maciej Bojakowski <maciejbojakowski@gmail.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -83,7 +83,7 @@ msgstr "Za&rezerwuj miejsce"
 
 #: tfilesystemcopymoveoperationoptionsui.chkcopyonwrite.caption
 msgid "Copy on write"
-msgstr ""
+msgstr "Kopiuj przy zapisie"
 
 #: tfilesystemcopymoveoperationoptionsui.chkverify.caption
 msgid "&Verify"
@@ -5775,7 +5775,7 @@ msgstr "P&omiń błędy operacji na plikach i zapisz je w oknie dziennika"
 
 #: tfrmoptionsfileoperations.cbtestarchiveconfirmation.caption
 msgid "Test archive operation"
-msgstr ""
+msgstr "Testuj archiwum operacji"
 
 #: tfrmoptionsfileoperations.cbverifychecksumconfirmation.caption
 msgid "Verify checksum operation"
@@ -10795,7 +10795,7 @@ msgstr "Błąd CRC w archiwum danych"
 
 #: ulng.rsmsgerrbaddata
 msgid "Data is bad"
-msgstr "Błąd w danych"
+msgstr "Dane są nieprawidłowe"
 
 #: ulng.rsmsgerrcannotconnect
 msgid "Can not connect to server: \"%s\""
@@ -11685,7 +11685,7 @@ msgstr "OSTRZEŻENIE: Zakończenie procesu może spowodować niepożądane skutk
 
 #: ulng.rsmsgtestarchive
 msgid "Do you want to test selected archives?"
-msgstr ""
+msgstr "Czy chcesz przetestować wybrane archiwa?"
 
 #: ulng.rsmsgthisisnowinclipboard
 msgid "\"%s\" is now in the clipboard"
