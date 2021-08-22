@@ -33,7 +33,6 @@ uses
 {$I dcrevision.inc} // Double Commander revision number
 
 const
-  dcVersion   = '1.0.0 alpha';
   dcBuildDate = {$I %DATE%};
   lazVersion  = lcl_version;         // Lazarus version (major.minor.micro)
   fpcVersion  = {$I %FPCVERSION%};   // FPC version (major.minor.micro)
@@ -41,6 +40,7 @@ const
   TargetOS    = {$I %FPCTARGETOS%};  // Target Operating System of FPC
 
 var
+  DCVersion,   // Double Commander version
   TargetWS,    // Target WidgetSet of Lazarus
   OSVersion,   // Operating System where DC is run
   WSVersion    // WidgetSet library version where DC is run
@@ -51,7 +51,7 @@ procedure InitializeVersionInfo;
 implementation
 
 uses
-  InterfaceBase
+  InterfaceBase, FileInfo, VersionConsts
   {$IF DEFINED(UNIX)}
   , BaseUnix, DCOSUtils, uDCUtils, DCClassesUtf8
     {$IFDEF DARWIN}
@@ -287,6 +287,20 @@ var
   ReleaseId: UnicodeString;
 {$ENDIF}
 begin
+  with TVersionInfo.Create do
+  begin
+    Load(HINSTANCE);
+    DCVersion:= Format('%d.%d.%.d', [FixedInfo.FileVersion[0],
+                                     FixedInfo.FileVersion[1],
+                                     FixedInfo.FileVersion[2]]);
+    if (FixedInfo.FileFlags and VS_FF_PRERELEASE <> 0) then
+      DCVersion+= ' alpha'
+    else begin
+      DCVersion+= ' beta';
+    end;
+    Free;
+  end;
+
   TargetWS := LCLPlatformDirNames[WidgetSet.LCLPlatform];
 
   {$IF DEFINED(MSWINDOWS)}
