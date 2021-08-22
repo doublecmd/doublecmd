@@ -247,7 +247,7 @@ implementation
 
 uses
   {$IFDEF timeFileView} uDebug, {$ENDIF}
-  LCLProc, Graphics, DCFileAttributes, uIMCode,
+  LCLProc, Graphics, DCFileAttributes,
   uFileSourceOperationTypes, uOSUtils, DCStrUtils, uDCUtils, uExceptions,
   uGlobs, uPixMapManager, uFileSourceProperty,
   uFileSourceCalcStatisticsOperation,
