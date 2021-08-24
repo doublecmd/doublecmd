@@ -1,5 +1,5 @@
 {******************************************************************************}
-{* Simple 16-bits checksum class integrated in existing              **********}
+{* Simple 32-bits checksum class integrated in existing              **********}
 {* DCPcrypt v2.0 written by David Barton (crypto@cityinthesky.co.uk) **********}
 {******************************************************************************}
 {* A binary compatible implementation of simple 32-bits checksum              *}
@@ -23,22 +23,22 @@
 {* FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER        *}
 {* DEALINGS IN THE SOFTWARE.                                                  *}
 {******************************************************************************}
-unit DCPChecksum16;
+unit dcpchecksum32;
 
 {$mode objfpc}{$H+}
 
 interface
 
 uses
-  Classes, Sysutils, DCPcrypt2, DCPconst, DCchecksum16;
+  Classes, Sysutils, DCPcrypt2, DCPconst;
 
 type
 
-  { TDCP_checksum16 }
+  { TDCP_checksum32 }
 
-  TDCP_checksum16 = class(TDCP_hash)
+  TDCP_checksum32 = class(TDCP_hash)
   protected
-    CurrentHash: WORD;
+    CurrentHash: DWORD;
   public
     class function GetId: integer; override;
     class function GetAlgorithm: string; override;
@@ -54,37 +54,37 @@ type
 implementation
 {$R-}{$Q-}
 
-{ TDCP_checksum16 }
+{ TDCP_checksum32 }
 
-{ TDCP_checksum16.GetHashSize }
-class function TDCP_checksum16.GetHashSize: integer;
+{ TDCP_checksum32.GetHashSize }
+class function TDCP_checksum32.GetHashSize: integer;
 begin
-  Result:= 16;
+  Result:= 32;
 end;
 
-{ TDCP_checksum16.GetId }
-class function TDCP_checksum16.GetId: integer;
+{ TDCP_checksum32.GetId }
+class function TDCP_checksum32.GetId: integer;
 begin
-  Result:= DCP_checksum16;
+  Result:= DCP_checksum32;
 end;
 
-{ TDCP_checksum16.GetAlgorithm }
-class function TDCP_checksum16.GetAlgorithm: string;
+{ TDCP_checksum32.GetAlgorithm }
+class function TDCP_checksum32.GetAlgorithm: string;
 begin
-  Result:= 'CHECKSUM16';
+  Result:= 'CHECKSUM32';
 end;
 
-{ TDCP_checksum16.SelfTest }
-class function TDCP_checksum16.SelfTest: boolean;
+{ TDCP_checksum32.SelfTest }
+class function TDCP_checksum32.SelfTest: boolean;
 const
-  Test1Out: array[0..1] of byte=($01,$26); //Verified on 2021-08-22
-  Test2Out: array[0..1] of byte=($0B,$1F);
+  Test1Out: array[0..3] of byte=($00, $00, $01, $26); //Verified on 2021-08-24
+  Test2Out: array[0..3] of byte=($00, $00, $0B, $1F);
 var
-  TestHash: TDCP_checksum16;
-  TestOut: array[0..1] of byte;
+  TestHash: TDCP_checksum32;
+  TestOut: array[0..3] of byte;
 begin
   dcpFillChar(TestOut, SizeOf(TestOut), 0);
-  TestHash:= TDCP_checksum16.Create(nil);
+  TestHash:= TDCP_checksum32.Create(nil);
   TestHash.Init;
   TestHash.UpdateStr('abc');
   TestHash.Final(TestOut);
@@ -96,35 +96,48 @@ begin
   TestHash.Free;
 end;
 
-{ TDCP_checksum16.Create }
-constructor TDCP_checksum16.Create(AOwner: TComponent);
+{ TDCP_checksum32.Create }
+constructor TDCP_checksum32.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
 end;
 
-{ TDCP_checksum16.Init }
-procedure TDCP_checksum16.Init;
+{ TDCP_checksum32.Init }
+procedure TDCP_checksum32.Init;
 begin
   Burn;
   CurrentHash:= 0;
   fInitialized:= true;
 end;
 
-{ TDCP_checksum16 }
-procedure TDCP_checksum16.Burn;
+{ TDCP_checksum32 }
+procedure TDCP_checksum32.Burn;
 begin
   CurrentHash:= 0;
   fInitialized:= false;
 end;
 
-{ TDCP_checksum16.Update }
-procedure TDCP_checksum16.Update(const Buffer; Size: longword);
+{ TDCP_checksum32.Update }
+{$PUSH}{$R-}{$Q-}{$OPTIMIZATION LEVEL4} // no range, no overflow checks, optimize for speed (not size)
+procedure TDCP_checksum32.Update(const Buffer; Size: longword);
+var
+  data: PByte;
+  iIndex: longword;
+  iChecksumLocal: DWORD;
 begin
-  CurrentHash:= checksum16_bytes(@Buffer, Size, CurrentHash);
+  iChecksumLocal := CurrentHash; //Manipulating the copy "iChecksumLocal" in the loop is overall faster then working directly with property "CurrentHash".
+  data := @Buffer;
+  for iIndex := 1 to Size do
+  begin
+    iChecksumLocal := iChecksumLocal + data^;
+    inc(data);
+  end;
+  CurrentHash := iChecksumLocal;
 end;
+{$POP}
 
-{ TDCP_checksum16.Final }
-procedure TDCP_checksum16.Final(var Digest);
+{ TDCP_checksum32.Final }
+procedure TDCP_checksum32.Final(var Digest);
 begin
   if not fInitialized then
     raise EDCP_hash.Create('Hash not initialized');

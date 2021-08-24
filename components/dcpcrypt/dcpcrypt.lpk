@@ -39,7 +39,7 @@
 www.cityinthesky.co.uk/cryptography.html
 "/>
     <Version Major="3" Minor="1"/>
-    <Files Count="34">
+    <Files Count="33">
       <Item1>
         <Filename Value="dcpbase64.pas"/>
         <UnitName Value="DCPbase64"/>
@@ -169,13 +169,9 @@ www.cityinthesky.co.uk/cryptography.html
         <UnitName Value="DCPblake3"/>
       </Item32>
       <Item33>
-        <Filename Value="Hashes/dcpchecksum16.pas"/>
-        <UnitName Value="DCPChecksum16"/>
+        <Filename Value="Hashes/dcpchecksum32.pas"/>
+        <UnitName Value="dcpchecksum32"/>
       </Item33>
-      <Item34>
-        <Filename Value="Hashes/dcchecksum16.pp"/>
-        <UnitName Value="dcchecksum16"/>
-      </Item34>
     </Files>
     <RequiredPkgs Count="2">
       <Item1>
