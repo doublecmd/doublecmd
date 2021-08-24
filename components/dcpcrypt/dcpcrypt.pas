@@ -11,7 +11,7 @@ uses
   DCPbase64, DCPblockciphers, DCPconst, DCPcrypt2, DCPhaval, DCPmd4, DCPmd5, 
   DCPripemd128, DCPripemd160, DCPsha1, DCPsha256, DCPsha512, DCPtiger, 
   DCPcrc32, DCcrc32, DCblake2, DCPblake2, DCPsha3, HMAC, SHA3, SHA3_512, 
-  ISAAC, scrypt, DCPrijndael, SHA1, Argon2, DCPblake3;
+  ISAAC, scrypt, DCPrijndael, SHA1, Argon2, DCPblake3, dcpchecksum32;
 
 implementation
 
