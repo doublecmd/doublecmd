@@ -875,9 +875,7 @@ begin
       end;
       if Assigned(r.FFileR) then
       begin
-        with hCols[6] do
-          TextRect(Rect(Left, aRect.Top, Left + Width, aRect.Bottom),
-            Left + 2, aRect.Top + 2, FVisibleItems[aRow]);
+        TextOut(hCols[6].Left + 2, aRect.Top + 2, FVisibleItems[aRow]);
         s := IntToStr(r.FFileR.Size);
         with hCols[5] do begin
           x := Left + Width - 8 - TextWidth(s);
