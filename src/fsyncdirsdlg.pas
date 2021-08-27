@@ -1100,7 +1100,8 @@ procedure TfrmSyncDirsDlg.FillFoundItemsDG;
         if Assigned(r.FFileL) and not Assigned(r.FFileR) then Inc(FuniqueL) else
         if Assigned(r.FFileR) and not Assigned(r.FFileL) then Inc(FuniqueR);
         if r.FState = srsEqual then Inc(Fequal) else
-        if r.FState = srsNotEq then Inc(Fnoneq);
+        if r.FState = srsNotEq then Inc(Fnoneq) else
+        if Assigned(r.FFileL) and Assigned(r.FFileR) then Inc(Fnoneq);
       end;
     end;
   end;
