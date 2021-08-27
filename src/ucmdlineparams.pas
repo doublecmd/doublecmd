@@ -48,7 +48,8 @@ begin
   FillChar(Options, SizeOf(Options), #0);
   with Options[1] do
   begin
-    Name:= 'no-console';
+    Name:= 'debug-log';
+    Has_arg:= 1;
   end;
   with Options[2] do
   begin
@@ -82,9 +83,7 @@ begin
           case OptionIndex of
             1:
               begin
-                {$IF DEFINED(NIGHTLY_BUILD)}
-                HideConsoleWindow;
-                {$ENDIF}
+                // Used by LazLogger
               end;
             2:
               begin
