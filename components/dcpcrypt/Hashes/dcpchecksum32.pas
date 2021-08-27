@@ -118,7 +118,7 @@ begin
 end;
 
 { TDCP_checksum32.Update }
-{$PUSH}{$R-}{$Q-}{$OPTIMIZATION LEVEL4} // no range, no overflow checks, optimize for speed (not size)
+{$PUSH}{$R-}{$Q-}{$OPTIMIZATION LEVEL3} // no range, no overflow checks, optimize for speed (not size)
 procedure TDCP_checksum32.Update(const Buffer; Size: longword);
 var
   data: PByte;
