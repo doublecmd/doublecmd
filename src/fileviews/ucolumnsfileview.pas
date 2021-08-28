@@ -1157,8 +1157,9 @@ end;
 procedure TColumnsFileView.cm_CopyFileDetailsToClip(const Params: array of string);
 var
   I: Integer;
+  sl: TStringList;
   AFile: TDisplayFile;
-  sl: TStringList = nil;
+  ColumnsClass: TPanelColumnsClass;
 
   procedure AddFile;
   var
@@ -1168,6 +1169,10 @@ var
     if AFile.FSFile.IsNameValid then
     begin
       S:= EmptyStr;
+      if AFile.DisplayStrings.Count = 0 then
+      begin
+        MakeColumnsStrings(AFile, ColumnsClass);
+      end;
       for J:= 0 to AFile.DisplayStrings.Count - 1 do
       begin
         S:= S + AFile.DisplayStrings[J] + #09;
@@ -1182,6 +1187,8 @@ begin
   begin
     sl:= TStringList.Create;
     try
+      ColumnsClass:= GetColumnsClass;
+
       for I:= 0 to FFiles.Count - 1 do
       begin
         AFile:= FFiles[I];
