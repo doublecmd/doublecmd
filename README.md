@@ -30,7 +30,7 @@ see [Development](https://github.com/doublecmd/doublecmd/wiki/Development) page.
 -   Discuss
 
   
-Go to our [forum](https://doublecmd.sourceforge.io/forum) for discussions. There are English and Russian
+Go to our [forum](https://doublecmd.h1n.ru) for discussions. There are English and Russian
 sections.
 
 Also check out the various [news feeds](https://github.com/doublecmd/doublecmd/wiki/News-feeds) that are available, if you
