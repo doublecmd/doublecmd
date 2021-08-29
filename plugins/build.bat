@@ -25,6 +25,7 @@ rem WFX plugins
 lazbuild wfx\ftp\src\ftp.lpi             %DC_ARCH%
 
 rem WLX plugins
+lazbuild wlx\wmp\src\wmp.lpi             %DC_ARCH%
 lazbuild wlx\preview\src\preview.lpi     %DC_ARCH%
 
 rem Return from plugins directory

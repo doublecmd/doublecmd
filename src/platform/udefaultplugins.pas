@@ -335,6 +335,10 @@ begin
   begin
     gWlxPlugins.Add(Folder + 'preview' + PathDelim + 'preview.wlx');
   end;
+  if gWlxPlugins.IndexOfName('wmp') < 0 then
+  begin
+    gWlxPlugins.Add(Folder + 'wmp' + PathDelim + 'wmp.wlx');
+  end;
   {$ENDIF}
 
   {$ENDIF}
