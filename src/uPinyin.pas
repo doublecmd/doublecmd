@@ -20,7 +20,7 @@ var
   f: THandle;
   tblpath: String;
 begin
-  tblpath := ExtractFilePath(Paramstr(0)) + 'tcmatch.tbl';
+  tblpath := ExtractFilePath(Paramstr(0)) + 'pinyin.tbl';
   if FileExists(tblpath) then
   begin
     f:= FileOpen(tblpath, fmOpenRead or fmShareDenyNone);

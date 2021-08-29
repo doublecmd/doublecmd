@@ -39,7 +39,7 @@ copy doublecmd.zdli                 %DC_INSTALL_DIR%\
 copy doublecmd.ext.example          %DC_INSTALL_DIR%\
 copy pixmaps.txt                    %DC_INSTALL_DIR%\
 copy multiarc.ini                   %DC_INSTALL_DIR%\
-copy tcmatch.tbl                    %DC_INSTALL_DIR%\
+copy pinyin.tbl                     %DC_INSTALL_DIR%\
 rem Copy libraries
 copy *.dll                          %DC_INSTALL_DIR%\
 
