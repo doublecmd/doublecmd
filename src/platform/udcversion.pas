@@ -381,8 +381,12 @@ begin
                       OSVersion := OSVersion + ' 10';
                       if (osvi.wSuiteMask and VER_SUITE_PERSONAL <> 0) then
                         OSVersion := OSVersion + ' Home';
-                      if RegReadKey(HKEY_LOCAL_MACHINE, CURRENT_VERSION, 'DisplayVersion', ReleaseId) then
+                      if ((osvi.dwBuildNumber >= 19042) and
+                         RegReadKey(HKEY_LOCAL_MACHINE, CURRENT_VERSION, 'DisplayVersion', ReleaseId)) or
+                         RegReadKey(HKEY_LOCAL_MACHINE, CURRENT_VERSION, 'ReleaseId', ReleaseId) then
+                      begin
                         OSVersion := OSVersion + ' ' + String(ReleaseId);
+                      end;
                     end
               end;
           end;
