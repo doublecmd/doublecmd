@@ -205,18 +205,6 @@ type
     procedure cm_ContextMenu(const Params: array of string);
   end;
 
-
-// in future this function will moved to DCStrUtils
-{en
-   Return position of first founded tag in string begun from start position
-   @param(T String set of tags)
-   @param(S String)
-   @param(StartPos Start position)
-   @returns(Position of first founded tag in string)
-}
-function TagPos(T:string; const S: string; StartPos: Integer = 1; SearchBackward:boolean=False): Integer;
-
-
 implementation
 
 uses
@@ -224,7 +212,7 @@ uses
   Gtk2Proc,  // for ReleaseMouseCapture
   GTK2Globals,  // for DblClickTime
 {$ENDIF}
-  LCLIntf, LCLProc, LazUTF8, Forms, Dialogs, Buttons, DCOSUtils,
+  LCLIntf, LCLProc, LazUTF8, Forms, Dialogs, Buttons, DCOSUtils, DCStrUtils,
   fMain, uShowMsg, uLng, uFileProperty, uFileSource, uFileSourceOperationTypes,
   uGlobs, uInfoToolTip, uDisplayFile, uFileSystemFileSource, uFileSourceUtil,
   uArchiveFileSourceUtil, uFormCommands, uKeyboard, uFileSourceSetFilePropertyOperation;
@@ -1671,44 +1659,6 @@ begin
   inherited WorkerStarting(Worker);
   MainControl.Cursor := crHourGlass;
   UpdateInfoPanel; // Update status line only
-end;
-
-function TagPos(T: string; const S: string; StartPos: Integer;
-  SearchBackward: boolean): Integer;
-// in future this function will moved to DCStrUtils
-var
-  i,cnt:integer;
-  ch:char;
-begin
-  Result:=0;
-  i:=StartPos;
-  if i=0 then i:=1;
-
-  cnt:=UTF8Length(S);
-
-  if SearchBackward then
-  begin
-     while (i>0)do
-     begin
-       ch:=S[UTF8CharToByteIndex(PChar(S), length(S), i)];
-       if Pos(ch,T)=0 then
-          dec(i)
-       else
-          break;
-     end;
-  end
-  else
-     while (i<=cnt)do
-     begin
-       ch:=S[UTF8CharToByteIndex(PChar(S), length(S), i)];
-       if Pos(ch,T)=0 then
-          inc(i)
-       else
-          break;
-     end;
-
-
-  Result:=i;
 end;
 
 end.
