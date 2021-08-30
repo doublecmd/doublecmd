@@ -109,20 +109,10 @@ type
 
   { TFileDropSource - источник для перетаскивания файлов }
   TFileDropSource = class(TInterfacedObject, IDropSource)
+  public
     constructor Create;
-    {$IF FPC_FULLVERSION < 020601}
-    function QueryContinueDrag(fEscapePressed: BOOL;
-      grfKeyState: longint): HResult; stdcall;
-    {$ELSE}
-    function QueryContinueDrag(fEscapePressed: BOOL;
-      grfKeyState: DWORD): HResult; stdcall;
-    {$ENDIF}
-
-    {$IF FPC_FULLVERSION < 020601}
-    function GiveFeedback(dwEffect: longint): HResult; stdcall;
-    {$ELSE}
+    function QueryContinueDrag(fEscapePressed: BOOL; grfKeyState: DWORD): HResult; stdcall;
     function GiveFeedback(dwEffect: DWORD): HResult; stdcall;
-    {$ENDIF}
   end;
 
   { THDropDataObject - объект данных с информацией о перетаскиваемых файлах }
@@ -1245,13 +1235,7 @@ end;
 
 
 { TFileDropSource.QueryContinueDrag }
-{$IF FPC_FULLVERSION < 020601}
-function TFileDropSource.QueryContinueDrag(fEscapePressed: BOOL;
-  grfKeyState: longint): HResult;
-{$ELSE}
-function TFileDropSource.QueryContinueDrag(fEscapePressed: BOOL;
-  grfKeyState: DWORD): HResult;
-{$ENDIF}
+function TFileDropSource.QueryContinueDrag(fEscapePressed: BOOL; grfKeyState: DWORD): HResult;
 var
   Point:TPoint;
 begin
@@ -1293,11 +1277,7 @@ begin
   end;
 end;
 
-{$IF FPC_FULLVERSION < 020601}
-function TFileDropSource.GiveFeedback(dwEffect: longint): HResult;
-{$ELSE}
 function TFileDropSource.GiveFeedback(dwEffect: DWORD): HResult;
-{$ENDIF}
 begin
   Result := DRAGDROP_S_USEDEFAULTCURSORS;
 end;
