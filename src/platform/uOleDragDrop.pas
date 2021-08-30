@@ -1299,16 +1299,7 @@ function TFileDropSource.GiveFeedback(dwEffect: longint): HResult;
 function TFileDropSource.GiveFeedback(dwEffect: DWORD): HResult;
 {$ENDIF}
 begin
-  case LongWord(dwEffect) of
-    DROPEFFECT_NONE,
-    DROPEFFECT_COPY,
-    DROPEFFECT_MOVE,
-    DROPEFFECT_LINK,
-    DROPEFFECT_SCROLL:
-      Result := DRAGDROP_S_USEDEFAULTCURSORS;
-    else
-      Result := S_OK;
-  end;
+  Result := DRAGDROP_S_USEDEFAULTCURSORS;
 end;
 
 
