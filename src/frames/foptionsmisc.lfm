@@ -59,7 +59,7 @@ inherited frmOptionsMisc: TfrmOptionsMisc
     end
     object dblThumbnails: TDividerBevel
       AnchorSideLeft.Control = gbExtended
-      AnchorSideTop.Control = chkGoToRoot
+      AnchorSideTop.Control = chkShowCurDirTitleBar
       AnchorSideTop.Side = asrBottom
       AnchorSideRight.Control = gbExtended
       AnchorSideRight.Side = asrBottom
@@ -150,6 +150,17 @@ inherited frmOptionsMisc: TfrmOptionsMisc
       Width = 304
       BorderSpacing.Top = 4
       Caption = 'Always &go to the root of a drive when changing drives'
+      TabOrder = 1
+    end
+	object chkShowCurDirTitleBar: TCheckBox
+      AnchorSideTop.Control = chkGoToRoot
+      AnchorSideTop.Side = asrBottom
+      Left = 12
+      Height = 19
+      Top = 29
+      Width = 304
+      BorderSpacing.Top = 4
+      Caption = 'Show &current folder in main window title bar'
       TabOrder = 1
     end
   end
