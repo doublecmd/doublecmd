@@ -44,7 +44,7 @@ inherited frmOptionsMisc: TfrmOptionsMisc
       Width = 154
       BorderSpacing.Top = 4
       Caption = '&Save thumbnails in cache'
-      TabOrder = 2
+      TabOrder = 3
     end
     object lblThumbSize: TLabel
       AnchorSideTop.Control = speThumbWidth
@@ -85,7 +85,7 @@ inherited frmOptionsMisc: TfrmOptionsMisc
       BorderSpacing.Top = 6
       MaxValue = 512
       MinValue = 16
-      TabOrder = 3
+      TabOrder = 4
       Value = 16
     end
     object speThumbHeight: TSpinEdit
@@ -99,7 +99,7 @@ inherited frmOptionsMisc: TfrmOptionsMisc
       BorderSpacing.Left = 6
       MaxValue = 512
       MinValue = 16
-      TabOrder = 4
+      TabOrder = 5
       Value = 16
     end
     object lblThumbSeparator: TLabel
@@ -139,7 +139,7 @@ inherited frmOptionsMisc: TfrmOptionsMisc
       BorderSpacing.Top = 6
       Caption = '&Remove thumbnails for no longer existing files'
       OnClick = btnThumbCompactCacheClick
-      TabOrder = 5
+      TabOrder = 6
     end
     object chkGoToRoot: TCheckBox
       AnchorSideTop.Control = chkShowWarningMessages
@@ -152,7 +152,7 @@ inherited frmOptionsMisc: TfrmOptionsMisc
       Caption = 'Always &go to the root of a drive when changing drives'
       TabOrder = 1
     end
-	object chkShowCurDirTitleBar: TCheckBox
+    object chkShowCurDirTitleBar: TCheckBox
       AnchorSideTop.Control = chkGoToRoot
       AnchorSideTop.Side = asrBottom
       Left = 12
@@ -160,8 +160,8 @@ inherited frmOptionsMisc: TfrmOptionsMisc
       Top = 29
       Width = 304
       BorderSpacing.Top = 4
-      Caption = 'Show &current folder in main window title bar'
-      TabOrder = 1
+      Caption = 'Show &current directory in the main window title bar'
+      TabOrder = 2
     end
   end
   object gbTCExportImport: TGroupBox[1]
