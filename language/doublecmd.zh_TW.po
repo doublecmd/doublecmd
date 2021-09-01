@@ -7347,6 +7347,10 @@ msgstr ""
 msgid "Always &go to the root of a drive when changing drives"
 msgstr "當切換磁碟時總是移到根目錄 (&G)"
 
+#: tfrmoptionsmisc.chkshowcurdirtitlebar.caption
+msgid "Show &current directory in the main window title bar"
+msgstr ""
+
 #: tfrmoptionsmisc.chkshowwarningmessages.caption
 #, fuzzy
 #| msgid "Show warning messages (\"OK\" button only)"

@@ -6658,6 +6658,10 @@ msgstr "Maak nieuwe met de codering:"
 msgid "Always &go to the root of a drive when changing drives"
 msgstr "Ga altijd naar de root van een schijf bij verandering van schijven"
 
+#: tfrmoptionsmisc.chkshowcurdirtitlebar.caption
+msgid "Show &current directory in the main window title bar"
+msgstr ""
+
 #: tfrmoptionsmisc.chkshowwarningmessages.caption
 msgid "Show &warning messages (\"OK\" button only)"
 msgstr "Toon waarschuwingen (alleen 'OK'-knop)"

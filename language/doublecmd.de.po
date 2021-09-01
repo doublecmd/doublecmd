@@ -6783,6 +6783,10 @@ msgstr "Neu erstellen mit der Kodierung:"
 msgid "Always &go to the root of a drive when changing drives"
 msgstr "Bei Wechsel des Laufwerks/Mediums immer zum Stammverzeichnis wechseln (letzte Position 'vergessen')"
 
+#: tfrmoptionsmisc.chkshowcurdirtitlebar.caption
+msgid "Show &current directory in the main window title bar"
+msgstr "Aktuelles Verzeichnis in der Titelleiste anzeigen"
+
 #: tfrmoptionsmisc.chkshowwarningmessages.caption
 msgid "Show &warning messages (\"OK\" button only)"
 msgstr "&Warnungen anzeigen (quittieren mit \"OK\"-Taste)"
@@ -11533,7 +11537,7 @@ msgstr "Dies ist kein gültiges Plugin!"
 
 #: ulng.rsmsginvalidpluginarchitecture
 msgid "This plugin is built for Double Commander for %s.%sIt can not work with Double Commander for %s!"
-msgstr "Dieses Double Commander-Plugin wurde für %s erstellt. Es kann nicht für %s verwendet werden!"
+msgstr "Dieses Double Commander-Plugin wurde für %s erstellt.%sEs kann nicht für %s verwendet werden!"
 
 #: ulng.rsmsginvalidquoting
 msgid "Invalid quoting"
@@ -13673,7 +13677,7 @@ msgstr "Hilfe für \"%\"-Variable"
 msgid "Will request request user to enter a parameter with a default suggested value"
 msgstr ""
 "↴\n"
-"     Fordert den Benutzer auf, einen Parameter mit einem standardmäßig vorgeschlagenen Wert einzugeben"
+"     Fordert den Benutzer auf, einen Parameter mit einem standardmäßig vorgeschlagenen Wert einzugeben\n"
 
 #: ulng.rsvarlastdircurrentpath
 msgid "Last directory of panel's path"
@@ -13865,3 +13869,4 @@ msgstr "Eine Ersetzung hat nicht stattgefunden."
 #: umaincommands.rsfavoritetabs_setupnotexist
 msgid "No setup named \"%s\""
 msgstr "Keine Einstellung namens \"%s\""
+

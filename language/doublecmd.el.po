@@ -6812,6 +6812,10 @@ msgstr "Δημιουργία νέου με κωδικοποίηση:"
 msgid "Always &go to the root of a drive when changing drives"
 msgstr "Πάντα μετάβαση στη ρίζα ενός οδηγού όταν γίνεται αλλαγή οδηγών"
 
+#: tfrmoptionsmisc.chkshowcurdirtitlebar.caption
+msgid "Show &current directory in the main window title bar"
+msgstr ""
+
 #: tfrmoptionsmisc.chkshowwarningmessages.caption
 msgctxt "TFRMOPTIONSMISC.CHKSHOWWARNINGMESSAGES.CAPTION"
 msgid "Show &warning messages (\"OK\" button only)"

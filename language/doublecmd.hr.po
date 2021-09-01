@@ -7164,6 +7164,10 @@ msgstr ""
 msgid "Always &go to the root of a drive when changing drives"
 msgstr "Uvijek idi u& sistemsku mapu uređaja prilikom menjanja uređaja"
 
+#: tfrmoptionsmisc.chkshowcurdirtitlebar.caption
+msgid "Show &current directory in the main window title bar"
+msgstr ""
+
 #: tfrmoptionsmisc.chkshowwarningmessages.caption
 msgctxt "TFRMOPTIONSMISC.CHKSHOWWARNINGMESSAGES.CAPTION"
 msgid "Show &warning messages (\"OK\" button only)"

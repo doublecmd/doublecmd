@@ -6618,6 +6618,10 @@ msgstr "Utwórz nowy z kodowaniem:"
 msgid "Always &go to the root of a drive when changing drives"
 msgstr "Zawsze &idź do katalogu głównego dysku podczas zmiany dysków"
 
+#: tfrmoptionsmisc.chkshowcurdirtitlebar.caption
+msgid "Show &current directory in the main window title bar"
+msgstr ""
+
 #: tfrmoptionsmisc.chkshowwarningmessages.caption
 msgid "Show &warning messages (\"OK\" button only)"
 msgstr "Pokaż komunikaty &ostrzegawcze (tylko przycisk \"OK\")"

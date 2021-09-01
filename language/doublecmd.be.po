@@ -6644,6 +6644,10 @@ msgstr "Стварыць новыя з кадаваннем:"
 msgid "Always &go to the root of a drive when changing drives"
 msgstr "Пры &змене дыска заўсёды вяртацца ў каранёвы каталог"
 
+#: tfrmoptionsmisc.chkshowcurdirtitlebar.caption
+msgid "Show &current directory in the main window title bar"
+msgstr ""
+
 #: tfrmoptionsmisc.chkshowwarningmessages.caption
 msgid "Show &warning messages (\"OK\" button only)"
 msgstr "Паказваць паведамленне &папярэджання (толькі кнопка\"Добра\")"

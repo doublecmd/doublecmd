@@ -7323,6 +7323,10 @@ msgstr "Opret ny med &kodningen:"
 msgid "Always &go to the root of a drive when changing drives"
 msgstr "&Gå altid til drevets rod ved skift af drev"
 
+#: tfrmoptionsmisc.chkshowcurdirtitlebar.caption
+msgid "Show &current directory in the main window title bar"
+msgstr ""
+
 # Opsætning - Indstillinger - Diverse
 #: tfrmoptionsmisc.chkshowwarningmessages.caption
 msgid "Show &warning messages (\"OK\" button only)"

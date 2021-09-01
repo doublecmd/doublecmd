@@ -6645,6 +6645,10 @@ msgstr "Vytvoriť nový s kódovaním:"
 msgid "Always &go to the root of a drive when changing drives"
 msgstr "Vždy isť na koreňový priečinok pri zmene diskov"
 
+#: tfrmoptionsmisc.chkshowcurdirtitlebar.caption
+msgid "Show &current directory in the main window title bar"
+msgstr ""
+
 #: tfrmoptionsmisc.chkshowwarningmessages.caption
 msgid "Show &warning messages (\"OK\" button only)"
 msgstr "Zobraziť varovné správy (len tlačidlo \"OK\")"

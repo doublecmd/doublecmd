@@ -6693,6 +6693,10 @@ msgstr "Ustvari novo besedilno datoteko z naborom:"
 msgid "Always &go to the root of a drive when changing drives"
 msgstr "Med zamenjavo pogona vedno odpri &korensko mapo"
 
+#: tfrmoptionsmisc.chkshowcurdirtitlebar.caption
+msgid "Show &current directory in the main window title bar"
+msgstr ""
+
 #: tfrmoptionsmisc.chkshowwarningmessages.caption
 msgid "Show &warning messages (\"OK\" button only)"
 msgstr "Pokaži &opozorila (okna, ki imajo le gumb »V redu«)"

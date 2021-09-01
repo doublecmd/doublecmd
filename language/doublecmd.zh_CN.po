@@ -6667,6 +6667,10 @@ msgstr "创建新文件的编码："
 msgid "Always &go to the root of a drive when changing drives"
 msgstr "更换驱动器时，总是转到根文件夹(&G)"
 
+#: tfrmoptionsmisc.chkshowcurdirtitlebar.caption
+msgid "Show &current directory in the main window title bar"
+msgstr ""
+
 #: tfrmoptionsmisc.chkshowwarningmessages.caption
 msgid "Show &warning messages (\"OK\" button only)"
 msgstr "显示所有警告信息（仅含 <确定> 按钮）(&W)"

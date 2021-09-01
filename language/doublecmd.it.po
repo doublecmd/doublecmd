@@ -6943,6 +6943,10 @@ msgstr ""
 msgid "Always &go to the root of a drive when changing drives"
 msgstr "&Vai sempre alla radice quando si cambia unità"
 
+#: tfrmoptionsmisc.chkshowcurdirtitlebar.caption
+msgid "Show &current directory in the main window title bar"
+msgstr ""
+
 #: tfrmoptionsmisc.chkshowwarningmessages.caption
 msgctxt "TFRMOPTIONSMISC.CHKSHOWWARNINGMESSAGES.CAPTION"
 msgid "Show &warning messages (\"OK\" button only)"

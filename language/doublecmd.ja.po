@@ -6810,6 +6810,10 @@ msgstr "このエンコーディングで新規作成："
 msgid "Always &go to the root of a drive when changing drives"
 msgstr "ドライブを変更する場合は必ずドライブのルートに移動(&g)"
 
+#: tfrmoptionsmisc.chkshowcurdirtitlebar.caption
+msgid "Show &current directory in the main window title bar"
+msgstr ""
+
 #: tfrmoptionsmisc.chkshowwarningmessages.caption
 msgctxt "TFRMOPTIONSMISC.CHKSHOWWARNINGMESSAGES.CAPTION"
 msgid "Show &warning messages (\"OK\" button only)"

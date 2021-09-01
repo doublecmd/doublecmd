@@ -6863,6 +6863,10 @@ msgstr "Створювати нові з кодуванням:"
 msgid "Always &go to the root of a drive when changing drives"
 msgstr "Завжди переходити в &корінь диску при зміні дисків"
 
+#: tfrmoptionsmisc.chkshowcurdirtitlebar.caption
+msgid "Show &current directory in the main window title bar"
+msgstr ""
+
 #: tfrmoptionsmisc.chkshowwarningmessages.caption
 msgctxt "tfrmoptionsmisc.chkshowwarningmessages.caption"
 msgid "Show &warning messages (\"OK\" button only)"

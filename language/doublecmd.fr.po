@@ -6852,6 +6852,10 @@ msgstr "Créer de nouveaux avec le codage :"
 msgid "Always &go to the root of a drive when changing drives"
 msgstr "Toujours aller à la racine du lecteur lorsqu'on change de lecteur"
 
+#: tfrmoptionsmisc.chkshowcurdirtitlebar.caption
+msgid "Show &current directory in the main window title bar"
+msgstr ""
+
 #: tfrmoptionsmisc.chkshowwarningmessages.caption
 msgctxt "tfrmoptionsmisc.chkshowwarningmessages.caption"
 msgid "Show &warning messages (\"OK\" button only)"

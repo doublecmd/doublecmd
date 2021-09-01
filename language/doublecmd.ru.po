@@ -6838,6 +6838,10 @@ msgstr "Создавать новые с кодировкой:"
 msgid "Always &go to the root of a drive when changing drives"
 msgstr "При смене диска всегда пере&ходить в корневой каталог"
 
+#: tfrmoptionsmisc.chkshowcurdirtitlebar.caption
+msgid "Show &current directory in the main window title bar"
+msgstr "Показывать &текущий каталог в заголовке окна"
+
 #: tfrmoptionsmisc.chkshowwarningmessages.caption
 msgctxt "tfrmoptionsmisc.chkshowwarningmessages.caption"
 msgid "Show &warning messages (\"OK\" button only)"

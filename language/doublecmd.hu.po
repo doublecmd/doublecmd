@@ -6842,6 +6842,10 @@ msgstr "Új létrehozása ezzel a kódolással:"
 msgid "Always &go to the root of a drive when changing drives"
 msgstr "&Mindig ugorjon a gyökérkönyvtárba a meghajtó váltásakor"
 
+#: tfrmoptionsmisc.chkshowcurdirtitlebar.caption
+msgid "Show &current directory in the main window title bar"
+msgstr ""
+
 #: tfrmoptionsmisc.chkshowwarningmessages.caption
 msgctxt "tfrmoptionsmisc.chkshowwarningmessages.caption"
 msgid "Show &warning messages (\"OK\" button only)"

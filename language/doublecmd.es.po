@@ -6692,6 +6692,10 @@ msgstr "Crear nuevo con la codificación:"
 msgid "Always &go to the root of a drive when changing drives"
 msgstr "Ir siempre a la carpeta raíz de la unidad al cambiar de unidad"
 
+#: tfrmoptionsmisc.chkshowcurdirtitlebar.caption
+msgid "Show &current directory in the main window title bar"
+msgstr ""
+
 #: tfrmoptionsmisc.chkshowwarningmessages.caption
 msgid "Show &warning messages (\"OK\" button only)"
 msgstr "Mostrar mensa&jes de advertencia (solo botón «Aceptar»)"
