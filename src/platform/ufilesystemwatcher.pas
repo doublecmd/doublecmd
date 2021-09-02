@@ -96,6 +96,13 @@ var
   VAR_READDIRECTORYCHANGESW_BUFFERSIZE: DWORD = READDIRECTORYCHANGESW_BUFFERSIZE;
   CREATEFILEW_SHAREMODE: DWORD = FILE_SHARE_READ or FILE_SHARE_WRITE;
 
+type
+  TOverlappedEx = packed record
+    Overlapped: TOverlapped;
+    OSWatch: Pointer;
+  end;
+  POverlappedEx = ^TOverlappedEx;
+
 function GetTargetPath(const Path: String): String;
 begin
   Result := mbReadAllLinks(Path);
@@ -128,7 +135,7 @@ type
     FWatchFilter: TFSWatchFilter;
     FWatchPath: String;
     {$IF DEFINED(MSWINDOWS)}
-    FOverlapped: OVERLAPPED;
+    FOverlapped: TOverlappedEx;
     FBuffer: PByte;
     FNotifyFilter: DWORD;
     FReferenceCount: LongInt;
@@ -317,7 +324,7 @@ begin
                 gWatcherMode = fswmWholeDrive,
                 Watch.FNotifyFilter,
                 nil,
-                @Watch.FOverlapped,
+                LPOVERLAPPED(@Watch.FOverlapped),
                 @NotifyRoutine)
             or
               // ERROR_IO_PENDING is a confirmation that the I/O operation has started.
@@ -443,7 +450,7 @@ var
   Watch: TOSWatch;
   bReadStarted: Boolean = False;
 begin
-  Watch := TOSWatch(Overlapped^.hEvent);
+  Watch := TOSWatch(POverlappedEx(Overlapped)^.OSWatch);
 
   {$IFDEF DEBUG_WATCHER}
   DCDebug(['FSWatcher: NotifyRoutine for watch ', hexStr(Watch), ' bytes=', dwNumberOfBytes, ' code=', dwErrorCode, ' handle=', Integer(Watch.Handle)]);
@@ -1328,8 +1335,8 @@ begin
   else
   begin
     FillChar(FOverlapped, SizeOf(FOverlapped), 0);
-    // Pass pointer to watcher to the notify routine via hEvent member.
-    FOverlapped.hEvent := Windows.HANDLE(Self);
+    // Pass pointer to watcher to the notify routine
+    FOverlapped.OSWatch := Self;
     QueueRead;
   end;
 end;
