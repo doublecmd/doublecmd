@@ -1177,7 +1177,6 @@ begin
   gFavoriteTabsList.AssociatedMainMenuItem := mnuFavoriteTabs;
   gFavoriteTabsList.RefreshAssociatedMainMenu;
 
-  UpdateMainTitleBar;
   // Update selected drive and free space before main form is shown,
   // otherwise there is a bit of delay.
   UpdateTreeView;
@@ -5374,6 +5373,7 @@ begin
 
     UpdateHotDirIcons; // Preferable to be loaded even if not required in popupmenu *because* in the tree it's a must, especially when checking for missing directories
     ShowTrayIcon(gAlwaysShowTrayIcon);
+    UpdateMainTitleBar;
 
     FInitializedView := True;
   finally
