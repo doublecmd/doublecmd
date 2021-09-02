@@ -1159,7 +1159,7 @@ msgstr "当前操作："
 #: tfrmfileop.lblfrom.caption
 msgctxt "TFRMFILEOP.LBLFROM.CAPTION"
 msgid "From:"
-msgstr "从："
+msgstr "从:"
 
 #: tfrmfileop.lblto.caption
 msgid "To:"
@@ -1790,7 +1790,7 @@ msgstr "查找"
 
 #: tfrmfindview.cbbackwards.caption
 msgid "&Backwards"
-msgstr "后退(&B)"
+msgstr "向后(&B)"
 
 #: tfrmfindview.cbcasesens.caption
 msgid "C&ase sensitive"
@@ -2185,7 +2185,7 @@ msgstr "常用文件夹列表(&H)"
 
 #: tfrmmain.actdoanycmcommand.caption
 msgid "Execute &internal command..."
-msgstr ""
+msgstr "执行内部命令(&I)..."
 
 #: tfrmmain.actdoanycmcommand.hint
 msgid "Select any command and execute it"
@@ -5819,7 +5819,7 @@ msgstr "忽略文件操作错误，并记录到日志窗口(&K)"
 
 #: tfrmoptionsfileoperations.cbtestarchiveconfirmation.caption
 msgid "Test archive operation"
-msgstr ""
+msgstr "测试存档操作"
 
 #: tfrmoptionsfileoperations.cbverifychecksumconfirmation.caption
 msgid "Verify checksum operation"
@@ -6669,7 +6669,7 @@ msgstr "更换驱动器时，总是转到根文件夹(&G)"
 
 #: tfrmoptionsmisc.chkshowcurdirtitlebar.caption
 msgid "Show &current directory in the main window title bar"
-msgstr ""
+msgstr "在主窗口标题栏中显示当前目录(&C)"
 
 #: tfrmoptionsmisc.chkshowwarningmessages.caption
 msgid "Show &warning messages (\"OK\" button only)"
@@ -8810,8 +8810,8 @@ msgid "Select for copying <- (right to left)"
 msgstr "选择复制方向 <- （从右到左）"
 
 #: tfrmsyncdirsdlg.actselectdeleteboth.caption
-msgid "选择删除 <-> (两边都有)"
-msgstr ""
+msgid "Select for deleting <-> (both)"
+msgstr "选择删除<-> (两边都有)"
 
 #: tfrmsyncdirsdlg.actselectdeleteleft.caption
 msgid "Select for deleting <- (left)"
@@ -9963,8 +9963,8 @@ msgid " Adds: "
 msgstr " 地址："
 
 #: ulng.rsdiffcomparing
-msgid "比较..."
-msgstr ""
+msgid "Comparing..."
+msgstr "比较..."
 
 #: ulng.rsdiffdeletes
 msgid " Deletes: "
@@ -9994,7 +9994,7 @@ msgstr "行尾"
 
 #: ulng.rsdifftextidentical
 msgid "The text is identical, but the following options are used:"
-msgstr "文字相同，但使用了以下选项:"
+msgstr "文本是相同的，但使用了以下选项:"
 
 #: ulng.rsdifftextidenticalnotmatch
 msgid ""
@@ -11788,7 +11788,7 @@ msgstr "警告：终止进程可能会导致意外结果，包括数据丢失和
 
 #: ulng.rsmsgtestarchive
 msgid "Do you want to test selected archives?"
-msgstr ""
+msgstr "您想测试选定的档案吗"
 
 #: ulng.rsmsgthisisnowinclipboard
 msgid "\"%s\" is now in the clipboard"
@@ -13660,7 +13660,7 @@ msgstr "网络"
 
 #: ulng.rsvfsrecyclebin
 msgid "Recycle Bin"
-msgstr ""
+msgstr "回收站"
 
 #: ulng.rsviewabouttext
 msgid "Internal Viewer of Double Commander."
