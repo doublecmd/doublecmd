@@ -82,11 +82,13 @@ type
     function GetCanPreview: Boolean;
     function GetCanPrint: Boolean;
     function GIsLoaded: Boolean;
+    procedure WlxPrepareContainer(var {%H-}ParentWin: HWND);
   public
     Name: String;
     FileName: String;
     DetectStr: String;
     pShowFlags: Integer;
+    QuickView: Boolean;
     Enabled: Boolean;
     //---------------------
     constructor Create;
@@ -210,19 +212,23 @@ begin
 end;
 {$ENDIF}
 
-procedure WlxPrepareContainer(var {%H-}ParentWin: HWND);
+{ TWlxModule }
+
+procedure TWlxModule.WlxPrepareContainer(var {%H-}ParentWin: HWND);
 begin
 {$IF DEFINED(MSWINDOWS) and DEFINED(LCLQT5)}
   ParentWin := HWND(QWidget_winId(TQtWidget(ParentWin).GetContainerWidget));
-  ParentWin := Windows.GetAncestor(ParentWin, GA_ROOT);
+  if QuickView then
+    ParentWin := Windows.GetAncestor(ParentWin, GA_PARENT)
+  else begin
+    ParentWin := Windows.GetAncestor(ParentWin, GA_ROOT);
+  end;
 {$ELSEIF DEFINED(LCLGTK) or DEFINED(LCLGTK2)}
   ParentWin := HWND(GetFixedWidget(Pointer(ParentWin)));
 {$ELSEIF DEFINED(LCLQT) or DEFINED(LCLQT5)}
   ParentWin := HWND(TQtWidget(ParentWin).GetContainerWidget);
 {$ENDIF}
 end;
-
-{ TWlxModule }
 
 function TWlxModule.GIsLoaded: Boolean;
 begin
@@ -464,7 +470,9 @@ begin
   with aRect do
   begin
     {$IF DEFINED(MSWINDOWS) and DEFINED(LCLQT5)}
-    OffsetRect(aRect, 0, GetSystemMetrics(SM_CYMENU));
+    if not QuickView then begin
+      OffsetRect(aRect, 0, GetSystemMetrics(SM_CYMENU));
+    end;
     MoveWindow(FPluginWindow, Left, Top, Right - Left, Bottom - Top, True);
     {$ELSEIF DEFINED(LCLWIN32)}
     MoveWindow(FPluginWindow, Left, Top, Right - Left, Bottom - Top, True);

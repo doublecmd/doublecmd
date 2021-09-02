@@ -1326,16 +1326,36 @@ end;
 
 procedure TMainCommands.cm_TestArchive(const Params: array of string);
 var
+  Param: String;
+  BoolValue: Boolean;
   SelectedFiles: TFiles;
+  bConfirmation, HasConfirmationParam: Boolean;
+  QueueId: TOperationsManagerQueueIdentifier = FreeOperationsQueueId;
 begin
   with frmMain do
   begin
-    SelectedFiles := ActiveFrame.CloneSelectedOrActiveFiles;
-    try
-      TestArchive(ActiveFrame, SelectedFiles);
-    finally
-      if Assigned(SelectedFiles) then
+    HasConfirmationParam := False;
+
+    for Param in Params do
+    begin
+      if GetParamBoolValue(Param, 'confirmation', BoolValue) then
+      begin
+        HasConfirmationParam := True;
+        bConfirmation := BoolValue;
+      end;
+    end;
+    if not HasConfirmationParam then begin
+      bConfirmation := focTestArchive in gFileOperationsConfirmations;
+    end;
+
+    if (bConfirmation = False) or (ShowDeleteDialog(rsMsgTestArchive, ActiveFrame.FileSource, QueueId)) then
+    begin
+      SelectedFiles := ActiveFrame.CloneSelectedOrActiveFiles;
+      try
+        TestArchive(ActiveFrame, SelectedFiles, QueueId);
+      finally
         FreeAndNil(SelectedFiles);
+      end;
     end;
   end;
 end;

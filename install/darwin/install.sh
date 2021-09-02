@@ -37,7 +37,7 @@ cp -a doublecmd.zdli               $DC_INSTALL_DIR/
 cp -a doublecmd.ext.example        $DC_INSTALL_DIR/
 cp -a pixmaps.txt                  $DC_INSTALL_DIR/
 cp -a multiarc.ini                 $DC_INSTALL_DIR/
-cp -a tcmatch.tbl                  $DC_INSTALL_DIR/
+cp -a pinyin.tbl                   $DC_INSTALL_DIR/
 
 # Copy plugins
 

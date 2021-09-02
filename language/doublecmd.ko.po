@@ -2247,6 +2247,10 @@ msgid "Directory &Hotlist"
 msgstr "폴더 바로 가기 목록(&H)"
 
 #: tfrmmain.actdoanycmcommand.caption
+msgid "Execute &internal command..."
+msgstr ""
+
+#: tfrmmain.actdoanycmcommand.hint
 msgid "Select any command and execute it"
 msgstr "선택한 어떤 명령이든 실행"
 
@@ -5935,6 +5939,10 @@ msgstr "복사/이동 대화상자에 탭 선택 패널 표시(&W)"
 msgid "S&kip file operations errors and write them to log window"
 msgstr "에러시 파일 작업 건너뛰고 로그창에 기록(&K)"
 
+#: tfrmoptionsfileoperations.cbtestarchiveconfirmation.caption
+msgid "Test archive operation"
+msgstr ""
+
 #: tfrmoptionsfileoperations.cbverifychecksumconfirmation.caption
 msgid "Verify checksum operation"
 msgstr "체크섬 계산"
@@ -6851,6 +6859,10 @@ msgstr ""
 #: tfrmoptionsmisc.chkgotoroot.caption
 msgid "Always &go to the root of a drive when changing drives"
 msgstr "드라이브 변경시 항상 최상위로 가기(&G)"
+
+#: tfrmoptionsmisc.chkshowcurdirtitlebar.caption
+msgid "Show &current directory in the main window title bar"
+msgstr ""
 
 #: tfrmoptionsmisc.chkshowwarningmessages.caption
 msgctxt "TFRMOPTIONSMISC.CHKSHOWWARNINGMESSAGES.CAPTION"
@@ -12095,6 +12107,10 @@ msgstr "TC 툴바 파일을 저장할 파일명과 위치를 입력하세요."
 
 #: ulng.rsmsgterminateprocess
 msgid "WARNING: Terminating a process can cause undesired results including loss of data and system instability. The process will not be given the chance to save its state or data before it is terminated. Are you sure you want to terminate the process?"
+msgstr ""
+
+#: ulng.rsmsgtestarchive
+msgid "Do you want to test selected archives?"
 msgstr ""
 
 #: ulng.rsmsgthisisnowinclipboard

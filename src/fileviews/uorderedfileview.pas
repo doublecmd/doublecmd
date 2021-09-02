@@ -124,7 +124,7 @@ uses
   LCLProc, LCLType, math, Forms, Graphics,
   DCStrUtils,
   DCOSUtils, 
-  uLng, uGlobs, uMasks, uDCUtils, uIMCode,
+  uLng, uGlobs, uMasks, uDCUtils,
   uFileSourceProperty,
   uPixMapManager,
   uFileViewWorker,

@@ -25,6 +25,7 @@ mkdir  %DC_INSTALL_DIR%\plugins\wfx\ftp
 rem WLX plugins directories
 mkdir  %DC_INSTALL_DIR%\plugins\wlx
 mkdir  %DC_INSTALL_DIR%\plugins\wlx\preview
+mkdir  %DC_INSTALL_DIR%\plugins\wlx\wmp
 
 mkdir  %DC_INSTALL_DIR%\doc
 rem Copy directories
@@ -39,7 +40,7 @@ copy doublecmd.zdli                 %DC_INSTALL_DIR%\
 copy doublecmd.ext.example          %DC_INSTALL_DIR%\
 copy pixmaps.txt                    %DC_INSTALL_DIR%\
 copy multiarc.ini                   %DC_INSTALL_DIR%\
-copy tcmatch.tbl                    %DC_INSTALL_DIR%\
+copy pinyin.tbl                     %DC_INSTALL_DIR%\
 rem Copy libraries
 copy *.dll                          %DC_INSTALL_DIR%\
 
@@ -62,3 +63,4 @@ copy  plugins\wfx\ftp\ftp.wfx             %DC_INSTALL_DIR%\plugins\wfx\ftp\
 xcopy /E plugins\wfx\ftp\language         %DC_INSTALL_DIR%\plugins\wfx\ftp\language\
 rem WLX
 copy  plugins\wlx\preview\preview.wlx     %DC_INSTALL_DIR%\plugins\wlx\preview\
+copy  plugins\wlx\wmp\wmp.wlx             %DC_INSTALL_DIR%\plugins\wlx\wmp\

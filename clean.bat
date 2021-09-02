@@ -42,6 +42,7 @@
 @del /Q /S plugins\wfx\samba\lib\*.*
 @del /Q /S plugins\wfx\sample\lib\*.*
 
+@del /Q /S plugins\wlx\preview\lib\*.*
 @del /Q /S plugins\wlx\simplewlx\lib\*.*
 @del /Q /S plugins\wlx\WlxMplayer\lib\*.*
 

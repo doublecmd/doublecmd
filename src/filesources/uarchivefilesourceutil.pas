@@ -9,7 +9,8 @@ uses
  uFileView,
  uFile,
  uArchiveFileSource,
- uFileSource;
+ uFileSource,
+ uOperationsManager;
 
 function GetArchiveFileSource(SourceFileSource: IFileSource;
                               ArchiveFile: TFile;
@@ -17,7 +18,8 @@ function GetArchiveFileSource(SourceFileSource: IFileSource;
                               ArchiveSign: Boolean;
                               IncludeHidden: Boolean): IArchiveFileSource;
 
-procedure TestArchive(aFileView: TFileView; aFiles: TFiles);
+procedure TestArchive(aFileView: TFileView; aFiles: TFiles;
+                              QueueIdentifier: TOperationsManagerQueueIdentifier);
 
 function FileIsArchive(const FileName: String): Boolean;
 
@@ -30,15 +32,13 @@ uses
   uFindEx,
   uShowMsg,
   uLng,
-  DCStrUtils,
   uFileSourceProperty,
   uWcxArchiveFileSource,
   uMultiArchiveFileSource,
   uFileSystemFileSource,
   uTempFileSystemFileSource,
   uFileSourceOperation,
-  uFileSourceOperationTypes,
-  uOperationsManager;
+  uFileSourceOperationTypes;
 
 // Only for direct access file sources.
 function GetArchiveFileSourceDirect(SourceFileSource: IFileSource;
@@ -163,12 +163,14 @@ begin
   end;
 end;
 
-procedure TestArchive(aFileView: TFileView; aFiles: TFiles);
+procedure TestArchive(aFileView: TFileView; aFiles: TFiles;
+  QueueIdentifier: TOperationsManagerQueueIdentifier);
 var
   I: Integer;
   FilesToTest: TFiles = nil;
   Operation: TFileSourceOperation = nil;
   ArchiveFileSource: IArchiveFileSource;
+  QueueId: TOperationsManagerQueueIdentifier;
 begin
   try
     // if in archive
@@ -182,7 +184,7 @@ begin
            if Assigned(Operation) then
              begin
                // Start operation.
-               OperationsManager.AddOperation(Operation);
+               OperationsManager.AddOperation(Operation, QueueIdentifier, False, True);
              end
            else
              msgWarning(rsMsgNotImplemented);
@@ -194,6 +196,12 @@ begin
       // if filesystem
       if aFileView.FileSource.IsClass(TFileSystemFileSource) then
         begin
+         // If archives count > 1 then put to queue
+         if (aFiles.Count > 1) and (QueueIdentifier = FreeOperationsQueueId) then
+           QueueId := OperationsManager.GetNewQueueIdentifier
+         else begin
+           QueueId := QueueIdentifier;
+         end;
           for I := 0 to aFiles.Count - 1 do // test all selected archives
             try
               // Check if there is a ArchiveFileSource for possible archive.
@@ -215,21 +223,18 @@ begin
                         if Assigned(Operation) then
                           begin
                             // Start operation.
-                            OperationsManager.AddOperation(Operation);
+                            OperationsManager.AddOperation(Operation, QueueId, False, True);
                           end
                         else
                           msgWarning(rsMsgNotImplemented);
 
                       finally
-                        if Assigned(FilesToTest) then
-                          FreeAndNil(FilesToTest);
+                        FreeAndNil(FilesToTest);
                       end;
                     end
                   else
                     msgWarning(rsMsgErrNotSupported);
               end;
-              // Short pause, so that all operations are not spawned at once.
-              Sleep(100);
             except
               on E: Exception do msgError(E.Message + LineEnding + aFiles[i].FullPath);
             end; // for

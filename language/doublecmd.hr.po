@@ -2306,6 +2306,10 @@ msgid "Directory &Hotlist"
 msgstr "Brzi spisak &mapa"
 
 #: tfrmmain.actdoanycmcommand.caption
+msgid "Execute &internal command..."
+msgstr ""
+
+#: tfrmmain.actdoanycmcommand.hint
 msgid "Select any command and execute it"
 msgstr "Odaberite bilo koju naredbu za pokretanje"
 
@@ -6215,6 +6219,10 @@ msgstr "prikaži karticu ploče odabira u prozoru za umnožavanje premještanje"
 msgid "S&kip file operations errors and write them to log window"
 msgstr "Z&anemari greške radnji nad datotekama i upiši ih u datoteku događanja"
 
+#: tfrmoptionsfileoperations.cbtestarchiveconfirmation.caption
+msgid "Test archive operation"
+msgstr ""
+
 #: tfrmoptionsfileoperations.cbverifychecksumconfirmation.caption
 msgid "Verify checksum operation"
 msgstr ""
@@ -7155,6 +7163,10 @@ msgstr ""
 #: tfrmoptionsmisc.chkgotoroot.caption
 msgid "Always &go to the root of a drive when changing drives"
 msgstr "Uvijek idi u& sistemsku mapu uređaja prilikom menjanja uređaja"
+
+#: tfrmoptionsmisc.chkshowcurdirtitlebar.caption
+msgid "Show &current directory in the main window title bar"
+msgstr ""
 
 #: tfrmoptionsmisc.chkshowwarningmessages.caption
 msgctxt "TFRMOPTIONSMISC.CHKSHOWWARNINGMESSAGES.CAPTION"
@@ -12416,6 +12428,10 @@ msgstr "Unesite mjesto i naziv datoteke za spremanje TC Toolbar datoteke"
 
 #: ulng.rsmsgterminateprocess
 msgid "WARNING: Terminating a process can cause undesired results including loss of data and system instability. The process will not be given the chance to save its state or data before it is terminated. Are you sure you want to terminate the process?"
+msgstr ""
+
+#: ulng.rsmsgtestarchive
+msgid "Do you want to test selected archives?"
 msgstr ""
 
 #: ulng.rsmsgthisisnowinclipboard

@@ -187,9 +187,6 @@ function ExcludeBackPathDelimiter(const Path: String): String;
    @returns(Position of character in string)
 }
 function CharPos(C: Char; const S: string; StartPos: Integer = 1): Integer;
-
-
-
 {en
   Return position of any of tag-characters in string T in string S begun from start position
   @param(T set of characters)
@@ -200,14 +197,6 @@ function CharPos(C: Char; const S: string; StartPos: Integer = 1): Integer;
 
 }
 function TagPos(T: string; const S: string; StartPos: Integer;SearchBackward: boolean=False): Integer;
-
-
-{en
-
-}
-function scopy(IndexBegin,IndexEnd:integer;str:string):string;
-
-
 {en
    Split file name on name and extension
    @param(sFileName File name)
@@ -783,7 +772,6 @@ begin
     Result:= Path;
 end;
 
-
 procedure DivFileName(const sFileName:String; out n,e:String);
 var
   i:Integer;
@@ -886,67 +874,52 @@ function CharPos(C: Char; const S: string; StartPos: Integer = 1): Integer;
 var
  sNewStr : String;
 begin
-if StartPos <> 1 then
-  begin
-    sNewStr := Copy(S, StartPos, Length(S) - StartPos + 1);
-    Result := Pos(C, sNewStr);
-    if Result <> 0 then
-      Result := Result + StartPos - 1;
-  end
-else
-  Result := Pos(C, S);
+  if StartPos <> 1 then
+    begin
+      sNewStr := Copy(S, StartPos, Length(S) - StartPos + 1);
+      Result := Pos(C, sNewStr);
+      if Result <> 0 then
+        Result := Result + StartPos - 1;
+    end
+  else
+    Result := Pos(C, S);
 end;
-
-
 
 function TagPos(T: string; const S: string; StartPos: Integer;
   SearchBackward: boolean): Integer;
-// in future this function will moved to DCStrUtils
 var
-  i,cnt:integer;
-  ch:char;
+  ch: AnsiChar;
+  i, cnt: Integer;
 begin
-  Result:=0;
-  i:=StartPos;
-  if i=0 then i:=1;
+  Result:= 0;
+  i:= StartPos;
+  if i = 0 then i:= 1;
 
-  cnt:=UTF8Length(S);
+  cnt:= UTF8Length(S);
 
   if SearchBackward then
   begin
-     while (i>0)do
-     begin
-       ch:=S[UTF8CharToByteIndex(PChar(S), length(S), i)];
-       if Pos(ch,T)=0 then
-          dec(i)
-       else
-          break;
-     end;
+    while (i > 0) do
+    begin
+     ch:= S[UTF8CharToByteIndex(PAnsiChar(S), Length(S), i)];
+     if Pos(ch, T) = 0 then
+       Dec(i)
+     else
+       Break;
+    end;
   end
   else
-     while (i<=cnt)do
-     begin
-       ch:=S[UTF8CharToByteIndex(PChar(S), length(S), i)];
-       if Pos(ch,T)=0 then
-          inc(i)
-       else
-          break;
-     end;
+    while (i <= cnt) do
+    begin
+      ch:= S[UTF8CharToByteIndex(PAnsiChar(S), Length(S), i)];
+      if Pos(ch, T) = 0 then
+        Inc(i)
+      else
+        Break;
+    end;
 
-
-  Result:=i;
+  Result:= i;
 end;
-
-
-function scopy(IndexBegin,IndexEnd:integer;str:string):string;
-begin
-    if (IndexBegin<=IndexEnd) then
-        Result:=copy(str,IndexBegin,(IndexEnd-IndexBegin+1))
-    else
-        Result:='';
-end;
-
-
 
 function NumCountChars(const Char: char; const S: String): Integer;
 var

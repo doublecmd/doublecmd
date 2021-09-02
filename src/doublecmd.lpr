@@ -82,9 +82,7 @@ uses
   {$ENDIF}
   ;
 
-{$IF NOT (DEFINED(DARWIN) AND DEFINED(LCLQT))}
 {$R *.res}
-{$ENDIF}
 
 {$IF DEFINED(MSWINDOWS)}
 {$SETPEOPTFLAGS $140}
@@ -131,6 +129,11 @@ begin
 
   Application.Title:='Double Commander';
   Application.Initialize;
+
+{$IF DEFINED(DARWIN) AND DEFINED(LCLQT)}
+  Application.Icon:= nil;
+{$ENDIF}
+
   uDCVersion.InitializeVersionInfo;
   // Initializing keyboard module on GTK needs GTKProc.InitKeyboardTables
   // which is called by Application.Initialize.
@@ -160,7 +163,7 @@ begin
   DCDebug('Revision: ' + dcRevision);
   DCDebug('Commit: ' + dcCommit);
   DCDebug('Build: ' + dcBuildDate);
-  DCDebug('Lazarus: ' + GetLazarusVersion);
+  DCDebug('Lazarus: ' + lazVersion);
   DCDebug('Free Pascal: ' + fpcVersion);
   DCDebug('Platform: ' + TargetCPU + '-' + TargetOS + '-' + TargetWS);
   DCDebug('System: ' + OSVersion);

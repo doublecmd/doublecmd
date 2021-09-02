@@ -231,6 +231,7 @@ type
     lblRightDriveInfo: TLabel;
     lblLeftDriveInfo: TLabel;
     lblCommandPath: TLabel;
+    mnuDoAnyCmCommand: TMenuItem;
     miConfigArchivers: TMenuItem;
     mnuConfigSavePos: TMenuItem;
     mnuConfigSaveSettings: TMenuItem;
@@ -701,6 +702,7 @@ type
     FOperationsPanel: TOperationsPanel;
     FSyncChangeParent: Boolean;
     FSyncChangeDir: String;
+    sStaticTitleBarString: String;
 
     // frost_asm begin
     // mainsplitter
@@ -842,6 +844,7 @@ type
     procedure UpdateDiskCount;
     procedure UpdateSelectedDrives;
     procedure UpdateGUIFunctionKeys;
+    procedure UpdateMainTitleBar;
     procedure CreateDiskPanel(dskPanel : TKASToolBar);
     procedure SetPanelDrive(aPanel: TFilePanelSelect; Drive: PDrive; ActivateIfNeeded: Boolean);
     function CreateFileView(sType: String; Page: TFileViewPage; AConfig: TXmlConfig; ANode: TXmlNode): TFileView;
@@ -1080,9 +1083,8 @@ begin
 
   ConvertToolbarBarConfig(gpCfgDir + 'default.bar');
   CreateDefaultToolbar;
+  sStaticTitleBarString := GenerateTitle();
 
-  //Caption of main window
-  Self.Caption := GenerateTitle();
   // Remove the initial caption of the button, which is just a text of the associated action.
   // The text would otherwise be briefly shown before the drive button was updated.
   btnLeftDrive.Caption := '';
@@ -1175,6 +1177,7 @@ begin
   gFavoriteTabsList.AssociatedMainMenuItem := mnuFavoriteTabs;
   gFavoriteTabsList.RefreshAssociatedMainMenu;
 
+  UpdateMainTitleBar;
   // Update selected drive and free space before main form is shown,
   // otherwise there is a bit of delay.
   UpdateTreeView;
@@ -2511,6 +2514,7 @@ begin
 
   UpdatePrompt;
   UpdateTreeViewPath;
+  UpdateMainTitleBar;
 end;
 
 procedure TfrmMain.nbPageMouseUp(Sender: TObject; Button: TMouseButton;
@@ -4397,6 +4401,7 @@ begin
               glsDirHistory.Move(Index, 0);
             end;
             UpdateTreeViewPath;
+            UpdateMainTitleBar;
           end;
 
           if actSyncChangeDir.Checked and (FileView = ActiveFrame) then
@@ -5777,6 +5782,7 @@ begin
   if PanelSelected = AValue then Exit;
   PanelSelected := AValue;
   UpdateTreeViewPath;
+  UpdateMainTitleBar;
   UpdatePrompt;
   if actSyncChangeDir.Checked then begin
     FSyncChangeDir:= ExcludeTrailingBackslash(ActiveFrame.CurrentPath);
@@ -6168,6 +6174,24 @@ begin
   end;
   UpdateDriveButtonSelection(btnLeftDrive, FrameLeft);
   UpdateDriveButtonSelection(btnRightDrive, FrameRight);
+end;
+
+procedure TfrmMain.UpdateMainTitleBar;
+var sTmp: String;
+begin
+    if gShowCurDirTitleBar and (fspDirectAccess in ActiveFrame.FileSource.Properties) then
+    begin
+        sTmp := ActiveFrame.CurrentPath;
+        Self.Caption:= Format('%s (%s) - %s',
+            [GetLastDir(sTmp),
+            sTmp,
+            sStaticTitleBarString]
+            );
+    end
+    else
+    begin
+        Self.Caption := sStaticTitleBarString;
+    end;
 end;
 
 procedure TfrmMain.UpdateGUIFunctionKeys;

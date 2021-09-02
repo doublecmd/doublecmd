@@ -420,6 +420,7 @@ type
        For example checks if selection is not in the middle of a unicode character.
     }
     procedure UpdateSelection;
+    function GetViewerRect: TRect;
 
     procedure ScrollBarVertScroll(Sender: TObject; ScrollCode: TScrollCode;
       var ScrollPos: Integer);
@@ -669,7 +670,7 @@ begin
   Canvas.Pen.Color := Canvas.Font.Color;
   Canvas.Line(0, 0, ClientWidth - 1, ClientHeight - 1);
   Canvas.Line(0, ClientHeight - 1, ClientWidth - 1, 0);
-  Canvas.TextRect(ClientRect, 0, 0, FLastError, AStyle);
+  Canvas.TextRect(GetViewerRect, 0, 0, FLastError, AStyle);
 end;
 
 procedure TViewerControl.Paint;
@@ -828,6 +829,15 @@ function TViewerControl.GetText(const StartPos, Len: PtrInt; const Xoffset: Inte
 begin
   SetString(Result, GetDataAdr + StartPos, Len);
   Result := TransformText(ConvertToUTF8(Result), Xoffset);
+end;
+
+function TViewerControl.GetViewerRect: TRect;
+begin
+  Result:= GetClientRect;
+  if Assigned(FScrollBarHorz) and FScrollBarHorz.Visible then
+    Dec(Result.Bottom, FScrollBarHorz.Height);
+  if Assigned(FScrollBarVert) and FScrollBarVert.Visible then
+    Dec(Result.Right, FScrollBarVert.Width);
 end;
 
 procedure TViewerControl.WMSetFocus(var Message: TLMSetFocus);
@@ -1878,14 +1888,8 @@ end;
 
 function TViewerControl.GetClientHeightInLines: Integer;
 begin
-  if FViewerControlMode <> vcmText then
-    Result:= 0
-  else // Take horizontal scrollbar into account
-    Result:= GetSystemMetrics(SM_CYHSCROLL);
-
   if FTextHeight > 0 then
-    Result := (ClientRect.Bottom - ClientRect.Top - Result) div FTextHeight
-             // or Self.Height div FTextHeight?
+    Result := GetViewerRect.Height div FTextHeight
   else
     Result := 0;
 end;

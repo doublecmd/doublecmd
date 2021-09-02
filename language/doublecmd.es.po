@@ -2192,6 +2192,10 @@ msgid "Directory &Hotlist"
 msgstr "Marcadores de carpetas"
 
 #: tfrmmain.actdoanycmcommand.caption
+msgid "Execute &internal command..."
+msgstr ""
+
+#: tfrmmain.actdoanycmcommand.hint
 msgid "Select any command and execute it"
 msgstr "Seleccionar cualquier comando y ejecutarlo"
 
@@ -5823,6 +5827,10 @@ msgstr "Mostrar las pestañas del panel de destino en el diálogo «copiar/mover
 msgid "S&kip file operations errors and write them to log window"
 msgstr "Sa&ltar errores en operaciones con archivos y anotarlos en la ventana de registro"
 
+#: tfrmoptionsfileoperations.cbtestarchiveconfirmation.caption
+msgid "Test archive operation"
+msgstr ""
+
 #: tfrmoptionsfileoperations.cbverifychecksumconfirmation.caption
 msgid "Verify checksum operation"
 msgstr ""
@@ -6683,6 +6691,10 @@ msgstr "Crear nuevo con la codificación:"
 #: tfrmoptionsmisc.chkgotoroot.caption
 msgid "Always &go to the root of a drive when changing drives"
 msgstr "Ir siempre a la carpeta raíz de la unidad al cambiar de unidad"
+
+#: tfrmoptionsmisc.chkshowcurdirtitlebar.caption
+msgid "Show &current directory in the main window title bar"
+msgstr ""
 
 #: tfrmoptionsmisc.chkshowwarningmessages.caption
 msgid "Show &warning messages (\"OK\" button only)"
@@ -11837,6 +11849,10 @@ msgstr "Introduce la ubicación y nombre del archivo donde guardar el respaldo d
 
 #: ulng.rsmsgterminateprocess
 msgid "WARNING: Terminating a process can cause undesired results including loss of data and system instability. The process will not be given the chance to save its state or data before it is terminated. Are you sure you want to terminate the process?"
+msgstr ""
+
+#: ulng.rsmsgtestarchive
+msgid "Do you want to test selected archives?"
 msgstr ""
 
 #: ulng.rsmsgthisisnowinclipboard

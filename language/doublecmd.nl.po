@@ -2174,6 +2174,10 @@ msgid "Directory &Hotlist"
 msgstr "Favorietenlijst voor mappen"
 
 #: tfrmmain.actdoanycmcommand.caption
+msgid "Execute &internal command..."
+msgstr ""
+
+#: tfrmmain.actdoanycmcommand.hint
 msgid "Select any command and execute it"
 msgstr "Kies een opdracht en voer die uit"
 
@@ -5796,6 +5800,10 @@ msgstr "Toon tabbladselectiepaneel in kopieer/verplaats-dialoogvenster"
 msgid "S&kip file operations errors and write them to log window"
 msgstr "Sla fouten bij bestandbewerkingen over en schrijf deze in het logboekvenster"
 
+#: tfrmoptionsfileoperations.cbtestarchiveconfirmation.caption
+msgid "Test archive operation"
+msgstr ""
+
 #: tfrmoptionsfileoperations.cbverifychecksumconfirmation.caption
 msgid "Verify checksum operation"
 msgstr "Verifieer checksumbewerking"
@@ -6649,6 +6657,10 @@ msgstr "Maak nieuwe met de codering:"
 #: tfrmoptionsmisc.chkgotoroot.caption
 msgid "Always &go to the root of a drive when changing drives"
 msgstr "Ga altijd naar de root van een schijf bij verandering van schijven"
+
+#: tfrmoptionsmisc.chkshowcurdirtitlebar.caption
+msgid "Show &current directory in the main window title bar"
+msgstr ""
 
 #: tfrmoptionsmisc.chkshowwarningmessages.caption
 msgid "Show &warning messages (\"OK\" button only)"
@@ -11719,6 +11731,10 @@ msgstr "Geef locatie en bestandnaam in waar een TC-werkbalkbestand op te slaan"
 #: ulng.rsmsgterminateprocess
 msgid "WARNING: Terminating a process can cause undesired results including loss of data and system instability. The process will not be given the chance to save its state or data before it is terminated. Are you sure you want to terminate the process?"
 msgstr "WAARSCHUWING: het beëindigen van een proces kan ongewenste resultaten veroorzaken, waaronder gegevensverlies en systeeminstabiliteit. Het proces krijgt niet de kans om de status of gegevens op te slaan voordat het wordt beëindigd. Weet u zeker dat u het proces wilt beëindigen?"
+
+#: ulng.rsmsgtestarchive
+msgid "Do you want to test selected archives?"
+msgstr ""
 
 #: ulng.rsmsgthisisnowinclipboard
 msgid "\"%s\" is now in the clipboard"

@@ -123,9 +123,9 @@ implementation
 
 uses
   ExtDlgs, LCLProc, Menus, Graphics, InterfaceBase, WSForms, LMessages, LCLIntf,
-  uConnectionManager
+  fMain, uConnectionManager
   {$IF DEFINED(MSWINDOWS)}
-  , LCLStrConsts, ComObj, fMain, DCOSUtils, uOSUtils, uFileSystemFileSource
+  , LCLStrConsts, ComObj, DCOSUtils, uOSUtils, uFileSystemFileSource
   , uTotalCommander, FileUtil, Windows, ShlObj, uShlObjAdditional
   , uWinNetFileSource, uVfsModule, uLng, uMyWindows, DCStrUtils
   , uDCReadSVG, uFileSourceUtil, uGdiPlusJPEG, uListGetPreviewBitmap
@@ -136,12 +136,12 @@ uses
     {$ENDIF}
   {$ENDIF}
   {$IFDEF UNIX}
-  , BaseUnix, fFileProperties, uJpegThumb
+  , BaseUnix, Errors, fFileProperties, uJpegThumb
     {$IF NOT DEFINED(DARWIN)}
     , uDCReadSVG, uMagickWand, uGio, uGioFileSource, uVfsModule, uVideoThumb
     , uDCReadWebP, uFolderThumb, uAudioThumb
     {$ELSE}
-    , MacOSAll, fMain, uQuickLook, uMyDarwin, uShowMsg, uLng
+    , MacOSAll, uQuickLook, uMyDarwin, uShowMsg, uLng
     {$ENDIF}
     {$IF NOT DEFINED(DARWIN)}
     , fOpenWith
@@ -890,6 +890,29 @@ procedure ShowOpenWithDialog(TheOwner: TComponent; const FileList: TStringList);
 begin
   fOpenWith.ShowOpenWithDlg(TheOwner, FileList);
 end;
+{$ENDIF}
+
+{$IF DEFINED(UNIX)}
+procedure handle_sigterm(signal: longint); cdecl;
+begin
+  WriteLn('SIGTERM');
+  frmMain.Close;
+end;
+
+procedure RegisterHandler;
+var
+  sa: sigactionrec;
+begin
+  FillChar(sa, SizeOf(sa), #0);
+  sa.sa_handler := @handle_sigterm;
+  if (fpSigAction(SIGTERM, @sa, nil) = -1) then
+  begin
+    Errors.PError('fpSigAction', GetLastOSError);
+  end;
+end;
+
+initialization
+  RegisterHandler;
 {$ENDIF}
 
 finalization

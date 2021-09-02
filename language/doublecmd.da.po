@@ -2284,8 +2284,12 @@ msgstr "Mappehistorik"
 msgid "Directory &Hotlist"
 msgstr "Favorit&mapper"
 
-# Opsætning - Indstillinger - Taster - Genvejstaster
 #: tfrmmain.actdoanycmcommand.caption
+msgid "Execute &internal command..."
+msgstr ""
+
+# Opsætning - Indstillinger - Taster - Genvejstaster
+#: tfrmmain.actdoanycmcommand.hint
 msgid "Select any command and execute it"
 msgstr "Vælg en kommando og udfør den"
 
@@ -6308,6 +6312,10 @@ msgstr "Vis &valgboks for faner i kopier/flyt-dialog"
 msgid "S&kip file operations errors and write them to log window"
 msgstr "Ignorer fejl ved operationer og s&kriv dem i log-vindue"
 
+#: tfrmoptionsfileoperations.cbtestarchiveconfirmation.caption
+msgid "Test archive operation"
+msgstr ""
+
 # Opsætning - Indstillinger - Filhandlinger
 #: tfrmoptionsfileoperations.cbverifychecksumconfirmation.caption
 msgid "Verify checksum operation"
@@ -7314,6 +7322,10 @@ msgstr "Opret ny med &kodningen:"
 #: tfrmoptionsmisc.chkgotoroot.caption
 msgid "Always &go to the root of a drive when changing drives"
 msgstr "&Gå altid til drevets rod ved skift af drev"
+
+#: tfrmoptionsmisc.chkshowcurdirtitlebar.caption
+msgid "Show &current directory in the main window title bar"
+msgstr ""
 
 # Opsætning - Indstillinger - Diverse
 #: tfrmoptionsmisc.chkshowwarningmessages.caption
@@ -12806,6 +12818,10 @@ msgstr "Indtast placering og filnavn for, hvor DC-værktøjslinjefilen skal gemm
 #: ulng.rsmsgterminateprocess
 msgid "WARNING: Terminating a process can cause undesired results including loss of data and system instability. The process will not be given the chance to save its state or data before it is terminated. Are you sure you want to terminate the process?"
 msgstr "ADVARSEL: Afslutning af en proces kan forårsage uønskede resultater, inklusive tab af data og systeminstabilitet. Processen kan ikke gemme dens tilstand eller data, inden den afsluttes. Er du sikker på, at du vil afslutte processen?"
+
+#: ulng.rsmsgtestarchive
+msgid "Do you want to test selected archives?"
+msgstr ""
 
 #: ulng.rsmsgthisisnowinclipboard
 msgid "\"%s\" is now in the clipboard"

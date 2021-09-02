@@ -2238,6 +2238,10 @@ msgid "Directory &Hotlist"
 msgstr "&Favorittmapper"
 
 #: tfrmmain.actdoanycmcommand.caption
+msgid "Execute &internal command..."
+msgstr ""
+
+#: tfrmmain.actdoanycmcommand.hint
 msgid "Select any command and execute it"
 msgstr "Velg en kommando og utfør den"
 
@@ -5977,6 +5981,10 @@ msgctxt "TFRMOPTIONSFILEOPERATIONS.CBSKIPFILEOPERROR.CAPTION"
 msgid "S&kip file operations errors and write them to log window"
 msgstr "&Ignorér feil ved operasjoner, men skriv dem i logg-vindu"
 
+#: tfrmoptionsfileoperations.cbtestarchiveconfirmation.caption
+msgid "Test archive operation"
+msgstr ""
+
 #: tfrmoptionsfileoperations.cbverifychecksumconfirmation.caption
 msgid "Verify checksum operation"
 msgstr "Verifiséring av kontrollsum-operasjon"
@@ -6911,6 +6919,10 @@ msgstr "Ny, med koding:"
 #: tfrmoptionsmisc.chkgotoroot.caption
 msgid "Always &go to the root of a drive when changing drives"
 msgstr "&Gå alltid til toppnivået ved skifte av drev"
+
+#: tfrmoptionsmisc.chkshowcurdirtitlebar.caption
+msgid "Show &current directory in the main window title bar"
+msgstr ""
 
 #: tfrmoptionsmisc.chkshowwarningmessages.caption
 msgctxt "tfrmoptionsmisc.chkshowwarningmessages.caption"
@@ -12249,6 +12261,10 @@ msgstr "Tast inn plassering og filnavn der TC-verktøylinjefila skal lagres"
 #: ulng.rsmsgterminateprocess
 msgid "WARNING: Terminating a process can cause undesired results including loss of data and system instability. The process will not be given the chance to save its state or data before it is terminated. Are you sure you want to terminate the process?"
 msgstr "ADVARSEL: Avslutning av en prosess kan gi uønsket resultat, inkludert datatap og ustabilt system. Prosessen får ikke anledning til å lagre tilstand eller data før den avslutter. Er du sikker på at du vil avslutte prosessen?"
+
+#: ulng.rsmsgtestarchive
+msgid "Do you want to test selected archives?"
+msgstr ""
 
 #: ulng.rsmsgthisisnowinclipboard
 msgid "\"%s\" is now in the clipboard"

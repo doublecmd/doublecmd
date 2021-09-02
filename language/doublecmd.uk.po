@@ -2228,6 +2228,10 @@ msgid "Directory &Hotlist"
 msgstr "Особистий спис&ок каталогів"
 
 #: tfrmmain.actdoanycmcommand.caption
+msgid "Execute &internal command..."
+msgstr ""
+
+#: tfrmmain.actdoanycmcommand.hint
 msgid "Select any command and execute it"
 msgstr "Вибрати будь-яку команду і виконати її"
 
@@ -5931,6 +5935,10 @@ msgctxt "TFRMOPTIONSFILEOPERATIONS.CBSKIPFILEOPERROR.CAPTION"
 msgid "S&kip file operations errors and write them to log window"
 msgstr "Пропус&кати помилки при файлових операціях і заносити їх у звіт"
 
+#: tfrmoptionsfileoperations.cbtestarchiveconfirmation.caption
+msgid "Test archive operation"
+msgstr ""
+
 #: tfrmoptionsfileoperations.cbverifychecksumconfirmation.caption
 msgid "Verify checksum operation"
 msgstr "Перевірка контрольних сум"
@@ -6854,6 +6862,10 @@ msgstr "Створювати нові з кодуванням:"
 #: tfrmoptionsmisc.chkgotoroot.caption
 msgid "Always &go to the root of a drive when changing drives"
 msgstr "Завжди переходити в &корінь диску при зміні дисків"
+
+#: tfrmoptionsmisc.chkshowcurdirtitlebar.caption
+msgid "Show &current directory in the main window title bar"
+msgstr ""
 
 #: tfrmoptionsmisc.chkshowwarningmessages.caption
 msgctxt "tfrmoptionsmisc.chkshowwarningmessages.caption"
@@ -12061,6 +12073,10 @@ msgstr "Введіть розташування і ім'я файлу, куди 
 #: ulng.rsmsgterminateprocess
 msgid "WARNING: Terminating a process can cause undesired results including loss of data and system instability. The process will not be given the chance to save its state or data before it is terminated. Are you sure you want to terminate the process?"
 msgstr "УВАГА! Завершення процесу може привести до небажаних результатів, в тому числі до втрати даних або до нестабільної роботи системи. Ви дійсно хочете завершити процес?"
+
+#: ulng.rsmsgtestarchive
+msgid "Do you want to test selected archives?"
+msgstr ""
 
 #: ulng.rsmsgthisisnowinclipboard
 msgid "\"%s\" is now in the clipboard"

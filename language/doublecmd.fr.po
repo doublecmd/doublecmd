@@ -2239,6 +2239,10 @@ msgid "Directory &Hotlist"
 msgstr "Dossiers &favoris"
 
 #: tfrmmain.actdoanycmcommand.caption
+msgid "Execute &internal command..."
+msgstr ""
+
+#: tfrmmain.actdoanycmcommand.hint
 msgid "Select any command and execute it"
 msgstr "Choisissez n'importe quelle commande et l'exécuter"
 
@@ -5933,6 +5937,10 @@ msgctxt "TFRMOPTIONSFILEOPERATIONS.CBSKIPFILEOPERROR.CAPTION"
 msgid "S&kip file operations errors and write them to log window"
 msgstr "Continuer en cas d'erreurs lors des opérations et les afficher dans la fenêtre du journal"
 
+#: tfrmoptionsfileoperations.cbtestarchiveconfirmation.caption
+msgid "Test archive operation"
+msgstr ""
+
 #: tfrmoptionsfileoperations.cbverifychecksumconfirmation.caption
 msgid "Verify checksum operation"
 msgstr "Vérifier la somme de contrôle"
@@ -6843,6 +6851,10 @@ msgstr "Créer de nouveaux avec le codage :"
 #: tfrmoptionsmisc.chkgotoroot.caption
 msgid "Always &go to the root of a drive when changing drives"
 msgstr "Toujours aller à la racine du lecteur lorsqu'on change de lecteur"
+
+#: tfrmoptionsmisc.chkshowcurdirtitlebar.caption
+msgid "Show &current directory in the main window title bar"
+msgstr ""
 
 #: tfrmoptionsmisc.chkshowwarningmessages.caption
 msgctxt "tfrmoptionsmisc.chkshowwarningmessages.caption"
@@ -11995,6 +12007,10 @@ msgstr "Entrez l'emplacement et le nom de fichier pour la barre d'outil TC à sa
 #: ulng.rsmsgterminateprocess
 msgid "WARNING: Terminating a process can cause undesired results including loss of data and system instability. The process will not be given the chance to save its state or data before it is terminated. Are you sure you want to terminate the process?"
 msgstr "AVERTISSEMENT: la fin d'un processus peut entraîner des résultats indésirables, notamment une perte de données et une instabilité du système. Le processus n'aura pas la possibilité de sauvegarder son état ou ses données avant qu'il ne soit terminé. Êtes-vous sûr de vouloir mettre fin au processus?"
+
+#: ulng.rsmsgtestarchive
+msgid "Do you want to test selected archives?"
+msgstr ""
 
 #: ulng.rsmsgthisisnowinclipboard
 msgid "\"%s\" is now in the clipboard"

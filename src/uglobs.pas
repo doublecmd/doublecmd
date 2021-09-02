@@ -89,7 +89,7 @@ type
   { How initially progress is shown for file operations }
   TFileOperationsProgressKind = (fopkSeparateWindow, fopkSeparateWindowMinimized, fopkOperationsPanel);
   { Operations with confirmation }
-  TFileOperationsConfirmation = (focCopy, focMove, focDelete, focDeleteToTrash, focVerifyChecksum);
+  TFileOperationsConfirmation = (focCopy, focMove, focDelete, focDeleteToTrash, focVerifyChecksum, focTestArchive);
   TFileOperationsConfirmations = set of TFileOperationsConfirmation;
 
   { Multi-Rename }
@@ -550,6 +550,7 @@ var
   gInplaceRenameButton,
   gDblClickToParent,
   gGoToRoot: Boolean;
+  gShowCurDirTitleBar: Boolean;
   gActiveRight: Boolean;
   gShowToolTip: Boolean;
   gShowToolTipMode: TToolTipMode;
@@ -2063,6 +2064,7 @@ begin
 
   { - Other - }
   gGoToRoot := False;
+  gShowCurDirTitleBar := True;
   gLuaLib := LuaDLL;
   gActiveRight := False;
   gNameSCFile := 'shortcuts.scf';
@@ -2495,6 +2497,7 @@ begin
     if Assigned(Node) then
     begin
       gGoToRoot := GetValue(Node, 'GoToRoot', gGoToRoot);
+      gShowCurDirTitleBar := GetValue(Node, 'ShowCurDirTitleBar', gShowCurDirTitleBar);
       gActiveRight := GetValue(Node, 'ActiveRight', gActiveRight);
 
       //Trick to split initial legacy command for terminal
@@ -3302,6 +3305,7 @@ begin
     Node := FindNode(Root, 'Behaviours', True);
     ClearNode(Node);
     SetValue(Node, 'GoToRoot', gGoToRoot);
+    SetValue(Node, 'ShowCurDirTitleBar', gShowCurDirTitleBar);
     SetValue(Node, 'ActiveRight', gActiveRight);
     SetValue(Node, 'RunInTerminalStayOpenCmd', gRunInTermStayOpenCmd);
     SetValue(Node, 'RunInTerminalStayOpenParams', gRunInTermStayOpenParams);

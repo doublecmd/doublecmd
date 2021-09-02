@@ -17,7 +17,7 @@ uses
 {$IF DEFINED(MSWINDOWS)}
   , Types, Windows, DCOSUtils, ShellApi, uMyWindows
 {$ELSEIF DEFINED(UNIX)}
-  , Unix, BaseUnix, DCUnix
+  , Classes, Unix, BaseUnix, DCUnix, Dialogs, SyncObjs, Process, un_process
   {$IF DEFINED(DARWIN)}
   , DCStrUtils
   {$ENDIF}
@@ -74,6 +74,40 @@ end;
 
 {$IF DEFINED(UNIX)}
 
+const
+  SYS_PATH: array[0..1] of String = ('/usr/bin/', '/usr/local/bin/');
+
+resourcestring
+  rsMsgPasswordEnter = 'Please enter the password:';
+
+type
+  TSuperProgram = (spNone, spSudo, spPkexec);
+
+  { TSuperUser }
+
+  TSuperUser = class(TThread)
+  private
+    FPrompt: String;
+    FCtl: TExProcess;
+    FMessage: String;
+    FArgs: TStringArray;
+    FEvent: TSimpleEvent;
+  private
+    procedure Ready;
+    procedure RequestPassword;
+    procedure OnReadLn(Str: String);
+    procedure OnQueryString(Str: String);
+  protected
+    procedure Execute; override;
+  public
+    constructor Create(Args: TStringArray; const StartPath: String);
+    destructor Destroy; override;
+  end;
+
+var
+  SuperExe: String;
+  SuperProgram: TSuperProgram;
+
 function ExecuteCommand(Command: String; Args: TStringArray; StartPath: String): UIntPtr;
 var
   ProcessId : TPid;
@@ -104,6 +138,105 @@ begin
     Result := 0
   else
     Result := ProcessId;
+end;
+
+function FindExecutable(const FileName: String; out FullName: String): Boolean;
+var
+  Index: Integer;
+begin
+  for Index:= Low(SYS_PATH) to High(SYS_PATH) do
+  begin
+    FullName:= SYS_PATH[Index] + FileName;
+    if fpAccess(FullName, X_OK) = 0 then
+      Exit(True);
+  end;
+  Result:= False;
+end;
+
+function ExecuteSudo(Args: TStringArray; const StartPath: String): UIntPtr;
+begin
+  with TSuperUser.Create(Args, StartPath) do
+  begin
+    Start;
+    FEvent.WaitFor(INFINITE);
+    Result:= FCtl.Process.ProcessHandle;
+  end;
+end;
+
+{ TSuperUser }
+
+procedure TSuperUser.Ready;
+begin
+  FEvent.SetEvent;
+  Yield;
+  FreeOnTerminate:= True;
+  FCtl.OnOperationProgress:= nil;
+end;
+
+procedure TSuperUser.RequestPassword;
+var
+  S: String = '';
+begin
+  if Length(FMessage) = 0 then begin
+    FMessage:= rsMsgPasswordEnter
+  end;
+  if not InputQuery('Double Commander', FMessage, True, S) then
+    FCtl.Stop
+  else begin
+    S:= S + LineEnding;
+    FCtl.Process.Input.Write(S[1], Length(S));
+  end;
+  FMessage:= EmptyStr;
+end;
+
+procedure TSuperUser.OnReadLn(Str: String);
+begin
+  FMessage:= Str;
+end;
+
+procedure TSuperUser.OnQueryString(Str: String);
+begin
+  Synchronize(@RequestPassword)
+end;
+
+procedure TSuperUser.Execute;
+var
+  GUID : TGUID;
+  Index: Integer;
+begin
+  CreateGUID(GUID);
+  FPrompt:= GUIDToString(GUID);
+  FCtl.Process.Options:= FCtl.Process.Options + [poStderrToOutPut];
+  FCtl.Process.Executable:= SuperExe;
+  FCtl.Process.Parameters.Add('-S');
+  FCtl.Process.Parameters.Add('-k');
+  FCtl.Process.Parameters.Add('-p');
+  FCtl.Process.Parameters.Add(FPrompt);
+  for Index:= 0 to High(FArgs) do begin
+    FCtl.Process.Parameters.Add(FArgs[Index]);
+  end;
+  FCtl.QueryString:= FPrompt;
+  FCtl.OnQueryString:= @OnQueryString;
+  FCtl.OnOperationProgress:= @Ready;
+  fCtl.OnProcessExit:= @Ready;
+  FCtl.OnReadLn:= @OnReadLn;
+  FCtl.Execute;
+end;
+
+constructor TSuperUser.Create(Args: TStringArray; const StartPath: String);
+begin
+  inherited Create(True);
+  FCtl:= TExProcess.Create(EmptyStr);
+  FCtl.Process.CurrentDirectory:= StartPath;
+  FEvent:= TSimpleEvent.Create;
+  FArgs:= Args;
+end;
+
+destructor TSuperUser.Destroy;
+begin
+  inherited Destroy;
+  FEvent.Free;
+  FCtl.Free;
 end;
 
 {$ELSEIF DEFINED(MSWINDOWS)}
@@ -176,13 +309,28 @@ begin
     AParams[Index + 1]:= Args[Index];
   AParams[0] := Exe;
 
-  Result:= ExecuteCommand('/usr/bin/pkexec', AParams, sStartPath);
+  case SuperProgram of
+    spSudo:   Result:= ExecuteSudo(AParams, sStartPath);
+    spPkexec: Result:= ExecuteCommand(SuperExe, AParams, sStartPath);
+  end;
 end;
 {$ENDIF}
 
 initialization
-{$IF DEFINED(UNIX)}
-  FAdministratorPrivileges:= {$IFDEF DARWIN}True{$ELSE}(fpGetUID = 0){$ENDIF};
+{$IF DEFINED(DARWIN)}
+  FAdministratorPrivileges:= True;
+{$ELSEIF DEFINED(UNIX)}
+  {$IFDEF LINUX}
+  if FindExecutable('pkexec', SuperExe) then
+    SuperProgram:= spPkexec
+  else
+  {$ENDIF}
+  if FindExecutable('sudo', SuperExe) then
+    SuperProgram:= spSudo
+  else begin
+    SuperProgram:= spNone;
+  end;
+  FAdministratorPrivileges:= (fpGetUID = 0) or (SuperProgram = spNone);
 {$ELSE}
   FAdministratorPrivileges:= (IsUserAdmin <> dupError);
 {$ENDIF}

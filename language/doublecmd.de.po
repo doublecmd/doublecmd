@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Double Commander 1.0.0 alpha\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-12-20 12:40+0300\n"
-"PO-Revision-Date: 2021-03-20 12:58+0100\n"
+"PO-Revision-Date: 2021-08-22 15:10+0200\n"
 "Last-Translator: ㋡ <braass@mail.de>\n"
 "Language-Team: Deutsch <braass@mail.de>\n"
 "MIME-Version: 1.0\n"
@@ -12,7 +12,7 @@ msgstr ""
 "X-Native-Language: Deutsch\n"
 "Language: de\n"
 "X-Generator: Poedit 2.3\n"
-"X-Poedit-Bookmarks: -1,2493,-1,-1,-1,-1,-1,-1,-1,-1\n"
+"X-Poedit-Bookmarks: -1,3123,-1,-1,-1,-1,-1,-1,-1,-1\n"
 
 #: fsyncdirsdlg.rscomparingpercent
 msgid "Comparing... %d%% (ESC to cancel)"
@@ -20,23 +20,23 @@ msgstr "Vergleichen ... %d%% (ESC zum Abbrechen)"
 
 #: fsyncdirsdlg.rsdeleteleft
 msgid "Left: Delete %d file(s)"
-msgstr "Links: %d Dateie(en) löschen"
+msgstr "Links: %d Datei(en) löschen"
 
 #: fsyncdirsdlg.rsdeleteright
 msgid "Right: Delete %d file(s)"
-msgstr "Rechts: %d Dateie(en) löschen"
+msgstr "Rechts: %d Datei(en) löschen"
 
 #: fsyncdirsdlg.rsfilesfound
 msgid "Files found: %d  (Identical: %d, Different: %d, Unique left: %d, Unique right: %d)"
-msgstr "Dateien gefunden: %d (Identisch: %d, Unterschiedlich: %d, Nur links: %d, Nur rechts: %d)"
+msgstr "Dateien gefunden: %d  (Identisch: %d, Unterschiedlich: %d, Nur links: %d, Nur rechts: %d)"
 
 #: fsyncdirsdlg.rslefttorightcopy
 msgid "Left to Right: Copy %d files, total size: %s (%s)"
-msgstr "Von links nach rechts: Kopiere %d Dateien, Gesamtgröße: %s (%s)"
+msgstr "Von links nach rechts: %d Dateien kopieren, Gesamtgröße: %s (%s)"
 
 #: fsyncdirsdlg.rsrighttoleftcopy
 msgid "Right to Left: Copy %d files, total size: %s (%s)"
-msgstr "Von rechts nach links: Kopiere %d Dateien, Gesamtgröße: %s (%s)"
+msgstr "Von rechts nach links: %d Dateien kopieren, Gesamtgröße: %s (%s)"
 
 #: tfilesystemcopymoveoperationoptionsui.btnsearchtemplate.hint
 msgid "Choose template..."
@@ -86,7 +86,7 @@ msgstr "Speicherplatz &reservieren"
 
 #: tfilesystemcopymoveoperationoptionsui.chkcopyonwrite.caption
 msgid "Copy on write"
-msgstr ""
+msgstr "Copy-On-Write"
 
 #: tfilesystemcopymoveoperationoptionsui.chkverify.caption
 msgid "&Verify"
@@ -139,7 +139,7 @@ msgstr "Build"
 #: tfrmabout.lblcommit.caption
 msgctxt "tfrmabout.lblcommit.caption"
 msgid "Commit"
-msgstr ""
+msgstr "Übertragen"
 
 #: tfrmabout.lblfreepascalver.caption
 msgctxt "tfrmabout.lblfreepascalver.caption"
@@ -237,7 +237,7 @@ msgstr "SUID"
 
 #: tfrmattributesedit.cbsymlink.caption
 msgid "&Symlink"
-msgstr "&Symbolischer Link"
+msgstr "&Symlink"
 
 #: tfrmattributesedit.cbsystem.caption
 msgctxt "TFRMATTRIBUTESEDIT.CBSYSTEM.CAPTION"
@@ -326,7 +326,7 @@ msgstr "Prüfsummen-Datei öffnen, nachdem der Job beendet ist"
 
 #: tfrmchecksumcalc.cbseparatefile.caption
 msgid "C&reate separate checksum file for each file"
-msgstr "Fü&r jede Datei eigene Prüfdatei erstellen"
+msgstr "Einzelne Prüfsumme fü&r jede Datei erstellen"
 
 #: tfrmchecksumcalc.lblsaveto.caption
 msgid "&Save checksum file(s) to:"
@@ -372,7 +372,7 @@ msgstr "Verbindungsmanager"
 
 #: tfrmconnectionmanager.gbconnectto.caption
 msgid "Connect to:"
-msgstr "Verbinde mit:"
+msgstr "Verbinden mit:"
 
 #: tfrmcopydlg.btnaddtoqueue.caption
 msgid "A&dd To Queue"
@@ -442,7 +442,7 @@ msgstr "&OK"
 
 #: tfrmdescredit.caption
 msgid "File/folder comment"
-msgstr "Datei-/Ordnerkommentar"
+msgstr "Kommentar zu Datei/Verzeichnis"
 
 #: tfrmdescredit.lbleditcommentfor.caption
 msgid "E&dit comment for:"
@@ -830,17 +830,17 @@ msgstr "Suchen"
 #: tfrmeditor.acteditfindnext.caption
 msgctxt "tfrmeditor.acteditfindnext.caption"
 msgid "Find next"
-msgstr "Finde nächste"
+msgstr "Nächste suchen"
 
 #: tfrmeditor.acteditfindnext.hint
 msgctxt "tfrmeditor.acteditfindnext.hint"
 msgid "Find next"
-msgstr "Finde nächste"
+msgstr "Nächste suchen"
 
 #: tfrmeditor.acteditfindprevious.caption
 msgctxt "tfrmeditor.acteditfindprevious.caption"
 msgid "Find previous"
-msgstr "Finde vorige"
+msgstr "Vorige suchen"
 
 #: tfrmeditor.acteditgotoline.caption
 msgctxt "tfrmeditor.acteditgotoline.caption"
@@ -1104,7 +1104,7 @@ msgstr "*.*"
 
 #: tfrmextractdlg.cbinseparatefolder.caption
 msgid "Unpack each archive to a &separate subdir (name of the archive)"
-msgstr "Jedes Archiv in &separaten Ordner entpacken (mit Namen des Archivs)"
+msgstr "Jedes Archiv in &separatem Unterverzeichnis entpacken (mit Namen des Archivs)"
 
 #: tfrmextractdlg.cboverwrite.caption
 msgid "O&verwrite existing files"
@@ -1156,7 +1156,7 @@ msgstr "&In Dateifenster"
 
 #: tfrmfileop.btnviewoperations.caption
 msgid "&View all"
-msgstr "&Alle betrachten"
+msgstr "&Alle anzeigen"
 
 #: tfrmfileop.lblcurrentoperation.caption
 msgid "Current operation:"
@@ -1182,7 +1182,7 @@ msgstr "Eigen&schaften einstellen"
 
 #: tfrmfileproperties.btnsetpropertiestoallfiles.caption
 msgid "Set to &all selected files"
-msgstr "&Auf gewählte Dateien anwenden"
+msgstr "&Auf alle gewählten Dateien anwenden"
 
 #: tfrmfileproperties.btnskipfile.caption
 msgid "Ski&p this file"
@@ -1431,7 +1431,7 @@ msgstr "Zu Datei &gehen"
 #: tfrmfinddlg.actintellifocus.caption
 msgctxt "tfrmfinddlg.actintellifocus.caption"
 msgid "Find Data"
-msgstr "Finde Daten"
+msgstr "In Dateien suchen"
 
 #: tfrmfinddlg.actlastsearch.caption
 msgid "&Last search"
@@ -1455,7 +1455,7 @@ msgstr "Zur \"Laden/Speichern\"-Seite gehen"
 
 #: tfrmfinddlg.actpagenext.caption
 msgid "Switch to Nex&t Page"
-msgstr "Wechsel zur nächsten Seite"
+msgstr "Zur nächsten Seite wechseln"
 
 #: tfrmfinddlg.actpageplugins.caption
 msgid "Go to page \"Plugins\""
@@ -1463,7 +1463,7 @@ msgstr "Zur \"Plugins\"-Seite gehen"
 
 #: tfrmfinddlg.actpageprev.caption
 msgid "Switch to &Previous Page"
-msgstr "Wechsel zur vorigen Seite"
+msgstr "Zur vorigen Seite wechseln"
 
 #: tfrmfinddlg.actpageresults.caption
 msgid "Go to page \"Results\""
@@ -1572,7 +1572,7 @@ msgstr "Nicht &älter als:"
 
 #: tfrmfinddlg.cbofficexml.caption
 msgid "Offi&ce XML"
-msgstr ""
+msgstr "Office-XML"
 
 #: tfrmfinddlg.cbopenedtabs.caption
 msgid "Opened tabs"
@@ -1713,7 +1713,7 @@ msgstr "Unter&verzeichnisse durchsuchen:"
 
 #: tfrmfinddlg.lbltemplateheader.caption
 msgid "&Previous searches:"
-msgstr "&Vorige Suche(n)"
+msgstr "&Vorige Suche(n):"
 
 #: tfrmfinddlg.miaction.caption
 msgid "&Action"
@@ -2196,6 +2196,10 @@ msgid "Directory &Hotlist"
 msgstr "Verzeichnisliste ⎈"
 
 #: tfrmmain.actdoanycmcommand.caption
+msgid "Execute &internal command..."
+msgstr "Internen Befehl ausführen ..."
+
+#: tfrmmain.actdoanycmcommand.hint
 msgid "Select any command and execute it"
 msgstr "Einen Befehl wählen und ausführen"
 
@@ -2251,11 +2255,11 @@ msgstr "Datei aufteilen ..."
 
 #: tfrmmain.actflatview.caption
 msgid "&Flat view"
-msgstr "\"&Flache\" Ansicht  (ESC zum Abbrechen)"
+msgstr "\"&Flache\" Darstellung  (ESC zum Abbrechen)"
 
 #: tfrmmain.actflatviewsel.caption
 msgid "&Flat view, only selected"
-msgstr "Flache Darstellung, nur gewählte"
+msgstr "\"Flache\" Darstellung, nur gewählte"
 
 #: tfrmmain.actfocuscmdline.caption
 msgid "Focus command line"
@@ -2331,7 +2335,7 @@ msgstr "Links wie Rechts"
 
 #: tfrmmain.actleftflatview.caption
 msgid "&Flat view on left panel"
-msgstr "&Flache Ansicht im linken Dateifenster"
+msgstr "\"&Flache\" Darstellung im linken Dateifenster"
 
 #: tfrmmain.actleftopendrives.caption
 msgid "Open left drive list"
@@ -2339,7 +2343,7 @@ msgstr "&Linke Laufwerksliste öffnen"
 
 #: tfrmmain.actleftreverseorder.caption
 msgid "Re&verse order on left panel"
-msgstr "Umgekehrte Reihenfolge im linken Dateifenster"
+msgstr "Reihenfolge im linken Dateifenster umkehren"
 
 #: tfrmmain.actleftsortbyattr.caption
 msgid "Sort left panel by &Attributes"
@@ -2460,7 +2464,7 @@ msgstr "Öffnen"
 
 #: tfrmmain.actopenarchive.caption
 msgid "Try open archive"
-msgstr "Versuche Archiv zu öffnen"
+msgstr "Öffnen des Archivs versuchen"
 
 #: tfrmmain.actopenbar.caption
 msgid "Open bar file"
@@ -2571,7 +2575,7 @@ msgstr "Rechts wie Links"
 
 #: tfrmmain.actrightflatview.caption
 msgid "&Flat view on right panel"
-msgstr "&Flache Ansicht im rechten Dateifenster"
+msgstr "\"&Flache\" Darstellung im rechten Dateifenster"
 
 #: tfrmmain.actrightopendrives.caption
 msgid "Open right drive list"
@@ -2579,7 +2583,7 @@ msgstr "Rechte Laufwerksliste öffnen"
 
 #: tfrmmain.actrightreverseorder.caption
 msgid "Re&verse order on right panel"
-msgstr "Umgekehrte Anordnung im rechten Dateifenster"
+msgstr "Reihenfolge im rechten Dateifenster umkehren"
 
 #: tfrmmain.actrightsortbyattr.caption
 msgid "Sort right panel by &Attributes"
@@ -2733,7 +2737,7 @@ msgstr "Synchrone Navigation"
 
 #: tfrmmain.actsyncchangedir.hint
 msgid "Synchronous directory changing in both panels"
-msgstr "Synchroner Verzeichniswechsel in beiden Dateifenstern"
+msgstr "Verzeichniswechsel synchron in beiden Dateifenstern"
 
 #: tfrmmain.actsyncdirs.caption
 msgid "Syn&chronize dirs..."
@@ -2762,11 +2766,11 @@ msgstr "Vollbild-Modus der Befehlszeile ein- und ausschalten"
 
 #: tfrmmain.acttransferleft.caption
 msgid "Transfer dir under cursor to left window"
-msgstr "Markierten &Ordner in das linke Fenster bewegen"
+msgstr "Markiertes Verzeichnis in das linke Fenster bewegen"
 
 #: tfrmmain.acttransferright.caption
 msgid "Transfer dir under cursor to right window"
-msgstr "&Markierten Ordner in das rechte Fenster bewegen"
+msgstr "&Markiertes Verzeichnis in das rechte Fenster bewegen"
 
 #: tfrmmain.acttreeview.caption
 msgid "&Tree View Panel"
@@ -3136,7 +3140,7 @@ msgstr "Klassisch sortiert"
 
 #: tfrmmaincommandsdlg.cbselectallcategorydefault.caption
 msgid "Select all categories by default"
-msgstr "Standardeinstellung ist alle Kategorien wählen"
+msgstr "Automatisch alle Kategorien auswählen"
 
 #: tfrmmaincommandsdlg.gbselection.caption
 msgid "Selection:"
@@ -3304,7 +3308,7 @@ msgstr "5"
 
 #: tfrmmodview.lblquality.caption
 msgid "Quality of compress to Jpg"
-msgstr "Kompressions-Qualität für Jpg"
+msgstr "Kompressions-Qualität für JPG"
 
 #: tfrmmodview.lblwidth.caption
 msgid "Width :"
@@ -3569,7 +3573,7 @@ msgstr "&Reguläre Ausdrücke"
 
 #: tfrmmultirename.cbusesubs.caption
 msgid "&Use substitution"
-msgstr "N&utze Ersetzung"
+msgstr "Ersetzung n&utzen"
 
 #: tfrmmultirename.cmbxwidth.text
 msgid "01"
@@ -3739,7 +3743,7 @@ msgstr "Optionen"
 
 #: tfrmoptions.lblemptyeditor.caption
 msgid "Please select one of the subpages, this page does not contain any settings."
-msgstr "Bitte eine der Unterseiten wählen, diese Seite hier enthält keine Einstellmöglichkeiten."
+msgstr "Bitte eine der Unterseiten wählen, diese Seite enthält keine Einstellmöglichkeiten."
 
 #: tfrmoptionsarchivers.btnarchiveradd.caption
 msgctxt "tfrmoptionsarchivers.btnarchiveradd.caption"
@@ -3872,7 +3876,7 @@ msgstr "Arc&hivierer:"
 
 #: tfrmoptionsarchivers.lblarchiverdelete.caption
 msgid "De&lete:"
-msgstr "Lösche:"
+msgstr "Löschen:"
 
 #: tfrmoptionsarchivers.lblarchiverdescription.caption
 msgctxt "tfrmoptionsarchivers.lblarchiverdescription.caption"
@@ -3939,7 +3943,7 @@ msgstr "Selbstentpackendes Archiv (Sfx) erstellen:"
 
 #: tfrmoptionsarchivers.lblarchivertest.caption
 msgid "Tes&t:"
-msgstr "Teste:"
+msgstr "Testen:"
 
 #: tfrmoptionsarchivers.miarchiverautoconfigure.caption
 msgid "Auto Configure"
@@ -4025,7 +4029,7 @@ msgstr "Nur eine einzelne Instanz von Doub&le Commander erlauben"
 
 #: tfrmoptionsbehavior.edtdrivesblacklist.hint
 msgid "Here you can enter one or more drives or mount points, separated by \";\"."
-msgstr "Hier können ein oder mehrere Laufwerke oder Mount_Points angegeben werden, die so getrennt werden müssen \";\"."
+msgstr "Hier können ein oder mehrere Laufwerke oder Mount_Points angegeben werden, die mit \";\" getrennt werden müssen."
 
 #: tfrmoptionsbehavior.lbldrivesblacklist.caption
 msgid "Drives &blacklist"
@@ -5067,7 +5071,7 @@ msgstr "Wenn Text im Dateifenster abgelegt wird:"
 
 #: tfrmoptionsdragdrop.lblmostdesiredtextformat1.caption
 msgid "Place the most desired format on top of list (use dag && drop):"
-msgstr "Das wahrscheinlichste Format an oberste Stelle setzen (Nutze Drag && Drop):"
+msgstr "Das wahrscheinlichste Format an oberste Stelle setzen (ziehen und ablegen):"
 
 #: tfrmoptionsdragdrop.lblmostdesiredtextformat2.caption
 msgid "(if the most desired is not present, we'll take second one and so on)"
@@ -5075,7 +5079,7 @@ msgstr "(ist das gewünschte nicht verfügbar, nächstes verwenden, und so weite
 
 #: tfrmoptionsdragdrop.lblwarningforaskformat.caption
 msgid "(will not work with some source application, so try to uncheck if problem)"
-msgstr "(wird mit einigen Quellen nicht funktionieren, bitte in diesem Fall versuchen das Problem durch Nicht-Markieren zu lösen)"
+msgstr "(wird mit einigen Quellen nicht funktionieren, bitte in dem Fall versuchsweise einzelne abwählen)"
 
 #: tfrmoptionsdriveslistbutton.cbshowfilesystem.caption
 msgid "Show &file system"
@@ -5778,7 +5782,7 @@ msgstr "In Terminalemulation ausführen und beenden"
 #: tfrmoptionsfileassocextra.cbopensystemwithterminalstayopen.caption
 msgctxt "tfrmoptionsfileassocextra.cbopensystemwithterminalstayopen.caption"
 msgid "Execute via terminal and stay open"
-msgstr "In Terminalemulation ausführen und offen bleiben"
+msgstr "In Terminalemulation ausführen und bereit bleiben"
 
 #: tfrmoptionsfileassocextra.ckbfileassoccommand.caption
 msgctxt "tfrmoptionsfileassocextra.ckbfileassoccommand.caption"
@@ -5869,6 +5873,10 @@ msgstr "Auswahldialog für Tabs im Kopieren/Verschieben-Dialog an&zeigen"
 msgctxt "TFRMOPTIONSFILEOPERATIONS.CBSKIPFILEOPERROR.CAPTION"
 msgid "S&kip file operations errors and write them to log window"
 msgstr "&Fehler bei Datei-Operationen ignorieren und sie im Log-Fenster anzeigen"
+
+#: tfrmoptionsfileoperations.cbtestarchiveconfirmation.caption
+msgid "Test archive operation"
+msgstr "Packvorgang testen"
 
 #: tfrmoptionsfileoperations.cbverifychecksumconfirmation.caption
 msgid "Verify checksum operation"
@@ -6452,7 +6460,7 @@ msgstr "Icons in Tastflächen anzeigen"
 #: tfrmoptionsicons.cbiconsshowoverlay.caption
 msgctxt "TFRMOPTIONSICONS.CBICONSSHOWOVERLAY.CAPTION"
 msgid "Show o&verlay icons, e.g. for links"
-msgstr "&Überlagernde Icons zeigen (z.B. Pfeile bei Links)"
+msgstr "&Überlagerte Icons zeigen (z.B. Pfeile bei Links)"
 
 #: tfrmoptionsicons.chkshowhiddendimmed.caption
 msgid "&Dimmed hidden files (slower)"
@@ -6460,7 +6468,7 @@ msgstr "Versteckte Dateien blasser anzeigen (verlangsamt schwache Systeme)"
 
 #: tfrmoptionsicons.gbdisablespecialicons.caption
 msgid "Disable special icons"
-msgstr "Keine speziellen Symbole"
+msgstr "Keine speziellen Icons"
 
 #: tfrmoptionsicons.gbiconssize.caption
 msgctxt "TFRMOPTIONSICONS.GBICONSSIZE.CAPTION"
@@ -6775,6 +6783,10 @@ msgstr "Neu erstellen mit der Kodierung:"
 msgid "Always &go to the root of a drive when changing drives"
 msgstr "Bei Wechsel des Laufwerks/Mediums immer zum Stammverzeichnis wechseln (letzte Position 'vergessen')"
 
+#: tfrmoptionsmisc.chkshowcurdirtitlebar.caption
+msgid "Show &current directory in the main window title bar"
+msgstr "Aktuelles Verzeichnis in der Titelleiste anzeigen"
+
 #: tfrmoptionsmisc.chkshowwarningmessages.caption
 msgid "Show &warning messages (\"OK\" button only)"
 msgstr "&Warnungen anzeigen (quittieren mit \"OK\"-Taste)"
@@ -6835,7 +6847,7 @@ msgstr "und der Textcursor folgt nicht mehr dem Mauszeiger"
 
 #: tfrmoptionsmouse.chkmouseselectioniconclick.caption
 msgid "By clic&king on icon"
-msgstr "auch durch Klicken auf Icon des Elements"
+msgstr "auch durch klicken auf das Icon des Elements"
 
 #: tfrmoptionsmouse.gbopenwith.caption
 msgctxt "tfrmoptionsmouse.gbopenwith.caption"
@@ -8818,7 +8830,7 @@ msgstr "Build"
 #: tfrmstartingsplash.lblcommit.caption
 msgctxt "tfrmstartingsplash.lblcommit.caption"
 msgid "Commit"
-msgstr ""
+msgstr "Übertragen"
 
 #: tfrmstartingsplash.lblfreepascalver.caption
 msgctxt "tfrmstartingsplash.lblfreepascalver.caption"
@@ -8836,7 +8848,7 @@ msgstr "Betriebssystem"
 
 #: tfrmstartingsplash.lblplatform.caption
 msgid "Platform"
-msgstr "Maschinen-Typ"
+msgstr "Plattform"
 
 #: tfrmstartingsplash.lblrevision.caption
 msgctxt "tfrmstartingsplash.lblrevision.caption"
@@ -9085,7 +9097,7 @@ msgstr "Favorit wählen:"
 
 #: tfrmtreeviewmenu.pmicasesensitive.caption
 msgid "Search is case sensitive"
-msgstr "Suche beachtet Groß-/Kleinschreibung"
+msgstr "Groß-/Kleinschreibung bei Suche beachten"
 
 #: tfrmtreeviewmenu.pmifullcollapse.caption
 msgid "Full collapse"
@@ -9101,7 +9113,7 @@ msgstr "Akzente und Ligaturen bei Suche ignorieren"
 
 #: tfrmtreeviewmenu.pminotcasesensitive.caption
 msgid "Search is not case sensitive"
-msgstr "Suche beachtet Groß-/Kleinschreibung nicht"
+msgstr "Groß-/Kleinschreibung bei Suche ignorieren"
 
 #: tfrmtreeviewmenu.pminotignoreaccents.caption
 msgid "Search is strict regarding accents and ligatures"
@@ -10084,7 +10096,7 @@ msgstr " Fügt hinzu: "
 
 #: ulng.rsdiffcomparing
 msgid "Comparing..."
-msgstr ""
+msgstr "Vergleichen ..."
 
 #: ulng.rsdiffdeletes
 msgid " Deletes: "
@@ -10096,31 +10108,32 @@ msgstr "Die beiden Dateien sind identisch!"
 
 #: ulng.rsdiffmatches
 msgid " Matches: "
-msgstr " Entspricht: "
+msgstr " Passend: "
 
 #: ulng.rsdiffmodifies
 msgid " Modifies: "
 msgstr " Verändert: "
 
 #: ulng.rsdifftextdifferenceencoding
-#, fuzzy
 msgctxt "ulng.rsdifftextdifferenceencoding"
 msgid "Encoding"
 msgstr "Kodierung"
 
 #: ulng.rsdifftextdifferencelineending
 msgid "Line-endings"
-msgstr ""
+msgstr "Zeilenumbruch"
 
 #: ulng.rsdifftextidentical
 msgid "The text is identical, but the following options are used:"
-msgstr ""
+msgstr "Der Text ist identisch, es werden aber folgende Optionen verwendet:"
 
 #: ulng.rsdifftextidenticalnotmatch
 msgid ""
 "The text is identical, but the files do not match!\n"
 "The following differences were found:\n"
 msgstr ""
+"Der Text ist identisch, aber die Dateien sind nicht gleich!\n"
+"Folgende Unterschiede wurden gefunden:\n"
 
 #: ulng.rsdlgbuttonabort
 msgid "Ab&ort"
@@ -10317,7 +10330,7 @@ msgstr "Datei öffnen"
 
 #: ulng.rseditsearchback
 msgid "&Backward"
-msgstr "&Zurück"
+msgstr "&Rückwärts"
 
 #: ulng.rseditsearchcaption
 msgctxt "ulng.rseditsearchcaption"
@@ -10358,7 +10371,7 @@ msgstr "In der Terminalemulation ausführen und offen bleiben"
 
 #: ulng.rsextsclosedbracketnofound
 msgid "\"]\" not found in line %s"
-msgstr "\"]\" in Zeile %s nicht gefunden"
+msgstr "\"]\" nicht gefunden in Zeile %s"
 
 #: ulng.rsextscommandwithnoext
 msgid "No extension defined before command \"%s\". It will be ignored."
@@ -10952,11 +10965,11 @@ msgstr "Zurückkopieren nicht möglich - soll die veränderte Datei behalten wer
 
 #: ulng.rsmsgcpfldr
 msgid "Copy %d selected files/directories?"
-msgstr "%d markierte Datei(en)/Verzeichnis(se) kopieren?"
+msgstr "Diese %d Dateien/Verzeichnisse kopieren?"
 
 #: ulng.rsmsgcpsel
 msgid "Copy selected \"%s\"?"
-msgstr "Markierte \"%s\" kopieren?"
+msgstr "\"%s\" kopieren?"
 
 #: ulng.rsmsgcreateanewfiletype
 msgid "< Create a new file type \"%s files\" >"
@@ -10972,27 +10985,27 @@ msgstr "Benutzerdefinierte Aktion"
 
 #: ulng.rsmsgdeletepartiallycopied
 msgid "Delete the partially copied file ?"
-msgstr "Teilweise kopierte Datei löschen?"
+msgstr "Die teilweise kopierte Datei löschen?"
 
 #: ulng.rsmsgdelfldr
 msgid "Delete %d selected files/directories?"
-msgstr "%d gewählte Dateien/Verzeichnissen löschen?"
+msgstr "⚠  Diese %d Dateien/Verzeichnisse endgültig löschen?"
 
 #: ulng.rsmsgdelfldrt
 msgid "Delete %d selected files/directories into trash can?"
-msgstr "%d markierte Dateien/Verzeichnisse in den Papierkorb verschieben?"
+msgstr "Diese %d Dateien/Verzeichnisse in den Papierkorb verschieben?"
 
 #: ulng.rsmsgdelsel
 msgid "Delete selected \"%s\"?"
-msgstr "Markierte \"%s\" löschen?"
+msgstr "⚠  \"%s\" endgültig löschen?"
 
 #: ulng.rsmsgdelselt
 msgid "Delete selected \"%s\" into trash can?"
-msgstr "Markierte \"%s\" in den Papierkorb verschieben?"
+msgstr "\"%s\" in den Papierkorb verschieben?"
 
 #: ulng.rsmsgdeltotrashforce
 msgid "Can not delete \"%s\" to trash! Delete directly?"
-msgstr "Kann \"%s\" nicht in den Papierkorb verschieben! Endgültig löschen?"
+msgstr "⚠  Kann \"%s\" nicht in den Papierkorb verschieben! Endgültig löschen?"
 
 #: ulng.rsmsgdisknotavail
 msgid "Disk is not available"
@@ -11160,11 +11173,11 @@ msgstr "Ausführbare Datei: %s"
 
 #: ulng.rsmsgexitstatuscode
 msgid "Exit status:"
-msgstr "Ausgangsstatus:"
+msgstr "Ausgangszustand:"
 
 #: ulng.rsmsgfavoritetabsdeleteallentries
 msgid "Are you sure you want to remove all entries of your Favorite Tabs? (There is no \"undo\" to this action!)"
-msgstr "Wirklich alle Einträge aus Favorit entfernen? (Es gibt keine Möglichkeit dies \"rückgängig\" zu machen!)"
+msgstr "Wirklich alle Einträge Ihrer Favoriten entfernen? (\"Rückgängig\" machen unmöglich!)"
 
 #: ulng.rsmsgfavoritetabsdraghereentry
 msgid "Drag here other entries"
@@ -11523,9 +11536,8 @@ msgid "This is not a valid plugin!"
 msgstr "Dies ist kein gültiges Plugin!"
 
 #: ulng.rsmsginvalidpluginarchitecture
-#, fuzzy,badformat
 msgid "This plugin is built for Double Commander for %s.%sIt can not work with Double Commander for %s!"
-msgstr "Dieses Plugin wurde für Double Commander für %s erstellt. Es kann nicht für %s verwendet werden!"
+msgstr "Dieses Double Commander-Plugin wurde für %s erstellt.%sEs kann nicht für %s verwendet werden!"
 
 #: ulng.rsmsginvalidquoting
 msgid "Invalid quoting"
@@ -11549,11 +11561,11 @@ msgstr "TC ausführbare Datei (totalcmd.exe oder totalcmd64.exe) finden"
 
 #: ulng.rsmsglogcopy
 msgid "Copy file %s"
-msgstr "Kopiere Datei %s"
+msgstr "Datei %s kopieren"
 
 #: ulng.rsmsglogdelete
 msgid "Delete file %s"
-msgstr "Lösche Datei %s"
+msgstr "Datei %s löschen"
 
 #: ulng.rsmsglogerror
 msgid "Error: "
@@ -11561,7 +11573,7 @@ msgstr "Fehler: "
 
 #: ulng.rsmsglogextcmdlaunch
 msgid "Launch external"
-msgstr "Externen laden"
+msgstr "Extern starten"
 
 #: ulng.rsmsglogextcmdresult
 msgid "Result external"
@@ -11569,7 +11581,7 @@ msgstr "Externes Ergebnis"
 
 #: ulng.rsmsglogextract
 msgid "Extract file %s"
-msgstr "Entpacke Datei(en) %s"
+msgstr "Datei %s entpacken"
 
 #: ulng.rsmsgloginfo
 msgid "Info: "
@@ -11581,15 +11593,15 @@ msgstr "Link %s erstellen"
 
 #: ulng.rsmsglogmkdir
 msgid "Create directory %s"
-msgstr "Erstelle Verzeichnis %s"
+msgstr "Verzeichnis %s erstellen"
 
 #: ulng.rsmsglogmove
 msgid "Move file %s"
-msgstr "Verschiebe Datei(en) %s"
+msgstr "Datei %s verschieben"
 
 #: ulng.rsmsglogpack
 msgid "Pack to file %s"
-msgstr "Packe in Datei %s"
+msgstr "In Datei %s packen"
 
 #: ulng.rsmsglogprogramshutdown
 msgid "Program shutdown"
@@ -11609,19 +11621,19 @@ msgstr "Fertig: "
 
 #: ulng.rsmsglogsymlink
 msgid "Create symlink %s"
-msgstr "Erstelle Symlink %s"
+msgstr "Symlink %s erstellen"
 
 #: ulng.rsmsglogtest
 msgid "Test file integrity %s"
-msgstr "Datei-Integrität testen %s"
+msgstr "Datei %s Integrität testen"
 
 #: ulng.rsmsglogwipe
 msgid "Wipe file %s"
-msgstr "Datei gründlich löschen %s"
+msgstr "Datei %s gründlich löschen"
 
 #: ulng.rsmsglogwipedir
 msgid "Wipe directory %s"
-msgstr "Verzeichnis gründlich löschen %s"
+msgstr "Verzeichnis %s gründlich löschen"
 
 #: ulng.rsmsgmasterpassword
 msgid "Master Password"
@@ -11699,7 +11711,7 @@ msgstr "Bitte das Passwort zum Verifizieren erneut eingeben:"
 
 #: ulng.rsmsgpopuphotdelete
 msgid "&Delete %s"
-msgstr "&Lösche %s"
+msgstr "%s l&öschen"
 
 #: ulng.rsmsgpresetalreadyexists
 msgid "Preset \"%s\" already exists. Overwrite?"
@@ -11735,11 +11747,11 @@ msgstr "Neuen Namen für dieses Menü eingeben"
 
 #: ulng.rsmsgrenfldr
 msgid "Rename/move %d selected files/directories?"
-msgstr "%d markierte Dateien/Verzeichnisse umbenennen/verschieben?"
+msgstr "Diese %d Dateien/Verzeichnisse umbenennen/verschieben?"
 
 #: ulng.rsmsgrensel
 msgid "Rename/move selected \"%s\"?"
-msgstr "Datei/Verzeichnis \"%s\" kopieren/verschieben?"
+msgstr "\"%s\" umbenennen/verschieben?"
 
 #: ulng.rsmsgreplacethistext
 msgid "Do you want to replace this text?"
@@ -11898,7 +11910,7 @@ msgid ""
 "Error! Cannot find the desired wanted TC toolbar output folder:\n"
 "%s\n"
 msgstr ""
-"Fehler! Kann den angegebenen gewünschten TC-Symbolleisten Ausgabeordner nicht finden:\n"
+"Fehler! Kann das angegebene gewünschte TC-Symbolleisten Ausgabeverzeichnis nicht finden:\n"
 "%s\n"
 
 #: ulng.rsmsgtctoolbarwheretosave
@@ -11908,6 +11920,10 @@ msgstr "Speicherort und Dateiname angeben, unter dem die TC-Symbolleisten-Datei 
 #: ulng.rsmsgterminateprocess
 msgid "WARNING: Terminating a process can cause undesired results including loss of data and system instability. The process will not be given the chance to save its state or data before it is terminated. Are you sure you want to terminate the process?"
 msgstr "WARNUNG: Das Beenden eines Prozesses kann zu unerwünschten Ergebnissen wie Datenverlust und Systeminstabilität führen. Der Prozess erhält nicht die Möglichkeit, seinen Zustand oder seine Daten zu speichern, bevor er beendet wird. Sind Sie sicher, dass Sie den Prozess beenden möchten?"
+
+#: ulng.rsmsgtestarchive
+msgid "Do you want to test selected archives?"
+msgstr "Die ausgewählten Archive testen?"
 
 #: ulng.rsmsgthisisnowinclipboard
 msgid "\"%s\" is now in the clipboard"
@@ -11996,11 +12012,11 @@ msgstr "Möchten Sie den Ort der Lua-Bibliothek einstellen?"
 
 #: ulng.rsmsgwipefldr
 msgid "Wipe %d selected files/directories?"
-msgstr "%d markierte Dateien/Ordner gründlich löschen?"
+msgstr "⚠  Diese %d Dateien/Verzeichnisse gründlich löschen?"
 
 #: ulng.rsmsgwipesel
 msgid "Wipe selected \"%s\"?"
-msgstr "Markierte \"%s\" gründlich löschen?"
+msgstr "⚠  \"%s\" gründlich löschen?"
 
 #: ulng.rsmsgwithactionwith
 msgid "with"
@@ -12572,10 +12588,9 @@ msgid "Export archiver configuration"
 msgstr "Packer-Konfiguration exportieren"
 
 #: ulng.rsoptarchiverexportdone
-#, fuzzy,badformat
 msgctxt "ulng.rsoptarchiverexportdone"
 msgid "Exportation of %d elements to file \"%s\" completed."
-msgstr "Exportieren von %d Elementen zur Datei \"%d\" abgeschlossen."
+msgstr "Exportieren von %d Elementen zu Datei \"%s\" abgeschlossen."
 
 #: ulng.rsoptarchiverexportprompt
 msgctxt "ulng.rsoptarchiverexportprompt"
@@ -12595,10 +12610,9 @@ msgid "Import archiver configuration"
 msgstr "Packer-Konfiguration importieren"
 
 #: ulng.rsoptarchiverimportdone
-#, fuzzy,badformat
 msgctxt "ulng.rsoptarchiverimportdone"
 msgid "Importation of %d elements from file \"%s\" completed."
-msgstr "Importieren von %d Elementen aus Datei \"%d\" abgeschlossen."
+msgstr "Importieren von %d Elementen aus Datei \"%s\" abgeschlossen."
 
 #: ulng.rsoptarchiverimportfile
 msgid "Select the file to import archiver configuration(s)"
@@ -13145,10 +13159,9 @@ msgid "Export tooltip file type configuration"
 msgstr "Konfiguration des Tooltip-Dateityps exportieren"
 
 #: ulng.rsopttooltipfiletypeexportdone
-#, fuzzy,badformat
 msgctxt "ulng.rsopttooltipfiletypeexportdone"
 msgid "Exportation of %d elements to file \"%s\" completed."
-msgstr "Exportieren von %d Elementen zur Datei \"%d\" abgeschlossen."
+msgstr "Exportieren von %d Elementen zu Datei \"%s\" abgeschlossen."
 
 #: ulng.rsopttooltipfiletypeexportprompt
 msgctxt "ulng.rsopttooltipfiletypeexportprompt"
@@ -13160,10 +13173,9 @@ msgid "Import tooltip file type configuration"
 msgstr "Konfiguration des Tooltip-Dateityps importieren"
 
 #: ulng.rsopttooltipfiletypeimportdone
-#, fuzzy,badformat
 msgctxt "ulng.rsopttooltipfiletypeimportdone"
 msgid "Importation of %d elements from file \"%s\" completed."
-msgstr "Importieren von %d Elementen aus Datei \"%d\" abgeschlossen."
+msgstr "Importieren von %d Elementen aus Datei \"%s\" abgeschlossen."
 
 #: ulng.rsopttooltipfiletypeimportfile
 msgid "Select the file to import tooltip file type configuration(s)"
@@ -13806,7 +13818,7 @@ msgstr "&Netzwerk"
 
 #: ulng.rsvfsrecyclebin
 msgid "Recycle Bin"
-msgstr ""
+msgstr "Papierkorb"
 
 #: ulng.rsviewabouttext
 msgid "Internal Viewer of Double Commander."
@@ -13856,5 +13868,5 @@ msgstr "Eine Ersetzung hat nicht stattgefunden."
 
 #: umaincommands.rsfavoritetabs_setupnotexist
 msgid "No setup named \"%s\""
-msgstr "Einstellung \"%s\" nicht vorhanden"
+msgstr "Keine Einstellung namens \"%s\""
 

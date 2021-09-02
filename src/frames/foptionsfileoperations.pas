@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    File operations options page
 
-   Copyright (C) 2006-2018 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2006-2021 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -47,6 +47,7 @@ type
     cbDeleteConfirmation: TCheckBox;
     cbDeleteToTrashConfirmation: TCheckBox;
     cbVerifyChecksumConfirmation: TCheckBox;
+    cbTestArchiveConfirmation: TCheckBox;
     cmbTypeOfDuplicatedRename: TComboBoxAutoWidth;
     edtBufferSize: TEdit;
     edtHashBufferSize: TEdit;
@@ -131,6 +132,7 @@ begin
   cbCopyConfirmation.Checked           := focCopy in gFileOperationsConfirmations;
   cbMoveConfirmation.Checked           := focMove in gFileOperationsConfirmations;
   cbDeleteConfirmation.Checked         := focDelete in gFileOperationsConfirmations;
+  cbTestArchiveConfirmation.Checked    := focTestArchive in gFileOperationsConfirmations;
   cbDeleteToTrashConfirmation.Checked  := focDeleteToTrash in gFileOperationsConfirmations;
   cbVerifyChecksumConfirmation.Checked := focVerifyChecksum in gFileOperationsConfirmations;
   cmbTypeOfDuplicatedRename.ItemIndex  := Integer(gTypeOfDuplicatedRename);
@@ -165,6 +167,8 @@ begin
     Include(gFileOperationsConfirmations, focMove);
   if cbDeleteConfirmation.Checked then
     Include(gFileOperationsConfirmations, focDelete);
+  if cbTestArchiveConfirmation.Checked then
+    Include(gFileOperationsConfirmations, focTestArchive);
   if cbDeleteToTrashConfirmation.Checked then
     Include(gFileOperationsConfirmations, focDeleteToTrash);
   if cbVerifyChecksumConfirmation.Checked then

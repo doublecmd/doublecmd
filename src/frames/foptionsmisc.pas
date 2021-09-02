@@ -37,6 +37,7 @@ type
     btnThumbCompactCache: TButton;
     chkDescCreateUnicode: TCheckBox;
     chkGoToRoot: TCheckBox;
+    chkShowCurDirTitleBar: TCheckBox;
     chkThumbSave: TCheckBox;
     chkShowWarningMessages: TCheckBox;
     cmbDescDefaultEncoding: TComboBox;
@@ -120,6 +121,7 @@ begin
   speThumbWidth.Value            := gThumbSize.cx;
   speThumbHeight.Value           := gThumbSize.cy;
   chkGoToRoot.Checked            := gGoToRoot;
+  chkShowCurDirTitleBar.Checked  := gShowCurDirTitleBar;
 
   {$IFDEF MSWINDOWS}
   gbTCExportImport.Visible:=True;
@@ -157,6 +159,7 @@ begin
   gThumbSize.cx        := speThumbWidth.Value;
   gThumbSize.cy        := speThumbHeight.Value;
   gGoToRoot            := chkGoToRoot.Checked;
+  gShowCurDirTitleBar  := chkShowCurDirTitleBar.Checked;
   {$IFDEF MSWINDOWS}
   gTotalCommanderExecutableFilename := fneTCExecutableFilename.FileName;
   gTotalCommanderConfigFilename := fneTCConfigFilename.FileName;
