@@ -388,6 +388,19 @@ begin
                         OSVersion := OSVersion + ' ' + String(ReleaseId);
                       end;
                     end
+                    else if (osvi.wProductType = VER_NT_SERVER) then
+                    begin
+                      OSVersion += ' Server ';
+                      case osvi.dwBuildNumber of
+                        14393: OSVersion += '2016';
+                        17763: OSVersion += '2019';
+                        18363: OSVersion += '1909';
+                        19041: OSVersion += '2004';
+                        19042: OSVersion += '20H2';
+                        20348: OSVersion += '2022';
+                        else   OSVersion += '10.0.' + IntToStr(osvi.dwBuildNumber);
+                      end;
+                    end;
               end;
           end;
         end;
