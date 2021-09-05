@@ -2367,22 +2367,28 @@ var
   OutTarHelp     : TAbTarStreamHelper;
   Abort          : Boolean;
   i              : Integer;
-  NewStream      : TAbVirtualMemoryStream;
+  NewStream      : TStream;
   TempStream     : TStream;
   CurItem        : TAbTarItem;
   AttrEx         : TAbAttrExRec;
+  ATempName      : String;
+  CreateArchive  : Boolean;
 begin
   if FArchReadOnly then
     raise EAbTarBadOp.Create; { Archive is read only }
 
   {init new archive stream}
-  NewStream := TAbVirtualMemoryStream.Create;
+  CreateArchive:= FOwnsStream and (FStream.Size = 0) and (FStream is TFileStreamEx);
+  if CreateArchive then
+    NewStream := FStream
+  else begin
+    ATempName := Copy(ExtractOnlyFileName(FArchiveName), 1, MAX_PATH div 2) + '~';
+    ATempName := GetTempName(ExtractFilePath(FArchiveName) + ATempName) + '.tmp';
+    NewStream := TFileStreamEx.Create(ATempName, fmCreate or fmShareDenyWrite);
+  end;
   OutTarHelp := TAbTarStreamHelper.Create(NewStream);
 
   try {NewStream/OutTarHelp}
-    { create helper }
-    NewStream.SwapFileDirectory := AbGetTempDirectory;
-
     {build new archive from existing archive}
     for i := 0 to pred(Count) do begin
       FCurrentItem := ItemList[i];
@@ -2476,10 +2482,25 @@ begin
       TAbVirtualMemoryStream(FStream).CopyFrom(NewStream, NewStream.Size)
     end
     else begin
-      { need new stream to write }
-      FreeAndNil(FStream);
-      FStream := TFileStreamEx.Create(FArchiveName, fmCreate or fmShareDenyWrite);
-      FStream.CopyFrom(NewStream, NewStream.Size);
+      if FOwnsStream then
+      begin
+        {need new stream to write}
+        if CreateArchive then
+          NewStream := nil
+        else begin
+          FreeAndNil(FStream);
+          FreeAndNil(NewStream);
+          if (mbDeleteFile(FArchiveName) and mbRenameFile(ATempName, FArchiveName)) then
+            FStream := TFileStreamEx.Create(FArchiveName, fmOpenReadWrite or fmShareDenyWrite)
+          else
+            RaiseLastOSError;
+        end;
+      end
+      else begin
+        FStream.Size := 0;
+        FStream.Position := 0;
+        FStream.CopyFrom(NewStream, 0)
+      end;
     end;
 
     {update Items list}
@@ -2494,7 +2515,8 @@ begin
     DoArchiveProgress( 100, Abort );
   finally {NewStream/OutTarHelp}
     OutTarHelp.Free;
-    NewStream.Free;
+    if (FStream <> NewStream) then
+      NewStream.Free;
   end;
 end;
 
