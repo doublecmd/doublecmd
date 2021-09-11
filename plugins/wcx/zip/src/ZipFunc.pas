@@ -132,6 +132,21 @@ begin
     Result := E_UNKNOWN;
 end;
 
+procedure CheckError(Arc: TAbZipKitEx; E: Exception; const FileName: String);
+var
+  AMessage: String;
+begin
+  if (Arc.FOperationResult = E_UNKNOWN) then
+  begin
+    AMessage:= E.Message + LineEnding + LineEnding + FileName;
+    if gStartupInfo.MessageBox(PAnsiChar(AMessage), nil, MB_OKCANCEL or MB_ICONERROR) = ID_OK then
+      Arc.FOperationResult:= E_HANDLED
+    else begin
+      Arc.FOperationResult:= E_EABORTED;
+    end;
+  end;
+end;
+
 // -- Exported functions ------------------------------------------------------
 
 function OpenArchive (var ArchiveData : tOpenArchiveData) : TArcHandle;dcpcall;
@@ -178,10 +193,9 @@ end;
 
 function ReadHeaderExW(hArcData : TArcHandle; var HeaderData: THeaderDataExW) : Integer;dcpcall;
 var
-  Arc : TAbZipKitEx;
   sFileName : String;
+  Arc : TAbZipKitEx absolute hArcData;
 begin
-  Arc := TAbZipKitEx(Pointer(hArcData));
   if Arc.Tag > Arc.Count - 1 then
     Exit(E_END_ARCHIVE);
 
@@ -218,11 +232,9 @@ end;
 
 function ProcessFileW(hArcData : TArcHandle; Operation : Integer; DestPath, DestName : PWideChar) : Integer;dcpcall;
 var
-  Arc : TAbZipKitEx;
   DestNameUtf8: String;
+  Arc : TAbZipKitEx absolute hArcData;
 begin
-  Arc := TAbZipKitEx(Pointer(hArcData));
-
   try
     Arc.FOperationResult := E_SUCCESS;
 
@@ -273,15 +285,7 @@ begin
     on E: Exception do
     begin
       Arc.FOperationResult := GetArchiveError(E);
-      if (Operation = PK_TEST) and (Arc.FOperationResult = E_UNKNOWN) then
-      begin
-        DestNameUtf8:= E.Message + LineEnding + LineEnding + Arc.Items[Arc.Tag].FileName;
-        if gStartupInfo.MessageBox(PAnsiChar(DestNameUtf8), nil, MB_OKCANCEL or MB_ICONERROR) = ID_OK then
-          Arc.FOperationResult:= E_HANDLED
-        else begin
-          Arc.FOperationResult:= E_EABORTED;
-        end;
-      end;
+      if (Operation = PK_TEST) then CheckError(Arc, E, Arc.Items[Arc.Tag].FileName);
     end;
   end;
 
@@ -291,9 +295,8 @@ end;
 
 function CloseArchive (hArcData : TArcHandle) : Integer;dcpcall;
 var
- Arc : TAbZipKitEx;
+  Arc : TAbZipKitEx absolute hArcData;
 begin
-  Arc := TAbZipKitEx(Pointer(hArcData));
   Arc.CloseArchive;
   FreeAndNil(Arc);
   Result := E_SUCCESS;
@@ -308,9 +311,9 @@ var
  Arc : TAbZipKitEx absolute hArcData;
 begin
   if (hArcData <> wcxInvalidHandle) then
-   begin
-     Arc.FChangeVolProcW := pChangeVolProc;
-   end;
+  begin
+    Arc.FChangeVolProcW := pChangeVolProc;
+  end;
 end;
 
 procedure SetProcessDataProc (hArcData : TArcHandle; pProcessDataProc : TProcessDataProc);dcpcall;
@@ -319,15 +322,13 @@ end;
 
 procedure SetProcessDataProcW(hArcData : TArcHandle; pProcessDataProc : TProcessDataProcW);dcpcall;
 var
- Arc : TAbZipKitEx;
+  Arc : TAbZipKitEx absolute hArcData;
 begin
   if (hArcData <> wcxInvalidHandle) then  // if archive is open
-   begin
-     Arc := TAbZipKitEx(Pointer(hArcData));
-     Arc.FProcessDataProcW := pProcessDataProc;
-   end
-  else  // if archive is close
+    Arc.FProcessDataProcW := pProcessDataProc
+  else begin  // if archive is close
     gProcessDataProcW := pProcessDataProc;
+  end;
 end;
 
 {Optional functions}
@@ -385,7 +386,10 @@ begin
       Arc.CloseArchive;
     except
       on E: Exception do
+      begin
         Arc.FOperationResult := GetArchiveError(E);
+        CheckError(Arc, E, sPackedFile);
+      end;
     end;
   finally
     Result := Arc.FOperationResult;
@@ -439,7 +443,10 @@ begin
       Arc.CloseArchive;
     except
       on E: Exception do
+      begin
         Arc.FOperationResult := GetArchiveError(E);
+        CheckError(Arc, E, Arc.FileName);
+      end;
     end;
   finally
     Result := Arc.FOperationResult;
