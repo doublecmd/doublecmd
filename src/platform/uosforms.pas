@@ -585,8 +585,13 @@ begin
   RegisterVirtualFileSource(rsVfsNetwork, TWinNetFileSource);
   if CheckWin32Version(5, 1) then
     RegisterVirtualFileSource(rsVfsRecycleBin, TRecycleBinFileSource);
-  if (IsUserAdmin = dupAccept) then // if run under administrator
-    MainForm.Caption:= MainForm.Caption + ' - Administrator';
+
+  // If run under administrator
+  if (IsUserAdmin = dupAccept) then
+  begin
+    with TfrmMain(MainForm) do
+      StaticTitle:= StaticTitle + ' - Administrator';
+  end;
 
   // Add main window message handler
   {$PUSH}{$HINTS OFF}
@@ -641,8 +646,10 @@ var
 {$ENDIF}
 begin
   if fpGetUID = 0 then // if run under root
-    MainForm.Caption:= MainForm.Caption + ' - ROOT PRIVILEGES';
-
+  begin
+    with TfrmMain(MainForm) do
+      StaticTitle:= StaticTitle + ' - ROOT PRIVILEGES';
+  end;
   {$IF NOT DEFINED(DARWIN)}
   if HasGio then RegisterVirtualFileSource('GVfs', TGioFileSource, False);
   {$ENDIF}

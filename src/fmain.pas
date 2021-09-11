@@ -898,6 +898,7 @@ type
     property LeftTabs: TFileViewNotebook read nbLeft;
     property RightTabs: TFileViewNotebook read nbRight;
     property MainSplitterPos: Double read FMainSplitterPos write SetMainSplitterPos;
+    property StaticTitle: String read sStaticTitleBarString write sStaticTitleBarString;
   end;
 
 var
