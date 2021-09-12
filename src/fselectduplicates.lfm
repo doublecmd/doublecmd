@@ -3,9 +3,11 @@ object frmSelectDuplicates: TfrmSelectDuplicates
   Height = 252
   Top = 205
   Width = 526
+  AutoSize = True
   BorderStyle = bsDialog
   Caption = 'Select duplicate files'
   ChildSizing.LeftRightSpacing = 8
+  ChildSizing.TopBottomSpacing = 4
   ClientHeight = 252
   ClientWidth = 526
   Constraints.MinWidth = 480
@@ -258,9 +260,12 @@ object frmSelectDuplicates: TfrmSelectDuplicates
       TabOrder = 1
     end
   end
-  object pnlButtons: TPanel
+  object pnlButtons: TKASButtonPanel
+    AnchorSideLeft.Control = Owner
     AnchorSideTop.Control = pnlMethods
     AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
     Left = 8
     Height = 34
     Top = 209

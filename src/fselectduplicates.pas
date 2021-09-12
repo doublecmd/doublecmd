@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, Buttons, StdCtrls,
-  ExtCtrls, KASComboBox, uFileView;
+  ExtCtrls, KASComboBox, KASButtonPanel, uFileView;
 
 type
 
@@ -28,14 +28,12 @@ type
     lblFirstMethod: TLabel;
     lblSecondMethod: TLabel;
     pnlMethods: TPanel;
-    pnlButtons: TPanel;
+    pnlButtons: TKASButtonPanel;
     procedure btnApplyClick(Sender: TObject);
     procedure btnIncludeMaskClick(Sender: TObject);
     procedure cmbFirstMethodChange(Sender: TObject);
   private
     FFileView: TFileView;
-  private
-    procedure ButtonsAutosize;
   end;
 
 procedure ShowSelectDuplicates(TheOwner: TCustomForm; AFileView: TFileView);
@@ -52,7 +50,6 @@ procedure ShowSelectDuplicates(TheOwner: TCustomForm; AFileView: TFileView);
 begin
   with TfrmSelectDuplicates.Create(TheOwner) do
   begin
-    ButtonsAutosize;
     FFileView:= AFileView;
     cmbFirstMethod.ItemIndex:= 0;
     cmbSecondMethod.ItemIndex:= 2;
@@ -214,28 +211,6 @@ begin
     bTemplate:= IsMaskSearchTemplate(sMask);
     AComboBox.Enabled:= not bTemplate;
     AComboBox.Text:= sMask;
-  end;
-end;
-
-procedure TfrmSelectDuplicates.ButtonsAutosize;
-var
-  Index: Integer;
-  AControl: TControl;
-  AMaxWidth, AMaxHeight: Integer;
-begin
-  AMaxWidth:= 0;
-  AMaxHeight:= 0;
-  for Index:= 0 to pnlButtons.ControlCount - 1 do
-  begin
-    AControl:= pnlButtons.Controls[Index];
-    if AControl.Width > AMaxWidth then AMaxWidth:= AControl.Width;
-    if AControl.Height > AMaxHeight then AMaxHeight:= AControl.Height;
-  end;
-  for Index:= 0 to pnlButtons.ControlCount - 1 do
-  begin
-    AControl:= pnlButtons.Controls[Index];
-    AControl.Constraints.MinWidth:= AMaxWidth;
-    AControl.Constraints.MinHeight:= AMaxHeight;
   end;
 end;
 

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CONFIG>
-  <Package Version="4">
+  <Package Version="5">
     <Name Value="KASComp"/>
     <Type Value="RunAndDesignTime"/>
     <AddToProjectUsesSection Value="True"/>
@@ -26,8 +26,8 @@
 "/>
     <License Value="GNU GPL 2
 "/>
-    <Version Major="1" Minor="9" Release="2"/>
-    <Files Count="9">
+    <Version Major="1" Minor="9" Release="3"/>
+    <Files Count="10">
       <Item1>
         <Filename Value="kastoolbar.pas"/>
         <HasRegisterProc Value="True"/>
@@ -72,7 +72,13 @@
         <HasRegisterProc Value="True"/>
         <UnitName Value="kasbutton"/>
       </Item9>
+      <Item10>
+        <Filename Value="kasbuttonpanel.pas"/>
+        <HasRegisterProc Value="True"/>
+        <UnitName Value="KASButtonPanel"/>
+      </Item10>
     </Files>
+    <CompatibilityMode Value="True"/>
     <RequiredPkgs Count="3">
       <Item1>
         <PackageName Value="doublecmd_common"/>
@@ -92,7 +98,6 @@
     </UsageOptions>
     <PublishOptions>
       <Version Value="2"/>
-      <IgnoreBinaries Value="False"/>
     </PublishOptions>
   </Package>
 </CONFIG>

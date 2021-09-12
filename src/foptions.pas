@@ -31,7 +31,7 @@ interface
 
 uses
   ActnList,  SysUtils, Classes, Controls, Forms, Dialogs, ExtCtrls, ComCtrls,
-  Buttons, StdCtrls, fgl, uGlobs, fOptionsFrame, uDCUtils;
+  Buttons, StdCtrls, KASButtonPanel, fgl, uGlobs, fOptionsFrame, uDCUtils;
 
 type
 
@@ -51,7 +51,7 @@ type
   TfrmOptions = class(TForm, IOptionsDialog)
     lblEmptyEditor: TLabel;
     OptionsEditorsImageList: TImageList;
-    Panel1: TPanel;
+    pnlButtons: TKASButtonPanel;
     Panel3: TPanel;
     pnlCaption: TPanel;
     btnOK: TBitBtn;
@@ -147,6 +147,8 @@ procedure SortConfigurationOptionsOnLeftTree;
 begin
   if frmOptions<>nil then frmOptions.tvTreeView.CustomSort(@frmOptions.CompareTwoNodeOfConfigurationOptionTree);
 end;
+
+{ TfrmOptions }
 
 procedure TfrmOptions.FormCreate(Sender: TObject);
 begin
