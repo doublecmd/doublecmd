@@ -221,7 +221,7 @@ begin
     HeaderData.PackSize:= Int64Rec(Item.PackedSize).Lo;
     HeaderData.PackSizeHigh:= Int64Rec(Item.PackedSize).Hi;
     if ipAttributes in Item.ValidProperties then
-      HeaderData.FileAttr:= Item.Attributes
+      HeaderData.FileAttr:= LongInt(Item.Attributes)
     else begin
       HeaderData.FileAttr:= FILE_ATTRIBUTE_ARCHIVE;
     end;
