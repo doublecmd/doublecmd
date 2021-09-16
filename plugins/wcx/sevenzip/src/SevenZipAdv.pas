@@ -98,6 +98,7 @@ type
   end;
 
 var
+  Mutex: TRTLCriticalSection;
   ArchiveFormatsX: TArchiveFormats;
 
 var
@@ -293,60 +294,75 @@ function FindUpdateFormats(const AFileName: TFileName): TJclUpdateArchiveClassAr
 var
   ArchiveClassArray: TJclCompressionArchiveClassArray absolute Result;
 begin
-  // Try to find archive type in cache
-  if UpdateFormatsCache.ArchiveName = AFileName then
-    Exit(TJclUpdateArchiveClassArray(UpdateFormatsCache.ArchiveClassArray))
-  else begin
-    UpdateFormatsCache.ArchiveName:= AFileName;
-    SetLength(UpdateFormatsCache.ArchiveClassArray, 0);
+  System.EnterCriticalSection(Mutex);
+  try
+    // Try to find archive type in cache
+    if UpdateFormatsCache.ArchiveName = AFileName then
+      Exit(TJclUpdateArchiveClassArray(UpdateFormatsCache.ArchiveClassArray))
+    else begin
+      UpdateFormatsCache.ArchiveName:= AFileName;
+      SetLength(UpdateFormatsCache.ArchiveClassArray, 0);
+    end;
+
+    Result:= GetArchiveFormats.FindUpdateFormats(AFileName);
+
+    FindArchiveFormats(AFileName, atUpdateArchive, ArchiveClassArray);
+
+    // Save archive type in cache
+    UpdateFormatsCache.ArchiveClassArray:= ArchiveClassArray;
+  finally
+    System.LeaveCriticalSection(Mutex);
   end;
-
-  Result:= GetArchiveFormats.FindUpdateFormats(AFileName);
-
-  FindArchiveFormats(AFileName, atUpdateArchive, ArchiveClassArray);
-
-  // Save archive type in cache
-  UpdateFormatsCache.ArchiveClassArray:= ArchiveClassArray;
 end;
 
 function FindCompressFormats(const AFileName: TFileName): TJclCompressArchiveClassArray;
 var
   ArchiveClassArray: TJclCompressionArchiveClassArray absolute Result;
 begin
-  // Try to find archive type in cache
-  if CompressFormatsCache.ArchiveName = AFileName then
-    Exit(TJclCompressArchiveClassArray(CompressFormatsCache.ArchiveClassArray))
-  else begin
-    CompressFormatsCache.ArchiveName:= AFileName;
-    SetLength(CompressFormatsCache.ArchiveClassArray, 0);
+  System.EnterCriticalSection(Mutex);
+  try
+    // Try to find archive type in cache
+    if CompressFormatsCache.ArchiveName = AFileName then
+      Exit(TJclCompressArchiveClassArray(CompressFormatsCache.ArchiveClassArray))
+    else begin
+      CompressFormatsCache.ArchiveName:= AFileName;
+      SetLength(CompressFormatsCache.ArchiveClassArray, 0);
+    end;
+
+    Result:= GetArchiveFormats.FindCompressFormats(AFileName);
+
+    FindArchiveFormats(AFileName, atCompressArchive, ArchiveClassArray);
+
+    // Save archive type in cache
+    CompressFormatsCache.ArchiveClassArray:= ArchiveClassArray;
+  finally
+    System.LeaveCriticalSection(Mutex);
   end;
-
-  Result:= GetArchiveFormats.FindCompressFormats(AFileName);
-
-  FindArchiveFormats(AFileName, atCompressArchive, ArchiveClassArray);
-
-  // Save archive type in cache
-  CompressFormatsCache.ArchiveClassArray:= ArchiveClassArray;
 end;
 
 function FindDecompressFormats(const AFileName: TFileName): TJclDecompressArchiveClassArray;
 var
   ArchiveClassArray: TJclCompressionArchiveClassArray absolute Result;
 begin
-  // Try to find archive type in cache
-  if DecompressFormatsCache.ArchiveName = AFileName then
-    Exit(TJclDecompressArchiveClassArray(DecompressFormatsCache.ArchiveClassArray))
-  else begin
-    DecompressFormatsCache.ArchiveName:= AFileName;
-    SetLength(DecompressFormatsCache.ArchiveClassArray, 0);
+  System.EnterCriticalSection(Mutex);
+  try
+    // Try to find archive type in cache
+    if DecompressFormatsCache.ArchiveName = AFileName then
+      Exit(TJclDecompressArchiveClassArray(DecompressFormatsCache.ArchiveClassArray))
+    else begin
+      DecompressFormatsCache.ArchiveName:= AFileName;
+      SetLength(DecompressFormatsCache.ArchiveClassArray, 0);
+    end;
+
+    Result:= GetArchiveFormats.FindDecompressFormats(AFileName);
+
+    FindArchiveFormats(AFileName, atDecompressArchive, ArchiveClassArray);
+
+    // Save archive type in cache
+    DecompressFormatsCache.ArchiveClassArray:= ArchiveClassArray;
+  finally
+    System.LeaveCriticalSection(Mutex);
   end;
-
-  Result:= GetArchiveFormats.FindDecompressFormats(AFileName);
-
-  FindArchiveFormats(AFileName, atDecompressArchive, ArchiveClassArray);
-
-  // Save archive type in cache
-  DecompressFormatsCache.ArchiveClassArray:= ArchiveClassArray;
 end;
 
 { TJclXzCompressArchiveEx }
@@ -475,6 +491,12 @@ begin
     end;
   end;
 end;
+
+initialization
+  InitCriticalSection(Mutex);
+
+finalization
+  DoneCriticalSection(Mutex);
 
 end.
 
