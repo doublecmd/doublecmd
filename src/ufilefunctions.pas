@@ -97,7 +97,7 @@ implementation
 uses
   StrUtils, WdxPlugin, uWdxModule, uGlobs, uLng, uDefaultFilePropertyFormatter,
   uFileSourceProperty, uWfxPluginFileSource, uWfxModule, uColumns, DCFileAttributes,
-  DCStrUtils, DCBasicTypes, uDCUtils, uTypes;
+  DCStrUtils, DCBasicTypes, Variants, uDCUtils, uTypes;
 
 const
   ATTR_OCTAL = 'OCTAL';
@@ -184,6 +184,7 @@ function FormatFileFunction(FuncS: string; AFile: TFile;
   const AFileSource: IFileSource; RetrieveProperties: Boolean): string;
 var
   AIndex: Integer;
+  AValue: Variant;
   FileFunction: TFileFunction;
   AType, AFunc, AParam: String;
   AFileProperty: TFileVariantProperty;
@@ -351,7 +352,15 @@ begin
   begin
     // Retrieve additional properties if needed
     if RetrieveProperties then
-      Result:= GetVariantFileProperty(FuncS, AFile, AFileSource)
+    begin
+      AValue:= GetVariantFileProperty(FuncS, AFile, AFileSource);
+      if not VarIsBool(AValue) then
+        Result := AValue
+      else if AValue then
+        Result := rsSimpleWordTrue
+      else
+        Result := rsSimpleWordFalse;
+    end
     else begin
       for AIndex:= 0 to High(AFile.VariantProperties) do
       begin
