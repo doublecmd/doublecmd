@@ -1,9 +1,9 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: Double Commander 1.0.0 alpha r9716\n"
+"Project-Id-Version: Double Commander 1.0.0 alpha r9934\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-01-17 23:08+0300\n"
-"PO-Revision-Date: 2021-07-10 12:05+0200\n"
+"PO-Revision-Date: 2021-09-19 22:33+0200\n"
 "Last-Translator: kroy <kroysoft@citromail.hu>\n"
 "Language-Team: unDoRito -- HTC-iP <dr.dabzse@gmail.com>\n"
 "Language: hu\n"
@@ -1969,7 +1969,7 @@ msgstr "Fájlnév hozzáadása a parancssorhoz"
 
 #: tfrmmain.actaddnewsearch.caption
 msgid "New search instance..."
-msgstr "Újabb keresés..."
+msgstr "&Újabb keresés..."
 
 #: tfrmmain.actaddpathandfilenametocmdline.caption
 msgid "Add path and file name to command line"
@@ -2215,11 +2215,11 @@ msgstr "Könyvtár előzmények"
 
 #: tfrmmain.actdirhotlist.caption
 msgid "Directory &Hotlist"
-msgstr "Kedvenc &könyvtárak"
+msgstr "Ke&dvenc könyvtárak"
 
 #: tfrmmain.actdoanycmcommand.caption
 msgid "Execute &internal command..."
-msgstr ""
+msgstr "&Belső parancs végrehajtása..."
 
 #: tfrmmain.actdoanycmcommand.hint
 msgid "Select any command and execute it"
@@ -2766,7 +2766,7 @@ msgstr "Szinkron könyvtár váltás mindkét panelen"
 
 #: tfrmmain.actsyncdirs.caption
 msgid "Syn&chronize dirs..."
-msgstr "Könyvtárak szinkronizálása...."
+msgstr "Könyvtárak &szinkronizálása..."
 
 #: tfrmmain.acttargetequalsource.caption
 msgid "Target &= Source"
@@ -2844,7 +2844,7 @@ msgstr "Naplófájl megtekintése"
 
 #: tfrmmain.actviewsearches.caption
 msgid "View current search instances"
-msgstr "Legutóbbi keresési eredmények"
+msgstr "Legutóbbi keresési &eredmények"
 
 #: tfrmmain.actvisithomepage.caption
 msgid "&Visit Double Commander Website"
@@ -3079,7 +3079,7 @@ msgstr "&Beállítások"
 
 #: tfrmmain.mnufavoritetabs.caption
 msgid "Favorites"
-msgstr "Kedvencek"
+msgstr "&Kedvencek"
 
 #: tfrmmain.mnufiles.caption
 msgid "&Files"
@@ -3097,7 +3097,7 @@ msgstr "&Megjelölés"
 #: tfrmmain.mnunetwork.caption
 msgctxt "TFRMMAIN.MNUNETWORK.CAPTION"
 msgid "Network"
-msgstr "Hálózat"
+msgstr "&Hálózat"
 
 #: tfrmmain.mnushow.caption
 msgid "&Show"
@@ -4062,7 +4062,7 @@ msgstr "&Ikon tálcára minimalizálása"
 #: tfrmoptionsbehavior.cbonlyonce.caption
 msgctxt "TFRMOPTIONSBEHAVIOR.CBONLYONCE.CAPTION"
 msgid "A&llow only one copy of DC at a time"
-msgstr "cs&ak 1 DC futhat"
+msgstr "Cs&ak 1 DC futhat"
 
 #: tfrmoptionsbehavior.edtdrivesblacklist.hint
 msgid "Here you can enter one or more drives or mount points, separated by \";\"."
@@ -5922,7 +5922,7 @@ msgstr "Fájlműveleti hibá&k átugrása és írja naplóablakba"
 
 #: tfrmoptionsfileoperations.cbtestarchiveconfirmation.caption
 msgid "Test archive operation"
-msgstr ""
+msgstr "Archívum vizsgálata"
 
 #: tfrmoptionsfileoperations.cbverifychecksumconfirmation.caption
 msgid "Verify checksum operation"
@@ -6844,7 +6844,7 @@ msgstr "&Mindig ugorjon a gyökérkönyvtárba a meghajtó váltásakor"
 
 #: tfrmoptionsmisc.chkshowcurdirtitlebar.caption
 msgid "Show &current directory in the main window title bar"
-msgstr ""
+msgstr "Az &aktuális könyvtár megjelenítése a főablak címsorában"
 
 #: tfrmoptionsmisc.chkshowwarningmessages.caption
 msgctxt "tfrmoptionsmisc.chkshowwarningmessages.caption"
@@ -10178,7 +10178,7 @@ msgstr " Többlet: "
 
 #: ulng.rsdiffcomparing
 msgid "Comparing..."
-msgstr ""
+msgstr "Összehasonlítás..."
 
 #: ulng.rsdiffdeletes
 msgid " Deletes: "
@@ -10197,24 +10197,25 @@ msgid " Modifies: "
 msgstr "Eltérő:"
 
 #: ulng.rsdifftextdifferenceencoding
-#, fuzzy
 msgctxt "ulng.rsdifftextdifferenceencoding"
 msgid "Encoding"
 msgstr "Kódolás"
 
 #: ulng.rsdifftextdifferencelineending
 msgid "Line-endings"
-msgstr ""
+msgstr "Sorvégződések"
 
 #: ulng.rsdifftextidentical
 msgid "The text is identical, but the following options are used:"
-msgstr ""
+msgstr "A szöveg megegyezik a következő beállítások mellett:"
 
 #: ulng.rsdifftextidenticalnotmatch
 msgid ""
 "The text is identical, but the files do not match!\n"
 "The following differences were found:\n"
 msgstr ""
+"A szöveg azonos, de a fájlok nem egyeznek!\n"
+"A következő különbségek találhatók:\n"
 
 #: ulng.rsdlgbuttonabort
 msgid "Ab&ort"
@@ -12006,7 +12007,7 @@ msgstr "FIGYELEM: A folyamat leállítása nemkívánatos eredményeket okozhat,
 
 #: ulng.rsmsgtestarchive
 msgid "Do you want to test selected archives?"
-msgstr ""
+msgstr "Szeretnéd tesztelni a kiválasztott archívumokat?"
 
 #: ulng.rsmsgthisisnowinclipboard
 msgid "\"%s\" is now in the clipboard"
@@ -13902,7 +13903,7 @@ msgstr "Hálózat"
 
 #: ulng.rsvfsrecyclebin
 msgid "Recycle Bin"
-msgstr ""
+msgstr "Lomtár"
 
 #: ulng.rsviewabouttext
 msgid "Internal Viewer of Double Commander."
@@ -13954,4 +13955,3 @@ msgstr "Nem történt csere."
 #: umaincommands.rsfavoritetabs_setupnotexist
 msgid "No setup named \"%s\""
 msgstr "Nincs \"%s\" nevű beállítás"
-
