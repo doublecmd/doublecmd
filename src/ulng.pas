@@ -243,6 +243,7 @@ resourcestring
   rsMsgFilePathOverMaxPath = 'The target name length (%d) is more than %d characters!' + #13 + '%s' + #13 + 'Most programs will not be able to access a file/directory with such a long name!';
   rsExtsClosedBracketNoFound = '"]" not found in line %s';
   rsExtsCommandWithNoExt = 'No extension defined before command "%s". It will be ignored.';
+  rsMsgTerminalDisabled = 'Built-in terminal window disabled. Do you want to enable it?';
 
   //Hot Dir related
   rsMsgHotDirWhatToDelete = 'Do you want to delete all elements inside the sub-menu [%s]?'+#$0A+'Answering NO will delete only menu delimiters but will keep element inside sub-menu.';

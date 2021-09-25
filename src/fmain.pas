@@ -874,6 +874,7 @@ type
     procedure UpdatePrompt;
     procedure UpdateFreeSpace(Panel: TFilePanelSelect);
     procedure ReLoadTabs(ANoteBook: TFileViewNotebook);
+    procedure ShowOptionsLayout(Data: PtrInt);
     procedure ToggleFullscreenConsole;
 
     {en
@@ -5037,18 +5038,27 @@ begin
   ConsoleSplitter.Visible:= gTermWindow;
 end;
 
+procedure TfrmMain.ShowOptionsLayout(Data: PtrInt);
+begin
+  ShowOptions('TfrmOptionsLayout');
+end;
+
 procedure TfrmMain.ToggleFullscreenConsole;
 begin
-  if  nbConsole.Height < (nbConsole.Height + pnlNotebooks.Height - 1) then
-    begin
-      nbConsole.Height := nbConsole.Height + pnlNotebooks.Height;
-      if (not gCmdLine) and cmdConsole.CanFocus then cmdConsole.SetFocus;
-    end
-  else
-    begin
-      nbConsole.Height := 0;
-      if (not gCmdLine) and ActiveFrame.CanFocus then ActiveFrame.SetFocus;
-    end;
+  if not gTermWindow then
+  begin
+    if MessageDlg(rsMsgTerminalDisabled, mtWarning, [mbYes, mbNo], 0, mbYes) = mrYes then
+      Application.QueueAsyncCall(@ShowOptionsLayout, 0);
+  end
+  else if nbConsole.Height < (nbConsole.Height + pnlNotebooks.Height - 1) then
+  begin
+    nbConsole.Height := nbConsole.Height + pnlNotebooks.Height;
+    if (not gCmdLine) and cmdConsole.CanFocus then cmdConsole.SetFocus;
+  end
+  else begin
+    nbConsole.Height := 0;
+    if (not gCmdLine) and ActiveFrame.CanFocus then ActiveFrame.SetFocus;
+  end;
 end;
 
 procedure TfrmMain.ToolbarExecuteCommand(ToolItem: TKASToolItem);
