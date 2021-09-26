@@ -55,9 +55,10 @@ if [ -z "$CK_DEBIAN" ] && [ -z "$CK_REDHAT" ] && [ -z "$CK_SLACKWARE" ] && [ -z 
    CK_HELP=1
 fi
 
-# Export from SVN
+# Export from Git
 rm -rf $BUILD_DC_TMP_DIR
-svn export ../ $BUILD_DC_TMP_DIR
+mkdir $BUILD_DC_TMP_DIR
+git -C ../ checkout-index -a -f --prefix=$BUILD_DC_TMP_DIR/
 
 # Update revision number
 linux/update-revision.sh ../ $BUILD_DC_TMP_DIR

@@ -12,9 +12,10 @@ BUILD_PACK_DIR=/var/tmp/doublecmd-$(date +%y.%m.%d)
 # Create temp dir for building
 BUILD_DC_TMP_DIR=/var/tmp/doublecmd-$DC_VER
 
-# Export from SVN
+# Export from Git
 rm -rf $BUILD_DC_TMP_DIR
-svn export ../ $BUILD_DC_TMP_DIR
+mkdir $BUILD_DC_TMP_DIR
+git -C ../ checkout-index -a -f --prefix=$BUILD_DC_TMP_DIR/
 
 # Save revision number
 DC_REVISION=$(linux/update-revision.sh ../ $BUILD_DC_TMP_DIR)
@@ -26,13 +27,7 @@ fi
 
 # Set widgetset
 if [ -z $lcl ]; then
-  # Use Qt4 when build 64 bit
-  if [ "$CPU_TARGET" = "x86_64" ]
-    then
-      export lcl=qt
-    else
-      export lcl=carbon
-  fi
+  export lcl=cocoa
 fi
 
 # Set minimal Mac OS X target version
