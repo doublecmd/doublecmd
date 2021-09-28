@@ -79,7 +79,7 @@ uses
   graphtype, intfgraphics, Graphics, uPixMapManager, Dialogs, uLng, uMyWindows,
   uShellExecute, fMain, uDCUtils, uFormCommands, DCOSUtils, uOSUtils, uShowMsg,
   uExts, uFileSystemFileSource, DCConvertEncoding, LazUTF8, uOSForms, uGraphics,
-  Forms, DCWindows, DCStrUtils, Clipbrd;
+  Forms, DCWindows, DCStrUtils, Clipbrd, uFileSystemWatcher;
 
 const
   USER_CMD_ID = $1000;
@@ -284,7 +284,6 @@ end;
 procedure CreateActionSubMenu(MenuWhereToAdd: HMenu; paramExtActionList: TExtActionList; aFile: TFile; bIncludeViewEdit: boolean);
 const
   Always_Legacy_Action_Count = 2;
-  DCIconRequired = True;
 var
   I, iDummy: integer;
   sAct: String;
@@ -762,6 +761,14 @@ begin
           // Reload after possible changes on the filesystem.
           if SameText(sVerb, sCmdVerbLink) or SameText(sVerb, sCmdVerbDelete) then
             frmMain.ActiveFrame.FileSource.Reload(frmMain.ActiveFrame.CurrentPath);
+
+          // "New" submenu
+          if FBackground and (StrBegins(sVerb, ExtensionSeparator)) then
+          begin
+            sVolumeLabel:= frmMain.ActiveFrame.CurrentPath;
+            if not (TFileSystemWatcher.CanWatch([sVolumeLabel]) and frmMain.ActiveFrame.WatcherActive) then
+              frmMain.ActiveFrame.FileSource.Reload(sVolumeLabel);
+          end;
         end;
 
       end // if cmd > 0
