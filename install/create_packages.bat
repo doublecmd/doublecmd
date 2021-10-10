@@ -1,6 +1,6 @@
 
 rem Set Double Commander version
-set DC_VER=1.0.0
+set DC_VER=1.1.0
 
 rem Path to subversion
 set GIT_EXE="C:\Program Files\Git\bin\git.exe"
