@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Tooltips options page
 
-   Copyright (C) 2011-2018 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2011-2021 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -34,6 +34,7 @@ type
   { TfrmOptionsToolTips }
 
   TfrmOptionsToolTips = class(TOptionsEditor)
+    pnlGeneralToolTipsOptions: TPanel;
     pnlShowTooltip: TPanel;
     chkShowToolTip: TCheckBox;
     pnlToolTipsListbox: TPanel;
@@ -340,7 +341,8 @@ end;
 procedure TfrmOptionsToolTips.lsbCustomFieldsSelectionChange(Sender: TObject; User: boolean);
 begin
   bCurrentlyLoadingSettings := True;
-  if lsbCustomFields.ItemIndex <> -1 then
+  pnlActualToolTipsConfiguration.Enabled:= lsbCustomFields.ItemIndex <> -1;
+  if pnlActualToolTipsConfiguration.Enabled then
   begin
     edtFieldsMask.Text := FFileInfoToolTipTemp.HintItemList[lsbCustomFields.ItemIndex].Mask;
     LoadMemoWithThisHint(FFileInfoToolTipTemp.HintItemList[lsbCustomFields.ItemIndex].Hint);
@@ -494,12 +496,12 @@ begin
           lsbCustomFields.ItemIndex := pred(FFileInfoToolTipTemp.HintItemList.Count)
         else
           lsbCustomFields.ItemIndex := iIndexDelete;
-        lsbCustomFieldsSelectionChange(lsbCustomFields, False);
       end
       else
       begin
         ClearData;
       end;
+      lsbCustomFieldsSelectionChange(lsbCustomFields, False);
 
       SetActiveButtonsBasedOnToolTipsQuantity;
       if edtFieldsMask.CanFocus then

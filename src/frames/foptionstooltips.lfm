@@ -26,7 +26,6 @@ inherited frmOptionsToolTips: TfrmOptionsToolTips
       Align = alTop
       Caption = '&File types:'
       FocusControl = lsbCustomFields
-      ParentColor = False
     end
     object lsbCustomFields: TListBox
       Left = 0
@@ -175,14 +174,19 @@ inherited frmOptionsToolTips: TfrmOptionsToolTips
       end
     end
     object pnlActualToolTipsConfiguration: TPanel
+      AnchorSideLeft.Control = pnlConfigurationToolTips
+      AnchorSideTop.Control = pnlTooltipButtons
+      AnchorSideTop.Side = asrBottom
+      AnchorSideRight.Control = pnlConfigurationToolTips
+      AnchorSideRight.Side = asrBottom
       Left = 0
-      Height = 407
+      Height = 271
       Top = 34
       Width = 696
-      Align = alClient
+      Anchors = [akTop, akLeft, akRight]
       AutoSize = True
       BevelOuter = bvNone
-      ClientHeight = 407
+      ClientHeight = 271
       ClientWidth = 696
       TabOrder = 1
       object edtFieldsMask: TEdit
@@ -282,7 +286,6 @@ inherited frmOptionsToolTips: TfrmOptionsToolTips
         BorderSpacing.Top = 2
         Caption = 'Category &hint:'
         FocusControl = memFieldsList
-        ParentColor = False
       end
       object lblFieldsMask: TLabel
         AnchorSideLeft.Control = bvlToolTips1
@@ -299,7 +302,6 @@ inherited frmOptionsToolTips: TfrmOptionsToolTips
         BorderSpacing.Right = 10
         Caption = 'Category &mask:'
         FocusControl = edtFieldsMask
-        ParentColor = False
       end
       object memFieldsList: TMemo
         AnchorSideLeft.Control = bvlToolTips1
@@ -333,80 +335,96 @@ inherited frmOptionsToolTips: TfrmOptionsToolTips
         BorderSpacing.Right = 10
         ParentFont = False
       end
+    end
+    object pnlGeneralToolTipsOptions: TPanel
+      AnchorSideLeft.Control = pnlConfigurationToolTips
+      AnchorSideTop.Control = pnlActualToolTipsConfiguration
+      AnchorSideTop.Side = asrBottom
+      AnchorSideRight.Control = pnlConfigurationToolTips
+      AnchorSideRight.Side = asrBottom
+      Left = 0
+      Height = 81
+      Top = 304
+      Width = 681
+      Anchors = [akTop, akLeft, akRight]
+      AutoSize = True
+      BevelOuter = bvNone
+      ClientHeight = 81
+      ClientWidth = 681
+      TabOrder = 2
       object bvlToolTips2: TDividerBevel
-        AnchorSideLeft.Control = bvlToolTips1
-        AnchorSideTop.Control = btnFieldsList
-        AnchorSideTop.Side = asrBottom
-        AnchorSideRight.Control = bvlToolTips1
+        AnchorSideLeft.Control = pnlGeneralToolTipsOptions
+        AnchorSideTop.Control = pnlGeneralToolTipsOptions
+        AnchorSideRight.Control = pnlGeneralToolTipsOptions
         AnchorSideRight.Side = asrBottom
         Left = 5
         Height = 15
-        Top = 281
+        Top = 10
         Width = 681
         Caption = 'General options about tooltips:'
         Anchors = [akTop, akLeft, akRight]
+        BorderSpacing.Left = 5
         BorderSpacing.Top = 10
+        BorderSpacing.Right = 10
         ParentFont = False
       end
       object lblTooltipShowingMode: TLabel
-        AnchorSideLeft.Control = bvlToolTips1
+        AnchorSideLeft.Control = bvlToolTips2
         AnchorSideTop.Control = cbTooltipShowingMode
         AnchorSideTop.Side = asrCenter
         Left = 5
         Height = 15
-        Top = 305
-        Width = 122
+        Top = 34
+        Width = 121
         Caption = 'Tooltip showing mode:'
         FocusControl = cbTooltipShowingMode
-        ParentColor = False
       end
       object cbTooltipShowingMode: TComboBox
         AnchorSideLeft.Control = lblTooltipShowingMode
         AnchorSideLeft.Side = asrBottom
         AnchorSideTop.Control = bvlToolTips2
         AnchorSideTop.Side = asrBottom
-        AnchorSideRight.Control = bvlToolTips1
+        AnchorSideRight.Control = bvlToolTips2
         AnchorSideRight.Side = asrBottom
-        Left = 132
+        Left = 131
         Height = 23
-        Top = 301
-        Width = 554
+        Top = 30
+        Width = 555
         Anchors = [akTop, akLeft, akRight]
         BorderSpacing.Left = 5
         BorderSpacing.Top = 5
         ItemHeight = 15
         Style = csDropDownList
-        TabOrder = 4
+        TabOrder = 0
       end
       object lblTooltipHidingDelay: TLabel
-        AnchorSideLeft.Control = bvlToolTips1
+        AnchorSideLeft.Control = bvlToolTips2
         AnchorSideTop.Control = cbToolTipHideTimeOut
         AnchorSideTop.Side = asrCenter
         Left = 5
         Height = 15
-        Top = 333
-        Width = 108
+        Top = 62
+        Width = 107
         Caption = 'Tooltip hiding delay:'
         FocusControl = cbToolTipHideTimeOut
-        ParentColor = False
       end
       object cbToolTipHideTimeOut: TComboBox
         AnchorSideLeft.Control = lblTooltipHidingDelay
         AnchorSideLeft.Side = asrBottom
         AnchorSideTop.Control = cbTooltipShowingMode
         AnchorSideTop.Side = asrBottom
-        AnchorSideRight.Control = bvlToolTips1
+        AnchorSideRight.Control = bvlToolTips2
         AnchorSideRight.Side = asrBottom
-        Left = 118
+        Left = 117
         Height = 23
-        Top = 329
-        Width = 568
+        Top = 58
+        Width = 569
         Anchors = [akTop, akLeft, akRight]
         BorderSpacing.Left = 5
         BorderSpacing.Top = 5
         ItemHeight = 15
         Style = csDropDownList
-        TabOrder = 5
+        TabOrder = 1
       end
     end
   end
