@@ -210,6 +210,8 @@ type
    procedure cm_CloseDuplicateTabs(const Params: array of string);
    procedure cm_NextTab(const Params: array of string);
    procedure cm_PrevTab(const Params: array of string);
+   procedure cm_MoveTabLeft(const Params: array of string);
+   procedure cm_MoveTabRight(const Params: array of string);
    procedure cm_ActivateTabByIndex(const Params: array of string);
    procedure cm_SaveTabs(const Params: array of string);
    procedure cm_LoadTabs(const Params: array of string);
@@ -1706,6 +1708,18 @@ end;
 procedure TMainCommands.cm_PrevTab(const Params: array of string);
 begin
   frmMain.ActiveNotebook.ActivatePrevTab;
+end;
+
+procedure TMainCommands.cm_MoveTabLeft(const Params: array of string);
+begin
+  with frmMain.ActiveNotebook.ActivePage do
+    if PageIndex > 0 then PageIndex:= PageIndex - 1;
+end;
+
+procedure TMainCommands.cm_MoveTabRight(const Params: array of string);
+begin
+  with frmMain.ActiveNotebook.ActivePage do
+    PageIndex:= PageIndex + 1;
 end;
 
 procedure TMainCommands.cm_ActivateTabByIndex(const Params: array of string);

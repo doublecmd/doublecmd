@@ -1929,6 +1929,18 @@ object frmMain: TfrmMain
       Caption = 'Switch to &Previous Tab'
       OnExecute = actExecute
     end
+    object actMoveTabLeft: TAction
+      Tag = 21
+      Category = 'Tabs'
+      Caption = 'Move current tab to the left'
+      OnExecute = actExecute
+    end
+    object actMoveTabRight: TAction
+      Tag = 21
+      Category = 'Tabs'
+      Caption = 'Move current tab to the right'
+      OnExecute = actExecute
+    end
     object actSwitchIgnoreList: TAction
       Tag = 19
       Category = 'View'

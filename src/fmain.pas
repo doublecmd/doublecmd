@@ -187,6 +187,8 @@ type
     actKeyboard: TAction;
     actPrevTab: TAction;
     actNextTab: TAction;
+    actMoveTabLeft: TAction;
+    actMoveTabRight: TAction;
     actActivateTabByIndex: TAction;
     actCloseAllTabs: TAction;
     actSetTabOptionNormal: TAction;

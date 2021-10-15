@@ -89,7 +89,7 @@ type
   end;
 
 const
-  NUMBEROFCOMMANDS = 459;
+  NUMBEROFCOMMANDS = 461;
 
   //jcf:format=off
   COMMANDS_LIST_TC: array[1..NUMBEROFCOMMANDS] of TTCommandEquivalence =
@@ -424,6 +424,8 @@ const
     (TCCommand: 'cm_OpenDirInNewTabOther';      TCIcon: -1; DCCommand: '';                          DCParameters: ''          ), //Open dir under cursor (other window)
     (TCCommand: 'cm_SwitchToNextTab';           TCIcon: -1; DCCommand: 'cm_NextTab';                DCParameters: ''          ), //Switch to next Tab (as Ctrl+Tab)
     (TCCommand: 'cm_SwitchToPreviousTab';       TCIcon: -1; DCCommand: 'cm_PrevTab';                DCParameters: ''          ), //Switch to previous Tab (Ctrl+Shift+Tab)
+    (TCCommand: 'cm_MoveTabLeft';               TCIcon: -1; DCCommand: 'cm_MoveTabLeft';            DCParameters: ''          ), //Move current tab to the left
+    (TCCommand: 'cm_MoveTabRight';              TCIcon: -1; DCCommand: 'cm_MoveTabRight';           DCParameters: ''          ), //Move current tab to the right
     (TCCommand: 'cm_CloseCurrentTab';           TCIcon: 84; DCCommand: 'cm_CloseTab';               DCParameters: ''          ), //Close tab
     (TCCommand: 'cm_CloseAllTabs';              TCIcon: 85; DCCommand: 'cm_CloseAllTabs';           DCParameters: ''          ), //Close all
     (TCCommand: 'cm_DirTabsShowMenu';           TCIcon: -1; DCCommand: '';                          DCParameters: ''          ), //Show tab menu
