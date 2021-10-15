@@ -9,7 +9,7 @@ del /Q %REVISION_TXT% 2> nul
 del /Q %REVISION_INC% 2> nul
 copy ..\units\dcrevision.inc %REVISION_INC% > nul
 
-git -C %1 rev-list --count HEAD > %REVISION_TXT%
+git -C %1 rev-list --count master..HEAD > %REVISION_TXT%
 
 IF ERRORLEVEL 1 goto EXIT
 
