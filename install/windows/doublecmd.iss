@@ -52,8 +52,10 @@ Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{
 Name: "quicklaunchicon"; Description: "{cm:CreateQuickLaunchIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
 
 [Files]
+Source: "doublecmd\doublecmd.help"; DestDir: "{app}"
 Source: "doublecmd\doublecmd.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: "doublecmd\doublecmd.zdli"; DestDir: "{app}"; Flags: ignoreversion
+Source: "doublecmd\pinyin.tbl"; DestDir: "{app}"; Flags: onlyifdoesntexist
 Source: "doublecmd\pixmaps.txt"; DestDir: "{app}"; Flags: onlyifdoesntexist
 Source: "doublecmd\multiarc.ini"; DestDir: "{app}"; Flags: onlyifdoesntexist
 Source: "doublecmd\doc\*"; DestDir: "{app}\doc"; Flags: ignoreversion recursesubdirs createallsubdirs
@@ -66,7 +68,7 @@ Source: "doublecmd\*.dll"; DestDir: "{app}"; Flags: skipifsourcedoesntexist
 
 [Icons]
 Name: "{group}\Double Commander"; Filename: "{app}\doublecmd.exe"
-Name: "{group}\{cm:ProgramOnTheWeb,Double Commander}"; Filename: "http://doublecmd.sourceforge.net"
+Name: "{group}\{cm:ProgramOnTheWeb,Double Commander}"; Filename: "https://doublecmd.sourceforge.io"
 Name: "{group}\{cm:UninstallProgram,Double Commander}"; Filename: "{uninstallexe}"
 Name: "{commondesktop}\Double Commander"; Filename: "{app}\doublecmd.exe"; Tasks: desktopicon
 Name: "{userappdata}\Microsoft\Internet Explorer\Quick Launch\Double Commander"; Filename: "{app}\doublecmd.exe"; Tasks: quicklaunchicon
