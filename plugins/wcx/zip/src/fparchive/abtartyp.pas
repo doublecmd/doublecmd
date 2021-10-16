@@ -2372,19 +2372,24 @@ var
   CurItem        : TAbTarItem;
   AttrEx         : TAbAttrExRec;
   ATempName      : String;
-  CreateArchive  : Boolean;
 begin
   if FArchReadOnly then
     raise EAbTarBadOp.Create; { Archive is read only }
 
   {init new archive stream}
-  CreateArchive:= FOwnsStream and (FStream.Size = 0) and (FStream is TFileStreamEx);
-  if CreateArchive then
-    NewStream := FStream
+  if FOwnsStream and (FStream is TFileStreamEx) then
+  begin
+    if FStream.Size = 0 then
+      NewStream := FStream
+    else begin
+      ATempName := Copy(ExtractOnlyFileName(FArchiveName), 1, MAX_PATH div 2) + '~';
+      ATempName := GetTempName(ExtractFilePath(FArchiveName) + ATempName) + '.tmp';
+      NewStream := TFileStreamEx.Create(ATempName, fmCreate or fmShareDenyWrite);
+    end;
+  end
   else begin
-    ATempName := Copy(ExtractOnlyFileName(FArchiveName), 1, MAX_PATH div 2) + '~';
-    ATempName := GetTempName(ExtractFilePath(FArchiveName) + ATempName) + '.tmp';
-    NewStream := TFileStreamEx.Create(ATempName, fmCreate or fmShareDenyWrite);
+    NewStream := TAbVirtualMemoryStream.Create;
+    TAbVirtualMemoryStream(NewStream).SwapFileDirectory := ExtractFileDir(FArchiveName);
   end;
   OutTarHelp := TAbTarStreamHelper.Create(NewStream);
 
@@ -2485,7 +2490,7 @@ begin
       if FOwnsStream then
       begin
         {need new stream to write}
-        if CreateArchive then
+        if NewStream = FStream then
           NewStream := nil
         else begin
           FreeAndNil(FStream);
