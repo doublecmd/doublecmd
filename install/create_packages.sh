@@ -22,7 +22,6 @@ help()
          echo '-R:               RPM package'
          echo '-S:               Slackware package'
          echo '-P:               Portable package'
-         echo '-H:               Help package'
          echo '--cpu=<cpu>:      Target CPU'
          echo '--ws=<widgetset>: Target widgetset'
          echo
@@ -36,23 +35,21 @@ eval set -- $args
 while [ "$1" != "--" ]; do
   case "$1" in
         -h|--help) help;;
-        -A) shift;CK_DEBIAN=1;CK_REDHAT=1;CK_SLACKWARE=1;CK_PORTABLE=1;CK_HELP=1;;
+        -A) shift;CK_DEBIAN=1;CK_REDHAT=1;CK_SLACKWARE=1;CK_PORTABLE=1;;
         -D) shift;CK_DEBIAN=1;;
         -R) shift;CK_REDHAT=1;;
         -S) shift;CK_SLACKWARE=1;;
         -P) shift;CK_PORTABLE=1;;
-        -H) shift;CK_HELP=1;;
         --cpu) shift;export CPU_TARGET=$(eval echo $1);shift;;
         --ws) shift;export lcl=$(eval echo $1);shift;;
   esac
 done
 
-if [ -z "$CK_DEBIAN" ] && [ -z "$CK_REDHAT" ] && [ -z "$CK_SLACKWARE" ] && [ -z "$CK_PORTABLE" ] && [ -z "$CK_HELP" ]; then
+if [ -z "$CK_DEBIAN" ] && [ -z "$CK_REDHAT" ] && [ -z "$CK_SLACKWARE" ] && [ -z "$CK_PORTABLE" ]; then
    CK_DEBIAN=1
    CK_REDHAT=1
    CK_SLACKWARE=1
    CK_PORTABLE=1
-   CK_HELP=1
 fi
 
 # Export from Git
@@ -112,26 +109,11 @@ if [ "$CK_SLACKWARE" ]; then
 fi
 
 if [ "$CK_PORTABLE" ]; then
-  # Create *.tar.bz2 package
+  # Create *.tar.xz package
   mkdir -p $BUILD_PACK_DIR
   install/linux/install.sh --portable-prefix=$BUILD_PACK_DIR
-  cp -r doc/en   $BUILD_PACK_DIR/doublecmd/doc
   cd $BUILD_PACK_DIR
   tar -cJvf $PACK_DIR/doublecmd-$DC_VER.$lcl.$CPU_TARGET.tar.xz doublecmd
-fi
-
-if [ "$CK_HELP" ]; then
-  # Create help packages
-  cd $BUILD_DC_TMP_DIR
-  # Copy help files
-  install/linux/install-help.sh --portable-prefix=$BUILD_PACK_DIR
-  # Create help package for each language
-  cd $BUILD_PACK_DIR/doublecmd/doc
-  for HELP_LANG in `ls`
-    do
-      cd $BUILD_PACK_DIR/doublecmd
-      tar -cJvf $PACK_DIR/doublecmd-help-$HELP_LANG-$DC_VER.noarch.tar.xz doc/$HELP_LANG
-    done
 fi
 
 # Clean DC build dir
