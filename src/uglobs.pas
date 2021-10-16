@@ -1910,6 +1910,7 @@ begin
   { Miscellaneous page }
   gGridVertLine := False;
   gGridHorzLine := False;
+  gShowCurDirTitleBar := False;
   gShowWarningMessages := True;
   gSpaceMovesDown := False;
   gDirBrackets := True;
@@ -2064,7 +2065,6 @@ begin
 
   { - Other - }
   gGoToRoot := False;
-  gShowCurDirTitleBar := True;
   gLuaLib := LuaDLL;
   gActiveRight := False;
   gNameSCFile := 'shortcuts.scf';
