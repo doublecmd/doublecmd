@@ -491,18 +491,11 @@ end;
 
 procedure TStringListUAC.SaveToFile(const FileName: String);
 var
-  AMode: LongWord;
   fsFileStream: TFileStreamUAC;
 begin
-  if not FileExistsUAC(FileName) then
-    AMode:= fmCreate
-  else begin
-    AMode:= fmOpenWrite or fmShareDenyWrite;
-  end;
-  fsFileStream:= TFileStreamUAC.Create(FileName, AMode);
+  fsFileStream:= TFileStreamUAC.Create(FileName, fmCreate);
   try
     SaveToStream(fsFileStream);
-    if (AMode <> fmCreate) then fsFileStream.Size:= fsFileStream.Position;
   finally
     fsFileStream.Free;
   end;

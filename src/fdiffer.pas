@@ -1429,7 +1429,6 @@ end;
 procedure TfrmDiffer.SaveToFile(SynDiffEdit: TSynDiffEdit; const FileName: String);
 var
   AText: String;
-  AMode: LongWord;
 begin
   AText := EmptyStr;
   if (SynDiffEdit.Encoding = EncodingUTF16LE) then
@@ -1449,15 +1448,9 @@ begin
   end;
   // save to file
   try
-    if not FileExistsUAC(FileName) then
-      AMode:= fmCreate
-    else begin
-      AMode:= fmOpenWrite or fmShareDenyWrite;
-    end;
-    with TFileStreamUAC.Create(FileName, AMode) do
+    with TFileStreamUAC.Create(FileName, fmCreate) do
     try
       WriteBuffer(Pointer(AText)^, Length(AText));
-      if (AMode <> fmCreate) then Size:= Position;
     finally
       Free;
     end;
