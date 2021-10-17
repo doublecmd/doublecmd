@@ -250,6 +250,7 @@ type
     FRelPath: string;
     FState: TSyncRecState;
     FAction: TSyncRecState;
+    FSyncName: string;
     FFileR, FFileL: TFile;
     FForm: TfrmSyncDirsDlg;
   public
@@ -1241,7 +1242,10 @@ var
             begin
               j := it.IndexOf(f.Name);
               if j < 0 then
-                r := TFileSyncRec.Create(Self, dir)
+              begin
+                r := TFileSyncRec.Create(Self, dir);
+                r.FSyncName := f.Name;
+              end 
               else
                 r := TFileSyncRec(it.Objects[j]);
               if sideLeft then
@@ -1386,13 +1390,7 @@ procedure TfrmSyncDirsDlg.SortFoundItems(sl: TStringList);
     r2 := TFileSyncRec(sl.Objects[j]);
     case FSortIndex of
     0:
-      if Assigned(r1.FFileL) <> Assigned(r2.FFileL) then
-        Result := Ord(Assigned(r1.FFileL)) - Ord(Assigned(r2.FFileL))
-      else
-      if Assigned(r1.FFileL) then
-        Result := UTF8CompareStr(r1.FFileL.Name, r2.FFileL.Name)
-      else
-        Result := 0;
+      Result := UTF8CompareStr(r1.FSyncName, r2.FSyncName);
     1:
       if (Assigned(r1.FFileL) < Assigned(r2.FFileL))
       or Assigned(r2.FFileL) and (r1.FFileL.Size < r2.FFileL.Size) then
@@ -1438,13 +1436,7 @@ procedure TfrmSyncDirsDlg.SortFoundItems(sl: TStringList);
       else
         Result := 0;
     6:
-      if Assigned(r1.FFileR) <> Assigned(r2.FFileR) then
-        Result := Ord(Assigned(r1.FFileR)) - Ord(Assigned(r2.FFileR))
-      else
-      if Assigned(r1.FFileR) then
-        Result := UTF8CompareStr(r1.FFileR.Name, r2.FFileR.Name)
-      else
-        Result := 0;
+      Result := UTF8CompareStr(r1.FSyncName, r2.FSyncName);
     end;
     if FSortDesc then
       Result := -Result;
