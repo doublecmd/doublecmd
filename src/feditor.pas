@@ -502,7 +502,6 @@ end;
 
 function TfrmEditor.SaveFile(const aFileName: String): Boolean;
 var
-  Mode: LongWord;
   TextOut: String;
   Encoding: String;
   Writer: TFileStreamUAC;
@@ -511,12 +510,7 @@ begin
   try
     Result := False;
     try
-      if not FileExistsUAC(AFileName) then
-        Mode:= fmCreate
-      else begin
-        Mode:= fmOpenReadWrite or fmShareDenyWrite;
-      end;
-      Writer := TFileStreamUAC.Create(aFileName, Mode);
+      Writer := TFileStreamUAC.Create(aFileName, fmCreate);
       try
         Encoding := NormalizeEncoding(sEncodingOut);
         // If file is empty and encoding with BOM then write only BOM
@@ -558,7 +552,6 @@ begin
             Writer.WriteBuffer(Pointer(TextOut)^, Length(TextOut));
           end;
         end;
-        if (Mode <> fmCreate) then Writer.Size:= Writer.Position;
 
         // Refresh original text and encoding
         if sEncodingIn <> sEncodingOut then
