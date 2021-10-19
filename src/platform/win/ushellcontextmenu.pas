@@ -505,7 +505,7 @@ constructor TShellContextMenu.Create(Parent: TWinControl; var Files: TFiles; Bac
 var
   UFlags: UINT = CMF_EXPLORE;
 begin
-  FParent:= GetWindowHandle(Parent);
+  FParent:= GetControlHandle(Parent);
   // Replace window procedure
 {$PUSH}{$HINTS OFF}
   OldWProc := WNDPROC(SetWindowLongPtr(FParent, GWL_WNDPROC, LONG_PTR(@MyWndProc)));
@@ -523,7 +523,7 @@ begin
   end;
   try
     try
-      FShellMenu1 := GetShellContextMenu(Parent.Handle, Files, Background);
+      FShellMenu1 := GetShellContextMenu(FParent, Files, Background);
       if Assigned(FShellMenu1) then
       begin
         FShellMenu := CreatePopupMenu;
