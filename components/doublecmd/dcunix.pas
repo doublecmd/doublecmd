@@ -213,7 +213,11 @@ begin
 {$IFDEF LINUX}
   if (fpFStatFS(Handle, @Sbfs) = 0) then
   begin
-    if (Sbfs.fstype = CIFS_MAGIC_NUMBER) then Exit;
+    case Sbfs.fstype of
+      SMB_SUPER_MAGIC,
+      SMB2_MAGIC_NUMBER,
+      CIFS_MAGIC_NUMBER: Exit;
+    end;
   end;
 {$ENDIF}
   repeat

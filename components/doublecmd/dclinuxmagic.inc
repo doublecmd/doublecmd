@@ -89,5 +89,6 @@ const
   BALLOON_KVM_MAGIC = $13661366;
   ZSMALLOC_MAGIC = $58295829;
 { manually added  }
+  SMB2_MAGIC_NUMBER = $fe534d42;
   CIFS_MAGIC_NUMBER = $ff534d42;
 
