@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Remote procedure call implementation (Windows)
 
-   Copyright (C) 2019 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2019-2021 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -72,7 +72,8 @@ type
 implementation
 
 uses 
-  JwaWinNT, JwaAclApi, JwaAccCtrl, JwaWinBase, Windows, uNamedPipes, uDebug;
+  JwaWinNT, JwaAclApi, JwaAccCtrl, JwaWinBase, Windows, DCOSUtils,
+  uNamedPipes, uDebug, uProcessInfo;
 
 { TPipeTransport }
 
@@ -80,7 +81,7 @@ procedure TPipeTransport.Connect;
 begin
   if (FPipe = 0) then
   begin
-    DCDebug('Connect to ', FAddress,'_');
+    DCDebug('Connect to ', String(FAddress));
 
     FPipe:= CreateFileW(PWideChar('\\.\pipe\' + FAddress),
       GENERIC_WRITE or
@@ -250,119 +251,183 @@ procedure TServerListnerThread.Execute;
 var
   SID: TBytes;
   dwWait: DWORD;
-  hPipe: THandle;
   ACL: PACL = nil;
+  hProcess: HANDLE;
   bPending: Boolean;
+  cCount: ULONG = 1;
+  SecondSID: TBytes;
   AName: UnicodeString;
+  ReturnLength: DWORD = 0;
   Overlapped: TOverlapped;
   SA: TSecurityAttributes;
   SD: TSecurityDescriptor;
+  TokenHandle: HANDLE = 0;
   Events: array[0..1] of THandle;
-  ExplicitAccess: TExplicitAccess;
+  hPipe: THandle = INVALID_HANDLE_VALUE;
+  TokenInformation: array [0..1023] of Byte;
+  ExplicitAccess: array [0..1] of TExplicitAccess;
+  ElevationType: TTokenElevationType absolute TokenInformation;
 begin
   AName:= UTF8Decode(FOwner.Name);
 
-  if not GetCurrentUserSID(SID) then Halt;
-
-  ZeroMemory(@ExplicitAccess, SizeOf(ExplicitAccess));
-  with ExplicitAccess do
-  begin
-    grfAccessPermissions:= GENERIC_ALL;
-    grfAccessMode:= DWORD(SET_ACCESS);
-    grfInheritance:= NO_INHERITANCE;
-    Trustee.TrusteeForm:= DWORD(TRUSTEE_IS_SID);
-    Trustee.TrusteeType:= DWORD(TRUSTEE_IS_USER);
-    Trustee.ptstrName:= PAnsiChar(@SID[0]);
+  if (FOwner.ProcessId > 0) then
+    dwWait:= FOwner.ProcessId
+  else begin
+    dwWait:= System.GetProcessId;
   end;
 
-  if SetEntriesInAcl(1, @ExplicitAccess, nil, JwaWinNT.PACL(ACL)) <> ERROR_SUCCESS then
-    Halt;
-  if not InitializeSecurityDescriptor (@SD, SECURITY_DESCRIPTOR_REVISION) then
-    Halt;
-  if not SetSecurityDescriptorDacl(@SD, True, ACL, False) then
-    Halt;
+  try
+    hProcess:= OpenProcess(PROCESS_QUERY_INFORMATION, False, dwWait);
+    if hProcess = 0 then RaiseLastOSError;
 
-  ZeroMemory(@Overlapped, SizeOf(TOverlapped));
+    ZeroMemory(@Overlapped, SizeOf(TOverlapped));
+    try
+      if not OpenProcessToken(hProcess, TOKEN_QUERY, TokenHandle) then
+        RaiseLastOSError;
 
-  Overlapped.hEvent:= CreateEvent(nil, True, True, nil);
+      if not GetTokenUserSID(TokenHandle, SID) then
+        RaiseLastOSError;
 
-  Events[0]:= Overlapped.hEvent;
-  Events[1]:= FEvent;
-
-  while not Terminated do
-  begin
-    SA.nLength := SizeOf(SA);
-    SA.lpSecurityDescriptor := @SD;
-    SA.bInheritHandle := True;
-
-    // Create pipe server
-    hPipe := CreateNamedPipeW(PWideChar('\\.\pipe\' + AName),
-      PIPE_ACCESS_DUPLEX or
-      FILE_FLAG_OVERLAPPED,
-      PIPE_WAIT or
-      PIPE_READMODE_BYTE or
-      PIPE_TYPE_BYTE,
-      PIPE_UNLIMITED_INSTANCES,
-      maxSmallint,
-      maxSmallint,
-      0,
-      @SA);
-
-    if hPipe = INVALID_HANDLE_VALUE then
-      Halt;
-
-    DCDebug('Start server ', FOwner.Name);
-
-    FReadyEvent.SetEvent;
-
-    while not Terminated do
-    begin
-      bPending:= False;
-
-      if not ConnectNamedPipe(hPipe, @Overlapped) then
+      ZeroMemory(@ExplicitAccess, SizeOf(ExplicitAccess));
+      with ExplicitAccess[0] do
       begin
-        case (GetLastError()) of
-        ERROR_IO_PENDING:
-          bPending:= True;
-        ERROR_PIPE_CONNECTED:
-          SetEvent(Overlapped.hEvent);
-        else
+        grfAccessPermissions:= GENERIC_ALL;
+        grfAccessMode:= DWORD(SET_ACCESS);
+        grfInheritance:= NO_INHERITANCE;
+        Trustee.TrusteeForm:= DWORD(TRUSTEE_IS_SID);
+        Trustee.TrusteeType:= DWORD(TRUSTEE_IS_USER);
+        Trustee.ptstrName:= PAnsiChar(@SID[0]);
+      end;
+
+      if not GetTokenInformation(TokenHandle, TokenElevationType, @TokenInformation,
+                                 SizeOf(TokenInformation), ReturnLength) then
+      begin
+        RaiseLastOSError;
+      end;
+
+      if ElevationType = TokenElevationTypeDefault then
+      begin
+        with ExplicitAccess[1] do
+        begin
+          grfAccessPermissions:= GENERIC_ALL;
+          grfAccessMode:= DWORD(SET_ACCESS);
+          grfInheritance:= NO_INHERITANCE;
+          Trustee.TrusteeForm:= DWORD(TRUSTEE_IS_SID);
+        end;
+        if (FOwner.ProcessId = 0) then
+        begin
+          if not GetAdministratorsSID(SecondSID) then
+            RaiseLastOSError;
+          ExplicitAccess[1].Trustee.TrusteeType:= DWORD(TRUSTEE_IS_GROUP);
+        end
+        else begin
+          if not GetProcessUserSID(GetCurrentProcess, SecondSID) then
+            RaiseLastOSError;
+          ExplicitAccess[1].Trustee.TrusteeType:= DWORD(TRUSTEE_IS_USER);
+        end;
+        ExplicitAccess[1].Trustee.ptstrName:= PAnsiChar(@SecondSID[0]);
+        cCount:= 2;
+      end;
+
+      if SetEntriesInAcl(cCount, @ExplicitAccess[0], nil, JwaWinNT.PACL(ACL)) <> ERROR_SUCCESS then
+        RaiseLastOSError;
+      if not InitializeSecurityDescriptor (@SD, SECURITY_DESCRIPTOR_REVISION) then
+        RaiseLastOSError;
+      if not SetSecurityDescriptorDacl(@SD, True, ACL, False) then
+        RaiseLastOSError;
+
+      Overlapped.hEvent:= CreateEvent(nil, True, True, nil);
+
+      Events[0]:= Overlapped.hEvent;
+      Events[1]:= FEvent;
+
+      while not Terminated do
+      begin
+        SA.nLength := SizeOf(SA);
+        SA.lpSecurityDescriptor := @SD;
+        SA.bInheritHandle := True;
+
+        // Create pipe server
+        hPipe := CreateNamedPipeW(PWideChar('\\.\pipe\' + AName),
+          PIPE_ACCESS_DUPLEX or
+          FILE_FLAG_OVERLAPPED,
+          PIPE_WAIT or
+          PIPE_READMODE_BYTE or
+          PIPE_TYPE_BYTE,
+          PIPE_UNLIMITED_INSTANCES,
+          maxSmallint,
+          maxSmallint,
+          0,
+          @SA);
+
+        if hPipe = INVALID_HANDLE_VALUE then
+          RaiseLastOSError;
+
+        DCDebug('Start server ', FOwner.Name);
+
+        FReadyEvent.SetEvent;
+
+        while not Terminated do
+        begin
+          bPending:= False;
+
+          if not ConnectNamedPipe(hPipe, @Overlapped) then
+          begin
+            case (GetLastError()) of
+            ERROR_IO_PENDING:
+              bPending:= True;
+            ERROR_PIPE_CONNECTED:
+              SetEvent(Overlapped.hEvent);
+            else
+              begin
+                DisconnectNamedPipe(hPipe);
+                Continue;
+              end;
+            end;
+          end;
+
+          // Wait client connection
+          dwWait := WaitForMultipleObjectsEx(Length(Events), Events, False, INFINITE, True);
+
+          if (dwWait = 1) or ((dwWait = 0) and bPending and (not GetOverlappedResult(hPipe, Overlapped, dwWait, False))) then
           begin
             DisconnectNamedPipe(hPipe);
             Continue;
           end;
+
+          if (FOwner.VerifyChild and not VerifyChild(hPipe)) or
+             (FOwner.VerifyParent and not VerifyParent(hPipe)) then
+          begin
+            DisconnectNamedPipe(hPipe);
+            Continue;
+          end;
+
+          Break;
+        end; // while
+
+        if not Terminated then
+          TClientHandlerThread.Create(hPipe, FOwner)
+        else begin
+          DisconnectNamedPipe(hPipe);
         end;
-      end;
-
-      // Wait client connection
-      dwWait := WaitForMultipleObjectsEx(Length(Events), Events, False, INFINITE, True);
-
-      if (dwWait = 1) or ((dwWait = 0) and bPending and (not GetOverlappedResult(hPipe, Overlapped, dwWait, False))) then
-      begin
-        DisconnectNamedPipe(hPipe);
-        Continue;
-      end;
-
-      if (FOwner.VerifyChild and not VerifyChild(hPipe)) or
-         (FOwner.VerifyParent and not VerifyParent(hPipe)) then
-      begin
-        DisconnectNamedPipe(hPipe);
-        Continue;
-      end;
-
-      Break;
-    end; // while
-
-    if not Terminated then
-      TClientHandlerThread.Create(hPipe, FOwner)
-    else begin
-      DisconnectNamedPipe(hPipe);
+      end; // while
+    finally
+      CloseHandle(hProcess);
+      if Assigned(ACL) then LocalFree(HLOCAL(ACL));
+      if (TokenHandle > 0) then CloseHandle(TokenHandle);
+      if (hPipe <> INVALID_HANDLE_VALUE) then CloseHandle(hPipe);
+      if (Overlapped.hEvent > 0) then CloseHandle(Overlapped.hEvent);
     end;
-  end; // while
-
-  CloseHandle(hPipe);
-  CloseHandle(Events[0]);
-  LocalFree(HLOCAL(ACL));
+  except
+    on E: Exception do
+    begin
+      DCDebug(E.Message);
+      if FOwner.ProcessId > 0 then
+        Halt
+      else
+        Exit;
+    end;
+  end;
 end;
 
 end.
