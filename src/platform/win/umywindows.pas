@@ -985,10 +985,18 @@ begin
   Result:= False;
 end;
 
+function SHGetValueW(hkey: HKEY; pszSubKey, pszValue: LPCWSTR; pdwType: PDWORD;
+                     pvData: LPVOID; pcbData: PDWORD): DWORD; stdcall; external 'shlwapi.dll';
+
 function IsUserAdmin: TDuplicates;
+const
+  SYSTEM = 'SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System';
 var
   Success: Boolean;
+  dwValue: DWORD = 0;
   ReturnLength: DWORD = 0;
+  dwType: DWORD = REG_DWORD;
+  dwValueSize: DWORD = SizeOf(DWORD);
   TokenHandle: HANDLE = INVALID_HANDLE_VALUE;
   TokenInformation: array [0..1023] of Byte;
   ElevationType: JwaVista.TTokenElevationType absolute TokenInformation;
@@ -1008,9 +1016,32 @@ begin
     if Success then
     begin
       case ElevationType of
-        TokenElevationTypeDefault: Result:= dupIgnore;  // The token does not have a linked token. (UAC disabled)
-        TokenElevationTypeFull:    Result:= dupAccept;  // The token is an elevated token. (Administrator)
-        TokenElevationTypeLimited: Result:= dupError;   // The token is a limited token. (User)
+        // The token is an elevated token. (Administrator)
+        TokenElevationTypeFull:    Result:= dupAccept;
+        // The token is a limited token. (User)
+        TokenElevationTypeLimited: Result:= dupError;
+        // The token does not have a linked token. (UAC disabled or standard user)
+        TokenElevationTypeDefault:
+          begin
+            if (SHGetValueW( HKEY_LOCAL_MACHINE, SYSTEM, 'EnableLUA',
+                @dwType, @dwValue, @dwValueSize) <> ERROR_SUCCESS) then
+            begin
+              Exit(dupError);
+            end;
+            if (dwValue > 0) then
+            begin
+              if (SHGetValueW( HKEY_LOCAL_MACHINE, SYSTEM, 'ConsentPromptBehaviorUser',
+                  @dwType, @dwValue, @dwValueSize) <> ERROR_SUCCESS) then
+              begin
+                Exit(dupError);
+              end;
+            end;
+            if (dwValue > 0) then
+              Result:= dupError
+            else begin
+              Result:= dupIgnore;
+            end;
+          end;
       end;
     end;
   end;
