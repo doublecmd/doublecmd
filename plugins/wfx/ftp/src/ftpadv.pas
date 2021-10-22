@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    WFX plugin for working with File Transfer Protocol
 
-   Copyright (C) 2009-2020 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2009-2021 Alexander Koblov (alexx2000@mail.ru)
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Lesser General Public
@@ -28,7 +28,7 @@ unit FtpAdv;
 interface
 
 uses
-  Classes, SysUtils, WfxPlugin, FtpSend, LazUTF8Classes, LConvEncoding,
+  Classes, SysUtils, WfxPlugin, FtpSend, DCClassesUtf8, LConvEncoding,
   DCConvertEncoding, DCFileAttributes, DCBasicTypes, blcksock, LazVersion;
 
 type
@@ -65,7 +65,7 @@ type
 
   { TProgressStream }
 
-  TProgressStream = class(TFileStreamUTF8)
+  TProgressStream = class(TFileStreamEx)
   public
     DoneSize: Int64;
     FileSize: Int64;
@@ -146,7 +146,7 @@ type
 implementation
 
 uses
-  LazUTF8, LazFileUtils, FtpFunc, FtpUtils, synautil, synsock, DCStrUtils,
+  LazUTF8, DCOSUtils, FtpFunc, FtpUtils, synautil, synsock, DCStrUtils,
   DCDateTimeUtils
 {$IF (FPC_FULLVERSION < 30000)}
   , LazUTF8SysUtils
@@ -876,7 +876,7 @@ begin
   if not DataSocket then Exit;
   Restore := Restore and FCanResume;
 
-  if Restore and FileExistsUTF8(FDirectFileName) then
+  if Restore and mbFileExists(FDirectFileName) then
     RetrStream := TProgressStream.Create(FDirectFileName, fmOpenWrite or fmShareExclusive)
   else begin
     RetrStream := TProgressStream.Create(FDirectFileName, fmCreate or fmShareDenyWrite)
