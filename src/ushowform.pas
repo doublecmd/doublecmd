@@ -109,7 +109,7 @@ procedure ShowViewerByGlobList(const FilesToView: TStringList;
 implementation
 
 uses
-  SysUtils, Process, DCProcessUtf8, Dialogs, LCLIntf,
+  SysUtils, Process, DCProcessUtf8, Dialogs, LCLIntf, DCDateTimeUtils,
   uShellExecute, uGlobs, uOSUtils, fEditor, fViewer, uDCUtils,
   uTempFileSystemFileSource, uLng, fDiffer, uDebug, DCOSUtils, uShowMsg,
   DCStrUtils, uFileSourceProperty, uWfxPluginCopyOutOperation,
@@ -475,16 +475,25 @@ end;
 
 procedure TEditorWaitData.Done;
 var
-  Msg: string;
   I: Integer;
-  Operation: TFileSourceCopyOperation;
+  Msg: String;
+  FileTime: TFileTime;
   DoNotFreeYet: Boolean = False;
+  Operation: TFileSourceCopyOperation;
 begin
   try
     for I := Files.Count - 1 downto 0 do
-      if (mbFileAge(Files[I].FullPath) = FileTimes[I]) or
-         not msgYesNo(Format(rsMsgCopyBackward, [GetRelativeFileName(Files[I].FullPath)]) + LineEnding + LineEnding + GetFromPath) then
+    begin
+      FileTime:= mbFileAge(Files[I].FullPath);
+      if (FileTime = FileTimes[I]) or
+         (not msgYesNo(Format(rsMsgCopyBackward, [GetRelativeFileName(Files[I].FullPath)]) + LineEnding + LineEnding + GetFromPath)) then
+      begin
         Files.Delete(I);
+      end
+      else begin
+        Files[I].ModificationTime:= FileTimeToDateTime(FileTime);
+      end;
+    end;
 
     // Files were modified
     if Files.Count > 0 then
