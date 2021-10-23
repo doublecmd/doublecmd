@@ -3,7 +3,7 @@
     -------------------------------------------------------------------------
     Some useful functions for Unix icon theme implementation
 
-    Copyright (C) 2009-2020  Alexander Koblov (alexx2000@mail.ru)
+    Copyright (C) 2009-2021  Alexander Koblov (alexx2000@mail.ru)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -30,7 +30,6 @@ uses
 
 const
   DEFAULT_THEME_NAME = 'hicolor';
-  DEFAULT_THEME_KDE4 = 'default.kde4';
 
 function GetCurrentIconTheme: String;
 function GetUnixDefaultTheme: String;
@@ -43,39 +42,34 @@ uses
 
 function GetKdeIconTheme: String;
 const
-  kde3Config = '/.kde/share/config/kdeglobals';
-  kde4Config = '/.kde4/share/config/kdeglobals';
+  kdeConfig = '/.kde/share/config/kdeglobals';
 var
-  kdeConfig: array[1..2] of String = (kde4Config, kde3Config);
   I: Integer;
+  FileName: String;
   iniCfg: TIniFileEx = nil;
 begin
   Result:= EmptyStr;
-  for I:= Low(kdeConfig) to High(kdeConfig) do
-  begin
-    if (Length(Result) = 0) and mbFileExists(GetHomeDir + kdeConfig[I]) then
+  FileName:= GetHomeDir + kdeConfig;
+  if mbFileExists(FileName) then
+  try
+    iniCfg:= TIniFileEx.Create(FileName);
     try
-      iniCfg:= TIniFileEx.Create(GetHomeDir + kdeConfig[I]);
-      try
-        Result:= iniCfg.ReadString('Icons', 'Theme', EmptyStr);
-      finally
-        iniCfg.Free;
-      end;
-    except
-      // Skip
+      Result:= iniCfg.ReadString('Icons', 'Theme', EmptyStr);
+    finally
+      iniCfg.Free;
     end;
+  except
+    // Skip
   end;
-  if (Length(Result) = 0) and mbDirectoryExists('/usr/share/icons/default.kde4') then
-    Result:= 'default.kde4'
-  else if (Length(Result) = 0) and mbDirectoryExists('/usr/share/icons/default.kde') then
-    Result:= 'default.kde';
+  if Length(Result) = 0 then
+    Result:= 'breeze';
 end;
 
 function GetGnomeIconTheme: String;
 begin
   Result:= GioGetIconTheme('org.gnome.desktop.interface');
   if Length(Result) = 0 then
-    Result:= 'gnome';
+    Result:= 'Adwaita';
 end;
 
 function GetXfceIconTheme: String;
@@ -230,19 +224,14 @@ begin
   UnixIconThemesBaseDirList[1] := Home + '/.local/share/icons';
   if DesktopEnv = DE_KDE then
   begin
-    I:= 3;
-    SetLength(UnixIconThemesBaseDirList, 8);
+    I:= 2;
+    SetLength(UnixIconThemesBaseDirList, 7);
     UnixIconThemesBaseDirList[2] := Home + '/.kde/share/icons';
-    UnixIconThemesBaseDirList[3] := Home + '/.kde4/share/icons';
   end;
   UnixIconThemesBaseDirList[I + 1] := '/usr/local/share/icons';
   UnixIconThemesBaseDirList[I + 2] := '/usr/local/share/pixmaps';
   UnixIconThemesBaseDirList[I + 3] := '/usr/share/icons';
   UnixIconThemesBaseDirList[I + 4] := '/usr/share/pixmaps';
-  // Default Unix icon theme
-  if (DesktopEnv = DE_KDE) then begin
-    UnixDefaultTheme:= DEFAULT_THEME_KDE4 + PathSep + UnixDefaultTheme;
-  end;
 end;
 
 initialization
