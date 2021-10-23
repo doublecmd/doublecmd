@@ -1382,8 +1382,11 @@ procedure TfrmSyncDirsDlg.SortFoundItems(sl: TStringList);
   var
     r1, r2: TFileSyncRec;
   begin
-    r1 := TFileSyncRec(sl.Objects[i]);
-    r2 := TFileSyncRec(sl.Objects[j]);
+    if FSortIndex in [1..5] then
+    begin
+      r1 := TFileSyncRec(sl.Objects[i]);
+      r2 := TFileSyncRec(sl.Objects[j]);
+    end;
     case FSortIndex of
     0:
       Result := UTF8CompareStr(sl[i], sl[j]);
