@@ -1604,7 +1604,7 @@ begin
   gAutoFillColumns := False;
   gAutoSizeColumn := 1;
   gColumnsAutoSaveWidth := True;
-  gColumnsTitleStyle := {$IFDEF LCLWIN32}tsNative{$ELSE}tsStandard{$ENDIF};
+  gColumnsTitleStyle := tsNative;
   gCustomColumnsChangeAllColumns := False;
   gDateTimeFormat := DefaultDateTimeFormat;
   gCutTextToColWidth := True;
