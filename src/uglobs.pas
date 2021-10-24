@@ -1681,21 +1681,21 @@ begin
   gFonts[dcfConsole].MaxValue := 200;
 
   gFonts[dcfPathEdit].Name := 'default';
-  gFonts[dcfPathEdit].Size := 8;
+  gFonts[dcfPathEdit].Size := 10;
   gFonts[dcfPathEdit].Style := [];
   gFonts[dcfPathEdit].Quality := fqDefault;
   gFonts[dcfPathEdit].MinValue := 6;
   gFonts[dcfPathEdit].MaxValue := 200;
 
   gFonts[dcfFunctionButtons].Name := 'default';
-  gFonts[dcfFunctionButtons].Size := 8;
+  gFonts[dcfFunctionButtons].Size := 10;
   gFonts[dcfFunctionButtons].Style := [];
   gFonts[dcfFunctionButtons].Quality := fqDefault;
   gFonts[dcfFunctionButtons].MinValue := 6;
   gFonts[dcfFunctionButtons].MaxValue := 200;
 
   gFonts[dcfSearchResults].Name := 'default';
-  gFonts[dcfSearchResults].Size := 9;
+  gFonts[dcfSearchResults].Size := 10;
   gFonts[dcfSearchResults].Style := [];
   gFonts[dcfSearchResults].Quality := fqDefault;
   gFonts[dcfSearchResults].MinValue := 6;
