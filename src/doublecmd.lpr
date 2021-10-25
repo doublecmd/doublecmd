@@ -101,7 +101,7 @@ begin
   Randomize;
 
   // Disable invalid floating point operation exception
-  SetExceptionMask(GetExceptionMask + [exInvalidOp]);
+  SetExceptionMask(GetExceptionMask + [exInvalidOp, exZeroDivide]);
 
   {$IF DEFINED(NIGHTLY_BUILD)}
   InitLineInfo;
