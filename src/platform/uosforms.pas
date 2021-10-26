@@ -117,7 +117,8 @@ procedure ShowOpenWithDialog(TheOwner: TComponent; const FileList: TStringList);
 {$ENDIF}
 
 function GetControlHandle(AWindow: TWinControl): HWND;
-function GetWindowHandle(AWindow: TWinControl): HWND;
+function GetWindowHandle(AWindow: TWinControl): HWND; overload;
+function GetWindowHandle(AHandle: HWND): HWND; overload;
 
 implementation
 
@@ -889,6 +890,17 @@ end;
 {$ELSE}
 begin
   Result:= AWindow.Handle;
+end;
+{$ENDIF}
+
+function GetWindowHandle(AHandle: HWND): HWND;
+{$IF DEFINED(MSWINDOWS) and DEFINED(LCLQT5)}
+begin
+  Result:= Windows.GetAncestor(HWND(QWidget_winId(TQtWidget(AHandle).GetContainerWidget)), GA_ROOT);
+end;
+{$ELSE}
+begin
+  Result:= AHandle;
 end;
 {$ENDIF}
 

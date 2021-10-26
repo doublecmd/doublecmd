@@ -189,7 +189,7 @@ uses
   SysConst, LazUTF8, FileUtil,
 
   //DC
-  uDCUtils, uComponentsSignature, uGlobsPaths, uLng, uOSUtils, DCOSUtils,
+  uDCUtils, uComponentsSignature, uGlobsPaths, uLng, uOSUtils, DCOSUtils, uOSForms,
   DCDateTimeUtils, DCConvertEncoding, fDialogBox, uDebug, uShowMsg, uLog, uGlobs;
 
 const
@@ -564,7 +564,7 @@ end;
 procedure TWcxModule.VFSConfigure(Parent: HWND);
 begin
   if Assigned(ConfigurePacker) then
-    ConfigurePacker(Parent, FModuleHandle);
+    ConfigurePacker(GetWindowHandle(Parent), FModuleHandle);
 end;
 
 function TWcxModule.ReadWCXHeader(hArcData: TArcHandle;
