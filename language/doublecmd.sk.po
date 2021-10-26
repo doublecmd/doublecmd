@@ -9960,7 +9960,7 @@ msgid "A&uto-rename source files"
 msgstr "A&utomaticky premenovať zdrojové súbory"
 
 #: ulng.rsdlgbuttonautorenametarget
-msgid "A&uto-rename target files"
+msgid "Auto-rename tar&get files"
 msgstr "A&utomaticky premenovať cieľové súbory"
 
 #: ulng.rsdlgbuttoncancel

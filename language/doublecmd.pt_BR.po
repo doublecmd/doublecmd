@@ -10401,7 +10401,7 @@ msgid "A&uto-rename source files"
 msgstr "Auto renomer arquivos fonte"
 
 #: ulng.rsdlgbuttonautorenametarget
-msgid "A&uto-rename target files"
+msgid "Auto-rename tar&get files"
 msgstr ""
 
 #: ulng.rsdlgbuttoncancel

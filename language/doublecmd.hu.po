@@ -10235,7 +10235,7 @@ msgid "A&uto-rename source files"
 msgstr "Forrásfájlok a&utomatikus átnevezése"
 
 #: ulng.rsdlgbuttonautorenametarget
-msgid "A&uto-rename target files"
+msgid "Auto-rename tar&get files"
 msgstr "Célfájlok a&utomatikus átnevezése"
 
 #: ulng.rsdlgbuttoncancel

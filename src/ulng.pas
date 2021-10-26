@@ -418,7 +418,7 @@ resourcestring
   rsDlgButtonOverwriteSmaller = 'Overwrite All S&maller';
   rsDlgButtonOverwriteLarger = 'Overwrite All &Larger';
   rsDlgButtonAutoRenameSource = 'A&uto-rename source files';
-  rsDlgButtonAutoRenameTarget = 'A&uto-rename target files';
+  rsDlgButtonAutoRenameTarget = 'Auto-rename tar&get files';
   rsDlgButtonSkip = '&Skip';
   rsDlgButtonSkipAll = 'S&kip All';
   rsDlgButtonIgnore = 'Ig&nore';
