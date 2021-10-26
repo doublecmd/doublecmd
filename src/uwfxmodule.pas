@@ -192,7 +192,7 @@ uses
 
   //DC
   uDCUtils, uLng, uGlobsPaths, uOSUtils, uWfxPluginUtil, fDialogBox, DCOSUtils,
-  DCStrUtils, DCConvertEncoding, uComponentsSignature;
+  DCStrUtils, DCConvertEncoding, uComponentsSignature, uOSForms;
 
 const
   WfxIniFileName = 'wfx.ini';
@@ -298,6 +298,7 @@ var
   pwcRemoteName: PWideChar;
 begin
   Result:= WFX_NOTSUPPORTED;
+  MainWin:= GetWindowHandle(MainWin);
   if Assigned(FsExecuteFileW) then
     begin
       pwcRemoteName:= GetMem(MAX_PATH * SizeOf(WideChar));
