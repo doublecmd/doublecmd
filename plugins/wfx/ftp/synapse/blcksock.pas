@@ -2505,6 +2505,8 @@ var
 begin
   repeat
     s := RecvPacket(Timeout);
+    if (Length(s) = 0) then
+      Break;
     if FLastError = 0 then
       WriteStrToStream(Stream, s);
   until FLastError <> 0;

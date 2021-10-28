@@ -51,6 +51,15 @@ Index: blcksock.pas
    published
      {:Here you can specify requested SSL/TLS mode. Default is autodetection, but
       on some servers autodetection not working properly. In this case you must
+@@ -2500,6 +2505,8 @@
+ begin
+   repeat
+     s := RecvPacket(Timeout);
++    if (Length(s) = 0) then
++      Break;
+     if FLastError = 0 then
+       WriteStrToStream(Stream, s);
+   until FLastError <> 0;
 Index: ftpsend.pas
 ===================================================================
 --- ftpsend.pas	(revision 209)
