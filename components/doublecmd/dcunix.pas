@@ -213,7 +213,7 @@ begin
 {$IFDEF LINUX}
   if (fpFStatFS(Handle, @Sbfs) = 0) then
   begin
-    case Sbfs.fstype of
+    case UInt32(Sbfs.fstype) of
       SMB_SUPER_MAGIC,
       SMB2_MAGIC_NUMBER,
       CIFS_MAGIC_NUMBER: Exit;
