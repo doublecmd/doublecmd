@@ -1046,8 +1046,12 @@ begin
   begin
     if TScalableVectorGraphics.IsFileExtensionSupported(ExtractFileExt(sIconFileName)) then
       Result := BitmapLoadFromScalable(sIconFileName, AIconSize, AIconSize)
-    else
+    else begin
       Result := CheckLoadPixmapFromFile(sIconFileName);
+      if Assigned(Result) then begin
+        Result:= StretchBitmap(Result, AIconSize, clNone, True);
+      end;
+    end;
   end;
   {$ENDIF}
   if not Assigned(Result) then
@@ -2272,28 +2276,39 @@ end;
 procedure TPixMapManager.LoadApplicationThemeIcon;
 var
   AIcon: TIcon;
-  SmallIcon, LargeIcon: Graphics.TBitmap;
+  LargeIcon: Graphics.TBitmap;
+  SmallSize, LargeSize: Integer;
+  SmallIcon: Graphics.TBitmap = nil;
 begin
-  LargeIcon:= LoadIconThemeBitmapLocked('doublecmd', GetSystemMetrics(SM_CXICON));
-  SmallIcon:= LoadIconThemeBitmapLocked('doublecmd', GetSystemMetrics(SM_CXSMICON));
+  LargeSize:= GetSystemMetrics(SM_CXICON);
+  SmallSize:= GetSystemMetrics(SM_CXSMICON);
+  LargeIcon:= LoadIconThemeBitmapLocked('doublecmd', LargeSize);
+  if (LargeSize <> SmallSize) then begin
+    SmallIcon:= LoadIconThemeBitmapLocked('doublecmd', SmallSize);
+  end;
   if Assigned(LargeIcon) or Assigned(SmallIcon) then
-  begin
+  try
     AIcon:= TIcon.Create;
-    if Assigned(SmallIcon) then
-    begin
-      AIcon.Add(pf32bit, SmallIcon.Height, SmallIcon.Width);
-      AIcon.AssignImage(SmallIcon);
-      SmallIcon.Free;
+    try
+      if Assigned(SmallIcon) then
+      begin
+        AIcon.Add(pf32bit, SmallIcon.Height, SmallIcon.Width);
+        AIcon.AssignImage(SmallIcon);
+        SmallIcon.Free;
+      end;
+      if Assigned(LargeIcon) then
+      begin
+        AIcon.Add(pf32bit, LargeIcon.Height, LargeIcon.Width);
+        if AIcon.Count > 1 then AIcon.Current:= AIcon.Current + 1;
+        AIcon.AssignImage(LargeIcon);
+        LargeIcon.Free;
+      end;
+      Application.Icon.Assign(AIcon);
+    finally
+      AIcon.Free;
     end;
-    if Assigned(LargeIcon) then
-    begin
-      AIcon.Add(pf32bit, LargeIcon.Height, LargeIcon.Width);
-      AIcon.Current := AIcon.Current + 1;
-      AIcon.AssignImage(LargeIcon);
-      LargeIcon.Free;
-    end;
-    Application.Icon.Assign(AIcon);
-    AIcon.Free;
+  except
+    // Skip
   end;
 end;
 
