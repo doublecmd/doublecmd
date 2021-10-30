@@ -43,7 +43,7 @@ uses
   //Lazarus, Free-Pascal, etc.
   LazUtf8, SysUtils, Classes, Graphics, Forms, StdCtrls, Menus, Controls,
   LCLType, StringHashList, Grids, ExtCtrls, Buttons, ActnList, EditBtn,
-  KASButton,
+  KASButton, KASToolPanel,
 
   //DC
   DCXmlConfig, uOSForms, uRegExprW, uFileProperty, uFormCommands,
@@ -136,7 +136,7 @@ type
     cbPresets: TComboBox;
     btnPresets: TBitBtn;
     spltMainSplitter: TSplitter;
-    pnlOptionsRight: TPanel;
+    pnlOptionsRight: TKASToolPanel;
     gbFindReplace: TGroupBox;
     lbFind: TLabel;
     edFind: TEdit;
@@ -229,6 +229,7 @@ type
     procedure FormCreate({%H-}Sender: TObject);
     procedure FormCloseQuery({%H-}Sender: TObject; var CanClose: boolean);
     procedure FormClose({%H-}Sender: TObject; var CloseAction: TCloseAction);
+    procedure FormShow(Sender: TObject);
     procedure StringGridKeyDown({%H-}Sender: TObject; var Key: word; Shift: TShiftState);
     procedure StringGridMouseDown({%H-}Sender: TObject; Button: TMouseButton; {%H-}Shift: TShiftState; X, Y: integer);
     procedure StringGridMouseUp({%H-}Sender: TObject; Button: TMouseButton; {%H-}Shift: TShiftState; {%H-}X, {%H-}Y: integer);
@@ -656,6 +657,14 @@ begin
     IniPropStorage.StoredValue['lsvwFile_Columns.Item1_Width'] := IntToStr(Items[1].Width);
     IniPropStorage.StoredValue['lsvwFile_Columns.Item2_Width'] := IntToStr(Items[2].Width);
   end;
+end;
+
+procedure TfrmMultiRename.FormShow(Sender: TObject);
+begin
+{$IF DEFINED(LCLQT5)}
+  gbPresets.Constraints.MaxHeight:= cbPresets.Height + (gbPresets.Height - gbPresets.ClientHeight) + 
+                                    gbPresets.ChildSizing.TopBottomSpacing * 2;
+{$ENDIF}
 end;
 
 { TfrmMultiRename.StringGridKeyDown }
