@@ -684,7 +684,6 @@ object frmMultiRename: TfrmMultiRename
       Width = 120
       Action = actInvokeEditor
       AutoSize = True
-      Constraints.MinHeight = 26
       Constraints.MinWidth = 120
       ParentFont = False
       TabOrder = 0
@@ -700,7 +699,6 @@ object frmMultiRename: TfrmMultiRename
       Action = actConfig
       AutoSize = True
       BorderSpacing.Left = 6
-      Constraints.MinHeight = 26
       Constraints.MinWidth = 120
       ParentFont = False
       TabOrder = 1
