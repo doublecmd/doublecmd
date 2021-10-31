@@ -548,14 +548,13 @@ object frmMultiRename: TfrmMultiRename
         end
       end
       object cbLog: TCheckBox
-        AnchorSideLeft.Control = pnlOptionsRight
+        AnchorSideLeft.Control = fneRenameLogFileFilename
         AnchorSideTop.Control = cbLogAppend
         AnchorSideTop.Side = asrCenter
-        Left = 10
+        Left = 5
         Height = 23
         Top = 190
         Width = 87
-        BorderSpacing.Left = 10
         BorderSpacing.Top = 2
         Caption = '&Log result'
         OnClick = cbLogClick
@@ -589,15 +588,15 @@ object frmMultiRename: TfrmMultiRename
         ParentFont = False
       end
       object fneRenameLogFileFilename: TFileNameEdit
-        AnchorSideLeft.Control = pnlOptionsRight
+        AnchorSideLeft.Control = gbFindReplace
         AnchorSideTop.Control = cbLog
         AnchorSideTop.Side = asrBottom
         AnchorSideRight.Control = btnRelativeRenameLogFile
         AnchorSideBottom.Side = asrBottom
-        Left = 10
+        Left = 5
         Height = 35
         Top = 215
-        Width = 461
+        Width = 466
         DialogTitle = 'Select target log filename'
         DialogOptions = []
         FilterIndex = 0
@@ -605,7 +604,7 @@ object frmMultiRename: TfrmMultiRename
         ButtonWidth = 23
         NumGlyphs = 1
         Anchors = [akTop, akLeft, akRight]
-        BorderSpacing.Left = 10
+        BorderSpacing.Left = 5
         MaxLength = 0
         ParentFont = False
         TabOrder = 5
@@ -616,7 +615,7 @@ object frmMultiRename: TfrmMultiRename
         AnchorSideLeft.Side = asrBottom
         AnchorSideTop.Control = gbFindReplace
         AnchorSideTop.Side = asrBottom
-        Left = 107
+        Left = 102
         Height = 23
         Top = 190
         Width = 75
