@@ -660,11 +660,15 @@ begin
 end;
 
 procedure TfrmMultiRename.FormShow(Sender: TObject);
+var
+  APoint: TPoint;
 begin
 {$IF DEFINED(LCLQT5)}
   gbPresets.Constraints.MaxHeight:= cbPresets.Height + (gbPresets.Height - gbPresets.ClientHeight) + 
                                     gbPresets.ChildSizing.TopBottomSpacing * 2;
 {$ENDIF}
+  APoint:= TPoint.Create(cbUseSubs.Left, 0);
+  fneRenameLogFileFilename.BorderSpacing.Left:= gbFindReplace.ClientToParent(APoint, pnlOptionsRight).X;
 end;
 
 { TfrmMultiRename.StringGridKeyDown }
