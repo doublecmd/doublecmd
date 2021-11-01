@@ -2182,6 +2182,7 @@ object frmMain: TfrmMain
       Category = 'Navigation'
       Caption = 'Synchronous navigation'
       Hint = 'Synchronous directory changing in both panels'
+      GroupIndex = 7
       OnExecute = actExecute
     end
     object actChangeDirToParent: TAction
