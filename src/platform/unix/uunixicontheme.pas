@@ -42,24 +42,27 @@ uses
 
 function GetKdeIconTheme: String;
 const
-  kdeConfig = '/.kde/share/config/kdeglobals';
+  kde5Config = '/.kde/share/config/kdeglobals';
+  kde4Config = '/.kde4/share/config/kdeglobals';
 var
   I: Integer;
-  FileName: String;
   iniCfg: TIniFileEx = nil;
+  kdeConfig: array[1..2] of String = (kde4Config, kde5Config);
 begin
   Result:= EmptyStr;
-  FileName:= GetHomeDir + kdeConfig;
-  if mbFileExists(FileName) then
-  try
-    iniCfg:= TIniFileEx.Create(FileName);
+  for I:= Low(kdeConfig) to High(kdeConfig) do
+  begin
+    if (Length(Result) = 0) and mbFileExists(GetHomeDir + kdeConfig[I]) then
     try
-      Result:= iniCfg.ReadString('Icons', 'Theme', EmptyStr);
-    finally
-      iniCfg.Free;
+      iniCfg:= TIniFileEx.Create(GetHomeDir + kdeConfig[I]);
+      try
+        Result:= iniCfg.ReadString('Icons', 'Theme', EmptyStr);
+      finally
+        iniCfg.Free;
+      end;
+    except
+      // Skip
     end;
-  except
-    // Skip
   end;
   if Length(Result) = 0 then
     Result:= 'breeze';
