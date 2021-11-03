@@ -3,7 +3,7 @@
     -------------------------------------------------------------------------
     This unit contains specific UNIX functions.
 
-    Copyright (C) 2008-2020 Alexander Koblov (alexx2000@mail.ru)
+    Copyright (C) 2008-2021 Alexander Koblov (alexx2000@mail.ru)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -276,7 +276,9 @@ var
   I: Integer;
   DesktopSession: String;
 const
-  EnvVariable: array[0..1] of String = ('XDG_CURRENT_DESKTOP', 'DESKTOP_SESSION');
+  EnvVariable: array[0..2] of String = ('XDG_CURRENT_DESKTOP',
+                                        'XDG_SESSION_DESKTOP',
+                                        'DESKTOP_SESSION');
 begin
   Result:= DE_UNKNOWN;
   for I:= Low(EnvVariable) to High(EnvVariable) do
@@ -285,6 +287,8 @@ begin
     if Length(DesktopSession) = 0 then Continue;
     DesktopSession:= LowerCase(DesktopSession);
     if Pos('kde', DesktopSession) <> 0 then
+      Exit(DE_KDE);
+    if Pos('plasma', DesktopSession) <> 0 then
       Exit(DE_KDE);
     if Pos('gnome', DesktopSession) <> 0 then
       Exit(DE_GNOME);
@@ -540,7 +544,6 @@ end;
 function MountDrive(Drive: PDrive): Boolean;
 {$IFDEF LINUX}
 var
-  Index: Integer;
   MountPath: String = '';
 {$ENDIF}
 begin
