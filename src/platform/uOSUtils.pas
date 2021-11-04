@@ -65,12 +65,12 @@ const
   RunInTermCloseParams = '';
   MonoSpaceFont = 'Monaco';
   {$ELSE}
-  RunTermCmd = 'xterm';  // default terminal
-  RunTermParams = '';
-  RunInTermStayOpenCmd = 'xterm'; // default run in terminal command AND Stay open after command
-  RunInTermStayOpenParams = '-e sh -c ''{command}; echo -n Press ENTER to exit... ; read a''';
-  RunInTermCloseCmd = 'xterm'; // default run in terminal command AND Close after command
-  RunInTermCloseParams = '-e sh -c {command}';
+  RunTermCmd: String = 'xterm';  // default terminal
+  RunTermParams: String = '';
+  RunInTermStayOpenCmd: String = 'xterm'; // default run in terminal command AND Stay open after command
+  RunInTermStayOpenParams: String = '-e sh -c ''{command}; echo -n Press ENTER to exit... ; read a''';
+  RunInTermCloseCmd: String = 'xterm'; // default run in terminal command AND Close after command
+  RunInTermCloseParams: String = '-e sh -c {command}';
   MonoSpaceFont = 'Monospace';
   {$ENDIF}
   fmtCommandPath = '[%s]$:';

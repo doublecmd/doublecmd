@@ -140,7 +140,7 @@ uses
   , BaseUnix, Errors, fFileProperties, uJpegThumb
     {$IF NOT DEFINED(DARWIN)}
     , uDCReadSVG, uMagickWand, uGio, uGioFileSource, uVfsModule, uVideoThumb
-    , uDCReadWebP, uFolderThumb, uAudioThumb
+    , uDCReadWebP, uFolderThumb, uAudioThumb, uDefaultTerminal
     {$ELSE}
     , MacOSAll, uQuickLook, uMyDarwin, uShowMsg, uLng
     {$ENDIF}
