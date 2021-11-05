@@ -172,7 +172,8 @@ type
 
 const
   { Default hotkey list version number }
-  hkVersion = 52;
+  hkVersion = 53;
+  // 53 - In "Main" context, change shortcut "Alt+`" to "Alt+0" for the "cm_ActivateTabByIndex".
   // 52 - In "Main" context, add shortcut "Ctrl+Shift+B" for "cm_FlatViewSel".
   // 51 - In "Multi-Rename" context, added the "Shift+F4" shortcut for the "cm_EditNewNames".
   // 50 - To load shortcut keys for the "Multi-Rename" which is now driven with "cm_Actions".
@@ -1027,6 +1028,16 @@ begin
         end;
       end;
 
+      if HotMan.Version < 53 then
+      begin
+        HMHotKey:= Find(['Alt+`']);
+        if Assigned(HMHotKey) and (HMHotKey.Command = 'cm_ActivateTabByIndex') then
+        begin
+          if HMHotKey.SameParams(['index=-1']) then
+            HMHotKey.Shortcuts[0]:= 'Alt+0';
+        end;
+      end;
+
       AddIfNotExists(['Alt+F8','','',
                       'Ctrl+Down','',''], 'cm_ShowCmdLineHistory');
       AddIfNotExists(['Ctrl+B'],[],'cm_FlatView');
@@ -1098,7 +1109,7 @@ begin
          'Alt+7','','index=7','',
          'Alt+8','','index=8','',
          'Alt+9','','index=9','',
-         'Alt+`','','index=-1',''],
+         'Alt+0','','index=-1',''],
        'cm_ActivateTabByIndex');
       AddIfNotExists([
         'Ctrl+1','','index=1','',
