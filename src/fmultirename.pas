@@ -134,7 +134,7 @@ type
     cmbExtensionStyle: TComboBox;
     gbPresets: TGroupBox;
     cbPresets: TComboBox;
-    btnPresets: TBitBtn;
+    btnPresets: TKASButton;
     spltMainSplitter: TSplitter;
     pnlOptionsRight: TKASToolPanel;
     gbFindReplace: TGroupBox;
@@ -1270,10 +1270,10 @@ var
 begin
   btnAnyNameMask.Action := actAnyNameMask;
   btnAnyNameMask.Caption := '...';
-  btnAnyNameMask.Width := fneRenameLogFileFilename.ButtonWidth;;
+  btnAnyNameMask.Width := fneRenameLogFileFilename.ButtonWidth;
   btnAnyExtMask.Action := actAnyExtMask;
   btnAnyExtMask.Caption := '...';
-  btnAnyExtMask.Width := fneRenameLogFileFilename.ButtonWidth;;;
+  btnAnyExtMask.Width := fneRenameLogFileFilename.ButtonWidth;
   btnRelativeRenameLogFile.Action := actInvokeRelativePath;
   btnRelativeRenameLogFile.Caption := '';
   btnRelativeRenameLogFile.Width := fneRenameLogFileFilename.ButtonWidth;
@@ -1285,7 +1285,7 @@ begin
   btnPresets.Action := actShowPresetsMenu;
   btnPresets.Caption := '';
   btnPresets.Hint := actShowPresetsMenu.Caption;
-  btnPresets.Width := fneRenameLogFileFilename.ButtonWidth;;;
+  btnPresets.Constraints.MinWidth := fneRenameLogFileFilename.ButtonWidth;
 
   miPresets := TMenuItem.Create(mmMainMenu);
   miPresets.Caption := gbPresets.Caption;
