@@ -9,7 +9,7 @@
    
    contributors:
    
-   Copyright (C) 2006-2019 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2006-2021 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
@@ -44,12 +44,15 @@ interface
 uses
   Classes, SysUtils, Graphics, syncobjs, uFileSorting, DCStringHashListUtf8,
   uFile, uIconTheme, uDrive, uDisplayFile, uGlobs, uDCReadPSD, uOSUtils
+  {$IF NOT DEFINED(DARWIN)}
+  , uDCReadSVG
+  {$ENDIF}
   {$IF DEFINED(MSWINDOWS) and DEFINED(LCLQT5)}
   , fgl
   {$ELSEIF DEFINED(UNIX)}
   , DCFileAttributes
     {$IF NOT DEFINED(DARWIN)}
-    , contnrs, uDCReadSVG, uGio
+    , Contnrs, uGio
       {$IFDEF LCLGTK2}
       , gtk2
       {$ELSE}
@@ -166,6 +169,10 @@ type
        Safe to call without a lock.
     }
     function CheckAddThemePixmap(const AIconName: String; AIconSize: Integer = 0) : PtrInt;
+    {en
+       Loads an icon from the theme
+    }
+    function LoadThemeIcon(AIconTheme: TIconTheme; const AIconName: String; AIconSize: Integer): TBitmap;
     {en
        Loads a theme icon. Returns TBitmap (on GTK2 convert GdkPixbuf to TBitmap).
        This function should only be called under FPixmapLock.
@@ -1021,10 +1028,28 @@ begin
     Result := PtrInt(FThemePixmapsFileNames.List[fileIndex]^.Data);
 end;
 
-function TPixMapManager.LoadIconThemeBitmapLocked(AIconName: String; AIconSize: Integer): Graphics.TBitmap;
+function TPixMapManager.LoadThemeIcon(AIconTheme: TIconTheme; const AIconName: String; AIconSize: Integer): TBitmap;
 var
-  sIconFileName: String;
+  FileName: String;
+begin
+  FileName:= AIconTheme.FindIcon(AIconName, AIconSize);
+  if FileName = EmptyStr then Exit(nil);
+{$IF NOT DEFINED(DARWIN)}
+  if TScalableVectorGraphics.IsFileExtensionSupported(ExtractFileExt(FileName)) then
+    Result := BitmapLoadFromScalable(FileName, AIconSize, AIconSize)
+  else
+{$ENDIF}
+  begin
+    Result := CheckLoadPixmapFromFile(FileName);
+    if Assigned(Result) then begin
+      Result:= StretchBitmap(Result, AIconSize, clNone, True);
+    end;
+  end;
+end;
+
+function TPixMapManager.LoadIconThemeBitmapLocked(AIconName: String; AIconSize: Integer): TBitmap;
 {$IFDEF LCLGTK2}
+var
   pbPicture: PGdkPixbuf = nil;
 {$ENDIF}
 begin
@@ -1032,37 +1057,21 @@ begin
 
 {$IF DEFINED(UNIX) AND NOT DEFINED(DARWIN)}
   Result := nil;
-  {$IFDEF LCLGTK2}
+  // Try to load icon from system theme
   if gShowIcons > sim_standart then
-    begin
-      pbPicture:= gtk_icon_theme_load_icon(FIconTheme, Pgchar(PChar(AIconName)),
-                                           AIconSize, GTK_ICON_LOOKUP_USE_BUILTIN, nil);
-      if pbPicture <> nil then
-        Result := PixBufToBitmap(pbPicture);
-    end;
-  {$ELSE}
-  sIconFileName:= FIconTheme.FindIcon(AIconName, AIconSize);
-  if sIconFileName <> EmptyStr then
   begin
-    if TScalableVectorGraphics.IsFileExtensionSupported(ExtractFileExt(sIconFileName)) then
-      Result := BitmapLoadFromScalable(sIconFileName, AIconSize, AIconSize)
-    else begin
-      Result := CheckLoadPixmapFromFile(sIconFileName);
-      if Assigned(Result) then begin
-        Result:= StretchBitmap(Result, AIconSize, clNone, True);
-      end;
-    end;
-  end;
+  {$IFDEF LCLGTK2}
+    pbPicture:= gtk_icon_theme_load_icon(FIconTheme, Pgchar(PChar(AIconName)),
+                                         AIconSize, GTK_ICON_LOOKUP_USE_BUILTIN, nil);
+    if pbPicture <> nil then
+      Result := PixBufToBitmap(pbPicture);
+  {$ELSE}
+  Result:= LoadThemeIcon(FIconTheme, AIconName, AIconSize);
   {$ENDIF}
+  end;
   if not Assigned(Result) then
 {$ENDIF}
-    begin
-      sIconFileName:= FDCIconTheme.FindIcon(AIconName, AIconSize);
-      if sIconFileName <> EmptyStr then
-        Result := CheckLoadPixmapFromFile(sIconFileName)
-      else
-        Result := nil;
-    end;
+    Result:= LoadThemeIcon(FDCIconTheme, AIconName, AIconSize);
 end;
 
 function TPixMapManager.GetPluginIcon(const AIconName: String; ADefaultIcon: PtrInt): PtrInt;
