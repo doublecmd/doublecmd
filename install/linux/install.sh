@@ -8,7 +8,7 @@ if [ -z $CPU_TARGET ]; then
 fi
 
 # Determine library directory
-if [ "$CPU_TARGET" = "x86_64" ] && [ ! -f "/etc/debian_version" ]
+if [[ "$CPU_TARGET" == *"64" ]] && [ ! -f "/etc/debian_version" ]
    then
        LIB_SUFFIX=64
    else
