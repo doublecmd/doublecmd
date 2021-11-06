@@ -1028,7 +1028,7 @@ begin
     Result := PtrInt(FThemePixmapsFileNames.List[fileIndex]^.Data);
 end;
 
-function TPixMapManager.LoadThemeIcon(AIconTheme: TIconTheme; const AIconName: String; AIconSize: Integer): TBitmap;
+function TPixMapManager.LoadThemeIcon(AIconTheme: TIconTheme; const AIconName: String; AIconSize: Integer): Graphics.TBitmap;
 var
   FileName: String;
 begin
@@ -1047,7 +1047,7 @@ begin
   end;
 end;
 
-function TPixMapManager.LoadIconThemeBitmapLocked(AIconName: String; AIconSize: Integer): TBitmap;
+function TPixMapManager.LoadIconThemeBitmapLocked(AIconName: String; AIconSize: Integer): Graphics.TBitmap;
 {$IFDEF LCLGTK2}
 var
   pbPicture: PGdkPixbuf = nil;
