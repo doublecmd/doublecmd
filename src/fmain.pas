@@ -874,7 +874,7 @@ type
     procedure ShowDrivesList(APanel: TFilePanelSelect);
     procedure ExecuteCommandLine(bRunInTerm: Boolean);
     procedure UpdatePrompt;
-    procedure UpdateFreeSpace(Panel: TFilePanelSelect);
+    procedure UpdateFreeSpace(Panel: TFilePanelSelect; Clear: Boolean);
     procedure ReLoadTabs(ANoteBook: TFileViewNotebook);
     procedure ShowOptionsLayout(Data: PtrInt);
     procedure ToggleFullscreenConsole;
@@ -1186,8 +1186,8 @@ begin
   UpdateTreeView;
   UpdateTreeViewPath;
   UpdateSelectedDrives;
-  UpdateFreeSpace(fpLeft);
-  UpdateFreeSpace(fpRight);
+  UpdateFreeSpace(fpLeft, True);
+  UpdateFreeSpace(fpRight, True);
 end;
 
 procedure TfrmMain.btnLeftClick(Sender: TObject);
@@ -2508,7 +2508,7 @@ begin
        not (tb_activate_panel_on_click in gDirTabOptions) then
     begin
       UpdateSelectedDrive(Notebook);
-      UpdateFreeSpace(Notebook.Side);
+      UpdateFreeSpace(Notebook.Side, True);
     end;
   end;
 
@@ -4458,7 +4458,7 @@ begin
       Page := FileView.NotebookPage as TFileViewPage;
       SelectedPanel := Page.Notebook.Side;
       UpdateSelectedDrive(Page.Notebook);
-      UpdateFreeSpace(Page.Notebook.Side);
+      UpdateFreeSpace(Page.Notebook.Side, False);
     end;
   UpdateFileView;
 end;
@@ -4473,7 +4473,7 @@ begin
 
       if Page.IsActive then
       begin
-        UpdateFreeSpace(Page.Notebook.Side);
+        UpdateFreeSpace(Page.Notebook.Side, False);
       end;
     end;
 end;
@@ -5380,8 +5380,8 @@ begin
     if FInitializedView then
     begin
       UpdateSelectedDrives;
-      UpdateFreeSpace(fpLeft);
-      UpdateFreeSpace(fpRight);
+      UpdateFreeSpace(fpLeft, True);
+      UpdateFreeSpace(fpRight, True);
     end;
 
     UpdateHotDirIcons; // Preferable to be loaded even if not required in popupmenu *because* in the tree it's a must, especially when checking for missing directories
@@ -6433,25 +6433,31 @@ var
   lblDriveInfo: TLabel;
   AData: TFreeSpaceData absolute Data;
 begin
-  if AData.Result then
+  case AData.Panel of
+    fpLeft :
+      begin
+        sboxDrive := pbxLeftDrive;
+        aFileView := FrameLeft;
+        lblDriveInfo :=lblLeftDriveInfo;
+      end;
+    fpRight:
+      begin
+        sboxDrive := pbxRightDrive;
+        aFileView := FrameRight;
+        lblDriveInfo := lblRightDriveInfo;
+      end;
+  end;
+  if mbCompareFileNames(AData.Path, aFileView.CurrentPath) then
   begin
-    case AData.Panel of
-      fpLeft :
-        begin
-          sboxDrive := pbxLeftDrive;
-          aFileView := FrameLeft;
-          lblDriveInfo :=lblLeftDriveInfo;
-        end;
-      fpRight:
-        begin
-          sboxDrive := pbxRightDrive;
-          aFileView := FrameRight;
-          lblDriveInfo := lblRightDriveInfo;
-        end;
-    end;
-
-    if mbCompareFileNames(AData.Path, aFileView.CurrentPath) then
+    if not AData.Result then
     begin
+      lblDriveInfo.Caption := '';
+      lblDriveInfo.Hint := '';
+      sboxDrive.Hint := '';
+      sboxDrive.Tag := -1;
+      sboxDrive.Invalidate;
+    end
+    else begin
       if gDriveInd = True then
       begin
         if AData.TotalSize > 0 then
@@ -6473,7 +6479,7 @@ begin
   AData.Free;
 end;
 
-procedure TfrmMain.UpdateFreeSpace(Panel: TFilePanelSelect);
+procedure TfrmMain.UpdateFreeSpace(Panel: TFilePanelSelect; Clear: Boolean);
 var
   aFileView: TFileView;
   sboxDrive: TPaintBox;
@@ -6485,7 +6491,7 @@ begin
       begin
         sboxDrive := pbxLeftDrive;
         aFileView := FrameLeft;
-        lblDriveInfo := lblLeftDriveInfo;
+        lblDriveInfo :=lblLeftDriveInfo;
       end;
     fpRight:
       begin
@@ -6495,11 +6501,14 @@ begin
       end;
   end;
 
-  lblDriveInfo.Caption := ' ';
-  lblDriveInfo.Hint := ' ';
-  sboxDrive.Hint := ' ';
-  sboxDrive.Tag := -1;
-  sboxDrive.Invalidate;
+  if Clear then
+  begin
+    lblDriveInfo.Caption := '';
+    lblDriveInfo.Hint := '';
+    sboxDrive.Hint := '';
+    sboxDrive.Tag := -1;
+    sboxDrive.Invalidate;
+  end;
 
   AData := TFreeSpaceData.Create;
   AData.Panel := Panel;
