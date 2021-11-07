@@ -60,7 +60,7 @@ begin
   if (sFileExt = 'jpg') or (sFileExt = 'jpeg') or (sFileExt = 'bmp') then
     Result:= 'jpg'
   else
-    Result:= 'png';
+    Result:= 'jpg'; // MG : smaller thumbnail files as jpeg instead of png
 end;
 
 function TThumbnailManager.GetPreviewFileName(const sFileName: String): String;
