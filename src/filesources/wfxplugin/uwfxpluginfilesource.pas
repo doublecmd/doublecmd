@@ -413,7 +413,7 @@ begin
   if Result then
     begin
       if ReturnedText <> nil then
-        StrPLCopyW(ReturnedText, UTF8Decode(sReturnedText), MaxLen);
+        StrPLCopyW(ReturnedText, CeUtf8ToUtf16(sReturnedText), MaxLen);
     end;
 end;
 
@@ -489,7 +489,7 @@ begin
   if Result = FS_FILE_OK then
     begin
       if Password <> nil then
-        StrPLCopyW(Password, UTF8Decode(sPassword), MaxLen);
+        StrPLCopyW(Password, CeUtf8ToUtf16(sPassword), MaxLen);
     end;
 end;
 

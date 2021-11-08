@@ -301,9 +301,9 @@ begin
 
   if bFlagKeepGoing then
   begin
-    wFileName:= UTF8Decode(sCmd);
-    wParams:= UTF8Decode(sParams);
-    wStartPath:= UTF8Decode(sStartPath);
+    wFileName:= CeUtf8ToUtf16(sCmd);
+    wParams:= CeUtf8ToUtf16(sParams);
+    wStartPath:= CeUtf8ToUtf16(sStartPath);
 
     if (log_commandlineexecution in gLogOptions) then logWrite(rsMsgLogExtCmdLaunch+': '+rsSimpleWordFilename+'='+sCmd+' / '+rsSimpleWordParameter+'='+sParams+' / '+rsSimpleWordWorkDir+'='+sStartPath);
 
@@ -361,13 +361,13 @@ var
   wsStartPath: UnicodeString;
 begin
   SplitCmdLine(sCmd, sFileName, sParams);
-  wsStartPath:= UTF8Decode(mbGetCurrentDir());
+  wsStartPath:= CeUtf8ToUtf16(mbGetCurrentDir());
   sFileName:= NormalizePathDelimiters(sFileName);
 
   if (log_commandlineexecution in gLogOptions) then
     logWrite(rsMsgLogExtCmdLaunch + ': ' + rsSimpleWordFilename + '=' + sCmd + ' / ' + rsSimpleWordParameter + '=' + sParams);
 
-  ExecutionResult := ShellExecuteW(0, nil, PWideChar(UTF8Decode(sFileName)), PWideChar(UTF8Decode(sParams)), PWideChar(wsStartPath), SW_SHOW);
+  ExecutionResult := ShellExecuteW(0, nil, PWideChar(CeUtf8ToUtf16(sFileName)), PWideChar(CeUtf8ToUtf16(sParams)), PWideChar(wsStartPath), SW_SHOW);
 
   if (log_commandlineexecution in gLogOptions) then
   begin
@@ -386,8 +386,8 @@ var
   wsStartPath: UnicodeString;
 begin
   URL:= NormalizePathDelimiters(URL);
-  wsFileName:= UTF8Decode(QuoteDouble(URL));
-  wsStartPath:= UTF8Decode(mbGetCurrentDir());
+  wsFileName:= CeUtf8ToUtf16(QuoteDouble(URL));
+  wsStartPath:= CeUtf8ToUtf16(mbGetCurrentDir());
   Return:= ShellExecuteW(0, nil, PWideChar(wsFileName), nil, PWideChar(wsStartPath), SW_SHOWNORMAL);
   if Return = SE_ERR_NOASSOC then
     Result:= ExecCmdFork('rundll32 shell32.dll OpenAs_RunDLL ' + URL)
@@ -499,7 +499,7 @@ var
  lpFileSystemFlags: DWORD = 0;
 begin
  Result := High(Int64);
- if GetVolumeInformationW(PWideChar(UTF8Decode(ExtractFileDrive(Path)) + PathDelim),
+ if GetVolumeInformationW(PWideChar(CeUtf8ToUtf16(ExtractFileDrive(Path)) + PathDelim),
                          lpVolumeNameBuffer, SizeOf(lpVolumeNameBuffer),
                          nil,
                          lpMaximumComponentLength,
@@ -522,9 +522,9 @@ var
  lpTargetFileSystem: array [0..MAX_PATH] of WideChar;
 begin
  Result:= False;
- if GetVolumeInformationW(PWideChar(UTF8Decode(ExtractFileDrive(SourceName)) + PathDelim),
+ if GetVolumeInformationW(PWideChar(CeUtf8ToUtf16(ExtractFileDrive(SourceName)) + PathDelim),
                           nil, 0, nil, lpDummy, lpDummy, lpSourceFileSystem, MAX_PATH) and
-    GetVolumeInformationW(PWideChar(UTF8Decode(ExtractFileDrive(TargetName)) + PathDelim),
+    GetVolumeInformationW(PWideChar(CeUtf8ToUtf16(ExtractFileDrive(TargetName)) + PathDelim),
                           nil, 0, nil, lpDummy, lpDummy, lpTargetFileSystem, MAX_PATH) then
   begin
     Result:= (SameText(lpSourceFileSystem, 'FAT32') and SameText(lpTargetFileSystem, 'NTFS')) or
@@ -782,8 +782,8 @@ begin
   else if (Drive^.DriveType = dtNetwork) and
      TryMount and (not mbDriveReady(Drv)) then
     begin
-      wsLocalName  := UTF8Decode(ExtractFileDrive(Drive^.Path));
-      wsRemoteName := UTF8Decode(Drive^.DriveLabel);
+      wsLocalName  := CeUtf8ToUtf16(ExtractFileDrive(Drive^.Path));
+      wsRemoteName := CeUtf8ToUtf16(Drive^.DriveLabel);
       TNetworkThread.Connect(PWideChar(wsLocalName), PWideChar(wsRemoteName), RESOURCETYPE_DISK);
     end
   // Try to unlock BitLocker Drive

@@ -73,7 +73,7 @@ implementation
 
 uses 
   JwaWinNT, JwaAclApi, JwaAccCtrl, JwaWinBase, Windows, DCOSUtils,
-  uNamedPipes, uDebug, uProcessInfo;
+  DCConvertEncoding, uNamedPipes, uDebug, uProcessInfo;
 
 { TPipeTransport }
 
@@ -211,7 +211,7 @@ end;
 
 constructor TPipeTransport.Create(Address: String);
 begin
-  FAddress:= UTF8Decode(Address);
+  FAddress:= CeUtf8ToUtf16(Address);
 end;
 
 destructor TPipeTransport.Destroy;
@@ -268,7 +268,7 @@ var
   ExplicitAccess: array [0..1] of TExplicitAccess;
   ElevationType: TTokenElevationType absolute TokenInformation;
 begin
-  AName:= UTF8Decode(FOwner.Name);
+  AName:= CeUtf8ToUtf16(FOwner.Name);
 
   if (FOwner.ProcessId > 0) then
     dwWait:= FOwner.ProcessId

@@ -78,7 +78,8 @@ implementation
 uses
   LCLProc, LazUTF8, uDebug, uExceptions, syncobjs, fgl
   {$IF DEFINED(MSWINDOWS)}
-  , Windows, JwaWinNT, JwaWinBase, DCWindows, DCStrUtils, uGlobs, DCOSUtils
+  , Windows, JwaWinNT, JwaWinBase, DCWindows, DCStrUtils, uGlobs, DCOSUtils,
+    DCConvertEncoding
   {$ELSEIF DEFINED(LINUX)}
   , inotify, BaseUnix, FileUtil, DCConvertEncoding, DCUnix
   {$ELSEIF DEFINED(BSD)}
@@ -1318,7 +1319,7 @@ begin
 
   if FHandle = INVALID_HANDLE_VALUE then
   begin
-    FHandle := CreateFileW(PWideChar(UTF8Decode(FWatchPath)),
+    FHandle := CreateFileW(PWideChar(CeUtf8ToUtf16(FWatchPath)),
                  FILE_LIST_DIRECTORY,
                  CREATEFILEW_SHAREMODE,
                  nil,

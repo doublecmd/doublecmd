@@ -61,7 +61,7 @@ implementation
 
 uses
   SysUtils, JwaAclApi, JwaWinNT, JwaAccCtrl, JwaWinBase, JwaWinType, JwaNative,
-  JwaNtStatus;
+  JwaNtStatus, DCConvertEncoding;
 
 var
   GetFinalPathNameByHandleW: function(hFile: HANDLE; lpszFilePath: LPWSTR; cchFilePath: DWORD; dwFlags: DWORD): DWORD; stdcall;
@@ -72,9 +72,9 @@ var
   Temp: PWideChar;
 begin
   if Pos('\\', FileName) = 0 then
-    Result := '\\?\' + UTF8Decode(FileName)
+    Result := '\\?\' + CeUtf8ToUtf16(FileName)
   else begin
-    Result := '\\?\UNC\' + UTF8Decode(Copy(FileName, 3, MaxInt));
+    Result := '\\?\UNC\' + CeUtf8ToUtf16(Copy(FileName, 3, MaxInt));
   end;
   Temp := Pointer(Result) + 4;
   while Temp^ <> #0 do
@@ -131,7 +131,7 @@ begin
       CloseHandle(ProcessToken);
     end;
   end;
-  Result:= GetNamedSecurityInfoW(PWideChar(UTF8Decode(Source)), SE_FILE_OBJECT, SecurityInfo,
+  Result:= GetNamedSecurityInfoW(PWideChar(CeUtf8ToUtf16(Source)), SE_FILE_OBJECT, SecurityInfo,
              @SidOwner, @SidGroup, @Dacl, @Sacl, SecDescPtr) = ERROR_SUCCESS;
   if Result then
   begin
@@ -149,7 +149,7 @@ begin
       else begin
         SecurityInfo:= SecurityInfo or UNPROTECTED_SACL_SECURITY_INFORMATION;
       end;
-      Result:= SetNamedSecurityInfoW(PWideChar(UTF8Decode(Target)), SE_FILE_OBJECT,
+      Result:= SetNamedSecurityInfoW(PWideChar(CeUtf8ToUtf16(Target)), SE_FILE_OBJECT,
                  SecurityInfo, SidOwner, SidGroup, Dacl, Sacl) = ERROR_SUCCESS;
     end;
     {$PUSH}{$HINTS OFF}{$WARNINGS OFF}

@@ -252,7 +252,7 @@ begin
   try
     if Assigned(FsFindFirstW) then
       begin
-        Result:= FsFindFirstW(PWideChar(UTF8Decode(Path)), FindData.FindDataW);
+        Result:= FsFindFirstW(PWideChar(CeUtf8ToUtf16(Path)), FindData.FindDataW);
         if Result <> wfxInvalidHandle then ConvertFindData(FindData, False);
       end
     else if Assigned(FsFindFirst) then
@@ -287,7 +287,7 @@ procedure TWFXModule.WfxStatusInfo(RemoteDir: String; InfoStartEnd,
   InfoOperation: Integer);
 begin
   if Assigned(FsStatusInfoW) then
-    FsStatusInfoW(PWideChar(UTF8Decode(RemoteDir)), InfoStartEnd, InfoOperation)
+    FsStatusInfoW(PWideChar(CeUtf8ToUtf16(RemoteDir)), InfoStartEnd, InfoOperation)
   else if Assigned(FsStatusInfo) then
     FsStatusInfo(PAnsiChar(CeUtf8ToSys(RemoteDir)), InfoStartEnd, InfoOperation);
 end;
@@ -302,8 +302,8 @@ begin
   if Assigned(FsExecuteFileW) then
     begin
       pwcRemoteName:= GetMem(MAX_PATH * SizeOf(WideChar));
-      StrPCopyW(pwcRemoteName, UTF8Decode(RemoteName));
-      Result:= FsExecuteFileW(MainWin, pwcRemoteName, PWideChar(UTF8Decode(Verb)));
+      StrPCopyW(pwcRemoteName, CeUtf8ToUtf16(RemoteName));
+      Result:= FsExecuteFileW(MainWin, pwcRemoteName, PWideChar(CeUtf8ToUtf16(Verb)));
       if Result = FS_EXEC_SYMLINK then
           RemoteName:= UTF16ToUTF8(UnicodeString(pwcRemoteName));
       FreeMem(pwcRemoteName);
@@ -324,7 +324,7 @@ function TWFXModule.WfxRenMovFile(OldName, NewName: String; Move,
 begin
   Result:= FS_FILE_NOTSUPPORTED;
   if Assigned(FsRenMovFileW) then
-    Result:= FsRenMovFileW(PWideChar(UTF8Decode(OldName)), PWideChar(UTF8Decode(NewName)), Move, OverWrite, RemoteInfo)
+    Result:= FsRenMovFileW(PWideChar(CeUtf8ToUtf16(OldName)), PWideChar(CeUtf8ToUtf16(NewName)), Move, OverWrite, RemoteInfo)
   else if Assigned(FsRenMovFile) then
     Result:= FsRenMovFile(PAnsiChar(CeUtf8ToSys(OldName)), PAnsiChar(CeUtf8ToSys(NewName)), Move, OverWrite, RemoteInfo);
 end;
@@ -334,7 +334,7 @@ function TWFXModule.WfxGetFile(RemoteName, LocalName: String;
 begin
   Result:= FS_FILE_NOTSUPPORTED;
   if Assigned(FsGetFileW) then
-    Result:= FsGetFileW(PWideChar(UTF8Decode(RemoteName)), PWideChar(UTF8Decode(LocalName)), CopyFlags, RemoteInfo)
+    Result:= FsGetFileW(PWideChar(CeUtf8ToUtf16(RemoteName)), PWideChar(CeUtf8ToUtf16(LocalName)), CopyFlags, RemoteInfo)
   else if Assigned(FsGetFile) then
     Result:= FsGetFile(PAnsiChar(CeUtf8ToSys(RemoteName)), PAnsiChar(CeUtf8ToSys(LocalName)), CopyFlags, RemoteInfo);
 end;
@@ -343,7 +343,7 @@ function TWFXModule.WfxPutFile(LocalName, RemoteName: String; CopyFlags: Integer
 begin
   Result:= FS_FILE_NOTSUPPORTED;
   if Assigned(FsPutFileW) then
-    Result:= FsPutFileW(PWideChar(UTF8Decode(LocalName)), PWideChar(UTF8Decode(RemoteName)), CopyFlags)
+    Result:= FsPutFileW(PWideChar(CeUtf8ToUtf16(LocalName)), PWideChar(CeUtf8ToUtf16(RemoteName)), CopyFlags)
   else if Assigned(FsPutFile) then
     Result:= FsPutFile(PAnsiChar(CeUtf8ToSys(LocalName)), PAnsiChar(CeUtf8ToSys(RemoteName)), CopyFlags);
 end;
@@ -352,7 +352,7 @@ function TWFXModule.WfxSetAttr(RemoteName: String; NewAttr: LongInt): Boolean;
 begin
   Result:= False;
   if Assigned(FsSetAttrW) then
-    Result:= FsSetAttrW(PWideChar(UTF8Decode(RemoteName)), NewAttr)
+    Result:= FsSetAttrW(PWideChar(CeUtf8ToUtf16(RemoteName)), NewAttr)
   else if Assigned(FsSetAttr) then
     Result:= FsSetAttr(PAnsiChar(CeUtf8ToSys(RemoteName)), NewAttr);
 end;
@@ -362,7 +362,7 @@ function TWFXModule.WfxSetTime(RemoteName: String; pCreationTime,
 begin
   Result:= False;
   if Assigned(FsSetTimeW) then
-    Result:= FsSetTimeW(PWideChar(UTF8Decode(RemoteName)), pCreationTime, pLastAccessTime, pLastWriteTime)
+    Result:= FsSetTimeW(PWideChar(CeUtf8ToUtf16(RemoteName)), pCreationTime, pLastAccessTime, pLastWriteTime)
   else if Assigned(FsSetTime) then
     Result:= FsSetTime(PAnsiChar(CeUtf8ToSys(RemoteName)), pCreationTime, pLastAccessTime, pLastWriteTime);
 end;
@@ -373,7 +373,7 @@ begin
   if Assigned(FsMkDirW) then
     begin
       WfxStatusInfo(sBasePath, FS_STATUS_START, FS_STATUS_OP_MKDIR);
-      if FsMkDirW(PWideChar(UTF8Decode(sDirName))) then
+      if FsMkDirW(PWideChar(CeUtf8ToUtf16(sDirName))) then
         Result:= WFX_SUCCESS
       else
         Result:= WFX_ERROR;
@@ -394,7 +394,7 @@ function TWFXModule.WfxRemoveDir(const sDirName: String): Boolean;
 begin
   Result:= False;
   if Assigned(FsRemoveDirW) then
-    Result:= FsRemoveDirW(PWideChar(UTF8Decode(sDirName)))
+    Result:= FsRemoveDirW(PWideChar(CeUtf8ToUtf16(sDirName)))
   else if Assigned(FsRemoveDir) then
     Result:= FsRemoveDir(PAnsiChar(CeUtf8ToSys(sDirName)));
 end;
@@ -403,7 +403,7 @@ function TWFXModule.WfxDeleteFile(const sFileName: String): Boolean;
 begin
   Result:= False;
   if Assigned(FsDeleteFileW) then
-    Result:= FsDeleteFileW(PWideChar(UTF8Decode(sFileName)))
+    Result:= FsDeleteFileW(PWideChar(CeUtf8ToUtf16(sFileName)))
   else if Assigned(FsDeleteFile) then
     Result:= FsDeleteFile(PAnsiChar(CeUtf8ToSys(sFileName)));
 end;
@@ -417,7 +417,7 @@ begin
   if Assigned(FsGetLocalNameW) then
     begin
       pwcRemoteName:= GetMem(MAX_PATH * SizeOf(WideChar));
-      StrPCopyW(pwcRemoteName, UTF8Decode(sFileName));
+      StrPCopyW(pwcRemoteName, CeUtf8ToUtf16(sFileName));
       Result:= FsGetLocalNameW(pwcRemoteName, MAX_PATH);
       if Result = True then
         sFileName:= UTF16ToUTF8(UnicodeString(pwcRemoteName));
@@ -437,7 +437,7 @@ end;
 function TWFXModule.WfxDisconnect(const DisconnectRoot: String): Boolean;
 begin
   if Assigned(FsDisconnectW) then
-    Result:= FsDisconnectW(PWideChar(UTF8Decode(DisconnectRoot)))
+    Result:= FsDisconnectW(PWideChar(CeUtf8ToUtf16(DisconnectRoot)))
   else if Assigned(FsDisconnect) then
     Result:= FsDisconnect(PAnsiChar(CeUtf8ToSys(DisconnectRoot)))
   else

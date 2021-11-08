@@ -87,7 +87,8 @@ implementation
 
 uses
   LazUTF8, uWinNetListOperation, uWinNetExecuteOperation, uMyWindows,
-  Windows, JwaWinNetWk, uVfsModule, uShowMsg, DCOSUtils, DCStrUtils;
+  Windows, JwaWinNetWk, uVfsModule, uShowMsg, DCOSUtils, DCStrUtils,
+  DCConvertEncoding;
 
 function TWinNetFileSource.GetParentDir(sPath: String): String;
 var
@@ -110,7 +111,7 @@ begin
       end;
       Exit;
     end;
-    FilePath:= UTF8Decode(ExcludeTrailingPathDelimiter(sPath));
+    FilePath:= CeUtf8ToUtf16(ExcludeTrailingPathDelimiter(sPath));
     FillByte(nFile, SizeOf(TNetResourceW), 0);
     with nFile do
     begin
