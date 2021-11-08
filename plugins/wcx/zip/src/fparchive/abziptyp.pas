@@ -1687,7 +1687,7 @@ begin
   {$IFDEF MSWINDOWS}
   FItemInfo.IsUTF8 := False;
   HostOS := hosDOS;
-  UnicName := UTF8Decode(Value);
+  UnicName := CeUtf8ToUtf16(Value);
   if CeTryEncode(UnicName, CP_OEMCP, False, AnsiName) then
     {no-op}
   else if (GetACP <> GetOEMCP) and CeTryEncode(UnicName, CP_ACP, False, AnsiName) then
