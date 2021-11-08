@@ -185,7 +185,7 @@ implementation
 
 uses
   JwaNtStatus, ShellAPI, MMSystem, JwaWinNetWk, JwaWinUser, JwaVista, LazUTF8,
-  SysConst, ActiveX, ShlObj, ComObj, DCWindows, uShlObjAdditional;
+  SysConst, ActiveX, ShlObj, ComObj, DCWindows, DCConvertEncoding, uShlObjAdditional;
 
 var
   Wow64DisableWow64FsRedirection: function(OldValue: PPointer): BOOL; stdcall;
@@ -374,7 +374,7 @@ var
   NotUsed: DWORD;
   wsDrv: WideString;
 begin
-  wsDrv:= UTF8Decode(sDrv);
+  wsDrv:= CeUtf8ToUtf16(sDrv);
   Result:= GetVolumeInformationW(PWChar(wsDrv), nil, 0, nil, NotUsed, NotUsed, nil, 0);
 end;
 
@@ -389,7 +389,7 @@ var
   wsResult: UnicodeString;
 begin
   Result:= '';
-  wsDrv:= UTF8Decode(sDrv);
+  wsDrv:= CeUtf8ToUtf16(sDrv);
   WinVer:= LOBYTE(LOWORD(GetVersion));
   DriveType:= GetDriveTypeW(PWChar(wsDrv));
 
@@ -418,8 +418,8 @@ var
   wsRootPathName,
   wsVolumeName: UnicodeString;
 begin
-  wsRootPathName:= UTF8Decode(sRootPathName);
-  wsVolumeName:= UTF8Decode(sVolumeName);
+  wsRootPathName:= CeUtf8ToUtf16(sRootPathName);
+  wsVolumeName:= CeUtf8ToUtf16(sVolumeName);
   Result:= SetVolumeLabelW(PWChar(wsRootPathName), PWChar(wsVolumeName));
 end;
 
@@ -628,7 +628,7 @@ var
   wsDrive: UnicodeString;
   lpExecInfo: TShellExecuteInfoW;
 begin
-  wsDrive:= UTF8Decode(sDrv);
+  wsDrive:= CeUtf8ToUtf16(sDrv);
   if not GetDiskFreeSpaceExW(PWideChar(wsDrive), nil, nil, nil) then
   begin
     LastError:= GetLastError;
@@ -669,7 +669,7 @@ var
   lpBuffer: PUniversalNameInfoW;
 begin
   Result:= sLocalName;
-  wsLocalName:= UTF8Decode(sLocalName);
+  wsLocalName:= CeUtf8ToUtf16(sLocalName);
   lpBufferSize:= SizeOf(TUniversalNameInfoW);
   GetMem(lpBuffer, lpBufferSize);
   try
@@ -732,7 +732,7 @@ begin
   hSCManager:= OpenSCManagerW(nil, nil, SC_MANAGER_ENUMERATE_SERVICE);
   if (hSCManager = 0) then Exit(0);
   try
-    hService:= OpenServiceW(hSCManager, PWideChar(UTF8Decode(AName)), SERVICE_QUERY_STATUS);
+    hService:= OpenServiceW(hSCManager, PWideChar(CeUtf8ToUtf16(AName)), SERVICE_QUERY_STATUS);
     if (hService = 0) then Exit(0);
 
     if not QueryServiceStatus(hService, {%H-}lpServiceStatus) then
@@ -854,7 +854,7 @@ begin
     Exit;
 
   try
-    wsPathName := UTF8Decode(sPath);
+    wsPathName := CeUtf8ToUtf16(sPath);
 
     // Check if the path is to remote share and get remote machine name.
 
@@ -925,7 +925,7 @@ var
   SFI: TSHFileInfoW;
 begin
   FillChar(SFI, SizeOf(SFI), 0);
-  if SHGetFileInfoW(PWideChar(UTF8Decode(sPath)), 0, SFI, SizeOf(SFI), SHGFI_TYPENAME) <> 0 then
+  if SHGetFileInfoW(PWideChar(CeUtf8ToUtf16(sPath)), 0, SFI, SizeOf(SFI), SHGFI_TYPENAME) <> 0 then
     Result := UTF16ToUTF8(UnicodeString(SFI.szTypeName))
   else
     Result := EmptyStr;
@@ -938,7 +938,7 @@ var
 begin
   // Available since Windows XP.
   if ((Win32MajorVersion > 5) or ((Win32MajorVersion = 5) and (Win32MinorVersion >= 1))) and
-     GetVolumeInformationW(PWideChar(UTF8Decode(sRootPath)), nil, 0, nil,
+     GetVolumeInformationW(PWideChar(CeUtf8ToUtf16(sRootPath)), nil, 0, nil,
                            NotUsed, NotUsed, Buf, SizeOf(Buf)) then
   begin
     Result:= UTF16ToUTF8(UnicodeString(Buf));
@@ -1102,12 +1102,12 @@ begin
   IPFile := IObject as IPersistFile;
   ISLink := IObject as IShellLinkW;
 
-  OleCheckUTF8(ISLink.SetPath(PWideChar(UTF8Decode(Target))));
+  OleCheckUTF8(ISLink.SetPath(PWideChar(CeUtf8ToUtf16(Target))));
   OleCheckUTF8(ISLink.SetArguments(PWideChar(TargetArguments)));
-  OleCheckUTF8(ISLink.SetWorkingDirectory(PWideChar(UTF8Decode(ExtractFilePath(Target)))));
+  OleCheckUTF8(ISLink.SetWorkingDirectory(PWideChar(CeUtf8ToUtf16(ExtractFilePath(Target)))));
 
   { Get the desktop location }
-  LinkName := UTF8Decode(Shortcut);
+  LinkName := CeUtf8ToUtf16(Shortcut);
   if LowerCase(ExtractFileExt(LinkName)) <> '.lnk' then
     LinkName := LinkName + '.lnk';
 

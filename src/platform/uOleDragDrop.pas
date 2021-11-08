@@ -394,7 +394,7 @@ begin
   if Files.Count = 0 then Exit;
   if bUnicode then
     begin
-      wsFileList := UTF8Decode(Self.Files[0]) + #0;
+      wsFileList := CeUtf8ToUtf16(Self.Files[0]) + #0;
       Result := MakeHGlobal(PWideChar(wsFileList),
                             Length(wsFileList) * SizeOf(WideChar));
     end
@@ -420,7 +420,7 @@ begin
 
     wsUriList := wsUriList
                + fileScheme + '//'  { don't put hostname }
-               + UTF8Decode(URIEncode(StringReplace(Files[I], '\', '/', [rfReplaceAll] )));
+               + CeUtf8ToUtf16(URIEncode(StringReplace(Files[I], '\', '/', [rfReplaceAll] )));
   end;
 
   wsUriList := wsUriList + #0;
@@ -514,7 +514,7 @@ begin
       begin
         // Get PIDL for each file (if Desktop is the root, then
         // absolute paths are acceptable).
-        pidl := GetPidlFromPath(ShellDesktop, UTF8Decode(Files[i]));
+        pidl := GetPidlFromPath(ShellDesktop, CeUtf8ToUtf16(Files[i]));
 
         if pidl <> nil then
         begin
@@ -611,7 +611,7 @@ begin
   if bUnicode then
   begin
     for I := 0 to Self.Files.Count - 1 do
-      wsFileList := wsFileList + UTF8Decode(Self.Files[I]) + #0;
+      wsFileList := wsFileList + CeUtf8ToUtf16(Self.Files[I]) + #0;
     wsFileList := wsFileList + #0;
     { Определяем необходимый размер структуры }
     RequiredSize := SizeOf(TDropFiles) + Length(wsFileList) * SizeOf(WChar);
@@ -1010,7 +1010,7 @@ begin
     if Medium.TYMED = TYMED_ISTORAGE then
     begin
       iStg := IStorage(Medium.pstg);
-      StgDocFile := UTF8Decode(InnerFilename);
+      StgDocFile := CeUtf8ToUtf16(InnerFilename);
       StgCreateDocfile(PWideChar(StgDocFile), STGM_CREATE Or STGM_READWRITE Or STGM_SHARE_EXCLUSIVE, 0, iFile);
       tIID:=nil;
       iStg.CopyTo(0, tIID, nil, iFile);

@@ -227,7 +227,7 @@ begin
   sArcName:= UTF16ToUTF8(UnicodeString(ArcName));
   Result:= ChangeVolProc(sArcName, Mode);
   if (Mode = PK_VOL_ASK) and (Result <> 0) then
-    StrPLCopy(ArcName, UTF8Decode(sArcName), MAX_PATH);
+    StrPLCopy(ArcName, CeUtf8ToUtf16(sArcName), MAX_PATH);
 end;
 
 { EWcxModuleException }
@@ -266,7 +266,7 @@ begin
     if Assigned(OpenArchiveW) then
       begin
         FillChar(ArcFileW, SizeOf(ArcFileW), #0);
-        WideFileName := UTF8Decode(FileName);
+        WideFileName := CeUtf8ToUtf16(FileName);
         ArcFileW.ArcName := PWideChar(WideFileName); // Pointer to local variable.
         ArcFileW.OpenMode := anOpenMode;
         Result := OpenArchiveW(ArcFileW);
@@ -298,9 +298,9 @@ begin
   if Assigned(ProcessFileW) then
     begin
       if DestPath = EmptyStr then
-        Result:= ProcessFileW(hArcData, Operation, nil, PWideChar(UTF8Decode(DestName)))
+        Result:= ProcessFileW(hArcData, Operation, nil, PWideChar(CeUtf8ToUtf16(DestName)))
       else
-        Result:= ProcessFileW(hArcData, Operation, PWideChar(UTF8Decode(DestPath)), PWideChar(UTF8Decode(DestName)));
+        Result:= ProcessFileW(hArcData, Operation, PWideChar(CeUtf8ToUtf16(DestPath)), PWideChar(CeUtf8ToUtf16(DestName)));
     end
   else if Assigned(ProcessFile) then
     begin
@@ -317,11 +317,11 @@ begin
   if Assigned(PackFilesW) then
     begin
       if SubPath = EmptyStr then
-        Result:= PackFilesW(PWideChar(UTF8Decode(PackedFile)), nil,
-                            PWideChar(UTF8Decode(SrcPath)), PWideChar(UTF8Decode(AddList)), Flags)
+        Result:= PackFilesW(PWideChar(CeUtf8ToUtf16(PackedFile)), nil,
+                            PWideChar(CeUtf8ToUtf16(SrcPath)), PWideChar(CeUtf8ToUtf16(AddList)), Flags)
       else
-        Result:= PackFilesW(PWideChar(UTF8Decode(PackedFile)), PWideChar(UTF8Decode(SubPath)),
-                            PWideChar(UTF8Decode(SrcPath)), PWideChar(UTF8Decode(AddList)), Flags);
+        Result:= PackFilesW(PWideChar(CeUtf8ToUtf16(PackedFile)), PWideChar(CeUtf8ToUtf16(SubPath)),
+                            PWideChar(CeUtf8ToUtf16(SrcPath)), PWideChar(CeUtf8ToUtf16(AddList)), Flags);
     end
   else if Assigned(PackFiles) then
     begin
@@ -337,7 +337,7 @@ end;
 function TWcxModule.WcxDeleteFiles(PackedFile, DeleteList: String): LongInt;
 begin
   if Assigned(DeleteFilesW) then
-    Result:= DeleteFilesW(PWideChar(UTF8Decode(PackedFile)), PWideChar(UTF8Decode(DeleteList)))
+    Result:= DeleteFilesW(PWideChar(CeUtf8ToUtf16(PackedFile)), PWideChar(CeUtf8ToUtf16(DeleteList)))
   else if Assigned(DeleteFiles) then
     Result:= DeleteFiles(PAnsiChar(CeUtf8ToSys(PackedFile)), PAnsiChar(CeUtf8ToSys(DeleteList)));
 end;
@@ -345,7 +345,7 @@ end;
 function TWcxModule.WcxCanYouHandleThisFile(FileName: String): Boolean;
 begin
   if Assigned(CanYouHandleThisFileW) then
-    Result:= CanYouHandleThisFileW(PWideChar(UTF8Decode(FileName)))
+    Result:= CanYouHandleThisFileW(PWideChar(CeUtf8ToUtf16(FileName)))
   else if Assigned(CanYouHandleThisFile) then
     Result:= CanYouHandleThisFile(PAnsiChar(CeUtf8ToSys(FileName)))
   else
@@ -355,7 +355,7 @@ end;
 function TWcxModule.WcxStartMemPack(Options: LongInt; FileName: String): TArcHandle;
 begin
   if Assigned(StartMemPackW) then
-    Result:= StartMemPackW(Options, PWideChar(UTF8Decode(FileName)))
+    Result:= StartMemPackW(Options, PWideChar(CeUtf8ToUtf16(FileName)))
   else if Assigned(StartMemPack) then
     Result:= StartMemPack(Options, PAnsiChar(CeUtf8ToSys(FileName)));
 end;

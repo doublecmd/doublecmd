@@ -27,7 +27,7 @@ unit DCStrUtils;
 interface
 
 uses
-  Classes, SysUtils, DCBasicTypes,LazUtf8;
+  Classes, SysUtils, DCBasicTypes, LazUtf8;
 
 const
   NoQuotesSpecialChars     = [' ', '"', '''', '(', ')', ':', '&', '!', '$', '*', '?', '=', '`', '\', '|', ';', #10];
@@ -356,7 +356,7 @@ function EscapeNoQuotes(const Str: String): String;
 implementation
 
 uses
-  DCOSUtils, StrUtils;
+  DCOSUtils, DCConvertEncoding, StrUtils;
 
 function NormalizePathDelimiters(const Path: String): String;
 {$IFDEF UNIX}
@@ -965,7 +965,7 @@ function mbCompareText(const s1, s2: String): PtrInt; inline;
 begin
 // From 0.9.31 LazUtils can be used but this package does not exist in 0.9.30.
 //  Result := LazUTF8.UTF8CompareText(s1, s2);
-  Result := WideCompareText(UTF8Decode(s1), UTF8Decode(s2));
+  Result := WideCompareText(CeUtf8ToUtf16(s1), CeUtf8ToUtf16(s2));
 end;
 
 function StrNewW(const mbString: String): PWideChar;
@@ -974,7 +974,7 @@ var
   iLength: PtrInt;
 begin
   Result:= nil;
-  wsString:= UTF8Decode(mbString);
+  wsString:= CeUtf8ToUtf16(mbString);
   iLength:= (Length(wsString) * SizeOf(WideChar)) + 1;
   Result:= GetMem(iLength);
   if Result <> nil then

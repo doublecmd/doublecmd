@@ -380,7 +380,7 @@ uses
   fMain, uFileSourceOperation, uOperationsManager, uOSUtils, uDCUtils, uDebug,
   DCOSUtils, DCStrUtils, uLng, uGlobs, uSpecialDir, uFileProcs, uShowForm,
   fSelectTextRange, fSelectPathRange, uShowMsg, uFileFunctions, dmCommonData,
-  fMultiRenameWait, fSortAnything;
+  fMultiRenameWait, fSortAnything, DCConvertEncoding;
 
 type
   tMaskHelper = record
@@ -788,7 +788,7 @@ end;
 procedure TfrmMultiRename.edFindChange(Sender: TObject);
 begin
   if cbRegExp.Checked then
-    FRegExp.Expression := UTF8Decode(edFind.Text)
+    FRegExp.Expression := CeUtf8ToUtf16(edFind.Text)
   else
   begin
     FFindText.DelimitedText := edFind.Text;
@@ -2049,7 +2049,7 @@ begin
   begin
     if cbRegExp.Checked then
       try
-        Result := UTF16ToUTF8(FRegExp.Replace(UTF8Decode(Result), UTF8Decode(edReplace.Text), cbUseSubs.Checked));
+        Result := UTF16ToUTF8(FRegExp.Replace(CeUtf8ToUtf16(Result), CeUtf8ToUtf16(edReplace.Text), cbUseSubs.Checked));
       except
         Result := rsMsgErrRegExpSyntax;
         bError := True;

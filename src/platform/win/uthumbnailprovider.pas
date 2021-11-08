@@ -32,7 +32,7 @@ uses
 implementation
 
 uses
-  SysUtils, Forms, Graphics, Windows, ActiveX, ShlObj, uBitmap;
+  SysUtils, Forms, Graphics, Windows, ActiveX, ShlObj, DCConvertEncoding, uBitmap;
 
 const
   SIIGBF_RESIZETOFIT   = $00000000;
@@ -83,12 +83,12 @@ begin
 
   if SHGetDesktopFolder(DesktopFolder) = S_OK then
   begin
-    wsTemp:= UTF8Decode(ExtractFilePath(aFileName));
+    wsTemp:= CeUtf8ToUtf16(ExtractFilePath(aFileName));
     if DesktopFolder.ParseDisplayName(0, nil, PWideChar(wsTemp), pchEaten, ParentPidl, dwAttributes) = S_OK then
     begin
       if DesktopFolder.BindToObject(ParentPidl, nil, IID_IShellFolder, Folder) = S_OK then
       begin
-        wsTemp:= UTF8Decode(ExtractFileName(aFileName));
+        wsTemp:= CeUtf8ToUtf16(ExtractFileName(aFileName));
         if Folder.ParseDisplayName(0, nil, PWideChar(wsTemp), pchEaten, Pidl, dwAttributes) = S_OK then
         begin
           if Succeeded(Folder.GetUIObjectOf(0, 1, Pidl, IID_IExtractImage, nil, Image)) then
@@ -115,7 +115,7 @@ function GetThumbnailNew(const aFileName: String; aSize: TSize; out Bitmap: HBIT
 var
   ShellItemImage: IShellItemImageFactory;
 begin
-  Result:= SHCreateItemFromParsingName(PWideChar(UTF8Decode(aFileName)), nil,
+  Result:= SHCreateItemFromParsingName(PWideChar(CeUtf8ToUtf16(aFileName)), nil,
                                        IShellItemImageFactory, ShellItemImage);
   if Succeeded(Result) then
   begin
