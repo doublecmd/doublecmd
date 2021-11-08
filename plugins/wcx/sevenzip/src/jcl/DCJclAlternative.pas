@@ -167,7 +167,7 @@ function GetFileAttributesEx(lpFileName: LPCSTR; fInfoLevelId: TGET_FILEEX_INFO_
 implementation
 
 uses
-  LazFileUtils;
+  LazUTF8, LazFileUtils;
 
 function StreamCopy(Source, Target: TStream): Int64;
 begin
@@ -232,7 +232,7 @@ end;
 
 function FileDelete(const FileName: String): Boolean;
 begin
-  Result:= DeleteFileW(PWideChar(UTF8Decode(FileName)));
+  Result:= DeleteFileW(PWideChar(UTF8ToUTF16(FileName)));
 end;
 
 function FindUnusedFileName(const FileName, FileExt: String): String;
@@ -251,7 +251,7 @@ function FileMove(const OldName, NewName: String; Replace: Boolean): Boolean;
 const
   dwFlags: array[Boolean] of DWORD = (0, MOVEFILE_REPLACE_EXISTING);
 begin
-  Result:= MoveFileExW(PWideChar(UTF8Decode(OldName)), PWideChar(UTF8Decode(NewName)),
+  Result:= MoveFileExW(PWideChar(UTF8ToUTF16(OldName)), PWideChar(UTF8ToUTF16(NewName)),
                        dwFlags[Replace] or MOVEFILE_COPY_ALLOWED);
 end;
 
@@ -262,7 +262,7 @@ end;
 
 class function JclSysUtils.LoadModule(var Module: TModuleHandle; FileName: String): Boolean;
 begin
-  Module:= LoadLibraryW(PWideChar(UTF8Decode(FileName)));
+  Module:= LoadLibraryW(PWideChar(UTF8ToUTF16(FileName)));
   Result:= Module <> INVALID_MODULEHANDLE_VALUE;
 end;
 
@@ -314,13 +314,13 @@ end;
 function CreateFile(lpFileName: LPCSTR; dwDesiredAccess: DWORD; dwShareMode: DWORD; lpSecurityAttributes: LPSECURITY_ATTRIBUTES;
                     dwCreationDisposition: DWORD; dwFlagsAndAttributes: DWORD; hTemplateFile: HANDLE): HANDLE;
 begin
-  Result:= CreateFileW(PWideChar(UTF8Decode(lpFileName)), dwDesiredAccess, dwShareMode,
+  Result:= CreateFileW(PWideChar(UTF8ToUTF16(lpFileName)), dwDesiredAccess, dwShareMode,
                        lpSecurityAttributes, dwCreationDisposition, dwFlagsAndAttributes, hTemplateFile);
 end;
 
 function GetFileAttributesEx(lpFileName: LPCSTR; fInfoLevelId: TGET_FILEEX_INFO_LEVELS; lpFileInformation: Pointer): BOOL;
 begin
-  Result:= GetFileAttributesExW(PWideChar(UTF8Decode(lpFileName)), fInfoLevelId, lpFileInformation);
+  Result:= GetFileAttributesExW(PWideChar(UTF8ToUTF16(lpFileName)), fInfoLevelId, lpFileInformation);
 end;
 
 { TJclDynamicSplitStream }

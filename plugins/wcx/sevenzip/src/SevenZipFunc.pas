@@ -533,7 +533,7 @@ begin
   if (Is7ZipLoaded or Load7Zip) then
     LoadLibraries
   else begin
-    MessageBoxW(0, PWideChar(UTF8Decode(rsSevenZipLoadError)), 'SevenZip', MB_OK or MB_ICONERROR);
+    MessageBoxW(0, PWideChar(UTF8ToUTF16(rsSevenZipLoadError)), 'SevenZip', MB_OK or MB_ICONERROR);
   end;
   // Create password cache object
   PasswordCache:= TPasswordCache.Create;

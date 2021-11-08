@@ -29,7 +29,8 @@ uses
   cthreads,
 {$ENDIF}
   FPCAdds,
-  Classes, SysUtils, TorrentFile, WcxPlugin, DCDateTimeUtils, DCClassesUtf8;
+  Classes, SysUtils, TorrentFile, WcxPlugin, DCDateTimeUtils, DCClassesUtf8,
+  DCConvertEncoding;
 
 type
   PTorrentHandle = ^TTorrentHandle;
@@ -57,7 +58,7 @@ begin
     Exit;
   end;
   try
-    AFileName := UTF8Encode(UnicodeString(ArchiveData.ArcName));
+    AFileName := CeUtf16ToUtf8(UnicodeString(ArchiveData.ArcName));
     AStream:= TFileStreamEx.Create(AFileName, fmOpenRead or fmShareDenyNone);
     try
       New(AHandle);
@@ -93,7 +94,7 @@ begin
 
   AFile:= TTorrentSubFile(AHandle.Torrent.Files[AHandle.Index]);
   HeaderData.FileTime:= UnixFileTimeToWcxTime(AHandle.Torrent.CreationTime);
-  HeaderData.FileName:= UTF8Decode(AFile.Path + AFile.Name);
+  HeaderData.FileName:= CeUtf8ToUtf16(AFile.Path + AFile.Name);
   HeaderData.UnpSize:= Int64Rec(AFile.Length).Lo;
   HeaderData.UnpSizeHigh:= Int64Rec(AFile.Length).Hi;
   HeaderData.PackSize:= HeaderData.UnpSize;
