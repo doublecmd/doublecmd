@@ -6166,8 +6166,8 @@ var
   end;
 
 begin
-  UpdateDriveIcon(dskLeft);
-  UpdateDriveIcon(dskRight);
+  if gDriveBar2 then UpdateDriveIcon(dskLeft);
+  if gDriveBar1 then UpdateDriveIcon(dskRight);
   AIcon.Free;
 end;
 {$ENDIF}
