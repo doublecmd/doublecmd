@@ -357,7 +357,7 @@ uses
   {$ENDIF}
   {$IFDEF MSWINDOWS}
     , CommCtrl, ShellAPI, Windows, DCFileAttributes, uBitmap, uGdiPlus,
-      IntfGraphics, uShlObjAdditional, uShellFolder
+      IntfGraphics, DCConvertEncoding, uShlObjAdditional, uShellFolder
   {$ELSE}
     , StrUtils, Types, DCBasicTypes
   {$ENDIF}
@@ -505,7 +505,7 @@ begin
 {$IFDEF MSWINDOWS}
   if GetIconResourceIndex(sFileName, IconFileName, iIconIndex) then
     begin
-      if ExtractIconExW(PWChar(UTF8Decode(IconFileName)), iIconIndex, phIconLarge, phIconSmall, 1) = 2 then // if extracted both icons
+      if ExtractIconExW(PWChar(CeUtf8ToUtf16(IconFileName)), iIconIndex, phIconLarge, phIconSmall, 1) = 2 then // if extracted both icons
         begin
           // Get system metrics
           iIconSmall:= GetSystemMetrics(SM_CXSMICON);
@@ -1090,7 +1090,7 @@ begin
     if fileIndex >= 0 then
       Result:= PtrInt(FPixmapsFileNames.List[fileIndex]^.Data)
     else begin
-      if ExtractIconExW(PWChar(UTF8Decode(AIconName)), 0, phIconLarge, phIconSmall, 1) = 0 then
+      if ExtractIconExW(PWChar(CeUtf8ToUtf16(AIconName)), 0, phIconLarge, phIconSmall, 1) = 0 then
         Result:= ADefaultIcon
       else begin
         if not ImageList_GetIconSize(FSysImgList, @AIconSize, @AIconSize) then
@@ -2054,7 +2054,7 @@ begin
         sFileName := Name;
       end;
 
-    if (SHGetFileInfoW(PWideChar(UTF8Decode(sFileName)),
+    if (SHGetFileInfoW(PWideChar(CeUtf8ToUtf16(sFileName)),
                        dwFileAttributes,
                        FileInfo,
                        SizeOf(FileInfo),
@@ -2215,7 +2215,7 @@ begin
 
       if (not LoadIcon) and (Drive^.DriveType = dtNetwork) and SHGetStockIconInfo(SIID_DRIVENET, uFlags, psii) then
         SFI.hIcon:= psii.hIcon
-      else if (SHGetFileInfoW(PWideChar(UTF8Decode(Drive^.Path)), 0, SFI, SizeOf(SFI), uFlags) = 0) then begin
+      else if (SHGetFileInfoW(PWideChar(CeUtf8ToUtf16(Drive^.Path)), 0, SFI, SizeOf(SFI), uFlags) = 0) then begin
         SFI.hIcon := 0;
       end;
 

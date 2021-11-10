@@ -201,7 +201,7 @@ begin
 
   sFileName := Arc.GetFileName(Arc.Tag);
 
-  StringToArrayW(UTF8Decode(sFileName), @HeaderData.FileName, SizeOf(HeaderData.FileName));
+  StringToArrayW(CeUtf8ToUtf16(sFileName), @HeaderData.FileName, SizeOf(HeaderData.FileName));
 
   with Arc.Items[Arc.Tag] do
     begin
@@ -246,7 +246,7 @@ begin
         // Show progress and ask if aborting.
         if Assigned(Arc.FProcessDataProcW) then
         begin
-          if Arc.FProcessDataProcW(PWideChar(UTF8Decode(Arc.Items[Arc.Tag].FileName)),
+          if Arc.FProcessDataProcW(PWideChar(CeUtf8ToUtf16(Arc.Items[Arc.Tag].FileName)),
                                    Arc.Items[Arc.Tag].UncompressedSize) = 0
           then
             Arc.FOperationResult := E_EABORTED;
@@ -268,7 +268,7 @@ begin
         // Show progress and ask if aborting.
         if Assigned(Arc.FProcessDataProcW) then
         begin
-          if Arc.FProcessDataProcW(PWideChar(UTF8Decode(Arc.Items[Arc.Tag].FileName)),
+          if Arc.FProcessDataProcW(PWideChar(CeUtf8ToUtf16(Arc.Items[Arc.Tag].FileName)),
                                    Arc.Items[Arc.Tag].UncompressedSize) = 0
           then
             Arc.FOperationResult := E_EABORTED;
@@ -574,9 +574,9 @@ var
 begin
   if (not mbFileExists(ImageName)) and Assigned(FChangeVolProcW) then
   begin
-    StrPCopy(AVolume, UTF8Decode(ImageName));
+    StrPCopy(AVolume, CeUtf8ToUtf16(ImageName));
     Abort := (FChangeVolProcW(AVolume, PK_VOL_ASK) = 0);
-    if not Abort then ImageName:= UTF8Encode(UnicodeString(AVolume));
+    if not Abort then ImageName:= CeUtf16ToUtf8(UnicodeString(AVolume));
   end;
 end;
 
@@ -587,7 +587,7 @@ begin
     if Assigned(FProcessDataProcW) then
     begin
       if Assigned(Item) then
-        Abort := (FProcessDataProcW(PWideChar(UTF8Decode(Item.FileName)), -(Progress + 1000)) = 0)
+        Abort := (FProcessDataProcW(PWideChar(CeUtf8ToUtf16(Item.FileName)), -(Progress + 1000)) = 0)
       else
         Abort := (FProcessDataProcW(nil, -(Progress + 1000)) = 0);
     end;

@@ -80,7 +80,7 @@ type
 implementation
 
 uses
-  LazUTF8, JwaWinCon, uOSUtils;
+  LazUTF8, JwaWinCon, DCConvertEncoding, uOSUtils;
 
 { TWinTerm }
 
@@ -178,7 +178,7 @@ begin
   ZeroMemory(@FProcessInformation, SizeOf(FProcessInformation));
 
   CreateProcessW(nil,
-      PWideChar(UTF8Decode(Command)),       // command line
+      PWideChar(CeUtf8ToUtf16(Command)),       // command line
       nil,          // process security attributes
       nil,          // primary thread security attributes
       TRUE,         // handles are inherited

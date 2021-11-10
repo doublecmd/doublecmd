@@ -38,7 +38,7 @@ function ShowPasswordQuery(var Encrypt: Boolean; var Password: WideString): Bool
 implementation
 
 uses
-  SevenZipCodecs;
+  LazUTF8, SevenZipCodecs;
 
 {$R *.res}
 
@@ -108,9 +108,9 @@ end;
 
 function ComboBoxAdd(hwndDlg: HWND; ItemID: Integer; ItemText: String; ItemData: PtrInt): Integer;
 var
-  Text: WideString;
+  Text: UnicodeString;
 begin
-  Text:= UTF8Decode(ItemText);
+  Text:= UTF8ToUTF16(ItemText);
   Result:= SendDlgItemMessageW(hwndDlg, ItemID, CB_ADDSTRING, 0, LPARAM(PWideChar(Text)));
   SendDlgItemMessage(hwndDlg, ItemID, CB_SETITEMDATA, Result, ItemData);
 end;

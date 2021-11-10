@@ -123,7 +123,7 @@ implementation
 
 uses
   IniFiles, StrUtils, FtpAdv, FtpUtils, FtpConfDlg, syncobjs, LazFileUtils,
-  LazUTF8, DCClassesUtf8, SftpSend, ScpSend, FtpProxy;
+  LazUTF8, DCClassesUtf8, DCConvertEncoding, SftpSend, ScpSend, FtpProxy;
 
 var
   DefaultIniName: String;
@@ -261,8 +261,8 @@ var
   APassword: UnicodeString;
   AConnection: UnicodeString;
 begin
-  APassword:= UTF8Decode(Password);
-  AConnection:= UTF8Decode(ConnectionName);
+  APassword:= CeUtf8ToUtf16(Password);
+  AConnection:= CeUtf8ToUtf16(ConnectionName);
   if (Mode = FS_CRYPT_LOAD_PASSWORD) or (Mode = FS_CRYPT_LOAD_PASSWORD_NO_UI) then
   begin
     SetLength(APassword, MAX_PATH);
@@ -298,7 +298,7 @@ begin
     while sTemp <> EmptyStr do
       FtpSend.ExecuteCommand(Copy2SymbDel(sTemp, ';'));
     if Length(Connection.Path) > 0 then
-      FtpSend.ChangeWorkingDir(FtpSend.ClientToServer(UTF8Decode(Connection.Path)));
+      FtpSend.ChangeWorkingDir(FtpSend.ClientToServer(CeUtf8ToUtf16(Connection.Path)));
     Result := True;
   end;
 end;
@@ -398,7 +398,7 @@ begin
         end
         else begin
           Connection.CachedPassword:= APassword;
-          LogProc(PluginNumber, MSGTYPE_CONNECT, PWideChar('CONNECT ' + PathDelim + UTF8Decode(ConnectionName)));
+          LogProc(PluginNumber, MSGTYPE_CONNECT, PWideChar('CONNECT ' + PathDelim + CeUtf8ToUtf16(ConnectionName)));
           ActiveConnectionList.AddObject(ConnectionName, FtpSend);
           if Connection.OpenSSH and (ConnectionName <> cQuickConnection) then
           begin
@@ -608,7 +608,7 @@ begin
   FillChar(FindData, SizeOf(FindData), 0);
   if I < RootCount then
   begin
-    StrPCopy(FindData.cFileName, UTF8Decode(RootList[I]));
+    StrPCopy(FindData.cFileName, CeUtf8ToUtf16(RootList[I]));
     FindData.dwFileAttributes := 0;
     Inc(ListRec^.Index);
     Result := True;
@@ -616,7 +616,7 @@ begin
   else if I - RootCount < ConnectionList.Count then
   begin
     Connection := TConnection(ConnectionList.Objects[I - RootCount]);
-    StrPCopy(FindData.cFileName, UTF8Decode(Connection.ConnectionName));
+    StrPCopy(FindData.cFileName, CeUtf8ToUtf16(Connection.ConnectionName));
     FindData.dwFileAttributes := FILE_ATTRIBUTE_NORMAL;
     Inc(ListRec^.Index);
     Result := True;

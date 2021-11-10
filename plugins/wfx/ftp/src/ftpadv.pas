@@ -838,7 +838,7 @@ begin
   SendStream.PluginNumber:= PluginNumber;
   SendStream.ProgressProc:= ProgressProc;
   SendStream.TargetName:= PWideChar(ServerToClient(FileName));
-  SendStream.SourceName:= PWideChar(UTF8Decode(FDirectFileName));
+  SendStream.SourceName:= PWideChar(CeUtf8ToUtf16(FDirectFileName));
 
   try
     if not DataSocket then Exit;
@@ -887,7 +887,7 @@ begin
   RetrStream.PluginNumber := PluginNumber;
   RetrStream.ProgressProc := ProgressProc;
   RetrStream.SourceName := PWideChar(ServerToClient(FileName));
-  RetrStream.TargetName := PWideChar(UTF8Decode(FDirectFileName));
+  RetrStream.TargetName := PWideChar(CeUtf8ToUtf16(FDirectFileName));
 
   try
     FTPCommand('TYPE I');

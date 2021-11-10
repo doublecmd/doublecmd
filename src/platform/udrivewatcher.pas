@@ -231,7 +231,7 @@ begin
           if not SHGetPathFromIDListW(rgpidl^, AName) then
             DoDriveAdded(nil)
           else begin
-            ADrive.Path:= UTF8Encode(UnicodeString(AName));
+            ADrive.Path:= UTF16ToUTF8(UnicodeString(AName));
             DoDriveAdded(@ADrive);
           end;
         end;
@@ -240,7 +240,7 @@ begin
           if not SHGetPathFromIDListW(rgpidl^, AName) then
             DoDriveRemoved(nil)
           else begin
-            ADrive.Path:= UTF8Encode(UnicodeString(AName));
+            ADrive.Path:= UTF16ToUTF8(UnicodeString(AName));
             DoDriveRemoved(@ADrive);
           end;
         end;

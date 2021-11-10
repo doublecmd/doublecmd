@@ -19,7 +19,7 @@ interface
 uses
   Classes, SysUtils
   {$IF DEFINED(MSWINDOWS)}
-  , Process, Windows, Pipes
+  , Process, Windows, Pipes, DCConvertEncoding
   {$ELSEIF DEFINED(UNIX)}
   , BaseUnix, Process, UTF8Process, DCUnix
   {$ENDIF}
@@ -174,7 +174,7 @@ var
 begin
   EnvBlock := '';
   for I := 0 to List.Count - 1 do
-    EnvBlock := EnvBlock + UTF8Decode(List[I]) + #0;
+    EnvBlock := EnvBlock + CeUtf8ToUtf16(List[I]) + #0;
   EnvBlock := EnvBlock + #0;
   GetMem(Result, Length(EnvBlock) * SizeOf(Widechar));
   CopyMemory(Result, @EnvBlock[1], Length(EnvBlock) * SizeOf(Widechar));
@@ -304,20 +304,20 @@ begin
     raise EProcess.Create(SNoCommandline);
   if (ApplicationName <> '') then
   begin
-    PName := PWideChar(UTF8Decode(ApplicationName));
-    PCommandLine := PWideChar(UTF8Decode(CommandLine));
+    PName := PWideChar(CeUtf8ToUtf16(ApplicationName));
+    PCommandLine := PWideChar(CeUtf8ToUtf16(CommandLine));
   end
   else if (CommandLine <> '') then
-    PCommandLine := PWideChar(UTF8Decode(CommandLine))
+    PCommandLine := PWideChar(CeUtf8ToUtf16(CommandLine))
   else if (Executable <> '') then
   begin
     Cmd := MaybeQuoteIfNotQuoted(Executable);
     for I := 0 to Parameters.Count - 1 do
       Cmd := Cmd + ' ' + MaybeQuoteIfNotQuoted(Parameters[I]);
-    PCommandLine := PWideChar(UTF8Decode(Cmd));
+    PCommandLine := PWideChar(CeUtf8ToUtf16(Cmd));
   end;
   if CurrentDirectory <> '' then
-    PDir := PWideChar(UTF8Decode(CurrentDirectory));
+    PDir := PWideChar(CeUtf8ToUtf16(CurrentDirectory));
   if Environment.Count <> 0 then
     FEnv := StringsToPWideChars(Environment)
   else

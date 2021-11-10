@@ -333,7 +333,7 @@ begin
 {$ENDIF}
 
   if Assigned(ListLoadW) then
-    FPluginWindow := ListLoadW(ParentWin, PWideChar(UTF8Decode(FileToLoad)), ShowFlags)
+    FPluginWindow := ListLoadW(ParentWin, PWideChar(CeUtf8ToUtf16(FileToLoad)), ShowFlags)
   else if Assigned(ListLoad) then
     FPluginWindow := ListLoad(ParentWin, PAnsiChar(CeUtf8ToSys(FileToLoad)), ShowFlags)
   else
@@ -370,7 +370,7 @@ begin
 {$ENDIF}
 
   if Assigned(ListLoadNextW) then
-    Result := ListLoadNextW(ParentWin, FPluginWindow, PWideChar(UTF8Decode(FileToLoad)), ShowFlags)
+    Result := ListLoadNextW(ParentWin, FPluginWindow, PWideChar(CeUtf8ToUtf16(FileToLoad)), ShowFlags)
   else if Assigned(ListLoadNext) then
     Result := ListLoadNext(ParentWin, FPluginWindow, PAnsiChar(CeUtf8ToSys(FileToLoad)), ShowFlags)
   else
@@ -416,7 +416,7 @@ end;
 function TWlxModule.CallListSearchText(SearchString: String; SearchParameter: Integer): Integer;
 begin
   if Assigned(ListSearchTextW) then
-    Result := ListSearchTextW(FPluginWindow, PWideChar(UTF8Decode(SearchString)), SearchParameter)
+    Result := ListSearchTextW(FPluginWindow, PWideChar(CeUtf8ToUtf16(SearchString)), SearchParameter)
   else if Assigned(ListSearchText) then
     Result := ListSearchText(FPluginWindow, PAnsiChar(CeUtf8ToSys(SearchString)), SearchParameter)
   else
@@ -490,8 +490,8 @@ function TWlxModule.CallListPrint(FileToPrint, DefPrinter: String;
   PrintFlags: Integer; var Margins: trect): Integer;
 begin
   if Assigned(ListPrintW) then
-    Result := ListPrintW(FPluginWindow, PWideChar(UTF8Decode(FileToPrint)),
-      PWideChar(UTF8Decode(DefPrinter)), PrintFlags, Margins)
+    Result := ListPrintW(FPluginWindow, PWideChar(CeUtf8ToUtf16(FileToPrint)),
+      PWideChar(CeUtf8ToUtf16(DefPrinter)), PrintFlags, Margins)
   else if Assigned(ListPrint) then
     Result := ListPrint(FPluginWindow, PAnsiChar(CeUtf8ToSys(FileToPrint)), PAnsiChar(CeUtf8ToSys(DefPrinter)),
       PrintFlags, Margins)
@@ -524,7 +524,7 @@ end;
 function TWlxModule.CallListGetPreviewBitmap(FileToLoad: String; Width, Height: Integer; ContentBuf: String): HBITMAP;
 begin
   if Assigned(ListGetPreviewBitmapW) then
-    Result := ListGetPreviewBitmapW(PWideChar(UTF8Decode(FileToLoad)), Width, Height, PByte(ContentBuf), Length(ContentBuf))
+    Result := ListGetPreviewBitmapW(PWideChar(CeUtf8ToUtf16(FileToLoad)), Width, Height, PByte(ContentBuf), Length(ContentBuf))
   else if Assigned(ListGetPreviewBitmap) then
     Result := ListGetPreviewBitmap(PAnsiChar(CeUtf8ToSys(FileToLoad)), Width, Height, PByte(ContentBuf), Length(ContentBuf))
   else

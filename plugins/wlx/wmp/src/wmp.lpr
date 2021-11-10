@@ -110,7 +110,7 @@ end;
 
 procedure ListGetDetectString(DetectString: PAnsiChar; MaxLen: Integer); stdcall;
 begin
-  StrLCopy(DetectString, '(EXT="WAV")|(EXT="MP3")|(EXT="MP4")|(EXT="AVI")', MaxLen);
+  StrLCopy(DetectString, '(EXT="WAV")|(EXT="MP3")|(EXT="WMA")|(EXT="MP4")|(EXT="AVI")|(EXT="WMV")', MaxLen);
 end;
 
 exports

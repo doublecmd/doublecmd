@@ -685,7 +685,7 @@ end;
 procedure TPluginWDX.CallContentStopGetValue(FileName: String);
 begin
   if Assigned(ContentStopGetValueW) then
-    ContentStopGetValueW(PWideChar(UTF8Decode(FileName)))
+    ContentStopGetValueW(PWideChar(CeUtf8ToUtf16(FileName)))
   else if Assigned(ContentStopGetValue) then
       ContentStopGetValue(PAnsiChar(CeUtf8ToSys(FileName)));
 end;
@@ -801,7 +801,7 @@ begin
   EnterCriticalSection(FMutex);
   try
     if Assigned(ContentGetValueW) then
-      Rez := ContentGetValueW(PWideChar(UTF8Decode(FileName)), FieldIndex, UnitIndex, @Buf, SizeOf(buf), flags)
+      Rez := ContentGetValueW(PWideChar(CeUtf8ToUtf16(FileName)), FieldIndex, UnitIndex, @Buf, SizeOf(buf), flags)
     else if Assigned(ContentGetValue) then
       Rez := ContentGetValue(PAnsiChar(mbFileNameToSysEnc(FileName)), FieldIndex, UnitIndex, @Buf, SizeOf(buf), flags);
 
@@ -842,7 +842,7 @@ begin
   EnterCriticalSection(FMutex);
   try
     if Assigned(ContentGetValueW) then
-      Rez := ContentGetValueW(PWideChar(UTF8Decode(FileName)), FieldIndex, UnitIndex, @Buf, SizeOf(buf), flags)
+      Rez := ContentGetValueW(PWideChar(CeUtf8ToUtf16(FileName)), FieldIndex, UnitIndex, @Buf, SizeOf(buf), flags)
     else if Assigned(ContentGetValue) then
         Rez := ContentGetValue(PAnsiChar(mbFileNameToSysEnc(FileName)), FieldIndex, UnitIndex, @Buf, SizeOf(buf), flags);
 
@@ -879,7 +879,7 @@ begin
   EnterCriticalSection(FMutex);
   try
     if Assigned(ContentGetValueW) then
-      Rez := ContentGetValueW(PWideChar(UTF8Decode(FileName)), FieldIndex, UnitIndex, @Buf, SizeOf(buf), 0)
+      Rez := ContentGetValueW(PWideChar(CeUtf8ToUtf16(FileName)), FieldIndex, UnitIndex, @Buf, SizeOf(buf), 0)
     else if Assigned(ContentGetValue) then
       Rez := ContentGetValue(PAnsiChar(mbFileNameToSysEnc(FileName)), FieldIndex, UnitIndex, @Buf, SizeOf(buf), 0);
 

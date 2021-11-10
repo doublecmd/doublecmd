@@ -111,7 +111,7 @@ type
 implementation
 
 uses
-  LCLProc, LazUtf8, StrUtils, LConvEncoding, DCStrUtils,
+  LCLProc, LazUtf8, StrUtils, LConvEncoding, DCStrUtils, DCConvertEncoding,
   uLng, DCClassesUtf8, uFindMmap, uGlobs, uShowMsg, DCOSUtils, uOSUtils, uHash,
   uLog, WcxPlugin, Math, uDCUtils, uConvEncoding, DCDateTimeUtils, uOfficeXML;
 
@@ -203,8 +203,8 @@ begin
   with FFileChecks do
   begin
     if RegExp then begin
-      FFilesMasksRegExp := TRegExprW.Create(UTF8Decode(FilesMasks));
-      FExcludeFilesRegExp := TRegExprW.Create(UTF8Decode(ExcludeFiles));
+      FFilesMasksRegExp := TRegExprW.Create(CeUtf8ToUtf16(FilesMasks));
+      FExcludeFilesRegExp := TRegExprW.Create(CeUtf8ToUtf16(ExcludeFiles));
     end
     else begin
       FFilesMasks := TMaskList.Create(FilesMasks);
@@ -651,7 +651,7 @@ begin
   begin
     if RegExp then
     begin
-      AFileName := UTF8Decode(FileName);
+      AFileName := CeUtf8ToUtf16(FileName);
       Result := ((FilesMasks = '') or FFilesMasksRegExp.Exec(AFileName)) and
                 ((ExcludeFiles = '') or not FExcludeFilesRegExp.Exec(AFileName));
     end

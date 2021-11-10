@@ -118,7 +118,7 @@ procedure OleCheckUTF8(Result: HResult);
 implementation
 
 uses
-  SysUtils, JwaShlGuid, ComObj, LazUTF8, DCOSUtils;
+  SysUtils, JwaShlGuid, ComObj, LazUTF8, DCOSUtils, DCConvertEncoding;
 
 var
   SHGetPropertyStoreFromParsingName: function(pszPath: PCWSTR; const pbc: IBindCtx;
@@ -195,7 +195,7 @@ begin
     @SHChangeIconW := Windows.GetProcAddress(ShellHandle, PAnsiChar(62));
     if Assigned(SHChangeIconW) then
     begin
-      FileNameW := UTF8Decode(FileName);
+      FileNameW := CeUtf8ToUtf16(FileName);
       Result := SHChangeIconW(hOwner, FileNameW, SizeOf(FileNameW), IconIndex);
       if Result then FileName := UTF16ToUTF8(UnicodeString(FileNameW));
     end
@@ -207,7 +207,7 @@ var
   AValue: Variant;
   AStorage: IPropertyStore;
 begin
-  if Succeeded(SHGetPropertyStoreFromParsingName(PWideChar(UTF8Decode(FileName)), nil, GPS_DEFAULT, IPropertyStore, AStorage)) then
+  if Succeeded(SHGetPropertyStoreFromParsingName(PWideChar(CeUtf8ToUtf16(FileName)), nil, GPS_DEFAULT, IPropertyStore, AStorage)) then
   begin
     if Succeeded(AStorage.GetValue(@Key, TPROPVARIANT(AValue))) then
       Exit(AValue);
@@ -230,7 +230,7 @@ begin
 
   if SHGetDesktopFolder(DesktopFolder) = S_OK then
   begin
-    wsTemp:= UTF8Decode(sFilePath);
+    wsTemp:= CeUtf8ToUtf16(sFilePath);
     if DesktopFolder.ParseDisplayName(0, nil, PWideChar(wsTemp), pchEaten, ParentPidl, dwAttributes) = S_OK then
     begin
       if DesktopFolder.BindToObject(ParentPidl, nil, IID_IShellFolder, Folder) = S_OK then
@@ -242,7 +242,7 @@ begin
         if Folder.QueryInterface(IID_IShellIconOverlay, IconOverlay) = S_OK then
           begin
             // Get a pidl for the file.
-            wsTemp:= UTF8Decode(sFileName);
+            wsTemp:= CeUtf8ToUtf16(sFileName);
             if Folder.ParseDisplayName(0, nil, PWideChar(wsTemp), pchEaten, Pidl, dwAttributes) = S_OK then
             begin
               // Get the overlay icon index.
@@ -278,11 +278,11 @@ begin
   Result:= EmptyStr;
   if Succeeded(SHGetDesktopFolder(DesktopFolder)) then
     try
-      wsTemp:= UTF8Decode(sFilePath);
+      wsTemp:= CeUtf8ToUtf16(sFilePath);
       if Succeeded(DesktopFolder.ParseDisplayName(0, nil, PWideChar(wsTemp), pchEaten, pidlFolder, dwAttributes)) then
         if Succeeded(DesktopFolder.BindToObject(pidlFolder, nil, IID_IShellFolder, Folder)) then
           try
-            wsTemp:= UTF8Decode(sFileName);
+            wsTemp:= CeUtf8ToUtf16(sFileName);
             if Succeeded(Folder.ParseDisplayName(0, nil, PWideChar(wsTemp), pchEaten, pidlFile, dwAttributes)) then
               if Succeeded(Folder.GetUIObjectOf(0, 1, pidlFile, IID_IQueryInfo, nil, queryInfo)) then
                 if Succeeded(queryInfo.GetInfoTip(QITIPF_USESLOWTIP, ppwszTip)) then
@@ -315,7 +315,7 @@ begin
     Unknown := CreateComObject(CLSID_ShellLink);
     ShellLink := Unknown as IShellLinkW;
     PersistFile := Unknown as IPersistFile;
-    if Failed(PersistFile.Load(PWideChar(UTF8Decode(FileName)), OF_READ)) then Exit;
+    if Failed(PersistFile.Load(PWideChar(CeUtf8ToUtf16(FileName)), OF_READ)) then Exit;
     pszFile:= GetMem(MAX_PATH * 2);
     try
       if Failed(ShellLink.GetPath(pszFile, MAX_PATH, @FindData, 0)) then Exit;
