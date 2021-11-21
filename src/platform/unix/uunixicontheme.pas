@@ -38,25 +38,34 @@ function GetUnixIconThemeBaseDirList: TDynamicStringArray;
 implementation
 
 uses
-  Laz2_DOM, Laz2_XMLRead, DCClassesUtf8, uMyUnix, DCOSUtils, uOSUtils, uGio;
+  Laz2_DOM, Laz2_XMLRead, DCClassesUtf8, uMyUnix, DCOSUtils, uOSUtils, uGio, uXdg;
 
 function GetKdeIconTheme: String;
-const
-  kde5Config = '/.kde/share/config/kdeglobals';
-  kde4Config = '/.kde4/share/config/kdeglobals';
 var
   I: Integer;
-  iniCfg: TIniFileEx = nil;
-  kdeConfig: array[1..2] of String = (kde4Config, kde5Config);
+  FileName: String;
+  iniCfg: TIniFileEx;
+  kdeConfig: array[1..3] of String =
+  (
+    'kdeglobals',
+    '/.kde/share/config/kdeglobals',
+    '/.kde4/share/config/kdeglobals'
+  );
 begin
   Result:= EmptyStr;
   for I:= Low(kdeConfig) to High(kdeConfig) do
   begin
-    if (Length(Result) = 0) and mbFileExists(GetHomeDir + kdeConfig[I]) then
+    if (I > 1) then
+      FileName:= GetHomeDir + kdeConfig[I]
+    else begin
+      FileName:= IncludeTrailingBackslash(GetUserConfigDir) + kdeConfig[I];
+    end;
+    if mbFileExists(FileName) then
     try
-      iniCfg:= TIniFileEx.Create(GetHomeDir + kdeConfig[I]);
+      iniCfg:= TIniFileEx.Create(FileName, fmOpenRead);
       try
         Result:= iniCfg.ReadString('Icons', 'Theme', EmptyStr);
+        if (Length(Result) > 0) then Break;
       finally
         iniCfg.Free;
       end;
