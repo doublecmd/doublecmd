@@ -1893,7 +1893,8 @@ begin
   begin
     if not (NewPage.FileView is TColumnsFileView) then
     begin
-      frmMain.Commands.cm_ColumnsView([]);
+      NewPage.FileView:= TColumnsFileView.Create(NewPage, NewPage.FileView, EmptyStr);
+      NewPage.FileView.SetFocus;
     end;
 
     ANewSet:= TPanelColumnsClass.Create;
