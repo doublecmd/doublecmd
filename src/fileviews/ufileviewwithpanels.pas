@@ -57,8 +57,8 @@ type
   public
     property Header:TFileViewHeader read pnlHeader;
 
-    procedure AddFileSource(aFileSource: IFileSource; aPath: String); override;
-    procedure RemoveCurrentFileSource; override;
+    function AddFileSource(aFileSource: IFileSource; aPath: String): Boolean; override;
+    function RemoveCurrentFileSource: Boolean; override;
 
   published
     procedure cm_EditPath(const {%H-}Params: array of string);
@@ -71,10 +71,11 @@ uses
 
 { TFileViewWithPanels }
 
-procedure TFileViewWithPanels.AddFileSource(aFileSource: IFileSource; aPath: String);
+function TFileViewWithPanels.AddFileSource(aFileSource: IFileSource;
+  aPath: String): Boolean;
 begin
-  inherited AddFileSource(aFileSource, aPath);
-  pnlHeader.UpdateAddressLabel;
+  Result:= inherited AddFileSource(aFileSource, aPath);
+  if Result then pnlHeader.UpdateAddressLabel;
 end;
 
 procedure TFileViewWithPanels.AfterChangePath;
@@ -151,10 +152,10 @@ begin
   pnlHeader.UpdatePathLabel;
 end;
 
-procedure TFileViewWithPanels.RemoveCurrentFileSource;
+function TFileViewWithPanels.RemoveCurrentFileSource: Boolean;
 begin
-  inherited RemoveCurrentFileSource;
-  if FileSourcesCount > 0 then
+  Result:= inherited RemoveCurrentFileSource;
+  if Result and (FileSourcesCount > 0) then
     pnlHeader.UpdateAddressLabel;
 end;
 

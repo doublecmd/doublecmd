@@ -102,7 +102,7 @@ type
 
     procedure CloneTo(FileView: TFileView); override;
 
-    procedure AddFileSource(aFileSource: IFileSource; aPath: String); override;
+    function AddFileSource(aFileSource: IFileSource; aPath: String): Boolean; override;
 
     procedure LoadConfiguration(AConfig: TXmlConfig; ANode: TXmlNode); override;
   end;
@@ -716,11 +716,11 @@ begin
   end;
 end;
 
-procedure TFileViewWithGrid.AddFileSource(aFileSource: IFileSource; aPath: String);
+function TFileViewWithGrid.AddFileSource(aFileSource: IFileSource; aPath: String): Boolean;
 begin
-  inherited AddFileSource(aFileSource, aPath);
+  Result:= inherited AddFileSource(aFileSource, aPath);
 
-  if not IsLoadingFileList then
+  if Result and (not IsLoadingFileList) then
   begin
     FUpdatingActiveFile := True;
     dgPanel.MoveExtend(False, 0, 0);

@@ -60,7 +60,11 @@ type
     {en
        Set, if the file source cannot be a child
     }
-    fspNoneParent
+    fspNoneParent,
+    {en
+      Set, if the file source has default columns view
+    }
+    fspDefaultView
   );
 
   TFileSourceProperties = set of TFileSourceProperty;

@@ -32,7 +32,7 @@ interface
 uses
   SysUtils, Classes, WfxPlugin, uWFXprototypes, LazUTF8Classes,
   dynlibs, DCClassesUtf8, Extension, DCBasicTypes, DCXmlConfig,
-  uWdxPrototypes, uWdxModule;
+  uWdxPrototypes, uWdxModule, uFileSource;
 
 const
   WFX_SUCCESS      =  0;
@@ -137,6 +137,7 @@ type
     function WfxDeleteFile(const sFileName: String): Boolean;
     function WfxGetLocalName(var sFileName: String): Boolean;
     function WfxDisconnect(const DisconnectRoot: String): Boolean;
+    function WfxContentGetDefaultView(out DefaultView: TFileSourceFields): Boolean;
   private
     function LoadModule(const sName: String):Boolean; overload; {Load plugin}
     procedure UnloadModule; override;
@@ -213,6 +214,78 @@ begin
     Result:= rsMsgErrEWrite;
   FS_FILE_USERABORT:
     Result:= rsMsgErrEAborted;
+  end;
+end;
+
+function ConvertString(const S: String): TStringArray;
+var
+  Item: String = '';
+  Index: Integer = 1;
+begin
+  Result:= Default(TStringArray);
+  while Index < High(S) do
+  begin
+    if S[Index] = '\' then
+    begin
+      case S[Index + 1] of
+        '\':
+        begin
+          Item += '\';
+          Inc(Index, 2);
+          Continue;
+        end;
+        'n':
+        begin
+          AddString(Result, Item);
+          Item:= EmptyStr;
+          Inc(Index, 2);
+          Continue;
+        end;
+      end;
+    end;
+    Item += S[Index];
+    Inc(Index);
+  end;
+  if Length(Item) > 0 then
+  begin
+    AddString(Result, Item + S[High(S)]);
+  end;
+end;
+
+function ConvertFunction(const S: String): String;
+var
+  Plugin, Field: String;
+  AValues: TStringArray;
+begin
+  Result:= EmptyStr;
+  if Length(S) < 3 then Exit;
+  if not StrBegins(S, '[=') then Exit(S);
+  if (S[Low(S)] = '[') and (S[High(S)] = ']') then
+  begin
+    AValues:= (Copy(S, 2, Length(S) - 2)).Split(['.']);
+    if (Length(AValues) > 1) then
+    begin
+      Plugin:= LowerCase(AValues[0]);
+      if (Plugin = '=<fs>') then
+        Result:= 'Plugin(FS)'
+      else if (Plugin = '=tc') then
+      begin
+        Result:= 'DC()';
+        Field:= LowerCase(AValues[1]);
+        if (Field = 'size') then
+          AValues[1]:= 'GETFILESIZE'
+        else if (Field = 'writedate') then
+          AValues[1]:= 'GETFILETIME'
+        else if (Field = 'attributes') then
+          AValues[1]:= 'GETFILEATTR';
+      end;
+      if (Length(AValues) = 2) then
+        Result+= '.' + AValues[1] + '{}'
+      else begin
+        Result+= '.' + AValues[1] + '{' + AValues[2] + '}';
+      end;
+      Result:= '[' + Result + ']';
+    end;
   end;
 end;
 
@@ -442,6 +515,80 @@ begin
     Result:= FsDisconnect(PAnsiChar(CeUtf8ToSys(DisconnectRoot)))
   else
     Result:= False;
+end;
+
+function TWFXModule.WfxContentGetDefaultView(out DefaultView: TFileSourceFields): Boolean;
+const
+  MAX_LEN = 4096;
+var
+  Index: Integer;
+  ViewContents, ViewHeaders,
+  ViewWidths, ViewOptions: TStringArray;
+  usContents, usHeaders, usWidths, usOptions: String;
+  asContents, asHeaders, asWidths, asOptions: array[0..MAX_LEN] of AnsiChar;
+  wsContents, wsHeaders, wsWidths, wsOptions: array[0..MAX_LEN] of WideChar;
+begin
+  Result:= False;
+  DefaultView:= Default(TFileSourceFields);
+
+  if Assigned(FsContentGetDefaultViewW) then
+  begin
+    Result:= FsContentGetDefaultViewW(wsContents, wsHeaders, wsWidths, wsOptions, MAX_LEN);
+    if Result then
+    begin
+      usContents:= CeUtf16ToUtf8(wsContents);
+      usHeaders:= CeUtf16ToUtf8(wsHeaders);
+      usWidths:= CeUtf16ToUtf8(wsWidths);
+      usOptions:= CeUtf16ToUtf8(wsOptions);
+    end;
+  end
+  else if Assigned(FsContentGetDefaultView) then
+  begin
+    Result:= FsContentGetDefaultView(asContents, asHeaders, asWidths, asOptions, MAX_LEN);
+    if Result then
+    begin
+      usContents:= CeSysToUtf8(asContents);
+      usHeaders:= CeSysToUtf8(asHeaders);
+      usWidths:= CeSysToUtf8(asWidths);
+      usOptions:= CeSysToUtf8(asOptions);
+    end;
+  end;
+  if Result then
+  begin
+    ViewHeaders:= ConvertString(usHeaders);
+    ViewWidths:= SplitString(usWidths, ',');
+    ViewOptions:= SplitString(usOptions,'|');
+    ViewContents:= ConvertString(usContents);
+
+    SetLength(DefaultView, Length(ViewWidths));
+
+    for Index:= Low(DefaultView) to High(DefaultView) do
+    begin
+      if (Index = 0) then
+      begin
+        DefaultView[Index].Header:= rsColName;
+        DefaultView[Index].Content:= '[DC().GETFILENAMENOEXT{}]';
+      end
+      else if (Index = 1) then
+      begin
+        DefaultView[Index].Header:= rsColExt;
+        DefaultView[Index].Content:= '[DC().GETFILEEXT{}]';
+      end
+      else begin
+        DefaultView[Index].Header:= ViewHeaders[Index - 2];
+        DefaultView[Index].Content:= ConvertFunction(ViewContents[Index - 2]);
+      end;
+      DefaultView[Index].Width:= StrToInt(ViewWidths[Index]);
+      if (DefaultView[Index].Width < 0) then
+      begin
+        DefaultView[Index].Align:= taRightJustify;
+        DefaultView[Index].Width:= Abs(DefaultView[Index].Width);
+      end
+      else begin
+        DefaultView[Index].Align:= taLeftJustify;
+      end;
+    end;
+  end;
 end;
 
 constructor TWFXModule.Create;
