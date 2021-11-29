@@ -39,6 +39,8 @@ type
 
   TFileViewClass = class of TFileView;
 
+  TChangePathReason = (cprAdd, cprRemove, cprChange);
+
   {en
      Called before path is changed. If it returns @true the paths is changed
      (and if successful, OnAfterChangePath is called). If it returns @false,
@@ -47,6 +49,7 @@ type
   }
   TOnBeforeChangePath = function (FileView: TFileView;
                                   NewFileSource: IFileSource;
+                                  Reason: TChangePathReason;
                                   const NewPath : String): Boolean of object;
   TOnAfterChangePath = procedure (FileView: TFileView) of object;
   TOnChangeActiveFile = procedure (FileView: TFileView; const aFile : TFile) of object;
@@ -324,7 +327,7 @@ type
        Called before changing path. If returns @false the path is not changed.
        NewFileSource is @nil if the last file source is to be removed.
     }
-    function BeforeChangePath(NewFileSource: IFileSource; NewPath: String): Boolean; virtual;
+    function BeforeChangePath(NewFileSource: IFileSource; Reason: TChangePathReason; NewPath: String): Boolean; virtual;
     {en
        Called after path is changed.
     }
@@ -376,8 +379,8 @@ type
     function Clone({%H-}NewParent: TWinControl): TFileView; virtual;
     procedure CloneTo(AFileView: TFileView); virtual;
 
-    procedure AddFileSource(aFileSource: IFileSource; aPath: String); virtual;
-    procedure RemoveCurrentFileSource; virtual;
+    function AddFileSource(aFileSource: IFileSource; aPath: String): Boolean; virtual;
+    function RemoveCurrentFileSource: Boolean; virtual;
     procedure RemoveAllFileSources; virtual;
     {en
        Assigns the list of file sources and paths into those file sources
@@ -1497,7 +1500,7 @@ end;
 
 procedure TFileView.SetCurrentPath(NewPath: String);
 begin
-  if (NewPath <> CurrentPath) and BeforeChangePath(FileSource, NewPath) then
+  if (NewPath <> CurrentPath) and BeforeChangePath(FileSource, cprChange, NewPath) then
   begin
     FFlatView:= False;
     EnableWatcher(False);
@@ -2806,12 +2809,13 @@ begin
   UpdateTitle;
 end;
 
-function TFileView.BeforeChangePath(NewFileSource: IFileSource; NewPath: String): Boolean;
+function TFileView.BeforeChangePath(NewFileSource: IFileSource;
+  Reason: TChangePathReason; NewPath: String): Boolean;
 begin
   if NewPath <> '' then
   begin
     if Assigned(OnBeforeChangePath) then
-      if not OnBeforeChangePath(Self, NewFileSource, NewPath) then
+      if not OnBeforeChangePath(Self, NewFileSource, Reason, NewPath) then
         Exit(False);
 
     if Assigned(NewFileSource) and not NewFileSource.SetCurrentWorkingDirectory(NewPath) then
@@ -2892,13 +2896,14 @@ begin
   FMethods.ExecuteCommand(CommandName, Params);
 end;
 
-procedure TFileView.AddFileSource(aFileSource: IFileSource; aPath: String);
+function TFileView.AddFileSource(aFileSource: IFileSource; aPath: String): Boolean;
 var
   IsNewFileSource: Boolean;
 begin
   IsNewFileSource := not aFileSource.Equals(FileSource);
 
-  if BeforeChangePath(aFileSource, aPath) then
+  Result:= BeforeChangePath(aFileSource, cprAdd, aPath);
+  if Result then
   begin
     FFlatView := False;
 
@@ -2925,7 +2930,7 @@ begin
   end;
 end;
 
-procedure TFileView.RemoveCurrentFileSource;
+function TFileView.RemoveCurrentFileSource: Boolean;
 var
   NewFileSource: IFileSource = nil;
   NewPath: String = '';
@@ -2933,6 +2938,7 @@ var
   PrevIndex: Integer;
   FocusedFile: String;
 begin
+  Result:= True;
   if FileSourcesCount > 0 then
   begin
     FFlatView := False;
@@ -2952,8 +2958,8 @@ begin
       begin
         NewFileSource := FHistory.FileSource[PrevIndex];
         NewPath := FHistory.Path[PrevIndex, FHistory.PathsCount[PrevIndex] - 1];
-
-        if BeforeChangePath(NewFileSource, NewPath) then
+        Result:= BeforeChangePath(NewFileSource, cprRemove, NewPath);
+        if Result then
         begin
           IsNewFileSource := not NewFileSource.Equals(FileSource);
 
@@ -3398,7 +3404,7 @@ begin
 
   IsNewFileSource := not FHistory.FileSource[aFileSourceIndex].Equals(FHistory.CurrentFileSource);
 
-  if BeforeChangePath(FHistory.FileSource[aFileSourceIndex],
+  if BeforeChangePath(FHistory.FileSource[aFileSourceIndex], cprChange,
                       FHistory.Path[aFileSourceIndex, aPathIndex]) then
   begin
     FFlatView := False;

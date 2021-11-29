@@ -662,7 +662,9 @@ type
     procedure seLogWindowSpecialLineColors(Sender: TObject; Line: integer;
       var Special: boolean; var FG, BG: TColor);
 
-    function FileViewBeforeChangePath(FileView: TFileView; NewFileSource: IFileSource; const NewPath : String): Boolean;
+    procedure FileViewFreeAsync(Data: PtrInt);
+    function FileViewAutoSwitch(FileSource: IFileSource; var FileView: TFileView; Reason: TChangePathReason; const NewPath: String): Boolean;
+    function FileViewBeforeChangePath(FileView: TFileView; NewFileSource: IFileSource; Reason: TChangePathReason; const NewPath : String): Boolean;
     procedure FileViewAfterChangePath(FileView: TFileView);
     procedure FileViewActivate(FileView: TFileView);
     procedure FileViewFilesChanged(FileView: TFileView);
@@ -923,7 +925,7 @@ uses
   uFileSourceOperationOptionsUI, uDebug, uHotkeyManager, uFileSourceUtil, uTempFileSystemFileSource,
   Laz2_XMLRead, DCOSUtils, DCStrUtils, fOptions, fOptionsFrame, fOptionsToolbar, uClassesEx,
   uHotDir, uFileSorting, DCBasicTypes, foptionsDirectoryHotlist, uConnectionManager,
-  fOptionsToolbarBase, fOptionsToolbarMiddle, fEditor
+  fOptionsToolbarBase, fOptionsToolbarMiddle, fEditor, uColumns
   {$IFDEF COLUMNSFILEVIEW_VTV}
   , uColumnsFileViewVtv
   {$ELSE}
@@ -4293,7 +4295,122 @@ begin
   end;
 end;
 
-function TfrmMain.FileViewBeforeChangePath(FileView: TFileView; NewFileSource: IFileSource; const NewPath: String): Boolean;
+procedure TfrmMain.FileViewFreeAsync(Data: PtrInt);
+var
+  FileView: TFileView absolute Data;
+begin
+  FileView.Free;
+end;
+
+function TfrmMain.FileViewAutoSwitch(FileSource: IFileSource; var FileView: TFileView;
+  Reason: TChangePathReason; const NewPath: String): Boolean;
+var
+  AName: String;
+  Index: Integer;
+  AWidth: Integer;
+  Percent: Double;
+  Page: TFileViewPage;
+  AClientWidth: Integer;
+  RestoreFocus: Boolean;
+  ColSe: TPanelColumnsClass;
+  DefaultView: TFileSourceFields;
+begin
+  Result:= True;
+  Page:= TFileViewPage(FileView.NotebookPage);
+
+  if Page.Tag > 0 then Exit;
+
+  Page.Tag:= MaxInt;
+  try
+    RestoreFocus:= (ActiveFrame = FileView);
+    if (fspDefaultView in FileSource.Properties) then
+    begin
+      AName:= '<' + FileSource.FileSystem + '>';
+      ColSe:= ColSet.GetColumnSet(AName, FileSource.FileSystem);
+      if (ColSe = nil) then
+      begin
+        if FileSource.GetDefaultView(DefaultView) then
+        begin
+          AWidth:= 0;
+          for Index:= 0 to High(DefaultView) do
+          begin
+            AWidth += DefaultView[Index].Width;
+          end;
+          AClientWidth:= FileView.ClientWidth;
+          // Scale columns width
+          if AWidth < AClientWidth then
+          begin
+            for Index:= 0 to High(DefaultView) do
+            begin
+              Percent:= DefaultView[Index].Width / AWidth;
+              DefaultView[Index].Width:= Floor(AClientWidth * Percent);
+            end;
+          end;
+          ColSe:= TPanelColumnsClass.Create;
+          for Index:= 0 to High(DefaultView) do
+          begin
+            with DefaultView[Index] do
+              ColSe.Add(Header, Content, Width, Align);
+          end;
+          ColSe.FileSystem:= FileSource.FileSystem;
+          ColSe.Name:= AName;
+          ColSet.Add(ColSe);
+        end;
+      end;
+      if Assigned(ColSe) then
+      begin
+        // Save current file view type
+        Page.BackupViewClass := TFileViewClass(FileView.ClassType);
+
+        if (FileView is TColumnsFileView) then
+        begin
+          // Save current columns set name
+          Page.BackupColumnSet:= TColumnsFileView(FileView).ActiveColm;
+          TColumnsFileView(Page.FileView).SetColumnSet(ColSe.Name);
+        end
+        else begin
+          Result:= False;
+          Page.RemoveComponent(FileView);
+          Application.QueueAsyncCall(@FileViewFreeAsync, PtrInt(FileView));
+          FileView:= TColumnsFileView.Create(Page, FileView, ColSe.Name);
+          if Assigned(Page.OnChangeFileView) then Page.OnChangeFileView(FileView);
+          if RestoreFocus then Page.FileView.SetFocus;
+        end;
+        Page.BackupViewMode:= FileSource.FileSystem;
+      end;
+    end
+    else if (Length(Page.BackupViewMode) > 0) then
+    begin
+      Page.BackupViewMode:= EmptyStr;
+      // Restore previous file view type
+      if Page.BackupViewClass = TColumnsFileView then
+        TColumnsFileView(Page.FileView).SetColumnSet(Page.BackupColumnSet)
+      else begin
+        Result:= False;
+        Page.RemoveComponent(FileView);
+        Application.QueueAsyncCall(@FileViewFreeAsync, PtrInt(FileView));
+        FileView:= Page.BackupViewClass.Create(Page, FileView);
+        if Assigned(Page.OnChangeFileView) then Page.OnChangeFileView(FileView);
+      end;
+      if RestoreFocus then Page.FileView.SetFocus;
+    end;
+    if not Result then
+    begin
+      case Reason of
+      cprAdd:
+        FileView.AddFileSource(FileSource, NewPath);
+      cprRemove:
+        FileView.RemoveCurrentFileSource;
+      end;
+    end;
+  finally
+    Page.Tag:= 0;
+  end;
+end;
+
+function TfrmMain.FileViewBeforeChangePath(FileView: TFileView;
+  NewFileSource: IFileSource; Reason: TChangePathReason; const NewPath: String
+  ): Boolean;
 var
   i: Integer;
   AFileSource: IFileSource;
@@ -4345,6 +4462,12 @@ begin
             NewPage.MakeActive;
           end;
         end;
+    end;
+
+    if Result and Assigned(NewFileSource) then
+    begin
+      if not FileViewAutoSwitch(NewFileSource, FileView, Reason, NewPath) then
+        Exit(False);
     end;
 
     if actSyncChangeDir.Checked and (FileView = NotActiveFrame) then

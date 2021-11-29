@@ -197,7 +197,7 @@ type
     function Clone(NewParent: TWinControl): TColumnsFileView; override;
     procedure CloneTo(FileView: TFileView); override;
 
-    procedure AddFileSource(aFileSource: IFileSource; aPath: String); override;
+    function AddFileSource(aFileSource: IFileSource; aPath: String): Boolean; override;
 
     procedure LoadConfiguration(AConfig: TXmlConfig; ANode: TXmlNode); override;
     procedure SaveConfiguration(AConfig: TXmlConfig; ANode: TXmlNode; ASaveHistory:boolean); override;
@@ -301,7 +301,8 @@ begin
   ANode := AConfig.FindNode(ANode, 'ColumnsView', True);
   AConfig.ClearNode(ANode);
 
-  AConfig.SetValue(ANode, 'ColumnsSet', ActiveColm);
+  if (FileSource.FileSystem = FS_GENERAL) then
+    AConfig.SetValue(ANode, 'ColumnsSet', ActiveColm);
 end;
 
 procedure TColumnsFileView.dgPanelHeaderClick(Sender: TObject;
@@ -900,11 +901,11 @@ begin
   end;
 end;
 
-procedure TColumnsFileView.AddFileSource(aFileSource: IFileSource; aPath: String);
+function TColumnsFileView.AddFileSource(aFileSource: IFileSource; aPath: String): Boolean;
 begin
-  inherited AddFileSource(aFileSource, aPath);
+  Result:= inherited AddFileSource(aFileSource, aPath);
 
-  if not IsLoadingFileList then
+  if Result and (not IsLoadingFileList) then
   begin
     FUpdatingActiveFile := True;
     dgPanel.Row := 0;

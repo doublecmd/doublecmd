@@ -105,6 +105,8 @@ type
     // Retrieve some properties of the file source.
     function GetProperties: TFileSourceProperties; override;
 
+    function GetFileSystem: String; override;
+
     // These functions create an operation object specific to the file source.
     function CreateListOperation(TargetPath: String): TFileSourceOperation; override;
     function CreateCopyOperation(var SourceFiles: TFiles;
@@ -126,6 +128,7 @@ type
 
     function GetLocalName(var aFile: TFile): Boolean; override;
     function CreateDirectory(const Path: String): Boolean; override;
+    function GetDefaultView(out DefaultView: TFileSourceFields): Boolean; override;
 
     class function IsSupportedPath(const Path: String): Boolean; override;
     class function CreateByRootName(aRootName: String): IWfxPluginFileSource;
@@ -673,7 +676,14 @@ begin
       if (BackgroundFlags and BG_DOWNLOAD = 0) then
         Result:= Result + [fspCopyOutOnMainThread];
     end;
+    if Assigned(FsContentGetDefaultView) or Assigned(FsContentGetDefaultViewW) then
+      Result := Result + [fspDefaultView];
   end;
+end;
+
+function TWfxPluginFileSource.GetFileSystem: String;
+begin
+  Result:= FPluginRootName;
 end;
 
 function TWfxPluginFileSource.GetSupportedFileProperties: TFilePropertiesTypes;
@@ -966,6 +976,11 @@ begin
     if (log_vfs_op in gLogOptions) and (log_errors in gLogOptions) then
       logWrite(Format(rsMsgLogError + rsMsgLogMkDir, [Path]), lmtError);
   end;
+end;
+
+function TWfxPluginFileSource.GetDefaultView(out DefaultView: TFileSourceFields): Boolean;
+begin
+  Result:= FWFXModule.WfxContentGetDefaultView(DefaultView);
 end;
 
 class function TWfxPluginFileSource.IsSupportedPath(const Path: String): Boolean;
