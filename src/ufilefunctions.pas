@@ -275,10 +275,13 @@ begin
       fsfModificationTime:
         if fpModificationTime in AFile.SupportedProperties then
         begin
-          if Length(AParam) > 0 then
-            Result := SysUtils.FormatDateTime(AParam, AFile.ModificationTime)
-          else
-            Result := AFile.Properties[fpModificationTime].Format(DefaultFilePropertyFormatter);
+          if AFile.ModificationTimeProperty.IsValid then
+          begin
+            if Length(AParam) > 0 then
+              Result := SysUtils.FormatDateTime(AParam, AFile.ModificationTime)
+            else
+              Result := AFile.Properties[fpModificationTime].Format(DefaultFilePropertyFormatter);
+          end;
         end;
 
       fsfCreationTime:
