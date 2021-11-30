@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Double Commander 0.7.8 beta\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-04-22 23:08+030\n"
-"PO-Revision-Date: 2021-11-17 19:02+0900\n"
+"PO-Revision-Date: 2021-11-18 10:19+0900\n"
 "Last-Translator: sragin <sragin@naver.com>\n"
 "Language-Team: Language <email@address>\n"
 "MIME-Version: 1.0\n"
@@ -1964,7 +1964,7 @@ msgstr "정보(&A)"
 
 #: tfrmmain.actactivatetabbyindex.caption
 msgid "Activate Tab By Index"
-msgstr ""
+msgstr "인덱스로 탭 활성화"
 
 #: tfrmmain.actaddfilenametocmdline.caption
 msgid "Add file name to command line"
@@ -2009,7 +2009,7 @@ msgstr "폴더 변경"
 
 #: tfrmmain.actchangedirtohome.caption
 msgid "Change directory to home"
-msgstr "home으로 폴더 변경"
+msgstr "홈으로 폴더 변경"
 
 #: tfrmmain.actchangedirtoparent.caption
 msgid "Change Directory To Parent"
@@ -2251,7 +2251,7 @@ msgstr "창 바꾸기(&P)"
 
 #: tfrmmain.actexecutescript.caption
 msgid "Execute Script"
-msgstr ""
+msgstr "스크립트 실행"
 
 #: tfrmmain.actexit.caption
 msgctxt "TFRMMAIN.ACTEXIT.CAPTION"
@@ -5084,7 +5084,7 @@ msgstr ""
 
 #: tfrmoptionsdragdrop.cbdraganddropaskformateachtime.caption
 msgid "From all the supported formats, ask which one to use every time"
-msgstr "지원 가능한 모든 파일 형태를 항상 묻기"
+msgstr "지원 가능한 모든 파일 포맷을 항상 묻기"
 
 #: tfrmoptionsdragdrop.cbdraganddropsaveunicodetextinuft8.caption
 msgid "When saving Unicode text, save it in UTF8 format (will be UTF16 otherwise)"
@@ -5104,7 +5104,7 @@ msgstr "텍스트를 다른 창으로 드래그 && 드롭할 때:"
 
 #: tfrmoptionsdragdrop.lblmostdesiredtextformat1.caption
 msgid "Place the most desired format on top of list (use dag && drop):"
-msgstr "가장 원하는 파일 형태 상위로 이동(드래그 && 드롭):"
+msgstr "가장 원하는 파일 포맷을 상위로 이동(드래그 && 드롭):"
 
 #: tfrmoptionsdragdrop.lblmostdesiredtextformat2.caption
 msgid "(if the most desired is not present, we'll take second one and so on)"
@@ -6310,7 +6310,7 @@ msgstr "템플릿..."
 
 #: tfrmoptionsfiletypescolors.gbfiletypescolors.caption
 msgid "File types colors (sort by drag&&drop)"
-msgstr "파일 타입별 색상 (드래그&&드롭으로 정렬)"
+msgstr "파일 포맷별 색상 (드래그&&드롭으로 정렬)"
 
 #: tfrmoptionsfiletypescolors.lblcategoryattr.caption
 msgid "Category a&ttributes:"
@@ -7910,7 +7910,7 @@ msgstr "외부 프로그램 사용(&U)"
 
 #: tfrmoptionstoolbase.lbltoolsparameters.caption
 msgid "A&dditional parameters"
-msgstr "부가 매개변수(&D)"
+msgstr "매개변수(&D)"
 
 #: tfrmoptionstoolbase.lbltoolspath.caption
 msgid "&Path to program to execute"
@@ -10555,7 +10555,7 @@ msgstr "편집기 글꼴(&E)"
 
 #: ulng.rsfontusagefunctionbuttons
 msgid "Function Buttons Font"
-msgstr ""
+msgstr "기능키 버튼 글꼴"
 
 #: ulng.rsfontusagelog
 msgid "&Log Font"
@@ -10567,15 +10567,15 @@ msgstr "주 글꼴(&F)"
 
 #: ulng.rsfontusagepathedit
 msgid "Path Font"
-msgstr ""
+msgstr "경로 표시바 글꼴"
 
 #: ulng.rsfontusagesearchresults
 msgid "Search Results Font"
-msgstr ""
+msgstr "검색 결과창 글꼴"
 
 #: ulng.rsfontusagetreeviewmenu
 msgid "Tree View Menu Font"
-msgstr ""
+msgstr "트리뷰 메뉴 글꼴"
 
 #: ulng.rsfontusageviewer
 msgid "&Viewer Font"
@@ -10584,7 +10584,7 @@ msgstr "뷰어 글꼴(&V)"
 #: ulng.rsfontusageviewerbook
 msgctxt "ulng.rsfontusageviewerbook"
 msgid "Viewer&Book Font"
-msgstr ""
+msgstr "책보기 모드 글꼴(&B)"
 
 #: ulng.rsfreemsg
 msgid "%s of %s free"
@@ -10927,7 +10927,7 @@ msgstr ""
 
 #: ulng.rsmsgarchivercustomparams
 msgid "Additional parameters for archiver command-line:"
-msgstr "압축기 명령줄의 부가 매개변수:"
+msgstr "압축기 명령줄의 매개변수:"
 
 #: ulng.rsmsgaskquoteornot
 msgid "Do you want to enclose between quotes?"
@@ -10999,7 +10999,7 @@ msgstr "선택된\"%s\" 복사할까요?"
 
 #: ulng.rsmsgcreateanewfiletype
 msgid "< Create a new file type \"%s files\" >"
-msgstr "<새 파일 형태 생성 \"%s files\" >"
+msgstr "<새 파일 포맷 생성 \"%s files\" >"
 
 #: ulng.rsmsgdctoolbarwheretosave
 msgid "Enter location and filename where to save a DC Toolbar file"
@@ -11051,7 +11051,7 @@ msgstr "파일명 입력:"
 
 #: ulng.rsmsgenternewfiletypename
 msgid "Enter name of new file type to create for extension \"%s\""
-msgstr "\"%s\" 확장자 생성을 위해 새 파일 형태의 이름을 입력"
+msgstr "새 파일 포맷의 이름을 입력해서 \"%s\" 확장자를 생성하세요"
 
 #: ulng.rsmsgerrbadarchive
 msgid "CRC error in archive data"
@@ -11540,7 +11540,7 @@ msgstr "잘못된 파일명"
 
 #: ulng.rsmsginvalidformatofconfigurationfile
 msgid "Invalid format of configuration file"
-msgstr "불분명한 환경설정 파일 형태"
+msgstr "불분명한 환경설정 파일 포맷"
 
 #: ulng.rsmsginvalidhexnumber
 msgid "Invalid hexadecimal number: \"%s\""
@@ -12924,7 +12924,7 @@ msgstr "파일 뷰 기타"
 #: ulng.rsoptionseditorfiletypes
 msgctxt "ulng.rsoptionseditorfiletypes"
 msgid "File types"
-msgstr "파일 형태"
+msgstr "파일 포맷"
 
 #: ulng.rsoptionseditorfoldertabs
 msgctxt "ulng.rsoptionseditorfoldertabs"
@@ -13617,7 +13617,7 @@ msgstr "즐겨찾기탭 하위 메뉴 이름 바꾸기"
 #: ulng.rstooldiffer
 msgctxt "ulng.rstooldiffer"
 msgid "Differ"
-msgstr "구분하기"
+msgstr "비교기"
 
 #: ulng.rstooleditor
 msgctxt "ulng.rstooleditor"
