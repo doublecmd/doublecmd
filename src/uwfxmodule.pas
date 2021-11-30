@@ -276,8 +276,16 @@ begin
           AValues[1]:= 'GETFILESIZE'
         else if (Field = 'writedate') then
           AValues[1]:= 'GETFILETIME'
-        else if (Field = 'attributes') then
-          AValues[1]:= 'GETFILEATTR';
+        else if (Field = 'attributestr') then
+          AValues[1]:= 'GETFILEATTR'
+        else if (Field = 'writetime') then
+        begin
+          AValues[1]:= 'GETFILETIME';
+          if (Length(AValues) = 2) then
+          begin
+            AddString(AValues, DefaultFormatSettings.LongTimeFormat);
+          end;
+        end;
       end;
       if (Length(AValues) = 2) then
         Result+= '.' + AValues[1] + '{}'
