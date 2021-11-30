@@ -621,6 +621,11 @@ begin
     Inc(ListRec^.Index);
     Result := True;
   end;
+  if Result then
+  begin
+    FindData.ftLastWriteTime.dwLowDateTime := $FFFFFFFE;
+    FindData.ftLastWriteTime.dwHighDateTime := $FFFFFFFF;
+  end;
 end;
 
 function FsInitW(PluginNr: Integer; pProgressProc: TProgressProcW;
