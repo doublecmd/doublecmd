@@ -2325,6 +2325,7 @@ object frmMain: TfrmMain
       Tag = 1
       Category = 'Active Panel'
       Caption = 'Open drive list'
+      OnExecute = actExecute
     end
     object actExchange: TAction
       Tag = 14
