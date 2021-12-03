@@ -2815,6 +2815,13 @@ object frmMain: TfrmMain
       Caption = 'Add Plugin'
       OnExecute = actExecute
     end
+    object actLoadList: TAction
+      Tag = 7
+      Category = 'Miscellaneous'
+      Caption = 'Load List'
+      Hint = 'Load list of files/folders from the specified text file'
+      OnExecute = actExecute
+    end
   end
   object pmHotList: TPopupMenu
     Images = imgLstDirectoryHotlist

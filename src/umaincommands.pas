@@ -369,6 +369,7 @@ type
    procedure cm_ConfigPlugins(const {%H-}Params: array of string);
    procedure cm_OpenDriveByIndex(const Params: array of string);
    procedure cm_AddPlugin(const Params: array of string);
+   procedure cm_LoadList(const Params: array of string);
 
    // Internal commands
    procedure cm_ExecuteToolbarItem(const Params: array of string);
@@ -5365,6 +5366,69 @@ begin
       if Editor.CanFocus then Editor.SetFocus;
       TfrmOptionsPluginsBase(Editor).ActualAddPlugin(sPluginFilename);
     end;
+  end;
+end;
+
+procedure TMainCommands.cm_LoadList(const Params: array of string);
+var
+  aFile: TFile;
+  sValue: String;
+  AParam: String;
+  Index: Integer;
+  AFileName: String;
+  FileList: TFileTree;
+  NewPage: TFileViewPage;
+  StringList: TStringListUAC;
+  Notebook: TFileViewNotebook;
+  SearchResultFS: ISearchResultFileSource;
+begin
+  with frmMain do
+  begin
+    AFileName:= EmptyStr;
+    Notebook := ActiveNotebook;
+    for AParam in Params do
+    begin
+      if GetParamValue(AParam, 'filename', sValue) then
+        AFileName := sValue
+      else if GetParamValue(AParam, 'side', sValue) then
+      begin
+        if sValue = 'left' then Notebook := LeftTabs
+        else if sValue = 'right' then Notebook := RightTabs
+        else if sValue = 'active' then Notebook := ActiveNotebook
+        else if sValue = 'inactive' then Notebook := NotActiveNotebook;
+      end;
+    end;
+    if (Length(AFileName) = 0) then
+    begin
+      msgError(rsMsgInvalidFilename);
+      Exit;
+    end;
+    StringList:= TStringListUAC.Create;
+    try
+      StringList.LoadFromFile(AFileName);
+
+      FileList := TFileTree.Create;
+
+      for Index := 0 to StringList.Count - 1 do
+      begin
+        try
+          aFile := TFileSystemFileSource.CreateFileFromFile(StringList[Index]);
+          FileList.AddSubNode(aFile);
+        except
+          on EFileNotFound do ;
+        end;
+      end;
+      SearchResultFS := TSearchResultFileSource.Create;
+      SearchResultFS.AddList(FileList, TFileSystemFileSource.GetFileSource);
+
+      NewPage := Notebook.ActivePage;
+      NewPage.FileView.AddFileSource(SearchResultFS, SearchResultFS.GetRootDir);
+      NewPage.FileView.FlatView := True;
+      NewPage.MakeActive;
+    except
+      on E: Exception do msgError(E.Message);
+    end;
+    StringList.Free;
   end;
 end;
 
