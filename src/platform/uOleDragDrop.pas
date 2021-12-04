@@ -1148,12 +1148,11 @@ end;
 { TFileDropTarget.GetDropTextCreatedFilenames }
 function TFileDropTarget.GetDropTextCreatedFilenames(var Medium: TSTGMedium; Format: TFormatETC): TStringList;
 var
-  FlagKeepGoing:boolean;
-  AnyPointer: Pointer;
-  UnicodeCharPointer: PUnicodeChar;
   hFile: THandle;
+  AnyPointer: Pointer;
+  MyUtf8String: String;
+  FlagKeepGoing: Boolean;
   DroppedTextFilename: String;
-  MyUnicodeString: UnicodeString;
 
   procedure SetDefaultFilename;
   begin
@@ -1166,7 +1165,7 @@ var
   end;
 
 begin
-  result:=nil;
+  Result:= nil;
   FlagKeepGoing:=TRUE;
   SetDefaultFilename;
   if not gDragAndDropTextAutoFilename then FlagKeepGoing:=ShowInputQuery(rsCaptionForAskingFilename, rsMsgPromptAskingFilename, DroppedTextFilename);
@@ -1183,35 +1182,31 @@ begin
         case Format.CfFormat of
           CF_TEXT:
             begin
-              FileWrite(hFile, PAnsiChar(AnyPointer)^, UTF8Length(PAnsiChar(AnyPointer)));
+              FileWrite(hFile, AnyPointer^, StrLen(PAnsiChar(AnyPointer)));
             end;
 
           CF_UNICODETEXT:
             begin
               if gDragAndDropSaveUnicodeTextInUFT8 then
               begin
-                UnicodeCharPointer:=AnyPointer;
-                MyUnicodeString:='';
-                while UnicodeCharPointer^<>#$0000 do
-                begin
-                  MyUnicodeString:=MyUnicodeString+UnicodeCharPointer^;
-                  inc(UnicodeCharPointer);
-                end;
-
-                FileWrite(hFile, PChar(#$EF+#$BB+#$BF)[0], 3); //Adding Byte Order Mask for UTF8.
-                FileWrite(hFile, UTF16toUTF8(MyUnicodeString)[1], Length(UTF16toUTF8(MyUnicodeString)));
+                MyUtf8String:= CeUtf16toUtf8(PUnicodeChar(AnyPointer));
+                // Adding Byte Order Mark for UTF8
+                FileWrite(hFile, PAnsiChar(#$EF#$BB#$BF)[0], 3);
+                FileWrite(hFile, Pointer(MyUtf8String)^, Length(MyUtf8String));
               end
-              else
-              begin
-                FileWrite(hFile, PChar(#$FF+#$FE)[0], 2); //Adding Byte Order Mask for UTF16, Little-Endian first.
-                FileWrite(hFile, PUnicodeChar(AnyPointer)^, Length(PUnicodeChar(AnyPointer))*2);
+              else begin
+                // Adding Byte Order Mark for UTF16LE
+                FileWrite(hFile, PAnsiChar(#$FF#$FE)[0], 2);
+                FileWrite(hFile, AnyPointer^, StrLen(PUnicodeChar(AnyPointer)) * SizeOf(WideChar));
               end;
             end;
 
           else
             begin
-              if Format.CfFormat=CFU_HTML then FileWrite(hFile, PAnsiChar(AnyPointer)^, UTF8Length(PAnsiChar(AnyPointer)));
-              if Format.CfFormat=CFU_RICHTEXT then FileWrite(hFile, PAnsiChar(AnyPointer)^, UTF8Length(PAnsiChar(AnyPointer)));
+              if (Format.CfFormat = CFU_HTML) or (Format.CfFormat = CFU_RICHTEXT) then
+              begin
+                FileWrite(hFile, AnyPointer^, StrLen(PAnsiChar(AnyPointer)));
+              end;
             end;
         end;
       finally
