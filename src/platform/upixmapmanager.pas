@@ -518,7 +518,6 @@ begin
           if phIcon <> INVALID_HANDLE_VALUE then
           begin
             bmStandartBitmap := BitmapCreateFromHICON(phIcon);
-            bmStandartBitmap.Masked := True; // Need to explicitly set Masked=True, Lazarus issue #0019747
             if fromWhatItWasLoaded<> nil then fromWhatItWasLoaded^ := fwbwlResourceFileExtracted;
           end;
           DestroyIcon(phIconLarge);
@@ -1245,7 +1244,6 @@ begin
     if AIcon <> 0 then
     try
       ABitmap := BitmapCreateFromHICON(AIcon);
-      ABitmap.Masked := True; // Need to explicitly set Masked=True, Lazarus issue #0019747
       if (ABitmap.Width <> gIconsSize) or (ABitmap.Height <> gIconsSize) then
         ABitmap:= StretchBitmap(ABitmap, gIconsSize, clWhite, True);
       Result := FPixmapList.Add(ABitmap);
@@ -1666,7 +1664,6 @@ begin
       if AIcon <> 0 then
       try
         Result := BitmapCreateFromHICON(AIcon);
-        Result.Masked := True; // Need to explicitly set Masked=True, Lazarus issue #0019747
       finally
         DestroyIcon(AIcon);
       end
@@ -2222,7 +2219,6 @@ begin
       if (SFI.hIcon <> 0) then
       try
         Result:= BitmapCreateFromHICON(SFI.hIcon);
-        Result.Masked := True; // Need to explicitly set Masked=True, Lazarus issue #0019747
         if (IconSize <> iIconSmall) and (IconSize <> iIconLarge) then // non standart icon size
           Result := StretchBitmap(Result, IconSize, clBackColor, True);
       finally

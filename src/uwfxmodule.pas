@@ -254,8 +254,8 @@ end;
 
 function ConvertFunction(const S: String): String;
 var
-  Plugin, Field: String;
   AValues: TStringArray;
+  Plugin, Field, Arg: String;
 begin
   Result:= EmptyStr;
   if Length(S) < 3 then Exit;
@@ -272,12 +272,36 @@ begin
       begin
         Result:= 'DC()';
         Field:= LowerCase(AValues[1]);
-        if (Field = 'size') then
-          AValues[1]:= 'GETFILESIZE'
-        else if (Field = 'writedate') then
+        if (Field = 'writedate') then
           AValues[1]:= 'GETFILETIME'
-        else if (Field = 'attributes') then
-          AValues[1]:= 'GETFILEATTR';
+        else if (Field = 'attributestr') then
+          AValues[1]:= 'GETFILEATTR'
+        else if (Field = 'writetime') then
+        begin
+          AValues[1]:= 'GETFILETIME';
+          if (Length(AValues) = 2) then
+          begin
+            AddString(AValues, DefaultFormatSettings.LongTimeFormat);
+          end;
+        end
+        else if (Field = 'size') then
+        begin
+          AValues[1]:= 'GETFILESIZE';
+          if (Length(AValues) = 3) then
+          begin
+            Arg:= LowerCase(AValues[2]);
+            if (Arg = 'bytes') then
+              AValues[2]:= 'BYTE'
+            else if (Arg = 'kbytes') then
+              AValues[2]:= 'KILO'
+            else if (Arg = 'mbytes') then
+              AValues[2]:= 'MEGA'
+            else if (Arg = 'gbytes') then
+              AValues[2]:= 'GIGA'
+            else
+              AValues[2]:= 'FLOAT';
+          end;
+        end;
       end;
       if (Length(AValues) = 2) then
         Result+= '.' + AValues[1] + '{}'

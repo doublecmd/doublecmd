@@ -131,7 +131,7 @@ uses
   , uWinNetFileSource, uVfsModule, uLng, uMyWindows, DCStrUtils
   , uDCReadSVG, uFileSourceUtil, uGdiPlusJPEG, uListGetPreviewBitmap
   , Dialogs, Clipbrd, uShowMsg, uDebug, JwaDbt, uThumbnailProvider
-  , uRecycleBinFileSource
+  , uRecycleBinFileSource, uDCReadHEIF
     {$IFDEF LCLQT5}
     , qt5, qtwidgets, uDarkStyle
     {$ENDIF}
@@ -140,7 +140,7 @@ uses
   , BaseUnix, Errors, fFileProperties, uJpegThumb
     {$IF NOT DEFINED(DARWIN)}
     , uDCReadSVG, uMagickWand, uGio, uGioFileSource, uVfsModule, uVideoThumb
-    , uDCReadWebP, uFolderThumb, uAudioThumb, uDefaultTerminal
+    , uDCReadWebP, uFolderThumb, uAudioThumb, uDefaultTerminal, uDCReadHEIF
     {$ELSE}
     , MacOSAll, uQuickLook, uMyDarwin, uShowMsg, uLng
     {$ENDIF}
