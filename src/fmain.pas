@@ -4317,6 +4317,10 @@ var
   DefaultView: TFileSourceFields;
 begin
   Result:= True;
+
+  if FileSource.Equals(FileView.FileSource) then
+    Exit;
+
   Page:= TFileViewPage(FileView.NotebookPage);
 
   if Page.Tag > 0 then Exit;
