@@ -499,7 +499,10 @@ begin
   if caoCopyTime in FCopyAttributesOptions then
   begin
     if (FMode = wpohmCopyOut) then
-      mbFileSetTime(TargetFileName, DateTimeToFileTime(SourceFile.ModificationTime))
+    begin
+      if SourceFile.ModificationTimeProperty.IsValid then
+        mbFileSetTime(TargetFileName, DateTimeToFileTime(SourceFile.ModificationTime));
+    end
     else begin
       WfxFileTime := DateTimeToWfxFileTime(SourceFile.ModificationTime);
       FWfxPluginFileSource.WfxModule.WfxSetTime(TargetFileName, nil, nil, @WfxFileTime);
