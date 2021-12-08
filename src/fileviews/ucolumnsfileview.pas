@@ -1947,7 +1947,7 @@ begin
                 // General columns set
                 for I:= 0 to ColSet.Items.Count - 1 do
                 begin
-                  if not SameText(FileSystem, ColSet.GetColumnSet(I).FileSystem) then
+                  if SameText(FS_GENERAL, ColSet.GetColumnSet(I).FileSystem) then
                   begin
                     MI:= TMenuItem.Create(ColumnsView.pmColumnsMenu);
                     MI.Tag:= I;
