@@ -32,11 +32,11 @@ msgstr "파일 찾음; %d (동일: %d, 다름: %d, 왼쪽 유일함: %d, 오른�
 
 #: fsyncdirsdlg.rslefttorightcopy
 msgid "Left to Right: Copy %d files, total size: %s (%s)"
-msgstr "왼쪽에서 오른쪽: %d개 파일 복사, 총 용량: %s (%s) 바이트"
+msgstr "왼쪽에서 오른쪽: %d개 파일 복사, 총 용량: %s (%s)"
 
 #: fsyncdirsdlg.rsrighttoleftcopy
 msgid "Right to Left: Copy %d files, total size: %s (%s)"
-msgstr "오른쪽에서 왼쪽: %d 개 파일 복사, 총 용량: %s (%s) 바이트"
+msgstr "오른쪽에서 왼쪽: %d 개 파일 복사, 총 용량: %s (%s)"
 
 #: tfilesystemcopymoveoperationoptionsui.btnsearchtemplate.hint
 msgid "Choose template..."
