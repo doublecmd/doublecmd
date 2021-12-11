@@ -820,6 +820,7 @@ begin
   end;
   cbUseSubs.Enabled := cbRegExp.Checked;
   edFindChange(edFind);
+  edReplaceChange(edReplace);
 end;
 
 { TfrmMultiRename.edPocChange }
@@ -2591,6 +2592,7 @@ begin
 
         //5.Refresh the whole thing.
         edFindChange(edFind);
+        edReplaceChange(edReplace);
 
         //6.We might come here with parameter "index=x" so make sure we switch also the preset combo box to the same index.
         if PresetIndex >= cbPresets.Items.Count then
