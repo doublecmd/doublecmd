@@ -140,6 +140,8 @@ function WfxFileTimeToDateTime(FileTime: TWfxFileTime): TDateTime;
 begin
   if (FileTime.dwLowDateTime = $FFFFFFFE) and (FileTime.dwHighDateTime = $FFFFFFFF) then
     Result:= Default(TDateTime)
+  else if (TWinFileTime(FileTime) = 0) then
+    Result:= Default(TDateTime)
   else
     Result:= WinFileTimeToDateTime(TWinFileTime(FileTime));
 end;
