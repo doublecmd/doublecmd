@@ -352,6 +352,7 @@ begin
   if Assigned(aFileView) then
   begin
     aFileView.Parent := Self;
+    BackupViewMode := EmptyStr;
     if Assigned(FOnChangeFileView) then
       FOnChangeFileView(aFileView);
   end;

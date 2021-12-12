@@ -4388,13 +4388,20 @@ begin
     begin
       Page.BackupViewMode:= EmptyStr;
       // Restore previous file view type
-      if Page.BackupViewClass = TColumnsFileView then
-        TColumnsFileView(Page.FileView).SetColumnSet(Page.BackupColumnSet)
+      if (FileView is Page.BackupViewClass) then
+      begin
+        if (FileView is TColumnsFileView) then
+          TColumnsFileView(FileView).SetColumnSet(Page.BackupColumnSet)
+      end
       else begin
         Result:= False;
         Page.RemoveComponent(FileView);
         Application.QueueAsyncCall(@FileViewFreeAsync, PtrInt(FileView));
-        FileView:= Page.BackupViewClass.Create(Page, FileView);
+        if Page.BackupViewClass <> TColumnsFileView then
+          FileView:= Page.BackupViewClass.Create(Page, FileView)
+        else begin
+          FileView:= TColumnsFileView.Create(Page, FileView, Page.BackupColumnSet);
+        end;
         if Assigned(Page.OnChangeFileView) then Page.OnChangeFileView(FileView);
       end;
       if RestoreFocus then Page.FileView.SetFocus;
