@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Window displaying progress for file source operations and queues.
 
-   Copyright (C) 2008-2018  Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2008-2021  Alexander Koblov (alexx2000@mail.ru)
    Copyright (C) 2012       Przemysław Nagay (cobines@gmail.com)
 
    This program is free software; you can redistribute it and/or modify
@@ -136,6 +136,9 @@ type
     class procedure ShowNewWindow(AWindow: TfrmFileOp; Options: TOperationProgressWindowOptions);
 
     property ProgressBarStyle: TProgressBarStyle read GetProgressBarStyle write SetProgressBarStyle;
+
+protected
+  procedure DoAutoSize; override;
 
   public
     constructor Create(OperationHandle: TOperationHandle); reintroduce;
@@ -581,6 +584,14 @@ begin
   end
   else
     AWindow.Show;
+end;
+
+procedure TfrmFileOp.DoAutoSize;
+begin
+  inherited DoAutoSize;
+{$IF DEFINED(LCLQT5)}
+  InvalidateBoundsRealized;
+{$ENDIF}
 end;
 
 procedure TfrmFileOp.StopOperationOrQueue;
