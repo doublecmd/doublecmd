@@ -137,11 +137,13 @@ begin
 end;
 
 function WfxFileTimeToDateTime(FileTime: TWfxFileTime): TDateTime;
+const
+  NULL_DATE_TIME = TDateTime(1.7e+308);
 begin
   if (FileTime.dwLowDateTime = $FFFFFFFE) and (FileTime.dwHighDateTime = $FFFFFFFF) then
-    Result:= Default(TDateTime)
+    Result:= NULL_DATE_TIME
   else if (TWinFileTime(FileTime) = 0) then
-    Result:= Default(TDateTime)
+    Result:= NULL_DATE_TIME
   else
     Result:= WinFileTimeToDateTime(TWinFileTime(FileTime));
 end;
