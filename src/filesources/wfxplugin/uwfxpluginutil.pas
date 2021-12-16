@@ -119,36 +119,43 @@ uses
 
 function WfxRenameFile(aFileSource: IWfxPluginFileSource; const aFile: TFile; const NewFileName: String): Boolean;
 var
+  ASize: Int64;
   RemoteInfo: TRemoteInfo;
-  iTemp: TInt64Rec;
 begin
   with aFileSource do
   begin
     with RemoteInfo do
     begin
-      iTemp.Value := (aFile.Properties[fpSize] as TFileSizeProperty).Value;
-      SizeLow := iTemp.Low;
-      SizeHigh := iTemp.High;
-      LastWriteTime := DateTimeToWfxFileTime((aFile.Properties[fpModificationTime] as TFileModificationDateTimeProperty).Value);
-      Attr := LongInt((aFile.Properties[fpAttributes] as TFileAttributesProperty).Value);
+      ASize := aFile.Size;
+      Attr := LongInt(aFile.Attributes);
+      SizeLow := LongInt(Int64Rec(ASize).Lo);
+      SizeHigh := LongInt(Int64Rec(ASize).Hi);
+      LastWriteTime := DateTimeToWfxFileTime(aFile.ModificationTime);
     end;
     Result := (WfxCopyMove(aFile.Path + aFile.Name, aFile.Path + NewFileName, FS_COPYFLAGS_MOVE, @RemoteInfo, True, True) = FS_FILE_OK);
   end;
 end;
 
 function WfxFileTimeToDateTime(FileTime: TWfxFileTime): TDateTime;
+const
+  NULL_DATE_TIME = TDateTime(2958466.0);
 begin
   if (FileTime.dwLowDateTime = $FFFFFFFE) and (FileTime.dwHighDateTime = $FFFFFFFF) then
-    Result:= Default(TDateTime)
+    Result:= NULL_DATE_TIME
   else if (TWinFileTime(FileTime) = 0) then
-    Result:= Default(TDateTime)
+    Result:= NULL_DATE_TIME
   else
     Result:= WinFileTimeToDateTime(TWinFileTime(FileTime));
 end;
 
 function DateTimeToWfxFileTime(DateTime: TDateTime): TWfxFileTime;
 begin
-  Result:= TWfxFileTime(DateTimeToWinFileTime(DateTime));
+  if (DateTime <= SysUtils.MaxDateTime) then
+    Result:= TWfxFileTime(DateTimeToWinFileTime(DateTime))
+  else begin
+    Result.dwLowDateTime:= $FFFFFFFE;
+    Result.dwHighDateTime:= $FFFFFFFF;
+  end;
 end;
 
 { TWfxTreeBuilder }
