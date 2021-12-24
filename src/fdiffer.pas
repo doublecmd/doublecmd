@@ -300,12 +300,19 @@ begin
       else begin
         OpenFileLeft(FileNameLeft);
         OpenFileRight(FileNameRight);
-        actStartCompare.Execute;
+        if actStartCompare.Enabled then
+          actStartCompare.Execute
+        else begin
+          tmProgress.Enabled:= False;
+          CloseProgressDialog;
+          ShowDialog;
+        end;
       end;
     except
       on E: Exception do
       begin
         tmProgress.Enabled:= False;
+        CloseProgressDialog;
         msgError(E.Message);
         Free;
       end;
