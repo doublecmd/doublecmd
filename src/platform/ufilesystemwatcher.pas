@@ -27,7 +27,7 @@ unit uFileSystemWatcher;
 interface
 
 uses
-  Classes, SysUtils;
+  Classes, SysUtils, LCLVersion;
 
 //{$DEFINE DEBUG_WATCHER}
 
@@ -76,7 +76,7 @@ type
 implementation
 
 uses
-  LCLProc, LazUTF8, uDebug, uExceptions, syncobjs, fgl
+  LCLProc, LazUTF8, LazMethodList, uDebug, uExceptions, syncobjs, fgl
   {$IF DEFINED(MSWINDOWS)}
   , Windows, JwaWinNT, JwaWinBase, DCWindows, DCStrUtils, uGlobs, DCOSUtils,
     DCConvertEncoding
@@ -85,6 +85,11 @@ uses
   {$ELSEIF DEFINED(BSD)}
   , BSD, Unix, BaseUnix, UnixType, FileUtil, DCOSUtils
   {$ENDIF};
+
+{$if lcl_fullversion < 2030000}
+  {$macro on}
+  {$define SameMethod:= CompareMethods}
+{$endif}
 
 {$IF DEFINED(MSWINDOWS)}
 const
@@ -1035,7 +1040,7 @@ begin
         // Check if the observer is not already registered.
         for j := 0 to OSWatcher.Observers.Count - 1 do
         begin
-          if CompareMethods(TMethod(OSWatcher.Observers[j].WatcherEvent), TMethod(aWatcherEvent)) then
+          if SameMethod(TMethod(OSWatcher.Observers[j].WatcherEvent), TMethod(aWatcherEvent)) then
             Exit(True);
         end;
 
@@ -1133,7 +1138,7 @@ var
 begin
   for j := 0 to FOSWatchers[OSWatcherIndex].Observers.Count - 1 do
   begin
-    if CompareMethods(TMethod(FOSWatchers[OSWatcherIndex].Observers[j].WatcherEvent), TMethod(aWatcherEvent)) then
+    if SameMethod(TMethod(FOSWatchers[OSWatcherIndex].Observers[j].WatcherEvent), TMethod(aWatcherEvent)) then
     begin
       FOSWatchers[OSWatcherIndex].Observers.Delete(j);
 
