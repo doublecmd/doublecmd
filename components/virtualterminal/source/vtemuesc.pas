@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Virtual terminal emulator escape codes
 
-   Alexander Koblov, 2021
+   Alexander Koblov, 2021-2022
 
    Based on ComPort Library
      https://sourceforge.net/projects/comport
@@ -36,7 +36,7 @@ type
     ecEraseLine, ecEraseScreen, ecEraseChar, ecSetTab, ecClearTab, ecClearAllTabs,
     ecIdentify, ecIdentResponse, ecQueryDevice, ecReportDeviceOK,
     ecReportDeviceFailure, ecQueryCursorPos, ecReportCursorPos,
-    ecAttributes, ecSetMode, ecResetMode, ecReset,
+    ecAttributes, ecSetMode, ecResetMode, ecReset, ecCharSet,
     ecSaveCaretAndAttr, ecRestoreCaretAndAttr, ecSaveCaret, ecRestoreCaret,
     ecTest, ecFuncKey, ecSetTextParams, ecScrollRegion, ecReverseIndex);
 
@@ -339,6 +339,7 @@ begin
       '8': Result := ecRestoreCaretAndAttr;
       '#': Result := ecNotCompleted;
       'O': Result := ecNotCompleted;
+      '(': Result := ecNotCompleted;
     else
       Result := ecUnknown;
     end
@@ -346,8 +347,9 @@ begin
   begin
     Result := ecUnknown;
     if Str = '#8' then
-      Result := ecTest;
-    if Str[1] = 'O' then
+      Result := ecTest
+    else if Str[1] = 'O' then
+    begin
       case Str[2] of
         'A': Result := ecAppCursorUp;
         'B': Result := ecAppCursorDown;
@@ -356,6 +358,11 @@ begin
         'H': Result := ecAppCursorHome;
         'F': Result := ecAppCursorEnd;
       end;
+    end
+    else if Str[1] = '(' then
+    begin
+      Result:= ecCharSet;
+    end;
   end;
 end;
 
