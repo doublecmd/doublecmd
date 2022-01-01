@@ -12,34 +12,34 @@
         <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)\"/>
       </SearchPaths>
     </CompilerOptions>
-    <Files>
-      <Item>
+    <Files Count="4">
+      <Item1>
         <Filename Value="source\vtcolortable.pas"/>
         <UnitName Value="VTColorTable"/>
-      </Item>
-      <Item>
+      </Item1>
+      <Item2>
         <Filename Value="source\vtemuctl.pas"/>
         <UnitName Value="VTEmuCtl"/>
-      </Item>
-      <Item>
+      </Item2>
+      <Item3>
         <Filename Value="source\vtemuesc.pas"/>
         <UnitName Value="VTEmuEsc"/>
-      </Item>
-      <Item>
+      </Item3>
+      <Item4>
         <Filename Value="source\$(SrcOS)\vtemupty.pas"/>
         <UnitName Value="VTEmuPty"/>
-      </Item>
+      </Item4>
     </Files>
-    <RequiredPkgs>
-      <Item>
+    <RequiredPkgs Count="3">
+      <Item1>
         <PackageName Value="doublecmd_common"/>
-      </Item>
-      <Item>
+      </Item1>
+      <Item2>
         <PackageName Value="LCL"/>
-      </Item>
-      <Item>
+      </Item2>
+      <Item3>
         <PackageName Value="FCL"/>
-      </Item>
+      </Item3>
     </RequiredPkgs>
     <UsageOptions>
       <UnitPath Value="$(PkgOutDir)"/>
