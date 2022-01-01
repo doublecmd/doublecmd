@@ -241,7 +241,7 @@ type
     property SmoothScroll: Boolean read FSmoothScroll write FSmoothScroll default False;
     property Rows: Integer read FRows write SetRows default 24;
     property WantTab: Boolean read FWantTab write FWantTab default False;
-    property WrapLines: Boolean read FWrapLines write FWrapLines default True;
+    property WrapLines: Boolean read FWrapLines write FWrapLines default False;
     property OnChar: TChScreenEvent read FOnChar write FOnChar;
     property OnGetEscapeCodes: TEscapeEvent
       read FOnGetEscapeCodes write FOnGetEscapeCodes;
@@ -607,7 +607,6 @@ begin
   FColumns := 80;
   FRows := 100;
   FVisibleRows:= 25;
-  FWrapLines:= True;
   FAutoFollow := True;
   FCaretPos := Classes.Point(1, 1);
   FTopLeft := Classes.Point(1, 1);
@@ -999,6 +998,12 @@ begin
       ecCursorHome: SendCode(ecAppCursorHome, nil);
       ecCursorEnd: SendCode(ecAppCursorEnd, nil);
     end;
+{$IFDEF LCLGTK2}
+  if Key in [VK_UP, VK_DOWN] then
+  begin
+    Key:= 0;
+  end;
+{$ENDIF}
 end;
 
 // key pressed

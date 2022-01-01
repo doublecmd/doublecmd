@@ -363,6 +363,13 @@ begin
     FConnected:= CreatePseudoConsole(AShell);
     if FConnected then
     begin
+      // Windows 11 requires auto wrap mode
+      if (ConsoleType = ctNative) and (Win32BuildNumber >= 22000) then
+      begin
+        StrCopy(FBuffer, #27'[7h');
+        FLength:= 4;
+        ReadySync;
+      end;
       FThread:= TThread.ExecuteInThread(ReadThread);
     end;
   end
