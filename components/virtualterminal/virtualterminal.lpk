@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <Package Version="5">
+    <PathDelim Value="\"/>
+    <Name Value="VirtualTerminal"/>
+    <Type Value="RunAndDesignTime"/>
+    <CompilerOptions>
+      <Version Value="11"/>
+      <PathDelim Value="\"/>
+      <SearchPaths>
+        <OtherUnitFiles Value="source;source\$(SrcOS)"/>
+        <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)\"/>
+      </SearchPaths>
+    </CompilerOptions>
+    <Files>
+      <Item>
+        <Filename Value="source\vtcolortable.pas"/>
+        <UnitName Value="VTColorTable"/>
+      </Item>
+      <Item>
+        <Filename Value="source\vtemuctl.pas"/>
+        <UnitName Value="VTEmuCtl"/>
+      </Item>
+      <Item>
+        <Filename Value="source\vtemuesc.pas"/>
+        <UnitName Value="VTEmuEsc"/>
+      </Item>
+      <Item>
+        <Filename Value="source\$(SrcOS)\vtemupty.pas"/>
+        <UnitName Value="VTEmuPty"/>
+      </Item>
+    </Files>
+    <RequiredPkgs>
+      <Item>
+        <PackageName Value="doublecmd_common"/>
+      </Item>
+      <Item>
+        <PackageName Value="LCL"/>
+      </Item>
+      <Item>
+        <PackageName Value="FCL"/>
+      </Item>
+    </RequiredPkgs>
+    <UsageOptions>
+      <UnitPath Value="$(PkgOutDir)"/>
+    </UsageOptions>
+    <PublishOptions>
+      <Version Value="2"/>
+      <UseFileFilters Value="True"/>
+    </PublishOptions>
+  </Package>
+</CONFIG>
