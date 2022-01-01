@@ -228,7 +228,7 @@ end;"/>
         <MinVersion Major="1" Minor="4" Valid="True"/>
       </Item6>
       <Item7>
-        <PackageName Value="cmdbox"/>
+        <PackageName Value="VirtualTerminal"/>
       </Item7>
       <Item8>
         <PackageName Value="KASComp"/>

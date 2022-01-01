@@ -473,7 +473,9 @@ object frmMain: TfrmMain
     Align = alBottom
     AutoSnap = False
     OnCanResize = ConsoleSplitterCanResize
+    OnMoved = ConsoleSplitterMoved
     ResizeAnchor = akBottom
+    ResizeStyle = rsLine
     Visible = False
   end
   object pnlCommand: TPanel
