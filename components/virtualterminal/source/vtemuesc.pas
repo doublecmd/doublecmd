@@ -39,7 +39,7 @@ type
     ecAttributes, ecSetMode, ecResetMode, ecReset, ecCharSet,
     ecSaveCaretAndAttr, ecRestoreCaretAndAttr, ecSaveCaret, ecRestoreCaret,
     ecTest, ecFuncKey, ecSetTextParams, ecScrollRegion, ecReverseIndex,
-    ecKeypadApp, ecKeypadNum);
+    ecKeypadApp, ecKeypadNum, ecScrollUp, ecScrollDown);
 
   // terminal escape codes processor
   TEscapeCodes = class
@@ -520,6 +520,8 @@ begin
       'c': Result := CodeIdentify;
       'R': Result := ecReportCursorPos;
       'r': Result := ecScrollRegion;
+      'S': Result := ecScrollUp;
+      'T': Result := ecScrollDown;
     else
       Result := ecUnknown;
     end;
