@@ -5170,11 +5170,11 @@ begin
   else if nbConsole.Height < (nbConsole.Height + pnlNotebooks.Height - 1) then
   begin
     nbConsole.Height := nbConsole.Height + pnlNotebooks.Height;
-    if (not gCmdLine) and cmdConsole.CanFocus then cmdConsole.SetFocus;
+    if cmdConsole.CanFocus then cmdConsole.SetFocus;
   end
   else begin
     nbConsole.Height := 0;
-    if (not gCmdLine) and ActiveFrame.CanFocus then ActiveFrame.SetFocus;
+    if ActiveFrame.CanFocus then ActiveFrame.SetFocus;
   end;
 end;
 
