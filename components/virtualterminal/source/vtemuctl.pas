@@ -435,14 +435,20 @@ end;
 
 procedure TComTermBuffer.EraseLineLeft(Column, Row: Integer);
 var
-  BytesToDelete: Integer;
-  SourceAddr: Pointer;
+  Index: Integer;
+  Count: Integer;
+  B: PComTermChar;
 begin
   // in memory
-  BytesToDelete := (Column + 1) * SizeOf(TComTermChar);
-  SourceAddr := (FBuffer +
-    ((Row - 1) * FOwner.Columns - 1) * SizeOf(TComTermChar));
-  FillChar(SourceAddr^, BytesToDelete, 0);
+  Count:= (Column + 1);
+  B:= PComTermChar(FBuffer) + ((Row - 1) * FOwner.Columns - 1);
+  for Index:= 0 to Count - 1 do
+  begin
+    B[Index].Ch:= #32;
+    B[Index].BackColor:= FOwner.FTermAttr.BackColor;
+    B[Index].FrontColor:= FOwner.FTermAttr.FrontColor;
+  end;
+
   // on screen
   if FOwner.DoubleBuffered then
     FOwner.Invalidate
@@ -453,14 +459,20 @@ end;
 // erase line
 procedure TComTermBuffer.EraseLineRight(Column, Row: Integer);
 var
-  BytesToDelete: Integer;
-  SourceAddr: Pointer;
+  Index: Integer;
+  Count: Integer;
+  B: PComTermChar;
 begin
   // in memory
-  BytesToDelete := (FOwner.Columns - Column + 1) * SizeOf(TComTermChar);
-  SourceAddr := (FBuffer +
-    ((Row - 1) * FOwner.Columns + Column - 1) * SizeOf(TComTermChar));
-  FillChar(SourceAddr^, BytesToDelete, 0);
+  Count:= (FOwner.Columns - Column + 1);
+  B:= PComTermChar(FBuffer) + ((Row - 1) * FOwner.Columns + Column - 1);
+  for Index:= 0 to Count - 1 do
+  begin
+    B[Index].Ch:= #32;
+    B[Index].BackColor:= FOwner.FTermAttr.BackColor;
+    B[Index].FrontColor:= FOwner.FTermAttr.FrontColor;
+  end;
+
   // on screen
   if FOwner.DoubleBuffered then
     FOwner.Invalidate
@@ -478,6 +490,8 @@ begin
   for Index:= 0 to Count - 1 do
   begin
     B[Index].Ch:= #32;
+    B[Index].BackColor:= FOwner.FTermAttr.BackColor;
+    B[Index].FrontColor:= FOwner.FTermAttr.FrontColor;
   end;
 
   // on screen
@@ -490,15 +504,20 @@ end;
 // erase screen
 procedure TComTermBuffer.EraseScreen(Column, Row: Integer);
 var
-  BytesToDelete: Integer;
-  SourceAddr: Pointer;
+  Index: Integer;
+  Count: Integer;
+  B: PComTermChar;
 begin
   // in memory
-  BytesToDelete := (FOwner.Columns - Column + 1 +
-    (FOwner.Rows - Row) * FOwner.Columns) * SizeOf(TComTermChar);
-  SourceAddr := (FBuffer +
-    ((Row - 1) * FOwner.Columns + Column - 1) * SizeOf(TComTermChar));
-  FillChar(SourceAddr^, BytesToDelete, 0);
+  B:= PComTermChar(FBuffer) + ((Row - 1) * FOwner.Columns + Column - 1);
+  Count:= (FOwner.Columns - Column + 1 + (FOwner.Rows - Row) * FOwner.Columns);
+  for Index:= 0 to Count - 1 do
+  begin
+    B[Index].Ch:= #32;
+    B[Index].BackColor:= FOwner.FTermAttr.BackColor;
+    B[Index].FrontColor:= FOwner.FTermAttr.FrontColor;
+  end;
+
   // on screen
   if FOwner.DoubleBuffered then
     FOwner.Invalidate
