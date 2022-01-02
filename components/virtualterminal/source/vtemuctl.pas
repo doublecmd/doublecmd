@@ -64,6 +64,7 @@ type
   private
     FBuffer: PByte;
     FTabs: Pointer;
+    FTopLeft: TPoint;
     FCaretPos: TPoint;
     FScrollRange: TPoint;
     FOwner: TCustomComTerminal;
@@ -346,6 +347,8 @@ constructor TComTermBuffer.Create(AOwner: TCustomComTerminal);
 begin
   inherited Create;
   FOwner := AOwner;
+  FTopLeft := Classes.Point(1, 1);
+  FCaretPos := Classes.Point(1, 1);
 end;
 
 // destroy class
@@ -1362,12 +1365,14 @@ begin
     FTermMode.MouseMode:= OnOff
   else if Str = '?1049' then
   begin
+    FBuffer.FTopLeft:= FTopLeft;
     FBuffer.FCaretPos:= FCaretPos;
     if OnOff then
       FBuffer := FAlternateBuffer
     else begin
       FBuffer := FMainBuffer;
     end;
+    FTopLeft:= FBuffer.FTopLeft;
     FCaretPos:= FBuffer.FCaretPos;
     UpdateScrollRange;
   end
@@ -1468,8 +1473,13 @@ var
   end;
 
   procedure SetRange(Code, Max: Integer);
+  var
+    Info: TScrollInfo;
   begin
-    SetScrollRange(Handle, Code, 0, Max - 1, False);
+    Info:= Default(TScrollInfo);
+    Info.fMask := SIF_RANGE;
+    Info.nMax := Max - 1;
+    SetScrollInfo(Handle, Code, Info, False);
   end;
 
   // set horizontal range
