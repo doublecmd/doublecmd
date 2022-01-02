@@ -22,7 +22,7 @@ unit VTEmuEsc;
 interface
 
 uses
-  Classes;
+  Classes, LCLType;
 
 type
   // terminal character result
@@ -44,19 +44,19 @@ type
   // terminal escape codes processor
   TEscapeCodes = class
   private
-    Fcharacter: Char;
+    FCharacter: TUTF8Char;
     FCode: TEscapeCode;
     FData: string;
     FParams: TStrings;
   public
     constructor Create;
     destructor Destroy; override;
-    function ProcessChar(Ch: Char): TEscapeResult; virtual; abstract;
+    function ProcessChar(const Ch: TUTF8Char): TEscapeResult; virtual; abstract;
     function EscCodeToStr(Code: TEscapeCode; AParams: TStrings): string; virtual; abstract;
     function GetParam(Num: Integer; AParams: TStrings): Integer;
     property Data: string read FData;
     property Code: TEscapeCode read FCode;
-    property character: Char read Fcharacter;
+    property Character: TUTF8Char read FCharacter;
     property Params: TStrings read FParams;
   end;
 
@@ -66,7 +66,7 @@ type
     FInSequence: Boolean;
     function DetectCode(Str: string): TEscapeCode;
   public
-    function ProcessChar(Ch: Char): TEscapeResult; override;
+    function ProcessChar(const Ch: TUTF8Char): TEscapeResult; override;
     function EscCodeToStr(Code: TEscapeCode; AParams: TStrings): string; override;
   end;
 
@@ -80,7 +80,7 @@ type
     function DetectExtCode(Str: string): TEscapeCode;
     function DetectOscCode(Str: string): TEscapeCode;
   public
-    function ProcessChar(Ch: Char): TEscapeResult; override;
+    function ProcessChar(const Ch: TUTF8Char): TEscapeResult; override;
     function EscCodeToStr(Code: TEscapeCode; AParams: TStrings): string; override;
   end;
 
@@ -122,7 +122,7 @@ end;
  *****************************************)
 
 // process character
-function TEscapeCodesVT52.ProcessChar(Ch: Char): TEscapeResult;
+function TEscapeCodesVT52.ProcessChar(const Ch: TUTF8Char): TEscapeResult;
 var
   TempCode: TEscapeCode;
 begin
@@ -135,7 +135,7 @@ begin
       FInSequence := True;
     end
     else begin
-      Fcharacter := Ch;
+      FCharacter := Ch;
       Result := erChar;
     end;
   end else
@@ -211,7 +211,7 @@ end;
  *****************************************)
 
 // process character
-function TEscapeCodesVT100.ProcessChar(Ch: Char): TEscapeResult;
+function TEscapeCodesVT100.ProcessChar(const Ch: TUTF8Char): TEscapeResult;
 var
   TempCode: TEscapeCode;
 begin
@@ -224,7 +224,7 @@ begin
       FInSequence := True;
     end
     else begin
-      Fcharacter := Ch;
+      FCharacter := Ch;
       Result := erChar;
     end;
   end else

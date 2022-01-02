@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Virtual terminal emulator control
 
-   Alexander Koblov, 2021
+   Alexander Koblov, 2021-2022
 
    Based on ComPort Library
      https://sourceforge.net/projects/comport
@@ -674,10 +674,9 @@ end;
 procedure TCustomComTerminal.Write(const Buffer:string; Size: Integer);
 var
   I: Integer;
-  Res: TEscapeResult;
-  Ch: TUTF8Char;
   L: Integer;
-  Ch2: AnsiChar;
+  Ch: TUTF8Char;
+  Res: TEscapeResult;
 begin
   HideCaret;
   try
@@ -686,11 +685,11 @@ begin
     while I <= Size do
     begin
       L:= UTF8CodepointSizeFast(@Buffer[I]);
+      Ch:= Copy(Buffer, I, L);
 
-      if (L = 1) and (FEscapeCodes <> nil) then
+      if (FEscapeCodes <> nil) then
       begin
-        Ch2:= Buffer[I];
-        Res := FEscapeCodes.ProcessChar(Ch2);
+        Res := FEscapeCodes.ProcessChar(Ch);
         if Res = erChar then
           PutChar(FEscapeCodes.Character);
         if Res = erCode then
@@ -701,7 +700,6 @@ begin
         end;
       end
       else begin
-        Ch:= Copy(Buffer, I, L);
         PutChar(Ch);
       end;
       I+= L;
