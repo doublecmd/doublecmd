@@ -1096,6 +1096,7 @@ var
   I, J, X, Y: Integer;
   Ch: TComTermChar;
 begin
+  HideCaret;
   if (Rect.Bottom + FTopLeft.Y - 1) > FBuffer.Rows then
     Dec(Rect.Bottom);
   if (Rect.Right + FTopLeft.X - 1) > FBuffer.Columns then
@@ -1111,6 +1112,7 @@ begin
         DrawChar(I, J, Ch);
     end;
   end;
+  ShowCaret;
 end;
 
 procedure TCustomComTerminal.PaintDesign;
