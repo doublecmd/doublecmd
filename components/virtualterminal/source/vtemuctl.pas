@@ -65,6 +65,7 @@ type
     FBuffer: PByte;
     FTabs: Pointer;
     FCaretPos: TPoint;
+    FScrollRange: TPoint;
     FOwner: TCustomComTerminal;
   strict private
     FRows: Integer;
@@ -1673,6 +1674,11 @@ begin
       end;
       ecQueryDevice: SendCodeNoEcho(ecReportDeviceOK, nil);
       ecTest: PerformTest('E');
+      ecScrollRegion:
+      begin
+        FBuffer.FScrollRange.X:= GetParam(1, AParams);
+        FBuffer.FScrollRange.Y:= GetParam(2, AParams);
+      end
     else
       Result := False;
     end;
