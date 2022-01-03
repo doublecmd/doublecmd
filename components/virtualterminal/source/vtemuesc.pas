@@ -38,7 +38,7 @@ type
     ecReportDeviceFailure, ecQueryCursorPos, ecReportCursorPos,
     ecAttributes, ecSetMode, ecResetMode, ecReset, ecCharSet,
     ecSaveCaretAndAttr, ecRestoreCaretAndAttr, ecSaveCaret, ecRestoreCaret,
-    ecTest, ecFuncKey, ecSetTextParams, ecScrollRegion, ecReverseIndex,
+    ecTest, ecFuncKey, ecSetTextParams, ecScrollRegion,
     ecKeypadApp, ecKeypadNum, ecScrollUp, ecScrollDown);
 
   // terminal escape codes processor
@@ -335,7 +335,7 @@ begin
     case Str[1] of
       'H': Result := ecSetTab;
       'c': Result := ecReset;
-      'M': Result := ecReverseIndex;
+      'M': Result := ecReverseLineFeed;
       '7': Result := ecSaveCaretAndAttr;
       '8': Result := ecRestoreCaretAndAttr;
       '=': Result := ecKeypadApp;
