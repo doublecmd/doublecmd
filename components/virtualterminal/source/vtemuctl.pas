@@ -111,6 +111,7 @@ type
   end;
   TTermMode = record
     Keys: TArrowKeys;
+    CharSet: Boolean;
     MouseMode: Boolean;
     MouseTrack: Boolean;
   end;
@@ -1478,7 +1479,7 @@ begin
     else
       FTermMode.Keys := akTerminal;
   end
-  else if Str = '7' then
+  else if Str = '?7' then
     FWrapLines := OnOff
   else if Str = '?3' then
   begin
@@ -1823,7 +1824,14 @@ begin
       ecDeleteLine: FBuffer.DeleteLine(FCaretPos.Y, GetParam(1, AParams));
       ecSoftReset:
       begin
+        FTermMode.CharSet:= False;
         FBuffer.FScrollRange:= Default(TRect);
+      end;
+      ecCharSet:
+      begin
+        // Designate Character Set
+        if (AParams.Count > 0) and (Length(AParams[0]) > 0) then
+          FTermMode.CharSet:= (AParams[0] = '0');
       end
     else
       Result := False;
@@ -1948,7 +1956,24 @@ begin
     #32..#255:
       begin
         TermCh := GetCharAttr;
-        TermCh.Ch := Ch;
+        if not FTermMode.CharSet then
+          TermCh.Ch := Ch
+        else begin
+          case Ch[1] of
+            'j': TermCh.Ch := '┘';
+            'k': TermCh.Ch := '┐';
+            'l': TermCh.Ch := '┌';
+            'm': TermCh.Ch := '└';
+            'n': TermCh.Ch := '┼';
+            'q': TermCh.Ch := '─';
+            't': TermCh.Ch := '├';
+            'u': TermCh.Ch := '┤';
+            'v': TermCh.Ch := '┴';
+            'w': TermCh.Ch := '┬';
+            'x': TermCh.Ch := '│';
+            else TermCh.Ch := Ch;
+          end;
+        end;
         if FWrapLines then WrapLine;
         FBuffer.SetChar(FCaretPos.X, FCaretPos.Y, TermCh);
         DrawChar(FCaretPos.X - FTopLeft.X + 1,

@@ -366,8 +366,8 @@ begin
       // Windows 11 requires auto wrap mode
       if (ConsoleType = ctNative) and (Win32BuildNumber >= 22000) then
       begin
-        StrCopy(FBuffer, #27'[7h');
-        FLength:= 4;
+        StrCopy(FBuffer, #27'[?7h');
+        FLength:= 5;
         ReadySync;
       end;
       FThread:= TThread.ExecuteInThread(ReadThread);

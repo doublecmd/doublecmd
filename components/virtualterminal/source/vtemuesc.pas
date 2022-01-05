@@ -364,6 +364,8 @@ begin
     end
     else if Str[1] = '(' then
     begin
+      FParams.Clear;
+      FParams.Add(Str[2]);
       Result:= ecCharSet;
     end;
   end;
