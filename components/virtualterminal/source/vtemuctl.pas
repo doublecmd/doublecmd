@@ -87,6 +87,8 @@ type
     procedure EraseLineLeft(Column, Row: Integer);
     procedure EraseLineRight(Column, Row: Integer);
     procedure EraseChar(Column, Row, Count: Integer);
+    procedure DeleteLine(Row, Count: Integer);
+    procedure InsertLine(Row, Count: Integer);
     function GetLineLength(Line: Integer): Integer;
     function GetLastLine: Integer;
     property Rows: Integer read FRows;
@@ -511,6 +513,90 @@ begin
     FOwner.Invalidate
   else
     FOwner.InvalidatePortion(Classes.Rect(Column, Row, FColumns, Row));
+end;
+
+procedure TComTermBuffer.DeleteLine(Row, Count: Integer);
+var
+  Index: Integer;
+  B: PComTermChar;
+  DstAddr: Pointer;
+  SrcAddr: Pointer;
+  BytesToMove: Integer;
+  Top, Bottom: Integer;
+begin
+  if FScrollRange.X > 0 then
+    Top:= FScrollRange.X
+  else begin
+    Top:= 1;
+  end;
+  if FScrollRange.Y > 0 then
+    Bottom:= FScrollRange.Y
+  else begin
+    Bottom:= FRows;
+  end;
+
+  DstAddr := (FBuffer + (Row - 1) * FColumns * SizeOf(TComTermChar));
+  SrcAddr := (FBuffer + (Row + Count - 1) * FColumns * SizeOf(TComTermChar));
+  BytesToMove := (Bottom - Top - Count + 1) * FColumns * SizeOf(TComTermChar);
+
+  // scroll in buffer
+  Move(SrcAddr^, DstAddr^, BytesToMove);
+
+  B:= PComTermChar(FBuffer) + ((Bottom - Count) * FColumns);
+  for Index:= 0 to Count * FColumns - 1 do
+  begin
+    B[Index].Ch:= #32;
+    B[Index].BackColor:= FOwner.FTermAttr.BackColor;
+    B[Index].FrontColor:= FOwner.FTermAttr.FrontColor;
+  end;
+
+  // on screen
+  if FOwner.DoubleBuffered then
+    FOwner.Invalidate
+  else
+    FOwner.InvalidatePortion(Classes.Rect(1, Top, FColumns, Bottom));
+end;
+
+procedure TComTermBuffer.InsertLine(Row, Count: Integer);
+var
+  Index: Integer;
+  B: PComTermChar;
+  DstAddr: Pointer;
+  SrcAddr: Pointer;
+  BytesToMove: Integer;
+  Top, Bottom: Integer;
+begin
+  if FScrollRange.X > 0 then
+    Top:= FScrollRange.X
+  else begin
+    Top:= 1;
+  end;
+  if FScrollRange.Y > 0 then
+    Bottom:= FScrollRange.Y
+  else begin
+    Bottom:= FRows;
+  end;
+
+  SrcAddr := (FBuffer + (Row - 1) * FColumns * SizeOf(TComTermChar));
+  DstAddr := (FBuffer + (Row + Count - 1) * FColumns * SizeOf(TComTermChar));
+  BytesToMove := (Bottom - Top - Count + 1) * FColumns * SizeOf(TComTermChar);
+
+  // scroll in buffer
+  Move(SrcAddr^, DstAddr^, BytesToMove);
+
+  B:= PComTermChar(FBuffer) + ((Row - 1) * FColumns);
+  for Index:= 0 to Count * FColumns - 1 do
+  begin
+    B[Index].Ch:= #32;
+    B[Index].BackColor:= FOwner.FTermAttr.BackColor;
+    B[Index].FrontColor:= FOwner.FTermAttr.FrontColor;
+  end;
+
+  // on screen
+  if FOwner.DoubleBuffered then
+    FOwner.Invalidate
+  else
+    FOwner.InvalidatePortion(Classes.Rect(1, Top, FColumns, Bottom));
 end;
 
 // erase screen
@@ -1690,7 +1776,9 @@ begin
       begin
         FBuffer.FScrollRange.X:= GetParam(1, AParams);
         FBuffer.FScrollRange.Y:= GetParam(2, AParams);
-      end
+      end;
+      ecInsertLine: FBuffer.InsertLine(FCaretPos.Y, GetParam(1, AParams));
+      ecDeleteLine: FBuffer.DeleteLine(FCaretPos.Y, GetParam(1, AParams));
     else
       Result := False;
     end;

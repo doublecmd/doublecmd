@@ -38,8 +38,8 @@ type
     ecReportDeviceFailure, ecQueryCursorPos, ecReportCursorPos,
     ecAttributes, ecSetMode, ecResetMode, ecReset, ecCharSet,
     ecSaveCaretAndAttr, ecRestoreCaretAndAttr, ecSaveCaret, ecRestoreCaret,
-    ecTest, ecFuncKey, ecSetTextParams, ecScrollRegion,
-    ecKeypadApp, ecKeypadNum, ecScrollUp, ecScrollDown);
+    ecTest, ecFuncKey, ecSetTextParams, ecScrollRegion, ecDeleteLine,
+    ecInsertLine, ecKeypadApp, ecKeypadNum, ecScrollUp, ecScrollDown);
 
   // terminal escape codes processor
   TEscapeCodes = class
@@ -522,6 +522,8 @@ begin
       'r': Result := ecScrollRegion;
       'S': Result := ecScrollUp;
       'T': Result := ecScrollDown;
+      'L': Result := ecInsertLine;
+      'M': Result := ecDeleteLine;
     else
       Result := ecUnknown;
     end;
