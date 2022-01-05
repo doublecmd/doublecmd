@@ -1503,6 +1503,7 @@ begin
     FTopLeft:= FBuffer.FTopLeft;
     FCaretPos:= FBuffer.FCaretPos;
     UpdateScrollRange;
+    Invalidate;
   end
   else begin
     DoUnhandledMode(Str, OnOff);
