@@ -87,6 +87,7 @@ type
     procedure EraseLineLeft(Column, Row: Integer);
     procedure EraseLineRight(Column, Row: Integer);
     procedure EraseChar(Column, Row, Count: Integer);
+    procedure DeleteChar(Column, Row, Count: Integer);
     procedure DeleteLine(Row, Count: Integer);
     procedure InsertLine(Row, Count: Integer);
     function GetLineLength(Line: Integer): Integer;
@@ -499,6 +500,9 @@ var
   Index: Integer;
   B: PComTermChar;
 begin
+  if (Column + Count > FColumns) then
+    Count:= FColumns - Column;
+
   // in memory
   B:= PComTermChar(FBuffer) + ((Row - 1) * FColumns + Column - 1);
   for Index:= 0 to Count - 1 do
@@ -506,6 +510,38 @@ begin
     B[Index].Ch:= #32;
     B[Index].BackColor:= FOwner.FTermAttr.BackColor;
     B[Index].FrontColor:= FOwner.FTermAttr.FrontColor;
+  end;
+
+  // on screen
+  if FOwner.DoubleBuffered then
+    FOwner.Invalidate
+  else
+    FOwner.InvalidatePortion(Classes.Rect(Column, Row, FColumns, Row));
+end;
+
+procedure TComTermBuffer.DeleteChar(Column, Row, Count: Integer);
+var
+  Index: Integer;
+  DstAddr: PComTermChar;
+  SrcAddr: PComTermChar;
+begin
+  if (Column + Count > FColumns) then
+    Count:= FColumns - Column;
+
+  // in memory
+  DstAddr:= PComTermChar(FBuffer) + ((Row - 1) * FColumns + Column - 1);
+  SrcAddr:= PComTermChar(FBuffer) + ((Row - 1) * FColumns + Column + Count - 1);
+
+  // Move characters
+  Count:= (FColumns - (Column + Count));
+  Move(SrcAddr^, DstAddr^, Count * SizeOf(TComTermChar));
+
+  // Erase moved
+  for Index:= 0 to Count - 1 do
+  begin
+    SrcAddr[Index].Ch:= #32;
+    SrcAddr[Index].BackColor:= FOwner.FTermAttr.BackColor;
+    SrcAddr[Index].FrontColor:= FOwner.FTermAttr.FrontColor;
   end;
 
   // on screen
@@ -1745,6 +1781,7 @@ begin
         begin
           FBuffer.EraseChar(FCaretPos.X, FCaretPos.Y, GetParam(1, AParams));
         end;
+      ecDeleteChar: FBuffer.DeleteChar(FCaretPos.X, FCaretPos.Y, GetParam(1, AParams));
       ecIdentify:
       begin
         AParams.Clear;

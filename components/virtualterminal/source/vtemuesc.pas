@@ -33,7 +33,7 @@ type
     ecReverseLineFeed, ecAppCursorLeft, ecAppCursorRight, ecAppCursorUp, ecAppCursorDown,
     ecAppCursorHome, ecAppCursorEnd, ecInsertKey, ecDeleteKey, ecPageUpKey, ecPageDownKey,
     ecMouseDown, ecMouseUp, ecEraseLineLeft, ecEraseLineRight, ecEraseScreenFrom,
-    ecEraseLine, ecEraseScreen, ecEraseChar, ecSetTab, ecClearTab, ecClearAllTabs,
+    ecEraseLine, ecEraseScreen, ecEraseChar, ecDeleteChar, ecSetTab, ecClearTab, ecClearAllTabs,
     ecIdentify, ecIdentResponse, ecQueryDevice, ecReportDeviceOK,
     ecReportDeviceFailure, ecQueryCursorPos, ecReportCursorPos,
     ecAttributes, ecSetMode, ecResetMode, ecReset, ecCharSet, ecSoftReset,
@@ -510,6 +510,7 @@ begin
       'J': Result := CodeEraseScreen;
       'K': Result := CodeEraseLine;
       'X': Result := ecEraseChar;
+      'P': Result := ecDeleteChar;
       'g': Result := CodeTab;
       'm': Result := ecAttributes;
       'h': Result := ecSetMode;
