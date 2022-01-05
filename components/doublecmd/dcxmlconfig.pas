@@ -525,7 +525,7 @@ begin
   try
     if FileStream.Size = 0 then
       raise EXmlConfigEmpty.Create('');
-    ReadXMLFile(TmpDoc, FileStream, FilenameToURI(AFilename), [xrfPreserveWhiteSpace]);
+    ReadXMLFile(TmpDoc, FileStream, FilenameToURI(AFilename), []);
     if TmpDoc.DocumentElement.NodeName <> ApplicationName then
       raise EXMLReadError.Create('Root element is not <' + ApplicationName + '>.');
     FDoc.Free;
@@ -541,7 +541,7 @@ var
 begin
   if AStream.Size = 0 then
     raise EXmlConfigEmpty.Create('');
-  ReadXMLFile(TmpDoc, AStream, [xrfPreserveWhiteSpace]);
+  ReadXMLFile(TmpDoc, AStream, []);
   FDoc.Free;
   FDoc := TmpDoc;
 end;
