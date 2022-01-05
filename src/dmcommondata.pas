@@ -40,7 +40,7 @@ type
     SaveDialog: TSaveDialog;
     procedure DataModuleCreate(Sender: TObject);
   private
-    procedure LoadImages(Images: TImageList; ANames: TStringArray);
+    procedure LoadImages(Images: TImageList; const ANames: array of String);
   public
     { public declarations }
   end; 
@@ -145,7 +145,7 @@ begin
   end;
 end;
 
-procedure TdmComData.LoadImages(Images: TImageList; ANames: TStringArray);
+procedure TdmComData.LoadImages(Images: TImageList; const ANames: array of String);
 var
   AName: String;
   ASize16, ASize24: Integer;

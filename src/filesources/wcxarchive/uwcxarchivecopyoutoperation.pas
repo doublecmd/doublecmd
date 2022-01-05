@@ -569,17 +569,19 @@ end;
 
 function TWcxArchiveCopyOutOperation.DoFileExists(Header: TWcxHeader;
   var AbsoluteTargetFileName: String): TFileSourceOperationOptionFileExists;
+type
+  TFileSourceOperationUIResponses = array of TFileSourceOperationUIResponse;
 const
-  Responses: array[0..10] of TFileSourceOperationUIResponse
+  Responses: TFileSourceOperationUIResponses
     = (fsourOverwrite, fsourSkip, fsourOverwriteLarger, fsourOverwriteAll,
        fsourSkipAll, fsourOverwriteSmaller, fsourOverwriteOlder, fsourCancel,
        fsouaCompare, fsourRenameSource, fsourAutoRenameSource);
-  ResponsesNoCompare: array[0..9] of TFileSourceOperationUIResponse
+  ResponsesNoCompare: TFileSourceOperationUIResponses
     = (fsourOverwrite, fsourSkip, fsourOverwriteLarger, fsourOverwriteAll,
        fsourSkipAll, fsourOverwriteSmaller, fsourOverwriteOlder, fsourCancel,
        fsourRenameSource, fsourAutoRenameSource);
 var
-  PossibleResponses: array of TFileSourceOperationUIResponse;
+  PossibleResponses: TFileSourceOperationUIResponses;
   Answer: Boolean;
   Message: String;
 
