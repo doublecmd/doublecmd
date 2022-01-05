@@ -66,7 +66,7 @@ type
     FTabs: Pointer;
     FTopLeft: TPoint;
     FCaretPos: TPoint;
-    FScrollRange: TPoint;
+    FScrollRange: TRect;
     FOwner: TCustomComTerminal;
   strict private
     FRows: Integer;
@@ -522,18 +522,20 @@ var
   DstAddr: Pointer;
   SrcAddr: Pointer;
   BytesToMove: Integer;
-  Top, Bottom: Integer;
+  Top, Bottom, Height: Integer;
 begin
-  if FScrollRange.X > 0 then
-    Top:= FScrollRange.X
+  if FScrollRange.Top > 0 then
+    Top:= FScrollRange.Top
   else begin
     Top:= 1;
   end;
-  if FScrollRange.Y > 0 then
-    Bottom:= FScrollRange.Y
+  if FScrollRange.Bottom > 0 then
+    Bottom:= FScrollRange.Bottom
   else begin
     Bottom:= FRows;
   end;
+  Height:= Bottom - Top + 1;
+  if Count > Height then Count:= Height;
 
   DstAddr := (FBuffer + (Row - 1) * FColumns * SizeOf(TComTermChar));
   SrcAddr := (FBuffer + (Row + Count - 1) * FColumns * SizeOf(TComTermChar));
@@ -564,18 +566,20 @@ var
   DstAddr: Pointer;
   SrcAddr: Pointer;
   BytesToMove: Integer;
-  Top, Bottom: Integer;
+  Top, Bottom, Height: Integer;
 begin
-  if FScrollRange.X > 0 then
-    Top:= FScrollRange.X
+  if FScrollRange.Top > 0 then
+    Top:= FScrollRange.Top
   else begin
     Top:= 1;
   end;
-  if FScrollRange.Y > 0 then
-    Bottom:= FScrollRange.Y
+  if FScrollRange.Bottom > 0 then
+    Bottom:= FScrollRange.Bottom
   else begin
     Bottom:= FRows;
   end;
+  Height:= Bottom - Top + 1;
+  if Count > Height then Count:= Height;
 
   SrcAddr := (FBuffer + (Row - 1) * FColumns * SizeOf(TComTermChar));
   DstAddr := (FBuffer + (Row + Count - 1) * FColumns * SizeOf(TComTermChar));
@@ -1774,11 +1778,15 @@ begin
       ecTest: PerformTest('E');
       ecScrollRegion:
       begin
-        FBuffer.FScrollRange.X:= GetParam(1, AParams);
-        FBuffer.FScrollRange.Y:= GetParam(2, AParams);
+        FBuffer.FScrollRange.Top:= GetParam(1, AParams);
+        FBuffer.FScrollRange.Bottom:= GetParam(2, AParams);
       end;
       ecInsertLine: FBuffer.InsertLine(FCaretPos.Y, GetParam(1, AParams));
       ecDeleteLine: FBuffer.DeleteLine(FCaretPos.Y, GetParam(1, AParams));
+      ecSoftReset:
+      begin
+        FBuffer.FScrollRange:= Default(TRect);
+      end
     else
       Result := False;
     end;

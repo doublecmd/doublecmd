@@ -36,7 +36,7 @@ type
     ecEraseLine, ecEraseScreen, ecEraseChar, ecSetTab, ecClearTab, ecClearAllTabs,
     ecIdentify, ecIdentResponse, ecQueryDevice, ecReportDeviceOK,
     ecReportDeviceFailure, ecQueryCursorPos, ecReportCursorPos,
-    ecAttributes, ecSetMode, ecResetMode, ecReset, ecCharSet,
+    ecAttributes, ecSetMode, ecResetMode, ecReset, ecCharSet, ecSoftReset,
     ecSaveCaretAndAttr, ecRestoreCaretAndAttr, ecSaveCaret, ecRestoreCaret,
     ecTest, ecFuncKey, ecSetTextParams, ecScrollRegion, ecDeleteLine,
     ecInsertLine, ecKeypadApp, ecKeypadNum, ecScrollUp, ecScrollDown);
@@ -524,6 +524,7 @@ begin
       'T': Result := ecScrollDown;
       'L': Result := ecInsertLine;
       'M': Result := ecDeleteLine;
+      'p': Result := ecSoftReset;
     else
       Result := ecUnknown;
     end;
