@@ -1571,12 +1571,10 @@ procedure TCustomComTerminal.UpdateScrollPos;
 begin
   if FScrollBars in [ssBoth, ssHorizontal] then
   begin
-    FTopLeft.X := GetScrollPos(Handle, SB_HORZ) + 1;
     SetScrollPos(Handle, SB_HORZ, FTopLeft.X - 1, True);
   end;
   if FScrollBars in [ssBoth, ssVertical] then
   begin
-    FTopLeft.Y := GetScrollPos(Handle, SB_VERT) + 1;
     SetScrollPos(Handle, SB_VERT, FTopLeft.Y - 1, True);
   end;
 end;
