@@ -25,7 +25,7 @@ type
     function GetMatchLen(Idx : Integer): PtrInt;
     function GetMatchPos(Idx : Integer): PtrInt;
   public
-    constructor Create(const AEncoding: String = EncodingDefault);
+    constructor Create(const AEncoding: String = EncodingDefault; ASetEncoding: Boolean = False);
     destructor Destroy; override;
     function Exec(AOffset: UIntPtr = 1): Boolean;
     function ReplaceAll(const AExpression, AStr, AReplacement: String): String;
@@ -71,11 +71,12 @@ begin
   end;
 end;
 
-constructor TRegExprEx.Create(const AEncoding: String);
+constructor TRegExprEx.Create(const AEncoding: String; ASetEncoding: Boolean = False);
 begin
   FRegExpW:= TRegExprW.Create;
   FRegExpU:= TRegExprU.Create;
   FRegExpA:= TRegExpr.Create(AEncoding);
+  if ASetEncoding then ChangeEncoding(AEncoding);
 end;
 
 destructor TRegExprEx.Destroy;
