@@ -29,7 +29,7 @@ interface
 uses
   Graphics, SysUtils, Classes, Controls, Forms, Dialogs, StdCtrls, ComCtrls,
   ExtCtrls, Menus, EditBtn, Spin, Buttons, DateTimePicker, KASComboBox,
-  fAttributesEdit, uDsxModule, DsxPlugin, uFindThread, uFindFiles,
+  fAttributesEdit, uDsxModule, DsxPlugin, uFindThread, uFindFiles, uRegExprU,
   uSearchTemplate, fSearchPlugin, uFileView, types, DCStrUtils,
   ActnList, uOSForms, uShellContextMenu, uExceptions, uFileSystemFileSource,
   uFormCommands, uHotkeyManager, LCLVersion, uWcxModule, uFileSource;
@@ -737,11 +737,19 @@ end;
 { TfrmFindDlg.cmbEncodingSelect }
 procedure TfrmFindDlg.cmbEncodingSelect(Sender: TObject);
 var
-  SingleByte: Boolean;
+  SupportedEncoding: Boolean;
+  Encoding: String;
 begin
-  SingleByte:= SingleByteEncoding(cmbEncoding.Text);
+  Encoding := cmbEncoding.Text;
+  SupportedEncoding:= SingleByteEncoding(Encoding);
+  if (not SupportedEncoding) and TRegExprU.AvailableNew then
+  begin
+    Encoding := NormalizeEncoding(Encoding);
+    if Encoding = EncodingDefault then Encoding := GetDefaultTextEncoding;
+    SupportedEncoding := Encoding = EncodingUTF8;
+  end;
 
-  cbTextRegExp.Enabled := cbFindText.Checked and SingleByte and (not chkHex.Checked);
+  cbTextRegExp.Enabled := cbFindText.Checked and SupportedEncoding and (not chkHex.Checked);
   if not cbTextRegExp.Enabled then cbTextRegExp.Checked := False;
 
   cbCaseSens.Enabled:= cbFindText.Checked and (not cbReplaceText.Checked) and (not chkHex.Checked) and (not cbTextRegExp.Checked);
