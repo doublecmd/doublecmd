@@ -118,6 +118,8 @@ end;
 procedure TRegExprEx.ChangeEncoding(const AEncoding: String);
 begin
   FEncoding:= NormalizeEncoding(AEncoding);
+  if FEncoding = EncodingDefault then
+    FEncoding:= GetDefaultTextEncoding;
   if FEncoding = EncodingUTF16LE then
     FType:= retUtf16le
   else if (FEncoding = EncodingUTF8) or (FEncoding = EncodingUTF8BOM) then
