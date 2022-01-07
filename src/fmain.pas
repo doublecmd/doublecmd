@@ -5170,9 +5170,11 @@ begin
   else if nbConsole.Height < (nbConsole.Height + pnlNotebooks.Height - 1) then
   begin
     nbConsole.Height := nbConsole.Height + pnlNotebooks.Height;
+    if not cmdConsole.Visible then cmdConsole.Visible:= True;
     if cmdConsole.CanFocus then cmdConsole.SetFocus;
   end
   else begin
+    cmdConsole.Hide;
     nbConsole.Height := 0;
     if ActiveFrame.CanFocus then ActiveFrame.SetFocus;
   end;
