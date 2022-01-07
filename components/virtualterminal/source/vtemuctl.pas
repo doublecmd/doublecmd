@@ -393,62 +393,14 @@ end;
 
 // scroll down up line
 procedure TComTermBuffer.ScrollDown;
-var
-  BytesToMove: Integer;
-  SourceAddr: Pointer;
-  ScrollRect: TRect;
 begin
-  BytesToMove := (FRows - 1) * FColumns * SizeOf(TComTermChar);
-  SourceAddr := (FBuffer + FColumns * SizeOf(TComTermChar));
-  // scroll in buffer
-  Move(SourceAddr^, FBuffer^, BytesToMove);
-  SourceAddr := (FBuffer +
-    (FRows - 1) * FColumns * SizeOf(TComTermChar));
-  FillChar(SourceAddr^, FColumns * SizeOf(TComTermChar), 0);
-  // scroll on screen
-  if FOwner.DoubleBuffered then
-    FOwner.Invalidate
-  else begin
-    // calculate scrolling rectangle
-    with ScrollRect do
-    begin
-      Left := 0;
-      Right := Min(FOwner.ClientWidth, FColumns * FOwner.FFontWidth);
-      Top := 0;
-      Bottom := Min(FOwner.ClientHeight, FRows * FOwner.FFontHeight);
-    end;
-    ScrollWindowEx(FOwner.Handle, 0, -FOwner.FFontHeight,
-      @ScrollRect, nil, 0, nil, SW_INVALIDATE or SW_ERASE);
-  end;
+  DeleteLine(FScrollRange.Top, 1);
 end;
 
 // scroll up one line
 procedure TComTermBuffer.ScrollUp;
-var
-  BytesToMove: Integer;
-  DestAddr: Pointer;
-  ScrollRect: TRect;
 begin
-  BytesToMove := (FRows - 1) * FColumns * SizeOf(TComTermChar);
-  DestAddr := (FBuffer + FColumns * SizeOf(TComTermChar));
-  // scroll in buffer
-  Move(FBuffer^, DestAddr^, BytesToMove);
-  FillChar(FBuffer^, FColumns * SizeOf(TComTermChar), 0);
-  // scroll on screen
-  if FOwner.DoubleBuffered then
-    FOwner.Invalidate
-  else begin
-    // calculate scrolling rectangle
-    with ScrollRect do
-    begin
-      Left := 0;
-      Right := Min(FOwner.ClientWidth, FColumns * FOwner.FFontWidth);
-      Top := 0;
-      Bottom := Min(FOwner.ClientHeight, FRows * FOwner.FFontHeight);
-    end;
-    ScrollWindowEx(FOwner.Handle, 0, FOwner.FFontHeight,
-      @ScrollRect, nil, 0, nil, SW_INVALIDATE or SW_ERASE);
-  end;
+  InsertLine(FScrollRange.Top, 1)
 end;
 
 procedure TComTermBuffer.EraseLineLeft(Column, Row: Integer);
@@ -563,17 +515,9 @@ var
   BytesToMove: Integer;
   Top, Bottom, Height: Integer;
 begin
-  if FScrollRange.Top > 0 then
-    Top:= FScrollRange.Top
-  else begin
-    Top:= 1;
-  end;
-  if FScrollRange.Bottom > 0 then
-    Bottom:= FScrollRange.Bottom
-  else begin
-    Bottom:= FRows;
-  end;
-  Height:= Bottom - Top + 1;
+  Top:= FScrollRange.Top;
+  Bottom:= FScrollRange.Bottom;
+  Height:= FScrollRange.Height + 1;
   if Count > Height then Count:= Height;
 
   DstAddr := (FBuffer + (Row - 1) * FColumns * SizeOf(TComTermChar));
@@ -607,17 +551,9 @@ var
   BytesToMove: Integer;
   Top, Bottom, Height: Integer;
 begin
-  if FScrollRange.Top > 0 then
-    Top:= FScrollRange.Top
-  else begin
-    Top:= 1;
-  end;
-  if FScrollRange.Bottom > 0 then
-    Bottom:= FScrollRange.Bottom
-  else begin
-    Bottom:= FRows;
-  end;
-  Height:= Bottom - Top + 1;
+  Top:= FScrollRange.Top;
+  Bottom:= FScrollRange.Bottom;
+  Height:= FScrollRange.Height + 1;
   if Count > Height then Count:= Height;
 
   SrcAddr := (FBuffer + (Row - 1) * FColumns * SizeOf(TComTermChar));
@@ -690,6 +626,8 @@ begin
     SetTab(I, True);
     Inc(I, 8);
   end;
+  FScrollRange.Top:= 1;
+  FScrollRange.Bottom:= ARows;
 end;
 
 // get tab at Column
@@ -1346,14 +1284,14 @@ begin
     acReturn: MoveCaret(1, FCaretPos.Y);
     acLineFeed:
       begin
-        if FCaretPos.Y = FBuffer.Rows then
+        if FCaretPos.Y = FBuffer.FScrollRange.Bottom then
           FBuffer.ScrollDown
         else
           MoveCaret(FCaretPos.X, FCaretPos.Y + 1);
       end;
     acReverseLineFeed:
       begin
-        if FCaretPos.Y = 1 then
+        if FCaretPos.Y = FBuffer.FScrollRange.Top then
           FBuffer.ScrollUp
         else
           MoveCaret(FCaretPos.X, FCaretPos.Y - 1);
@@ -1826,7 +1764,8 @@ begin
       ecSoftReset:
       begin
         FTermMode.CharSet:= False;
-        FBuffer.FScrollRange:= Default(TRect);
+        FBuffer.FScrollRange.Top:= 1;
+        FBuffer.FScrollRange.Bottom:= FBuffer.Rows;
       end;
       ecCharSet:
       begin
