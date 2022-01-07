@@ -405,20 +405,21 @@ begin
   SourceAddr := (FBuffer +
     (FRows - 1) * FColumns * SizeOf(TComTermChar));
   FillChar(SourceAddr^, FColumns * SizeOf(TComTermChar), 0);
-  // calculate scrolling rectangle
-  with ScrollRect do
-  begin
-    Left := 0;
-    Right := Min(FOwner.ClientWidth, FColumns * FOwner.FFontWidth);
-    Top := 0;
-    Bottom := Min(FOwner.ClientHeight, FRows * FOwner.FFontHeight);
-  end;
   // scroll on screen
   if FOwner.DoubleBuffered then
     FOwner.Invalidate
-  else
+  else begin
+    // calculate scrolling rectangle
+    with ScrollRect do
+    begin
+      Left := 0;
+      Right := Min(FOwner.ClientWidth, FColumns * FOwner.FFontWidth);
+      Top := 0;
+      Bottom := Min(FOwner.ClientHeight, FRows * FOwner.FFontHeight);
+    end;
     ScrollWindowEx(FOwner.Handle, 0, -FOwner.FFontHeight,
       @ScrollRect, nil, 0, nil, SW_INVALIDATE or SW_ERASE);
+  end;
 end;
 
 // scroll up one line
@@ -433,20 +434,21 @@ begin
   // scroll in buffer
   Move(FBuffer^, DestAddr^, BytesToMove);
   FillChar(FBuffer^, FColumns * SizeOf(TComTermChar), 0);
-  // calculate scrolling rectangle
-  with ScrollRect do
-  begin
-    Left := 0;
-    Right := Min(FOwner.ClientWidth, FColumns * FOwner.FFontWidth);
-    Top := 0;
-    Bottom := Min(FOwner.ClientHeight, FRows * FOwner.FFontHeight);
-  end;
   // scroll on screen
   if FOwner.DoubleBuffered then
     FOwner.Invalidate
-  else
+  else begin
+    // calculate scrolling rectangle
+    with ScrollRect do
+    begin
+      Left := 0;
+      Right := Min(FOwner.ClientWidth, FColumns * FOwner.FFontWidth);
+      Top := 0;
+      Bottom := Min(FOwner.ClientHeight, FRows * FOwner.FFontHeight);
+    end;
     ScrollWindowEx(FOwner.Handle, 0, FOwner.FFontHeight,
       @ScrollRect, nil, 0, nil, SW_INVALIDATE or SW_ERASE);
+  end;
 end;
 
 procedure TComTermBuffer.EraseLineLeft(Column, Row: Integer);
