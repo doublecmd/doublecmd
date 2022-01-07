@@ -1430,7 +1430,7 @@ begin
       1:  FTermAttr.Bold := True;
       4:  FTermAttr.Underline := True;
       7:  FTermAttr.Invert := True;
-      21: FTermAttr.Bold := False;
+      22: FTermAttr.Bold := False;
       24: FTermAttr.Underline := False;
       27: FTermAttr.Invert := False;
 
