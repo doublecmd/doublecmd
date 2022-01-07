@@ -1101,7 +1101,7 @@ var
 begin
   inherited KeyDown(Key, Shift);
 
-  if (Key = VK_TAB) then
+  if (Key in [VK_TAB, VK_ESCAPE]) then
   begin
     SendChar(Chr(Key));
     Key:= 0;
