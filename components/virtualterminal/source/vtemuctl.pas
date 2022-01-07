@@ -1759,13 +1759,12 @@ begin
   Result := True;
   with FEscapeCodes do
     case ACode of
-      ecCursorUp,
-      ecAppCursorUp: MoveCaret(FCaretPos.X, FCaretPos.Y - GetParam(1, AParams));
+      ecCursorUp: MoveCaret(FCaretPos.X, FCaretPos.Y - GetParam(1, AParams));
       ecCursorDown: MoveCaret(FCaretPos.X, FCaretPos.Y + GetParam(1, AParams));
       ecCursorRight: MoveCaret(FCaretPos.X + GetParam(1, AParams), FCaretPos.Y);
       ecCursorLeft: MoveCaret(FCaretPos.X - GetParam(1, AParams), FCaretPos.Y);
-      ecCursorEnd: MoveCaret(FColumns, FCaretPos.Y);
-      ecCursorHome,
+      ecCursorNextLine: MoveCaret(1, FCaretPos.Y + GetParam(1, AParams));
+      ecCursorPrevLine: MoveCaret(1, FCaretPos.Y - GetParam(1, AParams));
       ecCursorMove: MoveCaret(GetParam(2, AParams), GetParam(1, AParams));
       ecCursorMoveX: MoveCaret(GetParam(1, AParams), FCaretPos.Y);
       ecCursorMoveY: MoveCaret(FCaretPos.X, GetParam(1, AParams));
@@ -1820,7 +1819,9 @@ begin
         FBuffer.FScrollRange.Top:= GetParam(1, AParams);
         FBuffer.FScrollRange.Bottom:= GetParam(2, AParams);
       end;
+      ecScrollDown,
       ecInsertLine: FBuffer.InsertLine(FCaretPos.Y, GetParam(1, AParams));
+      ecScrollUp,
       ecDeleteLine: FBuffer.DeleteLine(FCaretPos.Y, GetParam(1, AParams));
       ecSoftReset:
       begin

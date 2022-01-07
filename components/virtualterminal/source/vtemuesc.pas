@@ -28,10 +28,11 @@ type
   // terminal character result
   TEscapeResult = (erChar, erCode, erNothing);
   // terminal escape codes
-  TEscapeCode = (ecUnknown, ecNotCompleted, ecCursorUp, ecCursorDown,
-    ecCursorLeft, ecCursorRight, ecCursorHome, ecCursorEnd, ecCursorMove, ecCursorMoveX, ecCursorMoveY,
+  TEscapeCode = (ecUnknown, ecNotCompleted, ecCursorUp, ecCursorDown, ecCursorLeft,
+    ecCursorRight, ecCursorHome, ecCursorEnd, ecCursorMove, ecCursorMoveX, ecCursorMoveY,
     ecReverseLineFeed, ecAppCursorLeft, ecAppCursorRight, ecAppCursorUp, ecAppCursorDown,
-    ecAppCursorHome, ecAppCursorEnd, ecInsertKey, ecDeleteKey, ecPageUpKey, ecPageDownKey,
+    ecAppCursorHome, ecAppCursorEnd, ecCursorNextLine, ecCursorPrevLine, ecInsertKey,
+    ecDeleteKey, ecPageUpKey, ecPageDownKey,
     ecMouseDown, ecMouseUp, ecEraseLineLeft, ecEraseLineRight, ecEraseScreenFrom,
     ecEraseLine, ecEraseScreen, ecEraseChar, ecDeleteChar, ecSetTab, ecClearTab, ecClearAllTabs,
     ecIdentify, ecIdentResponse, ecQueryDevice, ecReportDeviceOK,
@@ -504,8 +505,9 @@ begin
       'B': Result := ecCursorDown;
       'C': Result := ecCursorRight;
       'D': Result := ecCursorLeft;
-      'H': Result := ecCursorHome;
-      'F': Result := ecCursorEnd;
+      'E': Result := ecCursorNextLine;
+      'F': Result := ecCursorPrevLine;
+      'H': Result := ecCursorMove;
       'f': Result := ecCursorMove;
       'd': Result := ecCursorMoveY;
       'G': Result := ecCursorMoveX;
