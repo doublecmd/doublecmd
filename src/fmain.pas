@@ -1240,8 +1240,19 @@ begin
 end;
 
 procedure TfrmMain.ConsoleSplitterMoved(Sender: TObject);
+var
+  AHeight: Integer;
 begin
-  nbConsole.Height := nbConsole.Height + nbConsole.Tag - pnlCommand.Height;
+  AHeight:= nbConsole.Height + nbConsole.Tag - pnlCommand.Height;
+  if AHeight > 0 then
+  begin
+    nbConsole.Height := AHeight;
+    cmdConsole.Visible:= True;
+  end
+  else begin
+    cmdConsole.Hide;
+    nbConsole.Height := 0;
+  end;
 end;
 
 procedure TfrmMain.dskToolButtonMouseDown(Sender: TObject;
