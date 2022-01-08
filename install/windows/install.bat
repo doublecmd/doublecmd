@@ -43,6 +43,7 @@ copy multiarc.ini                   %DC_INSTALL_DIR%\
 copy pinyin.tbl                     %DC_INSTALL_DIR%\
 rem Copy libraries
 copy *.dll                          %DC_INSTALL_DIR%\
+copy winpty-agent.exe               %DC_INSTALL_DIR%\
 
 rem copy plugins
 rem WCX

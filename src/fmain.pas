@@ -42,9 +42,9 @@ interface
 uses
   ufavoritetabs, Graphics, Forms, Menus, Controls, StdCtrls, ExtCtrls, ActnList,
   Buttons, SysUtils, Classes, SynEdit, LCLType, ComCtrls, LResources,
-  KASToolBar, KASComboBox, uCmdBox, uFilePanelSelect, uBriefFileView,
+  KASToolBar, KASComboBox, uFilePanelSelect, uBriefFileView, VTEmuCtl, VTEmuPty,
   uFileView, uFileSource, uFileViewNotebook, uFile, LCLVersion, KASToolPanel,
-  uOperationsManager, uFileSourceOperation, uDrivesList, uTerminal, DCClassesUtf8,
+  uOperationsManager, uFileSourceOperation, uDrivesList, DCClassesUtf8,
   DCXmlConfig, uDrive, uDriveWatcher, uDCVersion, uMainCommands, uFormCommands,
   uOperationsPanel, KASToolItems, uKASToolItemsExtended, uCmdLineParams, uOSForms
   {$IF DEFINED(LCLQT)}
@@ -561,6 +561,7 @@ type
       {%H-}MousePos: TPoint; var {%H-}Handled: Boolean);
     procedure btnF8MouseDown(Sender: TObject; Button: TMouseButton;
       {%H-}Shift: TShiftState; X, Y: Integer);
+    procedure ConsoleSplitterMoved(Sender: TObject);
     procedure dskToolButtonMouseDown(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
     procedure FormKeyUp( Sender: TObject; var {%H-}Key: Word; Shift: TShiftState) ;
@@ -678,7 +679,6 @@ type
     procedure OnUniqueInstanceMessage(Sender: TObject; Params: TCommandLineParams);
     procedure tbPasteClick(Sender: TObject);
     procedure AllProgressOnUpdateTimer(Sender: TObject);
-    procedure OnCmdBoxInput(ACmdBox: TCmdBox; AInput: String);
 {$IF (DEFINED(LCLQT) or DEFINED(LCLQT5)) and not DEFINED(MSWINDOWS)}
   private
     QEventHook: QObject_hookH;
@@ -696,7 +696,7 @@ type
     HiddenToTray: Boolean;
     HidingTrayIcon: Boolean; // @true if the icon is in the process of hiding
     nbLeft, nbRight: TFileViewNotebook;
-    cmdConsole: TCmdBox;
+    cmdConsole: TVirtualTerminal;
     FCommands: TMainCommands;
     FInitializedView: Boolean;
     {en
@@ -909,7 +909,7 @@ type
 
 var
   frmMain: TfrmMain;
-  Cons: TConsoleThread = nil;
+  Cons: TCustomPtyDevice = nil;
 
 implementation
 
@@ -1239,6 +1239,22 @@ begin
   end;
 end;
 
+procedure TfrmMain.ConsoleSplitterMoved(Sender: TObject);
+var
+  AHeight: Integer;
+begin
+  AHeight:= nbConsole.Height + nbConsole.Tag - pnlCommand.Height;
+  if AHeight > 0 then
+  begin
+    nbConsole.Height := AHeight;
+    cmdConsole.Visible:= True;
+  end
+  else begin
+    cmdConsole.Hide;
+    nbConsole.Height := 0;
+  end;
+end;
+
 procedure TfrmMain.dskToolButtonMouseDown(Sender: TObject;
   Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
 var
@@ -1347,7 +1363,7 @@ begin
   // ConsoleSplitter is trying to resize pnlCommand,
   // so NewSize is the new size of pnlCommand.
   // Instead, resize nbConsole by the same difference.
-  nbConsole.Height := nbConsole.Height + NewSize - pnlCommand.Height;
+  nbConsole.Tag := NewSize;
 end;
 
 procedure TfrmMain.ConvertToolbarBarConfig(BarFileName: String);
@@ -4625,7 +4641,7 @@ begin
   if (fspDirectAccess in FileView.FileSource.GetProperties) then
   begin
     if gTermWindow and Assigned(Cons) then
-      Cons.Terminal.SetCurrentDir(FileView.CurrentPath);
+      Cons.SetCurrentDir(FileView.CurrentPath);
   end;
 end;
 
@@ -5117,48 +5133,23 @@ begin
   end; // if Destination<>tclNone then
 end;
 
-procedure TfrmMain.OnCmdBoxInput(ACmdBox: TCmdBox; AInput: String);
-begin
-  Cons.Terminal.Write_pty(AInput + LineEnding);
-  ACmdBox.StartRead(clWhite, clBlack, ACmdBox.Hint, clWhite, clBlack);
-end;
-
 procedure TfrmMain.ToggleConsole;
 begin
   if gTermWindow then
     begin
       if not Assigned(cmdConsole) then
       begin
-        cmdConsole:= TCmdBox.Create(pgConsole);
+        cmdConsole:= TVirtualTerminal.Create(pgConsole);
         cmdConsole.Parent:= pgConsole;
         cmdConsole.Align:= alClient;
-        cmdConsole.AutoFollow:= True;
-        cmdConsole.LineCount:= 256;
         cmdConsole.ShowHint:= False;
-        cmdConsole.CaretType:= cartSubBar;
-        cmdConsole.OnInput:= @OnCmdBoxInput;
-        ShowScrollBar(cmdConsole.Handle, SB_Horz, False);
-        cmdConsole.Hint:= Format(fmtCommandPath, [GetComputerNetName]);
       end;
       FontOptionsToFont(gFonts[dcfConsole], cmdConsole.Font); //We set the font here because if we're coming back from configuration the font in options, we'll later pass here to affect that font if ever displayed.
-      if gCmdLine then
-      begin
-        cmdConsole.Tag := 0;
-        cmdConsole.StopRead;
-      end
-      else if cmdConsole.Tag = 0 then
-      begin
-        cmdConsole.Tag := MaxInt;
-        cmdConsole.Writeln(EmptyStr);
-        cmdConsole.StartRead(clWhite, clBlack, cmdConsole.Hint, clWhite, clBlack);
-      end;
       if not Assigned(Cons) then
         begin
-          Cons:= CreateConsoleThread;
-          Cons.ColsCount:= 80;
-          Cons.RowsCount:= cmdConsole.LineCount;
-          Cons.CmdBox:= cmdConsole;
-          Cons.Start;
+          Cons:= TPtyDevice.Create(Self);
+          cmdConsole.PtyDevice:= Cons;
+          Cons.Connected:= True;
         end;
     end
   else
@@ -5190,11 +5181,13 @@ begin
   else if nbConsole.Height < (nbConsole.Height + pnlNotebooks.Height - 1) then
   begin
     nbConsole.Height := nbConsole.Height + pnlNotebooks.Height;
-    if (not gCmdLine) and cmdConsole.CanFocus then cmdConsole.SetFocus;
+    if not cmdConsole.Visible then cmdConsole.Visible:= True;
+    if cmdConsole.CanFocus then cmdConsole.SetFocus;
   end
   else begin
+    cmdConsole.Hide;
     nbConsole.Height := 0;
-    if (not gCmdLine) and ActiveFrame.CanFocus then ActiveFrame.SetFocus;
+    if ActiveFrame.CanFocus then ActiveFrame.SetFocus;
   end;
 end;
 
@@ -5570,8 +5563,10 @@ begin
 
       VK_PAUSE:
         begin
+          {
           if gTermWindow and Assigned(Cons) then
             Cons.Terminal.SendBreak_pty();
+          }
         end;
     end;
 
@@ -5821,7 +5816,7 @@ begin
           if SameText(ExcludeBackPathDelimiter(ActiveFrame.CurrentPath), sDir) then
             begin
               if gTermWindow and Assigned(Cons) then
-                Cons.Terminal.SetCurrentDir(sDir);
+                Cons.SetCurrentDir(sDir);
             end;
         end
       else
@@ -5849,7 +5844,7 @@ begin
             if gTermWindow and Assigned(Cons) then
             begin
               sCmd:= ReplaceEnvVars(sCmd);
-              Cons.Terminal.Write_pty(sCmd + sLineBreak)
+              Cons.WriteStr(sCmd + sLineBreak)
             end
             else
             begin
@@ -6543,7 +6538,7 @@ begin
     if (fspDirectAccess in ActiveFrame.FileSource.GetProperties) then
       begin
         if gTermWindow and Assigned(Cons) then
-          Cons.Terminal.SetCurrentDir(ActiveFrame.CurrentPath);
+          Cons.SetCurrentDir(ActiveFrame.CurrentPath);
       end;
 
     edtCommand.Visible := True;

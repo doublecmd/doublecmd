@@ -13,14 +13,14 @@ const
   CommonComponents: array[1..9] of String =
   (
     'components\chsdet\chsdet.lpk',
-    'components\CmdLine\cmdbox.lpk',
     'components\multithreadprocs\multithreadprocslaz.lpk',
     'components\dcpcrypt\dcpcrypt.lpk',
     'components\doublecmd\doublecmd_common.lpk',
     'components\KASToolBar\kascomp.lpk',
     'components\viewer\viewerpackage.lpk',
     'components\gifanim\pkg_gifanim.lpk',
-    'components\synunihighlighter\synuni.lpk'
+    'components\synunihighlighter\synuni.lpk',
+    'components\virtualterminal\virtualterminal.lpk'
   );
 
   CommonPlugins: array[1..8] of String =

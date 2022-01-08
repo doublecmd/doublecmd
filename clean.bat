@@ -53,7 +53,6 @@
 @echo Clean up components output directories
 
 @del /Q /S components\chsdet\lib\*.*
-@del /Q /S components\CmdLine\lib\*.*
 @del /Q /S components\dcpcrypt\lib\*.*
 @del /Q /S components\doublecmd\lib\*.*
 @del /Q /S components\gifanim\lib\*.*
@@ -61,5 +60,6 @@
 @del /Q /S components\multithreadprocs\lib\*.*
 @del /Q /S components\viewer\lib\*.*
 @del /Q /S components\synunihighlighter\lib\*.*
+@del /Q /S components\virtualterminal\lib\*.*
 
 @echo Done.
