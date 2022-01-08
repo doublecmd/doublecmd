@@ -628,7 +628,7 @@ begin
     Inc(I, 8);
   end;
   FScrollRange.Top:= 1;
-  FScrollRange.Bottom:= ARows;
+  FScrollRange.Bottom:= FRows;
 end;
 
 // get tab at Column
@@ -686,7 +686,6 @@ begin
       Result := J;
 end;
 
-// get last character in buffer
 (*****************************************
  * TComCustomTerminal control            *
  *****************************************)
@@ -842,24 +841,23 @@ end;
 // load screen buffer from file
 procedure TCustomComTerminal.LoadFromStream(Stream: TStream);
 var
-  I: Integer;
-  Ch: Char;
+  ABuffer: TBytes;
 begin
   HideCaret;
-  for I := 0 to Stream.Size - 1 do
-  begin
-    Stream.Read(Ch, 1);
-    PutChar(Ch);
-  end;
+  ABuffer:= Default(TBytes);
+  SetLength(ABuffer, Stream.Size);
+  Stream.ReadBuffer(ABuffer[0], Length(ABuffer));
+  RxBuf(Self, ABuffer[0], Length(ABuffer));
   ShowCaret;
 end;
 
 // save screen buffer to file
 procedure TCustomComTerminal.SaveToStream(Stream: TStream);
 var
-  I, J, LastChar, LastLine: Integer;
+  I, J: Integer;
   Ch: TUTF8Char;
   EndLine: string;
+  LastChar, LastLine: Integer;
 begin
   EndLine := #13#10;
   LastLine := FBuffer.GetLastLine;
@@ -874,7 +872,7 @@ begin
         // replace null characters with blanks
         if Ch = #0 then
           Ch := #32;
-        Stream.Write(Ch, 1);
+        Stream.Write(Ch, Length(Ch));
       end;
     end;
     // new line
