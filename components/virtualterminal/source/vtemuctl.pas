@@ -144,6 +144,7 @@ type
     FAutoFollow : Boolean;
     FFontHeight: Integer;
     FFontWidth: Integer;
+    FPartChar: TUTF8Char;
     FEmulation: TTermEmulation;
     FCaret: TTermCaret;
     FCaretPos: TPoint;
@@ -794,6 +795,13 @@ begin
     begin
       L:= UTF8CodepointSizeFast(@Buffer[I]);
       Ch:= Copy(Buffer, I, L);
+
+      // got partial character
+      if (I + L - 1 > Size) then
+      begin
+        FPartChar:= Ch;
+        Break;
+      end;
 
       if (FEscapeCodes <> nil) then
       begin
@@ -1956,10 +1964,10 @@ begin
   FSaveAttr := FTermAttr;
 end;
 
-procedure TCustomComTerminal.RxBuf(Sender: TObject; const Buffer;  Count: Integer);
+procedure TCustomComTerminal.RxBuf(Sender: TObject; const Buffer; Count: Integer);
 var
+  L: Integer;
   Str: String;
-  sa : Ansistring;
 
   // append line feeds to carriage return
   procedure AppendLineFeeds;
@@ -1980,30 +1988,31 @@ var
   var
     I: Integer;
   begin
-    SetLength(Str, Count);
     for I := 1 to Length(Str) do
-      Str[I] := Char(Byte(Sa[I]) and $0FFFFFFF);
-  end;
-
-  procedure Force8BitData;
-  var
-    I: Integer;
-  begin
-    SetLength(Str, Count);
-    for I := 1 to Length(Str) do
-      Str[I] := Char(Byte(Sa[I]));
+      Str[I] := Char(Byte(Str[I]) and $0FFFFFFF);
   end;
 
 begin
-  SetLength(sa,count);
-  Move(Buffer, Sa[1], Count);
-//  Move(Buffer, Str[1], Count);
-//  Str := AnsiString(sa);
+  if (Length(FPartChar) = 0) then
+  begin
+    SetLength(Str, Count);
+    Move(Buffer, Str[1], Count);
+  end
+  else begin
+    L:= Length(FPartChar);
+    SetLength(Str, Count + L);
+    Move(FPartChar[1], Str[1], L);
+    Move(Buffer, Str[L + 1], Count);
+    FPartChar:= EmptyStr;
+  end;
   if FForce7Bit then
-    Force7BitData
-  else Force8BitData;
+  begin
+    Force7BitData;
+  end;
   if FAppendLF then
+  begin
     AppendLineFeeds;
+  end;
   StringReceived(Str);
 end;
 
