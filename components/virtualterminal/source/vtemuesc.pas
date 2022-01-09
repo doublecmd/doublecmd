@@ -182,7 +182,7 @@ begin
     'B': Result := ecCursorDown;
     'C': Result := ecCursorRight;
     'D': Result := ecCursorLeft;
-    'H': Result := ecCursorHome;
+    'H': Result := ecCursorMove;
     'I': Result := ecReverseLineFeed;
     'J': Result := ecEraseScreenFrom;
     'K': Result := ecEraseLineRight;

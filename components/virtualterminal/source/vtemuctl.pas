@@ -144,6 +144,7 @@ type
     FAutoFollow : Boolean;
     FFontHeight: Integer;
     FFontWidth: Integer;
+    FPartChar: TUTF8Char;
     FEmulation: TTermEmulation;
     FCaret: TTermCaret;
     FCaretPos: TPoint;
@@ -627,7 +628,7 @@ begin
     Inc(I, 8);
   end;
   FScrollRange.Top:= 1;
-  FScrollRange.Bottom:= ARows;
+  FScrollRange.Bottom:= FRows;
 end;
 
 // get tab at Column
@@ -685,7 +686,6 @@ begin
       Result := J;
 end;
 
-// get last character in buffer
 (*****************************************
  * TComCustomTerminal control            *
  *****************************************)
@@ -795,6 +795,13 @@ begin
       L:= UTF8CodepointSizeFast(@Buffer[I]);
       Ch:= Copy(Buffer, I, L);
 
+      // got partial character
+      if (I + L - 1 > Size) then
+      begin
+        FPartChar:= Ch;
+        Break;
+      end;
+
       if (FEscapeCodes <> nil) then
       begin
         Res := FEscapeCodes.ProcessChar(Ch);
@@ -834,24 +841,23 @@ end;
 // load screen buffer from file
 procedure TCustomComTerminal.LoadFromStream(Stream: TStream);
 var
-  I: Integer;
-  Ch: Char;
+  ABuffer: TBytes;
 begin
   HideCaret;
-  for I := 0 to Stream.Size - 1 do
-  begin
-    Stream.Read(Ch, 1);
-    PutChar(Ch);
-  end;
+  ABuffer:= Default(TBytes);
+  SetLength(ABuffer, Stream.Size);
+  Stream.ReadBuffer(ABuffer[0], Length(ABuffer));
+  RxBuf(Self, ABuffer[0], Length(ABuffer));
   ShowCaret;
 end;
 
 // save screen buffer to file
 procedure TCustomComTerminal.SaveToStream(Stream: TStream);
 var
-  I, J, LastChar, LastLine: Integer;
+  I, J: Integer;
   Ch: TUTF8Char;
   EndLine: string;
+  LastChar, LastLine: Integer;
 begin
   EndLine := #13#10;
   LastLine := FBuffer.GetLastLine;
@@ -866,7 +872,7 @@ begin
         // replace null characters with blanks
         if Ch = #0 then
           Ch := #32;
-        Stream.Write(Ch, 1);
+        Stream.Write(Ch, Length(Ch));
       end;
     end;
     // new line
@@ -1956,10 +1962,10 @@ begin
   FSaveAttr := FTermAttr;
 end;
 
-procedure TCustomComTerminal.RxBuf(Sender: TObject; const Buffer;  Count: Integer);
+procedure TCustomComTerminal.RxBuf(Sender: TObject; const Buffer; Count: Integer);
 var
+  L: Integer;
   Str: String;
-  sa : Ansistring;
 
   // append line feeds to carriage return
   procedure AppendLineFeeds;
@@ -1980,30 +1986,31 @@ var
   var
     I: Integer;
   begin
-    SetLength(Str, Count);
     for I := 1 to Length(Str) do
-      Str[I] := Char(Byte(Sa[I]) and $0FFFFFFF);
-  end;
-
-  procedure Force8BitData;
-  var
-    I: Integer;
-  begin
-    SetLength(Str, Count);
-    for I := 1 to Length(Str) do
-      Str[I] := Char(Byte(Sa[I]));
+      Str[I] := Char(Byte(Str[I]) and $0FFFFFFF);
   end;
 
 begin
-  SetLength(sa,count);
-  Move(Buffer, Sa[1], Count);
-//  Move(Buffer, Str[1], Count);
-//  Str := AnsiString(sa);
+  if (Length(FPartChar) = 0) then
+  begin
+    SetLength(Str, Count);
+    Move(Buffer, Str[1], Count);
+  end
+  else begin
+    L:= Length(FPartChar);
+    SetLength(Str, Count + L);
+    Move(FPartChar[1], Str[1], L);
+    Move(Buffer, Str[L + 1], Count);
+    FPartChar:= EmptyStr;
+  end;
   if FForce7Bit then
-    Force7BitData
-  else Force8BitData;
+  begin
+    Force7BitData;
+  end;
   if FAppendLF then
+  begin
     AppendLineFeeds;
+  end;
   StringReceived(Str);
 end;
 

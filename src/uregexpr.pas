@@ -21,13 +21,14 @@ type
     FRegExpW: TRegExprW;
     FRegExpU: TRegExprU;
     FType: TRegExprType;
-    procedure SetExpression(AValue: String);
+    procedure SetExpression(const AValue: String);
     function GetMatchLen(Idx : Integer): PtrInt;
     function GetMatchPos(Idx : Integer): PtrInt;
   public
-    constructor Create(const AEncoding: String = EncodingDefault);
+    constructor Create(const AEncoding: String = EncodingDefault; ASetEncoding: Boolean = False);
     destructor Destroy; override;
     function Exec(AOffset: UIntPtr = 1): Boolean;
+    function ReplaceAll(const AExpression, AStr, AReplacement: String): String;
     procedure ChangeEncoding(const AEncoding: String);
     procedure SetInputString(AInputString : Pointer; ALength : UIntPtr);
   public
@@ -43,7 +44,7 @@ uses
 
 { TRegExprEx }
 
-procedure TRegExprEx.SetExpression(AValue: String);
+procedure TRegExprEx.SetExpression(const AValue: String);
 begin
   case FType of
     retUtf8:    FRegExpU.Expression:= AValue;
@@ -70,11 +71,12 @@ begin
   end;
 end;
 
-constructor TRegExprEx.Create(const AEncoding: String);
+constructor TRegExprEx.Create(const AEncoding: String; ASetEncoding: Boolean = False);
 begin
   FRegExpW:= TRegExprW.Create;
   FRegExpU:= TRegExprU.Create;
   FRegExpA:= TRegExpr.Create(AEncoding);
+  if ASetEncoding then ChangeEncoding(AEncoding);
 end;
 
 destructor TRegExprEx.Destroy;
@@ -94,9 +96,31 @@ begin
   end;
 end;
 
+function TRegExprEx.ReplaceAll(const AExpression, AStr, AReplacement: String): String;
+var
+  InputString: String;
+begin
+  case FType of
+    retAnsi:
+      Result := FRegExpA.ReplaceRegExpr(AExpression, AStr, AReplacement, True);
+    retUtf8:
+    begin
+      FRegExpU.Expression := AExpression;
+      InputString := AStr;
+      FRegExpU.SetInputString(PAnsiChar(InputString), Length(InputString));
+      if not FRegExpU.ReplaceAll(AReplacement, Result) then
+        Result := InputString;
+    end;
+    retUtf16le:
+      Result := AStr; // TODO : Implement ReplaceAll for TRegExprW
+  end;
+end;
+
 procedure TRegExprEx.ChangeEncoding(const AEncoding: String);
 begin
   FEncoding:= NormalizeEncoding(AEncoding);
+  if FEncoding = EncodingDefault then
+    FEncoding:= GetDefaultTextEncoding;
   if FEncoding = EncodingUTF16LE then
     FType:= retUtf16le
   else if (FEncoding = EncodingUTF8) or (FEncoding = EncodingUTF8BOM) then

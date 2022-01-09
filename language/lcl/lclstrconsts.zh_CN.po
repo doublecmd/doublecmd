@@ -13,14 +13,17 @@ msgstr ""
 "X-Poedit-SourceCharset: UTF-8\n"
 
 #: lclstrconsts.hhshelpbrowsernotexecutable
+#, object-pascal-format
 msgid "Browser \"%s\" not executable."
 msgstr "浏览器\"%s\"不是可执行程序."
 
 #: lclstrconsts.hhshelpbrowsernotfound
+#, object-pascal-format
 msgid "Browser \"%s\" not found."
 msgstr "浏览器\"%s\"未找到."
 
 #: lclstrconsts.hhshelperrorwhileexecuting
+#, object-pascal-format
 msgid "Error while executing \"%s\":%s%s"
 msgstr "当执行\"%s\":%s%s时发生错误"
 
@@ -29,14 +32,17 @@ msgid "Unable to find a HTML browser."
 msgstr "不能找到一个HTML浏览器."
 
 #: lclstrconsts.hhshelpnohtmlbrowserfoundpleasedefineone
+#, object-pascal-format
 msgid "No HTML Browser found.%sPlease define one in Tools -> Options -> Help -> Help Options"
 msgstr "没有HTML浏览器找到.%s请定义一个在  工具->选项->帮助->帮助选项"
 
 #: lclstrconsts.hhshelpthehelpdatabasewasunabletofindfile
+#, object-pascal-format
 msgid "The help database \"%s\" was unable to find file \"%s\"."
 msgstr ""
 
 #: lclstrconsts.hhshelpthemacrosinbrowserparamswillbereplacedbytheurl
+#, object-pascal-format
 msgid "The macro %s in BrowserParams will be replaced by the URL."
 msgstr "浏览框里的宏 %s 将被URL所替代."
 
@@ -74,6 +80,7 @@ msgid "Unknown"
 msgstr "未知"
 
 #: lclstrconsts.lislclresourcesnotfound
+#, object-pascal-format
 msgctxt "lclstrconsts.lislclresourcesnotfound"
 msgid "Resource %s not found"
 msgstr "资源%s未找到"
@@ -99,6 +106,7 @@ msgid "Active Caption"
 msgstr "活动标题"
 
 #: lclstrconsts.rsallfiles
+#, object-pascal-format
 msgid "All files (%s)|%s|%s"
 msgstr "所有文件 (%s)|%s|%s"
 
@@ -111,6 +119,7 @@ msgid "Aqua"
 msgstr ""
 
 #: lclstrconsts.rsascannothaveasparent
+#, object-pascal-format
 msgid "Class %s cannot have %s as parent."
 msgstr ""
 
@@ -156,7 +165,7 @@ msgstr "按钮文本"
 
 #: lclstrconsts.rscalculator
 msgid "Calculator"
-msgstr "计算器"
+msgstr "Calculator"
 
 #: lclstrconsts.rscancelrecordhint
 msgctxt "lclstrconsts.rscancelrecordhint"
@@ -180,18 +189,17 @@ msgid "Case sensitive"
 msgstr "区分大小写"
 
 #: lclstrconsts.rscontrolclasscantcontainchildclass
+#, object-pascal-format
 msgid "Control of class '%s' can't have control of class '%s' as a child"
 msgstr ""
 
 #: lclstrconsts.rscontrolhasnoparentformorframe
+#, object-pascal-format
 msgid "Control '%s' has no parent form or frame"
 msgstr ""
 
-#: lclstrconsts.rscontrolhasnoparentwindow
-msgid "Control '%s' has no parent window"
-msgstr ""
-
 #: lclstrconsts.rscontrolisnotaparent
+#, object-pascal-format
 msgid "'%s' is not a parent of '%s'"
 msgstr ""
 
@@ -258,10 +266,12 @@ msgid "Error"
 msgstr "错误"
 
 #: lclstrconsts.rserrorcreatingdevicecontext
+#, object-pascal-format
 msgid "Error creating device context for %s.%s"
 msgstr ""
 
 #: lclstrconsts.rserroroccurredinataddressframe
+#, object-pascal-format
 msgid "Error occurred in %s at %sAddress %s%s Frame %s"
 msgstr ""
 
@@ -278,10 +288,12 @@ msgid "Directory must exist"
 msgstr "目录必须存在"
 
 #: lclstrconsts.rsfddirectorynotexist
+#, object-pascal-format
 msgid "The directory \"%s\" does not exist."
 msgstr "目录\"%s\"不存在."
 
 #: lclstrconsts.rsfdfilealreadyexists
+#, object-pascal-format
 msgid "The file \"%s\" already exists. Overwrite ?"
 msgstr "文件\"%s\"已经存在.覆盖?"
 
@@ -290,10 +302,12 @@ msgid "File must exist"
 msgstr "文件必须存在"
 
 #: lclstrconsts.rsfdfilenotexist
+#, object-pascal-format
 msgid "The file \"%s\" does not exist."
 msgstr "文件\"%s\"不存在."
 
 #: lclstrconsts.rsfdfilereadonly
+#, object-pascal-format
 msgid "The file \"%s\" is not writable."
 msgstr "文件\"%s\"不可写."
 
@@ -303,11 +317,11 @@ msgstr "文件不可写"
 
 #: lclstrconsts.rsfdfilesaveas
 msgid "Save file as"
-msgstr "保存文件为"
+msgstr "Save file as"
 
 #: lclstrconsts.rsfdopenfile
 msgid "Open existing file"
-msgstr "打开存在的文件"
+msgstr "Open existing file"
 
 #: lclstrconsts.rsfdoverwritefile
 msgid "Overwrite file ?"
@@ -318,14 +332,16 @@ msgid "Path must exist"
 msgstr "路径必须存在"
 
 #: lclstrconsts.rsfdpathnoexist
+#, object-pascal-format
 msgid "The path \"%s\" does not exist."
 msgstr "路径\"%s\"不存在."
 
 #: lclstrconsts.rsfdselectdirectory
 msgid "Select Directory"
-msgstr "选择目录"
+msgstr "Select Directory"
 
 #: lclstrconsts.rsfileinfofilenotfound
+#, object-pascal-format
 msgid "(file not found: \"%s\")"
 msgstr "(文件未找到:\"%s\")"
 
@@ -340,7 +356,7 @@ msgstr "(过滤器)"
 
 #: lclstrconsts.rsfind
 msgid "Find"
-msgstr "查找"
+msgstr "Find"
 
 #: lclstrconsts.rsfindmore
 msgid "Find more"
@@ -363,10 +379,12 @@ msgid "Form"
 msgstr "窗体"
 
 #: lclstrconsts.rsformresourcesnotfoundforresourcelessformscreatenew
+#, object-pascal-format
 msgid "Form resource %s not found. For resourceless forms CreateNew constructor must be used. See the global variable RequireDerivedFormResource."
 msgstr ""
 
 #: lclstrconsts.rsformstreamingerror
+#, object-pascal-format
 msgid "Form streaming \"%s\" error: %s"
 msgstr "窗体流\"%s\"错误:%s"
 
@@ -489,6 +507,7 @@ msgid "Help"
 msgstr "帮助"
 
 #: lclstrconsts.rshelpalreadyregistered
+#, object-pascal-format
 msgid "%s: Already registered"
 msgstr "%s:已经注册"
 
@@ -505,42 +524,52 @@ msgid "Help Error"
 msgstr "帮助错误"
 
 #: lclstrconsts.rshelphelpcontextnotfound
+#, object-pascal-format
 msgid "Help context %s not found."
 msgstr "帮助上下文%s未找到."
 
 #: lclstrconsts.rshelphelpcontextnotfoundindatabase
+#, object-pascal-format
 msgid "Help context %s not found in Database \"%s\"."
 msgstr ""
 
 #: lclstrconsts.rshelphelpdatabasedidnotfoundaviewerforahelppageoftype
+#, object-pascal-format
 msgid "Help Database \"%s\" did not find a viewer for a help page of type %s"
 msgstr ""
 
 #: lclstrconsts.rshelphelpdatabasenotfound
+#, object-pascal-format
 msgid "Help Database \"%s\" not found"
 msgstr ""
 
 #: lclstrconsts.rshelphelpfordirectivenotfound
+#, object-pascal-format
 msgid "Help for directive \"%s\" not found."
 msgstr ""
 
 #: lclstrconsts.rshelphelpfordirectivenotfoundindatabase
+#, object-pascal-format
 msgid "Help for directive \"%s\" not found in Database \"%s\"."
 msgstr ""
 
 #: lclstrconsts.rshelphelpkeywordnotfound
+#, object-pascal-format
 msgid "Help keyword \"%s\" not found."
 msgstr "帮助关键字\"%s\"未找到"
 
 #: lclstrconsts.rshelphelpkeywordnotfoundindatabase
+#, object-pascal-format
 msgid "Help keyword \"%s\" not found in Database \"%s\"."
 msgstr "帮助关键字\"%s\"未找到在数据库\"%s\"."
 
 #: lclstrconsts.rshelphelpnodehasnohelpdatabase
+#, object-pascal-format
 msgid "Help node \"%s\" has no Help Database"
 msgstr ""
 
 #: lclstrconsts.rshelpnohelpfoundforsource
+#, object-pascal-format
 msgid "No help found for line %d, column %d of %s."
 msgstr ""
 
@@ -553,6 +582,7 @@ msgid "No help found for this topic"
 msgstr "没有帮助找到对于这个主题(topic)"
 
 #: lclstrconsts.rshelpnotregistered
+#, object-pascal-format
 msgid "%s: Not registered"
 msgstr "%s: 没有注册"
 
@@ -561,6 +591,7 @@ msgid "Help Selector Error"
 msgstr "帮助选择器错误"
 
 #: lclstrconsts.rshelpthereisnoviewerforhelptype
+#, object-pascal-format
 msgid "There is no viewer for help type \"%s\""
 msgstr ""
 
@@ -631,10 +662,12 @@ msgid "Inactive Caption"
 msgstr "非活动标题"
 
 #: lclstrconsts.rsindexoutofbounds
+#, object-pascal-format
 msgid "%s Index %d out of bounds 0 .. %d"
 msgstr "%s索引%d超出范围0..%d"
 
 #: lclstrconsts.rsindexoutofrange
+#, object-pascal-format
 msgid "Index Out of range Cell[Col=%d Row=%d]"
 msgstr "单元格索引超过范围[列=%d 行=%d]"
 
@@ -652,10 +685,12 @@ msgid "Insert"
 msgstr "插入"
 
 #: lclstrconsts.rsinvaliddate
+#, object-pascal-format
 msgid "Invalid Date : %s"
 msgstr "无效日期: %s"
 
 #: lclstrconsts.rsinvaliddaterangehint
+#, object-pascal-format
 msgid "Invalid Date: %s. Must be between %s and %s"
 msgstr "无效日期:%s.必须在%s和%s之间"
 
@@ -672,6 +707,7 @@ msgid "Invalid stream format"
 msgstr "无效流格式"
 
 #: lclstrconsts.rsisalreadyassociatedwith
+#, object-pascal-format
 msgid "%s is already associated with %s"
 msgstr "%s已经与%s相关联"
 
@@ -688,10 +724,16 @@ msgid "Lime"
 msgstr "橙色"
 
 #: lclstrconsts.rslistindexexceedsbounds
+#, object-pascal-format
 msgid "List index exceeds bounds (%d)"
 msgstr "列表索引超过限制 (%d)"
 
+#: lclstrconsts.rsmacosfileformat
+msgid "File Format:"
+msgstr ""
+
 #: lclstrconsts.rsmacosmenuhide
+#, object-pascal-format
 msgid "Hide %s"
 msgstr ""
 
@@ -700,6 +742,7 @@ msgid "Hide Others"
 msgstr ""
 
 #: lclstrconsts.rsmacosmenuquit
+#, object-pascal-format
 msgid "Quit %s"
 msgstr ""
 
@@ -717,7 +760,7 @@ msgstr "褐红"
 
 #: lclstrconsts.rsmbabort
 msgid "Abort"
-msgstr "取消"
+msgstr "放弃"
 
 #: lclstrconsts.rsmball
 msgid "&All"
@@ -726,7 +769,7 @@ msgstr "所有(&A)"
 #: lclstrconsts.rsmbcancel
 msgctxt "lclstrconsts.rsmbcancel"
 msgid "Cancel"
-msgstr "取消"
+msgstr "Cancel"
 
 #: lclstrconsts.rsmbclose
 msgid "&Close"
@@ -750,7 +793,7 @@ msgstr "没有所有(No to all)"
 
 #: lclstrconsts.rsmbok
 msgid "&OK"
-msgstr "确定(&O)"
+msgstr "&OK"
 
 #: lclstrconsts.rsmbopen
 msgid "&Open"
@@ -857,7 +900,7 @@ msgstr "橄榄绿色"
 
 #: lclstrconsts.rspickdate
 msgid "Select a date"
-msgstr "选择日期"
+msgstr "Select a date"
 
 #: lclstrconsts.rspixmap
 msgid "Pixmap"
@@ -884,6 +927,7 @@ msgid "Post"
 msgstr "提交"
 
 #: lclstrconsts.rspressoktoignoreandriskdatacorruptionpressaborttok
+#, object-pascal-format
 msgid "%s%sPress OK to ignore and risk data corruption.%sPress Abort to kill the program."
 msgstr ""
 
@@ -897,12 +941,17 @@ msgid "Prompt on replace"
 msgstr ""
 
 #: lclstrconsts.rspropertydoesnotexist
+#, object-pascal-format
 msgid "Property %s does not exist"
 msgstr "属性%s不存在"
 
 #: lclstrconsts.rspurplecolorcaption
 msgid "Purple"
 msgstr "紫色"
+
+#: lclstrconsts.rsqtoptiondisableaccurateframe
+msgid "-disableaccurateframe, disables fully accurate window frame under X11. This feature is implemented for Qt, Qt5 and Gtk2 interfaces and used mostly by GetWindowRect()."
+msgstr ""
 
 #: lclstrconsts.rsqtoptiondograb
 msgid "-dograb (only under X11), running under a debugger can cause an implicit -nograb, use -dograb to override. Need QT_DEBUG."
@@ -1014,13 +1063,14 @@ msgstr "刷新"
 
 #: lclstrconsts.rsreplace
 msgid "Replace"
-msgstr "替换"
+msgstr "Replace"
 
 #: lclstrconsts.rsreplaceall
 msgid "Replace all"
 msgstr "替换所有"
 
 #: lclstrconsts.rsresourcenotfound
+#, object-pascal-format
 msgctxt "lclstrconsts.rsresourcenotfound"
 msgid "Resource %s not found"
 msgstr "资源%s未找到"
@@ -1035,11 +1085,11 @@ msgstr "滚动条属性超出范围"
 
 #: lclstrconsts.rsselectcolortitle
 msgid "Select color"
-msgstr "选择颜色"
+msgstr "Select color"
 
 #: lclstrconsts.rsselectfonttitle
 msgid "Select a font"
-msgstr "选择字体"
+msgstr "Select a font"
 
 #: lclstrconsts.rssilvercolorcaption
 msgid "Silver"
@@ -1109,28 +1159,34 @@ msgid "Unsupported bitmap format."
 msgstr "不支持位图格式."
 
 #: lclstrconsts.rsunsupportedclipboardformat
+#, object-pascal-format
 msgid "Unsupported clipboard format: %s"
 msgstr "不支持剪贴板格式: %s"
 
 #: lclstrconsts.rswarningunreleaseddcsdump
+#, object-pascal-format
 msgid " WARNING: There are %d unreleased DCs, a detailed dump follows:"
 msgstr ""
 
 #: lclstrconsts.rswarningunreleasedgdiobjectsdump
+#, object-pascal-format
 msgid " WARNING: There are %d unreleased GDIObjects, a detailed dump follows:"
 msgstr ""
 
 #: lclstrconsts.rswarningunreleasedmessagesinqueue
+#, object-pascal-format
 msgid " WARNING: There are %d messages left in the queue! I'll free them"
-msgstr ""
+msgstr "警告:这里有%d 剩余的信息在队列中!我将释放它们"
 
 #: lclstrconsts.rswarningunreleasedtimerinfos
+#, object-pascal-format
 msgid " WARNING: There are %d TimerInfo structures left, I'll free them"
-msgstr ""
+msgstr "警告:这里有%d 剩余的TimerInfo结构 在队列中!我将释放它们"
 
 #: lclstrconsts.rswarningunremovedpaintmessages
+#, object-pascal-format, fuzzy, badformat
 msgid " WARNING: There are %s unremoved LM_PAINT/LM_GtkPAINT message links left."
-msgstr ""
+msgstr "警告:这里有%d剩余的未移除的LM_PAINT/LM_GtkPAINT信息链接."
 
 #: lclstrconsts.rswhitecolorcaption
 msgid "White"
@@ -1150,15 +1206,15 @@ msgstr "警告:"
 
 #: lclstrconsts.rswindowcolorcaption
 msgid "Window"
-msgstr "窗体"
+msgstr "窗口"
 
 #: lclstrconsts.rswindowframecolorcaption
 msgid "Window Frame"
-msgstr "窗体框架(Frame)"
+msgstr "窗口框架(Frame)"
 
 #: lclstrconsts.rswindowtextcolorcaption
 msgid "Window Text"
-msgstr "窗体文本"
+msgstr "窗口文本"
 
 #: lclstrconsts.rsyellowcolorcaption
 msgid "Yellow"
@@ -1166,10 +1222,6 @@ msgstr "黄色"
 
 #: lclstrconsts.scannotfocus
 msgid "Cannot focus a disabled or invisible window"
-msgstr ""
-
-#: lclstrconsts.scannotsetdesigntimeppi
-msgid "Cannot set design time PPI."
 msgstr ""
 
 #: lclstrconsts.sduplicatemenus
@@ -1192,10 +1244,6 @@ msgstr "无效动作注册"
 msgid "Invalid action unregistration"
 msgstr "无效动作未注册"
 
-#: lclstrconsts.sinvalidcharset
-msgid "The char set in mask \"%s\" is not valid!"
-msgstr ""
-
 #: lclstrconsts.sinvalidimagesize
 msgid "Invalid image size"
 msgstr "无效图像的大小"
@@ -1210,7 +1258,7 @@ msgstr ""
 
 #: lclstrconsts.smenuindexerror
 msgid "Menu index out of range"
-msgstr ""
+msgstr "菜单索引超出范围"
 
 #: lclstrconsts.smenuitemisnil
 msgid "MenuItem is nil"
@@ -1244,7 +1292,7 @@ msgstr "下"
 #: lclstrconsts.smkcend
 msgctxt "lclstrconsts.smkcend"
 msgid "End"
-msgstr ""
+msgstr "End(结束)"
 
 #: lclstrconsts.smkcenter
 msgid "Enter"
@@ -1308,22 +1356,27 @@ msgid "No timers available"
 msgstr "无有效计时器"
 
 #: lclstrconsts.sparentrequired
+#, object-pascal-format
 msgid "Control \"%s\" has no parent window."
 msgstr ""
 
 #: lclstrconsts.sparexpected
+#, object-pascal-format
 msgid "Wrong token type: %s expected"
 msgstr ""
 
 #: lclstrconsts.sparinvalidfloat
+#, object-pascal-format
 msgid "Invalid floating point number: %s"
 msgstr "无效的浮点数: %s"
 
 #: lclstrconsts.sparinvalidinteger
+#, object-pascal-format
 msgid "Invalid integer number: %s"
 msgstr "无效的整数数: %s"
 
 #: lclstrconsts.sparlocinfo
+#, object-pascal-format
 msgid " (at %d,%d, stream offset %d)"
 msgstr ""
 
@@ -1336,48 +1389,62 @@ msgid "Unterminated string"
 msgstr ""
 
 #: lclstrconsts.sparwrongtokensymbol
+#, object-pascal-format
 msgid "Wrong token symbol: %s expected but %s found"
 msgstr ""
 
 #: lclstrconsts.sparwrongtokentype
+#, object-pascal-format
 msgid "Wrong token type: %s expected but %s found"
 msgstr ""
 
 #: lclstrconsts.sshellctrlsbytes
+#, object-pascal-format
 msgid "%s bytes"
 msgstr "%s字节"
 
 #: lclstrconsts.sshellctrlsinvalidpath
+#, object-pascal-format, fuzzy
+#| msgid ""
+#| "Invalid pathname:\n"
+#| "\"%s\"\n"
 msgctxt "lclstrconsts.sshellctrlsinvalidpath"
 msgid ""
 "Invalid pathname:\n"
-"\"%s\"\n"
+"\"%s\""
 msgstr ""
 "无效路径名:\n"
 "\"%s\"\n"
 
 #: lclstrconsts.sshellctrlsinvalidpathrelative
+#, object-pascal-format
 msgid ""
 "Invalid relative pathname:\n"
 "\"%s\"\n"
 "in relation to rootpath:\n"
-"\"%s\"\n"
+"\"%s\""
 msgstr ""
 
 #: lclstrconsts.sshellctrlsinvalidroot
+#, object-pascal-format, fuzzy
+#| msgid ""
+#| "Invalid pathname:\n"
+#| "\"%s\"\n"
 msgctxt "lclstrconsts.sshellctrlsinvalidroot"
 msgid ""
 "Invalid pathname:\n"
-"\"%s\"\n"
+"\"%s\""
 msgstr ""
 "无效路径名:\n"
 "\"%s\"\n"
 
 #: lclstrconsts.sshellctrlskb
+#, object-pascal-format
 msgid "%s kB"
 msgstr "%s kB"
 
 #: lclstrconsts.sshellctrlsmb
+#, object-pascal-format
 msgid "%s MB"
 msgstr "%s MB"
 
@@ -1386,9 +1453,13 @@ msgid "Name"
 msgstr "名称"
 
 #: lclstrconsts.sshellctrlsselecteditemdoesnotexists
+#, object-pascal-format, fuzzy
+#| msgid ""
+#| "The selected item does not exist on disk:\n"
+#| "\"%s\"\n"
 msgid ""
 "The selected item does not exist on disk:\n"
-"\"%s\"\n"
+"\"%s\""
 msgstr ""
 "所选择项目在硬盘中不存在:\n"
 "\"%s\"\n"
