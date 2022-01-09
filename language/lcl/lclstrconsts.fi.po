@@ -10,14 +10,17 @@ msgstr ""
 "Language-Team: \n"
 
 #: lclstrconsts.hhshelpbrowsernotexecutable
+#, object-pascal-format
 msgid "Browser \"%s\" not executable."
 msgstr "Selain \"%s\" ei ole suoritettava ohjelma."
 
 #: lclstrconsts.hhshelpbrowsernotfound
+#, object-pascal-format
 msgid "Browser \"%s\" not found."
 msgstr "Selainta \"%s\" ei löydy."
 
 #: lclstrconsts.hhshelperrorwhileexecuting
+#, object-pascal-format
 msgid "Error while executing \"%s\":%s%s"
 msgstr "Virhe suoritettaessa \"%s\":%s%s"
 
@@ -26,14 +29,17 @@ msgid "Unable to find a HTML browser."
 msgstr "HTML selainta ei löydy."
 
 #: lclstrconsts.hhshelpnohtmlbrowserfoundpleasedefineone
+#, object-pascal-format
 msgid "No HTML Browser found.%sPlease define one in Tools -> Options -> Help -> Help Options"
 msgstr "HTML selainta ei löydy.%sMäärittele se kohdassa Työkalut -> Asetukset -> Ohje -> Ohjeen asetukset"
 
 #: lclstrconsts.hhshelpthehelpdatabasewasunabletofindfile
+#, object-pascal-format
 msgid "The help database \"%s\" was unable to find file \"%s\"."
 msgstr "Avustetietokannasta \"%s\" ei löydy tiedostoa \"%s\"."
 
 #: lclstrconsts.hhshelpthemacrosinbrowserparamswillbereplacedbytheurl
+#, object-pascal-format
 msgid "The macro %s in BrowserParams will be replaced by the URL."
 msgstr "Makro %s BrowserParams:issa korvataan URL:lla."
 
@@ -71,6 +77,7 @@ msgid "Unknown"
 msgstr "Tuntematon"
 
 #: lclstrconsts.lislclresourcesnotfound
+#, object-pascal-format
 msgctxt "lclstrconsts.lislclresourcesnotfound"
 msgid "Resource %s not found"
 msgstr "Resurssia %s ei löydy"
@@ -96,6 +103,7 @@ msgid "Active Caption"
 msgstr "Aktiivinen otsikko"
 
 #: lclstrconsts.rsallfiles
+#, object-pascal-format
 msgid "All files (%s)|%s|%s"
 msgstr "Kaikki tiedostot (%s)|%s|%s"
 
@@ -108,6 +116,7 @@ msgid "Aqua"
 msgstr ""
 
 #: lclstrconsts.rsascannothaveasparent
+#, object-pascal-format
 msgid "Class %s cannot have %s as parent."
 msgstr "Luokalla %s ei voi olla %s kantaluokkana."
 
@@ -177,18 +186,17 @@ msgid "Case sensitive"
 msgstr "Sama kirjainkoko"
 
 #: lclstrconsts.rscontrolclasscantcontainchildclass
+#, object-pascal-format
 msgid "Control of class '%s' can't have control of class '%s' as a child"
 msgstr "Luokan '%s' kontrollin lapsi ei voi olla luokan '%s' kontrolli"
 
 #: lclstrconsts.rscontrolhasnoparentformorframe
+#, object-pascal-format
 msgid "Control '%s' has no parent form or frame"
 msgstr "Kontrolli '%s':lla ei ole emolomaketta tai -kehystä."
 
-#: lclstrconsts.rscontrolhasnoparentwindow
-msgid "Control '%s' has no parent window"
-msgstr "Kontrolli '%s':lla ei ole emoikkunaa"
-
 #: lclstrconsts.rscontrolisnotaparent
+#, object-pascal-format
 msgid "'%s' is not a parent of '%s'"
 msgstr "'%s' ei ole '%s':n emo"
 
@@ -255,10 +263,12 @@ msgid "Error"
 msgstr "Virhe"
 
 #: lclstrconsts.rserrorcreatingdevicecontext
+#, object-pascal-format
 msgid "Error creating device context for %s.%s"
 msgstr "Virhe luotaessa laiteympäristöä: %s.%s"
 
 #: lclstrconsts.rserroroccurredinataddressframe
+#, object-pascal-format
 msgid "Error occurred in %s at %sAddress %s%s Frame %s"
 msgstr "Virhe tapahtui %s:ssa %sosoitteessa %s%s kehyksessä %s"
 
@@ -275,10 +285,12 @@ msgid "Directory must exist"
 msgstr "Hakemiston pitää olla olemassa"
 
 #: lclstrconsts.rsfddirectorynotexist
+#, object-pascal-format
 msgid "The directory \"%s\" does not exist."
 msgstr "Hakemistoa \"%s\" ei ole olemassa."
 
 #: lclstrconsts.rsfdfilealreadyexists
+#, object-pascal-format
 msgid "The file \"%s\" already exists. Overwrite ?"
 msgstr "Tiedosto \"%s\" on jo olemassa. Kirjoitetaanko yli?"
 
@@ -287,10 +299,12 @@ msgid "File must exist"
 msgstr "Tiedoston pitää olla olemassa"
 
 #: lclstrconsts.rsfdfilenotexist
+#, object-pascal-format
 msgid "The file \"%s\" does not exist."
 msgstr "Tiedostoa \"%s\" ei ole olemassa."
 
 #: lclstrconsts.rsfdfilereadonly
+#, object-pascal-format
 msgid "The file \"%s\" is not writable."
 msgstr "Tiedostoon \"%s\" ei voi kirjoittaa."
 
@@ -315,6 +329,7 @@ msgid "Path must exist"
 msgstr "Polun pitää olla olemassa"
 
 #: lclstrconsts.rsfdpathnoexist
+#, object-pascal-format
 msgid "The path \"%s\" does not exist."
 msgstr "Polkua \"%s\" ei ole olemassa."
 
@@ -323,6 +338,7 @@ msgid "Select Directory"
 msgstr "Valitse hakemisto"
 
 #: lclstrconsts.rsfileinfofilenotfound
+#, object-pascal-format
 msgid "(file not found: \"%s\")"
 msgstr "(tiedostoa ei löytynyt: \"%s\")"
 
@@ -360,10 +376,12 @@ msgid "Form"
 msgstr "Lomake"
 
 #: lclstrconsts.rsformresourcesnotfoundforresourcelessformscreatenew
+#, object-pascal-format
 msgid "Form resource %s not found. For resourceless forms CreateNew constructor must be used. See the global variable RequireDerivedFormResource."
 msgstr "Lomakkeen resurssia %s ei löydy. Tällaisen lomakkeen kanssa pitää käyttää CreateNew constructoria. Katso globaali muuttuja RequireDerivedFormResource."
 
 #: lclstrconsts.rsformstreamingerror
+#, object-pascal-format
 msgid "Form streaming \"%s\" error: %s"
 msgstr "Lomakkeen talletusvuossa \"%s\" virhe: %s"
 
@@ -485,6 +503,7 @@ msgid "Help"
 msgstr "Apu"
 
 #: lclstrconsts.rshelpalreadyregistered
+#, object-pascal-format
 msgid "%s: Already registered"
 msgstr "%s: Jo rekisteröity"
 
@@ -501,42 +520,52 @@ msgid "Help Error"
 msgstr "Ohjeen virhe"
 
 #: lclstrconsts.rshelphelpcontextnotfound
+#, object-pascal-format
 msgid "Help context %s not found."
 msgstr "Ohjeen viittausta %s ei löydy."
 
 #: lclstrconsts.rshelphelpcontextnotfoundindatabase
+#, object-pascal-format
 msgid "Help context %s not found in Database \"%s\"."
 msgstr "Ohjeen viittausta %s ei löydy tietokannasta \"%s\"."
 
 #: lclstrconsts.rshelphelpdatabasedidnotfoundaviewerforahelppageoftype
+#, object-pascal-format
 msgid "Help Database \"%s\" did not find a viewer for a help page of type %s"
 msgstr "Ohjetietokanta \"%s\" ei löytänyt katseluohjelmaa %s tyyppiselle ohjesivulle"
 
 #: lclstrconsts.rshelphelpdatabasenotfound
+#, object-pascal-format
 msgid "Help Database \"%s\" not found"
 msgstr "Ohjetietokantaa \"%s\" ei löydy"
 
 #: lclstrconsts.rshelphelpfordirectivenotfound
+#, object-pascal-format
 msgid "Help for directive \"%s\" not found."
 msgstr "Ohjetta aiheelle \"%s\" ei löydy."
 
 #: lclstrconsts.rshelphelpfordirectivenotfoundindatabase
+#, object-pascal-format
 msgid "Help for directive \"%s\" not found in Database \"%s\"."
 msgstr "Ohjetta aiheelle \"%s\" ei löydy tietokannasta \"%s\"."
 
 #: lclstrconsts.rshelphelpkeywordnotfound
+#, object-pascal-format
 msgid "Help keyword \"%s\" not found."
 msgstr "Ohjeen avainsanaa \"%s\" ei löydy."
 
 #: lclstrconsts.rshelphelpkeywordnotfoundindatabase
+#, object-pascal-format
 msgid "Help keyword \"%s\" not found in Database \"%s\"."
 msgstr "Ohjeen avainsanaa \"%s\" ei löydy tietokannasta \"%s\"."
 
 #: lclstrconsts.rshelphelpnodehasnohelpdatabase
+#, object-pascal-format
 msgid "Help node \"%s\" has no Help Database"
 msgstr "Ohjeen solmulla \"%s\" ei ole tietokantaa"
 
 #: lclstrconsts.rshelpnohelpfoundforsource
+#, object-pascal-format
 msgid "No help found for line %d, column %d of %s."
 msgstr "Riville %d, sarakkeelle %d %s:ssa ei löydy ohjetta."
 
@@ -549,6 +578,7 @@ msgid "No help found for this topic"
 msgstr "Tälle aiheelle ei löydy ohjetta"
 
 #: lclstrconsts.rshelpnotregistered
+#, object-pascal-format
 msgid "%s: Not registered"
 msgstr "%s: Ei rekisteröity"
 
@@ -557,6 +587,7 @@ msgid "Help Selector Error"
 msgstr "Ohjeen valitsijan virhe"
 
 #: lclstrconsts.rshelpthereisnoviewerforhelptype
+#, object-pascal-format
 msgid "There is no viewer for help type \"%s\""
 msgstr "Ohjeen tyypille \"%s\" ei ole katseluohjelmaa"
 
@@ -627,10 +658,12 @@ msgid "Inactive Caption"
 msgstr "Passiivine otsikko"
 
 #: lclstrconsts.rsindexoutofbounds
+#, object-pascal-format
 msgid "%s Index %d out of bounds 0 .. %d"
 msgstr "%s osoitin %d ulkona rajoista 0 .. %d"
 
 #: lclstrconsts.rsindexoutofrange
+#, object-pascal-format
 msgid "Index Out of range Cell[Col=%d Row=%d]"
 msgstr "Osoitin ulkona rajoista Solu[sarake=%d Rivi=%d]"
 
@@ -648,10 +681,12 @@ msgid "Insert"
 msgstr "Lisää"
 
 #: lclstrconsts.rsinvaliddate
+#, object-pascal-format
 msgid "Invalid Date : %s"
 msgstr "Kelvoton päivämäärä: %s"
 
 #: lclstrconsts.rsinvaliddaterangehint
+#, object-pascal-format
 msgid "Invalid Date: %s. Must be between %s and %s"
 msgstr "Kelvoton päivämäärä: %s. Pitää olla välillä %s and %s"
 
@@ -668,6 +703,7 @@ msgid "Invalid stream format"
 msgstr "Kelvoton vuon muoto"
 
 #: lclstrconsts.rsisalreadyassociatedwith
+#, object-pascal-format
 msgid "%s is already associated with %s"
 msgstr "%s on jo yhdistetty %s:hen"
 
@@ -684,10 +720,16 @@ msgid "Lime"
 msgstr "Limetti"
 
 #: lclstrconsts.rslistindexexceedsbounds
+#, object-pascal-format
 msgid "List index exceeds bounds (%d)"
 msgstr "Luettelon osoitin ylittää rajat (%d)"
 
+#: lclstrconsts.rsmacosfileformat
+msgid "File Format:"
+msgstr ""
+
 #: lclstrconsts.rsmacosmenuhide
+#, object-pascal-format
 msgid "Hide %s"
 msgstr ""
 
@@ -696,6 +738,7 @@ msgid "Hide Others"
 msgstr ""
 
 #: lclstrconsts.rsmacosmenuquit
+#, object-pascal-format
 msgid "Quit %s"
 msgstr ""
 
@@ -880,6 +923,7 @@ msgid "Post"
 msgstr ""
 
 #: lclstrconsts.rspressoktoignoreandriskdatacorruptionpressaborttok
+#, object-pascal-format
 msgid "%s%sPress OK to ignore and risk data corruption.%sPress Abort to kill the program."
 msgstr ""
 
@@ -893,12 +937,17 @@ msgid "Prompt on replace"
 msgstr "Kysy korvattaessa"
 
 #: lclstrconsts.rspropertydoesnotexist
+#, object-pascal-format
 msgid "Property %s does not exist"
 msgstr "Ominaisuutta %s ei ole"
 
 #: lclstrconsts.rspurplecolorcaption
 msgid "Purple"
 msgstr "Purppura"
+
+#: lclstrconsts.rsqtoptiondisableaccurateframe
+msgid "-disableaccurateframe, disables fully accurate window frame under X11. This feature is implemented for Qt, Qt5 and Gtk2 interfaces and used mostly by GetWindowRect()."
+msgstr ""
 
 #: lclstrconsts.rsqtoptiondograb
 msgid "-dograb (only under X11), running under a debugger can cause an implicit -nograb, use -dograb to override. Need QT_DEBUG."
@@ -1017,6 +1066,7 @@ msgid "Replace all"
 msgstr "Korvaa kaikki"
 
 #: lclstrconsts.rsresourcenotfound
+#, object-pascal-format
 msgctxt "lclstrconsts.rsresourcenotfound"
 msgid "Resource %s not found"
 msgstr "Resurssia %s ei löydy"
@@ -1105,26 +1155,32 @@ msgid "Unsupported bitmap format."
 msgstr "Bittikartan formaattia ei tueta."
 
 #: lclstrconsts.rsunsupportedclipboardformat
+#, object-pascal-format
 msgid "Unsupported clipboard format: %s"
 msgstr "Leikepöydän formaattia %s ei tueta."
 
 #: lclstrconsts.rswarningunreleaseddcsdump
+#, object-pascal-format
 msgid " WARNING: There are %d unreleased DCs, a detailed dump follows:"
 msgstr "VAROITUS: On %d julkaisematonta DC:ta, tarkempi tuloste seuraa:"
 
 #: lclstrconsts.rswarningunreleasedgdiobjectsdump
+#, object-pascal-format
 msgid " WARNING: There are %d unreleased GDIObjects, a detailed dump follows:"
 msgstr "VAROITUS: On %d julkaisematonta GDIObjects:ia, tarkempi tuloste seuraa:"
 
 #: lclstrconsts.rswarningunreleasedmessagesinqueue
+#, object-pascal-format
 msgid " WARNING: There are %d messages left in the queue! I'll free them"
 msgstr "VAROITUS: Jonoon on jäänyt %d viestiä! Ne vapautetaan"
 
 #: lclstrconsts.rswarningunreleasedtimerinfos
+#, object-pascal-format
 msgid " WARNING: There are %d TimerInfo structures left, I'll free them"
 msgstr "VAROITUS: On jäänyt %d TimerInfo tietuetta! Ne vapautetaan"
 
 #: lclstrconsts.rswarningunremovedpaintmessages
+#, object-pascal-format
 msgid " WARNING: There are %s unremoved LM_PAINT/LM_GtkPAINT message links left."
 msgstr "VAROITUS: On jäänyt %s LM_PAINT/LM_GtkPAINT viestiä poistamatta."
 
@@ -1164,10 +1220,6 @@ msgstr "Keltainen"
 msgid "Cannot focus a disabled or invisible window"
 msgstr "Ei voi fokusoida estettyä tai näkymätöntä ikkunaa"
 
-#: lclstrconsts.scannotsetdesigntimeppi
-msgid "Cannot set design time PPI."
-msgstr "Suunnitteluaikaisen PPI:n muuttaminen ei onnistu."
-
 #: lclstrconsts.sduplicatemenus
 msgid "Duplicate menus"
 msgstr "Samanlaiset valikot"
@@ -1187,10 +1239,6 @@ msgstr "Kelvoton toiminnon rekisteröinti"
 #: lclstrconsts.sinvalidactionunregistration
 msgid "Invalid action unregistration"
 msgstr "Kelvoton toiminnon rekisteröinnin purku"
-
-#: lclstrconsts.sinvalidcharset
-msgid "The char set in mask \"%s\" is not valid!"
-msgstr "Maskin \"%s\" merkkijoukko on kelvoton!"
 
 #: lclstrconsts.sinvalidimagesize
 msgid "Invalid image size"
@@ -1304,22 +1352,27 @@ msgid "No timers available"
 msgstr "Ei ajastimia saatavilla"
 
 #: lclstrconsts.sparentrequired
+#, object-pascal-format
 msgid "Control \"%s\" has no parent window."
 msgstr "Kontrollilla \"%s\" ei ole emo-ikkunaa."
 
 #: lclstrconsts.sparexpected
+#, object-pascal-format
 msgid "Wrong token type: %s expected"
 msgstr "Väärä token tyyppi: odotettiin %s"
 
 #: lclstrconsts.sparinvalidfloat
+#, object-pascal-format
 msgid "Invalid floating point number: %s"
 msgstr "Kelvoton liukuluku: %s"
 
 #: lclstrconsts.sparinvalidinteger
+#, object-pascal-format
 msgid "Invalid integer number: %s"
 msgstr "Kelvoton kokonaisluku: %s"
 
 #: lclstrconsts.sparlocinfo
+#, object-pascal-format
 msgid " (at %d,%d, stream offset %d)"
 msgstr " (kohdassa %d,%d, vuon siirros %d)"
 
@@ -1332,32 +1385,45 @@ msgid "Unterminated string"
 msgstr "Päättämätön teksti"
 
 #: lclstrconsts.sparwrongtokensymbol
+#, object-pascal-format
 msgid "Wrong token symbol: %s expected but %s found"
 msgstr "Väärä token symboli: odotettiin %s mutta saatiin %s"
 
 #: lclstrconsts.sparwrongtokentype
+#, object-pascal-format
 msgid "Wrong token type: %s expected but %s found"
 msgstr "Väärä token tyyppi: odotettiin %s mutta saatiin %s"
 
 #: lclstrconsts.sshellctrlsbytes
+#, object-pascal-format
 msgid "%s bytes"
 msgstr "%s tavua"
 
 #: lclstrconsts.sshellctrlsinvalidpath
+#, object-pascal-format, fuzzy
+#| msgid ""
+#| "Invalid pathname:\n"
+#| "\"%s\"\n"
 msgctxt "lclstrconsts.sshellctrlsinvalidpath"
 msgid ""
 "Invalid pathname:\n"
-"\"%s\"\n"
+"\"%s\""
 msgstr ""
 "Kelvoton polku:\n"
 "\"%s\"\n"
 
 #: lclstrconsts.sshellctrlsinvalidpathrelative
+#, object-pascal-format, fuzzy
+#| msgid ""
+#| "Invalid relative pathname:\n"
+#| "\"%s\"\n"
+#| "in relation to rootpath:\n"
+#| "\"%s\"\n"
 msgid ""
 "Invalid relative pathname:\n"
 "\"%s\"\n"
 "in relation to rootpath:\n"
-"\"%s\"\n"
+"\"%s\""
 msgstr ""
 "Kelvoton suhteellinen polku:\n"
 "\"%s\"\n"
@@ -1365,19 +1431,25 @@ msgstr ""
 "\"%s\"\n"
 
 #: lclstrconsts.sshellctrlsinvalidroot
+#, object-pascal-format, fuzzy
+#| msgid ""
+#| "Invalid pathname:\n"
+#| "\"%s\"\n"
 msgctxt "lclstrconsts.sshellctrlsinvalidroot"
 msgid ""
 "Invalid pathname:\n"
-"\"%s\"\n"
+"\"%s\""
 msgstr ""
 "Kelvoton polku:\n"
 "\"%s\"\n"
 
 #: lclstrconsts.sshellctrlskb
+#, object-pascal-format
 msgid "%s kB"
 msgstr ""
 
 #: lclstrconsts.sshellctrlsmb
+#, object-pascal-format
 msgid "%s MB"
 msgstr ""
 
@@ -1386,9 +1458,13 @@ msgid "Name"
 msgstr "Nimi"
 
 #: lclstrconsts.sshellctrlsselecteditemdoesnotexists
+#, object-pascal-format, fuzzy
+#| msgid ""
+#| "The selected item does not exist on disk:\n"
+#| "\"%s\"\n"
 msgid ""
 "The selected item does not exist on disk:\n"
-"\"%s\"\n"
+"\"%s\""
 msgstr ""
 "Valittua kohtaa ei ole levyllä:\n"
 "\"%s\"\n"

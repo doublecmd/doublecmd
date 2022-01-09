@@ -14,14 +14,17 @@ msgstr ""
 "X-Poedit-SourceCharset: UTF-8\n"
 
 #: lclstrconsts.hhshelpbrowsernotexecutable
+#, object-pascal-format
 msgid "Browser \"%s\" not executable."
 msgstr "Prohlížeč \"%s\" není spustitelný."
 
 #: lclstrconsts.hhshelpbrowsernotfound
+#, object-pascal-format
 msgid "Browser \"%s\" not found."
 msgstr "Prohlížeč \"%s\" nenalezen."
 
 #: lclstrconsts.hhshelperrorwhileexecuting
+#, object-pascal-format
 msgid "Error while executing \"%s\":%s%s"
 msgstr "Chyba během spouštění \"%s\":%s%s"
 
@@ -30,14 +33,17 @@ msgid "Unable to find a HTML browser."
 msgstr "Nepodařilo se nalézt HTML prohlížeč."
 
 #: lclstrconsts.hhshelpnohtmlbrowserfoundpleasedefineone
+#, object-pascal-format
 msgid "No HTML Browser found.%sPlease define one in Tools -> Options -> Help -> Help Options"
 msgstr "HTML prohlížeč nenalezen%sProsím nastav jeden v Nástroje -> Volby -> Nápověda -> Volby Nápovědy"
 
 #: lclstrconsts.hhshelpthehelpdatabasewasunabletofindfile
+#, object-pascal-format
 msgid "The help database \"%s\" was unable to find file \"%s\"."
 msgstr "Databáze nápovědy \"%s\" nemůže najít soubor \"%s\"."
 
 #: lclstrconsts.hhshelpthemacrosinbrowserparamswillbereplacedbytheurl
+#, object-pascal-format
 msgid "The macro %s in BrowserParams will be replaced by the URL."
 msgstr "Makro %s v BrowserParams bude nahrazeno URL."
 
@@ -75,6 +81,7 @@ msgid "Unknown"
 msgstr "Neznámé"
 
 #: lclstrconsts.lislclresourcesnotfound
+#, object-pascal-format
 msgctxt "lclstrconsts.lislclresourcesnotfound"
 msgid "Resource %s not found"
 msgstr "Zdroj %s nenalezen"
@@ -100,6 +107,7 @@ msgid "Active Caption"
 msgstr "Aktivní titulek"
 
 #: lclstrconsts.rsallfiles
+#, object-pascal-format
 msgid "All files (%s)|%s|%s"
 msgstr "Všechny soubory (%s)|%s|%s"
 
@@ -112,6 +120,7 @@ msgid "Aqua"
 msgstr "Vodní"
 
 #: lclstrconsts.rsascannothaveasparent
+#, object-pascal-format
 msgid "Class %s cannot have %s as parent."
 msgstr "Třída %s nemůže mít jako rodiče %s."
 
@@ -181,18 +190,17 @@ msgid "Case sensitive"
 msgstr "Rozlišovat velká/malá"
 
 #: lclstrconsts.rscontrolclasscantcontainchildclass
+#, object-pascal-format
 msgid "Control of class '%s' can't have control of class '%s' as a child"
 msgstr "Prvek třídy '%s' nemůže mít prvek třídy '%s' jako dítě"
 
 #: lclstrconsts.rscontrolhasnoparentformorframe
+#, object-pascal-format
 msgid "Control '%s' has no parent form or frame"
 msgstr "Prvek '%s' nemá rodičovský formulář nebo rámec"
 
-#: lclstrconsts.rscontrolhasnoparentwindow
-msgid "Control '%s' has no parent window"
-msgstr "Prvek '%s' nemá rodičovské okno"
-
 #: lclstrconsts.rscontrolisnotaparent
+#, object-pascal-format
 msgid "'%s' is not a parent of '%s'"
 msgstr "\"%s\" není předchůdcem \"%s\""
 
@@ -259,10 +267,12 @@ msgid "Error"
 msgstr "Chyba"
 
 #: lclstrconsts.rserrorcreatingdevicecontext
+#, object-pascal-format
 msgid "Error creating device context for %s.%s"
 msgstr "Chyba vytváření kontextu zařízení %s.%s"
 
 #: lclstrconsts.rserroroccurredinataddressframe
+#, object-pascal-format
 msgid "Error occurred in %s at %sAddress %s%s Frame %s"
 msgstr "Nastala chyba v %s na %sAdresa %s%s Rámec %s"
 
@@ -279,10 +289,12 @@ msgid "Directory must exist"
 msgstr "Adresář musí existovat"
 
 #: lclstrconsts.rsfddirectorynotexist
+#, object-pascal-format
 msgid "The directory \"%s\" does not exist."
 msgstr "Adresář \"%s\" neexistuje."
 
 #: lclstrconsts.rsfdfilealreadyexists
+#, object-pascal-format
 msgid "The file \"%s\" already exists. Overwrite ?"
 msgstr "Soubor \"%s\" již existuje. Přepsat ?"
 
@@ -291,10 +303,12 @@ msgid "File must exist"
 msgstr "Soubor musí existovat"
 
 #: lclstrconsts.rsfdfilenotexist
+#, object-pascal-format
 msgid "The file \"%s\" does not exist."
 msgstr "Soubor \"%s\" neexistuje."
 
 #: lclstrconsts.rsfdfilereadonly
+#, object-pascal-format
 msgid "The file \"%s\" is not writable."
 msgstr "Soubor \"%s\" není zapisovatelný."
 
@@ -319,6 +333,7 @@ msgid "Path must exist"
 msgstr "Cesta musí existovat"
 
 #: lclstrconsts.rsfdpathnoexist
+#, object-pascal-format
 msgid "The path \"%s\" does not exist."
 msgstr "Cesta \"%s\" neexistuje."
 
@@ -327,6 +342,7 @@ msgid "Select Directory"
 msgstr "Vybrat adresář"
 
 #: lclstrconsts.rsfileinfofilenotfound
+#, object-pascal-format
 msgid "(file not found: \"%s\")"
 msgstr "(soubor nenalezen: \"%s\")"
 
@@ -364,10 +380,12 @@ msgid "Form"
 msgstr "Formulář"
 
 #: lclstrconsts.rsformresourcesnotfoundforresourcelessformscreatenew
+#, object-pascal-format
 msgid "Form resource %s not found. For resourceless forms CreateNew constructor must be used. See the global variable RequireDerivedFormResource."
 msgstr "Zdroj formuláře %s nenalezen. Pro formuláře bez zdroje musí být použit konstruktor CreateNew. Podívejte se na globální proměnnou RequireDerivedFormResource."
 
 #: lclstrconsts.rsformstreamingerror
+#, object-pascal-format
 msgid "Form streaming \"%s\" error: %s"
 msgstr "Chyba zřetězení \"%s\" chyba: %s"
 
@@ -489,6 +507,7 @@ msgid "Help"
 msgstr "Nápověda"
 
 #: lclstrconsts.rshelpalreadyregistered
+#, object-pascal-format
 msgid "%s: Already registered"
 msgstr "%s: Již zaregistrováno"
 
@@ -505,42 +524,52 @@ msgid "Help Error"
 msgstr "Chyba nápovědy"
 
 #: lclstrconsts.rshelphelpcontextnotfound
+#, object-pascal-format
 msgid "Help context %s not found."
 msgstr "Kontext nápovědy %s nenalezen."
 
 #: lclstrconsts.rshelphelpcontextnotfoundindatabase
+#, object-pascal-format
 msgid "Help context %s not found in Database \"%s\"."
 msgstr "Kontext nápovědy %s nenalezen v databázi \"%s\"."
 
 #: lclstrconsts.rshelphelpdatabasedidnotfoundaviewerforahelppageoftype
+#, object-pascal-format
 msgid "Help Database \"%s\" did not find a viewer for a help page of type %s"
 msgstr "Databáze nápovědy \"%s\" nenalezla prohlížeč pro stránku nápovědy typu %s"
 
 #: lclstrconsts.rshelphelpdatabasenotfound
+#, object-pascal-format
 msgid "Help Database \"%s\" not found"
 msgstr "Databáze nápovědy \"%s\" nenalezena"
 
 #: lclstrconsts.rshelphelpfordirectivenotfound
+#, object-pascal-format
 msgid "Help for directive \"%s\" not found."
 msgstr "Nápověda pro direktivu \"%s\" nenalezena"
 
 #: lclstrconsts.rshelphelpfordirectivenotfoundindatabase
+#, object-pascal-format
 msgid "Help for directive \"%s\" not found in Database \"%s\"."
 msgstr "Nápověda pro direktivu \"%s\" nenalezena v databázi \"%s\"."
 
 #: lclstrconsts.rshelphelpkeywordnotfound
+#, object-pascal-format
 msgid "Help keyword \"%s\" not found."
 msgstr "Klíčové slovo \"%s\" nenalezeno."
 
 #: lclstrconsts.rshelphelpkeywordnotfoundindatabase
+#, object-pascal-format
 msgid "Help keyword \"%s\" not found in Database \"%s\"."
 msgstr "Klíčové slovo \"%s\" nebylo nalezeno v Databázi \"%s\""
 
 #: lclstrconsts.rshelphelpnodehasnohelpdatabase
+#, object-pascal-format
 msgid "Help node \"%s\" has no Help Database"
 msgstr "Uzel nápovědy \"%s\" nemá Databázi nápovědy"
 
 #: lclstrconsts.rshelpnohelpfoundforsource
+#, object-pascal-format
 msgid "No help found for line %d, column %d of %s."
 msgstr "Nápověda nenalezena pro řádek %d, sloupce %d pro %s."
 
@@ -553,6 +582,7 @@ msgid "No help found for this topic"
 msgstr "Nápověda pro téma nenalezena"
 
 #: lclstrconsts.rshelpnotregistered
+#, object-pascal-format
 msgid "%s: Not registered"
 msgstr "%s: Neregistrováno"
 
@@ -561,6 +591,7 @@ msgid "Help Selector Error"
 msgstr "Chyba výběru nápovědy"
 
 #: lclstrconsts.rshelpthereisnoviewerforhelptype
+#, object-pascal-format
 msgid "There is no viewer for help type \"%s\""
 msgstr "Pro typ \"%s\" není prohlížeč"
 
@@ -631,10 +662,12 @@ msgid "Inactive Caption"
 msgstr "Neaktivní titulek"
 
 #: lclstrconsts.rsindexoutofbounds
+#, object-pascal-format
 msgid "%s Index %d out of bounds 0 .. %d"
 msgstr "%s Index %d mimo rozsahy 0 .. %d"
 
 #: lclstrconsts.rsindexoutofrange
+#, object-pascal-format
 msgid "Index Out of range Cell[Col=%d Row=%d]"
 msgstr "Index mimo rozsah Buňka[Sloupec=%d Řádek=%d]"
 
@@ -652,10 +685,12 @@ msgid "Insert"
 msgstr "Vložit"
 
 #: lclstrconsts.rsinvaliddate
+#, object-pascal-format
 msgid "Invalid Date : %s"
 msgstr "Neplatný Datum: %s"
 
 #: lclstrconsts.rsinvaliddaterangehint
+#, object-pascal-format
 msgid "Invalid Date: %s. Must be between %s and %s"
 msgstr "Neplatný datum: %s. Musí být mezi %s a %s"
 
@@ -672,6 +707,7 @@ msgid "Invalid stream format"
 msgstr "Neplatný formát proudu"
 
 #: lclstrconsts.rsisalreadyassociatedwith
+#, object-pascal-format
 msgid "%s is already associated with %s"
 msgstr "%s již je přidružen k %s"
 
@@ -688,10 +724,16 @@ msgid "Lime"
 msgstr "Citrusová"
 
 #: lclstrconsts.rslistindexexceedsbounds
+#, object-pascal-format
 msgid "List index exceeds bounds (%d)"
 msgstr "Index seznamu překročil meze (%d)"
 
+#: lclstrconsts.rsmacosfileformat
+msgid "File Format:"
+msgstr ""
+
 #: lclstrconsts.rsmacosmenuhide
+#, object-pascal-format
 msgid "Hide %s"
 msgstr ""
 
@@ -700,6 +742,7 @@ msgid "Hide Others"
 msgstr ""
 
 #: lclstrconsts.rsmacosmenuquit
+#, object-pascal-format
 msgid "Quit %s"
 msgstr ""
 
@@ -884,6 +927,7 @@ msgid "Post"
 msgstr "Odeslat"
 
 #: lclstrconsts.rspressoktoignoreandriskdatacorruptionpressaborttok
+#, object-pascal-format
 msgid "%s%sPress OK to ignore and risk data corruption.%sPress Abort to kill the program."
 msgstr "%s%sStiskněte OK pro ignorování a riskování poškození dat.%sStiskněte Přerušit pro zabití programu."
 
@@ -897,12 +941,17 @@ msgid "Prompt on replace"
 msgstr "Dotázat se před nahrazením"
 
 #: lclstrconsts.rspropertydoesnotexist
+#, object-pascal-format
 msgid "Property %s does not exist"
 msgstr "Vlastnost %s neexistuje"
 
 #: lclstrconsts.rspurplecolorcaption
 msgid "Purple"
 msgstr "Fialová"
+
+#: lclstrconsts.rsqtoptiondisableaccurateframe
+msgid "-disableaccurateframe, disables fully accurate window frame under X11. This feature is implemented for Qt, Qt5 and Gtk2 interfaces and used mostly by GetWindowRect()."
+msgstr ""
 
 #: lclstrconsts.rsqtoptiondograb
 msgid "-dograb (only under X11), running under a debugger can cause an implicit -nograb, use -dograb to override. Need QT_DEBUG."
@@ -1021,6 +1070,7 @@ msgid "Replace all"
 msgstr "Nahradit vše"
 
 #: lclstrconsts.rsresourcenotfound
+#, object-pascal-format
 msgctxt "lclstrconsts.rsresourcenotfound"
 msgid "Resource %s not found"
 msgstr "Zdroj %s nenalezen"
@@ -1109,26 +1159,32 @@ msgid "Unsupported bitmap format."
 msgstr "Nepodporovaný formát bitmapy."
 
 #: lclstrconsts.rsunsupportedclipboardformat
+#, object-pascal-format
 msgid "Unsupported clipboard format: %s"
 msgstr "Nepodporovaný formát schránky: %s"
 
 #: lclstrconsts.rswarningunreleaseddcsdump
+#, object-pascal-format
 msgid " WARNING: There are %d unreleased DCs, a detailed dump follows:"
 msgstr "VAROVÁNÍ: Existuje %d neuvolněných DC, následuje podrobný popis:"
 
 #: lclstrconsts.rswarningunreleasedgdiobjectsdump
+#, object-pascal-format
 msgid " WARNING: There are %d unreleased GDIObjects, a detailed dump follows:"
 msgstr "VAROVÁNÍ: Existuje %d neuvolněných GDIObjects, následuje podrobný popis:"
 
 #: lclstrconsts.rswarningunreleasedmessagesinqueue
+#, object-pascal-format
 msgid " WARNING: There are %d messages left in the queue! I'll free them"
 msgstr " VAROVÁNÍ: Ve frontě zbývá %d zpráv! Vyprázdním je."
 
 #: lclstrconsts.rswarningunreleasedtimerinfos
+#, object-pascal-format
 msgid " WARNING: There are %d TimerInfo structures left, I'll free them"
 msgstr "VAROVÁNÍ: Zbývá %d TimerInfo struktur, Uvolním je"
 
 #: lclstrconsts.rswarningunremovedpaintmessages
+#, object-pascal-format
 msgid " WARNING: There are %s unremoved LM_PAINT/LM_GtkPAINT message links left."
 msgstr "VAROVÁNÍ: Zbývá %s neodstraněných LM_PAINT/LM_GtkPAINT odkazů zpráv."
 
@@ -1168,10 +1224,6 @@ msgstr "Žlutá"
 msgid "Cannot focus a disabled or invisible window"
 msgstr "Nelze zaktivnit zakázané nebo neviditelné okno"
 
-#: lclstrconsts.scannotsetdesigntimeppi
-msgid "Cannot set design time PPI."
-msgstr "Nelze nastavit návrhové PPI."
-
 #: lclstrconsts.sduplicatemenus
 msgid "Duplicate menus"
 msgstr "Zdvojit nabídku"
@@ -1191,10 +1243,6 @@ msgstr "Neplatná registrační akce"
 #: lclstrconsts.sinvalidactionunregistration
 msgid "Invalid action unregistration"
 msgstr "Neplatná odregistrační akce"
-
-#: lclstrconsts.sinvalidcharset
-msgid "The char set in mask \"%s\" is not valid!"
-msgstr "Znaková sada v masce \"%s\" není platná!"
 
 #: lclstrconsts.sinvalidimagesize
 msgid "Invalid image size"
@@ -1308,22 +1356,27 @@ msgid "No timers available"
 msgstr "Nedostupné žádné časovače"
 
 #: lclstrconsts.sparentrequired
+#, object-pascal-format
 msgid "Control \"%s\" has no parent window."
 msgstr "Prvek \"%s\" nemá rodičovské okno."
 
 #: lclstrconsts.sparexpected
+#, object-pascal-format
 msgid "Wrong token type: %s expected"
 msgstr "Nesprávný typ symbolu: očekáváno %s"
 
 #: lclstrconsts.sparinvalidfloat
+#, object-pascal-format
 msgid "Invalid floating point number: %s"
 msgstr "Neplatné desetinné číslo: %s"
 
 #: lclstrconsts.sparinvalidinteger
+#, object-pascal-format
 msgid "Invalid integer number: %s"
 msgstr "Neplatné celé číslo: %s"
 
 #: lclstrconsts.sparlocinfo
+#, object-pascal-format
 msgid " (at %d,%d, stream offset %d)"
 msgstr " (u %d,%d, posun proudu %d)"
 
@@ -1336,32 +1389,45 @@ msgid "Unterminated string"
 msgstr "Neukončený řetězec"
 
 #: lclstrconsts.sparwrongtokensymbol
+#, object-pascal-format
 msgid "Wrong token symbol: %s expected but %s found"
 msgstr "Nesprávný symbol: Očekáváno %s, ale nalezeno %s"
 
 #: lclstrconsts.sparwrongtokentype
+#, object-pascal-format
 msgid "Wrong token type: %s expected but %s found"
 msgstr "Nesprávný typ symbolu: Očekáváno %s, ale nalezeno %s"
 
 #: lclstrconsts.sshellctrlsbytes
+#, object-pascal-format
 msgid "%s bytes"
 msgstr "%s bajtů"
 
 #: lclstrconsts.sshellctrlsinvalidpath
+#, object-pascal-format, fuzzy
+#| msgid ""
+#| "Invalid pathname:\n"
+#| "\"%s\"\n"
 msgctxt "lclstrconsts.sshellctrlsinvalidpath"
 msgid ""
 "Invalid pathname:\n"
-"\"%s\"\n"
+"\"%s\""
 msgstr ""
 "Neplatná cesta:\n"
 "\"%s\"\n"
 
 #: lclstrconsts.sshellctrlsinvalidpathrelative
+#, object-pascal-format, fuzzy
+#| msgid ""
+#| "Invalid relative pathname:\n"
+#| "\"%s\"\n"
+#| "in relation to rootpath:\n"
+#| "\"%s\"\n"
 msgid ""
 "Invalid relative pathname:\n"
 "\"%s\"\n"
 "in relation to rootpath:\n"
-"\"%s\"\n"
+"\"%s\""
 msgstr ""
 "Neplatná relativní cesta:\n"
 "\"%s\"\n"
@@ -1369,19 +1435,25 @@ msgstr ""
 "\"%s\"\n"
 
 #: lclstrconsts.sshellctrlsinvalidroot
+#, object-pascal-format, fuzzy
+#| msgid ""
+#| "Invalid pathname:\n"
+#| "\"%s\"\n"
 msgctxt "lclstrconsts.sshellctrlsinvalidroot"
 msgid ""
 "Invalid pathname:\n"
-"\"%s\"\n"
+"\"%s\""
 msgstr ""
 "Neplatná cesta:\n"
 "\"%s\"\n"
 
 #: lclstrconsts.sshellctrlskb
+#, object-pascal-format
 msgid "%s kB"
 msgstr "%s kB"
 
 #: lclstrconsts.sshellctrlsmb
+#, object-pascal-format
 msgid "%s MB"
 msgstr "%s MB"
 
@@ -1390,9 +1462,13 @@ msgid "Name"
 msgstr "Jméno"
 
 #: lclstrconsts.sshellctrlsselecteditemdoesnotexists
+#, object-pascal-format, fuzzy
+#| msgid ""
+#| "The selected item does not exist on disk:\n"
+#| "\"%s\"\n"
 msgid ""
 "The selected item does not exist on disk:\n"
-"\"%s\"\n"
+"\"%s\""
 msgstr ""
 "Vybraná položka neexistuje na disku:\n"
 "\"%s\"\n"
