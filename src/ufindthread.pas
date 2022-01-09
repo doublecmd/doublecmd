@@ -29,7 +29,7 @@ interface
 
 uses
   Classes, SysUtils, DCStringHashListUtf8, uFindFiles, uFindEx, uFindByrMr,
-  uMasks, uRegExprA, uRegExprW, uWcxModule;
+  uMasks, uRegExpr, uRegExprW, uWcxModule;
 
 type
 
@@ -64,7 +64,7 @@ type
     FExcludeDirectories: TMaskList;
     FFilesMasksRegExp: TRegExprW;
     FExcludeFilesRegExp: TRegExprW;
-    FRegExpr: TRegExpr;
+    FRegExpr: TRegExprEx;
     FArchive: TWcxModule;
     FHeader: TWcxHeader;
 
@@ -167,7 +167,7 @@ begin
       end
       else begin
         TextEncoding := NormalizeEncoding(TextEncoding);
-        if TextRegExp then FRegExpr := TRegExpr.Create(TextEncoding);
+        if TextRegExp then FRegExpr := TRegExprEx.Create(TextEncoding, True);
         FindText := ConvertEncoding(FindText, EncodingUTF8, TextEncoding);
         ReplaceText := ConvertEncoding(ReplaceText, EncodingUTF8, TextEncoding);
       end;
@@ -385,7 +385,9 @@ begin
     finally
       fs.Free;
     end;
-    Exit(FRegExpr.ExecRegExpr(sData, S));
+    FRegExpr.Expression := sData;
+    FRegExpr.SetInputString(Pointer(S), Length(S));
+    Exit(FRegExpr.Exec());
   end;
 
   if gUseMmapInSearch then
@@ -496,7 +498,7 @@ begin
   end;
 
   if bRegExp then
-    S := FRegExpr.ReplaceRegExpr(SearchString, S, replaceString, True)
+    S := FRegExpr.ReplaceAll(SearchString, S, replaceString)
   else
     begin
       Include(Flags, rfReplaceAll);

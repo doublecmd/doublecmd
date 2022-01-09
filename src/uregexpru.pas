@@ -48,14 +48,16 @@ type
     FExpression: String;
     FInputLength: UIntPtr;
     FOvector: array[Byte] of cint;
-    procedure SetExpression(AValue: String);
+    procedure SetExpression(const AValue: String);
     function GetMatchLen(Idx : integer): PtrInt;
     function GetMatchPos(Idx : integer): PtrInt;
   public
     destructor Destroy; override;
     class function Available: Boolean;
+    class function AvailableNew: Boolean;
     function Exec(AOffset: UIntPtr): Boolean;
     procedure SetInputString(AInputString : PAnsiChar; ALength : UIntPtr);
+    function ReplaceAll(const Replacement: AnsiString; out Output: AnsiString): Boolean;
   public
     property Expression : String read FExpression write SetExpression;
     property MatchPos [Idx : integer] : PtrInt read GetMatchPos;
@@ -81,6 +83,14 @@ const
   PCRE2_CONFIG_UNICODE = 9;
   PCRE2_UTF            = $00080000;
 
+  PCRE2_SUBSTITUTE_GLOBAL          = $00000100;
+//PCRE2_SUBSTITUTE_EXTENDED        = $00000200;
+  PCRE2_SUBSTITUTE_UNSET_EMPTY     = $00000400;
+  PCRE2_SUBSTITUTE_UNKNOWN_UNSET   = $00000800;
+  PCRE2_SUBSTITUTE_OVERFLOW_LENGTH = $00001000;
+
+  PCRE2_ERROR_NOMEMORY = -48;
+
 var
   pcre2_compile: function(pattern: PAnsiChar; length: csize_t; options: cuint32; errorcode: pcint; erroroffset: pcsize_t; ccontext: Pointer): Pointer; cdecl;
   pcre2_code_free: procedure(code: Pointer); cdecl;
@@ -90,6 +100,11 @@ var
   pcre2_match_data_create_from_pattern: function(code: Pointer; gcontext: Pointer): Pointer; cdecl;
   pcre2_match_data_free: procedure(match_data: Pointer); cdecl;
   pcre2_config: function(what: cuint32; where: pointer): cint; cdecl;
+  pcre2_substitute: function(code: Pointer; subject: PAnsiChar; length: csize_t; startoffset: csize_t;
+    options: cuint32; match_data: Pointer; mcontext: Pointer;
+    replacement: PAnsiChar; rlength: csize_t;
+    outputbuffer: PAnsiChar; var outlength: csize_t): cint; cdecl;
+
 
 // PCRE 1
 const
@@ -119,7 +134,7 @@ var
 
 { TRegExprU }
 
-procedure TRegExprU.SetExpression(AValue: String);
+procedure TRegExprU.SetExpression(const AValue: String);
 var
   Message: String;
   error: PAnsiChar;
@@ -198,6 +213,11 @@ begin
   Result:= (hLib <> NilHandle);
 end;
 
+class function TRegExprU.AvailableNew: Boolean;
+begin
+  Result:= (hLib <> NilHandle) and pcre_new;
+end;
+
 function TRegExprU.Exec(AOffset: UIntPtr): Boolean;
 begin
   Dec(AOffset);
@@ -227,6 +247,45 @@ begin
   FInputLength:= ALength;
 end;
 
+function TRegExprU.ReplaceAll(const Replacement: AnsiString; out Output: AnsiString): Boolean;
+var
+  outlength: csize_t;
+  options: cuint32;
+  res: cint;
+begin
+  if not pcre_new then
+  begin
+    Output := '';
+    Exit(False);
+  end;
+
+  if FInputLength = 0 then
+  begin
+    Output := '';
+    Exit(True);
+  end;
+
+  options := PCRE2_SUBSTITUTE_OVERFLOW_LENGTH or PCRE2_SUBSTITUTE_UNKNOWN_UNSET or PCRE2_SUBSTITUTE_UNSET_EMPTY;
+  //options := options or PCRE2_SUBSTITUTE_EXTENDED;
+  options := options or PCRE2_SUBSTITUTE_GLOBAL;
+
+  outlength := FInputLength * 2 + 1; // + space for #0
+  if outlength < 2048 then outlength := 2048;
+  SetLength(Output, outlength - 1);
+
+  res := pcre2_substitute(FCode, FInput, FInputLength, 0, options, FMatch, nil,
+    PAnsiChar(Replacement), Length(Replacement), PAnsiChar(Output), outlength);
+  if res >= 0 then // if res = 0 then nothing found
+    SetLength(Output, outlength)
+  else if res = PCRE2_ERROR_NOMEMORY then
+  begin
+    SetLength(Output, outlength - 1);
+    res := pcre2_substitute(FCode, FInput, FInputLength, 0, options, FMatch, nil,
+      PAnsiChar(Replacement), Length(Replacement), PAnsiChar(Output), outlength);
+  end;
+  Result := res >= 0;
+end;
+
 procedure Initialize;
 var
   Where: IntPtr;
@@ -246,6 +305,7 @@ begin
       @pcre2_get_ovector_pointer:= SafeGetProcAddress(hLib, 'pcre2_get_ovector_pointer_8');
       @pcre2_match_data_create_from_pattern:= SafeGetProcAddress(hLib, 'pcre2_match_data_create_from_pattern_8');
       @pcre2_match_data_free:= SafeGetProcAddress(hLib, 'pcre2_match_data_free_8');
+      @pcre2_substitute:= SafeGetProcAddress(hLib, 'pcre2_substitute_8');
     except
       on E: Exception do
       begin
