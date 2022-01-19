@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    WCX plugin for working with *.zip, *.gz, *.tar, *.tgz archives
 
-   Copyright (C) 2007-2019 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2007-2022 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
@@ -353,7 +353,6 @@ begin
     Arc.DeflationOption:= gDeflationOption;
     Arc.FProcessDataProcW := gProcessDataProcW;
     Arc.OnProcessItemFailure := @Arc.AbProcessItemFailureEvent;
-    Arc.StoreOptions := Arc.StoreOptions + [soReplace];
 
     sPackedFile := UTF16ToUTF8(UnicodeString(PackedFile));
 
@@ -369,6 +368,7 @@ begin
 
       Arc.OnArchiveItemProgress := @Arc.AbArchiveItemProgressEvent;
       Arc.OnArchiveProgress := @Arc.AbArchiveProgressEvent;
+      Arc.StoreOptions := Arc.StoreOptions + [soReplace];
 
       Arc.BaseDirectory := UTF16ToUTF8(UnicodeString(SrcPath));
 

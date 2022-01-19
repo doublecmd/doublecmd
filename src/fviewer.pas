@@ -1685,8 +1685,15 @@ begin
     end;
     if (NewSize <> ViewerControl.FileSize) then
     begin
-      cm_Reload([]);
-      ViewerControl.GoEnd;
+      Screen.Cursor:= crHourGlass;
+      try
+        ViewerControl.FileName := ViewerControl.FileName;
+        ActivatePanel(pnlText);
+        FLastSearchPos := -1;
+        ViewerControl.GoEnd;
+      finally
+        Screen.Cursor:= crDefault;
+      end;
     end;
   end;
 end;
