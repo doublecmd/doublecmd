@@ -413,6 +413,7 @@ type
     function  GetLastModFileTime : Word; override;
     function  GetNativeFileAttributes : LongInt; override;
     function  GetNativeLastModFileTime: Longint; override;
+    function  GetLastModTimeAsDateTime: TDateTime; override;
     procedure SetCompressedSize( const Value : Int64 ); override;
     procedure SetCRC32( const Value : Longint ); override;
     procedure SetExternalFileAttributes( Value : LongWord ); override;
@@ -1453,6 +1454,14 @@ begin
     LongRec(Result).Lo := LastModFileTime;
   end;
 {$ENDIF}
+end;
+{ -------------------------------------------------------------------------- }
+function TAbZipItem.GetLastModTimeAsDateTime: TDateTime;
+begin
+  if (FDateTime <> 0) then
+    Result := FDateTime
+  else
+    Result := AbDosFileDateToDateTime(FItemInfo.LastModFileDate, FItemInfo.LastModFileTime);
 end;
 { -------------------------------------------------------------------------- }
 function TAbZipItem.GetShannonFanoTreeCount : Byte;
