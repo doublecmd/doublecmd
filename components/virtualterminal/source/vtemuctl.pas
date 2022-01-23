@@ -514,19 +514,23 @@ var
   DstAddr: Pointer;
   SrcAddr: Pointer;
   BytesToMove: Integer;
-  Top, Bottom, Height: Integer;
+  Top, Bottom: Integer;
 begin
   Top:= FScrollRange.Top;
   Bottom:= FScrollRange.Bottom;
-  Height:= FScrollRange.Height + 1;
-  if Count > Height then Count:= Height;
 
-  DstAddr := (FBuffer + (Row - 1) * FColumns * SizeOf(TComTermChar));
-  SrcAddr := (FBuffer + (Row + Count - 1) * FColumns * SizeOf(TComTermChar));
-  BytesToMove := (Bottom - Top - Count + 1) * FColumns * SizeOf(TComTermChar);
+  if (Row < Top) or (Row > Bottom) then Exit;
+  if (Row - 1) + Count > Bottom then Count:= Bottom - Row + 1;
 
-  // scroll in buffer
-  Move(SrcAddr^, DstAddr^, BytesToMove);
+  if Row < Bottom then
+  begin
+    DstAddr := (FBuffer + (Row - 1) * FColumns * SizeOf(TComTermChar));
+    SrcAddr := (FBuffer + (Row + Count - 1) * FColumns * SizeOf(TComTermChar));
+    BytesToMove := (Bottom - Row - Count + 1) * FColumns * SizeOf(TComTermChar);
+
+    // scroll in buffer
+    Move(SrcAddr^, DstAddr^, BytesToMove);
+  end;
 
   B:= PComTermChar(FBuffer) + ((Bottom - Count) * FColumns);
   for Index:= 0 to Count * FColumns - 1 do
@@ -550,19 +554,23 @@ var
   DstAddr: Pointer;
   SrcAddr: Pointer;
   BytesToMove: Integer;
-  Top, Bottom, Height: Integer;
+  Top, Bottom: Integer;
 begin
   Top:= FScrollRange.Top;
   Bottom:= FScrollRange.Bottom;
-  Height:= FScrollRange.Height + 1;
-  if Count > Height then Count:= Height;
 
-  SrcAddr := (FBuffer + (Row - 1) * FColumns * SizeOf(TComTermChar));
-  DstAddr := (FBuffer + (Row + Count - 1) * FColumns * SizeOf(TComTermChar));
-  BytesToMove := (Bottom - Top - Count + 1) * FColumns * SizeOf(TComTermChar);
+  if (Row < Top) or (Row > Bottom) then Exit;
+  if (Row - 1) + Count > Bottom then Count:= Bottom - Row + 1;
 
-  // scroll in buffer
-  Move(SrcAddr^, DstAddr^, BytesToMove);
+  if Row < Bottom then
+  begin
+    SrcAddr := (FBuffer + (Row - 1) * FColumns * SizeOf(TComTermChar));
+    DstAddr := (FBuffer + (Row + Count - 1) * FColumns * SizeOf(TComTermChar));
+    BytesToMove := (Bottom - Row - Count + 1) * FColumns * SizeOf(TComTermChar);
+
+    // scroll in buffer
+    Move(SrcAddr^, DstAddr^, BytesToMove);
+  end;
 
   B:= PComTermChar(FBuffer) + ((Row - 1) * FColumns);
   for Index:= 0 to Count * FColumns - 1 do
