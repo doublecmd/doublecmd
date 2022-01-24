@@ -412,7 +412,7 @@ begin
   if (Row > FRows) or (Column > FColumns) then Exit;
 
   // in memory
-  B:= PComTermChar(FBuffer) + ((Row - 1) * FColumns - 1);
+  B:= PComTermChar(FBuffer) + ((Row - 1) * FColumns);
   for Index:= 0 to Column - 1 do
   begin
     B[Index].Ch:= #32;
