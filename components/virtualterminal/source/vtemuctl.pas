@@ -83,7 +83,8 @@ type
     procedure ClearAllTabs;
     procedure ScrollDown;
     procedure ScrollUp;
-    procedure EraseScreen(Column, Row: Integer);
+    procedure EraseScreenLeft(Column, Row: Integer);
+    procedure EraseScreenRight(Column, Row: Integer);
     procedure EraseLineLeft(Column, Row: Integer);
     procedure EraseLineRight(Column, Row: Integer);
     procedure EraseChar(Column, Row, Count: Integer);
@@ -368,16 +369,15 @@ begin
 end;
 
 // put char in buffer
-procedure TComTermBuffer.SetChar(Column, Row: Integer;
-  TermChar: TComTermChar);
+procedure TComTermBuffer.SetChar(Column, Row: Integer; TermChar: TComTermChar);
 var
   Address: Integer;
 begin
-  Address := (Row - 1) * FColumns + Column - 1;
-  Move(
-    TermChar,
-    (FBuffer + (SizeOf(TComTermChar) * Address))^,
-    SizeOf(TComTermChar));
+  if (Row > FRows) or (Column > FColumns) then
+    Exit;
+
+  Address := (Row - 1) * FColumns + (Column - 1);
+  PComTermChar(FBuffer + (Address * SizeOf(TComTermChar)))^:= TermChar;
 end;
 
 // get char from buffer
@@ -385,11 +385,11 @@ function TComTermBuffer.GetChar(Column, Row: Integer): TComTermChar;
 var
   Address: Integer;
 begin
-  Address := (Row - 1) * FColumns + Column - 1;
-  Move(
-    (FBuffer + (SizeOf(TComTermChar) * Address))^,
-    Result,
-    SizeOf(TComTermChar));
+  if (Row > FRows) or (Column > FColumns) then
+    Exit(Default(TComTermChar));
+
+  Address := (Row - 1) * FColumns + (Column - 1);
+  Result:= PComTermChar(FBuffer + (Address * SizeOf(TComTermChar)))^;
 end;
 
 // scroll down up line
@@ -407,13 +407,13 @@ end;
 procedure TComTermBuffer.EraseLineLeft(Column, Row: Integer);
 var
   Index: Integer;
-  Count: Integer;
   B: PComTermChar;
 begin
+  if (Row > FRows) or (Column > FColumns) then Exit;
+
   // in memory
-  Count:= (Column + 1);
   B:= PComTermChar(FBuffer) + ((Row - 1) * FColumns - 1);
-  for Index:= 0 to Count - 1 do
+  for Index:= 0 to Column - 1 do
   begin
     B[Index].Ch:= #32;
     B[Index].BackColor:= FOwner.FTermAttr.BackColor;
@@ -434,9 +434,11 @@ var
   Count: Integer;
   B: PComTermChar;
 begin
+  if (Row > FRows) or (Column > FColumns) then Exit;
+
   // in memory
   Count:= (FColumns - Column + 1);
-  B:= PComTermChar(FBuffer) + ((Row - 1) * FColumns + Column - 1);
+  B:= PComTermChar(FBuffer) + ((Row - 1) * FColumns + (Column - 1));
   for Index:= 0 to Count - 1 do
   begin
     B[Index].Ch:= #32;
@@ -456,11 +458,11 @@ var
   Index: Integer;
   B: PComTermChar;
 begin
-  if (Column + Count > FColumns) then
-    Count:= FColumns - Column;
+  if (Row > FRows) or (Column > FColumns) then Exit;
+  if (Column + Count > FColumns) then Count:= FColumns - Column;
 
   // in memory
-  B:= PComTermChar(FBuffer) + ((Row - 1) * FColumns + Column - 1);
+  B:= PComTermChar(FBuffer) + ((Row - 1) * FColumns + (Column - 1));
   for Index:= 0 to Count - 1 do
   begin
     B[Index].Ch:= #32;
@@ -481,12 +483,12 @@ var
   DstAddr: PComTermChar;
   SrcAddr: PComTermChar;
 begin
-  if (Column + Count > FColumns) then
-    Count:= FColumns - Column;
+  if (Row > FRows) or (Column > FColumns) then Exit;
+  if (Column + Count > FColumns) then Count:= FColumns - Column;
 
   // in memory
-  DstAddr:= PComTermChar(FBuffer) + ((Row - 1) * FColumns + Column - 1);
-  SrcAddr:= PComTermChar(FBuffer) + ((Row - 1) * FColumns + Column + Count - 1);
+  DstAddr:= PComTermChar(FBuffer) + ((Row - 1) * FColumns + (Column - 1));
+  SrcAddr:= PComTermChar(FBuffer) + ((Row - 1) * FColumns + (Column - 1) + Count);
 
   // Move characters
   Count:= (FColumns - (Column + Count));
@@ -588,15 +590,43 @@ begin
 end;
 
 // erase screen
-procedure TComTermBuffer.EraseScreen(Column, Row: Integer);
+procedure TComTermBuffer.EraseScreenLeft(Column, Row: Integer);
 var
   Index: Integer;
   Count: Integer;
   B: PComTermChar;
 begin
+  if (Row > FRows) or (Column > FColumns) then Exit;
+
   // in memory
-  B:= PComTermChar(FBuffer) + ((Row - 1) * FColumns + Column - 1);
-  Count:= (FColumns - Column + 1 + (FRows - Row) * FColumns);
+  B:= PComTermChar(FBuffer);
+  Count:= (Row * FColumns + Column);
+  for Index:= 0 to Count - 1 do
+  begin
+    B[Index].Ch:= #32;
+    B[Index].BackColor:= FOwner.FTermAttr.BackColor;
+    B[Index].FrontColor:= FOwner.FTermAttr.FrontColor;
+  end;
+
+  // on screen
+  if FOwner.DoubleBuffered then
+    FOwner.Invalidate
+  else
+    FOwner.InvalidatePortion(Classes.Rect(Column, Row, FColumns, FRows))
+end;
+
+// erase screen
+procedure TComTermBuffer.EraseScreenRight(Column, Row: Integer);
+var
+  Index: Integer;
+  Count: Integer;
+  B: PComTermChar;
+begin
+  if (Row > FRows) or (Column > FColumns) then Exit;
+
+  // in memory
+  B:= PComTermChar(FBuffer) + ((Row - 1) * FColumns + (Column - 1));
+  Count:= ((FRows - Row) * FColumns + (FColumns - Column) + 1);
   for Index:= 0 to Count - 1 do
   begin
     B[Index].Ch:= #32;
@@ -1723,17 +1753,19 @@ begin
       ecReverseLineFeed: AdvanceCaret(acReverseLineFeed);
       ecEraseLineLeft: FBuffer.EraseLineLeft(FCaretPos.X, FCaretPos.Y);
       ecEraseLineRight: FBuffer.EraseLineRight(FCaretPos.X, FCaretPos.Y);
-      ecEraseScreenFrom: FBuffer.EraseScreen(FCaretPos.X, FCaretPos.Y);
-      ecEraseScreen: begin FBuffer.EraseScreen(1, 1); MoveCaret(1, 1) end;
       ecEraseLine:
       begin
         FBuffer.EraseLineRight(1, FCaretPos.Y);
         MoveCaret(1, FCaretPos.Y)
       end;
-      ecEraseChar:
-        begin
-          FBuffer.EraseChar(FCaretPos.X, FCaretPos.Y, GetParam(1, AParams));
-        end;
+      ecEraseScreenLeft: FBuffer.EraseScreenLeft(FCaretPos.X, FCaretPos.Y);
+      ecEraseScreenRight: FBuffer.EraseScreenRight(FCaretPos.X, FCaretPos.Y);
+      ecEraseScreen:
+      begin
+        FBuffer.EraseScreenRight(1, 1);
+        MoveCaret(1, 1)
+      end;
+      ecEraseChar: FBuffer.EraseChar(FCaretPos.X, FCaretPos.Y, GetParam(1, AParams));
       ecDeleteChar: FBuffer.DeleteChar(FCaretPos.X, FCaretPos.Y, GetParam(1, AParams));
       ecIdentify:
       begin
