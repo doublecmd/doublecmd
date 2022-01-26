@@ -424,7 +424,7 @@ begin
   if FOwner.DoubleBuffered then
     FOwner.Invalidate
   else
-    FOwner.InvalidatePortion(Classes.Rect(Column, Row, FColumns, Row));
+    FOwner.InvalidatePortion(Classes.Rect(1, Row, Column, Row));
 end;
 
 // erase line
@@ -546,7 +546,7 @@ begin
   if FOwner.DoubleBuffered then
     FOwner.Invalidate
   else
-    FOwner.InvalidatePortion(Classes.Rect(1, Top, FColumns, Bottom));
+    FOwner.InvalidatePortion(Classes.Rect(1, Row, FColumns, Bottom));
 end;
 
 procedure TComTermBuffer.InsertLine(Row, Count: Integer);
@@ -586,7 +586,7 @@ begin
   if FOwner.DoubleBuffered then
     FOwner.Invalidate
   else
-    FOwner.InvalidatePortion(Classes.Rect(1, Top, FColumns, Bottom));
+    FOwner.InvalidatePortion(Classes.Rect(1, Row, FColumns, Bottom));
 end;
 
 // erase screen
@@ -612,7 +612,7 @@ begin
   if FOwner.DoubleBuffered then
     FOwner.Invalidate
   else
-    FOwner.InvalidatePortion(Classes.Rect(Column, Row, FColumns, FRows))
+    FOwner.InvalidatePortion(Classes.Rect(1, 1, FColumns, Row))
 end;
 
 // erase screen
@@ -638,7 +638,7 @@ begin
   if FOwner.DoubleBuffered then
     FOwner.Invalidate
   else
-    FOwner.InvalidatePortion(Classes.Rect(Column, Row, FColumns, FRows))
+    FOwner.InvalidatePortion(Classes.Rect(1, Row, FColumns, FRows))
 end;
 
 // init buffer
@@ -739,7 +739,6 @@ begin
 
   BorderStyle := bsSingle;
   Color := clBlack;
-  DoubleBuffered := True;
   TabStop := True;
   Font.Name := 'Consolas';
   Font.Color:= clWhite;
