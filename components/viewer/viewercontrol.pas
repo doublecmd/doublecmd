@@ -1673,7 +1673,7 @@ procedure TViewerControl.WriteText;
 var
   yIndex, xIndex, w, i: Integer;
   LineStart, iPos: PtrInt;
-  CharLenInBytes: PtrInt;
+  CharLenInBytes: Integer;
   DataLength: PtrInt;
   sText: String;
 begin
