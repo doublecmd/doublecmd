@@ -631,6 +631,8 @@ begin
   ViewerControl.ShowCaret := gShowCaret;
   ViewerControl.TabSpaces := gTabSpaces;
   ViewerControl.MaxTextWidth := gMaxTextWidth;
+  ViewerControl.LeftMargin := gViewerLeftMargin;
+  ViewerControl.ExtraLineSpacing := gViewerLineSpacing;
 end;
 
 constructor TfrmViewer.Create(TheOwner: TComponent);

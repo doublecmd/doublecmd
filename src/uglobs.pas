@@ -625,6 +625,7 @@ var
   gTextPosition:PtrInt;
   gPrintMargins: TRect;
   gShowCaret: Boolean;
+  gViewerLeftMargin: Integer;
   gViewerLineSpacing: Integer;
 
   { Editor }
@@ -1999,6 +2000,7 @@ begin
   gTextPosition:= 0;
   gViewerMode:= 0;
   gShowCaret := False;
+  gViewerLeftMargin := 4;
   gViewerLineSpacing := 0;
   gPrintMargins:= Classes.Rect(200, 200, 200, 200);
 
@@ -3078,6 +3080,7 @@ begin
       gViewerMode  := GetValue(Node, 'ViewerMode'  , gViewerMode);
       gPrintMargins := GetValue(Node, 'PrintMargins'  , gPrintMargins);
       gShowCaret := GetValue(Node, 'ShowCaret'  , gShowCaret);
+      gViewerLeftMargin := GetValue(Node, 'LeftMargin' , gViewerLeftMargin);
       gViewerLineSpacing := GetValue(Node, 'ExtraLineSpacing' , gViewerLineSpacing);
       gImagePaintColor := GetValue(Node, 'PaintColor', gImagePaintColor);
       gBookBackgroundColor := GetValue(Node, 'BackgroundColor', gBookBackgroundColor);
@@ -3698,6 +3701,7 @@ begin
     SetValue(Node, 'ViewerMode' , gViewerMode);
     SetValue(Node, 'PrintMargins', gPrintMargins);
     SetValue(Node, 'ShowCaret'  , gShowCaret);
+    SetValue(Node, 'LeftMargin' , gViewerLeftMargin);
     SetValue(Node, 'ExtraLineSpacing' , gViewerLineSpacing);
 
     SetValue(Node, 'PaintColor', gImagePaintColor);
