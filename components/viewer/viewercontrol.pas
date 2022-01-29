@@ -41,7 +41,7 @@
 
    contributors:
 
-   Copyright (C) 2006-2019 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2006-2022 Alexander Koblov (alexx2000@mail.ru)
 
 
    TODO:
@@ -244,6 +244,7 @@ type
     FColCount:           Integer;
     FTabSpaces:          Integer; // tab width in spaces
     FMaxTextWidth:       Integer; // maximum of chars on one line unwrapped text (max 16384)
+    FExtraLineSpacing:   Integer;
     FOnGuessEncoding:    TGuessEncodingEvent;
     FOnFileOpen:         TFileOpenEvent;
     FCaretVisible:       Boolean;
@@ -508,6 +509,7 @@ type
     property ColCount: Integer Read FColCount Write SetColCount;
     property MaxTextWidth: Integer read FMaxTextWidth write SetMaxTextWidth;
     property TabSpaces: Integer read FTabSpaces write SetTabSpaces;
+    property ExtraLineSpacing: Integer read FExtraLineSpacing write FExtraLineSpacing;
     property OnGuessEncoding: TGuessEncodingEvent Read FOnGuessEncoding Write FOnGuessEncoding;
     property OnFileOpen: TFileOpenEvent read FOnFileOpen write FOnFileOpen;
 
@@ -693,7 +695,7 @@ begin
   Canvas.FillRect(ClientRect);
   {$ENDIF}
   Canvas.Brush.Style := bsClear;
-  FTextHeight := Canvas.TextHeight('Wg') + 2;
+  FTextHeight := Canvas.TextHeight('Wg') + FExtraLineSpacing;
 
   if FViewerControlMode = vcmBook then
     FTextWidth := ((ClientWidth - (Canvas.TextWidth('W') * FColCount)) div FColCount)
@@ -864,7 +866,7 @@ begin
   inherited FontChanged(Sender);
 
   Canvas.Font := Self.Font;
-  FTextHeight := Canvas.TextHeight('Wg') + 2;
+  FTextHeight := Canvas.TextHeight('Wg') + FExtraLineSpacing;
   if FShowCaret then LCLIntf.CreateCaret(Handle, 0, 2, FTextHeight);
 end;
 
