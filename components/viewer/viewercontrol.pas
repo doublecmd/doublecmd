@@ -1809,6 +1809,12 @@ begin
   if not IsFileOpen then
     Exit;
 
+  // Double byte text can have only even position
+  if (Encoding in ViewerEncodingDoubleByte) and Odd(Value) then
+  begin
+    Value := Value - 1;
+  end;
+
   // Speedup if total nr of lines is less then nr of lines that can be displayed.
   if (FPosition = FLowLimit) and                // only if already at the top
      (FLineList.Count > 0) and (FLineList.Count < GetClientHeightInLines)
