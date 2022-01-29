@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    This unit contains TFileViewPage and TFileViewNotebook objects.
 
-   Copyright (C) 2016-2021 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2016-2022 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -543,15 +543,9 @@ begin
 end;
 
 procedure TFileViewNotebook.DestroyAllPages;
-var
-   tPage:TFileViewPage;
 begin
   FCanChangePageIndex:= False;
-  while PageCount > 0 do
-  begin
-    tPage:=Page[0];
-    if tPage<>nil then FreeAndNil(tPage);
-  end;
+  Tabs.Clear;
   FCanChangePageIndex:= True;
 end;
 

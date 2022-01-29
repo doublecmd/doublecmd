@@ -33,7 +33,7 @@ type
     ecReverseLineFeed, ecAppCursorLeft, ecAppCursorRight, ecAppCursorUp, ecAppCursorDown,
     ecAppCursorHome, ecAppCursorEnd, ecCursorNextLine, ecCursorPrevLine, ecInsertKey,
     ecDeleteKey, ecPageUpKey, ecPageDownKey,
-    ecMouseDown, ecMouseUp, ecEraseLineLeft, ecEraseLineRight, ecEraseScreenFrom,
+    ecMouseDown, ecMouseUp, ecEraseLineLeft, ecEraseLineRight, ecEraseScreenRight, ecEraseScreenLeft,
     ecEraseLine, ecEraseScreen, ecEraseChar, ecDeleteChar, ecSetTab, ecClearTab, ecClearAllTabs,
     ecIdentify, ecIdentResponse, ecQueryDevice, ecReportDeviceOK,
     ecReportDeviceFailure, ecQueryCursorPos, ecReportCursorPos,
@@ -162,7 +162,7 @@ begin
     ecCursorLeft: Result := #27'D';
     ecCursorHome: Result := #27'H';
     ecReverseLineFeed: Result := #27'I';
-    ecEraseScreenFrom: Result := #27'J';
+    ecEraseScreenRight: Result := #27'J';
     ecEraseLineRight: Result := #27'K';
     ecIdentify: Result := #27'Z';
     ecIdentResponse: Result := #27'/Z';
@@ -184,7 +184,7 @@ begin
     'D': Result := ecCursorLeft;
     'H': Result := ecCursorMove;
     'I': Result := ecReverseLineFeed;
-    'J': Result := ecEraseScreenFrom;
+    'J': Result := ecEraseScreenRight;
     'K': Result := ecEraseLineRight;
     'Z': Result := ecIdentify;
     '/': begin
@@ -282,7 +282,7 @@ begin
     ecCursorHome: Result := #27'[H';
     ecCursorEnd: Result := #27'[F';
     ecCursorMove: Result := Format(#27'[%d;%df', [GetParam(1, AParams), GetParam(2, AParams)]);
-    ecEraseScreenFrom: Result := #27'[J';
+    ecEraseScreenRight: Result := #27'[J';
     ecEraseLineRight: Result := #27'[K';
     ecEraseScreen: Result := #27'[2J';
     ecEraseLine: Result := #27'[2K';
@@ -405,12 +405,13 @@ var
     Str: string;
   begin
     if TempParams.Count = 0 then
-      Result := ecEraseScreenFrom
+      Result := ecEraseScreenRight
     else
     begin
       Str := TempParams[0];
       case Str[1] of
-        '0': Result := ecEraseScreenFrom;
+        '0': Result := ecEraseScreenRight;
+        '1': Result := ecEraseScreenLeft;
         '2': Result := ecEraseScreen;
       else
         Result := ecUnknown;

@@ -1286,10 +1286,12 @@ end;
 procedure TFileViewWithMainCtrl.tmContextMenuTimer(Sender: TObject);
 var
   AFile: TDisplayFile;
+  Index, Count: Integer;
   ClientPoint, MousePoint: TPoint;
   Background: Boolean;
   FileIndex: PtrInt;
   AtFileList: Boolean;
+  Status: Boolean;
 begin
   FMainControlMouseDown:= False;
   tmContextMenu.Enabled:= False; // stop context menu timer
@@ -1305,8 +1307,29 @@ begin
     if FRenameFileIndex = FileIndex then
       Exit;
 
+    // Restore selection status by default
+    Status := not FMouseSelectionLastState;
+    if (Status = False) then
+    begin
+      Count := 0;
+      for Index := 0 to FFiles.Count - 1 do
+      begin
+        if FFiles[Index].Selected then
+        begin
+          Inc(Count);
+          // If multiple files selected then
+          // select file under cursor too
+          if Count > 1 then
+          begin
+            Status := True;
+            Break;
+          end;
+        end;
+      end;
+    end;
+
     AFile := FFiles[FileIndex];
-    MarkFile(AFile, True, False);
+    MarkFile(AFile, Status, False);
     DoSelectionChanged(FileIndex);
   end;
 
