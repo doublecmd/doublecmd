@@ -233,7 +233,7 @@ type
     FMouseBlockBeg:      PtrInt;
     FMouseBlockSide:     TCharSide;
     FSelecting:          Boolean;
-    FTextWidth: 	 Integer; // max char count or width in window
+    FTextWidth:          Integer; // max char count or width in window
     FTextHeight:         Integer; // measured values of font, rec calc at font changed
     FScrollBarVert:      TScrollBar;
     FScrollBarHorz:      TScrollBar;
@@ -553,7 +553,6 @@ uses
 
 
 const
-  //cTextWidth      = 80;  // wrap on 80 chars
   cBinWidth       = 80;
 
   // These strings must be Ascii only.
@@ -2765,6 +2764,11 @@ var
         begin
           i := i + CharLenInBytes;
           Continue;
+        end;
+
+        if (CharLenInBytes = 1) and (s[1] < ' ') then
+        begin
+          s := ' ';
         end;
 
         ss := ss + s;
