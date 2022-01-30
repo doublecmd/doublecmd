@@ -739,6 +739,7 @@ begin
 
   BorderStyle := bsSingle;
   Color := clBlack;
+  DoubleBuffered := True;
   TabStop := True;
   Font.Name := 'Consolas';
   Font.Color:= clWhite;

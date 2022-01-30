@@ -295,9 +295,11 @@ begin
     if not FUpdatingActiveFile then
     begin
       SetLastActiveFile(NewFileIndex, TopRowIndex);
-      if Assigned(OnChangeActiveFile) then
-        OnChangeActiveFile(Self, FFiles[NewFileIndex].FSFile);
     end;
+
+    if Assigned(OnChangeActiveFile) then
+      OnChangeActiveFile(Self, FFiles[NewFileIndex].FSFile);
+
     if FlatView and (FSelectedCount = 0) then UpdateFlatFileName;
   end;
 end;
