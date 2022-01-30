@@ -3081,7 +3081,7 @@ begin
       gPrintMargins := GetValue(Node, 'PrintMargins'  , gPrintMargins);
       gShowCaret := GetValue(Node, 'ShowCaret'  , gShowCaret);
       gViewerLeftMargin := GetValue(Node, 'LeftMargin' , gViewerLeftMargin);
-      gViewerLineSpacing := GetValue(Node, 'ExtraLineSpacing' , gViewerLineSpacing);
+      gViewerLineSpacing := GetValue(Node, 'ExtraLineSpan' , gViewerLineSpacing);
       gImagePaintColor := GetValue(Node, 'PaintColor', gImagePaintColor);
       gBookBackgroundColor := GetValue(Node, 'BackgroundColor', gBookBackgroundColor);
       gBookFontColor := GetValue(Node, 'FontColor', gBookFontColor);
@@ -3702,7 +3702,7 @@ begin
     SetValue(Node, 'PrintMargins', gPrintMargins);
     SetValue(Node, 'ShowCaret'  , gShowCaret);
     SetValue(Node, 'LeftMargin' , gViewerLeftMargin);
-    SetValue(Node, 'ExtraLineSpacing' , gViewerLineSpacing);
+    SetValue(Node, 'ExtraLineSpan' , gViewerLineSpacing);
 
     SetValue(Node, 'PaintColor', gImagePaintColor);
     SetValue(Node, 'BackgroundColor', gBookBackgroundColor);
