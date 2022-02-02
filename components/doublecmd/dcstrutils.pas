@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Useful functions dealing with strings.
    
-   Copyright (C) 2006-2020  Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2006-2022  Alexander Koblov (alexx2000@mail.ru)
    Copyright (C) 2012       Przemyslaw Nagay (cobines@gmail.com)
 
    This program is free software; you can redistribute it and/or modify
@@ -194,7 +194,6 @@ function CharPos(C: Char; const S: string; StartPos: Integer = 1): Integer;
   @param(StartPos Start position)
   @param(SearchBackward set @True if need search backwards)
   @returns(Position of character in string)
-
 }
 function TagPos(T: string; const S: string; StartPos: Integer;SearchBackward: boolean=False): Integer;
 {en
@@ -352,6 +351,14 @@ function EscapeDoubleQuotes(const Str: String): String;
      sh -c '<cmd1>' "<cmd2>" <cmd3>
 }
 function EscapeNoQuotes(const Str: String): String;
+{en
+   Reads a line of text from a string
+   @param(Value Input text string)
+   @param(S Output text line)
+   @param(N Current position in the input text string)
+   @returns(@true if line-ending found, @false otherwise)
+}
+function GetNextLine(const Value: String; var S: String; var N: Integer): Boolean;
 
 implementation
 
@@ -1383,6 +1390,45 @@ begin
   // When neither single nor double quotes are used several special characters
   // need to be escaped with backslash (single character quote).
   Result := EscapeString(Str, NoQuotesSpecialChars, '\');
+end;
+
+function GetNextLine(const Value: String; var S: String; var N: Integer): Boolean;
+var
+  PS: PChar;
+  IP, L, P, K: Integer;
+begin
+  P:= N;
+  S:= '';
+  Result:= False;
+  L:= Length(Value);
+  if ((L - P) < 0) then Exit;
+  if ((L - P) = 0) and (not (Value[P] in [#10, #13])) then Exit;
+  PS:= PChar(Value) + P - 1;
+  IP:= P;
+  while ((L - P) >= 0) and (not (PS^ in [#10, #13])) do
+  begin
+    P:= P + 1;
+    Inc(PS);
+  end;
+  K:= P;
+  // Point to character after #13
+  if (P <= L) and (Value[P] = #13) then
+  begin
+    Inc(P);
+    Result:= True;
+  end;
+  // Point to character after #10
+  if (P <= L) and (Value[P] = #10) then
+  begin
+    Inc(P);
+    Result:= True;
+  end;
+  if Result then
+  begin
+    N:= P;
+    SetLength(S, K - IP);
+    System.Move(Value[IP], Pointer(S)^, K - IP);
+  end;
 end;
 
 end.
