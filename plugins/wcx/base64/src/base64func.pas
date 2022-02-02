@@ -51,6 +51,7 @@ const
   MIME_VERSION = 'MIME-VERSION:';
   CONTENT_TYPE = 'CONTENT-TYPE:';
   CONTENT_DISPOSITION = 'CONTENT-DISPOSITION:';
+  CONTENT_TRANSFER_ENCODING = 'CONTENT-TRANSFER-ENCODING:';
 
   MIME_HEADER = 'MIME-Version: 1.0' + #10 +
                 'Content-Transfer-Encoding: base64' + #10 +
@@ -68,7 +69,7 @@ type
     ProcessDataProcW: TProcessDataProcW;
   end;
 
-procedure ParseHeader(var AHandle: TRecord);
+function ParseHeader(var AHandle: TRecord): Boolean;
 var
   N, P, X, ALength: Integer;
   ABuffer, AText, S: String;
@@ -95,6 +96,8 @@ begin
         S:= UpperCase(AText);
         if StrBegins(S, CONTENT_TYPE) then
         begin
+          if (Pos('MESSAGE/PARTIAL', S) > 0) then
+            Exit(False);
           N:= Pos('name="', AText);
           if (N > 0) then
           begin
@@ -102,6 +105,10 @@ begin
             X:= Pos('"', AText, N);
             AHandle.FileName:= Copy(AText, N, X - N);
           end;
+        end
+        else if StrBegins(S, CONTENT_TRANSFER_ENCODING) then
+        begin
+          if (Pos('BASE64', S) = 0) then Exit(False);
         end
         else if StrBegins(S, CONTENT_DISPOSITION) then
         begin
@@ -116,6 +123,7 @@ begin
       end;
     end;
   end;
+  Result:= True;
 end;
 
 { Mandatory functions }
@@ -129,13 +137,18 @@ begin
     AHandle.Stream:= TFileStreamEx.Create(CeUtf16ToUtf8(ArchiveData.ArcName),
                                           fmOpenRead or fmShareDenyNone);
 
-    ParseHeader(AHandle);
-
-    if Length(AHandle.FileName) = 0 then
+    if not ParseHeader(AHandle) then
+    begin
+      AHandle.Stream.Free;
+      FreeAndNil(AHandle);
+      ArchiveData.OpenResult:= E_UNKNOWN_FORMAT;
+    end
+    else if Length(AHandle.FileName) = 0 then
     begin
       AHandle.FileName:= ExtractFileNameOnly(AHandle.Stream.FileName);
     end;
   except
+    AHandle.Stream.Free;
     FreeAndNil(AHandle);
     ArchiveData.OpenResult:= E_EOPEN;
   end;
