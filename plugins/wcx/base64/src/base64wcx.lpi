@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <ProjectOptions>
+    <Version Value="12"/>
+    <PathDelim Value="\"/>
+    <General>
+      <Flags>
+        <MainUnitHasCreateFormStatements Value="False"/>
+        <MainUnitHasTitleStatement Value="False"/>
+        <MainUnitHasScaledStatement Value="False"/>
+      </Flags>
+      <SessionStorage Value="InProjectDir"/>
+      <Title Value="Base64Wcx"/>
+      <UseAppBundle Value="False"/>
+      <ResourceType Value="res"/>
+    </General>
+    <VersionInfo>
+      <UseVersionInfo Value="True"/>
+      <MinorVersionNr Value="1"/>
+      <StringTable FileDescription="BASE64 WCX plugin for Double Commander" LegalCopyright="Copyright (C) 2022 Alexander Koblov"/>
+    </VersionInfo>
+    <BuildModes>
+      <Item Name="Release" Default="True"/>
+      <Item Name="Debug">
+        <CompilerOptions>
+          <Version Value="11"/>
+          <PathDelim Value="\"/>
+          <Target>
+            <Filename Value="..\base64.wcx" ApplyConventions="False"/>
+          </Target>
+          <SearchPaths>
+            <IncludeFiles Value="$(ProjOutDir);..\..\..\..\sdk"/>
+            <OtherUnitFiles Value="..\..\..\..\sdk"/>
+            <UnitOutputDirectory Value="..\lib"/>
+          </SearchPaths>
+          <Parsing>
+            <SyntaxOptions>
+              <IncludeAssertionCode Value="True"/>
+            </SyntaxOptions>
+          </Parsing>
+          <CodeGeneration>
+            <RelocatableUnit Value="True"/>
+            <Checks>
+              <IOChecks Value="True"/>
+              <RangeChecks Value="True"/>
+              <OverflowChecks Value="True"/>
+              <StackChecks Value="True"/>
+            </Checks>
+            <VerifyObjMethodCallValidity Value="True"/>
+          </CodeGeneration>
+          <Linking>
+            <Debugging>
+              <DebugInfoType Value="dsDwarf2Set"/>
+            </Debugging>
+            <Options>
+              <ExecutableType Value="Library"/>
+            </Options>
+          </Linking>
+        </CompilerOptions>
+      </Item>
+    </BuildModes>
+    <PublishOptions>
+      <Version Value="2"/>
+      <UseFileFilters Value="True"/>
+    </PublishOptions>
+    <RunParams>
+      <FormatVersion Value="2"/>
+    </RunParams>
+    <RequiredPackages>
+      <Item>
+        <PackageName Value="doublecmd_common"/>
+      </Item>
+      <Item>
+        <PackageName Value="LazUtils"/>
+      </Item>
+    </RequiredPackages>
+    <Units>
+      <Unit>
+        <Filename Value="base64wcx.lpr"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="Base64Wcx"/>
+      </Unit>
+      <Unit>
+        <Filename Value="base64func.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="Base64Func"/>
+      </Unit>
+    </Units>
+  </ProjectOptions>
+  <CompilerOptions>
+    <Version Value="11"/>
+    <PathDelim Value="\"/>
+    <Target>
+      <Filename Value="..\base64.wcx" ApplyConventions="False"/>
+    </Target>
+    <SearchPaths>
+      <IncludeFiles Value="$(ProjOutDir);..\..\..\..\sdk"/>
+      <OtherUnitFiles Value="..\..\..\..\sdk"/>
+      <UnitOutputDirectory Value="..\lib"/>
+    </SearchPaths>
+    <Conditionals Value="if (TargetCPU &lt;> &apos;arm&apos;) then
+begin
+  CustomOptions += &apos;-fPIC&apos;;
+end;
+
+if (TargetOS = &apos;darwin&apos;) then
+begin
+  LinkerOptions += &apos; -no_order_inits&apos;;
+end;
+
+if (TargetOS = &apos;linux&apos;) then
+begin
+  LinkerOptions += &apos; -z relro --as-needed&apos;;
+end;"/>
+    <CodeGeneration>
+      <SmartLinkUnit Value="True"/>
+      <RelocatableUnit Value="True"/>
+      <Optimizations>
+        <OptimizationLevel Value="2"/>
+      </Optimizations>
+    </CodeGeneration>
+    <Linking>
+      <Debugging>
+        <GenerateDebugInfo Value="False"/>
+      </Debugging>
+      <LinkSmart Value="True"/>
+      <Options>
+        <ExecutableType Value="Library"/>
+      </Options>
+    </Linking>
+  </CompilerOptions>
+</CONFIG>
