@@ -21,7 +21,6 @@ $lazbuild wcx/zip/src/Zip.lpi     $DC_ARCH
 # WDX plugins
 $lazbuild wdx/rpm_wdx/src/rpm_wdx.lpi     $DC_ARCH
 $lazbuild wdx/deb_wdx/src/deb_wdx.lpi     $DC_ARCH
-$lazbuild wdx/xpi_wdx/src/xpi_wdx.lpi     $DC_ARCH
 $lazbuild wdx/audioinfo/src/AudioInfo.lpi $DC_ARCH
 
 # WFX plugins
