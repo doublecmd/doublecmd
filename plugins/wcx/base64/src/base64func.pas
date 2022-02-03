@@ -240,6 +240,8 @@ end;
 { Optional functions }
 
 function PackFilesW(PackedFile: PWideChar; SubPath: PWideChar; SrcPath: PWideChar; AddList: PWideChar; Flags: Integer): Integer; dcpcall;
+const
+  EOL = String(LineEnding);
 var
   ARead: Integer;
   ABuffer: TBytes;
@@ -272,7 +274,7 @@ begin
                 begin
                   AStream.WriteBuffer(ABuffer[0], ARead);
                   gProcessDataProcW(PackedFile, ARead);
-                  fsOutput.WriteBuffer(LineEnding, Length(LineEnding));
+                  fsOutput.WriteBuffer(EOL[1], Length(EOL));
                 end;
               until ARead < MaxSmallint;
             finally
