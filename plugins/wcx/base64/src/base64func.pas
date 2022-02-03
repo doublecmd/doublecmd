@@ -166,6 +166,7 @@ function ProcessFileW(hArcData: TArcHandle; Operation: Integer; DestPath, DestNa
 var
   ARead: Integer;
   ABuffer: TBytes;
+  FileName: String;
   fsOutput: TStream;
   AStream: TBase64DecodingStream;
   AHandle: TRecord absolute hArcData;
@@ -178,7 +179,8 @@ begin
         if Operation = PK_TEST then
           fsOutput:= TNullStream.Create
         else begin
-          fsOutput:= TFileStreamEx.Create(CeUtf16ToUtf8(DestPath) + CeUtf16ToUtf8(DestName), fmCreate);
+          FileName:= CeUtf16ToUtf8(DestPath) + CeUtf16ToUtf8(DestName);
+          fsOutput:= TFileStreamEx.Create(FileName, fmCreate);
         end;
         try
           AStream:= TBase64DecodingStream.Create(AHandle.Stream);
@@ -189,7 +191,12 @@ begin
               if ARead > 0 then
               begin
                 fsOutput.WriteBuffer(ABuffer[0], ARead);
-                AHandle.ProcessDataProcW(DestName, ARead);
+                if (AHandle.ProcessDataProcW(DestName, ARead) = 0) then
+                begin
+                  FreeAndNil(fsOutput);
+                  if Operation = PK_EXTRACT then mbDeleteFile(FileName);
+                  Exit(E_EABORTED);
+                end;
               end;
             until ARead < MaxSmallint;
           finally
@@ -273,7 +280,13 @@ begin
                 if ARead > 0 then
                 begin
                   AStream.WriteBuffer(ABuffer[0], ARead);
-                  gProcessDataProcW(PackedFile, ARead);
+                  if (gProcessDataProcW(PackedFile, ARead) = 0) then
+                  begin
+                    FreeAndNil(AStream);
+                    FreeAndNil(fsOutput);
+                    mbDeleteFile(PackedFile);
+                    Exit(E_EABORTED);
+                  end;
                   fsOutput.WriteBuffer(EOL[1], Length(EOL));
                 end;
               until ARead < MaxSmallint;
