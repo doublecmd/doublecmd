@@ -285,6 +285,10 @@ begin
   else
     gWCXPlugins.Flags[I]:= 607;
 
+  I:= gWCXPlugins.IndexOfName('base64');
+  if I < 0 then
+    gWCXPlugins.Add('b64', 1, Folder + 'base64' + PathDelim + 'base64.wcx');
+
   // Wdx plugins
   Folder:= '%commander_path%' + PathDelim + 'plugins' + PathDelim + 'wdx' + PathDelim;
 
