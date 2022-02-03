@@ -45,7 +45,7 @@ implementation
 
 uses
   SysUtils, Base64, NullStream, LazFileUtils, DCConvertEncoding, DCOSUtils,
-  DCStrUtils, DCClassesUtf8;
+  DCStrUtils, DCClassesUtf8, MimeInLn;
 
 const
   MIME_VERSION = 'MIME-VERSION:';
@@ -53,10 +53,10 @@ const
   CONTENT_DISPOSITION = 'CONTENT-DISPOSITION:';
   CONTENT_TRANSFER_ENCODING = 'CONTENT-TRANSFER-ENCODING:';
 
-  MIME_HEADER = 'MIME-Version: 1.0' + #10 +
-                'Content-Transfer-Encoding: base64' + #10 +
-                'Content-Disposition: attachment; filename="%s"' + #10 +
-                'Content-Type: application/octet-stream; name="%s"' + #10#10;
+  MIME_HEADER = 'MIME-Version: 1.0' + LineEnding +
+                'Content-Type: application/octet-stream; name="%s"' + LineEnding +
+                'Content-Transfer-Encoding: base64' + LineEnding +
+                'Content-Disposition: attachment; filename="%s"' + LineEnding + LineEnding;
 
 threadvar
   gProcessDataProcW : TProcessDataProcW;
@@ -71,8 +71,8 @@ type
 
 function ParseHeader(var AHandle: TRecord): Boolean;
 var
-  N, P, X, ALength: Integer;
-  ABuffer, AText, S: String;
+  P, ALength: Integer;
+  S, AText, ABuffer: String;
 begin
   SetLength(ABuffer, 4096);
   ALength:= AHandle.Stream.Read(ABuffer[1], Length(ABuffer));
@@ -96,29 +96,22 @@ begin
         S:= UpperCase(AText);
         if StrBegins(S, CONTENT_TYPE) then
         begin
-          if (Pos('MESSAGE/PARTIAL', S) > 0) then
-            Exit(False);
-          N:= Pos('name="', AText);
-          if (N > 0) then
-          begin
-            N:= N + 6;
-            X:= Pos('"', AText, N);
-            AHandle.FileName:= Copy(AText, N, X - N);
-          end;
+          S:= SeparateRight(S, ':');
+          S:= Trim(SeparateLeft(S, ';'));
+          if (S = 'MESSAGE/PARTIAL') then Exit(False);
+          AHandle.FileName:= InlineDecodeEx(GetParameter(AText, 'name'));
         end
         else if StrBegins(S, CONTENT_TRANSFER_ENCODING) then
         begin
-          if (Pos('BASE64', S) = 0) then Exit(False);
+          S:= Trim(SeparateRight(S, ':'));
+          if (S <> 'BASE64') then Exit(False);
         end
         else if StrBegins(S, CONTENT_DISPOSITION) then
         begin
-          N:= Pos('filename="', AText);
-          if (N > 0) then
-          begin
-            N:= N + 10;
-            X:= Pos('"', AText, N);
-            AHandle.FileName:= Copy(AText, N, X - N);
-          end;
+          S:= SeparateRight(S, ':');
+          S:= Trim(SeparateLeft(S, ';'));
+          if (S <> 'ATTACHMENT') then Exit(False);
+          AHandle.FileName:= InlineDecodeEx(GetParameter(AText, 'filename'));
         end;
       end;
     end;
@@ -247,8 +240,6 @@ end;
 { Optional functions }
 
 function PackFilesW(PackedFile: PWideChar; SubPath: PWideChar; SrcPath: PWideChar; AddList: PWideChar; Flags: Integer): Integer; dcpcall;
-const
-  LINE_FEED = 10;
 var
   ARead: Integer;
   ABuffer: TBytes;
@@ -268,6 +259,7 @@ begin
       try
         fsOutput:= TFileStreamEx.Create(CeUtf16ToUtf8(PackedFile), fmCreate);
         try
+          AFileName:= InlineEncodeEx(AFileName);
           AHeader:= Format(MIME_HEADER, [AFileName, AFileName]);
           try
             fsOutput.WriteBuffer(AHeader[1], Length(AHeader));
@@ -280,7 +272,7 @@ begin
                 begin
                   AStream.WriteBuffer(ABuffer[0], ARead);
                   gProcessDataProcW(PackedFile, ARead);
-                  fsOutput.WriteByte(LINE_FEED);
+                  fsOutput.WriteBuffer(LineEnding, Length(LineEnding));
                 end;
               until ARead < MaxSmallint;
             finally
