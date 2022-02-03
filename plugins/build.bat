@@ -9,6 +9,7 @@ rem CD to plugins directory
 pushd plugins
 
 rem WCX plugins
+lazbuild wcx\base64\src\base64wcx.lpi     %DC_ARCH%
 lazbuild wcx\deb\src\deb.lpi              %DC_ARCH%
 lazbuild wcx\rpm\src\rpm.lpi              %DC_ARCH%
 lazbuild wcx\sevenzip\src\sevenzipwcx.lpi %DC_ARCH%
