@@ -85,6 +85,11 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="Base64Func"/>
       </Unit>
+      <Unit>
+        <Filename Value="base64buf.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="Base64Buf"/>
+      </Unit>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

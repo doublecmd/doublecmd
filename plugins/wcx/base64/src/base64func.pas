@@ -44,10 +44,12 @@ function GetPackerCaps: Integer; dcpcall;
 implementation
 
 uses
-  SysUtils, Base64, NullStream, LazFileUtils, DCConvertEncoding, DCOSUtils,
+  SysUtils, Base64Buf, NullStream, LazFileUtils, DCConvertEncoding, DCOSUtils,
   DCStrUtils, DCClassesUtf8, MimeInLn;
 
 const
+  BUFFER_SIZE = 32768;
+
   MIME_VERSION = 'MIME-VERSION:';
   CONTENT_TYPE = 'CONTENT-TYPE:';
   CONTENT_DISPOSITION = 'CONTENT-DISPOSITION:';
@@ -99,7 +101,8 @@ begin
           S:= SeparateRight(S, ':');
           S:= Trim(SeparateLeft(S, ';'));
           if (S = 'MESSAGE/PARTIAL') then Exit(False);
-          AHandle.FileName:= InlineDecodeEx(GetParameter(AText, 'name'));
+          AHandle.FileName:= GetParameter(AText, 'name');
+          AHandle.FileName:= ExtractFileName(InlineDecodeEx(AHandle.FileName));
         end
         else if StrBegins(S, CONTENT_TRANSFER_ENCODING) then
         begin
@@ -111,7 +114,8 @@ begin
           S:= SeparateRight(S, ':');
           S:= Trim(SeparateLeft(S, ';'));
           if (S <> 'ATTACHMENT') then Exit(False);
-          AHandle.FileName:= InlineDecodeEx(GetParameter(AText, 'filename'));
+          AHandle.FileName:= GetParameter(AText, 'filename');
+          AHandle.FileName:= ExtractFileName(InlineDecodeEx(AHandle.FileName));
         end;
       end;
     end;
@@ -168,7 +172,7 @@ var
   ABuffer: TBytes;
   FileName: String;
   fsOutput: TStream;
-  AStream: TBase64DecodingStream;
+  AStream: TBase64DecodingStreamEx;
   AHandle: TRecord absolute hArcData;
 begin
   case Operation of
@@ -183,11 +187,11 @@ begin
           fsOutput:= TFileStreamEx.Create(FileName, fmCreate);
         end;
         try
-          AStream:= TBase64DecodingStream.Create(AHandle.Stream);
+          AStream:= TBase64DecodingStreamEx.Create(AHandle.Stream);
           try
-            SetLength(ABuffer, MaxSmallint);
+            SetLength(ABuffer, BUFFER_SIZE);
             repeat
-              ARead:= AStream.Read(ABuffer[0], MaxSmallint);
+              ARead:= AStream.Read(ABuffer[0], BUFFER_SIZE);
               if ARead > 0 then
               begin
                 fsOutput.WriteBuffer(ABuffer[0], ARead);
@@ -198,7 +202,7 @@ begin
                   Exit(E_EABORTED);
                 end;
               end;
-            until ARead < MaxSmallint;
+            until ARead < BUFFER_SIZE;
           finally
             AStream.Free;
           end;
@@ -247,14 +251,13 @@ end;
 { Optional functions }
 
 function PackFilesW(PackedFile: PWideChar; SubPath: PWideChar; SrcPath: PWideChar; AddList: PWideChar; Flags: Integer): Integer; dcpcall;
-const
-  EOL = String(LineEnding);
 var
   ARead: Integer;
   ABuffer: TBytes;
   AHeader: String;
   AFileName: String;
-  AStream: TBase64EncodingStream;
+  ATargetName: String;
+  AStream: TBase64EncodingStreamEx;
   fsInput, fsOutput: TFileStreamEx;
 begin
   if (Flags and PK_PACK_MOVE_FILES) <> 0 then begin
@@ -265,18 +268,19 @@ begin
     AFileName:= CeUtf16ToUtf8(AddList);
     fsInput:= TFileStreamEx.Create(CeUtf16ToUtf8(SrcPath) + AFileName, fmOpenRead or fmShareDenyNone);
     try
+      ATargetName:= CeUtf16ToUtf8(PackedFile);
       try
-        fsOutput:= TFileStreamEx.Create(CeUtf16ToUtf8(PackedFile), fmCreate);
+        fsOutput:= TFileStreamEx.Create(ATargetName, fmCreate);
         try
           AFileName:= InlineEncodeEx(AFileName);
           AHeader:= Format(MIME_HEADER, [AFileName, AFileName]);
           try
             fsOutput.WriteBuffer(AHeader[1], Length(AHeader));
-            AStream:= TBase64EncodingStream.Create(fsOutput);
+            AStream:= TBase64EncodingStreamEx.Create(fsOutput);
             try
-              SetLength(ABuffer, MaxSmallint);
+              SetLength(ABuffer, BUFFER_SIZE);
               repeat
-                ARead:= fsInput.Read(ABuffer[0], MaxSmallint);
+                ARead:= fsInput.Read(ABuffer[0], BUFFER_SIZE);
                 if ARead > 0 then
                 begin
                   AStream.WriteBuffer(ABuffer[0], ARead);
@@ -284,12 +288,11 @@ begin
                   begin
                     FreeAndNil(AStream);
                     FreeAndNil(fsOutput);
-                    mbDeleteFile(PackedFile);
+                    mbDeleteFile(ATargetName);
                     Exit(E_EABORTED);
                   end;
-                  fsOutput.WriteBuffer(EOL[1], Length(EOL));
                 end;
-              until ARead < MaxSmallint;
+              until ARead < BUFFER_SIZE;
             finally
               AStream.Free;
             end;
