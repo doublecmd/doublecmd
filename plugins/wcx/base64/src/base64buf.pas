@@ -48,7 +48,7 @@ const
 
 function TWriteBufStreamEx.Write(const Buffer; Count: Longint): Longint;
 const
-  LINE_LENGTH = 80;
+  LINE_LENGTH = 76;
   EOL = String(LineEnding);
 begin
   if (FPosition + Count) > LINE_LENGTH then
