@@ -170,8 +170,10 @@ function ProcessFileW(hArcData: TArcHandle; Operation: Integer; DestPath, DestNa
 var
   ARead: Integer;
   ABuffer: TBytes;
-  FileName: String;
+  AFileSize: Int64;
   fsOutput: TStream;
+  APercent: Integer;
+  ATargetName: String;
   AStream: TBase64DecodingStreamEx;
   AHandle: TRecord absolute hArcData;
 begin
@@ -183,22 +185,24 @@ begin
         if Operation = PK_TEST then
           fsOutput:= TNullStream.Create
         else begin
-          FileName:= CeUtf16ToUtf8(DestPath) + CeUtf16ToUtf8(DestName);
-          fsOutput:= TFileStreamEx.Create(FileName, fmCreate);
+          ATargetName:= CeUtf16ToUtf8(DestPath) + CeUtf16ToUtf8(DestName);
+          fsOutput:= TFileStreamEx.Create(ATargetName, fmCreate);
         end;
         try
           AStream:= TBase64DecodingStreamEx.Create(AHandle.Stream);
           try
+            AFileSize:= AHandle.Stream.Size;
             SetLength(ABuffer, BUFFER_SIZE);
             repeat
               ARead:= AStream.Read(ABuffer[0], BUFFER_SIZE);
               if ARead > 0 then
               begin
                 fsOutput.WriteBuffer(ABuffer[0], ARead);
-                if (AHandle.ProcessDataProcW(DestName, ARead) = 0) then
+                APercent:= (AStream.Source.Position * 100) div AFileSize;
+                if (AHandle.ProcessDataProcW(DestName, -APercent) = 0) then
                 begin
                   FreeAndNil(fsOutput);
-                  if Operation = PK_EXTRACT then mbDeleteFile(FileName);
+                  if Operation = PK_EXTRACT then mbDeleteFile(ATargetName);
                   Exit(E_EABORTED);
                 end;
               end;
