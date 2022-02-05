@@ -46,6 +46,7 @@ mkdir -p $DC_INSTALL_DIR
 mkdir -p $DC_INSTALL_DIR/plugins
 # WCX plugins directories
 mkdir -p $DC_INSTALL_DIR/plugins/wcx
+mkdir -p $DC_INSTALL_DIR/plugins/wcx/base64
 mkdir -p $DC_INSTALL_DIR/plugins/wcx/cpio
 mkdir -p $DC_INSTALL_DIR/plugins/wcx/deb
 mkdir -p $DC_INSTALL_DIR/plugins/wcx/rpm
@@ -79,6 +80,7 @@ cp -a pinyin.tbl                   $DC_INSTALL_DIR/
 
 # copy plugins
 # WCX
+install -m 644 plugins/wcx/base64/base64.wcx        $DC_INSTALL_DIR/plugins/wcx/base64/
 install -m 644 plugins/wcx/cpio/cpio.wcx            $DC_INSTALL_DIR/plugins/wcx/cpio/
 install -m 644 plugins/wcx/deb/deb.wcx              $DC_INSTALL_DIR/plugins/wcx/deb/
 install -m 644 plugins/wcx/rpm/rpm.wcx              $DC_INSTALL_DIR/plugins/wcx/rpm/

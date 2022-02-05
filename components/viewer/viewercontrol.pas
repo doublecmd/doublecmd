@@ -2813,7 +2813,7 @@ begin
   // Get position of last character of the line.
   EndLine   := GetEndOfLine(StartLine);
 
-  if x = 0 then
+  if (x = 0) and ((Mode <> vcmText) or (FHPosition = 0)) then
   begin
     CharSide := csBefore;
     Exit(StartLine);

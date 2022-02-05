@@ -21,9 +21,9 @@
 
 @del /Q /S plugins\dsx\DSXLocate\lib\*.*
 
+@del /Q /S plugins\wcx\base64\lib\*.*
 @del /Q /S plugins\wcx\cpio\lib\*.*
 @del /Q /S plugins\wcx\deb\lib\*.*
-@del /Q /S plugins\wcx\lzma\lib\*.*
 @del /Q /S plugins\wcx\rpm\lib\*.*
 @del /Q /S plugins\wcx\sevenzip\lib\*.*
 @del /Q /S plugins\wcx\torrent\lib\*.*
@@ -33,8 +33,6 @@
 
 @del /Q /S plugins\wdx\deb_wdx\lib\*.*
 @del /Q /S plugins\wdx\rpm_wdx\lib\*.*
-@del /Q /S plugins\wdx\svn_wdx\lib\*.*
-@del /Q /S plugins\wdx\xpi_wdx\lib\*.*
 @del /Q /S plugins\wdx\audioinfo\lib\*.*
 
 @del /Q /S plugins\wfx\ftp\lib\*.*

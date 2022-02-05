@@ -56,6 +56,10 @@ function mbFileCopyXattr(const Source, Target: String): Boolean;
    Retrieves the final path for the specified file
 }
 function GetFinalPathNameByHandle(hFile: THandle): UnicodeString;
+{en
+   Retrieves the file system type name
+}
+function GetFileSystemType(const Path: String): UnicodeString;
 
 implementation
 
@@ -228,6 +232,20 @@ begin
     end;
     FreeMem(ObjectInformation);
   end;
+end;
+
+function GetFileSystemType(const Path: String): UnicodeString;
+var
+ lpFileSystemFlags: DWORD = 0;
+ lpMaximumComponentLength: DWORD = 0;
+ lpFileSystemNameBuffer: array [Byte] of WideChar;
+begin
+  if GetVolumeInformationW(PWideChar(CeUtf8ToUtf16(ExtractFileDrive(Path)) + PathDelim),
+                           nil, 0, nil, lpMaximumComponentLength, lpFileSystemFlags,
+                           lpFileSystemNameBuffer, SizeOf(lpFileSystemNameBuffer)) then
+    Result:= lpFileSystemNameBuffer
+  else
+    Result:= EmptyWideStr;
 end;
 
 procedure Initialize;

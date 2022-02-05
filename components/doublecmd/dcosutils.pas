@@ -617,10 +617,16 @@ function GetTempName(PathPrefix: String): String;
 const
   MaxTries = 100;
 var
+  FileName: String;
   TryNumber: Integer = 0;
 begin
   if PathPrefix = '' then
-    PathPrefix := GetTempDir;
+    PathPrefix := GetTempDir
+  else begin
+    FileName:= ExtractFileName(PathPrefix);
+    // Generated file name should be less the maximum file name length
+    PathPrefix:= ExtractFilePath(PathPrefix) + UTF8Copy(FileName, 1, 48);
+  end;
   repeat
     Result := PathPrefix + IntToStr(System.Random(MaxInt)); // or use CreateGUID()
     Inc(TryNumber);
@@ -1120,11 +1126,27 @@ end;
 function mbRenameFile(const OldName: String; NewName: String): Boolean;
 {$IFDEF MSWINDOWS}
 var
-  wOldName,
-  wNewName: UnicodeString;
+  wTmpName,
+  wOldName, wNewName: UnicodeString;
 begin
   wNewName:= UTF16LongName(NewName);
   wOldName:= UTF16LongName(OldName);
+  // Workaround: Windows >= 10 can't change only filename case on the FAT
+  if (Win32MajorVersion >= 10) and UnicodeSameText(wOldName, wNewName) then
+  begin
+    wTmpName:= GetFileSystemType(OldName);
+    if UnicodeSameText('FAT32', wTmpName) or UnicodeSameText('exFAT', wTmpName) then
+    begin
+      wTmpName:= UTF16LongName(GetTempName(OldName));
+      Result:= MoveFileExW(PWChar(wOldName), PWChar(wTmpName), 0);
+      if Result then
+      begin
+        Result:= MoveFileExW(PWChar(wTmpName), PWChar(wNewName), 0);
+        if not Result then MoveFileExW(PWChar(wTmpName), PWChar(wOldName), 0);
+      end;
+      Exit;
+    end;
+  end;
   Result:= MoveFileExW(PWChar(wOldName), PWChar(wNewName), MOVEFILE_REPLACE_EXISTING);
 end;
 {$ELSE}

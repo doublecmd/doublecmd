@@ -145,11 +145,13 @@ begin
         // Total operation percent
         if (Size >= -100) and (Size <= -1) then
           begin
+            if (TotalBytes = 0) then TotalBytes:= 100;
             DoneBytes := TotalBytes * Int64(-Size) div 100;
           end
         // Current file percent
         else if (Size >= -1100) and (Size <= -1000) then
           begin
+            if (CurrentFileTotalBytes = 0) then CurrentFileTotalBytes:= 100;
             CurrentFileDoneBytes := CurrentFileTotalBytes * (Int64(-Size) - 1000) div 100;
           end;
       end;
