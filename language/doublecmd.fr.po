@@ -104,23 +104,23 @@ msgstr "Suivre les liens"
 
 #: tfilesystemcopymoveoperationoptionsui.cbreservespace.caption
 msgid "&Reserve space"
-msgstr "Réserver l'espace"
+msgstr "Réserver de l'espace"
 
 #: tfilesystemcopymoveoperationoptionsui.chkcopyonwrite.caption
 msgid "Copy on write"
-msgstr ""
+msgstr "Copier en écriture"
 
 #: tfilesystemcopymoveoperationoptionsui.chkverify.caption
 msgid "&Verify"
-msgstr "Vérification"
+msgstr "Vérifier"
 
 #: tfilesystemcopymoveoperationoptionsui.cmbsetpropertyerror.hint
 msgid "What to do when cannot set file time, attributes, etc."
-msgstr "Quoi faire lorsqu'on ne peut ajuster la date, les attributs, etc. du fichier"
+msgstr "Que faire lorsqu'on ne peut ajuster la date, les attributs, etc. du fichier"
 
 #: tfilesystemcopymoveoperationoptionsui.gbfiletemplate.caption
 msgid "Use file template"
-msgstr "Utiliser un fichier-modèle"
+msgstr "Utiliser un fichier modèle"
 
 #: tfilesystemcopymoveoperationoptionsui.lbldirectoryexists.caption
 msgctxt "tfilesystemcopymoveoperationoptionsui.lbldirectoryexists.caption"
@@ -157,7 +157,7 @@ msgstr "A propos"
 #: tfrmabout.lblbuild.caption
 msgctxt "tfrmabout.lblbuild.caption"
 msgid "Build"
-msgstr "Date révision"
+msgstr "Date de révision"
 
 #: tfrmabout.lblcommit.caption
 msgctxt "tfrmabout.lblcommit.caption"
@@ -171,7 +171,7 @@ msgstr "Free Pascal"
 
 #: tfrmabout.lblhomepage.caption
 msgid "Home Page:"
-msgstr "Page de démarrage :"
+msgstr "Page d'accueil :"
 
 #: tfrmabout.lblhomepageaddress.caption
 msgid "https://doublecmd.sourceforge.io"
@@ -403,7 +403,7 @@ msgstr "Se connecter à :"
 
 #: tfrmcopydlg.btnaddtoqueue.caption
 msgid "A&dd To Queue"
-msgstr "Ajoute à la file d'attente"
+msgstr "Ajouter à la file d'attente"
 
 #: tfrmcopydlg.btncancel.caption
 msgctxt "TFRMCOPYDLG.BTNCANCEL.CAPTION"
@@ -1022,7 +1022,7 @@ msgstr "T&out enregistrer"
 
 #: tfrmeditor.actsaveall.hint
 msgid "Save All"
-msgstr "Sauvegarder tout"
+msgstr "Tout sauvegarder"
 
 #: tfrmeditor.caption
 msgctxt "tfrmeditor.caption"
@@ -2019,7 +2019,7 @@ msgstr "Vue résumée"
 
 #: tfrmmain.actcalculatespace.caption
 msgid "Calculate &Occupied Space"
-msgstr "Calcul de l'espace &occupé"
+msgstr "Calculer l'espace &occupé"
 
 #: tfrmmain.actchangedir.caption
 msgid "Change directory"
@@ -2100,12 +2100,12 @@ msgstr "Comparer le contenu"
 #: tfrmmain.actcomparedirectories.caption
 msgctxt "TFRMMAIN.ACTCOMPAREDIRECTORIES.CAPTION"
 msgid "Compare Directories"
-msgstr "Compare dossiers"
+msgstr "Comparer les dossiers"
 
 #: tfrmmain.actcomparedirectories.hint
 msgctxt "TFRMMAIN.ACTCOMPAREDIRECTORIES.HINT"
 msgid "Compare Directories"
-msgstr "Compare dossiers."
+msgstr "Comparer les dossiers"
 
 #: tfrmmain.actconfigarchivers.caption
 msgid "Configuration of Archivers"
@@ -2122,7 +2122,7 @@ msgstr "Configuration des groupes d'onglets favoris"
 
 #: tfrmmain.actconfigfoldertabs.caption
 msgid "Configuration of folder tabs"
-msgstr "Configuration des options reliées aux onlgets"
+msgstr "Configuration des onlgets"
 
 #: tfrmmain.actconfighotkeys.caption
 msgctxt "tfrmmain.actconfighotkeys.caption"
@@ -2139,7 +2139,7 @@ msgstr "Enregistrer la position"
 
 #: tfrmmain.actconfigsavesettings.caption
 msgid "Save Settings"
-msgstr "Enregistre la configuration"
+msgstr "Enregistrer la configuration"
 
 #: tfrmmain.actconfigsearches.caption
 msgid "Configuration of searches"
@@ -2147,7 +2147,7 @@ msgstr "Configuration de la recherche de fichiers"
 
 #: tfrmmain.actconfigtoolbars.caption
 msgid "Toolbar..."
-msgstr "Configuation de la barre d'outils"
+msgstr "Configuation de la barre d'outils..."
 
 #: tfrmmain.actconfigtooltips.caption
 msgid "Configuration of tooltips"
@@ -2240,7 +2240,7 @@ msgstr "Dossiers &favoris"
 
 #: tfrmmain.actdoanycmcommand.caption
 msgid "Execute &internal command..."
-msgstr ""
+msgstr "Exécuter une commande interne..."
 
 #: tfrmmain.actdoanycmcommand.hint
 msgid "Select any command and execute it"
@@ -2253,7 +2253,7 @@ msgstr "Éditer"
 
 #: tfrmmain.acteditcomment.caption
 msgid "Edit Co&mment..."
-msgstr "Éditer le commentaire"
+msgstr "Éditer le commentaire..."
 
 #: tfrmmain.acteditnew.caption
 msgid "Edit new file"
@@ -2428,7 +2428,7 @@ msgstr "&Charger la sélection depuis un fichier..."
 
 #: tfrmmain.actloadtabs.caption
 msgid "&Load Tabs from File"
-msgstr "Charger les onglets d'un fichier"
+msgstr "Charger les onglets depuis un fichier"
 
 #: tfrmmain.actmakedir.caption
 msgid "Create &Directory"
@@ -2673,7 +2673,7 @@ msgstr "Sauv&egarder la sélection dans un fichier..."
 
 #: tfrmmain.actsavetabs.caption
 msgid "&Save Tabs to File"
-msgstr "Sauvegarde des onglets dans un fichier"
+msgstr "Sauvegarder les onglets dans un fichier"
 
 #: tfrmmain.actsearch.caption
 msgid "&Search..."
@@ -2820,7 +2820,7 @@ msgstr "Ouvrir le dossier sous le curseur dans l'onglet du panneau de droite"
 
 #: tfrmmain.acttreeview.caption
 msgid "&Tree View Panel"
-msgstr "Vue du panneau d'arborescence"
+msgstr "Panneau d'arborescence"
 
 #: tfrmmain.actuniversalsingledirectsort.caption
 msgid "Sort according to parameters"
@@ -3490,11 +3490,11 @@ msgstr "Afficher le sous-menu de chemin relatif"
 
 #: tfrmmultirename.actloadlastpreset.caption
 msgid "Load Last Preset"
-msgstr "Charge la dernière configuration"
+msgstr "Charger la dernière configuration"
 
 #: tfrmmultirename.actloadnamesfromfile.caption
 msgid "Load Names from File..."
-msgstr "Charge les noms des fichiers..."
+msgstr "Charger les noms depuis un fichier..."
 
 #: tfrmmultirename.actloadpreset.caption
 msgid "Load Preset by Name or Index"
@@ -3502,39 +3502,39 @@ msgstr "Charger une configuration par nom ou par index"
 
 #: tfrmmultirename.actloadpreset1.caption
 msgid "Load Preset 1"
-msgstr "Charge la configuration 1"
+msgstr "Charger la configuration 1"
 
 #: tfrmmultirename.actloadpreset2.caption
 msgid "Load Preset 2"
-msgstr "Charge la configuration 2"
+msgstr "Charger la configuration 2"
 
 #: tfrmmultirename.actloadpreset3.caption
 msgid "Load Preset 3"
-msgstr "Charge la configuration 3"
+msgstr "Charger la configuration 3"
 
 #: tfrmmultirename.actloadpreset4.caption
 msgid "Load Preset 4"
-msgstr "Charge la configuration 4"
+msgstr "Charger la configuration 4"
 
 #: tfrmmultirename.actloadpreset5.caption
 msgid "Load Preset 5"
-msgstr "Charge la configuration 5"
+msgstr "Charger la configuration 5"
 
 #: tfrmmultirename.actloadpreset6.caption
 msgid "Load Preset 6"
-msgstr "Charge la configuration 6"
+msgstr "Charger la configuration 6"
 
 #: tfrmmultirename.actloadpreset7.caption
 msgid "Load Preset 7"
-msgstr "Charge la configuration 7"
+msgstr "Charger la configuration 7"
 
 #: tfrmmultirename.actloadpreset8.caption
 msgid "Load Preset 8"
-msgstr "Charge la configuration 8"
+msgstr "Charger la configuration 8"
 
 #: tfrmmultirename.actloadpreset9.caption
 msgid "Load Preset 9"
-msgstr "Charge la configuration 9"
+msgstr "Charger la configuration 9"
 
 #: tfrmmultirename.actnameextmask.caption
 msgctxt "tfrmmultirename.actnameextmask.caption"
@@ -3569,7 +3569,7 @@ msgstr "Renommer"
 #: tfrmmultirename.actresetall.caption
 msgctxt "tfrmmultirename.actresetall.caption"
 msgid "Reset &All"
-msgstr "Réinitialiser tout"
+msgstr "Tout réinitialiser"
 
 #: tfrmmultirename.actsavepreset.caption
 msgctxt "tfrmmultirename.actsavepreset.caption"
@@ -3583,7 +3583,7 @@ msgstr "Enregistrer sous"
 
 #: tfrmmultirename.actshowpresetsmenu.caption
 msgid "Show Preset Menu"
-msgstr "Montre les configurations"
+msgstr "Montrer le menu des configurations"
 
 #: tfrmmultirename.actsortpresets.caption
 msgid "Sort"
@@ -3601,7 +3601,7 @@ msgstr "Heure"
 
 #: tfrmmultirename.actviewrenamelogfile.caption
 msgid "View Rename Log File"
-msgstr "Montre l'historique de renommage"
+msgstr "Montrer l'historique de renommage"
 
 #: tfrmmultirename.caption
 msgctxt "tfrmmultirename.caption"
@@ -10902,7 +10902,7 @@ msgstr "Octale"
 
 #: ulng.rsmnucopynetnamestoclip
 msgid "Copy names with UNC path"
-msgstr "Copie les noms avec chemin UNC"
+msgstr "Copie les noms avec le chemin UNC"
 
 #: ulng.rsmnucreateshortcut
 msgid "Create Shortcut..."
@@ -10910,7 +10910,7 @@ msgstr "Créer un raccourci..."
 
 #: ulng.rsmnudisconnectnetworkdrive
 msgid "Disconnect Network Drive..."
-msgstr "Déconnecté les lecteurs-réseaux"
+msgstr "Déconnecter des lecteurs réseau..."
 
 #: ulng.rsmnuedit
 msgctxt "ulng.rsmnuedit"
