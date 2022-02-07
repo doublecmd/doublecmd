@@ -4,7 +4,7 @@
   Dark mode support unit (Windows 10 + Qt5).
 
   Copyright (C) 2019-2021 Richard Yu
-  Copyright (C) 2019-2021 Alexander Koblov (alexx2000@mail.ru)
+  Copyright (C) 2019-2022 Alexander Koblov (alexx2000@mail.ru)
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -39,14 +39,21 @@ var
   g_darkModeEnabled: bool = false;
   g_darkModeSupported: bool = false;
 
+{$IF DEFINED(LCLQT5)}
 procedure ApplyDarkStyle;
+{$ENDIF}
+
 procedure RefreshTitleBarThemeColor(hWnd: HWND);
 function AllowDarkModeForWindow(hWnd: HWND; allow: bool): bool;
 
 implementation
 
 uses
-  UxTheme, JwaWinUser, FileInfo, Qt5;
+  UxTheme, JwaWinUser, FileInfo
+{$IF DEFINED(LCLQT5)}
+  , Qt5
+{$ENDIF}
+  ;
 
 type
   // Insider 18334
@@ -131,6 +138,7 @@ begin
   end;
 end;
 
+{$IF DEFINED(LCLQT5)}
 procedure ApplyDarkStyle;
 const
   StyleName: WideString = 'Fusion';
@@ -176,6 +184,7 @@ begin
 
   QApplication_setPalette(APalette);
 end;
+{$ENDIF}
 
 const
   LOAD_LIBRARY_SEARCH_SYSTEM32 = $800;
