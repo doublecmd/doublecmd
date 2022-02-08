@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CONFIG>
   <ProjectOptions>
-    <Version Value="12"/>
+    <Version Value="9"/>
     <PathDelim Value="\"/>
     <General>
       <Flags>
@@ -19,9 +19,9 @@
       <MinorVersionNr Value="1"/>
       <StringTable FileDescription="BASE64 WCX plugin for Double Commander" LegalCopyright="Copyright (C) 2022 Alexander Koblov"/>
     </VersionInfo>
-    <BuildModes>
-      <Item Name="Release" Default="True"/>
-      <Item Name="Debug">
+    <BuildModes Count="2">
+      <Item1 Name="Release" Default="True"/>
+      <Item2 Name="Debug">
         <CompilerOptions>
           <Version Value="11"/>
           <PathDelim Value="\"/>
@@ -57,7 +57,7 @@
             </Options>
           </Linking>
         </CompilerOptions>
-      </Item>
+      </Item2>
     </BuildModes>
     <PublishOptions>
       <Version Value="2"/>
@@ -66,30 +66,30 @@
     <RunParams>
       <FormatVersion Value="2"/>
     </RunParams>
-    <RequiredPackages>
-      <Item>
+    <RequiredPackages Count="2">
+      <Item1>
         <PackageName Value="doublecmd_common"/>
-      </Item>
-      <Item>
+      </Item1>
+      <Item2>
         <PackageName Value="LazUtils"/>
-      </Item>
+      </Item2>
     </RequiredPackages>
-    <Units>
-      <Unit>
+    <Units Count="3">
+      <Unit0>
         <Filename Value="base64wcx.lpr"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="Base64Wcx"/>
-      </Unit>
-      <Unit>
+      </Unit0>
+      <Unit1>
         <Filename Value="base64func.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="Base64Func"/>
-      </Unit>
-      <Unit>
+      </Unit1>
+      <Unit2>
         <Filename Value="base64buf.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="Base64Buf"/>
-      </Unit>
+      </Unit2>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
@@ -103,19 +103,19 @@
       <OtherUnitFiles Value="..\..\..\..\sdk"/>
       <UnitOutputDirectory Value="..\lib"/>
     </SearchPaths>
-    <Conditionals Value="if (TargetCPU &lt;> &apos;arm&apos;) then
+    <Conditionals Value="if (TargetCPU &lt;> 'arm') then
 begin
-  CustomOptions += &apos;-fPIC&apos;;
+  CustomOptions += '-fPIC';
 end;
 
-if (TargetOS = &apos;darwin&apos;) then
+if (TargetOS = 'darwin') then
 begin
-  LinkerOptions += &apos; -no_order_inits&apos;;
+  LinkerOptions += ' -no_order_inits';
 end;
 
-if (TargetOS = &apos;linux&apos;) then
+if (TargetOS = 'linux') then
 begin
-  LinkerOptions += &apos; -z relro --as-needed&apos;;
+  LinkerOptions += ' -z relro --as-needed';
 end;"/>
     <CodeGeneration>
       <SmartLinkUnit Value="True"/>

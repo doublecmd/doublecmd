@@ -53,7 +53,7 @@ begin
 
   while (PByte(pImpDesc) < pEnd) and (pImpDesc^.FirstThunk <> 0) do
   begin
-    if StrComp(@pModule[pImpDesc^.Name], pLibName) = 0 then
+    if StrIComp(@pModule[pImpDesc^.Name], pLibName) = 0 then
     begin
       Result := @pModule[pImpDesc^.FirstThunk];
       Exit;

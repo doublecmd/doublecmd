@@ -703,7 +703,7 @@ begin
       begin
         ActivatePanel(pnlFolder);
         memFolder.Clear;
-        memFolder.Font.Color:= clDefault;
+        memFolder.Font.Color:= gForeColor;
         memFolder.Lines.Add(rsPropsFolder + ': ');
         memFolder.Lines.Add(aFileName);
         memFolder.Lines.Add('');

@@ -3,7 +3,7 @@
     -------------------------------------------------------------------------
     This unit contains specific WINDOWS functions.
 
-    Copyright (C) 2006-2021 Alexander Koblov (alexx2000@mail.ru)
+    Copyright (C) 2006-2022 Alexander Koblov (alexx2000@mail.ru)
 
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License
@@ -330,16 +330,19 @@ begin
   end;
 end;
 
-function DisplayName(const wsDrv: WideString): WideString;
+function DisplayName(const wsDrv: UnicodeString): UnicodeString;
 var
+  Index: Integer;
   SFI: TSHFileInfoW;
 begin
   FillChar(SFI, SizeOf(SFI), 0);
-  SHGetFileInfoW(PWChar(wsDrv), 0, SFI, SizeOf(SFI), SHGFI_DISPLAYNAME);
-  Result:= SFI.szDisplayName;
-
-  if Pos('(', Result) <> 0 then
-    SetLength(Result, Pos('(', Result) - 2);
+  if SHGetFileInfoW(PWideChar(wsDrv), 0, SFI, SizeOf(SFI), SHGFI_DISPLAYNAME) = 0 then
+    Result:= EmptyWideStr
+  else begin
+    Result:= SFI.szDisplayName;
+    Index:= Pos('(', Result);
+    if Index > 1 then SetLength(Result, Index - 2);
+  end;
 end;
 
 function ExtractVolumeGUID(const VolumeName: UnicodeString): UnicodeString;
@@ -367,51 +370,38 @@ begin
     Result:= UnicodeString(wsVolumeName);
 end;
 
-(* Drive ready *)
-
 function mbDriveReady(const sDrv: String): Boolean;
 var
-  NotUsed: DWORD;
-  wsDrv: WideString;
+  NotUsed: DWORD = 0;
+  wsDrv: UnicodeString;
 begin
   wsDrv:= CeUtf8ToUtf16(sDrv);
-  Result:= GetVolumeInformationW(PWChar(wsDrv), nil, 0, nil, NotUsed, NotUsed, nil, 0);
+  Result:= GetVolumeInformationW(PWideChar(wsDrv), nil, 0, nil, NotUsed, NotUsed, nil, 0);
 end;
-
-(* Disk label *)
 
 function mbGetVolumeLabel(const sDrv: String; const bVolReal: Boolean): String;
 var
-  WinVer: Byte;
-  DriveType, NotUsed: DWORD;
-  Buf: array [0..MAX_PATH - 1] of WideChar;
-  wsDrv,
-  wsResult: UnicodeString;
+  dwDummy: DWORD = 0;
+  wsDrv, wsResult: UnicodeString;
+  wcName: array [0..MAX_PATH] of WideChar;
 begin
-  Result:= '';
   wsDrv:= CeUtf8ToUtf16(sDrv);
-  WinVer:= LOBYTE(LOWORD(GetVersion));
-  DriveType:= GetDriveTypeW(PWChar(wsDrv));
 
-  if (WinVer <= 4) and (DriveType <> DRIVE_REMOVABLE) or bVolReal then
-    begin // Win9x, Me, NT <= 4.0
-      Buf[0]:= #0;
-      GetVolumeInformationW(PWChar(wsDrv), Buf, DWORD(SizeOf(Buf)), nil,
-                            NotUsed, NotUsed, nil, 0);
-      wsResult:= Buf;
-
-      if bVolReal and (WinVer >= 5) and (Result <> '') and
-         (DriveType <> DRIVE_REMOVABLE) then // Win2k, XP and higher
-        wsResult:= DisplayName(wsDrv)
-      else if (Result = '') and (not bVolReal) then
-        wsResult:= '<none>';
+  if not bVolReal then
+    wsResult:= DisplayName(wsDrv)
+  else begin
+    wcName[0]:= #0;
+    if GetVolumeInformationW(PWideChar(wsDrv), wcName, MAX_PATH,
+                             nil, dwDummy, dwDummy, nil, 0) then
+    begin
+      wsResult:= wcName;
     end
-  else
-    wsResult:= DisplayName(wsDrv);
-  Result:= UTF16ToUTF8(wsResult);
+    else begin
+      wsResult:= Default(UnicodeString);
+    end;
+  end;
+  Result:= CeUtf16ToUtf8(wsResult);
 end;
-
-(* Wait for change disk label *)
 
 function mbSetVolumeLabel(sRootPathName, sVolumeName: String): Boolean;
 var
@@ -434,8 +424,6 @@ begin
   while st1 = st2 do
     st2:= mbGetVolumeLabel(sDrv, FALSE);
 end;
-
-(* Close CD/DVD *)
 
 procedure mbCloseCD(const sDrv: String);
 var
@@ -818,7 +806,7 @@ var
   end;
 
   // From UNC name extracts computer name.
-  function GetMachineName(wPathName: LPCWSTR): WideString;
+  function GetMachineName(wPathName: LPCWSTR): UnicodeString;
   var
     lpMachineName,
     lpMachineNameNext: PWideChar;
@@ -840,7 +828,7 @@ var
 
 var
   wszUNCPathName: array[0..32767] of WideChar;
-  wsPathName: WideString;
+  wsPathName: UnicodeString;
   pSecurityDescriptor: PSECURITY_DESCRIPTOR = nil;
   pOwnerSid: PSID = nil;
   pUNI: PUniversalNameInfoW;

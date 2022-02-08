@@ -755,8 +755,16 @@ begin
           end;
 
           Result := FShellMenu1.InvokeCommand(lpici);
-          if not (Succeeded(Result) or (Result = COPYENGINE_E_USER_CANCELLED)) then
-            OleErrorUTF8(Result);
+
+          if not Succeeded(Result) then
+          begin
+            case Result of
+              COPYENGINE_E_USER_CANCELLED,
+              E_FAIL: ; // Ignore
+            else
+              OleErrorUTF8(Result);
+            end;
+          end;
 
           // Reload after possible changes on the filesystem.
           if SameText(sVerb, sCmdVerbLink) or SameText(sVerb, sCmdVerbDelete) then
