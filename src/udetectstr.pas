@@ -64,6 +64,7 @@ type
     FForce: Boolean;
     FDataSize: Integer;
     FFileRead: Boolean;
+    FDetectStr: String;
     FMathString: String;
     FInput, FOutput, FStack: array of TMathChar;
   private
@@ -73,17 +74,17 @@ type
     function GetOperand(Mid: Integer; var Len: Integer): String;
     procedure ProcessString;
     procedure ConvertInfixToPostfix;
-    function IsDigit(C: AnsiChar): Boolean;
+    function IsOperand(C: AnsiChar): Boolean;
     function IsOperator(C: AnsiChar): Boolean;
     function GetPrecedence(mop: TMathOperatorType): Integer;
+    procedure SetDetectStr(const AValue: String);
     function BooleanToStr(X: Boolean): String;
-    procedure SetMathString(const AValue: String);
     function StrToBoolean(S: String):Boolean;
   public
     function TestFileResult(const aFile: TFile): Boolean; overload;
     function TestFileResult(const aFileName: String): Boolean; overload;
   published
-    property DetectStr: String read FMathString write SetMathString;
+    property DetectStr: String read FDetectStr write SetDetectStr;
     property IsForce: Boolean read FForce write FForce;
   end;
 
@@ -273,7 +274,7 @@ begin
     Result:= EmptyStr;
     for I:= Mid to Len do
     begin
-      if IsDigit(FMathString[I]) then
+      if IsOperand(FMathString[I]) then
         Result:= Result + FMathString[I]
       else
         Break;
@@ -332,7 +333,7 @@ begin
       FInput[I].op:= GetOperator(FMathString[I + 1]);
       Inc(I);
     end
-    else if IsDigit(FMathString[I+1]) then
+    else if IsOperand(FMathString[I+1]) then
     begin
       FInput[I].mathtype:= mtoperand;
       FInput[I].data:= GetOperand(I + 1, NumLen);
@@ -347,7 +348,7 @@ begin
   Result:= (C in ['=', '#', '!', '&', '<', '>', '|']);
 end;
 
-function TParserControl.IsDigit(C: AnsiChar): Boolean;
+function TParserControl.IsOperand(C: AnsiChar): Boolean;
 begin
   Result:= not (C in ['=', '#', '!', '&', '<', '>', '|', '(', ')', ' ']);
 end;
@@ -372,10 +373,11 @@ begin
   if X then Result:= 'true' else Result:= 'false';
 end;
 
-procedure TParserControl.SetMathString(const AValue: String);
+procedure TParserControl.SetDetectStr(const AValue: String);
 begin
-  if FMathString <> AValue then
+  if FDetectStr <> AValue then
   begin
+    FDetectStr:= AValue;
     FMathString:= AValue;
     ConvertInfixToPostfix;
   end;
@@ -440,5 +442,5 @@ begin
   end;
 end;
 
- end.
+end.
 
