@@ -91,7 +91,8 @@ type
 implementation
 
 uses
-  DCStrUtils, DCClassesUtf8, uDebug, uFileProperty, uFileSystemFileSource;
+  DCStrUtils, DCClassesUtf8, uDebug, uFileProperty, uFileSystemFileSource,
+  uFindMmap;
 
 function TParserControl.FileRead(const FileName: String): Boolean;
 begin
@@ -114,6 +115,7 @@ end;
 function TParserControl.Calculate(aFile: TFile; operand1, operand2, Aoperator: TMathChar): String;
 var
   ASize: Int64;
+  AValue: Boolean;
   AChar, Index: Integer;
   tmp, data1, data2: String;
 begin
@@ -162,6 +164,26 @@ begin
       end;
 
       Result:= BooleanToStr(FData[Index] = AChar);
+    end;
+  end;
+
+  // FIND FINDI
+  if (data1 = 'FIND') or (data1 = 'FINDI') then
+  begin
+    if FFileRead then
+    begin
+      if (FDataSize = 0) then Exit;
+    end
+    else begin
+      if not FileRead(aFile.FullPath) then Exit;
+    end;
+    data2:= operand2.data;
+    ASize:= Length(data2);
+    AValue:= (data1 = 'FIND');
+    if (ASize > 2) and (data2[1] = '"') and (data2[ASize] = '"') then
+    begin
+      data2:= Copy(data2, 2, ASize - 2);
+      Result:= BooleanToStr(PosMem(@FData[0], FDataSize, 0, data2, AValue, False) <> Pointer(-1));
     end;
   end;
 
@@ -284,15 +306,17 @@ begin
 end;
 
 procedure TParserControl.ProcessString;
+const
+  Flags: TReplaceFlags = [rfReplaceAll, rfIgnoreCase];
 var
   I: Integer;
   NumLen: Integer;
 begin
+  FMathString:= StringReplace(FMathString, 'FIND(', 'FIND=(', Flags);
   FMathString:= StringReplace(FMathString, '!=', '#', [rfReplaceAll]);
-  FMathString:= StringReplace(FMathString, 'FORCE', BooleanToStr(FForce),
-                              [rfReplaceAll, rfIgnoreCase]);
-  FMathString:= StringReplace(FMathString, 'MULTIMEDIA', 'true',
-                              [rfReplaceAll, rfIgnoreCase]);
+  FMathString:= StringReplace(FMathString, 'FINDI(', 'FINDI=(', Flags);
+  FMathString:= StringReplace(FMathString, 'MULTIMEDIA', 'true', Flags);
+  FMathString:= StringReplace(FMathString, 'FORCE', BooleanToStr(FForce), Flags);
 
   NumLen:= 1;
   while NumLen < Length(FMathString) do
