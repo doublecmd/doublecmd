@@ -81,12 +81,13 @@ type
     FPluginWindow: HWND;
     function GetCanPreview: Boolean;
     function GetCanPrint: Boolean;
+    function GetDetectStr: String;
     function GIsLoaded: Boolean;
+    procedure SetDetectStr(const AValue: String);
     procedure WlxPrepareContainer(var {%H-}ParentWin: HWND);
   public
     Name: String;
     FileName: String;
-    DetectStr: String;
     pShowFlags: Integer;
     QuickView: Boolean;
     Enabled: Boolean;
@@ -115,6 +116,7 @@ type
     procedure ResizeWindow(aRect: TRect);
     //---------------------
     property IsLoaded: Boolean read GIsLoaded;
+    property DetectStr: String read GetDetectStr write SetDetectStr;
     property ModuleHandle: TLibHandle read FModuleHandle write FModuleHandle;
     property CanPreview: Boolean read GetCanPreview;
     property PluginWindow: HWND read FPluginWindow;
@@ -235,9 +237,19 @@ begin
   Result := FModuleHandle <> 0;
 end;
 
+procedure TWlxModule.SetDetectStr(const AValue: String);
+begin
+  FParser.DetectStr:= AValue;
+end;
+
 function TWlxModule.GetCanPrint: Boolean;
 begin
   Result := Assigned(ListPrint) or Assigned(ListPrintW);
+end;
+
+function TWlxModule.GetDetectStr: String;
+begin
+  Result:= FParser.DetectStr;
 end;
 
 function TWlxModule.GetCanPreview: Boolean;
@@ -447,7 +459,6 @@ function TWlxModule.FileParamVSDetectStr(AFileName: String; bForce: Boolean): Bo
 begin
   if not Enabled then Exit(False);
   FParser.IsForce:= bForce;
-  FParser.DetectStr := Self.DetectStr;
   DCDebug('DetectStr = ' + FParser.DetectStr);
   DCDebug('AFileName = ' + AFileName);
   Result := FParser.TestFileResult(AFileName);
