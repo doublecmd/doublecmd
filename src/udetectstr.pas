@@ -4,6 +4,8 @@
    Detect string parser.
 
    Copyright (C) 2008  Dmitry Kolomiets (B4rr4cuda@rambler.ru)
+   Copyright (C) 2009-2022  Alexander Koblov (alexx2000@mail.ru)
+
    Based on TMathControl by Vimil Saju
   
    This program is free software; you can redistribute it and/or modify
@@ -17,8 +19,7 @@
    GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   along with this program; if not, write to the Free Software
-   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+   along with this program. If not, see <http://www.gnu.org/licenses/>.
 }
 
 unit uDetectStr;
@@ -32,71 +33,96 @@ uses
   uMasks, uFile;
 
 type
-  TMathtype=(mtnil,mtoperator,mtlbracket,mtrbracket,mtoperand);
+  TMathType = (mtnil, mtoperator, mtlbracket, mtrbracket, mtoperand);
 
 type
-  TMathOperatortype=(monone, // NULL
-                     moequ,  // =
-                     moneq,  // != replaced with #
-                     moles,  // <
-                     momor,  // >
-                     moand,  // &
-                     moor,   // |
-                     monot   // NOT
-                    );
+  TMathOperatorType = (monone, // NULL
+                       moequ,  // =
+                       moneq,  // != replaced with #
+                       moles,  // <
+                       momor,  // >
+                       moand,  // &
+                       moor,   // |
+                       monot   // NOT
+                      );
 
 type
-  pmathchar = ^Tmathchar;
+  PMathChar = ^TMathChar;
   TMathChar = record
-    case mathtype: Tmathtype of
-      mtoperand:(data:shortstring);
-      mtoperator:(op:TMathOperatortype);
+    case mathtype: TMathType of
+      mtoperand: (data: shortstring);
+      mtoperator: (op: TMathOperatorType);
   end;
 
 type
 
-   { TParserControl }
+  { TParserControl }
 
-   TParserControl = class
-   public
-    function TestFileResult(const aFile: TFile): boolean; overload;
-    function TestFileResult(const aFileName: String): boolean; overload;
-   private
-    input,output,stack:array of tmathchar;
-    fmathstring:string;
-    fforce:boolean;
-    function getresult(const aFile: TFile):boolean;
-    function calculate(aFile: TFile; operand1,operand2,Aoperator:Tmathchar):string;
-    function getoperator(c:String):TMathOperatortype;
-    function getoperand(mid:integer;var len:integer):string;
-    procedure processstring;
-    procedure convertinfixtopostfix;
-    function isdigit(c:String):boolean;
-    function isoperator(c:String):boolean;
-    function getprecedence(mop:TMathOperatortype):integer;
-    function BooleanToStr(x:boolean):string;
-    function StrToBoolean(s:string):boolean;
-   public
-     destructor Destroy; override;
-   published
-    property DetectStr:string read fmathstring write fmathstring;
-    property IsForce:boolean read fforce write fforce;
-   end;
+  TParserControl = class
+  private
+    FData: TBytes;
+    FForce: Boolean;
+    FDataSize: Integer;
+    FFileRead: Boolean;
+    FDetectStr: String;
+    FMathString: String;
+    FInput, FOutput, FStack: array of TMathChar;
+  private
+    function FileRead(const FileName: String): Boolean;
+    function Calculate(aFile: TFile; operand1, operand2, Aoperator: TMathChar): String;
+    function GetOperator(C: AnsiChar): TMathOperatorType;
+    function GetOperand(Mid: Integer; var Len: Integer): String;
+    procedure ProcessString;
+    procedure ConvertInfixToPostfix;
+    function IsOperand(C: AnsiChar): Boolean;
+    function IsOperator(C: AnsiChar): Boolean;
+    function GetPrecedence(mop: TMathOperatorType): Integer;
+    procedure SetDetectStr(const AValue: String);
+    function BooleanToStr(X: Boolean): String;
+    function StrToBoolean(S: String):Boolean;
+  public
+    function TestFileResult(const aFile: TFile): Boolean; overload;
+    function TestFileResult(const aFileName: String): Boolean; overload;
+  published
+    property DetectStr: String read FDetectStr write SetDetectStr;
+    property IsForce: Boolean read FForce write FForce;
+  end;
 
 implementation
 
 uses
-  uDebug, uFileProperty, uFileSystemFileSource;
-  
-function TParserControl.calculate(aFile: TFile; operand1,operand2,Aoperator:Tmathchar):string;
+  DCStrUtils, DCClassesUtf8, uDebug, uFileProperty, uFileSystemFileSource,
+  uFindMmap;
+
+function TParserControl.FileRead(const FileName: String): Boolean;
+begin
+  FFileRead:= True;
+  SetLength(FData, 8192);
+  try
+    with TFileStreamEx.Create(FileName, fmOpenRead or fmShareDenyNone) do
+    try
+      FDataSize:= Read(FData[0], Length(FData));
+    finally
+      Free;
+    end;
+    Result:= True;
+  except
+    FDataSize:= 0;
+    Result:= False;
+  end;
+end;
+
+function TParserControl.Calculate(aFile: TFile; operand1, operand2, Aoperator: TMathChar): String;
 var
   ASize: Int64;
-  tmp, data1: String;
+  AValue: Boolean;
+  AChar, Index: Integer;
+  tmp, data1, data2: String;
 begin
   Result:= 'false';
   data1:= UpperCase(operand1.data);
 
-  //Not
+  // NOT
   if (operand1.data = 'NOT') and ((operand2.data = 'true') or (operand2.data = 'false')) then
   begin
     Result:= BooleanToStr(not StrToBoolean(operand2.data));
@@ -112,300 +138,333 @@ begin
     end;
   end;
 
-   //EXT= EXT!=
-   if (data1 = 'EXT') then
-   begin
-     tmp:= aFile.Extension;
-     tmp:= UpperCase(tmp);
-     tmp:= '"' + tmp + '"';
-     case Aoperator.op of
+  // [X]= [X]!=
+  if StrBegins(data1, '[') and StrEnds(data1, ']') then
+  begin
+    if FFileRead then
+    begin
+      if (FDataSize = 0) then Exit;
+    end
+    else begin
+      if not FileRead(aFile.FullPath) then Exit;
+    end;
+
+    data2:= operand2.data;
+    ASize:= Length(data1);
+    Index:= StrToIntDef(Copy(data1, 2, ASize - 2), -1);
+
+    if (Index >= 0) and (Index < FDataSize) then
+    begin
+      ASize:= Length(data2);
+
+      if (ASize > 2) and (data2[1] = '"') and (data2[ASize] = '"') then
+        AChar:= Ord(data2[2])
+      else begin
+        if not TryStrToInt(data2, AChar) then Exit;
+      end;
+
+      Result:= BooleanToStr(FData[Index] = AChar);
+    end;
+  end;
+
+  // FIND FINDI
+  if (data1 = 'FIND') or (data1 = 'FINDI') then
+  begin
+    if FFileRead then
+    begin
+      if (FDataSize = 0) then Exit;
+    end
+    else begin
+      if not FileRead(aFile.FullPath) then Exit;
+    end;
+    data2:= operand2.data;
+    ASize:= Length(data2);
+    AValue:= (data1 = 'FIND');
+    if (ASize > 2) and (data2[1] = '"') and (data2[ASize] = '"') then
+    begin
+      data2:= Copy(data2, 2, ASize - 2);
+      Result:= BooleanToStr(PosMem(@FData[0], FDataSize, 0, data2, AValue, False) <> Pointer(-1));
+    end;
+  end;
+
+  // EXT= EXT!=
+  if (data1 = 'EXT') then
+  begin
+    tmp:= aFile.Extension;
+    tmp:= UpperCase(tmp);
+    tmp:= '"' + tmp + '"';
+    case Aoperator.op of
       moequ: Result:= BooleanToStr(MatchesMask(tmp, operand2.data));
       moneq: Result:= BooleanToStr(not MatchesMask(tmp, operand2.data));
-     end;
-   end;
+    end;
+  end;
 
-   //SIZE > < = !=
-   if (data1 = 'SIZE') and (fpSize in aFile.SupportedProperties) then
-   begin
-     if TryStrToInt64(operand2.data, ASize) then
-     begin
-       case Aoperator.op of
-         moequ: Result:= BooleanToStr(aFile.Size = ASize);
-         moneq: Result:= BooleanToStr(aFile.Size <> ASize);
-         moles: Result:= BooleanToStr(aFile.Size < ASize);
-         momor: Result:= BooleanToStr(aFile.Size > ASize);
-       end;
-     end;
-   end;
+  // SIZE > < = !=
+  if (data1 = 'SIZE') and (fpSize in aFile.SupportedProperties) then
+  begin
+    if TryStrToInt64(operand2.data, ASize) then
+    begin
+      case Aoperator.op of
+        moequ: Result:= BooleanToStr(aFile.Size = ASize);
+        moneq: Result:= BooleanToStr(aFile.Size <> ASize);
+        moles: Result:= BooleanToStr(aFile.Size < ASize);
+        momor: Result:= BooleanToStr(aFile.Size > ASize);
+      end;
+    end;
+  end;
 end;
 
-function TParserControl.TestFileResult(const aFile: TFile):boolean;
+function TParserControl.TestFileResult(const aFile: TFile): Boolean;
+var
+  I: Integer;
+  tmp1, tmp2, tmp3: TMathChar;
 begin
-  Result:= getresult(aFile);
+  if FMathString = '' then
+  begin
+    Result:= True;
+    Exit;
+  end;
+  FFileRead:= False;
+  SetLength(FStack, 0);
+  for I:= 0 to Length(FOutput) - 1 do
+  begin
+    if FOutput[I].mathtype = mtoperand then
+    begin
+      SetLength(FStack, Length(FStack) + 1);
+      FStack[Length(FStack) - 1]:= FOutput[I];
+    end
+    else if FOutput[I].mathtype = mtoperator then
+    begin
+      if Length(FStack) > 1 then
+      begin
+        tmp1:= FStack[Length(FStack) - 1];
+        tmp2:= FStack[Length(FStack) - 2];
+        SetLength(FStack, Length(FStack) - 2);
+        tmp3.mathtype:= mtoperand;
+        tmp3.data:= Calculate(aFile, tmp2, tmp1, FOutput[I]);
+        SetLength(FStack, Length(FStack) + 1);
+        FStack[Length(FStack) - 1]:= tmp3;
+      end;
+    end;
+  end;
+  Result:= (Length(FStack) > 0) and StrToBoolean(FStack[0].data);
+  SetLength(FStack, 0);
 end;
 
-function TParserControl.TestFileResult(const aFileName: String): boolean;
+function TParserControl.TestFileResult(const aFileName: String): Boolean;
 var
   aFile: TFile;
 begin
   aFile:= TFileSystemFileSource.CreateFileFromFile(aFileName);
   try
-    DCDebug('aFile.Extension = ' + aFile.Extension);
-    Result:= getresult(aFile);
+    Result:= TestFileResult(aFile);
   finally
     aFile.Free;
   end;
 end;
 
-function TParserControl.getresult(const aFile: TFile):boolean;
-var
-  i: integer;
-  tmp1, tmp2, tmp3: tmathchar;
+function TParserControl.GetOperator(C: AnsiChar): TMathOperatorType;
 begin
-  if fmathstring = '' then
-  begin
-    Result:= True;
-    Exit;
+  case C of
+    '<': Result:= moles;
+    '>': Result:= momor;
+    '&': Result:= moand;
+    '=': Result:= moequ;
+    '#': Result:= moneq;
+    '!': Result:= monot;
+    '|': Result:= moor;
+  else
+         Result:= monone;
   end;
-  convertinfixtopostfix;
-  SetLength(stack, 0);
-  for i:= 0 to Length(output) - 1 do
+end;
+
+function TParserControl.GetOperand(Mid: Integer; var Len: Integer): String;
+var
+  I: Integer;
+begin
+  Len:= High(FMathString);
+  if (FMathString[Mid] = '"') then
   begin
-    if output[i].mathtype = mtoperand then
+    Result:= FMathString[Mid];
+    for I:= Mid + 1 to Len do
     begin
-      setlength(stack, length(stack) + 1);
-      stack[length(stack) - 1]:= output[i];
+      Result:= Result + FMathString[I];
+      if FMathString[I] = '"' then Break;
+    end;
+  end
+  else begin
+    Result:= EmptyStr;
+    for I:= Mid to Len do
+    begin
+      if IsOperand(FMathString[I]) then
+        Result:= Result + FMathString[I]
+      else
+        Break;
+    end;
+  end;
+  Len:= Length(Result);
+end;
+
+procedure TParserControl.ProcessString;
+const
+  Flags: TReplaceFlags = [rfReplaceAll, rfIgnoreCase];
+var
+  I: Integer;
+  NumLen: Integer;
+begin
+  FMathString:= StringReplace(FMathString, 'FIND(', 'FIND=(', Flags);
+  FMathString:= StringReplace(FMathString, '!=', '#', [rfReplaceAll]);
+  FMathString:= StringReplace(FMathString, 'FINDI(', 'FINDI=(', Flags);
+  FMathString:= StringReplace(FMathString, 'MULTIMEDIA', 'true', Flags);
+  FMathString:= StringReplace(FMathString, 'FORCE', BooleanToStr(FForce), Flags);
+
+  NumLen:= 1;
+  while NumLen < Length(FMathString) do
+  begin
+    if (FMathString[NumLen] = '!') and (FMathString[NumLen + 1] <> '=') then
+    begin
+      I:= NumLen;
+      Delete(FMathString, I, 1);
+      Insert('NOT!', FMathString, I);
+      Inc(NumLen, 4);
+    end else Inc(NumLen);
+  end;
+
+  I:= 0;
+  NumLen:= 0;
+  SetLength(FInput, 0);
+  SetLength(FStack, 0);
+  SetLength(FOutput, 0);
+
+  FMathString:= '(' + FMathString + ')';
+  SetLength(FInput, Length(FMathString));
+
+  while I <= Length(FMathString) - 1 do
+  begin
+    if FMathString[I + 1] = '(' then
+    begin
+      FInput[I].mathtype:= mtlbracket;
+      Inc(I);
     end
-    else if output[i].mathtype = mtoperator then
+    else if FMathString[I + 1] = ')' then
     begin
-      if Length(stack) > 1 then
+      FInput[I].mathtype:= mtrbracket;
+      Inc(I);
+    end
+    else if IsOperator(FMathString[I + 1]) then
+    begin
+      FInput[I].mathtype:= mtoperator;
+      FInput[I].op:= GetOperator(FMathString[I + 1]);
+      Inc(I);
+    end
+    else if IsOperand(FMathString[I+1]) then
+    begin
+      FInput[I].mathtype:= mtoperand;
+      FInput[I].data:= GetOperand(I + 1, NumLen);
+      Inc(I, NumLen);
+    end
+    else {if FMathString[I + 1] = ' ' then} Inc(I);
+  end;
+end;
+
+function TParserControl.IsOperator(C: AnsiChar): Boolean;
+begin
+  Result:= (C in ['=', '#', '!', '&', '<', '>', '|']);
+end;
+
+function TParserControl.IsOperand(C: AnsiChar): Boolean;
+begin
+  Result:= not (C in ['=', '#', '!', '&', '<', '>', '|', '(', ')', ' ']);
+end;
+
+function TParserControl.GetPrecedence(mop: TMathOperatorType): Integer;
+begin
+  case mop of
+    moor:  Result:= 0;
+    moand: Result:= 1;
+    moequ: Result:= 2;
+    moneq: Result:= 2;
+    moles: Result:= 2;
+    momor: Result:= 2;
+    monot: Result:= 2;
+  else
+           Result:= -1;
+  end;
+end;
+
+function TParserControl.BooleanToStr(X: Boolean): String;
+begin
+  if X then Result:= 'true' else Result:= 'false';
+end;
+
+procedure TParserControl.SetDetectStr(const AValue: String);
+begin
+  if FDetectStr <> AValue then
+  begin
+    FDetectStr:= AValue;
+    FMathString:= AValue;
+    ConvertInfixToPostfix;
+  end;
+end;
+
+function TParserControl.StrToBoolean(S: String): Boolean;
+begin
+  if S = 'true' then Result:= True else Result:= False;
+end;
+
+procedure TParserControl.ConvertInfixToPostfix;
+var
+  i, j, prec: Integer;
+begin
+  ProcessString;
+  for i:= 0 to Length(FInput) - 1 do
+  begin
+    if FInput[i].mathtype = mtoperand then
+    begin
+      SetLength(FOutput, Length(FOutput) + 1);
+      FOutput[Length(FOutput) - 1]:= FInput[i];
+    end
+    else if FInput[i].mathtype = mtlbracket then
+    begin
+      SetLength(FStack, Length(FStack) + 1);
+      FStack[Length(FStack) - 1]:= FInput[i];
+    end
+    else if FInput[i].mathtype = mtoperator then
+    begin
+      prec:= GetPrecedence(FInput[i].op);
+      j:= Length(FStack) - 1;
+      if j >= 0 then
       begin
-        tmp1:= stack[length(stack) - 1];
-        tmp2:= stack[length(stack) - 2];
-        setlength(stack, length(stack) - 2);
-        tmp3.mathtype:= mtoperand;
-        tmp3.data:= calculate(aFile, tmp2, tmp1, output[i]);
-        setlength(stack,length(stack) + 1);
-        stack[length(stack) - 1]:= tmp3;
+        while (j >= 0) and (GetPrecedence(FStack[j].op) >= prec) do
+        begin
+          SetLength(FOutput, Length(FOutput) + 1);
+          FOutput[Length(FOutput) - 1]:= FStack[j];
+          Setlength(FStack, Length(FStack) - 1);
+          j:= j - 1;
+        end;
+        SetLength(FStack, Length(FStack) + 1);
+        FStack[Length(FStack) - 1]:= FInput[i];
+      end;
+    end
+    else if FInput[i].mathtype = mtrbracket then
+    begin
+      j:= Length(FStack) - 1;
+      if j >= 0 then
+      begin
+        while (j >= 0) and (FStack[j].mathtype <> mtlbracket) do
+        begin
+          SetLength(FOutput, Length(FOutput) + 1);
+          FOutput[Length(FOutput) - 1]:= FStack[j];
+          SetLength(FStack, Length(FStack) - 1);
+          j:= j - 1;
+        end;
+        if j >= 0 then begin
+          SetLength(FStack, Length(FStack) - 1);
+        end;
       end;
     end;
   end;
-  Result:= (Length(stack) > 0) and strToBoolean(stack[0].data);
-  SetLength(stack, 0);
-  SetLength(input, 0);
-  SetLength(output, 0);
 end;
 
- function TParserControl.getoperator(c:String):TMathOperatortype;
- begin
- result:=monone;
-      if c='<' then
-   result:=moles
- else if c='>' then
-   result:=momor
- else if c='&' then
-   result:=moand
- else if c='=' then
-   result:=moequ
- else if c='#' then
-   result:=moneq
- else if c='|' then
-   result:=moor
-else if c='!' then
-   result:=monot;
- end;
-
- function TParserControl.getoperand(mid:integer;var len:integer):string;
- var
- i,j:integer;
- begin
- Result := '';
- j:=1;
- for i:=mid to length(fmathstring)-1 do
-   begin
-    if isdigit(fmathstring[i]) then
-     begin
-      if j<=20 then
-       Result:=Result+fmathstring[i];
-      j:=j+1;
-     end
-    else
-     break;
-   end;
- len:=length(Result);
- end;
-
-procedure TParserControl.processstring;
- var
- i:integer;
- numlen:integer;
- begin
- //---------------------
- while pos('!=',fmathstring)>0 do
-   begin
-     i:=pos('!=',fmathstring);
-     delete(fmathstring,i,2);
-     insert('#',fmathstring,i);
-   end;
- //---------------------
- fmathstring:= StringReplace(fmathstring, 'FORCE', BooleanToStr(fforce),
-                             [rfReplaceAll, rfIgnoreCase]);
- //---------------------
- fmathstring:= StringReplace(fmathstring, 'MULTIMEDIA', 'true',
-                             [rfReplaceAll, rfIgnoreCase]);
- //---------------------
- numlen:=1;
- while numlen < length(fmathstring) do
- if (fmathstring[numlen]='!') and (fmathstring[numlen+1]<>'=') then
-   begin
-     i:=numlen;
-     delete(fmathstring,i,1);
-     insert('NOT!',fmathstring,i);
-     inc(numlen,4);
-   end else inc(numlen);
- //---------------------
-
- i:=0;
- numlen:=0;
- setlength(output,0);
- setlength(input,0);
- setlength(stack,0);
-
- fmathstring:='('+fmathstring+')';
- setlength(input,length(fmathstring));
- while i<=length(fmathstring)-1 do
-   begin
-    if fmathstring[i+1]='(' then
-     begin
-      input[i].mathtype:=mtlbracket;
-      i:=i+1;
-     end
-    else if fmathstring[i+1]=')' then
-     begin
-      input[i].mathtype:=mtrbracket;
-      i:=i+1;
-     end
-    else if isoperator(fmathstring[i+1]) then
-     begin
-      input[i].mathtype:=mtoperator;
-      input[i].op:=getoperator(fmathstring[i+1]);
-      i:=i+1;
-     end
-    else if isdigit(fmathstring[i+1]) then
-     begin
-      input[i].mathtype:=mtoperand;
-      input[i].data:=getoperand(i+1,numlen);
-      i:=i+numlen;
-     end else {if fmathstring[i+1]=' ' then} inc(i);
-   end;
- end;
-
-
- function TParserControl.isoperator(c:String):boolean;
- begin
- result:=false;
- if (c='=')
- or (c='#')
- or (c='!')
- or (c='&')
- or (c='<')
- or (c='>')
- or (c='|') then
-   result:=true;
- end;
-
-function TParserControl.isdigit(c:String):boolean;
- begin
- result:=false;
- if pos(c,'=#!&<>|() ')<=0 then
-   result:=true;
- end;
-
- function TParserControl.getprecedence(mop:TMathOperatortype):integer;
- begin
- result:=-1;
- case mop of
-   moor:result:=1;
-   moand:result:=1;
-   moequ:result:=2;
-   moneq:result:=2;
-   moles:result:=2;
-   momor:result:=2;
-   monot:result:=2;
- end;
- end;
-
-function TParserControl.BooleanToStr(x: boolean): string;
- begin
-   if x then
-     Result:='true'
-   else
-     Result:='false';
- end;
-
-function TParserControl.StrToBoolean(s: string): boolean;
- begin
-  if s='true' then Result:=true else
-   Result:=false;
- end;
-
-destructor TParserControl.Destroy;
-begin
-  inherited Destroy;
-end;
-
- procedure TParserControl.convertinfixtopostfix;
- var
- i,j,prec:integer;
- begin
- processstring;
- for i:=0 to length(input)-1 do
-   begin
-    if input[i].mathtype=mtoperand then
-     begin
-      setlength(output,length(output)+1);
-      output[length(output)-1]:=input[i];
-     end
-    else if input[i].mathtype=mtlbracket then
-     begin
-      setlength(stack,length(stack)+1);
-      stack[length(stack)-1]:=input[i];
-     end
-    else if input[i].mathtype=mtoperator then
-     begin
-      prec:=getprecedence(input[i].op);
-      j:=length(stack)-1;
-      if j>=0 then
-       begin
-        while (j>=0) and (getprecedence(stack[j].op)>=prec) do
-         begin
-          setlength(output,length(output)+1);
-          output[length(output)-1]:=stack[j];
-          setlength(stack,length(stack)-1);
-          j:=j-1;
-         end;
-        setlength(stack,length(stack)+1);
-        stack[length(stack)-1]:=input[i];
-       end;
-     end
-    else if input[i].mathtype=mtrbracket then
-     begin
-      j:=length(stack)-1;
-      if j>=0 then
-       begin
-        while (j>=0) and (stack[j].mathtype<>mtlbracket) do
-         begin
-          setlength(output,length(output)+1);
-          output[length(output)-1]:=stack[j];
-          setlength(stack,length(stack)-1);
-          j:=j-1;
-         end;
-        if j>=0 then
-         setlength(stack,length(stack)-1);
-       end;
-     end;
-   end;
- end;
-
- end.
+end.
 
