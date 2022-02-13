@@ -43,7 +43,7 @@ const
 
 type
   { TfrmFindDlg }
-  TfrmFindDlg = class(TAloneForm, IFormCommands)
+  TfrmFindDlg = class(TModalForm, IFormCommands)
     actIntelliFocus: TAction;
     actCancel: TAction;
     actClose: TAction;
@@ -972,9 +972,11 @@ begin
     FFrmAttributesEdit.OnOk := @OnAddAttribute;
   end;
   FFrmAttributesEdit.Reset;
+{$IFNDEF DARKWIN}
   if not (fsModal in FormState) then
     FFrmAttributesEdit.Show
   else
+{$ENDIF}
   begin
     FFrmAttributesEdit.ShowModal;
   end;
@@ -2817,6 +2819,7 @@ end;
 { TfrmFindDlg.cm_Close }
 procedure TfrmFindDlg.cm_Close(const Params: array of string);
 begin
+  Hide;
   Close;
 end;
 

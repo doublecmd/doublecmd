@@ -5,7 +5,6 @@ object frmAttributesEdit: TfrmAttributesEdit
   Width = 329
   AutoSize = True
   BorderIcons = [biSystemMenu]
-  BorderStyle = bsSizeToolWin
   Caption = 'Choose attributes'
   ClientHeight = 284
   ClientWidth = 329
