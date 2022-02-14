@@ -2123,6 +2123,10 @@ msgstr "Kopírovať mená, vrátane cesty, do schránky"
 msgid "Copy &Filename(s) to Clipboard"
 msgstr "Kopírovať mená súborov do schránky"
 
+#: tfrmmain.actcopynetnamestoclip.caption
+msgid "Copy names with UNC path"
+msgstr "Kopírovať názvy s UNC cestou"
+
 #: tfrmmain.actcopynoask.caption
 msgid "Copy files without asking for confirmation"
 msgstr "Kopírovať súbory bez potvrdzovania"
@@ -2350,6 +2354,14 @@ msgstr "Náhľadové zobrazenie na ľavom paneli"
 msgid "Load tabs from Favorite Tabs"
 msgstr "Načítať karty z obľúbených kariet"
 
+#: tfrmmain.actloadlist.caption
+msgid "Load List"
+msgstr ""
+
+#: tfrmmain.actloadlist.hint
+msgid "Load list of files/folders from the specified text file"
+msgstr ""
+
 #: tfrmmain.actloadselectionfromclip.caption
 msgid "Load Selection from Clip&board"
 msgstr "Nahrať vý&ber zo schránky"
@@ -2405,6 +2417,14 @@ msgstr "Odznačiť všetko"
 #: tfrmmain.actminimize.caption
 msgid "Minimize window"
 msgstr "Minimalizovať okno"
+
+#: tfrmmain.actmovetableft.caption
+msgid "Move current tab to the left"
+msgstr ""
+
+#: tfrmmain.actmovetabright.caption
+msgid "Move current tab to the right"
+msgstr ""
 
 #: tfrmmain.actmultirename.caption
 msgid "Multi-&Rename Tool"
@@ -10613,10 +10633,6 @@ msgstr "<Predvolené>"
 msgid "Octal"
 msgstr "Osmičkové"
 
-#: ulng.rsmnucopynetnamestoclip
-msgid "Copy names with UNC path"
-msgstr "Kopírovať názvy s UNC cestou"
-
 #: ulng.rsmnucreateshortcut
 msgid "Create Shortcut..."
 msgstr "Vytvoriť odkaz..."
@@ -11695,6 +11711,10 @@ msgstr ""
 #: ulng.rsmsgtctoolbarwheretosave
 msgid "Enter location and filename where to save a TC Toolbar file"
 msgstr "Zadajte umiestnenie a názov súboru pre uloženie súboru TC panela"
+
+#: ulng.rsmsgterminaldisabled
+msgid "Built-in terminal window disabled. Do you want to enable it?"
+msgstr ""
 
 #: ulng.rsmsgterminateprocess
 msgid "WARNING: Terminating a process can cause undesired results including loss of data and system instability. The process will not be given the chance to save its state or data before it is terminated. Are you sure you want to terminate the process?"

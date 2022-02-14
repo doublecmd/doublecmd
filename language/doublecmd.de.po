@@ -2145,6 +2145,10 @@ msgstr "Dateinamen mit komplettem &Pfad kopieren"
 msgid "Copy &Filename(s) to Clipboard"
 msgstr "Datei&namen in die Zwischenablage kopieren"
 
+#: tfrmmain.actcopynetnamestoclip.caption
+msgid "Copy names with UNC path"
+msgstr "Namen mit UNC-Pfad kopieren"
+
 #: tfrmmain.actcopynoask.caption
 msgid "Copy files without asking for confirmation"
 msgstr "Datei(en) ohne Nachfrage kopieren"
@@ -2373,6 +2377,14 @@ msgstr "Vorschaubilder im linken Dateifenster"
 msgid "Load tabs from Favorite Tabs"
 msgstr "Tabs von Favorit laden"
 
+#: tfrmmain.actloadlist.caption
+msgid "Load List"
+msgstr ""
+
+#: tfrmmain.actloadlist.hint
+msgid "Load list of files/folders from the specified text file"
+msgstr ""
+
 #: tfrmmain.actloadselectionfromclip.caption
 msgid "Load Selection from Clip&board"
 msgstr "Auswahl aus der &Zwischenablage laden"
@@ -2428,6 +2440,14 @@ msgstr "Alle a&bwählen"
 #: tfrmmain.actminimize.caption
 msgid "Minimize window"
 msgstr "Fenster minimieren"
+
+#: tfrmmain.actmovetableft.caption
+msgid "Move current tab to the left"
+msgstr ""
+
+#: tfrmmain.actmovetabright.caption
+msgid "Move current tab to the right"
+msgstr ""
 
 #: tfrmmain.actmultirename.caption
 msgid "Multi-&Rename Tool"
@@ -10813,10 +10833,6 @@ msgstr "<Standard>"
 msgid "Octal"
 msgstr "Oktal"
 
-#: ulng.rsmnucopynetnamestoclip
-msgid "Copy names with UNC path"
-msgstr "Namen mit UNC-Pfad kopieren"
-
 #: ulng.rsmnucreateshortcut
 msgid "Create Shortcut..."
 msgstr "Verknüpfung erstellen ..."
@@ -11536,6 +11552,7 @@ msgid "This is not a valid plugin!"
 msgstr "Dies ist kein gültiges Plugin!"
 
 #: ulng.rsmsginvalidpluginarchitecture
+#, fuzzy,badformat
 msgid "This plugin is built for Double Commander for %s.%sIt can not work with Double Commander for %s!"
 msgstr "Dieses Double Commander-Plugin wurde für %s erstellt. Es kann nicht für %s verwendet werden!"
 
@@ -11916,6 +11933,10 @@ msgstr ""
 #: ulng.rsmsgtctoolbarwheretosave
 msgid "Enter location and filename where to save a TC Toolbar file"
 msgstr "Speicherort und Dateiname angeben, unter dem die TC-Symbolleisten-Datei gespeichert werden soll"
+
+#: ulng.rsmsgterminaldisabled
+msgid "Built-in terminal window disabled. Do you want to enable it?"
+msgstr ""
 
 #: ulng.rsmsgterminateprocess
 msgid "WARNING: Terminating a process can cause undesired results including loss of data and system instability. The process will not be given the chance to save its state or data before it is terminated. Are you sure you want to terminate the process?"
@@ -13677,7 +13698,7 @@ msgstr "Hilfe für \"%\"-Variable"
 msgid "Will request request user to enter a parameter with a default suggested value"
 msgstr ""
 "↴\n"
-"     Fordert den Benutzer auf, einen Parameter mit einem standardmäßig vorgeschlagenen Wert einzugeben"
+"     Fordert den Benutzer auf, einen Parameter mit einem standardmäßig vorgeschlagenen Wert einzugeben\n"
 
 #: ulng.rsvarlastdircurrentpath
 msgid "Last directory of panel's path"
@@ -13869,3 +13890,4 @@ msgstr "Eine Ersetzung hat nicht stattgefunden."
 #: umaincommands.rsfavoritetabs_setupnotexist
 msgid "No setup named \"%s\""
 msgstr "Keine Einstellung namens »%s«"
+

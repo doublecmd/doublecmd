@@ -2170,6 +2170,10 @@ msgstr "전체 경로 포함 복사(&P)"
 msgid "Copy &Filename(s) to Clipboard"
 msgstr "파일명 클립보드로 복사(&F)"
 
+#: tfrmmain.actcopynetnamestoclip.caption
+msgid "Copy names with UNC path"
+msgstr ""
+
 #: tfrmmain.actcopynoask.caption
 msgid "Copy files without asking for confirmation"
 msgstr "확인없이 파일 복사하기"
@@ -2400,6 +2404,14 @@ msgstr "왼쪽창에 미리보기"
 msgid "Load tabs from Favorite Tabs"
 msgstr "즐겨찾기 탭에서 불러오기"
 
+#: tfrmmain.actloadlist.caption
+msgid "Load List"
+msgstr ""
+
+#: tfrmmain.actloadlist.hint
+msgid "Load list of files/folders from the specified text file"
+msgstr ""
+
 #: tfrmmain.actloadselectionfromclip.caption
 msgid "Load Selection from Clip&board"
 msgstr "클립보드에서 선택 불러오기(&B)"
@@ -2455,6 +2467,14 @@ msgstr "선택 해제(&U)"
 #: tfrmmain.actminimize.caption
 msgid "Minimize window"
 msgstr "창 최소화"
+
+#: tfrmmain.actmovetableft.caption
+msgid "Move current tab to the left"
+msgstr ""
+
+#: tfrmmain.actmovetabright.caption
+msgid "Move current tab to the right"
+msgstr ""
 
 #: tfrmmain.actmultirename.caption
 msgid "Multi-&Rename Tool"
@@ -7028,8 +7048,10 @@ msgid "Active"
 msgstr "활성"
 
 #: tfrmoptionspluginsdsx.stgplugins.columns[1].title.caption
+#, fuzzy
+#| msgid "Active"
 msgctxt "tfrmoptionspluginsdsx.stgplugins.columns[1].title.caption"
-msgid "Active"
+msgid "Plugin"
 msgstr "플러그인"
 
 #: tfrmoptionspluginsdsx.stgplugins.columns[2].title.caption
@@ -7339,7 +7361,6 @@ msgstr "즐겨찾기 탭과 폴더 히스토리 저장 유지:"
 msgid "Default position in menu when saving a new Favorite Tabs:"
 msgstr "새 즐겨찾기탭 추가시 메뉴 기본 위치:"
 
-#: tfrmoptionsterminal.edrunintermcloseparams.hint#:
 #: tfrmoptionsterminal.edrunintermcloseparams.hint
 msgctxt "tfrmoptionsterminal.edrunintermcloseparams.hint"
 msgid "{command} should normally be present here to reflect the command to be run in terminal"
@@ -8861,9 +8882,10 @@ msgid "Build"
 msgstr "빌드"
 
 #: tfrmstartingsplash.lblcommit.caption
+#, fuzzy
 msgctxt "tfrmstartingsplash.lblcommit.caption"
 msgid "Commit"
-msgstr ""
+msgstr "커밋"
 
 #: tfrmstartingsplash.lblfreepascalver.caption
 msgctxt "TFRMSTARTINGSPLASH.LBLFREEPASCALVER.CAPTION"
@@ -9554,9 +9576,10 @@ msgid "Zoom In"
 msgstr "확대"
 
 #: tfrmviewer.actzoomin.hint
+#, fuzzy
 msgctxt "tfrmviewer.actzoomin.hint"
 msgid "Zoom In"
-msgstr ""
+msgstr "확대"
 
 #: tfrmviewer.actzoomout.caption
 msgctxt "tfrmviewer.actzoomout.caption"
@@ -9564,9 +9587,10 @@ msgid "Zoom Out"
 msgstr "축소"
 
 #: tfrmviewer.actzoomout.hint
+#, fuzzy
 msgctxt "tfrmviewer.actzoomout.hint"
 msgid "Zoom Out"
-msgstr ""
+msgstr "축소"
 
 #: tfrmviewer.btncuttuimage.hint
 msgctxt "TFRMVIEWER.BTNCUTTUIMAGE.HINT"
@@ -10839,10 +10863,6 @@ msgstr ""
 msgid "Octal"
 msgstr ""
 
-#: ulng.rsmnucopynetnamestoclip
-msgid "Copy names with UNC path"
-msgstr ""
-
 #: ulng.rsmnucreateshortcut
 msgid "Create Shortcut..."
 msgstr "바로 가기..."
@@ -11940,6 +11960,10 @@ msgstr ""
 msgid "Enter location and filename where to save a TC Toolbar file"
 msgstr "TC 툴바 파일을 저장할 파일명과 위치를 입력하세요."
 
+#: ulng.rsmsgterminaldisabled
+msgid "Built-in terminal window disabled. Do you want to enable it?"
+msgstr ""
+
 #: ulng.rsmsgterminateprocess
 msgid "WARNING: Terminating a process can cause undesired results including loss of data and system instability. The process will not be given the chance to save its state or data before it is terminated. Are you sure you want to terminate the process?"
 msgstr "경고: 프로세스를 종료하면 데이터 손실 및 시스템 불안정을 포함하여 원치 않는 결과가 발생할 수 있습니다. 프로세스는 종료되기 전에 상태 또는 데이터를 저장할 기회가 제공되지 않습니다. 프로세스를 종료하시겠습니까?"
@@ -12629,6 +12653,7 @@ msgid "Import archiver configuration"
 msgstr ""
 
 #: ulng.rsoptarchiverimportdone
+#, fuzzy,badformat
 msgctxt "ulng.rsoptarchiverimportdone"
 msgid "Importation of %d elements from file \"%s\" completed."
 msgstr "파일 \"%s\"에서 %d 요소 가져오기완료."
@@ -13203,9 +13228,10 @@ msgid "Select the file to import tooltip file type configuration(s)"
 msgstr ""
 
 #: ulng.rsopttooltipfiletypeimportprompt
+#, fuzzy
 msgctxt "ulng.rsopttooltipfiletypeimportprompt"
 msgid "Select the one(s) you want to import"
-msgstr ""
+msgstr "가져올 것 중 하나를 선택합니다."
 
 #: ulng.rsopttooltipfiletypewheretosave
 msgid "Enter location and filename where to save tooltip file type configuration"
@@ -13884,3 +13910,4 @@ msgstr "바꾸기 없음."
 #: umaincommands.rsfavoritetabs_setupnotexist
 msgid "No setup named \"%s\""
 msgstr ""
+

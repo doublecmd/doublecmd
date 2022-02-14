@@ -2124,6 +2124,10 @@ msgstr "Kopieer bestandna(a)m(en) met volledig pad"
 msgid "Copy &Filename(s) to Clipboard"
 msgstr "Kopieer bestandna(a)m(en) naar klembord"
 
+#: tfrmmain.actcopynetnamestoclip.caption
+msgid "Copy names with UNC path"
+msgstr "Kopieer namen met UNC-pad"
+
 #: tfrmmain.actcopynoask.caption
 msgid "Copy files without asking for confirmation"
 msgstr "Kopieer bestanden zonder om bevestiging te vragen"
@@ -2351,6 +2355,14 @@ msgstr "Miniatuurweergave op linkerpaneel"
 msgid "Load tabs from Favorite Tabs"
 msgstr "Laad tabbladen van favoriete tabbladen"
 
+#: tfrmmain.actloadlist.caption
+msgid "Load List"
+msgstr ""
+
+#: tfrmmain.actloadlist.hint
+msgid "Load list of files/folders from the specified text file"
+msgstr ""
+
 #: tfrmmain.actloadselectionfromclip.caption
 msgid "Load Selection from Clip&board"
 msgstr "Laad selectie van klembord"
@@ -2406,6 +2418,14 @@ msgstr "Deselecteer alles"
 #: tfrmmain.actminimize.caption
 msgid "Minimize window"
 msgstr "Minimaliseer venster"
+
+#: tfrmmain.actmovetableft.caption
+msgid "Move current tab to the left"
+msgstr ""
+
+#: tfrmmain.actmovetabright.caption
+msgid "Move current tab to the right"
+msgstr ""
 
 #: tfrmmain.actmultirename.caption
 msgid "Multi-&Rename Tool"
@@ -10628,10 +10648,6 @@ msgstr "<Standaard>"
 msgid "Octal"
 msgstr "Octaal"
 
-#: ulng.rsmnucopynetnamestoclip
-msgid "Copy names with UNC path"
-msgstr "Kopieer namen met UNC-pad"
-
 #: ulng.rsmnucreateshortcut
 msgid "Create Shortcut..."
 msgstr "Snelkoppeling maken ..."
@@ -11727,6 +11743,10 @@ msgstr ""
 #: ulng.rsmsgtctoolbarwheretosave
 msgid "Enter location and filename where to save a TC Toolbar file"
 msgstr "Geef locatie en bestandnaam in waar een TC-werkbalkbestand op te slaan"
+
+#: ulng.rsmsgterminaldisabled
+msgid "Built-in terminal window disabled. Do you want to enable it?"
+msgstr ""
 
 #: ulng.rsmsgterminateprocess
 msgid "WARNING: Terminating a process can cause undesired results including loss of data and system instability. The process will not be given the chance to save its state or data before it is terminated. Are you sure you want to terminate the process?"

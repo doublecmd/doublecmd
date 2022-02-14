@@ -2143,6 +2143,10 @@ msgstr "Kopiraj imena datotek s polno &potjo"
 msgid "Copy &Filename(s) to Clipboard"
 msgstr "Kopiraj i&mena datotek v odložišče"
 
+#: tfrmmain.actcopynetnamestoclip.caption
+msgid "Copy names with UNC path"
+msgstr "Kopiraj imena s potjo UNC"
+
 #: tfrmmain.actcopynoask.caption
 msgid "Copy files without asking for confirmation"
 msgstr "Kopiraj datoteke brez zahteve po potrditvi"
@@ -2370,6 +2374,14 @@ msgstr "Pogled sličic v levem oknu"
 msgid "Load tabs from Favorite Tabs"
 msgstr "Naloži zavihke iz seznama priljubljenih"
 
+#: tfrmmain.actloadlist.caption
+msgid "Load List"
+msgstr ""
+
+#: tfrmmain.actloadlist.hint
+msgid "Load list of files/folders from the specified text file"
+msgstr ""
+
 #: tfrmmain.actloadselectionfromclip.caption
 msgid "Load Selection from Clip&board"
 msgstr "Naloži izbor iz o&dložišča"
@@ -2425,6 +2437,14 @@ msgstr "Počisti &izbor"
 #: tfrmmain.actminimize.caption
 msgid "Minimize window"
 msgstr "Skrči okno"
+
+#: tfrmmain.actmovetableft.caption
+msgid "Move current tab to the left"
+msgstr ""
+
+#: tfrmmain.actmovetabright.caption
+msgid "Move current tab to the right"
+msgstr ""
 
 #: tfrmmain.actmultirename.caption
 msgid "Multi-&Rename Tool"
@@ -10721,10 +10741,6 @@ msgstr "<Privzeto>"
 msgid "Octal"
 msgstr "Osmiško"
 
-#: ulng.rsmnucopynetnamestoclip
-msgid "Copy names with UNC path"
-msgstr "Kopiraj imena s potjo UNC"
-
 #: ulng.rsmnucreateshortcut
 msgid "Create Shortcut..."
 msgstr ""
@@ -11824,6 +11840,10 @@ msgstr ""
 #: ulng.rsmsgtctoolbarwheretosave
 msgid "Enter location and filename where to save a TC Toolbar file"
 msgstr "Vpis mesta in imena datoteke, kamor naj se shrani datoteka orodne vrstice DC"
+
+#: ulng.rsmsgterminaldisabled
+msgid "Built-in terminal window disabled. Do you want to enable it?"
+msgstr ""
 
 #: ulng.rsmsgterminateprocess
 msgid "WARNING: Terminating a process can cause undesired results including loss of data and system instability. The process will not be given the chance to save its state or data before it is terminated. Are you sure you want to terminate the process?"

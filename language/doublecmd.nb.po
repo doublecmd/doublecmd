@@ -2187,6 +2187,10 @@ msgstr "&Kopiér filnavn + sti til Utklipp"
 msgid "Copy &Filename(s) to Clipboard"
 msgstr "&Kopiér filnavn til Utklipp"
 
+#: tfrmmain.actcopynetnamestoclip.caption
+msgid "Copy names with UNC path"
+msgstr "Kopiér navn med UNC-sti"
+
 #: tfrmmain.actcopynoask.caption
 msgid "Copy files without asking for confirmation"
 msgstr "Kopiér filer uten stadfesting"
@@ -2417,6 +2421,14 @@ msgstr "Vis miniatyrer i venstre panel"
 msgid "Load tabs from Favorite Tabs"
 msgstr "Hent fane fra favorittfane"
 
+#: tfrmmain.actloadlist.caption
+msgid "Load List"
+msgstr ""
+
+#: tfrmmain.actloadlist.hint
+msgid "Load list of files/folders from the specified text file"
+msgstr ""
+
 #: tfrmmain.actloadselectionfromclip.caption
 msgid "Load Selection from Clip&board"
 msgstr "Hent markering fra &Utklipp"
@@ -2472,6 +2484,14 @@ msgstr "&Avmarkér alle"
 #: tfrmmain.actminimize.caption
 msgid "Minimize window"
 msgstr "Minimér vindu"
+
+#: tfrmmain.actmovetableft.caption
+msgid "Move current tab to the left"
+msgstr ""
+
+#: tfrmmain.actmovetabright.caption
+msgid "Move current tab to the right"
+msgstr ""
 
 #: tfrmmain.actmultirename.caption
 #, fuzzy
@@ -11148,10 +11168,6 @@ msgstr "<Standard>"
 msgid "Octal"
 msgstr "Oktal"
 
-#: ulng.rsmnucopynetnamestoclip
-msgid "Copy names with UNC path"
-msgstr "Kopiér navn med UNC-sti"
-
 #: ulng.rsmnucreateshortcut
 msgid "Create Shortcut..."
 msgstr "Opprett snarveg..."
@@ -12257,6 +12273,10 @@ msgstr ""
 #: ulng.rsmsgtctoolbarwheretosave
 msgid "Enter location and filename where to save a TC Toolbar file"
 msgstr "Tast inn plassering og filnavn der TC-verktøylinjefila skal lagres"
+
+#: ulng.rsmsgterminaldisabled
+msgid "Built-in terminal window disabled. Do you want to enable it?"
+msgstr ""
 
 #: ulng.rsmsgterminateprocess
 msgid "WARNING: Terminating a process can cause undesired results including loss of data and system instability. The process will not be given the chance to save its state or data before it is terminated. Are you sure you want to terminate the process?"
