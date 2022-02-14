@@ -119,16 +119,17 @@ procedure ShowOpenWithDialog(TheOwner: TComponent; const FileList: TStringList);
 function GetControlHandle(AWindow: TWinControl): HWND;
 function GetWindowHandle(AWindow: TWinControl): HWND; overload;
 function GetWindowHandle(AHandle: HWND): HWND; overload;
+procedure CopyNetNamesToClip;
 
 implementation
 
 uses
   ExtDlgs, LCLProc, Menus, Graphics, InterfaceBase, WSForms, LMessages, LCLIntf,
-  fMain, uConnectionManager
+  fMain, uConnectionManager, uLng
   {$IF DEFINED(MSWINDOWS)}
   , LCLStrConsts, ComObj, DCOSUtils, uOSUtils, uFileSystemFileSource
   , uTotalCommander, FileUtil, Windows, ShlObj, uShlObjAdditional
-  , uWinNetFileSource, uVfsModule, uLng, uMyWindows, DCStrUtils
+  , uWinNetFileSource, uVfsModule, uMyWindows, DCStrUtils
   , uDCReadSVG, uFileSourceUtil, uGdiPlusJPEG, uListGetPreviewBitmap
   , Dialogs, Clipbrd, uShowMsg, uDebug, JwaDbt, uThumbnailProvider
   , uRecycleBinFileSource, uDCReadHEIF
@@ -142,7 +143,7 @@ uses
     , uDCReadSVG, uMagickWand, uGio, uGioFileSource, uVfsModule, uVideoThumb
     , uDCReadWebP, uFolderThumb, uAudioThumb, uDefaultTerminal, uDCReadHEIF
     {$ELSE}
-    , MacOSAll, uQuickLook, uMyDarwin, uShowMsg, uLng
+    , MacOSAll, uQuickLook, uMyDarwin, uShowMsg
     {$ENDIF}
     {$IF NOT DEFINED(DARWIN)}
     , fOpenWith
@@ -464,32 +465,6 @@ begin
   end;
 end;
 
-procedure CopyNetNamesToClip(Self, Sender: TObject);
-var
-  I: Integer;
-  sl: TStringList = nil;
-  SelectedFiles: TFiles = nil;
-begin
-  SelectedFiles := frmMain.ActiveFrame.CloneSelectedOrActiveFiles;
-  try
-    if SelectedFiles.Count > 0 then
-    begin
-      sl := TStringList.Create;
-      for I := 0 to SelectedFiles.Count - 1 do
-      begin
-        sl.Add(mbGetRemoteFileName(SelectedFiles[I].FullPath));
-      end;
-
-      Clipboard.Clear; // Prevent multiple formats in Clipboard (specially synedit)
-      Clipboard.AsText := TrimRightLineEnding(sl.Text, sl.TextLineBreakStyle);
-    end;
-
-  finally
-    FreeAndNil(sl);
-    FreeAndNil(SelectedFiles);
-  end;
-end;
-
 procedure CreateShortcut(Self, Sender: TObject);
 var
   ShortcutName: String;
@@ -628,9 +603,7 @@ begin
     mnuNetwork.Add(MenuItem);
 
     MenuItem:= TMenuItem.Create(mnuMain);
-    MenuItem.Caption:= rsMnuCopyNetNamesToClip;
-    Handler.Code:= @CopyNetNamesToClip;
-    MenuItem.OnClick:= TNotifyEvent(Handler);
+    MenuItem.Action:= frmMain.actCopyNetNamesToClip;
     mnuNetwork.Add(MenuItem);
 
     MenuItem:= TMenuItem.Create(mnuMain);
@@ -904,6 +877,38 @@ end;
 {$ELSE}
 begin
   Result:= AHandle;
+end;
+{$ENDIF}
+
+procedure CopyNetNamesToClip;
+{$IF DEFINED(MSWINDOWS)}
+var
+  I: Integer;
+  sl: TStringList = nil;
+  SelectedFiles: TFiles = nil;
+begin
+  SelectedFiles := frmMain.ActiveFrame.CloneSelectedOrActiveFiles;
+  try
+    if SelectedFiles.Count > 0 then
+    begin
+      sl := TStringList.Create;
+      for I := 0 to SelectedFiles.Count - 1 do
+      begin
+        sl.Add(mbGetRemoteFileName(SelectedFiles[I].FullPath));
+      end;
+
+      Clipboard.Clear; // Prevent multiple formats in Clipboard (specially synedit)
+      Clipboard.AsText := TrimRightLineEnding(sl.Text, sl.TextLineBreakStyle);
+    end;
+
+  finally
+    FreeAndNil(sl);
+    FreeAndNil(SelectedFiles);
+  end;
+end;
+{$ELSE}
+begin
+  msgWarning(rsMsgErrNotSupported);
 end;
 {$ENDIF}
 

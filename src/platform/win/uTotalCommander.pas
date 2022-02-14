@@ -298,7 +298,7 @@ const
     (TCCommand: 'cm_PasteFromClipboard';        TCIcon: -1; DCCommand: 'cm_PasteFromClipboard';     DCParameters: ''          ), //Paste from clipboard to current dir
     (TCCommand: 'cm_CopyNamesToClip';           TCIcon: 45; DCCommand: 'cm_CopyNamesToClip';        DCParameters: ''          ), //Copy filenames to clipboard
     (TCCommand: 'cm_CopyFullNamesToClip';       TCIcon: 45; DCCommand: 'cm_CopyFullNamesToClip';    DCParameters: ''          ), //Copy names with full path
-    (TCCommand: 'cm_CopyNetNamesToClip';        TCIcon: 45; DCCommand: '';                          DCParameters: ''          ), //Copy names with UNC path
+    (TCCommand: 'cm_CopyNetNamesToClip';        TCIcon: 45; DCCommand: 'cm_CopyNetNamesToClip';     DCParameters: ''          ), //Copy names with UNC path
     (TCCommand: 'cm_CopySrcPathToClip';         TCIcon: 45; DCCommand: '';                          DCParameters: ''          ), //Copy source path to clipboard
     (TCCommand: 'cm_CopyTrgPathToClip';         TCIcon: 45; DCCommand: '';                          DCParameters: ''          ), //Copy target path to clipboard
     (TCCommand: 'cm_CopyFileDetailsToClip';     TCIcon: 59; DCCommand: 'cm_CopyFileDetailsToClip';  DCParameters: ''          ), //Copy all shown columns

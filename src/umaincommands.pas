@@ -330,6 +330,7 @@ type
    procedure cm_ClearLogFile(const Params: array of string);
    procedure cm_NetworkConnect(const Params: array of string);
    procedure cm_NetworkDisconnect(const Params: array of string);
+   procedure cm_CopyNetNamesToClip(const Params: array of string);
    procedure cm_HorizontalFilePanels(const Params: array of string);
    procedure cm_OperationsViewer(const Params: array of string);
    procedure cm_CompareDirectories(const Params: array of string);
@@ -4425,6 +4426,11 @@ end;
 procedure TMainCommands.cm_NetworkDisconnect(const Params: array of string);
 begin
   CloseNetworkConnection();
+end;
+
+procedure TMainCommands.cm_CopyNetNamesToClip(const Params: array of string);
+begin
+  CopyNetNamesToClip;
 end;
 
 procedure TMainCommands.cm_HorizontalFilePanels(const Params: array of string);
