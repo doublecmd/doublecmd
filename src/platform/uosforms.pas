@@ -125,13 +125,13 @@ implementation
 
 uses
   ExtDlgs, LCLProc, Menus, Graphics, InterfaceBase, WSForms, LMessages, LCLIntf,
-  fMain, uConnectionManager, uLng
+  fMain, uConnectionManager, uShowMsg, uLng
   {$IF DEFINED(MSWINDOWS)}
   , LCLStrConsts, ComObj, DCOSUtils, uOSUtils, uFileSystemFileSource
   , uTotalCommander, FileUtil, Windows, ShlObj, uShlObjAdditional
   , uWinNetFileSource, uVfsModule, uMyWindows, DCStrUtils
   , uDCReadSVG, uFileSourceUtil, uGdiPlusJPEG, uListGetPreviewBitmap
-  , Dialogs, Clipbrd, uShowMsg, uDebug, JwaDbt, uThumbnailProvider
+  , Dialogs, Clipbrd, uDebug, JwaDbt, uThumbnailProvider
   , uRecycleBinFileSource, uDCReadHEIF
     {$IFDEF LCLQT5}
     , qt5, qtwidgets, uDarkStyle
