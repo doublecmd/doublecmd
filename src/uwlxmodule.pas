@@ -341,7 +341,11 @@ begin
 
 {$IF DEFINED(MSWINDOWS) and DEFINED(LCLQT5)}
   if g_darkModeEnabled then
-    ShowFlags:= ShowFlags or lcp_darkmode or lcp_darkmodenative;
+  begin
+    ShowFlags:= ShowFlags or lcp_darkmode;
+    if g_darkModeSupported then
+      ShowFlags:= ShowFlags or lcp_darkmodenative;
+  end;
 {$ENDIF}
 
   if Assigned(ListLoadW) then

@@ -416,9 +416,12 @@ var
   Handle: HWND;
   AWindow: QWidgetH;
 begin
-  Handle:= GetWindowHandle(Form);
-  AllowDarkModeForWindow(Handle, True);
-  RefreshTitleBarThemeColor(Handle);
+  if g_darkModeSupported then
+  begin
+    Handle:= GetWindowHandle(Form);
+    AllowDarkModeForWindow(Handle, True);
+    RefreshTitleBarThemeColor(Handle);
+  end;
 
   if (Form is THintWindow) then
   begin

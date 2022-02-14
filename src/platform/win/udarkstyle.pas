@@ -153,7 +153,7 @@ var
   end;
 
 begin
-  if not g_darkModeEnabled then Exit;
+  g_darkModeEnabled:= True;
 
   QApplication_setStyle(QStyleFactory_create(@StyleName));
 
