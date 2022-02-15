@@ -869,6 +869,7 @@ function TOrderedFileView.SetActiveFileNow(aFilePath: String;
   end;
 
 var
+  APath: String;
   Index: PtrInt;
   PathIsAbsolute: Boolean;
 begin
@@ -889,7 +890,12 @@ begin
     end;
     if (FLastActiveFileIndex > -1) then
     begin
-      if FlatView or IsInPath(CurrentPath, LastActiveFile, False, False) then
+      if (StrBegins(LastActiveFile, CurrentAddress)) then
+        APath:= CurrentLocation
+      else begin
+        APath:= CurrentPath;
+      end;
+      if FlatView or IsInPath(APath, LastActiveFile, False, False) then
       begin
         if (PathIsAbsolute and mbCompareFileNames(LastActiveFile, aFilePath)) or
            (FlatView) or (mbCompareFileNames(LastActiveFile, CurrentPath + aFilePath)) then
