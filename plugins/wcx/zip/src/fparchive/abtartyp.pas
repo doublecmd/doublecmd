@@ -1153,6 +1153,11 @@ begin
             begin
               SetString(AValue, P + 1, ALength - 1);
               FTarItem.Size := StrToInt64Def(AValue, FTarItem.Size);
+            end
+            else if (AName = 'mtime') then
+            begin
+              SetString(AValue, P + 1, ALength - 1);
+              FTarItem.ModTime := Round(StrToFloatDef(AValue, FTarItem.ModTime));
             end;
 
             Inc(P, ALength);
