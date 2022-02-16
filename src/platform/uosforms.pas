@@ -143,7 +143,7 @@ uses
     , uDCReadSVG, uMagickWand, uGio, uGioFileSource, uVfsModule, uVideoThumb
     , uDCReadWebP, uFolderThumb, uAudioThumb, uDefaultTerminal, uDCReadHEIF
     {$ELSE}
-    , MacOSAll, uQuickLook, uMyDarwin, uShowMsg
+    , MacOSAll, uQuickLook, uMyDarwin
     {$ENDIF}
     {$IF NOT DEFINED(DARWIN)}
     , fOpenWith
