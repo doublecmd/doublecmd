@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Double Commander 1.0.0 alpha\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-12-20 12:40+0300\n"
-"PO-Revision-Date: 2021-09-04 01:03+0200\n"
+"PO-Revision-Date: 2022-02-15 15:41+0100\n"
 "Last-Translator: ㋡ <braass@mail.de>\n"
 "Language-Team: Deutsch <braass@mail.de>\n"
 "MIME-Version: 1.0\n"
@@ -2379,11 +2379,11 @@ msgstr "Tabs von Favorit laden"
 
 #: tfrmmain.actloadlist.caption
 msgid "Load List"
-msgstr ""
+msgstr "Liste laden"
 
 #: tfrmmain.actloadlist.hint
 msgid "Load list of files/folders from the specified text file"
-msgstr ""
+msgstr "Liste von Dateien/Verzeichnissen von der angegebenen Text-Datei laden"
 
 #: tfrmmain.actloadselectionfromclip.caption
 msgid "Load Selection from Clip&board"
@@ -2443,11 +2443,11 @@ msgstr "Fenster minimieren"
 
 #: tfrmmain.actmovetableft.caption
 msgid "Move current tab to the left"
-msgstr ""
+msgstr "Aktuellen Tab nach links bewegen"
 
 #: tfrmmain.actmovetabright.caption
 msgid "Move current tab to the right"
-msgstr ""
+msgstr "Aktuellen Tab nach rechts bewegen"
 
 #: tfrmmain.actmultirename.caption
 msgid "Multi-&Rename Tool"
@@ -6260,7 +6260,7 @@ msgstr "&Wenn Dateien mit der [Leertaste] ausgewählt werden, zur nächsten Date
 #: tfrmoptionsfilesviewscomplement.chkmarkmaskfilterwindows.caption
 msgctxt "tfrmoptionsfilesviewscomplement.chkmarkmaskfilterwindows.caption"
 msgid "Windows style filter when marking files (\"*.*\" also select files without extension, etc.)"
-msgstr "Filter beim Markieren von Dateien wie bei Windows, z.B. wählt \"*.*\" auch Dateien ohne Erweiterung"
+msgstr "Filter beim Markieren von Dateien wie bei Windows, z.B. \"*.*\" (Stern-Punkt-Stern) wählt auch Dateien ohne Erweiterung"
 
 #: tfrmoptionsfilesviewscomplement.chkmarkmaskshowattribute.caption
 msgctxt "tfrmoptionsfilesviewscomplement.chkmarkmaskshowattribute.caption"
@@ -7219,7 +7219,7 @@ msgstr "Länge der Tab-Tite&lzeile begrenzen auf"
 #: tfrmoptionstabs.cbtabslockedasterisk.caption
 msgctxt "TFRMOPTIONSTABS.CBTABSLOCKEDASTERISK.CAPTION"
 msgid "Show locked tabs &with an asterisk *"
-msgstr "Alle gesperrten Tabs mit Stern * markieren"
+msgstr "Alle gesperrten Tabs mit \"*\" (Stern) markieren"
 
 #: tfrmoptionstabs.cbtabsmultilines.caption
 msgctxt "TFRMOPTIONSTABS.CBTABSMULTILINES.CAPTION"
@@ -8547,12 +8547,12 @@ msgstr "Die einzufügenden Verzeichnisse wählen (mehr als eines möglich)"
 #: tfrmselectpathrange.rbfirstfromend.caption
 msgctxt "tfrmselectpathrange.rbfirstfromend.caption"
 msgid "The en&d"
-msgstr "Das Ende"
+msgstr "dem Ende"
 
 #: tfrmselectpathrange.rbfirstfromstart.caption
 msgctxt "tfrmselectpathrange.rbfirstfromstart.caption"
 msgid "The sta&rt"
-msgstr "Der Anfang"
+msgstr "dem Anfang"
 
 #: tfrmselecttextrange.buttonpanel.cancelbutton.caption
 msgctxt "tfrmselecttextrange.buttonpanel.cancelbutton.caption"
@@ -8566,11 +8566,11 @@ msgstr "OK"
 
 #: tfrmselecttextrange.gbcountfirstfrom.caption
 msgid "Count first from"
-msgstr "Zuerst zählen von"
+msgstr "Erstes gezählt von"
 
 #: tfrmselecttextrange.gbcountlastfrom.caption
 msgid "Count last from"
-msgstr "Zuletzt zählen von"
+msgstr "Letztes gezählt von"
 
 #: tfrmselecttextrange.gbrangedescription.caption
 msgid "Range description"
@@ -8587,29 +8587,29 @@ msgstr "Zeichen zum Einfügen au&swählen:"
 
 #: tfrmselecttextrange.rbdescriptionfirstlast.caption
 msgid "[&First:Last]"
-msgstr "[Erste:Letzte]"
+msgstr "[Erstes:Letztes]"
 
 #: tfrmselecttextrange.rbdescriptionfirstlength.caption
 msgid "[First,&Length]"
-msgstr "[Erste,Länge]"
+msgstr "[Erstes,Länge]"
 
 #: tfrmselecttextrange.rbfirstfromend.caption
 msgctxt "tfrmselecttextrange.rbfirstfromend.caption"
 msgid "The en&d"
-msgstr "Das Ende"
+msgstr "dem Ende"
 
 #: tfrmselecttextrange.rbfirstfromstart.caption
 msgctxt "tfrmselecttextrange.rbfirstfromstart.caption"
 msgid "The sta&rt"
-msgstr "Der Anfang"
+msgstr "dem Anfang"
 
 #: tfrmselecttextrange.rblastfromend.caption
 msgid "The &end"
-msgstr "Das Ende"
+msgstr "dem Ende"
 
 #: tfrmselecttextrange.rblastfromstart.caption
 msgid "The s&tart"
-msgstr "Der Anfang"
+msgstr "dem Anfang"
 
 #: tfrmsetfileproperties.btncancel.caption
 msgctxt "TFRMSETFILEPROPERTIES.BTNCANCEL.CAPTION"
@@ -9524,16 +9524,16 @@ msgstr "Plugins"
 #: tfrmviewer.actstretchimage.caption
 msgctxt "TFRMVIEWER.ACTSTRETCHIMAGE.CAPTION"
 msgid "Stretch"
-msgstr "Strecken"
+msgstr "Einpassen"
 
 #: tfrmviewer.actstretchimage.hint
 msgid "Stretch Image"
-msgstr "Bild strecken"
+msgstr "Bild einpassen"
 
 #: tfrmviewer.actstretchonlylarge.caption
 msgctxt "tfrmviewer.actstretchonlylarge.caption"
 msgid "Stretch only large"
-msgstr "Nur große strecken"
+msgstr "Nur große einpassen"
 
 #: tfrmviewer.actzoom.caption
 msgid "Zoom"
@@ -10989,7 +10989,7 @@ msgstr "»%s« kopieren nach:"
 
 #: ulng.rsmsgcreateanewfiletype
 msgid "< Create a new file type \"%s files\" >"
-msgstr "< Neuen Dateityp erstellen \"%s Dateien\" >"
+msgstr "< Neuen Dateityp erstellen \"%s-Dateien\" >"
 
 #: ulng.rsmsgdctoolbarwheretosave
 msgid "Enter location and filename where to save a DC Toolbar file"
@@ -11554,7 +11554,7 @@ msgstr "Dies ist kein gültiges Plugin!"
 #: ulng.rsmsginvalidpluginarchitecture
 #, fuzzy,badformat
 msgid "This plugin is built for Double Commander for %s.%sIt can not work with Double Commander for %s!"
-msgstr "Dieses Double Commander-Plugin wurde für %s erstellt. Es kann nicht für %s verwendet werden!"
+msgstr "Dieses Double Commander-Plugin ist für %s.%sEs kann nicht für %s verwendet werden!"
 
 #: ulng.rsmsginvalidquoting
 msgid "Invalid quoting"
@@ -11936,7 +11936,7 @@ msgstr "Speicherort und Dateiname angeben, unter dem die TC-Symbolleisten-Datei 
 
 #: ulng.rsmsgterminaldisabled
 msgid "Built-in terminal window disabled. Do you want to enable it?"
-msgstr ""
+msgstr "Internes Terminal-Fenster ist deaktiviert. Möchten Sie es aktivieren?"
 
 #: ulng.rsmsgterminateprocess
 msgid "WARNING: Terminating a process can cause undesired results including loss of data and system instability. The process will not be given the chance to save its state or data before it is terminated. Are you sure you want to terminate the process?"
@@ -13698,7 +13698,7 @@ msgstr "Hilfe für \"%\"-Variable"
 msgid "Will request request user to enter a parameter with a default suggested value"
 msgstr ""
 "↴\n"
-"     Fordert den Benutzer auf, einen Parameter mit einem standardmäßig vorgeschlagenen Wert einzugeben\n"
+"     Fordert den Benutzer auf, einen Parameter mit einem standardmäßig vorgeschlagenen Wert einzugeben"
 
 #: ulng.rsvarlastdircurrentpath
 msgid "Last directory of panel's path"
