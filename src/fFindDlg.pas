@@ -397,7 +397,7 @@ uses
   uLng, uGlobs, uShowForm, uDCUtils, uFileSourceUtil, uOfficeXML,
   uSearchResultFileSource, uFile, uFileProperty, uColumnsFileView,
   uFileViewNotebook, uKeyboard, uOSUtils, uArchiveFileSourceUtil,
-  DCOSUtils, RegExpr, uDebug, uShowMsg, uConvEncoding, uColumns,
+  DCOSUtils, uRegExprA, uDebug, uShowMsg, uConvEncoding, uColumns,
   uFileFunctions, uFileSorting, uWcxArchiveFileSource, WcxPlugin;
 
 const
