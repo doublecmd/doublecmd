@@ -1596,8 +1596,9 @@ var
     Info: TScrollInfo;
   begin
     Info:= Default(TScrollInfo);
-    Info.fMask := SIF_RANGE;
-    Info.nMax := Max - 1;
+    Info.fMask := SIF_RANGE or SIF_PAGE;
+    Info.nMax := Max;
+    Info.nPage := 1;
     SetScrollInfo(Handle, Code, Info, False);
   end;
 
