@@ -1014,6 +1014,13 @@ begin
       Invalidate;
     end;
     UpdateScrollRange;
+
+    if (FCaretPos.Y = FBuffer.Rows) or
+       ((FCaretPos.Y - FTopLeft.Y) >= FVisibleRows) then
+    begin
+      ARows:= FCaretPos.Y - FVisibleRows;
+      ModifyScrollBar(SB_Vert, SB_THUMBPOSITION, ARows);
+    end;
   end;
 end;
 
