@@ -230,6 +230,7 @@ type
     procedure DoStrRecieved(var Str: string); dynamic;
     procedure DoUnhandledCode(Code: TEscapeCode; Data: string); dynamic;
     procedure DoUnhandledMode(const Data: string; OnOff: Boolean); dynamic;
+    function DoMouseWheel(Shift: TShiftState; WheelDelta: Integer; MousePos: TPoint): Boolean; override;
   public
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
@@ -1878,6 +1879,21 @@ procedure TCustomComTerminal.DoUnhandledMode(const Data: string; OnOff: Boolean)
 begin
   if Assigned(FOnUnhandledMode) then
     FOnUnhandledMode(Self, Data, OnOff);
+end;
+
+function TCustomComTerminal.DoMouseWheel(Shift: TShiftState;
+  WheelDelta: Integer; MousePos: TPoint): Boolean;
+var
+  APos: Integer;
+begin
+  Result:= True;
+  APos:= GetScrollPos(Handle, SB_VERT);
+  if WheelDelta < 0 then
+    APos:= APos + Mouse.WheelScrollLines
+  else begin
+    APos:= APos - Mouse.WheelScrollLines;
+  end;
+  ModifyScrollBar(SB_VERT, SB_THUMBPOSITION, APos);
 end;
 
 // create escape codes processor
