@@ -8,7 +8,8 @@ unit VirtualTerminal;
 interface
 
 uses
-  VTColorTable, VTEmuCtl, VTEmuEsc, VTEmuPty, LazarusPackageIntf;
+  VTColorTable, VTEmuCtl, VTEmuEsc, VTWideCharWidth, VTEmuPty, 
+  LazarusPackageIntf;
 
 implementation
 

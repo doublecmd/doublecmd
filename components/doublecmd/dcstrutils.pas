@@ -1048,13 +1048,15 @@ end;
 
 function StrBegins(const StringToCheck, StringToMatch: String): Boolean;
 begin
-  Result := (Length(StringToCheck) >= Length(StringToMatch)) and
+  Result := (Length(StringToMatch) > 0) and
+            (Length(StringToCheck) >= Length(StringToMatch)) and
             (CompareChar(StringToCheck[1], StringToMatch[1], Length(StringToMatch)) = 0);
 end;
 
 function StrEnds(const StringToCheck, StringToMatch: String): Boolean;
 begin
-  Result := (Length(StringToCheck) >= Length(StringToMatch)) and
+  Result := (Length(StringToMatch) > 0) and
+            (Length(StringToCheck) >= Length(StringToMatch)) and
             (CompareChar(StringToCheck[1 + Length(StringToCheck) - Length(StringToMatch)],
                          StringToMatch[1], Length(StringToMatch)) = 0);
 end;

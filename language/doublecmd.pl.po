@@ -2115,6 +2115,10 @@ msgstr "Kopiuj nazwę pliku(ów) z pełną &ścieżką"
 msgid "Copy &Filename(s) to Clipboard"
 msgstr "Kopiuj &nazwę(y) pliku(ów) do schowka"
 
+#: tfrmmain.actcopynetnamestoclip.caption
+msgid "Copy names with UNC path"
+msgstr "Kopiuj nazwy ze ścieżką UNC"
+
 #: tfrmmain.actcopynoask.caption
 msgid "Copy files without asking for confirmation"
 msgstr "Kopiuj pliki bez pytania o potwierdzenie"
@@ -2342,6 +2346,14 @@ msgstr "Widok miniatur w lewym panelu"
 msgid "Load tabs from Favorite Tabs"
 msgstr "Załaduj zakładki z ulubionych zakładek"
 
+#: tfrmmain.actloadlist.caption
+msgid "Load List"
+msgstr ""
+
+#: tfrmmain.actloadlist.hint
+msgid "Load list of files/folders from the specified text file"
+msgstr ""
+
 #: tfrmmain.actloadselectionfromclip.caption
 msgid "Load Selection from Clip&board"
 msgstr "Wczytaj zaznaczenie ze s&chowka"
@@ -2397,6 +2409,14 @@ msgstr "&Odznacz wszystko"
 #: tfrmmain.actminimize.caption
 msgid "Minimize window"
 msgstr "Minimalizuj okno"
+
+#: tfrmmain.actmovetableft.caption
+msgid "Move current tab to the left"
+msgstr ""
+
+#: tfrmmain.actmovetabright.caption
+msgid "Move current tab to the right"
+msgstr ""
 
 #: tfrmmain.actmultirename.caption
 msgid "Multi-&Rename Tool"
@@ -10579,10 +10599,6 @@ msgstr "<Domyślnie>"
 msgid "Octal"
 msgstr "Ósemkowo"
 
-#: ulng.rsmnucopynetnamestoclip
-msgid "Copy names with UNC path"
-msgstr "Kopiuj nazwy ze ścieżką UNC"
-
 #: ulng.rsmnucreateshortcut
 msgid "Create Shortcut..."
 msgstr "Utwórz skrót..."
@@ -11682,6 +11698,10 @@ msgstr ""
 #: ulng.rsmsgtctoolbarwheretosave
 msgid "Enter location and filename where to save a TC Toolbar file"
 msgstr "Wprowadź lokalizację i nazwę pliku, w którym chcesz zapisać plik paska narzędzi TC"
+
+#: ulng.rsmsgterminaldisabled
+msgid "Built-in terminal window disabled. Do you want to enable it?"
+msgstr ""
 
 #: ulng.rsmsgterminateprocess
 msgid "WARNING: Terminating a process can cause undesired results including loss of data and system instability. The process will not be given the chance to save its state or data before it is terminated. Are you sure you want to terminate the process?"

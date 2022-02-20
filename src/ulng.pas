@@ -373,7 +373,6 @@ resourcestring
   rsMnuCreateShortcut = 'Create Shortcut...';
   rsMnuMapNetworkDrive = 'Map Network Drive...';
   rsMnuDisconnectNetworkDrive = 'Disconnect Network Drive...';
-  rsMnuCopyNetNamesToClip = 'Copy names with UNC path';
   // for content plugins menu
   rsMnuContentDefault = '<Default>';
   rsMnuContentOctal = 'Octal';

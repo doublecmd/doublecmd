@@ -204,7 +204,7 @@ type
     procedure PerformTest(ACh: Char);
     procedure UpdateScrollPos;
     procedure UpdateScrollRange;
-    procedure WrapLine;
+    procedure WrapLine(AWidth: Integer);
   protected
     procedure CMFontChanged(var Message: TMessage); message CM_FONTCHANGED;
     procedure CMColorChanged(var Message: TMessage); message CM_COLORCHANGED;
@@ -339,7 +339,7 @@ type
 implementation
 
 uses
-  SysUtils, Dialogs, Math, VTColorTable;
+  SysUtils, Dialogs, Math, VTColorTable, VTWideCharWidth;
 
 const
   TMPF_FIXED_PITCH = $01;
@@ -1299,9 +1299,9 @@ begin
   Canvas.Font.Color := OldFrontColor;
 end;
 
-procedure TCustomComTerminal.WrapLine;
+procedure TCustomComTerminal.WrapLine(AWidth: Integer);
 begin
-  if FCaretPos.X = FBuffer.Columns + 1 then
+  if FCaretPos.X + AWidth > FBuffer.Columns + 1 then
   begin
     if FCaretPos.Y = FBuffer.Rows then
     begin
@@ -1931,6 +1931,7 @@ end;
 // put one character on screen
 procedure TCustomComTerminal.PutChar(Ch: TUTF8Char);
 var
+  AWidth: Integer;
   TermCh: TComTermChar;
 begin
   case Ch[1] of
@@ -1960,11 +1961,20 @@ begin
             else TermCh.Ch := Ch;
           end;
         end;
-        if FWrapLines then WrapLine;
+        AWidth:= UTF8Width(Ch);
+        if AWidth <= 0 then Exit;
+        if FWrapLines then WrapLine(AWidth);
         FBuffer.SetChar(FCaretPos.X, FCaretPos.Y, TermCh);
-        DrawChar(FCaretPos.X - FTopLeft.X + 1,
-          FCaretPos.Y - FTopLeft.Y + 1, TermCh);
+        DrawChar(FCaretPos.X - FTopLeft.X + 1, FCaretPos.Y - FTopLeft.Y + 1, TermCh);
         AdvanceCaret(acChar);
+        Dec(AWidth);
+        while (AWidth > 0) do
+        begin
+          TermCh.Ch := #0;
+          FBuffer.SetChar(FCaretPos.X, FCaretPos.Y, TermCh);
+          AdvanceCaret(acChar);
+          Dec(AWidth);
+        end;
       end;
   end;
   DoChar(Ch);

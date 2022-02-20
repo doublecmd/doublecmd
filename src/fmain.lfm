@@ -2010,6 +2010,12 @@ object frmMain: TfrmMain
       Caption = 'Network &Disconnect'
       OnExecute = actExecute
     end
+    object actCopyNetNamesToClip: TAction
+      Tag = 6
+      Category = 'Network'
+      Caption = 'Copy names with UNC path'
+      OnExecute = actExecute
+    end
     object actCopyPathOfFilesToClip: TAction
       Tag = 12
       Category = 'Clipboard'

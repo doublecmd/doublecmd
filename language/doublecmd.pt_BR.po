@@ -2219,6 +2219,10 @@ msgstr "Copiar nomes de arquivos com caminho com&pleto."
 msgid "Copy &Filename(s) to Clipboard"
 msgstr "Copiar nomes de &arquivos para a área de transferência."
 
+#: tfrmmain.actcopynetnamestoclip.caption
+msgid "Copy names with UNC path"
+msgstr ""
+
 #: tfrmmain.actcopynoask.caption
 msgid "Copy files without asking for confirmation"
 msgstr "Copiar arquivos sem pedir confirmação."
@@ -2449,6 +2453,14 @@ msgstr "Visão miniaturas no painel esquerdo."
 msgid "Load tabs from Favorite Tabs"
 msgstr "Carregar guias da Guia Favoritos."
 
+#: tfrmmain.actloadlist.caption
+msgid "Load List"
+msgstr ""
+
+#: tfrmmain.actloadlist.hint
+msgid "Load list of files/folders from the specified text file"
+msgstr ""
+
 #: tfrmmain.actloadselectionfromclip.caption
 msgid "Load Selection from Clip&board"
 msgstr "Carregar seleção da área de transferência."
@@ -2504,6 +2516,14 @@ msgstr "Rem&over todas as seleções"
 #: tfrmmain.actminimize.caption
 msgid "Minimize window"
 msgstr "Minimizar janela"
+
+#: tfrmmain.actmovetableft.caption
+msgid "Move current tab to the left"
+msgstr ""
+
+#: tfrmmain.actmovetabright.caption
+msgid "Move current tab to the right"
+msgstr ""
 
 #: tfrmmain.actmultirename.caption
 msgid "Multi-&Rename Tool"
@@ -11067,10 +11087,6 @@ msgstr ""
 msgid "Octal"
 msgstr ""
 
-#: ulng.rsmnucopynetnamestoclip
-msgid "Copy names with UNC path"
-msgstr ""
-
 #: ulng.rsmnucreateshortcut
 msgid "Create Shortcut..."
 msgstr ""
@@ -12173,6 +12189,10 @@ msgstr ""
 #: ulng.rsmsgtctoolbarwheretosave
 msgid "Enter location and filename where to save a TC Toolbar file"
 msgstr "Digite a localização e o nome do arquivo onde salvar um arquivo da barra de ferramentas do TC"
+
+#: ulng.rsmsgterminaldisabled
+msgid "Built-in terminal window disabled. Do you want to enable it?"
+msgstr ""
 
 #: ulng.rsmsgterminateprocess
 msgid "WARNING: Terminating a process can cause undesired results including loss of data and system instability. The process will not be given the chance to save its state or data before it is terminated. Are you sure you want to terminate the process?"

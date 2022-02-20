@@ -158,6 +158,7 @@ type
     actShellExecute: TAction;
     actRenameTab: TAction;
     actOperationsViewer: TAction;
+    actCopyNetNamesToClip: TAction;
     actNetworkDisconnect: TAction;
     actNetworkQuickConnect: TAction;
     actNetworkConnect: TAction;

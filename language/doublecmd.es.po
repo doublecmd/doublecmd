@@ -2142,6 +2142,10 @@ msgstr "Copiar nombre(s) con la r&uta completa"
 msgid "Copy &Filename(s) to Clipboard"
 msgstr "Copiar nombre(s) al por&tapapeles"
 
+#: tfrmmain.actcopynetnamestoclip.caption
+msgid "Copy names with UNC path"
+msgstr "Copiar nombres con la ruta UNC"
+
 #: tfrmmain.actcopynoask.caption
 msgid "Copy files without asking for confirmation"
 msgstr "Copiar archivos sin pedir confirmación"
@@ -2369,6 +2373,14 @@ msgstr "Vista de miniaturas en el panel izquierdo"
 msgid "Load tabs from Favorite Tabs"
 msgstr "&Cargar pestañas desde favoritas"
 
+#: tfrmmain.actloadlist.caption
+msgid "Load List"
+msgstr ""
+
+#: tfrmmain.actloadlist.hint
+msgid "Load list of files/folders from the specified text file"
+msgstr ""
+
 #: tfrmmain.actloadselectionfromclip.caption
 msgid "Load Selection from Clip&board"
 msgstr "Cargar selección desde el p&ortapapeles"
@@ -2424,6 +2436,14 @@ msgstr "&Deseleccionar todo"
 #: tfrmmain.actminimize.caption
 msgid "Minimize window"
 msgstr "Minimizar ventana"
+
+#: tfrmmain.actmovetableft.caption
+msgid "Move current tab to the left"
+msgstr ""
+
+#: tfrmmain.actmovetabright.caption
+msgid "Move current tab to the right"
+msgstr ""
 
 #: tfrmmain.actmultirename.caption
 msgid "Multi-&Rename Tool"
@@ -10723,10 +10743,6 @@ msgstr ""
 msgid "Octal"
 msgstr ""
 
-#: ulng.rsmnucopynetnamestoclip
-msgid "Copy names with UNC path"
-msgstr "Copiar nombres con la ruta UNC"
-
 #: ulng.rsmnucreateshortcut
 msgid "Create Shortcut..."
 msgstr ""
@@ -11846,6 +11862,10 @@ msgstr ""
 #: ulng.rsmsgtctoolbarwheretosave
 msgid "Enter location and filename where to save a TC Toolbar file"
 msgstr "Introduce la ubicación y nombre del archivo donde guardar el respaldo de barra de TC"
+
+#: ulng.rsmsgterminaldisabled
+msgid "Built-in terminal window disabled. Do you want to enable it?"
+msgstr ""
 
 #: ulng.rsmsgterminateprocess
 msgid "WARNING: Terminating a process can cause undesired results including loss of data and system instability. The process will not be given the chance to save its state or data before it is terminated. Are you sure you want to terminate the process?"
