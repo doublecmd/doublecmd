@@ -2513,6 +2513,7 @@ begin
     gFonts[dcfFunctionButtons].Usage := rsFontUsageFunctionButtons;
     gFonts[dcfSearchResults].Usage := rsFontUsageSearchResults;
     gFonts[dcfTreeViewMenu].Usage := rsFontUsageTreeViewMenu;
+    gFonts[dcfStatusBar].Usage := rsFontUsageStatusBar;
 
     { Behaviours page }
     Node := Root.FindNode('Behaviours');
