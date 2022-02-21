@@ -10563,6 +10563,10 @@ msgstr "Schriftart für Pfade"
 msgid "Search Results Font"
 msgstr "Schriftart für Suchergebnisse"
 
+#: ulng.rsfontusagestatusbar
+msgid "Status Bar Font"
+msgstr ""
+
 #: ulng.rsfontusagetreeviewmenu
 msgid "Tree View Menu Font"
 msgstr "Schriftart für Baumansicht-Menü"
@@ -11552,7 +11556,7 @@ msgid "This is not a valid plugin!"
 msgstr "Dies ist kein gültiges Plugin!"
 
 #: ulng.rsmsginvalidpluginarchitecture
-#, fuzzy,badformat
+#, fuzzy
 msgid "This plugin is built for Double Commander for %s.%sIt can not work with Double Commander for %s!"
 msgstr "Dieses Double Commander-Plugin ist für %s.%sEs kann nicht für %s verwendet werden!"
 
@@ -13698,7 +13702,7 @@ msgstr "Hilfe für \"%\"-Variable"
 msgid "Will request request user to enter a parameter with a default suggested value"
 msgstr ""
 "↴\n"
-"     Fordert den Benutzer auf, einen Parameter mit einem standardmäßig vorgeschlagenen Wert einzugeben"
+"     Fordert den Benutzer auf, einen Parameter mit einem standardmäßig vorgeschlagenen Wert einzugeben\n"
 
 #: ulng.rsvarlastdircurrentpath
 msgid "Last directory of panel's path"

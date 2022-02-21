@@ -10603,6 +10603,10 @@ msgstr "パスのフォント"
 msgid "Search Results Font"
 msgstr "検索結果のフォント"
 
+#: ulng.rsfontusagestatusbar
+msgid "Status Bar Font"
+msgstr ""
+
 #: ulng.rsfontusagetreeviewmenu
 msgid "Tree View Menu Font"
 msgstr "ツリー ビュー メニューのフォント"

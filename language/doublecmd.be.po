@@ -10365,6 +10365,10 @@ msgstr "Шрыфт шляху"
 msgid "Search Results Font"
 msgstr "Шрыфт вынікаў пошуку"
 
+#: ulng.rsfontusagestatusbar
+msgid "Status Bar Font"
+msgstr ""
+
 #: ulng.rsfontusagetreeviewmenu
 msgid "Tree View Menu Font"
 msgstr "Шрыфт меню ў выглядзе дрэва"

@@ -10634,6 +10634,10 @@ msgstr "Текущий &путь"
 msgid "Search Results Font"
 msgstr "Результаты поиска"
 
+#: ulng.rsfontusagestatusbar
+msgid "Status Bar Font"
+msgstr "Строка состояния"
+
 #: ulng.rsfontusagetreeviewmenu
 msgid "Tree View Menu Font"
 msgstr "Древовидное меню"

@@ -10597,6 +10597,10 @@ msgstr "경로 표시바 글꼴"
 msgid "Search Results Font"
 msgstr "검색 결과창 글꼴"
 
+#: ulng.rsfontusagestatusbar
+msgid "Status Bar Font"
+msgstr ""
+
 #: ulng.rsfontusagetreeviewmenu
 msgid "Tree View Menu Font"
 msgstr "트리뷰 메뉴 글꼴"
