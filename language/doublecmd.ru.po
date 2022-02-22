@@ -2402,11 +2402,11 @@ msgstr "Загрузить вкладки из избранных вкладок
 
 #: tfrmmain.actloadlist.caption
 msgid "Load List"
-msgstr ""
+msgstr "Загрузить список"
 
 #: tfrmmain.actloadlist.hint
 msgid "Load list of files/folders from the specified text file"
-msgstr ""
+msgstr "Загрузить список файлов/папок из указанного текстового файла"
 
 #: tfrmmain.actloadselectionfromclip.caption
 msgid "Load Selection from Clip&board"
@@ -2466,11 +2466,11 @@ msgstr "Свернуть"
 
 #: tfrmmain.actmovetableft.caption
 msgid "Move current tab to the left"
-msgstr ""
+msgstr "Переместить текущую вкладку влево"
 
 #: tfrmmain.actmovetabright.caption
 msgid "Move current tab to the right"
-msgstr ""
+msgstr "Переместить текущую вкладку вправо"
 
 #: tfrmmain.actmultirename.caption
 msgid "Multi-&Rename Tool"
@@ -12012,7 +12012,7 @@ msgstr "Укажите место и имя для сохранения файл
 
 #: ulng.rsmsgterminaldisabled
 msgid "Built-in terminal window disabled. Do you want to enable it?"
-msgstr ""
+msgstr "Окно терминала отключено. Хотите его включить?"
 
 #: ulng.rsmsgterminateprocess
 msgid "WARNING: Terminating a process can cause undesired results including loss of data and system instability. The process will not be given the chance to save its state or data before it is terminated. Are you sure you want to terminate the process?"
