@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: b5aaebc75354984d7cee90405a1f6642\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-01-17 23:08+0300\n"
-"PO-Revision-Date: 2022-02-23 19:50\n"
+"PO-Revision-Date: 2022-02-23 20:12\n"
 "Last-Translator: Full Name <email@address>\n"
 "Language-Team: Belarusian\n"
 "MIME-Version: 1.0\n"
@@ -14,8 +14,8 @@ msgstr ""
 "X-Crowdin-Project: b5aaebc75354984d7cee90405a1f6642\n"
 "X-Crowdin-Project-ID: 7\n"
 "X-Crowdin-Language: be\n"
-"X-Crowdin-File: /Translation/language/doublecmd.po\n"
-"X-Crowdin-File-ID: 3310\n"
+"X-Crowdin-File: /l10n_Translation/language/doublecmd.po\n"
+"X-Crowdin-File-ID: 3344\n"
 "Language: be_BY\n"
 
 #: fsyncdirsdlg.rscomparingpercent
@@ -2486,7 +2486,7 @@ msgstr "Адкрыць спіс &VFS"
 
 #: tfrmmain.actoperationsviewer.caption
 msgid "Operations &Viewer"
-msgstr "&Сродак прагляду аперацый"
+msgstr "&Праглядальнік аперацый"
 
 #: tfrmmain.actoptions.caption
 msgid "&Options..."
@@ -10070,7 +10070,7 @@ msgstr "Як ад&міністратар"
 
 #: ulng.rsdlgbuttonskip
 msgid "&Skip"
-msgstr "&Прапусціць"
+msgstr "&Прамінуць"
 
 #: ulng.rsdlgbuttonskipall
 msgid "S&kip All"
@@ -10374,7 +10374,7 @@ msgstr "Шрыфт меню ў выглядзе дрэва"
 
 #: ulng.rsfontusageviewer
 msgid "&Viewer Font"
-msgstr "Ш&рыфт сродку прагляду"
+msgstr "Ш&рыфт праглядальніка"
 
 #: ulng.rsfontusageviewerbook
 msgctxt "ulng.rsfontusageviewerbook"
@@ -10513,7 +10513,7 @@ msgstr "Сінхранізацыя каталогаў"
 #: ulng.rshotkeycategoryviewer
 msgctxt "ulng.rshotkeycategoryviewer"
 msgid "Viewer"
-msgstr "Сродак прагляду"
+msgstr "Праглядальнік"
 
 #: ulng.rshotkeyfilealreadyexists
 msgid "A setup with that name already exists.\n"
