@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Fonts options page
 
-   Copyright (C) 2006-2020 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2006-2022 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -38,6 +38,13 @@ type
     FontSpindEdit: TSpinEdit;
   end;
 
+  { TSpinEdit }
+
+  TSpinEdit = class(Spin.TSpinEdit)
+  public
+    function GetLimitedValue(const AValue: Double): Double; override;
+  end;
+
   { TfrmOptionsFonts }
   TfrmOptionsFonts = class(TOptionsEditor)
     dlgFnt: TFontDialog;
@@ -67,6 +74,15 @@ uses
 
   //DC
   uLng;
+
+{ TSpinEdit }
+
+function TSpinEdit.GetLimitedValue(const AValue: Double): Double;
+begin
+  // Zero - default font size
+  if (AValue = 0.0) then Exit(0);
+  Result:= inherited GetLimitedValue(AValue);
+end;
 
 { TfrmOptionsFonts }
 

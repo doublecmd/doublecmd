@@ -10651,6 +10651,10 @@ msgstr "Police du chemin"
 msgid "Search Results Font"
 msgstr "Police des résultats de recherche"
 
+#: ulng.rsfontusagestatusbar
+msgid "Status Bar Font"
+msgstr ""
+
 #: ulng.rsfontusagetreeviewmenu
 msgid "Tree View Menu Font"
 msgstr "Police du menu en arbre"

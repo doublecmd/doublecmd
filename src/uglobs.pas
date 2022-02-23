@@ -120,7 +120,7 @@ type
   TPluginType = (ptDSX, ptWCX, ptWDX, ptWFX, ptWLX); //*Important: Keep that order to to fit with procedures LoadXmlConfig/SaveXmlConfig when we save/restore widths of "TfrmTweakPlugin".
   TWcxCfgViewMode = (wcvmByPlugin, wcvmByExtension);
 
-  TDCFont = (dcfMain, dcfEditor, dcfViewer, dcfViewerBook, dcfLog, dcfConsole, dcfPathEdit, dcfSearchResults, dcfFunctionButtons, dcfTreeViewMenu);
+  TDCFont = (dcfMain, dcfEditor, dcfViewer, dcfViewerBook, dcfLog, dcfConsole, dcfPathEdit, dcfSearchResults, dcfFunctionButtons, dcfTreeViewMenu, dcfStatusBar);
   TDCFontOptions = record
     Usage: string;
     Name: string;
@@ -1721,6 +1721,13 @@ begin
   gFonts[dcfTreeViewMenu].MinValue := 6;
   gFonts[dcfTreeViewMenu].MaxValue := 200;
 
+  gFonts[dcfStatusBar].Name := 'default';
+  gFonts[dcfStatusBar].Size := 0;
+  gFonts[dcfStatusBar].Style := [];
+  gFonts[dcfStatusBar].Quality := fqDefault;
+  gFonts[dcfStatusBar].MinValue := 6;
+  gFonts[dcfStatusBar].MaxValue := 200;
+
   { Colors page }
   gUseCursorBorder := False;
   gCursorBorderColor := clHighlight;
@@ -2506,6 +2513,7 @@ begin
     gFonts[dcfFunctionButtons].Usage := rsFontUsageFunctionButtons;
     gFonts[dcfSearchResults].Usage := rsFontUsageSearchResults;
     gFonts[dcfTreeViewMenu].Usage := rsFontUsageTreeViewMenu;
+    gFonts[dcfStatusBar].Usage := rsFontUsageStatusBar;
 
     { Behaviours page }
     Node := Root.FindNode('Behaviours');
@@ -2659,6 +2667,7 @@ begin
     GetDCFont(gConfig.FindNode(Root, 'Fonts/FunctionButtons'), gFonts[dcfFunctionButtons]);
     if LoadedConfigVersion >= 11 then GetDCFont(gConfig.FindNode(Root, 'Fonts/SearchResults'), gFonts[dcfSearchResults]); //Let's ignore possible previous setting for this and keep our default.
     GetDCFont(gConfig.FindNode(Root, 'Fonts/TreeViewMenu'), gFonts[dcfTreeViewMenu]);
+    GetDCFont(gConfig.FindNode(Root, 'Fonts/StatusBar'), gFonts[dcfStatusBar]);
 
     { Colors page }
     Node := Root.FindNode('Colors');
@@ -3394,6 +3403,7 @@ begin
     SetDCFont(gConfig.FindNode(Root, 'Fonts/FunctionButtons',True), gFonts[dcfFunctionButtons]);
     SetDCFont(gConfig.FindNode(Root, 'Fonts/SearchResults',True), gFonts[dcfSearchResults]);
     SetDCFont(gConfig.FindNode(Root, 'Fonts/TreeViewMenu', True), gFonts[dcfTreeViewMenu]);
+    SetDCFont(gConfig.FindNode(Root, 'Fonts/StatusBar', True), gFonts[dcfStatusBar]);
 
     { Colors page }
     Node := FindNode(Root, 'Colors', True);

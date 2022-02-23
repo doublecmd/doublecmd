@@ -10647,6 +10647,10 @@ msgstr "Útvonal betűtípus"
 msgid "Search Results Font"
 msgstr "Találati lista betűtípus"
 
+#: ulng.rsfontusagestatusbar
+msgid "Status Bar Font"
+msgstr ""
+
 #: ulng.rsfontusagetreeviewmenu
 msgid "Tree View Menu Font"
 msgstr "Fa elrendezésű menü betűtípus"

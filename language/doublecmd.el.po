@@ -10599,6 +10599,10 @@ msgstr "Γραμματοσειρά Διαδρομής"
 msgid "Search Results Font"
 msgstr "Γραμματοσειρά Αποτελεσμάτων Αναζήτησης"
 
+#: ulng.rsfontusagestatusbar
+msgid "Status Bar Font"
+msgstr ""
+
 #: ulng.rsfontusagetreeviewmenu
 msgid "Tree View Menu Font"
 msgstr "Γραμματοσειρά Εμφάνισης Μενού Τύπου Δέντρου"

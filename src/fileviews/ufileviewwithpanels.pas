@@ -44,6 +44,7 @@ type
     pnlFooter: TPanel;
     pnlHeader: TFileViewHeader;
 
+    procedure UpdateStatusBarFont;
     procedure AfterChangePath; override;
     procedure CreateDefault(AOwner: TWinControl); override;
     procedure DisplayFileListChanged; override;
@@ -76,6 +77,12 @@ function TFileViewWithPanels.AddFileSource(aFileSource: IFileSource;
 begin
   Result:= inherited AddFileSource(aFileSource, aPath);
   if Result then pnlHeader.UpdateAddressLabel;
+end;
+
+procedure TFileViewWithPanels.UpdateStatusBarFont;
+begin
+  FontOptionsToFont(gFonts[dcfStatusBar], lblInfo.Font);
+  lblInfo.Height := lblInfo.Canvas.TextHeight('Wg');
 end;
 
 procedure TFileViewWithPanels.AfterChangePath;
@@ -113,9 +120,9 @@ begin
   // Workaround: "Layout and line"
   // http://doublecmd.sourceforge.net/mantisbt/view.php?id=573
   pnlFooter.Visible := False;
-  {$ELSE}
-  lblInfo.Height    := lblInfo.Canvas.TextHeight('Wg');
   {$ENDIF}
+
+  UpdateStatusBarFont;
 
   {$IFDEF LCLCARBON}
   // Under Carbon AutoSize don't work without it
@@ -150,6 +157,7 @@ begin
   pnlHeader.UpdateFont;
   pnlHeader.UpdateAddressLabel;
   pnlHeader.UpdatePathLabel;
+  UpdateStatusBarFont;
 end;
 
 function TFileViewWithPanels.RemoveCurrentFileSource: Boolean;

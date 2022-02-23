@@ -10364,6 +10364,10 @@ msgstr "Písmo cesty"
 msgid "Search Results Font"
 msgstr "Písmo výsledkov vyhľadávania"
 
+#: ulng.rsfontusagestatusbar
+msgid "Status Bar Font"
+msgstr ""
+
 #: ulng.rsfontusagetreeviewmenu
 msgid "Tree View Menu Font"
 msgstr "Písmo stromového zobrazenia"

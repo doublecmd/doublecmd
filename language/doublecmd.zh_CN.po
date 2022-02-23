@@ -10428,6 +10428,10 @@ msgstr "路径字体"
 msgid "Search Results Font"
 msgstr "搜索结果字体"
 
+#: ulng.rsfontusagestatusbar
+msgid "Status Bar Font"
+msgstr ""
+
 #: ulng.rsfontusagetreeviewmenu
 msgid "Tree View Menu Font"
 msgstr "树视图菜单字体"
