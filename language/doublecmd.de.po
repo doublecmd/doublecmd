@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Double Commander 1.0.0 alpha\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-12-20 12:40+0300\n"
-"PO-Revision-Date: 2022-02-15 15:41+0100\n"
+"PO-Revision-Date: 2022-02-22 01:50+0100\n"
 "Last-Translator: ㋡ <braass@mail.de>\n"
 "Language-Team: Deutsch <braass@mail.de>\n"
 "MIME-Version: 1.0\n"
@@ -7219,7 +7219,7 @@ msgstr "Länge der Tab-Tite&lzeile begrenzen auf"
 #: tfrmoptionstabs.cbtabslockedasterisk.caption
 msgctxt "TFRMOPTIONSTABS.CBTABSLOCKEDASTERISK.CAPTION"
 msgid "Show locked tabs &with an asterisk *"
-msgstr "Alle gesperrten Tabs mit \"*\" (Stern) markieren"
+msgstr "Alle gesperrten Tabs mit einem * (Stern) markieren"
 
 #: tfrmoptionstabs.cbtabsmultilines.caption
 msgctxt "TFRMOPTIONSTABS.CBTABSMULTILINES.CAPTION"
@@ -7243,7 +7243,7 @@ msgstr "Bestehenden Tab wiederverwenden, wenn möglich"
 #: tfrmoptionstabs.cbtabsshowclosebutton.caption
 msgctxt "TFRMOPTIONSTABS.CBTABSSHOWCLOSEBUTTON.CAPTION"
 msgid "Show ta&b close button"
-msgstr "\"⊠\" für Ta&b schließen anzeigen"
+msgstr "⊠ (Tastfläche) für Ta&b schließen anzeigen"
 
 #: tfrmoptionstabs.cbtabsshowdriveletter.caption
 msgid "Always show drive letter in tab title"
@@ -10565,7 +10565,7 @@ msgstr "Schriftart für Suchergebnisse"
 
 #: ulng.rsfontusagestatusbar
 msgid "Status Bar Font"
-msgstr ""
+msgstr "Schriftart für Statuszeile"
 
 #: ulng.rsfontusagetreeviewmenu
 msgid "Tree View Menu Font"
