@@ -7,12 +7,12 @@ msgstr ""
 "X-Crowdin-Project: b5aaebc75354984d7cee90405a1f6642\n"
 "X-Crowdin-Project-ID: 7\n"
 "X-Crowdin-Language: be\n"
-"X-Crowdin-File: /Translation/language/lcl/lclstrconsts.po\n"
-"X-Crowdin-File-ID: 3312\n"
+"X-Crowdin-File: /l10n_Translation/language/lcl/lclstrconsts.po\n"
+"X-Crowdin-File-ID: 3346\n"
 "Project-Id-Version: b5aaebc75354984d7cee90405a1f6642\n"
 "Language-Team: Belarusian\n"
 "Language: be_BY\n"
-"PO-Revision-Date: 2022-02-23 19:18\n"
+"PO-Revision-Date: 2022-02-23 20:01\n"
 
 #: lclstrconsts.hhshelpbrowsernotexecutable
 #, object-pascal-format
