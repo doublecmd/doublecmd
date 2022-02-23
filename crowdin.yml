@@ -1,6 +1,5 @@
 files:
   - source: '*.po'
-    ignore_settings: 1
     ignore:
       - '*ca.po'
       - '*co.po'
