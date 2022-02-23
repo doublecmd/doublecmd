@@ -1,5 +1,16 @@
 msgid ""
-msgstr "Content-Type: text/plain; charset=UTF-8"
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || n%10>=5 && n%10<=9 || n%100>=11 && n%100<=14 ? 2 : 3);\n"
+"X-Crowdin-Project: b5aaebc75354984d7cee90405a1f6642\n"
+"X-Crowdin-Project-ID: 7\n"
+"X-Crowdin-Language: be\n"
+"X-Crowdin-File: /Translation/plugins/wfx/ftp/language/ftp.po\n"
+"X-Crowdin-File-ID: 3318\n"
+"Project-Id-Version: b5aaebc75354984d7cee90405a1f6642\n"
+"Language-Team: Belarusian\n"
+"Language: be_BY\n"
+"PO-Revision-Date: 2022-02-23 19:18\n"
 
 #: tdialogbox.btnadd.caption
 msgid "+"
