@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: b5aaebc75354984d7cee90405a1f6642\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-01-17 23:08+0300\n"
-"PO-Revision-Date: 2022-02-23 20:12\n"
+"PO-Revision-Date: 2022-02-24 05:22\n"
 "Last-Translator: Full Name <email@address>\n"
 "Language-Team: Belarusian\n"
 "MIME-Version: 1.0\n"
@@ -2486,7 +2486,7 @@ msgstr "Адкрыць спіс &VFS"
 
 #: tfrmmain.actoperationsviewer.caption
 msgid "Operations &Viewer"
-msgstr "&Праглядальнік аперацый"
+msgstr "&Сродак прагляду аперацый"
 
 #: tfrmmain.actoptions.caption
 msgid "&Options..."
@@ -10070,7 +10070,7 @@ msgstr "Як ад&міністратар"
 
 #: ulng.rsdlgbuttonskip
 msgid "&Skip"
-msgstr "&Прамінуць"
+msgstr "&Прапусціць"
 
 #: ulng.rsdlgbuttonskipall
 msgid "S&kip All"
@@ -10374,7 +10374,7 @@ msgstr "Шрыфт меню ў выглядзе дрэва"
 
 #: ulng.rsfontusageviewer
 msgid "&Viewer Font"
-msgstr "Ш&рыфт праглядальніка"
+msgstr "Ш&рыфт сродку прагляду"
 
 #: ulng.rsfontusageviewerbook
 msgctxt "ulng.rsfontusageviewerbook"
@@ -10513,7 +10513,7 @@ msgstr "Сінхранізацыя каталогаў"
 #: ulng.rshotkeycategoryviewer
 msgctxt "ulng.rshotkeycategoryviewer"
 msgid "Viewer"
-msgstr "Праглядальнік"
+msgstr "Сродак прагляду"
 
 #: ulng.rshotkeyfilealreadyexists
 msgid "A setup with that name already exists.\n"
