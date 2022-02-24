@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Double Commander 1.0.0 alpha\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-12-20 12:40+0300\n"
-"PO-Revision-Date: 2022-02-22 01:50+0100\n"
+"PO-Revision-Date: 2022-02-24 05:03+0100\n"
 "Last-Translator: ㋡ <braass@mail.de>\n"
 "Language-Team: Deutsch <braass@mail.de>\n"
 "MIME-Version: 1.0\n"
@@ -11556,9 +11556,8 @@ msgid "This is not a valid plugin!"
 msgstr "Dies ist kein gültiges Plugin!"
 
 #: ulng.rsmsginvalidpluginarchitecture
-#, fuzzy
 msgid "This plugin is built for Double Commander for %s.%sIt can not work with Double Commander for %s!"
-msgstr "Dieses Double Commander-Plugin ist für %s.%sEs kann nicht für %s verwendet werden!"
+msgstr "Dieses Plugin ist für den Double Commander für %s.%sEs funktioniert nicht mit dem Double Commander für %s!"
 
 #: ulng.rsmsginvalidquoting
 msgid "Invalid quoting"
