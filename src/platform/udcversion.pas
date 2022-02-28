@@ -378,7 +378,11 @@ begin
            10: case osvi.dwMinorVersion of
                  0: if (osvi.wProductType = VER_NT_WORKSTATION) then
                     begin
-                      OSVersion := OSVersion + ' 10';
+                      if (osvi.dwBuildNumber >= 22000) then
+                        OSVersion := OSVersion + ' 11'
+                      else begin
+                        OSVersion := OSVersion + ' 10';
+                      end;
                       if (osvi.wSuiteMask and VER_SUITE_PERSONAL <> 0) then
                         OSVersion := OSVersion + ' Home';
                       if ((osvi.dwBuildNumber >= 19042) and
