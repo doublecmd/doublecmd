@@ -193,6 +193,9 @@ type
   private
     property SortIndex: Integer read FSortIndex write SetSortIndex;
     property Commands: TFormCommands read FCommands implements IFormCommands;
+  protected
+    procedure DoAutoAdjustLayout(const AMode: TLayoutAdjustmentPolicy;
+                                 const AXProportion, AYProportion: Double); override;
   public
     { public declarations }
     constructor Create(AOwner: TComponent;
@@ -1818,6 +1821,13 @@ begin
                            cnvFormatFileSize(CurrentFiles, uoscNoUnit) + '/' +
                            cnvFormatFileSize(TotalFiles, uoscNoUnit)
                            );
+end;
+
+procedure TfrmSyncDirsDlg.DoAutoAdjustLayout(const AMode: TLayoutAdjustmentPolicy;
+                                             const AXProportion, AYProportion: Double);
+begin
+  inherited DoAutoAdjustLayout(AMode, AXProportion, AYProportion);
+  RecalcHeaderCols;
 end;
 
 constructor TfrmSyncDirsDlg.Create(AOwner: TComponent; FileView1,
