@@ -20,7 +20,7 @@
 }
 
 unit uOSUtils;
- 
+
 {$mode delphi}
 
 {$IFDEF DARWIN}
@@ -38,7 +38,7 @@ uses
       {$ENDIF}
     {$ENDIF}
     ;
-    
+
 const
   CnstUserCommand = '{command}';
 
@@ -57,7 +57,7 @@ const
   faFolder = S_IFDIR;
   ReversePathDelim = '\';
   {$IFDEF DARWIN)}
-  RunTermCmd = '/Applications/Utilities/Terminal.app';  // default terminal
+  RunTermCmd = '/System/Applications/Utilities/Terminal.app';  // default terminal
   RunTermParams = '%D';
   RunInTermStayOpenCmd = '%COMMANDER_PATH%/scripts/terminal.sh'; // default run in terminal command AND Stay open after command
   RunInTermStayOpenParams = '''{command}''';
