@@ -316,7 +316,7 @@ type
     procedure UpdateTemplatesList;
     procedure OnUpdateTimer(Sender: TObject);
     procedure OnAddAttribute(Sender: TObject);
-    function InvalidRegExpr(AChecked: boolean; const ARegExpr: string): boolean;
+    function InvalidRegExpr: Boolean;
     procedure SetWindowCaption(AWindowCaptionStyle: byte);
     function ObjectType(Index: Integer): TCheckBoxState;
     function GetFileMask: String;
@@ -397,8 +397,9 @@ uses
   uLng, uGlobs, uShowForm, uDCUtils, uFileSourceUtil, uOfficeXML,
   uSearchResultFileSource, uFile, uFileProperty, uColumnsFileView,
   uFileViewNotebook, uKeyboard, uOSUtils, uArchiveFileSourceUtil,
-  DCOSUtils, uRegExprA, uDebug, uShowMsg, uConvEncoding, uColumns,
-  uFileFunctions, uFileSorting, uWcxArchiveFileSource, WcxPlugin;
+  DCOSUtils, uRegExprA, uRegExprW, uDebug, uShowMsg, uConvEncoding,
+  uColumns, uFileFunctions, uFileSorting, uWcxArchiveFileSource,
+  DCConvertEncoding, WcxPlugin;
 
 const
   TimeUnitToComboIndex: array[TTimeUnit] of integer = (0, 1, 2, 3, 4, 5, 6);
@@ -2706,22 +2707,34 @@ begin
 end;
 
 { TfrmFindDlg.InvalidRegExpr }
-function TfrmFindDlg.InvalidRegExpr(AChecked: boolean; const ARegExpr: string): boolean;
+function TfrmFindDlg.InvalidRegExpr: Boolean;
 var
-  sMsg: string;
+  sMsg, sEncoding: String;
 begin
-  Result := False;
-  if AChecked then
-    try
-      ExecRegExpr(ARegExpr, '');
-    except
-      on E: Exception do
-      begin
-        Result := True;
-        sMsg := StringReplace(cbRegExp.Caption, '&', '', [rfReplaceAll]);
-        MessageDlg(sMsg + ': ' + E.Message, mtError, [mbOK], 0);
-      end;
+  Result:= False;
+  try
+    if cbRegExp.Checked then
+    begin
+      uRegExprW.ExecRegExpr(CeUtf8ToUtf16(cmbFindFileMask.Text), '');
     end;
+    if cbTextRegExp.Checked then
+    begin
+      sMsg:= cmbFindText.Text;
+      sEncoding:= NormalizeEncoding(cmbEncoding.Text);
+      // Use correct RegExp engine
+      if SingleByteEncoding(sEncoding) then
+        uRegExprA.ExecRegExpr(sMsg, '')
+      else if (sEncoding = EncodingUTF16LE) then
+        uRegExprW.ExecRegExpr(CeUtf8ToUtf16(sMsg), '');
+    end;
+  except
+    on E: Exception do
+    begin
+      Result:= True;
+      sMsg:= StringReplace(cbRegExp.Caption, '&', '', [rfReplaceAll]);
+      MessageDlg(sMsg + ': ' + E.Message, mtError, [mbOK], 0);
+    end;
+  end;
 end;
 
 { TfrmFindDlg.pgcSearchChange }
@@ -2747,9 +2760,7 @@ var
   SearchTemplate: TSearchTemplate;
   SearchRec: TSearchTemplateRec;
 begin
-  if InvalidRegExpr(cbRegExp.Checked, cmbFindFileMask.Text) or
-     InvalidRegExpr(cbTextRegExp.Checked, cmbFindText.Text) then
-    Exit;
+  if InvalidRegExpr then Exit;
 
   sName := FLastTemplateName;
   if not InputQuery(rsFindSaveTemplateCaption, rsFindSaveTemplateTitle, sName) then
