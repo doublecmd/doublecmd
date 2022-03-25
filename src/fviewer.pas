@@ -108,6 +108,7 @@ type
     actExitViewer: TAction;
     actMirrorVert: TAction;
     actSave: TAction;
+    actShowOffice: TAction;
     actShowPlugins: TAction;
     actShowAsBook: TAction;
     actShowAsWrapText: TAction;
@@ -180,6 +181,7 @@ type
     pnlImage: TPanel;
     pnlText: TPanel;
     miDiv3: TMenuItem;
+    miOffice: TMenuItem;
     miEncoding: TMenuItem;
     miPlugins: TMenuItem;
     miSeparator: TMenuItem;
@@ -353,6 +355,7 @@ type
     ActivePlugin: Integer;
     //---------------------
     function GetListerRect: TRect;
+    function CheckOffice(const sFileName: String): Boolean;
     function CheckPlugins(const sFileName: String; bForce: Boolean = False): Boolean;
     function CheckGraphics(const sFileName:String):Boolean;
     function LoadGraphics(const sFileName:String): Boolean;
@@ -445,6 +448,8 @@ type
     procedure cm_ShowGraphics    (const Params: array of string);
     procedure cm_ShowPlugins     (const Params: array of string);
 
+    procedure cm_ShowOffice      (const Params: array of string);
+
     procedure cm_ExitViewer      (const Params: array of string);
 
     procedure cm_Print(const Params:array of string);
@@ -462,7 +467,7 @@ uses
   FileUtil, IntfGraphics, Math, uLng, uShowMsg, uGlobs, LCLType, LConvEncoding,
   DCClassesUtf8, uFindMmap, DCStrUtils, uDCUtils, LCLIntf, uDebug, uHotkeyManager,
   uConvEncoding, DCBasicTypes, DCOSUtils, uOSUtils, uFindByrMr, uFileViewWithGrid,
-  fPrintSetup, uFindFiles, uAdministrator
+  fPrintSetup, uFindFiles, uAdministrator, uOfficeXML
 {$IFDEF LCLGTK2}
   , uGraphics
 {$ENDIF}
@@ -710,11 +715,15 @@ begin
       end
     else if CheckGraphics(aFileName) and LoadGraphics(aFileName) then
       ActivatePanel(pnlImage)
-    else
-      begin
-        ViewerControl.FileName := aFileName;
-        ActivatePanel(pnlText)
-      end;
+    else if CheckOffice(aFileName) then
+    begin
+      ActivatePanel(pnlText);
+      miOffice.Checked:= True;
+    end
+    else begin
+      ViewerControl.FileName := aFileName;
+      ActivatePanel(pnlText)
+    end;
 
     Status.Panels[sbpFileName].Text:= aFileName;
   finally
@@ -2133,7 +2142,7 @@ end;
 
 procedure TfrmViewer.ReopenAsTextIfNeeded;
 begin
-  if bImage or bAnimation or bPlugin or miPlugins.Checked then
+  if bImage or bAnimation or bPlugin or miPlugins.Checked or miOffice.Checked then
   begin
     Image.Picture := nil;
     ViewerControl.FileName := FileList.Strings[iActiveFile];
@@ -2237,6 +2246,19 @@ begin
   if Splitter.Visible then
   begin
     Inc(Result.Left, Splitter.Left + Splitter.Width);
+  end;
+end;
+
+function TfrmViewer.CheckOffice(const sFileName: String): Boolean;
+var
+  AText: String;
+begin
+  Result:= OfficeMask.Matches(sFileName) and LoadFromOffice(sFileName, AText);
+  if Result then
+  begin
+    ViewerControl.Text:= AText;
+    ViewerControl.Mode:= vcmText;
+    ViewerControl.Encoding:= veUtf8;
   end;
 end;
 
@@ -3094,6 +3116,16 @@ begin
   begin
     ViewerControl.FileName := ''; // unload current file if any is loaded
     ActivatePanel(nil);
+  end;
+end;
+
+procedure TfrmViewer.cm_ShowOffice(const Params: array of string);
+begin
+  if CheckOffice(FileList.Strings[iActiveFile]) then
+  begin
+    ExitPluginMode;
+    ActivatePanel(pnlText);
+    miOffice.Checked:= True;
   end;
 end;
 

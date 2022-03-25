@@ -1365,6 +1365,11 @@ object frmViewer: TfrmViewer
         GroupIndex = 1
         RadioItem = True
       end
+      object miOffice: TMenuItem
+        Action = actShowOffice
+        GroupIndex = 1
+        RadioItem = True
+      end
       object miDiv1: TMenuItem
         Caption = '-'
       end
@@ -1660,6 +1665,12 @@ object frmViewer: TfrmViewer
     object actShowGraphics: TAction
       Category = 'View'
       Caption = 'Graphics'
+      GroupIndex = 1
+      OnExecute = actExecute
+    end
+    object actShowOffice: TAction
+      Category = 'View'
+      Caption = 'Office XML (text only)'
       GroupIndex = 1
       OnExecute = actExecute
     end
