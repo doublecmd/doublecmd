@@ -64,6 +64,8 @@ type
     property MatchLen [Idx : integer] : PtrInt read GetMatchLen;
   end;
 
+function ExecRegExpr(const ARegExpr, AInputStr: String): Boolean;
+
 implementation
 
 uses
@@ -287,6 +289,20 @@ begin
       PAnsiChar(Replacement), Length(Replacement), PAnsiChar(Output), outlength);
   end;
   Result := res >= 0;
+end;
+
+function ExecRegExpr(const ARegExpr, AInputStr: String): Boolean;
+var
+  r: TRegExprU;
+begin
+  r := TRegExprU.Create;
+  try
+    r.Expression := ARegExpr;
+    r.SetInputString(PChar(AInputStr), Length(AInputStr));
+    Result := r.Exec(1);
+  finally
+    r.Free;
+  end;
 end;
 
 procedure Initialize;
