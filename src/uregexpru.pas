@@ -140,6 +140,7 @@ var
   error: PAnsiChar;
   errornumber: cint;
   erroroffset: cint;
+  len: cint;
 begin
   FExpression:= AValue;
 
@@ -150,7 +151,9 @@ begin
       FMatch := pcre2_match_data_create_from_pattern(FCode, nil)
     else begin
       SetLength(Message, MAX_PATH + 1);
-      pcre2_get_error_message(errornumber, PAnsiChar(Message), MAX_PATH);
+      len := pcre2_get_error_message(errornumber, PAnsiChar(Message), MAX_PATH);
+      if len < 0 then len := Length(PAnsiChar(Message)); // PCRE2_ERROR_NOMEMORY
+      SetLength(Message, len);
       raise Exception.Create(Message);
     end;
   end
