@@ -172,7 +172,8 @@ type
 
 const
   { Default hotkey list version number }
-  hkVersion = 53;
+  hkVersion = 54;
+  // 54 - In "Viewer" context, added the "W" for "cm_WrapText" and "4" for "cm_ShowAsDec".
   // 53 - In "Main" context, change shortcut "Alt+`" to "Alt+0" for the "cm_ActivateTabByIndex".
   // 52 - In "Main" context, add shortcut "Ctrl+Shift+B" for "cm_FlatViewSel".
   // 51 - In "Multi-Rename" context, added the "Shift+F4" shortcut for the "cm_EditNewNames".
@@ -625,6 +626,7 @@ var
   gTextPosition:PtrInt;
   gPrintMargins: TRect;
   gShowCaret: Boolean;
+  gViewerWrapText: Boolean;
   gViewerLeftMargin: Integer;
   gViewerLineSpacing: Integer;
 
@@ -1175,14 +1177,22 @@ begin
       AddIfNotExists(['P'   ,'','',
                       'Left','',''],'cm_LoadPrevFile'); //, ['P'], []);
 
+      if HotMan.Version < 54 then
+      begin
+        HMHotKey:= FindByCommand('cm_ShowAsWrapText');
+        if Assigned(HMHotKey) and HMHotKey.SameShortcuts(['4']) then
+          Remove(HMHotKey);
+      end;
+
       AddIfNotExists(['1'],[],'cm_ShowAsText');
       AddIfNotExists(['2'],[],'cm_ShowAsBin');
       AddIfNotExists(['3'],[],'cm_ShowAsHex');
-      AddIfNotExists(['4'],[],'cm_ShowAsWrapText');
+      AddIfNotExists(['4'],[],'cm_ShowAsDec');
       AddIfNotExists(['5'],[],'cm_ShowAsBook');
       AddIfNotExists(['6'],[],'cm_ShowGraphics');
       AddIfNotExists(['7'],[],'cm_ShowPlugins');
 
+      AddIfNotExists(['W'],[],'cm_WrapText');
       AddIfNotExists(['F6'],[],'cm_ShowCaret');
 
       AddIfNotExists(['Q'   ,'','',
@@ -2007,6 +2017,7 @@ begin
   gTextPosition:= 0;
   gViewerMode:= 0;
   gShowCaret := False;
+  gViewerWrapText := False;
   gViewerLeftMargin := 4;
   gViewerLineSpacing := 0;
   gPrintMargins:= Classes.Rect(200, 200, 200, 200);
@@ -3089,6 +3100,7 @@ begin
       gViewerMode  := GetValue(Node, 'ViewerMode'  , gViewerMode);
       gPrintMargins := GetValue(Node, 'PrintMargins'  , gPrintMargins);
       gShowCaret := GetValue(Node, 'ShowCaret'  , gShowCaret);
+      gViewerWrapText := GetValue(Node, 'WrapText', gViewerWrapText);
       gViewerLeftMargin := GetValue(Node, 'LeftMargin' , gViewerLeftMargin);
       gViewerLineSpacing := GetValue(Node, 'ExtraLineSpan' , gViewerLineSpacing);
       gImagePaintColor := GetValue(Node, 'PaintColor', gImagePaintColor);
@@ -3711,6 +3723,7 @@ begin
     SetValue(Node, 'ViewerMode' , gViewerMode);
     SetValue(Node, 'PrintMargins', gPrintMargins);
     SetValue(Node, 'ShowCaret'  , gShowCaret);
+    SetValue(Node, 'WrapText'   , gViewerWrapText);
     SetValue(Node, 'LeftMargin' , gViewerLeftMargin);
     SetValue(Node, 'ExtraLineSpan' , gViewerLineSpacing);
 

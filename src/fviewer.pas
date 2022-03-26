@@ -92,6 +92,7 @@ type
     actCopyToClipboardFormatted: TAction;
     actChangeEncoding: TAction;
     actAutoReload: TAction;
+    actWrapText: TAction;
     actShowCaret: TAction;
     actPrint: TAction;
     actPrintSetup: TAction;
@@ -140,6 +141,7 @@ type
     DrawPreview: TDrawGrid;
     GifAnim: TGifAnim;
     memFolder: TMemo;
+    miWrapText: TMenuItem;
     miPen: TMenuItem;
     miRect: TMenuItem;
     miEllipse: TMenuItem;
@@ -206,7 +208,6 @@ type
     miText: TMenuItem;
     miBin: TMenuItem;
     miHex: TMenuItem;
-    miWrapText: TMenuItem;
     miAbout: TMenuItem;
     miAbout2: TMenuItem;
     miDiv1: TMenuItem;
@@ -455,6 +456,7 @@ type
     procedure cm_Print(const Params:array of string);
     procedure cm_PrintSetup(const Params:array of string);
     procedure cm_ShowCaret(const Params: array of string);
+    procedure cm_WrapText(const Params: array of string);
   end;
 
 procedure ShowViewer(const FilesToView:TStringList; WaitData: TWaitData = nil);
@@ -633,11 +635,13 @@ begin
   memFolder.Color:= gBackColor;
 
   actShowCaret.Checked := gShowCaret;
+  actWrapText.Checked := gViewerWrapText;
   ViewerControl.ShowCaret := gShowCaret;
   ViewerControl.TabSpaces := gTabSpaces;
   ViewerControl.MaxTextWidth := gMaxTextWidth;
   ViewerControl.LeftMargin := gViewerLeftMargin;
   ViewerControl.ExtraLineSpacing := gViewerLineSpacing;
+  if gViewerWrapText then ViewerControl.Mode:= vcmWrap;
 end;
 
 constructor TfrmViewer.Create(TheOwner: TComponent);
@@ -1336,7 +1340,8 @@ end;
 
 function TfrmViewer.PluginShowFlags : Integer;
 begin
-  Result:= IfThen(miStretch.Checked, lcp_fittowindow, 0) or
+  Result:= IfThen(miWrapText.Checked, lcp_wraptext, 0) or
+           IfThen(miStretch.Checked, lcp_fittowindow, 0) or
            IfThen(miCenter.Checked, lcp_center, 0) or
            IfThen(miStretchOnlyLarge.Checked, lcp_fittowindow or lcp_fitlargeronly, 0)
 end;
@@ -2658,7 +2663,7 @@ begin
     pnlImage.TabStop:= True;
     Status.Panels[sbpTextEncoding].Text:= EmptyStr;
     if (not bQuickView) and CanFocus and pnlImage.CanFocus then pnlImage.SetFocus;
-    PanelEditImage.Visible:= not (bQuickView or (miFullScreen.Checked and not PanelEditImage.MouseEntered));
+    PanelEditImage.Visible:= not (bQuickView or (miFullScreen.Checked and not PanelEditImage.MouseInClient));
   end;
 
   bAnimation           := (Panel = pnlImage) and (GifAnim.Visible);
@@ -2677,6 +2682,9 @@ begin
   miScreenshot.Visible := bImage;
   miSave.Visible       := bImage;
   miSaveAs.Visible     := bImage;
+
+  actShowCaret.Enabled := (Panel = pnlText);
+  actWrapText.Enabled  := bPlugin or (Panel = pnlText);
 
   pmiSelectAll.Visible     := (Panel = pnlText);
   pmiCopyFormatted.Visible := (Panel = pnlText);
@@ -3060,7 +3068,10 @@ end;
 
 procedure TfrmViewer.cm_ShowAsText(const Params: array of string);
 begin
-  ShowTextViewer(vcmText);
+  if gViewerWrapText then
+    ShowTextViewer(vcmWrap)
+  else
+    ShowTextViewer(vcmText);
 end;
 
 procedure TfrmViewer.cm_ShowAsBin(const Params: array of string);
@@ -3080,6 +3091,8 @@ end;
 
 procedure TfrmViewer.cm_ShowAsWrapText(const Params: array of string);
 begin
+  gViewerWrapText:= True;
+  actWrapText.Checked:= True;
   ShowTextViewer(vcmWrap);
 end;
 
@@ -3157,6 +3170,25 @@ begin
     gShowCaret:= not gShowCaret;
     actShowCaret.Checked:= gShowCaret;
     ViewerControl.ShowCaret:= gShowCaret;
+  end;
+end;
+
+procedure TfrmViewer.cm_WrapText(const Params: array of string);
+begin
+  gViewerWrapText:= not gViewerWrapText;
+  actWrapText.Checked:= gViewerWrapText;
+
+  if bPlugin then
+    FWlxModule.CallListSendCommand(lc_newparams , PluginShowFlags)
+  else if not miGraphics.Checked then
+  begin
+    if ViewerControl.Mode in [vcmText, vcmWrap] then
+    begin
+      if gViewerWrapText then
+        ViewerControl.Mode:= vcmWrap
+      else
+        ViewerControl.Mode:= vcmText;
+    end;
   end;
 end;
 
