@@ -9316,6 +9316,10 @@ msgstr "Rozciągnij obrazek"
 msgid "Stretch only large"
 msgstr "Rozciągnij tylko duże"
 
+#: tfrmviewer.actwraptext.caption
+msgid "&Wrap text"
+msgstr ""
+
 #: tfrmviewer.actzoom.caption
 msgid "Zoom"
 msgstr "Powiększenia"

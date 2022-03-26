@@ -9346,6 +9346,10 @@ msgstr ""
 msgid "Stretch only large"
 msgstr ""
 
+#: tfrmviewer.actwraptext.caption
+msgid "&Wrap text"
+msgstr ""
+
 #: tfrmviewer.actzoom.caption
 msgid "Zoom"
 msgstr ""

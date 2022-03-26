@@ -9610,6 +9610,10 @@ msgctxt "tfrmviewer.actstretchonlylarge.caption"
 msgid "Stretch only large"
 msgstr "Только большие в размер окна"
 
+#: tfrmviewer.actwraptext.caption
+msgid "&Wrap text"
+msgstr "&Переносить строки"
+
 #: tfrmviewer.actzoom.caption
 msgid "Zoom"
 msgstr "Увеличение"

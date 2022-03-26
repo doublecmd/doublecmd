@@ -9348,6 +9348,10 @@ msgstr "Natiahnuť obrázok"
 msgid "Stretch only large"
 msgstr "Natiahnuť iba veľké"
 
+#: tfrmviewer.actwraptext.caption
+msgid "&Wrap text"
+msgstr ""
+
 #: tfrmviewer.actzoom.caption
 msgid "Zoom"
 msgstr "Priblíženie"

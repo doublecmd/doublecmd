@@ -9431,6 +9431,10 @@ msgstr "Raztegni sliko"
 msgid "Stretch only large"
 msgstr "Raztegni le velike"
 
+#: tfrmviewer.actwraptext.caption
+msgid "&Wrap text"
+msgstr ""
+
 #: tfrmviewer.actzoom.caption
 msgid "Zoom"
 msgstr "Približanje"

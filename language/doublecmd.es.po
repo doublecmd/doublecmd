@@ -9434,6 +9434,10 @@ msgstr "Ajustar imagen"
 msgid "Stretch only large"
 msgstr "Ajustar sólo grandes"
 
+#: tfrmviewer.actwraptext.caption
+msgid "&Wrap text"
+msgstr ""
+
 #: tfrmviewer.actzoom.caption
 msgid "Zoom"
 msgstr "Zoom"

@@ -10372,6 +10372,10 @@ msgstr "Strækker billedet"
 msgid "Stretch only large"
 msgstr "Stræk kun store"
 
+#: tfrmviewer.actwraptext.caption
+msgid "&Wrap text"
+msgstr ""
+
 #: tfrmviewer.actzoom.caption
 msgid "Zoom"
 msgstr "Zoom"

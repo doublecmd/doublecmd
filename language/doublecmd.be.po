@@ -9348,6 +9348,10 @@ msgstr "Усе выявы па памерах акна"
 msgid "Stretch only large"
 msgstr "Толькі вялікія выявы па памерах акна"
 
+#: tfrmviewer.actwraptext.caption
+msgid "&Wrap text"
+msgstr ""
+
 #: tfrmviewer.actzoom.caption
 msgid "Zoom"
 msgstr "Маштаб"

@@ -9360,6 +9360,10 @@ msgstr "Roztáhnout obrázek"
 msgid "Stretch only large"
 msgstr "Přizpůsobit pouze velké"
 
+#: tfrmviewer.actwraptext.caption
+msgid "&Wrap text"
+msgstr ""
+
 #: tfrmviewer.actzoom.caption
 msgid "Zoom"
 msgstr "Zvětšení"

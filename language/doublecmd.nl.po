@@ -9361,6 +9361,10 @@ msgstr "Rek afbeelding uit"
 msgid "Stretch only large"
 msgstr "Rek alleen grote uit"
 
+#: tfrmviewer.actwraptext.caption
+msgid "&Wrap text"
+msgstr ""
+
 #: tfrmviewer.actzoom.caption
 msgid "Zoom"
 msgstr "Vergroten/verkleinen"
