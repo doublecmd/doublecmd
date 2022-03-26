@@ -173,7 +173,7 @@ type
 const
   { Default hotkey list version number }
   hkVersion = 54;
-  // 54 - In "Viewer" context, added the "W" for "cm_WrapText" and "4" for "cm_ShowAsDec".
+  // 54 - In "Viewer" context, added the "W" for "cm_WrapText", "4" for "cm_ShowAsDec", "8" for "cm_ShowOffice".
   // 53 - In "Main" context, change shortcut "Alt+`" to "Alt+0" for the "cm_ActivateTabByIndex".
   // 52 - In "Main" context, add shortcut "Ctrl+Shift+B" for "cm_FlatViewSel".
   // 51 - In "Multi-Rename" context, added the "Shift+F4" shortcut for the "cm_EditNewNames".
@@ -1191,6 +1191,7 @@ begin
       AddIfNotExists(['5'],[],'cm_ShowAsBook');
       AddIfNotExists(['6'],[],'cm_ShowGraphics');
       AddIfNotExists(['7'],[],'cm_ShowPlugins');
+      AddIfNotExists(['8'],[],'cm_ShowOffice');
 
       AddIfNotExists(['W'],[],'cm_WrapText');
       AddIfNotExists(['F6'],[],'cm_ShowCaret');
