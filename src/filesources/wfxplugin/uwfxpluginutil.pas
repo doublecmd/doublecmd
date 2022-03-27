@@ -438,16 +438,18 @@ end;
 function TWfxPluginOperationHelper.FileExists(aFile: TFile;
   AbsoluteTargetFileName: String; AllowResume: Boolean
   ): TFileSourceOperationOptionFileExists;
+type
+  TFileSourceOperationUIResponses = array of TFileSourceOperationUIResponse;
 const
-  Responses: array[0..6] of TFileSourceOperationUIResponse
+  Responses: TFileSourceOperationUIResponses
     = (fsourOverwrite, fsourSkip, fsourResume, fsourOverwriteAll, fsourSkipAll,
        fsouaCompare, fsourCancel);
-  ResponsesNoResume: array[0..5] of TFileSourceOperationUIResponse
+  ResponsesNoResume: TFileSourceOperationUIResponses
     = (fsourOverwrite, fsourSkip, fsourOverwriteAll, fsourSkipAll, fsouaCompare,
        fsourCancel);
 var
   Message: String;
-  PossibleResponses: array of TFileSourceOperationUIResponse;
+  PossibleResponses: TFileSourceOperationUIResponses;
 begin
   case FFileExistsOption of
     fsoofeNone:

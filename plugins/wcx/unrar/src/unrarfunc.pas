@@ -25,6 +25,9 @@
 unit UnRARFunc;
 
 {$mode objfpc}{$H+}
+{$ifndef VER3_2}
+{$modeswitch arraytodynarray}
+{$endif}
 {$include calling.inc}
 
 interface
