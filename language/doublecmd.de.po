@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Double Commander 1.0.0 alpha\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-12-20 12:40+0300\n"
-"PO-Revision-Date: 2022-02-24 05:03+0100\n"
+"PO-Revision-Date: 2022-03-27 12:34+0200\n"
 "Last-Translator: ㋡ <braass@mail.de>\n"
 "Language-Team: Deutsch <braass@mail.de>\n"
 "MIME-Version: 1.0\n"
@@ -9331,17 +9331,17 @@ msgstr "&Beenden"
 #: tfrmviewer.actfind.caption
 msgctxt "tfrmviewer.actfind.caption"
 msgid "Find"
-msgstr "Finden"
+msgstr "Suchen"
 
 #: tfrmviewer.actfindnext.caption
 msgctxt "tfrmviewer.actfindnext.caption"
 msgid "Find next"
-msgstr "Nächste finden"
+msgstr "Nächste suchen"
 
 #: tfrmviewer.actfindprev.caption
 msgctxt "tfrmviewer.actfindprev.caption"
 msgid "Find previous"
-msgstr "Vorige finden"
+msgstr "Vorige suchen"
 
 #: tfrmviewer.actfullscreen.caption
 msgctxt "tfrmviewer.actfullscreen.caption"
@@ -9518,7 +9518,7 @@ msgstr "Bilder"
 
 #: tfrmviewer.actshowoffice.caption
 msgid "Office XML (text only)"
-msgstr ""
+msgstr "Office Open XML (nur Text)"
 
 #: tfrmviewer.actshowplugins.caption
 msgctxt "tfrmviewer.actshowplugins.caption"
@@ -9541,7 +9541,7 @@ msgstr "Nur große einpassen"
 
 #: tfrmviewer.actwraptext.caption
 msgid "&Wrap text"
-msgstr ""
+msgstr "Text umbrechen"
 
 #: tfrmviewer.actzoom.caption
 msgid "Zoom"
@@ -13901,4 +13901,3 @@ msgstr "Eine Ersetzung hat nicht stattgefunden."
 #: umaincommands.rsfavoritetabs_setupnotexist
 msgid "No setup named \"%s\""
 msgstr "Keine Einstellung namens »%s«"
-
