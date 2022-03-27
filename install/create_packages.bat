@@ -1,6 +1,6 @@
 
 rem Set Double Commander version
-set DC_VER=1.0.4
+set DC_VER=1.0.5
 
 rem Path to Git
 set GIT_EXE="%ProgramFiles%\Git\bin\git.exe"
@@ -57,7 +57,7 @@ call %BUILD_DC_TMP_DIR%\install\windows\install.bat
 
 cd /D %BUILD_PACK_DIR%
 rem Create *.exe package
-%ISCC_EXE% /F"doublecmd-%DC_VER%.%CPU_TARGET%-%OS_TARGET%" doublecmd.iss
+%ISCC_EXE% /F"doublecmd-%DC_VER%.%CPU_TARGET%-%OS_TARGET%" /DDisplayVersion=%DC_VER% doublecmd.iss
 
 rem Move created package
 move release\*.exe %PACK_DIR%
