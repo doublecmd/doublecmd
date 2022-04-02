@@ -1978,6 +1978,11 @@ begin
           cm_ShowPlugins(['']);
           Key := #0;
         end;
+      '8':
+        begin
+          cm_ShowOffice(['']);
+          Key := #0;
+        end;
     end;
 end;
 
