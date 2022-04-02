@@ -1153,7 +1153,15 @@ end;
 procedure TfrmViewer.WMCommand(var Message: TLMCommand);
 begin
   case Message.NotifyCode of
-    itm_next: if Message.ItemID = 0 then cm_LoadNextFile([]);
+    itm_center:
+      miCenter.Checked:= Boolean(Message.ItemID);
+    itm_next: begin
+      if Message.ItemID = 0 then cm_LoadNextFile([]);
+    end;
+    itm_wrap: begin
+      gViewerWrapText:= Boolean(Message.ItemID);
+      actWrapText.Checked:= gViewerWrapText;
+    end;
   end;
 end;
 
