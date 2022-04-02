@@ -1151,6 +1151,8 @@ begin
 end;
 
 procedure TfrmViewer.WMCommand(var Message: TLMCommand);
+var
+  Index: Integer;
 begin
   case Message.NotifyCode of
     itm_center:
@@ -1161,6 +1163,41 @@ begin
     itm_wrap: begin
       gViewerWrapText:= Boolean(Message.ItemID);
       actWrapText.Checked:= gViewerWrapText;
+    end;
+    itm_fit: begin
+      case Message.ItemID of
+        0:
+        begin
+          miStretch.Checked:= False;
+          miStretchOnlyLarge.Checked:= False;
+        end;
+        2, 3:
+        begin
+          miStretch.Checked:= (Message.ItemID = 2);
+          miStretchOnlyLarge.Checked:= (Message.ItemID = 3);
+        end;
+      end;
+    end;
+    itm_fontstyle: begin
+      case Message.ItemID of
+        lcp_ansi:
+        begin
+          FPluginEncoding:= lcp_ansi;
+          Index:= miEncoding.IndexOfCaption(ViewerEncodingsNames[veAnsi]);
+        end;
+        lcp_ascii:
+        begin
+          FPluginEncoding:= lcp_ascii;
+          Index:= miEncoding.IndexOfCaption(ViewerEncodingsNames[veOem]);
+        end;
+        else begin
+          Index:= 0;
+          FPluginEncoding:= 0;
+        end;
+        miEncoding.Items[Index].Checked:= True;
+        ViewerControl.Encoding:= TViewerEncoding(Index);
+        Status.Panels[sbpTextEncoding].Text := rsViewEncoding + ': ' + ViewerControl.EncodingName;
+      end;
     end;
   end;
 end;
@@ -2674,7 +2711,6 @@ begin
   if Panel = nil then
   begin
     Status.Panels[sbpFileSize].Text:= EmptyStr;
-    Status.Panels[sbpTextEncoding].Text:= EmptyStr;
     Status.Panels[sbpPluginName].Text:= FWlxModule.Name;
 
     UpdateTextEncodingsMenu(True);
