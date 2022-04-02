@@ -349,6 +349,7 @@ type
     FThread: TThread;
 
     FRegExp: TRegExprEx;
+    FPluginEncoding: Integer;
 
     //---------------------
     WlxPlugins: TWLXModuleList;
@@ -362,6 +363,7 @@ type
     function LoadGraphics(const sFileName:String): Boolean;
     procedure AdjustImageSize;
     procedure DoSearch(bQuickSearch: Boolean; bSearchBackwards: Boolean);
+    procedure UpdateTextEncodingsMenu(APlugin: Boolean);
     procedure MakeTextEncodingsMenu;
     procedure ActivatePanel(Panel: TPanel);
     procedure ReopenAsTextIfNeeded;
@@ -1340,7 +1342,8 @@ end;
 
 function TfrmViewer.PluginShowFlags : Integer;
 begin
-  Result:= IfThen(miWrapText.Checked, lcp_wraptext, 0) or
+  Result:= FPluginEncoding or
+           IfThen(miWrapText.Checked, lcp_wraptext, 0) or
            IfThen(miStretch.Checked, lcp_fittowindow, 0) or
            IfThen(miCenter.Checked, lcp_center, 0) or
            IfThen(miStretchOnlyLarge.Checked, lcp_fittowindow or lcp_fitlargeronly, 0)
@@ -2619,6 +2622,27 @@ begin
   end;
 end;
 
+procedure TfrmViewer.UpdateTextEncodingsMenu(APlugin: Boolean);
+var
+  I: Integer;
+  Encoding: TViewerEncoding;
+begin
+  if not APlugin then
+  begin
+    for I:= 0 to miEncoding.Count - 1 do
+    begin
+      miEncoding.Items[I].Visible:= True;
+    end;
+  end
+  else begin
+    for I:= 0 to miEncoding.Count - 1 do
+    begin
+      Encoding:= TViewerEncoding(I);
+      miEncoding.Items[I].Visible:= Encoding in [veAutoDetect, veAnsi, veOem];
+    end;
+  end;
+end;
+
 procedure TfrmViewer.ViewerPositionChanged(Sender:TObject);
 begin
   if ViewerControl.FileSize > 0 then
@@ -2644,6 +2668,9 @@ begin
     Status.Panels[sbpFileSize].Text:= EmptyStr;
     Status.Panels[sbpTextEncoding].Text:= EmptyStr;
     Status.Panels[sbpPluginName].Text:= FWlxModule.Name;
+
+    UpdateTextEncodingsMenu(True);
+    Status.Panels[sbpTextEncoding].Text := rsViewEncoding + ': ' + ViewerControl.EncodingName;
   end
   else if Panel = pnlText then
   begin
@@ -2659,6 +2686,7 @@ begin
       vcmBook: miLookBook.Checked := True;
     end;
 
+    UpdateTextEncodingsMenu(False);
     FRegExp.ChangeEncoding(ViewerControl.EncodingName);
     Status.Panels[sbpFileSize].Text:= cnvFormatFileSize(ViewerControl.FileSize) + ' (100 %)';
     Status.Panels[sbpTextEncoding].Text := rsViewEncoding + ': ' + ViewerControl.EncodingName;
@@ -2676,7 +2704,7 @@ begin
   bPlugin              := (Panel = nil);
   miPlugins.Checked    := (Panel = nil);
   miGraphics.Checked   := (Panel = pnlImage);
-  miEncoding.Visible   := (Panel = pnlText);
+  miEncoding.Visible   := (Panel = nil) or (Panel = pnlText);
   miAutoReload.Visible := (Panel = pnlText);
   miEdit.Visible       := (Panel = pnlText) or (Panel = nil);
   miImage.Visible      := (bImage or bPlugin);
@@ -2987,6 +3015,7 @@ end;
 
 procedure TfrmViewer.cm_ChangeEncoding(const Params: array of string);
 var
+  Encoding: String;
   MenuItem: TMenuItem;
 begin
   if miEncoding.Visible and (Length(Params) > 0) then
@@ -2995,8 +3024,20 @@ begin
     if Assigned(MenuItem) then
     begin
       MenuItem.Checked := True;
-      FRegExp.ChangeEncoding(Params[0]);
-      ViewerControl.EncodingName := Params[0];
+      Encoding:= NormalizeEncoding(Params[0]);
+      if bPlugin then
+      begin
+        if (Encoding = EncodingAnsi) then
+          FPluginEncoding:= lcp_ansi
+        else if (Encoding = EncodingOem) then
+          FPluginEncoding:= lcp_ascii
+        else begin
+          FPluginEncoding:= 0;
+        end;
+        FWlxModule.CallListSendCommand(lc_newparams, PluginShowFlags);
+      end;
+      FRegExp.ChangeEncoding(Encoding);
+      ViewerControl.EncodingName := Encoding;
       Status.Panels[sbpTextEncoding].Text := rsViewEncoding + ': ' + ViewerControl.EncodingName;
     end;
   end;
@@ -3184,7 +3225,7 @@ begin
   actWrapText.Checked:= gViewerWrapText;
 
   if bPlugin then
-    FWlxModule.CallListSendCommand(lc_newparams , PluginShowFlags)
+    FWlxModule.CallListSendCommand(lc_newparams, PluginShowFlags)
   else if not miGraphics.Checked then
   begin
     if ViewerControl.Mode in [vcmText, vcmWrap] then
