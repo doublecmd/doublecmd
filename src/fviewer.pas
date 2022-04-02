@@ -1965,7 +1965,7 @@ begin
         end;
       '4':
         begin
-          cm_ShowAsWrapText(['']);
+          cm_ShowAsDec(['']);
           Key := #0;
         end;
       '6':
@@ -2647,7 +2647,7 @@ begin
 
     case ViewerControl.Mode of
       vcmText: miText.Checked := True;
-      vcmWrap: miWrapText.Checked := True;
+      vcmWrap: miText.Checked := True;
       vcmBin:  miBin.Checked := True;
       vcmHex:  miHex.Checked := True;
       vcmDec:  miDec.Checked := True;
@@ -2684,7 +2684,7 @@ begin
   miSaveAs.Visible     := bImage;
 
   actShowCaret.Enabled := (Panel = pnlText);
-  actWrapText.Enabled  := bPlugin or (Panel = pnlText);
+  actWrapText.Enabled  := bPlugin or ((Panel = pnlText) and (ViewerControl.Mode in [vcmText, vcmWrap]));
 
   pmiSelectAll.Visible     := (Panel = pnlText);
   pmiCopyFormatted.Visible := (Panel = pnlText);
