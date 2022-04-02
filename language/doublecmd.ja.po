@@ -9543,6 +9543,10 @@ msgctxt "tfrmviewer.actshowgraphics.caption"
 msgid "Graphics"
 msgstr "グラフィックス"
 
+#: tfrmviewer.actshowoffice.caption
+msgid "Office XML (text only)"
+msgstr ""
+
 #: tfrmviewer.actshowplugins.caption
 msgctxt "tfrmviewer.actshowplugins.caption"
 msgid "Plugins"
@@ -9561,6 +9565,10 @@ msgstr "画像を引き伸ばし"
 msgctxt "tfrmviewer.actstretchonlylarge.caption"
 msgid "Stretch only large"
 msgstr "引き延ばしだけ"
+
+#: tfrmviewer.actwraptext.caption
+msgid "&Wrap text"
+msgstr ""
 
 #: tfrmviewer.actzoom.caption
 msgid "Zoom"

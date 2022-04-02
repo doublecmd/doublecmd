@@ -9587,6 +9587,10 @@ msgctxt "tfrmviewer.actshowgraphics.caption"
 msgid "Graphics"
 msgstr "&Графика"
 
+#: tfrmviewer.actshowoffice.caption
+msgid "Office XML (text only)"
+msgstr "Офи&сные XML (только текст)"
+
 #: tfrmviewer.actshowplugins.caption
 msgctxt "tfrmviewer.actshowplugins.caption"
 msgid "Plugins"
@@ -9605,6 +9609,10 @@ msgstr "Все изображения в размер окна"
 msgctxt "tfrmviewer.actstretchonlylarge.caption"
 msgid "Stretch only large"
 msgstr "Только большие в размер окна"
+
+#: tfrmviewer.actwraptext.caption
+msgid "&Wrap text"
+msgstr "&Переносить строки"
 
 #: tfrmviewer.actzoom.caption
 msgid "Zoom"

@@ -9295,6 +9295,10 @@ msgctxt "tfrmviewer.actshowgraphics.caption"
 msgid "Graphics"
 msgstr "Grafika"
 
+#: tfrmviewer.actshowoffice.caption
+msgid "Office XML (text only)"
+msgstr ""
+
 #: tfrmviewer.actshowplugins.caption
 msgctxt "TFRMVIEWER.ACTSHOWPLUGINS.CAPTION"
 msgid "Plugins"
@@ -9311,6 +9315,10 @@ msgstr "Rozciągnij obrazek"
 #: tfrmviewer.actstretchonlylarge.caption
 msgid "Stretch only large"
 msgstr "Rozciągnij tylko duże"
+
+#: tfrmviewer.actwraptext.caption
+msgid "&Wrap text"
+msgstr ""
 
 #: tfrmviewer.actzoom.caption
 msgid "Zoom"

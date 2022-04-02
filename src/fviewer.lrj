@@ -69,6 +69,7 @@
 {"hash":99253012,"name":"tfrmviewer.actshowaswraptext.caption","sourcebytes":[83,104,111,119,32,97,115,32,38,87,114,97,112,32,116,101,120,116],"value":"Show as &Wrap text"},
 {"hash":213017739,"name":"tfrmviewer.actshowasbook.caption","sourcebytes":[83,104,111,119,32,97,115,32,66,38,111,111,107],"value":"Show as B&ook"},
 {"hash":143059779,"name":"tfrmviewer.actshowgraphics.caption","sourcebytes":[71,114,97,112,104,105,99,115],"value":"Graphics"},
+{"hash":132775577,"name":"tfrmviewer.actshowoffice.caption","sourcebytes":[79,102,102,105,99,101,32,88,77,76,32,40,116,101,120,116,32,111,110,108,121,41],"value":"Office XML (text only)"},
 {"hash":121364483,"name":"tfrmviewer.actshowplugins.caption","sourcebytes":[80,108,117,103,105,110,115],"value":"Plugins"},
 {"hash":93615908,"name":"tfrmviewer.actcopytoclipboard.caption","sourcebytes":[67,111,112,121,32,84,111,32,67,108,105,112,98,111,97,114,100],"value":"Copy To Clipboard"},
 {"hash":1794964,"name":"tfrmviewer.actcopytoclipboardformatted.caption","sourcebytes":[67,111,112,121,32,84,111,32,67,108,105,112,98,111,97,114,100,32,70,111,114,109,97,116,116,101,100],"value":"Copy To Clipboard Formatted"},
@@ -81,6 +82,7 @@
 {"hash":216689422,"name":"tfrmviewer.actprintsetup.caption","sourcebytes":[80,114,105,110,116,32,38,115,101,116,117,112,46,46,46],"value":"Print &setup..."},
 {"hash":151339998,"name":"tfrmviewer.actprint.caption","sourcebytes":[80,38,114,105,110,116,46,46,46],"value":"P&rint..."},
 {"hash":36280978,"name":"tfrmviewer.actshowcaret.caption","sourcebytes":[83,104,111,119,32,116,101,120,116,32,99,38,117,114,115,111,114],"value":"Show text c&ursor"},
+{"hash":136647284,"name":"tfrmviewer.actwraptext.caption","sourcebytes":[38,87,114,97,112,32,116,101,120,116],"value":"&Wrap text"},
 {"hash":22206,"name":"tfrmviewer.mipen.caption","sourcebytes":[80,101,110],"value":"Pen"},
 {"hash":363428,"name":"tfrmviewer.mirect.caption","sourcebytes":[82,101,99,116],"value":"Rect"},
 {"hash":204670933,"name":"tfrmviewer.miellipse.caption","sourcebytes":[69,108,108,105,112,115,101],"value":"Ellipse"}

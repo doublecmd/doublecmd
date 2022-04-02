@@ -1479,7 +1479,7 @@ begin
     // Button was moved.
     SaveToolBar(Toolbar)
   else
-    if Sender is TKASToolButton and not Draging then
+    if (Sender is TKASToolButton) and not Draging then
       begin
         ToolItem := TKASToolButton(Sender).ToolItem;
         if ToolItem is TKASProgramItem then

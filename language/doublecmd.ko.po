@@ -9547,6 +9547,10 @@ msgctxt "tfrmviewer.actshowgraphics.caption"
 msgid "Graphics"
 msgstr "그래픽"
 
+#: tfrmviewer.actshowoffice.caption
+msgid "Office XML (text only)"
+msgstr ""
+
 #: tfrmviewer.actshowplugins.caption
 msgctxt "tfrmviewer.actshowplugins.caption"
 msgid "Plugins"
@@ -9565,6 +9569,10 @@ msgstr "이미지 늘이기"
 msgctxt "tfrmviewer.actstretchonlylarge.caption"
 msgid "Stretch only large"
 msgstr "크게만 늘이기"
+
+#: tfrmviewer.actwraptext.caption
+msgid "&Wrap text"
+msgstr ""
 
 #: tfrmviewer.actzoom.caption
 msgid "Zoom"

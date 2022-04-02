@@ -2721,8 +2721,11 @@ begin
     begin
       sMsg:= cmbFindText.Text;
       sEncoding:= NormalizeEncoding(cmbEncoding.Text);
+      if sEncoding = EncodingDefault then sEncoding:= GetDefaultTextEncoding;
       // Use correct RegExp engine
-      if SingleByteEncoding(sEncoding) then
+      if TRegExprU.Available and (sEncoding = EncodingUTF8) then
+        uRegExprU.ExecRegExpr(sMsg, '')
+      else if SingleByteEncoding(sEncoding) then
         uRegExprA.ExecRegExpr(sMsg, '')
       else if (sEncoding = EncodingUTF16LE) then
         uRegExprW.ExecRegExpr(CeUtf8ToUtf16(sMsg), '');

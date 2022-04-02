@@ -1610,20 +1610,22 @@ end;
 function TFileSystemOperationHelper.FileExists(aFile: TFile;
   var AbsoluteTargetFileName: String; AllowAppend: Boolean
   ): TFileSourceOperationOptionFileExists;
+type
+  TFileSourceOperationUIResponses = array of TFileSourceOperationUIResponse;
 const
-  Responses: array[0..13] of TFileSourceOperationUIResponse
+  Responses: TFileSourceOperationUIResponses
     = (fsourOverwrite, fsourSkip, fsourRenameSource, fsourOverwriteAll,
        fsourSkipAll, fsourResume, fsourOverwriteOlder, fsourCancel,
        fsouaCompare, fsourAppend, fsourOverwriteSmaller, fsourOverwriteLarger,
        fsourAutoRenameSource, fsourAutoRenameTarget);
-  ResponsesNoAppend: array[0..11] of TFileSourceOperationUIResponse
+  ResponsesNoAppend: TFileSourceOperationUIResponses
     = (fsourOverwrite, fsourSkip, fsourRenameSource,  fsourOverwriteAll,
        fsourSkipAll, fsourOverwriteSmaller, fsourOverwriteOlder, fsourCancel,
        fsouaCompare, fsourOverwriteLarger, fsourAutoRenameSource, fsourAutoRenameTarget);
 var
   Answer: Boolean;
   Message: String;
-  PossibleResponses: array of TFileSourceOperationUIResponse;
+  PossibleResponses: TFileSourceOperationUIResponses;
 
   function RenameTarget: TFileSourceOperationOptionFileExists;
   var
