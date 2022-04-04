@@ -316,7 +316,7 @@ begin
       NewCaption := '*' + NewCaption;
 
     if (tb_text_length_limit in gDirTabOptions) and (UTF8Length(NewCaption) > gDirTabLimit) then
-      NewCaption := UTF8Copy(NewCaption, 1, gDirTabLimit) + '...';
+      NewCaption := UTF8Copy(NewCaption, 1, gDirTabLimit) + '..';
 
 {$IF DEFINED(LCLGTK2)}
     Caption := NewCaption;
