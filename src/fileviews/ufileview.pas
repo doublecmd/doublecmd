@@ -2620,13 +2620,20 @@ begin
     if Assigned(APage) and (APage.LockState <> tlsNormal) then
     begin
       if not mbCompareFileNames(FHistory.CurrentPath, APage.LockPath) then
+      begin
+        FileSourceClass:= gVfsModuleList.GetFileSource(APage.LockPath);
+        if Assigned(FileSourceClass) then aFileSource := FileSourceClass.Create;
         FHistory.Add(aFileSource, APage.LockPath);
+      end;
     end;
-    // Go to upper directory if current doesn't exist
-    sPath := GetDeepestExistingPath(FHistory.CurrentPath);
-    if Length(sPath) = 0 then sPath := mbGetCurrentDir;
-    if not mbCompareFileNames(sPath, FHistory.CurrentPath) then
-      FHistory.Add(aFileSource, sPath);
+    if TFileSystemFileSource.ClassNameIs(aFileSource.ClassName) then
+    begin
+      // Go to upper directory if current doesn't exist
+      sPath := GetDeepestExistingPath(FHistory.CurrentPath);
+      if Length(sPath) = 0 then sPath := mbGetCurrentDir;
+      if not mbCompareFileNames(sPath, FHistory.CurrentPath) then
+        FHistory.Add(aFileSource, sPath);
+    end;
   end;
 
   if Assigned(aFileSource) then
