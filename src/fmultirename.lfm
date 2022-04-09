@@ -420,6 +420,20 @@ object frmMultiRename: TfrmMultiRename
           ParentFont = False
           TabOrder = 1
         end
+        object cbCaseSens: TCheckBox
+          AnchorSideLeft.Control = cbRegExp
+          AnchorSideLeft.Side = asrBottom
+          AnchorSideTop.Control = cbRegExp
+          Left = 140
+          Height = 19
+          Hint = 'Case sensitive'
+          Top = 88
+          Width = 42
+          BorderSpacing.Left = 12
+          Caption = 'A≠a'
+          OnChange = cbNameStyleChange
+          TabOrder = 4
+        end
       end
       object btnEditor: TBitBtn
         AnchorSideLeft.Control = gbCounter
