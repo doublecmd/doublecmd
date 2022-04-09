@@ -3826,6 +3826,14 @@ msgstr "啟用 (&B)"
 msgid "Append"
 msgstr ""
 
+#: tfrmmultirename.cbonlyfirst.caption
+msgid "1x"
+msgstr ""
+
+#: tfrmmultirename.cbonlyfirst.hint
+msgid "Replace only once per file"
+msgstr ""
+
 #: tfrmmultirename.cbregexp.caption
 #, fuzzy
 #| msgid "&Regular expressions"

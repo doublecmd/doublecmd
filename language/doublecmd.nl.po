@@ -3564,6 +3564,14 @@ msgstr "&Log resultaat"
 msgid "Append"
 msgstr "Toevoegen"
 
+#: tfrmmultirename.cbonlyfirst.caption
+msgid "1x"
+msgstr ""
+
+#: tfrmmultirename.cbonlyfirst.hint
+msgid "Replace only once per file"
+msgstr ""
+
 #: tfrmmultirename.cbregexp.caption
 msgid "Regular e&xpressions"
 msgstr "&Reguliere uitdrukkingen"
