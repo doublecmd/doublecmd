@@ -3308,6 +3308,7 @@ msgid "&OK"
 msgstr "&OK"
 
 #: tfrmmaskinputdlg.chkcasesensitive.caption
+msgctxt "tfrmmaskinputdlg.chkcasesensitive.caption"
 msgid "Case sensitive"
 msgstr "Distingui maiusc./minusc."
 
@@ -3652,6 +3653,16 @@ msgstr ""
 msgctxt "TFRMMULTIRENAME.CAPTION"
 msgid "Multi-Rename Tool"
 msgstr "Strumento Multi-Rinomina"
+
+#: tfrmmultirename.cbcasesens.caption
+msgid "A≠a"
+msgstr ""
+
+#: tfrmmultirename.cbcasesens.hint
+#, fuzzy
+msgctxt "tfrmmultirename.cbcasesens.hint"
+msgid "Case sensitive"
+msgstr "Distingui maiusc./minusc."
 
 #: tfrmmultirename.cblog.caption
 #, fuzzy

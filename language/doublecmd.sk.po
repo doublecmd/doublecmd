@@ -3202,6 +3202,7 @@ msgid "&OK"
 msgstr "&OK"
 
 #: tfrmmaskinputdlg.chkcasesensitive.caption
+msgctxt "tfrmmaskinputdlg.chkcasesensitive.caption"
 msgid "Case sensitive"
 msgstr "Rozlíšovať veľkosť písmen"
 
@@ -3544,6 +3545,16 @@ msgstr "Zobraziť súbor záznamu premenovaní"
 msgctxt "tfrmmultirename.caption"
 msgid "Multi-Rename Tool"
 msgstr "Hromadné premenovanie"
+
+#: tfrmmultirename.cbcasesens.caption
+msgid "A≠a"
+msgstr ""
+
+#: tfrmmultirename.cbcasesens.hint
+#, fuzzy
+msgctxt "tfrmmultirename.cbcasesens.hint"
+msgid "Case sensitive"
+msgstr "Rozlíšovať veľkosť písmen"
 
 #: tfrmmultirename.cblog.caption
 msgid "&Log result"

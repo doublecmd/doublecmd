@@ -3234,6 +3234,7 @@ msgid "&OK"
 msgstr "&OK"
 
 #: tfrmmaskinputdlg.chkcasesensitive.caption
+msgctxt "tfrmmaskinputdlg.chkcasesensitive.caption"
 msgid "Case sensitive"
 msgstr "Abhängig von Groß-/Kleinschreibung"
 
@@ -3576,6 +3577,16 @@ msgstr "Umbenennen-Logdatei anzeigen"
 msgctxt "tfrmmultirename.caption"
 msgid "Multi-Rename Tool"
 msgstr "Mehrfaches Umbenennen"
+
+#: tfrmmultirename.cbcasesens.caption
+msgid "A≠a"
+msgstr ""
+
+#: tfrmmultirename.cbcasesens.hint
+#, fuzzy
+msgctxt "tfrmmultirename.cbcasesens.hint"
+msgid "Case sensitive"
+msgstr "Abhängig von Groß-/Kleinschreibung"
 
 #: tfrmmultirename.cblog.caption
 msgctxt "TFRMMULTIRENAME.CBLOG.CAPTION"
@@ -13901,3 +13912,4 @@ msgstr "Eine Ersetzung hat nicht stattgefunden."
 #: umaincommands.rsfavoritetabs_setupnotexist
 msgid "No setup named \"%s\""
 msgstr "Keine Einstellung namens »%s«"
+

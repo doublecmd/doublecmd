@@ -3524,6 +3524,7 @@ msgid "&OK"
 msgstr "&Accepta"
 
 #: tfrmmaskinputdlg.chkcasesensitive.caption
+msgctxt "tfrmmaskinputdlg.chkcasesensitive.caption"
 msgid "Case sensitive"
 msgstr "Sensibilitat a Majúscules"
 
@@ -3872,6 +3873,16 @@ msgstr ""
 msgctxt "tfrmmultirename.caption"
 msgid "Multi-Rename Tool"
 msgstr "Reanomenat múltiple"
+
+#: tfrmmultirename.cbcasesens.caption
+msgid "A≠a"
+msgstr ""
+
+#: tfrmmultirename.cbcasesens.hint
+#, fuzzy
+msgctxt "tfrmmultirename.cbcasesens.hint"
+msgid "Case sensitive"
+msgstr "Sensibilitat a Majúscules"
 
 #: tfrmmultirename.cblog.caption
 #, fuzzy

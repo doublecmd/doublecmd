@@ -3266,6 +3266,7 @@ msgid "&OK"
 msgstr "OK"
 
 #: tfrmmaskinputdlg.chkcasesensitive.caption
+msgctxt "tfrmmaskinputdlg.chkcasesensitive.caption"
 msgid "Case sensitive"
 msgstr "Με διάκριση πεζών -κεφαλαίων"
 
@@ -3610,6 +3611,16 @@ msgstr "Εμφάνιση Μετονομασίας Αρχείου Καταγρα�
 msgctxt "TFRMMULTIRENAME.CAPTION"
 msgid "Multi-Rename Tool"
 msgstr "Μετονομασία Πολλών"
+
+#: tfrmmultirename.cbcasesens.caption
+msgid "A≠a"
+msgstr ""
+
+#: tfrmmultirename.cbcasesens.hint
+#, fuzzy
+msgctxt "tfrmmultirename.cbcasesens.hint"
+msgid "Case sensitive"
+msgstr "Με διάκριση πεζών -κεφαλαίων"
 
 #: tfrmmultirename.cblog.caption
 msgctxt "TFRMMULTIRENAME.CBLOG.CAPTION"

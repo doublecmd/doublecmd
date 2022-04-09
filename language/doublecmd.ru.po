@@ -3258,6 +3258,7 @@ msgid "&OK"
 msgstr "&ОК"
 
 #: tfrmmaskinputdlg.chkcasesensitive.caption
+msgctxt "tfrmmaskinputdlg.chkcasesensitive.caption"
 msgid "Case sensitive"
 msgstr "Учитывать регистр"
 
@@ -3602,6 +3603,15 @@ msgstr "Просмотреть файл протокола переименов�
 msgctxt "tfrmmultirename.caption"
 msgid "Multi-Rename Tool"
 msgstr "Групповое переименование"
+
+#: tfrmmultirename.cbcasesens.caption
+msgid "A≠a"
+msgstr "А≠а"
+
+#: tfrmmultirename.cbcasesens.hint
+msgctxt "tfrmmultirename.cbcasesens.hint"
+msgid "Case sensitive"
+msgstr "Учитывать регистр"
 
 #: tfrmmultirename.cblog.caption
 msgctxt "TFRMMULTIRENAME.CBLOG.CAPTION"

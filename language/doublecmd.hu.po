@@ -3262,6 +3262,7 @@ msgid "&OK"
 msgstr "&OK"
 
 #: tfrmmaskinputdlg.chkcasesensitive.caption
+msgctxt "tfrmmaskinputdlg.chkcasesensitive.caption"
 msgid "Case sensitive"
 msgstr "Kis- és nagybetű különbözik"
 
@@ -3606,6 +3607,16 @@ msgstr "Átnevezési napló megtekintése"
 msgctxt "TFRMMULTIRENAME.CAPTION"
 msgid "Multi-Rename Tool"
 msgstr "Csoportos átnevező"
+
+#: tfrmmultirename.cbcasesens.caption
+msgid "A≠a"
+msgstr ""
+
+#: tfrmmultirename.cbcasesens.hint
+#, fuzzy
+msgctxt "tfrmmultirename.cbcasesens.hint"
+msgid "Case sensitive"
+msgstr "Kis- és nagybetű különbözik"
 
 #: tfrmmultirename.cblog.caption
 msgctxt "TFRMMULTIRENAME.CBLOG.CAPTION"

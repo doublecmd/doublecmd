@@ -3202,6 +3202,7 @@ msgid "&OK"
 msgstr "&Oké"
 
 #: tfrmmaskinputdlg.chkcasesensitive.caption
+msgctxt "tfrmmaskinputdlg.chkcasesensitive.caption"
 msgid "Case sensitive"
 msgstr "Hoofdlettergevoelig"
 
@@ -3544,6 +3545,16 @@ msgstr "Toon hernoem logbestand"
 msgctxt "tfrmmultirename.caption"
 msgid "Multi-Rename Tool"
 msgstr "Meervoudig hernoemen"
+
+#: tfrmmultirename.cbcasesens.caption
+msgid "A≠a"
+msgstr ""
+
+#: tfrmmultirename.cbcasesens.hint
+#, fuzzy
+msgctxt "tfrmmultirename.cbcasesens.hint"
+msgid "Case sensitive"
+msgstr "Hoofdlettergevoelig"
 
 #: tfrmmultirename.cblog.caption
 msgid "&Log result"

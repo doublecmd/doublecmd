@@ -3202,6 +3202,7 @@ msgid "&OK"
 msgstr "&Добра"
 
 #: tfrmmaskinputdlg.chkcasesensitive.caption
+msgctxt "tfrmmaskinputdlg.chkcasesensitive.caption"
 msgid "Case sensitive"
 msgstr "Зважаць на рэгістр"
 
@@ -3544,6 +3545,16 @@ msgstr "Праглядзець журнал змены назваў"
 msgctxt "tfrmmultirename.caption"
 msgid "Multi-Rename Tool"
 msgstr "&Масавая змена назвы"
+
+#: tfrmmultirename.cbcasesens.caption
+msgid "A≠a"
+msgstr ""
+
+#: tfrmmultirename.cbcasesens.hint
+#, fuzzy
+msgctxt "tfrmmultirename.cbcasesens.hint"
+msgid "Case sensitive"
+msgstr "Зважаць на рэгістр"
 
 #: tfrmmultirename.cblog.caption
 msgid "&Log result"

@@ -3214,6 +3214,7 @@ msgid "&OK"
 msgstr "确定(&O)"
 
 #: tfrmmaskinputdlg.chkcasesensitive.caption
+msgctxt "tfrmmaskinputdlg.chkcasesensitive.caption"
 msgid "Case sensitive"
 msgstr "区分大小写"
 
@@ -3556,6 +3557,16 @@ msgstr "查看重命名日志文件"
 msgctxt "tfrmmultirename.caption"
 msgid "Multi-Rename Tool"
 msgstr "批量重命名"
+
+#: tfrmmultirename.cbcasesens.caption
+msgid "A≠a"
+msgstr ""
+
+#: tfrmmultirename.cbcasesens.hint
+#, fuzzy
+msgctxt "tfrmmultirename.cbcasesens.hint"
+msgid "Case sensitive"
+msgstr "区分大小写"
 
 #: tfrmmultirename.cblog.caption
 #, fuzzy

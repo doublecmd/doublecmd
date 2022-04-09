@@ -3457,6 +3457,7 @@ msgid "&OK"
 msgstr "U redu&"
 
 #: tfrmmaskinputdlg.chkcasesensitive.caption
+msgctxt "tfrmmaskinputdlg.chkcasesensitive.caption"
 msgid "Case sensitive"
 msgstr ""
 
@@ -3806,6 +3807,15 @@ msgstr ""
 msgctxt "TFRMMULTIRENAME.CAPTION"
 msgid "Multi-Rename Tool"
 msgstr "Višestruko preimenovanje"
+
+#: tfrmmultirename.cbcasesens.caption
+msgid "A≠a"
+msgstr ""
+
+#: tfrmmultirename.cbcasesens.hint
+msgctxt "tfrmmultirename.cbcasesens.hint"
+msgid "Case sensitive"
+msgstr ""
 
 #: tfrmmultirename.cblog.caption
 #, fuzzy

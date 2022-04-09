@@ -3200,6 +3200,7 @@ msgid "&OK"
 msgstr ""
 
 #: tfrmmaskinputdlg.chkcasesensitive.caption
+msgctxt "tfrmmaskinputdlg.chkcasesensitive.caption"
 msgid "Case sensitive"
 msgstr ""
 
@@ -3541,6 +3542,15 @@ msgstr ""
 #: tfrmmultirename.caption
 msgctxt "tfrmmultirename.caption"
 msgid "Multi-Rename Tool"
+msgstr ""
+
+#: tfrmmultirename.cbcasesens.caption
+msgid "A≠a"
+msgstr ""
+
+#: tfrmmultirename.cbcasesens.hint
+msgctxt "tfrmmultirename.cbcasesens.hint"
+msgid "Case sensitive"
 msgstr ""
 
 #: tfrmmultirename.cblog.caption
