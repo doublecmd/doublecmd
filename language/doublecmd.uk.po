@@ -11117,6 +11117,10 @@ msgstr ""
 "\n"
 "Бажаєте зберегти пошкоджений файл в будь-якому разі?\n"
 
+#: ulng.rsmsgcanceloperation
+msgid "Are you sure that you want to cancel this operation?"
+msgstr ""
+
 #: ulng.rsmsgcannotcopymoveitself
 msgid "You can not copy/move a file \"%s\" to itself!"
 msgstr "Ви не можете скопіювати/перемістити файл \"%s\" в самого себе!"

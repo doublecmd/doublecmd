@@ -11306,6 +11306,10 @@ msgstr ""
 "\n"
 "Da li želite da zadržite neispravnu datoteku?\n"
 
+#: ulng.rsmsgcanceloperation
+msgid "Are you sure that you want to cancel this operation?"
+msgstr ""
+
 #: ulng.rsmsgcannotcopymoveitself
 msgid "You can not copy/move a file \"%s\" to itself!"
 msgstr "Ne možete umnožavati i premeštati u samu datoteku „%s“!"

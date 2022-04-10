@@ -10874,6 +10874,10 @@ msgstr ""
 "\n"
 "Ali želite obdržati okvarjeno datoteko?\n"
 
+#: ulng.rsmsgcanceloperation
+msgid "Are you sure that you want to cancel this operation?"
+msgstr ""
+
 #: ulng.rsmsgcannotcopymoveitself
 msgid "You can not copy/move a file \"%s\" to itself!"
 msgstr "Datoteke »%s« ni mogoče kopirati oziroma premakniti samo vase!"

@@ -11008,6 +11008,10 @@ msgstr ""
 "それを承知で,この破壊した結果ファイルを保持しますか？\n"
 "\n"
 
+#: ulng.rsmsgcanceloperation
+msgid "Are you sure that you want to cancel this operation?"
+msgstr ""
+
 #: ulng.rsmsgcannotcopymoveitself
 msgid "You can not copy/move a file \"%s\" to itself!"
 msgstr "ファイル＜%s＞をそれ自身にコピー/移動することはできません！"

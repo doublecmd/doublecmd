@@ -10830,6 +10830,10 @@ msgstr ""
 "\n"
 "是否保留造成损坏的文件？\n"
 
+#: ulng.rsmsgcanceloperation
+msgid "Are you sure that you want to cancel this operation?"
+msgstr ""
+
 #: ulng.rsmsgcannotcopymoveitself
 msgid "You can not copy/move a file \"%s\" to itself!"
 msgstr "您不能将文件 \"%s\" 复制/移动到它自身！"

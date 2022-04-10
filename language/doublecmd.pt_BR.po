@@ -11219,6 +11219,10 @@ msgstr ""
 "\n"
 "Você deseja manter o arquivo corrompido resultante de qualquer maneira?\n"
 
+#: ulng.rsmsgcanceloperation
+msgid "Are you sure that you want to cancel this operation?"
+msgstr ""
+
 #: ulng.rsmsgcannotcopymoveitself
 msgid "You can not copy/move a file \"%s\" to itself!"
 msgstr "Não pode copiar/mover um arquivo \"%s\" para si próprio!"

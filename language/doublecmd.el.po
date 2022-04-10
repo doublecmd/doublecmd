@@ -11002,6 +11002,10 @@ msgstr ""
 "\n"
 "Επιθυμείτε να κρατήσετε το κατεστραμμένο τελικό αρχείο ως έχει;\n"
 
+#: ulng.rsmsgcanceloperation
+msgid "Are you sure that you want to cancel this operation?"
+msgstr ""
+
 #: ulng.rsmsgcannotcopymoveitself
 msgid "You can not copy/move a file \"%s\" to itself!"
 msgstr "Δεν μπορείτε να αντιγράψετε/μετακινήσετε ένα αρχείο \"%s\" σε αυτό το ίδιο!"

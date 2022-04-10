@@ -10995,6 +10995,10 @@ msgstr ""
 "\n"
 "훼손된 파일을 그대로 유지하겠습니까? \n"
 
+#: ulng.rsmsgcanceloperation
+msgid "Are you sure that you want to cancel this operation?"
+msgstr ""
+
 #: ulng.rsmsgcannotcopymoveitself
 msgid "You can not copy/move a file \"%s\" to itself!"
 msgstr "\"%s\" 파일을 자신에게 복사/이동할 수 없습니다!"
