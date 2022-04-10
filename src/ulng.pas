@@ -43,6 +43,7 @@ resourcestring
   rsMsgFileExistsRwrt = 'File %s exists, overwrite?';
   rsMsgFileChangedSave = 'File %s changed, save?';
   rsMsgReplaceThisText = 'Do you want to replace this text?';
+  rsMsgCancelOperation = 'Are you sure that you want to cancel this operation?';
   rsMsgFileReloadWarning = 'Are you sure you want to reload the current file and lose the changes?';
   rsMsgFolderExistsRwrt = 'Folder %s exists, merge?';
   rsMsgFileReadOnly = 'File %s is marked as read-only/hidden/system. Delete it?';
