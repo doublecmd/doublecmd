@@ -7,6 +7,7 @@
 {"hash":231163145,"name":"tfrmeditsearchreplace.cbsearchselectedonly.caption","sourcebytes":[83,101,108,101,99,116,101,100,32,38,116,101,120,116,32,111,110,108,121],"value":"Selected &text only"},
 {"hash":60025108,"name":"tfrmeditsearchreplace.cbsearchfromcursor.caption","sourcebytes":[83,38,101,97,114,99,104,32,102,114,111,109,32,99,97,114,101,116],"value":"S&earch from caret"},
 {"hash":8115171,"name":"tfrmeditsearchreplace.cbsearchregexp.caption","sourcebytes":[38,82,101,103,117,108,97,114,32,101,120,112,114,101,115,115,105,111,110,115],"value":"&Regular expressions"},
+{"hash":135735390,"name":"tfrmeditsearchreplace.cbmultiline.caption","sourcebytes":[38,77,117,108,116,105,108,105,110,101,32,112,97,116,116,101,114,110],"value":"&Multiline pattern"},
 {"hash":146466142,"name":"tfrmeditsearchreplace.rgsearchdirection.caption","sourcebytes":[68,105,114,101,99,116,105,111,110],"value":"Direction"},
 {"hash":11067,"name":"tfrmeditsearchreplace.buttonpanel.okbutton.caption","sourcebytes":[38,79,75],"value":"&OK"},
 {"hash":177752476,"name":"tfrmeditsearchreplace.buttonpanel.cancelbutton.caption","sourcebytes":[38,67,97,110,99,101,108],"value":"&Cancel"}
