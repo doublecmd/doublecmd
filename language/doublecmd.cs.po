@@ -3205,6 +3205,7 @@ msgid "&OK"
 msgstr "&OK"
 
 #: tfrmmaskinputdlg.chkcasesensitive.caption
+msgctxt "tfrmmaskinputdlg.chkcasesensitive.caption"
 msgid "Case sensitive"
 msgstr "Rozlišovat velikost"
 
@@ -3548,6 +3549,16 @@ msgctxt "tfrmmultirename.caption"
 msgid "Multi-Rename Tool"
 msgstr "Hromadné přejmenování"
 
+#: tfrmmultirename.cbcasesens.caption
+msgid "A≠a"
+msgstr ""
+
+#: tfrmmultirename.cbcasesens.hint
+#, fuzzy
+msgctxt "tfrmmultirename.cbcasesens.hint"
+msgid "Case sensitive"
+msgstr "Rozlišovat velikost"
+
 #: tfrmmultirename.cblog.caption
 msgid "&Log result"
 msgstr "Logovat změny"
@@ -3555,6 +3566,14 @@ msgstr "Logovat změny"
 #: tfrmmultirename.cblogappend.caption
 msgid "Append"
 msgstr "Přidat na konec"
+
+#: tfrmmultirename.cbonlyfirst.caption
+msgid "1x"
+msgstr ""
+
+#: tfrmmultirename.cbonlyfirst.hint
+msgid "Replace only once per file"
+msgstr ""
 
 #: tfrmmultirename.cbregexp.caption
 msgid "Regular e&xpressions"
@@ -10759,6 +10778,10 @@ msgstr ""
 "\"%s\"\n"
 "\n"
 "Přejete si ponechat výsledný poškozený soubor?\n"
+
+#: ulng.rsmsgcanceloperation
+msgid "Are you sure that you want to cancel this operation?"
+msgstr ""
 
 #: ulng.rsmsgcannotcopymoveitself
 msgid "You can not copy/move a file \"%s\" to itself!"

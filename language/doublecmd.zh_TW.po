@@ -3449,6 +3449,7 @@ msgid "&OK"
 msgstr "確定 (&O)"
 
 #: tfrmmaskinputdlg.chkcasesensitive.caption
+msgctxt "tfrmmaskinputdlg.chkcasesensitive.caption"
 msgid "Case sensitive"
 msgstr "大小寫視為相異"
 
@@ -3804,6 +3805,16 @@ msgctxt "tfrmmultirename.caption"
 msgid "Multi-Rename Tool"
 msgstr "多重命名工具"
 
+#: tfrmmultirename.cbcasesens.caption
+msgid "A≠a"
+msgstr ""
+
+#: tfrmmultirename.cbcasesens.hint
+#, fuzzy
+msgctxt "tfrmmultirename.cbcasesens.hint"
+msgid "Case sensitive"
+msgstr "大小寫視為相異"
+
 #: tfrmmultirename.cblog.caption
 #, fuzzy
 #| msgid "Enable"
@@ -3813,6 +3824,14 @@ msgstr "啟用 (&B)"
 
 #: tfrmmultirename.cblogappend.caption
 msgid "Append"
+msgstr ""
+
+#: tfrmmultirename.cbonlyfirst.caption
+msgid "1x"
+msgstr ""
+
+#: tfrmmultirename.cbonlyfirst.hint
+msgid "Replace only once per file"
 msgstr ""
 
 #: tfrmmultirename.cbregexp.caption
@@ -11762,6 +11781,10 @@ msgid ""
 "\"%s\"\n"
 "\n"
 "Do you want to keep the resulting corrupted file anyway?\n"
+msgstr ""
+
+#: ulng.rsmsgcanceloperation
+msgid "Are you sure that you want to cancel this operation?"
 msgstr ""
 
 #: ulng.rsmsgcannotcopymoveitself

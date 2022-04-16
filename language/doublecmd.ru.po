@@ -3258,6 +3258,7 @@ msgid "&OK"
 msgstr "&ОК"
 
 #: tfrmmaskinputdlg.chkcasesensitive.caption
+msgctxt "tfrmmaskinputdlg.chkcasesensitive.caption"
 msgid "Case sensitive"
 msgstr "Учитывать регистр"
 
@@ -3603,6 +3604,15 @@ msgctxt "tfrmmultirename.caption"
 msgid "Multi-Rename Tool"
 msgstr "Групповое переименование"
 
+#: tfrmmultirename.cbcasesens.caption
+msgid "A≠a"
+msgstr "А≠а"
+
+#: tfrmmultirename.cbcasesens.hint
+msgctxt "tfrmmultirename.cbcasesens.hint"
+msgid "Case sensitive"
+msgstr "Учитывать регистр"
+
 #: tfrmmultirename.cblog.caption
 msgctxt "TFRMMULTIRENAME.CBLOG.CAPTION"
 msgid "&Log result"
@@ -3611,6 +3621,14 @@ msgstr "Протоко&л"
 #: tfrmmultirename.cblogappend.caption
 msgid "Append"
 msgstr "Добавить"
+
+#: tfrmmultirename.cbonlyfirst.caption
+msgid "1x"
+msgstr "1x"
+
+#: tfrmmultirename.cbonlyfirst.hint
+msgid "Replace only once per file"
+msgstr "Заменять только первое вхождение"
 
 #: tfrmmultirename.cbregexp.caption
 msgctxt "TFRMMULTIRENAME.CBREGEXP.CAPTION"
@@ -11017,6 +11035,10 @@ msgstr ""
 "\"%s\"\n"
 "\n"
 "Хотите оставить повреждённый файл?\n"
+
+#: ulng.rsmsgcanceloperation
+msgid "Are you sure that you want to cancel this operation?"
+msgstr "Вы действительно хотите отменить операцию?"
 
 #: ulng.rsmsgcannotcopymoveitself
 msgid "You can not copy/move a file \"%s\" to itself!"

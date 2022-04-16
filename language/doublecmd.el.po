@@ -3266,6 +3266,7 @@ msgid "&OK"
 msgstr "OK"
 
 #: tfrmmaskinputdlg.chkcasesensitive.caption
+msgctxt "tfrmmaskinputdlg.chkcasesensitive.caption"
 msgid "Case sensitive"
 msgstr "Με διάκριση πεζών -κεφαλαίων"
 
@@ -3611,6 +3612,16 @@ msgctxt "TFRMMULTIRENAME.CAPTION"
 msgid "Multi-Rename Tool"
 msgstr "Μετονομασία Πολλών"
 
+#: tfrmmultirename.cbcasesens.caption
+msgid "A≠a"
+msgstr ""
+
+#: tfrmmultirename.cbcasesens.hint
+#, fuzzy
+msgctxt "tfrmmultirename.cbcasesens.hint"
+msgid "Case sensitive"
+msgstr "Με διάκριση πεζών -κεφαλαίων"
+
 #: tfrmmultirename.cblog.caption
 msgctxt "TFRMMULTIRENAME.CBLOG.CAPTION"
 msgid "&Log result"
@@ -3619,6 +3630,14 @@ msgstr "Αποτέλεσμα Αρχείου Καταγραφών"
 #: tfrmmultirename.cblogappend.caption
 msgid "Append"
 msgstr "Συμπλήρωση"
+
+#: tfrmmultirename.cbonlyfirst.caption
+msgid "1x"
+msgstr ""
+
+#: tfrmmultirename.cbonlyfirst.hint
+msgid "Replace only once per file"
+msgstr ""
 
 #: tfrmmultirename.cbregexp.caption
 msgctxt "TFRMMULTIRENAME.CBREGEXP.CAPTION"
@@ -10982,6 +11001,10 @@ msgstr ""
 "\"%s\"\n"
 "\n"
 "Επιθυμείτε να κρατήσετε το κατεστραμμένο τελικό αρχείο ως έχει;\n"
+
+#: ulng.rsmsgcanceloperation
+msgid "Are you sure that you want to cancel this operation?"
+msgstr ""
 
 #: ulng.rsmsgcannotcopymoveitself
 msgid "You can not copy/move a file \"%s\" to itself!"

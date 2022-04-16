@@ -3202,6 +3202,7 @@ msgid "&OK"
 msgstr "&Добра"
 
 #: tfrmmaskinputdlg.chkcasesensitive.caption
+msgctxt "tfrmmaskinputdlg.chkcasesensitive.caption"
 msgid "Case sensitive"
 msgstr "Зважаць на рэгістр"
 
@@ -3545,6 +3546,16 @@ msgctxt "tfrmmultirename.caption"
 msgid "Multi-Rename Tool"
 msgstr "&Масавая змена назвы"
 
+#: tfrmmultirename.cbcasesens.caption
+msgid "A≠a"
+msgstr ""
+
+#: tfrmmultirename.cbcasesens.hint
+#, fuzzy
+msgctxt "tfrmmultirename.cbcasesens.hint"
+msgid "Case sensitive"
+msgstr "Зважаць на рэгістр"
+
 #: tfrmmultirename.cblog.caption
 msgid "&Log result"
 msgstr "&Журнал вынікаў"
@@ -3552,6 +3563,14 @@ msgstr "&Журнал вынікаў"
 #: tfrmmultirename.cblogappend.caption
 msgid "Append"
 msgstr "Дадаць"
+
+#: tfrmmultirename.cbonlyfirst.caption
+msgid "1x"
+msgstr ""
+
+#: tfrmmultirename.cbonlyfirst.hint
+msgid "Replace only once per file"
+msgstr ""
 
 #: tfrmmultirename.cbregexp.caption
 msgid "Regular e&xpressions"
@@ -10747,6 +10766,10 @@ msgstr ""
 "\"%s\"\n"
 "\n"
 "Усё адно хочаце пакінуць пашкоджаны файл?\n"
+
+#: ulng.rsmsgcanceloperation
+msgid "Are you sure that you want to cancel this operation?"
+msgstr ""
 
 #: ulng.rsmsgcannotcopymoveitself
 msgid "You can not copy/move a file \"%s\" to itself!"
