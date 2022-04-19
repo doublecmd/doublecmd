@@ -911,7 +911,7 @@ begin
       LoadHistory('SearchTextPath', glsSearchPathHistory);
       LoadHistory('ReplaceText', glsReplaceHistory);
       LoadHistory('ReplaceTextPath', glsReplacePathHistory);
-      LoadHistory('CreateDirectories', glsCreateDirectoriesHistory);
+      LoadHistory('CreateDirectories', glsCreateDirectoriesHistory, True);
       LoadHistory('RenameNameMask', glsRenameNameMaskHistory);
       LoadHistory('RenameExtMask', glsRenameExtMaskHistory);
       LoadHistory('SearchDirectories', glsSearchDirectories);
@@ -960,7 +960,7 @@ begin
       SaveHistory('SearchTextPath', glsSearchPathHistory);
       SaveHistory('ReplaceText', glsReplaceHistory);
       SaveHistory('ReplaceTextPath', glsReplacePathHistory);
-      SaveHistory('CreateDirectories', glsCreateDirectoriesHistory);
+      SaveHistory('CreateDirectories', glsCreateDirectoriesHistory, True);
       SaveHistory('RenameNameMask', glsRenameNameMaskHistory);
       SaveHistory('RenameExtMask', glsRenameExtMaskHistory);
       SaveHistory('SearchDirectories', glsSearchDirectories);

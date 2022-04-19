@@ -5,20 +5,23 @@ unit fMkDir;
 interface
 
 uses
-  SysUtils, Classes, Controls, Forms, StdCtrls, Buttons, ExtCtrls;
+  SysUtils, Classes, Controls, Forms, StdCtrls, Buttons, ExtCtrls, ButtonPanel;
 
 type
 
   { TfrmMkDir }
 
   TfrmMkDir = class(TForm)
-    btnCancel: TBitBtn;
-    btnOK: TBitBtn;
+    ButtonPanel: TButtonPanel;
+    cbExtended: TCheckBox;
     cbMkDir: TComboBox;
+    lblExample: TLabel;
     lblMakeDir: TLabel;
-    pnlButtons: TPanel;
-    pnlBottom: TPanel;
+    procedure cbExtendedChange(Sender: TObject);
+    procedure cbMkDirChange(Sender: TObject);
+    procedure cbMkDirKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure FormKeyPress(Sender: TObject; var Key: Char);
+    procedure RefreshExample;
   public
 
   end;
@@ -31,6 +34,32 @@ implementation
 
 uses
   DCStrUtils, uGlobs;
+
+function sReplace(sMask: string): string;
+var
+  iStart, iEnd: integer;
+begin
+  Result := '';
+  while Length(sMask) > 0 do
+  begin
+    iStart := Pos('[', sMask);
+    if iStart > 0 then
+    begin
+      iEnd := Pos(']', sMask);
+      if iEnd > iStart then
+      begin
+        Result := Result + Copy(sMask, 1, iStart - 1) +
+                  FormatDateTime(Copy(sMask, iStart + 1, iEnd - iStart - 1), Now);
+        Delete(sMask, 1, iEnd);
+      end
+      else
+        Break;
+    end
+    else
+      Break;
+  end;
+  Result := Result + sMask;
+end;
 
 procedure TfrmMkDir.FormKeyPress(Sender: TObject; var Key: Char);
 begin
@@ -46,11 +75,47 @@ begin
   end;
 end;
 
+procedure TfrmMkDir.RefreshExample;
+var
+  sPath: String;
+begin
+  if not cbExtended.Checked then
+    lblExample.Caption:= EmptyStr
+  else begin
+    sPath:= TrimPath(cbMkDir.Text);
+    if StrBegins(sPath, '<') then
+      lblExample.Caption:= sReplace(Copy(sPath, 2, MaxInt))
+    else
+      lblExample.Caption:= EmptyStr
+  end;
+end;
+
+procedure TfrmMkDir.cbMkDirKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
+begin
+  RefreshExample;
+end;
+
+procedure TfrmMkDir.cbExtendedChange(Sender: TObject);
+begin
+  RefreshExample;
+end;
+
+procedure TfrmMkDir.cbMkDirChange(Sender: TObject);
+var
+  Index: Integer;
+begin
+  Index:= cbMkDir.ItemIndex;
+  if (Index >= 0) then begin
+    cbExtended.Checked:= Boolean(UIntPtr(cbMkDir.Items.Objects[Index]));
+  end;
+end;
+
 function ShowMkDir(TheOwner: TComponent; var sPath: String): Boolean;
 const
   MAX_LINES = 20;
 var
   Index: Integer;
+  Syntax: TObject;
 begin
   with TfrmMkDir.Create(TheOwner) do
   try
@@ -66,16 +131,25 @@ begin
     if Result then
     begin
       sPath := TrimPath(cbMkDir.Text);
+      Syntax := TObject(UIntPtr(cbExtended.Checked));
+
       glsCreateDirectoriesHistory.CaseSensitive := FileNameCaseSensitive;
       Index := glsCreateDirectoriesHistory.IndexOf(sPath);
 
       if (Index = -1) then
-        glsCreateDirectoriesHistory.Insert(0, sPath)
-      else
+        glsCreateDirectoriesHistory.InsertObject(0, sPath, Syntax)
+      else begin
         glsCreateDirectoriesHistory.Move(Index, 0);
+        glsCreateDirectoriesHistory.Objects[0]:= Syntax;
+      end;
 
       if (glsCreateDirectoriesHistory.Count > MAX_LINES) then
         glsCreateDirectoriesHistory.Delete(glsCreateDirectoriesHistory.Count - 1);
+
+      if cbExtended.Checked and StrBegins(sPath, '<') then
+      begin
+        sPath := lblExample.Caption;
+      end;
     end;
   finally
     Free;
