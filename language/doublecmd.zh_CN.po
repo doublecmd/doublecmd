@@ -3312,19 +3312,13 @@ msgstr "输入掩码："
 msgid "O&r select predefined selection type:"
 msgstr "或选择预定义的选择类型(&R)："
 
-#: tfrmmkdir.btncancel.caption
-msgctxt "TFRMMKDIR.BTNCANCEL.CAPTION"
-msgid "&Cancel"
-msgstr "取消(&C)"
-
-#: tfrmmkdir.btnok.caption
-msgctxt "TFRMMKDIR.BTNOK.CAPTION"
-msgid "&OK"
-msgstr "确定(&O)"
-
 #: tfrmmkdir.caption
 msgid "Create new directory"
 msgstr "创建新文件夹"
+
+#: tfrmmkdir.cbextended.caption
+msgid "&Extended syntax"
+msgstr ""
 
 #: tfrmmkdir.lblmakedir.caption
 msgid "&Input new directory name:"

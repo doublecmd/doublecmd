@@ -3343,19 +3343,13 @@ msgstr "Укажите маску файлов:"
 msgid "O&r select predefined selection type:"
 msgstr "&Или выберите тип файлов по шаблону:"
 
-#: tfrmmkdir.btncancel.caption
-msgctxt "TFRMMKDIR.BTNCANCEL.CAPTION"
-msgid "&Cancel"
-msgstr "О&тмена"
-
-#: tfrmmkdir.btnok.caption
-msgctxt "TFRMMKDIR.BTNOK.CAPTION"
-msgid "&OK"
-msgstr "&ОК"
-
 #: tfrmmkdir.caption
 msgid "Create new directory"
 msgstr "Создать новый каталог"
+
+#: tfrmmkdir.cbextended.caption
+msgid "&Extended syntax"
+msgstr "&Расширенный синтаксис"
 
 #: tfrmmkdir.lblmakedir.caption
 msgid "&Input new directory name:"

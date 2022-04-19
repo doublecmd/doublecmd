@@ -3410,19 +3410,13 @@ msgstr "Унеси маску:"
 msgid "O&r select predefined selection type:"
 msgstr "Или& одабери предодређену врсту избора:"
 
-#: tfrmmkdir.btncancel.caption
-msgctxt "TFRMMKDIR.BTNCANCEL.CAPTION"
-msgid "&Cancel"
-msgstr "Откажи&"
-
-#: tfrmmkdir.btnok.caption
-msgctxt "TFRMMKDIR.BTNOK.CAPTION"
-msgid "&OK"
-msgstr "У реду&"
-
 #: tfrmmkdir.caption
 msgid "Create new directory"
 msgstr "Направи нову фасциклу"
+
+#: tfrmmkdir.cbextended.caption
+msgid "&Extended syntax"
+msgstr ""
 
 #: tfrmmkdir.lblmakedir.caption
 msgid "&Input new directory name:"

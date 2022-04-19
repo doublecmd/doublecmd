@@ -3552,20 +3552,14 @@ msgstr ""
 msgid "O&r select predefined selection type:"
 msgstr "Ili& odaberi predodređenu vrstu izbora:"
 
-#: tfrmmkdir.btncancel.caption
-msgctxt "TFRMMKDIR.BTNCANCEL.CAPTION"
-msgid "&Cancel"
-msgstr "Otkaži&"
-
-#: tfrmmkdir.btnok.caption
-msgctxt "TFRMMKDIR.BTNOK.CAPTION"
-msgid "&OK"
-msgstr "U redu&"
-
 #: tfrmmkdir.caption
 msgctxt "tfrmmkdir.caption"
 msgid "Create new directory"
 msgstr "Napravi novu mapu"
+
+#: tfrmmkdir.cbextended.caption
+msgid "&Extended syntax"
+msgstr ""
 
 #: tfrmmkdir.lblmakedir.caption
 msgctxt "tfrmmkdir.lblmakedir.caption"

@@ -3409,19 +3409,13 @@ msgstr "Unesi masku:"
 msgid "O&r select predefined selection type:"
 msgstr "Ili& odaberi predodređenu vrstu izbora:"
 
-#: tfrmmkdir.btncancel.caption
-msgctxt "TFRMMKDIR.BTNCANCEL.CAPTION"
-msgid "&Cancel"
-msgstr "Otkaži&"
-
-#: tfrmmkdir.btnok.caption
-msgctxt "TFRMMKDIR.BTNOK.CAPTION"
-msgid "&OK"
-msgstr "U redu&"
-
 #: tfrmmkdir.caption
 msgid "Create new directory"
 msgstr "Napravi novu fasciklu"
+
+#: tfrmmkdir.cbextended.caption
+msgid "&Extended syntax"
+msgstr ""
 
 #: tfrmmkdir.lblmakedir.caption
 msgid "&Input new directory name:"

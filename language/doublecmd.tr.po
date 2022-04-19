@@ -3539,21 +3539,13 @@ msgstr "Make girişi:"
 msgid "O&r select predefined selection type:"
 msgstr "Veya önceden tanımlanmış seçenek türünü seçin:"
 
-#: tfrmmkdir.btncancel.caption
-#, fuzzy
-#| msgid "Cancel"
-msgctxt "TFRMMKDIR.BTNCANCEL.CAPTION"
-msgid "&Cancel"
-msgstr "İptal"
-
-#: tfrmmkdir.btnok.caption
-msgctxt "TFRMMKDIR.BTNOK.CAPTION"
-msgid "&OK"
-msgstr "&TAMAM"
-
 #: tfrmmkdir.caption
 msgid "Create new directory"
 msgstr "Yeni  dizin oluştur"
+
+#: tfrmmkdir.cbextended.caption
+msgid "&Extended syntax"
+msgstr ""
 
 #: tfrmmkdir.lblmakedir.caption
 #, fuzzy

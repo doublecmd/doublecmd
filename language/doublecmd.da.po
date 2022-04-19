@@ -3521,21 +3521,13 @@ msgid "O&r select predefined selection type:"
 msgstr "Eller vælg fast definition:"
 
 # Filer - Opret_ny_mappe
-#: tfrmmkdir.btncancel.caption
-msgctxt "TFRMMKDIR.BTNCANCEL.CAPTION"
-msgid "&Cancel"
-msgstr "&Annuller"
-
-# Filer - Opret_ny_mappe
-#: tfrmmkdir.btnok.caption
-msgctxt "TFRMMKDIR.BTNOK.CAPTION"
-msgid "&OK"
-msgstr "&OK"
-
-# Filer - Opret_ny_mappe
 #: tfrmmkdir.caption
 msgid "Create new directory"
 msgstr "Double Commander"
+
+#: tfrmmkdir.cbextended.caption
+msgid "&Extended syntax"
+msgstr ""
 
 # Filer - Opret_ny_mappe
 #: tfrmmkdir.lblmakedir.caption

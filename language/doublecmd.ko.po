@@ -3362,19 +3362,13 @@ msgstr ""
 msgid "O&r select predefined selection type:"
 msgstr "또는 미리 정의된 선택형태 선택(&R):"
 
-#: tfrmmkdir.btncancel.caption
-msgctxt "TFRMMKDIR.BTNCANCEL.CAPTION"
-msgid "&Cancel"
-msgstr "취소(&C)"
-
-#: tfrmmkdir.btnok.caption
-msgctxt "TFRMMKDIR.BTNOK.CAPTION"
-msgid "&OK"
-msgstr "확인(&O)"
-
 #: tfrmmkdir.caption
 msgid "Create new directory"
 msgstr "새 폴더 생성"
+
+#: tfrmmkdir.cbextended.caption
+msgid "&Extended syntax"
+msgstr ""
 
 #: tfrmmkdir.lblmakedir.caption
 msgid "&Input new directory name:"

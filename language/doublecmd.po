@@ -3286,18 +3286,12 @@ msgstr ""
 msgid "O&r select predefined selection type:"
 msgstr ""
 
-#: tfrmmkdir.btncancel.caption
-msgctxt "TFRMMKDIR.BTNCANCEL.CAPTION"
-msgid "&Cancel"
-msgstr ""
-
-#: tfrmmkdir.btnok.caption
-msgctxt "TFRMMKDIR.BTNOK.CAPTION"
-msgid "&OK"
-msgstr ""
-
 #: tfrmmkdir.caption
 msgid "Create new directory"
+msgstr ""
+
+#: tfrmmkdir.cbextended.caption
+msgid "&Extended syntax"
 msgstr ""
 
 #: tfrmmkdir.lblmakedir.caption

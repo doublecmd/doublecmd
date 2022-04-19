@@ -3320,19 +3320,13 @@ msgstr "Maska izbire:"
 msgid "O&r select predefined selection type:"
 msgstr "&Shranjene maske izbire:"
 
-#: tfrmmkdir.btncancel.caption
-msgctxt "TFRMMKDIR.BTNCANCEL.CAPTION"
-msgid "&Cancel"
-msgstr "&Prekliči"
-
-#: tfrmmkdir.btnok.caption
-msgctxt "TFRMMKDIR.BTNOK.CAPTION"
-msgid "&OK"
-msgstr "&V redu"
-
 #: tfrmmkdir.caption
 msgid "Create new directory"
 msgstr "Ustvarjanje nove mape"
+
+#: tfrmmkdir.cbextended.caption
+msgid "&Extended syntax"
+msgstr ""
 
 #: tfrmmkdir.lblmakedir.caption
 msgid "&Input new directory name:"

@@ -3619,21 +3619,13 @@ msgstr "Màscara d'entrada:"
 msgid "O&r select predefined selection type:"
 msgstr "O escull tipus de selecció predefinida:"
 
-#: tfrmmkdir.btncancel.caption
-#, fuzzy
-#| msgid "Cancel"
-msgctxt "TFRMMKDIR.BTNCANCEL.CAPTION"
-msgid "&Cancel"
-msgstr "&Cancel·la"
-
-#: tfrmmkdir.btnok.caption
-msgctxt "TFRMMKDIR.BTNOK.CAPTION"
-msgid "&OK"
-msgstr "&Accepta"
-
 #: tfrmmkdir.caption
 msgid "Create new directory"
 msgstr "Crea nova carpeta"
+
+#: tfrmmkdir.cbextended.caption
+msgid "&Extended syntax"
+msgstr ""
 
 #: tfrmmkdir.lblmakedir.caption
 #, fuzzy

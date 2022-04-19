@@ -3543,21 +3543,13 @@ msgstr "輸入遮罩"
 msgid "O&r select predefined selection type:"
 msgstr "選擇預先定義好的類型 (&R) :"
 
-#: tfrmmkdir.btncancel.caption
-#, fuzzy
-#| msgid "Cancel"
-msgctxt "TFRMMKDIR.BTNCANCEL.CAPTION"
-msgid "&Cancel"
-msgstr "取消 (&C)"
-
-#: tfrmmkdir.btnok.caption
-msgctxt "TFRMMKDIR.BTNOK.CAPTION"
-msgid "&OK"
-msgstr "確定 (&O)"
-
 #: tfrmmkdir.caption
 msgid "Create new directory"
 msgstr "建立新資料夾"
+
+#: tfrmmkdir.cbextended.caption
+msgid "&Extended syntax"
+msgstr ""
 
 #: tfrmmkdir.lblmakedir.caption
 #, fuzzy

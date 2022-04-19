@@ -3359,19 +3359,13 @@ msgstr "入力マスク："
 msgid "O&r select predefined selection type:"
 msgstr "既定の選択タイプを選定(&r)"
 
-#: tfrmmkdir.btncancel.caption
-msgctxt "TFRMMKDIR.BTNCANCEL.CAPTION"
-msgid "&Cancel"
-msgstr "キャンセル(&C)"
-
-#: tfrmmkdir.btnok.caption
-msgctxt "TFRMMKDIR.BTNOK.CAPTION"
-msgid "&OK"
-msgstr "OK(&O)"
-
 #: tfrmmkdir.caption
 msgid "Create new directory"
 msgstr "ディレクトリを新規作成"
+
+#: tfrmmkdir.cbextended.caption
+msgid "&Extended syntax"
+msgstr ""
 
 #: tfrmmkdir.lblmakedir.caption
 msgid "&Input new directory name:"

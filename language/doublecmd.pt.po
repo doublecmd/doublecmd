@@ -3378,19 +3378,13 @@ msgstr "Máscara de entrada:"
 msgid "O&r select predefined selection type:"
 msgstr "Ou selecciona&r tipo predefinido:"
 
-#: tfrmmkdir.btncancel.caption
-msgctxt "TFRMMKDIR.BTNCANCEL.CAPTION"
-msgid "&Cancel"
-msgstr "&Cancelar"
-
-#: tfrmmkdir.btnok.caption
-msgctxt "TFRMMKDIR.BTNOK.CAPTION"
-msgid "&OK"
-msgstr "&Aceitar"
-
 #: tfrmmkdir.caption
 msgid "Create new directory"
 msgstr "Criar nova pasta"
+
+#: tfrmmkdir.cbextended.caption
+msgid "&Extended syntax"
+msgstr ""
 
 #: tfrmmkdir.lblmakedir.caption
 msgid "&Input new directory name:"

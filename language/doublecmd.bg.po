@@ -3394,19 +3394,13 @@ msgstr ""
 msgid "O&r select predefined selection type:"
 msgstr ""
 
-#: tfrmmkdir.btncancel.caption
-msgctxt "TFRMMKDIR.BTNCANCEL.CAPTION"
-msgid "&Cancel"
-msgstr "&Отказ"
-
-#: tfrmmkdir.btnok.caption
-msgctxt "TFRMMKDIR.BTNOK.CAPTION"
-msgid "&OK"
-msgstr "&Добре"
-
 #: tfrmmkdir.caption
 msgid "Create new directory"
 msgstr "Създаване на нова папка"
+
+#: tfrmmkdir.cbextended.caption
+msgid "&Extended syntax"
+msgstr ""
 
 #: tfrmmkdir.lblmakedir.caption
 msgid "&Input new directory name:"

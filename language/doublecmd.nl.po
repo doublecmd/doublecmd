@@ -3300,19 +3300,13 @@ msgstr "Invoermasker:"
 msgid "O&r select predefined selection type:"
 msgstr "Of kies een voorgedefinieerde keuzesoort:"
 
-#: tfrmmkdir.btncancel.caption
-msgctxt "TFRMMKDIR.BTNCANCEL.CAPTION"
-msgid "&Cancel"
-msgstr "&Annuleren"
-
-#: tfrmmkdir.btnok.caption
-msgctxt "TFRMMKDIR.BTNOK.CAPTION"
-msgid "&OK"
-msgstr "&Oké"
-
 #: tfrmmkdir.caption
 msgid "Create new directory"
 msgstr "Maak nieuwe map"
+
+#: tfrmmkdir.cbextended.caption
+msgid "&Extended syntax"
+msgstr ""
 
 #: tfrmmkdir.lblmakedir.caption
 msgid "&Input new directory name:"

@@ -3290,19 +3290,13 @@ msgstr "Maska wprowadzania:"
 msgid "O&r select predefined selection type:"
 msgstr "&Lub wybierz wstępnie zdefiniowany typ zaznaczenia:"
 
-#: tfrmmkdir.btncancel.caption
-msgctxt "tfrmmkdir.btncancel.caption"
-msgid "&Cancel"
-msgstr "&Anuluj"
-
-#: tfrmmkdir.btnok.caption
-msgctxt "tfrmmkdir.btnok.caption"
-msgid "&OK"
-msgstr "&OK"
-
 #: tfrmmkdir.caption
 msgid "Create new directory"
 msgstr "Utwórz nowy katalog"
+
+#: tfrmmkdir.cbextended.caption
+msgid "&Extended syntax"
+msgstr ""
 
 #: tfrmmkdir.lblmakedir.caption
 msgid "&Input new directory name:"

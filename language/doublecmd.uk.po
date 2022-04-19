@@ -3369,19 +3369,13 @@ msgstr "Вкажіть маску (роздільник - ';'):"
 msgid "O&r select predefined selection type:"
 msgstr "Або вибе&ріть тип виділення за шаблоном:"
 
-#: tfrmmkdir.btncancel.caption
-msgctxt "TFRMMKDIR.BTNCANCEL.CAPTION"
-msgid "&Cancel"
-msgstr "&Скасувати"
-
-#: tfrmmkdir.btnok.caption
-msgctxt "TFRMMKDIR.BTNOK.CAPTION"
-msgid "&OK"
-msgstr "&Гаразд"
-
 #: tfrmmkdir.caption
 msgid "Create new directory"
 msgstr "Створити новий каталог"
+
+#: tfrmmkdir.cbextended.caption
+msgid "&Extended syntax"
+msgstr ""
 
 #: tfrmmkdir.lblmakedir.caption
 msgid "&Input new directory name:"

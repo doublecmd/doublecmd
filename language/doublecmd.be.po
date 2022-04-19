@@ -3300,19 +3300,13 @@ msgstr "Уваходная маска:"
 msgid "O&r select predefined selection type:"
 msgstr "&Альбо абярыце тып файла па шаблоне:"
 
-#: tfrmmkdir.btncancel.caption
-msgctxt "TFRMMKDIR.BTNCANCEL.CAPTION"
-msgid "&Cancel"
-msgstr "&Скасаваць"
-
-#: tfrmmkdir.btnok.caption
-msgctxt "TFRMMKDIR.BTNOK.CAPTION"
-msgid "&OK"
-msgstr "&Добра"
-
 #: tfrmmkdir.caption
 msgid "Create new directory"
 msgstr "Стварыць новы каталог"
+
+#: tfrmmkdir.cbextended.caption
+msgid "&Extended syntax"
+msgstr ""
 
 #: tfrmmkdir.lblmakedir.caption
 msgid "&Input new directory name:"
