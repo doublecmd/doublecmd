@@ -172,7 +172,7 @@ type
 
 const
   { Default hotkey list version number }
-  hkVersion = 54;
+  hkVersion = 55;
   // 54 - In "Viewer" context, added the "W" for "cm_WrapText", "4" for "cm_ShowAsDec", "8" for "cm_ShowOffice".
   // 53 - In "Main" context, change shortcut "Alt+`" to "Alt+0" for the "cm_ActivateTabByIndex".
   // 52 - In "Main" context, add shortcut "Ctrl+Shift+B" for "cm_FlatViewSel".
@@ -911,7 +911,7 @@ begin
       LoadHistory('SearchTextPath', glsSearchPathHistory);
       LoadHistory('ReplaceText', glsReplaceHistory);
       LoadHistory('ReplaceTextPath', glsReplacePathHistory);
-      LoadHistory('CreateDirectories', glsCreateDirectoriesHistory);
+      LoadHistory('CreateDirectories', glsCreateDirectoriesHistory, True);
       LoadHistory('RenameNameMask', glsRenameNameMaskHistory);
       LoadHistory('RenameExtMask', glsRenameExtMaskHistory);
       LoadHistory('SearchDirectories', glsSearchDirectories);
@@ -960,7 +960,7 @@ begin
       SaveHistory('SearchTextPath', glsSearchPathHistory);
       SaveHistory('ReplaceText', glsReplaceHistory);
       SaveHistory('ReplaceTextPath', glsReplacePathHistory);
-      SaveHistory('CreateDirectories', glsCreateDirectoriesHistory);
+      SaveHistory('CreateDirectories', glsCreateDirectoriesHistory, True);
       SaveHistory('RenameNameMask', glsRenameNameMaskHistory);
       SaveHistory('RenameExtMask', glsRenameExtMaskHistory);
       SaveHistory('SearchDirectories', glsSearchDirectories);
@@ -1232,6 +1232,11 @@ begin
   with HMForm.Hotkeys do
     begin
       AddIfNotExists(['Ctrl+R'],[],'cm_Reload');
+      AddIfNotExists([SmkcSuper + 'F' ,'','',
+                      'F7'            ,'',''],'cm_Find');
+      AddIfNotExists(['F3'],[],'cm_FindNext');
+      AddIfNotExists(['Shift+F3'],[],'cm_FindPrev');
+      AddIfNotExists(VK_G, [ssModifier], 'cm_GotoLine');
       AddIfNotExists(['Alt+Down'],[],'cm_NextDifference');
       AddIfNotExists(['Alt+Up'],[],'cm_PrevDifference');
       AddIfNotExists(['Alt+Home'],[],'cm_FirstDifference');

@@ -521,6 +521,11 @@ msgctxt "tfrmdiffer.acteditredo.caption"
 msgid "Redo"
 msgstr ""
 
+#: tfrmdiffer.acteditredo.hint
+msgctxt "tfrmdiffer.acteditredo.hint"
+msgid "Redo"
+msgstr ""
+
 #: tfrmdiffer.acteditselectall.caption
 msgid "Select &All"
 msgstr ""
@@ -530,9 +535,54 @@ msgctxt "tfrmdiffer.acteditundo.caption"
 msgid "Undo"
 msgstr ""
 
+#: tfrmdiffer.acteditundo.hint
+msgctxt "tfrmdiffer.acteditundo.hint"
+msgid "Undo"
+msgstr ""
+
 #: tfrmdiffer.actexit.caption
 msgctxt "tfrmdiffer.actexit.caption"
 msgid "E&xit"
+msgstr ""
+
+#: tfrmdiffer.actfind.caption
+msgctxt "tfrmdiffer.actfind.caption"
+msgid "&Find"
+msgstr ""
+
+#: tfrmdiffer.actfind.hint
+msgctxt "tfrmdiffer.actfind.hint"
+msgid "Find"
+msgstr ""
+
+#: tfrmdiffer.actfindnext.caption
+msgctxt "tfrmdiffer.actfindnext.caption"
+msgid "Find next"
+msgstr ""
+
+#: tfrmdiffer.actfindnext.hint
+msgctxt "tfrmdiffer.actfindnext.hint"
+msgid "Find next"
+msgstr ""
+
+#: tfrmdiffer.actfindprev.caption
+msgctxt "tfrmdiffer.actfindprev.caption"
+msgid "Find previous"
+msgstr ""
+
+#: tfrmdiffer.actfindprev.hint
+msgctxt "tfrmdiffer.actfindprev.hint"
+msgid "Find previous"
+msgstr ""
+
+#: tfrmdiffer.actfindreplace.caption
+msgctxt "tfrmdiffer.actfindreplace.caption"
+msgid "&Replace"
+msgstr ""
+
+#: tfrmdiffer.actfindreplace.hint
+msgctxt "tfrmdiffer.actfindreplace.hint"
+msgid "Replace"
 msgstr ""
 
 #: tfrmdiffer.actfirstdifference.caption
@@ -543,6 +593,16 @@ msgstr ""
 #: tfrmdiffer.actfirstdifference.hint
 msgctxt "TFRMDIFFER.ACTFIRSTDIFFERENCE.HINT"
 msgid "First Difference"
+msgstr ""
+
+#: tfrmdiffer.actgotoline.caption
+msgctxt "tfrmdiffer.actgotoline.caption"
+msgid "Goto Line..."
+msgstr ""
+
+#: tfrmdiffer.actgotoline.hint
+msgctxt "tfrmdiffer.actgotoline.hint"
+msgid "Goto Line"
 msgstr ""
 
 #: tfrmdiffer.actignorecase.caption
@@ -836,6 +896,7 @@ msgid "Find previous"
 msgstr ""
 
 #: tfrmeditor.acteditgotoline.caption
+msgctxt "tfrmeditor.acteditgotoline.caption"
 msgid "Goto Line..."
 msgstr ""
 
@@ -890,6 +951,7 @@ msgid "Redo"
 msgstr ""
 
 #: tfrmeditor.acteditrplc.caption
+msgctxt "tfrmeditor.acteditrplc.caption"
 msgid "&Replace"
 msgstr ""
 
@@ -1036,6 +1098,10 @@ msgstr ""
 #: tfrmeditsearchreplace.buttonpanel.okbutton.caption
 msgctxt "TFRMEDITSEARCHREPLACE.BUTTONPANEL.OKBUTTON.CAPTION"
 msgid "&OK"
+msgstr ""
+
+#: tfrmeditsearchreplace.cbmultiline.caption
+msgid "&Multiline pattern"
 msgstr ""
 
 #: tfrmeditsearchreplace.cbsearchcasesensitive.caption
@@ -3220,18 +3286,12 @@ msgstr ""
 msgid "O&r select predefined selection type:"
 msgstr ""
 
-#: tfrmmkdir.btncancel.caption
-msgctxt "TFRMMKDIR.BTNCANCEL.CAPTION"
-msgid "&Cancel"
-msgstr ""
-
-#: tfrmmkdir.btnok.caption
-msgctxt "TFRMMKDIR.BTNOK.CAPTION"
-msgid "&OK"
-msgstr ""
-
 #: tfrmmkdir.caption
 msgid "Create new directory"
+msgstr ""
+
+#: tfrmmkdir.cbextended.caption
+msgid "&Extended syntax"
 msgstr ""
 
 #: tfrmmkdir.lblmakedir.caption
@@ -10155,6 +10215,7 @@ msgid "Goto line:"
 msgstr ""
 
 #: ulng.rseditgotolinetitle
+msgctxt "ulng.rseditgotolinetitle"
 msgid "Goto Line"
 msgstr ""
 

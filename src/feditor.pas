@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Build-in Editor using SynEdit and his Highlighters
 
-   Copyright (C) 2006-2020  Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2006-2022  Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -35,9 +35,9 @@ unit fEditor;
 interface
 
 uses
-  SysUtils, Classes, Controls, Forms, ActnList, Menus, SynEdit,
+  SysUtils, Classes, Controls, Forms, ActnList, Menus, SynEdit, StdCtrls,
   ComCtrls, SynEditSearch, SynEditHighlighter, uDebug, uOSForms, uShowForm, types, Graphics,
-  uFormCommands, uHotkeyManager, LCLVersion, SynPluginMultiCaret;
+  uFormCommands, uHotkeyManager, LCLVersion, SynPluginMultiCaret, fEditSearch;
 
 const
   HotkeysCategory = 'Editor';
@@ -151,14 +151,8 @@ type
     { Private declarations }
     bChanged:Boolean;
     bNoName: Boolean;
-    bSearchBackwards:Boolean;
-    bSearchCaseSensitive:Boolean;
-    bSearchFromCaret:Boolean;
-    bSearchSelectionOnly:Boolean;
-    bSearchWholeWords:Boolean;
-    bSearchRegExp:Boolean;
+    FSearchOptions: TEditSearchOptions;
     FFileName: String;
-    sSearchText, sReplaceText:String;
     sEncodingIn,
     sEncodingOut,
     sEncodingStat,
@@ -198,8 +192,6 @@ type
     procedure SetEncodingOut(Sender:TObject);
     procedure SetHighLighter(Sender:TObject);
     procedure UpdateHighlighter(Highlighter: TSynCustomHighlighter);
-    procedure DoSearchReplaceText(AReplace: boolean; ABackwards: boolean);
-    procedure ShowSearchReplaceDialog(AReplace: boolean);
     procedure LoadGlobalOptions;
 
     property FileName: String read FFileName write SetFileName;
@@ -241,7 +233,7 @@ implementation
 
 uses
   Clipbrd, dmCommonData, dmHigh, SynEditTypes, LCLType, LConvEncoding,
-  uLng, uShowMsg, fEditSearch, uGlobs, fOptions, DCClassesUtf8, uAdministrator,
+  uLng, uShowMsg, uGlobs, fOptions, DCClassesUtf8, uAdministrator,
   uOSUtils, uConvEncoding, fOptionsToolsEditor, uDCUtils, uClipboard, uFindFiles;
 
 procedure ShowEditor(const sFileName: String; WaitData: TWaitData = nil);
@@ -330,6 +322,7 @@ begin
       miEncodingOut.Add(mi);
     end;
   EncodingsList.Free;
+  FSearchOptions.Flags := [ssoEntireScope];
   // if we already search text then use last searched text
   if not gFirstTextSearch then
   begin
@@ -341,11 +334,11 @@ begin
         Continue;
 
       if (tsoMatchCase in Options) then
-        bSearchCaseSensitive:= True;
+        FSearchOptions.Flags += [ssoMatchCase];
       if (tsoRegExpr in Options) then
-        bSearchRegExp:= True;
+        FSearchOptions.Flags += [ssoRegExpr];
 
-      sSearchText:= glsSearchHistory[I];
+      FSearchOptions.SearchText:= glsSearchHistory[I];
       Break;
     end;
   end;
@@ -777,101 +770,6 @@ begin
   CanClose:= True;
 end;
 
-procedure TfrmEditor.DoSearchReplaceText(AReplace: boolean;
-  ABackwards: boolean);
-var
-  Options: TSynSearchOptions;
-begin
-  Statusbar.SimpleText := '';
-  if AReplace then
-    Options := [ssoPrompt, ssoReplace, ssoReplaceAll]
-  else
-    Options := [];
-  if ABackwards then
-    Include(Options, ssoBackwards);
-  if bSearchCaseSensitive then
-    Include(Options, ssoMatchCase);
-  if not bSearchFromCaret then
-    Include(Options, ssoEntireScope);
-  if bSearchSelectionOnly then
-    Include(Options, ssoSelectedOnly);
-  if bSearchWholeWords then
-    Include(Options, ssoWholeWord);
-  if bSearchRegExp then
-    Include(Options, ssoRegExpr);
-  try
-    if Editor.SearchReplace(sSearchText, sReplaceText, Options) = 0 then
-    begin
-      if ssoBackwards in Options then
-        Editor.BlockEnd := Editor.BlockBegin
-      else
-        Editor.BlockBegin := Editor.BlockEnd;
-      Editor.CaretXY := Editor.BlockBegin;
-      msgOK(Format(rsViewNotFound, ['"' + sSearchText + '"']));
-    end;
-  except
-    on E: Exception do msgError(E.Message);
-  end;
-end;
-
-procedure TfrmEditor.ShowSearchReplaceDialog(AReplace: boolean);
-var
-  dlg: TfrmEditSearchReplace;
-begin
-//  Statusbar.SimpleText := '';
-  dlg := TfrmEditSearchReplace.Create(Self, AReplace);
-  with dlg do try
-    // assign search options
-    SearchBackwards := bSearchBackwards;
-    SearchCaseSensitive := bSearchCaseSensitive;
-    SearchFromCursor := bSearchFromCaret;
-    SearchInSelectionOnly := bSearchSelectionOnly;
-    if Editor.SelAvail and not (Editor.BlockBegin.Y = Editor.BlockEnd.Y)
-    then
-      SearchInSelectionOnly := True;
-    SearchRegExp := bSearchRegExp;
-    // start with last search text
-    SearchText := sSearchText;
-{    if fSearchTextAtCaret then begin}
-      // if something is selected search for that text
-      if Editor.SelAvail and (Editor.BlockBegin.Y = Editor.BlockEnd.Y)
-      then
-        SearchText := Editor.SelText
-      else
-        SearchText := Editor.GetWordAtRowCol(Editor.CaretXY);
-//    end;
-    SearchTextHistory := glsSearchHistory.Text;
-    if AReplace then with dlg as TfrmEditSearchReplace do begin
-      ReplaceText := sReplaceText;
-      ReplaceTextHistory := glsReplaceHistory.Text;
-    end;
-    SearchWholeWords := bSearchWholeWords;
-    if ShowModal = mrOK then begin
-      bSearchBackwards := SearchBackwards;
-      bSearchCaseSensitive := SearchCaseSensitive;
-      bSearchFromCaret := SearchFromCursor;
-      bSearchSelectionOnly := SearchInSelectionOnly;
-      bSearchWholeWords := SearchWholeWords;
-      bSearchRegExp := SearchRegExp;
-      sSearchText := SearchText;
-      glsSearchHistory.Text := SearchTextHistory;
-      if AReplace then with dlg as TfrmEditSearchReplace do begin
-        sReplaceText := ReplaceText;
-        glsReplaceHistory.Text := ReplaceTextHistory;
-      end;
-//      bSearchFromCaret := gbSearchFromCaret;
-      if sSearchText <> '' then
-      begin
-        DoSearchReplaceText(AReplace, bSearchBackwards);
-        bSearchFromCaret:= True;
-        gFirstTextSearch:= False;
-      end;
-    end;
-  finally
-    FreeAndNil(dlg);
-  end;
-end;
-
 procedure TfrmEditor.cm_FileReload(const Params: array of string);
 begin
   if bChanged then
@@ -884,40 +782,34 @@ end;
 
 procedure TfrmEditor.cm_EditFind(const Params: array of string);
 begin
-  ShowSearchReplaceDialog(False);
+  ShowSearchReplaceDialog(Self, Editor, cbUnchecked, FSearchOptions);
 end;
-
 
 procedure TfrmEditor.cm_EditFindNext(const Params:array of string);
 begin
   if gFirstTextSearch then
-    begin
-      ShowSearchReplaceDialog(False);
-      Exit;
-    end;
-  if sSearchText <> '' then
-    begin
-      DoSearchReplaceText(False, bSearchBackwards);
-      bSearchFromCaret:= True;
-    end;
+    ShowSearchReplaceDialog(Self, Editor, cbUnchecked, FSearchOptions)
+  else if FSearchOptions.SearchText <> '' then
+  begin
+    DoSearchReplaceText(Editor, False, ssoBackwards in FSearchOptions.Flags, FSearchOptions);
+    FSearchOptions.Flags -= [ssoEntireScope];
+  end;
 end;
 
 procedure TfrmEditor.cm_EditFindPrevious(const Params: array of string);
 begin
   if gFirstTextSearch then
-    begin
-      bSearchBackwards:=True;
-      ShowSearchReplaceDialog(False);
-      Exit;
-    end;
-  if sSearchText <> '' then
-    begin
-      Editor.SelEnd:=Editor.SelStart;
-      DoSearchReplaceText(False, True);
-      bSearchFromCaret:= True;
-    end;
+  begin
+    FSearchOptions.Flags += [ssoBackwards];
+    ShowSearchReplaceDialog(Self, Editor, cbUnchecked, FSearchOptions);
+  end
+  else if FSearchOptions.SearchText <> '' then
+  begin
+    Editor.SelEnd := Editor.SelStart;
+    DoSearchReplaceText(Editor, False, True, FSearchOptions);
+    FSearchOptions.Flags -= [ssoEntireScope];
+  end;
 end;
-
 
 procedure TfrmEditor.cm_EditGotoLine(const Params:array of string);
 var
@@ -1073,7 +965,7 @@ end;
 
 procedure TfrmEditor.cm_EditRplc(const Params: array of string);
 begin
-  ShowSearchReplaceDialog(True);
+  ShowSearchReplaceDialog(Self, Editor, cbChecked, FSearchOptions)
 end;
 
 procedure TfrmEditor.frmEditorClose(Sender: TObject;

@@ -16,7 +16,7 @@ object frmDiffer: TfrmDiffer
   SessionProperties = 'actAutoCompare.Checked;Height;Left;Top;Width;WindowState'
   ShowHint = True
   ShowInTaskBar = stAlways
-  LCLVersion = '2.0.7.0'
+  LCLVersion = '2.2.0.4'
   object ToolBar: TToolBar
     Left = 0
     Height = 22
@@ -115,12 +115,12 @@ object frmDiffer: TfrmDiffer
       Style = tbsSeparator
     end
     object btnEditUndo: TToolButton
-      Left = 310
+      Left = 249
       Top = 2
       Action = actEditUndo
     end
     object btnEditRedo: TToolButton
-      Left = 335
+      Left = 269
       Top = 2
       Action = actEditRedo
     end
@@ -333,8 +333,8 @@ object frmDiffer: TfrmDiffer
   end
   object MainMenu: TMainMenu
     Images = dmComData.ilEditorImages
-    left = 88
-    top = 136
+    Left = 88
+    Top = 136
     object mnuFile: TMenuItem
       Caption = '&File'
       object miOpenLeft: TMenuItem
@@ -401,12 +401,27 @@ object frmDiffer: TfrmDiffer
         Action = actEditDelete
         OnClick = actEditDeleteExecute
       end
-      object miDivider9: TMenuItem
-        Caption = '-'
-      end
       object miEditSelectAll: TMenuItem
         Action = actEditSelectAll
         OnClick = actEditSelectAllExecute
+      end
+      object miDivider11: TMenuItem
+        Caption = '-'
+      end
+      object miFind: TMenuItem
+        Action = actFind
+      end
+      object miFindNext: TMenuItem
+        Action = actFindNext
+      end
+      object miFindPrev: TMenuItem
+        Action = actFindPrev
+      end
+      object miFindReplace: TMenuItem
+        Action = actFindReplace
+      end
+      object miGotoLine: TMenuItem
+        Action = actGotoLine
       end
     end
     object mnuOptions: TMenuItem
@@ -503,8 +518,8 @@ object frmDiffer: TfrmDiffer
   end
   object ActionList: TActionList
     Images = dmComData.ilEditorImages
-    left = 24
-    top = 136
+    Left = 24
+    Top = 136
     object actSave: TAction
       Caption = 'Save'
       Hint = 'Save'
@@ -662,6 +677,41 @@ object frmDiffer: TfrmDiffer
       ImageIndex = 15
       OnExecute = actEditSelectAllExecute
     end
+    object actFind: TAction
+      Category = 'Edit'
+      Caption = '&Find'
+      HelpType = htKeyword
+      Hint = 'Find'
+      ImageIndex = 10
+      OnExecute = actExecute
+    end
+    object actFindNext: TAction
+      Category = 'Edit'
+      Caption = 'Find next'
+      Hint = 'Find next'
+      OnExecute = actExecute
+    end
+    object actFindPrev: TAction
+      Category = 'Edit'
+      Caption = 'Find previous'
+      Hint = 'Find previous'
+      OnExecute = actExecute
+    end
+    object actFindReplace: TAction
+      Category = 'Edit'
+      Caption = '&Replace'
+      HelpType = htKeyword
+      Hint = 'Replace'
+      ImageIndex = 11
+      OnExecute = actExecute
+    end
+    object actGotoLine: TAction
+      Category = 'Edit'
+      Caption = 'Goto Line...'
+      Hint = 'Goto Line'
+      ImageIndex = 16
+      OnExecute = actExecute
+    end
     object actEditRedo: TAction
       Category = 'Edit'
       Caption = 'Redo'
@@ -707,8 +757,8 @@ object frmDiffer: TfrmDiffer
   end
   object ContextMenu: TPopupMenu
     Images = dmComData.ilEditorImages
-    left = 160
-    top = 136
+    Left = 160
+    Top = 136
     object miUndoContext: TMenuItem
       Action = actEditUndo
       OnClick = actEditUndoExecute
@@ -741,12 +791,12 @@ object frmDiffer: TfrmDiffer
     end
   end
   object pmEncodingLeft: TPopupMenu
-    left = 248
-    top = 136
+    Left = 248
+    Top = 136
   end
   object pmEncodingRight: TPopupMenu
-    left = 352
-    top = 136
+    Left = 352
+    Top = 136
   end
   object tmProgress: TTimer
     OnTimer = tmProgressTimer
