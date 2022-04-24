@@ -699,7 +699,11 @@ begin
       begin
         bRetryWrite:= FReserveSpace;
         FReserveSpace:= False;
-        OpenTargetFile;
+        try
+          OpenTargetFile;
+        finally
+          FReserveSpace:= bRetryWrite;
+        end;
         if not Assigned(TargetFileStream) then
           Exit;
 
@@ -728,7 +732,7 @@ begin
           Exit;
         end;
 
-        if bRetryWrite then
+        if FReserveSpace then
         begin
           TargetFileStream.Size:= SourceFileStream.Size;
           TargetFileStream.Seek(0, fsFromBeginning);
