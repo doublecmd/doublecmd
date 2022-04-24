@@ -115,7 +115,7 @@ begin
          _ShouldAppsUseDarkMode() and not IsHighContrast());
 
   if (g_buildNumber < 18362) then
-    SetPropW(hWnd, 'UseImmersiveDarkModeColors', THandle(dark))
+    SetPropW(hWnd, 'UseImmersiveDarkModeColors', Ord(dark) and $01)
   else if Assigned(_SetWindowCompositionAttribute) then
   begin
     data.pvData:= @dark;
