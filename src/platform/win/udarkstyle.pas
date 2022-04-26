@@ -191,10 +191,11 @@ const
 
 function CheckBuildNumber(buildNumber: DWORD): Boolean; inline;
 begin
-  Result := (buildNumber = 17763) or // 1809
-            (buildNumber = 18362) or // 1903 & 1909
-            (buildNumber = 19041) or // 2004 & 20H2 & 21H1
-            (buildNumber = 22000);   // 21H2
+  Result := (buildNumber = 17763) or // Win 10: 1809
+            (buildNumber = 18362) or // Win 10: 1903 & 1909
+            (buildNumber = 19041) or // Win 10: 2004 & 20H2 & 21H1 & 21H2
+            (buildNumber = 22000) or // Win 11: 21H2
+            (buildNumber > 22000);   // Win 11: Insider Preview
 end;
 
 function GetBuildNumber(Instance: THandle): DWORD;
