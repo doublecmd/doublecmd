@@ -621,8 +621,12 @@ begin
   if (AWinControl is TCustomTreeView) then
   begin
     AWinControl.Color:= SysColor[COLOR_WINDOW];
-    TCustomTreeView(AWinControl).ExpandSignType:= tvestPlusMinus;
-    TCustomTreeView(AWinControl).ExpandSignColor:= SysColor[COLOR_GRAYTEXT];
+    with TCustomTreeView(AWinControl) do
+    begin
+      ExpandSignType:= tvestPlusMinus;
+      TreeLineColor:= SysColor[COLOR_GRAYTEXT];
+      ExpandSignColor:= SysColor[COLOR_GRAYTEXT];
+    end;
   end;
   P.ExStyle:= p.ExStyle and not WS_EX_CLIENTEDGE;
   TWinControlDark(AWinControl).BorderStyle:= bsNone;
