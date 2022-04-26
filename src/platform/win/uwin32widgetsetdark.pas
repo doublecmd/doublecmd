@@ -567,42 +567,36 @@ end;
 function ScrollBoxWindowProc(Window: HWND; Msg: UINT; wParam: Windows.WPARAM; lParam: Windows.LPARAM; uISubClass: UINT_PTR; dwRefData: DWORD_PTR): LRESULT; stdcall;
 var
   DC: HDC;
-  AColor: TColor;
-  PS: TPaintStruct;
+  R, W: TRect;
+  Delta: Integer;
 begin
-  if Msg = WM_PAINT then
-  begin
-    DC:= BeginPaint(Window, @ps);
-    if (GetPropW(Window, 'BorderStyle') = 0) then
-      Windows.FillRect(DC, ps.rcPaint, GetSysColorBrush(COLOR_BTNFACE))
-    else begin
-      GetClientRect(Window, @ps.rcPaint);
-      SelectObject(DC, GetStockObject(DC_PEN));
-      SelectObject(DC, GetStockObject(DC_BRUSH));
-      AColor:= SysColor[COLOR_BTNFACE];
-      SetDCBrushColor(DC, AColor);
-      SetDCPenColor(DC, Darker(AColor, 128));
-      Rectangle(DC, ps.rcPaint.Left, ps.rcPaint.Top, ps.rcPaint.Right, ps.rcPaint.Bottom);
-    end;
-    EndPaint(Window, @ps);
-    Exit(0);
-  end;
   Result:= DefSubclassProc(Window, Msg, WParam, LParam);
+
+  if Msg = WM_NCPAINT then
+  begin
+    GetClientRect(Window, @R);
+    MapWindowPoints(Window, 0, @R, 2);
+    GetWindowRect(Window, @W);
+    Delta:= Abs(W.Top - R.Top);
+
+    DC:= GetWindowDC(Window);
+    ExcludeClipRect(DC, Delta, Delta, W.Width - Delta, W.Height - Delta);
+    SelectObject(DC, GetStockObject(DC_PEN));
+    SelectObject(DC, GetStockObject(DC_BRUSH));
+    SetDCPenColor(DC, SysColor[COLOR_BTNSHADOW]);
+    SetDCBrushColor(DC, SysColor[COLOR_BTNHIGHLIGHT]);
+    Rectangle(DC, 0, 0, W.Width, W.Height);
+    ReleaseDC(Window, DC);
+  end;
 end;
 
 class function TWin32WSScrollBoxDark.CreateHandle(
   const AWinControl: TWinControl; const AParams: TCreateParams): HWND;
-var
-  S: HANDLE;
-  P: TCreateParams;
 begin
-  P:= AParams;
-  S:= Ord(TScrollBox(AWinControl).BorderStyle);
-  TScrollBox(AWinControl).BorderStyle:= bsNone;
-  P.ExStyle:= p.ExStyle and not WS_EX_CLIENTEDGE;
-  Result:= inherited CreateHandle(AWinControl, P);
-  SetWindowSubclass(Result, @ScrollBoxWindowProc, ID_SUB_SCROLLBOX, 0);
-  SetPropW(Result, 'BorderStyle', S);
+  Result:= inherited CreateHandle(AWinControl, AParams);
+  if TScrollBox(AWinControl).BorderStyle = bsSingle then begin
+    SetWindowSubclass(Result, @ScrollBoxWindowProc, ID_SUB_SCROLLBOX, 0);
+  end;
   EnableDarkStyle(Result);
 end;
 
