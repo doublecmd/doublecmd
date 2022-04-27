@@ -45,7 +45,7 @@ uses
   {$IFDEF LCLQT5}
   , qt5, qtwidgets
   {$ENDIF}
-  {$IF DEFINED(MSWINDOWS) and DEFINED(LCLQT5)}
+  {$IF DEFINED(MSWINDOWS) and (DEFINED(LCLQT5) or DEFINED(DARKWIN))}
   , uDarkStyle
   {$ENDIF}
   ;
@@ -339,7 +339,7 @@ function TWlxModule.CallListLoad(ParentWin: HWND; FileToLoad: String; ShowFlags:
 begin
   WlxPrepareContainer(ParentWin);
 
-{$IF DEFINED(MSWINDOWS) and DEFINED(LCLQT5)}
+{$IF DEFINED(MSWINDOWS) and (DEFINED(LCLQT5) or DEFINED(DARKWIN))}
   if g_darkModeEnabled then
   begin
     ShowFlags:= ShowFlags or lcp_darkmode;

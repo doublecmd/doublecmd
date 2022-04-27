@@ -30,15 +30,16 @@ if "%1"=="doublecmd" ( call :doublecmd
 ) else (
 if "%1"=="release" ( call :release
 ) else (
+if "%1"=="darkwin" ( call :darkwin
+) else (
 if "%1"=="debug" ( call :debug
 ) else (
 if "%1"=="" ( call :release
 ) else (
   echo ERROR: Mode not defined: %1
-  echo Available modes: components, plugins, doublecmd, release, debug
-)))))))
+  echo Available modes: components, plugins, doublecmd, release, darkwin, debug
+))))))))
 
-pause
 GOTO:EOF
 
 :components
@@ -69,6 +70,21 @@ GOTO:EOF
   call :replace_old
   lazbuild src\doublecmd.lpi --bm=release %DC_ARCH%
 
+  call :extract
+GOTO:EOF
+
+:darkwin
+  call :components
+  call :plugins
+
+  rem Build Double Commander
+  call :replace_old
+  lazbuild src\doublecmd.lpi --bm=darkwin %DC_ARCH%
+
+  call :extract
+GOTO:EOF
+
+:extract
   rem Build Dwarf LineInfo Extractor
   lazbuild tools\extractdwrflnfo.lpi
 

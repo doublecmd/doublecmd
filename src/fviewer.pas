@@ -2702,9 +2702,9 @@ end;
 
 procedure TfrmViewer.ActivatePanel(Panel: TPanel);
 begin
-  pnlFolder.Hide;
-  pnlImage.Hide;
-  pnlText.Hide;
+  if Panel <> pnlText then pnlText.Hide;
+  if Panel <> pnlImage then pnlImage.Hide;
+  if Panel <> pnlFolder then pnlFolder.Hide;
 
   if Assigned(Panel) then Panel.Visible := True;
 
