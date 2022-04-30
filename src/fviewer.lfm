@@ -585,6 +585,17 @@ object frmViewer: TfrmViewer
           Top = 34
           Style = tbsSeparator
         end
+        object btnPaint: TToolButton
+          Left = 275
+          Hint = 'Paint'
+          Top = 34
+          AllowAllUp = True
+          Grouped = True
+          ImageIndex = 21
+          OnClick = btnPaintHightlight
+          ShowCaption = False
+          Style = tbsCheck
+        end
         object btnUndo: TToolButton
           Left = 307
           Hint = 'Undo'
@@ -614,48 +625,6 @@ object frmViewer: TfrmViewer
           Enabled = False
           Style = tbsButtonDrop
         end
-        object btnSeparator: TToolButton
-          Left = 162
-          Height = 32
-          Top = 66
-          Style = tbsSeparator
-        end
-        object btnSlideShow: TToolButton
-          Tag = 1
-          Left = 232
-          Top = 66
-          Caption = 'Slide Show'
-          DropdownMenu = pmTimeShow
-          OnClick = btnSlideShowClick
-          Style = tbsDropDown
-          Visible = False
-        end
-        object btnFullScreen: TToolButton
-          Left = 168
-          Hint = 'Full Screen'
-          Top = 66
-          Action = actFullscreen
-          ShowCaption = False
-        end
-        object btnResize: TToolButton
-          Left = 200
-          Hint = 'Resize'
-          Top = 66
-          ImageIndex = 24
-          OnClick = btnResizeClick
-          ShowCaption = False
-        end
-        object btnPaint: TToolButton
-          Left = 275
-          Hint = 'Paint'
-          Top = 34
-          AllowAllUp = True
-          Grouped = True
-          ImageIndex = 21
-          OnClick = btnPaintHightlight
-          ShowCaption = False
-          Style = tbsCheck
-        end
         object btnPenColor: TColorButton
           Left = 87
           Height = 32
@@ -666,6 +635,37 @@ object frmViewer: TfrmViewer
           ButtonColor = clRed
           Enabled = False
           ParentFont = False
+        end
+        object btnSeparator: TToolButton
+          Left = 162
+          Height = 32
+          Top = 66
+          Style = tbsSeparator
+        end
+        object btnResize: TToolButton
+          Left = 168
+          Hint = 'Resize'
+          Top = 66
+          ImageIndex = 24
+          OnClick = btnResizeClick
+          ShowCaption = False
+        end
+        object btnFullScreen: TToolButton
+          Left = 200
+          Hint = 'Full Screen'
+          Top = 66
+          Action = actFullscreen
+          ShowCaption = False
+        end
+        object btnSlideShow: TToolButton
+          Tag = 1
+          Left = 232
+          Top = 66
+          Caption = 'Slide Show'
+          DropdownMenu = pmTimeShow
+          OnClick = btnSlideShowClick
+          Style = tbsDropDown
+          Visible = False
         end
       end
     end
