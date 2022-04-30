@@ -1476,7 +1476,7 @@ begin
     if iStateId in [RBS_UNCHECKEDPRESSED, RBS_CHECKEDPRESSED] then
       LCanvas.Font.Color:= RGBToColor(83, 160, 237)
     else begin
-      LCanvas.Font.Color:= RGBToColor(39, 39, 39);
+      LCanvas.Font.Color:= SysColor[COLOR_BTNSHADOW];
     end;
     // Draw outline circle
     LCanvas.TextRect(pRect, 0, 0, MDL_RADIO_OUTLINE, AStyle);
