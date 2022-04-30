@@ -1414,10 +1414,14 @@ begin
     AStyle.Layout:= tlCenter;
     AStyle.ShowPrefix:= True;
 
-    // Draw checkbox rect
+    // Fill checkbox rect
     LCanvas.Font.Name:= 'Segoe MDL2 Assets';
     LCanvas.Font.Color:= SysColor[COLOR_WINDOW];
     LCanvas.TextRect(pRect, 0, 0, MDL_CHECKBOX_FILLED, AStyle);
+
+    // Draw checkbox border
+    LCanvas.Font.Color:= RGBToColor(150, 153, 157);
+    LCanvas.TextRect(pRect, 0, 0, MDL_CHECKBOX_OUTLINE, AStyle);
 
     // Draw checkbox state
     if iStateId in [CBS_MIXEDNORMAL, CBS_MIXEDHOT,
