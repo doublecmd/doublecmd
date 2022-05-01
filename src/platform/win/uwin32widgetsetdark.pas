@@ -964,7 +964,7 @@ begin
         if iPartId = MENU_POPUPSEPARATOR then
         begin
          LRect:= pRect;
-         LCanvas.Pen.Color:= RGBToColor(34, 34, 34);
+         LCanvas.Pen.Color:= RGBToColor(112, 112, 112);
          LRect.Top:= LRect.Top + (LRect.Height div 2);
          LRect.Bottom:= LRect.Top;
 
