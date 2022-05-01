@@ -1420,7 +1420,7 @@ begin
     LCanvas.TextRect(pRect, 0, 0, MDL_CHECKBOX_FILLED, AStyle);
 
     // Draw checkbox border
-    LCanvas.Font.Color:= RGBToColor(150, 153, 157);
+    LCanvas.Font.Color:= RGBToColor(192, 192, 192);
     LCanvas.TextRect(pRect, 0, 0, MDL_CHECKBOX_OUTLINE, AStyle);
 
     // Draw checkbox state
@@ -1433,7 +1433,7 @@ begin
     else if iStateId in [CBS_CHECKEDNORMAL, CBS_CHECKEDHOT,
                          CBS_CHECKEDPRESSED, CBS_CHECKEDDISABLED] then
     begin
-      LCanvas.Font.Color:= RGBToColor(212, 212, 212);
+      LCanvas.Font.Color:= RGBToColor(192, 192, 192);
       LCanvas.TextRect(pRect, 0, 0, MDL_CHECKBOX_CHECKED, AStyle);
     end;
   finally
@@ -1468,7 +1468,7 @@ begin
     if iStateId in [RBS_CHECKEDNORMAL, RBS_CHECKEDHOT,
                     RBS_CHECKEDPRESSED, RBS_CHECKEDDISABLED] then
     begin
-      LCanvas.Font.Color:= RGBToColor(162, 162, 162);
+      LCanvas.Font.Color:= RGBToColor(192, 192, 192);
       LCanvas.TextRect(pRect, 0, 0, MDL_RADIO_CHECKED, AStyle );
     end;
 
@@ -1476,7 +1476,7 @@ begin
     if iStateId in [RBS_UNCHECKEDPRESSED, RBS_CHECKEDPRESSED] then
       LCanvas.Font.Color:= RGBToColor(83, 160, 237)
     else begin
-      LCanvas.Font.Color:= SysColor[COLOR_BTNSHADOW];
+      LCanvas.Font.Color:= RGBToColor(192, 192, 192);
     end;
     // Draw outline circle
     LCanvas.TextRect(pRect, 0, 0, MDL_RADIO_OUTLINE, AStyle);
