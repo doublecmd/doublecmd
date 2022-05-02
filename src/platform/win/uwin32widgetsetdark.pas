@@ -1891,7 +1891,7 @@ begin
   SysColor[COLOR_HIGHLIGHTTEXT]           := RGBToColor(255, 255, 255);
   SysColor[COLOR_BTNFACE]                 := RGBToColor(53, 53, 53);
   SysColor[COLOR_BTNSHADOW]               := RGBToColor(35, 35, 35);
-  SysColor[COLOR_GRAYTEXT]                := RGBToColor(127, 127, 127);
+  SysColor[COLOR_GRAYTEXT]                := RGBToColor(160, 160, 160);
   SysColor[COLOR_BTNTEXT]                 := RGBToColor(255, 255, 255);
   SysColor[COLOR_INACTIVECAPTIONTEXT]     := RGBToColor(255, 255, 255);
   SysColor[COLOR_BTNHIGHLIGHT]            := RGBToColor(66, 66, 66);
