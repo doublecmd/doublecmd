@@ -1049,12 +1049,20 @@ begin
 
        if iStateId <> TS_NORMAL then
        begin
-         LCanvas.Pen.Color:=  Darker(AColor, 140);
+         if iStateId = TS_CHECKED then
+         begin
+           LRect:= pRect;
+           InflateRect(LRect, -2, -2);
+           LCanvas.Brush.Color:= Lighter(AColor, 146);
+           LCanvas.FillRect(LRect);
+         end;
+
+         LCanvas.Pen.Color:= Darker(AColor, 140);
          LCanvas.RoundRect(pRect, 6, 6);
 
          LRect:= pRect;
 
-         LCanvas.Pen.Color:=  Lighter(AColor, 140);
+         LCanvas.Pen.Color:= Lighter(AColor, 140);
          InflateRect(LRect, -1, -1);
          LCanvas.RoundRect(LRect, 6, 6);
        end;
