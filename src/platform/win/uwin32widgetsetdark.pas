@@ -1589,7 +1589,7 @@ begin
       begin
         // Fill tab inside
         if (iStateId = TIS_SELECTED) then
-          LCanvas.Brush.Color:= Lighter(AColor, 129)
+          LCanvas.Brush.Color:= Lighter(AColor, 176)
         else begin
           LCanvas.Brush.Color:= Lighter(AColor, 117)
         end;
@@ -1621,7 +1621,7 @@ begin
       begin
         // Fill tab inside
         if (iStateId = TIS_SELECTED) then
-          LCanvas.Brush.Color:= Lighter(AColor, 129)
+          LCanvas.Brush.Color:= Lighter(AColor, 176)
         else begin
           LCanvas.Brush.Color:= Lighter(AColor, 117);
         end;
