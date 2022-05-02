@@ -161,6 +161,8 @@ var
   CustomFormWndProc: Windows.WNDPROC;
   SysColor: array[0..COLOR_ENDCOLORS] of TColor;
   SysColorBrush: array[0..COLOR_ENDCOLORS] of HBRUSH;
+  DefSubclassProc: function(hWnd: HWND; uMsg: UINT; wParam: WPARAM; lParam: LPARAM): LRESULT; stdcall;
+  SetWindowSubclass: function(hWnd: HWND; pfnSubclass: SUBCLASSPROC; uIdSubclass: UINT_PTR; dwRefData: DWORD_PTR): BOOL; stdcall;
 
 procedure EnableDarkStyle(Window: HWND);
 begin
@@ -1944,6 +1946,10 @@ begin
 
   hModule:= GetModuleHandle(gdi32);
   Pointer(DeleteObjectOld):= GetProcAddress(hModule, 'DeleteObject');
+
+  hModule:= GetModuleHandle(comctl32);
+  Pointer(DefSubclassProc):= GetProcAddress(hModule, 'DefSubclassProc');
+  Pointer(SetWindowSubclass):= GetProcAddress(hModule, 'SetWindowSubclass');
 
   // Override several system functions
   pLibrary:= FindImportLibrary(MainInstance, user32);
