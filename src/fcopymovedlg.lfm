@@ -273,6 +273,8 @@ object frmCopyDlg: TfrmCopyDlg
       Width = 596
       Anchors = [akTop, akLeft, akRight]
       AutoSize = True
+      ChildSizing.LeftRightSpacing = 4
+      ChildSizing.TopBottomSpacing = 4
       TabOrder = 0
     end
     object btnSaveOptions: TButton
