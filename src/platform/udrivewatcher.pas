@@ -717,6 +717,7 @@ end;
          (mnt_type = 'none') or
          (mnt_type = 'cgroup') or
          (mnt_type = 'cpuset') or
+         (mnt_type = 'ramfs') or
          (mnt_type = 'tmpfs') or
          (mnt_type = 'proc') or
          (mnt_type = 'swap') or
@@ -727,6 +728,7 @@ end;
          (mnt_type = 'fusectl') or
          (mnt_type = 'securityfs') or
          (mnt_type = 'binfmt_misc') or
+         (mnt_type = 'fuse.portal') or
          (mnt_type = 'fuse.gvfsd-fuse') or
          (mnt_type = 'fuse.gvfs-fuse-daemon') or
          (mnt_type = 'fuse.truecrypt') or
