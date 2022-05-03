@@ -603,8 +603,8 @@ object frmEditor: TfrmEditor
       object SynGutterSeparator1: TSynGutterSeparator
         Width = 2
         MouseActions = <>
-        MarkupInfo.Background = clWhite
-        MarkupInfo.Foreground = clGray
+        MarkupInfo.Background = clWindow
+        MarkupInfo.Foreground = clGrayText
       end
       object SynGutterCodeFolding1: TSynGutterCodeFolding
         MouseActions = <        

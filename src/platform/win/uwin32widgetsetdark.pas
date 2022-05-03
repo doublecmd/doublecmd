@@ -161,6 +161,8 @@ var
   CustomFormWndProc: Windows.WNDPROC;
   SysColor: array[0..COLOR_ENDCOLORS] of TColor;
   SysColorBrush: array[0..COLOR_ENDCOLORS] of HBRUSH;
+  DefSubclassProc: function(hWnd: HWND; uMsg: UINT; wParam: WPARAM; lParam: LPARAM): LRESULT; stdcall;
+  SetWindowSubclass: function(hWnd: HWND; pfnSubclass: SUBCLASSPROC; uIdSubclass: UINT_PTR; dwRefData: DWORD_PTR): BOOL; stdcall;
 
 procedure EnableDarkStyle(Window: HWND);
 begin
@@ -964,7 +966,7 @@ begin
         if iPartId = MENU_POPUPSEPARATOR then
         begin
          LRect:= pRect;
-         LCanvas.Pen.Color:= RGBToColor(34, 34, 34);
+         LCanvas.Pen.Color:= RGBToColor(112, 112, 112);
          LRect.Top:= LRect.Top + (LRect.Height div 2);
          LRect.Bottom:= LRect.Top;
 
@@ -1047,12 +1049,20 @@ begin
 
        if iStateId <> TS_NORMAL then
        begin
-         LCanvas.Pen.Color:=  Darker(AColor, 140);
+         if iStateId = TS_CHECKED then
+         begin
+           LRect:= pRect;
+           InflateRect(LRect, -2, -2);
+           LCanvas.Brush.Color:= Lighter(AColor, 146);
+           LCanvas.FillRect(LRect);
+         end;
+
+         LCanvas.Pen.Color:= Darker(AColor, 140);
          LCanvas.RoundRect(pRect, 6, 6);
 
          LRect:= pRect;
 
-         LCanvas.Pen.Color:=  Lighter(AColor, 140);
+         LCanvas.Pen.Color:= Lighter(AColor, 140);
          InflateRect(LRect, -1, -1);
          LCanvas.RoundRect(LRect, 6, 6);
        end;
@@ -1414,10 +1424,14 @@ begin
     AStyle.Layout:= tlCenter;
     AStyle.ShowPrefix:= True;
 
-    // Draw checkbox rect
+    // Fill checkbox rect
     LCanvas.Font.Name:= 'Segoe MDL2 Assets';
     LCanvas.Font.Color:= SysColor[COLOR_WINDOW];
     LCanvas.TextRect(pRect, 0, 0, MDL_CHECKBOX_FILLED, AStyle);
+
+    // Draw checkbox border
+    LCanvas.Font.Color:= RGBToColor(192, 192, 192);
+    LCanvas.TextRect(pRect, 0, 0, MDL_CHECKBOX_OUTLINE, AStyle);
 
     // Draw checkbox state
     if iStateId in [CBS_MIXEDNORMAL, CBS_MIXEDHOT,
@@ -1429,7 +1443,7 @@ begin
     else if iStateId in [CBS_CHECKEDNORMAL, CBS_CHECKEDHOT,
                          CBS_CHECKEDPRESSED, CBS_CHECKEDDISABLED] then
     begin
-      LCanvas.Font.Color:= RGBToColor(212, 212, 212);
+      LCanvas.Font.Color:= RGBToColor(192, 192, 192);
       LCanvas.TextRect(pRect, 0, 0, MDL_CHECKBOX_CHECKED, AStyle);
     end;
   finally
@@ -1464,7 +1478,7 @@ begin
     if iStateId in [RBS_CHECKEDNORMAL, RBS_CHECKEDHOT,
                     RBS_CHECKEDPRESSED, RBS_CHECKEDDISABLED] then
     begin
-      LCanvas.Font.Color:= RGBToColor(162, 162, 162);
+      LCanvas.Font.Color:= RGBToColor(192, 192, 192);
       LCanvas.TextRect(pRect, 0, 0, MDL_RADIO_CHECKED, AStyle );
     end;
 
@@ -1472,7 +1486,7 @@ begin
     if iStateId in [RBS_UNCHECKEDPRESSED, RBS_CHECKEDPRESSED] then
       LCanvas.Font.Color:= RGBToColor(83, 160, 237)
     else begin
-      LCanvas.Font.Color:= RGBToColor(39, 39, 39);
+      LCanvas.Font.Color:= RGBToColor(192, 192, 192);
     end;
     // Draw outline circle
     LCanvas.TextRect(pRect, 0, 0, MDL_RADIO_OUTLINE, AStyle);
@@ -1585,7 +1599,7 @@ begin
       begin
         // Fill tab inside
         if (iStateId = TIS_SELECTED) then
-          LCanvas.Brush.Color:= Lighter(AColor, 129)
+          LCanvas.Brush.Color:= Lighter(AColor, 176)
         else begin
           LCanvas.Brush.Color:= Lighter(AColor, 117)
         end;
@@ -1617,7 +1631,7 @@ begin
       begin
         // Fill tab inside
         if (iStateId = TIS_SELECTED) then
-          LCanvas.Brush.Color:= Lighter(AColor, 129)
+          LCanvas.Brush.Color:= Lighter(AColor, 176)
         else begin
           LCanvas.Brush.Color:= Lighter(AColor, 117);
         end;
@@ -1887,7 +1901,7 @@ begin
   SysColor[COLOR_HIGHLIGHTTEXT]           := RGBToColor(255, 255, 255);
   SysColor[COLOR_BTNFACE]                 := RGBToColor(53, 53, 53);
   SysColor[COLOR_BTNSHADOW]               := RGBToColor(35, 35, 35);
-  SysColor[COLOR_GRAYTEXT]                := RGBToColor(127, 127, 127);
+  SysColor[COLOR_GRAYTEXT]                := RGBToColor(160, 160, 160);
   SysColor[COLOR_BTNTEXT]                 := RGBToColor(255, 255, 255);
   SysColor[COLOR_INACTIVECAPTIONTEXT]     := RGBToColor(255, 255, 255);
   SysColor[COLOR_BTNHIGHLIGHT]            := RGBToColor(66, 66, 66);
@@ -1940,6 +1954,10 @@ begin
 
   hModule:= GetModuleHandle(gdi32);
   Pointer(DeleteObjectOld):= GetProcAddress(hModule, 'DeleteObject');
+
+  hModule:= GetModuleHandle(comctl32);
+  Pointer(DefSubclassProc):= GetProcAddress(hModule, 'DefSubclassProc');
+  Pointer(SetWindowSubclass):= GetProcAddress(hModule, 'SetWindowSubclass');
 
   // Override several system functions
   pLibrary:= FindImportLibrary(MainInstance, user32);
