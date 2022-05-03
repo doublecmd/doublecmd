@@ -1709,6 +1709,7 @@ begin
     FItemInfo.FileName := AnsiName;
   {$ENDIF}
   {$IFDEF UNIX}
+  HostOS := hosUnix;
   FItemInfo.FileName := Value;
   FItemInfo.IsUTF8 := SystemEncodingUtf8;
   {$ENDIF}
@@ -2462,7 +2463,3 @@ begin
 end;
 
 end.
-
-
-
-
