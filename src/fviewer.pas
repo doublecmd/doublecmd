@@ -1912,7 +1912,17 @@ var
   HMViewer: THMForm;
   MenuItem: TMenuItem;
 begin
-  if not bQuickView then InitPropStorage(Self);
+  if not bQuickView then
+    InitPropStorage(Self)
+  else begin
+    miImage.Remove(miCenter);
+    miImage.Remove(miStretch);
+    miImage.Remove(miStretchOnlyLarge);
+    pmEditMenu.Items.Add(miStretch);
+    pmEditMenu.Items.Add(miStretchOnlyLarge);
+    pmEditMenu.Items.Add(miCenter);
+  end;
+
   HMViewer := HotMan.Register(Self, HotkeysCategory);
   HMViewer.RegisterActionList(actionList);
 
@@ -2759,6 +2769,13 @@ begin
   miScreenshot.Visible := bImage;
   miSave.Visible       := bImage;
   miSaveAs.Visible     := bImage;
+
+  if bQuickView then
+  begin
+    miCenter.Visible := bImage;
+    miStretch.Visible := bImage;
+    miStretchOnlyLarge.Visible := bImage;
+  end;
 
   actShowCaret.Enabled := (Panel = pnlText);
   actWrapText.Enabled  := bPlugin or ((Panel = pnlText) and (ViewerControl.Mode in [vcmText, vcmWrap]));
