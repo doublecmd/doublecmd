@@ -2012,7 +2012,7 @@ begin
   {Viewer}
   gImageStretch := False;
   gImageExifRotate := True;
-  gImageStretchOnlyLarge := False;
+  gImageStretchOnlyLarge := True;
   gImageCenter := True;
   gPreviewVisible := False;
   gCopyMovePath1 := '';
