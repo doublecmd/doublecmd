@@ -172,7 +172,7 @@ type
 
 const
   { Default hotkey list version number }
-  hkVersion = 55;
+  hkVersion = 56;
   // 54 - In "Viewer" context, added the "W" for "cm_WrapText", "4" for "cm_ShowAsDec", "8" for "cm_ShowOffice".
   // 53 - In "Main" context, change shortcut "Alt+`" to "Alt+0" for the "cm_ActivateTabByIndex".
   // 52 - In "Main" context, add shortcut "Ctrl+Shift+B" for "cm_FlatViewSel".
@@ -1184,6 +1184,13 @@ begin
           Remove(HMHotKey);
       end;
 
+      if HotMan.Version < 56 then
+      begin
+        HMHotKey:= FindByCommand('cm_Find');
+        if Assigned(HMHotKey) and HMHotKey.SameShortcuts(['F']) then
+          Remove(HMHotKey);
+      end;
+
       AddIfNotExists(['1'],[],'cm_ShowAsText');
       AddIfNotExists(['2'],[],'cm_ShowAsBin');
       AddIfNotExists(['3'],[],'cm_ShowAsHex');
@@ -1193,16 +1200,17 @@ begin
       AddIfNotExists(['7'],[],'cm_ShowPlugins');
       AddIfNotExists(['8'],[],'cm_ShowOffice');
 
+      AddIfNotExists(['C'],[],'cm_ImageCenter');
+      AddIfNotExists(['F'],[],'cm_StretchImage');
+      AddIfNotExists(['L'],[],'cm_StretchOnlyLarge');
       AddIfNotExists(['W'],[],'cm_WrapText');
       AddIfNotExists(['F6'],[],'cm_ShowCaret');
 
       AddIfNotExists(['Q'   ,'','',
                       'Esc','',''],'cm_ExitViewer');
 
-
-      AddIfNotExists(['F'             ,'','',
-                      SmkcSuper + 'F' ,'','',
-                      'F7'            ,'',''],'cm_Find'); // , ['F'], []);
+      AddIfNotExists([SmkcSuper + 'F' ,'','',
+                      'F7'            ,'',''],'cm_Find');
 
       AddIfNotExists(['F3'],[],'cm_FindNext');
       AddIfNotExists(['Shift+F3'],[],'cm_FindPrev');
