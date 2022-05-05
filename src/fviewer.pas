@@ -373,6 +373,7 @@ type
     procedure CutToImage;
     procedure Res(W, H: integer);
     procedure RedEyes;
+    procedure ExitPluginMode;
     procedure DeleteCurrentFile;
     procedure EnableActions(AEnabled: Boolean);
     procedure SaveImageAs (Var sExt: String; senderSave: boolean; Quality: integer);
@@ -396,7 +397,7 @@ type
     procedure LoadNextFile(Index: Integer);
     procedure LoadNextFile(const aFileName: String);
 
-    procedure ExitPluginMode;
+    procedure ExitQuickView;
 
     procedure ShowTextViewer(AMode: TViewerControlMode);
     procedure CopyMoveFile(AViewerAction:TViewerCopyMoveAction);
@@ -1454,6 +1455,15 @@ begin
   FWlxModule:= nil;
   ActivePlugin:= -1;
   actPrint.Enabled:= False;
+end;
+
+procedure TfrmViewer.ExitQuickView;
+begin
+  ExitPluginMode;
+
+  gImageStretch:= miStretch.Checked;
+  gImageStretchOnlyLarge:= miStretchOnlyLarge.Checked;
+  gImageCenter:= miCenter.Checked;
 end;
 
 procedure TfrmViewer.ShowTextViewer(AMode: TViewerControlMode);
