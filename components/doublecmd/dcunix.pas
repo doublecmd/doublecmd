@@ -48,8 +48,16 @@ const
 
 type
 {$IF DEFINED(LINUX)}
-  TUnixTime = {$IFDEF CPUAARCH64}Int64{$ELSE}UIntPtr{$ENDIF};
-  TUnixMode = Cardinal;
+  TUnixTime =
+    {$IF DEFINED(CPUAARCH64)}
+      Int64
+    {$ELSEIF DEFINED(CPUMIPS)}
+      LongInt
+    {$ELSE}UIntPtr{$ENDIF};
+  TUnixMode =
+    {$IF DEFINED(CPUPOWERPC)}
+      LongInt
+    {$ELSE}Cardinal{$ENDIF};
 {$ELSE}
   TUnixTime = TTime;
   TUnixMode = TMode;
