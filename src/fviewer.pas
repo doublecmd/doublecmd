@@ -342,7 +342,7 @@ type
     FModSizeDialog: TfrmModView;
     FThumbnailManager: TThumbnailManager;
     FCommands: TFormCommands;
-    FZoomFactor: Double;
+    FZoomFactor: Integer;
     FExif: TExifReader;
     FWindowState: TWindowState;
 {$IF DEFINED(LCLWIN32)}
@@ -630,7 +630,7 @@ begin
   inherited Create(TheOwner);
   FWaitData := aWaitData;
   FLastSearchPos := -1;
-  FZoomFactor := 1.0;
+  FZoomFactor := 100;
   ActivePlugin := -1;
   FThumbnailManager:= nil;
   FExif:= TExifReader.Create;
@@ -2312,10 +2312,10 @@ begin
   if (Image.Picture = nil) then Exit;
   if (Image.Picture.Width = 0) or (Image.Picture.Height = 0) then Exit;
 
-  dScaleFactor:= FZoomFactor;
+  dScaleFactor:= FZoomFactor / 100;
 
   // Place and resize image
-  if (miStretch.Checked or miStretchOnlyLarge.Checked) then
+  if (FZoomFactor = 100) and (miStretch.Checked or miStretchOnlyLarge.Checked) then
   begin
     dScaleFactor:= Min(sboxImage.ClientWidth / Image.Picture.Width ,sboxImage.ClientHeight / Image.Picture.Height);
     dScaleFactor:= IfThen((miStretchOnlyLarge.Checked) and (dScaleFactor > 1.0), 1.0, dScaleFactor);
@@ -2402,7 +2402,7 @@ var
   gifHeader: array[0..5] of AnsiChar;
 begin
   Result:= True;
-  FZoomFactor:= 1.0;
+  FZoomFactor:= 100;
   sExt:= ExtractOnlyFileExt(sFilename);
   if SameText(sExt, 'gif') then
   begin
@@ -2899,7 +2899,7 @@ begin
   miStretch.Checked:= not miStretch.Checked;
   if miStretch.Checked then
   begin
-    FZoomFactor:= 1.0;
+    FZoomFactor:= 100;
     miStretchOnlyLarge.Checked:= False
   end;
   UpdateImagePlacement;
@@ -2998,17 +2998,14 @@ end;
 
 procedure TfrmViewer.cm_Zoom(const Params: array of string);
 var
-  k:double;
+  K: Double;
 begin
   try
-    k:=StrToFloat(Params[0]);
+    K:= StrToFloat(Params[0]);
   except
-    exit;
+    Exit;
   end;
-
-  miStretch.Checked := False;
-  miStretchOnlyLarge.Checked:= False;
-  FZoomFactor := FZoomFactor * k;
+  FZoomFactor := Round(FZoomFactor * K);
   AdjustImageSize;
 end;
 
@@ -3022,7 +3019,6 @@ begin
     ViewerControl.Font.Size:=gFonts[dcfViewer].Size;
     ViewerControl.Repaint;
   end;
-
 end;
 
 procedure TfrmViewer.cm_ZoomOut(const Params: array of string);
