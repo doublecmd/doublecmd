@@ -140,6 +140,8 @@ const
   VSCLASS_PROGRESS_INDER = 'Indeterminate::Progress';
 
 const
+  MDL_MENU_SUBMENU     = #$EE#$A5#$B0; // $E970
+
   MDL_RADIO_FILLED     = #$EE#$A8#$BB; // $EA3B
   MDL_RADIO_CHECKED    = #$EE#$A4#$95; // $E915
   MDL_RADIO_OUTLINE    = #$EE#$A8#$BA; // $EA3A
@@ -148,8 +150,6 @@ const
   MDL_CHECKBOX_CHECKED = #$EE#$9C#$BE; // $E73E
   MDL_CHECKBOX_GRAYED  = #$EE#$9C#$BC; // $E73C
   MDL_CHECKBOX_OUTLINE = #$EE#$9C#$B9; // $E739
-
-  MDL_COMBOBOX_BUTTON  = #$EE#$A5#$AE; // $E96E
 
 type
   TThemeClassMap = specialize TDictionary<HTHEME, String>;
@@ -987,7 +987,7 @@ begin
           LCanvas.Brush.Style:= bsClear;
           LCanvas.Font.Name:= 'Segoe MDL2 Assets';
           LCanvas.Font.Color:= RGBToColor(111, 111, 111);
-          LCanvas.TextOut(pRect.Left, pRect.Top, UTF8Encode(#$E970));
+          LCanvas.TextOut(pRect.Left, pRect.Top, MDL_MENU_SUBMENU);
         end;
       finally
         LCanvas.Handle:= 0;
