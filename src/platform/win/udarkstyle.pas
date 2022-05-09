@@ -66,16 +66,9 @@ type
     Max
   );
 
-  PWindowCompositionAttribData = ^TWindowCompositionAttribData;
-  TWindowCompositionAttribData = record
-    dwAttrib: DWORD;
-    pvData: PVOID;
-    cbData: SIZE_T;
-  end;
-
 var
   RtlGetNtVersionNumbers: procedure(major, minor, build: LPDWORD); stdcall;
-  _SetWindowCompositionAttribute: function(hWnd: HWND; data: PWINDOWCOMPOSITIONATTRIBDATA): BOOL; stdcall;
+  DwmSetWindowAttribute: function(hwnd: HWND; dwAttribute: DWORD; pvAttribute: Pointer; cbAttribute: DWORD): HRESULT; stdcall;
   // 1809 17763
   _ShouldAppsUseDarkMode: function(): bool; stdcall; // ordinal 132
   _AllowDarkModeForWindow: function(hWnd: HWND; allow: bool): bool; stdcall; // ordinal 133
@@ -106,23 +99,22 @@ end;
 
 procedure RefreshTitleBarThemeColor(hWnd: HWND);
 const
-  WCA_USEDARKMODECOLORS = 26;
+  DWMWA_USE_IMMERSIVE_DARK_MODE_OLD = 19;
+  DWMWA_USE_IMMERSIVE_DARK_MODE_NEW = 20;
 var
   dark: BOOL;
-  data: TWindowCompositionAttribData;
+  dwAttribute: DWORD;
 begin
   dark:= (_IsDarkModeAllowedForWindow(hWnd) and
          _ShouldAppsUseDarkMode() and not IsHighContrast());
 
-  if (g_buildNumber < 18362) then
-    SetPropW(hWnd, 'UseImmersiveDarkModeColors', Ord(dark) and $01)
-  else if Assigned(_SetWindowCompositionAttribute) then
-  begin
-    data.pvData:= @dark;
-    data.cbData:= SizeOf(dark);
-    data.dwAttrib:= WCA_USEDARKMODECOLORS;
-    _SetWindowCompositionAttribute(hWnd, @data);
+  if (Win32BuildNumber < 19041) then
+    dwAttribute:= DWMWA_USE_IMMERSIVE_DARK_MODE_OLD
+  else begin
+    dwAttribute:= DWMWA_USE_IMMERSIVE_DARK_MODE_NEW;
   end;
+
+  DwmSetWindowAttribute(hwnd, dwAttribute, @dark, SizeOf(dark));
 end;
 
 procedure AllowDarkModeForApp(allow: bool);
@@ -243,7 +235,7 @@ begin
 
           @_IsDarkModeAllowedForWindow := GetProcAddress(hUxtheme, MAKEINTRESOURCEA(137));
 
-          @_SetWindowCompositionAttribute := GetProcAddress(GetModuleHandleW(user32), 'SetWindowCompositionAttribute');
+          @DwmSetWindowAttribute := GetProcAddress(LoadLibrary('dwmapi.dll'), 'DwmSetWindowAttribute');
 
           if Assigned(_RefreshImmersiveColorPolicyState) and
              Assigned(_ShouldAppsUseDarkMode) and
