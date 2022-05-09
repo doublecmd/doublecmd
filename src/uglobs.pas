@@ -608,6 +608,7 @@ var
   gImageStretch: Boolean;
   gImageExifRotate: Boolean;
   gImageStretchOnlyLarge: Boolean;
+  gImageShowTransparency: Boolean;
   gImageCenter: Boolean;
   gCopyMovePath1,
   gCopyMovePath2,
@@ -2013,6 +2014,7 @@ begin
   gImageStretch := False;
   gImageExifRotate := True;
   gImageStretchOnlyLarge := True;
+  gImageShowTransparency := False;
   gImageCenter := True;
   gPreviewVisible := False;
   gCopyMovePath1 := '';
@@ -3099,6 +3101,7 @@ begin
       gImageStretch := GetValue(Node, 'ImageStretch', gImageStretch);
       gImageExifRotate := GetValue(Node, 'ImageExifRotate', gImageExifRotate);
       gImageStretchOnlyLarge := GetValue(Node, 'ImageStretchLargeOnly', gImageStretchOnlyLarge);
+      gImageShowTransparency := GetValue(Node, 'ImageShowTransparency', gImageShowTransparency);
       gImageCenter := GetValue(Node, 'ImageCenter', gImageCenter);
       gPreviewVisible := GetValue(Node, 'PreviewVisible', gPreviewVisible);
       gCopyMovePath1 := GetValue(Node, 'CopyMovePath1', gCopyMovePath1);
@@ -3722,7 +3725,8 @@ begin
     SetValue(Node, 'PreviewVisible',gPreviewVisible);
     SetValue(Node, 'ImageStretch',gImageStretch);
     SetValue(Node, 'ImageExifRotate', gImageExifRotate);
-    SetValue(Node, 'ImageStretchLargeOnly',gImageStretchOnlyLarge);
+    SetValue(Node, 'ImageStretchLargeOnly', gImageStretchOnlyLarge);
+    SetValue(Node, 'ImageShowTransparency', gImageShowTransparency);
     SetValue(Node, 'ImageCenter',gImageCenter);
     SetValue(Node, 'CopyMovePath1', gCopyMovePath1);
     SetValue(Node, 'CopyMovePath2', gCopyMovePath2);

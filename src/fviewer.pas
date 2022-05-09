@@ -92,6 +92,7 @@ type
     actCopyToClipboardFormatted: TAction;
     actChangeEncoding: TAction;
     actAutoReload: TAction;
+    actShowTransparency: TAction;
     actWrapText: TAction;
     actShowCaret: TAction;
     actPrint: TAction;
@@ -141,6 +142,7 @@ type
     DrawPreview: TDrawGrid;
     GifAnim: TGifAnim;
     memFolder: TMemo;
+    miShowTransparency: TMenuItem;
     miWrapText: TMenuItem;
     miPen: TMenuItem;
     miRect: TMenuItem;
@@ -377,6 +379,7 @@ type
     procedure DeleteCurrentFile;
     procedure EnableActions(AEnabled: Boolean);
     procedure SaveImageAs (Var sExt: String; senderSave: boolean; Quality: integer);
+    procedure ImagePaintBackground(ASender: TObject; ACanvas: TCanvas; ARect: TRect);
     procedure CreatePreview(FullPathToFile:string; index:integer; delete: boolean = false);
 
     property Commands: TFormCommands read FCommands implements IFormCommands;
@@ -416,6 +419,7 @@ type
     procedure cm_DeleteFile(const Params: array of string);
     procedure cm_StretchImage(const Params: array of string);
     procedure cm_StretchOnlyLarge(const Params: array of string);
+    procedure cm_ShowTransparency(const Params: array of string);
     procedure cm_Save(const Params:array of string);
     procedure cm_SaveAs(const Params: array of string);
     procedure cm_Rotate90(const Params: array of string);
@@ -1690,6 +1694,29 @@ begin
   end;
 end;
 
+procedure TfrmViewer.ImagePaintBackground(ASender: TObject; ACanvas: TCanvas;
+  ARect: TRect);
+const
+  CELL_SIZE = 8;
+var
+  X, Y: Integer;
+begin
+  ACanvas.Brush.Color:= RGBToColor(153, 153, 153);
+  ACanvas.FillRect(ARect);
+  ACanvas.Brush.Color:= RGBToColor(102, 102, 102);
+
+  for Y:= 0 to (ARect.Height div CELL_SIZE) + 1 do
+  begin
+    for X:= 0 to (ARect.Width div CELL_SIZE) + 1 do
+    begin
+      if Odd(X) <> Odd(Y) then
+      begin
+        ACanvas.FillRect(X * CELL_SIZE, Y * CELL_SIZE, (X + 1) * CELL_SIZE, (Y + 1) * CELL_SIZE);
+      end;
+    end;
+  end;
+end;
+
 procedure TfrmViewer.pnlImageResize(Sender: TObject);
 begin
   if bImage then AdjustImageSize;
@@ -1875,6 +1902,7 @@ begin
   CloseAction:=caFree;
   gImageStretch:= miStretch.Checked;
   gImageStretchOnlyLarge:= miStretchOnlyLarge.Checked;
+  gImageShowTransparency:= actShowTransparency.Checked;
   gImageCenter:= miCenter.Checked;
   gPreviewVisible := miPreview.Checked;
   gImagePaintMode := TViewerPaintTool(btnPenMode.Tag);
@@ -1958,6 +1986,12 @@ begin
   btnPenMode.Tag := Integer(gImagePaintMode);
   btnPenWidth.Tag := gImagePaintWidth;
   btnPenColor.ButtonColor := gImagePaintColor;
+
+  if gImageShowTransparency then
+  begin
+    Image.OnPaintBackground:= @ImagePaintBackground;
+    actShowTransparency.Checked := gImageShowTransparency;
+  end;
 
   Image.Stretch:= True;
   Image.AutoSize:= False;
@@ -2876,6 +2910,18 @@ begin
   miStretchOnlyLarge.Checked:= not miStretchOnlyLarge.Checked;
   if miStretchOnlyLarge.Checked then miStretch.Checked:= False;
   UpdateImagePlacement;
+end;
+
+procedure TfrmViewer.cm_ShowTransparency(const Params: array of string);
+begin
+  gImageShowTransparency:= not gImageShowTransparency;
+  actShowTransparency.Checked:= gImageShowTransparency;
+  if actShowTransparency.Checked then
+    Image.OnPaintBackground:= @ImagePaintBackground
+  else begin
+    Image.OnPaintBackground:= nil;
+  end;
+  Image.Repaint;
 end;
 
 procedure TfrmViewer.cm_Save(const Params: array of string);
