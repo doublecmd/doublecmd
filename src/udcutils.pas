@@ -213,6 +213,7 @@ function DarkColor(AColor: TColor; APercent: Byte): TColor;
    @returns(New some lighter color)
 }
 function LightColor(AColor: TColor; APercent: Byte): TColor;
+function ContrastColor(Color: TColor; APercent: Byte): TColor;
 procedure SetColorInColorBox(const lcbColorBox: TColorBox; const lColor: TColor);
 procedure UpdateColor(Control: TControl; Checked: Boolean);
 procedure EnableControl(Control:  TControl; Enabled: Boolean);
@@ -1117,6 +1118,21 @@ begin
   G:= G + MulDiv(255 - G, APercent, 100);
   B:= B + MulDiv(255 - B, APercent, 100);
   Result:= RGBToColor(R, G, B);
+end;
+
+function ContrastColor(Color: TColor; APercent: Byte): TColor;
+var
+  L: Double;
+  R, G, B: Byte;
+begin
+  RedGreenBlue(ColorToRGB(Color), R, G, B);
+  L:= (0.299 * R + 0.587 * G + 0.114 * B) / 255;
+
+  if (L > 0.5) then
+    Result:= DarkColor(Color, APercent)
+  else begin
+    Result:= LightColor(Color, APercent);
+  end;
 end;
 
 procedure SetColorInColorBox(const lcbColorBox: TColorBox; const lColor: TColor);

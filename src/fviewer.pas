@@ -1701,9 +1701,11 @@ const
 var
   X, Y: Integer;
 begin
-  ACanvas.Brush.Color:= RGBToColor(153, 153, 153);
-  ACanvas.FillRect(ARect);
-  ACanvas.Brush.Color:= RGBToColor(102, 102, 102);
+  if gImageBackColor2 = clDefault then
+    ACanvas.Brush.Color:= ContrastColor(sboxImage.Color, 30)
+  else begin
+    ACanvas.Brush.Color:= gImageBackColor2;
+  end;
 
   for Y:= 0 to (ARect.Height div CELL_SIZE) + 1 do
   begin
@@ -1980,6 +1982,7 @@ begin
 
   sboxImage.DoubleBuffered := True;
   miStretch.Checked := gImageStretch;
+  sboxImage.Color := gImageBackColor1;
   miStretchOnlyLarge.Checked := gImageStretchOnlyLarge;
   miCenter.Checked := gImageCenter;
   miPreview.Checked := gPreviewVisible;

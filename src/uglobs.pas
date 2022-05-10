@@ -615,6 +615,8 @@ var
   gCopyMovePath3,
   gCopyMovePath4,
   gCopyMovePath5: String;
+  gImageBackColor1,
+  gImageBackColor2: TColor;
   gImagePaintMode: TViewerPaintTool;
   gImagePaintWidth,
   gColCount,
@@ -2023,6 +2025,8 @@ begin
   gCopyMovePath4 := '';
   gCopyMovePath5 := '';
   gImagePaintMode := vptPen;
+  gImageBackColor1 := clWindow;
+  gImageBackColor2 := clDefault;
   gImagePaintWidth := 5;
   gColCount := 1;
   gTabSpaces := 8;
@@ -3103,6 +3107,8 @@ begin
       gImageStretchOnlyLarge := GetValue(Node, 'ImageStretchLargeOnly', gImageStretchOnlyLarge);
       gImageShowTransparency := GetValue(Node, 'ImageShowTransparency', gImageShowTransparency);
       gImageCenter := GetValue(Node, 'ImageCenter', gImageCenter);
+      gImageBackColor1:= GetValue(Node, 'ImageBackColor1', gImageBackColor1);
+      gImageBackColor2:= GetValue(Node, 'ImageBackColor2', gImageBackColor2);
       gPreviewVisible := GetValue(Node, 'PreviewVisible', gPreviewVisible);
       gCopyMovePath1 := GetValue(Node, 'CopyMovePath1', gCopyMovePath1);
       gCopyMovePath2 := GetValue(Node, 'CopyMovePath2', gCopyMovePath2);
@@ -3727,7 +3733,9 @@ begin
     SetValue(Node, 'ImageExifRotate', gImageExifRotate);
     SetValue(Node, 'ImageStretchLargeOnly', gImageStretchOnlyLarge);
     SetValue(Node, 'ImageShowTransparency', gImageShowTransparency);
-    SetValue(Node, 'ImageCenter',gImageCenter);
+    SetValue(Node, 'ImageCenter', gImageCenter);
+    SetValue(Node, 'ImageBackColor1', gImageBackColor1);
+    SetValue(Node, 'ImageBackColor2', gImageBackColor2);
     SetValue(Node, 'CopyMovePath1', gCopyMovePath1);
     SetValue(Node, 'CopyMovePath2', gCopyMovePath2);
     SetValue(Node, 'CopyMovePath3', gCopyMovePath3);
