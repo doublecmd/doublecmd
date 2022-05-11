@@ -1473,91 +1473,62 @@ procedure DrawTabControl(hTheme: HTHEME; hdc: HDC; iPartId, iStateId: Integer; c
 var
   ARect: TRect;
   AColor: TColor;
-  LCanvas : TCanvas;
-  ALight, ADark: TColor;
+  ALight: TColor;
+  LCanvas: TCanvas;
 begin
   LCanvas:= TCanvas.Create;
   try
     LCanvas.Handle:= hdc;
 
-    ARect:= pRect;
     AColor:= SysColor[COLOR_BTNFACE];
-    ADark:= Darker(AColor, 125);
     ALight:= Lighter(AColor, 160);
 
     case iPartId of
-      TABP_TOPTABITEM:
-      begin
-        // Fill tab inside
-        if (iStateId = TIS_SELECTED) then
-          LCanvas.Brush.Color:= Lighter(AColor, 176)
-        else begin
-          LCanvas.Brush.Color:= Lighter(AColor, 117)
-        end;
-        InflateRect(ARect, -1, -1);
-        LCanvas.FillRect(ARect);
-
-        InflateRect(ARect, 1, 1);
-
-        ExcludeClipRect(hdc, ARect.Left, ARect.Bottom, ARect.Right, ARect.Bottom + 16);
-
-        // Draw tab outer border
-        ARect.Bottom+= 16;
-        LCanvas.Pen.Color:= ADark;
-        LCanvas.RoundRect(ARect, 6, 6);
-
-        // Draw tab inner border
-        InflateRect(ARect, -1, -1);
-        LCanvas.Pen.Color:= ALight;
-        LCanvas.RoundRect(ARect, 6, 6);
-
-        if iStateId = CSTB_SELECTED then
-        begin
-          LCanvas.Line(pRect.Left, pRect.Bottom - 1, pRect.Left + 1, pRect.Bottom - 1);
-          LCanvas.Line(pRect.Right - 2, pRect.Bottom - 1, pRect.Right, pRect.Bottom - 1);
-        end;
-      end;
+      TABP_TOPTABITEM,
       TABP_TOPTABITEMLEFTEDGE,
       TABP_TOPTABITEMRIGHTEDGE:
       begin
+        ARect:= pRect;
         // Fill tab inside
-        if (iStateId = TIS_SELECTED) then
-          LCanvas.Brush.Color:= Lighter(AColor, 176)
+        if (iStateId <> TIS_SELECTED) then
+          LCanvas.Brush.Color:= Lighter(AColor, 117)
         else begin
-          LCanvas.Brush.Color:= Lighter(AColor, 117);
+          Dec(ARect.Bottom);
+          InflateRect(ARect, -1, -1);
+          LCanvas.Brush.Color:= Lighter(AColor, 176);
         end;
-        InflateRect(ARect, -1, -1);
         LCanvas.FillRect(ARect);
-
-        InflateRect(ARect, 1, 1);
-
-        ExcludeClipRect(hdc, ARect.Left, ARect.Bottom, ARect.Right, ARect.Bottom + 16);
-
-        // Draw tab outer border
-        ARect.Bottom+= 16;
-        LCanvas.Pen.Color:=  ADark;
-        LCanvas.RoundRect(ARect, 6, 6);
-
-        // Draw tab inner border
-        InflateRect(ARect, -1, -1);
         LCanvas.Pen.Color:= ALight;
-        LCanvas.RoundRect(ARect, 6, 6);
 
-        if iStateId = CSTB_SELECTED then
+        if iPartId = TABP_TOPTABITEMLEFTEDGE then
         begin
-          LCanvas.Line(pRect.Right - 2, pRect.Bottom-1, pRect.Right, pRect.Bottom-1);
+          // Draw left border
+          LCanvas.Line(pRect.Left, pRect.Top, pRect.Left, pRect.Bottom);
         end;
+
+        if (iStateId <> TIS_SELECTED) then
+        begin
+          // Draw right border
+          LCanvas.Line(pRect.Right - 1, pRect.Top, pRect.Right - 1, pRect.Bottom)
+        end
+        else begin
+          // Draw left border
+          if (iPartId = TABP_TOPTABITEM) then
+          begin
+            LCanvas.Line(pRect.Left, pRect.Top, pRect.Left, pRect.Bottom - 1);
+          end;
+          // Draw right border
+          LCanvas.Line(pRect.Right - 1, pRect.Top, pRect.Right - 1, pRect.Bottom - 1);
+        end;
+        // Draw top border
+        LCanvas.Line(pRect.Left, pRect.Top, pRect.Right, pRect.Top);
       end;
       TABP_PANE:
       begin
+        // Draw tab pane border
         LCanvas.Brush.Color:= AColor;
-        LCanvas.Pen.Color:= ADark;
-        LCanvas.Rectangle(ARect);
-
-        // Draw tab inner border
-        InflateRect(ARect, -1, -1);
         LCanvas.Pen.Color:= ALight;
-        LCanvas.Rectangle(ARect);
+        LCanvas.Rectangle(pRect);
       end;
     end;
   finally
