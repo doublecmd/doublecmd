@@ -1486,12 +1486,19 @@ begin
     case iPartId of
       TABP_TOPTABITEM,
       TABP_TOPTABITEMLEFTEDGE,
+      TABP_TOPTABITEMBOTHEDGE,
       TABP_TOPTABITEMRIGHTEDGE:
       begin
         ARect:= pRect;
         // Fill tab inside
         if (iStateId <> TIS_SELECTED) then
-          LCanvas.Brush.Color:= Lighter(AColor, 117)
+        begin
+          if iStateId <> TIS_HOT then
+            LCanvas.Brush.Color:= Lighter(AColor, 117)
+          else begin
+            LCanvas.Brush.Color:= Lighter(AColor, 200);
+          end;
+        end
         else begin
           Dec(ARect.Bottom);
           InflateRect(ARect, -1, -1);
@@ -1500,7 +1507,7 @@ begin
         LCanvas.FillRect(ARect);
         LCanvas.Pen.Color:= ALight;
 
-        if iPartId = TABP_TOPTABITEMLEFTEDGE then
+        if iPartId in [TABP_TOPTABITEMLEFTEDGE, TABP_TOPTABITEMBOTHEDGE] then
         begin
           // Draw left border
           LCanvas.Line(pRect.Left, pRect.Top, pRect.Left, pRect.Bottom);
