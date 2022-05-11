@@ -197,7 +197,14 @@ function StrChunkCmp(const str1, str2: String; Natural: Boolean; Special: Boolea
 function EstimateRemainingTime(StartValue, CurrentValue, EndValue: Int64;
                                StartTime: TDateTime; CurrentTime: TDateTime;
                                out SpeedPerSecond: Int64): TDateTime;
-
+{en
+   Check color lightness
+   @returns(@true when color is light, @false otherwise)
+}
+function ColorIsLight(AColor: TColor): Boolean;
+{en
+   Modify color levels
+}
 function ModColor(AColor: TColor; APercent: Byte) : TColor;
 {en
    Makes a color some darker
@@ -1087,6 +1094,14 @@ begin
     end;
 end;
 
+function ColorIsLight(AColor: TColor): Boolean;
+var
+  R, G, B: Byte;
+begin
+  RedGreenBlue(ColorToRGB(AColor), R, G, B);
+  Result:= ((0.299 * R + 0.587 * G + 0.114 * B) / 255) > 0.5;
+end;
+
 function ModColor(AColor: TColor; APercent: Byte) : TColor;
 var
   R, G, B : Byte;
@@ -1121,14 +1136,8 @@ begin
 end;
 
 function ContrastColor(Color: TColor; APercent: Byte): TColor;
-var
-  L: Double;
-  R, G, B: Byte;
 begin
-  RedGreenBlue(ColorToRGB(Color), R, G, B);
-  L:= (0.299 * R + 0.587 * G + 0.114 * B) / 255;
-
-  if (L > 0.5) then
+  if ColorIsLight(Color) then
     Result:= DarkColor(Color, APercent)
   else begin
     Result:= LightColor(Color, APercent);

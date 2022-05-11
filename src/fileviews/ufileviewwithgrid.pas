@@ -451,8 +451,15 @@ begin
 
   if AFile.RecentlyUpdatedPct <> 0 then
   begin
-    TextColor := LightColor(TextColor, AFile.RecentlyUpdatedPct);
-    BackgroundColor := LightColor(BackgroundColor, AFile.RecentlyUpdatedPct);
+    if ColorIsLight(BackgroundColor) then
+    begin
+      TextColor := LightColor(TextColor, AFile.RecentlyUpdatedPct);
+      BackgroundColor := LightColor(BackgroundColor, AFile.RecentlyUpdatedPct)
+    end
+    else begin
+      TextColor := DarkColor(TextColor, AFile.RecentlyUpdatedPct);
+      BackgroundColor := DarkColor(BackgroundColor, AFile.RecentlyUpdatedPct);
+    end;
   end;
 
   // Draw background.
