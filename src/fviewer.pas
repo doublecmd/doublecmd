@@ -378,6 +378,7 @@ type
     procedure ExitPluginMode;
     procedure DeleteCurrentFile;
     procedure EnableActions(AEnabled: Boolean);
+    procedure SavingProperties(Sender: TObject);
     procedure SaveImageAs (Var sExt: String; senderSave: boolean; Quality: integer);
     procedure ImagePaintBackground(ASender: TObject; ACanvas: TCanvas; ARect: TRect);
     procedure CreatePreview(FullPathToFile:string; index:integer; delete: boolean = false);
@@ -1319,6 +1320,11 @@ begin
   actDeleteFile.Enabled:= AEnabled and (FileList.Count > 1);
 end;
 
+procedure TfrmViewer.SavingProperties(Sender: TObject);
+begin
+  if miFullScreen.Checked then SessionProperties:= EmptyStr;
+end;
+
 procedure TfrmViewer.CutToImage;
 var
   w,h:integer;
@@ -1953,7 +1959,10 @@ var
   MenuItem: TMenuItem;
 begin
   if not bQuickView then
-    InitPropStorage(Self)
+  begin
+    with InitPropStorage(Self) do
+      OnSavingProperties:= @SavingProperties;
+  end
   else begin
     miImage.Remove(miCenter);
     miImage.Remove(miStretch);
