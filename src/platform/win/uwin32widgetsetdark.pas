@@ -909,7 +909,10 @@ begin
         LCanvas.Handle:= hdc;
         AColor:= SysColor[COLOR_BTNFACE];
 
-        FillGradient(hdc, Lighter(AColor, 124), Lighter(AColor, 116), pRect, GRADIENT_FILL_RECT_V);
+        if iStateId in [HIS_HOT, HIS_SORTEDHOT, HIS_ICONHOT, HIS_ICONSORTEDHOT] then
+          FillGradient(hdc, Lighter(AColor, 174), Lighter(AColor, 166), pRect, GRADIENT_FILL_RECT_V)
+        else
+          FillGradient(hdc, Lighter(AColor, 124), Lighter(AColor, 116), pRect, GRADIENT_FILL_RECT_V);
 
         if (iPartId <> HP_HEADERITEMRIGHT) then
         begin
