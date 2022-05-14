@@ -34,7 +34,9 @@ uses
   uFileViewWorker,
   uOrderedFileView,
   uFileView,
-  uDragDropEx;
+  uDragDropEx,
+  uFileViewNotebook,
+  uDebug;
 
 type
 
@@ -157,6 +159,7 @@ type
     }
     function IsMouseSelecting: Boolean; inline;
     procedure MainControlDblClick(Sender: TObject);
+    procedure DoMainControlFileWork;
     procedure MainControlQuadClick(Sender: TObject);
     procedure MainControlDragDrop(Sender, Source: TObject; X, Y: Integer);
     procedure MainControlDragOver(Sender, Source: TObject; X, Y: Integer; State: TDragState; var Accept: Boolean);
@@ -466,6 +469,27 @@ begin
 end;
 
 procedure TFileViewWithMainCtrl.MainControlDblClick(Sender: TObject);
+{$IFDEF LCLCOCOA}
+// Trigger MouseUp Event if Tab Changed
+var
+  OldTabIndex: Integer;
+  NewTabIndex: Integer;
+begin
+  OldTabIndex := TFileViewPage(NotebookPage).Notebook.ActivePageIndex;
+
+  DoMainControlFileWork();
+
+  NewTabIndex := TFileViewPage(NotebookPage).Notebook.ActivePageIndex;
+  DCDebug( 'TabIndexChanged:'+InttoStr(OldTabIndex)+'-->'+InttoStr(NewTabIndex) );
+  if NewTabIndex<> OldTabIndex then TControl(Sender).Perform(LM_LBUTTONUP,0,0);
+end;
+{$ELSE}
+begin
+  DoMainControlFileWork();
+end;
+{$ENDIF}
+
+procedure TFileViewWithMainCtrl.DoMainControlFileWork;
 var
   Point : TPoint;
   FileIndex : PtrInt;
@@ -990,13 +1014,13 @@ begin
         with FFiles[FileIndex].FSFile do
         begin
           if (IsDirectory or IsLinkToDirectory) then
-            MainControlDblClick(Sender);
+            DoMainControlFileWork();
         end;
       end
     end
     // A single click starts programs and opens files
     else begin
-      MainControlDblClick(Sender);
+      DoMainControlFileWork();
     end;
   end;
 
@@ -1005,7 +1029,7 @@ end;
 
 procedure TFileViewWithMainCtrl.MainControlQuadClick(Sender: TObject);
 begin
-  MainControlDblClick(Sender);
+  DoMainControlFileWork();
 end;
 
 procedure TFileViewWithMainCtrl.MainControlShowHint(Sender: TObject; HintInfo: PHintInfo);
