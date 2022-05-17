@@ -100,7 +100,7 @@ destructor TQuickViewPanel.Destroy;
 begin
   FFileView.OnChangeActiveFile:= nil;
   TFileViewPage(FFileView.NotebookPage).OnChangeFileView:= nil;
-  FViewer.ExitPluginMode;
+  FViewer.ExitQuickView;
   FFileViewPage.FileView.Visible:= True;
   FreeThenNil(FViewer);
   FFileSource:= nil;

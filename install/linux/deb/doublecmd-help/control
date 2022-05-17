@@ -4,7 +4,7 @@ Priority: optional
 Maintainer: Alexander Koblov <Alexx2000@mail.ru>
 Build-Depends: debhelper (>= 7.0.0)
 Standards-Version: 3.8.4
-Homepage: http://doublecmd.sourceforge.net/
+Homepage: https://doublecmd.sourceforge.io/
 
 Package: doublecmd-help-en
 Architecture: all

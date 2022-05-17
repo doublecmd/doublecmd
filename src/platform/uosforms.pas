@@ -132,13 +132,13 @@ uses
   , uWinNetFileSource, uVfsModule, uMyWindows, DCStrUtils
   , uDCReadSVG, uFileSourceUtil, uGdiPlusJPEG, uListGetPreviewBitmap
   , Dialogs, Clipbrd, uDebug, JwaDbt, uThumbnailProvider
-  , uRecycleBinFileSource, uDCReadHEIF
+  , uRecycleBinFileSource, uDCReadHEIF, uDCReadWIC
     {$IFDEF LCLQT5}
     , qt5, qtwidgets, uDarkStyle
     {$ENDIF}
   {$ENDIF}
   {$IFDEF UNIX}
-  , BaseUnix, Errors, fFileProperties, uJpegThumb
+  , BaseUnix, Errors, fFileProperties, uJpegThumb, uOpenDocThumb
     {$IF NOT DEFINED(DARWIN)}
     , uDCReadSVG, uMagickWand, uGio, uGioFileSource, uVfsModule, uVideoThumb
     , uDCReadWebP, uFolderThumb, uAudioThumb, uDefaultTerminal, uDCReadHEIF

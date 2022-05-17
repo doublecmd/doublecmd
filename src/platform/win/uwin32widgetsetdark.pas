@@ -140,6 +140,8 @@ const
   VSCLASS_PROGRESS_INDER = 'Indeterminate::Progress';
 
 const
+  MDL_MENU_SUBMENU     = #$EE#$A5#$B0; // $E970
+
   MDL_RADIO_FILLED     = #$EE#$A8#$BB; // $EA3B
   MDL_RADIO_CHECKED    = #$EE#$A4#$95; // $E915
   MDL_RADIO_OUTLINE    = #$EE#$A8#$BA; // $EA3A
@@ -148,8 +150,6 @@ const
   MDL_CHECKBOX_CHECKED = #$EE#$9C#$BE; // $E73E
   MDL_CHECKBOX_GRAYED  = #$EE#$9C#$BC; // $E73C
   MDL_CHECKBOX_OUTLINE = #$EE#$9C#$B9; // $E739
-
-  MDL_COMBOBOX_BUTTON  = #$EE#$A5#$AE; // $E96E
 
 type
   TThemeClassMap = specialize TDictionary<HTHEME, String>;
@@ -909,7 +909,10 @@ begin
         LCanvas.Handle:= hdc;
         AColor:= SysColor[COLOR_BTNFACE];
 
-        FillGradient(hdc, Lighter(AColor, 124), Lighter(AColor, 116), pRect, GRADIENT_FILL_RECT_V);
+        if iStateId in [HIS_HOT, HIS_SORTEDHOT, HIS_ICONHOT, HIS_ICONSORTEDHOT] then
+          FillGradient(hdc, Lighter(AColor, 174), Lighter(AColor, 166), pRect, GRADIENT_FILL_RECT_V)
+        else
+          FillGradient(hdc, Lighter(AColor, 124), Lighter(AColor, 116), pRect, GRADIENT_FILL_RECT_V);
 
         if (iPartId <> HP_HEADERITEMRIGHT) then
         begin
@@ -987,7 +990,7 @@ begin
           LCanvas.Brush.Style:= bsClear;
           LCanvas.Font.Name:= 'Segoe MDL2 Assets';
           LCanvas.Font.Color:= RGBToColor(111, 111, 111);
-          LCanvas.TextOut(pRect.Left, pRect.Top, UTF8Encode(#$E970));
+          LCanvas.TextOut(pRect.Left, pRect.Top, MDL_MENU_SUBMENU);
         end;
       finally
         LCanvas.Handle:= 0;
@@ -1349,64 +1352,6 @@ var
                                     dwTextFlags, dwTextFlags2: DWORD; const pRect: TRect): HRESULT; stdcall = nil;
   TrampolineDrawThemeBackground: function(hTheme: HTHEME; hdc: HDC; iPartId, iStateId: Integer; const pRect: TRect; pClipRect: Pointer): HRESULT; stdcall =  nil;
 
-procedure DrawEdit(hTheme: HTHEME; hdc: HDC; iPartId, iStateId: Integer; const pRect: TRect;
-  pClipRect: PRECT);
-var
-  ARect: TRect;
-  LCanvas: TCanvas;
-begin
-  LCanvas:= TCanvas.Create;
-  try
-    ARect:= pRect;
-    LCanvas.Handle:= hdc;
-
-    case iPartId of
-      EP_BACKGROUND:
-      begin
-        LCanvas.Brush.Color:= SysColor[COLOR_WINDOW];
-        LCanvas.FillRect(ARect);
-      end;
-      EP_BACKGROUNDWITHBORDER:
-      begin
-        LCanvas.Brush.Color:= SysColor[COLOR_WINDOW];
-        LCanvas.FillRect(ARect);
-
-        if iStateId = ETS_SELECTED then
-          LCanvas.Pen.Color:= RGBToColor(83, 160, 237)
-        else begin
-          LCanvas.Pen.Color:= RGBToColor(38, 38, 38);
-        end;
-        LCanvas.RoundRect(ARect, 4, 4);
-
-        InflateRect(ARect, -1, -1);
-        LCanvas.Pen.Color:= RGBToColor(49, 49, 49);
-        LCanvas.RoundRect(ARect, 4, 4);
-      end;
-      EP_EDITBORDER_NOSCROLL:
-      begin
-        LCanvas.Pen.Color:= SysColor[COLOR_WINDOW];
-        LCanvas.Rectangle(ARect);
-
-        if iStateId = ETS_SELECTED then
-          LCanvas.Pen.Color:= RGBToColor(83, 160, 237)
-        else begin
-          LCanvas.Pen.Color:= RGBToColor(38, 38, 38);
-        end;
-        LCanvas.RoundRect(ARect, 4, 4);
-
-        InflateRect(ARect, -1, -1);
-        LCanvas.Pen.Color:= SysColor[COLOR_WINDOW];
-        LCanvas.Rectangle(ARect);
-
-        LCanvas.Pen.Color:= RGBToColor(49, 49, 49);
-        LCanvas.RoundRect(ARect, 4, 4);
-      end;
-    end;
-  finally
-    LCanvas.Free;
-  end;
-end;
-
 procedure DrawCheckBox(hTheme: HTHEME; hdc: HDC; iPartId, iStateId: Integer; const pRect: TRect;
   pClipRect: PRECT);
 var
@@ -1430,7 +1375,11 @@ begin
     LCanvas.TextRect(pRect, 0, 0, MDL_CHECKBOX_FILLED, AStyle);
 
     // Draw checkbox border
-    LCanvas.Font.Color:= RGBToColor(192, 192, 192);
+    if iStateId in [CBS_UNCHECKEDHOT, CBS_MIXEDHOT, CBS_CHECKEDHOT] then
+      LCanvas.Font.Color:= SysColor[COLOR_HIGHLIGHT]
+    else begin
+      LCanvas.Font.Color:= RGBToColor(192, 192, 192);
+    end;
     LCanvas.TextRect(pRect, 0, 0, MDL_CHECKBOX_OUTLINE, AStyle);
 
     // Draw checkbox state
@@ -1485,6 +1434,8 @@ begin
     // Set outline circle color
     if iStateId in [RBS_UNCHECKEDPRESSED, RBS_CHECKEDPRESSED] then
       LCanvas.Font.Color:= RGBToColor(83, 160, 237)
+    else if iStateId in [RBS_UNCHECKEDHOT, RBS_CHECKEDHOT] then
+      LCanvas.Font.Color:= SysColor[COLOR_HIGHLIGHT]
     else begin
       LCanvas.Font.Color:= RGBToColor(192, 192, 192);
     end;
@@ -1526,166 +1477,79 @@ begin
   end;
 end;
 
-procedure DrawComboBox(hTheme: HTHEME; hdc: HDC; iPartId, iStateId: Integer; const pRect: TRect;
-  pClipRect: PRECT);
-var
-  ARect: TRect;
-  LCanvas: TCanvas;
-  AStyle: TTextStyle;
-begin
-  LCanvas:= TCanvas.Create;
-  try
-    LCanvas.Handle:= hdc;
-
-    case iPartId of
-      CP_BORDER:
-      begin
-        ARect:= pRect;
-        LCanvas.Brush.Color:= SysColor[COLOR_WINDOW];
-        LCanvas.FillRect(ARect);
-
-        if iStateId = CBXS_PRESSED then
-          LCanvas.Pen.Color:= RGBToColor(83, 160, 237)
-        else begin
-          LCanvas.Pen.Color:= RGBToColor(38, 38, 38);
-        end;
-        LCanvas.RoundRect(ARect, 4, 4);
-
-        InflateRect(ARect, -1, -1);
-        LCanvas.Pen.Color:= SysColor[COLOR_WINDOW];
-        LCanvas.Rectangle(ARect);
-
-        LCanvas.Pen.Color:= RGBToColor(49, 49, 49);
-        LCanvas.RoundRect(ARect, 4, 4);
-      end;
-      CP_DROPDOWNBUTTON,
-      CP_DROPDOWNBUTTONLEFT,
-      CP_DROPDOWNBUTTONRIGHT:
-      begin
-        AStyle:= LCanvas.TextStyle;
-        AStyle.Layout:= tlCenter;
-        AStyle.Alignment:= taCenter;
-
-        LCanvas.Font.Name:= 'Segoe MDL2 Assets';
-        LCanvas.Font.Color:= RGBToColor(100, 100, 100);
-        LCanvas.TextRect(pRect, 0, 0, MDL_COMBOBOX_BUTTON, AStyle);
-      end;
-    end;
-  finally
-    LCanvas.Handle:= 0;
-    LCanvas.Free;
-  end;
-end;
-
 procedure DrawTabControl(hTheme: HTHEME; hdc: HDC; iPartId, iStateId: Integer; const pRect: TRect;
   pClipRect: PRECT);
 var
   ARect: TRect;
   AColor: TColor;
-  LCanvas : TCanvas;
-  ALight, ADark: TColor;
+  ALight: TColor;
+  LCanvas: TCanvas;
 begin
   LCanvas:= TCanvas.Create;
   try
     LCanvas.Handle:= hdc;
 
-    ARect:= pRect;
     AColor:= SysColor[COLOR_BTNFACE];
-    ADark:= Darker(AColor, 125);
     ALight:= Lighter(AColor, 160);
 
     case iPartId of
-      TABP_TOPTABITEM:
-      begin
-        // Fill tab inside
-        if (iStateId = TIS_SELECTED) then
-          LCanvas.Brush.Color:= Lighter(AColor, 176)
-        else begin
-          LCanvas.Brush.Color:= Lighter(AColor, 117)
-        end;
-        InflateRect(ARect, -1, -1);
-        LCanvas.FillRect(ARect);
-
-        InflateRect(ARect, 1, 1);
-
-        ExcludeClipRect(hdc, ARect.Left, ARect.Bottom, ARect.Right, ARect.Bottom + 16);
-
-        // Draw tab outer border
-        ARect.Bottom+= 16;
-        LCanvas.Pen.Color:= ADark;
-        LCanvas.RoundRect(ARect, 6, 6);
-
-        // Draw tab inner border
-        InflateRect(ARect, -1, -1);
-        LCanvas.Pen.Color:= ALight;
-        LCanvas.RoundRect(ARect, 6, 6);
-
-        if iStateId = CSTB_SELECTED then
-        begin
-          LCanvas.Line(pRect.Left, pRect.Bottom - 1, pRect.Left + 1, pRect.Bottom - 1);
-          LCanvas.Line(pRect.Right - 2, pRect.Bottom - 1, pRect.Right, pRect.Bottom - 1);
-        end;
-      end;
+      TABP_TOPTABITEM,
       TABP_TOPTABITEMLEFTEDGE,
+      TABP_TOPTABITEMBOTHEDGE,
       TABP_TOPTABITEMRIGHTEDGE:
       begin
+        ARect:= pRect;
         // Fill tab inside
-        if (iStateId = TIS_SELECTED) then
-          LCanvas.Brush.Color:= Lighter(AColor, 176)
-        else begin
-          LCanvas.Brush.Color:= Lighter(AColor, 117);
-        end;
-        InflateRect(ARect, -1, -1);
-        LCanvas.FillRect(ARect);
-
-        InflateRect(ARect, 1, 1);
-
-        ExcludeClipRect(hdc, ARect.Left, ARect.Bottom, ARect.Right, ARect.Bottom + 16);
-
-        // Draw tab outer border
-        ARect.Bottom+= 16;
-        LCanvas.Pen.Color:=  ADark;
-        LCanvas.RoundRect(ARect, 6, 6);
-
-        // Draw tab inner border
-        InflateRect(ARect, -1, -1);
-        LCanvas.Pen.Color:= ALight;
-        LCanvas.RoundRect(ARect, 6, 6);
-
-        if iStateId = CSTB_SELECTED then
+        if (iStateId <> TIS_SELECTED) then
         begin
-          LCanvas.Line(pRect.Right - 2, pRect.Bottom-1, pRect.Right, pRect.Bottom-1);
+          if iStateId <> TIS_HOT then
+            LCanvas.Brush.Color:= Lighter(AColor, 117)
+          else begin
+            LCanvas.Brush.Color:= Lighter(AColor, 200);
+          end;
+        end
+        else begin
+          Dec(ARect.Bottom);
+          InflateRect(ARect, -1, -1);
+          LCanvas.Brush.Color:= Lighter(AColor, 176);
         end;
+        LCanvas.FillRect(ARect);
+        LCanvas.Pen.Color:= ALight;
+
+        if iPartId in [TABP_TOPTABITEMLEFTEDGE, TABP_TOPTABITEMBOTHEDGE] then
+        begin
+          // Draw left border
+          LCanvas.Line(pRect.Left, pRect.Top, pRect.Left, pRect.Bottom);
+        end;
+
+        if (iStateId <> TIS_SELECTED) then
+        begin
+          // Draw right border
+          LCanvas.Line(pRect.Right - 1, pRect.Top, pRect.Right - 1, pRect.Bottom)
+        end
+        else begin
+          // Draw left border
+          if (iPartId = TABP_TOPTABITEM) then
+          begin
+            LCanvas.Line(pRect.Left, pRect.Top, pRect.Left, pRect.Bottom - 1);
+          end;
+          // Draw right border
+          LCanvas.Line(pRect.Right - 1, pRect.Top, pRect.Right - 1, pRect.Bottom - 1);
+        end;
+        // Draw top border
+        LCanvas.Line(pRect.Left, pRect.Top, pRect.Right, pRect.Top);
       end;
       TABP_PANE:
       begin
+        // Draw tab pane border
         LCanvas.Brush.Color:= AColor;
-        LCanvas.Pen.Color:= ADark;
-        LCanvas.Rectangle(ARect);
-
-        // Draw tab inner border
-        InflateRect(ARect, -1, -1);
         LCanvas.Pen.Color:= ALight;
-        LCanvas.Rectangle(ARect);
+        LCanvas.Rectangle(pRect);
       end;
     end;
   finally
     LCanvas.Handle:= 0;
     LCanvas.Free;
-  end;
-end;
-
-procedure DrawTrackBar(hTheme: HTHEME; hdc: HDC; iPartId, iStateId: Integer; const pRect: TRect;
-  pClipRect: PRECT);
-begin
-  if iPartId <> TKP_TRACK then
-    TrampolineDrawThemeBackground(hTheme, hdc, iPartId, iStateId, pRect, pClipRect)
-  else begin
-    SelectObject(hdc, GetStockObject(DC_PEN));
-    SetDCPenColor(hdc, SysColor[COLOR_BTNSHADOW]);
-    SelectObject(hdc, GetStockObject(DC_BRUSH));
-    SetDCBrushColor(hdc, SysColor[COLOR_BTNFACE]);
-    with pRect do RoundRect(hdc, Left, Top, Right, Bottom, 6, 6);
   end;
 end;
 
@@ -1811,26 +1675,10 @@ begin
       begin
         DrawButton(hTheme, hdc, iPartId, iStateId, pRect, pClipRect);
       end
-      {
-      else if SameText(ClassName, VSCLASS_DARK_EDIT) then
-      begin
-        DrawEdit(hTheme, hdc, iPartId, iStateId, pRect, pClipRect);
-      end
-      else if SameText(ClassName, VSCLASS_DARK_COMBOBOX) then
-      begin
-        DrawComboBox(hTheme, hdc, iPartId, iStateId, pRect, pClipRect);
-      end
-      }
       else if SameText(ClassName, VSCLASS_DARK_TAB) then
       begin
         DrawTabControl(hTheme, hdc, iPartId, iStateId, pRect, pClipRect);
       end
-      {
-      else if SameText(AItem.ClassName, VSCLASS_TRACKBAR) then
-      begin
-        DrawTrackBar(hTheme, hdc, iPartId, iStateId, pRect, pClipRect);
-      end
-      }
       else if SameText(ClassName, VSCLASS_PROGRESS) or SameText(ClassName, VSCLASS_PROGRESS_INDER) then
       begin
         DrawProgressBar(hTheme, hdc, iPartId, iStateId, pRect, pClipRect);

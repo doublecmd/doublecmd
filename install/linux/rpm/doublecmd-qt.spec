@@ -2,7 +2,7 @@ Name:		doublecmd-qt
 Summary:	Twin-panel (commander-style) file manager (Qt4)
 Version:	1.1.0
 Release:	1
-URL:		http://doublecmd.sourceforge.net
+URL:		https://doublecmd.sourceforge.io
 Source0:	doublecmd_%{version}.orig.tar.gz
 License:	GPL
 Group:		Applications/File

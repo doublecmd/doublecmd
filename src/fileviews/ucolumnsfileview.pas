@@ -301,8 +301,11 @@ begin
   ANode := AConfig.FindNode(ANode, 'ColumnsView', True);
   AConfig.ClearNode(ANode);
 
-  if (FileSource.FileSystem = FS_GENERAL) then
-    AConfig.SetValue(ANode, 'ColumnsSet', ActiveColm);
+  with FileSource do
+  begin
+    if (FileSystem = EmptyStr) or (FileSystem = FS_GENERAL) then
+      AConfig.SetValue(ANode, 'ColumnsSet', ActiveColm);
+  end;
 end;
 
 procedure TColumnsFileView.dgPanelHeaderClick(Sender: TObject;
@@ -1586,8 +1589,15 @@ var
 
     if AFile.RecentlyUpdatedPct <> 0 then
     begin
-      TextColor := LightColor(TextColor, AFile.RecentlyUpdatedPct);
-      BackgroundColor := LightColor(BackgroundColor, AFile.RecentlyUpdatedPct);
+      if ColorIsLight(BackgroundColor) then
+      begin
+        TextColor := LightColor(TextColor, AFile.RecentlyUpdatedPct);
+        BackgroundColor := LightColor(BackgroundColor, AFile.RecentlyUpdatedPct)
+      end
+      else begin
+        TextColor := DarkColor(TextColor, AFile.RecentlyUpdatedPct);
+        BackgroundColor := DarkColor(BackgroundColor, AFile.RecentlyUpdatedPct);
+      end;
     end;
 
     // Draw background.

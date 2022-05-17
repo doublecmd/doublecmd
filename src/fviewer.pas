@@ -92,6 +92,7 @@ type
     actCopyToClipboardFormatted: TAction;
     actChangeEncoding: TAction;
     actAutoReload: TAction;
+    actShowTransparency: TAction;
     actWrapText: TAction;
     actShowCaret: TAction;
     actPrint: TAction;
@@ -141,6 +142,7 @@ type
     DrawPreview: TDrawGrid;
     GifAnim: TGifAnim;
     memFolder: TMemo;
+    miShowTransparency: TMenuItem;
     miWrapText: TMenuItem;
     miPen: TMenuItem;
     miRect: TMenuItem;
@@ -340,7 +342,7 @@ type
     FModSizeDialog: TfrmModView;
     FThumbnailManager: TThumbnailManager;
     FCommands: TFormCommands;
-    FZoomFactor: Double;
+    FZoomFactor: Integer;
     FExif: TExifReader;
     FWindowState: TWindowState;
 {$IF DEFINED(LCLWIN32)}
@@ -373,9 +375,12 @@ type
     procedure CutToImage;
     procedure Res(W, H: integer);
     procedure RedEyes;
+    procedure ExitPluginMode;
     procedure DeleteCurrentFile;
     procedure EnableActions(AEnabled: Boolean);
+    procedure SavingProperties(Sender: TObject);
     procedure SaveImageAs (Var sExt: String; senderSave: boolean; Quality: integer);
+    procedure ImagePaintBackground(ASender: TObject; ACanvas: TCanvas; ARect: TRect);
     procedure CreatePreview(FullPathToFile:string; index:integer; delete: boolean = false);
 
     property Commands: TFormCommands read FCommands implements IFormCommands;
@@ -396,7 +401,7 @@ type
     procedure LoadNextFile(Index: Integer);
     procedure LoadNextFile(const aFileName: String);
 
-    procedure ExitPluginMode;
+    procedure ExitQuickView;
 
     procedure ShowTextViewer(AMode: TViewerControlMode);
     procedure CopyMoveFile(AViewerAction:TViewerCopyMoveAction);
@@ -415,6 +420,7 @@ type
     procedure cm_DeleteFile(const Params: array of string);
     procedure cm_StretchImage(const Params: array of string);
     procedure cm_StretchOnlyLarge(const Params: array of string);
+    procedure cm_ShowTransparency(const Params: array of string);
     procedure cm_Save(const Params:array of string);
     procedure cm_SaveAs(const Params: array of string);
     procedure cm_Rotate90(const Params: array of string);
@@ -625,7 +631,7 @@ begin
   inherited Create(TheOwner);
   FWaitData := aWaitData;
   FLastSearchPos := -1;
-  FZoomFactor := 1.0;
+  FZoomFactor := 100;
   ActivePlugin := -1;
   FThumbnailManager:= nil;
   FExif:= TExifReader.Create;
@@ -1314,6 +1320,11 @@ begin
   actDeleteFile.Enabled:= AEnabled and (FileList.Count > 1);
 end;
 
+procedure TfrmViewer.SavingProperties(Sender: TObject);
+begin
+  if miFullScreen.Checked then SessionProperties:= EmptyStr;
+end;
+
 procedure TfrmViewer.CutToImage;
 var
   w,h:integer;
@@ -1454,6 +1465,15 @@ begin
   FWlxModule:= nil;
   ActivePlugin:= -1;
   actPrint.Enabled:= False;
+end;
+
+procedure TfrmViewer.ExitQuickView;
+begin
+  ExitPluginMode;
+
+  gImageStretch:= miStretch.Checked;
+  gImageStretchOnlyLarge:= miStretchOnlyLarge.Checked;
+  gImageCenter:= miCenter.Checked;
 end;
 
 procedure TfrmViewer.ShowTextViewer(AMode: TViewerControlMode);
@@ -1680,6 +1700,31 @@ begin
   end;
 end;
 
+procedure TfrmViewer.ImagePaintBackground(ASender: TObject; ACanvas: TCanvas;
+  ARect: TRect);
+const
+  CELL_SIZE = 8;
+var
+  X, Y: Integer;
+begin
+  if gImageBackColor2 = clDefault then
+    ACanvas.Brush.Color:= ContrastColor(sboxImage.Color, 30)
+  else begin
+    ACanvas.Brush.Color:= gImageBackColor2;
+  end;
+
+  for Y:= 0 to (ARect.Height div CELL_SIZE) + 1 do
+  begin
+    for X:= 0 to (ARect.Width div CELL_SIZE) + 1 do
+    begin
+      if Odd(X) <> Odd(Y) then
+      begin
+        ACanvas.FillRect(X * CELL_SIZE, Y * CELL_SIZE, (X + 1) * CELL_SIZE, (Y + 1) * CELL_SIZE);
+      end;
+    end;
+  end;
+end;
+
 procedure TfrmViewer.pnlImageResize(Sender: TObject);
 begin
   if bImage then AdjustImageSize;
@@ -1865,6 +1910,7 @@ begin
   CloseAction:=caFree;
   gImageStretch:= miStretch.Checked;
   gImageStretchOnlyLarge:= miStretchOnlyLarge.Checked;
+  gImageShowTransparency:= actShowTransparency.Checked;
   gImageCenter:= miCenter.Checked;
   gPreviewVisible := miPreview.Checked;
   gImagePaintMode := TViewerPaintTool(btnPenMode.Tag);
@@ -1912,7 +1958,20 @@ var
   HMViewer: THMForm;
   MenuItem: TMenuItem;
 begin
-  if not bQuickView then InitPropStorage(Self);
+  if not bQuickView then
+  begin
+    with InitPropStorage(Self) do
+      OnSavingProperties:= @SavingProperties;
+  end
+  else begin
+    miImage.Remove(miCenter);
+    miImage.Remove(miStretch);
+    miImage.Remove(miStretchOnlyLarge);
+    pmEditMenu.Items.Add(miStretch);
+    pmEditMenu.Items.Add(miStretchOnlyLarge);
+    pmEditMenu.Items.Add(miCenter);
+  end;
+
   HMViewer := HotMan.Register(Self, HotkeysCategory);
   HMViewer.RegisterActionList(actionList);
 
@@ -1932,12 +1991,19 @@ begin
 
   sboxImage.DoubleBuffered := True;
   miStretch.Checked := gImageStretch;
+  sboxImage.Color := gImageBackColor1;
   miStretchOnlyLarge.Checked := gImageStretchOnlyLarge;
   miCenter.Checked := gImageCenter;
   miPreview.Checked := gPreviewVisible;
   btnPenMode.Tag := Integer(gImagePaintMode);
   btnPenWidth.Tag := gImagePaintWidth;
   btnPenColor.ButtonColor := gImagePaintColor;
+
+  if gImageShowTransparency then
+  begin
+    Image.OnPaintBackground:= @ImagePaintBackground;
+    actShowTransparency.Checked := gImageShowTransparency;
+  end;
 
   Image.Stretch:= True;
   Image.AutoSize:= False;
@@ -2258,10 +2324,10 @@ begin
   if (Image.Picture = nil) then Exit;
   if (Image.Picture.Width = 0) or (Image.Picture.Height = 0) then Exit;
 
-  dScaleFactor:= FZoomFactor;
+  dScaleFactor:= FZoomFactor / 100;
 
   // Place and resize image
-  if (miStretch.Checked or miStretchOnlyLarge.Checked) then
+  if (FZoomFactor = 100) and (miStretch.Checked or miStretchOnlyLarge.Checked) then
   begin
     dScaleFactor:= Min(sboxImage.ClientWidth / Image.Picture.Width ,sboxImage.ClientHeight / Image.Picture.Height);
     dScaleFactor:= IfThen((miStretchOnlyLarge.Checked) and (dScaleFactor > 1.0), 1.0, dScaleFactor);
@@ -2348,7 +2414,7 @@ var
   gifHeader: array[0..5] of AnsiChar;
 begin
   Result:= True;
-  FZoomFactor:= 1.0;
+  FZoomFactor:= 100;
   sExt:= ExtractOnlyFileExt(sFilename);
   if SameText(sExt, 'gif') then
   begin
@@ -2760,6 +2826,13 @@ begin
   miSave.Visible       := bImage;
   miSaveAs.Visible     := bImage;
 
+  if bQuickView then
+  begin
+    miCenter.Visible := bImage;
+    miStretch.Visible := bImage;
+    miStretchOnlyLarge.Visible := bImage;
+  end;
+
   actShowCaret.Enabled := (Panel = pnlText);
   actWrapText.Enabled  := bPlugin or ((Panel = pnlText) and (ViewerControl.Mode in [vcmText, vcmWrap]));
 
@@ -2838,7 +2911,7 @@ begin
   miStretch.Checked:= not miStretch.Checked;
   if miStretch.Checked then
   begin
-    FZoomFactor:= 1.0;
+    FZoomFactor:= 100;
     miStretchOnlyLarge.Checked:= False
   end;
   UpdateImagePlacement;
@@ -2849,6 +2922,18 @@ begin
   miStretchOnlyLarge.Checked:= not miStretchOnlyLarge.Checked;
   if miStretchOnlyLarge.Checked then miStretch.Checked:= False;
   UpdateImagePlacement;
+end;
+
+procedure TfrmViewer.cm_ShowTransparency(const Params: array of string);
+begin
+  gImageShowTransparency:= not gImageShowTransparency;
+  actShowTransparency.Checked:= gImageShowTransparency;
+  if actShowTransparency.Checked then
+    Image.OnPaintBackground:= @ImagePaintBackground
+  else begin
+    Image.OnPaintBackground:= nil;
+  end;
+  Image.Repaint;
 end;
 
 procedure TfrmViewer.cm_Save(const Params: array of string);
@@ -2925,17 +3010,14 @@ end;
 
 procedure TfrmViewer.cm_Zoom(const Params: array of string);
 var
-  k:double;
+  K: Double;
 begin
   try
-    k:=StrToFloat(Params[0]);
+    K:= StrToFloat(Params[0]);
   except
-    exit;
+    Exit;
   end;
-
-  miStretch.Checked := False;
-  miStretchOnlyLarge.Checked:= False;
-  FZoomFactor := FZoomFactor * k;
+  FZoomFactor := Round(FZoomFactor * K);
   AdjustImageSize;
 end;
 
@@ -2949,7 +3031,6 @@ begin
     ViewerControl.Font.Size:=gFonts[dcfViewer].Size;
     ViewerControl.Repaint;
   end;
-
 end;
 
 procedure TfrmViewer.cm_ZoomOut(const Params: array of string);

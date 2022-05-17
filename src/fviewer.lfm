@@ -1388,6 +1388,9 @@ object frmViewer: TfrmViewer
       object miCenter: TMenuItem
         Action = actImageCenter
       end
+      object miShowTransparency: TMenuItem
+        Action = actShowTransparency
+      end
       object miRotate: TMenuItem
         Caption = 'Rotate'
         object mi90: TMenuItem
@@ -1735,6 +1738,11 @@ object frmViewer: TfrmViewer
     object actWrapText: TAction
       Category = 'View'
       Caption = '&Wrap text'
+      OnExecute = actExecute
+    end
+    object actShowTransparency: TAction
+      Category = 'Image'
+      Caption = 'Show transparenc&y'
       OnExecute = actExecute
     end
   end

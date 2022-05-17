@@ -172,7 +172,7 @@ type
 
 const
   { Default hotkey list version number }
-  hkVersion = 55;
+  hkVersion = 56;
   // 54 - In "Viewer" context, added the "W" for "cm_WrapText", "4" for "cm_ShowAsDec", "8" for "cm_ShowOffice".
   // 53 - In "Main" context, change shortcut "Alt+`" to "Alt+0" for the "cm_ActivateTabByIndex".
   // 52 - In "Main" context, add shortcut "Ctrl+Shift+B" for "cm_FlatViewSel".
@@ -608,12 +608,15 @@ var
   gImageStretch: Boolean;
   gImageExifRotate: Boolean;
   gImageStretchOnlyLarge: Boolean;
+  gImageShowTransparency: Boolean;
   gImageCenter: Boolean;
   gCopyMovePath1,
   gCopyMovePath2,
   gCopyMovePath3,
   gCopyMovePath4,
   gCopyMovePath5: String;
+  gImageBackColor1,
+  gImageBackColor2: TColor;
   gImagePaintMode: TViewerPaintTool;
   gImagePaintWidth,
   gColCount,
@@ -1184,6 +1187,13 @@ begin
           Remove(HMHotKey);
       end;
 
+      if HotMan.Version < 56 then
+      begin
+        HMHotKey:= FindByCommand('cm_Find');
+        if Assigned(HMHotKey) and HMHotKey.SameShortcuts(['F']) then
+          Remove(HMHotKey);
+      end;
+
       AddIfNotExists(['1'],[],'cm_ShowAsText');
       AddIfNotExists(['2'],[],'cm_ShowAsBin');
       AddIfNotExists(['3'],[],'cm_ShowAsHex');
@@ -1193,16 +1203,17 @@ begin
       AddIfNotExists(['7'],[],'cm_ShowPlugins');
       AddIfNotExists(['8'],[],'cm_ShowOffice');
 
+      AddIfNotExists(['C'],[],'cm_ImageCenter');
+      AddIfNotExists(['F'],[],'cm_StretchImage');
+      AddIfNotExists(['L'],[],'cm_StretchOnlyLarge');
       AddIfNotExists(['W'],[],'cm_WrapText');
       AddIfNotExists(['F6'],[],'cm_ShowCaret');
 
       AddIfNotExists(['Q'   ,'','',
                       'Esc','',''],'cm_ExitViewer');
 
-
-      AddIfNotExists(['F'             ,'','',
-                      SmkcSuper + 'F' ,'','',
-                      'F7'            ,'',''],'cm_Find'); // , ['F'], []);
+      AddIfNotExists([SmkcSuper + 'F' ,'','',
+                      'F7'            ,'',''],'cm_Find');
 
       AddIfNotExists(['F3'],[],'cm_FindNext');
       AddIfNotExists(['Shift+F3'],[],'cm_FindPrev');
@@ -2004,7 +2015,8 @@ begin
   {Viewer}
   gImageStretch := False;
   gImageExifRotate := True;
-  gImageStretchOnlyLarge := False;
+  gImageStretchOnlyLarge := True;
+  gImageShowTransparency := False;
   gImageCenter := True;
   gPreviewVisible := False;
   gCopyMovePath1 := '';
@@ -2013,6 +2025,8 @@ begin
   gCopyMovePath4 := '';
   gCopyMovePath5 := '';
   gImagePaintMode := vptPen;
+  gImageBackColor1 := clWindow;
+  gImageBackColor2 := clDefault;
   gImagePaintWidth := 5;
   gColCount := 1;
   gTabSpaces := 8;
@@ -3091,7 +3105,10 @@ begin
       gImageStretch := GetValue(Node, 'ImageStretch', gImageStretch);
       gImageExifRotate := GetValue(Node, 'ImageExifRotate', gImageExifRotate);
       gImageStretchOnlyLarge := GetValue(Node, 'ImageStretchLargeOnly', gImageStretchOnlyLarge);
+      gImageShowTransparency := GetValue(Node, 'ImageShowTransparency', gImageShowTransparency);
       gImageCenter := GetValue(Node, 'ImageCenter', gImageCenter);
+      gImageBackColor1:= GetValue(Node, 'ImageBackColor1', gImageBackColor1);
+      gImageBackColor2:= GetValue(Node, 'ImageBackColor2', gImageBackColor2);
       gPreviewVisible := GetValue(Node, 'PreviewVisible', gPreviewVisible);
       gCopyMovePath1 := GetValue(Node, 'CopyMovePath1', gCopyMovePath1);
       gCopyMovePath2 := GetValue(Node, 'CopyMovePath2', gCopyMovePath2);
@@ -3714,8 +3731,11 @@ begin
     SetValue(Node, 'PreviewVisible',gPreviewVisible);
     SetValue(Node, 'ImageStretch',gImageStretch);
     SetValue(Node, 'ImageExifRotate', gImageExifRotate);
-    SetValue(Node, 'ImageStretchLargeOnly',gImageStretchOnlyLarge);
-    SetValue(Node, 'ImageCenter',gImageCenter);
+    SetValue(Node, 'ImageStretchLargeOnly', gImageStretchOnlyLarge);
+    SetValue(Node, 'ImageShowTransparency', gImageShowTransparency);
+    SetValue(Node, 'ImageCenter', gImageCenter);
+    SetValue(Node, 'ImageBackColor1', gImageBackColor1);
+    SetValue(Node, 'ImageBackColor2', gImageBackColor2);
     SetValue(Node, 'CopyMovePath1', gCopyMovePath1);
     SetValue(Node, 'CopyMovePath2', gCopyMovePath2);
     SetValue(Node, 'CopyMovePath3', gCopyMovePath3);
