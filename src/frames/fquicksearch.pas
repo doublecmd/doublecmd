@@ -254,8 +254,7 @@ begin
   if not edtSearch.Focused then
   begin
     edtSearch.SetFocus;
-    if Char = #0 then
-      edtSearch.SelectAll;
+    edtSearch.SelectAll;
   end;
 
   if Char <> #0 then
