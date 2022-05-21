@@ -4210,6 +4210,10 @@ msgstr "カラム数を固定"
 msgid "Fixed columns width"
 msgstr "カラムの幅を固定"
 
+#: tfrmoptionscolors.rgdarkmode.caption
+msgid "Dark mode"
+msgstr ""
+
 #: tfrmoptionscolumnsview.cbcuttexttocolwidth.caption
 msgid "Cut &text to column width"
 msgstr "カラムの幅で文字列を切断(&t)"
@@ -7458,11 +7462,6 @@ msgctxt "tfrmoptionsterminal.edrunintermstayopenparams.hint"
 msgid "{command} should normally be present here to reflect the command to be run in terminal"
 msgstr "端末中で実行されるコマンドを反映するため,通常 {command} がこの位置になくてはなりません"
 
-#: tfrmoptionsterminal.edruntermparams.hint
-msgctxt "tfrmoptionsterminal.edruntermparams.hint"
-msgid "{command} should normally be present here to reflect the command to be run in terminal"
-msgstr "端末中で実行されるコマンドを反映するため,通常 {command} がこの位置になくてはなりません"
-
 #: tfrmoptionsterminal.gbjustrunterminal.caption
 msgid "Command for just running terminal:"
 msgstr "端末を実行するだけのコマンド："
@@ -9641,6 +9640,10 @@ msgstr ""
 msgctxt "tfrmviewer.actshowplugins.caption"
 msgid "Plugins"
 msgstr "プラグイン"
+
+#: tfrmviewer.actshowtransparency.caption
+msgid "Show transparenc&y"
+msgstr ""
 
 #: tfrmviewer.actstretchimage.caption
 msgctxt "TFRMVIEWER.ACTSTRETCHIMAGE.CAPTION"

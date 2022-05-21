@@ -4197,6 +4197,10 @@ msgstr "Rögzített oszlop számozással"
 msgid "Fixed columns width"
 msgstr "Rögzített oszlop hosszúsággal"
 
+#: tfrmoptionscolors.rgdarkmode.caption
+msgid "Dark mode"
+msgstr ""
+
 #: tfrmoptionscolumnsview.cbcuttexttocolwidth.caption
 msgctxt "TFRMOPTIONSCOLUMNSVIEW.CBCUTTEXTTOCOLWIDTH.CAPTION"
 msgid "Cut &text to column width"
@@ -7478,11 +7482,6 @@ msgctxt "tfrmoptionsterminal.edrunintermstayopenparams.hint"
 msgid "{command} should normally be present here to reflect the command to be run in terminal"
 msgstr "A \"{command}\" kifejezésnek általában itt kell lennie, hogy a terminálban futtatandó parancs ténylegesen átadásra kerüljön"
 
-#: tfrmoptionsterminal.edruntermparams.hint
-msgctxt "tfrmoptionsterminal.edruntermparams.hint"
-msgid "{command} should normally be present here to reflect the command to be run in terminal"
-msgstr "A \"{command}\" kifejezésnek általában itt kell lennie, hogy a terminálban futtatandó parancs ténylegesen átadásra kerüljön"
-
 #: tfrmoptionsterminal.gbjustrunterminal.caption
 msgid "Command for just running terminal:"
 msgstr "A terminál alkalmazás indításához szükséges parancs:"
@@ -9681,6 +9680,10 @@ msgstr "Office XML (csak szöveg)"
 msgctxt "tfrmviewer.actshowplugins.caption"
 msgid "Plugins"
 msgstr "Beépülők"
+
+#: tfrmviewer.actshowtransparency.caption
+msgid "Show transparenc&y"
+msgstr ""
 
 #: tfrmviewer.actstretchimage.caption
 msgctxt "TFRMVIEWER.ACTSTRETCHIMAGE.CAPTION"
@@ -14067,3 +14070,4 @@ msgstr "Nem történt csere."
 #: umaincommands.rsfavoritetabs_setupnotexist
 msgid "No setup named \"%s\""
 msgstr "Nincs \"%s\" nevű beállítás"
+

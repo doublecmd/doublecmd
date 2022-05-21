@@ -4214,6 +4214,10 @@ msgstr "Σταθερή Άθροιση Στηλών"
 msgid "Fixed columns width"
 msgstr "Σταθερό Πλάτος Στηλών"
 
+#: tfrmoptionscolors.rgdarkmode.caption
+msgid "Dark mode"
+msgstr ""
+
 #: tfrmoptionscolumnsview.cbcuttexttocolwidth.caption
 msgid "Cut &text to column width"
 msgstr "Αποκοπή κειμένου στο πλάτος της στήλης"
@@ -7459,11 +7463,6 @@ msgctxt "tfrmoptionsterminal.edrunintermstayopenparams.hint"
 msgid "{command} should normally be present here to reflect the command to be run in terminal"
 msgstr "{command} θα έπρεπε να είναι παρούσα εδώ για να προσδιορίσει την εντολή που θα εκτελεστεί στο τερματικό"
 
-#: tfrmoptionsterminal.edruntermparams.hint
-msgctxt "tfrmoptionsterminal.edruntermparams.hint"
-msgid "{command} should normally be present here to reflect the command to be run in terminal"
-msgstr "{command} θα έπρεπε να είναι παρούσα εδώ για να προσδιορίσει την εντολή που θα εκτελεστεί στο τερματικό"
-
 #: tfrmoptionsterminal.gbjustrunterminal.caption
 msgid "Command for just running terminal:"
 msgstr "Εντολή για εκτέλεση μόνο του τερματικού:"
@@ -9647,6 +9646,10 @@ msgstr ""
 msgctxt "tfrmviewer.actshowplugins.caption"
 msgid "Plugins"
 msgstr "Πρόσθετα"
+
+#: tfrmviewer.actshowtransparency.caption
+msgid "Show transparenc&y"
+msgstr ""
 
 #: tfrmviewer.actstretchimage.caption
 msgctxt "TFRMVIEWER.ACTSTRETCHIMAGE.CAPTION"

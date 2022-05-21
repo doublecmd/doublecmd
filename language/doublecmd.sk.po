@@ -4134,6 +4134,10 @@ msgstr "Pevný počet stĺpcov"
 msgid "Fixed columns width"
 msgstr "Pevná šírka stĺpcov"
 
+#: tfrmoptionscolors.rgdarkmode.caption
+msgid "Dark mode"
+msgstr ""
+
 #: tfrmoptionscolumnsview.cbcuttexttocolwidth.caption
 msgid "Cut &text to column width"
 msgstr "Orezať text na šírku stĺpca"
@@ -7277,11 +7281,6 @@ msgctxt "TFRMOPTIONSTERMINAL.EDRUNINTERMSTAYOPENPARAMS.HINT"
 msgid "{command} should normally be present here to reflect the command to be run in terminal"
 msgstr "Za normálnych okolností by tu mal byť príkaz {command}, ktorý odráža príkaz, ktorý sa má spustiť v termináli"
 
-#: tfrmoptionsterminal.edruntermparams.hint
-msgctxt "TFRMOPTIONSTERMINAL.EDRUNTERMPARAMS.HINT"
-msgid "{command} should normally be present here to reflect the command to be run in terminal"
-msgstr "Za normálnych okolností by tu mal byť príkaz {command}, ktorý odráža príkaz, ktorý sa má spustiť v termináli"
-
 #: tfrmoptionsterminal.gbjustrunterminal.caption
 msgid "Command for just running terminal:"
 msgstr "Príkaz iba pre spustenie terminálu:"
@@ -9426,6 +9425,10 @@ msgstr ""
 msgctxt "TFRMVIEWER.ACTSHOWPLUGINS.CAPTION"
 msgid "Plugins"
 msgstr "Zásuvné moduly"
+
+#: tfrmviewer.actshowtransparency.caption
+msgid "Show transparenc&y"
+msgstr ""
 
 #: tfrmviewer.actstretchimage.caption
 msgid "Stretch"

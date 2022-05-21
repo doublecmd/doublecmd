@@ -4134,6 +4134,10 @@ msgstr "Vast aantal kolommen"
 msgid "Fixed columns width"
 msgstr "Vaste kolombreedte"
 
+#: tfrmoptionscolors.rgdarkmode.caption
+msgid "Dark mode"
+msgstr ""
+
 #: tfrmoptionscolumnsview.cbcuttexttocolwidth.caption
 msgid "Cut &text to column width"
 msgstr "Kap tekst af op kolombreedte"
@@ -7290,11 +7294,6 @@ msgctxt "TFRMOPTIONSTERMINAL.EDRUNINTERMSTAYOPENPARAMS.HINT"
 msgid "{command} should normally be present here to reflect the command to be run in terminal"
 msgstr "{command} zou hier normaal gesproken aanwezig moeten zijn om het commando weer te geven dat in de terminal moet worden uitgevoerd"
 
-#: tfrmoptionsterminal.edruntermparams.hint
-msgctxt "TFRMOPTIONSTERMINAL.EDRUNTERMPARAMS.HINT"
-msgid "{command} should normally be present here to reflect the command to be run in terminal"
-msgstr "{command} zou hier normaal gesproken aanwezig moeten zijn om het commando weer te geven dat in de terminal moet worden uitgevoerd"
-
 #: tfrmoptionsterminal.gbjustrunterminal.caption
 msgid "Command for just running terminal:"
 msgstr "Opdracht voor alleen draaien van terminalvenster:"
@@ -9439,6 +9438,10 @@ msgstr ""
 msgctxt "TFRMVIEWER.ACTSHOWPLUGINS.CAPTION"
 msgid "Plugins"
 msgstr "Invoegtoepassingen"
+
+#: tfrmviewer.actshowtransparency.caption
+msgid "Show transparenc&y"
+msgstr ""
 
 #: tfrmviewer.actstretchimage.caption
 msgid "Stretch"

@@ -4264,6 +4264,10 @@ msgstr "Contagem de colunas fixas:"
 msgid "Fixed columns width"
 msgstr "Largura de colunas fixas:"
 
+#: tfrmoptionscolors.rgdarkmode.caption
+msgid "Dark mode"
+msgstr ""
+
 #: tfrmoptionscolumnsview.cbcuttexttocolwidth.caption
 msgid "Cut &text to column width"
 msgstr "Cortar &texto pela largura da coluna."
@@ -7582,12 +7586,6 @@ msgctxt "tfrmoptionsterminal.edrunintermstayopenparams.hint"
 msgid "{command} should normally be present here to reflect the command to be run in terminal"
 msgstr "{command} deve normalmente estar presente aqui para refletir o comando a ser executado no terminal."
 
-#: tfrmoptionsterminal.edruntermparams.hint
-#, fuzzy
-msgctxt "tfrmoptionsterminal.edruntermparams.hint"
-msgid "{command} should normally be present here to reflect the command to be run in terminal"
-msgstr "{command} deve normalmente estar presente aqui para refletir o comando a ser executado no terminal."
-
 #: tfrmoptionsterminal.gbjustrunterminal.caption
 msgid "Command for just running terminal:"
 msgstr "Comando para executar somente no terminal:"
@@ -9833,6 +9831,10 @@ msgstr ""
 msgctxt "tfrmviewer.actshowplugins.caption"
 msgid "Plugins"
 msgstr "Suplementos"
+
+#: tfrmviewer.actshowtransparency.caption
+msgid "Show transparenc&y"
+msgstr ""
 
 #: tfrmviewer.actstretchimage.caption
 msgctxt "TFRMVIEWER.ACTSTRETCHIMAGE.CAPTION"
