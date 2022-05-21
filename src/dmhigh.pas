@@ -104,7 +104,7 @@ implementation
 uses
   Graphics, SynEditTypes, SynUniClasses, FileUtil, uHighlighterProcs, DCXmlConfig,
   uGlobsPaths, DCClassesUtf8, LazUTF8Classes, DCOSUtils, DCStrUtils, uLng, uMasks,
-  uGlobs, uOSUtils;
+  uGlobs, uOSUtils, uFileProcs;
 
 const
   csDefaultName = 'editor.col';
@@ -228,8 +228,10 @@ var
   SynUniSyn: TSynUniSyn;
   APath, AFileName: String;
 begin
-  if not gUseConfigInProgramDir then begin
+  if not gUseConfigInProgramDir then
+  begin
     APath:= IncludeTrailingBackslash(GetAppDataDir) + 'highlighters' + PathDelim;
+    mbForceDirectory(APath);
   end;
   for I := 0 to SynHighlighterList.Count - 1 do
   begin
