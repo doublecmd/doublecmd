@@ -49,7 +49,7 @@ function AllowDarkModeForWindow(hWnd: HWND; allow: bool): bool;
 implementation
 
 uses
-  UxTheme, JwaWinUser, FileInfo
+  UxTheme, JwaWinUser, FileInfo, IniFiles, ShlObj, LazUTF8
 {$IF DEFINED(LCLQT5)}
   , Qt5
 {$ENDIF}
@@ -205,11 +205,39 @@ begin
   end;
 end;
 
+function DarkDisabled: Boolean;
+var
+  APath: String;
+  AConfig: TIniFile;
+  wsPath: array[0..MAX_PATH] of WideChar;
+begin
+  Result:= False;
+  APath:= ExtractFilePath(ParamStr(0));
+  if FileExists(APath + 'doublecmd.inf') then
+    APath:= APath + 'doublecmd.ini'
+  else begin
+    SHGetFolderPathW(0, CSIDL_APPDATA or CSIDL_FLAG_CREATE, 0, SHGFP_TYPE_CURRENT, @wsPath[0]);
+    APath:= IncludeTrailingBackslash(UTF16ToUTF8(wsPath)) + ApplicationName + PathDelim + ApplicationName + '.ini';
+  end;
+  if FileExists(APath) then
+  try
+    AConfig:= TIniFile.Create(APath);
+    try
+      Result:= (AConfig.ReadInteger('General', 'DarkMode', -1) = 3);
+    finally
+      AConfig.Free;
+    end;
+  except
+    // Skip
+  end;
+end;
+
 procedure InitDarkMode();
 var
   hUxtheme: HMODULE;
   major, minor, build: DWORD;
 begin
+  if DarkDisabled then Exit;
   @RtlGetNtVersionNumbers := GetProcAddress(GetModuleHandleW('ntdll.dll'), 'RtlGetNtVersionNumbers');
   if Assigned(RtlGetNtVersionNumbers) then
   begin
