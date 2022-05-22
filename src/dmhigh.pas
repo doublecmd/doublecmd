@@ -53,6 +53,7 @@ type
   private
     FTemp: Boolean;
     FChanged: Boolean;
+    procedure SaveUniHighlighters;
     procedure ImportFromOldFormat;
   public
     SynHighlighterList: TStringList;
@@ -89,9 +90,8 @@ type
   TSynHighlighterAttributesHelper = class helper for TSynHighlighterAttributes
   private
     function GetFeatures: TSynHighlighterAttrFeatures;
-    procedure SetFeatures(AValue: TSynHighlighterAttrFeatures);
   public
-    property Features: TSynHighlighterAttrFeatures read GetFeatures write SetFeatures;
+    property Features: TSynHighlighterAttrFeatures read GetFeatures;
   end;
 
 var
@@ -102,8 +102,9 @@ implementation
 {$R *.lfm}
 
 uses
-  Graphics, SynEditTypes, FileUtil, uHighlighterProcs, DCXmlConfig, uGlobsPaths,
-  DCClassesUtf8, LazUTF8Classes, DCOSUtils, DCStrUtils, uLng, uMasks, uGlobs, uOSUtils;
+  Graphics, SynEditTypes, SynUniClasses, FileUtil, uHighlighterProcs, DCXmlConfig,
+  uGlobsPaths, DCClassesUtf8, LazUTF8Classes, DCOSUtils, DCStrUtils, uLng, uMasks,
+  uGlobs, uOSUtils, uFileProcs;
 
 const
   csDefaultName = 'editor.col';
@@ -191,7 +192,6 @@ begin
     SynHighlighterHashList.Add(HighLighter.LanguageName, HighLighter);
     with HighLighter.AddSpecialAttribute(rsSynDefaultText, SYNS_XML_DefaultText) do
     begin
-      Features:= [hafBackColor, hafForeColor];
       Background:= clWindow;
       Foreground:= clWindowText;
     end;
@@ -213,10 +213,43 @@ end;
 procedure TdmHighl.dmHighlDestroy(Sender: TObject);
 begin
   if FChanged and (FTemp = False) then
+  begin
+    SaveUniHighlighters;
     SaveToFile(gpCfgDir + HighlighterConfig);
+  end;
   SynHighlighterList.Free;
   SynHighlighterHashList.Free;
   SynPlainTextHighlighter.Free;
+end;
+
+procedure TdmHighl.SaveUniHighlighters;
+var
+  I: Integer;
+  SynUniSyn: TSynUniSyn;
+  APath, AFileName: String;
+begin
+  if not gUseConfigInProgramDir then
+  begin
+    APath:= IncludeTrailingBackslash(GetAppDataDir) + 'highlighters' + PathDelim;
+    mbForceDirectory(APath);
+  end;
+  for I := 0 to SynHighlighterList.Count - 1 do
+  begin
+    if SynHighlighterList.Objects[I] is TSynUniSyn then
+    begin
+      SynUniSyn:= TSynUniSyn(SynHighlighterList.Objects[I]);
+      if SynUniSyn.Tag < 0 then
+      begin
+        if gUseConfigInProgramDir then
+          AFileName:= SynUniSyn.FileName
+        else begin
+          AFileName:= APath + ExtractFileName(SynUniSyn.FileName);
+        end;
+        SynUniSyn.SaveToFile(AFileName);
+        SynUniSyn.Tag:= 0;
+      end;
+    end;
+  end;
 end;
 
 procedure TdmHighl.ImportFromOldFormat;
@@ -356,13 +389,7 @@ var
     TargetHighlighter.DefaultFilter:= SourceHighlighter.DefaultFilter;
     for J:= 0 to SourceHighlighter.AttrCount - 1 do
     begin
-      TargetHighlighter.Attribute[J].Background:= SourceHighlighter.Attribute[J].Background;
-      TargetHighlighter.Attribute[J].Foreground:= SourceHighlighter.Attribute[J].Foreground;
-      TargetHighlighter.Attribute[J].FrameColor:= SourceHighlighter.Attribute[J].FrameColor;
-      TargetHighlighter.Attribute[J].FrameStyle:= SourceHighlighter.Attribute[J].FrameStyle;
-      TargetHighlighter.Attribute[J].FrameEdges:= SourceHighlighter.Attribute[J].FrameEdges;
-      TargetHighlighter.Attribute[J].Style     := SourceHighlighter.Attribute[J].Style;
-      TargetHighlighter.Attribute[J].StyleMask := SourceHighlighter.Attribute[J].StyleMask;
+      TargetHighlighter.Attribute[J].Assign(SourceHighlighter.Attribute[J]);
     end;
   end;
 
@@ -370,9 +397,13 @@ begin
   FChanged:= True;
   for I:= 0 to SynHighlighterList.Count - 1 do
   begin
-    CopyAttributes(TSynCustomHighlighter(Highl.SynHighlighterList.Objects[I]),
-                   TSynCustomHighlighter(SynHighlighterList.Objects[I])
-                  );
+    if Highl.SynHighlighterList.Objects[I] is TSynUniSyn then
+      TSynUniSyn(SynHighlighterList.Objects[I]).Assign(TSynUniSyn(Highl.SynHighlighterList.Objects[I]))
+
+    else
+      CopyAttributes(TSynCustomHighlighter(Highl.SynHighlighterList.Objects[I]),
+                     TSynCustomHighlighter(SynHighlighterList.Objects[I])
+                    );
   end;
 end;
 
@@ -563,13 +594,12 @@ function TSynHighlighterAttributesHelper.GetFeatures: TSynHighlighterAttrFeature
 begin
   if SameText(StoredName, SYNS_XML_DefaultText) then
     Result:= [hafBackColor, hafForeColor]
-  else
-    Result:= [hafBackColor, hafForeColor, hafFrameColor, hafStyle, hafFrameStyle, hafFrameEdges];
-end;
-
-procedure TSynHighlighterAttributesHelper.SetFeatures(AValue: TSynHighlighterAttrFeatures);
-begin
-
+  else begin
+    if Self is TSynAttributes then
+      Result:= [hafBackColor, hafForeColor, hafStyle]
+    else
+      Result:= [hafBackColor, hafForeColor, hafFrameColor, hafStyle, hafFrameStyle, hafFrameEdges];
+  end;
 end;
 
 end.

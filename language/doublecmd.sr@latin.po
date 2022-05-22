@@ -4263,6 +4263,10 @@ msgstr ""
 msgid "Fixed columns width"
 msgstr ""
 
+#: tfrmoptionscolors.rgdarkmode.caption
+msgid "Dark mode"
+msgstr ""
+
 #: tfrmoptionscolumnsview.cbcuttexttocolwidth.caption
 msgid "Cut &text to column width"
 msgstr "Opseci tekst na širinu stupca"
@@ -7646,11 +7650,6 @@ msgctxt "tfrmoptionsterminal.edrunintermstayopenparams.hint"
 msgid "{command} should normally be present here to reflect the command to be run in terminal"
 msgstr ""
 
-#: tfrmoptionsterminal.edruntermparams.hint
-msgctxt "tfrmoptionsterminal.edruntermparams.hint"
-msgid "{command} should normally be present here to reflect the command to be run in terminal"
-msgstr ""
-
 #: tfrmoptionsterminal.gbjustrunterminal.caption
 msgid "Command for just running terminal:"
 msgstr ""
@@ -9900,6 +9899,10 @@ msgstr ""
 msgctxt "tfrmviewer.actshowplugins.caption"
 msgid "Plugins"
 msgstr "Priključci"
+
+#: tfrmviewer.actshowtransparency.caption
+msgid "Show transparenc&y"
+msgstr ""
 
 #: tfrmviewer.actstretchimage.caption
 msgctxt "TFRMVIEWER.ACTSTRETCHIMAGE.CAPTION"

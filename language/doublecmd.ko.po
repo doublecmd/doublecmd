@@ -4212,6 +4212,10 @@ msgstr "고정된 컬럼 수"
 msgid "Fixed columns width"
 msgstr "고정된 컬럼 폭"
 
+#: tfrmoptionscolors.rgdarkmode.caption
+msgid "Dark mode"
+msgstr ""
+
 #: tfrmoptionscolumnsview.cbcuttexttocolwidth.caption
 msgid "Cut &text to column width"
 msgstr "컬럼 폭에 맞게 내용 잘라내기(&T)"
@@ -7460,11 +7464,6 @@ msgctxt "tfrmoptionsterminal.edrunintermstayopenparams.hint"
 msgid "{command} should normally be present here to reflect the command to be run in terminal"
 msgstr "{command}는 터미널에서 실행할 명령을 반영하기 위해 일반적으로 여기에 있어야 합니다"
 
-#: tfrmoptionsterminal.edruntermparams.hint
-msgctxt "tfrmoptionsterminal.edruntermparams.hint"
-msgid "{command} should normally be present here to reflect the command to be run in terminal"
-msgstr "{command}는 터미널에서 실행할 명령을 반영하기 위해 일반적으로 여기에 있어야 합니다"
-
 #: tfrmoptionsterminal.gbjustrunterminal.caption
 msgid "Command for just running terminal:"
 msgstr "명령 프롬프트 실행:"
@@ -9644,6 +9643,10 @@ msgstr ""
 msgctxt "tfrmviewer.actshowplugins.caption"
 msgid "Plugins"
 msgstr "플러그인"
+
+#: tfrmviewer.actshowtransparency.caption
+msgid "Show transparenc&y"
+msgstr ""
 
 #: tfrmviewer.actstretchimage.caption
 msgctxt "TFRMVIEWER.ACTSTRETCHIMAGE.CAPTION"

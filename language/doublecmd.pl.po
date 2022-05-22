@@ -4097,6 +4097,10 @@ msgstr "Stała liczba kolumn"
 msgid "Fixed columns width"
 msgstr "Stała szerokość kolumn"
 
+#: tfrmoptionscolors.rgdarkmode.caption
+msgid "Dark mode"
+msgstr ""
+
 #: tfrmoptionscolumnsview.cbcuttexttocolwidth.caption
 msgid "Cut &text to column width"
 msgstr "Przytnij &tekst do szerokości kolumny"
@@ -7234,11 +7238,6 @@ msgctxt "TFRMOPTIONSTERMINAL.EDRUNINTERMSTAYOPENPARAMS.HINT"
 msgid "{command} should normally be present here to reflect the command to be run in terminal"
 msgstr "{command} powinno być obecne tutaj, aby odzwierciedlić polecenie do uruchomienia w terminalu"
 
-#: tfrmoptionsterminal.edruntermparams.hint
-msgctxt "TFRMOPTIONSTERMINAL.EDRUNTERMPARAMS.HINT"
-msgid "{command} should normally be present here to reflect the command to be run in terminal"
-msgstr "{command} powinno być obecne tutaj, aby odzwierciedlić polecenie do uruchomienia w terminalu"
-
 #: tfrmoptionsterminal.gbjustrunterminal.caption
 msgid "Command for just running terminal:"
 msgstr "Polecenie tylko do uruchomienia terminalu:"
@@ -9383,6 +9382,10 @@ msgstr "Office XML (tylko tekst)"
 msgctxt "TFRMVIEWER.ACTSHOWPLUGINS.CAPTION"
 msgid "Plugins"
 msgstr "Wtyczki"
+
+#: tfrmviewer.actshowtransparency.caption
+msgid "Show transparenc&y"
+msgstr ""
 
 #: tfrmviewer.actstretchimage.caption
 msgid "Stretch"
@@ -13725,3 +13728,4 @@ msgstr "Nie było zamian."
 #: umaincommands.rsfavoritetabs_setupnotexist
 msgid "No setup named \"%s\""
 msgstr "Brak konfiguracji o nazwie \"%s\""
+

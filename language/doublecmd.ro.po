@@ -4226,6 +4226,10 @@ msgstr "Numărul coloanelor fixe"
 msgid "Fixed columns width"
 msgstr "Lățimea coloanelor fixe"
 
+#: tfrmoptionscolors.rgdarkmode.caption
+msgid "Dark mode"
+msgstr ""
+
 #: tfrmoptionscolumnsview.cbcuttexttocolwidth.caption
 msgid "Cut &text to column width"
 msgstr "Taie &textul la mărimea coloanei"
@@ -7506,11 +7510,6 @@ msgctxt "tfrmoptionsterminal.edrunintermstayopenparams.hint"
 msgid "{command} should normally be present here to reflect the command to be run in terminal"
 msgstr ""
 
-#: tfrmoptionsterminal.edruntermparams.hint
-msgctxt "tfrmoptionsterminal.edruntermparams.hint"
-msgid "{command} should normally be present here to reflect the command to be run in terminal"
-msgstr ""
-
 #: tfrmoptionsterminal.gbjustrunterminal.caption
 msgid "Command for just running terminal:"
 msgstr ""
@@ -9706,6 +9705,10 @@ msgstr ""
 msgctxt "tfrmviewer.actshowplugins.caption"
 msgid "Plugins"
 msgstr "Module"
+
+#: tfrmviewer.actshowtransparency.caption
+msgid "Show transparenc&y"
+msgstr ""
 
 #: tfrmviewer.actstretchimage.caption
 msgctxt "TFRMVIEWER.ACTSTRETCHIMAGE.CAPTION"
