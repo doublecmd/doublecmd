@@ -104,6 +104,7 @@ type
     ParentBackground: boolean;
     constructor Create(Name: string);
 //    destructor Destroy(); override;
+    function GetHashCode: PtrInt; override;
     procedure LoadFromString(Value: string);
     procedure SaveToStream(StreamWriter: TStreamWriter);
   end;
@@ -199,7 +200,7 @@ const
 implementation
 
 uses
-  Laz2_XMLRead;
+  Crc, Laz2_XMLRead;
 
 function StrToSet(st: string): TSymbSet;
 var i: integer;
@@ -386,7 +387,7 @@ begin
 
     WriteTag(Ind+2, 'General');
     WriteParam('Name',       General.Name);
-    WriteParam('Extensions', General.Extensions, CloseEmptyTag);
+    WriteParam('Extensions', General.Extensions);
     WriteParam('Other',      BoolToStr(General.Other), CloseEmptyTag);
 
     WriteTag(Ind+2, 'Author');
@@ -503,6 +504,17 @@ begin
 //  Std := TSynHighlighterAttributes.Create(SYNS_AttrDefaultPackage);
   inherited Create(Name{SYNS_AttrDefaultPackage});
 //  UseStyle := False;
+end;
+
+function TSynAttributes.GetHashCode: PtrInt;
+var
+  ACrc: Cardinal = 0;
+begin
+  ACrc:= CRC32(ACrc, @Background, SizeOf(TColor));
+  ACrc:= CRC32(ACrc, @Foreground, SizeOf(TColor));
+  ACrc:= CRC32(ACrc, @Style, SizeOf(TFontStyles));
+  ACrc:= CRC32(ACrc, @ParentForeground, SizeOf(Boolean));
+  Result:= PtrInt(CRC32(ACrc, @ParentBackground, SizeOf(Boolean)));
 end;
 
 {destructor TSynAttributes.Destroy;

@@ -304,7 +304,7 @@ end;"/>
         <MinVersion Minor="3" Valid="True"/>
       </Item12>
     </RequiredPackages>
-    <Units Count="266">
+    <Units Count="267">
       <Unit0>
         <Filename Value="doublecmd.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -1948,6 +1948,14 @@ end;"/>
         <HasResources Value="True"/>
         <UnitName Value="fElevation"/>
       </Unit265>
+      <Unit266>
+        <Filename Value="frames\foptionscolors.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="frmOptionsColors"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Frame"/>
+        <UnitName Value="fOptionsColors"/>
+      </Unit266>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

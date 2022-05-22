@@ -57,6 +57,8 @@ type
 
   TSynUniSyn = class(TSynCustomHighlighter)
   private
+    FFileName: String;
+
     procedure ReadSyntax(Reader: TReader);
     procedure WriteSyntax(Writer: TWriter);
   protected
@@ -84,11 +86,15 @@ type
     procedure DefineProperties(Filer: TFiler); override;
     function GetSampleSource: string; override;
     procedure SetSampleSource(Value: string); override;
+    function GetDefaultFilter: string; override;
+    procedure SetDefaultFilter(Value: string); override;
   public
     class function GetLanguageName: string; override;
   public
     constructor Create(AOwner: TComponent); overload; override;
     destructor Destroy; override;
+    function GetHashCode: PtrInt; override;
+    procedure Assign(Source: TPersistent); override;
     function GetDefaultAttribute(Index: integer): TSynHighlighterAttributes;
       override; {Abstract}
     function GetEol: Boolean; override; {Abstract}
@@ -131,6 +137,7 @@ type
     Styles: TSynUniStyles;
     SchemeFileName: string;
     SchemeName: string;
+    property FileName: String read FFileName;
     property MainRules: TSynRange read fMainRules;
     property SchemesList: TStringList read fSchemes write fSchemes; //Vitalik 2004
     property SchemeIndex: integer read fSchemeIndex write fSchemeIndex; //Vitalik 2004
@@ -184,6 +191,55 @@ begin
   fSchemes.Free;
   fImportFormats.Free;
   inherited;
+end;
+
+function TSynUniSyn.GetHashCode: PtrInt;
+
+  function Update(ACrc: PtrInt; ARule: TSynRule): PtrInt;
+  var
+    Index: Integer;
+  begin
+    Result:= ACrc xor ARule.Attribs.GetHashCode;
+
+    if ARule is TSynRange then
+    begin
+      with TSynRange(ARule) do
+      begin
+        for Index := 0 to SetCount - 1 do
+          Result:= Update(Result, Sets[Index]);
+        for Index := 0 to RangeCount - 1 do
+          Result:= Update(Result, Ranges[Index]);
+        for Index := 0 to KeyListCount - 1 do
+          Result:= Update(Result, KeyLists[Index]);
+      end;
+    end;
+  end;
+
+begin
+  Result:= Update(0, MainRules);
+end;
+
+procedure TSynUniSyn.Assign(Source: TPersistent);
+var
+  AStream: TMemoryStream;
+begin
+  inherited Assign(Source);
+  if (Source is TSynUniSyn) then
+  begin
+    if GetHashCode <> Source.GetHashCode then
+    begin
+      AStream:= TMemoryStream.Create;
+      try
+        Tag:= -1;
+        TSynUniSyn(Source).SaveToStream(AStream);
+        AStream.Seek(0, soBeginning);
+        LoadFromStream(AStream, False);
+        Self.Info.Version.ReleaseDate:= Now;
+      finally
+        AStream.Free;
+      end;
+    end;
+  end;
 end;
 
 procedure TSynUniSyn.SetLine(const NewValue: string; LineNumber: Integer);
@@ -352,7 +408,7 @@ begin
   until (fLine[Run] > #32) or (fLine[Run] in [#0, #10, #13]);
 end;
 
-function TSynUniSyn.IsKeyword(const aKeyword: string): boolean;
+function TSynUniSyn.IsKeyword(const AKeyword: string): boolean;
 //! Never used!!!! ??? SSS
 begin
   // Result := fSymbols.FindSymbol(aKeyword) <> nil;
@@ -613,6 +669,35 @@ begin
   Info.Sample.Text := Value;
 end;
 
+function TSynUniSyn.GetDefaultFilter: string;
+var
+  S: String;
+begin
+  Result:= EmptyStr;
+  for S in Info.General.Extensions.Split([' ', ',']) do
+  begin
+    Result+= '*.' + S + ';';
+  end;
+  if Length(Result) > 0 then Result:= Info.General.Name + '|' + Copy(Result, 1, Length(Result) - 1);
+end;
+
+procedure TSynUniSyn.SetDefaultFilter(Value: string);
+var
+  S: String;
+  Result: String;
+begin
+  Result:= EmptyStr;
+  Value:= Copy(Value, Pos('|', Value) + 1, MaxInt);
+  for S in Value.Split([';']) do
+  begin
+    Result+= StringReplace(S, '*.', '', []) + ',';
+  end;
+  if Length(Result) = 0 then
+    Info.General.Extensions:= EmptyStr
+  else
+    Info.General.Extensions:= Copy(Result, 1, Length(Result) - 1);
+end;
+
 procedure TSynUniSyn.LoadFromXml(xml: TDOMNode);
 var
   i, J, K: integer;
@@ -728,6 +813,7 @@ end;
 
 procedure TSynUniSyn.LoadFromFile(FileName: string);
 begin
+  FFileName:= FileName;
   LoadFromStream(TFileStreamUTF8.Create(FileName, fmOpenRead or fmShareDenyNone));
 end;
 

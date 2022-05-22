@@ -4173,6 +4173,10 @@ msgstr "Feste Anzahl von Spalten"
 msgid "Fixed columns width"
 msgstr "Feste Spaltenweite"
 
+#: tfrmoptionscolors.rgdarkmode.caption
+msgid "Dark mode"
+msgstr ""
+
 #: tfrmoptionscolumnsview.cbcuttexttocolwidth.caption
 msgid "Cut &text to column width"
 msgstr "&Text auf Spaltenbreite kürzen"
@@ -7429,11 +7433,6 @@ msgctxt "tfrmoptionsterminal.edrunintermstayopenparams.hint"
 msgid "{command} should normally be present here to reflect the command to be run in terminal"
 msgstr "{Befehl} sollte normalerweise hier vorhanden sein, um den Befehl wiederzugeben, der in der Terminalemulation ausgeführt werden soll"
 
-#: tfrmoptionsterminal.edruntermparams.hint
-msgctxt "tfrmoptionsterminal.edruntermparams.hint"
-msgid "{command} should normally be present here to reflect the command to be run in terminal"
-msgstr "{Befehl} sollte normalerweise hier vorhanden sein, um den Befehl wiederzugeben, der in der Terminalemulation ausgeführt werden soll"
-
 #: tfrmoptionsterminal.gbjustrunterminal.caption
 msgid "Command for just running terminal:"
 msgstr "Befehl, um die Terminalemulation zu öffnen:"
@@ -9614,6 +9613,10 @@ msgstr "Office Open XML (nur Text)"
 msgctxt "tfrmviewer.actshowplugins.caption"
 msgid "Plugins"
 msgstr "Plugins"
+
+#: tfrmviewer.actshowtransparency.caption
+msgid "Show transparenc&y"
+msgstr ""
 
 #: tfrmviewer.actstretchimage.caption
 msgctxt "TFRMVIEWER.ACTSTRETCHIMAGE.CAPTION"

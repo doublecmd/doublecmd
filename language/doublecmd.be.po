@@ -4134,6 +4134,10 @@ msgstr "Фіксаваная колькасць слупкоў"
 msgid "Fixed columns width"
 msgstr "Фіксаваная шырыня слупкоў"
 
+#: tfrmoptionscolors.rgdarkmode.caption
+msgid "Dark mode"
+msgstr ""
+
 #: tfrmoptionscolumnsview.cbcuttexttocolwidth.caption
 msgid "Cut &text to column width"
 msgstr "Абразаць &тэкст па шырыні слупка"
@@ -7277,11 +7281,6 @@ msgctxt "TFRMOPTIONSTERMINAL.EDRUNINTERMSTAYOPENPARAMS.HINT"
 msgid "{command} should normally be present here to reflect the command to be run in terminal"
 msgstr "{command} мусіць быць тут, каб вызначыць загад, што будзе запушчаны ў тэрмінале"
 
-#: tfrmoptionsterminal.edruntermparams.hint
-msgctxt "TFRMOPTIONSTERMINAL.EDRUNTERMPARAMS.HINT"
-msgid "{command} should normally be present here to reflect the command to be run in terminal"
-msgstr "{command} мусіць быць тут, каб вызначыць загад, што будзе запушчаны ў тэрмінале"
-
 #: tfrmoptionsterminal.gbjustrunterminal.caption
 msgid "Command for just running terminal:"
 msgstr "Загад на запуск тэрмінала:"
@@ -9426,6 +9425,10 @@ msgstr ""
 msgctxt "TFRMVIEWER.ACTSHOWPLUGINS.CAPTION"
 msgid "Plugins"
 msgstr "Убудовы"
+
+#: tfrmviewer.actshowtransparency.caption
+msgid "Show transparenc&y"
+msgstr ""
 
 #: tfrmviewer.actstretchimage.caption
 msgid "Stretch"
