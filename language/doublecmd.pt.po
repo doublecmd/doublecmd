@@ -15,6 +15,10 @@ msgstr ""
 "X-Generator: Gtranslator 2.91.6\n"
 "X-Native-Language: Português\n"
 
+#: foptionscolors.rsdarkmodeoptions
+msgid "Auto;Enabled;Disabled"
+msgstr ""
+
 #: fsyncdirsdlg.rscomparingpercent
 msgid "Comparing... %d%% (ESC to cancel)"
 msgstr "A comparar - %d%% (ESC para cancelar)"

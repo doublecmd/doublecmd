@@ -15,6 +15,10 @@ msgstr ""
 "X-Generator: Poedit 2.2\n"
 "Language: cs\n"
 
+#: foptionscolors.rsdarkmodeoptions
+msgid "Auto;Enabled;Disabled"
+msgstr ""
+
 #: fsyncdirsdlg.rscomparingpercent
 msgid "Comparing... %d%% (ESC to cancel)"
 msgstr "Porovnávám... %d%% (ESC pro zrušení)"
