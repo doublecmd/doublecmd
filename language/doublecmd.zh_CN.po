@@ -11,6 +11,10 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Native-Language: 简体中文\n"
 
+#: foptionscolors.rsdarkmodeoptions
+msgid "Auto;Enabled;Disabled"
+msgstr ""
+
 #: fsyncdirsdlg.rscomparingpercent
 msgid "Comparing... %d%% (ESC to cancel)"
 msgstr "正在比较... %d%%（按下 ESC 键可取消）"

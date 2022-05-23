@@ -14,6 +14,10 @@ msgstr ""
 "X-Generator: Poedit 2.4.2\n"
 "X-Poedit-Bookmarks: 1146,-1,-1,-1,-1,-1,-1,-1,-1,-1\n"
 
+#: foptionscolors.rsdarkmodeoptions
+msgid "Auto;Enabled;Disabled"
+msgstr ""
+
 #: fsyncdirsdlg.rscomparingpercent
 msgid "Comparing... %d%% (ESC to cancel)"
 msgstr "比較しています…  %d (ESCでキャンセル)"

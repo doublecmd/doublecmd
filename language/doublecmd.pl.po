@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Double Commander 1.1.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-01-17 23:08+0300\n"
-"PO-Revision-Date: 2022-04-21 21:55+0000\n"
+"PO-Revision-Date: 2022-05-23 15:04+0000\n"
 "Last-Translator: Andrzej Kamiński <endriusk@interia.pl> and Maciej Bojakowski <maciejbojakowski@gmail.com>\n"
 "Language-Team: \n"
 "Language: pl\n"
@@ -12,6 +12,10 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Native-Language: Polski (Polska)\n"
 "X-Generator: Poedit 3.0.1\n"
+
+#: foptionscolors.rsdarkmodeoptions
+msgid "Auto;Enabled;Disabled"
+msgstr ""
 
 #: fsyncdirsdlg.rscomparingpercent
 msgid "Comparing... %d%% (ESC to cancel)"
@@ -4099,7 +4103,7 @@ msgstr "Stała szerokość kolumn"
 
 #: tfrmoptionscolors.rgdarkmode.caption
 msgid "Dark mode"
-msgstr ""
+msgstr "Tryb ciemny"
 
 #: tfrmoptionscolumnsview.cbcuttexttocolwidth.caption
 msgid "Cut &text to column width"
@@ -9385,7 +9389,7 @@ msgstr "Wtyczki"
 
 #: tfrmviewer.actshowtransparency.caption
 msgid "Show transparenc&y"
-msgstr ""
+msgstr "Pokaż przezrocz&ystość"
 
 #: tfrmviewer.actstretchimage.caption
 msgid "Stretch"

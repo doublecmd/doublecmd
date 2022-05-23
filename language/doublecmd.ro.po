@@ -15,6 +15,10 @@ msgstr ""
 "X-Generator: Virtaal 0.7.1\n"
 "X-Native-Language: Română\n"
 
+#: foptionscolors.rsdarkmodeoptions
+msgid "Auto;Enabled;Disabled"
+msgstr ""
+
 #: fsyncdirsdlg.rscomparingpercent
 msgid "Comparing... %d%% (ESC to cancel)"
 msgstr "Se compară... %d%% (ESC pentru a renunța)"

@@ -19,6 +19,10 @@ msgstr ""
 "X-Poedit-Basepath: .\n"
 "X-Poedit-SearchPathExcluded-0: .\n"
 
+#: foptionscolors.rsdarkmodeoptions
+msgid "Auto;Enabled;Disabled"
+msgstr ""
+
 #: fsyncdirsdlg.rscomparingpercent
 msgid "Comparing... %d%% (ESC to cancel)"
 msgstr "Σύγκριση... %d%% (ESC για ακύρωση)"
