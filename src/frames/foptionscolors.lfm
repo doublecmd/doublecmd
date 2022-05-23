@@ -28,6 +28,7 @@ inherited frmOptionsColors: TfrmOptionsColors
     ItemIndex = 0
     Items.Strings = (
       'Auto'
+      'Enabled'
       'Disabled'
     )
     TabOrder = 0

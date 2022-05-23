@@ -67,6 +67,9 @@ type
   );
 
 var
+  AppMode: PreferredAppMode;
+
+var
   RtlGetNtVersionNumbers: procedure(major, minor, build: LPDWORD); stdcall;
   DwmSetWindowAttribute: function(hwnd: HWND; dwAttribute: DWORD; pvAttribute: Pointer; cbAttribute: DWORD): HRESULT; stdcall;
   // 1809 17763
@@ -97,6 +100,11 @@ begin
     Result:= false;
 end;
 
+function ShouldAppsUseDarkMode: Boolean;
+begin
+  Result:= (_ShouldAppsUseDarkMode() or (AppMode = ForceDark)) and not IsHighContrast();
+end;
+
 procedure RefreshTitleBarThemeColor(hWnd: HWND);
 const
   DWMWA_USE_IMMERSIVE_DARK_MODE_OLD = 19;
@@ -105,8 +113,7 @@ var
   dark: BOOL;
   dwAttribute: DWORD;
 begin
-  dark:= (_IsDarkModeAllowedForWindow(hWnd) and
-         _ShouldAppsUseDarkMode() and not IsHighContrast());
+  dark:= (_IsDarkModeAllowedForWindow(hWnd) and ShouldAppsUseDarkMode);
 
   if (Win32BuildNumber < 19041) then
     dwAttribute:= DWMWA_USE_IMMERSIVE_DARK_MODE_OLD
@@ -124,7 +131,7 @@ begin
   else if Assigned(_SetPreferredAppMode) then
   begin
     if (allow) then
-      _SetPreferredAppMode(AllowDark)
+      _SetPreferredAppMode(AppMode)
     else
       _SetPreferredAppMode(Default);
   end;
@@ -205,16 +212,16 @@ begin
   end;
 end;
 
-function DarkDisabled: Boolean;
+function DarkAppMode: PreferredAppMode;
 var
   APath: String;
   AConfig: TIniFile;
   wsPath: array[0..MAX_PATH] of WideChar;
 begin
-  Result:= False;
+  Result:= AllowDark;
   APath:= ExtractFilePath(ParamStr(0));
-  if FileExists(APath + 'doublecmd.inf') then
-    APath:= APath + 'doublecmd.ini'
+  if FileExists(APath + ApplicationName + '.inf') then
+    APath:= APath + ApplicationName + '.ini'
   else begin
     SHGetFolderPathW(0, CSIDL_APPDATA or CSIDL_FLAG_CREATE, 0, SHGFP_TYPE_CURRENT, @wsPath[0]);
     APath:= IncludeTrailingBackslash(UTF16ToUTF8(wsPath)) + ApplicationName + PathDelim + ApplicationName + '.ini';
@@ -223,13 +230,14 @@ begin
   try
     AConfig:= TIniFile.Create(APath);
     try
-      Result:= (AConfig.ReadInteger('General', 'DarkMode', -1) = 3);
+      Result:= PreferredAppMode(AConfig.ReadInteger('General', 'DarkMode', 1));
     finally
       AConfig.Free;
     end;
   except
     // Skip
   end;
+  AppMode:= Result;
 end;
 
 procedure InitDarkMode();
@@ -237,7 +245,6 @@ var
   hUxtheme: HMODULE;
   major, minor, build: DWORD;
 begin
-  if DarkDisabled then Exit;
   @RtlGetNtVersionNumbers := GetProcAddress(GetModuleHandleW('ntdll.dll'), 'RtlGetNtVersionNumbers');
   if Assigned(RtlGetNtVersionNumbers) then
   begin
@@ -272,9 +279,12 @@ begin
              Assigned(_IsDarkModeAllowedForWindow) then
           begin
             g_darkModeSupported := true;
-            AllowDarkModeForApp(true);
-            _RefreshImmersiveColorPolicyState();
-            g_darkModeEnabled := _ShouldAppsUseDarkMode() and not IsHighContrast();
+            if DarkAppMode <> ForceLight then
+            begin
+              AllowDarkModeForApp(true);
+              _RefreshImmersiveColorPolicyState();
+              g_darkModeEnabled := ShouldAppsUseDarkMode;
+            end;
           end;
         end;
       end;
