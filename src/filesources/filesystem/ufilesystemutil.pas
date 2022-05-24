@@ -1,6 +1,9 @@
 unit uFileSystemUtil;
 
 {$mode objfpc}{$H+}
+{$if FPC_FULLVERSION >= 30300}
+{$modeswitch arraytodynarray}
+{$endif}
 
 interface
 
@@ -1615,15 +1618,13 @@ end;
 function TFileSystemOperationHelper.FileExists(aFile: TFile;
   var AbsoluteTargetFileName: String; AllowAppend: Boolean
   ): TFileSourceOperationOptionFileExists;
-type
-  TFileSourceOperationUIResponses = array of TFileSourceOperationUIResponse;
 const
-  Responses: TFileSourceOperationUIResponses
+  Responses: array[0..13] of TFileSourceOperationUIResponse
     = (fsourOverwrite, fsourSkip, fsourRenameSource, fsourOverwriteAll,
        fsourSkipAll, fsourResume, fsourOverwriteOlder, fsourCancel,
        fsouaCompare, fsourAppend, fsourOverwriteSmaller, fsourOverwriteLarger,
        fsourAutoRenameSource, fsourAutoRenameTarget);
-  ResponsesNoAppend: TFileSourceOperationUIResponses
+  ResponsesNoAppend: array[0..11] of TFileSourceOperationUIResponse
     = (fsourOverwrite, fsourSkip, fsourRenameSource,  fsourOverwriteAll,
        fsourSkipAll, fsourOverwriteSmaller, fsourOverwriteOlder, fsourCancel,
        fsouaCompare, fsourOverwriteLarger, fsourAutoRenameSource, fsourAutoRenameTarget);
