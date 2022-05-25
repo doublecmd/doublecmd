@@ -16,6 +16,10 @@ msgstr ""
 "X-Source-Language: C\n"
 "X-Native-Language: српски\n"
 
+#: foptionscolors.rsdarkmodeoptions
+msgid "Auto;Enabled;Disabled"
+msgstr ""
+
 #: fsyncdirsdlg.rscomparingpercent
 msgid "Comparing... %d%% (ESC to cancel)"
 msgstr "Упоређујем... %d%% (ЕСЦ за отказивање)"

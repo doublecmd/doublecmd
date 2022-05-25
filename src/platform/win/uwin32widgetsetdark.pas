@@ -132,11 +132,11 @@ const
   themelib = 'uxtheme.dll';
 
 const
-  VSCLASS_DARK_EDIT      = 'CFD::Edit';
+  VSCLASS_DARK_EDIT      = 'DarkMode_CFD::Edit';
   VSCLASS_DARK_TAB       = 'BrowserTab::Tab';
-  VSCLASS_DARK_BUTTON    = 'Explorer::Button';
-  VSCLASS_DARK_COMBOBOX  = 'CFD::Combobox';
-  VSCLASS_DARK_SCROLLBAR = 'Explorer::ScrollBar';
+  VSCLASS_DARK_BUTTON    = 'DarkMode_Explorer::Button';
+  VSCLASS_DARK_COMBOBOX  = 'DarkMode_CFD::Combobox';
+  VSCLASS_DARK_SCROLLBAR = 'DarkMode_Explorer::ScrollBar';
   VSCLASS_PROGRESS_INDER = 'Indeterminate::Progress';
 
 const
@@ -167,7 +167,7 @@ var
 procedure EnableDarkStyle(Window: HWND);
 begin
   AllowDarkModeForWindow(Window, True);
-  SetWindowTheme(Window, 'Explorer', nil);
+  SetWindowTheme(Window, 'DarkMode_Explorer', nil);
   SendMessageW(Window, WM_THEMECHANGED, 0, 0);
 end;
 

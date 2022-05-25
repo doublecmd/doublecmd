@@ -399,7 +399,11 @@ uses
   uFileViewNotebook, uKeyboard, uOSUtils, uArchiveFileSourceUtil,
   DCOSUtils, uRegExprA, uRegExprW, uDebug, uShowMsg, uConvEncoding,
   uColumns, uFileFunctions, uFileSorting, uWcxArchiveFileSource,
-  DCConvertEncoding, WcxPlugin;
+  DCConvertEncoding, WcxPlugin
+{$IFDEF DARKWIN}
+  , uDarkStyle
+{$ENDIF}
+  ;
 
 const
   TimeUnitToComboIndex: array[TTimeUnit] of integer = (0, 1, 2, 3, 4, 5, 6);
@@ -972,11 +976,14 @@ begin
     FFrmAttributesEdit.OnOk := @OnAddAttribute;
   end;
   FFrmAttributesEdit.Reset;
-{$IFNDEF DARKWIN}
+{$IFDEF DARKWIN}
+  if g_darkModeEnabled then
+    FFrmAttributesEdit.ShowModal
+  else
+{$ENDIF}
   if not (fsModal in FormState) then
     FFrmAttributesEdit.Show
   else
-{$ENDIF}
   begin
     FFrmAttributesEdit.ShowModal;
   end;
@@ -2079,6 +2086,9 @@ begin
 
     CloseAction := caFree; // This will destroy the from on next step in the flow.
   end;
+{$IFDEF DARKWIN}
+  if g_darkModeEnabled and (CloseAction <> caFree) then DestroyHandle;
+{$ENDIF}
 end;
 
 { TfrmFindDlg.SetWindowCaption }

@@ -26,12 +26,15 @@ type
     class function IsEmpty: Boolean; override;
   end;
 
+resourcestring
+  rsDarkModeOptions = 'Auto;Enabled;Disabled';
+
 implementation
 
 {$R *.lfm}
 
 uses
-  uShowMsg, uGlobsPaths;
+  DCStrUtils, uShowMsg, uGlobsPaths, uDarkStyle;
 
 { TfrmOptionsColors }
 
@@ -42,6 +45,7 @@ begin
   except
     on E: Exception do msgError(E.Message);
   end;
+  ParseLineToList(rsDarkModeOptions, rgDarkMode.Items);
 end;
 
 procedure TfrmOptionsColors.Load;
@@ -49,7 +53,8 @@ begin
   FMode:= FConfig.ReadInteger('General', 'DarkMode', 1);
   case FMode of
     1: rgDarkMode.ItemIndex:= 0;
-    3: rgDarkMode.ItemIndex:= 1;
+    2: rgDarkMode.ItemIndex:= 1;
+    3: rgDarkMode.ItemIndex:= 2;
   end;
 end;
 
@@ -65,7 +70,8 @@ begin
   Result:= [];
   case rgDarkMode.ItemIndex of
     0: AMode:= 1;
-    1: AMode:= 3;
+    1: AMode:= 2;
+    2: AMode:= 3;
   end;
   if FMode <> AMode then
   try
@@ -79,7 +85,7 @@ end;
 
 class function TfrmOptionsColors.IsEmpty: Boolean;
 begin
-  Result:= False;
+  Result:= not g_darkModeSupported;
 end;
 
 end.

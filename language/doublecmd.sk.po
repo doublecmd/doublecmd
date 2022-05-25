@@ -13,6 +13,10 @@ msgstr ""
 "X-Native-Language: Slovenčina\n"
 "X-Generator: Poedit 3.0\n"
 
+#: foptionscolors.rsdarkmodeoptions
+msgid "Auto;Enabled;Disabled"
+msgstr ""
+
 #: fsyncdirsdlg.rscomparingpercent
 msgid "Comparing... %d%% (ESC to cancel)"
 msgstr "Porovnávam... %d%% (ESC pre zrušenie)"

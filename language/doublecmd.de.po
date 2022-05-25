@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Double Commander 1.0.0 alpha\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-12-20 12:40+0300\n"
-"PO-Revision-Date: 2022-03-27 12:34+0200\n"
+"PO-Revision-Date: 2022-05-22 11:21+0200\n"
 "Last-Translator: ㋡ <braass@mail.de>\n"
 "Language-Team: Deutsch <braass@mail.de>\n"
 "MIME-Version: 1.0\n"
@@ -13,6 +13,10 @@ msgstr ""
 "Language: de\n"
 "X-Generator: Poedit 2.3\n"
 "X-Poedit-Bookmarks: -1,3123,-1,-1,-1,-1,-1,-1,-1,-1\n"
+
+#: foptionscolors.rsdarkmodeoptions
+msgid "Auto;Enabled;Disabled"
+msgstr ""
 
 #: fsyncdirsdlg.rscomparingpercent
 msgid "Comparing... %d%% (ESC to cancel)"
@@ -279,7 +283,7 @@ msgstr "Besitzer"
 #: tfrmattributesedit.lblexec.caption
 msgctxt "TFRMATTRIBUTESEDIT.LBLEXEC.CAPTION"
 msgid "Execute"
-msgstr "  Ausführen"
+msgstr "  Ausführen"
 
 #: tfrmattributesedit.lblread.caption
 msgctxt "TFRMATTRIBUTESEDIT.LBLREAD.CAPTION"
@@ -527,7 +531,6 @@ msgid "Redo"
 msgstr "Wiederholen"
 
 #: tfrmdiffer.acteditredo.hint
-#, fuzzy
 msgctxt "tfrmdiffer.acteditredo.hint"
 msgid "Redo"
 msgstr "Wiederholen"
@@ -542,7 +545,6 @@ msgid "Undo"
 msgstr "Rückgängig machen"
 
 #: tfrmdiffer.acteditundo.hint
-#, fuzzy
 msgctxt "tfrmdiffer.acteditundo.hint"
 msgid "Undo"
 msgstr "Rückgängig machen"
@@ -553,49 +555,41 @@ msgid "E&xit"
 msgstr "&Beenden"
 
 #: tfrmdiffer.actfind.caption
-#, fuzzy
 msgctxt "tfrmdiffer.actfind.caption"
 msgid "&Find"
 msgstr "&Suchen"
 
 #: tfrmdiffer.actfind.hint
-#, fuzzy
 msgctxt "tfrmdiffer.actfind.hint"
 msgid "Find"
 msgstr "Suchen"
 
 #: tfrmdiffer.actfindnext.caption
-#, fuzzy
 msgctxt "tfrmdiffer.actfindnext.caption"
 msgid "Find next"
-msgstr "Nächste suchen"
+msgstr "Nächstes suchen"
 
 #: tfrmdiffer.actfindnext.hint
-#, fuzzy
 msgctxt "tfrmdiffer.actfindnext.hint"
 msgid "Find next"
-msgstr "Nächste suchen"
+msgstr "Nächstes suchen"
 
 #: tfrmdiffer.actfindprev.caption
-#, fuzzy
 msgctxt "tfrmdiffer.actfindprev.caption"
 msgid "Find previous"
-msgstr "Vorige suchen"
+msgstr "Voriges suchen"
 
 #: tfrmdiffer.actfindprev.hint
-#, fuzzy
 msgctxt "tfrmdiffer.actfindprev.hint"
 msgid "Find previous"
-msgstr "Vorige suchen"
+msgstr "Voriges suchen"
 
 #: tfrmdiffer.actfindreplace.caption
-#, fuzzy
 msgctxt "tfrmdiffer.actfindreplace.caption"
 msgid "&Replace"
 msgstr "E&rsetzen"
 
 #: tfrmdiffer.actfindreplace.hint
-#, fuzzy
 msgctxt "tfrmdiffer.actfindreplace.hint"
 msgid "Replace"
 msgstr "Ersetzen"
@@ -611,13 +605,11 @@ msgid "First Difference"
 msgstr "Erster Unterschied"
 
 #: tfrmdiffer.actgotoline.caption
-#, fuzzy
 msgctxt "tfrmdiffer.actgotoline.caption"
 msgid "Goto Line..."
 msgstr "Gehe zu Zeile ..."
 
 #: tfrmdiffer.actgotoline.hint
-#, fuzzy
 msgctxt "tfrmdiffer.actgotoline.hint"
 msgid "Goto Line"
 msgstr "Gehe zu Zeile"
@@ -902,17 +894,17 @@ msgstr "Suchen"
 #: tfrmeditor.acteditfindnext.caption
 msgctxt "tfrmeditor.acteditfindnext.caption"
 msgid "Find next"
-msgstr "Nächste suchen"
+msgstr "Nächstes suchen"
 
 #: tfrmeditor.acteditfindnext.hint
 msgctxt "tfrmeditor.acteditfindnext.hint"
 msgid "Find next"
-msgstr "Nächste suchen"
+msgstr "Nächstes suchen"
 
 #: tfrmeditor.acteditfindprevious.caption
 msgctxt "tfrmeditor.acteditfindprevious.caption"
 msgid "Find previous"
-msgstr "Vorige suchen"
+msgstr "Voriges suchen"
 
 #: tfrmeditor.acteditgotoline.caption
 msgctxt "tfrmeditor.acteditgotoline.caption"
@@ -1122,7 +1114,7 @@ msgstr "&OK"
 
 #: tfrmeditsearchreplace.cbmultiline.caption
 msgid "&Multiline pattern"
-msgstr ""
+msgstr "&Mehrzeiliges Schema"
 
 #: tfrmeditsearchreplace.cbsearchcasesensitive.caption
 msgid "C&ase sensitivity"
@@ -1331,7 +1323,7 @@ msgstr "Enthält:"
 #: tfrmfileproperties.lblexec.caption
 msgctxt "TFRMFILEPROPERTIES.LBLEXEC.CAPTION"
 msgid "Execute"
-msgstr "  Ausführen"
+msgstr "  Ausführen"
 
 #: tfrmfileproperties.lblexecutable.caption
 msgid "Execute:"
@@ -3337,7 +3329,7 @@ msgstr "Neues Verzeichnis erstellen"
 
 #: tfrmmkdir.cbextended.caption
 msgid "&Extended syntax"
-msgstr ""
+msgstr "&Erweiterte Schreibweise"
 
 #: tfrmmkdir.lblmakedir.caption
 msgid "&Input new directory name:"
@@ -3651,10 +3643,9 @@ msgstr "Mehrfaches Umbenennen"
 
 #: tfrmmultirename.cbcasesens.caption
 msgid "A≠a"
-msgstr ""
+msgstr "A≠a"
 
 #: tfrmmultirename.cbcasesens.hint
-#, fuzzy
 msgctxt "tfrmmultirename.cbcasesens.hint"
 msgid "Case sensitive"
 msgstr "Abhängig von Groß-/Kleinschreibung"
@@ -3670,11 +3661,11 @@ msgstr "Anhängen"
 
 #: tfrmmultirename.cbonlyfirst.caption
 msgid "1x"
-msgstr ""
+msgstr "1x"
 
 #: tfrmmultirename.cbonlyfirst.hint
 msgid "Replace only once per file"
-msgstr ""
+msgstr "Nur einmal pro Datei ersetzen"
 
 #: tfrmmultirename.cbregexp.caption
 msgctxt "TFRMMULTIRENAME.CBREGEXP.CAPTION"
@@ -4175,7 +4166,7 @@ msgstr "Feste Spaltenweite"
 
 #: tfrmoptionscolors.rgdarkmode.caption
 msgid "Dark mode"
-msgstr ""
+msgstr "Dark Mode"
 
 #: tfrmoptionscolumnsview.cbcuttexttocolwidth.caption
 msgid "Cut &text to column width"
@@ -8818,7 +8809,7 @@ msgstr "Text:"
 #: tfrmsetfileproperties.lblexec.caption
 msgctxt "TFRMSETFILEPROPERTIES.LBLEXEC.CAPTION"
 msgid "Execute"
-msgstr "  Ausführen"
+msgstr "  Ausführen"
 
 #: tfrmsetfileproperties.lblmodeinfo.caption
 msgctxt "tfrmsetfileproperties.lblmodeinfo.caption"
@@ -9425,12 +9416,12 @@ msgstr "Suchen"
 #: tfrmviewer.actfindnext.caption
 msgctxt "tfrmviewer.actfindnext.caption"
 msgid "Find next"
-msgstr "Nächste suchen"
+msgstr "Nächstes suchen"
 
 #: tfrmviewer.actfindprev.caption
 msgctxt "tfrmviewer.actfindprev.caption"
 msgid "Find previous"
-msgstr "Vorige suchen"
+msgstr "Voriges suchen"
 
 #: tfrmviewer.actfullscreen.caption
 msgctxt "tfrmviewer.actfullscreen.caption"
@@ -9445,7 +9436,7 @@ msgstr "Zentrieren"
 #: tfrmviewer.actloadnextfile.caption
 msgctxt "TFRMVIEWER.ACTLOADNEXTFILE.CAPTION"
 msgid "&Next"
-msgstr "&Nächste"
+msgstr "&Nächstes"
 
 #: tfrmviewer.actloadnextfile.hint
 msgid "Load Next File"
@@ -9454,7 +9445,7 @@ msgstr "Nächste Datei laden"
 #: tfrmviewer.actloadprevfile.caption
 msgctxt "TFRMVIEWER.ACTLOADPREVFILE.CAPTION"
 msgid "&Previous"
-msgstr "&Vorige"
+msgstr "&Voriges"
 
 #: tfrmviewer.actloadprevfile.hint
 msgid "Load Previous File"
@@ -9616,7 +9607,7 @@ msgstr "Plugins"
 
 #: tfrmviewer.actshowtransparency.caption
 msgid "Show transparenc&y"
-msgstr ""
+msgstr "Transparenz anzeigen"
 
 #: tfrmviewer.actstretchimage.caption
 msgctxt "TFRMVIEWER.ACTSTRETCHIMAGE.CAPTION"
@@ -11042,7 +11033,7 @@ msgstr ""
 
 #: ulng.rsmsgcanceloperation
 msgid "Are you sure that you want to cancel this operation?"
-msgstr ""
+msgstr "Sicher, dass Sie die Operation Abbrechen wollen?"
 
 #: ulng.rsmsgcannotcopymoveitself
 msgid "You can not copy/move a file \"%s\" to itself!"

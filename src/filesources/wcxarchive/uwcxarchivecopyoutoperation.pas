@@ -1,6 +1,9 @@
 unit uWcxArchiveCopyOutOperation;
 
 {$mode objfpc}{$H+}
+{$if FPC_FULLVERSION >= 30300}
+{$modeswitch arraytodynarray}
+{$endif}
 {$include calling.inc}
 
 interface
@@ -569,14 +572,12 @@ end;
 
 function TWcxArchiveCopyOutOperation.DoFileExists(Header: TWcxHeader;
   var AbsoluteTargetFileName: String): TFileSourceOperationOptionFileExists;
-type
-  TFileSourceOperationUIResponses = array of TFileSourceOperationUIResponse;
 const
-  Responses: TFileSourceOperationUIResponses
+  Responses: array[0..10] of TFileSourceOperationUIResponse
     = (fsourOverwrite, fsourSkip, fsourOverwriteLarger, fsourOverwriteAll,
        fsourSkipAll, fsourOverwriteSmaller, fsourOverwriteOlder, fsourCancel,
        fsouaCompare, fsourRenameSource, fsourAutoRenameSource);
-  ResponsesNoCompare: TFileSourceOperationUIResponses
+  ResponsesNoCompare: array[0..9] of TFileSourceOperationUIResponse
     = (fsourOverwrite, fsourSkip, fsourOverwriteLarger, fsourOverwriteAll,
        fsourSkipAll, fsourOverwriteSmaller, fsourOverwriteOlder, fsourCancel,
        fsourRenameSource, fsourAutoRenameSource);

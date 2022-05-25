@@ -306,7 +306,12 @@ begin
       end;
     end;
 
-    FileName := Copy(FCheckSumFile.ValueFromIndex[I], 2, MaxInt);
+    FileName := FCheckSumFile.ValueFromIndex[I];
+
+    if (Length(FileName) > 0) and (FileName[1] in [' ', '*']) then
+    begin
+      Delete(FileName, 1, 1);
+    end;
 
     AddFile(Path, FileName, FCheckSumFile.Names[I]);
 
