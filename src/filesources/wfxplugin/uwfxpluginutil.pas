@@ -1,6 +1,9 @@
 unit uWfxPluginUtil;
 
 {$mode objfpc}{$H+}
+{$if FPC_FULLVERSION >= 30300}
+{$modeswitch arraytodynarray}
+{$endif}
 
 interface
 
@@ -438,13 +441,11 @@ end;
 function TWfxPluginOperationHelper.FileExists(aFile: TFile;
   AbsoluteTargetFileName: String; AllowResume: Boolean
   ): TFileSourceOperationOptionFileExists;
-type
-  TFileSourceOperationUIResponses = array of TFileSourceOperationUIResponse;
 const
-  Responses: TFileSourceOperationUIResponses
+  Responses: array[0..6] of TFileSourceOperationUIResponse
     = (fsourOverwrite, fsourSkip, fsourResume, fsourOverwriteAll, fsourSkipAll,
        fsouaCompare, fsourCancel);
-  ResponsesNoResume: TFileSourceOperationUIResponses
+  ResponsesNoResume: array[0..5] of TFileSourceOperationUIResponse
     = (fsourOverwrite, fsourSkip, fsourOverwriteAll, fsourSkipAll, fsouaCompare,
        fsourCancel);
 var

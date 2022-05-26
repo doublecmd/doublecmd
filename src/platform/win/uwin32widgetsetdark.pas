@@ -39,8 +39,8 @@ uses
   WSStdCtrls, Win32WSControls, StdCtrls, WSControls, Graphics, Themes, LazUTF8,
   UxTheme, Win32Themes, ExtCtrls, WSMenus, JwaWinGDI, FPImage, Math, uDarkStyle,
   WSComCtrls, CommCtrl, uImport, WSForms, Win32WSButtons, Buttons, Win32Extra,
-  Win32WSForms, Win32WSSpin, Spin, Win32WSMenus,
-  Generics.Collections, TmSchema;
+  Win32WSForms, Win32WSSpin, Spin, Win32WSMenus, Dialogs,
+  Generics.Collections, TmSchema, InterfaceBase;
 
 type
   TWinControlDark = class(TWinControl);
@@ -1240,6 +1240,61 @@ begin
   Result:= __CreateWindowExW(dwExStyle, lpClassName, lpWindowName, dwStyle, X, Y, nWidth, nHeight, hWndParent, hMenu, hInstance, lpParam);
 end;
 
+function TaskDialogIndirectDark(const pTaskConfig: PTASKDIALOGCONFIG; pnButton: PInteger; pnRadioButton: PInteger; pfVerificationFlagChecked: PBOOL): HRESULT; stdcall;
+const
+  BTN_USER = $1000;
+var
+  Idx: Integer;
+  Index: Integer;
+  Button: TDialogButton;
+  Buttons: TDialogButtons;
+  DlgType: Integer = idDialogInfo;
+begin
+  with pTaskConfig^ do
+  begin
+    if (pszMainIcon = TD_INFORMATION_ICON) then
+      DlgType:= idDialogInfo
+    else if (pszMainIcon = TD_WARNING_ICON) then
+      DlgType:= idDialogWarning
+    else if (pszMainIcon = TD_ERROR_ICON) then
+      DlgType:= idDialogError
+    else if (pszMainIcon = TD_SHIELD_ICON) then
+      DlgType:= idDialogShield
+    else if (dwFlags and TDF_USE_HICON_MAIN <> 0) then
+    begin
+      if (hMainIcon = Windows.LoadIcon(0, IDI_QUESTION)) then
+        DlgType:= idDialogConfirm;
+    end;
+
+    Buttons:= TDialogButtons.Create(TDialogButton);
+    try
+      for Index:= 0 to cButtons - 1 do
+      begin
+        Button:= Buttons.Add;
+        Idx:= pButtons[Index].nButtonID;
+        Button.ModalResult:= (Idx + BTN_USER);
+        Button.Default:= (Idx = nDefaultButton);
+        Button.Caption:= UTF8Encode(UnicodeString(pButtons[Index].pszButtonText));
+      end;
+
+      Result:= DefaultQuestionDialog(UTF8Encode(UnicodeString(pszWindowTitle)),
+                                     UTF8Encode(UnicodeString(pszContent)), DlgType, Buttons, 0);
+
+      if Assigned(pnButton) then
+      begin
+        if (Result < BTN_USER) then
+          pnButton^:= Result
+        else begin
+          pnButton^:= Result - BTN_USER;
+        end;
+      end;
+    finally
+      Buttons.Free;
+    end;
+  end;
+  Result:= S_OK;
+end;
+
 procedure SubClassUpDown;
 var
   Window: HWND;
@@ -1321,6 +1376,8 @@ begin
   end;
 
   DefaultWindowInfo.DefWndProc:= @WindowProc;
+
+  TaskDialogIndirect:= @TaskDialogIndirectDark;
 end;
 
 function FormWndProc(Window: HWnd; Msg: UInt; WParam: Windows.WParam;

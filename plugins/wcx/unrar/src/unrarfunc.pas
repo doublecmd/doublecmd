@@ -25,7 +25,7 @@
 unit UnRARFunc;
 
 {$mode objfpc}{$H+}
-{$ifndef VER3_2}
+{$if FPC_FULLVERSION >= 30300}
 {$modeswitch arraytodynarray}
 {$endif}
 {$include calling.inc}
