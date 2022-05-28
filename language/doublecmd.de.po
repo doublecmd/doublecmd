@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Double Commander 1.0.0 alpha\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-12-20 12:40+0300\n"
-"PO-Revision-Date: 2022-05-22 11:21+0200\n"
+"PO-Revision-Date: 2022-05-25 09:57+0200\n"
 "Last-Translator: ㋡ <braass@mail.de>\n"
 "Language-Team: Deutsch <braass@mail.de>\n"
 "MIME-Version: 1.0\n"
@@ -16,7 +16,7 @@ msgstr ""
 
 #: foptionscolors.rsdarkmodeoptions
 msgid "Auto;Enabled;Disabled"
-msgstr ""
+msgstr "Automatisch;Aktiviert;Deaktiviert"
 
 #: fsyncdirsdlg.rscomparingpercent
 msgid "Comparing... %d%% (ESC to cancel)"
@@ -13989,4 +13989,3 @@ msgstr "Eine Ersetzung hat nicht stattgefunden."
 #: umaincommands.rsfavoritetabs_setupnotexist
 msgid "No setup named \"%s\""
 msgstr "Keine Einstellung namens »%s«"
-
