@@ -2381,7 +2381,11 @@ begin
   if Result then
   begin
     ViewerControl.Text:= AText;
-    ViewerControl.Mode:= vcmText;
+    if gViewerWrapText then
+      ViewerControl.Mode:= vcmWrap
+    else begin
+      ViewerControl.Mode:= vcmText;
+    end;
     ViewerControl.Encoding:= veUtf8;
   end;
 end;

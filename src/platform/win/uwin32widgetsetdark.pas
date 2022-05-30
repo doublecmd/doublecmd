@@ -39,8 +39,8 @@ uses
   WSStdCtrls, Win32WSControls, StdCtrls, WSControls, Graphics, Themes, LazUTF8,
   UxTheme, Win32Themes, ExtCtrls, WSMenus, JwaWinGDI, FPImage, Math, uDarkStyle,
   WSComCtrls, CommCtrl, uImport, WSForms, Win32WSButtons, Buttons, Win32Extra,
-  Win32WSForms, Win32WSSpin, Spin, Win32WSMenus,
-  Generics.Collections, TmSchema;
+  Win32WSForms, Win32WSSpin, Spin, Win32WSMenus, Dialogs, GraphUtil,
+  Generics.Collections, TmSchema, InterfaceBase;
 
 type
   TWinControlDark = class(TWinControl);
@@ -171,75 +171,14 @@ begin
   SendMessageW(Window, WM_THEMECHANGED, 0, 0);
 end;
 
-procedure RGBToHSV(R, G, B: Integer; out H, S, V: Double);
-var
-  rr, gg, bb: Double;
-  cmax, cmin, delta: Double;
-begin
-  rr := R / 255;
-  gg := G / 255;
-  bb := B / 255;
-  cmax := MaxValue([rr, gg, bb]);
-  cmin := MinValue([rr, gg, bb]);
-  delta := cmax - cmin;
-  if delta = 0 then
-  begin
-    H := 0;
-    S := 0;
-  end else
-  begin
-    if cmax = rr then
-      H := (gg - bb) / delta + IfThen(gg < bb, 6, 0)
-    else if cmax = gg then
-      H := (bb - rr) / delta + 2
-    else if (cmax = bb) then
-      H := (rr -gg) / delta + 4;
-    H := H / 6;
-    S := delta / cmax;
-  end;
-  V := cmax;
-end;
-
-procedure ColorToHSV(C: TColor; out H, S, V: Double);
-begin
-  RGBToHSV(GetRValue(C), GetGValue(C), GetBValue(C), H, S, V);
-end;
-
-procedure HSVtoRGB(H, S, V: Double; out R, G, B: Integer);
-var
-  i: Integer;
-  f: Double;
-  p, q, t: Double;
-
-  procedure MakeRgb(rr, gg, bb: Double);
-  begin
-    R := Min(MAXBYTE, Round(rr * 255));
-    G := Min(MAXBYTE, Round(gg * 255));
-    B := Min(MAXBYTE, Round(bb * 255));
-  end;
-
-begin
-  i := floor(H * 6);
-  f := H * 6 - i;
-  p := V * (1 - S);
-  q := V * (1 - f*S);
-  t := V * (1 - (1 - f) * S);
-  case i mod 6 of
-    0: MakeRGB(V, t, p);
-    1: MakeRGB(q, V, p);
-    2: MakeRGB(p, V, t);
-    3: MakeRGB(p, q, V);
-    4: MakeRGB(t, p, V);
-    5: MakeRGB(V, p, q);
-    else MakeRGB(0, 0, 0);
-  end;
-end;
-
 function HSVToColor(H, S, V: Double): TColor;
 var
   R, G, B: Integer;
 begin
   HSVtoRGB(H, S, V, R, G, B);
+  R := Min(MAXBYTE, R);
+  G := Min(MAXBYTE, G);
+  B := Min(MAXBYTE, B);
   Result:= RGBToColor(R, G, B);
 end;
 
@@ -1240,6 +1179,61 @@ begin
   Result:= __CreateWindowExW(dwExStyle, lpClassName, lpWindowName, dwStyle, X, Y, nWidth, nHeight, hWndParent, hMenu, hInstance, lpParam);
 end;
 
+function TaskDialogIndirectDark(const pTaskConfig: PTASKDIALOGCONFIG; pnButton: PInteger; pnRadioButton: PInteger; pfVerificationFlagChecked: PBOOL): HRESULT; stdcall;
+const
+  BTN_USER = $1000;
+var
+  Idx: Integer;
+  Index: Integer;
+  Button: TDialogButton;
+  Buttons: TDialogButtons;
+  DlgType: Integer = idDialogInfo;
+begin
+  with pTaskConfig^ do
+  begin
+    if (pszMainIcon = TD_INFORMATION_ICON) then
+      DlgType:= idDialogInfo
+    else if (pszMainIcon = TD_WARNING_ICON) then
+      DlgType:= idDialogWarning
+    else if (pszMainIcon = TD_ERROR_ICON) then
+      DlgType:= idDialogError
+    else if (pszMainIcon = TD_SHIELD_ICON) then
+      DlgType:= idDialogShield
+    else if (dwFlags and TDF_USE_HICON_MAIN <> 0) then
+    begin
+      if (hMainIcon = Windows.LoadIcon(0, IDI_QUESTION)) then
+        DlgType:= idDialogConfirm;
+    end;
+
+    Buttons:= TDialogButtons.Create(TDialogButton);
+    try
+      for Index:= 0 to cButtons - 1 do
+      begin
+        Button:= Buttons.Add;
+        Idx:= pButtons[Index].nButtonID;
+        Button.ModalResult:= (Idx + BTN_USER);
+        Button.Default:= (Idx = nDefaultButton);
+        Button.Caption:= UTF8Encode(UnicodeString(pButtons[Index].pszButtonText));
+      end;
+
+      Result:= DefaultQuestionDialog(UTF8Encode(UnicodeString(pszWindowTitle)),
+                                     UTF8Encode(UnicodeString(pszContent)), DlgType, Buttons, 0);
+
+      if Assigned(pnButton) then
+      begin
+        if (Result < BTN_USER) then
+          pnButton^:= Result
+        else begin
+          pnButton^:= Result - BTN_USER;
+        end;
+      end;
+    finally
+      Buttons.Free;
+    end;
+  end;
+  Result:= S_OK;
+end;
+
 procedure SubClassUpDown;
 var
   Window: HWND;
@@ -1321,6 +1315,8 @@ begin
   end;
 
   DefaultWindowInfo.DefWndProc:= @WindowProc;
+
+  TaskDialogIndirect:= @TaskDialogIndirectDark;
 end;
 
 function FormWndProc(Window: HWnd; Msg: UInt; WParam: Windows.WParam;
