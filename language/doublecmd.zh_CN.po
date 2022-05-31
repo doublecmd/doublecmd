@@ -13,7 +13,7 @@ msgstr ""
 
 #: foptionscolors.rsdarkmodeoptions
 msgid "Auto;Enabled;Disabled"
-msgstr ""
+msgstr "自动;启用;禁用"
 
 #: fsyncdirsdlg.rscomparingpercent
 msgid "Comparing... %d%% (ESC to cancel)"
@@ -988,7 +988,7 @@ msgstr "取消(&A)"
 #: tfrmeditor.acteditselectall.hint
 msgctxt "tfrmeditor.acteditselectall.hint"
 msgid "Select All"
-msgstr "选择全部"
+msgstr "全选"
 
 #: tfrmeditor.acteditundo.caption
 msgctxt "TFRMEDITOR.ACTEDITUNDO.CAPTION"
@@ -1123,7 +1123,7 @@ msgstr "确定(&O)"
 
 #: tfrmeditsearchreplace.cbmultiline.caption
 msgid "&Multiline pattern"
-msgstr ""
+msgstr "多行模式(&M)"
 
 #: tfrmeditsearchreplace.cbsearchcasesensitive.caption
 msgid "C&ase sensitivity"
@@ -2449,11 +2449,11 @@ msgstr "从收藏夹标签加载标签"
 
 #: tfrmmain.actloadlist.caption
 msgid "Load List"
-msgstr ""
+msgstr "载入列表"
 
 #: tfrmmain.actloadlist.hint
 msgid "Load list of files/folders from the specified text file"
-msgstr ""
+msgstr "从指定的文本文件加载文件/文件夹列表"
 
 #: tfrmmain.actloadselectionfromclip.caption
 msgid "Load Selection from Clip&board"
@@ -2513,11 +2513,11 @@ msgstr "最小化窗口"
 
 #: tfrmmain.actmovetableft.caption
 msgid "Move current tab to the left"
-msgstr ""
+msgstr "将当前选项卡向左移动"
 
 #: tfrmmain.actmovetabright.caption
 msgid "Move current tab to the right"
-msgstr ""
+msgstr "将当前选项卡向右移动"
 
 #: tfrmmain.actmultirename.caption
 msgid "Multi-&Rename Tool"
@@ -3322,7 +3322,7 @@ msgstr "创建新文件夹"
 
 #: tfrmmkdir.cbextended.caption
 msgid "&Extended syntax"
-msgstr ""
+msgstr "扩展语法(&E)"
 
 #: tfrmmkdir.lblmakedir.caption
 msgid "&Input new directory name:"
@@ -3356,7 +3356,7 @@ msgstr ""
 #: tfrmmodview.caption
 msgctxt "tfrmmodview.caption"
 msgid "New Size"
-msgstr "新的大小"
+msgstr "新尺寸"
 
 #: tfrmmodview.lblheight.caption
 msgid "Height :"
@@ -3648,7 +3648,7 @@ msgstr "区分大小写"
 #, fuzzy
 #| msgid "Ena&ble"
 msgid "&Log result"
-msgstr "启用(&B)"
+msgstr "记录结果(&L)"
 
 #: tfrmmultirename.cblogappend.caption
 msgid "Append"
@@ -5566,7 +5566,7 @@ msgstr "重命名"
 #: tfrmoptionsfavoritetabs.misorteverything.caption
 msgctxt "tfrmoptionsfavoritetabs.misorteverything.caption"
 msgid "...everything, from A to Z!"
-msgstr "...一切，从 A 到 Z！"
+msgstr "...全部，从 A 到 Z！"
 
 #: tfrmoptionsfavoritetabs.misortsinglegroup.caption
 msgctxt "tfrmoptionsfavoritetabs.misortsinglegroup.caption"
@@ -9437,7 +9437,7 @@ msgstr "延迟 5 秒"
 #: tfrmviewer.actselectall.caption
 msgctxt "tfrmviewer.actselectall.caption"
 msgid "Select All"
-msgstr "选择全部"
+msgstr "全选"
 
 #: tfrmviewer.actshowasbin.caption
 msgid "Show as &Bin"
@@ -10835,7 +10835,7 @@ msgstr "映射网络驱动器..."
 
 #: ulng.rsmnumount
 msgid "Mount"
-msgstr "安装"
+msgstr "挂载"
 
 #: ulng.rsmnunew
 msgctxt "ulng.rsmnunew"
