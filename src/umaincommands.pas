@@ -210,6 +210,8 @@ type
    procedure cm_CloseDuplicateTabs(const Params: array of string);
    procedure cm_NextTab(const Params: array of string);
    procedure cm_PrevTab(const Params: array of string);
+   procedure cm_MoveTabLeft(const Params: array of string);
+   procedure cm_MoveTabRight(const Params: array of string);
    procedure cm_ActivateTabByIndex(const Params: array of string);
    procedure cm_SaveTabs(const Params: array of string);
    procedure cm_LoadTabs(const Params: array of string);
@@ -328,6 +330,7 @@ type
    procedure cm_ClearLogFile(const Params: array of string);
    procedure cm_NetworkConnect(const Params: array of string);
    procedure cm_NetworkDisconnect(const Params: array of string);
+   procedure cm_CopyNetNamesToClip(const Params: array of string);
    procedure cm_HorizontalFilePanels(const Params: array of string);
    procedure cm_OperationsViewer(const Params: array of string);
    procedure cm_CompareDirectories(const Params: array of string);
@@ -367,6 +370,7 @@ type
    procedure cm_ConfigPlugins(const {%H-}Params: array of string);
    procedure cm_OpenDriveByIndex(const Params: array of string);
    procedure cm_AddPlugin(const Params: array of string);
+   procedure cm_LoadList(const Params: array of string);
 
    // Internal commands
    procedure cm_ExecuteToolbarItem(const Params: array of string);
@@ -1706,6 +1710,18 @@ end;
 procedure TMainCommands.cm_PrevTab(const Params: array of string);
 begin
   frmMain.ActiveNotebook.ActivatePrevTab;
+end;
+
+procedure TMainCommands.cm_MoveTabLeft(const Params: array of string);
+begin
+  with frmMain.ActiveNotebook.ActivePage do
+    if PageIndex > 0 then PageIndex:= PageIndex - 1;
+end;
+
+procedure TMainCommands.cm_MoveTabRight(const Params: array of string);
+begin
+  with frmMain.ActiveNotebook.ActivePage do
+    PageIndex:= PageIndex + 1;
 end;
 
 procedure TMainCommands.cm_ActivateTabByIndex(const Params: array of string);
@@ -3846,14 +3862,7 @@ end;
 
 procedure TMainCommands.cm_ToggleFullscreenConsole(const Params: array of string);
 begin
-  with frmMain do
-  begin
-    ToggleFullscreenConsole;
-    if IsCommandLineVisible then
-    begin
-      edtCommand.SetFocus;
-    end;
-  end;
+  frmMain.ToggleFullscreenConsole;
 end;
 
 procedure TMainCommands.cm_RunTerm(const Params: array of string);
@@ -4417,6 +4426,11 @@ end;
 procedure TMainCommands.cm_NetworkDisconnect(const Params: array of string);
 begin
   CloseNetworkConnection();
+end;
+
+procedure TMainCommands.cm_CopyNetNamesToClip(const Params: array of string);
+begin
+  CopyNetNamesToClip;
 end;
 
 procedure TMainCommands.cm_HorizontalFilePanels(const Params: array of string);
@@ -5351,6 +5365,69 @@ begin
       if Editor.CanFocus then Editor.SetFocus;
       TfrmOptionsPluginsBase(Editor).ActualAddPlugin(sPluginFilename);
     end;
+  end;
+end;
+
+procedure TMainCommands.cm_LoadList(const Params: array of string);
+var
+  aFile: TFile;
+  sValue: String;
+  AParam: String;
+  Index: Integer;
+  AFileName: String;
+  FileList: TFileTree;
+  NewPage: TFileViewPage;
+  StringList: TStringListUAC;
+  Notebook: TFileViewNotebook;
+  SearchResultFS: ISearchResultFileSource;
+begin
+  with frmMain do
+  begin
+    AFileName:= EmptyStr;
+    Notebook := ActiveNotebook;
+    for AParam in Params do
+    begin
+      if GetParamValue(AParam, 'filename', sValue) then
+        AFileName := sValue
+      else if GetParamValue(AParam, 'side', sValue) then
+      begin
+        if sValue = 'left' then Notebook := LeftTabs
+        else if sValue = 'right' then Notebook := RightTabs
+        else if sValue = 'active' then Notebook := ActiveNotebook
+        else if sValue = 'inactive' then Notebook := NotActiveNotebook;
+      end;
+    end;
+    if (Length(AFileName) = 0) then
+    begin
+      msgError(rsMsgInvalidFilename);
+      Exit;
+    end;
+    StringList:= TStringListUAC.Create;
+    try
+      StringList.LoadFromFile(AFileName);
+
+      FileList := TFileTree.Create;
+
+      for Index := 0 to StringList.Count - 1 do
+      begin
+        try
+          aFile := TFileSystemFileSource.CreateFileFromFile(StringList[Index]);
+          FileList.AddSubNode(aFile);
+        except
+          on EFileNotFound do ;
+        end;
+      end;
+      SearchResultFS := TSearchResultFileSource.Create;
+      SearchResultFS.AddList(FileList, TFileSystemFileSource.GetFileSource);
+
+      NewPage := Notebook.ActivePage;
+      NewPage.FileView.AddFileSource(SearchResultFS, SearchResultFS.GetRootDir);
+      NewPage.FileView.FlatView := True;
+      NewPage.MakeActive;
+    except
+      on E: Exception do msgError(E.Message);
+    end;
+    StringList.Free;
   end;
 end;
 

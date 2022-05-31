@@ -394,7 +394,7 @@ begin
   if Files.Count = 0 then Exit;
   if bUnicode then
     begin
-      wsFileList := UTF8Decode(Self.Files[0]) + #0;
+      wsFileList := CeUtf8ToUtf16(Self.Files[0]) + #0;
       Result := MakeHGlobal(PWideChar(wsFileList),
                             Length(wsFileList) * SizeOf(WideChar));
     end
@@ -420,7 +420,7 @@ begin
 
     wsUriList := wsUriList
                + fileScheme + '//'  { don't put hostname }
-               + UTF8Decode(URIEncode(StringReplace(Files[I], '\', '/', [rfReplaceAll] )));
+               + CeUtf8ToUtf16(URIEncode(StringReplace(Files[I], '\', '/', [rfReplaceAll] )));
   end;
 
   wsUriList := wsUriList + #0;
@@ -514,7 +514,7 @@ begin
       begin
         // Get PIDL for each file (if Desktop is the root, then
         // absolute paths are acceptable).
-        pidl := GetPidlFromPath(ShellDesktop, UTF8Decode(Files[i]));
+        pidl := GetPidlFromPath(ShellDesktop, CeUtf8ToUtf16(Files[i]));
 
         if pidl <> nil then
         begin
@@ -611,7 +611,7 @@ begin
   if bUnicode then
   begin
     for I := 0 to Self.Files.Count - 1 do
-      wsFileList := wsFileList + UTF8Decode(Self.Files[I]) + #0;
+      wsFileList := wsFileList + CeUtf8ToUtf16(Self.Files[I]) + #0;
     wsFileList := wsFileList + #0;
     { Определяем необходимый размер структуры }
     RequiredSize := SizeOf(TDropFiles) + Length(wsFileList) * SizeOf(WChar);
@@ -1010,7 +1010,7 @@ begin
     if Medium.TYMED = TYMED_ISTORAGE then
     begin
       iStg := IStorage(Medium.pstg);
-      StgDocFile := UTF8Decode(InnerFilename);
+      StgDocFile := CeUtf8ToUtf16(InnerFilename);
       StgCreateDocfile(PWideChar(StgDocFile), STGM_CREATE Or STGM_READWRITE Or STGM_SHARE_EXCLUSIVE, 0, iFile);
       tIID:=nil;
       iStg.CopyTo(0, tIID, nil, iFile);
@@ -1148,12 +1148,11 @@ end;
 { TFileDropTarget.GetDropTextCreatedFilenames }
 function TFileDropTarget.GetDropTextCreatedFilenames(var Medium: TSTGMedium; Format: TFormatETC): TStringList;
 var
-  FlagKeepGoing:boolean;
-  AnyPointer: Pointer;
-  UnicodeCharPointer: PUnicodeChar;
   hFile: THandle;
+  AnyPointer: Pointer;
+  MyUtf8String: String;
+  FlagKeepGoing: Boolean;
   DroppedTextFilename: String;
-  MyUnicodeString: UnicodeString;
 
   procedure SetDefaultFilename;
   begin
@@ -1166,7 +1165,7 @@ var
   end;
 
 begin
-  result:=nil;
+  Result:= nil;
   FlagKeepGoing:=TRUE;
   SetDefaultFilename;
   if not gDragAndDropTextAutoFilename then FlagKeepGoing:=ShowInputQuery(rsCaptionForAskingFilename, rsMsgPromptAskingFilename, DroppedTextFilename);
@@ -1183,35 +1182,31 @@ begin
         case Format.CfFormat of
           CF_TEXT:
             begin
-              FileWrite(hFile, PAnsiChar(AnyPointer)^, UTF8Length(PAnsiChar(AnyPointer)));
+              FileWrite(hFile, AnyPointer^, StrLen(PAnsiChar(AnyPointer)));
             end;
 
           CF_UNICODETEXT:
             begin
               if gDragAndDropSaveUnicodeTextInUFT8 then
               begin
-                UnicodeCharPointer:=AnyPointer;
-                MyUnicodeString:='';
-                while UnicodeCharPointer^<>#$0000 do
-                begin
-                  MyUnicodeString:=MyUnicodeString+UnicodeCharPointer^;
-                  inc(UnicodeCharPointer);
-                end;
-
-                FileWrite(hFile, PChar(#$EF+#$BB+#$BF)[0], 3); //Adding Byte Order Mask for UTF8.
-                FileWrite(hFile, UTF16toUTF8(MyUnicodeString)[1], Length(UTF16toUTF8(MyUnicodeString)));
+                MyUtf8String:= CeUtf16toUtf8(PUnicodeChar(AnyPointer));
+                // Adding Byte Order Mark for UTF8
+                FileWrite(hFile, PAnsiChar(#$EF#$BB#$BF)[0], 3);
+                FileWrite(hFile, Pointer(MyUtf8String)^, Length(MyUtf8String));
               end
-              else
-              begin
-                FileWrite(hFile, PChar(#$FF+#$FE)[0], 2); //Adding Byte Order Mask for UTF16, Little-Endian first.
-                FileWrite(hFile, PUnicodeChar(AnyPointer)^, Length(PUnicodeChar(AnyPointer))*2);
+              else begin
+                // Adding Byte Order Mark for UTF16LE
+                FileWrite(hFile, PAnsiChar(#$FF#$FE)[0], 2);
+                FileWrite(hFile, AnyPointer^, StrLen(PUnicodeChar(AnyPointer)) * SizeOf(WideChar));
               end;
             end;
 
           else
             begin
-              if Format.CfFormat=CFU_HTML then FileWrite(hFile, PAnsiChar(AnyPointer)^, UTF8Length(PAnsiChar(AnyPointer)));
-              if Format.CfFormat=CFU_RICHTEXT then FileWrite(hFile, PAnsiChar(AnyPointer)^, UTF8Length(PAnsiChar(AnyPointer)));
+              if (Format.CfFormat = CFU_HTML) or (Format.CfFormat = CFU_RICHTEXT) then
+              begin
+                FileWrite(hFile, AnyPointer^, StrLen(PAnsiChar(AnyPointer)));
+              end;
             end;
         end;
       finally

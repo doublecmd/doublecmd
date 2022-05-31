@@ -69,6 +69,11 @@
       <FormatVersion Value="2"/>
       <Modes Count="0"/>
     </RunParams>
+    <RequiredPackages Count="1">
+      <Item1>
+        <PackageName Value="doublecmd_common"/>
+      </Item1>
+    </RequiredPackages>
     <Units Count="1">
       <Unit0>
         <Filename Value="preview.lpr"/>

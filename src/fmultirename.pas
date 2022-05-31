@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Multi-Rename Tool dialog window
 
-   Copyright (C) 2007-2021 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2007-2022 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -43,7 +43,7 @@ uses
   //Lazarus, Free-Pascal, etc.
   LazUtf8, SysUtils, Classes, Graphics, Forms, StdCtrls, Menus, Controls,
   LCLType, StringHashList, Grids, ExtCtrls, Buttons, ActnList, EditBtn,
-  KASButton,
+  KASButton, KASToolPanel,
 
   //DC
   DCXmlConfig, uOSForms, uRegExprW, uFileProperty, uFormCommands,
@@ -66,6 +66,8 @@ type
     FReplace: string;
     FRegExp: boolean;
     FUseSubs: boolean;
+    FCaseSens: Boolean;
+    FOnlyFirst: Boolean;
     FCounter: string;
     FInterval: string;
     FWidth: integer;
@@ -82,6 +84,8 @@ type
     property Replace: string read FReplace write FReplace;
     property RegExp: boolean read FRegExp write FRegExp;
     property UseSubs: boolean read FUseSubs write FUseSubs;
+    property CaseSens: Boolean read FCaseSens write FCaseSens;
+    property OnlyFirst: Boolean read FOnlyFirst write FOnlyFirst;
     property Counter: string read FCounter write FCounter;
     property Interval: string read FInterval write FInterval;
     property Width: integer read FWidth write FWidth;
@@ -120,6 +124,12 @@ type
 
   { TfrmMultiRename }
   TfrmMultiRename = class(TAloneForm, IFormCommands)
+    cbCaseSens: TCheckBox;
+    cbRegExp: TCheckBox;
+    cbUseSubs: TCheckBox;
+    cbOnlyFirst: TCheckBox;
+    pnlFindReplace: TPanel;
+    pnlButtons: TPanel;
     StringGrid: TStringGrid;
     pnlOptions: TPanel;
     pnlOptionsLeft: TPanel;
@@ -134,16 +144,14 @@ type
     cmbExtensionStyle: TComboBox;
     gbPresets: TGroupBox;
     cbPresets: TComboBox;
-    btnPresets: TBitBtn;
+    btnPresets: TKASButton;
     spltMainSplitter: TSplitter;
-    pnlOptionsRight: TPanel;
+    pnlOptionsRight: TKASToolPanel;
     gbFindReplace: TGroupBox;
     lbFind: TLabel;
     edFind: TEdit;
     lbReplace: TLabel;
     edReplace: TEdit;
-    cbRegExp: TCheckBox;
-    cbUseSubs: TCheckBox;
     gbCounter: TGroupBox;
     lbStNb: TLabel;
     edPoc: TEdit;
@@ -229,6 +237,7 @@ type
     procedure FormCreate({%H-}Sender: TObject);
     procedure FormCloseQuery({%H-}Sender: TObject; var CanClose: boolean);
     procedure FormClose({%H-}Sender: TObject; var CloseAction: TCloseAction);
+    procedure FormShow(Sender: TObject);
     procedure StringGridKeyDown({%H-}Sender: TObject; var Key: word; Shift: TShiftState);
     procedure StringGridMouseDown({%H-}Sender: TObject; Button: TMouseButton; {%H-}Shift: TShiftState; X, Y: integer);
     procedure StringGridMouseUp({%H-}Sender: TObject; Button: TMouseButton; {%H-}Shift: TShiftState; {%H-}X, {%H-}Y: integer);
@@ -379,7 +388,7 @@ uses
   fMain, uFileSourceOperation, uOperationsManager, uOSUtils, uDCUtils, uDebug,
   DCOSUtils, DCStrUtils, uLng, uGlobs, uSpecialDir, uFileProcs, uShowForm,
   fSelectTextRange, fSelectPathRange, uShowMsg, uFileFunctions, dmCommonData,
-  fMultiRenameWait, fSortAnything;
+  fMultiRenameWait, fSortAnything, DCConvertEncoding;
 
 type
   tMaskHelper = record
@@ -459,6 +468,8 @@ begin
   FReplace := '';
   FRegExp := False;
   FUseSubs := False;
+  FCaseSens := False;
+  FOnlyFirst := False;
   FCounter := '1';
   FInterval := '1';
   FWidth := 0;
@@ -658,6 +669,18 @@ begin
   end;
 end;
 
+procedure TfrmMultiRename.FormShow(Sender: TObject);
+var
+  APoint: TPoint;
+begin
+{$IF DEFINED(LCLQT5)}
+  gbPresets.Constraints.MaxHeight:= cbPresets.Height + (gbPresets.Height - gbPresets.ClientHeight) + 
+                                    gbPresets.ChildSizing.TopBottomSpacing * 2;
+{$ENDIF}
+  APoint:= TPoint.Create(cbUseSubs.Left, 0);
+  fneRenameLogFileFilename.BorderSpacing.Left:= gbFindReplace.ClientToParent(APoint, pnlOptionsRight).X;
+end;
+
 { TfrmMultiRename.StringGridKeyDown }
 procedure TfrmMultiRename.StringGridKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
 var
@@ -775,7 +798,7 @@ end;
 procedure TfrmMultiRename.edFindChange(Sender: TObject);
 begin
   if cbRegExp.Checked then
-    FRegExp.Expression := UTF8Decode(edFind.Text)
+    FRegExp.Expression := CeUtf8ToUtf16(edFind.Text)
   else
   begin
     FFindText.DelimitedText := edFind.Text;
@@ -807,6 +830,7 @@ begin
   end;
   cbUseSubs.Enabled := cbRegExp.Checked;
   edFindChange(edFind);
+  edReplaceChange(edReplace);
 end;
 
 { TfrmMultiRename.edPocChange }
@@ -958,6 +982,8 @@ begin
             AMultiRenamePreset.Replace := AConfig.GetValue(ANode, 'Replace', '');
             AMultiRenamePreset.RegExp := AConfig.GetValue(ANode, 'RegExp', False);
             AMultiRenamePreset.UseSubs := AConfig.GetValue(ANode, 'UseSubs', False);
+            AMultiRenamePreset.CaseSens := AConfig.GetValue(ANode, 'CaseSensitive', False);
+            AMultiRenamePreset.OnlyFirst := AConfig.GetValue(ANode, 'OnlyFirst', False);
             AMultiRenamePreset.Counter := AConfig.GetValue(ANode, 'Counter', '1');
             AMultiRenamePreset.Interval := AConfig.GetValue(ANode, 'Interval', '1');
             AMultiRenamePreset.Width := AConfig.GetValue(ANode, 'Width', 0);
@@ -1056,6 +1082,8 @@ begin
     FMultiRenamePresetList.MultiRenamePreset[PresetIndex].Replace := edReplace.Text;
     FMultiRenamePresetList.MultiRenamePreset[PresetIndex].RegExp := cbRegExp.Checked;
     FMultiRenamePresetList.MultiRenamePreset[PresetIndex].UseSubs := cbUseSubs.Checked;
+    FMultiRenamePresetList.MultiRenamePreset[PresetIndex].CaseSens := cbCaseSens.Checked;
+    FMultiRenamePresetList.MultiRenamePreset[PresetIndex].OnlyFirst := cbOnlyFirst.Checked;
     FMultiRenamePresetList.MultiRenamePreset[PresetIndex].Counter := edPoc.Text;
     FMultiRenamePresetList.MultiRenamePreset[PresetIndex].Interval := edInterval.Text;
     FMultiRenamePresetList.MultiRenamePreset[PresetIndex].Width := cmbxWidth.ItemIndex;
@@ -1108,6 +1136,8 @@ begin
     AConfig.AddValue(SubNode, 'Replace', FMultiRenamePresetList.MultiRenamePreset[i].Replace);
     AConfig.AddValue(SubNode, 'RegExp', FMultiRenamePresetList.MultiRenamePreset[i].RegExp);
     AConfig.AddValue(SubNode, 'UseSubs', FMultiRenamePresetList.MultiRenamePreset[i].UseSubs);
+    AConfig.AddValue(SubNode, 'CaseSensitive', FMultiRenamePresetList.MultiRenamePreset[i].CaseSens);
+    AConfig.AddValue(SubNode, 'OnlyFirst', FMultiRenamePresetList.MultiRenamePreset[i].OnlyFirst);
     AConfig.AddValue(SubNode, 'Counter', FMultiRenamePresetList.MultiRenamePreset[i].Counter);
     AConfig.AddValue(SubNode, 'Interval', FMultiRenamePresetList.MultiRenamePreset[i].Interval);
     AConfig.AddValue(SubNode, 'Width', FMultiRenamePresetList.MultiRenamePreset[i].Width);
@@ -1257,10 +1287,10 @@ var
 begin
   btnAnyNameMask.Action := actAnyNameMask;
   btnAnyNameMask.Caption := '...';
-  btnAnyNameMask.Width := fneRenameLogFileFilename.ButtonWidth;;
+  btnAnyNameMask.Width := fneRenameLogFileFilename.ButtonWidth;
   btnAnyExtMask.Action := actAnyExtMask;
   btnAnyExtMask.Caption := '...';
-  btnAnyExtMask.Width := fneRenameLogFileFilename.ButtonWidth;;;
+  btnAnyExtMask.Width := fneRenameLogFileFilename.ButtonWidth;
   btnRelativeRenameLogFile.Action := actInvokeRelativePath;
   btnRelativeRenameLogFile.Caption := '';
   btnRelativeRenameLogFile.Width := fneRenameLogFileFilename.ButtonWidth;
@@ -1272,7 +1302,7 @@ begin
   btnPresets.Action := actShowPresetsMenu;
   btnPresets.Caption := '';
   btnPresets.Hint := actShowPresetsMenu.Caption;
-  btnPresets.Width := fneRenameLogFileFilename.ButtonWidth;;;
+  btnPresets.Constraints.MinWidth := fneRenameLogFileFilename.ButtonWidth;
 
   miPresets := TMenuItem.Create(mmMainMenu);
   miPresets.Caption := gbPresets.Caption;
@@ -2013,6 +2043,9 @@ function TfrmMultiRename.FreshText(ItemIndex: integer): string;
 var
   I: integer;
   bError: boolean;
+  wsText: UnicodeString;
+  wsReplace: UnicodeString;
+  Flags: TReplaceFlags = [];
   sTmpName, sTmpExt: string;
 begin
   bError := False;
@@ -2035,19 +2068,39 @@ begin
   if (edFind.Text <> '') then
   begin
     if cbRegExp.Checked then
-      try
-        Result := UTF16ToUTF8(FRegExp.Replace(UTF8Decode(Result), UTF8Decode(edReplace.Text), cbUseSubs.Checked));
-      except
-        Result := rsMsgErrRegExpSyntax;
-        bError := True;
+    try
+      wsText:= CeUtf8ToUtf16(Result);
+      wsReplace:= CeUtf8ToUtf16(edReplace.Text);
+      FRegExp.ModifierI := not cbCaseSens.Checked;
+
+      if not cbOnlyFirst.Checked then
+      begin
+        Result := CeUtf16ToUtf8(FRegExp.Replace(wsText, wsReplace, cbUseSubs.Checked));
       end
-    else
-    begin
+      else if FRegExp.Exec(wsText) then
+      begin
+        Delete(wsText, FRegExp.MatchPos[0], FRegExp.MatchLen[0]);
+        if cbUseSubs.Checked then
+          Insert(FRegExp.Substitute(wsReplace), wsText, FRegExp.MatchPos[0])
+        else begin
+          Insert(wsReplace, wsText, FRegExp.MatchPos[0]);
+        end;
+        Result:= CeUtf16ToUtf8(wsText);
+      end;
+    except
+      Result := rsMsgErrRegExpSyntax;
+      bError := True;
+    end
+    else begin
+      if not cbOnlyFirst.Checked then
+        Flags:= [rfReplaceAll];
+      if not cbCaseSens.Checked then
+        Flags+= [rfIgnoreCase];
       // Many at once, split find and replace by |
       if (FReplaceText.Count = 0) then
         FReplaceText.Add('');
       for I := 0 to FFindText.Count - 1 do
-        Result := StringReplace(Result, FFindText[I], FReplaceText[Min(I, FReplaceText.Count - 1)], [rfReplaceAll, rfIgnoreCase]);
+        Result := UTF8StringReplace(Result, FFindText[I], FReplaceText[Min(I, FReplaceText.Count - 1)], Flags);
     end;
   end;
 
@@ -2218,6 +2271,8 @@ begin
   edReplace.Text := '';
   cbRegExp.Checked := False;
   cbUseSubs.Checked := False;
+  cbCaseSens.Checked := False;
+  cbOnlyFirst.Checked := False;
   cbNameMaskStyle.ItemIndex := 0;
   cmbExtensionStyle.ItemIndex := 0;
   edPoc.Text := '1';
@@ -2552,6 +2607,8 @@ begin
         edReplace.Text := FMultiRenamePresetList.MultiRenamePreset[PresetIndex].Replace;
         cbRegExp.Checked := FMultiRenamePresetList.MultiRenamePreset[PresetIndex].RegExp;
         cbUseSubs.Checked := FMultiRenamePresetList.MultiRenamePreset[PresetIndex].UseSubs;
+        cbCaseSens.Checked := FMultiRenamePresetList.MultiRenamePreset[PresetIndex].CaseSens;
+        cbOnlyFirst.Checked := FMultiRenamePresetList.MultiRenamePreset[PresetIndex].OnlyFirst;
         edPoc.Text := FMultiRenamePresetList.MultiRenamePreset[PresetIndex].Counter;
         edInterval.Text := FMultiRenamePresetList.MultiRenamePreset[PresetIndex].Interval;
         cmbxWidth.ItemIndex := FMultiRenamePresetList.MultiRenamePreset[PresetIndex].Width;
@@ -2578,6 +2635,7 @@ begin
 
         //5.Refresh the whole thing.
         edFindChange(edFind);
+        edReplaceChange(edReplace);
 
         //6.We might come here with parameter "index=x" so make sure we switch also the preset combo box to the same index.
         if PresetIndex >= cbPresets.Items.Count then

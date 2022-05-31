@@ -105,7 +105,7 @@ type
                              const Command: String; const Param: String = ''); overload;
     procedure Clear; reintroduce;
     procedure Remove(var hotkey: THotkey); reintroduce;
-    function Find(const Shortcuts: TDynamicStringArray): THotkey;
+    function Find(const Shortcuts: array of String): THotkey;
     {en
        Find hotkey which shortcuts begin with Shortcuts parameter.
        If BothWays=@true then also looks for shortcuts which are the beginning
@@ -427,7 +427,7 @@ begin
   DoOnChange(Hotkey, hopUpdate);
 end;
 
-function THotkeys.Find(const Shortcuts: TDynamicStringArray): THotkey;
+function THotkeys.Find(const Shortcuts: array of String): THotkey;
 var
   i: Integer;
 begin

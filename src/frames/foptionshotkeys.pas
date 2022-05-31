@@ -244,7 +244,7 @@ begin
 {$IF LCL_FULLVERSION >= 093100}
   Result := UTF8CompareText(List.Strings[Index1], List.Strings[Index2]);
 {$ELSE}
-  Result := WideCompareText(UTF8Decode(List.Strings[Index1]), UTF8Decode(List.Strings[Index2]));
+  Result := WideCompareText(CeUtf8ToUtf16(List.Strings[Index1]), CeUtf8ToUtf16(List.Strings[Index2]));
 {$ENDIF}
 end;
 

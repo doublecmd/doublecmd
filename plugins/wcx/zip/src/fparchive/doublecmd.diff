@@ -2044,15 +2044,47 @@ Index: AbTarTyp.pas
      System.Delete( lValue, 1, 1 );
 
    if soStripPath in StoreOptions then
-@@ -2097,7 +2369,6 @@
+@@ -2095,23 +2367,33 @@
+   OutTarHelp     : TAbTarStreamHelper;
+   Abort          : Boolean;
    i              : Integer;
-   NewStream      : TAbVirtualMemoryStream;
+-  NewStream      : TAbVirtualMemoryStream;
++  NewStream      : TStream;
    TempStream     : TStream;
 -  SaveDir        : string;
    CurItem        : TAbTarItem;
    AttrEx         : TAbAttrExRec;
++  ATempName      : String;
  begin
-@@ -2145,24 +2416,27 @@
+   if FArchReadOnly then
+     raise EAbTarBadOp.Create; { Archive is read only }
+
+   {init new archive stream}
+-  NewStream := TAbVirtualMemoryStream.Create;
++  if FOwnsStream and (FStream is TFileStreamEx) then
++  begin
++    if FStream.Size = 0 then
++      NewStream := FStream
++    else begin
++      ATempName := Copy(ExtractOnlyFileName(FArchiveName), 1, MAX_PATH div 2) + '~';
++      ATempName := GetTempName(ExtractFilePath(FArchiveName) + ATempName) + '.tmp';
++      NewStream := TFileStreamEx.Create(ATempName, fmCreate or fmShareDenyWrite);
++    end;
++  end
++  else begin
++    NewStream := TAbVirtualMemoryStream.Create;
++    TAbVirtualMemoryStream(NewStream).SwapFileDirectory := ExtractFileDir(FArchiveName);
++  end;
+   OutTarHelp := TAbTarStreamHelper.Create(NewStream);
+
+   try {NewStream/OutTarHelp}
+-    { create helper }
+-    NewStream.SwapFileDirectory := AbGetTempDirectory;
+-
+     {build new archive from existing archive}
+     for i := 0 to pred(Count) do begin
+       FCurrentItem := ItemList[i];
+@@ -2145,24 +2427,27 @@
 
          aaAdd, aaFreshen, aaReplace: begin
            try
@@ -2096,7 +2128,7 @@ Index: AbTarTyp.pas
                    fmOpenRead or fmShareDenyWrite );
                  try { TempStream }
                    CurItem.UncompressedSize := TempStream.Size;
-@@ -2173,9 +2447,13 @@
+@@ -2173,9 +2458,13 @@
                    TempStream.Free;
                  end; { TempStream }
                end;
@@ -2113,14 +2145,45 @@ Index: AbTarTyp.pas
            except
              ItemList[i].Action := aaDelete;
              DoProcessItemFailure(ItemList[i], ptAdd, ecFileOpenError, 0);
-@@ -2200,7 +2478,7 @@
+@@ -2198,10 +2487,25 @@
+       TAbVirtualMemoryStream(FStream).CopyFrom(NewStream, NewStream.Size)
+     end
      else begin
-       { need new stream to write }
-       FreeAndNil(FStream);
+-      { need new stream to write }
+-      FreeAndNil(FStream);
 -      FStream := TFileStream.Create(FArchiveName, fmCreate or fmShareDenyWrite);
-+      FStream := TFileStreamEx.Create(FArchiveName, fmCreate or fmShareDenyWrite);
-       FStream.CopyFrom(NewStream, NewStream.Size);
+-      FStream.CopyFrom(NewStream, NewStream.Size);
++      if FOwnsStream then
++      begin
++        {need new stream to write}
++        if NewStream = FStream then
++          NewStream := nil
++        else begin
++          FreeAndNil(FStream);
++          FreeAndNil(NewStream);
++          if (mbDeleteFile(FArchiveName) and mbRenameFile(ATempName, FArchiveName)) then
++            FStream := TFileStreamEx.Create(FArchiveName, fmOpenReadWrite or fmShareDenyWrite)
++          else
++            RaiseLastOSError;
++        end;
++      end
++      else begin
++        FStream.Size := 0;
++        FStream.Position := 0;
++        FStream.CopyFrom(NewStream, 0)
++      end;
      end;
+
+     {update Items list}
+@@ -2216,7 +2520,8 @@
+     DoArchiveProgress( 100, Abort );
+   finally {NewStream/OutTarHelp}
+     OutTarHelp.Free;
+-    NewStream.Free;
++    if (FStream <> NewStream) then
++      NewStream.Free;
+   end;
+ end;
 
 Index: AbUnzPrc.pas
 ===================================================================

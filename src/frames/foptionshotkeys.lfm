@@ -315,10 +315,13 @@ inherited frmOptionsHotkeys: TfrmOptionsHotkeys
     AnchorSideLeft.Control = lbxCategories
     AnchorSideTop.Control = lblSortOrder
     AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = lbxCategories
+    AnchorSideRight.Side = asrBottom
     Left = 299
     Height = 23
     Top = 65
-    Width = 208
+    Width = 503
+    Anchors = [akTop, akLeft, akRight]
     ItemHeight = 15
     OnChange = cbCommandSortOrderChange
     Style = csDropDownList

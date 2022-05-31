@@ -38,6 +38,7 @@ interface
 uses
 {$IFDEF MSWINDOWS}
   Windows,
+  DCConvertEncoding,
 {$ENDIF}
 {$IFDEF LibcAPI}
   Libc,
@@ -447,7 +448,7 @@ begin
     end;
 {$ENDIF UNIX}
 {$IFDEF MSWINDOWS}
-  Result := CopyFileW(PWideChar(UTF8Decode(Source)), PWideChar(UTF8Decode(Destination)), FailIfExists);
+  Result := CopyFileW(PWideChar(CeUtf8ToUtf16(Source)), PWideChar(CeUtf8ToUtf16(Destination)), FailIfExists);
 {$ENDIF MSWINDOWS}
 end;
 { -------------------------------------------------------------------------- }
@@ -556,7 +557,7 @@ function AbGetDriveFreeSpace(const ArchiveName : string) : Int64;
 var
   FreeAvailable, TotalSpace: Int64;
 begin
-  if GetDiskFreeSpaceExW(PWideChar(UTF8Decode(ExtractFilePath(ExpandFileName(ArchiveName)))),
+  if GetDiskFreeSpaceExW(PWideChar(CeUtf8ToUtf16(ExtractFilePath(ExpandFileName(ArchiveName)))),
                          FreeAvailable, TotalSpace, nil) then
     Result := FreeAvailable
   else
@@ -997,18 +998,20 @@ end;
 { -------------------------------------------------------------------------- }
 function AbWriteVolumeLabel(const VolName : string;
                                 Drive : Char) : Cardinal;
+{$IFDEF MSWINDOWS}
 var
-  Temp : WideString;
+  Temp : UnicodeString;
   Vol : array[0..11] of WideChar;
   Root : array[0..3] of WideChar;
+{$ENDIF}
 begin
-  Temp := UTF8Decode(VolName);
+{$IFDEF MSWINDOWS}
+  Temp := CeUtf8ToUtf16(VolName);
   StrPCopyW(Root, '%:' + AbPathDelim);
   Root[0] := Drive;
   if Length(Temp) > 11 then
     SetLength(Temp, 11);
   StrPCopyW(Vol, Temp);
-{$IFDEF MSWINDOWS}
   if Windows.SetVolumeLabelW(Root, Vol) then
     Result := 0
   else Result := GetLastError;
@@ -1257,7 +1260,7 @@ begin
   aAttr.Attr := -1;
   aAttr.Mode := 0;
 {$IFDEF MSWINDOWS}
-  Result := GetFileAttributesExW(PWideChar(UTF8Decode(aFileName)), GetFileExInfoStandard, @FindData);
+  Result := GetFileAttributesExW(PWideChar(CeUtf8ToUtf16(aFileName)), GetFileExInfoStandard, @FindData);
   if Result then begin
     if Windows.FileTimeToLocalFileTime(FindData.ftLastWriteTime, LocalFileTime) and
        FileTimeToDosDateTime(LocalFileTime, FileDate.Hi, FileDate.Lo) then

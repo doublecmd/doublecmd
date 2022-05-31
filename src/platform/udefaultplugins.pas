@@ -162,6 +162,10 @@ begin
   if I < 0 then
     gWCXPlugins.Add('xz', 91, Folder + 'zip' + PathDelim + 'zip.wcx');
 
+  I:= gWCXPlugins.IndexOfName('zst');
+  if I < 0 then
+    gWCXPlugins.Add('zst', 91, Folder + 'zip' + PathDelim + 'zip.wcx');
+
   I:= gWCXPlugins.IndexOfName('txz');
   if I < 0 then
     gWCXPlugins.Add('txz', 95, Folder + 'zip' + PathDelim + 'zip.wcx');
@@ -278,12 +282,12 @@ begin
   I:= gWCXPlugins.IndexOfName('rar');
   if I < 0 then
     gWCXPlugins.Add('rar', 607, Folder + 'unrar' + PathDelim + 'unrar.wcx')
-  {$IF DEFINED(MSWINDOWS)}
   else
     gWCXPlugins.Flags[I]:= 607;
-  {$ELSE}
-  ;
-  {$ENDIF}
+
+  I:= gWCXPlugins.IndexOfName('base64');
+  if I < 0 then
+    gWCXPlugins.Add('b64', 1, Folder + 'base64' + PathDelim + 'base64.wcx');
 
   // Wdx plugins
   Folder:= '%commander_path%' + PathDelim + 'plugins' + PathDelim + 'wdx' + PathDelim;

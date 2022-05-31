@@ -617,10 +617,16 @@ function GetTempName(PathPrefix: String): String;
 const
   MaxTries = 100;
 var
+  FileName: String;
   TryNumber: Integer = 0;
 begin
   if PathPrefix = '' then
-    PathPrefix := GetTempDir;
+    PathPrefix := GetTempDir
+  else begin
+    FileName:= ExtractFileName(PathPrefix);
+    // Generated file name should be less the maximum file name length
+    PathPrefix:= ExtractFilePath(PathPrefix) + UTF8Copy(FileName, 1, 48);
+  end;
   repeat
     Result := PathPrefix + IntToStr(System.Random(MaxInt)); // or use CreateGUID()
     Inc(TryNumber);
@@ -1120,11 +1126,27 @@ end;
 function mbRenameFile(const OldName: String; NewName: String): Boolean;
 {$IFDEF MSWINDOWS}
 var
-  wOldName,
-  wNewName: UnicodeString;
+  wTmpName,
+  wOldName, wNewName: UnicodeString;
 begin
   wNewName:= UTF16LongName(NewName);
   wOldName:= UTF16LongName(OldName);
+  // Workaround: Windows >= 10 can't change only filename case on the FAT
+  if (Win32MajorVersion >= 10) and UnicodeSameText(wOldName, wNewName) then
+  begin
+    wTmpName:= GetFileSystemType(OldName);
+    if UnicodeSameText('FAT32', wTmpName) or UnicodeSameText('exFAT', wTmpName) then
+    begin
+      wTmpName:= UTF16LongName(GetTempName(OldName));
+      Result:= MoveFileExW(PWChar(wOldName), PWChar(wTmpName), 0);
+      if Result then
+      begin
+        Result:= MoveFileExW(PWChar(wTmpName), PWChar(wNewName), 0);
+        if not Result then MoveFileExW(PWChar(wTmpName), PWChar(wOldName), 0);
+      end;
+      Exit;
+    end;
+  end;
   Result:= MoveFileExW(PWChar(wOldName), PWChar(wNewName), MOVEFILE_REPLACE_EXISTING);
 end;
 {$ELSE}
@@ -1411,11 +1433,11 @@ end;
 function mbCompareFileNames(const FileName1, FileName2: String): Boolean; inline;
 {$IF DEFINED(WINDOWS) OR DEFINED(DARWIN)}
 begin
-  Result:= (WideCompareText(UTF8Decode(FileName1), UTF8Decode(FileName2)) = 0);
+  Result:= (WideCompareText(CeUtf8ToUtf16(FileName1), CeUtf8ToUtf16(FileName2)) = 0);
 end;
 {$ELSE}
 begin
-  Result:= (WideCompareStr(UTF8Decode(FileName1), UTF8Decode(FileName2)) = 0);
+  Result:= (WideCompareStr(CeUtf8ToUtf16(FileName1), CeUtf8ToUtf16(FileName2)) = 0);
 end;
 {$ENDIF}
 
@@ -1531,7 +1553,7 @@ var
   wsResult: UnicodeString;
 begin
   SetLength(wsResult, MaxSmallInt + 1);
-  dwSize:= ExpandEnvironmentStringsW(PWideChar(UTF8Decode(FileName)), PWideChar(wsResult), MaxSmallInt);
+  dwSize:= ExpandEnvironmentStringsW(PWideChar(CeUtf8ToUtf16(FileName)), PWideChar(wsResult), MaxSmallInt);
   if (dwSize = 0) or (dwSize > MaxSmallInt) then
     Result:= FileName
   else begin
@@ -1569,7 +1591,7 @@ var
   dwResult: DWORD;
 begin
   Result := EmptyStr;
-  wsName := UTF8Decode(sName);
+  wsName := CeUtf8ToUtf16(sName);
   dwResult := GetEnvironmentVariableW(PWideChar(wsName), @smallBuf[0], Length(smallBuf));
   if dwResult > Length(smallBuf) then
   begin
@@ -1599,8 +1621,8 @@ var
   wsName,
   wsValue: UnicodeString;
 begin
-  wsName:= UTF8Decode(sName);
-  wsValue:= UTF8Decode(sValue);
+  wsName:= CeUtf8ToUtf16(sName);
+  wsValue:= CeUtf8ToUtf16(sValue);
   Result:= SetEnvironmentVariableW(PWideChar(wsName), PWideChar(wsValue));
 end;
 {$ELSE}
@@ -1664,7 +1686,7 @@ begin
     //Also, TC switch "CurrentDir" to their directory when loading them. So let's do the same.
     sRememberPath:=GetCurrentDir;
     SetCurrentDir(ExcludeTrailingPathDelimiter(ExtractFilePath(Name)));
-    Result:= LoadLibraryW(PWideChar(UTF8Decode(Name)));
+    Result:= LoadLibraryW(PWideChar(CeUtf8ToUtf16(Name)));
   finally
     SetCurrentDir(sRememberPath);
   end;
@@ -1787,7 +1809,7 @@ function CreateSymLink(const Path, LinkName: string) : Boolean;
 var
   wsPath, wsLinkName: UnicodeString;
 begin
-  wsPath:= UTF8Decode(Path);
+  wsPath:= CeUtf8ToUtf16(Path);
   wsLinkName:= UTF16LongName(LinkName);
   Result:= DCNtfsLinks.CreateSymlink(wsPath, wsLinkName);
 end;

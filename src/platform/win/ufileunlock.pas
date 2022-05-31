@@ -25,7 +25,8 @@ function GetFileInUseProcessSlow(const FileName: String; LastError: Integer; var
 implementation
 
 uses
-  JwaWinType, JwaNative, JwaNtStatus, JwaPsApi, Windows, DCWindows;
+  JwaWinType, JwaNative, JwaNtStatus, JwaPsApi, Windows, DCConvertEncoding,
+  DCWindows;
 
 const
   RstrtMgr = 'RstrtMgr.dll';
@@ -294,7 +295,7 @@ begin
   SetLength(ProcessInfo, Index + 1);
   ProcessInfo[Index].ProcessId:= ProcessId;
   ProcessInfo[Index].FileHandle:= FileHandle;
-  ProcessInfo[Index].ExecutablePath:= UTF8Encode(GetProcessFileName(Process));
+  ProcessInfo[Index].ExecutablePath:= CeUtf16ToUtf8(GetProcessFileName(Process));
 end;
 
 procedure GetModuleInUseProcess(const FileName: String; var ProcessInfo: TProcessInfoArray);
@@ -308,7 +309,7 @@ var
 begin
   if EnumProcesses(@dwProcessList[0], SizeOf(dwProcessList), cbNeeded) then
   begin
-    AFileName:= UTF8Decode(FileName);
+    AFileName:= CeUtf8ToUtf16(FileName);
     for I:= 0 to (cbNeeded div SizeOf(DWORD)) do
     begin
       hProcess:= OpenProcess(PROCESS_QUERY_INFORMATION or PROCESS_VM_READ, False, dwProcessList[I]);
@@ -400,7 +401,7 @@ begin
   Result:= (RmStartSession(@dwSession, 0, szSessionKey) = ERROR_SUCCESS);
   if Result then
   try
-    rgsFileNames:= PWideChar(UTF8Decode(FileName));
+    rgsFileNames:= PWideChar(CeUtf8ToUtf16(FileName));
     Result:= (RmRegisterResources(dwSession, 1, @rgsFileNames, 0, nil, 0, nil) = ERROR_SUCCESS) and
              (RmGetList(dwSession, @nProcInfoNeeded, @nProcInfo, rgAffectedApps, @dwReason) = ERROR_SUCCESS);
     if Result then
@@ -410,7 +411,7 @@ begin
       for I:= 0 to nProcInfo - 1 do
       begin
         ProcessInfo[I].ProcessId:= rgAffectedApps[I].Process.dwProcessId;
-        ProcessInfo[I].ApplicationName:= UTF8Encode(UnicodeString(rgAffectedApps[I].strAppName));
+        ProcessInfo[I].ApplicationName:= CeUtf16ToUtf8(UnicodeString(rgAffectedApps[I].strAppName));
 
         hProcess:= OpenProcess(PROCESS_QUERY_LIMITED_INFORMATION, False, rgAffectedApps[I].Process.dwProcessId);
         if hProcess <> 0 then
@@ -418,7 +419,7 @@ begin
           if GetProcessTimes(hProcess, ftCreation, ftDummy, ftDummy, ftDummy) and
              (CompareFileTime(@rgAffectedApps[I].Process.ProcessStartTime, @ftCreation) = 0) then
           begin
-            ProcessInfo[I].ExecutablePath:= UTF8Encode(GetProcessFileName(hProcess));
+            ProcessInfo[I].ExecutablePath:= CeUtf16ToUtf8(GetProcessFileName(hProcess));
           end;
         finally
           CloseHandle(hProcess);

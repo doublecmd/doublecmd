@@ -21,7 +21,6 @@ object frmMain: TfrmMain
   ShowHint = True
   ShowInTaskBar = stAlways
   LCLVersion = '1.8.4.0'
-  Visible = True
   object MainToolbar: TKASToolBar
     AnchorSideTop.Control = Owner
     Left = 0
@@ -473,7 +472,9 @@ object frmMain: TfrmMain
     Align = alBottom
     AutoSnap = False
     OnCanResize = ConsoleSplitterCanResize
+    OnMoved = ConsoleSplitterMoved
     ResizeAnchor = akBottom
+    ResizeStyle = rsLine
     Visible = False
   end
   object pnlCommand: TPanel
@@ -1929,6 +1930,18 @@ object frmMain: TfrmMain
       Caption = 'Switch to &Previous Tab'
       OnExecute = actExecute
     end
+    object actMoveTabLeft: TAction
+      Tag = 21
+      Category = 'Tabs'
+      Caption = 'Move current tab to the left'
+      OnExecute = actExecute
+    end
+    object actMoveTabRight: TAction
+      Tag = 21
+      Category = 'Tabs'
+      Caption = 'Move current tab to the right'
+      OnExecute = actExecute
+    end
     object actSwitchIgnoreList: TAction
       Tag = 19
       Category = 'View'
@@ -1994,6 +2007,12 @@ object frmMain: TfrmMain
       Tag = 6
       Category = 'Network'
       Caption = 'Network &Disconnect'
+      OnExecute = actExecute
+    end
+    object actCopyNetNamesToClip: TAction
+      Tag = 6
+      Category = 'Network'
+      Caption = 'Copy names with UNC path'
       OnExecute = actExecute
     end
     object actCopyPathOfFilesToClip: TAction
@@ -2170,6 +2189,7 @@ object frmMain: TfrmMain
       Category = 'Navigation'
       Caption = 'Synchronous navigation'
       Hint = 'Synchronous directory changing in both panels'
+      GroupIndex = 7
       OnExecute = actExecute
     end
     object actChangeDirToParent: TAction
@@ -2312,6 +2332,7 @@ object frmMain: TfrmMain
       Tag = 1
       Category = 'Active Panel'
       Caption = 'Open drive list'
+      OnExecute = actExecute
     end
     object actExchange: TAction
       Tag = 14
@@ -2799,6 +2820,13 @@ object frmMain: TfrmMain
       Tag = 5
       Category = 'Configuration'
       Caption = 'Add Plugin'
+      OnExecute = actExecute
+    end
+    object actLoadList: TAction
+      Tag = 7
+      Category = 'Miscellaneous'
+      Caption = 'Load List'
+      Hint = 'Load list of files/folders from the specified text file'
       OnExecute = actExecute
     end
   end

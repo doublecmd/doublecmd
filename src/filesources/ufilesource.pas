@@ -18,6 +18,16 @@ type
   TFileSourceConnection = class;
   IFileSource = interface;
 
+  TFileSourceField = record
+    Content: String;
+    Header: String;
+    Width: Integer;
+    Option: String;
+    Align: TAlignment;
+  end;
+
+  TFileSourceFields = array of TFileSourceField;
+
   TPathsArray = array of string;
   TFileSourceOperationsClasses = array[TFileSourceOperationType] of TFileSourceOperationClass;
 
@@ -36,6 +46,7 @@ type
     function GetClassName: String;
     function GetRefCount: Integer;
 
+    function GetFileSystem: String;
     function GetCurrentAddress: String;
     function GetCurrentWorkingDirectory: String;
     function SetCurrentWorkingDirectory(NewDir: String): Boolean;
@@ -90,6 +101,7 @@ type
     function GetLocalName(var aFile: TFile): Boolean;
     function CreateDirectory(const Path: String): Boolean;
     function FileSystemEntryExists(const Path: String): Boolean;
+    function GetDefaultView(out DefaultView: TFileSourceFields): Boolean;
 
     function GetConnection(Operation: TFileSourceOperation): TFileSourceConnection;
     procedure RemoveOperationFromQueue(Operation: TFileSourceOperation);
@@ -102,6 +114,7 @@ type
 
     property URI: TURI read GetURI;
     property ClassName: String read GetClassName;
+    property FileSystem: String read GetFileSystem;
     property CurrentAddress: String read GetCurrentAddress;
     property ParentFileSource: IFileSource read GetParentFileSource write SetParentFileSource;
     property Properties: TFileSourceProperties read GetProperties;
@@ -266,10 +279,12 @@ type
     function GetRootDir(sPath : String): String; virtual; overload;
     function GetRootDir: String; virtual; overload;
     function GetPathType(sPath : String): TPathType; virtual;
+    function GetFileSystem: String; virtual;
 
     function CreateDirectory(const Path: String): Boolean; virtual;
     function FileSystemEntryExists(const Path: String): Boolean; virtual;
     function GetFreeSpace(Path: String; out FreeSize, TotalSize : Int64) : Boolean; virtual;
+    function GetDefaultView(out DefaultView: TFileSourceFields): Boolean; virtual;
     function GetLocalName(var aFile: TFile): Boolean; virtual;
 
     function GetConnection(Operation: TFileSourceOperation): TFileSourceConnection; virtual;
@@ -564,6 +579,11 @@ begin
   end;
 end;
 
+function TFileSource.GetFileSystem: String;
+begin
+  Result:= EmptyStr;
+end;
+
 function TFileSource.CreateDirectory(const Path: String): Boolean;
 begin
   Result := False;
@@ -577,6 +597,11 @@ end;
 function TFileSource.GetFreeSpace(Path: String; out FreeSize, TotalSize : Int64) : Boolean;
 begin
   Result := False; // not supported by default
+end;
+
+function TFileSource.GetDefaultView(out DefaultView: TFileSourceFields): Boolean;
+begin
+  Result:= False;
 end;
 
 function TFileSource.GetLocalName(var aFile: TFile): Boolean;

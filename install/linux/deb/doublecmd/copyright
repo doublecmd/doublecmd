@@ -1,7 +1,7 @@
 Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
 Upstream-Name: Double Commander
 Upstream-Contact: Alexander Koblov <alexx2000@mail.ru>
-Source: http://doublecmd.sourceforge.net/
+Source: https://doublecmd.sourceforge.io/
 
 Files: *
 Copyright: 2006-2020 Alexander Koblov <alexx2000@mail.ru>

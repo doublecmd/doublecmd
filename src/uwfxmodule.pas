@@ -32,7 +32,7 @@ interface
 uses
   SysUtils, Classes, WfxPlugin, uWFXprototypes, LazUTF8Classes,
   dynlibs, DCClassesUtf8, Extension, DCBasicTypes, DCXmlConfig,
-  uWdxPrototypes, uWdxModule;
+  uWdxPrototypes, uWdxModule, uFileSource;
 
 const
   WFX_SUCCESS      =  0;
@@ -137,6 +137,7 @@ type
     function WfxDeleteFile(const sFileName: String): Boolean;
     function WfxGetLocalName(var sFileName: String): Boolean;
     function WfxDisconnect(const DisconnectRoot: String): Boolean;
+    function WfxContentGetDefaultView(out DefaultView: TFileSourceFields): Boolean;
   private
     function LoadModule(const sName: String):Boolean; overload; {Load plugin}
     procedure UnloadModule; override;
@@ -192,7 +193,7 @@ uses
 
   //DC
   uDCUtils, uLng, uGlobsPaths, uOSUtils, uWfxPluginUtil, fDialogBox, DCOSUtils,
-  DCStrUtils, DCConvertEncoding, uComponentsSignature;
+  DCStrUtils, DCConvertEncoding, uComponentsSignature, uOSForms;
 
 const
   WfxIniFileName = 'wfx.ini';
@@ -213,6 +214,102 @@ begin
     Result:= rsMsgErrEWrite;
   FS_FILE_USERABORT:
     Result:= rsMsgErrEAborted;
+  end;
+end;
+
+function ConvertString(const S: String): TStringArray;
+var
+  Item: String = '';
+  Index: Integer = 1;
+begin
+  Result:= Default(TStringArray);
+  while Index < High(S) do
+  begin
+    if S[Index] = '\' then
+    begin
+      case S[Index + 1] of
+        '\':
+        begin
+          Item += '\';
+          Inc(Index, 2);
+          Continue;
+        end;
+        'n':
+        begin
+          AddString(Result, Item);
+          Item:= EmptyStr;
+          Inc(Index, 2);
+          Continue;
+        end;
+      end;
+    end;
+    Item += S[Index];
+    Inc(Index);
+  end;
+  if Length(Item) > 0 then
+  begin
+    AddString(Result, Item + S[High(S)]);
+  end;
+end;
+
+function ConvertFunction(const S: String): String;
+var
+  AValues: TStringArray;
+  Plugin, Field, Arg: String;
+begin
+  Result:= EmptyStr;
+  if Length(S) < 3 then Exit;
+  if not StrBegins(S, '[=') then Exit(S);
+  if (S[Low(S)] = '[') and (S[High(S)] = ']') then
+  begin
+    AValues:= (Copy(S, 2, Length(S) - 2)).Split(['.']);
+    if (Length(AValues) > 1) then
+    begin
+      Plugin:= LowerCase(AValues[0]);
+      if (Plugin = '=<fs>') then
+        Result:= 'Plugin(FS)'
+      else if (Plugin = '=tc') then
+      begin
+        Result:= 'DC()';
+        Field:= LowerCase(AValues[1]);
+        if (Field = 'writedate') then
+          AValues[1]:= 'GETFILETIME'
+        else if (Field = 'attributestr') then
+          AValues[1]:= 'GETFILEATTR'
+        else if (Field = 'writetime') then
+        begin
+          AValues[1]:= 'GETFILETIME';
+          if (Length(AValues) = 2) then
+          begin
+            AddString(AValues, DefaultFormatSettings.LongTimeFormat);
+          end;
+        end
+        else if (Field = 'size') then
+        begin
+          AValues[1]:= 'GETFILESIZE';
+          if (Length(AValues) = 3) then
+          begin
+            Arg:= LowerCase(AValues[2]);
+            if (Arg = 'bytes') then
+              AValues[2]:= 'BYTE'
+            else if (Arg = 'kbytes') then
+              AValues[2]:= 'KILO'
+            else if (Arg = 'mbytes') then
+              AValues[2]:= 'MEGA'
+            else if (Arg = 'gbytes') then
+              AValues[2]:= 'GIGA'
+            else
+              AValues[2]:= 'FLOAT';
+          end;
+        end;
+      end;
+      if (Length(AValues) = 2) then
+        Result+= '.' + AValues[1] + '{}'
+      else begin
+        Result+= '.' + AValues[1] + '{' + AValues[2] + '}';
+      end;
+      Result:= '[' + Result + ']';
+    end;
   end;
 end;
 
@@ -252,7 +349,7 @@ begin
   try
     if Assigned(FsFindFirstW) then
       begin
-        Result:= FsFindFirstW(PWideChar(UTF8Decode(Path)), FindData.FindDataW);
+        Result:= FsFindFirstW(PWideChar(CeUtf8ToUtf16(Path)), FindData.FindDataW);
         if Result <> wfxInvalidHandle then ConvertFindData(FindData, False);
       end
     else if Assigned(FsFindFirst) then
@@ -287,7 +384,7 @@ procedure TWFXModule.WfxStatusInfo(RemoteDir: String; InfoStartEnd,
   InfoOperation: Integer);
 begin
   if Assigned(FsStatusInfoW) then
-    FsStatusInfoW(PWideChar(UTF8Decode(RemoteDir)), InfoStartEnd, InfoOperation)
+    FsStatusInfoW(PWideChar(CeUtf8ToUtf16(RemoteDir)), InfoStartEnd, InfoOperation)
   else if Assigned(FsStatusInfo) then
     FsStatusInfo(PAnsiChar(CeUtf8ToSys(RemoteDir)), InfoStartEnd, InfoOperation);
 end;
@@ -298,11 +395,12 @@ var
   pwcRemoteName: PWideChar;
 begin
   Result:= WFX_NOTSUPPORTED;
+  MainWin:= GetWindowHandle(MainWin);
   if Assigned(FsExecuteFileW) then
     begin
       pwcRemoteName:= GetMem(MAX_PATH * SizeOf(WideChar));
-      StrPCopyW(pwcRemoteName, UTF8Decode(RemoteName));
-      Result:= FsExecuteFileW(MainWin, pwcRemoteName, PWideChar(UTF8Decode(Verb)));
+      StrPCopyW(pwcRemoteName, CeUtf8ToUtf16(RemoteName));
+      Result:= FsExecuteFileW(MainWin, pwcRemoteName, PWideChar(CeUtf8ToUtf16(Verb)));
       if Result = FS_EXEC_SYMLINK then
           RemoteName:= UTF16ToUTF8(UnicodeString(pwcRemoteName));
       FreeMem(pwcRemoteName);
@@ -323,7 +421,7 @@ function TWFXModule.WfxRenMovFile(OldName, NewName: String; Move,
 begin
   Result:= FS_FILE_NOTSUPPORTED;
   if Assigned(FsRenMovFileW) then
-    Result:= FsRenMovFileW(PWideChar(UTF8Decode(OldName)), PWideChar(UTF8Decode(NewName)), Move, OverWrite, RemoteInfo)
+    Result:= FsRenMovFileW(PWideChar(CeUtf8ToUtf16(OldName)), PWideChar(CeUtf8ToUtf16(NewName)), Move, OverWrite, RemoteInfo)
   else if Assigned(FsRenMovFile) then
     Result:= FsRenMovFile(PAnsiChar(CeUtf8ToSys(OldName)), PAnsiChar(CeUtf8ToSys(NewName)), Move, OverWrite, RemoteInfo);
 end;
@@ -333,7 +431,7 @@ function TWFXModule.WfxGetFile(RemoteName, LocalName: String;
 begin
   Result:= FS_FILE_NOTSUPPORTED;
   if Assigned(FsGetFileW) then
-    Result:= FsGetFileW(PWideChar(UTF8Decode(RemoteName)), PWideChar(UTF8Decode(LocalName)), CopyFlags, RemoteInfo)
+    Result:= FsGetFileW(PWideChar(CeUtf8ToUtf16(RemoteName)), PWideChar(CeUtf8ToUtf16(LocalName)), CopyFlags, RemoteInfo)
   else if Assigned(FsGetFile) then
     Result:= FsGetFile(PAnsiChar(CeUtf8ToSys(RemoteName)), PAnsiChar(CeUtf8ToSys(LocalName)), CopyFlags, RemoteInfo);
 end;
@@ -342,7 +440,7 @@ function TWFXModule.WfxPutFile(LocalName, RemoteName: String; CopyFlags: Integer
 begin
   Result:= FS_FILE_NOTSUPPORTED;
   if Assigned(FsPutFileW) then
-    Result:= FsPutFileW(PWideChar(UTF8Decode(LocalName)), PWideChar(UTF8Decode(RemoteName)), CopyFlags)
+    Result:= FsPutFileW(PWideChar(CeUtf8ToUtf16(LocalName)), PWideChar(CeUtf8ToUtf16(RemoteName)), CopyFlags)
   else if Assigned(FsPutFile) then
     Result:= FsPutFile(PAnsiChar(CeUtf8ToSys(LocalName)), PAnsiChar(CeUtf8ToSys(RemoteName)), CopyFlags);
 end;
@@ -351,7 +449,7 @@ function TWFXModule.WfxSetAttr(RemoteName: String; NewAttr: LongInt): Boolean;
 begin
   Result:= False;
   if Assigned(FsSetAttrW) then
-    Result:= FsSetAttrW(PWideChar(UTF8Decode(RemoteName)), NewAttr)
+    Result:= FsSetAttrW(PWideChar(CeUtf8ToUtf16(RemoteName)), NewAttr)
   else if Assigned(FsSetAttr) then
     Result:= FsSetAttr(PAnsiChar(CeUtf8ToSys(RemoteName)), NewAttr);
 end;
@@ -361,7 +459,7 @@ function TWFXModule.WfxSetTime(RemoteName: String; pCreationTime,
 begin
   Result:= False;
   if Assigned(FsSetTimeW) then
-    Result:= FsSetTimeW(PWideChar(UTF8Decode(RemoteName)), pCreationTime, pLastAccessTime, pLastWriteTime)
+    Result:= FsSetTimeW(PWideChar(CeUtf8ToUtf16(RemoteName)), pCreationTime, pLastAccessTime, pLastWriteTime)
   else if Assigned(FsSetTime) then
     Result:= FsSetTime(PAnsiChar(CeUtf8ToSys(RemoteName)), pCreationTime, pLastAccessTime, pLastWriteTime);
 end;
@@ -372,7 +470,7 @@ begin
   if Assigned(FsMkDirW) then
     begin
       WfxStatusInfo(sBasePath, FS_STATUS_START, FS_STATUS_OP_MKDIR);
-      if FsMkDirW(PWideChar(UTF8Decode(sDirName))) then
+      if FsMkDirW(PWideChar(CeUtf8ToUtf16(sDirName))) then
         Result:= WFX_SUCCESS
       else
         Result:= WFX_ERROR;
@@ -393,7 +491,7 @@ function TWFXModule.WfxRemoveDir(const sDirName: String): Boolean;
 begin
   Result:= False;
   if Assigned(FsRemoveDirW) then
-    Result:= FsRemoveDirW(PWideChar(UTF8Decode(sDirName)))
+    Result:= FsRemoveDirW(PWideChar(CeUtf8ToUtf16(sDirName)))
   else if Assigned(FsRemoveDir) then
     Result:= FsRemoveDir(PAnsiChar(CeUtf8ToSys(sDirName)));
 end;
@@ -402,7 +500,7 @@ function TWFXModule.WfxDeleteFile(const sFileName: String): Boolean;
 begin
   Result:= False;
   if Assigned(FsDeleteFileW) then
-    Result:= FsDeleteFileW(PWideChar(UTF8Decode(sFileName)))
+    Result:= FsDeleteFileW(PWideChar(CeUtf8ToUtf16(sFileName)))
   else if Assigned(FsDeleteFile) then
     Result:= FsDeleteFile(PAnsiChar(CeUtf8ToSys(sFileName)));
 end;
@@ -416,7 +514,7 @@ begin
   if Assigned(FsGetLocalNameW) then
     begin
       pwcRemoteName:= GetMem(MAX_PATH * SizeOf(WideChar));
-      StrPCopyW(pwcRemoteName, UTF8Decode(sFileName));
+      StrPCopyW(pwcRemoteName, CeUtf8ToUtf16(sFileName));
       Result:= FsGetLocalNameW(pwcRemoteName, MAX_PATH);
       if Result = True then
         sFileName:= UTF16ToUTF8(UnicodeString(pwcRemoteName));
@@ -436,11 +534,85 @@ end;
 function TWFXModule.WfxDisconnect(const DisconnectRoot: String): Boolean;
 begin
   if Assigned(FsDisconnectW) then
-    Result:= FsDisconnectW(PWideChar(UTF8Decode(DisconnectRoot)))
+    Result:= FsDisconnectW(PWideChar(CeUtf8ToUtf16(DisconnectRoot)))
   else if Assigned(FsDisconnect) then
     Result:= FsDisconnect(PAnsiChar(CeUtf8ToSys(DisconnectRoot)))
   else
     Result:= False;
+end;
+
+function TWFXModule.WfxContentGetDefaultView(out DefaultView: TFileSourceFields): Boolean;
+const
+  MAX_LEN = 4096;
+var
+  Index: Integer;
+  ViewContents, ViewHeaders,
+  ViewWidths, ViewOptions: TStringArray;
+  usContents, usHeaders, usWidths, usOptions: String;
+  asContents, asHeaders, asWidths, asOptions: array[0..MAX_LEN] of AnsiChar;
+  wsContents, wsHeaders, wsWidths, wsOptions: array[0..MAX_LEN] of WideChar;
+begin
+  Result:= False;
+  DefaultView:= Default(TFileSourceFields);
+
+  if Assigned(FsContentGetDefaultViewW) then
+  begin
+    Result:= FsContentGetDefaultViewW(wsContents, wsHeaders, wsWidths, wsOptions, MAX_LEN);
+    if Result then
+    begin
+      usContents:= CeUtf16ToUtf8(wsContents);
+      usHeaders:= CeUtf16ToUtf8(wsHeaders);
+      usWidths:= CeUtf16ToUtf8(wsWidths);
+      usOptions:= CeUtf16ToUtf8(wsOptions);
+    end;
+  end
+  else if Assigned(FsContentGetDefaultView) then
+  begin
+    Result:= FsContentGetDefaultView(asContents, asHeaders, asWidths, asOptions, MAX_LEN);
+    if Result then
+    begin
+      usContents:= CeSysToUtf8(asContents);
+      usHeaders:= CeSysToUtf8(asHeaders);
+      usWidths:= CeSysToUtf8(asWidths);
+      usOptions:= CeSysToUtf8(asOptions);
+    end;
+  end;
+  if Result then
+  begin
+    ViewHeaders:= ConvertString(usHeaders);
+    ViewWidths:= SplitString(usWidths, ',');
+    ViewOptions:= SplitString(usOptions,'|');
+    ViewContents:= ConvertString(usContents);
+
+    SetLength(DefaultView, Length(ViewWidths));
+
+    for Index:= Low(DefaultView) to High(DefaultView) do
+    begin
+      if (Index = 0) then
+      begin
+        DefaultView[Index].Header:= rsColName;
+        DefaultView[Index].Content:= '[DC().GETFILENAMENOEXT{}]';
+      end
+      else if (Index = 1) then
+      begin
+        DefaultView[Index].Header:= rsColExt;
+        DefaultView[Index].Content:= '[DC().GETFILEEXT{}]';
+      end
+      else begin
+        DefaultView[Index].Header:= ViewHeaders[Index - 2];
+        DefaultView[Index].Content:= ConvertFunction(ViewContents[Index - 2]);
+      end;
+      DefaultView[Index].Width:= StrToInt(ViewWidths[Index]);
+      if (DefaultView[Index].Width < 0) then
+      begin
+        DefaultView[Index].Align:= taRightJustify;
+        DefaultView[Index].Width:= Abs(DefaultView[Index].Width);
+      end
+      else begin
+        DefaultView[Index].Align:= taLeftJustify;
+      end;
+    end;
+  end;
 end;
 
 constructor TWFXModule.Create;

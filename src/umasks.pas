@@ -95,7 +95,7 @@ uses
   LazUTF8,
 
   //DC
-  uPinyin, uAccentsUtils;
+  DCConvertEncoding, uPinyin, uAccentsUtils;
 
 { MatchesMask }
 function MatchesMask(const FileName, Mask: String; const AOptions: TMaskOptions): Boolean;
@@ -224,7 +224,7 @@ begin
   FMask.MinLength := 0;
   FMask.MaxLength := 0;
   SkipAnyText := False;
-  S := UTF8Decode(AValue);
+  S := CeUtf8ToUtf16(AValue);
 
   I := 1;
   while I <= Length(S) do
@@ -315,7 +315,7 @@ var
 
 begin
   Result := False;
-  S := UTF8Decode(AFileName);
+  S := CeUtf8ToUtf16(AFileName);
   L := Length(S);
   if L = 0 then
   begin
@@ -341,7 +341,7 @@ var
   sInitialMask: UnicodeString;
 
 begin
-  sInitialMask := UTF8Decode(FTemplate);
+  sInitialMask := CeUtf8ToUtf16(FTemplate);
 
   if (Length(sInitialMask) > 2) and (RightStr(sInitialMask, 3) = '*.*') then // foo*.*
   begin

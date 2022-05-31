@@ -26,12 +26,12 @@ type
 
 function VerifyChild(hPipe: THandle): Boolean;
 function VerifyParent(hPipe: THandle): Boolean;
-function GetCurrentUserSID(var SID: TBytes): Boolean;
+function GetAdministratorsSID(out SID: TBytes): Boolean;
 
 implementation
 
 uses
-  JwaWinNT, Windows, uProcessInfo, uDebug;
+  Windows, uProcessInfo, uDebug;
 
 var
   GetNamedPipeClientProcessId: function(Pipe: HANDLE; ClientProcessId: PULONG): BOOL; stdcall;
@@ -64,7 +64,6 @@ begin
     // Allow to connect from parent process and same executable only
     if ClientProcessId = GetParentProcessId(GetCurrentProcessId) then
     begin
-
       DCDebug('My: ', GetProcessFileName(GetCurrentProcess));
       DCDebug('Client: ', GetProcessFileNameEx(ClientProcessId));
 
@@ -75,29 +74,23 @@ begin
   Result:= False;
 end;
 
-function GetCurrentUserSID(var SID: TBytes): Boolean;
+function GetAdministratorsSID(out SID: TBytes): Boolean;
+const
+  SECURITY_NT_AUTHORITY: TSidIdentifierAuthority = (Value: (0, 0, 0, 0, 0, 5));
 var
-  ReturnLength: DWORD = 0;
-  TokenHandle: HANDLE = INVALID_HANDLE_VALUE;
-  TokenInformation: array [0..SECURITY_MAX_SID_SIZE] of Byte;
-  UserToken: TTokenUser absolute TokenInformation;
+  AdministratorsGroup: PSID = nil;
 begin
-  Result:= OpenThreadToken(GetCurrentThread, TOKEN_QUERY, True, TokenHandle);
-  if not Result then
-  begin
-    if GetLastError = ERROR_NO_TOKEN then
-      Result:= OpenProcessToken(GetCurrentProcess, TOKEN_QUERY, TokenHandle);
-  end;
+  Result:= AllocateAndInitializeSid(SECURITY_NT_AUTHORITY,
+                                    2,
+                                    SECURITY_BUILTIN_DOMAIN_RID,
+                                    DOMAIN_ALIAS_RID_ADMINS,
+                                    0, 0, 0, 0, 0, 0,
+                                    AdministratorsGroup);
   if Result then
   begin
-    Result:= GetTokenInformation(TokenHandle, TokenUser,
-                                 @TokenInformation, SizeOf(TokenInformation), ReturnLength);
-    CloseHandle(TokenHandle);
-    if Result then
-    begin
-      SetLength(SID, GetLengthSid(UserToken.User.Sid));
-      CopySid(Length(SID), PSID(@SID[0]), UserToken.User.Sid);
-    end;
+    SetLength(SID, GetLengthSid(AdministratorsGroup));
+    CopySid(Length(SID), PSID(@SID[0]), AdministratorsGroup);
+    FreeSid(AdministratorsGroup);
   end;
 end;
 

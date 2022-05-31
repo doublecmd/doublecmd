@@ -48,8 +48,16 @@ const
 
 type
 {$IF DEFINED(LINUX)}
-  TUnixTime = {$IFDEF CPUAARCH64}Int64{$ELSE}UIntPtr{$ENDIF};
-  TUnixMode = Cardinal;
+  TUnixTime =
+    {$IF DEFINED(CPUAARCH64)}
+      Int64
+    {$ELSEIF DEFINED(CPUMIPS)}
+      LongInt
+    {$ELSE}UIntPtr{$ENDIF};
+  TUnixMode =
+    {$IF DEFINED(CPUPOWERPC)}
+      LongInt
+    {$ELSE}Cardinal{$ENDIF};
 {$ELSE}
   TUnixTime = TTime;
   TUnixMode = TMode;
@@ -213,7 +221,11 @@ begin
 {$IFDEF LINUX}
   if (fpFStatFS(Handle, @Sbfs) = 0) then
   begin
-    if (Sbfs.fstype = CIFS_MAGIC_NUMBER) then Exit;
+    case UInt32(Sbfs.fstype) of
+      SMB_SUPER_MAGIC,
+      SMB2_MAGIC_NUMBER,
+      CIFS_MAGIC_NUMBER: Exit;
+    end;
   end;
 {$ENDIF}
   repeat

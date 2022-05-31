@@ -14,6 +14,10 @@ msgstr ""
 "X-Generator: Poedit 2.4.2\n"
 "X-Poedit-Bookmarks: 1146,-1,-1,-1,-1,-1,-1,-1,-1,-1\n"
 
+#: foptionscolors.rsdarkmodeoptions
+msgid "Auto;Enabled;Disabled"
+msgstr ""
+
 #: fsyncdirsdlg.rscomparingpercent
 msgid "Comparing... %d%% (ESC to cancel)"
 msgstr "比較しています…  %d (ESCでキャンセル)"
@@ -532,6 +536,12 @@ msgctxt "TFRMDIFFER.ACTEDITREDO.CAPTION"
 msgid "Redo"
 msgstr "やり直し"
 
+#: tfrmdiffer.acteditredo.hint
+#, fuzzy
+msgctxt "tfrmdiffer.acteditredo.hint"
+msgid "Redo"
+msgstr "やり直し"
+
 #: tfrmdiffer.acteditselectall.caption
 msgid "Select &All"
 msgstr "すべて選択(&A)"
@@ -541,10 +551,64 @@ msgctxt "TFRMDIFFER.ACTEDITUNDO.CAPTION"
 msgid "Undo"
 msgstr "元に戻す"
 
+#: tfrmdiffer.acteditundo.hint
+#, fuzzy
+msgctxt "tfrmdiffer.acteditundo.hint"
+msgid "Undo"
+msgstr "元に戻す"
+
 #: tfrmdiffer.actexit.caption
 msgctxt "TFRMDIFFER.ACTEXIT.CAPTION"
 msgid "E&xit"
 msgstr "終了(&x)"
+
+#: tfrmdiffer.actfind.caption
+#, fuzzy
+msgctxt "tfrmdiffer.actfind.caption"
+msgid "&Find"
+msgstr "検索(&F)"
+
+#: tfrmdiffer.actfind.hint
+#, fuzzy
+msgctxt "tfrmdiffer.actfind.hint"
+msgid "Find"
+msgstr "検索"
+
+#: tfrmdiffer.actfindnext.caption
+#, fuzzy
+msgctxt "tfrmdiffer.actfindnext.caption"
+msgid "Find next"
+msgstr "次を検索"
+
+#: tfrmdiffer.actfindnext.hint
+#, fuzzy
+msgctxt "tfrmdiffer.actfindnext.hint"
+msgid "Find next"
+msgstr "次を検索"
+
+#: tfrmdiffer.actfindprev.caption
+#, fuzzy
+msgctxt "tfrmdiffer.actfindprev.caption"
+msgid "Find previous"
+msgstr "前を検索"
+
+#: tfrmdiffer.actfindprev.hint
+#, fuzzy
+msgctxt "tfrmdiffer.actfindprev.hint"
+msgid "Find previous"
+msgstr "前を検索"
+
+#: tfrmdiffer.actfindreplace.caption
+#, fuzzy
+msgctxt "tfrmdiffer.actfindreplace.caption"
+msgid "&Replace"
+msgstr "置換(&R)"
+
+#: tfrmdiffer.actfindreplace.hint
+#, fuzzy
+msgctxt "tfrmdiffer.actfindreplace.hint"
+msgid "Replace"
+msgstr "置換"
 
 #: tfrmdiffer.actfirstdifference.caption
 msgctxt "TFRMDIFFER.ACTFIRSTDIFFERENCE.CAPTION"
@@ -555,6 +619,18 @@ msgstr "最初の違い"
 msgctxt "TFRMDIFFER.ACTFIRSTDIFFERENCE.HINT"
 msgid "First Difference"
 msgstr "最初の違い"
+
+#: tfrmdiffer.actgotoline.caption
+#, fuzzy
+msgctxt "tfrmdiffer.actgotoline.caption"
+msgid "Goto Line..."
+msgstr "指定行へ移動…"
+
+#: tfrmdiffer.actgotoline.hint
+#, fuzzy
+msgctxt "tfrmdiffer.actgotoline.hint"
+msgid "Goto Line"
+msgstr "指定行へ移動"
 
 #: tfrmdiffer.actignorecase.caption
 msgid "Ignore Case"
@@ -906,6 +982,7 @@ msgid "Redo"
 msgstr "やり直し"
 
 #: tfrmeditor.acteditrplc.caption
+msgctxt "tfrmeditor.acteditrplc.caption"
 msgid "&Replace"
 msgstr "置換(&R)"
 
@@ -1054,6 +1131,10 @@ msgstr "キャンセル(&C)"
 msgctxt "tfrmeditsearchreplace.buttonpanel.okbutton.caption"
 msgid "&OK"
 msgstr "OK(&O)"
+
+#: tfrmeditsearchreplace.cbmultiline.caption
+msgid "&Multiline pattern"
+msgstr ""
 
 #: tfrmeditsearchreplace.cbsearchcasesensitive.caption
 msgctxt "TFRMEDITSEARCHREPLACE.CBSEARCHCASESENSITIVE.CAPTION"
@@ -2167,6 +2248,10 @@ msgstr "ファイル名（複数可）をフルパスでクリップボードに
 msgid "Copy &Filename(s) to Clipboard"
 msgstr "ファイル名（複数可）をクリップボードにコピー(&F)"
 
+#: tfrmmain.actcopynetnamestoclip.caption
+msgid "Copy names with UNC path"
+msgstr "UNCパスで名前をコピー"
+
 #: tfrmmain.actcopynoask.caption
 msgid "Copy files without asking for confirmation"
 msgstr "確認を求めずにファイルをコピー"
@@ -2397,6 +2482,14 @@ msgstr "左側パネルのサムネール表示"
 msgid "Load tabs from Favorite Tabs"
 msgstr "お気に入りのタブからタブをロード"
 
+#: tfrmmain.actloadlist.caption
+msgid "Load List"
+msgstr ""
+
+#: tfrmmain.actloadlist.hint
+msgid "Load list of files/folders from the specified text file"
+msgstr ""
+
 #: tfrmmain.actloadselectionfromclip.caption
 msgid "Load Selection from Clip&board"
 msgstr "クリップボードから選択した項目を開く(&b)"
@@ -2452,6 +2545,14 @@ msgstr "全ての選択を解除(&U)"
 #: tfrmmain.actminimize.caption
 msgid "Minimize window"
 msgstr "ウィンドウを最小化"
+
+#: tfrmmain.actmovetableft.caption
+msgid "Move current tab to the left"
+msgstr ""
+
+#: tfrmmain.actmovetabright.caption
+msgid "Move current tab to the right"
+msgstr ""
 
 #: tfrmmain.actmultirename.caption
 msgid "Multi-&Rename Tool"
@@ -3242,6 +3343,7 @@ msgid "&OK"
 msgstr "OK(&O)"
 
 #: tfrmmaskinputdlg.chkcasesensitive.caption
+msgctxt "tfrmmaskinputdlg.chkcasesensitive.caption"
 msgid "Case sensitive"
 msgstr "大文字/小文字を区別"
 
@@ -3261,19 +3363,13 @@ msgstr "入力マスク："
 msgid "O&r select predefined selection type:"
 msgstr "既定の選択タイプを選定(&r)"
 
-#: tfrmmkdir.btncancel.caption
-msgctxt "TFRMMKDIR.BTNCANCEL.CAPTION"
-msgid "&Cancel"
-msgstr "キャンセル(&C)"
-
-#: tfrmmkdir.btnok.caption
-msgctxt "TFRMMKDIR.BTNOK.CAPTION"
-msgid "&OK"
-msgstr "OK(&O)"
-
 #: tfrmmkdir.caption
 msgid "Create new directory"
 msgstr "ディレクトリを新規作成"
+
+#: tfrmmkdir.cbextended.caption
+msgid "&Extended syntax"
+msgstr ""
 
 #: tfrmmkdir.lblmakedir.caption
 msgid "&Input new directory name:"
@@ -3587,6 +3683,16 @@ msgctxt "TFRMMULTIRENAME.CAPTION"
 msgid "Multi-Rename Tool"
 msgstr "複数リネーム"
 
+#: tfrmmultirename.cbcasesens.caption
+msgid "A≠a"
+msgstr ""
+
+#: tfrmmultirename.cbcasesens.hint
+#, fuzzy
+msgctxt "tfrmmultirename.cbcasesens.hint"
+msgid "Case sensitive"
+msgstr "大文字/小文字を区別"
+
 #: tfrmmultirename.cblog.caption
 msgctxt "TFRMMULTIRENAME.CBLOG.CAPTION"
 msgid "&Log result"
@@ -3595,6 +3701,14 @@ msgstr "ログ結果(&L)"
 #: tfrmmultirename.cblogappend.caption
 msgid "Append"
 msgstr "追加"
+
+#: tfrmmultirename.cbonlyfirst.caption
+msgid "1x"
+msgstr ""
+
+#: tfrmmultirename.cbonlyfirst.hint
+msgid "Replace only once per file"
+msgstr ""
 
 #: tfrmmultirename.cbregexp.caption
 msgctxt "TFRMMULTIRENAME.CBREGEXP.CAPTION"
@@ -4099,6 +4213,10 @@ msgstr "カラム数を固定"
 #: tfrmoptionsbriefview.rbusefixedwidth.caption
 msgid "Fixed columns width"
 msgstr "カラムの幅を固定"
+
+#: tfrmoptionscolors.rgdarkmode.caption
+msgid "Dark mode"
+msgstr ""
 
 #: tfrmoptionscolumnsview.cbcuttexttocolwidth.caption
 msgid "Cut &text to column width"
@@ -7348,11 +7466,6 @@ msgctxt "tfrmoptionsterminal.edrunintermstayopenparams.hint"
 msgid "{command} should normally be present here to reflect the command to be run in terminal"
 msgstr "端末中で実行されるコマンドを反映するため,通常 {command} がこの位置になくてはなりません"
 
-#: tfrmoptionsterminal.edruntermparams.hint
-msgctxt "tfrmoptionsterminal.edruntermparams.hint"
-msgid "{command} should normally be present here to reflect the command to be run in terminal"
-msgstr "端末中で実行されるコマンドを反映するため,通常 {command} がこの位置になくてはなりません"
-
 #: tfrmoptionsterminal.gbjustrunterminal.caption
 msgid "Command for just running terminal:"
 msgstr "端末を実行するだけのコマンド："
@@ -9523,10 +9636,18 @@ msgctxt "tfrmviewer.actshowgraphics.caption"
 msgid "Graphics"
 msgstr "グラフィックス"
 
+#: tfrmviewer.actshowoffice.caption
+msgid "Office XML (text only)"
+msgstr ""
+
 #: tfrmviewer.actshowplugins.caption
 msgctxt "tfrmviewer.actshowplugins.caption"
 msgid "Plugins"
 msgstr "プラグイン"
+
+#: tfrmviewer.actshowtransparency.caption
+msgid "Show transparenc&y"
+msgstr ""
 
 #: tfrmviewer.actstretchimage.caption
 msgctxt "TFRMVIEWER.ACTSTRETCHIMAGE.CAPTION"
@@ -9541,6 +9662,10 @@ msgstr "画像を引き伸ばし"
 msgctxt "tfrmviewer.actstretchonlylarge.caption"
 msgid "Stretch only large"
 msgstr "引き延ばしだけ"
+
+#: tfrmviewer.actwraptext.caption
+msgid "&Wrap text"
+msgstr ""
 
 #: tfrmviewer.actzoom.caption
 msgid "Zoom"
@@ -10188,7 +10313,7 @@ msgid "A&uto-rename source files"
 msgstr "ソースファイルの名前を自動修正(&u)"
 
 #: ulng.rsdlgbuttonautorenametarget
-msgid "A&uto-rename target files"
+msgid "Auto-rename tar&get files"
 msgstr "ターゲットファイルの自動リネーム(&u)"
 
 #: ulng.rsdlgbuttoncancel
@@ -10583,6 +10708,10 @@ msgstr "パスのフォント"
 msgid "Search Results Font"
 msgstr "検索結果のフォント"
 
+#: ulng.rsfontusagestatusbar
+msgid "Status Bar Font"
+msgstr ""
+
 #: ulng.rsfontusagetreeviewmenu
 msgid "Tree View Menu Font"
 msgstr "ツリー ビュー メニューのフォント"
@@ -10854,10 +10983,6 @@ msgstr "<デフォルト>"
 msgid "Octal"
 msgstr "8 進 数"
 
-#: ulng.rsmnucopynetnamestoclip
-msgid "Copy names with UNC path"
-msgstr "UNCパスで名前をコピー"
-
 #: ulng.rsmnucreateshortcut
 msgid "Create Shortcut..."
 msgstr "ショートカットを作成…"
@@ -10960,6 +11085,10 @@ msgstr ""
 "\n"
 "それを承知で,この破壊した結果ファイルを保持しますか？\n"
 "\n"
+
+#: ulng.rsmsgcanceloperation
+msgid "Are you sure that you want to cancel this operation?"
+msgstr ""
 
 #: ulng.rsmsgcannotcopymoveitself
 msgid "You can not copy/move a file \"%s\" to itself!"
@@ -11969,6 +12098,10 @@ msgstr ""
 #: ulng.rsmsgtctoolbarwheretosave
 msgid "Enter location and filename where to save a TC Toolbar file"
 msgstr "トータル・コマンダーTCツールバーファイルを保存する場所とファイル名を入力して下さい"
+
+#: ulng.rsmsgterminaldisabled
+msgid "Built-in terminal window disabled. Do you want to enable it?"
+msgstr ""
 
 #: ulng.rsmsgterminateprocess
 msgid "WARNING: Terminating a process can cause undesired results including loss of data and system instability. The process will not be given the chance to save its state or data before it is terminated. Are you sure you want to terminate the process?"

@@ -11,19 +11,19 @@ msgstr ""
 "X-Poedit-Country: INDONESIA\n"
 
 #: lclstrconsts.hhshelpbrowsernotexecutable
-#, fuzzy,badformat
+#, object-pascal-format, fuzzy, badformat
 #| msgid "Browser %s%s%s not executable."
 msgid "Browser \"%s\" not executable."
 msgstr "Browser %s%s%s bukan eksekutabel."
 
 #: lclstrconsts.hhshelpbrowsernotfound
-#, fuzzy,badformat
+#, object-pascal-format, fuzzy, badformat
 #| msgid "Browser %s%s%s not found."
 msgid "Browser \"%s\" not found."
 msgstr "Browser %s%s%s tidak ditemukan."
 
 #: lclstrconsts.hhshelperrorwhileexecuting
-#, fuzzy,badformat
+#, object-pascal-format, fuzzy, badformat
 #| msgid "Error while executing %s%s%s:%s%s"
 msgid "Error while executing \"%s\":%s%s"
 msgstr "Kesalahan saat mengeksekusi %s%s%s:%s%s"
@@ -33,16 +33,18 @@ msgid "Unable to find a HTML browser."
 msgstr "Tidak bisa menemukan HTML browser"
 
 #: lclstrconsts.hhshelpnohtmlbrowserfoundpleasedefineone
+#, object-pascal-format
 msgid "No HTML Browser found.%sPlease define one in Tools -> Options -> Help -> Help Options"
 msgstr ""
 
 #: lclstrconsts.hhshelpthehelpdatabasewasunabletofindfile
-#, fuzzy,badformat
+#, object-pascal-format, fuzzy, badformat
 #| msgid "The help database %s%s%s was unable to find file %s%s%s."
 msgid "The help database \"%s\" was unable to find file \"%s\"."
 msgstr "Database bantuan %s%s%s tidak bisa menemukan file %s%s%s."
 
 #: lclstrconsts.hhshelpthemacrosinbrowserparamswillbereplacedbytheurl
+#, object-pascal-format
 msgid "The macro %s in BrowserParams will be replaced by the URL."
 msgstr "Makro %s dalam BrowserParams akan diganti dengan URL."
 
@@ -80,6 +82,7 @@ msgid "Unknown"
 msgstr "Tidak dikenal"
 
 #: lclstrconsts.lislclresourcesnotfound
+#, object-pascal-format
 msgctxt "lclstrconsts.lislclresourcesnotfound"
 msgid "Resource %s not found"
 msgstr "Sumber %s tidak ditemukan"
@@ -107,6 +110,7 @@ msgid "Active Caption"
 msgstr ""
 
 #: lclstrconsts.rsallfiles
+#, object-pascal-format
 msgid "All files (%s)|%s|%s"
 msgstr "Semua file (%s)|%s|%s"
 
@@ -119,6 +123,7 @@ msgid "Aqua"
 msgstr ""
 
 #: lclstrconsts.rsascannothaveasparent
+#, object-pascal-format
 msgid "Class %s cannot have %s as parent."
 msgstr ""
 
@@ -189,18 +194,17 @@ msgid "Case sensitive"
 msgstr "Sensitif huruf"
 
 #: lclstrconsts.rscontrolclasscantcontainchildclass
+#, object-pascal-format
 msgid "Control of class '%s' can't have control of class '%s' as a child"
 msgstr ""
 
 #: lclstrconsts.rscontrolhasnoparentformorframe
+#, object-pascal-format
 msgid "Control '%s' has no parent form or frame"
 msgstr ""
 
-#: lclstrconsts.rscontrolhasnoparentwindow
-msgid "Control '%s' has no parent window"
-msgstr ""
-
 #: lclstrconsts.rscontrolisnotaparent
+#, object-pascal-format
 msgid "'%s' is not a parent of '%s'"
 msgstr ""
 
@@ -268,10 +272,12 @@ msgid "Error"
 msgstr "Salah"
 
 #: lclstrconsts.rserrorcreatingdevicecontext
+#, object-pascal-format
 msgid "Error creating device context for %s.%s"
 msgstr "Kesalahan pembuatan konteks device untuk %s.%s"
 
 #: lclstrconsts.rserroroccurredinataddressframe
+#, object-pascal-format
 msgid "Error occurred in %s at %sAddress %s%s Frame %s"
 msgstr "Kesalahan terjadi dalam %s at %sAlamat %s%s Frame %s"
 
@@ -288,10 +294,12 @@ msgid "Directory must exist"
 msgstr "Direktori harus ada"
 
 #: lclstrconsts.rsfddirectorynotexist
+#, object-pascal-format
 msgid "The directory \"%s\" does not exist."
 msgstr "Directori \"%s\" tidak ada."
 
 #: lclstrconsts.rsfdfilealreadyexists
+#, object-pascal-format
 msgid "The file \"%s\" already exists. Overwrite ?"
 msgstr "File \"%s\" sudah ada. Timpa saja ?"
 
@@ -300,10 +308,12 @@ msgid "File must exist"
 msgstr "File harus ada"
 
 #: lclstrconsts.rsfdfilenotexist
+#, object-pascal-format
 msgid "The file \"%s\" does not exist."
 msgstr "File \"%s\" tidak ada."
 
 #: lclstrconsts.rsfdfilereadonly
+#, object-pascal-format
 msgid "The file \"%s\" is not writable."
 msgstr "File \"%s\" tidak bisa ditulisi."
 
@@ -328,6 +338,7 @@ msgid "Path must exist"
 msgstr "Path harus ada"
 
 #: lclstrconsts.rsfdpathnoexist
+#, object-pascal-format
 msgid "The path \"%s\" does not exist."
 msgstr "Path \"%s\" tidak ada."
 
@@ -336,6 +347,7 @@ msgid "Select Directory"
 msgstr "Pilih Direktori"
 
 #: lclstrconsts.rsfileinfofilenotfound
+#, object-pascal-format
 msgid "(file not found: \"%s\")"
 msgstr "(file tidak ditemukan: \"%s\")"
 
@@ -377,10 +389,12 @@ msgid "Form"
 msgstr ""
 
 #: lclstrconsts.rsformresourcesnotfoundforresourcelessformscreatenew
+#, object-pascal-format
 msgid "Form resource %s not found. For resourceless forms CreateNew constructor must be used. See the global variable RequireDerivedFormResource."
 msgstr ""
 
 #: lclstrconsts.rsformstreamingerror
+#, object-pascal-format
 msgid "Form streaming \"%s\" error: %s"
 msgstr "Pengaliran form \"%s\" salah: %s"
 
@@ -505,6 +519,7 @@ msgid "Help"
 msgstr "Panduan"
 
 #: lclstrconsts.rshelpalreadyregistered
+#, object-pascal-format
 msgid "%s: Already registered"
 msgstr "%s: Sudah teregistrasi"
 
@@ -525,54 +540,58 @@ msgid "Help Error"
 msgstr "Bantuan Salah"
 
 #: lclstrconsts.rshelphelpcontextnotfound
+#, object-pascal-format
 msgid "Help context %s not found."
 msgstr "Konteks Bantuan %s tidak ditemukan."
 
 #: lclstrconsts.rshelphelpcontextnotfoundindatabase
-#, fuzzy,badformat
+#, object-pascal-format, fuzzy, badformat
 #| msgid "Help context %s not found in Database %s%s%s."
 msgid "Help context %s not found in Database \"%s\"."
 msgstr "Konteks Bantuan %s tidak ditemukan dalam Database %s%s%s."
 
 #: lclstrconsts.rshelphelpdatabasedidnotfoundaviewerforahelppageoftype
-#, fuzzy,badformat
+#, object-pascal-format, fuzzy, badformat
 #| msgid "Help Database \"%s\" did not found a viewer for a help page of type %s"
 msgid "Help Database \"%s\" did not find a viewer for a help page of type %s"
 msgstr "Database Bantuan %s%s%s tidak ditemukan peninjau untuk halaman bantuan dari tipe %s"
 
 #: lclstrconsts.rshelphelpdatabasenotfound
-#, fuzzy,badformat
+#, object-pascal-format, fuzzy, badformat
 #| msgid "Help Database %s%s%s not found"
 msgid "Help Database \"%s\" not found"
 msgstr "Database Bantuan %s%s%s tidak ditemukan"
 
 #: lclstrconsts.rshelphelpfordirectivenotfound
+#, object-pascal-format
 msgid "Help for directive \"%s\" not found."
 msgstr ""
 
 #: lclstrconsts.rshelphelpfordirectivenotfoundindatabase
+#, object-pascal-format
 msgid "Help for directive \"%s\" not found in Database \"%s\"."
 msgstr ""
 
 #: lclstrconsts.rshelphelpkeywordnotfound
-#, fuzzy,badformat
+#, object-pascal-format, fuzzy, badformat
 #| msgid "Help keyword %s%s%s not found."
 msgid "Help keyword \"%s\" not found."
 msgstr "Kata kunci Bantuan %s%s%s tidak ditemukan."
 
 #: lclstrconsts.rshelphelpkeywordnotfoundindatabase
-#, fuzzy,badformat
+#, object-pascal-format, fuzzy, badformat
 #| msgid "Help keyword %s%s%s not found in Database %s%s%s."
 msgid "Help keyword \"%s\" not found in Database \"%s\"."
 msgstr "Kata kunci Bantuan %s%s%s tidak ditemukan dalam Database %s%s%s."
 
 #: lclstrconsts.rshelphelpnodehasnohelpdatabase
-#, fuzzy,badformat
+#, object-pascal-format, fuzzy, badformat
 #| msgid "Help node %s%s%s has no Help Database"
 msgid "Help node \"%s\" has no Help Database"
 msgstr "Node Bantuan %s%s%s tidak mempunyai Database Bantuan"
 
 #: lclstrconsts.rshelpnohelpfoundforsource
+#, object-pascal-format
 msgid "No help found for line %d, column %d of %s."
 msgstr "Tidak ada bantuan ditemukan untuk baris %d, column %d of %s."
 
@@ -589,6 +608,7 @@ msgid "No help found for this topic"
 msgstr "Bantuan tidak ditemukan"
 
 #: lclstrconsts.rshelpnotregistered
+#, object-pascal-format
 msgid "%s: Not registered"
 msgstr "%s: Tidak teregistrasi"
 
@@ -597,7 +617,7 @@ msgid "Help Selector Error"
 msgstr "Selektor Bantuan Salah"
 
 #: lclstrconsts.rshelpthereisnoviewerforhelptype
-#, fuzzy,badformat
+#, object-pascal-format, fuzzy, badformat
 #| msgid "There is no viewer for help type %s%s%s"
 msgid "There is no viewer for help type \"%s\""
 msgstr "Tidak ada peninjau untuk tipe bantuan %s%s%s"
@@ -671,10 +691,12 @@ msgid "Inactive Caption"
 msgstr ""
 
 #: lclstrconsts.rsindexoutofbounds
+#, object-pascal-format
 msgid "%s Index %d out of bounds 0 .. %d"
 msgstr "%s Indeks %d di luar jangkauan 0 .. %d"
 
 #: lclstrconsts.rsindexoutofrange
+#, object-pascal-format
 msgid "Index Out of range Cell[Col=%d Row=%d]"
 msgstr "Indeks Diluar jangkauan Cell[Kolom=%d Baris=%d]"
 
@@ -692,10 +714,12 @@ msgid "Insert"
 msgstr "Insert"
 
 #: lclstrconsts.rsinvaliddate
+#, object-pascal-format
 msgid "Invalid Date : %s"
 msgstr "Tanggal tidak benar : %s"
 
 #: lclstrconsts.rsinvaliddaterangehint
+#, object-pascal-format
 msgid "Invalid Date: %s. Must be between %s and %s"
 msgstr "Tanggal tidak benar: %s. Harus ada diantara %s dan %s"
 
@@ -712,6 +736,7 @@ msgid "Invalid stream format"
 msgstr "Format stream tidak benar"
 
 #: lclstrconsts.rsisalreadyassociatedwith
+#, object-pascal-format
 msgid "%s is already associated with %s"
 msgstr "%s sudah dikaitkan dengan %s"
 
@@ -728,10 +753,16 @@ msgid "Lime"
 msgstr ""
 
 #: lclstrconsts.rslistindexexceedsbounds
+#, object-pascal-format
 msgid "List index exceeds bounds (%d)"
 msgstr "Indeks List melebihi jangkauan (%d)"
 
+#: lclstrconsts.rsmacosfileformat
+msgid "File Format:"
+msgstr ""
+
 #: lclstrconsts.rsmacosmenuhide
+#, object-pascal-format
 msgid "Hide %s"
 msgstr ""
 
@@ -740,6 +771,7 @@ msgid "Hide Others"
 msgstr ""
 
 #: lclstrconsts.rsmacosmenuquit
+#, object-pascal-format
 msgid "Quit %s"
 msgstr ""
 
@@ -924,6 +956,7 @@ msgid "Post"
 msgstr ""
 
 #: lclstrconsts.rspressoktoignoreandriskdatacorruptionpressaborttok
+#, object-pascal-format
 msgid "%s%sPress OK to ignore and risk data corruption.%sPress Abort to kill the program."
 msgstr ""
 
@@ -937,11 +970,16 @@ msgid "Prompt on replace"
 msgstr ""
 
 #: lclstrconsts.rspropertydoesnotexist
+#, object-pascal-format
 msgid "Property %s does not exist"
 msgstr "Properti %s tidak ada"
 
 #: lclstrconsts.rspurplecolorcaption
 msgid "Purple"
+msgstr ""
+
+#: lclstrconsts.rsqtoptiondisableaccurateframe
+msgid "-disableaccurateframe, disables fully accurate window frame under X11. This feature is implemented for Qt, Qt5 and Gtk2 interfaces and used mostly by GetWindowRect()."
 msgstr ""
 
 #: lclstrconsts.rsqtoptiondograb
@@ -1061,6 +1099,7 @@ msgid "Replace all"
 msgstr "Ganti semua"
 
 #: lclstrconsts.rsresourcenotfound
+#, object-pascal-format
 msgctxt "lclstrconsts.rsresourcenotfound"
 msgid "Resource %s not found"
 msgstr "Sumber %s tidak ditemukan"
@@ -1149,26 +1188,32 @@ msgid "Unsupported bitmap format."
 msgstr "Format bitmap tidak didukung."
 
 #: lclstrconsts.rsunsupportedclipboardformat
+#, object-pascal-format
 msgid "Unsupported clipboard format: %s"
 msgstr "Format clipboard tidak didukung: %s"
 
 #: lclstrconsts.rswarningunreleaseddcsdump
+#, object-pascal-format
 msgid " WARNING: There are %d unreleased DCs, a detailed dump follows:"
 msgstr " PERINGATAN: Ada %d DCs tidak dilepas, dump detil sebagai berikut:"
 
 #: lclstrconsts.rswarningunreleasedgdiobjectsdump
+#, object-pascal-format
 msgid " WARNING: There are %d unreleased GDIObjects, a detailed dump follows:"
 msgstr " PERINGATAN: Ada %d GDIObjects tidak dilepas, detil dump sebagai berikut:"
 
 #: lclstrconsts.rswarningunreleasedmessagesinqueue
+#, object-pascal-format
 msgid " WARNING: There are %d messages left in the queue! I'll free them"
 msgstr " PERINGATAN: Ada %d pesan tersisa dalam antrian! Saya akan membebaskannya"
 
 #: lclstrconsts.rswarningunreleasedtimerinfos
+#, object-pascal-format
 msgid " WARNING: There are %d TimerInfo structures left, I'll free them"
 msgstr " PERINGATAN: Ada %d struktur TimerInfo tersisa, Saya akan membebaskannya"
 
 #: lclstrconsts.rswarningunremovedpaintmessages
+#, object-pascal-format
 msgid " WARNING: There are %s unremoved LM_PAINT/LM_GtkPAINT message links left."
 msgstr " PERINGATAN: ada %s tersisa link pesan LM_PAINT/LM_GtkPAINT tidak dihapus."
 
@@ -1208,10 +1253,6 @@ msgstr ""
 msgid "Cannot focus a disabled or invisible window"
 msgstr "Tidak bisa memberikan fokus ke jendela yang dimatikan atau tidak nampak"
 
-#: lclstrconsts.scannotsetdesigntimeppi
-msgid "Cannot set design time PPI."
-msgstr ""
-
 #: lclstrconsts.sduplicatemenus
 msgid "Duplicate menus"
 msgstr "Duplikasi menu"
@@ -1231,10 +1272,6 @@ msgstr "Registrasi action tidak benar"
 #: lclstrconsts.sinvalidactionunregistration
 msgid "Invalid action unregistration"
 msgstr "Pembatalan registrasi action tidak benar"
-
-#: lclstrconsts.sinvalidcharset
-msgid "The char set in mask \"%s\" is not valid!"
-msgstr "set karakter dalam mask \"%s\" tidak benar!"
 
 #: lclstrconsts.sinvalidimagesize
 msgid "Invalid image size"
@@ -1348,22 +1385,27 @@ msgid "No timers available"
 msgstr "Tidak tersedia timer"
 
 #: lclstrconsts.sparentrequired
+#, object-pascal-format
 msgid "Control \"%s\" has no parent window."
 msgstr ""
 
 #: lclstrconsts.sparexpected
+#, object-pascal-format
 msgid "Wrong token type: %s expected"
 msgstr ""
 
 #: lclstrconsts.sparinvalidfloat
+#, object-pascal-format
 msgid "Invalid floating point number: %s"
 msgstr ""
 
 #: lclstrconsts.sparinvalidinteger
+#, object-pascal-format
 msgid "Invalid integer number: %s"
 msgstr ""
 
 #: lclstrconsts.sparlocinfo
+#, object-pascal-format
 msgid " (at %d,%d, stream offset %d)"
 msgstr ""
 
@@ -1376,44 +1418,52 @@ msgid "Unterminated string"
 msgstr ""
 
 #: lclstrconsts.sparwrongtokensymbol
+#, object-pascal-format
 msgid "Wrong token symbol: %s expected but %s found"
 msgstr ""
 
 #: lclstrconsts.sparwrongtokentype
+#, object-pascal-format
 msgid "Wrong token type: %s expected but %s found"
 msgstr ""
 
 #: lclstrconsts.sshellctrlsbytes
+#, object-pascal-format
 msgid "%s bytes"
 msgstr ""
 
 #: lclstrconsts.sshellctrlsinvalidpath
+#, object-pascal-format
 msgctxt "lclstrconsts.sshellctrlsinvalidpath"
 msgid ""
 "Invalid pathname:\n"
-"\"%s\"\n"
+"\"%s\""
 msgstr ""
 
 #: lclstrconsts.sshellctrlsinvalidpathrelative
+#, object-pascal-format
 msgid ""
 "Invalid relative pathname:\n"
 "\"%s\"\n"
 "in relation to rootpath:\n"
-"\"%s\"\n"
+"\"%s\""
 msgstr ""
 
 #: lclstrconsts.sshellctrlsinvalidroot
+#, object-pascal-format
 msgctxt "lclstrconsts.sshellctrlsinvalidroot"
 msgid ""
 "Invalid pathname:\n"
-"\"%s\"\n"
+"\"%s\""
 msgstr ""
 
 #: lclstrconsts.sshellctrlskb
+#, object-pascal-format
 msgid "%s kB"
 msgstr ""
 
 #: lclstrconsts.sshellctrlsmb
+#, object-pascal-format
 msgid "%s MB"
 msgstr ""
 
@@ -1422,9 +1472,10 @@ msgid "Name"
 msgstr ""
 
 #: lclstrconsts.sshellctrlsselecteditemdoesnotexists
+#, object-pascal-format
 msgid ""
 "The selected item does not exist on disk:\n"
-"\"%s\"\n"
+"\"%s\""
 msgstr ""
 
 #: lclstrconsts.sshellctrlssize

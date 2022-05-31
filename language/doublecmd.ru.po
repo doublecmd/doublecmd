@@ -11,6 +11,10 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Native-Language: Русский\n"
 
+#: foptionscolors.rsdarkmodeoptions
+msgid "Auto;Enabled;Disabled"
+msgstr "Авто;Включён;Отключён"
+
 #: fsyncdirsdlg.rscomparingpercent
 msgid "Comparing... %d%% (ESC to cancel)"
 msgstr "Сравнение... %d%% (ESC для отмены)"
@@ -530,6 +534,11 @@ msgctxt "TFRMDIFFER.ACTEDITREDO.CAPTION"
 msgid "Redo"
 msgstr "Повторить"
 
+#: tfrmdiffer.acteditredo.hint
+msgctxt "tfrmdiffer.acteditredo.hint"
+msgid "Redo"
+msgstr "Повторить"
+
 #: tfrmdiffer.acteditselectall.caption
 msgid "Select &All"
 msgstr "Выделить в&сё"
@@ -539,10 +548,55 @@ msgctxt "TFRMDIFFER.ACTEDITUNDO.CAPTION"
 msgid "Undo"
 msgstr "Отменить"
 
+#: tfrmdiffer.acteditundo.hint
+msgctxt "tfrmdiffer.acteditundo.hint"
+msgid "Undo"
+msgstr "Отменить"
+
 #: tfrmdiffer.actexit.caption
 msgctxt "tfrmdiffer.actexit.caption"
 msgid "E&xit"
 msgstr "Выход"
+
+#: tfrmdiffer.actfind.caption
+msgctxt "tfrmdiffer.actfind.caption"
+msgid "&Find"
+msgstr "&Найти..."
+
+#: tfrmdiffer.actfind.hint
+msgctxt "tfrmdiffer.actfind.hint"
+msgid "Find"
+msgstr "Найти"
+
+#: tfrmdiffer.actfindnext.caption
+msgctxt "tfrmdiffer.actfindnext.caption"
+msgid "Find next"
+msgstr "Найти далее"
+
+#: tfrmdiffer.actfindnext.hint
+msgctxt "tfrmdiffer.actfindnext.hint"
+msgid "Find next"
+msgstr "Найти далее"
+
+#: tfrmdiffer.actfindprev.caption
+msgctxt "tfrmdiffer.actfindprev.caption"
+msgid "Find previous"
+msgstr "Найти предыдущее"
+
+#: tfrmdiffer.actfindprev.hint
+msgctxt "tfrmdiffer.actfindprev.hint"
+msgid "Find previous"
+msgstr "Найти предыдущее"
+
+#: tfrmdiffer.actfindreplace.caption
+msgctxt "tfrmdiffer.actfindreplace.caption"
+msgid "&Replace"
+msgstr "&Заменить..."
+
+#: tfrmdiffer.actfindreplace.hint
+msgctxt "tfrmdiffer.actfindreplace.hint"
+msgid "Replace"
+msgstr "Заменить"
 
 #: tfrmdiffer.actfirstdifference.caption
 msgctxt "tfrmdiffer.actfirstdifference.caption"
@@ -553,6 +607,16 @@ msgstr "Первое отличие"
 msgctxt "tfrmdiffer.actfirstdifference.hint"
 msgid "First Difference"
 msgstr "Первое отличие"
+
+#: tfrmdiffer.actgotoline.caption
+msgctxt "tfrmdiffer.actgotoline.caption"
+msgid "Goto Line..."
+msgstr "Перейти к строке..."
+
+#: tfrmdiffer.actgotoline.hint
+msgctxt "tfrmdiffer.actgotoline.hint"
+msgid "Goto Line"
+msgstr "Переход к строке"
 
 #: tfrmdiffer.actignorecase.caption
 msgid "Ignore Case"
@@ -904,6 +968,7 @@ msgid "Redo"
 msgstr "Повторить"
 
 #: tfrmeditor.acteditrplc.caption
+msgctxt "tfrmeditor.acteditrplc.caption"
 msgid "&Replace"
 msgstr "&Заменить..."
 
@@ -1052,6 +1117,10 @@ msgstr "О&тмена"
 msgctxt "tfrmeditsearchreplace.buttonpanel.okbutton.caption"
 msgid "&OK"
 msgstr "&ОК"
+
+#: tfrmeditsearchreplace.cbmultiline.caption
+msgid "&Multiline pattern"
+msgstr "Многострочный &шаблон"
 
 #: tfrmeditsearchreplace.cbsearchcasesensitive.caption
 msgctxt "TFRMEDITSEARCHREPLACE.CBSEARCHCASESENSITIVE.CAPTION"
@@ -2166,6 +2235,10 @@ msgstr "Копировать по&лные имена файлов"
 msgid "Copy &Filename(s) to Clipboard"
 msgstr "Копировать имена фа&йлов в буфер"
 
+#: tfrmmain.actcopynetnamestoclip.caption
+msgid "Copy names with UNC path"
+msgstr "Копировать в буфер имена с UNC-путём"
+
 #: tfrmmain.actcopynoask.caption
 msgid "Copy files without asking for confirmation"
 msgstr "Копировать файлы без запроса подтверждения"
@@ -2396,6 +2469,14 @@ msgstr "Просмотр эскизов в левой панели"
 msgid "Load tabs from Favorite Tabs"
 msgstr "Загрузить вкладки из избранных вкладок"
 
+#: tfrmmain.actloadlist.caption
+msgid "Load List"
+msgstr "Загрузить список"
+
+#: tfrmmain.actloadlist.hint
+msgid "Load list of files/folders from the specified text file"
+msgstr "Загрузить список файлов/папок из указанного текстового файла"
+
 #: tfrmmain.actloadselectionfromclip.caption
 msgid "Load Selection from Clip&board"
 msgstr "Загрузить выделение из &буфера"
@@ -2451,6 +2532,14 @@ msgstr "С&нять выделение со всех"
 #: tfrmmain.actminimize.caption
 msgid "Minimize window"
 msgstr "Свернуть"
+
+#: tfrmmain.actmovetableft.caption
+msgid "Move current tab to the left"
+msgstr "Переместить текущую вкладку влево"
+
+#: tfrmmain.actmovetabright.caption
+msgid "Move current tab to the right"
+msgstr "Переместить текущую вкладку вправо"
 
 #: tfrmmain.actmultirename.caption
 msgid "Multi-&Rename Tool"
@@ -3238,6 +3327,7 @@ msgid "&OK"
 msgstr "&ОК"
 
 #: tfrmmaskinputdlg.chkcasesensitive.caption
+msgctxt "tfrmmaskinputdlg.chkcasesensitive.caption"
 msgid "Case sensitive"
 msgstr "Учитывать регистр"
 
@@ -3257,19 +3347,13 @@ msgstr "Укажите маску файлов:"
 msgid "O&r select predefined selection type:"
 msgstr "&Или выберите тип файлов по шаблону:"
 
-#: tfrmmkdir.btncancel.caption
-msgctxt "TFRMMKDIR.BTNCANCEL.CAPTION"
-msgid "&Cancel"
-msgstr "О&тмена"
-
-#: tfrmmkdir.btnok.caption
-msgctxt "TFRMMKDIR.BTNOK.CAPTION"
-msgid "&OK"
-msgstr "&ОК"
-
 #: tfrmmkdir.caption
 msgid "Create new directory"
 msgstr "Создать новый каталог"
+
+#: tfrmmkdir.cbextended.caption
+msgid "&Extended syntax"
+msgstr "&Расширенный синтаксис"
 
 #: tfrmmkdir.lblmakedir.caption
 msgid "&Input new directory name:"
@@ -3583,6 +3667,15 @@ msgctxt "tfrmmultirename.caption"
 msgid "Multi-Rename Tool"
 msgstr "Групповое переименование"
 
+#: tfrmmultirename.cbcasesens.caption
+msgid "A≠a"
+msgstr "А≠а"
+
+#: tfrmmultirename.cbcasesens.hint
+msgctxt "tfrmmultirename.cbcasesens.hint"
+msgid "Case sensitive"
+msgstr "Учитывать регистр"
+
 #: tfrmmultirename.cblog.caption
 msgctxt "TFRMMULTIRENAME.CBLOG.CAPTION"
 msgid "&Log result"
@@ -3591,6 +3684,14 @@ msgstr "Протоко&л"
 #: tfrmmultirename.cblogappend.caption
 msgid "Append"
 msgstr "Добавить"
+
+#: tfrmmultirename.cbonlyfirst.caption
+msgid "1x"
+msgstr "1x"
+
+#: tfrmmultirename.cbonlyfirst.hint
+msgid "Replace only once per file"
+msgstr "Заменять только первое вхождение"
 
 #: tfrmmultirename.cbregexp.caption
 msgctxt "TFRMMULTIRENAME.CBREGEXP.CAPTION"
@@ -4095,6 +4196,10 @@ msgstr "Фиксированное число колонок"
 #: tfrmoptionsbriefview.rbusefixedwidth.caption
 msgid "Fixed columns width"
 msgstr "Фиксированная ширина колонок"
+
+#: tfrmoptionscolors.rgdarkmode.caption
+msgid "Dark mode"
+msgstr "Тёмный режим"
 
 #: tfrmoptionscolumnsview.cbcuttexttocolwidth.caption
 msgctxt "TFRMOPTIONSCOLUMNSVIEW.CBCUTTEXTTOCOLWIDTH.CAPTION"
@@ -7377,11 +7482,6 @@ msgctxt "tfrmoptionsterminal.edrunintermstayopenparams.hint"
 msgid "{command} should normally be present here to reflect the command to be run in terminal"
 msgstr "Шаблон {command} обозначает команду, запуск которой будет произведён в терминале"
 
-#: tfrmoptionsterminal.edruntermparams.hint
-msgctxt "tfrmoptionsterminal.edruntermparams.hint"
-msgid "{command} should normally be present here to reflect the command to be run in terminal"
-msgstr "Шаблон {command} обозначает команду, запуск которой будет произведён в терминале"
-
 #: tfrmoptionsterminal.gbjustrunterminal.caption
 msgid "Command for just running terminal:"
 msgstr "Команда запуска терминала:"
@@ -9567,10 +9667,18 @@ msgctxt "tfrmviewer.actshowgraphics.caption"
 msgid "Graphics"
 msgstr "&Графика"
 
+#: tfrmviewer.actshowoffice.caption
+msgid "Office XML (text only)"
+msgstr "Офи&сные XML (только текст)"
+
 #: tfrmviewer.actshowplugins.caption
 msgctxt "tfrmviewer.actshowplugins.caption"
 msgid "Plugins"
 msgstr "Плагины"
+
+#: tfrmviewer.actshowtransparency.caption
+msgid "Show transparenc&y"
+msgstr "Показывать прозра&чность"
 
 #: tfrmviewer.actstretchimage.caption
 msgctxt "TFRMVIEWER.ACTSTRETCHIMAGE.CAPTION"
@@ -9585,6 +9693,10 @@ msgstr "Все изображения в размер окна"
 msgctxt "tfrmviewer.actstretchonlylarge.caption"
 msgid "Stretch only large"
 msgstr "Только большие в размер окна"
+
+#: tfrmviewer.actwraptext.caption
+msgid "&Wrap text"
+msgstr "&Переносить строки"
 
 #: tfrmviewer.actzoom.caption
 msgid "Zoom"
@@ -10224,7 +10336,7 @@ msgid "A&uto-rename source files"
 msgstr "Автоматич&ески переименовывать копируемые файлы"
 
 #: ulng.rsdlgbuttonautorenametarget
-msgid "A&uto-rename target files"
+msgid "Auto-rename tar&get files"
 msgstr "Автоматически переименовывать имеющиеся фай&лы"
 
 #: ulng.rsdlgbuttoncancel
@@ -10614,6 +10726,10 @@ msgstr "Текущий &путь"
 msgid "Search Results Font"
 msgstr "Результаты поиска"
 
+#: ulng.rsfontusagestatusbar
+msgid "Status Bar Font"
+msgstr "Строка состояния"
+
 #: ulng.rsfontusagetreeviewmenu
 msgid "Tree View Menu Font"
 msgstr "Древовидное меню"
@@ -10884,10 +11000,6 @@ msgstr "<По умолчанию>"
 msgid "Octal"
 msgstr "Восьмеричный"
 
-#: ulng.rsmnucopynetnamestoclip
-msgid "Copy names with UNC path"
-msgstr "Копировать в буфер имена с UNC-путём"
-
 #: ulng.rsmnucreateshortcut
 msgid "Create Shortcut..."
 msgstr "Создать ярлык..."
@@ -10989,6 +11101,10 @@ msgstr ""
 "\"%s\"\n"
 "\n"
 "Хотите оставить повреждённый файл?\n"
+
+#: ulng.rsmsgcanceloperation
+msgid "Are you sure that you want to cancel this operation?"
+msgstr "Вы действительно хотите отменить операцию?"
 
 #: ulng.rsmsgcannotcopymoveitself
 msgid "You can not copy/move a file \"%s\" to itself!"
@@ -11989,6 +12105,10 @@ msgstr ""
 #: ulng.rsmsgtctoolbarwheretosave
 msgid "Enter location and filename where to save a TC Toolbar file"
 msgstr "Укажите место и имя для сохранения файла панели инструментов TC"
+
+#: ulng.rsmsgterminaldisabled
+msgid "Built-in terminal window disabled. Do you want to enable it?"
+msgstr "Окно терминала отключено. Хотите его включить?"
 
 #: ulng.rsmsgterminateprocess
 msgid "WARNING: Terminating a process can cause undesired results including loss of data and system instability. The process will not be given the chance to save its state or data before it is terminated. Are you sure you want to terminate the process?"

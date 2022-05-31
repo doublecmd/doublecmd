@@ -4,7 +4,7 @@
   Dark mode support unit (Windows 10 + Qt5).
 
   Copyright (C) 2019-2021 Richard Yu
-  Copyright (C) 2019-2021 Alexander Koblov (alexx2000@mail.ru)
+  Copyright (C) 2019-2022 Alexander Koblov (alexx2000@mail.ru)
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -39,14 +39,21 @@ var
   g_darkModeEnabled: bool = false;
   g_darkModeSupported: bool = false;
 
+{$IF DEFINED(LCLQT5)}
 procedure ApplyDarkStyle;
+{$ENDIF}
+
 procedure RefreshTitleBarThemeColor(hWnd: HWND);
 function AllowDarkModeForWindow(hWnd: HWND; allow: bool): bool;
 
 implementation
 
 uses
-  UxTheme, JwaWinUser, FileInfo, Qt5;
+  UxTheme, JwaWinUser, FileInfo, IniFiles, ShlObj, LazUTF8
+{$IF DEFINED(LCLQT5)}
+  , Qt5
+{$ENDIF}
+  ;
 
 type
   // Insider 18334
@@ -59,16 +66,12 @@ type
     Max
   );
 
-  PWindowCompositionAttribData = ^TWindowCompositionAttribData;
-  TWindowCompositionAttribData = record
-    dwAttrib: DWORD;
-    pvData: PVOID;
-    cbData: SIZE_T;
-  end;
+var
+  AppMode: PreferredAppMode;
 
 var
   RtlGetNtVersionNumbers: procedure(major, minor, build: LPDWORD); stdcall;
-  _SetWindowCompositionAttribute: function(hWnd: HWND; data: PWINDOWCOMPOSITIONATTRIBDATA): BOOL; stdcall;
+  DwmSetWindowAttribute: function(hwnd: HWND; dwAttribute: DWORD; pvAttribute: Pointer; cbAttribute: DWORD): HRESULT; stdcall;
   // 1809 17763
   _ShouldAppsUseDarkMode: function(): bool; stdcall; // ordinal 132
   _AllowDarkModeForWindow: function(hWnd: HWND; allow: bool): bool; stdcall; // ordinal 133
@@ -97,25 +100,28 @@ begin
     Result:= false;
 end;
 
+function ShouldAppsUseDarkMode: Boolean;
+begin
+  Result:= (_ShouldAppsUseDarkMode() or (AppMode = ForceDark)) and not IsHighContrast();
+end;
+
 procedure RefreshTitleBarThemeColor(hWnd: HWND);
 const
-  WCA_USEDARKMODECOLORS = 26;
+  DWMWA_USE_IMMERSIVE_DARK_MODE_OLD = 19;
+  DWMWA_USE_IMMERSIVE_DARK_MODE_NEW = 20;
 var
   dark: BOOL;
-  data: TWindowCompositionAttribData;
+  dwAttribute: DWORD;
 begin
-  dark:= (_IsDarkModeAllowedForWindow(hWnd) and
-         _ShouldAppsUseDarkMode() and not IsHighContrast());
+  dark:= (_IsDarkModeAllowedForWindow(hWnd) and ShouldAppsUseDarkMode);
 
-  if (g_buildNumber < 18362) then
-    SetPropW(hWnd, 'UseImmersiveDarkModeColors', THandle(dark))
-  else if Assigned(_SetWindowCompositionAttribute) then
-  begin
-    data.pvData:= @dark;
-    data.cbData:= SizeOf(dark);
-    data.dwAttrib:= WCA_USEDARKMODECOLORS;
-    _SetWindowCompositionAttribute(hWnd, @data);
+  if (Win32BuildNumber < 19041) then
+    dwAttribute:= DWMWA_USE_IMMERSIVE_DARK_MODE_OLD
+  else begin
+    dwAttribute:= DWMWA_USE_IMMERSIVE_DARK_MODE_NEW;
   end;
+
+  DwmSetWindowAttribute(hwnd, dwAttribute, @dark, SizeOf(dark));
 end;
 
 procedure AllowDarkModeForApp(allow: bool);
@@ -125,12 +131,13 @@ begin
   else if Assigned(_SetPreferredAppMode) then
   begin
     if (allow) then
-      _SetPreferredAppMode(AllowDark)
+      _SetPreferredAppMode(AppMode)
     else
       _SetPreferredAppMode(Default);
   end;
 end;
 
+{$IF DEFINED(LCLQT5)}
 procedure ApplyDarkStyle;
 const
   StyleName: WideString = 'Fusion';
@@ -145,7 +152,7 @@ var
   end;
 
 begin
-  if not g_darkModeEnabled then Exit;
+  g_darkModeEnabled:= True;
 
   QApplication_setStyle(QStyleFactory_create(@StyleName));
 
@@ -176,16 +183,18 @@ begin
 
   QApplication_setPalette(APalette);
 end;
+{$ENDIF}
 
 const
   LOAD_LIBRARY_SEARCH_SYSTEM32 = $800;
 
 function CheckBuildNumber(buildNumber: DWORD): Boolean; inline;
 begin
-  Result := (buildNumber = 17763) or // 1809
-            (buildNumber = 18362) or // 1903 & 1909
-            (buildNumber = 19041) or // 2004 & 20H2 & 21H1
-            (buildNumber = 22000);   // 21H2
+  Result := (buildNumber = 17763) or // Win 10: 1809
+            (buildNumber = 18362) or // Win 10: 1903 & 1909
+            (buildNumber = 19041) or // Win 10: 2004 & 20H2 & 21H1 & 21H2
+            (buildNumber = 22000) or // Win 11: 21H2
+            (buildNumber > 22000);   // Win 11: Insider Preview
 end;
 
 function GetBuildNumber(Instance: THandle): DWORD;
@@ -201,6 +210,34 @@ begin
   except
     Exit(0);
   end;
+end;
+
+function DarkAppMode: PreferredAppMode;
+var
+  APath: String;
+  AConfig: TIniFile;
+  wsPath: array[0..MAX_PATH] of WideChar;
+begin
+  Result:= AllowDark;
+  APath:= ExtractFilePath(ParamStr(0));
+  if FileExists(APath + ApplicationName + '.inf') then
+    APath:= APath + ApplicationName + '.ini'
+  else begin
+    SHGetFolderPathW(0, CSIDL_APPDATA or CSIDL_FLAG_CREATE, 0, SHGFP_TYPE_CURRENT, @wsPath[0]);
+    APath:= IncludeTrailingBackslash(UTF16ToUTF8(wsPath)) + ApplicationName + PathDelim + ApplicationName + '.ini';
+  end;
+  if FileExists(APath) then
+  try
+    AConfig:= TIniFile.Create(APath);
+    try
+      Result:= PreferredAppMode(AConfig.ReadInteger('General', 'DarkMode', 1));
+    finally
+      AConfig.Free;
+    end;
+  except
+    // Skip
+  end;
+  AppMode:= Result;
 end;
 
 procedure InitDarkMode();
@@ -233,7 +270,7 @@ begin
 
           @_IsDarkModeAllowedForWindow := GetProcAddress(hUxtheme, MAKEINTRESOURCEA(137));
 
-          @_SetWindowCompositionAttribute := GetProcAddress(GetModuleHandleW(user32), 'SetWindowCompositionAttribute');
+          @DwmSetWindowAttribute := GetProcAddress(LoadLibrary('dwmapi.dll'), 'DwmSetWindowAttribute');
 
           if Assigned(_RefreshImmersiveColorPolicyState) and
              Assigned(_ShouldAppsUseDarkMode) and
@@ -242,9 +279,12 @@ begin
              Assigned(_IsDarkModeAllowedForWindow) then
           begin
             g_darkModeSupported := true;
-            AllowDarkModeForApp(true);
-            _RefreshImmersiveColorPolicyState();
-            g_darkModeEnabled := _ShouldAppsUseDarkMode() and not IsHighContrast();
+            if DarkAppMode <> ForceLight then
+            begin
+              AllowDarkModeForApp(true);
+              _RefreshImmersiveColorPolicyState();
+              g_darkModeEnabled := ShouldAppsUseDarkMode;
+            end;
           end;
         end;
       end;

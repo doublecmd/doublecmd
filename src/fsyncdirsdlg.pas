@@ -193,6 +193,9 @@ type
   private
     property SortIndex: Integer read FSortIndex write SetSortIndex;
     property Commands: TFormCommands read FCommands implements IFormCommands;
+  protected
+    procedure DoAutoAdjustLayout(const AMode: TLayoutAdjustmentPolicy;
+                                 const AXProportion, AYProportion: Double); override;
   public
     { public declarations }
     constructor Create(AOwner: TComponent;
@@ -1382,17 +1385,14 @@ procedure TfrmSyncDirsDlg.SortFoundItems(sl: TStringList);
   var
     r1, r2: TFileSyncRec;
   begin
-    r1 := TFileSyncRec(sl.Objects[i]);
-    r2 := TFileSyncRec(sl.Objects[j]);
+    if FSortIndex in [1..5] then
+    begin
+      r1 := TFileSyncRec(sl.Objects[i]);
+      r2 := TFileSyncRec(sl.Objects[j]);
+    end;
     case FSortIndex of
     0:
-      if Assigned(r1.FFileL) <> Assigned(r2.FFileL) then
-        Result := Ord(Assigned(r1.FFileL)) - Ord(Assigned(r2.FFileL))
-      else
-      if Assigned(r1.FFileL) then
-        Result := UTF8CompareStr(r1.FFileL.Name, r2.FFileL.Name)
-      else
-        Result := 0;
+      Result := UTF8CompareStr(sl[i], sl[j]);
     1:
       if (Assigned(r1.FFileL) < Assigned(r2.FFileL))
       or Assigned(r2.FFileL) and (r1.FFileL.Size < r2.FFileL.Size) then
@@ -1438,13 +1438,7 @@ procedure TfrmSyncDirsDlg.SortFoundItems(sl: TStringList);
       else
         Result := 0;
     6:
-      if Assigned(r1.FFileR) <> Assigned(r2.FFileR) then
-        Result := Ord(Assigned(r1.FFileR)) - Ord(Assigned(r2.FFileR))
-      else
-      if Assigned(r1.FFileR) then
-        Result := UTF8CompareStr(r1.FFileR.Name, r2.FFileR.Name)
-      else
-        Result := 0;
+      Result := UTF8CompareStr(sl[i], sl[j]);
     end;
     if FSortDesc then
       Result := -Result;
@@ -1827,6 +1821,13 @@ begin
                            cnvFormatFileSize(CurrentFiles, uoscNoUnit) + '/' +
                            cnvFormatFileSize(TotalFiles, uoscNoUnit)
                            );
+end;
+
+procedure TfrmSyncDirsDlg.DoAutoAdjustLayout(const AMode: TLayoutAdjustmentPolicy;
+                                             const AXProportion, AYProportion: Double);
+begin
+  inherited DoAutoAdjustLayout(AMode, AXProportion, AYProportion);
+  RecalcHeaderCols;
 end;
 
 constructor TfrmSyncDirsDlg.Create(AOwner: TComponent; FileView1,

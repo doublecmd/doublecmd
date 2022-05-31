@@ -15,7 +15,7 @@ implementation
 uses
   SysUtils
 {$IF DEFINED(MSWINDOWS)}
-  , Types, Windows, DCOSUtils, ShellApi, uMyWindows
+  , Types, Windows, DCOSUtils, ShellApi, DCConvertEncoding, uMyWindows
 {$ELSEIF DEFINED(UNIX)}
   , Classes, Unix, BaseUnix, DCUnix, Dialogs, SyncObjs, Process, un_process
   {$IF DEFINED(DARWIN)}
@@ -268,9 +268,9 @@ begin
   ZeroMemory(@lpExecInfo, SizeOf(lpExecInfo));
   lpExecInfo.cbSize:= SizeOf(lpExecInfo);
   lpExecInfo.fMask:= SEE_MASK_NOCLOSEPROCESS;
-  lpExecInfo.lpFile:= PWideChar(UTF8Decode(Exe));
-  lpExecInfo.lpDirectory:= PWideChar(UTF8Decode(sStartPath));
-  lpExecInfo.lpParameters:= PWideChar(UTF8Decode(AParams));
+  lpExecInfo.lpFile:= PWideChar(CeUtf8ToUtf16(Exe));
+  lpExecInfo.lpDirectory:= PWideChar(CeUtf8ToUtf16(sStartPath));
+  lpExecInfo.lpParameters:= PWideChar(CeUtf8ToUtf16(AParams));
   lpExecInfo.lpVerb:= 'runas';
 
   if ShellExecuteExW(@lpExecInfo) then

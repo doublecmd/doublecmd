@@ -11,6 +11,10 @@ function FindImportLibrary(hModule: THandle; pLibName: PAnsiChar): PPointer;
 function FindImportFunction(pLibrary: PPointer; pFunction: Pointer): PPointer;
 function ReplaceImportFunction(pOldFunction: PPointer; pNewFunction: Pointer): Pointer;
 
+function FindDelayImportLibrary(hModule: THandle; pLibName: PAnsiChar): Pointer;
+function FindDelayImportFunction(hModule: THandle; pImpDesc: PIMAGE_DELAYLOAD_DESCRIPTOR; pFuncName: PAnsiChar): PPointer;
+procedure ReplaceDelayImportFunction(hModule: THandle; pImpDesc: PIMAGE_DELAYLOAD_DESCRIPTOR; pFuncName: PAnsiChar; pNewFunction: Pointer);
+
 implementation
 
 type
@@ -53,7 +57,7 @@ begin
 
   while (PByte(pImpDesc) < pEnd) and (pImpDesc^.FirstThunk <> 0) do
   begin
-    if StrComp(@pModule[pImpDesc^.Name], pLibName) = 0 then
+    if StrIComp(@pModule[pImpDesc^.Name], pLibName) = 0 then
     begin
       Result := @pModule[pImpDesc^.FirstThunk];
       Exit;
@@ -83,6 +87,63 @@ begin
     pOldFunction^ := pNewFunction;
     VirtualProtect(pOldFunction, SizeOf(Pointer), dwOldProtect, dwOldProtect);
   end;
+end;
+
+function FindDelayImportLibrary(hModule: THandle; pLibName: PAnsiChar): Pointer;
+var
+  pEnd: PByte;
+  pImpDir: PIMAGE_DATA_DIRECTORY;
+  pImpDesc: PIMAGE_DELAYLOAD_DESCRIPTOR;
+  pModule: PAnsiChar absolute hModule;
+begin
+  pImpDesc := FindImageDirectory(hModule, IMAGE_DIRECTORY_ENTRY_DELAY_IMPORT, pImpDir);
+  if pImpDesc = nil then Exit(nil);
+
+  pEnd := PByte(pImpDesc) + pImpDir^.Size;
+
+  while (PByte(pImpDesc) < pEnd) and (pImpDesc^.DllNameRVA > 0) do
+  begin
+    if StrIComp(@pModule[pImpDesc^.DllNameRVA], pLibName) = 0 then
+      Exit(pImpDesc);
+
+    Inc(pImpDesc);
+  end;
+  Result := nil;
+end;
+
+function FindDelayImportFunction(hModule: THandle;
+  pImpDesc: PIMAGE_DELAYLOAD_DESCRIPTOR; pFuncName: PAnsiChar): PPointer;
+var
+  pImpName: PIMAGE_IMPORT_BY_NAME;
+  pImgThunkName: PIMAGE_THUNK_DATA;
+  pImgThunkAddr: PIMAGE_THUNK_DATA;
+  pModule: PAnsiChar absolute hModule;
+begin
+  pImgThunkName:= @pModule[pImpDesc^.ImportNameTableRVA];
+  pImgThunkAddr:= @pModule[pImpDesc^.ImportAddressTableRVA];
+
+  while (pImgThunkName^.u1.Ordinal <> 0) do
+  begin
+    if not (IMAGE_SNAP_BY_ORDINAL(pImgThunkName^.u1.Ordinal)) then
+    begin
+      pImpName:= @pModule[pImgThunkName^.u1.AddressOfData];
+      if (StrIComp(pImpName^.Name, pFuncName) = 0) then
+        Exit(PPointer(@pImgThunkAddr^.u1._Function));
+    end;
+    Inc(pImgThunkName);
+    Inc(pImgThunkAddr);
+  end;
+  Result:= nil;
+end;
+
+procedure ReplaceDelayImportFunction(hModule: THandle;
+  pImpDesc: PIMAGE_DELAYLOAD_DESCRIPTOR; pFuncName: PAnsiChar;
+  pNewFunction: Pointer);
+var
+  pOldFunction: PPointer;
+begin
+  pOldFunction:= FindDelayImportFunction(hModule, pImpDesc, pFuncName);
+  if Assigned(pOldFunction) then ReplaceImportFunction(pOldFunction, pNewFunction);
 end;
 
 end.

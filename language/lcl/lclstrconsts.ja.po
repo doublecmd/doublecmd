@@ -12,14 +12,17 @@ msgstr ""
 "Language: ja\n"
 
 #: lclstrconsts.hhshelpbrowsernotexecutable
+#, object-pascal-format
 msgid "Browser \"%s\" not executable."
 msgstr "ブラウザ \"%s\"が起動できません。"
 
 #: lclstrconsts.hhshelpbrowsernotfound
+#, object-pascal-format
 msgid "Browser \"%s\" not found."
 msgstr "ブラウザ \"%s\"が見つかりません。"
 
 #: lclstrconsts.hhshelperrorwhileexecuting
+#, object-pascal-format
 msgid "Error while executing \"%s\":%s%s"
 msgstr "\"%s\"を実行中のエラー：%s%s"
 
@@ -28,14 +31,17 @@ msgid "Unable to find a HTML browser."
 msgstr "HTML ブラウザを見つけることができません。"
 
 #: lclstrconsts.hhshelpnohtmlbrowserfoundpleasedefineone
+#, object-pascal-format
 msgid "No HTML Browser found.%sPlease define one in Tools -> Options -> Help -> Help Options"
 msgstr "HTML ブラウザが見つかりません。%sツール → オプション → ヘルプ → ヘルプオプション でブラウザを設定してください。"
 
 #: lclstrconsts.hhshelpthehelpdatabasewasunabletofindfile
+#, object-pascal-format
 msgid "The help database \"%s\" was unable to find file \"%s\"."
 msgstr "ヘルプデータベース \"%s\"は\"%s\"を見つけることができませんでした。"
 
 #: lclstrconsts.hhshelpthemacrosinbrowserparamswillbereplacedbytheurl
+#, object-pascal-format
 msgid "The macro %s in BrowserParams will be replaced by the URL."
 msgstr "BrowserParams のマクロ %s は URL によって置き換えられます。"
 
@@ -73,6 +79,7 @@ msgid "Unknown"
 msgstr "不明"
 
 #: lclstrconsts.lislclresourcesnotfound
+#, object-pascal-format
 msgctxt "lclstrconsts.lislclresourcesnotfound"
 msgid "Resource %s not found"
 msgstr "リソース %s が見つかりません"
@@ -98,6 +105,7 @@ msgid "Active Caption"
 msgstr "アクティブタイトルバーの色"
 
 #: lclstrconsts.rsallfiles
+#, object-pascal-format
 msgid "All files (%s)|%s|%s"
 msgstr "すべてのファイル (%s)|%s|%s"
 
@@ -110,6 +118,7 @@ msgid "Aqua"
 msgstr "水色"
 
 #: lclstrconsts.rsascannothaveasparent
+#, object-pascal-format
 msgid "Class %s cannot have %s as parent."
 msgstr "クラス%sは%sを親にできません"
 
@@ -179,18 +188,17 @@ msgid "Case sensitive"
 msgstr "大文字小文字を区別"
 
 #: lclstrconsts.rscontrolclasscantcontainchildclass
+#, object-pascal-format
 msgid "Control of class '%s' can't have control of class '%s' as a child"
 msgstr "コントロールクラス '%s' はコントロールクラス '%s' を子とすることはできません"
 
 #: lclstrconsts.rscontrolhasnoparentformorframe
+#, object-pascal-format
 msgid "Control '%s' has no parent form or frame"
 msgstr "コントロール'%s'は親フォームもしくは親フレームを持ちません"
 
-#: lclstrconsts.rscontrolhasnoparentwindow
-msgid "Control '%s' has no parent window"
-msgstr "コントロール '%s' には親ウィンドウがありません"
-
 #: lclstrconsts.rscontrolisnotaparent
+#, object-pascal-format
 msgid "'%s' is not a parent of '%s'"
 msgstr "'%s' は '%s' の親ではありません"
 
@@ -257,10 +265,12 @@ msgid "Error"
 msgstr "エラー"
 
 #: lclstrconsts.rserrorcreatingdevicecontext
+#, object-pascal-format
 msgid "Error creating device context for %s.%s"
 msgstr "%s.%s のデバイスコンテキスト生成中のエラー"
 
 #: lclstrconsts.rserroroccurredinataddressframe
+#, object-pascal-format
 msgid "Error occurred in %s at %sAddress %s%s Frame %s"
 msgstr "フレーム %4:s %1:sアドレス %2:s%3:s の %0:s においてエラーが発生しました"
 
@@ -277,10 +287,12 @@ msgid "Directory must exist"
 msgstr "ディレクトリの所在不明"
 
 #: lclstrconsts.rsfddirectorynotexist
+#, object-pascal-format
 msgid "The directory \"%s\" does not exist."
 msgstr "ディレクトリ\"%s\"が存在しません。"
 
 #: lclstrconsts.rsfdfilealreadyexists
+#, object-pascal-format
 msgid "The file \"%s\" already exists. Overwrite ?"
 msgstr "ファイル\"%s\"は既に存在しています。上書きしますか？"
 
@@ -289,10 +301,12 @@ msgid "File must exist"
 msgstr "ファイルの所在不明"
 
 #: lclstrconsts.rsfdfilenotexist
+#, object-pascal-format
 msgid "The file \"%s\" does not exist."
 msgstr "ファイル\"%s\"が存在しません。"
 
 #: lclstrconsts.rsfdfilereadonly
+#, object-pascal-format
 msgid "The file \"%s\" is not writable."
 msgstr "ファイル\"%s\"は書き込みできません。"
 
@@ -317,6 +331,7 @@ msgid "Path must exist"
 msgstr "パスの所在不明"
 
 #: lclstrconsts.rsfdpathnoexist
+#, object-pascal-format
 msgid "The path \"%s\" does not exist."
 msgstr "パス\"%s\"が存在しません。"
 
@@ -325,6 +340,7 @@ msgid "Select Directory"
 msgstr "ディレクトリの選択"
 
 #: lclstrconsts.rsfileinfofilenotfound
+#, object-pascal-format
 msgid "(file not found: \"%s\")"
 msgstr "(ファイルが見つかりません \"%s\")"
 
@@ -362,10 +378,12 @@ msgid "Form"
 msgstr "フォームの背景色"
 
 #: lclstrconsts.rsformresourcesnotfoundforresourcelessformscreatenew
+#, object-pascal-format
 msgid "Form resource %s not found. For resourceless forms CreateNew constructor must be used. See the global variable RequireDerivedFormResource."
 msgstr "フォームリソース %s が見つかりません。リソース無しフォームにするには CreateNew コンストラクタを使用しなければなりません。グローバル変数 RequireDerivedFormResource を参照してください。"
 
 #: lclstrconsts.rsformstreamingerror
+#, object-pascal-format
 msgid "Form streaming \"%s\" error: %s"
 msgstr "フォームストリーム \"%s\" エラー：%s"
 
@@ -488,6 +506,7 @@ msgid "Help"
 msgstr "Help"
 
 #: lclstrconsts.rshelpalreadyregistered
+#, object-pascal-format
 msgid "%s: Already registered"
 msgstr "%s は既に登録されています"
 
@@ -504,43 +523,52 @@ msgid "Help Error"
 msgstr "ヘルプエラー"
 
 #: lclstrconsts.rshelphelpcontextnotfound
+#, object-pascal-format
 msgid "Help context %s not found."
 msgstr "ヘルプコンテキスト %s が見つかりません"
 
 #: lclstrconsts.rshelphelpcontextnotfoundindatabase
+#, object-pascal-format
 msgid "Help context %s not found in Database \"%s\"."
 msgstr "ヘルプコンテキスト %s をデータベース\"%s\"から見つけることができませんでした。"
 
 #: lclstrconsts.rshelphelpdatabasedidnotfoundaviewerforahelppageoftype
+#, object-pascal-format
 msgid "Help Database \"%s\" did not find a viewer for a help page of type %s"
 msgstr "ヘルプデータベース\"%s\"のヘルプページタイプ %s に対するビューアが見つかりません"
 
 #: lclstrconsts.rshelphelpdatabasenotfound
+#, object-pascal-format
 msgid "Help Database \"%s\" not found"
 msgstr "ヘルプデータベース\"%s\"が見つかりません"
 
 #: lclstrconsts.rshelphelpfordirectivenotfound
+#, object-pascal-format
 msgid "Help for directive \"%s\" not found."
 msgstr "ヘルプの\"%s\"指令が見つかりません。"
 
 #: lclstrconsts.rshelphelpfordirectivenotfoundindatabase
+#, object-pascal-format
 msgid "Help for directive \"%s\" not found in Database \"%s\"."
 msgstr "ヘルプの\"%s\"指令をデータベース\"%s\"から見つけることができませんでした。"
 
 #: lclstrconsts.rshelphelpkeywordnotfound
+#, object-pascal-format
 msgid "Help keyword \"%s\" not found."
 msgstr "ヘルプキーワード\"%s\"が見つかりません。"
 
 #: lclstrconsts.rshelphelpkeywordnotfoundindatabase
+#, object-pascal-format
 msgid "Help keyword \"%s\" not found in Database \"%s\"."
 msgstr "ヘルプキーワード\"%s\"をデータベース\"%s\"から見つけることができませんでした。"
 
 #: lclstrconsts.rshelphelpnodehasnohelpdatabase
+#, object-pascal-format
 msgid "Help node \"%s\" has no Help Database"
 msgstr "ヘルプノード\"%s\"にヘルプデータベースはありません"
 
 #: lclstrconsts.rshelpnohelpfoundforsource
-#, fuzzy,badformat
+#, object-pascal-format, fuzzy, badformat
 msgid "No help found for line %d, column %d of %s."
 msgstr "%sの行 %d、列 %d のヘルプが見つかりませんでした。"
 
@@ -553,6 +581,7 @@ msgid "No help found for this topic"
 msgstr "このトピックのヘルプが見つかりません。"
 
 #: lclstrconsts.rshelpnotregistered
+#, object-pascal-format
 msgid "%s: Not registered"
 msgstr "%s は登録されていません"
 
@@ -561,6 +590,7 @@ msgid "Help Selector Error"
 msgstr "ヘルプセレクタエラー"
 
 #: lclstrconsts.rshelpthereisnoviewerforhelptype
+#, object-pascal-format
 msgid "There is no viewer for help type \"%s\""
 msgstr "ヘルプタイプ\"%s\"に対するビューアがありません"
 
@@ -631,10 +661,12 @@ msgid "Inactive Caption"
 msgstr "非アクティブタイトルバーの文字色"
 
 #: lclstrconsts.rsindexoutofbounds
+#, object-pascal-format
 msgid "%s Index %d out of bounds 0 .. %d"
 msgstr "%s インデックスが %d、インデックス範囲外(0 .. %d)です"
 
 #: lclstrconsts.rsindexoutofrange
+#, object-pascal-format
 msgid "Index Out of range Cell[Col=%d Row=%d]"
 msgstr "セルインデックスが範囲を超えています [Col=%d Row=%d]"
 
@@ -652,10 +684,12 @@ msgid "Insert"
 msgstr "挿入"
 
 #: lclstrconsts.rsinvaliddate
+#, object-pascal-format
 msgid "Invalid Date : %s"
 msgstr "無効な日付：%s"
 
 #: lclstrconsts.rsinvaliddaterangehint
+#, object-pascal-format
 msgid "Invalid Date: %s. Must be between %s and %s"
 msgstr "無効な日付：%s。%s と %s の間でなければなりません"
 
@@ -672,6 +706,7 @@ msgid "Invalid stream format"
 msgstr "無効なストリーム形式"
 
 #: lclstrconsts.rsisalreadyassociatedwith
+#, object-pascal-format
 msgid "%s is already associated with %s"
 msgstr "%s は既に %s と関連付けられています"
 
@@ -688,10 +723,16 @@ msgid "Lime"
 msgstr "黄緑色"
 
 #: lclstrconsts.rslistindexexceedsbounds
+#, object-pascal-format
 msgid "List index exceeds bounds (%d)"
 msgstr "リストインデックスが範囲外です (%d)"
 
+#: lclstrconsts.rsmacosfileformat
+msgid "File Format:"
+msgstr ""
+
 #: lclstrconsts.rsmacosmenuhide
+#, object-pascal-format
 msgid "Hide %s"
 msgstr ""
 
@@ -700,6 +741,7 @@ msgid "Hide Others"
 msgstr ""
 
 #: lclstrconsts.rsmacosmenuquit
+#, object-pascal-format
 msgid "Quit %s"
 msgstr ""
 
@@ -884,6 +926,7 @@ msgid "Post"
 msgstr "レコードの登録"
 
 #: lclstrconsts.rspressoktoignoreandriskdatacorruptionpressaborttok
+#, object-pascal-format
 msgid "%s%sPress OK to ignore and risk data corruption.%sPress Abort to kill the program."
 msgstr "%s%s無視してデータの破損のリスクを受け入れるのでしたらOKを押して下さい。%sプログラムを強制停止する場合は中止をクリックしてください。"
 
@@ -897,12 +940,17 @@ msgid "Prompt on replace"
 msgstr "置換を確認"
 
 #: lclstrconsts.rspropertydoesnotexist
+#, object-pascal-format
 msgid "Property %s does not exist"
 msgstr "プロパティ %s が存在しません"
 
 #: lclstrconsts.rspurplecolorcaption
 msgid "Purple"
 msgstr "紫色"
+
+#: lclstrconsts.rsqtoptiondisableaccurateframe
+msgid "-disableaccurateframe, disables fully accurate window frame under X11. This feature is implemented for Qt, Qt5 and Gtk2 interfaces and used mostly by GetWindowRect()."
+msgstr ""
 
 #: lclstrconsts.rsqtoptiondograb
 msgid "-dograb (only under X11), running under a debugger can cause an implicit -nograb, use -dograb to override. Need QT_DEBUG."
@@ -1021,6 +1069,7 @@ msgid "Replace all"
 msgstr "すべて置換"
 
 #: lclstrconsts.rsresourcenotfound
+#, object-pascal-format
 msgctxt "lclstrconsts.rsresourcenotfound"
 msgid "Resource %s not found"
 msgstr "リソース %s が見つかりません"
@@ -1109,26 +1158,32 @@ msgid "Unsupported bitmap format."
 msgstr "サポートされていないビットマップ形式です。"
 
 #: lclstrconsts.rsunsupportedclipboardformat
+#, object-pascal-format
 msgid "Unsupported clipboard format: %s"
 msgstr "サポートしていないクリップボード形式：%s"
 
 #: lclstrconsts.rswarningunreleaseddcsdump
+#, object-pascal-format
 msgid " WARNING: There are %d unreleased DCs, a detailed dump follows:"
 msgstr "警告：解放されていないデバイスコンテキストが %d 個あります。詳細は以下の通りです："
 
 #: lclstrconsts.rswarningunreleasedgdiobjectsdump
+#, object-pascal-format
 msgid " WARNING: There are %d unreleased GDIObjects, a detailed dump follows:"
 msgstr "警告：解放されてない GDI オブジェクトが %d 個あります。詳細は以下の通りです："
 
 #: lclstrconsts.rswarningunreleasedmessagesinqueue
+#, object-pascal-format
 msgid " WARNING: There are %d messages left in the queue! I'll free them"
 msgstr "警告：キューに %d 個のメッセージが残っています！それらを解放します"
 
 #: lclstrconsts.rswarningunreleasedtimerinfos
+#, object-pascal-format
 msgid " WARNING: There are %d TimerInfo structures left, I'll free them"
 msgstr "警告：%d 個のタイマー情報が残っています！それらを解放します"
 
 #: lclstrconsts.rswarningunremovedpaintmessages
+#, object-pascal-format
 msgid " WARNING: There are %s unremoved LM_PAINT/LM_GtkPAINT message links left."
 msgstr "警告：LM_PAINT/LM_GtkPAINT メッセージリンクが %s 個削除されずに残っています。"
 
@@ -1168,10 +1223,6 @@ msgstr "黄色"
 msgid "Cannot focus a disabled or invisible window"
 msgstr "無効または不可視ウィンドウにフォーカスはできません"
 
-#: lclstrconsts.scannotsetdesigntimeppi
-msgid "Cannot set design time PPI."
-msgstr "設計時PPIをセットできません"
-
 #: lclstrconsts.sduplicatemenus
 msgid "Duplicate menus"
 msgstr "メニューが重複しています"
@@ -1191,10 +1242,6 @@ msgstr "アクション登録が無効です"
 #: lclstrconsts.sinvalidactionunregistration
 msgid "Invalid action unregistration"
 msgstr "アクション登録解除が無効です"
-
-#: lclstrconsts.sinvalidcharset
-msgid "The char set in mask \"%s\" is not valid!"
-msgstr "マスク \"%s\" のキャラクタセットが有効なものではありません！"
 
 #: lclstrconsts.sinvalidimagesize
 msgid "Invalid image size"
@@ -1308,22 +1355,27 @@ msgid "No timers available"
 msgstr "利用できるタイマーがありません"
 
 #: lclstrconsts.sparentrequired
+#, object-pascal-format
 msgid "Control \"%s\" has no parent window."
 msgstr "コントロール\"%s\"は親ウィンドウを持ちません。"
 
 #: lclstrconsts.sparexpected
+#, object-pascal-format
 msgid "Wrong token type: %s expected"
 msgstr "正しくないトークンタイプ：%sではありません"
 
 #: lclstrconsts.sparinvalidfloat
+#, object-pascal-format
 msgid "Invalid floating point number: %s"
 msgstr "無効な浮動小数点数値：%s"
 
 #: lclstrconsts.sparinvalidinteger
+#, object-pascal-format
 msgid "Invalid integer number: %s"
 msgstr "無効な整数値：%s"
 
 #: lclstrconsts.sparlocinfo
+#, object-pascal-format
 msgid " (at %d,%d, stream offset %d)"
 msgstr " (位置 %d,%d、ストリームオフセット %d)"
 
@@ -1336,32 +1388,45 @@ msgid "Unterminated string"
 msgstr "文字列が終端していません"
 
 #: lclstrconsts.sparwrongtokensymbol
+#, object-pascal-format
 msgid "Wrong token symbol: %s expected but %s found"
 msgstr "正しくないトークンシンボル：\"%s\"があるべきところに\"%s\"があります"
 
 #: lclstrconsts.sparwrongtokentype
+#, object-pascal-format
 msgid "Wrong token type: %s expected but %s found"
 msgstr "正しくないトークンタイプ：\"%s\"があるべきところに\"%s\"があります"
 
 #: lclstrconsts.sshellctrlsbytes
+#, object-pascal-format
 msgid "%s bytes"
 msgstr "%s バイト"
 
 #: lclstrconsts.sshellctrlsinvalidpath
+#, object-pascal-format, fuzzy
+#| msgid ""
+#| "Invalid pathname:\n"
+#| "\"%s\"\n"
 msgctxt "lclstrconsts.sshellctrlsinvalidpath"
 msgid ""
 "Invalid pathname:\n"
-"\"%s\"\n"
+"\"%s\""
 msgstr ""
 "無効なパス名:\n"
 "\"%s\"\n"
 
 #: lclstrconsts.sshellctrlsinvalidpathrelative
+#, object-pascal-format, fuzzy
+#| msgid ""
+#| "Invalid relative pathname:\n"
+#| "\"%s\"\n"
+#| "in relation to rootpath:\n"
+#| "\"%s\"\n"
 msgid ""
 "Invalid relative pathname:\n"
 "\"%s\"\n"
 "in relation to rootpath:\n"
-"\"%s\"\n"
+"\"%s\""
 msgstr ""
 "無効な相対パス名:\n"
 "\"%s\"\n"
@@ -1369,20 +1434,25 @@ msgstr ""
 "\"%s\"\n"
 
 #: lclstrconsts.sshellctrlsinvalidroot
-#, fuzzy
+#, object-pascal-format, fuzzy
+#| msgid ""
+#| "Invalid pathname:\n"
+#| "\"%s\"\n"
 msgctxt "lclstrconsts.sshellctrlsinvalidroot"
 msgid ""
 "Invalid pathname:\n"
-"\"%s\"\n"
+"\"%s\""
 msgstr ""
 "無効なパス名:\n"
 "\"%s\"\n"
 
 #: lclstrconsts.sshellctrlskb
+#, object-pascal-format
 msgid "%s kB"
 msgstr "%s kB"
 
 #: lclstrconsts.sshellctrlsmb
+#, object-pascal-format
 msgid "%s MB"
 msgstr "%s MB"
 
@@ -1391,9 +1461,13 @@ msgid "Name"
 msgstr "名前"
 
 #: lclstrconsts.sshellctrlsselecteditemdoesnotexists
+#, object-pascal-format, fuzzy
+#| msgid ""
+#| "The selected item does not exist on disk:\n"
+#| "\"%s\"\n"
 msgid ""
 "The selected item does not exist on disk:\n"
-"\"%s\"\n"
+"\"%s\""
 msgstr ""
 "選択された項目は以下のディスク上に存在しません:\n"
 "\"%s\"\n"

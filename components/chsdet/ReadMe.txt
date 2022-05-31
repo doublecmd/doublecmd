@@ -7,7 +7,7 @@ Based on Mozilla's i18n component - https://dxr.mozilla.org/mozilla/source/exten
 -----------State
 Version 0.2.9 stable.
 Copyright (C) 2011-2019 Alexander Koblov
-The latest version can be found at https://sourceforge.net/p/doublecmd/code/HEAD/tree/trunk/components/chsdet/.
+The latest version can be found at https://github.com/doublecmd/doublecmd/tree/master/components/chsdet/.
 
 -----------Original
 Based on

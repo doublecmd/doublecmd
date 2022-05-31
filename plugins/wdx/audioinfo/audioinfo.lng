@@ -46,3 +46,27 @@ Tags=Tags
 Full text=Texte
 Inconnu|Mono|Stereo|Joint Stereo|Deux cannaux=Inconnu|Mono|Stereo|Joint Stereo|Deux canaux
 Hz|KHz=Hz|kHz
+
+[HUN]
+Channels=Csatornák
+Duration (seconds)=Hossz (másodperc)
+Duration (H:M:S)=Hossz (Ó:P:MP)
+Sample rate=Mintavételi ráta
+Bitrate=Bitráta
+Bitrate type=Bitráta típus
+Title=Cím
+Artist=Előadó
+Album=Album
+Track=Szám
+Track (zero-filled)=Szám (üres)
+Date=Dátum
+Genre=Műfaj
+Comment=Megjegyzés
+Composer=Szerző
+Copyright=Jogtulajdonos
+Link=Link
+Encoder=Enkóder
+Tags=Címkék
+Full text=Teljes szöveg
+Unknown|Mono|Stereo|Joint Stereo|Dual Channel=Ismeretlen|Monó|Sztereó|Joint Sztereó|Kétcsatornás
+Hz|KHz=Hz|kHz

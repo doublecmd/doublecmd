@@ -271,6 +271,9 @@ type
 
 { TfrmOptionsCustomColumns.Load }
 procedure TfrmOptionsCustomColumns.Load;
+var
+  Index: Integer;
+  AColumnClass: TPanelColumnsClass;
 begin
   //1. Init some flags
   bColumnConfigLoaded := False;
@@ -299,8 +302,18 @@ begin
   //5. Select the one we currently have in the active panel if possible. User won't be lost and it's the most pertinent thing to do.
   if frmMain.ActiveNotebook.ActiveView.ClassNameIs('TColumnsFileView') then
   begin
-    cbConfigColumns.ItemIndex := cbConfigColumns.Items.IndexOf(TColumnsFileView(frmMain.ActiveNotebook.ActiveView).ActiveColm);
-    pnlLeft.Width := frmMain.ActiveNotebook.Width;
+    AColumnClass:= ColSet.GetColumnSet(TColumnsFileView(frmMain.ActiveNotebook.ActiveView).ActiveColm);
+    if Assigned(AColumnClass) then
+    begin
+      Index:= cmbFileSystem.Items.IndexOf(AColumnClass.FileSystem);
+      if Index >= 0 then
+      begin
+        cmbFileSystem.ItemIndex:= Index;
+        cmbFileSystemChange(cmbFileSystem);
+        cbConfigColumns.ItemIndex := cbConfigColumns.Items.IndexOf(AColumnClass.Name);
+        pnlLeft.Width := frmMain.ActiveNotebook.Width;
+      end;
+    end;
   end;
   if (cbConfigColumns.ItemIndex = -1) and (cbConfigColumns.Items.Count > 0) then
     cbConfigColumns.ItemIndex := 0;
@@ -442,7 +455,7 @@ end;
 { TfrmOptionsCustomColumns.btnSaveConfigColumnsClick }
 procedure TfrmOptionsCustomColumns.btnSaveConfigColumnsClick(Sender: TObject);
 var
-  Index: PtrInt;
+  Index: PtrInt = -1;
   SuggestedCustomColumnsName: String;
   ColumnClassForConfig: TPanelColumnsClass;
 begin
@@ -458,9 +471,13 @@ begin
   case TComponent(Sender).tag of
     1: // Save.
     begin
-      ColSet.DeleteColumnSet(Index);
-      Colset.Insert(Index, ColumnClassForConfig);
-      cbConfigColumnsChange(cbConfigColumns);
+      if Index < 0 then
+        ColumnClassForConfig.Free
+      else begin
+        ColSet.DeleteColumnSet(Index);
+        Colset.Insert(Index, ColumnClassForConfig);
+        cbConfigColumnsChange(cbConfigColumns);
+      end;
     end;
 
     2: // Save as.
@@ -496,7 +513,7 @@ begin
       begin
         if (SuggestedCustomColumnsName <> '') then
         begin
-          if cbConfigColumns.Items.indexof(SuggestedCustomColumnsName) = -1 then
+          if Colset.Items.indexof(SuggestedCustomColumnsName) = -1 then
           begin
             ColumnClassForConfig.Name := SuggestedCustomColumnsName;
             ColSet.DeleteColumnSet(Index);

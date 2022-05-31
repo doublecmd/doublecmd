@@ -221,7 +221,7 @@ begin
     HeaderData.PackSize:= Int64Rec(Item.PackedSize).Lo;
     HeaderData.PackSizeHigh:= Int64Rec(Item.PackedSize).Hi;
     if ipAttributes in Item.ValidProperties then
-      HeaderData.FileAttr:= Item.Attributes
+      HeaderData.FileAttr:= LongInt(Item.Attributes)
     else begin
       HeaderData.FileAttr:= FILE_ATTRIBUTE_ARCHIVE;
     end;
@@ -533,7 +533,7 @@ begin
   if (Is7ZipLoaded or Load7Zip) then
     LoadLibraries
   else begin
-    MessageBoxW(0, PWideChar(UTF8Decode(rsSevenZipLoadError)), 'SevenZip', MB_OK or MB_ICONERROR);
+    MessageBoxW(0, PWideChar(UTF8ToUTF16(rsSevenZipLoadError)), 'SevenZip', MB_OK or MB_ICONERROR);
   end;
   // Create password cache object
   PasswordCache:= TPasswordCache.Create;

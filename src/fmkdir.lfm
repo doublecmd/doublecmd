@@ -1,6 +1,6 @@
 object frmMkDir: TfrmMkDir
   Left = 366
-  Height = 77
+  Height = 104
   Top = 429
   Width = 350
   ActiveControl = cbMkDir
@@ -8,17 +8,17 @@ object frmMkDir: TfrmMkDir
   BorderIcons = [biSystemMenu]
   BorderStyle = bsDialog
   Caption = 'Create new directory'
-  ClientHeight = 77
+  ClientHeight = 104
   ClientWidth = 350
   Constraints.MinHeight = 50
   Constraints.MinWidth = 350
   KeyPreview = True
   OnKeyPress = FormKeyPress
   Position = poOwnerFormCenter
-  LCLVersion = '1.1'
+  LCLVersion = '2.2.0.4'
   object lblMakeDir: TLabel
     Left = 6
-    Height = 18
+    Height = 15
     Top = 3
     Width = 338
     Align = alTop
@@ -31,8 +31,8 @@ object frmMkDir: TfrmMkDir
   end
   object cbMkDir: TComboBox
     Left = 6
-    Height = 28
-    Top = 21
+    Height = 23
+    Top = 18
     Width = 338
     Align = alTop
     AutoComplete = True
@@ -41,66 +41,55 @@ object frmMkDir: TfrmMkDir
     BorderSpacing.Right = 6
     BorderSpacing.Bottom = 3
     DropDownCount = 5
-    ItemHeight = 0
+    ItemHeight = 15
+    OnChange = cbMkDirChange
+    OnKeyUp = cbMkDirKeyUp
     TabOrder = 0
   end
-  object pnlBottom: TPanel
+  object cbExtended: TCheckBox
+    AnchorSideLeft.Control = cbMkDir
+    AnchorSideTop.Control = cbMkDir
+    AnchorSideTop.Side = asrBottom
     Left = 6
-    Height = 36
-    Top = 55
-    Width = 338
-    Align = alTop
-    AutoSize = True
-    BorderSpacing.Left = 6
-    BorderSpacing.Top = 6
-    BorderSpacing.Right = 6
-    BorderSpacing.Bottom = 3
-    BevelOuter = bvNone
-    ClientHeight = 36
-    ClientWidth = 338
+    Height = 19
+    Top = 44
+    Width = 106
+    Caption = '&Extended syntax'
+    OnChange = cbExtendedChange
     TabOrder = 1
-    object pnlButtons: TPanel
-      Left = 192
-      Height = 36
+  end
+  object ButtonPanel: TButtonPanel
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = cbExtended
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
+    Left = 6
+    Height = 26
+    Top = 69
+    Width = 338
+    Align = alNone
+    Anchors = [akTop, akLeft, akRight]
+    OKButton.Name = 'OKButton'
+    OKButton.DefaultCaption = True
+    HelpButton.Name = 'HelpButton'
+    HelpButton.DefaultCaption = True
+    CloseButton.Name = 'CloseButton'
+    CloseButton.DefaultCaption = True
+    CancelButton.Name = 'CancelButton'
+    CancelButton.DefaultCaption = True
+    ButtonOrder = boCloseOKCancel
+    TabOrder = 2
+    ShowButtons = [pbOK, pbCancel]
+    ShowBevel = False
+    object lblExample: TLabel
+      AnchorSideLeft.Control = ButtonPanel
+      AnchorSideTop.Side = asrCenter
+      Left = 0
+      Height = 1
       Top = 0
-      Width = 146
-      Align = alRight
-      AutoSize = True
-      BevelOuter = bvNone
-      ClientHeight = 36
-      ClientWidth = 146
-      TabOrder = 0
-      object btnOK: TBitBtn
-        Left = 0
-        Height = 36
-        Top = 0
-        Width = 59
-        Align = alRight
-        AutoSize = True
-        BorderSpacing.Right = 3
-        BorderSpacing.InnerBorder = 2
-        Caption = '&OK'
-        Constraints.MinWidth = 50
-        Default = True
-        Kind = bkOK
-        ModalResult = 1
-        TabOrder = 0
-      end
-      object btnCancel: TBitBtn
-        Left = 62
-        Height = 36
-        Top = 0
-        Width = 84
-        Align = alRight
-        AutoSize = True
-        BorderSpacing.InnerBorder = 2
-        Cancel = True
-        Caption = '&Cancel'
-        Constraints.MinWidth = 50
-        Kind = bkCancel
-        ModalResult = 2
-        TabOrder = 1
-      end
+      Width = 1
+      ParentColor = False
     end
   end
 end

@@ -3,7 +3,7 @@
     -------------------------------------------------------------------------
     This unit contains specific WINDOWS functions.
 
-    Copyright (C) 2006-2021 Alexander Koblov (alexx2000@mail.ru)
+    Copyright (C) 2006-2022 Alexander Koblov (alexx2000@mail.ru)
 
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License
@@ -185,7 +185,7 @@ implementation
 
 uses
   JwaNtStatus, ShellAPI, MMSystem, JwaWinNetWk, JwaWinUser, JwaVista, LazUTF8,
-  SysConst, ActiveX, ShlObj, ComObj, DCWindows, uShlObjAdditional;
+  SysConst, ActiveX, ShlObj, ComObj, DCWindows, DCConvertEncoding, uShlObjAdditional;
 
 var
   Wow64DisableWow64FsRedirection: function(OldValue: PPointer): BOOL; stdcall;
@@ -330,16 +330,19 @@ begin
   end;
 end;
 
-function DisplayName(const wsDrv: WideString): WideString;
+function DisplayName(const wsDrv: UnicodeString): UnicodeString;
 var
+  Index: Integer;
   SFI: TSHFileInfoW;
 begin
   FillChar(SFI, SizeOf(SFI), 0);
-  SHGetFileInfoW(PWChar(wsDrv), 0, SFI, SizeOf(SFI), SHGFI_DISPLAYNAME);
-  Result:= SFI.szDisplayName;
-
-  if Pos('(', Result) <> 0 then
-    SetLength(Result, Pos('(', Result) - 2);
+  if SHGetFileInfoW(PWideChar(wsDrv), 0, SFI, SizeOf(SFI), SHGFI_DISPLAYNAME) = 0 then
+    Result:= EmptyWideStr
+  else begin
+    Result:= SFI.szDisplayName;
+    Index:= Pos('(', Result);
+    if Index > 1 then SetLength(Result, Index - 2);
+  end;
 end;
 
 function ExtractVolumeGUID(const VolumeName: UnicodeString): UnicodeString;
@@ -367,59 +370,46 @@ begin
     Result:= UnicodeString(wsVolumeName);
 end;
 
-(* Drive ready *)
-
 function mbDriveReady(const sDrv: String): Boolean;
 var
-  NotUsed: DWORD;
-  wsDrv: WideString;
+  NotUsed: DWORD = 0;
+  wsDrv: UnicodeString;
 begin
-  wsDrv:= UTF8Decode(sDrv);
-  Result:= GetVolumeInformationW(PWChar(wsDrv), nil, 0, nil, NotUsed, NotUsed, nil, 0);
+  wsDrv:= CeUtf8ToUtf16(sDrv);
+  Result:= GetVolumeInformationW(PWideChar(wsDrv), nil, 0, nil, NotUsed, NotUsed, nil, 0);
 end;
-
-(* Disk label *)
 
 function mbGetVolumeLabel(const sDrv: String; const bVolReal: Boolean): String;
 var
-  WinVer: Byte;
-  DriveType, NotUsed: DWORD;
-  Buf: array [0..MAX_PATH - 1] of WideChar;
-  wsDrv,
-  wsResult: UnicodeString;
+  dwDummy: DWORD = 0;
+  wsDrv, wsResult: UnicodeString;
+  wcName: array [0..MAX_PATH] of WideChar;
 begin
-  Result:= '';
-  wsDrv:= UTF8Decode(sDrv);
-  WinVer:= LOBYTE(LOWORD(GetVersion));
-  DriveType:= GetDriveTypeW(PWChar(wsDrv));
+  wsDrv:= CeUtf8ToUtf16(sDrv);
 
-  if (WinVer <= 4) and (DriveType <> DRIVE_REMOVABLE) or bVolReal then
-    begin // Win9x, Me, NT <= 4.0
-      Buf[0]:= #0;
-      GetVolumeInformationW(PWChar(wsDrv), Buf, DWORD(SizeOf(Buf)), nil,
-                            NotUsed, NotUsed, nil, 0);
-      wsResult:= Buf;
-
-      if bVolReal and (WinVer >= 5) and (Result <> '') and
-         (DriveType <> DRIVE_REMOVABLE) then // Win2k, XP and higher
-        wsResult:= DisplayName(wsDrv)
-      else if (Result = '') and (not bVolReal) then
-        wsResult:= '<none>';
+  if not bVolReal then
+    wsResult:= DisplayName(wsDrv)
+  else begin
+    wcName[0]:= #0;
+    if GetVolumeInformationW(PWideChar(wsDrv), wcName, MAX_PATH,
+                             nil, dwDummy, dwDummy, nil, 0) then
+    begin
+      wsResult:= wcName;
     end
-  else
-    wsResult:= DisplayName(wsDrv);
-  Result:= UTF16ToUTF8(wsResult);
+    else begin
+      wsResult:= Default(UnicodeString);
+    end;
+  end;
+  Result:= CeUtf16ToUtf8(wsResult);
 end;
-
-(* Wait for change disk label *)
 
 function mbSetVolumeLabel(sRootPathName, sVolumeName: String): Boolean;
 var
   wsRootPathName,
   wsVolumeName: UnicodeString;
 begin
-  wsRootPathName:= UTF8Decode(sRootPathName);
-  wsVolumeName:= UTF8Decode(sVolumeName);
+  wsRootPathName:= CeUtf8ToUtf16(sRootPathName);
+  wsVolumeName:= CeUtf8ToUtf16(sVolumeName);
   Result:= SetVolumeLabelW(PWChar(wsRootPathName), PWChar(wsVolumeName));
 end;
 
@@ -434,8 +424,6 @@ begin
   while st1 = st2 do
     st2:= mbGetVolumeLabel(sDrv, FALSE);
 end;
-
-(* Close CD/DVD *)
 
 procedure mbCloseCD(const sDrv: String);
 var
@@ -628,7 +616,7 @@ var
   wsDrive: UnicodeString;
   lpExecInfo: TShellExecuteInfoW;
 begin
-  wsDrive:= UTF8Decode(sDrv);
+  wsDrive:= CeUtf8ToUtf16(sDrv);
   if not GetDiskFreeSpaceExW(PWideChar(wsDrive), nil, nil, nil) then
   begin
     LastError:= GetLastError;
@@ -669,7 +657,7 @@ var
   lpBuffer: PUniversalNameInfoW;
 begin
   Result:= sLocalName;
-  wsLocalName:= UTF8Decode(sLocalName);
+  wsLocalName:= CeUtf8ToUtf16(sLocalName);
   lpBufferSize:= SizeOf(TUniversalNameInfoW);
   GetMem(lpBuffer, lpBufferSize);
   try
@@ -732,7 +720,7 @@ begin
   hSCManager:= OpenSCManagerW(nil, nil, SC_MANAGER_ENUMERATE_SERVICE);
   if (hSCManager = 0) then Exit(0);
   try
-    hService:= OpenServiceW(hSCManager, PWideChar(UTF8Decode(AName)), SERVICE_QUERY_STATUS);
+    hService:= OpenServiceW(hSCManager, PWideChar(CeUtf8ToUtf16(AName)), SERVICE_QUERY_STATUS);
     if (hService = 0) then Exit(0);
 
     if not QueryServiceStatus(hService, {%H-}lpServiceStatus) then
@@ -818,7 +806,7 @@ var
   end;
 
   // From UNC name extracts computer name.
-  function GetMachineName(wPathName: LPCWSTR): WideString;
+  function GetMachineName(wPathName: LPCWSTR): UnicodeString;
   var
     lpMachineName,
     lpMachineNameNext: PWideChar;
@@ -840,7 +828,7 @@ var
 
 var
   wszUNCPathName: array[0..32767] of WideChar;
-  wsPathName: WideString;
+  wsPathName: UnicodeString;
   pSecurityDescriptor: PSECURITY_DESCRIPTOR = nil;
   pOwnerSid: PSID = nil;
   pUNI: PUniversalNameInfoW;
@@ -854,7 +842,7 @@ begin
     Exit;
 
   try
-    wsPathName := UTF8Decode(sPath);
+    wsPathName := CeUtf8ToUtf16(sPath);
 
     // Check if the path is to remote share and get remote machine name.
 
@@ -925,7 +913,7 @@ var
   SFI: TSHFileInfoW;
 begin
   FillChar(SFI, SizeOf(SFI), 0);
-  if SHGetFileInfoW(PWideChar(UTF8Decode(sPath)), 0, SFI, SizeOf(SFI), SHGFI_TYPENAME) <> 0 then
+  if SHGetFileInfoW(PWideChar(CeUtf8ToUtf16(sPath)), 0, SFI, SizeOf(SFI), SHGFI_TYPENAME) <> 0 then
     Result := UTF16ToUTF8(UnicodeString(SFI.szTypeName))
   else
     Result := EmptyStr;
@@ -938,7 +926,7 @@ var
 begin
   // Available since Windows XP.
   if ((Win32MajorVersion > 5) or ((Win32MajorVersion = 5) and (Win32MinorVersion >= 1))) and
-     GetVolumeInformationW(PWideChar(UTF8Decode(sRootPath)), nil, 0, nil,
+     GetVolumeInformationW(PWideChar(CeUtf8ToUtf16(sRootPath)), nil, 0, nil,
                            NotUsed, NotUsed, Buf, SizeOf(Buf)) then
   begin
     Result:= UTF16ToUTF8(UnicodeString(Buf));
@@ -985,10 +973,18 @@ begin
   Result:= False;
 end;
 
+function SHGetValueW(hkey: HKEY; pszSubKey, pszValue: LPCWSTR; pdwType: PDWORD;
+                     pvData: LPVOID; pcbData: PDWORD): DWORD; stdcall; external 'shlwapi.dll';
+
 function IsUserAdmin: TDuplicates;
+const
+  SYSTEM = 'SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System';
 var
   Success: Boolean;
+  dwValue: DWORD = 0;
   ReturnLength: DWORD = 0;
+  dwType: DWORD = REG_DWORD;
+  dwValueSize: DWORD = SizeOf(DWORD);
   TokenHandle: HANDLE = INVALID_HANDLE_VALUE;
   TokenInformation: array [0..1023] of Byte;
   ElevationType: JwaVista.TTokenElevationType absolute TokenInformation;
@@ -1008,9 +1004,32 @@ begin
     if Success then
     begin
       case ElevationType of
-        TokenElevationTypeDefault: Result:= dupIgnore;  // The token does not have a linked token. (UAC disabled)
-        TokenElevationTypeFull:    Result:= dupAccept;  // The token is an elevated token. (Administrator)
-        TokenElevationTypeLimited: Result:= dupError;   // The token is a limited token. (User)
+        // The token is an elevated token. (Administrator)
+        TokenElevationTypeFull:    Result:= dupAccept;
+        // The token is a limited token. (User)
+        TokenElevationTypeLimited: Result:= dupError;
+        // The token does not have a linked token. (UAC disabled or standard user)
+        TokenElevationTypeDefault:
+          begin
+            if (SHGetValueW( HKEY_LOCAL_MACHINE, SYSTEM, 'EnableLUA',
+                @dwType, @dwValue, @dwValueSize) <> ERROR_SUCCESS) then
+            begin
+              Exit(dupError);
+            end;
+            if (dwValue > 0) then
+            begin
+              if (SHGetValueW( HKEY_LOCAL_MACHINE, SYSTEM, 'ConsentPromptBehaviorUser',
+                  @dwType, @dwValue, @dwValueSize) <> ERROR_SUCCESS) then
+              begin
+                Exit(dupError);
+              end;
+            end;
+            if (dwValue > 0) then
+              Result:= dupError
+            else begin
+              Result:= dupIgnore;
+            end;
+          end;
       end;
     end;
   end;
@@ -1071,12 +1090,12 @@ begin
   IPFile := IObject as IPersistFile;
   ISLink := IObject as IShellLinkW;
 
-  OleCheckUTF8(ISLink.SetPath(PWideChar(UTF8Decode(Target))));
+  OleCheckUTF8(ISLink.SetPath(PWideChar(CeUtf8ToUtf16(Target))));
   OleCheckUTF8(ISLink.SetArguments(PWideChar(TargetArguments)));
-  OleCheckUTF8(ISLink.SetWorkingDirectory(PWideChar(UTF8Decode(ExtractFilePath(Target)))));
+  OleCheckUTF8(ISLink.SetWorkingDirectory(PWideChar(CeUtf8ToUtf16(ExtractFilePath(Target)))));
 
   { Get the desktop location }
-  LinkName := UTF8Decode(Shortcut);
+  LinkName := CeUtf8ToUtf16(Shortcut);
   if LowerCase(ExtractFileExt(LinkName)) <> '.lnk' then
     LinkName := LinkName + '.lnk';
 

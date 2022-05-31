@@ -38,7 +38,7 @@ implementation
 {$R *.lfm}
 
 uses
-  Windows, Math, LCLStrConsts, fMain, uMyWindows, uLng;
+  Windows, Math, LCLStrConsts, DCConvertEncoding, fMain, uMyWindows, uLng;
 
 function ShowUnlockForm(ProcessInfo: TProcessInfoArray): Boolean;
 var
@@ -133,7 +133,7 @@ var
 begin
   if (stgFileHandles.Row > 0) then
   begin
-    if MessageBoxW(Handle, PWideChar(UTF8Decode(rsMsgTerminateProcess)), PWideChar(UTF8Decode(rsMtWarning)), MB_YESNO or MB_ICONWARNING) = IDYES then
+    if MessageBoxW(Handle, PWideChar(CeUtf8ToUtf16(rsMsgTerminateProcess)), PWideChar(CeUtf8ToUtf16(rsMtWarning)), MB_YESNO or MB_ICONWARNING) = IDYES then
     begin
       ProcessId:= StrToDWord(stgFileHandles.Cells[1, stgFileHandles.Row]);
       if uFileUnlock.TerminateProcess(ProcessId) then

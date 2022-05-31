@@ -117,31 +117,33 @@ procedure ShowOpenWithDialog(TheOwner: TComponent; const FileList: TStringList);
 {$ENDIF}
 
 function GetControlHandle(AWindow: TWinControl): HWND;
-function GetWindowHandle(AWindow: TWinControl): HWND;
+function GetWindowHandle(AWindow: TWinControl): HWND; overload;
+function GetWindowHandle(AHandle: HWND): HWND; overload;
+procedure CopyNetNamesToClip;
 
 implementation
 
 uses
   ExtDlgs, LCLProc, Menus, Graphics, InterfaceBase, WSForms, LMessages, LCLIntf,
-  fMain, uConnectionManager
+  fMain, uConnectionManager, uShowMsg, uLng
   {$IF DEFINED(MSWINDOWS)}
   , LCLStrConsts, ComObj, DCOSUtils, uOSUtils, uFileSystemFileSource
   , uTotalCommander, FileUtil, Windows, ShlObj, uShlObjAdditional
-  , uWinNetFileSource, uVfsModule, uLng, uMyWindows, DCStrUtils
+  , uWinNetFileSource, uVfsModule, uMyWindows, DCStrUtils
   , uDCReadSVG, uFileSourceUtil, uGdiPlusJPEG, uListGetPreviewBitmap
-  , Dialogs, Clipbrd, uShowMsg, uDebug, JwaDbt, uThumbnailProvider
-  , uRecycleBinFileSource
+  , Dialogs, Clipbrd, uDebug, JwaDbt, uThumbnailProvider
+  , uRecycleBinFileSource, uDCReadHEIF, uDCReadWIC
     {$IFDEF LCLQT5}
     , qt5, qtwidgets, uDarkStyle
     {$ENDIF}
   {$ENDIF}
   {$IFDEF UNIX}
-  , BaseUnix, Errors, fFileProperties, uJpegThumb
+  , BaseUnix, Errors, fFileProperties, uJpegThumb, uOpenDocThumb
     {$IF NOT DEFINED(DARWIN)}
     , uDCReadSVG, uMagickWand, uGio, uGioFileSource, uVfsModule, uVideoThumb
-    , uDCReadWebP, uFolderThumb, uAudioThumb
+    , uDCReadWebP, uFolderThumb, uAudioThumb, uDefaultTerminal, uDCReadHEIF
     {$ELSE}
-    , MacOSAll, uQuickLook, uMyDarwin, uShowMsg, uLng
+    , MacOSAll, uQuickLook, uMyDarwin
     {$ENDIF}
     {$IF NOT DEFINED(DARWIN)}
     , fOpenWith
@@ -331,7 +333,15 @@ begin
         EnableWindow(FParentWindow, False);
         // If window already created then recreate it to force
         // call CreateParams with appropriate parent window
-        if HandleAllocated then RecreateWnd(Self);
+        if HandleAllocated then
+        begin
+{$IF NOT DEFINED(LCLWIN32)}
+          RecreateWnd(Self);
+{$ELSE}
+          SetWindowLongPtr(Handle, GWL_STYLE, GetWindowLongPtr(Handle, GWL_STYLE) or LONG_PTR(WS_POPUP));
+          SetWindowLongPtr(Handle, GWL_HWNDPARENT, FParentWindow);
+{$ENDIF}
+        end;
         Show;
         try
           EnableWindow(Handle, True);
@@ -415,9 +425,12 @@ var
   Handle: HWND;
   AWindow: QWidgetH;
 begin
-  Handle:= GetWindowHandle(Form);
-  AllowDarkModeForWindow(Handle, True);
-  RefreshTitleBarThemeColor(Handle);
+  if g_darkModeSupported then
+  begin
+    Handle:= GetWindowHandle(Form);
+    AllowDarkModeForWindow(Handle, True);
+    RefreshTitleBarThemeColor(Handle);
+  end;
 
   if (Form is THintWindow) then
   begin
@@ -457,32 +470,6 @@ begin
       NO_ERROR, DWORD(-1): ;
       else MessageDlg(mbSysErrorMessage(Ret), mtError, [mbOK], 0);
     end;
-  end;
-end;
-
-procedure CopyNetNamesToClip(Self, Sender: TObject);
-var
-  I: Integer;
-  sl: TStringList = nil;
-  SelectedFiles: TFiles = nil;
-begin
-  SelectedFiles := frmMain.ActiveFrame.CloneSelectedOrActiveFiles;
-  try
-    if SelectedFiles.Count > 0 then
-    begin
-      sl := TStringList.Create;
-      for I := 0 to SelectedFiles.Count - 1 do
-      begin
-        sl.Add(mbGetRemoteFileName(SelectedFiles[I].FullPath));
-      end;
-
-      Clipboard.Clear; // Prevent multiple formats in Clipboard (specially synedit)
-      Clipboard.AsText := TrimRightLineEnding(sl.Text, sl.TextLineBreakStyle);
-    end;
-
-  finally
-    FreeAndNil(sl);
-    FreeAndNil(SelectedFiles);
   end;
 end;
 
@@ -585,8 +572,13 @@ begin
   RegisterVirtualFileSource(rsVfsNetwork, TWinNetFileSource);
   if CheckWin32Version(5, 1) then
     RegisterVirtualFileSource(rsVfsRecycleBin, TRecycleBinFileSource);
-  if (IsUserAdmin = dupAccept) then // if run under administrator
-    MainForm.Caption:= MainForm.Caption + ' - Administrator';
+
+  // If run under administrator
+  if (IsUserAdmin = dupAccept) then
+  begin
+    with TfrmMain(MainForm) do
+      StaticTitle:= StaticTitle + ' - Administrator';
+  end;
 
   // Add main window message handler
   {$PUSH}{$HINTS OFF}
@@ -619,9 +611,7 @@ begin
     mnuNetwork.Add(MenuItem);
 
     MenuItem:= TMenuItem.Create(mnuMain);
-    MenuItem.Caption:= rsMnuCopyNetNamesToClip;
-    Handler.Code:= @CopyNetNamesToClip;
-    MenuItem.OnClick:= TNotifyEvent(Handler);
+    MenuItem.Action:= frmMain.actCopyNetNamesToClip;
     mnuNetwork.Add(MenuItem);
 
     MenuItem:= TMenuItem.Create(mnuMain);
@@ -641,8 +631,10 @@ var
 {$ENDIF}
 begin
   if fpGetUID = 0 then // if run under root
-    MainForm.Caption:= MainForm.Caption + ' - ROOT PRIVILEGES';
-
+  begin
+    with TfrmMain(MainForm) do
+      StaticTitle:= StaticTitle + ' - ROOT PRIVILEGES';
+  end;
   {$IF NOT DEFINED(DARWIN)}
   if HasGio then RegisterVirtualFileSource('GVfs', TGioFileSource, False);
   {$ENDIF}
@@ -882,6 +874,49 @@ end;
 {$ELSE}
 begin
   Result:= AWindow.Handle;
+end;
+{$ENDIF}
+
+function GetWindowHandle(AHandle: HWND): HWND;
+{$IF DEFINED(MSWINDOWS) and DEFINED(LCLQT5)}
+begin
+  Result:= Windows.GetAncestor(HWND(QWidget_winId(TQtWidget(AHandle).GetContainerWidget)), GA_ROOT);
+end;
+{$ELSE}
+begin
+  Result:= AHandle;
+end;
+{$ENDIF}
+
+procedure CopyNetNamesToClip;
+{$IF DEFINED(MSWINDOWS)}
+var
+  I: Integer;
+  sl: TStringList = nil;
+  SelectedFiles: TFiles = nil;
+begin
+  SelectedFiles := frmMain.ActiveFrame.CloneSelectedOrActiveFiles;
+  try
+    if SelectedFiles.Count > 0 then
+    begin
+      sl := TStringList.Create;
+      for I := 0 to SelectedFiles.Count - 1 do
+      begin
+        sl.Add(mbGetRemoteFileName(SelectedFiles[I].FullPath));
+      end;
+
+      Clipboard.Clear; // Prevent multiple formats in Clipboard (specially synedit)
+      Clipboard.AsText := TrimRightLineEnding(sl.Text, sl.TextLineBreakStyle);
+    end;
+
+  finally
+    FreeAndNil(sl);
+    FreeAndNil(SelectedFiles);
+  end;
+end;
+{$ELSE}
+begin
+  msgWarning(rsMsgErrNotSupported);
 end;
 {$ENDIF}
 

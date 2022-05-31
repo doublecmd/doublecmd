@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Useful functions dealing with strings.
    
-   Copyright (C) 2006-2020  Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2006-2022  Alexander Koblov (alexx2000@mail.ru)
    Copyright (C) 2012       Przemyslaw Nagay (cobines@gmail.com)
 
    This program is free software; you can redistribute it and/or modify
@@ -27,7 +27,7 @@ unit DCStrUtils;
 interface
 
 uses
-  Classes, SysUtils, DCBasicTypes,LazUtf8;
+  Classes, SysUtils, DCBasicTypes, LazUtf8;
 
 const
   NoQuotesSpecialChars     = [' ', '"', '''', '(', ')', ':', '&', '!', '$', '*', '?', '=', '`', '\', '|', ';', #10];
@@ -194,7 +194,6 @@ function CharPos(C: Char; const S: string; StartPos: Integer = 1): Integer;
   @param(StartPos Start position)
   @param(SearchBackward set @True if need search backwards)
   @returns(Position of character in string)
-
 }
 function TagPos(T: string; const S: string; StartPos: Integer;SearchBackward: boolean=False): Integer;
 {en
@@ -352,11 +351,19 @@ function EscapeDoubleQuotes(const Str: String): String;
      sh -c '<cmd1>' "<cmd2>" <cmd3>
 }
 function EscapeNoQuotes(const Str: String): String;
+{en
+   Reads a line of text from a string
+   @param(Value Input text string)
+   @param(S Output text line)
+   @param(N Current position in the input text string)
+   @returns(@true if line-ending found, @false otherwise)
+}
+function GetNextLine(const Value: String; var S: String; var N: Integer): Boolean;
 
 implementation
 
 uses
-  DCOSUtils, StrUtils;
+  DCOSUtils, DCConvertEncoding, StrUtils;
 
 function NormalizePathDelimiters(const Path: String): String;
 {$IFDEF UNIX}
@@ -965,7 +972,7 @@ function mbCompareText(const s1, s2: String): PtrInt; inline;
 begin
 // From 0.9.31 LazUtils can be used but this package does not exist in 0.9.30.
 //  Result := LazUTF8.UTF8CompareText(s1, s2);
-  Result := WideCompareText(UTF8Decode(s1), UTF8Decode(s2));
+  Result := WideCompareText(CeUtf8ToUtf16(s1), CeUtf8ToUtf16(s2));
 end;
 
 function StrNewW(const mbString: String): PWideChar;
@@ -974,7 +981,7 @@ var
   iLength: PtrInt;
 begin
   Result:= nil;
-  wsString:= UTF8Decode(mbString);
+  wsString:= CeUtf8ToUtf16(mbString);
   iLength:= (Length(wsString) * SizeOf(WideChar)) + 1;
   Result:= GetMem(iLength);
   if Result <> nil then
@@ -1041,13 +1048,15 @@ end;
 
 function StrBegins(const StringToCheck, StringToMatch: String): Boolean;
 begin
-  Result := (Length(StringToCheck) >= Length(StringToMatch)) and
+  Result := (Length(StringToMatch) > 0) and
+            (Length(StringToCheck) >= Length(StringToMatch)) and
             (CompareChar(StringToCheck[1], StringToMatch[1], Length(StringToMatch)) = 0);
 end;
 
 function StrEnds(const StringToCheck, StringToMatch: String): Boolean;
 begin
-  Result := (Length(StringToCheck) >= Length(StringToMatch)) and
+  Result := (Length(StringToMatch) > 0) and
+            (Length(StringToCheck) >= Length(StringToMatch)) and
             (CompareChar(StringToCheck[1 + Length(StringToCheck) - Length(StringToMatch)],
                          StringToMatch[1], Length(StringToMatch)) = 0);
 end;
@@ -1383,6 +1392,45 @@ begin
   // When neither single nor double quotes are used several special characters
   // need to be escaped with backslash (single character quote).
   Result := EscapeString(Str, NoQuotesSpecialChars, '\');
+end;
+
+function GetNextLine(const Value: String; var S: String; var N: Integer): Boolean;
+var
+  PS: PChar;
+  IP, L, P, K: Integer;
+begin
+  P:= N;
+  S:= '';
+  Result:= False;
+  L:= Length(Value);
+  if ((L - P) < 0) then Exit;
+  if ((L - P) = 0) and (not (Value[P] in [#10, #13])) then Exit;
+  PS:= PChar(Value) + P - 1;
+  IP:= P;
+  while ((L - P) >= 0) and (not (PS^ in [#10, #13])) do
+  begin
+    P:= P + 1;
+    Inc(PS);
+  end;
+  K:= P;
+  // Point to character after #13
+  if (P <= L) and (Value[P] = #13) then
+  begin
+    Inc(P);
+    Result:= True;
+  end;
+  // Point to character after #10
+  if (P <= L) and (Value[P] = #10) then
+  begin
+    Inc(P);
+    Result:= True;
+  end;
+  if Result then
+  begin
+    N:= P;
+    SetLength(S, K - IP);
+    System.Move(Value[IP], Pointer(S)^, K - IP);
+  end;
 end;
 
 end.

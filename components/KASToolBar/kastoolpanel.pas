@@ -11,10 +11,13 @@ type
   TKASToolPanel = class(TToolWindow)
   published
     property Align default alNone;
+    property Anchors;
     property AutoSize;
+    property ChildSizing;
     property EdgeBorders default [ebTop];
     property EdgeInner;
     property EdgeOuter;
+    property TabOrder;
     property Visible;
   end;
 

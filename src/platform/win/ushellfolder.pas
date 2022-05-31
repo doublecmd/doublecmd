@@ -72,7 +72,7 @@ begin
   if StrRetToBufW(@StrRet, PIDL, S, MAX_PATH) <> S_OK then
     Result:= EmptyStr
   else
-    Result:= UTF8Encode(UnicodeString(S));
+    Result:= CeUtf16ToUtf8(UnicodeString(S));
 end;
 
 function GetDisplayName(AFolder: IShellFolder; PIDL: PItemIDList;

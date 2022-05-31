@@ -9,6 +9,7 @@ mkdir  %DC_INSTALL_DIR%
 mkdir  %DC_INSTALL_DIR%\plugins
 rem WCX plugins directories
 mkdir  %DC_INSTALL_DIR%\plugins\wcx
+mkdir  %DC_INSTALL_DIR%\plugins\wcx\base64
 mkdir  %DC_INSTALL_DIR%\plugins\wcx\rpm
 mkdir  %DC_INSTALL_DIR%\plugins\wcx\sevenzip
 mkdir  %DC_INSTALL_DIR%\plugins\wcx\unrar
@@ -43,9 +44,11 @@ copy multiarc.ini                   %DC_INSTALL_DIR%\
 copy pinyin.tbl                     %DC_INSTALL_DIR%\
 rem Copy libraries
 copy *.dll                          %DC_INSTALL_DIR%\
+copy winpty-agent.exe               %DC_INSTALL_DIR%\
 
 rem copy plugins
 rem WCX
+copy  plugins\wcx\base64\base64.wcx       %DC_INSTALL_DIR%\plugins\wcx\base64\
 copy  plugins\wcx\rpm\rpm.wcx             %DC_INSTALL_DIR%\plugins\wcx\rpm\
 copy  plugins\wcx\sevenzip\sevenzip.wcx   %DC_INSTALL_DIR%\plugins\wcx\sevenzip\
 copy  plugins\wcx\unrar\unrar.wcx         %DC_INSTALL_DIR%\plugins\wcx\unrar\

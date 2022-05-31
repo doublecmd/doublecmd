@@ -98,19 +98,22 @@ var
   userDirs: TStringList = nil;
 begin
   Result:= False;
+  templateDir:= GetHomeDir + '/.config/user-dirs.dirs';
+  if not mbFileExists(templateDir) then Exit;
   try
     Items:= nil;
-    templateDir:= GetHomeDir + '/.config/user-dirs.dirs';
-    if not mbFileExists(templateDir) then Exit;
     userDirs:= TStringList.Create;
     try
       userDirs.LoadFromFile(templateDir);
+      templateDir:= userDirs.Values['XDG_TEMPLATES_DIR'];
     except
       Exit;
     end;
-    templateDir:= userDirs.Values['XDG_TEMPLATES_DIR'];
     if Length(templateDir) = 0 then Exit;
-    templateDir:= IncludeTrailingPathDelimiter(mbExpandFileName(TrimQuotes(templateDir)));
+    templateDir:= TrimQuotes(templateDir);
+    // Skip misconfigured template path
+    if (ExcludeTrailingBackslash(templateDir) = '$HOME') then Exit;
+    templateDir:= IncludeTrailingPathDelimiter(mbExpandFileName(templateDir));
     if mbDirectoryExists(templateDir) then
     begin
       if FindFirstEx(templateDir, 0, searchRec) = 0 then

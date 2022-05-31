@@ -5,7 +5,7 @@
    (TC WDX-API v1.5)
 
    Copyright (C) 2008  Dmitry Kolomiets (B4rr4cuda@rambler.ru)
-   Copyright (C) 2008-2019 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2008-2022 Alexander Koblov (alexx2000@mail.ru)
 
    Some ideas were found in sources of WdxGuide by Alexey Torgashin
    and SuperWDX by Pavel Dubrovsky and Dmitry Vorotilin.
@@ -68,14 +68,14 @@ type
     FMutex: TRTLCriticalSection;
   protected
     procedure Translate;
+    function GetADetectStr: String; virtual;
+    procedure SetADetectStr(const AValue: String); virtual;
     procedure AddField(const AName, AUnits: String; AType: Integer);
   protected
     function GetAName: String; virtual; abstract;
     function GetAFileName: String; virtual; abstract;
-    function GetADetectStr: String; virtual; abstract;
     procedure SetAName(AValue: String); virtual; abstract;
     procedure SetAFileName(AValue: String); virtual; abstract;
-    procedure SetADetectStr(const AValue: String); virtual; abstract;
   public
     //---------------------
     constructor Create; virtual;
@@ -119,15 +119,12 @@ type
     FModuleHandle: TLibHandle;  // Handle to .DLL or .so
     FForce:     Boolean;
     FName:      String;
-    FDetectStr: String;
   protected
     function GetAName: String; override;
     function GetAFileName: String; override;
-    function GetADetectStr: String; override;
 
     procedure SetAName(AValue: String); override;
     procedure SetAFileName(AValue: String); override;
-    procedure SetADetectStr(const AValue: String); override;
   protected
     //a) Mandatory (must be implemented)
     ContentGetSupportedField: TContentGetSupportedField;
@@ -179,15 +176,11 @@ type
     L:      Plua_State;
     FForce: Boolean;
     FName:  String;
-    FDetectStr: String;
   protected
     function GetAName: String; override;
     function GetAFileName: String; override;
-    function GetADetectStr: String; override;
-
     procedure SetAName(AValue: String); override;
     procedure SetAFileName(AValue: String); override;
-    procedure SetADetectStr(const AValue: String); override;
 
     function DoScript(AName: String): Integer;
     function WdxLuaContentGetSupportedField(Index: Integer; var xFieldName, xUnits: String): Integer;
@@ -596,11 +589,6 @@ begin
   Result := FModuleHandle <> NilHandle;
 end;
 
-function TPluginWDX.GetADetectStr: String;
-begin
-  Result := FDetectStr;
-end;
-
 function TPluginWDX.GetAName: String;
 begin
   Result := FName;
@@ -609,11 +597,6 @@ end;
 function TPluginWDX.GetAFileName: String;
 begin
   Result := FFileName;
-end;
-
-procedure TPluginWDX.SetADetectStr(const AValue: String);
-begin
-  FDetectStr := AValue;
 end;
 
 procedure TPluginWDX.SetAName(AValue: String);
@@ -685,7 +668,7 @@ end;
 procedure TPluginWDX.CallContentStopGetValue(FileName: String);
 begin
   if Assigned(ContentStopGetValueW) then
-    ContentStopGetValueW(PWideChar(UTF8Decode(FileName)))
+    ContentStopGetValueW(PWideChar(CeUtf8ToUtf16(FileName)))
   else if Assigned(ContentStopGetValue) then
       ContentStopGetValue(PAnsiChar(CeUtf8ToSys(FileName)));
 end;
@@ -801,7 +784,7 @@ begin
   EnterCriticalSection(FMutex);
   try
     if Assigned(ContentGetValueW) then
-      Rez := ContentGetValueW(PWideChar(UTF8Decode(FileName)), FieldIndex, UnitIndex, @Buf, SizeOf(buf), flags)
+      Rez := ContentGetValueW(PWideChar(CeUtf8ToUtf16(FileName)), FieldIndex, UnitIndex, @Buf, SizeOf(buf), flags)
     else if Assigned(ContentGetValue) then
       Rez := ContentGetValue(PAnsiChar(mbFileNameToSysEnc(FileName)), FieldIndex, UnitIndex, @Buf, SizeOf(buf), flags);
 
@@ -842,7 +825,7 @@ begin
   EnterCriticalSection(FMutex);
   try
     if Assigned(ContentGetValueW) then
-      Rez := ContentGetValueW(PWideChar(UTF8Decode(FileName)), FieldIndex, UnitIndex, @Buf, SizeOf(buf), flags)
+      Rez := ContentGetValueW(PWideChar(CeUtf8ToUtf16(FileName)), FieldIndex, UnitIndex, @Buf, SizeOf(buf), flags)
     else if Assigned(ContentGetValue) then
         Rez := ContentGetValue(PAnsiChar(mbFileNameToSysEnc(FileName)), FieldIndex, UnitIndex, @Buf, SizeOf(buf), flags);
 
@@ -879,7 +862,7 @@ begin
   EnterCriticalSection(FMutex);
   try
     if Assigned(ContentGetValueW) then
-      Rez := ContentGetValueW(PWideChar(UTF8Decode(FileName)), FieldIndex, UnitIndex, @Buf, SizeOf(buf), 0)
+      Rez := ContentGetValueW(PWideChar(CeUtf8ToUtf16(FileName)), FieldIndex, UnitIndex, @Buf, SizeOf(buf), 0)
     else if Assigned(ContentGetValue) then
       Rez := ContentGetValue(PAnsiChar(mbFileNameToSysEnc(FileName)), FieldIndex, UnitIndex, @Buf, SizeOf(buf), 0);
 
@@ -925,11 +908,6 @@ begin
   Result := FFileName;
 end;
 
-function TLuaWdx.GetADetectStr: String;
-begin
-  Result := FDetectStr;
-end;
-
 procedure TLuaWdx.SetAName(AValue: String);
 begin
   FName := AValue;
@@ -938,11 +916,6 @@ end;
 procedure TLuaWdx.SetAFileName(AValue: String);
 begin
   FFileName := AValue;
-end;
-
-procedure TLuaWdx.SetADetectStr(const AValue: String);
-begin
-  FDetectStr := AValue;
 end;
 
 function TLuaWdx.DoScript(AName: String): Integer;
@@ -1365,6 +1338,16 @@ begin
   end;
 end;
 
+function TWDXModule.GetADetectStr: String;
+begin
+  Result:= FParser.DetectStr;
+end;
+
+procedure TWDXModule.SetADetectStr(const AValue: String);
+begin
+  FParser.DetectStr:= AValue;
+end;
+
 procedure TWDXModule.AddField(const AName, AUnits: String; AType: Integer);
 var
   WdxField: TWdxField;
@@ -1435,7 +1418,6 @@ function TWDXModule.FileParamVSDetectStr(const aFile: TFile): Boolean;
 begin
   EnterCriticalSection(FMutex);
   try
-    FParser.DetectStr := Self.DetectStr;
     Result := FParser.TestFileResult(aFile);
   finally
     LeaveCriticalsection(FMutex);

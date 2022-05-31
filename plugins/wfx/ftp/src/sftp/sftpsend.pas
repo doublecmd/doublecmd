@@ -69,7 +69,7 @@ implementation
 
 uses
   LazUTF8, DCBasicTypes, DCDateTimeUtils, DCStrUtils, DCOSUtils, FtpFunc, CTypes,
-  DCClassesUtf8, DCFileAttributes;
+  DCClassesUtf8, DCFileAttributes, DCConvertEncoding;
 
 const
   SMB_BUFFER_SIZE = 131072;
@@ -218,7 +218,7 @@ begin
   SendStream := TFileStreamEx.Create(FDirectFileName, fmOpenRead or fmShareDenyWrite);
 
   TargetName:= PWideChar(ServerToClient(FileName));
-  SourceName:= PWideChar(UTF8Decode(FDirectFileName));
+  SourceName:= PWideChar(CeUtf8ToUtf16(FDirectFileName));
 
   FileSize:= SendStream.Size;
   FBuffer:= GetMem(SMB_BUFFER_SIZE);
@@ -309,7 +309,7 @@ begin
   end;
 
   SourceName := PWideChar(ServerToClient(FileName));
-  TargetName := PWideChar(UTF8Decode(FDirectFileName));
+  TargetName := PWideChar(CeUtf8ToUtf16(FDirectFileName));
 
   if Restore then TotalBytesToRead:= RetrStream.Seek(0, soEnd);
 

@@ -295,9 +295,11 @@ begin
     if not FUpdatingActiveFile then
     begin
       SetLastActiveFile(NewFileIndex, TopRowIndex);
-      if Assigned(OnChangeActiveFile) then
-        OnChangeActiveFile(Self, FFiles[NewFileIndex].FSFile);
     end;
+
+    if Assigned(OnChangeActiveFile) then
+      OnChangeActiveFile(Self, FFiles[NewFileIndex].FSFile);
+
     if FlatView and (FSelectedCount = 0) then UpdateFlatFileName;
   end;
 end;
@@ -867,6 +869,7 @@ function TOrderedFileView.SetActiveFileNow(aFilePath: String;
   end;
 
 var
+  APath: String;
   Index: PtrInt;
   PathIsAbsolute: Boolean;
 begin
@@ -887,7 +890,12 @@ begin
     end;
     if (FLastActiveFileIndex > -1) then
     begin
-      if FlatView or IsInPath(CurrentPath, LastActiveFile, False, False) then
+      if (StrBegins(LastActiveFile, CurrentAddress)) then
+        APath:= CurrentLocation
+      else begin
+        APath:= CurrentPath;
+      end;
+      if FlatView or IsInPath(APath, LastActiveFile, False, False) then
       begin
         if (PathIsAbsolute and mbCompareFileNames(LastActiveFile, aFilePath)) or
            (FlatView) or (mbCompareFileNames(LastActiveFile, CurrentPath + aFilePath)) then

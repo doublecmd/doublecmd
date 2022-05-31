@@ -37,13 +37,18 @@ uses
   {$ENDIF}
   {$ENDIF}
   DCConvertEncoding,
+  {$IF DEFINED(LCLWIN32) and DEFINED(DARKWIN)}
+  uWin32WidgetSetDark,
+  {$ENDIF}
   Interfaces,
   {$IFDEF LCLGTK2}
   uGtk2FixCursorPos,
   {$ENDIF}
   {$IFDEF LCLWIN32}
   uDClass,
+  {$IF NOT DEFINED(DARKWIN)}
   uWin32WidgetSetFix,
+  {$ENDIF}
   {$ENDIF}
   LCLProc,
   Classes,
@@ -101,7 +106,7 @@ begin
   Randomize;
 
   // Disable invalid floating point operation exception
-  SetExceptionMask(GetExceptionMask + [exInvalidOp]);
+  SetExceptionMask(GetExceptionMask + [exInvalidOp, exZeroDivide]);
 
   {$IF DEFINED(NIGHTLY_BUILD)}
   InitLineInfo;
@@ -139,7 +144,7 @@ begin
   // which is called by Application.Initialize.
   uKeyboard.InitializeKeyboard;
 
-{$IF DEFINED(MSWINDOWS) and DEFINED(LCLQT5)}
+{$IF DEFINED(MSWINDOWS) and (DEFINED(LCLQT5) or DEFINED(DARKWIN))}
   ApplyDarkStyle;
 {$ENDIF}
 
@@ -228,6 +233,8 @@ begin
         frmStartingSplash.Close;
         frmStartingSplash.Release;
       end;
+
+      frmMain.ShowOnTop;
 
       Application.Run;
 

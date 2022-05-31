@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    WCX plugin for working with *.zip, *.gz, *.tar, *.tgz archives
 
-   Copyright (C) 2007-2019 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2007-2022 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
@@ -132,6 +132,21 @@ begin
     Result := E_UNKNOWN;
 end;
 
+procedure CheckError(Arc: TAbZipKitEx; E: Exception; const FileName: String);
+var
+  AMessage: String;
+begin
+  if (Arc.FOperationResult = E_UNKNOWN) then
+  begin
+    AMessage:= E.Message + LineEnding + LineEnding + FileName;
+    if gStartupInfo.MessageBox(PAnsiChar(AMessage), nil, MB_OKCANCEL or MB_ICONERROR) = ID_OK then
+      Arc.FOperationResult:= E_HANDLED
+    else begin
+      Arc.FOperationResult:= E_EABORTED;
+    end;
+  end;
+end;
+
 // -- Exported functions ------------------------------------------------------
 
 function OpenArchive (var ArchiveData : tOpenArchiveData) : TArcHandle;dcpcall;
@@ -178,16 +193,15 @@ end;
 
 function ReadHeaderExW(hArcData : TArcHandle; var HeaderData: THeaderDataExW) : Integer;dcpcall;
 var
-  Arc : TAbZipKitEx;
   sFileName : String;
+  Arc : TAbZipKitEx absolute hArcData;
 begin
-  Arc := TAbZipKitEx(Pointer(hArcData));
   if Arc.Tag > Arc.Count - 1 then
     Exit(E_END_ARCHIVE);
 
   sFileName := Arc.GetFileName(Arc.Tag);
 
-  StringToArrayW(UTF8Decode(sFileName), @HeaderData.FileName, SizeOf(HeaderData.FileName));
+  StringToArrayW(CeUtf8ToUtf16(sFileName), @HeaderData.FileName, SizeOf(HeaderData.FileName));
 
   with Arc.Items[Arc.Tag] do
     begin
@@ -218,11 +232,9 @@ end;
 
 function ProcessFileW(hArcData : TArcHandle; Operation : Integer; DestPath, DestName : PWideChar) : Integer;dcpcall;
 var
-  Arc : TAbZipKitEx;
   DestNameUtf8: String;
+  Arc : TAbZipKitEx absolute hArcData;
 begin
-  Arc := TAbZipKitEx(Pointer(hArcData));
-
   try
     Arc.FOperationResult := E_SUCCESS;
 
@@ -234,7 +246,7 @@ begin
         // Show progress and ask if aborting.
         if Assigned(Arc.FProcessDataProcW) then
         begin
-          if Arc.FProcessDataProcW(PWideChar(UTF8Decode(Arc.Items[Arc.Tag].FileName)),
+          if Arc.FProcessDataProcW(PWideChar(CeUtf8ToUtf16(Arc.Items[Arc.Tag].FileName)),
                                    Arc.Items[Arc.Tag].UncompressedSize) = 0
           then
             Arc.FOperationResult := E_EABORTED;
@@ -256,7 +268,7 @@ begin
         // Show progress and ask if aborting.
         if Assigned(Arc.FProcessDataProcW) then
         begin
-          if Arc.FProcessDataProcW(PWideChar(UTF8Decode(Arc.Items[Arc.Tag].FileName)),
+          if Arc.FProcessDataProcW(PWideChar(CeUtf8ToUtf16(Arc.Items[Arc.Tag].FileName)),
                                    Arc.Items[Arc.Tag].UncompressedSize) = 0
           then
             Arc.FOperationResult := E_EABORTED;
@@ -273,15 +285,7 @@ begin
     on E: Exception do
     begin
       Arc.FOperationResult := GetArchiveError(E);
-      if (Operation = PK_TEST) and (Arc.FOperationResult = E_UNKNOWN) then
-      begin
-        DestNameUtf8:= E.Message + LineEnding + LineEnding + Arc.Items[Arc.Tag].FileName;
-        if gStartupInfo.MessageBox(PAnsiChar(DestNameUtf8), nil, MB_OKCANCEL or MB_ICONERROR) = ID_OK then
-          Arc.FOperationResult:= E_HANDLED
-        else begin
-          Arc.FOperationResult:= E_EABORTED;
-        end;
-      end;
+      if (Operation = PK_TEST) then CheckError(Arc, E, Arc.Items[Arc.Tag].FileName);
     end;
   end;
 
@@ -291,9 +295,8 @@ end;
 
 function CloseArchive (hArcData : TArcHandle) : Integer;dcpcall;
 var
- Arc : TAbZipKitEx;
+  Arc : TAbZipKitEx absolute hArcData;
 begin
-  Arc := TAbZipKitEx(Pointer(hArcData));
   Arc.CloseArchive;
   FreeAndNil(Arc);
   Result := E_SUCCESS;
@@ -308,9 +311,9 @@ var
  Arc : TAbZipKitEx absolute hArcData;
 begin
   if (hArcData <> wcxInvalidHandle) then
-   begin
-     Arc.FChangeVolProcW := pChangeVolProc;
-   end;
+  begin
+    Arc.FChangeVolProcW := pChangeVolProc;
+  end;
 end;
 
 procedure SetProcessDataProc (hArcData : TArcHandle; pProcessDataProc : TProcessDataProc);dcpcall;
@@ -319,15 +322,13 @@ end;
 
 procedure SetProcessDataProcW(hArcData : TArcHandle; pProcessDataProc : TProcessDataProcW);dcpcall;
 var
- Arc : TAbZipKitEx;
+  Arc : TAbZipKitEx absolute hArcData;
 begin
   if (hArcData <> wcxInvalidHandle) then  // if archive is open
-   begin
-     Arc := TAbZipKitEx(Pointer(hArcData));
-     Arc.FProcessDataProcW := pProcessDataProc;
-   end
-  else  // if archive is close
+    Arc.FProcessDataProcW := pProcessDataProc
+  else begin  // if archive is close
     gProcessDataProcW := pProcessDataProc;
+  end;
 end;
 
 {Optional functions}
@@ -352,7 +353,6 @@ begin
     Arc.DeflationOption:= gDeflationOption;
     Arc.FProcessDataProcW := gProcessDataProcW;
     Arc.OnProcessItemFailure := @Arc.AbProcessItemFailureEvent;
-    Arc.StoreOptions := Arc.StoreOptions + [soReplace];
 
     sPackedFile := UTF16ToUTF8(UnicodeString(PackedFile));
 
@@ -368,6 +368,7 @@ begin
 
       Arc.OnArchiveItemProgress := @Arc.AbArchiveItemProgressEvent;
       Arc.OnArchiveProgress := @Arc.AbArchiveProgressEvent;
+      Arc.StoreOptions := Arc.StoreOptions + [soReplace];
 
       Arc.BaseDirectory := UTF16ToUTF8(UnicodeString(SrcPath));
 
@@ -385,7 +386,10 @@ begin
       Arc.CloseArchive;
     except
       on E: Exception do
+      begin
         Arc.FOperationResult := GetArchiveError(E);
+        CheckError(Arc, E, sPackedFile);
+      end;
     end;
   finally
     Result := Arc.FOperationResult;
@@ -439,7 +443,10 @@ begin
       Arc.CloseArchive;
     except
       on E: Exception do
+      begin
         Arc.FOperationResult := GetArchiveError(E);
+        CheckError(Arc, E, Arc.FileName);
+      end;
     end;
   finally
     Result := Arc.FOperationResult;
@@ -567,9 +574,9 @@ var
 begin
   if (not mbFileExists(ImageName)) and Assigned(FChangeVolProcW) then
   begin
-    StrPCopy(AVolume, UTF8Decode(ImageName));
+    StrPCopy(AVolume, CeUtf8ToUtf16(ImageName));
     Abort := (FChangeVolProcW(AVolume, PK_VOL_ASK) = 0);
-    if not Abort then ImageName:= UTF8Encode(UnicodeString(AVolume));
+    if not Abort then ImageName:= CeUtf16ToUtf8(UnicodeString(AVolume));
   end;
 end;
 
@@ -580,7 +587,7 @@ begin
     if Assigned(FProcessDataProcW) then
     begin
       if Assigned(Item) then
-        Abort := (FProcessDataProcW(PWideChar(UTF8Decode(Item.FileName)), -(Progress + 1000)) = 0)
+        Abort := (FProcessDataProcW(PWideChar(CeUtf8ToUtf16(Item.FileName)), -(Progress + 1000)) = 0)
       else
         Abort := (FProcessDataProcW(nil, -(Progress + 1000)) = 0);
     end;

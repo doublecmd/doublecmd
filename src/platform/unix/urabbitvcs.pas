@@ -12,6 +12,7 @@ const
   RabbitVCSObject    = '/org/google/code/rabbitvcs/StatusChecker';
   RabbitVCSInterface = 'org.google.code.rabbitvcs.StatusChecker';
 
+{$IF DEFINED(RabbitVCS)}
 type
   TVcsStatus = (vscNormal, vscModified, vscAdded, vscDeleted, vscIgnored,
                 vscReadOnly, vscLocked, vscUnknown, vscMissing, vscReplaced,
@@ -59,6 +60,7 @@ const
 }
 function CheckStatus(Path: String; Recurse: Boolean32 = False;
                      Invalidate: Boolean32 = True; Summary: Boolean32 = False): string;
+{$ENDIF}
 
 procedure FillRabbitMenu(Menu: TPopupMenu; Paths: TStringList);
 
@@ -68,8 +70,11 @@ var
 implementation
 
 uses
-  dbus, fpjson, jsonparser, jsonscanner, unix, baseunix,
+  BaseUnix, Unix, DBus,
   DCUnix, DCClassesUtf8, uGlobs, uGlobsPaths, uMyUnix, uPython
+{$IF DEFINED(RabbitVCS)}
+  , fpjson, jsonparser, jsonscanner
+{$ENDIF}
 {$IF DEFINED(LCLQT) or DEFINED(LCLQT5)}
   , uGObject2
 {$ENDIF}
@@ -134,6 +139,7 @@ begin
   end;
 end;
 
+{$IF DEFINED(RabbitVCS)}
 function CheckStatus(Path: String; Recurse: Boolean32;
                      Invalidate: Boolean32; Summary: Boolean32): string;
 var
@@ -224,14 +230,17 @@ begin
 
         with TJSONParser.Create(StrPas(StringPtr), [joUTF8]) do
         try
-          JAnswer:= Parse as TJSONObject;
           try
-            Result:= JAnswer.Strings['content'];
-            if Result = 'unknown' then Exit(EmptyStr);
+            JAnswer:= Parse as TJSONObject;
+            try
+              Result:= JAnswer.Strings['content'];
+              if Result = 'unknown' then Exit(EmptyStr);
+            finally
+              JAnswer.Free;
+            end;
           except
             Exit(EmptyStr);
           end;
-          JAnswer.Free;
         finally
           Free;
         end;
@@ -250,6 +259,7 @@ begin
     dbus_message_unref(message);
   end;
 end;
+{$ENDIF}
 
 procedure MenuClickHandler(Self, Sender: TObject);
 var

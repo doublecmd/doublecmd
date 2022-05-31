@@ -120,7 +120,7 @@ type
   TPluginType = (ptDSX, ptWCX, ptWDX, ptWFX, ptWLX); //*Important: Keep that order to to fit with procedures LoadXmlConfig/SaveXmlConfig when we save/restore widths of "TfrmTweakPlugin".
   TWcxCfgViewMode = (wcvmByPlugin, wcvmByExtension);
 
-  TDCFont = (dcfMain, dcfEditor, dcfViewer, dcfViewerBook, dcfLog, dcfConsole, dcfPathEdit, dcfSearchResults, dcfFunctionButtons, dcfTreeViewMenu);
+  TDCFont = (dcfMain, dcfEditor, dcfViewer, dcfViewerBook, dcfLog, dcfConsole, dcfPathEdit, dcfSearchResults, dcfFunctionButtons, dcfTreeViewMenu, dcfStatusBar);
   TDCFontOptions = record
     Usage: string;
     Name: string;
@@ -172,7 +172,9 @@ type
 
 const
   { Default hotkey list version number }
-  hkVersion = 52;
+  hkVersion = 56;
+  // 54 - In "Viewer" context, added the "W" for "cm_WrapText", "4" for "cm_ShowAsDec", "8" for "cm_ShowOffice".
+  // 53 - In "Main" context, change shortcut "Alt+`" to "Alt+0" for the "cm_ActivateTabByIndex".
   // 52 - In "Main" context, add shortcut "Ctrl+Shift+B" for "cm_FlatViewSel".
   // 51 - In "Multi-Rename" context, added the "Shift+F4" shortcut for the "cm_EditNewNames".
   // 50 - To load shortcut keys for the "Multi-Rename" which is now driven with "cm_Actions".
@@ -606,12 +608,15 @@ var
   gImageStretch: Boolean;
   gImageExifRotate: Boolean;
   gImageStretchOnlyLarge: Boolean;
+  gImageShowTransparency: Boolean;
   gImageCenter: Boolean;
   gCopyMovePath1,
   gCopyMovePath2,
   gCopyMovePath3,
   gCopyMovePath4,
   gCopyMovePath5: String;
+  gImageBackColor1,
+  gImageBackColor2: TColor;
   gImagePaintMode: TViewerPaintTool;
   gImagePaintWidth,
   gColCount,
@@ -624,6 +629,9 @@ var
   gTextPosition:PtrInt;
   gPrintMargins: TRect;
   gShowCaret: Boolean;
+  gViewerWrapText: Boolean;
+  gViewerLeftMargin: Integer;
+  gViewerLineSpacing: Integer;
 
   { Editor }
   gEditWaitTime: Integer;
@@ -906,7 +914,7 @@ begin
       LoadHistory('SearchTextPath', glsSearchPathHistory);
       LoadHistory('ReplaceText', glsReplaceHistory);
       LoadHistory('ReplaceTextPath', glsReplacePathHistory);
-      LoadHistory('CreateDirectories', glsCreateDirectoriesHistory);
+      LoadHistory('CreateDirectories', glsCreateDirectoriesHistory, True);
       LoadHistory('RenameNameMask', glsRenameNameMaskHistory);
       LoadHistory('RenameExtMask', glsRenameExtMaskHistory);
       LoadHistory('SearchDirectories', glsSearchDirectories);
@@ -955,7 +963,7 @@ begin
       SaveHistory('SearchTextPath', glsSearchPathHistory);
       SaveHistory('ReplaceText', glsReplaceHistory);
       SaveHistory('ReplaceTextPath', glsReplacePathHistory);
-      SaveHistory('CreateDirectories', glsCreateDirectoriesHistory);
+      SaveHistory('CreateDirectories', glsCreateDirectoriesHistory, True);
       SaveHistory('RenameNameMask', glsRenameNameMaskHistory);
       SaveHistory('RenameExtMask', glsRenameExtMaskHistory);
       SaveHistory('SearchDirectories', glsSearchDirectories);
@@ -1024,6 +1032,16 @@ begin
         begin
           Remove(HMHotKey);
           AddIfNotExists(['Alt+F8'],'cm_ShowCmdLineHistory',['Ctrl+Down'],[]);
+        end;
+      end;
+
+      if HotMan.Version < 53 then
+      begin
+        HMHotKey:= Find(['Alt+`']);
+        if Assigned(HMHotKey) and (HMHotKey.Command = 'cm_ActivateTabByIndex') then
+        begin
+          if HMHotKey.SameParams(['index=-1']) then
+            HMHotKey.Shortcuts[0]:= 'Alt+0';
         end;
       end;
 
@@ -1098,7 +1116,7 @@ begin
          'Alt+7','','index=7','',
          'Alt+8','','index=8','',
          'Alt+9','','index=9','',
-         'Alt+`','','index=-1',''],
+         'Alt+0','','index=-1',''],
        'cm_ActivateTabByIndex');
       AddIfNotExists([
         'Ctrl+1','','index=1','',
@@ -1162,23 +1180,40 @@ begin
       AddIfNotExists(['P'   ,'','',
                       'Left','',''],'cm_LoadPrevFile'); //, ['P'], []);
 
+      if HotMan.Version < 54 then
+      begin
+        HMHotKey:= FindByCommand('cm_ShowAsWrapText');
+        if Assigned(HMHotKey) and HMHotKey.SameShortcuts(['4']) then
+          Remove(HMHotKey);
+      end;
+
+      if HotMan.Version < 56 then
+      begin
+        HMHotKey:= FindByCommand('cm_Find');
+        if Assigned(HMHotKey) and HMHotKey.SameShortcuts(['F']) then
+          Remove(HMHotKey);
+      end;
+
       AddIfNotExists(['1'],[],'cm_ShowAsText');
       AddIfNotExists(['2'],[],'cm_ShowAsBin');
       AddIfNotExists(['3'],[],'cm_ShowAsHex');
-      AddIfNotExists(['4'],[],'cm_ShowAsWrapText');
+      AddIfNotExists(['4'],[],'cm_ShowAsDec');
       AddIfNotExists(['5'],[],'cm_ShowAsBook');
       AddIfNotExists(['6'],[],'cm_ShowGraphics');
       AddIfNotExists(['7'],[],'cm_ShowPlugins');
+      AddIfNotExists(['8'],[],'cm_ShowOffice');
 
+      AddIfNotExists(['C'],[],'cm_ImageCenter');
+      AddIfNotExists(['F'],[],'cm_StretchImage');
+      AddIfNotExists(['L'],[],'cm_StretchOnlyLarge');
+      AddIfNotExists(['W'],[],'cm_WrapText');
       AddIfNotExists(['F6'],[],'cm_ShowCaret');
 
       AddIfNotExists(['Q'   ,'','',
                       'Esc','',''],'cm_ExitViewer');
 
-
-      AddIfNotExists(['F'             ,'','',
-                      SmkcSuper + 'F' ,'','',
-                      'F7'            ,'',''],'cm_Find'); // , ['F'], []);
+      AddIfNotExists([SmkcSuper + 'F' ,'','',
+                      'F7'            ,'',''],'cm_Find');
 
       AddIfNotExists(['F3'],[],'cm_FindNext');
       AddIfNotExists(['Shift+F3'],[],'cm_FindPrev');
@@ -1208,6 +1243,11 @@ begin
   with HMForm.Hotkeys do
     begin
       AddIfNotExists(['Ctrl+R'],[],'cm_Reload');
+      AddIfNotExists([SmkcSuper + 'F' ,'','',
+                      'F7'            ,'',''],'cm_Find');
+      AddIfNotExists(['F3'],[],'cm_FindNext');
+      AddIfNotExists(['Shift+F3'],[],'cm_FindPrev');
+      AddIfNotExists(VK_G, [ssModifier], 'cm_GotoLine');
       AddIfNotExists(['Alt+Down'],[],'cm_NextDifference');
       AddIfNotExists(['Alt+Up'],[],'cm_PrevDifference');
       AddIfNotExists(['Alt+Home'],[],'cm_FirstDifference');
@@ -1604,7 +1644,7 @@ begin
   gAutoFillColumns := False;
   gAutoSizeColumn := 1;
   gColumnsAutoSaveWidth := True;
-  gColumnsTitleStyle := {$IFDEF LCLWIN32}tsNative{$ELSE}tsStandard{$ENDIF};
+  gColumnsTitleStyle := tsNative;
   gCustomColumnsChangeAllColumns := False;
   gDateTimeFormat := DefaultDateTimeFormat;
   gCutTextToColWidth := True;
@@ -1681,21 +1721,21 @@ begin
   gFonts[dcfConsole].MaxValue := 200;
 
   gFonts[dcfPathEdit].Name := 'default';
-  gFonts[dcfPathEdit].Size := 8;
+  gFonts[dcfPathEdit].Size := 10;
   gFonts[dcfPathEdit].Style := [];
   gFonts[dcfPathEdit].Quality := fqDefault;
   gFonts[dcfPathEdit].MinValue := 6;
   gFonts[dcfPathEdit].MaxValue := 200;
 
   gFonts[dcfFunctionButtons].Name := 'default';
-  gFonts[dcfFunctionButtons].Size := 8;
+  gFonts[dcfFunctionButtons].Size := 10;
   gFonts[dcfFunctionButtons].Style := [];
   gFonts[dcfFunctionButtons].Quality := fqDefault;
   gFonts[dcfFunctionButtons].MinValue := 6;
   gFonts[dcfFunctionButtons].MaxValue := 200;
 
   gFonts[dcfSearchResults].Name := 'default';
-  gFonts[dcfSearchResults].Size := 9;
+  gFonts[dcfSearchResults].Size := 10;
   gFonts[dcfSearchResults].Style := [];
   gFonts[dcfSearchResults].Quality := fqDefault;
   gFonts[dcfSearchResults].MinValue := 6;
@@ -1707,6 +1747,13 @@ begin
   gFonts[dcfTreeViewMenu].Quality := fqDefault;
   gFonts[dcfTreeViewMenu].MinValue := 6;
   gFonts[dcfTreeViewMenu].MaxValue := 200;
+
+  gFonts[dcfStatusBar].Name := 'default';
+  gFonts[dcfStatusBar].Size := 0;
+  gFonts[dcfStatusBar].Style := [];
+  gFonts[dcfStatusBar].Quality := fqDefault;
+  gFonts[dcfStatusBar].MinValue := 6;
+  gFonts[dcfStatusBar].MaxValue := 200;
 
   { Colors page }
   gUseCursorBorder := False;
@@ -1910,6 +1957,7 @@ begin
   { Miscellaneous page }
   gGridVertLine := False;
   gGridHorzLine := False;
+  gShowCurDirTitleBar := False;
   gShowWarningMessages := True;
   gSpaceMovesDown := False;
   gDirBrackets := True;
@@ -1967,7 +2015,8 @@ begin
   {Viewer}
   gImageStretch := False;
   gImageExifRotate := True;
-  gImageStretchOnlyLarge := False;
+  gImageStretchOnlyLarge := True;
+  gImageShowTransparency := False;
   gImageCenter := True;
   gPreviewVisible := False;
   gCopyMovePath1 := '';
@@ -1976,6 +2025,8 @@ begin
   gCopyMovePath4 := '';
   gCopyMovePath5 := '';
   gImagePaintMode := vptPen;
+  gImageBackColor1 := clWindow;
+  gImageBackColor2 := clDefault;
   gImagePaintWidth := 5;
   gColCount := 1;
   gTabSpaces := 8;
@@ -1986,6 +2037,9 @@ begin
   gTextPosition:= 0;
   gViewerMode:= 0;
   gShowCaret := False;
+  gViewerWrapText := False;
+  gViewerLeftMargin := 4;
+  gViewerLineSpacing := 0;
   gPrintMargins:= Classes.Rect(200, 200, 200, 200);
 
   { Editor }
@@ -2064,7 +2118,6 @@ begin
 
   { - Other - }
   gGoToRoot := False;
-  gShowCurDirTitleBar := True;
   gLuaLib := LuaDLL;
   gActiveRight := False;
   gNameSCFile := 'shortcuts.scf';
@@ -2491,6 +2544,7 @@ begin
     gFonts[dcfFunctionButtons].Usage := rsFontUsageFunctionButtons;
     gFonts[dcfSearchResults].Usage := rsFontUsageSearchResults;
     gFonts[dcfTreeViewMenu].Usage := rsFontUsageTreeViewMenu;
+    gFonts[dcfStatusBar].Usage := rsFontUsageStatusBar;
 
     { Behaviours page }
     Node := Root.FindNode('Behaviours');
@@ -2644,6 +2698,7 @@ begin
     GetDCFont(gConfig.FindNode(Root, 'Fonts/FunctionButtons'), gFonts[dcfFunctionButtons]);
     if LoadedConfigVersion >= 11 then GetDCFont(gConfig.FindNode(Root, 'Fonts/SearchResults'), gFonts[dcfSearchResults]); //Let's ignore possible previous setting for this and keep our default.
     GetDCFont(gConfig.FindNode(Root, 'Fonts/TreeViewMenu'), gFonts[dcfTreeViewMenu]);
+    GetDCFont(gConfig.FindNode(Root, 'Fonts/StatusBar'), gFonts[dcfStatusBar]);
 
     { Colors page }
     Node := Root.FindNode('Colors');
@@ -3050,7 +3105,10 @@ begin
       gImageStretch := GetValue(Node, 'ImageStretch', gImageStretch);
       gImageExifRotate := GetValue(Node, 'ImageExifRotate', gImageExifRotate);
       gImageStretchOnlyLarge := GetValue(Node, 'ImageStretchLargeOnly', gImageStretchOnlyLarge);
+      gImageShowTransparency := GetValue(Node, 'ImageShowTransparency', gImageShowTransparency);
       gImageCenter := GetValue(Node, 'ImageCenter', gImageCenter);
+      gImageBackColor1:= GetValue(Node, 'ImageBackColor1', gImageBackColor1);
+      gImageBackColor2:= GetValue(Node, 'ImageBackColor2', gImageBackColor2);
       gPreviewVisible := GetValue(Node, 'PreviewVisible', gPreviewVisible);
       gCopyMovePath1 := GetValue(Node, 'CopyMovePath1', gCopyMovePath1);
       gCopyMovePath2 := GetValue(Node, 'CopyMovePath2', gCopyMovePath2);
@@ -3065,7 +3123,9 @@ begin
       gViewerMode  := GetValue(Node, 'ViewerMode'  , gViewerMode);
       gPrintMargins := GetValue(Node, 'PrintMargins'  , gPrintMargins);
       gShowCaret := GetValue(Node, 'ShowCaret'  , gShowCaret);
-
+      gViewerWrapText := GetValue(Node, 'WrapText', gViewerWrapText);
+      gViewerLeftMargin := GetValue(Node, 'LeftMargin' , gViewerLeftMargin);
+      gViewerLineSpacing := GetValue(Node, 'ExtraLineSpan' , gViewerLineSpacing);
       gImagePaintColor := GetValue(Node, 'PaintColor', gImagePaintColor);
       gBookBackgroundColor := GetValue(Node, 'BackgroundColor', gBookBackgroundColor);
       gBookFontColor := GetValue(Node, 'FontColor', gBookFontColor);
@@ -3378,6 +3438,7 @@ begin
     SetDCFont(gConfig.FindNode(Root, 'Fonts/FunctionButtons',True), gFonts[dcfFunctionButtons]);
     SetDCFont(gConfig.FindNode(Root, 'Fonts/SearchResults',True), gFonts[dcfSearchResults]);
     SetDCFont(gConfig.FindNode(Root, 'Fonts/TreeViewMenu', True), gFonts[dcfTreeViewMenu]);
+    SetDCFont(gConfig.FindNode(Root, 'Fonts/StatusBar', True), gFonts[dcfStatusBar]);
 
     { Colors page }
     Node := FindNode(Root, 'Colors', True);
@@ -3670,8 +3731,11 @@ begin
     SetValue(Node, 'PreviewVisible',gPreviewVisible);
     SetValue(Node, 'ImageStretch',gImageStretch);
     SetValue(Node, 'ImageExifRotate', gImageExifRotate);
-    SetValue(Node, 'ImageStretchLargeOnly',gImageStretchOnlyLarge);
-    SetValue(Node, 'ImageCenter',gImageCenter);
+    SetValue(Node, 'ImageStretchLargeOnly', gImageStretchOnlyLarge);
+    SetValue(Node, 'ImageShowTransparency', gImageShowTransparency);
+    SetValue(Node, 'ImageCenter', gImageCenter);
+    SetValue(Node, 'ImageBackColor1', gImageBackColor1);
+    SetValue(Node, 'ImageBackColor2', gImageBackColor2);
     SetValue(Node, 'CopyMovePath1', gCopyMovePath1);
     SetValue(Node, 'CopyMovePath2', gCopyMovePath2);
     SetValue(Node, 'CopyMovePath3', gCopyMovePath3);
@@ -3685,6 +3749,9 @@ begin
     SetValue(Node, 'ViewerMode' , gViewerMode);
     SetValue(Node, 'PrintMargins', gPrintMargins);
     SetValue(Node, 'ShowCaret'  , gShowCaret);
+    SetValue(Node, 'WrapText'   , gViewerWrapText);
+    SetValue(Node, 'LeftMargin' , gViewerLeftMargin);
+    SetValue(Node, 'ExtraLineSpan' , gViewerLineSpacing);
 
     SetValue(Node, 'PaintColor', gImagePaintColor);
     SetValue(Node, 'BackgroundColor', gBookBackgroundColor);

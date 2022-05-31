@@ -7,7 +7,7 @@ interface
 uses
   Classes, SysUtils, Dialogs, URIParser, SyncObjs,
   uFileSourceProperty, uFileSourceOperationTypes,
-  uRealFileSource, uFileProperty, uFileSource,
+  uRealFileSource, uFileProperty, uFileSource, DCStrUtils,
   uFileSourceOperation, uFile, uGLib2, uGObject2, uGio2;
 
 type
@@ -35,6 +35,7 @@ type
 
       class function IsSupportedPath(const Path: String): Boolean; override;
 
+      function GetPathType(sPath : String): TPathType; override;
       function CreateDirectory(const Path: String): Boolean; override;
       function FileSystemEntryExists(const Path: String): Boolean; override;
       function GetFreeSpace(Path: String; out FreeSize, TotalSize : Int64) : Boolean; override;
@@ -78,7 +79,7 @@ uses
   DCFileAttributes, DCDateTimeUtils, uGioListOperation, uGioCopyOperation,
   uGioDeleteOperation, uGioExecuteOperation, uGioCreateDirectoryOperation,
   uGioMoveOperation, uGioSetFilePropertyOperation, uDebug, fGioAuthDlg,
-  DCBasicTypes, DCStrUtils, uShowMsg, uGioCalcStatisticsOperation, uGio;
+  DCBasicTypes, uShowMsg, uGioCalcStatisticsOperation, uGio;
 
 { TGioFileSource }
 
@@ -349,6 +350,14 @@ begin
     if Result then Exit;
     Inc(Schemes);
   end;
+end;
+
+function TGioFileSource.GetPathType(sPath: String): TPathType;
+begin
+  if (Pos('://', sPath) > 0) then
+    Result:= ptAbsolute
+  else
+    Result:= inherited GetPathType(sPath);
 end;
 
 function TGioFileSource.CreateDirectory(const Path: String): Boolean;

@@ -3,7 +3,7 @@ Compiling Double Commander
 1) What you need?
 
 Double Commander is developed with Free Pascal and Lazarus.
-Current version requires at least FPC 3.0.4 and Lazarus 1.8.2.
+Current version requires at least FPC 3.2.0 and Lazarus 2.0.12.
 
 2) Using the IDE to develop and build DC.
 

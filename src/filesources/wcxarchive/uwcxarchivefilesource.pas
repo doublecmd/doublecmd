@@ -241,7 +241,7 @@ begin
   if Result = E_SUCCESS then
     begin
       if Password <> nil then
-        StrPLCopyW(Password, UTF8Decode(sPassword), MaxLen);
+        StrPLCopyW(Password, CeUtf8ToUtf16(sPassword), MaxLen);
     end;
 end;
 

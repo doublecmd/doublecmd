@@ -12,14 +12,17 @@ msgstr ""
 "X-Generator: Poedit 1.8.7.1\n"
 
 #: lclstrconsts.hhshelpbrowsernotexecutable
+#, object-pascal-format
 msgid "Browser \"%s\" not executable."
 msgstr "A böngésző nem futtatható: \"%s\""
 
 #: lclstrconsts.hhshelpbrowsernotfound
+#, object-pascal-format
 msgid "Browser \"%s\" not found."
 msgstr "A böngésző nem található: \"%s\""
 
 #: lclstrconsts.hhshelperrorwhileexecuting
+#, object-pascal-format
 msgid "Error while executing \"%s\":%s%s"
 msgstr "Hiba a végrehajtás közben: \"%s\":%s%s"
 
@@ -28,14 +31,17 @@ msgid "Unable to find a HTML browser."
 msgstr "Nem található HTML böngésző."
 
 #: lclstrconsts.hhshelpnohtmlbrowserfoundpleasedefineone
+#, object-pascal-format
 msgid "No HTML Browser found.%sPlease define one in Tools -> Options -> Help -> Help Options"
 msgstr "Nincs HTML böngésző. %s Meg kell adni egyet: Eszközök -> Beállítások -> Súgó -> Súgó beállítások"
 
 #: lclstrconsts.hhshelpthehelpdatabasewasunabletofindfile
+#, object-pascal-format
 msgid "The help database \"%s\" was unable to find file \"%s\"."
 msgstr "A(z) \"%s\" súgóadatbázishoz hiányzik a \"%s\" fájl."
 
 #: lclstrconsts.hhshelpthemacrosinbrowserparamswillbereplacedbytheurl
+#, object-pascal-format
 msgid "The macro %s in BrowserParams will be replaced by the URL."
 msgstr "A(z) %s makrót az URL helyettesíti a BrowserParams-ban."
 
@@ -73,6 +79,7 @@ msgid "Unknown"
 msgstr "Ismeretlen"
 
 #: lclstrconsts.lislclresourcesnotfound
+#, object-pascal-format
 msgctxt "lclstrconsts.lislclresourcesnotfound"
 msgid "Resource %s not found"
 msgstr "Az erőforrás nem található: %s"
@@ -98,6 +105,7 @@ msgid "Active Caption"
 msgstr "Aktív cím"
 
 #: lclstrconsts.rsallfiles
+#, object-pascal-format
 msgid "All files (%s)|%s|%s"
 msgstr "Minden fájl (%s)|%s|%s"
 
@@ -110,6 +118,7 @@ msgid "Aqua"
 msgstr "Világoskék"
 
 #: lclstrconsts.rsascannothaveasparent
+#, object-pascal-format
 msgid "Class %s cannot have %s as parent."
 msgstr "A(z) %s osztály szülője nem lehet %s."
 
@@ -179,18 +188,17 @@ msgid "Case sensitive"
 msgstr "Kis-/nagybetűre érzékeny"
 
 #: lclstrconsts.rscontrolclasscantcontainchildclass
+#, object-pascal-format
 msgid "Control of class '%s' can't have control of class '%s' as a child"
 msgstr "'%s' osztályú vezérlőnek nem lehet gyermeke egy '%s' osztályú vezérlő"
 
 #: lclstrconsts.rscontrolhasnoparentformorframe
+#, object-pascal-format
 msgid "Control '%s' has no parent form or frame"
 msgstr "A(z) '%s' vezérlőnek nincs szülő kerete vagy form-ja"
 
-#: lclstrconsts.rscontrolhasnoparentwindow
-msgid "Control '%s' has no parent window"
-msgstr "A(z) '%s' vezérlőnek nincs szülő ablaka"
-
 #: lclstrconsts.rscontrolisnotaparent
+#, object-pascal-format
 msgid "'%s' is not a parent of '%s'"
 msgstr "'%s' nem szülője ennek: '%s'"
 
@@ -257,10 +265,12 @@ msgid "Error"
 msgstr "Hiba"
 
 #: lclstrconsts.rserrorcreatingdevicecontext
+#, object-pascal-format
 msgid "Error creating device context for %s.%s"
 msgstr "Hiba az eszköz-környezet létrhozásakor a(z) %s.%s számára"
 
 #: lclstrconsts.rserroroccurredinataddressframe
+#, object-pascal-format
 msgid "Error occurred in %s at %sAddress %s%s Frame %s"
 msgstr "Hiba történt ebben: %s%sCím: %s%s Keret: %s"
 
@@ -277,10 +287,12 @@ msgid "Directory must exist"
 msgstr "A könyvtárnak léteznie kell"
 
 #: lclstrconsts.rsfddirectorynotexist
+#, object-pascal-format
 msgid "The directory \"%s\" does not exist."
 msgstr "A(z) \"%s\" könyvtár nem létezik."
 
 #: lclstrconsts.rsfdfilealreadyexists
+#, object-pascal-format
 msgid "The file \"%s\" already exists. Overwrite ?"
 msgstr "A(z) \"%s\" fájl már létezik. Felülírható?"
 
@@ -289,10 +301,12 @@ msgid "File must exist"
 msgstr "A fájlnak léteznie kell"
 
 #: lclstrconsts.rsfdfilenotexist
+#, object-pascal-format
 msgid "The file \"%s\" does not exist."
 msgstr "A(z) \"%s\" fájl nem létezik."
 
 #: lclstrconsts.rsfdfilereadonly
+#, object-pascal-format
 msgid "The file \"%s\" is not writable."
 msgstr "A(z) \"%s\" fájl nem írható."
 
@@ -317,6 +331,7 @@ msgid "Path must exist"
 msgstr "Az útvonalnak léteznie kell"
 
 #: lclstrconsts.rsfdpathnoexist
+#, object-pascal-format
 msgid "The path \"%s\" does not exist."
 msgstr "A(z) \"%s\" útvonal nem létezik."
 
@@ -325,6 +340,7 @@ msgid "Select Directory"
 msgstr "Könyvtár kiválasztása"
 
 #: lclstrconsts.rsfileinfofilenotfound
+#, object-pascal-format
 msgid "(file not found: \"%s\")"
 msgstr "(a fájl nem található: \"%s\")"
 
@@ -362,10 +378,12 @@ msgid "Form"
 msgstr "Form"
 
 #: lclstrconsts.rsformresourcesnotfoundforresourcelessformscreatenew
+#, object-pascal-format
 msgid "Form resource %s not found. For resourceless forms CreateNew constructor must be used. See the global variable RequireDerivedFormResource."
 msgstr "Az űrlap forrása (%s) nem található. Forrásfájl nélküli űrlapok létrehozásához a CreateNew constructor használata szükséges. Lásd a globális RequireDerivedFormResource változót."
 
 #: lclstrconsts.rsformstreamingerror
+#, object-pascal-format
 msgid "Form streaming \"%s\" error: %s"
 msgstr "Form adatfolyam \"%s\" hiba: %s"
 
@@ -487,6 +505,7 @@ msgid "Help"
 msgstr "Súgó"
 
 #: lclstrconsts.rshelpalreadyregistered
+#, object-pascal-format
 msgid "%s: Already registered"
 msgstr "%s: Már regisztrálva van"
 
@@ -503,42 +522,52 @@ msgid "Help Error"
 msgstr "Súgó hiba"
 
 #: lclstrconsts.rshelphelpcontextnotfound
+#, object-pascal-format
 msgid "Help context %s not found."
 msgstr "A(z) %s súgó témakör nem található"
 
 #: lclstrconsts.rshelphelpcontextnotfoundindatabase
+#, object-pascal-format
 msgid "Help context %s not found in Database \"%s\"."
 msgstr "A(z) %s súgó témakör nem található a(z) \"%s\" adatbázisban."
 
 #: lclstrconsts.rshelphelpdatabasedidnotfoundaviewerforahelppageoftype
+#, object-pascal-format
 msgid "Help Database \"%s\" did not find a viewer for a help page of type %s"
 msgstr "A(z) \"%s\" súgó adatbázis nem talált megjelenítőt a(z) %s típusú súgó oldalhoz"
 
 #: lclstrconsts.rshelphelpdatabasenotfound
+#, object-pascal-format
 msgid "Help Database \"%s\" not found"
 msgstr "A(z) \"%s\" súgó adatbázis nem található"
 
 #: lclstrconsts.rshelphelpfordirectivenotfound
+#, object-pascal-format
 msgid "Help for directive \"%s\" not found."
 msgstr "Nem található súgó a(z) \"%s\" direktívához."
 
 #: lclstrconsts.rshelphelpfordirectivenotfoundindatabase
+#, object-pascal-format
 msgid "Help for directive \"%s\" not found in Database \"%s\"."
 msgstr "Nem található súgó a(z) \"%s\" direktívához a(z) \"%s\" adatbázisban."
 
 #: lclstrconsts.rshelphelpkeywordnotfound
+#, object-pascal-format
 msgid "Help keyword \"%s\" not found."
 msgstr "A(z) \"%s\" súgó kulcsszó nem található."
 
 #: lclstrconsts.rshelphelpkeywordnotfoundindatabase
+#, object-pascal-format
 msgid "Help keyword \"%s\" not found in Database \"%s\"."
 msgstr "A(z) \"%s\" súgó kulcsszó nem található a(z) \"%s\" adatbázisban."
 
 #: lclstrconsts.rshelphelpnodehasnohelpdatabase
+#, object-pascal-format
 msgid "Help node \"%s\" has no Help Database"
 msgstr "A(z) \"%s\" elemhez nincs súgó adatbázis"
 
 #: lclstrconsts.rshelpnohelpfoundforsource
+#, object-pascal-format
 msgid "No help found for line %d, column %d of %s."
 msgstr "Nem található súgó a %d. sorhoz, %d. oszlophoz ebben: %s."
 
@@ -551,6 +580,7 @@ msgid "No help found for this topic"
 msgstr "Nincs súgó ehhez a témához"
 
 #: lclstrconsts.rshelpnotregistered
+#, object-pascal-format
 msgid "%s: Not registered"
 msgstr "%s: Nincs regisztrálva"
 
@@ -559,6 +589,7 @@ msgid "Help Selector Error"
 msgstr "Súgó kiválasztó hiba"
 
 #: lclstrconsts.rshelpthereisnoviewerforhelptype
+#, object-pascal-format
 msgid "There is no viewer for help type \"%s\""
 msgstr "Nincs megjelenítő a(z) \"%s\" típusú súgóhoz."
 
@@ -629,10 +660,12 @@ msgid "Inactive Caption"
 msgstr "Inaktív cím"
 
 #: lclstrconsts.rsindexoutofbounds
+#, object-pascal-format
 msgid "%s Index %d out of bounds 0 .. %d"
 msgstr "A(z) %s %d Index a 0 .. %d tartományon kívül esik"
 
 #: lclstrconsts.rsindexoutofrange
+#, object-pascal-format
 msgid "Index Out of range Cell[Col=%d Row=%d]"
 msgstr "Az index a tartományon kívül esik Cella[Oszlop=%d Sor=%d]"
 
@@ -650,10 +683,12 @@ msgid "Insert"
 msgstr "Beszúrás"
 
 #: lclstrconsts.rsinvaliddate
+#, object-pascal-format
 msgid "Invalid Date : %s"
 msgstr "Hibás dátum: %s"
 
 #: lclstrconsts.rsinvaliddaterangehint
+#, object-pascal-format
 msgid "Invalid Date: %s. Must be between %s and %s"
 msgstr "Hibás dátum: %s. %s és %s között kell lennie."
 
@@ -670,6 +705,7 @@ msgid "Invalid stream format"
 msgstr "Érvénytelen stream formátum"
 
 #: lclstrconsts.rsisalreadyassociatedwith
+#, object-pascal-format
 msgid "%s is already associated with %s"
 msgstr "%s már hozzá van rendelve ehhez: %s"
 
@@ -686,10 +722,16 @@ msgid "Lime"
 msgstr "Élénkzöld"
 
 #: lclstrconsts.rslistindexexceedsbounds
+#, object-pascal-format
 msgid "List index exceeds bounds (%d)"
 msgstr "A lista indexe a határon kívül esik (%d)"
 
+#: lclstrconsts.rsmacosfileformat
+msgid "File Format:"
+msgstr ""
+
 #: lclstrconsts.rsmacosmenuhide
+#, object-pascal-format
 msgid "Hide %s"
 msgstr "%s elrejtése"
 
@@ -698,6 +740,7 @@ msgid "Hide Others"
 msgstr "Többi elrejtése"
 
 #: lclstrconsts.rsmacosmenuquit
+#, object-pascal-format
 msgid "Quit %s"
 msgstr "%s befejezése"
 
@@ -882,6 +925,7 @@ msgid "Post"
 msgstr "Küldés"
 
 #: lclstrconsts.rspressoktoignoreandriskdatacorruptionpressaborttok
+#, object-pascal-format
 msgid "%s%sPress OK to ignore and risk data corruption.%sPress Abort to kill the program."
 msgstr "%s%sAz OK-t választva figyelmen kívül hagyja és adatsérülést kockáztat. %sA Megszakítás gombbal bezárja a programot."
 
@@ -895,12 +939,17 @@ msgid "Prompt on replace"
 msgstr "Kérdés felülírásnál"
 
 #: lclstrconsts.rspropertydoesnotexist
+#, object-pascal-format
 msgid "Property %s does not exist"
 msgstr "A tulajdonság nem létezik: %s"
 
 #: lclstrconsts.rspurplecolorcaption
 msgid "Purple"
 msgstr "Lila"
+
+#: lclstrconsts.rsqtoptiondisableaccurateframe
+msgid "-disableaccurateframe, disables fully accurate window frame under X11. This feature is implemented for Qt, Qt5 and Gtk2 interfaces and used mostly by GetWindowRect()."
+msgstr ""
 
 #: lclstrconsts.rsqtoptiondograb
 msgid "-dograb (only under X11), running under a debugger can cause an implicit -nograb, use -dograb to override. Need QT_DEBUG."
@@ -1019,6 +1068,7 @@ msgid "Replace all"
 msgstr "Összes cseréje"
 
 #: lclstrconsts.rsresourcenotfound
+#, object-pascal-format
 msgctxt "lclstrconsts.rsresourcenotfound"
 msgid "Resource %s not found"
 msgstr "Az erőforrás nem található: %s"
@@ -1107,26 +1157,32 @@ msgid "Unsupported bitmap format."
 msgstr "Nem támogatott bitkép-formátum"
 
 #: lclstrconsts.rsunsupportedclipboardformat
+#, object-pascal-format
 msgid "Unsupported clipboard format: %s"
 msgstr "Nem támogatott vágólap-formátum: %s"
 
 #: lclstrconsts.rswarningunreleaseddcsdump
+#, object-pascal-format
 msgid " WARNING: There are %d unreleased DCs, a detailed dump follows:"
 msgstr " FIGYELMEZTETÉS: %d nem felszabadított DC van, részletes memóriakép következik:"
 
 #: lclstrconsts.rswarningunreleasedgdiobjectsdump
+#, object-pascal-format
 msgid " WARNING: There are %d unreleased GDIObjects, a detailed dump follows:"
 msgstr " FIGYELMEZTETÉS: %d nem felszabadított GDIObject van, részletes memóriakép következik:"
 
 #: lclstrconsts.rswarningunreleasedmessagesinqueue
+#, object-pascal-format
 msgid " WARNING: There are %d messages left in the queue! I'll free them"
 msgstr " FIGYELMEZTETÉS: %d üzenet maradt a sorban! Fel lesznek szabadítva"
 
 #: lclstrconsts.rswarningunreleasedtimerinfos
+#, object-pascal-format
 msgid " WARNING: There are %d TimerInfo structures left, I'll free them"
 msgstr " FIGYELMEZTETÉS: %d TimerInfo struktúra maradt, fel lesznek szabadítva"
 
 #: lclstrconsts.rswarningunremovedpaintmessages
+#, object-pascal-format
 msgid " WARNING: There are %s unremoved LM_PAINT/LM_GtkPAINT message links left."
 msgstr " FIGYELMEZTETÉS: %s el nem távolított LM_PAINT/LM_GtkPAINT üzenet hivatkozás maradt."
 
@@ -1166,10 +1222,6 @@ msgstr "Sárga"
 msgid "Cannot focus a disabled or invisible window"
 msgstr "Nem lehet letiltott vagy láthatatlan ablakot előtérbe hozni"
 
-#: lclstrconsts.scannotsetdesigntimeppi
-msgid "Cannot set design time PPI."
-msgstr "A PPI értéke nem változtatható meg tervezés közben."
-
 #: lclstrconsts.sduplicatemenus
 msgid "Duplicate menus"
 msgstr "Ismétlődő menük"
@@ -1189,10 +1241,6 @@ msgstr "Érvénytelen művelet regisztrálás"
 #: lclstrconsts.sinvalidactionunregistration
 msgid "Invalid action unregistration"
 msgstr "Érvénytelen művelet kiregisztrálás"
-
-#: lclstrconsts.sinvalidcharset
-msgid "The char set in mask \"%s\" is not valid!"
-msgstr "A karakterkészlet a \"%s\" maszkban érvénytelen!"
 
 #: lclstrconsts.sinvalidimagesize
 msgid "Invalid image size"
@@ -1306,22 +1354,27 @@ msgid "No timers available"
 msgstr "Nincsenek elérhető időzítők"
 
 #: lclstrconsts.sparentrequired
+#, object-pascal-format
 msgid "Control \"%s\" has no parent window."
 msgstr "A(z) '%s' vezérlőnek nincs szülő ablaka."
 
 #: lclstrconsts.sparexpected
+#, object-pascal-format
 msgid "Wrong token type: %s expected"
 msgstr "Rossz vezérjel típus: %s az elvárt"
 
 #: lclstrconsts.sparinvalidfloat
+#, object-pascal-format
 msgid "Invalid floating point number: %s"
 msgstr "Érvénytelen lebegőpontos szám: %s"
 
 #: lclstrconsts.sparinvalidinteger
+#, object-pascal-format
 msgid "Invalid integer number: %s"
 msgstr "Érvénytelen egész szám: %s"
 
 #: lclstrconsts.sparlocinfo
+#, object-pascal-format
 msgid " (at %d,%d, stream offset %d)"
 msgstr " (itt: %d,%d, az adatfolyamban itt: %d)"
 
@@ -1334,52 +1387,60 @@ msgid "Unterminated string"
 msgstr "Lezáratlan karakterlánc"
 
 #: lclstrconsts.sparwrongtokensymbol
+#, object-pascal-format
 msgid "Wrong token symbol: %s expected but %s found"
 msgstr "Rossz vezérjel szimbólum: %s az elvárt, de %s található"
 
 #: lclstrconsts.sparwrongtokentype
+#, object-pascal-format
 msgid "Wrong token type: %s expected but %s found"
 msgstr "Rossz vezérjel típus: %s az elvárt, de %s található"
 
 #: lclstrconsts.sshellctrlsbytes
+#, object-pascal-format
 msgid "%s bytes"
 msgstr "%s bájt"
 
 #: lclstrconsts.sshellctrlsinvalidpath
+#, object-pascal-format
 msgctxt "lclstrconsts.sshellctrlsinvalidpath"
 msgid ""
 "Invalid pathname:\n"
-"\"%s\"\n"
+"\"%s\""
 msgstr ""
 "Érvénytelen útvonal:\n"
-"\"%s\"\n"
+"\"%s\""
 
 #: lclstrconsts.sshellctrlsinvalidpathrelative
+#, object-pascal-format
 msgid ""
 "Invalid relative pathname:\n"
 "\"%s\"\n"
 "in relation to rootpath:\n"
-"\"%s\"\n"
+"\"%s\""
 msgstr ""
 "Érvénytelen relatív útvonal:\n"
 "\"%s\"\n"
 "az alapkönyvtárhoz viszonyítva:\n"
-"\"%s\"\n"
+"\"%s\""
 
 #: lclstrconsts.sshellctrlsinvalidroot
+#, object-pascal-format
 msgctxt "lclstrconsts.sshellctrlsinvalidroot"
 msgid ""
 "Invalid pathname:\n"
-"\"%s\"\n"
+"\"%s\""
 msgstr ""
 "Érvénytelen útvonal:\n"
-"\"%s\"\n"
+"\"%s\""
 
 #: lclstrconsts.sshellctrlskb
+#, object-pascal-format
 msgid "%s kB"
 msgstr "%s kB"
 
 #: lclstrconsts.sshellctrlsmb
+#, object-pascal-format
 msgid "%s MB"
 msgstr "%s MB"
 
@@ -1388,12 +1449,13 @@ msgid "Name"
 msgstr "Név"
 
 #: lclstrconsts.sshellctrlsselecteditemdoesnotexists
+#, object-pascal-format
 msgid ""
 "The selected item does not exist on disk:\n"
-"\"%s\"\n"
+"\"%s\""
 msgstr ""
 "A kiválasztott elem nem létezik a lemezen:\n"
-"\"%s\"\n"
+"\"%s\""
 
 #: lclstrconsts.sshellctrlssize
 msgid "Size"

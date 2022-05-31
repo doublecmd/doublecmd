@@ -4,9 +4,9 @@
 
 Name:		doublecmd-help-en
 Summary:	Documentation for the Double Commander (English)
-Version:	1.0.0
+Version:	1.1.0
 Release:	1
-Url:		http://doublecmd.sourceforge.net/
+Url:		https://doublecmd.sourceforge.io/
 License:	GPL-2+
 Source0:	%{doublecmd_help}-%{version}.tar.gz
 Group:		Documentation

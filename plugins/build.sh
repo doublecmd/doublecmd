@@ -12,16 +12,16 @@ basedir=$(pwd)
 cd plugins
 
 # WCX plugins
-$lazbuild wcx/cpio/src/cpio.lpi   $DC_ARCH
-$lazbuild wcx/deb/src/deb.lpi     $DC_ARCH
-$lazbuild wcx/rpm/src/rpm.lpi     $DC_ARCH
-$lazbuild wcx/unrar/src/unrar.lpi $DC_ARCH
-$lazbuild wcx/zip/src/Zip.lpi     $DC_ARCH
+$lazbuild wcx/base64/src/base64wcx.lpi $DC_ARCH
+$lazbuild wcx/cpio/src/cpio.lpi        $DC_ARCH
+$lazbuild wcx/deb/src/deb.lpi          $DC_ARCH
+$lazbuild wcx/rpm/src/rpm.lpi          $DC_ARCH
+$lazbuild wcx/unrar/src/unrar.lpi      $DC_ARCH
+$lazbuild wcx/zip/src/Zip.lpi          $DC_ARCH
 
 # WDX plugins
 $lazbuild wdx/rpm_wdx/src/rpm_wdx.lpi     $DC_ARCH
 $lazbuild wdx/deb_wdx/src/deb_wdx.lpi     $DC_ARCH
-$lazbuild wdx/xpi_wdx/src/xpi_wdx.lpi     $DC_ARCH
 $lazbuild wdx/audioinfo/src/AudioInfo.lpi $DC_ARCH
 
 # WFX plugins

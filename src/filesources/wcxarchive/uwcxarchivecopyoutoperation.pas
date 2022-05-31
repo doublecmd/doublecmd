@@ -1,6 +1,9 @@
 unit uWcxArchiveCopyOutOperation;
 
 {$mode objfpc}{$H+}
+{$if FPC_FULLVERSION >= 30300}
+{$modeswitch arraytodynarray}
+{$endif}
 {$include calling.inc}
 
 interface
@@ -145,11 +148,13 @@ begin
         // Total operation percent
         if (Size >= -100) and (Size <= -1) then
           begin
+            if (TotalBytes = 0) then TotalBytes:= 100;
             DoneBytes := TotalBytes * Int64(-Size) div 100;
           end
         // Current file percent
         else if (Size >= -1100) and (Size <= -1000) then
           begin
+            if (CurrentFileTotalBytes = 0) then CurrentFileTotalBytes:= 100;
             CurrentFileDoneBytes := CurrentFileTotalBytes * (Int64(-Size) - 1000) div 100;
           end;
       end;
@@ -577,7 +582,7 @@ const
        fsourSkipAll, fsourOverwriteSmaller, fsourOverwriteOlder, fsourCancel,
        fsourRenameSource, fsourAutoRenameSource);
 var
-  PossibleResponses: array of TFileSourceOperationUIResponse;
+  PossibleResponses: TFileSourceOperationUIResponses;
   Answer: Boolean;
   Message: String;
 

@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CONFIG>
   <ProjectOptions>
-    <Version Value="10"/>
+    <Version Value="12"/>
     <PathDelim Value="\"/>
     <General>
       <Flags>
         <MainUnitHasCreateFormStatements Value="False"/>
         <MainUnitHasTitleStatement Value="False"/>
+        <MainUnitHasScaledStatement Value="False"/>
+        <CompatibilityMode Value="True"/>
       </Flags>
       <SessionStorage Value="InProjectDir"/>
-      <MainUnit Value="0"/>
       <Title Value="SevenZipWcx"/>
       <UseAppBundle Value="False"/>
       <ResourceType Value="res"/>
@@ -19,11 +20,11 @@
     </i18n>
     <VersionInfo>
       <UseVersionInfo Value="True"/>
-      <MajorVersionNr Value="19"/>
-      <MinorVersionNr Value="12"/>
-      <RevisionNr Value="21"/>
+      <MajorVersionNr Value="21"/>
+      <MinorVersionNr Value="9"/>
+      <RevisionNr Value="18"/>
       <CharSet Value="04B0"/>
-      <StringTable FileDescription="SevenZip archiver plugin" InternalName="SevenZip" LegalCopyright="Copyright (C) 2014-2019 Alexander Koblov"/>
+      <StringTable FileDescription="SevenZip archiver plugin" InternalName="SevenZip" LegalCopyright="Copyright (C) 2014-2021 Alexander Koblov"/>
     </VersionInfo>
     <BuildModes Count="2">
       <Item1 Name="Release" Default="True"/>
@@ -56,8 +57,6 @@
           <Linking>
             <Debugging>
               <DebugInfoType Value="dsDwarf2Set"/>
-              <UseHeaptrc Value="True"/>
-              <UseExternalDbgSyms Value="True"/>
             </Debugging>
             <Options>
               <ExecutableType Value="Library"/>
@@ -71,14 +70,19 @@
     </BuildModes>
     <PublishOptions>
       <Version Value="2"/>
-      <IncludeFileFilter Value="*.(pas|pp|inc|lfm|lpr|lrs|lpi|lpk|sh|xml)"/>
-      <ExcludeFileFilter Value="*.(bak|ppu|o|so);*~;backup"/>
     </PublishOptions>
     <RunParams>
       <local>
-        <FormatVersion Value="1"/>
         <HostApplicationFilename Value="D:\doublecmd\doublecmd.exe"/>
       </local>
+      <FormatVersion Value="2"/>
+      <Modes Count="1">
+        <Mode0 Name="default">
+          <local>
+            <HostApplicationFilename Value="D:\doublecmd\doublecmd.exe"/>
+          </local>
+        </Mode0>
+      </Modes>
     </RunParams>
     <RequiredPackages Count="1">
       <Item1>

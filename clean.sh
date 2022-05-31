@@ -5,7 +5,6 @@ rm -f units/*/*
 
 # Clean up components output directories
 rm -rf components/chsdet/lib/*
-rm -rf components/CmdLine/lib/*
 rm -rf components/dcpcrypt/lib/*
 rm -rf components/doublecmd/lib/*
 rm -rf components/gifanim/lib/*
@@ -13,6 +12,7 @@ rm -rf components/KASToolBar/lib/*
 rm -rf components/multithreadprocs/lib/*
 rm -rf components/viewer/lib/*
 rm -rf components/synunihighlighter/lib/*
+rm -rf components/virtualterminal/lib/*
 
 # Clean up all temporary files
 find . -iname '*.compiled' -delete
@@ -21,7 +21,7 @@ find . -iname '*.o' -delete
 find plugins -iname '*.w?x' -delete
 find plugins -iname '*.dsx' -delete
 find plugins -iname '*.or'  -delete
-find plugins -iname '*.res' -not -path "*/src/*" -delete
+find plugins -iname '*.res' -not -path "*/sevenzip/src/*" -delete
 find plugins -iname '*.a'  -delete
 rm -f src/doublecmd.res doublecmd
 rm -f tools/extractdwrflnfo

@@ -38,7 +38,7 @@ type
 implementation
 
 uses
-  Windows, JwaWinNetWk, DCStrUtils, DCOSUtils;
+  Windows, JwaWinNetWk, DCStrUtils, DCOSUtils, DCConvertEncoding;
 
 constructor TWinNetExecuteOperation.Create(aTargetFileSource: IFileSource;
   var aExecutableFile: TFile; aCurrentPath, aVerb: String);
@@ -62,7 +62,7 @@ begin
   // Workstation/Server
   if Pos('\\', FResultString) = 1 then
     begin
-       FileName:= UTF8Decode(FResultString);
+       FileName:= CeUtf8ToUtf16(FResultString);
        with FWinNetFileSource do
        try
          dwBufferSize:= SizeOf(lpBuffer);

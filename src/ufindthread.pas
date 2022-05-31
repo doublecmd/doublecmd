@@ -29,7 +29,7 @@ interface
 
 uses
   Classes, SysUtils, DCStringHashListUtf8, uFindFiles, uFindEx, uFindByrMr,
-  uMasks, uRegExprA, uRegExprW, uWcxModule;
+  uMasks, uRegExpr, uRegExprW, uWcxModule;
 
 type
 
@@ -64,7 +64,7 @@ type
     FExcludeDirectories: TMaskList;
     FFilesMasksRegExp: TRegExprW;
     FExcludeFilesRegExp: TRegExprW;
-    FRegExpr: TRegExpr;
+    FRegExpr: TRegExprEx;
     FArchive: TWcxModule;
     FHeader: TWcxHeader;
 
@@ -111,7 +111,7 @@ type
 implementation
 
 uses
-  LCLProc, LazUtf8, StrUtils, LConvEncoding, DCStrUtils,
+  LCLProc, LazUtf8, StrUtils, LConvEncoding, DCStrUtils, DCConvertEncoding,
   uLng, DCClassesUtf8, uFindMmap, uGlobs, uShowMsg, DCOSUtils, uOSUtils, uHash,
   uLog, WcxPlugin, Math, uDCUtils, uConvEncoding, DCDateTimeUtils, uOfficeXML;
 
@@ -167,7 +167,7 @@ begin
       end
       else begin
         TextEncoding := NormalizeEncoding(TextEncoding);
-        if TextRegExp then FRegExpr := TRegExpr.Create(TextEncoding);
+        if TextRegExp then FRegExpr := TRegExprEx.Create(TextEncoding, True);
         FindText := ConvertEncoding(FindText, EncodingUTF8, TextEncoding);
         ReplaceText := ConvertEncoding(ReplaceText, EncodingUTF8, TextEncoding);
       end;
@@ -203,8 +203,8 @@ begin
   with FFileChecks do
   begin
     if RegExp then begin
-      FFilesMasksRegExp := TRegExprW.Create(UTF8Decode(FilesMasks));
-      FExcludeFilesRegExp := TRegExprW.Create(UTF8Decode(ExcludeFiles));
+      FFilesMasksRegExp := TRegExprW.Create(CeUtf8ToUtf16(FilesMasks));
+      FExcludeFilesRegExp := TRegExprW.Create(CeUtf8ToUtf16(ExcludeFiles));
     end
     else begin
       FFilesMasks := TMaskList.Create(FilesMasks);
@@ -385,7 +385,9 @@ begin
     finally
       fs.Free;
     end;
-    Exit(FRegExpr.ExecRegExpr(sData, S));
+    FRegExpr.Expression := sData;
+    FRegExpr.SetInputString(Pointer(S), Length(S));
+    Exit(FRegExpr.Exec());
   end;
 
   if gUseMmapInSearch then
@@ -496,7 +498,7 @@ begin
   end;
 
   if bRegExp then
-    S := FRegExpr.ReplaceRegExpr(SearchString, S, replaceString, True)
+    S := FRegExpr.ReplaceAll(SearchString, S, replaceString)
   else
     begin
       Include(Flags, rfReplaceAll);
@@ -651,7 +653,7 @@ begin
   begin
     if RegExp then
     begin
-      AFileName := UTF8Decode(FileName);
+      AFileName := CeUtf8ToUtf16(FileName);
       Result := ((FilesMasks = '') or FFilesMasksRegExp.Exec(AFileName)) and
                 ((ExcludeFiles = '') or not FExcludeFilesRegExp.Exec(AFileName));
     end

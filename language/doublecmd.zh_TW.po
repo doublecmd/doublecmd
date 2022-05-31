@@ -11,6 +11,10 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Native-Language: 繁體中文\n"
 
+#: foptionscolors.rsdarkmodeoptions
+msgid "Auto;Enabled;Disabled"
+msgstr ""
+
 #: fsyncdirsdlg.rscomparingpercent
 msgid "Comparing... %d%% (ESC to cancel)"
 msgstr ""
@@ -581,6 +585,12 @@ msgctxt "TFRMDIFFER.ACTEDITREDO.CAPTION"
 msgid "Redo"
 msgstr "重做"
 
+#: tfrmdiffer.acteditredo.hint
+#, fuzzy
+msgctxt "tfrmdiffer.acteditredo.hint"
+msgid "Redo"
+msgstr "重做"
+
 #: tfrmdiffer.acteditselectall.caption
 msgid "Select &All"
 msgstr "全選 (&A)"
@@ -590,10 +600,61 @@ msgctxt "TFRMDIFFER.ACTEDITUNDO.CAPTION"
 msgid "Undo"
 msgstr "復原"
 
+#: tfrmdiffer.acteditundo.hint
+#, fuzzy
+msgctxt "tfrmdiffer.acteditundo.hint"
+msgid "Undo"
+msgstr "復原"
+
 #: tfrmdiffer.actexit.caption
 msgctxt "tfrmdiffer.actexit.caption"
 msgid "E&xit"
 msgstr "離開 (&X)"
+
+#: tfrmdiffer.actfind.caption
+msgctxt "tfrmdiffer.actfind.caption"
+msgid "&Find"
+msgstr ""
+
+#: tfrmdiffer.actfind.hint
+#, fuzzy
+msgctxt "tfrmdiffer.actfind.hint"
+msgid "Find"
+msgstr "尋找"
+
+#: tfrmdiffer.actfindnext.caption
+#, fuzzy
+msgctxt "tfrmdiffer.actfindnext.caption"
+msgid "Find next"
+msgstr "找下一個"
+
+#: tfrmdiffer.actfindnext.hint
+#, fuzzy
+msgctxt "tfrmdiffer.actfindnext.hint"
+msgid "Find next"
+msgstr "找下一個"
+
+#: tfrmdiffer.actfindprev.caption
+msgctxt "tfrmdiffer.actfindprev.caption"
+msgid "Find previous"
+msgstr ""
+
+#: tfrmdiffer.actfindprev.hint
+msgctxt "tfrmdiffer.actfindprev.hint"
+msgid "Find previous"
+msgstr ""
+
+#: tfrmdiffer.actfindreplace.caption
+#, fuzzy
+msgctxt "tfrmdiffer.actfindreplace.caption"
+msgid "&Replace"
+msgstr "取代 (&R)"
+
+#: tfrmdiffer.actfindreplace.hint
+#, fuzzy
+msgctxt "tfrmdiffer.actfindreplace.hint"
+msgid "Replace"
+msgstr "取代"
 
 #: tfrmdiffer.actfirstdifference.caption
 msgctxt "tfrmdiffer.actfirstdifference.caption"
@@ -604,6 +665,16 @@ msgstr "第一個不同點"
 msgctxt "tfrmdiffer.actfirstdifference.hint"
 msgid "First Difference"
 msgstr "第一個不同點"
+
+#: tfrmdiffer.actgotoline.caption
+msgctxt "tfrmdiffer.actgotoline.caption"
+msgid "Goto Line..."
+msgstr ""
+
+#: tfrmdiffer.actgotoline.hint
+msgctxt "tfrmdiffer.actgotoline.hint"
+msgid "Goto Line"
+msgstr ""
 
 #: tfrmdiffer.actignorecase.caption
 msgid "Ignore Case"
@@ -971,6 +1042,7 @@ msgid "Redo"
 msgstr "重做"
 
 #: tfrmeditor.acteditrplc.caption
+msgctxt "tfrmeditor.acteditrplc.caption"
 msgid "&Replace"
 msgstr "取代 (&R)"
 
@@ -1126,6 +1198,10 @@ msgstr "取消 (&C)"
 msgctxt "tfrmeditsearchreplace.buttonpanel.okbutton.caption"
 msgid "&OK"
 msgstr "確定 (&O)"
+
+#: tfrmeditsearchreplace.cbmultiline.caption
+msgid "&Multiline pattern"
+msgstr ""
 
 #: tfrmeditsearchreplace.cbsearchcasesensitive.caption
 msgctxt "TFRMEDITSEARCHREPLACE.CBSEARCHCASESENSITIVE.CAPTION"
@@ -2317,6 +2393,10 @@ msgstr "複製包含完整路徑的檔案名稱"
 msgid "Copy &Filename(s) to Clipboard"
 msgstr "複製檔案名稱到剪貼簿 (&F)"
 
+#: tfrmmain.actcopynetnamestoclip.caption
+msgid "Copy names with UNC path"
+msgstr ""
+
 #: tfrmmain.actcopynoask.caption
 msgid "Copy files without asking for confirmation"
 msgstr "無需確認複製檔案"
@@ -2553,6 +2633,14 @@ msgstr ""
 msgid "Load tabs from Favorite Tabs"
 msgstr ""
 
+#: tfrmmain.actloadlist.caption
+msgid "Load List"
+msgstr ""
+
+#: tfrmmain.actloadlist.hint
+msgid "Load list of files/folders from the specified text file"
+msgstr ""
+
 #: tfrmmain.actloadselectionfromclip.caption
 msgid "Load Selection from Clip&board"
 msgstr "從剪貼簿載入所選項目 (&B)"
@@ -2612,6 +2700,14 @@ msgstr "取消全選 (&U)"
 #: tfrmmain.actminimize.caption
 msgid "Minimize window"
 msgstr "最小化視窗"
+
+#: tfrmmain.actmovetableft.caption
+msgid "Move current tab to the left"
+msgstr ""
+
+#: tfrmmain.actmovetabright.caption
+msgid "Move current tab to the right"
+msgstr ""
 
 #: tfrmmain.actmultirename.caption
 msgid "Multi-&Rename Tool"
@@ -3429,6 +3525,7 @@ msgid "&OK"
 msgstr "確定 (&O)"
 
 #: tfrmmaskinputdlg.chkcasesensitive.caption
+msgctxt "tfrmmaskinputdlg.chkcasesensitive.caption"
 msgid "Case sensitive"
 msgstr "大小寫視為相異"
 
@@ -3450,21 +3547,13 @@ msgstr "輸入遮罩"
 msgid "O&r select predefined selection type:"
 msgstr "選擇預先定義好的類型 (&R) :"
 
-#: tfrmmkdir.btncancel.caption
-#, fuzzy
-#| msgid "Cancel"
-msgctxt "TFRMMKDIR.BTNCANCEL.CAPTION"
-msgid "&Cancel"
-msgstr "取消 (&C)"
-
-#: tfrmmkdir.btnok.caption
-msgctxt "TFRMMKDIR.BTNOK.CAPTION"
-msgid "&OK"
-msgstr "確定 (&O)"
-
 #: tfrmmkdir.caption
 msgid "Create new directory"
 msgstr "建立新資料夾"
+
+#: tfrmmkdir.cbextended.caption
+msgid "&Extended syntax"
+msgstr ""
 
 #: tfrmmkdir.lblmakedir.caption
 #, fuzzy
@@ -3784,6 +3873,16 @@ msgctxt "tfrmmultirename.caption"
 msgid "Multi-Rename Tool"
 msgstr "多重命名工具"
 
+#: tfrmmultirename.cbcasesens.caption
+msgid "A≠a"
+msgstr ""
+
+#: tfrmmultirename.cbcasesens.hint
+#, fuzzy
+msgctxt "tfrmmultirename.cbcasesens.hint"
+msgid "Case sensitive"
+msgstr "大小寫視為相異"
+
 #: tfrmmultirename.cblog.caption
 #, fuzzy
 #| msgid "Enable"
@@ -3793,6 +3892,14 @@ msgstr "啟用 (&B)"
 
 #: tfrmmultirename.cblogappend.caption
 msgid "Append"
+msgstr ""
+
+#: tfrmmultirename.cbonlyfirst.caption
+msgid "1x"
+msgstr ""
+
+#: tfrmmultirename.cbonlyfirst.hint
+msgid "Replace only once per file"
 msgstr ""
 
 #: tfrmmultirename.cbregexp.caption
@@ -4316,6 +4423,10 @@ msgstr ""
 
 #: tfrmoptionsbriefview.rbusefixedwidth.caption
 msgid "Fixed columns width"
+msgstr ""
+
+#: tfrmoptionscolors.rgdarkmode.caption
+msgid "Dark mode"
 msgstr ""
 
 #: tfrmoptionscolumnsview.cbcuttexttocolwidth.caption
@@ -7937,11 +8048,6 @@ msgctxt "tfrmoptionsterminal.edrunintermstayopenparams.hint"
 msgid "{command} should normally be present here to reflect the command to be run in terminal"
 msgstr ""
 
-#: tfrmoptionsterminal.edruntermparams.hint
-msgctxt "tfrmoptionsterminal.edruntermparams.hint"
-msgid "{command} should normally be present here to reflect the command to be run in terminal"
-msgstr ""
-
 #: tfrmoptionsterminal.gbjustrunterminal.caption
 msgid "Command for just running terminal:"
 msgstr ""
@@ -10287,11 +10393,19 @@ msgctxt "tfrmviewer.actshowgraphics.caption"
 msgid "Graphics"
 msgstr "圖像"
 
+#: tfrmviewer.actshowoffice.caption
+msgid "Office XML (text only)"
+msgstr ""
+
 #: tfrmviewer.actshowplugins.caption
 #, fuzzy
 msgctxt "tfrmviewer.actshowplugins.caption"
 msgid "Plugins"
 msgstr "插件"
+
+#: tfrmviewer.actshowtransparency.caption
+msgid "Show transparenc&y"
+msgstr ""
 
 #: tfrmviewer.actstretchimage.caption
 msgctxt "TFRMVIEWER.ACTSTRETCHIMAGE.CAPTION"
@@ -10305,6 +10419,10 @@ msgstr "延展圖片"
 #: tfrmviewer.actstretchonlylarge.caption
 msgctxt "tfrmviewer.actstretchonlylarge.caption"
 msgid "Stretch only large"
+msgstr ""
+
+#: tfrmviewer.actwraptext.caption
+msgid "&Wrap text"
 msgstr ""
 
 #: tfrmviewer.actzoom.caption
@@ -10965,7 +11083,7 @@ msgid "A&uto-rename source files"
 msgstr ""
 
 #: ulng.rsdlgbuttonautorenametarget
-msgid "A&uto-rename target files"
+msgid "Auto-rename tar&get files"
 msgstr ""
 
 #: ulng.rsdlgbuttoncancel
@@ -11363,6 +11481,10 @@ msgstr ""
 msgid "Search Results Font"
 msgstr ""
 
+#: ulng.rsfontusagestatusbar
+msgid "Status Bar Font"
+msgstr ""
+
 #: ulng.rsfontusagetreeviewmenu
 msgid "Tree View Menu Font"
 msgstr ""
@@ -11630,10 +11752,6 @@ msgstr ""
 msgid "Octal"
 msgstr ""
 
-#: ulng.rsmnucopynetnamestoclip
-msgid "Copy names with UNC path"
-msgstr ""
-
 #: ulng.rsmnucreateshortcut
 msgid "Create Shortcut..."
 msgstr ""
@@ -11734,6 +11852,10 @@ msgid ""
 "\"%s\"\n"
 "\n"
 "Do you want to keep the resulting corrupted file anyway?\n"
+msgstr ""
+
+#: ulng.rsmsgcanceloperation
+msgid "Are you sure that you want to cancel this operation?"
 msgstr ""
 
 #: ulng.rsmsgcannotcopymoveitself
@@ -12717,6 +12839,10 @@ msgstr ""
 
 #: ulng.rsmsgtctoolbarwheretosave
 msgid "Enter location and filename where to save a TC Toolbar file"
+msgstr ""
+
+#: ulng.rsmsgterminaldisabled
+msgid "Built-in terminal window disabled. Do you want to enable it?"
 msgstr ""
 
 #: ulng.rsmsgterminateprocess

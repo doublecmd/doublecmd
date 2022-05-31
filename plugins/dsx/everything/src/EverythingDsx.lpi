@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CONFIG>
   <ProjectOptions>
-    <Version Value="10"/>
+    <Version Value="12"/>
     <PathDelim Value="\"/>
     <General>
       <Flags>
         <MainUnitHasCreateFormStatements Value="False"/>
         <MainUnitHasTitleStatement Value="False"/>
+        <MainUnitHasScaledStatement Value="False"/>
+        <CompatibilityMode Value="True"/>
       </Flags>
       <SessionStorage Value="InProjectDir"/>
-      <MainUnit Value="0"/>
       <Title Value="EverythingDsx"/>
       <UseAppBundle Value="False"/>
       <ResourceType Value="res"/>
@@ -17,9 +18,6 @@
     <i18n>
       <EnableI18N LFM="False"/>
     </i18n>
-    <VersionInfo>
-      <StringTable ProductVersion=""/>
-    </VersionInfo>
     <BuildModes Count="2">
       <Item1 Name="Release" Default="True"/>
       <Item2 Name="Debug">
@@ -68,17 +66,29 @@
     </PublishOptions>
     <RunParams>
       <local>
-        <FormatVersion Value="1"/>
         <HostApplicationFilename Value="R:\Temp\doublecmd\doublecmd.exe"/>
       </local>
+      <FormatVersion Value="2"/>
+      <Modes Count="1">
+        <Mode0 Name="default">
+          <local>
+            <HostApplicationFilename Value="R:\Temp\doublecmd\doublecmd.exe"/>
+          </local>
+        </Mode0>
+      </Modes>
     </RunParams>
+    <RequiredPackages Count="1">
+      <Item1>
+        <PackageName Value="doublecmd_common"/>
+      </Item1>
+    </RequiredPackages>
     <Units Count="2">
       <Unit0>
         <Filename Value="EverythingDsx.lpr"/>
         <IsPartOfProject Value="True"/>
       </Unit0>
       <Unit1>
-        <Filename Value="..\everything.pas"/>
+        <Filename Value="everything.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit1>
     </Units>
@@ -87,12 +97,12 @@
     <Version Value="11"/>
     <PathDelim Value="\"/>
     <Target>
-      <Filename Value="EverythingDsx.dsx" ApplyConventions="False"/>
+      <Filename Value="..\everything.dsx" ApplyConventions="False"/>
     </Target>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir)"/>
-      <OtherUnitFiles Value=".."/>
-      <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
+      <OtherUnitFiles Value="..\..\..\..\sdk"/>
+      <UnitOutputDirectory Value="..\lib"/>
     </SearchPaths>
     <CodeGeneration>
       <SmartLinkUnit Value="True"/>

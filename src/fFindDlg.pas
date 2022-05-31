@@ -29,7 +29,7 @@ interface
 uses
   Graphics, SysUtils, Classes, Controls, Forms, Dialogs, StdCtrls, ComCtrls,
   ExtCtrls, Menus, EditBtn, Spin, Buttons, DateTimePicker, KASComboBox,
-  fAttributesEdit, uDsxModule, DsxPlugin, uFindThread, uFindFiles,
+  fAttributesEdit, uDsxModule, DsxPlugin, uFindThread, uFindFiles, uRegExprU,
   uSearchTemplate, fSearchPlugin, uFileView, types, DCStrUtils,
   ActnList, uOSForms, uShellContextMenu, uExceptions, uFileSystemFileSource,
   uFormCommands, uHotkeyManager, LCLVersion, uWcxModule, uFileSource;
@@ -43,7 +43,7 @@ const
 
 type
   { TfrmFindDlg }
-  TfrmFindDlg = class(TAloneForm, IFormCommands)
+  TfrmFindDlg = class(TModalForm, IFormCommands)
     actIntelliFocus: TAction;
     actCancel: TAction;
     actClose: TAction;
@@ -316,7 +316,7 @@ type
     procedure UpdateTemplatesList;
     procedure OnUpdateTimer(Sender: TObject);
     procedure OnAddAttribute(Sender: TObject);
-    function InvalidRegExpr(AChecked: boolean; const ARegExpr: string): boolean;
+    function InvalidRegExpr: Boolean;
     procedure SetWindowCaption(AWindowCaptionStyle: byte);
     function ObjectType(Index: Integer): TCheckBoxState;
     function GetFileMask: String;
@@ -397,8 +397,13 @@ uses
   uLng, uGlobs, uShowForm, uDCUtils, uFileSourceUtil, uOfficeXML,
   uSearchResultFileSource, uFile, uFileProperty, uColumnsFileView,
   uFileViewNotebook, uKeyboard, uOSUtils, uArchiveFileSourceUtil,
-  DCOSUtils, RegExpr, uDebug, uShowMsg, uConvEncoding, uColumns,
-  uFileFunctions, uFileSorting, uWcxArchiveFileSource, WcxPlugin;
+  DCOSUtils, uRegExprA, uRegExprW, uDebug, uShowMsg, uConvEncoding,
+  uColumns, uFileFunctions, uFileSorting, uWcxArchiveFileSource,
+  DCConvertEncoding, WcxPlugin
+{$IFDEF DARKWIN}
+  , uDarkStyle
+{$ENDIF}
+  ;
 
 const
   TimeUnitToComboIndex: array[TTimeUnit] of integer = (0, 1, 2, 3, 4, 5, 6);
@@ -737,11 +742,19 @@ end;
 { TfrmFindDlg.cmbEncodingSelect }
 procedure TfrmFindDlg.cmbEncodingSelect(Sender: TObject);
 var
-  SingleByte: Boolean;
+  SupportedEncoding: Boolean;
+  Encoding: String;
 begin
-  SingleByte:= SingleByteEncoding(cmbEncoding.Text);
+  Encoding := cmbEncoding.Text;
+  SupportedEncoding:= SingleByteEncoding(Encoding);
+  if (not SupportedEncoding) and TRegExprU.AvailableNew then
+  begin
+    Encoding := NormalizeEncoding(Encoding);
+    if Encoding = EncodingDefault then Encoding := GetDefaultTextEncoding;
+    SupportedEncoding := Encoding = EncodingUTF8;
+  end;
 
-  cbTextRegExp.Enabled := cbFindText.Checked and SingleByte and (not chkHex.Checked);
+  cbTextRegExp.Enabled := cbFindText.Checked and SupportedEncoding and (not chkHex.Checked);
   if not cbTextRegExp.Enabled then cbTextRegExp.Checked := False;
 
   cbCaseSens.Enabled:= cbFindText.Checked and (not cbReplaceText.Checked) and (not chkHex.Checked) and (not cbTextRegExp.Checked);
@@ -963,6 +976,11 @@ begin
     FFrmAttributesEdit.OnOk := @OnAddAttribute;
   end;
   FFrmAttributesEdit.Reset;
+{$IFDEF DARKWIN}
+  if g_darkModeEnabled then
+    FFrmAttributesEdit.ShowModal
+  else
+{$ENDIF}
   if not (fsModal in FormState) then
     FFrmAttributesEdit.Show
   else
@@ -1893,7 +1911,8 @@ begin
   begin
     if not (NewPage.FileView is TColumnsFileView) then
     begin
-      frmMain.Commands.cm_ColumnsView([]);
+      NewPage.FileView:= TColumnsFileView.Create(NewPage, NewPage.FileView, EmptyStr);
+      NewPage.FileView.SetFocus;
     end;
 
     ANewSet:= TPanelColumnsClass.Create;
@@ -2067,6 +2086,9 @@ begin
 
     CloseAction := caFree; // This will destroy the from on next step in the flow.
   end;
+{$IFDEF DARKWIN}
+  if g_darkModeEnabled and (CloseAction <> caFree) then DestroyHandle;
+{$ENDIF}
 end;
 
 { TfrmFindDlg.SetWindowCaption }
@@ -2697,22 +2719,37 @@ begin
 end;
 
 { TfrmFindDlg.InvalidRegExpr }
-function TfrmFindDlg.InvalidRegExpr(AChecked: boolean; const ARegExpr: string): boolean;
+function TfrmFindDlg.InvalidRegExpr: Boolean;
 var
-  sMsg: string;
+  sMsg, sEncoding: String;
 begin
-  Result := False;
-  if AChecked then
-    try
-      ExecRegExpr(ARegExpr, '');
-    except
-      on E: Exception do
-      begin
-        Result := True;
-        sMsg := StringReplace(cbRegExp.Caption, '&', '', [rfReplaceAll]);
-        MessageDlg(sMsg + ': ' + E.Message, mtError, [mbOK], 0);
-      end;
+  Result:= False;
+  try
+    if cbRegExp.Checked then
+    begin
+      uRegExprW.ExecRegExpr(CeUtf8ToUtf16(cmbFindFileMask.Text), '');
     end;
+    if cbTextRegExp.Checked then
+    begin
+      sMsg:= cmbFindText.Text;
+      sEncoding:= NormalizeEncoding(cmbEncoding.Text);
+      if sEncoding = EncodingDefault then sEncoding:= GetDefaultTextEncoding;
+      // Use correct RegExp engine
+      if TRegExprU.Available and (sEncoding = EncodingUTF8) then
+        uRegExprU.ExecRegExpr(sMsg, '')
+      else if SingleByteEncoding(sEncoding) then
+        uRegExprA.ExecRegExpr(sMsg, '')
+      else if (sEncoding = EncodingUTF16LE) then
+        uRegExprW.ExecRegExpr(CeUtf8ToUtf16(sMsg), '');
+    end;
+  except
+    on E: Exception do
+    begin
+      Result:= True;
+      sMsg:= StringReplace(cbRegExp.Caption, '&', '', [rfReplaceAll]);
+      MessageDlg(sMsg + ': ' + E.Message, mtError, [mbOK], 0);
+    end;
+  end;
 end;
 
 { TfrmFindDlg.pgcSearchChange }
@@ -2738,9 +2775,7 @@ var
   SearchTemplate: TSearchTemplate;
   SearchRec: TSearchTemplateRec;
 begin
-  if InvalidRegExpr(cbRegExp.Checked, cmbFindFileMask.Text) or
-     InvalidRegExpr(cbTextRegExp.Checked, cmbFindText.Text) then
-    Exit;
+  if InvalidRegExpr then Exit;
 
   sName := FLastTemplateName;
   if not InputQuery(rsFindSaveTemplateCaption, rsFindSaveTemplateTitle, sName) then
@@ -2794,6 +2829,7 @@ end;
 { TfrmFindDlg.cm_Close }
 procedure TfrmFindDlg.cm_Close(const Params: array of string);
 begin
+  Hide;
   Close;
 end;
 

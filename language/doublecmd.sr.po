@@ -16,6 +16,10 @@ msgstr ""
 "X-Source-Language: C\n"
 "X-Native-Language: српски\n"
 
+#: foptionscolors.rsdarkmodeoptions
+msgid "Auto;Enabled;Disabled"
+msgstr ""
+
 #: fsyncdirsdlg.rscomparingpercent
 msgid "Comparing... %d%% (ESC to cancel)"
 msgstr "Упоређујем... %d%% (ЕСЦ за отказивање)"
@@ -550,6 +554,12 @@ msgctxt "TFRMDIFFER.ACTEDITREDO.CAPTION"
 msgid "Redo"
 msgstr "Понови"
 
+#: tfrmdiffer.acteditredo.hint
+#, fuzzy
+msgctxt "tfrmdiffer.acteditredo.hint"
+msgid "Redo"
+msgstr "Понови"
+
 #: tfrmdiffer.acteditselectall.caption
 msgid "Select &All"
 msgstr "Означи &све"
@@ -559,10 +569,62 @@ msgctxt "TFRMDIFFER.ACTEDITUNDO.CAPTION"
 msgid "Undo"
 msgstr "Поништи"
 
+#: tfrmdiffer.acteditundo.hint
+#, fuzzy
+msgctxt "tfrmdiffer.acteditundo.hint"
+msgid "Undo"
+msgstr "Поништи"
+
 #: tfrmdiffer.actexit.caption
 msgctxt "TFRMDIFFER.ACTEXIT.CAPTION"
 msgid "E&xit"
 msgstr "&Излаз"
+
+#: tfrmdiffer.actfind.caption
+#, fuzzy
+msgctxt "tfrmdiffer.actfind.caption"
+msgid "&Find"
+msgstr "Пронађи&"
+
+#: tfrmdiffer.actfind.hint
+#, fuzzy
+msgctxt "tfrmdiffer.actfind.hint"
+msgid "Find"
+msgstr "Пронађи"
+
+#: tfrmdiffer.actfindnext.caption
+#, fuzzy
+msgctxt "tfrmdiffer.actfindnext.caption"
+msgid "Find next"
+msgstr "Нађи следеће"
+
+#: tfrmdiffer.actfindnext.hint
+#, fuzzy
+msgctxt "tfrmdiffer.actfindnext.hint"
+msgid "Find next"
+msgstr "Нађи следеће"
+
+#: tfrmdiffer.actfindprev.caption
+msgctxt "tfrmdiffer.actfindprev.caption"
+msgid "Find previous"
+msgstr ""
+
+#: tfrmdiffer.actfindprev.hint
+msgctxt "tfrmdiffer.actfindprev.hint"
+msgid "Find previous"
+msgstr ""
+
+#: tfrmdiffer.actfindreplace.caption
+#, fuzzy
+msgctxt "tfrmdiffer.actfindreplace.caption"
+msgid "&Replace"
+msgstr "&Замени"
+
+#: tfrmdiffer.actfindreplace.hint
+#, fuzzy
+msgctxt "tfrmdiffer.actfindreplace.hint"
+msgid "Replace"
+msgstr "Замени"
 
 #: tfrmdiffer.actfirstdifference.caption
 msgctxt "TFRMDIFFER.ACTFIRSTDIFFERENCE.CAPTION"
@@ -573,6 +635,18 @@ msgstr "Прва разлика"
 msgctxt "TFRMDIFFER.ACTFIRSTDIFFERENCE.HINT"
 msgid "First Difference"
 msgstr "Прва разлика"
+
+#: tfrmdiffer.actgotoline.caption
+#, fuzzy
+msgctxt "tfrmdiffer.actgotoline.caption"
+msgid "Goto Line..."
+msgstr "Иди на линију..."
+
+#: tfrmdiffer.actgotoline.hint
+#, fuzzy
+msgctxt "tfrmdiffer.actgotoline.hint"
+msgid "Goto Line"
+msgstr "Иди на линију"
 
 #: tfrmdiffer.actignorecase.caption
 msgid "Ignore Case"
@@ -926,6 +1000,7 @@ msgid "Redo"
 msgstr "Понови"
 
 #: tfrmeditor.acteditrplc.caption
+msgctxt "tfrmeditor.acteditrplc.caption"
 msgid "&Replace"
 msgstr "&Замени"
 
@@ -1079,6 +1154,10 @@ msgstr "&Откажи"
 msgctxt "tfrmeditsearchreplace.buttonpanel.okbutton.caption"
 msgid "&OK"
 msgstr "&У реду"
+
+#: tfrmeditsearchreplace.cbmultiline.caption
+msgid "&Multiline pattern"
+msgstr ""
 
 #: tfrmeditsearchreplace.cbsearchcasesensitive.caption
 msgctxt "TFRMEDITSEARCHREPLACE.CBSEARCHCASESENSITIVE.CAPTION"
@@ -2207,6 +2286,10 @@ msgstr "Умножи потпуну путању са именима датот�
 msgid "Copy &Filename(s) to Clipboard"
 msgstr "Умножи имена датотека у оставу исечака"
 
+#: tfrmmain.actcopynetnamestoclip.caption
+msgid "Copy names with UNC path"
+msgstr ""
+
 #: tfrmmain.actcopynoask.caption
 msgid "Copy files without asking for confirmation"
 msgstr "Умножи датотеке без питања за потврду"
@@ -2439,6 +2522,14 @@ msgstr ""
 msgid "Load tabs from Favorite Tabs"
 msgstr ""
 
+#: tfrmmain.actloadlist.caption
+msgid "Load List"
+msgstr ""
+
+#: tfrmmain.actloadlist.hint
+msgid "Load list of files/folders from the specified text file"
+msgstr ""
+
 #: tfrmmain.actloadselectionfromclip.caption
 msgid "Load Selection from Clip&board"
 msgstr "Учитај садржај оставе исечака"
@@ -2494,6 +2585,14 @@ msgstr "&Одзначи све"
 #: tfrmmain.actminimize.caption
 msgid "Minimize window"
 msgstr "Умањи прозор"
+
+#: tfrmmain.actmovetableft.caption
+msgid "Move current tab to the left"
+msgstr ""
+
+#: tfrmmain.actmovetabright.caption
+msgid "Move current tab to the right"
+msgstr ""
 
 #: tfrmmain.actmultirename.caption
 msgid "Multi-&Rename Tool"
@@ -3295,6 +3394,7 @@ msgid "&OK"
 msgstr "У реду&"
 
 #: tfrmmaskinputdlg.chkcasesensitive.caption
+msgctxt "tfrmmaskinputdlg.chkcasesensitive.caption"
 msgid "Case sensitive"
 msgstr "Осетљиво на величину слова"
 
@@ -3314,19 +3414,13 @@ msgstr "Унеси маску:"
 msgid "O&r select predefined selection type:"
 msgstr "Или& одабери предодређену врсту избора:"
 
-#: tfrmmkdir.btncancel.caption
-msgctxt "TFRMMKDIR.BTNCANCEL.CAPTION"
-msgid "&Cancel"
-msgstr "Откажи&"
-
-#: tfrmmkdir.btnok.caption
-msgctxt "TFRMMKDIR.BTNOK.CAPTION"
-msgid "&OK"
-msgstr "У реду&"
-
 #: tfrmmkdir.caption
 msgid "Create new directory"
 msgstr "Направи нову фасциклу"
+
+#: tfrmmkdir.cbextended.caption
+msgid "&Extended syntax"
+msgstr ""
 
 #: tfrmmkdir.lblmakedir.caption
 msgid "&Input new directory name:"
@@ -3640,6 +3734,16 @@ msgctxt "TFRMMULTIRENAME.CAPTION"
 msgid "Multi-Rename Tool"
 msgstr "Вишеструко преименовање"
 
+#: tfrmmultirename.cbcasesens.caption
+msgid "A≠a"
+msgstr ""
+
+#: tfrmmultirename.cbcasesens.hint
+#, fuzzy
+msgctxt "tfrmmultirename.cbcasesens.hint"
+msgid "Case sensitive"
+msgstr "Осетљиво на величину слова"
+
 #: tfrmmultirename.cblog.caption
 #, fuzzy
 #| msgid "Ena&ble"
@@ -3649,6 +3753,14 @@ msgstr "Омогући&"
 
 #: tfrmmultirename.cblogappend.caption
 msgid "Append"
+msgstr ""
+
+#: tfrmmultirename.cbonlyfirst.caption
+msgid "1x"
+msgstr ""
+
+#: tfrmmultirename.cbonlyfirst.hint
+msgid "Replace only once per file"
 msgstr ""
 
 #: tfrmmultirename.cbregexp.caption
@@ -4154,6 +4266,10 @@ msgstr ""
 
 #: tfrmoptionsbriefview.rbusefixedwidth.caption
 msgid "Fixed columns width"
+msgstr ""
+
+#: tfrmoptionscolors.rgdarkmode.caption
+msgid "Dark mode"
 msgstr ""
 
 #: tfrmoptionscolumnsview.cbcuttexttocolwidth.caption
@@ -7539,11 +7655,6 @@ msgctxt "tfrmoptionsterminal.edrunintermstayopenparams.hint"
 msgid "{command} should normally be present here to reflect the command to be run in terminal"
 msgstr ""
 
-#: tfrmoptionsterminal.edruntermparams.hint
-msgctxt "tfrmoptionsterminal.edruntermparams.hint"
-msgid "{command} should normally be present here to reflect the command to be run in terminal"
-msgstr ""
-
 #: tfrmoptionsterminal.gbjustrunterminal.caption
 msgid "Command for just running terminal:"
 msgstr ""
@@ -9781,11 +9892,19 @@ msgctxt "tfrmviewer.actshowgraphics.caption"
 msgid "Graphics"
 msgstr "Графика"
 
+#: tfrmviewer.actshowoffice.caption
+msgid "Office XML (text only)"
+msgstr ""
+
 #: tfrmviewer.actshowplugins.caption
 #, fuzzy
 msgctxt "tfrmviewer.actshowplugins.caption"
 msgid "Plugins"
 msgstr "Прикључци"
+
+#: tfrmviewer.actshowtransparency.caption
+msgid "Show transparenc&y"
+msgstr ""
 
 #: tfrmviewer.actstretchimage.caption
 msgctxt "TFRMVIEWER.ACTSTRETCHIMAGE.CAPTION"
@@ -9799,6 +9918,10 @@ msgstr "Развуци слику"
 #: tfrmviewer.actstretchonlylarge.caption
 msgctxt "tfrmviewer.actstretchonlylarge.caption"
 msgid "Stretch only large"
+msgstr ""
+
+#: tfrmviewer.actwraptext.caption
+msgid "&Wrap text"
 msgstr ""
 
 #: tfrmviewer.actzoom.caption
@@ -10472,7 +10595,7 @@ msgid "A&uto-rename source files"
 msgstr "&Самостално преименуј изворне датотеке"
 
 #: ulng.rsdlgbuttonautorenametarget
-msgid "A&uto-rename target files"
+msgid "Auto-rename tar&get files"
 msgstr ""
 
 #: ulng.rsdlgbuttoncancel
@@ -10870,6 +10993,10 @@ msgstr ""
 msgid "Search Results Font"
 msgstr ""
 
+#: ulng.rsfontusagestatusbar
+msgid "Status Bar Font"
+msgstr ""
+
 #: ulng.rsfontusagetreeviewmenu
 msgid "Tree View Menu Font"
 msgstr ""
@@ -11145,10 +11272,6 @@ msgstr ""
 msgid "Octal"
 msgstr ""
 
-#: ulng.rsmnucopynetnamestoclip
-msgid "Copy names with UNC path"
-msgstr ""
-
 #: ulng.rsmnucreateshortcut
 msgid "Create Shortcut..."
 msgstr ""
@@ -11257,6 +11380,10 @@ msgstr ""
 "„%s“\n"
 "\n"
 "Да ли желите да задржите неисправну датотеку?\n"
+
+#: ulng.rsmsgcanceloperation
+msgid "Are you sure that you want to cancel this operation?"
+msgstr ""
 
 #: ulng.rsmsgcannotcopymoveitself
 msgid "You can not copy/move a file \"%s\" to itself!"
@@ -12265,6 +12392,10 @@ msgstr ""
 
 #: ulng.rsmsgtctoolbarwheretosave
 msgid "Enter location and filename where to save a TC Toolbar file"
+msgstr ""
+
+#: ulng.rsmsgterminaldisabled
+msgid "Built-in terminal window disabled. Do you want to enable it?"
 msgstr ""
 
 #: ulng.rsmsgterminateprocess

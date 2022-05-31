@@ -450,7 +450,7 @@ begin
     Ini:= TIniFile.Create(ConfigFile);
     try
       LibraryPath:= Ini.ReadString('Library', TargetCPU, EmptyStr);
-      LibraryPath:= Utf16ToUtf8(ExpandEnvironmentStrings(UTF8Decode(LibraryPath)));
+      LibraryPath:= Utf16ToUtf8(ExpandEnvironmentStrings(UTF8ToUTF16(LibraryPath)));
       for ArchiveFormat:= Low(TArchiveFormat) to High(TArchiveFormat) do
       begin
         Section:= GUIDToString(PluginConfig[ArchiveFormat].ArchiveCLSID^);

@@ -13,6 +13,10 @@ msgstr ""
 "X-Generator: Poedit 2.2.4\n"
 "Language: da\n"
 
+#: foptionscolors.rsdarkmodeoptions
+msgid "Auto;Enabled;Disabled"
+msgstr ""
+
 #: fsyncdirsdlg.rscomparingpercent
 msgid "Comparing... %d%% (ESC to cancel)"
 msgstr "Læser mapper: %d%% (ESC for at afbryde)"
@@ -556,6 +560,12 @@ msgctxt "tfrmdiffer.acteditredo.caption"
 msgid "Redo"
 msgstr "Gentag"
 
+#: tfrmdiffer.acteditredo.hint
+#, fuzzy
+msgctxt "tfrmdiffer.acteditredo.hint"
+msgid "Redo"
+msgstr "Gentag"
+
 #: tfrmdiffer.acteditselectall.caption
 msgid "Select &All"
 msgstr "Vælg &alle"
@@ -565,10 +575,64 @@ msgctxt "tfrmdiffer.acteditundo.caption"
 msgid "Undo"
 msgstr "Fortryd"
 
+#: tfrmdiffer.acteditundo.hint
+#, fuzzy
+msgctxt "tfrmdiffer.acteditundo.hint"
+msgid "Undo"
+msgstr "Fortryd"
+
 #: tfrmdiffer.actexit.caption
 msgctxt "tfrmdiffer.actexit.caption"
 msgid "E&xit"
 msgstr "&Afslut"
+
+#: tfrmdiffer.actfind.caption
+#, fuzzy
+msgctxt "tfrmdiffer.actfind.caption"
+msgid "&Find"
+msgstr "S&øg..."
+
+#: tfrmdiffer.actfind.hint
+#, fuzzy
+msgctxt "tfrmdiffer.actfind.hint"
+msgid "Find"
+msgstr "Find"
+
+#: tfrmdiffer.actfindnext.caption
+#, fuzzy
+msgctxt "tfrmdiffer.actfindnext.caption"
+msgid "Find next"
+msgstr "&Find næste"
+
+#: tfrmdiffer.actfindnext.hint
+#, fuzzy
+msgctxt "tfrmdiffer.actfindnext.hint"
+msgid "Find next"
+msgstr "&Find næste"
+
+#: tfrmdiffer.actfindprev.caption
+#, fuzzy
+msgctxt "tfrmdiffer.actfindprev.caption"
+msgid "Find previous"
+msgstr "Find forrige"
+
+#: tfrmdiffer.actfindprev.hint
+#, fuzzy
+msgctxt "tfrmdiffer.actfindprev.hint"
+msgid "Find previous"
+msgstr "Find forrige"
+
+#: tfrmdiffer.actfindreplace.caption
+#, fuzzy
+msgctxt "tfrmdiffer.actfindreplace.caption"
+msgid "&Replace"
+msgstr "&Erstat..."
+
+#: tfrmdiffer.actfindreplace.hint
+#, fuzzy
+msgctxt "tfrmdiffer.actfindreplace.hint"
+msgid "Replace"
+msgstr "Erstat"
 
 #: tfrmdiffer.actfirstdifference.caption
 msgctxt "tfrmdiffer.actfirstdifference.caption"
@@ -579,6 +643,18 @@ msgstr "F&ørste forskel"
 msgctxt "TFRMDIFFER.ACTFIRSTDIFFERENCE.HINT"
 msgid "First Difference"
 msgstr "Første forskel"
+
+#: tfrmdiffer.actgotoline.caption
+#, fuzzy
+msgctxt "tfrmdiffer.actgotoline.caption"
+msgid "Goto Line..."
+msgstr "Gå til linje"
+
+#: tfrmdiffer.actgotoline.hint
+#, fuzzy
+msgctxt "tfrmdiffer.actgotoline.hint"
+msgid "Goto Line"
+msgstr "Gå til linje"
 
 #: tfrmdiffer.actignorecase.caption
 msgid "Ignore Case"
@@ -880,6 +956,7 @@ msgid "Find previous"
 msgstr "Find forrige"
 
 #: tfrmeditor.acteditgotoline.caption
+msgctxt "tfrmeditor.acteditgotoline.caption"
 msgid "Goto Line..."
 msgstr "Gå til linje"
 
@@ -934,6 +1011,7 @@ msgid "Redo"
 msgstr "Annuller fortryd"
 
 #: tfrmeditor.acteditrplc.caption
+msgctxt "tfrmeditor.acteditrplc.caption"
 msgid "&Replace"
 msgstr "&Erstat..."
 
@@ -1081,6 +1159,10 @@ msgstr "&Annuller"
 msgctxt "TFRMEDITSEARCHREPLACE.BUTTONPANEL.OKBUTTON.CAPTION"
 msgid "&OK"
 msgstr "&OK"
+
+#: tfrmeditsearchreplace.cbmultiline.caption
+msgid "&Multiline pattern"
+msgstr ""
 
 #: tfrmeditsearchreplace.cbsearchcasesensitive.caption
 msgid "C&ase sensitivity"
@@ -2228,6 +2310,11 @@ msgstr "K&opier filnavn + sti til Udklipsholder"
 msgid "Copy &Filename(s) to Clipboard"
 msgstr "&Kopier filnavn til Udklipsholder"
 
+# Netværk
+#: tfrmmain.actcopynetnamestoclip.caption
+msgid "Copy names with UNC path"
+msgstr "Kopier navne med UNC-sti"
+
 #: tfrmmain.actcopynoask.caption
 msgid "Copy files without asking for confirmation"
 msgstr "Kopier filer uden bekræftelse"
@@ -2487,6 +2574,14 @@ msgstr "Visning af miniaturebilleder i venstre vindue"
 msgid "Load tabs from Favorite Tabs"
 msgstr "Hent faneblade fra Favoritfaneblad"
 
+#: tfrmmain.actloadlist.caption
+msgid "Load List"
+msgstr ""
+
+#: tfrmmain.actloadlist.hint
+msgid "Load list of files/folders from the specified text file"
+msgstr ""
+
 # Marker
 #: tfrmmain.actloadselectionfromclip.caption
 msgid "Load Selection from Clip&board"
@@ -2552,6 +2647,14 @@ msgstr "&Fravælg alle"
 #: tfrmmain.actminimize.caption
 msgid "Minimize window"
 msgstr "Minimer vindue"
+
+#: tfrmmain.actmovetableft.caption
+msgid "Move current tab to the left"
+msgstr ""
+
+#: tfrmmain.actmovetabright.caption
+msgid "Move current tab to the right"
+msgstr ""
 
 # Filer
 #: tfrmmain.actmultirename.caption
@@ -3401,6 +3504,7 @@ msgid "&OK"
 msgstr "&OK"
 
 #: tfrmmaskinputdlg.chkcasesensitive.caption
+msgctxt "tfrmmaskinputdlg.chkcasesensitive.caption"
 msgid "Case sensitive"
 msgstr "Forskel på STORE og små bogstaver"
 
@@ -3421,21 +3525,13 @@ msgid "O&r select predefined selection type:"
 msgstr "Eller vælg fast definition:"
 
 # Filer - Opret_ny_mappe
-#: tfrmmkdir.btncancel.caption
-msgctxt "TFRMMKDIR.BTNCANCEL.CAPTION"
-msgid "&Cancel"
-msgstr "&Annuller"
-
-# Filer - Opret_ny_mappe
-#: tfrmmkdir.btnok.caption
-msgctxt "TFRMMKDIR.BTNOK.CAPTION"
-msgid "&OK"
-msgstr "&OK"
-
-# Filer - Opret_ny_mappe
 #: tfrmmkdir.caption
 msgid "Create new directory"
 msgstr "Double Commander"
+
+#: tfrmmkdir.cbextended.caption
+msgid "&Extended syntax"
+msgstr ""
 
 # Filer - Opret_ny_mappe
 #: tfrmmkdir.lblmakedir.caption
@@ -3768,6 +3864,16 @@ msgctxt "tfrmmultirename.caption"
 msgid "Multi-Rename Tool"
 msgstr "Multi-omdøbning"
 
+#: tfrmmultirename.cbcasesens.caption
+msgid "A≠a"
+msgstr ""
+
+#: tfrmmultirename.cbcasesens.hint
+#, fuzzy
+msgctxt "tfrmmultirename.cbcasesens.hint"
+msgid "Case sensitive"
+msgstr "Forskel på STORE og små bogstaver"
+
 #: tfrmmultirename.cblog.caption
 #, fuzzy
 #| msgid "Ena&ble"
@@ -3776,6 +3882,14 @@ msgstr "&Aktiver logning"
 
 #: tfrmmultirename.cblogappend.caption
 msgid "Append"
+msgstr ""
+
+#: tfrmmultirename.cbonlyfirst.caption
+msgid "1x"
+msgstr ""
+
+#: tfrmmultirename.cbonlyfirst.hint
+msgid "Replace only once per file"
 msgstr ""
 
 #: tfrmmultirename.cbregexp.caption
@@ -4340,6 +4454,10 @@ msgstr "Fast antal kolonner:"
 #: tfrmoptionsbriefview.rbusefixedwidth.caption
 msgid "Fixed columns width"
 msgstr "Fast kolonnebredde:"
+
+#: tfrmoptionscolors.rgdarkmode.caption
+msgid "Dark mode"
+msgstr ""
 
 # Opsætning  - Indstillinger - Visning - Kolonner
 #: tfrmoptionscolumnsview.cbcuttexttocolwidth.caption
@@ -7932,12 +8050,6 @@ msgctxt "TFRMOPTIONSTERMINAL.EDRUNINTERMSTAYOPENPARAMS.HINT"
 msgid "{command} should normally be present here to reflect the command to be run in terminal"
 msgstr "{command} bør normalt være til stede her for at afspejle den kommando, der skal køres i terminal"
 
-# Opsætning - Indstillinger - Værktøjer - Terminal_F9
-#: tfrmoptionsterminal.edruntermparams.hint
-msgctxt "TFRMOPTIONSTERMINAL.EDRUNTERMPARAMS.HINT"
-msgid "{command} should normally be present here to reflect the command to be run in terminal"
-msgstr "{command} bør normalt være til stede her for at afspejle den kommando, der skal køres i terminal"
-
 # Opsætning - Indstillinger - Værktøjer - Terminal F9
 #: tfrmoptionsterminal.gbjustrunterminal.caption
 msgid "Command for just running terminal:"
@@ -10329,11 +10441,19 @@ msgctxt "tfrmviewer.actshowgraphics.caption"
 msgid "Graphics"
 msgstr "Billede/multimedie"
 
+#: tfrmviewer.actshowoffice.caption
+msgid "Office XML (text only)"
+msgstr ""
+
 # F3 - Vis
 #: tfrmviewer.actshowplugins.caption
 msgctxt "TFRMVIEWER.ACTSHOWPLUGINS.CAPTION"
 msgid "Plugins"
 msgstr "Plugin"
+
+#: tfrmviewer.actshowtransparency.caption
+msgid "Show transparenc&y"
+msgstr ""
 
 #: tfrmviewer.actstretchimage.caption
 msgid "Stretch"
@@ -10346,6 +10466,10 @@ msgstr "Strækker billedet"
 #: tfrmviewer.actstretchonlylarge.caption
 msgid "Stretch only large"
 msgstr "Stræk kun store"
+
+#: tfrmviewer.actwraptext.caption
+msgid "&Wrap text"
+msgstr ""
 
 #: tfrmviewer.actzoom.caption
 msgid "Zoom"
@@ -11005,7 +11129,7 @@ msgid "A&uto-rename source files"
 msgstr "A&uto-omdøb kildefiler"
 
 #: ulng.rsdlgbuttonautorenametarget
-msgid "A&uto-rename target files"
+msgid "Auto-rename tar&get files"
 msgstr ""
 
 #: ulng.rsdlgbuttoncancel
@@ -11164,6 +11288,7 @@ msgid "Goto line:"
 msgstr "Gå til linje"
 
 #: ulng.rseditgotolinetitle
+msgctxt "ulng.rseditgotolinetitle"
 msgid "Goto Line"
 msgstr "Gå til linje"
 
@@ -11397,6 +11522,10 @@ msgstr ""
 
 #: ulng.rsfontusagesearchresults
 msgid "Search Results Font"
+msgstr ""
+
+#: ulng.rsfontusagestatusbar
+msgid "Status Bar Font"
 msgstr ""
 
 #: ulng.rsfontusagetreeviewmenu
@@ -11687,11 +11816,6 @@ msgstr "<Standard>"
 msgid "Octal"
 msgstr "Oktal"
 
-# Netværk
-#: ulng.rsmnucopynetnamestoclip
-msgid "Copy names with UNC path"
-msgstr "Kopier navne med UNC-sti"
-
 # Filer
 #: ulng.rsmnucreateshortcut
 msgid "Create Shortcut..."
@@ -11796,6 +11920,10 @@ msgstr ""
 "\"%s\"\n"
 "\n"
 "Vil du beholde den beskadigede fil?\n"
+
+#: ulng.rsmsgcanceloperation
+msgid "Are you sure that you want to cancel this operation?"
+msgstr ""
 
 #: ulng.rsmsgcannotcopymoveitself
 msgid "You can not copy/move a file \"%s\" to itself!"
@@ -12814,6 +12942,10 @@ msgstr ""
 #: ulng.rsmsgtctoolbarwheretosave
 msgid "Enter location and filename where to save a TC Toolbar file"
 msgstr "Indtast placering og filnavn for, hvor DC-værktøjslinjefilen skal gemmes"
+
+#: ulng.rsmsgterminaldisabled
+msgid "Built-in terminal window disabled. Do you want to enable it?"
+msgstr ""
 
 #: ulng.rsmsgterminateprocess
 msgid "WARNING: Terminating a process can cause undesired results including loss of data and system instability. The process will not be given the chance to save its state or data before it is terminated. Are you sure you want to terminate the process?"

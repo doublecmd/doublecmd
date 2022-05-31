@@ -15,6 +15,10 @@ msgstr ""
 "X-Generator: Gtranslator 2.91.6\n"
 "X-Native-Language: Português\n"
 
+#: foptionscolors.rsdarkmodeoptions
+msgid "Auto;Enabled;Disabled"
+msgstr ""
+
 #: fsyncdirsdlg.rscomparingpercent
 msgid "Comparing... %d%% (ESC to cancel)"
 msgstr "A comparar - %d%% (ESC para cancelar)"
@@ -537,6 +541,12 @@ msgctxt "TFRMDIFFER.ACTEDITREDO.CAPTION"
 msgid "Redo"
 msgstr "Refazer"
 
+#: tfrmdiffer.acteditredo.hint
+#, fuzzy
+msgctxt "tfrmdiffer.acteditredo.hint"
+msgid "Redo"
+msgstr "Refazer"
+
 #: tfrmdiffer.acteditselectall.caption
 msgid "Select &All"
 msgstr "Seleccion&ar tudo"
@@ -546,10 +556,64 @@ msgctxt "TFRMDIFFER.ACTEDITUNDO.CAPTION"
 msgid "Undo"
 msgstr "Desfazer"
 
+#: tfrmdiffer.acteditundo.hint
+#, fuzzy
+msgctxt "tfrmdiffer.acteditundo.hint"
+msgid "Undo"
+msgstr "Desfazer"
+
 #: tfrmdiffer.actexit.caption
 msgctxt "TFRMDIFFER.ACTEXIT.CAPTION"
 msgid "E&xit"
 msgstr "&Sair"
+
+#: tfrmdiffer.actfind.caption
+#, fuzzy
+msgctxt "tfrmdiffer.actfind.caption"
+msgid "&Find"
+msgstr "&Localizar"
+
+#: tfrmdiffer.actfind.hint
+#, fuzzy
+msgctxt "tfrmdiffer.actfind.hint"
+msgid "Find"
+msgstr "Localizar"
+
+#: tfrmdiffer.actfindnext.caption
+#, fuzzy
+msgctxt "tfrmdiffer.actfindnext.caption"
+msgid "Find next"
+msgstr "Localizar seguinte"
+
+#: tfrmdiffer.actfindnext.hint
+#, fuzzy
+msgctxt "tfrmdiffer.actfindnext.hint"
+msgid "Find next"
+msgstr "Localizar seguinte"
+
+#: tfrmdiffer.actfindprev.caption
+#, fuzzy
+msgctxt "tfrmdiffer.actfindprev.caption"
+msgid "Find previous"
+msgstr "Localizar anterior"
+
+#: tfrmdiffer.actfindprev.hint
+#, fuzzy
+msgctxt "tfrmdiffer.actfindprev.hint"
+msgid "Find previous"
+msgstr "Localizar anterior"
+
+#: tfrmdiffer.actfindreplace.caption
+#, fuzzy
+msgctxt "tfrmdiffer.actfindreplace.caption"
+msgid "&Replace"
+msgstr "Substitui&r"
+
+#: tfrmdiffer.actfindreplace.hint
+#, fuzzy
+msgctxt "tfrmdiffer.actfindreplace.hint"
+msgid "Replace"
+msgstr "Substituir"
 
 #: tfrmdiffer.actfirstdifference.caption
 msgctxt "TFRMDIFFER.ACTFIRSTDIFFERENCE.CAPTION"
@@ -560,6 +624,18 @@ msgstr "Primeira diferença"
 msgctxt "TFRMDIFFER.ACTFIRSTDIFFERENCE.HINT"
 msgid "First Difference"
 msgstr "Primeira diferença"
+
+#: tfrmdiffer.actgotoline.caption
+#, fuzzy
+msgctxt "tfrmdiffer.actgotoline.caption"
+msgid "Goto Line..."
+msgstr "Ir para linha..."
+
+#: tfrmdiffer.actgotoline.hint
+#, fuzzy
+msgctxt "tfrmdiffer.actgotoline.hint"
+msgid "Goto Line"
+msgstr "Ir para linha"
 
 #: tfrmdiffer.actignorecase.caption
 msgid "Ignore Case"
@@ -856,6 +932,7 @@ msgid "Find previous"
 msgstr "Localizar anterior"
 
 #: tfrmeditor.acteditgotoline.caption
+msgctxt "tfrmeditor.acteditgotoline.caption"
 msgid "Goto Line..."
 msgstr "Ir para linha..."
 
@@ -910,6 +987,7 @@ msgid "Redo"
 msgstr "Refazer"
 
 #: tfrmeditor.acteditrplc.caption
+msgctxt "tfrmeditor.acteditrplc.caption"
 msgid "&Replace"
 msgstr "Substitui&r"
 
@@ -1059,6 +1137,10 @@ msgstr "&Cancelar"
 msgctxt "tfrmeditsearchreplace.buttonpanel.okbutton.caption"
 msgid "&OK"
 msgstr "&Aceitar"
+
+#: tfrmeditsearchreplace.cbmultiline.caption
+msgid "&Multiline pattern"
+msgstr ""
 
 #: tfrmeditsearchreplace.cbsearchcasesensitive.caption
 msgctxt "TFRMEDITSEARCHREPLACE.CBSEARCHCASESENSITIVE.CAPTION"
@@ -2185,6 +2267,10 @@ msgstr "Copiar nomes de ficheiros com caminho com&pleto"
 msgid "Copy &Filename(s) to Clipboard"
 msgstr "Copiar nomes de &ficheiros para a área de transferência"
 
+#: tfrmmain.actcopynetnamestoclip.caption
+msgid "Copy names with UNC path"
+msgstr "Copiar nomes com caminho UNC"
+
 #: tfrmmain.actcopynoask.caption
 msgid "Copy files without asking for confirmation"
 msgstr "Copiar ficheiros sem pedir confirmação"
@@ -2415,6 +2501,14 @@ msgstr "Vista de miniaturas no painel esquerdo"
 msgid "Load tabs from Favorite Tabs"
 msgstr "Carregar separadores dos favoritos"
 
+#: tfrmmain.actloadlist.caption
+msgid "Load List"
+msgstr ""
+
+#: tfrmmain.actloadlist.hint
+msgid "Load list of files/folders from the specified text file"
+msgstr ""
+
 #: tfrmmain.actloadselectionfromclip.caption
 msgid "Load Selection from Clip&board"
 msgstr "Carregar selecção da área de transferência"
@@ -2470,6 +2564,14 @@ msgstr "Rem&over todas as selecções"
 #: tfrmmain.actminimize.caption
 msgid "Minimize window"
 msgstr "Minimizar janela"
+
+#: tfrmmain.actmovetableft.caption
+msgid "Move current tab to the left"
+msgstr ""
+
+#: tfrmmain.actmovetabright.caption
+msgid "Move current tab to the right"
+msgstr ""
 
 #: tfrmmain.actmultirename.caption
 msgid "Multi-&Rename Tool"
@@ -3260,6 +3362,7 @@ msgid "&OK"
 msgstr "&Aceitar"
 
 #: tfrmmaskinputdlg.chkcasesensitive.caption
+msgctxt "tfrmmaskinputdlg.chkcasesensitive.caption"
 msgid "Case sensitive"
 msgstr "Sensível a maiúsculas"
 
@@ -3279,19 +3382,13 @@ msgstr "Máscara de entrada:"
 msgid "O&r select predefined selection type:"
 msgstr "Ou selecciona&r tipo predefinido:"
 
-#: tfrmmkdir.btncancel.caption
-msgctxt "TFRMMKDIR.BTNCANCEL.CAPTION"
-msgid "&Cancel"
-msgstr "&Cancelar"
-
-#: tfrmmkdir.btnok.caption
-msgctxt "TFRMMKDIR.BTNOK.CAPTION"
-msgid "&OK"
-msgstr "&Aceitar"
-
 #: tfrmmkdir.caption
 msgid "Create new directory"
 msgstr "Criar nova pasta"
+
+#: tfrmmkdir.cbextended.caption
+msgid "&Extended syntax"
+msgstr ""
 
 #: tfrmmkdir.lblmakedir.caption
 msgid "&Input new directory name:"
@@ -3605,6 +3702,16 @@ msgctxt "TFRMMULTIRENAME.CAPTION"
 msgid "Multi-Rename Tool"
 msgstr "Multi-renomear"
 
+#: tfrmmultirename.cbcasesens.caption
+msgid "A≠a"
+msgstr ""
+
+#: tfrmmultirename.cbcasesens.hint
+#, fuzzy
+msgctxt "tfrmmultirename.cbcasesens.hint"
+msgid "Case sensitive"
+msgstr "Sensível a maiúsculas"
+
 #: tfrmmultirename.cblog.caption
 #, fuzzy
 #| msgid "Ena&ble"
@@ -3614,6 +3721,14 @@ msgstr "Ac&tivar"
 
 #: tfrmmultirename.cblogappend.caption
 msgid "Append"
+msgstr ""
+
+#: tfrmmultirename.cbonlyfirst.caption
+msgid "1x"
+msgstr ""
+
+#: tfrmmultirename.cbonlyfirst.hint
+msgid "Replace only once per file"
 msgstr ""
 
 #: tfrmmultirename.cbregexp.caption
@@ -4119,6 +4234,10 @@ msgstr "Total de colunas fixas"
 #: tfrmoptionsbriefview.rbusefixedwidth.caption
 msgid "Fixed columns width"
 msgstr "Largura fixa"
+
+#: tfrmoptionscolors.rgdarkmode.caption
+msgid "Dark mode"
+msgstr ""
 
 #: tfrmoptionscolumnsview.cbcuttexttocolwidth.caption
 msgid "Cut &text to column width"
@@ -7408,11 +7527,6 @@ msgctxt "tfrmoptionsterminal.edrunintermstayopenparams.hint"
 msgid "{command} should normally be present here to reflect the command to be run in terminal"
 msgstr "{comando} deveria estar aqui presente para reflectir o comando a executar no terminal"
 
-#: tfrmoptionsterminal.edruntermparams.hint
-msgctxt "tfrmoptionsterminal.edruntermparams.hint"
-msgid "{command} should normally be present here to reflect the command to be run in terminal"
-msgstr "{comando} deveria estar aqui presente para reflectir o comando a executar no terminal"
-
 #: tfrmoptionsterminal.gbjustrunterminal.caption
 msgid "Command for just running terminal:"
 msgstr "Comando para executar no terminal:"
@@ -9600,10 +9714,18 @@ msgctxt "tfrmviewer.actshowgraphics.caption"
 msgid "Graphics"
 msgstr "Gráficos"
 
+#: tfrmviewer.actshowoffice.caption
+msgid "Office XML (text only)"
+msgstr ""
+
 #: tfrmviewer.actshowplugins.caption
 msgctxt "tfrmviewer.actshowplugins.caption"
 msgid "Plugins"
 msgstr "Extensões"
+
+#: tfrmviewer.actshowtransparency.caption
+msgid "Show transparenc&y"
+msgstr ""
 
 #: tfrmviewer.actstretchimage.caption
 msgctxt "TFRMVIEWER.ACTSTRETCHIMAGE.CAPTION"
@@ -9618,6 +9740,10 @@ msgstr "Esticar a imagem"
 msgctxt "tfrmviewer.actstretchonlylarge.caption"
 msgid "Stretch only large"
 msgstr "Esticar só grandes"
+
+#: tfrmviewer.actwraptext.caption
+msgid "&Wrap text"
+msgstr ""
 
 #: tfrmviewer.actzoom.caption
 msgid "Zoom"
@@ -10279,7 +10405,7 @@ msgid "A&uto-rename source files"
 msgstr "A&uto-renomear ficheiros fonte"
 
 #: ulng.rsdlgbuttonautorenametarget
-msgid "A&uto-rename target files"
+msgid "Auto-rename tar&get files"
 msgstr ""
 
 #: ulng.rsdlgbuttoncancel
@@ -10438,6 +10564,7 @@ msgid "Goto line:"
 msgstr "Ir para linha:"
 
 #: ulng.rseditgotolinetitle
+msgctxt "ulng.rseditgotolinetitle"
 msgid "Goto Line"
 msgstr "Ir para linha"
 
@@ -10668,6 +10795,10 @@ msgstr "Letra do caminho"
 
 #: ulng.rsfontusagesearchresults
 msgid "Search Results Font"
+msgstr ""
+
+#: ulng.rsfontusagestatusbar
+msgid "Status Bar Font"
 msgstr ""
 
 #: ulng.rsfontusagetreeviewmenu
@@ -10942,10 +11073,6 @@ msgstr ""
 msgid "Octal"
 msgstr ""
 
-#: ulng.rsmnucopynetnamestoclip
-msgid "Copy names with UNC path"
-msgstr "Copiar nomes com caminho UNC"
-
 #: ulng.rsmnucreateshortcut
 msgid "Create Shortcut..."
 msgstr ""
@@ -11047,6 +11174,10 @@ msgstr ""
 "\"%s\"\n"
 "\n"
 "Quer manter o ficheiro resultante corrompido?\n"
+
+#: ulng.rsmsgcanceloperation
+msgid "Are you sure that you want to cancel this operation?"
+msgstr ""
 
 #: ulng.rsmsgcannotcopymoveitself
 msgid "You can not copy/move a file \"%s\" to itself!"
@@ -12045,6 +12176,10 @@ msgstr ""
 #: ulng.rsmsgtctoolbarwheretosave
 msgid "Enter location and filename where to save a TC Toolbar file"
 msgstr "Insira localização e nome do ficheiro onde gravar a barra do TC"
+
+#: ulng.rsmsgterminaldisabled
+msgid "Built-in terminal window disabled. Do you want to enable it?"
+msgstr ""
 
 #: ulng.rsmsgterminateprocess
 msgid "WARNING: Terminating a process can cause undesired results including loss of data and system instability. The process will not be given the chance to save its state or data before it is terminated. Are you sure you want to terminate the process?"

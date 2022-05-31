@@ -15,6 +15,10 @@ msgstr ""
 "X-Generator: Poedit 2.2\n"
 "Language: cs\n"
 
+#: foptionscolors.rsdarkmodeoptions
+msgid "Auto;Enabled;Disabled"
+msgstr ""
+
 #: fsyncdirsdlg.rscomparingpercent
 msgid "Comparing... %d%% (ESC to cancel)"
 msgstr "Porovnávám... %d%% (ESC pro zrušení)"
@@ -525,6 +529,12 @@ msgctxt "TFRMDIFFER.ACTEDITREDO.CAPTION"
 msgid "Redo"
 msgstr "Krok vpřed"
 
+#: tfrmdiffer.acteditredo.hint
+#, fuzzy
+msgctxt "tfrmdiffer.acteditredo.hint"
+msgid "Redo"
+msgstr "Krok vpřed"
+
 #: tfrmdiffer.acteditselectall.caption
 msgid "Select &All"
 msgstr "Vybrat &vše"
@@ -534,10 +544,64 @@ msgctxt "TFRMDIFFER.ACTEDITUNDO.CAPTION"
 msgid "Undo"
 msgstr "Krok zpět"
 
+#: tfrmdiffer.acteditundo.hint
+#, fuzzy
+msgctxt "tfrmdiffer.acteditundo.hint"
+msgid "Undo"
+msgstr "Krok zpět"
+
 #: tfrmdiffer.actexit.caption
 msgctxt "TFRMDIFFER.ACTEXIT.CAPTION"
 msgid "E&xit"
 msgstr "&Konec"
+
+#: tfrmdiffer.actfind.caption
+#, fuzzy
+msgctxt "tfrmdiffer.actfind.caption"
+msgid "&Find"
+msgstr "&Najít"
+
+#: tfrmdiffer.actfind.hint
+#, fuzzy
+msgctxt "tfrmdiffer.actfind.hint"
+msgid "Find"
+msgstr "Najít"
+
+#: tfrmdiffer.actfindnext.caption
+#, fuzzy
+msgctxt "tfrmdiffer.actfindnext.caption"
+msgid "Find next"
+msgstr "Najít další"
+
+#: tfrmdiffer.actfindnext.hint
+#, fuzzy
+msgctxt "tfrmdiffer.actfindnext.hint"
+msgid "Find next"
+msgstr "Najít další"
+
+#: tfrmdiffer.actfindprev.caption
+#, fuzzy
+msgctxt "tfrmdiffer.actfindprev.caption"
+msgid "Find previous"
+msgstr "Najít předchozí"
+
+#: tfrmdiffer.actfindprev.hint
+#, fuzzy
+msgctxt "tfrmdiffer.actfindprev.hint"
+msgid "Find previous"
+msgstr "Najít předchozí"
+
+#: tfrmdiffer.actfindreplace.caption
+#, fuzzy
+msgctxt "tfrmdiffer.actfindreplace.caption"
+msgid "&Replace"
+msgstr "&Nahradit"
+
+#: tfrmdiffer.actfindreplace.hint
+#, fuzzy
+msgctxt "tfrmdiffer.actfindreplace.hint"
+msgid "Replace"
+msgstr "Nahradit"
 
 #: tfrmdiffer.actfirstdifference.caption
 msgctxt "TFRMDIFFER.ACTFIRSTDIFFERENCE.CAPTION"
@@ -548,6 +612,18 @@ msgstr "První rozdíl"
 msgctxt "TFRMDIFFER.ACTFIRSTDIFFERENCE.HINT"
 msgid "First Difference"
 msgstr "První rozdíl"
+
+#: tfrmdiffer.actgotoline.caption
+#, fuzzy
+msgctxt "tfrmdiffer.actgotoline.caption"
+msgid "Goto Line..."
+msgstr "Přejít na řádek..."
+
+#: tfrmdiffer.actgotoline.hint
+#, fuzzy
+msgctxt "tfrmdiffer.actgotoline.hint"
+msgid "Goto Line"
+msgstr "Přejít na řádek"
 
 #: tfrmdiffer.actignorecase.caption
 msgid "Ignore Case"
@@ -840,6 +916,7 @@ msgid "Find previous"
 msgstr "Najít předchozí"
 
 #: tfrmeditor.acteditgotoline.caption
+msgctxt "tfrmeditor.acteditgotoline.caption"
 msgid "Goto Line..."
 msgstr "Přejít na řádek..."
 
@@ -894,6 +971,7 @@ msgid "Redo"
 msgstr "Krok vpřed"
 
 #: tfrmeditor.acteditrplc.caption
+msgctxt "tfrmeditor.acteditrplc.caption"
 msgid "&Replace"
 msgstr "&Nahradit"
 
@@ -1041,6 +1119,10 @@ msgstr "&Zrušit"
 msgctxt "tfrmeditsearchreplace.buttonpanel.okbutton.caption"
 msgid "&OK"
 msgstr "&OK"
+
+#: tfrmeditsearchreplace.cbmultiline.caption
+msgid "&Multiline pattern"
+msgstr ""
 
 #: tfrmeditsearchreplace.cbsearchcasesensitive.caption
 msgid "C&ase sensitivity"
@@ -2126,6 +2208,10 @@ msgstr "Zkopírovat názvy včetně cest do schránky"
 msgid "Copy &Filename(s) to Clipboard"
 msgstr "Zkopírovat vybrané názvy do schránky"
 
+#: tfrmmain.actcopynetnamestoclip.caption
+msgid "Copy names with UNC path"
+msgstr "Kopírovat název s UNC cestou"
+
 #: tfrmmain.actcopynoask.caption
 msgid "Copy files without asking for confirmation"
 msgstr "Kopírovat soubory bez dotazu na potvrzení"
@@ -2353,6 +2439,14 @@ msgstr "Zobrazit miniatury v levé záložce"
 msgid "Load tabs from Favorite Tabs"
 msgstr "Načíst záložku z oblíbených"
 
+#: tfrmmain.actloadlist.caption
+msgid "Load List"
+msgstr ""
+
+#: tfrmmain.actloadlist.hint
+msgid "Load list of files/folders from the specified text file"
+msgstr ""
+
 #: tfrmmain.actloadselectionfromclip.caption
 msgid "Load Selection from Clip&board"
 msgstr "Načíst výběr ze schrán&ky"
@@ -2408,6 +2502,14 @@ msgstr "&Zrušit výběr všech"
 #: tfrmmain.actminimize.caption
 msgid "Minimize window"
 msgstr "Minimalizovat okno"
+
+#: tfrmmain.actmovetableft.caption
+msgid "Move current tab to the left"
+msgstr ""
+
+#: tfrmmain.actmovetabright.caption
+msgid "Move current tab to the right"
+msgstr ""
 
 #: tfrmmain.actmultirename.caption
 msgid "Multi-&Rename Tool"
@@ -3185,6 +3287,7 @@ msgid "&OK"
 msgstr "&OK"
 
 #: tfrmmaskinputdlg.chkcasesensitive.caption
+msgctxt "tfrmmaskinputdlg.chkcasesensitive.caption"
 msgid "Case sensitive"
 msgstr "Rozlišovat velikost"
 
@@ -3204,19 +3307,13 @@ msgstr "Maska vstupu:"
 msgid "O&r select predefined selection type:"
 msgstr "Ne&bo vyberte předdefinovaný typ výběru:"
 
-#: tfrmmkdir.btncancel.caption
-msgctxt "TFRMMKDIR.BTNCANCEL.CAPTION"
-msgid "&Cancel"
-msgstr "&Zrušit"
-
-#: tfrmmkdir.btnok.caption
-msgctxt "TFRMMKDIR.BTNOK.CAPTION"
-msgid "&OK"
-msgstr "&OK"
-
 #: tfrmmkdir.caption
 msgid "Create new directory"
 msgstr "Vytvoření nové složky"
+
+#: tfrmmkdir.cbextended.caption
+msgid "&Extended syntax"
+msgstr ""
 
 #: tfrmmkdir.lblmakedir.caption
 msgid "&Input new directory name:"
@@ -3528,6 +3625,16 @@ msgctxt "tfrmmultirename.caption"
 msgid "Multi-Rename Tool"
 msgstr "Hromadné přejmenování"
 
+#: tfrmmultirename.cbcasesens.caption
+msgid "A≠a"
+msgstr ""
+
+#: tfrmmultirename.cbcasesens.hint
+#, fuzzy
+msgctxt "tfrmmultirename.cbcasesens.hint"
+msgid "Case sensitive"
+msgstr "Rozlišovat velikost"
+
 #: tfrmmultirename.cblog.caption
 msgid "&Log result"
 msgstr "Logovat změny"
@@ -3535,6 +3642,14 @@ msgstr "Logovat změny"
 #: tfrmmultirename.cblogappend.caption
 msgid "Append"
 msgstr "Přidat na konec"
+
+#: tfrmmultirename.cbonlyfirst.caption
+msgid "1x"
+msgstr ""
+
+#: tfrmmultirename.cbonlyfirst.hint
+msgid "Replace only once per file"
+msgstr ""
 
 #: tfrmmultirename.cbregexp.caption
 msgid "Regular e&xpressions"
@@ -4025,6 +4140,10 @@ msgstr "Počet pevných sloupců"
 #: tfrmoptionsbriefview.rbusefixedwidth.caption
 msgid "Fixed columns width"
 msgstr "Pevná šířka sloupce"
+
+#: tfrmoptionscolors.rgdarkmode.caption
+msgid "Dark mode"
+msgstr ""
 
 #: tfrmoptionscolumnsview.cbcuttexttocolwidth.caption
 msgid "Cut &text to column width"
@@ -7178,11 +7297,6 @@ msgctxt "tfrmoptionsterminal.edrunintermstayopenparams.hint"
 msgid "{command} should normally be present here to reflect the command to be run in terminal"
 msgstr "{command} zde za normálních okolností znovu předloží příkaz, který chcete spustit v terminálu"
 
-#: tfrmoptionsterminal.edruntermparams.hint
-msgctxt "tfrmoptionsterminal.edruntermparams.hint"
-msgid "{command} should normally be present here to reflect the command to be run in terminal"
-msgstr "{command} zde za normálních okolností znovu předloží příkaz, který chcete spustit v terminálu"
-
 #: tfrmoptionsterminal.gbjustrunterminal.caption
 msgid "Command for just running terminal:"
 msgstr "Příkaz pouze pro spuštění terminálu:"
@@ -9319,10 +9433,18 @@ msgctxt "tfrmviewer.actshowgraphics.caption"
 msgid "Graphics"
 msgstr "Obrázek"
 
+#: tfrmviewer.actshowoffice.caption
+msgid "Office XML (text only)"
+msgstr ""
+
 #: tfrmviewer.actshowplugins.caption
 msgctxt "tfrmviewer.actshowplugins.caption"
 msgid "Plugins"
 msgstr "Doplněk"
+
+#: tfrmviewer.actshowtransparency.caption
+msgid "Show transparenc&y"
+msgstr ""
 
 #: tfrmviewer.actstretchimage.caption
 msgid "Stretch"
@@ -9335,6 +9457,10 @@ msgstr "Roztáhnout obrázek"
 #: tfrmviewer.actstretchonlylarge.caption
 msgid "Stretch only large"
 msgstr "Přizpůsobit pouze velké"
+
+#: tfrmviewer.actwraptext.caption
+msgid "&Wrap text"
+msgstr ""
 
 #: tfrmviewer.actzoom.caption
 msgid "Zoom"
@@ -9971,7 +10097,7 @@ msgid "A&uto-rename source files"
 msgstr "A&utomatické přejmenování zdrojových souborů"
 
 #: ulng.rsdlgbuttonautorenametarget
-msgid "A&uto-rename target files"
+msgid "Auto-rename tar&get files"
 msgstr "Automaticky přejmenovat cílové soubory"
 
 #: ulng.rsdlgbuttoncancel
@@ -10129,6 +10255,7 @@ msgid "Goto line:"
 msgstr "Číslo řádku:"
 
 #: ulng.rseditgotolinetitle
+msgctxt "ulng.rseditgotolinetitle"
 msgid "Goto Line"
 msgstr "Přejít na řádek"
 
@@ -10356,6 +10483,10 @@ msgstr "Písmo cesty"
 #: ulng.rsfontusagesearchresults
 msgid "Search Results Font"
 msgstr "Výsledek hledání"
+
+#: ulng.rsfontusagestatusbar
+msgid "Status Bar Font"
+msgstr ""
 
 #: ulng.rsfontusagetreeviewmenu
 msgid "Tree View Menu Font"
@@ -10626,10 +10757,6 @@ msgstr "<Default>"
 msgid "Octal"
 msgstr "Octal"
 
-#: ulng.rsmnucopynetnamestoclip
-msgid "Copy names with UNC path"
-msgstr "Kopírovat název s UNC cestou"
-
 #: ulng.rsmnucreateshortcut
 msgid "Create Shortcut..."
 msgstr "Vytvořit zástupce..."
@@ -10731,6 +10858,10 @@ msgstr ""
 "\"%s\"\n"
 "\n"
 "Přejete si ponechat výsledný poškozený soubor?\n"
+
+#: ulng.rsmsgcanceloperation
+msgid "Are you sure that you want to cancel this operation?"
+msgstr ""
 
 #: ulng.rsmsgcannotcopymoveitself
 msgid "You can not copy/move a file \"%s\" to itself!"
@@ -11730,6 +11861,10 @@ msgstr ""
 #: ulng.rsmsgtctoolbarwheretosave
 msgid "Enter location and filename where to save a TC Toolbar file"
 msgstr "Zadání umístění a názvu souboru pro uložení souboru nástrojové lišty TC"
+
+#: ulng.rsmsgterminaldisabled
+msgid "Built-in terminal window disabled. Do you want to enable it?"
+msgstr ""
 
 #: ulng.rsmsgterminateprocess
 msgid "WARNING: Terminating a process can cause undesired results including loss of data and system instability. The process will not be given the chance to save its state or data before it is terminated. Are you sure you want to terminate the process?"

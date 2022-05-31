@@ -3,7 +3,7 @@ library EverythingDsx;
 {$mode objfpc}{$H+}
 
 uses
-  Classes, DsxPlugin, everything;
+  Classes, Everything, DsxPlugin, DCConvertEncoding;
 
 threadvar
   AddFileProc: TSAddFileProc;
@@ -12,7 +12,7 @@ procedure FoundCallback(FileName: PWideChar);
 var
   S: String;
 begin
-  S:= UTF8Encode(UnicodeString(FileName));
+  S:= CeUtf16ToUtf8(UnicodeString(FileName));
   AddFileProc(0, PAnsiChar(S));
 end;
 

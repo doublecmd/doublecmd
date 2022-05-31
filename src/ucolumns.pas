@@ -232,6 +232,7 @@ type
     procedure CopyColumnSet(SetName, NewSetName: String);
     function GetColumnSet(const Index: Integer): TPanelColumnsClass;
     function GetColumnSet(Setname: String): TPanelColumnsClass;
+    function GetColumnSet(const AName, FileSystem: String): TPanelColumnsClass;
     //---------------------
     property Items: TStringList read fSet;
     property Count: Integer read GetCount;
@@ -1241,12 +1242,13 @@ begin
 end;
 
 function TPanelColumnsList.GetColumnSet(Setname: String): TPanelColumnsClass;
+var
+  Index: Integer;
 begin
-  //DCDebug('FsetCount='+inttostr(fset.Count));
-  if fset.IndexOf(Setname) > -1 then
-    Result := TPanelColumnsClass(Fset.Objects[fset.IndexOf(Setname)])
-  else
-  begin
+  Index:= fset.IndexOf(Setname);
+  if Index > -1 then
+    Result := TPanelColumnsClass(Fset.Objects[Index])
+  else begin
     if fset.Count = 0 then
     begin
       Fset.AddObject('Default', TPanelColumnsClass.Create);
@@ -1256,6 +1258,23 @@ begin
   end;
 end;
 
+function TPanelColumnsList.GetColumnSet(const AName, FileSystem: String): TPanelColumnsClass;
+var
+  Index: Integer;
+begin
+  if (FileSystem = EmptyStr) or SameText(FileSystem, FS_GENERAL) then
+    Result:= GetColumnSet(AName)
+  else begin
+    for Index:= 0 to Fset.Count - 1 do
+    begin
+      if SameText(AName, fset[Index]) and SameText(FileSystem, TPanelColumnsClass(Fset.Objects[Index]).FileSystem) then
+      begin
+        Exit(TPanelColumnsClass(Fset.Objects[Index]));
+      end;
+    end;
+    Result:= nil;
+  end;
+end;
 
 { TColPrm }
 

@@ -378,7 +378,11 @@ begin
            10: case osvi.dwMinorVersion of
                  0: if (osvi.wProductType = VER_NT_WORKSTATION) then
                     begin
-                      OSVersion := OSVersion + ' 10';
+                      if (osvi.dwBuildNumber >= 22000) then
+                        OSVersion := OSVersion + ' 11'
+                      else begin
+                        OSVersion := OSVersion + ' 10';
+                      end;
                       if (osvi.wSuiteMask and VER_SUITE_PERSONAL <> 0) then
                         OSVersion := OSVersion + ' Home';
                       if ((osvi.dwBuildNumber >= 19042) and
@@ -388,6 +392,19 @@ begin
                         OSVersion := OSVersion + ' ' + String(ReleaseId);
                       end;
                     end
+                    else if (osvi.wProductType = VER_NT_SERVER) then
+                    begin
+                      OSVersion += ' Server ';
+                      case osvi.dwBuildNumber of
+                        14393: OSVersion += '2016';
+                        17763: OSVersion += '2019';
+                        18363: OSVersion += '1909';
+                        19041: OSVersion += '2004';
+                        19042: OSVersion += '20H2';
+                        20348: OSVersion += '2022';
+                        else   OSVersion += '10.0.' + IntToStr(osvi.dwBuildNumber);
+                      end;
+                    end;
               end;
           end;
         end;

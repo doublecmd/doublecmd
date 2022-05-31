@@ -582,7 +582,7 @@ begin
   SendStream := TFileStreamEx.Create(FDirectFileName, fmOpenRead or fmShareDenyWrite);
 
   TargetName:= PWideChar(ServerToClient(FileName));
-  SourceName:= PWideChar(UTF8Decode(FDirectFileName));
+  SourceName:= PWideChar(CeUtf8ToUtf16(FDirectFileName));
 
   FileSize:= SendStream.Size;
   FBuffer:= GetMem(SMB_BUFFER_SIZE);
@@ -659,7 +659,7 @@ begin
   RetrStream := TFileStreamEx.Create(FDirectFileName, fmCreate or fmShareDenyWrite);
 
   SourceName := PWideChar(ServerToClient(FileName));
-  TargetName := PWideChar(UTF8Decode(FDirectFileName));
+  TargetName := PWideChar(CeUtf8ToUtf16(FDirectFileName));
 
   libssh2_session_set_blocking(FSession, 0);
   try

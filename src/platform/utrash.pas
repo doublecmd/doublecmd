@@ -45,7 +45,7 @@ implementation
 uses
   DCOSUtils, DCStrUtils,
   {$IF DEFINED(MSWINDOWS)}
-  Windows, ShellApi, uMyWindows
+  Windows, ShellApi, DCConvertEncoding, uMyWindows
   {$ELSEIF DEFINED(UNIX)}
   BaseUnix, uMyUnix, uOSUtils, FileUtil
     {$IFDEF DARWIN}
@@ -81,7 +81,7 @@ begin
   if StrEnds(FileName, ' ') then
     Exit(False);
 
-  wsFileName:= UTF8Decode(FileName);
+  wsFileName:= CeUtf8ToUtf16(FileName);
   // Windows before Vista cannot move symlink into
   // recycle bin correctly, so we return False in this case
   if (Win32Platform = VER_PLATFORM_WIN32_NT) and (Win32MajorVersion < 6) then
@@ -280,7 +280,7 @@ begin
   // Windows Vista/Seven
   if (Win32Platform = VER_PLATFORM_WIN32_NT) and (Win32MajorVersion >= 6) then
     begin
-      VolumeName:= GetMountPointVolumeName(UTF8Decode(ExtractFileDrive(sPath)));
+      VolumeName:= GetMountPointVolumeName(CeUtf8ToUtf16(ExtractFileDrive(sPath)));
       VolumeName:= 'Volume' + PathDelim + ExtractVolumeGUID(VolumeName);
       if RegOpenKeyExW(HKEY_CURRENT_USER, PWideChar(wsRoot + VolumeName), 0, KEY_READ, Key) = ERROR_SUCCESS then
         begin

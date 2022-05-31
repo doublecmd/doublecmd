@@ -68,7 +68,7 @@ implementation
 
 uses
   {$IF DEFINED(UNIX)}
-  iconvenc_dyn
+  iconvenc_dyn, LazUTF8
     {$IF DEFINED(DARWIN)}
     , MacOSAll, CocoaAll
     {$ELSE}
@@ -165,9 +165,11 @@ begin
   L:= Length(Source);
   if L = 0 then Exit('');
   SetLength(Result, L + 1);
-  L:= Utf8ToUnicode(PUnicodeChar(Result), L + 1, PAnsiChar(Source), L);
-  if L > 0 then
-    SetLength(Result, L - 1)
+  if (ConvertUTF8ToUTF16(PUnicodeChar(Result), L + 1, PAnsiChar(Source), L,
+                         [toInvalidCharToSymbol], L) = trNoError) then
+  begin
+    SetLength(Result, L - 1);
+  end
   else begin
     SetLength(Result, 0);
   end;
@@ -194,9 +196,11 @@ begin
   L:= Length(Source);
   if (L = 0) then Exit('');
   SetLength(Result, L * 3);
-  L:= UnicodeToUtf8(PAnsiChar(Result), Length(Result) + 1, PUnicodeChar(Source), L);
-  if L > 0 then
-    SetLength(Result, L - 1)
+  if (ConvertUTF16ToUTF8(PAnsiChar(Result), Length(Result) + 1, PUnicodeChar(Source), L,
+                         [toInvalidCharToSymbol], L) = trNoError) then
+  begin
+    SetLength(Result, L - 1);
+  end
   else begin
     SetLength(Result, 0);
   end;
@@ -282,7 +286,7 @@ var
   UnicodeResult: UnicodeString;
 begin
   if CeTryDecode(Source, CP_OEMCP, UnicodeResult) then
-    Result:= UTF8Encode(UnicodeResult)
+    Result:= CeUtf16ToUtf8(UnicodeResult)
   else
     Result:= Source;
 end;
@@ -291,7 +295,7 @@ function Utf82Oem(const Source: String): RawByteString;
 var
   AnsiResult: AnsiString;
 begin
-  if CeTryEncode(UTF8Decode(Source), CP_OEMCP, False, AnsiResult) then
+  if CeTryEncode(CeUtf8ToUtf16(Source), CP_OEMCP, False, AnsiResult) then
     Result:= AnsiResult
   else
     Result:= Source;

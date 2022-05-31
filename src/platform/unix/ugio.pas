@@ -4,7 +4,7 @@
    Interface to GIO - GLib Input, Output and Streaming Library
    This unit loads all libraries dynamically so it can work without it
 
-   Copyright (C) 2011-2019 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2011-2021 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -35,6 +35,7 @@ function GioOpen(const Uri: String): Boolean;
 function GioNewFile(const Address: String): PGFile;
 function GioGetIconTheme(const Scheme: String): String;
 function GioFileGetIcon(const FileName: String): String;
+function GioGetSetting(const Scheme, Key: String): String;
 function GioFileGetEmblem(const FileName: String): String;
 function GioMimeTypeGetActions(const MimeType: String): TDynamicStringArray;
 function GioGetMimeType(const FileName: String; MaxExtent: LongWord): String;
@@ -101,14 +102,15 @@ begin
   end;
 end;
 
-function GioGetIconTheme(const Scheme: String): String;
+function GioGetSetting(const Scheme, Key: String): String;
 var
   Theme: Pgchar;
   Settings: PGSettings;
   SettingsSchema: PGSettingsSchema;
   SchemaSource: PGSettingsSchemaSource;
 begin
-  if not HasGio then Exit(EmptyStr);
+  Result:= EmptyStr;
+  if not HasGio then Exit;
   SchemaSource:= g_settings_schema_source_get_default();
   if Assigned(SchemaSource) then
   begin
@@ -118,7 +120,7 @@ begin
       Settings:= g_settings_new(Pgchar(Scheme));
       if Assigned(Settings) then
       begin
-        Theme:= g_settings_get_string(Settings, 'icon-theme');
+        Theme:= g_settings_get_string(Settings, Pgchar(Key));
         if Assigned(Theme) then
         begin
           Result:= StrPas(Theme);
@@ -130,6 +132,11 @@ begin
     end;
     g_object_unref(PGObject(SchemaSource));
   end;
+end;
+
+function GioGetIconTheme(const Scheme: String): String;
+begin
+  Result:= GioGetSetting(Scheme, 'icon-theme');
 end;
 
 function GioFileGetIcon(const FileName: String): String;

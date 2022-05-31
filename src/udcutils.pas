@@ -197,7 +197,14 @@ function StrChunkCmp(const str1, str2: String; Natural: Boolean; Special: Boolea
 function EstimateRemainingTime(StartValue, CurrentValue, EndValue: Int64;
                                StartTime: TDateTime; CurrentTime: TDateTime;
                                out SpeedPerSecond: Int64): TDateTime;
-
+{en
+   Check color lightness
+   @returns(@true when color is light, @false otherwise)
+}
+function ColorIsLight(AColor: TColor): Boolean;
+{en
+   Modify color levels
+}
 function ModColor(AColor: TColor; APercent: Byte) : TColor;
 {en
    Makes a color some darker
@@ -213,6 +220,7 @@ function DarkColor(AColor: TColor; APercent: Byte): TColor;
    @returns(New some lighter color)
 }
 function LightColor(AColor: TColor; APercent: Byte): TColor;
+function ContrastColor(Color: TColor; APercent: Byte): TColor;
 procedure SetColorInColorBox(const lcbColorBox: TColorBox; const lColor: TColor);
 procedure UpdateColor(Control: TControl; Checked: Boolean);
 procedure EnableControl(Control:  TControl; Enabled: Boolean);
@@ -1086,6 +1094,14 @@ begin
     end;
 end;
 
+function ColorIsLight(AColor: TColor): Boolean;
+var
+  R, G, B: Byte;
+begin
+  RedGreenBlue(ColorToRGB(AColor), R, G, B);
+  Result:= ((0.299 * R + 0.587 * G + 0.114 * B) / 255) > 0.5;
+end;
+
 function ModColor(AColor: TColor; APercent: Byte) : TColor;
 var
   R, G, B : Byte;
@@ -1117,6 +1133,15 @@ begin
   G:= G + MulDiv(255 - G, APercent, 100);
   B:= B + MulDiv(255 - B, APercent, 100);
   Result:= RGBToColor(R, G, B);
+end;
+
+function ContrastColor(Color: TColor; APercent: Byte): TColor;
+begin
+  if ColorIsLight(Color) then
+    Result:= DarkColor(Color, APercent)
+  else begin
+    Result:= LightColor(Color, APercent);
+  end;
 end;
 
 procedure SetColorInColorBox(const lcbColorBox: TColorBox; const lColor: TColor);

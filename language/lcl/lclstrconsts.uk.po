@@ -1,11 +1,11 @@
 # Olexandr Pylypchuk <pilipchukap@rambler.ru>, 2016, 2017.
-# admin <lxlalexlxl@ukr.net>, 2017, 2018.
+# admin <lxlalexlxl@ukr.net>, 2017, 2018, 2019, 2020.
 msgid ""
 msgstr ""
 "Project-Id-Version: lazaruside\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2018-09-09 21:55+0200\n"
-"Last-Translator: Olexandr Pylypchuk <lxlalexlxl@ukr.net>\n"
+"PO-Revision-Date: 2020-06-10 21:40+0200\n"
+"Last-Translator: lxlalexlxl <lxlalexlxl@ukr.net>\n"
 "Language-Team: Ukrainian <kde-i18n-doc@kde.org>\n"
 "Language: uk\n"
 "MIME-Version: 1.0\n"
@@ -15,14 +15,17 @@ msgstr ""
 "X-Generator: Lokalize 2.0\n"
 
 #: lclstrconsts.hhshelpbrowsernotexecutable
+#, object-pascal-format
 msgid "Browser \"%s\" not executable."
 msgstr "Оглядач \"%s\" не є виконуваним."
 
 #: lclstrconsts.hhshelpbrowsernotfound
+#, object-pascal-format
 msgid "Browser \"%s\" not found."
 msgstr "Оглядач \"%s\" не знайдено."
 
 #: lclstrconsts.hhshelperrorwhileexecuting
+#, object-pascal-format
 msgid "Error while executing \"%s\":%s%s"
 msgstr "Помилка при виконанні \"%s\":%s%s"
 
@@ -31,14 +34,17 @@ msgid "Unable to find a HTML browser."
 msgstr "Не вдається знайти браузер HTML."
 
 #: lclstrconsts.hhshelpnohtmlbrowserfoundpleasedefineone
+#, object-pascal-format
 msgid "No HTML Browser found.%sPlease define one in Tools -> Options -> Help -> Help Options"
 msgstr "Оглядач HTML не знайдено.%sЗадайте його в меню Засоби -> Параметри -> Довідка -> Параметри довідки"
 
 #: lclstrconsts.hhshelpthehelpdatabasewasunabletofindfile
+#, object-pascal-format
 msgid "The help database \"%s\" was unable to find file \"%s\"."
 msgstr "У базі даних довідки \"%s\" не вдалось знайти файл \"%s\"."
 
 #: lclstrconsts.hhshelpthemacrosinbrowserparamswillbereplacedbytheurl
+#, object-pascal-format
 msgid "The macro %s in BrowserParams will be replaced by the URL."
 msgstr "Макрос %s в BrowserParams буде замінений на URL."
 
@@ -76,6 +82,7 @@ msgid "Unknown"
 msgstr "Невідомий"
 
 #: lclstrconsts.lislclresourcesnotfound
+#, object-pascal-format
 msgctxt "lclstrconsts.lislclresourcesnotfound"
 msgid "Resource %s not found"
 msgstr "Ресурс %s не знайдено"
@@ -101,6 +108,7 @@ msgid "Active Caption"
 msgstr "Активні заголовки"
 
 #: lclstrconsts.rsallfiles
+#, object-pascal-format
 msgid "All files (%s)|%s|%s"
 msgstr "Всі файли (%s)|%s|%s"
 
@@ -113,6 +121,7 @@ msgid "Aqua"
 msgstr "Колір морської хвилі"
 
 #: lclstrconsts.rsascannothaveasparent
+#, object-pascal-format
 msgid "Class %s cannot have %s as parent."
 msgstr "Клас %s не може мати предком %s."
 
@@ -182,18 +191,17 @@ msgid "Case sensitive"
 msgstr "Врахування регістру"
 
 #: lclstrconsts.rscontrolclasscantcontainchildclass
+#, object-pascal-format
 msgid "Control of class '%s' can't have control of class '%s' as a child"
 msgstr "Елемент управління класу '%s' не може мати нащадком елемент класу '%s'"
 
 #: lclstrconsts.rscontrolhasnoparentformorframe
+#, object-pascal-format
 msgid "Control '%s' has no parent form or frame"
 msgstr "Елемент керування '%s' не має предком форми або фрейма"
 
-#: lclstrconsts.rscontrolhasnoparentwindow
-msgid "Control '%s' has no parent window"
-msgstr "Елемент управління '%s' не має батьківського вінка"
-
 #: lclstrconsts.rscontrolisnotaparent
+#, object-pascal-format
 msgid "'%s' is not a parent of '%s'"
 msgstr "'%s' не є предком '%s'"
 
@@ -260,10 +268,12 @@ msgid "Error"
 msgstr "Помилка"
 
 #: lclstrconsts.rserrorcreatingdevicecontext
+#, object-pascal-format
 msgid "Error creating device context for %s.%s"
 msgstr "Помилка створення контексту пристроїв для %s.%s"
 
 #: lclstrconsts.rserroroccurredinataddressframe
+#, object-pascal-format
 msgid "Error occurred in %s at %sAddress %s%s Frame %s"
 msgstr "Сталась помилка в %s за %s адресою %s%s Вікно %s"
 
@@ -280,10 +290,12 @@ msgid "Directory must exist"
 msgstr "Тека повинна існувати"
 
 #: lclstrconsts.rsfddirectorynotexist
+#, object-pascal-format
 msgid "The directory \"%s\" does not exist."
 msgstr "Теки \"%s\" не існує."
 
 #: lclstrconsts.rsfdfilealreadyexists
+#, object-pascal-format
 msgid "The file \"%s\" already exists. Overwrite ?"
 msgstr "Такий файл \"%s\" вже існує. Переписати його ?"
 
@@ -292,10 +304,12 @@ msgid "File must exist"
 msgstr "Файл має існувати"
 
 #: lclstrconsts.rsfdfilenotexist
+#, object-pascal-format
 msgid "The file \"%s\" does not exist."
 msgstr "Файл \"%s\" не існує."
 
 #: lclstrconsts.rsfdfilereadonly
+#, object-pascal-format
 msgid "The file \"%s\" is not writable."
 msgstr "Файл \"%s\" не може бути записаний."
 
@@ -320,6 +334,7 @@ msgid "Path must exist"
 msgstr "Шлях має існувати"
 
 #: lclstrconsts.rsfdpathnoexist
+#, object-pascal-format
 msgid "The path \"%s\" does not exist."
 msgstr "Шлях \"%s\" не існує."
 
@@ -328,6 +343,7 @@ msgid "Select Directory"
 msgstr "Виберіть каталог"
 
 #: lclstrconsts.rsfileinfofilenotfound
+#, object-pascal-format
 msgid "(file not found: \"%s\")"
 msgstr "(файл не знайдено: \"%s\")"
 
@@ -365,10 +381,12 @@ msgid "Form"
 msgstr "Форма"
 
 #: lclstrconsts.rsformresourcesnotfoundforresourcelessformscreatenew
+#, object-pascal-format
 msgid "Form resource %s not found. For resourceless forms CreateNew constructor must be used. See the global variable RequireDerivedFormResource."
 msgstr "Ресурс форми %s не знайдено. Для форм без ресурсів повинен бути використаний конструктор CreateNew. Дивіться глобальну змінну RequireDerivedFormResource."
 
 #: lclstrconsts.rsformstreamingerror
+#, object-pascal-format
 msgid "Form streaming \"%s\" error: %s"
 msgstr "Помилка потоків форм \"%s\": %s"
 
@@ -490,6 +508,7 @@ msgid "Help"
 msgstr "Довідка"
 
 #: lclstrconsts.rshelpalreadyregistered
+#, object-pascal-format
 msgid "%s: Already registered"
 msgstr "%s: Вже зареєстрований"
 
@@ -506,42 +525,52 @@ msgid "Help Error"
 msgstr "Помилка довідки"
 
 #: lclstrconsts.rshelphelpcontextnotfound
+#, object-pascal-format
 msgid "Help context %s not found."
 msgstr "Контекст довідки %s не знайдено"
 
 #: lclstrconsts.rshelphelpcontextnotfoundindatabase
+#, object-pascal-format
 msgid "Help context %s not found in Database \"%s\"."
 msgstr "Контекст довідки %s не знайдено в базі \"%s\"."
 
 #: lclstrconsts.rshelphelpdatabasedidnotfoundaviewerforahelppageoftype
+#, object-pascal-format
 msgid "Help Database \"%s\" did not find a viewer for a help page of type %s"
 msgstr "База даних довідки \"%s\" не знайшла програму перегляду для сторінки довідки типу %s"
 
 #: lclstrconsts.rshelphelpdatabasenotfound
+#, object-pascal-format
 msgid "Help Database \"%s\" not found"
 msgstr "Базу даних довідки \"%s\" не знайдено"
 
 #: lclstrconsts.rshelphelpfordirectivenotfound
+#, object-pascal-format
 msgid "Help for directive \"%s\" not found."
 msgstr "Довідку щодо директиви \"%s\" не знайдено."
 
 #: lclstrconsts.rshelphelpfordirectivenotfoundindatabase
+#, object-pascal-format
 msgid "Help for directive \"%s\" not found in Database \"%s\"."
 msgstr "Довідку щодо директиви \"%s\" не знайдено в базі \"%s\"."
 
 #: lclstrconsts.rshelphelpkeywordnotfound
+#, object-pascal-format
 msgid "Help keyword \"%s\" not found."
 msgstr "Ключове слово довідки \"%s\" не знайдено."
 
 #: lclstrconsts.rshelphelpkeywordnotfoundindatabase
+#, object-pascal-format
 msgid "Help keyword \"%s\" not found in Database \"%s\"."
 msgstr "Ключове слово довідки \"%s\" не знайдено в базі даних \"%s\"."
 
 #: lclstrconsts.rshelphelpnodehasnohelpdatabase
+#, object-pascal-format
 msgid "Help node \"%s\" has no Help Database"
 msgstr "Вузол довідки \"%s\" не має відповідної бази даних"
 
 #: lclstrconsts.rshelpnohelpfoundforsource
+#, object-pascal-format
 msgid "No help found for line %d, column %d of %s."
 msgstr "Не знайдено довідки для рядка %d, колонки %d з %s."
 
@@ -554,6 +583,7 @@ msgid "No help found for this topic"
 msgstr "Для цієї теми не знайдено довідки"
 
 #: lclstrconsts.rshelpnotregistered
+#, object-pascal-format
 msgid "%s: Not registered"
 msgstr "%s: Не зареєстрований"
 
@@ -562,6 +592,7 @@ msgid "Help Selector Error"
 msgstr "Помилка відбірника довідки"
 
 #: lclstrconsts.rshelpthereisnoviewerforhelptype
+#, object-pascal-format
 msgid "There is no viewer for help type \"%s\""
 msgstr "Відсутня програма для перегляду типу довідки типу \"%s\""
 
@@ -632,10 +663,12 @@ msgid "Inactive Caption"
 msgstr "Заголовок неактивного вікна"
 
 #: lclstrconsts.rsindexoutofbounds
+#, object-pascal-format
 msgid "%s Index %d out of bounds 0 .. %d"
 msgstr "%s Індекс %d поза діапазоном 0 .. %d"
 
 #: lclstrconsts.rsindexoutofrange
+#, object-pascal-format
 msgid "Index Out of range Cell[Col=%d Row=%d]"
 msgstr "Індекс поза діапазоном Cell[Col=%d Row=%d]"
 
@@ -653,10 +686,12 @@ msgid "Insert"
 msgstr "Вставка"
 
 #: lclstrconsts.rsinvaliddate
+#, object-pascal-format
 msgid "Invalid Date : %s"
 msgstr "Неправильна дата : %s"
 
 #: lclstrconsts.rsinvaliddaterangehint
+#, object-pascal-format
 msgid "Invalid Date: %s. Must be between %s and %s"
 msgstr "Неправильна дата: %s. Має бути між %s та %s"
 
@@ -673,6 +708,7 @@ msgid "Invalid stream format"
 msgstr "Неправильний формат потоку"
 
 #: lclstrconsts.rsisalreadyassociatedwith
+#, object-pascal-format
 msgid "%s is already associated with %s"
 msgstr "%s вже зіставлено з %s"
 
@@ -689,10 +725,16 @@ msgid "Lime"
 msgstr "Зелений"
 
 #: lclstrconsts.rslistindexexceedsbounds
+#, object-pascal-format
 msgid "List index exceeds bounds (%d)"
 msgstr "Індекс списку поза діапазоном (%d)"
 
+#: lclstrconsts.rsmacosfileformat
+msgid "File Format:"
+msgstr "Формат файла:"
+
 #: lclstrconsts.rsmacosmenuhide
+#, object-pascal-format
 msgid "Hide %s"
 msgstr "Приховати %s"
 
@@ -701,6 +743,7 @@ msgid "Hide Others"
 msgstr "Приховати решту"
 
 #: lclstrconsts.rsmacosmenuquit
+#, object-pascal-format
 msgid "Quit %s"
 msgstr "Вийти з %s"
 
@@ -885,6 +928,7 @@ msgid "Post"
 msgstr "Відправити"
 
 #: lclstrconsts.rspressoktoignoreandriskdatacorruptionpressaborttok
+#, object-pascal-format
 msgid "%s%sPress OK to ignore and risk data corruption.%sPress Abort to kill the program."
 msgstr "%s%sНатисніть Гаразд, щоб знехтувати з ризиком втрати даних.%sНатисніть Припинити, щоб знищити програму."
 
@@ -898,12 +942,17 @@ msgid "Prompt on replace"
 msgstr "Запитувати при заміні"
 
 #: lclstrconsts.rspropertydoesnotexist
+#, object-pascal-format
 msgid "Property %s does not exist"
 msgstr "Властивості %s не існує"
 
 #: lclstrconsts.rspurplecolorcaption
 msgid "Purple"
 msgstr "Пурпуровий"
+
+#: lclstrconsts.rsqtoptiondisableaccurateframe
+msgid "-disableaccurateframe, disables fully accurate window frame under X11. This feature is implemented for Qt, Qt5 and Gtk2 interfaces and used mostly by GetWindowRect()."
+msgstr "-disableaccurateframe, вимикає повністю точну рамку вікна під X11. Ця функція реалізована для інтерфейсів Qt, Qt5 та Gtk2 та використовується здебільшого GetWindowRect()."
 
 #: lclstrconsts.rsqtoptiondograb
 msgid "-dograb (only under X11), running under a debugger can cause an implicit -nograb, use -dograb to override. Need QT_DEBUG."
@@ -1022,6 +1071,7 @@ msgid "Replace all"
 msgstr "Замінити все"
 
 #: lclstrconsts.rsresourcenotfound
+#, object-pascal-format
 msgctxt "lclstrconsts.rsresourcenotfound"
 msgid "Resource %s not found"
 msgstr "Ресурс %s не знайдено"
@@ -1110,26 +1160,32 @@ msgid "Unsupported bitmap format."
 msgstr "Непідтримуваний тип растрового малюнка."
 
 #: lclstrconsts.rsunsupportedclipboardformat
+#, object-pascal-format
 msgid "Unsupported clipboard format: %s"
 msgstr "Непідтримуваний формат буфера обміну: %s"
 
 #: lclstrconsts.rswarningunreleaseddcsdump
+#, object-pascal-format
 msgid " WARNING: There are %d unreleased DCs, a detailed dump follows:"
 msgstr " УВАГА: Знайдено %d не звільнених контекстів пристроїв, список див. нижче:"
 
 #: lclstrconsts.rswarningunreleasedgdiobjectsdump
+#, object-pascal-format
 msgid " WARNING: There are %d unreleased GDIObjects, a detailed dump follows:"
 msgstr " УВАГА: Знайдено %d не звільнених GDIObject, список див. нижче:"
 
 #: lclstrconsts.rswarningunreleasedmessagesinqueue
+#, object-pascal-format
 msgid " WARNING: There are %d messages left in the queue! I'll free them"
 msgstr " УВАГА: В черзі залишилось %d повідомлень! Я їх видаляю"
 
 #: lclstrconsts.rswarningunreleasedtimerinfos
+#, object-pascal-format
 msgid " WARNING: There are %d TimerInfo structures left, I'll free them"
 msgstr " УВАГА: Залишилось %d структур TimerInfo, я їх видаляю"
 
 #: lclstrconsts.rswarningunremovedpaintmessages
+#, object-pascal-format
 msgid " WARNING: There are %s unremoved LM_PAINT/LM_GtkPAINT message links left."
 msgstr " УВАГА: Знайдено %s не видалених LM_PAINT/LM_GtkPAINT посилань на повідомлення."
 
@@ -1169,10 +1225,6 @@ msgstr "Жовтий"
 msgid "Cannot focus a disabled or invisible window"
 msgstr "Не можна дати фокус вимкненому або невидимому вікну"
 
-#: lclstrconsts.scannotsetdesigntimeppi
-msgid "Cannot set design time PPI."
-msgstr "Неможливо встановити ПНД часу розробки."
-
 #: lclstrconsts.sduplicatemenus
 msgid "Duplicate menus"
 msgstr "Дублювати меню"
@@ -1192,10 +1244,6 @@ msgstr "Неправильна реєстрація дії"
 #: lclstrconsts.sinvalidactionunregistration
 msgid "Invalid action unregistration"
 msgstr "Скасування реєстрації хибної дії"
-
-#: lclstrconsts.sinvalidcharset
-msgid "The char set in mask \"%s\" is not valid!"
-msgstr "Хибний набір символів у масці \"%s\"!"
 
 #: lclstrconsts.sinvalidimagesize
 msgid "Invalid image size"
@@ -1309,22 +1357,27 @@ msgid "No timers available"
 msgstr "Немає доступних таймерів"
 
 #: lclstrconsts.sparentrequired
+#, object-pascal-format
 msgid "Control \"%s\" has no parent window."
 msgstr "Елемент керування \"%s\" не має батьківського вікна."
 
 #: lclstrconsts.sparexpected
+#, object-pascal-format
 msgid "Wrong token type: %s expected"
 msgstr "Хибний тип маркера: очікується %s"
 
 #: lclstrconsts.sparinvalidfloat
+#, object-pascal-format
 msgid "Invalid floating point number: %s"
 msgstr "Хибне число з рухомою комою: %s"
 
 #: lclstrconsts.sparinvalidinteger
+#, object-pascal-format
 msgid "Invalid integer number: %s"
 msgstr "Хибне ціле число: %s"
 
 #: lclstrconsts.sparlocinfo
+#, object-pascal-format
 msgid " (at %d,%d, stream offset %d)"
 msgstr " (на %d,%d, зміщення потоку %d)"
 
@@ -1337,52 +1390,60 @@ msgid "Unterminated string"
 msgstr "Незавершений рядок"
 
 #: lclstrconsts.sparwrongtokensymbol
+#, object-pascal-format
 msgid "Wrong token symbol: %s expected but %s found"
 msgstr "Хибний символ маркера: очікувався %s, але знайдено %s"
 
 #: lclstrconsts.sparwrongtokentype
+#, object-pascal-format
 msgid "Wrong token type: %s expected but %s found"
 msgstr "Хибний тип маркера: очікувався %s, але знайдено %s"
 
 #: lclstrconsts.sshellctrlsbytes
+#, object-pascal-format
 msgid "%s bytes"
 msgstr "%s байтів"
 
 #: lclstrconsts.sshellctrlsinvalidpath
+#, object-pascal-format
 msgctxt "lclstrconsts.sshellctrlsinvalidpath"
 msgid ""
 "Invalid pathname:\n"
-"\"%s\"\n"
+"\"%s\""
 msgstr ""
 "Хибний шлях:\n"
-"\"%s\"\n"
+"\"%s\""
 
 #: lclstrconsts.sshellctrlsinvalidpathrelative
+#, object-pascal-format
 msgid ""
 "Invalid relative pathname:\n"
 "\"%s\"\n"
 "in relation to rootpath:\n"
-"\"%s\"\n"
+"\"%s\""
 msgstr ""
 "Хибний відносний шлях:\n"
 "\"%s\"\n"
 "відносно кореневого шляху:\n"
-"\"%s\"\n"
+"\"%s\""
 
 #: lclstrconsts.sshellctrlsinvalidroot
+#, object-pascal-format
 msgctxt "lclstrconsts.sshellctrlsinvalidroot"
 msgid ""
 "Invalid pathname:\n"
-"\"%s\"\n"
+"\"%s\""
 msgstr ""
 "Хибний шлях:\n"
-"\"%s\"\n"
+"\"%s\""
 
 #: lclstrconsts.sshellctrlskb
+#, object-pascal-format
 msgid "%s kB"
 msgstr "%s кБ"
 
 #: lclstrconsts.sshellctrlsmb
+#, object-pascal-format
 msgid "%s MB"
 msgstr "%s МБ"
 
@@ -1391,12 +1452,13 @@ msgid "Name"
 msgstr "Назва"
 
 #: lclstrconsts.sshellctrlsselecteditemdoesnotexists
+#, object-pascal-format
 msgid ""
 "The selected item does not exist on disk:\n"
-"\"%s\"\n"
+"\"%s\""
 msgstr ""
 "Вибраний елемент відсутній на диску:\n"
-"\"%s\"\n"
+"\"%s\""
 
 #: lclstrconsts.sshellctrlssize
 msgid "Size"

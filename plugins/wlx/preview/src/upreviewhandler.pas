@@ -51,7 +51,7 @@ function GetPreviewHandler(const FileName: UnicodeString): IPreviewHandler;
 implementation
 
 uses
-  ComObj;
+  ComObj, DCConvertEncoding, DCClassesUtf8;
 
 type
   IInitializeWithFile = interface(IUnknown)
@@ -86,7 +86,7 @@ var
   ABuffer: array[0..MAX_PATH] of WideChar;
 begin
   Res := AssocQueryStringW(ASSOCF_INIT_DEFAULTTOSTAR, ASSOCSTR_SHELLEXTENSION, PWideChar(FileExt),
-                           PWideChar(UTF8Decode(GuidToString(interfaceID))), ABuffer, @cchOut);
+                           PWideChar(CeUtf8ToUtf16(GuidToString(interfaceID))), ABuffer, @cchOut);
   if (Res <> S_OK) then Exit(Default(TGUID));
   Res := CLSIDFromString(ABuffer, @Result);
   if (Res <> NOERROR) then Exit(Default(TGUID));
@@ -97,7 +97,7 @@ var
   Res: HRESULT;
   ClassID: TGUID;
   AStream: IStream;
-  AFile: TFileStream;
+  AFile: TFileStreamEx;
   AShellItem: IShellItem;
   AInitializeWithFile: IInitializeWithFile;
   AInitializeWithItem: IInitializeWithItem;
@@ -112,7 +112,7 @@ begin
       Res:= AInitializeWithFile.Initialize(PWideChar(FileName), STGM_READ)
     else if Supports(Result, IInitializeWithStream, AInitializeWithStream) then
     try
-      AFile:= TFileStream.Create(UTF8Encode(FileName), fmOpenRead or fmShareDenyNone);
+      AFile:= TFileStreamEx.Create(CeUtf16ToUtf8(FileName), fmOpenRead or fmShareDenyNone);
       AStream:= TStreamAdapter.Create(AFile, soOwned) as IStream;
       Res:= AInitializeWithStream.Initialize(AStream, STGM_READ);
     except

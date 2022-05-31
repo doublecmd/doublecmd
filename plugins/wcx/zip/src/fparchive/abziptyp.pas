@@ -413,6 +413,7 @@ type
     function  GetLastModFileTime : Word; override;
     function  GetNativeFileAttributes : LongInt; override;
     function  GetNativeLastModFileTime: Longint; override;
+    function  GetLastModTimeAsDateTime: TDateTime; override;
     procedure SetCompressedSize( const Value : Int64 ); override;
     procedure SetCRC32( const Value : Longint ); override;
     procedure SetExternalFileAttributes( Value : LongWord ); override;
@@ -1455,6 +1456,14 @@ begin
 {$ENDIF}
 end;
 { -------------------------------------------------------------------------- }
+function TAbZipItem.GetLastModTimeAsDateTime: TDateTime;
+begin
+  if (FDateTime <> 0) then
+    Result := FDateTime
+  else
+    Result := AbDosFileDateToDateTime(FItemInfo.LastModFileDate, FItemInfo.LastModFileTime);
+end;
+{ -------------------------------------------------------------------------- }
 function TAbZipItem.GetShannonFanoTreeCount : Byte;
 begin
   Result := FItemInfo.ShannonFanoTreeCount;
@@ -1687,7 +1696,7 @@ begin
   {$IFDEF MSWINDOWS}
   FItemInfo.IsUTF8 := False;
   HostOS := hosDOS;
-  UnicName := UTF8Decode(Value);
+  UnicName := CeUtf8ToUtf16(Value);
   if CeTryEncode(UnicName, CP_OEMCP, False, AnsiName) then
     {no-op}
   else if (GetACP <> GetOEMCP) and CeTryEncode(UnicName, CP_ACP, False, AnsiName) then
@@ -1700,6 +1709,7 @@ begin
     FItemInfo.FileName := AnsiName;
   {$ENDIF}
   {$IFDEF UNIX}
+  HostOS := hosUnix;
   FItemInfo.FileName := Value;
   FItemInfo.IsUTF8 := SystemEncodingUtf8;
   {$ENDIF}
@@ -2453,7 +2463,3 @@ begin
 end;
 
 end.
-
-
-
-

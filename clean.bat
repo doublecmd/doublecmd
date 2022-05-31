@@ -21,9 +21,9 @@
 
 @del /Q /S plugins\dsx\DSXLocate\lib\*.*
 
+@del /Q /S plugins\wcx\base64\lib\*.*
 @del /Q /S plugins\wcx\cpio\lib\*.*
 @del /Q /S plugins\wcx\deb\lib\*.*
-@del /Q /S plugins\wcx\lzma\lib\*.*
 @del /Q /S plugins\wcx\rpm\lib\*.*
 @del /Q /S plugins\wcx\sevenzip\lib\*.*
 @del /Q /S plugins\wcx\torrent\lib\*.*
@@ -33,8 +33,6 @@
 
 @del /Q /S plugins\wdx\deb_wdx\lib\*.*
 @del /Q /S plugins\wdx\rpm_wdx\lib\*.*
-@del /Q /S plugins\wdx\svn_wdx\lib\*.*
-@del /Q /S plugins\wdx\xpi_wdx\lib\*.*
 @del /Q /S plugins\wdx\audioinfo\lib\*.*
 
 @del /Q /S plugins\wfx\ftp\lib\*.*
@@ -53,7 +51,6 @@
 @echo Clean up components output directories
 
 @del /Q /S components\chsdet\lib\*.*
-@del /Q /S components\CmdLine\lib\*.*
 @del /Q /S components\dcpcrypt\lib\*.*
 @del /Q /S components\doublecmd\lib\*.*
 @del /Q /S components\gifanim\lib\*.*
@@ -61,5 +58,6 @@
 @del /Q /S components\multithreadprocs\lib\*.*
 @del /Q /S components\viewer\lib\*.*
 @del /Q /S components\synunihighlighter\lib\*.*
+@del /Q /S components\virtualterminal\lib\*.*
 
 @echo Done.
