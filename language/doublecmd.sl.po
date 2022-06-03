@@ -6816,6 +6816,10 @@ msgstr "Med zamenjavo pogona vedno odpri &korensko mapo"
 msgid "Show &current directory in the main window title bar"
 msgstr ""
 
+#: tfrmoptionsmisc.chkshowsplashform.caption
+msgid "Show &splash screen"
+msgstr ""
+
 #: tfrmoptionsmisc.chkshowwarningmessages.caption
 msgid "Show &warning messages (\"OK\" button only)"
 msgstr "Pokaži &opozorila (okna, ki imajo le gumb »V redu«)"

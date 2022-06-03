@@ -7099,6 +7099,10 @@ msgstr "Увек иди у& корен уређаја приликом мења�
 msgid "Show &current directory in the main window title bar"
 msgstr ""
 
+#: tfrmoptionsmisc.chkshowsplashform.caption
+msgid "Show &splash screen"
+msgstr ""
+
 #: tfrmoptionsmisc.chkshowwarningmessages.caption
 msgctxt "TFRMOPTIONSMISC.CHKSHOWWARNINGMESSAGES.CAPTION"
 msgid "Show &warning messages (\"OK\" button only)"

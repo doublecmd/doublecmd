@@ -6780,6 +6780,10 @@ msgstr "Ga altijd naar de root van een schijf bij verandering van schijven"
 msgid "Show &current directory in the main window title bar"
 msgstr "Toon huidige map in de titelbalk van het hoofdvenster"
 
+#: tfrmoptionsmisc.chkshowsplashform.caption
+msgid "Show &splash screen"
+msgstr ""
+
 #: tfrmoptionsmisc.chkshowwarningmessages.caption
 msgid "Show &warning messages (\"OK\" button only)"
 msgstr "Toon waarschuwingen (alleen 'Oké'-knop)"

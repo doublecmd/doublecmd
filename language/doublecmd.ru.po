@@ -6947,6 +6947,10 @@ msgstr "При смене диска всегда пере&ходить в ко�
 msgid "Show &current directory in the main window title bar"
 msgstr "Показывать &текущий каталог в заголовке окна"
 
+#: tfrmoptionsmisc.chkshowsplashform.caption
+msgid "Show &splash screen"
+msgstr "Показывать заставку при &запуске"
+
 #: tfrmoptionsmisc.chkshowwarningmessages.caption
 msgctxt "tfrmoptionsmisc.chkshowwarningmessages.caption"
 msgid "Show &warning messages (\"OK\" button only)"

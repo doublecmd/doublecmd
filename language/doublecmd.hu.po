@@ -6951,6 +6951,10 @@ msgstr "&Mindig ugorjon a gyökérkönyvtárba a meghajtó váltásakor"
 msgid "Show &current directory in the main window title bar"
 msgstr "Az &aktuális könyvtár megjelenítése a főablak címsorában"
 
+#: tfrmoptionsmisc.chkshowsplashform.caption
+msgid "Show &splash screen"
+msgstr ""
+
 #: tfrmoptionsmisc.chkshowwarningmessages.caption
 msgctxt "tfrmoptionsmisc.chkshowwarningmessages.caption"
 msgid "Show &warning messages (\"OK\" button only)"

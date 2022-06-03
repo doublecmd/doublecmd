@@ -6932,6 +6932,10 @@ msgstr "ドライブを変更する場合は必ずドライブのルートに移
 msgid "Show &current directory in the main window title bar"
 msgstr ""
 
+#: tfrmoptionsmisc.chkshowsplashform.caption
+msgid "Show &splash screen"
+msgstr ""
+
 #: tfrmoptionsmisc.chkshowwarningmessages.caption
 msgctxt "TFRMOPTIONSMISC.CHKSHOWWARNINGMESSAGES.CAPTION"
 msgid "Show &warning messages (\"OK\" button only)"
