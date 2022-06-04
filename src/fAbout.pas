@@ -45,7 +45,6 @@ type
     pnlText: TPanel;
     memInfo: TMemo;
     pnlInfo: TPanel;
-    pnlLogo: TPanel;
     procedure btnCopyToClipboardClick(Sender: TObject);
     procedure lblHomePageAddressClick(Sender: TObject);
     procedure lblHomePageAddressMouseEnter(Sender: TObject);
