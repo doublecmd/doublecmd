@@ -142,6 +142,7 @@ uses
     {$IF NOT DEFINED(DARWIN)}
     , uDCReadSVG, uMagickWand, uGio, uGioFileSource, uVfsModule, uVideoThumb
     , uDCReadWebP, uFolderThumb, uAudioThumb, uDefaultTerminal, uDCReadHEIF
+    , uTrashFileSource
     {$ELSE}
     , MacOSAll, uQuickLook, uMyDarwin
     {$ENDIF}
@@ -636,7 +637,12 @@ begin
       StaticTitle:= StaticTitle + ' - ROOT PRIVILEGES';
   end;
   {$IF NOT DEFINED(DARWIN)}
-  if HasGio then RegisterVirtualFileSource('GVfs', TGioFileSource, False);
+  if HasGio then
+  begin
+    if TGioFileSource.IsSupportedPath('trash://') then
+      RegisterVirtualFileSource(rsVfsRecycleBin, TTrashFileSource, True);
+    RegisterVirtualFileSource('GVfs', TGioFileSource, False);
+  end;
   {$ENDIF}
 
   {$IF DEFINED(DARWIN) AND DEFINED(LCLQT)}
