@@ -7445,6 +7445,10 @@ msgstr "&Gå altid til drevets rod ved skift af drev"
 msgid "Show &current directory in the main window title bar"
 msgstr ""
 
+#: tfrmoptionsmisc.chkshowsplashform.caption
+msgid "Show &splash screen"
+msgstr ""
+
 # Opsætning - Indstillinger - Diverse
 #: tfrmoptionsmisc.chkshowwarningmessages.caption
 msgid "Show &warning messages (\"OK\" button only)"

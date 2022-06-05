@@ -5,8 +5,8 @@ unit fOptionsColors;
 interface
 
 uses
-  Classes, SysUtils, Forms, Controls, ExtCtrls, DCClassesUtf8, fOptionsFrame,
-  fOptionsGroups;
+  Classes, SysUtils, Forms, Controls, ExtCtrls, Dialogs,
+  fOptionsFrame, fOptionsGroups;
 
 type
 
@@ -15,12 +15,10 @@ type
   TfrmOptionsColors = class(TOptionsColorsGroup)
     rgDarkMode: TRadioGroup;
   private
-    FMode: Integer;
-    FConfig: TIniFileEx;
+    FAppMode: Integer;
   protected
     procedure Init; override;
     procedure Load; override;
-    procedure Done; override;
     function Save: TOptionsEditorSaveFlags; override;
   public
     class function IsEmpty: Boolean; override;
@@ -34,52 +32,39 @@ implementation
 {$R *.lfm}
 
 uses
-  DCStrUtils, uShowMsg, uGlobsPaths, uDarkStyle;
+  DCStrUtils, uEarlyConfig, uDarkStyle;
 
 { TfrmOptionsColors }
 
 procedure TfrmOptionsColors.Init;
 begin
-  try
-    FConfig:= TIniFileEx.Create(gpCfgDir + 'doublecmd.ini');
-  except
-    on E: Exception do msgError(E.Message);
-  end;
+  FAppMode:= gAppMode;
   ParseLineToList(rsDarkModeOptions, rgDarkMode.Items);
 end;
 
 procedure TfrmOptionsColors.Load;
 begin
-  FMode:= FConfig.ReadInteger('General', 'DarkMode', 1);
-  case FMode of
+  case FAppMode of
     1: rgDarkMode.ItemIndex:= 0;
     2: rgDarkMode.ItemIndex:= 1;
     3: rgDarkMode.ItemIndex:= 2;
   end;
 end;
 
-procedure TfrmOptionsColors.Done;
-begin
-  FConfig.Free;
-end;
-
 function TfrmOptionsColors.Save: TOptionsEditorSaveFlags;
-var
-  AMode: Integer;
 begin
   Result:= [];
   case rgDarkMode.ItemIndex of
-    0: AMode:= 1;
-    1: AMode:= 2;
-    2: AMode:= 3;
+    0: gAppMode:= 1;
+    1: gAppMode:= 2;
+    2: gAppMode:= 3;
   end;
-  if FMode <> AMode then
+  if gAppMode <> FAppMode then
   try
-    FConfig.WriteInteger('General', 'DarkMode', AMode);
-    FConfig.UpdateFile;
+    SaveEarlyConfig;
     Result:= [oesfNeedsRestart];
   except
-    on E: Exception do msgError(E.Message);
+    on E: Exception do MessageDlg(E.Message, mtError, [mbOK], 0);
   end;
 end;
 

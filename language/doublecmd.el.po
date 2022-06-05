@@ -6933,6 +6933,10 @@ msgstr "Πάντα μετάβαση στη ρίζα ενός οδηγού ότα
 msgid "Show &current directory in the main window title bar"
 msgstr "Εμφάνιση τρέχοντος καταλόγου στην γραμμή τίτλου του κύριου παραθύρου"
 
+#: tfrmoptionsmisc.chkshowsplashform.caption
+msgid "Show &splash screen"
+msgstr ""
+
 #: tfrmoptionsmisc.chkshowwarningmessages.caption
 msgctxt "TFRMOPTIONSMISC.CHKSHOWWARNINGMESSAGES.CAPTION"
 msgid "Show &warning messages (\"OK\" button only)"

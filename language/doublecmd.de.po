@@ -6892,6 +6892,10 @@ msgstr "Bei Wechsel des Laufwerks/Mediums immer zum Stammverzeichnis wechseln (l
 msgid "Show &current directory in the main window title bar"
 msgstr "Aktuelles Verzeichnis in der Titelleiste anzeigen"
 
+#: tfrmoptionsmisc.chkshowsplashform.caption
+msgid "Show &splash screen"
+msgstr ""
+
 #: tfrmoptionsmisc.chkshowwarningmessages.caption
 msgid "Show &warning messages (\"OK\" button only)"
 msgstr "&Warnungen anzeigen (quittieren mit \"OK\"-Taste)"
@@ -13989,3 +13993,4 @@ msgstr "Eine Ersetzung hat nicht stattgefunden."
 #: umaincommands.rsfavoritetabs_setupnotexist
 msgid "No setup named \"%s\""
 msgstr "Keine Einstellung namens »%s«"
+

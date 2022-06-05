@@ -6767,6 +6767,10 @@ msgstr "Vždy isť na koreňový priečinok pri zmene diskov"
 msgid "Show &current directory in the main window title bar"
 msgstr "Zobraziť &aktuálny priečinok v hlavnom paneli okna"
 
+#: tfrmoptionsmisc.chkshowsplashform.caption
+msgid "Show &splash screen"
+msgstr ""
+
 #: tfrmoptionsmisc.chkshowwarningmessages.caption
 msgid "Show &warning messages (\"OK\" button only)"
 msgstr "Zobraziť varovné správy (len tlačidlo \"OK\")"

@@ -36,6 +36,7 @@ uses
   uQt5Workaround,
   {$ENDIF}
   {$ENDIF}
+  uEarlyConfig,
   DCConvertEncoding,
   {$IF DEFINED(LCLWIN32) and DEFINED(DARKWIN)}
   uWin32WidgetSetDark,
@@ -186,7 +187,7 @@ begin
 
   ProcessCommandLineParams; // before load paths
 
-  if not CommandLineParams.NoSplash then
+  if (gSplashForm) and (not CommandLineParams.NoSplash) then
   begin
     // Let's show the starting slash screen to confirm user application has been started
     Application.CreateForm(TfrmStartingSplash, frmStartingSplash);
@@ -227,7 +228,7 @@ begin
       // in Application.CreateForm above.
       uKeyboard.HookKeyboardLayoutChanged;
 
-      if not CommandLineParams.NoSplash then
+      if (gSplashForm) and (not CommandLineParams.NoSplash) then
       begin
         // We may now remove the starting splash screen, most of the application has been started now
         frmStartingSplash.Close;
