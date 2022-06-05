@@ -188,8 +188,8 @@ begin
   lblBuild.Caption           := lblBuild.Caption + #32 + dcBuildDate;
   lblLazarusVer.Caption      := lblLazarusVer.Caption + #32 + lazVersion;
   lblFreePascalVer.Caption   := lblFreePascalVer.Caption + #32 + fpcVersion;
-  lblPlatform.Caption        := lblPlatform.Caption + #32 + TargetCPU + '-' + TargetOS + '-' + TargetWS;
-  lblOperatingSystem.Caption := lblOperatingSystem.Caption + #32 + OSVersion;
+  lblPlatform.Caption        := TargetCPU + '-' + TargetOS + '-' + TargetWS;
+  lblOperatingSystem.Caption := OSVersion;
   lblWidgetsetVer.Caption    := WSVersion;
 end;
 
