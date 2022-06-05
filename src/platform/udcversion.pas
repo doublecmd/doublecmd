@@ -294,9 +294,8 @@ begin
                                      FixedInfo.FileVersion[1],
                                      FixedInfo.FileVersion[2]]);
     if (FixedInfo.FileFlags and VS_FF_PRERELEASE <> 0) then
-      DCVersion+= ' alpha'
-    else begin
-      DCVersion+= ' beta';
+    begin
+      DCVersion+= ' alpha';
     end;
     Free;
   end;
