@@ -743,7 +743,7 @@ implementation
 
 uses
    LCLProc, LCLType, Dialogs, Laz2_XMLRead, LazUTF8, uExifWdx, uSynDiffControls,
-   uGlobsPaths, uLng, uShowMsg, uFileProcs, uOSUtils, uFindFiles,
+   uGlobsPaths, uLng, uShowMsg, uFileProcs, uOSUtils, uFindFiles, uEarlyConfig,
    uDCUtils, fMultiRename, uFile, uDCVersion, uDebug, uFileFunctions,
    uDefaultPlugins, Lua, uKeyboard, DCOSUtils, DCStrUtils, uPixMapManager
    {$IF DEFINED(MSWINDOWS)}
@@ -2430,6 +2430,7 @@ begin
 
   if mbFileAccess(gpCfgDir, fmOpenWrite or fmShareDenyNone) then
   begin
+    SaveWithCheck(@SaveEarlyConfig, 'early config', ErrMsg);
     SaveWithCheck(@SaveCfgIgnoreList, 'ignore list', ErrMsg);
     SaveWithCheck(@SaveCfgMainConfig, 'main configuration', ErrMsg);
     SaveWithCheck(@SaveHistoryConfig, 'various history', ErrMsg);

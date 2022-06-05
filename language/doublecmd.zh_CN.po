@@ -6790,6 +6790,10 @@ msgstr "更换驱动器时，总是转到根文件夹(&G)"
 msgid "Show &current directory in the main window title bar"
 msgstr "在主窗口标题栏中显示当前目录(&C)"
 
+#: tfrmoptionsmisc.chkshowsplashform.caption
+msgid "Show &splash screen"
+msgstr ""
+
 #: tfrmoptionsmisc.chkshowwarningmessages.caption
 msgid "Show &warning messages (\"OK\" button only)"
 msgstr "显示所有警告信息（仅含 <确定> 按钮）(&W)"

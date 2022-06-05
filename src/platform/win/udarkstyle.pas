@@ -49,7 +49,7 @@ function AllowDarkModeForWindow(hWnd: HWND; allow: bool): bool;
 implementation
 
 uses
-  UxTheme, JwaWinUser, FileInfo, IniFiles, ShlObj, LazUTF8
+  UxTheme, JwaWinUser, FileInfo, uEarlyConfig
 {$IF DEFINED(LCLQT5)}
   , Qt5
 {$ENDIF}
@@ -57,17 +57,16 @@ uses
 
 type
   // Insider 18334
-  PreferredAppMode =
+  TPreferredAppMode =
   (
-    Default,
-    AllowDark,
-    ForceDark,
-    ForceLight,
-    Max
+    pamDefault,
+    pamAllowDark,
+    pamForceDark,
+    pamForceLight
   );
 
 var
-  AppMode: PreferredAppMode;
+  AppMode: TPreferredAppMode;
 
 var
   RtlGetNtVersionNumbers: procedure(major, minor, build: LPDWORD); stdcall;
@@ -79,7 +78,7 @@ var
   _RefreshImmersiveColorPolicyState: procedure(); stdcall; // ordinal 104
   _IsDarkModeAllowedForWindow: function(hWnd: HWND): bool; stdcall; // ordinal 137
   // Insider 18334
-  _SetPreferredAppMode: function(appMode: PreferredAppMode): PreferredAppMode; stdcall; // ordinal 135, since 18334
+  _SetPreferredAppMode: function(appMode: TPreferredAppMode): TPreferredAppMode; stdcall; // ordinal 135, since 18334
 
 function AllowDarkModeForWindow(hWnd: HWND; allow: bool): bool;
 begin
@@ -102,7 +101,7 @@ end;
 
 function ShouldAppsUseDarkMode: Boolean;
 begin
-  Result:= (_ShouldAppsUseDarkMode() or (AppMode = ForceDark)) and not IsHighContrast();
+  Result:= (_ShouldAppsUseDarkMode() or (AppMode = pamForceDark)) and not IsHighContrast();
 end;
 
 procedure RefreshTitleBarThemeColor(hWnd: HWND);
@@ -133,7 +132,7 @@ begin
     if (allow) then
       _SetPreferredAppMode(AppMode)
     else
-      _SetPreferredAppMode(Default);
+      _SetPreferredAppMode(pamDefault);
   end;
 end;
 
@@ -212,34 +211,6 @@ begin
   end;
 end;
 
-function DarkAppMode: PreferredAppMode;
-var
-  APath: String;
-  AConfig: TIniFile;
-  wsPath: array[0..MAX_PATH] of WideChar;
-begin
-  Result:= AllowDark;
-  APath:= ExtractFilePath(ParamStr(0));
-  if FileExists(APath + ApplicationName + '.inf') then
-    APath:= APath + ApplicationName + '.ini'
-  else begin
-    SHGetFolderPathW(0, CSIDL_APPDATA or CSIDL_FLAG_CREATE, 0, SHGFP_TYPE_CURRENT, @wsPath[0]);
-    APath:= IncludeTrailingBackslash(UTF16ToUTF8(wsPath)) + ApplicationName + PathDelim + ApplicationName + '.ini';
-  end;
-  if FileExists(APath) then
-  try
-    AConfig:= TIniFile.Create(APath);
-    try
-      Result:= PreferredAppMode(AConfig.ReadInteger('General', 'DarkMode', 1));
-    finally
-      AConfig.Free;
-    end;
-  except
-    // Skip
-  end;
-  AppMode:= Result;
-end;
-
 procedure InitDarkMode();
 var
   hUxtheme: HMODULE;
@@ -279,11 +250,13 @@ begin
              Assigned(_IsDarkModeAllowedForWindow) then
           begin
             g_darkModeSupported := true;
-            if DarkAppMode <> ForceLight then
+            AppMode := TPreferredAppMode(gAppMode);
+            if AppMode <> pamForceLight then
             begin
               AllowDarkModeForApp(true);
               _RefreshImmersiveColorPolicyState();
               g_darkModeEnabled := ShouldAppsUseDarkMode;
+              if g_darkModeEnabled then AppMode := pamForceDark;
             end;
           end;
         end;

@@ -6730,6 +6730,10 @@ msgstr "Zawsze &idź do katalogu głównego dysku podczas zmiany dysków"
 msgid "Show &current directory in the main window title bar"
 msgstr "Pokaż &bieżący katalog na pasku tytułu okna głównego"
 
+#: tfrmoptionsmisc.chkshowsplashform.caption
+msgid "Show &splash screen"
+msgstr ""
+
 #: tfrmoptionsmisc.chkshowwarningmessages.caption
 msgid "Show &warning messages (\"OK\" button only)"
 msgstr "Pokaż komunikaty &ostrzegawcze (tylko przycisk \"OK\")"

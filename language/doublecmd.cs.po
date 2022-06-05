@@ -6779,6 +6779,10 @@ msgstr "Vždy &jít do kořenového adresáře při výměně disků"
 msgid "Show &current directory in the main window title bar"
 msgstr ""
 
+#: tfrmoptionsmisc.chkshowsplashform.caption
+msgid "Show &splash screen"
+msgstr ""
+
 #: tfrmoptionsmisc.chkshowwarningmessages.caption
 msgid "Show &warning messages (\"OK\" button only)"
 msgstr "Zobrazit &varovné zprávy (pouze tlačítko \"OK\")"
