@@ -5,7 +5,7 @@ unit uFileSource;
 interface
 
 uses
-  Classes, SysUtils, DCStrUtils, syncobjs, LCLProc, URIParser,
+  Classes, SysUtils, DCStrUtils, syncobjs, LCLProc, URIParser, Menus,
   uFileSourceOperation,
   uFileSourceOperationTypes,
   uFileSourceProperty,
@@ -102,6 +102,7 @@ type
     function CreateDirectory(const Path: String): Boolean;
     function FileSystemEntryExists(const Path: String): Boolean;
     function GetDefaultView(out DefaultView: TFileSourceFields): Boolean;
+    function QueryContextMenu(AFiles: TFiles; var AMenu: TPopupMenu): Boolean;
 
     function GetConnection(Operation: TFileSourceOperation): TFileSourceConnection;
     procedure RemoveOperationFromQueue(Operation: TFileSourceOperation);
@@ -206,8 +207,8 @@ type
     function CreateFileObject(const APath: String): TFile;
 
   public
-    constructor Create; virtual;
-    constructor Create(const URI: TURI); virtual;
+    constructor Create; virtual; overload;
+    constructor Create(const URI: TURI); virtual; overload;
     destructor Destroy; override;
 
     function Equals(aFileSource: IFileSource): Boolean; overload;
@@ -284,6 +285,7 @@ type
     function CreateDirectory(const Path: String): Boolean; virtual;
     function FileSystemEntryExists(const Path: String): Boolean; virtual;
     function GetFreeSpace(Path: String; out FreeSize, TotalSize : Int64) : Boolean; virtual;
+    function QueryContextMenu(AFiles: TFiles; var AMenu: TPopupMenu): Boolean; virtual;
     function GetDefaultView(out DefaultView: TFileSourceFields): Boolean; virtual;
     function GetLocalName(var aFile: TFile): Boolean; virtual;
 
@@ -597,6 +599,11 @@ end;
 function TFileSource.GetFreeSpace(Path: String; out FreeSize, TotalSize : Int64) : Boolean;
 begin
   Result := False; // not supported by default
+end;
+
+function TFileSource.QueryContextMenu(AFiles: TFiles; var AMenu: TPopupMenu): Boolean;
+begin
+  Result:= False;
 end;
 
 function TFileSource.GetDefaultView(out DefaultView: TFileSourceFields): Boolean;

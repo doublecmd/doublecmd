@@ -56,7 +56,7 @@ begin
   ForceDirectories(ExtractFileDir(AConfig));
   with TStringList.Create do
   try
-    AddPair('SplashForm', BoolToStr(gSplashForm));
+    Add('SplashForm' + NameValueSeparator + BoolToStr(gSplashForm));
 {$IFDEF DARKWIN}
     AddPair('DarkMode', IntToStr(gAppMode));
 {$ENDIF}

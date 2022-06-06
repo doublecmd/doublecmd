@@ -64,7 +64,11 @@ type
     {en
       Set, if the file source has default columns view
     }
-    fspDefaultView
+    fspDefaultView,
+    {en
+       Set, if the file source supports custom context menu.
+    }
+    fspContextMenu
   );
 
   TFileSourceProperties = set of TFileSourceProperty;
