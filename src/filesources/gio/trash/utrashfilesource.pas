@@ -87,6 +87,7 @@ begin
       g_object_unref(PGObject(SourceFile));
     end;
   end;
+  Reload(PathDelim);
 end;
 
 constructor TTrashFileSource.Create;
