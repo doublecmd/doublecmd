@@ -732,6 +732,7 @@ end;
 procedure TMainCommands.DoContextMenu(Panel: TFileView; X, Y: Integer; Background: Boolean; UserWishForContextMenu:TUserWishForContextMenu);
 var
   Index: Integer;
+  AMenu: TPopupMenu;
   aFile: TFile = nil;
   aFiles: TFiles = nil;
   sPath, sName: String;
@@ -740,7 +741,20 @@ begin
   begin
     if not (fspDirectAccess in Panel.FileSource.Properties) then
     begin
-      if not Background then pmContextMenu.PopUp(X, Y);
+      if not Background then
+      begin
+        AMenu:= pmContextMenu;
+        if (fspContextMenu in Panel.FileSource.Properties) then
+        begin
+          aFiles:= Panel.CloneSelectedOrActiveFiles;
+          try
+            Panel.FileSource.QueryContextMenu(aFiles, AMenu);
+          finally
+            FreeAndNil(aFiles);
+          end;
+        end;
+        AMenu.PopUp(X, Y);
+      end;
       Exit;
     end;
 

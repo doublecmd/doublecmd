@@ -13,7 +13,7 @@ procedure RemovePoll(fd: cint);
 implementation
 
 uses
-  DCUnix;
+  DCUnix, uDebug;
 
 type
 
@@ -49,7 +49,7 @@ var
 
 procedure Print(const sMessage: String);
 begin
-  WriteLn('PollThread: ', sMessage);
+  DCDebug('PollThread: ', sMessage);
 end;
 
 procedure AddPoll(fd: cint; events: cshort; handler: TNotifyEvent;

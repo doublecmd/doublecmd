@@ -369,6 +369,7 @@ resourcestring
   rsMnuEject = 'Eject';
   rsMnuSortBy = 'Sort by';
   rsMnuNew = 'New';
+  rsMnuRestore = 'Restore';
   rsMnuPackHere = 'Pack here...';
   rsMnuExtractHere = 'Extract here...';
   // for main menu
@@ -528,6 +529,7 @@ resourcestring
   rsFuncType = 'Type';
   rsFuncComment = 'Comment';
   rsFuncCompressedSize = 'Compressed size';
+  rsFuncTrashOrigPath = 'Original path';
 
   // Tools
   rsToolViewer = 'Viewer';
