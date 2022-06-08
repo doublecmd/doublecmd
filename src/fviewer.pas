@@ -2861,6 +2861,7 @@ end;
 procedure TfrmViewer.cm_AutoReload(const Params: array of string);
 begin
   actAutoReload.Checked := not actAutoReload.Checked;
+  if actAutoReload.Checked then ViewerControl.GoEnd;
   TimerReload.Enabled := actAutoReload.Checked;
 end;
 
