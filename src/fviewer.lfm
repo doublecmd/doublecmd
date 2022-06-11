@@ -412,6 +412,7 @@ object frmViewer: TfrmViewer
       AnchorSideTop.Control = pnlImage
       AnchorSideRight.Control = pnlImage
       AnchorSideBottom.Control = sboxImage
+      BorderStyle = bsNone
       Left = 0
       Height = 44
       Top = 0
