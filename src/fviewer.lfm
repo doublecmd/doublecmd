@@ -406,267 +406,254 @@ object frmViewer: TfrmViewer
         OnMouseEnter = GifAnimMouseEnter
       end
     end
-    object PanelEditImage: TPanel
+    object ToolBar1: TToolBar
       AnchorSideLeft.Control = pnlImage
       AnchorSideTop.Control = pnlImage
       AnchorSideRight.Control = pnlImage
       AnchorSideBottom.Control = sboxImage
       Left = 0
-      Height = 36
+      Height = 34
       Top = 0
       Width = 342
-      Align = alTop
-      Alignment = taLeftJustify
       AutoSize = True
-      ClientHeight = 36
-      ClientWidth = 342
+      ButtonHeight = 32
+      ButtonWidth = 32
+      Images = dmComData.ilViewerImages
+      List = True
       ParentFont = False
+      ShowCaptions = True
       TabOrder = 1
-      object ToolBar1: TToolBar
+      object btnReload: TToolButton
         Left = 1
-        Height = 34
-        Top = 1
-        Width = 340
-        AutoSize = True
-        ButtonHeight = 32
-        ButtonWidth = 32
-        Images = dmComData.ilViewerImages
-        List = True
+        Top = 2
+        Action = actReload
+        ShowCaption = False
+      end
+      object btnPrev: TToolButton
+        Left = 33
+        Top = 2
+        Action = actLoadPrevFile
+        ShowCaption = False
+      end
+      object btnNext: TToolButton
+        Left = 65
+        Top = 2
+        Action = actLoadNextFile
+        ShowCaption = False
+      end
+      object btnCopyFile: TToolButton
+        Left = 97
+        Top = 2
+        Action = actCopyFile
+        ShowCaption = False
+      end
+      object btnMoveFile: TToolButton
+        Left = 129
+        Top = 2
+        Action = actMoveFile
+        ShowCaption = False
+      end
+      object btnDeleteFile: TToolButton
+        Left = 161
+        Top = 2
+        Action = actDeleteFile
+        ShowCaption = False
+      end
+      object btnZoomSeparator: TToolButton
+        Left = 193
+        Height = 32
+        Top = 2
+        Style = tbsSeparator
+      end
+      object btnZoomIn: TToolButton
+        Left = 199
+        Top = 2
+        Action = actZoomIn
+        ShowCaption = False
+      end
+      object btnZoomOut: TToolButton
+        Left = 231
+        Top = 2
+        Action = actZoomOut
+        ShowCaption = False
+      end
+      object btn270: TToolButton
+        Left = 263
+        Top = 2
+        Action = actRotate270
+        ShowCaption = False
+      end
+      object btn90: TToolButton
+        Left = 295
+        Top = 2
+        Action = actRotate90
+        ShowCaption = False
+      end
+      object btnMirror: TToolButton
+        Left = 1
+        Top = 34
+        Action = actMirrorHorz
+        ShowCaption = False
+      end
+      object btnGifSeparator: TToolButton
+        Left = 33
+        Height = 32
+        Top = 34
+        Style = tbsSeparator
+      end
+      object btnGifMove: TToolButton
+        Left = 39
+        Top = 34
+        ImageIndex = 11
+        OnClick = btnGifMoveClick
+        ShowCaption = False
+      end
+      object btnPrevGifFrame: TToolButton
+        Left = 71
+        Hint = 'Previous Frame'
+        Top = 34
+        ImageIndex = 13
+        OnClick = btnPrevGifFrameClick
+        ShowCaption = False
+      end
+      object btnNextGifFrame: TToolButton
+        Left = 103
+        Hint = 'Next Frame'
+        Top = 34
+        ImageIndex = 14
+        OnClick = btnNextGifFrameClick
+        ShowCaption = False
+      end
+      object btnGifToBmp: TToolButton
+        Left = 135
+        Hint = 'Export Frame'
+        Top = 34
+        ImageIndex = 26
+        OnClick = btnGifToBmpClick
+        ShowCaption = False
+      end
+      object btnHightlightSeparator: TToolButton
+        Left = 167
+        Height = 32
+        Top = 34
+        Style = tbsSeparator
+      end
+      object btnHightlight: TToolButton
+        Left = 173
+        Hint = 'Highlight'
+        Top = 34
+        AllowAllUp = True
+        Grouped = True
+        ImageIndex = 23
+        OnClick = btnPaintHightlight
+        ShowCaption = False
+        Style = tbsCheck
+      end
+      object btnCutTuImage: TToolButton
+        Left = 205
+        Hint = 'Crop'
+        Top = 34
+        Enabled = False
+        ImageIndex = 15
+        OnClick = btnCutTuImageClick
+        ShowCaption = False
+      end
+      object btnRedEye: TToolButton
+        Left = 237
+        Hint = 'Red Eyes'
+        Top = 34
+        Enabled = False
+        ImageIndex = 16
+        OnClick = btnRedEyeClick
+        ShowCaption = False
+      end
+      object btnPaintSeparator: TToolButton
+        Left = 269
+        Height = 32
+        Top = 34
+        Style = tbsSeparator
+      end
+      object btnPaint: TToolButton
+        Left = 275
+        Hint = 'Paint'
+        Top = 34
+        AllowAllUp = True
+        Grouped = True
+        ImageIndex = 21
+        OnClick = btnPaintHightlight
+        ShowCaption = False
+        Style = tbsCheck
+      end
+      object btnUndo: TToolButton
+        Left = 307
+        Hint = 'Undo'
+        Top = 34
+        Enabled = False
+        ImageIndex = 20
+        OnClick = btnUndoClick
+        ShowCaption = False
+      end
+      object btnPenMode: TToolButton
+        Left = 1
+        Top = 66
+        AllowAllUp = True
+        DropdownMenu = pmPenTools
+        Enabled = False
+        Grouped = True
+        ImageIndex = 17
+        OnClick = btnPenModeClick
+        ShowCaption = False
+        Style = tbsDropDown
+      end
+      object btnPenWidth: TToolButton
+        Left = 45
+        Top = 66
+        Caption = '1'
+        DropdownMenu = pmPenWidth
+        Enabled = False
+        Style = tbsButtonDrop
+      end
+      object btnPenColor: TColorButton
+        Left = 87
+        Height = 32
+        Top = 66
+        Width = 75
+        BorderWidth = 2
+        ButtonColorSize = 16
+        ButtonColor = clRed
+        Enabled = False
         ParentFont = False
-        ShowCaptions = True
-        TabOrder = 0
-        object btnReload: TToolButton
-          Left = 1
-          Top = 2
-          Action = actReload
-          ShowCaption = False
-        end
-        object btnPrev: TToolButton
-          Left = 33
-          Top = 2
-          Action = actLoadPrevFile
-          ShowCaption = False
-        end
-        object btnNext: TToolButton
-          Left = 65
-          Top = 2
-          Action = actLoadNextFile
-          ShowCaption = False
-        end
-        object btnCopyFile: TToolButton
-          Left = 97
-          Top = 2
-          Action = actCopyFile
-          ShowCaption = False
-        end
-        object btnMoveFile: TToolButton
-          Left = 129
-          Top = 2
-          Action = actMoveFile
-          ShowCaption = False
-        end
-        object btnDeleteFile: TToolButton
-          Left = 161
-          Top = 2
-          Action = actDeleteFile
-          ShowCaption = False
-        end
-        object btnZoomSeparator: TToolButton
-          Left = 193
-          Height = 32
-          Top = 2
-          Style = tbsSeparator
-        end
-        object btnZoomIn: TToolButton
-          Left = 199
-          Top = 2
-          Action = actZoomIn
-          ShowCaption = False
-        end
-        object btnZoomOut: TToolButton
-          Left = 231
-          Top = 2
-          Action = actZoomOut
-          ShowCaption = False
-        end
-        object btn270: TToolButton
-          Left = 263
-          Top = 2
-          Action = actRotate270
-          ShowCaption = False
-        end
-        object btn90: TToolButton
-          Left = 295
-          Top = 2
-          Action = actRotate90
-          ShowCaption = False
-        end
-        object btnMirror: TToolButton
-          Left = 1
-          Top = 34
-          Action = actMirrorHorz
-          ShowCaption = False
-        end
-        object btnGifSeparator: TToolButton
-          Left = 33
-          Height = 32
-          Top = 34
-          Style = tbsSeparator
-        end
-        object btnGifMove: TToolButton
-          Left = 39
-          Top = 34
-          ImageIndex = 11
-          OnClick = btnGifMoveClick
-          ShowCaption = False
-        end
-        object btnPrevGifFrame: TToolButton
-          Left = 71
-          Hint = 'Previous Frame'
-          Top = 34
-          ImageIndex = 13
-          OnClick = btnPrevGifFrameClick
-          ShowCaption = False
-        end
-        object btnNextGifFrame: TToolButton
-          Left = 103
-          Hint = 'Next Frame'
-          Top = 34
-          ImageIndex = 14
-          OnClick = btnNextGifFrameClick
-          ShowCaption = False
-        end
-        object btnGifToBmp: TToolButton
-          Left = 135
-          Hint = 'Export Frame'
-          Top = 34
-          ImageIndex = 26
-          OnClick = btnGifToBmpClick
-          ShowCaption = False
-        end
-        object btnHightlightSeparator: TToolButton
-          Left = 167
-          Height = 32
-          Top = 34
-          Style = tbsSeparator
-        end
-        object btnHightlight: TToolButton
-          Left = 173
-          Hint = 'Highlight'
-          Top = 34
-          AllowAllUp = True
-          Grouped = True
-          ImageIndex = 23
-          OnClick = btnPaintHightlight
-          ShowCaption = False
-          Style = tbsCheck
-        end
-        object btnCutTuImage: TToolButton
-          Left = 205
-          Hint = 'Crop'
-          Top = 34
-          Enabled = False
-          ImageIndex = 15
-          OnClick = btnCutTuImageClick
-          ShowCaption = False
-        end
-        object btnRedEye: TToolButton
-          Left = 237
-          Hint = 'Red Eyes'
-          Top = 34
-          Enabled = False
-          ImageIndex = 16
-          OnClick = btnRedEyeClick
-          ShowCaption = False
-        end
-        object btnPaintSeparator: TToolButton
-          Left = 269
-          Height = 32
-          Top = 34
-          Style = tbsSeparator
-        end
-        object btnPaint: TToolButton
-          Left = 275
-          Hint = 'Paint'
-          Top = 34
-          AllowAllUp = True
-          Grouped = True
-          ImageIndex = 21
-          OnClick = btnPaintHightlight
-          ShowCaption = False
-          Style = tbsCheck
-        end
-        object btnUndo: TToolButton
-          Left = 307
-          Hint = 'Undo'
-          Top = 34
-          Enabled = False
-          ImageIndex = 20
-          OnClick = btnUndoClick
-          ShowCaption = False
-        end
-        object btnPenMode: TToolButton
-          Left = 1
-          Top = 66
-          AllowAllUp = True
-          DropdownMenu = pmPenTools
-          Enabled = False
-          Grouped = True
-          ImageIndex = 17
-          OnClick = btnPenModeClick
-          ShowCaption = False
-          Style = tbsDropDown
-        end
-        object btnPenWidth: TToolButton
-          Left = 45
-          Top = 66
-          Caption = '1'
-          DropdownMenu = pmPenWidth
-          Enabled = False
-          Style = tbsButtonDrop
-        end
-        object btnPenColor: TColorButton
-          Left = 87
-          Height = 32
-          Top = 66
-          Width = 75
-          BorderWidth = 2
-          ButtonColorSize = 16
-          ButtonColor = clRed
-          Enabled = False
-          ParentFont = False
-        end
-        object btnSeparator: TToolButton
-          Left = 162
-          Height = 32
-          Top = 66
-          Style = tbsSeparator
-        end
-        object btnResize: TToolButton
-          Left = 168
-          Hint = 'Resize'
-          Top = 66
-          ImageIndex = 24
-          OnClick = btnResizeClick
-          ShowCaption = False
-        end
-        object btnFullScreen: TToolButton
-          Left = 200
-          Hint = 'Full Screen'
-          Top = 66
-          Action = actFullscreen
-          ShowCaption = False
-        end
-        object btnSlideShow: TToolButton
-          Tag = 1
-          Left = 232
-          Top = 66
-          Caption = 'Slide Show'
-          DropdownMenu = pmTimeShow
-          OnClick = btnSlideShowClick
-          Style = tbsDropDown
-          Visible = False
-        end
+      end
+      object btnSeparator: TToolButton
+        Left = 162
+        Height = 32
+        Top = 66
+        Style = tbsSeparator
+      end
+      object btnResize: TToolButton
+        Left = 168
+        Hint = 'Resize'
+        Top = 66
+        ImageIndex = 24
+        OnClick = btnResizeClick
+        ShowCaption = False
+      end
+      object btnFullScreen: TToolButton
+        Left = 200
+        Hint = 'Full Screen'
+        Top = 66
+        Action = actFullscreen
+        ShowCaption = False
+      end
+      object btnSlideShow: TToolButton
+        Tag = 1
+        Left = 232
+        Top = 66
+        Caption = 'Slide Show'
+        DropdownMenu = pmTimeShow
+        OnClick = btnSlideShowClick
+        Style = tbsDropDown
+        Visible = False
       end
     end
   end

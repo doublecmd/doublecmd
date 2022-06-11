@@ -178,7 +178,6 @@ type
     pnlFolder: TPanel;
     pnlPreview: TPanel;
     pnlEditFile: TPanel;
-    PanelEditImage: TPanel;
     pmiSelectAll: TMenuItem;
     miDiv5: TMenuItem;
     pmiCopy: TMenuItem;
@@ -1081,7 +1080,7 @@ begin
   X:=round(X*Image.Picture.Width/Image.Width);             // for correct paint after zoom
   Y:=round(Y*Image.Picture.Height/Image.Height);
   MDFlag:=false;
-  if PanelEditImage.Visible then
+  if ToolBar1.Visible then
     begin
       if (button = mbLeft) and btnHightlight.Down then
     begin
@@ -1868,23 +1867,23 @@ procedure TfrmViewer.TimerViewerTimer(Sender: TObject);
 begin
   if (miFullScreen.Checked) then
   begin
-    if (PanelEditImage.Visible) and (i_timer > 60) and (not PanelEditImage.MouseEntered) then
+    if (ToolBar1.Visible) and (i_timer > 60) and (not ToolBar1.MouseEntered) then
     begin
-      PanelEditImage.Visible:= False;
+      ToolBar1.Visible:= False;
       AdjustImageSize;
     end
-    else if (not PanelEditImage.Visible) and (sboxImage.ScreenToClient(Mouse.CursorPos).Y < PanelEditImage.Height div 2) then
+    else if (not ToolBar1.Visible) and (sboxImage.ScreenToClient(Mouse.CursorPos).Y < ToolBar1.Height div 2) then
     begin
-      PanelEditImage.Visible:= True;
+      ToolBar1.Visible:= True;
       AdjustImageSize;
     end;
   end;
   Inc(i_timer);
   if (btnSlideShow.Down) and (i_timer = 60 * btnSlideShow.Tag) then
   begin
-    if (PanelEditImage.Visible) and (not PanelEditImage.MouseEntered) then
+    if (ToolBar1.Visible) and (not ToolBar1.MouseEntered) then
     begin
-      PanelEditImage.Visible:= False;
+      ToolBar1.Visible:= False;
       AdjustImageSize;
     end;
     cm_LoadNextFile([]);
@@ -2810,7 +2809,7 @@ begin
     pnlImage.TabStop:= True;
     Status.Panels[sbpTextEncoding].Text:= EmptyStr;
     if (not bQuickView) and CanFocus and pnlImage.CanFocus then pnlImage.SetFocus;
-    PanelEditImage.Visible:= not (bQuickView or (miFullScreen.Checked and not PanelEditImage.MouseInClient));
+    ToolBar1.Visible:= not (bQuickView or (miFullScreen.Checked and not ToolBar1.MouseInClient));
   end;
 
   bAnimation           := (Panel = pnlImage) and (GifAnim.Visible);
@@ -3067,7 +3066,7 @@ begin
       Self.Menu:= nil;
       btnPaint.Down:= false;
       btnHightlight.Down:=false;
-      PanelEditImage.Visible:= False;
+      ToolBar1.Visible:= False;
       miStretch.Checked:= True;
       miStretchOnlyLarge.Checked:= False;
       if miPreview.Checked then cm_Preview(['']);
@@ -3084,7 +3083,7 @@ begin
       BorderStyle:= bsSizeable;
       SetBounds(FWindowBounds.Left, FWindowBounds.Top, FWindowBounds.Right, FWindowBounds.Bottom);
 {$ENDIF}
-      PanelEditImage.Visible:= True;
+      ToolBar1.Visible:= True;
       actFullscreen.ImageIndex:= 22;
     end;
   if ExtractOnlyFileExt(FileList.Strings[iActiveFile]) <> 'gif' then
