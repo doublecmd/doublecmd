@@ -842,7 +842,7 @@ function ApplyRenameMask(aFileName: String; NameMask: String; ExtMask: String): 
     if (Length(TargetString) < Length(Mask)) then
       Result:= TargetString
     else begin
-      Result:= String.Empty;
+      Result:= EmptyStr;
       for I:= 1 to Length(Mask) do
       begin
         if Mask[I] = '?' then
