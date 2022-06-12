@@ -1056,7 +1056,7 @@ procedure TfrmMain.FormCreate(Sender: TObject);
     end;
 
     if TryStrToInt(dcRevision, R) then
-      ARevision:= '.' + dcRevision
+      ARevision:= '~' + dcRevision
     else begin
       ARevision:= EmptyStr;
     end;
