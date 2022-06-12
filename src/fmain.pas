@@ -1058,13 +1058,13 @@ procedure TfrmMain.FormCreate(Sender: TObject);
     if Length(UniqueInstance.ServernameByUser) > 0 then
       AServerName := ' [' + UniqueInstance.ServernameByUser + ']'
     else begin
-      AServerName := String.Empty;
+      AServerName := EmptyStr;
     end;
 
     if TryStrToInt(dcRevision, R) then
       ARevision:= '.' + dcRevision
     else begin
-      ARevision:= String.Empty;
+      ARevision:= EmptyStr;
     end;
 
     Result := Format('%s%s %s%s',
