@@ -2506,7 +2506,17 @@ end;
 
 procedure TfrmMain.nbPageMouseDown(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
+{$IFNDEF LCLCOCOA}
 begin
+{$ELSE}
+var
+  Notebook: TFileViewNotebook;
+  TabNr: Integer;
+begin
+  Notebook := TFileViewNotebook(Sender);
+  TabNr := Notebook.IndexOfPageAt(Point(X, Y));
+  if TabNr <> -1 then Notebook.ActivePageIndex := TabNr;
+{$ENDIF}
   Application.QueueAsyncCall(@nbPageAfterMouseDown, PtrInt(Sender));
 end;
 
