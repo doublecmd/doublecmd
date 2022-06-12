@@ -842,20 +842,24 @@ end;
 
 function ApplyRenameMask(aFileName: String; NameMask: String; ExtMask: String): String;
 
-  function ApplyMask(const TargetString: String; Mask: String): String;
+  function ApplyMask(const TargetString, Mask: String): String;
   var
-    i:Integer;
+    I: Integer;
   begin
-    Result:='';
-    for i:=1 to Length(Mask) do
-    begin
-      if Mask[i]= '?' then
-        Result:=Result + TargetString[i]
-      else
-      if Mask[i]= '*' then
-        Result:=Result + Copy(TargetString, i, Length(TargetString) - i + 1)
-      else
-        Result:=Result + Mask[i];
+    if (Length(TargetString) < Length(Mask)) then
+      Result:= TargetString
+    else begin
+      Result:= String.Empty;
+      for I:= 1 to Length(Mask) do
+      begin
+        if Mask[I] = '?' then
+          Result:=Result + TargetString[I]
+        else
+        if Mask[I] = '*' then
+          Result:= Result + Copy(TargetString, I, Length(TargetString) - I + 1)
+        else
+          Result:= Result + Mask[I];
+      end;
     end;
   end;
 
