@@ -18,7 +18,7 @@ type
 
   TGioDeleteOperation = class(TFileSourceDeleteOperation)
 
-  private
+  protected
     FWfxPluginFileSource: IGioFileSource;
     FFullFilesTreeToDelete: TFiles;  // source files including all files/dirs in subdirectories
     FStatistics: TFileSourceDeleteOperationStatistics; // local copy of statistics
@@ -41,13 +41,12 @@ type
 
     procedure Initialize; override;
     procedure MainExecute; override;
-    procedure Finalize; override;
   end;
 
 implementation
 
 uses
-  DCOSUtils, uLng, uGlib2, uGio2, uGObject2, uGio, uGioFileSourceUtil;
+  DCOSUtils, uLng, uGio2, uGObject2, uGio, uGioFileSourceUtil;
 
 constructor TGioDeleteOperation.Create(aTargetFileSource: IFileSource;
                                              var theFilesToDelete: TFiles);
@@ -64,6 +63,7 @@ end;
 destructor TGioDeleteOperation.Destroy;
 begin
   inherited Destroy;
+  FFullFilesTreeToDelete.Free;
 end;
 
 procedure TGioDeleteOperation.Initialize;
@@ -101,11 +101,6 @@ begin
 
     CheckOperationState;
   end;
-end;
-
-procedure TGioDeleteOperation.Finalize;
-begin
-
 end;
 
 function TGioDeleteOperation.ProcessFile(aFile: TFile): Boolean;

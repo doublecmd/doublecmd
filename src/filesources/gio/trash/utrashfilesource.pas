@@ -5,8 +5,8 @@ unit uTrashFileSource;
 interface
 
 uses
-  Classes, SysUtils, Menus, uGLib2, uGio2, uFile, uGioFileSource,
-  uFileSourceProperty, uFileSource, uFileProperty, uFileSourceOperationTypes;
+  Classes, SysUtils, Menus, uGLib2, uGio2, uFile, uFileSource, uGioFileSource,
+  uFileSourceProperty, uFileProperty, uFileSourceOperationTypes, uFileSourceOperation;
 
 type
 
@@ -33,12 +33,15 @@ type
     function GetDefaultView(out DefaultView: TFileSourceFields): Boolean; override;
     function QueryContextMenu(AFiles: TFiles; var AMenu: TPopupMenu): Boolean; override;
     procedure RetrieveProperties(AFile: TFile; PropertiesToSet: TFilePropertiesTypes; AVariantProperties: array of String); override;
+
+    function CreateDeleteOperation(var FilesToDelete: TFiles): TFileSourceOperation; override;
   end;
 
 implementation
 
 uses
-  UITypes, Dialogs, DCStrUtils,  uGObject2, uLng, uGio, uFileProcs, uGioFileSourceUtil;
+  UITypes, Dialogs, DCStrUtils,  uGObject2, uLng, uGio, uFileProcs,
+  uGioFileSourceUtil, uTrashDeleteOperation;
 
 const
   G_FILE_ATTRIBUTE_TRASH_ORIG_PATH = 'trash::orig-path';
@@ -208,6 +211,15 @@ begin
       g_object_unref(PGObject(AGFile));
     end;
   end;
+end;
+
+function TTrashFileSource.CreateDeleteOperation(var FilesToDelete: TFiles): TFileSourceOperation;
+var
+  TargetFileSource: IFileSource;
+begin
+  TargetFileSource := Self;
+  FilesToDelete.Path:= FCurrentAddress + FilesToDelete.Path;
+  Result := TTrashDeleteOperation.Create(TargetFileSource, FilesToDelete);
 end;
 
 end.
