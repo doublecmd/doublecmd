@@ -534,7 +534,8 @@ var
   gSaveSearchReplaceHistory,
   gSaveDirHistory,
   gSaveCmdLineHistory,
-  gSaveFileMaskHistory : Boolean;
+  gSaveFileMaskHistory,
+  gSaveCreateDirectoriesHistory: Boolean;
   gSortOrderOfConfigurationOptionsTree: TSortConfigurationOptions;
   gCollapseConfigurationOptionsTree: TConfigurationTreeState;
   
@@ -957,13 +958,15 @@ begin
     if gSaveDirHistory then SaveHistory('Navigation', glsDirHistory);
     if gSaveCmdLineHistory then SaveHistory('CommandLine', glsCmdLineHistory);
     if gSaveFileMaskHistory then SaveHistory('FileMask', glsMaskHistory);
+    if gSaveCreateDirectoriesHistory then begin
+      SaveHistory('CreateDirectories', glsCreateDirectoriesHistory, True);
+    end;
     if gSaveSearchReplaceHistory then
     begin
       SaveHistory('SearchText', glsSearchHistory, True);
       SaveHistory('SearchTextPath', glsSearchPathHistory);
       SaveHistory('ReplaceText', glsReplaceHistory);
       SaveHistory('ReplaceTextPath', glsReplacePathHistory);
-      SaveHistory('CreateDirectories', glsCreateDirectoriesHistory, True);
       SaveHistory('RenameNameMask', glsRenameNameMaskHistory);
       SaveHistory('RenameExtMask', glsRenameExtMaskHistory);
       SaveHistory('SearchDirectories', glsSearchDirectories);
@@ -1944,6 +1947,7 @@ begin
   gSaveDirHistory := True;
   gSaveCmdLineHistory := True;
   gSaveFileMaskHistory := True;
+  gSaveCreateDirectoriesHistory := True;
   gPluginInAutoTweak := False;
   gWCXConfigViewMode := wcvmByPlugin;
 
@@ -2975,6 +2979,7 @@ begin
     gSaveDirHistory := GetAttr(Root, 'History/DirHistory/Save', gSaveDirHistory);
     gSaveCmdLineHistory := GetAttr(Root, 'History/CmdLineHistory/Save', gSaveCmdLineHistory);
     gSaveFileMaskHistory := GetAttr(Root, 'History/FileMaskHistory/Save', gSaveFileMaskHistory);
+    gSaveCreateDirectoriesHistory := GetAttr(Root, 'History/CreateDirectoriesHistory/Save', gSaveCreateDirectoriesHistory);
     gSortOrderOfConfigurationOptionsTree := TSortConfigurationOptions(GetAttr(Root, 'Configuration/SortOrder', Integer(scoAlphabeticalButLanguage)));
     gCollapseConfigurationOptionsTree := TConfigurationTreeState(GetAttr(Root, 'Configuration/TreeType', Integer(ctsFullExpand)));
 
@@ -3651,6 +3656,7 @@ begin
     SetAttr(Root, 'History/DirHistory/Save', gSaveDirHistory);
     SetAttr(Root, 'History/CmdLineHistory/Save', gSaveCmdLineHistory);
     SetAttr(Root, 'History/FileMaskHistory/Save', gSaveFileMaskHistory);
+    SetAttr(Root, 'History/CreateDirectoriesHistory/Save', gSaveCreateDirectoriesHistory);
     SetAttr(Root, 'Configuration/SortOrder', Integer(gSortOrderOfConfigurationOptionsTree));
     SetAttr(Root, 'Configuration/TreeType', Integer(gCollapseConfigurationOptionsTree));
 
