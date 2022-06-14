@@ -103,7 +103,7 @@ uses
   uOperationsManager, uArchiveFileSourceUtil, uMultiArchiveFileSource,
   uWcxArchiveCopyInOperation, uMultiArchiveCopyInOperation, uMasks,
   DCStrUtils, uMultiArc, uWcxModule, uTempFileSystemFileSource,
-  uFileSourceCopyOperation, uShowForm;
+  uFileSourceCopyOperation, uShowForm, uShowMsg;
 
 procedure ShowPackDlg(TheOwner: TComponent;
                      const SourceFileSource: IFileSource;
@@ -604,7 +604,10 @@ begin
       end;
 
       if cbMultivolume.Checked then
-        FVolumeSize:= InputBox(Caption, rsMsgVolumeSizeEnter, EmptyStr);
+      begin
+        if not ShowInputComboBox(Caption, rsMsgVolumeSizeEnter, glsVolumeSizeHistory, FVolumeSize) then
+          Exit;
+      end;
     end;
 
     // If create separate archives, one per selected file/dir

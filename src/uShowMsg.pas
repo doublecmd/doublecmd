@@ -559,6 +559,7 @@ end;
 function ShowInputComboBox(const sCaption, sPrompt : String; slValueList : TStringList;
                            var sValue : String) : Boolean;
 var
+  Index: Integer;
   frmDialog : TForm;
   lblPrompt : TLabel;
   cbValue : TComboBox;
@@ -619,11 +620,15 @@ begin
         end;
       Result := (ShowModal = mrOK);
       if Result then
-        begin
-          if slValueList.IndexOf(cbValue.Text) < 0 then
-            slValueList.Add(cbValue.Text);
-          sValue := cbValue.Text;
+      begin
+        Index:= slValueList.IndexOf(cbValue.Text);
+        if Index < 0 then
+          slValueList.Add(cbValue.Text)
+        else begin
+          slValueList.Move(Index, 0);
         end;
+        sValue := cbValue.Text;
+      end;
     finally
       FreeAndNil(frmDialog);
     end; // with frmDialog
