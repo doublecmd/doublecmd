@@ -927,7 +927,7 @@ uses
   uFileSourceOperationOptionsUI, uDebug, uHotkeyManager, uFileSourceUtil, uTempFileSystemFileSource,
   Laz2_XMLRead, DCOSUtils, DCStrUtils, fOptions, fOptionsFrame, fOptionsToolbar, uClassesEx,
   uHotDir, uFileSorting, DCBasicTypes, foptionsDirectoryHotlist, uConnectionManager,
-  fOptionsToolbarBase, fOptionsToolbarMiddle, fEditor, uColumns
+  fOptionsToolbarBase, fOptionsToolbarMiddle, fEditor, uColumns, StrUtils
   {$IFDEF COLUMNSFILEVIEW_VTV}
   , uColumnsFileViewVtv
   {$ELSE}
@@ -1049,20 +1049,29 @@ procedure TfrmMain.FormCreate(Sender: TObject);
     Result.OnDragOver:= @NotebookDragOver;
     Result.OnDragDrop:= @NotebookDragDrop;
   end;
-  function GenerateTitle():String;
-  var 
-    ServernameString: String;
-  begin
-    ServernameString := '';
-    if Length(UniqueInstance.ServernameByUser) > 0 then
-      ServernameString := ' [' + UniqueInstance.ServernameByUser + ']';
 
-    Result := Format('%s%s %s build %s; %s',
+  function GenerateTitle(): String;
+  var
+    R: Integer;
+    ARevision, AServerName: String;
+  begin
+    if Length(UniqueInstance.ServernameByUser) > 0 then
+      AServerName := ' [' + UniqueInstance.ServernameByUser + ']'
+    else begin
+      AServerName := EmptyStr;
+    end;
+
+    if TryStrToInt(dcRevision, R) then
+      ARevision:= '~' + dcRevision
+    else begin
+      ARevision:= EmptyStr;
+    end;
+
+    Result := Format('%s%s %s%s',
         ['Double Commander',
-        ServernameString,
-        dcVersion,
-        dcRevision,
-        dcBuildDate]
+        AServerName,
+        Copy2Space(dcVersion),
+        ARevision]
     );
   end;
 
@@ -2506,7 +2515,17 @@ end;
 
 procedure TfrmMain.nbPageMouseDown(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
+{$IFNDEF LCLCOCOA}
 begin
+{$ELSE}
+var
+  Notebook: TFileViewNotebook;
+  TabNr: Integer;
+begin
+  Notebook := TFileViewNotebook(Sender);
+  TabNr := Notebook.IndexOfPageAt(Point(X, Y));
+  if TabNr <> -1 then Notebook.ActivePageIndex := TabNr;
+{$ENDIF}
   Application.QueueAsyncCall(@nbPageAfterMouseDown, PtrInt(Sender));
 end;
 
