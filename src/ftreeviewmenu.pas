@@ -926,6 +926,8 @@ end;
 { TfrmTreeViewMenu.SetContextMode }
 procedure TfrmTreeViewMenu.SetContextMode(WantedContextMode: tvmContextMode; WantedPosX, WantedPosY: integer; WantedWidth: integer = 0; WantedHeight: integer = 0);
 var
+  ARect: TRect;
+  APoint: TPoint;
   pmiToSwitchTo: TMenuItem = nil;
   mntrWhereToShowForm: TMonitor;
 begin
@@ -979,22 +981,25 @@ begin
       end
       else
       begin
-        mntrWhereToShowForm := Screen.MonitorFromPoint(Mouse.CursorPos);
+        APoint := Mouse.CursorPos;
+        mntrWhereToShowForm := Screen.MonitorFromPoint(APoint);
+        ARect := mntrWhereToShowForm.WorkareaRect;
 
-        if (Mouse.CursorPos.x + Width) > (mntrWhereToShowForm.Left + mntrWhereToShowForm.Width) then
-          Left := ((mntrWhereToShowForm.Left + mntrWhereToShowForm.Width) - Width)
-        else
-          Left := Mouse.CursorPos.x;
+        if (APoint.X + Width) > ARect.Right then
+          Left := (ARect.Right - Width)
+        else begin
+          Left := APoint.X;
+        end;
 
-        if abs(Mouse.CursorPos.y - (mntrWhereToShowForm.Top+mntrWhereToShowForm.Height)) > abs(Mouse.CursorPos.y - mntrWhereToShowForm.Top) then
+        if Abs(APoint.Y - ARect.Bottom) > Abs(APoint.Y - ARect.Top) then
         begin
-          Top := Mouse.CursorPos.y;
-          Height := (mntrWhereToShowForm.Top+mntrWhereToShowForm.Height) - Mouse.CursorPos.y;
+          Top := APoint.Y;
+          Height := ARect.Bottom - APoint.Y;
         end
         else
         begin
-          Top := Screen.MonitorFromPoint(Mouse.CursorPos).Top;
-          Height := Mouse.CursorPos.y - Screen.MonitorFromPoint(Mouse.CursorPos).Top;
+          Top := ARect.Top;
+          Height := APoint.Y - ARect.Top;
         end;
       end;
 

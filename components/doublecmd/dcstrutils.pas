@@ -773,7 +773,7 @@ var
   L: Integer;
 begin
   L:= Length(Path);
-  if (L > 1) and (Path[L] in AllowDirectorySeparators) then
+  if (L > 1) and (Path[L] in AllowDirectorySeparators) and (Path[L - 1] <> DriveSeparator) then
     Result:= Copy(Path, 1, L - 1)
   else
     Result:= Path;

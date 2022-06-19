@@ -111,6 +111,7 @@ type
     FNotebookSide: TFilePanelSelect;
     FStartDrag: Boolean;
     FDraggedPageIndex: Integer;
+    FTabDblClicked: Boolean;
     FHintPageIndex: Integer;
     FLastMouseDownTime: TDateTime;
     FLastMouseDownPageIndex: Integer;
@@ -614,10 +615,18 @@ begin
           ArrowWidth:= arrow_spacing + scroll_arrow_hlength;
           if (X > ArrowWidth) and (X < ClientWidth - ArrowWidth) then
           {$ENDIF}
+
+          {$IFNDEF LCLCOCOA}
           OnDblClick(Self);
           FStartDrag:= False;
           FLastMouseDownTime:= 0;
           FLastMouseDownPageIndex:= -1;
+          {$ELSE}
+          FStartDrag:= False;
+          FLastMouseDownTime:= 0;
+          FTabDblClicked := true;
+          {$ENDIF}
+
         end;
     end;
 end;
@@ -651,6 +660,15 @@ end;
 
 procedure TFileViewNotebook.MouseUp(Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
 begin
+{$IFDEF LCLCOCOA}
+  if FTabDblClicked then
+  begin
+    OnDblClick(Self);
+    FLastMouseDownPageIndex:= -1;
+    FTabDblClicked := false;
+  end;
+{$ENDIF}
+
   inherited;
 
   FStartDrag := False;
