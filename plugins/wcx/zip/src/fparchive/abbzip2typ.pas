@@ -119,7 +119,7 @@ uses
   Windows, // Fix inline warnings
 {$ENDIF}
   StrUtils, SysUtils,
-  AbBzip2, AbExcept, AbVMStrm, AbBitBkt, DCOSUtils, DCClassesUtf8;
+  AbBzip2, AbExcept, AbVMStrm, AbBitBkt, AbProgress, DCOSUtils, DCClassesUtf8;
 
 { ****************** Helper functions Not from Classes Above ***************** }
 function VerifyHeader(const Header : TAbBzip2Header) : Boolean;
@@ -326,7 +326,7 @@ var
   CurItem: TAbBzip2Item;
   UpdateArchive: Boolean;
   TempFileName: String;
-  InputFileStream: TStream;
+  InputFileStream: TAbProgressFileStream;
 begin
   if IsBzippedTar and TarAutoHandle then
   begin
@@ -338,7 +338,7 @@ begin
       FreeAndNil(FBzip2Stream);
       TempFileName := GetTempName(FArchiveName + ExtensionSeparator);
       { Create new archive with temporary name }
-      FBzip2Stream := TFileStreamEx.Create(TempFileName, fmCreate or fmShareDenyWrite);
+      FBzip2Stream := TAbProgressFileStream.Create(TempFileName, fmCreate or fmShareDenyWrite, OnProgress);
     end;
     FTarStream.Position := 0;
     CompStream := TBZCompressionStream.Create(bs9, FBzip2Stream);
@@ -377,7 +377,7 @@ begin
             if CurItem.Action = aaStreamAdd then
               CompStream.CopyFrom(InStream, 0){ Copy/compress entire Instream to FBzip2Stream }
             else begin
-              InputFileStream := TFileStreamEx.Create(CurItem.DiskFileName, fmOpenRead or fmShareDenyWrite );
+              InputFileStream := TAbProgressFileStream.Create(CurItem.DiskFileName, fmOpenRead or fmShareDenyWrite, OnProgress);
               try
                 CompStream.CopyFrom(InputFileStream, 0);{ Copy/compress entire Instream to FBzip2Stream }
               finally
@@ -408,23 +408,29 @@ const
   BufSize = $F000;
 var
   DecompStream: TBZDecompressionStream;
+  ProxyStream: TAbProgressStream;
   Buffer: PByte;
   N: Integer;
 begin
-  DecompStream := TBZDecompressionStream.Create(FBzip2Stream);
+  ProxyStream:= TAbProgressStream.Create(FBzip2Stream, OnProgress);
   try
-    GetMem(Buffer, BufSize);
+    DecompStream := TBZDecompressionStream.Create(ProxyStream);
     try
-      N := DecompStream.Read(Buffer^, BufSize);
-      while N > 0 do begin
-        aStream.WriteBuffer(Buffer^, N);
+      GetMem(Buffer, BufSize);
+      try
         N := DecompStream.Read(Buffer^, BufSize);
+        while N > 0 do begin
+          aStream.WriteBuffer(Buffer^, N);
+          N := DecompStream.Read(Buffer^, BufSize);
+        end;
+      finally
+        FreeMem(Buffer, BufSize);
       end;
     finally
-      FreeMem(Buffer, BufSize);
+      DecompStream.Free;
     end;
   finally
-    DecompStream.Free;
+    ProxyStream.Free;
   end;
 end;
 { -------------------------------------------------------------------------- }

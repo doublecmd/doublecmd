@@ -114,7 +114,7 @@ uses
   Windows, // Fix inline warnings
 {$ENDIF}
   StrUtils, SysUtils,
-  AbXz, AbExcept, AbVMStrm, AbBitBkt, CRC, DCOSUtils, DCClassesUtf8;
+  AbXz, AbExcept, AbVMStrm, AbBitBkt, AbProgress, CRC, DCOSUtils, DCClassesUtf8;
 
 { ****************** Helper functions Not from Classes Above ***************** }
 function VerifyHeader(const Header : TAbXzHeader) : Boolean;
@@ -317,8 +317,8 @@ var
   CurItem: TAbXzItem;
   UpdateArchive: Boolean;
   TempFileName: String;
-  InputFileStream: TStream;
   LzmaCompression: TLzmaCompression;
+  InputFileStream: TAbProgressFileStream;
 begin
   if IsXzippedTar and TarAutoHandle then
   begin
@@ -330,7 +330,7 @@ begin
       FreeAndNil(FXzStream);
       TempFileName := GetTempName(FArchiveName + ExtensionSeparator);
       { Create new archive with temporary name }
-      FXzStream := TFileStreamEx.Create(TempFileName, fmCreate or fmShareDenyWrite);
+      FXzStream := TAbProgressFileStream.Create(TempFileName, fmCreate or fmShareDenyWrite, OnProgress);
     end;
     FTarStream.Position := 0;
     LzmaCompression := TLzmaCompression.Create(FTarStream, FXzStream);
@@ -374,7 +374,7 @@ begin
             end;
           end
           else begin
-            InputFileStream := TFileStreamEx.Create(CurItem.DiskFileName, fmOpenRead or fmShareDenyWrite);
+            InputFileStream := TAbProgressFileStream.Create(CurItem.DiskFileName, fmOpenRead or fmShareDenyWrite, OnProgress);
             try
               LzmaCompression := TLzmaCompression.Create(InputFileStream, FXzStream);
               try
@@ -404,13 +404,19 @@ end;
 { -------------------------------------------------------------------------- }
 procedure TAbXzArchive.DecompressToStream(aStream: TStream);
 var
+  ProxyStream: TAbProgressStream;
   LzmaDecompression: TLzmaDecompression;
 begin
-  LzmaDecompression := TLzmaDecompression.Create(FXzStream, aStream);
+  ProxyStream:= TAbProgressStream.Create(FXzStream, OnProgress);
   try
-    LzmaDecompression.Code
+    LzmaDecompression := TLzmaDecompression.Create(ProxyStream, aStream);
+    try
+      LzmaDecompression.Code
+    finally
+      LzmaDecompression.Free;
+    end;
   finally
-    LzmaDecompression.Free;
+    ProxyStream.Free;
   end;
 end;
 { -------------------------------------------------------------------------- }
