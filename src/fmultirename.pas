@@ -2344,7 +2344,7 @@ var
 begin
   AFileList := TStringListEx.Create;
   AFileName := GetTempFolderDeletableAtTheEnd;
-  AFileName := GetTempName(AFileName) + '.txt';
+  AFileName := GetTempName(AFileName, 'txt');
   if FNames.Count > 0 then
     AFileList.Assign(FNames)
   else
@@ -2378,7 +2378,7 @@ begin
   try
     for iIndexFile := 0 to pred(FFiles.Count) do
       AFileList.Add(FreshText(iIndexFile));
-    sFileName := GetTempName(GetTempFolderDeletableAtTheEnd) + '.txt';
+    sFileName := GetTempName(GetTempFolderDeletableAtTheEnd, 'txt');
     try
       AFileList.SaveToFile(sFileName);
       try
@@ -2483,7 +2483,7 @@ begin
         begin
           NewName := AFile.Name;
           // Generate temp file name, save file index as extension
-          AFile.FullPath := GetTempName(FFiles[I].Path) + ExtensionSeparator + IntToStr(I);
+          AFile.FullPath := GetTempName(FFiles[I].Path, IntToStr(I));
           TempFiles.AddObject(NewName, AFile.Clone);
         end;
 

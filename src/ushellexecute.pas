@@ -358,7 +358,7 @@ type
       FileList: TFileStreamEx;
       LineEndingA: ansistring = LineEnding;
     begin
-      Result := GetTempName(GetTempFolderDeletableAtTheEnd + 'Filelist') + '.lst';
+      Result := GetTempName(GetTempFolderDeletableAtTheEnd + 'Filelist', 'lst');
       try
         FileList := TFileStreamEx.Create(Result, fmCreate);
         try
@@ -480,7 +480,7 @@ type
       sTmpFilename, sShellCmdLine: string;
       Process: TProcessUTF8;
     begin
-      sTmpFilename := GetTempName(GetTempFolderDeletableAtTheEnd) + '.tmp';
+      sTmpFilename := GetTempName(GetTempFolderDeletableAtTheEnd);
       //sShellCmdLine := Copy(state.sSubParam, 3, length(state.sSubParam)-2) + ' > ' + QuoteStr(sTmpFilename);
       sShellCmdLine := state.sSubParam + ' > ' + QuoteStr(sTmpFilename);
       Process := TProcessUTF8.Create(nil);
@@ -991,7 +991,7 @@ begin
       iCount := Posex('?>', sParams, iStart) - iStart;
       if (iStart <> 0) and (iCount >= 0) then
       begin
-        sTmpFile := GetTempName(GetTempFolderDeletableAtTheEnd) + '.tmp';
+        sTmpFile := GetTempName(GetTempFolderDeletableAtTheEnd);
         sShellCmdLine := Copy(sParams, iStart, iCount) + ' > ' + QuoteStr(sTmpFile);
         Process := TProcessUTF8.Create(nil);
         try

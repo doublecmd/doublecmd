@@ -2368,7 +2368,7 @@ begin
 
     if bMakeViaCopy then
     begin
-      Directory := GetTempName(GetTempFolderDeletableAtTheEnd);
+      Directory := GetTempName(GetTempFolderDeletableAtTheEnd, EmptyStr);
       if not mbForceDirectory(IncludeTrailingBackslash(Directory) + sPath) then
       begin
         MessageDlg(mbSysErrorMessage(GetLastOSError), mtError, [mbOK], 0);
