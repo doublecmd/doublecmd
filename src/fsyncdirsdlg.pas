@@ -787,6 +787,10 @@ begin
     FIniPropStorage.StoredValues.Add.DisplayName:= Format(GRID_COLUMN_FMT, [Index]);
   end;
 
+  {$IFDEF LCLCOCOA}
+  pnlProgress.Color:=clBtnHighlight;
+  {$ENDIF}
+
   lblProgress.Caption    := rsOperCopying;
   lblProgressDelete.Caption   := rsOperDeleting;
   { settings }
