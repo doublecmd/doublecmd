@@ -1811,20 +1811,38 @@ end;
 
 procedure TfrmSyncDirsDlg.SetProgressBytes(AProgressBar: TKASProgressBar;
   CurrentBytes: Int64; TotalBytes: Int64);
+var
+  BarText : String;
+  CaptionText : String;
 begin
-  AProgressBar.SetProgress(CurrentBytes, TotalBytes,
-                           cnvFormatFileSize(CurrentBytes, uoscOperation) + '/' +
-                           cnvFormatFileSize(TotalBytes, uoscOperation)
-                           );
+  BarText := cnvFormatFileSize(CurrentBytes, uoscOperation) + '/' + cnvFormatFileSize(TotalBytes, uoscOperation);
+  AProgressBar.SetProgress(CurrentBytes, TotalBytes, BarText );
+
+  {$IFDEF LCLCOCOA}
+  if TotalBytes > 0 then
+    CaptionText := rsOperCopying + ': ' + BarText + ' (' + FloatToStrF((CurrentBytes / TotalBytes) * 100, ffFixed, 0, 0) + '%)'
+  else
+    CaptionText := rsOperCopying;
+  lblProgress.Caption := CaptionText;
+  {$ENDIF}
 end;
 
 procedure TfrmSyncDirsDlg.SetProgressFiles(AProgressBar: TKASProgressBar;
   CurrentFiles: Int64; TotalFiles: Int64);
+var
+  BarText : String;
+  CaptionText : String;
 begin
-  AProgressBar.SetProgress(CurrentFiles, TotalFiles,
-                           cnvFormatFileSize(CurrentFiles, uoscNoUnit) + '/' +
-                           cnvFormatFileSize(TotalFiles, uoscNoUnit)
-                           );
+  BarText := cnvFormatFileSize(CurrentFiles, uoscNoUnit) + '/' + cnvFormatFileSize(TotalFiles, uoscNoUnit);
+  AProgressBar.SetProgress(CurrentFiles, TotalFiles, BarText );
+
+  {$IFDEF LCLCOCOA}
+  if TotalFiles > 0 then
+    CaptionText := rsOperDeleting + ': ' + BarText + ' (' + FloatToStrF((CurrentFiles / TotalFiles) * 100, ffFixed, 0, 0) + '%)'
+  else
+    CaptionText := rsOperDeleting;
+  lblProgressDelete.Caption := CaptionText;
+  {$ENDIF}
 end;
 
 procedure TfrmSyncDirsDlg.DoAutoAdjustLayout(const AMode: TLayoutAdjustmentPolicy;
