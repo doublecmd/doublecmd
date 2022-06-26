@@ -567,6 +567,7 @@ begin
   DeleteLeftCount := 0; DeleteRightCount := 0;
   CopyLeftCount := 0; CopyRightCount := 0;
   CopyLeftSize := 0;  CopyRightSize := 0;
+
   for i := 0 to FVisibleItems.Count - 1 do
     if Assigned(FVisibleItems.Objects[i]) then
     begin
@@ -642,8 +643,14 @@ begin
       CopyRight := chkLeftToRight.Checked;
       DeleteLeft := chkDeleteLeft.Checked;
       DeleteRight := chkDeleteRight.Checked;
+
+      lblProgress.Caption := rsOperCopying;
+      lblProgressDelete.Caption := rsOperDeleting;
+      ProgressBar.Position:=0;
+      ProgressBarDelete.Position:=0;
       pnlCopyProgress.Visible:= CopyLeft or CopyRight;
       pnlDeleteProgress.Visible:= DeleteLeft or DeleteRight;
+
       i := 0;
       while i < FVisibleItems.Count do
       begin
