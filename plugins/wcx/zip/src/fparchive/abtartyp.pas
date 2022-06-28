@@ -2153,11 +2153,6 @@ begin
 
   if CurItem.ItemType in [UNKNOWN_ITEM] then
     raise EAbTarBadOp.Create; { Unsupported Type, Cannot Extract }
-  if (CurItem.ItemType = UNSUPPORTED_ITEM) and
-     ((Length(CurItem.FileName) >= AB_TAR_NAMESIZE) or
-      (Length(CurItem.LinkName) >= AB_TAR_NAMESIZE)) then
-    raise EAbTarBadOp.Create; { Unsupported Type, Cannot Extract }
-  { We will allow extractions if the file name/Link name are strickly less than 100 chars }
 
   { Link to previously archived file }
   if CurItem.LinkFlag in [AB_TAR_LF_LINK] then
@@ -2221,11 +2216,6 @@ begin
 
   if CurItem.ItemType in [UNKNOWN_ITEM] then
     raise EAbTarBadOp.Create; { Unsupported Type, Cannot Extract }
-  if (CurItem.ItemType = UNSUPPORTED_ITEM) and
-     ((Length(CurItem.FileName) >= AB_TAR_NAMESIZE) or
-      (Length(CurItem.LinkName) >= AB_TAR_NAMESIZE)) then
-    raise EAbTarBadOp.Create; { Unsupported Type, Cannot Extract }
-  { We will allow extractions if the file name is strictly less than 100 chars }
 
   FStream.Position := CurItem.StreamPosition+CurItem.FileHeaderCount*AB_TAR_RECORDSIZE;
   if CurItem.UncompressedSize <> 0 then
