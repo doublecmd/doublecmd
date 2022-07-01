@@ -175,7 +175,7 @@ begin
     end;
     lc_copy:
     begin
-      if SendMessageW(ListWin, WM_COPY, 0, LPARAM(@ARange)) >= 0 then
+      if SendMessageW(ListWin, WM_COPY, 0, 0) <> 0 then
         Result:= LISTPLUGIN_OK
       else begin
         Result:= LISTPLUGIN_ERROR;
