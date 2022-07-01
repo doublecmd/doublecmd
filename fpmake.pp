@@ -49,9 +49,10 @@ const
     'plugins/wcx/cpio/src/cpio.lpi'
   );
 
-  WindowsPlugins: array[1..3] of String =
+  WindowsPlugins: array[1..4] of String =
   (
     'plugins\wcx\sevenzip\src\SevenZipWcx.lpi',
+    'plugins\wlx\richview\src\richview.lpi',
     'plugins\wlx\preview\src\preview.lpi',
     'plugins\wlx\wmp\src\wmp.lpi'
   );
