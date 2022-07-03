@@ -1,8 +1,11 @@
 unit uClipboard;
 
 {$mode objfpc}{$H+}
+{$IFDEF DARWIN}
+{$modeswitch objectivec1}
+{$ENDIF}
 
-{$IF DEFINED(UNIX)}
+{$IF DEFINED(UNIX) and not DEFINED(DARWIN)}
   {$Define UNIX_not_DARWIN}
 {$ENDIF}
 
@@ -103,7 +106,7 @@ uses
 {$ELSEIF DEFINED(UNIX_not_DARWIN)}
   Clipbrd, LCLIntf
 {$ELSEIF DEFINED(DARWIN)}
-
+  DCStrUtils, CocoaAll, CocoaUtils, uMyDarwin
 {$ENDIF}
   ;
 
@@ -739,6 +742,17 @@ begin
 end;
 {$ENDIF}
 
+{$IFDEF DARWIN}
+procedure ClearClipboard( pb:NSPasteboard );
+begin
+  pb.clearContents;
+end;
+
+procedure ClearClipboard;
+begin
+  ClearClipboard( NSPasteboard.generalPasteboard );
+end;
+{$ENDIF}
 
 {$IF DEFINED(MSWINDOWS)}
 procedure ClipboardSetText(AText: String);
@@ -764,6 +778,13 @@ begin
 end;
 {$ENDIF}
 
+{$IFDEF DARWIN}
+procedure ClipboardSetText(AText: String);
+begin
+  ClearClipboard;
+  NSPasteboardAddString(AText);
+end;
+{$ENDIF}
 
 initialization
 
