@@ -788,6 +788,64 @@ begin
 end;
 {$ENDIF}
 
+// MacOs 10.5 compatibility
+{$IFDEF DARWIN}
+function NSArrayToList(const theArray:NSArray): TStringList;
+var
+  i: Integer;
+  list : TStringList;
+begin
+  list := TStringList.Create;
+  for i := 0 to theArray.Count-1 do
+  begin
+    list.Add( NSStringToString( theArray.objectAtIndex(i) ) );
+  end;
+  Result := list;
+end;
+
+function getStringFromPasteboard( pbType : NSString ) : String;
+var
+  pb : NSPasteboard;
+begin
+  pb := NSPasteboard.generalPasteboard;
+  Result := NSStringToString( pb.stringForType( pbType ) );
+end;
+
+function getOpFromPasteboard() : TClipboardOperation;
+var
+  opString : String;
+begin
+  Result := ClipboardCopy;
+  opString := getStringFromPasteboard( StringToNSString(darwinPasteboardOpMime) );
+  if TClipboardOperationName[ClipboardCut].CompareTo(opString) = 0 then Result := ClipboardCut;
+end;
+
+function getFilenamesFromPasteboard() : TStringList;
+var
+  pb : NSPasteboard;
+  filenameArray{, lClasses}: NSArray;
+begin
+  Result := nil;
+  pb := NSPasteboard.generalPasteboard;
+  filenameArray := pb.propertyListForType(NSFilenamesPboardType);
+  if filenameArray <> nil then Result := NSArrayToList( filenameArray );
+end;
+
+function PasteFromClipboard(out ClipboardOp: TClipboardOperation; out filenames:TStringList):Boolean;
+begin
+  Result := false;
+  ClipboardOp := ClipboardCopy;
+  filenames := getFilenamesFromPasteboard();
+  if filenames <> nil then
+  begin
+    ClipboardOp := getOpFromPasteboard();
+    Result := true;
+  end;
+end;
+{$ENDIF}
+
+
+
 
 {$IFDEF MSWINDOWS}
 procedure ClearClipboard;
