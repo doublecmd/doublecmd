@@ -69,6 +69,12 @@ const
 
 {$ELSEIF DEFINED(DARWIN)}
 
+  TClipboardOperationName : array[TClipboardOperation] of string = (
+      'copy', 'cut'
+    );
+
+  darwinPasteboardOpMime = 'application/x-darwin-doublecmd-PbOp';
+
 {$ENDIF}
 
 
@@ -535,6 +541,67 @@ begin
 end;
 {$ENDIF}
 
+// MacOs 10.5 compatibility
+{$IFDEF DARWIN}
+function ListToNSArray(const list:TStringList): NSArray;
+var
+  i: Integer;
+  theArray: NSMutableArray;
+begin
+  theArray := NSMutableArray.arrayWithCapacity(list.Count);
+  for i := 0 to list.Count - 1 do
+  begin
+    theArray.addObject( StringToNSString(list[i]) );
+  end;
+  Result := theArray;
+end;
+
+function FilenamesToString(const filenames:TStringList): String;
+begin
+  Result := TrimRightLineEnding( filenames.Text, filenames.TextLineBreakStyle);
+end;
+
+procedure NSPasteboardAddFiles(const filenames:TStringList; pb:NSPasteboard);
+begin
+  pb.addTypes_owner(NSArray.arrayWithObject(NSFileNamesPboardType), nil);
+  pb.setPropertyList_forType(ListToNSArray(filenames), NSFileNamesPboardType);
+end;
+
+procedure NSPasteboardAddFiles(const filenames:TStringList);
+begin
+  NSPasteboardAddFiles( filenames, NSPasteboard.generalPasteboard );
+end;
+
+procedure NSPasteboardAddString(const value:String; const pbType:NSString );
+var
+  pb: NSPasteboard;
+begin
+  pb:= NSPasteboard.generalPasteboard;
+  pb.addTypes_owner(NSArray.arrayWithObject(pbType), nil);
+  pb.setString_forType(StringToNSString(value), pbType);
+end;
+
+procedure NSPasteboardAddString(const value:String);
+begin
+  NSPasteboardAddString( value , NSStringPboardType );
+end;
+
+function SendToClipboard(const filenames:TStringList; ClipboardOp: TClipboardOperation):Boolean;
+var
+   s : string;
+begin
+  Result := false;
+  if filenames.Count = 0 then Exit;
+
+  ClearClipboard;
+  NSPasteboardAddFiles( filenames );
+  NSPasteboardAddString( FilenamesToString(filenames) );
+  NSPasteboardAddString( TClipboardOperationName[ClipboardOp] , StringToNSString(darwinPasteboardOpMime) );
+
+  Result := true;
+end;
+{$ENDIF}
+
 function CopyToClipboard(const filenames:TStringList):Boolean;
 begin
   Result := SendToClipboard(filenames, ClipboardCopy);
@@ -742,6 +809,7 @@ begin
 end;
 {$ENDIF}
 
+// MacOs 10.5 compatibility
 {$IFDEF DARWIN}
 procedure ClearClipboard( pb:NSPasteboard );
 begin
@@ -778,6 +846,7 @@ begin
 end;
 {$ENDIF}
 
+// MacOs 10.5 compatibility
 {$IFDEF DARWIN}
 procedure ClipboardSetText(AText: String);
 begin
