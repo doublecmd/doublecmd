@@ -1,6 +1,14 @@
 unit uClipboard;
 
 {$mode objfpc}{$H+}
+{$IFDEF DARWIN}
+{$modeswitch objectivec1}
+{$ENDIF}
+
+{$IF DEFINED(UNIX) and not DEFINED(DARWIN)}
+  {$Define UNIX_not_DARWIN}
+{$ENDIF}
+
 
 interface
 
@@ -16,24 +24,23 @@ uses
 
   function URIDecode(encodedUri: String): String;
   function URIEncode(path: String): String;
+
+{$IF DEFINED(UNIX_not_DARWIN)}
   function ExtractFilenames(uriList: String): TStringList;
   function FileNameToURI(const FileName: String): String;
 
   function FormatUriList(FileNames: TStringList): String;
   function FormatTextPlain(FileNames: TStringList): String;
+{$ENDIF}
 
   procedure ClearClipboard;
   procedure ClipboardSetText(AText: String);
 
 const
-  // General MIME
-  uriListMime     = 'text/uri-list';
-  textPlainMime   = 'text/plain';
 
   fileScheme      = 'file:';   // for URI
 
-{$IFDEF MSWINDOWS}
-
+{$IF DEFINED(MSWINDOWS)}
   CFSTR_PREFERRED_DROPEFFECT      = 'Preferred DropEffect';
   CFSTR_FILENAME                  = 'FileName';
   CFSTR_FILENAMEW                 = 'FileNameW';
@@ -46,7 +53,11 @@ const
   CFSTR_HTMLFORMAT = 'HTML Format';
   CFSTR_RICHTEXTFORMAT = 'Rich Text Format';
 
-{$ELSE IFDEF UNIX}
+{$ELSEIF DEFINED(UNIX_not_DARWIN)}
+
+  // General MIME
+  uriListMime     = 'text/uri-list';
+  textPlainMime   = 'text/plain';
 
   // Gnome
   cutText = 'cut';
@@ -56,13 +67,20 @@ const
   // Kde
   kdeClipboardMime = 'application/x-kde-cutselection';
 
+{$ELSEIF DEFINED(DARWIN)}
+
+  TClipboardOperationName : array[TClipboardOperation] of string = (
+      'copy', 'cut'
+    );
+
+  darwinPasteboardOpMime = 'application/x-darwin-doublecmd-PbOp';
+
 {$ENDIF}
 
 
+{$IF DEFINED(MSWINDOWS)}
+
 var
-
-{$IFDEF MSWINDOWS}
-
   CFU_PREFERRED_DROPEFFECT,
   CFU_FILENAME,
   CFU_FILENAMEW,
@@ -73,27 +91,28 @@ var
   CFU_FILEGROUPDESCRIPTOR,
   CFU_FILEGROUPDESCRIPTORW,
   CFU_HTML,
-  CFU_RICHTEXT,
+  CFU_RICHTEXT: TClipboardFormat;
 
-{$ELSE IFDEF UNIX}
+{$ELSEIF DEFINED(UNIX_not_DARWIN)}
 
+var
   CFU_KDE_CUT_SELECTION,
   CFU_GNOME_COPIED_FILES,
-
-{$ENDIF}
-
   CFU_TEXT_PLAIN,
   CFU_URI_LIST: TClipboardFormat;
+
+{$ENDIF}
 
 
 implementation
 
 uses
-  Clipbrd
-{$IFDEF MSWINDOWS}
-  , Windows, ActiveX, uOleDragDrop, fMain, uShellContextMenu, uOSForms
-{$ELSE IFDEF UNIX}
-  , LCLIntf
+{$IF DEFINED(MSWINDOWS)}
+  Clipbrd, Windows, ActiveX, uOleDragDrop, fMain, uShellContextMenu, uOSForms
+{$ELSEIF DEFINED(UNIX_not_DARWIN)}
+  Clipbrd, LCLIntf
+{$ELSEIF DEFINED(DARWIN)}
+  DCStrUtils, CocoaAll, CocoaUtils, uMyDarwin
 {$ENDIF}
   ;
 
@@ -114,15 +133,15 @@ begin
   CFU_HTML := $8000 OR RegisterClipboardFormat(CFSTR_HTMLFORMAT) And $7FFF;
   CFU_RICHTEXT := $8000 OR RegisterClipboardFormat(CFSTR_RICHTEXTFORMAT) And $7FFF;
 
-{$ELSEIF DEFINED(UNIX)}
+{$ELSEIF DEFINED(UNIX_not_DARWIN)}
 
   CFU_GNOME_COPIED_FILES        := RegisterClipboardFormat(gnomeClipboardMime);
   CFU_KDE_CUT_SELECTION         := RegisterClipboardFormat(kdeClipboardMime);
+  CFU_TEXT_PLAIN                := RegisterClipboardFormat(textPlainMime);
+  CFU_URI_LIST                  := RegisterClipboardFormat(uriListMime);
 
 {$ENDIF}
 
-  CFU_TEXT_PLAIN                := RegisterClipboardFormat(textPlainMime);
-  CFU_URI_LIST                  := RegisterClipboardFormat(uriListMime);
 end;
 
 { Changes all '%XX' to bytes (XX is a hex number). }
@@ -201,6 +220,8 @@ begin
   Result := Result + Copy(path, oldIndex, len - oldIndex + 1 );
 end;
 
+
+{$IFDEF UNIX_not_DARWIN}
 { Extracts a path from URI }
 function ExtractPath(uri: String): String;
 var
@@ -320,8 +341,6 @@ begin
   end;
 end;
 
-{$IFDEF UNIX}
-
 function GetClipboardFormatAsString(formatId: TClipboardFormat): String;
 var
   PBuffer: PChar = nil;
@@ -362,33 +381,21 @@ begin
   else
     Result := '';
 end;
-
 {$ENDIF}
 
-function SendToClipboard(const filenames:TStringList; ClipboardOp: TClipboardOperation):Boolean;
 {$IFDEF MSWINDOWS}
+function SendToClipboard(const filenames:TStringList; ClipboardOp: TClipboardOperation):Boolean;
 var
   DragDropInfo: TDragDropInfo;
   i: Integer;
   hGlobalBuffer: HGLOBAL;
   PreferredEffect: DWORD = DROPEFFECT_COPY;
   formatEtc: TFormatEtc = (CfFormat: 0; Ptd: nil; dwAspect: 0; lindex: 0; tymed: TYMED_HGLOBAL);
-{$ENDIF}
-
-{$IFDEF UNIX}
-var
-  s: String;
-  uriList: String;
-  plainList: String;
-{$ENDIF}
-
 begin
 
   Result := False;
 
   if filenames.Count = 0 then Exit;
-
-{$IFDEF MSWINDOWS}
 
   if OpenClipboard(GetWindowHandle(frmMain)) = False then Exit;
 
@@ -452,15 +459,24 @@ begin
 
     Result := True;
 
-
   finally
     FreeAndNil(DragDropInfo);
 
   end;
-
+end;
 {$ENDIF}
 
-{$IFDEF UNIX}
+{$IFDEF UNIX_not_DARWIN}
+function SendToClipboard(const filenames:TStringList; ClipboardOp: TClipboardOperation):Boolean;
+var
+  s: String;
+  uriList: String;
+  plainList: String;
+begin
+
+  Result := False;
+
+  if filenames.Count = 0 then Exit;
 
   // Prepare filenames list.
   uriList := FormatUriList(filenames);
@@ -522,9 +538,69 @@ begin
 
   Result := True;
 
+end;
 {$ENDIF}
 
+// MacOs 10.5 compatibility
+{$IFDEF DARWIN}
+function ListToNSArray(const list:TStringList): NSArray;
+var
+  i: Integer;
+  theArray: NSMutableArray;
+begin
+  theArray := NSMutableArray.arrayWithCapacity(list.Count);
+  for i := 0 to list.Count - 1 do
+  begin
+    theArray.addObject( StringToNSString(list[i]) );
+  end;
+  Result := theArray;
 end;
+
+function FilenamesToString(const filenames:TStringList): String;
+begin
+  Result := TrimRightLineEnding( filenames.Text, filenames.TextLineBreakStyle);
+end;
+
+procedure NSPasteboardAddFiles(const filenames:TStringList; pb:NSPasteboard);
+begin
+  pb.addTypes_owner(NSArray.arrayWithObject(NSFileNamesPboardType), nil);
+  pb.setPropertyList_forType(ListToNSArray(filenames), NSFileNamesPboardType);
+end;
+
+procedure NSPasteboardAddFiles(const filenames:TStringList);
+begin
+  NSPasteboardAddFiles( filenames, NSPasteboard.generalPasteboard );
+end;
+
+procedure NSPasteboardAddString(const value:String; const pbType:NSString );
+var
+  pb: NSPasteboard;
+begin
+  pb:= NSPasteboard.generalPasteboard;
+  pb.addTypes_owner(NSArray.arrayWithObject(pbType), nil);
+  pb.setString_forType(StringToNSString(value), pbType);
+end;
+
+procedure NSPasteboardAddString(const value:String);
+begin
+  NSPasteboardAddString( value , NSStringPboardType );
+end;
+
+function SendToClipboard(const filenames:TStringList; ClipboardOp: TClipboardOperation):Boolean;
+var
+   s : string;
+begin
+  Result := false;
+  if filenames.Count = 0 then Exit;
+
+  ClearClipboard;
+  NSPasteboardAddFiles( filenames );
+  NSPasteboardAddString( FilenamesToString(filenames) );
+  NSPasteboardAddString( TClipboardOperationName[ClipboardOp] , StringToNSString(darwinPasteboardOpMime) );
+
+  Result := true;
+end;
+{$ENDIF}
 
 function CopyToClipboard(const filenames:TStringList):Boolean;
 begin
@@ -536,18 +612,13 @@ begin
   Result := SendToClipboard(filenames, ClipboardCut);
 end;
 
-function PasteFromClipboard(out ClipboardOp: TClipboardOperation; out filenames:TStringList):Boolean;
+
 {$IFDEF MSWINDOWS}
+function PasteFromClipboard(out ClipboardOp: TClipboardOperation; out filenames:TStringList):Boolean;
 var
   hGlobalBuffer: HGLOBAL;
   pBuffer: LPVOID;
   PreferredEffect: DWORD;
-{$ELSE IF DEFINED(UNIX)}
-var
-  formatId: TClipboardFormat;
-  uriList: String;
-  s: String;
-{$ENDIF}
 begin
 
   filenames := nil;
@@ -555,8 +626,6 @@ begin
 
   // Default to 'copy' if effect hasn't been given.
   ClipboardOp := ClipboardCopy;
-
-{$IFDEF MSWINDOWS}
 
   if OpenClipboard(0) = False then Exit;
 
@@ -598,7 +667,22 @@ begin
 
   CloseClipboard;
 
-{$ELSE IF DEFINED(UNIX)}
+end;
+{$ENDIF}
+
+{$IFDEF UNIX_not_DARWIN}
+function PasteFromClipboard(out ClipboardOp: TClipboardOperation; out filenames:TStringList):Boolean;
+var
+  formatId: TClipboardFormat;
+  uriList: String;
+  s: String;
+begin
+
+  filenames := nil;
+  Result := False;
+
+  // Default to 'copy' if effect hasn't been given.
+  ClipboardOp := ClipboardCopy;
 
   uriList := '';
 
@@ -701,11 +785,70 @@ begin
   if (filenames <> nil) and (filenames.Count > 0) then
     Result := True;
 
+end;
 {$ENDIF}
+
+// MacOs 10.5 compatibility
+{$IFDEF DARWIN}
+function NSArrayToList(const theArray:NSArray): TStringList;
+var
+  i: Integer;
+  list : TStringList;
+begin
+  list := TStringList.Create;
+  for i := 0 to theArray.Count-1 do
+  begin
+    list.Add( NSStringToString( theArray.objectAtIndex(i) ) );
+  end;
+  Result := list;
 end;
 
-procedure ClearClipboard;
+function getStringFromPasteboard( pbType : NSString ) : String;
+var
+  pb : NSPasteboard;
+begin
+  pb := NSPasteboard.generalPasteboard;
+  Result := NSStringToString( pb.stringForType( pbType ) );
+end;
+
+function getOpFromPasteboard() : TClipboardOperation;
+var
+  opString : String;
+begin
+  Result := ClipboardCopy;
+  opString := getStringFromPasteboard( StringToNSString(darwinPasteboardOpMime) );
+  if TClipboardOperationName[ClipboardCut].CompareTo(opString) = 0 then Result := ClipboardCut;
+end;
+
+function getFilenamesFromPasteboard() : TStringList;
+var
+  pb : NSPasteboard;
+  filenameArray{, lClasses}: NSArray;
+begin
+  Result := nil;
+  pb := NSPasteboard.generalPasteboard;
+  filenameArray := pb.propertyListForType(NSFilenamesPboardType);
+  if filenameArray <> nil then Result := NSArrayToList( filenameArray );
+end;
+
+function PasteFromClipboard(out ClipboardOp: TClipboardOperation; out filenames:TStringList):Boolean;
+begin
+  Result := false;
+  ClipboardOp := ClipboardCopy;
+  filenames := getFilenamesFromPasteboard();
+  if filenames <> nil then
+  begin
+    ClipboardOp := getOpFromPasteboard();
+    Result := true;
+  end;
+end;
+{$ENDIF}
+
+
+
+
 {$IFDEF MSWINDOWS}
+procedure ClearClipboard;
 begin
   if OpenClipboard(0) then
   begin
@@ -713,7 +856,10 @@ begin
     CloseClipboard;
   end;
 end;
-{$ELSE}
+{$ENDIF}
+
+{$IFDEF UNIX_not_DARWIN}
+procedure ClearClipboard;
 begin
   Clipboard.Open;
   Clipboard.AsText := '';
@@ -721,6 +867,27 @@ begin
 end;
 {$ENDIF}
 
+// MacOs 10.5 compatibility
+{$IFDEF DARWIN}
+procedure ClearClipboard( pb:NSPasteboard );
+begin
+  pb.clearContents;
+end;
+
+procedure ClearClipboard;
+begin
+  ClearClipboard( NSPasteboard.generalPasteboard );
+end;
+{$ENDIF}
+
+{$IF DEFINED(MSWINDOWS)}
+procedure ClipboardSetText(AText: String);
+begin
+  Clipboard.AsText := AText;
+end;
+{$ENDIF}
+
+{$IF DEFINED(UNIX_not_DARWIN)}
 procedure ClipboardSetText(AText: String);
 begin
 {$IFNDEF LCLGTK2}
@@ -735,6 +902,16 @@ begin
   end;
 {$ENDIF}
 end;
+{$ENDIF}
+
+// MacOs 10.5 compatibility
+{$IFDEF DARWIN}
+procedure ClipboardSetText(AText: String);
+begin
+  ClearClipboard;
+  NSPasteboardAddString(AText);
+end;
+{$ENDIF}
 
 initialization
 
