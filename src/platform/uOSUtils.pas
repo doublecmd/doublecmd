@@ -3,7 +3,7 @@
     -------------------------------------------------------------------------
     This unit contains platform depended functions.
 
-    Copyright (C) 2006-2019 Alexander Koblov (alexx2000@mail.ru)
+    Copyright (C) 2006-2022 Alexander Koblov (alexx2000@mail.ru)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -539,18 +539,8 @@ end;
 
 function GetHomeDir : String;
 {$IFDEF MSWINDOWS}
-var
-  iSize: Integer;
-  wHomeDir: UnicodeString;
 begin
-  iSize:= GetEnvironmentVariableW('USERPROFILE', nil, 0);
-  if iSize > 0 then
-    begin
-      SetLength(wHomeDir, iSize);
-      GetEnvironmentVariableW('USERPROFILE', PWChar(wHomeDir), iSize);
-    end;
-  Delete(wHomeDir, iSize, 1);
-  Result:= ExcludeBackPathDelimiter(UTF16ToUTF8(wHomeDir));
+  Result:= ExcludeBackPathDelimiter(mbGetEnvironmentVariable('USERPROFILE'));
 end;
 {$ELSE}
 begin
@@ -560,18 +550,8 @@ end;
 
 function GetShell : String;
 {$IFDEF MSWINDOWS}
-var
-  iSize: Integer;
-  wShell: UnicodeString;
 begin
-  iSize:= GetEnvironmentVariableW('ComSpec', nil, 0);
-  if iSize > 0 then
-    begin
-      SetLength(wShell, iSize);
-      GetEnvironmentVariableW('ComSpec', PWChar(wShell), iSize);
-    end;
-  Delete(wShell, iSize, 1);
-  Result:= UTF16ToUTF8(wShell);
+  Result:= mbGetEnvironmentVariable('ComSpec');
 end;
 {$ELSE}
 begin
