@@ -839,20 +839,20 @@ function ApplyRenameMask(aFileName: String; NameMask: String; ExtMask: String): 
   var
     I: Integer;
   begin
-    if (Length(TargetString) < Length(Mask)) then
-      Result:= TargetString
-    else begin
-      Result:= EmptyStr;
-      for I:= 1 to Length(Mask) do
+    Result:= EmptyStr;
+    for I:= 1 to Length(Mask) do
+    begin
+      if Mask[I] = '?' then
       begin
-        if Mask[I] = '?' then
-          Result:=Result + TargetString[I]
+        if I <= Length(TargetString) then
+          Result:= Result + TargetString[I]
         else
-        if Mask[I] = '*' then
-          Result:= Result + Copy(TargetString, I, Length(TargetString) - I + 1)
-        else
-          Result:= Result + Mask[I];
-      end;
+          Exit(TargetString);
+      end
+      else if Mask[I] = '*' then
+        Result:= Result + Copy(TargetString, I, Length(TargetString) - I + 1)
+      else
+        Result:= Result + Mask[I];
     end;
   end;
 
