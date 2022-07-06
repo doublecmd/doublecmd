@@ -38,7 +38,8 @@ function GetUnixIconThemeBaseDirList: TDynamicStringArray;
 implementation
 
 uses
-  Laz2_DOM, Laz2_XMLRead, DCClassesUtf8, uMyUnix, DCOSUtils, uOSUtils, uGio, uXdg;
+  Laz2_DOM, Laz2_XMLRead, DCClassesUtf8, uMyUnix, DCOSUtils, uOSUtils, uGio,
+  uSysFolders, uXdg;
 
 function GetKdeIconTheme: String;
 var
