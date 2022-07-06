@@ -351,7 +351,7 @@ implementation
 uses
   GraphType, LCLIntf, LCLType, LCLProc, Forms, uGlobsPaths, WcxPlugin,
   DCStrUtils, uDCUtils, uFileSystemFileSource, uReSample, uDebug,
-  DCOSUtils, DCClassesUtf8, LazUTF8, uGraphics, uHash
+  DCOSUtils, DCClassesUtf8, LazUTF8, uGraphics, uHash, uSysFolders
   {$IFDEF LCLGTK2}
     , uPixMapGtk, gdk2pixbuf, gdk2, glib2
   {$ENDIF}

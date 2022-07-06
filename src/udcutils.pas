@@ -36,7 +36,7 @@ interface
 uses
   Classes, SysUtils, Graphics, Controls, StdCtrls, ColorBox,
   {$IF DEFINED(UNIX)}
-  DCBasicTypes,
+  DCBasicTypes, uSysFolders,
   {$ENDIF}
   uFile, uTypes;
 

@@ -17,25 +17,39 @@ procedure SaveEarlyConfig;
 
 implementation
 
+uses
+  DCOSUtils, DCStrUtils, DCClassesUtf8, uSysFolders;
+
 var
   AConfig: String;
 
 function GetEarlyConfig: String;
+var
+  Index: Integer;
 begin
+  for Index:= 1 to ParamCount do
+  begin
+    if StrBegins(ParamStr(Index), '--config-dir=') then
+    begin
+      Result:= Copy(ParamStr(Index), 14, MaxInt);
+      Result:= IncludeTrailingBackslash(Result) + ApplicationName + ConfigExtension;
+      Exit;
+    end;
+  end;
   Result:= ExtractFilePath(ParamStr(0));
-  if FileExists(Result + ApplicationName + '.inf') then
+  if mbFileExists(Result + ApplicationName + '.inf') then
     Result:= Result + ApplicationName + ConfigExtension
   else begin
-    Result:= GetAppConfigFile(False, False);
+    Result:= GetAppConfigDir + ApplicationName + ConfigExtension;
   end;
 end;
 
 procedure Initialize;
 begin
   AConfig:= GetEarlyConfig;
-  if FileExists(AConfig) then
+  if mbFileExists(AConfig) then
   try
-    with TStringList.Create do
+    with TStringListEx.Create do
     try
       LoadFromFile(AConfig);
       gSplashForm:= StrToBoolDef(Values['SplashForm'], gSplashForm);
@@ -54,7 +68,7 @@ procedure SaveEarlyConfig;
 begin
   AConfig:= GetEarlyConfig;
   ForceDirectories(ExtractFileDir(AConfig));
-  with TStringList.Create do
+  with TStringListEx.Create do
   try
     Add('SplashForm' + NameValueSeparator + BoolToStr(gSplashForm));
 {$IFDEF DARKWIN}
