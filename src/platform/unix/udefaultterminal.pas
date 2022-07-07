@@ -31,7 +31,7 @@ uses
 implementation
 
 uses
-  DCOSUtils, DCClassesUtf8, uMyUnix, uGio, uOSUtils;
+  DCOSUtils, DCClassesUtf8, uMyUnix, uGio, uOSUtils, uSysFolders;
 
 const
   TERM_KDE = 'konsole';

@@ -80,7 +80,7 @@ implementation
 
 uses
   Forms, Graphics, FileUtil, DCOSUtils, uPixMapManager, uGlobs, uLng, uOSUtils,
-  uGlobsPaths;
+  uGlobsPaths, uSysFolders;
 
 { TfrmOptionsIcons }
 

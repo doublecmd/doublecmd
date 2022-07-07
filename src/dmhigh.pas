@@ -104,7 +104,7 @@ implementation
 uses
   Graphics, SynEditTypes, SynUniClasses, FileUtil, uHighlighterProcs, DCXmlConfig,
   uGlobsPaths, DCClassesUtf8, LazUTF8Classes, DCOSUtils, DCStrUtils, uLng, uMasks,
-  uGlobs, uOSUtils, uFileProcs;
+  uGlobs, uSysFolders, uFileProcs;
 
 const
   csDefaultName = 'editor.col';

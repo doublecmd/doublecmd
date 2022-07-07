@@ -71,7 +71,7 @@ uses
   {$IF DEFINED(DARWIN)}
   , MacOSAll
   {$ELSE}
-  , uKeyFile, uMimeActions, uOSForms
+  , uKeyFile, uMimeActions, uOSForms, uSysFolders
     {$IF DEFINED(LINUX)}
   , uRabbitVCS
     {$ENDIF}
