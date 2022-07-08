@@ -40,7 +40,7 @@ begin
   if mbFileExists(Result + ApplicationName + '.inf') then
     Result:= Result + ApplicationName + ConfigExtension
   else begin
-    Result:= GetAppConfigDir + ApplicationName + ConfigExtension;
+    Result:= IncludeTrailingBackslash(GetAppConfigDir) + ApplicationName + ConfigExtension;
   end;
 end;
 
