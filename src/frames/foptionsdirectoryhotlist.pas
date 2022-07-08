@@ -1603,9 +1603,9 @@ begin
   end //if tvDirectoryHotlist.Selected<>nil then
   else
   begin
-    btnAdd.Enabled := False;
-    btnInsert.Enabled := False;
-    btnMiscellaneous.Enabled := False;
+    btnAdd.Enabled := (tvDirectoryHotlist.Items.Count = 0);
+    btnInsert.Enabled := btnAdd.Enabled;
+    btnMiscellaneous.Enabled := btnAdd.Enabled;
 
     lbleditHotDirName.EditLabel.Caption := '';
     lbleditHotDirName.Text := '';
