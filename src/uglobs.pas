@@ -2222,7 +2222,10 @@ begin
         if mbFileAccess(gpGlobalCfgDir + 'doublecmd.xml', fmOpenRead or fmShareDenyWrite) then
         begin
           LoadConfigCheckErrors(@LoadGlobalConfig, gpGlobalCfgDir + 'doublecmd.xml', ErrorMessage);
-          gConfig.TryGetValue(gConfig.RootNode, 'Configuration/UseConfigInProgramDir', gUseConfigInProgramDir);
+          if gConfig.TryGetValue(gConfig.RootNode, 'Configuration/UseConfigInProgramDir', gUseConfigInProgramDir) then
+          begin
+            gConfig.DeleteNode(gConfig.RootNode, 'Configuration/UseConfigInProgramDir');
+          end;
 
           if not gUseConfigInProgramDir then
           begin
@@ -3369,8 +3372,6 @@ begin
 
     SetAttr(Root, 'DCVersion', dcVersion);
     SetAttr(Root, 'ConfigVersion', ConfigVersion);
-
-    SetValue(Root, 'Configuration/UseConfigInProgramDir', gUseConfigInProgramDirNew);
 
     { Language page }
     SetValue(Root, 'Language/POFileName', gPOFileName);

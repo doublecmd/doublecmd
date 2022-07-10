@@ -1454,27 +1454,35 @@ end;
 procedure TfrmOptionsDirectoryHotlist.tvDirectoryHotlistDragDrop(Sender, Source: TObject; X, Y: integer);
 var
   Index: longint;
+  ANode: TTreeNode;
   DestinationNode: TTreeNode;
 begin
   DestinationNode := tvDirectoryHotlist.GetNodeAt(X, Y);
 
   if Assigned(DestinationNode) and (tvDirectoryHotlist.SelectionCount > 0) then
   begin
-    //If we move toward the end, we place the moved item *after* the destination.
-    //If we move toward the beginning, we place the moved item *before* the destination.
-    if tvDirectoryHotlist.Selections[pred(tvDirectoryHotlist.SelectionCount)].AbsoluteIndex > DestinationNode.AbsoluteIndex then
-    begin
-      for Index := 0 to pred(tvDirectoryHotlist.SelectionCount) do
+    tvDirectoryHotlist.BeginUpdate;
+    try
+      ANode := tvDirectoryHotlist.Selected;
+      //If we move toward the end, we place the moved item *after* the destination.
+      //If we move toward the beginning, we place the moved item *before* the destination.
+      if tvDirectoryHotlist.Selections[pred(tvDirectoryHotlist.SelectionCount)].AbsoluteIndex > DestinationNode.AbsoluteIndex then
       begin
-        tvDirectoryHotlist.Selections[Index].MoveTo(DestinationNode, naInsert);
-      end;
-    end
-    else
-    begin
-      for Index := 0 to pred(tvDirectoryHotlist.SelectionCount) do
+        for Index := 0 to pred(tvDirectoryHotlist.SelectionCount) do
+        begin
+          tvDirectoryHotlist.Selections[Index].MoveTo(DestinationNode, naInsert);
+        end;
+      end
+      else
       begin
-        tvDirectoryHotlist.Selections[Index].MoveTo(DestinationNode, naInsertBehind);
+        for Index := 0 to pred(tvDirectoryHotlist.SelectionCount) do
+        begin
+          tvDirectoryHotlist.Selections[Index].MoveTo(DestinationNode, naInsertBehind);
+        end;
       end;
+      tvDirectoryHotlist.Selected := ANode;
+    finally
+      tvDirectoryHotlist.EndUpdate;
     end;
     ClearCutAndPasteList;
   end;
@@ -1509,6 +1517,10 @@ var
 begin
   if tvDirectoryHotlist.Selected <> nil then
   begin
+    btnAdd.Enabled := True;
+    btnInsert.Enabled := True;
+    btnMiscellaneous.Enabled := True;
+
     WorkingPointer := tvDirectoryHotlist.Selected.Data;
 
     case THotDir(WorkingPointer).Dispatcher of
@@ -1591,6 +1603,10 @@ begin
   end //if tvDirectoryHotlist.Selected<>nil then
   else
   begin
+    btnAdd.Enabled := (tvDirectoryHotlist.Items.Count = 0);
+    btnInsert.Enabled := btnAdd.Enabled;
+    btnMiscellaneous.Enabled := btnAdd.Enabled;
+
     lbleditHotDirName.EditLabel.Caption := '';
     lbleditHotDirName.Text := '';
     lbleditHotDirName.ReadOnly := True;
