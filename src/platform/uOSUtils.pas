@@ -70,7 +70,7 @@ const
   RunInTermStayOpenCmd: String = 'xterm'; // default run in terminal command AND Stay open after command
   RunInTermStayOpenParams: String = '-e sh -c ''{command}; echo -n Press ENTER to exit... ; read a''';
   RunInTermCloseCmd: String = 'xterm'; // default run in terminal command AND Close after command
-  RunInTermCloseParams: String = '-e sh -c {command}';
+  RunInTermCloseParams: String = '-e sh -c ''{command}''';
   MonoSpaceFont = 'Monospace';
   {$ENDIF}
   fmtCommandPath = '[%s]$:';
