@@ -542,7 +542,7 @@ end;
 
 class function TWcxArchiveCopyInOperation.GetOptionsUIClass: TFileSourceOperationOptionsUIClass;
 begin
-  Result:= TWcxArchiveCopyOperationOptionsUI;
+  Result:= TWcxArchiveCopyInOperationOptionsUI;
 end;
 
 function TWcxArchiveCopyInOperation.Tar: Boolean;
