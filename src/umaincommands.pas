@@ -1400,30 +1400,39 @@ var
   Param: String;
   TargetPath: String;
   SelectedFiles: TFiles;
+  TargetFileSource: IFileSource;
 begin
   with frmMain do
   begin
-    SelectedFiles := ActiveFrame.CloneSelectedOrActiveFiles;
-    try
-      if SelectedFiles.Count = 0 then
-        msgWarning(rsMsgNoFilesSelected)
-      else begin
-        Param := GetDefaultParam(Params);
-        if Param = 'PackHere' then
-          TargetPath:= ActiveFrame.CurrentPath
+    Param := GetDefaultParam(Params);
+    if Param = 'PackHere' then
+    begin
+      TargetPath:= ActiveFrame.CurrentPath;
+      TargetFileSource:= ActiveFrame.FileSource;
+    end
+    else begin
+      TargetPath:= NotActiveFrame.CurrentPath;
+      TargetFileSource:= NotActiveFrame.FileSource;
+    end;
+    if not (fspDirectAccess in TargetFileSource.Properties) then
+      msgError(rsMsgErrNotSupported)
+    else begin
+      SelectedFiles := ActiveFrame.CloneSelectedOrActiveFiles;
+      try
+        if SelectedFiles.Count = 0 then
+          msgWarning(rsMsgNoFilesSelected)
         else begin
-          TargetPath:= NotActiveFrame.CurrentPath;
+          ShowPackDlg(frmMain,
+                      ActiveFrame.FileSource,
+                      nil, // No specific target (create new)
+                      SelectedFiles,
+                      TargetPath,
+                      PathDelim { Copy to root of archive } {NotActiveFrame.FileSource.GetRootString}
+                     );
         end;
-        ShowPackDlg(frmMain,
-                    ActiveFrame.FileSource,
-                    nil, // No specific target (create new)
-                    SelectedFiles,
-                    TargetPath,
-                    PathDelim { Copy to root of archive } {NotActiveFrame.FileSource.GetRootString}
-                   );
+      finally
+        FreeAndNil(SelectedFiles);
       end;
-    finally
-      FreeAndNil(SelectedFiles);
     end;
   end;
 end;
