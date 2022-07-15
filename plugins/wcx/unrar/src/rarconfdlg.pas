@@ -55,7 +55,7 @@ var
   gIni: TIniFileEx;
 begin
   try
-    gIni:= TIniFileEx.Create(IniFileName, fmOpenWrite);
+    gIni:= TIniFileEx.Create(IniFileName, fmOpenReadWrite);
     try
       gIni.WriteString('unrar', 'Args', Args);
       gIni.WriteString('unrar', 'Path', WinRar);
