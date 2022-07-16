@@ -399,6 +399,8 @@ begin
     Result := DropMoveEffect
   else if ShiftState = [ssCtrl] then
     Result := DropMoveEffect
+  else if ShiftState = [ssAlt] then
+    Result := DropAskEffect
   else if ShiftState = [ssCtrl, ssShift] then
     Result := DropLinkEffect
   else
