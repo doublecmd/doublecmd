@@ -58,6 +58,8 @@ uses
       {$ELSE}
       , uUnixIconTheme
       {$ENDIF}
+    {$ELSE}
+    , CocoaUtils, uMyDarwin
     {$ENDIF}
   {$ENDIF};
 
@@ -940,35 +942,30 @@ end;
 
 {$ELSEIF DEFINED(DARWIN)}
 
+function getAppIconFilename( appName: String ) : String;
+var
+  appBundle : NSBundle;
+  infoDict : NSDictionary;
+  iconTag : NSString;
+begin
+  Result := '';
+  appBundle := NSBundle.bundleWithPath( StringToNSString(appName) );
+  if appBundle=nil then exit;
+  infoDict := appBundle.infoDictionary;
+  if infoDict=nil then exit;
+  iconTag := NSString( infoDict.valueForKey( StringToNSString('CFBundleIconFile')) );
+  Result := NSStringToString( appBundle.pathForImageResource( iconTag ) );
+end;
+
+
 function TPixMapManager.GetApplicationBundleIcon(sFileName: String;
   iDefaultIcon: PtrInt): PtrInt;
 var
-  I, J: PtrInt;
-  slInfoFile: TStringListEx = nil;
-  sTemp,
+  I: PtrInt;
   sIconName: String;
 begin
   Result:= iDefaultIcon;
-  slInfoFile:= TStringListEx.Create;
-  try
-    try
-      slInfoFile.LoadFromFile(sFileName + '/Contents/Info.plist');
-      sTemp:= slInfoFile.Text;
-      I:= Pos('CFBundleIconFile', sTemp);
-      if I <= 0 then Exit;
-      I:= PosEx('<string>', sTemp, I) + 8;
-      J:= PosEx('</string>', sTemp, I);
-      sIconName:= Copy(sTemp, I, J - I);
-      if not StrEnds(sIconName, '.icns') then
-        sIconName:= sIconName + '.icns';
-      sIconName:= sFileName + '/Contents/Resources/' + sIconName;
-    except
-      Exit;
-    end;
-  finally
-    slInfoFile.Free;
-  end;
-
+  sIconName:= getAppIconFilename(sFileName);
   I:= GetIconByName(sIconName);
   if I >= 0 then Result:= I;
 end;
