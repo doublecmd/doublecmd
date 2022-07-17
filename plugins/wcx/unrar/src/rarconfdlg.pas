@@ -26,16 +26,16 @@ var
 implementation
 
 uses
-  IniFiles, UnRARFunc, Extension, RarFunc;
+  DCClassesUtf8, UnRARFunc, Extension, RarFunc;
 
 {$R *.lfm}
 
 procedure LoadConfig;
 var
-  gIni: TIniFile;
+  gIni: TIniFileEx;
 begin
   try
-    gIni:= TIniFile.Create(IniFileName);
+    gIni:= TIniFileEx.Create(IniFileName, fmOpenRead);
     try
       Args:= gIni.ReadString('unrar', 'Args', EmptyStr);
       WinRar:= gIni.ReadString('unrar', 'Path', WinRar);
@@ -52,10 +52,10 @@ end;
 
 procedure SaveConfig;
 var
-  gIni: TIniFile;
+  gIni: TIniFileEx;
 begin
   try
-    gIni:= TIniFile.Create(IniFileName);
+    gIni:= TIniFileEx.Create(IniFileName, fmOpenReadWrite);
     try
       gIni.WriteString('unrar', 'Args', Args);
       gIni.WriteString('unrar', 'Path', WinRar);
@@ -63,6 +63,7 @@ begin
       gIni.WriteBool('unrar', 'Recovery', Recovery);
       gIni.WriteBool('unrar', 'Encrypt', Encrypt);
       gIni.WriteBool('unrar', 'Solid', Solid);
+      gIni.UpdateFile;
     finally
       gIni.Free;
     end;

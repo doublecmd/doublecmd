@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Wcx plugin for packing RAR archives
 
-   Copyright (C) 2015-2020 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2015-2022 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -41,7 +41,8 @@ var
 implementation
 
 uses
-  Process, LazUTF8, DCProcessUtf8, DCOSUtils, UnRARFunc, RarConfDlg;
+  Process, LazUTF8, DCConvertEncoding, DCProcessUtf8, DCOSUtils, UnRARFunc,
+  RarConfDlg;
 
 const
   UTF16LEBOM: WideChar = #$FEFF;
@@ -63,6 +64,7 @@ begin
     10:  Result:= E_BAD_DATA;      // No files matching the specified mask and options were found
     11:  Result:= E_BAD_DATA;      // Wrong password
     255: Result:= E_EABORTED;      // User break
+    else Result:= E_UNKNOWN;       // Unknown
   end;
 end;
 
@@ -72,14 +74,14 @@ var
   S, FileName: String;
   Percent: Integer = 0;
 begin
-  FileName:= GetTempFileName;
-  TempFile:= FileCreate(FileName);
+  FileName:= GetTempName('');
+  TempFile:= mbFileCreate(FileName);
   if (TempFile = feInvalidHandle) then Exit(E_ECREATE);
   try
     FileWrite(TempFile, FileList[1], Length(FileList) * SizeOf(WideChar));
     FileClose(TempFile);
 
-    Process.Parameters.Add('@' + SysToUTF8(FileName));
+    Process.Parameters.Add('@' + FileName);
 
     Process.Execute;
 
@@ -125,7 +127,7 @@ end;
 
 procedure PackSetDefaultParams(dps: PPackDefaultParamStruct); dcpcall;
 begin
-  IniFileName:= dps^.DefaultIniName;
+  IniFileName:= CeSysToUtf8(dps^.DefaultIniName);
 
   LoadConfig;
 end;
@@ -148,7 +150,7 @@ begin
     Process.Parameters.Add('d');
     Process.Parameters.Add('-c-');
     Process.Parameters.Add('-r-');
-    Process.Parameters.Add(UTF16ToUTF8(UnicodeString(PackedFile)));
+    Process.Parameters.Add(CeUtf16ToUtf8(UnicodeString(PackedFile)));
 
     try
       // Parse file list
@@ -234,15 +236,15 @@ begin
     // Destination path
     if Assigned(SubPath) then
     begin
-      Process.Parameters.Add('-ap' + UTF16ToUTF8(UnicodeString(SubPath)));
+      Process.Parameters.Add('-ap' + CeUtf16ToUtf8(UnicodeString(SubPath)));
     end;
 
-    Process.Parameters.Add(UTF16ToUTF8(UnicodeString(PackedFile)));
+    Process.Parameters.Add(CeUtf16ToUtf8(UnicodeString(PackedFile)));
 
     // Source path
     if Assigned(SrcPath) then
     begin
-      Process.CurrentDirectory:= UTF16ToUTF8(UnicodeString(SrcPath));
+      Process.CurrentDirectory:= CeUtf16ToUtf8(UnicodeString(SrcPath));
     end;
 
     try

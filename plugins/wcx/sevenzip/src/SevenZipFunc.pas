@@ -3,7 +3,7 @@
   -------------------------------------------------------------------------
   SevenZip archiver plugin
 
-  Copyright (C) 2014-2019 Alexander Koblov (alexx2000@mail.ru)
+  Copyright (C) 2014-2022 Alexander Koblov (alexx2000@mail.ru)
 
   This library is free software; you can redistribute it and/or
   modify it under the terms of the GNU Lesser General Public
@@ -501,13 +501,14 @@ var
   ModulePath: AnsiString;
 begin
   // Save configuration file name
-  ConfigFile:= ExtractFilePath(dps^.DefaultIniName) + DefaultIniName;
+  ConfigFile:= ExtractFilePath(dps^.DefaultIniName);
+  ConfigFile:= WinCPToUTF8(ConfigFile) + DefaultIniName;
   // Get plugin path
   if GetModulePath(ModulePath) then
   begin
     // Use configuration from plugin path
     if FileExistsUTF8(ModulePath + DefaultIniName) then
-      ConfigFile:= UTF8ToSys(ModulePath) + DefaultIniName;
+      ConfigFile:= ModulePath + DefaultIniName;
   end;
   // Load plugin configuration
   LoadConfiguration;
