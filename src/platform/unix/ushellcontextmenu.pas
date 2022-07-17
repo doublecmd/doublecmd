@@ -352,6 +352,7 @@ var
   ApplicationUrlRef: CFURLRef = nil;
   ApplicationNameCFRef: CFStringRef = nil;
   ApplicationCString: array[0..MAX_PATH-1] of Char;
+  menuImageList: TImageList;
 begin
   Result:= False;
   if (FFiles.Count <> 1) then Exit;
@@ -364,6 +365,8 @@ begin
       Result:= True;
       miOpenWith := TMenuItem.Create(Self);
       miOpenWith.Caption := rsMnuOpenWith;
+      menuImageList := TImageList.Create(nil);
+      miOpenWith.SubMenuImages := menuImageList;
       Self.Items.Add(miOpenWith);
 
       for I:= 0 to CFArrayGetCount(ApplicationArrayRef) - 1 do
@@ -392,7 +395,8 @@ begin
               bmpTemp:= PixMapManager.GetBitmap(ImageIndex);
               if Assigned(bmpTemp) then
                 begin
-                  mi.Bitmap.Assign(bmpTemp);
+                  mi.ImageIndex:=menuImageList.Count;
+                  menuImageList.Add( bmpTemp , nil );
                   FreeAndNil(bmpTemp);
                 end;
             end;
