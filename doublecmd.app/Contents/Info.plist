@@ -28,14 +28,10 @@
   <string>6.0</string>
   <key>CFBundlePackageType</key>
   <string>APPL</string>
-  <key>CFBundleSignature</key>
-  <string>doub</string>
   <key>CFBundleShortVersionString</key>
   <string>0.1</string>
   <key>CFBundleVersion</key>
   <string>1</string>
-  <key>CSResourcesFileMapped</key>
-  <true/>
   <key>CFBundleDocumentTypes</key>
   <array>
     <dict>
@@ -53,11 +49,5 @@
       </array>
     </dict>
   </array>
-  <key>NSHighResolutionCapable</key>
-  <true/>
-  <key>NSRequiresAquaSystemAppearance</key>
-  <false/>
-  <key>NSSupportsAutomaticGraphicsSwitching</key>
-  <true/>
 </dict>
 </plist>
