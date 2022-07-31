@@ -65,6 +65,9 @@ function CreateDCLogger: TRefCountedObject;
 begin
   Result := TDCLogger.Create;
   TDCLogger(Result).Assign(GetExistingDebugLogger);
+{$if lcl_fullversion >= 2020000}
+  TDCLogger(Result).ParamForLogFileName:= '--debug-log';
+{$endif}
 end;
 
 { TDCLogger }
