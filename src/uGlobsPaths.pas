@@ -48,8 +48,9 @@ begin
     gpCmdLineCfgDir := ExpandAbsolutePath(gpCmdLineCfgDir);
     gpCfgDir := gpCmdLineCfgDir;
   end
-  else
-  begin
+  else if mbFileExists(gpGlobalCfgDir + 'doublecmd.inf') then
+    gpCfgDir := gpGlobalCfgDir
+  else begin
     gpCfgDir := GetAppConfigDir;
     if gpCfgDir = EmptyStr then
     begin
