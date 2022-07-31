@@ -6541,7 +6541,10 @@ begin
         Value.bstrVal := SysAllocString(PWideChar(AItem.Group));
       end;
     // kpidBlock: ;
-    // kpidComment: ;
+    kpidComment:
+      begin
+        Value.vt := VT_EMPTY;
+      end;
     // kpidPosition: ;
     // kpidPrefix: ;
     // kpidNumSubDirs: ;
