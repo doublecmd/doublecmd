@@ -806,19 +806,16 @@ end;
 
 function TFileSourceOperation.AppProcessMessages(CheckState: Boolean): Boolean;
 begin
-  if GetCurrentThreadId <> MainThreadID then
+  if GetCurrentThreadId = MainThreadID then
   begin
-    if CheckState then CheckOperationState;
-  end
-  else begin
     WidgetSet.AppProcessMessages;
-    if CheckState then
-    try
-      CheckOperationState;
-    except
-      on E: EFileSourceOperationAborting do
-        Exit(False);
-    end;
+  end;
+  if CheckState then
+  try
+    CheckOperationState;
+  except
+    on E: EFileSourceOperationAborting do
+      Exit(False);
   end;
   Result:= True;
 end;
