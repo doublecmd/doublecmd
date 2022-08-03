@@ -226,6 +226,7 @@ type
   {$IF DEFINED(DARWIN)}
     function GetSystemFolderIcon: PtrInt;
     function GetMimeIcon(AFileExt: String; AIconSize: Integer): PtrInt;
+    function LoadImageFileBitmap( const filename:String; const size:Integer ): TBitmap;
   {$ENDIF}
     function GetBuiltInDriveIcon(Drive : PDrive; IconSize : Integer; clBackColor : TColor) : Graphics.TBitmap;
 
@@ -658,15 +659,22 @@ begin
             else
               DCDebug(Format('Error: pixmap [%s] not loaded!', [AIconName]));
         {$ELSE}
+            {$IFDEF DARWIN}
+            bmpBitmap := LoadImageFileBitmap(AIconName, AIconSize);
+            {$ELSE}
             bmpBitmap := LoadBitmapEnhanced(AIconName, AIconSize, False, clNone, nil);
+            {$ENDIF}
             if Assigned(bmpBitmap) then
             begin
+              // MacOS' high resolution screen parameters are different from other operating systems
+              {$IF NOT DEFINED(DARWIN)}
               // Shrink big bitmaps before putting them into PixmapManager,
               // to speed up later drawing.
               if (bmpBitmap.Width > 48) or (bmpBitmap.Height > 48) then
               begin
                 bmpBitmap := StretchBitmap(bmpBitmap, AIconSize, clBlack, True);
               end;
+              {$ENDIF}
               Result := FPixmapList.Add(bmpBitmap);
               FPixmapsFileNames.Add(AIconName, Pointer(Result));
             end;
@@ -957,6 +965,79 @@ begin
   Result := NSStringToString( appBundle.pathForImageResource( iconTag ) );
 end;
 
+function getBestNSImageWithSize( const srcImage:NSImage; const size:Integer ): NSImage;
+var
+  bestRect: NSRect;
+  bestImageRep: NSImageRep;
+  bestImage: NSImage;
+begin
+  Result := nil;
+  if srcImage=nil then exit;
+
+  bestRect.origin.x := 0;
+  bestRect.origin.y := 0;
+  bestRect.size.width := size;
+  bestRect.size.height := size;
+  bestImageRep:= srcImage.bestRepresentationForRect_context_hints( bestRect, nil, nil );
+
+  bestImage:= NSImage.Alloc.InitWithSize( bestImageRep.size );
+  bestImage.AddRepresentation( bestImageRep );
+
+  Result := bestImage;
+end;
+
+function getImageFileBestNSImage( const filename:NSString; const size:Integer ): NSImage;
+var
+  srcImage: NSImage;
+begin
+  Result:= nil;
+  try
+    srcImage:= NSImage.Alloc.initByReferencingFile( filename );
+    Result:= getBestNSImageWithSize( srcImage, size );
+  finally
+    if Assigned(srcImage) then srcImage.release;
+  end;
+end;
+
+function NSImageToTBitmap( const image:NSImage ): TBitmap;
+var
+  tempData: NSData;
+  tempStream: TBlobStream;
+  tempBitmap: TTiffImage;
+  bitmap: TBitmap;
+begin
+  Result:= nil;
+  if image=nil then exit;
+
+  tempStream:= nil;
+  tempBitmap:= nil;
+  try
+    tempData:= image.TIFFRepresentation;
+    tempStream:= TBlobStream.Create( tempData.Bytes, tempData.Length );
+    tempBitmap:= TTiffImage.Create;
+    tempBitmap.LoadFromStream( tempStream );
+    bitmap:= TBitmap.Create;
+    bitmap.Assign( tempBitmap );
+    Result:= bitmap;
+  finally
+    FreeAndNil(tempBitmap);
+    FreeAndNil(tempStream);
+  end;
+end;
+
+function TPixMapManager.LoadImageFileBitmap( const filename:String; const size:Integer ): TBitmap;
+var
+  image: NSImage;
+begin
+  Result:= nil;
+  image:= nil;
+  try
+    image:= getImageFileBestNSImage( StringToNSString(filename), size );
+    if Assigned(image) then Result:= NSImageToTBitmap( image );
+  finally
+    if Assigned(image) then image.release;
+  end;
+end;
 
 function TPixMapManager.GetApplicationBundleIcon(sFileName: String;
   iDefaultIcon: PtrInt): PtrInt;

@@ -42,6 +42,7 @@ type
     FFiles: TFiles;
     FDrive: TDrive;
     FUserWishForContextMenu: TUserWishForContextMenu;
+    FMenuImageList: TImageList;
     procedure PackHereSelect(Sender: TObject);
     procedure ExtractHereSelect(Sender: TObject);
     procedure ContextMenuSelect(Sender: TObject);
@@ -364,6 +365,8 @@ begin
       Result:= True;
       miOpenWith := TMenuItem.Create(Self);
       miOpenWith.Caption := rsMnuOpenWith;
+      FMenuImageList := TImageList.Create(nil);
+      miOpenWith.SubMenuImages := FMenuImageList;
       Self.Items.Add(miOpenWith);
 
       for I:= 0 to CFArrayGetCount(ApplicationArrayRef) - 1 do
@@ -392,7 +395,8 @@ begin
               bmpTemp:= PixMapManager.GetBitmap(ImageIndex);
               if Assigned(bmpTemp) then
                 begin
-                  mi.Bitmap.Assign(bmpTemp);
+                  mi.ImageIndex:=FMenuImageList.Count;
+                  FMenuImageList.Add( bmpTemp , nil );
                   FreeAndNil(bmpTemp);
                 end;
             end;
@@ -906,6 +910,7 @@ end;
 destructor TShellContextMenu.Destroy;
 begin
   FreeThenNil(FFiles);
+  FreeThenNil(FMenuImageList);
   inherited Destroy;
 end;
 
