@@ -44,6 +44,9 @@ interface
 uses
   Classes, SysUtils, Graphics, syncobjs, uFileSorting, DCStringHashListUtf8,
   uFile, uIconTheme, uDrive, uDisplayFile, uGlobs, uDCReadPSD, uOSUtils
+  {$IF DEFINED(LCLQT5)}
+  , qt5, QtObjects
+  {$ENDIF}
   {$IF NOT DEFINED(DARWIN)}
   , uDCReadSVG
   {$ENDIF}
@@ -622,8 +625,11 @@ end;
 function TPixMapManager.CheckAddPixmap(AIconName: String; AIconSize : Integer): PtrInt;
 var
   fileIndex: PtrInt;
-  {$IFDEF LCLGTK2}
+  {$IF DEFINED(LCLGTK2)}
   pbPicture : PGdkPixbuf;
+  {$ELSEIF DEFINED(LCLQT5)}
+  qtIcon: QIconH;
+  iconName: WideString;
   {$ELSE}
   bmpBitmap: Graphics.TBitmap;
   {$ENDIF}
@@ -644,7 +650,7 @@ begin
         fileIndex := FPixmapsFileNames.Find(AIconName);
         if fileIndex < 0 then
           begin
-        {$IFDEF LCLGTK2}
+        {$IF DEFINED(LCLGTK2)}
             if not mbFileExists(AIconName) then
               begin
                 DCDebug(Format('Warning: pixmap [%s] not exists!', [AIconName]));
@@ -658,6 +664,16 @@ begin
               end
             else
               DCDebug(Format('Error: pixmap [%s] not loaded!', [AIconName]));
+        {$ELSEIF DEFINED(LCLQT5)}
+            iconName := UTF8ToUTF16(AIconName);
+            qtIcon := QIcon_Create(@iconName);
+            if not QIcon_isNull(qtIcon) then
+              begin
+                Result := FPixmapList.Add(qtIcon);
+                FPixmapsFileNames.Add(AIconName, Pointer(Result));
+              end
+            else
+              QIcon_Destroy(qtIcon);
         {$ELSE}
             {$IFDEF DARWIN}
             bmpBitmap := LoadImageFileBitmap(AIconName, AIconSize);
@@ -1056,9 +1072,12 @@ end;
 function TPixMapManager.CheckAddThemePixmapLocked(AIconName: String; AIconSize: Integer): PtrInt;
 var
   fileIndex: PtrInt;
-{$IFDEF LCLGTK2}
+{$IF DEFINED(LCLGTK2)}
   pbPicture: PGdkPixbuf = nil;
   sIconFileName: String;
+{$ELSEIF DEFINED(LCLQT5)}
+  qtIcon: QIconH;
+  iconName: WideString;
 {$ELSE}
   bmpBitmap: Graphics.TBitmap;
 {$ENDIF}
@@ -1090,6 +1109,25 @@ begin
         end
       else
         Result := -1;
+    {$ELSEIF DEFINED(LCLQT5) AND DEFINED(UNIX) AND NOT DEFINED(DARWIN)}
+      iconName := UTF8ToUTF16(AIconName);
+      if not QIcon_hasThemeIcon(@iconName) then
+        begin
+          DCDebug(Format('Warning: no icon "%s" in theme', [AIconName]));
+          Exit(-1);
+        end;
+      qtIcon := QIcon_Create();
+      QIcon_fromTheme(qtIcon, @iconName);
+      if not QIcon_isNull(qtIcon) then
+        begin
+          Result := FPixmapList.Add(qtIcon);
+          FThemePixmapsFileNames.Add(AIconName, Pointer(Result));
+        end
+      else
+        begin
+          QIcon_Destroy(qtIcon);
+          Result := -1;
+        end;
     {$ELSE}
       bmpBitmap := LoadIconThemeBitmapLocked(AIconName, AIconSize);
       if Assigned(bmpBitmap) then
@@ -1200,6 +1238,9 @@ var
   AIcon: TIcon;
   ABitmap: TBitmap;
   AFileName: String;
+{$IF DEFINED(LCLQT5)}
+  iconName: WideString;
+{$ENDIF}
   AResult: Pointer absolute Result;
 begin
   AFileName:= ChangeFileExt(AIconName, '.ico');
@@ -1215,6 +1256,11 @@ begin
 {$IF DEFINED(LCLGTK2)}
       AResult := gdk_pixbuf_new_from_file_at_size(PChar(AFileName), gIconsSize, gIconsSize, nil);
       if (AResult = nil) then Exit(ADefaultIcon);
+      Result := FPixmapList.Add(AResult);
+      FPixmapsFileNames.Add(AFileName, AResult);
+{$ELSEIF DEFINED(LCLQT5)}
+      iconName := UTF8ToUTF16(AFileName);
+      AResult := QIcon_Create(@iconName);
       Result := FPixmapList.Add(AResult);
       FPixmapsFileNames.Add(AFileName, AResult);
 {$ELSE}
@@ -1469,8 +1515,10 @@ begin
   begin
     for I := 0 to FPixmapList.Count - 1 do
       if Assigned(FPixmapList.Items[I]) then
-  {$IFDEF LCLGTK2}
+  {$IF DEFINED(LCLGTK2)}
         g_object_unref(PGdkPixbuf(FPixmapList.Items[I]));
+  {$ELSEIF DEFINED(LCLQT5)}
+        QIcon_Destroy(QIconH(FPixmapList.Items[I]));
   {$ELSE}
         Graphics.TBitmap(FPixmapList.Items[I]).Free;
   {$ENDIF}
@@ -1711,6 +1759,10 @@ var
 {$IFDEF LCLWIN32}
   AIcon: HICON;
 {$ENDIF}
+{$IFDEF LCLQT5}
+  qtDC: TQtDeviceContext;
+  qtIcon: QIconH;
+{$ENDIF}
 begin
   FPixmapsLock.Acquire;
   try
@@ -1725,8 +1777,16 @@ begin
 
   if PixmapFromList then
   begin
-{$IFDEF LCLGTK2}
+{$IF DEFINED(LCLGTK2)}
     Result:= PixBufToBitmap(PGdkPixbuf(PPixmap));
+{$ELSEIF DEFINED(LCLQT5)}
+    Result := TBitMap.Create;
+    Result.SetSize(gIconsSize, gIconsSize);
+    Result.Canvas.Brush.Color := clBackground;
+    Result.Canvas.FillRect(0, 0, gIconsSize, gIconsSize);
+    qtDC := TQtDeviceContext(Result.Canvas.Handle);
+    qtIcon := QIconH(PPixmap);
+    QIcon_paint(qtIcon, qtDC.Widget, 0, 0, gIconsSize, gIconsSize);
 {$ELSE}
     // Make a new copy.
     Result := Graphics.TBitmap.Create;
@@ -1758,9 +1818,33 @@ end;
 
 function TPixMapManager.DrawBitmapAlpha(iIndex: PtrInt; Canvas: TCanvas; X, Y: Integer): Boolean;
 var
+{$IF DEFINED(LCLQT5)}
+  PPixmap: Pointer = nil;
+  qtDC: TQtDeviceContext;
+  qtIcon: QIconH;
+{$ELSE}
   ARect: TRect;
   ABitmap: Graphics.TBitmap;
+{$ENDIF}
 begin
+{$IF DEFINED(LCLQT5)}
+  FPixmapsLock.Acquire;
+  try
+    if (iIndex >= 0) and (iIndex < FPixmapList.Count) then
+    begin
+      PPixmap := FPixmapList[iIndex];
+    end;
+  finally
+    FPixmapsLock.Release;
+  end;
+  Result := PPixmap <> nil;
+  if Result then
+  begin
+    qtDC := TQtDeviceContext(Canvas.Handle);
+    qtIcon := QIconH(PPixmap);
+    QIcon_paint(qtIcon, qtDC.Widget, X, Y, gIconsSize, gIconsSize, QtAlignCenter, QIconDisabled);
+  end;
+{$ELSE}
   ABitmap:= GetBitmap(iIndex);
   Result := Assigned(ABitmap);
   if Result then
@@ -1770,6 +1854,7 @@ begin
     Canvas.StretchDraw(aRect, ABitmap);
     ABitmap.Free;
   end;
+{$ENDIF}
 end;
 
 function TPixMapManager.DrawBitmap(iIndex: PtrInt; Canvas: TCanvas; X, Y, Width, Height: Integer): Boolean;
@@ -1789,10 +1874,13 @@ var
   hicn: HICON;
   cx, cy: Integer;
 {$ENDIF}
-{$IFDEF LCLGTK2}
+{$IF DEFINED(LCLGTK2)}
   pbPicture : PGdkPixbuf;
   iPixbufWidth : Integer;
   iPixbufHeight : Integer;
+{$ELSEIF DEFINED(LCLQT5)}
+  qtDC: TQtDeviceContext;
+  qtIcon: QIconH;
 {$ELSE}
   Bitmap: Graphics.TBitmap;
   aRect: TRect;
@@ -1813,12 +1901,16 @@ begin
 
   if PixmapFromList then
   begin
-  {$IFDEF LCLGTK2}
+  {$IF DEFINED(LCLGTK2)}
     pbPicture := PGdkPixbuf(PPixmap);
     iPixbufWidth :=  gdk_pixbuf_get_width(pbPicture);
     iPixbufHeight :=  gdk_pixbuf_get_height(pbPicture);
     TrySetSize(iPixbufWidth, iPixbufHeight);
     DrawPixbufAtCanvas(Canvas, pbPicture, 0, 0, X, Y, Width, Height);
+  {$ELSEIF DEFINED(LCLQT5)}
+    qtDC := TQtDeviceContext(Canvas.Handle);
+    qtIcon := QIconH(PPixmap);
+    QIcon_paint(qtIcon, qtDC.Widget, X, Y, Width, Height);
   {$ELSE}
     Bitmap := Graphics.TBitmap(PPixmap);
     TrySetSize(Bitmap.Width, Bitmap.Height);
