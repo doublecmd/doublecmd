@@ -55,6 +55,7 @@ if [ "$lcl" = "qt" ]; then
   macdeployqt doublecmd.app
 fi
 mv doublecmd.app 'Double Commander.app'
+codesign --deep --force --verify --verbose --sign '-' 'Double Commander.app'
 hdiutil create -anyowners -volname "Double Commander" -imagekey zlib-level=9 -format UDZO -srcfolder 'Double Commander.app' $PACK_DIR/doublecmd-$DC_VER-$DC_REVISION.$lcl.$CPU_TARGET.dmg
 
 # Clean DC build dir
