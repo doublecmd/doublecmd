@@ -4,7 +4,7 @@
    WCX plugin for unpacking RAR archives
    This is simple wrapper for unrar.dll or libunrar.so
 
-   Copyright (C) 2008-2015 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2008-2022 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
@@ -208,7 +208,7 @@ var
 implementation
 
 uses
-  DCBasicTypes, DCDateTimeUtils, DCConvertEncoding, DCFileAttributes;
+  SysUtils, DCBasicTypes, DCDateTimeUtils, DCConvertEncoding, DCFileAttributes;
 
 type
   // From libunrar (dll.hpp)
@@ -236,6 +236,20 @@ var
   ProcessedFileName:  array [0..1023] of Char;
   ProcessedFileNameW: array [0..1023] of WideChar;
   ProcessedFileHostOS: RarHostSystem;
+
+function StrLCopy(Dest, Source: PRarUnicodeChar; MaxLen: SizeInt): PRarUnicodeChar; overload;
+var
+  ACounter: SizeInt;
+begin
+  ACounter := 0;
+  while (Source[ACounter] <> TRarUnicodeChar(0)) and (ACounter < MaxLen) do
+  begin
+    Dest[ACounter] := TRarUnicodeChar(Source[ACounter]);
+    Inc(ACounter);
+  end;
+  Dest[ACounter] := TRarUnicodeChar(0);
+  StrLCopy := Dest;
+end;
 
 procedure StringToArrayA(src: AnsiString;
                          pDst: PAnsiChar;
@@ -342,8 +356,10 @@ end;
 
 function UnrarCallback(Msg: LongWord; UserData, P1: Pointer; P2: PtrInt) : Integer; dcpcall;
 var
+  PasswordU: String;
   VolumeNameA: TRarUnicodeArray;
   VolumeNameU: TRarUnicodeString;
+  PasswordA: array[0..511] of AnsiChar;
   VolumeNameW: array [0..1023] of WideChar;
 begin
   Result := 0;
@@ -397,20 +413,25 @@ begin
           Result := -1;
       end;
     end;
-  UCM_NEEDPASSWORD:
+  UCM_NEEDPASSWORDW:
     begin
       // DLL needs a password to process archive. This message must be
       // processed if you wish to be able to handle encrypted archives.
       // Return zero or a positive value to continue process or -1
       // to cancel the archive operation.
-      // P1 - contains the address pointing to the buffer for
-      // a password in single byte encoding. You need to copy a password
-      // here.
-      // P2 - contains the size of password buffer.
-      if not gStartupInfo.InputBox('Unrar', 'Please enter the password:', True, PAnsiChar(P1), P2) then
+      // P1 - contains the address pointing to the buffer for a password.
+      // You need to copy a password here.
+      // P2 - contains the size of password buffer in characters.
+      StrLCopy(VolumeNameA, PRarUnicodeChar(P1), High(VolumeNameA));
+      PasswordU := CeUtf16ToUtf8(RarUnicodeStringToWideString(VolumeNameA));
+      StrLCopy(PasswordA, PAnsiChar(PasswordU), High(PasswordA));
+      if not gStartupInfo.InputBox('Unrar', 'Please enter the password:', True, PasswordA, High(PasswordA)) then
         Result := -1
-      else
+      else begin
         Result :=  1;
+        StrPLCopy(VolumeNameW, CeUtf8ToUtf16(PasswordA), High(VolumeNameW));
+        StrLCopy(PRarUnicodeChar(P1), PRarUnicodeChar(WideStringToRarUnicodeString(VolumeNameW)), P2 - 1);
+      end;
     end;
   end;
 end;
