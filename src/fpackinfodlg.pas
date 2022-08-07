@@ -113,19 +113,16 @@ end;
 constructor TfrmPackInfoDlg.Create(TheOwner: TComponent;
                                    aFileSource: IArchiveFileSource; aFile: TFile);
 var
-  sArcType: String;
-  upperInfoControls: array[0..4] of TControl;
   i: Integer;
   foundDividingControl: Boolean = False;
+  upperInfoControls: array[0..4] of TControl;
 begin
   inherited Create(TheOwner);
 
   btnUnpackAndExec.Enabled:= (fsoCopyOut in aFileSource.GetOperationsTypes);
   btnUnpackAllAndExec.Enabled:= ([fsoList, fsoCopyOut] * aFileSource.GetOperationsTypes = [fsoList, fsoCopyOut]);
   edtPackedFile.Text:= aFile.FullPath;
-  sArcType:= ExtractFileExt(aFileSource.ArchiveFileName);
-  Delete(sArcType, 1, 1);
-  lblPackedPacker.Caption:= sArcType;
+  lblPackedPacker.Caption:= aFileSource.Packer;
 
   lblPackedOrgSize.Visible := not aFile.IsDirectory;
   lblPackedPackedSize.Visible := not aFile.IsDirectory;
