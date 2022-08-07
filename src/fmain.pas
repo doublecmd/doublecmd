@@ -870,6 +870,8 @@ type
     procedure AddTab(ANoteBook: TFileViewNotebook; aPath: String);
     {$IF DEFINED(DARWIN)}
     procedure OnNSServiceOpenWithNewTab( filenames:TStringList );
+    function NSServiceMenuIsReady(): boolean;
+    function NSServiceMenuGetFilenames(): TStringList;
     {$ENDIF}
     procedure LoadWindowState;
     procedure SaveWindowState;
@@ -1215,7 +1217,7 @@ begin
   UpdateFreeSpace(fpRight, True);
 
 {$IF DEFINED(DARWIN)}
-  InitNSServiceProvider( @OnNSServiceOpenWithNewTab );
+  InitNSServiceProvider( @OnNSServiceOpenWithNewTab, @NSServiceMenuIsReady, @NSServiceMenuGetFilenames );
 {$ENDIF}
 end;
 
@@ -6087,6 +6089,21 @@ begin
     ActiveFrame.SetFocus;
   end;
 end;
+
+function TfrmMain.NSServiceMenuIsReady(): boolean;
+begin
+  Result:= true;
+end;
+
+function TfrmMain.NSServiceMenuGetFilenames(): TStringList;
+var
+  filenames: TStringList;
+begin
+  filenames:= TStringList.Create;
+  filenames.add( '/' );
+  Result:= filenames;
+end;
+
 {$ENDIF}
 
 procedure TfrmMain.LoadWindowState;

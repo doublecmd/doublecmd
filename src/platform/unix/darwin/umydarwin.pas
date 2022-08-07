@@ -41,6 +41,16 @@ function GetFileDescription(const FileName: String): String;
 function MountNetworkDrive(const serverAddress: String): Boolean;
 
 type TNSServiceProviderCallBack = Procedure( filenames:TStringList ) of object;
+type TNSServiceMenuIsReady = Function(): Boolean of object;
+type TNSServiceMenuGetFilenames = Function(): TStringList of object;
+
+type TDCCocoaApplication = objcclass(TCocoaApplication)
+  function validRequestorForSendType_returnType (sendType: NSString; returnType: NSString): id; override;
+  function writeSelectionToPasteboard_types (pboard: NSPasteboard; types: NSArray): ObjCBOOL; message 'writeSelectionToPasteboard:types:';
+public
+  serviceMenuIsReady: TNSServiceMenuIsReady;
+  serviceMenuGetFilenames: TNSServiceMenuGetFilenames;
+end;
 
 type TNSServiceProvider = objcclass(NSObject)
 public
@@ -49,7 +59,10 @@ public
     procedure openWithNewTab( pboard:NSPasteboard; userData:NSString; error:NSStringPtr ); message 'openWithNewTab:userData:error:';
 end;
 
-procedure InitNSServiceProvider( callback:TNSServiceProviderCallBack );
+procedure InitNSServiceProvider(
+  serveCallback: TNSServiceProviderCallBack;
+  isReadyFunc: TNSServiceMenuIsReady;
+  getFilenamesFunc: TNSServiceMenuGetFilenames );
 
 var
   HasMountURL: Boolean = False;
@@ -60,15 +73,32 @@ implementation
 uses
   DynLibs;
 
-procedure InitNSServiceProvider( callback:TNSServiceProviderCallBack );
+procedure InitNSServiceProvider(
+  serveCallback: TNSServiceProviderCallBack;
+  isReadyFunc: TNSServiceMenuIsReady;
+  getFilenamesFunc: TNSServiceMenuGetFilenames );
+var
+  DCApp: TDCCocoaApplication;
+  sendTypes: NSArray;
+  returnTypes: NSArray;
 begin
+  DCApp:= TDCCocoaApplication( TCocoaWidgetSet(WidgetSet).NSApp );
+
+  // MacOs Service menu incoming setup
   if not Assigned(NSServiceProvider) then
   begin
     NSServiceProvider:= TNSServiceProvider.alloc.init;
-    NSServiceProvider.onOpenWithNewTab:= callback;
-    TCocoaWidgetSet(WidgetSet).NSApp.setServicesProvider( NSServiceProvider );
+    DCApp.setServicesProvider( NSServiceProvider );
     NSUpdateDynamicServices;
   end;
+  NSServiceProvider.onOpenWithNewTab:= serveCallback;
+
+  // MacOs Service menu outgoing setup
+  sendTypes:= NSArray.arrayWithObject(NSFilenamesPboardType);
+  returnTypes:= nil;
+  DCApp.serviceMenuIsReady:= isReadyFunc;
+  DCApp.serviceMenuGetFilenames:= getFilenamesFunc;
+  DCApp.registerServicesMenuSendTypes_returnTypes( sendTypes, returnTypes );
 end;
 
 function NSArrayToList(const theArray:NSArray): TStringList;
@@ -82,6 +112,19 @@ begin
     list.Add( NSStringToString( theArray.objectAtIndex(i) ) );
   end;
   Result := list;
+end;
+
+function ListToNSArray(const list:TStrings): NSArray;
+var
+  i: Integer;
+  theArray: NSMutableArray;
+begin
+  theArray := NSMutableArray.arrayWithCapacity(list.Count);
+  for i := 0 to list.Count - 1 do
+  begin
+    theArray.addObject( StringToNSString(list[i]) );
+  end;
+  Result := theArray;
 end;
 
 procedure TNSServiceProvider.openWithNewTab( pboard:NSPasteboard; userData:NSString; error:NSStringPtr );
@@ -99,6 +142,32 @@ begin
       FreeAndNil( filenameList );
     end;
   end;
+end;
+
+function TDCCocoaApplication.validRequestorForSendType_returnType (sendType: NSString; returnType: NSString): id;
+var
+  isSendTypeMatch: ObjcBool;
+  isReturnTypeMatch: ObjcBool;
+begin
+  Result:= nil;
+  if not NSFilenamesPboardType.isEqualToString(sendType) then exit;
+  if returnType<>nil then exit;
+  if self.serviceMenuIsReady() then Result:=self;
+end;
+
+function TDCCocoaApplication.writeSelectionToPasteboard_types( pboard: NSPasteboard; types: NSArray): ObjCBOOL;
+var
+  filenameList: TStringList;
+  filenameArray: NSArray;
+begin
+  Result:= false;
+  filenameList:= self.serviceMenuGetFilenames();
+  if filenameList=nil then exit;
+
+  filenameArray:= ListToNSArray( filenameList );
+  pboard.declareTypes_owner( NSArray.arrayWithObject(NSFileNamesPboardType), nil );
+  pboard.setPropertyList_forType( filenameArray, NSFileNamesPboardType );
+  Result:= true;
 end;
 
 
