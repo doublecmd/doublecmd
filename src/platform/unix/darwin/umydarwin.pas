@@ -87,15 +87,16 @@ end;
 procedure TNSServiceProvider.openWithNewTab( pboard:NSPasteboard; userData:NSString; error:NSStringPtr );
 var
   filenameArray{, lClasses}: NSArray;
-  filenamesList: TStringList;
+  filenameList: TStringList;
 begin
   filenameArray := pboard.propertyListForType(NSFilenamesPboardType);
   if filenameArray <> nil then
   begin
     if Assigned(onOpenWithNewTab) then
     begin
-      filenamesList:= NSArrayToList( filenameArray );
-      onOpenWithNewTab( filenamesList );
+      filenameList:= NSArrayToList( filenameArray );
+      onOpenWithNewTab( filenameList );
+      FreeAndNil( filenameList );
     end;
   end;
 end;
