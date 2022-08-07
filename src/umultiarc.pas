@@ -115,6 +115,7 @@ type
     procedure SetSignaturePosition(const AValue: AnsiString);
     procedure SetSignatureSeekRange(const AValue: AnsiString);
   public
+    FPacker,
     FArchiver,
     FDescription,
     FStart,
@@ -290,6 +291,7 @@ begin
       MultiArcItem:= TMultiArcItem.Create;
       with MultiArcItem do
       begin
+        FPacker:= Section;
         FArchiver:= FixExeExt(TrimQuotes(IniFile.ReadString(Section, 'Archiver', EmptyStr)));
         FDescription:= TrimQuotes(IniFile.ReadString(Section, 'Description', EmptyStr));
         FID:= TrimQuotes(IniFile.ReadString(Section, 'ID', EmptyStr));
