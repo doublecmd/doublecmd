@@ -28,7 +28,7 @@ unit uMyDarwin;
 interface
 
 uses
-  Classes, SysUtils, MacOSAll, CocoaAll;
+  Classes, SysUtils, MacOSAll, CocoaAll, CocoaUtils, CocoaInt, InterfaceBase;
 
 function NSGetTempPath: String;
 
@@ -40,13 +40,66 @@ function NSGetFolderPath(Folder: NSSearchPathDirectory): String;
 function GetFileDescription(const FileName: String): String;
 function MountNetworkDrive(const serverAddress: String): Boolean;
 
+type TNSServiceProviderCallBack = Procedure( filenames:TStringList ) of object;
+
+type TNSServiceProvider = objcclass(NSObject)
+public
+    onOpenWithNewTab: TNSServiceProviderCallBack;
+public
+    procedure openWithNewTab( pboard:NSPasteboard; userData:NSString; error:NSStringPtr ); message 'openWithNewTab:userData:error:';
+end;
+
+procedure InitNSServiceProvider( callback:TNSServiceProviderCallBack );
+
 var
   HasMountURL: Boolean = False;
+  NSServiceProvider: TNSServiceProvider;
 
 implementation
 
 uses
   DynLibs;
+
+procedure InitNSServiceProvider( callback:TNSServiceProviderCallBack );
+begin
+  if not Assigned(NSServiceProvider) then
+  begin
+    NSServiceProvider:= TNSServiceProvider.alloc.init;
+    NSServiceProvider.onOpenWithNewTab:= callback;
+    TCocoaWidgetSet(WidgetSet).NSApp.setServicesProvider( NSServiceProvider );
+    NSUpdateDynamicServices;
+  end;
+end;
+
+function NSArrayToList(const theArray:NSArray): TStringList;
+var
+  i: Integer;
+  list : TStringList;
+begin
+  list := TStringList.Create;
+  for i := 0 to theArray.Count-1 do
+  begin
+    list.Add( NSStringToString( theArray.objectAtIndex(i) ) );
+  end;
+  Result := list;
+end;
+
+procedure TNSServiceProvider.openWithNewTab( pboard:NSPasteboard; userData:NSString; error:NSStringPtr );
+var
+  filenameArray{, lClasses}: NSArray;
+  filenamesList: TStringList;
+begin
+  filenameArray := pboard.propertyListForType(NSFilenamesPboardType);
+  if filenameArray <> nil then
+  begin
+    if Assigned(onOpenWithNewTab) then
+    begin
+      filenamesList:= NSArrayToList( filenameArray );
+      onOpenWithNewTab( filenamesList );
+    end;
+  end;
+end;
+
 
 function NSGetTempPath: String;
 begin
