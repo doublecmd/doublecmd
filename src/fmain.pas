@@ -6098,12 +6098,35 @@ end;
 function TfrmMain.NSServiceMenuGetFilenames(): TStringList;
 var
   filenames: TStringList;
+  i: Integer;
+  files: TFiles;
+  activeFile: TFile;
 begin
+  Result:= nil;
   filenames:= TStringList.Create;
-  filenames.add( '/' );
-  Result:= filenames;
-end;
 
+  files:= ActiveFrame.CloneSelectedFiles();
+  if files.Count>0 then
+  begin
+    for i:=0 to files.Count-1 do
+    begin
+      filenames.add( files[i].FullPath );
+    end;
+  end;
+  FreeAndNil( files );
+
+  if filenames.Count = 0 then
+  begin
+    activeFile:= ActiveFrame.CloneActiveFile;
+    if activeFile.IsNameValid() then
+      filenames.add( activeFile.FullPath )
+    else
+      filenames.add( activeFile.Path );
+    FreeAndNil( activeFile );
+  end;
+
+  if filenames.Count>0 then Result:= filenames;
+end;
 {$ENDIF}
 
 procedure TfrmMain.LoadWindowState;

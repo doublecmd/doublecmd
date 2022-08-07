@@ -168,6 +168,8 @@ begin
   pboard.declareTypes_owner( NSArray.arrayWithObject(NSFileNamesPboardType), nil );
   pboard.setPropertyList_forType( filenameArray, NSFileNamesPboardType );
   Result:= true;
+
+  FreeAndNil( filenameList );
 end;
 
 
