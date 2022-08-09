@@ -25,9 +25,11 @@ if "%CPU_TARGET%" == "" (
   if "%PROCESSOR_ARCHITECTURE%" == "x86" (
     set CPU_TARGET=i386
     set OS_TARGET=win32
+    set OS_PLATFORM=32bit
   ) else if "%PROCESSOR_ARCHITECTURE%" == "AMD64" (
     set CPU_TARGET=x86_64
     set OS_TARGET=win64
+    SET OS_PLATFORM=64bit
   )
 )
 
