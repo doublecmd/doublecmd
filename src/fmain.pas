@@ -870,6 +870,8 @@ type
     procedure AddTab(ANoteBook: TFileViewNotebook; aPath: String);
     {$IF DEFINED(DARWIN)}
     procedure OnNSServiceOpenWithNewTab( filenames:TStringList );
+    function NSServiceMenuIsReady(): boolean;
+    function NSServiceMenuGetFilenames(): TStringList;
     {$ENDIF}
     procedure LoadWindowState;
     procedure SaveWindowState;
@@ -1215,7 +1217,7 @@ begin
   UpdateFreeSpace(fpRight, True);
 
 {$IF DEFINED(DARWIN)}
-  InitNSServiceProvider( @OnNSServiceOpenWithNewTab );
+  InitNSServiceProvider( @OnNSServiceOpenWithNewTab, @NSServiceMenuIsReady, @NSServiceMenuGetFilenames );
 {$ENDIF}
 end;
 
@@ -6086,6 +6088,44 @@ begin
     SetActiveFrame(fpRight);
     ActiveFrame.SetFocus;
   end;
+end;
+
+function TfrmMain.NSServiceMenuIsReady(): boolean;
+begin
+  Result:= true;
+end;
+
+function TfrmMain.NSServiceMenuGetFilenames(): TStringList;
+var
+  filenames: TStringList;
+  i: Integer;
+  files: TFiles;
+  activeFile: TFile;
+begin
+  Result:= nil;
+  filenames:= TStringList.Create;
+
+  files:= ActiveFrame.CloneSelectedFiles();
+  if files.Count>0 then
+  begin
+    for i:=0 to files.Count-1 do
+    begin
+      filenames.add( files[i].FullPath );
+    end;
+  end;
+  FreeAndNil( files );
+
+  if filenames.Count = 0 then
+  begin
+    activeFile:= ActiveFrame.CloneActiveFile;
+    if activeFile.IsNameValid() then
+      filenames.add( activeFile.FullPath )
+    else
+      filenames.add( activeFile.Path );
+    FreeAndNil( activeFile );
+  end;
+
+  if filenames.Count>0 then Result:= filenames;
 end;
 {$ENDIF}
 
