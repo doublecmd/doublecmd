@@ -74,6 +74,23 @@ const
   Ab_XceedUnicodePathSignature              : LongWord= $5843554E;
 
 type
+  TNtfsTimeField = packed record
+    Reserved : UInt32;
+    Tag      : UInt16;
+    Size     : UInt16;
+    Mtime    : UInt64;
+    Atime    : UInt64;
+    Ctime    : UInt64;
+  end;
+  PNtfsTimeField = ^TNtfsTimeField;
+
+  TInfoZipTimeField = packed record
+    Tag   : Byte;
+    Mtime : UInt32;
+  end;
+  PInfoZipTimeField = ^TInfoZipTimeField;
+
+type
   PAbByteArray4K = ^TAbByteArray4K;
   TAbByteArray4K = array[1..4096] of Byte;
   PAbByteArray8K = ^TAbByteArray8K;
@@ -421,6 +438,7 @@ type
     procedure SetLastModFileDate(const Value : Word ); override;
     procedure SetLastModFileTime(const Value : Word ); override;
     procedure SetUncompressedSize( const Value : Int64 ); override;
+    procedure SetLastModTimeAsDateTime(const Value: TDateTime); override;
 
   public {methods}
     constructor Create;
@@ -1782,6 +1800,38 @@ begin
   FItemInfo.UncompressedSize:= Min(Value, $FFFFFFFF);
   UpdateZip64ExtraHeader;
 end;
+
+procedure TAbZipItem.SetLastModTimeAsDateTime(const Value: TDateTime);
+var
+  DataSize: Word;
+  ANtfsTime: PNtfsTimeField;
+  AInfoZipTime: PInfoZipTimeField;
+begin
+  inherited SetLastModTimeAsDateTime(Value);
+
+  // Update time extra fields
+  if FItemInfo.ExtraField.Get(Ab_NTFSSubfieldID, ANtfsTime, DataSize) then
+  begin
+    if (DataSize = SizeOf(TNtfsTimeField)) then
+    begin
+      if ANtfsTime^.Tag = $0001 then
+      begin
+        ANtfsTime^.Mtime := DateTimeToWinFileTime(Value);
+      end;
+    end;
+  end
+  else if FItemInfo.ExtraField.Get(Ab_InfoZipTimestampSubfieldID, AInfoZipTime, DataSize) then
+  begin
+    if (DataSize = SizeOf(TInfoZipTimeField)) then
+    begin
+      if (AInfoZipTime^.Tag and $01 <> 0) then
+      begin
+        AInfoZipTime^.Mtime := UInt32(DateTimeToUnixFileTime(Value));
+      end;
+    end;
+  end;
+end;
+
 { -------------------------------------------------------------------------- }
 procedure TAbZipItem.SetVersionMadeBy( Value : Word );
 begin
