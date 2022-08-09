@@ -1262,9 +1262,7 @@ begin
 {$IFDEF MSWINDOWS}
   Result := GetFileAttributesExW(PWideChar(CeUtf8ToUtf16(aFileName)), GetFileExInfoStandard, @FindData);
   if Result then begin
-    if Windows.FileTimeToLocalFileTime(FindData.ftLastWriteTime, LocalFileTime) and
-       FileTimeToDosDateTime(LocalFileTime, FileDate.Hi, FileDate.Lo) then
-      aAttr.Time := FileDateToDateTime(Integer(FileDate));
+    aAttr.Time := WinFileTimeToDateTime(FindData.ftLastWriteTime);
     LARGE_INTEGER(aAttr.Size).LowPart := FindData.nFileSizeLow;
     LARGE_INTEGER(aAttr.Size).HighPart := FindData.nFileSizeHigh;
     aAttr.Attr := FindData.dwFileAttributes;
