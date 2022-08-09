@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Path edit class with auto complete feature
 
-   Copyright (C) 2012-2021 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2012-2022 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
@@ -27,7 +27,7 @@ interface
 
 uses
   Classes, SysUtils, LResources, Forms, Controls, Graphics, Dialogs, StdCtrls,
-  ShellCtrls, LCLType;
+  ShellCtrls, LCLType, LCLVersion;
 
 type
 
@@ -186,6 +186,12 @@ end;
 { TKASPathEdit }
 
 procedure TKASPathEdit.AutoComplete(const Path: String);
+{$IF LCL_FULLVERSION >= 2020000}
+const
+  AFlags: array[Boolean] of TMaskOptions = (
+    [moDisableSets], [moDisableSets, moCaseSensitive]
+  );
+{$ENDIF}
 var
   I: Integer;
   AMask: TMask;
@@ -208,7 +214,12 @@ begin
       try
         // Check mask and make absolute file name
         AMask:= TMask.Create(ExtractFileName(Path) + '*',
-                             FileNameCaseSensitive);
+{$IF LCL_FULLVERSION >= 2020000}
+                             AFlags[FileNameCaseSensitive]
+{$ELSE}
+                             FileNameCaseSensitive
+{$ENDIF}
+          );
         for I:= 0 to FStringList.Count - 1 do
         begin
           if AMask.Matches(FStringList[I]) then
