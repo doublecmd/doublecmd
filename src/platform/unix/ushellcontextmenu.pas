@@ -492,7 +492,7 @@ begin
 
   // attach Services Menu in TMacosServiceMenuHelper
   mi:=TMenuItem.Create(Self);
-  mi.Caption:='Services';
+  mi.Caption:=uLng.rsMenuMacOsServices;
   Self.Items.Add(mi);
 end;
 {$ENDIF}

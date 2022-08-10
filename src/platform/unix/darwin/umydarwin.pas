@@ -61,9 +61,10 @@ end;
 
 type TMacosServiceMenuHelper = class
   oldMenuPopupHandler: TNotifyEvent;
+  serviceSubMenuCaption: String;
   procedure attachServicesMenu( Sender:TObject);
 public
-  procedure PopUp( menu:TPopupMenu );
+  procedure PopUp( menu:TPopupMenu; caption:String );
 end;
 
 procedure InitNSServiceProvider(
@@ -92,7 +93,7 @@ begin
   oldMenuPopupHandler:= nil;
 
   // attach the Services Sub Menu by calling NSApplication.setServicesMenu()
-  servicesItem:= TPopupMenu(Sender).Items.Find('Services');
+  servicesItem:= TPopupMenu(Sender).Items.Find(serviceSubMenuCaption);
   if servicesItem<>nil then
   begin
     subMenu:= TCocoaMenu.alloc.initWithTitle(NSString.string_);
@@ -101,12 +102,13 @@ begin
   end;
 end;
 
-procedure TMacosServiceMenuHelper.PopUp( menu:TPopupMenu );
+procedure TMacosServiceMenuHelper.PopUp( menu:TPopupMenu; caption:String );
 begin
   // because the menu item handle will be destroyed in TPopupMenu.PopUp()
   // we can only call NSApplication.setServicesMenu() in OnMenuPopupHandler()
   oldMenuPopupHandler:= OnMenuPopupHandler;
   OnMenuPopupHandler:= attachServicesMenu;
+  serviceSubMenuCaption:= caption;
   menu.PopUp();
 end;
 
