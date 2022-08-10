@@ -10993,7 +10993,7 @@ msgstr "Введите имя нового набора колонок"
 
 #: ulng.rsmenumacosservices
 msgid "Services"
-msgstr "служба"
+msgstr "Службы"
 
 #: ulng.rsmnuactions
 msgctxt "ulng.rsmnuactions"
