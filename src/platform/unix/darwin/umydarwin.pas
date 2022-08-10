@@ -28,7 +28,7 @@ unit uMyDarwin;
 interface
 
 uses
-  Classes, SysUtils, MacOSAll, CocoaAll, CocoaUtils, CocoaInt, InterfaceBase;
+  Classes, SysUtils, MacOSAll, CocoaAll, CocoaUtils, CocoaInt, InterfaceBase, Menus, CocoaWSMenus;
 
 function NSGetTempPath: String;
 
@@ -59,6 +59,13 @@ public
     procedure openWithNewTab( pboard:NSPasteboard; userData:NSString; error:NSStringPtr ); message 'openWithNewTab:userData:error:';
 end;
 
+type TMacosServiceMenuHelper = class
+  oldMenuPopupHandler: TNotifyEvent;
+  procedure attachServicesMenu( Sender:TObject);
+public
+  procedure PopUp( menu:TPopupMenu );
+end;
+
 procedure InitNSServiceProvider(
   serveCallback: TNSServiceProviderCallBack;
   isReadyFunc: TNSServiceMenuIsReady;
@@ -67,11 +74,42 @@ procedure InitNSServiceProvider(
 var
   HasMountURL: Boolean = False;
   NSServiceProvider: TNSServiceProvider;
+  MacosServiceMenuHelper: TMacosServiceMenuHelper;
 
 implementation
 
 uses
   DynLibs;
+
+procedure TMacosServiceMenuHelper.attachServicesMenu( Sender:TObject);
+var
+  servicesItem: TMenuItem;
+  subMenu: TCocoaMenu;
+begin
+  // call the previous OnMenuPopupHandler and restore it
+  if Assigned(oldMenuPopupHandler) then oldMenuPopupHandler( Sender );
+  OnMenuPopupHandler:= oldMenuPopupHandler;
+  oldMenuPopupHandler:= nil;
+
+  // attach the Services Sub Menu by calling NSApplication.setServicesMenu()
+  servicesItem:= TPopupMenu(Sender).Items.Find('Services');
+  if servicesItem<>nil then
+  begin
+    subMenu:= TCocoaMenu.alloc.initWithTitle(NSString.string_);
+    TCocoaMenuItem(servicesItem.Handle).setSubmenu( subMenu );
+    TCocoaWidgetSet(WidgetSet).NSApp.setServicesMenu( NSMenu(servicesItem.Handle) );
+  end;
+end;
+
+procedure TMacosServiceMenuHelper.PopUp( menu:TPopupMenu );
+begin
+  // because the menu item handle will be destroyed in TPopupMenu.PopUp()
+  // we can only call NSApplication.setServicesMenu() in OnMenuPopupHandler()
+  oldMenuPopupHandler:= OnMenuPopupHandler;
+  OnMenuPopupHandler:= attachServicesMenu;
+  menu.PopUp();
+end;
+
 
 procedure InitNSServiceProvider(
   serveCallback: TNSServiceProviderCallBack;
@@ -84,7 +122,7 @@ var
 begin
   DCApp:= TDCCocoaApplication( TCocoaWidgetSet(WidgetSet).NSApp );
 
-  // MacOs Service menu incoming setup
+  // MacOS Service menu incoming setup
   if not Assigned(NSServiceProvider) then
   begin
     NSServiceProvider:= TNSServiceProvider.alloc.init;
@@ -93,7 +131,7 @@ begin
   end;
   NSServiceProvider.onOpenWithNewTab:= serveCallback;
 
-  // MacOs Service menu outgoing setup
+  // MacOS Service menu outgoing setup
   sendTypes:= NSArray.arrayWithObject(NSFilenamesPboardType);
   returnTypes:= nil;
   DCApp.serviceMenuIsReady:= isReadyFunc;
@@ -254,6 +292,7 @@ begin
     @FSMountServerVolumeSync:= GetProcAddress(CoreServices, 'FSMountServerVolumeSync');
   end;
   HasMountURL:= Assigned(NetFSMountURLSync) or Assigned(FSMountServerVolumeSync);
+  MacosServiceMenuHelper:= TMacosServiceMenuHelper.Create;
 end;
 
 procedure Finalize;

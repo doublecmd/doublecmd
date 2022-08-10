@@ -56,6 +56,9 @@ type
   private
     procedure LeaveDrive;
     function FillOpenWithSubMenu: Boolean;
+    {$IF DEFINED(DARWIN)}
+    procedure FillServicesSubMenu;
+    {$ENDIF}
     procedure CreateActionSubMenu(MenuWhereToAdd:TComponent; aFile:TFile; bIncludeViewEdit:boolean);
   public
     constructor Create(Owner: TWinControl; ADrive: PDrive); reintroduce; overload;
@@ -476,6 +479,25 @@ begin
 end;
 {$ENDIF}
 
+
+{$IF DEFINED(DARWIN)}
+procedure TShellContextMenu.FillServicesSubMenu;
+var
+  mi: TMenuItem;
+begin
+  // Add delimiter menu
+  mi:=TMenuItem.Create(Self);
+  mi.Caption:='-';
+  Self.Items.Add(mi);
+
+  // attach Services Menu in TMacosServiceMenuHelper
+  mi:=TMenuItem.Create(Self);
+  mi.Caption:='Services';
+  Self.Items.Add(mi);
+end;
+{$ENDIF}
+
+
 constructor TShellContextMenu.Create(Owner: TWinControl; ADrive: PDrive);
 var
   mi: TMenuItem;
@@ -728,6 +750,11 @@ begin
 
         // Add "Open with" submenu if needed
         AddOpenWithMenu := FillOpenWithSubMenu;
+
+        // Add "Services" menu if MacOS
+        {$IF DEFINED(DARWIN)}
+        FillServicesSubMenu;
+        {$ENDIF}
 
         // Add delimiter menu
         mi:=TMenuItem.Create(Self);
