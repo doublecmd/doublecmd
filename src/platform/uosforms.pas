@@ -715,7 +715,7 @@ begin
   ShellContextMenu.OnClose := CloseEvent;
   // Show context menu
   {$IF DEFINED(DARWIN)}
-  MacosServiceMenuHelper.PopUp( ShellContextMenu );
+  MacosServiceMenuHelper.PopUp( ShellContextMenu, uLng.rsMenuMacOsServices );
   {$ELSE}
   ShellContextMenu.PopUp(X, Y);
   {$ENDIF}
