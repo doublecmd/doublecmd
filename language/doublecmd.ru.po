@@ -10991,6 +10991,10 @@ msgstr "Настроить наборы колонок"
 msgid "Enter new custom columns name"
 msgstr "Введите имя нового набора колонок"
 
+#: ulng.rsmenumacosservices
+msgid "Services"
+msgstr "Службы"
+
 #: ulng.rsmnuactions
 msgctxt "ulng.rsmnuactions"
 msgid "Actions"
