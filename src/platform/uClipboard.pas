@@ -543,19 +543,6 @@ end;
 
 // MacOs 10.5 compatibility
 {$IFDEF DARWIN}
-function ListToNSArray(const list:TStringList): NSArray;
-var
-  i: Integer;
-  theArray: NSMutableArray;
-begin
-  theArray := NSMutableArray.arrayWithCapacity(list.Count);
-  for i := 0 to list.Count - 1 do
-  begin
-    theArray.addObject( StringToNSString(list[i]) );
-  end;
-  Result := theArray;
-end;
-
 function FilenamesToString(const filenames:TStringList): String;
 begin
   Result := TrimRightLineEnding( filenames.Text, filenames.TextLineBreakStyle);
@@ -790,19 +777,6 @@ end;
 
 // MacOs 10.5 compatibility
 {$IFDEF DARWIN}
-function NSArrayToList(const theArray:NSArray): TStringList;
-var
-  i: Integer;
-  list : TStringList;
-begin
-  list := TStringList.Create;
-  for i := 0 to theArray.Count-1 do
-  begin
-    list.Add( NSStringToString( theArray.objectAtIndex(i) ) );
-  end;
-  Result := list;
-end;
-
 function getStringFromPasteboard( pbType : NSString ) : String;
 var
   pb : NSPasteboard;

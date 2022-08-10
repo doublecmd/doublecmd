@@ -30,21 +30,26 @@ interface
 uses
   Classes, SysUtils, MacOSAll, CocoaAll, CocoaUtils, CocoaInt, InterfaceBase, Menus, CocoaWSMenus;
 
-function NSGetTempPath: String;
-
+// Darwin Util Function
 function StringToNSString(const S: String): NSString;
 function StringToCFStringRef(const S: String): CFStringRef;
+function NSArrayToList(const theArray:NSArray): TStringList;
+function ListToNSArray(const list:TStrings): NSArray;
+
+function NSGetTempPath: String;
 
 function NSGetFolderPath(Folder: NSSearchPathDirectory): String;
 
 function GetFileDescription(const FileName: String): String;
 function MountNetworkDrive(const serverAddress: String): Boolean;
 
+// MacOS Service Integration
 type TNSServiceProviderCallBack = Procedure( filenames:TStringList ) of object;
 type TNSServiceMenuIsReady = Function(): Boolean of object;
 type TNSServiceMenuGetFilenames = Function(): TStringList of object;
 
 type TDCCocoaApplication = objcclass(TCocoaApplication)
+private
   function validRequestorForSendType_returnType (sendType: NSString; returnType: NSString): id; override;
   function writeSelectionToPasteboard_types (pboard: NSPasteboard; types: NSArray): ObjCBOOL; message 'writeSelectionToPasteboard:types:';
 public
@@ -53,13 +58,14 @@ public
 end;
 
 type TNSServiceProvider = objcclass(NSObject)
+private
+  onOpenWithNewTab: TNSServiceProviderCallBack;
 public
-    onOpenWithNewTab: TNSServiceProviderCallBack;
-public
-    procedure openWithNewTab( pboard:NSPasteboard; userData:NSString; error:NSStringPtr ); message 'openWithNewTab:userData:error:';
+  procedure openWithNewTab( pboard:NSPasteboard; userData:NSString; error:NSStringPtr ); message 'openWithNewTab:userData:error:';
 end;
 
 type TMacosServiceMenuHelper = class
+private
   oldMenuPopupHandler: TNotifyEvent;
   serviceSubMenuCaption: String;
   procedure attachServicesMenu( Sender:TObject);
@@ -141,32 +147,6 @@ begin
   DCApp.registerServicesMenuSendTypes_returnTypes( sendTypes, returnTypes );
 end;
 
-function NSArrayToList(const theArray:NSArray): TStringList;
-var
-  i: Integer;
-  list : TStringList;
-begin
-  list := TStringList.Create;
-  for i := 0 to theArray.Count-1 do
-  begin
-    list.Add( NSStringToString( theArray.objectAtIndex(i) ) );
-  end;
-  Result := list;
-end;
-
-function ListToNSArray(const list:TStrings): NSArray;
-var
-  i: Integer;
-  theArray: NSMutableArray;
-begin
-  theArray := NSMutableArray.arrayWithCapacity(list.Count);
-  for i := 0 to list.Count - 1 do
-  begin
-    theArray.addObject( StringToNSString(list[i]) );
-  end;
-  Result := theArray;
-end;
-
 procedure TNSServiceProvider.openWithNewTab( pboard:NSPasteboard; userData:NSString; error:NSStringPtr );
 var
   filenameArray{, lClasses}: NSArray;
@@ -212,6 +192,31 @@ begin
   FreeAndNil( filenameList );
 end;
 
+function NSArrayToList(const theArray:NSArray): TStringList;
+var
+  i: Integer;
+  list : TStringList;
+begin
+  list := TStringList.Create;
+  for i := 0 to theArray.Count-1 do
+  begin
+    list.Add( NSStringToString( theArray.objectAtIndex(i) ) );
+  end;
+  Result := list;
+end;
+
+function ListToNSArray(const list:TStrings): NSArray;
+var
+  i: Integer;
+  theArray: NSMutableArray;
+begin
+  theArray := NSMutableArray.arrayWithCapacity(list.Count);
+  for i := 0 to list.Count - 1 do
+  begin
+    theArray.addObject( StringToNSString(list[i]) );
+  end;
+  Result := theArray;
+end;
 
 function NSGetTempPath: String;
 begin
