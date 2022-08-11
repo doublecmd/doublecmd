@@ -263,7 +263,6 @@ object frmCopyDlg: TfrmCopyDlg
     Color = clForm
     ParentColor = False
     TabOrder = 3
-    Visible = False
     OnResize = pnlOptionsResize
     object grpOptions: TGroupBox
       AnchorSideLeft.Control = pnlOptions
@@ -292,6 +291,7 @@ object frmCopyDlg: TfrmCopyDlg
       AutoSize = True
       BorderSpacing.Top = 8
       Caption = 'Sa&ve these options as default'
+      Constraints.MinWidth = 201
       OnClick = btnSaveOptionsClick
       TabOrder = 1
     end
