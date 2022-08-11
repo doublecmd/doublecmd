@@ -448,7 +448,6 @@ begin
   end
   else
     btnOptions.Visible := False;
-  ShowOptions(False);
 
   HMForm := HotMan.Register(Self, HotkeysCategory);
   Hotkey := HMForm.Hotkeys.FindByCommand('cm_AddToQueue');
