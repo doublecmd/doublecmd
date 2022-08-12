@@ -185,6 +185,7 @@ type
     procedure WorkerStarting(const Worker: TFileViewWorker); override;
     procedure WorkerFinished(const Worker: TFileViewWorker); override;
 
+    procedure ShowRenameFileEditInitSelect(Data: PtrInt);
     procedure ShowRenameFileEdit(var AFile: TFile); virtual;
     procedure UpdateRenameFileEditPosition; virtual;
     procedure RenameSelectPart(AActionType:TRenameFileActionType); virtual;
@@ -1549,6 +1550,14 @@ begin
   if not (csDestroying in ComponentState) then UpdateInfoPanel;
 end;
 
+procedure TFileViewWithMainCtrl.ShowRenameFileEditInitSelect(Data: PtrInt);
+begin
+  if gRenameSelOnlyName and not (FRenameFile.IsDirectory or FRenameFile.IsLinkToDirectory) then
+     RenameSelectPart(rfatName)
+  else
+     RenameSelectPart(rfatFull);
+end;
+
 procedure TFileViewWithMainCtrl.ShowRenameFileEdit(var AFile: TFile);
 var
   S: String;
@@ -1610,11 +1619,8 @@ begin
     FRenFile.CylceFinished:= False; // cycle of selection Name-FullName-Ext of FullName-Name-Ext, after finish this cycle will be part selection mechanism
     if FRenFile.LenExt = 0 then FRenFile.CylceFinished:= True;  // don't need cycle if no extension
 
-    if gRenameSelOnlyName and not (AFile.IsDirectory or AFile.IsLinkToDirectory) then
-       RenameSelectPart(rfatName)
-    else begin
-       RenameSelectPart(rfatFull);
-    end;
+    Application.QueueAsyncCall(@ShowRenameFileEditInitSelect, 0);
+
     aFile:= nil;
   end;
 end;
