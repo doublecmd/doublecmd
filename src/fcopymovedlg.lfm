@@ -10,7 +10,6 @@ object frmCopyDlg: TfrmCopyDlg
   ActiveControl = edtDst
   AutoSize = True
   BorderIcons = [biSystemMenu, biMaximize]
-  BorderStyle = bsSingle
   Caption = 'Copy file(s)'
   ChildSizing.LeftRightSpacing = 6
   ChildSizing.TopBottomSpacing = 6
