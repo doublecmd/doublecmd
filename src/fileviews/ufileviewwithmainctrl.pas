@@ -1473,7 +1473,10 @@ end;
 procedure TFileViewWithMainCtrl.edtRenameKeyDown(Sender: TObject;
   var Key: Word; Shift: TShiftState);
 begin
-  if key=VK_RETURN then keyDownText:= originalText;
+  if key=VK_RETURN then
+    keyDownText:= originalText
+  else if key=VK_ESCAPE then
+    keyDownText:= edtRename.Text;
 end;
 
 procedure TFileViewWithMainCtrl.edtRenameOnChange(Sender: TObject);
@@ -1487,7 +1490,7 @@ var
   currentText: String;
 begin
   currentText:= edtRename.Text;
-  if Key=VK_RETURN then
+  if (Key=VK_RETURN) or (key=VK_ESCAPE) then
   begin
       if currentText<>keyDownText then
       begin
