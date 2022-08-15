@@ -347,7 +347,7 @@ begin
       else begin
         AMessage := SysErrorMessage(GetLastError) + LineEnding;
         AMessage += rsSevenZipSfxNotFound + LineEnding + SfxModule;
-        MessageBox(0, PAnsiChar(AMessage), nil, MB_OK or MB_ICONERROR);
+        MessageBoxW(0, PWideChar(UTF8ToUTF16(AMessage)), nil, MB_OK or MB_ICONERROR);
         Exit(E_NO_FILES);
       end;
     end;
@@ -631,7 +631,7 @@ begin
     on E: Exception do
     begin
       ReturnValue:= GetArchiveError(E);
-      MessageBox(0, PAnsiChar(E.Message), nil, MB_OK or MB_ICONERROR);
+      MessageBoxW(0, PWideChar(UTF8ToUTF16(E.Message)), nil, MB_OK or MB_ICONERROR);
     end;
   end;
   Terminate;
