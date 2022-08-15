@@ -432,7 +432,7 @@ begin
         SetArchiveCustom(AJclArchive, Index);
       except
         on E: Exception do
-          Messagebox(0, PAnsiChar(E.Message), nil, MB_OK or MB_ICONERROR);
+          MessageBoxW(0, PWideChar(UTF8ToUTF16(E.Message)), nil, MB_OK or MB_ICONERROR);
       end;
 
       Exit;
@@ -467,7 +467,7 @@ begin
     end;
   except
     on E: Exception do
-      MessageBox(0, PAnsiChar(E.Message), nil, MB_OK or MB_ICONERROR);
+      MessageBoxW(0, PWideChar(UTF8ToUTF16(E.Message)), nil, MB_OK or MB_ICONERROR);
   end;
 end;
 
@@ -497,7 +497,7 @@ begin
     end;
   except
     on E: Exception do
-      MessageBox(0, PAnsiChar(E.Message), nil, MB_OK or MB_ICONERROR);
+      MessageBoxW(0, PWideChar(UTF8ToUTF16(E.Message)), nil, MB_OK or MB_ICONERROR);
   end;
 end;
 
