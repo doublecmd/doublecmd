@@ -255,6 +255,7 @@ object frmCopyDlg: TfrmCopyDlg
     Width = 596
     AutoSize = True
     BorderSpacing.Top = 4
+    BorderSpacing.Bottom = 4
     BevelOuter = bvNone
     ClientHeight = 39
     ClientWidth = 596
@@ -289,6 +290,7 @@ object frmCopyDlg: TfrmCopyDlg
       AutoSize = True
       BorderSpacing.Top = 8
       Caption = 'Sa&ve these options as default'
+      Constraints.MinWidth = 201
       OnClick = btnSaveOptionsClick
       TabOrder = 1
     end
