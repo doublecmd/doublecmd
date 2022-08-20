@@ -365,8 +365,16 @@ begin
         AddWideStringProperty('0', GetCodecName(PluginConfig[AFormat].Method));
       end;
     end;
-    if MethodStandard and (Method <> cmCopy) and (Pos('D=', Parameters) = 0) then begin
-      AddWideStringProperty('D', WideString(IntToStr(PluginConfig[AFormat].Dictionary) + 'B'));
+    if MethodStandard then
+    begin
+      if (Method > cmCopy) and (Method < cmPPMd) and (Pos('D=', Parameters) = 0) then
+      begin
+        AddWideStringProperty('D', WideString(IntToStr(PluginConfig[AFormat].Dictionary) + 'B'));
+      end
+      else if (Method = cmPPMd) and (Pos('MEM=', Parameters) = 0) then
+      begin
+        AddWideStringProperty('MEM', WideString(IntToStr(PluginConfig[AFormat].Dictionary) + 'B'));
+      end;
     end;
   end;
 end;
