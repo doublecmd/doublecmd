@@ -13,7 +13,6 @@ object frmMkDir: TfrmMkDir
   Constraints.MinHeight = 50
   Constraints.MinWidth = 350
   KeyPreview = True
-  OnKeyPress = FormKeyPress
   Position = poOwnerFormCenter
   LCLVersion = '2.2.0.4'
   object lblMakeDir: TLabel
