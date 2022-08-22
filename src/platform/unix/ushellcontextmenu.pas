@@ -3,7 +3,7 @@
     -------------------------------------------------------------------------
     Shell context menu implementation.
 
-    Copyright (C) 2006-2017 Alexander Koblov (alexx2000@mail.ru)
+    Copyright (C) 2006-2022 Alexander Koblov (alexx2000@mail.ru)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -880,23 +880,30 @@ begin
       mi.Action := frmMain.actPasteFromClipboard;
       Self.Items.Add(mi);
 
+
+      mi:=TMenuItem.Create(Self);
+      mi.Caption:='-';
+      Self.Items.Add(mi);
+
+      // Add "New" submenu
+      miSortBy := TMenuItem.Create(Self);
+      miSortBy.Caption := rsMnuNew;
+      Self.Items.Add(miSortBy);
+
+      // Add "Create directory"
+      mi:= TMenuItem.Create(miSortBy);
+      mi.Action := frmMain.actMakeDir;
+      mi.Caption:= rsPropsFolder;
+      miSortBy.Add(mi);
+
+      // Add "Create file"
+      mi:= TMenuItem.Create(miSortBy);
+      mi.Action := frmMain.actEditNew;
+      mi.Caption:= rsPropsFile;
+      miSortBy.Add(mi);
+
       if GetTemplateMenu(sl) then
       begin
-        mi:=TMenuItem.Create(Self);
-        mi.Caption:='-';
-        Self.Items.Add(mi);
-
-        // Add "New" submenu
-        miSortBy := TMenuItem.Create(Self);
-        miSortBy.Caption := rsMnuNew;
-        Self.Items.Add(miSortBy);
-
-        // Add "Make directory"
-        mi:= TMenuItem.Create(miSortBy);
-        mi.Action := frmMain.actMakeDir;
-        mi.Caption:= rsPropsFolder;
-        miSortBy.Add(mi);
-
         mi:= TMenuItem.Create(miSortBy);
         mi.Caption:= '-';
         miSortBy.Add(mi);
