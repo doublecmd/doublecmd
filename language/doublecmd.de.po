@@ -3112,6 +3112,7 @@ msgid "E&xit"
 msgstr "&Beenden"
 
 #: tfrmmain.mitrayiconrestore.caption
+msgctxt "tfrmmain.mitrayiconrestore.caption"
 msgid "Restore"
 msgstr "Wiederherstellen"
 
@@ -6917,6 +6918,10 @@ msgstr "Beschreibung zu Dateie(n) (descript.ion)"
 msgid "Regarding TC export/import:"
 msgstr "In Bezug auf TC Import/Export:"
 
+#: tfrmoptionsmisc.lbldefaultencoding.caption
+msgid "&Default single-byte text encoding:"
+msgstr ""
+
 #: tfrmoptionsmisc.lbldescrdefaultencoding.caption
 msgid "Default encoding:"
 msgstr "Standard Kodierung:"
@@ -8334,6 +8339,7 @@ msgid "Create self e&xtracting archive"
 msgstr "Selbst extrahierendes Archiv erstellen"
 
 #: tfrmpackdlg.cbencrypt.caption
+msgctxt "tfrmpackdlg.cbencrypt.caption"
 msgid "Encr&ypt"
 msgstr "Verschl&üsseln"
 
@@ -9908,6 +9914,18 @@ msgstr "Parameter:"
 msgid "Start path:"
 msgstr "Startpfad:"
 
+#: twcxarchivecopyoperationoptionsui.btnconfig.caption
+#, fuzzy
+msgctxt "twcxarchivecopyoperationoptionsui.btnconfig.caption"
+msgid "Con&figure"
+msgstr "E&instellen"
+
+#: twcxarchivecopyoperationoptionsui.cbencrypt.caption
+#, fuzzy
+msgctxt "twcxarchivecopyoperationoptionsui.cbencrypt.caption"
+msgid "Encr&ypt"
+msgstr "Verschl&üsseln"
+
 #: twcxarchivecopyoperationoptionsui.lblfileexists.caption
 msgctxt "twcxarchivecopyoperationoptionsui.lblfileexists.caption"
 msgid "When file exists"
@@ -10752,6 +10770,10 @@ msgctxt "ulng.rsfuncsize"
 msgid "Size"
 msgstr "Größe"
 
+#: ulng.rsfunctrashorigpath
+msgid "Original path"
+msgstr ""
+
 #: ulng.rsfunctype
 msgid "Type"
 msgstr "Typ"
@@ -10920,6 +10942,10 @@ msgstr "Konfiguriere benutzerdefinierte Spalten"
 msgid "Enter new custom columns name"
 msgstr "Neuen Namen für die benutzerdefinierte Spaltenansicht angeben"
 
+#: ulng.rsmenumacosservices
+msgid "Services"
+msgstr ""
+
 #: ulng.rsmnuactions
 msgctxt "ulng.rsmnuactions"
 msgid "Actions"
@@ -10989,6 +11015,12 @@ msgstr "Andere ..."
 #: ulng.rsmnupackhere
 msgid "Pack here..."
 msgstr "Archiv hier erstellen ..."
+
+#: ulng.rsmnurestore
+#, fuzzy
+msgctxt "ulng.rsmnurestore"
+msgid "Restore"
+msgstr "Wiederherstellen"
 
 #: ulng.rsmnusortby
 msgid "Sort by"

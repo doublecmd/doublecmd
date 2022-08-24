@@ -3094,6 +3094,7 @@ msgid "E&xit"
 msgstr "&Выйсці"
 
 #: tfrmmain.mitrayiconrestore.caption
+msgctxt "tfrmmain.mitrayiconrestore.caption"
 msgid "Restore"
 msgstr "Аднавіць"
 
@@ -6792,6 +6793,10 @@ msgstr "Каментары да файлаў (descript.ion)"
 msgid "Regarding TC export/import:"
 msgstr "Да экспарту/імпарту TC:"
 
+#: tfrmoptionsmisc.lbldefaultencoding.caption
+msgid "&Default single-byte text encoding:"
+msgstr ""
+
 #: tfrmoptionsmisc.lbldescrdefaultencoding.caption
 msgctxt "TFRMOPTIONSMISC.LBLDESCRDEFAULTENCODING.CAPTION"
 msgid "Default encoding:"
@@ -8188,6 +8193,7 @@ msgid "Create self e&xtracting archive"
 msgstr "Архіў, які &сам распакоўваецца"
 
 #: tfrmpackdlg.cbencrypt.caption
+msgctxt "tfrmpackdlg.cbencrypt.caption"
 msgid "Encr&ypt"
 msgstr "Шыф&раванне"
 
@@ -9729,6 +9735,18 @@ msgstr "Параметры:"
 msgid "Start path:"
 msgstr "Шлях запуску:"
 
+#: twcxarchivecopyoperationoptionsui.btnconfig.caption
+#, fuzzy
+msgctxt "twcxarchivecopyoperationoptionsui.btnconfig.caption"
+msgid "Con&figure"
+msgstr "Нал&адзіць"
+
+#: twcxarchivecopyoperationoptionsui.cbencrypt.caption
+#, fuzzy
+msgctxt "twcxarchivecopyoperationoptionsui.cbencrypt.caption"
+msgid "Encr&ypt"
+msgstr "Шыф&раванне"
+
 #: twcxarchivecopyoperationoptionsui.lblfileexists.caption
 msgctxt "TWCXARCHIVECOPYOPERATIONOPTIONSUI.LBLFILEEXISTS.CAPTION"
 msgid "When file exists"
@@ -10568,6 +10586,10 @@ msgctxt "ulng.rsfuncsize"
 msgid "Size"
 msgstr "Памер"
 
+#: ulng.rsfunctrashorigpath
+msgid "Original path"
+msgstr ""
+
 #: ulng.rsfunctype
 msgid "Type"
 msgstr "Тып"
@@ -10736,6 +10758,10 @@ msgstr "Наладзіць адвольныя слупкі"
 msgid "Enter new custom columns name"
 msgstr "Увесці назву новых адвольных слупкоў"
 
+#: ulng.rsmenumacosservices
+msgid "Services"
+msgstr ""
+
 #: ulng.rsmnuactions
 msgctxt "ulng.rsmnuactions"
 msgid "Actions"
@@ -10805,6 +10831,12 @@ msgstr "Іншае..."
 #: ulng.rsmnupackhere
 msgid "Pack here..."
 msgstr "Запакаваць сюды..."
+
+#: ulng.rsmnurestore
+#, fuzzy
+msgctxt "ulng.rsmnurestore"
+msgid "Restore"
+msgstr "Аднавіць"
 
 #: ulng.rsmnusortby
 msgid "Sort by"

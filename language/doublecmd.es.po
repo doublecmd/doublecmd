@@ -3113,6 +3113,7 @@ msgid "E&xit"
 msgstr "&Salir"
 
 #: tfrmmain.mitrayiconrestore.caption
+msgctxt "tfrmmain.mitrayiconrestore.caption"
 msgid "Restore"
 msgstr "Restaurar"
 
@@ -6840,6 +6841,10 @@ msgstr "Comentarios del archivo (descript.ion)"
 msgid "Regarding TC export/import:"
 msgstr "Relacionado a TC exportar/importar:"
 
+#: tfrmoptionsmisc.lbldefaultencoding.caption
+msgid "&Default single-byte text encoding:"
+msgstr ""
+
 #: tfrmoptionsmisc.lbldescrdefaultencoding.caption
 msgctxt "TFRMOPTIONSMISC.LBLDESCRDEFAULTENCODING.CAPTION"
 msgid "Default encoding:"
@@ -8263,6 +8268,7 @@ msgid "Create self e&xtracting archive"
 msgstr "Crear fichero autoe&xtraíble"
 
 #: tfrmpackdlg.cbencrypt.caption
+msgctxt "tfrmpackdlg.cbencrypt.caption"
 msgid "Encr&ypt"
 msgstr "Ci&frar"
 
@@ -9837,6 +9843,18 @@ msgstr "Parámetros:"
 msgid "Start path:"
 msgstr ""
 
+#: twcxarchivecopyoperationoptionsui.btnconfig.caption
+#, fuzzy
+msgctxt "twcxarchivecopyoperationoptionsui.btnconfig.caption"
+msgid "Con&figure"
+msgstr "Con&figurar"
+
+#: twcxarchivecopyoperationoptionsui.cbencrypt.caption
+#, fuzzy
+msgctxt "twcxarchivecopyoperationoptionsui.cbencrypt.caption"
+msgid "Encr&ypt"
+msgstr "Ci&frar"
+
 #: twcxarchivecopyoperationoptionsui.lblfileexists.caption
 msgctxt "TWCXARCHIVECOPYOPERATIONOPTIONSUI.LBLFILEEXISTS.CAPTION"
 msgid "When file exists"
@@ -10677,6 +10695,10 @@ msgctxt "ulng.rsfuncsize"
 msgid "Size"
 msgstr "Tamaño"
 
+#: ulng.rsfunctrashorigpath
+msgid "Original path"
+msgstr ""
+
 #: ulng.rsfunctype
 msgid "Type"
 msgstr "Tipo"
@@ -10845,6 +10867,10 @@ msgstr "Configurar columnas a medida"
 msgid "Enter new custom columns name"
 msgstr "Introducir nuevo nombre de vista de columnas"
 
+#: ulng.rsmenumacosservices
+msgid "Services"
+msgstr ""
+
 #: ulng.rsmnuactions
 msgctxt "ulng.rsmnuactions"
 msgid "Actions"
@@ -10914,6 +10940,12 @@ msgstr "Otro..."
 #: ulng.rsmnupackhere
 msgid "Pack here..."
 msgstr "Comprimir aquí..."
+
+#: ulng.rsmnurestore
+#, fuzzy
+msgctxt "ulng.rsmnurestore"
+msgid "Restore"
+msgstr "Restaurar"
 
 #: ulng.rsmnusortby
 msgid "Sort by"

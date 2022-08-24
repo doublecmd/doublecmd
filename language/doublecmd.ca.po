@@ -3396,6 +3396,7 @@ msgid "E&xit"
 msgstr "&Surt"
 
 #: tfrmmain.mitrayiconrestore.caption
+msgctxt "tfrmmain.mitrayiconrestore.caption"
 msgid "Restore"
 msgstr "Restaura"
 
@@ -7497,6 +7498,10 @@ msgstr ""
 msgid "Regarding TC export/import:"
 msgstr ""
 
+#: tfrmoptionsmisc.lbldefaultencoding.caption
+msgid "&Default single-byte text encoding:"
+msgstr ""
+
 #: tfrmoptionsmisc.lbldescrdefaultencoding.caption
 msgctxt "tfrmoptionsmisc.lbldescrdefaultencoding.caption"
 msgid "Default encoding:"
@@ -9011,6 +9016,7 @@ msgid "Create self e&xtracting archive"
 msgstr "Crea fitxer autoe&xtraible"
 
 #: tfrmpackdlg.cbencrypt.caption
+msgctxt "tfrmpackdlg.cbencrypt.caption"
 msgid "Encr&ypt"
 msgstr "Encr&iptar"
 
@@ -10717,6 +10723,18 @@ msgstr "Paràmetres:"
 msgid "Start path:"
 msgstr ""
 
+#: twcxarchivecopyoperationoptionsui.btnconfig.caption
+#, fuzzy
+msgctxt "twcxarchivecopyoperationoptionsui.btnconfig.caption"
+msgid "Con&figure"
+msgstr "Configura"
+
+#: twcxarchivecopyoperationoptionsui.cbencrypt.caption
+#, fuzzy
+msgctxt "twcxarchivecopyoperationoptionsui.cbencrypt.caption"
+msgid "Encr&ypt"
+msgstr "Encr&iptar"
+
 #: twcxarchivecopyoperationoptionsui.lblfileexists.caption
 msgctxt "twcxarchivecopyoperationoptionsui.lblfileexists.caption"
 msgid "When file exists"
@@ -11571,6 +11589,10 @@ msgctxt "ulng.rsfuncsize"
 msgid "Size"
 msgstr "Mida"
 
+#: ulng.rsfunctrashorigpath
+msgid "Original path"
+msgstr ""
+
 #: ulng.rsfunctype
 msgid "Type"
 msgstr "Tipus"
@@ -11734,6 +11756,10 @@ msgstr "Configura columnes a mida"
 msgid "Enter new custom columns name"
 msgstr ""
 
+#: ulng.rsmenumacosservices
+msgid "Services"
+msgstr ""
+
 #: ulng.rsmnuactions
 msgctxt "ulng.rsmnuactions"
 msgid "Actions"
@@ -11806,6 +11832,12 @@ msgstr "Un altre..."
 #: ulng.rsmnupackhere
 msgid "Pack here..."
 msgstr ""
+
+#: ulng.rsmnurestore
+#, fuzzy
+msgctxt "ulng.rsmnurestore"
+msgid "Restore"
+msgstr "Restaura"
 
 #: ulng.rsmnusortby
 msgid "Sort by"

@@ -3094,6 +3094,7 @@ msgid "E&xit"
 msgstr "Af&sluiten"
 
 #: tfrmmain.mitrayiconrestore.caption
+msgctxt "tfrmmain.mitrayiconrestore.caption"
 msgid "Restore"
 msgstr "Herstellen"
 
@@ -6805,6 +6806,10 @@ msgstr "Bestandcommentaren (beschrij.ving)"
 msgid "Regarding TC export/import:"
 msgstr "Betreffende TC-export/-import:"
 
+#: tfrmoptionsmisc.lbldefaultencoding.caption
+msgid "&Default single-byte text encoding:"
+msgstr ""
+
 #: tfrmoptionsmisc.lbldescrdefaultencoding.caption
 msgctxt "TFRMOPTIONSMISC.LBLDESCRDEFAULTENCODING.CAPTION"
 msgid "Default encoding:"
@@ -8201,6 +8206,7 @@ msgid "Create self e&xtracting archive"
 msgstr "Maak zelfuitpakkend archiefbestand"
 
 #: tfrmpackdlg.cbencrypt.caption
+msgctxt "tfrmpackdlg.cbencrypt.caption"
 msgid "Encr&ypt"
 msgstr "Versleutelen"
 
@@ -9742,6 +9748,18 @@ msgstr "Parameters:"
 msgid "Start path:"
 msgstr "Beginpad:"
 
+#: twcxarchivecopyoperationoptionsui.btnconfig.caption
+#, fuzzy
+msgctxt "twcxarchivecopyoperationoptionsui.btnconfig.caption"
+msgid "Con&figure"
+msgstr "Instellen"
+
+#: twcxarchivecopyoperationoptionsui.cbencrypt.caption
+#, fuzzy
+msgctxt "twcxarchivecopyoperationoptionsui.cbencrypt.caption"
+msgid "Encr&ypt"
+msgstr "Versleutelen"
+
 #: twcxarchivecopyoperationoptionsui.lblfileexists.caption
 msgctxt "TWCXARCHIVECOPYOPERATIONOPTIONSUI.LBLFILEEXISTS.CAPTION"
 msgid "When file exists"
@@ -10577,6 +10595,10 @@ msgctxt "ulng.rsfuncsize"
 msgid "Size"
 msgstr "Grootte"
 
+#: ulng.rsfunctrashorigpath
+msgid "Original path"
+msgstr ""
+
 #: ulng.rsfunctype
 msgid "Type"
 msgstr "Soort"
@@ -10745,6 +10767,10 @@ msgstr "Configureer aangepaste kolommen"
 msgid "Enter new custom columns name"
 msgstr "Geef nieuwe aangepaste kolommennaam"
 
+#: ulng.rsmenumacosservices
+msgid "Services"
+msgstr ""
+
 #: ulng.rsmnuactions
 msgctxt "ulng.rsmnuactions"
 msgid "Actions"
@@ -10814,6 +10840,12 @@ msgstr "Overig..."
 #: ulng.rsmnupackhere
 msgid "Pack here..."
 msgstr "Pak hier in..."
+
+#: ulng.rsmnurestore
+#, fuzzy
+msgctxt "ulng.rsmnurestore"
+msgid "Restore"
+msgstr "Herstellen"
 
 #: ulng.rsmnusortby
 msgid "Sort by"

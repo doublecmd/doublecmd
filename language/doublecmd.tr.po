@@ -3316,6 +3316,7 @@ msgid "E&xit"
 msgstr "Çıkış"
 
 #: tfrmmain.mitrayiconrestore.caption
+msgctxt "tfrmmain.mitrayiconrestore.caption"
 msgid "Restore"
 msgstr "Eski haline getir"
 
@@ -7201,6 +7202,10 @@ msgstr ""
 msgid "Regarding TC export/import:"
 msgstr ""
 
+#: tfrmoptionsmisc.lbldefaultencoding.caption
+msgid "&Default single-byte text encoding:"
+msgstr ""
+
 #: tfrmoptionsmisc.lbldescrdefaultencoding.caption
 msgctxt "tfrmoptionsmisc.lbldescrdefaultencoding.caption"
 msgid "Default encoding:"
@@ -8701,6 +8706,7 @@ msgid "Create self e&xtracting archive"
 msgstr "Kendi kendine &açılan arşiv oluştur(SFX)"
 
 #: tfrmpackdlg.cbencrypt.caption
+msgctxt "tfrmpackdlg.cbencrypt.caption"
 msgid "Encr&ypt"
 msgstr "Şifrele&mek"
 
@@ -10401,6 +10407,18 @@ msgstr "Değişkenler:"
 msgid "Start path:"
 msgstr ""
 
+#: twcxarchivecopyoperationoptionsui.btnconfig.caption
+#, fuzzy
+msgctxt "twcxarchivecopyoperationoptionsui.btnconfig.caption"
+msgid "Con&figure"
+msgstr "Yapılandırma"
+
+#: twcxarchivecopyoperationoptionsui.cbencrypt.caption
+#, fuzzy
+msgctxt "twcxarchivecopyoperationoptionsui.cbencrypt.caption"
+msgid "Encr&ypt"
+msgstr "Şifrele&mek"
+
 #: twcxarchivecopyoperationoptionsui.lblfileexists.caption
 #, fuzzy
 #| msgid "When file exists"
@@ -11253,6 +11271,10 @@ msgctxt "ulng.rsfuncsize"
 msgid "Size"
 msgstr "Boyut"
 
+#: ulng.rsfunctrashorigpath
+msgid "Original path"
+msgstr ""
+
 #: ulng.rsfunctype
 msgid "Type"
 msgstr "Türü"
@@ -11416,6 +11438,10 @@ msgstr "Özel sütunları yapılandır"
 msgid "Enter new custom columns name"
 msgstr ""
 
+#: ulng.rsmenumacosservices
+msgid "Services"
+msgstr ""
+
 #: ulng.rsmnuactions
 msgctxt "ulng.rsmnuactions"
 msgid "Actions"
@@ -11488,6 +11514,12 @@ msgstr ""
 #: ulng.rsmnupackhere
 msgid "Pack here..."
 msgstr ""
+
+#: ulng.rsmnurestore
+#, fuzzy
+msgctxt "ulng.rsmnurestore"
+msgid "Restore"
+msgstr "Eski haline getir"
 
 #: ulng.rsmnusortby
 msgid "Sort by"

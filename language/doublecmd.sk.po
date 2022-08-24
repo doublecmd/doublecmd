@@ -3094,6 +3094,7 @@ msgid "E&xit"
 msgstr "Koniec"
 
 #: tfrmmain.mitrayiconrestore.caption
+msgctxt "tfrmmain.mitrayiconrestore.caption"
 msgid "Restore"
 msgstr "Obnoviť"
 
@@ -6792,6 +6793,10 @@ msgstr "Komentáre súboru (descript.ion)"
 msgid "Regarding TC export/import:"
 msgstr "Týkajúce sa TC exportu/importu:"
 
+#: tfrmoptionsmisc.lbldefaultencoding.caption
+msgid "&Default single-byte text encoding:"
+msgstr ""
+
 #: tfrmoptionsmisc.lbldescrdefaultencoding.caption
 msgctxt "TFRMOPTIONSMISC.LBLDESCRDEFAULTENCODING.CAPTION"
 msgid "Default encoding:"
@@ -8188,6 +8193,7 @@ msgid "Create self e&xtracting archive"
 msgstr "Sa&morozbaľovací archív"
 
 #: tfrmpackdlg.cbencrypt.caption
+msgctxt "tfrmpackdlg.cbencrypt.caption"
 msgid "Encr&ypt"
 msgstr "&Zakódovať"
 
@@ -9729,6 +9735,18 @@ msgstr "Parametre:"
 msgid "Start path:"
 msgstr "Počiatočná cesta:"
 
+#: twcxarchivecopyoperationoptionsui.btnconfig.caption
+#, fuzzy
+msgctxt "twcxarchivecopyoperationoptionsui.btnconfig.caption"
+msgid "Con&figure"
+msgstr "Konfigurovať"
+
+#: twcxarchivecopyoperationoptionsui.cbencrypt.caption
+#, fuzzy
+msgctxt "twcxarchivecopyoperationoptionsui.cbencrypt.caption"
+msgid "Encr&ypt"
+msgstr "&Zakódovať"
+
 #: twcxarchivecopyoperationoptionsui.lblfileexists.caption
 msgctxt "TWCXARCHIVECOPYOPERATIONOPTIONSUI.LBLFILEEXISTS.CAPTION"
 msgid "When file exists"
@@ -10567,6 +10585,10 @@ msgctxt "ulng.rsfuncsize"
 msgid "Size"
 msgstr "Veľkosť"
 
+#: ulng.rsfunctrashorigpath
+msgid "Original path"
+msgstr ""
+
 #: ulng.rsfunctype
 msgid "Type"
 msgstr "Typ"
@@ -10735,6 +10757,10 @@ msgstr "Konfigurovať užívateľské stĺpce"
 msgid "Enter new custom columns name"
 msgstr "Zadajte názov nového vlastného stĺpca"
 
+#: ulng.rsmenumacosservices
+msgid "Services"
+msgstr ""
+
 #: ulng.rsmnuactions
 msgctxt "ulng.rsmnuactions"
 msgid "Actions"
@@ -10804,6 +10830,12 @@ msgstr "Iné ..."
 #: ulng.rsmnupackhere
 msgid "Pack here..."
 msgstr "Zbaliť sem..."
+
+#: ulng.rsmnurestore
+#, fuzzy
+msgctxt "ulng.rsmnurestore"
+msgid "Restore"
+msgstr "Obnoviť"
 
 #: ulng.rsmnusortby
 msgid "Sort by"

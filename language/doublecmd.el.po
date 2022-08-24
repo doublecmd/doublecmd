@@ -3156,6 +3156,7 @@ msgid "E&xit"
 msgstr "Έξοδος"
 
 #: tfrmmain.mitrayiconrestore.caption
+msgctxt "tfrmmain.mitrayiconrestore.caption"
 msgid "Restore"
 msgstr "Επαναφορά"
 
@@ -6960,6 +6961,10 @@ msgstr "Περιγραφή Αρχείου (descript.ion)"
 msgid "Regarding TC export/import:"
 msgstr "Όπως στον TC εισαγωγή/εξαγωγή:"
 
+#: tfrmoptionsmisc.lbldefaultencoding.caption
+msgid "&Default single-byte text encoding:"
+msgstr ""
+
 #: tfrmoptionsmisc.lbldescrdefaultencoding.caption
 msgctxt "tfrmoptionsmisc.lbldescrdefaultencoding.caption"
 msgid "Default encoding:"
@@ -8378,6 +8383,7 @@ msgid "Create self e&xtracting archive"
 msgstr "Δημιουργία αυτο-εξαγώμενης αρχειοθήκης"
 
 #: tfrmpackdlg.cbencrypt.caption
+msgctxt "tfrmpackdlg.cbencrypt.caption"
 msgid "Encr&ypt"
 msgstr "Κρυπτογράφηση"
 
@@ -9955,6 +9961,18 @@ msgstr "Παράμετροι:"
 msgid "Start path:"
 msgstr "Διαδρομή Εκκίνησης:"
 
+#: twcxarchivecopyoperationoptionsui.btnconfig.caption
+#, fuzzy
+msgctxt "twcxarchivecopyoperationoptionsui.btnconfig.caption"
+msgid "Con&figure"
+msgstr "Διαμορφώστε"
+
+#: twcxarchivecopyoperationoptionsui.cbencrypt.caption
+#, fuzzy
+msgctxt "twcxarchivecopyoperationoptionsui.cbencrypt.caption"
+msgid "Encr&ypt"
+msgstr "Κρυπτογράφηση"
+
 #: twcxarchivecopyoperationoptionsui.lblfileexists.caption
 msgctxt "TWCXARCHIVECOPYOPERATIONOPTIONSUI.LBLFILEEXISTS.CAPTION"
 msgid "When file exists"
@@ -10801,6 +10819,10 @@ msgctxt "ulng.rsfuncsize"
 msgid "Size"
 msgstr "Μέγεθος"
 
+#: ulng.rsfunctrashorigpath
+msgid "Original path"
+msgstr ""
+
 #: ulng.rsfunctype
 msgid "Type"
 msgstr "Τύπος"
@@ -10969,6 +10991,10 @@ msgstr "Διαμόρφωση εξατομικευμένων στηλών"
 msgid "Enter new custom columns name"
 msgstr "Εισάγετε νέα προσαρμοσμένα χρώματα στηλών"
 
+#: ulng.rsmenumacosservices
+msgid "Services"
+msgstr ""
+
 #: ulng.rsmnuactions
 msgctxt "ulng.rsmnuactions"
 msgid "Actions"
@@ -11038,6 +11064,12 @@ msgstr "Άλλα..."
 #: ulng.rsmnupackhere
 msgid "Pack here..."
 msgstr "Πακετάρισμα εδώ..."
+
+#: ulng.rsmnurestore
+#, fuzzy
+msgctxt "ulng.rsmnurestore"
+msgid "Restore"
+msgstr "Επαναφορά"
 
 #: ulng.rsmnusortby
 msgid "Sort by"

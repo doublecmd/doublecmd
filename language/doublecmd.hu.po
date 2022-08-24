@@ -3140,6 +3140,7 @@ msgid "E&xit"
 msgstr "&Kilépés"
 
 #: tfrmmain.mitrayiconrestore.caption
+msgctxt "tfrmmain.mitrayiconrestore.caption"
 msgid "Restore"
 msgstr "Visszaállítás"
 
@@ -6978,6 +6979,10 @@ msgstr "Fájlmegjegyzések (descript.ion)"
 msgid "Regarding TC export/import:"
 msgstr "TC importot és exportot illetően:"
 
+#: tfrmoptionsmisc.lbldefaultencoding.caption
+msgid "&Default single-byte text encoding:"
+msgstr ""
+
 #: tfrmoptionsmisc.lbldescrdefaultencoding.caption
 msgctxt "tfrmoptionsmisc.lbldescrdefaultencoding.caption"
 msgid "Default encoding:"
@@ -8412,6 +8417,7 @@ msgid "Create self e&xtracting archive"
 msgstr "Ön&kicsomagoló archívum készítése"
 
 #: tfrmpackdlg.cbencrypt.caption
+msgctxt "tfrmpackdlg.cbencrypt.caption"
 msgid "Encr&ypt"
 msgstr "T&itkosítás"
 
@@ -9989,6 +9995,18 @@ msgstr "Paraméterek:"
 msgid "Start path:"
 msgstr "Kezdő útvonal:"
 
+#: twcxarchivecopyoperationoptionsui.btnconfig.caption
+#, fuzzy
+msgctxt "twcxarchivecopyoperationoptionsui.btnconfig.caption"
+msgid "Con&figure"
+msgstr "B&eállítás"
+
+#: twcxarchivecopyoperationoptionsui.cbencrypt.caption
+#, fuzzy
+msgctxt "twcxarchivecopyoperationoptionsui.cbencrypt.caption"
+msgid "Encr&ypt"
+msgstr "T&itkosítás"
+
 #: twcxarchivecopyoperationoptionsui.lblfileexists.caption
 msgctxt "TWCXARCHIVECOPYOPERATIONOPTIONSUI.LBLFILEEXISTS.CAPTION"
 msgid "When file exists"
@@ -10835,6 +10853,10 @@ msgctxt "ulng.rsfuncsize"
 msgid "Size"
 msgstr "Méret"
 
+#: ulng.rsfunctrashorigpath
+msgid "Original path"
+msgstr ""
+
 #: ulng.rsfunctype
 msgid "Type"
 msgstr "Típus"
@@ -11003,6 +11025,10 @@ msgstr "Egyéni oszlopok beállítása"
 msgid "Enter new custom columns name"
 msgstr "Add meg az egyedi oszlop nevét"
 
+#: ulng.rsmenumacosservices
+msgid "Services"
+msgstr ""
+
 #: ulng.rsmnuactions
 msgctxt "ulng.rsmnuactions"
 msgid "Actions"
@@ -11072,6 +11098,12 @@ msgstr "Egyéb..."
 #: ulng.rsmnupackhere
 msgid "Pack here..."
 msgstr "Tömörítés ide..."
+
+#: ulng.rsmnurestore
+#, fuzzy
+msgctxt "ulng.rsmnurestore"
+msgid "Restore"
+msgstr "Visszaállítás"
 
 #: ulng.rsmnusortby
 msgid "Sort by"

@@ -3152,6 +3152,7 @@ msgid "E&xit"
 msgstr "終了(&x)"
 
 #: tfrmmain.mitrayiconrestore.caption
+msgctxt "tfrmmain.mitrayiconrestore.caption"
 msgid "Restore"
 msgstr "復元"
 
@@ -6959,6 +6960,10 @@ msgstr "ファイルコメント（説明"
 msgid "Regarding TC export/import:"
 msgstr "TCのエクスポート/インポートについて："
 
+#: tfrmoptionsmisc.lbldefaultencoding.caption
+msgid "&Default single-byte text encoding:"
+msgstr ""
+
 #: tfrmoptionsmisc.lbldescrdefaultencoding.caption
 msgctxt "tfrmoptionsmisc.lbldescrdefaultencoding.caption"
 msgid "Default encoding:"
@@ -8377,6 +8382,7 @@ msgid "Create self e&xtracting archive"
 msgstr "自己解凍式のアーカイブを作成(&x)"
 
 #: tfrmpackdlg.cbencrypt.caption
+msgctxt "tfrmpackdlg.cbencrypt.caption"
 msgid "Encr&ypt"
 msgstr "暗号化(&y)"
 
@@ -9949,6 +9955,18 @@ msgstr "パラメータ:"
 msgid "Start path:"
 msgstr "開始パス:"
 
+#: twcxarchivecopyoperationoptionsui.btnconfig.caption
+#, fuzzy
+msgctxt "twcxarchivecopyoperationoptionsui.btnconfig.caption"
+msgid "Con&figure"
+msgstr "構成(&f)"
+
+#: twcxarchivecopyoperationoptionsui.cbencrypt.caption
+#, fuzzy
+msgctxt "twcxarchivecopyoperationoptionsui.cbencrypt.caption"
+msgid "Encr&ypt"
+msgstr "暗号化(&y)"
+
 #: twcxarchivecopyoperationoptionsui.lblfileexists.caption
 msgctxt "TWCXARCHIVECOPYOPERATIONOPTIONSUI.LBLFILEEXISTS.CAPTION"
 msgid "When file exists"
@@ -10805,6 +10823,10 @@ msgctxt "ulng.rsfuncsize"
 msgid "Size"
 msgstr "サイズ"
 
+#: ulng.rsfunctrashorigpath
+msgid "Original path"
+msgstr ""
+
 #: ulng.rsfunctype
 msgid "Type"
 msgstr "種類"
@@ -11047,6 +11069,12 @@ msgstr "その他…"
 #: ulng.rsmnupackhere
 msgid "Pack here..."
 msgstr "ここでパック…"
+
+#: ulng.rsmnurestore
+#, fuzzy
+msgctxt "ulng.rsmnurestore"
+msgid "Restore"
+msgstr "復元"
 
 #: ulng.rsmnusortby
 msgid "Sort by"

@@ -3321,6 +3321,7 @@ msgid "E&xit"
 msgstr "離開 (&X)"
 
 #: tfrmmain.mitrayiconrestore.caption
+msgctxt "tfrmmain.mitrayiconrestore.caption"
 msgid "Restore"
 msgstr "還原"
 
@@ -7493,6 +7494,10 @@ msgstr ""
 msgid "Regarding TC export/import:"
 msgstr ""
 
+#: tfrmoptionsmisc.lbldefaultencoding.caption
+msgid "&Default single-byte text encoding:"
+msgstr ""
+
 #: tfrmoptionsmisc.lbldescrdefaultencoding.caption
 msgctxt "tfrmoptionsmisc.lbldescrdefaultencoding.caption"
 msgid "Default encoding:"
@@ -9027,6 +9032,7 @@ msgid "Create self e&xtracting archive"
 msgstr "建立自解壓檔案 (&X)"
 
 #: tfrmpackdlg.cbencrypt.caption
+msgctxt "tfrmpackdlg.cbencrypt.caption"
 msgid "Encr&ypt"
 msgstr "加密 (&Y)"
 
@@ -10728,6 +10734,18 @@ msgstr "參數:"
 msgid "Start path:"
 msgstr ""
 
+#: twcxarchivecopyoperationoptionsui.btnconfig.caption
+#, fuzzy
+msgctxt "twcxarchivecopyoperationoptionsui.btnconfig.caption"
+msgid "Con&figure"
+msgstr "設置 (&F)"
+
+#: twcxarchivecopyoperationoptionsui.cbencrypt.caption
+#, fuzzy
+msgctxt "twcxarchivecopyoperationoptionsui.cbencrypt.caption"
+msgid "Encr&ypt"
+msgstr "加密 (&Y)"
+
 #: twcxarchivecopyoperationoptionsui.lblfileexists.caption
 msgctxt "twcxarchivecopyoperationoptionsui.lblfileexists.caption"
 msgid "When file exists"
@@ -11580,6 +11598,10 @@ msgctxt "ulng.rsfuncsize"
 msgid "Size"
 msgstr "大小"
 
+#: ulng.rsfunctrashorigpath
+msgid "Original path"
+msgstr ""
+
 #: ulng.rsfunctype
 msgid "Type"
 msgstr "類型"
@@ -11820,6 +11842,12 @@ msgstr "其它..."
 #: ulng.rsmnupackhere
 msgid "Pack here..."
 msgstr ""
+
+#: ulng.rsmnurestore
+#, fuzzy
+msgctxt "ulng.rsmnurestore"
+msgid "Restore"
+msgstr "還原"
 
 #: ulng.rsmnusortby
 msgid "Sort by"

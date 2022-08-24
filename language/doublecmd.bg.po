@@ -3185,6 +3185,7 @@ msgid "E&xit"
 msgstr "Из&ход"
 
 #: tfrmmain.mitrayiconrestore.caption
+msgctxt "tfrmmain.mitrayiconrestore.caption"
 msgid "Restore"
 msgstr "Показване"
 
@@ -7136,6 +7137,10 @@ msgstr ""
 msgid "Regarding TC export/import:"
 msgstr ""
 
+#: tfrmoptionsmisc.lbldefaultencoding.caption
+msgid "&Default single-byte text encoding:"
+msgstr ""
+
 #: tfrmoptionsmisc.lbldescrdefaultencoding.caption
 msgctxt "tfrmoptionsmisc.lbldescrdefaultencoding.caption"
 msgid "Default encoding:"
@@ -8596,6 +8601,7 @@ msgid "Create self e&xtracting archive"
 msgstr "Създаване на саморазгъващ се файл"
 
 #: tfrmpackdlg.cbencrypt.caption
+msgctxt "tfrmpackdlg.cbencrypt.caption"
 msgid "Encr&ypt"
 msgstr "&Криптиране"
 
@@ -10208,6 +10214,18 @@ msgstr "Ключове:"
 msgid "Start path:"
 msgstr ""
 
+#: twcxarchivecopyoperationoptionsui.btnconfig.caption
+#, fuzzy
+msgctxt "twcxarchivecopyoperationoptionsui.btnconfig.caption"
+msgid "Con&figure"
+msgstr "&Настройка"
+
+#: twcxarchivecopyoperationoptionsui.cbencrypt.caption
+#, fuzzy
+msgctxt "twcxarchivecopyoperationoptionsui.cbencrypt.caption"
+msgid "Encr&ypt"
+msgstr "&Криптиране"
+
 #: twcxarchivecopyoperationoptionsui.lblfileexists.caption
 msgctxt "twcxarchivecopyoperationoptionsui.lblfileexists.caption"
 msgid "When file exists"
@@ -11056,6 +11074,10 @@ msgctxt "ulng.rsfuncsize"
 msgid "Size"
 msgstr "Размер"
 
+#: ulng.rsfunctrashorigpath
+msgid "Original path"
+msgstr ""
+
 #: ulng.rsfunctype
 msgid "Type"
 msgstr "Вид"
@@ -11217,6 +11239,10 @@ msgstr "Настройка на нагласените стълбове"
 msgid "Enter new custom columns name"
 msgstr "Задайте ново име за стълбовете"
 
+#: ulng.rsmenumacosservices
+msgid "Services"
+msgstr ""
+
 #: ulng.rsmnuactions
 msgctxt "ulng.rsmnuactions"
 msgid "Actions"
@@ -11286,6 +11312,12 @@ msgstr "Друго..."
 #: ulng.rsmnupackhere
 msgid "Pack here..."
 msgstr "Сбиване на файлове тук..."
+
+#: ulng.rsmnurestore
+#, fuzzy
+msgctxt "ulng.rsmnurestore"
+msgid "Restore"
+msgstr "Показване"
 
 #: ulng.rsmnusortby
 msgid "Sort by"

@@ -3136,6 +3136,7 @@ msgid "E&xit"
 msgstr "В&ыход"
 
 #: tfrmmain.mitrayiconrestore.caption
+msgctxt "tfrmmain.mitrayiconrestore.caption"
 msgid "Restore"
 msgstr "Восстановить"
 
@@ -6974,6 +6975,10 @@ msgstr "Комментарии к файлам (descript.ion)"
 msgid "Regarding TC export/import:"
 msgstr "Импортирование из TC и экспортирование:"
 
+#: tfrmoptionsmisc.lbldefaultencoding.caption
+msgid "&Default single-byte text encoding:"
+msgstr "Однобайтовая кодировка текста по умолчанию:"
+
 #: tfrmoptionsmisc.lbldescrdefaultencoding.caption
 msgctxt "tfrmoptionsmisc.lbldescrdefaultencoding.caption"
 msgid "Default encoding:"
@@ -8408,6 +8413,7 @@ msgid "Create self e&xtracting archive"
 msgstr "Само&распаковывающийся архив"
 
 #: tfrmpackdlg.cbencrypt.caption
+msgctxt "tfrmpackdlg.cbencrypt.caption"
 msgid "Encr&ypt"
 msgstr "&Шифровать"
 
@@ -9979,6 +9985,16 @@ msgstr "Параметры:"
 msgid "Start path:"
 msgstr "Путь запуска:"
 
+#: twcxarchivecopyoperationoptionsui.btnconfig.caption
+msgctxt "twcxarchivecopyoperationoptionsui.btnconfig.caption"
+msgid "Con&figure"
+msgstr "&Настроить"
+
+#: twcxarchivecopyoperationoptionsui.cbencrypt.caption
+msgctxt "twcxarchivecopyoperationoptionsui.cbencrypt.caption"
+msgid "Encr&ypt"
+msgstr "&Шифровать"
+
 #: twcxarchivecopyoperationoptionsui.lblfileexists.caption
 msgctxt "twcxarchivecopyoperationoptionsui.lblfileexists.caption"
 msgid "When file exists"
@@ -10823,6 +10839,10 @@ msgctxt "ulng.rsfuncsize"
 msgid "Size"
 msgstr "Размер"
 
+#: ulng.rsfunctrashorigpath
+msgid "Original path"
+msgstr ""
+
 #: ulng.rsfunctype
 msgid "Type"
 msgstr "Тип"
@@ -11064,6 +11084,11 @@ msgstr "Другое..."
 #: ulng.rsmnupackhere
 msgid "Pack here..."
 msgstr "Упаковать здесь..."
+
+#: ulng.rsmnurestore
+msgctxt "ulng.rsmnurestore"
+msgid "Restore"
+msgstr "Восстановить"
 
 #: ulng.rsmnusortby
 msgid "Sort by"

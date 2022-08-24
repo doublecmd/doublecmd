@@ -3155,6 +3155,7 @@ msgid "E&xit"
 msgstr "종료(&X)"
 
 #: tfrmmain.mitrayiconrestore.caption
+msgctxt "tfrmmain.mitrayiconrestore.caption"
 msgid "Restore"
 msgstr "복구"
 
@@ -6960,6 +6961,10 @@ msgstr ""
 msgid "Regarding TC export/import:"
 msgstr "TC(토탈 커맨더) 내보내기/가져오기 기능 관련:"
 
+#: tfrmoptionsmisc.lbldefaultencoding.caption
+msgid "&Default single-byte text encoding:"
+msgstr ""
+
 #: tfrmoptionsmisc.lbldescrdefaultencoding.caption
 msgid "Default encoding:"
 msgstr ""
@@ -8379,6 +8384,7 @@ msgid "Create self e&xtracting archive"
 msgstr "자동 압축해제 파일 생성(&X)"
 
 #: tfrmpackdlg.cbencrypt.caption
+msgctxt "tfrmpackdlg.cbencrypt.caption"
 msgid "Encr&ypt"
 msgstr "암호화(&Y)"
 
@@ -9954,6 +9960,18 @@ msgstr "매개변수:"
 msgid "Start path:"
 msgstr ""
 
+#: twcxarchivecopyoperationoptionsui.btnconfig.caption
+#, fuzzy
+msgctxt "twcxarchivecopyoperationoptionsui.btnconfig.caption"
+msgid "Con&figure"
+msgstr "환경설정(&F)"
+
+#: twcxarchivecopyoperationoptionsui.cbencrypt.caption
+#, fuzzy
+msgctxt "twcxarchivecopyoperationoptionsui.cbencrypt.caption"
+msgid "Encr&ypt"
+msgstr "암호화(&Y)"
+
 #: twcxarchivecopyoperationoptionsui.lblfileexists.caption
 msgctxt "TWCXARCHIVECOPYOPERATIONOPTIONSUI.LBLFILEEXISTS.CAPTION"
 msgid "When file exists"
@@ -10798,6 +10816,10 @@ msgctxt "ulng.rsfuncsize"
 msgid "Size"
 msgstr "크기"
 
+#: ulng.rsfunctrashorigpath
+msgid "Original path"
+msgstr ""
+
 #: ulng.rsfunctype
 msgid "Type"
 msgstr "형태"
@@ -10962,6 +10984,10 @@ msgstr "사용자 파일속성열 환경설정"
 msgid "Enter new custom columns name"
 msgstr "새 사용자 파일속성열 이름 입력"
 
+#: ulng.rsmenumacosservices
+msgid "Services"
+msgstr ""
+
 #: ulng.rsmnuactions
 msgctxt "ulng.rsmnuactions"
 msgid "Actions"
@@ -11031,6 +11057,12 @@ msgstr "다른 옵션..."
 #: ulng.rsmnupackhere
 msgid "Pack here..."
 msgstr "여기에 압축..."
+
+#: ulng.rsmnurestore
+#, fuzzy
+msgctxt "ulng.rsmnurestore"
+msgid "Restore"
+msgstr "복구"
 
 #: ulng.rsmnusortby
 msgid "Sort by"

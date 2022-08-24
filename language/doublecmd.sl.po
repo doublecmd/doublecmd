@@ -3114,6 +3114,7 @@ msgid "E&xit"
 msgstr "&Končaj"
 
 #: tfrmmain.mitrayiconrestore.caption
+msgctxt "tfrmmain.mitrayiconrestore.caption"
 msgid "Restore"
 msgstr "Obnovi"
 
@@ -6841,6 +6842,10 @@ msgstr "Opombe k datoteki (descript.ion)"
 msgid "Regarding TC export/import:"
 msgstr "TC izvoz in uvoz:"
 
+#: tfrmoptionsmisc.lbldefaultencoding.caption
+msgid "&Default single-byte text encoding:"
+msgstr ""
+
 #: tfrmoptionsmisc.lbldescrdefaultencoding.caption
 msgctxt "TFRMOPTIONSMISC.LBLDESCRDEFAULTENCODING.CAPTION"
 msgid "Default encoding:"
@@ -8260,6 +8265,7 @@ msgid "Create self e&xtracting archive"
 msgstr "Ustvari arhiv za samodejno odpakiranje"
 
 #: tfrmpackdlg.cbencrypt.caption
+msgctxt "tfrmpackdlg.cbencrypt.caption"
 msgid "Encr&ypt"
 msgstr "&Šifriraj arhiv z geslom"
 
@@ -9834,6 +9840,18 @@ msgstr "Parametri:"
 msgid "Start path:"
 msgstr ""
 
+#: twcxarchivecopyoperationoptionsui.btnconfig.caption
+#, fuzzy
+msgctxt "twcxarchivecopyoperationoptionsui.btnconfig.caption"
+msgid "Con&figure"
+msgstr "&Nastavitve"
+
+#: twcxarchivecopyoperationoptionsui.cbencrypt.caption
+#, fuzzy
+msgctxt "twcxarchivecopyoperationoptionsui.cbencrypt.caption"
+msgid "Encr&ypt"
+msgstr "&Šifriraj arhiv z geslom"
+
 #: twcxarchivecopyoperationoptionsui.lblfileexists.caption
 msgctxt "TWCXARCHIVECOPYOPERATIONOPTIONSUI.LBLFILEEXISTS.CAPTION"
 msgid "When file exists"
@@ -10675,6 +10693,10 @@ msgctxt "ulng.rsfuncsize"
 msgid "Size"
 msgstr "Velikost"
 
+#: ulng.rsfunctrashorigpath
+msgid "Original path"
+msgstr ""
+
 #: ulng.rsfunctype
 msgid "Type"
 msgstr "Vrsta"
@@ -10843,6 +10865,10 @@ msgstr "Nastavitve stolpcev po meri"
 msgid "Enter new custom columns name"
 msgstr "Vpis novega imena stolpca po meri"
 
+#: ulng.rsmenumacosservices
+msgid "Services"
+msgstr ""
+
 #: ulng.rsmnuactions
 msgctxt "ulng.rsmnuactions"
 msgid "Actions"
@@ -10912,6 +10938,12 @@ msgstr "Drugo ..."
 #: ulng.rsmnupackhere
 msgid "Pack here..."
 msgstr "Zapakiraj datoteke v to mapo ..."
+
+#: ulng.rsmnurestore
+#, fuzzy
+msgctxt "ulng.rsmnurestore"
+msgid "Restore"
+msgstr "Obnovi"
 
 #: ulng.rsmnusortby
 msgid "Sort by"

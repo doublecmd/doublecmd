@@ -3202,6 +3202,7 @@ msgid "E&xit"
 msgstr "&Sair"
 
 #: tfrmmain.mitrayiconrestore.caption
+msgctxt "tfrmmain.mitrayiconrestore.caption"
 msgid "Restore"
 msgstr "Restaurar"
 
@@ -7060,6 +7061,10 @@ msgstr ""
 msgid "Regarding TC export/import:"
 msgstr "Quanto à exportação / importação de TC:"
 
+#: tfrmoptionsmisc.lbldefaultencoding.caption
+msgid "&Default single-byte text encoding:"
+msgstr ""
+
 #: tfrmoptionsmisc.lbldescrdefaultencoding.caption
 msgid "Default encoding:"
 msgstr ""
@@ -8520,6 +8525,7 @@ msgid "Create self e&xtracting archive"
 msgstr "Criar arquivo de extração automática"
 
 #: tfrmpackdlg.cbencrypt.caption
+msgctxt "tfrmpackdlg.cbencrypt.caption"
 msgid "Encr&ypt"
 msgstr "Encr&iptar"
 
@@ -10163,6 +10169,18 @@ msgstr "Parâmetros"
 msgid "Start path:"
 msgstr ""
 
+#: twcxarchivecopyoperationoptionsui.btnconfig.caption
+#, fuzzy
+msgctxt "twcxarchivecopyoperationoptionsui.btnconfig.caption"
+msgid "Con&figure"
+msgstr "Con&figurar"
+
+#: twcxarchivecopyoperationoptionsui.cbencrypt.caption
+#, fuzzy
+msgctxt "twcxarchivecopyoperationoptionsui.cbencrypt.caption"
+msgid "Encr&ypt"
+msgstr "Encr&iptar"
+
 #: twcxarchivecopyoperationoptionsui.lblfileexists.caption
 msgctxt "TWCXARCHIVECOPYOPERATIONOPTIONSUI.LBLFILEEXISTS.CAPTION"
 msgid "When file exists"
@@ -11019,6 +11037,10 @@ msgctxt "ulng.rsfuncsize"
 msgid "Size"
 msgstr "Tamanho"
 
+#: ulng.rsfunctrashorigpath
+msgid "Original path"
+msgstr ""
+
 #: ulng.rsfunctype
 msgid "Type"
 msgstr "Tipo"
@@ -11183,6 +11205,10 @@ msgstr "Configurar colunas personalizadas"
 msgid "Enter new custom columns name"
 msgstr "Digite nome das novas colunas personalizadas"
 
+#: ulng.rsmenumacosservices
+msgid "Services"
+msgstr ""
+
 #: ulng.rsmnuactions
 msgctxt "ulng.rsmnuactions"
 msgid "Actions"
@@ -11252,6 +11278,12 @@ msgstr "Outro..."
 #: ulng.rsmnupackhere
 msgid "Pack here..."
 msgstr "Compacte aqui..."
+
+#: ulng.rsmnurestore
+#, fuzzy
+msgctxt "ulng.rsmnurestore"
+msgid "Restore"
+msgstr "Restaurar"
 
 #: ulng.rsmnusortby
 msgid "Sort by"
