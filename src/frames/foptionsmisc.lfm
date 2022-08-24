@@ -16,7 +16,7 @@ inherited frmOptionsMisc: TfrmOptionsMisc
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
     Left = 6
-    Height = 230
+    Height = 259
     Top = 6
     Width = 707
     Anchors = [akTop, akLeft, akRight]
@@ -24,7 +24,7 @@ inherited frmOptionsMisc: TfrmOptionsMisc
     BorderSpacing.Around = 6
     ChildSizing.LeftRightSpacing = 12
     ChildSizing.TopBottomSpacing = 6
-    ClientHeight = 210
+    ClientHeight = 239
     ClientWidth = 703
     TabOrder = 0
     object chkShowSplashForm: TCheckBox
@@ -51,31 +51,32 @@ inherited frmOptionsMisc: TfrmOptionsMisc
       AnchorSideTop.Side = asrBottom
       Left = 12
       Height = 19
-      Top = 125
+      Top = 154
       Width = 154
       BorderSpacing.Top = 4
       Caption = '&Save thumbnails in cache'
-      TabOrder = 4
+      TabOrder = 5
     end
     object lblThumbSize: TLabel
       AnchorSideTop.Control = speThumbWidth
       AnchorSideTop.Side = asrCenter
       Left = 12
       Height = 15
-      Top = 154
+      Top = 183
       Width = 82
       Caption = '&Thumbnail size:'
       FocusControl = speThumbWidth
+      ParentColor = False
     end
     object dblThumbnails: TDividerBevel
       AnchorSideLeft.Control = gbExtended
-      AnchorSideTop.Control = chkShowCurDirTitleBar
+      AnchorSideTop.Control = cmbDefaultEncoding
       AnchorSideTop.Side = asrBottom
       AnchorSideRight.Control = gbExtended
       AnchorSideRight.Side = asrBottom
       Left = 12
       Height = 15
-      Top = 106
+      Top = 135
       Width = 679
       Caption = 'Thumbnails'
       Anchors = [akTop, akLeft, akRight]
@@ -89,13 +90,13 @@ inherited frmOptionsMisc: TfrmOptionsMisc
       AnchorSideTop.Side = asrBottom
       Left = 100
       Height = 23
-      Top = 150
+      Top = 179
       Width = 50
       BorderSpacing.Left = 6
       BorderSpacing.Top = 6
       MaxValue = 512
       MinValue = 16
-      TabOrder = 5
+      TabOrder = 6
       Value = 16
     end
     object speThumbHeight: TSpinEdit
@@ -104,12 +105,12 @@ inherited frmOptionsMisc: TfrmOptionsMisc
       AnchorSideTop.Control = speThumbWidth
       Left = 169
       Height = 23
-      Top = 150
+      Top = 179
       Width = 50
       BorderSpacing.Left = 6
       MaxValue = 512
       MinValue = 16
-      TabOrder = 6
+      TabOrder = 7
       Value = 16
     end
     object lblThumbSeparator: TLabel
@@ -119,10 +120,11 @@ inherited frmOptionsMisc: TfrmOptionsMisc
       AnchorSideTop.Side = asrCenter
       Left = 156
       Height = 15
-      Top = 154
+      Top = 183
       Width = 7
       BorderSpacing.Left = 6
       Caption = 'X'
+      ParentColor = False
     end
     object lblThumbPixels: TLabel
       AnchorSideLeft.Control = speThumbHeight
@@ -131,23 +133,24 @@ inherited frmOptionsMisc: TfrmOptionsMisc
       AnchorSideTop.Side = asrCenter
       Left = 225
       Height = 15
-      Top = 154
+      Top = 183
       Width = 30
       BorderSpacing.Left = 6
       Caption = 'pixels'
+      ParentColor = False
     end
     object btnThumbCompactCache: TButton
       AnchorSideTop.Control = speThumbWidth
       AnchorSideTop.Side = asrBottom
       Left = 12
       Height = 25
-      Top = 179
+      Top = 208
       Width = 272
       AutoSize = True
       BorderSpacing.Top = 6
       Caption = '&Remove thumbnails for no longer existing files'
       OnClick = btnThumbCompactCacheClick
-      TabOrder = 7
+      TabOrder = 8
     end
     object chkGoToRoot: TCheckBox
       AnchorSideTop.Control = chkShowWarningMessages
@@ -171,6 +174,33 @@ inherited frmOptionsMisc: TfrmOptionsMisc
       Caption = 'Show &current directory in the main window title bar'
       TabOrder = 3
     end
+    object lblDefaultEncoding: TLabel
+      AnchorSideLeft.Control = chkShowSplashForm
+      AnchorSideTop.Control = cmbDefaultEncoding
+      AnchorSideTop.Side = asrCenter
+      Left = 12
+      Height = 15
+      Top = 104
+      Width = 179
+      Caption = '&Default single-byte text encoding:'
+      FocusControl = cmbDefaultEncoding
+      ParentColor = False
+    end
+    object cmbDefaultEncoding: TComboBox
+      AnchorSideLeft.Control = lblDefaultEncoding
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = chkShowCurDirTitleBar
+      AnchorSideTop.Side = asrBottom
+      Left = 209
+      Height = 23
+      Top = 100
+      Width = 100
+      BorderSpacing.Left = 18
+      BorderSpacing.Top = 6
+      ItemHeight = 15
+      Style = csDropDownList
+      TabOrder = 4
+    end
   end
   object gbTCExportImport: TGroupBox[1]
     AnchorSideLeft.Control = gbExtended
@@ -180,7 +210,7 @@ inherited frmOptionsMisc: TfrmOptionsMisc
     AnchorSideRight.Side = asrBottom
     Left = 6
     Height = 164
-    Top = 315
+    Top = 344
     Width = 707
     Anchors = [akTop, akLeft, akRight]
     AutoSize = True
@@ -274,6 +304,7 @@ inherited frmOptionsMisc: TfrmOptionsMisc
       Width = 76
       Alignment = taRightJustify
       Caption = 'TC executable:'
+      ParentColor = False
     end
     object fneTCConfigFilename: TFileNameEdit
       AnchorSideLeft.Control = gbTCExportImport
@@ -305,6 +336,7 @@ inherited frmOptionsMisc: TfrmOptionsMisc
       Width = 96
       BorderSpacing.Top = 6
       Caption = 'Configuration file:'
+      ParentColor = False
     end
     object btnRelativeTCConfigFile: TSpeedButton
       AnchorSideTop.Control = fneTCConfigFilename
@@ -421,6 +453,7 @@ inherited frmOptionsMisc: TfrmOptionsMisc
       Width = 108
       BorderSpacing.Top = 6
       Caption = 'Toolbar output path:'
+      ParentColor = False
     end
     object btnOutputPathForToolbar: TButton
       AnchorSideTop.Control = edOutputPathForToolbar
@@ -496,7 +529,7 @@ inherited frmOptionsMisc: TfrmOptionsMisc
     AnchorSideRight.Side = asrBottom
     Left = 6
     Height = 55
-    Top = 248
+    Top = 277
     Width = 707
     Anchors = [akTop, akLeft, akRight]
     AutoSize = True
@@ -517,6 +550,7 @@ inherited frmOptionsMisc: TfrmOptionsMisc
       Width = 94
       Caption = 'Default encoding:'
       Layout = tlCenter
+      ParentColor = False
     end
     object cmbDescDefaultEncoding: TComboBox
       Left = 108

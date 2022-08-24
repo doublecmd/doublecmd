@@ -43,9 +43,11 @@ type
     chkShowWarningMessages: TCheckBox;
     cmbDescDefaultEncoding: TComboBox;
     cmbDescCreateEncoding: TComboBox;
+    cmbDefaultEncoding: TComboBox;
     dblThumbnails: TDividerBevel;
     gbExtended: TGroupBox;
     gbFileComments: TGroupBox;
+    lblDefaultEncoding: TLabel;
     lblDescrDefaultEncoding: TLabel;
     lblThumbPixels: TLabel;
     lblThumbSize: TLabel;
@@ -112,13 +114,26 @@ begin
 end;
 
 procedure TfrmOptionsMisc.Init;
+var
+  Index: Integer;
 begin
   FSplashForm:= gSplashForm;
+
+  GetSupportedEncodings(cmbDefaultEncoding.Items);
+  for Index:= cmbDefaultEncoding.Items.Count - 1 downto 0 do
+  begin
+    if (not SingleByteEncoding(cmbDefaultEncoding.Items[Index])) then
+      cmbDefaultEncoding.Items.Delete(Index);
+  end;
+  cmbDefaultEncoding.Items.Insert(0, UpperCase(EncodingNone));
+
   fneTCExecutableFilename.Filter := ParseLineToFileFilter([rsFilterExecutableFiles, '*.exe', rsFilterAnyFiles, '*.*']);
   fneTCConfigFilename.Filter := ParseLineToFileFilter([rsFilterIniConfigFiles, '*.ini', rsFilterAnyFiles, '*.*']);
 end;
 
 procedure TfrmOptionsMisc.Load;
+var
+  Index: Integer;
 begin
   chkShowSplashForm.Checked      := gSplashForm;
   chkShowWarningMessages.Checked := gShowWarningMessages;
@@ -127,6 +142,13 @@ begin
   speThumbHeight.Value           := gThumbSize.cy;
   chkGoToRoot.Checked            := gGoToRoot;
   chkShowCurDirTitleBar.Checked  := gShowCurDirTitleBar;
+
+  Index:= cmbDefaultEncoding.Items.IndexOf(gDefaultTextEncoding);
+  if (Index < 0) then
+    cmbDefaultEncoding.ItemIndex:= 0
+  else begin
+    cmbDefaultEncoding.ItemIndex:= Index;
+  end;
 
   {$IFDEF MSWINDOWS}
   gbTCExportImport.Visible:=True;
@@ -166,6 +188,8 @@ begin
   gThumbSize.cy        := speThumbHeight.Value;
   gGoToRoot            := chkGoToRoot.Checked;
   gShowCurDirTitleBar  := chkShowCurDirTitleBar.Checked;
+  gDefaultTextEncoding := cmbDefaultEncoding.Text;
+
   {$IFDEF MSWINDOWS}
   gTotalCommanderExecutableFilename := fneTCExecutableFilename.FileName;
   gTotalCommanderConfigFilename := fneTCConfigFilename.FileName;
