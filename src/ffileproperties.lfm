@@ -616,6 +616,7 @@ object frmFileProperties: TfrmFileProperties
         BorderSpacing.Right = 8
         Font.Style = [fsBold]
         ParentFont = False
+        Style = gsHorLines
       end
       object DividerBevel2: TDividerBevel
         AnchorSideLeft.Control = DividerBevel1
@@ -631,6 +632,7 @@ object frmFileProperties: TfrmFileProperties
         BorderSpacing.Top = 2
         Font.Style = [fsBold]
         ParentFont = False
+        Style = gsHorLines
       end
     end
     object tsPlugins: TTabSheet
