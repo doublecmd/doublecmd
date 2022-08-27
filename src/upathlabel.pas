@@ -249,6 +249,8 @@ begin
   if FAllowHighlight then
   begin
     Cursor := crDefault;
+    FMousePos := ScreenToClient(Mouse.CursorPos).X;
+    Highlight;
     Invalidate;
   end;
 end;
