@@ -508,6 +508,7 @@ begin
     Exit;
   with TMultiArcItem(lbxArchiver.Items.Objects[lbxArchiver.ItemIndex]) do
   begin
+    FPacker := lbxArchiver.Items[lbxArchiver.ItemIndex];
     FDescription := edtArchiverDescription.Text;
     FArchiver := edtArchiverArchiver.Text;
     FExtension := edtArchiverExtension.Text;
