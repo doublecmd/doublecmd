@@ -171,7 +171,7 @@ end;
 
 procedure TExProcess.Stop;
 begin
-  FStop:= FProcess.Terminate(-1);
+  FStop:= (not FProcess.Running) or (FProcess.Terminate(-1));
 end;
 
 procedure TExProcess.SetCmdLine(CommandLine: String);
