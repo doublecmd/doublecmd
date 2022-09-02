@@ -193,7 +193,7 @@ end;
 function TShellFolder.EnumObjects(hwndOwner: HWND; grfFlags: DWORD; out
   EnumIDList: IEnumIDList): HRESULT; stdcall;
 begin
-  Result:= EnumObjects(hwndOwner, grfFlags, EnumIDList);
+  Result:= FFolder.EnumObjects(hwndOwner, grfFlags, EnumIDList);
 end;
 
 function TShellFolder.BindToObject(pidl: PItemIDList; pbcReserved: Pointer;
