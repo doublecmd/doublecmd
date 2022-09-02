@@ -127,11 +127,11 @@ uses
   ExtDlgs, LCLProc, Menus, Graphics, InterfaceBase, WSForms, LMessages, LCLIntf,
   fMain, uConnectionManager, uShowMsg, uLng
   {$IF DEFINED(MSWINDOWS)}
-  , LCLStrConsts, ComObj, DCOSUtils, uOSUtils, uFileSystemFileSource
+  , LCLStrConsts, ComObj, ActiveX, DCOSUtils, uOSUtils, uFileSystemFileSource
   , uTotalCommander, FileUtil, Windows, ShlObj, uShlObjAdditional
-  , uWinNetFileSource, uVfsModule, uMyWindows, DCStrUtils
+  , uWinNetFileSource, uVfsModule, uMyWindows, DCStrUtils, uOleDragDrop
   , uDCReadSVG, uFileSourceUtil, uGdiPlusJPEG, uListGetPreviewBitmap
-  , Dialogs, Clipbrd, uDebug, JwaDbt, uThumbnailProvider
+  , Dialogs, Clipbrd, uDebug, JwaDbt, uThumbnailProvider, uShellFolder
   , uRecycleBinFileSource, uDCReadHEIF, uDCReadWIC
     {$IFDEF LCLQT5}
     , qt5, qtwidgets, uDarkStyle
@@ -779,30 +779,41 @@ begin
 end;
 {$ELSE}
 var
-  cmici: TCMINVOKECOMMANDINFO;
+  Index: Integer;
   contMenu: IContextMenu;
+  cmici: TCMInvokeCommandInfo;
+  DataObject: THDropDataObject;
 begin
   if Files.Count = 0 then Exit;
 
   try
-    contMenu := GetShellContextMenu(frmMain.Handle, Files, False);
-    if Assigned(contMenu) then
+    if CheckWin32Version(5, 1) then
     begin
-      FillChar(cmici, sizeof(cmici), #0);
-      with cmici do
+      DataObject:= THDropDataObject.Create(DROPEFFECT_NONE);
+      for Index:= 0 to Files.Count - 1 do
+      begin
+        DataObject.Add(Files[Index].FullPath);
+      end;
+      OleCheckUTF8(MultiFileProperties(DataObject, 0));
+    end
+    else begin
+      contMenu := GetShellContextMenu(frmMain.Handle, Files, False);
+      if Assigned(contMenu) then
+      begin
+        cmici:= Default(TCMInvokeCommandInfo);
+        with cmici do
         begin
-          cbSize := sizeof(cmici);
+          cbSize := SizeOf(TCMInvokeCommandInfo);
           hwnd := frmMain.Handle;
           lpVerb := sCmdVerbProperties;
           nShow := SW_SHOWNORMAL;
         end;
-
-      OleCheckUTF8(contMenu.InvokeCommand(cmici));
+        OleCheckUTF8(contMenu.InvokeCommand(cmici));
+      end;
     end;
-
   except
-    on e: EOleError do
-      raise EContextMenuException.Create(e.Message);
+    on E: EOleError do
+      raise EContextMenuException.Create(E.Message);
   end;
 end;
 {$ENDIF}
