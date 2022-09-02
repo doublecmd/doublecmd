@@ -59,6 +59,7 @@ type
     actEditGotoLine: TAction;
     actEditFindPrevious: TAction;
     actFileReload: TAction;
+    ilBookmarks: TImageList;
     MainMenu1: TMainMenu;
     ActListEdit: TActionList;
     actAbout: TAction;
