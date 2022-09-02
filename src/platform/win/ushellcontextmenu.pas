@@ -79,7 +79,8 @@ uses
   graphtype, intfgraphics, Graphics, uPixMapManager, Dialogs, uLng, uMyWindows,
   uShellExecute, fMain, uDCUtils, uFormCommands, DCOSUtils, uOSUtils, uShowMsg,
   uExts, uFileSystemFileSource, DCConvertEncoding, LazUTF8, uOSForms, uGraphics,
-  Forms, DCWindows, DCStrUtils, Clipbrd, uFileSystemWatcher;
+  Forms, DCWindows, DCStrUtils, Clipbrd, uFileSystemWatcher, uShellFolder,
+  uOleDragDrop;
 
 const
   USER_CMD_ID = $1000;
@@ -127,18 +128,20 @@ begin
 end;
 
 function GetForegroundContextMenu(Handle: HWND; Files: TFiles): IContextMenu;
-type
-  PPIDLArray = ^PItemIDList;
-
 var
-  Folder, DesktopFolder: IShellFolder;
-  PathPIDL: PItemIDList = nil;
-  tmpPIDL: PItemIDList = nil;
-  S: WideString;
-  List: PPIDLArray = nil;
-  I: integer;
+  I: Integer;
   pchEaten: ULONG;
+  S: UnicodeString;
+  APath: UnicodeString;
+  AFolder: TShellFolder;
+  AMenu: TDefContextMenu;
   dwAttributes: ULONG = 0;
+  List: PPItemIDList = nil;
+  ASamePath: Boolean = True;
+  tmpPIDL: PItemIDList = nil;
+  PathPIDL: PItemIDList = nil;
+  ADataObject: THDropDataObject;
+  Folder, DesktopFolder: IShellFolder;
 begin
   Result := nil;
 
@@ -146,6 +149,7 @@ begin
   try
     List := CoTaskMemAlloc(SizeOf(PItemIDList) * Files.Count);
     ZeroMemory(List, SizeOf(PItemIDList) * Files.Count);
+    APath:= CeUtf8ToUtf16(Files[0].Path);
 
     for I := 0 to Files.Count - 1 do
     begin
@@ -153,6 +157,11 @@ begin
         S := EmptyWideStr
       else
         S := CeUtf8ToUtf16(Files[I].Path);
+
+      if ASamePath then
+      begin
+        ASamePath:= UnicodeSameText(S, APath);
+      end;
 
       OleCheckUTF8(DeskTopFolder.ParseDisplayName(Handle, nil, PWideChar(S), pchEaten, PathPIDL, dwAttributes));
       try
@@ -170,8 +179,24 @@ begin
       (List + i)^ := tmpPIDL;
     end;
 
-    Folder.GetUIObjectOf(Handle, Files.Count, PItemIDList(List^), IID_IContextMenu, nil, Result);
+    if (Win32MajorVersion < 6) or (ASamePath) then
+      Folder.GetUIObjectOf(Handle, Files.Count, PItemIDList(List^), IID_IContextMenu, nil, Result)
+    else begin
+      AMenu:= Default(TDefContextMenu);
+      AMenu.hwnd:= Handle;
+      ADataObject:= THDropDataObject.Create(DROPEFFECT_NONE);
+      AFolder:= TShellFolder.Create(DeskTopFolder, ADataObject);
 
+      for I := 0 to Files.Count - 1 do
+      begin
+        ADataObject.Add(Files[I].FullPath);
+      end;
+      AMenu.psf:= AFolder;
+      AMenu.cidl:= Files.Count;
+      AMenu.apidl:= PPItemIDList(List);
+
+      OleCheckUTF8(CreateDefaultContextMenu(AMenu, IID_IContextMenu, Result));
+    end;
   finally
     if Assigned(List) then
     begin
