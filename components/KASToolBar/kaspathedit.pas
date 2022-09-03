@@ -43,6 +43,13 @@ type
     FStringList: TStringList;
     FObjectTypes: TObjectTypes;
     FFileSortType: TFileSortType;
+{$IF DEFINED(LCLCOCOA)}
+    originalText: String;
+    keyDownText: String;
+{$ENDIF}
+    procedure handleSpecialKeys( Key: Word );
+    procedure handleUpKey;
+    procedure handleDownKey;
   private
     procedure AutoComplete(const Path: String);
     procedure SetObjectTypes(const AValue: TObjectTypes);
@@ -60,7 +67,15 @@ type
     procedure VisibleChanged; override;
     procedure KeyDown(var Key: Word; Shift: TShiftState); override;
     procedure KeyUpAfterInterface(var Key: Word; Shift: TShiftState); override;
+{$IF DEFINED(LCLCOCOA)}
+    procedure DoEnter; override;
+    procedure TextChanged; override;
+    procedure KeyUp(var Key: word; Shift: TShiftState); override;
+    procedure KeyDownAction(var Key: Word; Shift: TShiftState);
+{$ENDIF}
   public
+    onKeyESCAPE: TNotifyEvent;
+    onKeyRETURN: TNotifyEvent;
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
   published
@@ -335,51 +350,119 @@ begin
   inherited VisibleChanged;
 end;
 
-procedure TKASPathEdit.KeyDown(var Key: Word; Shift: TShiftState);
+{$IFDEF LCLCOCOA}
+procedure TKASPathEdit.DoEnter;
 begin
-  FKeyDown:= Key;
+  inherited DoEnter;
+  self.originalText:= self.Text;
+end;
+
+procedure TKASPathEdit.TextChanged;
+begin
+  inherited TextChanged;
+  self.originalText:= self.Text;
+end;
+
+procedure TKASPathEdit.KeyDown( var Key: Word; Shift: TShiftState );
+begin
+  case Key of
+    VK_ESCAPE:
+      self.keyDownText:= self.Text;
+    VK_RETURN,
+    VK_SELECT:
+      self.keyDownText:= self.originalText
+  end;
+  KeyDownAction( Key, Shift );
+end;
+
+procedure TKASPathEdit.KeyUp( var Key: Word; Shift: TShiftState );
+begin
   case Key of
     VK_ESCAPE,
     VK_RETURN,
     VK_SELECT:
-      begin
-        HideListBox;
-      end;
+      if self.text=self.keyDownText then
+        // from the text has not been changed,
+        // the TKASPathEdit is not in the IME state
+        handleSpecialKeys( Key )
+      else
+        Key:= 0;
+  end;
+  inherited KeyUp( Key, Shift );
+end;
+{$ENDIF}
+
+procedure TKASPathEdit.handleSpecialKeys( Key: Word );
+begin
+  HideListBox;
+  if Key=VK_ESCAPE then begin
+    if Assigned(onKeyESCAPE) then onKeyESCAPE( self );
+  end else begin
+    if Assigned(onKeyRETURN) then onKeyRETURN( self );
+  end;
+end;
+
+procedure TKASPathEdit.handleUpKey;
+begin
+    if FListBox.ItemIndex = -1 then
+      FListBox.ItemIndex:= FListBox.Items.Count - 1
+    else if FListBox.ItemIndex - 1 < 0 then
+      FListBox.ItemIndex:= - 1
+    else
+      FListBox.ItemIndex:= FListBox.ItemIndex - 1;
+
+    if FListBox.ItemIndex >= 0 then
+      Text:= FListBox.Items[FListBox.ItemIndex]
+    else
+      Text:= ExtractFilePath(Text);
+    SelStart:= UTF8Length(Text);
+end;
+
+procedure TKASPathEdit.handleDownKey;
+begin
+    if FListBox.ItemIndex + 1 >= FListBox.Items.Count then
+      FListBox.ItemIndex:= -1
+    else if FListBox.ItemIndex = -1 then
+      FListBox.ItemIndex:= IfThen(FListBox.Items.Count > 0, 0, -1)
+    else
+      FListBox.ItemIndex:= FListBox.ItemIndex + 1;
+
+    if FListBox.ItemIndex >= 0 then
+      Text:= FListBox.Items[FListBox.ItemIndex]
+    else
+      Text:= ExtractFilePath(Text);
+    SelStart:= UTF8Length(Text);
+end;
+
+{$IF DEFINED(LCLCOCOA)}
+procedure TKASPathEdit.KeyDownAction(var Key: Word; Shift: TShiftState);
+{$ELSE}
+procedure TKASPathEdit.KeyDown(var Key: Word; Shift: TShiftState);
+{$ENDIF}
+begin
+  FKeyDown:= Key;
+  case Key of
+    // handle in KeyUp on LCLCOCOA
+    {$IF NOT DEFINED(LCLCOCOA)}
+    VK_ESCAPE,
+    VK_RETURN,
+    VK_SELECT:
+      handleSpecialKeys( Key );
+    {$ENDIF}
     VK_UP:
       if Assigned(FPanel) then
       begin
         Key:= 0;
-        if FListBox.ItemIndex = -1 then
-          FListBox.ItemIndex:= FListBox.Items.Count - 1
-        else if FListBox.ItemIndex - 1 < 0 then
-          FListBox.ItemIndex:= - 1
-        else
-          FListBox.ItemIndex:= FListBox.ItemIndex - 1;
-
-        if FListBox.ItemIndex >= 0 then
-          Text:= FListBox.Items[FListBox.ItemIndex]
-        else
-          Text:= ExtractFilePath(Text);
-        SelStart:= UTF8Length(Text);
+        handleUpKey();
       end;
     VK_DOWN:
       if Assigned(FPanel) then
       begin
         Key:= 0;
-        if FListBox.ItemIndex + 1 >= FListBox.Items.Count then
-          FListBox.ItemIndex:= -1
-        else if FListBox.ItemIndex = -1 then
-          FListBox.ItemIndex:= IfThen(FListBox.Items.Count > 0, 0, -1)
-        else
-          FListBox.ItemIndex:= FListBox.ItemIndex + 1;
-
-        if FListBox.ItemIndex >= 0 then
-          Text:= FListBox.Items[FListBox.ItemIndex]
-        else
-          Text:= ExtractFilePath(Text);
-        SelStart:= UTF8Length(Text);
+        handleDownKey();
       end;
   end;
+
   inherited KeyDown(Key, Shift);
 {$IFDEF LCLGTK2}
   // Workaround for GTK2 - up and down arrows moving through controls.
