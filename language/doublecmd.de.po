@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Double Commander 1.0.0 alpha\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-12-20 12:40+0300\n"
-"PO-Revision-Date: 2022-05-25 09:57+0200\n"
+"PO-Revision-Date: 2022-08-25 11:22+0200\n"
 "Last-Translator: ㋡ <braass@mail.de>\n"
 "Language-Team: Deutsch <braass@mail.de>\n"
 "MIME-Version: 1.0\n"
@@ -6895,7 +6895,7 @@ msgstr "Aktuelles Verzeichnis in der Titelleiste anzeigen"
 
 #: tfrmoptionsmisc.chkshowsplashform.caption
 msgid "Show &splash screen"
-msgstr ""
+msgstr "&Splash Screen (Startbildschirm) zeigen"
 
 #: tfrmoptionsmisc.chkshowwarningmessages.caption
 msgid "Show &warning messages (\"OK\" button only)"
@@ -6920,7 +6920,7 @@ msgstr "In Bezug auf TC Import/Export:"
 
 #: tfrmoptionsmisc.lbldefaultencoding.caption
 msgid "&Default single-byte text encoding:"
-msgstr ""
+msgstr "Standard 'single-byte' Textkodierung (Schrift mit weniger als 256 Zeichen -> lateinisch, griechisch, kyrillisch, thailändisch, arabisch, hebräisch):"
 
 #: tfrmoptionsmisc.lbldescrdefaultencoding.caption
 msgid "Default encoding:"
@@ -8844,17 +8844,17 @@ msgstr "Schreiben"
 #: tfrmsetfileproperties.zvcreationdatetime.textfornulldate
 msgctxt "tfrmsetfileproperties.zvcreationdatetime.textfornulldate"
 msgid " "
-msgstr ""
+msgstr " "
 
 #: tfrmsetfileproperties.zvlastaccessdatetime.textfornulldate
 msgctxt "tfrmsetfileproperties.zvlastaccessdatetime.textfornulldate"
 msgid " "
-msgstr ""
+msgstr " "
 
 #: tfrmsetfileproperties.zvlastwritedatetime.textfornulldate
 msgctxt "tfrmsetfileproperties.zvlastwritedatetime.textfornulldate"
 msgid " "
-msgstr ""
+msgstr " "
 
 #: tfrmsortanything.btnsort.caption
 msgid "&Sort"
@@ -9915,13 +9915,11 @@ msgid "Start path:"
 msgstr "Startpfad:"
 
 #: twcxarchivecopyoperationoptionsui.btnconfig.caption
-#, fuzzy
 msgctxt "twcxarchivecopyoperationoptionsui.btnconfig.caption"
 msgid "Con&figure"
-msgstr "E&instellen"
+msgstr "Kon&figurieren"
 
 #: twcxarchivecopyoperationoptionsui.cbencrypt.caption
-#, fuzzy
 msgctxt "twcxarchivecopyoperationoptionsui.cbencrypt.caption"
 msgid "Encr&ypt"
 msgstr "Verschl&üsseln"
@@ -10772,7 +10770,7 @@ msgstr "Größe"
 
 #: ulng.rsfunctrashorigpath
 msgid "Original path"
-msgstr ""
+msgstr "Ursprünglicher Pfad"
 
 #: ulng.rsfunctype
 msgid "Type"
@@ -10944,7 +10942,7 @@ msgstr "Neuen Namen für die benutzerdefinierte Spaltenansicht angeben"
 
 #: ulng.rsmenumacosservices
 msgid "Services"
-msgstr ""
+msgstr "Dienste"
 
 #: ulng.rsmnuactions
 msgctxt "ulng.rsmnuactions"
@@ -11017,7 +11015,6 @@ msgid "Pack here..."
 msgstr "Archiv hier erstellen ..."
 
 #: ulng.rsmnurestore
-#, fuzzy
 msgctxt "ulng.rsmnurestore"
 msgid "Restore"
 msgstr "Wiederherstellen"
@@ -12236,7 +12233,7 @@ msgstr "Name"
 
 #: ulng.rsmulrenfilenamestylelist
 msgid "No change;UPPERCASE;lowercase;First char uppercase;First Char Of Every Word Uppercase;"
-msgstr "Keine Änderung;GROSSBUCHSTABEN;alles klein;Erster Buchstabe groß;Erster Buchstabe in jedem Wort groß;"
+msgstr "Unverändert;ALLES GROẞGESCHRIEBEN;alles kleingeschrieben;Erster buchstabe groß;Erster Buchstabe In Jedem Wort Groß;"
 
 #: ulng.rsmulrenlastpreset
 msgid "[The last used]"
@@ -13267,7 +13264,7 @@ msgstr "&Dateien;Ve&rzeichnisse;Dateien u&nd Verzeichnisse"
 
 #: ulng.rsoptsearchopt
 msgid "&Hide filter panel when not focused;Keep saving setting modifications for next session"
-msgstr "Verberge Filterdialog, wenn im Hintergrund;Änderungen der Einstellung für die nächste Sitzung speichern"
+msgstr "Filterdialog verbergen, wenn im Hintergrund;Änderungen der Einstellung für die nächste Sitzung speichern"
 
 #: ulng.rsoptsortcasesens
 msgid "not case sensitive;according to locale settings (aAbBcC);first upper then lower case (ABCabc)"
@@ -13830,7 +13827,7 @@ msgid "Help with \"%\" variables"
 msgstr "Hilfe für \"%\"-Variable"
 
 #: ulng.rsvarinputparam
-msgid "Will request request user to enter a parameter with a default suggested value"
+msgid "Will request request user to enter a parameter with a default suggested value\n"
 msgstr ""
 "↴\n"
 "     Fordert den Benutzer auf, einen Parameter mit einem standardmäßig vorgeschlagenen Wert einzugeben\n"
@@ -14025,4 +14022,3 @@ msgstr "Eine Ersetzung hat nicht stattgefunden."
 #: umaincommands.rsfavoritetabs_setupnotexist
 msgid "No setup named \"%s\""
 msgstr "Keine Einstellung namens »%s«"
-

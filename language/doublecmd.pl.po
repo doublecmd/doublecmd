@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Double Commander 1.1.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-01-17 23:08+0300\n"
-"PO-Revision-Date: 2022-06-04 22:28+0000\n"
+"PO-Revision-Date: 2022-09-04 20:03+0000\n"
 "Last-Translator: Andrzej Kamiński <endriusk@interia.pl> and Maciej Bojakowski <maciejbojakowski@gmail.com>\n"
 "Language-Team: \n"
 "Language: pl\n"
@@ -6758,7 +6758,7 @@ msgstr "Zakres eksportu/importu TC:"
 
 #: tfrmoptionsmisc.lbldefaultencoding.caption
 msgid "&Default single-byte text encoding:"
-msgstr ""
+msgstr "&Domyślne jednobajtowe kodowanie tekstu:"
 
 #: tfrmoptionsmisc.lbldescrdefaultencoding.caption
 msgctxt "TFRMOPTIONSMISC.LBLDESCRDEFAULTENCODING.CAPTION"
@@ -9689,13 +9689,11 @@ msgid "Start path:"
 msgstr "Ścieżka początkowa:"
 
 #: twcxarchivecopyoperationoptionsui.btnconfig.caption
-#, fuzzy
 msgctxt "twcxarchivecopyoperationoptionsui.btnconfig.caption"
 msgid "Con&figure"
 msgstr "&Konfiguruj"
 
 #: twcxarchivecopyoperationoptionsui.cbencrypt.caption
-#, fuzzy
 msgctxt "twcxarchivecopyoperationoptionsui.cbencrypt.caption"
 msgid "Encr&ypt"
 msgstr "&Szyfruj"
@@ -10542,7 +10540,7 @@ msgstr "Wielkość"
 
 #: ulng.rsfunctrashorigpath
 msgid "Original path"
-msgstr ""
+msgstr "Oryginalna ścieżka"
 
 #: ulng.rsfunctype
 msgid "Type"
@@ -10714,7 +10712,7 @@ msgstr "Wpisz nową nazwę kolumny niestandardowej"
 
 #: ulng.rsmenumacosservices
 msgid "Services"
-msgstr ""
+msgstr "Usługi"
 
 #: ulng.rsmnuactions
 msgctxt "ulng.rsmnuactions"
@@ -10787,7 +10785,6 @@ msgid "Pack here..."
 msgstr "Spakuj tutaj..."
 
 #: ulng.rsmnurestore
-#, fuzzy
 msgctxt "ulng.rsmnurestore"
 msgid "Restore"
 msgstr "Przywróć"
