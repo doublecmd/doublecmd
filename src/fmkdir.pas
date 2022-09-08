@@ -111,6 +111,7 @@ begin
     else begin
       cbMkDir.Text := '';
     end;
+    RefreshExample;
     cbMkDir.SelectAll;
     Result := (ShowModal = mrOK);
     if Result then
