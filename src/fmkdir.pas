@@ -65,13 +65,13 @@ var
   sPath: String;
 begin
   if not cbExtended.Checked then
-    lblExample.Caption:= EmptyStr
+    lblExample.Caption:= ' '
   else begin
     sPath:= TrimPath(cbMkDir.Text);
     if StrBegins(sPath, '<') then
       lblExample.Caption:= sReplace(Copy(sPath, 2, MaxInt))
     else
-      lblExample.Caption:= EmptyStr
+      lblExample.Caption:= ' '
   end;
 end;
 
@@ -111,6 +111,7 @@ begin
     else begin
       cbMkDir.Text := '';
     end;
+    RefreshExample;
     cbMkDir.SelectAll;
     Result := (ShowModal = mrOK);
     if Result then

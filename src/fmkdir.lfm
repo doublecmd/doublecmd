@@ -1,6 +1,6 @@
 object frmMkDir: TfrmMkDir
   Left = 366
-  Height = 104
+  Height = 125
   Top = 429
   Width = 350
   ActiveControl = cbMkDir
@@ -8,7 +8,7 @@ object frmMkDir: TfrmMkDir
   BorderIcons = [biSystemMenu]
   BorderStyle = bsDialog
   Caption = 'Create new directory'
-  ClientHeight = 104
+  ClientHeight = 125
   ClientWidth = 350
   Constraints.MinHeight = 50
   Constraints.MinWidth = 350
@@ -18,11 +18,11 @@ object frmMkDir: TfrmMkDir
   object lblMakeDir: TLabel
     Left = 6
     Height = 15
-    Top = 3
+    Top = 6
     Width = 338
     Align = alTop
     BorderSpacing.Left = 6
-    BorderSpacing.Top = 3
+    BorderSpacing.Top = 6
     BorderSpacing.Right = 6
     Caption = '&Input new directory name:'
     FocusControl = cbMkDir
@@ -31,12 +31,13 @@ object frmMkDir: TfrmMkDir
   object cbMkDir: TComboBox
     Left = 6
     Height = 23
-    Top = 18
+    Top = 28
     Width = 338
     Align = alTop
     AutoComplete = True
     AutoCompleteText = [cbactEnabled, cbactEndOfLineComplete, cbactRetainPrefixCase, cbactSearchAscending]
     BorderSpacing.Left = 6
+    BorderSpacing.Top = 6
     BorderSpacing.Right = 6
     BorderSpacing.Bottom = 3
     DropDownCount = 5
@@ -46,29 +47,36 @@ object frmMkDir: TfrmMkDir
     TabOrder = 0
   end
   object cbExtended: TCheckBox
-    AnchorSideLeft.Control = cbMkDir
-    AnchorSideTop.Control = cbMkDir
-    AnchorSideTop.Side = asrBottom
     Left = 6
-    Height = 19
-    Top = 44
-    Width = 106
+    Height = 18
+    Top = 54
+    Width = 338
+    Align = alTop
+    Anchors = [akLeft]
+    BorderSpacing.Left = 6
+    BorderSpacing.Top = 6
+    BorderSpacing.Right = 6
     Caption = '&Extended syntax'
     OnChange = cbExtendedChange
     TabOrder = 1
   end
-  object ButtonPanel: TButtonPanel
-    AnchorSideLeft.Control = Owner
-    AnchorSideTop.Control = cbExtended
-    AnchorSideTop.Side = asrBottom
-    AnchorSideRight.Control = Owner
-    AnchorSideRight.Side = asrBottom
+  object lblExample: TLabel
     Left = 6
-    Height = 26
-    Top = 69
+    Height = 1
+    Top = 78
     Width = 338
-    Align = alNone
-    Anchors = [akTop, akLeft, akRight]
+    Align = alTop
+    BorderSpacing.Left = 6
+    BorderSpacing.Top = 6
+    BorderSpacing.Right = 6
+  end
+  object ButtonPanel: TButtonPanel
+    Left = 6
+    Height = 27
+    Top = 91
+    Width = 338
+    Align = alTop
+    BorderSpacing.Top = 6
     OKButton.Name = 'OKButton'
     OKButton.DefaultCaption = True
     HelpButton.Name = 'HelpButton'
@@ -81,14 +89,5 @@ object frmMkDir: TfrmMkDir
     TabOrder = 2
     ShowButtons = [pbOK, pbCancel]
     ShowBevel = False
-    object lblExample: TLabel
-      AnchorSideLeft.Control = ButtonPanel
-      AnchorSideTop.Side = asrCenter
-      Left = 0
-      Height = 1
-      Top = 0
-      Width = 1
-      ParentColor = False
-    end
   end
 end
