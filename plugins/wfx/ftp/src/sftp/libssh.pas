@@ -14,6 +14,12 @@ const
   LIBSSH2_HOSTKEY_HASH_SHA1   = 2;
   LIBSSH2_HOSTKEY_HASH_SHA256 = 3;
 
+  //* Method constants */
+  LIBSSH2_METHOD_KEX          = 0;
+  LIBSSH2_METHOD_HOSTKEY      = 1;
+  LIBSSH2_METHOD_CRYPT_CS     = 2;
+  LIBSSH2_METHOD_CRYPT_SC     = 3;
+
   //* Disconnect Codes (defined by SSH protocol) */
   SSH_DISCONNECT_HOST_NOT_ALLOWED_TO_CONNECT    = 1;
   SSH_DISCONNECT_PROTOCOL_ERROR                 = 2;
@@ -203,6 +209,7 @@ var
                                     abstract: Pointer): PLIBSSH2_SESSION; cdecl;
   libssh2_session_handshake: function(session: PLIBSSH2_SESSION; sock: cint): cint; cdecl;
   libssh2_hostkey_hash: function(session: PLIBSSH2_SESSION; hash_type: cint): PAnsiChar; cdecl;
+  libssh2_session_methods: function(session: PLIBSSH2_SESSION; method_type: cint): PAnsiChar; cdecl;
   libssh2_session_disconnect_ex: function(session: PLIBSSH2_SESSION;
                                           reason: cint;
                                           const description: PAnsiChar;
@@ -523,6 +530,7 @@ begin
     libssh2_session_init_ex:= SafeGetProcAddress(libssh2, 'libssh2_session_init_ex');
     libssh2_session_handshake:= SafeGetProcAddress(libssh2, 'libssh2_session_handshake');
     libssh2_hostkey_hash:= SafeGetProcAddress(libssh2, 'libssh2_hostkey_hash');
+    libssh2_session_methods:= SafeGetProcAddress(libssh2, 'libssh2_session_methods');
     libssh2_session_disconnect_ex:= SafeGetProcAddress(libssh2, 'libssh2_session_disconnect_ex');
     libssh2_session_free:= SafeGetProcAddress(libssh2, 'libssh2_session_free');
     libssh2_session_set_blocking:= SafeGetProcAddress(libssh2, 'libssh2_session_set_blocking');
