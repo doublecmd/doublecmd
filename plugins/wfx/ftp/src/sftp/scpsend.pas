@@ -315,6 +315,7 @@ var
   S: String;
   F: String = '';
   SS: String = '';
+  CS, SC: PAnsiChar;
   I, J, Finish: Integer;
   Message: UnicodeString;
   FingerPrint: PAnsiChar;
@@ -343,6 +344,19 @@ begin
       LogProc(PluginNumber, MSGTYPE_CONNECT, nil);
 
       DoStatus(False, 'Connection established');
+
+      DoStatus(False, 'Key exchange method: ' + libssh2_session_methods(FSession, LIBSSH2_METHOD_KEX));
+
+      CS:= libssh2_session_methods(FSession, LIBSSH2_METHOD_CRYPT_CS);
+      SC:= libssh2_session_methods(FSession, LIBSSH2_METHOD_CRYPT_SC);
+
+      if Assigned(CS) and Assigned(SC) and (StrComp(SC, SC) = 0) then
+        DoStatus(False, 'Encryption method: ' + CS)
+      else begin
+        DoStatus(False, 'Encryption method (client to server): ' + CS);
+        DoStatus(False, 'Encryption method (server to client): ' + SC);
+      end;
+      DoStatus(False, 'Host key method: ' + libssh2_session_methods(FSession, LIBSSH2_METHOD_HOSTKEY));
 
       if libssh2_version($010900) = nil then
         Finish:= LIBSSH2_HOSTKEY_HASH_SHA1
