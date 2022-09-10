@@ -258,7 +258,7 @@ type
     { recursive routine to see if the source string matches
       the pattern.  Both ? and * wildcard characters are allowed.}
 
-  function AbPercentage(V1, V2 : LongInt) : Byte;
+  function AbPercentage(V1, V2 : Int64) : Byte;
     {-Returns the ratio of V1 to V2 * 100}
 
   procedure AbStripDots( var FName : string );
@@ -912,13 +912,9 @@ begin
   end;
 end;
 { -------------------------------------------------------------------------- }
-function AbPercentage(V1, V2 : LongInt) : Byte;
+function AbPercentage(V1, V2 : Int64): Byte;
 { Returns the ratio of V1 to V2 * 100 }
 begin
-  if V2 > 16384000 then begin  {Possible LongInt overflow}
-    V1 := (V1 + $80) shr 8;  {scale down (div 256)}
-    V2 := (V2 + $80) shr 8;  {scale down (div 256)}
-  end;
   if V2 <= 0 then
     Result := 0
   else if V1 >= V2 then
