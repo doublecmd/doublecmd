@@ -24,6 +24,9 @@ type
 function Deflate(aSource : TStream; aDest : TStream;
                  aHelper : TAbDeflateHelper) : longint;
 
+function Inflate(aSource : TStream; aDest : TStream;
+                 aHelper : TAbDeflateHelper) : longint;
+
 implementation
 
 uses
@@ -61,6 +64,19 @@ begin
     Result := not ADeflateStream.FHash;
   finally
     ADeflateStream.Free;
+  end;
+end;
+
+function Inflate(aSource: TStream; aDest: TStream;
+                 aHelper: TAbDeflateHelper): longint;
+var
+  AInflateStream: TDecompressionStream;
+begin
+  AInflateStream:= TDecompressionStream.Create(aSource, True);
+  try
+    aDest.CopyFrom(AInflateStream, aHelper.StreamSize);
+  finally
+    AInflateStream.Free;
   end;
 end;
 
