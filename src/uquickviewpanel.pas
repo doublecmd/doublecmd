@@ -31,24 +31,46 @@ uses
 
 type
 
-  { TQuickViewPanel }
+  { IQuickViewPanel }
+  // use class instead of interface because of mechanism of destructor
+  IQuickViewPanel = class(TPanel)
+  public
+    procedure setFile(aFileView: TFileView; const aFile : TFile) virtual abstract;
+  end;
 
-  TQuickViewPanel = class(TPanel)
+  { TBaseQuickViewPanel }
+
+  TBaseQuickViewPanel = class(IQuickViewPanel)
   private
-    FFirstFile: Boolean;
     FFileViewPage: TFileViewPage;
     FFileView: TFileView;
     FFileSource: IFileSource;
-    FViewer: TfrmViewer;
     FFileName: String;
   private
     procedure RaiseExit;
-    procedure LoadFile(const aFileName: String);
     procedure OnChangeFileView(Sender: TObject);
-    procedure CreateViewer(aFileView: TFileView);
-    procedure FileViewChangeActiveFile(Sender: TFileView; const aFile : TFile);
+  protected
+    procedure LoadFile(const aFileName: String) virtual abstract;
+    procedure onSetFileException() virtual abstract;
   public
-    constructor Create(TheOwner: TComponent; aParent: TFileViewPage); reintroduce;
+    procedure setFile(aFileView: TFileView; const aFile : TFile); override;
+    constructor Create(TheOwner: TComponent; aParent: TFileViewPage; aFileView: TFileView); reintroduce;
+    destructor Destroy; override;
+  end;
+
+  { TQuickViewPanel }
+
+  TQuickViewPanel = class(TBaseQuickViewPanel)
+  private
+    FFirstFile: Boolean;
+    FViewer: TfrmViewer;
+  private
+    procedure CreateViewer();
+  protected
+    procedure LoadFile(const aFileName: String) override;
+    procedure onSetFileException() override;
+  public
+    constructor Create(TheOwner: TComponent; aParent: TFileViewPage; aFileView: TFileView); reintroduce;
     destructor Destroy; override;
   end;
 
@@ -56,7 +78,7 @@ procedure QuickViewShow(aFileViewPage: TFileViewPage; aFileView: TFileView);
 procedure QuickViewClose;
 
 var
-  QuickViewPanel: TQuickViewPanel;
+  QuickViewPanel: IQuickViewPanel;
 
 implementation
 
@@ -68,11 +90,10 @@ procedure QuickViewShow(aFileViewPage: TFileViewPage; aFileView: TFileView);
 var
   aFile: TFile = nil;
 begin
-  QuickViewPanel:= TQuickViewPanel.Create(Application, aFileViewPage);
-  QuickViewPanel.CreateViewer(aFileView);
+  QuickViewPanel:= TQuickViewPanel.Create(Application, aFileViewPage, aFileView);
   aFile := aFileView.CloneActiveFile;
   try
-    QuickViewPanel.FileViewChangeActiveFile(aFileView, aFile);
+    QuickViewPanel.setFile(aFileView, aFile);
   finally
     FreeAndNil(aFile);
   end;
@@ -85,47 +106,141 @@ begin
   frmMain.actQuickView.Checked:= False;
 end;
 
-{ TQuickViewPanel }
+{ TBaseQuickViewPanel }
 
-constructor TQuickViewPanel.Create(TheOwner: TComponent; aParent: TFileViewPage);
+constructor TBaseQuickViewPanel.Create(TheOwner: TComponent; aParent: TFileViewPage; aFileView: TFileView );
 begin
   inherited Create(TheOwner);
   Parent:= aParent;
   Align:= alClient;
   FFileViewPage:= aParent;
-  FFileSource:= nil;
-  FViewer:= nil;
+
+  FFileView:= aFileView;
+  FFileSource:= FFileView.FileSource;
+  FFileViewPage.FileView.Visible:= False;
+  FFileView.OnChangeActiveFile:= @setFile;
+  TFileViewPage(FFileView.NotebookPage).OnChangeFileView:= @OnChangeFileView;
 end;
 
-destructor TQuickViewPanel.Destroy;
+destructor TBaseQuickViewPanel.Destroy;
 begin
   FFileView.OnChangeActiveFile:= nil;
   TFileViewPage(FFileView.NotebookPage).OnChangeFileView:= nil;
-  FViewer.ExitQuickView;
   FFileViewPage.FileView.Visible:= True;
-  FreeThenNil(FViewer);
   FFileSource:= nil;
   FFileView.SetFocus;
   inherited Destroy;
 end;
 
-procedure TQuickViewPanel.CreateViewer(aFileView: TFileView);
+procedure TBaseQuickViewPanel.RaiseExit;
+begin
+  raise EAbort.Create(rsSimpleWordFailedExcla);
+end;
+
+procedure TBaseQuickViewPanel.OnChangeFileView(Sender: TObject);
+begin
+  FFileView:= TFileView(Sender);
+  FFileView.OnChangeActiveFile:= @setFile;
+end;
+
+procedure TBaseQuickViewPanel.setFile(aFileView: TFileView; const aFile: TFile);
+var
+  ActiveFile: TFile = nil;
+  TempFiles: TFiles = nil;
+  Operation: TFileSourceOperation = nil;
+  TempFileSource: ITempFileSystemFileSource = nil;
+begin
+  try
+    if not (Assigned(aFile) and aFile.IsNameValid) then
+      raise EAbort.Create(rsMsgErrNotSupported);
+
+    try
+      // If files are links to local files
+      if (fspLinksToLocalFiles in aFileView.FileSource.Properties) then
+      begin
+        if aFile.IsDirectory or aFile.IsLinkToDirectory then RaiseExit;
+        FFileSource := aFileView.FileSource;
+        ActiveFile:= aFile.Clone;
+        if not FFileSource.GetLocalName(ActiveFile) then RaiseExit;
+      end
+      // If files not directly accessible copy them to temp file source.
+      else if not (fspDirectAccess in aFileView.FileSource.Properties) then
+      begin
+        if aFile.IsDirectory or SameText(FFileName, aFile.Name) then RaiseExit;
+        if not (fsoCopyOut in aFileView.FileSource.GetOperationsTypes) then RaiseExit;
+
+        ActiveFile:= aFile.Clone;
+        TempFiles:= TFiles.Create(ActiveFile.Path);
+        TempFiles.Add(aFile.Clone);
+
+        if FFileSource.IsClass(TTempFileSystemFileSource) then
+          TempFileSource := (FFileSource as ITempFileSystemFileSource)
+        else
+          TempFileSource := TTempFileSystemFileSource.GetFileSource;
+
+        Operation := aFileView.FileSource.CreateCopyOutOperation(
+                         TempFileSource,
+                         TempFiles,
+                         TempFileSource.FileSystemRoot);
+
+        if not Assigned(Operation) then RaiseExit;
+
+        aFileView.Enabled:= False;
+        try
+          Operation.Execute;
+        finally
+          FreeAndNil(Operation);
+          aFileView.Enabled:= True;
+        end;
+
+        FFileName:= ActiveFile.Name;
+        FFileSource := TempFileSource;
+        ActiveFile.Path:= TempFileSource.FileSystemRoot;
+      end
+      else begin
+        // We can use the file source directly.
+        FFileSource := aFileView.FileSource;
+        ActiveFile:= aFile.Clone;
+      end;
+
+      LoadFile(ActiveFile.FullPath);
+
+    finally
+      FreeAndNil(TempFiles);
+      FreeAndNil(ActiveFile);
+    end;
+  except
+    on E: EAbort do
+    begin
+      Caption:= E.Message;
+      onSetFileException();
+    end;
+  end;
+end;
+
+
+{ TQuickViewPanel }
+
+constructor TQuickViewPanel.Create(TheOwner: TComponent; aParent: TFileViewPage; aFileView: TFileView);
+begin
+  inherited Create(TheOwner, aParent, aFileView );
+  FFirstFile:= True;
+  CreateViewer();
+end;
+
+destructor TQuickViewPanel.Destroy;
+begin
+  FViewer.ExitQuickView;
+  FreeThenNil(FViewer);
+  inherited Destroy;
+end;
+
+procedure TQuickViewPanel.CreateViewer();
 begin
   FViewer:= TfrmViewer.Create(Self, nil, True);
   FViewer.Parent:= Self;
   FViewer.BorderStyle:= bsNone;
   FViewer.Align:= alClient;
-  FFirstFile:= True;
-  FFileView:= aFileView;
-  FFileSource:= aFileView.FileSource;
-  FFileViewPage.FileView.Visible:= False;
-  FFileView.OnChangeActiveFile:= @FileViewChangeActiveFile;
-  TFileViewPage(FFileView.NotebookPage).OnChangeFileView:= @OnChangeFileView;
-end;
-
-procedure TQuickViewPanel.RaiseExit;
-begin
-  raise EAbort.Create(rsSimpleWordFailedExcla);
 end;
 
 procedure TQuickViewPanel.LoadFile(const aFileName: String);
@@ -144,87 +259,11 @@ begin
   if not FFileView.Focused then FFileView.SetFocus;
 end;
 
-procedure TQuickViewPanel.OnChangeFileView(Sender: TObject);
+procedure TQuickViewPanel.onSetFileException();
 begin
-  FFileView:= TFileView(Sender);
-  FFileView.OnChangeActiveFile:= @FileViewChangeActiveFile;
-end;
-
-procedure TQuickViewPanel.FileViewChangeActiveFile(Sender: TFileView; const aFile: TFile);
-var
-  ActiveFile: TFile = nil;
-  TempFiles: TFiles = nil;
-  Operation: TFileSourceOperation = nil;
-  TempFileSource: ITempFileSystemFileSource = nil;
-begin
-  try
-    if not (Assigned(aFile) and aFile.IsNameValid) then
-      raise EAbort.Create(rsMsgErrNotSupported);
-
-    try
-      // If files are links to local files
-      if (fspLinksToLocalFiles in Sender.FileSource.Properties) then
-      begin
-        if aFile.IsDirectory or aFile.IsLinkToDirectory then RaiseExit;
-        FFileSource := Sender.FileSource;
-        ActiveFile:= aFile.Clone;
-        if not FFileSource.GetLocalName(ActiveFile) then RaiseExit;
-      end
-      // If files not directly accessible copy them to temp file source.
-      else if not (fspDirectAccess in Sender.FileSource.Properties) then
-      begin
-        if aFile.IsDirectory or SameText(FFileName, aFile.Name) then RaiseExit;
-        if not (fsoCopyOut in Sender.FileSource.GetOperationsTypes) then RaiseExit;
-
-        ActiveFile:= aFile.Clone;
-        TempFiles:= TFiles.Create(ActiveFile.Path);
-        TempFiles.Add(aFile.Clone);
-
-        if FFileSource.IsClass(TTempFileSystemFileSource) then
-          TempFileSource := (FFileSource as ITempFileSystemFileSource)
-        else
-          TempFileSource := TTempFileSystemFileSource.GetFileSource;
-
-        Operation := Sender.FileSource.CreateCopyOutOperation(
-                         TempFileSource,
-                         TempFiles,
-                         TempFileSource.FileSystemRoot);
-
-        if not Assigned(Operation) then RaiseExit;
-
-        Sender.Enabled:= False;
-        try
-          Operation.Execute;
-        finally
-          FreeAndNil(Operation);
-          Sender.Enabled:= True;
-        end;
-
-        FFileName:= ActiveFile.Name;
-        FFileSource := TempFileSource;
-        ActiveFile.Path:= TempFileSource.FileSystemRoot;
-      end
-      else begin
-        // We can use the file source directly.
-        FFileSource := Sender.FileSource;
-        ActiveFile:= aFile.Clone;
-      end;
-
-      LoadFile(ActiveFile.FullPath);
-
-    finally
-      FreeAndNil(TempFiles);
-      FreeAndNil(ActiveFile);
-    end;
-  except
-    on E: EAbort do
-    begin
-      FViewer.Hide;
-      FFirstFile:= True;
-      Caption:= E.Message;
-      FViewer.LoadFile(EmptyStr);
-    end;
-  end;
+  FFirstFile:= True;
+  FViewer.Hide;
+  FViewer.LoadFile(EmptyStr);
 end;
 
 end.
