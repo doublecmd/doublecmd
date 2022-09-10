@@ -292,7 +292,7 @@ begin
     // Skip empty lines
     if (Length(FCheckSumFile[I]) = 0) then Continue;
     // Skip comments
-    if (FCheckSumFile[I][1] = ';') then Continue;
+    if (FCheckSumFile[I][1] in [';', '#']) then Continue;
 
     // Determine hash type by length
     if (HashType = False) and (Algorithm = HASH_SHA3_224) then
