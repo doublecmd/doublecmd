@@ -59,7 +59,7 @@ uses
   //       "StrUtils" is here to have the "PosEx".
   //Lazarus, Free-Pascal, etc.
   StrUtils, Dialogs, SysUtils, Process, UTF8Process, LazUTF8, LConvEncoding,
-  DCUnicodeUtils,
+  DCUnicodeUtils, DCConvertEncoding,
 
   //DC
   uShowMsg, uDCUtils, uLng, uFormCommands, fViewer, fEditor, uShowForm, uGlobs,
@@ -348,7 +348,7 @@ type
       if (fmUTF16 in state.functMod) then
         Result := Utf8ToUtf16LE(Result)
       else if not (fmUTF8 in state.functMod) then
-        Result := UTF8ToSys(Result);
+        Result := CeUtf8ToSys(Result);
     end;
 
     function BuildFileList: String;
