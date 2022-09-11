@@ -563,6 +563,7 @@ var
   gDescCreateUnicode: Boolean;
   gDescReadEncoding: TMacroEncoding;
   gDescWriteEncoding: TMacroEncoding;
+  gDefaultTextEncoding: String;
 
   { Auto refresh page }
   gWatchDirs: TWatchOptions;
@@ -1949,6 +1950,7 @@ begin
   gDescReadEncoding:= meUTF8;
   gDescWriteEncoding:= meUTF8BOM;
   gDescCreateUnicode:= True;
+  gDefaultTextEncoding:= EncodingNone;
 
   { Auto refresh page }
   gWatchDirs := [watch_file_name_change, watch_attributes_change];
@@ -2994,6 +2996,7 @@ begin
       gHotDirFilenameStyle := TConfigFilenameStyle(GetValue(Node, 'FilenameStyle', ord(gHotDirFilenameStyle)));
       gHotDirPathToBeRelativeTo := gConfig.GetValue(Node, 'PathToBeRelativeTo', gHotDirPathToBeRelativeTo);
       gHotDirPathModifierElements := tHotDirPathModifierElements(GetValue(Node, 'PathModifierElements', Integer(gHotDirPathModifierElements)));
+      gDefaultTextEncoding := GetValue(Node, 'DefaultTextEncoding', gDefaultTextEncoding);
     end;
 
     { Thumbnails }
@@ -3637,6 +3640,7 @@ begin
     SetValue(Node, 'FilenameStyle', ord(gHotDirFilenameStyle));
     SetValue(Node, 'PathToBeRelativeTo', gHotDirPathToBeRelativeTo);
     SetValue(Node, 'PathModifierElements', Integer(gHotDirPathModifierElements));
+    SetValue(Node, 'DefaultTextEncoding', gDefaultTextEncoding);
 
     { Thumbnails }
     Node := FindNode(Root, 'Thumbnails', True);
