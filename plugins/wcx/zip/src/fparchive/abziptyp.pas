@@ -1621,11 +1621,20 @@ begin
     LFH.ExtraField.Assign(LFHExtraField);
     LFH.ExtraField.CloneFrom(ExtraField, Ab_InfoZipUnicodePathSubfieldID);
     LFH.ExtraField.CloneFrom(ExtraField, Ab_XceedUnicodePathSubfieldID);
-    { setup sizes;  unlike the central directory header, the ZIP64 local header
-      needs to store both compressed and uncompressed sizes if either needs it }
-    if (CompressedSize >= $FFFFFFFF) or (UncompressedSize >= $FFFFFFFF) then begin
-      LFH.UncompressedSize := $FFFFFFFF;
-      LFH.CompressedSize := $FFFFFFFF;
+    { Write ZIP64 local header when file size > 3 GB to speed up archive creation }
+    if (UncompressedSize > $C0000000) then
+    begin
+      { setup sizes;  unlike the central directory header, the ZIP64 local header
+        needs to store both compressed and uncompressed sizes if either needs it }
+      if (CompressedSize >= $FFFFFFFF) or (UncompressedSize >= $FFFFFFFF) then
+      begin
+        LFH.UncompressedSize := $FFFFFFFF;
+        LFH.CompressedSize := $FFFFFFFF;
+      end
+      else begin
+        LFH.UncompressedSize := UncompressedSize;
+        LFH.CompressedSize := CompressedSize;
+      end;
       Zip64Field.UncompressedSize := UncompressedSize;
       Zip64Field.CompressedSize := CompressedSize;
       LFH.ExtraField.Put(Ab_Zip64SubfieldID, Zip64Field, SizeOf(Zip64Field));
@@ -2233,6 +2242,7 @@ end;
 procedure TAbZipArchive.SaveArchive;
   {builds a new archive and copies it to FStream}
 var
+  APos               : Int64;
   Abort              : Boolean;
   MemStream          : TMemoryStream;
   HasDataDescriptor  : Boolean;
@@ -2322,16 +2332,18 @@ begin
         aaAdd, aaFreshen, aaReplace, aaStreamAdd: begin
           {compress the file and add it to new stream}
           try
-            WorkingStream := TAbVirtualMemoryStream.Create;
-            try {WorkingStream}
-              WorkingStream.SwapFileDirectory := FTempDir;
-              {compress the file}
-              if (CurrItem.Action = aaStreamAdd) then
-                DoInsertFromStreamHelper(i, WorkingStream)
-              else
-                DoInsertHelper(i, WorkingStream);
-              {write local header}
-              if NewStream is TAbSpanWriteStream then begin
+            if NewStream is TAbSpanWriteStream then
+            begin
+              WorkingStream := TAbVirtualMemoryStream.Create;
+              try {WorkingStream}
+                WorkingStream.SwapFileDirectory := FTempDir;
+                {compress the file}
+                if (CurrItem.Action = aaStreamAdd) then
+                  DoInsertFromStreamHelper(i, WorkingStream)
+                else begin
+                  DoInsertHelper(i, WorkingStream);
+                end;
+                {write local header}
                 MemStream := TMemoryStream.Create;
                 try
                   CurrItem.SaveLFHToStream(MemStream);
@@ -2343,19 +2355,32 @@ begin
                 finally
                   MemStream.Free;
                 end;
-              end
-              else begin
-                CurrItem.DiskNumberStart := 0;
-                CurrItem.RelativeOffset := NewStream.Position;
-                CurrItem.SaveLFHToStream(NewStream);
+                {copy compressed data}
+                NewStream.CopyFrom(WorkingStream, 0);
+              finally
+                WorkingStream.Free;
               end;
-              {copy compressed data}
-              NewStream.CopyFrom(WorkingStream, 0);
-              if CurrItem.IsEncrypted then
-                CurrItem.SaveDDToStream(NewStream);
-            finally
-              WorkingStream.Free;
+            end
+            else begin
+              {write local header}
+              CurrItem.DiskNumberStart := 0;
+              CurrItem.RelativeOffset := NewStream.Position;
+              CurrItem.UncompressedSize := mbFileSize(CurrItem.DiskFileName);
+              CurrItem.SaveLFHToStream(NewStream);
+              {compress the file}
+              if (CurrItem.Action = aaStreamAdd) then
+                DoInsertFromStreamHelper(i, NewStream)
+              else begin
+                DoInsertHelper(i, NewStream);
+              end;
+              {update local header}
+              APos:= NewStream.Position;
+              NewStream.Seek(CurrItem.RelativeOffset, soBeginning);
+              CurrItem.SaveLFHToStream(NewStream);
+              NewStream.Seek(APos, soBeginning);
             end;
+            if CurrItem.IsEncrypted then
+              CurrItem.SaveDDToStream(NewStream);
           except
             on E : Exception do
             begin
