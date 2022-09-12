@@ -28,13 +28,42 @@ unit uQuickLook;
 interface
 
 uses
-  Classes, SysUtils;
+  Classes, SysUtils, ExtCtrls,
+  MacOSAll, CocoaAll, CocoaInt,  QuickLookUI;
+
+type
+  TQLPItem = objcclass(NSObject, QLPreviewItemProtocol)
+    url: NSURL;
+    function previewItemURL: NSURL;
+  end;
+
+type
+  TDarwinQLControl = class
+  private
+    superpanel: TPanel;
+    superview: NSView;
+    view: QLPreviewView;
+  private
+    procedure setFilepath( filepath: String );
+    procedure OnResize( Sender: TObject );
+    function isOpened(): Boolean;
+  public
+    constructor Create( panel: TPanel );
+    destructor Destroy; override;
+    procedure open;
+    procedure close;
+    procedure resize;
+  public
+    property filepath: String write setFilepath;
+    property opened: Boolean read isOpened;
+end;
+
 
 implementation
 
 uses
-  DynLibs, FileUtil, Types, Graphics, MacOSAll, CocoaAll, uThumbnails, uDebug,
-  uClassesEx, uGraphics;
+  DynLibs, FileUtil, Types, Graphics,
+  uThumbnails, uDebug, uClassesEx, uGraphics, uMyDarwin;
 
 const
   libQuickLook = '/System/Library/Frameworks/QuickLook.framework/Versions/Current/QuickLook';
@@ -94,6 +123,83 @@ begin
     CFRelease(theFileNameUrlRef);
   end;
 end;
+
+constructor TDarwinQLControl.Create( panel: TPanel );
+begin
+  inherited Create;
+  superpanel:= panel;
+  superview:= NSView(panel.Handle);
+end;
+
+destructor TDarwinQLControl.Destroy;
+begin
+  close();
+  superview:= nil;
+  superpanel:= nil;
+  inherited Destroy;
+end;
+
+procedure TDarwinQLControl.open;
+begin
+  if opened then Exit;
+
+  view:= QLPreviewView.alloc.init;
+  view.setShouldCloseWithWindow(false);
+  superview.addSubview( view );
+  superpanel.OnResize:= @OnResize;
+  resize;
+end;
+
+procedure TDarwinQLControl.close;
+begin
+  if not opened then Exit;
+
+  superpanel.OnResize:= nil;
+  view.close;
+  view.removeFromSuperview;
+  view.release;
+  view:= nil;
+end;
+
+procedure TDarwinQLControl.resize;
+var
+  rect: NSRect;
+begin
+  if not opened then Exit;
+
+  rect:= NSMakeRect( 0, 0, superpanel.Width, superpanel.Height );
+  view.setFrame( rect );
+end;
+
+procedure TDarwinQLControl.OnResize( Sender: TObject );
+begin
+  resize;
+end;
+
+procedure TDarwinQLControl.setFilepath( filepath: String );
+var
+  item: TQLPItem;
+begin
+  if not opened then Exit;
+  if filepath=EmptyStr then begin
+    item:= nil;
+  end else begin
+    item:= TQLPItem.alloc.init;
+    item.url:= NSURL.fileURLWithPath( StringToNSString(filepath) );
+  end;
+  view.setPreviewItem( item );
+end;
+
+function TDarwinQLControl.isOpened: Boolean;
+begin
+  Result:= Assigned(view);
+end;
+
+function TQLPItem.previewItemURL: NSURL;
+begin
+  Result:= url;
+end;
+
 
 procedure Initialize;
 begin
