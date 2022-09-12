@@ -20,7 +20,8 @@ type
     FPathEdit: TKASPathEdit;
     procedure HeaderResize(Sender: TObject);
     procedure PathEditExit(Sender: TObject);
-    procedure PathEditKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure onKeyESCAPE(Sender: TObject);
+    procedure onKeyRETURN(Sender: TObject);
     procedure PathLabelClick(Sender: TObject);
     procedure PathLabelMouseUp(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
     procedure AddressLabelClick(Sender: TObject);
@@ -95,49 +96,6 @@ const
 procedure TFileViewHeader.PathEditExit(Sender: TObject);
 begin
   FPathEdit.Visible := False;
-end;
-
-procedure TFileViewHeader.PathEditKeyDown(Sender: TObject; var Key: Word;
-  Shift: TShiftState);
-var
-  NewPath: String;
-begin
-  case Key of
-    VK_ESCAPE:
-      begin
-        Key := 0;
-        FPathEdit.Visible:=False;
-        FFileView.SetFocus;
-      end;
-
-    VK_RETURN,
-    VK_SELECT:
-      begin
-        Key := 0; // catch the enter
-        NewPath:= NormalizePathDelimiters(FPathEdit.Text);
-        NewPath:= ReplaceEnvVars(ReplaceTilde(NewPath));
-        if not mbFileExists(NewPath) then
-          begin
-            if not ChooseFileSource(FFileView, NewPath, True) then
-              Exit;
-          end
-        else
-          begin
-            if not ChooseFileSource(FFileView, ExtractFileDir(NewPath)) then
-              Exit;
-            FFileView.SetActiveFile(ExtractFileName(NewPath));
-          end;
-        FPathEdit.Visible := False;
-        FFileView.SetFocus;
-      end;
-
-{$IFDEF LCLGTK2}
-    // Workaround for GTK2 - up and down arrows moving through controls.
-    VK_UP,
-    VK_DOWN:
-      Key := 0;
-{$ENDIF}
-  end;
 end;
 
 procedure TFileViewHeader.PathLabelClick(Sender: TObject);
@@ -258,6 +216,33 @@ begin
   APathLabel.InactiveFontColor:= gPathInactiveFontColor;
 end;
 
+procedure TFileViewHeader.onKeyESCAPE(Sender: TObject);
+begin
+  FPathEdit.Visible:=False;
+  FFileView.SetFocus;
+end;
+
+procedure TFileViewHeader.onKeyRETURN(Sender: TObject);
+var
+  NewPath: String;
+begin
+  NewPath:= NormalizePathDelimiters(FPathEdit.Text);
+  NewPath:= ReplaceEnvVars(ReplaceTilde(NewPath));
+  if not mbFileExists(NewPath) then
+    begin
+      if not ChooseFileSource(FFileView, NewPath, True) then
+        Exit;
+    end
+  else
+    begin
+      if not ChooseFileSource(FFileView, ExtractFileDir(NewPath)) then
+        Exit;
+      FFileView.SetActiveFile(ExtractFileName(NewPath));
+    end;
+  FPathEdit.Visible := False;
+  FFileView.SetFocus;
+end;
+
 constructor TFileViewHeader.Create(AOwner: TFileView; AParent: TWinControl);
 begin
   inherited Create(AOwner);
@@ -294,7 +279,8 @@ begin
   OnResize:= @HeaderResize;
 
   FPathEdit.OnExit:= @PathEditExit;
-  FPathEdit.OnKeyDown:= @PathEditKeyDown;
+  FPathEdit.onKeyESCAPE:=@onKeyESCAPE;
+  FPathEdit.onKeyRETURN:=@onKeyRETURN;
 
   FPathLabel.OnClick := @PathLabelClick;
   FPathLabel.OnDblClick := @PathLabelDblClick;
