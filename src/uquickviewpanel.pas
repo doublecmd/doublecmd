@@ -19,6 +19,10 @@
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 }
 
+{$IF DEFINED(DARWIN)}
+  {$DEFINE NATIVE_QUICK_LOOK}
+{$ENDIF}
+
 unit uQuickViewPanel;
 
 {$mode objfpc}{$H+}
@@ -26,17 +30,38 @@ unit uQuickViewPanel;
 interface
 
 uses
-  Classes, SysUtils, ExtCtrls, fViewer,
+  Classes, SysUtils, ExtCtrls,
   uFileViewNotebook, uFile, uFileSource, uFileView;
 
 type
 
   { IQuickViewPanel }
+
   // use class instead of interface because of mechanism of destructor
   IQuickViewPanel = class(TPanel)
   public
     procedure setFile(aFileView: TFileView; const aFile : TFile) virtual abstract;
   end;
+
+procedure QuickViewShow(aFileViewPage: TFileViewPage; aFileView: TFileView);
+procedure QuickViewClose;
+
+var
+  QuickViewPanel: IQuickViewPanel;
+
+implementation
+
+uses
+  LCLProc, Forms, Controls, fMain, uTempFileSystemFileSource, uLng,
+  uFileSourceProperty, uFileSourceOperation, uFileSourceOperationTypes,
+  {$IF NOT DEFINED(NATIVE_QUICK_LOOK)}
+  fViewer
+  {$ELSE}
+  uQuickLook
+  {$ENDIF}
+  ;
+
+type
 
   { TBaseQuickViewPanel }
 
@@ -60,6 +85,8 @@ type
 
   { TQuickViewPanel }
 
+  {$IF NOT DEFINED(NATIVE_QUICK_LOOK)}
+
   TQuickViewPanel = class(TBaseQuickViewPanel)
   private
     FFirstFile: Boolean;
@@ -74,17 +101,20 @@ type
     destructor Destroy; override;
   end;
 
-procedure QuickViewShow(aFileViewPage: TFileViewPage; aFileView: TFileView);
-procedure QuickViewClose;
+  {$ELSE}
 
-var
-  QuickViewPanel: IQuickViewPanel;
+  TQuickViewPanel = class(TBaseQuickViewPanel)
+  private
+    QLControl: TDarwinQLControl;
+  protected
+    procedure LoadFile(const aFileName: String) override;
+    procedure onSetFileException() override;
+  public
+    constructor Create(TheOwner: TComponent; aParent: TFileViewPage; aFileView: TFileView); reintroduce;
+    destructor Destroy; override;
+  end;
 
-implementation
-
-uses
-  LCLProc, Forms, Controls, fMain, uTempFileSystemFileSource, uLng,
-  uFileSourceProperty, uFileSourceOperation, uFileSourceOperationTypes;
+  {$ENDIF}
 
 procedure QuickViewShow(aFileViewPage: TFileViewPage; aFileView: TFileView);
 var
@@ -218,8 +248,9 @@ begin
   end;
 end;
 
-
 { TQuickViewPanel }
+
+{$IF NOT DEFINED(NATIVE_QUICK_LOOK)}
 
 constructor TQuickViewPanel.Create(TheOwner: TComponent; aParent: TFileViewPage; aFileView: TFileView);
 begin
@@ -265,6 +296,32 @@ begin
   FViewer.Hide;
   FViewer.LoadFile(EmptyStr);
 end;
+
+{$ELSE}
+
+constructor TQuickViewPanel.Create(TheOwner: TComponent; aParent: TFileViewPage; aFileView: TFileView);
+begin
+  inherited Create(TheOwner, aParent, aFileView );
+  QLControl:= TDarwinQLControl.Create( self );
+  QLControl.open;
+end;
+
+destructor TQuickViewPanel.Destroy;
+begin
+  FreeAndNil( QLControl );
+  inherited Destroy;
+end;
+
+procedure TQuickViewPanel.LoadFile(const aFileName: String);
+begin
+  QLControl.filepath:= aFileName;
+end;
+
+procedure TQuickViewPanel.onSetFileException();
+begin
+end;
+
+{$ENDIF}
 
 end.
 
