@@ -179,7 +179,7 @@ begin
       (List + i)^ := tmpPIDL;
     end;
 
-    if (Win32MajorVersion < 6) or (ASamePath) then
+    if (Win32MajorVersion < 6) or (ASamePath) or (Files.Count = 1) then
       Folder.GetUIObjectOf(Handle, Files.Count, PItemIDList(List^), IID_IContextMenu, nil, Result)
     else begin
       AMenu:= Default(TDefContextMenu);
