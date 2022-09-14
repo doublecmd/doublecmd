@@ -13317,7 +13317,7 @@ msgstr "이름으로 정렬하고 상위에 표시;파일처럼 정렬하고 상
 
 #: ulng.rsoptsortmethod
 msgid "Alphabetical, considering accents;Alphabetical with special characters sort;Natural sorting: alphabetical and numbers;Natural with special characters sort"
-msgstr "액센트를 고려하여 알파벳 순으로;자연스러운 정렬: 알파벳과 숫자순으로"
+msgstr "액센트를 고려하여 알파벳 순으로;특수문자를 포함하여 알파벳 순으로;자연스러운 정렬: 알파벳과 숫자순으로;특수문자를 포함하여 자연스럽게 정렬"
 
 #: ulng.rsopttabsposition
 msgid "Top;Bottom;"
