@@ -293,7 +293,7 @@ uses
   Windows,
   {$ENDIF}
   SysUtils,
-  AbBitBkt, AbDfBase, AbDfDec, AbZlibPrc, AbExcept, AbResString,
+  AbBitBkt, AbDfBase, AbDfDec, AbZlibPrc, AbExcept, AbResString, AbProgress,
   AbVMStrm, DCOSUtils, DCClassesUtf8, DCConvertEncoding;
 
 const
@@ -1191,8 +1191,8 @@ begin
                 end
                 else begin
                   CurItem.LastModTimeAsDateTime := AbGetFileTime(CurItem.DiskFileName);
-                  UncompressedStream := TFileStreamEx.Create(CurItem.DiskFileName,
-                      fmOpenRead or fmShareDenyWrite );
+                  UncompressedStream := TAbProgressFileStream.Create(CurItem.DiskFileName,
+                      fmOpenRead or fmShareDenyWrite, OnProgress);
 
                   try
                     CurItem.UncompressedSize := UncompressedStream.Size;
