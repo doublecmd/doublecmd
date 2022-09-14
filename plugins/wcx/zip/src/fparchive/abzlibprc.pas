@@ -14,11 +14,20 @@ type
   TDeflateStream = class(TCompressionStream)
   private
     FSize: Int64;
-    FHash: LongInt;
+    FHash: UInt32;
     FOnProgressStep: TAbProgressStep;
   public
     constructor Create(ALevel: Integer; ADest: TStream);
     function Write(const Buffer; Count: Longint): Longint; override;
+  end;
+
+  { TInflateStream }
+
+  TInflateStream = class(TDecompressionStream)
+  private
+    FHash: UInt32;
+  public
+    function Read(var Buffer; Count: LongInt): LongInt; override;
   end;
 
 function Deflate(aSource : TStream; aDest : TStream;
@@ -30,7 +39,7 @@ function Inflate(aSource : TStream; aDest : TStream;
 implementation
 
 uses
-  ZDeflate, ZBase;
+  ZDeflate, ZBase, DCcrc32;
 
 function Deflate(aSource : TStream; aDest : TStream;
                  aHelper : TAbDeflateHelper): longint;
@@ -61,7 +70,7 @@ begin
     aHelper.NormalSize:= ADeflateStream.raw_written;
     aHelper.CompressedSize:= ADeflateStream.compressed_written;
     { provide encryption check value }
-    Result := not ADeflateStream.FHash;
+    Result := LongInt(ADeflateStream.FHash);
   finally
     ADeflateStream.Free;
   end;
@@ -70,13 +79,28 @@ end;
 function Inflate(aSource: TStream; aDest: TStream;
                  aHelper: TAbDeflateHelper): longint;
 var
-  AInflateStream: TDecompressionStream;
+  AInflateStream: TInflateStream;
 begin
-  AInflateStream:= TDecompressionStream.Create(aSource, True);
+  AInflateStream:= TInflateStream.Create(aSource, True);
   try
-    aDest.CopyFrom(AInflateStream, aHelper.StreamSize);
+    aHelper.NormalSize:= aDest.CopyFrom(AInflateStream, aHelper.NormalSize);
+    aHelper.CompressedSize:= AInflateStream.compressed_read;
+    Result:= LongInt(AInflateStream.FHash);
   finally
     AInflateStream.Free;
+  end;
+end;
+
+{ TInflateStream }
+
+function TInflateStream.Read(var Buffer; Count: LongInt): LongInt;
+begin
+  Result:= inherited Read(Buffer, Count);
+  FHash:= crc32_16bytes(@Buffer, Result, FHash);
+  if (Result < Count) and (Fstream.avail_in > 0) then
+  begin
+    FSource.Seek(-Fstream.avail_in, soCurrent);
+    Fstream.avail_in:= 0;
   end;
 end;
 
@@ -89,7 +113,6 @@ const
 var
   AError: Integer;
 begin
-  FHash := -1;
   TOwnerStream(Self).Create(ADest);
 
   Fbuffer:= GetMem(BUF_SIZE);
@@ -104,7 +127,7 @@ end;
 
 function TDeflateStream.Write(const Buffer; Count: Longint): Longint;
 begin
-  AbUpdateCRCBuffer(FHash, (@Buffer)^, Count);
+  FHash:= crc32_16bytes(@Buffer, Count, FHash);
   Result:= inherited Write(Buffer, Count);
   if Assigned(FOnProgressStep) then
   begin

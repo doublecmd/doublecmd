@@ -907,7 +907,7 @@ begin
       AbDfDec.Inflate(InStream, OutStream, Hlpr)
     end
     else begin
-      Hlpr.StreamSize := Item.UncompressedSize;
+      Hlpr.NormalSize := Item.UncompressedSize;
 
       AbZlibPrc.Inflate(InStream, OutStream, Hlpr);
     end;
