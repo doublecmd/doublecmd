@@ -1121,9 +1121,11 @@ var
   InGzHelp, OutGzHelp : TAbGzipStreamHelper;
   Abort               : Boolean;
   i                   : Integer;
-  NewStream           : TAbVirtualMemoryStream;
+  NewStream           : TStream;
   UncompressedStream  : TStream;
   CurItem             : TAbGzipItem;
+  CreateArchive       : Boolean;
+  ATempName           : String;
 begin
   {prepare for the try..finally}
   OutGzHelp := nil;
@@ -1134,11 +1136,15 @@ begin
 
     try
       {init new archive stream}
-      NewStream := TAbVirtualMemoryStream.Create;
+      CreateArchive:= FOwnsStream and (FGzStream.Size = 0) and (FGzStream is TFileStreamEx);
+      if CreateArchive then
+        NewStream := FGzStream
+      else begin
+        ATempName := Copy(ExtractFileName(FArchiveName), 1, MAX_PATH div 2) + '~';
+        ATempName := GetTempName(ExtractFilePath(FArchiveName) + ATempName) + '.tmp';
+        NewStream := TFileStreamEx.Create(ATempName, fmCreate or fmShareDenyWrite);
+      end;
       OutGzHelp := TAbGzipStreamHelper.Create(NewStream);
-
-      { create helper }
-      NewStream.SwapFileDirectory := ExtractFilePath(AbGetTempFile(FTempDir, False));
 
       { save the Tar data }
       if IsGzippedTar and TarAutoHandle then begin
@@ -1223,11 +1229,32 @@ begin
       TMemoryStream(FStream).LoadFromStream(NewStream)
     else begin
       { need new stream to write }
-      FreeAndNil(FStream);
-      FGZStream := nil;
-      FStream := TFileStreamEx.Create(FArchiveName, fmCreate or fmShareDenyWrite);
-      FGZStream := FStream;
-      FStream.CopyFrom(NewStream, NewStream.Size);
+      if CreateArchive then
+        NewStream := nil
+      else begin
+        if FOwnsStream then
+        begin
+          {need new stream to write}
+          if CreateArchive then
+            NewStream := nil
+          else begin
+            FGZStream := nil;
+            FreeAndNil(FStream);
+            FreeAndNil(NewStream);
+            if (mbDeleteFile(FArchiveName) and mbRenameFile(ATempName, FArchiveName)) then
+              FStream := TFileStreamEx.Create(FArchiveName, fmOpenReadWrite or fmShareDenyWrite)
+            else begin
+              RaiseLastOSError;
+            end;
+            FGZStream := FStream;
+          end;
+        end
+        else begin
+          FStream.Size := 0;
+          FStream.Position := 0;
+          FStream.CopyFrom(NewStream, 0)
+        end;
+      end;
     end;
 
     {update Items list}
@@ -1245,7 +1272,8 @@ begin
     DoArchiveProgress( 100, Abort );
   finally {NewStream}
     OutGzHelp.Free;
-    NewStream.Free;
+    if (FStream <> NewStream) then
+      NewStream.Free;
   end;
 end;
 
