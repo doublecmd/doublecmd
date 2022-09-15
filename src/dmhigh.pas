@@ -184,7 +184,8 @@ begin
           // Add duplicate external highlighter
           if SynHighlighterList.Objects[Index] is TSynUniSyn then
           begin
-            SynHighlighterList.AddObject(AName + IntToStr(I), Highlighter);
+            AName:= AName + ' #' + IntToStr(I);
+            SynHighlighterList.AddObject(AName, Highlighter);
           end
           // Replace built-in highlighter
           else begin
