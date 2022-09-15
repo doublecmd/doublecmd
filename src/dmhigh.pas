@@ -148,6 +148,7 @@ end;
 
 procedure TdmHighl.dmHighlCreate(Sender: TObject);
 var
+  AName: String;
   I, Index: Integer;
   AList: TStringList;
   AFileName: String = '';
@@ -176,13 +177,21 @@ begin
       HighLighter:= TSynUniSyn.Create(Self);
       try
         TSynUniSyn(HighLighter).LoadFromFile(AList[I]);
-        AFileName:= TSynUniSyn(HighLighter).Info.General.Name;
-        Index:= SynHighlighterList.IndexOf(AFileName);
+        AName:= TSynUniSyn(HighLighter).Info.General.Name;
+        Index:= SynHighlighterList.IndexOf(AName);
         if (Index < 0) then
-          SynHighlighterList.AddObject(AFileName, Highlighter)
+          SynHighlighterList.AddObject(AName, Highlighter)
         else begin
-          SynHighlighterList.Objects[Index].Free;
-          SynHighlighterList.Objects[Index]:= Highlighter;
+          // Add duplicate external highlighter
+          if SynHighlighterList.Objects[Index] is TSynUniSyn then
+          begin
+            SynHighlighterList.AddObject(AName + IntToStr(I), Highlighter);
+          end
+          // Replace built-in highlighter
+          else begin
+            SynHighlighterList.Objects[Index].Free;
+            SynHighlighterList.Objects[Index]:= Highlighter;
+          end;
         end;
         ACache.Add(AFileName);
       except
