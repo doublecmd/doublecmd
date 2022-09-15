@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # Set Double Commander version
-DC_VER=1.0.7
+DC_VER=1.0.8
 
 # The new package will be saved here
 PACK_DIR=$(pwd)/linux/release
