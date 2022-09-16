@@ -79,11 +79,17 @@ end;
 function Inflate(aSource: TStream; aDest: TStream;
                  aHelper: TAbDeflateHelper): longint;
 var
+  ACount: Int64;
   AInflateStream: TInflateStream;
 begin
   AInflateStream:= TInflateStream.Create(aSource, True);
   try
-    aHelper.NormalSize:= aDest.CopyFrom(AInflateStream, aHelper.NormalSize);
+    if aHelper.PartialSize > 0 then
+      ACount:= aHelper.PartialSize
+    else begin
+      ACount:= aHelper.NormalSize;
+    end;
+    aHelper.NormalSize:= aDest.CopyFrom(AInflateStream, ACount);
     aHelper.CompressedSize:= AInflateStream.compressed_read;
     Result:= LongInt(AInflateStream.FHash);
   finally
