@@ -140,7 +140,7 @@ begin
 
       if Assigned(Operation) then
       begin
-        Operation.Execute;
+        OperationsManager.AddOperationModal(Operation);
 
         if Operation.Result = fsorFinished then
         begin
@@ -155,10 +155,7 @@ begin
 
     finally
       TempFS := nil;
-      if Assigned(Files) then
-        FreeAndNil(Files);
-      if Assigned(Operation) then
-        FreeAndNil(Operation);
+      FreeAndNil(Files);
     end;
   end;
 end;
