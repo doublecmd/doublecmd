@@ -2377,8 +2377,7 @@ begin
     if FStream.Size = 0 then
       NewStream := FStream
     else begin
-      ATempName := Copy(ExtractOnlyFileName(FArchiveName), 1, MAX_PATH div 2) + '~';
-      ATempName := GetTempName(ExtractFilePath(FArchiveName) + ATempName) + '.tmp';
+      ATempName := GetTempName(FArchiveName);
       NewStream := TFileStreamEx.Create(ATempName, fmCreate or fmShareDenyWrite);
     end;
   end

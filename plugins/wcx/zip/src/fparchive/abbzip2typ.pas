@@ -336,7 +336,7 @@ begin
     if UpdateArchive then
     begin
       FreeAndNil(FBzip2Stream);
-      TempFileName := GetTempName(FArchiveName + ExtensionSeparator);
+      TempFileName := GetTempName(FArchiveName);
       { Create new archive with temporary name }
       FBzip2Stream := TAbProgressFileStream.Create(TempFileName, fmCreate or fmShareDenyWrite, OnProgress);
     end;

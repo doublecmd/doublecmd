@@ -328,7 +328,7 @@ begin
     if UpdateArchive then
     begin
       FreeAndNil(FXzStream);
-      TempFileName := GetTempName(FArchiveName + ExtensionSeparator);
+      TempFileName := GetTempName(FArchiveName);
       { Create new archive with temporary name }
       FXzStream := TAbProgressFileStream.Create(TempFileName, fmCreate or fmShareDenyWrite, OnProgress);
     end;

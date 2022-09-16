@@ -1146,8 +1146,7 @@ begin
       if CreateArchive then
         NewStream := FGzStream
       else begin
-        ATempName := Copy(ExtractFileName(FArchiveName), 1, MAX_PATH div 2) + '~';
-        ATempName := GetTempName(ExtractFilePath(FArchiveName) + ATempName) + '.tmp';
+        ATempName := GetTempName(FArchiveName);
         NewStream := TFileStreamEx.Create(ATempName, fmCreate or fmShareDenyWrite);
       end;
       OutGzHelp := TAbGzipStreamHelper.Create(NewStream);
