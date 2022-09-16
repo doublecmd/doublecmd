@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Double Commander 1.1.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-01-17 23:08+0300\n"
-"PO-Revision-Date: 2022-09-04 20:03+0000\n"
+"PO-Revision-Date: 2022-09-16 12:52+0000\n"
 "Last-Translator: Andrzej Kamiński <endriusk@interia.pl> and Maciej Bojakowski <maciejbojakowski@gmail.com>\n"
 "Language-Team: \n"
 "Language: pl\n"
@@ -11678,7 +11678,7 @@ msgstr "Czy chcesz zamienić ten tekst?"
 
 #: ulng.rsmsgrestartforapplychanges
 msgid "Please, restart Double Commander in order to apply changes"
-msgstr "Proszę ponownie uruchomić Double Commandera, aby zastosować zmiany"
+msgstr "Proszę ponownie uruchomić Double Commandera, aby zastosować zmiany."
 
 #: ulng.rsmsgscriptcantfindlibrary
 msgid "ERROR: Problem loading Lua library file \"%s\""
