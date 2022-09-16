@@ -985,6 +985,7 @@ procedure TAbGzipArchive.ExtractItemToStreamAt(Index: Integer;
   aStream: TStream);
 var
   GzHelp  : TAbGzipStreamHelper;
+  ProxyStream : TAbProgressStream;
 begin
   if IsGzippedTar and TarAutoHandle then begin
     SwapToTar;
@@ -994,43 +995,48 @@ begin
     SwapToGzip;
     { note Index ignored as there's only one item in a GZip }
 
-    GZHelp := TAbGzipStreamHelper.Create(FGzStream);
+    ProxyStream := TAbProgressStream.Create(FGzStream, FOnProgress);
     try
-      FGzStream.Seek(0, soBeginning);
+      GZHelp := TAbGzipStreamHelper.Create(ProxyStream);
+      try
+        FGzStream.Seek(0, soBeginning);
 
-      { read GZip Header }
-      GzHelp.ReadHeader;
-
-      repeat
-        { extract copy data from GZip}
-        GzHelp.ExtractItemData(aStream);
-
-        { Get validation data }
-        GzHelp.ReadTail;
-
-        {$IFDEF STRICTGZIP}
-        { According to
-            http://www.gzip.org/zlib/rfc1952.txt
-
-         A compliant gzip compressor should calculate and set the CRC32 and ISIZE.
-         However, a compliant decompressor should not check these values.
-
-         If you want to check the the values of the CRC32 and ISIZE in a GZIP file
-         when decompressing enable the STRICTGZIP define contained in AbDefine.inc }
-
-        { validate against CRC }
-        if GzHelp.FItem.Crc32 <> GzHelp.TailCRC then
-          raise EAbGzipBadCRC.Create;
-
-        { validate against file size }
-        if GzHelp.FItem.UncompressedSize <> GZHelp.TailSize then
-          raise EAbGzipBadFileSize.Create;
-        {$ENDIF}
-        { try concatenated streams }
+        { read GZip Header }
         GzHelp.ReadHeader;
-      until not VerifyHeader(GZHelp.FItem.FGzHeader);
+
+        repeat
+          { extract copy data from GZip}
+          GzHelp.ExtractItemData(aStream);
+
+          { Get validation data }
+          GzHelp.ReadTail;
+
+          {$IFDEF STRICTGZIP}
+          { According to
+              http://www.gzip.org/zlib/rfc1952.txt
+
+           A compliant gzip compressor should calculate and set the CRC32 and ISIZE.
+           However, a compliant decompressor should not check these values.
+
+           If you want to check the the values of the CRC32 and ISIZE in a GZIP file
+           when decompressing enable the STRICTGZIP define contained in AbDefine.inc }
+
+          { validate against CRC }
+          if GzHelp.FItem.Crc32 <> GzHelp.TailCRC then
+            raise EAbGzipBadCRC.Create;
+
+          { validate against file size }
+          if GzHelp.FItem.UncompressedSize <> GZHelp.TailSize then
+            raise EAbGzipBadFileSize.Create;
+          {$ENDIF}
+          { try concatenated streams }
+          GzHelp.ReadHeader;
+        until not VerifyHeader(GZHelp.FItem.FGzHeader);
+      finally
+        GzHelp.Free;
+      end;
     finally
-      GzHelp.Free;
+      ProxyStream.Free;
     end;
   end;
 end;
