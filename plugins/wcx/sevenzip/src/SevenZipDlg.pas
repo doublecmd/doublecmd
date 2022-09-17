@@ -725,6 +725,7 @@ begin
        begin
          wParam:= (not IsDlgButtonChecked(hwndDlg, IDC_SHOW_PASSWORD) and $01) * $2A;
       	 SendDlgItemMessageW(hwndDlg, IDC_PASSWORD, EM_SETPASSWORDCHAR, wParam, 0);
+         RedrawWindow(hwndDlg, nil, 0, RDW_INVALIDATE or RDW_UPDATENOW);
        end;
       end;
     end;
