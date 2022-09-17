@@ -548,6 +548,13 @@ begin
         TProgressBar(Control).Style:= TProgressBarStyle(wParam);
       end;
     end;
+  DM_SETPASSWORDCHAR:
+    begin
+      if (Control is TCustomEdit) then
+      begin
+        TCustomEdit(Control).PasswordChar:= Char(wParam);
+      end;
+    end;
   end;
 end;
 
