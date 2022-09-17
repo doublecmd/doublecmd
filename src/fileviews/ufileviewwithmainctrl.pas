@@ -109,6 +109,9 @@ type
     procedure edtRenameButtonClick(Sender: TObject);
     procedure edtRenameMouseDown(Sender: TObject; Button: TMouseButton;Shift: TShiftState; X, Y: Integer);
 
+{$IFDEF LCLWIN32}
+    procedure edtRenameKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
+{$ENDIF}
     procedure edtRenameOnKeyESCAPE(Sender: TObject);
     procedure edtRenameOnKeyRETURN(Sender: TObject);
   protected
@@ -286,18 +289,21 @@ end;
 
 procedure TEditButtonEx.EditKeyDown(var Key: Word; Shift: TShiftState);
 begin
+  inherited EditKeyDown(Key, Shift);
+
   case Key of
     VK_ESCAPE,
     VK_RETURN,
     VK_SELECT:
       handleSpecialKeys( Key );
-  end;
 
-  inherited KeyDown(Key, Shift);
 {$IFDEF LCLGTK2}
-  // Workaround for GTK2 - up and down arrows moving through controls.
-  if Key in [VK_UP, VK_DOWN] then Key:= 0;
+    // Workaround for GTK2 - up and down arrows moving through controls.
+    VK_UP,
+    VK_DOWN:
+      Key := 0;
 {$ENDIF}
+  end;
 end;
 
 {$ENDIF}
@@ -332,6 +338,29 @@ begin
 end;
 
 { TFileViewWithMainCtrl }
+
+
+{$IFDEF LCLWIN32}
+procedure TFileViewWithMainCtrl.edtRenameKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
+begin
+  case Key of
+    // Workaround for Win32 - right arrow must clear selection at first move.
+    VK_RIGHT:
+      begin
+        if (Win32MajorVersion < 10) and (Shift = []) and (edtRename.SelLength > 0) then
+        begin
+          Key := edtRename.CaretPos.X;
+          edtRename.SelLength := 0;
+          edtRename.CaretPos := Classes.Point(Key, 0);
+          Key := 0;
+        end;
+        FRenFile.UserManualEdit:=True; // user begin manual edit - no need cycle Name,Ext,FullName selection
+      end;
+     VK_LEFT:
+        FRenFile.UserManualEdit:=True; // user begin manual edit - no need cycle Name,Ext,FullName selection
+  end;
+end;
+{$ENDIF}
 
 procedure TFileViewWithMainCtrl.edtRenameOnKeyESCAPE(Sender: TObject);
 begin
@@ -421,6 +450,9 @@ begin
   edtRename.Visible := False;
   edtRename.TabStop := False;
   edtRename.AutoSize := False;
+{$IFDEF LCLWIN32}
+  edtRename.onKeyDown:=@edtRenameKeyDown;
+{$ENDIF}
   edtRename.onKeyESCAPE:=@edtRenameOnKeyESCAPE;
   edtRename.onKeyRETURN:=@edtRenameOnKeyRETURN;
   edtRename.OnMouseDown:=@edtRenameMouseDown;
