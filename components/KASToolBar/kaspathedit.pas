@@ -22,12 +22,19 @@
 unit KASPathEdit;
 
 {$mode delphi}
+{$IF DEFINED(LCLCOCOA)}
+{$modeswitch objectivec1}
+{$ENDIF}
 
 interface
 
 uses
   Classes, SysUtils, LResources, Forms, Controls, Graphics, Dialogs, StdCtrls,
-  ShellCtrls, LCLType, LCLVersion;
+  ShellCtrls, LCLType, LCLVersion
+{$IF DEFINED(LCLCOCOA)}
+  , CocoaAll, CocoaWindows
+{$ENDIF}
+  ;
 
 type
 
@@ -294,11 +301,24 @@ begin
   FListBox.ItemIndex:= FListBox.ItemAtPos(Classes.Point(X, Y), True);
 end;
 
+{$IF DEFINED(LCLCOCOA)}
+procedure cocoaNeedMouseEvent( hintWindow: THintWindow );
+var
+  cnt: TCocoaWindowContent;
+begin
+  cnt:= TCocoaWindowContent( hintWindow.Handle );
+  cnt.window.setIgnoresMouseEvents( false );
+end;
+{$ENDIF}
+
 procedure TKASPathEdit.ShowListBox;
 begin
   if (FPanel = nil) then
   begin
     FPanel:= THintWindow.Create(Self);
+{$IF DEFINED(LCLCOCOA)}
+    cocoaNeedMouseEvent(FPanel);
+{$ENDIF}
     FPanel.Color:= clDefault;
     FListBox.Parent:= FPanel;
 
