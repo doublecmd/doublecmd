@@ -146,6 +146,12 @@ function getenv(name: PAnsiChar): PAnsiChar; cdecl; external clib;
 }
 function setenv(const name, value: PAnsiChar; overwrite: cint): cint; cdecl; external clib;
 {en
+   Remove an environment variable
+   @param(name Environment variable name)
+   @returns(The function returns zero on success, or -1 on error)
+}
+function unsetenv(const name: PAnsiChar): cint; cdecl; external clib;
+{en
    Get password file entry
    @param(uid User ID)
    @returns(The function returns a pointer to a structure containing the broken-out

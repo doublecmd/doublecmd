@@ -91,6 +91,28 @@ begin
   end;
 end;
 
+function luaSetEnvironmentVariable(L : Plua_State) : Integer; cdecl;
+begin
+  Result:= 1;
+  if (mbSetEnvironmentVariable(luaL_checkstring(L, 1),luaL_checkstring(L, 2))) then begin
+    lua_pushinteger(L, 0);
+  end
+  else begin
+    lua_pushinteger(L, -1);
+  end;
+end;
+
+function luaUnsetEnvironmentVariable(L : Plua_State) : Integer; cdecl;
+begin
+  Result:= 1;
+  if (mbUnsetEnvironmentVariable(luaL_checkstring(L, 1))) then begin
+    lua_pushinteger(L, 0);
+  end
+  else begin
+    lua_pushinteger(L, -1);
+  end;
+end;
+
 function luaExecute(L: Plua_State): Integer; cdecl;
 begin
   Result:= 1;
@@ -786,6 +808,8 @@ begin
     luaP_register(L, 'tmpname', @luaTempName);
     luaP_register(L, 'rename', @luaRenameFile);
     luaP_register(L, 'getenv', @luaGetEnvironmentVariable);
+    luaP_register(L, 'setenv', @luaSetEnvironmentVariable);
+    luaP_register(L, 'unsetenv', @luaUnsetEnvironmentVariable);
   lua_pop(L, 1);
 
   io_noclose_:= @io_noclose;

@@ -237,6 +237,7 @@ function mbGetEnvironmentString(Index : Integer) : String;
 function mbExpandEnvironmentStrings(const FileName: String): String;
 function mbGetEnvironmentVariable(const sName: String): String;
 function mbSetEnvironmentVariable(const sName, sValue: String): Boolean;
+function mbUnsetEnvironmentVariable(const sName: String): Boolean;
 function mbSysErrorMessage: String; overload; inline;
 function mbSysErrorMessage(ErrorCode: Integer): String; overload;
 {en
@@ -1634,6 +1635,20 @@ end;
 {$ELSE}
 begin
   Result:= (setenv(PAnsiChar(CeUtf8ToSys(sName)), PAnsiChar(CeUtf8ToSys(sValue)), 1) = 0);
+end;
+{$ENDIF}
+
+function mbUnsetEnvironmentVariable(const sName: String): Boolean;
+{$IFDEF MSWINDOWS}
+var
+  wsName: UnicodeString;
+begin
+  wsName:= CeUtf8ToUtf16(sName);
+  Result:= SetEnvironmentVariableW(PWideChar(wsName), NIL);
+end;
+{$ELSE}
+begin
+  Result:= (unsetenv(PAnsiChar(CeUtf8ToSys(sName))) = 0);
 end;
 {$ENDIF}
 
