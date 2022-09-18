@@ -11,6 +11,8 @@ uses
   uFile;
 
 type
+  TExtractFlag = (efSmartExtract);
+  TExtractFlags = set of TExtractFlag;
 
   { TArchiveCopyInOperation }
 
@@ -33,8 +35,10 @@ type
   TArchiveCopyOutOperation = class(TFileSourceCopyOutOperation)
   protected
     FExtractMask: String;
+    FExtractFlags: TExtractFlags;
   public
     property ExtractMask: String read FExtractMask write FExtractMask;
+    property ExtractFlags: TExtractFlags read FExtractFlags write FExtractFlags;
   end;
 
 implementation

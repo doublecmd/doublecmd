@@ -45,10 +45,10 @@ type
     FSourceFileSource: IFileSource;
     FTargetFileSource: IFileSource;
     FSourceFiles: TFiles;
-    FTargetPath: String;
     FRenameMask: String;
 
   protected
+    FTargetPath: String;
     FCopyAttributesOptions: TCopyAttributesOptions;
     FSymLinkOption: TFileSourceOperationOptionSymLink;
     FFileExistsOption: TFileSourceOperationOptionFileExists;

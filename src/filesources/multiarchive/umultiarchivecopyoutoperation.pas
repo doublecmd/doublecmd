@@ -131,6 +131,11 @@ begin
 end;
 
 procedure TMultiArchiveCopyOutOperation.Initialize;
+var
+  Index: Integer;
+  ACount: Integer;
+  AFileName: String;
+  ArcFileList: TList;
 begin
   FExProcess:= TExProcess.Create(EmptyStr);
   FExProcess.OnReadLn:= @OnReadLn;
@@ -142,6 +147,30 @@ begin
   begin
     FExProcess.QueryString:= UTF8ToConsole(FPasswordQuery);
     FExProcess.OnQueryString:= @OnQueryString;
+  end;
+
+  if efSmartExtract in ExtractFlags then
+  begin
+    ACount:= 0;
+    ArcFileList := FMultiArchiveFileSource.ArchiveFileList.Clone;
+    try
+      for Index := 0 to ArcFileList.Count - 1 do
+      begin
+        AFileName := PathDelim + TArchiveItem(ArcFileList[Index]).FileName;
+
+        if IsInPath(PathDelim, AFileName, False, False) then
+        begin
+          Inc(ACount);
+          if (ACount > 1) then
+          begin
+            FTargetPath := FTargetPath + ExtractOnlyFileName(FMultiArchiveFileSource.ArchiveFileName) + PathDelim;
+            Break;
+          end;
+        end;
+      end;
+    finally
+      ArcFileList.Free;
+    end;
   end;
 
   AddStateChangedListener([fsosStarting, fsosPausing, fsosStopping], @FileSourceOperationStateChangedNotify);
