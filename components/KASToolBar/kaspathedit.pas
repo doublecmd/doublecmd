@@ -259,10 +259,14 @@ begin
         I:= Bottom - Top; // TListBox.ItemHeight sometimes don't work under GTK2
         with FListBox do
         begin
+{$IF NOT DEFINED(LCLCOCOA)}
           if Items.Count = 1 then
             FPanel.ClientHeight:= Self.Height
           else
             FPanel.ClientHeight:= I * IfThen(Items.Count > 10, 11, Items.Count + 1);
+{$ELSE}
+          FPanel.ClientHeight:= I * IfThen(Items.Count > 10, 11, Items.Count + 1) + trunc(i/2);
+{$ENDIF}
         end;
       end;
     end;
