@@ -929,6 +929,11 @@ object frmMultiRename: TfrmMultiRename
       Caption = 'Load Names from File...'
       OnExecute = actExecute
     end
+    object actLoadNamesFromClipboard: TAction
+      Category = 'Generic'
+      Caption = 'Load Names from Clipboard'
+      OnExecute = actExecute
+    end
     object actEditNames: TAction
       Category = 'Generic'
       Caption = 'Edit Names...'

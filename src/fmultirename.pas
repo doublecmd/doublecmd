@@ -193,6 +193,7 @@ type
     actResetAll: TAction;
     actInvokeEditor: TAction;
     actLoadNamesFromFile: TAction;
+    actLoadNamesFromClipboard: TAction;
     actEditNames: TAction;
     actEditNewNames: TAction;
     actConfig: TAction;
@@ -317,6 +318,7 @@ type
     function FirstCharToUppercaseUTF8(InputString: string): string;
     function FirstCharOfFirstWordToUppercaseUTF8(InputString: string): string;
     function FirstCharOfEveryWordToUppercaseUTF8(InputString: string): string;
+    procedure LoadNamesFromList(const AFileList: TStrings);
     procedure LoadNamesFromFile(const AFileName: string);
     function FreshText(ItemIndex: integer): string;
     function sHandleFormatString(const sFormatStr: string; ItemNr: integer): string;
@@ -331,6 +333,7 @@ type
     procedure cm_ResetAll(const Params: array of string);
     procedure cm_InvokeEditor(const {%H-}Params: array of string);
     procedure cm_LoadNamesFromFile(const {%H-}Params: array of string);
+    procedure cm_LoadNamesFromClipboard(const {%H-}Params: array of string);
     procedure cm_EditNames(const {%H-}Params: array of string);
     procedure cm_EditNewNames(const {%H-}Params: array of string);
     procedure cm_Config(const {%H-}Params: array of string);
@@ -382,7 +385,7 @@ implementation
 
 uses
   //Lazarus, Free-Pascal, etc.
-  Dialogs, Math,
+  Dialogs, Math, Clipbrd,
 
   //DC
   fMain, uFileSourceOperation, uOperationsManager, uOSUtils, uDCUtils, uDebug,
@@ -2008,6 +2011,24 @@ begin
   end;
 end;
 
+procedure TfrmMultiRename.LoadNamesFromList(const AFileList: TStrings);
+begin
+  if AFileList.Count <> FFiles.Count then
+  begin
+    msgError(Format(rsMulRenWrongLinesNumber, [AFileList.Count, FFiles.Count]));
+  end
+  else
+  begin
+    FNames.Assign(AFileList);
+
+    gbMaska.Enabled := False;
+    gbPresets.Enabled := False;
+    gbCounter.Enabled := False;
+
+    StringGridTopLeftChanged(StringGrid);
+  end;
+end;
+
 { TfrmMultiRename.LoadNamesFromFile }
 procedure TfrmMultiRename.LoadNamesFromFile(const AFileName: string);
 var
@@ -2016,21 +2037,7 @@ begin
   AFileList := TStringListEx.Create;
   try
     AFileList.LoadFromFile(AFileName);
-    if AFileList.Count <> FFiles.Count then
-    begin
-      msgError(Format(rsMulRenWrongLinesNumber, [AFileList.Count, FFiles.Count]));
-    end
-    else
-    begin
-      FNames.Assign(AFileList);
-
-
-      gbMaska.Enabled := False;
-      gbPresets.Enabled := False;
-      gbCounter.Enabled := False;
-
-      StringGridTopLeftChanged(StringGrid);
-    end;
+    LoadNamesFromList(AFileList);
   except
     on E: Exception do
       msgError(E.Message);
@@ -2333,6 +2340,22 @@ begin
   dmComData.OpenDialog.Filter := AllFilesMask;
   if dmComData.OpenDialog.Execute then
     LoadNamesFromFile(dmComData.OpenDialog.FileName);
+end;
+
+procedure TfrmMultiRename.cm_LoadNamesFromClipboard(
+  const Params: array of string);
+var
+  AFileList: TStringListEx;
+begin
+  AFileList := TStringListEx.Create;
+  try
+    AFileList.Text := Clipboard.AsText;
+    LoadNamesFromList(AFileList);
+  except
+    on E: Exception do
+      msgError(E.Message);
+  end;
+  AFileList.Free;
 end;
 
 { TfrmMultiRename.cm_EditNames }
