@@ -795,7 +795,7 @@ begin
     TargetStream.SetSize(Target - TargetStream.Memory);
     try
       TargetStream.Position:= 0;
-      ReadXMLFile(Xml, TargetStream);
+      ReadXMLFile(Xml, TargetStream, [xrfPreserveWhiteSpace]);
       try
         LoadFromXml(Xml);
       finally
