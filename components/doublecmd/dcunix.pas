@@ -114,6 +114,12 @@ function getenv(name: PAnsiChar): PAnsiChar; cdecl; external clib;
             insufficient space in the environment)
 }
 function setenv(const name, value: PAnsiChar; overwrite: cint): cint; cdecl; external clib;
+{en
+   Remove an environment variable
+   @param(name Environment variable name)
+   @returns(The function returns zero on success, or -1 on error)
+}
+function unsetenv(const name: PAnsiChar): cint; cdecl; external clib;
 
 function FileLock(Handle: System.THandle; Mode: cInt): System.THandle;
 

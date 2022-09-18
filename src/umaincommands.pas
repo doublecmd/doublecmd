@@ -5080,7 +5080,11 @@ begin
   begin
     // Get script file name
     FileName:= PrepareParameter(Params[0]);
-    if not mbFileExists(FileName) then Exit;
+    if not mbFileExists(FileName) then
+    begin
+      msgError(Format(rsMsgFileNotFound, [Filename]));
+      Exit;
+    end;
 
     // Get script arguments
     Count:= Length(Params) - 1;
