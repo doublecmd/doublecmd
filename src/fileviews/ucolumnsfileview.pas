@@ -118,6 +118,8 @@ type
     procedure MakeVisible(iRow: Integer);
     procedure MakeActiveVisible;
 
+    procedure UpdateFooterDetails;
+
     {en
        Format and cache all columns strings.
     }
@@ -174,6 +176,7 @@ type
     procedure SetSorting(const NewSortings: TFileSortings); override;
     procedure ShowRenameFileEdit(var aFile: TFile); override;
     procedure UpdateRenameFileEditPosition; override;
+    procedure UpdateInfoPanel; override;
 
     procedure MouseScrollTimer(Sender: TObject); override;
 
@@ -429,6 +432,8 @@ begin
   dgPanel.Options := dgPanel.Options - [goDontScrollPartCell];
 {$ENDIF}
   DoFileIndexChanged(aRow - dgPanel.FixedRows, dgPanel.TopRow);
+
+  if (FSelectedCount = 0) then UpdateFooterDetails;
 end;
 
 procedure TColumnsFileView.dgPanelTopLeftChanged(Sender: TObject);
@@ -505,6 +510,12 @@ begin
     Inc(ARect.Right, edtRename.ButtonWidth);
 
   edtRename.SetBounds(ARect.Left, ARect.Top, ARect.Right - ARect.Left, ARect.Bottom - ARect.Top);
+end;
+
+procedure TColumnsFileView.UpdateInfoPanel;
+begin
+  inherited UpdateInfoPanel;
+  UpdateFooterDetails;
 end;
 
 procedure TColumnsFileView.MouseScrollTimer(Sender: TObject);
@@ -722,6 +733,22 @@ procedure TColumnsFileView.MakeActiveVisible;
 begin
   if dgPanel.Row>=0 then
     MakeVisible(dgPanel.Row);
+end;
+
+procedure TColumnsFileView.UpdateFooterDetails;
+var
+  AFile: TFile;
+begin
+  if gColumnsLongInStatus and (FSelectedCount = 0) and (not FlatView) then
+  begin
+    AFile:= CloneActiveFile;
+    if Assigned(AFile) then
+    try
+      lblInfo.Caption := AFile.Name;
+    finally
+      AFile.Free;
+    end;
+  end;
 end;
 
 procedure TColumnsFileView.SetActiveFile(FileIndex: PtrInt; ScrollTo: Boolean; aLastTopRowIndex: PtrInt = -1);

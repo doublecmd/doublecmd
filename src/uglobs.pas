@@ -324,6 +324,7 @@ var
 
   gAutoFillColumns: Boolean;
   gAutoSizeColumn: Integer;
+  gColumnsLongInStatus : Boolean;
   gColumnsAutoSaveWidth: Boolean;
   gColumnsTitleStyle: TTitleStyle;
   gCustomColumnsChangeAllColumns: Boolean;
@@ -1653,6 +1654,7 @@ begin
   gWheelScrollLines:= Mouse.WheelScrollLines;
   gAutoFillColumns := False;
   gAutoSizeColumn := 1;
+  gColumnsLongInStatus := False;
   gColumnsAutoSaveWidth := True;
   gColumnsTitleStyle := tsNative;
   gCustomColumnsChangeAllColumns := False;
@@ -2846,6 +2848,7 @@ begin
       SubNode := FindNode(Node, 'ColumnsView');
       if Assigned(SubNode) then
       begin
+        gColumnsLongInStatus := GetValue(SubNode, 'LongInStatus', gColumnsLongInStatus);
         gColumnsAutoSaveWidth := GetValue(SubNode, 'AutoSaveWidth', gColumnsAutoSaveWidth);
         gColumnsTitleStyle := TTitleStyle(GetValue(SubNode, 'TitleStyle', Integer(gColumnsTitleStyle)));
       end;
@@ -3559,6 +3562,7 @@ begin
     SetValue(SubNode, 'NewFilesPosition', Integer(gNewFilesPosition));
     SetValue(SubNode, 'UpdatedFilesPosition', Integer(gUpdatedFilesPosition));
     SubNode := FindNode(Node, 'ColumnsView', True);
+    SetValue(SubNode, 'LongInStatus', gColumnsLongInStatus);
     SetValue(SubNode, 'AutoSaveWidth', gColumnsAutoSaveWidth);
     SetValue(SubNode, 'TitleStyle', Integer(gColumnsTitleStyle));
     SubNode := FindNode(Node, 'BriefView', True);
