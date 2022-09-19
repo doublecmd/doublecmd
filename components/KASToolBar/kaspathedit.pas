@@ -54,16 +54,17 @@ type
     originalText: String;
     keyDownText: String;
 {$ENDIF}
-    procedure handleSpecialKeys( Key: Word );
+  private
+    procedure handleSpecialKeys( var Key: Word );
     procedure handleUpKey;
     procedure handleDownKey;
-  private
     procedure AutoComplete(const Path: String);
     procedure SetObjectTypes(const AValue: TObjectTypes);
     procedure FormChangeBoundsEvent(Sender: TObject);
     procedure ListBoxClick(Sender: TObject);
     procedure ListBoxMouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer);
   private
+    function isShowingListBox(): Boolean; inline;
     procedure ShowListBox;
     procedure HideListBox;
   protected
@@ -207,6 +208,11 @@ end;
 
 { TKASPathEdit }
 
+function TKASPathEdit.isShowingListBox(): Boolean;
+begin
+  Result:= FPanel<>nil;
+end;
+
 procedure TKASPathEdit.AutoComplete(const Path: String);
 {$IF LCL_FULLVERSION >= 2020000}
 const
@@ -251,6 +257,7 @@ begin
       finally
         FListBox.Items.EndUpdate;
       end;
+      if FListBox.Items.Count = 0 then HideListBox;
       if FListBox.Items.Count > 0 then
       begin
         ShowListBox;
@@ -317,7 +324,7 @@ end;
 
 procedure TKASPathEdit.ShowListBox;
 begin
-  if (FPanel = nil) then
+  if not isShowingListBox() then
   begin
     FPanel:= THintWindow.Create(Self);
 {$IF DEFINED(LCLCOCOA)}
@@ -342,7 +349,7 @@ end;
 
 procedure TKASPathEdit.HideListBox;
 begin
-  if (FPanel <> nil) then
+  if isShowingListBox() then
   begin
     FPanel.Visible:= False;
     FListBox.Parent:= nil;
@@ -405,24 +412,31 @@ begin
     VK_ESCAPE,
     VK_RETURN,
     VK_SELECT:
-      if self.text=self.keyDownText then
+      if self.text=self.keyDownText then begin
         // from the text has not been changed,
         // the TKASPathEdit is not in the IME state
         handleSpecialKeys( Key )
-      else
+      end else begin
+        // in the IME state
+        AutoComplete(self.text);
         Key:= 0;
+      end;
   end;
   inherited KeyUp( Key, Shift );
 end;
 {$ENDIF}
 
-procedure TKASPathEdit.handleSpecialKeys( Key: Word );
+procedure TKASPathEdit.handleSpecialKeys( var Key: Word );
 begin
-  HideListBox;
-  if Key=VK_ESCAPE then begin
-    if Assigned(onKeyESCAPE) then onKeyESCAPE( self );
+  if isShowingListBox() then begin
+    HideListBox;
+    Key:= 0;
   end else begin
-    if Assigned(onKeyRETURN) then onKeyRETURN( self );
+    if Key=VK_ESCAPE then begin
+      if Assigned(onKeyESCAPE) then onKeyESCAPE( self );
+    end else begin
+      if Assigned(onKeyRETURN) then onKeyRETURN( self );
+    end;
   end;
 end;
 
@@ -474,13 +488,13 @@ begin
       handleSpecialKeys( Key );
     {$ENDIF}
     VK_UP:
-      if Assigned(FPanel) then
+      if isShowingListBox() then
       begin
         Key:= 0;
         handleUpKey();
       end;
     VK_DOWN:
-      if Assigned(FPanel) then
+      if isShowingListBox() then
       begin
         Key:= 0;
         handleDownKey();
