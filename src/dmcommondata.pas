@@ -148,22 +148,26 @@ end;
 procedure TdmComData.LoadImages(Images: TImageList; const ANames: array of String);
 var
   AName: String;
-  ASize16, ASize24: Integer;
-  ABitmap16, ABitmap24: TBitmap;
+  ASize16, ASize24, ASize32: Integer;
+  ABitmap16, ABitmap24, ABitmap32: TBitmap;
 begin
   Images.Clear;
   ASize16:= 16; // AdjustIconSize(16, 96);
   ASize24:= 24; // AdjustIconSize(24, 96);
-  Images.RegisterResolutions([ASize16, ASize24]);
+  ASize32:= 32; // AdjustIconSize(32, 96);
+  Images.RegisterResolutions([ASize16, ASize24, ASize32]);
   for AName in ANames do
   begin
     ABitmap16:= PixMapManager.GetThemeIcon(AName, ASize16);
     if (ABitmap16 = nil) then ABitmap16:= TBitmap.Create;
     ABitmap24:= PixMapManager.GetThemeIcon(AName, ASize24);
     if (ABitmap24 = nil) then ABitmap24:= TBitmap.Create;
-    Images.AddMultipleResolutions([ABitmap16, ABitmap24]);
+    ABitmap32:= PixMapManager.GetThemeIcon(AName, ASize32);
+    if (ABitmap32 = nil) then ABitmap32:= TBitmap.Create;
+    Images.AddMultipleResolutions([ABitmap16, ABitmap24, ABitmap32]);
     ABitmap16.Free;
     ABitmap24.Free;
+    ABitmap32.Free;
   end;
 end;
 
