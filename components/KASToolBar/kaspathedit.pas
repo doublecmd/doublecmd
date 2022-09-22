@@ -30,7 +30,7 @@ interface
 
 uses
   Classes, SysUtils, LResources, Forms, Controls, Graphics, Dialogs, StdCtrls,
-  ShellCtrls, LCLType, LCLVersion
+  ShellCtrls, LCLType, LCLVersion, Strings
 {$IF DEFINED(LCLCOCOA)}
   , CocoaAll, CocoaWindows
 {$ENDIF}
@@ -55,6 +55,7 @@ type
     keyDownText: String;
 {$ENDIF}
   private
+    procedure setTextAndSelect( newText:String );
     procedure handleSpecialKeys( var Key: Word );
     procedure handleUpKey;
     procedure handleDownKey;
@@ -296,12 +297,12 @@ begin
   HideListBox;
 end;
 
+
 procedure TKASPathEdit.ListBoxClick(Sender: TObject);
 begin
   if FListBox.ItemIndex >= 0 then
   begin
-    Text:= FListBox.Items[FListBox.ItemIndex];
-    SelStart:= UTF8Length(Text);
+    setTextAndSelect( FListBox.Items[FListBox.ItemIndex] );
     HideListBox;
     SetFocus;
   end;
@@ -365,6 +366,26 @@ procedure TKASPathEdit.CreateWnd;
 begin
   inherited CreateWnd;
   FAutoComplete:= not SHAutoCompleteX(Handle, FObjectTypes);
+end;
+
+procedure TKASPathEdit.setTextAndSelect( newText:String );
+begin
+  Text:= newText;
+end;
+
+{$ELSE}
+
+procedure TKASPathEdit.setTextAndSelect( newText:String );
+var
+  start: Integer;
+begin
+  if Strings.strpos(pchar(newText),pchar(Text))<>nil then
+    start:= UTF8Length(Text)
+  else
+    start:= UTF8Length(ExtractFilePath(Text));
+  Text:= newText;
+  SelStart:= start;
+  SelLength:= UTF8Length(Text)-SelStart;
 end;
 
 {$ENDIF}
@@ -450,10 +471,9 @@ begin
       FListBox.ItemIndex:= FListBox.ItemIndex - 1;
 
     if FListBox.ItemIndex >= 0 then
-      Text:= FListBox.Items[FListBox.ItemIndex]
+      setTextAndSelect( FListBox.Items[FListBox.ItemIndex] )
     else
-      Text:= ExtractFilePath(Text);
-    SelStart:= UTF8Length(Text);
+      setTextAndSelect( ExtractFilePath(Text) );
 end;
 
 procedure TKASPathEdit.handleDownKey;
@@ -466,10 +486,9 @@ begin
       FListBox.ItemIndex:= FListBox.ItemIndex + 1;
 
     if FListBox.ItemIndex >= 0 then
-      Text:= FListBox.Items[FListBox.ItemIndex]
+      setTextAndSelect( FListBox.Items[FListBox.ItemIndex] )
     else
-      Text:= ExtractFilePath(Text);
-    SelStart:= UTF8Length(Text);
+      setTextAndSelect( ExtractFilePath(Text) );
 end;
 
 {$IF DEFINED(LCLCOCOA)}
