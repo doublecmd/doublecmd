@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: b5aaebc75354984d7cee90405a1f6642\n"
 "Language-Team: Belarusian\n"
 "Language: be_BY\n"
-"PO-Revision-Date: 2022-02-23 20:01\n"
+"PO-Revision-Date: 2022-02-25 05:24\n"
 
 #: tdialogbox.caption
 msgid "Options"
@@ -18,27 +18,27 @@ msgstr "Параметры"
 
 #: tdialogbox.lblpath.caption
 msgid "Path to Win&RAR executable"
-msgstr ""
+msgstr "Шлях да запускальнага файла Win&RAR"
 
 #: tdialogbox.gboptions.caption
 msgid "Archiving options"
-msgstr ""
+msgstr "Параметры архівацыі"
 
 #: tdialogbox.gboptions.chkrecovery.caption
 msgid "Add r&ecovery record"
-msgstr ""
+msgstr "Дадаць запіс &аднаўлення"
 
 #: tdialogbox.gboptions.chkencrypt.caption
 msgid "Encrypt file &names"
-msgstr ""
+msgstr "Шыфраваць назвы &файлаў"
 
 #: tdialogbox.gboptions.chksolid.caption
 msgid "Create &solid archive"
-msgstr ""
+msgstr "Стварыць &суцэльны архіў"
 
 #: tdialogbox.lblmethod.caption
 msgid "&Compression method"
-msgstr ""
+msgstr "Метад &сціскання"
 
 #: tdialogbox.brncancel.caption
 msgid "Cancel"
@@ -50,5 +50,5 @@ msgstr "ДОБРА"
 
 #: tdialogbox.lblargs.caption
 msgid "Additional parameters"
-msgstr ""
+msgstr "&Дадатковыя параметры"
 

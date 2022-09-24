@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: b5aaebc75354984d7cee90405a1f6642\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-01-17 23:08+0300\n"
-"PO-Revision-Date: 2022-02-24 05:22\n"
+"PO-Revision-Date: 2022-02-25 05:24\n"
 "Last-Translator: Full Name <email@address>\n"
 "Language-Team: Belarusian\n"
 "MIME-Version: 1.0\n"
@@ -1290,7 +1290,7 @@ msgstr "Апошняя змена:"
 
 #: tfrmfileproperties.lbllaststchangestr.caption
 msgid "Last status change:"
-msgstr "Апошняя змена:"
+msgstr "Апошняя змена стану:"
 
 #: tfrmfileproperties.lbloctal.caption
 msgctxt "tfrmfileproperties.lbloctal.caption"
@@ -2183,7 +2183,7 @@ msgstr "&Спіс выбраных каталогаў"
 
 #: tfrmmain.actdoanycmcommand.caption
 msgid "Execute &internal command..."
-msgstr ""
+msgstr "Запусціць &унутраны загад..."
 
 #: tfrmmain.actdoanycmcommand.hint
 msgid "Select any command and execute it"
@@ -2361,11 +2361,11 @@ msgstr "Загрузіць укладкі з улюбёных"
 
 #: tfrmmain.actloadlist.caption
 msgid "Load List"
-msgstr ""
+msgstr "Загрузіць спіс"
 
 #: tfrmmain.actloadlist.hint
 msgid "Load list of files/folders from the specified text file"
-msgstr ""
+msgstr "Загрузіць спіс файлаў або каталогаў з пазначанага тэкставага файла"
 
 #: tfrmmain.actloadselectionfromclip.caption
 msgid "Load Selection from Clip&board"
@@ -2425,11 +2425,11 @@ msgstr "Згарнуць акно"
 
 #: tfrmmain.actmovetableft.caption
 msgid "Move current tab to the left"
-msgstr ""
+msgstr "Перамясціць бягучую ўкладку ўлева"
 
 #: tfrmmain.actmovetabright.caption
 msgid "Move current tab to the right"
-msgstr ""
+msgstr "Перамясціць бягучую ўкладку ўправа"
 
 #: tfrmmain.actmultirename.caption
 msgid "Multi-&Rename Tool"
@@ -5826,7 +5826,7 @@ msgstr "Мі&наць памылкі падчас аперацый з файла
 
 #: tfrmoptionsfileoperations.cbtestarchiveconfirmation.caption
 msgid "Test archive operation"
-msgstr ""
+msgstr "Тэставая аперацыя з архівам"
 
 #: tfrmoptionsfileoperations.cbverifychecksumconfirmation.caption
 msgid "Verify checksum operation"
@@ -6530,7 +6530,7 @@ msgstr "Паказваць кароткую &адмеціну наяўнасці
 
 #: tfrmoptionslayout.cbshowstatusbar.caption
 msgid "Show &status bar"
-msgstr "Паказваць панэль &статусу"
+msgstr "Паказваць панэль &стану"
 
 #: tfrmoptionslayout.cbshowtabheader.caption
 msgid "S&how tabstop header"
@@ -6671,7 +6671,7 @@ msgstr "Пры &змене дыска заўсёды вяртацца ў кар�
 
 #: tfrmoptionsmisc.chkshowcurdirtitlebar.caption
 msgid "Show &current directory in the main window title bar"
-msgstr ""
+msgstr "Паказваць &бягучы каталог на панэлі загалоўкаў"
 
 #: tfrmoptionsmisc.chkshowwarningmessages.caption
 msgid "Show &warning messages (\"OK\" button only)"
@@ -9924,7 +9924,7 @@ msgstr " Дададзена: "
 
 #: ulng.rsdiffcomparing
 msgid "Comparing..."
-msgstr ""
+msgstr "Параўнанне..."
 
 #: ulng.rsdiffdeletes
 msgid " Deletes: "
@@ -9949,16 +9949,17 @@ msgstr "Кадаванне"
 
 #: ulng.rsdifftextdifferencelineending
 msgid "Line-endings"
-msgstr ""
+msgstr "Завяршэнне радкоў"
 
 #: ulng.rsdifftextidentical
 msgid "The text is identical, but the following options are used:"
-msgstr ""
+msgstr "Тэкст аднолькавы, але выкарыстоўваюцца наступныя параметры:"
 
 #: ulng.rsdifftextidenticalnotmatch
 msgid "The text is identical, but the files do not match!\n"
 "The following differences were found:\n"
-msgstr ""
+msgstr "Тэкст аднолькавы, але файлы адрозніваюцца!\n"
+"Выяўлены наступныя адрозненні:\n"
 
 #: ulng.rsdlgbuttonabort
 msgid "Ab&ort"
@@ -10366,7 +10367,7 @@ msgstr "Шрыфт вынікаў пошуку"
 
 #: ulng.rsfontusagestatusbar
 msgid "Status Bar Font"
-msgstr ""
+msgstr "Шрыфт панэлі стану"
 
 #: ulng.rsfontusagetreeviewmenu
 msgid "Tree View Menu Font"
@@ -10981,7 +10982,7 @@ msgstr "Шлях: %s"
 
 #: ulng.rsmsgexitstatuscode
 msgid "Exit status:"
-msgstr "Статус выхаду:"
+msgstr "Стан выхаду:"
 
 #: ulng.rsmsgfavoritetabsdeleteallentries
 msgid "Are you sure you want to remove all entries of your Favorite Tabs? (There is no \"undo\" to this action!)"
@@ -11705,7 +11706,7 @@ msgstr "Увядзіце назву і шлях да захаванага фай
 
 #: ulng.rsmsgterminaldisabled
 msgid "Built-in terminal window disabled. Do you want to enable it?"
-msgstr ""
+msgstr "Убудаванае акно тэрмінала адключана. Хочаце ўключыць яго?"
 
 #: ulng.rsmsgterminateprocess
 msgid "WARNING: Terminating a process can cause undesired results including loss of data and system instability. The process will not be given the chance to save its state or data before it is terminated. Are you sure you want to terminate the process?"
@@ -11713,7 +11714,7 @@ msgstr "УВАГА! Завяршэнне працэсу можа прывесц�
 
 #: ulng.rsmsgtestarchive
 msgid "Do you want to test selected archives?"
-msgstr ""
+msgstr "Хочаце правесці тэставанне абраных архіваў?"
 
 #: ulng.rsmsgthisisnowinclipboard
 msgid "\"%s\" is now in the clipboard"
@@ -13567,7 +13568,7 @@ msgstr "Сетка"
 
 #: ulng.rsvfsrecyclebin
 msgid "Recycle Bin"
-msgstr ""
+msgstr "Сметніца"
 
 #: ulng.rsviewabouttext
 msgid "Internal Viewer of Double Commander."
