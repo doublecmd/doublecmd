@@ -107,7 +107,7 @@ type
     procedure SetProgressBytes(Operation: TFileSourceOperation; ProgressBar: TKASProgressBar; CurrentBytes: Int64; TotalBytes: Int64);
     procedure SetProgressFiles(Operation: TFileSourceOperation; ProgressBar: TKASProgressBar; CurrentFiles: Int64; TotalFiles: Int64);
     procedure SetSpeedAndTime(Operation: TFileSourceOperation; RemainingTime: TDateTime; Speed: String);
-    procedure StopOperationOrQueue;
+    function StopOperationOrQueue: Boolean;
 
     procedure InitializeCopyOperation(OpManItem: TOperationsManagerItem);
     procedure InitializeMoveOperation(OpManItem: TOperationsManagerItem);
@@ -166,7 +166,7 @@ implementation
 {$R *.lfm}
 
 uses
-   dmCommonData, uLng, uDCUtils, LCLVersion,
+   dmCommonData, uLng, uDCUtils, LCLVersion, uShowMsg,
    fViewOperations,
    uFileSourceOperationMisc,
    uFileSourceOperationTypes,
@@ -228,8 +228,8 @@ end;
 
 procedure TfrmFileOp.btnCancelClick(Sender: TObject);
 begin
-  StopOperationOrQueue;
-  ModalResult:= mrCancel;
+  if StopOperationOrQueue then
+    ModalResult:= mrCancel;
 end;
 
 procedure TfrmFileOp.btnMinimizeToPanelClick(Sender: TObject);
@@ -421,7 +421,7 @@ begin
   Result := True;
 
   if FStopOperationOnClose then
-    StopOperationOrQueue;
+    Result := StopOperationOrQueue;
 end;
 
 class procedure TfrmFileOp.AddEventsListener(Events: TOperationProgressWindowEvents; FunctionToCall: TOperationProgressWindowEventProc);
@@ -594,17 +594,42 @@ begin
 {$ENDIF}
 end;
 
-procedure TfrmFileOp.StopOperationOrQueue;
+function TfrmFileOp.StopOperationOrQueue: Boolean;
 var
+  Paused: Boolean;
   OpManItem: TOperationsManagerItem;
 begin
+  Result := True;
   OpManItem := OperationsManager.GetItemByHandle(FOperationHandle);
   if Assigned(OpManItem) then
   begin
     if OpManItem.Queue.IsFree then
-      OpManItem.Operation.Stop
-    else
-      OpManItem.Queue.Stop;
+    begin
+      Paused := OpManItem.Operation.State in [fsosStarting, fsosRunning, fsosWaitingForConnection];
+      if Paused then OpManItem.Operation.Pause;
+    end
+    else begin
+      Paused := not OpManItem.Queue.Paused;
+      if Paused then OpManItem.Queue.Pause;
+    end;
+
+    Result:= msgYesNo(rsMsgCancelOperation, msmbYes);
+
+    if Result then
+    begin
+      if OpManItem.Queue.IsFree then
+        OpManItem.Operation.Stop
+      else
+        OpManItem.Queue.Stop;
+    end
+    else if Paused then
+    begin
+      if OpManItem.Queue.IsFree then
+        OpManItem.Operation.TogglePause
+      else begin
+        OpManItem.Queue.TogglePause;
+      end;
+    end;
   end;
 end;
 

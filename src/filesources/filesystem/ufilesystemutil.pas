@@ -1,6 +1,9 @@
 unit uFileSystemUtil;
 
 {$mode objfpc}{$H+}
+{$if FPC_FULLVERSION >= 30300}
+{$modeswitch arraytodynarray}
+{$endif}
 
 interface
 
@@ -126,6 +129,7 @@ type
                         var AbsoluteTargetFileName: String;
                         AllowAppend: Boolean): TFileSourceOperationOptionFileExists;
 
+    procedure SkipStatistics(aNode: TFileTreeNode);
     procedure CountStatistics(aNode: TFileTreeNode);
 
   public
@@ -699,7 +703,11 @@ begin
       begin
         bRetryWrite:= FReserveSpace;
         FReserveSpace:= False;
-        OpenTargetFile;
+        try
+          OpenTargetFile;
+        finally
+          FReserveSpace:= bRetryWrite;
+        end;
         if not Assigned(TargetFileStream) then
           Exit;
 
@@ -728,7 +736,7 @@ begin
           Exit;
         end;
 
-        if bRetryWrite then
+        if FReserveSpace then
         begin
           TargetFileStream.Size:= SourceFileStream.Size;
           TargetFileStream.Seek(0, fsFromBeginning);
@@ -1061,7 +1069,7 @@ begin
         else
             begin
               Result := False;
-              CountStatistics(CurrentSubNode);
+              SkipStatistics(CurrentSubNode);
               AppProcessMessages;
               CheckOperationState;
               Continue;
@@ -1086,7 +1094,7 @@ begin
           begin
             Result := False;
             FMaxPathOption := fsourSkip;
-            CountStatistics(CurrentSubNode);
+            SkipStatistics(CurrentSubNode);
             AppProcessMessages;
             CheckOperationState;
             Continue;
@@ -1136,7 +1144,7 @@ begin
     fsoterSkip:
       begin
         Result := False;
-        CountStatistics(aNode);
+        SkipStatistics(aNode);
       end;
 
     fsoterDeleted, fsoterNotExists:
@@ -1623,7 +1631,7 @@ const
 var
   Answer: Boolean;
   Message: String;
-  PossibleResponses: array of TFileSourceOperationUIResponse;
+  PossibleResponses: TFileSourceOperationUIResponses;
 
   function RenameTarget: TFileSourceOperationOptionFileExists;
   var
@@ -1784,6 +1792,47 @@ begin
     else
       Result := FFileExistsOption;
   end;
+end;
+
+procedure TFileSystemOperationHelper.SkipStatistics(aNode: TFileTreeNode);
+
+  procedure SkipNodeStatistics(aNode: TFileTreeNode);
+  var
+    aFileAttrs: TFileAttributesProperty;
+    i: Integer;
+  begin
+    aFileAttrs := aNode.TheFile.AttributesProperty;
+
+    with FStatistics do
+    begin
+      if aFileAttrs.IsDirectory then
+      begin
+        // No statistics for directory.
+        // Go through subdirectories.
+        for i := 0 to aNode.SubNodesCount - 1 do
+          SkipNodeStatistics(aNode.SubNodes[i]);
+      end
+      else if aFileAttrs.IsLink then
+      begin
+        // Count only not-followed links.
+        if aNode.SubNodesCount = 0 then
+          TotalFiles := TotalFiles - 1
+        else
+          // Count target of link.
+          SkipNodeStatistics(aNode.SubNodes[0]);
+      end
+      else
+      begin
+        // Count files.
+        TotalFiles := TotalFiles - 1;
+        TotalBytes := TotalBytes - aNode.TheFile.Size;
+      end;
+    end;
+  end;
+
+begin
+  SkipNodeStatistics(aNode);
+  UpdateStatistics(FStatistics);
 end;
 
 procedure TFileSystemOperationHelper.ShowError(sMessage: String);

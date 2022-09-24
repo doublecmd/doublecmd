@@ -104,6 +104,7 @@ type
     ParentBackground: boolean;
     constructor Create(Name: string);
 //    destructor Destroy(); override;
+    function GetHashCode: PtrInt; override;
     procedure LoadFromString(Value: string);
     procedure SaveToStream(StreamWriter: TStreamWriter);
   end;
@@ -199,7 +200,7 @@ const
 implementation
 
 uses
-  Laz2_XMLRead;
+  Crc, Laz2_XMLRead;
 
 function StrToSet(st: string): TSymbSet;
 var i: integer;
@@ -386,7 +387,7 @@ begin
 
     WriteTag(Ind+2, 'General');
     WriteParam('Name',       General.Name);
-    WriteParam('Extensions', General.Extensions, CloseEmptyTag);
+    WriteParam('Extensions', General.Extensions);
     WriteParam('Other',      BoolToStr(General.Other), CloseEmptyTag);
 
     WriteTag(Ind+2, 'Author');
@@ -503,6 +504,17 @@ begin
 //  Std := TSynHighlighterAttributes.Create(SYNS_AttrDefaultPackage);
   inherited Create(Name{SYNS_AttrDefaultPackage});
 //  UseStyle := False;
+end;
+
+function TSynAttributes.GetHashCode: PtrInt;
+var
+  ACrc: Cardinal = 0;
+begin
+  ACrc:= CRC32(ACrc, @Background, SizeOf(TColor));
+  ACrc:= CRC32(ACrc, @Foreground, SizeOf(TColor));
+  ACrc:= CRC32(ACrc, @Style, SizeOf(TFontStyles));
+  ACrc:= CRC32(ACrc, @ParentForeground, SizeOf(Boolean));
+  Result:= PtrInt(CRC32(ACrc, @ParentBackground, SizeOf(Boolean)));
 end;
 
 {destructor TSynAttributes.Destroy;
@@ -814,7 +826,7 @@ end;
 //==== TSynUniStyles =========================================================
 constructor TSynUniStyles.Create;
 begin
-  Self.OwnsObjects := True;
+  inherited Create(True);
 end;
 
 destructor TSynUniStyles.Destroy;
@@ -884,46 +896,53 @@ end;
 
 procedure TSynUniStyles.Load;
 var
-  xml: TXMLDocument = nil;
-  i, J: integer;
-  Name, FontStyle, Key, Value: string;
+  I: Integer;
+  Xml: TXMLDocument;
+  Style: TSynAttributes;
+  ARoot, ChildNode: TDOMNode;
   Foreground, Background: TColor;
-  Style: {TSynHighlighter}TSynAttributes;
-  ChildNode: TDOMNode;
+  Name, FontStyle, Key, Value: string;
 begin
   if not FileExists(FileName) then
-    raise Exception.Create(ClassName + '.Load - "' + FileName + '" does not exists.');
+    raise EFileNotFoundException.Create(ClassName + '.Load - "' + FileName + '" does not exists.');
 
   Clear;
+  ReadXMLFile(Xml, FileName);
   try
-    ReadXMLFile(xml, FileName);
-    for J := 0 to Int32(xml.ChildNodes.Count) - 1 do
+    ARoot:= Xml.FindNode('Scheme');
+    if Assigned(ARoot) then
     begin
-      ChildNode:= xml.ChildNodes.Item[J];
-      if SameText(ChildNode.NodeName, 'Style') then begin
-        Name := '';
-        Foreground := clLime;
-        Background := clFuchsia;
-        FontStyle := '';
-        for i := 0 to Int32(ChildNode.Attributes.Length) - 1 do begin
-          Key := ChildNode.Attributes[i].NodeName;
-          Value := ChildNode.Attributes[i].NodeValue;
-          if SameText('Name', Key) then Name := Value else
-          if SameText('Foreground', Key) then Foreground := StrToIntDef(Value, clBlack) else
-          if SameText('Background', Key) then Background := StrToIntDef(Value, clWhite) else
-          if SameText('FontStyle', Key) then FontStyle := Value else
+      ChildNode:= ARoot.FirstChild;
+      while Assigned(ChildNode) do
+      begin
+        if SameText(ChildNode.NodeName, 'Style') then
+        begin
+          Name := '';
+          Foreground := clWindowText;
+          Background := clWindow;
+          FontStyle := '';
+          for I := 0 to Int32(ChildNode.Attributes.Length) - 1 do
+          begin
+            Key := ChildNode.Attributes[I].NodeName;
+            Value := ChildNode.Attributes[I].NodeValue;
+            if SameText('Name', Key) then Name := Value else
+            if SameText('Foreground', Key) then Foreground := StrToIntDef(Value, clWindowText) else
+            if SameText('Background', Key) then Background := StrToIntDef(Value, clWindow) else
+            if SameText('FontStyle', Key) then FontStyle := Value else
+          end;
+          Style := Self.GetStyle(Name);
+          if Style <> nil then begin
+            Style.Foreground := Foreground;
+            Style.Background := Background;
+            Style.Style := StrToFontStyle(FontStyle);
+          end else
+            Self.AddStyle(Name, Foreground, Background, StrToFontStyle(FontStyle));
         end;
-        Style := Self.GetStyle(Name);
-        if Style <> nil then begin
-          Style.Foreground := Foreground;
-          Style.Background := Background;
-          Style.Style := StrToFontStyle(FontStyle);
-        end else
-          Self.AddStyle(Name, Foreground, Background, StrToFontStyle(FontStyle));
+        ChildNode:= ChildNode.NextSibling;
       end;
     end;
   finally
-    FreeAndNil(xml);
+    FreeAndNil(Xml);
   end;
 end;
 

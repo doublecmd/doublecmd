@@ -808,7 +808,7 @@ implementation
 
 {$IFDEF FastUnicodeData}
 uses
-  regexpr_unicodedata;
+  unicodedata;
 {$ENDIF}
 
 {$IFNDEF UNICODE}
@@ -944,18 +944,6 @@ begin
   {$ENDIF}
 end;
 
-{$IFDEF FastUnicodeData}
-function TRegExpr._UpperCase(Ch: REChar): REChar; inline;
-begin
-  Result := CharUpperArray[Ord(Ch)];
-end;
-
-function TRegExpr._LowerCase(Ch: REChar): REChar; inline;
-begin
-  Result := CharLowerArray[Ord(Ch)];
-end;
-
-{$ELSE}
 function TRegExpr._UpperCase(Ch: REChar): REChar;
 begin
   Result := Ch;
@@ -1019,7 +1007,6 @@ begin
     {$ENDIF}
   {$ENDIF}
 end;
-{$ENDIF}
 
 function TRegExpr.InvertCase(const Ch: REChar): REChar; {$IFDEF InlineFuncs}inline;{$ENDIF}
 begin
@@ -1998,9 +1985,17 @@ end;
 
 {$IFDEF FastUnicodeData}
 function TRegExpr.IsWordChar(AChar: REChar): boolean;
+var
+  NType: Byte;
 begin
-  // bit 7 in value: is word char
-  Result := CharCategoryArray[Ord(AChar)] and 128 <> 0;
+  if AChar = '_' then
+    Exit(True);
+
+  if Ord(AChar) >= LOW_SURROGATE_BEGIN then
+    Exit(False);
+
+  NType := GetProps(Ord(AChar))^.Category;
+  Result := (NType <= UGC_OtherNumber);
 end;
 
 (*
@@ -2109,8 +2104,7 @@ var
   Name0, Name1: REChar;
 begin
   Result := False;
-  // bits 0..6 are category
-  N := CharCategoryArray[Ord(AChar)] and 127;
+  N := GetProps(Ord(AChar))^.Category;
   if N <= High(CategoryNames) then
   begin
     Name0 := CategoryNames[N][0];

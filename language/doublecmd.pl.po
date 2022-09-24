@@ -3,13 +3,19 @@ msgstr ""
 "Project-Id-Version: Double Commander 1.1.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-01-17 23:08+0300\n"
-"PO-Revision-Date: 2022-02-17 20:51+0200\n"
+"PO-Revision-Date: 2022-09-16 12:52+0000\n"
 "Last-Translator: Andrzej Kamiński <endriusk@interia.pl> and Maciej Bojakowski <maciejbojakowski@gmail.com>\n"
 "Language-Team: \n"
-"MIME-Version: 1.1.0\n"
+"Language: pl\n"
+"MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Native-Language: Polski (Polska)\n"
+"X-Generator: Poedit 3.0.1\n"
+
+#: foptionscolors.rsdarkmodeoptions
+msgid "Auto;Enabled;Disabled"
+msgstr "Automatycznie;Włączony;Wyłączony"
 
 #: fsyncdirsdlg.rscomparingpercent
 msgid "Comparing... %d%% (ESC to cancel)"
@@ -519,6 +525,11 @@ msgctxt "tfrmdiffer.acteditredo.caption"
 msgid "Redo"
 msgstr "Wykonaj ponownie"
 
+#: tfrmdiffer.acteditredo.hint
+msgctxt "tfrmdiffer.acteditredo.hint"
+msgid "Redo"
+msgstr "Wykonaj ponownie"
+
 #: tfrmdiffer.acteditselectall.caption
 msgid "Select &All"
 msgstr "Zaznacz &wszystko"
@@ -528,10 +539,55 @@ msgctxt "tfrmdiffer.acteditundo.caption"
 msgid "Undo"
 msgstr "Cofnij"
 
+#: tfrmdiffer.acteditundo.hint
+msgctxt "tfrmdiffer.acteditundo.hint"
+msgid "Undo"
+msgstr "Cofnij"
+
 #: tfrmdiffer.actexit.caption
 msgctxt "tfrmdiffer.actexit.caption"
 msgid "E&xit"
 msgstr "&Zakończ"
+
+#: tfrmdiffer.actfind.caption
+msgctxt "tfrmdiffer.actfind.caption"
+msgid "&Find"
+msgstr "&Znajdź"
+
+#: tfrmdiffer.actfind.hint
+msgctxt "tfrmdiffer.actfind.hint"
+msgid "Find"
+msgstr "Znajdź"
+
+#: tfrmdiffer.actfindnext.caption
+msgctxt "tfrmdiffer.actfindnext.caption"
+msgid "Find next"
+msgstr "Znajdź następny"
+
+#: tfrmdiffer.actfindnext.hint
+msgctxt "tfrmdiffer.actfindnext.hint"
+msgid "Find next"
+msgstr "Znajdź następny"
+
+#: tfrmdiffer.actfindprev.caption
+msgctxt "tfrmdiffer.actfindprev.caption"
+msgid "Find previous"
+msgstr "Znajdź poprzedni"
+
+#: tfrmdiffer.actfindprev.hint
+msgctxt "tfrmdiffer.actfindprev.hint"
+msgid "Find previous"
+msgstr "Znajdź poprzedni"
+
+#: tfrmdiffer.actfindreplace.caption
+msgctxt "tfrmdiffer.actfindreplace.caption"
+msgid "&Replace"
+msgstr "&Zamień"
+
+#: tfrmdiffer.actfindreplace.hint
+msgctxt "tfrmdiffer.actfindreplace.hint"
+msgid "Replace"
+msgstr "Zamień"
 
 #: tfrmdiffer.actfirstdifference.caption
 msgctxt "tfrmdiffer.actfirstdifference.caption"
@@ -542,6 +598,16 @@ msgstr "Pierwsza różnica"
 msgctxt "tfrmdiffer.actfirstdifference.hint"
 msgid "First Difference"
 msgstr "Pierwsza różnica"
+
+#: tfrmdiffer.actgotoline.caption
+msgctxt "tfrmdiffer.actgotoline.caption"
+msgid "Goto Line..."
+msgstr "Przejdź do wiersza..."
+
+#: tfrmdiffer.actgotoline.hint
+msgctxt "tfrmdiffer.actgotoline.hint"
+msgid "Goto Line"
+msgstr "Przejdź do wiersza"
 
 #: tfrmdiffer.actignorecase.caption
 msgid "Ignore Case"
@@ -834,6 +900,7 @@ msgid "Find previous"
 msgstr "Znajdź poprzedni"
 
 #: tfrmeditor.acteditgotoline.caption
+msgctxt "tfrmeditor.acteditgotoline.caption"
 msgid "Goto Line..."
 msgstr "Przejdź do wiersza..."
 
@@ -888,6 +955,7 @@ msgid "Redo"
 msgstr "Wykonaj ponownie"
 
 #: tfrmeditor.acteditrplc.caption
+msgctxt "tfrmeditor.acteditrplc.caption"
 msgid "&Replace"
 msgstr "&Zamień"
 
@@ -1036,6 +1104,10 @@ msgctxt "tfrmeditsearchreplace.buttonpanel.okbutton.caption"
 msgid "&OK"
 msgstr "&OK"
 
+#: tfrmeditsearchreplace.cbmultiline.caption
+msgid "&Multiline pattern"
+msgstr "&Wzorzec wielowierszowy"
+
 #: tfrmeditsearchreplace.cbsearchcasesensitive.caption
 msgid "C&ase sensitivity"
 msgstr "&Uwzględniaj wielkość liter"
@@ -1067,7 +1139,7 @@ msgstr "&Zamień na:"
 
 #: tfrmeditsearchreplace.lblsearchfor.caption
 msgid "&Search for:"
-msgstr "&Wyszukaj:"
+msgstr "Wy&szukaj:"
 
 #: tfrmeditsearchreplace.rgsearchdirection.caption
 msgid "Direction"
@@ -3004,6 +3076,7 @@ msgid "E&xit"
 msgstr "&Zakończ"
 
 #: tfrmmain.mitrayiconrestore.caption
+msgctxt "tfrmmain.mitrayiconrestore.caption"
 msgid "Restore"
 msgstr "Przywróć"
 
@@ -3192,6 +3265,7 @@ msgid "&OK"
 msgstr "&OK"
 
 #: tfrmmaskinputdlg.chkcasesensitive.caption
+msgctxt "tfrmmaskinputdlg.chkcasesensitive.caption"
 msgid "Case sensitive"
 msgstr "Uwzględniaj wielkość liter"
 
@@ -3211,19 +3285,13 @@ msgstr "Maska wprowadzania:"
 msgid "O&r select predefined selection type:"
 msgstr "&Lub wybierz wstępnie zdefiniowany typ zaznaczenia:"
 
-#: tfrmmkdir.btncancel.caption
-msgctxt "tfrmmkdir.btncancel.caption"
-msgid "&Cancel"
-msgstr "&Anuluj"
-
-#: tfrmmkdir.btnok.caption
-msgctxt "tfrmmkdir.btnok.caption"
-msgid "&OK"
-msgstr "&OK"
-
 #: tfrmmkdir.caption
 msgid "Create new directory"
 msgstr "Utwórz nowy katalog"
+
+#: tfrmmkdir.cbextended.caption
+msgid "&Extended syntax"
+msgstr "&Rozszerzona składnia"
 
 #: tfrmmkdir.lblmakedir.caption
 msgid "&Input new directory name:"
@@ -3533,6 +3601,15 @@ msgctxt "tfrmmultirename.caption"
 msgid "Multi-Rename Tool"
 msgstr "Wielokrotna zmiana nazwy"
 
+#: tfrmmultirename.cbcasesens.caption
+msgid "A≠a"
+msgstr "A≠a"
+
+#: tfrmmultirename.cbcasesens.hint
+msgctxt "tfrmmultirename.cbcasesens.hint"
+msgid "Case sensitive"
+msgstr "Uwzględniaj wielkość liter"
+
 #: tfrmmultirename.cblog.caption
 msgid "&Log result"
 msgstr "&Rejestruj wynik"
@@ -3540,6 +3617,14 @@ msgstr "&Rejestruj wynik"
 #: tfrmmultirename.cblogappend.caption
 msgid "Append"
 msgstr "Dołącz"
+
+#: tfrmmultirename.cbonlyfirst.caption
+msgid "1x"
+msgstr "1x"
+
+#: tfrmmultirename.cbonlyfirst.hint
+msgid "Replace only once per file"
+msgstr "Zastąp tylko pierwsze wystąpienie w pliku"
 
 #: tfrmmultirename.cbregexp.caption
 msgid "Regular e&xpressions"
@@ -4016,6 +4101,10 @@ msgstr "Stała liczba kolumn"
 #: tfrmoptionsbriefview.rbusefixedwidth.caption
 msgid "Fixed columns width"
 msgstr "Stała szerokość kolumn"
+
+#: tfrmoptionscolors.rgdarkmode.caption
+msgid "Dark mode"
+msgstr "Tryb ciemny"
 
 #: tfrmoptionscolumnsview.cbcuttexttocolwidth.caption
 msgid "Cut &text to column width"
@@ -6642,6 +6731,10 @@ msgstr "Zawsze &idź do katalogu głównego dysku podczas zmiany dysków"
 msgid "Show &current directory in the main window title bar"
 msgstr "Pokaż &bieżący katalog na pasku tytułu okna głównego"
 
+#: tfrmoptionsmisc.chkshowsplashform.caption
+msgid "Show &splash screen"
+msgstr "Pokaż ekran &powitalny"
+
 #: tfrmoptionsmisc.chkshowwarningmessages.caption
 msgid "Show &warning messages (\"OK\" button only)"
 msgstr "Pokaż komunikaty &ostrzegawcze (tylko przycisk \"OK\")"
@@ -6662,6 +6755,10 @@ msgstr "Komentarze plików (descript.ion)"
 #: tfrmoptionsmisc.gbtcexportimport.caption
 msgid "Regarding TC export/import:"
 msgstr "Zakres eksportu/importu TC:"
+
+#: tfrmoptionsmisc.lbldefaultencoding.caption
+msgid "&Default single-byte text encoding:"
+msgstr "&Domyślne jednobajtowe kodowanie tekstu:"
 
 #: tfrmoptionsmisc.lbldescrdefaultencoding.caption
 msgctxt "TFRMOPTIONSMISC.LBLDESCRDEFAULTENCODING.CAPTION"
@@ -7151,11 +7248,6 @@ msgstr "{command} powinno być obecne tutaj, aby odzwierciedlić polecenie do ur
 
 #: tfrmoptionsterminal.edrunintermstayopenparams.hint
 msgctxt "TFRMOPTIONSTERMINAL.EDRUNINTERMSTAYOPENPARAMS.HINT"
-msgid "{command} should normally be present here to reflect the command to be run in terminal"
-msgstr "{command} powinno być obecne tutaj, aby odzwierciedlić polecenie do uruchomienia w terminalu"
-
-#: tfrmoptionsterminal.edruntermparams.hint
-msgctxt "TFRMOPTIONSTERMINAL.EDRUNTERMPARAMS.HINT"
 msgid "{command} should normally be present here to reflect the command to be run in terminal"
 msgstr "{command} powinno być obecne tutaj, aby odzwierciedlić polecenie do uruchomienia w terminalu"
 
@@ -8058,6 +8150,7 @@ msgid "Create self e&xtracting archive"
 msgstr "Utwórz samo&rozpakowujące się archiwum"
 
 #: tfrmpackdlg.cbencrypt.caption
+msgctxt "tfrmpackdlg.cbencrypt.caption"
 msgid "Encr&ypt"
 msgstr "&Szyfruj"
 
@@ -9284,7 +9377,7 @@ msgstr "Pokaż jako &tekst"
 
 #: tfrmviewer.actshowaswraptext.caption
 msgid "Show as &Wrap text"
-msgstr "Tekst z zawijaniem wierszy"
+msgstr "Tekst z &zawijaniem wierszy"
 
 #: tfrmviewer.actshowcaret.caption
 msgid "Show text c&ursor"
@@ -9295,10 +9388,18 @@ msgctxt "tfrmviewer.actshowgraphics.caption"
 msgid "Graphics"
 msgstr "Grafika"
 
+#: tfrmviewer.actshowoffice.caption
+msgid "Office XML (text only)"
+msgstr "Office XML (tylko tekst)"
+
 #: tfrmviewer.actshowplugins.caption
 msgctxt "TFRMVIEWER.ACTSHOWPLUGINS.CAPTION"
 msgid "Plugins"
 msgstr "Wtyczki"
+
+#: tfrmviewer.actshowtransparency.caption
+msgid "Show transparenc&y"
+msgstr "Pokaż przezrocz&ystość"
 
 #: tfrmviewer.actstretchimage.caption
 msgid "Stretch"
@@ -9311,6 +9412,10 @@ msgstr "Rozciągnij obrazek"
 #: tfrmviewer.actstretchonlylarge.caption
 msgid "Stretch only large"
 msgstr "Rozciągnij tylko duże"
+
+#: tfrmviewer.actwraptext.caption
+msgid "&Wrap text"
+msgstr "&Zawijaj tekst"
 
 #: tfrmviewer.actzoom.caption
 msgid "Zoom"
@@ -9582,6 +9687,16 @@ msgstr "Parametry:"
 #: ttfrmconfirmcommandline.lblestartpath.editlabel.caption
 msgid "Start path:"
 msgstr "Ścieżka początkowa:"
+
+#: twcxarchivecopyoperationoptionsui.btnconfig.caption
+msgctxt "twcxarchivecopyoperationoptionsui.btnconfig.caption"
+msgid "Con&figure"
+msgstr "&Konfiguruj"
+
+#: twcxarchivecopyoperationoptionsui.cbencrypt.caption
+msgctxt "twcxarchivecopyoperationoptionsui.cbencrypt.caption"
+msgid "Encr&ypt"
+msgstr "&Szyfruj"
 
 #: twcxarchivecopyoperationoptionsui.lblfileexists.caption
 msgctxt "twcxarchivecopyoperationoptionsui.lblfileexists.caption"
@@ -10102,6 +10217,7 @@ msgid "Goto line:"
 msgstr "Przejdź do wiersza:"
 
 #: ulng.rseditgotolinetitle
+msgctxt "ulng.rseditgotolinetitle"
 msgid "Goto Line"
 msgstr "Przejdź do wiersza"
 
@@ -10332,7 +10448,7 @@ msgstr "Czcionka wyników wyszukiwania"
 
 #: ulng.rsfontusagestatusbar
 msgid "Status Bar Font"
-msgstr ""
+msgstr "Czcionka paska stanu"
 
 #: ulng.rsfontusagetreeviewmenu
 msgid "Tree View Menu Font"
@@ -10421,6 +10537,10 @@ msgstr "Ścieżka"
 msgctxt "ulng.rsfuncsize"
 msgid "Size"
 msgstr "Wielkość"
+
+#: ulng.rsfunctrashorigpath
+msgid "Original path"
+msgstr "Oryginalna ścieżka"
 
 #: ulng.rsfunctype
 msgid "Type"
@@ -10590,6 +10710,10 @@ msgstr "Konfiguruj niestandardowe kolumny"
 msgid "Enter new custom columns name"
 msgstr "Wpisz nową nazwę kolumny niestandardowej"
 
+#: ulng.rsmenumacosservices
+msgid "Services"
+msgstr "Usługi"
+
 #: ulng.rsmnuactions
 msgctxt "ulng.rsmnuactions"
 msgid "Actions"
@@ -10660,6 +10784,11 @@ msgstr "Inne..."
 msgid "Pack here..."
 msgstr "Spakuj tutaj..."
 
+#: ulng.rsmnurestore
+msgctxt "ulng.rsmnurestore"
+msgid "Restore"
+msgstr "Przywróć"
+
 #: ulng.rsmnusortby
 msgid "Sort by"
 msgstr "Sortuj wg"
@@ -10704,6 +10833,10 @@ msgstr ""
 "\"%s\"\n"
 "\n"
 "Czy mimo to chcesz zachować uszkodzony plik wynikowy?\n"
+
+#: ulng.rsmsgcanceloperation
+msgid "Are you sure that you want to cancel this operation?"
+msgstr "Czy na pewno chcesz anulować tę operację?"
 
 #: ulng.rsmsgcannotcopymoveitself
 msgid "You can not copy/move a file \"%s\" to itself!"
@@ -11545,7 +11678,7 @@ msgstr "Czy chcesz zamienić ten tekst?"
 
 #: ulng.rsmsgrestartforapplychanges
 msgid "Please, restart Double Commander in order to apply changes"
-msgstr "Proszę ponownie uruchomić Double Commandera, aby zastosować zmiany"
+msgstr "Proszę ponownie uruchomić Double Commandera, aby zastosować zmiany."
 
 #: ulng.rsmsgscriptcantfindlibrary
 msgid "ERROR: Problem loading Lua library file \"%s\""
@@ -11705,7 +11838,7 @@ msgstr "Wprowadź lokalizację i nazwę pliku, w którym chcesz zapisać plik pa
 
 #: ulng.rsmsgterminaldisabled
 msgid "Built-in terminal window disabled. Do you want to enable it?"
-msgstr ""
+msgstr "Wbudowane okno terminalu jest wyłączone. Czy chcesz je włączyć?"
 
 #: ulng.rsmsgterminateprocess
 msgid "WARNING: Terminating a process can cause undesired results including loss of data and system instability. The process will not be given the chance to save its state or data before it is terminated. Are you sure you want to terminate the process?"

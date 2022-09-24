@@ -69,7 +69,7 @@ function GetDesktopPath(const DesktopName: String): String;
 implementation
 
 uses
-  BaseUnix, DCStrUtils, DCOSUtils, uOSUtils;
+  BaseUnix, DCStrUtils, DCOSUtils, uSysFolders;
 
 function GetUserCacheDir: String;
 begin

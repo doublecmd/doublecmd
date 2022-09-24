@@ -58,6 +58,9 @@ uses
    {$IFDEF LINUX}
    , uUDisks, uUDev, uMountWatcher, DCStrUtils, uOSUtils, FileUtil, uGVolume, DCOSUtils
    {$ENDIF}
+   {$IFDEF DARWIN}
+   , uMyDarwin    // Workarounds for FPC RTL Bug
+   {$ENDIF}
   {$ENDIF}
   {$IFDEF MSWINDOWS}
   uMyWindows, Windows, JwaDbt, LazUTF8, JwaWinNetWk, ShlObj, DCOSUtils, uDebug,
@@ -79,6 +82,13 @@ type
 {$ENDIF}
 
 {$IFDEF BSD}
+// Workarounds for FPC RTL Bug
+{$IFDEF DARWIN}
+type TFixedStatfs = TDarwinStatfs;
+{$ELSE}
+type TFixedStatfs = TStatFs;
+{$ENDIF}
+
 const
   {$warning Remove this two constants when they are added to FreePascal}
   NOTE_MOUNTED = $0008;
@@ -717,6 +727,7 @@ end;
          (mnt_type = 'none') or
          (mnt_type = 'cgroup') or
          (mnt_type = 'cpuset') or
+         (mnt_type = 'ramfs') or
          (mnt_type = 'tmpfs') or
          (mnt_type = 'proc') or
          (mnt_type = 'swap') or
@@ -727,6 +738,7 @@ end;
          (mnt_type = 'fusectl') or
          (mnt_type = 'securityfs') or
          (mnt_type = 'binfmt_misc') or
+         (mnt_type = 'fuse.portal') or
          (mnt_type = 'fuse.gvfsd-fuse') or
          (mnt_type = 'fuse.gvfs-fuse-daemon') or
          (mnt_type = 'fuse.truecrypt') or
@@ -1161,8 +1173,8 @@ const
 var
   drive: PDrive;
   fstab: PFSTab;
-  fs: TStatFS;
-  fsList: array[0..MAX_FS] of TStatFS;
+  fs: TFixedStatfs;
+  fsList: array[0..MAX_FS] of TFixedStatfs;
   iMounted, iAdded, count: Integer;
   found: boolean;
   dtype: TDriveType;

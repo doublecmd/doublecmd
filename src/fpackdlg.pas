@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    File packing window
 
-   Copyright (C) 2007-2020 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2007-2022 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -70,6 +70,9 @@ type
     FExistsArchive : Boolean;
     FSourceFileSource: IFileSource;
     FTargetFileSource:  IArchiveFileSource;
+    FPlugin: Boolean;
+    FPassword: String;
+    FVolumeSize: String;
     FCustomParams: String;
     FTargetPathInArchive: String;
     procedure SwitchOptions(ArcTypeChange: Boolean);
@@ -100,7 +103,7 @@ uses
   uOperationsManager, uArchiveFileSourceUtil, uMultiArchiveFileSource,
   uWcxArchiveCopyInOperation, uMultiArchiveCopyInOperation, uMasks,
   DCStrUtils, uMultiArc, uWcxModule, uTempFileSystemFileSource,
-  uFileSourceCopyOperation, uShowForm;
+  uFileSourceCopyOperation, uShowForm, uShowMsg;
 
 procedure ShowPackDlg(TheOwner: TComponent;
                      const SourceFileSource: IFileSource;
@@ -366,9 +369,11 @@ begin
             EnableControl(cbPutInTarFirst, not ((sCmd = 'tar') or StrBegins(sCmd, 'tar.')));
             cbCreateSeparateArchives.Checked:= False;
           end;
+        FPlugin:= True;
         // Options that supported by plugins
         EnableControl(cbStoreDir, True);
         // Options that don't supported by plugins
+        cbMultivolume.Checked:= False;
         EnableControl(cbMultivolume, False);
         Exit;
       end;
@@ -415,7 +420,7 @@ begin
             EnableControl(cbPutInTarFirst, not ((sCmd = 'tar') or StrBegins(sCmd, 'tar.')));
             cbCreateSeparateArchives.Checked:= False;
           end;
-
+          FPlugin:= False;
           // Options that don't supported by addons
           cbStoreDir.Checked:= True;
           EnableControl(cbStoreDir, False);
@@ -514,9 +519,6 @@ var
   NewTargetFileSource: IArchiveFileSource = nil;
 
   procedure Pack(var FilesToPack: TFiles; QueueId: TOperationsManagerQueueIdentifier);
-  var
-    sPassword,
-    sPasswordTmp: String;
   begin
     if Assigned(NewTargetFileSource) then
       begin
@@ -547,23 +549,9 @@ var
                 with Operation as TMultiArchiveCopyInOperation do
                 begin
                   if cbEncrypt.Checked then
-                    repeat
-                      if not InputQuery(Caption, rsMsgPasswordEnter, True, sPassword) then
-                        Exit;
-                      if gRepeatPassword then
-                        begin
-                          if not InputQuery(Caption, rsMsgPasswordVerify, True, sPasswordTmp) then
-                            Exit;
-                        end
-                      else
-                        sPasswordTmp:= sPassword;
-                      if sPassword <> sPasswordTmp then
-                        ShowMessage(rsMsgPasswordDiff)
-                      else
-                        Password:= sPassword;
-                    until sPassword = sPasswordTmp;
+                    Password:= FPassword;
                   if cbMultivolume.Checked then
-                    VolumeSize:= InputBox(Caption, rsMsgVolumeSizeEnter, EmptyStr);
+                    VolumeSize:= FVolumeSize;
                   PackingFlags := aFlags;
                   CreateNew:= FNewArchive;
                   CustomParams:= FCustomParams;
@@ -578,6 +566,7 @@ var
   end;
 
 var
+  sPassword, sPasswordTmp: String;
   QueueId: TOperationsManagerQueueIdentifier;
 begin
   if Assigned(FTargetFileSource) then
@@ -591,6 +580,36 @@ begin
   end
   else // Create a new target file source.
   begin
+    if not FPlugin then
+    begin
+      if cbEncrypt.Checked then
+      begin
+        sPassword:= EmptyStr;
+        sPasswordTmp:= EmptyStr;
+        repeat
+          if not InputQuery(Caption, rsMsgPasswordEnter, True, sPassword) then
+            Exit;
+          if gRepeatPassword then
+            begin
+              if not InputQuery(Caption, rsMsgPasswordVerify, True, sPasswordTmp) then
+                Exit;
+            end
+          else
+            sPasswordTmp:= sPassword;
+          if sPassword <> sPasswordTmp then
+            ShowMessage(rsMsgPasswordDiff)
+          else
+            FPassword:= sPassword;
+        until sPassword = sPasswordTmp;
+      end;
+
+      if cbMultivolume.Checked then
+      begin
+        if not ShowInputComboBox(Caption, rsMsgVolumeSizeEnter, glsVolumeSizeHistory, FVolumeSize) then
+          Exit;
+      end;
+    end;
+
     // If create separate archives, one per selected file/dir
     if cbCreateSeparateArchives.Checked then
       begin

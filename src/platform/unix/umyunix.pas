@@ -77,37 +77,6 @@ type
   TMountEntry = mntent;
   PMountEntry = ^TMountEntry;
 
-type
-  //en Password file entry record
-  passwd = record
-    pw_name: PChar;    //en< user name
-    pw_passwd: PChar;  //en< user password
-    pw_uid: uid_t;     //en< user ID
-    pw_gid: gid_t;     //en< group ID
-{$IF DEFINED(BSD)}
-    pw_change: time_t; //en< password change time
-    pw_class: PChar;   //en< user access class
-{$ENDIF}
-    pw_gecos: PChar;   //en< real name
-    pw_dir: PChar;     //en< home directory
-    pw_shell: PChar;   //en< shell program
-{$IF DEFINED(BSD)}
-    pw_expire: time_t; //en< account expiration
-    pw_fields: cint;   //en< internal: fields filled in
-{$ENDIF}
-  end;
-  TPasswordRecord = passwd;
-  PPasswordRecord = ^TPasswordRecord;
-  //en Group file entry record
-  group = record
-    gr_name: PChar;   //en< group name
-    gr_passwd: PChar; //en< group password
-    gr_gid: gid_t;    //en< group ID
-    gr_mem: ^PChar;   //en< group members
-  end;
-  TGroupRecord = group;
-  PGroupRecord = ^TGroupRecord;
-
 {$IFDEF LINUX}
 {en
    Opens the file system description file
@@ -130,34 +99,6 @@ function getmntent(stream: PFILE): PMountEntry; cdecl; external libc name 'getmn
 }
 function endmntent(stream: PFILE): LongInt; cdecl; external libc name 'endmntent';
 {$ENDIF}
-{en
-   Get password file entry
-   @param(uid User ID)
-   @returns(The function returns a pointer to a structure containing the broken-out
-            fields of the record in the password database that matches the user ID)
-}
-function getpwuid(uid: uid_t): PPasswordRecord; cdecl; external libc name 'getpwuid';
-{en
-   Get password file entry
-   @param(name User name)
-   @returns(The function returns a pointer to a structure containing the broken-out
-            fields of the record in the password database that matches the user name)
-}
-function getpwnam(const name: PChar): PPasswordRecord; cdecl; external libc name 'getpwnam';
-{en
-   Get group file entry
-   @param(gid Group ID)
-   @returns(The function returns a pointer to a structure containing the broken-out
-            fields of the record in the group database that matches the group ID)
-}
-function getgrgid(gid: gid_t): PGroupRecord; cdecl; external libc name 'getgrgid';
-{en
-   Get group file entry
-   @param(name Group name)
-   @returns(The function returns a pointer to a structure containing the broken-out
-            fields of the record in the group database that matches the group name)
-}
-function getgrnam(name: PChar): PGroupRecord; cdecl; external libc name 'getgrnam';
 
 function fpSystemStatus(Command: string): cint;
 

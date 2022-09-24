@@ -1,6 +1,6 @@
 object frmMkDir: TfrmMkDir
   Left = 366
-  Height = 77
+  Height = 125
   Top = 429
   Width = 350
   ActiveControl = cbMkDir
@@ -8,22 +8,21 @@ object frmMkDir: TfrmMkDir
   BorderIcons = [biSystemMenu]
   BorderStyle = bsDialog
   Caption = 'Create new directory'
-  ClientHeight = 77
+  ClientHeight = 125
   ClientWidth = 350
   Constraints.MinHeight = 50
   Constraints.MinWidth = 350
   KeyPreview = True
-  OnKeyPress = FormKeyPress
   Position = poOwnerFormCenter
-  LCLVersion = '1.1'
+  LCLVersion = '2.2.0.4'
   object lblMakeDir: TLabel
     Left = 6
-    Height = 18
-    Top = 3
+    Height = 15
+    Top = 6
     Width = 338
     Align = alTop
     BorderSpacing.Left = 6
-    BorderSpacing.Top = 3
+    BorderSpacing.Top = 6
     BorderSpacing.Right = 6
     Caption = '&Input new directory name:'
     FocusControl = cbMkDir
@@ -31,76 +30,64 @@ object frmMkDir: TfrmMkDir
   end
   object cbMkDir: TComboBox
     Left = 6
-    Height = 28
-    Top = 21
+    Height = 23
+    Top = 28
     Width = 338
     Align = alTop
     AutoComplete = True
     AutoCompleteText = [cbactEnabled, cbactEndOfLineComplete, cbactRetainPrefixCase, cbactSearchAscending]
     BorderSpacing.Left = 6
-    BorderSpacing.Right = 6
-    BorderSpacing.Bottom = 3
-    DropDownCount = 5
-    ItemHeight = 0
-    TabOrder = 0
-  end
-  object pnlBottom: TPanel
-    Left = 6
-    Height = 36
-    Top = 55
-    Width = 338
-    Align = alTop
-    AutoSize = True
-    BorderSpacing.Left = 6
     BorderSpacing.Top = 6
     BorderSpacing.Right = 6
     BorderSpacing.Bottom = 3
-    BevelOuter = bvNone
-    ClientHeight = 36
-    ClientWidth = 338
+    DropDownCount = 5
+    ItemHeight = 15
+    OnChange = cbMkDirChange
+    OnKeyUp = cbMkDirKeyUp
+    TabOrder = 0
+  end
+  object cbExtended: TCheckBox
+    Left = 6
+    Height = 18
+    Top = 54
+    Width = 338
+    Align = alTop
+    Anchors = [akLeft]
+    BorderSpacing.Left = 6
+    BorderSpacing.Top = 6
+    BorderSpacing.Right = 6
+    Caption = '&Extended syntax'
+    OnChange = cbExtendedChange
     TabOrder = 1
-    object pnlButtons: TPanel
-      Left = 192
-      Height = 36
-      Top = 0
-      Width = 146
-      Align = alRight
-      AutoSize = True
-      BevelOuter = bvNone
-      ClientHeight = 36
-      ClientWidth = 146
-      TabOrder = 0
-      object btnOK: TBitBtn
-        Left = 0
-        Height = 36
-        Top = 0
-        Width = 59
-        Align = alRight
-        AutoSize = True
-        BorderSpacing.Right = 3
-        BorderSpacing.InnerBorder = 2
-        Caption = '&OK'
-        Constraints.MinWidth = 50
-        Default = True
-        Kind = bkOK
-        ModalResult = 1
-        TabOrder = 0
-      end
-      object btnCancel: TBitBtn
-        Left = 62
-        Height = 36
-        Top = 0
-        Width = 84
-        Align = alRight
-        AutoSize = True
-        BorderSpacing.InnerBorder = 2
-        Cancel = True
-        Caption = '&Cancel'
-        Constraints.MinWidth = 50
-        Kind = bkCancel
-        ModalResult = 2
-        TabOrder = 1
-      end
-    end
+  end
+  object lblExample: TLabel
+    Left = 6
+    Height = 1
+    Top = 78
+    Width = 338
+    Align = alTop
+    BorderSpacing.Left = 6
+    BorderSpacing.Top = 6
+    BorderSpacing.Right = 6
+  end
+  object ButtonPanel: TButtonPanel
+    Left = 6
+    Height = 27
+    Top = 91
+    Width = 338
+    Align = alTop
+    BorderSpacing.Top = 6
+    OKButton.Name = 'OKButton'
+    OKButton.DefaultCaption = True
+    HelpButton.Name = 'HelpButton'
+    HelpButton.DefaultCaption = True
+    CloseButton.Name = 'CloseButton'
+    CloseButton.DefaultCaption = True
+    CancelButton.Name = 'CancelButton'
+    CancelButton.DefaultCaption = True
+    ButtonOrder = boCloseOKCancel
+    TabOrder = 2
+    ShowButtons = [pbOK, pbCancel]
+    ShowBevel = False
   end
 end

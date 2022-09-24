@@ -53,6 +53,8 @@ uses
   , Qt5, QtWidgets
   {$ELSEIF DEFINED(LCLGTK2)}
   , Glib2, Gtk2
+  {$ELSEIF DEFINED(DARWIN)}
+  , uMyDarwin
   {$ENDIF}
   , Types, LMessages;
 
@@ -865,6 +867,12 @@ type
     procedure RestoreWindow;
     procedure LoadTabs;
     procedure LoadTabsCommandLine(Params: TCommandLineParams);
+    procedure AddTab(ANoteBook: TFileViewNotebook; aPath: String);
+    {$IF DEFINED(DARWIN)}
+    procedure OnNSServiceOpenWithNewTab( filenames:TStringList );
+    function NSServiceMenuIsReady(): boolean;
+    function NSServiceMenuGetFilenames(): TStringList;
+    {$ENDIF}
     procedure LoadWindowState;
     procedure SaveWindowState;
 
@@ -927,7 +935,7 @@ uses
   uFileSourceOperationOptionsUI, uDebug, uHotkeyManager, uFileSourceUtil, uTempFileSystemFileSource,
   Laz2_XMLRead, DCOSUtils, DCStrUtils, fOptions, fOptionsFrame, fOptionsToolbar, uClassesEx,
   uHotDir, uFileSorting, DCBasicTypes, foptionsDirectoryHotlist, uConnectionManager,
-  fOptionsToolbarBase, fOptionsToolbarMiddle, fEditor, uColumns
+  fOptionsToolbarBase, fOptionsToolbarMiddle, fEditor, uColumns, StrUtils, uSysFolders
   {$IFDEF COLUMNSFILEVIEW_VTV}
   , uColumnsFileViewVtv
   {$ELSE}
@@ -1049,20 +1057,29 @@ procedure TfrmMain.FormCreate(Sender: TObject);
     Result.OnDragOver:= @NotebookDragOver;
     Result.OnDragDrop:= @NotebookDragDrop;
   end;
-  function GenerateTitle():String;
-  var 
-    ServernameString: String;
-  begin
-    ServernameString := '';
-    if Length(UniqueInstance.ServernameByUser) > 0 then
-      ServernameString := ' [' + UniqueInstance.ServernameByUser + ']';
 
-    Result := Format('%s%s %s build %s; %s',
+  function GenerateTitle(): String;
+  var
+    R: Integer;
+    ARevision, AServerName: String;
+  begin
+    if Length(UniqueInstance.ServernameByUser) > 0 then
+      AServerName := ' [' + UniqueInstance.ServernameByUser + ']'
+    else begin
+      AServerName := EmptyStr;
+    end;
+
+    if TryStrToInt(dcRevision, R) then
+      ARevision:= '~' + dcRevision
+    else begin
+      ARevision:= EmptyStr;
+    end;
+
+    Result := Format('%s%s %s%s',
         ['Double Commander',
-        ServernameString,
-        dcVersion,
-        dcRevision,
-        dcBuildDate]
+        AServerName,
+        Copy2Space(dcVersion),
+        ARevision]
     );
   end;
 
@@ -1077,10 +1094,18 @@ begin
   Application.OnEndSession := @AppEndSession;
   Application.OnQueryEndSession := @AppQueryEndSession;
 
+  {$IF DEFINED(DARWIN)}
+  // in LCL's DARWIN implements, there is no way but to Use LCL's method of dropping files
+  // from external applications
+  frmMain.OnDropFiles := @FormDropFiles;
+  AllowDropFiles := true; // DARWIN support external DragDragSource only, not DragDragTarget
+  {$ELSE}
   // Use LCL's method of dropping files from external
   // applications if we don't support it ourselves.
   if not IsExternalDraggingSupported then
     frmMain.OnDropFiles := @FormDropFiles;
+  AllowDropFiles := not uDragDropEx.IsExternalDraggingSupported;
+  {$ENDIF}
 
   {$IF DEFINED(DARWIN)}
   // MainForm receives in Mac OS closing events on system shortcut Command-Q
@@ -1144,8 +1169,6 @@ begin
   actShowSysFiles.Checked := uGlobs.gShowSystemFiles;
   actHorizontalFilePanels.Checked := gHorizontalFilePanels;
 
-  AllowDropFiles := not uDragDropEx.IsExternalDraggingSupported;
-
   MainToolBar.AddToolItemExecutor(TKASCommandItem, @ToolbarExecuteCommand);
   MainToolBar.AddToolItemExecutor(TKASProgramItem, @ToolbarExecuteProgram);
 
@@ -1171,7 +1194,7 @@ begin
   LoadTabs;
 
   // Must be after LoadTabs
-  TDriveWatcher.Initialize(GetWindowHandle(Self));
+  TDriveWatcher.Initialize(GetWindowHandle(Application.MainForm));
   TDriveWatcher.AddObserver(@OnDriveWatcherEvent);
 
 {$IF (DEFINED(LCLQT) or DEFINED(LCLQT5)) and not DEFINED(MSWINDOWS)}
@@ -1192,6 +1215,10 @@ begin
   UpdateSelectedDrives;
   UpdateFreeSpace(fpLeft, True);
   UpdateFreeSpace(fpRight, True);
+
+{$IF DEFINED(DARWIN)}
+  InitNSServiceProvider( @OnNSServiceOpenWithNewTab, @NSServiceMenuIsReady, @NSServiceMenuGetFilenames );
+{$ENDIF}
 end;
 
 procedure TfrmMain.btnLeftClick(Sender: TObject);
@@ -1479,7 +1506,7 @@ begin
     // Button was moved.
     SaveToolBar(Toolbar)
   else
-    if Sender is TKASToolButton and not Draging then
+    if (Sender is TKASToolButton) and not Draging then
       begin
         ToolItem := TKASToolButton(Sender).ToolItem;
         if ToolItem is TKASProgramItem then
@@ -2506,7 +2533,17 @@ end;
 
 procedure TfrmMain.nbPageMouseDown(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
+{$IFNDEF LCLCOCOA}
 begin
+{$ELSE}
+var
+  Notebook: TFileViewNotebook;
+  TabNr: Integer;
+begin
+  Notebook := TFileViewNotebook(Sender);
+  TabNr := Notebook.IndexOfPageAt(Point(X, Y));
+  if TabNr <> -1 then Notebook.ActivePageIndex := TabNr;
+{$ENDIF}
   Application.QueueAsyncCall(@nbPageAfterMouseDown, PtrInt(Sender));
 end;
 
@@ -5982,24 +6019,6 @@ end;
 
 procedure TfrmMain.LoadTabsCommandLine(Params: TCommandLineParams);
 
-  procedure AddTab(ANoteBook: TFileViewNotebook; aPath: String);
-  var
-    Page: TFileViewPage;
-    AFileView: TFileView;
-    AFileViewFlags: TFileViewFlags;
-    aFileSource: IFileSource;
-  begin
-    Page := ANoteBook.AddPage;
-    aFileSource := TFileSystemFileSource.GetFileSource;
-    if gDelayLoadingTabs then
-      AFileViewFlags := [fvfDelayLoadingFiles]
-    else
-      AFileViewFlags := [];
-    AFileView := TColumnsFileView.Create(Page, aFileSource, aPath, AFileViewFlags);
-    AssignEvents(AFileView);
-    ANoteBook.PageIndex := ANoteBook.PageCount - 1;
-  end;
-
   procedure LoadPanel(aNoteBook: TFileViewNotebook; aPath: String);
   begin
     if Length(aPath) <> 0 then
@@ -6041,6 +6060,74 @@ begin
 
   ActiveFrame.SetFocus;
 end;
+
+procedure TfrmMain.AddTab(ANoteBook: TFileViewNotebook; aPath: String);
+var
+  Page: TFileViewPage;
+  AFileView: TFileView;
+  AFileViewFlags: TFileViewFlags;
+  aFileSource: IFileSource;
+begin
+  Page := ANoteBook.AddPage;
+  aFileSource := TFileSystemFileSource.GetFileSource;
+  if gDelayLoadingTabs then
+    AFileViewFlags := [fvfDelayLoadingFiles]
+  else
+    AFileViewFlags := [];
+  AFileView := TColumnsFileView.Create(Page, aFileSource, aPath, AFileViewFlags);
+  AssignEvents(AFileView);
+  ANoteBook.PageIndex := ANoteBook.PageCount - 1;
+end;
+
+{$IF DEFINED(DARWIN)}
+procedure TfrmMain.OnNSServiceOpenWithNewTab( filenames:TStringList );
+begin
+  if Assigned(filenames) and (filenames.Count>0) then
+  begin
+    AddTab( nbRight, filenames[0] );
+    SetActiveFrame(fpRight);
+    ActiveFrame.SetFocus;
+  end;
+end;
+
+function TfrmMain.NSServiceMenuIsReady(): boolean;
+begin
+  Result:= true;
+end;
+
+function TfrmMain.NSServiceMenuGetFilenames(): TStringList;
+var
+  filenames: TStringList;
+  i: Integer;
+  files: TFiles;
+  activeFile: TFile;
+begin
+  Result:= nil;
+  filenames:= TStringList.Create;
+
+  files:= ActiveFrame.CloneSelectedFiles();
+  if files.Count>0 then
+  begin
+    for i:=0 to files.Count-1 do
+    begin
+      filenames.add( files[i].FullPath );
+    end;
+  end;
+  FreeAndNil( files );
+
+  if filenames.Count = 0 then
+  begin
+    activeFile:= ActiveFrame.CloneActiveFile;
+    if activeFile.IsNameValid() then
+      filenames.add( activeFile.FullPath )
+    else
+      filenames.add( activeFile.Path );
+    FreeAndNil( activeFile );
+  end;
+
+  if filenames.Count>0 then Result:= filenames;
+end;
+{$ENDIF}
 
 procedure TfrmMain.LoadWindowState;
 var

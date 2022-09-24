@@ -3,7 +3,7 @@
     -------------------------------------------------------------------------
     Shell context menu implementation.
 
-    Copyright (C) 2006-2017 Alexander Koblov (alexx2000@mail.ru)
+    Copyright (C) 2006-2022 Alexander Koblov (alexx2000@mail.ru)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -42,6 +42,7 @@ type
     FFiles: TFiles;
     FDrive: TDrive;
     FUserWishForContextMenu: TUserWishForContextMenu;
+    FMenuImageList: TImageList;
     procedure PackHereSelect(Sender: TObject);
     procedure ExtractHereSelect(Sender: TObject);
     procedure ContextMenuSelect(Sender: TObject);
@@ -55,6 +56,9 @@ type
   private
     procedure LeaveDrive;
     function FillOpenWithSubMenu: Boolean;
+    {$IF DEFINED(DARWIN)}
+    procedure FillServicesSubMenu;
+    {$ENDIF}
     procedure CreateActionSubMenu(MenuWhereToAdd:TComponent; aFile:TFile; bIncludeViewEdit:boolean);
   public
     constructor Create(Owner: TWinControl; ADrive: PDrive); reintroduce; overload;
@@ -71,7 +75,7 @@ uses
   {$IF DEFINED(DARWIN)}
   , MacOSAll
   {$ELSE}
-  , uKeyFile, uMimeActions, uOSForms
+  , uKeyFile, uMimeActions, uOSForms, uSysFolders
     {$IF DEFINED(LINUX)}
   , uRabbitVCS
     {$ENDIF}
@@ -98,19 +102,22 @@ var
   userDirs: TStringList = nil;
 begin
   Result:= False;
+  templateDir:= GetHomeDir + '/.config/user-dirs.dirs';
+  if not mbFileExists(templateDir) then Exit;
   try
     Items:= nil;
-    templateDir:= GetHomeDir + '/.config/user-dirs.dirs';
-    if not mbFileExists(templateDir) then Exit;
     userDirs:= TStringList.Create;
     try
       userDirs.LoadFromFile(templateDir);
+      templateDir:= userDirs.Values['XDG_TEMPLATES_DIR'];
     except
       Exit;
     end;
-    templateDir:= userDirs.Values['XDG_TEMPLATES_DIR'];
     if Length(templateDir) = 0 then Exit;
-    templateDir:= IncludeTrailingPathDelimiter(mbExpandFileName(TrimQuotes(templateDir)));
+    templateDir:= TrimQuotes(templateDir);
+    // Skip misconfigured template path
+    if (ExcludeTrailingBackslash(templateDir) = '$HOME') then Exit;
+    templateDir:= IncludeTrailingPathDelimiter(mbExpandFileName(templateDir));
     if mbDirectoryExists(templateDir) then
     begin
       if FindFirstEx(templateDir, 0, searchRec) = 0 then
@@ -361,6 +368,8 @@ begin
       Result:= True;
       miOpenWith := TMenuItem.Create(Self);
       miOpenWith.Caption := rsMnuOpenWith;
+      FMenuImageList := TImageList.Create(nil);
+      miOpenWith.SubMenuImages := FMenuImageList;
       Self.Items.Add(miOpenWith);
 
       for I:= 0 to CFArrayGetCount(ApplicationArrayRef) - 1 do
@@ -389,7 +398,8 @@ begin
               bmpTemp:= PixMapManager.GetBitmap(ImageIndex);
               if Assigned(bmpTemp) then
                 begin
-                  mi.Bitmap.Assign(bmpTemp);
+                  mi.ImageIndex:=FMenuImageList.Count;
+                  FMenuImageList.Add( bmpTemp , nil );
                   FreeAndNil(bmpTemp);
                 end;
             end;
@@ -468,6 +478,25 @@ begin
   end;
 end;
 {$ENDIF}
+
+
+{$IF DEFINED(DARWIN)}
+procedure TShellContextMenu.FillServicesSubMenu;
+var
+  mi: TMenuItem;
+begin
+  // Add delimiter menu
+  mi:=TMenuItem.Create(Self);
+  mi.Caption:='-';
+  Self.Items.Add(mi);
+
+  // attach Services Menu in TMacosServiceMenuHelper
+  mi:=TMenuItem.Create(Self);
+  mi.Caption:=uLng.rsMenuMacOsServices;
+  Self.Items.Add(mi);
+end;
+{$ENDIF}
+
 
 constructor TShellContextMenu.Create(Owner: TWinControl; ADrive: PDrive);
 var
@@ -722,6 +751,11 @@ begin
         // Add "Open with" submenu if needed
         AddOpenWithMenu := FillOpenWithSubMenu;
 
+        // Add "Services" menu if MacOS
+        {$IF DEFINED(DARWIN)}
+        FillServicesSubMenu;
+        {$ENDIF}
+
         // Add delimiter menu
         mi:=TMenuItem.Create(Self);
         mi.Caption:='-';
@@ -846,23 +880,30 @@ begin
       mi.Action := frmMain.actPasteFromClipboard;
       Self.Items.Add(mi);
 
+
+      mi:=TMenuItem.Create(Self);
+      mi.Caption:='-';
+      Self.Items.Add(mi);
+
+      // Add "New" submenu
+      miSortBy := TMenuItem.Create(Self);
+      miSortBy.Caption := rsMnuNew;
+      Self.Items.Add(miSortBy);
+
+      // Add "Create directory"
+      mi:= TMenuItem.Create(miSortBy);
+      mi.Action := frmMain.actMakeDir;
+      mi.Caption:= rsPropsFolder;
+      miSortBy.Add(mi);
+
+      // Add "Create file"
+      mi:= TMenuItem.Create(miSortBy);
+      mi.Action := frmMain.actEditNew;
+      mi.Caption:= rsPropsFile;
+      miSortBy.Add(mi);
+
       if GetTemplateMenu(sl) then
       begin
-        mi:=TMenuItem.Create(Self);
-        mi.Caption:='-';
-        Self.Items.Add(mi);
-
-        // Add "New" submenu
-        miSortBy := TMenuItem.Create(Self);
-        miSortBy.Caption := rsMnuNew;
-        Self.Items.Add(miSortBy);
-
-        // Add "Make directory"
-        mi:= TMenuItem.Create(miSortBy);
-        mi.Action := frmMain.actMakeDir;
-        mi.Caption:= rsPropsFolder;
-        miSortBy.Add(mi);
-
         mi:= TMenuItem.Create(miSortBy);
         mi.Caption:= '-';
         miSortBy.Add(mi);
@@ -903,6 +944,7 @@ end;
 destructor TShellContextMenu.Destroy;
 begin
   FreeThenNil(FFiles);
+  FreeThenNil(FMenuImageList);
   inherited Destroy;
 end;
 

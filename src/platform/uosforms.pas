@@ -127,21 +127,22 @@ uses
   ExtDlgs, LCLProc, Menus, Graphics, InterfaceBase, WSForms, LMessages, LCLIntf,
   fMain, uConnectionManager, uShowMsg, uLng
   {$IF DEFINED(MSWINDOWS)}
-  , LCLStrConsts, ComObj, DCOSUtils, uOSUtils, uFileSystemFileSource
+  , LCLStrConsts, ComObj, ActiveX, DCOSUtils, uOSUtils, uFileSystemFileSource
   , uTotalCommander, FileUtil, Windows, ShlObj, uShlObjAdditional
-  , uWinNetFileSource, uVfsModule, uMyWindows, DCStrUtils
+  , uWinNetFileSource, uVfsModule, uMyWindows, DCStrUtils, uOleDragDrop
   , uDCReadSVG, uFileSourceUtil, uGdiPlusJPEG, uListGetPreviewBitmap
-  , Dialogs, Clipbrd, uDebug, JwaDbt, uThumbnailProvider
-  , uRecycleBinFileSource, uDCReadHEIF
+  , Dialogs, Clipbrd, uDebug, JwaDbt, uThumbnailProvider, uShellFolder
+  , uRecycleBinFileSource, uDCReadHEIF, uDCReadWIC
     {$IFDEF LCLQT5}
     , qt5, qtwidgets, uDarkStyle
     {$ENDIF}
   {$ENDIF}
   {$IFDEF UNIX}
-  , BaseUnix, Errors, fFileProperties, uJpegThumb
+  , BaseUnix, Errors, fFileProperties, uJpegThumb, uOpenDocThumb
     {$IF NOT DEFINED(DARWIN)}
     , uDCReadSVG, uMagickWand, uGio, uGioFileSource, uVfsModule, uVideoThumb
     , uDCReadWebP, uFolderThumb, uAudioThumb, uDefaultTerminal, uDCReadHEIF
+    , uTrashFileSource
     {$ELSE}
     , MacOSAll, uQuickLook, uMyDarwin
     {$ENDIF}
@@ -333,7 +334,15 @@ begin
         EnableWindow(FParentWindow, False);
         // If window already created then recreate it to force
         // call CreateParams with appropriate parent window
-        if HandleAllocated then RecreateWnd(Self);
+        if HandleAllocated then
+        begin
+{$IF NOT DEFINED(LCLWIN32)}
+          RecreateWnd(Self);
+{$ELSE}
+          SetWindowLongPtr(Handle, GWL_STYLE, GetWindowLongPtr(Handle, GWL_STYLE) or LONG_PTR(WS_POPUP));
+          SetWindowLongPtr(Handle, GWL_HWNDPARENT, FParentWindow);
+{$ENDIF}
+        end;
         Show;
         try
           EnableWindow(Handle, True);
@@ -628,7 +637,12 @@ begin
       StaticTitle:= StaticTitle + ' - ROOT PRIVILEGES';
   end;
   {$IF NOT DEFINED(DARWIN)}
-  if HasGio then RegisterVirtualFileSource('GVfs', TGioFileSource, False);
+  if HasGio then
+  begin
+    if TGioFileSource.IsSupportedPath('trash://') then
+      RegisterVirtualFileSource(rsVfsRecycleBin, TTrashFileSource, True);
+    RegisterVirtualFileSource('GVfs', TGioFileSource, False);
+  end;
   {$ENDIF}
 
   {$IF DEFINED(DARWIN) AND DEFINED(LCLQT)}
@@ -700,7 +714,11 @@ begin
   ShellContextMenu:= TShellContextMenu.Create(nil, Files, Background, UserWishForContextMenu);
   ShellContextMenu.OnClose := CloseEvent;
   // Show context menu
+  {$IF DEFINED(DARWIN)}
+  MacosServiceMenuHelper.PopUp( ShellContextMenu, uLng.rsMenuMacOsServices );
+  {$ELSE}
   ShellContextMenu.PopUp(X, Y);
+  {$ENDIF}
 end;
 {$ENDIF}
 
@@ -761,30 +779,41 @@ begin
 end;
 {$ELSE}
 var
-  cmici: TCMINVOKECOMMANDINFO;
+  Index: Integer;
   contMenu: IContextMenu;
+  cmici: TCMInvokeCommandInfo;
+  DataObject: THDropDataObject;
 begin
   if Files.Count = 0 then Exit;
 
   try
-    contMenu := GetShellContextMenu(frmMain.Handle, Files, False);
-    if Assigned(contMenu) then
+    if CheckWin32Version(5, 1) then
     begin
-      FillChar(cmici, sizeof(cmici), #0);
-      with cmici do
+      DataObject:= THDropDataObject.Create(DROPEFFECT_NONE);
+      for Index:= 0 to Files.Count - 1 do
+      begin
+        DataObject.Add(Files[Index].FullPath);
+      end;
+      OleCheckUTF8(MultiFileProperties(DataObject, 0));
+    end
+    else begin
+      contMenu := GetShellContextMenu(frmMain.Handle, Files, False);
+      if Assigned(contMenu) then
+      begin
+        cmici:= Default(TCMInvokeCommandInfo);
+        with cmici do
         begin
-          cbSize := sizeof(cmici);
+          cbSize := SizeOf(TCMInvokeCommandInfo);
           hwnd := frmMain.Handle;
           lpVerb := sCmdVerbProperties;
           nShow := SW_SHOWNORMAL;
         end;
-
-      OleCheckUTF8(contMenu.InvokeCommand(cmici));
+        OleCheckUTF8(contMenu.InvokeCommand(cmici));
+      end;
     end;
-
   except
-    on e: EOleError do
-      raise EContextMenuException.Create(e.Message);
+    on E: EOleError do
+      raise EContextMenuException.Create(E.Message);
   end;
 end;
 {$ENDIF}

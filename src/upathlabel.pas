@@ -160,18 +160,16 @@ end;
 
 procedure TPathLabel.Highlight;
 var
+  LeftText: String;
   PartText: String;
   StartPos, CurPos: Integer;
   PartWidth: Integer;
   CurrentHighlightPos, NewHighlightPos: Integer;
   TextLen: Integer;
-  PathDelimWidth: Integer;
 begin
-  CurrentHighlightPos := LeftSpacing; // start at the beginning of the path
   NewHighlightPos := -1;
 
   Canvas.Font := Self.Font;
-  PathDelimWidth := Canvas.TextWidth(PathDelim);
   TextLen := Length(Text);
 
   // Start from the first character, but omit any path delimiters at the beginning.
@@ -179,15 +177,14 @@ begin
   while (StartPos <= TextLen) and (Text[StartPos] = PathDelim) do
     Inc(StartPos);
 
-  // Move the canvas position after the skipped text (if any).
-  CurrentHighlightPos := CurrentHighlightPos + (StartPos - 1) * PathDelimWidth;
-
   for CurPos := StartPos + 1 to TextLen - 1 do
   begin
     if Text[CurPos] = PathDelim then
     begin
       PartText := Copy(Text, StartPos, CurPos - StartPos);
       PartWidth := Canvas.TextWidth(PartText);
+      LeftText := Copy(Text, 0, CurPos-1 );
+      CurrentHighlightPos:= LeftSpacing + Canvas.TextWidth( LeftText ) - PartWidth;
 
       // If mouse is over this part of the path - highlight it.
       if InRange(FMousePos, CurrentHighlightPos, CurrentHighlightPos + PartWidth) then
@@ -196,7 +193,6 @@ begin
         Break;
       end;
 
-      CurrentHighlightPos := CurrentHighlightPos + PartWidth + PathDelimWidth;
       StartPos := CurPos + 1;
     end;
   end;
@@ -253,6 +249,8 @@ begin
   if FAllowHighlight then
   begin
     Cursor := crDefault;
+    FMousePos := ScreenToClient(Mouse.CursorPos).X;
+    Highlight;
     Invalidate;
   end;
 end;

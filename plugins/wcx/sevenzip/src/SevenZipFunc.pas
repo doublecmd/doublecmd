@@ -3,7 +3,7 @@
   -------------------------------------------------------------------------
   SevenZip archiver plugin
 
-  Copyright (C) 2014-2019 Alexander Koblov (alexx2000@mail.ru)
+  Copyright (C) 2014-2022 Alexander Koblov (alexx2000@mail.ru)
 
   This library is free software; you can redistribute it and/or
   modify it under the terms of the GNU Lesser General Public
@@ -347,7 +347,7 @@ begin
       else begin
         AMessage := SysErrorMessage(GetLastError) + LineEnding;
         AMessage += rsSevenZipSfxNotFound + LineEnding + SfxModule;
-        MessageBox(0, PAnsiChar(AMessage), nil, MB_OK or MB_ICONERROR);
+        MessageBoxW(0, PWideChar(UTF8ToUTF16(AMessage)), nil, MB_OK or MB_ICONERROR);
         Exit(E_NO_FILES);
       end;
     end;
@@ -501,13 +501,14 @@ var
   ModulePath: AnsiString;
 begin
   // Save configuration file name
-  ConfigFile:= ExtractFilePath(dps^.DefaultIniName) + DefaultIniName;
+  ConfigFile:= ExtractFilePath(dps^.DefaultIniName);
+  ConfigFile:= WinCPToUTF8(ConfigFile) + DefaultIniName;
   // Get plugin path
   if GetModulePath(ModulePath) then
   begin
     // Use configuration from plugin path
     if FileExistsUTF8(ModulePath + DefaultIniName) then
-      ConfigFile:= UTF8ToSys(ModulePath) + DefaultIniName;
+      ConfigFile:= ModulePath + DefaultIniName;
   end;
   // Load plugin configuration
   LoadConfiguration;
@@ -630,7 +631,7 @@ begin
     on E: Exception do
     begin
       ReturnValue:= GetArchiveError(E);
-      MessageBox(0, PAnsiChar(E.Message), nil, MB_OK or MB_ICONERROR);
+      MessageBoxW(0, PWideChar(UTF8ToUTF16(E.Message)), nil, MB_OK or MB_ICONERROR);
     end;
   end;
   Terminate;

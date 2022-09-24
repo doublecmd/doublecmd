@@ -1,143 +1,227 @@
-<UniHighlighter version="1.8.1">
+<UniHighlighter version="1.8">
   <Info>
-    <General Name="C#" Extensions="CS"/>
-    <Author Name="Vitaly Nevzorov" Email="nevzorov@yahoo.com" Web="www.delphist.com" Copyright="Copyright (c) Vitaly Nevzorov, 2002" Company="N/A" Remark="Created based on UltraEdit:csharp.txt"/>
-    <Version Version="1" Revision="0" Date="37612.5337957176"/>
+    <General Name="C#" Extensions="CS" Other="0"/>
+    <Author Name="" Email="" Web="" Copyright="" Company="" Remark=""/>
+    <Version Version="1" Revision="0" Date="44702.7781275116"/>
     <History>
     </History>
     <Sample>
+      <S>namespace HelloWorld</S>
+      <S>{</S>
+      <S>   class Hello {</S>
+      <S>       static void Main(string[] args)</S>
+      <S>       {</S>
+      <S>           System.Console.WriteLine("Hello World!");</S>
+      <S>       }</S>
+      <S>   }</S>
+      <S>}</S>
     </Sample>
   </Info>
   <Scheme File="" Name=""/>
-  <Range Name="Root" Attributes="0,16777215;False:False." Style=""
-         Delimiters="!&quot;%&amp;'()*+,-./:;&lt;=&gt;?@[\]^{|}~">
+  <Range Name="Root" Attributes="-2147483640,-2147483643;False:False." Style="" CaseSensitive="True"
+         Delimiters="!&quot;#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^`{|}~">
     <Rule/>
-    <Keywords Name="Keywords" Attributes="32768,16777215;False:False." Style="">
-      <word value="as"/>
-      <word value="auto"/>
-      <word value="base"/>
-      <word value="break"/>
-      <word value="case"/>
-      <word value="catch"/>
-      <word value="const"/>
-      <word value="continue"/>
-      <word value="default"/>
-      <word value="do"/>
-      <word value="else"/>
-      <word value="event"/>
-      <word value="explicit"/>
-      <word value="extern"/>
-      <word value="false"/>
-      <word value="finally"/>
-      <word value="fixed"/>
-      <word value="for"/>
-      <word value="foreach"/>
-      <word value="goto"/>
-      <word value="if"/>
-      <word value="implicit"/>
-      <word value="in"/>
-      <word value="internal"/>
-      <word value="lock"/>
-      <word value="namespace"/>
-      <word value="null"/>
-      <word value="operator"/>
-      <word value="out"/>
-      <word value="override"/>
-      <word value="params"/>
-      <word value="private"/>
-      <word value="protected"/>
-      <word value="public"/>
-      <word value="readonly"/>
-      <word value="ref"/>
-      <word value="return"/>
-      <word value="sealed"/>
-      <word value="stackalloc"/>
-      <word value="static"/>
-      <word value="switch"/>
-      <word value="this"/>
-      <word value="throw"/>
-      <word value="true"/>
-      <word value="try"/>
-      <word value="unsafe"/>
-      <word value="using"/>
-      <word value="virtual"/>
-      <word value="void"/>
-      <word value="while"/>
+    <Keywords Name="Keywords" Attributes="32768,16777215;False:True." Style="">
+      <Word Value="abstract"/>
+      <Word Value="as"/>
+      <Word Value="base"/>
+      <Word Value="break"/>
+      <Word Value="case"/>
+      <Word Value="catch"/>
+      <Word Value="checked"/>
+      <Word Value="class"/>
+      <Word Value="const"/>
+      <Word Value="continue"/>
+      <Word Value="default"/>
+      <Word Value="delegate"/>
+      <Word Value="do"/>
+      <Word Value="else"/>
+      <Word Value="enum"/>
+      <Word Value="event"/>
+      <Word Value="explicit"/>
+      <Word Value="extern"/>
+      <Word Value="false"/>
+      <Word Value="finally"/>
+      <Word Value="fixed"/>
+      <Word Value="for"/>
+      <Word Value="foreach"/>
+      <Word Value="goto"/>
+      <Word Value="if"/>
+      <Word Value="implicit"/>
+      <Word Value="in"/>
+      <Word Value="interface"/>
+      <Word Value="internal"/>
+      <Word Value="is"/>
+      <Word Value="lock"/>
+      <Word Value="namespace"/>
+      <Word Value="new"/>
+      <Word Value="null"/>
+      <Word Value="object"/>
+      <Word Value="operator"/>
+      <Word Value="out"/>
+      <Word Value="override"/>
+      <Word Value="params"/>
+      <Word Value="private"/>
+      <Word Value="protected"/>
+      <Word Value="public"/>
+      <Word Value="readonly"/>
+      <Word Value="ref"/>
+      <Word Value="return"/>
+      <Word Value="sealed"/>
+      <Word Value="sizeof"/>
+      <Word Value="stackalloc"/>
+      <Word Value="static"/>
+      <Word Value="string"/>
+      <Word Value="struct"/>
+      <Word Value="switch"/>
+      <Word Value="this"/>
+      <Word Value="throw"/>
+      <Word Value="true"/>
+      <Word Value="try"/>
+      <Word Value="typeof"/>
+      <Word Value="unchecked"/>
+      <Word Value="unsafe"/>
+      <Word Value="using"/>
+      <Word Value="virtual"/>
+      <Word Value="volatile"/>
+      <Word Value="while"/>
     </Keywords>
-    <Keywords Name="C# Data Types" Attributes="16711680,16777215;False:False." Style="">
-      <word value="bool"/>
-      <word value="byte"/>
-      <word value="char"/>
-      <word value="class"/>
-      <word value="decimal"/>
-      <word value="delegate"/>
-      <word value="double"/>
-      <word value="enum"/>
-      <word value="float"/>
-      <word value="int"/>
-      <word value="interface"/>
-      <word value="long"/>
-      <word value="object"/>
-      <word value="sbyte"/>
-      <word value="short"/>
-      <word value="string"/>
-      <word value="struct"/>
-      <word value="uint"/>
-      <word value="ulong"/>
-      <word value="ushort"/>
+    <Keywords Name="Contextual keywords" Attributes="32768,16777215;False:True." Style="">
+      <Word Value="add"/>
+      <Word Value="and"/>
+      <Word Value="alias"/>
+      <Word Value="ascending"/>
+      <Word Value="args"/>
+      <Word Value="async"/>
+      <Word Value="await"/>
+      <Word Value="by"/>
+      <Word Value="descending"/>
+      <Word Value="dynamic"/>
+      <Word Value="equals"/>
+      <Word Value="from"/>
+      <Word Value="get"/>
+      <Word Value="global"/>
+      <Word Value="group"/>
+      <Word Value="init"/>
+      <Word Value="into"/>
+      <Word Value="join"/>
+      <Word Value="let"/>
+      <Word Value="managed"/>
+      <Word Value="nameof"/>
+      <Word Value="not"/>
+      <Word Value="notnull"/>
+      <Word Value="on"/>
+      <Word Value="or"/>
+      <Word Value="orderby"/>
+      <Word Value="partial"/>
+      <Word Value="record"/>
+      <Word Value="remove"/>
+      <Word Value="select"/>
+      <Word Value="set"/>
+      <Word Value="unmanaged"/>
+      <Word Value="value"/>
+      <Word Value="when"/>
+      <Word Value="where"/>
+      <Word Value="with"/>
+      <Word Value="yield"/>
     </Keywords>
-    <Keywords Name="C# Preprocessor Directives" Attributes="16711808,16777215;False:False." Style="">
-      <word value="#elif"/>
-      <word value="#endif"/>
-      <word value="#endregion"/>
-      <word value="#else"/>
-      <word value="#error"/>
-      <word value="#define"/>
-      <word value="#if"/>
-      <word value="#line"/>
-      <word value="#region"/>
-      <word value="#undef"/>
-      <word value="#warning"/>
+    <Keywords Name="Data types" Attributes="16711680,16777215;False:True." Style="">
+      <Word Value="bool"/>
+      <Word Value="byte"/>
+      <Word Value="char"/>
+      <Word Value="const"/>
+      <Word Value="decimal"/>
+      <Word Value="double"/>
+      <Word Value="enum"/>
+      <Word Value="float"/>
+      <Word Value="int"/>
+      <Word Value="long"/>
+      <Word Value="nint"/>
+      <Word Value="nuint"/>
+      <Word Value="sbyte"/>
+      <Word Value="short"/>
+      <Word Value="static"/>
+      <Word Value="struct"/>
+      <Word Value="uint"/>
+      <Word Value="ulong"/>
+      <Word Value="ushort"/>
+      <Word Value="var"/>
+      <Word Value="void"/>
+      <Word Value="class"/>
+      <Word Value="interface"/>
+      <Word Value="delegate"/>
+      <Word Value="record"/>
+      <Word Value="dynamic"/>
+      <Word Value="object"/>
+      <Word Value="string"/>
     </Keywords>
-    <Keywords Name="Operators" Attributes="33023,16777215;False:False." Style="">
-      <word value="+"/>
-      <word value="-"/>
-      <word value="*"/>
-      <word value="?"/>
-      <word value="="/>
-      <word value="//"/>
-      <word value="/"/>
-      <word value="%"/>
-      <word value="&amp;"/>
-      <word value="&gt;"/>
-      <word value="&lt;"/>
-      <word value="^"/>
-      <word value="!"/>
-      <word value="|"/>
-      <word value=":"/>
-      <word value="checked"/>
-      <word value="is"/>
-      <word value="new"/>
-      <word value="sizeof"/>
-      <word value="typeof"/>
-      <word value="unchecked"/>
+    <Keywords Name=".NET Data types" Attributes="32896,16777215;False:True." Style="">
+      <Word Value="Boolean"/>
+      <Word Value="Byte"/>
+      <Word Value="SByte"/>
+      <Word Value="Char"/>
+      <Word Value="Decimal"/>
+      <Word Value="Double"/>
+      <Word Value="Single"/>
+      <Word Value="Int32"/>
+      <Word Value="UInt32"/>
+      <Word Value="IntPtr"/>
+      <Word Value="UIntPtr"/>
+      <Word Value="Int64"/>
+      <Word Value="UInt64"/>
+      <Word Value="Int16"/>
+      <Word Value="UInt16"/>
+      <Word Value="Object"/>
+      <Word Value="String"/>
     </Keywords>
-    <Range Name="Remarks //" Attributes="8388608,16777215;False:False." Style=""
-           Delimiters="!&quot;#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^`{|}~">
-      <Rule OpenSymbol="//" CloseOnEol="True"/>
-    </Range>
-    <Range Name="Remarks /*..*/" Attributes="8388608,16777215;False:False." Style=""
-           Delimiters="!&quot;#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^`{|}~">
-      <Rule OpenSymbol="/*" CloseSymbol="*/"/>
-    </Range>
-    <Range Name="Strings &quot;..&quot;" Attributes="255,16777215;False:False." Style=""
-           Delimiters="!&quot;#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^`{|}~">
-      <Rule OpenSymbol="&quot;" CloseSymbol="&quot;"/>
-    </Range>
-    <Range Name="Strings '..'" Attributes="255,16777215;False:False." Style=""
+    <Keywords Name="Preprocessor directives" Attributes="16711808,16777215;False:True." Style="">
+      <Word Value="#nullable"/>
+      <Word Value="#if"/>
+      <Word Value="#elif"/>
+      <Word Value="#else"/>
+      <Word Value="#endif"/>
+      <Word Value="#define"/>
+      <Word Value="#undef"/>
+      <Word Value="#region"/>
+      <Word Value="#endregion"/>
+      <Word Value="#error"/>
+      <Word Value="#warning"/>
+      <Word Value="#line"/>
+      <Word Value="#pragma"/>
+    </Keywords>
+    <Keywords Name="Operators" Attributes="33023,16777215;False:True." Style="">
+      <Word Value="+"/>
+      <Word Value="-"/>
+      <Word Value="*"/>
+      <Word Value="/"/>
+      <Word Value="="/>
+      <Word Value="^"/>
+      <Word Value="%"/>
+      <Word Value="&amp;"/>
+      <Word Value="|"/>
+      <Word Value="&gt;"/>
+      <Word Value="&lt;"/>
+      <Word Value=":"/>
+      <Word Value="!"/>
+      <Word Value="?"/>
+      <Word Value="("/>
+      <Word Value=")"/>
+    </Keywords>
+    <Range Name="Strings '..'" Attributes="255,16777215;False:True." Style=""
            Delimiters="!&quot;#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^`{|}~">
       <Rule OpenSymbol="'" CloseSymbol="'"/>
     </Range>
+    <Range Name="Strings &quot;..&quot;" Attributes="255,16777215;False:True." Style=""
+           Delimiters="!&quot;#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^`{|}~">
+      <Rule OpenSymbol="&quot;" CloseSymbol="&quot;"/>
+    </Range>
+    <Range Name="Remarks //" Attributes="8388608,16777215;False:True." Style=""
+           Delimiters="!&quot;#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^`{|}~">
+      <Rule OpenSymbol="//" CloseOnEol="True"/>
+    </Range>
+    <Range Name="Remarks /*..*/" Attributes="8388608,16777215;False:True." Style=""
+           Delimiters="!&quot;#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^`{|}~">
+      <Rule OpenSymbol="/*" CloseSymbol="*/"/>
+    </Range>
   </Range>
-  <CopyRight>Rule file for UniHighlighter Delphi component (Copyright(C) Fantasist(walking_in_the_sky@yahoo.com), Vit(nevzorov@yahoo.com), Vitalik(vetal-x@mail.ru), 2002-2004)</CopyRight>
 </UniHighlighter>

@@ -18,6 +18,10 @@ msgstr ""
 "X-Crowdin-File-ID: 3344\n"
 "Language: be_BY\n"
 
+#: foptionscolors.rsdarkmodeoptions
+msgid "Auto;Enabled;Disabled"
+msgstr ""
+
 #: fsyncdirsdlg.rscomparingpercent
 msgid "Comparing... %d%% (ESC to cancel)"
 msgstr "Параўнанне... %d%% (ESC, каб скасаваць)"
@@ -528,6 +532,12 @@ msgctxt "tfrmdiffer.acteditredo.caption"
 msgid "Redo"
 msgstr "Паўтарыць"
 
+#: tfrmdiffer.acteditredo.hint
+#, fuzzy
+msgctxt "tfrmdiffer.acteditredo.hint"
+msgid "Redo"
+msgstr "Паўтарыць"
+
 #: tfrmdiffer.acteditselectall.caption
 msgid "Select &All"
 msgstr "Абраць &усё"
@@ -537,10 +547,64 @@ msgctxt "tfrmdiffer.acteditundo.caption"
 msgid "Undo"
 msgstr "Адрабіць"
 
+#: tfrmdiffer.acteditundo.hint
+#, fuzzy
+msgctxt "tfrmdiffer.acteditundo.hint"
+msgid "Undo"
+msgstr "Адрабіць"
+
 #: tfrmdiffer.actexit.caption
 msgctxt "tfrmdiffer.actexit.caption"
 msgid "E&xit"
 msgstr "&Выйсці"
+
+#: tfrmdiffer.actfind.caption
+#, fuzzy
+msgctxt "tfrmdiffer.actfind.caption"
+msgid "&Find"
+msgstr "&Шукаць"
+
+#: tfrmdiffer.actfind.hint
+#, fuzzy
+msgctxt "tfrmdiffer.actfind.hint"
+msgid "Find"
+msgstr "Шукаць"
+
+#: tfrmdiffer.actfindnext.caption
+#, fuzzy
+msgctxt "tfrmdiffer.actfindnext.caption"
+msgid "Find next"
+msgstr "Шукаць наступнае"
+
+#: tfrmdiffer.actfindnext.hint
+#, fuzzy
+msgctxt "tfrmdiffer.actfindnext.hint"
+msgid "Find next"
+msgstr "Шукаць наступнае"
+
+#: tfrmdiffer.actfindprev.caption
+#, fuzzy
+msgctxt "tfrmdiffer.actfindprev.caption"
+msgid "Find previous"
+msgstr "Шукаць папярэдняе"
+
+#: tfrmdiffer.actfindprev.hint
+#, fuzzy
+msgctxt "tfrmdiffer.actfindprev.hint"
+msgid "Find previous"
+msgstr "Шукаць папярэдняе"
+
+#: tfrmdiffer.actfindreplace.caption
+#, fuzzy
+msgctxt "tfrmdiffer.actfindreplace.caption"
+msgid "&Replace"
+msgstr "&Замяніць"
+
+#: tfrmdiffer.actfindreplace.hint
+#, fuzzy
+msgctxt "tfrmdiffer.actfindreplace.hint"
+msgid "Replace"
+msgstr "Замяніць"
 
 #: tfrmdiffer.actfirstdifference.caption
 msgctxt "tfrmdiffer.actfirstdifference.caption"
@@ -551,6 +615,18 @@ msgstr "Першае адрозненне"
 msgctxt "TFRMDIFFER.ACTFIRSTDIFFERENCE.HINT"
 msgid "First Difference"
 msgstr "Першае адрозненне"
+
+#: tfrmdiffer.actgotoline.caption
+#, fuzzy
+msgctxt "tfrmdiffer.actgotoline.caption"
+msgid "Goto Line..."
+msgstr "Перайсці да радка..."
+
+#: tfrmdiffer.actgotoline.hint
+#, fuzzy
+msgctxt "tfrmdiffer.actgotoline.hint"
+msgid "Goto Line"
+msgstr "Перайсці ў радок"
 
 #: tfrmdiffer.actignorecase.caption
 msgid "Ignore Case"
@@ -843,6 +919,7 @@ msgid "Find previous"
 msgstr "Шукаць папярэдняе"
 
 #: tfrmeditor.acteditgotoline.caption
+msgctxt "tfrmeditor.acteditgotoline.caption"
 msgid "Goto Line..."
 msgstr "Перайсці да радка..."
 
@@ -897,6 +974,7 @@ msgid "Redo"
 msgstr "Паўтарыць"
 
 #: tfrmeditor.acteditrplc.caption
+msgctxt "tfrmeditor.acteditrplc.caption"
 msgid "&Replace"
 msgstr "&Замяніць"
 
@@ -1044,6 +1122,10 @@ msgstr "&Скасаваць"
 msgctxt "TFRMEDITSEARCHREPLACE.BUTTONPANEL.OKBUTTON.CAPTION"
 msgid "&OK"
 msgstr "&Добра"
+
+#: tfrmeditsearchreplace.cbmultiline.caption
+msgid "&Multiline pattern"
+msgstr ""
 
 #: tfrmeditsearchreplace.cbsearchcasesensitive.caption
 msgid "C&ase sensitivity"
@@ -3017,6 +3099,7 @@ msgid "E&xit"
 msgstr "&Выйсці"
 
 #: tfrmmain.mitrayiconrestore.caption
+msgctxt "tfrmmain.mitrayiconrestore.caption"
 msgid "Restore"
 msgstr "Аднавіць"
 
@@ -3207,6 +3290,7 @@ msgid "&OK"
 msgstr "&Добра"
 
 #: tfrmmaskinputdlg.chkcasesensitive.caption
+msgctxt "tfrmmaskinputdlg.chkcasesensitive.caption"
 msgid "Case sensitive"
 msgstr "Зважаць на рэгістр"
 
@@ -3226,19 +3310,13 @@ msgstr "Уваходная маска:"
 msgid "O&r select predefined selection type:"
 msgstr "&Альбо абярыце тып файла па шаблоне:"
 
-#: tfrmmkdir.btncancel.caption
-msgctxt "TFRMMKDIR.BTNCANCEL.CAPTION"
-msgid "&Cancel"
-msgstr "&Скасаваць"
-
-#: tfrmmkdir.btnok.caption
-msgctxt "TFRMMKDIR.BTNOK.CAPTION"
-msgid "&OK"
-msgstr "&Добра"
-
 #: tfrmmkdir.caption
 msgid "Create new directory"
 msgstr "Стварыць новы каталог"
+
+#: tfrmmkdir.cbextended.caption
+msgid "&Extended syntax"
+msgstr ""
 
 #: tfrmmkdir.lblmakedir.caption
 msgid "&Input new directory name:"
@@ -3550,6 +3628,16 @@ msgctxt "tfrmmultirename.caption"
 msgid "Multi-Rename Tool"
 msgstr "&Масавая змена назвы"
 
+#: tfrmmultirename.cbcasesens.caption
+msgid "A≠a"
+msgstr ""
+
+#: tfrmmultirename.cbcasesens.hint
+#, fuzzy
+msgctxt "tfrmmultirename.cbcasesens.hint"
+msgid "Case sensitive"
+msgstr "Зважаць на рэгістр"
+
 #: tfrmmultirename.cblog.caption
 msgid "&Log result"
 msgstr "&Журнал вынікаў"
@@ -3557,6 +3645,14 @@ msgstr "&Журнал вынікаў"
 #: tfrmmultirename.cblogappend.caption
 msgid "Append"
 msgstr "Дадаць"
+
+#: tfrmmultirename.cbonlyfirst.caption
+msgid "1x"
+msgstr ""
+
+#: tfrmmultirename.cbonlyfirst.hint
+msgid "Replace only once per file"
+msgstr ""
 
 #: tfrmmultirename.cbregexp.caption
 msgid "Regular e&xpressions"
@@ -4047,6 +4143,10 @@ msgstr "Фіксаваная колькасць слупкоў"
 #: tfrmoptionsbriefview.rbusefixedwidth.caption
 msgid "Fixed columns width"
 msgstr "Фіксаваная шырыня слупкоў"
+
+#: tfrmoptionscolors.rgdarkmode.caption
+msgid "Dark mode"
+msgstr ""
 
 #: tfrmoptionscolumnsview.cbcuttexttocolwidth.caption
 msgid "Cut &text to column width"
@@ -6673,6 +6773,10 @@ msgstr "Пры &змене дыска заўсёды вяртацца ў кар�
 msgid "Show &current directory in the main window title bar"
 msgstr "Паказваць &бягучы каталог на панэлі загалоўкаў"
 
+#: tfrmoptionsmisc.chkshowsplashform.caption
+msgid "Show &splash screen"
+msgstr ""
+
 #: tfrmoptionsmisc.chkshowwarningmessages.caption
 msgid "Show &warning messages (\"OK\" button only)"
 msgstr "Паказваць паведамленне &папярэджання (толькі кнопка\"Добра\")"
@@ -6693,6 +6797,10 @@ msgstr "Каментары да файлаў (descript.ion)"
 #: tfrmoptionsmisc.gbtcexportimport.caption
 msgid "Regarding TC export/import:"
 msgstr "Да экспарту/імпарту TC:"
+
+#: tfrmoptionsmisc.lbldefaultencoding.caption
+msgid "&Default single-byte text encoding:"
+msgstr ""
 
 #: tfrmoptionsmisc.lbldescrdefaultencoding.caption
 msgctxt "TFRMOPTIONSMISC.LBLDESCRDEFAULTENCODING.CAPTION"
@@ -7188,11 +7296,6 @@ msgstr "{command} мусіць быць тут, каб вызначыць заг
 
 #: tfrmoptionsterminal.edrunintermstayopenparams.hint
 msgctxt "TFRMOPTIONSTERMINAL.EDRUNINTERMSTAYOPENPARAMS.HINT"
-msgid "{command} should normally be present here to reflect the command to be run in terminal"
-msgstr "{command} мусіць быць тут, каб вызначыць загад, што будзе запушчаны ў тэрмінале"
-
-#: tfrmoptionsterminal.edruntermparams.hint
-msgctxt "TFRMOPTIONSTERMINAL.EDRUNTERMPARAMS.HINT"
 msgid "{command} should normally be present here to reflect the command to be run in terminal"
 msgstr "{command} мусіць быць тут, каб вызначыць загад, што будзе запушчаны ў тэрмінале"
 
@@ -8095,6 +8198,7 @@ msgid "Create self e&xtracting archive"
 msgstr "Архіў, які &сам распакоўваецца"
 
 #: tfrmpackdlg.cbencrypt.caption
+msgctxt "tfrmpackdlg.cbencrypt.caption"
 msgid "Encr&ypt"
 msgstr "Шыф&раванне"
 
@@ -9332,10 +9436,18 @@ msgctxt "tfrmviewer.actshowgraphics.caption"
 msgid "Graphics"
 msgstr "Графіка"
 
+#: tfrmviewer.actshowoffice.caption
+msgid "Office XML (text only)"
+msgstr ""
+
 #: tfrmviewer.actshowplugins.caption
 msgctxt "TFRMVIEWER.ACTSHOWPLUGINS.CAPTION"
 msgid "Plugins"
 msgstr "Убудовы"
+
+#: tfrmviewer.actshowtransparency.caption
+msgid "Show transparenc&y"
+msgstr ""
 
 #: tfrmviewer.actstretchimage.caption
 msgid "Stretch"
@@ -9348,6 +9460,10 @@ msgstr "Усе выявы па памерах акна"
 #: tfrmviewer.actstretchonlylarge.caption
 msgid "Stretch only large"
 msgstr "Толькі вялікія выявы па памерах акна"
+
+#: tfrmviewer.actwraptext.caption
+msgid "&Wrap text"
+msgstr ""
 
 #: tfrmviewer.actzoom.caption
 msgid "Zoom"
@@ -9623,6 +9739,18 @@ msgstr "Параметры:"
 #: ttfrmconfirmcommandline.lblestartpath.editlabel.caption
 msgid "Start path:"
 msgstr "Шлях запуску:"
+
+#: twcxarchivecopyoperationoptionsui.btnconfig.caption
+#, fuzzy
+msgctxt "twcxarchivecopyoperationoptionsui.btnconfig.caption"
+msgid "Con&figure"
+msgstr "Нал&адзіць"
+
+#: twcxarchivecopyoperationoptionsui.cbencrypt.caption
+#, fuzzy
+msgctxt "twcxarchivecopyoperationoptionsui.cbencrypt.caption"
+msgid "Encr&ypt"
+msgstr "Шыф&раванне"
 
 #: twcxarchivecopyoperationoptionsui.lblfileexists.caption
 msgctxt "TWCXARCHIVECOPYOPERATIONOPTIONSUI.LBLFILEEXISTS.CAPTION"
@@ -10137,6 +10265,7 @@ msgid "Goto line:"
 msgstr "Перайсці ў радок:"
 
 #: ulng.rseditgotolinetitle
+msgctxt "ulng.rseditgotolinetitle"
 msgid "Goto Line"
 msgstr "Перайсці ў радок"
 
@@ -10457,6 +10586,10 @@ msgctxt "ulng.rsfuncsize"
 msgid "Size"
 msgstr "Памер"
 
+#: ulng.rsfunctrashorigpath
+msgid "Original path"
+msgstr ""
+
 #: ulng.rsfunctype
 msgid "Type"
 msgstr "Тып"
@@ -10617,6 +10750,10 @@ msgstr "Наладзіць адвольныя слупкі"
 msgid "Enter new custom columns name"
 msgstr "Увесці назву новых адвольных слупкоў"
 
+#: ulng.rsmenumacosservices
+msgid "Services"
+msgstr ""
+
 #: ulng.rsmnuactions
 msgctxt "ulng.rsmnuactions"
 msgid "Actions"
@@ -10687,6 +10824,12 @@ msgstr "Іншае..."
 msgid "Pack here..."
 msgstr "Запакаваць сюды..."
 
+#: ulng.rsmnurestore
+#, fuzzy
+msgctxt "ulng.rsmnurestore"
+msgid "Restore"
+msgstr "Аднавіць"
+
 #: ulng.rsmnusortby
 msgid "Sort by"
 msgstr "Упарадкаваць па"
@@ -10727,6 +10870,10 @@ msgid "Bad CRC32 for resulting file:\n"
 msgstr "Хібны CRC32 выніковага файла:\n"
 "\"%s\"\n\n"
 "Усё адно хочаце пакінуць пашкоджаны файл?\n"
+
+#: ulng.rsmsgcanceloperation
+msgid "Are you sure that you want to cancel this operation?"
+msgstr ""
 
 #: ulng.rsmsgcannotcopymoveitself
 msgid "You can not copy/move a file \"%s\" to itself!"

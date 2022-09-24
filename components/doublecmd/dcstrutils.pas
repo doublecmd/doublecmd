@@ -773,7 +773,7 @@ var
   L: Integer;
 begin
   L:= Length(Path);
-  if (L > 1) and (Path[L] in AllowDirectorySeparators) then
+  if (L > 1) and (Path[L] in AllowDirectorySeparators) and (Path[L - 1] <> DriveSeparator) then
     Result:= Copy(Path, 1, L - 1)
   else
     Result:= Path;
@@ -842,20 +842,24 @@ end;
 
 function ApplyRenameMask(aFileName: String; NameMask: String; ExtMask: String): String;
 
-  function ApplyMask(const TargetString: String; Mask: String): String;
+  function ApplyMask(const TargetString, Mask: String): String;
   var
-    i:Integer;
+    I: Integer;
   begin
-    Result:='';
-    for i:=1 to Length(Mask) do
+    Result:= EmptyStr;
+    for I:= 1 to Length(Mask) do
     begin
-      if Mask[i]= '?' then
-        Result:=Result + TargetString[i]
+      if Mask[I] = '?' then
+      begin
+        if I <= Length(TargetString) then
+          Result:= Result + TargetString[I]
+        else
+          Exit(TargetString);
+      end
+      else if Mask[I] = '*' then
+        Result:= Result + Copy(TargetString, I, Length(TargetString) - I + 1)
       else
-      if Mask[i]= '*' then
-        Result:=Result + Copy(TargetString, i, Length(TargetString) - i + 1)
-      else
-        Result:=Result + Mask[i];
+        Result:= Result + Mask[I];
     end;
   end;
 

@@ -1,6 +1,9 @@
 unit uWfxPluginUtil;
 
 {$mode objfpc}{$H+}
+{$if FPC_FULLVERSION >= 30300}
+{$modeswitch arraytodynarray}
+{$endif}
 
 interface
 
@@ -447,7 +450,7 @@ const
        fsourCancel);
 var
   Message: String;
-  PossibleResponses: array of TFileSourceOperationUIResponse;
+  PossibleResponses: TFileSourceOperationUIResponses;
 begin
   case FFileExistsOption of
     fsoofeNone:

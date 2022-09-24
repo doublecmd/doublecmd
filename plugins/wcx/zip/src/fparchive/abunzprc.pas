@@ -160,6 +160,7 @@ uses
   AbSWStm,
   AbUnzOutStm,
   AbUtils,
+  AbZlibPrc,
   AbWinZipAes,
   DCClassesUtf8;
 
@@ -899,11 +900,17 @@ begin
   Hlpr := TAbDeflateHelper.Create;
   try
     if Item.CompressionMethod = cmEnhancedDeflated then
+    begin
       Hlpr.Options := Hlpr.Options or dfc_UseDeflate64;
+      Hlpr.StreamSize := Item.CompressedSize;
 
-    Hlpr.StreamSize := Item.CompressedSize;
+      AbDfDec.Inflate(InStream, OutStream, Hlpr)
+    end
+    else begin
+      Hlpr.NormalSize := Item.UncompressedSize;
 
-    Inflate(InStream, OutStream, Hlpr);
+      AbZlibPrc.Inflate(InStream, OutStream, Hlpr);
+    end;
   finally
     Hlpr.Free;
   end;

@@ -11,6 +11,10 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Native-Language: Türk\n"
 
+#: foptionscolors.rsdarkmodeoptions
+msgid "Auto;Enabled;Disabled"
+msgstr ""
+
 #: fsyncdirsdlg.rscomparingpercent
 msgid "Comparing... %d%% (ESC to cancel)"
 msgstr ""
@@ -595,6 +599,12 @@ msgctxt "TFRMDIFFER.ACTEDITREDO.CAPTION"
 msgid "Redo"
 msgstr "Yinele"
 
+#: tfrmdiffer.acteditredo.hint
+#, fuzzy
+msgctxt "tfrmdiffer.acteditredo.hint"
+msgid "Redo"
+msgstr "Yinele"
+
 #: tfrmdiffer.acteditselectall.caption
 msgid "Select &All"
 msgstr "Tümünü &Seç"
@@ -604,10 +614,61 @@ msgctxt "TFRMDIFFER.ACTEDITUNDO.CAPTION"
 msgid "Undo"
 msgstr "Geri Al"
 
+#: tfrmdiffer.acteditundo.hint
+#, fuzzy
+msgctxt "tfrmdiffer.acteditundo.hint"
+msgid "Undo"
+msgstr "Geri Al"
+
 #: tfrmdiffer.actexit.caption
 msgctxt "tfrmdiffer.actexit.caption"
 msgid "E&xit"
 msgstr "Ç&ıkış"
+
+#: tfrmdiffer.actfind.caption
+msgctxt "tfrmdiffer.actfind.caption"
+msgid "&Find"
+msgstr ""
+
+#: tfrmdiffer.actfind.hint
+#, fuzzy
+msgctxt "tfrmdiffer.actfind.hint"
+msgid "Find"
+msgstr "Bul"
+
+#: tfrmdiffer.actfindnext.caption
+#, fuzzy
+msgctxt "tfrmdiffer.actfindnext.caption"
+msgid "Find next"
+msgstr "Sonrakini Bul"
+
+#: tfrmdiffer.actfindnext.hint
+#, fuzzy
+msgctxt "tfrmdiffer.actfindnext.hint"
+msgid "Find next"
+msgstr "Sonrakini Bul"
+
+#: tfrmdiffer.actfindprev.caption
+msgctxt "tfrmdiffer.actfindprev.caption"
+msgid "Find previous"
+msgstr ""
+
+#: tfrmdiffer.actfindprev.hint
+msgctxt "tfrmdiffer.actfindprev.hint"
+msgid "Find previous"
+msgstr ""
+
+#: tfrmdiffer.actfindreplace.caption
+#, fuzzy
+msgctxt "tfrmdiffer.actfindreplace.caption"
+msgid "&Replace"
+msgstr "&Değiştir"
+
+#: tfrmdiffer.actfindreplace.hint
+#, fuzzy
+msgctxt "tfrmdiffer.actfindreplace.hint"
+msgid "Replace"
+msgstr "Değiştir"
 
 #: tfrmdiffer.actfirstdifference.caption
 msgctxt "tfrmdiffer.actfirstdifference.caption"
@@ -618,6 +679,16 @@ msgstr "İlk fark"
 msgctxt "tfrmdiffer.actfirstdifference.hint"
 msgid "First Difference"
 msgstr "İlk fark"
+
+#: tfrmdiffer.actgotoline.caption
+msgctxt "tfrmdiffer.actgotoline.caption"
+msgid "Goto Line..."
+msgstr ""
+
+#: tfrmdiffer.actgotoline.hint
+msgctxt "tfrmdiffer.actgotoline.hint"
+msgid "Goto Line"
+msgstr ""
 
 #: tfrmdiffer.actignorecase.caption
 msgid "Ignore Case"
@@ -984,6 +1055,7 @@ msgid "Redo"
 msgstr "Yenile"
 
 #: tfrmeditor.acteditrplc.caption
+msgctxt "tfrmeditor.acteditrplc.caption"
 msgid "&Replace"
 msgstr "&Değiştir"
 
@@ -1138,6 +1210,10 @@ msgstr "İptal"
 msgctxt "tfrmeditsearchreplace.buttonpanel.okbutton.caption"
 msgid "&OK"
 msgstr "&TAMAM"
+
+#: tfrmeditsearchreplace.cbmultiline.caption
+msgid "&Multiline pattern"
+msgstr ""
 
 #: tfrmeditsearchreplace.cbsearchcasesensitive.caption
 msgid "C&ase sensitivity"
@@ -3240,6 +3316,7 @@ msgid "E&xit"
 msgstr "Çıkış"
 
 #: tfrmmain.mitrayiconrestore.caption
+msgctxt "tfrmmain.mitrayiconrestore.caption"
 msgid "Restore"
 msgstr "Eski haline getir"
 
@@ -3445,6 +3522,7 @@ msgid "&OK"
 msgstr "&TAMAM"
 
 #: tfrmmaskinputdlg.chkcasesensitive.caption
+msgctxt "tfrmmaskinputdlg.chkcasesensitive.caption"
 msgid "Case sensitive"
 msgstr ""
 
@@ -3466,21 +3544,13 @@ msgstr "Make girişi:"
 msgid "O&r select predefined selection type:"
 msgstr "Veya önceden tanımlanmış seçenek türünü seçin:"
 
-#: tfrmmkdir.btncancel.caption
-#, fuzzy
-#| msgid "Cancel"
-msgctxt "TFRMMKDIR.BTNCANCEL.CAPTION"
-msgid "&Cancel"
-msgstr "İptal"
-
-#: tfrmmkdir.btnok.caption
-msgctxt "TFRMMKDIR.BTNOK.CAPTION"
-msgid "&OK"
-msgstr "&TAMAM"
-
 #: tfrmmkdir.caption
 msgid "Create new directory"
 msgstr "Yeni  dizin oluştur"
+
+#: tfrmmkdir.cbextended.caption
+msgid "&Extended syntax"
+msgstr ""
 
 #: tfrmmkdir.lblmakedir.caption
 #, fuzzy
@@ -3794,6 +3864,15 @@ msgctxt "tfrmmultirename.caption"
 msgid "Multi-Rename Tool"
 msgstr "Çoklu yeniden adlandırma"
 
+#: tfrmmultirename.cbcasesens.caption
+msgid "A≠a"
+msgstr ""
+
+#: tfrmmultirename.cbcasesens.hint
+msgctxt "tfrmmultirename.cbcasesens.hint"
+msgid "Case sensitive"
+msgstr ""
+
 #: tfrmmultirename.cblog.caption
 #, fuzzy
 #| msgid "Enable"
@@ -3803,6 +3882,14 @@ msgstr "Etkinleştir"
 
 #: tfrmmultirename.cblogappend.caption
 msgid "Append"
+msgstr ""
+
+#: tfrmmultirename.cbonlyfirst.caption
+msgid "1x"
+msgstr ""
+
+#: tfrmmultirename.cbonlyfirst.hint
+msgid "Replace only once per file"
 msgstr ""
 
 #: tfrmmultirename.cbregexp.caption
@@ -4315,6 +4402,10 @@ msgstr ""
 
 #: tfrmoptionsbriefview.rbusefixedwidth.caption
 msgid "Fixed columns width"
+msgstr ""
+
+#: tfrmoptionscolors.rgdarkmode.caption
+msgid "Dark mode"
 msgstr ""
 
 #: tfrmoptionscolumnsview.cbcuttexttocolwidth.caption
@@ -7086,6 +7177,10 @@ msgstr ""
 msgid "Show &current directory in the main window title bar"
 msgstr ""
 
+#: tfrmoptionsmisc.chkshowsplashform.caption
+msgid "Show &splash screen"
+msgstr ""
+
 #: tfrmoptionsmisc.chkshowwarningmessages.caption
 msgid "Show &warning messages (\"OK\" button only)"
 msgstr ""
@@ -7105,6 +7200,10 @@ msgstr ""
 
 #: tfrmoptionsmisc.gbtcexportimport.caption
 msgid "Regarding TC export/import:"
+msgstr ""
+
+#: tfrmoptionsmisc.lbldefaultencoding.caption
+msgid "&Default single-byte text encoding:"
 msgstr ""
 
 #: tfrmoptionsmisc.lbldescrdefaultencoding.caption
@@ -7634,11 +7733,6 @@ msgstr ""
 
 #: tfrmoptionsterminal.edrunintermstayopenparams.hint
 msgctxt "tfrmoptionsterminal.edrunintermstayopenparams.hint"
-msgid "{command} should normally be present here to reflect the command to be run in terminal"
-msgstr ""
-
-#: tfrmoptionsterminal.edruntermparams.hint
-msgctxt "tfrmoptionsterminal.edruntermparams.hint"
 msgid "{command} should normally be present here to reflect the command to be run in terminal"
 msgstr ""
 
@@ -8612,6 +8706,7 @@ msgid "Create self e&xtracting archive"
 msgstr "Kendi kendine &açılan arşiv oluştur(SFX)"
 
 #: tfrmpackdlg.cbencrypt.caption
+msgctxt "tfrmpackdlg.cbencrypt.caption"
 msgid "Encr&ypt"
 msgstr "Şifrele&mek"
 
@@ -9983,11 +10078,19 @@ msgctxt "tfrmviewer.actshowgraphics.caption"
 msgid "Graphics"
 msgstr "Teknik çizim"
 
+#: tfrmviewer.actshowoffice.caption
+msgid "Office XML (text only)"
+msgstr ""
+
 #: tfrmviewer.actshowplugins.caption
 #, fuzzy
 msgctxt "tfrmviewer.actshowplugins.caption"
 msgid "Plugins"
 msgstr "Eklentiler"
+
+#: tfrmviewer.actshowtransparency.caption
+msgid "Show transparenc&y"
+msgstr ""
 
 #: tfrmviewer.actstretchimage.caption
 msgctxt "tfrmviewer.actstretchimage.caption"
@@ -10001,6 +10104,10 @@ msgstr ""
 #: tfrmviewer.actstretchonlylarge.caption
 msgctxt "tfrmviewer.actstretchonlylarge.caption"
 msgid "Stretch only large"
+msgstr ""
+
+#: tfrmviewer.actwraptext.caption
+msgid "&Wrap text"
 msgstr ""
 
 #: tfrmviewer.actzoom.caption
@@ -10299,6 +10406,18 @@ msgstr "Değişkenler:"
 #: ttfrmconfirmcommandline.lblestartpath.editlabel.caption
 msgid "Start path:"
 msgstr ""
+
+#: twcxarchivecopyoperationoptionsui.btnconfig.caption
+#, fuzzy
+msgctxt "twcxarchivecopyoperationoptionsui.btnconfig.caption"
+msgid "Con&figure"
+msgstr "Yapılandırma"
+
+#: twcxarchivecopyoperationoptionsui.cbencrypt.caption
+#, fuzzy
+msgctxt "twcxarchivecopyoperationoptionsui.cbencrypt.caption"
+msgid "Encr&ypt"
+msgstr "Şifrele&mek"
 
 #: twcxarchivecopyoperationoptionsui.lblfileexists.caption
 #, fuzzy
@@ -11152,6 +11271,10 @@ msgctxt "ulng.rsfuncsize"
 msgid "Size"
 msgstr "Boyut"
 
+#: ulng.rsfunctrashorigpath
+msgid "Original path"
+msgstr ""
+
 #: ulng.rsfunctype
 msgid "Type"
 msgstr "Türü"
@@ -11315,6 +11438,10 @@ msgstr "Özel sütunları yapılandır"
 msgid "Enter new custom columns name"
 msgstr ""
 
+#: ulng.rsmenumacosservices
+msgid "Services"
+msgstr ""
+
 #: ulng.rsmnuactions
 msgctxt "ulng.rsmnuactions"
 msgid "Actions"
@@ -11388,6 +11515,12 @@ msgstr ""
 msgid "Pack here..."
 msgstr ""
 
+#: ulng.rsmnurestore
+#, fuzzy
+msgctxt "ulng.rsmnurestore"
+msgid "Restore"
+msgstr "Eski haline getir"
+
 #: ulng.rsmnusortby
 msgid "Sort by"
 msgstr "Şuna Göre Sırala"
@@ -11427,6 +11560,10 @@ msgid ""
 "\"%s\"\n"
 "\n"
 "Do you want to keep the resulting corrupted file anyway?\n"
+msgstr ""
+
+#: ulng.rsmsgcanceloperation
+msgid "Are you sure that you want to cancel this operation?"
 msgstr ""
 
 #: ulng.rsmsgcannotcopymoveitself

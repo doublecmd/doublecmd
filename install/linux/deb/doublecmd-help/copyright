@@ -1,6 +1,6 @@
 Format-Specification: http://svn.debian.org/wsvn/dep/web/deps/dep5.mdwn?op=file&rev=135
 Name: Double Commander
-Source: http://doublecmd.sourceforge.net/
+Source: https://doublecmd.sourceforge.io/
 Maintainer: Alexander Koblov <Alexx2000@mail.ru>
 
 Copyright: © 2006-2010 Alexander Koblov <Alexx2000@mail.ru>

@@ -258,7 +258,7 @@ type
     { recursive routine to see if the source string matches
       the pattern.  Both ? and * wildcard characters are allowed.}
 
-  function AbPercentage(V1, V2 : LongInt) : Byte;
+  function AbPercentage(V1, V2 : Int64) : Byte;
     {-Returns the ratio of V1 to V2 * 100}
 
   procedure AbStripDots( var FName : string );
@@ -912,13 +912,9 @@ begin
   end;
 end;
 { -------------------------------------------------------------------------- }
-function AbPercentage(V1, V2 : LongInt) : Byte;
+function AbPercentage(V1, V2 : Int64): Byte;
 { Returns the ratio of V1 to V2 * 100 }
 begin
-  if V2 > 16384000 then begin  {Possible LongInt overflow}
-    V1 := (V1 + $80) shr 8;  {scale down (div 256)}
-    V2 := (V2 + $80) shr 8;  {scale down (div 256)}
-  end;
   if V2 <= 0 then
     Result := 0
   else if V1 >= V2 then
@@ -1262,9 +1258,7 @@ begin
 {$IFDEF MSWINDOWS}
   Result := GetFileAttributesExW(PWideChar(CeUtf8ToUtf16(aFileName)), GetFileExInfoStandard, @FindData);
   if Result then begin
-    if Windows.FileTimeToLocalFileTime(FindData.ftLastWriteTime, LocalFileTime) and
-       FileTimeToDosDateTime(LocalFileTime, FileDate.Hi, FileDate.Lo) then
-      aAttr.Time := FileDateToDateTime(Integer(FileDate));
+    aAttr.Time := WinFileTimeToDateTime(FindData.ftLastWriteTime);
     LARGE_INTEGER(aAttr.Size).LowPart := FindData.nFileSizeLow;
     LARGE_INTEGER(aAttr.Size).HighPart := FindData.nFileSizeHigh;
     aAttr.Attr := FindData.dwFileAttributes;

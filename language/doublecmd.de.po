@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Double Commander 1.0.0 alpha\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-12-20 12:40+0300\n"
-"PO-Revision-Date: 2022-02-22 01:50+0100\n"
+"PO-Revision-Date: 2022-08-25 11:22+0200\n"
 "Last-Translator: ㋡ <braass@mail.de>\n"
 "Language-Team: Deutsch <braass@mail.de>\n"
 "MIME-Version: 1.0\n"
@@ -13,6 +13,10 @@ msgstr ""
 "Language: de\n"
 "X-Generator: Poedit 2.3\n"
 "X-Poedit-Bookmarks: -1,3123,-1,-1,-1,-1,-1,-1,-1,-1\n"
+
+#: foptionscolors.rsdarkmodeoptions
+msgid "Auto;Enabled;Disabled"
+msgstr "Automatisch;Aktiviert;Deaktiviert"
 
 #: fsyncdirsdlg.rscomparingpercent
 msgid "Comparing... %d%% (ESC to cancel)"
@@ -279,7 +283,7 @@ msgstr "Besitzer"
 #: tfrmattributesedit.lblexec.caption
 msgctxt "TFRMATTRIBUTESEDIT.LBLEXEC.CAPTION"
 msgid "Execute"
-msgstr "  Ausführen"
+msgstr "  Ausführen"
 
 #: tfrmattributesedit.lblread.caption
 msgctxt "TFRMATTRIBUTESEDIT.LBLREAD.CAPTION"
@@ -526,6 +530,11 @@ msgctxt "TFRMDIFFER.ACTEDITREDO.CAPTION"
 msgid "Redo"
 msgstr "Wiederholen"
 
+#: tfrmdiffer.acteditredo.hint
+msgctxt "tfrmdiffer.acteditredo.hint"
+msgid "Redo"
+msgstr "Wiederholen"
+
 #: tfrmdiffer.acteditselectall.caption
 msgid "Select &All"
 msgstr "&Alle wählen"
@@ -535,10 +544,55 @@ msgctxt "TFRMDIFFER.ACTEDITUNDO.CAPTION"
 msgid "Undo"
 msgstr "Rückgängig machen"
 
+#: tfrmdiffer.acteditundo.hint
+msgctxt "tfrmdiffer.acteditundo.hint"
+msgid "Undo"
+msgstr "Rückgängig machen"
+
 #: tfrmdiffer.actexit.caption
 msgctxt "tfrmdiffer.actexit.caption"
 msgid "E&xit"
 msgstr "&Beenden"
+
+#: tfrmdiffer.actfind.caption
+msgctxt "tfrmdiffer.actfind.caption"
+msgid "&Find"
+msgstr "&Suchen"
+
+#: tfrmdiffer.actfind.hint
+msgctxt "tfrmdiffer.actfind.hint"
+msgid "Find"
+msgstr "Suchen"
+
+#: tfrmdiffer.actfindnext.caption
+msgctxt "tfrmdiffer.actfindnext.caption"
+msgid "Find next"
+msgstr "Nächstes suchen"
+
+#: tfrmdiffer.actfindnext.hint
+msgctxt "tfrmdiffer.actfindnext.hint"
+msgid "Find next"
+msgstr "Nächstes suchen"
+
+#: tfrmdiffer.actfindprev.caption
+msgctxt "tfrmdiffer.actfindprev.caption"
+msgid "Find previous"
+msgstr "Voriges suchen"
+
+#: tfrmdiffer.actfindprev.hint
+msgctxt "tfrmdiffer.actfindprev.hint"
+msgid "Find previous"
+msgstr "Voriges suchen"
+
+#: tfrmdiffer.actfindreplace.caption
+msgctxt "tfrmdiffer.actfindreplace.caption"
+msgid "&Replace"
+msgstr "E&rsetzen"
+
+#: tfrmdiffer.actfindreplace.hint
+msgctxt "tfrmdiffer.actfindreplace.hint"
+msgid "Replace"
+msgstr "Ersetzen"
 
 #: tfrmdiffer.actfirstdifference.caption
 msgctxt "tfrmdiffer.actfirstdifference.caption"
@@ -549,6 +603,16 @@ msgstr "Erster Unterschied"
 msgctxt "tfrmdiffer.actfirstdifference.hint"
 msgid "First Difference"
 msgstr "Erster Unterschied"
+
+#: tfrmdiffer.actgotoline.caption
+msgctxt "tfrmdiffer.actgotoline.caption"
+msgid "Goto Line..."
+msgstr "Gehe zu Zeile ..."
+
+#: tfrmdiffer.actgotoline.hint
+msgctxt "tfrmdiffer.actgotoline.hint"
+msgid "Goto Line"
+msgstr "Gehe zu Zeile"
 
 #: tfrmdiffer.actignorecase.caption
 msgid "Ignore Case"
@@ -830,17 +894,17 @@ msgstr "Suchen"
 #: tfrmeditor.acteditfindnext.caption
 msgctxt "tfrmeditor.acteditfindnext.caption"
 msgid "Find next"
-msgstr "Nächste suchen"
+msgstr "Nächstes suchen"
 
 #: tfrmeditor.acteditfindnext.hint
 msgctxt "tfrmeditor.acteditfindnext.hint"
 msgid "Find next"
-msgstr "Nächste suchen"
+msgstr "Nächstes suchen"
 
 #: tfrmeditor.acteditfindprevious.caption
 msgctxt "tfrmeditor.acteditfindprevious.caption"
 msgid "Find previous"
-msgstr "Vorige suchen"
+msgstr "Voriges suchen"
 
 #: tfrmeditor.acteditgotoline.caption
 msgctxt "tfrmeditor.acteditgotoline.caption"
@@ -898,6 +962,7 @@ msgid "Redo"
 msgstr "Wiederholen"
 
 #: tfrmeditor.acteditrplc.caption
+msgctxt "tfrmeditor.acteditrplc.caption"
 msgid "&Replace"
 msgstr "E&rsetzen"
 
@@ -1046,6 +1111,10 @@ msgstr "Abbrechen"
 msgctxt "tfrmeditsearchreplace.buttonpanel.okbutton.caption"
 msgid "&OK"
 msgstr "&OK"
+
+#: tfrmeditsearchreplace.cbmultiline.caption
+msgid "&Multiline pattern"
+msgstr "&Mehrzeiliges Schema"
 
 #: tfrmeditsearchreplace.cbsearchcasesensitive.caption
 msgid "C&ase sensitivity"
@@ -1254,7 +1323,7 @@ msgstr "Enthält:"
 #: tfrmfileproperties.lblexec.caption
 msgctxt "TFRMFILEPROPERTIES.LBLEXEC.CAPTION"
 msgid "Execute"
-msgstr "  Ausführen"
+msgstr "  Ausführen"
 
 #: tfrmfileproperties.lblexecutable.caption
 msgid "Execute:"
@@ -3043,6 +3112,7 @@ msgid "E&xit"
 msgstr "&Beenden"
 
 #: tfrmmain.mitrayiconrestore.caption
+msgctxt "tfrmmain.mitrayiconrestore.caption"
 msgid "Restore"
 msgstr "Wiederherstellen"
 
@@ -3234,6 +3304,7 @@ msgid "&OK"
 msgstr "&OK"
 
 #: tfrmmaskinputdlg.chkcasesensitive.caption
+msgctxt "tfrmmaskinputdlg.chkcasesensitive.caption"
 msgid "Case sensitive"
 msgstr "Abhängig von Groß-/Kleinschreibung"
 
@@ -3253,19 +3324,13 @@ msgstr "Eingabemaske:"
 msgid "O&r select predefined selection type:"
 msgstr "Ode&r vordefinierten Auswahltyp wählen:"
 
-#: tfrmmkdir.btncancel.caption
-msgctxt "TFRMMKDIR.BTNCANCEL.CAPTION"
-msgid "&Cancel"
-msgstr "&Abbrechen"
-
-#: tfrmmkdir.btnok.caption
-msgctxt "TFRMMKDIR.BTNOK.CAPTION"
-msgid "&OK"
-msgstr "&OK"
-
 #: tfrmmkdir.caption
 msgid "Create new directory"
 msgstr "Neues Verzeichnis erstellen"
+
+#: tfrmmkdir.cbextended.caption
+msgid "&Extended syntax"
+msgstr "&Erweiterte Schreibweise"
 
 #: tfrmmkdir.lblmakedir.caption
 msgid "&Input new directory name:"
@@ -3577,6 +3642,15 @@ msgctxt "tfrmmultirename.caption"
 msgid "Multi-Rename Tool"
 msgstr "Mehrfaches Umbenennen"
 
+#: tfrmmultirename.cbcasesens.caption
+msgid "A≠a"
+msgstr "A≠a"
+
+#: tfrmmultirename.cbcasesens.hint
+msgctxt "tfrmmultirename.cbcasesens.hint"
+msgid "Case sensitive"
+msgstr "Abhängig von Groß-/Kleinschreibung"
+
 #: tfrmmultirename.cblog.caption
 msgctxt "TFRMMULTIRENAME.CBLOG.CAPTION"
 msgid "&Log result"
@@ -3585,6 +3659,14 @@ msgstr "Log"
 #: tfrmmultirename.cblogappend.caption
 msgid "Append"
 msgstr "Anhängen"
+
+#: tfrmmultirename.cbonlyfirst.caption
+msgid "1x"
+msgstr "1x"
+
+#: tfrmmultirename.cbonlyfirst.hint
+msgid "Replace only once per file"
+msgstr "Nur einmal pro Datei ersetzen"
 
 #: tfrmmultirename.cbregexp.caption
 msgctxt "TFRMMULTIRENAME.CBREGEXP.CAPTION"
@@ -4082,6 +4164,10 @@ msgstr "Feste Anzahl von Spalten"
 #: tfrmoptionsbriefview.rbusefixedwidth.caption
 msgid "Fixed columns width"
 msgstr "Feste Spaltenweite"
+
+#: tfrmoptionscolors.rgdarkmode.caption
+msgid "Dark mode"
+msgstr "Dark Mode"
 
 #: tfrmoptionscolumnsview.cbcuttexttocolwidth.caption
 msgid "Cut &text to column width"
@@ -6807,6 +6893,10 @@ msgstr "Bei Wechsel des Laufwerks/Mediums immer zum Stammverzeichnis wechseln (l
 msgid "Show &current directory in the main window title bar"
 msgstr "Aktuelles Verzeichnis in der Titelleiste anzeigen"
 
+#: tfrmoptionsmisc.chkshowsplashform.caption
+msgid "Show &splash screen"
+msgstr "&Splash Screen (Startbildschirm) zeigen"
+
 #: tfrmoptionsmisc.chkshowwarningmessages.caption
 msgid "Show &warning messages (\"OK\" button only)"
 msgstr "&Warnungen anzeigen (quittieren mit \"OK\"-Taste)"
@@ -6827,6 +6917,10 @@ msgstr "Beschreibung zu Dateie(n) (descript.ion)"
 #: tfrmoptionsmisc.gbtcexportimport.caption
 msgid "Regarding TC export/import:"
 msgstr "In Bezug auf TC Import/Export:"
+
+#: tfrmoptionsmisc.lbldefaultencoding.caption
+msgid "&Default single-byte text encoding:"
+msgstr "Standard 'single-byte' Textkodierung (Schrift mit weniger als 256 Zeichen -> lateinisch, griechisch, kyrillisch, thailändisch, arabisch, hebräisch):"
 
 #: tfrmoptionsmisc.lbldescrdefaultencoding.caption
 msgid "Default encoding:"
@@ -7336,11 +7430,6 @@ msgstr "{Befehl} sollte normalerweise hier vorhanden sein, um den Befehl wiederz
 
 #: tfrmoptionsterminal.edrunintermstayopenparams.hint
 msgctxt "tfrmoptionsterminal.edrunintermstayopenparams.hint"
-msgid "{command} should normally be present here to reflect the command to be run in terminal"
-msgstr "{Befehl} sollte normalerweise hier vorhanden sein, um den Befehl wiederzugeben, der in der Terminalemulation ausgeführt werden soll"
-
-#: tfrmoptionsterminal.edruntermparams.hint
-msgctxt "tfrmoptionsterminal.edruntermparams.hint"
 msgid "{command} should normally be present here to reflect the command to be run in terminal"
 msgstr "{Befehl} sollte normalerweise hier vorhanden sein, um den Befehl wiederzugeben, der in der Terminalemulation ausgeführt werden soll"
 
@@ -8250,6 +8339,7 @@ msgid "Create self e&xtracting archive"
 msgstr "Selbst extrahierendes Archiv erstellen"
 
 #: tfrmpackdlg.cbencrypt.caption
+msgctxt "tfrmpackdlg.cbencrypt.caption"
 msgid "Encr&ypt"
 msgstr "Verschl&üsseln"
 
@@ -8729,7 +8819,7 @@ msgstr "Text:"
 #: tfrmsetfileproperties.lblexec.caption
 msgctxt "TFRMSETFILEPROPERTIES.LBLEXEC.CAPTION"
 msgid "Execute"
-msgstr "  Ausführen"
+msgstr "  Ausführen"
 
 #: tfrmsetfileproperties.lblmodeinfo.caption
 msgctxt "tfrmsetfileproperties.lblmodeinfo.caption"
@@ -8754,17 +8844,17 @@ msgstr "Schreiben"
 #: tfrmsetfileproperties.zvcreationdatetime.textfornulldate
 msgctxt "tfrmsetfileproperties.zvcreationdatetime.textfornulldate"
 msgid " "
-msgstr ""
+msgstr " "
 
 #: tfrmsetfileproperties.zvlastaccessdatetime.textfornulldate
 msgctxt "tfrmsetfileproperties.zvlastaccessdatetime.textfornulldate"
 msgid " "
-msgstr ""
+msgstr " "
 
 #: tfrmsetfileproperties.zvlastwritedatetime.textfornulldate
 msgctxt "tfrmsetfileproperties.zvlastwritedatetime.textfornulldate"
 msgid " "
-msgstr ""
+msgstr " "
 
 #: tfrmsortanything.btnsort.caption
 msgid "&Sort"
@@ -9331,17 +9421,17 @@ msgstr "&Beenden"
 #: tfrmviewer.actfind.caption
 msgctxt "tfrmviewer.actfind.caption"
 msgid "Find"
-msgstr "Finden"
+msgstr "Suchen"
 
 #: tfrmviewer.actfindnext.caption
 msgctxt "tfrmviewer.actfindnext.caption"
 msgid "Find next"
-msgstr "Nächste finden"
+msgstr "Nächstes suchen"
 
 #: tfrmviewer.actfindprev.caption
 msgctxt "tfrmviewer.actfindprev.caption"
 msgid "Find previous"
-msgstr "Vorige finden"
+msgstr "Voriges suchen"
 
 #: tfrmviewer.actfullscreen.caption
 msgctxt "tfrmviewer.actfullscreen.caption"
@@ -9356,7 +9446,7 @@ msgstr "Zentrieren"
 #: tfrmviewer.actloadnextfile.caption
 msgctxt "TFRMVIEWER.ACTLOADNEXTFILE.CAPTION"
 msgid "&Next"
-msgstr "&Nächste"
+msgstr "&Nächstes"
 
 #: tfrmviewer.actloadnextfile.hint
 msgid "Load Next File"
@@ -9365,7 +9455,7 @@ msgstr "Nächste Datei laden"
 #: tfrmviewer.actloadprevfile.caption
 msgctxt "TFRMVIEWER.ACTLOADPREVFILE.CAPTION"
 msgid "&Previous"
-msgstr "&Vorige"
+msgstr "&Voriges"
 
 #: tfrmviewer.actloadprevfile.hint
 msgid "Load Previous File"
@@ -9516,10 +9606,18 @@ msgctxt "tfrmviewer.actshowgraphics.caption"
 msgid "Graphics"
 msgstr "Bilder"
 
+#: tfrmviewer.actshowoffice.caption
+msgid "Office XML (text only)"
+msgstr "Office Open XML (nur Text)"
+
 #: tfrmviewer.actshowplugins.caption
 msgctxt "tfrmviewer.actshowplugins.caption"
 msgid "Plugins"
 msgstr "Plugins"
+
+#: tfrmviewer.actshowtransparency.caption
+msgid "Show transparenc&y"
+msgstr "Transparenz anzeigen"
 
 #: tfrmviewer.actstretchimage.caption
 msgctxt "TFRMVIEWER.ACTSTRETCHIMAGE.CAPTION"
@@ -9534,6 +9632,10 @@ msgstr "Bild einpassen"
 msgctxt "tfrmviewer.actstretchonlylarge.caption"
 msgid "Stretch only large"
 msgstr "Nur große einpassen"
+
+#: tfrmviewer.actwraptext.caption
+msgid "&Wrap text"
+msgstr "Text umbrechen"
 
 #: tfrmviewer.actzoom.caption
 msgid "Zoom"
@@ -9811,6 +9913,16 @@ msgstr "Parameter:"
 #: ttfrmconfirmcommandline.lblestartpath.editlabel.caption
 msgid "Start path:"
 msgstr "Startpfad:"
+
+#: twcxarchivecopyoperationoptionsui.btnconfig.caption
+msgctxt "twcxarchivecopyoperationoptionsui.btnconfig.caption"
+msgid "Con&figure"
+msgstr "Kon&figurieren"
+
+#: twcxarchivecopyoperationoptionsui.cbencrypt.caption
+msgctxt "twcxarchivecopyoperationoptionsui.cbencrypt.caption"
+msgid "Encr&ypt"
+msgstr "Verschl&üsseln"
 
 #: twcxarchivecopyoperationoptionsui.lblfileexists.caption
 msgctxt "twcxarchivecopyoperationoptionsui.lblfileexists.caption"
@@ -10656,6 +10768,10 @@ msgctxt "ulng.rsfuncsize"
 msgid "Size"
 msgstr "Größe"
 
+#: ulng.rsfunctrashorigpath
+msgid "Original path"
+msgstr "Ursprünglicher Pfad"
+
 #: ulng.rsfunctype
 msgid "Type"
 msgstr "Typ"
@@ -10824,6 +10940,10 @@ msgstr "Konfiguriere benutzerdefinierte Spalten"
 msgid "Enter new custom columns name"
 msgstr "Neuen Namen für die benutzerdefinierte Spaltenansicht angeben"
 
+#: ulng.rsmenumacosservices
+msgid "Services"
+msgstr "Dienste"
+
 #: ulng.rsmnuactions
 msgctxt "ulng.rsmnuactions"
 msgid "Actions"
@@ -10894,6 +11014,11 @@ msgstr "Andere ..."
 msgid "Pack here..."
 msgstr "Archiv hier erstellen ..."
 
+#: ulng.rsmnurestore
+msgctxt "ulng.rsmnurestore"
+msgid "Restore"
+msgstr "Wiederherstellen"
+
 #: ulng.rsmnusortby
 msgid "Sort by"
 msgstr "Sortiert nach"
@@ -10938,6 +11063,10 @@ msgstr ""
 "»%s«\n"
 "\n"
 "Wollen Sie die fehlerhafte Datei trotzdem behalten?\n"
+
+#: ulng.rsmsgcanceloperation
+msgid "Are you sure that you want to cancel this operation?"
+msgstr "Sicher, dass Sie die Operation Abbrechen wollen?"
 
 #: ulng.rsmsgcannotcopymoveitself
 msgid "You can not copy/move a file \"%s\" to itself!"
@@ -11556,9 +11685,8 @@ msgid "This is not a valid plugin!"
 msgstr "Dies ist kein gültiges Plugin!"
 
 #: ulng.rsmsginvalidpluginarchitecture
-#, fuzzy
 msgid "This plugin is built for Double Commander for %s.%sIt can not work with Double Commander for %s!"
-msgstr "Dieses Double Commander-Plugin ist für %s.%sEs kann nicht für %s verwendet werden!"
+msgstr "Dieses Plugin ist für den Double Commander für %s.%sEs funktioniert nicht mit dem Double Commander für %s!"
 
 #: ulng.rsmsginvalidquoting
 msgid "Invalid quoting"
@@ -12105,7 +12233,7 @@ msgstr "Name"
 
 #: ulng.rsmulrenfilenamestylelist
 msgid "No change;UPPERCASE;lowercase;First char uppercase;First Char Of Every Word Uppercase;"
-msgstr "Keine Änderung;GROSSBUCHSTABEN;alles klein;Erster Buchstabe groß;Erster Buchstabe in jedem Wort groß;"
+msgstr "Unverändert;ALLES GROẞGESCHRIEBEN;alles kleingeschrieben;Erster buchstabe groß;Erster Buchstabe In Jedem Wort Groß;"
 
 #: ulng.rsmulrenlastpreset
 msgid "[The last used]"
@@ -13136,7 +13264,7 @@ msgstr "&Dateien;Ve&rzeichnisse;Dateien u&nd Verzeichnisse"
 
 #: ulng.rsoptsearchopt
 msgid "&Hide filter panel when not focused;Keep saving setting modifications for next session"
-msgstr "Verberge Filterdialog, wenn im Hintergrund;Änderungen der Einstellung für die nächste Sitzung speichern"
+msgstr "Filterdialog verbergen, wenn im Hintergrund;Änderungen der Einstellung für die nächste Sitzung speichern"
 
 #: ulng.rsoptsortcasesens
 msgid "not case sensitive;according to locale settings (aAbBcC);first upper then lower case (ABCabc)"
@@ -13699,7 +13827,7 @@ msgid "Help with \"%\" variables"
 msgstr "Hilfe für \"%\"-Variable"
 
 #: ulng.rsvarinputparam
-msgid "Will request request user to enter a parameter with a default suggested value"
+msgid "Will request request user to enter a parameter with a default suggested value\n"
 msgstr ""
 "↴\n"
 "     Fordert den Benutzer auf, einen Parameter mit einem standardmäßig vorgeschlagenen Wert einzugeben\n"
@@ -13894,4 +14022,3 @@ msgstr "Eine Ersetzung hat nicht stattgefunden."
 #: umaincommands.rsfavoritetabs_setupnotexist
 msgid "No setup named \"%s\""
 msgstr "Keine Einstellung namens »%s«"
-

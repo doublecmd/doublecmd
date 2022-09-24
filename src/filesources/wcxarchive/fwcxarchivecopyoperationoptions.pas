@@ -6,20 +6,34 @@ interface
 
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, StdCtrls, ExtCtrls,
-  uFileSourceOperationOptionsUI;
+  uFileSourceOperationOptionsUI, uWcxArchiveFileSource, uWcxArchiveCopyInOperation;
 
 type
 
   { TWcxArchiveCopyOperationOptionsUI }
 
   TWcxArchiveCopyOperationOptionsUI = class(TFileSourceOperationOptionsUI)
+    btnConfig: TButton;
+    cbEncrypt: TCheckBox;
     cmbFileExists: TComboBox;
-    grpOptions: TGroupBox;
     lblFileExists: TLabel;
+    pnlCheckboxes: TPanel;
+    pnlComboBoxes: TPanel;
+    procedure btnConfigClick(Sender: TObject);
+  private
+    FFileSource: IWcxArchiveFileSource;
+    procedure SetOperationOptions(CopyInOperation: TWcxArchiveCopyInOperation); overload;
   public
     constructor Create(AOwner: TComponent; AFileSource: IInterface); override;
     procedure SaveOptions; override;
     procedure SetOperationOptions(Operation: TObject); override;
+  end;
+
+  { TWcxArchiveCopyInOperationOptionsUI }
+
+  TWcxArchiveCopyInOperationOptionsUI = class(TWcxArchiveCopyOperationOptionsUI)
+  public
+    constructor Create(AOwner: TComponent; AFileSource: IInterface); override;
   end;
 
 implementation
@@ -27,9 +41,40 @@ implementation
 {$R *.lfm}
 
 uses
-  DCStrUtils, uLng, uGlobs, uFileSourceOperationOptions, uFileSourceCopyOperation;
+  Dialogs, DCStrUtils, WcxPlugin, uLng, uGlobs, uFileSourceOperationOptions,
+  uFileSourceCopyOperation;
+
+{ TWcxArchiveCopyInOperationOptionsUI }
+
+constructor TWcxArchiveCopyInOperationOptionsUI.Create(AOwner: TComponent;
+  AFileSource: IInterface);
+begin
+  FFileSource := AFileSource as IWcxArchiveFileSource;
+  inherited Create(AOwner, AFileSource);
+  pnlCheckboxes.Visible := True;
+  btnConfig.Visible := True;
+end;
 
 { TWcxArchiveCopyOperationOptionsUI }
+
+procedure TWcxArchiveCopyOperationOptionsUI.btnConfigClick(Sender: TObject);
+begin
+  try
+    FFileSource.WcxModule.VFSConfigure(Handle);
+  except
+    on E: Exception do MessageDlg(E.Message, mtError, [mbOK], 0);
+  end;
+end;
+
+procedure TWcxArchiveCopyOperationOptionsUI.SetOperationOptions(
+  CopyInOperation: TWcxArchiveCopyInOperation);
+var
+  AFlags: Integer;
+begin
+  AFlags := CopyInOperation.PackingFlags;
+  if cbEncrypt.Checked then AFlags := AFlags or PK_PACK_ENCRYPT;
+  CopyInOperation.PackingFlags := AFlags;
+end;
 
 constructor TWcxArchiveCopyOperationOptionsUI.Create(AOwner: TComponent; AFileSource: IInterface);
 begin
@@ -59,6 +104,8 @@ begin
       2: FileExistsOption := fsoofeSkip;
     end;
   end;
+  if Operation is TWcxArchiveCopyInOperation then
+    SetOperationOptions(TWcxArchiveCopyInOperation(Operation));
 end;
 
 end.

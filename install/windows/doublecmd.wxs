@@ -17,7 +17,7 @@
       <Media Id="1" Cabinet="product.cab" EmbedCab="yes"/>
       <Icon Id="ProductIcon" SourceFile="doublecmd.ico"/>
       <Property Id="ARPPRODUCTICON" Value="ProductIcon"/>
-      <Property Id="ARPURLINFOABOUT" Value="http://doublecmd.sourceforge.net"/>
+      <Property Id="ARPURLINFOABOUT" Value="https://doublecmd.sourceforge.io"/>
       <Property Id="ARPNOREPAIR" Value="1"/>
 
       <Upgrade Id="$(var.UpgradeCode)">

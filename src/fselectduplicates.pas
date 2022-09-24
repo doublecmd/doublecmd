@@ -80,6 +80,7 @@ end;
 procedure TfrmSelectDuplicates.btnApplyClick(Sender: TObject);
 var
   ARange: TRange;
+  AFinish: Integer;
   Index, J: Integer;
   ASelected: Integer;
   AFiles: TDisplayFiles;
@@ -167,14 +168,22 @@ begin
     ARange.First:= 1;
   end;
 
+  AFinish:= AFiles.Count - 1;
   AGroup:= TFileVariantProperty(AFiles[ARange.First].FSFile.Properties[fpVariant]).Value;
-  for Index:= ARange.First + 1 to AFiles.Count - 1 do
+  for Index:= ARange.First + 1 to AFinish do
   begin
     AValue:= TFileVariantProperty(AFiles[Index].FSFile.Properties[fpVariant]).Value;
-    if (AValue <> AGroup) then
+    if (AValue <> AGroup) or (Index = AFinish) then
     begin
-      ASelected:= 0;
-      ARange.Last:= Index - 1;
+      if (AValue <> AGroup) then
+      begin
+        ASelected:= 0;
+        ARange.Last:= Index - 1;
+      end
+      else begin
+        ASelected:= -1;
+        ARange.Last:= Index;
+      end;
       for J:= ARange.First to ARange.Last do
       begin
         if AFiles[J].Selected then Inc(ASelected);

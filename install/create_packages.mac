@@ -25,13 +25,21 @@ if [ -z $CPU_TARGET ]; then
   export CPU_TARGET=$(fpc -iTP)
 fi
 
+export CPU_TARGET=`echo $CPU_TARGET|tr '[:upper:]' '[:lower:]'`
+
 # Set widgetset
 if [ -z $lcl ]; then
   export lcl=cocoa
 fi
 
 # Set minimal Mac OS X target version
-export MACOSX_DEPLOYMENT_TARGET=10.5
+if [ -z $MACOSX_DEPLOYMENT_TARGET ]; then
+  if [ $CPU_TARGET = "aarch64" ]; then
+    export MACOSX_DEPLOYMENT_TARGET=11.0
+  else
+    export MACOSX_DEPLOYMENT_TARGET=10.5
+  fi
+fi
 
 # Copy libraries
 cp -a darwin/lib/$CPU_TARGET/*.dylib         $BUILD_DC_TMP_DIR/
@@ -55,6 +63,7 @@ if [ "$lcl" = "qt" ]; then
   macdeployqt doublecmd.app
 fi
 mv doublecmd.app 'Double Commander.app'
+codesign --deep --force --verify --verbose --sign '-' 'Double Commander.app'
 hdiutil create -anyowners -volname "Double Commander" -imagekey zlib-level=9 -format UDZO -srcfolder 'Double Commander.app' $PACK_DIR/doublecmd-$DC_VER-$DC_REVISION.$lcl.$CPU_TARGET.dmg
 
 # Clean DC build dir

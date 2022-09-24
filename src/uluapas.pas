@@ -39,7 +39,7 @@ uses
   Forms, Dialogs, Clipbrd, LazUTF8, LCLVersion, uLng, DCOSUtils,
   DCConvertEncoding, fMain, uFormCommands, uOSUtils, uGlobs, uLog,
   uClipboard, uShowMsg, uLuaStd, uFindEx, uConvEncoding, uFileProcs,
-  uFilePanelSelect, uMasks;
+  uFilePanelSelect, uMasks, LazFileUtils;
 
 procedure luaPushSearchRec(L : Plua_State; Rec: PSearchRecEx);
 begin
@@ -238,6 +238,26 @@ function luaExtractFileDir(L : Plua_State) : Integer; cdecl;
 begin
   Result:= 1;
   lua_pushstring(L, ExtractFileDir(lua_tostring(L, 1)));
+end;
+
+function luaGetAbsolutePath(L : Plua_State) : Integer; cdecl;
+var
+  FileName, BaseDir: String;
+begin
+  Result:= 1;
+  FileName:= lua_tostring(L, 1);
+  BaseDir:= lua_tostring(L, 2);
+  lua_pushstring(L, CreateAbsolutePath(FileName, BaseDir));
+end;
+
+function luaGetRelativePath(L : Plua_State) : Integer; cdecl;
+var
+  FileName, BaseDir: String;
+begin
+  Result:= 1;
+  FileName:= lua_tostring(L, 1);
+  BaseDir:= lua_tostring(L, 2);
+  lua_pushstring(L, CreateRelativePath(FileName, BaseDir));
 end;
 
 function luaPos(L : Plua_State) : Integer; cdecl;
@@ -484,6 +504,9 @@ begin
     luaP_register(L, 'ExtractFilePath', @luaExtractFilePath);
     luaP_register(L, 'ExtractFileName', @luaExtractFileName);
     luaP_register(L, 'ExtractFileDrive', @luaExtractFileDrive);
+
+    luaP_register(L, 'GetAbsolutePath', @luaGetAbsolutePath);
+    luaP_register(L, 'GetRelativePath', @luaGetRelativePath);
 
     luaP_register(L, 'MatchesMask', @luaMatchesMask);
     luaP_register(L, 'MatchesMaskList', @luaMatchesMaskList);

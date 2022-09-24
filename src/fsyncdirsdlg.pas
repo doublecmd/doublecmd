@@ -193,6 +193,9 @@ type
   private
     property SortIndex: Integer read FSortIndex write SetSortIndex;
     property Commands: TFormCommands read FCommands implements IFormCommands;
+  protected
+    procedure DoAutoAdjustLayout(const AMode: TLayoutAdjustmentPolicy;
+                                 const AXProportion, AYProportion: Double); override;
   public
     { public declarations }
     constructor Create(AOwner: TComponent;
@@ -564,6 +567,7 @@ begin
   DeleteLeftCount := 0; DeleteRightCount := 0;
   CopyLeftCount := 0; CopyRightCount := 0;
   CopyLeftSize := 0;  CopyRightSize := 0;
+
   for i := 0 to FVisibleItems.Count - 1 do
     if Assigned(FVisibleItems.Objects[i]) then
     begin
@@ -639,8 +643,14 @@ begin
       CopyRight := chkLeftToRight.Checked;
       DeleteLeft := chkDeleteLeft.Checked;
       DeleteRight := chkDeleteRight.Checked;
+
+      lblProgress.Caption := rsOperCopying;
+      lblProgressDelete.Caption := rsOperDeleting;
+      ProgressBar.Position:=0;
+      ProgressBarDelete.Position:=0;
       pnlCopyProgress.Visible:= CopyLeft or CopyRight;
       pnlDeleteProgress.Visible:= DeleteLeft or DeleteRight;
+
       i := 0;
       while i < FVisibleItems.Count do
       begin
@@ -783,6 +793,10 @@ begin
   begin
     FIniPropStorage.StoredValues.Add.DisplayName:= Format(GRID_COLUMN_FMT, [Index]);
   end;
+
+  {$IFDEF LCLCOCOA}
+  pnlProgress.Color:=clBtnHighlight;
+  {$ENDIF}
 
   lblProgress.Caption    := rsOperCopying;
   lblProgressDelete.Caption   := rsOperDeleting;
@@ -1804,20 +1818,45 @@ end;
 
 procedure TfrmSyncDirsDlg.SetProgressBytes(AProgressBar: TKASProgressBar;
   CurrentBytes: Int64; TotalBytes: Int64);
+var
+  BarText : String;
+  CaptionText : String;
 begin
-  AProgressBar.SetProgress(CurrentBytes, TotalBytes,
-                           cnvFormatFileSize(CurrentBytes, uoscOperation) + '/' +
-                           cnvFormatFileSize(TotalBytes, uoscOperation)
-                           );
+  BarText := cnvFormatFileSize(CurrentBytes, uoscOperation) + '/' + cnvFormatFileSize(TotalBytes, uoscOperation);
+  AProgressBar.SetProgress(CurrentBytes, TotalBytes, BarText );
+
+  {$IFDEF LCLCOCOA}
+  if TotalBytes > 0 then
+    CaptionText := rsOperCopying + ': ' + BarText + ' (' + FloatToStrF((CurrentBytes / TotalBytes) * 100, ffFixed, 0, 0) + '%)'
+  else
+    CaptionText := rsOperCopying;
+  lblProgress.Caption := CaptionText;
+  {$ENDIF}
 end;
 
 procedure TfrmSyncDirsDlg.SetProgressFiles(AProgressBar: TKASProgressBar;
   CurrentFiles: Int64; TotalFiles: Int64);
+var
+  BarText : String;
+  CaptionText : String;
 begin
-  AProgressBar.SetProgress(CurrentFiles, TotalFiles,
-                           cnvFormatFileSize(CurrentFiles, uoscNoUnit) + '/' +
-                           cnvFormatFileSize(TotalFiles, uoscNoUnit)
-                           );
+  BarText := cnvFormatFileSize(CurrentFiles, uoscNoUnit) + '/' + cnvFormatFileSize(TotalFiles, uoscNoUnit);
+  AProgressBar.SetProgress(CurrentFiles, TotalFiles, BarText );
+
+  {$IFDEF LCLCOCOA}
+  if TotalFiles > 0 then
+    CaptionText := rsOperDeleting + ': ' + BarText + ' (' + FloatToStrF((CurrentFiles / TotalFiles) * 100, ffFixed, 0, 0) + '%)'
+  else
+    CaptionText := rsOperDeleting;
+  lblProgressDelete.Caption := CaptionText;
+  {$ENDIF}
+end;
+
+procedure TfrmSyncDirsDlg.DoAutoAdjustLayout(const AMode: TLayoutAdjustmentPolicy;
+                                             const AXProportion, AYProportion: Double);
+begin
+  inherited DoAutoAdjustLayout(AMode, AXProportion, AYProportion);
+  RecalcHeaderCols;
 end;
 
 constructor TfrmSyncDirsDlg.Create(AOwner: TComponent; FileView1,

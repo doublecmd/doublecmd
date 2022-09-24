@@ -24,7 +24,7 @@
 "/>
     <License Value="GPL
 "/>
-    <Version Major="1" Minor="4"/>
+    <Version Major="1" Minor="5"/>
     <Files Count="2">
       <Item1>
         <Filename Value="gifanim.pas"/>

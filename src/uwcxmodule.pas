@@ -77,6 +77,7 @@ Type
 
   TWcxModule = class
   private
+    FModuleName: String;
     FModuleHandle: TLibHandle;  // Handle to .DLL or .so
     FBackgroundFlags: Integer;
 
@@ -145,6 +146,7 @@ Type
 
     function IsLoaded: Boolean;
 
+    property ModuleName: String read FModuleName;
     property BackgroundFlags: Integer read FBackgroundFlags write FBackgroundFlags;
   end;
 
@@ -397,6 +399,7 @@ var
   PackDefaultParamStruct : TPackDefaultParamStruct;
   StartupInfo: TExtensionStartupInfo;
 begin
+  FModuleName := ExtractFileName(sName);
   FModuleHandle := mbLoadLibrary(mbExpandFileName(sName));
   if FModuleHandle = 0 then Exit(False);
 

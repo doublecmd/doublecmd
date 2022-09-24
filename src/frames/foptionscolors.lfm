@@ -1,0 +1,36 @@
+inherited frmOptionsColors: TfrmOptionsColors
+  ChildSizing.LeftRightSpacing = 6
+  ChildSizing.TopBottomSpacing = 6
+  DesignLeft = 360
+  DesignTop = 145
+  object rgDarkMode: TRadioGroup[0]
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = Owner
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
+    Left = 6
+    Height = 58
+    Top = 6
+    Width = 308
+    Anchors = [akTop, akLeft, akRight]
+    AutoFill = True
+    AutoSize = True
+    Caption = 'Dark mode'
+    ChildSizing.LeftRightSpacing = 6
+    ChildSizing.EnlargeHorizontal = crsHomogenousChildResize
+    ChildSizing.EnlargeVertical = crsHomogenousChildResize
+    ChildSizing.ShrinkHorizontal = crsScaleChilds
+    ChildSizing.ShrinkVertical = crsScaleChilds
+    ChildSizing.Layout = cclLeftToRightThenTopToBottom
+    ChildSizing.ControlsPerLine = 1
+    ClientHeight = 38
+    ClientWidth = 304
+    ItemIndex = 0
+    Items.Strings = (
+      'Auto'
+      'Enabled'
+      'Disabled'
+    )
+    TabOrder = 0
+  end
+end

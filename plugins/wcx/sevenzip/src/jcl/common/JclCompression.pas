@@ -6541,7 +6541,10 @@ begin
         Value.bstrVal := SysAllocString(PWideChar(AItem.Group));
       end;
     // kpidBlock: ;
-    // kpidComment: ;
+    kpidComment:
+      begin
+        Value.vt := VT_EMPTY;
+      end;
     // kpidPosition: ;
     // kpidPrefix: ;
     // kpidNumSubDirs: ;
@@ -6608,7 +6611,7 @@ begin
     except
       on E: Exception do
       begin
-        case MessageBox(0, PAnsiChar(E.Message), nil, MB_ABORTRETRYIGNORE or MB_ICONERROR) of
+        case MessageBoxW(0, PWideChar(UTF8Decode(E.Message)), nil, MB_ABORTRETRYIGNORE or MB_ICONERROR) of
           IDABORT: Exit(E_ABORT);
           IDIGNORE:
             begin

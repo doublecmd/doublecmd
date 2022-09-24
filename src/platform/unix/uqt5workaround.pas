@@ -7,14 +7,16 @@ interface
 implementation
 
 uses
-  InitC, BaseUnix;
+  InitC, BaseUnix, LCLVersion;
 
 procedure _exit(status: cint); cdecl; external clib;
 function setenv(const name, value: pchar; overwrite: cint): cint; cdecl; external clib;
 
+{$IF LCL_FULLVERSION < 2020000}
 initialization
   if (LowerCase(fpGetEnv(PAnsiChar('XDG_SESSION_TYPE'))) = 'wayland') then
     setenv('QT_QPA_PLATFORM', 'xcb', 1);
+{$ENDIF}
 
 finalization
   // Workaround: https://doublecmd.sourceforge.io/mantisbt/view.php?id=2079

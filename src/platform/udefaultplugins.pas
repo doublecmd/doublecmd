@@ -335,6 +335,10 @@ begin
   {$ENDIF}
 
   {$IF DEFINED(MSWINDOWS)}
+  if gWlxPlugins.IndexOfName('richview') < 0 then
+  begin
+    gWlxPlugins.Add(Folder + 'richview' + PathDelim + 'richview.wlx');
+  end;
   if gWlxPlugins.IndexOfName('preview') < 0 then
   begin
     gWlxPlugins.Add(Folder + 'preview' + PathDelim + 'preview.wlx');

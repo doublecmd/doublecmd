@@ -63,6 +63,8 @@ type
     procedure ClearCurrentOperation(Operation: TFileSourceOperation);
 
   protected
+    function GetPacker: String; override;
+
     procedure OperationFinished(Operation: TFileSourceOperation); override;
 
     function GetSupportedFileProperties: TFilePropertiesTypes; override;
@@ -540,6 +542,11 @@ begin
       FArcFileList.UnlockList;
     end;
   end;
+end;
+
+function TWcxArchiveFileSource.GetPacker: String;
+begin
+  Result:= FWcxModule.ModuleName;
 end;
 
 procedure TWcxArchiveFileSource.SetCryptCallback;

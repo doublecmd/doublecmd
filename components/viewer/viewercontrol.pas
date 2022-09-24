@@ -251,6 +251,7 @@ type
     FCaretVisible:       Boolean;
     FShowCaret:          Boolean;
     FLastError:          String;
+    FText:               String;
 
     FHex:TCustomCharsPresentation;
     FDec:TCustomCharsPresentation;
@@ -431,6 +432,8 @@ type
 
     function GetText(const StartPos, Len: PtrInt; const Xoffset: Integer): string;
 
+    procedure SetText(const AValue: String);
+
   protected
     procedure WMSetFocus(var Message: TLMSetFocus); message LM_SETFOCUS;
     procedure WMKillFocus(var Message: TLMKillFocus); message LM_KILLFOCUS;
@@ -499,6 +502,7 @@ type
     function DetectEncoding: TViewerEncoding;
     procedure GetSupportedEncodings(List: TStrings);
 
+    property Text: String read FText write SetText;
     property Percent: Integer Read GetPercent Write SetPercent;
     property Position: PtrInt Read FPosition Write SetPosition;
     property FileSize: Int64 Read FFileSize;
@@ -833,6 +837,15 @@ function TViewerControl.GetText(const StartPos, Len: PtrInt; const Xoffset: Inte
 begin
   SetString(Result, GetDataAdr + StartPos, Len);
   Result := TransformText(ConvertToUTF8(Result), Xoffset);
+end;
+
+procedure TViewerControl.SetText(const AValue: String);
+begin
+  UnMapFile;
+  FText:= AValue;
+  FileName:= EmptyStr;
+  FFileSize:= Length(FText);
+  FMappedFile:= Pointer(FText);
 end;
 
 function TViewerControl.GetViewerRect: TRect;
@@ -1618,6 +1631,12 @@ end;
 
 procedure TViewerControl.UnMapFile;
 begin
+  if FMappedFile = Pointer(FText) then
+  begin
+    FMappedFile:= nil;
+    FText:= EmptyStr;
+  end;
+
   if (FFileSize < MaxMemSize) then
   begin
     if Assigned(FMappedFile) then

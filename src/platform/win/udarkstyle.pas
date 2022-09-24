@@ -49,7 +49,7 @@ function AllowDarkModeForWindow(hWnd: HWND; allow: bool): bool;
 implementation
 
 uses
-  UxTheme, JwaWinUser, FileInfo
+  UxTheme, JwaWinUser, FileInfo, uEarlyConfig
 {$IF DEFINED(LCLQT5)}
   , Qt5
 {$ENDIF}
@@ -57,25 +57,20 @@ uses
 
 type
   // Insider 18334
-  PreferredAppMode =
+  TPreferredAppMode =
   (
-    Default,
-    AllowDark,
-    ForceDark,
-    ForceLight,
-    Max
+    pamDefault,
+    pamAllowDark,
+    pamForceDark,
+    pamForceLight
   );
 
-  PWindowCompositionAttribData = ^TWindowCompositionAttribData;
-  TWindowCompositionAttribData = record
-    dwAttrib: DWORD;
-    pvData: PVOID;
-    cbData: SIZE_T;
-  end;
+var
+  AppMode: TPreferredAppMode;
 
 var
   RtlGetNtVersionNumbers: procedure(major, minor, build: LPDWORD); stdcall;
-  _SetWindowCompositionAttribute: function(hWnd: HWND; data: PWINDOWCOMPOSITIONATTRIBDATA): BOOL; stdcall;
+  DwmSetWindowAttribute: function(hwnd: HWND; dwAttribute: DWORD; pvAttribute: Pointer; cbAttribute: DWORD): HRESULT; stdcall;
   // 1809 17763
   _ShouldAppsUseDarkMode: function(): bool; stdcall; // ordinal 132
   _AllowDarkModeForWindow: function(hWnd: HWND; allow: bool): bool; stdcall; // ordinal 133
@@ -83,7 +78,7 @@ var
   _RefreshImmersiveColorPolicyState: procedure(); stdcall; // ordinal 104
   _IsDarkModeAllowedForWindow: function(hWnd: HWND): bool; stdcall; // ordinal 137
   // Insider 18334
-  _SetPreferredAppMode: function(appMode: PreferredAppMode): PreferredAppMode; stdcall; // ordinal 135, since 18334
+  _SetPreferredAppMode: function(appMode: TPreferredAppMode): TPreferredAppMode; stdcall; // ordinal 135, since 18334
 
 function AllowDarkModeForWindow(hWnd: HWND; allow: bool): bool;
 begin
@@ -104,25 +99,28 @@ begin
     Result:= false;
 end;
 
+function ShouldAppsUseDarkMode: Boolean;
+begin
+  Result:= (_ShouldAppsUseDarkMode() or (AppMode = pamForceDark)) and not IsHighContrast();
+end;
+
 procedure RefreshTitleBarThemeColor(hWnd: HWND);
 const
-  WCA_USEDARKMODECOLORS = 26;
+  DWMWA_USE_IMMERSIVE_DARK_MODE_OLD = 19;
+  DWMWA_USE_IMMERSIVE_DARK_MODE_NEW = 20;
 var
   dark: BOOL;
-  data: TWindowCompositionAttribData;
+  dwAttribute: DWORD;
 begin
-  dark:= (_IsDarkModeAllowedForWindow(hWnd) and
-         _ShouldAppsUseDarkMode() and not IsHighContrast());
+  dark:= (_IsDarkModeAllowedForWindow(hWnd) and ShouldAppsUseDarkMode);
 
-  if (g_buildNumber < 18362) then
-    SetPropW(hWnd, 'UseImmersiveDarkModeColors', THandle(dark))
-  else if Assigned(_SetWindowCompositionAttribute) then
-  begin
-    data.pvData:= @dark;
-    data.cbData:= SizeOf(dark);
-    data.dwAttrib:= WCA_USEDARKMODECOLORS;
-    _SetWindowCompositionAttribute(hWnd, @data);
+  if (Win32BuildNumber < 19041) then
+    dwAttribute:= DWMWA_USE_IMMERSIVE_DARK_MODE_OLD
+  else begin
+    dwAttribute:= DWMWA_USE_IMMERSIVE_DARK_MODE_NEW;
   end;
+
+  DwmSetWindowAttribute(hwnd, dwAttribute, @dark, SizeOf(dark));
 end;
 
 procedure AllowDarkModeForApp(allow: bool);
@@ -132,9 +130,9 @@ begin
   else if Assigned(_SetPreferredAppMode) then
   begin
     if (allow) then
-      _SetPreferredAppMode(AllowDark)
+      _SetPreferredAppMode(AppMode)
     else
-      _SetPreferredAppMode(Default);
+      _SetPreferredAppMode(pamDefault);
   end;
 end;
 
@@ -191,10 +189,11 @@ const
 
 function CheckBuildNumber(buildNumber: DWORD): Boolean; inline;
 begin
-  Result := (buildNumber = 17763) or // 1809
-            (buildNumber = 18362) or // 1903 & 1909
-            (buildNumber = 19041) or // 2004 & 20H2 & 21H1
-            (buildNumber = 22000);   // 21H2
+  Result := (buildNumber = 17763) or // Win 10: 1809
+            (buildNumber = 18362) or // Win 10: 1903 & 1909
+            (buildNumber = 19041) or // Win 10: 2004 & 20H2 & 21H1 & 21H2
+            (buildNumber = 22000) or // Win 11: 21H2
+            (buildNumber > 22000);   // Win 11: Insider Preview
 end;
 
 function GetBuildNumber(Instance: THandle): DWORD;
@@ -242,7 +241,7 @@ begin
 
           @_IsDarkModeAllowedForWindow := GetProcAddress(hUxtheme, MAKEINTRESOURCEA(137));
 
-          @_SetWindowCompositionAttribute := GetProcAddress(GetModuleHandleW(user32), 'SetWindowCompositionAttribute');
+          @DwmSetWindowAttribute := GetProcAddress(LoadLibrary('dwmapi.dll'), 'DwmSetWindowAttribute');
 
           if Assigned(_RefreshImmersiveColorPolicyState) and
              Assigned(_ShouldAppsUseDarkMode) and
@@ -251,9 +250,14 @@ begin
              Assigned(_IsDarkModeAllowedForWindow) then
           begin
             g_darkModeSupported := true;
-            AllowDarkModeForApp(true);
-            _RefreshImmersiveColorPolicyState();
-            g_darkModeEnabled := _ShouldAppsUseDarkMode() and not IsHighContrast();
+            AppMode := TPreferredAppMode(gAppMode);
+            if AppMode <> pamForceLight then
+            begin
+              AllowDarkModeForApp(true);
+              _RefreshImmersiveColorPolicyState();
+              g_darkModeEnabled := ShouldAppsUseDarkMode;
+              if g_darkModeEnabled then AppMode := pamForceDark;
+            end;
           end;
         end;
       end;

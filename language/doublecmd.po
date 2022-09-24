@@ -11,6 +11,10 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Native-Language: English\n"
 
+#: foptionscolors.rsdarkmodeoptions
+msgid "Auto;Enabled;Disabled"
+msgstr ""
+
 #: fsyncdirsdlg.rscomparingpercent
 msgid "Comparing... %d%% (ESC to cancel)"
 msgstr ""
@@ -521,6 +525,11 @@ msgctxt "tfrmdiffer.acteditredo.caption"
 msgid "Redo"
 msgstr ""
 
+#: tfrmdiffer.acteditredo.hint
+msgctxt "tfrmdiffer.acteditredo.hint"
+msgid "Redo"
+msgstr ""
+
 #: tfrmdiffer.acteditselectall.caption
 msgid "Select &All"
 msgstr ""
@@ -530,9 +539,54 @@ msgctxt "tfrmdiffer.acteditundo.caption"
 msgid "Undo"
 msgstr ""
 
+#: tfrmdiffer.acteditundo.hint
+msgctxt "tfrmdiffer.acteditundo.hint"
+msgid "Undo"
+msgstr ""
+
 #: tfrmdiffer.actexit.caption
 msgctxt "tfrmdiffer.actexit.caption"
 msgid "E&xit"
+msgstr ""
+
+#: tfrmdiffer.actfind.caption
+msgctxt "tfrmdiffer.actfind.caption"
+msgid "&Find"
+msgstr ""
+
+#: tfrmdiffer.actfind.hint
+msgctxt "tfrmdiffer.actfind.hint"
+msgid "Find"
+msgstr ""
+
+#: tfrmdiffer.actfindnext.caption
+msgctxt "tfrmdiffer.actfindnext.caption"
+msgid "Find next"
+msgstr ""
+
+#: tfrmdiffer.actfindnext.hint
+msgctxt "tfrmdiffer.actfindnext.hint"
+msgid "Find next"
+msgstr ""
+
+#: tfrmdiffer.actfindprev.caption
+msgctxt "tfrmdiffer.actfindprev.caption"
+msgid "Find previous"
+msgstr ""
+
+#: tfrmdiffer.actfindprev.hint
+msgctxt "tfrmdiffer.actfindprev.hint"
+msgid "Find previous"
+msgstr ""
+
+#: tfrmdiffer.actfindreplace.caption
+msgctxt "tfrmdiffer.actfindreplace.caption"
+msgid "&Replace"
+msgstr ""
+
+#: tfrmdiffer.actfindreplace.hint
+msgctxt "tfrmdiffer.actfindreplace.hint"
+msgid "Replace"
 msgstr ""
 
 #: tfrmdiffer.actfirstdifference.caption
@@ -543,6 +597,16 @@ msgstr ""
 #: tfrmdiffer.actfirstdifference.hint
 msgctxt "TFRMDIFFER.ACTFIRSTDIFFERENCE.HINT"
 msgid "First Difference"
+msgstr ""
+
+#: tfrmdiffer.actgotoline.caption
+msgctxt "tfrmdiffer.actgotoline.caption"
+msgid "Goto Line..."
+msgstr ""
+
+#: tfrmdiffer.actgotoline.hint
+msgctxt "tfrmdiffer.actgotoline.hint"
+msgid "Goto Line"
 msgstr ""
 
 #: tfrmdiffer.actignorecase.caption
@@ -836,6 +900,7 @@ msgid "Find previous"
 msgstr ""
 
 #: tfrmeditor.acteditgotoline.caption
+msgctxt "tfrmeditor.acteditgotoline.caption"
 msgid "Goto Line..."
 msgstr ""
 
@@ -890,6 +955,7 @@ msgid "Redo"
 msgstr ""
 
 #: tfrmeditor.acteditrplc.caption
+msgctxt "tfrmeditor.acteditrplc.caption"
 msgid "&Replace"
 msgstr ""
 
@@ -1036,6 +1102,10 @@ msgstr ""
 #: tfrmeditsearchreplace.buttonpanel.okbutton.caption
 msgctxt "TFRMEDITSEARCHREPLACE.BUTTONPANEL.OKBUTTON.CAPTION"
 msgid "&OK"
+msgstr ""
+
+#: tfrmeditsearchreplace.cbmultiline.caption
+msgid "&Multiline pattern"
 msgstr ""
 
 #: tfrmeditsearchreplace.cbsearchcasesensitive.caption
@@ -3010,6 +3080,7 @@ msgid "E&xit"
 msgstr ""
 
 #: tfrmmain.mitrayiconrestore.caption
+msgctxt "tfrmmain.mitrayiconrestore.caption"
 msgid "Restore"
 msgstr ""
 
@@ -3200,6 +3271,7 @@ msgid "&OK"
 msgstr ""
 
 #: tfrmmaskinputdlg.chkcasesensitive.caption
+msgctxt "tfrmmaskinputdlg.chkcasesensitive.caption"
 msgid "Case sensitive"
 msgstr ""
 
@@ -3219,18 +3291,12 @@ msgstr ""
 msgid "O&r select predefined selection type:"
 msgstr ""
 
-#: tfrmmkdir.btncancel.caption
-msgctxt "TFRMMKDIR.BTNCANCEL.CAPTION"
-msgid "&Cancel"
-msgstr ""
-
-#: tfrmmkdir.btnok.caption
-msgctxt "TFRMMKDIR.BTNOK.CAPTION"
-msgid "&OK"
-msgstr ""
-
 #: tfrmmkdir.caption
 msgid "Create new directory"
+msgstr ""
+
+#: tfrmmkdir.cbextended.caption
+msgid "&Extended syntax"
 msgstr ""
 
 #: tfrmmkdir.lblmakedir.caption
@@ -3543,12 +3609,29 @@ msgctxt "tfrmmultirename.caption"
 msgid "Multi-Rename Tool"
 msgstr ""
 
+#: tfrmmultirename.cbcasesens.caption
+msgid "A≠a"
+msgstr ""
+
+#: tfrmmultirename.cbcasesens.hint
+msgctxt "tfrmmultirename.cbcasesens.hint"
+msgid "Case sensitive"
+msgstr ""
+
 #: tfrmmultirename.cblog.caption
 msgid "&Log result"
 msgstr ""
 
 #: tfrmmultirename.cblogappend.caption
 msgid "Append"
+msgstr ""
+
+#: tfrmmultirename.cbonlyfirst.caption
+msgid "1x"
+msgstr ""
+
+#: tfrmmultirename.cbonlyfirst.hint
+msgid "Replace only once per file"
 msgstr ""
 
 #: tfrmmultirename.cbregexp.caption
@@ -4039,6 +4122,10 @@ msgstr ""
 
 #: tfrmoptionsbriefview.rbusefixedwidth.caption
 msgid "Fixed columns width"
+msgstr ""
+
+#: tfrmoptionscolors.rgdarkmode.caption
+msgid "Dark mode"
 msgstr ""
 
 #: tfrmoptionscolumnsview.cbcuttexttocolwidth.caption
@@ -6666,6 +6753,10 @@ msgstr ""
 msgid "Show &current directory in the main window title bar"
 msgstr ""
 
+#: tfrmoptionsmisc.chkshowsplashform.caption
+msgid "Show &splash screen"
+msgstr ""
+
 #: tfrmoptionsmisc.chkshowwarningmessages.caption
 msgid "Show &warning messages (\"OK\" button only)"
 msgstr ""
@@ -6685,6 +6776,10 @@ msgstr ""
 
 #: tfrmoptionsmisc.gbtcexportimport.caption
 msgid "Regarding TC export/import:"
+msgstr ""
+
+#: tfrmoptionsmisc.lbldefaultencoding.caption
+msgid "&Default single-byte text encoding:"
 msgstr ""
 
 #: tfrmoptionsmisc.lbldescrdefaultencoding.caption
@@ -7181,11 +7276,6 @@ msgstr ""
 
 #: tfrmoptionsterminal.edrunintermstayopenparams.hint
 msgctxt "TFRMOPTIONSTERMINAL.EDRUNINTERMSTAYOPENPARAMS.HINT"
-msgid "{command} should normally be present here to reflect the command to be run in terminal"
-msgstr ""
-
-#: tfrmoptionsterminal.edruntermparams.hint
-msgctxt "TFRMOPTIONSTERMINAL.EDRUNTERMPARAMS.HINT"
 msgid "{command} should normally be present here to reflect the command to be run in terminal"
 msgstr ""
 
@@ -8088,6 +8178,7 @@ msgid "Create self e&xtracting archive"
 msgstr ""
 
 #: tfrmpackdlg.cbencrypt.caption
+msgctxt "tfrmpackdlg.cbencrypt.caption"
 msgid "Encr&ypt"
 msgstr ""
 
@@ -9325,9 +9416,17 @@ msgctxt "tfrmviewer.actshowgraphics.caption"
 msgid "Graphics"
 msgstr ""
 
+#: tfrmviewer.actshowoffice.caption
+msgid "Office XML (text only)"
+msgstr ""
+
 #: tfrmviewer.actshowplugins.caption
 msgctxt "TFRMVIEWER.ACTSHOWPLUGINS.CAPTION"
 msgid "Plugins"
+msgstr ""
+
+#: tfrmviewer.actshowtransparency.caption
+msgid "Show transparenc&y"
 msgstr ""
 
 #: tfrmviewer.actstretchimage.caption
@@ -9340,6 +9439,10 @@ msgstr ""
 
 #: tfrmviewer.actstretchonlylarge.caption
 msgid "Stretch only large"
+msgstr ""
+
+#: tfrmviewer.actwraptext.caption
+msgid "&Wrap text"
 msgstr ""
 
 #: tfrmviewer.actzoom.caption
@@ -9615,6 +9718,16 @@ msgstr ""
 
 #: ttfrmconfirmcommandline.lblestartpath.editlabel.caption
 msgid "Start path:"
+msgstr ""
+
+#: twcxarchivecopyoperationoptionsui.btnconfig.caption
+msgctxt "twcxarchivecopyoperationoptionsui.btnconfig.caption"
+msgid "Con&figure"
+msgstr ""
+
+#: twcxarchivecopyoperationoptionsui.cbencrypt.caption
+msgctxt "twcxarchivecopyoperationoptionsui.cbencrypt.caption"
+msgid "Encr&ypt"
 msgstr ""
 
 #: twcxarchivecopyoperationoptionsui.lblfileexists.caption
@@ -10129,6 +10242,7 @@ msgid "Goto line:"
 msgstr ""
 
 #: ulng.rseditgotolinetitle
+msgctxt "ulng.rseditgotolinetitle"
 msgid "Goto Line"
 msgstr ""
 
@@ -10449,6 +10563,10 @@ msgctxt "ulng.rsfuncsize"
 msgid "Size"
 msgstr ""
 
+#: ulng.rsfunctrashorigpath
+msgid "Original path"
+msgstr ""
+
 #: ulng.rsfunctype
 msgid "Type"
 msgstr ""
@@ -10610,6 +10728,10 @@ msgstr ""
 msgid "Enter new custom columns name"
 msgstr ""
 
+#: ulng.rsmenumacosservices
+msgid "Services"
+msgstr ""
+
 #: ulng.rsmnuactions
 msgctxt "ulng.rsmnuactions"
 msgid "Actions"
@@ -10680,6 +10802,11 @@ msgstr ""
 msgid "Pack here..."
 msgstr ""
 
+#: ulng.rsmnurestore
+msgctxt "ulng.rsmnurestore"
+msgid "Restore"
+msgstr ""
+
 #: ulng.rsmnusortby
 msgid "Sort by"
 msgstr ""
@@ -10719,6 +10846,10 @@ msgid ""
 "\"%s\"\n"
 "\n"
 "Do you want to keep the resulting corrupted file anyway?\n"
+msgstr ""
+
+#: ulng.rsmsgcanceloperation
+msgid "Are you sure that you want to cancel this operation?"
 msgstr ""
 
 #: ulng.rsmsgcannotcopymoveitself

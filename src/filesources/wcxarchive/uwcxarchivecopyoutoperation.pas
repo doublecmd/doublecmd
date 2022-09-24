@@ -1,6 +1,9 @@
 unit uWcxArchiveCopyOutOperation;
 
 {$mode objfpc}{$H+}
+{$if FPC_FULLVERSION >= 30300}
+{$modeswitch arraytodynarray}
+{$endif}
 {$include calling.inc}
 
 interface
@@ -206,6 +209,12 @@ begin
 end;
 
 procedure TWcxArchiveCopyOutOperation.Initialize;
+var
+  Index: Integer;
+  ACount: Integer;
+  AFileName: String;
+  Header: TWcxHeader;
+  ArcFileList: TList;
 begin
   // Is plugin allow multiple Operations?
   if FNeedsConnection then
@@ -216,6 +225,30 @@ begin
   // Extract without path from flat view
   if not FExtractWithoutPath then begin
     FExtractWithoutPath := SourceFiles.Flat;
+  end;
+
+  if efSmartExtract in ExtractFlags then
+  begin
+    ACount:= 0;
+    ArcFileList := FWcxArchiveFileSource.ArchiveFileList.Clone;
+    try
+      for Index := 0 to ArcFileList.Count - 1 do
+      begin
+        AFileName := PathDelim + TWcxHeader(ArcFileList[Index]).FileName;
+
+        if IsInPath(PathDelim, AFileName, False, False) then
+        begin
+          Inc(ACount);
+          if (ACount > 1) then
+          begin
+            FTargetPath := FTargetPath + ExtractOnlyFileName(FWcxArchiveFileSource.ArchiveFileName) + PathDelim;
+            Break;
+          end;
+        end;
+      end;
+    finally
+      ArcFileList.Free;
+    end;
   end;
 
   // Check rename mask
@@ -579,7 +612,7 @@ const
        fsourSkipAll, fsourOverwriteSmaller, fsourOverwriteOlder, fsourCancel,
        fsourRenameSource, fsourAutoRenameSource);
 var
-  PossibleResponses: array of TFileSourceOperationUIResponse;
+  PossibleResponses: TFileSourceOperationUIResponses;
   Answer: Boolean;
   Message: String;
 

@@ -748,6 +748,7 @@ begin
   FColumns := 80;
   FRows := 100;
   FVisibleRows:= 25;
+  FWrapLines := True;
   FAutoFollow := True;
   FCaretPos := Classes.Point(1, 1);
   FTopLeft := Classes.Point(1, 1);

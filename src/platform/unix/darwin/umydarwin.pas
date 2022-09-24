@@ -28,25 +28,229 @@ unit uMyDarwin;
 interface
 
 uses
-  Classes, SysUtils, MacOSAll, CocoaAll;
+  Classes, SysUtils, UnixType, MacOSAll, CocoaAll, CocoaUtils, CocoaInt, InterfaceBase, Menus, CocoaWSMenus;
 
-function NSGetTempPath: String;
-
+// Darwin Util Function
 function StringToNSString(const S: String): NSString;
 function StringToCFStringRef(const S: String): CFStringRef;
+function NSArrayToList(const theArray:NSArray): TStringList;
+function ListToNSArray(const list:TStrings): NSArray;
+
+function NSGetTempPath: String;
 
 function NSGetFolderPath(Folder: NSSearchPathDirectory): String;
 
 function GetFileDescription(const FileName: String): String;
 function MountNetworkDrive(const serverAddress: String): Boolean;
 
+// Workarounds for FPC RTL Bug
+// copied from ptypes.inc and modified fstypename only
+{$if defined(cpuarm) or defined(cpuaarch64) or defined(iphonesim)}
+     { structure used on iPhoneOS and available on Mac OS X 10.6 and later }
+
+const MFSTYPENAMELEN = 16;
+
+type TDarwinAarch64Statfs = record
+          bsize : cuint32;
+          iosize : cint32;
+          blocks : cuint64;
+          bfree : cuint64;
+          bavail : cuint64;
+          files : cuint64;
+          ffree : cuint64;
+          fsid : fsid_t;
+          owner : uid_t;
+          ftype : cuint32;
+          fflags : cuint32;
+          fssubtype : cuint32;
+          fstypename : array[0..(MFSTYPENAMELEN)-1] of char;
+          mountpoint : array[0..(PATH_MAX)-1] of char;
+          mntfromname : array[0..(PATH_MAX)-1] of char;
+          reserved: array[0..7] of cuint32;
+     end;
+
+type TDarwinStatfs = TDarwinAarch64Statfs;
+
+{$else}
+
+type TDarwinStatfs = TStatFs;
+
+{$endif}
+
+// MacOS Service Integration
+type TNSServiceProviderCallBack = Procedure( filenames:TStringList ) of object;
+type TNSServiceMenuIsReady = Function(): Boolean of object;
+type TNSServiceMenuGetFilenames = Function(): TStringList of object;
+
+type TDCCocoaApplication = objcclass(TCocoaApplication)
+private
+  function validRequestorForSendType_returnType (sendType: NSString; returnType: NSString): id; override;
+  function writeSelectionToPasteboard_types (pboard: NSPasteboard; types: NSArray): ObjCBOOL; message 'writeSelectionToPasteboard:types:';
+public
+  serviceMenuIsReady: TNSServiceMenuIsReady;
+  serviceMenuGetFilenames: TNSServiceMenuGetFilenames;
+end;
+
+type TNSServiceProvider = objcclass(NSObject)
+private
+  onOpenWithNewTab: TNSServiceProviderCallBack;
+public
+  procedure openWithNewTab( pboard:NSPasteboard; userData:NSString; error:NSStringPtr ); message 'openWithNewTab:userData:error:';
+end;
+
+type TMacosServiceMenuHelper = class
+private
+  oldMenuPopupHandler: TNotifyEvent;
+  serviceSubMenuCaption: String;
+  procedure attachServicesMenu( Sender:TObject);
+public
+  procedure PopUp( menu:TPopupMenu; caption:String );
+end;
+
+procedure InitNSServiceProvider(
+  serveCallback: TNSServiceProviderCallBack;
+  isReadyFunc: TNSServiceMenuIsReady;
+  getFilenamesFunc: TNSServiceMenuGetFilenames );
+
 var
   HasMountURL: Boolean = False;
+  NSServiceProvider: TNSServiceProvider;
+  MacosServiceMenuHelper: TMacosServiceMenuHelper;
 
 implementation
 
 uses
   DynLibs;
+
+procedure TMacosServiceMenuHelper.attachServicesMenu( Sender:TObject);
+var
+  servicesItem: TMenuItem;
+  subMenu: TCocoaMenu;
+begin
+  // call the previous OnMenuPopupHandler and restore it
+  if Assigned(oldMenuPopupHandler) then oldMenuPopupHandler( Sender );
+  OnMenuPopupHandler:= oldMenuPopupHandler;
+  oldMenuPopupHandler:= nil;
+
+  // attach the Services Sub Menu by calling NSApplication.setServicesMenu()
+  servicesItem:= TPopupMenu(Sender).Items.Find(serviceSubMenuCaption);
+  if servicesItem<>nil then
+  begin
+    subMenu:= TCocoaMenu.alloc.initWithTitle(NSString.string_);
+    TCocoaMenuItem(servicesItem.Handle).setSubmenu( subMenu );
+    TCocoaWidgetSet(WidgetSet).NSApp.setServicesMenu( NSMenu(servicesItem.Handle) );
+  end;
+end;
+
+procedure TMacosServiceMenuHelper.PopUp( menu:TPopupMenu; caption:String );
+begin
+  // because the menu item handle will be destroyed in TPopupMenu.PopUp()
+  // we can only call NSApplication.setServicesMenu() in OnMenuPopupHandler()
+  oldMenuPopupHandler:= OnMenuPopupHandler;
+  OnMenuPopupHandler:= attachServicesMenu;
+  serviceSubMenuCaption:= caption;
+  menu.PopUp();
+end;
+
+
+procedure InitNSServiceProvider(
+  serveCallback: TNSServiceProviderCallBack;
+  isReadyFunc: TNSServiceMenuIsReady;
+  getFilenamesFunc: TNSServiceMenuGetFilenames );
+var
+  DCApp: TDCCocoaApplication;
+  sendTypes: NSArray;
+  returnTypes: NSArray;
+begin
+  DCApp:= TDCCocoaApplication( TCocoaWidgetSet(WidgetSet).NSApp );
+
+  // MacOS Service menu incoming setup
+  if not Assigned(NSServiceProvider) then
+  begin
+    NSServiceProvider:= TNSServiceProvider.alloc.init;
+    DCApp.setServicesProvider( NSServiceProvider );
+    NSUpdateDynamicServices;
+  end;
+  NSServiceProvider.onOpenWithNewTab:= serveCallback;
+
+  // MacOS Service menu outgoing setup
+  sendTypes:= NSArray.arrayWithObject(NSFilenamesPboardType);
+  returnTypes:= nil;
+  DCApp.serviceMenuIsReady:= isReadyFunc;
+  DCApp.serviceMenuGetFilenames:= getFilenamesFunc;
+  DCApp.registerServicesMenuSendTypes_returnTypes( sendTypes, returnTypes );
+end;
+
+procedure TNSServiceProvider.openWithNewTab( pboard:NSPasteboard; userData:NSString; error:NSStringPtr );
+var
+  filenameArray{, lClasses}: NSArray;
+  filenameList: TStringList;
+begin
+  filenameArray := pboard.propertyListForType(NSFilenamesPboardType);
+  if filenameArray <> nil then
+  begin
+    if Assigned(onOpenWithNewTab) then
+    begin
+      filenameList:= NSArrayToList( filenameArray );
+      onOpenWithNewTab( filenameList );
+      FreeAndNil( filenameList );
+    end;
+  end;
+end;
+
+function TDCCocoaApplication.validRequestorForSendType_returnType (sendType: NSString; returnType: NSString): id;
+var
+  isSendTypeMatch: ObjcBool;
+  isReturnTypeMatch: ObjcBool;
+begin
+  Result:= nil;
+  if not NSFilenamesPboardType.isEqualToString(sendType) then exit;
+  if returnType<>nil then exit;
+  if self.serviceMenuIsReady() then Result:=self;
+end;
+
+function TDCCocoaApplication.writeSelectionToPasteboard_types( pboard: NSPasteboard; types: NSArray): ObjCBOOL;
+var
+  filenameList: TStringList;
+  filenameArray: NSArray;
+begin
+  Result:= false;
+  filenameList:= self.serviceMenuGetFilenames();
+  if filenameList=nil then exit;
+
+  filenameArray:= ListToNSArray( filenameList );
+  pboard.declareTypes_owner( NSArray.arrayWithObject(NSFileNamesPboardType), nil );
+  pboard.setPropertyList_forType( filenameArray, NSFileNamesPboardType );
+  Result:= true;
+
+  FreeAndNil( filenameList );
+end;
+
+function NSArrayToList(const theArray:NSArray): TStringList;
+var
+  i: Integer;
+  list : TStringList;
+begin
+  list := TStringList.Create;
+  for i := 0 to theArray.Count-1 do
+  begin
+    list.Add( NSStringToString( theArray.objectAtIndex(i) ) );
+  end;
+  Result := list;
+end;
+
+function ListToNSArray(const list:TStrings): NSArray;
+var
+  i: Integer;
+  theArray: NSMutableArray;
+begin
+  theArray := NSMutableArray.arrayWithCapacity(list.Count);
+  for i := 0 to list.Count - 1 do
+  begin
+    theArray.addObject( StringToNSString(list[i]) );
+  end;
+  Result := theArray;
+end;
 
 function NSGetTempPath: String;
 begin
@@ -129,6 +333,7 @@ begin
     @FSMountServerVolumeSync:= GetProcAddress(CoreServices, 'FSMountServerVolumeSync');
   end;
   HasMountURL:= Assigned(NetFSMountURLSync) or Assigned(FSMountServerVolumeSync);
+  MacosServiceMenuHelper:= TMacosServiceMenuHelper.Create;
 end;
 
 procedure Finalize;

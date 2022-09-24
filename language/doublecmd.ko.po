@@ -14,6 +14,10 @@ msgstr ""
 "X-Generator: Poedit 3.0\n"
 "X-Poedit-Bookmarks: -1,-1,-1,-1,2932,533,-1,-1,-1,-1\n"
 
+#: foptionscolors.rsdarkmodeoptions
+msgid "Auto;Enabled;Disabled"
+msgstr ""
+
 #: fsyncdirsdlg.rscomparingpercent
 msgid "Comparing... %d%% (ESC to cancel)"
 msgstr "비교하기... %d%% (취소 ESC)"
@@ -532,6 +536,12 @@ msgctxt "TFRMDIFFER.ACTEDITREDO.CAPTION"
 msgid "Redo"
 msgstr "재실행"
 
+#: tfrmdiffer.acteditredo.hint
+#, fuzzy
+msgctxt "tfrmdiffer.acteditredo.hint"
+msgid "Redo"
+msgstr "재실행"
+
 #: tfrmdiffer.acteditselectall.caption
 msgid "Select &All"
 msgstr "전부 선택(&A)"
@@ -541,10 +551,64 @@ msgctxt "TFRMDIFFER.ACTEDITUNDO.CAPTION"
 msgid "Undo"
 msgstr "되돌리기"
 
+#: tfrmdiffer.acteditundo.hint
+#, fuzzy
+msgctxt "tfrmdiffer.acteditundo.hint"
+msgid "Undo"
+msgstr "되돌리기"
+
 #: tfrmdiffer.actexit.caption
 msgctxt "TFRMDIFFER.ACTEXIT.CAPTION"
 msgid "E&xit"
 msgstr "종료(&X)"
+
+#: tfrmdiffer.actfind.caption
+#, fuzzy
+msgctxt "tfrmdiffer.actfind.caption"
+msgid "&Find"
+msgstr "찾기(&F)"
+
+#: tfrmdiffer.actfind.hint
+#, fuzzy
+msgctxt "tfrmdiffer.actfind.hint"
+msgid "Find"
+msgstr "찾기"
+
+#: tfrmdiffer.actfindnext.caption
+#, fuzzy
+msgctxt "tfrmdiffer.actfindnext.caption"
+msgid "Find next"
+msgstr "다음 찾기"
+
+#: tfrmdiffer.actfindnext.hint
+#, fuzzy
+msgctxt "tfrmdiffer.actfindnext.hint"
+msgid "Find next"
+msgstr "다음 찾기"
+
+#: tfrmdiffer.actfindprev.caption
+#, fuzzy
+msgctxt "tfrmdiffer.actfindprev.caption"
+msgid "Find previous"
+msgstr "이전 찾기"
+
+#: tfrmdiffer.actfindprev.hint
+#, fuzzy
+msgctxt "tfrmdiffer.actfindprev.hint"
+msgid "Find previous"
+msgstr "이전 찾기"
+
+#: tfrmdiffer.actfindreplace.caption
+#, fuzzy
+msgctxt "tfrmdiffer.actfindreplace.caption"
+msgid "&Replace"
+msgstr "바꾸기(&R)"
+
+#: tfrmdiffer.actfindreplace.hint
+#, fuzzy
+msgctxt "tfrmdiffer.actfindreplace.hint"
+msgid "Replace"
+msgstr "바꾸기"
 
 #: tfrmdiffer.actfirstdifference.caption
 msgctxt "TFRMDIFFER.ACTFIRSTDIFFERENCE.CAPTION"
@@ -555,6 +619,18 @@ msgstr "첫 번째 차이점"
 msgctxt "TFRMDIFFER.ACTFIRSTDIFFERENCE.HINT"
 msgid "First Difference"
 msgstr "첫 번째 차이점"
+
+#: tfrmdiffer.actgotoline.caption
+#, fuzzy
+msgctxt "tfrmdiffer.actgotoline.caption"
+msgid "Goto Line..."
+msgstr "줄로 가기..."
+
+#: tfrmdiffer.actgotoline.hint
+#, fuzzy
+msgctxt "tfrmdiffer.actgotoline.hint"
+msgid "Goto Line"
+msgstr "줄로 가기"
 
 #: tfrmdiffer.actignorecase.caption
 msgid "Ignore Case"
@@ -906,6 +982,7 @@ msgid "Redo"
 msgstr "재실행"
 
 #: tfrmeditor.acteditrplc.caption
+msgctxt "tfrmeditor.acteditrplc.caption"
 msgid "&Replace"
 msgstr "바꾸기(&R)"
 
@@ -1054,6 +1131,10 @@ msgstr "취소(&C)"
 msgctxt "tfrmeditsearchreplace.buttonpanel.okbutton.caption"
 msgid "&OK"
 msgstr "확인(&O)"
+
+#: tfrmeditsearchreplace.cbmultiline.caption
+msgid "&Multiline pattern"
+msgstr ""
 
 #: tfrmeditsearchreplace.cbsearchcasesensitive.caption
 msgctxt "TFRMEDITSEARCHREPLACE.CBSEARCHCASESENSITIVE.CAPTION"
@@ -3074,6 +3155,7 @@ msgid "E&xit"
 msgstr "종료(&X)"
 
 #: tfrmmain.mitrayiconrestore.caption
+msgctxt "tfrmmain.mitrayiconrestore.caption"
 msgid "Restore"
 msgstr "복구"
 
@@ -3265,6 +3347,7 @@ msgid "&OK"
 msgstr "확인(&O)"
 
 #: tfrmmaskinputdlg.chkcasesensitive.caption
+msgctxt "tfrmmaskinputdlg.chkcasesensitive.caption"
 msgid "Case sensitive"
 msgstr ""
 
@@ -3284,19 +3367,13 @@ msgstr ""
 msgid "O&r select predefined selection type:"
 msgstr "또는 미리 정의된 선택형태 선택(&R):"
 
-#: tfrmmkdir.btncancel.caption
-msgctxt "TFRMMKDIR.BTNCANCEL.CAPTION"
-msgid "&Cancel"
-msgstr "취소(&C)"
-
-#: tfrmmkdir.btnok.caption
-msgctxt "TFRMMKDIR.BTNOK.CAPTION"
-msgid "&OK"
-msgstr "확인(&O)"
-
 #: tfrmmkdir.caption
 msgid "Create new directory"
 msgstr "새 폴더 생성"
+
+#: tfrmmkdir.cbextended.caption
+msgid "&Extended syntax"
+msgstr ""
 
 #: tfrmmkdir.lblmakedir.caption
 msgid "&Input new directory name:"
@@ -3610,6 +3687,15 @@ msgctxt "TFRMMULTIRENAME.CAPTION"
 msgid "Multi-Rename Tool"
 msgstr "파일명 변경 도구"
 
+#: tfrmmultirename.cbcasesens.caption
+msgid "A≠a"
+msgstr ""
+
+#: tfrmmultirename.cbcasesens.hint
+msgctxt "tfrmmultirename.cbcasesens.hint"
+msgid "Case sensitive"
+msgstr ""
+
 #: tfrmmultirename.cblog.caption
 msgctxt "TFRMMULTIRENAME.CBLOG.CAPTION"
 msgid "&Log result"
@@ -3617,6 +3703,14 @@ msgstr "로그(&L)"
 
 #: tfrmmultirename.cblogappend.caption
 msgid "Append"
+msgstr ""
+
+#: tfrmmultirename.cbonlyfirst.caption
+msgid "1x"
+msgstr ""
+
+#: tfrmmultirename.cbonlyfirst.hint
+msgid "Replace only once per file"
 msgstr ""
 
 #: tfrmmultirename.cbregexp.caption
@@ -4122,6 +4216,10 @@ msgstr "고정된 컬럼 수"
 #: tfrmoptionsbriefview.rbusefixedwidth.caption
 msgid "Fixed columns width"
 msgstr "고정된 컬럼 폭"
+
+#: tfrmoptionscolors.rgdarkmode.caption
+msgid "Dark mode"
+msgstr ""
 
 #: tfrmoptionscolumnsview.cbcuttexttocolwidth.caption
 msgid "Cut &text to column width"
@@ -6836,6 +6934,10 @@ msgstr "드라이브 변경시 항상 최상위로 가기(&G)"
 msgid "Show &current directory in the main window title bar"
 msgstr ""
 
+#: tfrmoptionsmisc.chkshowsplashform.caption
+msgid "Show &splash screen"
+msgstr ""
+
 #: tfrmoptionsmisc.chkshowwarningmessages.caption
 msgctxt "TFRMOPTIONSMISC.CHKSHOWWARNINGMESSAGES.CAPTION"
 msgid "Show &warning messages (\"OK\" button only)"
@@ -6858,6 +6960,10 @@ msgstr ""
 #: tfrmoptionsmisc.gbtcexportimport.caption
 msgid "Regarding TC export/import:"
 msgstr "TC(토탈 커맨더) 내보내기/가져오기 기능 관련:"
+
+#: tfrmoptionsmisc.lbldefaultencoding.caption
+msgid "&Default single-byte text encoding:"
+msgstr ""
 
 #: tfrmoptionsmisc.lbldescrdefaultencoding.caption
 msgid "Default encoding:"
@@ -7368,11 +7474,6 @@ msgstr "{command}는 터미널에서 실행할 명령을 반영하기 위해 일
 
 #: tfrmoptionsterminal.edrunintermstayopenparams.hint
 msgctxt "tfrmoptionsterminal.edrunintermstayopenparams.hint"
-msgid "{command} should normally be present here to reflect the command to be run in terminal"
-msgstr "{command}는 터미널에서 실행할 명령을 반영하기 위해 일반적으로 여기에 있어야 합니다"
-
-#: tfrmoptionsterminal.edruntermparams.hint
-msgctxt "tfrmoptionsterminal.edruntermparams.hint"
 msgid "{command} should normally be present here to reflect the command to be run in terminal"
 msgstr "{command}는 터미널에서 실행할 명령을 반영하기 위해 일반적으로 여기에 있어야 합니다"
 
@@ -8283,6 +8384,7 @@ msgid "Create self e&xtracting archive"
 msgstr "자동 압축해제 파일 생성(&X)"
 
 #: tfrmpackdlg.cbencrypt.caption
+msgctxt "tfrmpackdlg.cbencrypt.caption"
 msgid "Encr&ypt"
 msgstr "암호화(&Y)"
 
@@ -9547,10 +9649,18 @@ msgctxt "tfrmviewer.actshowgraphics.caption"
 msgid "Graphics"
 msgstr "그래픽"
 
+#: tfrmviewer.actshowoffice.caption
+msgid "Office XML (text only)"
+msgstr ""
+
 #: tfrmviewer.actshowplugins.caption
 msgctxt "tfrmviewer.actshowplugins.caption"
 msgid "Plugins"
 msgstr "플러그인"
+
+#: tfrmviewer.actshowtransparency.caption
+msgid "Show transparenc&y"
+msgstr ""
 
 #: tfrmviewer.actstretchimage.caption
 msgctxt "TFRMVIEWER.ACTSTRETCHIMAGE.CAPTION"
@@ -9565,6 +9675,10 @@ msgstr "이미지 늘이기"
 msgctxt "tfrmviewer.actstretchonlylarge.caption"
 msgid "Stretch only large"
 msgstr "크게만 늘이기"
+
+#: tfrmviewer.actwraptext.caption
+msgid "&Wrap text"
+msgstr ""
 
 #: tfrmviewer.actzoom.caption
 msgid "Zoom"
@@ -9845,6 +9959,18 @@ msgstr "매개변수:"
 #: ttfrmconfirmcommandline.lblestartpath.editlabel.caption
 msgid "Start path:"
 msgstr ""
+
+#: twcxarchivecopyoperationoptionsui.btnconfig.caption
+#, fuzzy
+msgctxt "twcxarchivecopyoperationoptionsui.btnconfig.caption"
+msgid "Con&figure"
+msgstr "환경설정(&F)"
+
+#: twcxarchivecopyoperationoptionsui.cbencrypt.caption
+#, fuzzy
+msgctxt "twcxarchivecopyoperationoptionsui.cbencrypt.caption"
+msgid "Encr&ypt"
+msgstr "암호화(&Y)"
 
 #: twcxarchivecopyoperationoptionsui.lblfileexists.caption
 msgctxt "TWCXARCHIVECOPYOPERATIONOPTIONSUI.LBLFILEEXISTS.CAPTION"
@@ -10690,6 +10816,10 @@ msgctxt "ulng.rsfuncsize"
 msgid "Size"
 msgstr "크기"
 
+#: ulng.rsfunctrashorigpath
+msgid "Original path"
+msgstr ""
+
 #: ulng.rsfunctype
 msgid "Type"
 msgstr "형태"
@@ -10854,6 +10984,10 @@ msgstr "사용자 파일속성열 환경설정"
 msgid "Enter new custom columns name"
 msgstr "새 사용자 파일속성열 이름 입력"
 
+#: ulng.rsmenumacosservices
+msgid "Services"
+msgstr ""
+
 #: ulng.rsmnuactions
 msgctxt "ulng.rsmnuactions"
 msgid "Actions"
@@ -10924,6 +11058,12 @@ msgstr "다른 옵션..."
 msgid "Pack here..."
 msgstr "여기에 압축..."
 
+#: ulng.rsmnurestore
+#, fuzzy
+msgctxt "ulng.rsmnurestore"
+msgid "Restore"
+msgstr "복구"
+
 #: ulng.rsmnusortby
 msgid "Sort by"
 msgstr "정렬하기"
@@ -10968,6 +11108,10 @@ msgstr ""
 "\"%s\"\n"
 "\n"
 "훼손된 파일을 그대로 유지하겠습니까? \n"
+
+#: ulng.rsmsgcanceloperation
+msgid "Are you sure that you want to cancel this operation?"
+msgstr ""
 
 #: ulng.rsmsgcannotcopymoveitself
 msgid "You can not copy/move a file \"%s\" to itself!"
@@ -13173,7 +13317,7 @@ msgstr "이름으로 정렬하고 상위에 표시;파일처럼 정렬하고 상
 
 #: ulng.rsoptsortmethod
 msgid "Alphabetical, considering accents;Alphabetical with special characters sort;Natural sorting: alphabetical and numbers;Natural with special characters sort"
-msgstr "액센트를 고려하여 알파벳 순으로;자연스러운 정렬: 알파벳과 숫자순으로"
+msgstr "액센트를 고려하여 알파벳 순으로;특수문자를 포함하여 알파벳 순으로;자연스러운 정렬: 알파벳과 숫자순으로;특수문자를 포함하여 자연스럽게 정렬"
 
 #: ulng.rsopttabsposition
 msgid "Top;Bottom;"

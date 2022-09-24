@@ -18,6 +18,9 @@ type
     ['{13A8637C-FFDF-46B0-B5B4-E7C6851C157A}']
 
     function Changed: Boolean;
+    function GetPacker: String;
+
+    property Packer: String read GetPacker;
 
     {en
        Full path to the archive on the ParentFileSource.
@@ -33,6 +36,7 @@ type
     FAttributeData: TFileAttributeData;
 
   protected
+    function GetPacker: String; virtual; abstract;
     function GetSupportedFileProperties: TFilePropertiesTypes; override;
 
   public

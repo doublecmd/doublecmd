@@ -699,7 +699,6 @@ function PasswordDialog(hwndDlg: HWND; uMsg: UINT; wParam: WPARAM; lParam: LPARA
 var
   PasswordData: PPasswordData;
 begin
-  PasswordData:= PPasswordData(GetWindowLongPtr(hwndDlg, GWLP_USERDATA));
   case uMsg of
     WM_INITDIALOG:
     begin
@@ -715,16 +714,18 @@ begin
       case LOWORD(wParam) of
        IDOK:
        begin
+         PasswordData:= PPasswordData(GetWindowLongPtr(hwndDlg, GWLP_USERDATA));
          PasswordData^.EncryptHeader:= IsDlgButtonChecked(hwndDlg, IDC_ENCRYPT_HEADER) <> 0;
          GetDlgItemTextW(hwndDlg, IDC_PASSWORD, PasswordData^.Password, MAX_PATH);
-   	 EndDialog(hwndDlg, IDOK);
+         EndDialog(hwndDlg, IDOK);
        end;
        IDCANCEL:
          EndDialog(hwndDlg, IDCANCEL);
        IDC_SHOW_PASSWORD:
        begin
          wParam:= (not IsDlgButtonChecked(hwndDlg, IDC_SHOW_PASSWORD) and $01) * $2A;
-      	 SendDlgItemMessageW(hwndDlg, IDC_PASSWORD, EM_SETPASSWORDCHAR, wParam, 0);
+         SendDlgItemMessageW(hwndDlg, IDC_PASSWORD, EM_SETPASSWORDCHAR, wParam, 0);
+         RedrawWindow(hwndDlg, nil, 0, RDW_INVALIDATE or RDW_UPDATENOW);
        end;
       end;
     end;
