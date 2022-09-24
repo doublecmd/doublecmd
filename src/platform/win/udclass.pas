@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Setup unique window class name for main form
 
-   Copyright (C) 2016-2019 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2016-2022 Alexander Koblov (alexx2000@mail.ru)
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Lesser General Public
@@ -32,6 +32,7 @@ uses
   Classes, SysUtils, Win32Int, WSLCLClasses, Forms, Windows, Win32Proc,
   Controls, LCLType, fMain, Win32WSControls, uImport;
 
+{$IF NOT DEFINED(DARKWIN)}
 const
   ClassNameW: PWideChar = 'TTOTAL_CMD'; // for compatibility with plugins
 
@@ -53,11 +54,14 @@ begin
   end;
   Result := Windows.RegisterClassW(@WindowClassW) <> 0;
 end;
+{$ENDIF}
 
 var
   __GetProp: function(hWnd: HWND; lpString: LPCSTR): HANDLE; stdcall;
   __SetProp: function(hWnd: HWND; lpString: LPCSTR; hData: HANDLE): WINBOOL; stdcall;
+{$IF NOT DEFINED(DARKWIN)}
   __CreateWindowExW: function(dwExStyle: DWORD; lpClassName: LPCWSTR; lpWindowName: LPCWSTR; dwStyle: DWORD; X: longint; Y: longint; nWidth: longint; nHeight: longint; hWndParent: HWND; hMenu: HMENU; hInstance: HINST; lpParam: LPVOID): HWND; stdcall;
+{$ENDIF}
 
 function _GetProp(hWnd: HWND; lpString: LPCSTR): HANDLE; stdcall;
 var
@@ -79,6 +83,7 @@ begin
     Result:= __SetProp(hWnd, lpString, hData);
 end;
 
+{$IF NOT DEFINED(DARKWIN)}
 function _CreateWindowExW(dwExStyle: DWORD; lpClassName: LPCWSTR; lpWindowName: LPCWSTR; dwStyle: DWORD; X: longint; Y: longint; nWidth: longint; nHeight: longint; hWndParent: HWND; hMenu: HMENU; hInstance: HINST; lpParam: LPVOID): HWND; stdcall;
 var
   AParams: PNCCreateParams absolute lpParam;
@@ -86,24 +91,26 @@ begin
   if (hWndParent = 0) and Assigned(AParams) and (AParams^.WinControl is TfrmMain) then lpClassName:= ClassNameW;
   Result:= __CreateWindowExW(dwExStyle, lpClassName, lpWindowName, dwStyle, X, Y, nWidth, nHeight, hWndParent, hMenu, hInstance, lpParam);
 end;
+{$ENDIF}
 
 procedure Initialize;
 var
   hModule: THandle;
   pLibrary, pFunction: PPointer;
 begin
-  WinRegister;
-
   pLibrary:= FindImportLibrary(MainInstance, user32);
   if Assigned(pLibrary) then
   begin
     hModule:= GetModuleHandle(user32);
 
+{$IF NOT DEFINED(DARKWIN)}
     pFunction:= FindImportFunction(pLibrary, GetProcAddress(hModule, 'CreateWindowExW'));
     if Assigned(pFunction) then
     begin
+      WinRegister;
       Pointer(__CreateWindowExW):= ReplaceImportFunction(pFunction, @_CreateWindowExW);
     end;
+{$ENDIF}
 
     // Prevent plugins written in Lazarus from crashing by changing the name for
     // GetProp/SetProp to store control data from 'WinControl' to 'WinControlDC'
@@ -127,8 +134,10 @@ end;
 initialization
   Initialize;
 
+{$IF NOT DEFINED(DARKWIN)}
 finalization
   Windows.UnregisterClassW(PWideChar(ClassNameW), System.HInstance);
+{$ENDIF}
 
 end.
 

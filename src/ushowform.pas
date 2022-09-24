@@ -751,7 +751,7 @@ begin
       Exit(pdrFailed);
     end;
 
-    Directory := GetTempName(GetTempFolderDeletableAtTheEnd);
+    Directory := GetTempName(GetTempFolderDeletableAtTheEnd, EmptyStr);
     if not mbForceDirectory(Directory) then
     begin
       MessageDlg(mbSysErrorMessage(GetLastOSError), mtError, [mbOK], 0);

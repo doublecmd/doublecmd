@@ -135,7 +135,8 @@ end;
 
 procedure TExProcess.Stop;
 begin
-  FStop:= FProcess.Terminate(-1);
+  FStop:= True;
+  FProcess.Terminate(-1);
 end;
 
 procedure TExProcess.SetCmdLine(CommandLine: String);

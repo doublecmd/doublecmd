@@ -47,7 +47,7 @@ uses
   {$IF DEFINED(MSWINDOWS)}
   Windows, ShellApi, DCConvertEncoding, uMyWindows
   {$ELSEIF DEFINED(UNIX)}
-  BaseUnix, uMyUnix, uOSUtils, FileUtil
+  BaseUnix, uMyUnix, uOSUtils, FileUtil, uSysFolders
     {$IFDEF DARWIN}
     , MacOSAll, DynLibs, CocoaAll, uMyDarwin
     {$ELSE}

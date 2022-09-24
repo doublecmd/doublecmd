@@ -255,7 +255,7 @@ begin
       fsfAttr:
         if fpAttributes in AFile.SupportedProperties then
         begin
-          if AFile.Properties[fpAttributes] is TUnixFileAttributesProperty and (AParam = ATTR_OCTAL) then
+          if (AFile.Properties[fpAttributes] is TUnixFileAttributesProperty) and (AParam = ATTR_OCTAL) then
             Result := FormatUnixModeOctal(AFile.Attributes)
           else
             Result := AFile.Properties[fpAttributes].Format(DefaultFilePropertyFormatter);

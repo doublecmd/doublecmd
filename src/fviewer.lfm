@@ -1,16 +1,15 @@
 object frmViewer: TfrmViewer
   Left = 930
-  Height = 458
+  Height = 366
   Top = 427
-  Width = 651
+  Width = 521
   HorzScrollBar.Page = 951
   VertScrollBar.Page = 491
   Caption = 'Viewer'
-  ClientHeight = 572
-  ClientWidth = 1740
-  Constraints.MinHeight = 125
-  Constraints.MinWidth = 250
-  DesignTimePPI = 120
+  ClientHeight = 366
+  ClientWidth = 521
+  Constraints.MinHeight = 100
+  Constraints.MinWidth = 200
   Icon.Data = {
     CE1E000000000100030010100000010020006804000036000000181800000100
     2000880900009E0400002020000001002000A8100000260E0000280000001000
@@ -271,24 +270,24 @@ object frmViewer: TfrmViewer
   SessionProperties = 'Height;Width;Left;Top;WindowState'
   ShowHint = True
   ShowInTaskBar = stAlways
-  LCLVersion = '2.0.10.0'
+  LCLVersion = '2.0.12.0'
   object pnlFolder: TPanel
-    Left = 223
-    Height = 596
+    Left = 179
+    Height = 343
     Top = 0
-    Width = 999
+    Width = 342
     Align = alClient
     BevelOuter = bvNone
-    ClientHeight = 596
-    ClientWidth = 999
+    ClientHeight = 343
+    ClientWidth = 342
     ParentFont = False
     TabOrder = 0
     Visible = False
     object memFolder: TMemo
       Left = 0
-      Height = 596
+      Height = 343
       Top = 0
-      Width = 999
+      Width = 342
       Align = alClient
       BorderStyle = bsNone
       ParentFont = False
@@ -298,46 +297,46 @@ object frmViewer: TfrmViewer
   end
   object Status: TKASStatusBar
     Left = 0
-    Height = 29
-    Top = 596
-    Width = 1222
+    Height = 23
+    Top = 343
+    Width = 521
     Panels = <    
       item
-        Width = 62
+        Width = 50
       end    
       item
-        Width = 62
+        Width = 50
       end    
       item
-        Width = 125
+        Width = 100
       end    
       item
-        Width = 125
+        Width = 100
       end    
       item
-        Width = 250
+        Width = 200
       end>
     ParentFont = False
     SimplePanel = False
   end
   object pnlText: TPanel
-    Left = 223
-    Height = 596
+    Left = 179
+    Height = 343
     Top = 0
-    Width = 999
+    Width = 342
     Align = alClient
     BevelOuter = bvNone
-    ClientHeight = 596
-    ClientWidth = 999
+    ClientHeight = 343
+    ClientWidth = 342
     ParentFont = False
     TabOrder = 2
     Visible = False
     OnMouseWheelUp = pnlTextMouseWheelUp
     object ViewerControl: TViewerControl
       Left = 0
-      Height = 596
+      Height = 343
       Top = 0
-      Width = 999
+      Width = 342
       Mode = vcmText
       OnPositionChanged = ViewerPositionChanged
       ShowCaret = False
@@ -350,28 +349,28 @@ object frmViewer: TfrmViewer
     end
   end
   object pnlImage: TPanel
-    Left = 223
-    Height = 596
+    Left = 179
+    Height = 343
     Top = 0
-    Width = 999
+    Width = 342
     Align = alClient
     BevelOuter = bvNone
-    ClientHeight = 596
-    ClientWidth = 999
+    ClientHeight = 343
+    ClientWidth = 342
     ParentFont = False
     TabOrder = 3
     Visible = False
     OnResize = pnlImageResize
     object sboxImage: TScrollBox
       Left = 0
-      Height = 552
-      Top = 44
-      Width = 999
-      HorzScrollBar.Page = 432
-      VertScrollBar.Page = 384
+      Height = 307
+      Top = 36
+      Width = 342
+      HorzScrollBar.Page = 321
+      VertScrollBar.Page = 286
       Align = alClient
-      ClientHeight = 548
-      ClientWidth = 995
+      ClientHeight = 286
+      ClientWidth = 321
       Color = clWindow
       ParentColor = False
       ParentFont = False
@@ -399,283 +398,270 @@ object frmViewer: TfrmViewer
       end
       object GifAnim: TGifAnim
         Left = 0
-        Height = 112
+        Height = 90
         Top = 0
-        Width = 132
+        Width = 106
         AutoSize = False
         OnMouseDown = GifAnimMouseDown
         OnMouseEnter = GifAnimMouseEnter
       end
     end
-    object PanelEditImage: TPanel
+    object ToolBar1: TToolBar
       AnchorSideLeft.Control = pnlImage
       AnchorSideTop.Control = pnlImage
       AnchorSideRight.Control = pnlImage
       AnchorSideBottom.Control = sboxImage
       Left = 0
-      Height = 44
+      Height = 34
       Top = 0
-      Width = 999
-      Align = alTop
-      Alignment = taLeftJustify
+      Width = 342
       AutoSize = True
-      ClientHeight = 44
-      ClientWidth = 999
+      ButtonHeight = 32
+      ButtonWidth = 32
+      Images = dmComData.ilViewerImages
+      List = True
       ParentFont = False
+      ShowCaptions = True
       TabOrder = 1
-      object ToolBar1: TToolBar
+      object btnReload: TToolButton
         Left = 1
-        Height = 42
-        Top = 1
-        Width = 997
-        AutoSize = True
-        ButtonHeight = 40
-        ButtonWidth = 40
-        Images = dmComData.ilViewerImages
-        List = True
+        Top = 2
+        Action = actReload
+        ShowCaption = False
+      end
+      object btnPrev: TToolButton
+        Left = 33
+        Top = 2
+        Action = actLoadPrevFile
+        ShowCaption = False
+      end
+      object btnNext: TToolButton
+        Left = 65
+        Top = 2
+        Action = actLoadNextFile
+        ShowCaption = False
+      end
+      object btnCopyFile: TToolButton
+        Left = 97
+        Top = 2
+        Action = actCopyFile
+        ShowCaption = False
+      end
+      object btnMoveFile: TToolButton
+        Left = 129
+        Top = 2
+        Action = actMoveFile
+        ShowCaption = False
+      end
+      object btnDeleteFile: TToolButton
+        Left = 161
+        Top = 2
+        Action = actDeleteFile
+        ShowCaption = False
+      end
+      object btnZoomSeparator: TToolButton
+        Left = 193
+        Height = 32
+        Top = 2
+        Style = tbsSeparator
+      end
+      object btnZoomIn: TToolButton
+        Left = 199
+        Top = 2
+        Action = actZoomIn
+        ShowCaption = False
+      end
+      object btnZoomOut: TToolButton
+        Left = 231
+        Top = 2
+        Action = actZoomOut
+        ShowCaption = False
+      end
+      object btn270: TToolButton
+        Left = 263
+        Top = 2
+        Action = actRotate270
+        ShowCaption = False
+      end
+      object btn90: TToolButton
+        Left = 295
+        Top = 2
+        Action = actRotate90
+        ShowCaption = False
+      end
+      object btnMirror: TToolButton
+        Left = 1
+        Top = 34
+        Action = actMirrorHorz
+        ShowCaption = False
+      end
+      object btnGifSeparator: TToolButton
+        Left = 33
+        Height = 32
+        Top = 34
+        Style = tbsSeparator
+      end
+      object btnGifMove: TToolButton
+        Left = 39
+        Top = 34
+        ImageIndex = 11
+        OnClick = btnGifMoveClick
+        ShowCaption = False
+      end
+      object btnPrevGifFrame: TToolButton
+        Left = 71
+        Hint = 'Previous Frame'
+        Top = 34
+        ImageIndex = 13
+        OnClick = btnPrevGifFrameClick
+        ShowCaption = False
+      end
+      object btnNextGifFrame: TToolButton
+        Left = 103
+        Hint = 'Next Frame'
+        Top = 34
+        ImageIndex = 14
+        OnClick = btnNextGifFrameClick
+        ShowCaption = False
+      end
+      object btnGifToBmp: TToolButton
+        Left = 135
+        Hint = 'Export Frame'
+        Top = 34
+        ImageIndex = 26
+        OnClick = btnGifToBmpClick
+        ShowCaption = False
+      end
+      object btnHightlightSeparator: TToolButton
+        Left = 167
+        Height = 32
+        Top = 34
+        Style = tbsSeparator
+      end
+      object btnHightlight: TToolButton
+        Left = 173
+        Hint = 'Highlight'
+        Top = 34
+        AllowAllUp = True
+        Grouped = True
+        ImageIndex = 23
+        OnClick = btnPaintHightlight
+        ShowCaption = False
+        Style = tbsCheck
+      end
+      object btnCutTuImage: TToolButton
+        Left = 205
+        Hint = 'Crop'
+        Top = 34
+        Enabled = False
+        ImageIndex = 15
+        OnClick = btnCutTuImageClick
+        ShowCaption = False
+      end
+      object btnRedEye: TToolButton
+        Left = 237
+        Hint = 'Red Eyes'
+        Top = 34
+        Enabled = False
+        ImageIndex = 16
+        OnClick = btnRedEyeClick
+        ShowCaption = False
+      end
+      object btnPaintSeparator: TToolButton
+        Left = 269
+        Height = 32
+        Top = 34
+        Style = tbsSeparator
+      end
+      object btnPaint: TToolButton
+        Left = 275
+        Hint = 'Paint'
+        Top = 34
+        AllowAllUp = True
+        Grouped = True
+        ImageIndex = 21
+        OnClick = btnPaintHightlight
+        ShowCaption = False
+        Style = tbsCheck
+      end
+      object btnUndo: TToolButton
+        Left = 307
+        Hint = 'Undo'
+        Top = 34
+        Enabled = False
+        ImageIndex = 20
+        OnClick = btnUndoClick
+        ShowCaption = False
+      end
+      object btnPenMode: TToolButton
+        Left = 1
+        Top = 66
+        AllowAllUp = True
+        DropdownMenu = pmPenTools
+        Enabled = False
+        Grouped = True
+        ImageIndex = 17
+        OnClick = btnPenModeClick
+        ShowCaption = False
+        Style = tbsDropDown
+      end
+      object btnPenWidth: TToolButton
+        Left = 45
+        Top = 66
+        Caption = '1'
+        DropdownMenu = pmPenWidth
+        Enabled = False
+        Style = tbsButtonDrop
+      end
+      object btnPenColor: TColorButton
+        Left = 87
+        Height = 32
+        Top = 66
+        Width = 75
+        BorderWidth = 2
+        ButtonColorSize = 16
+        ButtonColor = clRed
+        Enabled = False
         ParentFont = False
-        ShowCaptions = True
-        TabOrder = 0
-        object btnReload: TToolButton
-          Left = 1
-          Top = 2
-          Action = actReload
-          ShowCaption = False
-        end
-        object btnPrev: TToolButton
-          Left = 41
-          Top = 2
-          Action = actLoadPrevFile
-          ShowCaption = False
-        end
-        object btnNext: TToolButton
-          Left = 81
-          Top = 2
-          Action = actLoadNextFile
-          ShowCaption = False
-        end
-        object btnCopyFile: TToolButton
-          Left = 121
-          Top = 2
-          Action = actCopyFile
-          ShowCaption = False
-        end
-        object btnMoveFile: TToolButton
-          Left = 161
-          Top = 2
-          Action = actMoveFile
-          ShowCaption = False
-        end
-        object btnDeleteFile: TToolButton
-          Left = 201
-          Top = 2
-          Action = actDeleteFile
-          ShowCaption = False
-        end
-        object btnZoomSeparator: TToolButton
-          Left = 241
-          Height = 40
-          Top = 2
-          Style = tbsSeparator
-        end
-        object btnZoomIn: TToolButton
-          Left = 249
-          Top = 2
-          Action = actZoomIn
-          ShowCaption = False
-        end
-        object btnZoomOut: TToolButton
-          Left = 289
-          Top = 2
-          Action = actZoomOut
-          ShowCaption = False
-        end
-        object btn270: TToolButton
-          Left = 329
-          Top = 2
-          Action = actRotate270
-          ShowCaption = False
-        end
-        object btn90: TToolButton
-          Left = 369
-          Top = 2
-          Action = actRotate90
-          ShowCaption = False
-        end
-        object btnMirror: TToolButton
-          Left = 409
-          Top = 2
-          Action = actMirrorHorz
-          ShowCaption = False
-        end
-        object btnGifSeparator: TToolButton
-          Left = 449
-          Height = 40
-          Top = 2
-          Style = tbsSeparator
-        end
-        object btnGifMove: TToolButton
-          Left = 457
-          Top = 2
-          ImageIndex = 11
-          OnClick = btnGifMoveClick
-          ShowCaption = False
-        end
-        object btnPrevGifFrame: TToolButton
-          Left = 497
-          Hint = 'Previous Frame'
-          Top = 2
-          ImageIndex = 13
-          OnClick = btnPrevGifFrameClick
-          ShowCaption = False
-        end
-        object btnNextGifFrame: TToolButton
-          Left = 537
-          Hint = 'Next Frame'
-          Top = 2
-          ImageIndex = 14
-          OnClick = btnNextGifFrameClick
-          ShowCaption = False
-        end
-        object btnGifToBmp: TToolButton
-          Left = 577
-          Hint = 'Export Frame'
-          Top = 2
-          ImageIndex = 26
-          OnClick = btnGifToBmpClick
-          ShowCaption = False
-        end
-        object btnHightlightSeparator: TToolButton
-          Left = 617
-          Height = 40
-          Top = 2
-          Style = tbsSeparator
-        end
-        object btnHightlight: TToolButton
-          Left = 625
-          Hint = 'Highlight'
-          Top = 2
-          AllowAllUp = True
-          Grouped = True
-          ImageIndex = 23
-          OnClick = btnPaintHightlight
-          ShowCaption = False
-          Style = tbsCheck
-        end
-        object btnCutTuImage: TToolButton
-          Left = 665
-          Hint = 'Crop'
-          Top = 2
-          Enabled = False
-          ImageIndex = 15
-          OnClick = btnCutTuImageClick
-          ShowCaption = False
-        end
-        object btnRedEye: TToolButton
-          Left = 705
-          Hint = 'Red Eyes'
-          Top = 2
-          Enabled = False
-          ImageIndex = 16
-          OnClick = btnRedEyeClick
-          ShowCaption = False
-        end
-        object btnPaintSeparator: TToolButton
-          Left = 745
-          Height = 40
-          Top = 2
-          Style = tbsSeparator
-        end
-        object btnUndo: TToolButton
-          Left = 793
-          Hint = 'Undo'
-          Top = 2
-          Enabled = False
-          ImageIndex = 20
-          OnClick = btnUndoClick
-          ShowCaption = False
-        end
-        object btnPenMode: TToolButton
-          Left = 833
-          Top = 2
-          AllowAllUp = True
-          DropdownMenu = pmPenTools
-          Enabled = False
-          Grouped = True
-          ImageIndex = 17
-          OnClick = btnPenModeClick
-          ShowCaption = False
-          Style = tbsDropDown
-        end
-        object btnPenWidth: TToolButton
-          Left = 888
-          Top = 2
-          Caption = '1'
-          DropdownMenu = pmPenWidth
-          Enabled = False
-          Style = tbsButtonDrop
-        end
-        object btnSeparator: TToolButton
-          Left = 95
-          Height = 40
-          Top = 42
-          Style = tbsSeparator
-        end
-        object btnSlideShow: TToolButton
-          Tag = 1
-          Left = 183
-          Top = 42
-          Caption = 'Slide Show'
-          DropdownMenu = pmTimeShow
-          OnClick = btnSlideShowClick
-          Style = tbsDropDown
-          Visible = False
-        end
-        object btnFullScreen: TToolButton
-          Left = 103
-          Hint = 'Full Screen'
-          Top = 42
-          Action = actFullscreen
-          ShowCaption = False
-        end
-        object btnResize: TToolButton
-          Left = 143
-          Hint = 'Resize'
-          Top = 42
-          ImageIndex = 24
-          OnClick = btnResizeClick
-          ShowCaption = False
-        end
-        object btnPaint: TToolButton
-          Left = 753
-          Hint = 'Paint'
-          Top = 2
-          AllowAllUp = True
-          Grouped = True
-          ImageIndex = 21
-          OnClick = btnPaintHightlight
-          ShowCaption = False
-          Style = tbsCheck
-        end
-        object btnPenColor: TColorButton
-          Left = 1
-          Height = 40
-          Top = 42
-          Width = 94
-          BorderWidth = 2
-          ButtonColorSize = 16
-          ButtonColor = clRed
-          Enabled = False
-          ParentFont = False
-        end
+      end
+      object btnSeparator: TToolButton
+        Left = 162
+        Height = 32
+        Top = 66
+        Style = tbsSeparator
+      end
+      object btnResize: TToolButton
+        Left = 168
+        Hint = 'Resize'
+        Top = 66
+        ImageIndex = 24
+        OnClick = btnResizeClick
+        ShowCaption = False
+      end
+      object btnFullScreen: TToolButton
+        Left = 200
+        Hint = 'Full Screen'
+        Top = 66
+        Action = actFullscreen
+        ShowCaption = False
+      end
+      object btnSlideShow: TToolButton
+        Tag = 1
+        Left = 232
+        Top = 66
+        Caption = 'Slide Show'
+        DropdownMenu = pmTimeShow
+        OnClick = btnSlideShowClick
+        Style = tbsDropDown
+        Visible = False
       end
     end
   end
   object Splitter: TSplitter
-    Left = 212
-    Height = 596
+    Left = 170
+    Height = 343
     Top = 0
-    Width = 11
+    Width = 9
     AutoSnap = False
     MinSize = 160
     OnChangeBounds = SplitterChangeBounds
@@ -683,33 +669,33 @@ object frmViewer: TfrmViewer
   end
   object pnlPreview: TPanel
     Left = 0
-    Height = 596
+    Height = 343
     Top = 0
-    Width = 212
+    Width = 170
     Align = alLeft
     BevelOuter = bvNone
-    ClientHeight = 596
-    ClientWidth = 212
+    ClientHeight = 343
+    ClientWidth = 170
     ParentFont = False
     TabOrder = 5
     Visible = False
     object pnlEditFile: TPanel
       Left = 0
-      Height = 38
+      Height = 30
       Top = 0
-      Width = 212
+      Width = 170
       Align = alTop
       Alignment = taLeftJustify
-      ClientHeight = 38
-      ClientWidth = 212
+      ClientHeight = 30
+      ClientWidth = 170
       ParentFont = False
       TabOrder = 0
       object btnReload1: TSpeedButton
         AnchorSideBottom.Control = btnPrev1
         Left = 1
-        Height = 36
+        Height = 28
         Top = 1
-        Width = 40
+        Width = 32
         Action = actReload
         Align = alLeft
         Glyph.Data = {
@@ -792,10 +778,10 @@ object frmViewer: TfrmViewer
         ParentFont = False
       end
       object btnPrev1: TSpeedButton
-        Left = 41
-        Height = 36
+        Left = 33
+        Height = 28
         Top = 1
-        Width = 30
+        Width = 24
         Action = actLoadPrevFile
         Align = alLeft
         Glyph.Data = {
@@ -878,10 +864,10 @@ object frmViewer: TfrmViewer
         ParentFont = False
       end
       object btnNext1: TSpeedButton
-        Left = 71
-        Height = 36
+        Left = 57
+        Height = 28
         Top = 1
-        Width = 30
+        Width = 24
         Action = actLoadNextFile
         Align = alLeft
         Glyph.Data = {
@@ -964,10 +950,10 @@ object frmViewer: TfrmViewer
         ParentFont = False
       end
       object btnCopyFile1: TSpeedButton
-        Left = 101
-        Height = 36
+        Left = 81
+        Height = 28
         Top = 1
-        Width = 40
+        Width = 32
         Action = actCopyFile
         Align = alLeft
         Glyph.Data = {
@@ -1050,10 +1036,10 @@ object frmViewer: TfrmViewer
         ParentFont = False
       end
       object btnMoveFile1: TSpeedButton
-        Left = 181
-        Height = 36
+        Left = 145
+        Height = 28
         Top = 1
-        Width = 39
+        Width = 31
         Action = actMoveFile
         Align = alLeft
         Glyph.Data = {
@@ -1136,10 +1122,10 @@ object frmViewer: TfrmViewer
         ParentFont = False
       end
       object btnDeleteFile1: TSpeedButton
-        Left = 141
-        Height = 36
+        Left = 113
+        Height = 28
         Top = 1
-        Width = 40
+        Width = 32
         Action = actDeleteFile
         Align = alLeft
         Glyph.Data = {
@@ -1224,9 +1210,9 @@ object frmViewer: TfrmViewer
     end
     object DrawPreview: TDrawGrid
       Left = 0
-      Height = 558
-      Top = 38
-      Width = 212
+      Height = 313
+      Top = 30
+      Width = 170
       Align = alClient
       AutoAdvance = aaNone
       AutoFillColumns = True
@@ -1234,8 +1220,8 @@ object frmViewer: TfrmViewer
       BorderSpacing.CellAlignVertical = ccaCenter
       BorderStyle = bsNone
       ColCount = 1
-      DefaultColWidth = 188
-      DefaultRowHeight = 175
+      DefaultColWidth = 150
+      DefaultRowHeight = 140
       ExtendedSelect = False
       FixedColor = clAppWorkspace
       FixedCols = 0
@@ -1252,14 +1238,14 @@ object frmViewer: TfrmViewer
       OnSelection = DrawPreviewSelection
       OnTopleftChanged = DrawPreviewTopleftChanged
       ColWidths = (
-        212
+        170
       )
     end
   end
   object MainMenu: TMainMenu
     ParentBidiMode = False
-    Left = 100
-    Top = 80
+    Left = 80
+    Top = 64
     object miFile: TMenuItem
       Caption = '&File'
       object miPrev: TMenuItem
@@ -1342,11 +1328,6 @@ object frmViewer: TfrmViewer
         GroupIndex = 1
         RadioItem = True
       end
-      object miWrapText: TMenuItem
-        Action = actShowAsWrapText
-        GroupIndex = 1
-        RadioItem = True
-      end
       object miLookBook: TMenuItem
         Action = actShowAsBook
         GroupIndex = 1
@@ -1365,8 +1346,16 @@ object frmViewer: TfrmViewer
         GroupIndex = 1
         RadioItem = True
       end
+      object miOffice: TMenuItem
+        Action = actShowOffice
+        GroupIndex = 1
+        RadioItem = True
+      end
       object miDiv1: TMenuItem
         Caption = '-'
+      end
+      object miWrapText: TMenuItem
+        Action = actWrapText
       end
       object miShowCaret: TMenuItem
         Action = actShowCaret
@@ -1385,6 +1374,9 @@ object frmViewer: TfrmViewer
       end
       object miCenter: TMenuItem
         Action = actImageCenter
+      end
+      object miShowTransparency: TMenuItem
+        Action = actShowTransparency
       end
       object miRotate: TMenuItem
         Caption = 'Rotate'
@@ -1435,8 +1427,8 @@ object frmViewer: TfrmViewer
   end
   object pmEditMenu: TPopupMenu
     OnPopup = pmEditMenuPopup
-    Left = 190
-    Top = 80
+    Left = 152
+    Top = 64
     object pmiCopy: TMenuItem
       Action = actCopyToClipboard
     end
@@ -1451,20 +1443,20 @@ object frmViewer: TfrmViewer
     end
   end
   object SavePictureDialog: TSavePictureDialog
-    Left = 960
-    Top = 370
+    Left = 768
+    Top = 296
   end
   object TimerViewer: TTimer
     Enabled = False
     Interval = 10
     OnTimer = TimerViewerTimer
-    Left = 940
-    Top = 300
+    Left = 752
+    Top = 240
   end
   object actionList: TActionList
     Images = dmComData.ilViewerImages
-    Left = 510
-    Top = 180
+    Left = 408
+    Top = 144
     object actAbout: TAction
       Category = 'Help'
       Caption = 'About Viewer...'
@@ -1663,6 +1655,12 @@ object frmViewer: TfrmViewer
       GroupIndex = 1
       OnExecute = actExecute
     end
+    object actShowOffice: TAction
+      Category = 'View'
+      Caption = 'Office XML (text only)'
+      GroupIndex = 1
+      OnExecute = actExecute
+    end
     object actShowPlugins: TAction
       Category = 'View'
       Caption = 'Plugins'
@@ -1724,24 +1722,34 @@ object frmViewer: TfrmViewer
       Caption = 'Show text c&ursor'
       OnExecute = actExecute
     end
+    object actWrapText: TAction
+      Category = 'View'
+      Caption = '&Wrap text'
+      OnExecute = actExecute
+    end
+    object actShowTransparency: TAction
+      Category = 'Image'
+      Caption = 'Show transparenc&y'
+      OnExecute = actExecute
+    end
   end
   object TimerScreenshot: TTimer
     Enabled = False
     OnTimer = TimerScreenshotTimer
-    Left = 245
-    Top = 206
+    Left = 196
+    Top = 165
   end
   object TimerReload: TTimer
     Enabled = False
     Interval = 2000
     OnTimer = TimerReloadTimer
-    Left = 740
-    Top = 100
+    Left = 592
+    Top = 80
   end
   object pmPenTools: TPopupMenu
     Images = dmComData.ilViewerImages
-    Left = 1129
-    Top = 311
+    Left = 903
+    Top = 249
     object miPen: TMenuItem
       Caption = 'Pen'
       ImageIndex = 17
@@ -1762,11 +1770,11 @@ object frmViewer: TfrmViewer
   end
   object pmPenWidth: TPopupMenu
     Tag = 1
-    Left = 1245
-    Top = 311
+    Left = 996
+    Top = 249
   end
   object pmTimeShow: TPopupMenu
-    Left = 1360
-    Top = 310
+    Left = 1088
+    Top = 248
   end
 end

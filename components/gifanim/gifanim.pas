@@ -1,5 +1,6 @@
 {
   Copyright (C) 2009 Laurent Jacques
+  Copyright (C) 2012-2022 Alexander Koblov
 
   This source is free software; you can redistribute it and/or modify it under
   the terms of the GNU General Public License as published by the Free
@@ -15,9 +16,8 @@
   at <http://www.gnu.org/copyleft/gpl.html>. You can also obtain it by writing
   to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston,
   MA 02111-1307, USA.
-
-  Version 1.4
 }
+
 unit GifAnim;
 
 {$mode objfpc}{$H+}
@@ -153,6 +153,7 @@ type
   public
     constructor Create(const FileName: string);
     destructor Destroy; override;
+    function LoadFromStream(GifStream: TStream; var AGifList: TGifList): boolean;
     function LoadAllBitmap(var AGifList: TGifList): boolean;
     function LoadFromLazarusResource(const ResName: String; var AGifList: TGifList): boolean;
     function LoadFirstBitmap(var ABitmap: TBitmap): boolean;
@@ -565,22 +566,17 @@ begin
   FPalette.Free;
 end;
 
-function TGifLoader.LoadAllBitmap(var AGifList: TGifList): boolean;
+function TGifLoader.LoadFromStream(GifStream: TStream; var AGifList: TGifList): boolean;
 var
-  GifStream:  TMemoryStream;
   Introducer: byte;
   FPImage:    TLazIntfImage;
   ImgFormatDescription: TRawImageDescription;
   GifBitmap:  TGifImage;
 begin
   Result := False;
-  if not FileExists(FFileName) then
-    exit;
-  if not assigned(AGifList) then
+  if not Assigned(AGifList) then
     AGifList := TGifList.Create(True);
 
-  GifStream := TMemoryStream.Create;
-  GifStream.LoadFromFile(FFileName);
   GifStream.Position := 0;
 
   ReadHeader(GifStream);
@@ -590,7 +586,7 @@ begin
   // skip first block extention if exist
   repeat
     Introducer := SkipBlock(GifStream);
-  until (Introducer = ID_IMAGE_DESCRIPTOR) or (Introducer = ID_TRAILER);
+  until (Introducer = ID_IMAGE_DESCRIPTOR) or (Introducer = ID_TRAILER) or (GifStream.Position = GifStream.Size);
 
   repeat
     ReadGifBitmap(GifStream);
@@ -620,70 +616,40 @@ begin
 
     repeat
       Introducer := SkipBlock(GifStream);
-    until (Introducer = ID_IMAGE_DESCRIPTOR) or (Introducer = ID_TRAILER);
+    until (Introducer = ID_IMAGE_DESCRIPTOR) or (Introducer = ID_TRAILER) or (GifStream.Position = GifStream.Size);
 
-  until (Introducer = ID_TRAILER);
-  GifStream.Free;
+  until (Introducer = ID_TRAILER) or (GifStream.Position = GifStream.Size);
   Result := True;
+end;
+
+function TGifLoader.LoadAllBitmap(var AGifList: TGifList): boolean;
+var
+  GifStream:  TMemoryStream;
+begin
+  Result := False;
+  if not FileExists(FFileName) then
+    Exit;
+
+  GifStream := TMemoryStream.Create;
+  try
+    GifStream.LoadFromFile(FFileName);
+    Result := LoadFromStream(GifStream, AGifList);
+  finally
+    GifStream.Free;
+  end;
 end;
 
 function TGifLoader.LoadFromLazarusResource(const ResName: String; var AGifList: TGifList): boolean;
 var
   GifStream:  TLazarusResourceStream;
-  Introducer: byte;
-  FPImage:    TLazIntfImage;
-  ImgFormatDescription: TRawImageDescription;
-  GifBitmap:  TGifImage;
 begin
   Result := False;
-  if not assigned(AGifList) then
-    AGifList := TGifList.Create(True);
-
   GifStream := TLazarusResourceStream.Create(ResName, nil);
-  GifStream.Position := 0;
-
-  ReadHeader(GifStream);
-  if (FGifHeader.Version <> '89a') then
-    Exit;
-
-  // skip first block extention if exist
-  repeat
-    Introducer := SkipBlock(GifStream);
-  until (Introducer = ID_IMAGE_DESCRIPTOR) or (Introducer = ID_TRAILER);
-
-  repeat
-    ReadGifBitmap(GifStream);
-    // decode Gif bitmap in Scanline buffer
-    ReadScanLine(GifStream);
-    // Create temp Fp Image for put scanline pixel
-    FPImage := TLazIntfImage.Create(FLocalWidth, FLocalHeight);
-    ImgFormatDescription.Init_BPP32_B8G8R8A8_BIO_TTB(FLocalWidth,
-      FLocalHeight);
-    FPImage.DataDescription := ImgFormatDescription;
-
-    WriteScanLine(FPImage);
-
-    GifBitmap := TGifImage.Create;
-    GifBitmap.FBitmap.LoadFromIntfImage(FPImage);
-    GifBitmap.FPosX   := FGifDescriptor.Left;
-    GifBitmap.FPosY   := FGifDescriptor.Top;
-    GifBitmap.FMethod := FDisposalMethod;
-    GifBitmap.FDelay  := FGifGraphicsCtrlExt.DelayTime;
-
-    AGifList.Add(GifBitmap);
-
-    FPImage.Free;
-    FreeMem(FScanLine, FLineSize);
-    // reset FGifUseGraphCtrlExt flag
-    FGifUseGraphCtrlExt := False;
-
-    repeat
-      Introducer := SkipBlock(GifStream);
-    until (Introducer = ID_IMAGE_DESCRIPTOR) or (Introducer = ID_TRAILER);
-
-  until (Introducer = ID_TRAILER);
-  GifStream.Free;
-  Result := True;
+  try
+    Result := LoadFromStream(GifStream, AGifList);
+  finally
+    GifStream.Free;
+  end;
 end;
 
 function TGifLoader.LoadFirstBitmap(var ABitmap: TBitmap): boolean;

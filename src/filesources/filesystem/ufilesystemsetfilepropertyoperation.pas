@@ -330,7 +330,9 @@ begin
   OldName:= aFile.FullPath;
 
   if FileSource.GetPathType(NewName) <> ptAbsolute then
-    NewName := ExtractFilePath(OldName) + NewName;
+  begin
+    NewName := ExtractFilePath(OldName) + TrimPath(NewName);
+  end;
 
   if OldName = NewName then
     Exit(sfprSkipped);

@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Encoding conversion and related stuff
 
-   Copyright (C) 2011-2018 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2011-2022 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -30,6 +30,7 @@ uses
 
 const
   EncodingOem = 'oem';
+  EncodingNone = 'none';
   EncodingDefault = 'default';
   EncodingUTF16LE = 'utf16le';
   EncodingUTF16BE = 'utf16be';
@@ -49,7 +50,7 @@ implementation
 
 uses
   SysUtils, LazUTF8, LConvEncoding, GetText, DCConvertEncoding,
-  DCUnicodeUtils, nsCore, nsUniversalDetector, uLng;
+  DCUnicodeUtils, nsCore, nsUniversalDetector, uLng, uGlobs;
 
 var
   Lang, FallbackLang: AnsiString;
@@ -402,15 +403,23 @@ function DetectEncoding(const S: String): String;
 var
   L, P: Integer;
   EndPos: Integer;
+  UserEncoding: Boolean;
 begin
+  UserEncoding:= (gDefaultTextEncoding <> EncodingNone);
+
   L:= Length(S);
-  if L = 0 then begin
-    Result:= GetDefaultTextEncoding;
+  if L = 0 then
+  begin
+    if UserEncoding then
+      Result:= gDefaultTextEncoding
+    else begin
+      Result:= GetDefaultTextEncoding;
+    end;
     Exit;
   end;
 
   // Try detect Unicode
-  case DetectEncoding(S, meOEM, False) of
+  case DetectEncoding(S, meOEM, UserEncoding) of
     meUTF8:    Exit(EncodingUTF8);
     meUTF8BOM: Exit(EncodingUTF8BOM);
     meUTF16LE: Exit(EncodingUTF16LE);
@@ -428,8 +437,12 @@ begin
     Exit;
   end;
 
-  // Try to detect encoding
-  Result:= MyDetectCodePageType(S);
+  if UserEncoding then
+    Result:= gDefaultTextEncoding
+  else begin
+    // Try to detect encoding
+    Result:= MyDetectCodePageType(S);
+  end;
 end;
 
 function SingleByteEncoding(TextEncoding: String): Boolean;

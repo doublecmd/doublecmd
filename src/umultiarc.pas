@@ -115,6 +115,7 @@ type
     procedure SetSignaturePosition(const AValue: AnsiString);
     procedure SetSignatureSeekRange(const AValue: AnsiString);
   public
+    FPacker,
     FArchiver,
     FDescription,
     FStart,
@@ -290,6 +291,7 @@ begin
       MultiArcItem:= TMultiArcItem.Create;
       with MultiArcItem do
       begin
+        FPacker:= Section;
         FArchiver:= FixExeExt(TrimQuotes(IniFile.ReadString(Section, 'Archiver', EmptyStr)));
         FDescription:= TrimQuotes(IniFile.ReadString(Section, 'Description', EmptyStr));
         FID:= TrimQuotes(IniFile.ReadString(Section, 'ID', EmptyStr));
@@ -641,6 +643,7 @@ function TMultiArcItem.Clone: TMultiArcItem;
 begin
   Result := TMultiArcItem.Create;
   //Keep elements in some ordre a when loading them from the .ini, it will be simpler to validate if we are missing one.
+  Result.FPacker := Self.FPacker;
   Result.FArchiver := Self.FArchiver;
   Result.FDescription := Self.FDescription;
   Result.FID := Self.FID;

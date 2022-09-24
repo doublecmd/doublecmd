@@ -213,7 +213,7 @@ var
 begin
   repeat
     bRetry := False;
-    NewName:= GetTempName(ExtractFilePath(FileName)) + '.tmp';
+    NewName:= GetTempName(ExtractFilePath(FileName));
     Result := RenameFileUAC(FileName, NewName);
     if not Result then
       bRetry := HandleError(Format(rsMsgErrRename, [FileName, NewName]));

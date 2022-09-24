@@ -172,7 +172,8 @@ type
 
 const
   { Default hotkey list version number }
-  hkVersion = 53;
+  hkVersion = 56;
+  // 54 - In "Viewer" context, added the "W" for "cm_WrapText", "4" for "cm_ShowAsDec", "8" for "cm_ShowOffice".
   // 53 - In "Main" context, change shortcut "Alt+`" to "Alt+0" for the "cm_ActivateTabByIndex".
   // 52 - In "Main" context, add shortcut "Ctrl+Shift+B" for "cm_FlatViewSel".
   // 51 - In "Multi-Rename" context, added the "Shift+F4" shortcut for the "cm_EditNewNames".
@@ -323,6 +324,7 @@ var
 
   gAutoFillColumns: Boolean;
   gAutoSizeColumn: Integer;
+  gColumnsLongInStatus : Boolean;
   gColumnsAutoSaveWidth: Boolean;
   gColumnsTitleStyle: TTitleStyle;
   gCustomColumnsChangeAllColumns: Boolean;
@@ -351,6 +353,7 @@ var
   glsSearchDirectories: TStringList;
   glsSearchExcludeFiles: TStringList;
   glsSearchExcludeDirectories: TStringList;
+  glsVolumeSizeHistory : TStringListEx;
   glsIgnoreList : TStringListEx;
   gOnlyOneAppInstance,
   gCutTextToColWidth : Boolean;
@@ -533,7 +536,9 @@ var
   gSaveSearchReplaceHistory,
   gSaveDirHistory,
   gSaveCmdLineHistory,
-  gSaveFileMaskHistory : Boolean;
+  gSaveFileMaskHistory,
+  gSaveVolumeSizeHistory,
+  gSaveCreateDirectoriesHistory: Boolean;
   gSortOrderOfConfigurationOptionsTree: TSortConfigurationOptions;
   gCollapseConfigurationOptionsTree: TConfigurationTreeState;
   
@@ -563,6 +568,7 @@ var
   gDescCreateUnicode: Boolean;
   gDescReadEncoding: TMacroEncoding;
   gDescWriteEncoding: TMacroEncoding;
+  gDefaultTextEncoding: String;
 
   { Auto refresh page }
   gWatchDirs: TWatchOptions;
@@ -607,12 +613,15 @@ var
   gImageStretch: Boolean;
   gImageExifRotate: Boolean;
   gImageStretchOnlyLarge: Boolean;
+  gImageShowTransparency: Boolean;
   gImageCenter: Boolean;
   gCopyMovePath1,
   gCopyMovePath2,
   gCopyMovePath3,
   gCopyMovePath4,
   gCopyMovePath5: String;
+  gImageBackColor1,
+  gImageBackColor2: TColor;
   gImagePaintMode: TViewerPaintTool;
   gImagePaintWidth,
   gColCount,
@@ -625,6 +634,7 @@ var
   gTextPosition:PtrInt;
   gPrintMargins: TRect;
   gShowCaret: Boolean;
+  gViewerWrapText: Boolean;
   gViewerLeftMargin: Integer;
   gViewerLineSpacing: Integer;
 
@@ -738,7 +748,7 @@ implementation
 
 uses
    LCLProc, LCLType, Dialogs, Laz2_XMLRead, LazUTF8, uExifWdx, uSynDiffControls,
-   uGlobsPaths, uLng, uShowMsg, uFileProcs, uOSUtils, uFindFiles,
+   uGlobsPaths, uLng, uShowMsg, uFileProcs, uOSUtils, uFindFiles, uEarlyConfig,
    uDCUtils, fMultiRename, uFile, uDCVersion, uDebug, uFileFunctions,
    uDefaultPlugins, Lua, uKeyboard, DCOSUtils, DCStrUtils, uPixMapManager
    {$IF DEFINED(MSWINDOWS)}
@@ -904,12 +914,13 @@ begin
     begin
       LoadHistory('Navigation', glsDirHistory);
       LoadHistory('CommandLine', glsCmdLineHistory);
+      LoadHistory('VolumeSize', glsVolumeSizeHistory);
       LoadHistory('FileMask', glsMaskHistory);
       LoadHistory('SearchText', glsSearchHistory, True);
       LoadHistory('SearchTextPath', glsSearchPathHistory);
       LoadHistory('ReplaceText', glsReplaceHistory);
       LoadHistory('ReplaceTextPath', glsReplacePathHistory);
-      LoadHistory('CreateDirectories', glsCreateDirectoriesHistory);
+      LoadHistory('CreateDirectories', glsCreateDirectoriesHistory, True);
       LoadHistory('RenameNameMask', glsRenameNameMaskHistory);
       LoadHistory('RenameExtMask', glsRenameExtMaskHistory);
       LoadHistory('SearchDirectories', glsSearchDirectories);
@@ -952,13 +963,16 @@ begin
     if gSaveDirHistory then SaveHistory('Navigation', glsDirHistory);
     if gSaveCmdLineHistory then SaveHistory('CommandLine', glsCmdLineHistory);
     if gSaveFileMaskHistory then SaveHistory('FileMask', glsMaskHistory);
+    if gSaveVolumeSizeHistory then SaveHistory('VolumeSize', glsVolumeSizeHistory);
+    if gSaveCreateDirectoriesHistory then begin
+      SaveHistory('CreateDirectories', glsCreateDirectoriesHistory, True);
+    end;
     if gSaveSearchReplaceHistory then
     begin
       SaveHistory('SearchText', glsSearchHistory, True);
       SaveHistory('SearchTextPath', glsSearchPathHistory);
       SaveHistory('ReplaceText', glsReplaceHistory);
       SaveHistory('ReplaceTextPath', glsReplacePathHistory);
-      SaveHistory('CreateDirectories', glsCreateDirectoriesHistory);
       SaveHistory('RenameNameMask', glsRenameNameMaskHistory);
       SaveHistory('RenameExtMask', glsRenameExtMaskHistory);
       SaveHistory('SearchDirectories', glsSearchDirectories);
@@ -1175,23 +1189,40 @@ begin
       AddIfNotExists(['P'   ,'','',
                       'Left','',''],'cm_LoadPrevFile'); //, ['P'], []);
 
+      if HotMan.Version < 54 then
+      begin
+        HMHotKey:= FindByCommand('cm_ShowAsWrapText');
+        if Assigned(HMHotKey) and HMHotKey.SameShortcuts(['4']) then
+          Remove(HMHotKey);
+      end;
+
+      if HotMan.Version < 56 then
+      begin
+        HMHotKey:= FindByCommand('cm_Find');
+        if Assigned(HMHotKey) and HMHotKey.SameShortcuts(['F']) then
+          Remove(HMHotKey);
+      end;
+
       AddIfNotExists(['1'],[],'cm_ShowAsText');
       AddIfNotExists(['2'],[],'cm_ShowAsBin');
       AddIfNotExists(['3'],[],'cm_ShowAsHex');
-      AddIfNotExists(['4'],[],'cm_ShowAsWrapText');
+      AddIfNotExists(['4'],[],'cm_ShowAsDec');
       AddIfNotExists(['5'],[],'cm_ShowAsBook');
       AddIfNotExists(['6'],[],'cm_ShowGraphics');
       AddIfNotExists(['7'],[],'cm_ShowPlugins');
+      AddIfNotExists(['8'],[],'cm_ShowOffice');
 
+      AddIfNotExists(['C'],[],'cm_ImageCenter');
+      AddIfNotExists(['F'],[],'cm_StretchImage');
+      AddIfNotExists(['L'],[],'cm_StretchOnlyLarge');
+      AddIfNotExists(['W'],[],'cm_WrapText');
       AddIfNotExists(['F6'],[],'cm_ShowCaret');
 
       AddIfNotExists(['Q'   ,'','',
                       'Esc','',''],'cm_ExitViewer');
 
-
-      AddIfNotExists(['F'             ,'','',
-                      SmkcSuper + 'F' ,'','',
-                      'F7'            ,'',''],'cm_Find'); // , ['F'], []);
+      AddIfNotExists([SmkcSuper + 'F' ,'','',
+                      'F7'            ,'',''],'cm_Find');
 
       AddIfNotExists(['F3'],[],'cm_FindNext');
       AddIfNotExists(['Shift+F3'],[],'cm_FindPrev');
@@ -1221,6 +1252,11 @@ begin
   with HMForm.Hotkeys do
     begin
       AddIfNotExists(['Ctrl+R'],[],'cm_Reload');
+      AddIfNotExists([SmkcSuper + 'F' ,'','',
+                      'F7'            ,'',''],'cm_Find');
+      AddIfNotExists(['F3'],[],'cm_FindNext');
+      AddIfNotExists(['Shift+F3'],[],'cm_FindPrev');
+      AddIfNotExists(VK_G, [ssModifier], 'cm_GotoLine');
       AddIfNotExists(['Alt+Down'],[],'cm_NextDifference');
       AddIfNotExists(['Alt+Up'],[],'cm_PrevDifference');
       AddIfNotExists(['Alt+Home'],[],'cm_FirstDifference');
@@ -1485,6 +1521,7 @@ begin
   gFavoriteTabsList := TFavoriteTabsList.Create;
   glsDirHistory := TStringListEx.Create;
   glsCmdLineHistory := TStringListEx.Create;
+  glsVolumeSizeHistory := TStringListEx.Create;
   glsMaskHistory := TStringListEx.Create;
   glsSearchHistory := TStringListEx.Create;
   glsSearchPathHistory := TStringListEx.Create;
@@ -1514,6 +1551,7 @@ begin
   FreeThenNil(gFileInfoToolTip);
   FreeThenNil(glsDirHistory);
   FreeThenNil(glsCmdLineHistory);
+  FreeAndNil(glsVolumeSizeHistory);
   FreeThenNil(gSpecialDirList);
   FreeThenNil(gDirectoryHotlist);
   FreeThenNil(gFavoriteTabsList);
@@ -1616,6 +1654,7 @@ begin
   gWheelScrollLines:= Mouse.WheelScrollLines;
   gAutoFillColumns := False;
   gAutoSizeColumn := 1;
+  gColumnsLongInStatus := False;
   gColumnsAutoSaveWidth := True;
   gColumnsTitleStyle := tsNative;
   gCustomColumnsChangeAllColumns := False;
@@ -1917,6 +1956,8 @@ begin
   gSaveDirHistory := True;
   gSaveCmdLineHistory := True;
   gSaveFileMaskHistory := True;
+  gSaveVolumeSizeHistory := True;
+  gSaveCreateDirectoriesHistory := True;
   gPluginInAutoTweak := False;
   gWCXConfigViewMode := wcvmByPlugin;
 
@@ -1956,6 +1997,7 @@ begin
   gDescReadEncoding:= meUTF8;
   gDescWriteEncoding:= meUTF8BOM;
   gDescCreateUnicode:= True;
+  gDefaultTextEncoding:= EncodingNone;
 
   { Auto refresh page }
   gWatchDirs := [watch_file_name_change, watch_attributes_change];
@@ -1988,7 +2030,8 @@ begin
   {Viewer}
   gImageStretch := False;
   gImageExifRotate := True;
-  gImageStretchOnlyLarge := False;
+  gImageStretchOnlyLarge := True;
+  gImageShowTransparency := False;
   gImageCenter := True;
   gPreviewVisible := False;
   gCopyMovePath1 := '';
@@ -1997,6 +2040,8 @@ begin
   gCopyMovePath4 := '';
   gCopyMovePath5 := '';
   gImagePaintMode := vptPen;
+  gImageBackColor1 := clWindow;
+  gImageBackColor2 := clDefault;
   gImagePaintWidth := 5;
   gColCount := 1;
   gTabSpaces := 8;
@@ -2007,6 +2052,7 @@ begin
   gTextPosition:= 0;
   gViewerMode:= 0;
   gShowCaret := False;
+  gViewerWrapText := False;
   gViewerLeftMargin := 4;
   gViewerLineSpacing := 0;
   gPrintMargins:= Classes.Rect(200, 200, 200, 200);
@@ -2180,7 +2226,10 @@ begin
         if mbFileAccess(gpGlobalCfgDir + 'doublecmd.xml', fmOpenRead or fmShareDenyWrite) then
         begin
           LoadConfigCheckErrors(@LoadGlobalConfig, gpGlobalCfgDir + 'doublecmd.xml', ErrorMessage);
-          gConfig.TryGetValue(gConfig.RootNode, 'Configuration/UseConfigInProgramDir', gUseConfigInProgramDir);
+          if gConfig.TryGetValue(gConfig.RootNode, 'Configuration/UseConfigInProgramDir', gUseConfigInProgramDir) then
+          begin
+            gConfig.DeleteNode(gConfig.RootNode, 'Configuration/UseConfigInProgramDir');
+          end;
 
           if not gUseConfigInProgramDir then
           begin
@@ -2399,6 +2448,7 @@ begin
 
   if mbFileAccess(gpCfgDir, fmOpenWrite or fmShareDenyNone) then
   begin
+    SaveWithCheck(@SaveEarlyConfig, 'early config', ErrMsg);
     SaveWithCheck(@SaveCfgIgnoreList, 'ignore list', ErrMsg);
     SaveWithCheck(@SaveCfgMainConfig, 'main configuration', ErrMsg);
     SaveWithCheck(@SaveHistoryConfig, 'various history', ErrMsg);
@@ -2798,6 +2848,7 @@ begin
       SubNode := FindNode(Node, 'ColumnsView');
       if Assigned(SubNode) then
       begin
+        gColumnsLongInStatus := GetValue(SubNode, 'LongInStatus', gColumnsLongInStatus);
         gColumnsAutoSaveWidth := GetValue(SubNode, 'AutoSaveWidth', gColumnsAutoSaveWidth);
         gColumnsTitleStyle := TTitleStyle(GetValue(SubNode, 'TitleStyle', Integer(gColumnsTitleStyle)));
       end;
@@ -2943,6 +2994,8 @@ begin
     gSaveDirHistory := GetAttr(Root, 'History/DirHistory/Save', gSaveDirHistory);
     gSaveCmdLineHistory := GetAttr(Root, 'History/CmdLineHistory/Save', gSaveCmdLineHistory);
     gSaveFileMaskHistory := GetAttr(Root, 'History/FileMaskHistory/Save', gSaveFileMaskHistory);
+    gSaveVolumeSizeHistory := GetAttr(Root, 'History/VolumeSizeHistory/Save', gSaveVolumeSizeHistory);
+    gSaveCreateDirectoriesHistory := GetAttr(Root, 'History/CreateDirectoriesHistory/Save', gSaveCreateDirectoriesHistory);
     gSortOrderOfConfigurationOptionsTree := TSortConfigurationOptions(GetAttr(Root, 'Configuration/SortOrder', Integer(scoAlphabeticalButLanguage)));
     gCollapseConfigurationOptionsTree := TConfigurationTreeState(GetAttr(Root, 'Configuration/TreeType', Integer(ctsFullExpand)));
 
@@ -3000,6 +3053,7 @@ begin
       gHotDirFilenameStyle := TConfigFilenameStyle(GetValue(Node, 'FilenameStyle', ord(gHotDirFilenameStyle)));
       gHotDirPathToBeRelativeTo := gConfig.GetValue(Node, 'PathToBeRelativeTo', gHotDirPathToBeRelativeTo);
       gHotDirPathModifierElements := tHotDirPathModifierElements(GetValue(Node, 'PathModifierElements', Integer(gHotDirPathModifierElements)));
+      gDefaultTextEncoding := GetValue(Node, 'DefaultTextEncoding', gDefaultTextEncoding);
     end;
 
     { Thumbnails }
@@ -3074,7 +3128,10 @@ begin
       gImageStretch := GetValue(Node, 'ImageStretch', gImageStretch);
       gImageExifRotate := GetValue(Node, 'ImageExifRotate', gImageExifRotate);
       gImageStretchOnlyLarge := GetValue(Node, 'ImageStretchLargeOnly', gImageStretchOnlyLarge);
+      gImageShowTransparency := GetValue(Node, 'ImageShowTransparency', gImageShowTransparency);
       gImageCenter := GetValue(Node, 'ImageCenter', gImageCenter);
+      gImageBackColor1:= GetValue(Node, 'ImageBackColor1', gImageBackColor1);
+      gImageBackColor2:= GetValue(Node, 'ImageBackColor2', gImageBackColor2);
       gPreviewVisible := GetValue(Node, 'PreviewVisible', gPreviewVisible);
       gCopyMovePath1 := GetValue(Node, 'CopyMovePath1', gCopyMovePath1);
       gCopyMovePath2 := GetValue(Node, 'CopyMovePath2', gCopyMovePath2);
@@ -3089,6 +3146,7 @@ begin
       gViewerMode  := GetValue(Node, 'ViewerMode'  , gViewerMode);
       gPrintMargins := GetValue(Node, 'PrintMargins'  , gPrintMargins);
       gShowCaret := GetValue(Node, 'ShowCaret'  , gShowCaret);
+      gViewerWrapText := GetValue(Node, 'WrapText', gViewerWrapText);
       gViewerLeftMargin := GetValue(Node, 'LeftMargin' , gViewerLeftMargin);
       gViewerLineSpacing := GetValue(Node, 'ExtraLineSpan' , gViewerLineSpacing);
       gImagePaintColor := GetValue(Node, 'PaintColor', gImagePaintColor);
@@ -3321,8 +3379,6 @@ begin
     SetAttr(Root, 'DCVersion', dcVersion);
     SetAttr(Root, 'ConfigVersion', ConfigVersion);
 
-    SetValue(Root, 'Configuration/UseConfigInProgramDir', gUseConfigInProgramDirNew);
-
     { Language page }
     SetValue(Root, 'Language/POFileName', gPOFileName);
 
@@ -3506,6 +3562,7 @@ begin
     SetValue(SubNode, 'NewFilesPosition', Integer(gNewFilesPosition));
     SetValue(SubNode, 'UpdatedFilesPosition', Integer(gUpdatedFilesPosition));
     SubNode := FindNode(Node, 'ColumnsView', True);
+    SetValue(SubNode, 'LongInStatus', gColumnsLongInStatus);
     SetValue(SubNode, 'AutoSaveWidth', gColumnsAutoSaveWidth);
     SetValue(SubNode, 'TitleStyle', Integer(gColumnsTitleStyle));
     SubNode := FindNode(Node, 'BriefView', True);
@@ -3615,6 +3672,8 @@ begin
     SetAttr(Root, 'History/DirHistory/Save', gSaveDirHistory);
     SetAttr(Root, 'History/CmdLineHistory/Save', gSaveCmdLineHistory);
     SetAttr(Root, 'History/FileMaskHistory/Save', gSaveFileMaskHistory);
+    SetAttr(Root, 'History/VolumeSizeHistory/Save', gSaveVolumeSizeHistory);
+    SetAttr(Root, 'History/CreateDirectoriesHistory/Save', gSaveCreateDirectoriesHistory);
     SetAttr(Root, 'Configuration/SortOrder', Integer(gSortOrderOfConfigurationOptionsTree));
     SetAttr(Root, 'Configuration/TreeType', Integer(gCollapseConfigurationOptionsTree));
 
@@ -3646,6 +3705,7 @@ begin
     SetValue(Node, 'FilenameStyle', ord(gHotDirFilenameStyle));
     SetValue(Node, 'PathToBeRelativeTo', gHotDirPathToBeRelativeTo);
     SetValue(Node, 'PathModifierElements', Integer(gHotDirPathModifierElements));
+    SetValue(Node, 'DefaultTextEncoding', gDefaultTextEncoding);
 
     { Thumbnails }
     Node := FindNode(Root, 'Thumbnails', True);
@@ -3696,8 +3756,11 @@ begin
     SetValue(Node, 'PreviewVisible',gPreviewVisible);
     SetValue(Node, 'ImageStretch',gImageStretch);
     SetValue(Node, 'ImageExifRotate', gImageExifRotate);
-    SetValue(Node, 'ImageStretchLargeOnly',gImageStretchOnlyLarge);
-    SetValue(Node, 'ImageCenter',gImageCenter);
+    SetValue(Node, 'ImageStretchLargeOnly', gImageStretchOnlyLarge);
+    SetValue(Node, 'ImageShowTransparency', gImageShowTransparency);
+    SetValue(Node, 'ImageCenter', gImageCenter);
+    SetValue(Node, 'ImageBackColor1', gImageBackColor1);
+    SetValue(Node, 'ImageBackColor2', gImageBackColor2);
     SetValue(Node, 'CopyMovePath1', gCopyMovePath1);
     SetValue(Node, 'CopyMovePath2', gCopyMovePath2);
     SetValue(Node, 'CopyMovePath3', gCopyMovePath3);
@@ -3711,6 +3774,7 @@ begin
     SetValue(Node, 'ViewerMode' , gViewerMode);
     SetValue(Node, 'PrintMargins', gPrintMargins);
     SetValue(Node, 'ShowCaret'  , gShowCaret);
+    SetValue(Node, 'WrapText'   , gViewerWrapText);
     SetValue(Node, 'LeftMargin' , gViewerLeftMargin);
     SetValue(Node, 'ExtraLineSpan' , gViewerLineSpacing);
 

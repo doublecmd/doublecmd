@@ -31,7 +31,7 @@ interface
 uses
   Classes, SysUtils, FileUtil, SynEdit, Forms, Controls, StdCtrls, ExtCtrls,
   ColorBox, ComCtrls, Dialogs, Menus, Buttons, fOptionsFrame, DividerBevel, types,
-  Graphics, SynEditHighlighter, dmHigh;
+  Graphics, SynEditHighlighter, SynUniClasses, SynUniRules, dmHigh;
 
 type
 
@@ -113,6 +113,9 @@ type
     FIsEditingDefaults: Boolean;
     UpdatingColor: Boolean;
     procedure UpdateCurrentScheme;
+    function TreeAddSet(Node: TTreeNode; SymbSet: TSynSet): TTreeNode;
+    function TreeAddRange(Node: TTreeNode; Range: TSynRange): TTreeNode;
+    function TreeAddKeyList(Node: TTreeNode; KeyList: TSynKeyList): TTreeNode;
     function SynAttributeSortCompare(Node1, Node2: TTreeNode): Integer;
   protected
     procedure Init; override;
@@ -249,6 +252,7 @@ procedure TfrmOptionsEditorColors.cmbLanguageChange(Sender: TObject);
 var
   I: LongInt;
   ANode: TTreeNode;
+  SynUniSyn: Boolean;
 begin
   if (cmbLanguage.ItemIndex < 0) then Exit;
   FCurrentHighlighter:= TSynCustomHighlighter(cmbLanguage.Items.Objects[cmbLanguage.ItemIndex]);
@@ -262,8 +266,17 @@ begin
     ColorPreview.Lines.Text:= EmptyStr;
   end;
   FHighl.SetHighlighter(ColorPreview, FCurrentHighlighter);
+  SynUniSyn:= (FCurrentHighlighter is TSynUniSyn);
+  ColorElementTree.ShowButtons:= SynUniSyn;
+  ColorElementTree.ShowRoot:= SynUniSyn;
+  btnResetMask.Enabled:= not SynUniSyn;
   ColorElementTree.Items.Clear;
-  if (FCurrentHighlighter.AttrCount > 0) then
+  if SynUniSyn then
+  begin
+    ANode:= TreeAddRange(nil, TSynUniSyn(FCurrentHighlighter).MainRules);
+    ANode.Expand(False);
+  end
+  else if (FCurrentHighlighter.AttrCount > 0) then
   begin
     for I:= 0 to FCurrentHighlighter.AttrCount - 1 do
     begin
@@ -271,11 +284,11 @@ begin
       ANode.Data:= FCurrentHighlighter.Attribute[I];
     end;
     ColorElementTree.CustomSort(@SynAttributeSortCompare);
-    if ColorElementTree.Items.GetFirstNode <> nil then
-    begin
-      ColorElementTree.Items.GetFirstNode.Selected := True;
-      ColorElementTreeChange(ColorElementTree, nil);
-    end;
+  end;
+  if ColorElementTree.Items.GetFirstNode <> nil then
+  begin
+    ColorElementTree.Items.GetFirstNode.Selected := True;
+    ColorElementTreeChange(ColorElementTree, ColorElementTree.Items.GetFirstNode);
   end;
 end;
 
@@ -330,29 +343,41 @@ var
   FullAbcWidth, AbcWidth: Integer;
   Attri: TSynHighlighterAttributes;
   TextY: Integer;
+  AText: String;
   c: TColor;
   s: String;
 begin
-  if (ColorElementTree.Items.GetFirstNode = Node) and FIsEditingDefaults then
-    Attri := FDefHighlightElement
-  else
-    Attri := TSynHighlighterAttributes(Node.Data);
+  if not (TObject(Node.Data) is TSynHighlighterAttributes) then
+  begin
+    AText:= TSynRule(Node.Data).Name;
+    Attri := TSynRule(Node.Data).Attribs;
+  end
+  else begin
+    if (ColorElementTree.Items.GetFirstNode = Node) and FIsEditingDefaults then
+      Attri := FDefHighlightElement
+    else begin
+      Attri := TSynHighlighterAttributes(Node.Data);
+    end;
+    AText:= Attri.Name;
+  end;
 
   if (Attri = nil) then Exit;
 
   // Draw node background and name
-  if cdsSelected in State then begin
+  if cdsSelected in State then
+  begin
     ColorElementTree.Canvas.Brush.Color := ColorElementTree.SelectionColor;
     ColorElementTree.Canvas.Font.Color := InvertColor(ColorElementTree.SelectionColor);
   end else begin
     ColorElementTree.Canvas.Brush.Color := ColorElementTree.Color;
     ColorElementTree.Canvas.Font.Color := Font.Color;
   end;
-  NodeRect := Node.DisplayRect(False);
+  NodeRect := Node.DisplayRect(True);
   FullAbcWidth := ColorElementTree.Canvas.TextExtent(COLOR_NODE_PREFIX).cx;
   TextY := (NodeRect.Top + NodeRect.Bottom - ColorElementTree.Canvas.TextHeight(Node.Text)) div 2;
+  NodeRect.Right+= FullAbcWidth;
   ColorElementTree.Canvas.FillRect(NodeRect);
-  ColorElementTree.Canvas.TextOut(NodeRect.Left+FullAbcWidth, TextY, Attri.Name);
+  ColorElementTree.Canvas.TextOut(NodeRect.Left+FullAbcWidth, TextY, AText);
 
   // Draw preview box - Background
   c := clNone;
@@ -408,21 +433,37 @@ end;
 
 procedure TfrmOptionsEditorColors.ColorElementTreeChange(Sender: TObject; Node: TTreeNode); //+++
 var
+  ParentFore, ParentBack: Boolean;
   AttrToShow: TSynHighlighterAttributes;
   IsDefault, CanGlobal: Boolean;
+  ARule: TSynRule;
 begin
   if UpdatingColor or (ColorElementTree.Selected = nil) or (ColorElementTree.Selected.Data = nil) then
     Exit;
 
-  FCurHighlightElement:= TSynHighlighterAttributes(ColorElementTree.Selected.Data);
+  if (TObject(ColorElementTree.Selected.Data) is TSynHighlighterAttributes) then
+  begin
+    FCurHighlightElement:= TSynHighlighterAttributes(ColorElementTree.Selected.Data);
+    IsDefault := SameText(rsSynDefaultText, FCurHighlightElement.Name);
+    CanGlobal := (cmbLanguage.ItemIndex > 0) and IsDefault;
+    ParentFore:= False;
+    ParentBack:= False;
+  end
+  else begin
+    ARule:= TSynRule(ColorElementTree.Selected.Data);
+    ParentFore:= ARule.Attribs.ParentForeground;
+    ParentBack:= ARule.Attribs.ParentBackground;
+    FCurHighlightElement:= ARule.Attribs;
+    IsDefault := (Node.Level = 0);
+    CanGlobal := False;
+  end;
+
   UpdatingColor := True;
   DisableAlign;
   try
 
   FDefHighlightElement:= FHighl.SynPlainTextHighlighter.Attribute[FHighl.SynPlainTextHighlighter.AttrCount - 1];
 
-  IsDefault := SameText(rsSynDefaultText, FCurHighlightElement.Name);
-  CanGlobal := (cmbLanguage.ItemIndex > 0) and IsDefault;
   FIsEditingDefaults:= CanGlobal and (FCurrentHighlighter.Tag = 1);
 
   tbtnGlobal.Enabled := CanGlobal;
@@ -440,7 +481,7 @@ begin
   ForegroundColorBox.Style := ForegroundColorBox.Style + [cbIncludeDefault];
   BackGroundColorBox.Style := BackGroundColorBox.Style + [cbIncludeDefault];
 
-  // Forground
+  // Foreground
   ForeGroundLabel.Visible              := (hafForeColor in AttrToShow.Features) and
                                           (IsDefault = True);
   ForeGroundUseDefaultCheckBox.Visible := (hafForeColor in AttrToShow.Features) and
@@ -452,7 +493,8 @@ begin
     ForegroundColorBox.Tag := ForegroundColorBox.DefaultColorColor
   else
     ForegroundColorBox.Tag := ForegroundColorBox.Selected;
-  ForeGroundUseDefaultCheckBox.Checked := ForegroundColorBox.Selected <> clDefault;
+  ForeGroundUseDefaultCheckBox.Checked := (ForegroundColorBox.Selected <> clDefault) and
+                                          (ParentFore = False);
 
   // BackGround
   BackGroundLabel.Visible              := (hafBackColor in AttrToShow.Features) and
@@ -466,7 +508,8 @@ begin
     BackGroundColorBox.Tag := BackGroundColorBox.DefaultColorColor
   else
     BackGroundColorBox.Tag := BackGroundColorBox.Selected;
-  BackGroundUseDefaultCheckBox.Checked := BackGroundColorBox.Selected <> clDefault;
+  BackGroundUseDefaultCheckBox.Checked := (BackGroundColorBox.Selected <> clDefault) and
+                                          (ParentBack = False);
 
   // Frame
   FrameColorUseDefaultCheckBox.Visible := hafFrameColor in AttrToShow.Features;
@@ -522,7 +565,7 @@ begin
       TextItalicRadioOff.Checked := True;
 
     TextUnderlineCheckBox.Checked := (fsUnderline in AttrToShow.Style) or
-                                (fsUnderline in AttrToShow.StyleMask);
+                                     (fsUnderline in AttrToShow.StyleMask);
     TextUnderlineRadioPanel.Enabled := TextUnderlineCheckBox.Checked;
 
     if not(fsUnderline in AttrToShow.StyleMask) then
@@ -534,7 +577,7 @@ begin
       TextUnderlineRadioOff.Checked := True;
 
     TextStrikeOutCheckBox.Checked := (fsStrikeOut in AttrToShow.Style) or
-                                (fsStrikeOut in AttrToShow.StyleMask);
+                                     (fsStrikeOut in AttrToShow.StyleMask);
     TextStrikeOutRadioPanel.Enabled := TextStrikeOutCheckBox.Checked;
 
     if not(fsStrikeOut in AttrToShow.StyleMask) then
@@ -600,13 +643,40 @@ begin
     if Sender = ForeGroundUseDefaultCheckBox then TheColorBox := ForegroundColorBox;
     if Sender = BackGroundUseDefaultCheckBox then TheColorBox := BackGroundColorBox;
     if Sender = FrameColorUseDefaultCheckBox then TheColorBox := FrameColorBox;
-    if Assigned(TheColorBox) then begin
-      if TCheckBox(Sender).Checked then begin
+    if Assigned(TheColorBox) then
+    begin
+      if TCheckBox(Sender).Checked then
+      begin
         TheColorBox.Selected := TheColorBox.Tag;
+        if (AttrToEdit is TSynAttributes) then
+        begin
+          if (Sender = ForeGroundUseDefaultCheckBox) then
+          begin
+            TSynAttributes(AttrToEdit).ParentForeground:= False;
+          end
+          else if (Sender = BackGroundUseDefaultCheckBox) then
+          begin
+            TSynAttributes(AttrToEdit).ParentBackground:= False;
+          end;
+        end;
       end
       else begin
         TheColorBox.Tag := TheColorBox.Selected;
-        TheColorBox.Selected := clDefault;
+        if not (AttrToEdit is TSynAttributes) then
+          TheColorBox.Selected := clDefault
+        else if Assigned(ColorElementTree.Selected) and Assigned(ColorElementTree.Selected.Parent) then
+        begin
+          if (Sender = ForeGroundUseDefaultCheckBox) then
+          begin
+            TSynAttributes(AttrToEdit).ParentForeground:= True;
+            TheColorBox.Selected := TSynRange(ColorElementTree.Selected.Parent.Data).Attribs.Foreground
+          end
+          else if (Sender = BackGroundUseDefaultCheckBox) then
+          begin
+            TSynAttributes(AttrToEdit).ParentBackground:= True;
+            TheColorBox.Selected := TSynRange(ColorElementTree.Selected.Parent.Data).Attribs.Background;
+          end;
+        end;
       end;
 
       if (Sender = ForeGroundUseDefaultCheckBox) and
@@ -761,7 +831,44 @@ end;
 
 procedure TfrmOptionsEditorColors.UpdateCurrentScheme;
 begin
+  ColorPreview.Invalidate;
   ColorElementTree.Invalidate;
+end;
+
+function TfrmOptionsEditorColors.TreeAddSet(Node: TTreeNode; SymbSet: TSynSet
+  ): TTreeNode;
+begin
+  Result:= ColorElementTree.Items.AddChild(Node, SymbSet.Name);
+  Result.Data:= SymbSet;
+end;
+
+function TfrmOptionsEditorColors.TreeAddRange(Node: TTreeNode; Range: TSynRange
+  ): TTreeNode;
+var
+  Index: Integer;
+begin
+  if (Node = nil) then
+    Result:= ColorElementTree.Items.Add(nil, Range.Name)
+  else begin
+    Result:= ColorElementTree.Items.AddChild(Node, Range.Name);
+  end;
+  Result.Data:= Range;
+
+  for Index := 0 to Range.SetCount - 1 do
+    TreeAddSet(Result, Range.Sets[Index]);
+
+  for Index := 0 to Range.RangeCount - 1 do
+    TreeAddRange(Result, Range.Ranges[Index]);
+
+  for Index := 0 to Range.KeyListCount - 1 do
+    TreeAddKeyList(Result, Range.KeyLists[Index]);
+end;
+
+function TfrmOptionsEditorColors.TreeAddKeyList(Node: TTreeNode;
+  KeyList: TSynKeyList): TTreeNode;
+begin
+  Result:= ColorElementTree.Items.AddChild(Node, KeyList.Name);
+  Result.Data:= KeyList;
 end;
 
 procedure TfrmOptionsEditorColors.Init;
@@ -778,16 +885,9 @@ begin
 end;
 
 procedure TfrmOptionsEditorColors.Load;
-var
-  Index: Integer;
 begin
   FHighl.Assign(dmHighl);
   cmbLanguage.Items.Assign(FHighl.SynHighlighterList);
-  for Index:= cmbLanguage.Items.Count - 1 downto 0 do
-  begin
-    if cmbLanguage.Items.Objects[Index] is TSynUniSyn then
-      cmbLanguage.Items.Delete(Index);
-  end;
   cmbLanguage.ItemIndex:= 0;
   cmbLanguageChange(nil);
 end;

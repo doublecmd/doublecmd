@@ -385,7 +385,7 @@ uses fOptionsPluginsBase, fOptionsPluginsDSX, fOptionsPluginsWCX,
      fExtractDlg, fAbout, fOptions, fDiffer, fFindDlg, fSymLink, fHardLink, fMultiRename,
      fLinker, fSplitter, fDescrEdit, fCheckSumVerify, fCheckSumCalc, fSetFileProperties,
      uLng, uLog, uShowMsg, uOSForms, uOSUtils, uDCUtils, uBriefFileView, fSelectDuplicates,
-     uShowForm, uShellExecute, uClipboard, uHash, uDisplayFile, uLuaPas,
+     uShowForm, uShellExecute, uClipboard, uHash, uDisplayFile, uLuaPas, uSysFolders,
      uFilePanelSelect, uFileSystemFileSource, uQuickViewPanel, Math,
      uOperationsManager, uFileSourceOperationTypes, uWfxPluginFileSource,
      uFileSystemDeleteOperation, uFileSourceExecuteOperation, uSearchResultFileSource,
@@ -732,6 +732,7 @@ end;
 procedure TMainCommands.DoContextMenu(Panel: TFileView; X, Y: Integer; Background: Boolean; UserWishForContextMenu:TUserWishForContextMenu);
 var
   Index: Integer;
+  AMenu: TPopupMenu;
   aFile: TFile = nil;
   aFiles: TFiles = nil;
   sPath, sName: String;
@@ -740,7 +741,20 @@ begin
   begin
     if not (fspDirectAccess in Panel.FileSource.Properties) then
     begin
-      if not Background then pmContextMenu.PopUp(X, Y);
+      if not Background then
+      begin
+        AMenu:= pmContextMenu;
+        if (fspContextMenu in Panel.FileSource.Properties) then
+        begin
+          aFiles:= Panel.CloneSelectedOrActiveFiles;
+          try
+            Panel.FileSource.QueryContextMenu(aFiles, AMenu);
+          finally
+            FreeAndNil(aFiles);
+          end;
+        end;
+        AMenu.PopUp(X, Y);
+      end;
       Exit;
     end;
 
@@ -1404,30 +1418,39 @@ var
   Param: String;
   TargetPath: String;
   SelectedFiles: TFiles;
+  TargetFileSource: IFileSource;
 begin
   with frmMain do
   begin
-    SelectedFiles := ActiveFrame.CloneSelectedOrActiveFiles;
-    try
-      if SelectedFiles.Count = 0 then
-        msgWarning(rsMsgNoFilesSelected)
-      else begin
-        Param := GetDefaultParam(Params);
-        if Param = 'PackHere' then
-          TargetPath:= ActiveFrame.CurrentPath
+    Param := GetDefaultParam(Params);
+    if Param = 'PackHere' then
+    begin
+      TargetPath:= ActiveFrame.CurrentPath;
+      TargetFileSource:= ActiveFrame.FileSource;
+    end
+    else begin
+      TargetPath:= NotActiveFrame.CurrentPath;
+      TargetFileSource:= NotActiveFrame.FileSource;
+    end;
+    if not (fspDirectAccess in TargetFileSource.Properties) then
+      msgError(rsMsgErrNotSupported)
+    else begin
+      SelectedFiles := ActiveFrame.CloneSelectedOrActiveFiles;
+      try
+        if SelectedFiles.Count = 0 then
+          msgWarning(rsMsgNoFilesSelected)
         else begin
-          TargetPath:= NotActiveFrame.CurrentPath;
+          ShowPackDlg(frmMain,
+                      ActiveFrame.FileSource,
+                      nil, // No specific target (create new)
+                      SelectedFiles,
+                      TargetPath,
+                      PathDelim { Copy to root of archive } {NotActiveFrame.FileSource.GetRootString}
+                     );
         end;
-        ShowPackDlg(frmMain,
-                    ActiveFrame.FileSource,
-                    nil, // No specific target (create new)
-                    SelectedFiles,
-                    TargetPath,
-                    PathDelim { Copy to root of archive } {NotActiveFrame.FileSource.GetRootString}
-                   );
+      finally
+        FreeAndNil(SelectedFiles);
       end;
-    finally
-      FreeAndNil(SelectedFiles);
     end;
   end;
 end;
@@ -2345,7 +2368,7 @@ begin
 
     if bMakeViaCopy then
     begin
-      Directory := GetTempName(GetTempFolderDeletableAtTheEnd);
+      Directory := GetTempName(GetTempFolderDeletableAtTheEnd, EmptyStr);
       if not mbForceDirectory(IncludeTrailingBackslash(Directory) + sPath) then
       begin
         MessageDlg(mbSysErrorMessage(GetLastOSError), mtError, [mbOK], 0);
@@ -5082,7 +5105,11 @@ begin
   begin
     // Get script file name
     FileName:= PrepareParameter(Params[0]);
-    if not mbFileExists(FileName) then Exit;
+    if not mbFileExists(FileName) then
+    begin
+      msgError(Format(rsMsgFileNotFound, [Filename]));
+      Exit;
+    end;
 
     // Get script arguments
     Count:= Length(Params) - 1;

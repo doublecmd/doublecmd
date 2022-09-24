@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Internal diff and merge tool
 
-   Copyright (C) 2010-2021 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2010-2022 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
@@ -29,7 +29,7 @@ uses
   Classes, SysUtils, FileUtil, Forms, Controls, Dialogs, Menus, ComCtrls,
   ActnList, ExtCtrls, EditBtn, Buttons, SynEdit, uSynDiffControls,
   uPariterControls, uDiffOND, uFormCommands, uHotkeyManager, uOSForms,
-  uBinaryDiffViewer, uShowForm, KASStatusBar, Graphics, StdCtrls;
+  uBinaryDiffViewer, uShowForm, KASStatusBar, Graphics, StdCtrls, fEditSearch;
 
 type
 
@@ -49,6 +49,11 @@ type
     actEditDelete: TAction;
     actEditUndo: TAction;
     actEditRedo: TAction;
+    actFind: TAction;
+    actFindNext: TAction;
+    actFindPrev: TAction;
+    actFindReplace: TAction;
+    actGotoLine: TAction;
     actEditSelectAll: TAction;
     actEditPaste: TAction;
     actAbout: TAction;
@@ -79,6 +84,7 @@ type
     MainMenu: TMainMenu;
     miAutoCompare: TMenuItem;
     miDivider10: TMenuItem;
+    miDivider11: TMenuItem;
     miLineDifferences: TMenuItem;
     miEncodingRight: TMenuItem;
     miEncodingLeft: TMenuItem;
@@ -89,8 +95,12 @@ type
     miCopyContext: TMenuItem;
     miCutContext: TMenuItem;
     miDeleteContext: TMenuItem;
+    miFind: TMenuItem;
+    miFindNext: TMenuItem;
+    miFindPrevious: TMenuItem;
+    miFindReplace: TMenuItem;
+    miGotoLine: TMenuItem;
     miEditSelectAll: TMenuItem;
-    miDivider9: TMenuItem;
     miEditDelete: TMenuItem;
     miEditPaste: TMenuItem;
     miEditCopy: TMenuItem;
@@ -227,6 +237,7 @@ type
     FWaitData: TWaitData;
     FElevate: TDuplicates;
     FCommands: TFormCommands;
+    FSearchOptions: TEditSearchOptions;
 private
     procedure ShowDialog;
     procedure ShowIdentical;
@@ -236,6 +247,7 @@ private
     procedure Clear(bLeft, bRight: Boolean);
     procedure BuildHashList(bLeft, bRight: Boolean);
     procedure ChooseEncoding(SynDiffEdit: TSynDiffEdit);
+    function GetDisplayNumber(LineNumber: Integer): Integer;
     procedure SetColors(cAdded, cDeleted, cModified: TColor);
     procedure ChooseEncoding(MenuItem: TMenuItem; Encoding: String);
     procedure FillEncodingMenu(TheOwner: TMenuItem; MenuHandler: TNotifyEvent; GroupIndex: LongInt);
@@ -258,6 +270,11 @@ private
   published
     procedure cm_CopyLeftToRight(const Params: array of string);
     procedure cm_CopyRightToLeft(const Params: array of string);
+    procedure cm_Find(const Params: array of string);
+    procedure cm_FindNext(const Params: array of string);
+    procedure cm_FindPrev(const Params: array of string);
+    procedure cm_FindReplace(const Params: array of string);
+    procedure cm_GotoLine(const Params: array of string);
     procedure cm_Exit(const Params: array of string);
     procedure cm_FirstDifference(const Params: array of string);
     procedure cm_LastDifference(const Params: array of string);
@@ -539,6 +556,11 @@ begin
   actCopyRightToLeft.Enabled:= not actBinaryCompare.Checked;
   actEditUndo.Enabled:= not actBinaryCompare.Checked;
   actEditRedo.Enabled:= not actBinaryCompare.Checked;
+  actFind.Enabled:= not actBinaryCompare.Checked;
+  actFindNext.Enabled:= not actBinaryCompare.Checked;
+  actFindPrev.Enabled:= not actBinaryCompare.Checked;
+  actFindReplace.Enabled:= not actBinaryCompare.Checked;
+  actGotoLine.Enabled:= not actBinaryCompare.Checked;
   actSave.Enabled:= not actBinaryCompare.Checked;
   actSaveAs.Enabled:= not actBinaryCompare.Checked;
   actSaveLeft.Enabled:= not actBinaryCompare.Checked;
@@ -1108,6 +1130,77 @@ begin
   SynDiffEditRight.Renumber;
 end;
 
+procedure TfrmDiffer.cm_Find(const Params: array of string);
+begin
+  if not actBinaryCompare.Checked then
+  begin
+    ShowSearchReplaceDialog(Self, SynDiffEditActive, cbUnchecked, FSearchOptions);
+  end;
+end;
+
+procedure TfrmDiffer.cm_FindNext(const Params: array of string);
+begin
+  if not actBinaryCompare.Checked then
+  begin
+    if gFirstTextSearch then
+      ShowSearchReplaceDialog(Self, SynDiffEditActive, cbUnchecked, FSearchOptions)
+    else if FSearchOptions.SearchText <> '' then
+    begin
+      DoSearchReplaceText(SynDiffEditActive, False, ssoBackwards in FSearchOptions.Flags, FSearchOptions);
+      FSearchOptions.Flags -= [ssoEntireScope];
+    end;
+  end;
+end;
+
+procedure TfrmDiffer.cm_FindPrev(const Params: array of string);
+begin
+  if not actBinaryCompare.Checked then
+  begin
+    if gFirstTextSearch then
+    begin
+      FSearchOptions.Flags += [ssoBackwards];
+      ShowSearchReplaceDialog(Self, SynDiffEditActive, cbUnchecked, FSearchOptions);
+    end
+    else if FSearchOptions.SearchText <> '' then
+    begin
+      SynDiffEditActive.SelEnd := SynDiffEditActive.SelStart;
+      DoSearchReplaceText(SynDiffEditActive, False, True, FSearchOptions);
+      FSearchOptions.Flags -= [ssoEntireScope];
+    end;
+  end;
+end;
+
+procedure TfrmDiffer.cm_FindReplace(const Params: array of string);
+begin
+  if not actBinaryCompare.Checked then
+  begin
+    ShowSearchReplaceDialog(Self, SynDiffEditActive, cbChecked, FSearchOptions);
+  end;
+end;
+
+procedure TfrmDiffer.cm_GotoLine(const Params: array of string);
+var
+  P: TPoint;
+  Value: String;
+  NewTopLine: Integer;
+begin
+  if not actBinaryCompare.Checked then
+  begin
+    if ShowInputQuery(rsEditGotoLineTitle, rsEditGotoLineQuery, Value) then
+    begin
+      P.X := 1;
+      P.Y := GetDisplayNumber(StrToIntDef(Value, 1));
+      NewTopLine := P.Y - (SynDiffEditActive.LinesInWindow div 2);
+      if NewTopLine < 1 then begin
+        NewTopLine := 1;
+      end;
+      SynDiffEditActive.CaretXY := P;
+      SynDiffEditActive.TopLine := NewTopLine;
+      SynDiffEditActive.SetFocus;
+    end;
+  end;
+end;
+
 procedure TfrmDiffer.cm_Exit(const Params: array of string);
 begin
   Close;
@@ -1365,6 +1458,21 @@ begin
       ChooseEncoding(miEncodingRight, SynDiffEdit.Encoding);
       ChooseEncoding(pmEncodingRight.Items, SynDiffEdit.Encoding);
     end;
+end;
+
+function TfrmDiffer.GetDisplayNumber(LineNumber: Integer): Integer;
+var
+  I: Integer;
+begin
+  Result := 1;
+  for I := 0 to SynDiffEditActive.Lines.Count - 1 do
+  begin
+    if SynDiffEditActive.Lines.Number[I] = LineNumber then
+    begin
+      Result := I + 1;
+      Break;
+    end;
+  end;
 end;
 
 procedure TfrmDiffer.ChooseEncoding(MenuItem: TMenuItem; Encoding: String);

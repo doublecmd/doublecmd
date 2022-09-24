@@ -408,6 +408,7 @@ begin
     end;
     UpdateStatistics(FStatistics);
 
+    AppProcessMessages();
     CheckOperationState;
   end;
 end;

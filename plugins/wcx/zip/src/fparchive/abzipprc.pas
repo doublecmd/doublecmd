@@ -186,11 +186,15 @@ procedure DoZipFromStream(Sender : TAbZipArchive; Item : TAbZipItem;
   OutStream, InStream : TStream);
 var
   ZipArchive : TAbZipArchive;
-  InStartPos : LongInt;
+  InStartPos : Int64;
+  OutStartPos : Int64;
   TempOut : TAbVirtualMemoryStream;
   DestStrm : TStream;
 begin
   ZipArchive := TAbZipArchive(Sender);
+
+  { save starting point }
+  OutStartPos := OutStream.Position;
 
   { configure Item }
   Item.UncompressedSize := InStream.Size;
@@ -268,7 +272,7 @@ begin
   end;
 
   { update item }
-  Item.CompressedSize := OutStream.Size;
+  Item.CompressedSize := OutStream.Position - OutStartPos;
   Item.InternalFileAttributes := 0; { don't care }
   if (ZipArchive.Password <> '') then
     Item.GeneralPurposeBitFlag := Item.GeneralPurposeBitFlag

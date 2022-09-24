@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Miscellaneous options page
 
-   Copyright (C) 2006-2018 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2006-2022 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -35,6 +35,7 @@ type
 
   TfrmOptionsMisc = class(TOptionsEditor)
     btnThumbCompactCache: TButton;
+    chkShowSplashForm: TCheckBox;
     chkDescCreateUnicode: TCheckBox;
     chkGoToRoot: TCheckBox;
     chkShowCurDirTitleBar: TCheckBox;
@@ -42,9 +43,11 @@ type
     chkShowWarningMessages: TCheckBox;
     cmbDescDefaultEncoding: TComboBox;
     cmbDescCreateEncoding: TComboBox;
+    cmbDefaultEncoding: TComboBox;
     dblThumbnails: TDividerBevel;
     gbExtended: TGroupBox;
     gbFileComments: TGroupBox;
+    lblDefaultEncoding: TLabel;
     lblDescrDefaultEncoding: TLabel;
     lblThumbPixels: TLabel;
     lblThumbSize: TLabel;
@@ -71,6 +74,8 @@ type
     procedure btnOutputPathForToolbarClick(Sender: TObject);
     procedure btnRelativeOutputPathForToolbarClick(Sender: TObject);
     procedure chkDescCreateUnicodeChange(Sender: TObject);
+  private
+    FSplashForm: Boolean;
   protected
     procedure Init; override;
     procedure Load; override;
@@ -89,7 +94,7 @@ implementation
 uses
   fOptions, Forms, Dialogs, fMain, Controls,
   DCStrUtils, uDCUtils, uSpecialDir, uShowForm, uGlobs, uLng, uThumbnails,
-  uConvEncoding;
+  uConvEncoding, uEarlyConfig;
 
 { TfrmOptionsMisc }
 
@@ -109,19 +114,41 @@ begin
 end;
 
 procedure TfrmOptionsMisc.Init;
+var
+  Index: Integer;
 begin
+  FSplashForm:= gSplashForm;
+
+  GetSupportedEncodings(cmbDefaultEncoding.Items);
+  for Index:= cmbDefaultEncoding.Items.Count - 1 downto 0 do
+  begin
+    if (not SingleByteEncoding(cmbDefaultEncoding.Items[Index])) then
+      cmbDefaultEncoding.Items.Delete(Index);
+  end;
+  cmbDefaultEncoding.Items.Insert(0, UpperCase(EncodingNone));
+
   fneTCExecutableFilename.Filter := ParseLineToFileFilter([rsFilterExecutableFiles, '*.exe', rsFilterAnyFiles, '*.*']);
   fneTCConfigFilename.Filter := ParseLineToFileFilter([rsFilterIniConfigFiles, '*.ini', rsFilterAnyFiles, '*.*']);
 end;
 
 procedure TfrmOptionsMisc.Load;
+var
+  Index: Integer;
 begin
+  chkShowSplashForm.Checked      := gSplashForm;
   chkShowWarningMessages.Checked := gShowWarningMessages;
   chkThumbSave.Checked           := gThumbSave;
   speThumbWidth.Value            := gThumbSize.cx;
   speThumbHeight.Value           := gThumbSize.cy;
   chkGoToRoot.Checked            := gGoToRoot;
   chkShowCurDirTitleBar.Checked  := gShowCurDirTitleBar;
+
+  Index:= cmbDefaultEncoding.Items.IndexOf(gDefaultTextEncoding);
+  if (Index < 0) then
+    cmbDefaultEncoding.ItemIndex:= 0
+  else begin
+    cmbDefaultEncoding.ItemIndex:= Index;
+  end;
 
   {$IFDEF MSWINDOWS}
   gbTCExportImport.Visible:=True;
@@ -154,12 +181,15 @@ end;
 function TfrmOptionsMisc.Save: TOptionsEditorSaveFlags;
 begin
   Result := [];
+  gSplashForm          := chkShowSplashForm.Checked;
   gShowWarningMessages := chkShowWarningMessages.Checked;
   gThumbSave           := chkThumbSave.Checked;
   gThumbSize.cx        := speThumbWidth.Value;
   gThumbSize.cy        := speThumbHeight.Value;
   gGoToRoot            := chkGoToRoot.Checked;
   gShowCurDirTitleBar  := chkShowCurDirTitleBar.Checked;
+  gDefaultTextEncoding := cmbDefaultEncoding.Text;
+
   {$IFDEF MSWINDOWS}
   gTotalCommanderExecutableFilename := fneTCExecutableFilename.FileName;
   gTotalCommanderConfigFilename := fneTCConfigFilename.FileName;
@@ -179,6 +209,13 @@ begin
   end;
 
   gDescCreateUnicode:= chkDescCreateUnicode.Checked;
+
+  if gSplashForm <> FSplashForm then
+  try
+    SaveEarlyConfig;
+  except
+    on E: Exception do MessageDlg(E.Message, mtError, [mbOK], 0);
+  end;
 end;
 
 { TfrmOptionsMisc.btnRelativeTCExecutableFileClick }

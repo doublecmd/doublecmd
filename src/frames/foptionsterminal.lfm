@@ -215,7 +215,6 @@ inherited frmOptionsTerminal: TfrmOptionsTerminal
       AnchorSideBottom.Side = asrBottom
       Left = 78
       Height = 23
-      Hint = '{command} should normally be present here to reflect the command to be run in terminal'
       Top = 31
       Width = 413
       Anchors = [akTop, akLeft, akRight]

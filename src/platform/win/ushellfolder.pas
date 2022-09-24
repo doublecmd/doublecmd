@@ -5,7 +5,7 @@ unit uShellFolder;
 interface
 
 uses
-  Classes, SysUtils, Windows, ShlObj, ActiveX, ComObj, uShlObjAdditional;
+  Classes, SysUtils, Windows, ShlObj, ActiveX, ComObj, ShlWapi, uShlObjAdditional;
 
 const
   FOLDERID_AccountPictures: TGUID = '{008ca0b1-55b4-4c56-b8a8-4de4b299d3be}';
@@ -55,15 +55,66 @@ const
   FOLDERID_UserProgramFiles: TGUID = '{5CD7AEE2-2219-4A67-B85D-6C9CE15660CB}';
   FOLDERID_UserProgramFilesCommon: TGUID = '{BCBD3057-CA5C-4622-B42D-BC56DB0AE516}';
 
+type
+
+  PPItemIDList = ^PItemIDList;
+
+  TDefContextMenu = record
+    hwnd                  : HWND;
+    pcmcb                 : IUnknown;
+    pidlFolder            : PCIDLIST_ABSOLUTE;
+    psf                   : IShellFolder;
+    cidl                  : UINT;
+    apidl                 : PPItemIDList;
+    punkAssociationInfo   : IUnknown;
+    cKeys                 : UINT;
+    aKeys                 : PHKEY;
+  end;
+
+  { TShellFolder }
+
+  TShellFolder = class(TInterfacedObject, IShellFolder)
+  private
+    FFolder: IShellFolder;
+    FDataObject: IDataObject;
+  protected
+    function QueryInterface(constref iid : tguid; out obj) : longint; stdcall;
+  public
+    constructor Create(AFolder: IShellFolder; DataObject: IDataObject);
+  public
+    function ParseDisplayName(hwndOwner: HWND; pbcReserved: Pointer; lpszDisplayName: POLESTR; out pchEaten: ULONG; out ppidl: PItemIDList; var dwAttributes: ULONG): HRESULT; stdcall;
+    function EnumObjects(hwndOwner: HWND; grfFlags: DWORD; out EnumIDList: IEnumIDList): HRESULT; stdcall;
+    function BindToObject(pidl: PItemIDList; pbcReserved: Pointer; const riid: TIID; out ppvOut): HRESULT; stdcall;
+    function BindToStorage(pidl: PItemIDList; pbcReserved: Pointer; const riid: TIID; out ppvObj): HRESULT; stdcall;
+    function CompareIDs(lParam: LPARAM; pidl1, pidl2: PItemIDList): HRESULT; stdcall;
+    function CreateViewObject(hwndOwner: HWND; const riid: TIID; out ppvOut): HRESULT; stdcall;
+    function GetAttributesOf(cidl: UINT; var apidl: PItemIDList; var rgfInOut: UINT): HRESULT; stdcall;
+    function GetUIObjectOf(hwndOwner: HWND; cidl: UINT; var apidl: PItemIDList; const riid: TIID; prgfInOut: Pointer; out ppvOut): HRESULT; stdcall;
+    function GetDisplayNameOf(pidl: PItemIDList; uFlags: DWORD; var lpName: TStrRet): HRESULT; stdcall;
+    function SetNameOf(hwndOwner: HWND; pidl: PItemIDList; lpszName: POLEStr; uFlags: DWORD; var ppidlOut: PItemIDList): HRESULT; stdcall;
+  end;
+
 function GetKnownFolderPath(const rfid: TGUID; out APath: String): Boolean;
+
+function MultiFileProperties(pdtobj: IDataObject; dwFlags: DWORD): HRESULT;
 
 function GetDisplayName(AFolder: IShellFolder; PIDL: PItemIDList; Flags: DWORD): String;
 function GetDetails(AFolder: IShellFolder2; PIDL: PItemIDList; const pscid: SHCOLUMNID): OleVariant;
+
+function CreateDefaultContextMenu(constref pdcm: TDefContextMenu; const riid: REFIID; out ppv): HRESULT;
 
 implementation
 
 uses
   ShellApi, LazUTF8, DCConvertEncoding;
+
+const
+  KF_FLAG_DEFAULT = $00000000;
+
+var
+  SHMultiFileProperties: function(pdtobj: IDataObject; dwFlags: DWORD): HRESULT; stdcall;
+  SHCreateDefaultContextMenu: function(constref pdcm: TDefContextMenu; const riid: REFIID; out ppv): HRESULT; stdcall;
+  SHGetKnownFolderPath: function(const rfid: TGUID; dwFlags: DWORD; hToken: HANDLE; out ppszPath: LPCWSTR): HRESULT; stdcall;
 
 function StrRetToString(PIDL: PItemIDList; StrRet: TStrRet): String;
 var
@@ -73,6 +124,11 @@ begin
     Result:= EmptyStr
   else
     Result:= CeUtf16ToUtf8(UnicodeString(S));
+end;
+
+function MultiFileProperties(pdtobj: IDataObject; dwFlags: DWORD): HRESULT;
+begin
+  Result:= SHMultiFileProperties(pdtobj, dwFlags);
 end;
 
 function GetDisplayName(AFolder: IShellFolder; PIDL: PItemIDList;
@@ -98,11 +154,11 @@ begin
    Result:= Unassigned;
 end;
 
-const
-  KF_FLAG_DEFAULT = $00000000;
-
-var
-  SHGetKnownFolderPath: function(const rfid: TGUID; dwFlags: DWORD; hToken: HANDLE; out ppszPath: LPCWSTR): HRESULT; stdcall;
+function CreateDefaultContextMenu(constref pdcm: TDefContextMenu;
+  const riid: REFIID; out ppv): HRESULT;
+begin
+  Result:= SHCreateDefaultContextMenu(pdcm, riid, ppv);
+end;
 
 function GetKnownFolderPath(const rfid: TGUID; out APath: String): Boolean;
 var
@@ -113,7 +169,100 @@ begin
   CoTaskMemFree(ppszPath);
 end;
 
+{ TShellFolder }
+
+function TShellFolder.QueryInterface(constref iid: tguid; out obj): longint;
+  stdcall;
+begin
+  Result:= FFolder.QueryInterface(iid, obj);
+end;
+
+constructor TShellFolder.Create(AFolder: IShellFolder; DataObject: IDataObject);
+begin
+  FFolder:= AFolder;
+  FDataObject:= DataObject;
+end;
+
+function TShellFolder.ParseDisplayName(hwndOwner: HWND; pbcReserved: Pointer;
+  lpszDisplayName: POLESTR; out pchEaten: ULONG; out ppidl: PItemIDList;
+  var dwAttributes: ULONG): HRESULT; stdcall;
+begin
+  Result:= FFolder.ParseDisplayName(hwndOwner, pbcReserved, lpszDisplayName, pchEaten, ppidl, dwAttributes);
+end;
+
+function TShellFolder.EnumObjects(hwndOwner: HWND; grfFlags: DWORD; out
+  EnumIDList: IEnumIDList): HRESULT; stdcall;
+begin
+  Result:= FFolder.EnumObjects(hwndOwner, grfFlags, EnumIDList);
+end;
+
+function TShellFolder.BindToObject(pidl: PItemIDList; pbcReserved: Pointer;
+  const riid: TIID; out ppvOut): HRESULT; stdcall;
+begin
+  Result:= FFolder.BindToObject(pidl, pbcReserved, riid, ppvOut);
+end;
+
+function TShellFolder.BindToStorage(pidl: PItemIDList; pbcReserved: Pointer;
+  const riid: TIID; out ppvObj): HRESULT; stdcall;
+begin
+  Result:= FFolder.BindToStorage(pidl, pbcReserved, riid, ppvObj);
+end;
+
+function TShellFolder.CompareIDs(lParam: LPARAM; pidl1, pidl2: PItemIDList): HRESULT; stdcall;
+begin
+  Result:= FFolder.CompareIDs(lParam, pidl1, pidl2);
+end;
+
+function TShellFolder.CreateViewObject(hwndOwner: HWND; const riid: TIID; out
+  ppvOut): HRESULT; stdcall;
+begin
+  Result:= FFolder.CreateViewObject(hwndOwner, riid, ppvOut);
+end;
+
+function TShellFolder.GetAttributesOf(cidl: UINT; var apidl: PItemIDList;
+  var rgfInOut: UINT): HRESULT; stdcall;
+begin
+  Result:= FFolder.GetAttributesOf(cidl, apidl, rgfInOut);
+end;
+
+function TShellFolder.GetUIObjectOf(hwndOwner: HWND; cidl: UINT;
+  var apidl: PItemIDList; const riid: TIID; prgfInOut: Pointer; out ppvOut
+  ): HRESULT; stdcall;
+begin
+  if (IsEqualGUID(riid, IID_IDataObject)) then
+    Result:= FDataObject.QueryInterface(riid, ppvOut)
+  else begin
+    Result:= FFolder.GetUIObjectOf(hwndOwner, cidl, apidl, riid, prgfInOut, ppvOut);
+  end;
+end;
+
+function TShellFolder.GetDisplayNameOf(pidl: PItemIDList; uFlags: DWORD;
+  var lpName: TStrRet): HRESULT; stdcall;
+begin
+  Result:= FFolder.GetDisplayNameOf(pidl, uFlags, lpName);
+end;
+
+function TShellFolder.SetNameOf(hwndOwner: HWND; pidl: PItemIDList;
+  lpszName: POLEStr; uFlags: DWORD; var ppidlOut: PItemIDList): HRESULT;
+  stdcall;
+begin
+  Result:= FFolder.SetNameOf(hwndOwner, pidl, lpszName, uFlags, ppidlOut);
+end;
+
+var
+  AModule: HMODULE;
+
 initialization
-  if Win32MajorVersion > 5 then @SHGetKnownFolderPath:= GetProcAddress(GetModuleHandleW(shell32), 'SHGetKnownFolderPath');
+  if CheckWin32Version(5, 1) then
+  begin
+    AModule:= GetModuleHandleW(shell32);
+    @SHMultiFileProperties:= GetProcAddress(AModule, 'SHMultiFileProperties');
+
+    if Win32MajorVersion > 5 then
+    begin
+      @SHGetKnownFolderPath:= GetProcAddress(AModule, 'SHGetKnownFolderPath');
+      @SHCreateDefaultContextMenu:= GetProcAddress(AModule, 'SHCreateDefaultContextMenu');
+    end;
+  end;
 end.
 

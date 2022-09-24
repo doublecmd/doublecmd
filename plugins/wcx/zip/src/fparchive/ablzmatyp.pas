@@ -331,7 +331,7 @@ begin
     if UpdateArchive then
     begin
       FreeAndNil(FLzmaStream);
-      TempFileName := GetTempName(FArchiveName + ExtensionSeparator);
+      TempFileName := GetTempName(FArchiveName);
       { Create new archive with temporary name }
       FLzmaStream := TFileStreamEx.Create(TempFileName, fmCreate or fmShareDenyWrite);
     end;

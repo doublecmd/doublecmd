@@ -29,7 +29,7 @@ unit uUsersGroups;
 interface
 
 uses
-  Classes, uMyUnix;
+  Classes;
 
 const
   groupInfo = '/etc/group';
@@ -48,7 +48,7 @@ procedure getGroups(List: TStrings);
 implementation
 
 uses
-  SysUtils;
+  SysUtils, DCUnix;
   
 function uidToStr(uid: Cardinal): String;
 var

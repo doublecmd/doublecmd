@@ -182,6 +182,7 @@ begin
   FExProcess := TExProcess.Create(sCommandLine);
   FExProcess.OnReadLn := @OnReadLn;
   FExProcess.OnProcessExit:= @OnProcessExit;
+  FExProcess.Process.CurrentDirectory:= ExtractFileDir(FArchiveName);
   if Length(FMultiArcItem.FPasswordQuery) <> 0 then
   begin
     FExProcess.QueryString:= UTF8ToConsole(FMultiArcItem.FPasswordQuery);

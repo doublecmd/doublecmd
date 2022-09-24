@@ -139,10 +139,10 @@ function FileIsReadOnly(iAttr: TFileAttrs): Boolean; inline;
           The directories in this path are not created if they don't exist.
           If it is empty then the system temporary directory is used.
           For example:
-            If PathPrefix is '/tmp/myfile' then files '/tmp/myfileXXXXXX' are tried.
+            If PathPrefix is '/tmp/myfile' then files '/tmp/myfile~XXXXXX.tmp' are tried.
             The path '/tmp' must already exist.)
 }
-function GetTempName(PathPrefix: String): String;
+function GetTempName(PathPrefix: String; Extension: String = 'tmp'): String;
 
 (* File mapping/unmapping routines *)
 {en
@@ -237,6 +237,7 @@ function mbGetEnvironmentString(Index : Integer) : String;
 function mbExpandEnvironmentStrings(const FileName: String): String;
 function mbGetEnvironmentVariable(const sName: String): String;
 function mbSetEnvironmentVariable(const sName, sValue: String): Boolean;
+function mbUnsetEnvironmentVariable(const sName: String): Boolean;
 function mbSysErrorMessage: String; overload; inline;
 function mbSysErrorMessage(ErrorCode: Integer): String; overload;
 {en
@@ -613,7 +614,7 @@ begin
 end;
 {$ENDIF}
 
-function GetTempName(PathPrefix: String): String;
+function GetTempName(PathPrefix: String; Extension: String): String;
 const
   MaxTries = 100;
 var
@@ -623,12 +624,18 @@ begin
   if PathPrefix = '' then
     PathPrefix := GetTempDir
   else begin
-    FileName:= ExtractFileName(PathPrefix);
+    FileName:= ExtractOnlyFileName(PathPrefix);
+    PathPrefix:= ExtractFilePath(PathPrefix);
     // Generated file name should be less the maximum file name length
-    PathPrefix:= ExtractFilePath(PathPrefix) + UTF8Copy(FileName, 1, 48);
+    if (Length(FileName) > 0) then PathPrefix += UTF8Copy(FileName, 1, 48) + '~';
+  end;
+  if (Length(Extension) > 0) then
+  begin
+    if (not StrBegins(Extension, ExtensionSeparator)) then
+      Extension := ExtensionSeparator + Extension;
   end;
   repeat
-    Result := PathPrefix + IntToStr(System.Random(MaxInt)); // or use CreateGUID()
+    Result := PathPrefix + IntToStr(System.Random(MaxInt)) + Extension;
     Inc(TryNumber);
     if TryNumber = MaxTries then
       Exit('');
@@ -1628,6 +1635,20 @@ end;
 {$ELSE}
 begin
   Result:= (setenv(PAnsiChar(CeUtf8ToSys(sName)), PAnsiChar(CeUtf8ToSys(sValue)), 1) = 0);
+end;
+{$ENDIF}
+
+function mbUnsetEnvironmentVariable(const sName: String): Boolean;
+{$IFDEF MSWINDOWS}
+var
+  wsName: UnicodeString;
+begin
+  wsName:= CeUtf8ToUtf16(sName);
+  Result:= SetEnvironmentVariableW(PWideChar(wsName), NIL);
+end;
+{$ELSE}
+begin
+  Result:= (unsetenv(PAnsiChar(CeUtf8ToSys(sName))) = 0);
 end;
 {$ENDIF}
 

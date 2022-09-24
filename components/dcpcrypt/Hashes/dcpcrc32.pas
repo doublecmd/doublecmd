@@ -99,7 +99,6 @@ end;
 procedure TDCP_crc32.Init;
 begin
   Burn;
-  crc32_init;
   CurrentHash:= 0;
   fInitialized:= true;
 end;

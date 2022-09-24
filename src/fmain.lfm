@@ -21,7 +21,6 @@ object frmMain: TfrmMain
   ShowHint = True
   ShowInTaskBar = stAlways
   LCLVersion = '1.8.4.0'
-  Visible = True
   object MainToolbar: TKASToolBar
     AnchorSideTop.Control = Owner
     Left = 0

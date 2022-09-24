@@ -74,6 +74,23 @@ const
   Ab_XceedUnicodePathSignature              : LongWord= $5843554E;
 
 type
+  TNtfsTimeField = packed record
+    Reserved : UInt32;
+    Tag      : UInt16;
+    Size     : UInt16;
+    Mtime    : UInt64;
+    Atime    : UInt64;
+    Ctime    : UInt64;
+  end;
+  PNtfsTimeField = ^TNtfsTimeField;
+
+  TInfoZipTimeField = packed record
+    Tag   : Byte;
+    Mtime : UInt32;
+  end;
+  PInfoZipTimeField = ^TInfoZipTimeField;
+
+type
   PAbByteArray4K = ^TAbByteArray4K;
   TAbByteArray4K = array[1..4096] of Byte;
   PAbByteArray8K = ^TAbByteArray8K;
@@ -421,6 +438,7 @@ type
     procedure SetLastModFileDate(const Value : Word ); override;
     procedure SetLastModFileTime(const Value : Word ); override;
     procedure SetUncompressedSize( const Value : Int64 ); override;
+    procedure SetLastModTimeAsDateTime(const Value: TDateTime); override;
 
   public {methods}
     constructor Create;
@@ -1603,11 +1621,20 @@ begin
     LFH.ExtraField.Assign(LFHExtraField);
     LFH.ExtraField.CloneFrom(ExtraField, Ab_InfoZipUnicodePathSubfieldID);
     LFH.ExtraField.CloneFrom(ExtraField, Ab_XceedUnicodePathSubfieldID);
-    { setup sizes;  unlike the central directory header, the ZIP64 local header
-      needs to store both compressed and uncompressed sizes if either needs it }
-    if (CompressedSize >= $FFFFFFFF) or (UncompressedSize >= $FFFFFFFF) then begin
-      LFH.UncompressedSize := $FFFFFFFF;
-      LFH.CompressedSize := $FFFFFFFF;
+    { Write ZIP64 local header when file size > 3 GB to speed up archive creation }
+    if (UncompressedSize > $C0000000) then
+    begin
+      { setup sizes;  unlike the central directory header, the ZIP64 local header
+        needs to store both compressed and uncompressed sizes if either needs it }
+      if (CompressedSize >= $FFFFFFFF) or (UncompressedSize >= $FFFFFFFF) then
+      begin
+        LFH.UncompressedSize := $FFFFFFFF;
+        LFH.CompressedSize := $FFFFFFFF;
+      end
+      else begin
+        LFH.UncompressedSize := UncompressedSize;
+        LFH.CompressedSize := CompressedSize;
+      end;
       Zip64Field.UncompressedSize := UncompressedSize;
       Zip64Field.CompressedSize := CompressedSize;
       LFH.ExtraField.Put(Ab_Zip64SubfieldID, Zip64Field, SizeOf(Zip64Field));
@@ -1709,6 +1736,7 @@ begin
     FItemInfo.FileName := AnsiName;
   {$ENDIF}
   {$IFDEF UNIX}
+  HostOS := hosUnix;
   FItemInfo.FileName := Value;
   FItemInfo.IsUTF8 := SystemEncodingUtf8;
   {$ENDIF}
@@ -1781,6 +1809,38 @@ begin
   FItemInfo.UncompressedSize:= Min(Value, $FFFFFFFF);
   UpdateZip64ExtraHeader;
 end;
+
+procedure TAbZipItem.SetLastModTimeAsDateTime(const Value: TDateTime);
+var
+  DataSize: Word;
+  ANtfsTime: PNtfsTimeField;
+  AInfoZipTime: PInfoZipTimeField;
+begin
+  inherited SetLastModTimeAsDateTime(Value);
+
+  // Update time extra fields
+  if FItemInfo.ExtraField.Get(Ab_NTFSSubfieldID, ANtfsTime, DataSize) then
+  begin
+    if (DataSize = SizeOf(TNtfsTimeField)) then
+    begin
+      if ANtfsTime^.Tag = $0001 then
+      begin
+        ANtfsTime^.Mtime := DateTimeToWinFileTime(Value);
+      end;
+    end;
+  end
+  else if FItemInfo.ExtraField.Get(Ab_InfoZipTimestampSubfieldID, AInfoZipTime, DataSize) then
+  begin
+    if (DataSize = SizeOf(TInfoZipTimeField)) then
+    begin
+      if (AInfoZipTime^.Tag and $01 <> 0) then
+      begin
+        AInfoZipTime^.Mtime := UInt32(DateTimeToUnixFileTime(Value));
+      end;
+    end;
+  end;
+end;
+
 { -------------------------------------------------------------------------- }
 procedure TAbZipItem.SetVersionMadeBy( Value : Word );
 begin
@@ -2182,6 +2242,7 @@ end;
 procedure TAbZipArchive.SaveArchive;
   {builds a new archive and copies it to FStream}
 var
+  APos               : Int64;
   Abort              : Boolean;
   MemStream          : TMemoryStream;
   HasDataDescriptor  : Boolean;
@@ -2221,8 +2282,7 @@ begin
     if CreateArchive then
       NewStream := FStream
     else begin
-      ATempName := Copy(ExtractOnlyFileName(FArchiveName), 1, MAX_PATH div 2) + '~';
-      ATempName := GetTempName(ExtractFilePath(FArchiveName) + ATempName) + '.tmp';
+      ATempName := GetTempName(FArchiveName);
       NewStream := TFileStreamEx.Create(ATempName, fmCreate or fmShareDenyWrite);
     end;
   end;
@@ -2271,16 +2331,18 @@ begin
         aaAdd, aaFreshen, aaReplace, aaStreamAdd: begin
           {compress the file and add it to new stream}
           try
-            WorkingStream := TAbVirtualMemoryStream.Create;
-            try {WorkingStream}
-              WorkingStream.SwapFileDirectory := FTempDir;
-              {compress the file}
-              if (CurrItem.Action = aaStreamAdd) then
-                DoInsertFromStreamHelper(i, WorkingStream)
-              else
-                DoInsertHelper(i, WorkingStream);
-              {write local header}
-              if NewStream is TAbSpanWriteStream then begin
+            if NewStream is TAbSpanWriteStream then
+            begin
+              WorkingStream := TAbVirtualMemoryStream.Create;
+              try {WorkingStream}
+                WorkingStream.SwapFileDirectory := FTempDir;
+                {compress the file}
+                if (CurrItem.Action = aaStreamAdd) then
+                  DoInsertFromStreamHelper(i, WorkingStream)
+                else begin
+                  DoInsertHelper(i, WorkingStream);
+                end;
+                {write local header}
                 MemStream := TMemoryStream.Create;
                 try
                   CurrItem.SaveLFHToStream(MemStream);
@@ -2292,19 +2354,32 @@ begin
                 finally
                   MemStream.Free;
                 end;
-              end
-              else begin
-                CurrItem.DiskNumberStart := 0;
-                CurrItem.RelativeOffset := NewStream.Position;
-                CurrItem.SaveLFHToStream(NewStream);
+                {copy compressed data}
+                NewStream.CopyFrom(WorkingStream, 0);
+              finally
+                WorkingStream.Free;
               end;
-              {copy compressed data}
-              NewStream.CopyFrom(WorkingStream, 0);
-              if CurrItem.IsEncrypted then
-                CurrItem.SaveDDToStream(NewStream);
-            finally
-              WorkingStream.Free;
+            end
+            else begin
+              {write local header}
+              CurrItem.DiskNumberStart := 0;
+              CurrItem.RelativeOffset := NewStream.Position;
+              CurrItem.UncompressedSize := mbFileSize(CurrItem.DiskFileName);
+              CurrItem.SaveLFHToStream(NewStream);
+              {compress the file}
+              if (CurrItem.Action = aaStreamAdd) then
+                DoInsertFromStreamHelper(i, NewStream)
+              else begin
+                DoInsertHelper(i, NewStream);
+              end;
+              {update local header}
+              APos:= NewStream.Position;
+              NewStream.Seek(CurrItem.RelativeOffset, soBeginning);
+              CurrItem.SaveLFHToStream(NewStream);
+              NewStream.Seek(APos, soBeginning);
             end;
+            if CurrItem.IsEncrypted then
+              CurrItem.SaveDDToStream(NewStream);
           except
             on E : Exception do
             begin
@@ -2462,7 +2537,3 @@ begin
 end;
 
 end.
-
-
-
-

@@ -293,7 +293,7 @@ uses
   Windows,
   {$ENDIF}
   SysUtils,
-  AbBitBkt, AbDfBase, AbDfDec, AbZlibPrc, AbExcept, AbResString,
+  AbBitBkt, AbDfBase, AbDfDec, AbZlibPrc, AbExcept, AbResString, AbProgress,
   AbVMStrm, DCOSUtils, DCClassesUtf8, DCConvertEncoding;
 
 const
@@ -985,6 +985,7 @@ procedure TAbGzipArchive.ExtractItemToStreamAt(Index: Integer;
   aStream: TStream);
 var
   GzHelp  : TAbGzipStreamHelper;
+  ProxyStream : TAbProgressStream;
 begin
   if IsGzippedTar and TarAutoHandle then begin
     SwapToTar;
@@ -994,43 +995,48 @@ begin
     SwapToGzip;
     { note Index ignored as there's only one item in a GZip }
 
-    GZHelp := TAbGzipStreamHelper.Create(FGzStream);
+    ProxyStream := TAbProgressStream.Create(FGzStream, FOnProgress);
     try
-      FGzStream.Seek(0, soBeginning);
+      GZHelp := TAbGzipStreamHelper.Create(ProxyStream);
+      try
+        FGzStream.Seek(0, soBeginning);
 
-      { read GZip Header }
-      GzHelp.ReadHeader;
-
-      repeat
-        { extract copy data from GZip}
-        GzHelp.ExtractItemData(aStream);
-
-        { Get validation data }
-        GzHelp.ReadTail;
-
-        {$IFDEF STRICTGZIP}
-        { According to
-            http://www.gzip.org/zlib/rfc1952.txt
-
-         A compliant gzip compressor should calculate and set the CRC32 and ISIZE.
-         However, a compliant decompressor should not check these values.
-
-         If you want to check the the values of the CRC32 and ISIZE in a GZIP file
-         when decompressing enable the STRICTGZIP define contained in AbDefine.inc }
-
-        { validate against CRC }
-        if GzHelp.FItem.Crc32 <> GzHelp.TailCRC then
-          raise EAbGzipBadCRC.Create;
-
-        { validate against file size }
-        if GzHelp.FItem.UncompressedSize <> GZHelp.TailSize then
-          raise EAbGzipBadFileSize.Create;
-        {$ENDIF}
-        { try concatenated streams }
+        { read GZip Header }
         GzHelp.ReadHeader;
-      until not VerifyHeader(GZHelp.FItem.FGzHeader);
+
+        repeat
+          { extract copy data from GZip}
+          GzHelp.ExtractItemData(aStream);
+
+          { Get validation data }
+          GzHelp.ReadTail;
+
+          {$IFDEF STRICTGZIP}
+          { According to
+              http://www.gzip.org/zlib/rfc1952.txt
+
+           A compliant gzip compressor should calculate and set the CRC32 and ISIZE.
+           However, a compliant decompressor should not check these values.
+
+           If you want to check the the values of the CRC32 and ISIZE in a GZIP file
+           when decompressing enable the STRICTGZIP define contained in AbDefine.inc }
+
+          { validate against CRC }
+          if GzHelp.FItem.Crc32 <> GzHelp.TailCRC then
+            raise EAbGzipBadCRC.Create;
+
+          { validate against file size }
+          if GzHelp.FItem.UncompressedSize <> GZHelp.TailSize then
+            raise EAbGzipBadFileSize.Create;
+          {$ENDIF}
+          { try concatenated streams }
+          GzHelp.ReadHeader;
+        until not VerifyHeader(GZHelp.FItem.FGzHeader);
+      finally
+        GzHelp.Free;
+      end;
     finally
-      GzHelp.Free;
+      ProxyStream.Free;
     end;
   end;
 end;
@@ -1121,9 +1127,11 @@ var
   InGzHelp, OutGzHelp : TAbGzipStreamHelper;
   Abort               : Boolean;
   i                   : Integer;
-  NewStream           : TAbVirtualMemoryStream;
+  NewStream           : TStream;
   UncompressedStream  : TStream;
   CurItem             : TAbGzipItem;
+  CreateArchive       : Boolean;
+  ATempName           : String;
 begin
   {prepare for the try..finally}
   OutGzHelp := nil;
@@ -1134,11 +1142,14 @@ begin
 
     try
       {init new archive stream}
-      NewStream := TAbVirtualMemoryStream.Create;
+      CreateArchive:= FOwnsStream and (FGzStream.Size = 0) and (FGzStream is TFileStreamEx);
+      if CreateArchive then
+        NewStream := FGzStream
+      else begin
+        ATempName := GetTempName(FArchiveName);
+        NewStream := TFileStreamEx.Create(ATempName, fmCreate or fmShareDenyWrite);
+      end;
       OutGzHelp := TAbGzipStreamHelper.Create(NewStream);
-
-      { create helper }
-      NewStream.SwapFileDirectory := ExtractFilePath(AbGetTempFile(FTempDir, False));
 
       { save the Tar data }
       if IsGzippedTar and TarAutoHandle then begin
@@ -1191,8 +1202,8 @@ begin
                 end
                 else begin
                   CurItem.LastModTimeAsDateTime := AbGetFileTime(CurItem.DiskFileName);
-                  UncompressedStream := TFileStreamEx.Create(CurItem.DiskFileName,
-                      fmOpenRead or fmShareDenyWrite );
+                  UncompressedStream := TAbProgressFileStream.Create(CurItem.DiskFileName,
+                      fmOpenRead or fmShareDenyWrite, OnProgress);
 
                   try
                     CurItem.UncompressedSize := UncompressedStream.Size;
@@ -1223,11 +1234,32 @@ begin
       TMemoryStream(FStream).LoadFromStream(NewStream)
     else begin
       { need new stream to write }
-      FreeAndNil(FStream);
-      FGZStream := nil;
-      FStream := TFileStreamEx.Create(FArchiveName, fmCreate or fmShareDenyWrite);
-      FGZStream := FStream;
-      FStream.CopyFrom(NewStream, NewStream.Size);
+      if CreateArchive then
+        NewStream := nil
+      else begin
+        if FOwnsStream then
+        begin
+          {need new stream to write}
+          if CreateArchive then
+            NewStream := nil
+          else begin
+            FGZStream := nil;
+            FreeAndNil(FStream);
+            FreeAndNil(NewStream);
+            if (mbDeleteFile(FArchiveName) and mbRenameFile(ATempName, FArchiveName)) then
+              FStream := TFileStreamEx.Create(FArchiveName, fmOpenReadWrite or fmShareDenyWrite)
+            else begin
+              RaiseLastOSError;
+            end;
+            FGZStream := FStream;
+          end;
+        end
+        else begin
+          FStream.Size := 0;
+          FStream.Position := 0;
+          FStream.CopyFrom(NewStream, 0)
+        end;
+      end;
     end;
 
     {update Items list}
@@ -1245,7 +1277,8 @@ begin
     DoArchiveProgress( 100, Abort );
   finally {NewStream}
     OutGzHelp.Free;
-    NewStream.Free;
+    if (FStream <> NewStream) then
+      NewStream.Free;
   end;
 end;
 

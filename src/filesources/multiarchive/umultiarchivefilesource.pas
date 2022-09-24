@@ -59,7 +59,7 @@ type
     function GetArcFileList: TThreadObjectList;
 
   protected
-
+    function GetPacker: String; override;
     function GetSupportedFileProperties: TFilePropertiesTypes; override;
     function SetCurrentWorkingDirectory(NewDir: String): Boolean; override;
 
@@ -504,6 +504,11 @@ begin
   //****************************************************************************
 
   FArcFileList.Add(ArchiveItem);
+end;
+
+function TMultiArchiveFileSource.GetPacker: String;
+begin
+  Result:= FMultiArcItem.FPacker;
 end;
 
 function TMultiArchiveFileSource.GetPassword: String;

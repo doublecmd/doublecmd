@@ -31,7 +31,7 @@ uses
   {$IF DEFINED(MSWINDOWS)}
   , Windows
   {$ELSEIF DEFINED(UNIX)}
-  , UnixUtil, DCUnix
+  , Unix, UnixUtil, DCUnix
   {$ENDIF}
   ;
 

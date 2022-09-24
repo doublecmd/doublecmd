@@ -365,8 +365,16 @@ begin
         AddWideStringProperty('0', GetCodecName(PluginConfig[AFormat].Method));
       end;
     end;
-    if MethodStandard and (Method <> cmCopy) and (Pos('D=', Parameters) = 0) then begin
-      AddWideStringProperty('D', WideString(IntToStr(PluginConfig[AFormat].Dictionary) + 'B'));
+    if MethodStandard then
+    begin
+      if (Method > cmCopy) and (Method < cmPPMd) and (Pos('D=', Parameters) = 0) then
+      begin
+        AddWideStringProperty('D', WideString(IntToStr(PluginConfig[AFormat].Dictionary) + 'B'));
+      end
+      else if (Method = cmPPMd) and (Pos('MEM=', Parameters) = 0) then
+      begin
+        AddWideStringProperty('MEM', WideString(IntToStr(PluginConfig[AFormat].Dictionary) + 'B'));
+      end;
     end;
   end;
 end;
@@ -432,7 +440,7 @@ begin
         SetArchiveCustom(AJclArchive, Index);
       except
         on E: Exception do
-          Messagebox(0, PAnsiChar(E.Message), nil, MB_OK or MB_ICONERROR);
+          MessageBoxW(0, PWideChar(UTF8ToUTF16(E.Message)), nil, MB_OK or MB_ICONERROR);
       end;
 
       Exit;
@@ -467,7 +475,7 @@ begin
     end;
   except
     on E: Exception do
-      MessageBox(0, PAnsiChar(E.Message), nil, MB_OK or MB_ICONERROR);
+      MessageBoxW(0, PWideChar(UTF8ToUTF16(E.Message)), nil, MB_OK or MB_ICONERROR);
   end;
 end;
 
@@ -497,7 +505,7 @@ begin
     end;
   except
     on E: Exception do
-      MessageBox(0, PAnsiChar(E.Message), nil, MB_OK or MB_ICONERROR);
+      MessageBoxW(0, PWideChar(UTF8ToUTF16(E.Message)), nil, MB_OK or MB_ICONERROR);
   end;
 end;
 
