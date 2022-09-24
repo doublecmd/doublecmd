@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: b5aaebc75354984d7cee90405a1f6642\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-01-17 23:08+0300\n"
-"PO-Revision-Date: 2022-02-25 05:24\n"
+"PO-Revision-Date: 2022-09-24 05:44\n"
 "Last-Translator: Full Name <email@address>\n"
 "Language-Team: Belarusian\n"
 "MIME-Version: 1.0\n"
@@ -533,10 +533,9 @@ msgid "Redo"
 msgstr "Паўтарыць"
 
 #: tfrmdiffer.acteditredo.hint
-#, fuzzy
 msgctxt "tfrmdiffer.acteditredo.hint"
 msgid "Redo"
-msgstr "Паўтарыць"
+msgstr "Вярнуць"
 
 #: tfrmdiffer.acteditselectall.caption
 msgid "Select &All"
@@ -548,10 +547,9 @@ msgid "Undo"
 msgstr "Адрабіць"
 
 #: tfrmdiffer.acteditundo.hint
-#, fuzzy
 msgctxt "tfrmdiffer.acteditundo.hint"
 msgid "Undo"
-msgstr "Адрабіць"
+msgstr "Вярнуць"
 
 #: tfrmdiffer.actexit.caption
 msgctxt "tfrmdiffer.actexit.caption"
@@ -559,49 +557,41 @@ msgid "E&xit"
 msgstr "&Выйсці"
 
 #: tfrmdiffer.actfind.caption
-#, fuzzy
 msgctxt "tfrmdiffer.actfind.caption"
 msgid "&Find"
-msgstr "&Шукаць"
+msgstr "З&найсці"
 
 #: tfrmdiffer.actfind.hint
-#, fuzzy
 msgctxt "tfrmdiffer.actfind.hint"
 msgid "Find"
-msgstr "Шукаць"
+msgstr "Пошук"
 
 #: tfrmdiffer.actfindnext.caption
-#, fuzzy
 msgctxt "tfrmdiffer.actfindnext.caption"
 msgid "Find next"
 msgstr "Шукаць наступнае"
 
 #: tfrmdiffer.actfindnext.hint
-#, fuzzy
 msgctxt "tfrmdiffer.actfindnext.hint"
 msgid "Find next"
 msgstr "Шукаць наступнае"
 
 #: tfrmdiffer.actfindprev.caption
-#, fuzzy
 msgctxt "tfrmdiffer.actfindprev.caption"
 msgid "Find previous"
 msgstr "Шукаць папярэдняе"
 
 #: tfrmdiffer.actfindprev.hint
-#, fuzzy
 msgctxt "tfrmdiffer.actfindprev.hint"
 msgid "Find previous"
 msgstr "Шукаць папярэдняе"
 
 #: tfrmdiffer.actfindreplace.caption
-#, fuzzy
 msgctxt "tfrmdiffer.actfindreplace.caption"
 msgid "&Replace"
 msgstr "&Замяніць"
 
 #: tfrmdiffer.actfindreplace.hint
-#, fuzzy
 msgctxt "tfrmdiffer.actfindreplace.hint"
 msgid "Replace"
 msgstr "Замяніць"
@@ -617,13 +607,11 @@ msgid "First Difference"
 msgstr "Першае адрозненне"
 
 #: tfrmdiffer.actgotoline.caption
-#, fuzzy
 msgctxt "tfrmdiffer.actgotoline.caption"
 msgid "Goto Line..."
 msgstr "Перайсці да радка..."
 
 #: tfrmdiffer.actgotoline.hint
-#, fuzzy
 msgctxt "tfrmdiffer.actgotoline.hint"
 msgid "Goto Line"
 msgstr "Перайсці ў радок"
@@ -3292,7 +3280,7 @@ msgstr "&Добра"
 #: tfrmmaskinputdlg.chkcasesensitive.caption
 msgctxt "tfrmmaskinputdlg.chkcasesensitive.caption"
 msgid "Case sensitive"
-msgstr "Зважаць на рэгістр"
+msgstr "Улічваць рэгістр"
 
 #: tfrmmaskinputdlg.chkignoreaccentsandligatures.caption
 msgid "Ignore accents and ligatures"
@@ -3633,10 +3621,9 @@ msgid "A≠a"
 msgstr ""
 
 #: tfrmmultirename.cbcasesens.hint
-#, fuzzy
 msgctxt "tfrmmultirename.cbcasesens.hint"
 msgid "Case sensitive"
-msgstr "Зважаць на рэгістр"
+msgstr "Улічваць рэгістр"
 
 #: tfrmmultirename.cblog.caption
 msgid "&Log result"
@@ -4146,7 +4133,7 @@ msgstr "Фіксаваная шырыня слупкоў"
 
 #: tfrmoptionscolors.rgdarkmode.caption
 msgid "Dark mode"
-msgstr ""
+msgstr "Цёмны рэжым"
 
 #: tfrmoptionscolumnsview.cbcuttexttocolwidth.caption
 msgid "Cut &text to column width"
@@ -9741,13 +9728,11 @@ msgid "Start path:"
 msgstr "Шлях запуску:"
 
 #: twcxarchivecopyoperationoptionsui.btnconfig.caption
-#, fuzzy
 msgctxt "twcxarchivecopyoperationoptionsui.btnconfig.caption"
 msgid "Con&figure"
 msgstr "Нал&адзіць"
 
 #: twcxarchivecopyoperationoptionsui.cbencrypt.caption
-#, fuzzy
 msgctxt "twcxarchivecopyoperationoptionsui.cbencrypt.caption"
 msgid "Encr&ypt"
 msgstr "Шыф&раванне"
@@ -10752,7 +10737,7 @@ msgstr "Увесці назву новых адвольных слупкоў"
 
 #: ulng.rsmenumacosservices
 msgid "Services"
-msgstr ""
+msgstr "Сервісы"
 
 #: ulng.rsmnuactions
 msgctxt "ulng.rsmnuactions"
@@ -10825,7 +10810,6 @@ msgid "Pack here..."
 msgstr "Запакаваць сюды..."
 
 #: ulng.rsmnurestore
-#, fuzzy
 msgctxt "ulng.rsmnurestore"
 msgid "Restore"
 msgstr "Аднавіць"
