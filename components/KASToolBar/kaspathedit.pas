@@ -30,7 +30,7 @@ interface
 
 uses
   Classes, SysUtils, LResources, Forms, Controls, Graphics, Dialogs, StdCtrls,
-  ShellCtrls, LCLType, LCLVersion, Strings
+  ShellCtrls, LCLType, LCLVersion
 {$IF DEFINED(LCLCOCOA)}
   , CocoaAll, CocoaWindows
 {$ENDIF}
@@ -368,18 +368,13 @@ begin
   FAutoComplete:= not SHAutoCompleteX(Handle, FObjectTypes);
 end;
 
-procedure TKASPathEdit.setTextAndSelect( newText:String );
-begin
-  Text:= newText;
-end;
-
-{$ELSE}
+{$ENDIF}
 
 procedure TKASPathEdit.setTextAndSelect( newText:String );
 var
   start: Integer;
 begin
-  if Strings.strpos(pchar(newText),pchar(Text))<>nil then
+  if Pos(Text,newText) > 0 then
     start:= UTF8Length(Text)
   else
     start:= UTF8Length(ExtractFilePath(Text));
@@ -387,8 +382,6 @@ begin
   SelStart:= start;
   SelLength:= UTF8Length(Text)-SelStart;
 end;
-
-{$ENDIF}
 
 procedure TKASPathEdit.DoExit;
 begin
