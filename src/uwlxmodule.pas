@@ -23,6 +23,9 @@
 unit uWlxModule;
 
 {$mode objfpc}{$H+}
+{$IFDEF DARWIN}
+{$modeswitch objectivec1}
+{$ENDIF}
 
 interface
 
@@ -44,6 +47,9 @@ uses
   {$ENDIF}
   {$IFDEF LCLQT5}
   , qt5, qtwidgets
+  {$ENDIF}
+  {$IFDEF LCLCOCOA}
+  , CocoaAll
   {$ENDIF}
   {$IF DEFINED(MSWINDOWS) and (DEFINED(LCLQT5) or DEFINED(DARKWIN))}
   , uDarkStyle
@@ -497,6 +503,8 @@ begin
     {$ELSEIF DEFINED(LCLGTK2)}
     gtk_widget_set_uposition(PGtkWidget(FPluginWindow), Left, -1);
     gtk_widget_set_usize(PGtkWidget(FPluginWindow), Right - Left, Bottom - Top);
+    {$ELSEIF DEFINED(LCLCOCOA)}
+    NSView(FPluginWindow).setFrame( NSMakeRect(Left,Top,Width,Height) );
     {$ENDIF}
   end;
 end;
