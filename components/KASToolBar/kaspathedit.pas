@@ -297,7 +297,6 @@ begin
   HideListBox;
 end;
 
-
 procedure TKASPathEdit.ListBoxClick(Sender: TObject);
 begin
   if FListBox.ItemIndex >= 0 then
