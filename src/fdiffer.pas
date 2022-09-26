@@ -780,6 +780,7 @@ begin
 
   // Load settings
   actIgnoreCase.Checked := gDifferIgnoreCase;
+  actAutoCompare.Checked := gDifferAutoCompare;
   actKeepScrolling.Checked := gDifferKeepScrolling;
   actLineDifferences.Checked := gDifferLineDifferences;
   actPaintBackground.Checked := gDifferPaintBackground;
@@ -1004,6 +1005,7 @@ begin
   CloseAction:= caFree;
   // Save settings
   gDifferIgnoreCase := actIgnoreCase.Checked;
+  gDifferAutoCompare := actAutoCompare.Checked;
   gDifferKeepScrolling := actKeepScrolling.Checked;
   gDifferLineDifferences := actLineDifferences.Checked;
   gDifferPaintBackground := actPaintBackground.Checked;

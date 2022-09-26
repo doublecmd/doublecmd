@@ -35,6 +35,11 @@ if [ -z $(uname | grep Darwin) ]; then
   # WLX plugins
   $lazbuild wlx/WlxMplayer/src/wlxMplayer.lpi $DC_ARCH
 
+else
+
+  # WLX plugins
+  $lazbuild wlx/MacPreview/src/MacPreview.lpi $DC_ARCH
+
 fi
 
 # DSX plugins
