@@ -322,7 +322,6 @@ begin
   end;
   {$ENDIF}
 
-  {$IF DEFINED(LINUX) or DEFINED(MSWINDOWS)}
   // Wlx plugins
   Folder:= '%commander_path%' + PathDelim + 'plugins' + PathDelim + 'wlx' + PathDelim;
 
@@ -349,6 +348,11 @@ begin
   end;
   {$ENDIF}
 
+  {$IF DEFINED(DARWIN)}
+  if gWlxPlugins.IndexOfName('MacPreview') < 0 then
+  begin
+    gWlxPlugins.Add(Folder + 'MacPreview' + PathDelim + 'MacPreview.wlx');
+  end;
   {$ENDIF}
 end;
 
