@@ -637,6 +637,7 @@ var
 
   { Differ }
   gDifferIgnoreCase,
+  gDifferAutoCompare,
   gDifferKeepScrolling,
   gDifferLineDifferences,
   gDifferPaintBackground,
@@ -2014,6 +2015,7 @@ begin
 
   { Differ }
   gDifferIgnoreCase := False;
+  gDifferAutoCompare := True;
   gDifferKeepScrolling := True;
   gDifferPaintBackground := True;
   gDifferLineDifferences := False;
@@ -3113,6 +3115,7 @@ begin
     if Assigned(Node) then
     begin
       gDifferIgnoreCase := GetValue(Node, 'IgnoreCase', gDifferIgnoreCase);
+      gDifferAutoCompare := GetValue(Node, 'AutoCompare', gDifferAutoCompare);
       gDifferKeepScrolling := GetValue(Node, 'KeepScrolling', gDifferKeepScrolling);
       gDifferPaintBackground := GetValue(Node, 'PaintBackground', gDifferPaintBackground);
       gDifferLineDifferences := GetValue(Node, 'LineDifferences', gDifferLineDifferences);
@@ -3724,6 +3727,7 @@ begin
     { Differ }
     Node := FindNode(Root, 'Differ',True);
     SetValue(Node, 'IgnoreCase', gDifferIgnoreCase);
+    SetValue(Node, 'AutoCompare', gDifferAutoCompare);
     SetValue(Node, 'KeepScrolling', gDifferKeepScrolling);
     SetValue(Node, 'PaintBackground', gDifferPaintBackground);
     SetValue(Node, 'LineDifferences', gDifferLineDifferences);
