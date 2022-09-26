@@ -1,9 +1,10 @@
 {
    Double commander
    -------------------------------------------------------------------------
-   Explorer preview plugin
+   MacOS preview plugin
 
    Copyright (C) 2022 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2022 Rich Chang (rich2014.git@outlook.com)
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Lesser General Public
