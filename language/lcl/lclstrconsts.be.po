@@ -1,0 +1,1463 @@
+msgid ""
+msgstr ""
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || n%10>=5 && n%10<=9 || n%100>=11 && n%100<=14 ? 2 : 3);\n"
+"X-Crowdin-Project: b5aaebc75354984d7cee90405a1f6642\n"
+"X-Crowdin-Project-ID: 7\n"
+"X-Crowdin-Language: be\n"
+"X-Crowdin-File: /l10n_Translation/language/lcl/lclstrconsts.po\n"
+"X-Crowdin-File-ID: 3346\n"
+"Project-Id-Version: b5aaebc75354984d7cee90405a1f6642\n"
+"Language-Team: Belarusian\n"
+"Language: be_BY\n"
+"PO-Revision-Date: 2022-09-27 11:46\n"
+
+#: lclstrconsts.hhshelpbrowsernotexecutable
+#, object-pascal-format
+msgid "Browser \"%s\" not executable."
+msgstr "Браўзер \"%s\" не ёсць выканальным файлам."
+
+#: lclstrconsts.hhshelpbrowsernotfound
+#, object-pascal-format
+msgid "Browser \"%s\" not found."
+msgstr "Браўзер \"%s\" не знойдзены."
+
+#: lclstrconsts.hhshelperrorwhileexecuting
+#, object-pascal-format
+msgid "Error while executing \"%s\":%s%s"
+msgstr "Памылка падчас выканання \"%s\":%s%s"
+
+#: lclstrconsts.hhshelpnohtmlbrowserfound
+msgid "Unable to find a HTML browser."
+msgstr "Не ўдалося знайсці HTML-браўзер."
+
+#: lclstrconsts.hhshelpnohtmlbrowserfoundpleasedefineone
+#, object-pascal-format
+msgid "No HTML Browser found.%sPlease define one in Tools -> Options -> Help -> Help Options"
+msgstr "HTML-браўзер не знойдзены. %sПазначце яго ў Інструменты -> Параметры -> Даведка -> Параметры даведкі"
+
+#: lclstrconsts.hhshelpthehelpdatabasewasunabletofindfile
+#, object-pascal-format
+msgid "The help database \"%s\" was unable to find file \"%s\"."
+msgstr "Базе даных даведкі \"%s\" не ўдалося знайсці файл \"%s\"."
+
+#: lclstrconsts.hhshelpthemacrosinbrowserparamswillbereplacedbytheurl
+#, object-pascal-format
+msgid "The macro %s in BrowserParams will be replaced by the URL."
+msgstr "Макрас %s у BrowserParams заменіцца URL."
+
+#: lclstrconsts.ifsalt
+msgid "Alt"
+msgstr "Alt"
+
+#: lclstrconsts.ifsctrl
+msgid "Ctrl"
+msgstr "Ctrl"
+
+#: lclstrconsts.ifsvk_cmd
+msgid "Cmd"
+msgstr "Cmd"
+
+#: lclstrconsts.ifsvk_help
+msgctxt "lclstrconsts.ifsvk_help"
+msgid "Help"
+msgstr "Даведка"
+
+#: lclstrconsts.ifsvk_meta
+msgid "Meta"
+msgstr "Meta"
+
+#: lclstrconsts.ifsvk_shift
+msgid "Shift"
+msgstr "Shift"
+
+#: lclstrconsts.ifsvk_super
+msgid "Super"
+msgstr "Super"
+
+#: lclstrconsts.ifsvk_unknown
+msgid "Unknown"
+msgstr "Невядома"
+
+#: lclstrconsts.lislclresourcesnotfound
+#, object-pascal-format
+msgctxt "lclstrconsts.lislclresourcesnotfound"
+msgid "Resource %s not found"
+msgstr "Рэсурс %s не знойдзены"
+
+#: lclstrconsts.rs3ddkshadowcolorcaption
+msgid "3D Dark Shadow"
+msgstr "3D-цень"
+
+#: lclstrconsts.rs3dlightcolorcaption
+msgid "3D Light"
+msgstr "3D-святло"
+
+#: lclstrconsts.rsacontrolcannothaveitselfasparent
+msgid "A control can't have itself as a parent"
+msgstr "Элемент кіравання не можа быць бацькоўскім самому сабе"
+
+#: lclstrconsts.rsactivebordercolorcaption
+msgid "Active Border"
+msgstr "Рамка актыўнага акна"
+
+#: lclstrconsts.rsactivecaptioncolorcaption
+msgid "Active Caption"
+msgstr "Загаловак актыўнага акна"
+
+#: lclstrconsts.rsallfiles
+#, object-pascal-format
+msgid "All files (%s)|%s|%s"
+msgstr "Усе файлы (%s)|%s|%s"
+
+#: lclstrconsts.rsappworkspacecolorcaption
+msgid "Application Workspace"
+msgstr "Працоўная прастора праграмы"
+
+#: lclstrconsts.rsaquacolorcaption
+msgid "Aqua"
+msgstr "Аква"
+
+#: lclstrconsts.rsascannothaveasparent
+#, object-pascal-format
+msgid "Class %s cannot have %s as parent."
+msgstr "Клас %s не можа мець %s у якасці бацькоўскага."
+
+#: lclstrconsts.rsbackgroundcolorcaption
+msgid "Desktop"
+msgstr "Працоўны стол"
+
+#: lclstrconsts.rsbackward
+msgid "Backward"
+msgstr "Назад"
+
+#: lclstrconsts.rsbitmaps
+msgid "Bitmaps"
+msgstr "Растравая выява"
+
+#: lclstrconsts.rsblackcolorcaption
+msgid "Black"
+msgstr "Чорны"
+
+#: lclstrconsts.rsblank
+msgid "Blank"
+msgstr "Пуста"
+
+#: lclstrconsts.rsbluecolorcaption
+msgid "Blue"
+msgstr "Сіні"
+
+#: lclstrconsts.rsbtnfacecolorcaption
+msgid "Button Face"
+msgstr "Выгляд кнопкі"
+
+#: lclstrconsts.rsbtnhighlightcolorcaption
+msgid "Button Highlight"
+msgstr "Падсвятленне кнопкі"
+
+#: lclstrconsts.rsbtnshadowcolorcaption
+msgid "Button Shadow"
+msgstr "Цень кнопкі"
+
+#: lclstrconsts.rsbtntextcolorcaption
+msgid "Button Text"
+msgstr "Тэкст кнопкі"
+
+#: lclstrconsts.rscalculator
+msgid "Calculator"
+msgstr "Калькулятар"
+
+#: lclstrconsts.rscancelrecordhint
+msgctxt "lclstrconsts.rscancelrecordhint"
+msgid "Cancel"
+msgstr "Скасаваць"
+
+#: lclstrconsts.rscannotfocus
+msgid "Can not focus"
+msgstr "Не можа быць у фокусе"
+
+#: lclstrconsts.rscanvasdoesnotallowdrawing
+msgid "Canvas does not allow drawing"
+msgstr "На палатне нельга маляваць"
+
+#: lclstrconsts.rscaptiontextcolorcaption
+msgid "Caption Text"
+msgstr "Тэкст загалоўка"
+
+#: lclstrconsts.rscasesensitive
+msgid "Case sensitive"
+msgstr "Зважаць на рэгістр"
+
+#: lclstrconsts.rscontrolclasscantcontainchildclass
+#, object-pascal-format
+msgid "Control of class '%s' can't have control of class '%s' as a child"
+msgstr "Элемент кіравання класам \"%s\" не можа кіраваць класам \"%s\" як даччыным"
+
+#: lclstrconsts.rscontrolhasnoparentformorframe
+#, object-pascal-format
+msgid "Control '%s' has no parent form or frame"
+msgstr "Элемент кіравання \"%s\" не мае бацькоўскай формы або фрэйма"
+
+#: lclstrconsts.rscontrolisnotaparent
+#, object-pascal-format
+msgid "'%s' is not a parent of '%s'"
+msgstr "\"%s\" не бацькоўскі для \"%s\""
+
+#: lclstrconsts.rscreamcolorcaption
+msgid "Cream"
+msgstr "Крэмавы"
+
+#: lclstrconsts.rscursor
+msgid "Cursor"
+msgstr "Курсор"
+
+#: lclstrconsts.rscustomcolorcaption
+msgid "Custom ..."
+msgstr "Адвольны..."
+
+#: lclstrconsts.rsdefaultcolorcaption
+msgid "Default"
+msgstr "Прадвызначана"
+
+#: lclstrconsts.rsdefaultfileinfovalue
+msgid "permissions user group size date time"
+msgstr "правы доступу карыстальнік група памер дата час"
+
+#: lclstrconsts.rsdeleterecord
+msgid "Delete record?"
+msgstr "Выдаліць запіс?"
+
+#: lclstrconsts.rsdeleterecordhint
+msgctxt "lclstrconsts.rsdeleterecordhint"
+msgid "Delete"
+msgstr "Выдаліць"
+
+#: lclstrconsts.rsdirection
+msgid "Direction"
+msgstr "Кірунак"
+
+#: lclstrconsts.rsdirectory
+msgid "&Directory"
+msgstr "&Каталог"
+
+#: lclstrconsts.rsdocopy
+msgid "Copy"
+msgstr "Капіяваць"
+
+#: lclstrconsts.rsdopaste
+msgid "Paste"
+msgstr "Уставіць"
+
+#: lclstrconsts.rsduplicateiconformat
+msgid "Duplicate icon format."
+msgstr "Дубляванне фармату значкоў."
+
+#: lclstrconsts.rseditrecordhint
+msgid "Edit"
+msgstr "Рэдагаваць"
+
+#: lclstrconsts.rsentirescope
+msgid "Search entire file"
+msgstr "Пошук ва ўсім файле"
+
+#: lclstrconsts.rserror
+msgctxt "lclstrconsts.rserror"
+msgid "Error"
+msgstr "Памылка"
+
+#: lclstrconsts.rserrorcreatingdevicecontext
+#, object-pascal-format
+msgid "Error creating device context for %s.%s"
+msgstr "Не ўдалося стварыць кантэкст прылады для %s.%s"
+
+#: lclstrconsts.rserroroccurredinataddressframe
+#, object-pascal-format
+msgid "Error occurred in %s at %sAddress %s%s Frame %s"
+msgstr "Адбылася памылка ў %s па %sадрасе %s%s фрэйм %s"
+
+#: lclstrconsts.rserrorwhilesavingbitmap
+msgid "Error while saving bitmap."
+msgstr "Не ўдалося захаваць растравую выяву."
+
+#: lclstrconsts.rsexception
+msgid "Exception"
+msgstr "Выключэнне"
+
+#: lclstrconsts.rsfddirectorymustexist
+msgid "Directory must exist"
+msgstr "Каталог павінен існаваць"
+
+#: lclstrconsts.rsfddirectorynotexist
+#, object-pascal-format
+msgid "The directory \"%s\" does not exist."
+msgstr "Каталог \"%s\" не існуе."
+
+#: lclstrconsts.rsfdfilealreadyexists
+#, object-pascal-format
+msgid "The file \"%s\" already exists. Overwrite ?"
+msgstr "Файл \"%s\" ужо існуе. Перазапісаць ?"
+
+#: lclstrconsts.rsfdfilemustexist
+msgid "File must exist"
+msgstr "Файл павінен існаваць"
+
+#: lclstrconsts.rsfdfilenotexist
+#, object-pascal-format
+msgid "The file \"%s\" does not exist."
+msgstr "Файл \"%s\" не існуе."
+
+#: lclstrconsts.rsfdfilereadonly
+#, object-pascal-format
+msgid "The file \"%s\" is not writable."
+msgstr "Файл \"%s\" недаступны для запісу."
+
+#: lclstrconsts.rsfdfilereadonlytitle
+msgid "File is not writable"
+msgstr "Файл недаступны для запісу"
+
+#: lclstrconsts.rsfdfilesaveas
+msgid "Save file as"
+msgstr "Захаваць файл як"
+
+#: lclstrconsts.rsfdopenfile
+msgid "Open existing file"
+msgstr "Адкрыць існы файл"
+
+#: lclstrconsts.rsfdoverwritefile
+msgid "Overwrite file ?"
+msgstr "Перазапісаць файл ?"
+
+#: lclstrconsts.rsfdpathmustexist
+msgid "Path must exist"
+msgstr "Шлях павінен існаваць"
+
+#: lclstrconsts.rsfdpathnoexist
+#, object-pascal-format
+msgid "The path \"%s\" does not exist."
+msgstr "Шлях \"%s\" не існуе."
+
+#: lclstrconsts.rsfdselectdirectory
+msgid "Select Directory"
+msgstr "Абраць каталог"
+
+#: lclstrconsts.rsfileinfofilenotfound
+#, object-pascal-format
+msgid "(file not found: \"%s\")"
+msgstr "(файл не знойдзены: \"%s\")"
+
+#: lclstrconsts.rsfileinformation
+msgid "File information"
+msgstr "Звесткі пра файл"
+
+#: lclstrconsts.rsfilter
+msgctxt "lclstrconsts.rsfilter"
+msgid "(filter)"
+msgstr "(фільтр)"
+
+#: lclstrconsts.rsfind
+msgid "Find"
+msgstr "Пошук"
+
+#: lclstrconsts.rsfindmore
+msgid "Find more"
+msgstr "Знайсці яшчэ"
+
+#: lclstrconsts.rsfirstrecordhint
+msgid "First"
+msgstr "Першы"
+
+#: lclstrconsts.rsfixedcolstoobig
+msgid "FixedCols can't be > ColCount"
+msgstr "FixedCols не можа быць > ColCount"
+
+#: lclstrconsts.rsfixedrowstoobig
+msgid "FixedRows can't be > RowCount"
+msgstr "FixedRows не можа быць > RowCount"
+
+#: lclstrconsts.rsformcolorcaption
+msgid "Form"
+msgstr "Форма"
+
+#: lclstrconsts.rsformresourcesnotfoundforresourcelessformscreatenew
+#, object-pascal-format
+msgid "Form resource %s not found. For resourceless forms CreateNew constructor must be used. See the global variable RequireDerivedFormResource."
+msgstr "Рэсурс формы %s не знойдзены. Для формаў без рэсурсаў трэба выкарыстоўваць канструктар CreateNew. Глядзіце глабальную зменную RequireDerivedFormResource."
+
+#: lclstrconsts.rsformstreamingerror
+#, object-pascal-format
+msgid "Form streaming \"%s\" error: %s"
+msgstr "Памылка струменяў \"%s\" формаў: %s"
+
+#: lclstrconsts.rsforward
+msgid "Forward"
+msgstr "Наперад"
+
+#: lclstrconsts.rsfuchsiacolorcaption
+msgid "Fuchsia"
+msgstr "Фуксія"
+
+#: lclstrconsts.rsgdkoptiondebug
+msgid "--gdk-debug flags     Turn on specific GDK trace/debug messages."
+msgstr "--gdk-debug flags     уключыць вызначаныя адладачныя паведамленні GDK."
+
+#: lclstrconsts.rsgdkoptionnodebug
+msgid "--gdk-no-debug flags  Turn off specific GDK trace/debug messages."
+msgstr "--gdk-no-debug flags     адключыць вызначаныя адладачныя паведамленні GDK."
+
+#: lclstrconsts.rsgif
+msgid "Graphics Interchange Format"
+msgstr "Фармат Graphics Interchange"
+
+#: lclstrconsts.rsgoptionfatalwarnings
+msgid "--g-fatal-warnings    Warnings and errors generated by Gtk+/GDK will halt the application."
+msgstr "--g-fatal-warnings    папярэджанні і памылкі Gtk+/GDK спыняць праграму."
+
+#: lclstrconsts.rsgradientactivecaptioncolorcaption
+msgid "Gradient Active Caption"
+msgstr "Градыент актыўнага загалоўка"
+
+#: lclstrconsts.rsgradientinactivecaptioncolorcaption
+msgid "Gradient Inactive Caption"
+msgstr "Градыент неактыўнага загалоўка"
+
+#: lclstrconsts.rsgraphic
+msgid "Graphic"
+msgstr "Графіка"
+
+#: lclstrconsts.rsgraycolorcaption
+msgid "Gray"
+msgstr "Шэры"
+
+#: lclstrconsts.rsgraytextcolorcaption
+msgid "Gray Text"
+msgstr "Шэры тэкст"
+
+#: lclstrconsts.rsgreencolorcaption
+msgid "Green"
+msgstr "Зялёны"
+
+#: lclstrconsts.rsgridfiledoesnotexist
+msgid "Grid file doesn't exist"
+msgstr "Файл сеткі не існуе"
+
+#: lclstrconsts.rsgridhasnocols
+msgid "Cannot insert rows into a grid when it has no columns"
+msgstr "Немагчыма ўставіць радкі, калі няма слупкоў"
+
+#: lclstrconsts.rsgridhasnorows
+msgid "Cannot insert columns into a grid when it has no rows"
+msgstr "Немагчыма ўставіць слупкі, калі няма радкоў"
+
+#: lclstrconsts.rsgridindexoutofrange
+msgid "Grid index out of range."
+msgstr "Індэкс сеткі па-за дыяпазонам значэнняў."
+
+#: lclstrconsts.rsgroupindexcannotbelessthanprevious
+msgid "GroupIndex cannot be less than a previous menu item's GroupIndex"
+msgstr "GroupIndex не можа быць меншы за GroupIndex папярэдняга элемента меню"
+
+#: lclstrconsts.rsgtkfilter
+msgid "Filter:"
+msgstr "Фільтр:"
+
+#: lclstrconsts.rsgtkhistory
+msgid "History:"
+msgstr "Гісторыя:"
+
+#: lclstrconsts.rsgtkoptionclass
+msgid "--class classname     Following Xt conventions, the class of a program is the program name with the initial character capitalized. For example, the classname for gimp is \"Gimp\". If --class is specified, the class of the program will be set to \"classname\"."
+msgstr "--class classname     Згодна з пагадненнямі Xt, клас праграмы - гэта назва праграмы з вялікай літары ў пачатку. Напрыклад, назва класа для gimp - \"Gimp\". Калі пазначана --class, клас праграмы будзе вызначаны ў \"classname\"."
+
+#: lclstrconsts.rsgtkoptiondebug
+msgid "--gtk-debug flags     Turn on specific Gtk+ trace/debug messages."
+msgstr "--gtk-debug flags     уключыць вызначаныя адладачныя паведамленні Gtk+."
+
+#: lclstrconsts.rsgtkoptiondisplay
+msgid "--display h:s:d       Connect to the specified X server, where \"h\" is the hostname, \"s\" is the server number (usually 0), and \"d\" is the display number (typically omitted). If --display is not specified, the DISPLAY environment variable is used."
+msgstr "--display h:s:d       падлучыцца да пазначанага X-сервера, дзе \"h\" - гэта назва хоста, \"s\" - нумар сервера (звычайна 0), а \"d\" - нумар дысплэя (звычайна апускаецца).  Калі --display не пазначана, выкарыстоўваецца зменная асяроддзя DISPLAY."
+
+#: lclstrconsts.rsgtkoptionmodule
+msgid "--gtk-module module   Load the specified module at startup."
+msgstr "--gtk-module module   загрузіць пазначаны модуль падчас запуску."
+
+#: lclstrconsts.rsgtkoptionname
+msgid "--name programe       Set program name to \"progname\". If not specified, program name will be set to ParamStrUTF8(0)."
+msgstr "--name programe       вызначыць назву праграмы ў \"progname\". Калі не вызначана, назва праграмы будзе вызначаная ў ParamStrUTF8(0)."
+
+#: lclstrconsts.rsgtkoptionnodebug
+msgid "--gtk-no-debug flags  Turn off specific Gtk+ trace/debug messages."
+msgstr "--gtk-no-debug flags     адключыць вызначаныя адладачныя паведамленні Gtk+."
+
+#: lclstrconsts.rsgtkoptionnotransient
+msgid "--lcl-no-transient    Do not set transient order for modal forms"
+msgstr "--lcl-no-transient    не вызначаць пераходны парадак для мадальных формаў"
+
+#: lclstrconsts.rsgtkoptionnoxshm
+msgid "--no-xshm             Disable use of the X Shared Memory Extension."
+msgstr "--no-xshm             адключыць выкарыстанне X-пашырэнняў у агульнай памяці."
+
+#: lclstrconsts.rsgtkoptionsync
+msgid "--sync                Call XSynchronize (display, True) after the Xserver connection has been established. This makes debugging X protocol errors easier, because X request buffering will be disabled and X errors will be received immediately after the protocol request that generated the error has been processed by the X server."
+msgstr "--sync                выклікаць XSynchronize (display, True) пасля падлучэння да X-сервера.  Гэта палягчае адладжванне памылак пратакола X, бо буферызацыя запытаў X будзе адключаная, а памылкі X будуць атрымлівацца адразу пасля таго, як запыт пратакола, які згенераваў памылку, будзе апрацаваны X-серверам."
+
+#: lclstrconsts.rshelp
+msgctxt "lclstrconsts.rshelp"
+msgid "Help"
+msgstr "Даведка"
+
+#: lclstrconsts.rshelpalreadyregistered
+#, object-pascal-format
+msgid "%s: Already registered"
+msgstr "%s: ужо зарэгістравана"
+
+#: lclstrconsts.rshelpcontextnotfound
+msgid "A help database was found for this topic, but this topic was not found"
+msgstr "База даных даведкі была знойдзеная для гэтай тэмы, але не змяшчае яе"
+
+#: lclstrconsts.rshelpdatabasenotfound
+msgid "There is no help database installed for this topic"
+msgstr "Для гэтай тэмы не ўсталявана базы даных даведкі"
+
+#: lclstrconsts.rshelperror
+msgid "Help Error"
+msgstr "Памылка даведкі"
+
+#: lclstrconsts.rshelphelpcontextnotfound
+#, object-pascal-format
+msgid "Help context %s not found."
+msgstr "Кантэкст даведкі %s не знойдзены."
+
+#: lclstrconsts.rshelphelpcontextnotfoundindatabase
+#, object-pascal-format
+msgid "Help context %s not found in Database \"%s\"."
+msgstr "Кантэкст даведкі %s не знойдзены ў базе даных \"%s\"."
+
+#: lclstrconsts.rshelphelpdatabasedidnotfoundaviewerforahelppageoftype
+#, object-pascal-format
+msgid "Help Database \"%s\" did not find a viewer for a help page of type %s"
+msgstr "База даных даведкі \"%s\" не знайшла праграму для прагляду старонак тыпу %s"
+
+#: lclstrconsts.rshelphelpdatabasenotfound
+#, object-pascal-format
+msgid "Help Database \"%s\" not found"
+msgstr "База даных даведкі \"%s\" не знойдзеная"
+
+#: lclstrconsts.rshelphelpfordirectivenotfound
+#, object-pascal-format
+msgid "Help for directive \"%s\" not found."
+msgstr "Даведка для дырэктывы \"%s\" не знойдзеная."
+
+#: lclstrconsts.rshelphelpfordirectivenotfoundindatabase
+#, object-pascal-format
+msgid "Help for directive \"%s\" not found in Database \"%s\"."
+msgstr "Даведка для дырэктывы \"%s\" не знойдзеная ў базе даных \"%s\"."
+
+#: lclstrconsts.rshelphelpkeywordnotfound
+#, object-pascal-format
+msgid "Help keyword \"%s\" not found."
+msgstr "Ключавое слова даведкі \"%s\" не знойдзена."
+
+#: lclstrconsts.rshelphelpkeywordnotfoundindatabase
+#, object-pascal-format
+msgid "Help keyword \"%s\" not found in Database \"%s\"."
+msgstr "Ключавое слова даведкі \"%s\" не знойдзена ў базе даных \"%s\"."
+
+#: lclstrconsts.rshelphelpnodehasnohelpdatabase
+#, object-pascal-format
+msgid "Help node \"%s\" has no Help Database"
+msgstr "Элемент даведкі \"%s\" не мае базы даных даведкі"
+
+#: lclstrconsts.rshelpnohelpfoundforsource
+#, object-pascal-format
+msgid "No help found for line %d, column %d of %s."
+msgstr "Не знойдзена даведкі для радка %d, слупка %d з %s."
+
+#: lclstrconsts.rshelpnohelpnodesavailable
+msgid "No help entries available for this topic"
+msgstr "Для гэтай тэмы няма даведачных запісаў"
+
+#: lclstrconsts.rshelpnotfound
+msgid "No help found for this topic"
+msgstr "Для гэтай тэмы не знойдзена даведкі"
+
+#: lclstrconsts.rshelpnotregistered
+#, object-pascal-format
+msgid "%s: Not registered"
+msgstr "%s: не зарэгістравана"
+
+#: lclstrconsts.rshelpselectorerror
+msgid "Help Selector Error"
+msgstr "Памылка сродку выбару даведкі"
+
+#: lclstrconsts.rshelpthereisnoviewerforhelptype
+#, object-pascal-format
+msgid "There is no viewer for help type \"%s\""
+msgstr "Няма праграмы для прагляду даведкі тыпу \"%s\""
+
+#: lclstrconsts.rshelpviewererror
+msgid "Help Viewer Error"
+msgstr "Памылка сродку прагляду даведкі"
+
+#: lclstrconsts.rshelpviewernotfound
+msgid "No viewer was found for this type of help content"
+msgstr "Не знойдзена праграмы для прагляду змесціва даведкі для гэтай тэмы"
+
+#: lclstrconsts.rshighlightcolorcaption
+msgid "Highlight"
+msgstr "Падсвятленне"
+
+#: lclstrconsts.rshighlighttextcolorcaption
+msgid "Highlight Text"
+msgstr "Падсвятленне тэксту"
+
+#: lclstrconsts.rshotlightcolorcaption
+msgid "Hot Light"
+msgstr "Падсвятленне"
+
+#: lclstrconsts.rsicns
+msgid "Mac OS X Icon"
+msgstr "Значок Mac OS X"
+
+#: lclstrconsts.rsicon
+msgid "Icon"
+msgstr "Значок"
+
+#: lclstrconsts.rsiconimageempty
+msgid "Icon image cannot be empty"
+msgstr "Выява значка не можа быць пустой"
+
+#: lclstrconsts.rsiconimageformat
+msgid "Icon image must have the same format"
+msgstr "Выява значка мусіць мець такі самы фармат"
+
+#: lclstrconsts.rsiconimageformatchange
+msgid "Cannot change format of icon image"
+msgstr "Немагчыма змяніць фармат выявы"
+
+#: lclstrconsts.rsiconimagesize
+msgid "Icon image must have the same size"
+msgstr "Выява значка мусіць мець такі самы памер"
+
+#: lclstrconsts.rsiconimagesizechange
+msgid "Cannot change size of icon image"
+msgstr "Немагчыма змяніць памер выявы"
+
+#: lclstrconsts.rsiconnocurrent
+msgid "Icon has no current image"
+msgstr "Значок не мае бягучай выявы"
+
+#: lclstrconsts.rsinactivebordercolorcaption
+msgid "Inactive Border"
+msgstr "Рамка неактыўнага акна"
+
+#: lclstrconsts.rsinactivecaptioncolorcaption
+msgctxt "lclstrconsts.rsinactivecaptioncolorcaption"
+msgid "Inactive Caption"
+msgstr "Загаловак неактыўнага акна"
+
+#: lclstrconsts.rsinactivecaptiontext
+msgctxt "lclstrconsts.rsinactivecaptiontext"
+msgid "Inactive Caption"
+msgstr "Загаловак неактыўнага акна"
+
+#: lclstrconsts.rsindexoutofbounds
+#, object-pascal-format
+msgid "%s Index %d out of bounds 0 .. %d"
+msgstr "%s Індэкс %d па-за дыяпазонам 0 .. %d"
+
+#: lclstrconsts.rsindexoutofrange
+#, object-pascal-format
+msgid "Index Out of range Cell[Col=%d Row=%d]"
+msgstr "Індэкс па-за дыяпазонам Cell[Col=%d Row=%d]"
+
+#: lclstrconsts.rsinfobkcolorcaption
+msgid "Info Background"
+msgstr "Фон звестак"
+
+#: lclstrconsts.rsinfotextcolorcaption
+msgid "Info Text"
+msgstr "Тэкст звестак"
+
+#: lclstrconsts.rsinsertrecordhint
+msgctxt "lclstrconsts.rsinsertrecordhint"
+msgid "Insert"
+msgstr "Insert"
+
+#: lclstrconsts.rsinvaliddate
+#, object-pascal-format
+msgid "Invalid Date : %s"
+msgstr "Хібная дата : %s"
+
+#: lclstrconsts.rsinvaliddaterangehint
+#, object-pascal-format
+msgid "Invalid Date: %s. Must be between %s and %s"
+msgstr "Хібная дата: %s. Мусіць быць паміж %s і %s"
+
+#: lclstrconsts.rsinvalidformobjectstream
+msgid "invalid Form object stream"
+msgstr "хібны струмень аб'екта формы"
+
+#: lclstrconsts.rsinvalidpropertyvalue
+msgid "Invalid property value"
+msgstr "Хібнае значэнне ўласцівасці"
+
+#: lclstrconsts.rsinvalidstreamformat
+msgid "Invalid stream format"
+msgstr "Хібны фармат струменя"
+
+#: lclstrconsts.rsisalreadyassociatedwith
+#, object-pascal-format
+msgid "%s is already associated with %s"
+msgstr "%s ужо асацыюецца з %s"
+
+#: lclstrconsts.rsjpeg
+msgid "Joint Picture Expert Group"
+msgstr "Joint Picture Expert Group"
+
+#: lclstrconsts.rslastrecordhint
+msgid "Last"
+msgstr "Апошняя"
+
+#: lclstrconsts.rslimecolorcaption
+msgid "Lime"
+msgstr "Лаймавы"
+
+#: lclstrconsts.rslistindexexceedsbounds
+#, object-pascal-format
+msgid "List index exceeds bounds (%d)"
+msgstr "Індэкс спіса па-за дыяпазонам (%d)"
+
+#: lclstrconsts.rsmacosfileformat
+msgid "File Format:"
+msgstr "Фармат файла:"
+
+#: lclstrconsts.rsmacosmenuhide
+#, object-pascal-format
+msgid "Hide %s"
+msgstr "Схаваць %s"
+
+#: lclstrconsts.rsmacosmenuhideothers
+msgid "Hide Others"
+msgstr "Схаваць іншыя"
+
+#: lclstrconsts.rsmacosmenuquit
+#, object-pascal-format
+msgid "Quit %s"
+msgstr "Выйсці з %s"
+
+#: lclstrconsts.rsmacosmenuservices
+msgid "Services"
+msgstr "Службы"
+
+#: lclstrconsts.rsmacosmenushowall
+msgid "Show All"
+msgstr "Паказаць усё"
+
+#: lclstrconsts.rsmarooncolorcaption
+msgid "Maroon"
+msgstr "Барвовы"
+
+#: lclstrconsts.rsmbabort
+msgid "Abort"
+msgstr "Скасаванне"
+
+#: lclstrconsts.rsmball
+msgid "&All"
+msgstr "&Усе"
+
+#: lclstrconsts.rsmbcancel
+msgctxt "lclstrconsts.rsmbcancel"
+msgid "Cancel"
+msgstr "Скасаваць"
+
+#: lclstrconsts.rsmbclose
+msgid "&Close"
+msgstr "&Закрыць"
+
+#: lclstrconsts.rsmbhelp
+msgid "&Help"
+msgstr "&Даведка"
+
+#: lclstrconsts.rsmbignore
+msgid "&Ignore"
+msgstr "&Не зважаць"
+
+#: lclstrconsts.rsmbno
+msgid "&No"
+msgstr "&Не"
+
+#: lclstrconsts.rsmbnotoall
+msgid "No to all"
+msgstr "Не для ўсіх"
+
+#: lclstrconsts.rsmbok
+msgid "&OK"
+msgstr "&Добра"
+
+#: lclstrconsts.rsmbopen
+msgid "&Open"
+msgstr "&Адкрыць"
+
+#: lclstrconsts.rsmbretry
+msgid "&Retry"
+msgstr "&Паўтарыць"
+
+#: lclstrconsts.rsmbsave
+msgid "&Save"
+msgstr "&Захаваць"
+
+#: lclstrconsts.rsmbunlock
+msgid "&Unlock"
+msgstr "&Разблакаваць"
+
+#: lclstrconsts.rsmbyes
+msgid "&Yes"
+msgstr "&Так"
+
+#: lclstrconsts.rsmbyestoall
+msgid "Yes to &All"
+msgstr "Так для &ўсіх"
+
+#: lclstrconsts.rsmedgraycolorcaption
+msgid "Medium Gray"
+msgstr "Сярэдне шэры"
+
+#: lclstrconsts.rsmenubarcolorcaption
+msgid "Menu Bar"
+msgstr "Панэль меню"
+
+#: lclstrconsts.rsmenucolorcaption
+msgctxt "lclstrconsts.rsmenucolorcaption"
+msgid "Menu"
+msgstr "Меню"
+
+#: lclstrconsts.rsmenuhighlightcolorcaption
+msgid "Menu Highlight"
+msgstr "Падсвятленне меню"
+
+#: lclstrconsts.rsmenutextcolorcaption
+msgid "Menu Text"
+msgstr "Тэкст меню"
+
+#: lclstrconsts.rsmodified
+msgid "  modified "
+msgstr "  зменена "
+
+#: lclstrconsts.rsmoneygreencolorcaption
+msgid "Money Green"
+msgstr "Зялёных грошай"
+
+#: lclstrconsts.rsmtauthentication
+msgid "Authentication"
+msgstr "Аўтэнтыфікацыя"
+
+#: lclstrconsts.rsmtconfirmation
+msgid "Confirmation"
+msgstr "Пацвярджэнне"
+
+#: lclstrconsts.rsmtcustom
+msgid "Custom"
+msgstr "Адвольны"
+
+#: lclstrconsts.rsmterror
+msgctxt "lclstrconsts.rsmterror"
+msgid "Error"
+msgstr "Памылка"
+
+#: lclstrconsts.rsmtinformation
+msgid "Information"
+msgstr "Інфармацыя"
+
+#: lclstrconsts.rsmtwarning
+msgid "Warning"
+msgstr "Папярэджанне"
+
+#: lclstrconsts.rsnavycolorcaption
+msgid "Navy"
+msgstr "Цёмна-сіні"
+
+#: lclstrconsts.rsnextrecordhint
+msgctxt "lclstrconsts.rsnextrecordhint"
+msgid "Next"
+msgstr "Далей"
+
+#: lclstrconsts.rsnonecolorcaption
+msgid "None"
+msgstr "Няма"
+
+#: lclstrconsts.rsnotavalidgridfile
+msgid "Not a valid grid file"
+msgstr "Непрыдатны файл сеткі"
+
+#: lclstrconsts.rsnowidgetset
+msgid "No widgetset object. Please check if the unit \"interfaces\" was added to the programs uses clause."
+msgstr "Няма аб'екта віджэтаў. Пераканайцеся, што модуль \"інтэрфейсы\" быў дададзены ў \"uses\"."
+
+#: lclstrconsts.rsolivecolorcaption
+msgid "Olive"
+msgstr "Аліўкавы"
+
+#: lclstrconsts.rspickdate
+msgid "Select a date"
+msgstr "Абраць дату"
+
+#: lclstrconsts.rspixmap
+msgid "Pixmap"
+msgstr "Малюнак"
+
+#: lclstrconsts.rsportablebitmap
+msgid "Portable BitMap"
+msgstr "Portable BitMap"
+
+#: lclstrconsts.rsportablegraymap
+msgid "Portable GrayMap"
+msgstr "Portable GrayMap"
+
+#: lclstrconsts.rsportablenetworkgraphic
+msgid "Portable Network Graphic"
+msgstr "Portable Network Graphic"
+
+#: lclstrconsts.rsportablepixmap
+msgid "Portable PixMap"
+msgstr "Portable PixMap"
+
+#: lclstrconsts.rspostrecordhint
+msgid "Post"
+msgstr "Адправіць"
+
+#: lclstrconsts.rspressoktoignoreandriskdatacorruptionpressaborttok
+#, object-pascal-format
+msgid "%s%sPress OK to ignore and risk data corruption.%sPress Abort to kill the program."
+msgstr "%s%sНацісніце \"Добра\", каб праігнараваць і пайсці на рызыку пашкоджання даных.%sНацісніце \"Перарваць\", каб забіць працэс праграмы."
+
+#: lclstrconsts.rspriorrecordhint
+msgctxt "lclstrconsts.rspriorrecordhint"
+msgid "Prior"
+msgstr "Папярэдняя"
+
+#: lclstrconsts.rspromptonreplace
+msgid "Prompt on replace"
+msgstr "Пытацца пацвярджэння пры замене"
+
+#: lclstrconsts.rspropertydoesnotexist
+#, object-pascal-format
+msgid "Property %s does not exist"
+msgstr "Уласцівасць %s не існуе"
+
+#: lclstrconsts.rspurplecolorcaption
+msgid "Purple"
+msgstr "Фіялетавы"
+
+#: lclstrconsts.rsqtoptiondisableaccurateframe
+msgid "-disableaccurateframe, disables fully accurate window frame under X11. This feature is implemented for Qt, Qt5 and Gtk2 interfaces and used mostly by GetWindowRect()."
+msgstr "-disableaccurateframe, адключае дакладнае вызначэнне рамкі акна ў X11. Гэтая функцыя рэалізаваная для інтэрфейсаў Qt, Qt5 і Gtk2 і выкарыстоўваецца ў асноўным GetWindowRect()."
+
+#: lclstrconsts.rsqtoptiondograb
+msgid "-dograb (only under X11), running under a debugger can cause an implicit -nograb, use -dograb to override. Need QT_DEBUG."
+msgstr "-dograb (толькі ў X11), запуск у сродку адладжвання можа выклікаць няяўны -nograb, выкарыстоўвайце -dograb для перавызначэння. Патрэбны QT_DEBUG."
+
+#: lclstrconsts.rsqtoptiongraphicsstyle
+msgid "-graphicssystem param, sets the backend to be used for on-screen widgets and QPixmaps. Available options are native, raster and opengl. OpenGL is still unstable."
+msgstr "-graphicssystem param, вызначае рухавік, які будзе выкарыстоўвацца для рэндэрынгу віджэтаў і QPixmaps. Даступныя варыянты: уласны, растравы і opengl. OpenGL па-ранейшаму нестабільны."
+
+#: lclstrconsts.rsqtoptionnograb
+msgid "-nograb, tells Qt that it must never grab the mouse or the keyboard. Need QT_DEBUG."
+msgstr "-nograb, забараняе Qt захопліваць мыш або клавіятуру. Патрэбны QT_DEBUG."
+
+#: lclstrconsts.rsqtoptionreverse
+msgid "-reverse, sets the application's layout direction to Qt::RightToLeft."
+msgstr "-reverse, вызначае кірунак размяшчэння віджэтаў праграмы ў Qt::RightToLeft."
+
+#: lclstrconsts.rsqtoptionsession
+msgid "-session session, restores the application from an earlier session."
+msgstr "-session session, аднаўляе праграму з папярэдняга сеанса."
+
+#: lclstrconsts.rsqtoptionstyle
+msgid "-style style or -style=style, sets the application GUI style. Possible values are motif, windows, and platinum. If you compiled Qt with additional styles or have additional styles as plugins these will be available to the -style  command line option. NOTE: Not all styles are available on all platforms. If style param does not exist Qt will start an application with default common style (windows)."
+msgstr "-style style або -style=style, вызначае стыль графічнага інтэрфейсу праграмы. Магчымыя значэнні: motif, windows, і platinum. Калі вы скампілявалі Qt з дадатковымі стылямі або маеце дадатковыя стылі, дададзеныя як ўбудовы, яны будуць даступныя для параметра загаднага радка \"-style\". УВАГА: не ўсе стылі даступныя на ўсіх платформах. Калі параметр стылю не існуе, Qt запусціць з прадвызначаным стылем (windows)."
+
+#: lclstrconsts.rsqtoptionstylesheet
+msgid "-stylesheet stylesheet or -stylesheet=stylesheet, sets the application Style Sheet. The value must be a path to a file that contains the Style Sheet. Note: Relative URLs in the Style Sheet file are relative to the Style Sheet file's path."
+msgstr "-stylesheet stylesheet або -stylesheet=stylesheet, вызначае табліцу стыляў праграму. Значэнне павінна быць шляхам да файла, які змяшчае табліцу стыляў. Заўвага: адносныя URL-адрасы ў файле табліцы стыляў адносяцца да шляху да файла табліцы стыляў."
+
+#: lclstrconsts.rsqtoptionsync
+msgid "-sync (only under X11), switches to synchronous mode for debugging."
+msgstr "-sync (толькі ў X11), пераключае ў сінхронны рэжым для адладжвання."
+
+#: lclstrconsts.rsqtoptionwidgetcount
+msgid "-widgetcount, prints debug message at the end about number of widgets left undestroyed and maximum number of widgets existed at the same time."
+msgstr "-widgetcount, выводзіць адладачнае паведамленне пра колькасць віджэтаў, якія засталіся не знішчанымі, і максімальную колькасць віджэтаў, якія існавалі адначасова."
+
+#: lclstrconsts.rsqtoptionx11bgcolor
+msgid "-bg or -background color, sets the default background color and an application palette (light and dark shades are calculated)."
+msgstr "-bg або -background color, вызначае прадвызначаны колер фону і палітру праграмы (разлічваюцца светлыя і цёмныя адценні)."
+
+#: lclstrconsts.rsqtoptionx11btncolor
+msgid "-btn or -button color, sets the default button color."
+msgstr "-btn або -button color, вызначае прадвызначаны колер кнопкі."
+
+#: lclstrconsts.rsqtoptionx11cmap
+msgid "-cmap, causes the application to install a private color map on an 8-bit display."
+msgstr "-cmap, прымушае праграму ўсталяваць асабістую\n"
+"мапу колераў на 8-бітавым дысплэі."
+
+#: lclstrconsts.rsqtoptionx11display
+msgid "-display display, sets the X display (default is $DISPLAY)."
+msgstr "-display display, вызначае дысплэй для X-сервера (прадвызначана - $DISPLAY)."
+
+#: lclstrconsts.rsqtoptionx11fgcolor
+msgid "-fg or -foreground color, sets the default foreground color."
+msgstr "-fg або -foreground color, вызначае прадвызначаны колер тэксту."
+
+#: lclstrconsts.rsqtoptionx11font
+msgid "-fn or -font font, defines the application font. The font should be specified using an X logical font description."
+msgstr "-fn або -font font, вызначае шрыфт праграмы. Шрыфт павінен быць вызначаны з дапамогай лагічнага апісання шрыфта X."
+
+#: lclstrconsts.rsqtoptionx11geometry
+msgid "-geometry geometry, sets the client geometry of the first window that is shown."
+msgstr "-geometry geometry, вызначае геаметрыю кліента першага акна, якое паказваецца."
+
+#: lclstrconsts.rsqtoptionx11im
+msgid "-im, sets the input method server (equivalent to setting the XMODIFIERS environment variable)."
+msgstr "-im, вызначае сервер метаду ўводу (адпавядае наладжванню зменнай асяроддзя XMODIFIERS)."
+
+#: lclstrconsts.rsqtoptionx11inputstyle
+msgid "-inputstyle, defines how the input is inserted into the given widget, e.g. onTheSpot makes the input appear directly in the widget, while overTheSpot makes the input appear in a box floating over the widget and is not inserted until the editing is done."
+msgstr "-inputstyle, вызначае, як увод устаўляецца ў дадзены віджэт. Напрыклад, onTheSpot прымушае ўвод з'яўляцца непасрэдна ў віджэце, у той час як overTheSpot выводўіць увод у полі, якое плавае над віджэтам, і не ўстаўляецца, пакуль не будзе завершана рэдагаванне."
+
+#: lclstrconsts.rsqtoptionx11name
+msgid "-name name, sets the application name."
+msgstr "-name name, вызначае назву праграмы."
+
+#: lclstrconsts.rsqtoptionx11ncols
+msgid "-ncols count, limits the number of colors allocated in the color cube on an 8-bit display, if the application is using the QApplication::ManyColor color specification. If count is 216 then a 6x6x6 color cube is used (i.e. 6 levels of red, 6 of green, and 6 of blue); for other values, a cube approximately proportional to a 2x3x1 cube is used."
+msgstr "-ncols count, абмяжоўвае колькасць колераў, адведзеных у колеравым кубе на 8-бітавым дысплэі, калі праграма выкарыстоўвае спецыфікацыю колеру QApplication::ManyColor. Калі колькасць роўная 216, то выкарыстоўваецца колеравы куб 6x6x6 (г.зн. 6 узроўняў чырвонага, 6 зялёнага і 6 сіняга); для іншых значэнняў выкарыстоўваецца куб, прыблізна прапарцыйны кубу 2x3x1."
+
+#: lclstrconsts.rsqtoptionx11title
+msgid "-title title, sets the application title."
+msgstr "-title title, вызначае загаловак праграмы."
+
+#: lclstrconsts.rsqtoptionx11visual
+msgid "-visual TrueColor, forces the application to use a TrueColor visual on an 8-bit display."
+msgstr "-visual TrueColor, прымушае праграму выкарыстоўваць TrueColor на 8-бітавым дысплэі."
+
+#: lclstrconsts.rsrasterimageendupdate
+msgid "Endupdate while no update in progress"
+msgstr "Endupdate, хоць абнаўленне не выконваецца"
+
+#: lclstrconsts.rsrasterimagesaveinupdate
+msgid "Cannot save image while update in progress"
+msgstr "Немагчыма захаваць выяву падчас абнаўлення"
+
+#: lclstrconsts.rsrasterimageupdateall
+msgid "Cannot begin update all when canvas only update in progress"
+msgstr "Немагчыма пачаць абнаўленне ўсяго, калі выконваецца абнаўленне палатна"
+
+#: lclstrconsts.rsredcolorcaption
+msgid "Red"
+msgstr "Чырвоны"
+
+#: lclstrconsts.rsrefreshrecordshint
+msgid "Refresh"
+msgstr "Абнавіць"
+
+#: lclstrconsts.rsreplace
+msgid "Replace"
+msgstr "Замяніць"
+
+#: lclstrconsts.rsreplaceall
+msgid "Replace all"
+msgstr "Замяніць усё"
+
+#: lclstrconsts.rsresourcenotfound
+#, object-pascal-format
+msgctxt "lclstrconsts.rsresourcenotfound"
+msgid "Resource %s not found"
+msgstr "Рэсурс %s не знойдзены"
+
+#: lclstrconsts.rsscrollbarcolorcaption
+msgid "ScrollBar"
+msgstr "Паласа пракручвання"
+
+#: lclstrconsts.rsscrollbaroutofrange
+msgid "ScrollBar property out of range"
+msgstr "Значэнне ўласцівасці паласы пракручвання знаходзіцца па-за межамі дыяпазону"
+
+#: lclstrconsts.rsselectcolortitle
+msgid "Select color"
+msgstr "Абярыце колер"
+
+#: lclstrconsts.rsselectfonttitle
+msgid "Select a font"
+msgstr "Абраць шрыфт"
+
+#: lclstrconsts.rssilvercolorcaption
+msgid "Silver"
+msgstr "Срэбны"
+
+#: lclstrconsts.rssize
+msgid "  size "
+msgstr "  памер "
+
+#: lclstrconsts.rsskybluecolorcaption
+msgid "Sky Blue"
+msgstr "Нябесна-сіні"
+
+#: lclstrconsts.rstcustomtabcontrolaccessibilitydescription
+msgid "A control with tabs"
+msgstr "Элемент кіравання з укладкамі"
+
+#: lclstrconsts.rstealcolorcaption
+msgid "Teal"
+msgstr "Сіне-зялёны"
+
+#: lclstrconsts.rstext
+msgid "Text"
+msgstr "Тэкст"
+
+#: lclstrconsts.rsthebuiltinurlisreadonlychangethebaseurlinstead
+msgid "The built-in URL is read only. Change the BaseURL instead."
+msgstr "Убудаваны URL-адрас даступны толькі для чытання. Замест яго змяніце BaseURL."
+
+#: lclstrconsts.rstiff
+msgid "Tagged Image File Format"
+msgstr "Фармат Tagged Image File"
+
+#: lclstrconsts.rstpanelaccessibilitydescription
+msgctxt "lclstrconsts.rstpanelaccessibilitydescription"
+msgid "Panel"
+msgstr "Панэль"
+
+#: lclstrconsts.rstsplitteraccessibilitydescription
+msgctxt "lclstrconsts.rstsplitteraccessibilitydescription"
+msgid "A grip to control how much size to give two parts of an area"
+msgstr "Ручка для кіравання памерам дзвюх частак вобласці"
+
+#: lclstrconsts.rsttreeviewaccessibilitydescription
+msgctxt "lclstrconsts.rsttreeviewaccessibilitydescription"
+msgid "A tree of items"
+msgstr "Дрэва элементаў"
+
+#: lclstrconsts.rsunabletoloaddefaultfont
+msgid "Unable to load default font"
+msgstr "Не ўдалося загрузіць прадвызначаны шрыфт"
+
+#: lclstrconsts.rsunknownerrorpleasereportthisbug
+msgid "Unknown Error, please report this bug"
+msgstr "Невядомая памылка, адпраўце справаздачу пра хібу"
+
+#: lclstrconsts.rsunknownpictureextension
+msgid "Unknown picture extension"
+msgstr "Невядомае пашырэнне выявы"
+
+#: lclstrconsts.rsunknownpictureformat
+msgid "Unknown picture format"
+msgstr "Невядомы фармат выявы"
+
+#: lclstrconsts.rsunsupportedbitmapformat
+msgid "Unsupported bitmap format."
+msgstr "Фармат растравай выявы не падтрымліваецца."
+
+#: lclstrconsts.rsunsupportedclipboardformat
+#, object-pascal-format
+msgid "Unsupported clipboard format: %s"
+msgstr "Фармат буфера абмену не падтрымліваецца: %s"
+
+#: lclstrconsts.rswarningunreleaseddcsdump
+#, object-pascal-format
+msgid " WARNING: There are %d unreleased DCs, a detailed dump follows:"
+msgstr " УВАГА: знойдзена %d нерэлізаваных кантэкстаў прылады, падрабязныя звесткі ніжэй:"
+
+#: lclstrconsts.rswarningunreleasedgdiobjectsdump
+#, object-pascal-format
+msgid " WARNING: There are %d unreleased GDIObjects, a detailed dump follows:"
+msgstr " УВАГА: знойдзена %d нерэлізаваных GDIObjects, падрабязныя звесткі ніжэй:"
+
+#: lclstrconsts.rswarningunreleasedmessagesinqueue
+#, object-pascal-format
+msgid " WARNING: There are %d messages left in the queue! I'll free them"
+msgstr " УВАГА: у чарзе засталося %d паведамленняў! Яны будуць выдаленыя"
+
+#: lclstrconsts.rswarningunreleasedtimerinfos
+#, object-pascal-format
+msgid " WARNING: There are %d TimerInfo structures left, I'll free them"
+msgstr " УВАГА: засталося %d структур TimerInfo, яны будуць вызваленыя"
+
+#: lclstrconsts.rswarningunremovedpaintmessages
+#, object-pascal-format
+msgid " WARNING: There are %s unremoved LM_PAINT/LM_GtkPAINT message links left."
+msgstr " УВАГА: знойдзена %s невыдаленых спасылак LM_PAINT/LM_GtkPAINT."
+
+#: lclstrconsts.rswhitecolorcaption
+msgid "White"
+msgstr "Белы"
+
+#: lclstrconsts.rswholewordsonly
+msgid "Whole words only"
+msgstr "Толькі цэлыя словы"
+
+#: lclstrconsts.rswin32error
+msgid "Error:"
+msgstr "Памылка:"
+
+#: lclstrconsts.rswin32warning
+msgid "Warning:"
+msgstr "Увага:"
+
+#: lclstrconsts.rswindowcolorcaption
+msgid "Window"
+msgstr "Акно"
+
+#: lclstrconsts.rswindowframecolorcaption
+msgid "Window Frame"
+msgstr "Рамка акна"
+
+#: lclstrconsts.rswindowtextcolorcaption
+msgid "Window Text"
+msgstr "Тэкст акна"
+
+#: lclstrconsts.rsyellowcolorcaption
+msgid "Yellow"
+msgstr "Жоўты"
+
+#: lclstrconsts.scannotfocus
+msgid "Cannot focus a disabled or invisible window"
+msgstr "Немагчыма сфакусавацца на адключаным або нябачным акне"
+
+#: lclstrconsts.sduplicatemenus
+msgid "Duplicate menus"
+msgstr "Паўторныя меню"
+
+#: lclstrconsts.sinvalidactioncreation
+msgid "Invalid action creation"
+msgstr "Хібнае стварэнне дзеяння"
+
+#: lclstrconsts.sinvalidactionenumeration
+msgid "Invalid action enumeration"
+msgstr "Хібнае пералічванне дзеянняў"
+
+#: lclstrconsts.sinvalidactionregistration
+msgid "Invalid action registration"
+msgstr "Хібная рэгістрацыя дзеяння"
+
+#: lclstrconsts.sinvalidactionunregistration
+msgid "Invalid action unregistration"
+msgstr "Хібнае скасаванне рэгістрацыі дзеяння"
+
+#: lclstrconsts.sinvalidimagesize
+msgid "Invalid image size"
+msgstr "Хібны памер выявы"
+
+#: lclstrconsts.sinvalidindex
+msgid "Invalid ImageList Index"
+msgstr "Хібны індэкс ImageList"
+
+#: lclstrconsts.smaskeditnomatch
+msgid "The current text does not match the specified mask."
+msgstr "Бягучы тэкст не адпавядае вызначанай масцы."
+
+#: lclstrconsts.smenuindexerror
+msgid "Menu index out of range"
+msgstr "Індэкс меню знаходзіцца па-за межамі дыяпазону"
+
+#: lclstrconsts.smenuitemisnil
+msgid "MenuItem is nil"
+msgstr "MenuItem паказвае на нуль"
+
+#: lclstrconsts.smenunotfound
+msgid "Sub-menu is not in menu"
+msgstr "Падменю не ў меню"
+
+#: lclstrconsts.smkcalt
+msgid "Alt+"
+msgstr "Alt +"
+
+#: lclstrconsts.smkcbksp
+msgid "BkSp"
+msgstr "Backspace"
+
+#: lclstrconsts.smkcctrl
+msgid "Ctrl+"
+msgstr "Ctrl +"
+
+#: lclstrconsts.smkcdel
+msgid "Del"
+msgstr "Del"
+
+#: lclstrconsts.smkcdown
+msgctxt "lclstrconsts.smkcdown"
+msgid "Down"
+msgstr "Уніз"
+
+#: lclstrconsts.smkcend
+msgctxt "lclstrconsts.smkcend"
+msgid "End"
+msgstr "End"
+
+#: lclstrconsts.smkcenter
+msgid "Enter"
+msgstr "Увод"
+
+#: lclstrconsts.smkcesc
+msgid "Esc"
+msgstr "Esc"
+
+#: lclstrconsts.smkchome
+msgctxt "lclstrconsts.smkchome"
+msgid "Home"
+msgstr "Хатні каталог"
+
+#: lclstrconsts.smkcins
+msgid "Ins"
+msgstr "Ins"
+
+#: lclstrconsts.smkcleft
+msgctxt "lclstrconsts.smkcleft"
+msgid "Left"
+msgstr "Улева"
+
+#: lclstrconsts.smkcmeta
+msgid "Meta+"
+msgstr "Meta +"
+
+#: lclstrconsts.smkcpgdn
+msgid "PgDn"
+msgstr "PgDn"
+
+#: lclstrconsts.smkcpgup
+msgid "PgUp"
+msgstr "PgUp"
+
+#: lclstrconsts.smkcright
+msgctxt "lclstrconsts.smkcright"
+msgid "Right"
+msgstr "Управа"
+
+#: lclstrconsts.smkcshift
+msgid "Shift+"
+msgstr "Shift +"
+
+#: lclstrconsts.smkcspace
+msgid "Space"
+msgstr "Прагал"
+
+#: lclstrconsts.smkctab
+msgctxt "lclstrconsts.smkctab"
+msgid "Tab"
+msgstr "Tab"
+
+#: lclstrconsts.smkcup
+msgctxt "lclstrconsts.smkcup"
+msgid "Up"
+msgstr "Уверх"
+
+#: lclstrconsts.snotimers
+msgid "No timers available"
+msgstr "Няма даступных таймераў"
+
+#: lclstrconsts.sparentrequired
+#, object-pascal-format
+msgid "Control \"%s\" has no parent window."
+msgstr "Элемент кіравання \"%s\" не мае бацькоўскага акна."
+
+#: lclstrconsts.sparexpected
+#, object-pascal-format
+msgid "Wrong token type: %s expected"
+msgstr "Няправільны тып токена: чакаўся %s"
+
+#: lclstrconsts.sparinvalidfloat
+#, object-pascal-format
+msgid "Invalid floating point number: %s"
+msgstr "Хібны лік са зменнай кропкай: %s"
+
+#: lclstrconsts.sparinvalidinteger
+#, object-pascal-format
+msgid "Invalid integer number: %s"
+msgstr "Хібны цэлы лік: %s"
+
+#: lclstrconsts.sparlocinfo
+#, object-pascal-format
+msgid " (at %d,%d, stream offset %d)"
+msgstr " (на %d,%d, зрух струменя %d)"
+
+#: lclstrconsts.sparunterminatedbinvalue
+msgid "Unterminated byte value"
+msgstr "Незавершанае значэнне байта"
+
+#: lclstrconsts.sparunterminatedstring
+msgid "Unterminated string"
+msgstr "Незавершаны радок"
+
+#: lclstrconsts.sparwrongtokensymbol
+#, object-pascal-format
+msgid "Wrong token symbol: %s expected but %s found"
+msgstr "Няправільны сімвал токена: чакаўся %s, а знойдзены %s"
+
+#: lclstrconsts.sparwrongtokentype
+#, object-pascal-format
+msgid "Wrong token type: %s expected but %s found"
+msgstr "Няправільны тып токена: чакаўся %s, а знойдзены %s"
+
+#: lclstrconsts.sshellctrlsbytes
+#, object-pascal-format
+msgid "%s bytes"
+msgstr "%s байтаў"
+
+#: lclstrconsts.sshellctrlsinvalidpath
+#, object-pascal-format
+msgctxt "lclstrconsts.sshellctrlsinvalidpath"
+msgid "Invalid pathname:\n"
+"\"%s\""
+msgstr "Хібны шлях:\n"
+"\"%s\""
+
+#: lclstrconsts.sshellctrlsinvalidpathrelative
+#, object-pascal-format
+msgid "Invalid relative pathname:\n"
+"\"%s\"\n"
+"in relation to rootpath:\n"
+"\"%s\""
+msgstr "Хібны шлях:\n"
+"\"%s\"\n"
+"адносна каранёвага:\n"
+"\"%s\""
+
+#: lclstrconsts.sshellctrlsinvalidroot
+#, object-pascal-format
+msgctxt "lclstrconsts.sshellctrlsinvalidroot"
+msgid "Invalid pathname:\n"
+"\"%s\""
+msgstr "Хібны шлях:\n"
+"\"%s\""
+
+#: lclstrconsts.sshellctrlskb
+#, object-pascal-format
+msgid "%s kB"
+msgstr "%s кБ"
+
+#: lclstrconsts.sshellctrlsmb
+#, object-pascal-format
+msgid "%s MB"
+msgstr "%s МБ"
+
+#: lclstrconsts.sshellctrlsname
+msgid "Name"
+msgstr "Назва"
+
+#: lclstrconsts.sshellctrlsselecteditemdoesnotexists
+#, object-pascal-format
+msgid "The selected item does not exist on disk:\n"
+"\"%s\""
+msgstr "Абраны элемент не існуе на дыску:\n"
+"\"%s\""
+
+#: lclstrconsts.sshellctrlssize
+msgid "Size"
+msgstr "Памер"
+
+#: lclstrconsts.sshellctrlstype
+msgid "Type"
+msgstr "Тып"
+
