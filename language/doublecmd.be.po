@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: b5aaebc75354984d7cee90405a1f6642\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-01-17 23:08+0300\n"
-"PO-Revision-Date: 2021-08-02 10:35\n"
+"PO-Revision-Date: 2022-09-27 11:46\n"
 "Last-Translator: Full Name <email@address>\n"
 "Language-Team: Belarusian\n"
 "MIME-Version: 1.0\n"
@@ -11,11 +11,16 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Native-Language: Беларуская\n"
 "Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || n%10>=5 && n%10<=9 || n%100>=11 && n%100<=14 ? 2 : 3);\n"
+"X-Crowdin-Project: b5aaebc75354984d7cee90405a1f6642\n"
+"X-Crowdin-Project-ID: 7\n"
+"X-Crowdin-Language: be\n"
+"X-Crowdin-File: /l10n_Translation/language/doublecmd.po\n"
+"X-Crowdin-File-ID: 3344\n"
 "Language: be_BY\n"
 
 #: foptionscolors.rsdarkmodeoptions
 msgid "Auto;Enabled;Disabled"
-msgstr ""
+msgstr "Аўтаматычна; Уключана; Адключана"
 
 #: fsyncdirsdlg.rscomparingpercent
 msgid "Comparing... %d%% (ESC to cancel)"
@@ -281,7 +286,7 @@ msgstr "Уладальнік"
 #: tfrmattributesedit.lblexec.caption
 msgctxt "tfrmattributesedit.lblexec.caption"
 msgid "Execute"
-msgstr "Запуск"
+msgstr "Выкананне"
 
 #: tfrmattributesedit.lblread.caption
 msgctxt "tfrmattributesedit.lblread.caption"
@@ -528,7 +533,6 @@ msgid "Redo"
 msgstr "Паўтарыць"
 
 #: tfrmdiffer.acteditredo.hint
-#, fuzzy
 msgctxt "tfrmdiffer.acteditredo.hint"
 msgid "Redo"
 msgstr "Паўтарыць"
@@ -543,7 +547,6 @@ msgid "Undo"
 msgstr "Адрабіць"
 
 #: tfrmdiffer.acteditundo.hint
-#, fuzzy
 msgctxt "tfrmdiffer.acteditundo.hint"
 msgid "Undo"
 msgstr "Адрабіць"
@@ -554,49 +557,41 @@ msgid "E&xit"
 msgstr "&Выйсці"
 
 #: tfrmdiffer.actfind.caption
-#, fuzzy
 msgctxt "tfrmdiffer.actfind.caption"
 msgid "&Find"
-msgstr "&Шукаць"
+msgstr "&Пошук"
 
 #: tfrmdiffer.actfind.hint
-#, fuzzy
 msgctxt "tfrmdiffer.actfind.hint"
 msgid "Find"
-msgstr "Шукаць"
+msgstr "Пошук"
 
 #: tfrmdiffer.actfindnext.caption
-#, fuzzy
 msgctxt "tfrmdiffer.actfindnext.caption"
 msgid "Find next"
 msgstr "Шукаць наступнае"
 
 #: tfrmdiffer.actfindnext.hint
-#, fuzzy
 msgctxt "tfrmdiffer.actfindnext.hint"
 msgid "Find next"
 msgstr "Шукаць наступнае"
 
 #: tfrmdiffer.actfindprev.caption
-#, fuzzy
 msgctxt "tfrmdiffer.actfindprev.caption"
 msgid "Find previous"
 msgstr "Шукаць папярэдняе"
 
 #: tfrmdiffer.actfindprev.hint
-#, fuzzy
 msgctxt "tfrmdiffer.actfindprev.hint"
 msgid "Find previous"
 msgstr "Шукаць папярэдняе"
 
 #: tfrmdiffer.actfindreplace.caption
-#, fuzzy
 msgctxt "tfrmdiffer.actfindreplace.caption"
 msgid "&Replace"
 msgstr "&Замяніць"
 
 #: tfrmdiffer.actfindreplace.hint
-#, fuzzy
 msgctxt "tfrmdiffer.actfindreplace.hint"
 msgid "Replace"
 msgstr "Замяніць"
@@ -612,16 +607,14 @@ msgid "First Difference"
 msgstr "Першае адрозненне"
 
 #: tfrmdiffer.actgotoline.caption
-#, fuzzy
 msgctxt "tfrmdiffer.actgotoline.caption"
 msgid "Goto Line..."
 msgstr "Перайсці да радка..."
 
 #: tfrmdiffer.actgotoline.hint
-#, fuzzy
 msgctxt "tfrmdiffer.actgotoline.hint"
 msgid "Goto Line"
-msgstr "Перайсці ў радок"
+msgstr "Перайсці да радка"
 
 #: tfrmdiffer.actignorecase.caption
 msgid "Ignore Case"
@@ -1120,7 +1113,7 @@ msgstr "&Добра"
 
 #: tfrmeditsearchreplace.cbmultiline.caption
 msgid "&Multiline pattern"
-msgstr ""
+msgstr "&Шматрадковыя шаблоны"
 
 #: tfrmeditsearchreplace.cbsearchcasesensitive.caption
 msgid "C&ase sensitivity"
@@ -1259,7 +1252,7 @@ msgstr "Вызначыць для ўс&іх абраных файлаў"
 
 #: tfrmfileproperties.btnskipfile.caption
 msgid "Ski&p this file"
-msgstr "Пра&мінуць гэты файл"
+msgstr "Пра&пусціць гэты файл"
 
 #: tfrmfileproperties.caption
 msgctxt "tfrmfileproperties.caption"
@@ -1283,7 +1276,7 @@ msgstr "SUID"
 
 #: tfrmfileproperties.chkexecutable.caption
 msgid "Allow &executing file as program"
-msgstr "Дазволіць &запускаць як праграму"
+msgstr "Дазволіць &выконваць як праграму"
 
 #: tfrmfileproperties.gbowner.caption
 msgctxt "TFRMFILEPROPERTIES.GBOWNER.CAPTION"
@@ -1327,11 +1320,11 @@ msgstr "Змяшчае:"
 #: tfrmfileproperties.lblexec.caption
 msgctxt "TFRMFILEPROPERTIES.LBLEXEC.CAPTION"
 msgid "Execute"
-msgstr "Запуск"
+msgstr "Выкананне"
 
 #: tfrmfileproperties.lblexecutable.caption
 msgid "Execute:"
-msgstr "Запуск:"
+msgstr "Выкананне:"
 
 #: tfrmfileproperties.lblfile.caption
 msgctxt "TFRMFILEPROPERTIES.LBLFILE.CAPTION"
@@ -1367,7 +1360,7 @@ msgstr "Апошняя змена:"
 
 #: tfrmfileproperties.lbllaststchangestr.caption
 msgid "Last status change:"
-msgstr "Апошняя змена:"
+msgstr "Апошняя змена стану:"
 
 #: tfrmfileproperties.lbloctal.caption
 msgctxt "tfrmfileproperties.lbloctal.caption"
@@ -1459,7 +1452,7 @@ msgstr "Ідэнтыфікатар працэсу"
 
 #: tfrmfileunlock.stgfilehandles.columns[2].title.caption
 msgid "Executable Path"
-msgstr "Шлях запуску"
+msgstr "Шлях выканання"
 
 #: tfrmfinddlg.actcancel.caption
 msgctxt "TFRMFINDDLG.ACTCANCEL.CAPTION"
@@ -2040,7 +2033,7 @@ msgstr "Сціслы выгляд"
 
 #: tfrmmain.actcalculatespace.caption
 msgid "Calculate &Occupied Space"
-msgstr "Падлічыць &ужываемую прастору"
+msgstr "Падлічыць &прастору, якая выкарыстоўваецца"
 
 #: tfrmmain.actchangedir.caption
 msgid "Change directory"
@@ -2231,7 +2224,7 @@ msgstr "&Капіяваць"
 
 #: tfrmmain.actcountdircontent.caption
 msgid "Sho&w Occupied Space"
-msgstr "Па&казаць памер ужываемай прасторы"
+msgstr "Па&казваць памер прасторы, якая выкарыстоўваецца"
 
 #: tfrmmain.actcuttoclipboard.caption
 msgid "Cu&t"
@@ -2260,7 +2253,7 @@ msgstr "&Спіс выбраных каталогаў"
 
 #: tfrmmain.actdoanycmcommand.caption
 msgid "Execute &internal command..."
-msgstr ""
+msgstr "Выканаць &унутраны загад..."
 
 #: tfrmmain.actdoanycmcommand.hint
 msgid "Select any command and execute it"
@@ -2289,7 +2282,7 @@ msgstr "Памяняць &панэлі"
 
 #: tfrmmain.actexecutescript.caption
 msgid "Execute Script"
-msgstr "Запусціць скрыпт"
+msgstr "Выканаць скрыпт"
 
 #: tfrmmain.actexit.caption
 msgctxt "TFRMMAIN.ACTEXIT.CAPTION"
@@ -2438,11 +2431,11 @@ msgstr "Загрузіць укладкі з улюбёных"
 
 #: tfrmmain.actloadlist.caption
 msgid "Load List"
-msgstr ""
+msgstr "Загрузіць спіс"
 
 #: tfrmmain.actloadlist.hint
 msgid "Load list of files/folders from the specified text file"
-msgstr ""
+msgstr "Загрузіць спіс файлаў або каталогаў з пазначанага тэкставага файла"
 
 #: tfrmmain.actloadselectionfromclip.caption
 msgid "Load Selection from Clip&board"
@@ -2502,11 +2495,11 @@ msgstr "Згарнуць акно"
 
 #: tfrmmain.actmovetableft.caption
 msgid "Move current tab to the left"
-msgstr ""
+msgstr "Перамясціць бягучую ўкладку ўлева"
 
 #: tfrmmain.actmovetabright.caption
 msgid "Move current tab to the right"
-msgstr ""
+msgstr "Перамясціць бягучую ўкладку ўправа"
 
 #: tfrmmain.actmultirename.caption
 msgid "Multi-&Rename Tool"
@@ -2563,7 +2556,7 @@ msgstr "Адкрыць спіс &VFS"
 
 #: tfrmmain.actoperationsviewer.caption
 msgid "Operations &Viewer"
-msgstr "&Праглядальнік аперацый"
+msgstr "&Сродак прагляду аперацый"
 
 #: tfrmmain.actoptions.caption
 msgid "&Options..."
@@ -3223,7 +3216,7 @@ msgstr "&Катэгорыі:"
 
 #: tfrmmaincommandsdlg.lblcommandname.caption
 msgid "Command &name:"
-msgstr "&Назва загада:"
+msgstr "&Назва загаду:"
 
 #: tfrmmaincommandsdlg.lbledtfilter.editlabel.caption
 msgid "&Filter:"
@@ -3311,7 +3304,7 @@ msgstr "Стварыць новы каталог"
 
 #: tfrmmkdir.cbextended.caption
 msgid "&Extended syntax"
-msgstr ""
+msgstr "&Пашыраны сінтаксіс"
 
 #: tfrmmkdir.lblmakedir.caption
 msgid "&Input new directory name:"
@@ -3625,10 +3618,9 @@ msgstr "&Масавая змена назвы"
 
 #: tfrmmultirename.cbcasesens.caption
 msgid "A≠a"
-msgstr ""
+msgstr "A≠a"
 
 #: tfrmmultirename.cbcasesens.hint
-#, fuzzy
 msgctxt "tfrmmultirename.cbcasesens.hint"
 msgid "Case sensitive"
 msgstr "Зважаць на рэгістр"
@@ -3643,11 +3635,11 @@ msgstr "Дадаць"
 
 #: tfrmmultirename.cbonlyfirst.caption
 msgid "1x"
-msgstr ""
+msgstr "1x"
 
 #: tfrmmultirename.cbonlyfirst.hint
 msgid "Replace only once per file"
-msgstr ""
+msgstr "Замяняць толькі адзін раз для кожнага файла"
 
 #: tfrmmultirename.cbregexp.caption
 msgid "Regular e&xpressions"
@@ -3915,7 +3907,7 @@ msgstr "Ук&лючана"
 
 #: tfrmoptionsarchivers.chkarchivermultiarcdebug.caption
 msgid "De&bug mode"
-msgstr "Рэ&жым адладкі"
+msgstr "Рэ&жым адладжвання"
 
 #: tfrmoptionsarchivers.chkarchivermultiarcoutput.caption
 msgctxt "tfrmoptionsarchivers.chkarchivermultiarcoutput.caption"
@@ -4069,7 +4061,7 @@ msgstr "Калі &памер, дата альбо атрыбуты змяняю�
 #: tfrmoptionsautorefresh.cbwatchexcludedirs.caption
 msgctxt "tfrmoptionsautorefresh.cbwatchexcludedirs.caption"
 msgid "For the following &paths and their subdirectories:"
-msgstr "Для выкарыстоўваемых &шляхоў і падкаталогаў па іх:"
+msgstr "Для &шляхоў, якія выкарыстоўваюцца, і падкаталогаў па іх:"
 
 #: tfrmoptionsautorefresh.cbwatchfilenamechange.caption
 msgid "When &files are created, deleted or renamed"
@@ -4141,7 +4133,7 @@ msgstr "Фіксаваная шырыня слупкоў"
 
 #: tfrmoptionscolors.rgdarkmode.caption
 msgid "Dark mode"
-msgstr ""
+msgstr "Цёмны рэжым"
 
 #: tfrmoptionscolumnsview.cbcuttexttocolwidth.caption
 msgid "Cut &text to column width"
@@ -5111,7 +5103,7 @@ msgstr "Шлях да:"
 
 #: tfrmoptionsdragdrop.cbdraganddropaskformateachtime.caption
 msgid "From all the supported formats, ask which one to use every time"
-msgstr "Прапаноўваць усе падтрымліваемыя фарматы, пытацца штораз"
+msgstr "Прапаноўваць усе фарматы, якія падтрымліваюцца, пытацца штораз"
 
 #: tfrmoptionsdragdrop.cbdraganddropsaveunicodetextinuft8.caption
 msgid "When saving Unicode text, save it in UTF8 format (will be UTF16 otherwise)"
@@ -5678,7 +5670,7 @@ msgstr "Параметры, што перадаюцца загаду. Назва
 
 #: tfrmoptionsfileassoc.fnecommand.hint
 msgid "Command to execute. Never quote this string."
-msgstr "Загад для запуску. Не выкарыстоўвайце двукоссі."
+msgstr "Загад для выканання. Не выкарыстоўвайце двукоссі."
 
 #: tfrmoptionsfileassoc.gbactiondescription.caption
 msgid "Action description"
@@ -5760,7 +5752,7 @@ msgstr "Рэдагаваць у..."
 
 #: tfrmoptionsfileassoc.migetoutputfromcommand.caption
 msgid "Get output from command"
-msgstr "Атрымаць вывад загада"
+msgstr "Атрымаць вывад загаду"
 
 #: tfrmoptionsfileassoc.miinternaleditor.caption
 msgid "Open in Internal Editor"
@@ -5807,7 +5799,7 @@ msgstr "Ужыць бягучыя налады да ўсіх назваў фай
 #: tfrmoptionsfileassocextra.cbexecuteviashell.caption
 msgctxt "tfrmoptionsfileassocextra.cbexecuteviashell.caption"
 msgid "Execute via shell"
-msgstr "Запусціць у абалонцы"
+msgstr "Выканаць у абалонцы"
 
 #: tfrmoptionsfileassocextra.cbextendedcontextmenu.caption
 msgid "Extended context menu"
@@ -5829,12 +5821,12 @@ msgstr "Калі даступна асацыяцыя файлаў, прапан�
 #: tfrmoptionsfileassocextra.cbopensystemwithterminalclose.caption
 msgctxt "tfrmoptionsfileassocextra.cbopensystemwithterminalclose.caption"
 msgid "Execute via terminal and close"
-msgstr "Запусціць у тэрмінале і закрыць"
+msgstr "Выканаць у тэрмінале і закрыць"
 
 #: tfrmoptionsfileassocextra.cbopensystemwithterminalstayopen.caption
 msgctxt "tfrmoptionsfileassocextra.cbopensystemwithterminalstayopen.caption"
 msgid "Execute via terminal and stay open"
-msgstr "Запусціць у тэрмінале і пакінуць адкрытым"
+msgstr "Выканаць у тэрмінале і пакінуць адкрытым"
 
 #: tfrmoptionsfileassocextra.ckbfileassoccommand.caption
 msgctxt "tfrmoptionsfileassocextra.ckbfileassoccommand.caption"
@@ -5921,7 +5913,7 @@ msgstr "Мі&наць памылкі падчас аперацый з файла
 
 #: tfrmoptionsfileoperations.cbtestarchiveconfirmation.caption
 msgid "Test archive operation"
-msgstr ""
+msgstr "Тэставая аперацыя з архівам"
 
 #: tfrmoptionsfileoperations.cbverifychecksumconfirmation.caption
 msgid "Verify checksum operation"
@@ -6228,7 +6220,7 @@ msgstr "Уключыць пераход у &бацькоўскі каталог 
 
 #: tfrmoptionsfilesviewscomplement.cbdelayloadingtabs.caption
 msgid "Do&n't load file list until a tab is activated"
-msgstr "&Не загружаць спіс файлаў пакуль укладка не стане актыўнай"
+msgstr "&Не загружаць спіс файлаў, пакуль укладка не стане актыўнай"
 
 #: tfrmoptionsfilesviewscomplement.cbdirbrackets.caption
 msgid "S&how square brackets around directories"
@@ -6378,7 +6370,7 @@ msgstr "Захаваць неадкладна"
 
 #: tfrmoptionshotkeys.actsortbycommand.caption
 msgid "Sort by command name"
-msgstr "Упарадкаваць па назве загада"
+msgstr "Упарадкаваць па назве загаду"
 
 #: tfrmoptionshotkeys.actsortbyhotkeysgrouped.caption
 msgid "Sort by hotkeys (grouped)"
@@ -6453,7 +6445,7 @@ msgstr "Элементы інтэрфейсу"
 #: tfrmoptionsicons.cbiconsexclude.caption
 msgctxt "TFRMOPTIONSICONS.CBICONSEXCLUDE.CAPTION"
 msgid "For the following &paths and their subdirectories:"
-msgstr "Для выкарыстоўваемых &шляхоў і падкаталогаў па іх:"
+msgstr "Для &шляхоў, якія выкарыстоўваюцца, і падкаталогаў па іх:"
 
 #: tfrmoptionsicons.cbiconsinmenus.caption
 msgid "Show icons for actions in &menus"
@@ -6625,7 +6617,7 @@ msgstr "Паказваць кароткую &адмеціну наяўнасці
 
 #: tfrmoptionslayout.cbshowstatusbar.caption
 msgid "Show &status bar"
-msgstr "Паказваць панэль &статусу"
+msgstr "Паказваць панэль &стану"
 
 #: tfrmoptionslayout.cbshowtabheader.caption
 msgid "S&how tabstop header"
@@ -6671,7 +6663,7 @@ msgstr "&Запакаваць/распакаваць"
 
 #: tfrmoptionslog.cblogcommandlineexecution.caption
 msgid "External command line execution"
-msgstr "Запуск вонкавага загаднага радка"
+msgstr "Выкананне вонкавага загаднага радка"
 
 #: tfrmoptionslog.cblogcpmvln.caption
 msgid "Cop&y/Move/Create link/symlink"
@@ -6766,11 +6758,11 @@ msgstr "Пры &змене дыска заўсёды вяртацца ў кар�
 
 #: tfrmoptionsmisc.chkshowcurdirtitlebar.caption
 msgid "Show &current directory in the main window title bar"
-msgstr ""
+msgstr "Паказваць &бягучы каталог на панэлі загалоўкаў"
 
 #: tfrmoptionsmisc.chkshowsplashform.caption
 msgid "Show &splash screen"
-msgstr ""
+msgstr "Паказваць &застаўку"
 
 #: tfrmoptionsmisc.chkshowwarningmessages.caption
 msgid "Show &warning messages (\"OK\" button only)"
@@ -6795,7 +6787,7 @@ msgstr "Да экспарту/імпарту TC:"
 
 #: tfrmoptionsmisc.lbldefaultencoding.caption
 msgid "&Default single-byte text encoding:"
-msgstr ""
+msgstr "&Прадвызначанае аднабайтавае кадаванне тэксту:"
 
 #: tfrmoptionsmisc.lbldescrdefaultencoding.caption
 msgctxt "TFRMOPTIONSMISC.LBLDESCRDEFAULTENCODING.CAPTION"
@@ -6808,7 +6800,7 @@ msgstr "Файл канфігурацыі:"
 
 #: tfrmoptionsmisc.lbltcexecutable.caption
 msgid "TC executable:"
-msgstr "Запускальны файл TC:"
+msgstr "Выканальны файл TC:"
 
 #: tfrmoptionsmisc.lbltcpathfortool.caption
 msgid "Toolbar output path:"
@@ -7300,11 +7292,11 @@ msgstr "Загад на запуск тэрмінала:"
 
 #: tfrmoptionsterminal.gbruninterminalclose.caption
 msgid "Command for running a command in terminal and close after:"
-msgstr "Загад на запуск загада ў тэрмінале з закрыццём акна:"
+msgstr "Загад на запуск загаду ў тэрмінале з закрыццём акна:"
 
 #: tfrmoptionsterminal.gbruninterminalstayopen.caption
 msgid "Command for running a command in terminal and stay open:"
-msgstr "Загад на запуск загада ў тэрмінале з адкрытым акном:"
+msgstr "Загад на запуск загаду ў тэрмінале з адкрытым акном:"
 
 #: tfrmoptionsterminal.lbrunintermclosecmd.caption
 msgctxt "TFRMOPTIONSTERMINAL.LBRUNINTERMCLOSECMD.CAPTION"
@@ -7382,7 +7374,7 @@ msgstr "Прапановы"
 
 #: tfrmoptionstoolbarbase.btnsuggestiontooltip.hint
 msgid "Have DC suggest the tooltip based on button type, command and parameters"
-msgstr "Выплыўныя прапановы на падставе тыпу кнопкі, загада і параметраў"
+msgstr "Выплыўныя прапановы на падставе тыпу кнопкі, загаду і параметраў"
 
 #: tfrmoptionstoolbarbase.cbflatbuttons.caption
 msgctxt "tfrmoptionstoolbarbase.CBFLATBUTTONS.CAPTION"
@@ -7399,7 +7391,7 @@ msgstr "&Паказваць надпісы"
 
 #: tfrmoptionstoolbarbase.edtinternalparameters.hint
 msgid "Enter command parameters, each in a separate line. Press F1 to see help on parameters."
-msgstr "Увядзіце параметры загада, кожны ў асобным радку. F1- дапамога."
+msgstr "Увядзіце параметры загаду, кожны ў асобным радку. F1- дапамога."
 
 #: tfrmoptionstoolbarbase.gbgroupbox.caption
 msgid "Appearance"
@@ -7464,11 +7456,11 @@ msgstr "Дадаць панэль інструментаў з усімі заг�
 
 #: tfrmoptionstoolbarbase.miaddexternalcommandsubmenu.caption
 msgid "for an external command"
-msgstr "для вонкавага загада"
+msgstr "для вонкавага загаду"
 
 #: tfrmoptionstoolbarbase.miaddinternalcommandsubmenu.caption
 msgid "for an internal command"
-msgstr "для ўнутранага загада"
+msgstr "для ўнутранага загаду"
 
 #: tfrmoptionstoolbarbase.miaddseparatorsubmenu.caption
 msgid "for a separator"
@@ -7833,11 +7825,11 @@ msgstr "Некаторыя функцыі для выбару адпаведна
 
 #: tfrmoptionstoolbase.cbtoolskeepterminalopen.caption
 msgid "&Keep terminal window open after executing program"
-msgstr "&Пакідаць адкрытым акно тэрмінала пасля запуску праграмы"
+msgstr "&Пакідаць адкрытым акно тэрмінала пасля выканання праграмы"
 
 #: tfrmoptionstoolbase.cbtoolsruninterminal.caption
 msgid "&Execute in terminal"
-msgstr "&Запускаць у тэрмінале"
+msgstr "&Выконваць у тэрмінале"
 
 #: tfrmoptionstoolbase.cbtoolsuseexternalprogram.caption
 msgid "&Use external program"
@@ -7849,7 +7841,7 @@ msgstr "&Дадатковыя параметры"
 
 #: tfrmoptionstoolbase.lbltoolspath.caption
 msgid "&Path to program to execute"
-msgstr "&Шлях да запускаемай праграмы"
+msgstr "&Шлях да праграмы для выканання"
 
 #: tfrmoptionstooltips.btnaddtooltipsfiletype.caption
 msgctxt "tfrmoptionstooltips.btnaddtooltipsfiletype.caption"
@@ -7949,7 +7941,7 @@ msgstr "Падвойная пстрычка па верхняму радку ф�
 #: tfrmoptionstreeviewmenu.ckbdirectoryhotlistfrommenucommand.caption
 msgctxt "tfrmoptionstreeviewmenu.ckbdirectoryhotlistfrommenucommand.caption"
 msgid "With the menu and internal command"
-msgstr "Пры дапамозе меню і ўнутранага загада"
+msgstr "Пры дапамозе меню і ўнутранага загаду"
 
 #: tfrmoptionstreeviewmenu.ckbdoubleclickselect.caption
 msgid "Double click in tree select and exit"
@@ -7958,7 +7950,7 @@ msgstr "Падвойная пстрычка па абранаму ў дрэве 
 #: tfrmoptionstreeviewmenu.ckbfavoritatabsfrommenucommand.caption
 msgctxt "TFRMOPTIONSTREEVIEWMENU.CKBFAVORITATABSFROMMENUCOMMAND.CAPTION"
 msgid "With the menu and internal command"
-msgstr "Пры дапамозе меню і ўнутранага загада"
+msgstr "Пры дапамозе меню і ўнутранага загаду"
 
 #: tfrmoptionstreeviewmenu.ckbfavoritetabsfromdoubleclick.caption
 msgid "With double-click on a tab (if configured for it)"
@@ -8135,11 +8127,11 @@ msgstr "Колер гарачай клавішы пад курсорам:"
 
 #: tfrmoptionstreeviewmenucolor.lblunselectabletextcolor.caption
 msgid "Unselectable text color:"
-msgstr "Колер невылучаемага тэксту:"
+msgstr "Колер тэксту, які не вылучаецца:"
 
 #: tfrmoptionstreeviewmenucolor.lblunselectableundercursor.caption
 msgid "Unselectable under cursor:"
-msgstr "Колер невылучаемага тэксту пад курсорам:"
+msgstr "Колер тэксту пад курсорам, які не вылучаецца:"
 
 #: tfrmoptionstreeviewmenucolor.treeviewmenusample.hint
 msgid "Change color on left and you'll see here a preview of what your Tree View Menus will look likes with this sample."
@@ -8232,11 +8224,11 @@ msgstr "&Закрыць"
 
 #: tfrmpackinfodlg.btnunpackallandexec.caption
 msgid "Unpack &all and execute"
-msgstr "Распакаваць у&сё і запусціць"
+msgstr "Распакаваць у&сё і выканаць"
 
 #: tfrmpackinfodlg.btnunpackandexec.caption
 msgid "&Unpack and execute"
-msgstr "&Распакаваць і запусціць"
+msgstr "&Распакаваць і выканаць"
 
 #: tfrmpackinfodlg.caption
 msgid "Properties of packed file"
@@ -9433,7 +9425,7 @@ msgstr "Графіка"
 
 #: tfrmviewer.actshowoffice.caption
 msgid "Office XML (text only)"
-msgstr ""
+msgstr "Office XML (толькі тэкст)"
 
 #: tfrmviewer.actshowplugins.caption
 msgctxt "TFRMVIEWER.ACTSHOWPLUGINS.CAPTION"
@@ -9442,7 +9434,7 @@ msgstr "Убудовы"
 
 #: tfrmviewer.actshowtransparency.caption
 msgid "Show transparenc&y"
-msgstr ""
+msgstr "Паказваць п&разрыстасць"
 
 #: tfrmviewer.actstretchimage.caption
 msgid "Stretch"
@@ -9458,7 +9450,7 @@ msgstr "Толькі вялікія выявы па памерах акна"
 
 #: tfrmviewer.actwraptext.caption
 msgid "&Wrap text"
-msgstr ""
+msgstr "&Перанос тэксту"
 
 #: tfrmviewer.actzoom.caption
 msgid "Zoom"
@@ -9736,13 +9728,11 @@ msgid "Start path:"
 msgstr "Шлях запуску:"
 
 #: twcxarchivecopyoperationoptionsui.btnconfig.caption
-#, fuzzy
 msgctxt "twcxarchivecopyoperationoptionsui.btnconfig.caption"
 msgid "Con&figure"
 msgstr "Нал&адзіць"
 
 #: twcxarchivecopyoperationoptionsui.cbencrypt.caption
-#, fuzzy
 msgctxt "twcxarchivecopyoperationoptionsui.cbencrypt.caption"
 msgid "Encr&ypt"
 msgstr "Шыф&раванне"
@@ -9841,16 +9831,12 @@ msgid "Orientation"
 msgstr "Арыентацыя"
 
 #: ulng.msgtrytolocatecrcfile
-msgid ""
-"This file cannot be found and could help to validate final combination of files:\n"
-"%s\n"
-"\n"
+msgid "This file cannot be found and could help to validate final combination of files:\n"
+"%s\n\n"
 "Could you make it available and press \"OK\" when ready,\n"
 "or press \"CANCEL\" to continue without it?\n"
-msgstr ""
-"Файл кантрольнай сумы можа аб'яднаць файл, але яго не атрымалася знайсці:\n"
-"%s\n"
-"\n"
+msgstr "Файл кантрольнай сумы можа аб'яднаць файл, але яго не ўдалося знайсці:\n"
+"%s\n\n"
 "Вы можаце зрабіць яго даступным і націснуць \"Добра\",\n"
 "альбо націснуць \"Скасаваць\", каб працягнуць без яго.\n"
 
@@ -10051,7 +10037,7 @@ msgstr " Дададзена: "
 
 #: ulng.rsdiffcomparing
 msgid "Comparing..."
-msgstr ""
+msgstr "Параўнанне..."
 
 #: ulng.rsdiffdeletes
 msgid " Deletes: "
@@ -10070,24 +10056,23 @@ msgid " Modifies: "
 msgstr " Змены: "
 
 #: ulng.rsdifftextdifferenceencoding
-#, fuzzy
 msgctxt "ulng.rsdifftextdifferenceencoding"
 msgid "Encoding"
 msgstr "Кадаванне"
 
 #: ulng.rsdifftextdifferencelineending
 msgid "Line-endings"
-msgstr ""
+msgstr "Завяршэнне радкоў"
 
 #: ulng.rsdifftextidentical
 msgid "The text is identical, but the following options are used:"
-msgstr ""
+msgstr "Тэкст аднолькавы, але выкарыстоўваюцца наступныя параметры:"
 
 #: ulng.rsdifftextidenticalnotmatch
-msgid ""
-"The text is identical, but the files do not match!\n"
+msgid "The text is identical, but the files do not match!\n"
 "The following differences were found:\n"
-msgstr ""
+msgstr "Тэкст аднолькавы, але файлы адрозніваюцца!\n"
+"Выяўлены наступныя адрозненні:\n"
 
 #: ulng.rsdlgbuttonabort
 msgid "Ab&ort"
@@ -10199,11 +10184,11 @@ msgstr "Як ад&міністратар"
 
 #: ulng.rsdlgbuttonskip
 msgid "&Skip"
-msgstr "&Прамінуць"
+msgstr "&Прапусціць"
 
 #: ulng.rsdlgbuttonskipall
 msgid "S&kip All"
-msgstr "Пра&мінуць усё"
+msgstr "Пра&пусціць усё"
 
 #: ulng.rsdlgbuttonunlock
 msgid "&Unlock"
@@ -10267,7 +10252,7 @@ msgstr "Перайсці ў радок:"
 #: ulng.rseditgotolinetitle
 msgctxt "ulng.rseditgotolinetitle"
 msgid "Goto Line"
-msgstr "Перайсці ў радок"
+msgstr "Перайсці да радка"
 
 #: ulng.rseditnewfile
 msgid "new.txt"
@@ -10309,17 +10294,17 @@ msgstr "ва унутраным рэдактары"
 #: ulng.rsexecuteviashell
 msgctxt "ulng.rsexecuteviashell"
 msgid "Execute via shell"
-msgstr "Запусціць у абалонцы"
+msgstr "Выканаць у абалонцы"
 
 #: ulng.rsexecuteviaterminalclose
 msgctxt "ulng.rsexecuteviaterminalclose"
 msgid "Execute via terminal and close"
-msgstr "Запусціць у тэрмінале і закрыць"
+msgstr "Выканаць у тэрмінале і закрыць"
 
 #: ulng.rsexecuteviaterminalstayopen
 msgctxt "ulng.rsexecuteviaterminalstayopen"
 msgid "Execute via terminal and stay open"
-msgstr "Запусціць у тэрмінале і пакінуць адкрытым"
+msgstr "Выканаць у тэрмінале і пакінуць адкрытым"
 
 #: ulng.rsextsclosedbracketnofound
 msgid "\"]\" not found in line %s"
@@ -10327,7 +10312,7 @@ msgstr "\"]\" не знойдзена ў радку %s"
 
 #: ulng.rsextscommandwithnoext
 msgid "No extension defined before command \"%s\". It will be ignored."
-msgstr "Не вызначана пашырэнне загада \"%s\". Будзе ігнаравацца."
+msgstr "Не вызначана пашырэнне загаду \"%s\". Будзе ігнаравацца."
 
 #: ulng.rsfavtabspanelsideselection
 msgid "Left;Right;Active;Inactive;Both;None"
@@ -10375,7 +10360,7 @@ msgstr "Файлы выбраных каталогаў"
 
 #: ulng.rsfilterexecutablefiles
 msgid "Executables files"
-msgstr "Запускальныя файлы"
+msgstr "Выканальныя файлы"
 
 #: ulng.rsfilteriniconfigfiles
 msgid ".ini Config files"
@@ -10496,7 +10481,7 @@ msgstr "Шрыфт вынікаў пошуку"
 
 #: ulng.rsfontusagestatusbar
 msgid "Status Bar Font"
-msgstr ""
+msgstr "Шрыфт панэлі стану"
 
 #: ulng.rsfontusagetreeviewmenu
 msgid "Tree View Menu Font"
@@ -10504,7 +10489,7 @@ msgstr "Шрыфт меню ў выглядзе дрэва"
 
 #: ulng.rsfontusageviewer
 msgid "&Viewer Font"
-msgstr "Ш&рыфт праглядальніка"
+msgstr "Ш&рыфт сродку прагляду"
 
 #: ulng.rsfontusageviewerbook
 msgctxt "ulng.rsfontusageviewerbook"
@@ -10588,7 +10573,7 @@ msgstr "Памер"
 
 #: ulng.rsfunctrashorigpath
 msgid "Original path"
-msgstr ""
+msgstr "Зыходны шлях"
 
 #: ulng.rsfunctype
 msgid "Type"
@@ -10603,13 +10588,9 @@ msgid "none;Name, a-z;Name, z-a;Ext, a-z;Ext, z-a;Size 9-0;Size 0-9;Date 9-0;Dat
 msgstr "няма;назва, а-я;назва, я-а;тып, а-я;тып, я-а;памер 9-0;памер 0-9;дата 9-0;дата 0-9"
 
 #: ulng.rshotdirwarningabortrestorebackup
-msgid ""
-"Warning! When restoring a .hotlist backup file, this will erase existing list to replace by the imported one.\n"
-"\n"
+msgid "Warning! When restoring a .hotlist backup file, this will erase existing list to replace by the imported one.\n\n"
 "Are you sure you want to proceed?\n"
-msgstr ""
-"Увага! Аднаўленне з рэзервовай копіі ачысціць спіс існых выбраных каталогаў і заменіць імпартуемым.\n"
-"\n"
+msgstr "Увага! Аднаўленне з рэзервовай копіі ачысціць спіс існых выбраных каталогаў і заменіць імпартуемым.\n\n"
 "Хочаце працягнуць?\n"
 
 #: ulng.rshotkeycategorycopymovedialog
@@ -10651,14 +10632,12 @@ msgstr "Сінхранізацыя каталогаў"
 #: ulng.rshotkeycategoryviewer
 msgctxt "ulng.rshotkeycategoryviewer"
 msgid "Viewer"
-msgstr "Праглядальнік"
+msgstr "Сродак прагляду"
 
 #: ulng.rshotkeyfilealreadyexists
-msgid ""
-"A setup with that name already exists.\n"
+msgid "A setup with that name already exists.\n"
 "Do you want to overwrite it?\n"
-msgstr ""
-"Файл з такой назвай ужо існуе.\n"
+msgstr "Файл з такой назвай ужо існуе.\n"
 "Перазапісаць яго?\n"
 
 #: ulng.rshotkeyfileconfirmdefault
@@ -10686,11 +10665,9 @@ msgid "New name"
 msgstr "Новая назва"
 
 #: ulng.rshotkeyfilesavemodified
-msgid ""
-"\"%s\" setup has been modified.\n"
+msgid "\"%s\" setup has been modified.\n"
 "Do you want to save it now?\n"
-msgstr ""
-"Файл \"%s\" быў зменены.\n"
+msgstr "Файл \"%s\" быў зменены.\n"
 "Хочаце захаваць яго?\n"
 
 #: ulng.rshotkeynoscenter
@@ -10699,11 +10676,11 @@ msgstr "Не выкарыстоўваць \"ENTER\""
 
 #: ulng.rshotkeysortorder
 msgid "By command name;By shortcut key (grouped);By shortcut key (one per row)"
-msgstr "Па назве загада; Па гарачых клавішах (групамі); Па гарачых клавішах (па адной)"
+msgstr "Па назве загаду; Па гарачых клавішах (групамі); Па гарачых клавішах (па адной)"
 
 #: ulng.rsimporttoolbarproblem
 msgid "Cannot find reference to default bar file"
-msgstr "Не атрымалася знайсці спасылку на файл прадвызначанай панэлі інструментаў"
+msgstr "Не ўдалося знайсці спасылку на файл прадвызначанай панэлі інструментаў"
 
 #: ulng.rslegacydisplaysizesinglelettergiga
 msgid "G"
@@ -10760,7 +10737,7 @@ msgstr "Увесці назву новых адвольных слупкоў"
 
 #: ulng.rsmenumacosservices
 msgid "Services"
-msgstr ""
+msgstr "Службы"
 
 #: ulng.rsmnuactions
 msgctxt "ulng.rsmnuactions"
@@ -10833,7 +10810,6 @@ msgid "Pack here..."
 msgstr "Запакаваць сюды..."
 
 #: ulng.rsmnurestore
-#, fuzzy
 msgctxt "ulng.rsmnurestore"
 msgid "Restore"
 msgstr "Аднавіць"
@@ -10872,20 +10848,16 @@ msgid "Do you want to enclose between quotes?"
 msgstr "Узяць у двукоссі?"
 
 #: ulng.rsmsgbadcrc32
-msgid ""
-"Bad CRC32 for resulting file:\n"
-"\"%s\"\n"
-"\n"
+msgid "Bad CRC32 for resulting file:\n"
+"\"%s\"\n\n"
 "Do you want to keep the resulting corrupted file anyway?\n"
-msgstr ""
-"Хібны CRC32 выніковага файла:\n"
-"\"%s\"\n"
-"\n"
+msgstr "Хібны CRC32 выніковага файла:\n"
+"\"%s\"\n\n"
 "Усё адно хочаце пакінуць пашкоджаны файл?\n"
 
 #: ulng.rsmsgcanceloperation
 msgid "Are you sure that you want to cancel this operation?"
-msgstr ""
+msgstr "Сапраўды хочаце скасаваць аперацыю?"
 
 #: ulng.rsmsgcannotcopymoveitself
 msgid "You can not copy/move a file \"%s\" to itself!"
@@ -10905,7 +10877,7 @@ msgstr "Немагчыма перазапісаць каталог \"%s\" фай
 
 #: ulng.rsmsgchdirfailed
 msgid "Change current directory to \"%s\" failed!"
-msgstr "Не атрымалася перайсці ў каталог [%s]!"
+msgstr "Не ўдалося перайсці ў каталог \"%s\"!"
 
 #: ulng.rsmsgcloseallinactivetabs
 msgid "Remove all inactive tabs?"
@@ -10929,7 +10901,7 @@ msgstr "Файл \"%s\" зменены. Скапіяваць яго назад?"
 
 #: ulng.rsmsgcouldnotcopybackward
 msgid "Could not copy backward - do you want to keep the changed file?"
-msgstr "Не атрымалася скапіяваць назад. Захаваць зменены файл?"
+msgstr "Не ўдалося скапіяваць назад. Захаваць зменены файл?"
 
 #: ulng.rsmsgcpfldr
 msgid "Copy %d selected files/directories?"
@@ -10973,7 +10945,7 @@ msgstr "Выдаліць абраны \"%s\" у сметніцу?"
 
 #: ulng.rsmsgdeltotrashforce
 msgid "Can not delete \"%s\" to trash! Delete directly?"
-msgstr "Не атрымалася выдаліць \"%s\" у сметніцу! Выдаліць назаўжды?"
+msgstr "Не ўдалося выдаліць \"%s\" у сметніцу! Выдаліць назаўжды?"
 
 #: ulng.rsmsgdisknotavail
 msgid "Disk is not available"
@@ -11081,7 +11053,7 @@ msgstr "Функцыя не падтрымліваецца!"
 
 #: ulng.rsmsgerrorincontextmenucommand
 msgid "Error in context menu command"
-msgstr "Памылка ў кантэкстным меню загада"
+msgstr "Памылка ў кантэкстным меню загаду"
 
 #: ulng.rsmsgerrorloadingconfiguration
 msgid "Error when loading configuration"
@@ -11097,7 +11069,7 @@ msgstr "Немагчыма змяніць назву файла з \"%s\" на \
 
 #: ulng.rsmsgerrsaveassociation
 msgid "Can not save association!"
-msgstr "Не атрымалася захаваць асацыяцыю!"
+msgstr "Не ўдалося захаваць асацыяцыю!"
 
 #: ulng.rsmsgerrsavefile
 msgid "Cannot save file"
@@ -11141,11 +11113,11 @@ msgstr "Шлях: %s"
 
 #: ulng.rsmsgexitstatuscode
 msgid "Exit status:"
-msgstr "Статус выхаду:"
+msgstr "Стан выхаду:"
 
 #: ulng.rsmsgfavoritetabsdeleteallentries
 msgid "Are you sure you want to remove all entries of your Favorite Tabs? (There is no \"undo\" to this action!)"
-msgstr "Сапраўды выдаліць усе аб'екты з вашых \"улюбёных укладак\"? (Адрабіць не атрымаецца!)"
+msgstr "Сапраўды выдаліць усе аб'екты з вашых \"улюбёных укладак\"? (Адрабіць не ўдасца!)"
 
 #: ulng.rsmsgfavoritetabsdraghereentry
 msgid "Drag here other entries"
@@ -11234,12 +11206,10 @@ msgid "Some file operations have not yet finished. Closing Double Commander may 
 msgstr "Яшчэ выконваюцца аперацыі з файламі. Калі закрыць Double Commander, даныя могуць страціцца."
 
 #: ulng.rsmsgfilepathovermaxpath
-msgid ""
-"The target name length (%d) is more than %d characters!\n"
+msgid "The target name length (%d) is more than %d characters!\n"
 "%s\n"
 "Most programs will not be able to access a file/directory with such a long name!\n"
-msgstr ""
-"Даўжыня (%d) перавышае %d сімвалаў!\n"
+msgstr "Даўжыня (%d) перавышае %d сімвалаў!\n"
 "%s\n"
 "Большасць праграм не зможа звярнуцца да файла/каталога з такой доўгай назвай!\n"
 
@@ -11294,11 +11264,11 @@ msgstr "Налады спіса выбраных каталогаў"
 
 #: ulng.rsmsghotdirdeleteallentries
 msgid "Are you sure you want to remove all entries of your Directory Hotlist? (There is no \"undo\" to this action!)"
-msgstr "Сапраўды выдаліць усе аб'екты з вашых \"выбраных каталогаў\"? (Адрабіць не атрымаецца!)"
+msgstr "Сапраўды выдаліць усе аб'екты з вашых \"выбраных каталогаў\"? (Адрабіць не ўдасца!)"
 
 #: ulng.rsmsghotdirdemocommand
 msgid "This will execute the following command:"
-msgstr "Гэта запусціць наступны загад:"
+msgstr "Гэта выканае наступны загад:"
 
 #: ulng.rsmsghotdirdemoname
 msgid "This is hot dir named "
@@ -11430,26 +11400,19 @@ msgid "Some functions to select appropriate path relative, absolute, windows spe
 msgstr "Некаторыя функцыі выбару шляху: адносны, абсалютны, адмысловыя каталогі windows і г. д."
 
 #: ulng.rsmsghotdirtotalbackuped
-msgid ""
-"Total entries saved: %d\n"
-"\n"
+msgid "Total entries saved: %d\n\n"
 "Backup filename: %s\n"
-msgstr ""
-"Захавана агулам: %d\n"
-"\n"
-"Рэзервовая копія: %s\n"
-"\n"
+msgstr "Захавана агулам: %d\n\n"
+"Рэзервовая копія: %s\n\n"
 
 #: ulng.rsmsghotdirtotalexported
 msgid "Total entries exported: "
 msgstr "Экспартавана агулам: "
 
 #: ulng.rsmsghotdirwhattodelete
-msgid ""
-"Do you want to delete all elements inside the sub-menu [%s]?\n"
+msgid "Do you want to delete all elements inside the sub-menu [%s]?\n"
 "Answering NO will delete only menu delimiters but will keep element inside sub-menu.\n"
-msgstr ""
-"Хочаце выдаліць усе элементы ў падменю [%s]?\n"
+msgstr "Хочаце выдаліць усе элементы ў падменю [%s]?\n"
 "Калі адкажаце \"Не\", то выдаляцца толькі падзяляльнікі, элементы застануцца.\n"
 
 #: ulng.rsmsghotdirwheretosave
@@ -11461,19 +11424,13 @@ msgid "Incorrect resulting filelength for file : \"%s\""
 msgstr "Хібная выніковая даўжыня файла : \"%s\""
 
 #: ulng.rsmsginsertnextdisk
-msgid ""
-"Please insert next disk or something similar.\n"
-"\n"
+msgid "Please insert next disk or something similar.\n\n"
 "It is to allow writing this file:\n"
-"\"%s\"\n"
-"\n"
+"\"%s\"\n\n"
 "Number of bytes still to write: %d\n"
-msgstr ""
-"Калі ласка, ўстаўце наступны дыск альбо носьбіт.\n"
-"\n"
+msgstr "Калі ласка, ўстаўце наступны дыск альбо носьбіт.\n\n"
 "Гэта дазволіць запісаць файл:\n"
-"\"%s\"\n"
-"\n"
+"\"%s\"\n\n"
 "Колькасць байтаў да канца: %d\n"
 
 #: ulng.rsmsginvalidcommandline
@@ -11526,7 +11483,7 @@ msgstr "Вызначце файл канфігурацыі (wincmd.ini)"
 
 #: ulng.rsmsglocatetcexecutable
 msgid "Locate TC executable file (totalcmd.exe or totalcmd64.exe)"
-msgstr "Вызначце запускальны файл (totalcmd.exe or totalcmd64.exe)"
+msgstr "Вызначце выканальны файл (totalcmd.exe or totalcmd64.exe)"
 
 #: ulng.rsmsglogcopy
 msgid "Copy file %s"
@@ -11546,7 +11503,7 @@ msgstr "Запусціць вонкавы загад"
 
 #: ulng.rsmsglogextcmdresult
 msgid "Result external"
-msgstr "Вынікі вонкавага загада"
+msgstr "Вынікі вонкавага загаду"
 
 #: ulng.rsmsglogextract
 msgid "Extract file %s"
@@ -11692,7 +11649,7 @@ msgstr "Сапраўды хочаце выдаліць перадналады: \
 
 #: ulng.rsmsgproblemexecutingcommand
 msgid "Problem executing command (%s)"
-msgstr "Не атрымалася запусціць загад (%s)"
+msgstr "Не ўдалося выканаць загад (%s)"
 
 #: ulng.rsmsgprocessid
 msgid "PID: %d"
@@ -11700,7 +11657,7 @@ msgstr "PID: %d"
 
 #: ulng.rsmsgpromptaskingfilename
 msgid "Filename for dropped text:"
-msgstr "Назва файла перацягваемага тэксту:"
+msgstr "Назва файла для тэксту, які перацягваецца:"
 
 #: ulng.rsmsgprovidethisfile
 msgid "Please, make this file available. Retry?"
@@ -11732,7 +11689,7 @@ msgstr "Калі ласка, перазапусціце Double Commander, каб
 
 #: ulng.rsmsgscriptcantfindlibrary
 msgid "ERROR: Problem loading Lua library file \"%s\""
-msgstr "ПАМЫЛКА: не атрымалася загрузіць бібліятэку Lua \"%s\""
+msgstr "ПАМЫЛКА: не ўдалося загрузіць бібліятэку Lua \"%s\""
 
 #: ulng.rsmsgsekectfiletype
 msgid "Select to which file type to add extension \"%s\""
@@ -11744,7 +11701,7 @@ msgstr "Абрана: %s з %s, файлаў: %d з %d, каталогаў: %d �
 
 #: ulng.rsmsgselectexecutablefile
 msgid "Select executable file for"
-msgstr "Абярыце запускальны файл для"
+msgstr "Абярыце выканальны файл для"
 
 #: ulng.rsmsgselectonlychecksumfiles
 msgid "Please select only checksum files!"
@@ -11851,35 +11808,27 @@ msgid "Target path:"
 msgstr "Мэтавы шлях:"
 
 #: ulng.rsmsgtcconfignotfound
-msgid ""
-"Error! Cannot find the TC configuration file:\n"
+msgid "Error! Cannot find the TC configuration file:\n"
 "%s\n"
-msgstr ""
-"Памылка! Не атрымалася знайсці файл канфігурацыі ТС:\n"
+msgstr "Памылка! Не ўдалося знайсці файл канфігурацыі ТС:\n"
 " %s\n"
 
 #: ulng.rsmsgtcexecutablenotfound
-msgid ""
-"Error! Cannot find the TC configuration executable:\n"
+msgid "Error! Cannot find the TC configuration executable:\n"
 "%s\n"
-msgstr ""
-"Памылка! Не атрымалася знайсці запускальны файл ТС:\n"
+msgstr "Памылка! Не ўдалося знайсці выканальны файл ТС:\n"
 " %s\n"
 
 #: ulng.rsmsgtcisrunning
-msgid ""
-"Error! TC is still running but it should be closed for this operation.\n"
+msgid "Error! TC is still running but it should be closed for this operation.\n"
 "Close it and press OK or press CANCEL to abort.\n"
-msgstr ""
-"Памылка! ТС яшчэ запушчаны, а для выканання гэтай аперацыі яго неабходна закрыць.\n"
+msgstr "Памылка! ТС яшчэ запушчаны, а для выканання гэтай аперацыі яго неабходна закрыць.\n"
 "Закрыйце і націсніце \"Добра\" альбо націсніце \"Скасаваць\".\n"
 
 #: ulng.rsmsgtctoolbarnotfound
-msgid ""
-"Error! Cannot find the desired wanted TC toolbar output folder:\n"
+msgid "Error! Cannot find the desired wanted TC toolbar output folder:\n"
 "%s\n"
-msgstr ""
-"Памылка! Не атрымалася знайсці каталог панэлі інструментаў TC:\n"
+msgstr "Памылка! Не ўдалося знайсці каталог панэлі інструментаў TC:\n"
 "%s\n"
 
 #: ulng.rsmsgtctoolbarwheretosave
@@ -11888,7 +11837,7 @@ msgstr "Увядзіце назву і шлях да захаванага фай
 
 #: ulng.rsmsgterminaldisabled
 msgid "Built-in terminal window disabled. Do you want to enable it?"
-msgstr ""
+msgstr "Убудаванае акно тэрмінала адключана. Хочаце ўключыць яго?"
 
 #: ulng.rsmsgterminateprocess
 msgid "WARNING: Terminating a process can cause undesired results including loss of data and system instability. The process will not be given the chance to save its state or data before it is terminated. Are you sure you want to terminate the process?"
@@ -11896,7 +11845,7 @@ msgstr "УВАГА! Завяршэнне працэсу можа прывесц�
 
 #: ulng.rsmsgtestarchive
 msgid "Do you want to test selected archives?"
-msgstr ""
+msgstr "Хочаце правесці тэставанне абраных архіваў?"
 
 #: ulng.rsmsgthisisnowinclipboard
 msgid "\"%s\" is now in the clipboard"
@@ -11919,11 +11868,9 @@ msgid "Enter location and filename of Toolbar to restore"
 msgstr "Увядзіце размяшчэнне і назву файла панэлі інструментаў для аднаўлення"
 
 #: ulng.rsmsgtoolbarsaved
-msgid ""
-"Saved!\n"
+msgid "Saved!\n"
 "Toolbar filename: %s\n"
-msgstr ""
-"Захавана!\n"
+msgstr "Захавана!\n"
 "Назва файла панэлі інструментаў: %s\n"
 
 #: ulng.rsmsgtoomanyfilesselected
@@ -11996,11 +11943,9 @@ msgid "with"
 msgstr "з"
 
 #: ulng.rsmsgwrongpasswordtryagain
-msgid ""
-"Wrong password!\n"
+msgid "Wrong password!\n"
 "Please try again!\n"
-msgstr ""
-"Хібны пароль!\n"
+msgstr "Хібны пароль!\n"
 "Калі ласка, паспрабуйце яшчэ!\n"
 
 #: ulng.rsmulrenautorename
@@ -12201,11 +12146,9 @@ msgid "Enter new preset name"
 msgstr "Увядзіце новую назву перадналадаў"
 
 #: ulng.rsmulrensavemodifiedpreset
-msgid ""
-"\"%s\" preset has been modified.\n"
+msgid "\"%s\" preset has been modified.\n"
 "Do you want to save it now?\n"
-msgstr ""
-"Перадналады \"%s\" былі змененыя.\n"
+msgstr "Перадналады \"%s\" былі змененыя.\n"
 "Хочаце захаваць?\n"
 
 #: ulng.rsmulrensortingpresets
@@ -12359,11 +12302,11 @@ msgstr "Выдаленне \"%s\""
 
 #: ulng.rsoperexecuting
 msgid "Executing"
-msgstr "Запуск"
+msgstr "Выкананне"
 
 #: ulng.rsoperexecutingsomething
 msgid "Executing \"%s\""
-msgstr "Запуск \"%s\""
+msgstr "Выкананне \"%s\""
 
 #: ulng.rsoperextracting
 msgid "Extracting"
@@ -12463,23 +12406,23 @@ msgstr "Праверка"
 
 #: ulng.rsopertestingin
 msgid "Testing in \"%s\""
-msgstr "Праверка \"%s\""
+msgstr "Правяранне \"%s\""
 
 #: ulng.rsopertestingsomething
 msgid "Testing \"%s\""
-msgstr "Праверка \"%s\""
+msgstr "Правяранне \"%s\""
 
 #: ulng.rsoperverifyingchecksum
 msgid "Verifying checksum"
-msgstr "Праверка кантрольнай сумы"
+msgstr "Правяранне кантрольнай сумы"
 
 #: ulng.rsoperverifyingchecksumin
 msgid "Verifying checksum in \"%s\""
-msgstr "Праверка кантрольнай сумы ў \"%s\""
+msgstr "Правяранне кантрольнай сумы ў \"%s\""
 
 #: ulng.rsoperverifyingchecksumof
 msgid "Verifying checksum of \"%s\""
-msgstr "Праверка кантрольнай сумы з \"%s\""
+msgstr "Правяранне кантрольнай сумы з \"%s\""
 
 #: ulng.rsoperwaitingforconnection
 msgid "Waiting for access to file source"
@@ -12531,7 +12474,7 @@ msgstr "Доўгая назва архіва"
 
 #: ulng.rsoptarchiverarchiver
 msgid "Select archiver executable"
-msgstr "Абраць запускальны файл"
+msgstr "Абраць выканальны файл"
 
 #: ulng.rsoptarchiverarchives
 msgid "Archive file (short name)"
@@ -12773,7 +12716,7 @@ msgstr "выкарыстоўваецца для %s у %s"
 
 #: ulng.rsopthotkeysusedwithdifferentparams
 msgid "used for this command but with different parameters"
-msgstr "ужо выкарыстоўваецца для гэтага загада з іншымі параметрамі"
+msgstr "ужо выкарыстоўваецца для гэтага загаду з іншымі параметрамі"
 
 #: ulng.rsoptionseditorarchivers
 msgid "Archivers"
@@ -12930,15 +12873,10 @@ msgid "Multi-Rename Tool"
 msgstr "Масавая змена назвы"
 
 #: ulng.rsoptionseditoroptionschanged
-msgid ""
-"Options have changed in \"%s\"\n"
-"\n"
+msgid "Options have changed in \"%s\"\n\n"
 "Do you want to save modifications?\n"
-msgstr ""
-"Параметры \"%s\" змяніліся.\n"
-"\n"
-"Захаваць змены?\n"
-"\n"
+msgstr "Параметры \"%s\" змяніліся.\n\n"
+"Захаваць змены?\n\n"
 
 #: ulng.rsoptionseditorplugins
 msgctxt "ulng.rsoptionseditorplugins"
@@ -13275,19 +13213,15 @@ msgid "<unnamed template>"
 msgstr "<шаблон без назвы>"
 
 #: ulng.rssearchwithdsxplugininprogress
-msgid ""
-"A file search using DSX plugin is already in progress.\n"
+msgid "A file search using DSX plugin is already in progress.\n"
 "We need that one to be completed before to launch a new one.\n"
-msgstr ""
-"Пошук файлаў з убудовай DSX ужо запушчаны.\n"
+msgstr "Пошук файлаў з убудовай DSX ужо запушчаны.\n"
 "Неабходна завяршыць яго перш чым пачаць новы.\n"
 
 #: ulng.rssearchwithwdxplugininprogress
-msgid ""
-"A file search using WDX plugin is already in progress.\n"
+msgid "A file search using WDX plugin is already in progress.\n"
 "We need that one to be completed before to launch a new one.\n"
-msgstr ""
-"Пошук файлаў з убудовай WDX ужо запушчаны.\n"
+msgstr "Пошук файлаў з убудовай WDX ужо запушчаны.\n"
 "Неабходна завяршыць яго перш чым пачаць новы.\n"
 
 #: ulng.rsselectdir
@@ -13331,7 +13265,7 @@ msgstr "Памылка"
 
 #: ulng.rssimplewordfailedexcla
 msgid "Failed!"
-msgstr "Не атрымалася!"
+msgstr "Не ўдалося!"
 
 #: ulng.rssimplewordfalse
 msgid "False"
@@ -13716,7 +13650,7 @@ msgstr "Поўны шлях другога абранага файла ў пра
 
 #: ulng.rsvarshowcommandprior
 msgid "Show command prior execute"
-msgstr "Паказаць да запуску загада"
+msgstr "Паказаць да выканання загаду"
 
 #: ulng.rsvarsimplemessage
 msgid "%[Simple message]"
@@ -13765,7 +13699,7 @@ msgstr "Сетка"
 
 #: ulng.rsvfsrecyclebin
 msgid "Recycle Bin"
-msgstr ""
+msgstr "Сметніца"
 
 #: ulng.rsviewabouttext
 msgid "Internal Viewer of Double Commander."

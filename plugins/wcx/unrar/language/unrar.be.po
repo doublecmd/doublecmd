@@ -1,0 +1,54 @@
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || n%10>=5 && n%10<=9 || n%100>=11 && n%100<=14 ? 2 : 3);\n"
+"X-Crowdin-Project: b5aaebc75354984d7cee90405a1f6642\n"
+"X-Crowdin-Project-ID: 7\n"
+"X-Crowdin-Language: be\n"
+"X-Crowdin-File: /l10n_Translation/plugins/wcx/unrar/language/unrar.po\n"
+"X-Crowdin-File-ID: 3348\n"
+"Project-Id-Version: b5aaebc75354984d7cee90405a1f6642\n"
+"Language-Team: Belarusian\n"
+"Language: be_BY\n"
+"PO-Revision-Date: 2022-09-25 05:45\n"
+
+#: tdialogbox.caption
+msgid "Options"
+msgstr "Параметры"
+
+#: tdialogbox.lblpath.caption
+msgid "Path to Win&RAR executable"
+msgstr "Шлях да выканальнага файла Win&RAR"
+
+#: tdialogbox.gboptions.caption
+msgid "Archiving options"
+msgstr "Параметры архівацыі"
+
+#: tdialogbox.gboptions.chkrecovery.caption
+msgid "Add r&ecovery record"
+msgstr "Дадаць запіс &аднаўлення"
+
+#: tdialogbox.gboptions.chkencrypt.caption
+msgid "Encrypt file &names"
+msgstr "Шыфраваць назвы &файлаў"
+
+#: tdialogbox.gboptions.chksolid.caption
+msgid "Create &solid archive"
+msgstr "Стварыць &суцэльны архіў"
+
+#: tdialogbox.lblmethod.caption
+msgid "&Compression method"
+msgstr "Метад &сціскання"
+
+#: tdialogbox.brncancel.caption
+msgid "Cancel"
+msgstr "Скасаваць"
+
+#: tdialogbox.btnsave.caption
+msgid "OK"
+msgstr "ДОБРА"
+
+#: tdialogbox.lblargs.caption
+msgid "Additional parameters"
+msgstr "Дадатковыя параметры"
+

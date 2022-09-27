@@ -1,0 +1,48 @@
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || n%10>=5 && n%10<=9 || n%100>=11 && n%100<=14 ? 2 : 3);\n"
+"X-Crowdin-Project: b5aaebc75354984d7cee90405a1f6642\n"
+"X-Crowdin-Project-ID: 7\n"
+"X-Crowdin-Language: be\n"
+"X-Crowdin-File: /l10n_Translation/plugins/wcx/zip/language/zip.po\n"
+"X-Crowdin-File-ID: 3350\n"
+"Project-Id-Version: b5aaebc75354984d7cee90405a1f6642\n"
+"Language-Team: Belarusian\n"
+"Language: be_BY\n"
+"PO-Revision-Date: 2022-09-25 05:45\n"
+
+#: tdialogbox.caption
+msgid "Zip plugin configuration"
+msgstr "Канфігурацыя Zip-убудовы"
+
+#: tdialogbox.lblAbout.caption
+msgid "Zip plugin supports PKZIP-compatible, TAR, GZip and BZip2 data compression and archiving.\n\n"
+"'Copyright (C) 2006-2020 Alexander Koblov (alexx2000@mail.ru)"
+msgstr "Zip-убудова сумяшчальная з PKZIP, TAR, GZip і BZip2, падтрымлівае сцісканне і архівацыю даных.\n\n"
+"Copyright (C) 2006-2020 Alexander Koblov (alexx2000@mail.ru)"
+
+#: tdialogbox.gbCompression.caption
+msgid "Compression"
+msgstr "Сцісканне"
+
+#: tdialogbox.gbCompression.lblCompressionMethodToUse.caption
+msgid "Compression method:"
+msgstr "Метад сціскання:"
+
+#: tdialogbox.gbCompression.lblDeflationOption.caption
+msgid "Compression level:"
+msgstr "Узровень сціскання:"
+
+#: tdialogbox.chkTarAutoHandle.caption
+msgid "Open *.tar.xyz archives at one step (slowly with big archives)"
+msgstr "Адкрываць архівы *.tar.xyz за адзін крок (павольна з вялікімі архівамі)"
+
+#: tdialogbox.btnCancel.caption
+msgid "Cancel"
+msgstr "Скасаваць"
+
+#: tdialogbox.btnOK.caption
+msgid "OK"
+msgstr "ДОБРА"
+
