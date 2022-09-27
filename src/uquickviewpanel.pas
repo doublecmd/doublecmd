@@ -26,7 +26,7 @@ unit uQuickViewPanel;
 interface
 
 uses
-  Classes, SysUtils, ExtCtrls, fViewer,
+  Classes, SysUtils, Controls, ExtCtrls, fViewer,
   uFileViewNotebook, uFile, uFileSource, uFileView;
 
 type
@@ -47,6 +47,8 @@ type
     procedure OnChangeFileView(Sender: TObject);
     procedure CreateViewer(aFileView: TFileView);
     procedure FileViewChangeActiveFile(Sender: TFileView; const aFile : TFile);
+  protected
+     procedure DoOnShowHint(HintInfo: PHintInfo) override;
   public
     constructor Create(TheOwner: TComponent; aParent: TFileViewPage); reintroduce;
     destructor Destroy; override;
@@ -61,7 +63,7 @@ var
 implementation
 
 uses
-  LCLProc, Forms, Controls, fMain, uTempFileSystemFileSource, uLng,
+  LCLProc, Forms, fMain, uTempFileSystemFileSource, uLng,
   uFileSourceProperty, uFileSourceOperation, uFileSourceOperationTypes;
 
 procedure QuickViewShow(aFileViewPage: TFileViewPage; aFileView: TFileView);
@@ -86,6 +88,11 @@ begin
 end;
 
 { TQuickViewPanel }
+
+procedure TQuickViewPanel.DoOnShowHint(HintInfo: PHintInfo);
+begin
+  HintInfo^.HintStr:= '';
+end;
 
 constructor TQuickViewPanel.Create(TheOwner: TComponent; aParent: TFileViewPage);
 begin
@@ -113,6 +120,7 @@ procedure TQuickViewPanel.CreateViewer(aFileView: TFileView);
 begin
   FViewer:= TfrmViewer.Create(Self, nil, True);
   FViewer.Parent:= Self;
+  FViewer.ShowHint:= false;
   FViewer.BorderStyle:= bsNone;
   FViewer.Align:= alClient;
   FFirstFile:= True;
