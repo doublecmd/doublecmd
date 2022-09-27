@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: b5aaebc75354984d7cee90405a1f6642\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-01-17 23:08+0300\n"
-"PO-Revision-Date: 2022-09-25 05:45\n"
+"PO-Revision-Date: 2022-09-27 11:46\n"
 "Last-Translator: Full Name <email@address>\n"
 "Language-Team: Belarusian\n"
 "MIME-Version: 1.0\n"
@@ -3907,7 +3907,7 @@ msgstr "Ук&лючана"
 
 #: tfrmoptionsarchivers.chkarchivermultiarcdebug.caption
 msgid "De&bug mode"
-msgstr "Рэ&жым адладкі"
+msgstr "Рэ&жым адладжвання"
 
 #: tfrmoptionsarchivers.chkarchivermultiarcoutput.caption
 msgctxt "tfrmoptionsarchivers.chkarchivermultiarcoutput.caption"
@@ -9835,7 +9835,7 @@ msgid "This file cannot be found and could help to validate final combination of
 "%s\n\n"
 "Could you make it available and press \"OK\" when ready,\n"
 "or press \"CANCEL\" to continue without it?\n"
-msgstr "Файл кантрольнай сумы можа аб'яднаць файл, але яго не атрымалася знайсці:\n"
+msgstr "Файл кантрольнай сумы можа аб'яднаць файл, але яго не ўдалося знайсці:\n"
 "%s\n\n"
 "Вы можаце зрабіць яго даступным і націснуць \"Добра\",\n"
 "альбо націснуць \"Скасаваць\", каб працягнуць без яго.\n"
@@ -10680,7 +10680,7 @@ msgstr "Па назве загаду; Па гарачых клавішах (гр
 
 #: ulng.rsimporttoolbarproblem
 msgid "Cannot find reference to default bar file"
-msgstr "Не атрымалася знайсці спасылку на файл прадвызначанай панэлі інструментаў"
+msgstr "Не ўдалося знайсці спасылку на файл прадвызначанай панэлі інструментаў"
 
 #: ulng.rslegacydisplaysizesinglelettergiga
 msgid "G"
@@ -10877,7 +10877,7 @@ msgstr "Немагчыма перазапісаць каталог \"%s\" фай
 
 #: ulng.rsmsgchdirfailed
 msgid "Change current directory to \"%s\" failed!"
-msgstr "Не атрымалася перайсці ў каталог [%s]!"
+msgstr "Не ўдалося перайсці ў каталог \"%s\"!"
 
 #: ulng.rsmsgcloseallinactivetabs
 msgid "Remove all inactive tabs?"
@@ -10901,7 +10901,7 @@ msgstr "Файл \"%s\" зменены. Скапіяваць яго назад?"
 
 #: ulng.rsmsgcouldnotcopybackward
 msgid "Could not copy backward - do you want to keep the changed file?"
-msgstr "Не атрымалася скапіяваць назад. Захаваць зменены файл?"
+msgstr "Не ўдалося скапіяваць назад. Захаваць зменены файл?"
 
 #: ulng.rsmsgcpfldr
 msgid "Copy %d selected files/directories?"
@@ -10945,7 +10945,7 @@ msgstr "Выдаліць абраны \"%s\" у сметніцу?"
 
 #: ulng.rsmsgdeltotrashforce
 msgid "Can not delete \"%s\" to trash! Delete directly?"
-msgstr "Не атрымалася выдаліць \"%s\" у сметніцу! Выдаліць назаўжды?"
+msgstr "Не ўдалося выдаліць \"%s\" у сметніцу! Выдаліць назаўжды?"
 
 #: ulng.rsmsgdisknotavail
 msgid "Disk is not available"
@@ -11069,7 +11069,7 @@ msgstr "Немагчыма змяніць назву файла з \"%s\" на \
 
 #: ulng.rsmsgerrsaveassociation
 msgid "Can not save association!"
-msgstr "Не атрымалася захаваць асацыяцыю!"
+msgstr "Не ўдалося захаваць асацыяцыю!"
 
 #: ulng.rsmsgerrsavefile
 msgid "Cannot save file"
@@ -11117,7 +11117,7 @@ msgstr "Стан выхаду:"
 
 #: ulng.rsmsgfavoritetabsdeleteallentries
 msgid "Are you sure you want to remove all entries of your Favorite Tabs? (There is no \"undo\" to this action!)"
-msgstr "Сапраўды выдаліць усе аб'екты з вашых \"улюбёных укладак\"? (Адрабіць не атрымаецца!)"
+msgstr "Сапраўды выдаліць усе аб'екты з вашых \"улюбёных укладак\"? (Адрабіць не ўдасца!)"
 
 #: ulng.rsmsgfavoritetabsdraghereentry
 msgid "Drag here other entries"
@@ -11264,7 +11264,7 @@ msgstr "Налады спіса выбраных каталогаў"
 
 #: ulng.rsmsghotdirdeleteallentries
 msgid "Are you sure you want to remove all entries of your Directory Hotlist? (There is no \"undo\" to this action!)"
-msgstr "Сапраўды выдаліць усе аб'екты з вашых \"выбраных каталогаў\"? (Адрабіць не атрымаецца!)"
+msgstr "Сапраўды выдаліць усе аб'екты з вашых \"выбраных каталогаў\"? (Адрабіць не ўдасца!)"
 
 #: ulng.rsmsghotdirdemocommand
 msgid "This will execute the following command:"
@@ -11649,7 +11649,7 @@ msgstr "Сапраўды хочаце выдаліць перадналады: \
 
 #: ulng.rsmsgproblemexecutingcommand
 msgid "Problem executing command (%s)"
-msgstr "Не атрымалася выканаць загад (%s)"
+msgstr "Не ўдалося выканаць загад (%s)"
 
 #: ulng.rsmsgprocessid
 msgid "PID: %d"
@@ -11689,7 +11689,7 @@ msgstr "Калі ласка, перазапусціце Double Commander, каб
 
 #: ulng.rsmsgscriptcantfindlibrary
 msgid "ERROR: Problem loading Lua library file \"%s\""
-msgstr "ПАМЫЛКА: не атрымалася загрузіць бібліятэку Lua \"%s\""
+msgstr "ПАМЫЛКА: не ўдалося загрузіць бібліятэку Lua \"%s\""
 
 #: ulng.rsmsgsekectfiletype
 msgid "Select to which file type to add extension \"%s\""
@@ -11810,13 +11810,13 @@ msgstr "Мэтавы шлях:"
 #: ulng.rsmsgtcconfignotfound
 msgid "Error! Cannot find the TC configuration file:\n"
 "%s\n"
-msgstr "Памылка! Не атрымалася знайсці файл канфігурацыі ТС:\n"
+msgstr "Памылка! Не ўдалося знайсці файл канфігурацыі ТС:\n"
 " %s\n"
 
 #: ulng.rsmsgtcexecutablenotfound
 msgid "Error! Cannot find the TC configuration executable:\n"
 "%s\n"
-msgstr "Памылка! Не атрымалася знайсці выканальны файл ТС:\n"
+msgstr "Памылка! Не ўдалося знайсці выканальны файл ТС:\n"
 " %s\n"
 
 #: ulng.rsmsgtcisrunning
@@ -11828,7 +11828,7 @@ msgstr "Памылка! ТС яшчэ запушчаны, а для выкана
 #: ulng.rsmsgtctoolbarnotfound
 msgid "Error! Cannot find the desired wanted TC toolbar output folder:\n"
 "%s\n"
-msgstr "Памылка! Не атрымалася знайсці каталог панэлі інструментаў TC:\n"
+msgstr "Памылка! Не ўдалося знайсці каталог панэлі інструментаў TC:\n"
 "%s\n"
 
 #: ulng.rsmsgtctoolbarwheretosave
@@ -13265,7 +13265,7 @@ msgstr "Памылка"
 
 #: ulng.rssimplewordfailedexcla
 msgid "Failed!"
-msgstr "Не атрымалася!"
+msgstr "Не ўдалося!"
 
 #: ulng.rssimplewordfalse
 msgid "False"
