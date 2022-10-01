@@ -30,18 +30,48 @@ uses
 
 type
   TQLPItem = objcclass(NSObject, QLPreviewItemProtocol)
-    url: NSURL;
     function previewItemURL: NSURL;
+  private
+    url: NSURL;
+  public
+    ext: array[0..1023] of char;
+    procedure initPath( path: pchar); message 'initPath:';
   end;
+
+// copy from uMyDarwin
+function StringToNSString(const S: String): NSString;
+begin
+  Result:= NSString(NSString.stringWithUTF8String(PAnsiChar(S)));
+end;
+
+// copy from DCStrUtils
+function ExtractOnlyFileExt(const FileName: string): string;
+var
+  I : LongInt;
+  SOF : Boolean;
+  EndSep : Set of Char;
+begin
+  Result := EmptyStr;
+  I := Length(FileName);
+  EndSep:= AllowDirectorySeparators + AllowDriveSeparators + [ExtensionSeparator];
+  while (I > 0) and not (FileName[I] in EndSep) do Dec(I);
+  if (I > 0) and (FileName[I] = ExtensionSeparator) then
+  begin
+    SOF:= (I = 1) or (FileName[I - 1] in AllowDirectorySeparators);
+    if (not SOF) or FirstDotAtFileNameStartIsExtension then
+      Result := Copy(FileName, I + 1, MaxInt)
+  end;
+end;
 
 function TQLPItem.previewItemURL: NSURL;
 begin
   Result:= url;
 end;
 
-function StringToNSString(const S: String): NSString;
+procedure TQLPItem.initPath( path: pchar );
 begin
-  Result:= NSString(NSString.stringWithUTF8String(PAnsiChar(S)));
+  url:= NSURL.fileURLWithPath( StringToNSString(path) );
+  strlcopy( ext, pchar(ExtractOnlyFileExt(path)), length(ext) );
 end;
 
 procedure setFilepath( view:QLPreviewView; filepath:String );
@@ -52,7 +82,7 @@ begin
     item:= nil;
   end else begin
     item:= TQLPItem.alloc.init;
-    item.url:= NSURL.fileURLWithPath( StringToNSString(filepath) );
+    item.initPath( pchar(filepath) );
   end;
   view.setPreviewItem( item );
 end;
@@ -68,9 +98,31 @@ begin
   Result:= THandle(view);
 end;
 
-function ListLoadNext( {%H-}ParentWin{%H+},PluginWin:THandle; FileToLoad:pchar; {%H-}ShowFlags{%H+}:integer):integer; cdecl;
+function isExtChanged( view: QLPreviewView; FileToLoad:pchar ): boolean;
+var
+  item: TQLPItem;
+  oldExt: String;
+  newExt: String;
 begin
-  setFilepath( QLPreviewView(PluginWin), FileToLoad );
+  item:= {%H-}TQLPItem( view.previewItem );
+  oldExt:= item.ext;
+  newExt:= ExtractOnlyFileExt( FileToLoad );
+  Result:= oldExt<>newExt;
+end;
+
+function ListLoadNext( {%H-}ParentWin{%H+},PluginWin:THandle; FileToLoad:pchar; {%H-}ShowFlags{%H+}:integer):integer; cdecl;
+var
+  view: QLPreviewView;
+begin
+  view:= QLPreviewView(PluginWin);
+
+  // workaround for the bug of MacOS Quick Look:
+  // when previewing different types of files continuously, occasionally exceptions occur.
+  // such as previewing a large .pas file immediately after previewing a pdf file.
+  // empty the original preview file first can solve such problems.
+  if isExtChanged(view,FileToLoad) then setFilepath(view,EmptyStr);
+
+  setFilepath( view, FileToLoad );
   Result:= LISTPLUGIN_OK;
 end;
 
