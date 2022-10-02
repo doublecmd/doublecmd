@@ -32,13 +32,7 @@ uses
   ComCtrls, Controls, Classes, SysUtils, StdCtrls, ExtCtrls, Forms, ColorBox,
   Buttons, Spin, Grids, Menus, Dialogs,
   //DC
-  uColumns, fOptionsFrame
-  {$IFDEF COLUMNSFILEVIEW_VTV}
-  , uColumnsFileViewVtv
-  {$ELSE}
-  , uColumnsFileView
-  {$ENDIF}
-  ;
+  uColumns, fOptionsFrame, uColumnsFileView;
 
 type
 

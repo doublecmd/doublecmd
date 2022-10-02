@@ -1,2 +1,0 @@
-
-{$i ../dummydragmanager.inc}

@@ -1,2 +1,0 @@
-uses
-  Gtk2Int;

@@ -32,13 +32,7 @@ uses
   DividerBevel,
 
   //DC
-  uColumns, fOptionsFrame
-  {$IFDEF COLUMNSFILEVIEW_VTV}
-  , uColumnsFileViewVtv
-  {$ELSE}
-  , uColumnsFileView
-  {$ENDIF}
-  ;
+  uColumns, fOptionsFrame, uColumnsFileView;
 
 type
   { TfrmOptionsFilePanelsColors }

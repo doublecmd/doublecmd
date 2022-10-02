@@ -935,12 +935,8 @@ uses
   uFileSourceOperationOptionsUI, uDebug, uHotkeyManager, uFileSourceUtil, uTempFileSystemFileSource,
   Laz2_XMLRead, DCOSUtils, DCStrUtils, fOptions, fOptionsFrame, fOptionsToolbar, uClassesEx,
   uHotDir, uFileSorting, DCBasicTypes, foptionsDirectoryHotlist, uConnectionManager,
-  fOptionsToolbarBase, fOptionsToolbarMiddle, fEditor, uColumns, StrUtils, uSysFolders
-  {$IFDEF COLUMNSFILEVIEW_VTV}
-  , uColumnsFileViewVtv
-  {$ELSE}
-  , uColumnsFileView
-  {$ENDIF}
+  fOptionsToolbarBase, fOptionsToolbarMiddle, fEditor, uColumns, StrUtils, uSysFolders,
+  uColumnsFileView
 {$IFDEF MSWINDOWS}
   , uNetworkThread
 {$ENDIF}

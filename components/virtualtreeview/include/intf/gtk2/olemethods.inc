@@ -1,2 +1,0 @@
-
-{$i ../dummyolemethods.inc}
