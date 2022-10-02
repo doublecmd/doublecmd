@@ -149,7 +149,7 @@ procedure TdmComData.LoadImages(Images: TImageList; ANames: TStringArray);
 var
   AName: String;
   ASize16, ASize24, ASize32: Integer;
-  ABitmap16, ABitmap24, ABitmap32: TBitmap;
+  ABitmap16, ABitmap24, ABitmap32: TCustomBitmap;
 begin
   Images.Clear;
   ASize16:= 16; // AdjustIconSize(16, 96);
