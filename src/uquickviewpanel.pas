@@ -169,29 +169,24 @@ begin
     if not Assigned(aFile) then
       raise EAbort.Create(rsMsgErrNotSupported);
 
-    ActiveFile:= aFile.Clone;
-    if not ActiveFile.IsNameValid then
-    begin
-      ActiveFile:= TFile.Create( Sender.FileSource.GetParentDir(ActiveFile.Path) );
-      if Sender.FileSource.IsPathAtRoot(ActiveFile.Path) then ActiveFile:= TFile.Create(aFile.Path);
-    end;
-
     try
       // If files are links to local files
       if (fspLinksToLocalFiles in Sender.FileSource.Properties) then
       begin
-        if ActiveFile.IsDirectory or ActiveFile.IsLinkToDirectory then RaiseExit;
+        if aFile.IsDirectory or aFile.IsLinkToDirectory then RaiseExit;
         FFileSource := Sender.FileSource;
+        ActiveFile:= aFile.Clone;
         if not FFileSource.GetLocalName(ActiveFile) then RaiseExit;
       end
       // If files not directly accessible copy them to temp file source.
       else if not (fspDirectAccess in Sender.FileSource.Properties) then
       begin
-        if ActiveFile.IsDirectory or SameText(FFileName, ActiveFile.Name) then RaiseExit;
+        if aFile.IsDirectory or SameText(FFileName, aFile.Name) then RaiseExit;
         if not (fsoCopyOut in Sender.FileSource.GetOperationsTypes) then RaiseExit;
 
+        ActiveFile:= aFile.Clone;
         TempFiles:= TFiles.Create(ActiveFile.Path);
-        TempFiles.Add(ActiveFile.Clone);
+        TempFiles.Add(aFile.Clone);
 
         if FFileSource.IsClass(TTempFileSystemFileSource) then
           TempFileSource := (FFileSource as ITempFileSystemFileSource)
@@ -220,6 +215,14 @@ begin
       else begin
         // We can use the file source directly.
         FFileSource := Sender.FileSource;
+        if aFile.IsNameValid then begin
+           ActiveFile:= aFile.Clone;
+        end else begin
+          if FFileSource.IsPathAtRoot(FFileSource.GetParentDir(aFile.Path)) then
+            ActiveFile:= TFile.Create( aFile.Path )
+          else
+            ActiveFile:= TFile.Create( FFileSource.GetParentDir(aFile.Path) );
+        end;
       end;
 
       LoadFile(ActiveFile.FullPath);
