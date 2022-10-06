@@ -208,7 +208,8 @@ const
   // 11  - During the last 2-3 years the default font for search result was set in file, not loaded and different visually than was was stored.
   // 12  - Split Behaviours/HeaderFooterSizeFormat to Behaviours/HeaderSizeFormat and Behaviours/FooterSizeFormat
   //       Loading a config prior of version 11 should ignore that setting and keep default.
-  ConfigVersion = 12;
+  // 13 -  Replace Configuration/UseConfigInProgramDir by doublecmd.inf
+  ConfigVersion = 13;
 
   // Configuration related filenames
   sMULTIARC_FILENAME = 'multiarc.ini';
@@ -2180,6 +2181,11 @@ begin
           if gConfig.TryGetValue(gConfig.RootNode, 'Configuration/UseConfigInProgramDir', gUseConfigInProgramDir) then
           begin
             gConfig.DeleteNode(gConfig.RootNode, 'Configuration/UseConfigInProgramDir');
+            if not gUseConfigInProgramDir then
+            begin
+              gConfig.Save;
+              mbDeleteFile(gpGlobalCfgDir + 'doublecmd.inf');
+            end;
           end;
 
           if not gUseConfigInProgramDir then
@@ -2382,18 +2388,6 @@ begin
           mbDeleteFile(gpGlobalCfgDir + 'doublecmd.inf')
       end;
 
-      { Remove location of configuration files from XML}
-      if mbFileAccess(gpGlobalCfgDir + 'doublecmd.xml', fmOpenWrite or fmShareDenyWrite) then
-      begin
-        TmpConfig := TXmlConfig.Create(gpGlobalCfgDir + 'doublecmd.xml', True);
-        try
-          TmpConfig.DeleteNode(TmpConfig.RootNode, 'Configuration/UseConfigInProgramDir');
-          TmpConfig.Save;
-        finally
-          TmpConfig.Free;
-        end;
-      end;
-
       gConfig.FileName := gpCfgDir + 'doublecmd.xml';
     end;
 
@@ -2482,6 +2476,11 @@ begin
     { Double Commander Version }
     gPreviousVersion:= GetAttr(Root, 'DCVersion', EmptyStr);
     LoadedConfigVersion := GetAttr(Root, 'ConfigVersion', ConfigVersion);
+
+    if (LoadedConfigVersion < 13) then
+    begin
+      DeleteNode(Root, 'Configuration/UseConfigInProgramDir');
+    end;
 
     { Language page }
     gPOFileName := GetValue(Root, 'Language/POFileName', gPOFileName);
