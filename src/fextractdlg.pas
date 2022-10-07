@@ -46,7 +46,6 @@ type
     cbFileMask: TComboBox;
     lblFileMask: TLabel;
     pnlCheckBoxes: TPanel;
-    pnlLabels: TPanel;
     procedure cbExtractPathChange(Sender: TObject);
     procedure FormCreate(Sender: TObject);
   private
