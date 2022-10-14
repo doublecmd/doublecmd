@@ -92,7 +92,7 @@ implementation
 {$R *.lfm}
 
 uses
-  fOptions, Forms, Dialogs, fMain, Controls,
+  LConvEncoding, fOptions, Forms, Dialogs, fMain, Controls,
   DCStrUtils, uDCUtils, uSpecialDir, uShowForm, uGlobs, uLng, uThumbnails,
   uConvEncoding, uEarlyConfig;
 
@@ -188,7 +188,7 @@ begin
   gThumbSize.cy        := speThumbHeight.Value;
   gGoToRoot            := chkGoToRoot.Checked;
   gShowCurDirTitleBar  := chkShowCurDirTitleBar.Checked;
-  gDefaultTextEncoding := cmbDefaultEncoding.Text;
+  gDefaultTextEncoding := NormalizeEncoding(cmbDefaultEncoding.Text);
 
   {$IFDEF MSWINDOWS}
   gTotalCommanderExecutableFilename := fneTCExecutableFilename.FileName;

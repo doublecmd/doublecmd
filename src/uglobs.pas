@@ -749,10 +749,11 @@ var
 implementation
 
 uses
-   LCLProc, LCLType, Dialogs, Laz2_XMLRead, LazUTF8, uExifWdx, uSynDiffControls,
+   LCLProc, LCLType, Dialogs, Laz2_XMLRead, LazUTF8, LConvEncoding, uExifWdx,
    uGlobsPaths, uLng, uShowMsg, uFileProcs, uOSUtils, uFindFiles, uEarlyConfig,
    uDCUtils, fMultiRename, uFile, uDCVersion, uDebug, uFileFunctions,
-   uDefaultPlugins, Lua, uKeyboard, DCOSUtils, DCStrUtils, uPixMapManager
+   uDefaultPlugins, Lua, uKeyboard, DCOSUtils, DCStrUtils, uPixMapManager,
+   uSynDiffControls
    {$IF DEFINED(MSWINDOWS)}
     , ShlObj
    {$ENDIF}
@@ -3054,7 +3055,7 @@ begin
       gHotDirFilenameStyle := TConfigFilenameStyle(GetValue(Node, 'FilenameStyle', ord(gHotDirFilenameStyle)));
       gHotDirPathToBeRelativeTo := gConfig.GetValue(Node, 'PathToBeRelativeTo', gHotDirPathToBeRelativeTo);
       gHotDirPathModifierElements := tHotDirPathModifierElements(GetValue(Node, 'PathModifierElements', Integer(gHotDirPathModifierElements)));
-      gDefaultTextEncoding := GetValue(Node, 'DefaultTextEncoding', gDefaultTextEncoding);
+      gDefaultTextEncoding := NormalizeEncoding(GetValue(Node, 'DefaultTextEncoding', gDefaultTextEncoding));
     end;
 
     { Thumbnails }
