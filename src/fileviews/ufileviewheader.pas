@@ -274,6 +274,7 @@ begin
   FPathEdit.Parent:= Self;
   FPathEdit.Visible:= False;
   FPathEdit.TabStop:= False;
+  FPathEdit.BorderStyle:= bsNone;
   FPathEdit.ObjectTypes:= [otFolders, otHidden];
 
   OnResize:= @HeaderResize;
