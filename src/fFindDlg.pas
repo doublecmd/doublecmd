@@ -2640,7 +2640,6 @@ end;
 procedure TfrmFindDlg.tsStandardEnter(Sender: TObject);
 begin
   btnStart.Default := True;
-  btnStart.SetFocus;
   cmbFindFileMask.SetFocus;
 end;
 
