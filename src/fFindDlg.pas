@@ -2354,13 +2354,16 @@ begin
     //1. If we're using at least plug in, switch to it.
     //2. If not but we're using at least something from the "Advanced" tab, switch to it.
     //3. If nothing above, at least switch to "Standard" tab.
+    pgcSearch.Options:= pgcSearch.Options + [nboDoChangeOnSetIndex];
     if (cbUsePlugin.Checked OR frmContentPlugins.chkUsePlugins.Checked) then
       pgcSearch.ActivePage := tsPlugins
     else
       if (cbNotOlderThan.Checked OR cbFileSizeFrom.Checked OR cbFileSizeTo.Checked OR cbDateFrom.Checked OR cbDateTo.Checked OR cbTimeFrom.Checked OR cbTimeTo.Checked OR (edtAttrib.Text<>'')) then
         pgcSearch.ActivePage := tsAdvanced
-      else
+      else begin
         pgcSearch.ActivePage := tsStandard;
+      end;
+    pgcSearch.Options:= pgcSearch.Options - [nboDoChangeOnSetIndex];
   end;
 end;
 
@@ -2640,7 +2643,6 @@ end;
 procedure TfrmFindDlg.tsStandardEnter(Sender: TObject);
 begin
   btnStart.Default := True;
-  cmbFindFileMask.SetFocus;
 end;
 
 { TfrmFindDlg.UpdateTemplatesList }
