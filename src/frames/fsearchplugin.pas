@@ -91,7 +91,11 @@ var
   Panel: TPluginPanel;
 begin
   chkUsePlugins.Checked:= SearchTemplate.ContentPlugin;
-  rbAnd.Checked:= SearchTemplate.ContentPluginCombine;
+  if SearchTemplate.ContentPluginCombine then
+    rbAnd.Checked:= True
+  else begin
+    rbOr.Checked:= True;
+  end;
   for I:= pnlTable.ControlCount - 1 downto 0 do pnlTable.Controls[I].Free;
   for I:= Low(SearchTemplate.ContentPlugins) to High(SearchTemplate.ContentPlugins) do
   begin
