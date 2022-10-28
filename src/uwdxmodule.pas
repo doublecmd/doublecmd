@@ -289,25 +289,39 @@ type
 // Double Commander <-> Total Commander
 
 const
-  WdxLangTable: array[0..16, 0..1] of String =
+  WdxLangTable: array[0..30, 0..1] of String =
   (
-   ('zh_CN', 'CHN'),
-   ('cs',    'CZ' ),
-   ('da',    'DAN'),
-   ('de',    'DEU'),
-   ('nl',    'DUT'),
-   ('es',    'ESP'),
-   ('fr',    'FRA'),
-   ('hu',    'HUN'),
-   ('it',    'ITA'),
-   ('ko',    'KOR'),
-   ('nb',    'NOR'),
-   ('pl',    'POL'),
-   ('ro',    'ROM'),
-   ('ru',    'RUS'),
-   ('sk',    'SK' ),
-   ('sl',    'SVN'),
-   ('sv',    'SWE')
+   ('be',       'BEL'),
+   ('bg',       'BUL'),
+   ('ca',       'CAT'),
+   ('zh_CN',    'CHN'),
+   ('cs',       'CZ' ),
+   ('da',       'DAN'),
+   ('de',       'DEU'),
+   ('nl',       'DUT'),
+   ('el',       'ELL'),
+   ('es',       'ESP'),
+   ('fr',       'FRA'),
+   ('hr',       'HR' ),
+   ('hu',       'HUN'),
+   ('it',       'ITA'),
+   ('ja',       'JPN'),
+   ('ko',       'KOR'),
+   ('nb',       'NOR'),
+   ('nn',       'NOR'),
+   ('pl',       'POL'),
+   ('pt',       'POR'),
+   ('pt_BR',    'PTG'),
+   ('ro',       'ROM'),
+   ('ru',       'RUS'),
+   ('sk',       'SK' ),
+   ('sr',       'SRB'),
+   ('sr@latin', 'SRL'),
+   ('sl',       'SVN'),
+   ('sv',       'SWE'),
+   ('tr',       'TUR'),
+   ('zh_TW',    'TW' ),
+   ('uk',       'UKR')
   );
 
 function GetWdxLang(const Code: String): String;
