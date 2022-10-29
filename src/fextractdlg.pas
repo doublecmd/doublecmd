@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    File unpacking window
 
-   Copyright (C) 2007-2019 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2007-2022 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -46,7 +46,6 @@ type
     cbFileMask: TComboBox;
     lblFileMask: TLabel;
     pnlCheckBoxes: TPanel;
-    pnlLabels: TPanel;
     procedure cbExtractPathChange(Sender: TObject);
     procedure FormCreate(Sender: TObject);
   private
@@ -55,6 +54,8 @@ type
     procedure SwitchOptions;
     procedure ExtractArchive(ArchiveFileSource: IArchiveFileSource; TargetFileSource: IFileSource;
                              const TargetPath, TargetMask: String; QueueId: TOperationsManagerQueueIdentifier);
+  protected
+    procedure DoAutoSize; override;
   public
     { public declarations }
   end;
@@ -312,6 +313,29 @@ begin
       msgWarning(rsMsgErrNotSupported);
 
   end;
+end;
+
+procedure TfrmExtractDlg.DoAutoSize;
+var
+  Index: Integer;
+  AControl: TControl;
+  AMaxControl: TControl;
+  AMaxWidth: Integer = 0;
+begin
+  inherited DoAutoSize;
+  for Index:= 0 to pnlContent.ControlCount - 1 do
+  begin
+    AControl:= pnlContent.Controls[Index];
+    if AControl is TCustomLabel then
+    begin
+      if AControl.Width > AMaxWidth then
+      begin
+        AMaxControl:= AControl;
+        AMaxWidth:= AControl.Width;
+      end;
+    end;
+  end;
+  cbFileMask.AnchorSide[akLeft].Control:= AMaxControl;
 end;
 
 end.
