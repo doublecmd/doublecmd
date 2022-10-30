@@ -547,7 +547,7 @@ procedure Register;
 implementation
 
 uses
-  LCLType, Graphics, Forms, LCLProc, Clipbrd, LConvEncoding,
+  Math, LCLType, Graphics, Forms, LCLProc, Clipbrd, LConvEncoding,
   DCUnicodeUtils, LCLIntf, LazUTF8, DCOSUtils , DCConvertEncoding
   {$IF DEFINED(UNIX)}
   , BaseUnix, Unix, DCUnix
@@ -1923,7 +1923,7 @@ end;
 function TViewerControl.GetClientHeightInLines: Integer;
 begin
   if FTextHeight > 0 then
-    Result := GetViewerRect.Height div FTextHeight
+    Result := Ceil(GetViewerRect.Height / FTextHeight)
   else
     Result := 0;
 end;
