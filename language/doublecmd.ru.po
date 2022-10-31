@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 1.0.0 alpha\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2021-06-30 17:31+0300\n"
+"PO-Revision-Date: 2022-10-26 17:31+0300\n"
 "Last-Translator: Alexander Koblov <alexx2000@mail.ru>\n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -1203,7 +1203,7 @@ msgstr "&Распаковать файлы по маске:"
 
 #: tfrmextractdlg.lblpassword.caption
 msgid "&Password for encrypted files:"
-msgstr "&Пароль (для зашифрованных файлов):"
+msgstr "&Пароль для зашифрованных файлов:"
 
 #: tfrmfileexecuteyourself.btnclose.caption
 msgctxt "TFRMFILEEXECUTEYOURSELF.BTNCLOSE.CAPTION"
@@ -9070,7 +9070,7 @@ msgstr "Создать символьную ссылку"
 
 #: tfrmsymlink.chkuserelativepath.caption
 msgid "Use &relative path when possible"
-msgstr "&Относительный путь если возможно"
+msgstr "&Относительный путь, если возможно"
 
 #: tfrmsymlink.lblexistingfile.caption
 msgctxt "TFRMSYMLINK.LBLEXISTINGFILE.CAPTION"
@@ -10841,7 +10841,7 @@ msgstr "Размер"
 
 #: ulng.rsfunctrashorigpath
 msgid "Original path"
-msgstr ""
+msgstr "Исходный путь"
 
 #: ulng.rsfunctype
 msgid "Type"
@@ -13260,7 +13260,7 @@ msgstr "Нет;Командная строка;Быстрый поиск;Быс�
 
 #: ulng.rsoptmouseselectionbutton
 msgid "Left button;Right button;"
-msgstr "Левая клавиша;Правая клавиша;"
+msgstr "Левая кнопка;Правая кнопка;"
 
 #: ulng.rsoptnewfilesposition
 msgid "at the top of the file list;after directories (if directories are sorted before files);at sorted position;at the bottom of the file list"
