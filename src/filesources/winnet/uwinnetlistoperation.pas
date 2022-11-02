@@ -20,6 +20,7 @@ type
   private
     procedure ShareEnum;
     procedure ShellEnum;
+    procedure LinuxEnum;
     procedure WorkgroupEnum;
     function Linux: Boolean;
     function Connect: Boolean;
@@ -223,6 +224,40 @@ begin
   end;
 end;
 
+procedure TWinNetListOperation.LinuxEnum;
+var
+  AFile: TFile;
+  pchEaten: ULONG;
+  APath: UnicodeString;
+  NumIDs: LongWord = 0;
+  AFolder: IShellFolder;
+  dwAttributes: ULONG = 0;
+  EnumIDList: IEnumIDList;
+  DesktopFolder: IShellFolder;
+  PIDL, NetworkPIDL: PItemIDList;
+begin
+  try
+    OleCheckUTF8(SHGetDesktopFolder(DesktopFolder));
+    APath:= CeUtf8ToUtf16(ExcludeTrailingPathDelimiter(Path));
+    OleCheckUTF8(DeskTopFolder.ParseDisplayName(0, nil, PWideChar(APath), pchEaten, NetworkPIDL, dwAttributes));
+    OleCheckUTF8(DesktopFolder.BindToObject(NetworkPIDL, nil, IID_IShellFolder, Pointer(AFolder)));
+    OleCheckUTF8(AFolder.EnumObjects(0, SHCONTF_FOLDERS or SHCONTF_NONFOLDERS or SHCONTF_INCLUDEHIDDEN, EnumIDList));
+
+    while EnumIDList.Next(1, PIDL, NumIDs) = S_OK do
+    begin
+      CheckOperationState;
+
+      aFile:= TWinNetFileSource.CreateFile(Path);
+      aFile.Attributes:= FILE_ATTRIBUTE_DIRECTORY;
+      AFile.FullPath:= GetDisplayName(AFolder, PIDL, SHGDN_FORPARSING or SHGDN_FORADDRESSBAR);
+
+      FFiles.Add(AFile);
+    end;
+  except
+    on E: Exception do msgError(Thread, E.Message);
+  end;
+end;
+
 constructor TWinNetListOperation.Create(aFileSource: IFileSource; aPath: String);
 begin
   FFiles := TFiles.Create(aPath);
@@ -242,8 +277,11 @@ begin
         inherited MainExecute;
     end
     else begin
+      // Linux WSL
+      if Linux then
+        LinuxEnum
       // Workstation/Server
-      if (IsPathAtRoot(Path) = False) and (Pos('\\', Path) = 1) then
+      else if (IsPathAtRoot(Path) = False) and (Pos('\\', Path) = 1) then
         ShareEnum
       // Root/Domain/Workgroup
       else if not Samba1 then
