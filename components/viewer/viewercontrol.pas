@@ -277,7 +277,7 @@ type
     {en
        Returns how many lines (given current FTextHeight) will fit into the window.
     }
-    function GetClientHeightInLines: Integer; inline;
+    function GetClientHeightInLines(Whole: Boolean = True): Integer; inline;
 
     {en
        Calculates how many lines can be displayed from given position.
@@ -1685,7 +1685,7 @@ begin
 
   for xIndex := 0 to FColCount-1 do
   begin
-    for yIndex := 0 to GetClientHeightInLines - 1 do
+    for yIndex := 0 to GetClientHeightInLines(False) - 1 do
     begin
       if iPos >= FHighLimit then
         Break;
@@ -1725,7 +1725,7 @@ var
   s: string;
 begin
   iPos := FPosition;
-  for yIndex := 0 to GetClientHeightInLines - 1 do
+  for yIndex := 0 to GetClientHeightInLines(False) - 1 do
   begin
     if iPos >= FHighLimit then
       Break;
@@ -1745,7 +1745,7 @@ var
   s: string;
 begin
   iPos := FPosition;
-  for yIndex := 0 to GetClientHeightInLines - 1 do
+  for yIndex := 0 to GetClientHeightInLines(False) - 1 do
   begin
     if iPos >= FHighLimit then
       Break;
@@ -1901,10 +1901,15 @@ begin
     end;
 end;
 
-function TViewerControl.GetClientHeightInLines: Integer;
+function TViewerControl.GetClientHeightInLines(Whole: Boolean): Integer;
 begin
   if FTextHeight > 0 then
-    Result := Ceil(GetViewerRect.Height / FTextHeight)
+  begin
+    if Whole then
+      Result := GetViewerRect.Height div FTextHeight
+    else
+      Result := Ceil(GetViewerRect.Height / FTextHeight);
+  end
   else
     Result := 0;
 end;
