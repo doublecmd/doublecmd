@@ -118,7 +118,7 @@ type
     procedure MakeVisible(iRow: Integer);
     procedure MakeActiveVisible;
 
-    procedure UpdateFooterDetails;
+    procedure UpdateFooterDetails(AInfo: Boolean);
 
     {en
        Format and cache all columns strings.
@@ -433,7 +433,7 @@ begin
 {$ENDIF}
   DoFileIndexChanged(aRow - dgPanel.FixedRows, dgPanel.TopRow);
 
-  if (FSelectedCount = 0) then UpdateFooterDetails;
+  if (FSelectedCount = 0) then UpdateFooterDetails(False);
 end;
 
 procedure TColumnsFileView.dgPanelTopLeftChanged(Sender: TObject);
@@ -515,7 +515,7 @@ end;
 procedure TColumnsFileView.UpdateInfoPanel;
 begin
   inherited UpdateInfoPanel;
-  UpdateFooterDetails;
+  UpdateFooterDetails(True);
 end;
 
 procedure TColumnsFileView.MouseScrollTimer(Sender: TObject);
@@ -735,7 +735,7 @@ begin
     MakeVisible(dgPanel.Row);
 end;
 
-procedure TColumnsFileView.UpdateFooterDetails;
+procedure TColumnsFileView.UpdateFooterDetails(AInfo: Boolean);
 var
   AFile: TFile;
 begin
@@ -744,7 +744,11 @@ begin
     AFile:= CloneActiveFile;
     if Assigned(AFile) then
     try
-      lblInfo.Caption := AFile.Name;
+      if AFile.IsNameValid then
+        lblInfo.Caption := AFile.Name
+      else if not AInfo then begin
+        inherited UpdateInfoPanel;
+      end;
     finally
       AFile.Free;
     end;
