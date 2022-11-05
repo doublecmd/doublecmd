@@ -94,7 +94,8 @@ inherited frmOptionsBriefView: TfrmOptionsBriefView
       Left = 136
       Height = 23
       Top = 21
-      Width = 50
+      Width = 80
+      Constraints.MinWidth = 80
       MaxValue = 1000
       MinValue = 1
       TabOrder = 2
@@ -112,7 +113,7 @@ inherited frmOptionsBriefView: TfrmOptionsBriefView
       Left = 136
       Height = 23
       Top = 44
-      Width = 50
+      Width = 80
       MinValue = 1
       TabOrder = 4
       Value = 1
