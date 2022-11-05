@@ -683,7 +683,7 @@ var
   dwFileAttributes: TFileAttrs;
 begin
   FLastSearchPos := -1;
-  Caption := aFileName;
+  Caption := ReplaceHome(aFileName);
   ViewerControl.FileName := EmptyStr;
 
   // Clear text on status bar.
@@ -751,7 +751,7 @@ begin
       begin
         Status.Panels[sbpFileNr].Text:= Format('%d/%d', [Index + 1, FileList.Count]);
         Status.Panels[sbpFileName].Text:= FileList[Index];
-        Caption:= FileList[Index];
+        Caption:= ReplaceHome(FileList[Index]);
         iActiveFile := Index;
         Exit;
       end;

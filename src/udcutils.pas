@@ -68,6 +68,10 @@ function SetCmdDirAsEnvVar(const sPath : String) : String;
 }
 function ReplaceEnvVars(const sText: String): String;
 {en
+   Replaces home directory at the beginning of the string with tilde ~.
+}
+function ReplaceHome(const Path: String): String;
+{en
    Replaces tilde ~ at the beginning of the string with home directory.
 }
 function ReplaceTilde(const Path: String): String;
@@ -315,6 +319,23 @@ begin
   //     We got them in the "gSpecialDirList" but just in case some others were added on-the-fly
   //     between the moment the application started and the moment we might needed them
   Result:= mbExpandEnvironmentStrings(Result);
+end;
+
+function ReplaceHome(const Path: String): String;
+{$IFDEF UNIX}
+var
+  Len: Integer;
+  AHome: String;
+{$ENDIF}
+begin
+{$IFDEF UNIX}
+  AHome:= GetHomeDir;
+  Len:= Length(AHome);
+  if StrBegins(Path, AHome) and ((Length(Path) = Len) or (Path[Len + 1] = PathDelim)) then
+    Result := '~' + Copy(Path, Len + 1, MaxInt)
+  else
+{$ENDIF}
+    Result := Path;
 end;
 
 function ReplaceTilde(const Path: String): String;

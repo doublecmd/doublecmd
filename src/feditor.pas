@@ -585,7 +585,7 @@ begin
     Exit;
 
   FFileName := AValue;
-  Caption := FFileName;
+  Caption := ReplaceHome(FFileName);
 end;
 
 destructor TfrmEditor.Destroy;
