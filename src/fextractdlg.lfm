@@ -143,6 +143,7 @@ inherited frmExtractDlg: TfrmExtractDlg
         Height = 26
         Top = 6
         Width = 446
+        AllowGrayed = True
         BorderSpacing.Top = 2
         Caption = 'Unpack each archive to a &separate subdir (name of the archive)'
         TabOrder = 0

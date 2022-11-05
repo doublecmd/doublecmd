@@ -278,6 +278,12 @@ begin
           // Set operation specific options
           if Assigned(Operation) then
           begin
+            if cbInSeparateFolder.State = cbGrayed then
+            begin
+              with Operation as TArchiveCopyOutOperation do
+                ExtractFlags:= ExtractFlags + [efSmartExtract];
+            end;
+
             if ArchiveFileSource.IsInterface(IMultiArchiveFileSource) then
             begin
               with Operation as TMultiArchiveCopyOutOperation do
