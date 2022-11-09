@@ -49,6 +49,7 @@ type
     function Flush: Boolean;
     function Read(var Buffer; Count: LongInt): LongInt; override;
     function Write(const Buffer; Count: LongInt): LongInt; override;
+    property DirtyLimit: Int64 read FDirtyLimit write FDirtyLimit;
     property AutoSync: Boolean read FAutoSync write SetAutoSync;
     property FileName: String read FFileName;
   end; 
