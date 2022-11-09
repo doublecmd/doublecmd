@@ -171,7 +171,7 @@ uses
   DCBasicTypes, uFileSource, uFileSystemFileSource, uFileProperty, uAdministrator,
   StrUtils, DCDateTimeUtils, uShowMsg, Forms, LazUTF8, uHash, uFileCopyEx, SysConst
 {$IFDEF UNIX}
-  , BaseUnix, DCUnix
+  , BaseUnix, Unix, DCUnix
 {$ENDIF}
   ;
 
@@ -503,6 +503,9 @@ var
   Options: UInt32;
   Context: THashContext;
   bDeleteFile: Boolean = False;
+{$IFDEF LINUX}
+  Sbfs: TStatFS;
+{$ENDIF}
 
   procedure OpenSourceFile;
   var
@@ -747,6 +750,16 @@ begin
       OpenTargetFile;
       if not Assigned(TargetFileStream) then
         Exit;
+
+{$IF DEFINED(LINUX)}
+      if not FVerify and (fpFStatFS(TargetFileStream.Handle, @Sbfs) = 0) then
+      begin
+        case UInt32(Sbfs.fstype) of
+          NFS_SUPER_MAGIC:
+            TargetFileStream.AutoSync:= True;
+        end;
+      end;
+{$ENDIF}
 
       while TotalBytesToRead > 0 do
       begin
