@@ -98,7 +98,7 @@ procedure TFileStreamEx.Sync(AWritten: Int64);
 const
   TARGET_LATENCY_LOW  = 900;
   TARGET_LATENCY_HIGH = 1100;
-  DIRTY_LIMIT_LOW  = 1024 * 1024;
+  DIRTY_LIMIT_LOW  = 512 * 1024;
   DIRTY_LIMIT_HIGH = MaxLongInt + 1;
 var
   T1, T2: QWord;
