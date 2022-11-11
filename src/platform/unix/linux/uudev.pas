@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Interface to UDev service via libudev.
 
-   Copyright (C) 2014 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2014-2022 Alexander Koblov (alexx2000@mail.ru)
 
    Based on udisks-1.0.4/src/device.c
 
@@ -49,7 +49,7 @@ var
 implementation
 
 uses
-  DynLibs, DCOSUtils, uDebug, uPollThread;
+  DynLibs, DCOSUtils, DCStrUtils, uDebug, uPollThread;
 
 type
 
@@ -128,39 +128,47 @@ const
   UDEV_DEVICE_TYPE_DISK = 'disk';
   UDEV_DEVICE_TYPE_PARTITION = 'partition';
 
-  drive_media_mapping: array [0..29, 0..1] of String =
-    (
-      ( 'ID_DRIVE_FLASH', 'flash' ),
-      ( 'ID_DRIVE_FLASH_CF', 'flash_cf' ),
-      ( 'ID_DRIVE_FLASH_MS', 'flash_ms' ),
-      ( 'ID_DRIVE_FLASH_SM', 'flash_sm' ),
-      ( 'ID_DRIVE_FLASH_SD', 'flash_sd' ),
-      ( 'ID_DRIVE_FLASH_SDHC', 'flash_sdhc' ),
-      ( 'ID_DRIVE_FLASH_MMC', 'flash_mmc' ),
-      ( 'ID_DRIVE_FLOPPY', 'floppy' ),
-      ( 'ID_DRIVE_FLOPPY_ZIP', 'floppy_zip' ),
-      ( 'ID_DRIVE_FLOPPY_JAZ', 'floppy_jaz' ),
-      ( 'ID_CDROM', 'optical_cd' ),
-      ( 'ID_CDROM_CD_R', 'optical_cd_r' ),
-      ( 'ID_CDROM_CD_RW', 'optical_cd_rw' ),
-      ( 'ID_CDROM_DVD', 'optical_dvd' ),
-      ( 'ID_CDROM_DVD_R', 'optical_dvd_r' ),
-      ( 'ID_CDROM_DVD_RW', 'optical_dvd_rw' ),
-      ( 'ID_CDROM_DVD_RAM', 'optical_dvd_ram' ),
-      ( 'ID_CDROM_DVD_PLUS_R', 'optical_dvd_plus_r' ),
-      ( 'ID_CDROM_DVD_PLUS_RW', 'optical_dvd_plus_rw' ),
-      ( 'ID_CDROM_DVD_PLUS_R_DL', 'optical_dvd_plus_r_dl' ),
-      ( 'ID_CDROM_DVD_PLUS_RW_DL', 'optical_dvd_plus_rw_dl' ),
-      ( 'ID_CDROM_BD', 'optical_bd' ),
-      ( 'ID_CDROM_BD_R', 'optical_bd_r' ),
-      ( 'ID_CDROM_BD_RE', 'optical_bd_re' ),
-      ( 'ID_CDROM_HDDVD', 'optical_hddvd' ),
-      ( 'ID_CDROM_HDDVD_R', 'optical_hddvd_r' ),
-      ( 'ID_CDROM_HDDVD_RW', 'optical_hddvd_rw' ),
-      ( 'ID_CDROM_MO', 'optical_mo' ),
-      ( 'ID_CDROM_MRW', 'optical_mrw' ),
-      ( 'ID_CDROM_MRW_W', 'optical_mrw_w' )
-    );
+  {
+    udev property, media name,
+    force non removable, force removable
+  }
+  drive_media_mapping: array [0..33, 0..3] of String =
+  (
+    ( 'ID_DRIVE_THUMB', 'thumb', 'TRUE', 'FALSE' ),
+    ( 'ID_DRIVE_FLASH', 'flash', 'FALSE', 'TRUE' ),
+    ( 'ID_DRIVE_FLASH_CF', 'flash_cf', 'FALSE', 'TRUE' ),
+    ( 'ID_DRIVE_FLASH_MS', 'flash_ms', 'FALSE', 'TRUE' ),
+    ( 'ID_DRIVE_FLASH_SM', 'flash_sm', 'FALSE', 'TRUE' ),
+    ( 'ID_DRIVE_FLASH_SD', 'flash_sd', 'FALSE', 'TRUE' ),
+    ( 'ID_DRIVE_FLASH_SDHC', 'flash_sdhc', 'FALSE', 'TRUE' ),
+    ( 'ID_DRIVE_FLASH_SDXC', 'flash_sdxc', 'FALSE', 'TRUE' ),
+    ( 'ID_DRIVE_FLASH_SDIO', 'flash_sdio', 'FALSE', 'TRUE' ),
+    ( 'ID_DRIVE_FLASH_SD_COMBO', 'flash_sd_combo', 'FALSE', 'TRUE' ),
+    ( 'ID_DRIVE_FLASH_MMC', 'flash_mmc', 'TRUE', 'FALSE' ),
+    ( 'ID_DRIVE_FLOPPY', 'floppy', 'FALSE', 'TRUE' ),
+    ( 'ID_DRIVE_FLOPPY_ZIP', 'floppy_zip', 'FALSE', 'TRUE' ),
+    ( 'ID_DRIVE_FLOPPY_JAZ', 'floppy_jaz', 'FALSE', 'TRUE' ),
+    ( 'ID_CDROM', 'optical_cd', 'FALSE', 'TRUE' ),
+    ( 'ID_CDROM_CD_R', 'optical_cd_r', 'FALSE', 'TRUE' ),
+    ( 'ID_CDROM_CD_RW', 'optical_cd_rw', 'FALSE', 'TRUE' ),
+    ( 'ID_CDROM_DVD', 'optical_dvd', 'FALSE', 'TRUE' ),
+    ( 'ID_CDROM_DVD_R', 'optical_dvd_r', 'FALSE', 'TRUE' ),
+    ( 'ID_CDROM_DVD_RW', 'optical_dvd_rw', 'FALSE', 'TRUE' ),
+    ( 'ID_CDROM_DVD_RAM', 'optical_dvd_ram', 'FALSE', 'TRUE' ),
+    ( 'ID_CDROM_DVD_PLUS_R', 'optical_dvd_plus_r', 'FALSE', 'TRUE' ),
+    ( 'ID_CDROM_DVD_PLUS_RW', 'optical_dvd_plus_rw', 'FALSE', 'TRUE' ),
+    ( 'ID_CDROM_DVD_PLUS_R_DL', 'optical_dvd_plus_r_dl', 'FALSE', 'TRUE' ),
+    ( 'ID_CDROM_DVD_PLUS_RW_DL', 'optical_dvd_plus_rw_dl', 'FALSE', 'TRUE' ),
+    ( 'ID_CDROM_BD', 'optical_bd', 'FALSE', 'TRUE' ),
+    ( 'ID_CDROM_BD_R', 'optical_bd_r', 'FALSE', 'TRUE' ),
+    ( 'ID_CDROM_BD_RE', 'optical_bd_re', 'FALSE', 'TRUE' ),
+    ( 'ID_CDROM_HDDVD', 'optical_hddvd', 'FALSE', 'TRUE' ),
+    ( 'ID_CDROM_HDDVD_R', 'optical_hddvd_r', 'FALSE', 'TRUE' ),
+    ( 'ID_CDROM_HDDVD_RW', 'optical_hddvd_rw', 'FALSE', 'TRUE' ),
+    ( 'ID_CDROM_MO', 'optical_mo', 'FALSE', 'TRUE' ),
+    ( 'ID_CDROM_MRW', 'optical_mrw', 'FALSE', 'TRUE' ),
+    ( 'ID_CDROM_MRW_W', 'optical_mrw_w', 'FALSE', 'TRUE' )
+  );
 
 procedure Print(const sMessage: String);
 begin
@@ -356,14 +364,15 @@ procedure GetDeviceInfo(SystemPath: PAnsiChar; Device: Pudev_device; out Info: T
 var
   I: Integer;
   Value: String;
+  DeviceName: String;
+  force_removable: Boolean = False;
+  force_non_removable: Boolean = False;
 begin
   with Info do
   begin
     DeviceFile:= udev_device_get_devnode(Device);
-
+    DeviceName:= ExtractFileName(DeviceFile);
     DeviceObjectPath:= SystemPath;
-
-    GetDeviceProperty(Device, 'ID_BUS', DriveConnectionInterface);
 
     GetDeviceProperty(Device, 'ID_FS_USAGE', IdUsage);
     GetDeviceProperty(Device, 'ID_FS_TYPE', IdType);
@@ -371,58 +380,64 @@ begin
     GetDeviceProperty(Device, 'ID_FS_UUID', IdUuid);
 
     GetDeviceProperty(Device, 'ID_FS_LABEL_ENC', IdLabel);
+
     if Length(IdLabel) > 0 then
       IdLabel:= DecodeString(IdLabel)
-    else
+    else begin
       GetDeviceProperty(Device, 'ID_FS_LABEL', IdLabel);
-
-    if not GetDeviceProperty(Device, 'ID_DRIVE_EJECTABLE', DriveIsMediaEjectable) then
-    begin
-      DriveIsMediaEjectable:= FALSE;
-      DriveIsMediaEjectable:= DriveIsMediaEjectable or (udev_device_get_property_value(Device, 'ID_CDROM' ) <> nil);
-      DriveIsMediaEjectable:= DriveIsMediaEjectable or (udev_device_get_property_value(Device, 'ID_DRIVE_FLOPPY_ZIP' ) <> nil);
-      DriveIsMediaEjectable:= DriveIsMediaEjectable or (udev_device_get_property_value(Device, 'ID_DRIVE_FLOPPY_JAZ' ) <> nil);
     end;
 
-    GetDeviceProperty(Device, 'UDISKS_SYSTEM_INTERNAL', DeviceIsSystemInternal);
-    GetDeviceProperty(Device, 'UDISKS_AUTOMOUNT_HINT', DeviceAutomountHint);
+    GetDeviceProperty(Device, 'ID_BUS', DriveConnectionInterface);
 
-    if not GetDeviceProperty(Device, 'UDISKS_IGNORE', DevicePresentationHide) then
-      GetDeviceProperty(Device, 'UDISKS_PRESENTATION_HIDE', DevicePresentationHide);
+    for I:= Low(drive_media_mapping) to High(drive_media_mapping) do
+    begin
+      if Assigned(udev_device_get_property_value(Device, PAnsiChar(drive_media_mapping[I, 0]))) then
+      begin
+        AddString(DriveMediaCompatibility, drive_media_mapping[I, 1]);
+        if StrToBool(drive_media_mapping[I, 2]) then force_non_removable:= True;
+        if StrToBool(drive_media_mapping[I, 3]) then force_removable:= True;
+      end;
+    end;
 
-    if not GetDeviceProperty(Device, 'UDISKS_NAME', DevicePresentationName) then
-      GetDeviceProperty(Device, 'UDISKS_PRESENTATION_NAME', DevicePresentationName);
-
-    if not GetDeviceProperty(Device, 'UDISKS_ICON_NAME', DevicePresentationIconName) then
-      GetDeviceProperty(Device, 'UDISKS_PRESENTATION_ICON_NAME', DevicePresentationIconName);
-
-    GetDeviceProperty(Device, 'ID_DRIVE_DETACHABLE', DriveCanDetach);
+    GetDeviceProperty(Device, 'UDISKS_SYSTEM', DeviceIsSystemInternal);
+    GetDeviceProperty(Device, 'UDISKS_IGNORE', DevicePresentationHide);
+    GetDeviceProperty(Device, 'UDISKS_AUTO', DeviceAutomountHint);
+    GetDeviceProperty(Device, 'UDISKS_NAME', DevicePresentationName);
+    GetDeviceProperty(Device, 'UDISKS_ICON_NAME', DevicePresentationIconName);
 
     Value:= udev_device_get_devtype(Device);
     DeviceIsDrive:= (Value = UDEV_DEVICE_TYPE_DISK);
     DeviceIsPartition:= (Value = UDEV_DEVICE_TYPE_PARTITION);
+
     if DeviceIsDrive then
     begin
-      if not GetDeviceProperty(Device, 'UDISKS_PARTITION_TABLE', DeviceIsPartitionTable) then
-      begin
-        DeviceIsPartitionTable:= (udev_device_get_property_value(Device, 'ID_PART_TABLE_TYPE' ) <> nil);
-      end;
+      DeviceIsPartitionTable:= (udev_device_get_property_value(Device, 'ID_PART_TABLE_TYPE' ) <> nil);
     end
     else if DeviceIsPartition then
     begin
-      if not GetDeviceProperty(Device, 'UDISKS_PARTITION_SLAVE', PartitionSlave) then
+      if DeviceObjectPath[Length(DeviceObjectPath)] in ['0'..'9'] then
       begin
-        if DeviceObjectPath[Length(DeviceObjectPath)] in ['0'..'9'] then
-        begin
-          PartitionSlave:= ExtractFileDir(DeviceObjectPath);
-          GetDeviceAttribute(PartitionSlave, 'removable', DeviceIsRemovable);
-        end;
+        PartitionSlave:= ExtractFileDir(DeviceObjectPath);
+        GetDeviceAttribute(PartitionSlave, 'removable', DeviceIsRemovable);
       end;
     end;
 
     if not DeviceIsRemovable then
     begin
       GetDeviceAttribute(Device, 'removable', DeviceIsRemovable);
+    end;
+
+    DriveIsMediaEjectable:= DeviceIsRemovable;
+    if force_non_removable then DeviceIsRemovable:= False;
+    if force_removable then DeviceIsRemovable:= True;
+
+    if StrBegins(DeviceName, 'mmcblk') then
+      DriveIsMediaEjectable:= DeviceIsRemovable;
+
+    if (StrBegins(DeviceName, 'fd')) or
+       (udev_device_get_property_value(Device, 'ID_DRIVE_FLOPPY' ) <> nil) then
+    begin
+      DriveIsMediaEjectable:= False;
     end;
 
     GetDeviceAttribute(Device, 'size', DeviceSize);
@@ -435,15 +450,6 @@ begin
     if not DeviceIsMediaAvailable then
     begin
       GetDeviceProperty(Device, 'ID_CDROM_MEDIA', DeviceIsMediaAvailable);
-    end;
-
-    for I:= Low(drive_media_mapping) to High(drive_media_mapping) do
-    begin
-      if Assigned(udev_device_get_property_value(Device, PAnsiChar(drive_media_mapping[I, 0]))) then
-      begin
-        SetLength(DriveMediaCompatibility, Length(DriveMediaCompatibility) + 1);
-        DriveMediaCompatibility[High(DriveMediaCompatibility)]:= drive_media_mapping[I, 1];
-      end;
     end;
     {
     WriteLn('Device: ', DeviceFile);
