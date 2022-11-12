@@ -546,6 +546,11 @@ end;
 
 function EjectDrive(Drive: PDrive): Boolean;
 begin
+{$IF NOT DEFINED(DARWIN)}
+  Result:= uGVolume.Eject(Drive^.Path);
+  if not Result then
+{$ENDIF}
+
 {$IF DEFINED(LINUX)}
   Result := False;
   if HasUDisks2 then
