@@ -3,7 +3,7 @@
     -------------------------------------------------------------------------
     This unit contains specific UNIX functions.
 
-    Copyright (C) 2008-2021 Alexander Koblov (alexx2000@mail.ru)
+    Copyright (C) 2008-2022 Alexander Koblov (alexx2000@mail.ru)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -546,7 +546,12 @@ end;
 
 function EjectDrive(Drive: PDrive): Boolean;
 begin
-{$IF DEFINED(DARWIN)}
+{$IF DEFINED(LINUX)}
+  Result := False;
+  if HasUDisks2 then
+    Result := uUDisks2.Eject(Drive^.DeviceId);
+  if not Result then
+{$ELSE IF DEFINED(DARWIN)}
   Result := fpSystemStatus('diskutil eject ' + Drive^.DeviceId) = 0;
   if not Result then
 {$ENDIF}

@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Interface to UDisks2 service via libudisks2.
 
-   Copyright (C) 2020 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2020-2022 Alexander Koblov (alexx2000@mail.ru)
 
    Based on udisks-2.8.4/tools/udisksctl.c
 
@@ -34,6 +34,7 @@ uses
 
 function Mount(const ObjectPath: String; out MountPath: String): Boolean;
 function Unmount(const ObjectPath: String): Boolean;
+function Eject(const ObjectPath: String): Boolean;
 
 var
   HasUDisks2: Boolean = False;
@@ -45,17 +46,22 @@ uses
 
 type
   PUDisksBlock = Pointer;
+  PUDisksDrive = Pointer;
   PUDisksObject = Pointer;
   PUDisksClient = Pointer;
   PUDisksFilesystem = Pointer;
 
 var
+  udisks_block_get_drive: function(object_: PUDisksBlock): Pgchar; cdecl;
   udisks_block_get_device: function(object_: PUDisksBlock): Pgchar; cdecl;
   udisks_block_get_symlinks: function(object_: PUDisksBlock): PPgchar; cdecl;
+  udisks_object_peek_drive: function(object_: PUDisksObject): PUDisksDrive; cdecl;
   udisks_object_peek_block: function(object_: PUDisksObject): PUDisksBlock; cdecl;
+  udisks_filesystem_get_mount_points: function(object_: PUDisksFilesystem): PPgchar; cdecl;
   udisks_object_peek_filesystem: function(object_: PUDisksObject): PUDisksFilesystem; cdecl;
   udisks_client_get_object_manager: function(client: PUDisksClient): PGDBusObjectManager; cdecl;
   udisks_client_new_sync: function(cancellable: PGCancellable; error: PPGError): PUDisksClient; cdecl;
+  udisks_drive_call_eject_sync: function(proxy: PUDisksDrive; arg_options: PGVariant; cancellable: PGCancellable; error: PPGError): gboolean; cdecl;
   udisks_filesystem_call_unmount_sync: function(proxy: PUDisksFilesystem; arg_options: PGVariant; cancellable: PGCancellable; error: PPGError): gboolean; cdecl;
   udisks_filesystem_call_mount_sync: function(proxy: PUDisksFilesystem; arg_options: PGVariant; out_mount_path: PPgchar; cancellable: PGCancellable; error: PPGError): gboolean; cdecl;
 
@@ -64,10 +70,11 @@ begin
   WriteLn('UDisks2: ', sMessage);
 end;
 
-procedure PrintError(AError: PGError);
+procedure PrintError(var AError: PGError);
 begin
   Print(AError^.message);
   g_error_free(AError);
+  AError:= nil;
 end;
 
 function DeviceFileToUDisksObject(Client: PUDisksClient; Device: Pgchar): PUDisksObject;
@@ -172,6 +179,72 @@ begin
   Result:= MountUnmount(ObjectPath, False, nil);
 end;
 
+function Eject(const ObjectPath: String): Boolean;
+var
+  DrivePath: Pgchar;
+  Options: PGVariant;
+  Drive: PUDisksDrive;
+  Block: PUDisksBlock;
+  MountPoints: PPgchar;
+  AError: PGError = nil;
+  Builder: TGVariantBuilder;
+  BlockObject: PUDisksObject;
+  DriveObject: PUDisksObject;
+  Client: PUDisksClient = nil;
+  FileSystem: PUDisksFilesystem;
+begin
+  Client := udisks_client_new_sync (nil, @AError);
+  if (Client = nil) then
+  begin
+    PrintError(AError);
+    Exit(False);
+  end;
+  BlockObject:= DeviceFileToUDisksObject(Client, Pgchar(ObjectPath));
+  Result:= Assigned(BlockObject);
+  if Result then
+  begin
+    Block:= udisks_object_peek_block(BlockObject);
+    Result:= Assigned(Block);
+    if Result then
+    begin
+      DrivePath:= udisks_block_get_drive(Block);
+      DriveObject:= g_dbus_object_manager_get_object(udisks_client_get_object_manager(Client), DrivePath);
+      Result:= Assigned(DriveObject);
+      if Result then
+      begin
+        Drive:= udisks_object_peek_drive(DriveObject);
+        Result:= Assigned(Drive);
+        if Result then
+        begin
+          g_variant_builder_init(@Builder, PGVariantType(PAnsiChar('a{sv}')));
+          Options:= g_variant_builder_end(@Builder);
+          g_variant_ref_sink(Options);
+
+          FileSystem:= udisks_object_peek_filesystem(BlockObject);
+          if Assigned(FileSystem) then
+          begin
+            MountPoints:= udisks_filesystem_get_mount_points(FileSystem);
+            if Assigned(MountPoints) and Assigned(MountPoints^) then
+            begin
+              Result:= udisks_filesystem_call_unmount_sync(FileSystem, options,
+                                                           nil, @AError);
+              if not Result then PrintError(AError);
+            end;
+          end;
+
+          Result:= udisks_drive_call_eject_sync(Drive, Options, nil, @AError);
+          if not Result then PrintError(AError);
+
+          g_variant_unref(Options);
+        end;
+        g_object_unref(PGObject(DriveObject));
+      end;
+    end;
+    g_object_unref(PGObject(BlockObject));
+  end;
+  g_object_unref(PGObject(Client));
+end;
+
 function CheckUDisks({%H-}Parameter : Pointer): PtrInt;
 var
   AClient: PGObject;
@@ -196,12 +269,16 @@ begin
   libudisks2_so_0:= SafeLoadLibrary('libudisks2.so.0');
   if (libudisks2_so_0 <> NilHandle) then
   try
+    @udisks_block_get_drive:= SafeGetProcAddress(libudisks2_so_0, 'udisks_block_get_drive');
     @udisks_block_get_device:= SafeGetProcAddress(libudisks2_so_0, 'udisks_block_get_device');
     @udisks_block_get_symlinks:= SafeGetProcAddress(libudisks2_so_0, 'udisks_block_get_symlinks');
+    @udisks_object_peek_drive:= SafeGetProcAddress(libudisks2_so_0, 'udisks_object_peek_drive');
     @udisks_object_peek_block:= SafeGetProcAddress(libudisks2_so_0, 'udisks_object_peek_block');
     @udisks_object_peek_filesystem:= SafeGetProcAddress(libudisks2_so_0, 'udisks_object_peek_filesystem');
     @udisks_client_get_object_manager:= SafeGetProcAddress(libudisks2_so_0, 'udisks_client_get_object_manager');
     @udisks_client_new_sync:= SafeGetProcAddress(libudisks2_so_0, 'udisks_client_new_sync');
+    @udisks_drive_call_eject_sync:= SafeGetProcAddress(libudisks2_so_0, 'udisks_drive_call_eject_sync');
+    @udisks_filesystem_get_mount_points:= SafeGetProcAddress(libudisks2_so_0, 'udisks_filesystem_get_mount_points');
     @udisks_filesystem_call_unmount_sync:= SafeGetProcAddress(libudisks2_so_0, 'udisks_filesystem_call_unmount_sync');
     @udisks_filesystem_call_mount_sync:= SafeGetProcAddress(libudisks2_so_0, 'udisks_filesystem_call_mount_sync');
 
