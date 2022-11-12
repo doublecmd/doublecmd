@@ -129,7 +129,6 @@ var
   {$IFDEF LINUX}
   FakeClass: TFakeClass = nil;
   MountWatcher: TMountWatcher = nil;
-  IsUDisksAvailable: Boolean = False;
   {$ENDIF}
   {$IFDEF MSWINDOWS}
   OldWProc: WNDPROC;
@@ -307,23 +306,15 @@ begin
   {$IFDEF LINUX}
   FakeClass := TFakeClass.Create;
 
-  if uUDisks.Initialize then
+  if HasUdev then
   begin
-    IsUDisksAvailable := True;
-    uUDisks.AddObserver(@FakeClass.OnUDisksNotify);
-  end
-  else
-  begin
-    if HasUdev then
-    begin
-      if uUDev.Initialize then
-        uUDev.AddObserver(@FakeClass.OnUDisksNotify);
-    end;
-    DCDebug('Detecting mounts through /proc/self/mounts');
-    MountWatcher:= TMountWatcher.Create;
-    MountWatcher.OnMountEvent:= @FakeClass.OnMountWatcherNotify;
-    MountWatcher.Start;
+    if uUDev.Initialize then
+      uUDev.AddObserver(@FakeClass.OnUDisksNotify);
   end;
+  DCDebug('Detecting mounts through /proc/self/mounts');
+  MountWatcher:= TMountWatcher.Create;
+  MountWatcher.OnMountEvent:= @FakeClass.OnMountWatcherNotify;
+  MountWatcher.Start;
 
   uGVolume.Initialize;
   uGVolume.AddObserver(@FakeClass.OnGVolumeNotify);
@@ -348,13 +339,7 @@ begin
     Exit;
 
   {$IFDEF LINUX}
-  if IsUDisksAvailable then
-  begin
-    uUDisks.RemoveObserver(@FakeClass.OnUDisksNotify);
-    uUDisks.Finalize;
-    IsUDisksAvailable := False;
-  end
-  else if HasUdev then
+  if HasUdev then
   begin
     uUDev.RemoveObserver(@FakeClass.OnUDisksNotify);
     uUDev.Finalize;
@@ -427,11 +412,6 @@ begin
       end;
     end;
     Result := False;
-  end
-  else if IsUDisksAvailable then
-  begin
-    // Devices not supplied, retrieve info from UDisks.
-    Result := uUDisks.GetDeviceInfo(DeviceObjectPath, DeviceInfo);
   end
   else
   begin
@@ -883,7 +863,7 @@ var
       DeviceFile := mbReadAllLinks('/dev/disk/by-partuuid/' +
                                    GetStrMaybeQuoted(Copy(DeviceFile, 10, MaxInt)));
       if Length(DeviceFile) > 0 then
-        UDisksDeviceObject := DeviceFileToUDisksObjectPath(DeviceFile);
+        UDisksDeviceObject := UDisksGetDeviceObjectByDeviceFile(DeviceFile, UDisksDevices);
       Result := True;
     end
     else if StrBegins(DeviceFile, 'PARTLABEL=') then
@@ -891,16 +871,13 @@ var
       DeviceFile := mbReadAllLinks('/dev/disk/by-partlabel/' +
                                    GetStrMaybeQuoted(Copy(DeviceFile, 11, MaxInt)));
       if Length(DeviceFile) > 0 then
-        UDisksDeviceObject := DeviceFileToUDisksObjectPath(DeviceFile);
+        UDisksDeviceObject := UDisksGetDeviceObjectByDeviceFile(DeviceFile, UDisksDevices);
       Result := True;
     end
     else if StrBegins(DeviceFile, '/dev/') then
     begin
       DeviceFile := mbCheckReadLinks(DeviceFile);
-      if StrBegins(DeviceFile, '/dev/') and IsUDisksAvailable then
-        UDisksDeviceObject := DeviceFileToUDisksObjectPath(DeviceFile)
-      else
-        UDisksDeviceObject := UDisksGetDeviceObjectByDeviceFile(DeviceFile, UDisksDevices);
+      UDisksDeviceObject := UDisksGetDeviceObjectByDeviceFile(DeviceFile, UDisksDevices);
       Result := True;
     end
     else
@@ -927,9 +904,7 @@ begin
     AddedDevices := TStringList.Create;
     AddedMountPoints := TStringList.Create;
 
-    if IsUDisksAvailable then
-      HaveUDisksDevices := uUDisks.EnumerateDevices(UDisksDevices)
-    else if HasUdev then
+    if HasUdev then
       HaveUDisksDevices := uUDev.EnumerateDevices(UDisksDevices);
 
     // Storage devices have to be in mtab or fstab and reported by UDisks.
@@ -958,11 +933,8 @@ begin
               begin
                 if not UDisksDevice.DevicePresentationHide then
                 begin
-                  if (IsUDisksAvailable = False) then
-                  begin
-                    UDisksDevice.DeviceIsMounted:= (I = 1);
-                    AddString(UDisksDevice.DeviceMountPaths, MountPoint);
-                  end;
+                  UDisksDevice.DeviceIsMounted:= (I = 1);
+                  AddString(UDisksDevice.DeviceMountPaths, MountPoint);
                   UDisksDeviceToDrive(UDisksDevices, UDisksDevice, Drive);
                 end;
               end
@@ -1314,10 +1286,7 @@ var
   ADrive: PDrive = nil;
   DeviceInfo: TUDisksDeviceInfo;
 begin
-  if IsUDisksAvailable = False then
-    Result:= uUDev.GetDeviceInfo(ObjectPath, DeviceInfo)
-  else
-    Result:= uUDisks.GetDeviceInfo(ObjectPath, DeviceInfo);
+  Result:= uUDev.GetDeviceInfo(ObjectPath, DeviceInfo);
 
   if Result then
     UDisksDeviceToDrive(nil, DeviceInfo, ADrive);
