@@ -1173,8 +1173,8 @@ var
   Lang: String = '';
   FallbackLang: String = '';
 begin
-  { Localization }
-  if sFileName = 'doublecmd.po' then Exit;  // default english interface
+  // Default english interface
+  if StrBegins(sFileName, 'doublecmd.po') then Exit;
 
   gPOFileName := sFileName;
   if not mbFileExists(gpLngDir + gPOFileName) then
