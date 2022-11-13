@@ -34,7 +34,7 @@ uses
   ActnList, uOSForms, uShellContextMenu, uExceptions, uFileSystemFileSource,
   uFormCommands, uHotkeyManager, LCLVersion, uWcxModule, uFileSource;
 
-{$IF DEFINED(LCLGTK2) or DEFINED(LCLQT) or DEFINED(LCLQT5)}
+{$IF DEFINED(LCLGTK2) or DEFINED(LCLQT) or DEFINED(LCLQT5) or DEFINED(LCLQT6)}
   {$DEFINE FIX_DEFAULT}
 {$ENDIF}
 
@@ -1446,7 +1446,7 @@ begin
         lsFoundedFiles.ScrollWidth := iTemp + 32;
     end;
     lsFoundedFiles.Items.AddObject(sText, Sender);
-{$IF DEFINED(LCLQT) or DEFINED(LCLQT5)}
+{$IF DEFINED(LCLQT) or DEFINED(LCLQT5) or DEFINED(LCLQT6)}
     Application.ProcessMessages;
 {$ENDIF}
   end;

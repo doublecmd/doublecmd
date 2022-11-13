@@ -43,6 +43,9 @@ uses
   {$IFDEF LCLQT5}
   , qt5, qtwidgets
   {$ENDIF}
+  {$IFDEF LCLQT6}
+  , qt6, qtwidgets
+  {$ENDIF}
   ;
 
 type
@@ -157,7 +160,7 @@ procedure TKASProgressBar.SetProgress(CurrentValue: Int64; MaxValue: Int64;
 var
   wText: String;
 {$ENDIF}
-{$IF DEFINED(LCLQT) OR DEFINED(LCLQT5)}
+{$IF DEFINED(LCLQT) OR DEFINED(LCLQT5) OR DEFINED(LCLQT6)}
 var
   wText: WideString;
 {$ENDIF}
@@ -199,7 +202,7 @@ begin
   // Have to reset 'show_text' every time because LCLGTK2 will set it according to BarShowText.
   gtk_progress_set_show_text(PGtkProgress(Self.Handle), True);
 {$ENDIF}
-{$IF DEFINED(LCLQT) OR DEFINED(LCLQT5)}
+{$IF DEFINED(LCLQT) OR DEFINED(LCLQT5) OR DEFINED(LCLQT6)}
 {
   %p - is replaced by the percentage completed.
   %v - is replaced by the current value.

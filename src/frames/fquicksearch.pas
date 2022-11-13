@@ -109,7 +109,7 @@ uses
   uKeyboard,
   uGlobs,
   uFormCommands
-{$IF DEFINED(LCLQT) or DEFINED(LCLQT5)}
+{$IF DEFINED(LCLQT) or DEFINED(LCLQT5) or DEFINED(LCLQT6)}
   , uFileView
 {$ENDIF}
   ;
@@ -710,7 +710,7 @@ procedure TfrmQuickSearch.FrameExit(Sender: TObject);
 var
   DontHide: Boolean;
 begin
-{$IF DEFINED(LCLQT) or DEFINED(LCLQT5)}
+{$IF DEFINED(LCLQT) or DEFINED(LCLQT5) or DEFINED(LCLQT6)}
   // Workaround: QuickSearch frame lose focus on SpeedButton click
   if Screen.ActiveControl is TFileView then
     edtSearch.SetFocus

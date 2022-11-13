@@ -157,11 +157,13 @@ uses
   , Gdk2, GLib2, Gtk2Extra
   , Gtk2Proc
 {$ENDIF}
-{$IF DEFINED(X11) and (DEFINED(LCLQT) or DEFINED(LCLQT5))}
+{$IF DEFINED(X11) and (DEFINED(LCLQT) or DEFINED(LCLQT5) OR DEFINED(LCLQT6))}
   {$IF DEFINED(LCLQT)}
   , qt4, qtwidgets
   {$ELSEIF DEFINED(LCLQT5)}
   , qt5, qtwidgets
+  {$ELSEIF DEFINED(LCLQT6)}
+  , qt6, qtwidgets
   {$ENDIF}
   , XLib, X
   , xutil, KeySym
@@ -190,7 +192,7 @@ var
   XDisplay: PDisplay = nil;
   {$ELSEIF DEFINED(LCLGTK2)}
   XDisplay: PGdkDisplay = nil;
-  {$ELSEIF (DEFINED(LCLQT) or DEFINED(LCLQT5))}
+  {$ELSEIF (DEFINED(LCLQT) or DEFINED(LCLQT5) OR DEFINED(LCLQT6))}
   XDisplay: PDisplay = nil;
   {$ENDIF}
 {$ENDIF}
@@ -204,7 +206,7 @@ var
   {$ENDIF}
 {$ENDIF}
 
-{$IF DEFINED(X11) and (DEFINED(LCLQT) or DEFINED(LCLQT5))}
+{$IF DEFINED(X11) and (DEFINED(LCLQT) or DEFINED(LCLQT5) OR DEFINED(LCLQT6))}
 type
   TKeyboardLayoutChangedHook = class
   private
@@ -275,7 +277,7 @@ begin
     end;
 end;
 
-{$IF DEFINED(X11) and (DEFINED(LCLQT) or DEFINED(LCLQT5))}
+{$IF DEFINED(X11) and (DEFINED(LCLQT) or DEFINED(LCLQT5) OR DEFINED(LCLQT6))}
 {en
    Retrieves the character and respective modifiers state
    for the given keysym and given level.
@@ -566,7 +568,7 @@ end;
 
 function VirtualKeyToUTF8Char(Key: Byte; ShiftState: TShiftState): TUTF8Char;
 
-{$IF DEFINED(UNIX) and (DEFINED(LCLGTK) or DEFINED(LCLGTK2) or DEFINED(LCLQT) or DEFINED(LCLQT5))}
+{$IF DEFINED(UNIX) and (DEFINED(LCLGTK) or DEFINED(LCLGTK2) or DEFINED(LCLQT) or DEFINED(LCLQT5) OR DEFINED(LCLQT6))}
   function ShiftStateToXModifierLevel(ShiftState: TShiftState): Cardinal;
   begin
     Result := 0;
@@ -580,7 +582,7 @@ var
   KeyInfo: TVKeyInfo;
 {$ENDIF}
   ShiftedChar: Boolean;
-{$IF DEFINED(X11) and (DEFINED(LCLQT) or DEFINED(LCLQT5))}
+{$IF DEFINED(X11) and (DEFINED(LCLQT) or DEFINED(LCLQT5) OR DEFINED(LCLQT6))}
   KeyChar:TUTF8Char;
   KeySym: TKeySym;
   TempShiftState: TShiftState;
@@ -606,7 +608,7 @@ begin
 
   Result := KeyInfo.KeyChar[ShiftStateToXModifierLevel(ShiftState)];
 
-{$ELSEIF DEFINED(X11) and (DEFINED(LCLQT) or DEFINED(LCLQT5))}
+{$ELSEIF DEFINED(X11) and (DEFINED(LCLQT) or DEFINED(LCLQT5) OR DEFINED(LCLQT6))}
 
   // For QT we'll use Xlib to get text for a key.
 
@@ -700,14 +702,14 @@ end;
 function VirtualKeyToText(Key: Byte; ShiftState: TShiftState): string;
 var
   Name: string;
-{$IF DEFINED(X11) and (DEFINED(LCLQT) or DEFINED(LCLQT5))}
+{$IF DEFINED(X11) and (DEFINED(LCLQT) or DEFINED(LCLQT5) OR DEFINED(LCLQT6))}
   KeyChar: TUTF8Char;
   KeySym: TKeySym;
   TempShiftState: TShiftState;
 {$ENDIF}
 begin
 
-{$IF DEFINED(X11) and (DEFINED(LCLQT) or DEFINED(LCLQT5))}
+{$IF DEFINED(X11) and (DEFINED(LCLQT) or DEFINED(LCLQT5) OR DEFINED(LCLQT6))}
   // Overwrite behaviour for some keys in QT.
   case Key of
     QtKey_Bar:         KeySym := XK_bar;                 // VK_F13
@@ -956,7 +958,7 @@ begin
 end;
 {$ENDIF}
 
-{$IF DEFINED(X11) and (DEFINED(LCLQT) or DEFINED(LCLQT5))}
+{$IF DEFINED(X11) and (DEFINED(LCLQT) or DEFINED(LCLQT5) OR DEFINED(LCLQT6))}
 procedure UpdateModifiersMasks;
 var
   Map: PXModifierKeymap;
@@ -1019,13 +1021,13 @@ begin
 {$IF DEFINED(UNIX) and (DEFINED(LCLGTK) or DEFINED(LCLGTK2))}
   UpdateGtkAltGrVirtualKeyCode;
 {$ENDIF}
-{$IF DEFINED(X11) and (DEFINED(LCLQT) or DEFINED(LCLQT5))}
+{$IF DEFINED(X11) and (DEFINED(LCLQT) or DEFINED(LCLQT5) OR DEFINED(LCLQT6))}
   UpdateModifiersMasks;
 {$ENDIF}
   CacheVKToChar;
 end;
 
-{$IF DEFINED(X11) and (DEFINED(LCLQT) or DEFINED(LCLQT5))}
+{$IF DEFINED(X11) and (DEFINED(LCLQT) or DEFINED(LCLQT5) OR DEFINED(LCLQT6))}
 constructor TKeyboardLayoutChangedHook.Create(QObject: QObjectH);
 begin
   EventHook := QObject_hook_create(QObject);
@@ -1095,7 +1097,7 @@ end;
 
 procedure UnhookKeyboardLayoutChanged;
 begin
-{$IF DEFINED(X11) and (DEFINED(LCLQT) or DEFINED(LCLQT5))}
+{$IF DEFINED(X11) and (DEFINED(LCLQT) or DEFINED(LCLQT5) OR DEFINED(LCLQT6))}
 
   if Assigned(KeyboardLayoutChangedHook) then
     FreeAndNil(KeyboardLayoutChangedHook);
@@ -1129,7 +1131,7 @@ begin
   // On Unix (X server) the event for changing keyboard layout
   // is sent twice (on QT, GTK1 and GTK2).
 
-{$IF DEFINED(X11) and (DEFINED(LCLQT) or DEFINED(LCLQT5))}
+{$IF DEFINED(X11) and (DEFINED(LCLQT) or DEFINED(LCLQT5) OR DEFINED(LCLQT6))}
 
   KeyboardLayoutChangedHook := KeyboardLayoutChangedHook.Create(
                                TQtWidget(Application.MainForm.Handle).TheObject);
@@ -1220,12 +1222,12 @@ initialization
   XDisplay := gdk_display;
   {$ELSEIF DEFINED(LCLGTK2)}
   XDisplay := gdk_display_get_default;
-  {$ELSEIF (DEFINED(LCLQT) or DEFINED(LCLQT5))}
+  {$ELSEIF (DEFINED(LCLQT) or DEFINED(LCLQT5) OR DEFINED(LCLQT6))}
   XDisplay := XOpenDisplay(nil);
   {$ENDIF}
 {$ENDIF}
 
-{$IF DEFINED(X11) and (DEFINED(LCLQT) or DEFINED(LCLQT5))}
+{$IF DEFINED(X11) and (DEFINED(LCLQT) or DEFINED(LCLQT5) OR DEFINED(LCLQT6))}
 finalization
   XCloseDisplay(XDisplay);
 {$ENDIF}

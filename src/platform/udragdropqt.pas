@@ -15,6 +15,8 @@ uses
   , qt4
   {$ELSEIF DEFINED(LCLQT5)}
   , qt5
+  {$ELSEIF DEFINED(LCLQT6)}
+  , qt6
   {$ENDIF}
   ;
 
@@ -75,7 +77,7 @@ const
   textPlainMimeW : WideString = textPlainMime;
 
 
-{$IF DEFINED(LCLQT5)}
+{$IF DEFINED(LCLQT5) or DEFINED(LCLQT6)}
 function QDropEvent_pos(handle: QDropEventH): PQtPoint; overload;
 const
   retval: TQtPoint = (x: 0; y: 0);

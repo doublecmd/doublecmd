@@ -48,6 +48,9 @@ uses
   {$IFDEF LCLQT5}
   , qt5, qtwidgets
   {$ENDIF}
+  {$IFDEF LCLQT6}
+  , qt6, qtwidgets
+  {$ENDIF}
   {$IFDEF LCLCOCOA}
   , CocoaAll
   {$ENDIF}
@@ -233,7 +236,7 @@ begin
   end;
 {$ELSEIF DEFINED(LCLGTK) or DEFINED(LCLGTK2)}
   ParentWin := HWND(GetFixedWidget(Pointer(ParentWin)));
-{$ELSEIF DEFINED(LCLQT) or DEFINED(LCLQT5)}
+{$ELSEIF DEFINED(LCLQT) or DEFINED(LCLQT5) or DEFINED(LCLQT6)}
   ParentWin := HWND(TQtWidget(ParentWin).GetContainerWidget);
 {$ENDIF}
 end;
@@ -313,7 +316,7 @@ end;
 
 procedure TWlxModule.UnloadModule;
 begin
-{$IF NOT (DEFINED(LCLQT) or DEFINED(LCLQT5) or DEFINED(LCLGTK2))}
+{$IF NOT (DEFINED(LCLQT) or DEFINED(LCLQT5) or DEFINED(LCLQT6) or DEFINED(LCLGTK2))}
 {$IF (not DEFINED(LINUX)) or ((FPC_VERSION > 2) or ((FPC_VERSION=2) and (FPC_RELEASE >= 5)))}
   if FModuleHandle <> 0 then
     FreeLibrary(FModuleHandle);
@@ -413,7 +416,7 @@ begin
     else DestroyWindow(FPluginWindow)
 {$ELSEIF DEFINED(LCLGTK) or DEFINED(LCLGTK2)}
     else gtk_widget_destroy(PGtkWidget(FPluginWindow));
-{$ELSEIF DEFINED(LCLQT) or DEFINED(LCLQT5)}
+{$ELSEIF DEFINED(LCLQT) or DEFINED(LCLQT5) or DEFINED(LCLQT6)}
     else QWidget_Destroy(QWidgetH(FPluginWindow));
 {$ENDIF}
   finally
@@ -478,7 +481,7 @@ procedure TWlxModule.SetFocus;
 begin
   {$IF DEFINED(MSWINDOWS)}
   Windows.SetFocus(FPluginWindow);
-  {$ELSEIF DEFINED(LCLQT) or DEFINED(LCLQT5)}
+  {$ELSEIF DEFINED(LCLQT) or DEFINED(LCLQT5) or DEFINED(LCLQT6)}
   QWidget_setFocus(QWidgetH(FPluginWindow));
   {$ELSEIF DEFINED(LCLGTK2)}
   gtk_widget_grab_focus(PGtkWidget(FPluginWindow));
@@ -497,7 +500,7 @@ begin
     MoveWindow(FPluginWindow, Left, Top, Right - Left, Bottom - Top, True);
     {$ELSEIF DEFINED(LCLWIN32)}
     MoveWindow(FPluginWindow, Left, Top, Right - Left, Bottom - Top, True);
-    {$ELSEIF DEFINED(LCLQT) or DEFINED(LCLQT5)}
+    {$ELSEIF DEFINED(LCLQT) or DEFINED(LCLQT5) or DEFINED(LCLQT6)}
     QWidget_move(QWidgetH(FPluginWindow), Left, Top);
     QWidget_resize(QWidgetH(FPluginWindow), Right - Left, Bottom - Top);
     {$ELSEIF DEFINED(LCLGTK2)}
