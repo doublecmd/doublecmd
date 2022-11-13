@@ -643,7 +643,8 @@ var
   gEditWaitTime: Integer;
   gEditorSynEditOptions: TSynEditorOptions;
   gEditorSynEditTabWidth,
-  gEditorSynEditRightEdge: Integer;
+  gEditorSynEditRightEdge,
+  gEditorSynEditBlockIndent: Integer;
 
   { Differ }
   gDifferIgnoreCase,
@@ -2065,6 +2066,7 @@ begin
   gEditorSynEditOptions := SYNEDIT_DEFAULT_OPTIONS;
   gEditorSynEditTabWidth := 8;
   gEditorSynEditRightEdge := 80;
+  gEditorSynEditBlockIndent := 2;
 
   { Differ }
   gDifferIgnoreCase := False;
@@ -3169,6 +3171,7 @@ begin
       gEditorSynEditOptions := TSynEditorOptions(GetValue(Node, 'SynEditOptions', Integer(gEditorSynEditOptions)));
       gEditorSynEditTabWidth := GetValue(Node, 'SynEditTabWidth', gEditorSynEditTabWidth);
       gEditorSynEditRightEdge := GetValue(Node, 'SynEditRightEdge', gEditorSynEditRightEdge);
+      gEditorSynEditBlockIndent := GetValue(Node, 'SynEditBlockIndent', gEditorSynEditBlockIndent);
     end;
 
     { Differ }
@@ -3792,6 +3795,7 @@ begin
     SetValue(Node, 'SynEditOptions', Integer(gEditorSynEditOptions));
     SetValue(Node, 'SynEditTabWidth', gEditorSynEditTabWidth);
     SetValue(Node, 'SynEditRightEdge', gEditorSynEditRightEdge);
+    SetValue(Node, 'SynEditBlockIndent', gEditorSynEditBlockIndent);
 
     { Differ }
     Node := FindNode(Root, 'Differ',True);

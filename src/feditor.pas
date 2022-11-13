@@ -359,6 +359,7 @@ begin
   FontOptionsToFont(gFonts[dcfEditor], Editor.Font);
   Editor.TabWidth := gEditorSynEditTabWidth;
   Editor.RightEdge := gEditorSynEditRightEdge;
+  Editor.BlockIndent := gEditorSynEditBlockIndent;
 end;
 
 procedure TfrmEditor.actExecute(Sender: TObject);

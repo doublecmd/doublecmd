@@ -1,8 +1,8 @@
 inherited frmOptionsEditor: TfrmOptionsEditor
   Height = 513
-  Width = 586
+  Width = 601
   ClientHeight = 513
-  ClientWidth = 586
+  ClientWidth = 601
   ParentShowHint = False
   ShowHint = True
   DesignLeft = 117
@@ -141,39 +141,69 @@ inherited frmOptionsEditor: TfrmOptionsEditor
       ParentColor = False
     end
     object chkRightEdge: TCheckBox
-      AnchorSideLeft.Control = edTabWidth
+      AnchorSideLeft.Control = seeBlockIndent
       AnchorSideLeft.Side = asrBottom
       AnchorSideTop.Control = lblTabWidth
       AnchorSideTop.Side = asrCenter
-      Left = 189
-      Height = 24
-      Top = 119
-      Width = 113
+      Left = 363
+      Height = 23
+      Top = 120
+      Width = 108
       BorderSpacing.Left = 12
       Caption = 'Right margin:'
       Color = clDefault
       ParentColor = False
-      TabOrder = 2
+      TabOrder = 3
     end
     object seeRightEdge: TSpinEditEx
       AnchorSideLeft.Control = chkRightEdge
       AnchorSideLeft.Side = asrBottom
       AnchorSideTop.Control = edTabWidth
       AnchorSideTop.Side = asrCenter
-      Left = 306
-      Height = 28
-      Top = 117
-      Width = 129
+      Left = 475
+      Height = 36
+      Top = 113
+      Width = 103
       BorderSpacing.Left = 4
       MaxLength = 0
-      TabOrder = 3
+      TabOrder = 4
       MaxValue = 512
       MinValue = 16
+      NullValue = 0
       Value = 80
+    end
+    object lblBlockIndent: TLabel
+      AnchorSideLeft.Control = edTabWidth
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = lblTabWidth
+      AnchorSideTop.Side = asrCenter
+      Left = 164
+      Height = 19
+      Top = 122
+      Width = 80
+      BorderSpacing.Left = 12
+      Caption = 'Block indent:'
+      ParentColor = False
+    end
+    object seeBlockIndent: TSpinEditEx
+      AnchorSideLeft.Control = lblBlockIndent
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = edTabWidth
+      AnchorSideTop.Side = asrCenter
+      Left = 248
+      Height = 36
+      Top = 113
+      Width = 103
+      BorderSpacing.Left = 4
+      MaxLength = 0
+      TabOrder = 2
+      MaxValue = 20
+      NullValue = 0
+      Value = 0
     end
   end
   inherited pmPathHelper: TPopupMenu[9]
-    left = 424
-    top = 8
+    Left = 424
+    Top = 8
   end
 end
