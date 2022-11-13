@@ -466,10 +466,10 @@ begin
     WriteLn('   DevicePresentationName: ', DevicePresentationName );
     WriteLn('   DevicePresentationIconName: ', DevicePresentationIconName );
     WriteLn('   DeviceAutomountHint: ', DeviceAutomountHint );
-    WriteLn('   DriveCanDetach: ', DriveCanDetach );
     WriteLn('   PartitionSlave: ', PartitionSlave );
     WriteLn('   DeviceIsRemovable: ', DeviceIsRemovable );
     WriteLn('   DriveConnectionInterface: ', DriveConnectionInterface );
+    WriteLn('   DriveMediaCompatibility: ', ArrayToString(DriveMediaCompatibility, ',') );
     }
   end;
 end;

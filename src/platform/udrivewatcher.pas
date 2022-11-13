@@ -491,7 +491,7 @@ begin
       Drive^.DriveType := dtUnknown;
 
     Drive^.IsMediaAvailable := DeviceIsMediaAvailable;
-    Drive^.IsMediaEjectable := DeviceIsDrive and DriveIsMediaEjectable;
+    Drive^.IsMediaEjectable := DriveIsMediaEjectable;
     Drive^.IsMediaRemovable := DeviceIsRemovable;
     Drive^.IsMounted := DeviceIsMounted;
     Drive^.AutoMount := (DeviceAutomountHint = EmptyStr) or (DeviceAutomountHint = 'always');
@@ -1036,6 +1036,7 @@ begin
         // Don't add drives with ram and loop device because they cannot be mounted.
         // Add devices reported as "filesystem".
         if ((UDisksDevices[i].DeviceIsDrive and (not UDisksDevices[i].DeviceIsPartitionTable) and
+           (BeginsWithString(['floppy', 'optical'], UDisksDevices[i].DriveMediaCompatibility)) and
            (UDisksDevices[i].IdType <> 'swap')) or (UDisksDevices[i].IdUsage = 'filesystem')) and
            (StrBegins(UDisksDevices[i].DeviceFile, '/dev/ram') = False) and
            (StrBegins(UDisksDevices[i].DeviceFile, '/dev/zram') = False) and
