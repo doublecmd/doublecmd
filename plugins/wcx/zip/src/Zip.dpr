@@ -27,6 +27,7 @@ exports
   DeleteFilesW,
   GetPackerCaps,
   ConfigurePacker,
+  GetBackgroundFlags,
   CanYouHandleThisFileW,
   { Extension API }
   ExtensionInitialize;
