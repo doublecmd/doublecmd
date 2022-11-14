@@ -39,6 +39,7 @@ procedure SetProcessDataProcW(hArcData: TArcHandle; pProcessDataProc: TProcessDa
 
 { Optional functions }
 function PackFilesW(PackedFile: PWideChar; SubPath: PWideChar; SrcPath: PWideChar; AddList: PWideChar; Flags: Integer): Integer; dcpcall;
+function GetBackgroundFlags: Integer; dcpcall;
 function GetPackerCaps: Integer; dcpcall;
 
 implementation
@@ -319,10 +320,14 @@ begin
   Result:= E_SUCCESS;
 end;
 
+function GetBackgroundFlags: Integer; dcpcall;
+begin
+  Result:= BACKGROUND_UNPACK or BACKGROUND_PACK;
+end;
+
 function GetPackerCaps: Integer; dcpcall;
 begin
   Result := PK_CAPS_NEW;
 end;
 
 end.
-

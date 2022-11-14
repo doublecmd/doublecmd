@@ -19,7 +19,8 @@ exports
   SetProcessDataProcW,
   { Optional }
   PackFilesW,
-  GetPackerCaps;
+  GetPackerCaps,
+  GetBackgroundFlags;
 
 {$R *.res}
 
