@@ -731,7 +731,7 @@ procedure TfrmFindDlg.cbUsePluginChange(Sender: TObject);
 begin
   EnableControl(cmbPlugin, cbUsePlugin.Checked);
 
-  if not FUpdating and cmbPlugin.Enabled and cmbPlugin.CanFocus and (Sender = cbUsePlugin) then
+  if not FUpdating and cmbPlugin.Enabled and cmbPlugin.CanSetFocus and (Sender = cbUsePlugin) then
   begin
     cmbPlugin.SetFocus;
     cmbPlugin.SelectAll;
@@ -827,7 +827,7 @@ begin
   cbReplaceText.Checked := False;
   cmbEncodingSelect(nil);
 
-  if not FUpdating and cmbFindText.Enabled and cmbFindText.CanFocus and (Sender = cbFindText) then
+  if not FUpdating and cmbFindText.Enabled and cmbFindText.CanSetFocus and (Sender = cbFindText) then
   begin
     cmbFindText.SetFocus;
     cmbFindText.SelectAll;
@@ -1482,7 +1482,7 @@ begin
 
   cmbEncodingSelect(cmbEncoding);
 
-  if not FUpdating and cmbReplaceText.Enabled and cmbReplaceText.CanFocus then
+  if not FUpdating and cmbReplaceText.Enabled and cmbReplaceText.CanSetFocus then
   begin
     cmbReplaceText.SetFocus;
     cmbReplaceText.SelectAll;
@@ -1624,7 +1624,7 @@ begin
   // Show search results page
   pgcSearch.ActivePage := tsResults;
 
-  if lsFoundedFiles.CanFocus then
+  if lsFoundedFiles.CanSetFocus then
     lsFoundedFiles.SetFocus;
 
   ClearResults;
@@ -2215,7 +2215,7 @@ begin
   lsFoundedFiles.Canvas.Font := lsFoundedFiles.Font;
 
   if pgcSearch.ActivePage = tsStandard then
-    if cmbFindFileMask.CanFocus then
+    if cmbFindFileMask.CanSetFocus then
       cmbFindFileMask.SetFocus;
 
   cbSelectedFiles.Checked := FSelectedFiles.Count > 0;
@@ -2757,13 +2757,13 @@ procedure TfrmFindDlg.pgcSearchChange(Sender: TObject);
 begin
   if pgcSearch.ActivePage = tsStandard then
   begin
-    if (not cmbFindFileMask.Focused) and (cmbFindFileMask.CanFocus) then
+    if (not cmbFindFileMask.Focused) and (cmbFindFileMask.CanSetFocus) then
       cmbFindFileMask.SetFocus;
   end
   else
   if pgcSearch.ActivePage = tsResults then
   begin
-    if (not lsFoundedFiles.Focused) and (lsFoundedFiles.CanFocus) then
+    if (not lsFoundedFiles.Focused) and (lsFoundedFiles.CanSetFocus) then
       lsFoundedFiles.SetFocus;
   end;
 end;
