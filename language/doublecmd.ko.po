@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: Double Commander 0.7.8 beta\n"
+"Project-Id-Version: Double Commander 1.1.0 alpha\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-22 23:08+030\n"
+"POT-Creation-Date: 2022-11-15 11:15+0300\n"
 "PO-Revision-Date: 2021-12-07 09:02+0900\n"
 "Last-Translator: sragin <sragin@naver.com>\n"
 "Language-Team: Language <email@address>\n"
@@ -19,26 +19,32 @@ msgid "Auto;Enabled;Disabled"
 msgstr ""
 
 #: fsyncdirsdlg.rscomparingpercent
+#, object-pascal-format
 msgid "Comparing... %d%% (ESC to cancel)"
 msgstr "비교하기... %d%% (취소 ESC)"
 
 #: fsyncdirsdlg.rsdeleteleft
+#, object-pascal-format
 msgid "Left: Delete %d file(s)"
 msgstr "왼쪽: %d개 파일 삭제"
 
 #: fsyncdirsdlg.rsdeleteright
+#, object-pascal-format
 msgid "Right: Delete %d file(s)"
 msgstr "오른쪽: %d개 파일 삭제"
 
 #: fsyncdirsdlg.rsfilesfound
+#, object-pascal-format
 msgid "Files found: %d  (Identical: %d, Different: %d, Unique left: %d, Unique right: %d)"
 msgstr "파일 찾음; %d (동일: %d, 다름: %d, 왼쪽 유일함: %d, 오른쪽 유일함: %d)"
 
 #: fsyncdirsdlg.rslefttorightcopy
+#, object-pascal-format
 msgid "Left to Right: Copy %d files, total size: %s (%s)"
 msgstr "왼쪽에서 오른쪽: %d개 파일 복사, 총 용량: %s (%s)"
 
 #: fsyncdirsdlg.rsrighttoleftcopy
+#, object-pascal-format
 msgid "Right to Left: Copy %d files, total size: %s (%s)"
 msgstr "오른쪽에서 왼쪽: %d 개 파일 복사, 총 용량: %s (%s)"
 
@@ -310,6 +316,7 @@ msgid "Benchmark"
 msgstr ""
 
 #: tfrmbenchmark.lblbenchmarksize.caption
+#, object-pascal-format
 msgid "Benchmark data size: %d MB"
 msgstr ""
 
@@ -3833,6 +3840,7 @@ msgid "Set selected application as default action"
 msgstr "선택한 프로그램을 기본 프로그램으로 설정"
 
 #: tfrmopenwith.lblmimetype.caption
+#, object-pascal-format
 msgid "File type to be opened: %s"
 msgstr "열린 파일 종류: %s"
 
@@ -3841,6 +3849,7 @@ msgid "Multiple file names"
 msgstr "다중 파일명"
 
 #: tfrmopenwith.milistoffiles.hint
+#, object-pascal-format
 msgid "%F"
 msgstr "%F"
 
@@ -3849,6 +3858,7 @@ msgid "Multiple URIs"
 msgstr "다중 URI"
 
 #: tfrmopenwith.milistofurls.hint
+#, object-pascal-format
 msgid "%U"
 msgstr "%U"
 
@@ -3857,6 +3867,7 @@ msgid "Single file name"
 msgstr "단일 파일명"
 
 #: tfrmopenwith.misinglefilename.hint
+#, object-pascal-format
 msgid "%f"
 msgstr "%f"
 
@@ -3865,6 +3876,7 @@ msgid "Single URI"
 msgstr "단일 URI"
 
 #: tfrmopenwith.misingleurl.hint
+#, object-pascal-format
 msgid "%u"
 msgstr "%u"
 
@@ -5316,6 +5328,10 @@ msgstr ""
 #: tfrmoptionseditor.gbinternaleditor.caption
 msgid "Internal editor options"
 msgstr "내부 편집기 옵션"
+
+#: tfrmoptionseditor.lblblockindent.caption
+msgid "Block indent:"
+msgstr ""
 
 #: tfrmoptionseditor.lbltabwidth.caption
 msgid "Tab width:"
@@ -10066,18 +10082,19 @@ msgid "Orientation"
 msgstr ""
 
 #: ulng.msgtrytolocatecrcfile
+#, object-pascal-format
 msgid ""
 "This file cannot be found and could help to validate final combination of files:\n"
 "%s\n"
 "\n"
 "Could you make it available and press \"OK\" when ready,\n"
-"or press \"CANCEL\" to continue without it?\n"
+"or press \"CANCEL\" to continue without it?"
 msgstr ""
 "이 파일은 찾을 수 없고 마지막 파일 최종 조합을 검증할 수 없습니다:\n"
 "%s\n"
 "\n"
 "파일이 준비되어 가능하게 되면 \"OK\"를 누르세요,\n"
-"또는 이 파일을 빼고 계속하려면 \"취소\" 를 누르세요.\n"
+"또는 이 파일을 빼고 계속하려면 \"취소\" 를 누르세요."
 
 #: ulng.rsabbrevdisplaydir
 msgid "<DIR>"
@@ -10214,6 +10231,7 @@ msgid "Confirming command line and parameters"
 msgstr "명령줄과 매개변수 확인"
 
 #: ulng.rscopynametemplate
+#, object-pascal-format
 msgid "Copy (%d) %s"
 msgstr "복사 (%d) %s"
 
@@ -10310,7 +10328,7 @@ msgstr ""
 #: ulng.rsdifftextidenticalnotmatch
 msgid ""
 "The text is identical, but the files do not match!\n"
-"The following differences were found:\n"
+"The following differences were found:"
 msgstr ""
 
 #: ulng.rsdlgbuttonabort
@@ -10462,10 +10480,12 @@ msgid "Queue"
 msgstr "대기열"
 
 #: ulng.rsdlgspeed
+#, object-pascal-format
 msgid "Speed %s/s"
 msgstr "속도 %s/초"
 
 #: ulng.rsdlgspeedtime
+#, object-pascal-format
 msgid "Speed %s/s, time remaining %s"
 msgstr "속도 %s/초, 남은 시간 %s"
 
@@ -10548,10 +10568,12 @@ msgid "Execute via terminal and stay open"
 msgstr "명령프롬프트창에서 실행 후 계속 열린 상태로 두기"
 
 #: ulng.rsextsclosedbracketnofound
+#, object-pascal-format
 msgid "\"]\" not found in line %s"
 msgstr ""
 
 #: ulng.rsextscommandwithnoext
+#, object-pascal-format
 msgid "No extension defined before command \"%s\". It will be ignored."
 msgstr ""
 
@@ -10645,6 +10667,7 @@ msgid "Define template"
 msgstr "템플릿 정의"
 
 #: ulng.rsfinddepth
+#, object-pascal-format
 msgid "%s level(s)"
 msgstr "%s 레벨"
 
@@ -10657,10 +10680,12 @@ msgid "current dir only"
 msgstr "현재 폴더만"
 
 #: ulng.rsfinddirnoex
+#, object-pascal-format
 msgid "Directory %s does not exist!"
 msgstr "폴더 %s 없음!"
 
 #: ulng.rsfindfound
+#, object-pascal-format
 msgctxt "ulng.rsfindfound"
 msgid "Found: %d"
 msgstr "찾은 파일 수: %d"
@@ -10674,6 +10699,7 @@ msgid "Template name:"
 msgstr "템플릿명:"
 
 #: ulng.rsfindscanned
+#, object-pascal-format
 msgctxt "ulng.rsfindscanned"
 msgid "Scanned: %d"
 msgstr "검색 수: %d"
@@ -10741,10 +10767,12 @@ msgid "Viewer&Book Font"
 msgstr "책보기 모드 글꼴(&B)"
 
 #: ulng.rsfreemsg
+#, object-pascal-format
 msgid "%s of %s free"
 msgstr "%s 에 %s 사용 가능"
 
 #: ulng.rsfreemsgshort
+#, object-pascal-format
 msgid "%s free"
 msgstr "%s 사용 가능"
 
@@ -10836,11 +10864,11 @@ msgstr "none;파일명, a-z;파일명, z-a;확장자, a-z;확장자, z-a;크기 
 msgid ""
 "Warning! When restoring a .hotlist backup file, this will erase existing list to replace by the imported one.\n"
 "\n"
-"Are you sure you want to proceed?\n"
+"Are you sure you want to proceed?"
 msgstr ""
 "경고! a.hotlist 백업 파일, 불러오기한.\n"
 "으로 대체되어 삭제됩니다.\n"
-"계속 하기를 원합니까?\n"
+"계속 하기를 원합니까?"
 
 #: ulng.rshotkeycategorycopymovedialog
 msgid "Copy/Move Dialog"
@@ -10886,7 +10914,7 @@ msgstr "뷰어"
 #: ulng.rshotkeyfilealreadyexists
 msgid ""
 "A setup with that name already exists.\n"
-"Do you want to overwrite it?\n"
+"Do you want to overwrite it?"
 msgstr ""
 
 #: ulng.rshotkeyfileconfirmdefault
@@ -10894,10 +10922,12 @@ msgid "Are you sure you want to restore default?"
 msgstr ""
 
 #: ulng.rshotkeyfileconfirmerasure
+#, object-pascal-format
 msgid "Are you sure you want to erase setup \"%s\"?"
 msgstr ""
 
 #: ulng.rshotkeyfilecopyof
+#, object-pascal-format
 msgid "Copy of %s"
 msgstr ""
 
@@ -10914,9 +10944,10 @@ msgid "New name"
 msgstr ""
 
 #: ulng.rshotkeyfilesavemodified
+#, object-pascal-format
 msgid ""
 "\"%s\" setup has been modified.\n"
-"Do you want to save it now?\n"
+"Do you want to save it now?"
 msgstr ""
 
 #: ulng.rshotkeynoscenter
@@ -11086,6 +11117,7 @@ msgid "All Double Commander internal commands"
 msgstr ""
 
 #: ulng.rsmsgapplicationname
+#, object-pascal-format
 msgid "Description: %s"
 msgstr ""
 
@@ -11098,38 +11130,44 @@ msgid "Do you want to enclose between quotes?"
 msgstr ""
 
 #: ulng.rsmsgbadcrc32
+#, object-pascal-format
 msgid ""
 "Bad CRC32 for resulting file:\n"
 "\"%s\"\n"
 "\n"
-"Do you want to keep the resulting corrupted file anyway?\n"
+"Do you want to keep the resulting corrupted file anyway?"
 msgstr ""
 "CRC32 결과 파일 상태 나쁨:\n"
 "\"%s\"\n"
 "\n"
-"훼손된 파일을 그대로 유지하겠습니까? \n"
+"훼손된 파일을 그대로 유지하겠습니까? "
 
 #: ulng.rsmsgcanceloperation
 msgid "Are you sure that you want to cancel this operation?"
 msgstr ""
 
 #: ulng.rsmsgcannotcopymoveitself
+#, object-pascal-format
 msgid "You can not copy/move a file \"%s\" to itself!"
 msgstr "\"%s\" 파일을 자신에게 복사/이동할 수 없습니다!"
 
 #: ulng.rsmsgcannotcopyspecialfile
+#, object-pascal-format
 msgid "Cannot copy special file %s"
 msgstr ""
 
 #: ulng.rsmsgcannotdeletedirectory
+#, object-pascal-format
 msgid "Cannot delete directory %s"
 msgstr "폴더 %s 삭제 할 수 없음"
 
 #: ulng.rsmsgcannotoverwritedirectory
+#, object-pascal-format
 msgid "Cannot overwrite directory \"%s\" with non-directory \"%s\""
 msgstr "\"%s\" 디렉토리를 디렉토리가 아닌 \"%s\"로 덮어쓸 수 없음"
 
 #: ulng.rsmsgchdirfailed
+#, object-pascal-format
 msgid "Change current directory to \"%s\" failed!"
 msgstr "[%s] 디렉토리 변경 실패!"
 
@@ -11138,6 +11176,7 @@ msgid "Remove all inactive tabs?"
 msgstr "비활성 탭 모두 제거?"
 
 #: ulng.rsmsgcloselockedtab
+#, object-pascal-format
 msgid "This tab (%s) is locked! Close anyway?"
 msgstr "이 탭(%s) 잠겼음! 어쨌든 닫을까요?"
 
@@ -11150,6 +11189,7 @@ msgid "Are you sure you want to quit?"
 msgstr "정말로 끝내기를 원하시나요?"
 
 #: ulng.rsmsgcopybackward
+#, object-pascal-format
 msgid "The file %s has changed. Do you want to copy it backward?"
 msgstr "파일 %s가 변경됨. 뒤로(backward) 복사를 원하시나요?"
 
@@ -11158,14 +11198,17 @@ msgid "Could not copy backward - do you want to keep the changed file?"
 msgstr "반대로 복사할 수 없음 - 변경된 파일을 유지하겠습니까?"
 
 #: ulng.rsmsgcpfldr
+#, object-pascal-format
 msgid "Copy %d selected files/directories?"
 msgstr "선택된 %d개의 파일/폴더를 복사할까요?"
 
 #: ulng.rsmsgcpsel
+#, object-pascal-format
 msgid "Copy selected \"%s\"?"
 msgstr "선택된\"%s\" 복사할까요?"
 
 #: ulng.rsmsgcreateanewfiletype
+#, object-pascal-format
 msgid "< Create a new file type \"%s files\" >"
 msgstr "<새 파일 포맷 생성 \"%s files\" >"
 
@@ -11182,22 +11225,27 @@ msgid "Delete the partially copied file ?"
 msgstr "복사된 파일을 부분적으로 삭제할까요?"
 
 #: ulng.rsmsgdelfldr
+#, object-pascal-format
 msgid "Delete %d selected files/directories?"
 msgstr "선택된 %d개의 파일/폴더를 삭제할까요?"
 
 #: ulng.rsmsgdelfldrt
+#, object-pascal-format
 msgid "Delete %d selected files/directories into trash can?"
 msgstr "선택된 %d개의 파일을 휴지통으로 삭제할까요?"
 
 #: ulng.rsmsgdelsel
+#, object-pascal-format
 msgid "Delete selected \"%s\"?"
 msgstr "선택된 \"%s\" 삭제?"
 
 #: ulng.rsmsgdelselt
+#, object-pascal-format
 msgid "Delete selected \"%s\" into trash can?"
 msgstr "선택된 \"%s\" 휴지통으로 삭제할까요?"
 
 #: ulng.rsmsgdeltotrashforce
+#, object-pascal-format
 msgid "Can not delete \"%s\" to trash! Delete directly?"
 msgstr "\"%s\"를 휴지통으로 삭제할 수 없습니다! 바로 삭제할까요?"
 
@@ -11218,6 +11266,7 @@ msgid "Enter name:"
 msgstr "파일명 입력:"
 
 #: ulng.rsmsgenternewfiletypename
+#, object-pascal-format
 msgid "Enter name of new file type to create for extension \"%s\""
 msgstr "새 파일 포맷의 이름을 입력해서 \"%s\" 확장자를 생성하세요"
 
@@ -11230,30 +11279,37 @@ msgid "Data is bad"
 msgstr "데이터에 문제가 있습니다."
 
 #: ulng.rsmsgerrcannotconnect
+#, object-pascal-format
 msgid "Can not connect to server: \"%s\""
 msgstr "서버에 연결할 수 없습니다: \"%s\""
 
 #: ulng.rsmsgerrcannotcopyfile
+#, object-pascal-format
 msgid "Cannot copy file %s to %s"
 msgstr "%s 에서 %s로 복사할 수 없음"
 
 #: ulng.rsmsgerrcannotmovedirectory
+#, object-pascal-format
 msgid "Cannot move directory %s"
 msgstr ""
 
 #: ulng.rsmsgerrcannotmovefile
+#, object-pascal-format
 msgid "Cannot move file %s"
 msgstr ""
 
 #: ulng.rsmsgerrcreatefiledirectoryexists
+#, object-pascal-format
 msgid "There already exists a directory named \"%s\"."
 msgstr "\"%s\" 이름의 폴더가 있습니다."
 
 #: ulng.rsmsgerrdatenotsupported
+#, object-pascal-format
 msgid "Date %s is not supported"
 msgstr "%s 날짜 지원 안됨"
 
 #: ulng.rsmsgerrdirexists
+#, object-pascal-format
 msgid "Directory %s exists!"
 msgstr "%s 폴더가 이미 존재함!"
 
@@ -11286,6 +11342,7 @@ msgid "Error writing to file"
 msgstr "파일에 쓰기 오류"
 
 #: ulng.rsmsgerrforcedir
+#, object-pascal-format
 msgid "Can not create directory %s!"
 msgstr "폴더 %s 를 생성할 수 없음!"
 
@@ -11318,6 +11375,7 @@ msgid "Syntax error in regular expression!"
 msgstr "일반 구문표현 오류!"
 
 #: ulng.rsmsgerrrename
+#, object-pascal-format
 msgid "Cannot rename file %s to %s"
 msgstr "%s에서 %s로 파일명을 변경할 수 없음"
 
@@ -11330,22 +11388,27 @@ msgid "Cannot save file"
 msgstr "파일을 저장할 수 없음"
 
 #: ulng.rsmsgerrsetattribute
+#, object-pascal-format
 msgid "Can not set attributes for \"%s\""
 msgstr "\"%s\" 속성을 설정할 수 없음"
 
 #: ulng.rsmsgerrsetdatetime
+#, object-pascal-format
 msgid "Can not set date/time for \"%s\""
 msgstr "\"%s\" 날짜/시간 설정할 수 없음"
 
 #: ulng.rsmsgerrsetownership
+#, object-pascal-format
 msgid "Can not set owner/group for \"%s\""
 msgstr "\"%s\" 소유자/그룹을 설정할 수 없음"
 
 #: ulng.rsmsgerrsetpermissions
+#, object-pascal-format
 msgid "Can not set permissions for \"%s\""
 msgstr "\"%s\" 퍼미션을 지정할 수 없음"
 
 #: ulng.rsmsgerrsetxattribute
+#, object-pascal-format
 msgid "Can not set extended attributes for \"%s\""
 msgstr ""
 
@@ -11362,6 +11425,7 @@ msgid "Archive format unknown"
 msgstr "압축 포맷 알 수 없음"
 
 #: ulng.rsmsgexecutablepath
+#, object-pascal-format
 msgid "Executable: %s"
 msgstr ""
 
@@ -11386,6 +11450,7 @@ msgid "Saving a new Favorite Tabs entry"
 msgstr "새로운 즐겨찾기탭 목록 저장"
 
 #: ulng.rsmsgfavoritetabsexportedsuccessfully
+#, object-pascal-format
 msgid "Number of Favorite Tabs exported successfully: %d on %d"
 msgstr "즐겨찾기탭 성공적으로 내보내기 함: %d / %d "
 
@@ -11394,6 +11459,7 @@ msgid "Default extra setting for save dir history for new Favorite Tabs:"
 msgstr "새 즐겨찾기탭 폴더 히스토리 저장을 우한 추가 설정:"
 
 #: ulng.rsmsgfavoritetabsimportedsuccessfully
+#, object-pascal-format
 msgid "Number of file(s) imported successfully: %d on %d"
 msgstr "성공적으로 파일 불러오기됨: %d / %d"
 
@@ -11420,6 +11486,7 @@ msgid "Submenu name"
 msgstr "하위메뉴명"
 
 #: ulng.rsmsgfavoritetabsthiswillloadfavtabs
+#, object-pascal-format
 msgid "This will load the Favorite Tabs: \"%s\""
 msgstr "즐겨찾기탭 로드됨: \"%s\""
 
@@ -11428,10 +11495,12 @@ msgid "Save current tabs over existing Favorite Tabs entry"
 msgstr "현재탭을 즐겨찾기탭에 저장"
 
 #: ulng.rsmsgfilechangedsave
+#, object-pascal-format
 msgid "File %s changed, save?"
 msgstr "파일 %s 변경됨, 저장할까요?"
 
 #: ulng.rsmsgfileexistsfileinfo
+#, object-pascal-format
 msgid "%s bytes, %s"
 msgstr "%s 바이트, %s"
 
@@ -11440,6 +11509,7 @@ msgid "Overwrite:"
 msgstr "덮어쓰기:"
 
 #: ulng.rsmsgfileexistsrwrt
+#, object-pascal-format
 msgid "File %s exists, overwrite?"
 msgstr "%s 파일이 존재함, 덮어쓸까요?"
 
@@ -11448,6 +11518,7 @@ msgid "With file:"
 msgstr "이 파일을:"
 
 #: ulng.rsmsgfilenotfound
+#, object-pascal-format
 msgid "File \"%s\" not found."
 msgstr "파일 \"%s\" 찾을 수 없음."
 
@@ -11460,13 +11531,15 @@ msgid "Some file operations have not yet finished. Closing Double Commander may 
 msgstr "파일 작업 완료되지 않음. 더블커맨더를 닫으면 자료 손실이 발생할 수도 있음."
 
 #: ulng.rsmsgfilepathovermaxpath
+#, object-pascal-format
 msgid ""
 "The target name length (%d) is more than %d characters!\n"
 "%s\n"
-"Most programs will not be able to access a file/directory with such a long name!\n"
+"Most programs will not be able to access a file/directory with such a long name!"
 msgstr ""
 
 #: ulng.rsmsgfilereadonly
+#, object-pascal-format
 msgid "File %s is marked as read-only/hidden/system. Delete it?"
 msgstr "선택된 %s 파일은 읽기/숨김/시스템 속성입니다. 삭제할까요?"
 
@@ -11475,14 +11548,17 @@ msgid "Are you sure you want to reload the current file and lose the changes?"
 msgstr ""
 
 #: ulng.rsmsgfilesizetoobig
+#, object-pascal-format
 msgid "The file size of \"%s\" is too big for destination file system!"
 msgstr "\"%s\" 파일 크기가 복사될 파일시스템에는 너무 큽니다!"
 
 #: ulng.rsmsgfolderexistsrwrt
+#, object-pascal-format
 msgid "Folder %s exists, merge?"
 msgstr "%s 폴더가 있습니다, 덮어쓸까요?"
 
 #: ulng.rsmsgfollowsymlink
+#, object-pascal-format
 msgid "Follow symlink \"%s\"?"
 msgstr "\"%s\"심링크를 따라갈까요?"
 
@@ -11491,6 +11567,7 @@ msgid "Select the text format to import"
 msgstr "가져오기하려는 다음 텍스트 형태 선택"
 
 #: ulng.rsmsghotdiraddselecteddirectories
+#, object-pascal-format
 msgid "Add %d selected dirs"
 msgstr "%d 선택된 폴더 추가"
 
@@ -11583,6 +11660,7 @@ msgid "Hotdir name"
 msgstr "바로 가기 폴더명"
 
 #: ulng.rsmsghotdirnbnewentries
+#, object-pascal-format
 msgid "Number of new entries: %d"
 msgstr "새 목록 갯수: %d"
 
@@ -11653,50 +11731,54 @@ msgid "Some functions to select appropriate path relative, absolute, windows spe
 msgstr "적절한 상대경로, 절대경로, 윈도 특정 폴더를 선택 기능"
 
 #: ulng.rsmsghotdirtotalbackuped
+#, object-pascal-format
 msgid ""
 "Total entries saved: %d\n"
 "\n"
-"Backup filename: %s\n"
+"Backup filename: %s"
 msgstr ""
 "전체 목록 저장: %d\n"
 "\n"
-"백업 파일명: %s\n"
+"백업 파일명: %s"
 
 #: ulng.rsmsghotdirtotalexported
 msgid "Total entries exported: "
 msgstr "전체 목록 내보내기됨: "
 
 #: ulng.rsmsghotdirwhattodelete
+#, object-pascal-format
 msgid ""
 "Do you want to delete all elements inside the sub-menu [%s]?\n"
-"Answering NO will delete only menu delimiters but will keep element inside sub-menu.\n"
+"Answering NO will delete only menu delimiters but will keep element inside sub-menu."
 msgstr ""
 "하위메뉴의 모든 요소를 삭제하시겠습니까? [%s]?\n"
-"'아니오'를 선택하면 하위메뉴만 삭제하고 하위메뉴의 요소는 삭제하지 않습니다.\n"
+"'아니오'를 선택하면 하위메뉴만 삭제하고 하위메뉴의 요소는 삭제하지 않습니다."
 
 #: ulng.rsmsghotdirwheretosave
 msgid "Enter location and filename where to save a Directory Hotlist file"
 msgstr "폴더(디렉토리) 바로 가기 파일을 저장할 장소와 파일명을 입력"
 
 #: ulng.rsmsgincorrectfilelength
+#, object-pascal-format
 msgid "Incorrect resulting filelength for file : \"%s\""
 msgstr "잘못된 파일명 길이 결과: \"%s\""
 
 #: ulng.rsmsginsertnextdisk
+#, object-pascal-format
 msgid ""
 "Please insert next disk or something similar.\n"
 "\n"
 "It is to allow writing this file:\n"
 "\"%s\"\n"
 "\n"
-"Number of bytes still to write: %d\n"
+"Number of bytes still to write: %d"
 msgstr ""
 "다음 디스크를 삽입하세요.\n"
 "\n"
 "쓰기가 허용되어 있습니다.:\n"
 "\"%s\"\n"
 "\n"
-"바이트 쓰는 중: %d\n"
+"바이트 쓰는 중: %d"
 
 #: ulng.rsmsginvalidcommandline
 msgid "Error in command line"
@@ -11711,6 +11793,7 @@ msgid "Invalid format of configuration file"
 msgstr "불분명한 환경설정 파일 포맷"
 
 #: ulng.rsmsginvalidhexnumber
+#, object-pascal-format
 msgid "Invalid hexadecimal number: \"%s\""
 msgstr ""
 
@@ -11719,6 +11802,7 @@ msgid "Invalid path"
 msgstr "잘못된 경로"
 
 #: ulng.rsmsginvalidpathlong
+#, object-pascal-format
 msgid "Path %s contains forbidden characters."
 msgstr "%s 경로에 금지된 문자열이 포함됨."
 
@@ -11727,6 +11811,7 @@ msgid "This is not a valid plugin!"
 msgstr "유효한 플러그인 아님!"
 
 #: ulng.rsmsginvalidpluginarchitecture
+#, object-pascal-format
 msgid "This plugin is built for Double Commander for %s.%sIt can not work with Double Commander for %s!"
 msgstr "이것은 더블커맨더 %s.%s를 위한 플러그인입니다. 이것은 더블커맨더 %s에서는 동작하지 않습니다!"
 
@@ -11751,10 +11836,12 @@ msgid "Locate TC executable file (totalcmd.exe or totalcmd64.exe)"
 msgstr "TC 실행파일 위치(totalcmd.exe or totalcmd64.exe)"
 
 #: ulng.rsmsglogcopy
+#, object-pascal-format
 msgid "Copy file %s"
 msgstr "%s 파일 복사"
 
 #: ulng.rsmsglogdelete
+#, object-pascal-format
 msgid "Delete file %s"
 msgstr "%s 파일 삭제"
 
@@ -11771,6 +11858,7 @@ msgid "Result external"
 msgstr "외부 결과"
 
 #: ulng.rsmsglogextract
+#, object-pascal-format
 msgid "Extract file %s"
 msgstr "%s 파일 압축 풀기"
 
@@ -11779,18 +11867,22 @@ msgid "Info: "
 msgstr "정보: "
 
 #: ulng.rsmsgloglink
+#, object-pascal-format
 msgid "Create link %s"
 msgstr "%s 링크 생성"
 
 #: ulng.rsmsglogmkdir
+#, object-pascal-format
 msgid "Create directory %s"
 msgstr "%s 폴더 생성"
 
 #: ulng.rsmsglogmove
+#, object-pascal-format
 msgid "Move file %s"
 msgstr "%s 파일 이동"
 
 #: ulng.rsmsglogpack
+#, object-pascal-format
 msgid "Pack to file %s"
 msgstr "%s 파일로 압축"
 
@@ -11803,6 +11895,7 @@ msgid "Program start"
 msgstr ""
 
 #: ulng.rsmsglogrmdir
+#, object-pascal-format
 msgid "Remove directory %s"
 msgstr "%s 디렉토리 제거"
 
@@ -11811,18 +11904,22 @@ msgid "Done: "
 msgstr "완료: "
 
 #: ulng.rsmsglogsymlink
+#, object-pascal-format
 msgid "Create symlink %s"
 msgstr "%s 심링크 생성"
 
 #: ulng.rsmsglogtest
+#, object-pascal-format
 msgid "Test file integrity %s"
 msgstr "%s 파일 무결성 테스트"
 
 #: ulng.rsmsglogwipe
+#, object-pascal-format
 msgid "Wipe file %s"
 msgstr "%s 파일 삭제"
 
 #: ulng.rsmsglogwipedir
+#, object-pascal-format
 msgid "Wipe directory %s"
 msgstr "%s 폴더 완전 삭제"
 
@@ -11859,6 +11956,7 @@ msgid "No enough free space on target drive, Retry?"
 msgstr "드라이브에 공간이 부족합니다. 다시 시도할까요?"
 
 #: ulng.rsmsgnotdelete
+#, object-pascal-format
 msgid "Can not delete file %s"
 msgstr "%s 파일을 삭제할 수 없습니다."
 
@@ -11901,22 +11999,27 @@ msgid "Please re-enter the password for verification:"
 msgstr "확인을 위해 비밀번호를 다시 입력하세요:"
 
 #: ulng.rsmsgpopuphotdelete
+#, object-pascal-format
 msgid "&Delete %s"
 msgstr "%s 삭제(&D)"
 
 #: ulng.rsmsgpresetalreadyexists
+#, object-pascal-format
 msgid "Preset \"%s\" already exists. Overwrite?"
 msgstr "\"%s\" 프리셋이 존재함. 덮어쓸까요?"
 
 #: ulng.rsmsgpresetconfigdelete
+#, object-pascal-format
 msgid "Are you sure you want to delete preset \"%s\"?"
 msgstr ""
 
 #: ulng.rsmsgproblemexecutingcommand
+#, object-pascal-format
 msgid "Problem executing command (%s)"
 msgstr "(%s) 명령어 실행 문제 있음"
 
 #: ulng.rsmsgprocessid
+#, object-pascal-format
 msgid "PID: %d"
 msgstr ""
 
@@ -11937,10 +12040,12 @@ msgid "Enter new name for this menu"
 msgstr "이 메뉴 새 이름 입력"
 
 #: ulng.rsmsgrenfldr
+#, object-pascal-format
 msgid "Rename/move %d selected files/directories?"
 msgstr "%d개 선택된 파일과 폴더를 이름 바꾸기/이동할까요?"
 
 #: ulng.rsmsgrensel
+#, object-pascal-format
 msgid "Rename/move selected \"%s\"?"
 msgstr "선택된 \"%s\" 이름 바꾸기/이동할까요?"
 
@@ -11953,14 +12058,17 @@ msgid "Please, restart Double Commander in order to apply changes"
 msgstr "변경된 설정을 적용하려면 더블커맨더를 재실행하세요."
 
 #: ulng.rsmsgscriptcantfindlibrary
+#, object-pascal-format
 msgid "ERROR: Problem loading Lua library file \"%s\""
 msgstr ""
 
 #: ulng.rsmsgsekectfiletype
+#, object-pascal-format
 msgid "Select to which file type to add extension \"%s\""
 msgstr "추가하려는 \"%s\" 파일확장자를 선택하세요."
 
 #: ulng.rsmsgselectedinfo
+#, object-pascal-format
 msgid "Selected: %s of %s, files: %d of %d, folders: %d of %d"
 msgstr "선택됨[용량:%s/%s, 파일: %d/%d, 폴더: %d/%d]"
 
@@ -12057,6 +12165,7 @@ msgid "Use Windows special folder (TC)..."
 msgstr "윈도 특별 폴더(TC) 사용..."
 
 #: ulng.rsmsgtabforopeninginnewtab
+#, object-pascal-format
 msgid "This tab (%s) is locked! Open directory in another tab?"
 msgstr "이 탭(%s)은 잠겼음! 다른 탭에 폴더(디렉토리)를 열까요?"
 
@@ -12073,36 +12182,39 @@ msgid "Target path:"
 msgstr "지정할 경로:"
 
 #: ulng.rsmsgtcconfignotfound
+#, object-pascal-format
 msgid ""
 "Error! Cannot find the TC configuration file:\n"
-"%s\n"
+"%s"
 msgstr ""
 "오류! TC(토탈커맨더) 환경설정 파일을 찾을 수 없음:\n"
-"%s\n"
+"%s"
 
 #: ulng.rsmsgtcexecutablenotfound
+#, object-pascal-format
 msgid ""
 "Error! Cannot find the TC configuration executable:\n"
-"%s\n"
+"%s"
 msgstr ""
 "오류! TC(토탈커맨더) 환경설정 파일을 찾을 수 없음:\n"
-"%s\n"
+"%s"
 
 #: ulng.rsmsgtcisrunning
 msgid ""
 "Error! TC is still running but it should be closed for this operation.\n"
-"Close it and press OK or press CANCEL to abort.\n"
+"Close it and press OK or press CANCEL to abort."
 msgstr ""
 "오류! TC(토탈커맨더) 실행중이서 작업을 실행할 수 없습니다.\n"
-"실행 최소를 위해 작업을 종료한 후 '확인' 또는 '취소' 버튼을 누르세요.\n"
+"실행 최소를 위해 작업을 종료한 후 '확인' 또는 '취소' 버튼을 누르세요."
 
 #: ulng.rsmsgtctoolbarnotfound
+#, object-pascal-format
 msgid ""
 "Error! Cannot find the desired wanted TC toolbar output folder:\n"
-"%s\n"
+"%s"
 msgstr ""
 "오류! TC(토탈커맨더) 내보내기 폴더를 찾을 수 없습니다.:\n"
-"%s\n"
+"%s"
 
 #: ulng.rsmsgtctoolbarwheretosave
 msgid "Enter location and filename where to save a TC Toolbar file"
@@ -12121,6 +12233,7 @@ msgid "Do you want to test selected archives?"
 msgstr "선택한 아카이브를 테스트하시겠습니까?"
 
 #: ulng.rsmsgthisisnowinclipboard
+#, object-pascal-format
 msgid "\"%s\" is now in the clipboard"
 msgstr "\"%s\"이 클립보드에 있음"
 
@@ -12141,12 +12254,13 @@ msgid "Enter location and filename of Toolbar to restore"
 msgstr "복구를 위한 툴바 파일명 위치 입력"
 
 #: ulng.rsmsgtoolbarsaved
+#, object-pascal-format
 msgid ""
 "Saved!\n"
-"Toolbar filename: %s\n"
+"Toolbar filename: %s"
 msgstr ""
 "저장 완료!\n"
-"툴바 파일명: %s\n"
+"툴바 파일명: %s"
 
 #: ulng.rsmsgtoomanyfilesselected
 msgid "Too many files selected."
@@ -12206,10 +12320,12 @@ msgid "Do you want to configure Lua library location?"
 msgstr ""
 
 #: ulng.rsmsgwipefldr
+#, object-pascal-format
 msgid "Wipe %d selected files/directories?"
 msgstr "%d 선택된 파일/폴더를 완전삭제(휴지통X)할까요?"
 
 #: ulng.rsmsgwipesel
+#, object-pascal-format
 msgid "Wipe selected \"%s\"?"
 msgstr "선택된 \"%s\" 완전 삭제(휴지통X)할까요?"
 
@@ -12220,7 +12336,7 @@ msgstr "함께"
 #: ulng.rsmsgwrongpasswordtryagain
 msgid ""
 "Wrong password!\n"
-"Please try again!\n"
+"Please try again!"
 msgstr ""
 
 #: ulng.rsmulrenautorename
@@ -12254,6 +12370,7 @@ msgid "Enter variable name"
 msgstr ""
 
 #: ulng.rsmulrenentervalueforvar
+#, object-pascal-format
 msgid "Enter value for variable \"%s\""
 msgstr ""
 
@@ -12421,9 +12538,10 @@ msgid "Enter new preset name"
 msgstr ""
 
 #: ulng.rsmulrensavemodifiedpreset
+#, object-pascal-format
 msgid ""
 "\"%s\" preset has been modified.\n"
-"Do you want to save it now?\n"
+"Do you want to save it now?"
 msgstr ""
 
 #: ulng.rsmulrensortingpresets
@@ -12440,6 +12558,7 @@ msgid "Warning, duplicate names!"
 msgstr ""
 
 #: ulng.rsmulrenwronglinesnumber
+#, object-pascal-format
 msgid "File contains wrong number of lines: %d, should be %d!"
 msgstr ""
 
@@ -12520,10 +12639,12 @@ msgid "Calculating checksum"
 msgstr "체크섬 계산중"
 
 #: ulng.rsopercalculatingchecksumin
+#, object-pascal-format
 msgid "Calculating checksum in \"%s\""
 msgstr "\"%s\"에서 체크섬 계산중"
 
 #: ulng.rsopercalculatingchecksumof
+#, object-pascal-format
 msgid "Calculating checksum of \"%s\""
 msgstr "\"%s\"의 체크섬 계산중"
 
@@ -12533,6 +12654,7 @@ msgid "Calculating"
 msgstr "계산중"
 
 #: ulng.rsopercalculatingstatisticsin
+#, object-pascal-format
 msgid "Calculating \"%s\""
 msgstr "\"%s\" 계산중"
 
@@ -12541,6 +12663,7 @@ msgid "Joining"
 msgstr "합치기중"
 
 #: ulng.rsopercombiningfromto
+#, object-pascal-format
 msgid "Joining files in \"%s\" to \"%s\""
 msgstr "\"%s\"에서 \"%s\"로 합치는중"
 
@@ -12549,10 +12672,12 @@ msgid "Copying"
 msgstr "복사중"
 
 #: ulng.rsopercopyingfromto
+#, object-pascal-format
 msgid "Copying from \"%s\" to \"%s\""
 msgstr "\"%s\" 에서 \"%s\"로 파일 복사중"
 
 #: ulng.rsopercopyingsomethingto
+#, object-pascal-format
 msgid "Copying \"%s\" to \"%s\""
 msgstr "\"%s\"를 \"%s\"로 복사중"
 
@@ -12561,6 +12686,7 @@ msgid "Creating directory"
 msgstr "폴더(디렉토리) 생성중"
 
 #: ulng.rsopercreatingsomedirectory
+#, object-pascal-format
 msgid "Creating directory \"%s\""
 msgstr "\"%s\" 폴더(디렉토리) 생성중"
 
@@ -12570,10 +12696,12 @@ msgid "Deleting"
 msgstr "삭제중"
 
 #: ulng.rsoperdeletingin
+#, object-pascal-format
 msgid "Deleting in \"%s\""
 msgstr "\"%s\" 삭제중"
 
 #: ulng.rsoperdeletingsomething
+#, object-pascal-format
 msgid "Deleting \"%s\""
 msgstr "\"%s\" 삭제중"
 
@@ -12582,6 +12710,7 @@ msgid "Executing"
 msgstr "실행중"
 
 #: ulng.rsoperexecutingsomething
+#, object-pascal-format
 msgid "Executing \"%s\""
 msgstr "\"%s\" 압축해제중"
 
@@ -12590,6 +12719,7 @@ msgid "Extracting"
 msgstr "압축해제중"
 
 #: ulng.rsoperextractingfromto
+#, object-pascal-format
 msgid "Extracting from \"%s\" to \"%s\""
 msgstr "\"%s\"에서 \"%s\"로 압축해제중"
 
@@ -12602,6 +12732,7 @@ msgid "Listing"
 msgstr "목록생성중"
 
 #: ulng.rsoperlistingin
+#, object-pascal-format
 msgid "Listing \"%s\""
 msgstr "\"%s\" 목록 생성중"
 
@@ -12610,10 +12741,12 @@ msgid "Moving"
 msgstr "이동중"
 
 #: ulng.rsopermovingfromto
+#, object-pascal-format
 msgid "Moving from \"%s\" to \"%s\""
 msgstr "\"%s\"에서 \"%s\"로 파일 이동중"
 
 #: ulng.rsopermovingsomethingto
+#, object-pascal-format
 msgid "Moving \"%s\" to \"%s\""
 msgstr "\"%s\"이 \"%s\"로 이동"
 
@@ -12626,10 +12759,12 @@ msgid "Packing"
 msgstr "압축중"
 
 #: ulng.rsoperpackingfromto
+#, object-pascal-format
 msgid "Packing from \"%s\" to \"%s\""
 msgstr "\"%s\"에서 \"%s\"로 압축중"
 
 #: ulng.rsoperpackingsomethingto
+#, object-pascal-format
 msgid "Packing \"%s\" to \"%s\""
 msgstr "\"%s\"이 \"%s\"로 압축중"
 
@@ -12650,10 +12785,12 @@ msgid "Setting property"
 msgstr "속성 설정"
 
 #: ulng.rsopersettingpropertyin
+#, object-pascal-format
 msgid "Setting property in \"%s\""
 msgstr "\"%s\"에 속성 설정"
 
 #: ulng.rsopersettingpropertyof
+#, object-pascal-format
 msgid "Setting property of \"%s\""
 msgstr "\"%s\"의 속성 설정"
 
@@ -12662,6 +12799,7 @@ msgid "Splitting"
 msgstr "파일 분리중"
 
 #: ulng.rsopersplittingfromto
+#, object-pascal-format
 msgid "Splitting \"%s\" to \"%s\""
 msgstr "\"%s\"를 \"%s\"로 분할중"
 
@@ -12682,10 +12820,12 @@ msgid "Testing"
 msgstr "테스트중"
 
 #: ulng.rsopertestingin
+#, object-pascal-format
 msgid "Testing in \"%s\""
 msgstr "\"%s\"에 테스트중"
 
 #: ulng.rsopertestingsomething
+#, object-pascal-format
 msgid "Testing \"%s\""
 msgstr "\"%s\" 테스트중"
 
@@ -12694,10 +12834,12 @@ msgid "Verifying checksum"
 msgstr "체크섬 확인중"
 
 #: ulng.rsoperverifyingchecksumin
+#, object-pascal-format
 msgid "Verifying checksum in \"%s\""
 msgstr "\"%s\"에서 체크섬 확인중"
 
 #: ulng.rsoperverifyingchecksumof
+#, object-pascal-format
 msgid "Verifying checksum of \"%s\""
 msgstr "\"%s\"의 체크섬 확인중"
 
@@ -12714,10 +12856,12 @@ msgid "Wiping"
 msgstr "완전 삭제중"
 
 #: ulng.rsoperwipingin
+#, object-pascal-format
 msgid "Wiping in \"%s\""
 msgstr "\"%s\"에 완전 삭제중"
 
 #: ulng.rsoperwipingsomething
+#, object-pascal-format
 msgid "Wiping \"%s\""
 msgstr "\"%s\" 완전삭제중"
 
@@ -12762,6 +12906,7 @@ msgid "Change Archiver Listing Encoding"
 msgstr ""
 
 #: ulng.rsoptarchiverconfirmdelete
+#, object-pascal-format
 msgctxt "ulng.rsoptarchiverconfirmdelete"
 msgid "Are you sure you want to delete: \"%s\"?"
 msgstr ""
@@ -12779,6 +12924,7 @@ msgid "Export archiver configuration"
 msgstr ""
 
 #: ulng.rsoptarchiverexportdone
+#, object-pascal-format
 msgctxt "ulng.rsoptarchiverexportdone"
 msgid "Exportation of %d elements to file \"%s\" completed."
 msgstr ""
@@ -12801,7 +12947,7 @@ msgid "Import archiver configuration"
 msgstr ""
 
 #: ulng.rsoptarchiverimportdone
-#, fuzzy,badformat
+#, object-pascal-format, fuzzy, badformat
 msgctxt "ulng.rsoptarchiverimportdone"
 msgid "Importation of %d elements from file \"%s\" completed."
 msgstr "파일 \"%s\"에서 %d 요소 가져오기완료."
@@ -12864,6 +13010,7 @@ msgid "Archive type name:"
 msgstr "압축파일 종류명:"
 
 #: ulng.rsoptassocpluginwith
+#, object-pascal-format
 msgid "Associate plugin \"%s\" with:"
 msgstr "\"%s\"와 연결된 플러그인:"
 
@@ -12900,10 +13047,12 @@ msgid "float"
 msgstr "float"
 
 #: ulng.rsopthotkeysadddeleteshortcutlong
+#, object-pascal-format
 msgid "Shortcut %s for cm_Delete will be registered, so it can be used to reverse this setting."
 msgstr "cm_Delete를 위한 %s 단축키가 등록될 것이며 이것은 이 설정을 역으로 되돌리는데 사용될 수 있음"
 
 #: ulng.rsopthotkeysaddhotkey
+#, object-pascal-format
 msgid "Add hotkey for %s"
 msgstr "%s 바로 가기 키 추가"
 
@@ -12925,11 +13074,13 @@ msgid "Command"
 msgstr "명령어"
 
 #: ulng.rsopthotkeysdeletetrashcanoverrides
+#, object-pascal-format
 msgctxt "ulng.rsopthotkeysdeletetrashcanoverrides"
 msgid "Shortcut %s for cm_Delete has a parameter that overrides this setting. Do you want to change this parameter to use the global setting?"
 msgstr "cm_Delete를 위한 %s 단축키 매겨변수가 이 설정에는 무효합니다. 전역변수로 이 매개변수를 수정할까요?"
 
 #: ulng.rsopthotkeysdeletetrashcanparameterexists
+#, object-pascal-format
 msgctxt "ulng.rsopthotkeysdeletetrashcanparameterexists"
 msgid "Shortcut %s for cm_Delete needs to have a parameter changed to match shortcut %s. Do you want to change it?"
 msgstr "  cm_Delete를 위해 %s 단축키가는 %s 단축키와 일치하기 위한 매개변수가 필요합니다. 변경할까요?"
@@ -12940,6 +13091,7 @@ msgid "Description"
 msgstr "설명"
 
 #: ulng.rsopthotkeysedithotkey
+#, object-pascal-format
 msgid "Edit hotkey for %s"
 msgstr "%s를 위해 바로 가기 편집"
 
@@ -12971,10 +13123,12 @@ msgid "Set shortcut to delete file"
 msgstr "파일 삭제 바로 가기 설정"
 
 #: ulng.rsopthotkeysshortcutfordeletealreadyassigned
+#, object-pascal-format
 msgid "For this setting to work with shortcut %s, shortcut %s must be assigned to cm_Delete but it is already assigned to %s. Do you want to change it?"
 msgstr "%s 단축키가 작동하기 위해서는 %s 단축키다 cm_Delete에 할당되어 있어야만 하지만 이미 %s에 할당되어 있음. 변경하시겠습니까?"
 
 #: ulng.rsopthotkeysshortcutfordeleteissequence
+#, object-pascal-format
 msgid "Shortcut %s for cm_Delete is a sequence shortcut for which a hotkey with reversed Shift cannot be assigned. This setting might not work."
 msgstr "cm_Delete %s 단축키는 연속된 단축키로 Shift키를 바로 가기로 할당할 수 없음. 이 설정은 작동하지 않을 것임."
 
@@ -12983,14 +13137,17 @@ msgid "Shortcut in use"
 msgstr "단축키 사용중"
 
 #: ulng.rsopthotkeysshortcutusedtext1
+#, object-pascal-format
 msgid "Shortcut %s is already used."
 msgstr "%s 단축키 이미 사용중"
 
 #: ulng.rsopthotkeysshortcutusedtext2
+#, object-pascal-format
 msgid "Change it to %s?"
 msgstr "%s를 변경할까요?"
 
 #: ulng.rsopthotkeysusedby
+#, object-pascal-format
 msgid "used for %s in %s"
 msgstr "%s가 %s에 사용됨"
 
@@ -13166,14 +13323,15 @@ msgid "Multi-Rename Tool"
 msgstr "파일명 변경 도구"
 
 #: ulng.rsoptionseditoroptionschanged
+#, object-pascal-format
 msgid ""
 "Options have changed in \"%s\"\n"
 "\n"
-"Do you want to save modifications?\n"
+"Do you want to save modifications?"
 msgstr ""
 "\"%s\"에서 옵션이 변경되었습니다.\n"
 "\n"
-"수정 사항을 저장하시겠습니까?\n"
+"수정 사항을 저장하시겠습니까?"
 
 #: ulng.rsoptionseditorplugins
 msgctxt "ulng.rsoptionseditorplugins"
@@ -13238,6 +13396,7 @@ msgid "Personalized float;Personalized byte;Personalized kilobyte;Personalized m
 msgstr ""
 
 #: ulng.rsoptpluginalreadyassigned
+#, object-pascal-format
 msgid "Plugin %s is already assigned for the following extensions:"
 msgstr "%s 플러그인의 확장자가 이미 할당되어 있습니다.:"
 
@@ -13336,10 +13495,12 @@ msgid "Tooltip file type name:"
 msgstr "범주명(&N):"
 
 #: ulng.rsopttooltipfiletypealreadyexists
+#, object-pascal-format
 msgid "\"%s\" already exists!"
 msgstr ""
 
 #: ulng.rsopttooltipfiletypeconfirmdelete
+#, object-pascal-format
 msgctxt "ulng.rsopttooltipfiletypeconfirmdelete"
 msgid "Are you sure you want to delete: \"%s\"?"
 msgstr ""
@@ -13353,6 +13514,7 @@ msgid "Export tooltip file type configuration"
 msgstr ""
 
 #: ulng.rsopttooltipfiletypeexportdone
+#, object-pascal-format
 msgctxt "ulng.rsopttooltipfiletypeexportdone"
 msgid "Exportation of %d elements to file \"%s\" completed."
 msgstr ""
@@ -13367,6 +13529,7 @@ msgid "Import tooltip file type configuration"
 msgstr ""
 
 #: ulng.rsopttooltipfiletypeimportdone
+#, object-pascal-format
 msgctxt "ulng.rsopttooltipfiletypeimportdone"
 msgid "Importation of %d elements from file \"%s\" completed."
 msgstr ""
@@ -13419,6 +13582,7 @@ msgid "="
 msgstr "="
 
 #: ulng.rspluginsearchfieldnotfound
+#, object-pascal-format
 msgid "Field \"%s\" not found!"
 msgstr ""
 
@@ -13444,6 +13608,7 @@ msgid "!regexp"
 msgstr ""
 
 #: ulng.rspluginsearchpluginnotfound
+#, object-pascal-format
 msgid "Plugin \"%s\" not found!"
 msgstr ""
 
@@ -13452,19 +13617,23 @@ msgid "regexp"
 msgstr ""
 
 #: ulng.rspluginsearchunitnotfoundforfield
+#, object-pascal-format
 msgctxt "ulng.rspluginsearchunitnotfoundforfield"
 msgid "Unit \"%s\" not found for field \"%s\" !"
 msgstr ""
 
 #: ulng.rspropscontains
+#, object-pascal-format
 msgid "Files: %d, folders: %d"
 msgstr "파일: %d, 폴더:%d"
 
 #: ulng.rspropserrchmod
+#, object-pascal-format
 msgid "Can not change access rights for \"%s\""
 msgstr "\"%s\" 접근 권한을 변경할 수 없음"
 
 #: ulng.rspropserrchown
+#, object-pascal-format
 msgid "Can not change owner for \"%s\""
 msgstr "\"%s\" 소유자를 변경할 수 없음"
 
@@ -13517,13 +13686,13 @@ msgstr "<이름없는 템플릿>"
 #: ulng.rssearchwithdsxplugininprogress
 msgid ""
 "A file search using DSX plugin is already in progress.\n"
-"We need that one to be completed before to launch a new one.\n"
+"We need that one to be completed before to launch a new one."
 msgstr ""
 
 #: ulng.rssearchwithwdxplugininprogress
 msgid ""
 "A file search using WDX plugin is already in progress.\n"
-"We need that one to be completed before to launch a new one.\n"
+"We need that one to be completed before to launch a new one."
 msgstr ""
 
 #: ulng.rsselectdir
@@ -13539,6 +13708,7 @@ msgid "Select your window"
 msgstr "창을 선택하세요"
 
 #: ulng.rsshowhelpfor
+#, object-pascal-format
 msgid "&Show help for %s"
 msgstr "%s 도움말 표시(&S)"
 
@@ -13634,6 +13804,7 @@ msgid "Terabytes"
 msgstr "테라바이트"
 
 #: ulng.rsspacemsg
+#, object-pascal-format
 msgid "Files: %d, Dirs: %d, Size: %s (%s bytes)"
 msgstr "파일: %d, 폴더: %d, 크기: %s (%s 바이트)"
 
@@ -13833,6 +14004,7 @@ msgid "Viewer"
 msgstr "뷰어"
 
 #: ulng.rsunhandledexceptionmessage
+#, object-pascal-format
 msgid "Please report this error to the bug tracker with a description of what you were doing and the following file:%sPress %s to continue or %s to abort the program."
 msgstr "이 오류를 설명과 함께 다음 파일을 버그 트랙커(Bug tracker)에 보고하세요:%s 계속하려면 %s를, 프로그램을 취소하려면 %s를 누르세요."
 
@@ -14032,6 +14204,7 @@ msgid "New Size"
 msgstr "새 크기"
 
 #: ulng.rsviewnotfound
+#, object-pascal-format
 msgid "%s not found!"
 msgstr "%s 찾지 못함!"
 
@@ -14048,6 +14221,7 @@ msgid "with internal viewer"
 msgstr "내장뷰어로"
 
 #: ulng.rsxreplacements
+#, object-pascal-format
 msgid "Number of replacement: %d"
 msgstr "바꾸기한 갯수: %d 개"
 
@@ -14056,6 +14230,7 @@ msgid "No replacement took place."
 msgstr "바꾸기 없음."
 
 #: umaincommands.rsfavoritetabs_setupnotexist
+#, object-pascal-format
 msgid "No setup named \"%s\""
 msgstr ""
 

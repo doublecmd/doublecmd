@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: Double Commander 0.5.5 alpha\n"
+"Project-Id-Version: Double Commander 1.1.0 alpha\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-01-17 23:08+0300\n"
+"POT-Creation-Date: 2022-11-15 11:15+0300\n"
 "PO-Revision-Date: 2017-02-20 23:52-0300\n"
 "Last-Translator: José Carlos Taveira <taveirajc@gmail.com>\n"
 "Language-Team: José Carlos Taveira <taveirajc@gmail.com>\n"
@@ -19,29 +19,33 @@ msgid "Auto;Enabled;Disabled"
 msgstr ""
 
 #: fsyncdirsdlg.rscomparingpercent
+#, object-pascal-format
 msgid "Comparing... %d%% (ESC to cancel)"
 msgstr "Comparando... %d%% (ESC para cancelar)."
 
 #: fsyncdirsdlg.rsdeleteleft
+#, object-pascal-format
 msgid "Left: Delete %d file(s)"
 msgstr ""
 
 #: fsyncdirsdlg.rsdeleteright
+#, object-pascal-format
 msgid "Right: Delete %d file(s)"
 msgstr "Direito: Excluir %d arquivo(s)."
 
 #: fsyncdirsdlg.rsfilesfound
+#, object-pascal-format
 msgid "Files found: %d  (Identical: %d, Different: %d, Unique left: %d, Unique right: %d)"
 msgstr "Arquivos encontrados: %d (Idênticos: %d, Diferentes: %d, Único esquerda: %d, Único direita: %d "
 
 #: fsyncdirsdlg.rslefttorightcopy
-#, fuzzy,badformat
+#, object-pascal-format, fuzzy, badformat
 #| msgid "Left to Right: Copy %d files, total size: %d bytes"
 msgid "Left to Right: Copy %d files, total size: %s (%s)"
 msgstr "Equerda para Direita: Copiar %d arquivos, tam total: %d bytes"
 
 #: fsyncdirsdlg.rsrighttoleftcopy
-#, fuzzy,badformat
+#, object-pascal-format, fuzzy, badformat
 #| msgid "Right to Left: Copy %d files, total size: %d bytes"
 msgid "Right to Left: Copy %d files, total size: %s (%s)"
 msgstr "Direita para Esquerda: Copiar %d arquivos, tam total: %d bytes"
@@ -314,6 +318,7 @@ msgid "Benchmark"
 msgstr ""
 
 #: tfrmbenchmark.lblbenchmarksize.caption
+#, object-pascal-format
 msgid "Benchmark data size: %d MB"
 msgstr ""
 
@@ -3885,6 +3890,7 @@ msgid "Set selected application as default action"
 msgstr "Definir aplicação selecionada como ação predefinida"
 
 #: tfrmopenwith.lblmimetype.caption
+#, object-pascal-format
 msgid "File type to be opened: %s"
 msgstr "Tipo de arquivo a abrir: %s"
 
@@ -3893,6 +3899,7 @@ msgid "Multiple file names"
 msgstr "Múltiplos nomes de arquivo."
 
 #: tfrmopenwith.milistoffiles.hint
+#, object-pascal-format
 msgid "%F"
 msgstr "%F"
 
@@ -3901,6 +3908,7 @@ msgid "Multiple URIs"
 msgstr "Múltiplos URIs"
 
 #: tfrmopenwith.milistofurls.hint
+#, object-pascal-format
 msgid "%U"
 msgstr "%U"
 
@@ -3909,6 +3917,7 @@ msgid "Single file name"
 msgstr "Nome de arquivo único."
 
 #: tfrmopenwith.misinglefilename.hint
+#, object-pascal-format
 msgid "%f"
 msgstr "%f"
 
@@ -3917,6 +3926,7 @@ msgid "Single URI"
 msgstr "URI único"
 
 #: tfrmopenwith.misingleurl.hint
+#, object-pascal-format
 msgid "%u"
 msgstr "%u"
 
@@ -5376,6 +5386,10 @@ msgstr ""
 #: tfrmoptionseditor.gbinternaleditor.caption
 msgid "Internal editor options"
 msgstr "Opções do editor interno."
+
+#: tfrmoptionseditor.lblblockindent.caption
+msgid "Block indent:"
+msgstr ""
 
 #: tfrmoptionseditor.lbltabwidth.caption
 msgid "Tab width:"
@@ -10278,18 +10292,19 @@ msgid "Orientation"
 msgstr ""
 
 #: ulng.msgtrytolocatecrcfile
+#, object-pascal-format
 msgid ""
 "This file cannot be found and could help to validate final combination of files:\n"
 "%s\n"
 "\n"
 "Could you make it available and press \"OK\" when ready,\n"
-"or press \"CANCEL\" to continue without it?\n"
+"or press \"CANCEL\" to continue without it?"
 msgstr ""
 "Este arquivo não pode ser encontrado e pode ajudar a validar a combinação final de arquivos:\n"
 "%s\n"
 "\n"
 "Você poderia disponibilizá-lo e pressionar \"OK\" quando pronto,\n"
-"ou pressionar \"CANCELAR\" para contnuar sem ele?\n"
+"ou pressionar \"CANCELAR\" para contnuar sem ele?"
 
 #: ulng.rsabbrevdisplaydir
 msgid "<DIR>"
@@ -10426,6 +10441,7 @@ msgid "Confirming command line and parameters"
 msgstr "Confirmando linha de comando e parâmetros"
 
 #: ulng.rscopynametemplate
+#, object-pascal-format
 msgid "Copy (%d) %s"
 msgstr "Copiar (%d) %s"
 
@@ -10523,7 +10539,7 @@ msgstr ""
 #: ulng.rsdifftextidenticalnotmatch
 msgid ""
 "The text is identical, but the files do not match!\n"
-"The following differences were found:\n"
+"The following differences were found:"
 msgstr ""
 
 #: ulng.rsdlgbuttonabort
@@ -10679,10 +10695,12 @@ msgid "Queue"
 msgstr "Fila"
 
 #: ulng.rsdlgspeed
+#, object-pascal-format
 msgid "Speed %s/s"
 msgstr "Velocidade %s/s"
 
 #: ulng.rsdlgspeedtime
+#, object-pascal-format
 msgid "Speed %s/s, time remaining %s"
 msgstr "Velocidade %s/s, falta %s"
 
@@ -10765,10 +10783,12 @@ msgid "Execute via terminal and stay open"
 msgstr "Executar via terminal e manter aberto."
 
 #: ulng.rsextsclosedbracketnofound
+#, object-pascal-format
 msgid "\"]\" not found in line %s"
 msgstr ""
 
 #: ulng.rsextscommandwithnoext
+#, object-pascal-format
 msgid "No extension defined before command \"%s\". It will be ignored."
 msgstr ""
 
@@ -10864,6 +10884,7 @@ msgid "Define template"
 msgstr "Definir modelo"
 
 #: ulng.rsfinddepth
+#, object-pascal-format
 msgid "%s level(s)"
 msgstr "%s níveis"
 
@@ -10876,10 +10897,12 @@ msgid "current dir only"
 msgstr "só pasta atual"
 
 #: ulng.rsfinddirnoex
+#, object-pascal-format
 msgid "Directory %s does not exist!"
 msgstr "A pasta %s não existe!"
 
 #: ulng.rsfindfound
+#, object-pascal-format
 msgctxt "ulng.rsfindfound"
 msgid "Found: %d"
 msgstr "Encontrados: %d"
@@ -10893,6 +10916,7 @@ msgid "Template name:"
 msgstr "Nome do modelo:"
 
 #: ulng.rsfindscanned
+#, object-pascal-format
 msgctxt "ulng.rsfindscanned"
 msgid "Scanned: %d"
 msgstr "Pesquisado: %d"
@@ -10960,12 +10984,12 @@ msgid "Viewer&Book Font"
 msgstr "Letra do vis&ualizador de livro"
 
 #: ulng.rsfreemsg
-#, fuzzy
+#, object-pascal-format, fuzzy
 msgid "%s of %s free"
 msgstr "Livres %s de %s"
 
 #: ulng.rsfreemsgshort
-#, fuzzy
+#, object-pascal-format, fuzzy
 msgid "%s free"
 msgstr "%s livres"
 
@@ -11057,11 +11081,11 @@ msgstr "nenhum;Nome, a-z;Nome, z-a;Ext, a-z;Ext, z-a;Tam 9-0;Tam 0-9;Data 9-0;Da
 msgid ""
 "Warning! When restoring a .hotlist backup file, this will erase existing list to replace by the imported one.\n"
 "\n"
-"Are you sure you want to proceed?\n"
+"Are you sure you want to proceed?"
 msgstr ""
 "Aviso! Ao restaurar um backup do arquivo .hotlist, Isso irá apagar a lista existente para substituir pelo importado.\n"
 "\n"
-"Tem certeza que quer continuar?\n"
+"Tem certeza que quer continuar?"
 
 #: ulng.rshotkeycategorycopymovedialog
 msgid "Copy/Move Dialog"
@@ -11107,7 +11131,7 @@ msgstr "Visualizador"
 #: ulng.rshotkeyfilealreadyexists
 msgid ""
 "A setup with that name already exists.\n"
-"Do you want to overwrite it?\n"
+"Do you want to overwrite it?"
 msgstr ""
 
 #: ulng.rshotkeyfileconfirmdefault
@@ -11115,10 +11139,12 @@ msgid "Are you sure you want to restore default?"
 msgstr ""
 
 #: ulng.rshotkeyfileconfirmerasure
+#, object-pascal-format
 msgid "Are you sure you want to erase setup \"%s\"?"
 msgstr ""
 
 #: ulng.rshotkeyfilecopyof
+#, object-pascal-format
 msgid "Copy of %s"
 msgstr ""
 
@@ -11135,9 +11161,10 @@ msgid "New name"
 msgstr ""
 
 #: ulng.rshotkeyfilesavemodified
+#, object-pascal-format
 msgid ""
 "\"%s\" setup has been modified.\n"
-"Do you want to save it now?\n"
+"Do you want to save it now?"
 msgstr ""
 
 #: ulng.rshotkeynoscenter
@@ -11307,6 +11334,7 @@ msgid "All Double Commander internal commands"
 msgstr ""
 
 #: ulng.rsmsgapplicationname
+#, object-pascal-format
 msgid "Description: %s"
 msgstr ""
 
@@ -11319,38 +11347,44 @@ msgid "Do you want to enclose between quotes?"
 msgstr ""
 
 #: ulng.rsmsgbadcrc32
+#, object-pascal-format
 msgid ""
 "Bad CRC32 for resulting file:\n"
 "\"%s\"\n"
 "\n"
-"Do you want to keep the resulting corrupted file anyway?\n"
+"Do you want to keep the resulting corrupted file anyway?"
 msgstr ""
 "CRC32 incorreto para o arquivo resultante: \n"
 "\"%s\"\n"
 "\n"
-"Você deseja manter o arquivo corrompido resultante de qualquer maneira?\n"
+"Você deseja manter o arquivo corrompido resultante de qualquer maneira?"
 
 #: ulng.rsmsgcanceloperation
 msgid "Are you sure that you want to cancel this operation?"
 msgstr ""
 
 #: ulng.rsmsgcannotcopymoveitself
+#, object-pascal-format
 msgid "You can not copy/move a file \"%s\" to itself!"
 msgstr "Não pode copiar/mover um arquivo \"%s\" para si próprio!"
 
 #: ulng.rsmsgcannotcopyspecialfile
+#, object-pascal-format
 msgid "Cannot copy special file %s"
 msgstr ""
 
 #: ulng.rsmsgcannotdeletedirectory
+#, object-pascal-format
 msgid "Cannot delete directory %s"
 msgstr "Impossível Excluir a pasta %s"
 
 #: ulng.rsmsgcannotoverwritedirectory
+#, object-pascal-format
 msgid "Cannot overwrite directory \"%s\" with non-directory \"%s\""
 msgstr ""
 
 #: ulng.rsmsgchdirfailed
+#, object-pascal-format
 msgid "Change current directory to \"%s\" failed!"
 msgstr "ChDir para [%s] falhou!"
 
@@ -11359,6 +11393,7 @@ msgid "Remove all inactive tabs?"
 msgstr "Remover as guias inativas?"
 
 #: ulng.rsmsgcloselockedtab
+#, object-pascal-format
 msgid "This tab (%s) is locked! Close anyway?"
 msgstr "Esta guia (%s) está bloqueado! Fechar mesmo assim?"
 
@@ -11371,6 +11406,7 @@ msgid "Are you sure you want to quit?"
 msgstr "Tem a certeza que quer desistir?"
 
 #: ulng.rsmsgcopybackward
+#, object-pascal-format
 msgid "The file %s has changed. Do you want to copy it backward?"
 msgstr "O arquivo %s foi alterado. Deseja copiá-lo de volta?"
 
@@ -11379,14 +11415,17 @@ msgid "Could not copy backward - do you want to keep the changed file?"
 msgstr "Não foi possível copiar de volta. Você deseja manter o arquivo alterado?"
 
 #: ulng.rsmsgcpfldr
+#, object-pascal-format
 msgid "Copy %d selected files/directories?"
 msgstr "Copiar %d arquivos/pastas selecionados?"
 
 #: ulng.rsmsgcpsel
+#, object-pascal-format
 msgid "Copy selected \"%s\"?"
 msgstr "Copiar \"%s\" selecionados?"
 
 #: ulng.rsmsgcreateanewfiletype
+#, object-pascal-format
 msgid "< Create a new file type \"%s files\" >"
 msgstr "< Criar um novo tipo de arquivo \"%s arquivos\" >"
 
@@ -11403,23 +11442,27 @@ msgid "Delete the partially copied file ?"
 msgstr "Excluir o arquivo parcialmente copiado?"
 
 #: ulng.rsmsgdelfldr
+#, object-pascal-format
 msgid "Delete %d selected files/directories?"
 msgstr "Excluir %d arquivos/pastas selecionados?"
 
 #: ulng.rsmsgdelfldrt
+#, object-pascal-format
 msgid "Delete %d selected files/directories into trash can?"
 msgstr "Excluir %d arquivos/pastas selecionados para a lata de lixo?"
 
 #: ulng.rsmsgdelsel
-#, fuzzy,badformat
+#, object-pascal-format, fuzzy, badformat
 msgid "Delete selected \"%s\"?"
 msgstr "Excluir %d arquivos/pastas selecionados?"
 
 #: ulng.rsmsgdelselt
+#, object-pascal-format
 msgid "Delete selected \"%s\" into trash can?"
 msgstr "Excluir \"%s\" selecionados para a lata de lixo?"
 
 #: ulng.rsmsgdeltotrashforce
+#, object-pascal-format
 msgid "Can not delete \"%s\" to trash! Delete directly?"
 msgstr "Impossível Excluir \"%s\" para o lixo! Excluir diretamente?"
 
@@ -11440,6 +11483,7 @@ msgid "Enter name:"
 msgstr "Introduza o nome"
 
 #: ulng.rsmsgenternewfiletypename
+#, object-pascal-format
 msgid "Enter name of new file type to create for extension \"%s\""
 msgstr "Digite o nome do novo tipo de arquivo a ser criado para a extensão \"%s\""
 
@@ -11452,30 +11496,37 @@ msgid "Data is bad"
 msgstr "Os dados estão corrompidos"
 
 #: ulng.rsmsgerrcannotconnect
+#, object-pascal-format
 msgid "Can not connect to server: \"%s\""
 msgstr "Impossível conectar ao servidor: \"%s\""
 
 #: ulng.rsmsgerrcannotcopyfile
+#, object-pascal-format
 msgid "Cannot copy file %s to %s"
 msgstr "Impossível copiar o arquivo %s para %s"
 
 #: ulng.rsmsgerrcannotmovedirectory
+#, object-pascal-format
 msgid "Cannot move directory %s"
 msgstr ""
 
 #: ulng.rsmsgerrcannotmovefile
+#, object-pascal-format
 msgid "Cannot move file %s"
 msgstr ""
 
 #: ulng.rsmsgerrcreatefiledirectoryexists
+#, object-pascal-format
 msgid "There already exists a directory named \"%s\"."
 msgstr "Já existe uma pasta chamada \"%s\"."
 
 #: ulng.rsmsgerrdatenotsupported
+#, object-pascal-format
 msgid "Date %s is not supported"
 msgstr "Data %s não é suportada"
 
 #: ulng.rsmsgerrdirexists
+#, object-pascal-format
 msgid "Directory %s exists!"
 msgstr "A pasta %s já existe!"
 
@@ -11508,6 +11559,7 @@ msgid "Error writing to file"
 msgstr "Erro ao escrever o arquivo"
 
 #: ulng.rsmsgerrforcedir
+#, object-pascal-format
 msgid "Can not create directory %s!"
 msgstr "Impossível criar a pasta %s!"
 
@@ -11540,6 +11592,7 @@ msgid "Syntax error in regular expression!"
 msgstr "Erro de sintaxe na expressão regular!"
 
 #: ulng.rsmsgerrrename
+#, object-pascal-format
 msgid "Cannot rename file %s to %s"
 msgstr "Impossível renomear o arquivo %s para %s"
 
@@ -11552,22 +11605,27 @@ msgid "Cannot save file"
 msgstr "Impossível Salvar o arquivo."
 
 #: ulng.rsmsgerrsetattribute
+#, object-pascal-format
 msgid "Can not set attributes for \"%s\""
 msgstr "Impossível definir atributos para \"%s\""
 
 #: ulng.rsmsgerrsetdatetime
+#, object-pascal-format
 msgid "Can not set date/time for \"%s\""
 msgstr "Impossível definir data/hora para \"%s\""
 
 #: ulng.rsmsgerrsetownership
+#, object-pascal-format
 msgid "Can not set owner/group for \"%s\""
 msgstr "Impossível definir proprietário/grupo para \"%s\""
 
 #: ulng.rsmsgerrsetpermissions
+#, object-pascal-format
 msgid "Can not set permissions for \"%s\""
 msgstr "Não foi possível definir permissões para \"%s\""
 
 #: ulng.rsmsgerrsetxattribute
+#, object-pascal-format
 msgid "Can not set extended attributes for \"%s\""
 msgstr ""
 
@@ -11584,6 +11642,7 @@ msgid "Archive format unknown"
 msgstr "Formato de arquivo desconhecido."
 
 #: ulng.rsmsgexecutablepath
+#, object-pascal-format
 msgid "Executable: %s"
 msgstr ""
 
@@ -11608,6 +11667,7 @@ msgid "Saving a new Favorite Tabs entry"
 msgstr "Salvando uma nova entrada Tabs Favoritos."
 
 #: ulng.rsmsgfavoritetabsexportedsuccessfully
+#, object-pascal-format
 msgid "Number of Favorite Tabs exported successfully: %d on %d"
 msgstr "Número de Guias Favoritos exportada com sucesso: %d em %d."
 
@@ -11616,6 +11676,7 @@ msgid "Default extra setting for save dir history for new Favorite Tabs:"
 msgstr "Configuração adicional padrão para salvar o histórico de pastas para novas guias favoritas:"
 
 #: ulng.rsmsgfavoritetabsimportedsuccessfully
+#, object-pascal-format
 msgid "Number of file(s) imported successfully: %d on %d"
 msgstr "Número de arquivo(s) importados com sucesso: %d em %d"
 
@@ -11642,6 +11703,7 @@ msgid "Submenu name"
 msgstr "Nome submenu"
 
 #: ulng.rsmsgfavoritetabsthiswillloadfavtabs
+#, object-pascal-format
 msgid "This will load the Favorite Tabs: \"%s\""
 msgstr "Isto irá carregar Guias Favoritos: \"%s\""
 
@@ -11650,10 +11712,12 @@ msgid "Save current tabs over existing Favorite Tabs entry"
 msgstr "Salvar as guias atuais sobre a entrada existente de Guias Favoritos"
 
 #: ulng.rsmsgfilechangedsave
+#, object-pascal-format
 msgid "File %s changed, save?"
 msgstr "O arquivo %s foi alterado! Salvar?"
 
 #: ulng.rsmsgfileexistsfileinfo
+#, object-pascal-format
 msgid "%s bytes, %s"
 msgstr "%s bytes, %s"
 
@@ -11662,6 +11726,7 @@ msgid "Overwrite:"
 msgstr "Sobreescrever:"
 
 #: ulng.rsmsgfileexistsrwrt
+#, object-pascal-format
 msgid "File %s exists, overwrite?"
 msgstr "O arquivo %s já existe! Substituir?"
 
@@ -11670,6 +11735,7 @@ msgid "With file:"
 msgstr "Com arquivo:"
 
 #: ulng.rsmsgfilenotfound
+#, object-pascal-format
 msgid "File \"%s\" not found."
 msgstr "Arquivo \"%s\" não encontrado"
 
@@ -11682,14 +11748,15 @@ msgid "Some file operations have not yet finished. Closing Double Commander may 
 msgstr "Algumas operações de arquivo por terminar. Fechar o Double Commander pode resultar em perda de dados."
 
 #: ulng.rsmsgfilepathovermaxpath
+#, object-pascal-format
 msgid ""
 "The target name length (%d) is more than %d characters!\n"
 "%s\n"
-"Most programs will not be able to access a file/directory with such a long name!\n"
+"Most programs will not be able to access a file/directory with such a long name!"
 msgstr ""
 
 #: ulng.rsmsgfilereadonly
-#, fuzzy
+#, object-pascal-format, fuzzy
 #| msgid "File %s is marked as read-only. Delete it?"
 msgid "File %s is marked as read-only/hidden/system. Delete it?"
 msgstr "O arquivo %s é somente leitura. Quer apagá-lo?"
@@ -11699,16 +11766,18 @@ msgid "Are you sure you want to reload the current file and lose the changes?"
 msgstr ""
 
 #: ulng.rsmsgfilesizetoobig
+#, object-pascal-format
 msgid "The file size of \"%s\" is too big for destination file system!"
 msgstr "O tamanho de \"%s\" é muito grande para o sistema de arquivos destino!"
 
 #: ulng.rsmsgfolderexistsrwrt
-#, fuzzy
+#, object-pascal-format, fuzzy
 #| msgid "Folder %s exists, overwrite?"
 msgid "Folder %s exists, merge?"
 msgstr "A pasta %s já existe! Substituir?"
 
 #: ulng.rsmsgfollowsymlink
+#, object-pascal-format
 msgid "Follow symlink \"%s\"?"
 msgstr "Seguir ligação simbólica \"%s\"?"
 
@@ -11717,6 +11786,7 @@ msgid "Select the text format to import"
 msgstr "Selecione o formato do texto a importar"
 
 #: ulng.rsmsghotdiraddselecteddirectories
+#, object-pascal-format
 msgid "Add %d selected dirs"
 msgstr "Adicionar %d pastas selecionadas"
 
@@ -11809,6 +11879,7 @@ msgid "Hotdir name"
 msgstr "Nome do Hotdir"
 
 #: ulng.rsmsghotdirnbnewentries
+#, object-pascal-format
 msgid "Number of new entries: %d"
 msgstr "Número de novas entradas: %d"
 
@@ -11879,51 +11950,54 @@ msgid "Some functions to select appropriate path relative, absolute, windows spe
 msgstr "Algumas funções para selecionar caminho adequado relativo, absoluto, janelas pastas especiais, etc."
 
 #: ulng.rsmsghotdirtotalbackuped
-#, fuzzy,badformat
+#, object-pascal-format, fuzzy, badformat
 msgid ""
 "Total entries saved: %d\n"
 "\n"
-"Backup filename: %s\n"
+"Backup filename: %s"
 msgstr ""
 "Total de entradas salvas:% d\n"
 "\n"
-"Nome do arquivo de backup:% s\n"
+"Nome do arquivo de backup:% s"
 
 #: ulng.rsmsghotdirtotalexported
 msgid "Total entries exported: "
 msgstr "Total de entradas exportadas: "
 
 #: ulng.rsmsghotdirwhattodelete
+#, object-pascal-format
 msgid ""
 "Do you want to delete all elements inside the sub-menu [%s]?\n"
-"Answering NO will delete only menu delimiters but will keep element inside sub-menu.\n"
+"Answering NO will delete only menu delimiters but will keep element inside sub-menu."
 msgstr ""
 "Deseja excluir todos os elementos dentro do submenu [%s]?\n"
-"A resposta NÃO irá apagar apenas os delimitadores de menu, mas manterá o elemento dentro do submenu.\n"
+"A resposta NÃO irá apagar apenas os delimitadores de menu, mas manterá o elemento dentro do submenu."
 
 #: ulng.rsmsghotdirwheretosave
 msgid "Enter location and filename where to save a Directory Hotlist file"
 msgstr "Insira a localização eo nome do arquivo onde salvar um arquivo na pasta HotList"
 
 #: ulng.rsmsgincorrectfilelength
+#, object-pascal-format
 msgid "Incorrect resulting filelength for file : \"%s\""
 msgstr "Comprimento de arquivo resultante incorreto para arquivo: \"%s\""
 
 #: ulng.rsmsginsertnextdisk
+#, object-pascal-format
 msgid ""
 "Please insert next disk or something similar.\n"
 "\n"
 "It is to allow writing this file:\n"
 "\"%s\"\n"
 "\n"
-"Number of bytes still to write: %d\n"
+"Number of bytes still to write: %d"
 msgstr ""
 "Por favor, insira o próximo disco ou algo similar.\n"
 "\n"
 "É para permitir escrever este arquivo: \n"
 "\"%s\"\n"
 "\n"
-"Número de bytes ainda a escrever:%d\n"
+"Número de bytes ainda a escrever:%d"
 
 #: ulng.rsmsginvalidcommandline
 msgid "Error in command line"
@@ -11938,6 +12012,7 @@ msgid "Invalid format of configuration file"
 msgstr "Formato do arquivo de configuração inválido"
 
 #: ulng.rsmsginvalidhexnumber
+#, object-pascal-format
 msgid "Invalid hexadecimal number: \"%s\""
 msgstr ""
 
@@ -11946,6 +12021,7 @@ msgid "Invalid path"
 msgstr "Caminho inválido"
 
 #: ulng.rsmsginvalidpathlong
+#, object-pascal-format
 msgid "Path %s contains forbidden characters."
 msgstr "O caminho %s contém caracteres proibidos."
 
@@ -11954,6 +12030,7 @@ msgid "This is not a valid plugin!"
 msgstr "Este não é um suplemento válido!"
 
 #: ulng.rsmsginvalidpluginarchitecture
+#, object-pascal-format
 msgid "This plugin is built for Double Commander for %s.%sIt can not work with Double Commander for %s!"
 msgstr "Este suplemento é feito para o Double Commander para %s. %s não pode trabalhar com o Double Commander para %s!"
 
@@ -11978,10 +12055,12 @@ msgid "Locate TC executable file (totalcmd.exe or totalcmd64.exe)"
 msgstr "Localizar arquivo executável TC (totalcmd.exe ou totalcmd64.exe)"
 
 #: ulng.rsmsglogcopy
+#, object-pascal-format
 msgid "Copy file %s"
 msgstr "Copiar arquivo %s"
 
 #: ulng.rsmsglogdelete
+#, object-pascal-format
 msgid "Delete file %s"
 msgstr "Excluir arquivo %s"
 
@@ -11998,6 +12077,7 @@ msgid "Result external"
 msgstr "Resultado externo"
 
 #: ulng.rsmsglogextract
+#, object-pascal-format
 msgid "Extract file %s"
 msgstr "Extrair arquivo %s"
 
@@ -12006,18 +12086,22 @@ msgid "Info: "
 msgstr "Informação:"
 
 #: ulng.rsmsgloglink
+#, object-pascal-format
 msgid "Create link %s"
 msgstr "Criar ligação %s"
 
 #: ulng.rsmsglogmkdir
+#, object-pascal-format
 msgid "Create directory %s"
 msgstr "Criar pasta %s"
 
 #: ulng.rsmsglogmove
+#, object-pascal-format
 msgid "Move file %s"
 msgstr "Mover arquivo %s"
 
 #: ulng.rsmsglogpack
+#, object-pascal-format
 msgid "Pack to file %s"
 msgstr "Comprimir para arquivo %s"
 
@@ -12030,6 +12114,7 @@ msgid "Program start"
 msgstr ""
 
 #: ulng.rsmsglogrmdir
+#, object-pascal-format
 msgid "Remove directory %s"
 msgstr "Remover pasta %s"
 
@@ -12038,18 +12123,22 @@ msgid "Done: "
 msgstr "Feito:"
 
 #: ulng.rsmsglogsymlink
+#, object-pascal-format
 msgid "Create symlink %s"
 msgstr "Criar ligação simbólica %s"
 
 #: ulng.rsmsglogtest
+#, object-pascal-format
 msgid "Test file integrity %s"
 msgstr "Testar integridade do arquivo %s"
 
 #: ulng.rsmsglogwipe
+#, object-pascal-format
 msgid "Wipe file %s"
 msgstr "Limpar arquivo %s"
 
 #: ulng.rsmsglogwipedir
+#, object-pascal-format
 msgid "Wipe directory %s"
 msgstr "Limpar pasta %s"
 
@@ -12086,6 +12175,7 @@ msgid "No enough free space on target drive, Retry?"
 msgstr "Não há espaço suficiente no destino! Tentar novamente?"
 
 #: ulng.rsmsgnotdelete
+#, object-pascal-format
 msgid "Can not delete file %s"
 msgstr "Impossível Excluir o arquivo %s"
 
@@ -12128,22 +12218,27 @@ msgid "Please re-enter the password for verification:"
 msgstr "Por favor reintroduza a senha para verificação:"
 
 #: ulng.rsmsgpopuphotdelete
+#, object-pascal-format
 msgid "&Delete %s"
 msgstr "&Excluir %s"
 
 #: ulng.rsmsgpresetalreadyexists
+#, object-pascal-format
 msgid "Preset \"%s\" already exists. Overwrite?"
 msgstr "Predefinição \"%s\" já existe! Substituir?"
 
 #: ulng.rsmsgpresetconfigdelete
+#, object-pascal-format
 msgid "Are you sure you want to delete preset \"%s\"?"
 msgstr ""
 
 #: ulng.rsmsgproblemexecutingcommand
+#, object-pascal-format
 msgid "Problem executing command (%s)"
 msgstr "Problema ao executar comando (%s)"
 
 #: ulng.rsmsgprocessid
+#, object-pascal-format
 msgid "PID: %d"
 msgstr ""
 
@@ -12164,10 +12259,12 @@ msgid "Enter new name for this menu"
 msgstr "Digite novo nome para este menu"
 
 #: ulng.rsmsgrenfldr
+#, object-pascal-format
 msgid "Rename/move %d selected files/directories?"
 msgstr "Renomear/Mover %d arquivos/pastas selecionados?"
 
 #: ulng.rsmsgrensel
+#, object-pascal-format
 msgid "Rename/move selected \"%s\"?"
 msgstr "Renomear/Mover \"%s\" selecionados?"
 
@@ -12180,14 +12277,17 @@ msgid "Please, restart Double Commander in order to apply changes"
 msgstr "Por favor reinicie o Double Commander para aplicar as alterações"
 
 #: ulng.rsmsgscriptcantfindlibrary
+#, object-pascal-format
 msgid "ERROR: Problem loading Lua library file \"%s\""
 msgstr ""
 
 #: ulng.rsmsgsekectfiletype
+#, object-pascal-format
 msgid "Select to which file type to add extension \"%s\""
 msgstr "Selecione o tipo de arquivo para adicionar a extensão \"%s\""
 
 #: ulng.rsmsgselectedinfo
+#, object-pascal-format
 msgid "Selected: %s of %s, files: %d of %d, folders: %d of %d"
 msgstr "Selecionados: %s de %s, arquivos: %d de %d, pastas: %d de %d"
 
@@ -12284,6 +12384,7 @@ msgid "Use Windows special folder (TC)..."
 msgstr "Use a pasta especial do Windows (TC)..."
 
 #: ulng.rsmsgtabforopeninginnewtab
+#, object-pascal-format
 msgid "This tab (%s) is locked! Open directory in another tab?"
 msgstr "Esta guia (%s) está bloqueada! Abrir pasta em outra guia?"
 
@@ -12300,36 +12401,39 @@ msgid "Target path:"
 msgstr "Caminho destino:"
 
 #: ulng.rsmsgtcconfignotfound
+#, object-pascal-format
 msgid ""
 "Error! Cannot find the TC configuration file:\n"
-"%s\n"
+"%s"
 msgstr ""
 "Erro! Não é possível encontrar o arquivo de configuração do TC:\n"
-"%s\n"
+"%s"
 
 #: ulng.rsmsgtcexecutablenotfound
+#, object-pascal-format
 msgid ""
 "Error! Cannot find the TC configuration executable:\n"
-"%s\n"
+"%s"
 msgstr ""
 "Erro! Não é possível encontrar o executável de configuração do TC:\n"
-"%s\n"
+"%s"
 
 #: ulng.rsmsgtcisrunning
 msgid ""
 "Error! TC is still running but it should be closed for this operation.\n"
-"Close it and press OK or press CANCEL to abort.\n"
+"Close it and press OK or press CANCEL to abort."
 msgstr ""
 "Erro! TC ainda está em execução, mas deve ser fechado para esta operação.\n"
-"Feche-o e pressione OK ou pressione CANCELAR para cancelar.\n"
+"Feche-o e pressione OK ou pressione CANCELAR para cancelar."
 
 #: ulng.rsmsgtctoolbarnotfound
+#, object-pascal-format
 msgid ""
 "Error! Cannot find the desired wanted TC toolbar output folder:\n"
-"%s\n"
+"%s"
 msgstr ""
 "Erro! Não é possível encontrar a pasta de saída desejada da barra de ferramentas TC:\n"
-"%s\n"
+"%s"
 
 #: ulng.rsmsgtctoolbarwheretosave
 msgid "Enter location and filename where to save a TC Toolbar file"
@@ -12348,6 +12452,7 @@ msgid "Do you want to test selected archives?"
 msgstr ""
 
 #: ulng.rsmsgthisisnowinclipboard
+#, object-pascal-format
 msgid "\"%s\" is now in the clipboard"
 msgstr "\"%s\" está agora na àrea de Transferência"
 
@@ -12368,12 +12473,13 @@ msgid "Enter location and filename of Toolbar to restore"
 msgstr "Digite localização e nome arquivo da Barra Ferramenta para restaurar"
 
 #: ulng.rsmsgtoolbarsaved
+#, object-pascal-format
 msgid ""
 "Saved!\n"
-"Toolbar filename: %s\n"
+"Toolbar filename: %s"
 msgstr ""
 "Salvo!\n"
-"Nome arq Barra Ferramenta: %s\n"
+"Nome arq Barra Ferramenta: %s"
 
 #: ulng.rsmsgtoomanyfilesselected
 msgid "Too many files selected."
@@ -12433,11 +12539,12 @@ msgid "Do you want to configure Lua library location?"
 msgstr ""
 
 #: ulng.rsmsgwipefldr
+#, object-pascal-format
 msgid "Wipe %d selected files/directories?"
 msgstr "Limpar %d arquivos/pastas selecionados?"
 
 #: ulng.rsmsgwipesel
-#, fuzzy,badformat
+#, object-pascal-format, fuzzy, badformat
 msgid "Wipe selected \"%s\"?"
 msgstr "Limpar \"s\" selecionados?"
 
@@ -12448,7 +12555,7 @@ msgstr "largura"
 #: ulng.rsmsgwrongpasswordtryagain
 msgid ""
 "Wrong password!\n"
-"Please try again!\n"
+"Please try again!"
 msgstr ""
 
 #: ulng.rsmulrenautorename
@@ -12482,6 +12589,7 @@ msgid "Enter variable name"
 msgstr ""
 
 #: ulng.rsmulrenentervalueforvar
+#, object-pascal-format
 msgid "Enter value for variable \"%s\""
 msgstr ""
 
@@ -12649,9 +12757,10 @@ msgid "Enter new preset name"
 msgstr ""
 
 #: ulng.rsmulrensavemodifiedpreset
+#, object-pascal-format
 msgid ""
 "\"%s\" preset has been modified.\n"
-"Do you want to save it now?\n"
+"Do you want to save it now?"
 msgstr ""
 
 #: ulng.rsmulrensortingpresets
@@ -12668,6 +12777,7 @@ msgid "Warning, duplicate names!"
 msgstr ""
 
 #: ulng.rsmulrenwronglinesnumber
+#, object-pascal-format
 msgid "File contains wrong number of lines: %d, should be %d!"
 msgstr ""
 
@@ -12754,11 +12864,12 @@ msgid "Calculating checksum"
 msgstr "Calculando a checksum"
 
 #: ulng.rsopercalculatingchecksumin
+#, object-pascal-format
 msgid "Calculating checksum in \"%s\""
 msgstr "Calculando a checksum em \"%s\""
 
 #: ulng.rsopercalculatingchecksumof
-#, fuzzy
+#, object-pascal-format, fuzzy
 msgctxt "ulng.rsopercalculatingchecksumof"
 msgid "Calculating checksum of \"%s\""
 msgstr "Calculando a checksum de \"%s\""
@@ -12769,6 +12880,7 @@ msgid "Calculating"
 msgstr "Calculando"
 
 #: ulng.rsopercalculatingstatisticsin
+#, object-pascal-format
 msgid "Calculating \"%s\""
 msgstr "Calculando \"%s\""
 
@@ -12777,6 +12889,7 @@ msgid "Joining"
 msgstr "Juntando"
 
 #: ulng.rsopercombiningfromto
+#, object-pascal-format
 msgid "Joining files in \"%s\" to \"%s\""
 msgstr "Juntando arquivos em \"%s\" para \"%s\""
 
@@ -12785,10 +12898,12 @@ msgid "Copying"
 msgstr "Copiando"
 
 #: ulng.rsopercopyingfromto
+#, object-pascal-format
 msgid "Copying from \"%s\" to \"%s\""
 msgstr "Copiando de \"%s\" para \"%s\""
 
 #: ulng.rsopercopyingsomethingto
+#, object-pascal-format
 msgid "Copying \"%s\" to \"%s\""
 msgstr "copiar \"%s\" para \"%s\""
 
@@ -12797,6 +12912,7 @@ msgid "Creating directory"
 msgstr "Criando pasta"
 
 #: ulng.rsopercreatingsomedirectory
+#, object-pascal-format
 msgid "Creating directory \"%s\""
 msgstr "Criando pasta \"%s\""
 
@@ -12806,10 +12922,12 @@ msgid "Deleting"
 msgstr "Excluindo"
 
 #: ulng.rsoperdeletingin
+#, object-pascal-format
 msgid "Deleting in \"%s\""
 msgstr "Excluindo em \"%s\""
 
 #: ulng.rsoperdeletingsomething
+#, object-pascal-format
 msgid "Deleting \"%s\""
 msgstr "Excluindo \"%s\""
 
@@ -12818,6 +12936,7 @@ msgid "Executing"
 msgstr "Executando"
 
 #: ulng.rsoperexecutingsomething
+#, object-pascal-format
 msgid "Executing \"%s\""
 msgstr "Executando \"%s\""
 
@@ -12826,6 +12945,7 @@ msgid "Extracting"
 msgstr "Extraindo"
 
 #: ulng.rsoperextractingfromto
+#, object-pascal-format
 msgid "Extracting from \"%s\" to \"%s\""
 msgstr "Extraindo de \"%s\" para \"%s\""
 
@@ -12838,6 +12958,7 @@ msgid "Listing"
 msgstr "Listando"
 
 #: ulng.rsoperlistingin
+#, object-pascal-format
 msgid "Listing \"%s\""
 msgstr "Listando \"%s\""
 
@@ -12846,10 +12967,12 @@ msgid "Moving"
 msgstr "Movendo"
 
 #: ulng.rsopermovingfromto
+#, object-pascal-format
 msgid "Moving from \"%s\" to \"%s\""
 msgstr "Movendo de \"%s\" para \"%s\""
 
 #: ulng.rsopermovingsomethingto
+#, object-pascal-format
 msgid "Moving \"%s\" to \"%s\""
 msgstr "Movendo \"%s\" para \"%s\""
 
@@ -12862,10 +12985,12 @@ msgid "Packing"
 msgstr "Comprimindo"
 
 #: ulng.rsoperpackingfromto
+#, object-pascal-format
 msgid "Packing from \"%s\" to \"%s\""
 msgstr "Comprimindo de \"%s\" para \"%s\""
 
 #: ulng.rsoperpackingsomethingto
+#, object-pascal-format
 msgid "Packing \"%s\" to \"%s\""
 msgstr "Comprimindo \"%s\" para \"%s\""
 
@@ -12886,10 +13011,12 @@ msgid "Setting property"
 msgstr "Definir propriedade"
 
 #: ulng.rsopersettingpropertyin
+#, object-pascal-format
 msgid "Setting property in \"%s\""
 msgstr "Definir propriedade em \"%s\""
 
 #: ulng.rsopersettingpropertyof
+#, object-pascal-format
 msgid "Setting property of \"%s\""
 msgstr "Definir propriedade de \"%s\""
 
@@ -12898,6 +13025,7 @@ msgid "Splitting"
 msgstr "Dividindo"
 
 #: ulng.rsopersplittingfromto
+#, object-pascal-format
 msgid "Splitting \"%s\" to \"%s\""
 msgstr "Dividindo \"%s\" para \"%s\""
 
@@ -12918,10 +13046,12 @@ msgid "Testing"
 msgstr "Testando"
 
 #: ulng.rsopertestingin
+#, object-pascal-format
 msgid "Testing in \"%s\""
 msgstr "Testando em \"%s\""
 
 #: ulng.rsopertestingsomething
+#, object-pascal-format
 msgid "Testing \"%s\""
 msgstr "Testando \"%s\""
 
@@ -12930,11 +13060,12 @@ msgid "Verifying checksum"
 msgstr "Verificando checksum"
 
 #: ulng.rsoperverifyingchecksumin
+#, object-pascal-format
 msgid "Verifying checksum in \"%s\""
 msgstr "Verificando checksum em \"%s\""
 
 #: ulng.rsoperverifyingchecksumof
-#, fuzzy
+#, object-pascal-format, fuzzy
 msgctxt "ulng.rsoperverifyingchecksumof"
 msgid "Verifying checksum of \"%s\""
 msgstr "Verificando checksum de \"%s\""
@@ -12952,10 +13083,12 @@ msgid "Wiping"
 msgstr "Limpando"
 
 #: ulng.rsoperwipingin
+#, object-pascal-format
 msgid "Wiping in \"%s\""
 msgstr "Limpando em \"%s\""
 
 #: ulng.rsoperwipingsomething
+#, object-pascal-format
 msgid "Wiping \"%s\""
 msgstr "Limpando \"%s\""
 
@@ -13000,6 +13133,7 @@ msgid "Change Archiver Listing Encoding"
 msgstr ""
 
 #: ulng.rsoptarchiverconfirmdelete
+#, object-pascal-format
 msgctxt "ulng.rsoptarchiverconfirmdelete"
 msgid "Are you sure you want to delete: \"%s\"?"
 msgstr ""
@@ -13017,6 +13151,7 @@ msgid "Export archiver configuration"
 msgstr ""
 
 #: ulng.rsoptarchiverexportdone
+#, object-pascal-format
 msgctxt "ulng.rsoptarchiverexportdone"
 msgid "Exportation of %d elements to file \"%s\" completed."
 msgstr ""
@@ -13039,6 +13174,7 @@ msgid "Import archiver configuration"
 msgstr ""
 
 #: ulng.rsoptarchiverimportdone
+#, object-pascal-format
 msgctxt "ulng.rsoptarchiverimportdone"
 msgid "Importation of %d elements from file \"%s\" completed."
 msgstr ""
@@ -13101,6 +13237,7 @@ msgid "Archive type name:"
 msgstr "Nome do tipo de arquivo:"
 
 #: ulng.rsoptassocpluginwith
+#, object-pascal-format
 msgid "Associate plugin \"%s\" with:"
 msgstr "Associar suplemento \"%s\" com:"
 
@@ -13137,10 +13274,12 @@ msgid "float"
 msgstr "flutuante"
 
 #: ulng.rsopthotkeysadddeleteshortcutlong
+#, object-pascal-format
 msgid "Shortcut %s for cm_Delete will be registered, so it can be used to reverse this setting."
 msgstr "Atalho %s para cm_Delete será registado, pelo que poderá ser usado para reverter esta definição."
 
 #: ulng.rsopthotkeysaddhotkey
+#, object-pascal-format
 msgid "Add hotkey for %s"
 msgstr "Adicionar atalho para %s"
 
@@ -13162,11 +13301,13 @@ msgid "Command"
 msgstr "Commando"
 
 #: ulng.rsopthotkeysdeletetrashcanoverrides
+#, object-pascal-format
 msgctxt "ulng.rsopthotkeysdeletetrashcanoverrides"
 msgid "Shortcut %s for cm_Delete has a parameter that overrides this setting. Do you want to change this parameter to use the global setting?"
 msgstr "Atalho %s para cm_Delete tem um parâmetro que se sobrepõe a esta definição. Quer alterar o parâmetro para usar a definição global?"
 
 #: ulng.rsopthotkeysdeletetrashcanparameterexists
+#, object-pascal-format
 msgctxt "ulng.rsopthotkeysdeletetrashcanparameterexists"
 msgid "Shortcut %s for cm_Delete needs to have a parameter changed to match shortcut %s. Do you want to change it?"
 msgstr "Atalho %s para cm_Delete tem de ter um parâmetro alterado para corresponder ao atalho %s. Quer alterá-lo?"
@@ -13177,6 +13318,7 @@ msgid "Description"
 msgstr "Descrição"
 
 #: ulng.rsopthotkeysedithotkey
+#, object-pascal-format
 msgid "Edit hotkey for %s"
 msgstr "Editar atalho para %s"
 
@@ -13208,10 +13350,12 @@ msgid "Set shortcut to delete file"
 msgstr "Definir atalho para Excluir arquivo"
 
 #: ulng.rsopthotkeysshortcutfordeletealreadyassigned
+#, object-pascal-format
 msgid "For this setting to work with shortcut %s, shortcut %s must be assigned to cm_Delete but it is already assigned to %s. Do you want to change it?"
 msgstr "Para esta definição funcionar com o atalho %s, o atalho %s tem de ser atribuído a cm_Delete, mas já está atribuído a %s. Quer alterá-lo?"
 
 #: ulng.rsopthotkeysshortcutfordeleteissequence
+#, object-pascal-format
 msgid "Shortcut %s for cm_Delete is a sequence shortcut for which a hotkey with reversed Shift cannot be assigned. This setting might not work."
 msgstr "Atalho %s para cm_Delete é uma sequência para a qual uma tecla de atalho com Shift revertido não pode ser atribuída. Esta definição pode não funcionar."
 
@@ -13220,14 +13364,17 @@ msgid "Shortcut in use"
 msgstr "Atalho em uso"
 
 #: ulng.rsopthotkeysshortcutusedtext1
+#, object-pascal-format
 msgid "Shortcut %s is already used."
 msgstr "Atalho %s já está em uso."
 
 #: ulng.rsopthotkeysshortcutusedtext2
+#, object-pascal-format
 msgid "Change it to %s?"
 msgstr "Alterar para %s?"
 
 #: ulng.rsopthotkeysusedby
+#, object-pascal-format
 msgid "used for %s in %s"
 msgstr "usado para %s em %s"
 
@@ -13405,10 +13552,11 @@ msgid "Multi-Rename Tool"
 msgstr "Multirenomear"
 
 #: ulng.rsoptionseditoroptionschanged
+#, object-pascal-format
 msgid ""
 "Options have changed in \"%s\"\n"
 "\n"
-"Do you want to save modifications?\n"
+"Do you want to save modifications?"
 msgstr ""
 
 #: ulng.rsoptionseditorplugins
@@ -13474,6 +13622,7 @@ msgid "Personalized float;Personalized byte;Personalized kilobyte;Personalized m
 msgstr ""
 
 #: ulng.rsoptpluginalreadyassigned
+#, object-pascal-format
 msgid "Plugin %s is already assigned for the following extensions:"
 msgstr "O suplemento %s já está atribuído às seguintes extensões:"
 
@@ -13574,10 +13723,12 @@ msgid "Tooltip file type name:"
 msgstr "&Nome da categoria:"
 
 #: ulng.rsopttooltipfiletypealreadyexists
+#, object-pascal-format
 msgid "\"%s\" already exists!"
 msgstr ""
 
 #: ulng.rsopttooltipfiletypeconfirmdelete
+#, object-pascal-format
 msgctxt "ulng.rsopttooltipfiletypeconfirmdelete"
 msgid "Are you sure you want to delete: \"%s\"?"
 msgstr ""
@@ -13591,6 +13742,7 @@ msgid "Export tooltip file type configuration"
 msgstr ""
 
 #: ulng.rsopttooltipfiletypeexportdone
+#, object-pascal-format
 msgctxt "ulng.rsopttooltipfiletypeexportdone"
 msgid "Exportation of %d elements to file \"%s\" completed."
 msgstr ""
@@ -13605,6 +13757,7 @@ msgid "Import tooltip file type configuration"
 msgstr ""
 
 #: ulng.rsopttooltipfiletypeimportdone
+#, object-pascal-format
 msgctxt "ulng.rsopttooltipfiletypeimportdone"
 msgid "Importation of %d elements from file \"%s\" completed."
 msgstr ""
@@ -13656,6 +13809,7 @@ msgid "="
 msgstr "="
 
 #: ulng.rspluginsearchfieldnotfound
+#, object-pascal-format
 msgid "Field \"%s\" not found!"
 msgstr ""
 
@@ -13681,6 +13835,7 @@ msgid "!regexp"
 msgstr ""
 
 #: ulng.rspluginsearchpluginnotfound
+#, object-pascal-format
 msgid "Plugin \"%s\" not found!"
 msgstr ""
 
@@ -13689,19 +13844,23 @@ msgid "regexp"
 msgstr ""
 
 #: ulng.rspluginsearchunitnotfoundforfield
+#, object-pascal-format
 msgctxt "ulng.rspluginsearchunitnotfoundforfield"
 msgid "Unit \"%s\" not found for field \"%s\" !"
 msgstr ""
 
 #: ulng.rspropscontains
+#, object-pascal-format
 msgid "Files: %d, folders: %d"
 msgstr "Arquivos: %d, pastas: %d"
 
 #: ulng.rspropserrchmod
+#, object-pascal-format
 msgid "Can not change access rights for \"%s\""
 msgstr "Impossível alterar direitos de acesso a \"%s\""
 
 #: ulng.rspropserrchown
+#, object-pascal-format
 msgid "Can not change owner for \"%s\""
 msgstr "Impossível alterar proprietário de \"%s\""
 
@@ -13754,13 +13913,13 @@ msgstr "<modelo sem nome>"
 #: ulng.rssearchwithdsxplugininprogress
 msgid ""
 "A file search using DSX plugin is already in progress.\n"
-"We need that one to be completed before to launch a new one.\n"
+"We need that one to be completed before to launch a new one."
 msgstr ""
 
 #: ulng.rssearchwithwdxplugininprogress
 msgid ""
 "A file search using WDX plugin is already in progress.\n"
-"We need that one to be completed before to launch a new one.\n"
+"We need that one to be completed before to launch a new one."
 msgstr ""
 
 #: ulng.rsselectdir
@@ -13776,6 +13935,7 @@ msgid "Select your window"
 msgstr ""
 
 #: ulng.rsshowhelpfor
+#, object-pascal-format
 msgid "&Show help for %s"
 msgstr "Mo&strar ajuda para %s"
 
@@ -13871,6 +14031,7 @@ msgid "Terabytes"
 msgstr "Terabytes"
 
 #: ulng.rsspacemsg
+#, object-pascal-format
 msgid "Files: %d, Dirs: %d, Size: %s (%s bytes)"
 msgstr "Arquivos: %d, pastas: %d, tamanho: %s (%s bytes)"
 
@@ -14070,6 +14231,7 @@ msgid "Viewer"
 msgstr "Visualizador"
 
 #: ulng.rsunhandledexceptionmessage
+#, object-pascal-format
 msgid "Please report this error to the bug tracker with a description of what you were doing and the following file:%sPress %s to continue or %s to abort the program."
 msgstr "Por favor reporte este erro no rastreio de erros com uma descrição do que estava a fazer e o arquivo seguinte: %sPrima %s para continuar ou %s para abortar o programa."
 
@@ -14271,6 +14433,7 @@ msgid "New Size"
 msgstr "Novo tamanho"
 
 #: ulng.rsviewnotfound
+#, object-pascal-format
 msgid "%s not found!"
 msgstr "%s não encontrado!"
 
@@ -14287,6 +14450,7 @@ msgid "with internal viewer"
 msgstr "com visualizador interno."
 
 #: ulng.rsxreplacements
+#, object-pascal-format
 msgid "Number of replacement: %d"
 msgstr "Número de substituições: %d"
 
@@ -14295,6 +14459,7 @@ msgid "No replacement took place."
 msgstr "Não houve substituição."
 
 #: umaincommands.rsfavoritetabs_setupnotexist
+#, object-pascal-format
 msgid "No setup named \"%s\""
 msgstr ""
 

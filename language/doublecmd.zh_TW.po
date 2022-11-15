@@ -1,11 +1,12 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: Double Commander 0.5.5 alpha\n"
+"Project-Id-Version: Double Commander 1.1.0 alpha\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: \n"
+"POT-Creation-Date: 2022-11-15 11:15+0300\n"
 "PO-Revision-Date: 2013-04-17 19:07+0800\n"
 "Last-Translator: Kne luo\n"
 "Language-Team: \n"
+"Language: zh_TW\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -16,26 +17,32 @@ msgid "Auto;Enabled;Disabled"
 msgstr ""
 
 #: fsyncdirsdlg.rscomparingpercent
+#, object-pascal-format
 msgid "Comparing... %d%% (ESC to cancel)"
 msgstr ""
 
 #: fsyncdirsdlg.rsdeleteleft
+#, object-pascal-format
 msgid "Left: Delete %d file(s)"
 msgstr ""
 
 #: fsyncdirsdlg.rsdeleteright
+#, object-pascal-format
 msgid "Right: Delete %d file(s)"
 msgstr ""
 
 #: fsyncdirsdlg.rsfilesfound
+#, object-pascal-format
 msgid "Files found: %d  (Identical: %d, Different: %d, Unique left: %d, Unique right: %d)"
 msgstr ""
 
 #: fsyncdirsdlg.rslefttorightcopy
+#, object-pascal-format
 msgid "Left to Right: Copy %d files, total size: %s (%s)"
 msgstr ""
 
 #: fsyncdirsdlg.rsrighttoleftcopy
+#, object-pascal-format
 msgid "Right to Left: Copy %d files, total size: %s (%s)"
 msgstr ""
 
@@ -323,6 +330,7 @@ msgid "Benchmark"
 msgstr ""
 
 #: tfrmbenchmark.lblbenchmarksize.caption
+#, object-pascal-format
 msgid "Benchmark data size: %d MB"
 msgstr ""
 
@@ -4032,6 +4040,7 @@ msgid "Set selected application as default action"
 msgstr "設置所選擇的應用程式為預設動作"
 
 #: tfrmopenwith.lblmimetype.caption
+#, object-pascal-format
 msgid "File type to be opened: %s"
 msgstr "檔案類型已開啟: %s"
 
@@ -4040,6 +4049,7 @@ msgid "Multiple file names"
 msgstr "多重檔案名稱"
 
 #: tfrmopenwith.milistoffiles.hint
+#, object-pascal-format
 msgid "%F"
 msgstr "%F"
 
@@ -4048,6 +4058,7 @@ msgid "Multiple URIs"
 msgstr "多重網址"
 
 #: tfrmopenwith.milistofurls.hint
+#, object-pascal-format
 msgid "%U"
 msgstr "%U"
 
@@ -4056,6 +4067,7 @@ msgid "Single file name"
 msgstr "單一檔案名稱"
 
 #: tfrmopenwith.misinglefilename.hint
+#, object-pascal-format
 msgid "%f"
 msgstr "%f"
 
@@ -4064,6 +4076,7 @@ msgid "Single URI"
 msgstr "單一網址"
 
 #: tfrmopenwith.misingleurl.hint
+#, object-pascal-format
 msgid "%u"
 msgstr "%u"
 
@@ -5632,6 +5645,10 @@ msgstr ""
 
 #: tfrmoptionseditor.gbinternaleditor.caption
 msgid "Internal editor options"
+msgstr ""
+
+#: tfrmoptionseditor.lblblockindent.caption
+msgid "Block indent:"
 msgstr ""
 
 #: tfrmoptionseditor.lbltabwidth.caption
@@ -10844,12 +10861,13 @@ msgid "Orientation"
 msgstr ""
 
 #: ulng.msgtrytolocatecrcfile
+#, object-pascal-format
 msgid ""
 "This file cannot be found and could help to validate final combination of files:\n"
 "%s\n"
 "\n"
 "Could you make it available and press \"OK\" when ready,\n"
-"or press \"CANCEL\" to continue without it?\n"
+"or press \"CANCEL\" to continue without it?"
 msgstr ""
 
 #: ulng.rsabbrevdisplaydir
@@ -10987,6 +11005,7 @@ msgid "Confirming command line and parameters"
 msgstr ""
 
 #: ulng.rscopynametemplate
+#, object-pascal-format
 msgid "Copy (%d) %s"
 msgstr "複製 (%d) %s"
 
@@ -11084,7 +11103,7 @@ msgstr ""
 #: ulng.rsdifftextidenticalnotmatch
 msgid ""
 "The text is identical, but the files do not match!\n"
-"The following differences were found:\n"
+"The following differences were found:"
 msgstr ""
 
 #: ulng.rsdlgbuttonabort
@@ -11242,10 +11261,12 @@ msgid "Queue"
 msgstr "佇列"
 
 #: ulng.rsdlgspeed
+#, object-pascal-format
 msgid "Speed %s/s"
 msgstr "速度 %s/秒"
 
 #: ulng.rsdlgspeedtime
+#, object-pascal-format
 msgid "Speed %s/s, time remaining %s"
 msgstr "速度 %s/秒, 剩餘時間 %s"
 
@@ -11328,10 +11349,12 @@ msgid "Execute via terminal and stay open"
 msgstr ""
 
 #: ulng.rsextsclosedbracketnofound
+#, object-pascal-format
 msgid "\"]\" not found in line %s"
 msgstr ""
 
 #: ulng.rsextscommandwithnoext
+#, object-pascal-format
 msgid "No extension defined before command \"%s\". It will be ignored."
 msgstr ""
 
@@ -11427,6 +11450,7 @@ msgid "Define template"
 msgstr "定義範本"
 
 #: ulng.rsfinddepth
+#, object-pascal-format
 msgid "%s level(s)"
 msgstr "%s 級"
 
@@ -11439,10 +11463,12 @@ msgid "current dir only"
 msgstr "僅目前資料夾"
 
 #: ulng.rsfinddirnoex
+#, object-pascal-format
 msgid "Directory %s does not exist!"
 msgstr "資料夾 %s 不存在!"
 
 #: ulng.rsfindfound
+#, object-pascal-format
 msgid "Found: %d"
 msgstr "找到: %d"
 
@@ -11455,6 +11481,7 @@ msgid "Template name:"
 msgstr "範本名稱:"
 
 #: ulng.rsfindscanned
+#, object-pascal-format
 msgid "Scanned: %d"
 msgstr "已掃描: %d"
 
@@ -11521,12 +11548,12 @@ msgid "Viewer&Book Font"
 msgstr "檢視器閱讀模式字型 (&B)"
 
 #: ulng.rsfreemsg
-#, fuzzy
+#, object-pascal-format, fuzzy
 msgid "%s of %s free"
 msgstr "可用 %s，容量 %s"
 
 #: ulng.rsfreemsgshort
-#, fuzzy
+#, object-pascal-format, fuzzy
 msgid "%s free"
 msgstr "%s 可用"
 
@@ -11618,7 +11645,7 @@ msgstr ""
 msgid ""
 "Warning! When restoring a .hotlist backup file, this will erase existing list to replace by the imported one.\n"
 "\n"
-"Are you sure you want to proceed?\n"
+"Are you sure you want to proceed?"
 msgstr ""
 
 #: ulng.rshotkeycategorycopymovedialog
@@ -11667,7 +11694,7 @@ msgstr "檢視器"
 #: ulng.rshotkeyfilealreadyexists
 msgid ""
 "A setup with that name already exists.\n"
-"Do you want to overwrite it?\n"
+"Do you want to overwrite it?"
 msgstr ""
 
 #: ulng.rshotkeyfileconfirmdefault
@@ -11675,10 +11702,12 @@ msgid "Are you sure you want to restore default?"
 msgstr ""
 
 #: ulng.rshotkeyfileconfirmerasure
+#, object-pascal-format
 msgid "Are you sure you want to erase setup \"%s\"?"
 msgstr ""
 
 #: ulng.rshotkeyfilecopyof
+#, object-pascal-format
 msgid "Copy of %s"
 msgstr ""
 
@@ -11695,9 +11724,10 @@ msgid "New name"
 msgstr ""
 
 #: ulng.rshotkeyfilesavemodified
+#, object-pascal-format
 msgid ""
 "\"%s\" setup has been modified.\n"
-"Do you want to save it now?\n"
+"Do you want to save it now?"
 msgstr ""
 
 #: ulng.rshotkeynoscenter
@@ -11871,6 +11901,7 @@ msgid "All Double Commander internal commands"
 msgstr ""
 
 #: ulng.rsmsgapplicationname
+#, object-pascal-format
 msgid "Description: %s"
 msgstr ""
 
@@ -11883,11 +11914,12 @@ msgid "Do you want to enclose between quotes?"
 msgstr ""
 
 #: ulng.rsmsgbadcrc32
+#, object-pascal-format
 msgid ""
 "Bad CRC32 for resulting file:\n"
 "\"%s\"\n"
 "\n"
-"Do you want to keep the resulting corrupted file anyway?\n"
+"Do you want to keep the resulting corrupted file anyway?"
 msgstr ""
 
 #: ulng.rsmsgcanceloperation
@@ -11895,22 +11927,27 @@ msgid "Are you sure that you want to cancel this operation?"
 msgstr ""
 
 #: ulng.rsmsgcannotcopymoveitself
+#, object-pascal-format
 msgid "You can not copy/move a file \"%s\" to itself!"
 msgstr "你不能複製/移動檔案【%s】到相同目錄"
 
 #: ulng.rsmsgcannotcopyspecialfile
+#, object-pascal-format
 msgid "Cannot copy special file %s"
 msgstr ""
 
 #: ulng.rsmsgcannotdeletedirectory
+#, object-pascal-format
 msgid "Cannot delete directory %s"
 msgstr "無法刪除資料夾【%s】"
 
 #: ulng.rsmsgcannotoverwritedirectory
+#, object-pascal-format
 msgid "Cannot overwrite directory \"%s\" with non-directory \"%s\""
 msgstr ""
 
 #: ulng.rsmsgchdirfailed
+#, object-pascal-format
 msgid "Change current directory to \"%s\" failed!"
 msgstr "變更目錄到資料夾【%s】失敗!"
 
@@ -11919,6 +11956,7 @@ msgid "Remove all inactive tabs?"
 msgstr "你確定要關閉所有非現用的分頁嗎?"
 
 #: ulng.rsmsgcloselockedtab
+#, object-pascal-format
 msgid "This tab (%s) is locked! Close anyway?"
 msgstr "這個分頁【%s】已鎖定! 仍要關閉嗎?"
 
@@ -11931,6 +11969,7 @@ msgid "Are you sure you want to quit?"
 msgstr "你確定要退出嗎?"
 
 #: ulng.rsmsgcopybackward
+#, object-pascal-format
 msgid "The file %s has changed. Do you want to copy it backward?"
 msgstr ""
 
@@ -11939,14 +11978,17 @@ msgid "Could not copy backward - do you want to keep the changed file?"
 msgstr ""
 
 #: ulng.rsmsgcpfldr
+#, object-pascal-format
 msgid "Copy %d selected files/directories?"
 msgstr "你確定要複製這 %d 個被選擇的檔案/資料夾嗎?"
 
 #: ulng.rsmsgcpsel
+#, object-pascal-format
 msgid "Copy selected \"%s\"?"
 msgstr "你確定要複製所選擇的【%s】嗎?"
 
 #: ulng.rsmsgcreateanewfiletype
+#, object-pascal-format
 msgid "< Create a new file type \"%s files\" >"
 msgstr ""
 
@@ -11963,22 +12005,27 @@ msgid "Delete the partially copied file ?"
 msgstr "你確定要刪除這個部份複製的檔案嗎?"
 
 #: ulng.rsmsgdelfldr
+#, object-pascal-format
 msgid "Delete %d selected files/directories?"
 msgstr "你確定要刪除這 %d 個被選擇的檔案/資料夾嗎?"
 
 #: ulng.rsmsgdelfldrt
+#, object-pascal-format
 msgid "Delete %d selected files/directories into trash can?"
 msgstr "你確定要刪除這 %d 個被選擇的檔案/資料夾到資源回收筒嗎?"
 
 #: ulng.rsmsgdelsel
+#, object-pascal-format
 msgid "Delete selected \"%s\"?"
 msgstr "你確定要刪除所選擇的【%s】嗎?"
 
 #: ulng.rsmsgdelselt
+#, object-pascal-format
 msgid "Delete selected \"%s\" into trash can?"
 msgstr "你確定要刪除所選擇的【%s】到資源回收筒嗎?"
 
 #: ulng.rsmsgdeltotrashforce
+#, object-pascal-format
 msgid "Can not delete \"%s\" to trash! Delete directly?"
 msgstr "無法刪除【%s】到資源回收筒! 要直接刪除嗎?"
 
@@ -11999,6 +12046,7 @@ msgid "Enter name:"
 msgstr "輸入名稱:"
 
 #: ulng.rsmsgenternewfiletypename
+#, object-pascal-format
 msgid "Enter name of new file type to create for extension \"%s\""
 msgstr ""
 
@@ -12011,30 +12059,37 @@ msgid "Data is bad"
 msgstr "資料損壞"
 
 #: ulng.rsmsgerrcannotconnect
+#, object-pascal-format
 msgid "Can not connect to server: \"%s\""
 msgstr "無法連接到伺服器:【%s】"
 
 #: ulng.rsmsgerrcannotcopyfile
+#, object-pascal-format
 msgid "Cannot copy file %s to %s"
 msgstr "無法複製檔案 %s 到 %s"
 
 #: ulng.rsmsgerrcannotmovedirectory
+#, object-pascal-format
 msgid "Cannot move directory %s"
 msgstr ""
 
 #: ulng.rsmsgerrcannotmovefile
+#, object-pascal-format
 msgid "Cannot move file %s"
 msgstr ""
 
 #: ulng.rsmsgerrcreatefiledirectoryexists
+#, object-pascal-format
 msgid "There already exists a directory named \"%s\"."
 msgstr "目標已存在名稱為【%s】的資料夾。"
 
 #: ulng.rsmsgerrdatenotsupported
+#, object-pascal-format
 msgid "Date %s is not supported"
 msgstr "日期 %s 不被支援"
 
 #: ulng.rsmsgerrdirexists
+#, object-pascal-format
 msgid "Directory %s exists!"
 msgstr "資料夾 %s 已存在!"
 
@@ -12067,6 +12122,7 @@ msgid "Error writing to file"
 msgstr "寫入檔案發生錯誤"
 
 #: ulng.rsmsgerrforcedir
+#, object-pascal-format
 msgid "Can not create directory %s!"
 msgstr "無法建立資料夾 %s!"
 
@@ -12099,6 +12155,7 @@ msgid "Syntax error in regular expression!"
 msgstr "規則運算式語法錯誤!"
 
 #: ulng.rsmsgerrrename
+#, object-pascal-format
 msgid "Cannot rename file %s to %s"
 msgstr "無法重新命名檔案 %s 為 %s"
 
@@ -12111,22 +12168,27 @@ msgid "Cannot save file"
 msgstr "無法儲存檔案"
 
 #: ulng.rsmsgerrsetattribute
+#, object-pascal-format
 msgid "Can not set attributes for \"%s\""
 msgstr "無法替【%s】設置屬性"
 
 #: ulng.rsmsgerrsetdatetime
+#, object-pascal-format
 msgid "Can not set date/time for \"%s\""
 msgstr "無法替【%s】設置日期/時間"
 
 #: ulng.rsmsgerrsetownership
+#, object-pascal-format
 msgid "Can not set owner/group for \"%s\""
 msgstr "無法替【%s】設置擁有者/群組"
 
 #: ulng.rsmsgerrsetpermissions
+#, object-pascal-format
 msgid "Can not set permissions for \"%s\""
 msgstr ""
 
 #: ulng.rsmsgerrsetxattribute
+#, object-pascal-format
 msgid "Can not set extended attributes for \"%s\""
 msgstr ""
 
@@ -12143,6 +12205,7 @@ msgid "Archive format unknown"
 msgstr "未知的壓縮格式"
 
 #: ulng.rsmsgexecutablepath
+#, object-pascal-format
 msgid "Executable: %s"
 msgstr ""
 
@@ -12167,6 +12230,7 @@ msgid "Saving a new Favorite Tabs entry"
 msgstr ""
 
 #: ulng.rsmsgfavoritetabsexportedsuccessfully
+#, object-pascal-format
 msgid "Number of Favorite Tabs exported successfully: %d on %d"
 msgstr ""
 
@@ -12175,6 +12239,7 @@ msgid "Default extra setting for save dir history for new Favorite Tabs:"
 msgstr ""
 
 #: ulng.rsmsgfavoritetabsimportedsuccessfully
+#, object-pascal-format
 msgid "Number of file(s) imported successfully: %d on %d"
 msgstr ""
 
@@ -12201,6 +12266,7 @@ msgid "Submenu name"
 msgstr ""
 
 #: ulng.rsmsgfavoritetabsthiswillloadfavtabs
+#, object-pascal-format
 msgid "This will load the Favorite Tabs: \"%s\""
 msgstr ""
 
@@ -12209,10 +12275,12 @@ msgid "Save current tabs over existing Favorite Tabs entry"
 msgstr ""
 
 #: ulng.rsmsgfilechangedsave
+#, object-pascal-format
 msgid "File %s changed, save?"
 msgstr "檔案 %s 已變更, 是否要儲存?"
 
 #: ulng.rsmsgfileexistsfileinfo
+#, object-pascal-format
 msgid "%s bytes, %s"
 msgstr ""
 
@@ -12221,6 +12289,7 @@ msgid "Overwrite:"
 msgstr ""
 
 #: ulng.rsmsgfileexistsrwrt
+#, object-pascal-format
 msgid "File %s exists, overwrite?"
 msgstr "檔案 %s 已存在, 是否要覆蓋?"
 
@@ -12229,6 +12298,7 @@ msgid "With file:"
 msgstr ""
 
 #: ulng.rsmsgfilenotfound
+#, object-pascal-format
 msgid "File \"%s\" not found."
 msgstr ""
 
@@ -12241,14 +12311,15 @@ msgid "Some file operations have not yet finished. Closing Double Commander may 
 msgstr "部份檔案操作尚未完成。關閉 Double Commander 可能會使資料遺失。"
 
 #: ulng.rsmsgfilepathovermaxpath
+#, object-pascal-format
 msgid ""
 "The target name length (%d) is more than %d characters!\n"
 "%s\n"
-"Most programs will not be able to access a file/directory with such a long name!\n"
+"Most programs will not be able to access a file/directory with such a long name!"
 msgstr ""
 
 #: ulng.rsmsgfilereadonly
-#, fuzzy
+#, object-pascal-format, fuzzy
 #| msgid "File %s is marked as read-only. Delete it?"
 msgid "File %s is marked as read-only/hidden/system. Delete it?"
 msgstr "檔案 %s 是唯讀檔。仍要刪除嗎？"
@@ -12258,16 +12329,18 @@ msgid "Are you sure you want to reload the current file and lose the changes?"
 msgstr ""
 
 #: ulng.rsmsgfilesizetoobig
+#, object-pascal-format
 msgid "The file size of \"%s\" is too big for destination file system!"
 msgstr "這個檔案【%s】的容量對於目標檔案系統來說太大!"
 
 #: ulng.rsmsgfolderexistsrwrt
-#, fuzzy
+#, object-pascal-format, fuzzy
 #| msgid "Folder %s exists, overwrite?"
 msgid "Folder %s exists, merge?"
 msgstr "資料夾 %s 已存在, 是否要覆蓋?"
 
 #: ulng.rsmsgfollowsymlink
+#, object-pascal-format
 msgid "Follow symlink \"%s\"?"
 msgstr "你確定要允許符號連結【%s】嗎?"
 
@@ -12276,6 +12349,7 @@ msgid "Select the text format to import"
 msgstr ""
 
 #: ulng.rsmsghotdiraddselecteddirectories
+#, object-pascal-format
 msgid "Add %d selected dirs"
 msgstr ""
 
@@ -12368,6 +12442,7 @@ msgid "Hotdir name"
 msgstr ""
 
 #: ulng.rsmsghotdirnbnewentries
+#, object-pascal-format
 msgid "Number of new entries: %d"
 msgstr ""
 
@@ -12439,10 +12514,11 @@ msgid "Some functions to select appropriate path relative, absolute, windows spe
 msgstr ""
 
 #: ulng.rsmsghotdirtotalbackuped
+#, object-pascal-format
 msgid ""
 "Total entries saved: %d\n"
 "\n"
-"Backup filename: %s\n"
+"Backup filename: %s"
 msgstr ""
 
 #: ulng.rsmsghotdirtotalexported
@@ -12450,9 +12526,10 @@ msgid "Total entries exported: "
 msgstr ""
 
 #: ulng.rsmsghotdirwhattodelete
+#, object-pascal-format
 msgid ""
 "Do you want to delete all elements inside the sub-menu [%s]?\n"
-"Answering NO will delete only menu delimiters but will keep element inside sub-menu.\n"
+"Answering NO will delete only menu delimiters but will keep element inside sub-menu."
 msgstr ""
 
 #: ulng.rsmsghotdirwheretosave
@@ -12460,17 +12537,19 @@ msgid "Enter location and filename where to save a Directory Hotlist file"
 msgstr ""
 
 #: ulng.rsmsgincorrectfilelength
+#, object-pascal-format
 msgid "Incorrect resulting filelength for file : \"%s\""
 msgstr ""
 
 #: ulng.rsmsginsertnextdisk
+#, object-pascal-format
 msgid ""
 "Please insert next disk or something similar.\n"
 "\n"
 "It is to allow writing this file:\n"
 "\"%s\"\n"
 "\n"
-"Number of bytes still to write: %d\n"
+"Number of bytes still to write: %d"
 msgstr ""
 
 #: ulng.rsmsginvalidcommandline
@@ -12486,6 +12565,7 @@ msgid "Invalid format of configuration file"
 msgstr "無效的設定檔格式"
 
 #: ulng.rsmsginvalidhexnumber
+#, object-pascal-format
 msgid "Invalid hexadecimal number: \"%s\""
 msgstr ""
 
@@ -12494,6 +12574,7 @@ msgid "Invalid path"
 msgstr "無效的路徑"
 
 #: ulng.rsmsginvalidpathlong
+#, object-pascal-format
 msgid "Path %s contains forbidden characters."
 msgstr "路徑 %s 包含禁用字元 "
 
@@ -12502,6 +12583,7 @@ msgid "This is not a valid plugin!"
 msgstr "這不是可用的插件!"
 
 #: ulng.rsmsginvalidpluginarchitecture
+#, object-pascal-format
 msgid "This plugin is built for Double Commander for %s.%sIt can not work with Double Commander for %s!"
 msgstr "這個插件是替 TotalDouble Commander 的 %s 所建立。%s不能正常運作在 Double Commander 的 %s!"
 
@@ -12526,10 +12608,12 @@ msgid "Locate TC executable file (totalcmd.exe or totalcmd64.exe)"
 msgstr ""
 
 #: ulng.rsmsglogcopy
+#, object-pascal-format
 msgid "Copy file %s"
 msgstr "複製檔案 %s"
 
 #: ulng.rsmsglogdelete
+#, object-pascal-format
 msgid "Delete file %s"
 msgstr "刪除檔案 %s"
 
@@ -12546,6 +12630,7 @@ msgid "Result external"
 msgstr ""
 
 #: ulng.rsmsglogextract
+#, object-pascal-format
 msgid "Extract file %s"
 msgstr "解壓縮檔案 %s"
 
@@ -12554,18 +12639,22 @@ msgid "Info: "
 msgstr "資訊: "
 
 #: ulng.rsmsgloglink
+#, object-pascal-format
 msgid "Create link %s"
 msgstr "建立連結 %s"
 
 #: ulng.rsmsglogmkdir
+#, object-pascal-format
 msgid "Create directory %s"
 msgstr "建立資料夾 %s"
 
 #: ulng.rsmsglogmove
+#, object-pascal-format
 msgid "Move file %s"
 msgstr "移動檔案 %s"
 
 #: ulng.rsmsglogpack
+#, object-pascal-format
 msgid "Pack to file %s"
 msgstr "壓縮檔案 %s"
 
@@ -12578,6 +12667,7 @@ msgid "Program start"
 msgstr ""
 
 #: ulng.rsmsglogrmdir
+#, object-pascal-format
 msgid "Remove directory %s"
 msgstr "移除資料夾 %s"
 
@@ -12586,18 +12676,22 @@ msgid "Done: "
 msgstr "完成:"
 
 #: ulng.rsmsglogsymlink
+#, object-pascal-format
 msgid "Create symlink %s"
 msgstr "建立符號連結 %s"
 
 #: ulng.rsmsglogtest
+#, object-pascal-format
 msgid "Test file integrity %s"
 msgstr "測試檔案完整性 %s"
 
 #: ulng.rsmsglogwipe
+#, object-pascal-format
 msgid "Wipe file %s"
 msgstr ""
 
 #: ulng.rsmsglogwipedir
+#, object-pascal-format
 msgid "Wipe directory %s"
 msgstr ""
 
@@ -12634,6 +12728,7 @@ msgid "No enough free space on target drive, Retry?"
 msgstr "目標磁碟沒有足夠的可用空間, 是否要重試?"
 
 #: ulng.rsmsgnotdelete
+#, object-pascal-format
 msgid "Can not delete file %s"
 msgstr "無法刪除檔案 %s"
 
@@ -12676,22 +12771,27 @@ msgid "Please re-enter the password for verification:"
 msgstr "請再次輸入密碼來驗證"
 
 #: ulng.rsmsgpopuphotdelete
+#, object-pascal-format
 msgid "&Delete %s"
 msgstr "移除【%s】(&D)"
 
 #: ulng.rsmsgpresetalreadyexists
+#, object-pascal-format
 msgid "Preset \"%s\" already exists. Overwrite?"
 msgstr "預先配置檔【%s】已存在。是否要覆蓋?"
 
 #: ulng.rsmsgpresetconfigdelete
+#, object-pascal-format
 msgid "Are you sure you want to delete preset \"%s\"?"
 msgstr ""
 
 #: ulng.rsmsgproblemexecutingcommand
+#, object-pascal-format
 msgid "Problem executing command (%s)"
 msgstr ""
 
 #: ulng.rsmsgprocessid
+#, object-pascal-format
 msgid "PID: %d"
 msgstr ""
 
@@ -12712,10 +12812,12 @@ msgid "Enter new name for this menu"
 msgstr ""
 
 #: ulng.rsmsgrenfldr
+#, object-pascal-format
 msgid "Rename/move %d selected files/directories?"
 msgstr "你確定要重新命名/移動這 %d 個被選擇的檔案/資料夾嗎?"
 
 #: ulng.rsmsgrensel
+#, object-pascal-format
 msgid "Rename/move selected \"%s\"?"
 msgstr "你確定要重新命名/移動所選擇的【%s】嗎?"
 
@@ -12728,14 +12830,17 @@ msgid "Please, restart Double Commander in order to apply changes"
 msgstr "請重新啟動 Double Commander 以套用變更"
 
 #: ulng.rsmsgscriptcantfindlibrary
+#, object-pascal-format
 msgid "ERROR: Problem loading Lua library file \"%s\""
 msgstr ""
 
 #: ulng.rsmsgsekectfiletype
+#, object-pascal-format
 msgid "Select to which file type to add extension \"%s\""
 msgstr ""
 
 #: ulng.rsmsgselectedinfo
+#, object-pascal-format
 msgid "Selected: %s of %s, files: %d of %d, folders: %d of %d"
 msgstr "選擇: %s / %sB  |  檔案: %d / %d  |  資料夾: %d / %d"
 
@@ -12834,6 +12939,7 @@ msgid "Use Windows special folder (TC)..."
 msgstr ""
 
 #: ulng.rsmsgtabforopeninginnewtab
+#, object-pascal-format
 msgid "This tab (%s) is locked! Open directory in another tab?"
 msgstr ""
 
@@ -12850,27 +12956,30 @@ msgid "Target path:"
 msgstr "目標路徑:"
 
 #: ulng.rsmsgtcconfignotfound
+#, object-pascal-format
 msgid ""
 "Error! Cannot find the TC configuration file:\n"
-"%s\n"
+"%s"
 msgstr ""
 
 #: ulng.rsmsgtcexecutablenotfound
+#, object-pascal-format
 msgid ""
 "Error! Cannot find the TC configuration executable:\n"
-"%s\n"
+"%s"
 msgstr ""
 
 #: ulng.rsmsgtcisrunning
 msgid ""
 "Error! TC is still running but it should be closed for this operation.\n"
-"Close it and press OK or press CANCEL to abort.\n"
+"Close it and press OK or press CANCEL to abort."
 msgstr ""
 
 #: ulng.rsmsgtctoolbarnotfound
+#, object-pascal-format
 msgid ""
 "Error! Cannot find the desired wanted TC toolbar output folder:\n"
-"%s\n"
+"%s"
 msgstr ""
 
 #: ulng.rsmsgtctoolbarwheretosave
@@ -12890,6 +12999,7 @@ msgid "Do you want to test selected archives?"
 msgstr ""
 
 #: ulng.rsmsgthisisnowinclipboard
+#, object-pascal-format
 msgid "\"%s\" is now in the clipboard"
 msgstr ""
 
@@ -12910,9 +13020,10 @@ msgid "Enter location and filename of Toolbar to restore"
 msgstr ""
 
 #: ulng.rsmsgtoolbarsaved
+#, object-pascal-format
 msgid ""
 "Saved!\n"
-"Toolbar filename: %s\n"
+"Toolbar filename: %s"
 msgstr ""
 
 #: ulng.rsmsgtoomanyfilesselected
@@ -12974,10 +13085,12 @@ msgid "Do you want to configure Lua library location?"
 msgstr ""
 
 #: ulng.rsmsgwipefldr
+#, object-pascal-format
 msgid "Wipe %d selected files/directories?"
 msgstr "你確定要抹除這 %d 個被選擇的檔案/資料夾嗎?"
 
 #: ulng.rsmsgwipesel
+#, object-pascal-format
 msgid "Wipe selected \"%s\"?"
 msgstr "你確定要抹除所選擇的【%s】嗎?"
 
@@ -12988,7 +13101,7 @@ msgstr ""
 #: ulng.rsmsgwrongpasswordtryagain
 msgid ""
 "Wrong password!\n"
-"Please try again!\n"
+"Please try again!"
 msgstr ""
 
 #: ulng.rsmulrenautorename
@@ -13022,6 +13135,7 @@ msgid "Enter variable name"
 msgstr ""
 
 #: ulng.rsmulrenentervalueforvar
+#, object-pascal-format
 msgid "Enter value for variable \"%s\""
 msgstr ""
 
@@ -13191,9 +13305,10 @@ msgid "Enter new preset name"
 msgstr ""
 
 #: ulng.rsmulrensavemodifiedpreset
+#, object-pascal-format
 msgid ""
 "\"%s\" preset has been modified.\n"
-"Do you want to save it now?\n"
+"Do you want to save it now?"
 msgstr ""
 
 #: ulng.rsmulrensortingpresets
@@ -13210,6 +13325,7 @@ msgid "Warning, duplicate names!"
 msgstr ""
 
 #: ulng.rsmulrenwronglinesnumber
+#, object-pascal-format
 msgid "File contains wrong number of lines: %d, should be %d!"
 msgstr ""
 
@@ -13296,13 +13412,13 @@ msgid "Calculating checksum"
 msgstr "正在計算驗證碼"
 
 #: ulng.rsopercalculatingchecksumin
-#, fuzzy
+#, object-pascal-format, fuzzy
 #| msgid "Calculating check sum in \"%s\""
 msgid "Calculating checksum in \"%s\""
 msgstr "正在【%s】計算驗證碼"
 
 #: ulng.rsopercalculatingchecksumof
-#, fuzzy
+#, object-pascal-format, fuzzy
 #| msgid "Calculating check sum of \"%s\""
 msgid "Calculating checksum of \"%s\""
 msgstr "正在計算【%s】的驗證碼"
@@ -13313,6 +13429,7 @@ msgid "Calculating"
 msgstr "正在計算"
 
 #: ulng.rsopercalculatingstatisticsin
+#, object-pascal-format
 msgid "Calculating \"%s\""
 msgstr "正在計算【%s】"
 
@@ -13321,6 +13438,7 @@ msgid "Joining"
 msgstr "正在合併"
 
 #: ulng.rsopercombiningfromto
+#, object-pascal-format
 msgid "Joining files in \"%s\" to \"%s\""
 msgstr "正在【%s】合併檔案到【%s】"
 
@@ -13329,10 +13447,12 @@ msgid "Copying"
 msgstr "正在複製"
 
 #: ulng.rsopercopyingfromto
+#, object-pascal-format
 msgid "Copying from \"%s\" to \"%s\""
 msgstr "正在從【%s】複製到【%s】"
 
 #: ulng.rsopercopyingsomethingto
+#, object-pascal-format
 msgid "Copying \"%s\" to \"%s\""
 msgstr "正在複製【%s】到【%s】"
 
@@ -13341,6 +13461,7 @@ msgid "Creating directory"
 msgstr "正在建立資料夾"
 
 #: ulng.rsopercreatingsomedirectory
+#, object-pascal-format
 msgid "Creating directory \"%s\""
 msgstr "正在建立資料夾【%s】"
 
@@ -13350,10 +13471,12 @@ msgid "Deleting"
 msgstr "正在刪除"
 
 #: ulng.rsoperdeletingin
+#, object-pascal-format
 msgid "Deleting in \"%s\""
 msgstr "正在【%s】刪除"
 
 #: ulng.rsoperdeletingsomething
+#, object-pascal-format
 msgid "Deleting \"%s\""
 msgstr "正在刪除【%s】"
 
@@ -13362,6 +13485,7 @@ msgid "Executing"
 msgstr "正在執行"
 
 #: ulng.rsoperexecutingsomething
+#, object-pascal-format
 msgid "Executing \"%s\""
 msgstr "正在執行【%s】"
 
@@ -13370,6 +13494,7 @@ msgid "Extracting"
 msgstr "正在解壓縮"
 
 #: ulng.rsoperextractingfromto
+#, object-pascal-format
 msgid "Extracting from \"%s\" to \"%s\""
 msgstr "正在從【%s】解壓縮到【%s】"
 
@@ -13382,6 +13507,7 @@ msgid "Listing"
 msgstr "正在列表"
 
 #: ulng.rsoperlistingin
+#, object-pascal-format
 msgid "Listing \"%s\""
 msgstr "正在列表【%s】"
 
@@ -13390,10 +13516,12 @@ msgid "Moving"
 msgstr "正在移動"
 
 #: ulng.rsopermovingfromto
+#, object-pascal-format
 msgid "Moving from \"%s\" to \"%s\""
 msgstr "正在從【%s】移動到【%s】"
 
 #: ulng.rsopermovingsomethingto
+#, object-pascal-format
 msgid "Moving \"%s\" to \"%s\""
 msgstr "正在移動【%s】到【%s】"
 
@@ -13406,10 +13534,12 @@ msgid "Packing"
 msgstr "正在壓縮"
 
 #: ulng.rsoperpackingfromto
+#, object-pascal-format
 msgid "Packing from \"%s\" to \"%s\""
 msgstr "正在從【%s】壓縮到【%s】"
 
 #: ulng.rsoperpackingsomethingto
+#, object-pascal-format
 msgid "Packing \"%s\" to \"%s\""
 msgstr "正在壓縮【%s】到【%s】"
 
@@ -13430,10 +13560,12 @@ msgid "Setting property"
 msgstr "正在設置內容"
 
 #: ulng.rsopersettingpropertyin
+#, object-pascal-format
 msgid "Setting property in \"%s\""
 msgstr "正在【%s】設置內容"
 
 #: ulng.rsopersettingpropertyof
+#, object-pascal-format
 msgid "Setting property of \"%s\""
 msgstr "正在設置【%s】的內容"
 
@@ -13442,6 +13574,7 @@ msgid "Splitting"
 msgstr "正在分離"
 
 #: ulng.rsopersplittingfromto
+#, object-pascal-format
 msgid "Splitting \"%s\" to \"%s\""
 msgstr "正在分離【%s】到【%s】"
 
@@ -13462,10 +13595,12 @@ msgid "Testing"
 msgstr "正在測試"
 
 #: ulng.rsopertestingin
+#, object-pascal-format
 msgid "Testing in \"%s\""
 msgstr "正在【%s】測試"
 
 #: ulng.rsopertestingsomething
+#, object-pascal-format
 msgid "Testing \"%s\""
 msgstr "正在測試【%s】"
 
@@ -13476,13 +13611,13 @@ msgid "Verifying checksum"
 msgstr "正在校驗驗證碼"
 
 #: ulng.rsoperverifyingchecksumin
-#, fuzzy
+#, object-pascal-format, fuzzy
 #| msgid "Verifying check sum in \"%s\""
 msgid "Verifying checksum in \"%s\""
 msgstr "正在【%s】校驗驗證碼"
 
 #: ulng.rsoperverifyingchecksumof
-#, fuzzy
+#, object-pascal-format, fuzzy
 #| msgid "Verifying check sum of \"%s\""
 msgid "Verifying checksum of \"%s\""
 msgstr "正在校驗【%s】的驗證碼"
@@ -13500,10 +13635,12 @@ msgid "Wiping"
 msgstr "正在抹除"
 
 #: ulng.rsoperwipingin
+#, object-pascal-format
 msgid "Wiping in \"%s\""
 msgstr "正在【%s】抹除"
 
 #: ulng.rsoperwipingsomething
+#, object-pascal-format
 msgid "Wiping \"%s\""
 msgstr "正在抹除【%s】"
 
@@ -13548,6 +13685,7 @@ msgid "Change Archiver Listing Encoding"
 msgstr ""
 
 #: ulng.rsoptarchiverconfirmdelete
+#, object-pascal-format
 msgctxt "ulng.rsoptarchiverconfirmdelete"
 msgid "Are you sure you want to delete: \"%s\"?"
 msgstr ""
@@ -13565,6 +13703,7 @@ msgid "Export archiver configuration"
 msgstr ""
 
 #: ulng.rsoptarchiverexportdone
+#, object-pascal-format
 msgctxt "ulng.rsoptarchiverexportdone"
 msgid "Exportation of %d elements to file \"%s\" completed."
 msgstr ""
@@ -13587,6 +13726,7 @@ msgid "Import archiver configuration"
 msgstr ""
 
 #: ulng.rsoptarchiverimportdone
+#, object-pascal-format
 msgctxt "ulng.rsoptarchiverimportdone"
 msgid "Importation of %d elements from file \"%s\" completed."
 msgstr ""
@@ -13649,6 +13789,7 @@ msgid "Archive type name:"
 msgstr "壓縮類型名稱:"
 
 #: ulng.rsoptassocpluginwith
+#, object-pascal-format
 msgid "Associate plugin \"%s\" with:"
 msgstr "【%s】插件關聯:"
 
@@ -13685,10 +13826,12 @@ msgid "float"
 msgstr "浮動"
 
 #: ulng.rsopthotkeysadddeleteshortcutlong
+#, object-pascal-format
 msgid "Shortcut %s for cm_Delete will be registered, so it can be used to reverse this setting."
 msgstr "快速鍵 %s 將登錄給 cm_Delete 使用,它會視這個設定的狀態而執行相反的刪除動作。"
 
 #: ulng.rsopthotkeysaddhotkey
+#, object-pascal-format
 msgid "Add hotkey for %s"
 msgstr "替 %s 加入熱鍵"
 
@@ -13710,10 +13853,12 @@ msgid "Command"
 msgstr "指令"
 
 #: ulng.rsopthotkeysdeletetrashcanoverrides
+#, object-pascal-format
 msgid "Shortcut %s for cm_Delete has a parameter that overrides this setting. Do you want to change this parameter to use the global setting?"
 msgstr "cm_Delete 的快速鍵 %s 已有覆蓋此設定的參數。你要變更這個參數以使用這個通用設定嗎?"
 
 #: ulng.rsopthotkeysdeletetrashcanparameterexists
+#, object-pascal-format
 msgid "Shortcut %s for cm_Delete needs to have a parameter changed to match shortcut %s. Do you want to change it?"
 msgstr "cm_Delete 的快速鍵 %s 需要變更參數來符合快速鍵 %s。你要變更它嗎?"
 
@@ -13723,6 +13868,7 @@ msgid "Description"
 msgstr "描述"
 
 #: ulng.rsopthotkeysedithotkey
+#, object-pascal-format
 msgid "Edit hotkey for %s"
 msgstr "替 %s 編輯熱鍵"
 
@@ -13754,10 +13900,12 @@ msgid "Set shortcut to delete file"
 msgstr "設置快速鍵以刪除檔案"
 
 #: ulng.rsopthotkeysshortcutfordeletealreadyassigned
+#, object-pascal-format
 msgid "For this setting to work with shortcut %s, shortcut %s must be assigned to cm_Delete but it is already assigned to %s. Do you want to change it?"
 msgstr "要讓這個設定利用快速鍵 %s 執行運作, 快速鍵 %s 必需分配給 cm_Delete, 但是它已經分配給 %s 使用。你要變更它嗎?"
 
 #: ulng.rsopthotkeysshortcutfordeleteissequence
+#, object-pascal-format
 msgid "Shortcut %s for cm_Delete is a sequence shortcut for which a hotkey with reversed Shift cannot be assigned. This setting might not work."
 msgstr "cm_Delete 的快速鍵 %s 是序列快速鍵, 所以無法判斷要將哪個熱鍵用來分配使用。這個設定可能無法正常運作。"
 
@@ -13766,14 +13914,17 @@ msgid "Shortcut in use"
 msgstr "快速鍵已使用"
 
 #: ulng.rsopthotkeysshortcutusedtext1
+#, object-pascal-format
 msgid "Shortcut %s is already used."
 msgstr "快速鍵 %s 已被使用。"
 
 #: ulng.rsopthotkeysshortcutusedtext2
+#, object-pascal-format
 msgid "Change it to %s?"
 msgstr "你要將它變更給 %s 使用嗎?"
 
 #: ulng.rsopthotkeysusedby
+#, object-pascal-format
 msgid "used for %s in %s"
 msgstr "已被 %s 使用在 %s"
 
@@ -13952,10 +14103,11 @@ msgid "Multi-Rename Tool"
 msgstr "多重命名工具"
 
 #: ulng.rsoptionseditoroptionschanged
+#, object-pascal-format
 msgid ""
 "Options have changed in \"%s\"\n"
 "\n"
-"Do you want to save modifications?\n"
+"Do you want to save modifications?"
 msgstr ""
 
 #: ulng.rsoptionseditorplugins
@@ -14021,6 +14173,7 @@ msgid "Personalized float;Personalized byte;Personalized kilobyte;Personalized m
 msgstr ""
 
 #: ulng.rsoptpluginalreadyassigned
+#, object-pascal-format
 msgid "Plugin %s is already assigned for the following extensions:"
 msgstr "插件 %s 已經分配給下列副檔名:"
 
@@ -14123,10 +14276,12 @@ msgid "Tooltip file type name:"
 msgstr "類別名稱 (&N):"
 
 #: ulng.rsopttooltipfiletypealreadyexists
+#, object-pascal-format
 msgid "\"%s\" already exists!"
 msgstr ""
 
 #: ulng.rsopttooltipfiletypeconfirmdelete
+#, object-pascal-format
 msgctxt "ulng.rsopttooltipfiletypeconfirmdelete"
 msgid "Are you sure you want to delete: \"%s\"?"
 msgstr ""
@@ -14140,6 +14295,7 @@ msgid "Export tooltip file type configuration"
 msgstr ""
 
 #: ulng.rsopttooltipfiletypeexportdone
+#, object-pascal-format
 msgctxt "ulng.rsopttooltipfiletypeexportdone"
 msgid "Exportation of %d elements to file \"%s\" completed."
 msgstr ""
@@ -14154,6 +14310,7 @@ msgid "Import tooltip file type configuration"
 msgstr ""
 
 #: ulng.rsopttooltipfiletypeimportdone
+#, object-pascal-format
 msgctxt "ulng.rsopttooltipfiletypeimportdone"
 msgid "Importation of %d elements from file \"%s\" completed."
 msgstr ""
@@ -14205,6 +14362,7 @@ msgid "="
 msgstr ""
 
 #: ulng.rspluginsearchfieldnotfound
+#, object-pascal-format
 msgid "Field \"%s\" not found!"
 msgstr ""
 
@@ -14230,6 +14388,7 @@ msgid "!regexp"
 msgstr ""
 
 #: ulng.rspluginsearchpluginnotfound
+#, object-pascal-format
 msgid "Plugin \"%s\" not found!"
 msgstr ""
 
@@ -14238,19 +14397,23 @@ msgid "regexp"
 msgstr ""
 
 #: ulng.rspluginsearchunitnotfoundforfield
+#, object-pascal-format
 msgctxt "ulng.rspluginsearchunitnotfoundforfield"
 msgid "Unit \"%s\" not found for field \"%s\" !"
 msgstr ""
 
 #: ulng.rspropscontains
+#, object-pascal-format
 msgid "Files: %d, folders: %d"
 msgstr "檔案: %d, 資料夾: %d"
 
 #: ulng.rspropserrchmod
+#, object-pascal-format
 msgid "Can not change access rights for \"%s\""
 msgstr "無法變更【%s】的存取權限"
 
 #: ulng.rspropserrchown
+#, object-pascal-format
 msgid "Can not change owner for \"%s\""
 msgstr "無法變更【%s】的擁有者"
 
@@ -14303,13 +14466,13 @@ msgstr "<未命名範本>"
 #: ulng.rssearchwithdsxplugininprogress
 msgid ""
 "A file search using DSX plugin is already in progress.\n"
-"We need that one to be completed before to launch a new one.\n"
+"We need that one to be completed before to launch a new one."
 msgstr ""
 
 #: ulng.rssearchwithwdxplugininprogress
 msgid ""
 "A file search using WDX plugin is already in progress.\n"
-"We need that one to be completed before to launch a new one.\n"
+"We need that one to be completed before to launch a new one."
 msgstr ""
 
 #: ulng.rsselectdir
@@ -14325,6 +14488,7 @@ msgid "Select your window"
 msgstr ""
 
 #: ulng.rsshowhelpfor
+#, object-pascal-format
 msgid "&Show help for %s"
 msgstr "顯示 %s 的說明 (&S)"
 
@@ -14421,6 +14585,7 @@ msgid "Terabytes"
 msgstr "Terabytes"
 
 #: ulng.rsspacemsg
+#, object-pascal-format
 msgid "Files: %d, Dirs: %d, Size: %s (%s bytes)"
 msgstr "檔案: %d, 資料夾: %d, 大小: %s (%s 位元組)"
 
@@ -14620,6 +14785,7 @@ msgid "Viewer"
 msgstr "檢視器"
 
 #: ulng.rsunhandledexceptionmessage
+#, object-pascal-format
 msgid "Please report this error to the bug tracker with a description of what you were doing and the following file:%sPress %s to continue or %s to abort the program."
 msgstr "請回報這個錯誤到問題追蹤系統並包含你對下面這個檔案所進行的操作描述:%s請按下 %s 繼續或 %s 放棄這個程式。"
 
@@ -14820,6 +14986,7 @@ msgid "New Size"
 msgstr "新的大小"
 
 #: ulng.rsviewnotfound
+#, object-pascal-format
 msgid "%s not found!"
 msgstr "沒有找到 %s!"
 
@@ -14836,6 +15003,7 @@ msgid "with internal viewer"
 msgstr ""
 
 #: ulng.rsxreplacements
+#, object-pascal-format
 msgid "Number of replacement: %d"
 msgstr ""
 
@@ -14844,6 +15012,7 @@ msgid "No replacement took place."
 msgstr ""
 
 #: umaincommands.rsfavoritetabs_setupnotexist
+#, object-pascal-format
 msgid "No setup named \"%s\""
 msgstr ""
 

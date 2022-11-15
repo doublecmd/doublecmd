@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: Double Commander 1.0.0 alpha\n"
+"Project-Id-Version: Double Commander 1.1.0 alpha\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-01-17 23:08+0300\n"
+"POT-Creation-Date: 2022-11-15 11:15+0300\n"
 "PO-Revision-Date: 2021-12-27 21:18+0200\n"
 "Last-Translator: Anastasios Kazakis <orca.surfshark@gmail.com>\n"
 "Language-Team: Anastasios Kazakis <orca.surfshark@gmail.com>\n"
@@ -24,26 +24,32 @@ msgid "Auto;Enabled;Disabled"
 msgstr ""
 
 #: fsyncdirsdlg.rscomparingpercent
+#, object-pascal-format
 msgid "Comparing... %d%% (ESC to cancel)"
 msgstr "Σύγκριση... %d%% (ESC για ακύρωση)"
 
 #: fsyncdirsdlg.rsdeleteleft
+#, object-pascal-format
 msgid "Left: Delete %d file(s)"
 msgstr "Αριστερά: Διαγραφή %d αρχείο(α)"
 
 #: fsyncdirsdlg.rsdeleteright
+#, object-pascal-format
 msgid "Right: Delete %d file(s)"
 msgstr "Δεξιά: Διαγραφή %d αρχείο(α)"
 
 #: fsyncdirsdlg.rsfilesfound
+#, object-pascal-format
 msgid "Files found: %d  (Identical: %d, Different: %d, Unique left: %d, Unique right: %d)"
 msgstr "Ευρεθέντα αρχεία: %d  (Όμοια: %d, Διαφορετικά: %d, Μοναδικά αριστερά: %d, Μοναδικά δεξιά: %d)"
 
 #: fsyncdirsdlg.rslefttorightcopy
+#, object-pascal-format
 msgid "Left to Right: Copy %d files, total size: %s (%s)"
 msgstr "Αριστερά προς Δεξιά: Αντιγραφή %d αρχεία, συνολικό μέγεθος: %s (%s)"
 
 #: fsyncdirsdlg.rsrighttoleftcopy
+#, object-pascal-format
 msgid "Right to Left: Copy %d files, total size: %s (%s)"
 msgstr "Δεξιά προς Αριστερά: Αντιγραφή %d αρχεία, συνολικό μέγεθος: %s (%s)"
 
@@ -315,6 +321,7 @@ msgid "Benchmark"
 msgstr "Benchmark"
 
 #: tfrmbenchmark.lblbenchmarksize.caption
+#, object-pascal-format
 msgid "Benchmark data size: %d MB"
 msgstr "Μέγεθος πληροφοριών Benchmark: %d MB"
 
@@ -3835,6 +3842,7 @@ msgid "Set selected application as default action"
 msgstr "Αποθήκευση της επιλεγμένης εφαρμογής ως εξ' ορισμού ενέργια"
 
 #: tfrmopenwith.lblmimetype.caption
+#, object-pascal-format
 msgid "File type to be opened: %s"
 msgstr "Τύπος αρχείου προς άνοιγμα: %s"
 
@@ -3843,6 +3851,7 @@ msgid "Multiple file names"
 msgstr "Πολλαπλά ονόματα αρχείων"
 
 #: tfrmopenwith.milistoffiles.hint
+#, object-pascal-format
 msgid "%F"
 msgstr "%F"
 
@@ -3851,6 +3860,7 @@ msgid "Multiple URIs"
 msgstr "Πολλαπλά URIs"
 
 #: tfrmopenwith.milistofurls.hint
+#, object-pascal-format
 msgid "%U"
 msgstr "%U"
 
@@ -3859,6 +3869,7 @@ msgid "Single file name"
 msgstr "Μονό όνομα αρχείου"
 
 #: tfrmopenwith.misinglefilename.hint
+#, object-pascal-format
 msgid "%f"
 msgstr "%f"
 
@@ -3867,6 +3878,7 @@ msgid "Single URI"
 msgstr "Μονό URI"
 
 #: tfrmopenwith.misingleurl.hint
+#, object-pascal-format
 msgid "%u"
 msgstr "%u"
 
@@ -5316,6 +5328,10 @@ msgstr "Παρακαλώ σημειώσατε οτι η ιδιότητα \"Smart
 #: tfrmoptionseditor.gbinternaleditor.caption
 msgid "Internal editor options"
 msgstr "Ιδιότητες Εσωτερικού επεξεργαστή"
+
+#: tfrmoptionseditor.lblblockindent.caption
+msgid "Block indent:"
+msgstr ""
 
 #: tfrmoptionseditor.lbltabwidth.caption
 msgid "Tab width:"
@@ -10067,18 +10083,19 @@ msgid "Orientation"
 msgstr "Προσανατολισμός"
 
 #: ulng.msgtrytolocatecrcfile
+#, object-pascal-format
 msgid ""
 "This file cannot be found and could help to validate final combination of files:\n"
 "%s\n"
 "\n"
 "Could you make it available and press \"OK\" when ready,\n"
-"or press \"CANCEL\" to continue without it?\n"
+"or press \"CANCEL\" to continue without it?"
 msgstr ""
 "Αυτό το αρχείο δε μπορεί να βρεθεί και αυτό θα μπορούσε να βοηθήσει στην επικύρωση του τελικού συνδυασμού αρχείων:\n"
 "%s\n"
 "\n"
 "Θα μπορούσατε να το κάνετε διαθέσιμο πιέζοντας \"ΟΚ\"όταν είστε έτοιμοι,\n"
-"ή πιέστε \"Ακύρωση\" για να συνεχίσετε χωρίς αυτό;\n"
+"ή πιέστε \"Ακύρωση\" για να συνεχίσετε χωρίς αυτό;"
 
 #: ulng.rsabbrevdisplaydir
 msgid "<DIR>"
@@ -10215,6 +10232,7 @@ msgid "Confirming command line and parameters"
 msgstr "Επιβεβαίωση της γραμμής εντολών και παραμέτρων"
 
 #: ulng.rscopynametemplate
+#, object-pascal-format
 msgid "Copy (%d) %s"
 msgstr "Αντιγραφή (%d) %s"
 
@@ -10311,10 +10329,10 @@ msgstr "Το κείμενο είναι ταυτόσημο αλλά οι ακόλ
 #: ulng.rsdifftextidenticalnotmatch
 msgid ""
 "The text is identical, but the files do not match!\n"
-"The following differences were found:\n"
+"The following differences were found:"
 msgstr ""
 "Το κείμενο είναι ταυτόσημο αλλά τα αρχεία δεν ταιριάζουν!\n"
-"Έχουν βρεθεί οι ακόλουθες διαφορές:\n"
+"Έχουν βρεθεί οι ακόλουθες διαφορές:"
 
 #: ulng.rsdlgbuttonabort
 msgid "Ab&ort"
@@ -10465,10 +10483,12 @@ msgid "Queue"
 msgstr "Ουρά"
 
 #: ulng.rsdlgspeed
+#, object-pascal-format
 msgid "Speed %s/s"
 msgstr "Ταχύτητα %s/s"
 
 #: ulng.rsdlgspeedtime
+#, object-pascal-format
 msgid "Speed %s/s, time remaining %s"
 msgstr "Ταχύτητα %s/s, εναπομένων χρόνος %s"
 
@@ -10551,10 +10571,12 @@ msgid "Execute via terminal and stay open"
 msgstr "Εκτέλεση μέσω τερματικού και παραμονή αυτού ανοικτό"
 
 #: ulng.rsextsclosedbracketnofound
+#, object-pascal-format
 msgid "\"]\" not found in line %s"
 msgstr "\"]\" δεν βρέθηκε στη γραμμή %s"
 
 #: ulng.rsextscommandwithnoext
+#, object-pascal-format
 msgid "No extension defined before command \"%s\". It will be ignored."
 msgstr "Δεν έχει καθοριστεί επέκταση πριν την εντολή \"%s\". Θα αγνοηθεί."
 
@@ -10648,6 +10670,7 @@ msgid "Define template"
 msgstr "Καθορισμός προτύπου"
 
 #: ulng.rsfinddepth
+#, object-pascal-format
 msgid "%s level(s)"
 msgstr "%s επίπεδο(α)"
 
@@ -10660,10 +10683,12 @@ msgid "current dir only"
 msgstr "τρέχων κατάλογος μόνο"
 
 #: ulng.rsfinddirnoex
+#, object-pascal-format
 msgid "Directory %s does not exist!"
 msgstr "Ο Κατάλογος %s δεν υπάρχει!"
 
 #: ulng.rsfindfound
+#, object-pascal-format
 msgctxt "ulng.rsfindfound"
 msgid "Found: %d"
 msgstr "Βρέθηκαν: %d"
@@ -10677,6 +10702,7 @@ msgid "Template name:"
 msgstr "Όνομα Προτύπου:"
 
 #: ulng.rsfindscanned
+#, object-pascal-format
 msgctxt "ulng.rsfindscanned"
 msgid "Scanned: %d"
 msgstr "Έχουν Σαρωθεί: %d"
@@ -10744,10 +10770,12 @@ msgid "Viewer&Book Font"
 msgstr "Γραμματοσειρά Προβολέα Βιβλίων"
 
 #: ulng.rsfreemsg
+#, object-pascal-format
 msgid "%s of %s free"
 msgstr "Ελεύθερα %s από %s"
 
 #: ulng.rsfreemsgshort
+#, object-pascal-format
 msgid "%s free"
 msgstr "%s ελεύθερα"
 
@@ -10839,11 +10867,11 @@ msgstr "κανένα;Όνομα, α-ω;Όνομα, ω-α;Εξωτ, α-ω;Εξω�
 msgid ""
 "Warning! When restoring a .hotlist backup file, this will erase existing list to replace by the imported one.\n"
 "\n"
-"Are you sure you want to proceed?\n"
+"Are you sure you want to proceed?"
 msgstr ""
 "Προσοχή! Κατά την αποκατάσταση ενός .hotlist αντιγράφου, θα διαγραφεί η υπάρχουσα λίστα για να αντικατασταθεί από την σημαντική.\n"
 "\n"
-"Είστε σίγουροι οτι επιθυμείτε να συνεχίσετε;\n"
+"Είστε σίγουροι οτι επιθυμείτε να συνεχίσετε;"
 
 #: ulng.rshotkeycategorycopymovedialog
 msgid "Copy/Move Dialog"
@@ -10889,20 +10917,22 @@ msgstr "Προβολέας"
 #: ulng.rshotkeyfilealreadyexists
 msgid ""
 "A setup with that name already exists.\n"
-"Do you want to overwrite it?\n"
+"Do you want to overwrite it?"
 msgstr ""
 "Μια εγκατάσταση με αυτή την ονομασία υπάρχει ήδη.\n"
-"Επιθυμείτε αντικατάστασή της;\n"
+"Επιθυμείτε αντικατάστασή της;"
 
 #: ulng.rshotkeyfileconfirmdefault
 msgid "Are you sure you want to restore default?"
 msgstr "Είστε σίγουροι ότι επιθυμείτε αποκατάσταση των προκαθορισμένων;"
 
 #: ulng.rshotkeyfileconfirmerasure
+#, object-pascal-format
 msgid "Are you sure you want to erase setup \"%s\"?"
 msgstr "Είστε σίγουροι ότι επιθυμείτε διαγραφή της εγκατάστασης των \"%s\";"
 
 #: ulng.rshotkeyfilecopyof
+#, object-pascal-format
 msgid "Copy of %s"
 msgstr "Αντιγραφή των %s"
 
@@ -10919,12 +10949,13 @@ msgid "New name"
 msgstr "Νέα Ονομασία"
 
 #: ulng.rshotkeyfilesavemodified
+#, object-pascal-format
 msgid ""
 "\"%s\" setup has been modified.\n"
-"Do you want to save it now?\n"
+"Do you want to save it now?"
 msgstr ""
 "\"%s\" Εγκαταστάσεις έχουν αλλάξει.\n"
-"Επιθυμείτε αποθήκευση;\n"
+"Επιθυμείτε αποθήκευση;"
 
 #: ulng.rshotkeynoscenter
 msgid "No shortcut with \"ENTER\""
@@ -11093,6 +11124,7 @@ msgid "All Double Commander internal commands"
 msgstr "Όλες οι εσωτερικές εντολές του Double Commander"
 
 #: ulng.rsmsgapplicationname
+#, object-pascal-format
 msgid "Description: %s"
 msgstr "Περιγραφή: %s"
 
@@ -11105,38 +11137,44 @@ msgid "Do you want to enclose between quotes?"
 msgstr "Επιθυμείτε να εισαχθεί μεταξύ εισαγωγικών;"
 
 #: ulng.rsmsgbadcrc32
+#, object-pascal-format
 msgid ""
 "Bad CRC32 for resulting file:\n"
 "\"%s\"\n"
 "\n"
-"Do you want to keep the resulting corrupted file anyway?\n"
+"Do you want to keep the resulting corrupted file anyway?"
 msgstr ""
 "Κακό CRC32 για τελικό αρχείο:\n"
 "\"%s\"\n"
 "\n"
-"Επιθυμείτε να κρατήσετε το κατεστραμμένο τελικό αρχείο ως έχει;\n"
+"Επιθυμείτε να κρατήσετε το κατεστραμμένο τελικό αρχείο ως έχει;"
 
 #: ulng.rsmsgcanceloperation
 msgid "Are you sure that you want to cancel this operation?"
 msgstr ""
 
 #: ulng.rsmsgcannotcopymoveitself
+#, object-pascal-format
 msgid "You can not copy/move a file \"%s\" to itself!"
 msgstr "Δεν μπορείτε να αντιγράψετε/μετακινήσετε ένα αρχείο \"%s\" σε αυτό το ίδιο!"
 
 #: ulng.rsmsgcannotcopyspecialfile
+#, object-pascal-format
 msgid "Cannot copy special file %s"
 msgstr "Αδυναμία αντιγραφής ειδικού αρχείου %s"
 
 #: ulng.rsmsgcannotdeletedirectory
+#, object-pascal-format
 msgid "Cannot delete directory %s"
 msgstr "Αδυναμία διαγραφής καταλόγου %s"
 
 #: ulng.rsmsgcannotoverwritedirectory
+#, object-pascal-format
 msgid "Cannot overwrite directory \"%s\" with non-directory \"%s\""
 msgstr "Δεν είναι δυνατή η αντικατάσταση του καταλόγου \"%s\" με τον μη-κατάλογο \"%s\""
 
 #: ulng.rsmsgchdirfailed
+#, object-pascal-format
 msgid "Change current directory to \"%s\" failed!"
 msgstr "ChDir σε [%s] απέτυχε!"
 
@@ -11145,6 +11183,7 @@ msgid "Remove all inactive tabs?"
 msgstr "Αφαίρεση όλων των ανενεργών καρτελών;"
 
 #: ulng.rsmsgcloselockedtab
+#, object-pascal-format
 msgid "This tab (%s) is locked! Close anyway?"
 msgstr "Αυτή η καρτέλα (%s) είναι κλειδωμένη! Κλείσιμο ως έχει;"
 
@@ -11157,6 +11196,7 @@ msgid "Are you sure you want to quit?"
 msgstr "Είστε σίγουροι οτι επιθυμείτε έξοδο;"
 
 #: ulng.rsmsgcopybackward
+#, object-pascal-format
 msgid "The file %s has changed. Do you want to copy it backward?"
 msgstr "Το αρχείο %s έχει αλλάξει. Επιθυμείτε να το αντιγράψετε αντίστροφα;"
 
@@ -11165,14 +11205,17 @@ msgid "Could not copy backward - do you want to keep the changed file?"
 msgstr "Αδυναμία αντίστροφης αντιγραφής - επιθυμείτε να διατηρήσετε το αλλαγμένο αρχείο;"
 
 #: ulng.rsmsgcpfldr
+#, object-pascal-format
 msgid "Copy %d selected files/directories?"
 msgstr "Αντιγραφή %d επιλεγμένων αρχείων/καταλόγων;"
 
 #: ulng.rsmsgcpsel
+#, object-pascal-format
 msgid "Copy selected \"%s\"?"
 msgstr "Αντιγραφή επιλεγμένου \"%s\";"
 
 #: ulng.rsmsgcreateanewfiletype
+#, object-pascal-format
 msgid "< Create a new file type \"%s files\" >"
 msgstr "< Δημιουργία ενός νέου τύπου αρχείου \"%s αρχεία\" >"
 
@@ -11189,22 +11232,27 @@ msgid "Delete the partially copied file ?"
 msgstr "Διαγραφή μερικώς αντιγραμμένου αρχείου ;"
 
 #: ulng.rsmsgdelfldr
+#, object-pascal-format
 msgid "Delete %d selected files/directories?"
 msgstr "Διαγραφή %d επιλεγμένων αρχείων/καταλόγων;"
 
 #: ulng.rsmsgdelfldrt
+#, object-pascal-format
 msgid "Delete %d selected files/directories into trash can?"
 msgstr "Διαγραφή %d επιλεγμένων αρχείων/καταλόγων στο κάδο αχρήστων;"
 
 #: ulng.rsmsgdelsel
+#, object-pascal-format
 msgid "Delete selected \"%s\"?"
 msgstr "Διαγραφή επιλεγμένων \"%s\";"
 
 #: ulng.rsmsgdelselt
+#, object-pascal-format
 msgid "Delete selected \"%s\" into trash can?"
 msgstr "Διαγραφή επιλεγμένων \"%s\" στο κάδο αχρήστων;"
 
 #: ulng.rsmsgdeltotrashforce
+#, object-pascal-format
 msgid "Can not delete \"%s\" to trash! Delete directly?"
 msgstr "Αδυναμία διαγραφής \"%s\" στα απορρίμματα! Διαγραφή άμεσα;"
 
@@ -11225,6 +11273,7 @@ msgid "Enter name:"
 msgstr "Εισαγωγή ονόματος:"
 
 #: ulng.rsmsgenternewfiletypename
+#, object-pascal-format
 msgid "Enter name of new file type to create for extension \"%s\""
 msgstr "Εισαγωγή ονόματος του νέου τύπου αρχείου που δημιουργείται για την επέκταση \"%s\""
 
@@ -11237,30 +11286,37 @@ msgid "Data is bad"
 msgstr "Άσχημα Δεδομένα"
 
 #: ulng.rsmsgerrcannotconnect
+#, object-pascal-format
 msgid "Can not connect to server: \"%s\""
 msgstr "Αδυναμία σύνδεσης στον διακομιστή: \"%s\""
 
 #: ulng.rsmsgerrcannotcopyfile
+#, object-pascal-format
 msgid "Cannot copy file %s to %s"
 msgstr "Αδυναμία αντιγραφής αρχείου %s στο %s"
 
 #: ulng.rsmsgerrcannotmovedirectory
+#, object-pascal-format
 msgid "Cannot move directory %s"
 msgstr "Αδυναμία μετακίνησης καταλόγου %s"
 
 #: ulng.rsmsgerrcannotmovefile
+#, object-pascal-format
 msgid "Cannot move file %s"
 msgstr "Αδυναμία μετακίνησης ειδικού αρχείου %s"
 
 #: ulng.rsmsgerrcreatefiledirectoryexists
+#, object-pascal-format
 msgid "There already exists a directory named \"%s\"."
 msgstr "Εκεί υπάρχει ήδη ένας κατάλογος με το όνομα \"%s\"."
 
 #: ulng.rsmsgerrdatenotsupported
+#, object-pascal-format
 msgid "Date %s is not supported"
 msgstr "Ημερομηνία %s δεν υποστηρίζεται"
 
 #: ulng.rsmsgerrdirexists
+#, object-pascal-format
 msgid "Directory %s exists!"
 msgstr "Ο Κατάλογος %s υπάρχει!"
 
@@ -11293,6 +11349,7 @@ msgid "Error writing to file"
 msgstr "Λάθος εγγραφής στο αρχείο"
 
 #: ulng.rsmsgerrforcedir
+#, object-pascal-format
 msgid "Can not create directory %s!"
 msgstr "Αδυναμία δημιουργίας καταλόγου %s!"
 
@@ -11325,6 +11382,7 @@ msgid "Syntax error in regular expression!"
 msgstr "Συντακτικό λάθος σε συνήθη φράση!"
 
 #: ulng.rsmsgerrrename
+#, object-pascal-format
 msgid "Cannot rename file %s to %s"
 msgstr "Αδυναμία μετονομασίας αρχείου %s σε %s"
 
@@ -11337,22 +11395,27 @@ msgid "Cannot save file"
 msgstr "Αδύνατη η αποθήκευση αρχείου"
 
 #: ulng.rsmsgerrsetattribute
+#, object-pascal-format
 msgid "Can not set attributes for \"%s\""
 msgstr "Αδυναμία καθορισμού ιδιοτήτων για \"%s\""
 
 #: ulng.rsmsgerrsetdatetime
+#, object-pascal-format
 msgid "Can not set date/time for \"%s\""
 msgstr "Αδυναμία ορισμού ημερομηνίας/ώρας για \"%s\""
 
 #: ulng.rsmsgerrsetownership
+#, object-pascal-format
 msgid "Can not set owner/group for \"%s\""
 msgstr "Αδυναμία ορισμού ιδιοκτήτη/γκρουπ για \"%s\""
 
 #: ulng.rsmsgerrsetpermissions
+#, object-pascal-format
 msgid "Can not set permissions for \"%s\""
 msgstr "Αδυναμία ορισμού αδειών για \"%s\""
 
 #: ulng.rsmsgerrsetxattribute
+#, object-pascal-format
 msgid "Can not set extended attributes for \"%s\""
 msgstr "Αδυναμία καθορισμού εκτεταμένων ιδιοτήτων για %s"
 
@@ -11369,6 +11432,7 @@ msgid "Archive format unknown"
 msgstr "Άγνωστη μορφή Αρχειοθήκης"
 
 #: ulng.rsmsgexecutablepath
+#, object-pascal-format
 msgid "Executable: %s"
 msgstr "Εκτελέσιμο: %s"
 
@@ -11393,6 +11457,7 @@ msgid "Saving a new Favorite Tabs entry"
 msgstr "Αποθήκευση μίας νέας καταχώρησης Αγαπημένων Καρτελών"
 
 #: ulng.rsmsgfavoritetabsexportedsuccessfully
+#, object-pascal-format
 msgid "Number of Favorite Tabs exported successfully: %d on %d"
 msgstr "Αριθμός Αγαπημένων Καρτελών που έχουν εξαχθεί επιτυχώς: %d στις %d"
 
@@ -11401,6 +11466,7 @@ msgid "Default extra setting for save dir history for new Favorite Tabs:"
 msgstr "Προκαθορισμένη επιπλέον ρύθμιση για αποθήκευση ιστορικού καταλόγου για νέες Αγαπημένες Καρτέλες:"
 
 #: ulng.rsmsgfavoritetabsimportedsuccessfully
+#, object-pascal-format
 msgid "Number of file(s) imported successfully: %d on %d"
 msgstr "Αριθμός αρχείου(ων) που έχουν εισαχθεί επιτυχώς: %d στα %d"
 
@@ -11427,6 +11493,7 @@ msgid "Submenu name"
 msgstr "Ονομασία υπομενού"
 
 #: ulng.rsmsgfavoritetabsthiswillloadfavtabs
+#, object-pascal-format
 msgid "This will load the Favorite Tabs: \"%s\""
 msgstr "Αυτό θα φορτώσει τις Αγαπημένες Καρτέλες: \"%s\""
 
@@ -11435,10 +11502,12 @@ msgid "Save current tabs over existing Favorite Tabs entry"
 msgstr "Αποθήκευση τρεχουσών καρτελών πάνω σε υπάρχουσα καταχώρηση Αγαπημένων Καρτελών"
 
 #: ulng.rsmsgfilechangedsave
+#, object-pascal-format
 msgid "File %s changed, save?"
 msgstr "Το αρχείο %s έχει αλλάξει, αποθήκευση;"
 
 #: ulng.rsmsgfileexistsfileinfo
+#, object-pascal-format
 msgid "%s bytes, %s"
 msgstr "%s bytes, %s"
 
@@ -11447,6 +11516,7 @@ msgid "Overwrite:"
 msgstr "Αντικατάσταση:"
 
 #: ulng.rsmsgfileexistsrwrt
+#, object-pascal-format
 msgid "File %s exists, overwrite?"
 msgstr "Το Αρχείο %s υπάρχει, αντικατάσταση;"
 
@@ -11455,6 +11525,7 @@ msgid "With file:"
 msgstr "Με το αρχείο:"
 
 #: ulng.rsmsgfilenotfound
+#, object-pascal-format
 msgid "File \"%s\" not found."
 msgstr "Το Αρχείο \"%s\" δε βρέθηκε."
 
@@ -11467,16 +11538,18 @@ msgid "Some file operations have not yet finished. Closing Double Commander may 
 msgstr "Κάποιες εργασίες αρχείου δεν έχουν ακόμη τελειώσει. Κλείνοντας τον Double Commander ίσως προκληθεί απώλεια δεδομένων."
 
 #: ulng.rsmsgfilepathovermaxpath
+#, object-pascal-format
 msgid ""
 "The target name length (%d) is more than %d characters!\n"
 "%s\n"
-"Most programs will not be able to access a file/directory with such a long name!\n"
+"Most programs will not be able to access a file/directory with such a long name!"
 msgstr ""
 "Το μήκος ονόματος στόχου (%d) είναι περισσότερο από %d χαρακτήρες!\n"
 "%s\n"
-"Τα περισσότερα προγράμματα δε θα μπορούν να έχουν πρόσβαση σε αρχείο/κατάλογο με τόσο μακρύ όνομα!\n"
+"Τα περισσότερα προγράμματα δε θα μπορούν να έχουν πρόσβαση σε αρχείο/κατάλογο με τόσο μακρύ όνομα!"
 
 #: ulng.rsmsgfilereadonly
+#, object-pascal-format
 msgid "File %s is marked as read-only/hidden/system. Delete it?"
 msgstr "Το Αρχείο %s έχει σημανθεί για ανάγνωση μόνο. Διαγραφή;"
 
@@ -11485,14 +11558,17 @@ msgid "Are you sure you want to reload the current file and lose the changes?"
 msgstr "Είστε σίγουροι οτι επιθυμείτε να επαναφορτώσετε το τρέχον αρχείο και να χαθούν οι αλλαγές;"
 
 #: ulng.rsmsgfilesizetoobig
+#, object-pascal-format
 msgid "The file size of \"%s\" is too big for destination file system!"
 msgstr "Το μέγεθος αρχείου του \"%s\" είναι πολύ μεγάλο για το προοριζόμενο σύστημα αρχείων!"
 
 #: ulng.rsmsgfolderexistsrwrt
+#, object-pascal-format
 msgid "Folder %s exists, merge?"
 msgstr "Ο Φάκελος %s υπάρχει, συγχώνευση;"
 
 #: ulng.rsmsgfollowsymlink
+#, object-pascal-format
 msgid "Follow symlink \"%s\"?"
 msgstr "Ακολουθείστε Συμβολοδεσμό \"%s\";"
 
@@ -11501,6 +11577,7 @@ msgid "Select the text format to import"
 msgstr "Επιλέξτε τον τύπο κειμένου προς εισαγωγή"
 
 #: ulng.rsmsghotdiraddselecteddirectories
+#, object-pascal-format
 msgid "Add %d selected dirs"
 msgstr "Προσθήκη %d επιλεγμένων καταλόγων"
 
@@ -11593,6 +11670,7 @@ msgid "Hotdir name"
 msgstr "Όνομα Hotdir"
 
 #: ulng.rsmsghotdirnbnewentries
+#, object-pascal-format
 msgid "Number of new entries: %d"
 msgstr "Αριθμός νέων καταχωρήσεων: %d"
 
@@ -11663,50 +11741,54 @@ msgid "Some functions to select appropriate path relative, absolute, windows spe
 msgstr "Κάποιες λειτουργίες για την επιλογή κατάλληλης σχετικής διαδρομής, απόλυτης, ειδικούς φακέλους παραθύρων, κ.λ.π."
 
 #: ulng.rsmsghotdirtotalbackuped
+#, object-pascal-format
 msgid ""
 "Total entries saved: %d\n"
 "\n"
-"Backup filename: %s\n"
+"Backup filename: %s"
 msgstr ""
 "Σύνολο καταχωρήσεων που έχουν αποθηκευθεί: %d\n"
 "\n"
-"Όνομα Αρχείου ασφαλείας: %s\n"
+"Όνομα Αρχείου ασφαλείας: %s"
 
 #: ulng.rsmsghotdirtotalexported
 msgid "Total entries exported: "
 msgstr "Σύνολο καταχωρήσεων που έχουν εξαχθεί: "
 
 #: ulng.rsmsghotdirwhattodelete
+#, object-pascal-format
 msgid ""
 "Do you want to delete all elements inside the sub-menu [%s]?\n"
-"Answering NO will delete only menu delimiters but will keep element inside sub-menu.\n"
+"Answering NO will delete only menu delimiters but will keep element inside sub-menu."
 msgstr ""
 "Επιθυμείτε να διαγράψετε όλα τα στοιχεία εντός του υπομενού [%s];\n"
-"Απαντώντας ΟΧΙ θα διαγράψετε μόνο τους οριοθέτες του μενού αλλά θα διατηρηθεί το στοιχείο μέσα στο υπομενού.\n"
+"Απαντώντας ΟΧΙ θα διαγράψετε μόνο τους οριοθέτες του μενού αλλά θα διατηρηθεί το στοιχείο μέσα στο υπομενού."
 
 #: ulng.rsmsghotdirwheretosave
 msgid "Enter location and filename where to save a Directory Hotlist file"
 msgstr "Εισαγωγή τοποθεσίας και ονόματος αρχείου όπου θα αποθηκευθεί ένα αρχείο καταλόγου Hotlist"
 
 #: ulng.rsmsgincorrectfilelength
+#, object-pascal-format
 msgid "Incorrect resulting filelength for file : \"%s\""
 msgstr "Μη Έγκυρο  τελικό μήκος αρχείου για το αρχείο : \"%s\""
 
 #: ulng.rsmsginsertnextdisk
+#, object-pascal-format
 msgid ""
 "Please insert next disk or something similar.\n"
 "\n"
 "It is to allow writing this file:\n"
 "\"%s\"\n"
 "\n"
-"Number of bytes still to write: %d\n"
+"Number of bytes still to write: %d"
 msgstr ""
 "Παρακαλώ εισάγετε τον επόμενο δίσκο ή κάτι παρόμοιο.\n"
 "\n"
 "Ώστε να επιτραπεί εγγραφή σε αυτό το αρχείο:\n"
 "\"%s\"\n"
 "\n"
-"Αριθμός bytes προς εγγραφή: %d\n"
+"Αριθμός bytes προς εγγραφή: %d"
 
 #: ulng.rsmsginvalidcommandline
 msgid "Error in command line"
@@ -11721,6 +11803,7 @@ msgid "Invalid format of configuration file"
 msgstr "Άκυρος τύπος αρχείου ρυθμίσεων"
 
 #: ulng.rsmsginvalidhexnumber
+#, object-pascal-format
 msgid "Invalid hexadecimal number: \"%s\""
 msgstr "Μη έγκυρο δεκαεξαδικό νούμερο: \"%s\""
 
@@ -11729,6 +11812,7 @@ msgid "Invalid path"
 msgstr "Μη Έγκυρη διαδρομή"
 
 #: ulng.rsmsginvalidpathlong
+#, object-pascal-format
 msgid "Path %s contains forbidden characters."
 msgstr "Η Διαδρομή %s περιέχει απαγορευμένος χαρακτήρες."
 
@@ -11737,6 +11821,7 @@ msgid "This is not a valid plugin!"
 msgstr "Αυτό είναι ένα μη έγκυρο πρόσθετο!"
 
 #: ulng.rsmsginvalidpluginarchitecture
+#, object-pascal-format
 msgid "This plugin is built for Double Commander for %s.%sIt can not work with Double Commander for %s!"
 msgstr "Αυτό το πρόσθετο έχει δημιουργηθεί για τον Double Commander για %s.%sΔεν μπορεί να λειτουργήσει στον Double Commander για %s!"
 
@@ -11761,10 +11846,12 @@ msgid "Locate TC executable file (totalcmd.exe or totalcmd64.exe)"
 msgstr "Εντοπισμός αρχείου εκτέλεσης του TC (totalcmd.exe or totalcmd64.exe)"
 
 #: ulng.rsmsglogcopy
+#, object-pascal-format
 msgid "Copy file %s"
 msgstr "Αντιγραφή αρχείου %s"
 
 #: ulng.rsmsglogdelete
+#, object-pascal-format
 msgid "Delete file %s"
 msgstr "Διαγραφή αρχείου %s"
 
@@ -11781,6 +11868,7 @@ msgid "Result external"
 msgstr "Εξαγωγή Αποτελέσματος εξωτερικά"
 
 #: ulng.rsmsglogextract
+#, object-pascal-format
 msgid "Extract file %s"
 msgstr "Εξαγωγή Αρχείου %s"
 
@@ -11789,18 +11877,22 @@ msgid "Info: "
 msgstr "Πληροφορίες: "
 
 #: ulng.rsmsgloglink
+#, object-pascal-format
 msgid "Create link %s"
 msgstr "Δημιουργία δεσμού %s"
 
 #: ulng.rsmsglogmkdir
+#, object-pascal-format
 msgid "Create directory %s"
 msgstr "Δημιουργία καταλόγου %s"
 
 #: ulng.rsmsglogmove
+#, object-pascal-format
 msgid "Move file %s"
 msgstr "Μετακίνηση αρχείου %s"
 
 #: ulng.rsmsglogpack
+#, object-pascal-format
 msgid "Pack to file %s"
 msgstr "Πακετάρισμα στο αρχείο %s"
 
@@ -11813,6 +11905,7 @@ msgid "Program start"
 msgstr "Έναρξη Προγράμματος"
 
 #: ulng.rsmsglogrmdir
+#, object-pascal-format
 msgid "Remove directory %s"
 msgstr "Αφαίρεση καταλόγου %s"
 
@@ -11821,18 +11914,22 @@ msgid "Done: "
 msgstr "Έγινε: "
 
 #: ulng.rsmsglogsymlink
+#, object-pascal-format
 msgid "Create symlink %s"
 msgstr "Δημιουργία  συμβολοδεσμού %s"
 
 #: ulng.rsmsglogtest
+#, object-pascal-format
 msgid "Test file integrity %s"
 msgstr "Δοκιμή ακεραιότητας αρχείου %s"
 
 #: ulng.rsmsglogwipe
+#, object-pascal-format
 msgid "Wipe file %s"
 msgstr "Ασφαλής Διαγραφή αρχείου %s"
 
 #: ulng.rsmsglogwipedir
+#, object-pascal-format
 msgid "Wipe directory %s"
 msgstr "Ασφαλής Διαγραφή καταλόγου %s"
 
@@ -11869,6 +11966,7 @@ msgid "No enough free space on target drive, Retry?"
 msgstr "Όχι αρκετός ελεύθερος χώρος στον στοχευμένο οδηγό, Δοκιμή Ξανά;"
 
 #: ulng.rsmsgnotdelete
+#, object-pascal-format
 msgid "Can not delete file %s"
 msgstr "Αδυναμία διαγραφής αρχείου %s"
 
@@ -11911,22 +12009,27 @@ msgid "Please re-enter the password for verification:"
 msgstr "Παρακαλώ επανεισάγετε το συνθηματικό για ταυτοποίηση:"
 
 #: ulng.rsmsgpopuphotdelete
+#, object-pascal-format
 msgid "&Delete %s"
 msgstr "Διαγραφή %s"
 
 #: ulng.rsmsgpresetalreadyexists
+#, object-pascal-format
 msgid "Preset \"%s\" already exists. Overwrite?"
 msgstr "Τα προκαθορισμένα \"%s\" ήδη υπάρχουν. Αντικατάσταση;"
 
 #: ulng.rsmsgpresetconfigdelete
+#, object-pascal-format
 msgid "Are you sure you want to delete preset \"%s\"?"
 msgstr "Είστε σίγουροι ότι επιθυμείτε τη διαγραφή του ορίσματος \"%s\"?"
 
 #: ulng.rsmsgproblemexecutingcommand
+#, object-pascal-format
 msgid "Problem executing command (%s)"
 msgstr "Πρόβλημα κατά την εκτέλεση της εντολής (%s)"
 
 #: ulng.rsmsgprocessid
+#, object-pascal-format
 msgid "PID: %d"
 msgstr "PID: %d"
 
@@ -11947,10 +12050,12 @@ msgid "Enter new name for this menu"
 msgstr "Εισαγωγή νέου ονόματος για αυτό το μενού"
 
 #: ulng.rsmsgrenfldr
+#, object-pascal-format
 msgid "Rename/move %d selected files/directories?"
 msgstr "Μετονομασία/μετακίνηση %d επιλεγμένων αρχείων/καταλόγων;"
 
 #: ulng.rsmsgrensel
+#, object-pascal-format
 msgid "Rename/move selected \"%s\"?"
 msgstr "Μετονομασία/μετακίνηση επιλεγμένων \"%s\";"
 
@@ -11963,14 +12068,17 @@ msgid "Please, restart Double Commander in order to apply changes"
 msgstr "Παρακαλώ επανεκκινείστε τον Double Commander ώστε να εφαρμοστούν οι αλλαγές"
 
 #: ulng.rsmsgscriptcantfindlibrary
+#, object-pascal-format
 msgid "ERROR: Problem loading Lua library file \"%s\""
 msgstr "ΛΑΘΟΣ: Πρόβλημα φόρτωσης αρχείου βιβλιοθήκης Lua \"%s\""
 
 #: ulng.rsmsgsekectfiletype
+#, object-pascal-format
 msgid "Select to which file type to add extension \"%s\""
 msgstr "Επιλογή σε ποιους τύπους αρχείων να προστεθεί επέκταση \"%s\""
 
 #: ulng.rsmsgselectedinfo
+#, object-pascal-format
 msgid "Selected: %s of %s, files: %d of %d, folders: %d of %d"
 msgstr "Επιλεγμένα: %s από %s, αρχεία: %d από %d, φάκελοι: %d από %d"
 
@@ -12067,6 +12175,7 @@ msgid "Use Windows special folder (TC)..."
 msgstr "Χρήση του ειδικού φακέλου των Windows (TC)..."
 
 #: ulng.rsmsgtabforopeninginnewtab
+#, object-pascal-format
 msgid "This tab (%s) is locked! Open directory in another tab?"
 msgstr "Αυτή η καρτέλα (%s) είναι κλειδωμένη! Άνοιγμα καταλόγου σε άλλη καρτέλα;"
 
@@ -12083,36 +12192,39 @@ msgid "Target path:"
 msgstr "Διαδρομή στόχου:"
 
 #: ulng.rsmsgtcconfignotfound
+#, object-pascal-format
 msgid ""
 "Error! Cannot find the TC configuration file:\n"
-"%s\n"
+"%s"
 msgstr ""
 "Λάθος! Αδυναμία εύρεσης αρχείου TC ρυθμίσεων:\n"
-"%s\n"
+"%s"
 
 #: ulng.rsmsgtcexecutablenotfound
+#, object-pascal-format
 msgid ""
 "Error! Cannot find the TC configuration executable:\n"
-"%s\n"
+"%s"
 msgstr ""
 "Λάθος! Αδυναμία εύρεσης εκτελέσιμου TC ρυθμίσεων:\n"
-"%s\n"
+"%s"
 
 #: ulng.rsmsgtcisrunning
 msgid ""
 "Error! TC is still running but it should be closed for this operation.\n"
-"Close it and press OK or press CANCEL to abort.\n"
+"Close it and press OK or press CANCEL to abort."
 msgstr ""
 "Λάθος! Ο TC ακόμη λειτουργεί αλλά θα έπρεπε να είναι κλειστός για αυτή τη λειτουργία.\n"
-"Κλείστε τον και πιέστε ΟΚ ή πιέστε ΑΚΥΡΩΣΗ για απόρριψη.\n"
+"Κλείστε τον και πιέστε ΟΚ ή πιέστε ΑΚΥΡΩΣΗ για απόρριψη."
 
 #: ulng.rsmsgtctoolbarnotfound
+#, object-pascal-format
 msgid ""
 "Error! Cannot find the desired wanted TC toolbar output folder:\n"
-"%s\n"
+"%s"
 msgstr ""
 "Λάθος! Αδυναμία εύρεσης επιθυμητού φακέλου εξαγωγής TC γραμμής εργαλείων:\n"
-"%s\n"
+"%s"
 
 #: ulng.rsmsgtctoolbarwheretosave
 msgid "Enter location and filename where to save a TC Toolbar file"
@@ -12131,6 +12243,7 @@ msgid "Do you want to test selected archives?"
 msgstr "Επιθυμείτε να δοκιμάσετε τα επιλεγμένα αρχεία;"
 
 #: ulng.rsmsgthisisnowinclipboard
+#, object-pascal-format
 msgid "\"%s\" is now in the clipboard"
 msgstr "\"%s\" είναι τώρα στο πρόχειρο"
 
@@ -12151,12 +12264,13 @@ msgid "Enter location and filename of Toolbar to restore"
 msgstr "Εισαγωγή τοποθεσίας και ονόματος αρχείου της Γραμμής Εργαλείων για επαναφορά"
 
 #: ulng.rsmsgtoolbarsaved
+#, object-pascal-format
 msgid ""
 "Saved!\n"
-"Toolbar filename: %s\n"
+"Toolbar filename: %s"
 msgstr ""
 "Αποθηκεύτηκε!\n"
-"Όνομα Αρχείου Γραμμής Εργαλείων: %s\n"
+"Όνομα Αρχείου Γραμμής Εργαλείων: %s"
 
 #: ulng.rsmsgtoomanyfilesselected
 msgid "Too many files selected."
@@ -12216,10 +12330,12 @@ msgid "Do you want to configure Lua library location?"
 msgstr "Επιθυμείτε τη διαμόρφωση τοποθεσίας βιβλιοθήκης Lua;"
 
 #: ulng.rsmsgwipefldr
+#, object-pascal-format
 msgid "Wipe %d selected files/directories?"
 msgstr "Ασφαλής Διαγραφή %d επιλεγμένων αρχείων/καταλόγων;"
 
 #: ulng.rsmsgwipesel
+#, object-pascal-format
 msgid "Wipe selected \"%s\"?"
 msgstr "Ασφαλής Διαγραφή επιλεγμένων \"%s\";"
 
@@ -12230,10 +12346,10 @@ msgstr "με"
 #: ulng.rsmsgwrongpasswordtryagain
 msgid ""
 "Wrong password!\n"
-"Please try again!\n"
+"Please try again!"
 msgstr ""
 "Λάθος συνθηματικό!\n"
-"Παρακαλώ δοκιμάστε ξανά!\n"
+"Παρακαλώ δοκιμάστε ξανά!"
 
 #: ulng.rsmulrenautorename
 msgid "Do auto-rename to \"name (1).ext\", \"name (2).ext\" etc.?"
@@ -12266,6 +12382,7 @@ msgid "Enter variable name"
 msgstr "Εισαγωγή ονόματος μεταβλητής"
 
 #: ulng.rsmulrenentervalueforvar
+#, object-pascal-format
 msgid "Enter value for variable \"%s\""
 msgstr "Εισαγωγή τιμής για την μεταβλητή \"%s\""
 
@@ -12433,12 +12550,13 @@ msgid "Enter new preset name"
 msgstr "Εισαγωγή νέου ονόματος ορίσματος"
 
 #: ulng.rsmulrensavemodifiedpreset
+#, object-pascal-format
 msgid ""
 "\"%s\" preset has been modified.\n"
-"Do you want to save it now?\n"
+"Do you want to save it now?"
 msgstr ""
 "\"%s\" όρισμα έχει τροποποιηθεί.\n"
-"Επιθυμείτε να το αποθηκεύσετε τώρα?\n"
+"Επιθυμείτε να το αποθηκεύσετε τώρα?"
 
 #: ulng.rsmulrensortingpresets
 msgid "Sorting presets"
@@ -12454,6 +12572,7 @@ msgid "Warning, duplicate names!"
 msgstr "Προσοχή, διπλότυπες ονομασίες!"
 
 #: ulng.rsmulrenwronglinesnumber
+#, object-pascal-format
 msgid "File contains wrong number of lines: %d, should be %d!"
 msgstr "Το Αρχείο περιέχει λάθος αριθμό γραμμών: Το %d, θα έπρεπε να είναι %d!"
 
@@ -12534,10 +12653,12 @@ msgid "Calculating checksum"
 msgstr "Υπολογισμός αθροίσματος ελέγχου"
 
 #: ulng.rsopercalculatingchecksumin
+#, object-pascal-format
 msgid "Calculating checksum in \"%s\""
 msgstr "Υπολογισμός αθροίσματος ελέγχου σε \"%s\""
 
 #: ulng.rsopercalculatingchecksumof
+#, object-pascal-format
 msgid "Calculating checksum of \"%s\""
 msgstr "Υπολογισμός αθροίσματος ελέγχου του \"%s\""
 
@@ -12547,6 +12668,7 @@ msgid "Calculating"
 msgstr "Υπολογισμός"
 
 #: ulng.rsopercalculatingstatisticsin
+#, object-pascal-format
 msgid "Calculating \"%s\""
 msgstr "Υπολογισμός \"%s\""
 
@@ -12555,6 +12677,7 @@ msgid "Joining"
 msgstr "Ένωση"
 
 #: ulng.rsopercombiningfromto
+#, object-pascal-format
 msgid "Joining files in \"%s\" to \"%s\""
 msgstr "Ένωση αρχείων από \"%s\" σε \"%s\""
 
@@ -12563,10 +12686,12 @@ msgid "Copying"
 msgstr "Αντιγραφή"
 
 #: ulng.rsopercopyingfromto
+#, object-pascal-format
 msgid "Copying from \"%s\" to \"%s\""
 msgstr "Αντιγραφή από \"%s\" σε \"%s\""
 
 #: ulng.rsopercopyingsomethingto
+#, object-pascal-format
 msgid "Copying \"%s\" to \"%s\""
 msgstr "Αντιγραφή \"%s\" σε \"%s\""
 
@@ -12575,6 +12700,7 @@ msgid "Creating directory"
 msgstr "Δημιουργία καταλόγου"
 
 #: ulng.rsopercreatingsomedirectory
+#, object-pascal-format
 msgid "Creating directory \"%s\""
 msgstr "Δημιουργία καταλόγου \"%s\""
 
@@ -12584,10 +12710,12 @@ msgid "Deleting"
 msgstr "Διαγραφή"
 
 #: ulng.rsoperdeletingin
+#, object-pascal-format
 msgid "Deleting in \"%s\""
 msgstr "Διαγραφή σε \"%s\""
 
 #: ulng.rsoperdeletingsomething
+#, object-pascal-format
 msgid "Deleting \"%s\""
 msgstr "Διαγραφή \"%s\""
 
@@ -12596,6 +12724,7 @@ msgid "Executing"
 msgstr "Εκτέλεση"
 
 #: ulng.rsoperexecutingsomething
+#, object-pascal-format
 msgid "Executing \"%s\""
 msgstr "Εκτέλεση \"%s\""
 
@@ -12604,6 +12733,7 @@ msgid "Extracting"
 msgstr "Εξαγωγή"
 
 #: ulng.rsoperextractingfromto
+#, object-pascal-format
 msgid "Extracting from \"%s\" to \"%s\""
 msgstr "Εξαγωγή από \"%s\" σε \"%s\""
 
@@ -12616,6 +12746,7 @@ msgid "Listing"
 msgstr "Προβολή Λίστας"
 
 #: ulng.rsoperlistingin
+#, object-pascal-format
 msgid "Listing \"%s\""
 msgstr "Προβολή Λίστας \"%s\""
 
@@ -12624,10 +12755,12 @@ msgid "Moving"
 msgstr "Μετακίνηση"
 
 #: ulng.rsopermovingfromto
+#, object-pascal-format
 msgid "Moving from \"%s\" to \"%s\""
 msgstr "Μετακίνηση από \"%s\"σε \"%s\""
 
 #: ulng.rsopermovingsomethingto
+#, object-pascal-format
 msgid "Moving \"%s\" to \"%s\""
 msgstr "Μετακίνηση \"%s\"σε \"%s\""
 
@@ -12640,10 +12773,12 @@ msgid "Packing"
 msgstr "Πακετάρισμα"
 
 #: ulng.rsoperpackingfromto
+#, object-pascal-format
 msgid "Packing from \"%s\" to \"%s\""
 msgstr "Πακετάρισμα από \"%s\" σε \"%s\""
 
 #: ulng.rsoperpackingsomethingto
+#, object-pascal-format
 msgid "Packing \"%s\" to \"%s\""
 msgstr "Πακετάρισμα \"%s\" σε \"%s\""
 
@@ -12664,10 +12799,12 @@ msgid "Setting property"
 msgstr "Καθορισμός ιδιότητας"
 
 #: ulng.rsopersettingpropertyin
+#, object-pascal-format
 msgid "Setting property in \"%s\""
 msgstr "Καθορισμός ιδιότητας σε \"%s\""
 
 #: ulng.rsopersettingpropertyof
+#, object-pascal-format
 msgid "Setting property of \"%s\""
 msgstr "Καθορισμός ιδιότητας των \"%s\""
 
@@ -12676,6 +12813,7 @@ msgid "Splitting"
 msgstr "Διαμερισμός"
 
 #: ulng.rsopersplittingfromto
+#, object-pascal-format
 msgid "Splitting \"%s\" to \"%s\""
 msgstr "Διαμερισμός \"%s\"σε \"%s\""
 
@@ -12696,10 +12834,12 @@ msgid "Testing"
 msgstr "Δοκιμή"
 
 #: ulng.rsopertestingin
+#, object-pascal-format
 msgid "Testing in \"%s\""
 msgstr "Δοκιμή σε \"%s\""
 
 #: ulng.rsopertestingsomething
+#, object-pascal-format
 msgid "Testing \"%s\""
 msgstr "Δοκιμή \"%s\""
 
@@ -12708,10 +12848,12 @@ msgid "Verifying checksum"
 msgstr "Επιβεβαίωση αθροίσματος ελέγχου"
 
 #: ulng.rsoperverifyingchecksumin
+#, object-pascal-format
 msgid "Verifying checksum in \"%s\""
 msgstr "Επιβεβαίωση αθροίσματος ελέγχου σε \"%s\""
 
 #: ulng.rsoperverifyingchecksumof
+#, object-pascal-format
 msgid "Verifying checksum of \"%s\""
 msgstr "Επιβεβαίωση αθροίσματος ελέγχου του \"%s\""
 
@@ -12728,10 +12870,12 @@ msgid "Wiping"
 msgstr "Ασφαλής Διαγραφή"
 
 #: ulng.rsoperwipingin
+#, object-pascal-format
 msgid "Wiping in \"%s\""
 msgstr "Ασφαλής Διαγραφή σε \"%s\""
 
 #: ulng.rsoperwipingsomething
+#, object-pascal-format
 msgid "Wiping \"%s\""
 msgstr "Ασφαλής Διαγραφή \"%s\""
 
@@ -12776,6 +12920,7 @@ msgid "Change Archiver Listing Encoding"
 msgstr "Αλλαγή Κωδικοποίησης Λίστας Προγράμματος Συμπίεσης"
 
 #: ulng.rsoptarchiverconfirmdelete
+#, object-pascal-format
 msgctxt "ulng.rsoptarchiverconfirmdelete"
 msgid "Are you sure you want to delete: \"%s\"?"
 msgstr "Είστε σίγουροι οτι επιθυμείτε να διαγράψετε: \"%s\";"
@@ -12793,6 +12938,7 @@ msgid "Export archiver configuration"
 msgstr "Εξαγωγή διαμόρφωσης προγράμματος συμπίεσης"
 
 #: ulng.rsoptarchiverexportdone
+#, object-pascal-format
 msgctxt "ulng.rsoptarchiverexportdone"
 msgid "Exportation of %d elements to file \"%s\" completed."
 msgstr "Ολοκληρώθηκε η Εξαγωγή %d στοιχείων στο αρχείο \"%s\"."
@@ -12815,6 +12961,7 @@ msgid "Import archiver configuration"
 msgstr "Εισαγωγή διαμόρφωσης προγραμμάτων συμπίεσης"
 
 #: ulng.rsoptarchiverimportdone
+#, object-pascal-format
 msgctxt "ulng.rsoptarchiverimportdone"
 msgid "Importation of %d elements from file \"%s\" completed."
 msgstr "Ολοκληρώθηκε η Εισαγωγή %d στοιχείων από το αρχείο \"%s\"."
@@ -12877,6 +13024,7 @@ msgid "Archive type name:"
 msgstr "Όνομα τύπου αρχειοθήκης:"
 
 #: ulng.rsoptassocpluginwith
+#, object-pascal-format
 msgid "Associate plugin \"%s\" with:"
 msgstr "Συσχετισμός του προσθέτου \"%s\" με:"
 
@@ -12913,10 +13061,12 @@ msgid "float"
 msgstr "float"
 
 #: ulng.rsopthotkeysadddeleteshortcutlong
+#, object-pascal-format
 msgid "Shortcut %s for cm_Delete will be registered, so it can be used to reverse this setting."
 msgstr "Η συντόμευση %s για το cm_Delete θα κατοχυρωθεί, ώστε να χρησιμοποιηθεί για να γίνει αντιστροφή αυτής της ρύθμισης.."
 
 #: ulng.rsopthotkeysaddhotkey
+#, object-pascal-format
 msgid "Add hotkey for %s"
 msgstr "Προσθήκη ειδικού πλήκτρου για %s"
 
@@ -12938,11 +13088,13 @@ msgid "Command"
 msgstr "Εντολή"
 
 #: ulng.rsopthotkeysdeletetrashcanoverrides
+#, object-pascal-format
 msgctxt "ulng.rsopthotkeysdeletetrashcanoverrides"
 msgid "Shortcut %s for cm_Delete has a parameter that overrides this setting. Do you want to change this parameter to use the global setting?"
 msgstr "Η συντόμευση %s για το cm_Delete έχει μία παράμετρο που αντικαθιστά αυτή τη ρύθμιση. Επιθυμείτε να αλλάξετε αυτή τη παράμετρο και να κάνετε χρήση των γενικών ρυθμίσεων;"
 
 #: ulng.rsopthotkeysdeletetrashcanparameterexists
+#, object-pascal-format
 msgctxt "ulng.rsopthotkeysdeletetrashcanparameterexists"
 msgid "Shortcut %s for cm_Delete needs to have a parameter changed to match shortcut %s. Do you want to change it?"
 msgstr "Η συντόμευση %s για το cm_Delete πρέπει να έχει μία παράμετρο που να ταιριάζει με τη συντόμευση %s. Επιθυμείτε να την αλλάξετε;"
@@ -12953,6 +13105,7 @@ msgid "Description"
 msgstr "Περιγραφή"
 
 #: ulng.rsopthotkeysedithotkey
+#, object-pascal-format
 msgid "Edit hotkey for %s"
 msgstr "Ρύθμιση ειδικού πλήκτρου για %s"
 
@@ -12984,10 +13137,12 @@ msgid "Set shortcut to delete file"
 msgstr "Καθορισμός συντόμευσης για διαγραφή αρχείου"
 
 #: ulng.rsopthotkeysshortcutfordeletealreadyassigned
+#, object-pascal-format
 msgid "For this setting to work with shortcut %s, shortcut %s must be assigned to cm_Delete but it is already assigned to %s. Do you want to change it?"
 msgstr "Για να λειτουργήσει αυτή η ρύθμιση με τη συντόμευση %s, η συντόμευση %s πρέπει να κατοχυρωθεί στο cm_Delete αλλά είναι ήδη εκχωρημένη στο %s. Επιθυμείτε να την αλλάξετε;"
 
 #: ulng.rsopthotkeysshortcutfordeleteissequence
+#, object-pascal-format
 msgid "Shortcut %s for cm_Delete is a sequence shortcut for which a hotkey with reversed Shift cannot be assigned. This setting might not work."
 msgstr "Η συντόμευση %s για το cm_Delete είναι μία ακολουθία συντόμευσης για την οποία ένα ειδικό πλήκτρο που να απασχολεί το Shift δεν μπορεί να οριστεί. Αυτή η ρύθμιση πιθανώς δε θα λειτουργήσει."
 
@@ -12996,14 +13151,17 @@ msgid "Shortcut in use"
 msgstr "Συντόμευση σε χρήση"
 
 #: ulng.rsopthotkeysshortcutusedtext1
+#, object-pascal-format
 msgid "Shortcut %s is already used."
 msgstr "Συντόμευση %s έχει ήδη χρησιμοποιηθεί."
 
 #: ulng.rsopthotkeysshortcutusedtext2
+#, object-pascal-format
 msgid "Change it to %s?"
 msgstr "Αλλαγή σε %s;"
 
 #: ulng.rsopthotkeysusedby
+#, object-pascal-format
 msgid "used for %s in %s"
 msgstr "χρησιμοποιείται για %s σε %s"
 
@@ -13179,14 +13337,15 @@ msgid "Multi-Rename Tool"
 msgstr "Μετονομασία Πολλών"
 
 #: ulng.rsoptionseditoroptionschanged
+#, object-pascal-format
 msgid ""
 "Options have changed in \"%s\"\n"
 "\n"
-"Do you want to save modifications?\n"
+"Do you want to save modifications?"
 msgstr ""
 "Οι Ρυθμίσεις έχουν αλλάξει στο \"%s\"\n"
 "\n"
-"Επιθυμείτε αποθήκευση των αλλαγών?\n"
+"Επιθυμείτε αποθήκευση των αλλαγών?"
 
 #: ulng.rsoptionseditorplugins
 msgctxt "ulng.rsoptionseditorplugins"
@@ -13251,6 +13410,7 @@ msgid "Personalized float;Personalized byte;Personalized kilobyte;Personalized m
 msgstr "Προσωπικό float;Προσωπικό byte;Προσωπικό kilobyte;Προσωπικό megabyte;Προσωπικό gigabyte;Προσωπικό terabyte"
 
 #: ulng.rsoptpluginalreadyassigned
+#, object-pascal-format
 msgid "Plugin %s is already assigned for the following extensions:"
 msgstr "Το Πρόσθετο %s έχει ήδη εκχωρηθεί για τις ακόλουθες επεκτάσεις:"
 
@@ -13349,10 +13509,12 @@ msgid "Tooltip file type name:"
 msgstr "Όνομα Κατηγορίας:"
 
 #: ulng.rsopttooltipfiletypealreadyexists
+#, object-pascal-format
 msgid "\"%s\" already exists!"
 msgstr "Το \"%s\" υπάρχει ήδη!"
 
 #: ulng.rsopttooltipfiletypeconfirmdelete
+#, object-pascal-format
 msgctxt "ulng.rsopttooltipfiletypeconfirmdelete"
 msgid "Are you sure you want to delete: \"%s\"?"
 msgstr "Είστε σίγουροι οτι επιθυμείτε να διαγράψετε: \"%s\";"
@@ -13366,6 +13528,7 @@ msgid "Export tooltip file type configuration"
 msgstr "Εξαγωγή τύπου αρχείου διαμόρφωσης υπόδειξης"
 
 #: ulng.rsopttooltipfiletypeexportdone
+#, object-pascal-format
 msgctxt "ulng.rsopttooltipfiletypeexportdone"
 msgid "Exportation of %d elements to file \"%s\" completed."
 msgstr "Ολοκληρώθηκε η Εξαγωγή %d στοιχείων στο αρχείο \"%s\"."
@@ -13380,6 +13543,7 @@ msgid "Import tooltip file type configuration"
 msgstr "Εισαγωγή τύπου αρχείου διαμόρφωσης υπόδειξης"
 
 #: ulng.rsopttooltipfiletypeimportdone
+#, object-pascal-format
 msgctxt "ulng.rsopttooltipfiletypeimportdone"
 msgid "Importation of %d elements from file \"%s\" completed."
 msgstr "Ολοκληρώθηκε η Εισαγωγή %d στοιχείων από το αρχείο \"%s\"."
@@ -13431,6 +13595,7 @@ msgid "="
 msgstr "="
 
 #: ulng.rspluginsearchfieldnotfound
+#, object-pascal-format
 msgid "Field \"%s\" not found!"
 msgstr "Το πεδίο \"%s\" δεν βρέθηκε!"
 
@@ -13456,6 +13621,7 @@ msgid "!regexp"
 msgstr "!regexp"
 
 #: ulng.rspluginsearchpluginnotfound
+#, object-pascal-format
 msgid "Plugin \"%s\" not found!"
 msgstr "Το πρόσθετο \"%s\" δεν βρέθηκε!"
 
@@ -13464,19 +13630,23 @@ msgid "regexp"
 msgstr "regexp"
 
 #: ulng.rspluginsearchunitnotfoundforfield
+#, object-pascal-format
 msgctxt "ulng.rspluginsearchunitnotfoundforfield"
 msgid "Unit \"%s\" not found for field \"%s\" !"
 msgstr "Η μονάδα \"%s\" δεν βρέθηκε στο πεδίο \"%s\" !"
 
 #: ulng.rspropscontains
+#, object-pascal-format
 msgid "Files: %d, folders: %d"
 msgstr "Αρχεία: %d, Φάκελοι: %d"
 
 #: ulng.rspropserrchmod
+#, object-pascal-format
 msgid "Can not change access rights for \"%s\""
 msgstr "Αδυναμία αλλαγής δικαιωμάτων πρόσβασης για \"%s\""
 
 #: ulng.rspropserrchown
+#, object-pascal-format
 msgid "Can not change owner for \"%s\""
 msgstr "Αδυναμία αλλαγής ιδιοκτησίας για \"%s\""
 
@@ -13529,18 +13699,18 @@ msgstr "<πρότυπο χωρίς όνομα>"
 #: ulng.rssearchwithdsxplugininprogress
 msgid ""
 "A file search using DSX plugin is already in progress.\n"
-"We need that one to be completed before to launch a new one.\n"
+"We need that one to be completed before to launch a new one."
 msgstr ""
 "Μια αναζήτηση αρχείων με χρήση του προσθέτου DSX είναι ήδη σε εξέλιξη.\n"
-"Πρέπει να ολοκληρωθεί αυτή ώστε να φορτωθεί μια νέα.\n"
+"Πρέπει να ολοκληρωθεί αυτή ώστε να φορτωθεί μια νέα."
 
 #: ulng.rssearchwithwdxplugininprogress
 msgid ""
 "A file search using WDX plugin is already in progress.\n"
-"We need that one to be completed before to launch a new one.\n"
+"We need that one to be completed before to launch a new one."
 msgstr ""
 "Μια αναζήτηση αρχείων με χρήση του προσθέτου WDX είναι ήδη σε εξέλιξη.\n"
-"Πρέπει να ολοκληρωθεί αυτή ώστε να φορτωθεί μια νέα.\n"
+"Πρέπει να ολοκληρωθεί αυτή ώστε να φορτωθεί μια νέα."
 
 #: ulng.rsselectdir
 msgid "Select a directory"
@@ -13555,6 +13725,7 @@ msgid "Select your window"
 msgstr "Επιλογή επιθυμητού παραθύρου"
 
 #: ulng.rsshowhelpfor
+#, object-pascal-format
 msgid "&Show help for %s"
 msgstr "Εμφάνιση βοήθειας για %s"
 
@@ -13650,6 +13821,7 @@ msgid "Terabytes"
 msgstr "Terabytes"
 
 #: ulng.rsspacemsg
+#, object-pascal-format
 msgid "Files: %d, Dirs: %d, Size: %s (%s bytes)"
 msgstr "Αρχεία: %d, Κατάλογοι: %d, Μέγεθος: %s (%s bytes)"
 
@@ -13849,6 +14021,7 @@ msgid "Viewer"
 msgstr "Προβολέας"
 
 #: ulng.rsunhandledexceptionmessage
+#, object-pascal-format
 msgid "Please report this error to the bug tracker with a description of what you were doing and the following file:%sPress %s to continue or %s to abort the program."
 msgstr "Παρακαλώ αναφέρετε αυτό το πρόβλημα στον αποσφαλματωτή με μία περιγραφή του τι έχετε κάνει και το ακόλουθο αρχείο:%sΠιέστε %s για να συνεχίσετε ή %s για απόρριψη του προγράμματος."
 
@@ -14048,6 +14221,7 @@ msgid "New Size"
 msgstr "Νέο Μέγεθος"
 
 #: ulng.rsviewnotfound
+#, object-pascal-format
 msgid "%s not found!"
 msgstr "%s δεν βρέθηκαν!"
 
@@ -14064,6 +14238,7 @@ msgid "with internal viewer"
 msgstr "με εσωτερικό προβολέα"
 
 #: ulng.rsxreplacements
+#, object-pascal-format
 msgid "Number of replacement: %d"
 msgstr "Αριθμός αντικατάστασης: %d"
 
@@ -14072,6 +14247,7 @@ msgid "No replacement took place."
 msgstr "Δεν πραγματοποιήθηκε καμία αντικατάσταση."
 
 #: umaincommands.rsfavoritetabs_setupnotexist
+#, object-pascal-format
 msgid "No setup named \"%s\""
 msgstr "Δεν υπάρχει διαμόρφωση με το όνομα \"%s\""
 

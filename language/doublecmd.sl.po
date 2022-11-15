@@ -5,9 +5,9 @@
 # Matej Urbančič <mateju@svn.gnome.org>, 2011–2017.
 msgid ""
 msgstr ""
-"Project-Id-Version: double-commander master\n"
+"Project-Id-Version: Double Commander 1.1.0 alpha\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-01-17 23:08+0300\n"
+"POT-Creation-Date: 2022-11-15 11:15+0300\n"
 "PO-Revision-Date: 2017-09-25 21:39+0200\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
@@ -25,29 +25,33 @@ msgid "Auto;Enabled;Disabled"
 msgstr ""
 
 #: fsyncdirsdlg.rscomparingpercent
+#, object-pascal-format
 msgid "Comparing... %d%% (ESC to cancel)"
 msgstr "Poteka primerjava ... %d%% (s tipko ESC se opravilo prekliče)"
 
 #: fsyncdirsdlg.rsdeleteleft
+#, object-pascal-format
 msgid "Left: Delete %d file(s)"
 msgstr ""
 
 #: fsyncdirsdlg.rsdeleteright
+#, object-pascal-format
 msgid "Right: Delete %d file(s)"
 msgstr "Desno: izbriši %d datotek"
 
 #: fsyncdirsdlg.rsfilesfound
+#, object-pascal-format
 msgid "Files found: %d  (Identical: %d, Different: %d, Unique left: %d, Unique right: %d)"
 msgstr "Število najdenih datotek: %d  (Enakih: %d, Različnih: %d, Različnih na levi: %d, Različnih na desni: %d)"
 
 #: fsyncdirsdlg.rslefttorightcopy
-#, fuzzy,badformat
+#, object-pascal-format, fuzzy, badformat
 #| msgid "Left to Right: Copy %d files, total size: %d bytes"
 msgid "Left to Right: Copy %d files, total size: %s (%s)"
 msgstr "Z leve na desno: kopiraj %d datotek s skupno velikostjo %d bajtov"
 
 #: fsyncdirsdlg.rsrighttoleftcopy
-#, fuzzy,badformat
+#, object-pascal-format, fuzzy, badformat
 #| msgid "Right to Left: Copy %d files, total size: %d bytes"
 msgid "Right to Left: Copy %d files, total size: %s (%s)"
 msgstr "Z desne na levo: kopiraj %d datotek s skupno velikostjo %d bajtov"
@@ -313,6 +317,7 @@ msgid "Benchmark"
 msgstr ""
 
 #: tfrmbenchmark.lblbenchmarksize.caption
+#, object-pascal-format
 msgid "Benchmark data size: %d MB"
 msgstr ""
 
@@ -3786,6 +3791,7 @@ msgid "Set selected application as default action"
 msgstr "Nastavi izbrani program za privzeto dejanje"
 
 #: tfrmopenwith.lblmimetype.caption
+#, object-pascal-format
 msgid "File type to be opened: %s"
 msgstr "Vrsta datoteke za odpiranje: %s"
 
@@ -3794,6 +3800,7 @@ msgid "Multiple file names"
 msgstr "Imena več datotek"
 
 #: tfrmopenwith.milistoffiles.hint
+#, object-pascal-format
 msgid "%F"
 msgstr "%F"
 
@@ -3802,6 +3809,7 @@ msgid "Multiple URIs"
 msgstr "Več naslovov URI"
 
 #: tfrmopenwith.milistofurls.hint
+#, object-pascal-format
 msgid "%U"
 msgstr "%U"
 
@@ -3810,6 +3818,7 @@ msgid "Single file name"
 msgstr "Ime ene datoteke"
 
 #: tfrmopenwith.misinglefilename.hint
+#, object-pascal-format
 msgid "%f"
 msgstr "%f"
 
@@ -3818,6 +3827,7 @@ msgid "Single URI"
 msgstr "En naslov URI"
 
 #: tfrmopenwith.misingleurl.hint
+#, object-pascal-format
 msgid "%u"
 msgstr "%u"
 
@@ -5250,6 +5260,10 @@ msgstr ""
 #: tfrmoptionseditor.gbinternaleditor.caption
 msgid "Internal editor options"
 msgstr "Možnosti notranjega urejevalnika"
+
+#: tfrmoptionseditor.lblblockindent.caption
+msgid "Block indent:"
+msgstr ""
 
 #: tfrmoptionseditor.lbltabwidth.caption
 msgid "Tab width:"
@@ -9946,18 +9960,19 @@ msgid "Orientation"
 msgstr "Usmerjenost"
 
 #: ulng.msgtrytolocatecrcfile
+#, object-pascal-format
 msgid ""
 "This file cannot be found and could help to validate final combination of files:\n"
 "%s\n"
 "\n"
 "Could you make it available and press \"OK\" when ready,\n"
-"or press \"CANCEL\" to continue without it?\n"
+"or press \"CANCEL\" to continue without it?"
 msgstr ""
 "Datoteke ni mogoče najti, zato ni mogoče overiti končne kombinacije datotek:\n"
 "%s\n"
 "\n"
 "Omogočite dostop do datoteke in pritisnite gumb »V redu«,\n"
-"ali pa pritisnite »Prekliči« in nadaljujte brez nje?\n"
+"ali pa pritisnite »Prekliči« in nadaljujte brez nje?"
 
 #: ulng.rsabbrevdisplaydir
 msgid "<DIR>"
@@ -10094,6 +10109,7 @@ msgid "Confirming command line and parameters"
 msgstr "Potrjevanje ukazne vrstice in parametrov"
 
 #: ulng.rscopynametemplate
+#, object-pascal-format
 msgid "Copy (%d) %s"
 msgstr "Kopiraj (%d) %s"
 
@@ -10191,7 +10207,7 @@ msgstr ""
 #: ulng.rsdifftextidenticalnotmatch
 msgid ""
 "The text is identical, but the files do not match!\n"
-"The following differences were found:\n"
+"The following differences were found:"
 msgstr ""
 
 #: ulng.rsdlgbuttonabort
@@ -10342,10 +10358,12 @@ msgid "Queue"
 msgstr "V vrsto"
 
 #: ulng.rsdlgspeed
+#, object-pascal-format
 msgid "Speed %s/s"
 msgstr "Hitrost %s/s"
 
 #: ulng.rsdlgspeedtime
+#, object-pascal-format
 msgid "Speed %s/s, time remaining %s"
 msgstr "Pri hitrosti %s/s bo opravilo trajalo še %s"
 
@@ -10427,10 +10445,12 @@ msgid "Execute via terminal and stay open"
 msgstr "Izvedi v terminalu in pusti okno odprto"
 
 #: ulng.rsextsclosedbracketnofound
+#, object-pascal-format
 msgid "\"]\" not found in line %s"
 msgstr ""
 
 #: ulng.rsextscommandwithnoext
+#, object-pascal-format
 msgid "No extension defined before command \"%s\". It will be ignored."
 msgstr ""
 
@@ -10523,6 +10543,7 @@ msgid "Define template"
 msgstr "Določitev predloge"
 
 #: ulng.rsfinddepth
+#, object-pascal-format
 msgid "%s level(s)"
 msgstr "do %s. ravni map"
 
@@ -10535,10 +10556,12 @@ msgid "current dir only"
 msgstr "le trenutno raven"
 
 #: ulng.rsfinddirnoex
+#, object-pascal-format
 msgid "Directory %s does not exist!"
 msgstr "Mapa %s ne obstaja!"
 
 #: ulng.rsfindfound
+#, object-pascal-format
 msgid "Found: %d"
 msgstr "Najdeno: %d"
 
@@ -10551,6 +10574,7 @@ msgid "Template name:"
 msgstr "Ime predloge:"
 
 #: ulng.rsfindscanned
+#, object-pascal-format
 msgid "Scanned: %d"
 msgstr "Preiskano: %d"
 
@@ -10617,12 +10641,12 @@ msgid "Viewer&Book Font"
 msgstr "Pisava &bralnega pregledovalnika"
 
 #: ulng.rsfreemsg
-#, fuzzy
+#, object-pascal-format, fuzzy
 msgid "%s of %s free"
 msgstr "Sprosti %s od %s"
 
 #: ulng.rsfreemsgshort
-#, fuzzy
+#, object-pascal-format, fuzzy
 msgid "%s free"
 msgstr "%s prostora"
 
@@ -10713,11 +10737,11 @@ msgstr "brez;ime, a–z;ime, z–a;pripona, a–z;pripona, z–a;velikost 9–0;
 msgid ""
 "Warning! When restoring a .hotlist backup file, this will erase existing list to replace by the imported one.\n"
 "\n"
-"Are you sure you want to proceed?\n"
+"Are you sure you want to proceed?"
 msgstr ""
 "Opozorilo! Med obnavljanjem datoteke varnostne kopije vročih map *.hotlist se starejša različica izbriše in je ni mogoče več povrniti.\n"
 "\n"
-"Ali ste prepričani, da želite nadaljevati?\n"
+"Ali ste prepričani, da želite nadaljevati?"
 
 #: ulng.rshotkeycategorycopymovedialog
 msgid "Copy/Move Dialog"
@@ -10763,20 +10787,22 @@ msgstr "Pregledovalnik"
 #: ulng.rshotkeyfilealreadyexists
 msgid ""
 "A setup with that name already exists.\n"
-"Do you want to overwrite it?\n"
+"Do you want to overwrite it?"
 msgstr ""
 "Namestitev s tem imenom že obstaja.\n"
-"Ali jo želite prepisati?\n"
+"Ali jo želite prepisati?"
 
 #: ulng.rshotkeyfileconfirmdefault
 msgid "Are you sure you want to restore default?"
 msgstr "Ali ste prepričani, da želite obnoviti privzeto?"
 
 #: ulng.rshotkeyfileconfirmerasure
+#, object-pascal-format
 msgid "Are you sure you want to erase setup \"%s\"?"
 msgstr "Ali ste prepričani, da želite izbrisati namestitev »%s«?"
 
 #: ulng.rshotkeyfilecopyof
+#, object-pascal-format
 msgid "Copy of %s"
 msgstr "Kopija %s"
 
@@ -10793,12 +10819,13 @@ msgid "New name"
 msgstr "Novo ime"
 
 #: ulng.rshotkeyfilesavemodified
+#, object-pascal-format
 msgid ""
 "\"%s\" setup has been modified.\n"
-"Do you want to save it now?\n"
+"Do you want to save it now?"
 msgstr ""
 "Nastavitev »%s« je spremenjena.\n"
-"Ali želite spremembe shraniti?\n"
+"Ali želite spremembe shraniti?"
 
 #: ulng.rshotkeynoscenter
 msgid "No shortcut with \"ENTER\""
@@ -10967,6 +10994,7 @@ msgid "All Double Commander internal commands"
 msgstr "Vsi notranji ukazi programa DC"
 
 #: ulng.rsmsgapplicationname
+#, object-pascal-format
 msgid "Description: %s"
 msgstr ""
 
@@ -10979,38 +11007,44 @@ msgid "Do you want to enclose between quotes?"
 msgstr "Ali želite niz zapreti z oklepajem?"
 
 #: ulng.rsmsgbadcrc32
+#, object-pascal-format
 msgid ""
 "Bad CRC32 for resulting file:\n"
 "\"%s\"\n"
 "\n"
-"Do you want to keep the resulting corrupted file anyway?\n"
+"Do you want to keep the resulting corrupted file anyway?"
 msgstr ""
 "Napaka nadzorne vsote CRC32 za datoteko:\n"
 "»%s«\n"
 "\n"
-"Ali želite obdržati okvarjeno datoteko?\n"
+"Ali želite obdržati okvarjeno datoteko?"
 
 #: ulng.rsmsgcanceloperation
 msgid "Are you sure that you want to cancel this operation?"
 msgstr ""
 
 #: ulng.rsmsgcannotcopymoveitself
+#, object-pascal-format
 msgid "You can not copy/move a file \"%s\" to itself!"
 msgstr "Datoteke »%s« ni mogoče kopirati oziroma premakniti samo vase!"
 
 #: ulng.rsmsgcannotcopyspecialfile
+#, object-pascal-format
 msgid "Cannot copy special file %s"
 msgstr ""
 
 #: ulng.rsmsgcannotdeletedirectory
+#, object-pascal-format
 msgid "Cannot delete directory %s"
 msgstr "Ni mogoče izbrisati mape %s"
 
 #: ulng.rsmsgcannotoverwritedirectory
+#, object-pascal-format
 msgid "Cannot overwrite directory \"%s\" with non-directory \"%s\""
 msgstr "Mape »%s« ni mogoče prepisati s predmetom »%s«, ki ni mapa!"
 
 #: ulng.rsmsgchdirfailed
+#, object-pascal-format
 msgid "Change current directory to \"%s\" failed!"
 msgstr "Ukaz chdir v [%s] je spodletel!"
 
@@ -11019,6 +11053,7 @@ msgid "Remove all inactive tabs?"
 msgstr "Ali naj se odstranijo vsi nedejavni zavihki?"
 
 #: ulng.rsmsgcloselockedtab
+#, object-pascal-format
 msgid "This tab (%s) is locked! Close anyway?"
 msgstr "Zavihek (%s) je zaklenjen! Ali naj se vseeno zapre?"
 
@@ -11031,6 +11066,7 @@ msgid "Are you sure you want to quit?"
 msgstr "Ali ste prepričani, da želite končati?"
 
 #: ulng.rsmsgcopybackward
+#, object-pascal-format
 msgid "The file %s has changed. Do you want to copy it backward?"
 msgstr "Datoteka %s je spremenjena. Ali želite kopirati vsebino nazaj?"
 
@@ -11039,14 +11075,17 @@ msgid "Could not copy backward - do you want to keep the changed file?"
 msgstr "Ni mogoče kopirati nazaj – ali želite ohraniti spremenjeno datoteko?"
 
 #: ulng.rsmsgcpfldr
+#, object-pascal-format
 msgid "Copy %d selected files/directories?"
 msgstr "Ali naj se kopira %d izbranih datotek ali map?"
 
 #: ulng.rsmsgcpsel
+#, object-pascal-format
 msgid "Copy selected \"%s\"?"
 msgstr "Ali naj se »%s« kopira v:"
 
 #: ulng.rsmsgcreateanewfiletype
+#, object-pascal-format
 msgid "< Create a new file type \"%s files\" >"
 msgstr "< Ustvari novo vrsto »datotek %s« >"
 
@@ -11063,22 +11102,27 @@ msgid "Delete the partially copied file ?"
 msgstr "Ali naj se delno kopirana datoteka izbriše?"
 
 #: ulng.rsmsgdelfldr
+#, object-pascal-format
 msgid "Delete %d selected files/directories?"
 msgstr "Ali naj se izbrani predmeti izbrišejo (%d predmetov)?"
 
 #: ulng.rsmsgdelfldrt
+#, object-pascal-format
 msgid "Delete %d selected files/directories into trash can?"
 msgstr "Ali naj se izbrani predmeti premaknejo v smeti (%d predmetov)?"
 
 #: ulng.rsmsgdelsel
+#, object-pascal-format
 msgid "Delete selected \"%s\"?"
 msgstr "Ali naj se »%s« izbriše?"
 
 #: ulng.rsmsgdelselt
+#, object-pascal-format
 msgid "Delete selected \"%s\" into trash can?"
 msgstr "Ali naj se »%s« premakne v smeti?"
 
 #: ulng.rsmsgdeltotrashforce
+#, object-pascal-format
 msgid "Can not delete \"%s\" to trash! Delete directly?"
 msgstr "Predmeta »%s« ni mogoče premakniti v smeti. Ali naj se izbriše trajno?"
 
@@ -11099,6 +11143,7 @@ msgid "Enter name:"
 msgstr "Vnos imena:"
 
 #: ulng.rsmsgenternewfiletypename
+#, object-pascal-format
 msgid "Enter name of new file type to create for extension \"%s\""
 msgstr "Vpis imena nove vrste datotek za razširitev »%s«"
 
@@ -11111,30 +11156,37 @@ msgid "Data is bad"
 msgstr "Slabi podatki"
 
 #: ulng.rsmsgerrcannotconnect
+#, object-pascal-format
 msgid "Can not connect to server: \"%s\""
 msgstr "Ni se mogoče povezati s strežnikom: »%s«"
 
 #: ulng.rsmsgerrcannotcopyfile
+#, object-pascal-format
 msgid "Cannot copy file %s to %s"
 msgstr "Ni mogoče kopirati datoteke %s v %s"
 
 #: ulng.rsmsgerrcannotmovedirectory
+#, object-pascal-format
 msgid "Cannot move directory %s"
 msgstr ""
 
 #: ulng.rsmsgerrcannotmovefile
+#, object-pascal-format
 msgid "Cannot move file %s"
 msgstr ""
 
 #: ulng.rsmsgerrcreatefiledirectoryexists
+#, object-pascal-format
 msgid "There already exists a directory named \"%s\"."
 msgstr "Mapa z imenom »%s« že obstaja."
 
 #: ulng.rsmsgerrdatenotsupported
+#, object-pascal-format
 msgid "Date %s is not supported"
 msgstr "Datum %s ni podprt!"
 
 #: ulng.rsmsgerrdirexists
+#, object-pascal-format
 msgid "Directory %s exists!"
 msgstr "Mapa %s že obstaja!"
 
@@ -11167,6 +11219,7 @@ msgid "Error writing to file"
 msgstr "Napaka med pisanjem v datoteko"
 
 #: ulng.rsmsgerrforcedir
+#, object-pascal-format
 msgid "Can not create directory %s!"
 msgstr "Ni mogoče ustvariti mape %s!"
 
@@ -11199,6 +11252,7 @@ msgid "Syntax error in regular expression!"
 msgstr "Napaka skladnje logičnega izraza!"
 
 #: ulng.rsmsgerrrename
+#, object-pascal-format
 msgid "Cannot rename file %s to %s"
 msgstr "Ni mogoče preimenovati datoteke %s v %s"
 
@@ -11211,22 +11265,27 @@ msgid "Cannot save file"
 msgstr "Ni mogoče shraniti datoteke"
 
 #: ulng.rsmsgerrsetattribute
+#, object-pascal-format
 msgid "Can not set attributes for \"%s\""
 msgstr "Ni mogoče določiti atributov za »%s«"
 
 #: ulng.rsmsgerrsetdatetime
+#, object-pascal-format
 msgid "Can not set date/time for \"%s\""
 msgstr "Datuma in časa za datoteko »%s« ni mogoče določiti."
 
 #: ulng.rsmsgerrsetownership
+#, object-pascal-format
 msgid "Can not set owner/group for \"%s\""
 msgstr "Ni mogoče določiti lastništva in skupine za »%s«"
 
 #: ulng.rsmsgerrsetpermissions
+#, object-pascal-format
 msgid "Can not set permissions for \"%s\""
 msgstr "Ni mogoče nastaviti dovoljenj za »%s«"
 
 #: ulng.rsmsgerrsetxattribute
+#, object-pascal-format
 msgid "Can not set extended attributes for \"%s\""
 msgstr ""
 
@@ -11243,6 +11302,7 @@ msgid "Archive format unknown"
 msgstr "Vrsta arhiva ni znana"
 
 #: ulng.rsmsgexecutablepath
+#, object-pascal-format
 msgid "Executable: %s"
 msgstr ""
 
@@ -11267,6 +11327,7 @@ msgid "Saving a new Favorite Tabs entry"
 msgstr "Shranjevanje novega priljubljenega zavihka"
 
 #: ulng.rsmsgfavoritetabsexportedsuccessfully
+#, object-pascal-format
 msgid "Number of Favorite Tabs exported successfully: %d on %d"
 msgstr "Uspešno izvoženi priljubljeni zavihki: %d na %d"
 
@@ -11275,6 +11336,7 @@ msgid "Default extra setting for save dir history for new Favorite Tabs:"
 msgstr "Privzete dodatne nastavitve za shranjevanje zgodovine za nove priljubljene zavihke:"
 
 #: ulng.rsmsgfavoritetabsimportedsuccessfully
+#, object-pascal-format
 msgid "Number of file(s) imported successfully: %d on %d"
 msgstr "Uspešno uvožene datoteke: %d na %d"
 
@@ -11301,6 +11363,7 @@ msgid "Submenu name"
 msgstr "Ime podrejenega menija"
 
 #: ulng.rsmsgfavoritetabsthiswillloadfavtabs
+#, object-pascal-format
 msgid "This will load the Favorite Tabs: \"%s\""
 msgstr "Naloženi bodo priljubljeni zavihki: »%s«"
 
@@ -11309,10 +11372,12 @@ msgid "Save current tabs over existing Favorite Tabs entry"
 msgstr "Shrani trenutne zavihke preko obstoječih priljubljenih zavihkov"
 
 #: ulng.rsmsgfilechangedsave
+#, object-pascal-format
 msgid "File %s changed, save?"
 msgstr "Datoteka %s je spremenjena. Ali naj se spremembe shranijo?"
 
 #: ulng.rsmsgfileexistsfileinfo
+#, object-pascal-format
 msgid "%s bytes, %s"
 msgstr "%s bajtov, %s"
 
@@ -11321,6 +11386,7 @@ msgid "Overwrite:"
 msgstr "Prepiši:"
 
 #: ulng.rsmsgfileexistsrwrt
+#, object-pascal-format
 msgid "File %s exists, overwrite?"
 msgstr "Datoteka %s že obstaja. Ali naj bo prepisana?"
 
@@ -11329,6 +11395,7 @@ msgid "With file:"
 msgstr "Z datoteko:"
 
 #: ulng.rsmsgfilenotfound
+#, object-pascal-format
 msgid "File \"%s\" not found."
 msgstr "Datoteke »%s« ni mogoče najti."
 
@@ -11341,16 +11408,18 @@ msgid "Some file operations have not yet finished. Closing Double Commander may 
 msgstr "Nekatera opravila datotek še niso končana. S predčasnim končanjem programa lahko pride do izgube podatkov."
 
 #: ulng.rsmsgfilepathovermaxpath
+#, object-pascal-format
 msgid ""
 "The target name length (%d) is more than %d characters!\n"
 "%s\n"
-"Most programs will not be able to access a file/directory with such a long name!\n"
+"Most programs will not be able to access a file/directory with such a long name!"
 msgstr ""
 "Dolžina imena cilja (%d) je več kot %d znakov!\n"
 "%s\n"
-"Mnogi programi imajo lahko težave s tako dolgimi imeni datotek in map!\n"
+"Mnogi programi imajo lahko težave s tako dolgimi imeni datotek in map!"
 
 #: ulng.rsmsgfilereadonly
+#, object-pascal-format
 msgid "File %s is marked as read-only/hidden/system. Delete it?"
 msgstr "Datoteka %s je označena skrita, sistemska ali le za branje. Ali naj se vseeno izbriše?"
 
@@ -11359,14 +11428,17 @@ msgid "Are you sure you want to reload the current file and lose the changes?"
 msgstr ""
 
 #: ulng.rsmsgfilesizetoobig
+#, object-pascal-format
 msgid "The file size of \"%s\" is too big for destination file system!"
 msgstr "Datoteka velikosti »%s« je prevelika za ciljni datotečni sistem!"
 
 #: ulng.rsmsgfolderexistsrwrt
+#, object-pascal-format
 msgid "Folder %s exists, merge?"
 msgstr "Mapa %s že obstaja. Ali želite datoteke združiti v to mapo?"
 
 #: ulng.rsmsgfollowsymlink
+#, object-pascal-format
 msgid "Follow symlink \"%s\"?"
 msgstr "Ali naj se sledi simbolni povezavi »%s«?"
 
@@ -11375,6 +11447,7 @@ msgid "Select the text format to import"
 msgstr "Izbor vrste zapisa za uvoz"
 
 #: ulng.rsmsghotdiraddselecteddirectories
+#, object-pascal-format
 msgid "Add %d selected dirs"
 msgstr "Dodaj %d izbranih map"
 
@@ -11467,6 +11540,7 @@ msgid "Hotdir name"
 msgstr "Ime vroče mape"
 
 #: ulng.rsmsghotdirnbnewentries
+#, object-pascal-format
 msgid "Number of new entries: %d"
 msgstr "Število novih vnosov: %d"
 
@@ -11537,50 +11611,54 @@ msgid "Some functions to select appropriate path relative, absolute, windows spe
 msgstr "Nekatere funkcije za izbor ustrezne poti; relativne, absolutne, posebne mape ..."
 
 #: ulng.rsmsghotdirtotalbackuped
+#, object-pascal-format
 msgid ""
 "Total entries saved: %d\n"
 "\n"
-"Backup filename: %s\n"
+"Backup filename: %s"
 msgstr ""
 "Skupno shranjenih vnosov: %d\n"
 "\n"
-"Ime datoteke varnostne kopije: %s\n"
+"Ime datoteke varnostne kopije: %s"
 
 #: ulng.rsmsghotdirtotalexported
 msgid "Total entries exported: "
 msgstr "Število izvoženih vnosov:"
 
 #: ulng.rsmsghotdirwhattodelete
+#, object-pascal-format
 msgid ""
 "Do you want to delete all elements inside the sub-menu [%s]?\n"
-"Answering NO will delete only menu delimiters but will keep element inside sub-menu.\n"
+"Answering NO will delete only menu delimiters but will keep element inside sub-menu."
 msgstr ""
 "Ali ste želeli izbrisati vse predmete znotraj podrejenega menija [%s]?\n"
-"Če izberete NE, bodo izbrisani le ločilniki menija, predmeti pa bodo ohranjeni.\n"
+"Če izberete NE, bodo izbrisani le ločilniki menija, predmeti pa bodo ohranjeni."
 
 #: ulng.rsmsghotdirwheretosave
 msgid "Enter location and filename where to save a Directory Hotlist file"
 msgstr "Vpis mesta in imena datoteke, kamor naj se shrani seznam hitrih map"
 
 #: ulng.rsmsgincorrectfilelength
+#, object-pascal-format
 msgid "Incorrect resulting filelength for file : \"%s\""
 msgstr "Nepravilni podatki dolžine datoteke za: »%s«"
 
 #: ulng.rsmsginsertnextdisk
+#, object-pascal-format
 msgid ""
 "Please insert next disk or something similar.\n"
 "\n"
 "It is to allow writing this file:\n"
 "\"%s\"\n"
 "\n"
-"Number of bytes still to write: %d\n"
+"Number of bytes still to write: %d"
 msgstr ""
 "Vstavite dodatni disk, ključ oziroma drug pogon.\n"
 "\n"
 "S tem omogočite zapis datoteke:\n"
 "»%s«\n"
 "\n"
-"Zapisati je treba še: %d\n"
+"Zapisati je treba še: %d"
 
 #: ulng.rsmsginvalidcommandline
 msgid "Error in command line"
@@ -11595,6 +11673,7 @@ msgid "Invalid format of configuration file"
 msgstr "Neveljaven zapis nastavitvene datoteke"
 
 #: ulng.rsmsginvalidhexnumber
+#, object-pascal-format
 msgid "Invalid hexadecimal number: \"%s\""
 msgstr ""
 
@@ -11603,6 +11682,7 @@ msgid "Invalid path"
 msgstr "Neveljavna pot"
 
 #: ulng.rsmsginvalidpathlong
+#, object-pascal-format
 msgid "Path %s contains forbidden characters."
 msgstr "Pot %s vsebuje nedovoljene znake."
 
@@ -11611,6 +11691,7 @@ msgid "This is not a valid plugin!"
 msgstr "Ta vrsta vstavka ni podprta!"
 
 #: ulng.rsmsginvalidpluginarchitecture
+#, object-pascal-format
 msgid "This plugin is built for Double Commander for %s.%sIt can not work with Double Commander for %s!"
 msgstr "Ta vstavek je izgrajen za različico %s.%s. Z različico %s ne deluje."
 
@@ -11635,10 +11716,12 @@ msgid "Locate TC executable file (totalcmd.exe or totalcmd64.exe)"
 msgstr "Določi pot do izvedljive datoteke TC (totalcmd.exe ali totalcmd64.exe)"
 
 #: ulng.rsmsglogcopy
+#, object-pascal-format
 msgid "Copy file %s"
 msgstr "Kopiraj datoteko %s"
 
 #: ulng.rsmsglogdelete
+#, object-pascal-format
 msgid "Delete file %s"
 msgstr "Izbriši datoteko %s"
 
@@ -11655,6 +11738,7 @@ msgid "Result external"
 msgstr "Zunanji rezultati"
 
 #: ulng.rsmsglogextract
+#, object-pascal-format
 msgid "Extract file %s"
 msgstr "Razširi datoteko %s"
 
@@ -11663,18 +11747,22 @@ msgid "Info: "
 msgstr "Podrobnosti:"
 
 #: ulng.rsmsgloglink
+#, object-pascal-format
 msgid "Create link %s"
 msgstr "Ustvari povezavo %s"
 
 #: ulng.rsmsglogmkdir
+#, object-pascal-format
 msgid "Create directory %s"
 msgstr "Ustvari mapo %s"
 
 #: ulng.rsmsglogmove
+#, object-pascal-format
 msgid "Move file %s"
 msgstr "Premakni datoteko %s"
 
 #: ulng.rsmsglogpack
+#, object-pascal-format
 msgid "Pack to file %s"
 msgstr "Zapakiraj v datoteko %s"
 
@@ -11687,6 +11775,7 @@ msgid "Program start"
 msgstr ""
 
 #: ulng.rsmsglogrmdir
+#, object-pascal-format
 msgid "Remove directory %s"
 msgstr "Odstrani mapo %s"
 
@@ -11695,18 +11784,22 @@ msgid "Done: "
 msgstr "Končano:"
 
 #: ulng.rsmsglogsymlink
+#, object-pascal-format
 msgid "Create symlink %s"
 msgstr "Ustvari simbolno povezavo %s"
 
 #: ulng.rsmsglogtest
+#, object-pascal-format
 msgid "Test file integrity %s"
 msgstr "Preizkusi celovitost datoteke %s"
 
 #: ulng.rsmsglogwipe
+#, object-pascal-format
 msgid "Wipe file %s"
 msgstr "Varno izbriši %s"
 
 #: ulng.rsmsglogwipedir
+#, object-pascal-format
 msgid "Wipe directory %s"
 msgstr "Neobnovljivo izbriši mapo %s"
 
@@ -11743,6 +11836,7 @@ msgid "No enough free space on target drive, Retry?"
 msgstr "Ni dovolj prostora na ciljnem pogonu. Ali naj se prostor ponovno izračuna?"
 
 #: ulng.rsmsgnotdelete
+#, object-pascal-format
 msgid "Can not delete file %s"
 msgstr "Ni mogoče izbrisati datoteke %s"
 
@@ -11785,22 +11879,27 @@ msgid "Please re-enter the password for verification:"
 msgstr "Ponovno vnesite geslo za overitev:"
 
 #: ulng.rsmsgpopuphotdelete
+#, object-pascal-format
 msgid "&Delete %s"
 msgstr "&Izbriši %s"
 
 #: ulng.rsmsgpresetalreadyexists
+#, object-pascal-format
 msgid "Preset \"%s\" already exists. Overwrite?"
 msgstr "Shranjen predmet »%s« že obstaja. Ali naj se prepiše?"
 
 #: ulng.rsmsgpresetconfigdelete
+#, object-pascal-format
 msgid "Are you sure you want to delete preset \"%s\"?"
 msgstr ""
 
 #: ulng.rsmsgproblemexecutingcommand
+#, object-pascal-format
 msgid "Problem executing command (%s)"
 msgstr "Napaka izvajanja ukaza (%s)"
 
 #: ulng.rsmsgprocessid
+#, object-pascal-format
 msgid "PID: %d"
 msgstr ""
 
@@ -11821,10 +11920,12 @@ msgid "Enter new name for this menu"
 msgstr "Vnos imena tega meni"
 
 #: ulng.rsmsgrenfldr
+#, object-pascal-format
 msgid "Rename/move %d selected files/directories?"
 msgstr "Ali naj se izbrani predmeti preimenujejo oziroma premaknejo (%d predmetov)?"
 
 #: ulng.rsmsgrensel
+#, object-pascal-format
 msgid "Rename/move selected \"%s\"?"
 msgstr "Ali naj se predmet »%s« preimenuje oziroma premakne?"
 
@@ -11837,14 +11938,17 @@ msgid "Please, restart Double Commander in order to apply changes"
 msgstr "Za uveljavitev sprememb je treba program ponovno zagnati."
 
 #: ulng.rsmsgscriptcantfindlibrary
+#, object-pascal-format
 msgid "ERROR: Problem loading Lua library file \"%s\""
 msgstr ""
 
 #: ulng.rsmsgsekectfiletype
+#, object-pascal-format
 msgid "Select to which file type to add extension \"%s\""
 msgstr "Izberite vrsto datoteke za dodajanje razširitve »%s«"
 
 #: ulng.rsmsgselectedinfo
+#, object-pascal-format
 msgid "Selected: %s of %s, files: %d of %d, folders: %d of %d"
 msgstr "Izbrano: %s od %s, datoteke: %d od %d, mape: %d od %d"
 
@@ -11941,6 +12045,7 @@ msgid "Use Windows special folder (TC)..."
 msgstr "Uporabi posebno mapo Windows ..."
 
 #: ulng.rsmsgtabforopeninginnewtab
+#, object-pascal-format
 msgid "This tab (%s) is locked! Open directory in another tab?"
 msgstr "Zavihek (%s) je zaklenjen! Ali želite odpreti mapo v novem zavihku?"
 
@@ -11957,36 +12062,39 @@ msgid "Target path:"
 msgstr "Ciljna pot:"
 
 #: ulng.rsmsgtcconfignotfound
+#, object-pascal-format
 msgid ""
 "Error! Cannot find the TC configuration file:\n"
-"%s\n"
+"%s"
 msgstr ""
 "Napaka: ni mogoče najti nastavitvene datoteke programa Total Commander:\n"
-"%s\n"
+"%s"
 
 #: ulng.rsmsgtcexecutablenotfound
+#, object-pascal-format
 msgid ""
 "Error! Cannot find the TC configuration executable:\n"
-"%s\n"
+"%s"
 msgstr ""
 "Napaka: ni mogoče najti izvedbene datoteke programa Total Commander:\n"
-"%s\n"
+"%s"
 
 #: ulng.rsmsgtcisrunning
 msgid ""
 "Error! TC is still running but it should be closed for this operation.\n"
-"Close it and press OK or press CANCEL to abort.\n"
+"Close it and press OK or press CANCEL to abort."
 msgstr ""
 "Napaka: program Total Commander je zagnan, kar pa za to dejanje ne sme biti.\n"
-"Zaprite program ali prekličite opravilo\n"
+"Zaprite program ali prekličite opravilo"
 
 #: ulng.rsmsgtctoolbarnotfound
+#, object-pascal-format
 msgid ""
 "Error! Cannot find the desired wanted TC toolbar output folder:\n"
-"%s\n"
+"%s"
 msgstr ""
 "Napaka! Ni mogoče najti žele odvodne mape orodne vrstice TC:\n"
-"%s\n"
+"%s"
 
 #: ulng.rsmsgtctoolbarwheretosave
 msgid "Enter location and filename where to save a TC Toolbar file"
@@ -12005,6 +12113,7 @@ msgid "Do you want to test selected archives?"
 msgstr ""
 
 #: ulng.rsmsgthisisnowinclipboard
+#, object-pascal-format
 msgid "\"%s\" is now in the clipboard"
 msgstr "Datoteka »%s« je kopirana v odložišče"
 
@@ -12025,12 +12134,13 @@ msgid "Enter location and filename of Toolbar to restore"
 msgstr "Vpišite mesto in ime datoteke orodne vrstice za obnovitev"
 
 #: ulng.rsmsgtoolbarsaved
+#, object-pascal-format
 msgid ""
 "Saved!\n"
-"Toolbar filename: %s\n"
+"Toolbar filename: %s"
 msgstr ""
 "Shranjeno.\n"
-"Ime orodne vrstice: %s'\n"
+"Ime orodne vrstice: %s'"
 
 #: ulng.rsmsgtoomanyfilesselected
 msgid "Too many files selected."
@@ -12091,10 +12201,12 @@ msgstr ""
 
 # This should be multiple plural !!!!
 #: ulng.rsmsgwipefldr
+#, object-pascal-format
 msgid "Wipe %d selected files/directories?"
 msgstr "Ali naj se izbrane datoteke oziroma mape neobnovljivo izbrišejo (%d)?"
 
 #: ulng.rsmsgwipesel
+#, object-pascal-format
 msgid "Wipe selected \"%s\"?"
 msgstr "Ali naj se »%s« neobnovljivo izbriše?"
 
@@ -12105,7 +12217,7 @@ msgstr "z"
 #: ulng.rsmsgwrongpasswordtryagain
 msgid ""
 "Wrong password!\n"
-"Please try again!\n"
+"Please try again!"
 msgstr ""
 
 #: ulng.rsmulrenautorename
@@ -12139,6 +12251,7 @@ msgid "Enter variable name"
 msgstr ""
 
 #: ulng.rsmulrenentervalueforvar
+#, object-pascal-format
 msgid "Enter value for variable \"%s\""
 msgstr ""
 
@@ -12306,9 +12419,10 @@ msgid "Enter new preset name"
 msgstr ""
 
 #: ulng.rsmulrensavemodifiedpreset
+#, object-pascal-format
 msgid ""
 "\"%s\" preset has been modified.\n"
-"Do you want to save it now?\n"
+"Do you want to save it now?"
 msgstr ""
 
 #: ulng.rsmulrensortingpresets
@@ -12325,6 +12439,7 @@ msgid "Warning, duplicate names!"
 msgstr "Opozorilo, imena so podvojena!"
 
 #: ulng.rsmulrenwronglinesnumber
+#, object-pascal-format
 msgid "File contains wrong number of lines: %d, should be %d!"
 msgstr "Datoteka vsebuje napačno število vrstic; zaznana vrednost je %d, pričakovana pa %d!"
 
@@ -12409,10 +12524,12 @@ msgid "Calculating checksum"
 msgstr "Izračunavanje nadzorne vsote"
 
 #: ulng.rsopercalculatingchecksumin
+#, object-pascal-format
 msgid "Calculating checksum in \"%s\""
 msgstr "Izračunavanje nadzorne vsote v  »%s«"
 
 #: ulng.rsopercalculatingchecksumof
+#, object-pascal-format
 msgid "Calculating checksum of \"%s\""
 msgstr "Izračunavanje nadzorne vsote »%s«"
 
@@ -12421,6 +12538,7 @@ msgid "Calculating"
 msgstr "Preračunavanje"
 
 #: ulng.rsopercalculatingstatisticsin
+#, object-pascal-format
 msgid "Calculating \"%s\""
 msgstr "Preračunavanje »%s«"
 
@@ -12429,6 +12547,7 @@ msgid "Joining"
 msgstr "Združevanje"
 
 #: ulng.rsopercombiningfromto
+#, object-pascal-format
 msgid "Joining files in \"%s\" to \"%s\""
 msgstr "Združevanje datotek iz »%s« v »%s«"
 
@@ -12437,10 +12556,12 @@ msgid "Copying"
 msgstr "Kopiranje"
 
 #: ulng.rsopercopyingfromto
+#, object-pascal-format
 msgid "Copying from \"%s\" to \"%s\""
 msgstr "Kopiranje iz »%s« v »%s«"
 
 #: ulng.rsopercopyingsomethingto
+#, object-pascal-format
 msgid "Copying \"%s\" to \"%s\""
 msgstr "Kopiranje »%s« v »%s«"
 
@@ -12449,6 +12570,7 @@ msgid "Creating directory"
 msgstr "Ustvarjanje mape"
 
 #: ulng.rsopercreatingsomedirectory
+#, object-pascal-format
 msgid "Creating directory \"%s\""
 msgstr "Ustvarjanje mape »%s«"
 
@@ -12457,10 +12579,12 @@ msgid "Deleting"
 msgstr "Brisanje"
 
 #: ulng.rsoperdeletingin
+#, object-pascal-format
 msgid "Deleting in \"%s\""
 msgstr "Brisanje v »%s«"
 
 #: ulng.rsoperdeletingsomething
+#, object-pascal-format
 msgid "Deleting \"%s\""
 msgstr "Brisanje »%s«"
 
@@ -12469,6 +12593,7 @@ msgid "Executing"
 msgstr "Izvajanje"
 
 #: ulng.rsoperexecutingsomething
+#, object-pascal-format
 msgid "Executing \"%s\""
 msgstr "Izvajanje »%s«"
 
@@ -12477,6 +12602,7 @@ msgid "Extracting"
 msgstr "Poteka odpakiranje"
 
 #: ulng.rsoperextractingfromto
+#, object-pascal-format
 msgid "Extracting from \"%s\" to \"%s\""
 msgstr "Odpakitanje iz »%s« v »%s«"
 
@@ -12489,6 +12615,7 @@ msgid "Listing"
 msgstr "Izpisovanje"
 
 #: ulng.rsoperlistingin
+#, object-pascal-format
 msgid "Listing \"%s\""
 msgstr "Izpisovanje seznama »%s«"
 
@@ -12497,10 +12624,12 @@ msgid "Moving"
 msgstr "Premikanje"
 
 #: ulng.rsopermovingfromto
+#, object-pascal-format
 msgid "Moving from \"%s\" to \"%s\""
 msgstr "Premikanje iz »%s« v »%s«"
 
 #: ulng.rsopermovingsomethingto
+#, object-pascal-format
 msgid "Moving \"%s\" to \"%s\""
 msgstr "Premikanje »%s« v »%s«"
 
@@ -12513,10 +12642,12 @@ msgid "Packing"
 msgstr "Pakiranje"
 
 #: ulng.rsoperpackingfromto
+#, object-pascal-format
 msgid "Packing from \"%s\" to \"%s\""
 msgstr "Pakiranje iz »%s« v »%s«"
 
 #: ulng.rsoperpackingsomethingto
+#, object-pascal-format
 msgid "Packing \"%s\" to \"%s\""
 msgstr "Pakiranje »%s« v »%s«"
 
@@ -12537,10 +12668,12 @@ msgid "Setting property"
 msgstr "Nastavljanje lastnosti"
 
 #: ulng.rsopersettingpropertyin
+#, object-pascal-format
 msgid "Setting property in \"%s\""
 msgstr "Nastavljanje lastnosti v »%s«"
 
 #: ulng.rsopersettingpropertyof
+#, object-pascal-format
 msgid "Setting property of \"%s\""
 msgstr "Nastavljanje lastnosti »%s«"
 
@@ -12549,6 +12682,7 @@ msgid "Splitting"
 msgstr "Razdeljevanje"
 
 #: ulng.rsopersplittingfromto
+#, object-pascal-format
 msgid "Splitting \"%s\" to \"%s\""
 msgstr "Razdeljevanje »%s« v »%s«"
 
@@ -12569,10 +12703,12 @@ msgid "Testing"
 msgstr "Preizkušanje"
 
 #: ulng.rsopertestingin
+#, object-pascal-format
 msgid "Testing in \"%s\""
 msgstr "Preizkušanje v »%s«"
 
 #: ulng.rsopertestingsomething
+#, object-pascal-format
 msgid "Testing \"%s\""
 msgstr "Preizkušanje »%s«"
 
@@ -12581,10 +12717,12 @@ msgid "Verifying checksum"
 msgstr "Preverjanje nadzorne vsote"
 
 #: ulng.rsoperverifyingchecksumin
+#, object-pascal-format
 msgid "Verifying checksum in \"%s\""
 msgstr "Preverjanje nadzorne vsote »%s«"
 
 #: ulng.rsoperverifyingchecksumof
+#, object-pascal-format
 msgid "Verifying checksum of \"%s\""
 msgstr "Preverjanje nadzorne vsote »%s«"
 
@@ -12601,10 +12739,12 @@ msgid "Wiping"
 msgstr "Neobnovljivo brisanje"
 
 #: ulng.rsoperwipingin
+#, object-pascal-format
 msgid "Wiping in \"%s\""
 msgstr "Neobnovljivo brisanje v »%s«"
 
 #: ulng.rsoperwipingsomething
+#, object-pascal-format
 msgid "Wiping \"%s\""
 msgstr "Neobnovljivo brisanje »%s«"
 
@@ -12649,6 +12789,7 @@ msgid "Change Archiver Listing Encoding"
 msgstr ""
 
 #: ulng.rsoptarchiverconfirmdelete
+#, object-pascal-format
 msgctxt "ulng.rsoptarchiverconfirmdelete"
 msgid "Are you sure you want to delete: \"%s\"?"
 msgstr ""
@@ -12666,6 +12807,7 @@ msgid "Export archiver configuration"
 msgstr ""
 
 #: ulng.rsoptarchiverexportdone
+#, object-pascal-format
 msgctxt "ulng.rsoptarchiverexportdone"
 msgid "Exportation of %d elements to file \"%s\" completed."
 msgstr ""
@@ -12688,6 +12830,7 @@ msgid "Import archiver configuration"
 msgstr ""
 
 #: ulng.rsoptarchiverimportdone
+#, object-pascal-format
 msgctxt "ulng.rsoptarchiverimportdone"
 msgid "Importation of %d elements from file \"%s\" completed."
 msgstr ""
@@ -12750,6 +12893,7 @@ msgid "Archive type name:"
 msgstr "Ime vrste arhiva:"
 
 #: ulng.rsoptassocpluginwith
+#, object-pascal-format
 msgid "Associate plugin \"%s\" with:"
 msgstr "Vzpostavi programsko vez vstavka »%s« z:"
 
@@ -12786,10 +12930,12 @@ msgid "float"
 msgstr "plavajoče"
 
 #: ulng.rsopthotkeysadddeleteshortcutlong
+#, object-pascal-format
 msgid "Shortcut %s for cm_Delete will be registered, so it can be used to reverse this setting."
 msgstr "Bližnjica %s za ukaz cm_Delete bo vpisana, zato jo bo mogoče uporabiti za povrnitev te nastavitve."
 
 #: ulng.rsopthotkeysaddhotkey
+#, object-pascal-format
 msgid "Add hotkey for %s"
 msgstr "Dodaj hitro tipko za %s"
 
@@ -12811,10 +12957,12 @@ msgid "Command"
 msgstr "Ukaz"
 
 #: ulng.rsopthotkeysdeletetrashcanoverrides
+#, object-pascal-format
 msgid "Shortcut %s for cm_Delete has a parameter that overrides this setting. Do you want to change this parameter to use the global setting?"
 msgstr "Tipkovna bližnjica %s za ukaz cm_Delete ima določen parametre, ki prekliče nastavitev. Ali želite spremeniti ta parameter za uporabo splošnih nastavitev?"
 
 #: ulng.rsopthotkeysdeletetrashcanparameterexists
+#, object-pascal-format
 msgid "Shortcut %s for cm_Delete needs to have a parameter changed to match shortcut %s. Do you want to change it?"
 msgstr "Tipkovna bližnjica %s za cm_Delete mora imeti parameter spremenjen tako, da ustreza tipkovni bližnjici %s. Ali jo želite spremeniti?"
 
@@ -12824,6 +12972,7 @@ msgid "Description"
 msgstr "Opis"
 
 #: ulng.rsopthotkeysedithotkey
+#, object-pascal-format
 msgid "Edit hotkey for %s"
 msgstr "Uredi hitro tipko za  %s"
 
@@ -12855,10 +13004,12 @@ msgid "Set shortcut to delete file"
 msgstr "Dodaj bližnjico za brisanje datotek"
 
 #: ulng.rsopthotkeysshortcutfordeletealreadyassigned
+#, object-pascal-format
 msgid "For this setting to work with shortcut %s, shortcut %s must be assigned to cm_Delete but it is already assigned to %s. Do you want to change it?"
 msgstr "Za povezavo te možnosti s tipkovno bližnjico %s mora biti bližnjica %s določena za cm_Delete, vendar je povezana z možnostjo %s. Ali jo želite spremeniti?"
 
 #: ulng.rsopthotkeysshortcutfordeleteissequence
+#, object-pascal-format
 msgid "Shortcut %s for cm_Delete is a sequence shortcut for which a hotkey with reversed Shift cannot be assigned. This setting might not work."
 msgstr "Tipkovna bližnjica %s za cm_Delete  je tipkovna bližnjica zaporedja ukazov za katerega obratnega ukaza ni mogoče določiti. Nastavitev najverjetneje ne bo delovala."
 
@@ -12867,14 +13018,17 @@ msgid "Shortcut in use"
 msgstr "Tipkovna bližnjica v uporabi"
 
 #: ulng.rsopthotkeysshortcutusedtext1
+#, object-pascal-format
 msgid "Shortcut %s is already used."
 msgstr "Tipkovna bližnjica %s je že v uporabi."
 
 #: ulng.rsopthotkeysshortcutusedtext2
+#, object-pascal-format
 msgid "Change it to %s?"
 msgstr "Ali naj se zamenja v %s?"
 
 #: ulng.rsopthotkeysusedby
+#, object-pascal-format
 msgid "used for %s in %s"
 msgstr "uporabljeno za %s v %s"
 
@@ -13037,14 +13191,15 @@ msgid "Multi-Rename Tool"
 msgstr "Napredno preimenovanje"
 
 #: ulng.rsoptionseditoroptionschanged
+#, object-pascal-format
 msgid ""
 "Options have changed in \"%s\"\n"
 "\n"
-"Do you want to save modifications?\n"
+"Do you want to save modifications?"
 msgstr ""
 "Spremenjene so možnosti »%s«\n"
 "\n"
-"Ali želite shraniti spremembe?\n"
+"Ali želite shraniti spremembe?"
 
 #: ulng.rsoptionseditorplugins
 msgctxt "ulng.rsoptionseditorplugins"
@@ -13106,6 +13261,7 @@ msgid "Personalized float;Personalized byte;Personalized kilobyte;Personalized m
 msgstr ""
 
 #: ulng.rsoptpluginalreadyassigned
+#, object-pascal-format
 msgid "Plugin %s is already assigned for the following extensions:"
 msgstr "Vstavek %s je že vezan na naslednje pripone datotek:"
 
@@ -13206,10 +13362,12 @@ msgid "Tooltip file type name:"
 msgstr "Ime &kategorije:"
 
 #: ulng.rsopttooltipfiletypealreadyexists
+#, object-pascal-format
 msgid "\"%s\" already exists!"
 msgstr ""
 
 #: ulng.rsopttooltipfiletypeconfirmdelete
+#, object-pascal-format
 msgctxt "ulng.rsopttooltipfiletypeconfirmdelete"
 msgid "Are you sure you want to delete: \"%s\"?"
 msgstr ""
@@ -13223,6 +13381,7 @@ msgid "Export tooltip file type configuration"
 msgstr ""
 
 #: ulng.rsopttooltipfiletypeexportdone
+#, object-pascal-format
 msgctxt "ulng.rsopttooltipfiletypeexportdone"
 msgid "Exportation of %d elements to file \"%s\" completed."
 msgstr ""
@@ -13237,6 +13396,7 @@ msgid "Import tooltip file type configuration"
 msgstr ""
 
 #: ulng.rsopttooltipfiletypeimportdone
+#, object-pascal-format
 msgctxt "ulng.rsopttooltipfiletypeimportdone"
 msgid "Importation of %d elements from file \"%s\" completed."
 msgstr ""
@@ -13288,6 +13448,7 @@ msgid "="
 msgstr "="
 
 #: ulng.rspluginsearchfieldnotfound
+#, object-pascal-format
 msgid "Field \"%s\" not found!"
 msgstr ""
 
@@ -13313,6 +13474,7 @@ msgid "!regexp"
 msgstr ""
 
 #: ulng.rspluginsearchpluginnotfound
+#, object-pascal-format
 msgid "Plugin \"%s\" not found!"
 msgstr ""
 
@@ -13321,19 +13483,23 @@ msgid "regexp"
 msgstr ""
 
 #: ulng.rspluginsearchunitnotfoundforfield
+#, object-pascal-format
 msgctxt "ulng.rspluginsearchunitnotfoundforfield"
 msgid "Unit \"%s\" not found for field \"%s\" !"
 msgstr ""
 
 #: ulng.rspropscontains
+#, object-pascal-format
 msgid "Files: %d, folders: %d"
 msgstr "Datoteke: %d; Mape: %d"
 
 #: ulng.rspropserrchmod
+#, object-pascal-format
 msgid "Can not change access rights for \"%s\""
 msgstr "Ni mogoče spremeniti dovoljenj dostopa za »%s«"
 
 #: ulng.rspropserrchown
+#, object-pascal-format
 msgid "Can not change owner for \"%s\""
 msgstr "Lastnika »%s« ni mogoče spremeniti."
 
@@ -13385,18 +13551,18 @@ msgstr "<neimenovana predloga>"
 #: ulng.rssearchwithdsxplugininprogress
 msgid ""
 "A file search using DSX plugin is already in progress.\n"
-"We need that one to be completed before to launch a new one.\n"
+"We need that one to be completed before to launch a new one."
 msgstr ""
 "Iskanje datotek z uporabo vstavka DSX je že v teku.\n"
-"Pred začetkom novega iskanja z vstavkom mora biti predhodno končano.\n"
+"Pred začetkom novega iskanja z vstavkom mora biti predhodno končano."
 
 #: ulng.rssearchwithwdxplugininprogress
 msgid ""
 "A file search using WDX plugin is already in progress.\n"
-"We need that one to be completed before to launch a new one.\n"
+"We need that one to be completed before to launch a new one."
 msgstr ""
 "Iskanje datotek z uporabo vstavka WDX je že v teku.\n"
-"Pred začetkom novega iskanja z vstavkom mora biti predhodno končano.\n"
+"Pred začetkom novega iskanja z vstavkom mora biti predhodno končano."
 
 #: ulng.rsselectdir
 msgid "Select a directory"
@@ -13411,6 +13577,7 @@ msgid "Select your window"
 msgstr "Izbor okna"
 
 #: ulng.rsshowhelpfor
+#, object-pascal-format
 msgid "&Show help for %s"
 msgstr "&Pokaži pomoč za %s"
 
@@ -13503,6 +13670,7 @@ msgid "Terabytes"
 msgstr "Terabajti"
 
 #: ulng.rsspacemsg
+#, object-pascal-format
 msgid "Files: %d, Dirs: %d, Size: %s (%s bytes)"
 msgstr "Datoteke: %d, Mape: %d, Velikost: %s (%s bajtov)"
 
@@ -13699,6 +13867,7 @@ msgid "Viewer"
 msgstr "Pregledovalnik"
 
 #: ulng.rsunhandledexceptionmessage
+#, object-pascal-format
 msgid "Please report this error to the bug tracker with a description of what you were doing and the following file:%sPress %s to continue or %s to abort the program."
 msgstr "Pošljite poročilo napake s podrobnim opisom in datoteko: %s. Pritisnite %s za nadaljevanje ali pa %s za končanje programa."
 
@@ -13898,6 +14067,7 @@ msgid "New Size"
 msgstr "Nova velikost"
 
 #: ulng.rsviewnotfound
+#, object-pascal-format
 msgid "%s not found!"
 msgstr "%s ni mogoče najti!"
 
@@ -13914,6 +14084,7 @@ msgid "with internal viewer"
 msgstr "z notranjim pregledovalnikom"
 
 #: ulng.rsxreplacements
+#, object-pascal-format
 msgid "Number of replacement: %d"
 msgstr "Število zamenjav: %d"
 
@@ -13922,6 +14093,7 @@ msgid "No replacement took place."
 msgstr "Zamenjava ni bila izvršena."
 
 #: umaincommands.rsfavoritetabs_setupnotexist
+#, object-pascal-format
 msgid "No setup named \"%s\""
 msgstr ""
 
