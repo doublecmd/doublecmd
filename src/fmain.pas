@@ -6701,20 +6701,24 @@ begin
     Exit;
   { update restored bounds }
   if WindowState = wsNormal then
+  begin
+    if FDelayedWMMove then
     begin
-      if FDelayedWMMove then
-        begin
-          FRestoredLeft := Left;
-          FRestoredTop := Top;
-        end;
-      if FDelayedWMSize then
-        begin
-          FRestoredWidth := Width;
-          FRestoredHeight := Height;
-        end;
+      FRestoredLeft := Left;
+      FRestoredTop := Top;
     end;
+    if FDelayedWMSize then
+    begin
+      FRestoredWidth := Width;
+      FRestoredHeight := Height;
+    end;
+  end;
   FDelayedWMMove := False;
   FDelayedWMSize := False;
+
+  // Sync position and size with real main form
+  with BoundsRect do
+    Application.MainForm.SetBounds(Left, Top, Width, Height);
 end;
 
 procedure TfrmMain.AppActivate(Sender: TObject);
