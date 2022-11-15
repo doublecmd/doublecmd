@@ -10,6 +10,7 @@ object frmStartingSplash: TfrmStartingSplash
   Caption = 'Double Commander'
   ClientHeight = 330
   ClientWidth = 206
+  DefaultMonitor = dmPrimary
   FormStyle = fsSplash
   Icon.Data = {
     267D000000000100040010100000010020006804000046000000202000000100
