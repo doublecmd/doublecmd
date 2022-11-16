@@ -1244,14 +1244,14 @@ var
         for i := 0 to fs.Count - 1 do
         begin
           f := fs.Items[i];
-          if (Template = nil) or Template.CheckFile(f) then
+          if f.IsDirectory then
           begin
-            if f.IsDirectory then
-            begin
-              if (f.NameNoExt <> '.') and (f.NameNoExt <> '..') then
-                dirs.Add(f.Name);
-            end
-            else if ((MaskList = nil) or MaskList.Matches(f.Name)) then
+            if (f.NameNoExt <> '.') and (f.NameNoExt <> '..') then
+              dirs.Add(f.Name);
+          end
+          else if (Template = nil) or Template.CheckFile(f) then
+          begin
+            if ((MaskList = nil) or MaskList.Matches(f.Name)) then
             begin
               j := it.IndexOf(f.Name);
               if j < 0 then
