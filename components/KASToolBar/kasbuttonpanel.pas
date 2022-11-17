@@ -12,9 +12,17 @@ type
   { TKASButtonPanel }
 
   TKASButtonPanel = class(TPanel)
+  private
+    FSameWidth: Boolean;
+    FSameHeight: Boolean;
   protected
     procedure ButtonsAutoSize;
     procedure DoAutoSize; override;
+  public
+    constructor Create(TheOwner: TComponent); override;
+  published
+    property SameWidth: Boolean read FSameWidth write FSameWidth default True;
+    property SameHeight: Boolean read FSameHeight write FSameHeight default True;
   end;
 
 procedure Register;
@@ -44,8 +52,8 @@ begin
     AControl:= Controls[Index];
     if AControl is TCustomButton then
     begin
-      if AControl.Width > AMaxWidth then AMaxWidth:= AControl.Width;
-      if AControl.Height > AMaxHeight then AMaxHeight:= AControl.Height;
+      if FSameWidth and (AControl.Width > AMaxWidth) then AMaxWidth:= AControl.Width;
+      if FSameHeight and (AControl.Height > AMaxHeight) then AMaxHeight:= AControl.Height;
     end;
   end;
   for Index:= 0 to ControlCount - 1 do
@@ -53,8 +61,8 @@ begin
     AControl:= Controls[Index];
     if AControl is TCustomButton then
     begin
-      AControl.Constraints.MinWidth:= AMaxWidth;
-      AControl.Constraints.MinHeight:= AMaxHeight;
+      if FSameWidth then AControl.Constraints.MinWidth:= AMaxWidth;
+      if FSameHeight then AControl.Constraints.MinHeight:= AMaxHeight;
     end;
   end;
 end;
@@ -62,7 +70,14 @@ end;
 procedure TKASButtonPanel.DoAutoSize;
 begin
   inherited DoAutoSize;
-  if AutoSize then ButtonsAutosize;
+  if AutoSize and (FSameWidth or FSameHeight) then ButtonsAutosize;
+end;
+
+constructor TKASButtonPanel.Create(TheOwner: TComponent);
+begin
+  FSameWidth:= True;
+  FSameHeight:= True;
+  inherited Create(TheOwner);
 end;
 
 end.
