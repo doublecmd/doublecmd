@@ -108,7 +108,7 @@ procedure ShowTrashContextMenu(Parent: TWinControl; X, Y : Integer;
 }
 function ShowOpenIconDialog(Owner: TCustomControl; var sFileName : String) : Boolean;
 
-{$IF DEFINED(UNIX) AND NOT DEFINED(DARWIN)}
+{$IF DEFINED(UNIX) AND NOT (DEFINED(DARWIN) OR DEFINED(HAIKU))}
 {en
    Show open with dialog
    @param(FileList List of files to open with)
@@ -139,15 +139,12 @@ uses
   {$ENDIF}
   {$IFDEF UNIX}
   , BaseUnix, Errors, fFileProperties, uJpegThumb, uOpenDocThumb
-    {$IF NOT DEFINED(DARWIN)}
+    {$IF DEFINED(DARWIN)}
+    , MacOSAll, uQuickLook, uMyDarwin
+    {$ELSEIF NOT DEFINED(HAIKU)}
     , uDCReadSVG, uMagickWand, uGio, uGioFileSource, uVfsModule, uVideoThumb
     , uDCReadWebP, uFolderThumb, uAudioThumb, uDefaultTerminal, uDCReadHEIF
-    , uTrashFileSource
-    {$ELSE}
-    , MacOSAll, uQuickLook, uMyDarwin
-    {$ENDIF}
-    {$IF NOT DEFINED(DARWIN)}
-    , fOpenWith
+    , uTrashFileSource, fOpenWith
     {$ENDIF}
     {$IF DEFINED(LCLQT) and not DEFINED(DARWIN)}
     , qt4, qtwidgets
@@ -639,7 +636,7 @@ begin
     with TfrmMain(MainForm) do
       StaticTitle:= StaticTitle + ' - ROOT PRIVILEGES';
   end;
-  {$IF NOT DEFINED(DARWIN)}
+  {$IF NOT (DEFINED(DARWIN) OR DEFINED(HAIKU))}
   if HasGio then
   begin
     if TGioFileSource.IsSupportedPath('trash://') then
@@ -944,7 +941,7 @@ begin
 end;
 {$ENDIF}
 
-{$IF DEFINED(UNIX) AND NOT DEFINED(DARWIN)}
+{$IF DEFINED(UNIX) AND NOT (DEFINED(DARWIN) OR DEFINED(HAIKU))}
 procedure ShowOpenWithDialog(TheOwner: TComponent; const FileList: TStringList);
 begin
   fOpenWith.ShowOpenWithDlg(TheOwner, FileList);

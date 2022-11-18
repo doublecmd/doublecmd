@@ -35,7 +35,7 @@ uses
   Classes, SysUtils, BaseUnix, TermIO, InitC, VTEmuCtl;
 
 // Under Linux and BSD forkpty is situated in libutil.so library
-{$IF NOT DEFINED(DARWIN)}
+{$IF NOT (DEFINED(DARWIN) OR DEFINED(HAIKU))}
   {$LINKLIB util}
 {$ENDIF}
 

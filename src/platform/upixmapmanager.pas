@@ -51,15 +51,15 @@ uses
   , fgl
   {$ELSEIF DEFINED(UNIX)}
   , DCFileAttributes
-    {$IF NOT DEFINED(DARWIN)}
+    {$IF DEFINED(DARWIN)}
+    , CocoaUtils, uMyDarwin
+    {$ELSEIF NOT DEFINED(HAIKU)}
     , Contnrs, uGio
       {$IFDEF LCLGTK2}
       , gtk2
       {$ELSE}
       , uUnixIconTheme
       {$ENDIF}
-    {$ELSE}
-    , CocoaUtils, uMyDarwin
     {$ENDIF}
   {$ENDIF};
 
@@ -126,7 +126,7 @@ type
     FOneDrivePath: String;
     {$ELSEIF DEFINED(DARWIN)}
     FUseSystemTheme: Boolean;
-    {$ELSEIF DEFINED(UNIX)}
+    {$ELSEIF DEFINED(UNIX) AND NOT DEFINED(HAIKU)}
     {en
        Maps file extension to MIME icon name(s).
     }
@@ -205,7 +205,7 @@ type
     function GetSystemArchiveIcon: PtrInt;
     function GetSystemExecutableIcon: PtrInt;
   {$ENDIF}
-  {$IF DEFINED(UNIX) AND NOT DEFINED(DARWIN)}
+  {$IF DEFINED(UNIX) AND NOT (DEFINED(DARWIN) OR DEFINED(HAIKU))}
     {en
        Loads MIME icons names and creates a mapping: file extension -> MIME icon name.
        Doesn't need to be synchronized as long as it's only called from Load().
@@ -230,7 +230,7 @@ type
   {$ENDIF}
     function GetBuiltInDriveIcon(Drive : PDrive; IconSize : Integer; clBackColor : TColor) : Graphics.TBitmap;
 
-{$IF NOT DEFINED(DARWIN)}
+{$IF NOT (DEFINED(DARWIN) OR DEFINED(HAIKU))}
     procedure LoadApplicationThemeIcon;
 {$ENDIF}
 
@@ -698,7 +698,7 @@ procedure TPixMapManager.CreateIconTheme;
 var
   DirList: array of string;
 begin
-{$IF DEFINED(UNIX) AND NOT DEFINED(DARWIN)}
+{$IF DEFINED(UNIX) AND NOT (DEFINED(DARWIN) OR DEFINED(HAIKU))}
   {$IFDEF LCLGTK2}
   // get current gtk theme
   FIconTheme:= gtk_icon_theme_get_for_screen(gdk_screen_get_default);
@@ -723,7 +723,7 @@ end;
 
 procedure TPixMapManager.DestroyIconTheme;
 begin
-{$IF DEFINED(UNIX) AND NOT DEFINED(DARWIN)}
+{$IF DEFINED(UNIX) AND NOT (DEFINED(DARWIN) OR DEFINED(HAIKU))}
   {$IFDEF LCLGTK2}
   FIconTheme:= nil;
   {$ELSE}
@@ -734,7 +734,7 @@ begin
   FreeThenNil(FDCIconTheme);
 end;
 
-{$IF DEFINED(UNIX) AND NOT DEFINED(DARWIN)}
+{$IF DEFINED(UNIX) AND NOT (DEFINED(DARWIN) OR DEFINED(HAIKU))}
 
 procedure TPixMapManager.LoadMimeIconNames;
 const
@@ -1132,7 +1132,7 @@ var
 begin
   // This function must be called under FPixmapsLock.
 
-{$IF DEFINED(UNIX) AND NOT DEFINED(DARWIN)}
+{$IF DEFINED(UNIX) AND NOT (DEFINED(DARWIN) OR DEFINED(HAIKU))}
   Result := nil;
   // Try to load icon from system theme
   if gShowIcons > sim_standart then
@@ -1425,7 +1425,7 @@ begin
 
   {$IF DEFINED(DARWIN)}
   FUseSystemTheme:= NSAppKitVersionNumber >= 1038;
-  {$ELSEIF DEFINED(UNIX)}
+  {$ELSEIF DEFINED(UNIX) AND NOT DEFINED(HAIKU)}
   FExtToMimeIconName := TFPDataHashTable.Create;
   FHomeFolder := IncludeTrailingBackslash(GetHomeDir);
   {$ENDIF}
@@ -1460,7 +1460,7 @@ destructor TPixMapManager.Destroy;
 var
   I : Integer;
   K: TDriveType;
-{$IF DEFINED(UNIX) AND NOT DEFINED(DARWIN)}
+{$IF DEFINED(UNIX) AND NOT (DEFINED(DARWIN) OR DEFINED(HAIKU))}
   J : Integer;
   nodeList: TFPObjectList;
 {$ENDIF}
@@ -1493,7 +1493,7 @@ begin
 
   {$IF DEFINED(MSWINDOWS)}
   ImageList_Destroy(FSysImgList);
-  {$ELSEIF DEFINED(UNIX) AND NOT DEFINED(DARWIN)}
+  {$ELSEIF DEFINED(UNIX) AND NOT (DEFINED(DARWIN) OR DEFINED(HAIKU))}
   for I := 0 to FExtToMimeIconName.HashTable.Count - 1 do
     begin
       nodeList := TFPObjectList(FExtToMimeIconName.HashTable.Items[I]);
@@ -1531,7 +1531,7 @@ begin
   // (via LoadPixMapManager in doublecmd.lpr).
 
   // Load icon themes.
-  {$IF DEFINED(UNIX) AND NOT DEFINED(DARWIN)}
+  {$IF DEFINED(UNIX) AND NOT (DEFINED(DARWIN) OR DEFINED(HAIKU))}
   if gShowIcons > sim_standart then
     begin
       LoadMimeIconNames; // For use with GetMimeIcon
@@ -1699,7 +1699,7 @@ begin
 
   (* /Set archive icons *)
 
-{$IF NOT DEFINED(DARWIN)}
+{$IF NOT (DEFINED(DARWIN) OR DEFINED(HAIKU))}
   LoadApplicationThemeIcon;
 {$ENDIF}
 end;
@@ -1986,7 +1986,7 @@ begin
          // and contains desktop.ini file
          (not (DirectAccess and (IsSysFile or FileIsReadOnly(Attributes)) and mbFileExists(FullPath + '\desktop.ini'))) or
          (ScreenInfo.ColorDepth < 16) then
-      {$ELSEIF DEFINED(UNIX) AND NOT DEFINED(DARWIN)}
+      {$ELSEIF DEFINED(UNIX) AND NOT (DEFINED(DARWIN) OR DEFINED(HAIKU))}
       if (IconsMode = sim_all_and_exe) and (DirectAccess) then
       begin
         if not LoadIcon then Exit(-1);
@@ -2032,7 +2032,7 @@ begin
 
       if (Extension = '') then
       begin
-        {$IF DEFINED(UNIX) AND NOT DEFINED(DARWIN)}
+        {$IF DEFINED(UNIX) AND NOT (DEFINED(DARWIN) OR DEFINED(HAIKU))}
         if IconsMode = sim_all_and_exe then
         begin
           if DirectAccess and (Attributes and S_IXUGO <> 0) then
@@ -2067,7 +2067,7 @@ begin
           else if Ext = 'ico' then
             Exit(FiDefaultIconID)
         end;
-      {$ELSEIF DEFINED(UNIX) AND NOT DEFINED(DARWIN)}
+      {$ELSEIF DEFINED(UNIX) AND NOT (DEFINED(DARWIN) OR DEFINED(HAIKU))}
       if IconsMode = sim_all_and_exe then
         begin
           if DirectAccess and ((Ext = 'desktop') or (Ext = 'directory')) then
@@ -2090,7 +2090,7 @@ begin
         if IconsMode <= sim_standart then
           Exit(FiDefaultIconID);
 
-        {$IF DEFINED(UNIX)}
+        {$IF DEFINED(UNIX) AND NOT DEFINED(HAIKU)}
 
         if LoadIcon = False then
           Exit(-1);
@@ -2354,7 +2354,7 @@ begin
   // 'Bitmap' should not be freed, because it only points to DriveIconList.
 end;
 
-{$IF NOT DEFINED(DARWIN)}
+{$IF NOT (DEFINED(DARWIN) OR DEFINED(HAIKU))}
 
 procedure TPixMapManager.LoadApplicationThemeIcon;
 var

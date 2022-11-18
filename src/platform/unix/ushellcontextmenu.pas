@@ -74,7 +74,7 @@ uses
   fMain, fFileProperties, DCOSUtils, DCStrUtils, uExts, uArchiveFileSourceUtil
   {$IF DEFINED(DARWIN)}
   , MacOSAll
-  {$ELSE}
+  {$ELSEIF NOT DEFINED(HAIKU)}
   , uKeyFile, uMimeActions, uOSForms, uSysFolders
     {$IF DEFINED(LINUX)}
   , uRabbitVCS
@@ -92,7 +92,7 @@ var
   // list.
   ContextMenuActionList: TExtActionList = nil;
 
-{$IF NOT DEFINED(DARWIN)}
+{$IF NOT (DEFINED(DARWIN) OR DEFINED(HAIKU))}
 
 function GetGnomeTemplateMenu(out Items: TStringList): Boolean;
 var
@@ -197,7 +197,7 @@ end;
 
 function GetTemplateMenu(out Items: TStringList): Boolean;
 begin
-{$IF DEFINED(DARWIN)}
+{$IF DEFINED(DARWIN) OR DEFINED(HAIKU)}
   Result:= False;
 {$ELSE}
   case GetDesktopEnvironment of
@@ -322,7 +322,7 @@ var
   I: LongInt;
   FileNames: TStringList;
 begin
-{$IF NOT DEFINED(DARWIN)}
+{$IF NOT (DEFINED(DARWIN) OR DEFINED(HAIKU))}
   FileNames := TStringList.Create;
   for I := 0 to FFiles.Count - 1 do
     FileNames.Add(FFiles[I].FullPath);
@@ -416,6 +416,10 @@ begin
     if Assigned(ApplicationArrayRef) then
       CFRelease(ApplicationArrayRef);
   end;
+end;
+{$ELSEIF DEFINED(HAIKU)}
+begin
+  Result:= False;
 end;
 {$ELSE}
 var

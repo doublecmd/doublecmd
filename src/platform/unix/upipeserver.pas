@@ -69,6 +69,8 @@ function GetPipeFileName(const FileName: String; Global : Boolean): String;
 begin
 {$IF DEFINED(DARWIN)}
   Result:= NSGetTempPath + FileName;
+{$ELSEIF DEFINED(HAIKU)}
+  Result:= IncludeTrailingBackslash(GetTempDir) + FileName;
 {$ELSE}
   Result:= IncludeTrailingBackslash(GetUserRuntimeDir) + FileName;
 {$ENDIF}

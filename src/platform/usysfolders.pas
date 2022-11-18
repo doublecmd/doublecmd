@@ -60,7 +60,7 @@ uses
   , BaseUnix, Unix, DCUnix
   {$IF DEFINED(DARWIN)}
   , CocoaAll, uMyDarwin
-  {$ELSE}
+  {$ELSEIF NOT DEFINED(HAIKU)}
   , uXdg
   {$ENDIF}
 {$ENDIF}
@@ -110,6 +110,10 @@ end;
 begin
   Result:= GetHomeDir + '/Library/Preferences/' + ApplicationName;
 end;
+{$ELSEIF DEFINED(HAIKU)}
+begin
+  Result:= GetHomeDir + '/config/settings/' + ApplicationName;
+end;
 {$ELSE}
 var
   uinfo: PPasswordRecord;
@@ -136,6 +140,10 @@ end;
 begin
   Result:= NSGetFolderPath(NSCachesDirectory);
 end;
+{$ELSEIF DEFINED(HAIKU)}
+begin
+  Result:= GetHomeDir + '/config/cache/' + ApplicationName;
+end;
 {$ELSE}
 var
   uinfo: PPasswordRecord;
@@ -156,6 +164,10 @@ end;
 {$ELSEIF DEFINED(DARWIN)}
 begin
   Result:= NSGetFolderPath(NSApplicationSupportDirectory);
+end;
+{$ELSEIF DEFINED(HAIKU)}
+begin
+  Result:= GetAppConfigDir;
 end;
 {$ELSE}
 begin

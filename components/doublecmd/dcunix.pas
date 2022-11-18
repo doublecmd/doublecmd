@@ -28,7 +28,7 @@ unit DCUnix;
 interface
 
 uses
-  InitC, BaseUnix, SysUtils;
+  InitC, BaseUnix, UnixType, SysUtils;
 
 const
 {$IF DEFINED(LINUX)}
@@ -38,6 +38,9 @@ const
   O_CLOEXEC  = &04000000;
 {$ELSEIF DEFINED(NETBSD)}
   O_CLOEXEC  = $00400000;
+{$ELSEIF DEFINED(HAIKU)}
+  FD_CLOEXEC = 1;
+  O_CLOEXEC  = $00000040;
 {$ELSE}
   O_CLOEXEC  = 0;
 {$ENDIF}
@@ -90,9 +93,14 @@ type
     pw_change: time_t; //en< password change time
     pw_class: PChar;   //en< user access class
 {$ENDIF}
+{$IF NOT DEFINED(HAIKU)}
     pw_gecos: PChar;   //en< real name
+{$ENDIF}
     pw_dir: PChar;     //en< home directory
     pw_shell: PChar;   //en< shell program
+{$IF DEFINED(HAIKU)}
+    pw_gecos: PChar;   //en< real name
+{$ENDIF}
 {$IF DEFINED(BSD)}
     pw_expire: time_t; //en< account expiration
     pw_fields: cint;   //en< internal: fields filled in
@@ -215,6 +223,10 @@ const
   {$ELSEIF DEFINED(BSD)}
   _SC_OPEN_MAX  = 5;
   RLIM_INFINITY = rlim_t(High(QWord) shr 1);
+  {$ELSEIF DEFINED(HAIKU)}
+  _SC_OPEN_MAX  = 20;
+  RLIMIT_NOFILE = 4;
+  RLIM_INFINITY = $ffffffff;
   {$ENDIF}
 
 procedure tzset(); cdecl; external clib;

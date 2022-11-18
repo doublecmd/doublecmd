@@ -28,7 +28,7 @@ const
   SCM_RIGHTS = $01;  //* Transfer file descriptors.  */
 
 type
-  msglen_t = {$IFDEF BSD}cint{$ELSE}size_t{$ENDIF};
+  msglen_t = {$IF DEFINED(BSD) OR DEFINED(HAIKU)}cint{$ELSE}size_t{$ENDIF};
 
   Pmsghdr = ^msghdr;
   msghdr = record
@@ -52,6 +52,19 @@ function sendmsg(__fd: cInt; __message: pmsghdr; __flags: cInt): ssize_t; cdecl;
 function recvmsg(__fd: cInt; __message: pmsghdr; __flags: cInt): ssize_t; cdecl; external clib name 'recvmsg';
 
 {$IF DEFINED(LINUX)}
+
+type
+  ucred = record
+    pid : pid_t;
+    uid : uid_t;
+    gid : gid_t;
+  end;
+
+{$ELSEIF DEFINED(HAIKU)}
+
+const
+  MSG_NOSIGNAL = $0800;
+  SO_PEERCRED  = $4000000;
 
 type
   ucred = record
@@ -133,7 +146,7 @@ begin
 end;
 
 procedure SetSocketClientProcessId(fd: cint);
-{$IF DEFINED(LINUX) OR DEFINED(DARWIN)}
+{$IF DEFINED(LINUX) OR DEFINED(DARWIN) OR DEFINED(HAIKU)}
 begin
 
 end;
@@ -178,7 +191,7 @@ end;
 {$ENDIF}
 
 function GetSocketClientProcessId(fd: cint): pid_t;
-{$IF DEFINED(LINUX)}
+{$IF DEFINED(LINUX) OR DEFINED(HAIKU)}
 var
   cred: ucred;
   ALength: TSockLen;

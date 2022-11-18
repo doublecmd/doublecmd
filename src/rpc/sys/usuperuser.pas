@@ -317,7 +317,7 @@ end;
 {$ENDIF}
 
 initialization
-{$IF DEFINED(DARWIN)}
+{$IF DEFINED(DARWIN) OR DEFINED(HAIKU)}
   FAdministratorPrivileges:= True;
 {$ELSEIF DEFINED(UNIX)}
   {$IFDEF LINUX}

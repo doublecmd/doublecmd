@@ -172,7 +172,7 @@ uses
 {$IF (NOT DEFINED(FPC_USE_LIBC)) or (DEFINED(BSD) AND NOT DEFINED(DARWIN))}
   , SysCall
 {$ENDIF}
-{$IF NOT DEFINED(DARWIN)}
+{$IF NOT (DEFINED(DARWIN) OR DEFINED(HAIKU))}
   , uMimeActions, uMimeType, uGVolume
 {$ENDIF}
 {$IFDEF LINUX}
@@ -373,7 +373,7 @@ begin
 end;
 
 function GetDefaultAppCmd(const FileName: String): String;
-{$IF NOT DEFINED(DARWIN)}
+{$IF NOT (DEFINED(DARWIN) OR DEFINED(HAIKU))}
 var
   Filenames: TStringList;
 begin
@@ -391,7 +391,7 @@ end;
 {$ENDIF}
 
 function GetFileMimeType(const FileName: String): String;
-{$IF NOT DEFINED(DARWIN)}
+{$IF NOT (DEFINED(DARWIN) OR DEFINED(HAIKU))}
 begin
   Result:= uMimeType.GetFileMimeType(FileName);
 end;
@@ -521,7 +521,7 @@ function UnmountDrive(Drive: PDrive): Boolean;
 begin
   if Drive^.IsMounted then
   begin
-{$IF NOT DEFINED(DARWIN)}
+{$IF NOT (DEFINED(DARWIN) OR DEFINED(HAIKU))}
     if Drive^.DriveType = dtSpecial then
     begin
       Exit(uGVolume.Unmount(Drive^.Path));
@@ -546,7 +546,7 @@ end;
 
 function EjectDrive(Drive: PDrive): Boolean;
 begin
-{$IF NOT DEFINED(DARWIN)}
+{$IF NOT (DEFINED(DARWIN) OR DEFINED(HAIKU))}
   Result:= uGVolume.Eject(Drive^.Path);
   if not Result then
 {$ENDIF}

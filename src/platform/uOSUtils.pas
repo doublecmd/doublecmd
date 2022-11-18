@@ -193,7 +193,7 @@ uses
   , BaseUnix, Unix, uMyUnix, dl
     {$IF DEFINED(DARWIN)}
   , CocoaAll, uMyDarwin
-    {$ELSE}
+    {$ELSEIF NOT DEFINED(HAIKU)}
   , uGio, uClipboard, uXdg, uKde
     {$ENDIF}
   {$ENDIF}
@@ -400,6 +400,10 @@ begin
       CFRelease(theFileNameUrlRef);
   end;
 end;
+{$ELSEIF DEFINED(HAIKU)}
+begin
+  Result:= False;
+end;
 {$ELSE}
 var
   sCmdLine: String;
@@ -466,6 +470,7 @@ var
   sbfs: TStatFS;
 begin
   Result := High(Int64);
+{$IF NOT DEFINED(HAIKU)}
   if (fpStatFS(PAnsiChar(CeUtf8ToSys(Path)), @sbfs) = 0) then
   begin
     {$IFDEF BSD}
@@ -475,6 +480,7 @@ begin
     {$ENDIF}
       Result:= $FFFFFFFF; // 4 Gb
   end;
+{$ENDIF}
 end;
 {$ELSE}
 var
