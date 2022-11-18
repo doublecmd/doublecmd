@@ -56,7 +56,7 @@ const
   {$ELSEIF DEFINED(UNIX)}
   faFolder = S_IFDIR;
   ReversePathDelim = '\';
-  {$IFDEF DARWIN)}
+  {$IF DEFINED(DARWIN)}
   RunTermCmd = '/Applications/Utilities/Terminal.app';  // default terminal
   RunTermParams = '%D';
   RunInTermStayOpenCmd = '%COMMANDER_PATH%/scripts/terminal.sh'; // default run in terminal command AND Stay open after command
@@ -64,6 +64,14 @@ const
   RunInTermCloseCmd = ''; // default run in terminal command AND Close after command
   RunInTermCloseParams = '';
   MonoSpaceFont = 'Monaco';
+  {$ELSEIF DEFINED(HAIKU)}
+  RunTermCmd: String = 'Terminal';  // default terminal
+  RunTermParams: String = '-w %D';
+  RunInTermStayOpenCmd: String = ''; // default run in terminal command AND Stay open after command
+  RunInTermStayOpenParams: String = '';
+  RunInTermCloseCmd: String = ''; // default run in terminal command AND Close after command
+  RunInTermCloseParams: String = '';
+  MonoSpaceFont = 'Noto Sans Mono';
   {$ELSE}
   RunTermCmd: String = 'xterm';  // default terminal
   RunTermParams: String = '';
