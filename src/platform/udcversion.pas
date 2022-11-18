@@ -467,6 +467,8 @@ begin
     OSVersion := 'FreeBSD';
     {$ELSEIF DEFINED(BSD)}
     OSVersion := 'BSD';
+    {$ELSEIF DEFINED(HAIKU)}
+    OSVersion := 'Haiku';
     {$ELSE}
     OSVersion := 'Unix';
     {$ENDIF}
