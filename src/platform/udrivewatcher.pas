@@ -61,6 +61,9 @@ uses
    {$IFDEF DARWIN}
    , uMyDarwin    // Workarounds for FPC RTL Bug
    {$ENDIF}
+   {$IFDEF HAIKU}
+   , BaseUnix, uMyHaiku
+   {$ENDIF}
   {$ENDIF}
   {$IFDEF MSWINDOWS}
   uMyWindows, Windows, JwaDbt, LazUTF8, JwaWinNetWk, ShlObj, DCOSUtils, uDebug,
@@ -121,6 +124,17 @@ type
       constructor Create();
       destructor Destroy; override;
     end;
+{$ENDIF}
+
+{$IFDEF HAIKU}
+type
+  TMountPoint = class
+    Path: String;
+    Device: dev_t;
+    Root: ino_t;
+  end;
+
+  TMountPoints = specialize TFPGObjectList<TMountPoint>;
 {$ENDIF}
 
 var
@@ -1249,6 +1263,90 @@ begin
       AutoMount := true;
     end; { with }
   end; { for }
+end;
+{$ELSEIF DEFINED(HAIKU)}
+var
+  dev: dev_t;
+  DirPtr: pDir;
+  Drive: PDrive;
+  APath: String;
+  APos: cint = 0;
+  Index: Integer;
+  fs_info: Tfs_info;
+  PtrDirEnt: pDirent;
+  Info: BaseUnix.Stat;
+  MountPoint: TMountPoint;
+  MountPoints: TMountPoints;
+begin
+  Result := TDrivesList.Create;
+  MountPoints:= TMountPoints.Create(True);
+
+  // Haiku mounts drives to root directory
+  DirPtr:= fpOpenDir(PAnsiChar('/'));
+  if Assigned(DirPtr) then
+  try
+    PtrDirEnt:= fpReadDir(DirPtr^);
+    while PtrDirEnt <> nil do
+    begin
+      if (PtrDirEnt^.d_name <> '..') and (PtrDirEnt^.d_name <> '.') then
+      begin
+        APath:= PathDelim + PtrDirEnt^.d_name;
+
+        if fpLStat(APath, Info) = 0 then
+        begin
+          if fpS_ISDIR(Info.st_mode) then
+          begin
+            MountPoint:= TMountPoint.Create;
+            MountPoint.Path:= APath;
+            MountPoint.Device:= Info.st_dev;
+            MountPoint.Root:= Info.st_ino;
+            MountPoints.Add(MountPoint);
+          end;
+        end;
+      end;
+      PtrDirEnt:= fpReadDir(DirPtr^);
+    end;
+  finally
+    fpCloseDir(DirPtr^);
+  end;
+
+  dev:= next_dev(@APos);
+
+  while (dev >= 0) do
+  begin
+    if (fs_stat_dev(dev, @fs_info) >= 0) then
+    begin
+      if (fs_info.fsh_name <> 'devfs') then
+      begin
+        for Index:= 0 to MountPoints.Count - 1 do
+        begin
+          MountPoint:= MountPoints[Index];
+
+          if (MountPoint.Device = fs_info.dev) and (MountPoint.Root = fs_info.root) then
+          begin
+            New(Drive);
+            Result.Add(Drive);
+            with Drive^ do
+            begin
+              DeviceId := fs_info.device_name;
+              Path := MountPoint.Path;
+              DisplayName := ExtractFilename(Path);
+              DriveLabel := fs_info.volume_name;
+              FileSystem := fs_info.fsh_name;
+              IsMediaAvailable := True;
+              IsMediaEjectable := False;
+              IsMediaRemovable := (fs_info.flags and B_FS_IS_REMOVABLE <> 0);
+              IsMounted := True;
+              AutoMount := True;
+            end;
+            Break;
+          end;
+        end;
+      end;
+    end;
+    dev:= next_dev(@APos)
+  end;
+  MountPoints.Free;
 end;
 {$ELSE}
 begin
