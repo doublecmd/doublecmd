@@ -173,7 +173,7 @@ begin
   DCDebug('Free Pascal: ' + fpcVersion);
   DCDebug('Platform: ' + TargetCPU + '-' + TargetOS + '-' + TargetWS);
   DCDebug('System: ' + OSVersion);
-  {$IF DEFINED(UNIX) AND NOT DEFINED(DARWIN)}
+  {$IF DEFINED(UNIX) AND NOT (DEFINED(DARWIN) OR DEFINED(HAIKU))}
   DCDebug('Desktop Environment: ' + DesktopName[DesktopEnv]);
   {$ENDIF}
   if WSVersion <> EmptyStr then
