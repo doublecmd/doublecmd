@@ -201,7 +201,9 @@ uses
   , BaseUnix, Unix, uMyUnix, dl
     {$IF DEFINED(DARWIN)}
   , CocoaAll, uMyDarwin
-    {$ELSEIF NOT DEFINED(HAIKU)}
+    {$ELSEIF DEFINED(HAIKU)}
+  , uMyHaiku
+    {$ELSE}
   , uGio, uClipboard, uXdg, uKde
     {$ENDIF}
   {$ENDIF}
@@ -410,7 +412,7 @@ begin
 end;
 {$ELSEIF DEFINED(HAIKU)}
 begin
-  Result:= False;
+  Result:= OpenUrl(URL);
 end;
 {$ELSE}
 var
