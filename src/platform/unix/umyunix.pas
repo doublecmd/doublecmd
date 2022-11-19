@@ -62,6 +62,7 @@ const
     'LXQt'
   );
 
+{$IF DEFINED(LINUX)}
 type
   PIOFILE = Pointer;
   PFILE = PIOFILE;
@@ -77,7 +78,6 @@ type
   TMountEntry = mntent;
   PMountEntry = ^TMountEntry;
 
-{$IFDEF LINUX}
 {en
    Opens the file system description file
    @param(filename File system description file)
@@ -508,7 +508,7 @@ begin
     end;
     if not Result and HavePMount and Drive^.IsMediaRemovable then
       Result := fpSystemStatus('pmount ' + Drive^.DeviceId) = 0;
-{$ELSE IF DEFINED(DARWIN)}
+{$ELSEIF DEFINED(DARWIN)}
     if not Result then
       Result := fpSystemStatus('diskutil mount ' + Drive^.DeviceId) = 0;
 {$ENDIF}
@@ -534,7 +534,7 @@ begin
     if not Result and HavePMount and Drive^.IsMediaRemovable then
       Result := fpSystemStatus('pumount ' + Drive^.DeviceId) = 0;
     if not Result then
-{$ELSE IF DEFINED(DARWIN)}
+{$ELSEIF DEFINED(DARWIN)}
     Result := fpSystemStatus('diskutil unmount ' + Drive^.DeviceId) = 0;
     if not Result then
 {$ENDIF}
@@ -556,7 +556,7 @@ begin
   if HasUDisks2 then
     Result := uUDisks2.Eject(Drive^.DeviceId);
   if not Result then
-{$ELSE IF DEFINED(DARWIN)}
+{$ELSEIF DEFINED(DARWIN)}
   Result := fpSystemStatus('diskutil eject ' + Drive^.DeviceId) = 0;
   if not Result then
 {$ENDIF}
@@ -636,7 +636,7 @@ begin
   Result := (pid > 0);
 end;
 
-{$IF NOT DEFINED(DARWIN)}
+{$IF NOT (DEFINED(DARWIN) OR DEFINED(HAIKU))}
 initialization
   DesktopEnv := GetDesktopEnvironment;
   {$IFDEF LINUX}
