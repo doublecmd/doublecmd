@@ -135,7 +135,7 @@ end;
 
 procedure TfrmAttributesEdit.cbAttrCheckBoxClicked(Sender: TObject);
 begin
-{$if lcl_fullversion = 2000004}
+{$if lcl_fullversion >= 2000004}
   // Workaround: https://bugs.freepascal.org/view.php?id=35018
   if csLoading in TCheckBox(Sender).ComponentState then Exit;
 {$endif}
