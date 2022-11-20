@@ -53,7 +53,7 @@ interface
 implementation
 
 uses
-  blcksock, ssl_openssl, ssl_openssl_lib;
+  blcksock, ssl_openssl_lib;
 
 const
   LibSSLName = 'libssl';
@@ -97,10 +97,7 @@ begin
       DLLUtilName := GetLibraryName(LibUtilName, Index);
 
       if InitSSLInterface then
-      begin
-        SSLImplementation:= TSSLOpenSSL;
         Break;
-      end;
     end;
   end;
 end.
