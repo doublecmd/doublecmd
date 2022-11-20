@@ -9,10 +9,10 @@ uses
   cthreads,
 {$ENDIF}
   DCConvertEncoding, FPCAdds, Classes, FtpFunc, FtpUtils, FtpConfDlg
-  , ssl_openssl
 {$IF DEFINED(UNIX)}
   , ssl_openssl_ver
 {$ENDIF}
+  , ssl_openssl
 {$IF DEFINED(LINUX)}
   , ssl_gnutls_lib
 {$ELSEIF DEFINED(MSWINDOWS)}
