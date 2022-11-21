@@ -70,10 +70,7 @@ uses
   {$IF DEFINED(MSWINDOWS)}
   Windows,
   {$ELSEIF DEFINED(UNIX)}
-  baseunix, uPipeServer,
-    {$IFNDEF HAIKU}
-    ipc,
-    {$ENDIF}
+  ipc, baseunix, uPipeServer,
   {$ENDIF}
   Forms, StrUtils, FileUtil, uRegExprA, uGlobs, uDebug;
 
@@ -139,10 +136,6 @@ begin
       if WaitForSingleObject(FHandle, 0) <> WAIT_ABANDONED then
         Result:= True;
     end;
-end;
-{$ELSEIF DEFINED(HAIKU)}
-begin
-  Result:= True;
 end;
 {$ELSEIF DEFINED(UNIX)}
 const
@@ -228,10 +221,6 @@ procedure TUniqueInstance.DisposeMutex;
 {$IF DEFINED(MSWINDOWS)}
 begin
   ReleaseMutex(FHandle);
-end;
-{$ELSEIF DEFINED(HAIKU)}
-begin
-
 end;
 {$ELSEIF DEFINED(UNIX)}
 var
