@@ -3,16 +3,16 @@ msgstr ""
 "Project-Id-Version: Double Commander 1.1.0 alpha\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-11-15 11:15+0300\n"
-"PO-Revision-Date: 2021-12-27 21:18+0200\n"
+"PO-Revision-Date: 2022-11-19 19:48+0200\n"
 "Last-Translator: Anastasios Kazakis <orca.surfshark@gmail.com>\n"
-"Language-Team: Anastasios Kazakis <orca.surfshark@gmail.com>\n"
+"Language-Team: Anastasios Kazakis <anastasios.kazakis@tutanota.com>\n"
+"Language: el_GR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Native-Language: ελληνικά\n"
-"X-Generator: Poedit 2.3\n"
-"Language: el\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Native-Language: ελληνικά\n"
+"X-Generator: Poedit 3.0.1\n"
 "X-Language: el_GR\n"
 "X-Source-Language: el\n"
 "X-Poedit-SourceCharset: ISO-8859-7\n"
@@ -21,7 +21,7 @@ msgstr ""
 
 #: foptionscolors.rsdarkmodeoptions
 msgid "Auto;Enabled;Disabled"
-msgstr ""
+msgstr "Αυτόματα;Ενεργό;Ανενεργό"
 
 #: fsyncdirsdlg.rscomparingpercent
 #, object-pascal-format
@@ -40,8 +40,8 @@ msgstr "Δεξιά: Διαγραφή %d αρχείο(α)"
 
 #: fsyncdirsdlg.rsfilesfound
 #, object-pascal-format
-msgid "Files found: %d  (Identical: %d, Different: %d, Unique left: %d, Unique right: %d)"
-msgstr "Ευρεθέντα αρχεία: %d  (Όμοια: %d, Διαφορετικά: %d, Μοναδικά αριστερά: %d, Μοναδικά δεξιά: %d)"
+msgid "Files found: %d (Identical: %d, Different: %d, Unique left: %d, Unique right: %d)"
+msgstr "Ευρεθέντα αρχεία: %d (Όμοια: %d, Διαφορετικά: %d, Μοναδικά αριστερά: %d, Μοναδικά δεξιά: %d)"
 
 #: fsyncdirsdlg.rslefttorightcopy
 #, object-pascal-format
@@ -156,7 +156,7 @@ msgstr "Εσωτερική έκδοση"
 #: tfrmabout.lblcommit.caption
 msgctxt "tfrmabout.lblcommit.caption"
 msgid "Commit"
-msgstr "Δέσμευση"
+msgstr "Υποβολή"
 
 #: tfrmabout.lblfreepascalver.caption
 msgctxt "tfrmabout.lblfreepascalver.caption"
@@ -549,7 +549,6 @@ msgid "Redo"
 msgstr "Επανάληψη"
 
 #: tfrmdiffer.acteditredo.hint
-#, fuzzy
 msgctxt "tfrmdiffer.acteditredo.hint"
 msgid "Redo"
 msgstr "Επανάληψη"
@@ -564,7 +563,6 @@ msgid "Undo"
 msgstr "Αναίρεση"
 
 #: tfrmdiffer.acteditundo.hint
-#, fuzzy
 msgctxt "tfrmdiffer.acteditundo.hint"
 msgid "Undo"
 msgstr "Αναίρεση"
@@ -575,49 +573,41 @@ msgid "E&xit"
 msgstr "Έξοδος"
 
 #: tfrmdiffer.actfind.caption
-#, fuzzy
 msgctxt "tfrmdiffer.actfind.caption"
 msgid "&Find"
 msgstr "Εύρεση"
 
 #: tfrmdiffer.actfind.hint
-#, fuzzy
 msgctxt "tfrmdiffer.actfind.hint"
 msgid "Find"
 msgstr "Εύρεση"
 
 #: tfrmdiffer.actfindnext.caption
-#, fuzzy
 msgctxt "tfrmdiffer.actfindnext.caption"
 msgid "Find next"
 msgstr "Εύρεση επόμενου"
 
 #: tfrmdiffer.actfindnext.hint
-#, fuzzy
 msgctxt "tfrmdiffer.actfindnext.hint"
 msgid "Find next"
 msgstr "Εύρεση επόμενου"
 
 #: tfrmdiffer.actfindprev.caption
-#, fuzzy
 msgctxt "tfrmdiffer.actfindprev.caption"
 msgid "Find previous"
 msgstr "Εύρεση Προηγούμενου"
 
 #: tfrmdiffer.actfindprev.hint
-#, fuzzy
 msgctxt "tfrmdiffer.actfindprev.hint"
 msgid "Find previous"
 msgstr "Εύρεση Προηγούμενου"
 
 #: tfrmdiffer.actfindreplace.caption
-#, fuzzy
 msgctxt "tfrmdiffer.actfindreplace.caption"
 msgid "&Replace"
 msgstr "Αντικατάσταση"
 
 #: tfrmdiffer.actfindreplace.hint
-#, fuzzy
 msgctxt "tfrmdiffer.actfindreplace.hint"
 msgid "Replace"
 msgstr "Αντικατάσταση"
@@ -633,13 +623,11 @@ msgid "First Difference"
 msgstr "Πρώτη Διαφορά"
 
 #: tfrmdiffer.actgotoline.caption
-#, fuzzy
 msgctxt "tfrmdiffer.actgotoline.caption"
 msgid "Goto Line..."
 msgstr "Μετάβαση στη Γραμμή..."
 
 #: tfrmdiffer.actgotoline.hint
-#, fuzzy
 msgctxt "tfrmdiffer.actgotoline.hint"
 msgid "Goto Line"
 msgstr "Μετάβαση στη γραμμή"
@@ -1146,7 +1134,7 @@ msgstr "OK"
 
 #: tfrmeditsearchreplace.cbmultiline.caption
 msgid "&Multiline pattern"
-msgstr ""
+msgstr "Πρότυπο πολλών γραμμών"
 
 #: tfrmeditsearchreplace.cbsearchcasesensitive.caption
 msgctxt "TFRMEDITSEARCHREPLACE.CBSEARCHCASESENSITIVE.CAPTION"
@@ -2495,11 +2483,11 @@ msgstr "Φόρτωση καρτελών από Αγαπημένες Καρτέλ
 
 #: tfrmmain.actloadlist.caption
 msgid "Load List"
-msgstr ""
+msgstr "Φόρτωση Λίστας"
 
 #: tfrmmain.actloadlist.hint
 msgid "Load list of files/folders from the specified text file"
-msgstr ""
+msgstr "Φόρτωση λίστας αρχείων/φακέλων από το καθορισμένο αρχείο κειμένου"
 
 #: tfrmmain.actloadselectionfromclip.caption
 msgid "Load Selection from Clip&board"
@@ -2559,11 +2547,11 @@ msgstr "Ελαχιστοποίηση παραθύρου"
 
 #: tfrmmain.actmovetableft.caption
 msgid "Move current tab to the left"
-msgstr ""
+msgstr "Μετακίνηση τρέχουσας καρτέλας στα αριστερά"
 
 #: tfrmmain.actmovetabright.caption
 msgid "Move current tab to the right"
-msgstr ""
+msgstr "Μετακίνηση τρέχουσας καρτέλας στα αριστερά"
 
 #: tfrmmain.actmultirename.caption
 msgid "Multi-&Rename Tool"
@@ -3381,7 +3369,7 @@ msgstr "Δημιουργία νέου καταλόγου"
 
 #: tfrmmkdir.cbextended.caption
 msgid "&Extended syntax"
-msgstr ""
+msgstr "Εκτεταμένη σύνταξη"
 
 #: tfrmmkdir.lblmakedir.caption
 msgid "&Input new directory name:"
@@ -3697,10 +3685,9 @@ msgstr "Μετονομασία Πολλών"
 
 #: tfrmmultirename.cbcasesens.caption
 msgid "A≠a"
-msgstr ""
+msgstr "A≠a"
 
 #: tfrmmultirename.cbcasesens.hint
-#, fuzzy
 msgctxt "tfrmmultirename.cbcasesens.hint"
 msgid "Case sensitive"
 msgstr "Με διάκριση πεζών -κεφαλαίων"
@@ -3716,11 +3703,11 @@ msgstr "Συμπλήρωση"
 
 #: tfrmmultirename.cbonlyfirst.caption
 msgid "1x"
-msgstr ""
+msgstr "1x"
 
 #: tfrmmultirename.cbonlyfirst.hint
 msgid "Replace only once per file"
-msgstr ""
+msgstr "Αντικατάσταση μόνο μία φορά για κάθε αρχείο"
 
 #: tfrmmultirename.cbregexp.caption
 msgctxt "TFRMMULTIRENAME.CBREGEXP.CAPTION"
@@ -4233,7 +4220,7 @@ msgstr "Σταθερό Πλάτος Στηλών"
 
 #: tfrmoptionscolors.rgdarkmode.caption
 msgid "Dark mode"
-msgstr ""
+msgstr "Σκοτεινό θέμα"
 
 #: tfrmoptionscolumnsview.cbcuttexttocolwidth.caption
 msgid "Cut &text to column width"
@@ -5331,7 +5318,7 @@ msgstr "Ιδιότητες Εσωτερικού επεξεργαστή"
 
 #: tfrmoptionseditor.lblblockindent.caption
 msgid "Block indent:"
-msgstr ""
+msgstr "Μπλοκ εσοχών:"
 
 #: tfrmoptionseditor.lbltabwidth.caption
 msgid "Tab width:"
@@ -5923,7 +5910,7 @@ msgstr "Εφαρμογή τρεχουσών ρυθμίσεων σε όλα τα 
 #: tfrmoptionsfileassocextra.cbexecuteviashell.caption
 msgctxt "TFRMOPTIONSFILEASSOCEXTRA.CBEXECUTEVIASHELL.CAPTION"
 msgid "Execute via shell"
-msgstr "Εκτέλεση  μέσω κελύφους"
+msgstr "Εκτέλεση μέσω κελύφους"
 
 #: tfrmoptionsfileassocextra.cbextendedcontextmenu.caption
 msgid "Extended context menu"
@@ -6774,7 +6761,7 @@ msgstr "Εμφάνιση κουμπιού λίστας οδηγών"
 #: tfrmoptionslayout.cbshowkeyspanel.caption
 msgctxt "TFRMOPTIONSLAYOUT.CBSHOWKEYSPANEL.CAPTION"
 msgid "Show function &key buttons"
-msgstr "Εμφάνιση  κουμπιών πλήκτρων λειτουργίας"
+msgstr "Εμφάνιση κουμπιών πλήκτρων λειτουργίας"
 
 #: tfrmoptionslayout.cbshowmainmenu.caption
 msgctxt "TFRMOPTIONSLAYOUT.CBSHOWMAINMENU.CAPTION"
@@ -6798,7 +6785,7 @@ msgstr "Εμφάνιση μπάρας κατάστασης"
 #: tfrmoptionslayout.cbshowtabheader.caption
 msgctxt "TFRMOPTIONSLAYOUT.CBSHOWTABHEADER.CAPTION"
 msgid "S&how tabstop header"
-msgstr "Εμφάνιση επικεφαλίδας  του tabstop"
+msgstr "Εμφάνιση επικεφαλίδας του tabstop"
 
 #: tfrmoptionslayout.cbshowtabs.caption
 msgctxt "TFRMOPTIONSLAYOUT.CBSHOWTABS.CAPTION"
@@ -6952,7 +6939,7 @@ msgstr "Εμφάνιση τρέχοντος καταλόγου στην γραμ
 
 #: tfrmoptionsmisc.chkshowsplashform.caption
 msgid "Show &splash screen"
-msgstr ""
+msgstr "Εμφάνιση οθόνης εισαγωγής"
 
 #: tfrmoptionsmisc.chkshowwarningmessages.caption
 msgctxt "TFRMOPTIONSMISC.CHKSHOWWARNINGMESSAGES.CAPTION"
@@ -6979,7 +6966,7 @@ msgstr "Όπως στον TC εισαγωγή/εξαγωγή:"
 
 #: tfrmoptionsmisc.lbldefaultencoding.caption
 msgid "&Default single-byte text encoding:"
-msgstr ""
+msgstr "Προκαθορισμένη κωδικοποίηση μονού-byte:"
 
 #: tfrmoptionsmisc.lbldescrdefaultencoding.caption
 msgctxt "tfrmoptionsmisc.lbldescrdefaultencoding.caption"
@@ -7096,7 +7083,7 @@ msgstr "Αντικατάσταση λανθασμένου ονόματος αρ�
 
 #: tfrmoptionsmultirename.rbrenaminglogappendsamefile.caption
 msgid "Append in the same rename log file"
-msgstr "Συμπλήρωση στο ίδιο  μετονομασμένο αρχείο καταγραφών"
+msgstr "Συμπλήρωση στο ίδιο μετονομασμένο αρχείο καταγραφών"
 
 #: tfrmoptionsmultirename.rbrenaminglogperpreset.caption
 msgid "Per preset"
@@ -9001,7 +8988,7 @@ msgstr "Εσωτερική Έκδοση"
 #: tfrmstartingsplash.lblcommit.caption
 msgctxt "tfrmstartingsplash.lblcommit.caption"
 msgid "Commit"
-msgstr "Δέσμευση"
+msgstr "Υποβολή"
 
 #: tfrmstartingsplash.lblfreepascalver.caption
 msgctxt "TFRMSTARTINGSPLASH.LBLFREEPASCALVER.CAPTION"
@@ -9246,7 +9233,7 @@ msgstr "μονά"
 
 #: tfrmsyncdirsdlg.statusbar1.panels[0].text
 msgid "Please press \"Compare\" to start"
-msgstr "Παρακαλώ πιέστε  \"Σύγκριση\" για εκκίνηση"
+msgstr "Παρακαλώ πιέστε \"Σύγκριση\" για εκκίνηση"
 
 #: tfrmsyncdirsperformdlg.caption
 msgctxt "TFRMSYNCDIRSPERFORMDLG.CAPTION"
@@ -9670,7 +9657,7 @@ msgstr "Γραφικά"
 
 #: tfrmviewer.actshowoffice.caption
 msgid "Office XML (text only)"
-msgstr ""
+msgstr "Office XML (μόνο κείμενο)"
 
 #: tfrmviewer.actshowplugins.caption
 msgctxt "tfrmviewer.actshowplugins.caption"
@@ -9679,7 +9666,7 @@ msgstr "Πρόσθετα"
 
 #: tfrmviewer.actshowtransparency.caption
 msgid "Show transparenc&y"
-msgstr ""
+msgstr "Εμφάνιση διαφάνειας"
 
 #: tfrmviewer.actstretchimage.caption
 msgctxt "TFRMVIEWER.ACTSTRETCHIMAGE.CAPTION"
@@ -9697,7 +9684,7 @@ msgstr "Άπλωμα μόνο Μεγάλων"
 
 #: tfrmviewer.actwraptext.caption
 msgid "&Wrap text"
-msgstr ""
+msgstr "Μάζεμα κειμένου"
 
 #: tfrmviewer.actzoom.caption
 msgid "Zoom"
@@ -9978,13 +9965,11 @@ msgid "Start path:"
 msgstr "Διαδρομή Εκκίνησης:"
 
 #: twcxarchivecopyoperationoptionsui.btnconfig.caption
-#, fuzzy
 msgctxt "twcxarchivecopyoperationoptionsui.btnconfig.caption"
 msgid "Con&figure"
-msgstr "Διαμορφώστε"
+msgstr "Επανάληψη"
 
 #: twcxarchivecopyoperationoptionsui.cbencrypt.caption
-#, fuzzy
 msgctxt "twcxarchivecopyoperationoptionsui.cbencrypt.caption"
 msgid "Encr&ypt"
 msgstr "Κρυπτογράφηση"
@@ -10558,7 +10543,7 @@ msgstr "με εσωτερικό επεξεργαστή"
 #: ulng.rsexecuteviashell
 msgctxt "ulng.rsexecuteviashell"
 msgid "Execute via shell"
-msgstr "Εκτέλεση  μέσω κελύφους"
+msgstr "Εκτέλεση μέσω κελύφους"
 
 #: ulng.rsexecuteviaterminalclose
 msgctxt "ulng.rsexecuteviaterminalclose"
@@ -10754,7 +10739,7 @@ msgstr "Γραμματοσειρά Αποτελεσμάτων Αναζήτηση
 
 #: ulng.rsfontusagestatusbar
 msgid "Status Bar Font"
-msgstr ""
+msgstr "Γραμματοσειρά Εργαλειοθήκης Κατάστασης"
 
 #: ulng.rsfontusagetreeviewmenu
 msgid "Tree View Menu Font"
@@ -10849,7 +10834,7 @@ msgstr "Μέγεθος"
 
 #: ulng.rsfunctrashorigpath
 msgid "Original path"
-msgstr ""
+msgstr "Αρχική διαδρομή"
 
 #: ulng.rsfunctype
 msgid "Type"
@@ -11024,7 +11009,7 @@ msgstr "Εισάγετε νέα προσαρμοσμένα χρώματα στη
 
 #: ulng.rsmenumacosservices
 msgid "Services"
-msgstr ""
+msgstr "Υπηρεσίες"
 
 #: ulng.rsmnuactions
 msgctxt "ulng.rsmnuactions"
@@ -11075,7 +11060,7 @@ msgstr "Νέο"
 
 #: ulng.rsmnunomedia
 msgid "No media available"
-msgstr "Δεν  υπάρχει διαθέσιμο Μέσο"
+msgstr "Δεν υπάρχει διαθέσιμο Μέσο"
 
 #: ulng.rsmnuopen
 msgctxt "ulng.rsmnuopen"
@@ -11097,7 +11082,6 @@ msgid "Pack here..."
 msgstr "Πακετάρισμα εδώ..."
 
 #: ulng.rsmnurestore
-#, fuzzy
 msgctxt "ulng.rsmnurestore"
 msgid "Restore"
 msgstr "Επαναφορά"
@@ -11151,7 +11135,7 @@ msgstr ""
 
 #: ulng.rsmsgcanceloperation
 msgid "Are you sure that you want to cancel this operation?"
-msgstr ""
+msgstr "Σίγουρα επιθυμείτε ακύρωση της λειτουργίας;"
 
 #: ulng.rsmsgcannotcopymoveitself
 #, object-pascal-format
@@ -11771,7 +11755,7 @@ msgstr "Εισαγωγή τοποθεσίας και ονόματος αρχεί
 #: ulng.rsmsgincorrectfilelength
 #, object-pascal-format
 msgid "Incorrect resulting filelength for file : \"%s\""
-msgstr "Μη Έγκυρο  τελικό μήκος αρχείου για το αρχείο : \"%s\""
+msgstr "Μη Έγκυρο τελικό μήκος αρχείου για το αρχείο : \"%s\""
 
 #: ulng.rsmsginsertnextdisk
 #, object-pascal-format
@@ -11916,7 +11900,7 @@ msgstr "Έγινε: "
 #: ulng.rsmsglogsymlink
 #, object-pascal-format
 msgid "Create symlink %s"
-msgstr "Δημιουργία  συμβολοδεσμού %s"
+msgstr "Δημιουργία συμβολοδεσμού %s"
 
 #: ulng.rsmsglogtest
 #, object-pascal-format
@@ -12232,7 +12216,7 @@ msgstr "Εισαγωγή τοποθεσίας και ονόματος αρχεί
 
 #: ulng.rsmsgterminaldisabled
 msgid "Built-in terminal window disabled. Do you want to enable it?"
-msgstr ""
+msgstr "Απενεργοποιημένο ενσωματωμένο παράθυρο τερματικού. Επιθυμείτε ενεργοποίηση;"
 
 #: ulng.rsmsgterminateprocess
 msgid "WARNING: Terminating a process can cause undesired results including loss of data and system instability. The process will not be given the chance to save its state or data before it is terminated. Are you sure you want to terminate the process?"
@@ -13911,7 +13895,7 @@ msgstr "Επιλογή Ενέργειας από τη γραμμή Βασικώ�
 
 #: ulng.rsstrtvmchoosehotdirectory
 msgid "Choose your directory from Hot Directory:"
-msgstr "Επιλογή  καταλόγου από το Hot Directory:"
+msgstr "Επιλογή καταλόγου από το Hot Directory:"
 
 #: ulng.rsstrtvmchooseviewhistory
 msgid "Choose your directory from File View History"
@@ -14250,4 +14234,3 @@ msgstr "Δεν πραγματοποιήθηκε καμία αντικατάστ�
 #, object-pascal-format
 msgid "No setup named \"%s\""
 msgstr "Δεν υπάρχει διαμόρφωση με το όνομα \"%s\""
-
