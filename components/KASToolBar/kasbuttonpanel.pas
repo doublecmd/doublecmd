@@ -70,6 +70,7 @@ end;
 procedure TKASButtonPanel.DoAutoSize;
 begin
   inherited DoAutoSize;
+  if csDesigning in ComponentState then Exit;
   if AutoSize and (FSameWidth or FSameHeight) then ButtonsAutosize;
 end;
 

@@ -129,7 +129,7 @@ inherited frmOptionsFilesViewsComplement: TfrmOptionsFilesViewsComplement
       Caption = 'Windows style filter when marking files ("*.*" also select files without extension, etc.)'
       TabOrder = 0
     end
-    object pnlDefaultAttribute: TPanel
+    object pnlDefaultAttribute: TKASButtonPanel
       AnchorSideLeft.Control = chkMarkMaskFilterWindows
       AnchorSideTop.Control = chkMarkMaskFilterWindows
       AnchorSideTop.Side = asrBottom
@@ -140,12 +140,14 @@ inherited frmOptionsFilesViewsComplement: TfrmOptionsFilesViewsComplement
       Top = 31
       Width = 600
       Anchors = [akTop, akLeft, akRight]
+      AutoSize = True
       BevelOuter = bvNone
       ChildSizing.HorizontalSpacing = 3
       ChildSizing.Layout = cclLeftToRightThenTopToBottom
       ClientHeight = 27
       ClientWidth = 600
       TabOrder = 1
+      SameWidth = False
       object lbAttributeMask: TLabel
         AnchorSideLeft.Control = pnlDefaultAttribute
         AnchorSideTop.Control = edtDefaultAttribute
@@ -160,7 +162,8 @@ inherited frmOptionsFilesViewsComplement: TfrmOptionsFilesViewsComplement
       object edtDefaultAttribute: TEdit
         AnchorSideLeft.Control = lbAttributeMask
         AnchorSideLeft.Side = asrBottom
-        AnchorSideTop.Side = asrBottom
+        AnchorSideTop.Control = btnAddAttribute
+        AnchorSideTop.Side = asrCenter
         AnchorSideRight.Control = btnAddAttribute
         AnchorSideBottom.Side = asrCenter
         Left = 189
@@ -168,13 +171,11 @@ inherited frmOptionsFilesViewsComplement: TfrmOptionsFilesViewsComplement
         Top = 0
         Width = 304
         Anchors = [akTop, akLeft, akRight]
-        AutoSize = False
         TabOrder = 0
       end
       object btnAttrsHelp: TButton
         AnchorSideLeft.Side = asrBottom
-        AnchorSideTop.Control = edtDefaultAttribute
-        AnchorSideTop.Side = asrCenter
+        AnchorSideTop.Control = btnAddAttribute
         AnchorSideRight.Control = pnlDefaultAttribute
         AnchorSideRight.Side = asrBottom
         AnchorSideBottom.Side = asrBottom
@@ -186,14 +187,12 @@ inherited frmOptionsFilesViewsComplement: TfrmOptionsFilesViewsComplement
         AutoSize = True
         BorderSpacing.InnerBorder = 1
         Caption = '&Help'
-        Constraints.MinHeight = 26
         OnClick = btnAttrsHelpClick
         TabOrder = 2
       end
       object btnAddAttribute: TButton
         AnchorSideLeft.Side = asrBottom
-        AnchorSideTop.Control = edtDefaultAttribute
-        AnchorSideTop.Side = asrCenter
+        AnchorSideTop.Control = pnlDefaultAttribute
         AnchorSideRight.Control = btnAttrsHelp
         Left = 496
         Height = 26
@@ -202,7 +201,6 @@ inherited frmOptionsFilesViewsComplement: TfrmOptionsFilesViewsComplement
         Anchors = [akTop, akRight]
         AutoSize = True
         Caption = '&Add'
-        Constraints.MinHeight = 26
         OnClick = btnAddAttributeClick
         TabOrder = 1
       end
