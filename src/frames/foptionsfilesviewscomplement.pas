@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Files views complement options page
 
-   Copyright (C) 2018 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2018-2022 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -26,7 +26,7 @@ unit fOptionsFilesViewsComplement;
 interface
 
 uses
-  Classes, SysUtils, StdCtrls, Graphics, ExtCtrls, fOptionsFrame;
+  Classes, SysUtils, StdCtrls, Graphics, ExtCtrls, KASButtonPanel, fOptionsFrame;
 
 type
 
@@ -45,7 +45,7 @@ type
     cbSpaceMovesDown: TCheckBox;
     cbInplaceRename: TCheckBox;
     gbMisc: TGroupBox;
-    pnlDefaultAttribute: TPanel;
+    pnlDefaultAttribute: TKASButtonPanel;
     chkMarkMaskFilterWindows: TCheckBox;
     gbMarking: TGroupBox;
     lbAttributeMask: TLabel;
