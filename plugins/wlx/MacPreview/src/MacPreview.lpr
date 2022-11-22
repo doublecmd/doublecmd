@@ -34,7 +34,7 @@ type
   private
     url: NSURL;
   public
-    ext: array[0..1023] of char;
+    ext: ShortString;
     procedure initPath( path: pchar); message 'initPath:';
   end;
 
@@ -71,7 +71,7 @@ end;
 procedure TQLPItem.initPath( path: pchar );
 begin
   url:= NSURL.fileURLWithPath( StringToNSString(path) );
-  strlcopy( ext, pchar(ExtractOnlyFileExt(path)), length(ext) );
+  ext:= UpperCase( ExtractOnlyFileExt(path) );
 end;
 
 procedure setFilepath( view:QLPreviewView; filepath:String );
@@ -87,7 +87,7 @@ begin
   view.setPreviewItem( item );
 end;
 
-function ListLoad( ParentWin:THandle; FileToLoad:pchar; {%H-}ShowFlags{%H+}:integer):THandle; cdecl;
+function ListLoad( ParentWin:THandle; FileToLoad:pchar; {%H-}ShowFlags:integer):THandle; cdecl;
 var
   view: QLPreviewView;
 begin
@@ -95,22 +95,20 @@ begin
   view.setShouldCloseWithWindow( false );
   NSView(ParentWin).addSubview( view );
   setFilepath( view, FileToLoad );
-  Result:= THandle(view);
+  Result:= THandle( view );
 end;
 
 function isExtChanged( view: QLPreviewView; FileToLoad:pchar ): boolean;
 var
   item: TQLPItem;
-  oldExt: String;
-  newExt: String;
+  newExt: ShortString;
 begin
   item:= {%H-}TQLPItem( view.previewItem );
-  oldExt:= item.ext;
-  newExt:= ExtractOnlyFileExt( FileToLoad );
-  Result:= oldExt<>newExt;
+  newExt:= upperCase( ExtractOnlyFileExt( FileToLoad ) );
+  Result:= item.ext<>newExt;
 end;
 
-function ListLoadNext( {%H-}ParentWin{%H+},PluginWin:THandle; FileToLoad:pchar; {%H-}ShowFlags{%H+}:integer):integer; cdecl;
+function ListLoadNext( {%H-}ParentWin,PluginWin:THandle; FileToLoad:pchar; {%H-}ShowFlags:integer):integer; cdecl;
 var
   view: QLPreviewView;
 begin
