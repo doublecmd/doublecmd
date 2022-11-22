@@ -1,7 +1,6 @@
 name: build-snapshot
 
 on:
-  pull_request:
   push:
     paths:
     - 'components/**'
