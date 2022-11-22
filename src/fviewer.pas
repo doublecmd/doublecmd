@@ -645,6 +645,7 @@ begin
   actWrapText.Checked := gViewerWrapText;
   ViewerControl.ShowCaret := gShowCaret;
   ViewerControl.TabSpaces := gTabSpaces;
+  ViewerControl.AutoCopy := gViewerAutoCopy;
   ViewerControl.MaxTextWidth := gMaxTextWidth;
   ViewerControl.LeftMargin := gViewerLeftMargin;
   ViewerControl.ExtraLineSpacing := gViewerLineSpacing;

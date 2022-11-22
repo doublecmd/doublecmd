@@ -250,6 +250,7 @@ type
     FOnFileOpen:         TFileOpenEvent;
     FCaretVisible:       Boolean;
     FShowCaret:          Boolean;
+    FAutoCopy:           Boolean;
     FLastError:          String;
     FText:               String;
 
@@ -516,6 +517,7 @@ type
     property TabSpaces: Integer read FTabSpaces write SetTabSpaces;
     property LeftMargin: Integer read FLeftMargin write FLeftMargin;
     property ExtraLineSpacing: Integer read FExtraLineSpacing write FExtraLineSpacing;
+    property AutoCopy: Boolean read FAutoCopy write FAutoCopy;
     property OnGuessEncoding: TGuessEncodingEvent Read FOnGuessEncoding Write FOnGuessEncoding;
     property OnFileOpen: TFileOpenEvent read FOnFileOpen write FOnFileOpen;
 
@@ -618,6 +620,7 @@ begin
   FTabSpaces := 8;
   FLeftMargin := 4;
   FMaxTextWidth := 1024;
+  FAutoCopy := True;
 
   FLineList := TPtrIntList.Create;
 
@@ -2465,7 +2468,8 @@ begin
           if FBlockBeg > FBlockEnd then
             FBlockEnd := FBlockBeg;
 
-          CopyToClipboard;
+          if FAutoCopy then
+            CopyToClipboard;
           Invalidate;
         end;
       end; // mbLeft
@@ -2576,7 +2580,8 @@ begin
 
   if FSelecting and (Button = mbLeft) and (Shift * [ssDouble, ssTriple] = []) then
   begin
-    CopyToClipboard;
+    if FAutoCopy then
+      CopyToClipboard;
     FSelecting := False;
   end;
 end;
