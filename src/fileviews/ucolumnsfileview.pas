@@ -738,16 +738,25 @@ end;
 procedure TColumnsFileView.UpdateFooterDetails(AInfo: Boolean);
 var
   AFile: TFile;
+  F : Longint;
 begin
   if gColumnsLongInStatus and (FSelectedCount = 0) and (not FlatView) then
   begin
     AFile:= CloneActiveFile;
     if Assigned(AFile) then
     try
-      if AFile.IsNameValid then
-        lblInfo.Caption := AFile.Name
-      else if not AInfo then begin
-        inherited UpdateInfoPanel;
+    if AFile.IsNameValid then 
+      begin
+        F:=FileGetAttr(AFile.Name);
+        If (F<>-1) and ((F and faDirectory)<>0) then 
+          lblInfo.Caption := '['+AFile.Name+']'
+        else 
+          lblInfo.Caption := AFile.Name;
+      end
+    else 
+      begin
+        if not AInfo then 
+          inherited UpdateInfoPanel;
       end;
     finally
       AFile.Free;
