@@ -745,7 +745,7 @@ begin
     if Assigned(AFile) then
       try
         if AFile.IsNameValid then begin
-          if AFile.IsDirectory then 
+          if gDirBrackets and (AFile.IsDirectory or AFile.IsLinkToDirectory) then 
             lblInfo.Caption := gFolderPrefix + AFile.Name + gFolderPostfix
           else 
             lblInfo.Caption := AFile.Name;
