@@ -3,7 +3,7 @@
     -------------------------------------------------------------------------
     This unit contains specific UNIX functions.
 
-    Copyright (C) 2008-2021 Alexander Koblov (alexx2000@mail.ru)
+    Copyright (C) 2008-2022 Alexander Koblov (alexx2000@mail.ru)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -582,7 +582,7 @@ begin
     end;
     if not Result and HavePMount and Drive^.IsMediaRemovable then
       Result := fpSystemStatus('pmount ' + Drive^.DeviceId) = 0;
-{$ELSE IF DEFINED(DARWIN)}
+{$ELSEIF DEFINED(DARWIN)}
     if not Result then
       Result := fpSystemStatus('diskutil mount ' + Drive^.DeviceId) = 0;
 {$ENDIF}
@@ -613,7 +613,7 @@ begin
     if not Result and HavePMount and Drive^.IsMediaRemovable then
       Result := fpSystemStatus('pumount ' + Drive^.DeviceId) = 0;
     if not Result then
-{$ELSE IF DEFINED(DARWIN)}
+{$ELSEIF DEFINED(DARWIN)}
     Result := fpSystemStatus('diskutil unmount ' + Drive^.DeviceId) = 0;
     if not Result then
 {$ENDIF}
