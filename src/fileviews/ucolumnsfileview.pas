@@ -743,15 +743,20 @@ begin
   begin
     AFile:= CloneActiveFile;
     if Assigned(AFile) then
-    try
-      if AFile.IsNameValid then
-        lblInfo.Caption := AFile.Name
-      else if not AInfo then begin
-        inherited UpdateInfoPanel;
+      try
+        if AFile.IsNameValid then begin
+          if gDirBrackets and (AFile.IsDirectory or AFile.IsLinkToDirectory) then 
+            lblInfo.Caption := gFolderPrefix + AFile.Name + gFolderPostfix
+          else 
+            lblInfo.Caption := AFile.Name;
+        end                       
+        else 
+         if not AInfo then begin
+            inherited UpdateInfoPanel;
+         end;
+      finally
+        AFile.Free;
       end;
-    finally
-      AFile.Free;
-    end;
   end;
 end;
 
