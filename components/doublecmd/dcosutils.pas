@@ -3,7 +3,7 @@
     -------------------------------------------------------------------------
     This unit contains platform dependent functions dealing with operating system.
 
-    Copyright (C) 2006-2021 Alexander Koblov (alexx2000@mail.ru)
+    Copyright (C) 2006-2022 Alexander Koblov (alexx2000@mail.ru)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -30,6 +30,9 @@ uses
   SysUtils, Classes, DynLibs, DCClassesUtf8, DCBasicTypes, DCConvertEncoding
 {$IFDEF UNIX}
   , BaseUnix, DCUnix
+{$ENDIF}
+{$IFDEF HAIKU}
+  , DCHaiku
 {$ENDIF}
 {$IFDEF MSWINDOWS}
   , JwaWinBase, Windows
@@ -564,6 +567,16 @@ begin
           if Assigned(Errors) then Errors^[caoCopyOwnership]:= GetLastOSError;
         end;
       end;
+{$IF DEFINED(HAIKU)}
+      if caoCopyXattributes in Options then
+      begin
+        if not mbFileCopyXattr(sSrc, sDst) then
+        begin
+          Include(Result, caoCopyXattributes);
+          if Assigned(Errors) then Errors^[caoCopyXattributes]:= GetLastOSError;
+        end;
+      end;
+{$ENDIF}
     end
     else
     begin
@@ -599,7 +612,7 @@ begin
         end;
       end;
 
-{$IFDEF LINUX}
+{$IF DEFINED(LINUX) or DEFINED(HAIKU)}
       if caoCopyXattributes in Options then
       begin
         if not mbFileCopyXattr(sSrc, sDst) then
