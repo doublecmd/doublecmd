@@ -35,9 +35,11 @@ interface
 uses
   Classes, SysUtils, BaseUnix, Unix;
 
+// fcntl.h
 const
   O_NOTRAVERSE = $2000;
 
+// fs_attr.h
 type
   attr_info = record
     type_: cuint32;
@@ -61,12 +63,25 @@ function fs_fopen_attr_dir(fd: cint): pDir; cdecl; external clib;
 function fs_close_attr_dir(dir: pDir): cint; cdecl; external clib;
 function fs_read_attr_dir(dir: pDir): pDirent; cdecl; external clib;
 
+// FindDirectory.h
+const
+  B_TRASH_DIRECTORY         =    1;
+  B_USER_DIRECTORY          = 3000;
+  B_USER_SETTINGS_DIRECTORY = 3006;
+  B_USER_DATA_DIRECTORY     = 3012;
+  B_USER_CACHE_DIRECTORY    = 3013;
+
+function find_directory(which: cuint32; volume: dev_t; createIt: cbool;
+                        pathString: PAnsiChar; length: cint32): status_t; cdecl; external clib;
+
+
 function mbFileCopyXattr(const Source, Target: String): Boolean;
+function mbFindDirectory(which: cuint32; volume: dev_t; createIt: cbool; out pathString: String): Boolean;
 
 implementation
 
 uses
-  DCUnix;
+  DCUnix, DCConvertEncoding;
 
 function mbFileOpen(const FileName: String; Flags: cInt): THandle;
 begin
@@ -181,6 +196,17 @@ begin
       FileClose(hTarget);
     end;
     FileClose(hSource);
+  end;
+end;
+
+function mbFindDirectory(which: cuint32; volume: dev_t; createIt: cbool; out
+  pathString: String): Boolean;
+var
+  APath: array[0..MAX_PATH] of AnsiChar;
+begin
+  Result:= find_directory(which, volume, createIt, APath, MAX_PATH) >= 0;
+  if Result then begin
+    pathString:= CeSysToUtf8(APath);
   end;
 end;
 
