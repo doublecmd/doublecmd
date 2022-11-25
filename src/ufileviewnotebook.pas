@@ -544,10 +544,12 @@ begin
 end;
 
 procedure TFileViewNotebook.DestroyAllPages;
+var
+  i: Integer;
 begin
-  FCanChangePageIndex:= False;
-  Tabs.Clear;
-  FCanChangePageIndex:= True;
+  for i:=PageCount-1 downto 0 do
+    if i<>ActivePageIndex then RemovePage( i );
+  RemovePage( 0 );
 end;
 
 procedure TFileViewNotebook.ActivatePrevTab;
