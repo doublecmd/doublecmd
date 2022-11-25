@@ -212,7 +212,8 @@ begin
     if AEditor.SelAvail and (AEditor.BlockBegin.Y = AEditor.BlockEnd.Y) then
       Options.SearchText := AEditor.SelText
     else begin
-      Options.SearchText := AEditor.GetWordAtRowCol(AEditor.CaretXY);
+      if gEditorFindWordAtCursor then
+        Options.SearchText := AEditor.GetWordAtRowCol(AEditor.CaretXY);
     end;
 
     cbSearchText.Items.Text := glsSearchHistory.Text;
