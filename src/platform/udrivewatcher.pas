@@ -62,7 +62,7 @@ uses
    , uMyDarwin    // Workarounds for FPC RTL Bug
    {$ENDIF}
    {$IFDEF HAIKU}
-   , BaseUnix, uMyHaiku
+   , BaseUnix, DCHaiku
    {$ENDIF}
   {$ENDIF}
   {$IFDEF MSWINDOWS}
