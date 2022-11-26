@@ -39,6 +39,10 @@ uses
 const
   O_NOTRAVERSE = $2000;
 
+// TypeConstants.h
+const
+  B_STRING_TYPE = $43535452; // 'CSTR'
+
 // fs_attr.h
 type
   attr_info = record
@@ -63,6 +67,42 @@ function fs_fopen_attr_dir(fd: cint): pDir; cdecl; external clib;
 function fs_close_attr_dir(dir: pDir): cint; cdecl; external clib;
 function fs_read_attr_dir(dir: pDir): pDirent; cdecl; external clib;
 
+// OS.h
+const
+  B_OS_NAME_LENGTH   = 32;
+
+// StorageDefs.h
+const
+  B_FILE_NAME_LENGTH = 256;
+
+// fs_info.h
+const
+  B_FS_IS_READONLY   = $00000001;
+  B_FS_IS_REMOVABLE  = $00000002;
+  B_FS_IS_PERSISTENT = $00000004;
+  B_FS_IS_SHARED     = $00000008;
+
+type
+  Tfs_info = record
+    dev: dev_t;
+    root: ino_t;
+    flags: cuint32;
+    block_size: coff_t;
+    io_size: coff_t;
+    total_blocks: coff_t;
+    free_blocks: coff_t;
+    total_nodes: coff_t;
+    free_nodes: coff_t;
+    device_name: array[0..127] of AnsiChar;
+    volume_name: array[0..Pred(B_FILE_NAME_LENGTH)] of AnsiChar;
+    fsh_name: array[0..Pred(B_OS_NAME_LENGTH)] of AnsiChar;
+  end;
+  Pfs_info = ^Tfs_info;
+
+function dev_for_path(path: PAnsiChar): dev_t; cdecl; external clib;
+function next_dev(pos: pcint32): dev_t; cdecl; external clib;
+function fs_stat_dev(dev: dev_t; info: Pfs_info): cint; cdecl; external clib;
+
 // FindDirectory.h
 const
   B_TRASH_DIRECTORY         =    1;
@@ -76,6 +116,7 @@ function find_directory(which: cuint32; volume: dev_t; createIt: cbool;
 
 
 function mbFileCopyXattr(const Source, Target: String): Boolean;
+function mbFileWriteXattr(const FileName, AttrName, Value: String): Boolean;
 function mbFindDirectory(which: cuint32; volume: dev_t; createIt: cbool; out pathString: String): Boolean;
 
 implementation
@@ -118,6 +159,29 @@ begin
     fs_close_attr_dir(DirPtr);
   end;
   SetLength(Result, Index);
+end;
+
+function mbFileWriteXattr(const FileName, AttrName, Value: String): Boolean;
+var
+  hAttr: cint;
+  ALen: Integer;
+  hTarget: THandle;
+begin
+  hTarget:= mbFileOpen(FileName, O_RDWR or O_NOTRAVERSE);
+  Result:= (hTarget <> feInvalidHandle);
+  if Result then
+  begin
+    hAttr:= fs_fopen_attr(hTarget, PAnsiChar(AttrName),
+                          B_STRING_TYPE, O_CREAT or O_TRUNC or O_WRONLY);
+    Result:= (hAttr <> feInvalidHandle);
+    if Result then
+    begin
+      ALen:= Length(Value) + 1;
+      Result:= (FileWrite(hAttr, PAnsiChar(Value)^, ALen) = ALen);
+      fs_close_attr(hAttr);
+    end;
+    FileClose(hTarget);
+  end;
 end;
 
 function mbFileCopyXattr(const Source, Target: String): Boolean;
