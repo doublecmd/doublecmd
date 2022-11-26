@@ -201,9 +201,7 @@ uses
   , BaseUnix, Unix, uMyUnix, dl
     {$IF DEFINED(DARWIN)}
   , CocoaAll, uMyDarwin
-    {$ELSEIF DEFINED(HAIKU)}
-  , uMyHaiku
-    {$ELSE}
+    {$ELSEIF NOT DEFINED(HAIKU)}
   , uGio, uClipboard, uXdg, uKde
     {$ENDIF}
   {$ENDIF}
@@ -410,42 +408,44 @@ begin
       CFRelease(theFileNameUrlRef);
   end;
 end;
-{$ELSEIF DEFINED(HAIKU)}
-begin
-  Result:= OpenUrl(URL);
-end;
 {$ELSE}
 var
   sCmdLine: String;
 begin
   Result:= False;
   sCmdLine:= EmptyStr;
+
   if FileIsUnixExecutable(URL) then
-    begin
-      if GetPathType(URL) <> ptAbsolute then
-        sCmdLine := './';
-      sCmdLine:= sCmdLine + QuoteStr(URL);
-    end
-  else
-    begin
-      if (DesktopEnv = DE_KDE) and (HasKdeOpen = True) then
-        Result:= KioOpen(URL) // Under KDE use "kioclient" to open files
-      else if HasGio and (DesktopEnv <> DE_XFCE) then
-        Result:= GioOpen(URL) // Under GNOME, Unity and LXDE use "GIO" to open files
-      else
-        begin
-          if GetPathType(URL) = ptAbsolute then
-            sCmdLine:= URL
-          else
-            begin
-              sCmdLine := IncludeTrailingPathDelimiter(mbGetCurrentDir);
-              sCmdLine:= GetAbsoluteFileName(sCmdLine, URL)
-            end;
-          sCmdLine:= GetDefaultAppCmd(sCmdLine);
-        end;
+  begin
+    if GetPathType(URL) = ptAbsolute then
+      sCmdLine:= URL
+    else begin
+      sCmdLine:= IncludeTrailingPathDelimiter(mbGetCurrentDir);
+      sCmdLine:= GetAbsoluteFileName(sCmdLine, URL)
     end;
-  if Length(sCmdLine) <> 0 then
+  end
+  else begin
+  {$IF NOT DEFINED(HAIKU)}
+    if (DesktopEnv = DE_KDE) and (HasKdeOpen = True) then
+      Result:= KioOpen(URL) // Under KDE use "kioclient" to open files
+    else if HasGio and (DesktopEnv <> DE_XFCE) then
+      Result:= GioOpen(URL) // Under GNOME, Unity and LXDE use "GIO" to open files
+    else
+  {$ENDIF}
+    begin
+      if GetPathType(URL) = ptAbsolute then
+        sCmdLine:= URL
+      else begin
+        sCmdLine:= IncludeTrailingPathDelimiter(mbGetCurrentDir);
+        sCmdLine:= GetAbsoluteFileName(sCmdLine, URL)
+      end;
+      sCmdLine:= GetDefaultAppCmd(sCmdLine);
+    end;
+  end;
+
+  if Length(sCmdLine) > 0 then begin
     Result:= ExecCmdFork(sCmdLine);
+  end;
 end;
 {$ENDIF}
 

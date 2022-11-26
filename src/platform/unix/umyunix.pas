@@ -384,6 +384,10 @@ begin
   Result:= 'xdg-open ' + QuoteStr(FileName);
   FreeAndNil(Filenames);
 end;
+{$ELSEIF DEFINED(HAIKU)}
+begin
+  Result:= '/bin/open ' + QuoteStr(FileName);
+end;
 {$ELSE}
 begin
   Result:= 'xdg-open ' + QuoteStr(FileName);
