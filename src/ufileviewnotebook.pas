@@ -540,7 +540,7 @@ var
   i: Integer;
 begin
   for i:=PageCount-1 downto 0 do
-    if i<>ActivePageIndex then RemovePage( i );
+    if i<>ActivePageIndex then inherited RemovePage( i );
   RemovePage( 0 );
 end;
 
