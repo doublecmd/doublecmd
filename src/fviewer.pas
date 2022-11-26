@@ -696,6 +696,7 @@ begin
   if dwFileAttributes = faInvalidAttributes then
   begin
     ActivatePanel(pnlFolder);
+    ExitPluginMode;
     memFolder.Font.Color:= clRed;
     memFolder.Lines.Text:= rsMsgErrNoFiles;
     Exit;
