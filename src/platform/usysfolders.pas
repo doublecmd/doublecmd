@@ -60,7 +60,9 @@ uses
   , BaseUnix, Unix, DCUnix
   {$IF DEFINED(DARWIN)}
   , CocoaAll, uMyDarwin
-  {$ELSEIF NOT DEFINED(HAIKU)}
+  {$ELSEIF DEFINED(HAIKU)}
+  , DCHaiku
+  {$ELSE}
   , uXdg
   {$ENDIF}
 {$ENDIF}
@@ -73,6 +75,11 @@ begin
 end;
 {$ELSE}
 begin
+  {$IF DEFINED(HAIKU)}
+  if mbFindDirectory(B_USER_DIRECTORY, -1, True, Result) then
+    Result:= ExcludeBackPathDelimiter(Result)
+  else
+  {$ENDIF}
   Result:= ExcludeBackPathDelimiter(SysToUTF8(GetEnvironmentVariable('HOME')));
 end;
 {$ENDIF}
@@ -112,7 +119,11 @@ begin
 end;
 {$ELSEIF DEFINED(HAIKU)}
 begin
-  Result:= GetHomeDir + '/config/settings/' + ApplicationName;
+  if mbFindDirectory(B_USER_SETTINGS_DIRECTORY, -1, True, Result) then
+    Result:= IncludeTrailingBackslash(Result) + ApplicationName
+  else begin
+    Result:= GetHomeDir + '/config/settings/' + ApplicationName;
+  end;
 end;
 {$ELSE}
 var
@@ -142,7 +153,11 @@ begin
 end;
 {$ELSEIF DEFINED(HAIKU)}
 begin
-  Result:= GetHomeDir + '/config/cache/' + ApplicationName;
+  if mbFindDirectory(B_USER_CACHE_DIRECTORY, -1, True, Result) then
+    Result:= IncludeTrailingBackslash(Result) + ApplicationName
+  else begin
+    Result:= GetHomeDir + '/config/cache/' + ApplicationName;
+  end;
 end;
 {$ELSE}
 var
@@ -167,7 +182,11 @@ begin
 end;
 {$ELSEIF DEFINED(HAIKU)}
 begin
-  Result:= GetAppConfigDir;
+  if mbFindDirectory(B_USER_DATA_DIRECTORY, -1, True, Result) then
+    Result:= IncludeTrailingBackslash(Result) + ApplicationName
+  else begin
+    Result:= GetHomeDir + '/config/data/' + ApplicationName;
+  end;
 end;
 {$ELSE}
 begin
