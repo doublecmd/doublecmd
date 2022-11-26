@@ -3,7 +3,7 @@
     -------------------------------------------------------------------------
     Some functions for working with trash
 
-    Copyright (C) 2009-2020 Alexander Koblov (alexx2000@mail.ru)
+    Copyright (C) 2009-2022 Alexander Koblov (alexx2000@mail.ru)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -48,8 +48,10 @@ uses
   Windows, ShellApi, DCConvertEncoding, uMyWindows
   {$ELSEIF DEFINED(UNIX)}
   BaseUnix, uMyUnix, uOSUtils, FileUtil, uSysFolders
-    {$IFDEF DARWIN}
+    {$IF DEFINED(DARWIN)}
     , MacOSAll, DynLibs, CocoaAll, uMyDarwin
+    {$ELSEIF DEFINED(HAIKU)}
+    , DCHaiku, DCConvertEncoding
     {$ELSE}
     , uFileProcs, uClipboard, uXdg
     {$ENDIF}
@@ -151,6 +153,33 @@ begin
     newFileName := Format('%s %s', [newFileName, FormatDateTime('hh-nn-ss', Time)]);
 
   Result := mbRenameFile(FileName, newFileName);
+end;
+{$ELSEIF DEFINED(HAIKU)}
+const
+  kAttrOriginalPath = '_trk/original_path';
+var
+  dev: dev_t;
+  ATrash: String;
+  AHandle: THandle;
+  AFileName, ATrashFile: String;
+begin
+  AFileName:= CeUtf8ToSys(FileName);
+  dev:= dev_for_path(PAnsiChar(AFileName));
+  if not mbFindDirectory(B_TRASH_DIRECTORY, dev, True, ATrash) then
+    Exit(False);
+  if IsInPath(ATrash, FileName, True, True) then
+    Exit(False);
+  ATrash:= IncludeTrailingBackslash(ATrash);
+  ATrashFile:= ATrash + ExtractOnlyFileName(FileName);
+  ATrashFile:= GetTempName(ATrashFile, ExtractOnlyFileExt(FileName));
+
+  if fpRename(FileName, ATrashFile) < 0 then
+    Exit(False);
+
+  Result:= mbFileWriteXattr(ATrashFile, kAttrOriginalPath, AFileName);
+  if not Result then begin
+    fpRename(ATrashFile, FileName);
+  end;
 end;
 {$ELSEIF DEFINED(UNIX)}
 // This implementation is based on FreeDesktop.org "Trash Specification"
