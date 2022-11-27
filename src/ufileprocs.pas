@@ -42,17 +42,11 @@ function CopyFile(const sSrc, sDst: String; bAppend: Boolean = False): Boolean;
 }
 procedure DelTree(const sFolderName: String);
 {en
-   Read string from a text file into variable and goto next line
-   @param(hFile Handle of file)
-   @param(S Stores the result string)
-}
-function FileReadLn(hFile: THandle; out S: String): Boolean;
-{en
    Write string to a text file and append newline
    @param(hFile Handle of file)
    @param(S String for writing)
 }
-procedure FileWriteLn(hFile: Integer; S: String);
+procedure FileWriteLn(hFile: THandle; S: String);
 
 function GetNextCopyName(FileName: String; IsDirectory: Boolean): String;
 
@@ -155,61 +149,10 @@ begin
   end;
 end;
 
-function FileReadLn(hFile: THandle; out S: String): Boolean;
-const
-  cBufSize = 4096;
-var
-   Buf: array[1..cBufSize] of Char;
-   iNumRead,
-   iCounter,
-   iBufPos: Integer;
-   bEOLFound: Boolean;
-   iFilePos,
-   iFileSize: Int64;
-begin
-  S:='';
-  Result:= False;
-  // get current position
-  iFilePos:= FileSeek(hFile, 0, soFromCurrent);
-  // get file size
-  iFileSize:= FileSeek(hFile, 0, soFromEnd);
-  // restore position
-  FileSeek(hFile, iFilePos, soFromBeginning);
-  bEOLFound:= False;
-
-  while (iFilePos < iFileSize) and not bEOLFound do
-    begin
-      iNumRead:= FileRead(hFile, Buf, SizeOf(Buf));
-
-      for iCounter:= 1 to iNumRead do
-          begin
-            if Buf[iCounter] in [#13, #10] then
-              begin
-                bEOLFound:=True;
-                iBufPos:=iCounter+1;
-                if ((iBufPos) <= iNumRead) and (Buf[iBufPos] in [#13, #10]) then
-                  Inc(iBufPos);
-                Buf[iCounter]:= #0;
-                S:= StrPas(@Buf);
-                FileSeek(hFile, iFilePos+iBufPos-1, soFromBeginning);
-                Exit(True);
-              end;
-          end; // for
-
-      if (not bEOLFound) then
-         begin
-           if (iNumRead < cBufSize) then
-             Buf[iNumRead+1]:= #0;
-           S:= StrPas(@Buf);
-         end;
-      Inc(iFilePos, iNumRead);
-    end; // while
-end;
-
-procedure FileWriteLn(hFile: Integer; S: String);
+procedure FileWriteLn(hFile: THandle; S: String);
 begin
   S:= S + LineEnding;
-  FileWrite(hFile, PChar(S)[0], Length(S));
+  FileWrite(hFile, PAnsiChar(S)^, Length(S));
 end;
 
 function mbForceDirectory(DirectoryName: string): boolean;
