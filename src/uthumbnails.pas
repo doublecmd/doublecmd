@@ -49,8 +49,9 @@ type
 implementation
 
 uses
-  FileUtil, LazFileUtils, Forms, uDebug, DCOSUtils, uFileProcs, DCStrUtils, uReSample,
-  uGlobsPaths, uGlobs, uPixmapManager, URIParser, md5, uFileSystemFileSource, uGraphics;
+  StreamEx, URIParser, MD5, FileUtil, LazFileUtils, Forms, DCOSUtils, DCStrUtils,
+  uDebug, uReSample, uGlobsPaths, uGlobs, uPixmapManager, uFileSystemFileSource,
+  uGraphics, uFileProcs;
 
 const
   ThumbSign: QWord = $0000235448554D42; // '#0 #0 # T H U M B'
@@ -88,10 +89,10 @@ end;
 
 procedure TThumbnailManager.DoCreatePreviewText;
 var
-  Y: Int32;
-  sStr: String;
-  tFile: THandle;
-  LastLine: Boolean;
+  S: String;
+  Y: Integer;
+  Stream: TFileStreamEx;
+  Reader: TStreamReader;
 begin
   FBitmap:= TBitmap.Create;
   with FBitmap do
@@ -101,16 +102,21 @@ begin
     Canvas.FillRect(Canvas.ClipRect);
     Canvas.Font.Color:= clWindowText;
     Canvas.Font.Size := gThumbSize.cy div 16;
-    tFile:= mbFileOpen(FFileName, fmOpenRead or fmShareDenyNone);
-    if (tFile <> feInvalidHandle) then
-    begin
-      Y:= 0;
-      repeat
-        LastLine := not FileReadLn(tFile, sStr);
-        Canvas.TextOut(0, Y, sStr);
-        Y += Canvas.TextHeight(sStr) + 2;
-      until (Y >= gThumbSize.cy) or LastLine;
-      FileClose(tFile);
+    try
+      Stream:= TFileStreamEx.Create(FFileName, fmOpenRead or fmShareDenyNone);
+      try
+        Y:= 0;
+        Reader:= TStreamReader.Create(Stream, BUFFER_SIZE, True);
+        repeat
+          S:= Reader.ReadLine;
+          Canvas.TextOut(0, Y, S);
+          Y += Canvas.TextHeight(S) + 2;
+        until (Y >= gThumbSize.cy) or Reader.Eof;
+      finally
+        Reader.Free;
+      end;
+    except
+      // Ignore
     end;
   end;
 end;
