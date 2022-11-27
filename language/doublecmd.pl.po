@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Double Commander 1.1.0 alpha\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-11-15 11:15+0300\n"
-"PO-Revision-Date: 2022-09-16 12:52+0000\n"
+"PO-Revision-Date: 2022-11-24 12:57+0000\n"
 "Last-Translator: Andrzej Kamiński <endriusk@interia.pl> and Maciej Bojakowski <maciejbojakowski@gmail.com>\n"
 "Language-Team: \n"
 "Language: pl\n"
@@ -5203,7 +5203,7 @@ msgstr "Opcje edytora wewnętrznego"
 
 #: tfrmoptionseditor.lblblockindent.caption
 msgid "Block indent:"
-msgstr ""
+msgstr "Wcięcie bloku:"
 
 #: tfrmoptionseditor.lbltabwidth.caption
 msgid "Tab width:"
@@ -10673,7 +10673,7 @@ msgid ""
 "\"%s\" setup has been modified.\n"
 "Do you want to save it now?"
 msgstr ""
-"Konfiguracja \"%s\" zastała zmodyfikowana.\n"
+"Konfiguracja \"%s\" została zmodyfikowana.\n"
 "Czy chcesz ją teraz zapisać?"
 
 #: ulng.rshotkeynoscenter
