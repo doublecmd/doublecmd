@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Localization core unit
 
-   Copyright (C) 2007-2020 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2007-2022 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -1102,38 +1102,39 @@ implementation
 
 uses
   Forms, Classes, SysUtils, StrUtils, GetText, Translations, uGlobs, uGlobsPaths,
-  uTranslator, uDebug, uFileProcs, DCOSUtils, DCStrUtils;
+  uTranslator, uDebug, DCClassesUtf8, DCOSUtils, DCStrUtils, StreamEx;
 
-function GetLanguageName(const poFileName : String) : String;
+function GetLanguageName(const poFileName: String): String;
 var
-  sLine : String;
-  poFile : THandle;
-  iPos1, iPos2 : Integer;
+  sLine: String;
+  S, F, Index : Integer;
+  Stream: TFileStreamEx;
+  Reader: TStreamReader;
 begin
-  poFile:= mbFileOpen(poFileName, fmOpenRead);
-  if poFile <> feInvalidHandle then
-  begin
-    // find first msgid line
-    FileReadLn(poFile, sLine);
-    while Pos('msgid', sLine) = 0 do
-      FileReadLn(poFile, sLine);
-    // read msgstr line
-    FileReadLn(poFile, sLine);
-    repeat
-      FileReadLn(poFile, sLine);
-      // find language name line
-      if Pos('X-Native-Language:', sLine) <> 0 then
-      begin
-        iPos1 := Pos(':', sLine) + 2;
-        iPos2 := Pos('\n', sLine) - 1;
-        Result := Copy(sLine, iPos1,  (iPos2 - iPos1) + 1);
-        FileClose(poFile);
-        Exit;
-      end;
-    until Pos('msgid', sLine) = 1;
-    FileClose(poFile);
+  try
+    Stream:= TFileStreamEx.Create(poFileName, fmOpenRead or fmShareDenyNone);
+    try
+      Index:= 0;
+      Reader:= TStreamReader.Create(Stream, BUFFER_SIZE, True);
+      repeat
+        sLine:= Reader.ReadLine;
+        S:= Pos('X-Native-Language', sLine);
+        if S > 0 then
+        begin
+          S:= Pos(':', sLine, S + 17) + 2;
+          F:= Pos('\n', sLine, S) - 1;
+          Result:= Copy(sLine, S,  (F - S) + 1);
+          Exit;
+        end;
+        Inc(Index);
+      until (Reader.Eof or (Index > 256));
+    finally
+      Reader.Free;
+    end;
+  except
+    // Ignore
   end;
-  Result := 'Unknown';
+  Result:= 'Unknown';
 end;
 
 procedure TranslateLCL(poFileName: String);
