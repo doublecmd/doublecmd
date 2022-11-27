@@ -539,7 +539,7 @@ begin
       Result := fpSystemStatus('pumount ' + Drive^.DeviceId) = 0;
     if not Result then
 {$ELSEIF DEFINED(DARWIN)}
-    Result := fpSystemStatus('diskutil unmount ' + Drive^.DeviceId) = 0;
+    Result := fpSystemStatus('diskutil unmount ' + Drive^.Path) = 0;
     if not Result then
 {$ENDIF}
     Result := fpSystemStatus('umount ' + Drive^.Path) = 0;
