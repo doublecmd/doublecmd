@@ -264,7 +264,7 @@ begin
           end;
           if RemoveDirectly = fsoogYes then
             begin
-              if aFile.IsLinkToDirectory then
+              if aFile.IsLink and aFile.IsDirectory then
                 begin
                   DeleteResult := RemoveDirectoryUAC(FileName);
                 end
