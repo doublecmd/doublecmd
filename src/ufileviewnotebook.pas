@@ -541,7 +541,7 @@ var
 begin
   for i:=PageCount-1 downto 0 do
     if i<>ActivePageIndex then inherited RemovePage( i );
-  RemovePage( 0 );
+  inherited RemovePage( 0 );
 end;
 
 procedure TFileViewNotebook.ActivatePrevTab;
