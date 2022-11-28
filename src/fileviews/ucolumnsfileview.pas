@@ -745,13 +745,15 @@ begin
     if Assigned(AFile) then
       try
         if AFile.IsNameValid then begin
-          lblInfo.Caption := AFile.Name;  
-          if gDirBrackets and AFile.IsDirectory then 
-            lblInfo.Caption := gFolderPrefix + AFile.Name + gFolderPostfix;
-          if AFile.IsLink then 
-            lblInfo.Caption := AFile.Name + ' -> ' + AFile.LinkProperty.LinkTo;
-          if gDirBrackets and AFile.IsLinkToDirectory then 
-            lblInfo.Caption := gFolderPrefix + AFile.Name + gFolderPostfix + ' -> ' + gFolderPrefix + AFile.LinkProperty.LinkTo + gFolderPostfix;
+          if gDirBrackets and AFile.IsLinkToDirectory then
+            lblInfo.Caption := gFolderPrefix + AFile.Name + gFolderPostfix + ' -> ' + gFolderPrefix + AFile.LinkProperty.LinkTo + gFolderPostfix
+          else if AFile.IsLink then
+            lblInfo.Caption := AFile.Name + ' -> ' + AFile.LinkProperty.LinkTo
+          else if gDirBrackets and AFile.IsDirectory then
+            lblInfo.Caption := gFolderPrefix + AFile.Name + gFolderPostfix
+          else begin
+            lblInfo.Caption := AFile.Name;
+          end;
         end                       
         else 
          if not AInfo then begin
