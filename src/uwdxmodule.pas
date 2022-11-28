@@ -787,6 +787,7 @@ function TPluginWDX.CallContentGetValueV(FileName: String; FieldIndex,
   UnitIndex: Integer; flags: Integer): Variant;
 var
   Rez: Integer;
+  ATime: TDateTime;
   Buf: array[0..WDX_MAX_LEN] of Byte;
   fnval: Integer absolute buf;
   fnval64: Int64 absolute buf;
@@ -807,8 +808,20 @@ begin
       ft_numeric_32: Result := fnval;
       ft_numeric_64: Result := fnval64;
       ft_numeric_floating: Result := ffval;
-      ft_date: Result := EncodeDate(fdate.wYear, fdate.wMonth, fdate.wDay);
-      ft_time: Result := EncodeTime(ftime.wHour, ftime.wMinute, ftime.wSecond, 0);
+      ft_date:
+        begin
+          if TryEncodeDate(fdate.wYear, fdate.wMonth, fdate.wDay, ATime) then
+            Result := ATime
+          else
+            Result := Unassigned;
+        end;
+      ft_time:
+        begin
+          if TryEncodeTime(ftime.wHour, ftime.wMinute, ftime.wSecond, 0, ATime) then
+            Result := ATime
+          else
+            Result := Unassigned;
+        end;
       ft_datetime: Result :=  WinFileTimeToDateTime(wtime);
       ft_boolean: Result := Boolean(fnval);
 
