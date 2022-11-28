@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Auto-refresh options page
 
-   Copyright (C) 2006-2016 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2006-2022 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -45,6 +45,7 @@ type
     procedure cbWatchExcludeDirsChange(Sender: TObject);
     procedure OnAutoRefreshOptionChanged(Sender: TObject);
   protected
+    procedure Init; override;
     procedure Load; override;
     function Save: TOptionsEditorSaveFlags; override;
   public
@@ -57,7 +58,7 @@ implementation
 {$R *.lfm}
 
 uses
-  uGlobs, uLng;
+  uFileSystemWatcher, uGlobs, uLng;
 
 { TfrmOptionsAutoRefresh }
 
@@ -80,6 +81,12 @@ end;
 class function TfrmOptionsAutoRefresh.GetTitle: String;
 begin
   Result := rsOptionsEditorAutoRefresh;
+end;
+
+procedure TfrmOptionsAutoRefresh.Init;
+begin
+  if not (wfAttributesChange in TFileSystemWatcher.AvailableWatchFilter) then
+    cbWatchAttributesChange.Visible := False;
 end;
 
 procedure TfrmOptionsAutoRefresh.Load;

@@ -3,7 +3,7 @@
     -------------------------------------------------------------------------
     This is a thread-component sends an event when a change in the file system occurs.
 
-    Copyright (C) 2009-2021 Alexander Koblov (alexx2000@mail.ru)
+    Copyright (C) 2009-2022 Alexander Koblov (alexx2000@mail.ru)
     Copyright (C) 2011      Przemyslaw Nagay (cobines@gmail.com)
 
     This program is free software; you can redistribute it and/or modify
@@ -71,6 +71,7 @@ type
                                 aWatcherEvent: TFSWatcherEvent);
     class procedure RemoveWatch(aWatcherEvent: TFSWatcherEvent);
     class function CanWatch(const WatchPaths: array of String): Boolean;
+    class function AvailableWatchFilter: TFSWatchFilter;
   end;
 
 implementation
@@ -84,12 +85,32 @@ uses
   , inotify, BaseUnix, FileUtil, DCConvertEncoding, DCUnix
   {$ELSEIF DEFINED(BSD)}
   , BSD, Unix, BaseUnix, UnixType, FileUtil, DCOSUtils
+  {$ELSEIF DEFINED(HAIKU)}
+  , DCConvertEncoding
+    {$IF DEFINED(LCLQT5)}
+      , Qt5
+    {$ELSEIF DEFINED(LCLQT6)}
+      , Qt6
+    {$ENDIF}
   {$ENDIF};
+
+{$IF DEFINED(HAIKU) AND (DEFINED(LCLQT5) OR DEFINED(LCLQT6))}
+  {$DEFINE HAIKUQT}
+{$ENDIF}
 
 {$if lcl_fullversion < 2030000}
   {$macro on}
   {$define SameMethod:= CompareMethods}
 {$endif}
+
+{$IF DEFINED(UNIX)}
+type
+  {$IF DEFINED(HAIKUQT)}
+  TNotifyHandle = QFileSystemWatcherH;
+  {$ELSE}
+  TNotifyHandle = THandle;
+  {$ENDIF}
+{$ENDIF}
 
 {$IF DEFINED(MSWINDOWS)}
 const
@@ -148,7 +169,7 @@ type
     FOldFileName: String; // for FILE_ACTION_RENAMED_OLD_NAME action
     {$ENDIF}
     {$IF DEFINED(UNIX)}
-    FNotifyHandle: THandle;
+    FNotifyHandle: TNotifyHandle;
     {$ENDIF}
     procedure CreateHandle;
     procedure DestroyHandle;
@@ -159,7 +180,7 @@ type
     {$ENDIF}
   public
     constructor Create(const aWatchPath: String
-                       {$IFDEF UNIX}; aNotifyHandle: THandle{$ENDIF}); reintroduce;
+                       {$IFDEF UNIX}; aNotifyHandle: TNotifyHandle{$ENDIF}); reintroduce;
     destructor Destroy; override;
     procedure UpdateFilter;
     {$IF DEFINED(MSWINDOWS)}
@@ -179,14 +200,18 @@ type
     FWatcherLock: syncobjs.TCriticalSection;
     FOSWatchers: TOSWatchs;
     {$IF DEFINED(UNIX)}
-    FNotifyHandle: THandle;
+    FNotifyHandle: TNotifyHandle;
     {$ENDIF}
     {$IF DEFINED(LINUX)}
     FEventPipe: TFilDes;
     {$ENDIF}
     FCurrentEventData: TFSWatcherEventData;
     FFinished: Boolean;
-
+    {$IF DEFINED(HAIKUQT)}
+    FFinishEvent: TSimpleEvent;
+    FHook: QFileSystemWatcher_hookH;
+    procedure DirectoryChanged(Path: PWideString); cdecl;
+    {$ENDIF}
     procedure DoWatcherEvent;
     function GetWatchersCount: Integer;
     function GetWatchPath(var aWatchPath: String): Boolean;
@@ -242,11 +267,6 @@ begin
   begin
     DCDebug('Waiting for FileSystemWatcher thread');
     FileSystemWatcher.Terminate;
-  {$IF (fpc_version<2) or ((fpc_version=2) and (fpc_release<5))}
-    If (MainThreadID=GetCurrentThreadID) then
-      while not FileSystemWatcher.FFinished do
-        CheckSynchronize(100);
-  {$ENDIF}
     FileSystemWatcher.WaitFor;
     FreeAndNil(FileSystemWatcher);
   end;
@@ -304,6 +324,15 @@ begin
   Result:= True;
 end;
 {$ENDIF}
+
+class function TFileSystemWatcher.AvailableWatchFilter: TFSWatchFilter;
+begin
+  Result := [wfFileNameChange
+{$IF NOT DEFINED(HAIKUQT)}
+           , wfAttributesChange
+{$ENDIF}
+  ];
+end;
 
 // ----------------------------------------------------------------------------
 
@@ -780,8 +809,29 @@ begin
     end; { case }
   end; { while }
 end;
+{$ELSEIF DEFINED(HAIKUQT)}
+begin
+  while not Terminated do
+  begin
+    FFinishEvent.WaitFor(INFINITE);
+  end;
+end;
 {$ELSE}
 begin
+end;
+{$ENDIF}
+
+{$IF DEFINED(HAIKUQT)}
+procedure TFileSystemWatcherImpl.DirectoryChanged(Path: PWideString); cdecl;
+begin
+  FCurrentEventData.Path := CeUtf16ToUtf8(Path^);
+  FCurrentEventData.EventType := fswUnknownChange;
+  FCurrentEventData.FileName := EmptyStr;
+  FCurrentEventData.NewFileName := EmptyStr;
+  {$IFDEF DEBUG_WATCHER}
+  DCDebug('FSWatcher: Send event, Path %s', [FCurrentEventData.Path]);
+  {$ENDIF};
+  DoWatcherEvent;
 end;
 {$ENDIF}
 
@@ -892,17 +942,9 @@ end;
 
 constructor TFileSystemWatcherImpl.Create;
 begin
-{$IF (fpc_version<2) or ((fpc_version=2) and (fpc_release<5))}
-  // Workaround for race condition, see FPC Mantis #16884.
-  inherited Create(True);
-{$ELSE}
-  inherited Create(False);
-{$ENDIF}
-
   FOSWatchers := TOSWatchs.Create({$IFDEF MSWINDOWS}False{$ELSE}True{$ENDIF});
   FWatcherLock := syncobjs.TCriticalSection.Create;
 
-  FreeOnTerminate := False;
   FFinished := False;
 
   {$IF DEFINED(MSWINDOWS)}
@@ -942,13 +984,18 @@ begin
   FNotifyHandle := kqueue();
   if FNotifyHandle = feInvalidHandle then
     ShowError('kqueue() failed');
+  {$ELSEIF DEFINED(HAIKUQT)}
+  FFinishEvent:= TSimpleEvent.Create;
+  FNotifyHandle:= QFileSystemWatcher_Create();
+  FHook:= QFileSystemWatcher_hook_Create(FNotifyHandle);
+  QFileSystemWatcher_hook_hook_directoryChanged(FHook, @DirectoryChanged);
   {$ELSEIF DEFINED(UNIX)}
   FNotifyHandle := feInvalidHandle;
   {$ENDIF}
 
-{$IF (fpc_version<2) or ((fpc_version=2) and (fpc_release<5))}
-  Resume;
-{$ENDIF}
+  inherited Create(False);
+
+  FreeOnTerminate := False;
 end;
 
 destructor TFileSystemWatcherImpl.Destroy;
@@ -976,6 +1023,11 @@ begin
     FileClose(FNotifyHandle);
     FNotifyHandle := feInvalidHandle;
   end;
+  {$ELSEIF DEFINED(HAIKUQT)}
+  QFileSystemWatcher_hook_hook_directoryChanged(FHook, nil);
+  QFileSystemWatcher_hook_Destroy(FHook);
+  QFileSystemWatcher_Destroy(FNotifyHandle);
+  FreeAndNil(FFinishEvent);
   {$ENDIF}
 
   if Assigned(FOSWatchers) then
@@ -1214,6 +1266,10 @@ begin
     end; { if }
   end; { if }
 end;
+{$ELSEIF DEFINED(HAIKUQT)}
+begin
+  FFinishEvent.SetEvent;
+end;
 {$ELSE}
 begin
 end;
@@ -1224,7 +1280,7 @@ end;
 { TOSWatch }
 
 constructor TOSWatch.Create(const aWatchPath: String
-                            {$IFDEF UNIX}; aNotifyHandle: THandle{$ENDIF});
+                            {$IFDEF UNIX}; aNotifyHandle: TNotifyHandle{$ENDIF});
 begin
   FObservers := TOSWatchObservers.Create(True);
   FWatchFilter := [];
@@ -1389,6 +1445,17 @@ begin
     end; { if }
   end;
 end;
+{$ELSEIF DEFINED(HAIKUQT)}
+var
+  APath: WideString;
+begin
+  FHandle := 1;
+  APath := CeUtf8ToUtf16(FWatchPath);
+  {$IFDEF DEBUG_WATCHER}
+  DCDebug('FSWatcher: Add watch ', FWatchPath);
+  {$ENDIF}
+  QFileSystemWatcher_addPath(FNotifyHandle, @APath);
+end;
 {$ELSE}
 begin
   FHandle := feInvalidHandle;
@@ -1399,6 +1466,9 @@ procedure TOSWatch.DestroyHandle;
 {$IF DEFINED(MSWINDOWS)}
 var
   tmpHandle: THandle;
+{$ELSEIF DEFINED(HAIKUQT)}
+var
+  APath: WideString;
 {$ENDIF}
 begin
   if FHandle <> feInvalidHandle then
@@ -1420,6 +1490,13 @@ begin
     tmpHandle := FHandle;
     FHandle := feInvalidHandle;
     CloseHandle(tmpHandle);
+    {$ELSEIF DEFINED(HAIKUQT)}
+    FHandle := feInvalidHandle;
+    APath := CeUtf8ToUtf16(FWatchPath);
+    {$IFDEF DEBUG_WATCHER}
+    DCDebug('FSWatcher: Remove watch ', FWatchPath);
+    {$ENDIF}
+    QFileSystemWatcher_removePath(FNotifyHandle, @APath);
     {$ELSE}
     FHandle := feInvalidHandle;
     {$ENDIF}
