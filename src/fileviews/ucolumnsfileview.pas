@@ -738,6 +738,7 @@ end;
 procedure TColumnsFileView.UpdateFooterDetails(AInfo: Boolean);
 var
   AFile: TFile;
+  AText: String;
 begin
   if gColumnsLongInStatus and (FSelectedCount = 0) and (not FlatView) then
   begin
@@ -745,10 +746,26 @@ begin
     if Assigned(AFile) then
       try
         if AFile.IsNameValid then begin
-          if gDirBrackets and (AFile.IsDirectory or AFile.IsLinkToDirectory) then 
-            lblInfo.Caption := gFolderPrefix + AFile.Name + gFolderPostfix
-          else 
-            lblInfo.Caption := AFile.Name;
+          if gDirBrackets and AFile.IsLinkToDirectory then
+            begin
+              AText := gFolderPrefix + AFile.Name + gFolderPostfix;
+              if Assigned(AFile.LinkProperty) then begin
+                AText += ' -> ' + gFolderPrefix + AFile.LinkProperty.LinkTo + gFolderPostfix;
+              end;
+            end
+            else if AFile.IsLink then
+            begin
+              AText := AFile.Name;
+              if Assigned(AFile.LinkProperty) then begin
+                AText += ' -> ' + AFile.LinkProperty.LinkTo;
+              end;
+            end
+            else if gDirBrackets and AFile.IsDirectory then
+              AText := gFolderPrefix + AFile.Name + gFolderPostfix
+            else begin
+              AText := AFile.Name;
+            end;
+            lblInfo.Caption := AText;
         end                       
         else 
          if not AInfo then begin
