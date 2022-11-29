@@ -885,6 +885,8 @@ begin
       if Result then
       begin
           SetUpdate(Index);
+          if Assigned(OnChangeActiveFile) then
+            OnChangeActiveFile(Self, FFiles[Index].FSFile);
           Exit(True);
       end;
     end;
