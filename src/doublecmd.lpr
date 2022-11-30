@@ -10,9 +10,6 @@ uses
   uDarkStyle,
   {$ENDIF}
   {$ENDIF}
-  {$IF DEFINED(WIN64) AND (FPC_FULLVERSION < 30000)}
-  uExceptionHandlerFix,
-  {$ENDIF}
   {$IFDEF UNIX}
   cthreads,
   {$IFNDEF HEAPTRC}
