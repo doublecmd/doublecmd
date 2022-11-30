@@ -2104,9 +2104,9 @@ begin
 
   if (AWindowCaptionStyle and $08) <> 0 then
   begin
-    sBuildingCaptionName := sBuildingCaptionName + ' - File: ' + GetFileMask;
+    sBuildingCaptionName := sBuildingCaptionName + ' - Files: ' + GetFileMask;
     if cbFindText.Checked then
-      sBuildingCaptionName := sBuildingCaptionName + ' - Text:' + cmbFindText.Text;
+      sBuildingCaptionName := sBuildingCaptionName + ' - Text: ' + cmbFindText.Text;
   end;
 
   Caption := sBuildingCaptionName;
