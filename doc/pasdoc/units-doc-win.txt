@@ -1,0 +1,9 @@
+..\..\src\udcutils.pas
+..\..\src\platform\uOSUtils.pas
+..\..\src\platform\uosforms.pas
+..\..\src\uexts.pas
+..\..\src\ufileprocs.pas
+..\..\src\udescr.pas
+..\..\src\platform\win\umywindows.pas
+..\..\src\platform\unix\umyunix.pas
+..\..\src\platform\unix\linux\inotify.pp
