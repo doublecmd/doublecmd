@@ -38,7 +38,6 @@ cp -r doublecmd.app/*              $DC_APP_DIR/
 cp -a doublecmd                    $DC_INSTALL_DIR/
 cp -a doublecmd.help               $DC_INSTALL_DIR/
 cp -a doublecmd.zdli               $DC_INSTALL_DIR/
-cp -a doublecmd.ext.example        $DC_INSTALL_DIR/
 cp -a pixmaps.txt                  $DC_INSTALL_DIR/
 cp -a multiarc.ini                 $DC_INSTALL_DIR/
 cp -a pinyin.tbl                   $DC_INSTALL_DIR/
