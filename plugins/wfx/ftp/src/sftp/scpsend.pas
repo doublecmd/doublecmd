@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Wfx plugin for working with File Transfer Protocol
 
-   Copyright (C) 2013-2021 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2013-2022 Alexander Koblov (alexx2000@mail.ru)
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Lesser General Public
@@ -38,6 +38,7 @@ type
   private
     FAutoDetect: Boolean;
     FListCommand: String;
+    FPassphrase: AnsiString;
     FChannel: PLIBSSH2_CHANNEL;
   private
     function OpenChannel: Boolean;
@@ -61,6 +62,7 @@ type
     function Connect: Boolean; override;
   public
     constructor Create(const Encoding: String); override;
+    destructor Destroy; override;
     function Login: Boolean; override;
     function Logout: Boolean; override;
     function GetCurrentDir: String; override;
@@ -255,6 +257,7 @@ function TScpSend.AuthKey: Boolean;
 const
   Alphabet = ['a'..'z','A'..'Z','0'..'9','+','/','=', #10, #13];
 var
+  Key: String;
   Index: Integer;
   Memory: PAnsiChar;
   PrivateStream: String;
@@ -284,27 +287,37 @@ begin
     begin
       if Pos('-----BEGIN OPENSSH PRIVATE KEY-----', PrivateStream) > 0 then
       begin
-        Passphrase:= DecodeStringBase64(Memory);
-        Index:= Pos('bcrypt', Passphrase);
+        Key:= DecodeStringBase64(Memory);
+        Index:= Pos('bcrypt', Key);
         Encrypted:= (Index > 0) and (Index <= 64);
       end;
     end;
   end;
-  // Private key encrypted, request pass phrase
+  // Private key encrypted, request passphrase
   if Encrypted then
   begin
-    SetLength(Password, MAX_PATH + 1);
-    Message:= 'Private key pass phrase:';
-    Title:= 'ssh://' + UTF8ToUTF16(FUserName + '@' + FTargetHost);
-    if RequestProc(PluginNumber, RT_Password, PWideChar(Title), PWideChar(Message), PWideChar(Password), MAX_PATH) then
-    begin
-      Passphrase:= ClientToServer(Password);
+    if (Length(FPassphrase) > 0) then
+      Passphrase:= FPassphrase
+    else begin
+      SetLength(Password, MAX_PATH + 1);
+      Message:= 'Private key passphrase:';
+      Title:= 'ssh://' + UTF8ToUTF16(FUserName + '@' + FTargetHost);
+      if RequestProc(PluginNumber, RT_Password, PWideChar(Title), PWideChar(Message), PWideChar(Password), MAX_PATH) then
+      begin
+        Passphrase:= ClientToServer(Password);
+        FillWord(Password[1], Length(Password), 0);
+      end;
     end;
   end;
   Result:= libssh2_userauth_publickey_fromfile(FSession, PAnsiChar(FUserName),
                                                PAnsiChar(CeUtf8ToSys(FPublicKey)),
                                                PAnsiChar(CeUtf8ToSys(FPrivateKey)),
                                                PAnsiChar(Passphrase)) = 0;
+  // Save passphrase to cache
+  if Result and (Length(Passphrase) > 0) then
+  begin
+    FPassphrase:= Passphrase;
+  end;
 end;
 
 function TScpSend.Connect: Boolean;
@@ -454,6 +467,19 @@ begin
   FListCommand:= 'ls -la';
 end;
 
+destructor TScpSend.Destroy;
+begin
+  if (Length(FPassphrase) > 0) then
+  begin
+    if (StringRefCount(FPassphrase) = 1) then
+    begin
+      FillChar(FPassphrase[1], Length(FPassphrase), 0);
+      SetLength(FPassphrase, 0);
+    end;
+  end;
+  inherited Destroy;
+end;
+
 function TScpSend.Login: Boolean;
 var
   ACommand: String;
@@ -504,6 +530,7 @@ end;
 procedure TScpSend.CloneTo(AValue: TFTPSendEx);
 begin
   inherited CloneTo(AValue);
+  TScpSend(AValue).FPassphrase:= FPassphrase;
   TScpSend(AValue).FFingerprint:= FFingerprint;
 end;
 
