@@ -704,7 +704,10 @@ var
 begin
   FileSource:= TVfsFileSource.Create(gWFXPlugins);
   if Assigned(FileSource) then
+  begin
     Panel.AddFileSource(FileSource, FileSource.GetRootDir);
+    frmMain.ActiveFrame.SetFocus;
+  end;
 end;
 
 procedure TMainCommands.DoPanelsSplitterPerPos(SplitPos: Integer);
