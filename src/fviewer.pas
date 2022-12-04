@@ -708,7 +708,7 @@ begin
     FileList.Text := aFileName;
   end;
 
-  Screen.Cursor:= crHourGlass;
+  Screen.BeginWaitCursor;
   try
     if FPS_ISDIR(dwFileAttributes) then
       aName:= IncludeTrailingPathDelimiter(aFileName)
@@ -740,7 +740,7 @@ begin
 
     Status.Panels[sbpFileName].Text:= aFileName;
   finally
-    Screen.Cursor:= crDefault;
+    Screen.EndWaitCursor;
   end;
 end;
 
@@ -1795,14 +1795,14 @@ begin
     end;
     if (NewSize <> ViewerControl.FileSize) then
     begin
-      Screen.Cursor:= crHourGlass;
+      Screen.BeginWaitCursor;
       try
         ViewerControl.FileName := ViewerControl.FileName;
         ActivatePanel(pnlText);
         FLastSearchPos := -1;
         ViewerControl.GoEnd;
       finally
-        Screen.Cursor:= crDefault;
+        Screen.EndWaitCursor;
       end;
     end;
   end;
