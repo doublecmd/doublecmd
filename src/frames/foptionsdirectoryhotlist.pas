@@ -1953,7 +1953,6 @@ procedure TfrmOptionsDirectoryHotlist.RefreshExistingProperty(ScanMode: integer)
 var
   Index, LocalThreadCount: longint;
   ListOfAlreadyCheckDrive, ListOfNonExistingDrive: TStringList;
-  RememberCursor: TCursor;
   FreezeTime: dword;
 
   procedure StartThreadToSeeIfThisDriveExists(const sDrive: string);
@@ -2026,11 +2025,10 @@ var
   end;
 
 begin
-  RememberCursor := Screen.Cursor;
   SetNormalIconsInTreeView;
 
   try
-    Screen.Cursor := crHourGlass;
+    Screen.BeginWaitCursor;
 
     ListOfAlreadyCheckDrive := TStringList.Create;
     ListOfAlreadyCheckDrive.Sorted := False;
@@ -2100,7 +2098,7 @@ begin
     end;
 
   finally
-    Screen.Cursor := RememberCursor;
+    Screen.EndWaitCursor;
   end;
 
   tvDirectoryHotlist.Refresh;

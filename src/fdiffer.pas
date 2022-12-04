@@ -366,7 +366,7 @@ begin
     end
     else try
       Inc(ScrollLock);
-      Screen.Cursor := crHourGlass;
+      Screen.BeginWaitCursor;
 
       if SynDiffEditLeft.Modified then SynDiffEditLeft.Lines.RemoveFake;
       if SynDiffEditRight.Modified then SynDiffEditRight.Lines.RemoveFake;
@@ -447,9 +447,9 @@ begin
     finally
       SynDiffEditLeft.FinishCompare;
       SynDiffEditRight.FinishCompare;
-      Screen.Cursor := crDefault;
       actStartCompare.Enabled := True;
       actCancelCompare.Enabled := False;
+      Screen.EndWaitCursor;
       Dec(ScrollLock);
     end;
     if actLineDifferences.Checked then

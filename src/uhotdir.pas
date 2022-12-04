@@ -1174,14 +1174,12 @@ var
   ConfigFile: TIniFileEx;
   Index, OffsetForOnesAlreadyThere: integer;
   sName: string;
-  RememberCursor: TCursor;
 begin
   Result := True;
   OffsetForOnesAlreadyThere := 0;
 
   try
-    RememberCursor := Screen.Cursor;
-    Screen.Cursor := crHourGlass;
+    Screen.BeginWaitCursor;
     try
       ConfigFile := TIniFileEx.Create(mbExpandFileName(TotalCommanderConfigFilename));
       try
@@ -1250,7 +1248,7 @@ begin
     end;
 
   finally
-    Screen.Cursor := RememberCursor;
+    Screen.EndWaitCursor;
   end;
 end;
 {$ENDIF}
