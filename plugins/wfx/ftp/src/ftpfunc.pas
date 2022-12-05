@@ -931,22 +931,31 @@ function FsDisconnectW(DisconnectRoot: PWideChar): BOOL; dcpcall;
 var
   Index: Integer;
   asTemp: AnsiString;
-  wsTemp: UnicodeString;
   FtpSend: TFTPSendEx;
+  wsTemp: UnicodeString;
 begin
-  Result := False;
   wsTemp := ExcludeLeadingPathDelimiter(DisconnectRoot);
-  if GetConnectionByPath(wsTemp, FtpSend, asTemp) then
-  begin
-    Result := FtpSend.Logout;
+  asTemp := ExtractConnectionName(UTF16ToUTF8(wsTemp));
 
-    Index:= ConnectionList.IndexOf(ExtractConnectionName(UTF16ToUTF8(wsTemp)));
+  Index := ActiveConnectionList.IndexOf(asTemp);
+  Result := (Index >= 0);
+
+  if Result then
+  begin
+    FtpSend:= TFTPSendEx(ActiveConnectionList.Objects[Index]);
+
+    if not FtpSend.NetworkError then
+    begin
+      FtpSend.Logout;
+    end;
+    ActiveConnectionList.Delete(Index);
+
+    Index:= ConnectionList.IndexOf(asTemp);
     if Index >= 0 then begin
       ZeroPassword(TConnection(ConnectionList.Objects[Index]).CachedPassword);
     end;
-
     LogProc(PluginNumber, MSGTYPE_DISCONNECT, PWideChar('DISCONNECT ' + DisconnectRoot));
-    ActiveConnectionList.Delete(ActiveConnectionList.IndexOfObject(FtpSend));
+
     FreeAndNil(FtpSend);
   end;
 end;
