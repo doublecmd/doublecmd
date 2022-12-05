@@ -4,7 +4,7 @@
    Date and time functions.
 
    Copyright (C) 2009-2012 Przemysław Nagay (cobines@gmail.com)
-   Copyright (C) 2017-2018 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2017-2022 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -464,6 +464,7 @@ end;
 function DateTimeToUnixFileTime(DateTime : TDateTime): TUnixFileTime;
 {$IF DEFINED(UNIX)}
 var
+  AUnixTime: TTime;
   ATime: TTimeStruct;
   Year, Month, Day: Word;
   Hour, Minute, Second, MilliSecond: Word;
@@ -484,10 +485,13 @@ begin
   ATime.tm_min:= Minute;
   ATime.tm_sec:= Second;
 
-  Result:= fpMkTime(@ATime);
+  AUnixTime:= fpMkTime(@ATime);
 
-  if Result = DCBasicTypes.TFileTime(-1) then
-    raise EDateOutOfRange.Create(DateTime)
+  if (AUnixTime < 0) then
+    Result:= 0
+  else begin
+    Result:= TUnixFileTime(AUnixTime);
+  end;
 end;
 {$ELSE}
 var
