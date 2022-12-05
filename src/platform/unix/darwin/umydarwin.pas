@@ -28,7 +28,7 @@ unit uMyDarwin;
 interface
 
 uses
-  Classes, SysUtils, UnixType, MacOSAll, CocoaAll, CocoaUtils, CocoaInt, InterfaceBase, Menus, CocoaWSMenus;
+  Classes, SysUtils, UnixType, MacOSAll, CocoaAll, CocoaUtils, CocoaInt, Cocoa_Extra, InterfaceBase, Menus, CocoaWSMenus;
 
 // Darwin Util Function
 function StringToNSString(const S: String): NSString;
@@ -83,9 +83,9 @@ type TNSServiceMenuIsReady = Function(): Boolean of object;
 type TNSServiceMenuGetFilenames = Function(): TStringList of object;
 
 type TDCCocoaApplication = objcclass(TCocoaApplication)
-private
   function validRequestorForSendType_returnType (sendType: NSString; returnType: NSString): id; override;
   function writeSelectionToPasteboard_types (pboard: NSPasteboard; types: NSArray): ObjCBOOL; message 'writeSelectionToPasteboard:types:';
+  procedure observeValueForKeyPath_ofObject_change_context( keyPath: NSString; object_: id; change: NSDictionary; context: pointer); override;
 public
   serviceMenuIsReady: TNSServiceMenuIsReady;
   serviceMenuGetFilenames: TNSServiceMenuGetFilenames;
@@ -112,10 +112,16 @@ procedure InitNSServiceProvider(
   isReadyFunc: TNSServiceMenuIsReady;
   getFilenamesFunc: TNSServiceMenuGetFilenames );
 
+// MacOS Theme
+type TNSThemeChangedHandler = Procedure() of object;
+
+procedure InitNSThemeChangedObserver( handler: TNSThemeChangedHandler );
+
 var
   HasMountURL: Boolean = False;
   NSServiceProvider: TNSServiceProvider;
   MacosServiceMenuHelper: TMacosServiceMenuHelper;
+  NSThemeChangedHandler: TNSThemeChangedHandler;
 
 implementation
 
@@ -225,6 +231,29 @@ begin
 
   FreeAndNil( filenameList );
 end;
+
+procedure TDCCocoaApplication.observeValueForKeyPath_ofObject_change_context(
+  keyPath: NSString; object_: id; change: NSDictionary; context: pointer);
+begin
+  Inherited observeValueForKeyPath_ofObject_change_context( keyPath, object_, change, context );
+  if keyPath.isEqualToString(NSSTR('effectiveAppearance')) then
+  begin
+    NSAppearance.setCurrentAppearance( self.appearance );
+    if Assigned(NSThemeChangedHandler) then NSThemeChangedHandler;
+  end;
+end;
+
+procedure InitNSThemeChangedObserver( handler: TNSThemeChangedHandler );
+begin
+  if Assigned(NSThemeChangedHandler) then exit;
+
+  NSApp.addObserver_forKeyPath_options_context(
+    NSApp, NSSTR('effectiveAppearance'), 0, nil );
+
+  NSThemeChangedHandler:= handler;
+end;
+
+
 
 function NSArrayToList(const theArray:NSArray): TStringList;
 var

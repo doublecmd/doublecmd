@@ -874,6 +874,7 @@ type
     procedure OnNSServiceOpenWithNewTab( filenames:TStringList );
     function NSServiceMenuIsReady(): boolean;
     function NSServiceMenuGetFilenames(): TStringList;
+    procedure NSThemeChangedHandler();
     {$ENDIF}
     procedure LoadWindowState;
     procedure SaveWindowState;
@@ -1216,6 +1217,7 @@ begin
 
 {$IF DEFINED(DARWIN)}
   InitNSServiceProvider( @OnNSServiceOpenWithNewTab, @NSServiceMenuIsReady, @NSServiceMenuGetFilenames );
+  InitNSThemeChangedObserver( @NSThemeChangedHandler );
 {$ENDIF}
 end;
 
@@ -6124,6 +6126,12 @@ begin
   end;
 
   if filenames.Count>0 then Result:= filenames;
+end;
+
+procedure TfrmMain.NSThemeChangedHandler;
+begin
+  FrameLeft.UpdateColor;
+  FrameRight.UpdateColor;
 end;
 {$ENDIF}
 
