@@ -321,8 +321,8 @@ const
   MinutesInDay    =  1440;  {Number of minutes in a day}
 
 
-  function AbUnixTimeToLocalDateTime(UnixTime : LongInt) : TDateTime;
-  function AbLocalDateTimeToUnixTime(DateTime : TDateTime) : LongInt;
+  function AbUnixTimeToLocalDateTime(UnixTime : Int64) : TDateTime;
+  function AbLocalDateTimeToUnixTime(DateTime : TDateTime) : Int64;
 
   function AbDosFileDateToDateTime(FileDate, FileTime : Word) : TDateTime;
   function AbDateTimeToDosFileDate(Value : TDateTime) : LongInt;
@@ -376,6 +376,7 @@ uses
   AbExcept,
   DCOSUtils,
   DCStrUtils,
+  DCBasicTypes,
   DCDateTimeUtils;
 
 (*
@@ -1038,7 +1039,7 @@ Result := Result * SecondsInMinute;
 end;
 {$ENDIF}
 { -------------------------------------------------------------------------- }
-function AbUnixTimeToLocalDateTime(UnixTime : LongInt) : TDateTime;
+function AbUnixTimeToLocalDateTime(UnixTime : Int64) : TDateTime;
 { convert UTC unix date to Delphi TDateTime in local timezone }
 {$IFDEF MSWINDOWS}
 var
@@ -1060,12 +1061,12 @@ begin
 {$ENDIF}
 {$IFDEF UNIX}
 begin
-  Result := FileDateToDateTime(UnixTime);
+  Result := UnixFileTimeToDateTime(TUnixFileTime(UnixTime));
 {$ENDIF}
 end;
 
 { -------------------------------------------------------------------------- }
-function AbLocalDateTimeToUnixTime(DateTime : TDateTime) : LongInt;
+function AbLocalDateTimeToUnixTime(DateTime : TDateTime) : Int64;
 { convert local Delphi TDateTime to UTC unix date }
 {$IFDEF MSWINDOWS}
 var
@@ -1085,7 +1086,7 @@ begin
 {$ENDIF}
 {$IFDEF UNIX}
 begin
-  Result := DateTimeToFileDate(DateTime);
+  Result := Int64(DateTimeToUnixFileTime(DateTime));
 {$ENDIF}
 end;
 { -------------------------------------------------------------------------- }
