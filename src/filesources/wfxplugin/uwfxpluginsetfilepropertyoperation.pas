@@ -139,8 +139,8 @@ function TWfxPluginSetFilePropertyOperation.SetNewProperty(aFile: TFile;
                                                            aTemplateProperty: TFileProperty): TSetFilePropertyResult;
 var
   AFileName: String;
+  ftTime: TWfxFileTime;
   NewAttributes: TFileAttrs;
-  ftTime: TFileTime;
 begin
   Result := sfprSuccess;
 
