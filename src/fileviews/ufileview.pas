@@ -440,6 +440,8 @@ type
 
     procedure UpdateView;
 
+    procedure UpdateColor; virtual; abstract;
+
     {en
        Moves the selection focus to the file specified by aFilePath.
        @param(aFilePath may be an absolute path to the file or just a file name.)

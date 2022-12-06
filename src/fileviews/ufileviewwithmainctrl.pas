@@ -221,6 +221,8 @@ type
     procedure SetFocus; override;
     procedure SetDragCursor(Shift: TShiftState); override;
 
+    procedure UpdateColor; override;
+
   published
     procedure cm_RenameOnly(const Params: array of string);
     procedure cm_ContextMenu(const Params: array of string);
@@ -494,7 +496,7 @@ end;
 procedure TFileViewWithMainCtrl.DoActiveChanged;
 begin
   inherited DoActiveChanged;
-  MainControl.Color := DimColor(gBackColor);
+  UpdateColor;
   // Needed for rename on mouse
   FMouseRename := False;
 end;
@@ -577,13 +579,18 @@ end;
 
 procedure TFileViewWithMainCtrl.DoLoadingFileListLongTime;
 begin
-  MainControl.Color := DimColor(gBackColor);
+  UpdateColor;
   inherited DoLoadingFileListLongTime;
 end;
 
 procedure TFileViewWithMainCtrl.DoUpdateView;
 begin
   inherited DoUpdateView;
+  UpdateColor;
+end;
+
+procedure TFileViewWithMainCtrl.UpdateColor;
+begin
   MainControl.Color := DimColor(gBackColor);
 end;
 
