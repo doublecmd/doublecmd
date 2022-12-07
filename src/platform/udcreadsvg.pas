@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Scalable Vector Graphics reader implementation (via rsvg and cairo)
 
-   Copyright (C) 2012-2019 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2012-2022 Alexander Koblov (alexx2000@mail.ru)
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Lesser General Public
@@ -109,9 +109,7 @@ type
 procedure RsvgHandleRender(RsvgHandle: Pointer; CairoSurface: Pcairo_surface_t;
                            Cairo: Pcairo_t; Img: TFPCustomImage);
 var
-  X, Y: Integer;
   ImageData: PBGRA;
-  PixelColor: TFPColor;
   Desc: TRawImageDescription;
 begin
   try
@@ -123,19 +121,8 @@ begin
       // Initialize image description
       Desc.Init_BPP32_B8G8R8A8_BIO_TTB(Img.Width, Img.Height);
       TLazIntfImage(Img).DataDescription:= Desc;
-      // Read image data
-      for Y:= 0 to Img.Height - 1 do
-      for X:= 0 to Img.Width - 1 do
-      with ImageData^ do
-      begin
-        PixelColor.alpha:= Alpha + Alpha shl 8;
-        PixelColor.red:= Red + Red shl 8;
-        PixelColor.green:= Green + Green shl 8;
-        PixelColor.blue:= Blue + Blue shl 8;
-
-        Img.Colors[X, Y]:= PixelColor;
-        Inc(ImageData);
-      end;
+      // Copy image data
+      Move(ImageData^, TLazIntfImage(Img).PixelData^, Img.Width * Img.Height * SizeOf(TBGRA));
     end;
   finally
     g_object_unref(RsvgHandle);
