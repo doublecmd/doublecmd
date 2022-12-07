@@ -146,7 +146,6 @@ type
     function NewPage(CloneFromView: TFileView): TFileViewPage;
     procedure RemovePage(Index: Integer); reintroduce;
     procedure RemovePage(var aPage: TFileViewPage);
-    procedure DestroyAllPages;
     procedure ActivatePrevTab;
     procedure ActivateNextTab;
     procedure ActivateTabByIndex(Index: Integer);
@@ -533,15 +532,6 @@ begin
   // because later background will be again be erased but with TControl.Brush.
   // This is not actually needed on non-Windows because WMEraseBkgnd is not used there.
   Message.Result := 1;
-end;
-
-procedure TFileViewNotebook.DestroyAllPages;
-var
-  i: Integer;
-begin
-  for i:=PageCount-1 downto 0 do
-    if i<>ActivePageIndex then inherited RemovePage( i );
-  inherited RemovePage( 0 );
 end;
 
 procedure TFileViewNotebook.ActivatePrevTab;

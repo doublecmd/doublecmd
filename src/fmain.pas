@@ -5137,7 +5137,7 @@ begin
       begin
         if (DestinationToKeep<>tclLeft) AND (DestinationToKeep<>tclBoth) AND (not(tfadLeft in TabsAlreadyDestroyedFlags)) then
         begin
-          frmMain.LeftTabs.DestroyAllPages;
+          frmMain.LeftTabs.Clear;
           TabsAlreadyDestroyedFlags := TabsAlreadyDestroyedFlags + [tfadLeft]; // To don't delete it twice in case both target are left.
         end;
       end;
@@ -5151,7 +5151,7 @@ begin
       begin
         if (DestinationToKeep<>tclRight) AND (DestinationToKeep<>tclBoth) AND (not(tfadRight in TabsAlreadyDestroyedFlags)) then
           begin
-            frmMain.RightTabs.DestroyAllPages;
+            frmMain.RightTabs.Clear;
             TabsAlreadyDestroyedFlags := TabsAlreadyDestroyedFlags + [tfadRight]; // To don't delete it twice in case both target are right.
           end;
         LoadTabsXml(Config, ABranch + sSourceSectionName, RightTabs);
@@ -6748,7 +6748,7 @@ var
 begin
   for I := 0 to ANotebook.PageCount - 1 do
     ANotebook.View[I].Clear;
-  ANotebook.DestroyAllPages;
+  ANotebook.Clear;
 end;
 
 procedure TfrmMain.DriveListDriveSelected(Sender: TObject; ADriveIndex: Integer;
