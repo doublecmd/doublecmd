@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <Package Version="5">
+    <Name Value="Image32"/>
+    <Author Value="Angus Johnson"/>
+    <CompilerOptions>
+      <Version Value="11"/>
+      <SearchPaths>
+        <IncludeFiles Value="source"/>
+        <OtherUnitFiles Value="source"/>
+        <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
+      </SearchPaths>
+    </CompilerOptions>
+    <Description Value="Image32 is a comprehensive 2D graphics library written entirely in Delphi Pascal, and without dependencies on other libraries. It provides an extensive range of image manipulation and drawing functions that includes text rendering through native parsing of truetype font files."/>
+    <License Value="Boost Software License - Version 1.0"/>
+    <Version Major="4" Minor="3"/>
+    <Files>
+      <Item>
+        <Filename Value="source/Img32.Draw.pas"/>
+        <UnitName Value="Img32.Draw"/>
+      </Item>
+      <Item>
+        <Filename Value="source/Img32.Extra.pas"/>
+        <UnitName Value="Img32.Extra"/>
+      </Item>
+      <Item>
+        <Filename Value="source/Img32.Fmt.SVG.pas"/>
+        <UnitName Value="Img32.Fmt.SVG"/>
+      </Item>
+      <Item>
+        <Filename Value="source/Img32.inc"/>
+        <Type Value="Include"/>
+      </Item>
+      <Item>
+        <Filename Value="source/Img32.pas"/>
+        <UnitName Value="Img32"/>
+      </Item>
+      <Item>
+        <Filename Value="source/Img32.Resamplers.pas"/>
+        <UnitName Value="Img32.Resamplers"/>
+      </Item>
+      <Item>
+        <Filename Value="source/Img32.SVG.Core.pas"/>
+        <UnitName Value="Img32.SVG.Core"/>
+      </Item>
+      <Item>
+        <Filename Value="source/Img32.SVG.HashConsts.inc"/>
+        <Type Value="Include"/>
+      </Item>
+      <Item>
+        <Filename Value="source/Img32.SVG.HtmlColorConsts.inc"/>
+        <Type Value="Include"/>
+      </Item>
+      <Item>
+        <Filename Value="source/Img32.SVG.HtmlHashConsts.inc"/>
+        <Type Value="Include"/>
+      </Item>
+      <Item>
+        <Filename Value="source/Img32.SVG.HtmlValues.inc"/>
+        <Type Value="Include"/>
+      </Item>
+      <Item>
+        <Filename Value="source/Img32.SVG.Path.pas"/>
+        <UnitName Value="Img32.SVG.Path"/>
+      </Item>
+      <Item>
+        <Filename Value="source/Img32.SVG.Reader.pas"/>
+        <UnitName Value="Img32.SVG.Reader"/>
+      </Item>
+      <Item>
+        <Filename Value="source/Img32.Text.pas"/>
+        <UnitName Value="Img32.Text"/>
+      </Item>
+      <Item>
+        <Filename Value="source/Img32.Transform.pas"/>
+        <UnitName Value="Img32.Transform"/>
+      </Item>
+      <Item>
+        <Filename Value="source/Img32.Vector.pas"/>
+        <UnitName Value="Img32.Vector"/>
+      </Item>
+    </Files>
+    <RequiredPkgs>
+      <Item>
+        <PackageName Value="LCL"/>
+      </Item>
+      <Item>
+        <PackageName Value="FCL"/>
+      </Item>
+    </RequiredPkgs>
+    <UsageOptions>
+      <UnitPath Value="$(PkgOutDir)"/>
+    </UsageOptions>
+    <PublishOptions>
+      <Version Value="2"/>
+      <UseFileFilters Value="True"/>
+    </PublishOptions>
+  </Package>
+</CONFIG>
