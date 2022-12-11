@@ -2,8 +2,8 @@
 <CONFIG>
   <Package Version="5">
     <Name Value="Image32"/>
-    <AddToProjectUsesSection Value="True"/>
     <Author Value="Angus Johnson"/>
+    <AutoUpdate Value="Manually"/>
     <CompilerOptions>
       <Version Value="11"/>
       <SearchPaths>
@@ -11,6 +11,11 @@
         <OtherUnitFiles Value="source"/>
         <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
       </SearchPaths>
+      <Conditionals Value="if (TargetCPU &lt;> &apos;arm&apos;) then
+begin
+  CustomOptions += &apos;-fPIC&apos;;
+  UsageCustomOptions += &apos;-fPIC&apos;;
+end"/>
     </CompilerOptions>
     <Description Value="Image32 is a comprehensive 2D graphics library written entirely in Delphi Pascal, and without dependencies on other libraries. It provides an extensive range of image manipulation and drawing functions that includes text rendering through native parsing of truetype font files."/>
     <License Value="Boost Software License - Version 1.0"/>
@@ -90,7 +95,8 @@
       </Item>
     </RequiredPkgs>
     <UsageOptions>
-      <UnitPath Value="$(PkgOutDir)"/>
+      <IncludePath Value="source"/>
+      <UnitPath Value="$(PkgOutDir);source"/>
     </UsageOptions>
     <PublishOptions>
       <Version Value="2"/>
