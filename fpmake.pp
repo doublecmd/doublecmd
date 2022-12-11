@@ -10,12 +10,13 @@ const
   AllMyUnixOSes = AllUnixOSes - [Darwin];
 
 const
-  CommonComponents: array[1..9] of String =
+  CommonComponents: array[1..10] of String =
   (
     'components\chsdet\chsdet.lpk',
     'components\multithreadprocs\multithreadprocslaz.lpk',
     'components\dcpcrypt\dcpcrypt.lpk',
     'components\doublecmd\doublecmd_common.lpk',
+    'components\Image32\Image32.lpk',
     'components\KASToolBar\kascomp.lpk',
     'components\viewer\viewerpackage.lpk',
     'components\gifanim\pkg_gifanim.lpk',

@@ -7,6 +7,7 @@
       <Target FileName="components/multithreadprocs/multithreadprocslaz.lpk"/>
       <Target FileName="components/dcpcrypt/dcpcrypt.lpk"/>
       <Target FileName="components/gifanim/pkg_gifanim.lpk"/>
+      <Target FileName="components/Image32/Image32.lpk"/>
       <Target FileName="components/KASToolBar/kascomp.lpk"/>
       <Target FileName="components/synunihighlighter/synuni.lpk"/>
       <Target FileName="components/viewer/viewerpackage.lpk"/>
