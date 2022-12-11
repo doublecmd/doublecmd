@@ -130,7 +130,7 @@ uses
   , LCLStrConsts, ComObj, ActiveX, DCOSUtils, uOSUtils, uFileSystemFileSource
   , uTotalCommander, FileUtil, Windows, ShlObj, uShlObjAdditional
   , uWinNetFileSource, uVfsModule, uMyWindows, DCStrUtils, uOleDragDrop
-  , uDCReadSVG, uFileSourceUtil, uGdiPlusJPEG, uListGetPreviewBitmap
+  , uDCReadRSVG, uFileSourceUtil, uGdiPlusJPEG, uListGetPreviewBitmap
   , Dialogs, Clipbrd, uDebug, JwaDbt, uThumbnailProvider, uShellFolder
   , uRecycleBinFileSource, uDCReadHEIF, uDCReadWIC
     {$IFDEF LCLQT5}
@@ -142,7 +142,7 @@ uses
     {$IF DEFINED(DARWIN)}
     , MacOSAll, uQuickLook, uMyDarwin
     {$ELSEIF NOT DEFINED(HAIKU)}
-    , uDCReadSVG, uMagickWand, uGio, uGioFileSource, uVfsModule, uVideoThumb
+    , uDCReadRSVG, uMagickWand, uGio, uGioFileSource, uVfsModule, uVideoThumb
     , uDCReadWebP, uFolderThumb, uAudioThumb, uDefaultTerminal, uDCReadHEIF
     , uTrashFileSource, fOpenWith
     {$ENDIF}
@@ -159,7 +159,7 @@ uses
     , gtk2
     {$ENDIF}
   {$ENDIF}
-  , uTurboJPEG;
+  , uDCReadSVG, uTurboJPEG;
 
 { TAloneForm }
 

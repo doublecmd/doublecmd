@@ -258,7 +258,7 @@ end;"/>
         </Mode0>
       </Modes>
     </RunParams>
-    <RequiredPackages Count="12">
+    <RequiredPackages Count="13">
       <Item1>
         <PackageName Value="SynUni"/>
         <MinVersion Major="1" Minor="8" Valid="True"/>
@@ -303,6 +303,9 @@ end;"/>
         <PackageName Value="doublecmd_common"/>
         <MinVersion Minor="3" Valid="True"/>
       </Item12>
+      <Item13>
+        <PackageName Value="Image32"/>
+      </Item13>
     </RequiredPackages>
     <Units Count="268">
       <Unit0>

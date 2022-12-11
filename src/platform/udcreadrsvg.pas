@@ -20,39 +20,28 @@
    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 }
 
-unit uDCReadSVG;
+unit uDCReadRSVG;
 
 {$mode delphi}
 
 interface
 
 uses
-  Classes, SysUtils, Graphics, FPImage;
+  Classes, SysUtils, Graphics, FPImage, uVectorImage;
 
 type
 
-  { TDCReaderSVG }
+  { TDCReaderRSVG }
 
-  TDCReaderSVG = class (TFPCustomImageReader)
+  TDCReaderRSVG = class (TVectorReader)
   private
     FRsvgHandle: Pointer;
   protected
-    function  InternalCheck (Stream:TStream):boolean;override;
-    procedure InternalRead(Stream:TStream;Img:TFPCustomImage);override;
-  end;
-
-  { TScalableVectorGraphics }
-
-  TScalableVectorGraphics = class(TFPImageBitmap)
-  protected
-    class function GetReaderClass: TFPCustomImageReaderClass; override;
-    class function GetSharedImageClass: TSharedRasterImageClass; override;
+    function  InternalCheck (Stream: TStream): Boolean; override;
+    procedure InternalRead(Stream: TStream; Img: TFPCustomImage); override;
   public
-    class function GetFileExtensions: string; override;
+    class function CreateBitmap(const FileName: String; AWidth, AHeight: Integer): TBitmap; override;
   end;
-
-
-function BitmapLoadFromScalable(const FileName: String; AWidth, AHeight: Integer): TBitmap;
 
 implementation
 
@@ -212,9 +201,9 @@ begin
   end;
 end;
 
-{ TDCReaderSVG }
+{ TDCReaderRSVG }
 
-function TDCReaderSVG.InternalCheck(Stream: TStream): boolean;
+function TDCReaderRSVG.InternalCheck(Stream: TStream): boolean;
 var
   MemoryStream: TMemoryStream;
 begin
@@ -223,7 +212,7 @@ begin
   Result:= Assigned(FRsvgHandle);
 end;
 
-procedure TDCReaderSVG.InternalRead(Stream: TStream; Img: TFPCustomImage);
+procedure TDCReaderRSVG.InternalRead(Stream: TStream; Img: TFPCustomImage);
 var
   Cairo: Pcairo_t;
   CairoSurface: Pcairo_surface_t;
@@ -240,21 +229,10 @@ begin
   RsvgHandleRender(FRsvgHandle, CairoSurface, Cairo, Img);
 end;
 
-{ TScalableVectorGraphics }
-
-class function TScalableVectorGraphics.GetReaderClass: TFPCustomImageReaderClass;
+class function TDCReaderRSVG.CreateBitmap(const FileName: String; AWidth,
+  AHeight: Integer): TBitmap;
 begin
-  Result:= TDCReaderSVG;
-end;
-
-class function TScalableVectorGraphics.GetSharedImageClass: TSharedRasterImageClass;
-begin
-  Result:= TSharedBitmap;
-end;
-
-class function TScalableVectorGraphics.GetFileExtensions: string;
-begin
-  Result:= 'svg;svgz';
+  Result:= BitmapLoadFromScalable(FileName, AWidth, AHeight);
 end;
 
 const
@@ -296,11 +274,11 @@ begin
 
     g_type_init();
     // Register image handler and format
-    TIconTheme.RegisterExtension('svg;svgz');
     TThumbnailManager.RegisterProvider(@GetThumbnail);
-    ImageHandlers.RegisterImageReader ('Scalable Vector Graphics', 'SVG;SVGZ', TDCReaderSVG);
-    TPicture.RegisterFileFormat('svg;svgz', 'Scalable Vector Graphics', TScalableVectorGraphics);
+    TScalableVectorGraphics.RegisterReaderClass(TDCReaderRSVG);
+    ImageHandlers.RegisterImageReader('Scalable Vector Graphics', 'SVG;SVGZ', TDCReaderRSVG);
   except
+    // Ignore
   end;
 end;
 

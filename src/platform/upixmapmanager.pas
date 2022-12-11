@@ -43,10 +43,8 @@ interface
 
 uses
   Classes, SysUtils, Graphics, syncobjs, uFileSorting, DCStringHashListUtf8,
-  uFile, uIconTheme, uDrive, uDisplayFile, uGlobs, uDCReadPSD, uOSUtils
-  {$IF NOT DEFINED(DARWIN)}
-  , uDCReadSVG
-  {$ENDIF}
+  uFile, uIconTheme, uDrive, uDisplayFile, uGlobs, uDCReadPSD, uOSUtils,
+  uVectorImage
   {$IF DEFINED(MSWINDOWS) and DEFINED(LCLQT5)}
   , fgl
   {$ELSEIF DEFINED(UNIX)}
@@ -1111,11 +1109,9 @@ var
 begin
   FileName:= AIconTheme.FindIcon(AIconName, AIconSize);
   if FileName = EmptyStr then Exit(nil);
-{$IF NOT DEFINED(DARWIN)}
   if TScalableVectorGraphics.IsFileExtensionSupported(ExtractFileExt(FileName)) then
-    Result := BitmapLoadFromScalable(FileName, AIconSize, AIconSize)
+    Result := TScalableVectorGraphics.CreateBitmap(FileName, AIconSize, AIconSize)
   else
-{$ENDIF}
   begin
     Result := CheckLoadPixmapFromFile(FileName);
     if Assigned(Result) then begin
