@@ -2,6 +2,7 @@
 <CONFIG>
   <Package Version="5">
     <Name Value="Image32"/>
+    <AddToProjectUsesSection Value="True"/>
     <Author Value="Angus Johnson"/>
     <CompilerOptions>
       <Version Value="11"/>
