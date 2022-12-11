@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <svg
-   xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://creativecommons.org/ns#"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:xlink="http://www.w3.org/1999/xlink"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    inkscape:export-ydpi="24.000002"
    inkscape:export-xdpi="24.000002"
    sodipodi:docname="text-x-hash.svg"
-   inkscape:version="1.0 (4035a4fb49, 2020-05-01)"
+   inkscape:version="1.1 (c68e22c387, 2021-05-23)"
    version="1.1"
    id="svg3172"
    height="128"
-   width="128">
+   width="128"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
   <sodipodi:namedview
      inkscape:document-rotation="0"
      inkscape:current-layer="svg3172"
@@ -36,7 +36,8 @@
      objecttolerance="10"
      borderopacity="1"
      bordercolor="#666666"
-     pagecolor="#ffffff" />
+     pagecolor="#ffffff"
+     inkscape:pagecheckerboard="0" />
   <defs
      id="defs3174">
     <linearGradient
@@ -263,16 +264,11 @@
   <g
      transform="matrix(0.16655518,0,0,0.16564225,22.712816,23.494753)"
      id="g252" />
-  <text
-     id="text24"
-     y="106.15974"
-     x="16.346058"
-     style="font-style:normal;font-weight:normal;font-size:111.307px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.10435px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-     xml:space="preserve"
-     transform="scale(1.0779923,0.92765038)"><tspan
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:111.307px;font-family:'DejaVu Math TeX Gyre';-inkscape-font-specification:'DejaVu Math TeX Gyre';fill:#000000;stroke-width:0.10435px"
-       y="106.15974"
-       x="16.346058"
-       id="tspan22"
-       sodipodi:role="line">Σ</tspan></text>
+  <g
+     id="g4"
+     transform="matrix(0.17212888,0,0,0.15545321,21.483188,23.207)">
+    <path
+       d="M 395.527,97.043 V 55.352 h -270.99 l 159.46,171.507 c 9.983,10.749 9.848,27.458 -0.319,38.026 L 126.017,428.861 h 269.504 v -25.18 c 0,-15.256 12.413,-27.668 27.674,-27.668 15.256,0 27.681,12.412 27.681,27.668 v 52.848 c 0,15.262 -12.419,27.681 -27.681,27.681 H 61.014 c -11.106,0 -21.107,-6.603 -25.464,-16.834 -4.359,-10.226 -2.189,-22.012 5.509,-30.026 L 225.643,245.386 40.743,46.521 C 33.251,38.453 31.247,26.723 35.642,16.622 40.042,6.525 50.005,0 61.014,0 h 362.188 c 15.255,0 27.68,12.413 27.68,27.68 v 69.363 c 0,15.259 -12.419,27.677 -27.68,27.677 -15.262,0 -27.675,-12.412 -27.675,-27.677 z"
+       id="path2" />
+  </g>
 </svg>
