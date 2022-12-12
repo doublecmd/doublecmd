@@ -684,6 +684,8 @@ type
     procedure OnUniqueInstanceMessage(Sender: TObject; Params: TCommandLineParams);
     procedure tbPasteClick(Sender: TObject);
     procedure AllProgressOnUpdateTimer(Sender: TObject);
+    procedure OperationManagerNotify(Item: TOperationsManagerItem;
+                                     Event: TOperationManagerEvent);
 {$IF (DEFINED(LCLQT) or DEFINED(LCLQT5) or DEFINED(LCLQT6)) and not DEFINED(MSWINDOWS)}
   private
     QEventHook: QObject_hookH;
@@ -1202,6 +1204,9 @@ begin
   QEventHook:= QObject_hook_create(TQtWidget(Self.Handle).Widget);
   QObject_hook_hook_events(QEventHook, @QObjectEventFilter);
 {$ENDIF}
+
+  OperationsManager.AddEventsListener([omevOperationAdded, omevOperationRemoved],
+                                      @OperationManagerNotify);
 
   UpdateWindowView;
   gFavoriteTabsList.AssociatedMainMenuItem := mnuFavoriteTabs;
@@ -1732,6 +1737,9 @@ begin
     HotMan.UnRegister(edtCommand);
     HotMan.UnRegister(Self);
   end;
+
+  OperationsManager.RemoveEventsListener([omevOperationAdded, omevOperationRemoved],
+                                         @OperationManagerNotify);
 
   TDriveWatcher.RemoveObserver(@OnDriveWatcherEvent);
   TDriveWatcher.Finalize;
@@ -5497,8 +5505,10 @@ begin
       FOperationsPanel.DoubleBuffered := True;
       PanelAllProgress.OnResize := @FOperationsPanel.ParentResized;
     end;
+
     PanelAllProgress.Visible := gPanelOfOp;
-    Timer.Enabled := gPanelOfOp or gProgInMenuBar;
+    Timer.Enabled := (gPanelOfOp or gProgInMenuBar) and
+                     (OperationsManager.OperationsCount > 0);
 
     // Log window
     seLogWindow.Visible := gLogWindow;
@@ -6766,28 +6776,48 @@ procedure TfrmMain.AllProgressOnUpdateTimer(Sender: TObject);
 var
   AllProgressPoint: Integer;
 begin
-  // Hide progress bar if there are no operations
-  if OperationsManager.OperationsCount = 0 then
+  if gPanelOfOp = True then
+  begin
+    FOperationsPanel.UpdateView;
+  end;
+
+  // Show progress in the menu
+  if gProgInMenuBar = True then
+  begin
+    AllProgressPoint:= Round(OperationsManager.AllProgressPoint * 100);
+    mnuAllOperProgress.Caption:= IntToStr(AllProgressPoint) + ' %';
+  end;
+
+  Sleep(0);
+end;
+
+procedure TfrmMain.OperationManagerNotify(Item: TOperationsManagerItem;
+  Event: TOperationManagerEvent);
+begin
+  if Event = omevOperationRemoved then
+  begin
+    // Hide progress bar if there are no operations
+    if OperationsManager.OperationsCount = 0 then
     begin
       mnuAllOperProgress.Visible:= False;
       mnuAllOperPause.Visible:= False;
       mnuAllOperStart.Visible:= False;
-    end
-  else
-    begin
-      if gPanelOfOp = True then
-        FOperationsPanel.UpdateView;
-
-      if gProgInMenuBar = True then
-        begin
-          AllProgressPoint:= Round(OperationsManager.AllProgressPoint * 100);
-          // Show in menu line
-          mnuAllOperProgress.Caption:=IntToStr(AllProgressPoint) + ' %';
-          mnuAllOperProgress.Visible:= True;
-          mnuAllOperPause.Visible:= True;
-          mnuAllOperStart.Visible:= True;
-        end;
+      mnuAllOperStop.Visible:= False;
     end;
+  end
+  else if Event = omevOperationAdded then
+  begin
+    if gProgInMenuBar = True then
+    begin
+      mnuAllOperProgress.Visible:= True;
+      mnuAllOperPause.Visible:= True;
+      mnuAllOperStart.Visible:= True;
+      mnuAllOperStop.Visible:= True;
+    end;
+  end;
+  AllProgressOnUpdateTimer(Timer);
+  Timer.Enabled := (gPanelOfOp or gProgInMenuBar) and
+                   (OperationsManager.OperationsCount > 0);
 end;
 
 procedure TfrmMain.SetPanelDrive(aPanel: TFilePanelSelect; Drive: PDrive; ActivateIfNeeded: Boolean);
