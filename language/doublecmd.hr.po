@@ -15,10 +15,6 @@ msgstr ""
 "X-Language: hr_HR\n"
 "X-Native-Language: hrvatski\n"
 
-#: foptionscolors.rsdarkmodeoptions
-msgid "Auto;Enabled;Disabled"
-msgstr ""
-
 #: fsyncdirsdlg.rscomparingpercent
 #, object-pascal-format
 msgctxt "fsyncdirsdlg.rscomparingpercent"
@@ -10692,6 +10688,10 @@ msgstr "Potvrdite naredbu i parametre"
 #, object-pascal-format
 msgid "Copy (%d) %s"
 msgstr "Kopiraj (%d) %s"
+
+#: ulng.rsdarkmodeoptions
+msgid "Auto;Enabled;Disabled"
+msgstr ""
 
 #: ulng.rsdefaultimporteddctoolbarhint
 msgid "Imported DC toolbar"

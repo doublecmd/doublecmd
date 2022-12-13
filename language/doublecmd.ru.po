@@ -11,10 +11,6 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Native-Language: Русский\n"
 
-#: foptionscolors.rsdarkmodeoptions
-msgid "Auto;Enabled;Disabled"
-msgstr "Авто;Включён;Отключён"
-
 #: fsyncdirsdlg.rscomparingpercent
 #, object-pascal-format
 msgid "Comparing... %d%% (ESC to cancel)"
@@ -10257,6 +10253,10 @@ msgstr "Подтверждение командной строки и парам
 #, object-pascal-format
 msgid "Copy (%d) %s"
 msgstr "Копия (%d) %s"
+
+#: ulng.rsdarkmodeoptions
+msgid "Auto;Enabled;Disabled"
+msgstr "Авто;Включён;Отключён"
 
 #: ulng.rsdefaultimporteddctoolbarhint
 msgid "Imported DC toolbar"

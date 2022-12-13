@@ -15,10 +15,6 @@ msgstr ""
 "X-Generator: Poedit 2.2\n"
 "Language: cs\n"
 
-#: foptionscolors.rsdarkmodeoptions
-msgid "Auto;Enabled;Disabled"
-msgstr ""
-
 #: fsyncdirsdlg.rscomparingpercent
 #, object-pascal-format
 msgid "Comparing... %d%% (ESC to cancel)"
@@ -10021,6 +10017,10 @@ msgstr "Potvrzování příkazového řádku a parametrů"
 #, object-pascal-format
 msgid "Copy (%d) %s"
 msgstr "Kopírovat (%d) %s"
+
+#: ulng.rsdarkmodeoptions
+msgid "Auto;Enabled;Disabled"
+msgstr ""
 
 #: ulng.rsdefaultimporteddctoolbarhint
 msgid "Imported DC toolbar"

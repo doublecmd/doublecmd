@@ -14,10 +14,6 @@ msgstr ""
 "X-Generator: Poedit 2.3\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: foptionscolors.rsdarkmodeoptions
-msgid "Auto;Enabled;Disabled"
-msgstr ""
-
 #: fsyncdirsdlg.rscomparingpercent
 #, object-pascal-format
 msgid "Comparing... %d%% (ESC to cancel)"
@@ -10534,6 +10530,10 @@ msgstr "Stadfester kommandolinje og parametre"
 #, object-pascal-format
 msgid "Copy (%d) %s"
 msgstr "Kopiér (%d) %s"
+
+#: ulng.rsdarkmodeoptions
+msgid "Auto;Enabled;Disabled"
+msgstr ""
 
 #: ulng.rsdefaultimporteddctoolbarhint
 msgid "Imported DC toolbar"

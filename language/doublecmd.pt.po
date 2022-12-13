@@ -15,10 +15,6 @@ msgstr ""
 "X-Generator: Gtranslator 2.91.6\n"
 "X-Native-Language: Português\n"
 
-#: foptionscolors.rsdarkmodeoptions
-msgid "Auto;Enabled;Disabled"
-msgstr ""
-
 #: fsyncdirsdlg.rscomparingpercent
 #, object-pascal-format
 msgid "Comparing... %d%% (ESC to cancel)"
@@ -10327,6 +10323,10 @@ msgstr "A comfirmar comando e parâmetros"
 #, object-pascal-format
 msgid "Copy (%d) %s"
 msgstr "Copiar (%d) %s"
+
+#: ulng.rsdarkmodeoptions
+msgid "Auto;Enabled;Disabled"
+msgstr ""
 
 #: ulng.rsdefaultimporteddctoolbarhint
 msgid "Imported DC toolbar"

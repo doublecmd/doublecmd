@@ -11,10 +11,6 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Native-Language: English\n"
 
-#: foptionscolors.rsdarkmodeoptions
-msgid "Auto;Enabled;Disabled"
-msgstr ""
-
 #: fsyncdirsdlg.rscomparingpercent
 #, object-pascal-format
 msgid "Comparing... %d%% (ESC to cancel)"
@@ -9986,6 +9982,10 @@ msgstr ""
 #: ulng.rscopynametemplate
 #, object-pascal-format
 msgid "Copy (%d) %s"
+msgstr ""
+
+#: ulng.rsdarkmodeoptions
+msgid "Auto;Enabled;Disabled"
 msgstr ""
 
 #: ulng.rsdefaultimporteddctoolbarhint

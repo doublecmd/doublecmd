@@ -15,10 +15,6 @@ msgstr ""
 "X-Generator: Virtaal 0.7.1\n"
 "X-Native-Language: Română\n"
 
-#: foptionscolors.rsdarkmodeoptions
-msgid "Auto;Enabled;Disabled"
-msgstr ""
-
 #: fsyncdirsdlg.rscomparingpercent
 #, object-pascal-format
 msgid "Comparing... %d%% (ESC to cancel)"
@@ -10311,6 +10307,10 @@ msgstr ""
 #, object-pascal-format
 msgid "Copy (%d) %s"
 msgstr "Copiază (%d) %s"
+
+#: ulng.rsdarkmodeoptions
+msgid "Auto;Enabled;Disabled"
+msgstr ""
 
 #: ulng.rsdefaultimporteddctoolbarhint
 msgid "Imported DC toolbar"

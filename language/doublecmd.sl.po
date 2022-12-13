@@ -20,10 +20,6 @@ msgstr ""
 "X-Generator: Poedit 2.0.1\n"
 "X-Native-Language: Slovenščina\n"
 
-#: foptionscolors.rsdarkmodeoptions
-msgid "Auto;Enabled;Disabled"
-msgstr ""
-
 #: fsyncdirsdlg.rscomparingpercent
 #, object-pascal-format
 msgid "Comparing... %d%% (ESC to cancel)"
@@ -10112,6 +10108,10 @@ msgstr "Potrjevanje ukazne vrstice in parametrov"
 #, object-pascal-format
 msgid "Copy (%d) %s"
 msgstr "Kopiraj (%d) %s"
+
+#: ulng.rsdarkmodeoptions
+msgid "Auto;Enabled;Disabled"
+msgstr ""
 
 #: ulng.rsdefaultimporteddctoolbarhint
 msgid "Imported DC toolbar"

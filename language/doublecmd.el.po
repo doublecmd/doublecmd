@@ -19,10 +19,6 @@ msgstr ""
 "X-Poedit-Basepath: .\n"
 "X-Poedit-SearchPathExcluded-0: .\n"
 
-#: foptionscolors.rsdarkmodeoptions
-msgid "Auto;Enabled;Disabled"
-msgstr "Αυτόματα;Ενεργό;Ανενεργό"
-
 #: fsyncdirsdlg.rscomparingpercent
 #, object-pascal-format
 msgid "Comparing... %d%% (ESC to cancel)"
@@ -10220,6 +10216,10 @@ msgstr "Επιβεβαίωση της γραμμής εντολών και πα�
 #, object-pascal-format
 msgid "Copy (%d) %s"
 msgstr "Αντιγραφή (%d) %s"
+
+#: ulng.rsdarkmodeoptions
+msgid "Auto;Enabled;Disabled"
+msgstr "Αυτόματα;Ενεργό;Ανενεργό"
 
 #: ulng.rsdefaultimporteddctoolbarhint
 msgid "Imported DC toolbar"

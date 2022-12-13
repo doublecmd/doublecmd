@@ -18,10 +18,6 @@ msgstr ""
 "X-Crowdin-File-ID: 3344\n"
 "Language: be\n"
 
-#: foptionscolors.rsdarkmodeoptions
-msgid "Auto;Enabled;Disabled"
-msgstr "Аўтаматычна; Уключана; Адключана"
-
 #: fsyncdirsdlg.rscomparingpercent
 #, object-pascal-format
 msgid "Comparing... %d%% (ESC to cancel)"
@@ -9999,6 +9995,10 @@ msgstr "Пацвярджэнне загаднага радка і парамет
 #, object-pascal-format
 msgid "Copy (%d) %s"
 msgstr "Копія (%d) %s"
+
+#: ulng.rsdarkmodeoptions
+msgid "Auto;Enabled;Disabled"
+msgstr "Аўтаматычна; Уключана; Адключана"
 
 #: ulng.rsdefaultimporteddctoolbarhint
 msgid "Imported DC toolbar"

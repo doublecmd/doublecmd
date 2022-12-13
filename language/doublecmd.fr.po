@@ -35,10 +35,6 @@ msgstr ""
 "Language: fr\n"
 "X-Generator: Poedit 2.0\n"
 
-#: foptionscolors.rsdarkmodeoptions
-msgid "Auto;Enabled;Disabled"
-msgstr ""
-
 #: fsyncdirsdlg.rscomparingpercent
 #, object-pascal-format
 msgid "Comparing... %d%% (ESC to cancel)"
@@ -10288,6 +10284,10 @@ msgstr "Confirmer la ligne de commande et les paramètres"
 #, object-pascal-format
 msgid "Copy (%d) %s"
 msgstr "Copie (%d) %s"
+
+#: ulng.rsdarkmodeoptions
+msgid "Auto;Enabled;Disabled"
+msgstr ""
 
 #: ulng.rsdefaultimporteddctoolbarhint
 msgid "Imported DC toolbar"

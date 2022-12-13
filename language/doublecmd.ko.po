@@ -14,10 +14,6 @@ msgstr ""
 "X-Generator: Poedit 3.0\n"
 "X-Poedit-Bookmarks: -1,-1,-1,-1,2932,533,-1,-1,-1,-1\n"
 
-#: foptionscolors.rsdarkmodeoptions
-msgid "Auto;Enabled;Disabled"
-msgstr ""
-
 #: fsyncdirsdlg.rscomparingpercent
 #, object-pascal-format
 msgid "Comparing... %d%% (ESC to cancel)"
@@ -10234,6 +10230,10 @@ msgstr "명령줄과 매개변수 확인"
 #, object-pascal-format
 msgid "Copy (%d) %s"
 msgstr "복사 (%d) %s"
+
+#: ulng.rsdarkmodeoptions
+msgid "Auto;Enabled;Disabled"
+msgstr ""
 
 #: ulng.rsdefaultimporteddctoolbarhint
 msgid "Imported DC toolbar"
