@@ -86,7 +86,7 @@ implementation
 uses
   LCLType, ShellCtrls, Graphics, uDCUtils, DCOSUtils, DCStrUtils, uKeyboard,
   fMain, uFileSourceUtil, uGlobs, uPixMapManager, uLng, uFileFunctions,
-  uArchiveFileSource, uFileViewWithPanels;
+  uArchiveFileSource, uFileViewWithPanels, uVfsModule;
 
 const
   SortingImageIndex: array[TSortDirection] of Integer = (-1, 0, 1);
@@ -225,20 +225,23 @@ end;
 procedure TFileViewHeader.onKeyRETURN(Sender: TObject);
 var
   NewPath: String;
+  AClass: TFileSourceClass;
 begin
   NewPath:= NormalizePathDelimiters(FPathEdit.Text);
   NewPath:= ReplaceEnvVars(ReplaceTilde(NewPath));
-  if not mbFileExists(NewPath) then
-    begin
-      if not ChooseFileSource(FFileView, NewPath, True) then
-        Exit;
-    end
-  else
-    begin
-      if not ChooseFileSource(FFileView, ExtractFileDir(NewPath)) then
-        Exit;
-      FFileView.SetActiveFile(ExtractFileName(NewPath));
-    end;
+  AClass:= gVfsModuleList.GetFileSource(NewPath);
+
+  // Check file name on the local file system only
+  if not ((AClass = nil) and mbFileExists(NewPath)) then
+  begin
+    if not ChooseFileSource(FFileView, NewPath, True) then
+      Exit;
+  end
+  else begin
+    if not ChooseFileSource(FFileView, ExtractFileDir(NewPath)) then
+      Exit;
+    FFileView.SetActiveFile(ExtractFileName(NewPath));
+  end;
   FPathEdit.Visible := False;
   FFileView.SetFocus;
 end;
