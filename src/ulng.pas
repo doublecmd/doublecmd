@@ -803,7 +803,7 @@ resourcestring
   rsOptConfigTreeState = 'Full expand;Full collapse';
   rsOptDifferFramePosition = 'Active frame panel on left, inactive on right (legacy);Left frame panel on left, right on right';
   //-------------------------------
-
+  rsDarkModeOptions = 'Auto;Enabled;Disabled';
   //-------------------------------
   rsOptEnterExt = 'Enter extension';
   rsOptAssocPluginWith = 'Associate plugin "%s" with:';

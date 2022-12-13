@@ -24,15 +24,12 @@ type
     class function IsEmpty: Boolean; override;
   end;
 
-resourcestring
-  rsDarkModeOptions = 'Auto;Enabled;Disabled';
-
 implementation
 
 {$R *.lfm}
 
 uses
-  DCStrUtils, uEarlyConfig, uDarkStyle;
+  DCStrUtils, uEarlyConfig, uDarkStyle, uLng;
 
 { TfrmOptionsColors }
 
