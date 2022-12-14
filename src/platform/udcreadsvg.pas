@@ -252,16 +252,12 @@ procedure Initialize;
 begin
   if (TScalableVectorGraphics.GetReaderClass = nil) then
   begin
-    {
-    FontManager.Load('Arial');
-    FontManager.Load('Arial Bold');
-    FontManager.Load('Arial Italic');
-    FontManager.Load('Arial Bold Italic');
+{$IF DEFINED(MSWINDOWS)}
     FontManager.Load('Times New Roman');
     FontManager.Load('Times New Roman Bold');
     FontManager.Load('Times New Roman Italic');
     FontManager.Load('Times New Roman Bold Italic');
-    }
+{$ENDIF}
 
     // Register image handler and format
     TThumbnailManager.RegisterProvider(@GetThumbnail);
