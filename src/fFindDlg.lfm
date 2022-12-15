@@ -3,7 +3,6 @@ object frmFindDlg: TfrmFindDlg
   Height = 469
   Top = 176
   Width = 875
-  AutoSize = True
   Caption = 'Find files'
   ClientHeight = 449
   ClientWidth = 875
@@ -1399,7 +1398,6 @@ object frmFindDlg: TfrmFindDlg
       Width = 103
       Align = alRight
       Anchors = [akTop, akRight]
-      AutoSize = True
       BorderSpacing.Left = 6
       BorderSpacing.Top = 40
       BevelOuter = bvNone
