@@ -2206,6 +2206,10 @@ end;
 { TfrmFindDlg.FormShow }
 procedure TfrmFindDlg.frmFindDlgShow(Sender: TObject);
 begin
+  {$IFDEF LCLCOCOA}
+  pgcSearch.DoAdjustClientRectChange();
+  {$ENDIF}
+
   pgcSearch.PageIndex := 0;
 
   if cmbFindFileMask.Visible then
