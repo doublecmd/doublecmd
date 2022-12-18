@@ -132,7 +132,7 @@ type
 implementation
 
 uses
-  LazUTF8, DCConvertEncoding;
+  LazUTF8, DCConvertEncoding, DCUnicodeUtils;
 
 const
   { ID3v2 tag ID }
@@ -155,8 +155,9 @@ const
   ID3V2_MAX_SIZE = 4096;
 
   { Unicode ID }
-  UTF16_ID = #01;
-  UTF8_ID = #03;
+  UTF16LE_ID = #01;
+  UTF16BE_ID = #02;
+  UTF8_ID    = #03;
 
 type
   { Frame header (ID3v2.3.x & ID3v2.4.x) }
@@ -239,7 +240,7 @@ begin
       FrameID := ID3V2_FRAME_NEW[Iterator]
     else
       FrameID := ID3V2_FRAME_OLD[Iterator];
-    if (FrameID = ID) and (Data[1] <= UTF16_ID) then
+    if (FrameID = ID) and (Data[1] <= UTF8_ID) then
       Tag.Frame[Iterator] := Data;
   end;
 end;
@@ -262,6 +263,7 @@ end;
 
 procedure ReadFramesNew(const FileName: String; var Tag: TagInfo);
 var
+  ASize: Cardinal;
   SourceFile: TFileStreamEx;
   Frame: FrameHeaderNew;
   Data: array [1..500] of Char;
@@ -272,6 +274,12 @@ begin
     { Set read-access, open file }
     SourceFile := TFileStreamEx.Create(FileName, fmOpenRead or fmShareDenyWrite);
     SourceFile.Seek(10, soFromBeginning);
+    // ID3v2 extended header
+    if Tag.Flags and $40 = $40 then
+    begin
+      ASize:= BEToN(SourceFile.ReadDWord);
+      SourceFile.Seek(ASize - 4, soFromCurrent);
+    end;
     while (SourceFile.Position < GetTagSize(Tag)) and (SourceFile.Position < SourceFile.Size) do
     begin
       FillChar(Data, SizeOf(Data), 0);
@@ -330,26 +338,12 @@ end;
 { --------------------------------------------------------------------------- }
 
 function GetStringUtf8(const Source: string): string;
-var
-  Index: Integer;
-  UnicodeChar: WideChar;
-  WideResult: UnicodeString;
-  FirstByte, SecondByte: Byte;
 begin
   { Convert string from unicode if needed and trim spaces }
-  if (Length(Source) > 0) and (Source[1] = UTF16_ID) then
-  begin
-    WideResult := '';
-    for Index := 1 to ((Length(Source) - 1) div 2) do
-    begin
-      FirstByte := Ord(Source[Index * 2]);
-      SecondByte := Ord(Source[Index * 2 + 1]);
-      UnicodeChar := WideChar(FirstByte or (SecondByte shl 8));
-      if UnicodeChar = #0 then break;
-      if FirstByte < $FF then WideResult := WideResult + UnicodeChar;
-    end;
-    Result := UTF16ToUTF8(Trim(WideResult));
-  end
+  if (Length(Source) > 0) and (Source[1] = UTF16LE_ID) then
+    Result := Trim(Utf16LEToUtf8(Copy(Source, 2, MaxInt)))
+  else if (Length(Source) > 0) and (Source[1] = UTF16BE_ID) then
+    Result := Trim(Utf16BEToUtf8(Copy(Source, 2, MaxInt)))
   else if (Length(Source) > 0) and (Source[1] = UTF8_ID) then
     Result := Trim(Copy(Source, 2, MaxInt))
   else
@@ -412,10 +406,16 @@ begin
   if Length(Source) > 0 then
   begin
     EncodingID := Source[1];
-    if EncodingID = UTF16_ID then Separator := #0#0
-    else Separator := #0;
-    if LanguageID then  Delete(Source, 1, 4)
-    else Delete(Source, 1, 1);
+    if EncodingID in [UTF16LE_ID, UTF16BE_ID] then
+      Separator := #0#0
+    else begin
+      Separator := #0;
+    end;
+    if LanguageID then
+      Delete(Source, 1, 4)
+    else begin
+      Delete(Source, 1, 1);
+    end;
     Delete(Source, 1, Pos(Separator, Source) + Length(Separator) - 1);
     Result := GetStringUtf8(EncodingID + Source);
   end;
