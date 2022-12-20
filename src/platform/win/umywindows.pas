@@ -35,6 +35,7 @@ const
   BusTypeSd      = $0C;
   BusTypeMmc     = $0D;
 
+function IsWow64: BOOL;
 procedure ShowWindowEx(hWnd: HWND);
 function FindMainWindow(ProcessId: DWORD): HWND;
 function GetMenuItemText(hMenu: HMENU; uItem: UINT; fByPosition: LongBool): UnicodeString;
@@ -558,14 +559,22 @@ function IsWow64: BOOL;
 const
   Wow64Process: TDuplicates = dupIgnore;
 var
-  IsWow64Process: function(hProcess: HANDLE; Wow64Process: PBOOL): BOOL; stdcall;
+  usMachine: USHORT = 0;
+  IsWow64Process2: function(hProcess: HANDLE; pProcessMachine, pNativeMachine: PUSHORT): BOOL; stdcall;
 begin
   if (Wow64Process = dupIgnore) then
   begin
     Result:= False;
-    Pointer(IsWow64Process):= GetProcAddress(GetModuleHandle(Kernel32), 'IsWow64Process');
-    if (IsWow64Process <> nil) then IsWow64Process(GetCurrentProcess, @Result);
-    if Result then Wow64Process:= dupAccept else Wow64Process:= dupError;
+    Pointer(IsWow64Process2):= GetProcAddress(GetModuleHandle(Kernel32), 'IsWow64Process2');
+    if (IsWow64Process2 = nil) then
+      Wow64Process:= dupError
+    else if not IsWow64Process2(GetCurrentProcess, @usMachine, nil) then
+      Wow64Process:= dupError
+    else if (usMachine = 0) then
+      Wow64Process:= dupError
+    else begin
+      Wow64Process:= dupAccept;
+    end;
   end;
   Result:= (Wow64Process = dupAccept);
 end;
