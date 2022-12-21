@@ -301,7 +301,7 @@ begin
       M := D;
       case CodePage of
         cp1251 : Result:= 'CP1251';
-        cpKOI8R: Result:= 'KOI-8';
+        cpKOI8R: Result:= 'KOI8-R';
         cp866  : Result:= 'CP866';
       end;
     end;
@@ -327,7 +327,7 @@ begin
        1252: Result:= 'CP1252';
        1253: Result:= 'CP1253';
        1255: Result:= 'CP1255';
-      20866: Result:= 'KOI-8';
+      20866: Result:= 'KOI8-R';
       else
         begin
           Result:= CharsetInfo.Name;
@@ -493,7 +493,7 @@ begin
       Inc(P);
     end
     else begin
-      I:= UTF8CharacterStrictLength(@S[P]);
+      I:= UTF8CodepointStrictSize(@S[P]);
       if (I = 0) then
       begin
         // Ignore last char

@@ -152,7 +152,9 @@ type
                      veCp950,
                      veIso88591,
                      veIso88592,
-                     veKoi8,
+                     veKoi8r,
+                     veKoi8u,
+                     veKoi8ru,
                      veUcs2le,
                      veUcs2be,
                      veUtf16le,
@@ -189,7 +191,9 @@ const
                     'CP950',
                     'ISO-8859-1',
                     'ISO-8859-2',
-                    'KOI-8',
+                    'KOI8-R',
+                    'KOI8-U',
+                    'KOI8-RU',
                     'UCS-2LE',
                     'UCS-2BE',
                     'UTF-16LE',
@@ -2981,7 +2985,9 @@ begin
     veCp1250..veCp950,
     veIso88591,
     veIso88592,
-    veKoi8:
+    veKoi8r,
+    veKoi8u,
+    veKoi8ru:
       if iPosition < FHighLimit then
       begin
         Result := PByte(GetDataAdr)[iPosition];
@@ -3103,7 +3109,9 @@ begin
     veCp1250..veCp950,
     veIso88591,
     veIso88592,
-    veKoi8:
+    veKoi8r,
+    veKoi8u,
+    veKoi8ru:
       if iPosition > FLowLimit then
       begin
         Result := PByte(GetDataAdr + iPosition)[-1];
@@ -3211,7 +3219,9 @@ begin
     veCp1250..veCp950,
     veIso88591,
     veIso88592,
-    veKoi8:
+    veKoi8r,
+    veKoi8u,
+    veKoi8ru:
       CharLenInBytes := 1;
     veUcs2be, veUcs2le:
       CharLenInBytes := 2;
@@ -3617,7 +3627,9 @@ procedure TViewerControl.UpdateSelection;
       veCp1250..veCp950,
       veIso88591,
       veIso88592,
-      veKoi8:
+      veKoi8r,
+      veKoi8u,
+      veKoi8ru:
         ; // any position allowed
 
       veUcs2be, veUcs2le:
