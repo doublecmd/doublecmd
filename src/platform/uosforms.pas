@@ -3,7 +3,7 @@
     -------------------------------------------------------------------------
     This unit contains platform depended functions.
 
-    Copyright (C) 2006-2018 Alexander Koblov (alexx2000@mail.ru)
+    Copyright (C) 2006-2022 Alexander Koblov (alexx2000@mail.ru)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -132,7 +132,7 @@ uses
   , uWinNetFileSource, uVfsModule, uMyWindows, DCStrUtils, uOleDragDrop
   , uDCReadRSVG, uFileSourceUtil, uGdiPlusJPEG, uListGetPreviewBitmap
   , Dialogs, Clipbrd, uDebug, JwaDbt, uThumbnailProvider, uShellFolder
-  , uRecycleBinFileSource, uDCReadHEIF, uDCReadWIC
+  , uRecycleBinFileSource, uWslFileSource, uDCReadHEIF, uDCReadWIC
     {$IFDEF LCLQT5}
     , qt5, qtwidgets, uDarkStyle
     {$ENDIF}
@@ -569,10 +569,18 @@ begin
     Screen.AddHandlerFormVisibleChanged(TScreenFormEvent(Handler), True);
   end;
 {$ENDIF}
+  // Register Windows Subsystem for Linux (WSL) file source
+  if CheckWin32Version(10) then
+  begin
+    RegisterVirtualFileSource('Linux', TWslFileSource, TWslFileSource.Available);
+  end;
   // Register network file source
   RegisterVirtualFileSource(rsVfsNetwork, TWinNetFileSource);
+  // Register recycle bin file source
   if CheckWin32Version(5, 1) then
+  begin
     RegisterVirtualFileSource(rsVfsRecycleBin, TRecycleBinFileSource);
+  end;
 
   // If run under administrator
   if (IsUserAdmin = dupAccept) then
