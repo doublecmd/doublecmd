@@ -28,13 +28,18 @@ unit uMyDarwin;
 interface
 
 uses
-  Classes, SysUtils, UnixType, MacOSAll, CocoaAll, CocoaUtils, CocoaInt, Cocoa_Extra, InterfaceBase, Menus, CocoaWSMenus;
+  Classes, SysUtils, UnixType,
+  InterfaceBase, Controls, Menus,
+  MacOSAll, CocoaAll, CocoaPrivate, CocoaInt,
+  Cocoa_Extra, CocoaWSMenus, CocoaUtils;
 
 // Darwin Util Function
 function StringToNSString(const S: String): NSString;
 function StringToCFStringRef(const S: String): CFStringRef;
 function NSArrayToList(const theArray:NSArray): TStringList;
 function ListToNSArray(const list:TStrings): NSArray;
+
+procedure cocoaInvalidControlCursor( const control:TWinControl );
 
 function NSGetTempPath: String;
 
@@ -325,6 +330,19 @@ begin
   end;
   CFRelease(FileNameRef);
 end;
+
+
+procedure cocoaInvalidControlCursor( const control:TWinControl );
+var
+  view: NSView;
+begin
+  if control.HandleAllocated then
+  begin
+    view:= NSObject(control.Handle).lclContentView;
+    view.window.invalidateCursorRectsForView( view );
+  end;
+end;
+
 
 var
   NetFS: TLibHandle = NilHandle;
