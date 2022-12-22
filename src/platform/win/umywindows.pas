@@ -559,22 +559,31 @@ function IsWow64: BOOL;
 const
   Wow64Process: TDuplicates = dupIgnore;
 var
-  usMachine: USHORT = 0;
+  usMachine: USHORT;
+  hModule: TLibHandle;
+  IsWow64Process: function(hProcess: HANDLE; Wow64Process: PBOOL): BOOL; stdcall;
   IsWow64Process2: function(hProcess: HANDLE; pProcessMachine, pNativeMachine: PUSHORT): BOOL; stdcall;
 begin
   if (Wow64Process = dupIgnore) then
   begin
-    Result:= False;
-    Pointer(IsWow64Process2):= GetProcAddress(GetModuleHandle(Kernel32), 'IsWow64Process2');
-    if (IsWow64Process2 = nil) then
-      Wow64Process:= dupError
-    else if not IsWow64Process2(GetCurrentProcess, @usMachine, nil) then
-      Wow64Process:= dupError
-    else if (usMachine = 0) then
-      Wow64Process:= dupError
+    Wow64Process:= dupError;
+    hModule:= GetModuleHandle(Kernel32);
+    Pointer(IsWow64Process2):= GetProcAddress(hModule, 'IsWow64Process2');
+    if Assigned(IsWow64Process2) then
+    begin
+      usMachine:= 0;
+      if IsWow64Process2(GetCurrentProcess, @usMachine, nil) and (usMachine <> 0) then
+        Wow64Process:= dupAccept;
+    end
     else begin
-      Wow64Process:= dupAccept;
-    end;
+      Pointer(IsWow64Process):= GetProcAddress(hModule, 'IsWow64Process');
+      if Assigned(IsWow64Process) then
+      begin
+        Result:= False;
+        if IsWow64Process(GetCurrentProcess, @Result) and Result then
+          Wow64Process:= dupAccept;
+      end;
+    end
   end;
   Result:= (Wow64Process = dupAccept);
 end;
