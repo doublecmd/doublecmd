@@ -873,6 +873,7 @@ type
     procedure LoadTabsCommandLine(Params: TCommandLineParams);
     procedure AddTab(ANoteBook: TFileViewNotebook; aPath: String);
     {$IF DEFINED(DARWIN)}
+    procedure FormActivate(Sender: TObject);
     procedure OnNSServiceOpenWithNewTab( filenames:TStringList );
     function NSServiceMenuIsReady(): boolean;
     function NSServiceMenuGetFilenames(): TStringList;
@@ -1221,6 +1222,7 @@ begin
   UpdateFreeSpace(fpRight, True);
 
 {$IF DEFINED(DARWIN)}
+  self.OnActivate:= @FormActivate;
   InitNSServiceProvider( @OnNSServiceOpenWithNewTab, @NSServiceMenuIsReady, @NSServiceMenuGetFilenames );
   InitNSThemeChangedObserver( @NSThemeChangedHandler );
 {$ENDIF}
@@ -6090,6 +6092,12 @@ begin
 end;
 
 {$IF DEFINED(DARWIN)}
+procedure TfrmMain.FormActivate(Sender: TObject);
+begin
+  Screen.Cursor:= crDefault;
+  cocoaInvalidControlCursor( self );
+end;
+
 procedure TfrmMain.OnNSServiceOpenWithNewTab( filenames:TStringList );
 begin
   if Assigned(filenames) and (filenames.Count>0) then
