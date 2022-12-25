@@ -6985,8 +6985,7 @@ end;
 procedure TfrmMain.AppActivate(Sender: TObject);
 begin
   {$IFDEF DARWIN}
-  if self.Active then
-    resetScreenCursor;
+  resetScreenCursor;
   {$ENDIF}
 
   if Assigned(FrameLeft) then
