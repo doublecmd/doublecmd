@@ -873,6 +873,7 @@ type
     procedure LoadTabsCommandLine(Params: TCommandLineParams);
     procedure AddTab(ANoteBook: TFileViewNotebook; aPath: String);
     {$IF DEFINED(DARWIN)}
+    procedure resetScreenCursor;
     procedure FormActivate(Sender: TObject);
     procedure OnNSServiceOpenWithNewTab( filenames:TStringList );
     function NSServiceMenuIsReady(): boolean;
@@ -6092,10 +6093,15 @@ begin
 end;
 
 {$IF DEFINED(DARWIN)}
-procedure TfrmMain.FormActivate(Sender: TObject);
+procedure TfrmMain.resetScreenCursor;
 begin
   Screen.Cursor:= crDefault;
   cocoaInvalidControlCursor( self );
+end;
+
+procedure TfrmMain.FormActivate(Sender: TObject);
+begin
+  resetScreenCursor;
 end;
 
 procedure TfrmMain.OnNSServiceOpenWithNewTab( filenames:TStringList );
@@ -6978,6 +6984,11 @@ end;
 
 procedure TfrmMain.AppActivate(Sender: TObject);
 begin
+  {$IFDEF DARWIN}
+  if self.Active then
+    resetScreenCursor;
+  {$ENDIF}
+
   if Assigned(FrameLeft) then
     FrameLeft.ReloadIfNeeded;
   if Assigned(FrameRight) then
