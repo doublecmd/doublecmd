@@ -31,8 +31,8 @@ interface
 
 uses
   ActnList, SysUtils, Classes, Controls, Forms, Dialogs, ExtCtrls, ComCtrls,
-  Buttons, StdCtrls, TreeFilterEdit, KASButtonPanel, fgl, uGlobs, fOptionsFrame,
-  uDCUtils, EditBtn;
+  Buttons, StdCtrls, LMessages, TreeFilterEdit, KASButtonPanel, fgl, uGlobs,
+  fOptionsFrame, uDCUtils, EditBtn;
 
 type
 
@@ -88,6 +88,8 @@ type
     function CompareTwoNodeOfConfigurationOptionTree(Node1, Node2: TTreeNode): integer;
     function CycleThroughOptionEditors(bForceSaving:boolean):boolean;
     procedure MakeVisible(Data: PtrInt);
+  protected
+    procedure CMThemeChanged(var Message: TLMessage); message CM_THEMECHANGED;
   public
     constructor Create(TheOwner: TComponent); override;
     constructor Create(TheOwner: TComponent; EditorClass: TOptionsEditorClass); overload;
@@ -578,6 +580,19 @@ var
 begin
   TreeNode.MakeVisible;
   TreeFilterEdit.StoreSelection;
+end;
+
+procedure TfrmOptions.CMThemeChanged(var Message: TLMessage);
+var
+  Index: Integer;
+begin
+  for Index:= 0 to FOptionsEditorList.Count - 1 do
+  begin
+    if Assigned(FOptionsEditorList[Index].Instance) then
+    begin
+      FOptionsEditorList[Index].Instance.Perform(CM_THEMECHANGED, 0, 0);
+    end;
+  end;
 end;
 
 finalization

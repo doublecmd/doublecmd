@@ -29,7 +29,7 @@ interface
 uses
   //Lazarus, Free-Pascal, etc.
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, ComCtrls,
-  StdCtrls, ExtCtrls, Menus, Types,
+  StdCtrls, ExtCtrls, Menus, Types, LMessages,
 
   //DC
   kastoolitems, KASToolBar, uKASToolItemsExtended;
@@ -175,6 +175,9 @@ type
     { private declarations }
     bTargetFixedWidth: boolean;
     LastMousePos: TPoint;
+  protected
+    procedure UpdateColors;
+    procedure CMThemeChanged(var Message: TLMessage); message CM_THEMECHANGED;
   public
     { public declarations }
     iFinalSelectedIndex: integer;
@@ -365,20 +368,7 @@ begin
   iFinalSelectedIndex := CONST_CANCEL_ACTION;
   FontOptionsToFont(gFonts[dcfTreeViewMenu], tvMainMenu.Font);
   TreeViewMenuGenericRoutineAndVarHolder := TTreeViewMenuGenericRoutineAndVarHolder.Create;
-  TreeViewMenuGenericRoutineAndVarHolder.BackgroundColor := gTVMBackgroundColor;
-  TreeViewMenuGenericRoutineAndVarHolder.ShortcutColor := gTVMShortcutColor;
-  TreeViewMenuGenericRoutineAndVarHolder.NormalTextColor := gTVMNormalTextColor;
-  TreeViewMenuGenericRoutineAndVarHolder.SecondaryTextColor := gTVMSecondaryTextColor;
-  TreeViewMenuGenericRoutineAndVarHolder.FoundTextColor := gTVMFoundTextColor;
-  TreeViewMenuGenericRoutineAndVarHolder.UnselectableTextColor := gTVMUnselectableTextColor;
-  TreeViewMenuGenericRoutineAndVarHolder.CursorColor := gTVMCursorColor;
-  TreeViewMenuGenericRoutineAndVarHolder.ShortcutUnderCursor := gTVMShortcutUnderCursor;
-  TreeViewMenuGenericRoutineAndVarHolder.NormalTextUnderCursor := gTVMNormalTextUnderCursor;
-  TreeViewMenuGenericRoutineAndVarHolder.SecondaryTextUnderCursor := gTVMSecondaryTextUnderCursor;
-  TreeViewMenuGenericRoutineAndVarHolder.FoundTextUnderCursor := gTVMFoundTextUnderCursor;
-  TreeViewMenuGenericRoutineAndVarHolder.UnselectableUnderCursor := gTVMUnselectableUnderCursor;
-  tvMainMenu.BackgroundColor := gTVMBackgroundColor;
-  tvMainMenu.Color := gTVMBackgroundColor;
+  UpdateColors;
   tvMainMenu.OnAdvancedCustomDrawItem := @TreeViewMenuGenericRoutineAndVarHolder.TreeViewMenuAdvancedCustomDrawItem;
   edSearchingEntryChange(nil);
 end;
@@ -921,6 +911,33 @@ begin
   end
   else
     Left := Mouse.CursorPos.x;
+end;
+
+procedure TfrmTreeViewMenu.UpdateColors;
+begin
+  with gColors.TreeViewMenu^ do
+  begin
+    TreeViewMenuGenericRoutineAndVarHolder.BackgroundColor := BackgroundColor;
+    TreeViewMenuGenericRoutineAndVarHolder.ShortcutColor := ShortcutColor;
+    TreeViewMenuGenericRoutineAndVarHolder.NormalTextColor := NormalTextColor;
+    TreeViewMenuGenericRoutineAndVarHolder.SecondaryTextColor := SecondaryTextColor;
+    TreeViewMenuGenericRoutineAndVarHolder.FoundTextColor := FoundTextColor;
+    TreeViewMenuGenericRoutineAndVarHolder.UnselectableTextColor := UnselectableTextColor;
+    TreeViewMenuGenericRoutineAndVarHolder.CursorColor := CursorColor;
+    TreeViewMenuGenericRoutineAndVarHolder.ShortcutUnderCursor := ShortcutUnderCursor;
+    TreeViewMenuGenericRoutineAndVarHolder.NormalTextUnderCursor := NormalTextUnderCursor;
+    TreeViewMenuGenericRoutineAndVarHolder.SecondaryTextUnderCursor := SecondaryTextUnderCursor;
+    TreeViewMenuGenericRoutineAndVarHolder.FoundTextUnderCursor := FoundTextUnderCursor;
+    TreeViewMenuGenericRoutineAndVarHolder.UnselectableUnderCursor := UnselectableUnderCursor;
+    tvMainMenu.BackgroundColor := BackgroundColor;
+    tvMainMenu.Color := BackgroundColor;
+  end;
+end;
+
+procedure TfrmTreeViewMenu.CMThemeChanged(var Message: TLMessage);
+begin
+  UpdateColors;
+  tvMainMenu.Repaint;
 end;
 
 { TfrmTreeViewMenu.SetContextMode }

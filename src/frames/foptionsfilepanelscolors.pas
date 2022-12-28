@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    File panels colors options page
 
-   Copyright (C) 2006-2016  Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2006-2023  Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@ interface
 uses
   //Lazarus, Free-Pascal, etc.
   Graphics, Classes, SysUtils, ComCtrls, StdCtrls, ColorBox, ExtCtrls, Dialogs,
-  DividerBevel,
+  DividerBevel, LMessages,
 
   //DC
   uColumns, fOptionsFrame, uColumnsFileView, Controls;
@@ -127,6 +127,7 @@ type
   protected
     procedure Load; override;
     function Save: TOptionsEditorSaveFlags; override;
+    procedure CMThemeChanged(var Message: TLMessage); message CM_THEMECHANGED;
   public
     class function GetIconIndex: integer; override;
     class function GetTitle: string; override;
@@ -168,24 +169,30 @@ begin
   ColumnClass := TPanelColumnsClass.Create;
 
   //2. Let's load the current settings to be shown on screen
-  SetColorInColorBox(cbTextColor, gForeColor);
-  SetColorInColorBox(cbBackColor, gBackColor);
-  SetColorInColorBox(cbBackColor2, gBackColor2);
-  SetColorInColorBox(cbMarkColor, gMarkColor);
-  SetColorInColorBox(cbCursorColor, gCursorColor);
-  SetColorInColorBox(cbCursorText, gCursorText);
-  SetColorInColorBox(cbInactiveCursorColor, gInactiveCursorColor);
-  SetColorInColorBox(cbInactiveMarkColor, gInactiveMarkColor);
+  with gColors.FilePanel^ do
+  begin
+    SetColorInColorBox(cbTextColor, ForeColor);
+    SetColorInColorBox(cbBackColor, BackColor);
+    SetColorInColorBox(cbBackColor2, BackColor2);
+    SetColorInColorBox(cbMarkColor, MarkColor);
+    SetColorInColorBox(cbCursorColor, CursorColor);
+    SetColorInColorBox(cbCursorText, CursorText);
+    SetColorInColorBox(cbInactiveCursorColor, InactiveCursorColor);
+    SetColorInColorBox(cbInactiveMarkColor, InactiveMarkColor);
+    SetColorInColorBox(cbCursorBorderColor, CursorBorderColor);
+  end;
   cbAllowOverColor.Checked := gAllowOverColor;
   cbbUseInvertedSelection.Checked := gUseInvertedSelection;
   cbbUseInactiveSelColor.Checked := gUseInactiveSelColor;
   cbbUseFrameCursor.Checked := gUseFrameCursor;
   cbUseCursorBorder.Checked := gUseCursorBorder;
-  SetColorInColorBox(cbCursorBorderColor, gCursorBorderColor);
   tbInactivePanelBrightness.Position := gInactivePanelBrightness;
-  SetColorInColorBox(cbIndColor, gIndForeColor);
-  SetColorInColorBox(cbIndThresholdColor, gIndThresholdForeColor);
-  SetColorInColorBox(cbIndBackColor, gIndBackColor);
+  with gColors.FreeSpaceInd^ do
+  begin
+    SetColorInColorBox(cbIndColor, ForeColor);
+    SetColorInColorBox(cbIndBackColor, BackColor);
+    SetColorInColorBox(cbIndThresholdColor, ThresholdForeColor);
+  end;
   cbbUseGradientInd.Checked := gIndUseGradient;
   cbbUseFrameCursorChange(cbbUseFrameCursor);
   cbbUseInactiveSelColorChange(cbbUseInactiveSelColor);
@@ -216,26 +223,36 @@ end;
 { TfrmOptionsFilePanelsColors.Save }
 function TfrmOptionsFilePanelsColors.Save: TOptionsEditorSaveFlags;
 begin
-  gForeColor := cbTextColor.Selected;
-  gBackColor := cbBackColor.Selected;
-  gBackColor2 := cbBackColor2.Selected;
-  gMarkColor := cbMarkColor.Selected;
-  gCursorColor := cbCursorColor.Selected;
-  gCursorText := cbCursorText.Selected;
-  gInactiveCursorColor := cbInactiveCursorColor.Selected;
-  gInactiveMarkColor := cbInactiveMarkColor.Selected;
+  with gColors.FilePanel^ do
+  begin
+    ForeColor := cbTextColor.Selected;
+    BackColor := cbBackColor.Selected;
+    BackColor2 := cbBackColor2.Selected;
+    MarkColor := cbMarkColor.Selected;
+    CursorColor := cbCursorColor.Selected;
+    CursorText := cbCursorText.Selected;
+    InactiveCursorColor := cbInactiveCursorColor.Selected;
+    InactiveMarkColor := cbInactiveMarkColor.Selected;
+    CursorBorderColor := cbCursorBorderColor.Selected;
+  end;
   gUseInvertedSelection := cbbUseInvertedSelection.Checked;
   gAllowOverColor := cbAllowOverColor.Checked;
   gUseInactiveSelColor := cbbUseInactiveSelColor.Checked;
   gUseFrameCursor := cbbUseFrameCursor.Checked;
   gUseCursorBorder := cbUseCursorBorder.Checked;
-  gCursorBorderColor := cbCursorBorderColor.Selected;
   gInactivePanelBrightness := tbInactivePanelBrightness.Position;
-  gIndUseGradient := cbbUseGradientInd.Checked;
-  gIndForeColor := cbIndColor.Selected;
-  gIndThresholdForeColor := cbIndThresholdColor.Selected;
-  gIndBackColor := cbIndBackColor.Selected;
+  with gColors.FreeSpaceInd^ do
+  begin
+    ForeColor := cbIndColor.Selected;
+    BackColor := cbIndBackColor.Selected;
+    ThresholdForeColor := cbIndThresholdColor.Selected;
+  end;
   Result := [];
+end;
+
+procedure TfrmOptionsFilePanelsColors.CMThemeChanged(var Message: TLMessage);
+begin
+  LoadSettings;
 end;
 
 { TfrmOptionsFilePanelsColors.cbColorBoxChange }

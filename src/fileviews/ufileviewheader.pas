@@ -210,10 +210,13 @@ end;
 
 procedure TFileViewHeader.PathLabelSetColor(APathLabel: TPathLabel);
 begin
-  APathLabel.ActiveColor:= gPathActiveColor;
-  APathLabel.ActiveFontColor:= gPathActiveFontColor;
-  APathLabel.InactiveColor:= gPathInactiveColor;
-  APathLabel.InactiveFontColor:= gPathInactiveFontColor;
+  with gColors.Path^ do
+  begin
+    APathLabel.ActiveColor:= ActiveColor;
+    APathLabel.ActiveFontColor:= ActiveFontColor;
+    APathLabel.InactiveColor:= InactiveColor;
+    APathLabel.InactiveFontColor:= InactiveFontColor;
+  end;
 end;
 
 procedure TFileViewHeader.onKeyESCAPE(Sender: TObject);

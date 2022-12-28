@@ -27,7 +27,7 @@ interface
 
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Dialogs, Menus, ComCtrls,
-  ActnList, ExtCtrls, EditBtn, Buttons, SynEdit, uSynDiffControls,
+  ActnList, ExtCtrls, EditBtn, Buttons, SynEdit, uSynDiffControls, LMessages,
   uPariterControls, uDiffOND, uFormCommands, uHotkeyManager, uOSForms,
   uBinaryDiffViewer, uShowForm, KASStatusBar, Graphics, StdCtrls, fEditSearch;
 
@@ -263,6 +263,8 @@ private
     procedure SynDiffEditRightStatusChange(Sender: TObject; Changes: TSynStatusChanges);
 
     property Commands: TFormCommands read FCommands implements IFormCommands;
+  protected
+    procedure CMThemeChanged(var Message: TLMessage); message CM_THEMECHANGED;
   public
     constructor Create(TheOwner: TComponent); override;
     destructor Destroy; override;
@@ -310,7 +312,8 @@ begin
     FShowIdentical := True;
     edtFileNameLeft.Text:= FileNameLeft;
     edtFileNameRight.Text:= FileNameRight;
-    SetColors(gDifferAddedColor, gDifferDeletedColor, gDifferModifiedColor);
+    with gColors.Differ^ do
+    SetColors(AddedColor, DeletedColor, ModifiedColor);
     try
       if not (FileIsText(FileNameLeft) and FileIsText(FileNameRight)) then
         actBinaryCompare.Execute
@@ -770,8 +773,11 @@ begin
   BinaryViewerLeft.SecondViewer:= BinaryViewerRight;
   BinaryViewerRight.SecondViewer:= BinaryViewerLeft;
 
-  BinaryViewerLeft.Modified:= gDifferModifiedBinaryColor;
-  BinaryViewerRight.Modified:= gDifferModifiedBinaryColor;
+  with gColors.Differ^ do
+  begin
+    BinaryViewerLeft.Modified:= ModifiedBinaryColor;
+    BinaryViewerRight.Modified:= ModifiedBinaryColor;
+  end;
 
   FontOptionsToFont(gFonts[dcfEditor], SynDiffEditLeft.Font);
   FontOptionsToFont(gFonts[dcfEditor], SynDiffEditRight.Font);
@@ -1677,6 +1683,25 @@ begin
     finally
       Dec(ScrollLock);
     end;
+end;
+
+procedure TfrmDiffer.CMThemeChanged(var Message: TLMessage);
+begin
+  with gColors.Differ^ do
+  begin
+    BinaryViewerLeft.Modified:= ModifiedBinaryColor;
+    BinaryViewerRight.Modified:= ModifiedBinaryColor;
+    SetColors(AddedColor, DeletedColor, ModifiedColor);
+  end;
+  if not actBinaryCompare.Checked then
+  begin
+    SynDiffEditLeft.Repaint;
+    SynDiffEditRight.Repaint;
+  end
+  else begin
+    BinaryViewerLeft.Repaint;
+    BinaryViewerRight.Repaint;
+  end;
 end;
 
 initialization

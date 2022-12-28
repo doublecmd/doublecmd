@@ -874,13 +874,16 @@ begin
         TextRect(Rect(Left, aRect.Top, Left + Width, aRect.Bottom),
           Left + 2, aRect.Top + 2, FVisibleItems[aRow]);
     end else begin
-      case r.FState of
-      srsNotEq:       Font.Color := gSyncUnknownColor;
-      srsCopyLeft:    Font.Color := gSyncRightColor;
-      srsCopyRight:   Font.Color := gSyncLeftColor;
-      srsDeleteLeft:  Font.Color := gSyncLeftColor;
-      srsDeleteRight: Font.Color := gSyncRightColor;
-      else Font.Color := clWindowText;
+      with gColors.SyncDirs^ do
+      begin
+        case r.FState of
+        srsNotEq:       Font.Color := UnknownColor;
+        srsCopyLeft:    Font.Color := RightColor;
+        srsCopyRight:   Font.Color := LeftColor;
+        srsDeleteLeft:  Font.Color := LeftColor;
+        srsDeleteRight: Font.Color := RightColor;
+        else Font.Color := clWindowText;
+        end;
       end;
       if Assigned(r.FFileL) then
       begin

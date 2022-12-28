@@ -680,7 +680,7 @@ begin
   FCommands := TFormCommands.Create(Self, actionList);
 
   FontOptionsToFont(gFonts[dcfMain], memFolder.Font);
-  memFolder.Color:= gBackColor;
+  memFolder.Color:= gColors.FilePanel^.BackColor;
 
   actShowCaret.Checked := gShowCaret;
   actWrapText.Checked := gViewerWrapText;
@@ -768,7 +768,7 @@ begin
       begin
         ActivatePanel(pnlFolder);
         memFolder.Clear;
-        memFolder.Font.Color:= gForeColor;
+        memFolder.Font.Color:= gColors.FilePanel^.ForeColor;
         memFolder.Lines.Add(rsPropsFolder + ': ');
         memFolder.Lines.Add(aFileName);
         memFolder.Lines.Add('');
@@ -1544,10 +1544,10 @@ begin
   ViewerControl.Mode:= AMode;
   if ViewerControl.Mode = vcmBook then
   begin
-    with ViewerControl do
+    with ViewerControl, gColors.Viewer^ do
       begin
-        Color:= gBookBackgroundColor;
-        Font.Color:= gBookFontColor;
+        Color:= BookBackgroundColor;
+        Font.Color:= BookFontColor;
         ColCount:= gColCount;
         Position:= gTextPosition;
       end;
@@ -1768,10 +1768,13 @@ const
 var
   X, Y: Integer;
 begin
-  if gImageBackColor2 = clDefault then
-    ACanvas.Brush.Color:= ContrastColor(sboxImage.Color, 30)
-  else begin
-    ACanvas.Brush.Color:= gImageBackColor2;
+  with gColors.Viewer^ do
+  begin
+    if ImageBackColor2 = clDefault then
+      ACanvas.Brush.Color:= ContrastColor(sboxImage.Color, 30)
+    else begin
+      ACanvas.Brush.Color:= ImageBackColor2;
+    end;
   end;
 
   for Y:= 0 to (ARect.Height div CELL_SIZE) + 1 do
@@ -2049,7 +2052,7 @@ begin
 
   sboxImage.DoubleBuffered := True;
   miStretch.Checked := gImageStretch;
-  sboxImage.Color := gImageBackColor1;
+  sboxImage.Color := gColors.Viewer^.ImageBackColor1;
   miStretchOnlyLarge.Checked := gImageStretchOnlyLarge;
   miCenter.Checked := gImageCenter;
   miPreview.Checked := gPreviewVisible;

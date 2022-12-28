@@ -1133,7 +1133,7 @@ begin
 
     cbCursorBorder.Checked:= gUseCursorBorder;
     cbCursorBorderChange(cbCursorBorder);
-    SetColorInColorBox(cbCursorBorderColor, gCursorBorderColor);
+    SetColorInColorBox(cbCursorBorderColor, gColors.FilePanel^.CursorBorderColor);
     cbUseFrameCursor.Checked:= gUseFrameCursor;
     cbUseFrameCursorChange(cbUseFrameCursor);
   end;
@@ -1176,7 +1176,7 @@ end;
 procedure TfrmOptionsCustomColumns.btnResetCursorBorderClick(Sender: TObject);
 begin
   cbCursorBorder.Checked := gUseCursorBorder;
-  SetColorInColorBox(cbCursorBorderColor, gCursorBorderColor);
+  SetColorInColorBox(cbCursorBorderColor, gColors.FilePanel^.CursorBorderColor);
   EditorSaveResult(nil);
 end;
 
@@ -1362,8 +1362,11 @@ end;
 { TfrmOptionsCustomColumns.btnResetForeColorClick }
 procedure TfrmOptionsCustomColumns.btnResetForeColorClick(Sender: TObject);
 begin
-  TColPrm(stgColumns.Objects[6, IndexRaw + 1]).TextColor := gForeColor;
-  SetColorInColorBox(cbForeColor, gForeColor);
+  with gColors.FilePanel^ do
+  begin
+    TColPrm(stgColumns.Objects[6, IndexRaw + 1]).TextColor := ForeColor;
+    SetColorInColorBox(cbForeColor, ForeColor);
+  end;
   EditorSaveResult(nil);
 end;
 
@@ -1392,8 +1395,11 @@ end;
 { TfrmOptionsCustomColumns.btnResetBackColorClick }
 procedure TfrmOptionsCustomColumns.btnResetBackColorClick(Sender: TObject);
 begin
-  TColPrm(stgColumns.Objects[6, IndexRaw + 1]).Background := gBackColor;
-  SetColorInColorBox(cbBackColor, gBackColor);
+  with gColors.FilePanel^ do
+  begin
+    TColPrm(stgColumns.Objects[6, IndexRaw + 1]).Background := BackColor;
+    SetColorInColorBox(cbBackColor, BackColor);
+  end;
   EditorSaveResult(nil);
 end;
 
@@ -1422,8 +1428,11 @@ end;
 { TfrmOptionsCustomColumns.btnResetBackColor2Click }
 procedure TfrmOptionsCustomColumns.btnResetBackColor2Click(Sender: TObject);
 begin
-  TColPrm(stgColumns.Objects[6, IndexRaw + 1]).Background2 := gBackColor2;
-  SetColorInColorBox(cbBackColor2, gBackColor2);
+  with gColors.FilePanel^ do
+  begin
+    TColPrm(stgColumns.Objects[6, IndexRaw + 1]).Background2 := BackColor2;
+    SetColorInColorBox(cbBackColor2, BackColor2);
+  end;
   EditorSaveResult(nil);
 end;
 
@@ -1452,8 +1461,11 @@ end;
 { TfrmOptionsCustomColumns.btnResetMarkColorClick }
 procedure TfrmOptionsCustomColumns.btnResetMarkColorClick(Sender: TObject);
 begin
-  TColPrm(stgColumns.Objects[6, IndexRaw + 1]).MarkColor := gMarkColor;
-  SetColorInColorBox(cbMarkColor, gMarkColor);
+  with gColors.FilePanel^ do
+  begin
+    TColPrm(stgColumns.Objects[6, IndexRaw + 1]).MarkColor := MarkColor;
+    SetColorInColorBox(cbMarkColor, MarkColor);
+  end;
   EditorSaveResult(nil);
 end;
 
@@ -1482,8 +1494,11 @@ end;
 { TfrmOptionsCustomColumns.btnResetCursorColorClick }
 procedure TfrmOptionsCustomColumns.btnResetCursorColorClick(Sender: TObject);
 begin
-  TColPrm(stgColumns.Objects[6, IndexRaw + 1]).CursorColor := gCursorColor;
-  SetColorInColorBox(cbCursorColor, gCursorColor);
+  with gColors.FilePanel^ do
+  begin
+    TColPrm(stgColumns.Objects[6, IndexRaw + 1]).CursorColor := CursorColor;
+    SetColorInColorBox(cbCursorColor, CursorColor);
+  end;
   EditorSaveResult(nil);
 end;
 
@@ -1512,8 +1527,11 @@ end;
 { TfrmOptionsCustomColumns.btnResetCursorTextClick }
 procedure TfrmOptionsCustomColumns.btnResetCursorTextClick(Sender: TObject);
 begin
-  TColPrm(stgColumns.Objects[6, IndexRaw + 1]).CursorText := gCursorText;
-  SetColorInColorBox(cbCursorText, gCursorText);
+  with gColors.FilePanel^ do
+  begin
+    TColPrm(stgColumns.Objects[6, IndexRaw + 1]).CursorText := CursorText;
+    SetColorInColorBox(cbCursorText, CursorText);
+  end;
   EditorSaveResult(nil);
 end;
 
@@ -1542,8 +1560,11 @@ end;
 { TfrmOptionsCustomColumns.btnResetInactiveCursorColorClick }
 procedure TfrmOptionsCustomColumns.btnResetInactiveCursorColorClick(Sender: TObject);
 begin
-  TColPrm(stgColumns.Objects[6, IndexRaw + 1]).InactiveCursorColor := gInactiveCursorColor;
-  SetColorInColorBox(cbInactiveCursorColor, gInactiveCursorColor);
+  with gColors.FilePanel^ do
+  begin
+    TColPrm(stgColumns.Objects[6, IndexRaw + 1]).InactiveCursorColor := InactiveCursorColor;
+    SetColorInColorBox(cbInactiveCursorColor, InactiveCursorColor);
+  end;
   EditorSaveResult(nil);
 end;
 
@@ -1572,8 +1593,11 @@ end;
 { TfrmOptionsCustomColumns.btnResetInactiveMarkColorClick }
 procedure TfrmOptionsCustomColumns.btnResetInactiveMarkColorClick(Sender: TObject);
 begin
-  TColPrm(stgColumns.Objects[6, IndexRaw + 1]).InactiveMarkColor := gInactiveMarkColor;
-  SetColorInColorBox(cbInactiveMarkColor, gInactiveMarkColor);
+  with gColors.FilePanel^ do
+  begin
+    TColPrm(stgColumns.Objects[6, IndexRaw + 1]).InactiveMarkColor := InactiveMarkColor;
+    SetColorInColorBox(cbInactiveMarkColor, InactiveMarkColor);
+  end;
   EditorSaveResult(nil);
 end;
 

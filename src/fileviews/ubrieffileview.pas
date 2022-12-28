@@ -510,7 +510,7 @@ begin
   else
     begin
       // Draw background.
-      Canvas.Brush.Color := FBriefView.DimColor(gBackColor);
+      Canvas.Brush.Color := FBriefView.DimColor(gColors.FilePanel^.BackColor);
       Canvas.FillRect(aRect);
     end;
 

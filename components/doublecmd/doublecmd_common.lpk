@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CONFIG>
-  <Package Version="4">
+  <Package Version="5">
     <PathDelim Value="\"/>
     <Name Value="doublecmd_common"/>
     <Author Value="Alexander Koblov"/>
@@ -10,10 +10,10 @@
       <SearchPaths>
         <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
       </SearchPaths>
-      <Conditionals Value="if (TargetCPU &lt;> 'arm') then
+      <Conditionals Value="if (TargetCPU &lt;> &apos;arm&apos;) then
 begin
-  CustomOptions += '-fPIC';
-  UsageCustomOptions += '-fPIC';
+  CustomOptions += &apos;-fPIC&apos;;
+  UsageCustomOptions += &apos;-fPIC&apos;;
 end"/>
       <Parsing>
         <SyntaxOptions>
@@ -34,8 +34,8 @@ end"/>
     </CompilerOptions>
     <Description Value="Common units for Double Commander"/>
     <License Value="GNU GPL 2"/>
-    <Version Minor="3" Release="3"/>
-    <Files Count="11">
+    <Version Minor="4"/>
+    <Files Count="12">
       <Item1>
         <Filename Value="dcclassesutf8.pas"/>
         <UnitName Value="DCClassesUtf8"/>
@@ -80,7 +80,12 @@ end"/>
         <Filename Value="dcstringhashlistutf8.pas"/>
         <UnitName Value="DCStringHashListUtf8"/>
       </Item11>
+      <Item12>
+        <Filename Value="dcjsonconfig.pas"/>
+        <UnitName Value="DCJsonConfig"/>
+      </Item12>
     </Files>
+    <CompatibilityMode Value="True"/>
     <RequiredPkgs Count="2">
       <Item1>
         <PackageName Value="FCL"/>

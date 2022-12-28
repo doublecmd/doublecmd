@@ -345,7 +345,7 @@ begin
   if FCustomView and (Index < Flist.Count) then
     Result := TPanelColumn(Flist[Index]).TextColor
   else
-    Result := gForeColor;
+    Result := gColors.FilePanel^.ForeColor;
 end;
 
 function TPanelColumnsClass.GetColumnBackground(const Index: Integer): TColor;
@@ -353,7 +353,7 @@ begin
   if FCustomView and (Index < Flist.Count) then
     Result := TPanelColumn(Flist[Index]).Background
   else
-    Result := gBackColor;
+    Result := gColors.FilePanel^.BackColor;
 end;
 
 function TPanelColumnsClass.GetColumnBackground2(const Index: Integer): TColor;
@@ -361,7 +361,7 @@ begin
   if FCustomView and (Index < Flist.Count) then
     Result := TPanelColumn(Flist[Index]).Background2
   else
-    Result := gBackColor2;
+    Result := gColors.FilePanel^.BackColor2;
 end;
 
 function TPanelColumnsClass.GetColumnMarkColor(const Index: Integer): TColor;
@@ -369,7 +369,7 @@ begin
   if FCustomView and (Index < Flist.Count) then
     Result := TPanelColumn(Flist[Index]).MarkColor
   else
-    Result := gMarkColor;
+    Result := gColors.FilePanel^.MarkColor;
 end;
 
 function TPanelColumnsClass.GetColumnCursorColor(const Index: Integer): TColor;
@@ -377,7 +377,7 @@ begin
   if FCustomView and (Index < Flist.Count) then
     Result := TPanelColumn(Flist[Index]).CursorColor
   else
-    Result := gCursorColor;
+    Result := gColors.FilePanel^.CursorColor;
 end;
 
 function TPanelColumnsClass.GetColumnCursorText(const Index: Integer): TColor;
@@ -385,7 +385,7 @@ begin
   if FCustomView and (Index < Flist.Count) then
     Result := TPanelColumn(Flist[Index]).CursorText
   else
-    Result := gCursorText;
+    Result := gColors.FilePanel^.CursorText;
 end;
 
 function TPanelColumnsClass.GetColumnInactiveCursorColor(const Index: Integer): TColor;
@@ -393,7 +393,7 @@ begin
   if FCustomView and (Index < Flist.Count) then
     Result := TPanelColumn(Flist[Index]).InactiveCursorColor
   else
-    Result := gInactiveCursorColor;
+    Result := gColors.FilePanel^.InactiveCursorColor;
 end;
 
 function TPanelColumnsClass.GetColumnInactiveMarkColor(const Index: Integer): TColor;
@@ -401,7 +401,7 @@ begin
   if FCustomView and (Index < Flist.Count) then
     Result := TPanelColumn(Flist[Index]).InactiveMarkColor
   else
-    Result := gInactiveMarkColor;
+    Result := gColors.FilePanel^.InactiveMarkColor;
 end;
 
 function TPanelColumnsClass.GetColumnUseInvertedSelection(const Index: Integer): Boolean;
@@ -563,7 +563,7 @@ begin
   if FCustomView then
     Result := FCursorBorderColor
   else
-    Result := gCursorBorderColor;
+    Result := gColors.FilePanel^.CursorBorderColor;
 end;
 
 constructor TPanelColumnsClass.Create;
@@ -656,14 +656,17 @@ begin
   AColumn.FontName    := gFonts[dcfMain].Name;
   AColumn.FontSize    := gFonts[dcfMain].Size;
   AColumn.FontStyle   := gFonts[dcfMain].Style;
-  AColumn.TextColor   := gForeColor;
-  AColumn.Background  := gBackColor;
-  AColumn.Background2 := gBackColor2;
-  AColumn.MarkColor   := gMarkColor;
-  AColumn.CursorColor := gCursorColor;
-  AColumn.CursorText  := gCursorText;
-  AColumn.InactiveCursorColor := gInactiveCursorColor;
-  AColumn.InactiveMarkColor := gInactiveMarkColor;
+  with gColors.FilePanel^ do
+  begin
+    AColumn.TextColor   := ForeColor;
+    AColumn.Background  := BackColor;
+    AColumn.Background2 := BackColor2;
+    AColumn.MarkColor   := MarkColor;
+    AColumn.CursorColor := CursorColor;
+    AColumn.CursorText  := CursorText;
+    AColumn.InactiveCursorColor := InactiveCursorColor;
+    AColumn.InactiveMarkColor := InactiveMarkColor;
+  end;
   AColumn.UseInvertedSelection := gUseInvertedSelection;
   AColumn.UseInactiveSelColor := gUseInactiveSelColor;
   AColumn.Overcolor := gAllowOverColor;
@@ -841,7 +844,7 @@ begin
   AddDefaultColumns;
   FCustomView := False;
   FCursorBorder := gUseCursorBorder;
-  FCursorBorderColor := gCursorBorderColor;
+  FCursorBorderColor := gColors.FilePanel^.CursorBorderColor;
   FUseFrameCursor := gUseFrameCursor;
 end;
 
@@ -858,7 +861,7 @@ begin
   FFileSystem := AConfig.GetValue(ANode, 'FileSystem', FS_GENERAL);
   APixelsPerInch:= AConfig.GetValue(ANode, 'PixelsPerInch', Screen.PixelsPerInch);
   FCursorBorder := AConfig.GetAttr(ANode, 'CursorBorder/Enabled', gUseCursorBorder);
-  FCursorBorderColor := TColor(AConfig.GetValue(ANode, 'CursorBorder/Color', gCursorBorderColor));
+  FCursorBorderColor := TColor(AConfig.GetValue(ANode, 'CursorBorder/Color', gColors.FilePanel^.CursorBorderColor));
   FUseFrameCursor := AConfig.GetAttr(ANode, 'UseFrameCursor', gUseFrameCursor);
 
   Clear;
@@ -881,14 +884,17 @@ begin
         AColumn.Align := TAlignment(AConfig.GetValue(SubNode, 'Align', Integer(0)));
         AConfig.GetFont(SubNode, 'Font', AColumn.FontName, AColumn.FontSize, Integer(AColumn.FontStyle), Quality,
                         gFonts[dcfMain].Name, gFonts[dcfMain].Size, Integer(gFonts[dcfMain].Style), Quality);
-        AColumn.TextColor := TColor(AConfig.GetValue(SubNode, 'TextColor', gForeColor));
-        AColumn.Background := TColor(AConfig.GetValue(SubNode, 'Background', gBackColor));
-        AColumn.Background2 := TColor(AConfig.GetValue(SubNode, 'Background2', gBackColor2));
-        AColumn.MarkColor := TColor(AConfig.GetValue(SubNode, 'MarkColor', gMarkColor));
-        AColumn.CursorColor := TColor(AConfig.GetValue(SubNode, 'CursorColor', gCursorColor));
-        AColumn.CursorText := TColor(AConfig.GetValue(SubNode, 'CursorText', gCursorText));
-        AColumn.InactiveCursorColor := TColor(AConfig.GetValue(SubNode, 'InactiveCursorColor', gInactiveCursorColor));
-        AColumn.InactiveMarkColor := TColor(AConfig.GetValue(SubNode, 'InactiveMarkColor', gInactiveMarkColor));
+        with gColors.FilePanel^ do
+        begin
+          AColumn.TextColor := TColor(AConfig.GetValue(SubNode, 'TextColor', ForeColor));
+          AColumn.Background := TColor(AConfig.GetValue(SubNode, 'Background', BackColor));
+          AColumn.Background2 := TColor(AConfig.GetValue(SubNode, 'Background2', BackColor2));
+          AColumn.MarkColor := TColor(AConfig.GetValue(SubNode, 'MarkColor', MarkColor));
+          AColumn.CursorColor := TColor(AConfig.GetValue(SubNode, 'CursorColor', CursorColor));
+          AColumn.CursorText := TColor(AConfig.GetValue(SubNode, 'CursorText', CursorText));
+          AColumn.InactiveCursorColor := TColor(AConfig.GetValue(SubNode, 'InactiveCursorColor', InactiveCursorColor));
+          AColumn.InactiveMarkColor := TColor(AConfig.GetValue(SubNode, 'InactiveMarkColor', InactiveMarkColor));
+        end;
         AColumn.UseInvertedSelection := AConfig.GetValue(SubNode, 'UseInvertedSelection', gUseInvertedSelection);
         AColumn.UseInactiveSelColor := AConfig.GetValue(SubNode, 'UseInactiveSelColor', gUseInactiveSelColor);
         AColumn.Overcolor := AConfig.GetValue(SubNode, 'Overcolor', True);
@@ -1283,14 +1289,17 @@ begin
   Self.FontName    := gFonts[dcfMain].Name;
   Self.FontSize    := gFonts[dcfMain].Size;
   Self.FontStyle   := gFonts[dcfMain].Style;
-  Self.TextColor   := gForeColor;
-  Self.Background  := gBackColor;
-  Self.Background2 := gBackColor2;
-  Self.MarkColor   := gMarkColor;
-  Self.CursorColor := gCursorColor;
-  Self.CursorText  := gCursorText;
-  Self.InactiveCursorColor := gInactiveCursorColor;
-  Self.InactiveMarkColor   := gInactiveMarkColor;
+  with gColors.FilePanel^ do
+  begin
+    Self.TextColor   := ForeColor;
+    Self.Background  := BackColor;
+    Self.Background2 := BackColor2;
+    Self.MarkColor   := MarkColor;
+    Self.CursorColor := CursorColor;
+    Self.CursorText  := CursorText;
+    Self.InactiveCursorColor := InactiveCursorColor;
+    Self.InactiveMarkColor   := InactiveMarkColor;
+  end;
   Self.UseInvertedSelection:= gUseInvertedSelection;
   Self.UseInactiveSelColor:= gUseInactiveSelColor;
   Self.Overcolor   := gAllowOverColor;

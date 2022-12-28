@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    File types colors options page
 
-   Copyright (C) 2006-2016 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2006-2022 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -28,7 +28,7 @@ interface
 
 uses
   Classes, SysUtils, Controls, StdCtrls, ColorBox, Dialogs, Buttons,
-  fOptionsFrame;
+  LMessages, fOptionsFrame;
 
 type
 
@@ -69,6 +69,7 @@ type
     procedure Init; override;
     procedure Load; override;
     function Save: TOptionsEditorSaveFlags; override;
+    procedure CMThemeChanged(var Message: TLMessage); message CM_THEMECHANGED;
   public
     destructor Destroy; override;
     class function GetIconIndex: Integer; override;
@@ -225,17 +226,17 @@ end;
 procedure TfrmOptionsFileTypesColors.lbCategoriesDrawItem(Control: TWinControl;
   Index: Integer; ARect: TRect; State: TOwnerDrawState);
 begin
-  with (Control as TListBox) do
+  with (Control as TListBox), gColors.FilePanel^ do
    begin
      if (not Selected[Index]) and Assigned(Items.Objects[Index]) then
        begin
-         Canvas.Brush.Color:= gBackColor;
+         Canvas.Brush.Color:= BackColor;
          Canvas.Font.Color:= TMaskItem(Items.Objects[Index]).cColor;
        end
      else
        begin
-         Canvas.Brush.Color:= gCursorColor;
-         Canvas.Font.Color:= gCursorText;
+         Canvas.Brush.Color:= CursorColor;
+         Canvas.Font.Color:= CursorText;
        end;
 
      Canvas.FillRect(ARect);
@@ -280,7 +281,7 @@ var
   MaskItem: TMaskItem;
 begin
   Clear;
-  lbCategories.Color:= gBackColor;
+  lbCategories.Color:= gColors.FilePanel^.BackColor;
 
   { File lbtypes category color }
   for I := 0 to gColorExt.Count - 1 do
@@ -330,6 +331,12 @@ begin
         raise;
       end;
     end;
+end;
+
+procedure TfrmOptionsFileTypesColors.CMThemeChanged(var Message: TLMessage);
+begin
+  lbCategories.Color:= gColors.FilePanel^.BackColor;
+  lbCategories.Repaint;
 end;
 
 destructor TfrmOptionsFileTypesColors.Destroy;

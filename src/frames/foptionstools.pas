@@ -28,7 +28,7 @@ interface
 
 uses
   Classes, SysUtils, StdCtrls, Spin, ExtCtrls, ColorBox, Dialogs, Types,
-  fOptionsFrame, fOptionsToolBase;
+  LMessages, fOptionsFrame, fOptionsToolBase;
 
 type
 
@@ -59,6 +59,7 @@ type
     procedure Init; override;
     procedure Load; override;
     function Save: TOptionsEditorSaveFlags; override;
+    procedure CMThemeChanged(var Message: TLMessage); message CM_THEMECHANGED;
   public
     class function GetIconIndex: Integer; override;
     class function GetTitle: String; override;
@@ -158,16 +159,28 @@ procedure TfrmOptionsViewer.Load;
 begin
   inherited;
   seNumberColumnsViewer.Value := gColCount;
-  SetColorInColorBox(cbBackgroundColorViewerBook,gBookBackgroundColor);
-  SetColorInColorBox(cbFontColorViewerBook,gBookFontColor);
+  with gColors.Viewer^ do
+  begin
+    SetColorInColorBox(cbBackgroundColorViewerBook, BookBackgroundColor);
+    SetColorInColorBox(cbFontColorViewerBook, BookFontColor);
+  end;
 end;
 
 function TfrmOptionsViewer.Save: TOptionsEditorSaveFlags;
 begin
   Result := inherited;
   gColCount := seNumberColumnsViewer.Value;
-  gBookBackgroundColor := cbBackgroundColorViewerBook.Selected;
-  gBookFontColor := cbFontColorViewerBook.Selected;
+  with gColors.Viewer^ do
+  begin
+    BookBackgroundColor := cbBackgroundColorViewerBook.Selected;
+    BookFontColor := cbFontColorViewerBook.Selected;
+  end;
+end;
+
+procedure TfrmOptionsViewer.CMThemeChanged(var Message: TLMessage);
+begin
+  LoadSettings;
+  pbViewerBook.Repaint;
 end;
 
 end.

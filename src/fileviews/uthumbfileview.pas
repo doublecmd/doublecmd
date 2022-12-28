@@ -506,7 +506,7 @@ var
     s:= FitFileName(s, Canvas, AFile.FSFile, aRect.Width - 4);
 
     Canvas.TextOut(aRect.Left + 2, iTextTop - 1, s);
-    Canvas.Pen.Color:= InvertColor(ColorToRGB(gBackColor));
+    Canvas.Pen.Color:= InvertColor(ColorToRGB(gColors.FilePanel^.BackColor));
     Canvas.Pen.Width := 1;
     Canvas.Frame(aRect.Left + 1, aRect.Top + 1, aRect.Right - 1, aRect.Bottom - Canvas.TextHeight('Pp') - 1);
   end; //of DrawIconCell
@@ -535,7 +535,7 @@ begin
   else
     begin
       // Draw background.
-      Canvas.Brush.Color := FThumbView.DimColor(gBackColor);
+      Canvas.Brush.Color := FThumbView.DimColor(gColors.FilePanel^.BackColor);
       Canvas.FillRect(aRect);
     end;
 
@@ -565,7 +565,7 @@ begin
 
   tmMouseScroll.Interval := 200;
   FBitmapList:= TBitmapList.Create(True);
-  FThumbnailManager:= TThumbnailManager.Create(gBackColor);
+  FThumbnailManager:= TThumbnailManager.Create(gColors.FilePanel^.BackColor);
 end;
 
 procedure TThumbFileView.AfterChangePath;

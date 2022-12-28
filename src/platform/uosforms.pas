@@ -120,12 +120,13 @@ function GetControlHandle(AWindow: TWinControl): HWND;
 function GetWindowHandle(AWindow: TWinControl): HWND; overload;
 function GetWindowHandle(AHandle: HWND): HWND; overload;
 procedure CopyNetNamesToClip;
+function DarkStyle: Boolean;
 
 implementation
 
 uses
   ExtDlgs, LCLProc, Menus, Graphics, InterfaceBase, WSForms, LMessages, LCLIntf,
-  fMain, uConnectionManager, uShowMsg, uLng
+  fMain, uConnectionManager, uShowMsg, uLng, uDCUtils
   {$IF DEFINED(MSWINDOWS)}
   , LCLStrConsts, ComObj, ActiveX, DCOSUtils, uOSUtils, uFileSystemFileSource
   , uTotalCommander, FileUtil, Windows, ShlObj, uShlObjAdditional
@@ -133,7 +134,9 @@ uses
   , uDCReadRSVG, uFileSourceUtil, uGdiPlusJPEG, uListGetPreviewBitmap
   , Dialogs, Clipbrd, uDebug, JwaDbt, uThumbnailProvider, uShellFolder
   , uRecycleBinFileSource, uWslFileSource, uDCReadHEIF, uDCReadWIC
-    {$IFDEF LCLQT5}
+    {$IF DEFINED(DARKWIN)}
+    , uDarkStyle
+    {$ELSEIF DEFINED(LCLQT5)}
     , qt5, qtwidgets, uDarkStyle
     {$ENDIF}
   {$ENDIF}
@@ -156,7 +159,7 @@ uses
     , qt6, qtwidgets
     {$ENDIF}
     {$IF DEFINED(LCLGTK2)}
-    , gtk2
+    , Gtk2,  Glib2, Themes
     {$ENDIF}
   {$ENDIF}
   , uDCReadSVG, uTurboJPEG;
@@ -545,6 +548,13 @@ begin
     MountNetworkDrive(Address);
 end;
 
+{$ELSEIF DEFINED(LCLGTK2)}
+
+procedure OnThemeChange; cdecl;
+begin
+  ThemeServices.IntfDoOnThemeChange;
+end;
+
 {$ENDIF}
 
 procedure MainFormCreate(MainForm : TCustomForm);
@@ -663,6 +673,15 @@ begin
   Handler.Code:= @ScreenFormEvent;
   ScreenFormEvent(MainForm, MainForm, MainForm);
   Screen.AddHandlerFormAdded(TScreenFormEvent(Handler), True);
+  {$ENDIF}
+
+  {$IF DEFINED(LCLGTK2)}
+  Handler.Data:= gtk_settings_get_default();
+  if Assigned(Handler.Data) then
+  begin
+    g_signal_connect_data(Handler.Data, 'notify::gtk-theme-name',
+                          @OnThemeChange, nil, nil, 0);
+  end;
   {$ENDIF}
 
   {$IF DEFINED(DARWIN)}
@@ -952,6 +971,17 @@ end;
 {$ELSE}
 begin
   msgWarning(rsMsgErrNotSupported);
+end;
+{$ENDIF}
+
+function DarkStyle: Boolean;
+{$IF DEFINED(DARKWIN)}
+begin
+  Result:= g_darkModeEnabled;
+end;
+{$ELSE}
+begin
+  Result:= not ColorIsLight(ColorToRGB(clWindow));
 end;
 {$ENDIF}
 

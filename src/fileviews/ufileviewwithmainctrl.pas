@@ -541,7 +541,7 @@ end;
 
 procedure TFileViewWithMainCtrl.UpdateColor;
 begin
-  MainControl.Color := DimColor(gBackColor);
+  MainControl.Color := DimColor(gColors.FilePanel^.BackColor);
 end;
 
 procedure TFileViewWithMainCtrl.FinalizeDragDropEx(AControl: TWinControl);
