@@ -83,8 +83,11 @@ end;
 
 procedure QuickViewClose;
 begin
-  FreeAndNil(QuickViewPanel);
-  frmMain.actQuickView.Checked:= False;
+  if Assigned(QuickViewPanel) then
+  begin
+    FreeAndNil(QuickViewPanel);
+    frmMain.actQuickView.Checked:= False;
+  end;
 end;
 
 { TQuickViewPanel }

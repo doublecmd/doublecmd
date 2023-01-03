@@ -2580,9 +2580,7 @@ begin
     end;
   end;
 
-  if Assigned(QuickViewPanel) then
-    Commands.cm_QuickView(['Close']);
-
+  QuickViewClose;
   UpdatePrompt;
   UpdateTreeViewPath;
   UpdateMainTitleBar;
@@ -4974,7 +4972,7 @@ begin
        else
          Exit(1);
     end;
-    if Assigned(QuickViewPanel) then QuickViewClose;
+    QuickViewClose;
     ANoteBook.RemovePage(iPageIndex);
 
     if UserAnswer=mmrAll then Result:=3 else Result:= 0;
@@ -5128,6 +5126,8 @@ var
 begin
   if Destination<>tclNone then
   begin
+    QuickViewClose;
+
     // 1. Normalize our destination side and destination to keep in case params specified active/inactive
     if ((Destination=tclActive) and (ActiveFrame=FrameLeft)) OR ((Destination=tclInactive) and (NotActiveFrame=FrameLeft)) then Destination:=tclLeft;
     if ((Destination=tclActive) and (ActiveFrame=FrameRight)) OR ((Destination=tclInactive) and (NotActiveFrame=FrameRight)) then Destination:=tclRight;
