@@ -233,6 +233,9 @@ begin
       end;
 
       frmMain.ShowOnTop;
+      {$IFDEF LCLCOCOA}
+      frmMain.RestoreWindow;
+      {$ENDIF}
 
       Application.Run;
 

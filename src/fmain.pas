@@ -788,7 +788,9 @@ type
 
   protected
     procedure CreateWnd; override;
+    {$IFNDEF LCLCOCOA}
     procedure DoFirstShow; override;
+    {$ENDIF}
     procedure DoAutoAdjustLayout(const AMode: TLayoutAdjustmentPolicy;
                             const AXProportion, AYProportion: Double); override;
 
@@ -3982,6 +3984,7 @@ begin
   Application.MainForm.Tag:= Handle;
 end;
 
+{$IFNDEF LCLCOCOA}
 procedure TfrmMain.DoFirstShow;
 var
   ANode: TXmlNode;
@@ -3996,6 +3999,7 @@ begin
 
   lastWindowState := WindowState;
 end;
+{$ENDIF}
 
 procedure TfrmMain.WMMove(var Message: TLMMove);
 begin
@@ -6178,6 +6182,10 @@ begin
       FRestoredWidth := MulDiv(FRestoredWidth, Screen.PixelsPerInch, FPixelsPerInch);
       FRestoredHeight := MulDiv(FRestoredHeight, Screen.PixelsPerInch, FPixelsPerInch);
     end;
+    if gConfig.GetValue(ANode, 'Maximized', True) then
+      lastWindowState:= TWindowState.wsMaximized
+    else
+      lastWindowState:= TWindowState.wsNormal;
     SetBounds(FRestoredLeft, FRestoredTop, FRestoredWidth, FRestoredHeight);
   end;
 end;
