@@ -29,9 +29,14 @@ type
     FFileExistsOption: TFileSourceOperationUIResponse;
     FDirExistsOption: TFileSourceOperationUIResponse;
 
+    FCurrentFile: TFile;
+    FCurrentTargetFilePath: String;
+
+    procedure QuestionActionHandler(Action: TFileSourceOperationUIAction);
     function RenameFile(aFile: TFile; NewName: String): TSetFilePropertyResult;
 
   protected
+    procedure ShowCompareFilesUI(SourceFile: TFile; const TargetFilePath: String);
     function SetNewProperty(aFile: TFile; aTemplateProperty: TFileProperty): TSetFilePropertyResult; override;
 
   public
@@ -50,7 +55,7 @@ type
 implementation
 
 uses
-  uGlobs, uLng, DCDateTimeUtils, uFileSystemUtil,
+  uGlobs, uLng, DCDateTimeUtils, uFileSystemUtil, uShowForm,
   DCOSUtils, DCStrUtils, DCBasicTypes, uAdministrator
   {$IF DEFINED(UNIX)}
     , BaseUnix, DCUnix
@@ -280,15 +285,47 @@ begin
   end;
 end;
 
+procedure TFileSystemSetFilePropertyOperation.QuestionActionHandler(
+  Action: TFileSourceOperationUIAction);
+begin
+  if Action = fsouaCompare then
+    ShowCompareFilesUI(FCurrentFile, FCurrentTargetFilePath);
+end;
+
 function TFileSystemSetFilePropertyOperation.RenameFile(aFile: TFile; NewName: String): TSetFilePropertyResult;
 var
   OldName: String;
+  NewAttr: TFileAttributeData;
 
-  function AskIfOverwrite(Attrs: TFileAttrs): TFileSourceOperationUIResponse;
+  function OverwriteOlder: TFileSourceOperationUIResponse;
+  begin
+    if aFile.ModificationTime > FileTimeToDateTime(NewAttr.LastWriteTime) then
+      Result := fsourOverwrite
+    else
+      Result := fsourSkip;
+  end;
+
+  function OverwriteSmaller: TFileSourceOperationUIResponse;
+  begin
+    if aFile.Size > NewAttr.Size then
+      Result := fsourOverwrite
+    else
+      Result := fsourSkip;
+  end;
+
+  function OverwriteLarger: TFileSourceOperationUIResponse;
+  begin
+    if aFile.Size < NewAttr.Size then
+      Result := fsourOverwrite
+    else
+      Result := fsourSkip;
+  end;
+
+  function AskIfOverwrite: TFileSourceOperationUIResponse;
   var
     sQuestion: String;
   begin
-    if DCOSUtils.FPS_ISDIR(Attrs) then
+    if DCOSUtils.FPS_ISDIR(NewAttr.Attr) then
     begin
       if FDirExistsOption <> fsourInvalid then Exit(FDirExistsOption);
       Result := AskQuestion(Format(rsMsgErrDirExists, [NewName]), '',
@@ -300,31 +337,67 @@ var
       end;
     end
     else begin
-      if FFileExistsOption <> fsourInvalid then Exit(FFileExistsOption);
-      sQuestion:= FileExistsMessage(NewName, aFile.FullPath, aFile.Size, aFile.ModificationTime);
-      Result := AskQuestion(sQuestion, '',
-                  [fsourOverwrite, fsourSkip, fsourAbort, fsourOverwriteAll,
-                   fsourSkipAll], fsourOverwrite, fsourAbort);
-      case Result of
-      fsourOverwriteAll:
-        begin
-          Result:= fsourOverwrite;
-          FFileExistsOption:= Result;
-        end;
-      fsourSkipAll:
-        begin
-          Result:= fsourSkip;
-          FFileExistsOption:= Result;
-        end;
-      end;
+      case FFileExistsOption of
+        fsourNone,
+        fsourInvalid:
+          begin
+            FCurrentFile := aFile;
+            FCurrentTargetFilePath := NewName;
+            sQuestion:= FileExistsMessage(NewName, aFile.FullPath, aFile.Size, aFile.ModificationTime);
+            Result := AskQuestion(sQuestion, '',
+                  [fsourOverwrite, fsourSkip, fsourOverwriteSmaller,
+                   fsourOverwriteAll, fsourSkipAll, fsourOverwriteLarger,
+                   fsourOverwriteOlder, fsourAbort, fsouaCompare
+                  ], fsourOverwrite, fsourAbort, @QuestionActionHandler);
+            case Result of
+            fsourOverwriteAll:
+              begin
+                Result:= fsourOverwrite;
+                FFileExistsOption:= Result;
+              end;
+            fsourSkipAll:
+              begin
+                Result:= fsourSkip;
+                FFileExistsOption:= Result;
+              end;
+            fsourOverwriteOlder:
+               begin
+                 FFileExistsOption := OverwriteOlder;
+                 Result:= OverwriteOlder;
+               end;
+            fsourOverwriteSmaller:
+              begin
+                FFileExistsOption := fsourOverwriteSmaller;
+                Result:= OverwriteSmaller;
+              end;
+            fsourOverwriteLarger:
+              begin
+                FFileExistsOption := fsourOverwriteLarger;
+                Result:= OverwriteLarger;
+              end;
+            end; // case
+          end;
+        fsourOverwriteOlder:
+           begin
+             Result:= OverwriteOlder;
+           end;
+        fsourOverwriteSmaller:
+          begin
+            Result:= OverwriteSmaller;
+          end;
+        fsourOverwriteLarger:
+          begin
+            Result:= OverwriteLarger;
+          end;
+        else
+          Result := FFileExistsOption;
+      end; // case
     end;
   end;
 
-var
 {$IFDEF UNIX}
-  OldAttr, NewAttr: TFileAttributeData;
-{$ELSE}
-  NewFileAttrs: TFileAttrs;
+var
+  OldAttr: TFileAttributeData;
 {$ENDIF}
 begin
   OldName:= aFile.FullPath;
@@ -362,7 +435,7 @@ begin
       // File names differ only by case on a case-insensitive filesystem.
     end
     else begin
-      case AskIfOverwrite(NewAttr.FindData.st_mode) of
+      case AskIfOverwrite of
         fsourOverwrite: ; // continue
         fsourSkip:
           Exit(sfprSkipped);
@@ -372,16 +445,15 @@ begin
     end;
   end;
 {$ELSE}
-  // Windows XP doesn't allow two filenames that differ only by case (even on NTFS).
+  // Windows doesn't allow two filenames that differ only by case (even on NTFS).
   if UTF8LowerCase(OldName) <> UTF8LowerCase(NewName) then
   begin
-    NewFileAttrs := FileGetAttrUAC(NewName);
-    if NewFileAttrs <> faInvalidAttributes then  // If target file exists.
+    if FileGetAttrUAC(NewName, NewAttr) then  // If target file exists.
     begin
       // Cannot overwrite file by directory and vice versa
-      if fpS_ISDIR(NewFileAttrs) <> aFile.IsDirectory then
+      if fpS_ISDIR(NewAttr.Attr) <> aFile.IsDirectory then
         Exit(sfprError);
-      case AskIfOverwrite(NewFileAttrs) of
+      case AskIfOverwrite of
         fsourOverwrite: ; // continue
         fsourSkip:
           Exit(sfprSkipped);
@@ -396,6 +468,20 @@ begin
     Result := sfprSuccess
   else
     Result := sfprError;
+end;
+
+procedure TFileSystemSetFilePropertyOperation.ShowCompareFilesUI(
+  SourceFile: TFile; const TargetFilePath: String);
+var
+  TargetFile: TFile;
+begin
+  TargetFile := FileSource.CreateFileObject(ExtractFilePath(TargetFilePath));
+  try
+    TargetFile.Name := ExtractFileName(TargetFilePath);
+    PrepareToolData(FileSource, SourceFile, FileSource, TargetFile, @ShowDifferByGlobList, True);
+  finally
+    TargetFile.Free;
+  end;
 end;
 
 end.
