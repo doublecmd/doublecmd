@@ -1,16 +1,23 @@
 {
-   Seksi Commander
-   ----------------------------
-   Licence  : GNU GPL v 2.0
-   Author   : radek.cervinka@centrum.cz
+    Double Commander
+    -------------------------------------------------------------------------
+    Execute internal or external viewer, editor or differ
 
-   showing editor or viewer by configuration dialog
+    Copyright (C) 2006-2023 Alexander Koblov (alexx2000@mail.ru)
 
-   contributors:
+    This program is free software; you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation; either version 2 of the License, or
+    (at your option) any later version.
 
-   Copyright (C) 2006-2019 Alexander Koblov (alexx2000@mail.ru)
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program. If not, see <http://www.gnu.org/licenses/>.
 }
-
 
 unit uShowForm;
 
@@ -310,7 +317,6 @@ var
 begin
   if gExternalTools[etViewer].Enabled then
   begin
-    DCDebug('ShowViewerByGlobList - Use ExtView');
     if aFileSource.IsClass(TTempFileSystemFileSource) then
       begin
         WaitThread := TViewerWaitThread.Create(FilesToView, aFileSource);
