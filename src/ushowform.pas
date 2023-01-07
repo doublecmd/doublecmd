@@ -79,6 +79,17 @@ type
                                    State: TFileSourceOperationState);
   end;
 
+  { TViewerModeData }
+
+  TViewerModeData = class
+  private
+    FMode: Integer;
+  public
+    constructor Create(AMode: Integer);
+    procedure OnCopyOutStateChanged(Operation: TFileSourceOperation;
+                                    State: TFileSourceOperationState);
+  end;
+
   TToolDataPreparedProc = procedure(const FileList: TStringList; WaitData: TWaitData; Modal: Boolean = False);
 
   // Callback may be called either asynchoronously or synchronously (for modal operations)
@@ -571,6 +582,41 @@ begin
   Result := TStringList.Create;
   for I := 0 to Files.Count - 1 do
     Result.Add(Files[I].FullPath);
+end;
+
+{ TViewerModeData }
+
+constructor TViewerModeData.Create(AMode: Integer);
+begin
+  FMode:= AMode;
+end;
+
+procedure TViewerModeData.OnCopyOutStateChanged(
+  Operation: TFileSourceOperation; State: TFileSourceOperationState);
+var
+  aFileList: TStringList;
+  aFileSource: ITempFileSystemFileSource;
+  aCopyOutOperation: TFileSourceCopyOperation;
+begin
+  try
+    if (State = fsosStopped) and (Operation.Result = fsorFinished) then
+    begin
+      aFileList := TStringList.Create;
+      try
+        aCopyOutOperation := Operation as TFileSourceCopyOperation;
+        aFileSource := aCopyOutOperation.TargetFileSource as ITempFileSystemFileSource;
+        ChangeFileListRoot(aFileSource.FileSystemRoot, aCopyOutOperation.SourceFiles);
+
+        aFileList.Add(aCopyOutOperation.SourceFiles[0].FullPath);
+
+        ShowViewer(aFileList, FMode, TViewerWaitData.Create(aFileSource));
+      finally
+        aFileList.Free;
+      end;
+    end;
+  finally
+    Free;
+  end;
 end;
 
 { TExtToolWaitThread }

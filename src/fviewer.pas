@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Build-in File Viewer.
 
-   Copyright (C) 2007-2020  Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2007-2023  Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -348,6 +348,7 @@ type
     FWindowBounds: TRect;
 {$ENDIF}
     FThread: TThread;
+    FMode: Integer;
 
     FRegExp: TRegExprEx;
     FPluginEncoding: Integer;
@@ -466,7 +467,8 @@ type
     procedure cm_WrapText(const Params: array of string);
   end;
 
-procedure ShowViewer(const FilesToView:TStringList; WaitData: TWaitData = nil);
+procedure ShowViewer(const FilesToView: TStringList; WaitData: TWaitData = nil); overload;
+procedure ShowViewer(const FilesToView: TStringList; AMode: Integer; WaitData: TWaitData = nil); overload;
 
 implementation
 
@@ -516,6 +518,12 @@ type
   end;
 
 procedure ShowViewer(const FilesToView: TStringList; WaitData: TWaitData);
+begin
+  ShowViewer(FilesToView, 0, WaitData);
+end;
+
+procedure ShowViewer(const FilesToView: TStringList; AMode: Integer;
+  WaitData: TWaitData);
 var
   Viewer: TfrmViewer;
 begin
@@ -526,12 +534,18 @@ begin
   Viewer.actMoveFile.Enabled := FilesToView.Count > 1;
   Viewer.actDeleteFile.Enabled := FilesToView.Count > 1;
   with Viewer.ViewerControl do
-  case gViewerMode of
-    1: Mode:= vcmText;
-    2: Mode:= vcmBin;
-    3: Mode:= vcmHex;
-    4: Mode:= vcmWrap;
-    //5: Mode:= vcmBook;
+  begin
+    if (AMode = 0) then
+      AMode:= gViewerMode
+    else begin
+      Viewer.FMode:= AMode;
+    end;
+    case AMode of
+      1: Mode:= vcmText;
+      2: Mode:= vcmBin;
+      3: Mode:= vcmHex;
+      6: Mode:= vcmDec;
+    end;
   end;
   Viewer.LoadFile(0);
 
@@ -715,7 +729,13 @@ begin
     else begin
       aName:= aFileName;
     end;
-    if CheckPlugins(aName) then
+    if (FMode > 0) then
+    begin
+      ViewerControl.FileName := aFileName;
+      ActivatePanel(pnlText);
+      FMode:= 0;
+    end
+    else if CheckPlugins(aName) then
       ActivatePanel(nil)
     else if FPS_ISDIR(dwFileAttributes) then
       begin
@@ -1921,12 +1941,8 @@ begin
     vcmText: gViewerMode := 1;
     vcmBin : gViewerMode := 2;
     vcmHex : gViewerMode := 3;
-    vcmWrap: gViewerMode := 4;
-    vcmBook:
-      begin
-        gViewerMode := 4;
-        gTextPosition := ViewerControl.Position;
-      end;
+    vcmDec : gViewerMode := 6;
+    vcmBook: gTextPosition := ViewerControl.Position;
   end;
 
   if Assigned(WlxPlugins) then ExitPluginMode;

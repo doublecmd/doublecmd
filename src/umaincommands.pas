@@ -4,7 +4,7 @@
    This unit contains DC actions of the main form
 
    Copyright (C) 2008  Dmitry Kolomiets (B4rr4cuda@rambler.ru)
-   Copyright (C) 2008-2021 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2008-2023 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -386,7 +386,7 @@ uses fOptionsPluginsBase, fOptionsPluginsDSX, fOptionsPluginsWCX,
      fLinker, fSplitter, fDescrEdit, fCheckSumVerify, fCheckSumCalc, fSetFileProperties,
      uLng, uLog, uShowMsg, uOSForms, uOSUtils, uDCUtils, uBriefFileView, fSelectDuplicates,
      uShowForm, uShellExecute, uClipboard, uHash, uDisplayFile, uLuaPas, uSysFolders,
-     uFilePanelSelect, uFileSystemFileSource, uQuickViewPanel, Math,
+     uFilePanelSelect, uFileSystemFileSource, uQuickViewPanel, Math, fViewer,
      uOperationsManager, uFileSourceOperationTypes, uWfxPluginFileSource,
      uFileSystemDeleteOperation, uFileSourceExecuteOperation, uSearchResultFileSource,
      uFileSourceOperationMessageBoxesUI, uFileSourceCalcChecksumOperation,
@@ -1948,6 +1948,8 @@ procedure TMainCommands.cm_View(const Params: array of string);
 var
   aFile: TFile;
   i, n: Integer;
+  AMode: Integer = 0;
+  Param, AValue: String;
   sl: TStringList = nil;
   ActiveFile: TFile = nil;
   AllFiles: TFiles = nil;
@@ -1969,6 +1971,38 @@ begin
     begin
       ActiveFrame.ExecuteCommand('cm_Open', []);
       Exit;
+    end;
+
+    if (SelectedFiles.Count = 1) and (Length(Params) > 0) then
+    begin
+      for Param in Params do
+      begin
+        if GetParamValue(Param, 'mode', AValue) then
+        begin
+          case LowerCase(AValue) of
+          'text': AMode:= 1;
+          'bin':  AMode:= 2;
+          'hex':  AMode:= 3;
+          'dec':  AMode:= 6;
+          end;
+          Break;
+        end;
+      end;
+      if (AMode > 0) then
+      begin
+        with TViewerModeData.Create(AMode) do
+        begin
+          if PrepareData(ActiveFrame.FileSource, SelectedFiles, @OnCopyOutStateChanged) = pdrInCallback then
+          begin
+            Exit;
+          end;
+          Free;
+        end;
+        sl := TStringList.Create;
+        sl.Add(SelectedFiles[0].FullPath);
+        ShowViewer(sl, AMode);
+        Exit;
+      end;
     end;
 
     if SelectedFiles.Count = 0 then
