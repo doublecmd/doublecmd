@@ -11576,7 +11576,7 @@ msgstr "Файл %s помечен как доступный только для
 msgid "Are you sure you want to reload the current file and lose the changes?"
 msgstr ""
 "Все внесённые изменения будут потеряны!\n"
-"Продолжить?\n"
+"Продолжить?"
 
 #: ulng.rsmsgfilesizetoobig
 #, object-pascal-format
