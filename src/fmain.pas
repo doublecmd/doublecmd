@@ -1774,8 +1774,14 @@ begin
       rsMsgFileOperationsActiveLong + LineEnding + rsMsgConfirmQuit,
       mtConfirmation, [mbYes, mbNo], 0, mbNo) = mrYes;
   end
-  else
+  else if gConfirmQuit then
+  begin
+    CanClose := MessageDlg('', rsMsgConfirmQuit,
+                           mtConfirmation, [mbYes, mbNo], 0, mbNo) = mrYes;
+  end
+  else begin
     CanClose := True;
+  end;
 
   if CanClose then
   begin

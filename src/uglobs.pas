@@ -364,6 +364,7 @@ var
   gWheelScrollLines: Integer;
   gAlwaysShowTrayIcon: Boolean;
   gMinimizeToTray: Boolean;
+  gConfirmQuit: Boolean;
   gFileSizeFormat: TFileSizeFormat;
   gHeaderSizeFormat: TFileSizeFormat;
   gFooterSizeFormat: TFileSizeFormat;
@@ -1650,6 +1651,7 @@ begin
   gOperationSizeDigits := 1;
   //NOTES: We're intentionnaly not setting our default memory immediately because language file has not been loaded yet.
   //       We'll set them *after* after language has been loaded since we'll know the correct default to use.
+  gConfirmQuit := False;
   gMinimizeToTray := False;
   gAlwaysShowTrayIcon := False;
   gMouseSelectionEnabled := True;
@@ -2674,6 +2676,7 @@ begin
       gSizeDisplayUnits[fsfPersonalizedMega] := ' ' + Trim(GetValue(Node, 'PersonalizedMega', gSizeDisplayUnits[fsfPersonalizedMega]));
       gSizeDisplayUnits[fsfPersonalizedGiga] := ' ' + Trim(GetValue(Node, 'PersonalizedGiga', gSizeDisplayUnits[fsfPersonalizedGiga]));
       gSizeDisplayUnits[fsfPersonalizedTera] := ' ' + Trim(GetValue(Node, 'PersonalizedTera', gSizeDisplayUnits[fsfPersonalizedTera]));
+      gConfirmQuit := GetValue(Node, 'ConfirmQuit', gConfirmQuit);
       gMinimizeToTray := GetValue(Node, 'MinimizeToTray', gMinimizeToTray);
       gAlwaysShowTrayIcon := GetValue(Node, 'AlwaysShowTrayIcon', gAlwaysShowTrayIcon);
       gMouseSelectionEnabled := GetAttr(Node, 'Mouse/Selection/Enabled', gMouseSelectionEnabled);
@@ -3422,6 +3425,7 @@ begin
     SetValue(Node, 'PersonalizedMega', Trim(gSizeDisplayUnits[fsfPersonalizedMega]));
     SetValue(Node, 'PersonalizedGiga', Trim(gSizeDisplayUnits[fsfPersonalizedGiga]));
     SetValue(Node, 'PersonalizedTera', Trim(gSizeDisplayUnits[fsfPersonalizedTera]));
+    SetValue(Node, 'ConfirmQuit', gConfirmQuit);
     SetValue(Node, 'MinimizeToTray', gMinimizeToTray);
     SetValue(Node, 'AlwaysShowTrayIcon', gAlwaysShowTrayIcon);
     SubNode := FindNode(Node, 'Mouse', True);
