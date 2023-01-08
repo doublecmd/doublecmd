@@ -3,7 +3,7 @@
   -------------------------------------------------------------------------
   Windows dark style widgetset implementation
 
-  Copyright (C) 2021-2022 Alexander Koblov (alexx2000@mail.ru)
+  Copyright (C) 2021-2023 Alexander Koblov (alexx2000@mail.ru)
 
   This library is free software; you can redistribute it and/or
   modify it under the terms of the GNU Lesser General Public
@@ -70,6 +70,8 @@ type
     published
       class function CreateHandle(const AWinControl: TWinControl;
             const AParams: TCreateParams): HWND; override;
+      class function GetDefaultColor(const AControl: TControl;
+            const ADefaultColorType: TDefaultColorType): TColor; override;
     end;
 
     { TWin32WSCustomMemoDark }
@@ -284,6 +286,30 @@ begin
   MenuInfo.fMask:= MIM_BACKGROUND or MIM_APPLYTOSUBMENUS;
   MenuInfo.hbrBack:= CreateSolidBrush(RGBToColor(45, 45, 45));
   SetMenuInfo(Menu, @MenuInfo);
+end;
+
+{
+  Set control colors
+}
+procedure SetControlColors(Control: TControl; Canvas: HDC);
+var
+  Color: TColor;
+begin
+  // Set background color
+  Color:= Control.Color;
+  if Color = clDefault then
+  begin
+    Color:= Control.GetDefaultColor(dctBrush);
+  end;
+  SetBkColor(Canvas, ColorToRGB(Color));
+
+  // Set text color
+  Color:= Control.Font.Color;
+  if Color = clDefault then
+  begin
+    Color:= Control.GetDefaultColor(dctFont);
+  end;
+  SetTextColor(Canvas, ColorToRGB(Color));
 end;
 
 { TWin32WSUpDownControlDark }
@@ -691,8 +717,7 @@ begin
     begin
       ComboBox:= TCustomComboBox(GetWin32WindowInfo(Window)^.WinControl);
       DC:= HDC(wParam);
-      SetBkColor(DC, ComboBox.Color);
-      SetTextColor(DC, ComboBox.Font.Color);
+      SetControlColors(ComboBox, DC);
       Exit(LResult(ComboBox.Brush.Reference.Handle));
     end;
   end;
@@ -716,6 +741,17 @@ begin
   AllowDarkModeForWindow(Result, True);
 
   SetWindowSubclass(Result, @ComboBoxWindowProc, ID_SUB_COMBOBOX, 0);
+end;
+
+class function TWin32WSCustomComboBoxDark.GetDefaultColor(
+  const AControl: TControl; const ADefaultColorType: TDefaultColorType): TColor;
+const
+  DefColors: array[TDefaultColorType] of TColor = (
+  { dctBrush } clBtnFace,
+  { dctFont  } clBtnText
+  );
+begin
+  Result:= DefColors[ADefaultColorType];
 end;
 
 { TWin32WSStatusBarDark }
