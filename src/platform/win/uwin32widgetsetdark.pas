@@ -173,6 +173,15 @@ begin
   SendMessageW(Window, WM_THEMECHANGED, 0, 0);
 end;
 
+procedure AllowDarkStyle(var Window: HWND);
+begin
+  if (Window <> 0) then
+  begin
+    AllowDarkModeForWindow(Window, True);
+    Window:= 0;
+  end;
+end;
+
 function HSVToColor(H, S, V: Double): TColor;
 var
   R, G, B: Integer;
@@ -822,6 +831,12 @@ begin
 end;
 
 {
+  Forward declared functions
+}
+function InterceptOpenThemeData(hwnd: hwnd; pszClassList: LPCWSTR): hTheme; stdcall; forward;
+procedure DrawButton(hTheme: HTHEME; hdc: HDC; iPartId, iStateId: Integer; const pRect: TRect; pClipRect: PRECT); forward;
+
+{
   Draws text using the color and font defined by the visual style
 }
 function DrawThemeTextDark(hTheme: HTHEME; hdc: HDC; iPartId, iStateId: Integer; pszText: LPCWSTR; iCharCount: Integer;
@@ -974,39 +989,6 @@ begin
     end;
   end
 
-  else if Element = teButton then
-  begin
-    if iPartId in [BP_PUSHBUTTON] then
-    begin
-      LCanvas := TCanvas.Create;
-      try
-        LCanvas.Handle:= hdc;
-        AColor:= SysColor[COLOR_BTNFACE];
-
-        if iStateId = PBS_HOT then
-          LCanvas.Brush.Color:= Lighter(AColor, 116)
-        else if iStateId = PBS_PRESSED then
-          LCanvas.Brush.Color:= Darker(AColor, 116)
-        else begin
-          LCanvas.Brush.Color:= AColor;
-        end;
-        LCanvas.FillRect(pRect);
-
-        LCanvas.Pen.Color:=  Darker(AColor, 140);
-        LCanvas.RoundRect(pRect, 6, 6);
-
-        LRect:= pRect;
-
-        LCanvas.Pen.Color:=  Lighter(AColor, 140);
-        InflateRect(LRect, -1, -1);
-        LCanvas.RoundRect(LRect, 6, 6);
-      finally
-        LCanvas.Handle:= 0;
-        LCanvas.Free;
-      end;
-    end;
-  end
-
   else if Element = teToolBar then
   begin
     if iPartId in [TP_BUTTON] then
@@ -1049,6 +1031,11 @@ begin
         LCanvas.Free;
       end;
     end;
+  end
+
+  else if Element = teButton then
+  begin
+    DrawButton(hTheme, hdc, iPartId, iStateId, pRect, pClipRect);
   end;
 
   Result:= S_OK;
@@ -1303,6 +1290,8 @@ begin
     Exit;
 
   SubClassUpDown;
+
+  OpenThemeData:= @InterceptOpenThemeData;
 
   DefBtnColors[dctFont]:= SysColor[COLOR_BTNTEXT];
   DefBtnColors[dctBrush]:= SysColor[COLOR_BTNFACE];
@@ -1603,43 +1592,41 @@ function InterceptOpenThemeData(hwnd: hwnd; pszClassList: LPCWSTR): hTheme; stdc
 var
   P: LONG_PTR;
 begin
-  P:= GetWindowLongPtr(hwnd, GWL_EXSTYLE);
-
-  if (P and WS_EX_CONTEXTHELP = 0) or (lstrcmpiW(pszClassList, VSCLASS_MONTHCAL) = 0) then
+  if (hwnd <> 0) then
   begin
-    Result:= TrampolineOpenThemeData(hwnd, pszClassList);
-    Exit;
+    P:= GetWindowLongPtr(hwnd, GWL_EXSTYLE);
+
+    if (P and WS_EX_CONTEXTHELP = 0) or (lstrcmpiW(pszClassList, VSCLASS_MONTHCAL) = 0) then
+    begin
+      Result:= TrampolineOpenThemeData(hwnd, pszClassList);
+      Exit;
+    end;
   end;
 
   if lstrcmpiW(pszClassList, VSCLASS_TAB) = 0 then
   begin
-    AllowDarkModeForWindow(hwnd, True);
+    AllowDarkStyle(hwnd);
     pszClassList:= PWideChar(VSCLASS_DARK_TAB);
-    hwnd:= 0;
   end
   else if lstrcmpiW(pszClassList, VSCLASS_BUTTON) = 0 then
   begin
-    AllowDarkModeForWindow(hwnd, True);
+    AllowDarkStyle(hwnd);
     pszClassList:= PWideChar(VSCLASS_DARK_BUTTON);
-    hwnd:= 0;
   end
   else if lstrcmpiW(pszClassList, VSCLASS_EDIT) = 0 then
   begin
-    AllowDarkModeForWindow(hwnd, True);
+    AllowDarkStyle(hwnd);
     pszClassList:= PWideChar(VSCLASS_DARK_EDIT);
-    hwnd:= 0;
   end
   else if lstrcmpiW(pszClassList, VSCLASS_COMBOBOX) = 0 then
   begin
-    AllowDarkModeForWindow(hwnd, True);
+    AllowDarkStyle(hwnd);
     pszClassList:= PWideChar(VSCLASS_DARK_COMBOBOX);
-    hwnd:= 0;
   end
   else if lstrcmpiW(pszClassList, VSCLASS_SCROLLBAR) = 0 then
   begin
-    AllowDarkModeForWindow(hwnd, True);
+    AllowDarkStyle(hwnd);
     pszClassList:= PWideChar(VSCLASS_DARK_SCROLLBAR);
-    hwnd:= 0;
   end;
 
   Result:= TrampolineOpenThemeData(hwnd, pszClassList);
