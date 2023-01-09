@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Build-in Editor using SynEdit and his Highlighters
 
-   Copyright (C) 2006-2022  Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2006-2023  Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -733,8 +733,9 @@ end;
 
 procedure TfrmEditor.SetEncodingIn(Sender: TObject);
 begin
-  sEncodingIn:= (Sender as TMenuItem).Caption;
-  sEncodingOut:= sEncodingIn;
+  sEncodingStat:= (Sender as TMenuItem).Caption;
+  sEncodingIn:= sEncodingStat;
+  sEncodingOut:= sEncodingStat;
   ChooseEncoding(miEncodingOut, sEncodingOut);
   Editor.Lines.Text:= ConvertEncoding(sOriginalText, sEncodingIn, EncodingUTF8);
   UpdateStatus;
