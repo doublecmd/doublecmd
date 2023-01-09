@@ -79,7 +79,7 @@ begin
     FTempRootDir := aPath
   else
   begin
-    FTempRootDir := GetTempName(GetTempDir + '_dc');
+    FTempRootDir := GetTempName(GetTempFolder);
 
     if (FTempRootDir = EmptyStr) or (mbForceDirectory(FTempRootDir) = False) then
     begin
