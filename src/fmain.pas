@@ -2,7 +2,7 @@
    Double Commander
    -------------------------------------------------------------------------
    Licence  : GNU GPL v 2.0
-   Copyright (C) 2006-2020 Alexander Koblov (Alexx2000@mail.ru)
+   Copyright (C) 2006-2023 Alexander Koblov (Alexx2000@mail.ru)
 
    Main Dialog window
 
@@ -6851,6 +6851,7 @@ end;
 procedure TfrmMain.SetPanelDrive(aPanel: TFilePanelSelect; Drive: PDrive; ActivateIfNeeded: Boolean);
 var
   Index: Integer;
+  DrivePath: String;
   DriveIndex: Integer;
   FoundPath: Boolean = False;
   aFileView, OtherFileView: TFileView;
@@ -6892,18 +6893,28 @@ begin
       Exit;
     end;
 
+    DrivePath:= ExcludeTrailingPathDelimiter(Drive^.Path);
     // Copy path opened in the other panel if the file source and drive match
     // and that path is not already opened in this panel.
-    if OtherFileView.FileSource.IsClass(TFileSystemFileSource) and
-       mbCompareFileNames(ExtractRootDir(OtherFileView.CurrentPath), ExcludeTrailingPathDelimiter(Drive^.Path)) and
-       not mbCompareFileNames(OtherFileView.CurrentPath, aFileView.CurrentPath) and not gGoToRoot then
+    if (not gGoToRoot) and OtherFileView.FileSource.IsClass(TFileSystemFileSource) and
+       mbCompareFileNames(ExtractRootDir(OtherFileView.CurrentPath), DrivePath) and
+       not mbCompareFileNames(OtherFileView.CurrentPath, aFileView.CurrentPath) then
     begin
       FoundPath:= True;
       SetFileSystemPath(aFileView, OtherFileView.CurrentPath);
     end
+    // Open archive parent directory
+    else if (gGoToRoot = False) and OtherFileView.FileSource.IsClass(TArchiveFileSource) and
+       (not IsInPath(GetTempFolder, OtherFileView.FileSource.CurrentAddress, True, False)) and
+       mbCompareFileNames(ExtractRootDir(OtherFileView.FileSource.CurrentAddress), DrivePath) and
+       not mbCompareFileNames(ExtractFilePath(OtherFileView.FileSource.CurrentAddress), aFileView.CurrentPath) then
+    begin
+      FoundPath:= True;
+      SetFileSystemPath(aFileView, ExtractFilePath(OtherFileView.FileSource.CurrentAddress));
+    end
     // Open latest path from history for chosen drive
     else if (gGoToRoot = False) and aFileView.FileSource.IsClass(TFileSystemFileSource) and
-            not mbCompareFileNames(ExtractRootDir(aFileView.CurrentPath), ExcludeTrailingPathDelimiter(Drive^.Path)) then
+            not mbCompareFileNames(ExtractRootDir(aFileView.CurrentPath), DrivePath) then
     begin
       for Index:= 0 to glsDirHistory.Count - 1 do
       begin
