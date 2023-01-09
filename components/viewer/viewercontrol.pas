@@ -41,7 +41,7 @@
 
    contributors:
 
-   Copyright (C) 2006-2022 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2006-2023 Alexander Koblov (alexx2000@mail.ru)
 
 
    TODO:
@@ -887,9 +887,11 @@ procedure TViewerControl.FontChanged(Sender: TObject);
 begin
   inherited FontChanged(Sender);
 
-  Canvas.Font := Self.Font;
-  FTextHeight := Canvas.TextHeight('Wg') + FExtraLineSpacing;
-  if FShowCaret then LCLIntf.CreateCaret(Handle, 0, 2, FTextHeight);
+  if HandleAllocated then
+  begin
+    FTextHeight := Canvas.TextHeight('Wg') + FExtraLineSpacing;
+    if FShowCaret then LCLIntf.CreateCaret(Handle, 0, 2, FTextHeight);
+  end;
 end;
 
 function TViewerControl.CalcTextLineLength(var iStartPos: PtrInt; const aLimit: Int64; out DataLength: PtrInt): Integer;
