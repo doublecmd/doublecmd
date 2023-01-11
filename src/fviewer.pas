@@ -501,6 +501,9 @@ const
   sbpFullResolution       = 2;
   sbpImageSelection       = 3;
 
+const
+  WRAP_MODE: array[Boolean] of TViewerControlMode = (vcmText, vcmWrap);
+
 type
 
   { TThumbThread }
@@ -541,7 +544,7 @@ begin
       Viewer.FMode:= AMode;
     end;
     case AMode of
-      1: Mode:= vcmText;
+      1: Mode:= WRAP_MODE[gViewerWrapText];
       2: Mode:= vcmBin;
       3: Mode:= vcmHex;
       6: Mode:= vcmDec;
@@ -1939,6 +1942,7 @@ begin
   gImagePaintColor := btnPenColor.ButtonColor;
   case ViewerControl.Mode of
     vcmText: gViewerMode := 1;
+    vcmWrap: gViewerMode := 1;
     vcmBin : gViewerMode := 2;
     vcmHex : gViewerMode := 3;
     vcmDec : gViewerMode := 6;
@@ -2398,11 +2402,7 @@ begin
   if Result then
   begin
     ViewerControl.Text:= AText;
-    if gViewerWrapText then
-      ViewerControl.Mode:= vcmWrap
-    else begin
-      ViewerControl.Mode:= vcmText;
-    end;
+    ViewerControl.Mode:= WRAP_MODE[gViewerWrapText];
     ViewerControl.Encoding:= veUtf8;
   end;
 end;
@@ -3261,10 +3261,7 @@ end;
 
 procedure TfrmViewer.cm_ShowAsText(const Params: array of string);
 begin
-  if gViewerWrapText then
-    ShowTextViewer(vcmWrap)
-  else
-    ShowTextViewer(vcmText);
+  ShowTextViewer(WRAP_MODE[gViewerWrapText]);
 end;
 
 procedure TfrmViewer.cm_ShowAsBin(const Params: array of string);
@@ -3377,10 +3374,7 @@ begin
   begin
     if ViewerControl.Mode in [vcmText, vcmWrap] then
     begin
-      if gViewerWrapText then
-        ViewerControl.Mode:= vcmWrap
-      else
-        ViewerControl.Mode:= vcmText;
+      ViewerControl.Mode:= WRAP_MODE[gViewerWrapText];
     end;
   end;
 end;
