@@ -379,6 +379,7 @@ type
     function Clone({%H-}NewParent: TWinControl): TFileView; virtual;
     procedure CloneTo(AFileView: TFileView); virtual;
 
+    function AddHistory(aFileSource: IFileSource; aPath: String): Boolean;
     function AddFileSource(aFileSource: IFileSource; aPath: String): Boolean; virtual;
     function RemoveCurrentFileSource: Boolean; virtual;
     procedure RemoveAllFileSources; virtual;
@@ -783,6 +784,15 @@ begin
     // FFiles need to be recreated because the filter is not cloned.
     // This is done in AFileView.UpdateView.
     // UPDATE: Added filter cloning, is the aforementioned statement relevant now?
+  end;
+end;
+
+function TFileView.AddHistory(aFileSource: IFileSource; aPath: String): Boolean;
+begin
+  if FileSource.Equals(aFileSource) then
+    FHistory.AddPath(aPath)
+  else begin
+    FHistory.Add(aFileSource, aPath);
   end;
 end;
 

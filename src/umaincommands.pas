@@ -866,7 +866,17 @@ begin
         // Change file source, if the file under cursor can be opened as another file source.
         try
           if not ChooseFileSource(TargetPage.FileView, SourcePage.FileView.FileSource, aFile) then
+          begin
+            if SourcePage.FileView.FileSource.IsClass(TArchiveFileSource) then
+            begin
+              NewPath:= ExtractFilePath(SourcePage.FileView.FileSource.CurrentAddress);
+              if not mbCompareFileNames(TargetPage.FileView.CurrentPath, NewPath) then
+              begin
+                TargetPage.FileView.AddHistory(TFileSystemFileSource.GetFileSource, NewPath);
+              end;
+            end;
             TargetPage.FileView.AddFileSource(SourcePage.FileView.FileSource, aFile.Path);
+          end;
           TargetPage.FileView.SetActiveFile(aFile.Name);
         except
           on e: EFileSourceException do
