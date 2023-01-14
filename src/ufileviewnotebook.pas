@@ -17,6 +17,14 @@
 
    You should have received a copy of the GNU General Public License
    along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+   Notes:
+   1. TFileViewNotebook.DestroyAllPages is the workaround for the bug of Lazarus.
+      TFileViewNotebook.DestroyAllPages and the related codes can be removed,
+      after Double Commander built with Lazarus 2.4 on Linux.
+      see also:
+      https://gitlab.com/freepascal.org/lazarus/lazarus/-/issues/40019
+      https://github.com/doublecmd/doublecmd/pull/703
 }
 
 unit uFileViewNotebook; 
