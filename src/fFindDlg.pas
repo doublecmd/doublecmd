@@ -17,7 +17,13 @@
    GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   along with this program. If not, see <http://www.gnu.org/licenses/>.}
+   along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+   Notes:
+   1. on MacOS, two Buttons may be display the focused state at the same time.
+      it's caused by Lazarus, it will be fixed atfer Lazarus merges related Patches.
+      see also: https://gitlab.com/freepascal.org/lazarus/lazarus/-/issues/39981
+}
 
 unit fFindDlg;
 

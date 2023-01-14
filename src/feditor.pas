@@ -26,6 +26,11 @@
      This form used SynEdit and his Highlighters
      contributors:
      Copyright (C) 2006-2015 Alexander Koblov (Alexx2000@mail.ru)
+
+   Notes:
+   1. on MacOS, the Editor dosn't support IME inputting now (such as Chinese/Japanese/Korean)
+      it's caused by Lazarus, it will be supported atfer Lazarus merges related Patches.
+      see also: https://gitlab.com/freepascal.org/lazarus/lazarus/-/issues/40008
 }
 
 unit fEditor;

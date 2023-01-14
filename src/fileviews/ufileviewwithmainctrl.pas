@@ -19,6 +19,14 @@
    You should have received a copy of the GNU General Public License
    along with this program; if not, write to the Free Software
    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+
+   Notes:
+   1. PR #550 #556 are the workaround for the bug of Lazarus.
+      related codes can be removed after Lazarus merges related Patches.
+      see also:
+      https://github.com/doublecmd/doublecmd/pull/550
+      https://github.com/doublecmd/doublecmd/pull/556
+      https://gitlab.com/freepascal.org/lazarus/lazarus/-/issues/40008
 }
 
 unit uFileViewWithMainCtrl;

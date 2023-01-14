@@ -17,6 +17,13 @@
 
    You should have received a copy of the GNU General Public License
    along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+   Notes:
+   1. PR #570 is the workaround for the bug of Lazarus.
+      related codes can be removed after Lazarus merges related Patches.
+      see also:
+      https://github.com/doublecmd/doublecmd/pull/570
+      https://gitlab.com/freepascal.org/lazarus/lazarus/-/issues/40008
 }
 
 unit KASPathEdit;

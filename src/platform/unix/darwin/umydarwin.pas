@@ -18,6 +18,11 @@
    You should have received a copy of the GNU Lesser General Public
    License along with this library; if not, write to the Free Software
    Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301 USA
+
+   Notes:
+   1. TDarwinAarch64Statfs is the workaround for the bug of FPC.
+      TDarwinAarch64Statfs and the related codes can be removed after FPC 3.3.1
+      see also: https://gitlab.com/freepascal.org/fpc/source/-/issues/39873
 }
 
 unit uMyDarwin;
