@@ -761,6 +761,9 @@ uses
    {$IF DEFINED(MSWINDOWS)}
     , ShlObj
    {$ENDIF}
+   {$IF DEFINED(DARWIN)}
+    , uMyDarwin
+   {$ENDIF}
    {$if lcl_fullversion >= 2010000}
    , SynEditMiscClasses
    {$endif}
@@ -2623,14 +2626,21 @@ begin
 
       // Let's try to be backward comptible and re-load possible old values for terminal launch command
       gRunTermCmd := GetValue(Node, 'JustRunTerminal', '');
-      if gRunTermCmd = '' then
-      begin
-        gRunTermCmd := GetValue(Node, 'RunTerminal', RunTermCmd);
-        SplitCmdLineToCmdParams(gRunTermCmd, gRunTermCmd,gRunTermParams);
-      end
-      else
-      begin
+      if gRunTermCmd <> '' then begin
         gRunTermParams := GetValue(Node, 'JustRunTermParams', RunTermParams);
+      end else begin
+        gRunTermCmd := GetValue(Node, 'RunTerminal', '' );
+        if gRunTermCmd <> '' then begin
+          SplitCmdLineToCmdParams(gRunTermCmd, gRunTermCmd, gRunTermParams);
+        end else begin
+          {$IF DEFINED(DARWIN)}
+          gRunTermCmd:= getMacOSDefaultTerminal;
+          if gRunTermCmd = '' then gRunTermCmd := RunTermCmd;
+          {$ELSE}
+          gRunTermCmd := RunTermCmd;
+          {$ENDIF}
+          gRunTermParams := RunTermParams;
+        end;
       end;
 
       gOnlyOneAppInstance := GetValue(Node, 'OnlyOneAppInstance', gOnlyOneAppInstance);
