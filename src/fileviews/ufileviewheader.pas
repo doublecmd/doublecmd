@@ -85,7 +85,7 @@ implementation
 uses
   LCLType, ShellCtrls, Graphics, uDCUtils, DCOSUtils, DCStrUtils, uKeyboard,
   fMain, uFileSourceUtil, uGlobs, uPixMapManager, uLng, uFileFunctions,
-  uArchiveFileSource, uFileViewWithPanels;
+  uArchiveFileSource, uFileViewWithPanels, uVfsModule;
 
 const
   SortingImageIndex: array[TSortDirection] of Integer = (-1, 0, 1);
@@ -101,6 +101,7 @@ procedure TFileViewHeader.PathEditKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 var
   NewPath: String;
+  AClass: TFileSourceClass;
 begin
   case Key of
     VK_ESCAPE:
@@ -116,7 +117,9 @@ begin
         Key := 0; // catch the enter
         NewPath:= NormalizePathDelimiters(FPathEdit.Text);
         NewPath:= ReplaceEnvVars(ReplaceTilde(NewPath));
-        if not mbFileExists(NewPath) then
+        AClass:= gVfsModuleList.GetFileSource(NewPath);
+        // Check file name on the local file system only
+        if not ((AClass = nil) and mbFileExists(NewPath)) then
           begin
             if not ChooseFileSource(FFileView, NewPath, True) then
               Exit;
