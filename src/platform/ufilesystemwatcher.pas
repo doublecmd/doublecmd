@@ -3,7 +3,7 @@
     -------------------------------------------------------------------------
     This is a thread-component sends an event when a change in the file system occurs.
 
-    Copyright (C) 2009-2022 Alexander Koblov (alexx2000@mail.ru)
+    Copyright (C) 2009-2023 Alexander Koblov (alexx2000@mail.ru)
     Copyright (C) 2011      Przemyslaw Nagay (cobines@gmail.com)
 
     This program is free software; you can redistribute it and/or modify
@@ -630,11 +630,11 @@ const
   // Event record size is variable, we use maximum possible for a single event.
   // Usually it is big enough so that multiple events can be read with single read().
   // The 'name' field is always padded up to multiple of 16 bytes with NULLs.
-  buffer_size = sizeof(inotify_event) + MAX_PATH;
+  buffer_size = (sizeof(inotify_event) + MAX_PATH) * 8;
 var
-  bytes_to_parse, p, i: Integer;
+  bytes_to_parse, p, k, i: Integer;
   buf: PChar = nil;
-  ev: pinotify_event;
+  ev, v: pinotify_event;
   fds: array[0..1] of tpollfd;
   ret: cint;
 begin
@@ -726,15 +726,45 @@ begin
                 begin
                   EventType := fswFileChanged;
                 end
-              else if (ev^.mask and (IN_CREATE or
-                                     IN_MOVED_TO)) <> 0 then
+              else if (ev^.mask and IN_CREATE) <> 0 then
                 begin
                   EventType := fswFileCreated;
                 end
-              else if (ev^.mask and (IN_DELETE or
-                                     IN_MOVED_FROM)) <> 0 then
+              else if (ev^.mask and IN_DELETE) <> 0 then
                 begin
                   EventType := fswFileDeleted;
+                end
+              else if (ev^.mask and IN_MOVED_FROM) <> 0 then
+                begin
+                  EventType := fswFileDeleted;
+                  // Try to find related event
+                  k := p + sizeof(inotify_event) + ev^.len;
+                  while (k < bytes_to_parse) do
+                  begin
+                    v := pinotify_event(buf + k);
+                    if (v^.mask and IN_MOVED_TO) <> 0 then
+                    begin
+                      // Same cookie and path
+                      if (v^.cookie = ev^.cookie) and (v^.wd = ev^.wd) then
+                      begin
+                        v^.cookie := 0;
+                        EventType := fswFileRenamed;
+                        NewFileName := StrPas(PChar(@v^.name));
+                        Break;
+                      end;
+                    end;
+                    k := k + sizeof(inotify_event) + v^.len;
+                  end;
+                end
+              else if (ev^.mask and IN_MOVED_TO) <> 0 then
+                begin
+                  if ev^.cookie <> 0 then
+                    EventType := fswFileCreated
+                  else begin
+                    // Already processed, skip
+                    p := p + sizeof(inotify_event) + ev^.len;
+                    Continue;
+                  end;
                 end
               else if (ev^.mask and (IN_DELETE_SELF or
                                      IN_MOVE_SELF)) <> 0 then
