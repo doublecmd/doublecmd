@@ -272,6 +272,28 @@ begin
         VKToCharArray[Key] := MenuKeyCaps[mkcNumAdd];
       VK_F1..VK_F24:
         VKToCharArray[Key] := 'F' + IntToStr(Key - VK_F1 + 1);
+      VK_LCL_MINUS:
+        VKToCharArray[Key] := '-';
+      VK_LCL_EQUAL:
+        VKToCharArray[Key] := '=';
+      VK_LCL_OPEN_BRACKET:
+        VKToCharArray[Key] := '[';
+      VK_LCL_CLOSE_BRACKET:
+        VKToCharArray[Key] := ']';
+      VK_LCL_BACKSLASH:
+        VKToCharArray[Key] := '\';
+      VK_LCL_SEMI_COMMA:
+        VKToCharArray[Key] := ';';
+      VK_LCL_QUOTE:
+        VKToCharArray[Key] := '''';
+      VK_LCL_COMMA:
+        VKToCharArray[Key] := ',';
+      VK_LCL_POINT:
+        VKToCharArray[Key] := '.';
+      VK_LCL_SLASH:
+        VKToCharArray[Key] := '/';
+      VK_LCL_TILDE:
+        VKToCharArray[Key] := '`';
     else
       VKToCharArray[Key] := VirtualKeyToUTF8Char(Key, []);
     end;
