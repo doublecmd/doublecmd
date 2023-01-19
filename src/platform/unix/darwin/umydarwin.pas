@@ -44,6 +44,8 @@ function StringToCFStringRef(const S: String): CFStringRef;
 function NSArrayToList(const theArray:NSArray): TStringList;
 function ListToNSArray(const list:TStrings): NSArray;
 
+function getMacOSDefaultTerminal(): String;
+
 procedure cocoaInvalidControlCursor( const control:TWinControl );
 
 function NSGetTempPath: String;
@@ -294,6 +296,11 @@ end;
 function NSGetTempPath: String;
 begin
   Result:= IncludeTrailingBackslash(NSTemporaryDirectory.UTF8String);
+end;
+
+function getMacOSDefaultTerminal(): String;
+begin
+  Result:= NSStringToString( NSWorkspace.sharedWorkspace.fullPathForApplication( NSStr('terminal') ) );
 end;
 
 function StringToNSString(const S: String): NSString;
