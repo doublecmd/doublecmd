@@ -3,7 +3,7 @@
     -------------------------------------------------------------------------
     This unit contains platform depended functions.
 
-    Copyright (C) 2006-2022 Alexander Koblov (alexx2000@mail.ru)
+    Copyright (C) 2006-2023 Alexander Koblov (alexx2000@mail.ru)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -203,6 +203,9 @@ uses
   , CocoaAll, uMyDarwin
     {$ELSEIF NOT DEFINED(HAIKU)}
   , uGio, uClipboard, uXdg, uKde
+    {$ENDIF}
+    {$IF DEFINED(LINUX)}
+  , DCUnix, uMyLinux
     {$ENDIF}
   {$ENDIF}
   ;
@@ -458,6 +461,12 @@ var
 begin
   Result:= (fpStatFS(PAnsiChar(CeUtf8ToSys(Path)), @sbfs) = 0);
   if not Result then Exit;
+{$IFDEF LINUX}
+  if (sbfs.fstype = RAMFS_MAGIC) then
+  begin
+    Exit(GetFreeMem(FreeSize, TotalSize));
+  end;
+{$ENDIF}
   FreeSize := (Int64(sbfs.bavail) * sbfs.bsize);
   TotalSize := (Int64(sbfs.blocks) * sbfs.bsize);
 end;
