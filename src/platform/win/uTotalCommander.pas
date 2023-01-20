@@ -3,7 +3,7 @@
     -------------------------------------------------------------------------
     Total Commander integration functions
 
-    Copyright (C) 2009-2019 Alexander Koblov (alexx2000@mail.ru)
+    Copyright (C) 2009-2023 Alexander Koblov (alexx2000@mail.ru)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -732,9 +732,15 @@ var
   ClassName: PChar;
 begin
   ClassName := Stralloc(100);
-  GetClassName(Wnd, ClassName, 99);
-  if ClassName = 'TTOTAL_CMD' then
-    Inc(TCNumberOfInstance);
+  if GetClassName(Wnd, ClassName, 99) > 0 then
+  begin
+    if ClassName = 'TTOTAL_CMD' then
+    begin
+      // Skip Double Commander main window class
+      if GetPropW(Wnd, 'WinControlDC') = 0 then
+        Inc(TCNumberOfInstance);
+    end;
+  end;
   Result := True;
   strDispose(ClassName);
 end;
@@ -750,7 +756,7 @@ begin
   finally
   end;
 
-  Result := (TCNumberOfInstance > 1);
+  Result := (TCNumberOfInstance > 0);
 end;
 
 { areTCRelatedPathsAndFilesDetected }
