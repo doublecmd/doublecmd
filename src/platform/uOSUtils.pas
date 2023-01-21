@@ -211,6 +211,9 @@ uses
     {$ELSE}
   , uGio, uClipboard, uXdg, uKde
     {$ENDIF}
+    {$IF DEFINED(LINUX)}
+  , DCUnix, uMyLinux
+    {$ENDIF}
   {$ENDIF}
   ;
 
@@ -459,6 +462,12 @@ var
 begin
   Result:= (fpStatFS(PAnsiChar(CeUtf8ToSys(Path)), @sbfs) = 0);
   if not Result then Exit;
+{$IFDEF LINUX}
+  if (sbfs.fstype = RAMFS_MAGIC) then
+  begin
+    Exit(GetFreeMem(FreeSize, TotalSize));
+  end;
+{$ENDIF}
   FreeSize := (Int64(sbfs.bavail) * sbfs.bsize);
   TotalSize := (Int64(sbfs.blocks) * sbfs.bsize);
 end;
