@@ -2687,13 +2687,23 @@ begin
         if bTextFound then FLastSearchPos := PAnsiAddr - ViewerControl.GetDataAdr;
       end
       // Using very slow search algorithm
-      else if (ViewerControl.Encoding in ViewerEncodingMultiByte) or bSearchBackwards then
+      else if (ViewerControl.Encoding in [veUtf32le, veUtf32be]) then
       begin
         PAdr := ViewerControl.FindUtf8Text(FLastSearchPos, sSearchTextU,
                                            FFindDialog.cbCaseSens.Checked,
                                            bSearchBackwards);
         bTextFound := (PAdr <> PtrInt(-1));
         if bTextFound then FLastSearchPos := PAdr;
+      end
+      // Using special case insensitive single byte encoding search algorithm
+      else if bSearchBackwards then
+      begin
+        RecodeTable:= InitRecodeTable(ViewerControl.EncodingName, FFindDialog.cbCaseSens.Checked);
+        PAnsiAddr := PosMemA(ViewerControl.GetDataAdr, ViewerControl.FileSize,
+                            FLastSearchPos, sSearchTextA,
+                            FFindDialog.cbCaseSens.Checked, bSearchBackwards, RecodeTable);
+        bTextFound := (PAnsiAddr <> Pointer(-1));
+        if bTextFound then FLastSearchPos := PAnsiAddr - ViewerControl.GetDataAdr;
       end
       // Using very fast Boyer–Moore search algorithm
       else begin

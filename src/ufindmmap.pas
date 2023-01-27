@@ -18,6 +18,9 @@ unit uFindMmap;
 
 interface
 
+uses
+  uFindByrMr;
+
 type
   TAbortFunction = function: Boolean of object;
 
@@ -44,6 +47,10 @@ function PosMemU(pDataAddr: PChar; iDataLength, iStartPos: PtrInt;
 
 function PosMemW(pDataAddr: PChar; iDataLength, iStartPos: PtrInt;
                  const sSearchText: String; bSearchBackwards, bLittleEndian: Boolean): Pointer;
+
+function PosMemA(pDataAddr: PChar; iDataLength, iStartPos: PtrInt;
+                 const sSearchText: String; bCaseSensitive, bSearchBackwards: Boolean;
+                 RecodeTable: TRecodeTable): Pointer;
 
 {en
    Searches a file for a string using memory mapping.
@@ -275,6 +282,65 @@ begin
     sTextBuffer:= UnicodeLowerCase(sTextBuffer);
     iTextPos:= Pos(sLowerCase, sTextBuffer);
     if iTextPos > 0 then Result:= pDataAddr + iStartPos + iTextPos * 2 - 2;
+  end;
+end;
+
+function PosMemA(pDataAddr: PChar; iDataLength, iStartPos: PtrInt;
+  const sSearchText: String; bCaseSensitive, bSearchBackwards: Boolean;
+  RecodeTable: TRecodeTable): Pointer;
+var
+  SearchTextLength: Integer;
+
+  function sPos2(pAdr: PChar):Boolean; inline;
+  var
+    i: Integer;
+  begin
+    Result := False;
+    for i := 1 to SearchTextLength do
+    begin
+      case bCaseSensitive of
+       False: if Chr(RecodeTable[Ord(pAdr^)]) <> Chr(RecodeTable[Ord(sSearchText[i])]) then Exit;
+       True : if pAdr^ <> sSearchText[i] then Exit;
+      end;
+      Inc(pAdr);
+    end;
+    Result:=True;
+  end;
+
+var
+  pCurrentAddr, pEndAddr: PAnsiChar;
+begin
+  Result := Pointer(-1);
+
+  SearchTextLength := Length(sSearchText);
+  if (SearchTextLength <= 0) or (iDataLength <= 0) then
+    Exit;
+
+  pCurrentAddr := pDataAddr + iStartPos;
+  pEndAddr := pDataAddr + iDataLength - SearchTextLength;
+
+  if bSearchBackwards and (pCurrentAddr > pEndAddr) then
+    // Move to the first possible position for searching backwards.
+    pCurrentAddr := pEndAddr;
+
+  if (pEndAddr < pDataAddr) or (pCurrentAddr < pDataAddr) or (pCurrentAddr > pEndAddr) then
+    Exit;
+
+  while True do
+  begin
+    if (pCurrentAddr > pEndAddr) or (pCurrentAddr < pDataAddr) then
+      Exit;
+
+    if sPos2(pCurrentAddr) then
+    begin
+      Result := pCurrentAddr;
+      Exit;
+    end;
+
+    case bSearchBackwards of
+      False: Inc(pCurrentAddr);
+      True : Dec(pCurrentAddr);
+    end;
   end;
 end;
 
