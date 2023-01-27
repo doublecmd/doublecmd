@@ -83,6 +83,8 @@ uses
     DCConvertEncoding
   {$ELSEIF DEFINED(LINUX)}
   , inotify, BaseUnix, FileUtil, DCConvertEncoding, DCUnix
+  {$ELSEIF DEFINED(DARWIN)}
+  , uDarwinFSWatch
   {$ELSEIF DEFINED(BSD)}
   , BSD, Unix, BaseUnix, UnixType, FileUtil, DCOSUtils
   {$ELSEIF DEFINED(HAIKU)}
@@ -94,6 +96,10 @@ uses
     {$ENDIF}
   {$ENDIF};
 
+{$IF DEFINED(UNIX) AND not DEFINED(DARWIN)}
+  {$DEFINE UNIX_butnot_DARWIN}
+{$ENDIF}
+
 {$IF DEFINED(HAIKU) AND (DEFINED(LCLQT5) OR DEFINED(LCLQT6))}
   {$DEFINE HAIKUQT}
 {$ENDIF}
@@ -103,7 +109,7 @@ uses
   {$define SameMethod:= CompareMethods}
 {$endif}
 
-{$IF DEFINED(UNIX)}
+{$IF DEFINED(UNIX_butnot_DARWIN)}
 type
   {$IF DEFINED(HAIKUQT)}
   TNotifyHandle = QFileSystemWatcherH;
@@ -157,7 +163,9 @@ type
 
   TOSWatch = class
   private
+    {$IF NOT DEFINED(DARWIN)}
     FHandle: THandle;
+    {$ENDIF}
     FObservers: TOSWatchObservers;
     FWatchFilter: TFSWatchFilter;
     FWatchPath: String;
@@ -168,11 +176,13 @@ type
     FReferenceCount: LongInt;
     FOldFileName: String; // for FILE_ACTION_RENAMED_OLD_NAME action
     {$ENDIF}
-    {$IF DEFINED(UNIX)}
+    {$IF DEFINED(UNIX_butnot_DARWIN)}
     FNotifyHandle: TNotifyHandle;
     {$ENDIF}
+    {$IF NOT DEFINED(DARWIN)}
     procedure CreateHandle;
     procedure DestroyHandle;
+    {$ENDIF}
     {$IF DEFINED(MSWINDOWS)}
     procedure QueueCancelRead;
     procedure QueueRead;
@@ -180,14 +190,18 @@ type
     {$ENDIF}
   public
     constructor Create(const aWatchPath: String
-                       {$IFDEF UNIX}; aNotifyHandle: TNotifyHandle{$ENDIF}); reintroduce;
+                       {$IFDEF UNIX_butnot_DARWIN}; aNotifyHandle: TNotifyHandle{$ENDIF}); reintroduce;
     destructor Destroy; override;
+    {$IF not DEFINED(DARWIN)}
     procedure UpdateFilter;
+    {$ENDIF}
     {$IF DEFINED(MSWINDOWS)}
     procedure Reference{$IFDEF DEBUG_WATCHER}(s: String){$ENDIF};
     procedure Dereference{$IFDEF DEBUG_WATCHER}(s: String){$ENDIF};
     {$ENDIF}
+    {$IF not DEFINED(DARWIN)}
     property Handle: THandle read FHandle;
+    {$ENDIF}
     property Observers: TOSWatchObservers read FObservers;
     property WatchPath: String read FWatchPath;
   end;
@@ -199,8 +213,11 @@ type
   private
     FWatcherLock: syncobjs.TCriticalSection;
     FOSWatchers: TOSWatchs;
-    {$IF DEFINED(UNIX)}
+    {$IF DEFINED(UNIX_butnot_DARWIN)}
     FNotifyHandle: TNotifyHandle;
+    {$ENDIF}
+    {$IF DEFINED(DARWIN)}
+    FDarwinFSWatcher: TDarwinFSWatcher;
     {$ENDIF}
     {$IF DEFINED(LINUX)}
     FEventPipe: TFilDes;
@@ -211,6 +228,9 @@ type
     FFinishEvent: TSimpleEvent;
     FHook: QFileSystemWatcher_hookH;
     procedure DirectoryChanged(Path: PWideString); cdecl;
+    {$ENDIF}
+    {$IF DEFINED(DARWIN)}
+    procedure handleFSEvent(event:TDarwinFSWatchEvent);
     {$ENDIF}
     procedure DoWatcherEvent;
     function GetWatchersCount: Integer;
@@ -797,6 +817,10 @@ begin
       FreeMem(buf);
   end; { try - finally }
 end;
+{$ELSEIF DEFINED(DARWIN)}
+begin
+  FDarwinFSWatcher.start;
+end;
 {$ELSEIF DEFINED(BSD)}
 var
   ret: cint;
@@ -849,6 +873,21 @@ end;
 {$ELSE}
 begin
 end;
+{$ENDIF}
+
+{$IF DEFINED(DARWIN)}
+procedure TFileSystemWatcherImpl.handleFSEvent(event:TDarwinFSWatchEvent);
+begin
+  FCurrentEventData.Path := event.watchPath;
+  FCurrentEventData.EventType := fswUnknownChange;
+  FCurrentEventData.FileName := EmptyStr;
+  FCurrentEventData.NewFileName := EmptyStr;
+  {$IFDEF DEBUG_WATCHER}
+  DCDebug('FSWatcher: Send event, Path %s', [FCurrentEventData.Path]);
+  {$ENDIF};
+  Synchronize(@DoWatcherEvent);
+end;
+
 {$ENDIF}
 
 {$IF DEFINED(HAIKUQT)}
@@ -1010,6 +1049,8 @@ begin
   end
   else
     ShowError('pipe() failed');
+  {$ELSEIF DEFINED(DARWIN)}
+  FDarwinFSWatcher := TDarwinFSWatcher.create(@handleFSEvent);
   {$ELSEIF DEFINED(BSD)}
   FNotifyHandle := kqueue();
   if FNotifyHandle = feInvalidHandle then
@@ -1047,6 +1088,8 @@ begin
     FileClose(FNotifyHandle);
     FNotifyHandle := feInvalidHandle;
   end;
+  {$ELSEIF DEFINED(DARWIN)}
+  FreeAndNil(FDarwinFSWatcher);
   {$ELSEIF DEFINED(BSD)}
   if FNotifyHandle <> feInvalidHandle then
   begin
@@ -1134,9 +1177,11 @@ begin
 
   if not Assigned(OSWatcher) then
   begin
-    OSWatcher := TOSWatch.Create(aWatchPath {$IFDEF UNIX}, FNotifyHandle {$ENDIF});
+    OSWatcher := TOSWatch.Create(aWatchPath {$IFDEF UNIX_butnot_DARWIN}, FNotifyHandle {$ENDIF});
     {$IF DEFINED(MSWINDOWS)}
     OSWatcher.Reference{$IFDEF DEBUG_WATCHER}('AddWatch'){$ENDIF}; // For usage by FileSystemWatcher (main thread)
+    {$ELSEIF DEFINED(DARWIN)}
+    FDarwinFSWatcher.addPath(aWatchPath);
     {$ENDIF}
     OSWatcherCreated := True;
   end;
@@ -1159,9 +1204,12 @@ begin
       WatcherIndex := FOSWatchers.Add(OSWatcher);
 
     OSWatcher.Observers.Add(Observer);
+    {$IF DEFINED(DARWIN)}
+    Result:= true;
+    {$ELSE}
     OSWatcher.UpdateFilter; // This creates or recreates handle.
-
     Result := OSWatcher.Handle <> feInvalidHandle;
+    {$ENDIF}
 
     // Remove watcher if could not create notification handle.
     if not Result then
@@ -1226,8 +1274,10 @@ begin
 
       if FOSWatchers[OSWatcherIndex].Observers.Count = 0 then
         RemoveOSWatchLocked(OSWatcherIndex)
+      {$IF NOT DEFINED(DARWIN)}
       else
-        FOSWatchers[OSWatcherIndex].UpdateFilter;
+        FOSWatchers[OSWatcherIndex].UpdateFilter
+      {$ENDIF};
 
       Break;
     end;
@@ -1242,6 +1292,9 @@ begin
     DestroyHandle;
     Dereference{$IFDEF DEBUG_WATCHER}('RemoveOSWatchLocked'){$ENDIF}; // Not using anymore by FileSystemWatcher from main thread
   end;
+  {$ENDIF}
+  {$IF DEFINED(DARWIN)}
+  FDarwinFSWatcher.removePath(FOSWatchers[Index].WatchPath);
   {$ENDIF}
   FOSWatchers.Delete(Index);
 end;
@@ -1281,6 +1334,10 @@ begin
     FileWrite(FEventPipe[1], buf, 1);
   end; { if }
 end;
+{$ELSEIF DEFINED(DARWIN)}
+begin
+  FDarwinFSWatcher.terminate;
+end;
 {$ELSEIF DEFINED(BSD)}
 var
   ke: TKEvent;
@@ -1310,24 +1367,28 @@ end;
 { TOSWatch }
 
 constructor TOSWatch.Create(const aWatchPath: String
-                            {$IFDEF UNIX}; aNotifyHandle: TNotifyHandle{$ENDIF});
+                            {$IFDEF UNIX_butnot_DARWIN}; aNotifyHandle: TNotifyHandle{$ENDIF});
 begin
   FObservers := TOSWatchObservers.Create(True);
   FWatchFilter := [];
   FWatchPath := aWatchPath;
-  {$IFDEF UNIX}
+  {$IFDEF UNIX_butnot_DARWIN}
   FNotifyHandle := aNotifyHandle;
   {$ENDIF}
   {$IF DEFINED(MSWINDOWS)}
   FReferenceCount := 0;
   FBuffer := GetMem(VAR_READDIRECTORYCHANGESW_BUFFERSIZE);
   {$ENDIF}
+  {$IF not DEFINED(DARWIN)}
   FHandle := feInvalidHandle;
+  {$ENDIF}
 end;
 
 destructor TOSWatch.Destroy;
 begin
+  {$IF not DEFINED(DARWIN)}
   DestroyHandle;
+  {$ENDIF}
   inherited;
   {$IFDEF DEBUG_WATCHER}
   DCDebug(['FSWatcher: Destroying watch ', hexStr(Self)]);
@@ -1338,6 +1399,7 @@ begin
   {$ENDIF}
 end;
 
+{$IF not DEFINED(DARWIN)}
 procedure TOSWatch.UpdateFilter;
 var
   i: Integer;
@@ -1363,6 +1425,7 @@ begin
     {$ENDIF}
   end;
 end;
+{$ENDIF}
 
 {$IF DEFINED(MSWINDOWS)}
 procedure TOSWatch.Reference{$IFDEF DEBUG_WATCHER}(s: String){$ENDIF};
@@ -1397,6 +1460,7 @@ begin
 end;
 {$ENDIF}
 
+{$IF not DEFINED(DARWIN)}
 procedure TOSWatch.CreateHandle;
 {$IF DEFINED(MSWINDOWS)}
 begin
@@ -1532,6 +1596,7 @@ begin
     {$ENDIF}
   end;
 end;
+{$ENDIF}
 
 {$IF DEFINED(MSWINDOWS)}
 procedure TOSWatch.QueueCancelRead;
