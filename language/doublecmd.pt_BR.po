@@ -9875,6 +9875,17 @@ msgctxt "tfrmviewer.actstretchonlylarge.caption"
 msgid "Stretch only large"
 msgstr "Esticar apenas grande."
 
+#: tfrmviewer.actundo.caption
+#, fuzzy
+msgctxt "tfrmviewer.actundo.caption"
+msgid "Undo"
+msgstr "Desfazer"
+
+#: tfrmviewer.actundo.hint
+msgctxt "TFRMVIEWER.ACTUNDO.HINT"
+msgid "Undo"
+msgstr "Desfazer"
+
 #: tfrmviewer.actwraptext.caption
 msgid "&Wrap text"
 msgstr ""
@@ -9957,11 +9968,6 @@ msgstr "Redimensionar"
 msgctxt "tfrmviewer.btnslideshow.caption"
 msgid "Slide Show"
 msgstr "Diaporama"
-
-#: tfrmviewer.btnundo.hint
-msgctxt "TFRMVIEWER.BTNUNDO.HINT"
-msgid "Undo"
-msgstr "Desfazer"
 
 #: tfrmviewer.caption
 msgctxt "TFRMVIEWER.CAPTION"

@@ -9685,6 +9685,17 @@ msgctxt "tfrmviewer.actstretchonlylarge.caption"
 msgid "Stretch only large"
 msgstr "引き延ばしだけ"
 
+#: tfrmviewer.actundo.caption
+#, fuzzy
+msgctxt "tfrmviewer.actundo.caption"
+msgid "Undo"
+msgstr "元に戻す"
+
+#: tfrmviewer.actundo.hint
+msgctxt "TFRMVIEWER.ACTUNDO.HINT"
+msgid "Undo"
+msgstr "元に戻す"
+
 #: tfrmviewer.actwraptext.caption
 msgid "&Wrap text"
 msgstr ""
@@ -9763,11 +9774,6 @@ msgstr "サイズ変更"
 msgctxt "tfrmviewer.btnslideshow.caption"
 msgid "Slide Show"
 msgstr "スライドショー"
-
-#: tfrmviewer.btnundo.hint
-msgctxt "TFRMVIEWER.BTNUNDO.HINT"
-msgid "Undo"
-msgstr "元に戻す"
 
 #: tfrmviewer.caption
 msgctxt "TFRMVIEWER.CAPTION"

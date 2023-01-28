@@ -9481,6 +9481,17 @@ msgstr "Rek afbeelding uit"
 msgid "Stretch only large"
 msgstr "Rek alleen grote uit"
 
+#: tfrmviewer.actundo.caption
+#, fuzzy
+msgctxt "tfrmviewer.actundo.caption"
+msgid "Undo"
+msgstr "Ongedaan maken"
+
+#: tfrmviewer.actundo.hint
+msgctxt "TFRMVIEWER.ACTUNDO.HINT"
+msgid "Undo"
+msgstr "Ongedaan maken"
+
 #: tfrmviewer.actwraptext.caption
 msgid "&Wrap text"
 msgstr ""
@@ -9557,11 +9568,6 @@ msgstr "Herschalen"
 msgctxt "tfrmviewer.btnslideshow.caption"
 msgid "Slide Show"
 msgstr "Diavoorstelling"
-
-#: tfrmviewer.btnundo.hint
-msgctxt "TFRMVIEWER.BTNUNDO.HINT"
-msgid "Undo"
-msgstr "Ongedaan maken"
 
 #: tfrmviewer.caption
 msgctxt "tfrmviewer.caption"

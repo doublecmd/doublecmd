@@ -9923,6 +9923,17 @@ msgctxt "tfrmviewer.actstretchonlylarge.caption"
 msgid "Stretch only large"
 msgstr "Разпъване само на големите изображения"
 
+#: tfrmviewer.actundo.caption
+#, fuzzy
+msgctxt "tfrmviewer.actundo.caption"
+msgid "Undo"
+msgstr "Отмяна"
+
+#: tfrmviewer.actundo.hint
+msgctxt "TFRMVIEWER.ACTUNDO.HINT"
+msgid "Undo"
+msgstr "Отмяна"
+
 #: tfrmviewer.actwraptext.caption
 msgid "&Wrap text"
 msgstr ""
@@ -10004,11 +10015,6 @@ msgstr "Преоразмеряване"
 msgctxt "tfrmviewer.btnslideshow.caption"
 msgid "Slide Show"
 msgstr ""
-
-#: tfrmviewer.btnundo.hint
-msgctxt "TFRMVIEWER.BTNUNDO.HINT"
-msgid "Undo"
-msgstr "Отмяна"
 
 #: tfrmviewer.caption
 msgctxt "tfrmviewer.caption"

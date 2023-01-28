@@ -10487,6 +10487,17 @@ msgstr "Strækker billedet"
 msgid "Stretch only large"
 msgstr "Stræk kun store"
 
+#: tfrmviewer.actundo.caption
+#, fuzzy
+msgctxt "tfrmviewer.actundo.caption"
+msgid "Undo"
+msgstr "Fortryd"
+
+#: tfrmviewer.actundo.hint
+msgctxt "TFRMVIEWER.ACTUNDO.HINT"
+msgid "Undo"
+msgstr "Fortryd"
+
 #: tfrmviewer.actwraptext.caption
 msgid "&Wrap text"
 msgstr ""
@@ -10567,11 +10578,6 @@ msgstr "Tilpas størrelse"
 msgctxt "tfrmviewer.btnslideshow.caption"
 msgid "Slide Show"
 msgstr "Slideshow"
-
-#: tfrmviewer.btnundo.hint
-msgctxt "TFRMVIEWER.BTNUNDO.HINT"
-msgid "Undo"
-msgstr "Fortryd"
 
 #: tfrmviewer.caption
 msgctxt "tfrmviewer.caption"

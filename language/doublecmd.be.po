@@ -9460,6 +9460,17 @@ msgstr "Усе выявы па памерах акна"
 msgid "Stretch only large"
 msgstr "Толькі вялікія выявы па памерах акна"
 
+#: tfrmviewer.actundo.caption
+#, fuzzy
+msgctxt "tfrmviewer.actundo.caption"
+msgid "Undo"
+msgstr "Адрабіць"
+
+#: tfrmviewer.actundo.hint
+msgctxt "TFRMVIEWER.ACTUNDO.HINT"
+msgid "Undo"
+msgstr "Адрабіць"
+
 #: tfrmviewer.actwraptext.caption
 msgid "&Wrap text"
 msgstr "&Перанос тэксту"
@@ -9536,11 +9547,6 @@ msgstr "Змяніць памер"
 msgctxt "tfrmviewer.btnslideshow.caption"
 msgid "Slide Show"
 msgstr "Слайдшоў"
-
-#: tfrmviewer.btnundo.hint
-msgctxt "TFRMVIEWER.BTNUNDO.HINT"
-msgid "Undo"
-msgstr "Адрабіць"
 
 #: tfrmviewer.caption
 msgctxt "tfrmviewer.caption"

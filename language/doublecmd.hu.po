@@ -9725,6 +9725,17 @@ msgctxt "tfrmviewer.actstretchonlylarge.caption"
 msgid "Stretch only large"
 msgstr "Kép széthúzása"
 
+#: tfrmviewer.actundo.caption
+#, fuzzy
+msgctxt "tfrmviewer.actundo.caption"
+msgid "Undo"
+msgstr "Visszavonás"
+
+#: tfrmviewer.actundo.hint
+msgctxt "TFRMVIEWER.ACTUNDO.HINT"
+msgid "Undo"
+msgstr "Visszavonás"
+
 #: tfrmviewer.actwraptext.caption
 msgid "&Wrap text"
 msgstr "Szöveg &tördelése"
@@ -9803,11 +9814,6 @@ msgstr "Átméretez"
 msgctxt "tfrmviewer.btnslideshow.caption"
 msgid "Slide Show"
 msgstr "Bemutató"
-
-#: tfrmviewer.btnundo.hint
-msgctxt "TFRMVIEWER.BTNUNDO.HINT"
-msgid "Undo"
-msgstr "Visszavonás"
 
 #: tfrmviewer.caption
 msgctxt "TFRMVIEWER.CAPTION"

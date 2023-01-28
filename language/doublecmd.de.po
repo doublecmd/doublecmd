@@ -9645,6 +9645,17 @@ msgctxt "tfrmviewer.actstretchonlylarge.caption"
 msgid "Stretch only large"
 msgstr "Nur große einpassen"
 
+#: tfrmviewer.actundo.caption
+#, fuzzy
+msgctxt "tfrmviewer.actundo.caption"
+msgid "Undo"
+msgstr "Rückgängig machen"
+
+#: tfrmviewer.actundo.hint
+msgctxt "TFRMVIEWER.ACTUNDO.HINT"
+msgid "Undo"
+msgstr "Rückgängig machen"
+
 #: tfrmviewer.actwraptext.caption
 msgid "&Wrap text"
 msgstr "Text umbrechen"
@@ -9723,11 +9734,6 @@ msgstr "Größe ändern"
 msgctxt "tfrmviewer.btnslideshow.caption"
 msgid "Slide Show"
 msgstr "Bilder automatisch nacheinander anzeigen (Slideshow)"
-
-#: tfrmviewer.btnundo.hint
-msgctxt "TFRMVIEWER.BTNUNDO.HINT"
-msgid "Undo"
-msgstr "Rückgängig machen"
 
 #: tfrmviewer.caption
 msgctxt "tfrmviewer.caption"

@@ -9425,6 +9425,17 @@ msgstr "Rozciągnij obrazek"
 msgid "Stretch only large"
 msgstr "Rozciągnij tylko duże"
 
+#: tfrmviewer.actundo.caption
+#, fuzzy
+msgctxt "tfrmviewer.actundo.caption"
+msgid "Undo"
+msgstr "Cofnij"
+
+#: tfrmviewer.actundo.hint
+msgctxt "tfrmviewer.actundo.hint"
+msgid "Undo"
+msgstr "Cofnij"
+
 #: tfrmviewer.actwraptext.caption
 msgid "&Wrap text"
 msgstr "&Zawijaj tekst"
@@ -9498,11 +9509,6 @@ msgstr "Zmień rozmiar"
 #: tfrmviewer.btnslideshow.caption
 msgid "Slide Show"
 msgstr "Pokaz slajdów"
-
-#: tfrmviewer.btnundo.hint
-msgctxt "tfrmviewer.btnundo.hint"
-msgid "Undo"
-msgstr "Cofnij"
 
 #: tfrmviewer.caption
 msgctxt "tfrmviewer.caption"

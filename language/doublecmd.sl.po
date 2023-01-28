@@ -9549,6 +9549,17 @@ msgstr "Raztegni sliko"
 msgid "Stretch only large"
 msgstr "Raztegni le velike"
 
+#: tfrmviewer.actundo.caption
+#, fuzzy
+msgctxt "tfrmviewer.actundo.caption"
+msgid "Undo"
+msgstr "Razveljavi"
+
+#: tfrmviewer.actundo.hint
+msgctxt "TFRMVIEWER.ACTUNDO.HINT"
+msgid "Undo"
+msgstr "Razveljavi"
+
 #: tfrmviewer.actwraptext.caption
 msgid "&Wrap text"
 msgstr ""
@@ -9629,11 +9640,6 @@ msgstr "Spremeni velikost"
 msgctxt "tfrmviewer.btnslideshow.caption"
 msgid "Slide Show"
 msgstr "Predstavitev"
-
-#: tfrmviewer.btnundo.hint
-msgctxt "TFRMVIEWER.BTNUNDO.HINT"
-msgid "Undo"
-msgstr "Razveljavi"
 
 #: tfrmviewer.caption
 msgctxt "tfrmviewer.caption"

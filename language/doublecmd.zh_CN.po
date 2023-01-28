@@ -9518,6 +9518,17 @@ msgstr "拉伸图像"
 msgid "Stretch only large"
 msgstr "拉伸时仅放大"
 
+#: tfrmviewer.actundo.caption
+#, fuzzy
+msgctxt "tfrmviewer.actundo.caption"
+msgid "Undo"
+msgstr "撤销"
+
+#: tfrmviewer.actundo.hint
+msgctxt "TFRMVIEWER.ACTUNDO.HINT"
+msgid "Undo"
+msgstr "撤销"
+
 #: tfrmviewer.actwraptext.caption
 msgid "&Wrap text"
 msgstr ""
@@ -9597,11 +9608,6 @@ msgstr "调整大小"
 msgctxt "tfrmviewer.btnslideshow.caption"
 msgid "Slide Show"
 msgstr "幻灯显示"
-
-#: tfrmviewer.btnundo.hint
-msgctxt "TFRMVIEWER.BTNUNDO.HINT"
-msgid "Undo"
-msgstr "撤销"
 
 #: tfrmviewer.caption
 msgctxt "tfrmviewer.caption"

@@ -9678,6 +9678,17 @@ msgctxt "tfrmviewer.actstretchonlylarge.caption"
 msgid "Stretch only large"
 msgstr "Άπλωμα μόνο Μεγάλων"
 
+#: tfrmviewer.actundo.caption
+#, fuzzy
+msgctxt "tfrmviewer.actundo.caption"
+msgid "Undo"
+msgstr "Αναίρεση"
+
+#: tfrmviewer.actundo.hint
+msgctxt "TFRMVIEWER.ACTUNDO.HINT"
+msgid "Undo"
+msgstr "Αναίρεση"
+
 #: tfrmviewer.actwraptext.caption
 msgid "&Wrap text"
 msgstr "Μάζεμα κειμένου"
@@ -9756,11 +9767,6 @@ msgstr "Αλλαγή Μεγέθους"
 msgctxt "tfrmviewer.btnslideshow.caption"
 msgid "Slide Show"
 msgstr "Slide Show"
-
-#: tfrmviewer.btnundo.hint
-msgctxt "TFRMVIEWER.BTNUNDO.HINT"
-msgid "Undo"
-msgstr "Αναίρεση"
 
 #: tfrmviewer.caption
 msgctxt "TFRMVIEWER.CAPTION"

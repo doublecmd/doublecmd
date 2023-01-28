@@ -9718,6 +9718,17 @@ msgctxt "tfrmviewer.actstretchonlylarge.caption"
 msgid "Stretch only large"
 msgstr "Natiahnuť iba veľké"
 
+#: tfrmviewer.actundo.caption
+#, fuzzy
+msgctxt "tfrmviewer.actundo.caption"
+msgid "Undo"
+msgstr "Späť"
+
+#: tfrmviewer.actundo.hint
+msgctxt "TFRMVIEWER.ACTUNDO.HINT"
+msgid "Undo"
+msgstr "Zpäť"
+
 #: tfrmviewer.actwraptext.caption
 msgid "&Wrap text"
 msgstr "&Zalomiť text"
@@ -9796,11 +9807,6 @@ msgstr "Zmeniť veľkosť"
 msgctxt "tfrmviewer.btnslideshow.caption"
 msgid "Slide Show"
 msgstr "Prezentácia"
-
-#: tfrmviewer.btnundo.hint
-msgctxt "TFRMVIEWER.BTNUNDO.HINT"
-msgid "Undo"
-msgstr "Zpäť"
 
 #: tfrmviewer.caption
 msgctxt "tfrmviewer.caption"

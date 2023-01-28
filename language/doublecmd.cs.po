@@ -9480,6 +9480,17 @@ msgstr "Roztáhnout obrázek"
 msgid "Stretch only large"
 msgstr "Přizpůsobit pouze velké"
 
+#: tfrmviewer.actundo.caption
+#, fuzzy
+msgctxt "tfrmviewer.actundo.caption"
+msgid "Undo"
+msgstr "Krok zpět"
+
+#: tfrmviewer.actundo.hint
+msgctxt "TFRMVIEWER.ACTUNDO.HINT"
+msgid "Undo"
+msgstr "Krok zpět"
+
 #: tfrmviewer.actwraptext.caption
 msgid "&Wrap text"
 msgstr ""
@@ -9556,11 +9567,6 @@ msgstr "Změnit velikost"
 msgctxt "tfrmviewer.btnslideshow.caption"
 msgid "Slide Show"
 msgstr "Prohlídka"
-
-#: tfrmviewer.btnundo.hint
-msgctxt "TFRMVIEWER.BTNUNDO.HINT"
-msgid "Undo"
-msgstr "Krok zpět"
 
 #: tfrmviewer.caption
 msgctxt "TFRMVIEWER.CAPTION"
