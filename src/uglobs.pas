@@ -172,7 +172,7 @@ type
 
 const
   { Default hotkey list version number }
-  hkVersion = 56;
+  hkVersion = 57;
   // 54 - In "Viewer" context, added the "W" for "cm_WrapText", "4" for "cm_ShowAsDec", "8" for "cm_ShowOffice".
   // 53 - In "Main" context, change shortcut "Alt+`" to "Alt+0" for the "cm_ActivateTabByIndex".
   // 52 - In "Main" context, add shortcut "Ctrl+Shift+B" for "cm_FlatViewSel".
@@ -1250,6 +1250,7 @@ begin
       AddIfNotExists(VK_P, [ssModifier], 'cm_Print');
       AddIfNotExists(VK_A, [ssModifier], 'cm_SelectAll');
       AddIfNotExists(VK_C, [ssModifier], 'cm_CopyToClipboard');
+      AddIfNotExists(VK_Z, [ssModifier], 'cm_Undo');
 
       AddIfNotExists(['A','','ANSI','',
                       'S','','OEM','',

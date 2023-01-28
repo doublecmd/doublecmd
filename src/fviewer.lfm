@@ -586,11 +586,8 @@ object frmViewer: TfrmViewer
       end
       object btnUndo: TToolButton
         Left = 307
-        Hint = 'Undo'
         Top = 34
-        Enabled = False
-        ImageIndex = 20
-        OnClick = btnUndoClick
+        Action = actUndo
         ShowCaption = False
       end
       object btnPenMode: TToolButton
@@ -1730,6 +1727,14 @@ object frmViewer: TfrmViewer
     object actShowTransparency: TAction
       Category = 'Image'
       Caption = 'Show transparenc&y'
+      OnExecute = actExecute
+    end
+    object actUndo: TAction
+      Category = 'Edit'
+      Caption = 'Undo'
+      Enabled = False
+      ImageIndex = 20
+      Hint = 'Undo'
       OnExecute = actExecute
     end
   end

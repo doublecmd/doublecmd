@@ -7,7 +7,6 @@
 {"hash":305504,"name":"tfrmviewer.btncuttuimage.hint","sourcebytes":[67,114,111,112],"value":"Crop"},
 {"hash":191154755,"name":"tfrmviewer.btnredeye.hint","sourcebytes":[82,101,100,32,69,121,101,115],"value":"Red Eyes"},
 {"hash":5668948,"name":"tfrmviewer.btnpaint.hint","sourcebytes":[80,97,105,110,116],"value":"Paint"},
-{"hash":378031,"name":"tfrmviewer.btnundo.hint","sourcebytes":[85,110,100,111],"value":"Undo"},
 {"hash":49,"name":"tfrmviewer.btnpenwidth.caption","sourcebytes":[49],"value":"1"},
 {"hash":93102341,"name":"tfrmviewer.btnresize.hint","sourcebytes":[82,101,115,105,122,101],"value":"Resize"},
 {"hash":97995102,"name":"tfrmviewer.btnfullscreen.hint","sourcebytes":[70,117,108,108,32,83,99,114,101,101,110],"value":"Full Screen"},
@@ -84,6 +83,8 @@
 {"hash":36280978,"name":"tfrmviewer.actshowcaret.caption","sourcebytes":[83,104,111,119,32,116,101,120,116,32,99,38,117,114,115,111,114],"value":"Show text c&ursor"},
 {"hash":136647284,"name":"tfrmviewer.actwraptext.caption","sourcebytes":[38,87,114,97,112,32,116,101,120,116],"value":"&Wrap text"},
 {"hash":110327497,"name":"tfrmviewer.actshowtransparency.caption","sourcebytes":[83,104,111,119,32,116,114,97,110,115,112,97,114,101,110,99,38,121],"value":"Show transparenc&y"},
+{"hash":378031,"name":"tfrmviewer.actundo.caption","sourcebytes":[85,110,100,111],"value":"Undo"},
+{"hash":378031,"name":"tfrmviewer.actundo.hint","sourcebytes":[85,110,100,111],"value":"Undo"},
 {"hash":22206,"name":"tfrmviewer.mipen.caption","sourcebytes":[80,101,110],"value":"Pen"},
 {"hash":363428,"name":"tfrmviewer.mirect.caption","sourcebytes":[82,101,99,116],"value":"Rect"},
 {"hash":204670933,"name":"tfrmviewer.miellipse.caption","sourcebytes":[69,108,108,105,112,115,101],"value":"Ellipse"}
