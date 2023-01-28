@@ -4,7 +4,7 @@
     General Hash Unit: This unit defines the common types, functions,
     and procedures
 
-    Copyright (C) 2009-2021 Alexander Koblov (alexx2000@mail.ru)
+    Copyright (C) 2009-2023 Alexander Koblov (alexx2000@mail.ru)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -23,7 +23,7 @@
 
 unit uHash;
 
-{$mode objfpc}{$H+}
+{$mode delphi}
 
 interface
 
@@ -61,6 +61,7 @@ procedure HashFinal(var Context: THashContext; out Hash: String);
 function HashString(const Line: String; IgnoreCase, IgnoreWhiteSpace: Boolean): LongWord;
 
 { Helper functions }
+function TrimHash(const AHash: String): String;
 function FileExtIsHash(const FileExt: String): Boolean;
 function FileExtToHashAlg(const FileExt: String): THashAlgorithm;
 
@@ -155,6 +156,24 @@ begin
 
   Result := crc32(0, nil, 0);
   Result := crc32(Result, PByte(S), Length(S));
+end;
+
+function TrimHash(const AHash: String): String;
+var
+  I, J: Integer;
+begin
+  J:= 0;
+  Result:= EmptyStr;
+  SetLength(Result, Length(AHash));
+  for I:= 1 to Length(AHash) do
+  begin
+    if (AHash[I] in ['0'..'9', 'A'..'F', 'a'..'f']) then
+    begin
+      Inc(J);
+      Result[J]:= AHash[I];
+    end;
+  end;
+  SetLength(Result, J);
 end;
 
 function FileExtIsHash(const FileExt: String): Boolean;

@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Calculate checksum dialog
 
-   Copyright (C) 2009-2018 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2009-2023 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -105,7 +105,7 @@ begin
     Result:= (ShowModal = mrOK);
     if Result then
     begin
-      Hash:= Trim(edtSaveTo.Text);
+      Hash:= TrimHash(edtSaveTo.Text);
       Result:= Length(Hash) > 0;
       QueueId:= QueueIdentifier;
       HashAlgorithm:= THashAlgorithm(lbHashAlgorithm.ItemIndex);
@@ -129,7 +129,7 @@ end;
 
 procedure TfrmCheckSumCalc.edtSaveToChange(Sender: TObject);
 begin
-  case Length(Trim(edtSaveTo.Text)) of
+  case Length(TrimHash(edtSaveTo.Text)) of
      8: lbHashAlgorithm.ItemIndex:= Integer(HASH_SFV);
     32: lbHashAlgorithm.ItemIndex:= Integer(HASH_MD5);
     40: lbHashAlgorithm.ItemIndex:= Integer(HASH_SHA1);
