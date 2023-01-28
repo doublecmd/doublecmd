@@ -307,7 +307,7 @@ end;"/>
         <PackageName Value="Image32"/>
       </Item13>
     </RequiredPackages>
-    <Units Count="268">
+    <Units Count="269">
       <Unit0>
         <Filename Value="doublecmd.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -1967,6 +1967,11 @@ end;"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uTrashFileSource"/>
       </Unit267>
+      <Unit268>
+        <Filename Value="platform\unix\darwin\udarwinfswatch.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uDarwinFSWatch"/>
+      </Unit268>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
