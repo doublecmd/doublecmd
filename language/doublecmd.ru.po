@@ -9717,7 +9717,6 @@ msgid "Stretch only large"
 msgstr "Только большие в размер окна"
 
 #: tfrmviewer.actundo.caption
-#, fuzzy
 msgctxt "tfrmviewer.actundo.caption"
 msgid "Undo"
 msgstr "Отменить"

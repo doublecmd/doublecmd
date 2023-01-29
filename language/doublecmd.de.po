@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Double Commander 1.1.0 alpha\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-11-15 11:15+0300\n"
-"PO-Revision-Date: 2022-08-25 11:22+0200\n"
+"PO-Revision-Date: 2023-01-29 12:19+0100\n"
 "Last-Translator: ㋡ <braass@mail.de>\n"
 "Language-Team: Deutsch <braass@mail.de>\n"
 "MIME-Version: 1.0\n"
@@ -545,12 +545,12 @@ msgstr "&Alle wählen"
 #: tfrmdiffer.acteditundo.caption
 msgctxt "TFRMDIFFER.ACTEDITUNDO.CAPTION"
 msgid "Undo"
-msgstr "Rückgängig machen"
+msgstr "Rückgängig"
 
 #: tfrmdiffer.acteditundo.hint
 msgctxt "tfrmdiffer.acteditundo.hint"
 msgid "Undo"
-msgstr "Rückgängig machen"
+msgstr "Rückgängig"
 
 #: tfrmdiffer.actexit.caption
 msgctxt "tfrmdiffer.actexit.caption"
@@ -962,7 +962,7 @@ msgstr "Wiederholen"
 #: tfrmeditor.acteditredo.hint
 msgctxt "tfrmeditor.acteditredo.hint"
 msgid "Redo"
-msgstr "Wiederholen"
+msgstr "Letzte Aktion wiederholen"
 
 #: tfrmeditor.acteditrplc.caption
 msgctxt "tfrmeditor.acteditrplc.caption"
@@ -986,12 +986,12 @@ msgstr "Alle wählen"
 #: tfrmeditor.acteditundo.caption
 msgctxt "TFRMEDITOR.ACTEDITUNDO.CAPTION"
 msgid "Undo"
-msgstr "Rückgängig machen"
+msgstr "Rückgängig"
 
 #: tfrmeditor.acteditundo.hint
 msgctxt "tfrmeditor.acteditundo.hint"
 msgid "Undo"
-msgstr "Rückgängig machen"
+msgstr "Letzte Aktion rückgängig machen"
 
 #: tfrmeditor.actfileclose.caption
 msgctxt "TFRMEDITOR.ACTFILECLOSE.CAPTION"
@@ -1001,7 +1001,7 @@ msgstr "S&chließen"
 #: tfrmeditor.actfileclose.hint
 msgctxt "tfrmeditor.actfileclose.hint"
 msgid "Close"
-msgstr "Schließen"
+msgstr "Datei schließen"
 
 #: tfrmeditor.actfileexit.caption
 msgctxt "TFRMEDITOR.ACTFILEEXIT.CAPTION"
@@ -1021,7 +1021,7 @@ msgstr "&Neu"
 #: tfrmeditor.actfilenew.hint
 msgctxt "tfrmeditor.actfilenew.hint"
 msgid "New"
-msgstr "Neu"
+msgstr "Neue Datei erstellen"
 
 #: tfrmeditor.actfileopen.caption
 msgid "&Open"
@@ -1030,7 +1030,7 @@ msgstr "&Öffnen"
 #: tfrmeditor.actfileopen.hint
 msgctxt "tfrmeditor.actfileopen.hint"
 msgid "Open"
-msgstr "Öffnen"
+msgstr "Datei öffnen"
 
 #: tfrmeditor.actfilereload.caption
 msgctxt "tfrmeditor.actfilereload.caption"
@@ -1045,7 +1045,7 @@ msgstr "&Speichern"
 #: tfrmeditor.actfilesave.hint
 msgctxt "tfrmeditor.actfilesave.hint"
 msgid "Save"
-msgstr "Speichern"
+msgstr "Datei speichern"
 
 #: tfrmeditor.actfilesaveas.caption
 msgid "Save &As..."
@@ -1053,7 +1053,7 @@ msgstr "Speichern &unter ..."
 
 #: tfrmeditor.actfilesaveas.hint
 msgid "Save As"
-msgstr "Speichern unter"
+msgstr "Datei unter anderem Namen speichern"
 
 #: tfrmeditor.actsaveall.caption
 msgid "Sa&ve All"
@@ -1061,7 +1061,7 @@ msgstr "Alle &speichern"
 
 #: tfrmeditor.actsaveall.hint
 msgid "Save All"
-msgstr "Alle speichern"
+msgstr "Alle geöffneten Dateien speichern"
 
 #: tfrmeditor.caption
 msgctxt "tfrmeditor.caption"
@@ -5282,7 +5282,7 @@ msgstr "Optionen des internen Editors"
 
 #: tfrmoptionseditor.lblblockindent.caption
 msgid "Block indent:"
-msgstr ""
+msgstr "Absatzeinzug:"
 
 #: tfrmoptionseditor.lbltabwidth.caption
 msgid "Tab width:"
@@ -9646,15 +9646,14 @@ msgid "Stretch only large"
 msgstr "Nur große einpassen"
 
 #: tfrmviewer.actundo.caption
-#, fuzzy
 msgctxt "tfrmviewer.actundo.caption"
 msgid "Undo"
-msgstr "Rückgängig machen"
+msgstr "Rückgängig"
 
 #: tfrmviewer.actundo.hint
 msgctxt "TFRMVIEWER.ACTUNDO.HINT"
 msgid "Undo"
-msgstr "Rückgängig machen"
+msgstr "Letzte Aktion rückgängig machen"
 
 #: tfrmviewer.actwraptext.caption
 msgid "&Wrap text"
@@ -14204,4 +14203,3 @@ msgstr "Eine Ersetzung hat nicht stattgefunden."
 #, object-pascal-format
 msgid "No setup named \"%s\""
 msgstr "Keine Einstellung namens »%s«"
-
