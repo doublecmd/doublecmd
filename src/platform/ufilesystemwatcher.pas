@@ -878,10 +878,29 @@ end;
 {$IF DEFINED(DARWIN)}
 procedure TFileSystemWatcherImpl.handleFSEvent(event:TDarwinFSWatchEvent);
 begin
+  if event.isDropabled then exit;
+
   FCurrentEventData.Path := event.watchPath;
-  FCurrentEventData.EventType := fswUnknownChange;
-  FCurrentEventData.FileName := EmptyStr;
+  FCurrentEventData.FileName := Copy( event.fullPath, event.watchPath.Length+2, MaxInt );
   FCurrentEventData.NewFileName := EmptyStr;
+  FCurrentEventData.EventType := fswUnknownChange;
+
+  if TDarwinFSWatchEventCategory.ecRootChanged in event.categories then begin
+    FCurrentEventData.EventType := fswSelfDeleted;
+  end else if not FCurrentEventData.FileName.IsEmpty then begin
+    // 1. file-level update only valid if there is a FileName,
+    //    otherwise keep directory-level update
+    // 2. the order of the following judgment conditions must be preserved
+    if TDarwinFSWatchEventCategory.ecRemoved in event.categories then
+      FCurrentEventData.EventType := fswFileDeleted
+    else if TDarwinFSWatchEventCategory.ecRenamed in event.categories then
+      FCurrentEventData.EventType := fswUnknownChange
+    else if TDarwinFSWatchEventCategory.ecCreated in event.categories then
+      FCurrentEventData.EventType := fswFileCreated
+    else if TDarwinFSWatchEventCategory.ecAttributesChanged in event.categories then
+      FCurrentEventData.EventType := fswFileChanged;
+  end;
+
   {$IFDEF DEBUG_WATCHER}
   DCDebug('FSWatcher: Send event, Path %s', [FCurrentEventData.Path]);
   {$ENDIF};
