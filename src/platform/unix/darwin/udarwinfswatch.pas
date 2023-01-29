@@ -44,23 +44,28 @@ uses
   MacOSAll, CocoaAll;
 
 type TDarwinFSWatchEventCategory = (
-  ecUnknown,
   ecAttributesChanged,
   ecStructChanged, ecCreated, ecRemoved, ecRenamed,
-  ecRootChanged, ecChildChanged );
+  ecRootChanged, ecChildChanged,
+  ecDropabled );
+
+type TDarwinFSWatchEventCategories = set of TDarwinFSWatchEventCategory;
 
 type TDarwinFSWatchEvent = class
 private
-  _category: TDarwinFSWatchEventCategory;
+  _categories: TDarwinFSWatchEventCategories;
   _watchPath: String;
   _fullPath: String;
   _rawEventFlags: UInt32;
-
+private
+  procedure createCategories;
 public
   constructor create( const aWatchPath:String; const aFullPath:String; const aFlags:UInt32 );
-  function rawEventflagsToStr(): String;
+  function isDropabled(): Boolean;
+  function categoriesToStr(): String;
+  function rawEventFlagsToStr(): String;
 public
-  property category: TDarwinFSWatchEventCategory read _category;
+  property categories: TDarwinFSWatchEventCategories read _categories;
   property watchPath: String read _watchPath;
   property fullPath: String read _fullPath;
   property rawEventFlags: UInt32 read _rawEventFlags;
@@ -117,26 +122,79 @@ end;
 
 constructor TDarwinFSWatchEvent.create( const aWatchPath:String; const aFullPath:String; const aFlags:UInt32 );
 begin
-  _category:= TDarwinFSWatchEventCategory.ecUnknown;
+  Inherited Create;
   _watchPath:= aWatchPath;
   _fullPath:= aFullPath;
   _rawEventFlags:= aFlags;
+  createCategories;
 end;
 
-function TDarwinFSWatchEvent.rawEventflagsToStr(): String;
+procedure TDarwinFSWatchEvent.createCategories;
+begin
+  _categories:= [];
+
+  if (_rawEventFlags and (
+        kFSEventStreamEventFlagItemModified or
+        kFSEventStreamEventFlagItemChangeOwner or
+        kFSEventStreamEventFlagItemInodeMetaMod or
+        kFSEventStreamEventFlagItemFinderInfoMod or
+        kFSEventStreamEventFlagItemXattrMod
+     )) <> 0 then
+    _categories:= _categories + [ecAttributesChanged];
+
+  if (_rawEventFlags and kFSEventStreamEventFlagItemCreated)<>0 then
+    _categories:= _categories + [ecStructChanged, ecCreated];
+  if (_rawEventFlags and kFSEventStreamEventFlagItemRemoved)<>0 then
+    _categories:= _categories + [ecStructChanged, ecRemoved];
+  if (_rawEventFlags and kFSEventStreamEventFlagItemRenamed)<>0 then
+    _categories:= _categories + [ecStructChanged, ecRenamed];
+
+  if (_rawEventFlags and kFSEventStreamEventFlagRootChanged)<>0 then begin
+    _categories:= _categories + [ecRootChanged];
+  end else begin
+    if (_fullPath<>watchPath) and (_fullPath.CountChar(PathDelim)<>_watchPath.CountChar(PathDelim)+1) then
+      _categories:= _categories + [ecChildChanged];
+  end;
+
+  if _categories * [ecAttributesChanged,ecStructChanged,ecRootChanged] = [] then
+    _categories:= [ecDropabled];
+end;
+
+function TDarwinFSWatchEvent.isDropabled(): Boolean;
+begin
+  Result:= _categories = [ecDropabled];
+end;
+
+function TDarwinFSWatchEvent.categoriesToStr(): String;
+begin
+  Result:= EmptyStr;
+
+  if ecAttributesChanged in _categories then
+    Result:= Result + '|Attributes';
+  if ecStructChanged in _categories then
+    Result:= Result + '|Struct';
+  if ecCreated in _categories then
+    Result:= Result + '|Created';
+  if ecRemoved in _categories then
+    Result:= Result + '|Removed';
+  if ecRenamed in _categories then
+    Result:= Result + '|Renamed';
+  if ecRootChanged in _categories then
+    Result:= Result + '|Root';
+  if ecChildChanged in _categories then
+    Result:= Result + '|Child';
+  if ecDropabled in _categories then
+    Result:= Result + '|Dropabled';
+
+  Result:= Result.TrimLeft( '|' );
+end;
+
+function TDarwinFSWatchEvent.rawEventFlagsToStr(): String;
 begin
   Result:= EmptyStr;
 
   if (_rawEventFlags and kFSEventStreamEventFlagItemModified)<>0 then
     Result:= Result + '|Modified';
-
-  if (_rawEventFlags and kFSEventStreamEventFlagItemCreated)<>0 then
-    Result:= Result + '|Created';
-  if (_rawEventFlags and kFSEventStreamEventFlagItemRemoved)<>0 then
-    Result:= Result + '|Removed';
-  if (_rawEventFlags and kFSEventStreamEventFlagItemRenamed)<>0 then
-    Result:= Result + '|Renamed';
-
   if (_rawEventFlags and kFSEventStreamEventFlagItemChangeOwner)<>0 then
     Result:= Result + '|ChangeOwner';
   if (_rawEventFlags and kFSEventStreamEventFlagItemInodeMetaMod)<>0 then
@@ -145,6 +203,16 @@ begin
     Result:= Result + '|FinderInfoMod';
   if (_rawEventFlags and kFSEventStreamEventFlagItemXattrMod)<>0 then
     Result:= Result + '|XattrMod';
+
+  if (_rawEventFlags and kFSEventStreamEventFlagItemCreated)<>0 then
+    Result:= Result + '|Created';
+  if (_rawEventFlags and kFSEventStreamEventFlagItemRemoved)<>0 then
+    Result:= Result + '|Removed';
+  if (_rawEventFlags and kFSEventStreamEventFlagItemRenamed)<>0 then
+    Result:= Result + '|Renamed';
+
+  if (_rawEventFlags and kFSEventStreamEventFlagRootChanged)<>0 then
+    Result:= Result + '|RootChanged';
 
   if (_rawEventFlags and kFSEventStreamEventFlagItemIsFile)<>0 then
     Result:= Result + '|IsFile';
@@ -156,9 +224,6 @@ begin
     Result:= Result + '|IsHardLink';
   if (_rawEventFlags and $00200000)<>0 then
     Result:= Result + '|IsLastHardLink';
-
-  if (_rawEventFlags and kFSEventStreamEventFlagRootChanged)<>0 then
-    Result:= Result + '|RootChanged';
 
   if (_rawEventFlags and kFSEventStreamEventFlagMustScanSubDirs)<>0 then
     Result:= Result + '|ScanSubDirs';
@@ -183,7 +248,7 @@ begin
     Result:= '|*UnkownFlags:' + IntToHex(_rawEventFlags) + '*' + Result;
 
   if Result.IsEmpty then
-    Result:= 'NoneFlag'
+    Result:= '*NoneFlag*'
   else
     Result:= Result.TrimLeft( '|' );
 end;
@@ -319,9 +384,9 @@ procedure TDarwinFSWatcher.closeStream;
 begin
   if Assigned(_stream) then
   begin
+    _lastEventId:= FSEventsGetCurrentEventId();
     FSEventStreamFlushSync( _stream );
     FSEventStreamStop( _stream );
-    _lastEventId:= FSEventStreamGetLatestEventId( _stream );
     FSEventStreamInvalidate( _stream );
     FSEventStreamRelease( _stream );
     _stream:= nil;
