@@ -897,8 +897,10 @@ begin
       FCurrentEventData.EventType := fswUnknownChange
     else if TDarwinFSWatchEventCategory.ecCreated in event.categories then
       FCurrentEventData.EventType := fswFileCreated
-    else if TDarwinFSWatchEventCategory.ecAttributesChanged in event.categories then
-      FCurrentEventData.EventType := fswFileChanged;
+    else if TDarwinFSWatchEventCategory.ecCoreAttribChanged in event.categories then
+      FCurrentEventData.EventType := fswFileChanged
+    else
+      exit;
   end;
 
   {$IFDEF DEBUG_WATCHER}

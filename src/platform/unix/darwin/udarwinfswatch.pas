@@ -44,7 +44,7 @@ uses
   MacOSAll, CocoaAll;
 
 type TDarwinFSWatchEventCategory = (
-  ecAttributesChanged,
+  ecAttribChanged, ecCoreAttribChanged, ecXattrChanged,
   ecStructChanged, ecCreated, ecRemoved, ecRenamed,
   ecRootChanged, ecChildChanged,
   ecDropabled );
@@ -101,7 +101,7 @@ private
   procedure notifyPath;
   procedure interrupt;
 public
-  constructor create( const callback:TDarwinFSWatchCallBack; const watchSubtree:Boolean=false; const latency:Integer=1000 );
+  constructor create( const callback:TDarwinFSWatchCallBack; const watchSubtree:Boolean=false; const latency:Integer=300 );
   destructor destroy; override;
 
   procedure start;
@@ -136,11 +136,15 @@ begin
   if (_rawEventFlags and (
         kFSEventStreamEventFlagItemModified or
         kFSEventStreamEventFlagItemChangeOwner or
-        kFSEventStreamEventFlagItemInodeMetaMod or
+        kFSEventStreamEventFlagItemInodeMetaMod
+     )) <> 0 then
+    _categories:= _categories + [ecAttribChanged, ecCoreAttribChanged];
+
+  if (_rawEventFlags and (
         kFSEventStreamEventFlagItemFinderInfoMod or
         kFSEventStreamEventFlagItemXattrMod
      )) <> 0 then
-    _categories:= _categories + [ecAttributesChanged];
+    _categories:= _categories + [ecAttribChanged, ecXattrChanged];
 
   if (_rawEventFlags and kFSEventStreamEventFlagItemCreated)<>0 then
     _categories:= _categories + [ecStructChanged, ecCreated];
@@ -156,7 +160,7 @@ begin
       _categories:= _categories + [ecChildChanged];
   end;
 
-  if _categories * [ecAttributesChanged,ecStructChanged,ecRootChanged] = [] then
+  if _categories * [ecAttribChanged,ecStructChanged,ecRootChanged] = [] then
     _categories:= [ecDropabled];
 end;
 
@@ -169,8 +173,12 @@ function TDarwinFSWatchEvent.categoriesToStr(): String;
 begin
   Result:= EmptyStr;
 
-  if ecAttributesChanged in _categories then
-    Result:= Result + '|Attributes';
+  if ecAttribChanged in _categories then
+    Result:= Result + '|Attrib';
+  if ecCoreAttribChanged in _categories then
+    Result:= Result + '|CoreAttrib';
+  if ecXattrChanged in _categories then
+    Result:= Result + '|Xattr';
   if ecStructChanged in _categories then
     Result:= Result + '|Struct';
   if ecCreated in _categories then
@@ -368,7 +376,7 @@ begin
     exit;
   end;
 
-  flags:= kFSEventStreamCreateFlagFileEvents or kFSEventStreamCreateFlagWatchRoot or kFSEventStreamCreateFlagNoDefer;
+  flags:= kFSEventStreamCreateFlagFileEvents or kFSEventStreamCreateFlagWatchRoot;
   _stream:= FSEventStreamCreate( nil,
               @cdeclFSEventsCallback,
               @_streamContext,
