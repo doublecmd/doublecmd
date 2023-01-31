@@ -84,7 +84,7 @@ uses
   {$ELSEIF DEFINED(LINUX)}
   , inotify, BaseUnix, FileUtil, DCConvertEncoding, DCUnix
   {$ELSEIF DEFINED(DARWIN)}
-  , uDarwinFSWatch
+  , uGlobs, uDarwinFSWatch
   {$ELSEIF DEFINED(BSD)}
   , BSD, Unix, BaseUnix, UnixType, FileUtil, DCOSUtils
   {$ELSEIF DEFINED(HAIKU)}
@@ -878,6 +878,7 @@ end;
 {$IF DEFINED(DARWIN)}
 procedure TFileSystemWatcherImpl.handleFSEvent(event:TDarwinFSWatchEvent);
 begin
+  if [watch_file_name_change, watch_attributes_change] * gWatchDirs = [] then exit;
   if event.isDropabled then exit;
 
   FCurrentEventData.Path := event.watchPath;
@@ -891,6 +892,13 @@ begin
     // 1. file-level update only valid if there is a FileName,
     //    otherwise keep directory-level update
     // 2. the order of the following judgment conditions must be preserved
+    if (not (watch_file_name_change in gWatchDirs)) and
+       ([ecStructChanged, ecAttribChanged] * event.categories = [ecStructChanged])
+         then exit;
+    if (not (watch_attributes_change in gWatchDirs)) and
+       ([ecStructChanged, ecAttribChanged] * event.categories = [ecAttribChanged])
+         then exit;
+
     if TDarwinFSWatchEventCategory.ecRemoved in event.categories then
       FCurrentEventData.EventType := fswFileDeleted
     else if TDarwinFSWatchEventCategory.ecRenamed in event.categories then
