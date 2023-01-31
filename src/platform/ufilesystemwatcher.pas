@@ -218,6 +218,7 @@ type
     {$ENDIF}
     {$IF DEFINED(DARWIN)}
     FDarwinFSWatcher: TDarwinFSWatcher;
+    FWatchFilter: TFSWatchFilter;
     {$ENDIF}
     {$IF DEFINED(LINUX)}
     FEventPipe: TFilDes;
@@ -878,6 +879,7 @@ end;
 {$IF DEFINED(DARWIN)}
 procedure TFileSystemWatcherImpl.handleFSEvent(event:TDarwinFSWatchEvent);
 begin
+  if FWatchFilter = [] then exit;
   if event.isDropabled then exit;
 
   FCurrentEventData.Path := event.watchPath;
@@ -891,6 +893,13 @@ begin
     // 1. file-level update only valid if there is a FileName,
     //    otherwise keep directory-level update
     // 2. the order of the following judgment conditions must be preserved
+    if (not (wfFileNameChange in FWatchFilter)) and
+       ([ecStructChanged, ecAttribChanged] * event.categories = [ecStructChanged])
+         then exit;
+    if (not (wfAttributesChange in FWatchFilter)) and
+       ([ecStructChanged, ecAttribChanged] * event.categories = [ecAttribChanged])
+         then exit;
+
     if TDarwinFSWatchEventCategory.ecRemoved in event.categories then
       FCurrentEventData.EventType := fswFileDeleted
     else if TDarwinFSWatchEventCategory.ecRenamed in event.categories then
@@ -1172,6 +1181,10 @@ begin
     RegisteredPath := aWatchPath;
     aWatchPath := GetDriveOfPath(aWatchPath);
   end;
+  {$ENDIF}
+
+  {$IFDEF DARWIN}
+  FWatchFilter := aWatchFilter;
   {$ENDIF}
 
   // Check if the path is not already watched.
