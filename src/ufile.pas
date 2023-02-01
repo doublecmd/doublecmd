@@ -797,11 +797,15 @@ end;
 
 function TFile.IsSysFile: Boolean;
 begin
-{$IFDEF MSWINDOWS}
+{$IF DEFINED(MSWINDOWS)}
   if fpAttributes in SupportedProperties then
     Result := TFileAttributesProperty(Properties[fpAttributes]).IsSysFile
   else
     Result := False;
+{$ELSEIF DEFINED(DARWIN)}
+  if (Length(Name) > 1) and (Name[1] = '.') and (Name <> '..') then exit(true);
+  if Name='Icon'#$0D then exit(true);
+  exit(false);
 {$ELSE}
   // Files beginning with '.' are treated as system/hidden files on Unix.
   Result := (Length(Name) > 1) and (Name[1] = '.') and (Name <> '..');
