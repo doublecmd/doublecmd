@@ -406,7 +406,7 @@ begin
     uoscFile: Result := cnvFormatFileSize(iSize, gFileSizeFormat, gFileSizeDigits);
     uoscHeader: Result := cnvFormatFileSize(iSize, gHeaderSizeFormat, gHeaderDigits);
     uoscFooter: Result := cnvFormatFileSize(iSize, gFooterSizeFormat, gFooterDigits);
-    uoscNoUnit: Result := IntToStr(iSize);
+    uoscNoUnit: Result := FloatToStrF(iSize, ffNumber, 0, 0);
   end;
 end;
 

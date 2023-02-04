@@ -1227,7 +1227,7 @@ begin
   if (DoneFiles < 0) or (TotalFiles = 0) then
     lblFileCount.Caption := EmptyStr
   else begin
-    lblFileCount.Caption := IntToStr(DoneFiles) + ' / ' + IntToStr(TotalFiles);
+    lblFileCount.Caption := FloatToStrF(DoneFiles, ffNumber, 0, 0) + ' / ' + FloatToStrF(TotalFiles, ffNumber, 0, 0);
   end;
 end;
 
