@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    WebP reader implementation (via libwebp library)
 
-   Copyright (C) 2017 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2017-2023 Alexander Koblov (alexx2000@mail.ru)
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Lesser General Public
@@ -82,10 +82,8 @@ end;
 
 procedure TDCReaderWebP.InternalRead(Stream: TStream; Img: TFPCustomImage);
 var
-  X, Y: Integer;
   Data: Pointer;
   ImageData: PRGBA;
-  PixelColor: TFPColor;
   AWidth, AHeight: cint;
   Desc: TRawImageDescription;
   MemoryStream: TMemoryStream;
@@ -100,19 +98,8 @@ begin
     // Initialize image description
     Desc.Init_BPP32_R8G8B8A8_BIO_TTB(Img.Width, Img.Height);
     TLazIntfImage(Img).DataDescription:= Desc;
-    // Read image data
-    for Y:= 0 to Img.Height - 1 do
-    for X:= 0 to Img.Width - 1 do
-    with ImageData^ do
-    begin
-      PixelColor.alpha:= Alpha + Alpha shl 8;
-      PixelColor.red:= Red + Red shl 8;
-      PixelColor.green:= Green + Green shl 8;
-      PixelColor.blue:= Blue + Blue shl 8;
-
-      Img.Colors[X, Y]:= PixelColor;
-      Inc(ImageData);
-    end;
+    // Copy image data
+    Move(ImageData^, TLazIntfImage(Img).PixelData^, Img.Width * Img.Height * SizeOf(TRGBA));
     if Assigned(WebPFree) then
       WebPFree(Data)
     else begin
