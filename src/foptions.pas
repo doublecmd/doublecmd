@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Implementing of Options dialog
 
-   Copyright (C) 2006-2018 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2006-2023 Alexander Koblov (alexx2000@mail.ru)
 
    contributors:
 
@@ -356,6 +356,11 @@ begin
     LastOpenedEditor := SelectedEditorView.EditorClass;
 
     pnlCaption.Caption := SelectedEditorView.EditorClass.GetTitle;
+
+    if Assigned(SelectedEditorView.Instance) then
+    begin
+      HelpKeyword:= SelectedEditorView.Instance.HelpKeyword;
+    end;
   end;
 end;
 

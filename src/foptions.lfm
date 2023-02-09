@@ -3,6 +3,7 @@ object frmOptions: TfrmOptions
   Height = 480
   Top = 55
   Width = 640
+  HelpType = htKeyword
   ActiveControl = tvTreeView
   Caption = 'Options'
   ClientHeight = 480

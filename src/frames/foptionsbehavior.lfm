@@ -1,6 +1,7 @@
 inherited frmOptionsBehavior: TfrmOptionsBehavior
   Height = 276
   Width = 666
+  HelpKeyword = '/configuration.html#ConfigBehaviors'
   ChildSizing.LeftRightSpacing = 6
   ChildSizing.TopBottomSpacing = 6
   ClientHeight = 276
@@ -127,4 +128,4 @@ inherited frmOptionsBehavior: TfrmOptionsBehavior
       TabOrder = 1
     end
   end
-end
+end

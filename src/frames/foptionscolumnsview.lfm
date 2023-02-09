@@ -1,6 +1,7 @@
 inherited frmOptionsColumnsView: TfrmOptionsColumnsView
   Height = 344
   Width = 659
+  HelpKeyword = '/configuration.html#ConfigViewFull'
   ClientHeight = 344
   ClientWidth = 659
   DesignTop = 20
