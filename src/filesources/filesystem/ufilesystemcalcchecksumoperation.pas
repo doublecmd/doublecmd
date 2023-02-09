@@ -62,7 +62,7 @@ implementation
 uses
   Math, Forms, LazUTF8, DCConvertEncoding, LConvEncoding,
   uLng, uFileSystemUtil, uFileSystemFileSource, DCOSUtils, DCStrUtils,
-  uFileProcs, uDCUtils, uShowMsg;
+  uFileProcs, uShowMsg;
 
 type
   TChecksumEntry = class

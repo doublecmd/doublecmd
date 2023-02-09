@@ -117,7 +117,7 @@ type
 implementation
 
 uses
-  uFileProcs, StrUtils, DCStrUtils, uLng, uFileSystemUtil, uFileProperty,
+  uFileProcs, StrUtils, DCStrUtils, uDCUtils, uLng, uFileSystemUtil, uFileProperty,
   DCDateTimeUtils, DCBasicTypes, DCFileAttributes;
 
 function WfxRenameFile(aFileSource: IWfxPluginFileSource; const aFile: TFile; const NewFileName: String): Boolean;
@@ -433,9 +433,9 @@ end;
 function FileExistsMessage(TargetFile: TFile; SourceFile: TFile): String;
 begin
   Result:= rsMsgFileExistsOverwrite + LineEnding + TargetFile.FullPath + LineEnding +
-           Format(rsMsgFileExistsFileInfo, [Numb2USA(IntToStr(TargetFile.Size)), DateTimeToStr(TargetFile.ModificationTime)]) + LineEnding;
+           Format(rsMsgFileExistsFileInfo, [IntToStrTS(TargetFile.Size), DateTimeToStr(TargetFile.ModificationTime)]) + LineEnding;
   Result:= Result + LineEnding + rsMsgFileExistsWithFile + LineEnding + SourceFile.FullPath + LineEnding +
-           Format(rsMsgFileExistsFileInfo, [Numb2USA(IntToStr(SourceFile.Size)), DateTimeToStr(SourceFile.ModificationTime)]);
+           Format(rsMsgFileExistsFileInfo, [IntToStrTS(SourceFile.Size), DateTimeToStr(SourceFile.ModificationTime)]);
 end;
 
 function TWfxPluginOperationHelper.FileExists(aFile: TFile;

@@ -27,8 +27,8 @@ interface
 
 uses
   //Lazarus, Free-Pascal, etc.
-  DividerBevel, Classes, SysUtils, StdCtrls, ExtCtrls, ComCtrls, EditBtn,
-  Buttons, Menus, Dialogs,
+  DividerBevel, Classes, SysUtils, StdCtrls, ExtCtrls, ComCtrls, Buttons,
+  Menus, Dialogs,
   //DC
   uMultiArc, fOptionsFrame, Controls;
 type
