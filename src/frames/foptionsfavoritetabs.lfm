@@ -1,6 +1,7 @@
 inherited frmOptionsFavoriteTabs: TfrmOptionsFavoriteTabs
   Height = 604
   Width = 584
+  HelpKeyword = '/configuration.html#ConfigFavoriteTabs'
   AutoSize = True
   ClientHeight = 604
   ClientWidth = 584

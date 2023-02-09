@@ -3,6 +3,7 @@ inherited frmOptionsDirectoryHotlist: TfrmOptionsDirectoryHotlist
   Width = 730
   ClientHeight = 658
   ClientWidth = 730
+  HelpKeyword = '/directoryhotlist.html'
   Constraints.MinHeight = 520
   Constraints.MinWidth = 600
   ParentShowHint = False
