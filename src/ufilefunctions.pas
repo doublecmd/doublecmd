@@ -95,7 +95,7 @@ var
 implementation
 
 uses
-  WdxPlugin, uWdxModule, uGlobs, uLng, uDefaultFilePropertyFormatter,
+  StrUtils, WdxPlugin, uWdxModule, uGlobs, uLng, uDefaultFilePropertyFormatter,
   uFileSourceProperty, uWfxPluginFileSource, uWfxModule, uColumns, DCFileAttributes,
   DCStrUtils, DCBasicTypes, Variants, uDCUtils, uTypes;
 

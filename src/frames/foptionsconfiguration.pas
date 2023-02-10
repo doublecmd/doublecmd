@@ -75,7 +75,7 @@ implementation
 {$R *.lfm}
 
 uses
-  Forms, DCStrUtils, uGlobs, uGlobsPaths, uShowForm, uLng, fOptions,
+  Forms, DCStrUtils, uGlobs, uGlobsPaths, uShowForm, uOSUtils, uLng, fOptions,
   uSysFolders;
 
 { TfrmOptionsConfiguration }

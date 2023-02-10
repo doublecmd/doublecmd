@@ -28,8 +28,8 @@ unit fConfirmCommandLine;
 interface
 
 uses
-  Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, ExtCtrls,
-  Buttons;
+  Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, StdCtrls,
+  ExtCtrls, Buttons;
 
 type
   { TTfrmConfirmCommandLine }

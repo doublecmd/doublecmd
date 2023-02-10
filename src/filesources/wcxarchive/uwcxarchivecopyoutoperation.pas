@@ -213,6 +213,7 @@ var
   Index: Integer;
   ACount: Integer;
   AFileName: String;
+  Header: TWcxHeader;
   ArcFileList: TList;
 begin
   // Is plugin allow multiple Operations?

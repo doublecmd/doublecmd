@@ -46,8 +46,8 @@ type
 implementation
 
 uses
-  FileUtil, LazUTF8, DCOSUtils, uDCUtils, uFileSourceOperationUI,
-  uWCXmodule, uLng, DCConvertEncoding;
+  FileUtil, LazUTF8, DCOSUtils, DCStrUtils, uDCUtils, uShowMsg,
+  uFileSourceOperationUI, uWCXmodule, uLng, DCConvertEncoding;
 
 // ----------------------------------------------------------------------------
 // WCX callbacks

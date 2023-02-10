@@ -31,7 +31,7 @@ interface
 
 uses
   Classes, SysUtils, dynlibs, uDetectStr, uWlxPrototypes, WlxPlugin,
-  uDCUtils, LCLProc, LCLType, DCXmlConfig
+  DCClassesUtf8, uDCUtils, LCLProc, LCLType, DCXmlConfig
   {$IFDEF MSWINDOWS}
   , Windows, LCLIntf, Controls
   {$ENDIF}

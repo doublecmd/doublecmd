@@ -27,7 +27,7 @@ unit fOptionsFileSearch;
 interface
 
 uses
-  Classes, SysUtils, StdCtrls, ExtCtrls, KASComboBox, DividerBevel,
+  Classes, SysUtils, StdCtrls, Spin, ExtCtrls, KASComboBox, DividerBevel,
   fOptionsFrame;
 
 type

@@ -599,7 +599,7 @@ uses
   uShellExecute, fMaskInputDlg, uMasks, DCOSUtils, uOSUtils, DCStrUtils,
   uDCUtils, uDebug, uLng, uShowMsg, uFileSystemFileSource, uFileSourceUtil,
   uFileViewNotebook, uSearchTemplate, uKeyboard, uFileFunctions,
-  fMain, uSearchResultFileSource, uFileSourceProperty, uVfsModule;
+  fMain, uSearchResultFileSource, uFileSourceProperty, uVfsModule, uFileViewWithPanels;
 
 const
   MinimumReloadInterval  = 1000; // 1 second

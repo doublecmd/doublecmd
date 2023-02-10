@@ -284,7 +284,8 @@ uses
   {$ENDIF}
   uVariableMenuSupport, uComponentsSignature, fEditSearch, fMainCommandsDlg,
   uFileProcs, uDebug, DCOSUtils, uShowMsg, DCStrUtils, uLng, uOSForms, uDCUtils,
-  uPixMapManager, uKASToolItemsExtended, fMain, uSpecialDir, dmHelpManager;
+  uPixMapManager, uKASToolItemsExtended, fMain, uSpecialDir, dmHelpManager,
+  uGlobsPaths;
 
 const
   cHotKeyCommand = 'cm_ExecuteToolbarItem';

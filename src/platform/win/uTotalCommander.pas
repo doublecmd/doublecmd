@@ -37,7 +37,7 @@ uses
   Windows, Classes,
 
   //DC
-  DCXmlConfig, KASToolItems, KASToolBar;
+  DCXmlConfig, uFormCommands, KASToolItems, KASToolBar;
 
 const
   TCCONFIG_MAINBAR_NOTPRESENT = ':-<#/?*+*?\#>-:';

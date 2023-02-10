@@ -87,7 +87,7 @@ type
 implementation
 
 uses
-  uLng;
+  uGlobs, uLng;
 
 { TFileTreeNodeData }
 

@@ -30,7 +30,7 @@ unit uDsxModule;
 interface
 
 uses
-  Classes, SysUtils, dynlibs, LCLProc, DsxPlugin, uDCUtils,
+  Classes, SysUtils, dynlibs, LCLProc, DsxPlugin, DCClassesUtf8, uDCUtils,
   DCXmlConfig;
 
 type

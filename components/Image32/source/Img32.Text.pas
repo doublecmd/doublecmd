@@ -1811,12 +1811,12 @@ var
 const
   ARG_1_AND_2_ARE_WORDS     = $1;
   ARGS_ARE_XY_VALUES        = $2;
-  //ROUND_XY_TO_GRID          = $4;
+  ROUND_XY_TO_GRID          = $4;
   WE_HAVE_A_SCALE           = $8;
   MORE_COMPONENTS           = $20;
   WE_HAVE_AN_X_AND_Y_SCALE  = $40;
   WE_HAVE_A_TWO_BY_TWO      = $80;
-  //WE_HAVE_INSTRUCTIONS      = $100;
+  WE_HAVE_INSTRUCTIONS      = $100;
   USE_MY_METRICS            = $200;
 begin
   result := nil;

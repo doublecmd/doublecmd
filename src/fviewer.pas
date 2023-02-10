@@ -57,8 +57,8 @@ interface
 
 uses
   SysUtils, Classes, Graphics, Controls, Forms, ExtCtrls, ComCtrls, LMessages,
-  LCLProc, Menus, Dialogs, ExtDlgs, StdCtrls, Buttons, Grids, ActnList,
-  viewercontrol, GifAnim, fFindView, WLXPlugin, uWLXModule,
+  LCLProc, Menus, Dialogs, ExtDlgs, StdCtrls, Buttons, ColorBox, Spin,
+  Grids, ActnList, viewercontrol, GifAnim, fFindView, WLXPlugin, uWLXModule,
   uFileSource, fModView, Types, uThumbnails, uFormCommands, uOSForms,Clipbrd,
   uExifReader, KASStatusBar, uShowForm, uRegExpr, uRegExprU;
 
