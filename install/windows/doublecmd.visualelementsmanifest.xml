@@ -1,0 +1,8 @@
+<Application xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'>
+  <VisualElements
+    ShowNameOnSquare150x150Logo='on'
+    Square150x150Logo='pixmaps\mainicon\visualelements\doublecmd-150x150.png'
+    Square70x70Logo='pixmaps\mainicon\visualelements\doublecmd-70x70.png'
+    ForegroundText='light'
+    BackgroundColor='#3A75C4'/>
+</Application>
