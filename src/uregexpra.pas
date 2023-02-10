@@ -109,11 +109,11 @@ interface
 
 uses
   Classes, // TStrings in Split method
-  SysUtils, // Exception
+  SysUtils // Exception
   {$IFDEF D2009}
-    {$IFDEF D_XE}System.{$ENDIF}Character,
+    ,{$IFDEF D_XE}System.{$ENDIF}Character
   {$ENDIF}
-  Math;
+  ;
 
 {$IFNDEF UniCode}
 type
@@ -808,7 +808,7 @@ implementation
 
 {$IFDEF FastUnicodeData}
 uses
-  unicodedata;
+  Math, unicodedata;
 {$ENDIF}
 
 {$IFNDEF UNICODE}
@@ -4351,7 +4351,7 @@ var
   TheMax: PtrInt; // PtrInt, gets diff of 2 pointers
   InvChar: REChar;
   CurStart, CurEnd: PRegExprChar;
-  ArrayIndex, i: integer;
+  ArrayIndex: integer;
 begin
   Result := 0;
   scan := regInput; // points into InputString
@@ -6039,7 +6039,7 @@ var
   opnd: PRegExprChar;
   Oper: TREOp;
   ch: REChar;
-  min_cnt, i: integer;
+  min_cnt: integer;
   TempSet: TRegExprCharset;
 begin
   TempSet := [];

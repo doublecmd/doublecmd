@@ -114,7 +114,7 @@ implementation
 
 uses
   LCLIntf, LCLType, LCLProc, LazUTF8, Math, LMessages,
-  DCStrUtils, uGlobs, uPixmapManager, uKeyboard,
+  DCStrUtils, uGlobs, uKeyboard,
   uDCUtils, fMain,
   uFileFunctions;
 
