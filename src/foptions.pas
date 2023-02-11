@@ -107,10 +107,11 @@ implementation
 
 uses
   LCLProc, LCLVersion, LazUTF8, LResources, Menus, Translations, Graphics,
-  DCStrUtils, uTranslator, uLng, fMain;
+  DCStrUtils, uTranslator, uLng, uGlobsPaths, fMain;
 
 var
   LastOpenedEditor: TOptionsEditorClass = nil;
+  OptionsSearchFile: TPOFile = nil;
   OptionsSearchCache: TList = nil;
   frmOptions: TfrmOptions = nil;
 
@@ -144,8 +145,17 @@ var
 
 begin
   OptionsSearchCache:= TList.Create;
-  POFile:= (LRSTranslator as TTranslator).POFile;
-  FillCache(OptionsEditorClassList);
+  try
+    if Assigned(LRSTranslator) then
+      POFile:= (LRSTranslator as TTranslator).POFile
+    else begin
+      POFile:= TPOFile.Create(gpLngDir + gPOFileName, True);
+      OptionsSearchFile:= POFile;
+    end;
+    FillCache(OptionsEditorClassList);
+  except
+    // Skip
+  end;
 end;
 
 { GetOptionsForm }
@@ -199,6 +209,7 @@ procedure TfrmOptions.FormCreate(Sender: TObject);
 begin
   // Initialize property storage
   InitPropStorage(Self);
+  TreeFilterEdit.Visible:= (OptionsSearchCache.Count > 0);
 end;
 
 procedure TfrmOptions.FormClose(Sender: TObject; var CloseAction: TCloseAction);
@@ -557,5 +568,6 @@ end;
 
 finalization
   FreeAndNil(OptionsSearchCache);
+  FreeAndNil(OptionsSearchFile);
 
 end.
