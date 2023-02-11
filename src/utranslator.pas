@@ -41,6 +41,7 @@ type
   destructor Destroy; override;
   procedure TranslateStringProperty(Sender: TObject; const Instance: TPersistent;
     PropInfo: PPropInfo; var Content: String); override;
+  property POFile: TPOFile read FPOFile;
  end;
   
 implementation
