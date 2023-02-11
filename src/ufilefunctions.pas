@@ -238,7 +238,15 @@ begin
           end
           else if fpSize in AFile.SupportedProperties then
           begin
-            if Length(AParam) = 0 then
+            if AFile.IsDirectory and (AFile.Size < 0) then
+            begin
+              case AFile.Size of
+                FOLDER_SIZE_ZERO: Result := '0';
+                FOLDER_SIZE_WAIT: Result := '??';
+                FOLDER_SIZE_CALC: Result := '--';
+              end;
+            end
+            else if Length(AParam) = 0 then
               Result := AFile.Properties[fpSize].Format(DefaultFilePropertyFormatter)
             else
               for AIndex:= 0 to High(FILE_SIZE) do

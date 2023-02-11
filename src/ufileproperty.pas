@@ -7,6 +7,12 @@ interface
 uses
   Classes, SysUtils, DCBasicTypes;
 
+const
+  FOLDER_SIZE_UNKN =  0;
+  FOLDER_SIZE_ZERO = -1;
+  FOLDER_SIZE_WAIT = -2;
+  FOLDER_SIZE_CALC = -3;
+
 type
 
   TFilePropertyType = (
