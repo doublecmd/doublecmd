@@ -396,8 +396,8 @@ var
 begin
   Value.FileName:= FGetFileName(FileName);
   Value.FileExt:= FGetFileName(FileExt);
-  Value.PackSize:= StrToInt64Def(PackSize, 0);
-  Value.UnpSize:= StrToInt64Def(Size, 0);
+  Value.PackSize:= StrToInt64Def(PackSize, -1);
+  Value.UnpSize:= StrToInt64Def(Size, -1);
   Value.Year:= YearShortToLong(StrToIntDef(Year, 0));
   Value.Month:= StrToIntDef(Month, 1);
   Value.Day:= StrToIntDef(Day, 1);

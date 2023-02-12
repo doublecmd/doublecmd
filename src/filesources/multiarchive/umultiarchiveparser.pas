@@ -249,16 +249,20 @@ procedure TMultiArchiveStaticParser.AddLine(const Str: String);
 begin
   // if next item
   if FFormatIndex = 0 then
+  begin
     FArchiveItem := TArchiveItem.Create;
+    FArchiveItem.PackSize := -1;
+    FArchiveItem.UnpSize := -1;
+  end;
   // get all file properties
   if FExtPos.Index = FFormatIndex then
     FArchiveItem.FileExt := FGetFileName(Trim(GetKeyValue(str, FExtPos)));
   if FNamePos.Index = FFormatIndex then
     FArchiveItem.FileName := FGetFileName(Trim(GetKeyValue(str, FNamePos)));
   if FUnpSizePos.Index = FFormatIndex then
-    FArchiveItem.UnpSize := StrToInt64Def(Trim(GetKeyValue(str, FUnpSizePos)), 0);
+    FArchiveItem.UnpSize := StrToInt64Def(Trim(GetKeyValue(str, FUnpSizePos)), -1);
   if FPackSizePos.Index = FFormatIndex then
-    FArchiveItem.PackSize := StrToInt64Def(Trim(GetKeyValue(str, FPackSizePos)), 0);
+    FArchiveItem.PackSize := StrToInt64Def(Trim(GetKeyValue(str, FPackSizePos)), -1);
   if FYearPos.Index = FFormatIndex then
     FArchiveItem.Year := YearShortToLong(StrToIntDef(Trim(GetKeyValue(str, FYearPos)), 0));
   if FMonthPos.Index = FFormatIndex then
