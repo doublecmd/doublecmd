@@ -38,7 +38,6 @@ if "%1"=="" ( call :release
   echo Available modes: components, plugins, doublecmd, release, debug
 )))))))
 
-pause
 GOTO:EOF
 
 :components
