@@ -132,7 +132,7 @@ uses
   uTempFileSystemFileSource, uLng, fDiffer, uDebug, DCOSUtils, uShowMsg,
   DCStrUtils, uFileSourceProperty, uWfxPluginCopyOutOperation,
   uFileSourceOperationOptions, uOperationsManager, uFileSourceOperationTypes,
-  uMultiArchiveFileSource, fFileExecuteYourSelf, uFileProcs;
+  uMultiArchiveFileSource, fFileExecuteYourSelf, uFileProcs, uFileSystemFileSource;
 
 type
 

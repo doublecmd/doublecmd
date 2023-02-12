@@ -240,7 +240,7 @@ implementation
 uses
   Clipbrd, dmCommonData, dmHigh, SynEditTypes, LCLType, LConvEncoding,
   uLng, uShowMsg, uGlobs, fOptions, DCClassesUtf8, uAdministrator,
-  uOSUtils, uConvEncoding, fOptionsToolsEditor, uDCUtils, uFindFiles;
+  uOSUtils, uConvEncoding, fOptionsToolsEditor, uDCUtils, uClipboard, uFindFiles;
 
 procedure ShowEditor(const sFileName: String; WaitData: TWaitData = nil);
 var

@@ -51,7 +51,7 @@ procedure InitializeVersionInfo;
 implementation
 
 uses
-  InterfaceBase, FileInfo
+  InterfaceBase, FileInfo, VersionConsts
   {$IF DEFINED(UNIX)}
   , BaseUnix, DCOSUtils, uDCUtils, DCClassesUtf8
     {$IFDEF DARWIN}

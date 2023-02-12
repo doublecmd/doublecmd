@@ -72,7 +72,7 @@ uses
   {$ELSEIF DEFINED(UNIX)}
   ipc, baseunix, uPipeServer,
   {$ENDIF}
-  Forms, FileUtil, uRegExprA, uGlobs, uDebug;
+  Forms, StrUtils, FileUtil, uRegExprA, uGlobs, uDebug;
 
 {$IF DEFINED(DARWIN)}
 const

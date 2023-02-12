@@ -379,7 +379,7 @@ type
     function Clone({%H-}NewParent: TWinControl): TFileView; virtual;
     procedure CloneTo(AFileView: TFileView); virtual;
 
-    procedure AddHistory(aFileSource: IFileSource; aPath: String);
+    function AddHistory(aFileSource: IFileSource; aPath: String): Boolean;
     function AddFileSource(aFileSource: IFileSource; aPath: String): Boolean; virtual;
     function RemoveCurrentFileSource: Boolean; virtual;
     procedure RemoveAllFileSources; virtual;
@@ -599,7 +599,7 @@ uses
   uShellExecute, fMaskInputDlg, uMasks, DCOSUtils, uOSUtils, DCStrUtils,
   uDCUtils, uDebug, uLng, uShowMsg, uFileSystemFileSource, uFileSourceUtil,
   uFileViewNotebook, uSearchTemplate, uKeyboard, uFileFunctions,
-  fMain, uSearchResultFileSource, uFileSourceProperty, uVfsModule;
+  fMain, uSearchResultFileSource, uFileSourceProperty, uVfsModule, uFileViewWithPanels;
 
 const
   MinimumReloadInterval  = 1000; // 1 second
@@ -787,7 +787,7 @@ begin
   end;
 end;
 
-procedure TFileView.AddHistory(aFileSource: IFileSource; aPath: String);
+function TFileView.AddHistory(aFileSource: IFileSource; aPath: String): Boolean;
 begin
   if FileSource.Equals(aFileSource) then
     FHistory.AddPath(aPath)

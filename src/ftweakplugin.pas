@@ -111,7 +111,7 @@ uses
 
   //DC
   fOptionsPluginsDSX, fOptionsPluginsWCX, fOptionsPluginsWDX,
-  fOptionsPluginsWFX, fOptionsPluginsWLX, WcxPlugin, uLng,
+  fOptionsPluginsWFX, fOptionsPluginsWLX, WcxPlugin, uDCUtils, uLng,
   uSpecialDir;
 
 function ShowTweakPluginDlg(PluginType: TPluginType; PluginIndex: Integer): Boolean;

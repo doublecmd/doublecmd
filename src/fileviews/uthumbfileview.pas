@@ -98,7 +98,7 @@ type
 implementation
 
 uses
-  LCLIntf, LCLType, LMessages, Graphics, StdCtrls, uFileSourceProperty,
+  LCLIntf, LCLType, LMessages, Graphics, Math, StdCtrls, uFileSourceProperty,
   uGlobs, uPixMapManager;
 
 { TFileThumbnailsRetriever }

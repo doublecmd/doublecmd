@@ -27,7 +27,7 @@ unit uSearchTemplate;
 interface
 
 uses
-  Classes, SysUtils, uFile, DCXmlConfig, uFindFiles;
+  Classes, SysUtils, DCClassesUtf8, uFile, DCXmlConfig, uFindFiles;
 
 type
 
@@ -72,7 +72,7 @@ function IsMaskSearchTemplate(const sMask: String): Boolean; inline;
 implementation
 
 uses
- Variants, DCFileAttributes, WdxPlugin, uWdxModule;
+ Variants, DCFileAttributes, DCBasicTypes, WdxPlugin, uWdxModule;
 
 function IsMaskSearchTemplate(const sMask: String): Boolean; inline;
 begin

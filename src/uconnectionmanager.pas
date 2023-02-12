@@ -5,7 +5,7 @@ unit uConnectionManager;
 interface
 
 uses
-  Classes, SysUtils, uFileSource, uDrive;
+  Classes, SysUtils, uFileSource, uDrive, uDrivesList;
 
 type
   TFileSourceRecord = record
@@ -30,8 +30,8 @@ var
 implementation
 
 uses
-  Forms, Menus, StrUtils, DCStrUtils, fMain, uWfxPluginFileSource,
-  uGlobs, uFileView;
+  Forms, Menus, StrUtils, DCStrUtils, fMain, uWfxPluginFileSource, uLog,
+  uGlobs, uFileSourceUtil, uFileView;
 
 var
   ContextMenu: TPopupMenu = nil;
