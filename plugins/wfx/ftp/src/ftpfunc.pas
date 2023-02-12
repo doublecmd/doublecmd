@@ -623,6 +623,8 @@ begin
   end;
   if Result then
   begin
+    FindData.nFileSizeLow := $FFFFFFFE;
+    FindData.nFileSizeHigh := $FFFFFFFF;
     FindData.ftLastWriteTime.dwLowDateTime := $FFFFFFFE;
     FindData.ftLastWriteTime.dwHighDateTime := $FFFFFFFF;
   end;
