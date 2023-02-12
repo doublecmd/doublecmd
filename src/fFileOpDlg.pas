@@ -780,8 +780,8 @@ begin
   else begin
     if Operation.State = fsosRunning then ProgressBar.Style := pbstNormal;
     ProgressBar.SetProgress(CurrentFiles, TotalFiles,
-                            cnvFormatFileSize(CurrentFiles, uoscNoUnit) + '/' +
-                            cnvFormatFileSize(TotalFiles, uoscNoUnit)
+                            IntToStrTS(CurrentFiles) + '/' +
+                            IntToStrTS(TotalFiles)
                             );
   end;
 end;
@@ -1078,7 +1078,7 @@ begin
     SetLabelCaption(lblFileNameFrom, CurrentFile);
 
     SetProgressFiles(Operation, pbTotal, DoneFiles, TotalFiles);
-    SetSpeedAndTime(Operation, RemainingTime, cnvFormatFileSize(FilesPerSecond, uoscNoUnit));
+    SetSpeedAndTime(Operation, RemainingTime, IntToStrTS(FilesPerSecond));
   end;
 end;
 
@@ -1149,7 +1149,7 @@ begin
   with CalcStatisticsOperationStatistics do
   begin
     SetLabelCaption(lblFileNameFrom, CurrentFile);
-    SetSpeedAndTime(Operation, 0, cnvFormatFileSize(FilesPerSecond, uoscNoUnit));
+    SetSpeedAndTime(Operation, 0, IntToStrTS(FilesPerSecond));
   end;
 end;
 
@@ -1203,7 +1203,7 @@ begin
     SetLabelCaption(lblFileNameFrom, CurrentFile);
 
     SetProgressFiles(Operation, pbTotal, DoneFiles, TotalFiles);
-    SetSpeedAndTime(Operation, RemainingTime, cnvFormatFileSize(FilesPerSecond, uoscNoUnit));
+    SetSpeedAndTime(Operation, RemainingTime, IntToStrTS(FilesPerSecond));
   end;
 end;
 
@@ -1227,7 +1227,7 @@ begin
   if (DoneFiles < 0) or (TotalFiles = 0) then
     lblFileCount.Caption := EmptyStr
   else begin
-    lblFileCount.Caption := IntToStr(DoneFiles) + ' / ' + IntToStr(TotalFiles);
+    lblFileCount.Caption := IntToStrTS(DoneFiles) + ' / ' + IntToStrTS(TotalFiles);
   end;
 end;
 
