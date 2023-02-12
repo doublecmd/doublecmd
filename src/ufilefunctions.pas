@@ -246,17 +246,21 @@ begin
                 FOLDER_SIZE_CALC: Result := '--';
               end;
             end
-            else if Length(AParam) = 0 then
-              Result := AFile.Properties[fpSize].Format(DefaultFilePropertyFormatter)
-            else
-              for AIndex:= 0 to High(FILE_SIZE) do
-              begin
-                if AParam = FILE_SIZE[AIndex] then
+            else if AFile.SizeProperty.IsValid then
+            begin
+              if Length(AParam) = 0 then
+                Result := AFile.Properties[fpSize].Format(DefaultFilePropertyFormatter)
+              else begin
+                for AIndex:= 0 to High(FILE_SIZE) do
                 begin
-                  Result := cnvFormatFileSize(AFile.Size, TFileSizeFormat(AIndex), gFileSizeDigits);
-                  Break;
+                  if AParam = FILE_SIZE[AIndex] then
+                  begin
+                    Result := cnvFormatFileSize(AFile.Size, TFileSizeFormat(AIndex), gFileSizeDigits);
+                    Break;
+                  end;
                 end;
               end;
+            end;
           end;
         end;
 

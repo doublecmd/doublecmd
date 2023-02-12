@@ -378,8 +378,8 @@ begin
       with RemoteInfo do
       begin
         iTemp.Value := aFile.Size;
-        SizeLow := iTemp.Low;
-        SizeHigh := iTemp.High;
+        SizeLow := LongInt(iTemp.Low);
+        SizeHigh := LongInt(iTemp.High);
         LastWriteTime := DateTimeToWfxFileTime(aFile.ModificationTime);
         Attr := LongInt(aFile.Attributes);
       end;
