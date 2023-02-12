@@ -208,6 +208,7 @@ type
 
   TCalculateSpaceWorker = class(TFileViewWorker)
   private
+    FWorkingIndex: Integer;
     FWorkingFile: TDisplayFile;
     FWorkingUserData: Pointer;
     FFileList: TFVWorkerFileList;
@@ -222,6 +223,8 @@ type
        It is called from GUI thread.
     }
     procedure DoUpdateFile;
+
+    procedure DoUpdateFolders;
 
   protected
     procedure Execute; override;
@@ -1005,63 +1008,74 @@ var
   CalcStatisticsOperationStatistics: TFileSourceCalcStatisticsOperationStatistics;
   TargetFiles: TFiles = nil;
   AFile: TFile;
-  i: Integer;
 begin
   if fsoCalcStatistics in FFileSource.GetOperationsTypes then
   begin
-    for i := 0 to FFileList.Count - 1 do
-    begin
-      if Aborted then
-        Exit;
-
-      FWorkingFile := FFileList.Files[i];
-      FWorkingUserData := FFileList.Data[i];
-
-      AFile := FWorkingFile.FSFile;
-      if (fpSize in AFile.SupportedProperties) and AFile.IsDirectory then
+    FWorkingIndex:= 0;
+    TThread.Synchronize(Thread, @DoUpdateFolders);
+    try
+      while FWorkingIndex < FFileList.Count do
       begin
-        TargetFiles := TFiles.Create(AFile.Path);
-        try
-          TargetFiles.Add(AFile.Clone);
+        if Aborted then Break;
 
-          FOperationLock.Acquire;
+        FWorkingFile := FFileList.Files[FWorkingIndex];
+        FWorkingUserData := FFileList.Data[FWorkingIndex];
+
+        AFile := FWorkingFile.FSFile;
+        if (fpSize in AFile.SupportedProperties) and (AFile.IsDirectory and not AFile.IsLinkToDirectory) then
+        begin
+          TargetFiles := TFiles.Create(AFile.Path);
           try
-            FOperation := FFileSource.CreateCalcStatisticsOperation(TargetFiles);
-          finally
-            FOperationLock.Release;
-          end;
+            TargetFiles.Add(AFile.Clone);
 
-          CalcStatisticsOperation := FOperation as TFileSourceCalcStatisticsOperation;
-          CalcStatisticsOperation.SkipErrors := True;
-          CalcStatisticsOperation.SymLinkOption := fsooslDontFollow;
-
-          if fspListOnMainThread in FFileSource.Properties then
-            TThread.Synchronize(Thread, @FOperation.Execute)
-          else begin
-            FOperation.Execute; // blocks until finished
-          end;
-
-          if FOperation.Result = fsorFinished then
-          begin
-            CalcStatisticsOperationStatistics := CalcStatisticsOperation.RetrieveStatistics;
-            AFile.Size := CalcStatisticsOperationStatistics.Size;
-            Inc(FCompletedCalculations);
-
-            if Aborted then
-              Exit;
-
+            AFile.Size:= FOLDER_SIZE_CALC;
             TThread.Synchronize(Thread, @DoUpdateFile);
-          end;
 
-        finally
-          FreeAndNil(TargetFiles);
-          FOperationLock.Acquire;
-          try
-            FreeAndNil(FOperation);
+            FOperationLock.Acquire;
+            try
+              FOperation := FFileSource.CreateCalcStatisticsOperation(TargetFiles);
+            finally
+              FOperationLock.Release;
+            end;
+
+            CalcStatisticsOperation := FOperation as TFileSourceCalcStatisticsOperation;
+            CalcStatisticsOperation.SkipErrors := True;
+            CalcStatisticsOperation.SymLinkOption := fsooslDontFollow;
+
+            if fspListOnMainThread in FFileSource.Properties then
+              TThread.Synchronize(Thread, @FOperation.Execute)
+            else begin
+              FOperation.Execute; // blocks until finished
+            end;
+
+            if Aborted then Break;
+
+            if FOperation.Result = fsorFinished then
+            begin
+              CalcStatisticsOperationStatistics := CalcStatisticsOperation.RetrieveStatistics;
+              AFile.Size := CalcStatisticsOperationStatistics.Size;
+              if AFile.Size = 0 then AFile.Size:= FOLDER_SIZE_ZERO;
+              Inc(FCompletedCalculations);
+
+              TThread.Synchronize(Thread, @DoUpdateFile);
+            end;
+
           finally
-            FOperationLock.Release;
+            FreeAndNil(TargetFiles);
+            FOperationLock.Acquire;
+            try
+              FreeAndNil(FOperation);
+            finally
+              FOperationLock.Release;
+            end;
           end;
         end;
+        Inc(FWorkingIndex);
+      end;
+    finally
+      if Aborted then
+      begin
+        TThread.Synchronize(Thread, @DoUpdateFolders);
       end;
     end;
   end;
@@ -1069,8 +1083,38 @@ end;
 
 procedure TCalculateSpaceWorker.DoUpdateFile;
 begin
-  if not Aborted and Assigned(FUpdateFileMethod) then
+  if Assigned(FUpdateFileMethod) then
     FUpdateFileMethod(FWorkingFile, FWorkingUserData);
+end;
+
+procedure TCalculateSpaceWorker.DoUpdateFolders;
+var
+  ASize: Int64;
+  Index: Integer;
+begin
+  if Assigned(FUpdateFileMethod) then
+  begin
+    if Aborted then
+      ASize:= FOLDER_SIZE_UNKN
+    else begin
+      ASize:= FOLDER_SIZE_WAIT;
+    end;
+    Index:= FWorkingIndex;
+
+    while Index < FFileList.Count do
+    begin
+      FWorkingFile:= FFileList.Files[Index];
+      FWorkingUserData := FFileList.Data[Index];
+
+      if FWorkingFile.FSFile.IsDirectory and not FWorkingFile.FSFile.IsLinkToDirectory then
+      begin
+        FWorkingFile.FSFile.Size:= ASize;
+        FUpdateFileMethod(FWorkingFile, FWorkingUserData);
+      end;
+
+      Inc(Index);
+    end;
+  end;
 end;
 
 end.

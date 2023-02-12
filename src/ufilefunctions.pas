@@ -238,17 +238,29 @@ begin
           end
           else if fpSize in AFile.SupportedProperties then
           begin
-            if Length(AParam) = 0 then
-              Result := AFile.Properties[fpSize].Format(DefaultFilePropertyFormatter)
-            else
-              for AIndex:= 0 to High(FILE_SIZE) do
-              begin
-                if AParam = FILE_SIZE[AIndex] then
+            if AFile.IsDirectory and (AFile.Size < 0) then
+            begin
+              case AFile.Size of
+                FOLDER_SIZE_ZERO: Result := '0';
+                FOLDER_SIZE_WAIT: Result := '??';
+                FOLDER_SIZE_CALC: Result := '--';
+              end;
+            end
+            else if AFile.SizeProperty.IsValid then
+            begin
+              if Length(AParam) = 0 then
+                Result := AFile.Properties[fpSize].Format(DefaultFilePropertyFormatter)
+              else begin
+                for AIndex:= 0 to High(FILE_SIZE) do
                 begin
-                  Result := cnvFormatFileSize(AFile.Size, TFileSizeFormat(AIndex), gFileSizeDigits);
-                  Break;
+                  if AParam = FILE_SIZE[AIndex] then
+                  begin
+                    Result := cnvFormatFileSize(AFile.Size, TFileSizeFormat(AIndex), gFileSizeDigits);
+                    Break;
+                  end;
                 end;
               end;
+            end;
           end;
         end;
 

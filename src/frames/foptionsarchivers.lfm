@@ -1,6 +1,7 @@
 inherited frmOptionsArchivers: TfrmOptionsArchivers
   Height = 642
   Width = 923
+  HelpKeyword = '/multiarc.html'
   ClientHeight = 642
   ClientWidth = 923
   ParentShowHint = False
@@ -195,8 +196,6 @@ inherited frmOptionsArchivers: TfrmOptionsArchivers
       Height = 604
       Top = 38
       Width = 793
-      HelpType = htKeyword
-      HelpKeyword = '/multiarc.html'
       ActivePage = tbArchiverGeneral
       Align = alClient
       TabIndex = 0

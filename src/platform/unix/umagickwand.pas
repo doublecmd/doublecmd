@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    ImageMagick thumbnail provider
 
-   Copyright (C) 2013-2017 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2013-2023 Alexander Koblov (alexx2000@mail.ru)
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Lesser General Public
@@ -40,12 +40,12 @@ const
 const
   libMagickWand: array[0..5] of String =
   (
-      'libMagickWand-6.Q16.so.1',
-      'libMagickWand-6.Q16.so.2',
-      'libMagickWand-6.Q16.so.3',
-      'libMagickWand-6.Q16HDRI.so.3',
-      'libMagickWand.so.5',
-      'libMagickWand.so.4'
+      'libMagickWand-7.Q16.so.10',
+      'libMagickWand-7.Q16HDRI.so.10',
+      'libMagickWand-6.Q16.so.7',
+      'libMagickWand-6.Q16HDRI.so.7',
+      'libMagickWand-6.Q16.so.6',
+      'libMagickWand-6.Q16HDRI.so.6'
   );
 
 type
@@ -121,7 +121,6 @@ begin
   if MaskList.Matches(aFileName) then
   begin
     // DCDebug('GetThumbnail start: ' + IntToStr(GetTickCount));
-    MagickWandGenesis;
 
     Wand:= NewMagickWand;
 
@@ -170,7 +169,7 @@ begin
 
     finally
       Wand:= DestroyMagickWand(Wand);
-      MagickWandTerminus;
+
       // DCDebug('GetThumbnail finish: ' + IntToStr(GetTickCount));
     end;
   end;
@@ -206,6 +205,8 @@ begin
     @MagickSetImageFormat:= SafeGetProcAddress(MagickWand, 'MagickSetImageFormat');
     @MagickGetImageBlob:= SafeGetProcAddress(MagickWand, 'MagickGetImageBlob');
 
+    MagickWandGenesis;
+
     // Register thumbnail provider
     TThumbnailManager.RegisterProvider(@GetThumbnail);
     MaskList:= TMaskList.Create('*.xcf');
@@ -218,6 +219,7 @@ end;
 procedure Finalize;
 begin
   MaskList.Free;
+  MagickWandTerminus;
   if (MagickWand <> NilHandle) then FreeLibrary(MagickWand);
 end;
 

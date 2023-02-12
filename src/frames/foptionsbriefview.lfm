@@ -1,6 +1,7 @@
 inherited frmOptionsBriefView: TfrmOptionsBriefView
   Height = 289
   Width = 519
+  HelpKeyword = '/configuration.html#ConfigViewBrief'
   ChildSizing.LeftRightSpacing = 6
   ChildSizing.TopBottomSpacing = 6
   ClientHeight = 289

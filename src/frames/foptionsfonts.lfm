@@ -2,6 +2,7 @@ inherited frmOptionsFonts: TfrmOptionsFonts
   Height = 372
   Hint = 'Fonts'
   Width = 601
+  HelpKeyword = '/configuration.html#ConfigFonts'
   ChildSizing.LeftRightSpacing = 6
   ChildSizing.TopBottomSpacing = 6
   ChildSizing.HorizontalSpacing = 3

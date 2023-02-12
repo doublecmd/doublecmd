@@ -3,6 +3,7 @@ object OptionsEditor: TOptionsEditor
   Height = 240
   Top = 0
   Width = 320
+  HelpType = htKeyword
   LCLVersion = '1.4.4.0'
   TabOrder = 0
   DesignLeft = 181

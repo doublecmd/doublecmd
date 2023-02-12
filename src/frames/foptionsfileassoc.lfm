@@ -1,6 +1,7 @@
 inherited frmOptionsFileAssoc: TfrmOptionsFileAssoc
   Height = 585
   Width = 568
+  HelpKeyword = '/configuration.html#ConfigAssociations'
   ClientHeight = 585
   ClientWidth = 568
   Constraints.MinHeight = 300

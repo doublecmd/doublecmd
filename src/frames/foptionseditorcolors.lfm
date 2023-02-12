@@ -1,6 +1,7 @@
 inherited frmOptionsEditorColors: TfrmOptionsEditorColors
   Height = 357
   Width = 680
+  HelpKeyword = '/configuration.html#ConfigToolsEditorHL'
   ClientHeight = 357
   ClientWidth = 680
   DesignLeft = 322

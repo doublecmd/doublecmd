@@ -1,6 +1,7 @@
 inherited frmOptionsAutoRefresh: TfrmOptionsAutoRefresh
   Height = 228
   Width = 501
+  HelpKeyword = '/configuration.html#ConfigRefresh'
   ClientHeight = 228
   ClientWidth = 501
   DesignTop = 27

@@ -1,6 +1,7 @@
 inherited frmOptionsFileAssocExtra: TfrmOptionsFileAssocExtra
   Height = 508
   Width = 937
+  HelpKeyword = '/configuration.html#ConfigAssocEx'
   AutoSize = True
   BorderSpacing.Around = 6
   ChildSizing.LeftRightSpacing = 6

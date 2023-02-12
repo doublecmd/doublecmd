@@ -7,6 +7,12 @@ interface
 uses
   Classes, SysUtils, DCBasicTypes;
 
+const
+  FOLDER_SIZE_UNKN =  0;
+  FOLDER_SIZE_ZERO = -1;
+  FOLDER_SIZE_WAIT = -2;
+  FOLDER_SIZE_CALC = -3;
+
 type
 
   TFilePropertyType = (
@@ -105,6 +111,7 @@ type
 
   private
     FSize: Int64;
+    FIsValid: Boolean;
 
   public
     constructor Create; override;
@@ -122,6 +129,7 @@ type
 
     function Format(Formatter: IFilePropertyFormatter): String; override;
 
+    property IsValid: Boolean read FIsValid write FIsValid;
     property Value: Int64 read FSize write FSize;
   end;
 
@@ -537,6 +545,7 @@ constructor TFileSizeProperty.Create(Size: Int64);
 begin
   inherited Create;
   Value := Size;
+  FIsValid := True;
 end;
 
 function TFileSizeProperty.Clone: TFileSizeProperty;
@@ -554,6 +563,7 @@ begin
     with FileProperty as TFileSizeProperty do
     begin
       FSize := Self.FSize;
+      FIsValid := Self.FIsValid;
     end;
   end;
 end;
