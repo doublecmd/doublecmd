@@ -41,7 +41,7 @@ var
 implementation
 
 uses
-  uGlobs, uDCUtils, DCBasicTypes, DCFileAttributes, DCDateTimeUtils;
+  uGlobs, uDCUtils, DCFileAttributes, DCDateTimeUtils;
 
 function TDefaultFilePropertyFormatter.FormatFileName(
            FileProperty: TFileNameProperty): String;

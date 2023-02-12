@@ -71,7 +71,7 @@ type
 implementation
 
 uses
-  LazUTF8, FileUtil, StrUtils, DCStrUtils, uDCUtils, uLng,
+  LazUTF8, FileUtil, DCStrUtils, uDCUtils, uLng,
   fWcxArchiveCopyOperationOptions, uFileSystemFileSource, DCOSUtils,
   uTarWriter, uClassesEx, DCConvertEncoding, DCDateTimeUtils,
   uArchiveFileSourceUtil;

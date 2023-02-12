@@ -165,7 +165,7 @@ threadvar
 implementation
 
 uses
-  LazUTF8, FileUtil, StrUtils, {} LCLType, uShowMsg, {} uGlobs, DCStrUtils, uDCUtils, uLog,
+  LazUTF8, FileUtil, StrUtils, {} LCLType, uShowMsg, {} uGlobs, DCStrUtils, uLog,
   uDebug, uLng, uCryptProc, DCFileAttributes, uConnectionManager, contnrs, syncobjs, fMain,
   uWfxPluginCopyInOperation, uWfxPluginCopyOutOperation,  uWfxPluginMoveOperation, uVfsModule,
   uWfxPluginExecuteOperation, uWfxPluginListOperation, uWfxPluginCreateDirectoryOperation,
