@@ -1,6 +1,7 @@
 inherited frmOptionsConfiguration: TfrmOptionsConfiguration
   Height = 595
   Width = 626
+  HelpKeyword = '/configuration.html#ConfigDC'
   ChildSizing.LeftRightSpacing = 6
   ChildSizing.TopBottomSpacing = 6
   ClientHeight = 595

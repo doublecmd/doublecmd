@@ -1,4 +1,5 @@
 inherited frmOptionsColors: TfrmOptionsColors
+  HelpKeyword = '/configuration.html#ConfigColor'
   ChildSizing.LeftRightSpacing = 6
   ChildSizing.TopBottomSpacing = 6
   DesignLeft = 360

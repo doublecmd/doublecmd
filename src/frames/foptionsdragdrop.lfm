@@ -1,6 +1,7 @@
 inherited frmOptionsDragDrop: TfrmOptionsDragDrop
   Height = 467
   Width = 845
+  HelpKeyword = '/configuration.html#ConfigMouseDD'
   ChildSizing.LeftRightSpacing = 6
   ChildSizing.TopBottomSpacing = 6
   ClientHeight = 467

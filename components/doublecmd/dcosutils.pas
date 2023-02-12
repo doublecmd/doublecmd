@@ -3,7 +3,7 @@
     -------------------------------------------------------------------------
     This unit contains platform dependent functions dealing with operating system.
 
-    Copyright (C) 2006-2022 Alexander Koblov (alexx2000@mail.ru)
+    Copyright (C) 2006-2023 Alexander Koblov (alexx2000@mail.ru)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -378,7 +378,7 @@ begin
 end;
 {$ELSE}
 begin
-  Result := BaseUnix.FPS_ISDIR(iAttr);
+  Result := BaseUnix.FPS_ISDIR(TMode(iAttr));
 end;
 {$ENDIF}
 
@@ -391,7 +391,7 @@ begin
 end;
 {$ELSE}
 begin
-  Result := BaseUnix.FPS_ISLNK(iAttr);
+  Result := BaseUnix.FPS_ISLNK(TMode(iAttr));
 end;
 {$ENDIF}
 

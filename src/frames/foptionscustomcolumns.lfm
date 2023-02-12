@@ -1,6 +1,7 @@
 inherited frmOptionsCustomColumns: TfrmOptionsCustomColumns
   Height = 596
   Width = 1070
+  HelpKeyword = '/configuration.html#ConfigColumns'
   ChildSizing.LeftRightSpacing = 4
   ChildSizing.TopBottomSpacing = 4
   ClientHeight = 596

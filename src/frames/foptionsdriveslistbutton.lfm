@@ -1,4 +1,5 @@
 inherited frmOptionsDrivesListButton: TfrmOptionsDrivesListButton
+  HelpKeyword = '/configuration.html#ConfigDrivesList'
   object gbDrivesList: TGroupBox[0]
     AnchorSideLeft.Control = Owner
     AnchorSideTop.Control = Owner
