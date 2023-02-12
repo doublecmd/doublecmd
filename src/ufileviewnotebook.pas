@@ -118,7 +118,7 @@ type
     FNotebookSide: TFilePanelSelect;
     FStartDrag: Boolean;
     FDraggedPageIndex: Integer;
-    //FTabDblClicked: Boolean;
+    FTabDblClicked: Boolean;
     FHintPageIndex: Integer;
     FLastMouseDownTime: TDateTime;
     FLastMouseDownPageIndex: Integer;

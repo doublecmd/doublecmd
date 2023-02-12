@@ -44,7 +44,7 @@ implementation
 
 uses
   LCLProc, fFileExecuteYourSelf, uGlobs, uShellExecute, uFindEx, uDebug,
-  uShowMsg, uLng, uVfsModule, DCOSUtils, DCStrUtils,
+  uOSUtils, uShowMsg, uLng, uVfsModule, DCOSUtils, DCStrUtils,
   uFileSourceOperation,
   uFileSourceExecuteOperation,
   uVfsFileSource,

@@ -49,7 +49,7 @@ type
 implementation
 
 uses
-  ISAAC, DCOSUtils, uFileSystemFileSource, uHash, uGlobs;
+  ISAAC, DCOSUtils, uFileSystemFileSource, uHash, uGlobs, uDCUtils;
 
 const
   cSize = 1024 * 1024 * 256;

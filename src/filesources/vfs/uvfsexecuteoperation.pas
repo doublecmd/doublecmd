@@ -40,7 +40,7 @@ type
 implementation
 
 uses
-  Forms, uWfxModule, uGlobs;
+  Forms, uWfxModule, uDCUtils, uGlobs;
 
 constructor TVfsExecuteOperation.Create(
                 aTargetFileSource: IFileSource;

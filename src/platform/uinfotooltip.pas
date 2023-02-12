@@ -79,7 +79,7 @@ uses
 {$IF DEFINED(MSWINDOWS)}
   , uShlObjAdditional
 {$ENDIF}
-  ;
+  ,DCClassesUtf8;
 
 function GetFileInfoToolTip(aFileSource: IFileSource; const aFile: TFile): String;
 

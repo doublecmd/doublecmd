@@ -29,7 +29,7 @@ unit uColumns;
 interface
 
 uses
-  Classes, SysUtils, Graphics, uFile, uFileSource,
+  Classes, SysUtils, DCClassesUtf8, Graphics, uFile, uFileSource,
   DCXmlConfig, DCBasicTypes, uFileFunctions;
 
 const

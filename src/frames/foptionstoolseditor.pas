@@ -28,7 +28,7 @@ interface
 
 uses
   Classes, SysUtils, StdCtrls, ExtCtrls, Dialogs, LCLVersion,
-  Buttons, Menus, SpinEx, fOptionsFrame, fOptionsToolBase;
+  Buttons, EditBtn, Menus, SpinEx, fOptionsFrame, fOptionsToolBase;
 
 type
 

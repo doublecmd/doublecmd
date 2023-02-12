@@ -36,13 +36,14 @@ unit uFileViewWithMainCtrl;
 interface
 
 uses
-  Classes, SysUtils, Controls, ExtCtrls, LCLType, LMessages, EditBtn,
+  Classes, SysUtils, Controls, ExtCtrls, StdCtrls, LCLType, LMessages, EditBtn,
   Graphics,
   uFile,
   uFileViewWorker,
   uOrderedFileView,
   uFileView,
   uDragDropEx,
+  uFileViewNotebook,
   uDebug
 {$IFDEF LCLCOCOA}
   ,uMyDarwin
