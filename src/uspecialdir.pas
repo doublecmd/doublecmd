@@ -102,8 +102,7 @@ uses
   {$ENDIF}
 
   //DC
-  DCOSUtils, uDCUtils, uGlobsPaths, fmain, uLng, uGlobs, uHotDir, uOSUtils,
-  DCStrUtils;
+  DCOSUtils, uDCUtils, uGlobsPaths, fmain, uLng, uGlobs, uHotDir, uOSUtils;
 
 { The special path are sorted first by type of special path they represent (DC, Windows, Environment...)
   Then, by alphabetical order.

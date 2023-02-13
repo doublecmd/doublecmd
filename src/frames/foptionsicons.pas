@@ -79,7 +79,7 @@ implementation
 {$R *.lfm}
 
 uses
-  Forms, Graphics, FileUtil, DCOSUtils, uPixMapManager, uGlobs, uLng, uOSUtils,
+  Forms, Graphics, FileUtil, DCOSUtils, uPixMapManager, uGlobs, uLng,
   uGlobsPaths, uSysFolders;
 
 { TfrmOptionsIcons }

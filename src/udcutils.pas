@@ -58,7 +58,7 @@ const
   EnvVarTodaysDate    = VARDELIMITER + 'DC_TODAYSDATE' + VARDELIMITER_END;
 
 type
-  TUsageOfSizeConversion = (uoscFile, uoscHeader, uoscFooter, uoscOperation, uoscNoUnit);
+  TUsageOfSizeConversion = (uoscFile, uoscHeader, uoscFooter, uoscOperation);
 
 function GetCmdDirFromEnvVar(const sPath : String) : String;
 function SetCmdDirAsEnvVar(const sPath : String) : String;
@@ -82,6 +82,12 @@ function ReplaceTilde(const Path: String): String;
 }
 function mbExpandFileName(const sFileName: String): String;
 {en
+  Convert Int64 to string with Thousand separators. We can't use FloatToStrF with ffNumber because of integer rounding to thousands
+  @param(AValue Integer value)
+  @returns(String represenation)
+}
+function IntToStrTS(const APositiveValue: Int64): String;
+{en
    Convert file size to string representation in floating format (Kb, Mb, Gb)
    @param(iSize File size)
    @param(ShortFormat If @true than short format is used,
@@ -89,9 +95,9 @@ function mbExpandFileName(const sFileName: String): String;
    @param(Number Number of digits after decimal)
    @returns(File size in string representation)
 }
-function cnvFormatFileSize(iSize: Int64; FSF: TFileSizeFormat; Number: Integer): String;
-function cnvFormatFileSize(iSize: Int64; UsageOfSizeConversion: TUsageOfSizeConversion): String;
-function cnvFormatFileSize(iSize: Int64): String; inline;
+function cnvFormatFileSize(const iSize: Int64; FSF: TFileSizeFormat; const Number: Integer): String;
+function cnvFormatFileSize(const iSize: Int64; const UsageOfSizeConversion: TUsageOfSizeConversion): String;
+function cnvFormatFileSize(const iSize: Int64): String; inline;
 {en
    Minimize file path
    @param(PathToMince File path)
@@ -360,7 +366,37 @@ begin
   end;
 end;
 
-function cnvFormatFileSize(iSize: int64; FSF: TFileSizeFormat; Number: integer): string;
+function IntToStrTS(const APositiveValue: Int64): String;
+var i, vSrcLen, vSrcI, vSrcNumberNo, vResLen: byte;
+begin
+  if APositiveValue < 0 then
+    raise Exception.Create('IntToStrTS gets only positive values!');
+  Str(APositiveValue, Result);
+  vSrcLen := Result.Length;
+
+  vResLen := vSrcLen + ((vSrcLen - 1) div 3);
+  if vSrcLen = vResLen then
+    Exit;
+
+  SetLength(Result, vResLen);
+
+  vSrcI := vResLen;
+  vSrcNumberNo := 1;
+
+  for i:= vSrcLen downto 1 do
+    begin
+      Result[vSrcI] := Result[i];
+      Dec(vSrcI);
+      if(vSrcNumberNo <> vSrcLen) and (vSrcNumberNo mod 3 = 0) then
+        begin
+          Result[vSrcI] := FormatSettings.ThousandSeparator;
+          Dec(vSrcI);
+        end;
+      Inc(vSrcNumberNo);
+    end;
+end;
+
+function cnvFormatFileSize(const iSize: int64; FSF: TFileSizeFormat; const Number: integer): string;
 const
   DIVISORS: array[LOW(TFileSizeFormat) .. HIGH(TFileSizeFormat)] of uint64 = (1, 1, 1024, (1024*1024), (1024*1024*1024), (1024*1024*1024*1024), 1, 1, 1024, (1024*1024), (1024*1024*1024), (1024*1024*1024*1024));
 var
@@ -391,7 +427,7 @@ begin
   end;
 end;
 
-function cnvFormatFileSize(iSize: Int64; UsageOfSizeConversion: TUsageOfSizeConversion): String;
+function cnvFormatFileSize(const iSize: Int64; const UsageOfSizeConversion: TUsageOfSizeConversion): String;
 begin
   case UsageOfSizeConversion of
     uoscOperation: //By legacy, it was simply adding a "B" to single size letter so we will do the samefor legacy mode.
@@ -406,11 +442,10 @@ begin
     uoscFile: Result := cnvFormatFileSize(iSize, gFileSizeFormat, gFileSizeDigits);
     uoscHeader: Result := cnvFormatFileSize(iSize, gHeaderSizeFormat, gHeaderDigits);
     uoscFooter: Result := cnvFormatFileSize(iSize, gFooterSizeFormat, gFooterDigits);
-    uoscNoUnit: Result := IntToStr(iSize);
   end;
 end;
 
-function cnvFormatFileSize(iSize: Int64): String;
+function cnvFormatFileSize(const iSize: Int64): String;
 begin
   Result := cnvFormatFileSize(iSize, gFileSizeFormat, gFileSizeDigits);
 end;

@@ -556,7 +556,7 @@ begin
     CalcStatisticsOperationStatistics := CalcStatisticsOperation.RetrieveStatistics;
     with CalcStatisticsOperationStatistics do
     begin
-      msgOK(Format(rsSpaceMsg, [Files, Directories, cnvFormatFileSize(Size), Numb2USA(IntToStr(Size))]));
+      msgOK(Format(rsSpaceMsg, [Files, Directories, cnvFormatFileSize(Size), IntToStrTS(Size)]));
     end;
   end;
 end;
@@ -5354,7 +5354,6 @@ const
   sPLUGIN64_FAMILY = 'DSX64|WCX64|WDX64|WFX64|WLX64|';
 var
   Param, sValue, sMaybeFilename, sPluginFilename: string;
-  PluginType: TPluginType;
   Editor: TOptionsEditor;
   Options: IOptionsDialog;
   sPluginSuffix: string;

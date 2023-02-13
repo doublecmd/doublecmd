@@ -82,7 +82,7 @@ uses
   {$IF DEFINED(CPU64)}
   DCStrUtils,
   {$ENDIF}
-  DCOSUtils, DCClassesUtf8, uGlobs, uLng, uDCUtils;
+  DCOSUtils, DCClassesUtf8, uGlobs, uLng;
 
 procedure UpdatePlugins;
 var

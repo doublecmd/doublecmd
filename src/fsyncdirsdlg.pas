@@ -237,7 +237,7 @@ uses
   DCClassesUtf8, uFileSystemFileSource, uFileSourceOperationOptions, DCDateTimeUtils,
   uDCUtils, uFileSourceUtil, uFileSourceOperationTypes, uShowForm, uAdministrator,
   uOSUtils, uLng, uMasks, Math, uClipboard, IntegerList, fMaskInputDlg, uSearchTemplate,
-  StrUtils, uTypes, uFileSystemDeleteOperation;
+  uTypes, uFileSystemDeleteOperation;
 
 {$R *.lfm}
 
@@ -628,9 +628,9 @@ begin
     chkDeleteLeft.Caption := Format(rsDeleteLeft, [DeleteLeftCount]);
     chkDeleteRight.Caption := Format(rsDeleteRight, [DeleteRightCount]);
     chkLeftToRight.Caption :=
-      Format(rsLeftToRightCopy, [CopyRightCount, cnvFormatFileSize(CopyRightSize, fsfFloat, gFileSizeDigits), Numb2USA(IntToStr(CopyRightSize))]);
+      Format(rsLeftToRightCopy, [CopyRightCount, cnvFormatFileSize(CopyRightSize, fsfFloat, gFileSizeDigits), IntToStrTS(CopyRightSize)]);
     chkRightToLeft.Caption :=
-      Format(rsRightToLeftCopy, [CopyLeftCount, cnvFormatFileSize(CopyLeftSize, fsfFloat, gFileSizeDigits), Numb2USA(IntToStr(CopyLeftSize))]);
+      Format(rsRightToLeftCopy, [CopyLeftCount, cnvFormatFileSize(CopyLeftSize, fsfFloat, gFileSizeDigits), IntToStrTS(CopyLeftSize)]);
     if ShowModal = mrOk then
     begin
       EnableControls(False);
@@ -1820,7 +1820,6 @@ procedure TfrmSyncDirsDlg.SetProgressBytes(AProgressBar: TKASProgressBar;
   CurrentBytes: Int64; TotalBytes: Int64);
 var
   BarText : String;
-  CaptionText : String;
 begin
   BarText := cnvFormatFileSize(CurrentBytes, uoscOperation) + '/' + cnvFormatFileSize(TotalBytes, uoscOperation);
   AProgressBar.SetProgress(CurrentBytes, TotalBytes, BarText );
@@ -1838,9 +1837,8 @@ procedure TfrmSyncDirsDlg.SetProgressFiles(AProgressBar: TKASProgressBar;
   CurrentFiles: Int64; TotalFiles: Int64);
 var
   BarText : String;
-  CaptionText : String;
 begin
-  BarText := cnvFormatFileSize(CurrentFiles, uoscNoUnit) + '/' + cnvFormatFileSize(TotalFiles, uoscNoUnit);
+  BarText := IntToStrTS(CurrentFiles) + '/' + IntToStrTS(TotalFiles);
   AProgressBar.SetProgress(CurrentFiles, TotalFiles, BarText );
 
   {$IFDEF LCLCOCOA}

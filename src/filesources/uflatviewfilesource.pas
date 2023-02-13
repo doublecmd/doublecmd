@@ -6,7 +6,6 @@ interface
 
 uses
   uMultiListFileSource,
-  uFileSourceOperation,
   uSearchResultFileSource;
 
 type
