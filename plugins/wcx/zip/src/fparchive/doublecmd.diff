@@ -745,7 +745,7 @@ Index: AbBzip2Typ.pas
 +    if UpdateArchive then
 +    begin
 +      FreeAndNil(FBzip2Stream);
-+      TempFileName := GetTempName(FArchiveName + ExtensionSeparator);
++      TempFileName := GetTempName(FArchiveName);
 +      { Create new archive with temporary name }
 +      FBzip2Stream := TAbProgressFileStream.Create(TempFileName, fmCreate or fmShareDenyWrite, OnProgress);
 +    end;
@@ -1023,7 +1023,7 @@ Index: AbGzTyp.pas
    {$ENDIF}
    SysUtils,
 -  AbBitBkt, AbCharset, AbDfBase, AbDfDec, AbDfEnc, AbExcept, AbResString, AbVMStrm;
-+  AbBitBkt, AbDfBase, AbDfDec, AbZlibPrc, AbExcept, AbResString,
++  AbBitBkt, AbDfBase, AbDfDec, AbZlibPrc, AbExcept, AbResString, AbProgress,
 +  AbVMStrm, DCOSUtils, DCClassesUtf8, DCConvertEncoding;
  
  const
@@ -1212,65 +1212,86 @@ Index: AbGzTyp.pas
          raise;
        end;
      end;
-@@ -973,33 +996,39 @@
+@@ -962,6 +985,7 @@
+   aStream: TStream);
+ var
+   GzHelp  : TAbGzipStreamHelper;
++  ProxyStream : TAbProgressStream;
+ begin
+   if IsGzippedTar and TarAutoHandle then begin
+     SwapToTar;
+@@ -971,37 +995,48 @@
+     SwapToGzip;
+     { note Index ignored as there's only one item in a GZip }
  
-     GZHelp := TAbGzipStreamHelper.Create(FGzStream);
+-    GZHelp := TAbGzipStreamHelper.Create(FGzStream);
++    ProxyStream := TAbProgressStream.Create(FGzStream, FOnProgress);
      try
-+      FGzStream.Seek(0, soBeginning);
-+
-       { read GZip Header }
-       GzHelp.ReadHeader;
+-      { read GZip Header }
+-      GzHelp.ReadHeader;
++      GZHelp := TAbGzipStreamHelper.Create(ProxyStream);
++      try
++        FGzStream.Seek(0, soBeginning);
  
 -      { extract copy data from GZip}
 -      GzHelp.ExtractItemData(aStream);
-+      repeat
-+        { extract copy data from GZip}
-+        GzHelp.ExtractItemData(aStream);
++        { read GZip Header }
++        GzHelp.ReadHeader;
  
 -      { Get validation data }
 -      GzHelp.ReadTail;
-+        { Get validation data }
-+        GzHelp.ReadTail;
++        repeat
++          { extract copy data from GZip}
++          GzHelp.ExtractItemData(aStream);
  
 -      {$IFDEF STRICTGZIP}
 -      { According to
 -          http://www.gzip.org/zlib/rfc1952.txt
-+        {$IFDEF STRICTGZIP}
-+        { According to
-+            http://www.gzip.org/zlib/rfc1952.txt
++          { Get validation data }
++          GzHelp.ReadTail;
  
 -       A compliant gzip compressor should calculate and set the CRC32 and ISIZE.
 -       However, a compliant decompressor should not check these values.
-+         A compliant gzip compressor should calculate and set the CRC32 and ISIZE.
-+         However, a compliant decompressor should not check these values.
++          {$IFDEF STRICTGZIP}
++          { According to
++              http://www.gzip.org/zlib/rfc1952.txt
  
 -       If you want to check the the values of the CRC32 and ISIZE in a GZIP file
 -       when decompressing enable the STRICTGZIP define contained in AbDefine.inc }
-+         If you want to check the the values of the CRC32 and ISIZE in a GZIP file
-+         when decompressing enable the STRICTGZIP define contained in AbDefine.inc }
++           A compliant gzip compressor should calculate and set the CRC32 and ISIZE.
++           However, a compliant decompressor should not check these values.
  
 -      { validate against CRC }
 -      if GzHelp.FItem.Crc32 <> GzHelp.TailCRC then
 -        raise EAbGzipBadCRC.Create;
-+        { validate against CRC }
-+        if GzHelp.FItem.Crc32 <> GzHelp.TailCRC then
-+          raise EAbGzipBadCRC.Create;
++           If you want to check the the values of the CRC32 and ISIZE in a GZIP file
++           when decompressing enable the STRICTGZIP define contained in AbDefine.inc }
  
 -      { validate against file size }
 -      if GzHelp.FItem.UncompressedSize <> GZHelp.TailSize then
 -        raise EAbGzipBadFileSize.Create;
 -      {$ENDIF}
-+        { validate against file size }
-+        if GzHelp.FItem.UncompressedSize <> GZHelp.TailSize then
-+          raise EAbGzipBadFileSize.Create;
-+        {$ENDIF}
-+        { try concatenated streams }
-+        GzHelp.ReadHeader;
-+      until not VerifyHeader(GZHelp.FItem.FGzHeader);
++          { validate against CRC }
++          if GzHelp.FItem.Crc32 <> GzHelp.TailCRC then
++            raise EAbGzipBadCRC.Create;
++
++          { validate against file size }
++          if GzHelp.FItem.UncompressedSize <> GZHelp.TailSize then
++            raise EAbGzipBadFileSize.Create;
++          {$ENDIF}
++          { try concatenated streams }
++          GzHelp.ReadHeader;
++        until not VerifyHeader(GZHelp.FItem.FGzHeader);
++      finally
++        GzHelp.Free;
++      end;
      finally
-       GzHelp.Free;
+-      GzHelp.Free;
++      ProxyStream.Free;
      end;
-@@ -1050,7 +1079,7 @@
+   end;
+ end;
+@@ -1050,7 +1085,7 @@
        if GzHelp.FindFirstItem then begin
          Item := TAbGzipItem.Create;
          Item.LoadGzHeaderFromStream(FGzStream);
@@ -1279,7 +1300,7 @@ Index: AbGzTyp.pas
          GZHelp.ReadTail;
          Item.CRC32 := GZHelp.TailCRC;
          Item.UncompressedSize := GZHelp.TailSize;
-@@ -1060,8 +1089,13 @@
+@@ -1060,8 +1095,13 @@
  
          if IsGzippedTar and TarAutoHandle then begin
            { extract Tar and set stream up }
@@ -1295,15 +1316,38 @@ Index: AbGzTyp.pas
            SwapToTar;
            inherited LoadArchive;
          end;
-@@ -1089,7 +1123,6 @@
+@@ -1087,10 +1127,11 @@
+   InGzHelp, OutGzHelp : TAbGzipStreamHelper;
+   Abort               : Boolean;
    i                   : Integer;
-   NewStream           : TAbVirtualMemoryStream;
+-  NewStream           : TAbVirtualMemoryStream;
++  NewStream           : TStream;
    UncompressedStream  : TStream;
 -  SaveDir             : string;
    CurItem             : TAbGzipItem;
++  CreateArchive       : Boolean;
++  ATempName           : String;
  begin
    {prepare for the try..finally}
-@@ -1111,19 +1144,22 @@
+   OutGzHelp := nil;
+@@ -1101,29 +1142,35 @@
+ 
+     try
+       {init new archive stream}
+-      NewStream := TAbVirtualMemoryStream.Create;
++      CreateArchive:= FOwnsStream and (FGzStream.Size = 0) and (FGzStream is TFileStreamEx);
++      if CreateArchive then
++        NewStream := FGzStream
++      else begin
++        ATempName := GetTempName(FArchiveName);
++        NewStream := TFileStreamEx.Create(ATempName, fmCreate or fmShareDenyWrite);
++      end;
+       OutGzHelp := TAbGzipStreamHelper.Create(NewStream);
+ 
+-      { create helper }
+-      NewStream.SwapFileDirectory := ExtractFilePath(AbGetTempFile(FTempDir, False));
+-
+       { save the Tar data }
        if IsGzippedTar and TarAutoHandle then begin
          SwapToTar;
          inherited SaveArchive;
@@ -1338,7 +1382,7 @@ Index: AbGzTyp.pas
        end
        else begin
          SwapToGzip;
-@@ -1154,17 +1190,9 @@
+@@ -1154,17 +1201,9 @@
                    OutGzHelp.WriteArchiveTail;
                  end
                  else begin
@@ -1349,25 +1393,65 @@ Index: AbGzTyp.pas
 -                      ChDir(BaseDirectory);
 -                    CurItem.LastModTimeAsDateTime := AbGetFileTime(CurItem.DiskFileName);
 -                    UncompressedStream := TFileStream.Create(CurItem.DiskFileName,
-+                  CurItem.LastModTimeAsDateTime := AbGetFileTime(CurItem.DiskFileName);
-+                  UncompressedStream := TFileStreamEx.Create(CurItem.DiskFileName,
-                       fmOpenRead or fmShareDenyWrite );
+-                      fmOpenRead or fmShareDenyWrite );
 -                  finally {SaveDir}
 -                    ChDir( SaveDir );
 -                  end; {SaveDir}
++                  CurItem.LastModTimeAsDateTime := AbGetFileTime(CurItem.DiskFileName);
++                  UncompressedStream := TAbProgressFileStream.Create(CurItem.DiskFileName,
++                      fmOpenRead or fmShareDenyWrite, OnProgress);
  
                    try
                      CurItem.UncompressedSize := UncompressedStream.Size;
-@@ -1197,7 +1225,7 @@
+@@ -1195,11 +1234,32 @@
+       TMemoryStream(FStream).LoadFromStream(NewStream)
+     else begin
        { need new stream to write }
-       FreeAndNil(FStream);
-       FGZStream := nil;
+-      FreeAndNil(FStream);
+-      FGZStream := nil;
 -      FStream := TFileStream.Create(FArchiveName, fmCreate or fmShareDenyWrite);
-+      FStream := TFileStreamEx.Create(FArchiveName, fmCreate or fmShareDenyWrite);
-       FGZStream := FStream;
-       FStream.CopyFrom(NewStream, NewStream.Size);
+-      FGZStream := FStream;
+-      FStream.CopyFrom(NewStream, NewStream.Size);
++      if CreateArchive then
++        NewStream := nil
++      else begin
++        if FOwnsStream then
++        begin
++          {need new stream to write}
++          if CreateArchive then
++            NewStream := nil
++          else begin
++            FGZStream := nil;
++            FreeAndNil(FStream);
++            FreeAndNil(NewStream);
++            if (mbDeleteFile(FArchiveName) and mbRenameFile(ATempName, FArchiveName)) then
++              FStream := TFileStreamEx.Create(FArchiveName, fmOpenReadWrite or fmShareDenyWrite)
++            else begin
++              RaiseLastOSError;
++            end;
++            FGZStream := FStream;
++          end;
++        end
++        else begin
++          FStream.Size := 0;
++          FStream.Position := 0;
++          FStream.CopyFrom(NewStream, 0)
++        end;
++      end;
      end;
-@@ -1253,17 +1281,28 @@
+ 
+     {update Items list}
+@@ -1217,7 +1277,8 @@
+     DoArchiveProgress( 100, Abort );
+   finally {NewStream}
+     OutGzHelp.Free;
+-    NewStream.Free;
++    if (FStream <> NewStream) then
++      NewStream.Free;
+   end;
+ end;
+ 
+@@ -1253,17 +1314,28 @@
        BitBucket := TAbBitBucketStream.Create(1024);
        GZHelp := TAbGzipStreamHelper.Create(FGZStream);
  
@@ -2152,7 +2236,52 @@ Index: AbTarTyp.pas
  
    FStream.Position := CurItem.StreamPosition+CurItem.FileHeaderCount*AB_TAR_RECORDSIZE;
    if CurItem.UncompressedSize <> 0 then
-@@ -2060,7 +2327,7 @@
+@@ -1963,9 +2230,9 @@
+   ItemFound    : Boolean;
+   Abort        : Boolean;
+   Confirm      : Boolean;
++  Duplicate    : Boolean;
+   i            : Integer;
+   Progress     : Byte;
+-
+ begin
+   { create helper }
+   TarHelp := TAbTarStreamHelper.Create(FStream);
+@@ -1973,6 +2240,7 @@
+     {build Items list from tar header records}
+ 
+     { reset Tar }
++    Duplicate := False;
+     ItemFound := (FStream.Size > 0) and TarHelp.FindFirstItem;
+     if ItemFound then FArchFormat := UNKNOWN_FORMAT
+     else FArchFormat := V7_FORMAT;
+@@ -1992,7 +2260,24 @@
+           if FArchFormat < Item.ArchiveFormat then
+             FArchFormat := Item.ArchiveFormat; { Take the max format }
+           Item.Action := aaNone;
+-          FItemList.Add(Item);
++          {
++            TAR archive can contain the same directory multiple
++            times. In this case, use the last found directory.
++          }
++          if Item.IsDirectory then
++          begin
++            I := FItemList.Find(Item.FileName);
++            if (I >= 0) then
++            begin
++              Duplicate := True;
++              FItemList.Items[I] := Item;
++            end;
++          end;
++          if Duplicate then
++            Duplicate := False
++          else begin
++            FItemList.Add(Item);
++          end;
+         end { end if }
+         else begin
+         { unhandled Tar file system entity, notify user, but otherwise ignore }
+@@ -2060,7 +2345,7 @@
      AbStripDrive( lValue );
  
    { check for a leading slash }
@@ -2161,7 +2290,7 @@ Index: AbTarTyp.pas
      System.Delete( lValue, 1, 1 );
  
    if soStripPath in StoreOptions then
-@@ -2095,23 +2362,33 @@
+@@ -2095,23 +2380,32 @@
    OutTarHelp     : TAbTarStreamHelper;
    Abort          : Boolean;
    i              : Integer;
@@ -2183,8 +2312,7 @@ Index: AbTarTyp.pas
 +    if FStream.Size = 0 then
 +      NewStream := FStream
 +    else begin
-+      ATempName := Copy(ExtractOnlyFileName(FArchiveName), 1, MAX_PATH div 2) + '~';
-+      ATempName := GetTempName(ExtractFilePath(FArchiveName) + ATempName) + '.tmp';
++      ATempName := GetTempName(FArchiveName);
 +      NewStream := TFileStreamEx.Create(ATempName, fmCreate or fmShareDenyWrite);
 +    end;
 +  end
@@ -2201,7 +2329,7 @@ Index: AbTarTyp.pas
      {build new archive from existing archive}
      for i := 0 to pred(Count) do begin
        FCurrentItem := ItemList[i];
-@@ -2145,24 +2422,27 @@
+@@ -2145,24 +2439,27 @@
  
          aaAdd, aaFreshen, aaReplace: begin
            try
@@ -2245,7 +2373,7 @@ Index: AbTarTyp.pas
                    fmOpenRead or fmShareDenyWrite );
                  try { TempStream }
                    CurItem.UncompressedSize := TempStream.Size;
-@@ -2173,9 +2453,13 @@
+@@ -2173,9 +2470,13 @@
                    TempStream.Free;
                  end; { TempStream }
                end;
@@ -2262,7 +2390,7 @@ Index: AbTarTyp.pas
            except
              ItemList[i].Action := aaDelete;
              DoProcessItemFailure(ItemList[i], ptAdd, ecFileOpenError, 0);
-@@ -2198,10 +2482,25 @@
+@@ -2198,10 +2499,25 @@
        TAbVirtualMemoryStream(FStream).CopyFrom(NewStream, NewStream.Size)
      end
      else begin
@@ -2292,7 +2420,7 @@ Index: AbTarTyp.pas
      end;
  
      {update Items list}
-@@ -2216,7 +2515,8 @@
+@@ -2216,7 +2532,8 @@
      DoArchiveProgress( 100, Abort );
    finally {NewStream/OutTarHelp}
      OutTarHelp.Free;
@@ -2352,7 +2480,7 @@ Index: AbUnzPrc.pas
 +      AbDfDec.Inflate(InStream, OutStream, Hlpr)
 +    end
 +    else begin
-+      Hlpr.StreamSize := Item.UncompressedSize;
++      Hlpr.NormalSize := Item.UncompressedSize;
  
 -    Inflate(InStream, OutStream, Hlpr);
 +      AbZlibPrc.Inflate(InStream, OutStream, Hlpr);
@@ -2651,7 +2779,18 @@ Index: AbUtils.pas
  
    function AbSwapLongEndianness(Value : LongInt): LongInt;
  
-@@ -363,9 +371,14 @@
+@@ -313,8 +321,8 @@
+   MinutesInDay    =  1440;  {Number of minutes in a day}
+ 
+ 
+-  function AbUnixTimeToLocalDateTime(UnixTime : LongInt) : TDateTime;
+-  function AbLocalDateTimeToUnixTime(DateTime : TDateTime) : LongInt;
++  function AbUnixTimeToLocalDateTime(UnixTime : Int64) : TDateTime;
++  function AbLocalDateTimeToUnixTime(DateTime : TDateTime) : Int64;
+ 
+   function AbDosFileDateToDateTime(FileDate, FileTime : Word) : TDateTime;
+   function AbDateTimeToDosFileDate(Value : TDateTime) : LongInt;
+@@ -363,9 +371,15 @@
  
  uses
    StrUtils,
@@ -2661,13 +2800,14 @@ Index: AbUtils.pas
 +  AbExcept,
 +  DCOSUtils,
 +  DCStrUtils,
++  DCBasicTypes,
 +  DCDateTimeUtils;
  
 +(*
  {$IF DEFINED(FPCUnixAPI)}
  function mktemp(template: PAnsiChar): PAnsiChar; cdecl;
    external clib name 'mktemp';
-@@ -387,6 +400,7 @@
+@@ -387,6 +401,7 @@
  function nl_langinfo(__item: nl_item): PAnsiChar; cdecl;
    external clib name 'nl_langinfo';
  {$IFEND}
@@ -2675,7 +2815,7 @@ Index: AbUtils.pas
  
  {===platform independent routines for platform dependent stuff=======}
  function ExtractShortName(const SR : TSearchRec) : string;
-@@ -410,16 +424,16 @@
+@@ -410,16 +425,16 @@
  function AbCopyFile(const Source, Destination: string; FailIfExists: Boolean): Boolean;
  {$IFDEF UNIX}
  var
@@ -2696,7 +2836,7 @@ Index: AbUtils.pas
          try
            DesStream.CopyFrom(SrcStream, 0);
            Result := True;
-@@ -434,7 +448,7 @@
+@@ -434,7 +449,7 @@
      end;
  {$ENDIF UNIX}
  {$IFDEF MSWINDOWS}
@@ -2705,7 +2845,7 @@ Index: AbUtils.pas
  {$ENDIF MSWINDOWS}
  end;
  { -------------------------------------------------------------------------- }
-@@ -447,7 +461,7 @@
+@@ -447,7 +462,7 @@
    i : Integer;
    TempPath : string;
  begin
@@ -2714,7 +2854,7 @@ Index: AbUtils.pas
      Exit;
    {see how much of the path currently exists}
    if Pos( '\\', Path ) > 0 then
-@@ -463,8 +477,9 @@
+@@ -463,8 +478,9 @@
      {get a temp path to try: drive:\path1}
      TempPath := Copy( Path, 1, i );
      {if it doesn't exist, create it}
@@ -2726,7 +2866,7 @@ Index: AbUtils.pas
      inc( iStartSlash );
    until ( Length( TempPath ) = Length( Path ) );
  end;
-@@ -476,44 +491,26 @@
+@@ -476,44 +492,26 @@
  { -------------------------------------------------------------------------- }
  function AbGetTempDirectory : string;
  begin
@@ -2781,7 +2921,7 @@ Index: AbUtils.pas
  end;
  { -------------------------------------------------------------------------- }
  function AbDrive(const ArchiveName : string) : Char;
-@@ -560,8 +557,8 @@
+@@ -560,8 +558,8 @@
  var
    FreeAvailable, TotalSpace: Int64;
  begin
@@ -2792,7 +2932,7 @@ Index: AbUtils.pas
      Result := FreeAvailable
    else
      Result := -1;
-@@ -574,7 +571,7 @@
+@@ -574,7 +572,7 @@
    if statfs(PAnsiChar(ExtractFilePath(ArchiveName)), FStats) = 0 then
      Result := Int64(FStats.f_bAvail) * Int64(FStats.f_bsize)
    {$ELSEIF DEFINED(FPCUnixAPI)}
@@ -2801,7 +2941,7 @@ Index: AbUtils.pas
      Result := Int64(FStats.bAvail) * Int64(FStats.bsize)
    {$ELSEIF DEFINED(PosixAPI)}
    if statvfs(PAnsiChar(AbSysString(ExtractFilePath(ArchiveName))), FStats) = 0 then
-@@ -591,8 +588,8 @@
+@@ -591,8 +589,8 @@
    DirMatch : Boolean;
    MaskDir : string;
  begin
@@ -2812,7 +2952,7 @@ Index: AbUtils.pas
    MaskDir := ExtractFilePath( FileMask );
    if MaskDir = '' then
      DirMatch := True
-@@ -614,12 +611,12 @@
+@@ -614,12 +612,12 @@
    Found := FindFirst( FileMask, SearchAttr, SR );
    if Found = 0 then begin
      try
@@ -2827,7 +2967,7 @@ Index: AbUtils.pas
            if (SR.Attr and faDirectory) <> 0 then
              FileList.Add( NewFile + PathDelim )
            else
-@@ -915,13 +912,9 @@
+@@ -915,13 +913,9 @@
    end;
  end;
  { -------------------------------------------------------------------------- }
@@ -2842,7 +2982,7 @@ Index: AbUtils.pas
    if V2 <= 0 then
      Result := 0
    else if V1 >= V2 then
-@@ -1001,19 +994,21 @@
+@@ -1001,19 +995,21 @@
  { -------------------------------------------------------------------------- }
  function AbWriteVolumeLabel(const VolName : string;
                                  Drive : Char) : Cardinal;
@@ -2872,7 +3012,37 @@ Index: AbUtils.pas
      Result := 0
    else Result := GetLastError;
  {$ENDIF MSWINDOWS}
-@@ -1095,16 +1090,7 @@
+@@ -1043,7 +1039,7 @@
+ end;
+ {$ENDIF}
+ { -------------------------------------------------------------------------- }
+-function AbUnixTimeToLocalDateTime(UnixTime : LongInt) : TDateTime;
++function AbUnixTimeToLocalDateTime(UnixTime : Int64) : TDateTime;
+ { convert UTC unix date to Delphi TDateTime in local timezone }
+ {$IFDEF MSWINDOWS}
+ var
+@@ -1065,12 +1061,12 @@
+ {$ENDIF}
+ {$IFDEF UNIX}
+ begin
+-  Result := FileDateToDateTime(UnixTime);
++  Result := UnixFileTimeToDateTime(TUnixFileTime(UnixTime));
+ {$ENDIF}
+ end;
+ 
+ { -------------------------------------------------------------------------- }
+-function AbLocalDateTimeToUnixTime(DateTime : TDateTime) : LongInt;
++function AbLocalDateTimeToUnixTime(DateTime : TDateTime) : Int64;
+ { convert local Delphi TDateTime to UTC unix date }
+ {$IFDEF MSWINDOWS}
+ var
+@@ -1090,21 +1086,12 @@
+ {$ENDIF}
+ {$IFDEF UNIX}
+ begin
+-  Result := DateTimeToFileDate(DateTime);
++  Result := Int64(DateTimeToUnixFileTime(DateTime));
+ {$ENDIF}
  end;
  { -------------------------------------------------------------------------- }
  function AbDosFileDateToDateTime(FileDate, FileTime : Word) : TDateTime;
@@ -2889,7 +3059,7 @@ Index: AbUtils.pas
    Yr, Mo, Dy : Word;
    Hr, Mn, S  : Word;
  begin
-@@ -1131,7 +1117,6 @@
+@@ -1131,7 +1118,6 @@
    Result :=
      EncodeDate(Yr, Mo, Dy) +
      EncodeTime(Hr, Mn, S, 0);
@@ -2897,7 +3067,7 @@ Index: AbUtils.pas
  end;
  
  function AbDateTimeToDosFileDate(Value : TDateTime) : LongInt;
-@@ -1166,12 +1151,7 @@
+@@ -1166,12 +1152,7 @@
  
  function AbSetFileTime(const aFileName: string; aValue: TDateTime): Boolean;
  begin
@@ -2911,7 +3081,7 @@ Index: AbUtils.pas
  end;
  
  { -------------------------------------------------------------------------- }
-@@ -1188,7 +1168,8 @@
+@@ -1188,7 +1169,8 @@
  { -------------------------------------------------------------------------- }
  function AbDOS2UnixFileAttributes(Attr: LongInt): LongInt;
  begin
@@ -2921,7 +3091,7 @@ Index: AbUtils.pas
    Result := { default permissions }
      AB_FPERMISSION_OWNERREAD or
      AB_FPERMISSION_GROUPREAD or
-@@ -1201,12 +1182,14 @@
+@@ -1201,12 +1183,14 @@
      Result := Result or AB_FMODE_DIR or AB_FPERMISSION_OWNEREXECUTE
    else
      Result := Result or AB_FMODE_FILE;
@@ -2938,7 +3108,7 @@ Index: AbUtils.pas
    Result := 0;
    case (Attr and $F000) of
      AB_FMODE_FILE, AB_FMODE_FILE2: { standard file }
-@@ -1225,21 +1208,20 @@
+@@ -1225,21 +1209,20 @@
  
    if (Attr and AB_FPERMISSION_OWNERWRITE) <> AB_FPERMISSION_OWNERWRITE then
      Result := Result or faReadOnly;
@@ -2964,7 +3134,7 @@ Index: AbUtils.pas
  end;
  { -------------------------------------------------------------------------- }
  function AbFileGetSize(const aFileName : string) : Int64;
-@@ -1252,12 +1234,12 @@
+@@ -1252,12 +1235,12 @@
      Result := -1;
  end;
  { -------------------------------------------------------------------------- }
@@ -2980,7 +3150,7 @@ Index: AbUtils.pas
  {$ENDIF}
  {$IFDEF FPCUnixAPI}
    StatBuf: stat;
-@@ -1274,11 +1256,9 @@
+@@ -1274,11 +1257,9 @@
    aAttr.Attr := -1;
    aAttr.Mode := 0;
  {$IFDEF MSWINDOWS}
@@ -2994,7 +3164,7 @@ Index: AbUtils.pas
      LARGE_INTEGER(aAttr.Size).LowPart := FindData.nFileSizeLow;
      LARGE_INTEGER(aAttr.Size).HighPart := FindData.nFileSizeHigh;
      aAttr.Attr := FindData.dwFileAttributes;
-@@ -1287,7 +1267,10 @@
+@@ -1287,7 +1268,10 @@
  {$ENDIF}
  {$IFDEF UNIX}
    {$IFDEF FPCUnixAPI}
@@ -3006,7 +3176,7 @@ Index: AbUtils.pas
    {$ENDIF}
    {$IFDEF LibcAPI}
    // Work around Kylix QC#2761: Stat64, et al., are defined incorrectly
-@@ -1313,10 +1296,10 @@
+@@ -1313,10 +1297,10 @@
  {-Get the volume label for the specified drive.}
  {$IFDEF MSWINDOWS}
  var
@@ -3019,7 +3189,7 @@ Index: AbUtils.pas
  {$ENDIF}
  begin
  {$IFDEF MSWINDOWS}
-@@ -1326,10 +1309,10 @@
+@@ -1326,10 +1310,10 @@
  
    Result := '';
  
@@ -3300,7 +3470,25 @@ Index: AbZipPrc.pas
  
  
  { ========================================================================== }
-@@ -209,6 +205,9 @@
+@@ -190,12 +186,16 @@
+   OutStream, InStream : TStream);
+ var
+   ZipArchive : TAbZipArchive;
+-  InStartPos : LongInt;
++  InStartPos : Int64;
++  OutStartPos : Int64;
+   TempOut : TAbVirtualMemoryStream;
+   DestStrm : TStream;
+ begin
+   ZipArchive := TAbZipArchive(Sender);
+ 
++  { save starting point }
++  OutStartPos := OutStream.Position;
++
+   { configure Item }
+   Item.UncompressedSize := InStream.Size;
+   Item.GeneralPurposeBitFlag := Item.GeneralPurposeBitFlag and AbLanguageEncodingFlag;
+@@ -209,6 +209,9 @@
    try
      if InStream.Size > 0 then begin
  
@@ -3310,7 +3498,16 @@ Index: AbZipPrc.pas
        { determine how to store Item based on specified CompressionMethodToUse }
        case ZipArchive.CompressionMethodToUse of
          smDeflated : begin
-@@ -294,22 +293,14 @@
+@@ -269,7 +272,7 @@
+   end;
+ 
+   { update item }
+-  Item.CompressedSize := OutStream.Size;
++  Item.CompressedSize := OutStream.Position - OutStartPos;
+   Item.InternalFileAttributes := 0; { don't care }
+   if (ZipArchive.Password <> '') then
+     Item.GeneralPurposeBitFlag := Item.GeneralPurposeBitFlag
+@@ -294,22 +297,14 @@
                   OutStream : TStream );
  var
    UncompressedStream : TStream;
@@ -3339,7 +3536,7 @@ Index: AbZipPrc.pas
    try {UncompressedStream}
      {$IFDEF UNIX}
      Item.ExternalFileAttributes := LongWord(AttrEx.Mode) shl 16 + LongWord(AttrEx.Attr);
-@@ -323,15 +314,6 @@
+@@ -323,15 +318,6 @@
    end; {UncompressedStream}
  end;
  { -------------------------------------------------------------------------- }
@@ -3825,7 +4022,33 @@ Index: AbZipTyp.pas
    FDiskFileName := FileName;
    AbUnfixName( FDiskFileName );
    Action := aaNone;
-@@ -1585,6 +1702,7 @@
+@@ -1504,11 +1621,20 @@
+     LFH.ExtraField.Assign(LFHExtraField);
+     LFH.ExtraField.CloneFrom(ExtraField, Ab_InfoZipUnicodePathSubfieldID);
+     LFH.ExtraField.CloneFrom(ExtraField, Ab_XceedUnicodePathSubfieldID);
+-    { setup sizes;  unlike the central directory header, the ZIP64 local header
+-      needs to store both compressed and uncompressed sizes if either needs it }
+-    if (CompressedSize >= $FFFFFFFF) or (UncompressedSize >= $FFFFFFFF) then begin
+-      LFH.UncompressedSize := $FFFFFFFF;
+-      LFH.CompressedSize := $FFFFFFFF;
++    { Write ZIP64 local header when file size > 3 GB to speed up archive creation }
++    if (UncompressedSize > $C0000000) then
++    begin
++      { setup sizes;  unlike the central directory header, the ZIP64 local header
++        needs to store both compressed and uncompressed sizes if either needs it }
++      if (CompressedSize >= $FFFFFFFF) or (UncompressedSize >= $FFFFFFFF) then
++      begin
++        LFH.UncompressedSize := $FFFFFFFF;
++        LFH.CompressedSize := $FFFFFFFF;
++      end
++      else begin
++        LFH.UncompressedSize := UncompressedSize;
++        LFH.CompressedSize := CompressedSize;
++      end;
+       Zip64Field.UncompressedSize := UncompressedSize;
+       Zip64Field.CompressedSize := CompressedSize;
+       LFH.ExtraField.Put(Ab_Zip64SubfieldID, Zip64Field, SizeOf(Zip64Field));
+@@ -1585,6 +1711,7 @@
  var
    {$IFDEF MSWINDOWS}
    AnsiName : AnsiString;
@@ -3833,7 +4056,7 @@ Index: AbZipTyp.pas
    {$ENDIF}
    UTF8Name : AnsiString;
    FieldSize : Word;
-@@ -1596,24 +1714,22 @@
+@@ -1596,24 +1723,22 @@
    {$IFDEF MSWINDOWS}
    FItemInfo.IsUTF8 := False;
    HostOS := hosDOS;
@@ -3865,7 +4088,7 @@ Index: AbZipTyp.pas
    {$ENDIF}
  
    UseExtraField := False;
-@@ -1626,7 +1742,7 @@
+@@ -1626,7 +1751,7 @@
      end;
  
    if UseExtraField then begin
@@ -3874,7 +4097,7 @@ Index: AbZipTyp.pas
      FieldSize := SizeOf(TInfoZipUnicodePathRec) + Length(UTF8Name) - 1;
      GetMem(InfoZipField, FieldSize);
      try
-@@ -1684,6 +1800,38 @@
+@@ -1684,6 +1809,38 @@
    FItemInfo.UncompressedSize:= Min(Value, $FFFFFFFF);
    UpdateZip64ExtraHeader;
  end;
@@ -3913,7 +4136,7 @@ Index: AbZipTyp.pas
  { -------------------------------------------------------------------------- }
  procedure TAbZipItem.SetVersionMadeBy( Value : Word );
  begin
-@@ -1762,11 +1910,11 @@
+@@ -1762,11 +1919,11 @@
    inherited Destroy;
  end;
  { -------------------------------------------------------------------------- }
@@ -3928,7 +4151,7 @@ Index: AbZipTyp.pas
    Result := TAbZipItem.Create;
    with TAbZipItem( Result ) do begin
      CompressionMethod := cmDeflated;
-@@ -1773,9 +1921,17 @@
+@@ -1773,9 +1930,17 @@
      GeneralPurposeBitFlag := 0;
      CompressedSize := 0;
      CRC32 := 0;
@@ -3948,7 +4171,7 @@ Index: AbZipTyp.pas
    end;
  end;
  { -------------------------------------------------------------------------- }
-@@ -1930,8 +2086,8 @@
+@@ -1930,8 +2095,8 @@
      AbStripDots( lValue );
  
    for i := 1 to Length( lValue ) do
@@ -3959,7 +4182,7 @@ Index: AbZipTyp.pas
    Result := lValue;
  end;
  { -------------------------------------------------------------------------- }
-@@ -1983,7 +2139,7 @@
+@@ -1983,7 +2148,7 @@
          FStatus := asInvalid; //TODO: Status updates are extremely inconsistent
          raise EAbUserAbort.Create;
        end;
@@ -3968,7 +4191,15 @@ Index: AbZipTyp.pas
        TailPosition := FindCentralDirectoryTail( FStream );
      end;
    end;
-@@ -2086,6 +2242,8 @@
+@@ -2077,6 +2242,7 @@
+ procedure TAbZipArchive.SaveArchive;
+   {builds a new archive and copies it to FStream}
+ var
++  APos               : Int64;
+   Abort              : Boolean;
+   MemStream          : TMemoryStream;
+   HasDataDescriptor  : Boolean;
+@@ -2086,6 +2252,8 @@
    WorkingStream      : TAbVirtualMemoryStream;
    CurrItem           : TAbZipItem;
    Progress           : Byte;
@@ -3977,7 +4208,7 @@ Index: AbZipTyp.pas
  begin
    if Count = 0 then
      Exit;
-@@ -2110,8 +2268,14 @@
+@@ -2110,8 +2278,13 @@
      TAbSpanWriteStream(NewStream).OnRequestImage := DoRequestImage;
    end
    else begin
@@ -3987,14 +4218,85 @@ Index: AbZipTyp.pas
 +    if CreateArchive then
 +      NewStream := FStream
 +    else begin
-+      ATempName := Copy(ExtractOnlyFileName(FArchiveName), 1, MAX_PATH div 2) + '~';
-+      ATempName := GetTempName(ExtractFilePath(FArchiveName) + ATempName) + '.tmp';
++      ATempName := GetTempName(FArchiveName);
 +      NewStream := TFileStreamEx.Create(ATempName, fmCreate or fmShareDenyWrite);
 +    end;
    end;
  
    try {NewStream}
-@@ -2299,15 +2463,25 @@
+@@ -2158,16 +2331,18 @@
+         aaAdd, aaFreshen, aaReplace, aaStreamAdd: begin
+           {compress the file and add it to new stream}
+           try
+-            WorkingStream := TAbVirtualMemoryStream.Create;
+-            try {WorkingStream}
+-              WorkingStream.SwapFileDirectory := FTempDir;
+-              {compress the file}
+-              if (CurrItem.Action = aaStreamAdd) then
+-                DoInsertFromStreamHelper(i, WorkingStream)
+-              else
+-                DoInsertHelper(i, WorkingStream);
+-              {write local header}
+-              if NewStream is TAbSpanWriteStream then begin
++            if NewStream is TAbSpanWriteStream then
++            begin
++              WorkingStream := TAbVirtualMemoryStream.Create;
++              try {WorkingStream}
++                WorkingStream.SwapFileDirectory := FTempDir;
++                {compress the file}
++                if (CurrItem.Action = aaStreamAdd) then
++                  DoInsertFromStreamHelper(i, WorkingStream)
++                else begin
++                  DoInsertHelper(i, WorkingStream);
++                end;
++                {write local header}
+                 MemStream := TMemoryStream.Create;
+                 try
+                   CurrItem.SaveLFHToStream(MemStream);
+@@ -2179,19 +2354,32 @@
+                 finally
+                   MemStream.Free;
+                 end;
+-              end
++                {copy compressed data}
++                NewStream.CopyFrom(WorkingStream, 0);
++              finally
++                WorkingStream.Free;
++              end;
++            end
++            else begin
++              {write local header}
++              CurrItem.DiskNumberStart := 0;
++              CurrItem.RelativeOffset := NewStream.Position;
++              CurrItem.UncompressedSize := mbFileSize(CurrItem.DiskFileName);
++              CurrItem.SaveLFHToStream(NewStream);
++              {compress the file}
++              if (CurrItem.Action = aaStreamAdd) then
++                DoInsertFromStreamHelper(i, NewStream)
+               else begin
+-                CurrItem.DiskNumberStart := 0;
+-                CurrItem.RelativeOffset := NewStream.Position;
+-                CurrItem.SaveLFHToStream(NewStream);
++                DoInsertHelper(i, NewStream);
+               end;
+-              {copy compressed data}
+-              NewStream.CopyFrom(WorkingStream, 0);
+-              if CurrItem.IsEncrypted then
+-                CurrItem.SaveDDToStream(NewStream);
+-            finally
+-              WorkingStream.Free;
++              {update local header}
++              APos:= NewStream.Position;
++              NewStream.Seek(CurrItem.RelativeOffset, soBeginning);
++              CurrItem.SaveLFHToStream(NewStream);
++              NewStream.Seek(APos, soBeginning);
+             end;
++            if CurrItem.IsEncrypted then
++              CurrItem.SaveDDToStream(NewStream);
+           except
+             on E : Exception do
+             begin
+@@ -2299,15 +2487,25 @@
        if (FStream is TMemoryStream) then
          TMemoryStream(FStream).LoadFromStream(NewStream)
        else begin
@@ -4027,7 +4329,7 @@ Index: AbZipTyp.pas
        end;
      end;
  
-@@ -2322,7 +2496,8 @@
+@@ -2322,7 +2520,8 @@
      DoArchiveSaveProgress( 100, Abort );
      DoArchiveProgress( 100, Abort );
    finally {NewStream}
@@ -4037,7 +4339,7 @@ Index: AbZipTyp.pas
    end;
  end;
  { -------------------------------------------------------------------------- }
-@@ -2338,7 +2513,3 @@
+@@ -2338,7 +2537,3 @@
  end;
  
  end.
