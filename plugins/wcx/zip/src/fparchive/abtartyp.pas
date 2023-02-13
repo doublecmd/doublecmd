@@ -2230,9 +2230,9 @@ var
   ItemFound    : Boolean;
   Abort        : Boolean;
   Confirm      : Boolean;
+  Duplicate    : Boolean;
   i            : Integer;
   Progress     : Byte;
-
 begin
   { create helper }
   TarHelp := TAbTarStreamHelper.Create(FStream);
@@ -2240,6 +2240,7 @@ begin
     {build Items list from tar header records}
 
     { reset Tar }
+    Duplicate := False;
     ItemFound := (FStream.Size > 0) and TarHelp.FindFirstItem;
     if ItemFound then FArchFormat := UNKNOWN_FORMAT
     else FArchFormat := V7_FORMAT;
@@ -2259,7 +2260,24 @@ begin
           if FArchFormat < Item.ArchiveFormat then
             FArchFormat := Item.ArchiveFormat; { Take the max format }
           Item.Action := aaNone;
-          FItemList.Add(Item);
+          {
+            TAR archive can contain the same directory multiple
+            times. In this case, use the last found directory.
+          }
+          if Item.IsDirectory then
+          begin
+            I := FItemList.Find(Item.FileName);
+            if (I >= 0) then
+            begin
+              Duplicate := True;
+              FItemList.Items[I] := Item;
+            end;
+          end;
+          if Duplicate then
+            Duplicate := False
+          else begin
+            FItemList.Add(Item);
+          end;
         end { end if }
         else begin
         { unhandled Tar file system entity, notify user, but otherwise ignore }
