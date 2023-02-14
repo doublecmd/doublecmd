@@ -1,7 +1,7 @@
 (* ***** BEGIN LICENSE BLOCK *****
  * Compress item to .zipx archive
  *
- * Copyright (C) 2015-2016 Alexander Koblov (alexx2000@mail.ru)
+ * Copyright (C) 2015-2023 Alexander Koblov (alexx2000@mail.ru)
  *
  * Permission is hereby granted, free of charge, to any person obtaining
  * a copy of this software and associated documentation files (the
@@ -46,13 +46,13 @@ type
   TZipHashStream = class(TReadBufStream)
   private
     FSize: Int64;
-    FHash: LongInt;
+    FHash: UInt32;
     FOnProgress: TAbProgressEvent;
   public
     constructor Create(ASource : TStream); reintroduce;
     function Read(var ABuffer; ACount : LongInt) : Integer; override;
     property OnProgress : TAbProgressEvent read FOnProgress write FOnProgress;
-    property Hash: LongInt read FHash;
+    property Hash: UInt32 read FHash;
   end;
 
 procedure DoCompressXz(Archive : TAbZipArchive; Item : TAbZipItem; OutStream, InStream : TStream);
@@ -60,7 +60,7 @@ procedure DoCompressXz(Archive : TAbZipArchive; Item : TAbZipItem; OutStream, In
 implementation
 
 uses
-  AbXz, AbDfBase, AbExcept;
+  AbXz, AbExcept, DCcrc32;
 
 procedure DoCompressXz(Archive : TAbZipArchive; Item : TAbZipItem; OutStream, InStream : TStream);
 var
@@ -77,7 +77,7 @@ begin
     finally
       LzmaCompression.Free;
     end;
-    Item.CRC32 := not ASource.Hash;
+    Item.CRC32 := LongInt(ASource.Hash);
   finally
     ASource.Free;
   end;
@@ -87,7 +87,6 @@ end;
 
 constructor TZipHashStream.Create(ASource: TStream);
 begin
-  FHash := -1;
   FSize := ASource.Size;
   inherited Create(ASource);
 end;
@@ -97,7 +96,7 @@ var
   Abort: Boolean = False;
 begin
   Result := inherited Read(ABuffer, ACount);
-  AbUpdateCRCBuffer(FHash, ABuffer, Result);
+  FHash := crc32_16bytes(@ABuffer, Result, FHash);
   if Assigned(FOnProgress) then
   begin
     FOnProgress(GetPosition * 100 div FSize, Abort);
