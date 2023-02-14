@@ -38,14 +38,16 @@ const
   MagickTrue = 1;
 
 const
-  libMagickWand: array[0..5] of String =
+  libMagickWand: array[0..7] of String =
   (
       'libMagickWand-7.Q16.so.10',
       'libMagickWand-7.Q16HDRI.so.10',
       'libMagickWand-6.Q16.so.7',
       'libMagickWand-6.Q16HDRI.so.7',
       'libMagickWand-6.Q16.so.6',
-      'libMagickWand-6.Q16HDRI.so.6'
+      'libMagickWand-6.Q16HDRI.so.6',
+      'libMagickWand-6.Q16.so.3',
+      'libMagickWand-6.Q16HDRI.so.3'
   );
 
 type
