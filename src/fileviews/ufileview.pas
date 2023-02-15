@@ -3301,7 +3301,7 @@ begin
       if WatchFilter <> [] then
       begin
         FWatchPath := CurrentPath;
-        if TFileSystemWatcher.AddWatch(FWatchPath, WatchFilter, @WatcherEvent) = False then
+        if TFileSystemWatcher.AddWatch(FWatchPath, WatchFilter, @WatcherEvent, self) = False then
           FWatchPath := EmptyStr;
       end;
     end;
@@ -3385,7 +3385,7 @@ var
 begin
   if not (csDestroying in ComponentState) and
      not FReloadNeeded and
-     (IncludeTrailingPathDelimiter(EventData.Path) = CurrentPath) then
+     String(IncludeTrailingPathDelimiter(EventData.Path)).StartsWith(CurrentPath) then
   begin
     if GetCurrentWorkType = fvwtCreate then
     begin
