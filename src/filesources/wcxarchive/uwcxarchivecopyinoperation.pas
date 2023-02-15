@@ -71,9 +71,10 @@ type
 implementation
 
 uses
-  LazUTF8, FileUtil, StrUtils, DCStrUtils, uLng, uShowMsg, fWcxArchiveCopyOperationOptions,
-  uFileSystemFileSource, DCOSUtils, uTarWriter, uClassesEx,
-  DCConvertEncoding, DCDateTimeUtils, uArchiveFileSourceUtil;
+  LazUTF8, FileUtil, StrUtils, DCStrUtils, uDCUtils, uLng, uShowMsg,
+  fWcxArchiveCopyOperationOptions, uFileSystemFileSource, DCOSUtils,
+  uTarWriter, uClassesEx, DCConvertEncoding, DCDateTimeUtils,
+  uArchiveFileSourceUtil;
 
 // ----------------------------------------------------------------------------
 // WCX callbacks
@@ -436,11 +437,11 @@ function TWcxArchiveCopyInOperation.FileExistsMessage(aSourceFile: TFile; aTarge
 begin
   Result:= rsMsgFileExistsOverwrite + LineEnding + aTargetHeader.FileName + LineEnding;
 
-  Result:= Result + Format(rsMsgFileExistsFileInfo, [Numb2USA(IntToStr(aTargetHeader.UnpSize)),
+  Result:= Result + Format(rsMsgFileExistsFileInfo, [IntToStrTS(aTargetHeader.UnpSize),
                            DateTimeToStr(WcxFileTimeToDateTime(aTargetHeader.FileTime))]) + LineEnding;
 
   Result:= Result + LineEnding + rsMsgFileExistsWithFile + LineEnding + aSourceFile.FullPath + LineEnding +
-           Format(rsMsgFileExistsFileInfo, [Numb2USA(IntToStr(aSourceFile.Size)), DateTimeToStr(aSourceFile.ModificationTime)]);
+           Format(rsMsgFileExistsFileInfo, [IntToStrTS(aSourceFile.Size), DateTimeToStr(aSourceFile.ModificationTime)]);
 end;
 
 function TWcxArchiveCopyInOperation.FileExists(aSourceFile: TFile;

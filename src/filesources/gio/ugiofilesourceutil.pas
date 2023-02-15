@@ -111,7 +111,7 @@ procedure FillAndCount(Files: TFiles; CountDirs: Boolean; out NewFiles: TFiles;
 implementation
 
 uses
-  Forms, StrUtils, DCDateTimeUtils, uFileProperty,
+  Forms, StrUtils, DCDateTimeUtils, uDCUtils, uFileProperty,
   uShowMsg, uLng, uGObject2, uGio, DCFileAttributes;
 
 procedure ShowError(AError: PGError);
@@ -205,10 +205,10 @@ end;
 function FileExistsMessage(SourceFile: TFile; TargetInfo: PGFileInfo; const TargetName: String): String;
 begin
   Result:= rsMsgFileExistsOverwrite + LineEnding + TargetName + LineEnding +
-           Format(rsMsgFileExistsFileInfo, [Numb2USA(IntToStr(g_file_info_get_size(TargetInfo))),
+           Format(rsMsgFileExistsFileInfo, [IntToStrTS(g_file_info_get_size(TargetInfo)),
                   DateTimeToStr(UnixFileTimeToDateTime(g_file_info_get_attribute_uint64(TargetInfo, FILE_ATTRIBUTE_TIME_MODIFIED)))]) + LineEnding;
   Result:= Result + LineEnding + rsMsgFileExistsWithFile + LineEnding + SourceFile.FullPath + LineEnding +
-           Format(rsMsgFileExistsFileInfo, [Numb2USA(IntToStr(SourceFile.Size)), DateTimeToStr(SourceFile.ModificationTime)]);
+           Format(rsMsgFileExistsFileInfo, [IntToStrTS(SourceFile.Size), DateTimeToStr(SourceFile.ModificationTime)]);
 end;
 
 procedure FreeAndNil(var AError: PGError);
