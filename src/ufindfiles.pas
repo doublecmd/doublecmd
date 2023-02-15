@@ -5,7 +5,7 @@
 
    Copyright (C) 2003-2004 Radek Cervinka (radek.cervinka@centrum.cz)
    Copyright (C) 2010 Przemys³aw Nagay (cobines@gmail.com)
-   Copyright (C) 2006-2018 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2006-2023 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -427,14 +427,20 @@ begin
 end;
 
 function CheckDirectoryNameRelative(const FileChecks: TFindFileChecks; const FullPath, BasePath: String): Boolean;
+var
+  APath: String;
 begin
   Result := True;
   with FileChecks do
   begin
-    // Check if FullPath is a path relative to BasePath.
-    if GetPathType(ExcludeDirectories) = ptRelative then
+    for APath in ExcludeDirectories.Split([';'], TStringSplitOptions.ExcludeEmpty) do
     begin
-      Result := ExcludeDirectories <> ExtractDirLevel(BasePath, FullPath);
+      // Check if FullPath is a path relative to BasePath.
+      if GetPathType(APath) = ptRelative then
+      begin
+        if MatchesMask(ExtractDirLevel(BasePath, FullPath), APath) then
+          Exit(False);
+      end;
     end;
   end;
 end;
