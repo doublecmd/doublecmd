@@ -4532,6 +4532,7 @@ begin
               begin
                 NewPage := ANotebook.Page[i];
                 PageAlreadyExists := Assigned(NewPage.FileView) and
+                  mbCompareFileNames(NewPage.FileView.CurrentAddress, NewFileSource.CurrentAddress) and
                   mbCompareFileNames(NewPage.FileView.CurrentPath, NewPath);
                 if PageAlreadyExists then
                   Break;
