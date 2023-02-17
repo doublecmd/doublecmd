@@ -708,8 +708,8 @@ procedure TfrmFileOp.InitializeControls(OpManItem: TOperationsManagerItem; FileO
 begin
   pnlQueue.Visible := not OpManItem.Queue.IsFree;
 
-  lblFrom.Visible         := fodl_from_lbl in FileOpDlgLook;
-  lblFileNameFrom.Visible := lblFrom.Visible;
+  lblFrom.Visible         := (fodl_from_lbl in FileOpDlgLook) and (fodl_to_lbl in FileOpDlgLook);
+  lblFileNameFrom.Visible := fodl_from_lbl in FileOpDlgLook;
 
   lblTo.Visible           := fodl_to_lbl in FileOpDlgLook;
   lblFileNameTo.Visible   := lblTo.Visible;
@@ -903,7 +903,7 @@ end;
 
 procedure TfrmFileOp.InitializeWipeOperation(OpManItem: TOperationsManagerItem);
 begin
-  InitializeControls(OpManItem, [fodl_current_pb, fodl_total_pb]);
+  InitializeControls(OpManItem, [fodl_from_lbl, fodl_current_pb, fodl_total_pb]);
 end;
 
 procedure TfrmFileOp.InitializeSplitOperation(OpManItem: TOperationsManagerItem);
