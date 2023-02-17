@@ -583,6 +583,7 @@ begin
     if WinDriveType = DRIVE_NO_ROOT_DIR then Continue;
     New(Drive);
     Result.Add(Drive);
+    ZeroMemory(Drive, SizeOf(TDrive));
     with Drive^ do
     begin
       DeviceId := EmptyStr;
