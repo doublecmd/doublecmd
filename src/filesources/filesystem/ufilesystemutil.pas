@@ -1654,14 +1654,16 @@ function TFileSystemOperationHelper.FileExists(aFile: TFile;
   ): TFileSourceOperationOptionFileExists;
 const
   Responses: array[0..13] of TFileSourceOperationUIResponse
-    = (fsourOverwrite, fsourSkip, fsourRenameSource, fsourOverwriteAll,
-       fsourSkipAll, fsourResume, fsourOverwriteOlder, fsourCancel,
-       fsouaCompare, fsourAppend, fsourOverwriteSmaller, fsourOverwriteLarger,
+    = (fsourOverwrite, fsourSkip, fsourRenameSource,
+       fsourOverwriteAll, fsourSkipAll, fsourResume,
+       fsourOverwriteOlder, fsourCancel, fsouaCompare,
+       fsourAppend, fsourOverwriteSmaller, fsourOverwriteLarger,
        fsourAutoRenameSource, fsourAutoRenameTarget);
   ResponsesNoAppend: array[0..11] of TFileSourceOperationUIResponse
-    = (fsourOverwrite, fsourSkip, fsourRenameSource,  fsourOverwriteAll,
-       fsourSkipAll, fsourOverwriteSmaller, fsourOverwriteOlder, fsourCancel,
-       fsouaCompare, fsourOverwriteLarger, fsourAutoRenameSource, fsourAutoRenameTarget);
+    = (fsourOverwrite, fsourSkip, fsourRenameSource,
+       fsourOverwriteAll, fsourSkipAll, fsouaCompare,
+       fsourOverwriteOlder, fsourCancel, fsourOverwriteSmaller,
+       fsourOverwriteLarger, fsourAutoRenameSource, fsourAutoRenameTarget);
 var
   Answer: Boolean;
   Message: String;
