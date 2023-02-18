@@ -1,6 +1,7 @@
 inherited frmOptionsMultiRename: TfrmOptionsMultiRename
   Height = 649
   Width = 735
+  HelpKeyword = '/multirename.html#configuration'
   ChildSizing.LeftRightSpacing = 6
   ChildSizing.HorizontalSpacing = 3
   ChildSizing.VerticalSpacing = 6

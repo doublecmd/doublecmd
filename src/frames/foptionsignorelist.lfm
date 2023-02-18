@@ -1,6 +1,7 @@
 inherited frmOptionsIgnoreList: TfrmOptionsIgnoreList
   Height = 325
   Width = 644
+  HelpKeyword = '/configuration.html#ConfigIgnore'
   ClientHeight = 325
   ClientWidth = 644
   DesignTop = 27

@@ -1,6 +1,7 @@
 inherited frmOptionsPluginsGroup: TfrmOptionsPluginsGroup
   Height = 244
   Width = 622
+  HelpKeyword = '/configuration.html#ConfigPlugins'
   ClientHeight = 244
   ClientWidth = 622
   OnExit = FrameExit

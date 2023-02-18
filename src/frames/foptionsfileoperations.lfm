@@ -1,6 +1,7 @@
 inherited frmOptionsFileOperations: TfrmOptionsFileOperations
   Height = 649
   Width = 734
+  HelpKeyword = '/configuration.html#ConfigOperations'
   ChildSizing.LeftRightSpacing = 6
   ClientHeight = 649
   ClientWidth = 734

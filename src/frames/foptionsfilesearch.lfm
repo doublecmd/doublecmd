@@ -1,6 +1,7 @@
 inherited frmOptionsFileSearch: TfrmOptionsFileSearch
   Height = 649
   Width = 734
+  HelpKeyword = '/configuration.html#ConfigSearch'
   ChildSizing.LeftRightSpacing = 6
   ClientHeight = 649
   ClientWidth = 734

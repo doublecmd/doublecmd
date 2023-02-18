@@ -1,6 +1,7 @@
 inherited frmOptionsFilesViewsComplement: TfrmOptionsFilesViewsComplement
   Height = 550
   Width = 640
+  HelpKeyword = '/configuration.html#ConfigViewEx'
   ClientHeight = 550
   ClientWidth = 640
   DesignLeft = 200

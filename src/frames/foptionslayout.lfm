@@ -1,6 +1,7 @@
 inherited frmOptionsLayout: TfrmOptionsLayout
   Height = 550
   Width = 784
+  HelpKeyword = '/configuration.html#ConfigLayout'
   ClientHeight = 550
   ClientWidth = 784
   DesignLeft = 276

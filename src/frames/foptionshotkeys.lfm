@@ -1,6 +1,7 @@
 inherited frmOptionsHotkeys: TfrmOptionsHotkeys
   Height = 513
   Width = 808
+  HelpKeyword = '/configuration.html#ConfigHotKeys'
   ClientHeight = 513
   ClientWidth = 808
   ParentShowHint = False

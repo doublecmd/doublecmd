@@ -1,6 +1,7 @@
 inherited frmOptionsMisc: TfrmOptionsMisc
   Height = 572
   Width = 719
+  HelpKeyword = '/configuration.html#ConfigMisc'
   HorzScrollBar.Page = 1
   VertScrollBar.Page = 1
   AutoScroll = True

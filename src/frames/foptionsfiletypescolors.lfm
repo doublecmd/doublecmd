@@ -1,6 +1,7 @@
 inherited frmOptionsFileTypesColors: TfrmOptionsFileTypesColors
   Height = 356
   Width = 759
+  HelpKeyword = '/configuration.html#ConfigColorFiles'
   AutoSize = True
   ClientHeight = 356
   ClientWidth = 759

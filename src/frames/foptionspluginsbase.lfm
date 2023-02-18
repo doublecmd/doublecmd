@@ -1,6 +1,7 @@
 inherited frmOptionsPluginsBase: TfrmOptionsPluginsBase
   Height = 376
   Width = 705
+  HelpKeyword = '/configuration.html#ConfigPlugins'
   ClientHeight = 376
   ClientWidth = 705
   ParentShowHint = False

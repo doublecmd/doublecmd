@@ -1,6 +1,7 @@
 inherited frmOptionsLog: TfrmOptionsLog
   Height = 522
   Width = 528
+  HelpKeyword = '/configuration.html#ConfigLog'
   ChildSizing.LeftRightSpacing = 6
   ChildSizing.TopBottomSpacing = 6
   ClientHeight = 522

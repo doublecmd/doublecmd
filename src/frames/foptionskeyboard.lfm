@@ -1,6 +1,7 @@
 inherited frmOptionsKeyboard: TfrmOptionsKeyboard
   Height = 223
   Width = 429
+  HelpKeyword = '/configuration.html#ConfigKeys'
   ChildSizing.LeftRightSpacing = 6
   ChildSizing.TopBottomSpacing = 6
   ClientHeight = 223

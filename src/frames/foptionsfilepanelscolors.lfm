@@ -1,6 +1,7 @@
 inherited frmOptionsFilePanelsColors: TfrmOptionsFilePanelsColors
   Height = 521
   Width = 854
+  HelpKeyword = '/configuration.html#ConfigColorPanels'
   ClientHeight = 521
   ClientWidth = 854
   DesignLeft = 143

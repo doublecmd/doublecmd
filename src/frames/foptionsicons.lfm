@@ -1,6 +1,7 @@
 inherited frmOptionsIcons: TfrmOptionsIcons
   Height = 590
   Width = 478
+  HelpKeyword = '/configuration.html#ConfigIcons'
   ClientHeight = 590
   ClientWidth = 478
   DesignLeft = 397
