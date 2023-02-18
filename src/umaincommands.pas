@@ -556,7 +556,7 @@ begin
     CalcStatisticsOperationStatistics := CalcStatisticsOperation.RetrieveStatistics;
     with CalcStatisticsOperationStatistics do
     begin
-      msgOK(Format(rsSpaceMsg, [Files, Directories, cnvFormatFileSize(Size), Numb2USA(IntToStr(Size))]));
+      msgOK(Format(rsSpaceMsg, [Files, Directories, cnvFormatFileSize(Size), IntToStrTS(Size)]));
     end;
   end;
 end;
