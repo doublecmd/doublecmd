@@ -126,7 +126,7 @@ type
 
   function CheckPlugin(const SearchTemplate: TSearchTemplateRec; const FileName: String) : Boolean;
   function CheckDirectoryName(const FileChecks: TFindFileChecks; const DirectoryName: String) : Boolean;
-  function CheckDirectoryNameRelative(const FileChecks: TFindFileChecks; const FullPath, BasePath: String) : Boolean;
+  function CheckDirectoryNameEx(const FileChecks: TFindFileChecks; const FullPath, BasePath: String) : Boolean;
   function CheckFileName(const FileChecks: TFindFileChecks; const FileName: String) : Boolean;
   function CheckFileTime(const FileChecks: TFindFileChecks; FT : TFileTime) : Boolean; inline;
   function CheckFileDateTime(const FileChecks: TFindFileChecks; DT : TDateTime) : Boolean;
@@ -426,7 +426,7 @@ begin
   end;
 end;
 
-function CheckDirectoryNameRelative(const FileChecks: TFindFileChecks; const FullPath, BasePath: String): Boolean;
+function CheckDirectoryNameEx(const FileChecks: TFindFileChecks; const FullPath, BasePath: String): Boolean;
 var
   APath: String;
 begin
@@ -435,11 +435,18 @@ begin
   begin
     for APath in ExcludeDirectories.Split([';'], TStringSplitOptions.ExcludeEmpty) do
     begin
-      // Check if FullPath is a path relative to BasePath.
-      if GetPathType(APath) = ptRelative then
-      begin
-        if MatchesMask(ExtractDirLevel(BasePath, FullPath), APath) then
-          Exit(False);
+      case GetPathType(APath) of
+        ptRelative:
+        begin
+          // Check if FullPath is a path relative to BasePath.
+          if MatchesMask(ExtractDirLevel(BasePath, FullPath), APath) then
+            Exit(False);
+        end;
+        ptAbsolute:
+        begin
+          if MatchesMask(FullPath, APath) then
+            Exit(False);
+        end;
       end;
     end;
   end;

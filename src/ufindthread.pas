@@ -320,9 +320,9 @@ begin
   with FSearchTemplate do
   begin
     Result := CheckDirectoryName(FolderName) and
-              CheckDirectoryNameRelative(FFileChecks,
-                CurrentDir + PathDelim + FolderName,
-                FSearchTemplate.StartPath);
+              CheckDirectoryNameEx(FFileChecks,
+                                   CurrentDir + PathDelim + FolderName,
+                                   FSearchTemplate.StartPath);
   end;
 end;
 

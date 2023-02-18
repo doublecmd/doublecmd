@@ -272,7 +272,7 @@ begin
     if AFile.IsDirectory or AFile.IsLinkToDirectory then
     begin
       Matches := CheckDirectoryName(FFileChecks, aFile.Name) and
-                 CheckDirectoryNameRelative(FFileChecks, aFile.FullPath, FRootDir);
+                 CheckDirectoryNameEx(FFileChecks, aFile.FullPath, FRootDir);
     end
     else begin
       Matches := CheckFile(FFileTemplate.SearchRecord, FFileChecks, aFile);
