@@ -97,7 +97,7 @@ type
     function GetFavoriteTabs(Index: integer): TFavoriteTabs;
     function GetBestIndexForAlphabeticalNewFavoriteTabs(sFavoriteTabsNameToFindAPlaceFor: string): integer;
     procedure AddToListAndToXmlFileHeader(paramFavoriteTabs: TFavoriteTabs; AConfig: TXmlConfig; SpecifiedIndex: integer = -1);
-    function ActualDumpFavoriteTabsListInXml(AConfig: TXmlConfig): boolean;
+    procedure ActualDumpFavoriteTabsListInXml(AConfig: TXmlConfig);
   public
     constructor Create;
     destructor Destroy; override;
@@ -852,7 +852,7 @@ end;
 // Also, we need to do a kind of purge of the subsequent node regarding actual tab setup.
 // To do that, we check each node to see if we have a correspondant entry in the header.
 // If not, we flush that node!
-function TFavoriteTabsList.ActualDumpFavoriteTabsListInXml(AConfig: TXmlConfig): boolean;
+procedure TFavoriteTabsList.ActualDumpFavoriteTabsListInXml(AConfig: TXmlConfig);
 var
   SubNode, ListNode, ANode, BNode: TXmlNode;
   iIndex: integer;

@@ -31,7 +31,7 @@ interface
 
 uses
   SysUtils, Classes, WfxPlugin, uWFXprototypes, LazUTF8Classes,
-  dynlibs, DCClassesUtf8, Extension, DCBasicTypes, DCXmlConfig,
+  dynlibs, Extension, DCBasicTypes, DCXmlConfig,
   uWdxPrototypes, uWdxModule, uFileSource;
 
 const

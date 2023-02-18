@@ -30,7 +30,7 @@ unit uOSUtils;
 interface
 
 uses
-    SysUtils, Classes, LCLType, uDrive, DCBasicTypes, uFindEx
+    SysUtils, Classes, LCLType, uDrive, DCBasicTypes
     {$IF DEFINED(UNIX)}
     , DCFileAttributes
       {$IFDEF DARWIN}
@@ -192,7 +192,7 @@ implementation
 
 uses
   StrUtils, uFileProcs, FileUtil, uDCUtils, DCOSUtils, DCStrUtils, uGlobs, uLng,
-  fConfirmCommandLine, uLog, DCConvertEncoding, LazUTF8, uSysFolders
+  fConfirmCommandLine, uLog, DCConvertEncoding, LazUTF8
   {$IF DEFINED(MSWINDOWS)}
   , Windows, uMyWindows, JwaWinNetWk,
     uShlObjAdditional, DCWindows, uNetworkThread

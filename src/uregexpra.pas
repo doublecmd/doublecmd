@@ -109,11 +109,11 @@ interface
 
 uses
   Classes, // TStrings in Split method
-  SysUtils, // Exception
+  SysUtils // Exception
   {$IFDEF D2009}
-    {$IFDEF D_XE}System.{$ENDIF}Character,
+    ,{$IFDEF D_XE}System.{$ENDIF}Character
   {$ENDIF}
-  Math;
+  ;
 
 {$IFNDEF UniCode}
 type
@@ -808,7 +808,7 @@ implementation
 
 {$IFDEF FastUnicodeData}
 uses
-  unicodedata;
+  Math, unicodedata;
 {$ENDIF}
 
 {$IFNDEF UNICODE}

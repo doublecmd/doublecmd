@@ -539,7 +539,7 @@ begin
   if Assigned(FFileSourceCalcStatisticsOperation) then
     with FFileSourceCalcStatisticsOperation.RetrieveStatistics do
     begin
-      lblSize.Caption := Format('%s (%s)', [cnvFormatFileSize(Size), Numb2USA(IntToStr(Size))]);
+      lblSize.Caption := Format('%s (%s)', [cnvFormatFileSize(Size), IntToStrTS(Size)]);
       lblContains.Caption := Format(rsPropsContains, [Files, Directories]);
     end;
 end;

@@ -51,7 +51,7 @@ uses
 
   //DC
   uOSUtils, DCOSUtils, uLng, uFileSystemUtil, uFileSystemFileSource,
-  uFileProcs, uAdministrator, DCConvertEncoding;
+  uAdministrator, DCConvertEncoding;
 
 { TFileSystemCombineOperation.Create }
 constructor TFileSystemCombineOperation.Create(aFileSource: IFileSource;
