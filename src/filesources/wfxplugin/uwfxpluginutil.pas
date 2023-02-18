@@ -117,7 +117,7 @@ type
 implementation
 
 uses
-  uDCUtils, uFileProcs, StrUtils, DCStrUtils, uLng, uFileSystemUtil, uFileProperty,
+  uFileProcs, DCStrUtils, uDCUtils, uLng, uFileSystemUtil, uFileProperty,
   DCDateTimeUtils, DCBasicTypes, DCFileAttributes;
 
 function WfxRenameFile(aFileSource: IWfxPluginFileSource; const aFile: TFile; const NewFileName: String): Boolean;

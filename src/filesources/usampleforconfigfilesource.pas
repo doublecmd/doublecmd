@@ -49,7 +49,7 @@ type
 implementation
 
 uses
-  uFileSystemFileSource, uSampleForConfigListOperation, uLng;
+  uSampleForConfigListOperation;
 
 function TSampleForConfigFileSource.GetRootDir(sPath: String): String;
 begin

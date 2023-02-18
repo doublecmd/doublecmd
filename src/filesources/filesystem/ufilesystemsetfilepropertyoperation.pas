@@ -56,7 +56,7 @@ implementation
 
 uses
   uGlobs, uLng, DCDateTimeUtils, uFileSystemUtil, uShowForm,
-  DCOSUtils, DCStrUtils, DCBasicTypes, uAdministrator
+  DCOSUtils, DCStrUtils, uAdministrator
   {$IF DEFINED(UNIX)}
     , BaseUnix, DCUnix
   {$ENDIF}

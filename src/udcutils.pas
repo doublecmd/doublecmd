@@ -194,7 +194,7 @@ procedure SplitCmdLine(sCmdLine: String; out sCommand: String; out Args: TDynami
    @param(sCmd Command)
    @param(sParams Parameters)
 }
-procedure SplitCmdLine(sCmdLine : String; var sCmd, sParams : String);
+procedure SplitCmdLine(const sCmdLine : String; out sCmd, sParams : String);
 {$ENDIF}
 function CompareStrings(const s1, s2: String; Natural: Boolean; Special: Boolean; CaseSensitivity: TCaseSensitivity): PtrInt;
 
@@ -236,7 +236,7 @@ procedure UpdateColor(Control: TControl; Checked: Boolean);
 procedure EnableControl(Control:  TControl; Enabled: Boolean);
 procedure SetComboWidthToLargestElement(AComboBox: TCustomComboBox; iExtraWidthToAdd: integer = 0);
 
-procedure SplitCmdLineToCmdParams(sCmdLine : String; var sCmd, sParams : String);
+procedure SplitCmdLineToCmdParams(const sCmdLine : String; out sCmd, sParams : String);
 
 function GuessLineBreakStyle(const S: String): TTextLineBreakStyle;
 function GetTextRange(Strings: TStrings; Start, Finish: Integer): String;
@@ -724,7 +724,7 @@ end;
 
 {$IF DEFINED(UNIX)}
 // Helper for RemoveQuotation and SplitCmdLine.
-procedure RemoveQuotationOrSplitCmdLine(sCmdLine: String; out sCommand: String; out Args: TDynamicStringArray; bSplitArgs: Boolean; bNoCmd: Boolean = False);
+procedure RemoveQuotationOrSplitCmdLine(const sCmdLine: String; out sCommand: String; out Args: TDynamicStringArray; bSplitArgs: Boolean; bNoCmd: Boolean = False);
 var
   I : Integer;
   QuoteChar : Char;
@@ -845,7 +845,7 @@ begin
 end;
 {$ENDIF}
 
-procedure SplitCmdLineToCmdParams(sCmdLine : String; var sCmd, sParams : String);
+procedure SplitCmdLineToCmdParams(const sCmdLine : String; out sCmd, sParams : String);
 var
   iPos : Integer;
 begin
@@ -879,7 +879,7 @@ begin
   RemoveQuotationOrSplitCmdLine(sCmdLine, sCommand, Args, True);
 end;
 {$ELSEIF DEFINED(MSWINDOWS)}
-procedure SplitCmdLine(sCmdLine : String; var sCmd, sParams : String);
+procedure SplitCmdLine(const sCmdLine : String; out sCmd, sParams : String);
 begin
   SplitCmdLineToCmdParams(sCmdLine,sCmd,sParams);
 end;

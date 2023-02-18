@@ -111,8 +111,8 @@ procedure FillAndCount(Files: TFiles; CountDirs: Boolean; out NewFiles: TFiles;
 implementation
 
 uses
-  Forms, StrUtils, DCDateTimeUtils, uDCUtils, uFileProperty,
-  uShowMsg, uLng, uGObject2, uGio, DCFileAttributes;
+  Forms, StrUtils, DCDateTimeUtils, uFileProperty,
+  uDCUtils, uShowMsg, uLng, uGObject2, uGio, DCFileAttributes;
 
 procedure ShowError(AError: PGError);
 begin

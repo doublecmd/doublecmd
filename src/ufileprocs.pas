@@ -235,8 +235,8 @@ var
 begin
   Result:= EmptyStr;
   ASize:= mbFileSize(FileName);
-  SetLength(Text, ASize);
   if Length(Text) = 0 then Exit;
+  SetLength(Text, ASize);
   Handle:= mbFileOpen(FileName, fmOpenRead or fmShareDenyNone);
   if Handle <> feInvalidHandle then
   begin

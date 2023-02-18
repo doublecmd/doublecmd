@@ -174,9 +174,9 @@ type
 implementation
 
 uses
-  uDebug, uDCUtils, uOSUtils, DCStrUtils, FileUtil, uFindEx, DCClassesUtf8, uFileProcs, uLng,
+  uDebug, uOSUtils, DCStrUtils, FileUtil, uFindEx, DCClassesUtf8, uFileProcs, uLng,
   DCBasicTypes, uFileSource, uFileSystemFileSource, uFileProperty, uAdministrator,
-  StrUtils, DCDateTimeUtils, uShowMsg, Forms, LazUTF8, uHash, uFileCopyEx, SysConst
+  DCDateTimeUtils, uShowMsg, Forms, LazUTF8, uHash, uFileCopyEx, SysConst, uDCUtils
 {$IFDEF UNIX}
   , BaseUnix, Unix, DCUnix
 {$ENDIF}
