@@ -287,11 +287,11 @@ begin
   Result:= rsMsgFileExistsOverwrite + LineEnding + WrapTextSimple(TargetName, 100) + LineEnding;
   if FileGetAttrUAC(TargetName, TargetInfo) then
   begin
-    Result:= Result + Format(rsMsgFileExistsFileInfo, [cnvFormatFileSize(TargetInfo.Size, uoscOperation),
+    Result:= Result + Format(rsMsgFileExistsFileInfo, [IntToStrTS(TargetInfo.Size),
                              DateTimeToStr(FileTimeToDateTime(TargetInfo.LastWriteTime))]) + LineEnding;
   end;
   Result:= Result + LineEnding + rsMsgFileExistsWithFile + LineEnding + WrapTextSimple(SourceName, 100) + LineEnding +
-           Format(rsMsgFileExistsFileInfo, [cnvFormatFileSize(SourceSize, uoscOperation), DateTimeToStr(SourceTime)]);
+           Format(rsMsgFileExistsFileInfo, [IntToStrTS(SourceSize), DateTimeToStr(SourceTime)]);
 end;
 
 function FileCopyProgress(TotalBytes, DoneBytes: Int64; UserData: Pointer): LongBool;
