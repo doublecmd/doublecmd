@@ -101,7 +101,7 @@ private
   procedure notifyPath;
   procedure interrupt;
 public
-  constructor create( const callback:TDarwinFSWatchCallBack; const watchSubtree:Boolean=false; const latency:Integer=300 );
+  constructor create( const callback:TDarwinFSWatchCallBack; const watchSubtree:Boolean=true; const latency:Integer=300 );
   destructor destroy; override;
 
   procedure start;
