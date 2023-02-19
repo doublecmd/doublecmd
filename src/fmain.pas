@@ -6661,10 +6661,8 @@ begin
       st := ExcludeTrailingBackslash(ActiveFrame.CurrentPath);
       Hint := st;
 
-      st := MinimizeFilePath(Format(fmtCommandPath, [st]),
-         Canvas, pnlCommand.Width div 3);
-      Width := Canvas.TextWidth(st);
-      Caption := st;
+      Caption := MinimizeFilePath(Format(fmtCommandPath, [st]),
+              Canvas, pnlCommand.Width div 3);
     end;
 
     // Change path in terminal

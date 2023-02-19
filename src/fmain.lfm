@@ -510,7 +510,6 @@ object frmMain: TfrmMain
         Height = 15
         Top = 6
         Width = 24
-        AutoSize = False
         BorderSpacing.Left = 2
         Caption = 'Path'
         ParentColor = False
