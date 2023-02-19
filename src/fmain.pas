@@ -570,6 +570,7 @@ type
     procedure dskToolButtonMouseDown(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
     procedure FormKeyUp( Sender: TObject; var {%H-}Key: Word; Shift: TShiftState) ;
+    procedure FormResize(Sender: TObject);
     function MainToolBarToolItemShortcutsHint(Sender: TObject; ToolItem: TKASNormalItem): String;
     procedure mnuAllOperStartClick(Sender: TObject);
     procedure mnuAllOperStopClick(Sender: TObject);
@@ -2589,7 +2590,8 @@ begin
   end;
 
   QuickViewClose;
-  UpdatePrompt;
+  if Visible then
+     UpdatePrompt;
   UpdateTreeViewPath;
   UpdateMainTitleBar;
 end;
@@ -4051,6 +4053,11 @@ procedure TfrmMain.FormKeyUp( Sender: TObject; var Key: Word;
   Shift: TShiftState) ;
 begin
   SetDragCursor(Shift);
+end;
+
+procedure TfrmMain.FormResize(Sender: TObject);
+begin
+  UpdatePrompt;
 end;
 
 procedure TfrmMain.FormKeyDown(Sender: TObject; var Key: Word;
@@ -6642,8 +6649,6 @@ begin
 end;
 
 procedure TfrmMain.UpdatePrompt;
-const
-  PTLen = 40;
 var
   st: String;
   Properties: TFileSourceProperties;
@@ -6653,18 +6658,13 @@ begin
     with lblCommandPath do
     begin
       Visible := True;
-      AutoSize := False;
-      if UTF8Length(ActiveFrame.CurrentPath) > PTLen
-      then
-        st:= UTF8Copy(ActiveFrame.CurrentPath,
-                              UTF8Length(ActiveFrame.CurrentPath) - PTLen,
-                              PTLen)
-      else
-        st:= ActiveFrame.CurrentPath;
-      //
-      Caption := Format(fmtCommandPath, [st]);
-      AutoSize := True;
-      Left := 1;
+      st := ExcludeTrailingBackslash(ActiveFrame.CurrentPath);
+      Hint := st;
+
+      st := MinimizeFilePath(Format(fmtCommandPath, [st]),
+         Canvas, pnlCommand.Width div 3);
+      Width := Canvas.TextWidth(st);
+      Caption := st;
     end;
 
     // Change path in terminal
