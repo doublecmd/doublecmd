@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Scalable Vector Graphics reader implementation (via rsvg and cairo)
 
-   Copyright (C) 2012-2022 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2012-2023 Alexander Koblov (alexx2000@mail.ru)
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Lesser General Public
@@ -249,11 +249,39 @@ const
 var
   libcairo, librsvg, libgobject: TLibHandle;
 
-procedure Initialize;
+procedure LoadLibraries;
+{$IF DEFINED(UNIX)}
 begin
   libcairo:= LoadLibrary(cairolib);
   librsvg:= LoadLibrary(rsvglib);
   libgobject:= LoadLibrary(gobjectlib);
+end;
+{$ELSEIF DEFINED(MSWINDOWS)}
+var
+  I: Integer;
+  Path, FullName: String;
+  Value: TStringArray;
+begin
+  Path:= GetEnvironmentVariable('PATH');
+  Value:= Path.Split([PathSeparator], TStringSplitOptions.ExcludeEmpty);
+  for I:= Low(Value) to High(Value) do
+  begin
+    Path:= IncludeTrailingPathDelimiter(Value[I]);
+    FullName:= Path + rsvglib;
+    if mbFileExists(FullName)then
+    begin
+      librsvg:= mbLoadLibraryEx(FullName);
+      libcairo:= mbLoadLibraryEx(Path + cairolib);
+      libgobject:= mbLoadLibraryEx(Path + gobjectlib);
+      Break;
+    end;
+  end;
+end;
+{$ENDIF}
+
+procedure Initialize;
+begin
+  LoadLibraries;
 
   if (libcairo <> NilHandle) and (librsvg <> NilHandle) and (libgobject <> NilHandle) then
   try

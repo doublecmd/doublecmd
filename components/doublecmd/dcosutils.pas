@@ -248,6 +248,7 @@ function mbSysErrorMessage(ErrorCode: Integer): String; overload;
 }
 function mbGetModuleName(Address: Pointer = nil): String;
 function mbLoadLibrary(const Name: String): TLibHandle;
+function mbLoadLibraryEx(const Name: String): TLibHandle;
 function SafeGetProcAddress(Lib: TLibHandle; const ProcName: AnsiString): Pointer;
 {en
    Reads the concrete file's name that the link points to.
@@ -1723,6 +1724,45 @@ begin
     Result:= LoadLibraryW(PWideChar(CeUtf8ToUtf16(Name)));
   finally
     SetCurrentDir(sRememberPath);
+  end;
+end;
+{$ELSE}
+begin
+  Result:= TLibHandle(dlopen(PChar(UTF8ToSys(Name)), RTLD_LAZY));
+end;
+{$ENDIF}
+
+function mbLoadLibraryEx(const Name: String): TLibHandle;
+{$IF DEFINED(MSWINDOWS)}
+const
+  PATH_ENV = 'PATH';
+var
+  APath: String;
+  usName: UnicodeString;
+begin
+  usName:= CeUtf8ToUtf16(Name);
+
+  if CheckWin32Version(10)then
+  begin
+    Result:= LoadLibraryExW(PWideChar(usName), 0, LOAD_LIBRARY_SEARCH_DLL_LOAD_DIR or LOAD_LIBRARY_SEARCH_DEFAULT_DIRS);
+  end
+  else if CheckWin32Version(6) then
+  begin
+    SetDllDirectoryW(PWideChar(ExtractFileDir(usName)));
+    try
+      Result:= LoadLibraryW(PWideChar(usName));
+    finally
+      SetDllDirectoryW(nil);
+    end;
+  end
+  else begin
+    APath:= mbGetEnvironmentVariable(PATH_ENV);
+    try
+      mbSetEnvironmentVariable(PATH_ENV, ExtractFileDir(Name));
+      Result:= LoadLibraryW(PWideChar(usName));
+    finally
+      mbSetEnvironmentVariable(PATH_ENV, APath);
+    end;
   end;
 end;
 {$ELSE}
