@@ -11549,11 +11549,6 @@ msgctxt "ulng.rsmsghotdirsimplename"
 msgid "&Name:"
 msgstr "名称(&N)："
 
-#: ulng.rsmsghotdirsimpleseparator
-msgctxt "ulng.rsmsghotdirsimpleseparator"
-msgid "(separator)"
-msgstr "（分隔器）"
-
 #: ulng.rsmsghotdirsubmenuname
 msgctxt "ulng.rsmsghotdirsubmenuname"
 msgid "Submenu name"

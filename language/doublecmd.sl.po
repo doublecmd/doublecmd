@@ -11590,11 +11590,6 @@ msgctxt "ulng.rsmsghotdirsimplename"
 msgid "&Name:"
 msgstr "&Ime:"
 
-#: ulng.rsmsghotdirsimpleseparator
-msgctxt "ulng.rsmsghotdirsimpleseparator"
-msgid "(separator)"
-msgstr "(ločilnik)"
-
 #: ulng.rsmsghotdirsubmenuname
 msgctxt "ulng.rsmsghotdirsubmenuname"
 msgid "Submenu name"
