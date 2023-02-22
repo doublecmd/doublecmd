@@ -99,14 +99,16 @@ function cnvFormatFileSize(const iSize: Int64; FSF: TFileSizeFormat; const Numbe
 function cnvFormatFileSize(const iSize: Int64; const UsageOfSizeConversion: TUsageOfSizeConversion): String;
 function cnvFormatFileSize(const iSize: Int64): String; inline;
 {en
-   Minimize file path
+   Minimize file path replacing the folder name
+     before the last PathDelim with '..'
+     (if path ending with PathDelim it replaces the last folder name!!!)
    @param(PathToMince File path)
    @param(Canvas Output canvas)
    @param(MaxLen Max length of path in pixels)
    @returns(Minimized file path)
 }
 function MinimizeFilePath(const PathToMince: String; Canvas: TCanvas;
-                          MaxLen: Integer): String;
+                          MaxWidth: Integer): String;
 {en
   Checks if a filename matches any filename in the filelist or
   if it could be in any directory of the file list or any of their subdirectories.
@@ -456,7 +458,7 @@ end;
    
 {=========================================================}
 function MinimizeFilePath(const PathToMince: String; Canvas: TCanvas;
-                                                      MaxLen: Integer): String;
+                                                      MaxWidth: Integer): String;
 {=========================================================}
 // "C:\Program Files\Delphi\DDropTargetDemo\main.pas"
 // "C:\Program Files\..\main.pas"
@@ -467,7 +469,7 @@ Var
   iPos: Integer;
 
 Begin
-  if MaxLen <= 0 then Exit;
+  if MaxWidth <= 0 then Exit;
 
   sHelp := PathToMince;
   iPos := Pos(PathDelim, sHelp);
@@ -494,10 +496,10 @@ Begin
     sFile := sl[sl.Count - 1];
     sl.Delete(sl.Count - 1);
     Result := '';
-    MaxLen := MaxLen - Canvas.TextWidth('XXX');
-    if (sl.Count <> 0) and (Canvas.TextWidth(Result + sl[0] + PathDelim + sFile) < MaxLen) then
+    MaxWidth := MaxWidth - Canvas.TextWidth('XXX');
+    if (sl.Count <> 0) and (Canvas.TextWidth(Result + sl[0] + PathDelim + sFile) < MaxWidth) then
       begin
-        While (sl.Count <> 0) and (Canvas.TextWidth(Result + sl[0] + PathDelim + sFile) < MaxLen) Do
+        While (sl.Count <> 0) and (Canvas.TextWidth(Result + sl[0] + PathDelim + sFile) < MaxWidth) Do
           Begin
             Result := Result + sl[0] + PathDelim;
             sl.Delete(0);
@@ -522,9 +524,9 @@ Begin
           End;
     sl.Free;
   End;
-  if Canvas.TextWidth(Result) > MaxLen + Canvas.TextWidth('XXX') then
+  if Canvas.TextWidth(Result) > MaxWidth + Canvas.TextWidth('XXX') then
        begin
-         while (Length(Result) > 0) and (Canvas.TextWidth(Result) > MaxLen) do
+         while (Length(Result) > 0) and (Canvas.TextWidth(Result) > MaxWidth) do
            begin
              Delete(Result, Length(Result), 1);
            end;
