@@ -104,7 +104,7 @@ function cnvFormatFileSize(const iSize: Int64): String; inline;
      (if path ending with PathDelim it replaces the last folder name!!!)
    @param(PathToMince File path)
    @param(Canvas Output canvas)
-   @param(MaxLen Max length of path in pixels)
+   @param(MaxWidth Max width of the path in pixels)
    @returns(Minimized file path)
 }
 function MinimizeFilePath(const PathToMince: String; Canvas: TCanvas;
@@ -467,7 +467,7 @@ Var
   sHelp, sFile,
   sFirst: String;
   iPos: Integer;
-
+  Len: Integer;
 Begin
   if MaxWidth <= 0 then Exit;
 
@@ -525,13 +525,15 @@ Begin
     sl.Free;
   End;
   if Canvas.TextWidth(Result) > MaxWidth + Canvas.TextWidth('XXX') then
-       begin
-         while (Length(Result) > 0) and (Canvas.TextWidth(Result) > MaxWidth) do
-           begin
-             Delete(Result, Length(Result), 1);
-           end;
-         Result := Copy(Result, 1, Length(Result) - 3) + '...';
-       end;
+  begin
+    Len:= UTF8Length(Result);
+    while (Len >= 3) and (Canvas.TextWidth(Result) > MaxWidth) do
+    begin
+      UTF8Delete(Result, Len, 1);
+      Dec(Len);
+    end;
+    Result := UTF8Copy(Result, 1, Len - 3) + '...';
+  end;
 End;
 
 
