@@ -2060,8 +2060,6 @@ begin
             Exit(FiLinkIconID)
           else if Ext = 'url' then
             Exit(FiLinkIconID)
-          else if Ext = 'ico' then
-            Exit(FiDefaultIconID)
         end;
       {$ELSEIF DEFINED(UNIX) AND NOT (DEFINED(DARWIN) OR DEFINED(HAIKU))}
       if IconsMode = sim_all_and_exe then
@@ -2082,6 +2080,15 @@ begin
         Result := FExtList.Find(Ext);
         if Result >= 0 then
           Exit(PtrInt(PtrUInt(FExtList.List[Result]^.Data)));
+
+        {$IF DEFINED(MSWINDOWS)}
+        if IconsMode = sim_all then
+        begin
+          if (Ext = 'ico') or (Ext = 'ani') or (Ext = 'cur') then
+            Exit(FiDefaultIconID)
+        end
+        else
+        {$ENDIF}
 
         if IconsMode <= sim_standart then
           Exit(FiDefaultIconID);
