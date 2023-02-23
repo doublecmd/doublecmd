@@ -159,7 +159,7 @@ object frmOptions: TfrmOptions
       Left = 9
       Height = 23
       Top = 9
-      Width = 183
+      Width = 184
       OnFilterItem = TreeFilterEditFilterItem
       ButtonWidth = 23
       BorderSpacing.Left = 8
