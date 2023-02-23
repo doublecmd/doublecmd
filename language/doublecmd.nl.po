@@ -9821,6 +9821,10 @@ msgstr "om dit object te maken:"
 msgid "to delete this object:"
 msgstr "om dit object te verwijderen:"
 
+#: uadministrator.rselevationrequireddeletetotrash
+msgid "to delete to trash this object:"
+msgstr ""
+
 #: uadministrator.rselevationrequiredgetattributes
 msgid "to get attributes of this object:"
 msgstr "om attributen van dit object te krijgen:"

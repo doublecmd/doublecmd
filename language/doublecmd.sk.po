@@ -10058,6 +10058,10 @@ msgstr "na vytvorenie tohto objektu:"
 msgid "to delete this object:"
 msgstr "na vymazanie tohto objektu:"
 
+#: uadministrator.rselevationrequireddeletetotrash
+msgid "to delete to trash this object:"
+msgstr ""
+
 #: uadministrator.rselevationrequiredgetattributes
 msgid "to get attributes of this object:"
 msgstr "na získanie atribútov tohto objektu:"

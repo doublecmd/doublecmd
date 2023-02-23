@@ -9798,6 +9798,10 @@ msgstr "для стварэння гэтага аб’екта:"
 msgid "to delete this object:"
 msgstr "для выдалення гэтага аб’екта:"
 
+#: uadministrator.rselevationrequireddeletetotrash
+msgid "to delete to trash this object:"
+msgstr ""
+
 #: uadministrator.rselevationrequiredgetattributes
 msgid "to get attributes of this object:"
 msgstr "для атрымання атрыбутаў гэтага аб’екта:"

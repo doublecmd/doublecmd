@@ -9984,6 +9984,10 @@ msgstr "um dieses Objekt zu erstellen:"
 msgid "to delete this object:"
 msgstr "um dieses Objekt zu löschen:"
 
+#: uadministrator.rselevationrequireddeletetotrash
+msgid "to delete to trash this object:"
+msgstr ""
+
 #: uadministrator.rselevationrequiredgetattributes
 msgid "to get attributes of this object:"
 msgstr "um die Attribute zu erfragen von:"
@@ -14203,3 +14207,4 @@ msgstr "Eine Ersetzung hat nicht stattgefunden."
 #, object-pascal-format
 msgid "No setup named \"%s\""
 msgstr "Keine Einstellung namens »%s«"
+

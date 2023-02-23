@@ -10068,6 +10068,10 @@ msgstr "ennek az objektumnak a létrehozásához:"
 msgid "to delete this object:"
 msgstr "ennek az objektumnak a törléséhez:"
 
+#: uadministrator.rselevationrequireddeletetotrash
+msgid "to delete to trash this object:"
+msgstr ""
+
 #: uadministrator.rselevationrequiredgetattributes
 msgid "to get attributes of this object:"
 msgstr "ezen objektum attribútumainak lekéréséhez:"

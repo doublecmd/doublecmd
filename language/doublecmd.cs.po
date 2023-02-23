@@ -9820,6 +9820,10 @@ msgstr "vytvoření objektu:"
 msgid "to delete this object:"
 msgstr "výmaz objektu:"
 
+#: uadministrator.rselevationrequireddeletetotrash
+msgid "to delete to trash this object:"
+msgstr ""
+
 #: uadministrator.rselevationrequiredgetattributes
 msgid "to get attributes of this object:"
 msgstr "atributy objektu:"

@@ -9759,6 +9759,10 @@ msgstr "aby utworzyć ten obiekt:"
 msgid "to delete this object:"
 msgstr "aby usunąć ten obiekt:"
 
+#: uadministrator.rselevationrequireddeletetotrash
+msgid "to delete to trash this object:"
+msgstr ""
+
 #: uadministrator.rselevationrequiredgetattributes
 msgid "to get attributes of this object:"
 msgstr "aby uzyskać atrybuty tego obiektu:"

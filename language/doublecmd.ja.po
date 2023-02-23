@@ -10028,6 +10028,10 @@ msgstr "このオブジェクトを作成する:"
 msgid "to delete this object:"
 msgstr "このオブジェクトを削除する:"
 
+#: uadministrator.rselevationrequireddeletetotrash
+msgid "to delete to trash this object:"
+msgstr ""
+
 #: uadministrator.rselevationrequiredgetattributes
 msgid "to get attributes of this object:"
 msgstr "このオブジェクトの属性を取得する:"
