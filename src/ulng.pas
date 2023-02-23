@@ -1179,22 +1179,23 @@ begin
 
   gPOFileName := sFileName;
   if not mbFileExists(gpLngDir + gPOFileName) then
-    begin
-      gPOFileName := 'doublecmd.%s.po';
-      GetLanguageIDs(Lang, FallbackLang);
-      gPOFileName := Format(gPOFileName,[FallbackLang]);
-    end;
+  begin
+    gPOFileName := 'doublecmd.%s.po';
+    GetLanguageIDs(Lang, FallbackLang);
+    gPOFileName := Format(gPOFileName,[FallbackLang]);
+  end;
   if not mbFileExists(gpLngDir + gPOFileName) then
-    begin
-      gPOFileName := Format(gPOFileName,[Lang]);
-    end;
-  if mbFileExists(gpLngDir + gPOFileName) then
-    begin
-      DCDebug('Loading lng file: ' + gpLngDir + gPOFileName);
-      LRSTranslator := TTranslator.Create(gpLngDir + gPOFileName);
-      Translations.TranslateResourceStrings(gpLngDir + gPOFileName);
-      TranslateLCL(gPOFileName);
-    end;
+  begin
+    gPOFileName := Format(gPOFileName,[Lang]);
+  end;
+  if not mbFileExists(gpLngDir + gPOFileName) then
+    gPOFileName := 'doublecmd.pot'
+  else begin
+    DCDebug('Loading lng file: ' + gpLngDir + gPOFileName);
+    LRSTranslator := TTranslator.Create(gpLngDir + gPOFileName);
+    Translations.TranslateResourceStrings(gpLngDir + gPOFileName);
+    TranslateLCL(gPOFileName);
+  end;
 end;
 
 procedure DoLoadLng;
