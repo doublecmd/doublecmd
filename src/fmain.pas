@@ -3515,6 +3515,7 @@ function TfrmMain.CopyFiles(SourceFileSource, TargetFileSource: IFileSource;
                             bShowDialog: Boolean;
                             QueueIdentifier: TOperationsManagerQueueIdentifier): Boolean;
 var
+  BaseDir: String;
   sDestination: String;
   sDstMaskTemp: String;
   FileSource: IFileSource;
@@ -3607,9 +3608,15 @@ begin
 
         sDestination := CopyDialog.edtDst.Text;
 
+        if SourceFileSource.IsClass(TArchiveFileSource) then
+          BaseDir := ExtractFilePath(SourceFileSource.CurrentAddress)
+        else begin
+          BaseDir := SourceFiles.Path;
+        end;
+
         GetDestinationPathAndMask(SourceFiles, SourceFileSource,
                                   TargetFileSource, sDestination,
-                                  SourceFiles.Path, TargetPath, sDstMaskTemp);
+                                  BaseDir, TargetPath, sDstMaskTemp);
 
         if (TargetFileSource = nil) or (Length(TargetPath) = 0) then
         begin
