@@ -28,7 +28,7 @@ unit uFindFiles;
 interface
 
 uses
-  Classes, SysUtils, DCBasicTypes, uFile;
+  Classes, SysUtils, DCBasicTypes, uFile, uFindEx;
 
 type
   TTextSearchOption = (tsoMatchCase, tsoRegExpr, tsoHex);
@@ -124,7 +124,8 @@ type
   procedure DateTimeOptionsToChecks(const SearchTemplate: TSearchTemplateRec;
                                     var FileChecks: TFindFileChecks);
 
-  function CheckPlugin(const SearchTemplate: TSearchTemplateRec; const FileName: String) : Boolean;
+  function CheckPlugin(const SearchTemplate: TSearchTemplateRec; const AFile: TFile) : Boolean;
+  function CheckPlugin(const SearchTemplate: TSearchTemplateRec; const SearchRec: TSearchRecEx; const Folder: String) : Boolean;
   function CheckDirectoryName(const FileChecks: TFindFileChecks; const DirectoryName: String) : Boolean;
   function CheckDirectoryNameEx(const FileChecks: TFindFileChecks; const FullPath, BasePath: String) : Boolean;
   function CheckFileName(const FileChecks: TFindFileChecks; const FileName: String) : Boolean;
@@ -138,9 +139,9 @@ type
 implementation
 
 uses
-  strutils, DateUtils, DCDateTimeUtils, DCFileAttributes, RegExpr, uMasks,
+  StrUtils, DateUtils, DCDateTimeUtils, DCFileAttributes, RegExpr, uMasks,
   DCStrUtils, DCUnicodeUtils, uFileProperty, uGlobs, uWDXModule, LazUTF8,
-  WdxPlugin, uRegExprW;
+  WdxPlugin, Variants, uRegExprW, uFileSystemFileSource;
 
 const
   cKilo = 1024;
@@ -377,23 +378,33 @@ begin
 end;
 
 function CheckPlugin(const SearchTemplate: TSearchTemplateRec;
-  const FileName: String): Boolean;
+  const AFile: TFile): Boolean;
 var
   I: Integer;
   Work: Boolean;
   Value: Variant;
+  FileName: String;
   Module: TWdxModule;
 begin
+  FileName := AFile.FullPath;
   Result := SearchTemplate.ContentPluginCombine;
   for I:= Low(SearchTemplate.ContentPlugins) to High(SearchTemplate.ContentPlugins) do
   with SearchTemplate do
   begin
     Module := gWDXPlugins.GetWdxModule(ContentPlugins[I].Plugin);
-    if (Module = nil) or (not Module.IsLoaded) then Continue;
-    if ContentPlugins[I].FieldType in [ft_fulltext, ft_fulltextw] then
+    if (Module = nil) or (not Module.IsLoaded) then
+      Work:= False
+    else if not Module.FileParamVSDetectStr(AFile) then
+      Work:= False
+    else if ContentPlugins[I].FieldType in [ft_fulltext, ft_fulltextw] then
       Work:= CheckPluginFullText(Module, ContentPlugins[I], FileName)
     else begin
       Value:= Module.CallContentGetValueV(FileName, ContentPlugins[I].Field, ContentPlugins[I].UnitName, 0);
+      if VarIsEmpty(Value) then
+      begin
+        Work:= False;
+      end
+      else
       case ContentPlugins[I].Compare of
         poEqualCaseSensitive: Work:= (ContentPlugins[I].Value = Value);
         poNotEqualCaseSensitive: Work:= (ContentPlugins[I].Value <> Value);
@@ -412,9 +423,31 @@ begin
       end;
     end;
     if ContentPluginCombine then
-      Result := Result and Work
-    else
+    begin
+      Result := Result and Work;
+      if not Result then Break;
+    end
+    else begin
       Result := Result or Work;
+      if Result then Break;
+    end;
+  end;
+end;
+
+function CheckPlugin(const SearchTemplate: TSearchTemplateRec;
+  const SearchRec: TSearchRecEx; const Folder: String): Boolean;
+var
+  AFile: TFile;
+begin
+  try
+    AFile:= TFileSystemFileSource.CreateFile(Folder, @SearchRec);
+    try
+      Result:= CheckPlugin(SearchTemplate, AFile);
+    finally
+      AFile.Free;
+    end;
+  except
+    Exit(False);
   end;
 end;
 
@@ -547,7 +580,7 @@ begin
 
     if Result and ContentPlugin then
     begin
-      Result:= CheckPlugin(SearchTemplate, AFile.FullPath);
+      Result:= CheckPlugin(SearchTemplate, AFile);
     end;
   end;
 end;

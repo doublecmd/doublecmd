@@ -861,7 +861,7 @@ begin
 
     if Result and ContentPlugin then
     begin
-      Result:= CheckPlugin(FSearchTemplate, Folder + PathDelim + sr.Name);
+      Result:= CheckPlugin(FSearchTemplate, sr, Folder);
     end;
   end;
 end;
