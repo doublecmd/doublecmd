@@ -7,9 +7,6 @@ export HOME=$(CURDIR)/tmphome
 	dh $@
 
 override_dh_install:
-	cd language ;\
-		if [ -f doublecmd.po ] ; then mv doublecmd.po doublecmd.en.po; fi ;
-
 	# Remove convenience copy of Free Pascal Qt4 binding, use libqt4pas-dev instead
 	rm -f plugins/wlx/WlxMplayer/src/qt4.pas
 
@@ -64,8 +61,6 @@ override_dh_strip:
 override_dh_clean:
 	./clean.sh
 
-	cd language ;\
-		if [ -f doublecmd.en.po ] ; then mv doublecmd.en.po doublecmd.po; fi ;
 	# Clean up temporary HOME
 	rm -rf $(CURDIR)/tmphome
 	dh_clean

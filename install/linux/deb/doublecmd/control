@@ -83,6 +83,7 @@ Suggests: doublecmd-help-en | doublecmd-help,
           libffmpegthumbnailer4v5,
           libunrar5,
           mplayer,
+          p7zip-full,
           rabbitvcs-core,
           xterm | x-terminal-emulator
 Description: twin-panel (commander-style) file manager
