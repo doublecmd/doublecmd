@@ -1,30 +1,30 @@
 object DialogBox: TDialogBox
-  Left = 518
-  Height = 325
-  Top = 108
-  Width = 455
+  Left = 693
+  Height = 353
+  Top = 345
+  Width = 438
   AutoSize = True
   BorderStyle = bsDialog
   Caption = 'Zip plugin configuration'
   ChildSizing.LeftRightSpacing = 10
   ChildSizing.TopBottomSpacing = 10
-  ClientHeight = 325
-  ClientWidth = 455
+  ClientHeight = 353
+  ClientWidth = 438
   OnShow = DialogBoxShow
   Position = poOwnerFormCenter
-  LCLVersion = '2.0.8.0'
+  LCLVersion = '2.2.4.0'
   object lblAbout: TLabel
     AnchorSideLeft.Control = Owner
     AnchorSideTop.Control = Owner
     AnchorSideRight.Control = gbCompression
     AnchorSideRight.Side = asrBottom
     Left = 10
-    Height = 72
+    Height = 57
     Top = 10
-    Width = 418
+    Width = 417
     Alignment = taCenter
     Anchors = [akTop, akLeft, akRight]
-    Caption = 'Zip plugin supports PKZIP-compatible, TAR, GZip and BZip2 data compression and archiving.'#10#10'Copyright (C) 2006-2020 Alexander Koblov (alexx2000@mail.ru)'
+    Caption = 'Zip plugin supports PKZIP-compatible, TAR, XZ, GZip, Zstandard and BZip2 data compression and archiving.'
     ParentColor = False
     WordWrap = True
   end
@@ -33,9 +33,9 @@ object DialogBox: TDialogBox
     AnchorSideTop.Control = lblAbout
     AnchorSideTop.Side = asrBottom
     Left = 10
-    Height = 153
-    Top = 102
-    Width = 418
+    Height = 203
+    Top = 87
+    Width = 417
     AutoSize = True
     BorderSpacing.Top = 20
     Caption = 'Compression'
@@ -46,87 +46,93 @@ object DialogBox: TDialogBox
     ChildSizing.EnlargeHorizontal = crsHomogenousChildResize
     ChildSizing.Layout = cclLeftToRightThenTopToBottom
     ChildSizing.ControlsPerLine = 2
-    ClientHeight = 126
-    ClientWidth = 412
+    ClientHeight = 183
+    ClientWidth = 415
     TabOrder = 0
-    object lblCompressionMethodToUse: TLabel
-      AnchorSideTop.Side = asrCenter
+    object lblArchiveFormat: TLabel
       Left = 10
-      Height = 26
+      Height = 35
       Top = 10
-      Width = 202
-      Caption = 'Compression method:'
+      Width = 204
+      Caption = 'Archive format:'
       Layout = tlCenter
       ParentColor = False
     end
-    object cbCompressionMethodToUse: TComboBox
-      AnchorSideRight.Side = asrBottom
-      Left = 237
-      Height = 26
+    object cbArchiveFormat: TComboBox
+      Left = 239
+      Height = 35
       Top = 10
-      Width = 165
-      ItemHeight = 18
-      ItemIndex = 2
-      Items.Strings = (
-        'Store'
-        'Deflate'
-        'Optimal (2x slower)'
-      )
+      Width = 166
+      ItemHeight = 0
       OnChange = ComboBoxChange
       Style = csDropDownList
       TabOrder = 0
     end
-    object lblDeflationOption: TLabel
+    object lblCompressionMethod: TLabel
       AnchorSideTop.Side = asrCenter
       Left = 10
-      Height = 26
-      Top = 41
-      Width = 202
-      Caption = 'Compression level:'
+      Height = 35
+      Top = 50
+      Width = 204
+      Caption = 'Compression method:'
       Layout = tlCenter
       ParentColor = False
     end
-    object cbDeflationOption: TComboBox
-      AnchorSideLeft.Side = asrBottom
-      AnchorSideTop.Side = asrBottom
+    object cbCompressionMethod: TComboBox
       AnchorSideRight.Side = asrBottom
-      Left = 237
-      Height = 26
-      Top = 41
-      Width = 165
-      BorderSpacing.Left = 20
-      ItemHeight = 18
-      ItemIndex = 0
-      Items.Strings = (
-        'Normal'
-        'Maximum'
-        'Fast'
-        'Fastest'
-      )
+      Left = 239
+      Height = 35
+      Top = 50
+      Width = 166
+      ItemHeight = 0
       OnChange = ComboBoxChange
       Style = csDropDownList
       TabOrder = 1
     end
+    object lblCompressionLevel: TLabel
+      AnchorSideTop.Side = asrCenter
+      Left = 10
+      Height = 35
+      Top = 90
+      Width = 204
+      Caption = 'Compression level:'
+      Layout = tlCenter
+      ParentColor = False
+    end
+    object cbCompressionLevel: TComboBox
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Side = asrBottom
+      AnchorSideRight.Side = asrBottom
+      Left = 239
+      Height = 35
+      Top = 90
+      Width = 166
+      BorderSpacing.Left = 20
+      ItemHeight = 0
+      OnChange = ComboBoxChange
+      Style = csDropDownList
+      TabOrder = 2
+    end
     object chkTarAutoHandle: TCheckBox
       AnchorSideLeft.Control = gbCompression
-      AnchorSideTop.Control = cbDeflationOption
+      AnchorSideTop.Control = cbCompressionLevel
       AnchorSideTop.Side = asrBottom
       Left = 10
-      Height = 24
-      Top = 77
-      Width = 392
+      Height = 23
+      Top = 135
+      Width = 395
       BorderSpacing.Top = 10
       Caption = 'Open *.tar.xyz archives at one step (slowly with big archives)'
-      TabOrder = 2
+      TabOrder = 3
     end
   end
   object btnOK: TBitBtn
     AnchorSideTop.Control = btnCancel
     AnchorSideTop.Side = asrCenter
     AnchorSideRight.Control = btnCancel
-    Left = 218
-    Height = 29
-    Top = 275
+    Left = 217
+    Height = 36
+    Top = 310
     Width = 100
     Anchors = [akTop, akRight]
     AutoSize = True
@@ -144,9 +150,9 @@ object DialogBox: TDialogBox
     AnchorSideTop.Side = asrBottom
     AnchorSideRight.Control = gbCompression
     AnchorSideRight.Side = asrBottom
-    Left = 328
-    Height = 29
-    Top = 275
+    Left = 327
+    Height = 36
+    Top = 310
     Width = 100
     Anchors = [akTop, akRight]
     AutoSize = True

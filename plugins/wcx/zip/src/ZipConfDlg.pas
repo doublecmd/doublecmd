@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    WCX plugin for working with *.zip, *.gz, *.bz2, *.tar, *.tgz, *.tbz archives
 
-   Copyright (C) 2008-2014 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2008-2023 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
@@ -34,16 +34,161 @@ uses
   SysUtils, Extension;
 
 procedure CreateZipConfDlg;
-procedure LoadConfig;
-procedure SaveConfig;
-  
+
 implementation
 
-uses ZipFunc, AbZipTyp, DCClassesUtf8;
+uses
+  ZipFunc, ZipOpt, ZipLng, AbZipTyp;
+
+function GetComboBox(pDlg: PtrUInt; DlgItemName: PAnsiChar): PtrInt;
+var
+  Index: IntPtr;
+begin
+  with gStartupInfo do
+  begin
+    Index:= SendDlgMsg(pDlg, DlgItemName, DM_LISTGETITEMINDEX, 0, 0);
+    Result:= SendDlgMsg(pDlg, DlgItemName, DM_LISTGETDATA, Index, 0);
+  end;
+end;
+
+procedure SetComboBox(pDlg: PtrUInt; DlgItemName: PAnsiChar; ItemData: PtrInt);
+var
+  Index, Count: Integer;
+begin
+  with gStartupInfo do
+  begin
+    Count:= SendDlgMsg(pDlg, DlgItemName, DM_LISTGETCOUNT, 0, 0);
+    for Index:= 0 to Count - 1 do
+    begin
+      if SendDlgMsg(pDlg, DlgItemName, DM_LISTGETDATA, Index, 0) = ItemData then
+      begin
+        SendDlgMsg(pDlg, DlgItemName, DM_LISTSETITEMINDEX, Index, 0);
+        Exit;
+      end;
+    end;
+  end;
+end;
+
+function ComboBoxAdd(pDlg: PtrUInt; DlgItemName: PAnsiChar; ItemText: String; ItemData: PtrInt): IntPtr;
+var
+  P: PAnsiChar;
+  AText: IntPtr absolute P;
+begin
+  P:= PAnsiChar(ItemText);
+  Result:= gStartupInfo.SendDlgMsg(pDlg, DlgItemName, DM_LISTADD, AText, ItemData);
+end;
+
+function AddCompressionLevel(pDlg: PtrUInt; const AName: String; ALevel: IntPtr): IntPtr;
+var
+  AText: String;
+begin
+  AText:= AName + ' (' + IntToStr(ALevel) + ')';
+  Result:= ComboBoxAdd(pDlg, 'cbCompressionLevel', AText, ALevel);
+end;
+
+procedure UpdateLevel(pDlg: PtrUInt; ALevel: IntPtr);
+var
+  Index: IntPtr;
+  AFormat: TArchiveFormat;
+  AMethod: TAbZipCompressionMethod;
+begin
+  with gStartupInfo do
+  begin
+    SendDlgMsg(pDlg, 'cbCompressionLevel', DM_LISTCLEAR, 0, 0);
+    AFormat:= TArchiveFormat(GetComboBox(pDlg, 'cbArchiveFormat'));
+    Index:= SendDlgMsg(pDlg, 'cbCompressionMethod', DM_LISTGETITEMINDEX, 0, 0);
+    AMethod:= TAbZipCompressionMethod(SendDlgMsg(pDlg, 'cbCompressionMethod', DM_LISTGETDATA, Index, 0));
+    if (AMethod = cmStored) then
+    begin
+      SendDlgMsg(pDlg, 'cbCompressionLevel', DM_ENABLE, 0, 0);
+    end
+    else begin
+      SendDlgMsg(pDlg, 'cbCompressionLevel', DM_ENABLE, 1, 0);
+     case AMethod of
+       cmDeflated,
+       cmEnhancedDeflated:
+         begin
+          AddCompressionLevel(pDlg, rsCompressionLevelFastest, 1);
+          AddCompressionLevel(pDlg, rsCompressionLevelFast, 3);
+          Index:= AddCompressionLevel(pDlg, rsCompressionLevelNormal, 6);
+          AddCompressionLevel(pDlg, rsCompressionLevelMaximum, 9);
+         end;
+       cmXz,
+       cmLZMA,
+       cmBzip2:
+         begin
+          AddCompressionLevel(pDlg, rsCompressionLevelFastest, 1);
+          AddCompressionLevel(pDlg, rsCompressionLevelFast, 3);
+          Index:= AddCompressionLevel(pDlg, rsCompressionLevelNormal, 5);
+          AddCompressionLevel(pDlg, rsCompressionLevelMaximum, 7);
+          AddCompressionLevel(pDlg, rsCompressionLevelUltra, 9);
+         end;
+       cmZstd:
+         begin
+           AddCompressionLevel(pDlg, rsCompressionLevelFastest, 3);
+           AddCompressionLevel(pDlg, rsCompressionLevelFast, 5);
+           Index:= AddCompressionLevel(pDlg, rsCompressionLevelNormal, 11);
+           AddCompressionLevel(pDlg, rsCompressionLevelMaximum, 17);
+           AddCompressionLevel(pDlg, rsCompressionLevelUltra, 22);
+         end;
+     end;
+     if ALevel < 0 then
+       SendDlgMsg(pDlg, 'cbCompressionLevel', DM_LISTSETITEMINDEX, Index, 0)
+     else begin
+       SetComboBox(pDlg, 'cbCompressionLevel', PluginConfig[AFormat].Level);
+     end;
+    end;
+  end;
+end;
+
+procedure UpdateMethod(pDlg: PtrUInt);
+var
+  Index: IntPtr;
+  AFormat: TArchiveFormat;
+begin
+  with gStartupInfo do
+  begin
+    SendDlgMsg(pDlg, 'cbCompressionMethod', DM_LISTCLEAR, 0, 0);
+    AFormat:= TArchiveFormat(GetComboBox(pDlg, 'cbArchiveFormat'));
+    case AFormat of
+      afGzip:
+        ComboBoxAdd(pDlg, 'cbCompressionMethod', 'Deflate', PtrInt(cmDeflated));
+      afXzip:
+        ComboBoxAdd(pDlg, 'cbCompressionMethod', 'LZMA2', PtrInt(cmXz));
+      afBzip2:
+        ComboBoxAdd(pDlg, 'cbCompressionMethod', 'BZip2', PtrInt(cmBzip2));
+      afZstd:
+        ComboBoxAdd(pDlg, 'cbCompressionMethod', 'Zstandard', PtrInt(cmZstd));
+      afZip:
+        begin
+          ComboBoxAdd(pDlg, 'cbCompressionMethod', rsCompressionMethodStore, PtrInt(cmStored));
+          ComboBoxAdd(pDlg, 'cbCompressionMethod', 'Deflate', PtrInt(cmDeflated));
+          ComboBoxAdd(pDlg, 'cbCompressionMethod', rsCompressionMethodOptimal, PtrInt(cmEnhancedDeflated));
+        end;
+      afZipx:
+        begin
+          ComboBoxAdd(pDlg, 'cbCompressionMethod', 'LZMA2', PtrInt(cmXz));
+          ComboBoxAdd(pDlg, 'cbCompressionMethod', 'Zstandard', PtrInt(cmZstd));
+        end;
+    end; // case
+    Index:= SendDlgMsg(pDlg, 'cbCompressionMethod', DM_LISTGETCOUNT, 0, 0);
+    if (Index = 1) then
+    begin
+      SendDlgMsg(pDlg, 'cbCompressionMethod', DM_LISTSETITEMINDEX, 0, 0);
+      SendDlgMsg(pDlg, 'cbCompressionMethod', DM_ENABLE, 0, 0);
+    end
+    else begin
+      SendDlgMsg(pDlg, 'cbCompressionMethod', DM_ENABLE, 1, 0);
+      SetComboBox(pDlg, 'cbCompressionMethod', PluginConfig[AFormat].Method);
+    end;
+  end;
+  UpdateLevel(pDlg, PluginConfig[AFormat].Level);
+end;
 
 function DlgProc (pDlg: PtrUInt; DlgItemName: PAnsiChar; Msg, wParam, lParam: PtrInt): PtrInt; dcpcall;
 var
- iIndex: Integer;
+  Index: IntPtr;
+  AFormat: TArchiveFormat;
 begin
   Result:= 0;
   with gStartupInfo do
@@ -51,51 +196,38 @@ begin
     case Msg of
       DN_INITDIALOG:
         begin
-          case gCompressionMethodToUse of
-            smStored:
-              SendDlgMsg(pDlg, 'cbCompressionMethodToUse', DM_LISTSETITEMINDEX, 0, 0);
-            smDeflated:
-              SendDlgMsg(pDlg, 'cbCompressionMethodToUse', DM_LISTSETITEMINDEX, 1, 0);
-            smBestMethod:
-              SendDlgMsg(pDlg, 'cbCompressionMethodToUse', DM_LISTSETITEMINDEX, 2, 0);
-          end; // case
-          case gDeflationOption of
-            doNormal:
-              SendDlgMsg(pDlg, 'cbDeflationOption', DM_LISTSETITEMINDEX, 0, 0);
-            doMaximum:
-              SendDlgMsg(pDlg, 'cbDeflationOption', DM_LISTSETITEMINDEX, 1, 0);
-            doFast:
-              SendDlgMsg(pDlg, 'cbDeflationOption', DM_LISTSETITEMINDEX, 2, 0);
-            doSuperFast:
-              SendDlgMsg(pDlg, 'cbDeflationOption', DM_LISTSETITEMINDEX, 3, 0);
-          end; // case
+          ComboBoxAdd(pDlg, 'cbArchiveFormat', 'gz', PtrInt(afGzip));
+          ComboBoxAdd(pDlg, 'cbArchiveFormat', 'xz', PtrInt(afXzip));
+          ComboBoxAdd(pDlg, 'cbArchiveFormat', 'bz2', PtrInt(afBzip2));
+          ComboBoxAdd(pDlg, 'cbArchiveFormat', 'zst', PtrInt(afZstd));
+          Index:= ComboBoxAdd(pDlg, 'cbArchiveFormat', 'zip', PtrInt(afZip));
+          ComboBoxAdd(pDlg, 'cbArchiveFormat', 'zipx', PtrInt(afZipx));
+
+          SendDlgMsg(pDlg, 'cbArchiveFormat', DM_LISTSETITEMINDEX, Index, 0);
+
+          UpdateMethod(pDlg);
+
           SendDlgMsg(pDlg, 'chkTarAutoHandle', DM_SETCHECK, PtrInt(gTarAutoHandle), 0);
+        end;
+      DN_CHANGE:
+        begin
+          if DlgItemName = 'cbArchiveFormat' then
+          begin
+            UpdateMethod(pDlg);
+          end
+          else if DlgItemName = 'cbCompressionMethod' then
+          begin
+            UpdateLevel(pDlg, -1);
+          end;
         end;
       DN_CLICK:
         if DlgItemName = 'btnOK' then
           begin
-            iIndex:= SendDlgMsg(pDlg, 'cbCompressionMethodToUse', DM_LISTGETITEMINDEX, 0, 0);
-            case iIndex of
-              0:
-                gCompressionMethodToUse:= smStored;
-              1:
-                gCompressionMethodToUse:= smDeflated;
-              2:
-                gCompressionMethodToUse:= smBestMethod;
-            end; // case
-            iIndex:= SendDlgMsg(pDlg, 'cbDeflationOption', DM_LISTGETITEMINDEX, 0, 0);
-            case iIndex of
-              0:
-                gDeflationOption:= doNormal;
-              1:
-                gDeflationOption:= doMaximum;
-              2:
-                gDeflationOption:= doFast;
-              3:
-                gDeflationOption:= doSuperFast;
-            end; // case
+            AFormat:= TArchiveFormat(GetComboBox(pDlg, 'cbArchiveFormat'));
+            PluginConfig[AFormat].Level:= GetComboBox(pDlg, 'cbCompressionLevel');
+            PluginConfig[AFormat].Method:= GetComboBox(pDlg, 'cbCompressionMethod');
             gTarAutoHandle:= Boolean(SendDlgMsg(pDlg, 'chkTarAutoHandle', DM_GETCHECK, 0, 0));
-            SaveConfig;
+            SaveConfiguration;
             SendDlgMsg(pDlg, DlgItemName, DM_CLOSE, 1, 0);
           end
         else if DlgItemName = 'btnCancel' then
@@ -134,35 +266,6 @@ begin
       UnlockResource(ResGlobal);
       FreeResource(ResGlobal);
     end;
-  end;
-end;
-
-procedure LoadConfig;
-var
-  gIni: TIniFileEx;
-begin
-  gIni:= TIniFileEx.Create(gStartupInfo.PluginConfDir + IniFileName);
-  try
-    gCompressionMethodToUse:= TAbZipSupportedMethod(gIni.ReadInteger('Configuration', 'CompressionMethodToUse', Integer(smDeflated)));
-    gDeflationOption:= TAbZipDeflationOption(gIni.ReadInteger('Configuration', 'DeflationOption', Integer(AbDefDeflationOption)));
-    gTarAutoHandle:= gIni.ReadBool('Configuration', 'TarAutoHandle', True);
-  finally
-    gIni.Free;
-  end;
-end;
-
-procedure SaveConfig;
-var
-  gIni: TIniFileEx;
-begin
-  gIni:= TIniFileEx.Create(gStartupInfo.PluginConfDir + IniFileName);
-  try
-    gIni.WriteInteger('Configuration', 'CompressionMethodToUse', Integer(gCompressionMethodToUse));
-    gIni.WriteInteger('Configuration', 'DeflationOption', Integer(gDeflationOption));
-    gIni.WriteBool('Configuration', 'TarAutoHandle', gTarAutoHandle);
-    gIni.UpdateFile;
-  finally
-    gIni.Free;
   end;
 end;
 

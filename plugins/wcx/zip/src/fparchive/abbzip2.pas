@@ -114,14 +114,11 @@ type
   indicator when you are writing a large chunk of data to the compression
   stream in a single call.}
 
-
-  TBlockSize100k = (bs1, bs2, bs3, bs4, bs5, bs6, bs7, bs8, bs9);
-
   TBZCompressionStream = class(TCustomBZip2Stream)
   private
     function GetCompressionRate: Single;
   public
-    constructor Create(BlockSize100k: TBlockSize100k; Dest: TStream);
+    constructor Create(Level: IntPtr; Dest: TStream);
     destructor Destroy; override;
     function Read(var Buffer; Count: Longint): Longint; override;
     function Write(const Buffer; Count: Longint): Longint; override;
@@ -605,15 +602,13 @@ end; { TCustomBZip2Stream }
 
 // TBZCompressionStream
 
-constructor TBZCompressionStream.Create(BlockSize100k: TBlockSize100k; Dest: TStream);
-const
-  BlockSizes: array[TBlockSize100k] of ShortInt = (1, 2, 3, 4, 5, 6, 7, 8, 9);
+constructor TBZCompressionStream.Create(Level: IntPtr; Dest: TStream);
 begin
   inherited Create(Dest);
   LoadBzip2DLL;
   FBZRec.next_out := @FBuffer[0];
   FBZRec.avail_out := sizeof(FBuffer);
-  CCheck(BZ2_bzCompressInit(FBZRec, BlockSizes[BlockSize100k], 0, 0));
+  CCheck(BZ2_bzCompressInit(FBZRec, Level, 0, 0));
 end;
 
 destructor TBZCompressionStream.Destroy;

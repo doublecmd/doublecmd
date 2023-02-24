@@ -25,12 +25,12 @@
  * ***** END LICENSE BLOCK ***** *)
 
 {**********************************************************}
-{* ABBREVIA: AbXzPrc.pas                                  *}
+{* ABBREVIA: AbZipxPrc.pas                                *}
 {**********************************************************}
 {* ABBREVIA: TZipHashStream class                         *}
 {**********************************************************}
 
-unit AbXzPrc;
+unit AbZipxPrc;
 
 {$mode delphi}
 
@@ -56,11 +56,12 @@ type
   end;
 
 procedure DoCompressXz(Archive : TAbZipArchive; Item : TAbZipItem; OutStream, InStream : TStream);
+procedure DoCompressZstd(Archive : TAbZipArchive; Item : TAbZipItem; OutStream, InStream : TStream);
 
 implementation
 
 uses
-  AbXz, AbExcept, DCcrc32;
+  AbXz, AbZstd, AbExcept, DCcrc32;
 
 procedure DoCompressXz(Archive : TAbZipArchive; Item : TAbZipItem; OutStream, InStream : TStream);
 var
@@ -71,13 +72,35 @@ begin
   ASource := TZipHashStream.Create(InStream);
   try
     ASource.OnProgress := Archive.OnProgress;
-    LzmaCompression := TLzmaCompression.Create(ASource, OutStream);
+    LzmaCompression := TLzmaCompression.Create(ASource, OutStream, Archive.CompressionLevel);
     try
       LzmaCompression.Code(Item.UncompressedSize);
     finally
       LzmaCompression.Free;
     end;
     Item.CRC32 := LongInt(ASource.Hash);
+  finally
+    ASource.Free;
+  end;
+end;
+
+procedure DoCompressZstd(Archive: TAbZipArchive; Item: TAbZipItem; OutStream,
+  InStream: TStream);
+var
+  ASource: TZipHashStream;
+  CompStream: TZSTDCompressionStream;
+begin
+  Item.CompressionMethod := cmZstd;
+  ASource := TZipHashStream.Create(InStream);
+  try
+    ASource.OnProgress := Archive.OnProgress;
+    CompStream := TZSTDCompressionStream.Create(OutStream, Archive.CompressionLevel, Item.UncompressedSize);
+    try
+      CompStream.CopyFrom(ASource, Item.UncompressedSize);
+    finally
+      CompStream.Free;
+    end;
+    Item.CRC32 := not ASource.Hash;
   finally
     ASource.Free;
   end;

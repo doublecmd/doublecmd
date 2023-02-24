@@ -197,10 +197,12 @@ type
     function GetGzCRC: LongInt;
     function GetFileSize: LongInt;
   protected {private}
-    FItem : TAbGzipItem;
-    FTail : TAbGzTailRec;
+    FItem    : TAbGzipItem;
+    FTail    : TAbGzTailRec;
+    FArchive : TAbArchive;
   public
-    constructor Create(AStream : TStream);
+    constructor Create(AStream : TStream); overload;
+    constructor Create(Archive : TAbArchive; AStream : TStream); overload;
     destructor Destroy; override;
 
     procedure ExtractItemData(AStream : TStream); override;
@@ -464,10 +466,16 @@ end;
 
 { TAbGzipStreamHelper }
 
-constructor TAbGzipStreamHelper.Create(AStream : TStream);
+constructor TAbGzipStreamHelper.Create(AStream: TStream);
 begin
   inherited Create(AStream);
   FItem := TAbGzipItem.Create;
+end;
+
+constructor TAbGzipStreamHelper.Create(Archive : TAbArchive; AStream: TStream);
+begin
+  Create(AStream);
+  FArchive := Archive;
 end;
 
 destructor TAbGzipStreamHelper.Destroy;
@@ -575,6 +583,12 @@ var
 begin
   Helper := TAbDeflateHelper.Create;
   try
+    case FArchive.CompressionLevel of
+      1 : Helper.PKZipOption := 's';
+      3 : Helper.PKZipOption := 'f';
+      6 : Helper.PKZipOption := 'n';
+      9 : Helper.PKZipOption := 'x';
+    end;
     FItem.CRC32 := Deflate(AStream, FStream, Helper);
     FItem.UncompressedSize := AStream.Size;
   finally
@@ -1138,7 +1152,7 @@ begin
   NewStream := nil;
 
   try
-    InGzHelp := TAbGzipStreamHelper.Create(FGzStream);
+    InGzHelp := TAbGzipStreamHelper.Create(Self, FGzStream);
 
     try
       {init new archive stream}
@@ -1149,7 +1163,7 @@ begin
         ATempName := GetTempName(FArchiveName);
         NewStream := TFileStreamEx.Create(ATempName, fmCreate or fmShareDenyWrite);
       end;
-      OutGzHelp := TAbGzipStreamHelper.Create(NewStream);
+      OutGzHelp := TAbGzipStreamHelper.Create(Self, NewStream);
 
       { save the Tar data }
       if IsGzippedTar and TarAutoHandle then begin

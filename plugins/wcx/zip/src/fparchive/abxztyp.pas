@@ -333,7 +333,7 @@ begin
       FXzStream := TAbProgressFileStream.Create(TempFileName, fmCreate or fmShareDenyWrite, OnProgress);
     end;
     FTarStream.Position := 0;
-    LzmaCompression := TLzmaCompression.Create(FTarStream, FXzStream);
+    LzmaCompression := TLzmaCompression.Create(FTarStream, FXzStream, FCompressionLevel);
     try
       LzmaCompression.Code();
     finally
@@ -366,7 +366,7 @@ begin
           FXzStream.Size := 0;
           if CurItem.Action = aaStreamAdd then
           begin
-            LzmaCompression := TLzmaCompression.Create(InStream, FXzStream);
+            LzmaCompression := TLzmaCompression.Create(InStream, FXzStream, FCompressionLevel);
             try
               LzmaCompression.Code(); { Copy/compress entire Instream to FXzStream }
             finally
@@ -376,7 +376,7 @@ begin
           else begin
             InputFileStream := TAbProgressFileStream.Create(CurItem.DiskFileName, fmOpenRead or fmShareDenyWrite, OnProgress);
             try
-              LzmaCompression := TLzmaCompression.Create(InputFileStream, FXzStream);
+              LzmaCompression := TLzmaCompression.Create(InputFileStream, FXzStream, FCompressionLevel);
               try
                 LzmaCompression.Code(); { Copy/compress entire Instream to FXzStream }
               finally

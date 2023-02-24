@@ -292,6 +292,8 @@ type
     FInStream       : TStream;
     FIsDirty        : Boolean;
     FSpanningThreshold      : Int64;
+    FCompressionLevel       : IntPtr;
+    FCompressionMethod      : IntPtr;
     FItemList       : TAbArchiveList;
     FLogFile        : string;
     FLogging        : Boolean;
@@ -495,6 +497,12 @@ type
     property TempDirectory : string
       read FTempDir
       write FTempDir;
+    property CompressionLevel: IntPtr
+      read FCompressionLevel
+      write FCompressionLevel;
+    property CompressionMethod: IntPtr
+      read FCompressionMethod
+      write FCompressionMethod;
 
   public {events}
     property OnProcessItemFailure : TAbArchiveItemFailureEvent

@@ -82,14 +82,12 @@ const
 
 var
   gStartupInfo: TExtensionStartupInfo;
-  gCompressionMethodToUse : TAbZipSupportedMethod;
-  gDeflationOption : TAbZipDeflationOption;
   gTarAutoHandle : Boolean;
   
 implementation
 
 uses
-  SysUtils, LazUTF8, ZipConfDlg, AbBrowse, DCConvertEncoding, DCOSUtils;
+  SysUtils, LazUTF8, ZipConfDlg, AbBrowse, DCConvertEncoding, DCOSUtils, ZipOpt;
 
 threadvar
   gProcessDataProcW : TProcessDataProcW;
@@ -332,11 +330,13 @@ end;
 
 function PackFilesW(PackedFile: PWideChar;  SubPath: PWideChar;  SrcPath: PWideChar;  AddList: PWideChar;  Flags: Integer): Integer;dcpcall;
 var
-  Arc : TAbZipKitEx;
+  FileExt: String;
   FilePath: String;
+  Arc : TAbZipKitEx;
   FileName: UnicodeString;
   sPassword: AnsiString;
   sPackedFile: String;
+  ArchiveFormat: TArchiveFormat;
 begin
   if (Flags and PK_PACK_MOVE_FILES) <> 0 then begin
     Exit(E_NOT_SUPPORTED);
@@ -346,22 +346,49 @@ begin
   try
     Arc.AutoSave := False;
     Arc.TarAutoHandle:= True;
-    Arc.CompressionMethodToUse:= gCompressionMethodToUse;
-    Arc.DeflationOption:= gDeflationOption;
     Arc.FProcessDataProcW := gProcessDataProcW;
     Arc.OnProcessItemFailure := @Arc.AbProcessItemFailureEvent;
 
     sPackedFile := UTF16ToUTF8(UnicodeString(PackedFile));
 
     try
-      if ((Flags and PK_PACK_ENCRYPT) <> 0) and
-         (LowerCase(ExtractFileExt(sPackedFile)) = '.zip') then // only zip supports encryption
+      FileExt:= LowerCase(ExtractFileExt(sPackedFile));
+
+      if ((Flags and PK_PACK_ENCRYPT) <> 0) then
       begin
-        Arc.AbNeedPasswordEvent(Arc, sPassword);
-        Arc.Password:= sPassword;
+        // Only zip/zipx supports encryption
+        if (FileExt = '.zip') or (FileExt = '.zipx') then
+        begin
+          sPassword:= EmptyStr;
+          Arc.AbNeedPasswordEvent(Arc, sPassword);
+          Arc.Password:= sPassword;
+        end;
       end;
 
       Arc.OpenArchive(sPackedFile);
+
+      ArchiveFormat:= ARCHIVE_FORMAT[Arc.ArchiveType];
+
+      if (ArchiveFormat = afZip) then
+      begin
+         if (FileExt = '.zipx') then
+           ArchiveFormat:= afZipx
+         else begin
+           case PluginConfig[ArchiveFormat].Level of
+             1: Arc.DeflationOption:= doSuperFast;
+             3: Arc.DeflationOption:= doFast;
+             6: Arc.DeflationOption:= doNormal;
+             9: Arc.DeflationOption:= doMaximum;
+           end;
+           case PluginConfig[ArchiveFormat].Method of
+              PtrInt(cmStored): Arc.CompressionMethodToUse:= smStored;
+              PtrInt(cmDeflated): Arc.CompressionMethodToUse:= smDeflated;
+              PtrInt(cmEnhancedDeflated): Arc.CompressionMethodToUse:= smBestMethod;
+           end;
+         end;
+      end;
+      Arc.ZipArchive.CompressionLevel:= PluginConfig[ArchiveFormat].Level;
+      Arc.ZipArchive.CompressionMethod:= PluginConfig[ArchiveFormat].Method;
 
       Arc.OnArchiveItemProgress := @Arc.AbArchiveItemProgressEvent;
       Arc.OnArchiveProgress := @Arc.AbArchiveProgressEvent;
@@ -481,7 +508,7 @@ procedure ExtensionInitialize(StartupInfo: PExtensionStartupInfo); dcpcall;
 begin
   gStartupInfo:= StartupInfo^;
   // Load configuration from ini file
-  LoadConfig;
+  LoadConfiguration;
 end;
 
 { TAbZipKitEx }

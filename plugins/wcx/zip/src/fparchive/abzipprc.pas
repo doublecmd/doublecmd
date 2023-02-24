@@ -62,7 +62,7 @@ uses
   AbVMStrm,
   AbDfBase,
   AbZlibPrc,
-  AbXzPrc,
+  AbZipxPrc,
   DCClassesUtf8;
 
 
@@ -210,7 +210,13 @@ begin
     if InStream.Size > 0 then begin
 
       if SameText(ExtractFileExt(Sender.ArchiveName), '.zipx') then
-        DoCompressXz(ZipArchive, Item, DestStrm, InStream)
+      begin
+        case ZipArchive.CompressionMethod of
+          IntPtr(cmXz):   DoCompressXz(ZipArchive, Item, DestStrm, InStream);
+          IntPtr(cmZstd): DoCompressZstd(ZipArchive, Item, DestStrm, InStream);
+          else raise Exception.Create(EmptyStr);
+        end;
+      end
       else
       { determine how to store Item based on specified CompressionMethodToUse }
       case ZipArchive.CompressionMethodToUse of

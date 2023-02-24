@@ -44,6 +44,7 @@ const
   DM_SETPROGRESSVALUE     = DM_FIRST+37;
   DM_SETPROGRESSSTYLE     = DM_FIRST+38;
   DM_SETPASSWORDCHAR      = DM_FIRST+39;
+  DM_LISTCLEAR            = DM_FIRST+40;
 
   // events messages
   DN_FIRST                = $1000;

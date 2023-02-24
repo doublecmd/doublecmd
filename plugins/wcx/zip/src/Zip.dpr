@@ -7,7 +7,7 @@ uses
   FPCAdds,
   SysUtils,
   Classes,
-  ZipFunc in 'ZipFunc.pas';
+  ZipFunc, ZipOpt;
 
 exports
   { Mandatory }

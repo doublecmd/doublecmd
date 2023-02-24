@@ -103,7 +103,7 @@ type
   protected
     function Check(Return: cint): cint; override;
   public
-    constructor Create(ASource, ATarget: TStream); override;
+    constructor Create(ASource, ATarget: TStream; ALevel: Integer);
     function Code(Count: cuint64 = High(cuint64)): Boolean; override;
   end;
 
@@ -232,10 +232,10 @@ begin
   end;
 end;
 
-constructor TLzmaCompression.Create(ASource, ATarget: TStream);
+constructor TLzmaCompression.Create(ASource, ATarget: TStream; ALevel: Integer);
 begin
   inherited Create(ASource, ATarget);
-  Check(lzma_easy_encoder(FLzmaRec, 6, LZMA_CHECK_CRC64));
+  Check(lzma_easy_encoder(FLzmaRec, ALevel, LZMA_CHECK_CRC64));
 end;
 
 function TLzmaCompression.Code(Count: cuint64): Boolean;

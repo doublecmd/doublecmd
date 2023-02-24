@@ -341,7 +341,7 @@ begin
       FBzip2Stream := TAbProgressFileStream.Create(TempFileName, fmCreate or fmShareDenyWrite, OnProgress);
     end;
     FTarStream.Position := 0;
-    CompStream := TBZCompressionStream.Create(bs9, FBzip2Stream);
+    CompStream := TBZCompressionStream.Create(CompressionLevel, FBzip2Stream);
     try
       CompStream.CopyFrom(FTarStream, 0);
     finally
@@ -372,7 +372,7 @@ begin
         aaDelete: ; {doing nothing omits file from new stream}
         aaAdd, aaFreshen, aaReplace, aaStreamAdd: begin
           FBzip2Stream.Size := 0;
-          CompStream := TBZCompressionStream.Create(bs9, FBzip2Stream);
+          CompStream := TBZCompressionStream.Create(CompressionLevel, FBzip2Stream);
           try
             if CurItem.Action = aaStreamAdd then
               CompStream.CopyFrom(InStream, 0){ Copy/compress entire Instream to FBzip2Stream }
