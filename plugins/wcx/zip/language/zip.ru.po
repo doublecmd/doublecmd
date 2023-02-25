@@ -36,3 +36,31 @@ msgstr "Отмена"
 #: tdialogbox.btnOK.caption
 msgid "OK"
 msgstr "OK"
+
+#: ziplng.rscompressionmethodstore
+msgid "Store"
+msgstr "Без сжатия"
+
+#: ziplng.rscompressionmethodoptimal
+msgid "Optimal (2x slower)"
+msgstr "Оптимальный (медленно)"
+
+#: ziplng.rscompressionlevelfastest
+msgid "Fastest"
+msgstr "Скоростной"
+
+#: ziplng.rscompressionlevelfast
+msgid "Fast"
+msgstr "Быстрый"
+
+#: ziplng.rscompressionlevelnormal
+msgid "Normal"
+msgstr "Нормальный"
+
+#: ziplng.rscompressionlevelmaximum
+msgid "Maximum"
+msgstr "Максимальный"
+
+#: ziplng.rscompressionlevelultra
+msgid "Ultra"
+msgstr "Ультра"

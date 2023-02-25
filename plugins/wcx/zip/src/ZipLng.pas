@@ -1,9 +1,9 @@
 {
   Double Commander
   -------------------------------------------------------------------------
-  SevenZip archiver plugin, language support
+  Zip archiver plugin, language support
 
-  Copyright (C) 2014-2015 Alexander Koblov (alexx2000@mail.ru)
+  Copyright (C) 2023 Alexander Koblov (alexx2000@mail.ru)
 
   This library is free software; you can redistribute it and/or
   modify it under the terms of the GNU Lesser General Public
@@ -39,7 +39,32 @@ resourcestring
   rsCompressionLevelMaximum = 'Maximum';
   rsCompressionLevelUltra = 'Ultra';
 
+  procedure TranslateResourceStrings;
+
 implementation
+
+uses
+  ZipFunc;
+
+function Translate(Name, Value: AnsiString; Hash: LongInt; Arg: Pointer): AnsiString;
+var
+  ALen: Integer;
+begin
+  with gStartupInfo do
+  begin
+    SetLength(Result, MaxSmallint);
+    ALen:= TranslateString(Translation, PAnsiChar(Name), PAnsiChar(Value), PAnsiChar(Result), MaxSmallint);
+    SetLength(Result, ALen);
+  end;
+end;
+
+procedure TranslateResourceStrings;
+begin
+  if Assigned(gStartupInfo.Translation) then
+  begin
+    SetResourceStrings(@Translate, nil);
+  end;
+end;
 
 end.
 

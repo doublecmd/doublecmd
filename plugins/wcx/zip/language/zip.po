@@ -36,3 +36,31 @@ msgstr ""
 #: tdialogbox.btnOK.caption
 msgid "OK"
 msgstr ""
+
+#: ziplng.rscompressionmethodstore
+msgid "Store"
+msgstr ""
+
+#: ziplng.rscompressionmethodoptimal
+msgid "Optimal (2x slower)"
+msgstr ""
+
+#: ziplng.rscompressionlevelfastest
+msgid "Fastest"
+msgstr ""
+
+#: ziplng.rscompressionlevelfast
+msgid "Fast"
+msgstr ""
+
+#: ziplng.rscompressionlevelnormal
+msgid "Normal"
+msgstr ""
+
+#: ziplng.rscompressionlevelmaximum
+msgid "Maximum"
+msgstr ""
+
+#: ziplng.rscompressionlevelultra
+msgid "Ultra"
+msgstr ""

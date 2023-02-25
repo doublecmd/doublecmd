@@ -87,7 +87,8 @@ var
 implementation
 
 uses
-  SysUtils, LazUTF8, ZipConfDlg, AbBrowse, DCConvertEncoding, DCOSUtils, ZipOpt;
+  SysUtils, LazUTF8, ZipConfDlg, AbBrowse, DCConvertEncoding, DCOSUtils, ZipOpt,
+  ZipLng;
 
 threadvar
   gProcessDataProcW : TProcessDataProcW;
@@ -509,6 +510,7 @@ begin
   gStartupInfo:= StartupInfo^;
   // Load configuration from ini file
   LoadConfiguration;
+  TranslateResourceStrings;
 end;
 
 { TAbZipKitEx }
