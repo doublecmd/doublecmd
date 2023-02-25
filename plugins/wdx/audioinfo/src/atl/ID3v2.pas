@@ -155,7 +155,7 @@ const
   ID3V2_MAX_SIZE = 4096;
 
   { Unicode ID }
-  UTF16LE_ID = #01;
+  UTF16_ID   = #01;
   UTF16BE_ID = #02;
   UTF8_ID    = #03;
 
@@ -338,10 +338,22 @@ end;
 { --------------------------------------------------------------------------- }
 
 function GetStringUtf8(const Source: string): string;
+const
+  UTF16BEBOM = #$FE#$FF;
+  UTF16LEBOM = #$FF#$FE;
 begin
   { Convert string from unicode if needed and trim spaces }
-  if (Length(Source) > 0) and (Source[1] = UTF16LE_ID) then
-    Result := Trim(Utf16LEToUtf8(Copy(Source, 2, MaxInt)))
+  if (Length(Source) > 0) and (Source[1] = UTF16_ID) then
+  begin
+    if (Length(Source) < 3) then
+      Result := EmptyStr
+    else if (CompareWord(Source[2], UTF16BEBOM, 1) = 0) then
+      Result := Trim(Utf16BEToUtf8(Copy(Source, 4, MaxInt)))
+    else if (CompareWord(Source[2], UTF16LEBOM, 1) = 0) then
+      Result := Trim(Utf16LEToUtf8(Copy(Source, 4, MaxInt)))
+    else
+      Result := EmptyStr
+  end
   else if (Length(Source) > 0) and (Source[1] = UTF16BE_ID) then
     Result := Trim(Utf16BEToUtf8(Copy(Source, 2, MaxInt)))
   else if (Length(Source) > 0) and (Source[1] = UTF8_ID) then
@@ -406,7 +418,7 @@ begin
   if Length(Source) > 0 then
   begin
     EncodingID := Source[1];
-    if EncodingID in [UTF16LE_ID, UTF16BE_ID] then
+    if EncodingID in [UTF16_ID, UTF16BE_ID] then
       Separator := #0#0
     else begin
       Separator := #0;
