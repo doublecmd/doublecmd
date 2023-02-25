@@ -100,7 +100,7 @@ begin
     finally
       CompStream.Free;
     end;
-    Item.CRC32 := not ASource.Hash;
+    Item.CRC32 := LongInt(ASource.Hash);
   finally
     ASource.Free;
   end;
