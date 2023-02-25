@@ -101,21 +101,23 @@ typedef int (DCPCALL *tMessageBoxProc)(char* Text, char* Caption, long Flags);
 typedef BOOL (DCPCALL *tDialogBoxLFMProc)(intptr_t LFMData, unsigned long DataSize, tDlgProc DlgProc);
 typedef BOOL (DCPCALL *tDialogBoxLRSProc)(intptr_t LRSData, unsigned long DataSize, tDlgProc DlgProc);
 typedef BOOL (DCPCALL *tDialogBoxLFMFileProc)(char* LFMFileName, tDlgProc DlgProc);
-
+typedef int (DCPCALL *tTranslateStringProc)(void *Translation, const char *Identifier, const char *Original, char *Output, int OutLen);
 
 #pragma pack(push)
 #pragma pack(1)
 typedef struct {
-uint32_t StructSize;
-char PluginDir[EXT_MAX_PATH];
-char PluginConfDir[EXT_MAX_PATH];
-tInputBoxProc InputBox;
-tMessageBoxProc MessageBox;
-tDialogBoxLFMProc DialogBoxLFM;
-tDialogBoxLRSProc DialogBoxLRS;
-tDialogBoxLFMFileProc DialogBoxLFMFile;
-tDlgProc SendDlgMsg;
-unsigned char Reserved[4096 * sizeof(void *)];
+  uint32_t StructSize;
+  char PluginDir[EXT_MAX_PATH];
+  char PluginConfDir[EXT_MAX_PATH];
+  tInputBoxProc InputBox;
+  tMessageBoxProc MessageBox;
+  tDialogBoxLFMProc DialogBoxLFM;
+  tDialogBoxLRSProc DialogBoxLRS;
+  tDialogBoxLFMFileProc DialogBoxLFMFile;
+  tDlgProc SendDlgMsg;
+  void *Translation;
+  tTranslateStringProc TranslateString;
+  unsigned char Reserved[4094 * sizeof(void *)];
 } tExtensionStartupInfo;
 #pragma pack(pop)
 

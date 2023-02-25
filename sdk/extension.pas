@@ -108,6 +108,7 @@ type
   TDialogBoxLFMProc = function(LFMData: Pointer; DataSize: LongWord; DlgProc: TDlgProc): LongBool; {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
   TDialogBoxLRSProc = function(LRSData: Pointer; DataSize: LongWord; DlgProc: TDlgProc): LongBool; {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
   TDialogBoxLFMFileProc = function(lfmFileName: PAnsiChar; DlgProc: TDlgProc): LongBool; {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
+  TTranslateStringProc = function(Translation: Pointer; Identifier, Original: PAnsiChar; Output: PAnsiChar; OutLen: Integer): Integer {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
 
 type
   PExtensionStartupInfo = ^TExtensionStartupInfo;
@@ -125,8 +126,10 @@ type
     DialogBoxLRS: TDialogBoxLRSProc;
     DialogBoxLFMFile: TDialogBoxLFMFileProc;
     SendDlgMsg: TDlgProc;
+    Translation: Pointer;
+    TranslateString: TTranslateStringProc;
     // Reserved for future API extension
-    Reserved: packed array [0..Pred(4096 * SizeOf(Pointer))] of Byte;
+    Reserved: packed array [0..Pred(4094 * SizeOf(Pointer))] of Byte;
   end;
 
 type

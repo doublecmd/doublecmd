@@ -36,7 +36,8 @@ uses
   Classes, SysUtils, dynlibs,
 
   //DC
-  uLng, uWdxPrototypes, WdxPlugin, uDetectStr, lua, uFile, DCXmlConfig;
+  uLng, uWdxPrototypes, WdxPlugin, uDetectStr, lua, uFile, DCXmlConfig,
+  uExtension;
 
 const
   WDX_MAX_LEN = 2048;
@@ -59,7 +60,7 @@ type
 
   { TWDXModule }
 
-  TWDXModule = class
+  TWDXModule = class(TDcxModule)
   private
     FFieldsList: TStringList;
     FParser:     TParserControl;
@@ -116,7 +117,6 @@ type
 
   TPluginWDX = class(TWDXModule)
   protected
-    FModuleHandle: TLibHandle;  // Handle to .DLL or .so
     FForce:     Boolean;
     FName:      String;
   protected
