@@ -1169,7 +1169,7 @@ begin
   end;
 end;
 
-procedure lngLoadLng(const sFileName:String);
+procedure lngLoadLng(const sFileName: String);
 var
   Lang: String = '';
   FallbackLang: String = '';
@@ -1193,7 +1193,7 @@ begin
   else begin
     DCDebug('Loading lng file: ' + gpLngDir + gPOFileName);
     LRSTranslator := TTranslator.Create(gpLngDir + gPOFileName);
-    Translations.TranslateResourceStrings(gpLngDir + gPOFileName);
+    Translations.TranslateResourceStrings(TTranslator(LRSTranslator).POFile);
     TranslateLCL(gPOFileName);
   end;
 end;
@@ -1204,7 +1204,6 @@ begin
 end;
 
 finalization
-  if Assigned(LRSTranslator) then
-    FreeAndNil(LRSTranslator);
+  FreeAndNil(LRSTranslator);
 
 end.
