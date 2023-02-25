@@ -17,20 +17,22 @@ msgid "Zip plugin configuration"
 msgstr "Канфігурацыя Zip-убудовы"
 
 #: tdialogbox.lblAbout.caption
-msgid "Zip plugin supports PKZIP-compatible, TAR, GZip and BZip2 data compression and archiving.\n\n"
-"'Copyright (C) 2006-2020 Alexander Koblov (alexx2000@mail.ru)"
-msgstr "Zip-убудова сумяшчальная з PKZIP, TAR, GZip і BZip2, падтрымлівае сцісканне і архівацыю даных.\n\n"
-"Copyright (C) 2006-2020 Alexander Koblov (alexx2000@mail.ru)"
+msgid "Zip plugin supports PKZIP-compatible, TAR, XZ, GZip, Zstandard and BZip2 data compression and archiving."
+msgstr "Zip-убудова сумяшчальная з PKZIP, TAR, XZ, GZip, Zstandard і BZip2, падтрымлівае сцісканне і архівацыю даных."
 
 #: tdialogbox.gbCompression.caption
 msgid "Compression"
 msgstr "Сцісканне"
 
-#: tdialogbox.gbCompression.lblCompressionMethodToUse.caption
+#: tdialogbox.gbCompression.lblArchiveFormat.caption
+msgid "Archive format:"
+msgstr ""
+
+#: tdialogbox.gbCompression.lblCompressionMethod.caption
 msgid "Compression method:"
 msgstr "Метад сціскання:"
 
-#: tdialogbox.gbCompression.lblDeflationOption.caption
+#: tdialogbox.gbCompression.lblCompressionLevel.caption
 msgid "Compression level:"
 msgstr "Узровень сціскання:"
 

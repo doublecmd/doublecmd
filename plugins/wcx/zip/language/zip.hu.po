@@ -16,24 +16,22 @@ msgid "Zip plugin configuration"
 msgstr "Zip plugin beállítások"
 
 #: tdialogbox.lblAbout.caption
-msgid ""
-"Zip plugin supports PKZIP-compatible, TAR, GZip and BZip2 data compression and archiving.\n"
-"\n"
-"'Copyright (C) 2006-2020 Alexander Koblov (alexx2000@mail.ru)"
-msgstr ""
-"A Zip plugin a PKZIP-kompatibilis, TAR, GZip és BZip2 adattömörítést és archiválást támogatja.\n"
-"\n"
-"'Szerzői jog (C) 2006–2020, Alexander Koblov (alexx2000@mail.ru)"
+msgid "Zip plugin supports PKZIP-compatible, TAR, XZ, GZip, Zstandard and BZip2 data compression and archiving."
+msgstr "A Zip plugin a PKZIP-kompatibilis, TAR, XZ, GZip, Zstandard és BZip2 adattömörítést és archiválást támogatja."
 
 #: tdialogbox.gbCompression.caption
 msgid "Compression"
 msgstr "Tömörítés"
 
-#: tdialogbox.gbCompression.lblCompressionMethodToUse.caption
+#: tdialogbox.gbCompression.lblArchiveFormat.caption
+msgid "Archive format:"
+msgstr ""
+
+#: tdialogbox.gbCompression.lblCompressionMethod.caption
 msgid "Compression method:"
 msgstr "Tömörítési módszer:"
 
-#: tdialogbox.gbCompression.lblDeflationOption.caption
+#: tdialogbox.gbCompression.lblCompressionLevel.caption
 msgid "Compression level:"
 msgstr "Tömörítési szint:"
 

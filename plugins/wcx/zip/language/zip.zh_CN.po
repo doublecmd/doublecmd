@@ -6,18 +6,22 @@ msgid "Zip plugin configuration"
 msgstr "Zip插件配置"
 
 #: tdialogbox.lblAbout.caption
-msgid "Zip plugin supports PKZIP-compatible, TAR, GZip and BZip2 data compression and archiving.\n\n'Copyright (C) 2006-2020 Alexander Koblov (alexx2000@mail.ru)"
-msgstr "Zip 插件支持 PKZIP 兼容、TAR、GZip 和 BZip2 数据压缩和归档.\n\n'Copyright (C) 2006-2020 Alexander Koblov (alexx2000@mail.ru)"
+msgid "Zip plugin supports PKZIP-compatible, TAR, XZ, GZip, Zstandard and BZip2 data compression and archiving."
+msgstr "Zip 插件支持 PKZIP 兼容、TAR、XZ、GZip、Zstandard 和 BZip2 数据压缩和归档."
 
 #: tdialogbox.gbCompression.caption
 msgid "Compression"
 msgstr "压缩"
 
-#: tdialogbox.gbCompression.lblCompressionMethodToUse.caption
+#: tdialogbox.gbCompression.lblArchiveFormat.caption
+msgid "Archive format:"
+msgstr ""
+
+#: tdialogbox.gbCompression.lblCompressionMethod.caption
 msgid "Compression method:"
 msgstr "压缩方式:"
 
-#: tdialogbox.gbCompression.lblDeflationOption.caption
+#: tdialogbox.gbCompression.lblCompressionLevel.caption
 msgid "Compression level:"
 msgstr "压缩级别:"
 
