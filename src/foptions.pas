@@ -50,6 +50,7 @@ type
   { TfrmOptions }
 
   TfrmOptions = class(TForm, IOptionsDialog)
+    btnHelp: TBitBtn;
     lblEmptyEditor: TLabel;
     OptionsEditorsImageList: TImageList;
     pnlButtons: TKASButtonPanel;
@@ -65,6 +66,7 @@ type
     alOptionsActionList: TActionList;
     actCloseWithEscape: TAction;
     procedure btnCancelClick(Sender: TObject);
+    procedure btnHelpClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure FormCloseQuery(Sender: TObject; var CanClose: boolean);
     procedure FormCreate(Sender: TObject);
@@ -106,7 +108,7 @@ implementation
 {$R *.lfm}
 
 uses
-  LCLProc, LCLVersion, LazUTF8, LResources, Menus, Translations, Graphics,
+  HelpIntfs, LCLProc, LCLVersion, LazUTF8, LResources, Menus, Translations, Graphics,
   DCStrUtils, uTranslator, uLng, uGlobsPaths, fMain;
 
 var
@@ -227,6 +229,11 @@ procedure TfrmOptions.btnCancelClick(Sender: TObject);
 begin
   // close window
   Close;
+end;
+
+procedure TfrmOptions.btnHelpClick(Sender: TObject);
+begin
+  ShowHelpOrErrorForKeyword('', HelpKeyword);
 end;
 
 procedure TfrmOptions.btnOKClick(Sender: TObject);
@@ -469,7 +476,10 @@ begin
     if Assigned(SelectedEditorView.Instance) then
     begin
       HelpKeyword:= SelectedEditorView.Instance.HelpKeyword;
-    end;
+      btnHelp.Visible := HelpKeyword <> '';
+    end
+    else
+      btnHelp.Visible:= False;
   end;
 end;
 

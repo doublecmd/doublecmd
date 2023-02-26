@@ -173,7 +173,6 @@ type
     btnExport: TBitBtn;
     btnImport: TBitBtn;
     btnBackup: TBitBtn;
-    btnHelp: TBitBtn;
     pnlBottom: TPanel;
     rgWhereToAdd: TRadioGroup;
     gbHotlistOtherOptions: TGroupBox;
@@ -216,7 +215,6 @@ type
     procedure miImportFromAnythingClick(Sender: TObject);
     procedure miGotoConfigureTCInfoClick(Sender: TObject);
     procedure btnActionClick(Sender: TObject);
-    procedure btnHelpClick(Sender: TObject);
     procedure cbFullExpandTreeChange(Sender: TObject);
     procedure lbleditHotDirNameChange(Sender: TObject);
     procedure anyRelativeAbsolutePathClick(Sender: TObject);
@@ -1324,12 +1322,6 @@ begin
     7: pmMiscellaneousDirectoryHotlist.PopUp(Mouse.CursorPos.X, Mouse.CursorPos.Y);
     8: pmSortDirectoryHotlist.PopUp(Mouse.CursorPos.X, Mouse.CursorPos.Y);
   end;
-end;
-
-{ TfrmOptionsDirectoryHotlist.btnHelpClick }
-procedure TfrmOptionsDirectoryHotlist.btnHelpClick(Sender: TObject);
-begin
-  ShowHelpOrErrorForKeyword('', '/directoryhotlist.html');
 end;
 
 { TfrmOptionsDirectoryHotlist.cbFullExpandTreeChange }

@@ -1,6 +1,7 @@
 inherited frmOptionsToolbarExtra: TfrmOptionsToolbarExtra
   Height = 573
   Width = 850
+  HelpKeyword = '/configuration.html#ConfigToolbarEx'
   ChildSizing.LeftRightSpacing = 6
   ChildSizing.TopBottomSpacing = 6
   ClientHeight = 573

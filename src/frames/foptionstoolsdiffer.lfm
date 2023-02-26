@@ -1,6 +1,7 @@
 inherited frmOptionsDiffer: TfrmOptionsDiffer
   Height = 478
   Width = 586
+  HelpKeyword = '/configuration.html#ConfigToolsDiffer'
   ClientHeight = 478
   ClientWidth = 586
   DesignLeft = 377

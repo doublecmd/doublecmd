@@ -171,7 +171,7 @@ inherited frmOptionsDirectoryHotlist: TfrmOptionsDirectoryHotlist
           Tag = 7
           AnchorSideTop.Control = btnSort
           AnchorSideTop.Side = asrBottom
-          AnchorSideRight.Control = btnHelp
+          AnchorSideRight.Control = btnBackup
           Left = 8
           Height = 25
           Top = 124
@@ -214,20 +214,6 @@ inherited frmOptionsDirectoryHotlist: TfrmOptionsDirectoryHotlist
           Caption = '&Sort...'
           OnClick = btnActionClick
           TabOrder = 3
-        end
-        object btnHelp: TBitBtn
-          AnchorSideTop.Control = btnMiscellaneous
-          AnchorSideTop.Side = asrCenter
-          AnchorSideRight.Control = pnlButtons
-          AnchorSideRight.Side = asrBottom
-          Left = 164
-          Height = 25
-          Top = 124
-          Width = 150
-          Anchors = [akTop, akRight]
-          Caption = '&Help'
-          OnClick = btnHelpClick
-          TabOrder = 8
         end
       end
       object rgWhereToAdd: TRadioGroup

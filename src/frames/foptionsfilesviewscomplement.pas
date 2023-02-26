@@ -129,7 +129,7 @@ procedure TfrmOptionsFilesViewsComplement.btnAddAttributeClick(Sender: TObject);
 var
   FFrmAttributesEdit: TfrmAttributesEdit;
 begin
-  FFrmAttributesEdit := TfrmAttributesEdit.Create(Self);
+  FFrmAttributesEdit := TfrmAttributesEdit.Create(Owner);
   try
   FFrmAttributesEdit.OnOk := @OnAddAttribute;
   FFrmAttributesEdit.Reset;

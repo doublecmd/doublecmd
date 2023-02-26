@@ -1,6 +1,7 @@
 inherited frmOptionsToolTips: TfrmOptionsToolTips
   Height = 480
   Width = 826
+  HelpKeyword = '/configuration.html#ConfigTooltips'
   AutoSize = True
   ClientHeight = 480
   ClientWidth = 826
