@@ -1,7 +1,7 @@
 (* ***** BEGIN LICENSE BLOCK *****
  * Simple interface to zstd library
  *
- * Copyright (C) 2019 Alexander Koblov (alexx2000@mail.ru)
+ * Copyright (C) 2019-2023 Alexander Koblov (alexx2000@mail.ru)
  *
  * Permission is hereby granted, free of charge, to any person obtaining
  * a copy of this software and associated documentation files (the
@@ -319,20 +319,24 @@ var
   AInput: ZSTD_inBuffer;
 begin
   try
-    FillChar({%H-}AInput, SizeOf(ZSTD_inBuffer), 0);
+    if Assigned(FContext) then
+    try
+      FillChar({%H-}AInput, SizeOf(ZSTD_inBuffer), 0);
 
-    repeat
-      FBufferOut.pos:= 0;
+      repeat
+        FBufferOut.pos:= 0;
 
-      ARemaining:= ZSTD_Check(ZSTD_compressStream2(FContext, @FBufferOut, @AInput, ZSTD_e_end));
+        ARemaining:= ZSTD_Check(ZSTD_compressStream2(FContext, @FBufferOut, @AInput, ZSTD_e_end));
 
-      if (FBufferOut.pos > 0) then begin
-        FStream.WriteBuffer(FBufferOut.dst^, FBufferOut.pos);
-      end;
-    until (ARemaining = 0);
+        if (FBufferOut.pos > 0) then begin
+          FStream.WriteBuffer(FBufferOut.dst^, FBufferOut.pos);
+        end;
+      until (ARemaining = 0);
+    finally
+      FreeMem(FBufferOut.dst);
+      ZSTD_freeCCtx(FContext);
+    end;
   finally
-    FreeMem(FBufferOut.dst);
-    ZSTD_freeCCtx(FContext);
     inherited Destroy;
   end;
 end;
