@@ -8,7 +8,6 @@
 {"hash":63326686,"name":"tfrmoptionsdirectoryhotlist.btnmiscellaneous.caption","sourcebytes":[38,77,105,115,99,101,108,108,97,110,101,111,117,115,46,46,46],"value":"&Miscellaneous..."},
 {"hash":63598926,"name":"tfrmoptionsdirectoryhotlist.btnadd.caption","sourcebytes":[65,38,100,100,46,46,46],"value":"A&dd..."},
 {"hash":174683070,"name":"tfrmoptionsdirectoryhotlist.btnsort.caption","sourcebytes":[38,83,111,114,116,46,46,46],"value":"&Sort..."},
-{"hash":2812976,"name":"tfrmoptionsdirectoryhotlist.btnhelp.caption","sourcebytes":[38,72,101,108,112],"value":"&Help"},
 {"hash":163294828,"name":"tfrmoptionsdirectoryhotlist.rgwheretoadd.caption","sourcebytes":[65,100,100,105,116,105,111,110,32,102,114,111,109,32,109,97,105,110,32,112,97,110,101,108],"value":"Addition from main panel"},
 {"hash":13910547,"name":"tfrmoptionsdirectoryhotlist.gbhotlistotheroptions.caption","sourcebytes":[79,116,104,101,114,32,111,112,116,105,111,110,115],"value":"Other options"},
 {"hash":213892596,"name":"tfrmoptionsdirectoryhotlist.cbaddtarget.caption","sourcebytes":[38,87,104,101,110,32,97,100,100,105,110,103,32,100,105,114,101,99,116,111,114,121,44,32,97,100,100,32,97,108,115,111,32,116,97,114,103,101,116],"value":"&When adding directory, add also target"},
