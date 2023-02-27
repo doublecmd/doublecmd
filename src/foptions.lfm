@@ -107,15 +107,16 @@ object frmOptions: TfrmOptions
     FullRepaint = False
     TabOrder = 2
     object btnHelp: TBitBtn
-      AnchorSideLeft.Control = btnOK
       AnchorSideLeft.Side = asrCenter
-      AnchorSideRight.Control = btnOK
-      Left = 307
+      AnchorSideLeft.Control = TreeFilterEdit
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = btnOK
+      Left = 201
       Height = 30
       Top = 5
       Width = 75
-      Anchors = [akTop, akRight]
       AutoSize = True
+      BorderSpacing.Left = 8
       BorderSpacing.Right = 16
       BorderSpacing.InnerBorder = 2
       Caption = '&Help'
