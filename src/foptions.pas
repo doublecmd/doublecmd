@@ -263,7 +263,7 @@ procedure TfrmOptions.splOptionsSplitterMoved(Sender: TObject);
 var
   ARight, ADelta: Integer;
 begin
-  ADelta:= ScaleX(8, DesignTimePPI);
+  ADelta:= ScaleX(8, DesignTimePPI) * 2 + btnHelp.Width;
   ARight:= splOptionsSplitter.Left;
   if (ARight > (btnOK.Left - ADelta)) then
   begin
