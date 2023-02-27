@@ -3869,6 +3869,11 @@ msgctxt "TFRMOPTIONS.BTNCANCEL.CAPTION"
 msgid "&Cancel"
 msgstr "&Zrušiť"
 
+#: tfrmoptions.btnhelp.caption
+msgctxt "tfrmoptions.btnhelp.caption"
+msgid "&Help"
+msgstr "&Pomoc"
+
 #: tfrmoptions.btnok.caption
 msgctxt "TFRMOPTIONS.BTNOK.CAPTION"
 msgid "&OK"
@@ -4984,11 +4989,6 @@ msgstr "Vymazať..."
 msgctxt "tfrmoptionsdirectoryhotlist.btnexport.caption"
 msgid "E&xport..."
 msgstr "E&xportovanie..."
-
-#: tfrmoptionsdirectoryhotlist.btnhelp.caption
-msgctxt "tfrmoptionsdirectoryhotlist.btnhelp.caption"
-msgid "&Help"
-msgstr "&Pomoc"
 
 #: tfrmoptionsdirectoryhotlist.btnimport.caption
 msgctxt "tfrmoptionsdirectoryhotlist.btnimport.caption"

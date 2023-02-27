@@ -3867,6 +3867,11 @@ msgctxt "TFRMOPTIONS.BTNCANCEL.CAPTION"
 msgid "&Cancel"
 msgstr "О&тмена"
 
+#: tfrmoptions.btnhelp.caption
+msgctxt "tfrmoptions.btnhelp.caption"
+msgid "&Help"
+msgstr "Помо&щь"
+
 #: tfrmoptions.btnok.caption
 msgctxt "TFRMOPTIONS.BTNOK.CAPTION"
 msgid "&OK"
@@ -4982,11 +4987,6 @@ msgstr "&Удалить..."
 msgctxt "tfrmoptionsdirectoryhotlist.btnexport.caption"
 msgid "E&xport..."
 msgstr "&Экспорт..."
-
-#: tfrmoptionsdirectoryhotlist.btnhelp.caption
-msgctxt "tfrmoptionsdirectoryhotlist.btnhelp.caption"
-msgid "&Help"
-msgstr "Помо&щь"
 
 #: tfrmoptionsdirectoryhotlist.btnimport.caption
 msgctxt "tfrmoptionsdirectoryhotlist.btnimport.caption"

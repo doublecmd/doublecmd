@@ -3871,6 +3871,11 @@ msgctxt "TFRMOPTIONS.BTNCANCEL.CAPTION"
 msgid "&Cancel"
 msgstr "&Mégsem"
 
+#: tfrmoptions.btnhelp.caption
+msgctxt "tfrmoptions.btnhelp.caption"
+msgid "&Help"
+msgstr "Súgó"
+
 #: tfrmoptions.btnok.caption
 msgctxt "TFRMOPTIONS.BTNOK.CAPTION"
 msgid "&OK"
@@ -4986,11 +4991,6 @@ msgstr "Törlés..."
 msgctxt "tfrmoptionsdirectoryhotlist.btnexport.caption"
 msgid "E&xport..."
 msgstr "Exportálás..."
-
-#: tfrmoptionsdirectoryhotlist.btnhelp.caption
-msgctxt "tfrmoptionsdirectoryhotlist.btnhelp.caption"
-msgid "&Help"
-msgstr "Súgó"
 
 #: tfrmoptionsdirectoryhotlist.btnimport.caption
 msgctxt "tfrmoptionsdirectoryhotlist.btnimport.caption"

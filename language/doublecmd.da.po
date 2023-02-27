@@ -4063,6 +4063,12 @@ msgctxt "TFRMOPTIONS.BTNCANCEL.CAPTION"
 msgid "&Cancel"
 msgstr "&Annuller"
 
+# Opsætning - Indstillinger - Favoritmappe - Hjælp
+#: tfrmoptions.btnhelp.caption
+msgctxt "tfrmoptions.btnhelp.caption"
+msgid "&Help"
+msgstr "Hjælp"
+
 #: tfrmoptions.btnok.caption
 msgctxt "TFRMOPTIONS.BTNOK.CAPTION"
 msgid "&OK"
@@ -5291,12 +5297,6 @@ msgstr "Slet..."
 msgctxt "tfrmoptionsdirectoryhotlist.btnexport.caption"
 msgid "E&xport..."
 msgstr "Eksportér..."
-
-# Opsætning - Indstillinger - Favoritmappe - Hjælp
-#: tfrmoptionsdirectoryhotlist.btnhelp.caption
-msgctxt "TFRMOPTIONSDIRECTORYHOTLIST.BTNHELP.CAPTION"
-msgid "&Help"
-msgstr "Hjælp"
 
 # Opsætning - Indstillinger - Favoritmappe - Importér...
 #: tfrmoptionsdirectoryhotlist.btnimport.caption

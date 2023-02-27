@@ -4101,6 +4101,13 @@ msgctxt "TFRMOPTIONS.BTNCANCEL.CAPTION"
 msgid "&Cancel"
 msgstr "Otkaži&"
 
+#: tfrmoptions.btnhelp.caption
+#, fuzzy
+#| msgid "Help"
+msgctxt "tfrmoptions.btnhelp.caption"
+msgid "&Help"
+msgstr "Pomoć"
+
 #: tfrmoptions.btnok.caption
 msgctxt "TFRMOPTIONS.BTNOK.CAPTION"
 msgid "&OK"
@@ -5237,13 +5244,6 @@ msgstr "Brisanje..."
 msgctxt "tfrmoptionsdirectoryhotlist.btnexport.caption"
 msgid "E&xport..."
 msgstr "Izvoz..."
-
-#: tfrmoptionsdirectoryhotlist.btnhelp.caption
-#, fuzzy
-#| msgid "Help"
-msgctxt "tfrmoptionsdirectoryhotlist.btnhelp.caption"
-msgid "&Help"
-msgstr "Pomoć"
 
 #: tfrmoptionsdirectoryhotlist.btnimport.caption
 #, fuzzy
