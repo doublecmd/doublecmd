@@ -1,6 +1,7 @@
 inherited frmOptionsQuickSearchFilter: TfrmOptionsQuickSearchFilter
   Height = 354
   Width = 702
+  HelpKeyword = '/configuration.html#ConfigQuick'
   ChildSizing.LeftRightSpacing = 6
   ChildSizing.TopBottomSpacing = 6
   ClientHeight = 354

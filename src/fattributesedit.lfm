@@ -540,6 +540,7 @@ object frmAttributesEdit: TfrmAttributesEdit
       Width = 94
       Caption = '&OK'
       Constraints.MinHeight = 30
+      Default = True
       Kind = bkOK
       ModalResult = 1
       OnClick = btnOkClick
@@ -550,6 +551,7 @@ object frmAttributesEdit: TfrmAttributesEdit
       Height = 32
       Top = 0
       Width = 118
+      Cancel = True
       Caption = '&Cancel'
       Constraints.MinHeight = 30
       Kind = bkCancel

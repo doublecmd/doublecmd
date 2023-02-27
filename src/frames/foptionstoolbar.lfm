@@ -1,2 +1,3 @@
 inherited frmOptionsToolbar: TfrmOptionsToolbar
+  HelpKeyword = '/configuration.html#ConfigToolbar'
 end

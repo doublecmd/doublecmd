@@ -1,6 +1,7 @@
 inherited frmOptionsTerminal: TfrmOptionsTerminal
   Height = 324
   Width = 519
+  HelpKeyword = '/configuration.html#ConfigToolsTerminal'
   AutoSize = True
   ClientHeight = 324
   ClientWidth = 519

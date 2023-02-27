@@ -25,10 +25,11 @@ object frmOptions: TfrmOptions
     AutoExpand = True
     Images = OptionsEditorsImageList
     ReadOnly = True
+    RowSelect = True
     ScrollBars = ssAutoBoth
     TabOrder = 0
     OnChange = tvTreeViewChange
-    Options = [tvoAutoExpand, tvoAutoItemHeight, tvoHideSelection, tvoKeepCollapsedNodes, tvoReadOnly, tvoShowButtons, tvoShowLines, tvoShowRoot, tvoToolTips]
+    Options = [tvoAutoExpand, tvoAutoItemHeight, tvoHideSelection, tvoKeepCollapsedNodes, tvoReadOnly, tvoRowSelect, tvoShowButtons, tvoShowLines, tvoShowRoot, tvoToolTips]
   end
   object Panel3: TPanel
     Left = 196
@@ -105,6 +106,24 @@ object frmOptions: TfrmOptions
     ClientWidth = 640
     FullRepaint = False
     TabOrder = 2
+    object btnHelp: TBitBtn
+      AnchorSideLeft.Side = asrCenter
+      AnchorSideLeft.Control = TreeFilterEdit
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = btnOK
+      Left = 201
+      Height = 30
+      Top = 5
+      Width = 75
+      AutoSize = True
+      BorderSpacing.Left = 8
+      BorderSpacing.Right = 16
+      BorderSpacing.InnerBorder = 2
+      Caption = '&Help'
+      Kind = bkHelp
+      OnClick = btnHelpClick
+      TabOrder = 4
+    end
     object btnOK: TBitBtn
       AnchorSideRight.Control = btnCancel
       Left = 321

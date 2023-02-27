@@ -1,6 +1,7 @@
 inherited frmOptionsViewer: TfrmOptionsViewer
   Height = 513
   Width = 586
+  HelpKeyword = '/configuration.html#ConfigToolsViewer'
   ClientHeight = 513
   ClientWidth = 586
   DesignLeft = 384

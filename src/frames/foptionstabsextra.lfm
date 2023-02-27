@@ -1,6 +1,7 @@
 inherited frmOptionsTabsExtra: TfrmOptionsTabsExtra
   Height = 418
   Width = 720
+  HelpKeyword = '/configuration.html#ConfigTabsEx'
   AutoSize = True
   ClientHeight = 418
   ClientWidth = 720

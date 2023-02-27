@@ -1,6 +1,7 @@
 inherited frmOptionsTabs: TfrmOptionsTabs
   Height = 492
   Width = 731
+  HelpKeyword = '/configuration.html#ConfigTabs'
   ClientHeight = 492
   ClientWidth = 731
   DesignLeft = 147

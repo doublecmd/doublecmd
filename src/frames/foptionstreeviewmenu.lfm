@@ -1,6 +1,7 @@
 inherited frmOptionsTreeViewMenu: TfrmOptionsTreeViewMenu
   Height = 415
   Width = 590
+  HelpKeyword = '/configuration.html#ConfigTreeMenu'
   AutoSize = True
   ChildSizing.LeftRightSpacing = 6
   ChildSizing.TopBottomSpacing = 6

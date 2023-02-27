@@ -1,6 +1,7 @@
 inherited frmOptionsTreeViewMenuColor: TfrmOptionsTreeViewMenuColor
   Height = 478
   Width = 600
+  HelpKeyword = '/configuration.html#ConfigTreeMenuColor'
   AutoSize = True
   ChildSizing.LeftRightSpacing = 6
   ChildSizing.TopBottomSpacing = 6
