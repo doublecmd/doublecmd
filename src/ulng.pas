@@ -1170,13 +1170,18 @@ begin
 end;
 
 procedure lngLoadLng(const sFileName: String);
+const
+  DEFAULT_PO = 'doublecmd.pot';
 var
   Lang: String = '';
   FallbackLang: String = '';
 begin
   // Default english interface
-  if StrBegins(sFileName, 'doublecmd.po') then Exit;
-
+  if StrBegins(sFileName, 'doublecmd.po') then
+  begin
+    gPOFileName := DEFAULT_PO;
+    Exit;
+  end;
   gPOFileName := sFileName;
   if not mbFileExists(gpLngDir + gPOFileName) then
   begin
@@ -1189,7 +1194,7 @@ begin
     gPOFileName := Format(gPOFileName,[Lang]);
   end;
   if not mbFileExists(gpLngDir + gPOFileName) then
-    gPOFileName := 'doublecmd.pot'
+    gPOFileName := DEFAULT_PO
   else begin
     DCDebug('Loading lng file: ' + gpLngDir + gPOFileName);
     LRSTranslator := TTranslator.Create(gpLngDir + gPOFileName);
