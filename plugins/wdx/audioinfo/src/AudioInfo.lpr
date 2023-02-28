@@ -97,7 +97,6 @@ var
   FileNameU: String;
   FullText: UnicodeString;
   ValueI: PInteger absolute FieldValue;
-  Time: ptimeformat absolute FieldValue;
 begin
   if (FieldIndex < 0) or (FieldIndex >= FIELD_COUNT) then
   begin
@@ -169,7 +168,7 @@ begin
     ft_multiplechoice:
       begin
         if Length(Value) = 0 then
-          Result:= ft_fieldempty
+          PWideChar(FieldValue)^:= #0
         else begin
           if Result <> ft_stringw then
             StrPLCopy(PAnsiChar(FieldValue), Value, MaxLen - 1)
