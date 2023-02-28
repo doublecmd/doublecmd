@@ -551,7 +551,9 @@ begin
     else if (Ext = '.TLZ') then
       Result := atLzmaTar
     else if (Ext = '.ZST') then
-      Result := atZstd;
+      Result := atZstd
+    else if (Ext = '.TZST') then
+      Result := atZstdTar;
   end;
   {$IF NOT DEFINED(ExtractCabSupport)}
   if Result = atCab then
