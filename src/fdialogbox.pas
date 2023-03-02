@@ -55,6 +55,7 @@ type
     DialogDividerBevel: TDividerBevel;
     // Dialog events
     procedure DialogBoxShow(Sender: TObject);
+    procedure DialogBoxClose(Sender: TObject; var CloseAction: TCloseAction);
     // Button events
     procedure ButtonClick(Sender: TObject);
     procedure ButtonEnter(Sender: TObject);
@@ -663,6 +664,12 @@ procedure TDialogBox.DialogBoxShow(Sender: TObject);
 begin
   if Assigned(fDlgProc) then
     fDlgProc(PtrUInt(Pointer(Self)), PAnsiChar((Sender as TControl).Name), DN_INITDIALOG,0,0);
+end;
+
+procedure TDialogBox.DialogBoxClose(Sender: TObject; var CloseAction: TCloseAction);
+begin
+  if Assigned(fDlgProc) then
+    fDlgProc(PtrUInt(Pointer(Self)), PAnsiChar((Sender as TControl).Name), DN_CLOSE, 0, 0);
 end;
 
 procedure TDialogBox.ButtonClick(Sender: TObject);
