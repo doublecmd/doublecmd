@@ -446,6 +446,10 @@ begin
   inherited Create(TheOwner);
   CreateOptionsEditorList;
   SelectEditor(EditorClassName);
+{$if lcl_fullversion >= 2030000}
+  // Lazarus 2.3 workaround (fixes selection reset)
+  TreeFilterEdit.IdleConnected := False;
+{$endif}
 end;
 
 procedure TfrmOptions.tvTreeViewChange(Sender: TObject; Node: TTreeNode);
@@ -567,6 +571,7 @@ var
   TreeNode: TTreeNode absolute Data;
 begin
   TreeNode.MakeVisible;
+  TreeFilterEdit.StoreSelection;
 end;
 
 { TfrmOptions.actCloseWithEscapeExecute }
