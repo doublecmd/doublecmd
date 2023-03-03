@@ -2926,6 +2926,7 @@ var
   fileName: String;
   iconImg: TPicture;
   actionName: TComponentName;
+  vLockStatesImageIndexes: TTabLockStateImageIndexes;
 begin
   if not gIconsInMenus then Exit;
 
@@ -2970,6 +2971,17 @@ begin
   finally
     FreeAndNil(iconImg);
   end;
+
+  vLockStatesImageIndexes[tlsNormal] := actSetTabOptionNormal.ImageIndex;
+  vLockStatesImageIndexes[tlsPathLocked] := actSetTabOptionPathLocked.ImageIndex;
+  vLockStatesImageIndexes[tlsPathResets] := actSetTabOptionPathResets.ImageIndex;
+  vLockStatesImageIndexes[tlsDirsInNewTab] := actSetTabOptionDirsInNewTab.ImageIndex;
+
+  nbLeft.Images := imgLstActions;
+  nbLeft.LockStatesImageIndexes := vLockStatesImageIndexes;
+  nbRight.Images := imgLstActions;
+  nbRight.LockStatesImageIndexes := vLockStatesImageIndexes;
+
 end;
 
 procedure TfrmMain.UpdateHotDirIcons;
