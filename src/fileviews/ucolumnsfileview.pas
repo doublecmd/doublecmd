@@ -1426,6 +1426,7 @@ procedure TDrawGridEx.DrawColumnText(aCol, aRow: Integer; aRect: TRect;
   aState: TGridDrawState);
 var
   SortingDirection: TSortDirection;
+  TextStyle: TTextStyle;
 begin
   SortingDirection := ColumnsView.FColumnsSortDirections[ACol];
 
@@ -1438,6 +1439,9 @@ begin
     aRect.Left += gIconsSize;
   end;
 
+  TextStyle := Canvas.TextStyle;
+  TextStyle.Alignment := ColumnsView.GetColumnsClass.GetColumnAlign(ACol);
+  Canvas.TextStyle := TextStyle;
   DrawCellText(aCol, aRow, aRect, aState, GetColumnTitle(aCol));
 end;
 
