@@ -415,6 +415,8 @@ begin
           FText:= TButton(Control).Caption
         else if Control is TComboBox then
           FText:= TComboBox(Control).Text
+        else if Control is TCheckBox then
+          FText:= TCheckBox(Control).Caption
         else if Control is TMemo then
           FText:= TMemo(Control).Text
         else if Control is TEdit then
@@ -528,6 +530,8 @@ begin
         TButton(Control).Caption:= AText
       else if Control is TComboBox then
         TComboBox(Control).Text:= AText
+      else if Control is TCheckBox then
+        TCheckBox(Control).Caption:= AText
       else if Control is TMemo then
         TMemo(Control).Text:= AText
       else if Control is TEdit then
