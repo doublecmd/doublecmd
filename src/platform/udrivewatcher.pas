@@ -968,6 +968,7 @@ begin
             if (Drive = nil) then
             begin
               New(Drive);
+              FillChar(Drive^, SizeOf(TDrive), 0);
               UpdateDrive := False;
             end
             else begin
