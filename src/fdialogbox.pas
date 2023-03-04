@@ -680,103 +680,103 @@ end;
 procedure TDialogBox.DialogBoxShow(Sender: TObject);
 begin
   if Assigned(fDlgProc) then
-    fDlgProc(PtrUInt(Pointer(Self)), PAnsiChar((Sender as TControl).Name), DN_INITDIALOG,0,0);
+    fDlgProc(FSelf, PAnsiChar((Sender as TControl).Name), DN_INITDIALOG,0,0);
 end;
 
 procedure TDialogBox.DialogBoxClose(Sender: TObject; var CloseAction: TCloseAction);
 begin
   if Assigned(fDlgProc) then
-    fDlgProc(PtrUInt(Pointer(Self)), PAnsiChar((Sender as TControl).Name), DN_CLOSE, 0, 0);
+    fDlgProc(FSelf, PAnsiChar((Sender as TControl).Name), DN_CLOSE, 0, 0);
 end;
 
 procedure TDialogBox.ButtonClick(Sender: TObject);
 begin
   if Assigned(fDlgProc) then
-    fDlgProc(PtrUInt(Pointer(Self)), PAnsiChar((Sender as TControl).Name), DN_CLICK,0,0);
+    fDlgProc(FSelf, PAnsiChar((Sender as TControl).Name), DN_CLICK,0,0);
 end;
 
 procedure TDialogBox.ButtonEnter(Sender: TObject);
 begin
   if Assigned(fDlgProc) then
-    fDlgProc(PtrUInt(Pointer(Self)), PAnsiChar((Sender as TControl).Name), DN_GOTFOCUS,0,0);
+    fDlgProc(FSelf, PAnsiChar((Sender as TControl).Name), DN_GOTFOCUS,0,0);
 end;
 
 procedure TDialogBox.ButtonExit(Sender: TObject);
 begin
   if Assigned(fDlgProc) then
-    fDlgProc(PtrUInt(Pointer(Self)), PAnsiChar((Sender as TControl).Name), DN_KILLFOCUS,0,0);
+    fDlgProc(FSelf, PAnsiChar((Sender as TControl).Name), DN_KILLFOCUS,0,0);
 end;
 
 procedure TDialogBox.ButtonKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
   if Assigned(fDlgProc) then
-    fDlgProc(PtrUInt(Pointer(Self)), PAnsiChar((Sender as TControl).Name), DN_KEYDOWN, PtrInt(@Key), Integer(Shift));
+    fDlgProc(FSelf, PAnsiChar((Sender as TControl).Name), DN_KEYDOWN, PtrInt(@Key), Integer(Shift));
 end;
 
 procedure TDialogBox.ButtonKeyUp(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
   if Assigned(fDlgProc) then
-    fDlgProc(PtrUInt(Pointer(Self)), PAnsiChar((Sender as TControl).Name), DN_KEYUP, PtrInt(@Key), Integer(Shift));
+    fDlgProc(FSelf, PAnsiChar((Sender as TControl).Name), DN_KEYUP, PtrInt(@Key), Integer(Shift));
 end;
 
 procedure TDialogBox.ComboBoxClick(Sender: TObject);
 begin
   if Assigned(fDlgProc) then
-    fDlgProc(PtrUInt(Pointer(Self)), PAnsiChar((Sender as TControl).Name), DN_CLICK,PtrInt((Sender as TComboBox).ItemIndex),0);
+    fDlgProc(FSelf, PAnsiChar((Sender as TControl).Name), DN_CLICK,PtrInt((Sender as TComboBox).ItemIndex),0);
 end;
 
 procedure TDialogBox.ComboBoxDblClick(Sender: TObject);
 begin
   if Assigned(fDlgProc) then
-    fDlgProc(PtrUInt(Pointer(Self)), PAnsiChar((Sender as TControl).Name), DN_DBLCLICK,PtrInt((Sender as TComboBox).ItemIndex),0);
+    fDlgProc(FSelf, PAnsiChar((Sender as TControl).Name), DN_DBLCLICK,PtrInt((Sender as TComboBox).ItemIndex),0);
 end;
 
 procedure TDialogBox.ComboBoxChange(Sender: TObject);
 begin
   if Assigned(fDlgProc) then
     begin
-      fDlgProc(PtrUInt(Pointer(Self)), PAnsiChar((Sender as TControl).Name), DN_CHANGE, PtrInt((Sender as TComboBox).ItemIndex),0);
+      fDlgProc(FSelf, PAnsiChar((Sender as TControl).Name), DN_CHANGE, PtrInt((Sender as TComboBox).ItemIndex),0);
     end;
 end;
 
 procedure TDialogBox.ComboBoxEnter(Sender: TObject);
 begin
   if Assigned(fDlgProc) then
-    fDlgProc(PtrUInt(Pointer(Self)), PAnsiChar((Sender as TControl).Name), DN_GOTFOCUS,0,0);
+    fDlgProc(FSelf, PAnsiChar((Sender as TControl).Name), DN_GOTFOCUS,0,0);
 end;
 
 procedure TDialogBox.ComboBoxExit(Sender: TObject);
 begin
   if Assigned(fDlgProc) then
-    fDlgProc(PtrUInt(Pointer(Self)), PAnsiChar((Sender as TControl).Name), DN_KILLFOCUS,0,0);
+    fDlgProc(FSelf, PAnsiChar((Sender as TControl).Name), DN_KILLFOCUS,0,0);
 end;
 
 procedure TDialogBox.ComboBoxKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
   if Assigned(fDlgProc) then
-    fDlgProc(PtrUInt(Pointer(Self)), PAnsiChar((Sender as TControl).Name), DN_KEYDOWN, PtrInt(@Key), Integer(Shift));
+    fDlgProc(FSelf, PAnsiChar((Sender as TControl).Name), DN_KEYDOWN, PtrInt(@Key), Integer(Shift));
 end;
 
 procedure TDialogBox.ComboBoxKeyUp(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
   if Assigned(fDlgProc) then
-    fDlgProc(PtrUInt(Pointer(Self)), PAnsiChar((Sender as TControl).Name), DN_KEYUP, PtrInt(@Key), Integer(Shift));
+    fDlgProc(FSelf, PAnsiChar((Sender as TControl).Name), DN_KEYUP, PtrInt(@Key), Integer(Shift));
 end;
 
 procedure TDialogBox.EditClick(Sender: TObject);
 begin
   if Assigned(fDlgProc) then
-    fDlgProc(PtrUInt(Pointer(Self)), PAnsiChar((Sender as TControl).Name), DN_CLICK,0,0);
+    fDlgProc(FSelf, PAnsiChar((Sender as TControl).Name), DN_CLICK,0,0);
 end;
 
 procedure TDialogBox.EditDblClick(Sender: TObject);
 begin
   if Assigned(fDlgProc) then
-    fDlgProc(PtrUInt(Pointer(Self)), PAnsiChar((Sender as TControl).Name), DN_DBLCLICK,0,0);
+    fDlgProc(FSelf, PAnsiChar((Sender as TControl).Name), DN_DBLCLICK,0,0);
 end;
 
 procedure TDialogBox.EditChange(Sender: TObject);
@@ -786,39 +786,39 @@ begin
   if Assigned(fDlgProc) then
     begin
       sText:= (Sender as TEdit).Text;
-      fDlgProc(PtrUInt(Pointer(Self)), PAnsiChar((Sender as TControl).Name), DN_CHANGE, PtrInt(PAnsiChar(sText)), 0);
+      fDlgProc(FSelf, PAnsiChar((Sender as TControl).Name), DN_CHANGE, PtrInt(PAnsiChar(sText)), 0);
     end;
 end;
 
 procedure TDialogBox.EditEnter(Sender: TObject);
 begin
   if Assigned(fDlgProc) then
-    fDlgProc(PtrUInt(Pointer(Self)), PAnsiChar((Sender as TControl).Name), DN_GOTFOCUS,0,0);
+    fDlgProc(FSelf, PAnsiChar((Sender as TControl).Name), DN_GOTFOCUS,0,0);
 end;
 
 procedure TDialogBox.EditExit(Sender: TObject);
 begin
   if Assigned(fDlgProc) then
-    fDlgProc(PtrUInt(Pointer(Self)), PAnsiChar((Sender as TControl).Name), DN_KILLFOCUS,0,0);
+    fDlgProc(FSelf, PAnsiChar((Sender as TControl).Name), DN_KILLFOCUS,0,0);
 end;
 
 procedure TDialogBox.EditKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
 begin
   if Assigned(fDlgProc) then
-    fDlgProc(PtrUInt(Pointer(Self)), PAnsiChar((Sender as TControl).Name), DN_KEYDOWN, PtrInt(@Key), Integer(Shift));
+    fDlgProc(FSelf, PAnsiChar((Sender as TControl).Name), DN_KEYDOWN, PtrInt(@Key), Integer(Shift));
 end;
 
 procedure TDialogBox.EditKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
 begin
   if Assigned(fDlgProc) then
-    fDlgProc(PtrUInt(Pointer(Self)), PAnsiChar((Sender as TControl).Name), DN_KEYUP, PtrInt(@Key), Integer(Shift));
+    fDlgProc(FSelf, PAnsiChar((Sender as TControl).Name), DN_KEYUP, PtrInt(@Key), Integer(Shift));
 end;
 
 procedure TDialogBox.ListBoxClick(Sender: TObject);
 begin
   if Assigned(fDlgProc) then
     begin
-      fDlgProc(PtrUInt(Pointer(Self)), PAnsiChar((Sender as TControl).Name), DN_CLICK, PtrInt((Sender as TListBox).ItemIndex),0);
+      fDlgProc(FSelf, PAnsiChar((Sender as TControl).Name), DN_CLICK, PtrInt((Sender as TListBox).ItemIndex),0);
     end;
 end;
 
@@ -826,7 +826,7 @@ procedure TDialogBox.ListBoxDblClick(Sender: TObject);
 begin
   if Assigned(fDlgProc) then
     begin
-      fDlgProc(PtrUInt(Pointer(Self)), PAnsiChar((Sender as TControl).Name), DN_DBLCLICK, PtrInt((Sender as TListBox).ItemIndex),0);
+      fDlgProc(FSelf, PAnsiChar((Sender as TControl).Name), DN_DBLCLICK, PtrInt((Sender as TListBox).ItemIndex),0);
     end;
 end;
 
@@ -834,41 +834,41 @@ procedure TDialogBox.ListBoxSelectionChange(Sender: TObject; User: boolean);
 begin
   if Assigned(fDlgProc) then
     begin
-      fDlgProc(PtrUInt(Pointer(Self)), PAnsiChar((Sender as TControl).Name), DN_CHANGE, PtrInt((Sender as TListBox).ItemIndex),0);
+      fDlgProc(FSelf, PAnsiChar((Sender as TControl).Name), DN_CHANGE, PtrInt((Sender as TListBox).ItemIndex),0);
     end;
 end;
 
 procedure TDialogBox.ListBoxEnter(Sender: TObject);
 begin
   if Assigned(fDlgProc) then
-    fDlgProc(PtrUInt(Pointer(Self)), PAnsiChar((Sender as TControl).Name), DN_GOTFOCUS,0,0);
+    fDlgProc(FSelf, PAnsiChar((Sender as TControl).Name), DN_GOTFOCUS,0,0);
 end;
 
 procedure TDialogBox.ListBoxExit(Sender: TObject);
 begin
   if Assigned(fDlgProc) then
-    fDlgProc(PtrUInt(Pointer(Self)), PAnsiChar((Sender as TControl).Name), DN_KILLFOCUS,0,0);
+    fDlgProc(FSelf, PAnsiChar((Sender as TControl).Name), DN_KILLFOCUS,0,0);
 end;
 
 procedure TDialogBox.ListBoxKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
   if Assigned(fDlgProc) then
-    fDlgProc(PtrUInt(Pointer(Self)), PAnsiChar((Sender as TControl).Name), DN_KEYDOWN, PtrInt(@Key), Integer(Shift));
+    fDlgProc(FSelf, PAnsiChar((Sender as TControl).Name), DN_KEYDOWN, PtrInt(@Key), Integer(Shift));
 end;
 
 procedure TDialogBox.ListBoxKeyUp(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
   if Assigned(fDlgProc) then
-    fDlgProc(PtrUInt(Pointer(Self)), PAnsiChar((Sender as TControl).Name), DN_KEYUP, PtrInt(@Key), Integer(Shift));
+    fDlgProc(FSelf, PAnsiChar((Sender as TControl).Name), DN_KEYUP, PtrInt(@Key), Integer(Shift));
 end;
 
 procedure TDialogBox.CheckBoxChange(Sender: TObject);
 begin
   if Assigned(fDlgProc) then
     begin
-      fDlgProc(PtrUInt(Pointer(Self)), PAnsiChar((Sender as TControl).Name), DN_CHANGE, PtrInt((Sender as TCheckBox).Checked),0);
+      fDlgProc(FSelf, PAnsiChar((Sender as TControl).Name), DN_CHANGE, PtrInt((Sender as TCheckBox).Checked),0);
     end;
 end;
 
@@ -879,9 +879,6 @@ begin
     fDlgProc(FSelf, PAnsiChar((Sender as TTimer).Name), DN_TIMER, 0, 0);
   end;
 end;
-
-initialization
-  {.$I fdialogbox.lrs}
 
 end.
 
