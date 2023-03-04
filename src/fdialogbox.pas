@@ -3,7 +3,7 @@
     -------------------------------------------------------------------------
     This unit contains realization of Dialog API functions.
 
-    Copyright (C) 2008-2019 Alexander Koblov (alexx2000@mail.ru)
+    Copyright (C) 2008-2023 Alexander Koblov (alexx2000@mail.ru)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -35,6 +35,7 @@ type
   { TDialogBox }
 
   TDialogBox = class(TForm)
+    DialogTimer: TTimer;
     DialogButton: TButton;
     DialogBitBtn: TBitBtn;
     DialogFileNameEdit: TFileNameEdit;
@@ -88,9 +89,12 @@ type
     procedure ListBoxKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
     // CheckBox events
     procedure CheckBoxChange(Sender: TObject);
+    // Timer events
+    procedure TimerTimer(Sender: TObject);
   private
     FRect: TRect;
     FText: String;
+    FSelf: UIntPtr;
     FLRSData: String;
     FResult: LongBool;
     FDlgProc: TDlgProc;
@@ -211,19 +215,16 @@ function SendDlgMsg(pDlg: PtrUInt; DlgItemName: PAnsiChar; Msg, wParam, lParam: 
 var
   Key: Word;
   AText: String;
-  Index: Integer;
-  Control: TControl;
+  Component: TComponent = nil;
   lText: PAnsiChar absolute lParam;
   wText: PAnsiChar absolute wParam;
   pResult: Pointer absolute Result;
   DialogBox: TDialogBox absolute pDlg;
+  Control: TControl absolute Component;
 begin
   // find component by name
-  for Index:= 0 to DialogBox.ComponentCount - 1 do
-  begin
-    Control:= TControl(DialogBox.Components[Index]);
-    if CompareText(Control.Name, DlgItemName) = 0 then Break;
-  end;
+  Component:= DialogBox.FindComponent(DlgItemName);
+  if (Component = nil) then Exit(-1);
   // process message
   case Msg of
   DM_CLOSE:
@@ -234,9 +235,17 @@ begin
     end;
   DM_ENABLE:
     begin
-      Result:= PtrInt(Control.Enabled);
-      if wParam <> -1 then
-        Control.Enabled:= Boolean(wParam);
+      if (Component is TTimer) then
+      begin
+        Result:= PtrInt(TTimer(Component).Enabled);
+        if wParam <> -1 then
+          TTimer(Component).Enabled:= Boolean(wParam);
+      end
+      else begin
+        Result:= PtrInt(Control.Enabled);
+        if wParam <> -1 then
+          Control.Enabled:= Boolean(wParam);
+      end;
     end;
   DM_GETCHECK:
     begin
@@ -564,6 +573,13 @@ begin
         TCustomEdit(Control).PasswordChar:= Char(wParam);
       end;
     end;
+  DM_TIMERSETINTERVAL:
+    begin
+      if (Component is TTimer) then
+      begin
+        TTimer(Component).Interval:= wParam;
+      end;
+    end;
   end;
 end;
 
@@ -644,6 +660,7 @@ var
 begin
   FLRSData:= LRSData;
   FDlgProc:= DlgProc;
+  FSelf:= UIntPtr(Self);
 
   FileName:= mbGetModuleName(DlgProc);
   Path:= ExtractFilePath(FileName) + 'language' + PathDelim;
@@ -853,6 +870,14 @@ begin
     begin
       fDlgProc(PtrUInt(Pointer(Self)), PAnsiChar((Sender as TControl).Name), DN_CHANGE, PtrInt((Sender as TCheckBox).Checked),0);
     end;
+end;
+
+procedure TDialogBox.TimerTimer(Sender: TObject);
+begin
+  if Assigned(fDlgProc) then
+  begin
+    fDlgProc(FSelf, PAnsiChar((Sender as TTimer).Name), DN_TIMER, 0, 0);
+  end;
 end;
 
 initialization

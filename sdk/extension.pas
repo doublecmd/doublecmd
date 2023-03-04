@@ -45,6 +45,7 @@ const
   DM_SETPROGRESSSTYLE     = DM_FIRST+38;
   DM_SETPASSWORDCHAR      = DM_FIRST+39;
   DM_LISTCLEAR            = DM_FIRST+40;
+  DM_TIMERSETINTERVAL     = DM_FIRST+41;
 
   // events messages
   DN_FIRST                = $1000;
@@ -54,6 +55,7 @@ const
   DN_GOTFOCUS             = DN_FIRST+4; // Sent when the dialog item gets input focus
   DN_INITDIALOG           = DN_FIRST+5; // Sent before showing the dialog
   DN_KILLFOCUS            = DN_FIRST+6; // Sent before a dialog item loses the input focus
+  DN_TIMER                = DN_FIRST+7; // Sent when a timer expires
 
   DN_KEYDOWN              = DM_KEYDOWN;
   DN_KEYUP                = DM_KEYUP;
