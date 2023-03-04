@@ -591,8 +591,7 @@ begin
           Format('%s/%s', [cnvFormatFileSize(FreeSize, uoscHeader),
                            cnvFormatFileSize(TotalSize, uoscHeader)])
       end
-      else if IsAvailable(Drive, False) and
-         (Drive^.DriveSize > 0) then
+      else if (Drive^.DriveSize > 0) then
       begin
         Cells[4, RowNr] := cnvFormatFileSize(Drive^.DriveSize, uoscHeader);
       end
