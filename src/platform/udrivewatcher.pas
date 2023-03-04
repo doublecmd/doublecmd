@@ -509,7 +509,13 @@ begin
     Drive^.IsMediaRemovable := DeviceIsRemovable;
     Drive^.IsMounted := DeviceIsMounted;
     Drive^.AutoMount := (DeviceAutomountHint = EmptyStr) or (DeviceAutomountHint = 'always');
+
   end;
+
+  // DriveSize is not correct when Optical drive isn't mounted (at least in Linux)
+  with Drive^ do
+    if (DriveType = dtOptical) and not IsMounted then
+      DriveSize := 0;
 end;
 {$ENDIF}
 
@@ -968,6 +974,7 @@ begin
             if (Drive = nil) then
             begin
               New(Drive);
+              FillChar(Drive^, SizeOf(TDrive), 0);
               UpdateDrive := False;
             end
             else begin
