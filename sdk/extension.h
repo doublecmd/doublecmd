@@ -42,6 +42,7 @@
 #define DM_SETPROGRESSSTYLE DM_FIRST+38
 #define DM_SETPASSWORDCHAR DM_FIRST+39
 #define DM_LISTCLEAR DM_FIRST+40
+#define DM_TIMERSETINTERVAL DM_FIRST+41
 
 /* events messages */
 #define DN_FIRST 0x1000
@@ -51,6 +52,7 @@
 #define DN_GOTFOCUS DN_FIRST+4 /* Sent when the dialog item gets input focus */
 #define DN_INITDIALOG DN_FIRST+5 /* Sent before showing the dialog */
 #define DN_KILLFOCUS DN_FIRST+6 /* Sent before a dialog item loses the input focus */
+#define DN_TIMER DN_FIRST+7 /* Sent when a timer expires */
 
 #define DN_KEYDOWN DM_KEYDOWN
 #define DN_KEYUP DM_KEYUP
