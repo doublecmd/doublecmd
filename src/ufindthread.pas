@@ -739,7 +739,7 @@ var
   end;
 
 begin
-  AFileName:= Folder + PathDelim + sr.Name;
+  AFileName:= IncludeTrailingBackslash(Folder) + sr.Name;
 
   if (FPS_ISDIR(sr.Attr) or FileIsLinkToDirectory(AFileName, sr.Attr)) then
     Exit(False);
@@ -838,10 +838,10 @@ begin
         Exit(False);
 
       try
-        Result := FindInFile(Folder + PathDelim + sr.Name, FindText, CaseSensitive, TextRegExp);
+        Result := FindInFile(IncludeTrailingBackslash(Folder) + sr.Name, FindText, CaseSensitive, TextRegExp);
 
         if (Result and IsReplaceText) then
-          FileReplaceString(Folder + PathDelim + sr.Name, FindText, ReplaceText, CaseSensitive, TextRegExp);
+          FileReplaceString(IncludeTrailingBackslash(Folder) + sr.Name, FindText, ReplaceText, CaseSensitive, TextRegExp);
 
         if NotContainingText then
           Result := not Result;
@@ -853,7 +853,7 @@ begin
           if (log_errors in gLogOptions) then
           begin
             logWrite(Self, rsMsgLogError + E.Message + ' (' +
-                     Folder + PathDelim + sr.Name + ')', lmtError);
+                     IncludeTrailingBackslash(Folder) + sr.Name + ')', lmtError);
           end;
         end;
       end;
