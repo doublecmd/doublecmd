@@ -48,6 +48,9 @@ uses
   uWin32WidgetSetFix,
   {$ENDIF}
   {$ENDIF}
+  {$IFDEF LCLCOCOA}
+  uCocoaWidgetSetFix,
+  {$ENDIF}
   LCLProc,
   Classes,
   SysUtils,
@@ -181,6 +184,10 @@ begin
 
   Application.ShowMainForm:= False;
   Application.CreateForm(TfrmHackForm, frmHackForm);
+
+  {$IFDEF LCLCOCOA}
+  uCocoaWidgetSetFix.Initialize;
+  {$ENDIF}
 
   ProcessCommandLineParams; // before load paths
 
