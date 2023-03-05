@@ -39,6 +39,7 @@ type
     DialogButton: TButton;
     DialogBitBtn: TBitBtn;
     DialogFileNameEdit: TFileNameEdit;
+    DialogDirectoryEdit: TDirectoryEdit;
     DialogComboBox: TComboBox;
     DialogListBox: TListBox;
     DialogCheckBox: TCheckBox;
@@ -120,6 +121,9 @@ implementation
 uses
   LCLStrConsts, LazFileUtils, DCClassesUtf8, DCOSUtils, uShowMsg, uDebug,
   uTranslator, uGlobs;
+
+type
+  TControlProtected = class(TControl);
 
 function InputBox(Caption, Prompt: PAnsiChar; MaskInput: LongBool; Value: PAnsiChar; ValueMaxLen: Integer): LongBool; dcpcall;
 var
@@ -426,7 +430,10 @@ begin
         else if Control is TLabel then
           FText:= TLabel(Control).Caption
         else if Control is TFileNameEdit then
-          FText:= TFileNameEdit(Control).Text;
+          FText:= TFileNameEdit(Control).Text
+        else begin
+          FText:= TControlProtected(Control).Text
+        end;
         pResult:= PAnsiChar(FText);
       end;
     end;
@@ -541,7 +548,10 @@ begin
       else if Control is TLabel then
         TLabel(Control).Caption:= AText
       else if Control is TFileNameEdit then
-        TFileNameEdit(Control).Text:= AText;
+        TFileNameEdit(Control).Text:= AText
+      else begin
+        TControlProtected(Control).Text:= AText;
+      end;
     end;
   DM_SHOWDIALOG:
     begin
