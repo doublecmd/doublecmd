@@ -84,7 +84,7 @@ type
 implementation
 
 uses
-  LCLProc, LazUTF8, LazMethodList, uDebug, uExceptions, syncobjs, fgl
+  LCLProc, LazUTF8, LazMethodList, uDebug, uExceptions, syncobjs, fgl, Forms
   {$IF DEFINED(MSWINDOWS)}
   , Windows, JwaWinNT, JwaWinBase, DCWindows, DCStrUtils, uGlobs, DCOSUtils,
     DCConvertEncoding
@@ -275,6 +275,13 @@ type
 var
   FileSystemWatcher: TFileSystemWatcherImpl = nil;
 
+procedure SyncDoWatcherEvent; inline;
+begin
+  // if Main Thread terminated, Synchronize() will never return
+  if not Application.Terminated then
+    FileSystemWatcher.Synchronize( @FileSystemWatcher.DoWatcherEvent );
+end;
+
 { TFileSystemWatcher }
 
 class procedure TFileSystemWatcher.CreateFileSystemWatcher;
@@ -425,7 +432,7 @@ begin
       FCurrentEventData.EventType := fswUnknownChange;
       FCurrentEventData.FileName := EmptyStr;
       FCurrentEventData.NewFileName := EmptyStr;
-      Synchronize(@DoWatcherEvent);
+      SyncDoWatcherEvent;
       Exit;
     end;
 
@@ -497,7 +504,7 @@ begin
 
       if (fnInfo^.Action <> FILE_ACTION_RENAMED_OLD_NAME) and
          ((gWatcherMode <> fswmWholeDrive) or IsPathObserved(Watch, FCurrentEventData.FileName)) then
-        Synchronize(@DoWatcherEvent);
+        SyncDoWatcherEvent;
 
       if fnInfo^.NextEntryOffset = 0 then
         Break
@@ -808,7 +815,7 @@ begin
             end;
 
             // call event handler
-            Synchronize(@DoWatcherEvent);
+            SyncDoWatcherEvent;
 
             Break;
           end; { if }
@@ -865,7 +872,7 @@ begin
           NewFileName := EmptyStr;
         end;
 
-        Synchronize(@DoWatcherEvent);
+        SyncDoWatcherEvent;
       end;
     end; { case }
   end; { while }
@@ -929,7 +936,7 @@ begin
   {$IFDEF DEBUG_WATCHER}
   DCDebug('FSWatcher: Send event, Path %s', [FCurrentEventData.Path]);
   {$ENDIF};
-  Synchronize(@DoWatcherEvent);
+  SyncDoWatcherEvent;
 
   FCurrentEventData.OriginalEvent := nil;
 end;
@@ -945,7 +952,7 @@ begin
   {$IFDEF DEBUG_WATCHER}
   DCDebug('FSWatcher: Send event, Path %s', [FCurrentEventData.Path]);
   {$ENDIF};
-  DoWatcherEvent;
+  SyncDoWatcherEvent;
 end;
 {$ENDIF}
 
