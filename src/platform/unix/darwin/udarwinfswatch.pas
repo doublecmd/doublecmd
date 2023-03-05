@@ -27,7 +27,8 @@
    3. file attributes monitoring is supported, and monitoring of adding files,
       renaming files, deleting files is also supported.
       for comparison, file attributes monitoring is missing with kqueue/kevent.
-   4. CFRunLoop is used in TDarwinFSWatcher. because in DC a separate thread
+   4. Renamed Event fully supported from MacOS 10.13
+   5. CFRunLoop is used in TDarwinFSWatcher. because in DC a separate thread
       has been opened (in uFileSystemWatcher), it is more appropriate to use
       CFRunLoop than DispatchQueue.
 }
@@ -505,21 +506,24 @@ var
 begin
   session:= TDarwinFSWatchEventSession.create( numEvents, eventPaths, eventFlags );
   watcher.handleEvents( session );
-  FreeAndNil( session );
+  // seesion released in handleEvents()
 end;
 
 procedure TDarwinFSWatcher.handleEvents( const originalSession:TDarwinFSWatchEventSession );
 var
-  nsWatchPath: NSString;
   watchPath: String;
   event: TInternalEvent;
+  pathIndex: Integer;
   i: Integer;
   session: TDarwinFSWatchEventSession;
 begin
-  for nsWatchPath in _streamPaths do
+  for pathIndex:=0 to _streamPaths.count-1 do
   begin
-    watchPath:= nsWatchPath.UTF8String;
-    session:= originalSession.deepCopy();
+    watchPath:= NSString(_streamPaths.objectAtIndex(pathIndex)).UTF8String;
+    if pathIndex=_streamPaths.count-1 then
+      session:= originalSession
+    else
+      session:= originalSession.deepCopy();
     i:= 0;
     while i < session.count do
     begin
