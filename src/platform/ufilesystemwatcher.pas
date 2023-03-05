@@ -907,11 +907,18 @@ begin
        ([ecStructChanged, ecAttribChanged] * event.categories = [ecAttribChanged])
          then exit;
 
+    FCurrentEventData.FileName := ExtractFileName( event.fullPath );
+
     if TDarwinFSWatchEventCategory.ecRemoved in event.categories then
       FCurrentEventData.EventType := fswFileDeleted
-    else if TDarwinFSWatchEventCategory.ecRenamed in event.categories then
-      FCurrentEventData.EventType := fswUnknownChange
-    else if TDarwinFSWatchEventCategory.ecCreated in event.categories then
+    else if TDarwinFSWatchEventCategory.ecRenamed in event.categories then begin
+      if ExtractFilePath(event.fullPath)=ExtractFilePath(event.renamedPath) then begin
+        // fswFileRenamed only when FileName and NewFileName in the same dir
+        // otherwise keep fswUnknownChange
+        FCurrentEventData.EventType := fswFileRenamed;
+        FCurrentEventData.NewFileName := ExtractFileName( event.renamedPath );
+      end;
+    end else if TDarwinFSWatchEventCategory.ecCreated in event.categories then
       FCurrentEventData.EventType := fswFileCreated
     else if TDarwinFSWatchEventCategory.ecCoreAttribChanged in event.categories then
       FCurrentEventData.EventType := fswFileChanged
@@ -926,7 +933,6 @@ begin
 
   FCurrentEventData.OriginalEvent := nil;
 end;
-
 {$ENDIF}
 
 {$IF DEFINED(HAIKUQT)}
@@ -984,7 +990,6 @@ begin
                   {$IFDEF DARWIN}
                   // FlatView Watch is supported on MacOS
                   // FCurrentEventData.Path contains WatchPath
-                  // FCurrentEventData.FileName contains FullPath
                   // so in FlatView Mode, Path need to be adjusted to the Real Path
                   if TFileView(UserData).FlatView then begin
                     FCurrentEventData.Path := ExcludeTrailingPathDelimiter(ExtractFilePath(FCurrentEventData.OriginalEvent.fullPath));
@@ -994,7 +999,6 @@ begin
                       continue;
                     FCurrentEventData.Path := AWatchPath;
                   end;
-                  FCurrentEventData.FileName := ExtractFileName( FCurrentEventData.OriginalEvent.fullPath );
                   {$ENDIF}
                   WatcherEvent(FCurrentEventData);
                 end;
