@@ -147,14 +147,16 @@ end;
 implementation
 
 const
-  kFSEventStreamCreateFlagUseExtendedData = $00000040;
-  kFSEventStreamEventFlagItemIsHardlink = $00100000;
+  kFSEventStreamCreateFlagUseExtendedData   = $00000040;
+  kFSEventStreamEventFlagItemIsHardlink     = $00100000;
   kFSEventStreamEventFlagItemIsLastHardlink = $00200000;
-  kFSEventStreamEventFlagItemCloned = $00400000;
+  kFSEventStreamEventFlagItemCloned         = $00400000;
+  NSAppKitVersionNumber10_13 = 1561;
 
 var
   kFSEventStreamEventExtendedDataPathKey: CFStringRef;
   kFSEventStreamEventExtendedFileIDKey: CFStringRef;
+  isFlagUseExtendedDataSupported: Boolean;
 
 function StringToNSString(const S: String): NSString;
 begin
@@ -380,15 +382,21 @@ begin
   _list:= TObjectList.Create;
   for i:=0 to amount-1 do
   begin
-    infoDict:= CFArrayGetValueAtIndex( eventPaths, i );
-    nsPath:= CFDictionaryGetValue( infoDict, kFSEventStreamEventExtendedDataPathKey );
-    nsNode:= CFDictionaryGetValue( infoDict, kFSEventStreamEventExtendedFileIDKey );
-
     event:= TInternalEvent.Create;
+
+    if isFlagUseExtendedDataSupported then
+    begin
+      infoDict:= CFArrayGetValueAtIndex( eventPaths, i );
+      nsPath:= CFDictionaryGetValue( infoDict, kFSEventStreamEventExtendedDataPathKey );
+      nsNode:= CFDictionaryGetValue( infoDict, kFSEventStreamEventExtendedFileIDKey );
+      if Assigned(nsNode) then
+        CFNumberGetValue( nsNode, kCFNumberLongLongType, @(event.iNode) );
+    end else begin
+      nsPath:= CFArrayGetValueAtIndex( eventPaths, i );
+    end;
+
     event.path:= nsPath.UTF8String;
     event.flags:= flags^;
-    if Assigned(nsNode) then
-      CFNumberGetValue( nsNode, kCFNumberLongLongType, @(event.iNode) );
     _list.Add( event );
 
     inc(flags);
@@ -428,15 +436,18 @@ begin
     then exit;
 
   // find all related Renamed Event, and try to build a complete Renamed Event with NewPath
-  i:= index + 1;
-  while i < count do
+  if (currentEvent.iNode<>0) and isFlagUseExtendedDataSupported then
   begin
-    nextEvent:= Items[i];
-    if isRenamed(nextEvent) and (nextEvent.iNode=currentEvent.iNode) then begin
-      if currentEvent.path<>nextEvent.path then currentEvent.renamedPath:= nextEvent.path;
-      _list.Delete( i );
-    end else begin
-      inc( i );
+    i:= index + 1;
+    while i < count do
+    begin
+      nextEvent:= Items[i];
+      if isRenamed(nextEvent) and (nextEvent.iNode=currentEvent.iNode) then begin
+        if currentEvent.path<>nextEvent.path then currentEvent.renamedPath:= nextEvent.path;
+        _list.Delete( i );
+      end else begin
+        inc( i );
+      end;
     end;
   end;
 
@@ -683,6 +694,7 @@ end;
 initialization
   kFSEventStreamEventExtendedDataPathKey:= CFSTR('path');
   kFSEventStreamEventExtendedFileIDKey:= CFSTR('fileID');
+  isFlagUseExtendedDataSupported:= (NSAppKitVersionNumber>=NSAppKitVersionNumber10_13);
 
 end.
 
