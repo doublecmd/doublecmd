@@ -52,7 +52,7 @@ type
 implementation
 
 uses
-  DCOSUtils, DCStrUtils, uDCUtils, uLng, uShowMsg, uWCXmodule, WcxPlugin, uMasks,
+  DCOSUtils, DCStrUtils, uDCUtils, uLng, uWCXmodule, WcxPlugin, uMasks,
   FileUtil, LazUTF8, DCConvertEncoding;
 
 // ----------------------------------------------------------------------------

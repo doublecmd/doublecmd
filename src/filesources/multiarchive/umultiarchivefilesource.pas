@@ -5,7 +5,7 @@ unit uMultiArchiveFileSource;
 interface
 
 uses
-  Classes, SysUtils, contnrs, DCStringHashListUtf8, uOSUtils,
+  Classes, SysUtils, DCStringHashListUtf8, uOSUtils,
   uMultiArc, uFile, uFileSourceProperty, uFileSourceOperationTypes,
   uArchiveFileSource, uFileProperty, uFileSource, uFileSourceOperation,
   uMultiArchiveUtil, DCBasicTypes, uClassesEx;

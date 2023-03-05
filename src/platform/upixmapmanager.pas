@@ -43,8 +43,7 @@ interface
 
 uses
   Classes, SysUtils, Graphics, syncobjs, uFileSorting, DCStringHashListUtf8,
-  uFile, uIconTheme, uDrive, uDisplayFile, uGlobs, uDCReadPSD, uOSUtils,
-  uVectorImage
+  uFile, uIconTheme, uDrive, uDisplayFile, uGlobs, uDCReadPSD, uVectorImage
   {$IF DEFINED(MSWINDOWS) and DEFINED(LCLQT5)}
   , fgl
   {$ELSEIF DEFINED(UNIX)}

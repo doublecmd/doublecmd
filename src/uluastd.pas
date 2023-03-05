@@ -43,7 +43,7 @@ procedure ReplaceLibrary(L : Plua_State);
 implementation
 
 uses
-  CTypes, DCBasicTypes, DCOSUtils, uMicroLibC, uOSUtils;
+  CTypes, DCBasicTypes, DCOSUtils, uMicroLibC;
 
 var
   CStdIn, CStdOut, CStdErr: Pointer;

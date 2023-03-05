@@ -755,7 +755,7 @@ implementation
 uses
    LCLProc, LCLType, Dialogs, Laz2_XMLRead, LazUTF8, LConvEncoding, uExifWdx,
    uGlobsPaths, uLng, uShowMsg, uFileProcs, uOSUtils, uFindFiles, uEarlyConfig,
-   uDCUtils, fMultiRename, uFile, uDCVersion, uDebug, uFileFunctions,
+   uDCUtils, fMultiRename, uDCVersion, uDebug, uFileFunctions,
    uDefaultPlugins, Lua, uKeyboard, DCOSUtils, DCStrUtils, uPixMapManager,
    uSynDiffControls
    {$IF DEFINED(MSWINDOWS)}
@@ -2442,7 +2442,6 @@ end;
 
 procedure SaveGlobs;
 var
-  TmpConfig: TXmlConfig;
   ErrMsg: String = '';
 begin
   if (gUseConfigInProgramDirNew <> gUseConfigInProgramDir) and

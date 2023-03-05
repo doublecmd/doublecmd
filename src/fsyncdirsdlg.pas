@@ -237,7 +237,7 @@ uses
   DCClassesUtf8, uFileSystemFileSource, uFileSourceOperationOptions, DCDateTimeUtils,
   uDCUtils, uFileSourceUtil, uFileSourceOperationTypes, uShowForm, uAdministrator,
   uOSUtils, uLng, uMasks, Math, uClipboard, IntegerList, fMaskInputDlg, uSearchTemplate,
-  StrUtils, uTypes, uFileSystemDeleteOperation;
+  uTypes, uFileSystemDeleteOperation;
 
 {$R *.lfm}
 
@@ -1820,7 +1820,9 @@ procedure TfrmSyncDirsDlg.SetProgressBytes(AProgressBar: TKASProgressBar;
   CurrentBytes: Int64; TotalBytes: Int64);
 var
   BarText : String;
-  CaptionText : String;
+  {$IFDEF LCLCOCOA}
+  	CaptionText : String;
+  {$ENDIF}
 begin
   BarText := cnvFormatFileSize(CurrentBytes, uoscOperation) + '/' + cnvFormatFileSize(TotalBytes, uoscOperation);
   AProgressBar.SetProgress(CurrentBytes, TotalBytes, BarText );
@@ -1838,7 +1840,9 @@ procedure TfrmSyncDirsDlg.SetProgressFiles(AProgressBar: TKASProgressBar;
   CurrentFiles: Int64; TotalFiles: Int64);
 var
   BarText : String;
-  CaptionText : String;
+  {$IFDEF LCLCOCOA}
+  	CaptionText : String;
+  {$ENDIF}
 begin
   BarText := IntToStrTS(CurrentFiles) + '/' + IntToStrTS(TotalFiles);
   AProgressBar.SetProgress(CurrentFiles, TotalFiles, BarText );
