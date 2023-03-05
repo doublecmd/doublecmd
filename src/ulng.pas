@@ -1187,7 +1187,7 @@ begin
     begin
       DCDebug('Loading lng file: ' + gpLngDir + gPOFileName);
       LRSTranslator := TTranslator.Create(gpLngDir + gPOFileName);
-      Translations.TranslateResourceStrings(gpLngDir + gPOFileName);
+      Translations.TranslateResourceStrings(TTranslator(LRSTranslator).POFile);
       TranslateLCL(gPOFileName);
     end;
 end;
