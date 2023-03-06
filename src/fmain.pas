@@ -571,6 +571,7 @@ type
       Shift: TShiftState; X, Y: Integer);
     procedure FormKeyUp( Sender: TObject; var {%H-}Key: Word; Shift: TShiftState) ;
     procedure FormResize(Sender: TObject);
+    procedure lblDriveInfoResize(Sender: TObject);
     function MainToolBarToolItemShortcutsHint(Sender: TObject; ToolItem: TKASNormalItem): String;
     procedure mnuAllOperStartClick(Sender: TObject);
     procedure mnuAllOperStopClick(Sender: TObject);
@@ -4065,6 +4066,18 @@ end;
 procedure TfrmMain.FormResize(Sender: TObject);
 begin
   UpdatePrompt;
+end;
+
+procedure TfrmMain.lblDriveInfoResize(Sender: TObject);
+begin
+  with TLabel(Sender) do
+  begin
+    if Canvas.TextWidth(Caption) > Width then
+      Alignment:= taLeftJustify
+    else begin
+      Alignment:= taCenter;
+    end;
+  end;
 end;
 
 procedure TfrmMain.FormKeyDown(Sender: TObject; var Key: Word;
