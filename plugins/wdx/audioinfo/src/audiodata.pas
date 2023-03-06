@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    This content plugin can show information about audio files
 
-   Copyright (C) 2016 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2016-2023 Alexander Koblov (alexx2000@mail.ru)
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Lesser General Public
@@ -83,6 +83,7 @@ type
     function ReadWAVPackfile: Boolean;
   public
     Album, Artist, Title: String;
+    Bits,
     Track,
     Duration,
     SampleRate,
@@ -108,6 +109,7 @@ uses
 
 procedure TAudioData.Clear;
 begin
+  Bits:= 0;
   Track:= 0;
   BitRate:= 0;
   Duration:= 0;
@@ -234,6 +236,7 @@ begin
   if Result then
   begin
     BitRate:= FDTS.BitRate;
+    Bits:= Integer(FDTS.Bits);
     Duration:= Round(FDTS.Duration);
     DurationHMS:= FormatDuration(Duration);
     Channels:= FormatChannels(FDTS.Channels);
@@ -259,6 +262,7 @@ begin
   Result:= FTTA.ReadFromFile(FFileName) and FTTA.Valid;
   if Result then
   begin
+    Bits:= Integer(FTTA.Bits);
     BitRate:= Round(FTTA.BitRate);
     Duration:= Round(FTTA.Duration);
     DurationHMS:= FormatDuration(Duration);
@@ -293,6 +297,7 @@ begin
   Result:= FMonkey.ReadFromFile(FFileName) and FMonkey.Valid;
   if Result then
   begin
+    Bits:= FMonkey.Bits;
     Channels:= FMonkey.ChannelMode;
     BitRate:= Round(FMonkey.BitRate) div 1000000;
     Duration:= Round(FMonkey.Duration);
@@ -371,6 +376,7 @@ begin
   Result:= FWAVfile.ReadFromFile(FFileName) and FWAVfile.Valid;
   if Result then
   begin
+    Bits:= FWAVfile.BitsPerSample;
     BitRate:= Round(FWAVfile.BitRate);
     Channels:= FWAVfile.ChannelMode;
     Duration:= Round(FWAVfile.Duration);
@@ -385,6 +391,7 @@ begin
   if Result then
   begin
     BitRate:= FFLACfile.BitRate;
+    Bits:= FFLACfile.BitsPerSample;
     Channels:= FFLACfile.ChannelMode;
     Duration:= Round(FFLACfile.Duration);
     DurationHMS:= FormatDuration(Duration);
@@ -481,6 +488,7 @@ begin
   Result:= FOptimFrog.ReadFromFile(FFileName) and FOptimFrog.Valid;
   if Result then
   begin
+    Bits:= FOptimFrog.Bits;
     BitRate:= FOptimFrog.BitRate;
     Channels:= FOptimFrog.ChannelMode;
     Duration:= Round(FOptimFrog.Duration);
@@ -497,6 +505,7 @@ begin
   Result:= FWAVPackfile.ReadFromFile(FFileName) and FWAVPackfile.Valid;
   if Result then
   begin
+    Bits:= FWAVPackfile.Bits;
     Encoder:= FWAVPackfile.Encoder;
     Channels:= FWAVPackfile.ChannelMode;
     BitRate:= Round(FWAVPackfile.BitRate);
