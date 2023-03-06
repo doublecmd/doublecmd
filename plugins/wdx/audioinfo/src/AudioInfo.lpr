@@ -14,7 +14,7 @@ const
                           '(EXT="MP4") | (EXT="OPUS")';
 
 const
-  FIELD_COUNT = 20;
+  FIELD_COUNT = 21;
 
   FIELD_NAME: array[0..Pred(FIELD_COUNT)] of String = (
     'Channels',
@@ -36,6 +36,7 @@ const
     'Link',
     'Encoder',
     'Tags',
+    'Bit depth',
     'Full text'
   );
 
@@ -59,12 +60,13 @@ const
     ft_stringw,
     ft_stringw,
     ft_stringw,
+    ft_numeric_32,
     ft_fulltextw
   );
 
   FIELD_UNIT: array[0..Pred(FIELD_COUNT)] of String = (
     'Unknown|Mono|Stereo|Joint Stereo|Dual Channel', '', '', 'Hz|kHz',
-    '', 'CBR|VBR|Unknown', '', '', '', '', '', '', '', '', '', '', '', '', '', '');
+    '', 'CBR|VBR|Unknown', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '');
 
 var
   DataAudio: TAudioData;
@@ -146,7 +148,8 @@ begin
    16: Value:= DataAudio.URL;
    17: Value:= DataAudio.Encoder;
    18: Value:= DataAudio.Tags;
-   19:
+   19: ValueI^:= DataAudio.Bits;
+   20:
      begin
        if UnitIndex = -1 then
          Result:= ft_fieldempty
