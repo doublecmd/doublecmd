@@ -810,6 +810,7 @@ resourcestring
   rsOptMouseSelectionButton = 'Left button;Right button;';
   rsOptAutoSizeColumn = 'First;Last;';
   rsOptTabsPosition = 'Top;Bottom;';
+  rsOptTabsStyle = 'Icons and titles;Titles only;Titles only with an asterisk * for locked';
   rsOptArchiveTypeName = 'Archive type name:';
   //-------------------------------
   // Hotkeys

@@ -33,27 +33,31 @@ type
   { TfrmOptionsTabs }
 
   TfrmOptionsTabs = class(TOptionsEditor)
+    cbKeepRenamedNameBackToNormal: TCheckBox;
+    cbTabsActionOnDoubleClick: TComboBox;
     cbTabsActivateOnClick: TCheckBox;
     cbTabsAlwaysVisible: TCheckBox;
+    cbTabsCloseDuplicateWhenClosing: TCheckBox;
     cbTabsConfirmCloseAll: TCheckBox;
+    cbTabsConfirmCloseLocked: TCheckBox;
     cbTabsLimitOption: TCheckBox;
-    cbTabsLockedAsterisk: TCheckBox;
     cbTabsMultiLines: TCheckBox;
     cbTabsOpenForeground: TCheckBox;
     cbTabsOpenNearCurrent: TCheckBox;
-    cbTabsShowCloseButton: TCheckBox;
-    cmbTabsPosition: TComboBox;
-    cbTabsActionOnDoubleClick: TComboBox;
-    edtTabsLimitLength: TEdit;
-    gbTabs: TGroupBox;
-    lblTabsActionOnDoubleClick: TLabel;
-    lblChar: TLabel;
-    lblTabsPosition: TLabel;
-    cbKeepRenamedNameBackToNormal: TCheckBox;
-    cbTabsConfirmCloseLocked: TCheckBox;
     cbTabsReuseTabWhenPossible: TCheckBox;
+    cbTabsShowCloseButton: TCheckBox;
     cbTabsShowDriveLetter: TCheckBox;
-    cbTabsCloseDuplicateWhenClosing: TCheckBox;
+    cmbTabsPosition: TComboBox;
+    cmbTabsStyle: TComboBox;
+    edtTabsLimitLength: TEdit;
+    gbAppearance: TGroupBox;
+    gbBehavior: TGroupBox;
+    gbOpeningTab: TGroupBox;
+    gbClosingTab: TGroupBox;
+    lblChar: TLabel;
+    lblTabsActionOnDoubleClick: TLabel;
+    lblTabsPosition: TLabel;
+    lblTabsStyle: TLabel;
   private
     FPageControl: TPageControl; // For checking Tabs capabilities
   protected
@@ -77,6 +81,7 @@ uses
 procedure TfrmOptionsTabs.Init;
 begin
   ParseLineToList(rsOptTabsPosition, cmbTabsPosition.Items);
+  ParseLineToList(rsOptTabsStyle, cmbTabsStyle.Items);
   ParseLineToList(rsTabsActionOnDoubleClickChoices, cbTabsActionOnDoubleClick.Items);
   FPageControl := TPageControl.Create(Self);
 end;
@@ -104,7 +109,6 @@ begin
   cbTabsOpenForeground.Checked := tb_open_new_in_foreground in gDirTabOptions;
   cbTabsOpenNearCurrent.Checked := tb_open_new_near_current in gDirTabOptions;
   cbTabsReuseTabWhenPossible.Checked := tb_reusing_tab_when_possible in gDirTabOptions;
-  cbTabsLockedAsterisk.Checked := tb_show_asterisk_for_locked in gDirTabOptions;
   cbKeepRenamedNameBackToNormal.Checked := tb_keep_renamed_when_back_normal in gDirTabOptions;
   cbTabsActivateOnClick.Checked := tb_activate_panel_on_click in gDirTabOptions;
   cbTabsShowDriveLetter.Checked := tb_show_drive_letter in gDirTabOptions;
@@ -122,12 +126,16 @@ begin
 
   edtTabsLimitLength.Text := IntToStr(gDirTabLimit);
 
-  case gDirTabPosition of
-    tbpos_top: cmbTabsPosition.ItemIndex := 0;
-    tbpos_bottom: cmbTabsPosition.ItemIndex := 1;
+  cmbTabsPosition.ItemIndex := Integer(gDirTabPosition);
+
+  //Icons and titles; Titles only; Titles only with an asterisk * for locked
+  if tb_show_icons in gDirTabOptions then
+    cmbTabsStyle.ItemIndex := 0
+  else
+    if tb_show_asterisk_for_locked in gDirTabOptions then
+      cmbTabsStyle.ItemIndex := 2
     else
-      cmbTabsPosition.ItemIndex := 0;
-  end;
+      cmbTabsStyle.ItemIndex := 1;
 
   Application.ProcessMessages;
 end;
@@ -155,8 +163,6 @@ begin
     gDirTabOptions := gDirTabOptions + [tb_open_new_near_current];
   if cbTabsReuseTabWhenPossible.Checked then
     gDirTabOptions := gDirTabOptions + [tb_reusing_tab_when_possible];
-  if cbTabsLockedAsterisk.Checked then
-    gDirTabOptions := gDirTabOptions + [tb_show_asterisk_for_locked];
   if cbKeepRenamedNameBackToNormal.Checked then
     gDirTabOptions := gDirTabOptions + [tb_keep_renamed_when_back_normal];
   if cbTabsActivateOnClick.Checked then
@@ -170,9 +176,12 @@ begin
 
   gDirTabLimit := StrToIntDef(edtTabsLimitLength.Text, 32);
 
-  case cmbTabsPosition.ItemIndex of
-    0: gDirTabPosition := tbpos_top;
-    1: gDirTabPosition := tbpos_bottom;
+  gDirTabPosition := TTabsPosition(cmbTabsPosition.ItemIndex);
+
+  //Icons and titles; Titles only; Titles only with an asterisk * for locked
+  case cmbTabsStyle.ItemIndex of
+    0: gDirTabOptions := gDirTabOptions + [tb_show_icons];
+    2: gDirTabOptions := gDirTabOptions + [tb_show_asterisk_for_locked];
   end;
 end;
 

@@ -744,6 +744,7 @@ type
     function ExecuteCommandFromEdit(sCmd: String; bRunInTerm: Boolean): Boolean;
     procedure SetMainSplitterPos(AValue: Double);
     procedure SetPanelSelected(AValue: TFilePanelSelect);
+    procedure UpdateTabIcons;
     procedure UpdateActionIcons;
     procedure UpdateHotDirIcons;
     procedure TypeInCommandLine(Str: String);
@@ -2918,15 +2919,85 @@ begin
   pnlNotebooksResize(pnlNotebooks);
 end;
 
-procedure TfrmMain.UpdateActionIcons;
+procedure TfrmMain.UpdateTabIcons;
+  function ActAddToImageList(const AIconsStartPath: string; const AActionName: TComponentName;
+    const AImage: TPicture; const AImageList: TImageList): Integer;
+  var vFileName: string;
+  begin
+    vFileName := AIconsStartPath +
+      UTF8Copy(UTF8LowerCase(AActionName), 4, Length(AActionName) - 3) + '.png';
+    if mbFileExists(vFileName) then
+      try
+        AImage.LoadFromFile(vFileName);
+        Exit( AImageList.Add(AImage.Bitmap, nil) );
+      except
+        // Skip
+      end;
+    Result := -1;
+  end;
+
 var
-  I: Integer;
-  imgIndex: Integer;
-  iconsDir: String;
-  fileName: String;
+  s, vIconsStartPath: String;
   iconImg: TPicture;
-  actionName: TComponentName;
-  vLockStatesImageIndexes: TTabLockStateImageIndexes;
+begin
+  nbLeft.Images := nil;
+  nbRight.Images := nil;
+  ilTabLockStates.Clear;
+
+  if not (tb_show_icons in gDirTabOptions) then Exit;
+
+  // Temporarily while feature is not implemented
+  // http://doublecmd.sourceforge.net/mantisbt/view.php?id=11
+  s := IntToStr(gIconsInMenusSize);
+  vIconsStartPath := gpPixmapPath + gIconTheme + PathDelim + s + 'x' + s +
+                  PathDelim + 'actions';
+  if not mbDirectoryExists(vIconsStartPath) then Exit;
+
+  vIconsStartPath := vIconsStartPath + PathDelim + 'cm_';
+
+  iconImg := TPicture.Create;
+  try
+    ilTabLockStates.Width := gIconsInMenusSize;
+    ilTabLockStates.Height := gIconsInMenusSize;
+
+    nbLeft.Images := ilTabLockStates;
+    nbRight.Images := ilTabLockStates;
+
+    ActAddToImageList(vIconsStartPath, actSetTabOptionNormal.Name, iconImg,
+      ilTabLockStates);
+    ActAddToImageList(vIconsStartPath, actSetTabOptionPathLocked.Name, iconImg,
+      ilTabLockStates);
+    ActAddToImageList(vIconsStartPath, actSetTabOptionPathResets.Name, iconImg,
+      ilTabLockStates);
+    ActAddToImageList(vIconsStartPath, actSetTabOptionDirsInNewTab.Name, iconImg,
+      ilTabLockStates);
+
+  finally
+    FreeAndNil(iconImg);
+  end;
+end;
+
+procedure TfrmMain.UpdateActionIcons;
+  function ActAddToImageList(const AIconsStartPath: string; const AActionName: TComponentName;
+    const AImage: TPicture; const AImageList: TImageList): Integer;
+  var vFileName: string;
+  begin
+    vFileName := AIconsStartPath +
+      UTF8Copy(UTF8LowerCase(AActionName), 4, Length(AActionName) - 3) + '.png';
+    if mbFileExists(vFileName) then
+      try
+        AImage.LoadFromFile(vFileName);
+        Exit( AImageList.Add(AImage.Bitmap, nil) );
+      except
+        // Skip
+      end;
+    Result := -1;
+  end;
+
+var
+  s, vIconsStartPath: String;
+  iconImg: TPicture;
+  vAction: TContainedAction;
 begin
   if not gIconsInMenus then Exit;
 
@@ -2937,10 +3008,12 @@ begin
 
   // Temporarily while feature is not implemented
   // http://doublecmd.sourceforge.net/mantisbt/view.php?id=11
-  fileName := IntToStr(gIconsInMenusSize);
-  iconsDir := gpPixmapPath + 'dctheme' + PathDelim + fileName;
-  iconsDir := iconsDir + 'x' + fileName + PathDelim + 'actions';
-  if not mbDirectoryExists(iconsDir) then Exit;
+  s := IntToStr(gIconsInMenusSize);
+  vIconsStartPath := gpPixmapPath + gIconTheme + PathDelim + s + 'x' + s +
+                  PathDelim + 'actions';
+  if not mbDirectoryExists(vIconsStartPath) then Exit;
+
+  vIconsStartPath := vIconsStartPath + PathDelim + 'cm_';
 
   iconImg := TPicture.Create;
   try
@@ -2951,36 +3024,12 @@ begin
     pmTabMenu.Images := imgLstActions;
     mnuMain.Images := imgLstActions;
 
-    for I:= 0 to actionLst.ActionCount - 1 do
-    begin
-      actionName := UTF8LowerCase(actionLst.Actions[I].Name);
-      fileName := iconsDir + PathDelim + 'cm_' + UTF8Copy(actionName, 4, Length(actionName) - 3) + '.png';
-      if mbFileExists(fileName) then
-      try
-        iconImg.LoadFromFile(fileName);
-        imgIndex := imgLstActions.Add(iconImg.Bitmap, nil);
-        if imgIndex >= 0 then
-        begin
-           TAction(actionLst.Actions[I]).ImageIndex := imgIndex;
-        end;
-      except
-        // Skip
-      end;
-    end;
-
+    for vAction in actionLst do
+      TAction(vAction).ImageIndex := ActAddToImageList(vIconsStartPath,
+        vAction.Name, iconImg, imgLstActions);
   finally
     FreeAndNil(iconImg);
   end;
-
-  vLockStatesImageIndexes[tlsNormal] := actSetTabOptionNormal.ImageIndex;
-  vLockStatesImageIndexes[tlsPathLocked] := actSetTabOptionPathLocked.ImageIndex;
-  vLockStatesImageIndexes[tlsPathResets] := actSetTabOptionPathResets.ImageIndex;
-  vLockStatesImageIndexes[tlsDirsInNewTab] := actSetTabOptionDirsInNewTab.ImageIndex;
-
-  nbLeft.Images := imgLstActions;
-  nbLeft.LockStatesImageIndexes := vLockStatesImageIndexes;
-  nbRight.Images := imgLstActions;
-  nbRight.LockStatesImageIndexes := vLockStatesImageIndexes;
 
 end;
 
@@ -2995,14 +3044,14 @@ begin
   imgLstDirectoryHotlist.Clear;
 
   fileName := IntToStr(gIconsInMenusSize);
-  iconsDir := gpPixmapPath + 'dctheme' + PathDelim + fileName;
-  iconsDir := iconsDir + 'x' + fileName + PathDelim + 'actions';
+  iconsDir := gpPixmapPath + gIconTheme + PathDelim + fileName;
+  iconsDir := iconsDir + 'x' + fileName + PathDelim + 'dirhotlist';
   if not mbDirectoryExists(iconsDir) then Exit;
 
   iconImg := TPicture.Create;
   try
     fileName := IntToStr(gIconsInMenusSize);
-    iconsDir := gpPixmapPath + 'dctheme' + PathDelim + fileName;
+    iconsDir := gpPixmapPath + gIconTheme + PathDelim + fileName;
     iconsDir := iconsDir + 'x' + fileName + PathDelim + 'dirhotlist';
     imgLstDirectoryHotlist.Width := gIconsInMenusSize;
     imgLstDirectoryHotlist.Height := gIconsInMenusSize;
@@ -5601,6 +5650,7 @@ begin
     end;
 
     UpdateHotDirIcons; // Preferable to be loaded even if not required in popupmenu *because* in the tree it's a must, especially when checking for missing directories
+    UpdateTabIcons;
     ShowTrayIcon(gAlwaysShowTrayIcon);
     UpdateMainTitleBar;
 

@@ -112,7 +112,6 @@ type
   end;
 
   { TFileViewNotebook }
-  TTabLockStateImageIndexes = array[TTabLockState] of Integer;
 
   TFileViewNotebook = class(TPageControl)
   private
@@ -123,7 +122,6 @@ type
     FHintPageIndex: Integer;
     FLastMouseDownTime: TDateTime;
     FLastMouseDownPageIndex: Integer;
-    FLockStatesImageIndexes: TTabLockStateImageIndexes;
 
     function GetActivePage: TFileViewPage;
     function GetActiveView: TFileView;
@@ -172,7 +170,6 @@ type
     property Page[Index: Integer]: TFileViewPage read GetPage;
     property View[Index: Integer]: TFileView read GetFileViewOnPage; default;
     property Side: TFilePanelSelect read FNotebookSide;
-    property LockStatesImageIndexes: TTabLockStateImageIndexes read FLockStatesImageIndexes write FLockStatesImageIndexes;
 
   published
     property OnDblClick;
@@ -180,6 +177,8 @@ type
     property OnMouseDown;
     property OnMouseUp;
   end;
+
+var ilTabLockStates: TImageList; TabLockStateImageIndexes: array[TTabLockState] of Integer;
 
 implementation
 
@@ -334,7 +333,8 @@ begin
     Caption := StringReplace(NewCaption, '&', '&&', [rfReplaceAll]);
 {$ENDIF}
   end;
-  ImageIndex := Notebook.FLockStatesImageIndexes[LockState];
+  if tb_show_icons in gDirTabOptions then
+    ImageIndex := Integer(FLockState);
 end;
 
 procedure TFileViewPage.WMEraseBkgnd(var Message: TLMEraseBkgnd);
@@ -788,6 +788,12 @@ function TFileViewNotebook.GetPageClass: TCustomPageClass;
 begin
   Result:= TFileViewPage;
 end;
+
+initialization
+  ilTabLockStates := TImageList.Create(nil);
+
+finalization
+  ilTabLockStates.Free;
 
 end.
 
