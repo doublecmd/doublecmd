@@ -4,7 +4,7 @@
    Extended ComboBox classes
 
    Copyright (C) 2012 Przemyslaw Nagay (cobines@gmail.com)
-   Copyright (C) 2015-2017 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2015-2023 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
@@ -49,7 +49,7 @@ type
     procedure CalculatePreferredSize(
                          var PreferredWidth, PreferredHeight: Integer;
                          WithThemeSpace: Boolean); override;
-    procedure CalculateSize(MaxWidth: Integer; var NeededWidth: Integer);
+    procedure CalculateSize(MaxWidth: Integer; var PreferredWidth: Integer; PreferredHeight: Integer);
     {$if lcl_fullversion >= 1070000}
     procedure DoAutoAdjustLayout(const AMode: TLayoutAdjustmentPolicy;
                 const AXProportion, AYProportion: Double); override;
@@ -101,10 +101,11 @@ begin
   if (Parent = nil) or (not Parent.HandleAllocated) then Exit;
 
   AWidth := Constraints.MinMaxWidth(10000);
-  CalculateSize(AWidth, PreferredWidth);
+  CalculateSize(AWidth, PreferredWidth, PreferredHeight);
 end;
 
-procedure TComboBoxAutoWidth.CalculateSize(MaxWidth: Integer; var NeededWidth: Integer);
+procedure TComboBoxAutoWidth.CalculateSize(MaxWidth: Integer;
+  var PreferredWidth: Integer; PreferredHeight: Integer);
 var
   DC: HDC;
   R: TRect;
@@ -135,19 +136,20 @@ begin
   end;
 
   if LabelText = '' then begin
-    NeededWidth := 1;
+    PreferredWidth := 1;
     Exit;
   end;
 
   DC := GetDC(Parent.Handle);
   try
+    LabelText:= LabelText + 'W';
     R := Rect(0, 0, MaxWidth, 10000);
     OldFont := SelectObject(DC, HGDIOBJ(Font.Reference.Handle));
     Flags := DT_CALCRECT or DT_EXPANDTABS;
 
     DrawText(DC, PChar(LabelText), Length(LabelText), R, Flags);
     SelectObject(DC, OldFont);
-    NeededWidth := R.Right - R.Left + GetSystemMetrics(SM_CXVSCROLL) * 2;
+    PreferredWidth := (R.Right - R.Left) + PreferredHeight;
   finally
     ReleaseDC(Parent.Handle, DC);
   end;
