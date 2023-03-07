@@ -30,29 +30,29 @@ inherited frmOptionsFileAssocExtra: TfrmOptionsFileAssocExtra
     Left = 6
     Height = 147
     Top = 58
-    Width = 250
+    Width = 223
     AutoSize = True
     BorderSpacing.Top = 4
     Caption = 'Extended options items:'
     ChildSizing.LeftRightSpacing = 8
     ChildSizing.TopBottomSpacing = 8
     ClientHeight = 127
-    ClientWidth = 246
+    ClientWidth = 219
     TabOrder = 1
-    object cbHideDefaultContext: TCheckBox
+    object cbDefaultContextActions: TCheckBox
       AnchorSideLeft.Control = gbExtendedContextMenuOptions
       AnchorSideTop.Control = gbExtendedContextMenuOptions
       Left = 8
       Height = 19
       Top = 8
-      Width = 230
+      Width = 203
       BorderSpacing.Top = 4
-      Caption = 'Hide default context actions (View/Edit)'
+      Caption = 'Default context actions (View/Edit)'
       TabOrder = 0
     end
     object cbExecuteViaShell: TCheckBox
-      AnchorSideLeft.Control = cbHideDefaultContext
-      AnchorSideTop.Control = cbHideDefaultContext
+      AnchorSideLeft.Control = cbDefaultContextActions
+      AnchorSideTop.Control = cbDefaultContextActions
       AnchorSideTop.Side = asrBottom
       Left = 8
       Height = 19
@@ -301,7 +301,7 @@ inherited frmOptionsFileAssocExtra: TfrmOptionsFileAssocExtra
     end
   end
   object pmPathToBeRelativeToHelper: TPopupMenu[4]
-    left = 596
-    top = 140
+    Left = 596
+    Top = 140
   end
 end

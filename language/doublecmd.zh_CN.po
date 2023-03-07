@@ -5832,6 +5832,10 @@ msgstr "点击我更改图标！"
 msgid "Apply current settings to all current configured filenames and paths"
 msgstr "将当前设置应用于所有当前配置的文件名和路径"
 
+#: tfrmoptionsfileassocextra.cbdefaultcontextactions.caption
+msgid "Default context actions (View/Edit)"
+msgstr ""
+
 #: tfrmoptionsfileassocextra.cbexecuteviashell.caption
 msgctxt "tfrmoptionsfileassocextra.cbexecuteviashell.caption"
 msgid "Execute via shell"
@@ -5840,10 +5844,6 @@ msgstr "通过系统外壳执行"
 #: tfrmoptionsfileassocextra.cbextendedcontextmenu.caption
 msgid "Extended context menu"
 msgstr "扩展右键菜单"
-
-#: tfrmoptionsfileassocextra.cbhidedefaultcontext.caption
-msgid "Hide default context actions (View/Edit)"
-msgstr ""
 
 #: tfrmoptionsfileassocextra.cbincludeconfigfileassoc.caption
 msgid "File association configuration"

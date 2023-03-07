@@ -406,7 +406,7 @@ begin
       ContextMenucm_RunTerm := GetMeTheBitmapForThis(PixMapManager.GetIconByName('cm_runterm'));
 
     // If the default context actions not hidden
-    if not gHideDefaultContext then
+    if gDefaultContextActions then
     begin
       // If the external generic viewer is configured, offer it.
       if gExternalTools[etViewer].Enabled then
@@ -473,7 +473,7 @@ begin
       end;
     end;
 
-    if (gOpenExecuteViaShell or gExecuteViaTerminalClose or gExecuteViaTerminalStayOpen) and not gHideDefaultContext then
+    if (gOpenExecuteViaShell or gExecuteViaTerminalClose or gExecuteViaTerminalStayOpen) and gDefaultContextActions then
       LocalInsertMenuSeparator;
 
     // now add various SHELL item

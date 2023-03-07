@@ -5912,6 +5912,10 @@ msgstr "Нажмите здесь для смены значка"
 msgid "Apply current settings to all current configured filenames and paths"
 msgstr "Применить настройки ко всем именам файлов и путям"
 
+#: tfrmoptionsfileassocextra.cbdefaultcontextactions.caption
+msgid "Default context actions (View/Edit)"
+msgstr "Контекстные действия по умолчанию (просмотр/редактирование)"
+
 #: tfrmoptionsfileassocextra.cbexecuteviashell.caption
 msgctxt "tfrmoptionsfileassocextra.cbexecuteviashell.caption"
 msgid "Execute via shell"
@@ -5920,10 +5924,6 @@ msgstr "Запустить с помощью оболочки"
 #: tfrmoptionsfileassocextra.cbextendedcontextmenu.caption
 msgid "Extended context menu"
 msgstr "Расширенное контекстное меню"
-
-#: tfrmoptionsfileassocextra.cbhidedefaultcontext.caption
-msgid "Hide default context actions (View/Edit)"
-msgstr "Скрыть действия по умолчанию (Просмотр/Редактирование)"
 
 #: tfrmoptionsfileassocextra.cbincludeconfigfileassoc.caption
 msgid "File association configuration"

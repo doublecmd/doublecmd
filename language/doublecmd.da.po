@@ -6307,6 +6307,10 @@ msgstr "Klik på mig for at ændre ikon!"
 msgid "Apply current settings to all current configured filenames and paths"
 msgstr ""
 
+#: tfrmoptionsfileassocextra.cbdefaultcontextactions.caption
+msgid "Default context actions (View/Edit)"
+msgstr ""
+
 # Opsætning - Indstillinger - Filassociationer -  Filassociationer_ekstra
 #: tfrmoptionsfileassocextra.cbexecuteviashell.caption
 msgctxt "tfrmoptionsfileassocextra.cbexecuteviashell.caption"
@@ -6317,10 +6321,6 @@ msgstr "U&dfør i en kommandofortolker"
 #: tfrmoptionsfileassocextra.cbextendedcontextmenu.caption
 msgid "Extended context menu"
 msgstr "Udvidet &kontekstmenu"
-
-#: tfrmoptionsfileassocextra.cbhidedefaultcontext.caption
-msgid "Hide default context actions (View/Edit)"
-msgstr ""
 
 # Opsætning - Indstillinger - Filassociationer - Filassociationer_ekstra
 #: tfrmoptionsfileassocextra.cbincludeconfigfileassoc.caption

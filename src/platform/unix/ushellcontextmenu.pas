@@ -643,7 +643,7 @@ begin
     LocalInsertMenuSeparator;
 
   // If the default context actions not hidden
-  if not gHideDefaultContext then
+  if DefaultContextActions then
   begin
     // If the external generic viewer is configured, offer it.
     if gExternalTools[etViewer].Enabled then
@@ -668,7 +668,7 @@ begin
     LocalInsertMenuItem(ContextMenuActionList.ExtActionCommand[I].ActionName,I);
   end;
 
-  if (gOpenExecuteViaShell or gExecuteViaTerminalClose or gExecuteViaTerminalStayOpen) and not gHideDefaultContext then
+  if (gOpenExecuteViaShell or gExecuteViaTerminalClose or gExecuteViaTerminalStayOpen) and DefaultContextActions then
     LocalInsertMenuSeparator;
 
   // Execute via shell

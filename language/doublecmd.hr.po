@@ -6229,6 +6229,10 @@ msgstr "Kliknite na ikonu za promjenu!"
 msgid "Apply current settings to all current configured filenames and paths"
 msgstr ""
 
+#: tfrmoptionsfileassocextra.cbdefaultcontextactions.caption
+msgid "Default context actions (View/Edit)"
+msgstr ""
+
 #: tfrmoptionsfileassocextra.cbexecuteviashell.caption
 msgctxt "tfrmoptionsfileassocextra.cbexecuteviashell.caption"
 msgid "Execute via shell"
@@ -6237,10 +6241,6 @@ msgstr "Izvrši putem ljuske"
 #: tfrmoptionsfileassocextra.cbextendedcontextmenu.caption
 msgid "Extended context menu"
 msgstr "Dodatni kontekstni izbornik"
-
-#: tfrmoptionsfileassocextra.cbhidedefaultcontext.caption
-msgid "Hide default context actions (View/Edit)"
-msgstr ""
 
 #: tfrmoptionsfileassocextra.cbincludeconfigfileassoc.caption
 msgid "File association configuration"

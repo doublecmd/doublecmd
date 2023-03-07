@@ -5870,6 +5870,10 @@ msgstr "Hier klicken um das Icon zu ändern!"
 msgid "Apply current settings to all current configured filenames and paths"
 msgstr "Aktuelle Einstellungen auf alle aktuell konfigurierten Dateinamen und Pfade anwenden"
 
+#: tfrmoptionsfileassocextra.cbdefaultcontextactions.caption
+msgid "Default context actions (View/Edit)"
+msgstr ""
+
 #: tfrmoptionsfileassocextra.cbexecuteviashell.caption
 msgctxt "tfrmoptionsfileassocextra.cbexecuteviashell.caption"
 msgid "Execute via shell"
@@ -5878,10 +5882,6 @@ msgstr "Mit Befehlszeile ausführen"
 #: tfrmoptionsfileassocextra.cbextendedcontextmenu.caption
 msgid "Extended context menu"
 msgstr "Erweitertes Kontextmenü"
-
-#: tfrmoptionsfileassocextra.cbhidedefaultcontext.caption
-msgid "Hide default context actions (View/Edit)"
-msgstr ""
 
 #: tfrmoptionsfileassocextra.cbincludeconfigfileassoc.caption
 msgid "File association configuration"
