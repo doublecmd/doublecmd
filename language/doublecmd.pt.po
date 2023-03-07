@@ -5949,6 +5949,10 @@ msgstr "Executar numa shell"
 msgid "Extended context menu"
 msgstr "Menu contextual estendido"
 
+#: tfrmoptionsfileassocextra.cbhidedefaultcontext.caption
+msgid "Hide default context actions (View/Edit)"
+msgstr ""
+
 #: tfrmoptionsfileassocextra.cbincludeconfigfileassoc.caption
 msgid "File association configuration"
 msgstr "Configuração de associações de ficheiros"

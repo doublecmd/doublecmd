@@ -5925,6 +5925,10 @@ msgstr "쉘 명령으로 실행"
 msgid "Extended context menu"
 msgstr "확장 메뉴"
 
+#: tfrmoptionsfileassocextra.cbhidedefaultcontext.caption
+msgid "Hide default context actions (View/Edit)"
+msgstr ""
+
 #: tfrmoptionsfileassocextra.cbincludeconfigfileassoc.caption
 msgid "File association configuration"
 msgstr "파일 연결 환경설정"

@@ -5921,6 +5921,10 @@ msgstr "Запустить с помощью оболочки"
 msgid "Extended context menu"
 msgstr "Расширенное контекстное меню"
 
+#: tfrmoptionsfileassocextra.cbhidedefaultcontext.caption
+msgid "Hide default context actions (View/Edit)"
+msgstr "Скрыть действия по умолчанию (Просмотр/Редактирование)"
+
 #: tfrmoptionsfileassocextra.cbincludeconfigfileassoc.caption
 msgid "File association configuration"
 msgstr "Настройки файловых ассоциаций"

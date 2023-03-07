@@ -5996,6 +5996,10 @@ msgstr "Utfør i et skall"
 msgid "Extended context menu"
 msgstr "Utvidet kontekstmeny"
 
+#: tfrmoptionsfileassocextra.cbhidedefaultcontext.caption
+msgid "Hide default context actions (View/Edit)"
+msgstr ""
+
 #: tfrmoptionsfileassocextra.cbincludeconfigfileassoc.caption
 msgid "File association configuration"
 msgstr "Oppsett av filassosiering"

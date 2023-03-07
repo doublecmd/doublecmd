@@ -5924,6 +5924,10 @@ msgstr "シェル経由で実行"
 msgid "Extended context menu"
 msgstr "拡張コンテキストメニュー"
 
+#: tfrmoptionsfileassocextra.cbhidedefaultcontext.caption
+msgid "Hide default context actions (View/Edit)"
+msgstr ""
+
 #: tfrmoptionsfileassocextra.cbincludeconfigfileassoc.caption
 msgid "File association configuration"
 msgstr "ファイルの関連付けの設定"

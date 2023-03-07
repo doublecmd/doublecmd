@@ -38,6 +38,7 @@ type
     btnPathToBeRelativeToAll: TButton;
     btnPathToBeRelativeToHelper: TSpeedButton;
     cbOfferToAddToFileAssociations: TCheckBox;
+    cbHideDefaultContext: TCheckBox;
     cbExecuteViaShell: TCheckBox;
     cbExtendedContextMenu: TCheckBox;
     cbOpenSystemWithTerminalClose: TCheckBox;
@@ -110,6 +111,7 @@ begin
   cbExtendedContextMenu.Checked := gExtendedContextMenu;
   cbOpenSystemWithTerminalStayOpen.Checked := gExecuteViaTerminalStayOpen;
   cbOpenSystemWithTerminalClose.Checked := gExecuteViaTerminalClose;
+  cbHideDefaultContext.Checked := gHideDefaultContext;
   cbExecuteViaShell.Checked := gOpenExecuteViaShell;
   cbIncludeConfigFileAssoc.Checked := gIncludeFileAssociation;
   cbExtendedContextMenuChange(cbExtendedContextMenu);
@@ -130,6 +132,7 @@ begin
   gExtendedContextMenu := cbExtendedContextMenu.Checked;
   gExecuteViaTerminalStayOpen := cbOpenSystemWithTerminalStayOpen.Checked;
   gExecuteViaTerminalClose := cbOpenSystemWithTerminalClose.Checked;
+  gHideDefaultContext := cbHideDefaultContext.Checked;
   gOpenExecuteViaShell := cbExecuteViaShell.Checked;
   gIncludeFileAssociation := cbIncludeConfigFileAssoc.Checked;
   gFileAssocFilenameStyle := TConfigFilenameStyle(cbFileAssocFilenameStyle.ItemIndex);

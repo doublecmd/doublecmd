@@ -5923,6 +5923,10 @@ msgstr "Spustiť cez shell"
 msgid "Extended context menu"
 msgstr "Rozšírené kontextové menu"
 
+#: tfrmoptionsfileassocextra.cbhidedefaultcontext.caption
+msgid "Hide default context actions (View/Edit)"
+msgstr ""
+
 #: tfrmoptionsfileassocextra.cbincludeconfigfileassoc.caption
 msgid "File association configuration"
 msgstr "Konfigurácia priradenia súborov"

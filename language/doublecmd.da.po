@@ -6318,6 +6318,10 @@ msgstr "U&dfør i en kommandofortolker"
 msgid "Extended context menu"
 msgstr "Udvidet &kontekstmenu"
 
+#: tfrmoptionsfileassocextra.cbhidedefaultcontext.caption
+msgid "Hide default context actions (View/Edit)"
+msgstr ""
+
 # Opsætning - Indstillinger - Filassociationer - Filassociationer_ekstra
 #: tfrmoptionsfileassocextra.cbincludeconfigfileassoc.caption
 msgid "File association configuration"

@@ -6238,6 +6238,10 @@ msgstr "Izvrši putem ljuske"
 msgid "Extended context menu"
 msgstr "Dodatni kontekstni izbornik"
 
+#: tfrmoptionsfileassocextra.cbhidedefaultcontext.caption
+msgid "Hide default context actions (View/Edit)"
+msgstr ""
+
 #: tfrmoptionsfileassocextra.cbincludeconfigfileassoc.caption
 msgid "File association configuration"
 msgstr "Konfiguracija povezivanja datoteka"

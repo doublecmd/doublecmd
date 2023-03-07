@@ -5951,6 +5951,10 @@ msgstr "Виконати через оболонку"
 msgid "Extended context menu"
 msgstr "Розширене контекстне меню"
 
+#: tfrmoptionsfileassocextra.cbhidedefaultcontext.caption
+msgid "Hide default context actions (View/Edit)"
+msgstr ""
+
 #: tfrmoptionsfileassocextra.cbincludeconfigfileassoc.caption
 msgid "File association configuration"
 msgstr "Налаштувати файлові асоціації"

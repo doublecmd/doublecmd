@@ -5841,6 +5841,10 @@ msgstr "通过系统外壳执行"
 msgid "Extended context menu"
 msgstr "扩展右键菜单"
 
+#: tfrmoptionsfileassocextra.cbhidedefaultcontext.caption
+msgid "Hide default context actions (View/Edit)"
+msgstr ""
+
 #: tfrmoptionsfileassocextra.cbincludeconfigfileassoc.caption
 msgid "File association configuration"
 msgstr "文件关联配置"

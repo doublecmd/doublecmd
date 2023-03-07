@@ -6044,6 +6044,10 @@ msgstr ""
 msgid "Extended context menu"
 msgstr ""
 
+#: tfrmoptionsfileassocextra.cbhidedefaultcontext.caption
+msgid "Hide default context actions (View/Edit)"
+msgstr ""
+
 #: tfrmoptionsfileassocextra.cbincludeconfigfileassoc.caption
 msgid "File association configuration"
 msgstr "Настройка на файловите обвързвания"

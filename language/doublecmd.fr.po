@@ -5955,6 +5955,10 @@ msgstr "Exécuter via l'invite de commande"
 msgid "Extended context menu"
 msgstr "Menu contextuel étendu"
 
+#: tfrmoptionsfileassocextra.cbhidedefaultcontext.caption
+msgid "Hide default context actions (View/Edit)"
+msgstr ""
+
 #: tfrmoptionsfileassocextra.cbincludeconfigfileassoc.caption
 msgid "File association configuration"
 msgstr "Configuration des associations d'extensions"

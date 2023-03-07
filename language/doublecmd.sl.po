@@ -5852,6 +5852,10 @@ msgstr "Izvedi prek lupine"
 msgid "Extended context menu"
 msgstr "Razširjen vsebinski meni"
 
+#: tfrmoptionsfileassocextra.cbhidedefaultcontext.caption
+msgid "Hide default context actions (View/Edit)"
+msgstr ""
+
 #: tfrmoptionsfileassocextra.cbincludeconfigfileassoc.caption
 msgid "File association configuration"
 msgstr "Nastavitve datotečnih vezi"

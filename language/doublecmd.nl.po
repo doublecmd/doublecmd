@@ -5825,6 +5825,10 @@ msgstr "Voer uit via shell"
 msgid "Extended context menu"
 msgstr "Uitgebreid contextmenu"
 
+#: tfrmoptionsfileassocextra.cbhidedefaultcontext.caption
+msgid "Hide default context actions (View/Edit)"
+msgstr ""
+
 #: tfrmoptionsfileassocextra.cbincludeconfigfileassoc.caption
 msgid "File association configuration"
 msgstr "Instelling van bestandassociatie"

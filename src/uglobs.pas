@@ -679,6 +679,7 @@ var
   gFileAssociationLastCustomAction: string;
   gOfferToAddToFileAssociations: boolean;
   gExtendedContextMenu: boolean;
+  gHideDefaultContext: boolean;
   gOpenExecuteViaShell: boolean;
   gExecuteViaTerminalClose: boolean;
   gExecuteViaTerminalStayOpen: boolean;
@@ -2118,6 +2119,7 @@ begin
   gOfferToAddToFileAssociations := False;
   gExtendedContextMenu := False;
   gOpenExecuteViaShell := False;
+  gHideDefaultContext := False;
   gExecuteViaTerminalClose := False;
   gExecuteViaTerminalStayOpen := False;
   gIncludeFileAssociation := False;
@@ -3258,6 +3260,7 @@ begin
       gOfferToAddToFileAssociations := GetValue(Node, 'OfferToAddNewFileType', gOfferToAddToFileAssociations);
       gFileAssociationLastCustomAction := GetValue(Node, 'LastCustomAction', gFileAssociationLastCustomAction);
       gExtendedContextMenu := GetValue(Node, 'ExpandedContextMenu', gExtendedContextMenu);
+      gHideDefaultContext := GetValue(Node,'HideDefaultContext', gHideDefaultContext);
       gOpenExecuteViaShell := GetValue(Node,'ExecuteViaShell', gOpenExecuteViaShell);
       gExecuteViaTerminalClose := GetValue(Node,'OpenSystemWithTerminalClose', gExecuteViaTerminalClose);
       gExecuteViaTerminalStayOpen := GetValue(Node,'OpenSystemWithTerminalStayOpen', gExecuteViaTerminalStayOpen);
@@ -3868,6 +3871,7 @@ begin
     SetValue(Node, 'OfferToAddNewFileType', gOfferToAddToFileAssociations);
     SetValue(Node, 'LastCustomAction', gFileAssociationLastCustomAction);
     SetValue(Node, 'ExpandedContextMenu', gExtendedContextMenu);
+    SetValue(Node, 'HideDefaultContext', gHideDefaultContext);
     SetValue(Node, 'ExecuteViaShell', gOpenExecuteViaShell);
     SetValue(Node, 'OpenSystemWithTerminalClose', gExecuteViaTerminalClose);
     SetValue(Node, 'OpenSystemWithTerminalStayOpen', gExecuteViaTerminalStayOpen);

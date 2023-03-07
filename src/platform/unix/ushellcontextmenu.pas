@@ -642,29 +642,33 @@ begin
   if ContextMenuActionList.Count>0 then
     LocalInsertMenuSeparator;
 
-  // If the external generic viewer is configured, offer it.
-  if gExternalTools[etViewer].Enabled then
+  // If the default context actions not hidden
+  if not gHideDefaultContext then
   begin
-    I := ContextMenuActionList.Add(TExtActionCommand.Create(rsMnuView+' ('+rsViewWithExternalViewer+')','{!VIEWER}',QuoteStr(aFile.FullPath),''));
+    // If the external generic viewer is configured, offer it.
+    if gExternalTools[etViewer].Enabled then
+    begin
+      I := ContextMenuActionList.Add(TExtActionCommand.Create(rsMnuView+' ('+rsViewWithExternalViewer+')','{!VIEWER}',QuoteStr(aFile.FullPath),''));
+      LocalInsertMenuItem(ContextMenuActionList.ExtActionCommand[I].ActionName,I);
+    end;
+
+    // Make sure we always shows our internal viewer
+    I := ContextMenuActionList.Add(TExtActionCommand.Create(rsMnuView+' ('+rsViewWithInternalViewer+')','{!DC-VIEWER}',QuoteStr(aFile.FullPath),''));
+    LocalInsertMenuItem(ContextMenuActionList.ExtActionCommand[I].ActionName,I);
+
+    // If the external generic editor is configured, offer it.
+    if gExternalTools[etEditor].Enabled then
+    begin
+      I := ContextMenuActionList.Add(TExtActionCommand.Create(rsMnuEdit+' ('+rsEditWithExternalEditor+')','{!EDITOR}',QuoteStr(aFile.FullPath),''));
+      LocalInsertMenuItem(ContextMenuActionList.ExtActionCommand[I].ActionName,I);
+    end;
+
+    // Make sure we always shows our internal editor
+    I := ContextMenuActionList.Add(TExtActionCommand.Create(rsMnuEdit+' ('+rsEditWithInternalEditor+')','{!DC-EDITOR}',QuoteStr(aFile.FullPath),''));
     LocalInsertMenuItem(ContextMenuActionList.ExtActionCommand[I].ActionName,I);
   end;
 
-  // Make sure we always shows our internal viewer
-  I := ContextMenuActionList.Add(TExtActionCommand.Create(rsMnuView+' ('+rsViewWithInternalViewer+')','{!DC-VIEWER}',QuoteStr(aFile.FullPath),''));
-  LocalInsertMenuItem(ContextMenuActionList.ExtActionCommand[I].ActionName,I);
-
-  // If the external generic editor is configured, offer it.
-  if gExternalTools[etEditor].Enabled then
-  begin
-    I := ContextMenuActionList.Add(TExtActionCommand.Create(rsMnuEdit+' ('+rsEditWithExternalEditor+')','{!EDITOR}',QuoteStr(aFile.FullPath),''));
-    LocalInsertMenuItem(ContextMenuActionList.ExtActionCommand[I].ActionName,I);
-  end;
-
-  // Make sure we always shows our internal editor
-  I := ContextMenuActionList.Add(TExtActionCommand.Create(rsMnuEdit+' ('+rsEditWithInternalEditor+')','{!DC-EDITOR}',QuoteStr(aFile.FullPath),''));
-  LocalInsertMenuItem(ContextMenuActionList.ExtActionCommand[I].ActionName,I);
-
-  if gOpenExecuteViaShell or gExecuteViaTerminalClose or gExecuteViaTerminalStayOpen then
+  if (gOpenExecuteViaShell or gExecuteViaTerminalClose or gExecuteViaTerminalStayOpen) and not gHideDefaultContext then
     LocalInsertMenuSeparator;
 
   // Execute via shell
@@ -691,7 +695,9 @@ begin
   // Add shortcut to launch file association cnfiguration screen
   if gIncludeFileAssociation then
   begin
-    LocalInsertMenuSeparator;
+    if iMenuPositionInsertion > 0 then
+         LocalInsertMenuSeparator;
+
     I := ContextMenuActionList.Add(TExtActionCommand.Create(rsConfigurationFileAssociation,'cm_FileAssoc','',''));
     LocalInsertMenuItem(ContextMenuActionList.ExtActionCommand[I].ActionName,I);
   end;
