@@ -74,7 +74,7 @@ object frmTreeViewMenu: TfrmTreeViewMenu
       OnMouseWheelDown = tvMainMenuMouseWheelDown
       OnMouseWheelUp = tvMainMenuMouseWheelUp
       OnSelectionChanged = tvMainMenuSelectionChanged
-      Options = [tvoAutoExpand, tvoAutoItemHeight, tvoHideSelection, tvoHotTrack, tvoKeepCollapsedNodes, tvoReadOnly, tvoShowButtons, tvoShowLines, tvoShowRoot, tvoToolTips, tvoThemedDraw]
+      Options = [tvoAutoExpand, tvoAutoItemHeight, tvoHideSelection, tvoHotTrack, tvoKeepCollapsedNodes, tvoReadOnly, tvoRowSelect, tvoShowButtons, tvoShowLines, tvoShowRoot, tvoToolTips, tvoThemedDraw]
     end
     object edSearchingEntry: TEdit
       AnchorSideLeft.Control = pnlAll
