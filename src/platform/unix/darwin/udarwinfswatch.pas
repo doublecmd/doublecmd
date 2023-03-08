@@ -185,35 +185,35 @@ begin
         kFSEventStreamEventFlagItemChangeOwner or
         kFSEventStreamEventFlagItemInodeMetaMod
      )) <> 0 then
-    _categories:= _categories + [ecAttribChanged, ecCoreAttribChanged];
+    _categories += [ecAttribChanged, ecCoreAttribChanged];
 
   if (_rawEventFlags and (
         kFSEventStreamEventFlagItemFinderInfoMod or
         kFSEventStreamEventFlagItemXattrMod
      )) <> 0 then
-    _categories:= _categories + [ecAttribChanged, ecXattrChanged];
+    _categories += [ecAttribChanged, ecXattrChanged];
 
   if (_rawEventFlags and kFSEventStreamEventFlagItemCreated)<>0 then
-    _categories:= _categories + [ecStructChanged, ecCreated];
+    _categories += [ecStructChanged, ecCreated];
   if (_rawEventFlags and kFSEventStreamEventFlagItemRemoved)<>0 then
-    _categories:= _categories + [ecStructChanged, ecRemoved];
+    _categories += [ecStructChanged, ecRemoved];
   if (_rawEventFlags and kFSEventStreamEventFlagItemRenamed)<>0 then
-    _categories:= _categories + [ecStructChanged, ecRenamed];
+    _categories += [ecStructChanged, ecRenamed];
 
   if (_rawEventFlags and kFSEventStreamEventFlagRootChanged)<>0 then begin
-    _categories:= _categories + [ecRootChanged];
+    _categories += [ecRootChanged];
   end else begin
     if (_fullPath<>watchPath) and (_fullPath.CountChar(PathDelim)<>_watchPath.CountChar(PathDelim)+1) then begin
       if (_renamedPath.IsEmpty) or ((_renamedPath<>watchPath) and (_renamedPath.CountChar(PathDelim)<>_watchPath.CountChar(PathDelim)+1)) then
-        _categories:= _categories + [ecChildChanged];
+        _categories += [ecChildChanged];
     end;
   end;
 
   if (_rawEventFlags and kFSEventStreamEventFlagItemIsFile)<>0 then
-    _categories:= _categories + [ecFile];
+    _categories += [ecFile];
 
   if (_rawEventFlags and kFSEventStreamEventFlagItemIsDir)<>0 then
-    _categories:= _categories + [ecDir];
+    _categories += [ecDir];
 
   if _categories * [ecAttribChanged,ecStructChanged,ecRootChanged] = [] then
     _categories:= [ecDropabled];
@@ -229,25 +229,25 @@ begin
   Result:= EmptyStr;
 
   if ecAttribChanged in _categories then
-    Result:= Result + '|Attrib';
+    Result += '|Attrib';
   if ecCoreAttribChanged in _categories then
-    Result:= Result + '|CoreAttrib';
+    Result += '|CoreAttrib';
   if ecXattrChanged in _categories then
-    Result:= Result + '|Xattr';
+    Result += '|Xattr';
   if ecStructChanged in _categories then
-    Result:= Result + '|Struct';
+    Result += '|Struct';
   if ecCreated in _categories then
-    Result:= Result + '|Created';
+    Result += '|Created';
   if ecRemoved in _categories then
-    Result:= Result + '|Removed';
+    Result += '|Removed';
   if ecRenamed in _categories then
-    Result:= Result + '|Renamed';
+    Result += '|Renamed';
   if ecRootChanged in _categories then
-    Result:= Result + '|Root';
+    Result += '|Root';
   if ecChildChanged in _categories then
-    Result:= Result + '|Child';
+    Result += '|Child';
   if ecDropabled in _categories then
-    Result:= Result + '|Dropabled';
+    Result += '|Dropabled';
 
   Result:= Result.TrimLeft( '|' );
 end;
@@ -257,55 +257,55 @@ begin
   Result:= EmptyStr;
 
   if (_rawEventFlags and kFSEventStreamEventFlagItemModified)<>0 then
-    Result:= Result + '|Modified';
+    Result += '|Modified';
   if (_rawEventFlags and kFSEventStreamEventFlagItemChangeOwner)<>0 then
-    Result:= Result + '|ChangeOwner';
+    Result += '|ChangeOwner';
   if (_rawEventFlags and kFSEventStreamEventFlagItemInodeMetaMod)<>0 then
-    Result:= Result + '|InodeMetaMod';
+    Result += '|InodeMetaMod';
   if (_rawEventFlags and kFSEventStreamEventFlagItemFinderInfoMod)<>0 then
-    Result:= Result + '|FinderInfoMod';
+    Result += '|FinderInfoMod';
   if (_rawEventFlags and kFSEventStreamEventFlagItemXattrMod)<>0 then
-    Result:= Result + '|XattrMod';
+    Result += '|XattrMod';
 
   if (_rawEventFlags and kFSEventStreamEventFlagItemCreated)<>0 then
-    Result:= Result + '|Created';
+    Result += '|Created';
   if (_rawEventFlags and kFSEventStreamEventFlagItemRemoved)<>0 then
-    Result:= Result + '|Removed';
+    Result += '|Removed';
   if (_rawEventFlags and kFSEventStreamEventFlagItemRenamed)<>0 then
-    Result:= Result + '|Renamed';
+    Result += '|Renamed';
 
   if (_rawEventFlags and kFSEventStreamEventFlagRootChanged)<>0 then
-    Result:= Result + '|RootChanged';
+    Result += '|RootChanged';
 
   if (_rawEventFlags and kFSEventStreamEventFlagItemIsFile)<>0 then
-    Result:= Result + '|IsFile';
+    Result += '|IsFile';
   if (_rawEventFlags and kFSEventStreamEventFlagItemIsDir)<>0 then
-    Result:= Result + '|IsDir';
+    Result += '|IsDir';
   if (_rawEventFlags and kFSEventStreamEventFlagItemIsSymlink)<>0 then
-    Result:= Result + '|IsSymlink';
+    Result += '|IsSymlink';
   if (_rawEventFlags and kFSEventStreamEventFlagItemIsHardlink)<>0 then
-    Result:= Result + '|IsHardLink';
+    Result += '|IsHardLink';
   if (_rawEventFlags and kFSEventStreamEventFlagItemIsLastHardlink)<>0 then
-    Result:= Result + '|IsLastHardLink';
+    Result += '|IsLastHardLink';
 
   if (_rawEventFlags and kFSEventStreamEventFlagMustScanSubDirs)<>0 then
-    Result:= Result + '|ScanSubDirs';
+    Result += '|ScanSubDirs';
   if (_rawEventFlags and kFSEventStreamEventFlagUserDropped)<>0 then
-    Result:= Result + '|UserDropped';
+    Result += '|UserDropped';
   if (_rawEventFlags and kFSEventStreamEventFlagKernelDropped)<>0 then
-    Result:= Result + '|KernelDropped';
+    Result += '|KernelDropped';
   if (_rawEventFlags and kFSEventStreamEventFlagEventIdsWrapped)<>0 then
-    Result:= Result + '|IdsWrapped';
+    Result += '|IdsWrapped';
   if (_rawEventFlags and kFSEventStreamEventFlagHistoryDone)<>0 then
-    Result:= Result + '|HistoryDone';
+    Result += '|HistoryDone';
   if (_rawEventFlags and kFSEventStreamEventFlagMount)<>0 then
-    Result:= Result + '|Mount';
+    Result += '|Mount';
   if (_rawEventFlags and kFSEventStreamEventFlagUnmount)<>0 then
-    Result:= Result + '|Unmount';
+    Result += '|Unmount';
   if (_rawEventFlags and kFSEventStreamEventFlagOwnEvent)<>0 then
-    Result:= Result + '|OwnEvent';
+    Result += '|OwnEvent';
   if (_rawEventFlags and kFSEventStreamEventFlagItemCloned)<>0 then
-    Result:= Result + '|Cloned';
+    Result += '|Cloned';
 
   if (_rawEventFlags and $FF800000)<>0 then
     Result:= '|*UnkownFlags:' + IntToHex(_rawEventFlags) + '*' + Result;
