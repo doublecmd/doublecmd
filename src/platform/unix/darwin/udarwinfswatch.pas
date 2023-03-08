@@ -48,6 +48,7 @@ type TDarwinFSWatchEventCategory = (
   ecAttribChanged, ecCoreAttribChanged, ecXattrChanged,
   ecStructChanged, ecCreated, ecRemoved, ecRenamed,
   ecRootChanged, ecChildChanged,
+  ecFile, ecDir,
   ecDropabled );
 
 type TDarwinFSWatchEventCategories = set of TDarwinFSWatchEventCategory;
@@ -207,6 +208,12 @@ begin
         _categories:= _categories + [ecChildChanged];
     end;
   end;
+
+  if (_rawEventFlags and kFSEventStreamEventFlagItemIsFile)<>0 then
+    _categories:= _categories + [ecFile];
+
+  if (_rawEventFlags and kFSEventStreamEventFlagItemIsDir)<>0 then
+    _categories:= _categories + [ecDir];
 
   if _categories * [ecAttribChanged,ecStructChanged,ecRootChanged] = [] then
     _categories:= [ecDropabled];

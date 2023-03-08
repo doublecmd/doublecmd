@@ -999,7 +999,14 @@ begin
                   // FCurrentEventData.Path contains WatchPath
                   // so in FlatView Mode, Path need to be adjusted to the Real Path
                   if TFileView(UserData).FlatView then begin
-                    FCurrentEventData.Path := ExcludeTrailingPathDelimiter(ExtractFilePath(FCurrentEventData.OriginalEvent.fullPath));
+                    if ecDir in FCurrentEventData.OriginalEvent.categories then begin
+                      // in FlatView Mode, when receiving events about subdirectories,
+                      // WatchPath reload should be used instead of partial update
+                      FCurrentEventData.EventType:= fswUnknownChange;
+                      FCurrentEventData.Path := AWatchPath;
+                    end else begin
+                      FCurrentEventData.Path := ExcludeTrailingPathDelimiter(ExtractFilePath(FCurrentEventData.OriginalEvent.fullPath));
+                    end;
                   end else begin
                     if TDarwinFSWatchEventCategory.ecChildChanged in FCurrentEventData.OriginalEvent.categories then
                       // not watching SubDir, then SubDir event should be discarded
