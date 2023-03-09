@@ -52,10 +52,9 @@ type
     imgDiskIconExample: TImage;
     imgIconExample: TImage;
     lblDiskPanel: TLabel;
+    lblDiskPanel1: TLabel;
     lblFilePanel: TLabel;
-    pnlComboBox: TPanel;
-    pnlImage: TPanel;
-    pnlLabel: TPanel;
+    lblFilePanel1: TLabel;
     rbIconsShowAll: TRadioButton;
     rbIconsShowAllAndExe: TRadioButton;
     rbIconsShowNone: TRadioButton;
@@ -91,7 +90,7 @@ var
 begin
   if cbIconsSize.ItemIndex < 0 then Exit;
   iSize:= PtrInt(cbIconsSize.Items.Objects[cbIconsSize.ItemIndex]);
-  bmpTemp:= PixmapManager.GetFolderIcon(iSize, pnlImage.Color);
+  bmpTemp:= PixmapManager.GetFolderIcon(iSize, gbIconsSize.Color);
   imgIconExample.Picture.Assign(bmpTemp);
   FreeAndNil(bmpTemp);
 end;
@@ -108,7 +107,7 @@ var
 begin
   if cbDiskIconsSize.ItemIndex < 0 then Exit;
   iSize:= PtrInt(cbDiskIconsSize.Items.Objects[cbDiskIconsSize.ItemIndex]);
-  bmpTemp:= PixmapManager.GetDefaultDriveIcon(iSize, pnlImage.Color);
+  bmpTemp:= PixmapManager.GetDefaultDriveIcon(iSize, gbIconsSize.Color);
   imgDiskIconExample.Picture.Assign(bmpTemp);
   FreeAndNil(bmpTemp);
 end;
