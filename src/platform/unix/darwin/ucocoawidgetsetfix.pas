@@ -25,6 +25,10 @@
       related codes can be removed after Lazarus merges related Patches.
       see also:
       https://gitlab.com/freepascal.org/lazarus/lazarus/-/issues/40008
+   2. TCocoaWSCustomComboBoxEx.FreeItems is a workaround for the bug of Lazarus
+      related IME of Cocoa too.
+      see also:
+      https://gitlab.com/freepascal.org/lazarus/lazarus/-/merge_requests/117
 }
 
 unit uCocoaWidgetSetFix;
@@ -41,7 +45,7 @@ implementation
 uses
   Classes, SysUtils,
   LCLType, Controls, StdCtrls, WSLCLClasses, WSStdCtrls,
-  CocoaAll, CocoaWSStdCtrls;
+  CocoaAll, CocoaWSStdCtrls, CocoaTextEdits;
 
 type
 
@@ -53,6 +57,9 @@ type
  published
    class function CreateHandle(const AWinControl: TWinControl;
      const AParams: TCreateParams): TLCLIntfHandle; override;
+   class procedure FreeItems(var AItems: TStrings); override;
+   class procedure DestroyHandle(const AWinControl: TWinControl); override;
+
    class function  GetSelStart(const ACustomComboBox: TCustomComboBox): integer; override;
    class function  GetSelLength(const ACustomComboBox: TCustomComboBox): integer; override;
    class procedure SetSelStart(const ACustomComboBox: TCustomComboBox; NewStart: integer); override;
@@ -67,6 +74,39 @@ begin
   Result:= Inherited;
 end;
 
+
+class procedure TCocoaWSCustomComboBoxEx.FreeItems(var AItems: TStrings);
+begin
+  // TCocoaComboBox.list should be released later (in DestroyHandle),
+  // to avoid invalid TCocoaComboBox.list in TCocoaComboBox.comboBox_indexOfItemWithStringValue().
+  // which will be called even in TCocoaWSWinControl.DestoryWnd(),
+  // when TCocoaComboBox hasMarkedText (in IME state).
+end;
+
+class procedure TCocoaWSCustomComboBoxEx.DestroyHandle(const AWinControl: TWinControl);
+var
+  txt: NSText;
+  list: TStrings;
+  cocoaObj: NSObject;
+begin
+  txt:= getNSText( TCustomComboBox(AWinControl) );
+  if not Assigned(txt) then exit;
+
+  // close IME first
+  {%H-}NSTextInputClientProtocol(txt).unmarktext;
+  Inherited;
+
+  // and then free the TCocoaComboBox.list
+  list:= nil;
+  cocoaObj:= NSObject( AWinControl.Handle );
+  if cocoaObj.isKindOfClass(TCocoaComboBox.classClass) then
+    list:= TCocoaComboBox(AWinControl.Handle).list
+  else if cocoaObj.isKindOfClass(TCocoaReadOnlyComboBox.classClass) then
+    list:= TCocoaReadOnlyComboBox(AWinControl.Handle).list;
+  if Assigned(list) then
+    Inherited FreeItems( list );
+end;
+
 class function TCocoaWSCustomComboBoxEx.getNSText(const ACustomComboBox: TCustomComboBox): NSText;
 var
   control: NSControl;
@@ -75,7 +115,7 @@ begin
   if not Assigned(ACustomComboBox) or (not ACustomComboBox.HandleAllocated) or (ACustomComboBox.Handle=0) then
     exit;
   control:= NSControl( ACustomComboBox.Handle );
-  Result:= NSText( control.currentEditor );
+  Result:= control.currentEditor;
 end;
 
 class function TCocoaWSCustomComboBoxEx.GetSelStart(
