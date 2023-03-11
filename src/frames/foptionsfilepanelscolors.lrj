@@ -29,7 +29,5 @@
 {"hash":207563970,"name":"tfrmoptionsfilepanelscolors.cbusecursorborder.caption","sourcebytes":[67,117,114,115,111,114,32,98,111,114,100,101,114],"value":"Cursor border"},
 {"hash":1054,"name":"tfrmoptionsfilepanelscolors.btncursorbordercolor.caption","sourcebytes":[62,62],"value":">>"},
 {"hash":157403508,"name":"tfrmoptionsfilepanelscolors.btnresettodcdefault.caption","sourcebytes":[82,101,115,101,116,32,116,111,32,68,67,32,100,101,102,97,117,108,116],"value":"Reset to DC default"},
-{"hash":266427794,"name":"tfrmoptionsfilepanelscolors.cballowovercolor.caption","sourcebytes":[65,108,108,111,119,32,79,118,101,114,99,111,108,111,114],"value":"Allow Overcolor"},
-{"hash":115941530,"name":"tfrmoptionsfilepanelscolors.lblindthresholdcolor.caption","sourcebytes":[73,110,100,105,99,97,116,111,114,32,38,84,104,114,101,115,104,111,108,100,32,67,111,108,111,114,58],"value":"Indicator &Threshold Color:"},
-{"hash":1054,"name":"tfrmoptionsfilepanelscolors.btnindthresholdcolor.caption","sourcebytes":[62,62],"value":">>"}
+{"hash":266427794,"name":"tfrmoptionsfilepanelscolors.cballowovercolor.caption","sourcebytes":[65,108,108,111,119,32,79,118,101,114,99,111,108,111,114],"value":"Allow Overcolor"}
 ]}
