@@ -445,8 +445,7 @@ var
 
   gInactivePanelBrightness: Integer; // 0 .. 100 (black .. full color)
   gIndUseGradient : Boolean; // use gradient on drive label
-  gIndForeColor, // foreColor of used space on drive label
-  gIndThresholdForeColor, // foreColor for mote than Threshold of used space on drive label
+  gIndForeColor, // foreColor of use space on drive label
   gIndBackColor: TColor; // backColor of free space on drive label
 
   gLogInfoColor,
@@ -756,7 +755,7 @@ implementation
 uses
    LCLProc, LCLType, Dialogs, Laz2_XMLRead, LazUTF8, LConvEncoding, uExifWdx,
    uGlobsPaths, uLng, uShowMsg, uFileProcs, uOSUtils, uFindFiles, uEarlyConfig,
-   uDCUtils, fMultiRename, uDCVersion, uDebug, uFileFunctions,
+   uDCUtils, fMultiRename, uFile, uDCVersion, uDebug, uFileFunctions,
    uDefaultPlugins, Lua, uKeyboard, DCOSUtils, DCStrUtils, uPixMapManager,
    uSynDiffControls
    {$IF DEFINED(MSWINDOWS)}
@@ -1813,8 +1812,7 @@ begin
 
   gInactivePanelBrightness := 100; // Full brightness
   gIndUseGradient := True;
-  gIndForeColor := clNavy;
-  gIndThresholdForeColor := clRed;
+  gIndForeColor := clBlack;
   gIndBackColor := clWhite;
 
   gLogInfoColor:= clNavy;
@@ -2444,6 +2442,7 @@ end;
 
 procedure SaveGlobs;
 var
+  TmpConfig: TXmlConfig;
   ErrMsg: String = '';
 begin
   if (gUseConfigInProgramDirNew <> gUseConfigInProgramDir) and
@@ -2779,7 +2778,6 @@ begin
       gInactivePanelBrightness := GetValue(Node, 'InactivePanelBrightness', gInactivePanelBrightness);
       gIndUseGradient := GetValue(Node, 'FreeSpaceIndicator/UseGradient', gIndUseGradient);
       gIndForeColor := GetValue(Node, 'FreeSpaceIndicator/ForeColor', gIndForeColor);
-      gIndThresholdForeColor := GetValue(Node, 'FreeSpaceIndicator/ThresholdForeColor', gIndThresholdForeColor);
       gIndBackColor := GetValue(Node, 'FreeSpaceIndicator/BackColor', gIndBackColor);
 
       gLogInfoColor:= GetValue(Node, 'LogWindow/Info', gLogInfoColor);
@@ -3525,7 +3523,6 @@ begin
     SetValue(Node, 'InactivePanelBrightness', gInactivePanelBrightness);
     SetValue(Node, 'FreeSpaceIndicator/UseGradient', gIndUseGradient);
     SetValue(Node, 'FreeSpaceIndicator/ForeColor', gIndForeColor);
-    SetValue(Node, 'FreeSpaceIndicator/ThresholdForeColor', gIndThresholdForeColor);
     SetValue(Node, 'FreeSpaceIndicator/BackColor', gIndBackColor);
 
     SetValue(Node, 'LogWindow/Info', gLogInfoColor);

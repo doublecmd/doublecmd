@@ -667,8 +667,7 @@ type
     procedure pnlNotebooksResize(Sender: TObject);
     procedure pnlRightResize(Sender: TObject);
     procedure sboxDrivePaint(Sender: TObject);
-    procedure PaintDriveFreeBar(Sender: TObject; const bIndUseGradient: boolean;
-      const pIndForeColor, pIndThresholdForeColor, pIndBackColor: TColor);
+    procedure PaintDriveFreeBar(Sender: TObject; bIndUseGradient:boolean; pIndForeColor,pIndBackColor:TColor);
     procedure seLogWindowSpecialLineColors(Sender: TObject; Line: integer;
       var Special: boolean; var FG, BG: TColor);
 
@@ -4323,13 +4322,10 @@ end;
 
 procedure TfrmMain.sboxDrivePaint(Sender: TObject);
 begin
-  PaintDriveFreeBar(Sender, gIndUseGradient, gIndForeColor,
-    gIndThresholdForeColor, gIndBackColor);
+  PaintDriveFreeBar(Sender, gIndUseGradient, gIndForeColor, gIndBackColor);
 end;
 
-procedure TfrmMain.PaintDriveFreeBar(Sender: TObject; const bIndUseGradient: boolean;
-  const pIndForeColor, pIndThresholdForeColor, pIndBackColor: TColor);
-const OccupiedThresholdPercent = 90;
+procedure TfrmMain.PaintDriveFreeBar(Sender: TObject; bIndUseGradient:boolean; pIndForeColor,pIndBackColor:TColor);
 var
   pbxDrive: TPaintBox absolute Sender;
   FillPercentage: PtrInt;
@@ -4350,10 +4346,7 @@ begin
       begin
         ARect.Left  := 1;
         ARect.Right := 1 + FillPercentage * (pbxDrive.Width - 2) div 100;
-        if FillPercentage <= OccupiedThresholdPercent then
-          AColor := pIndForeColor
-        else
-          AColor := pIndThresholdForeColor;
+        AColor := pIndForeColor;
         pbxDrive.Canvas.GradientFill(ARect, LightColor(AColor, 25), DarkColor(AColor, 25), gdVertical);
         ARect.Left  := ARect.Right + 1;
         ARect.Right := pbxDrive.Width - 2;
@@ -4365,10 +4358,10 @@ begin
         ARect.Right := 1;
         for i := 0 to FillPercentage - 1 do
         begin
-          if i <= OccupiedThresholdPercent then
-            AColor:= RGB((i * 255) div OccupiedThresholdPercent, 255, 0)
+          if i <= 50 then
+            AColor:= RGB(0 + 5 * i, 255, 0)
           else
-            AColor:= RGB(255, ((100 - i) * 255) div (100 - OccupiedThresholdPercent), 0);
+            AColor:= RGB(255, 255 - 5 * (i - 50), 0);
           AColor2:= DarkColor(AColor, 50);
 
           ARect.Left  := ARect.Right;
