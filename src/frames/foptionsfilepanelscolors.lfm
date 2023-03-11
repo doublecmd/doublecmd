@@ -503,8 +503,7 @@ inherited frmOptionsFilePanelsColors: TfrmOptionsFilePanelsColors
   end
   object pbxFakeDrive: TPaintBox[32]
     Tag = 83
-    AnchorSideLeft.Control = cbbUseGradientInd
-    AnchorSideLeft.Side = asrBottom
+    AnchorSideLeft.Control = cbbUseInactiveSelColor
     AnchorSideTop.Control = cbbUseGradientInd
     AnchorSideTop.Side = asrCenter
     AnchorSideRight.Control = btnIndColor
