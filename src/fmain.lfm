@@ -21,7 +21,7 @@ object frmMain: TfrmMain
   SessionProperties = 'nbConsole.Height;seLogWindow.Height;TreePanel.Width'
   ShowHint = True
   ShowInTaskBar = stAlways
-  LCLVersion = '2.2.4.0'
+  LCLVersion = '1.8.4.0'
   object MainToolbar: TKASToolBar
     AnchorSideTop.Control = Owner
     Left = 0
@@ -47,7 +47,7 @@ object frmMain: TfrmMain
   end
   object TreePanel: TPanel
     Left = 0
-    Height = 179
+    Height = 191
     Top = 20
     Width = 121
     Align = alLeft
@@ -57,18 +57,18 @@ object frmMain: TfrmMain
   end
   object TreeSplitter: TSplitter
     Left = 121
-    Height = 179
+    Height = 191
     Top = 20
     Width = 5
   end
   object pnlMain: TPanel
     Left = 126
-    Height = 179
+    Height = 191
     Top = 20
     Width = 634
     Align = alClient
     BevelOuter = bvNone
-    ClientHeight = 179
+    ClientHeight = 191
     ClientWidth = 634
     TabOrder = 5
     object pnlDisk: TKASToolPanel
@@ -80,26 +80,25 @@ object frmMain: TfrmMain
       Align = alTop
       AutoSize = True
       EdgeBorders = [ebTop, ebBottom]
-      TabOrder = 0
       Visible = False
       object pnlDskLeft: TPanel
         AnchorSideLeft.Control = pnlDisk
         AnchorSideTop.Control = pnlDisk
         Left = 0
-        Height = 20
-        Top = 2
-        Width = 150
+        Height = 24
+        Top = 0
+        Width = 170
         AutoSize = True
         BevelOuter = bvNone
-        ClientHeight = 20
-        ClientWidth = 150
+        ClientHeight = 24
+        ClientWidth = 170
         TabOrder = 0
         Visible = False
         object dskLeft: TKASToolBar
           Left = 0
           Height = 20
           Top = 0
-          Width = 150
+          Width = 170
           AutoSize = True
           Constraints.MinHeight = 20
           EdgeBorders = []
@@ -118,22 +117,22 @@ object frmMain: TfrmMain
         AnchorSideTop.Control = pnlDisk
         AnchorSideRight.Control = pnlDisk
         AnchorSideRight.Side = asrBottom
-        Left = 484
-        Height = 20
-        Top = 2
-        Width = 150
-        Anchors = [akTop, akRight]
+        Left = 46
+        Height = 24
+        Top = 0
+        Width = 588
         AutoSize = True
+        Anchors = [akTop, akRight]
         BevelOuter = bvNone
-        ClientHeight = 20
-        ClientWidth = 150
+        ClientHeight = 24
+        ClientWidth = 588
         TabOrder = 1
         Visible = False
         object dskRight: TKASToolBar
           Left = 0
           Height = 20
           Top = 0
-          Width = 150
+          Width = 588
           AutoSize = True
           Constraints.MinHeight = 20
           EdgeBorders = []
@@ -151,24 +150,24 @@ object frmMain: TfrmMain
     end
     object pnlNotebooks: TPanel
       Left = 0
-      Height = 155
+      Height = 167
       Top = 24
       Width = 634
       Align = alClient
       BevelOuter = bvNone
-      ClientHeight = 155
+      ClientHeight = 167
       ClientWidth = 634
       FullRepaint = False
       TabOrder = 1
       OnResize = pnlNotebooksResize
       object pnlLeft: TPanel
         Left = 0
-        Height = 155
+        Height = 167
         Top = 0
         Width = 511
         Align = alLeft
         BevelOuter = bvNone
-        ClientHeight = 155
+        ClientHeight = 167
         ClientWidth = 511
         TabOrder = 0
         OnDblClick = pnlLeftRightDblClick
@@ -181,7 +180,6 @@ object frmMain: TfrmMain
           Align = alTop
           AutoSize = True
           EdgeBorders = [ebTop, ebBottom]
-          TabOrder = 1
           Visible = False
         end
         object pnlLeftTools: TPanel
@@ -292,7 +290,7 @@ object frmMain: TfrmMain
       end
       object MiddleToolbar: TKASToolBar
         Left = 511
-        Height = 155
+        Height = 161
         Top = 0
         Width = 20
         Align = alLeft
@@ -316,14 +314,14 @@ object frmMain: TfrmMain
         GlyphSize = 16
       end
       object pnlRight: TPanel
-        Left = 531
-        Height = 155
+        Left = 511
+        Height = 167
         Top = 0
-        Width = 103
+        Width = 123
         Align = alClient
         BevelOuter = bvNone
-        ClientHeight = 155
-        ClientWidth = 103
+        ClientHeight = 167
+        ClientWidth = 123
         TabOrder = 1
         OnDblClick = pnlLeftRightDblClick
         OnResize = pnlRightResize
@@ -331,23 +329,22 @@ object frmMain: TfrmMain
           Left = 0
           Height = 10
           Top = 0
-          Width = 103
+          Width = 123
           Align = alTop
           AutoSize = True
           EdgeBorders = [ebTop, ebBottom]
-          TabOrder = 1
           Visible = False
         end
         object pnlRightTools: TPanel
           Left = 0
           Height = 24
           Top = 10
-          Width = 103
+          Width = 123
           Align = alTop
           AutoSize = True
           BevelOuter = bvNone
           ClientHeight = 24
-          ClientWidth = 103
+          ClientWidth = 123
           TabOrder = 0
           Visible = False
           object btnRightDrive: TSpeedButton
@@ -361,7 +358,7 @@ object frmMain: TfrmMain
             OnMouseUp = btnDriveMouseUp
           end
           object btnRightHome: TSpeedButton
-            Left = 57
+            Left = 77
             Height = 24
             Top = 0
             Width = 23
@@ -370,7 +367,7 @@ object frmMain: TfrmMain
             OnClick = btnRightClick
           end
           object btnRightUp: TSpeedButton
-            Left = 34
+            Left = 54
             Height = 24
             Top = 0
             Width = 23
@@ -379,7 +376,7 @@ object frmMain: TfrmMain
             OnClick = btnRightClick
           end
           object btnRightRoot: TSpeedButton
-            Left = 25
+            Left = 31
             Height = 24
             Top = 0
             Width = 23
@@ -398,7 +395,7 @@ object frmMain: TfrmMain
             OnClick = btnRightDirectoryHotlistClick
           end
           object btnRightEqualLeft: TSpeedButton
-            Left = 80
+            Left = 100
             Height = 24
             Hint = 'Show current directory of the left panel in the right panel'
             Top = 0
@@ -460,8 +457,8 @@ object frmMain: TfrmMain
   end
   object PanelAllProgress: TPanel
     Left = 0
-    Height = 1
-    Top = 199
+    Height = 0
+    Top = 211
     Width = 760
     Align = alBottom
     AutoSize = True
@@ -473,7 +470,7 @@ object frmMain: TfrmMain
     Cursor = crVSplit
     Left = 0
     Height = 3
-    Top = 200
+    Top = 211
     Width = 760
     Align = alBottom
     AutoSnap = False
@@ -486,35 +483,35 @@ object frmMain: TfrmMain
   object pnlCommand: TPanel
     AnchorSideBottom.Control = LogSplitter
     Left = 0
-    Height = 92
-    Top = 203
+    Height = 81
+    Top = 214
     Width = 760
     Align = alBottom
     AutoSize = True
     BevelOuter = bvNone
-    ClientHeight = 92
+    ClientHeight = 81
     ClientWidth = 760
     FullRepaint = False
     TabOrder = 8
     object pnlCmdLine: TPanel
       Left = 0
-      Height = 38
+      Height = 27
       Top = 54
       Width = 760
       Align = alClient
       AutoSize = True
       BevelOuter = bvNone
       ChildSizing.TopBottomSpacing = 2
-      ClientHeight = 38
+      ClientHeight = 27
       ClientWidth = 760
       TabOrder = 1
       object lblCommandPath: TLabel
         AnchorSideTop.Control = edtCommand
         AnchorSideTop.Side = asrCenter
         Left = 2
-        Height = 17
-        Top = 11
-        Width = 31
+        Height = 15
+        Top = 6
+        Width = 24
         BorderSpacing.Left = 2
         Caption = 'Path'
         ParentColor = False
@@ -526,14 +523,14 @@ object frmMain: TfrmMain
         AnchorSideTop.Control = pnlCmdLine
         AnchorSideRight.Control = pnlCmdLine
         AnchorSideRight.Side = asrBottom
-        Left = 35
-        Height = 34
+        Left = 28
+        Height = 23
         Top = 2
-        Width = 723
+        Width = 732
         Anchors = [akTop, akLeft, akRight]
         BorderSpacing.Left = 2
         BorderSpacing.Right = 2
-        ItemHeight = 0
+        ItemHeight = 15
         OnExit = edtCommandExit
         OnKeyDown = edtCommandKeyDown
         TabOrder = 0
@@ -963,47 +960,47 @@ object frmMain: TfrmMain
       Left = 0
       Height = 20
       Top = 0
-      Width = 88
+      Width = 89
       Action = actView
       Flat = True
       OnMouseWheelDown = btnF3MouseWheelDown
       OnMouseWheelUp = btnF3MouseWheelUp
     end
     object btnF4: TSpeedButton
-      Left = 88
+      Left = 89
       Height = 20
       Top = 0
-      Width = 82
+      Width = 84
       Action = actEdit
       Flat = True
       OnMouseWheelDown = btnF3MouseWheelDown
       OnMouseWheelUp = btnF3MouseWheelUp
     end
     object btnF5: TSpeedButton
-      Left = 170
+      Left = 173
       Height = 20
       Top = 0
-      Width = 88
+      Width = 92
       Action = actCopy
       Flat = True
       OnMouseWheelDown = btnF3MouseWheelDown
       OnMouseWheelUp = btnF3MouseWheelUp
     end
     object btnF6: TSpeedButton
-      Left = 258
+      Left = 265
       Height = 20
       Top = 0
-      Width = 91
+      Width = 94
       Action = actRename
       Flat = True
       OnMouseWheelDown = btnF3MouseWheelDown
       OnMouseWheelUp = btnF3MouseWheelUp
     end
     object btnF7: TSpeedButton
-      Left = 349
+      Left = 359
       Height = 20
       Top = 0
-      Width = 118
+      Width = 112
       Action = actMakeDir
       Caption = 'Directory'
       Flat = True
@@ -1011,10 +1008,10 @@ object frmMain: TfrmMain
       OnMouseWheelUp = btnF3MouseWheelUp
     end
     object btnF8: TSpeedButton
-      Left = 467
+      Left = 471
       Height = 20
       Top = 0
-      Width = 99
+      Width = 97
       Caption = 'Delete'
       Flat = True
       OnClick = btnF8Click
@@ -1023,10 +1020,10 @@ object frmMain: TfrmMain
       OnMouseWheelUp = btnF3MouseWheelUp
     end
     object btnF9: TSpeedButton
-      Left = 566
+      Left = 568
       Height = 20
       Top = 0
-      Width = 113
+      Width = 110
       Action = actRunTerm
       Caption = 'Terminal'
       Flat = True
@@ -1034,10 +1031,10 @@ object frmMain: TfrmMain
       OnMouseWheelUp = btnF3MouseWheelUp
     end
     object btnF10: TSpeedButton
-      Left = 679
+      Left = 678
       Height = 20
       Top = 0
-      Width = 81
+      Width = 82
       Action = actExit
       Caption = 'Exit'
       Flat = True
@@ -1047,8 +1044,8 @@ object frmMain: TfrmMain
   end
   object mnuMain: TMainMenu
     ParentBidiMode = False
-    Left = 232
-    Top = 8
+    left = 232
+    top = 8
     object mnuFiles: TMenuItem
       Caption = '&Files'
       object mnuFilesSymLink: TMenuItem
@@ -1360,15 +1357,12 @@ object frmMain: TfrmMain
       Caption = '&Show'
       object mnuBriefView: TMenuItem
         Action = actBriefView
-        AutoCheck = True
       end
       object mnuColumnsView: TMenuItem
         Action = actColumnsView
-        AutoCheck = True
       end
       object mnuThumbnailsView: TMenuItem
         Action = actThumbnailsView
-        AutoCheck = True
       end
       object miLine33: TMenuItem
         Caption = '-'
@@ -1501,8 +1495,8 @@ object frmMain: TfrmMain
     end
   end
   object actionLst: TActionList
-    Left = 320
-    Top = 24
+    left = 320
+    top = 24
     object actHorizontalFilePanels: TAction
       Tag = 16
       Category = 'Window'
@@ -2199,8 +2193,8 @@ object frmMain: TfrmMain
       Tag = 14
       Category = 'Navigation'
       Caption = 'Synchronous navigation'
-      GroupIndex = 7
       Hint = 'Synchronous directory changing in both panels'
+      GroupIndex = 7
       OnExecute = actExecute
     end
     object actChangeDirToParent: TAction
@@ -2843,18 +2837,18 @@ object frmMain: TfrmMain
   end
   object pmHotList: TPopupMenu
     Images = imgLstDirectoryHotlist
-    Left = 128
-    Top = 88
+    left = 128
+    top = 88
   end
   object pmDirHistory: TPopupMenu
     AutoPopup = False
-    Left = 184
-    Top = 104
+    left = 184
+    top = 104
   end
   object pmToolBar: TPopupMenu
     OnPopup = pmToolBarPopup
-    Left = 48
-    Top = 152
+    left = 48
+    top = 152
     object tbEdit: TMenuItem
       Caption = 'Edit'
       OnClick = tbEditClick
@@ -2888,8 +2882,8 @@ object frmMain: TfrmMain
     end
   end
   object pmContextMenu: TPopupMenu
-    Left = 40
-    Top = 96
+    left = 40
+    top = 96
     object mnuContextOpen: TMenuItem
       Action = actOpen
     end
@@ -2916,15 +2910,15 @@ object frmMain: TfrmMain
     end
   end
   object pmColumnsMenu: TPopupMenu
-    Left = 344
-    Top = 144
+    left = 344
+    top = 144
     object MenuItem2: TMenuItem
       Caption = '-'
     end
   end
   object pmSplitterPercent: TPopupMenu
-    Left = 312
-    Top = 96
+    left = 312
+    top = 96
     object mi2080: TMenuItem
       Tag = 20
       Caption = '&20/80'
@@ -2962,8 +2956,8 @@ object frmMain: TfrmMain
     end
   end
   object pmDropMenu: TPopupMenu
-    Left = 384
-    Top = 72
+    left = 384
+    top = 72
     object miCopy: TMenuItem
       Caption = 'Copy...'
       OnClick = mnuDropClick
@@ -3997,12 +3991,12 @@ object frmMain: TfrmMain
     Hint = 'Double Commander - click to restore'
     OnClick = MainTrayIconClick
     OnDblClick = MainTrayIconClick
-    Left = 220
-    Top = 168
+    left = 220
+    top = 168
   end
   object pmTabMenu: TPopupMenu
-    Left = 392
-    Top = 128
+    left = 392
+    top = 128
     object miNewTab: TMenuItem
       Action = actNewTab
       OnClick = mnuTabMenuClick
@@ -4109,8 +4103,8 @@ object frmMain: TfrmMain
     end
   end
   object pmTrayIconMenu: TPopupMenu
-    Left = 294
-    Top = 193
+    left = 294
+    top = 193
     object miTrayIconRestore: TMenuItem
       Caption = 'Restore'
       OnClick = miTrayIconRestoreClick
@@ -4124,8 +4118,8 @@ object frmMain: TfrmMain
     end
   end
   object pmLogMenu: TPopupMenu
-    Left = 440
-    Top = 136
+    left = 440
+    top = 136
     object miLogCopy: TMenuItem
       Caption = 'Copy'
       OnClick = miLogMenuClick
@@ -4156,20 +4150,20 @@ object frmMain: TfrmMain
     Enabled = False
     Interval = 100
     OnTimer = AllProgressOnUpdateTimer
-    Left = 704
-    Top = 152
+    left = 704
+    top = 152
   end
   object imgLstActions: TImageList
-    Left = 64
-    Top = 224
+    left = 64
+    top = 224
   end
   object imgLstDirectoryHotlist: TImageList
-    Left = 200
-    Top = 224
+    left = 200
+    top = 224
   end
   object pmFavoriteTabs: TPopupMenu
     Images = imgLstActions
-    Left = 128
-    Top = 152
+    left = 128
+    top = 152
   end
 end
