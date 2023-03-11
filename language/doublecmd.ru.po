@@ -6122,6 +6122,12 @@ msgctxt "TFRMOPTIONSFILEPANELSCOLORS.BTNINDCOLOR.CAPTION"
 msgid ">>"
 msgstr ">>"
 
+#: tfrmoptionsfilepanelscolors.btnindthresholdcolor.caption
+#, fuzzy
+msgctxt "tfrmoptionsfilepanelscolors.btnindthresholdcolor.caption"
+msgid ">>"
+msgstr ">>"
+
 #: tfrmoptionsfilepanelscolors.btnmarkcolor.caption
 msgctxt "TFRMOPTIONSFILEPANELSCOLORS.BTNMARKCOLOR.CAPTION"
 msgid ">>"
@@ -6206,6 +6212,11 @@ msgstr "Цвет фона &индикатора:"
 #: tfrmoptionsfilepanelscolors.lblindcolor.caption
 msgid "&Indicator Fore Color:"
 msgstr "&Цвет индикатора:"
+
+#: tfrmoptionsfilepanelscolors.lblindthresholdcolor.caption
+msgctxt "tfrmoptionsfilepanelscolors.lblindthresholdcolor.caption"
+msgid "Indicator &Threshold Color:"
+msgstr "Цвет &предела индикатора:"
 
 #: tfrmoptionsfilepanelscolors.lblmarkcolor.caption
 msgctxt "TFRMOPTIONSFILEPANELSCOLORS.LBLMARKCOLOR.CAPTION"
