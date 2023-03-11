@@ -438,7 +438,9 @@ begin
     // Now let's add the action button
     if paramExtActionList.Count > Always_Expanded_Action_Count then
     begin
-      LocalInsertMenuSeparator;
+
+      if iMenuPositionInsertion > 0 then
+         LocalInsertMenuSeparator;
 
       for I := 0 to (pred(paramExtActionList.Count) - Always_Expanded_Action_Count) do
       begin
@@ -473,7 +475,7 @@ begin
       end;
     end;
 
-    if (gOpenExecuteViaShell or gExecuteViaTerminalClose or gExecuteViaTerminalStayOpen) and gDefaultContextActions then
+    if (gOpenExecuteViaShell or gExecuteViaTerminalClose or gExecuteViaTerminalStayOpen) and (iMenuPositionInsertion > 0) then
       LocalInsertMenuSeparator;
 
     // now add various SHELL item

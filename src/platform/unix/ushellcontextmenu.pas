@@ -639,12 +639,12 @@ begin
         end;
       end;
 
-  if ContextMenuActionList.Count>0 then
-    LocalInsertMenuSeparator;
-
   // If the default context actions not hidden
-  if DefaultContextActions then
+  if gDefaultContextActions then
   begin
+    if ContextMenuActionList.Count>0 then
+       LocalInsertMenuSeparator;
+
     // If the external generic viewer is configured, offer it.
     if gExternalTools[etViewer].Enabled then
     begin
@@ -668,7 +668,7 @@ begin
     LocalInsertMenuItem(ContextMenuActionList.ExtActionCommand[I].ActionName,I);
   end;
 
-  if (gOpenExecuteViaShell or gExecuteViaTerminalClose or gExecuteViaTerminalStayOpen) and DefaultContextActions then
+  if (gOpenExecuteViaShell or gExecuteViaTerminalClose or gExecuteViaTerminalStayOpen or gIncludeFileAssociation) and (ContextMenuActionList.Count>0) then
     LocalInsertMenuSeparator;
 
   // Execute via shell
@@ -695,9 +695,6 @@ begin
   // Add shortcut to launch file association cnfiguration screen
   if gIncludeFileAssociation then
   begin
-    if iMenuPositionInsertion > 0 then
-         LocalInsertMenuSeparator;
-
     I := ContextMenuActionList.Add(TExtActionCommand.Create(rsConfigurationFileAssociation,'cm_FileAssoc','',''));
     LocalInsertMenuItem(ContextMenuActionList.ExtActionCommand[I].ActionName,I);
   end;
