@@ -71,11 +71,11 @@ implementation
 uses
   LCLProc, Dialogs, Graphics, uFindEx, uDCUtils, uShowMsg, uFileSystemFileSource,
   uOSUtils, uFileProcs, uShellExecute, uLng, uPixMapManager, uMyUnix, uOSForms,
-  fMain, fFileProperties, DCOSUtils, DCStrUtils, uExts, uArchiveFileSourceUtil
+  fMain, fFileProperties, DCOSUtils, DCStrUtils, uExts, uArchiveFileSourceUtil, uSysFolders
   {$IF DEFINED(DARWIN)}
   , MacOSAll
   {$ELSEIF NOT DEFINED(HAIKU)}
-  , uKeyFile, uMimeActions, uSysFolders
+  , uKeyFile, uMimeActions
     {$IF DEFINED(LINUX)}
   , uRabbitVCS
     {$ENDIF}
@@ -215,14 +215,14 @@ begin
   begin
     if IsInPath(FDrive.Path, frmMain.ActiveFrame.CurrentPath, True, True) then
     begin
-      frmMain.ActiveFrame.CurrentPath:= PathDelim;
+      frmMain.ActiveFrame.CurrentPath:= GetHomeDir;
     end;
   end;
   if frmMain.NotActiveFrame.FileSource.IsClass(TFileSystemFileSource) then
   begin
     if IsInPath(FDrive.Path, frmMain.NotActiveFrame.CurrentPath, True, True) then
     begin
-      frmMain.NotActiveFrame.CurrentPath:= PathDelim;
+      frmMain.NotActiveFrame.CurrentPath:= GetHomeDir;
     end;
   end
 end;
