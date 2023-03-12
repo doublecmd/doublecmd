@@ -1198,6 +1198,17 @@ begin
 
   UpdateActionIcons;
 
+  {$IF DEFINED(LCLCOCOA)}
+  // 1. TCustomTabControl.GetControlClassDefaultSize() return 200 for Default Width
+  // 2. on Cocoa, it is likely to cause TCocoaTabControl not wide enough to
+  //    accommodate all tabs loaded in LoadTabsXml() during startup.
+  // 3. when setting PageIndex in LoadTabsXml(), it will cause an extra tab switch.
+  // 4. and it will cause an extra directory to be monitored in FileView.
+  // 5. the issue can be effectively avoided by setting a larger width.
+  nbLeft.Width:= 2048;
+  nbRight.Width:= 2048;
+  {$ENDIF}
+
   LoadTabs;
 
   // Must be after LoadTabs
