@@ -598,6 +598,7 @@ var
   aFile: TFile = nil;
   i: integer;
   hActionsSubMenu: HMENU = 0;
+  iActionsItemsCount: integer;
   cmd: UINT = 0;
   iCmd: integer;
   cmici: TCMInvokeCommandInfoEx;
@@ -683,7 +684,9 @@ begin
                   Break;
               end;
 
-              if FUserWishForContextMenu = uwcmComplete then
+              iActionsItemsCount := GetMenuItemCount(hActionsSubMenu);
+
+              if (FUserWishForContextMenu = uwcmComplete) and (iActionsItemsCount > 0) then
                 InsertMenuItemEx(FShellMenu, hActionsSubMenu, PWideChar(CeUtf8ToUtf16(rsMnuActions)), I, 333, MFT_STRING);
             end;
             { /Actions submenu }
