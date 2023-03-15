@@ -100,6 +100,8 @@ type
     function Clone: TFile;
     procedure CloneTo(AFile: TFile);
 
+    function Compare(AFile: TFile): TFilePropertiesTypes;
+
     {en
        Frees all properties except for Name (which is always required).
     }
@@ -353,6 +355,52 @@ begin
       if Assigned(Self.FVariantProperties[AIndex]) then
       begin
         AFile.FVariantProperties[AIndex] := Self.FVariantProperties[AIndex].Clone;
+      end;
+    end;
+  end;
+end;
+
+function TFile.Compare(AFile: TFile): TFilePropertiesTypes;
+var
+  AIndex: Integer;
+  PropertyType: TFilePropertyType;
+begin
+  Result := [];
+
+  if self.FPath <> AFile.FPath then
+  begin
+    Include(Result, TFilePropertyType.fpName);
+    exit;
+  end;
+
+  for PropertyType := Low(FProperties) to High(FProperties) do
+  begin
+    if Assigned(self.FProperties[PropertyType]) then begin
+      if not self.FProperties[PropertyType].equals(AFile.FProperties[PropertyType])
+        then Include(Result, PropertyType);
+    end else begin
+      if Assigned(AFile.FProperties[PropertyType])
+        then Include(Result, PropertyType);
+    end;
+  end;
+
+  if Length(self.FVariantProperties) <> Length(AFile.FVariantProperties) then
+  begin
+    Include(Result, TFilePropertyType.fpVariant);
+    exit;
+  end;
+
+  for AIndex := Low(FVariantProperties) to High(FVariantProperties) do
+  begin
+    if Assigned(Self.FVariantProperties[AIndex]) then begin
+      if not self.FVariantProperties[AIndex].equals(AFile.FVariantProperties[AIndex]) then begin
+        Include(Result, TFilePropertyType.fpVariant);
+        exit;
+      end;
+    end else begin
+      if Assigned(AFile.FVariantProperties[AIndex]) then begin
+        Include(Result, TFilePropertyType.fpVariant);
+        exit;
       end;
     end;
   end;

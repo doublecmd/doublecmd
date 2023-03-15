@@ -1230,6 +1230,8 @@ procedure TFileView.UpdateFile(const FileName, APath: String; NewFilesPosition: 
 var
   AFile: TFile;
   ADisplayFile: TDisplayFile;
+  OldFile: TFile;
+  propertiesChanged: TFilePropertiesTypes;  // which property changed
   I: Integer;
   ANotifications: TFileViewNotifications;
 
@@ -1260,6 +1262,13 @@ var
       else
         raise Exception.Create('Unsupported UpdatedFilesPosition setting.');
     end;
+
+    // there are two cases of file update
+    // 1. modified: VisualizeFileUpdate() should be called
+    // 2. no modified: need not Visual Blink
+    if TFileSystemWatcher.CanWatch(FWatchPath) and
+       ((propertiesChanged+[fpLastAccessTime,fpChangeTime])=[fpLastAccessTime,fpChangeTime]) then
+         exit;
     VisualizeFileUpdate(ADisplayFile);
   end;
 
@@ -1269,9 +1278,15 @@ begin
   begin
     ADisplayFile := TDisplayFile(FHashedNames.List[I]^.Data);
     AFile := ADisplayFile.FSFile;
+    OldFile := AFile.Clone;
     AFile.ClearProperties;
     try
-      FileSource.RetrieveProperties(AFile, FilePropertiesNeeded, GetVariantFileProperties);
+      try
+        FileSource.RetrieveProperties(AFile, FilePropertiesNeeded, GetVariantFileProperties);
+        propertiesChanged:= AFile.Compare(OldFile);
+      finally
+        FreeAndNil(OldFile);
+      end;
     except
       on EFileNotFound do
         begin

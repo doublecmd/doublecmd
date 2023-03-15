@@ -102,6 +102,8 @@ type
     class function GetDescription: String; override;
     class function GetID: TFilePropertyType; override;
 
+    function Equals(p: TObject): Boolean; override;
+
     function Format(Formatter: IFilePropertyFormatter): String; override;
 
     property Value: String read FName write SetName;
@@ -122,6 +124,8 @@ type
 
     class function GetDescription: String; override;
     class function GetID: TFilePropertyType; override;
+
+    function Equals(p: TObject): Boolean; override;
 
     // Retrieve possible values for the property.
     function GetMinimumValue: Int64;
@@ -157,6 +161,8 @@ type
     constructor Create(DateTime: TDateTime); virtual; overload;
 
     procedure CloneTo(FileProperty: TFileProperty); override;
+
+    function Equals(p: TObject): Boolean; override;
 
     // Retrieve possible values for the property.
     function GetMinimumValue: TDateTime;
@@ -226,6 +232,8 @@ type
 
     function Clone: TFileAttributesProperty; override;
     procedure CloneTo(FileProperty: TFileProperty); override;
+
+    function Equals(p: TObject): Boolean; override;
 
     class function GetID: TFilePropertyType; override;
 
@@ -316,6 +324,8 @@ type
     class function GetDescription: String; override;
     class function GetID: TFilePropertyType; override;
 
+    function Equals(p: TObject): Boolean; override;
+
     function Format({%H-}Formatter: IFilePropertyFormatter): String; override;
 
     property IsLinkToDirectory: Boolean read FIsLinkToDirectory write FIsLinkToDirectory;
@@ -345,6 +355,8 @@ type
     class function GetDescription: String; override;
     class function GetID: TFilePropertyType; override;
 
+    function Equals(p: TObject): Boolean; override;
+
     function Format({%H-}Formatter: IFilePropertyFormatter): String; override;
 
     property Owner: Cardinal read FOwner write FOwner;
@@ -373,6 +385,8 @@ type
     class function GetDescription: String; override;
     class function GetID: TFilePropertyType; override;
 
+    function Equals(p: TObject): Boolean; override;
+
     function Format({%H-}Formatter: IFilePropertyFormatter): String; override;
 
     property Value: String read FType write FType;
@@ -394,6 +408,8 @@ type
 
     class function GetDescription: String; override;
     class function GetID: TFilePropertyType; override;
+
+    function Equals(p: TObject): Boolean; override;
 
     function Format({%H-}Formatter: IFilePropertyFormatter): String; override;
 
@@ -418,6 +434,8 @@ type
 
     class function GetDescription: String; override;
     class function GetID: TFilePropertyType; override;
+
+    function Equals(p: TObject): Boolean; override;
 
     function Format({%H-}Formatter: IFilePropertyFormatter): String; override;
 
@@ -515,6 +533,14 @@ begin
   Result := fpName;
 end;
 
+function TFileNameProperty.Equals(p: TObject): Boolean;
+begin
+  Result:= false;
+  if not (p is TFileNameProperty) then exit;
+  if self.FName <> TFileNameProperty(p).FName then exit;
+  Result:= true;
+end;
+
 function TFileNameProperty.Format(Formatter: IFilePropertyFormatter): String;
 begin
   Result := Formatter.FormatFileName(Self);
@@ -576,6 +602,15 @@ end;
 class function TFileSizeProperty.GetID: TFilePropertyType;
 begin
   Result := fpSize;
+end;
+
+function TFileSizeProperty.Equals(p: TObject): Boolean;
+begin
+  Result:= false;
+  if not (p is TFileSizeProperty) then exit;
+  if self.FIsValid <> TFileSizeProperty(p).FIsValid then exit;
+  if self.FIsValid and (self.FSize <> TFileSizeProperty(p).FSize) then exit;
+  Result:= true;
 end;
 
 function TFileSizeProperty.GetMinimumValue: Int64;
@@ -642,6 +677,15 @@ begin
       FDateTime := Self.FDateTime;
     end;
   end;
+end;
+
+function TFileDateTimeProperty.Equals(p: TObject): Boolean;
+begin
+  Result:= false;
+  if not (p is TFileDateTimeProperty) then exit;
+  if self.FIsValid <> TFileDateTimeProperty(p).FIsValid then exit;
+  if self.FIsValid and (self.FDateTime <> TFileDateTimeProperty(p).FDateTime) then exit;
+  Result:= true;
 end;
 
 function TFileDateTimeProperty.GetMinimumValue: TDateTime;
@@ -816,6 +860,14 @@ begin
   Result := fpAttributes;
 end;
 
+function TFileAttributesProperty.Equals(p: TObject): Boolean;
+begin
+  Result:= false;
+  if not (p is TFileAttributesProperty) then exit;
+  if self.FAttributes <> TFileAttributesProperty(p).FAttributes then exit;
+  Result:= true;
+end;
+
 function TFileAttributesProperty.GetAttributes: TFileAttrs;
 begin
   Result := FAttributes;
@@ -968,6 +1020,19 @@ begin
   Result := fpLink;
 end;
 
+function TFileLinkProperty.Equals(p: TObject): Boolean;
+begin
+  Result:= false;
+  if not (p is TFileLinkProperty) then exit;
+  if self.FIsValid <> TFileLinkProperty(p).FIsValid then exit;
+  if self.FIsValid then
+  begin
+    if self.FIsLinkToDirectory <> TFileLinkProperty(p).FIsLinkToDirectory then exit;
+    if self.FLinkTo <> TFileLinkProperty(p).FLinkTo then exit;
+  end;
+  Result:= true;
+end;
+
 function TFileLinkProperty.Format(Formatter: IFilePropertyFormatter): String;
 begin
   Result := '';
@@ -1012,6 +1077,15 @@ begin
   Result := fpOwner;
 end;
 
+function TFileOwnerProperty.Equals(p: TObject): Boolean;
+begin
+  Result:= false;
+  if not (p is TFileOwnerProperty) then exit;
+  if self.FOwner <> TFileOwnerProperty(p).FOwner then exit;
+  if self.FGroup <> TFileOwnerProperty(p).FGroup then exit;
+  Result:= true;
+end;
+
 function TFileOwnerProperty.Format(Formatter: IFilePropertyFormatter): String;
 begin
   Result := '';
@@ -1053,6 +1127,14 @@ begin
   Result := fpType;
 end;
 
+function TFileTypeProperty.Equals(p: TObject): Boolean;
+begin
+  Result:= false;
+  if not (p is TFileTypeProperty) then exit;
+  if self.FType <> TFileTypeProperty(p).FType then exit;
+  Result:= true;
+end;
+
 function TFileTypeProperty.Format(Formatter: IFilePropertyFormatter): String;
 begin
   Result := FType;
@@ -1092,6 +1174,14 @@ end;
 class function TFileCommentProperty.GetID: TFilePropertyType;
 begin
   Result := fpComment;
+end;
+
+function TFileCommentProperty.Equals(p: TObject): Boolean;
+begin
+  Result:= false;
+  if not (p is TFileCommentProperty) then exit;
+  if self.FComment <> TFileCommentProperty(p).FComment then exit;
+  Result:= true;
 end;
 
 function TFileCommentProperty.Format(Formatter: IFilePropertyFormatter): String;
@@ -1141,6 +1231,15 @@ end;
 class function TFileVariantProperty.GetID: TFilePropertyType;
 begin
   Result:= fpVariant;
+end;
+
+function TFileVariantProperty.Equals(p: TObject): Boolean;
+begin
+  Result:= false;
+  if not (p is TFileVariantProperty) then exit;
+  if self.FName <> TFileVariantProperty(p).FName then exit;
+  if self.FValue <> TFileVariantProperty(p).FValue then exit;
+  Result:= true;
 end;
 
 function TFileVariantProperty.Format(Formatter: IFilePropertyFormatter): String;
