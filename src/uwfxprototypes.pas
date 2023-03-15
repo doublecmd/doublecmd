@@ -15,42 +15,42 @@ type
 {U}  //Unrealized
 { Mandatory }
 {R}  TFsInit=function(PluginNr:Integer; pProgressProc:tProgressProc; pLogProc:tlogProc; pRequestProc:tRequestProc):integer;
-{R}  TFsFindFirst=function(path :pchar;var FindData:tWIN32FINDDATA):thandle;
-{R}  TFsFindNext=function(Hdl:thandle;var FindData:tWIN32FINDDATA):boolean;
+{R}  TFsFindFirst=function(path :pansichar;var FindData:tWIN32FINDDATA):thandle;
+{R}  TFsFindNext=function(Hdl:thandle;var FindData:tWIN32FINDDATA):bool;
 {R}  TFsFindClose=function(Hdl:thandle):integer;
 { Optional }
 {R}  TFsSetCryptCallback = procedure(pCryptProc:TCryptProc;CryptoNr,Flags:integer);
-{R}  TFsMkDir = function(RemoteDir:pchar):boolean;
-{R}  TFsGetFile = function(RemoteName,LocalName:pchar;CopyFlags:integer; RemoteInfo:pRemoteInfo):integer;
-{R}  TFsPutFile=function(LocalName,RemoteName:pchar;CopyFlags:integer):integer;
-{R}  TFsDeleteFile=function(RemoteName:pchar):boolean;
-{R}  TFsRemoveDir=function(RemoteName:pchar):boolean;
-{R}  TFsStatusInfo = procedure(RemoteDir:pchar;InfoStartEnd,InfoOperation:integer);
+{R}  TFsMkDir = function(RemoteDir:pansichar):bool;
+{R}  TFsGetFile = function(RemoteName,LocalName:pansichar;CopyFlags:integer; RemoteInfo:pRemoteInfo):integer;
+{R}  TFsPutFile=function(LocalName,RemoteName:pansichar;CopyFlags:integer):integer;
+{R}  TFsDeleteFile=function(RemoteName:pansichar):bool;
+{R}  TFsRemoveDir=function(RemoteName:pansichar):bool;
+{R}  TFsStatusInfo = procedure(RemoteDir:pansichar;InfoStartEnd,InfoOperation:integer);
 {R}  TFsSetDefaultParams = procedure (dps:pFsDefaultParamStruct);
-{R}  TFsExecuteFile=Function(MainWin:HWND;RemoteName,Verb:pchar):integer;
-{R}  TFsGetDefRootName=procedure (DefRootName:pchar;maxlen:integer);
+{R}  TFsExecuteFile=Function(MainWin:HWND;RemoteName,Verb:pansichar):integer;
+{R}  TFsGetDefRootName=procedure (DefRootName:pansichar;maxlen:integer);
 //------------------------------------------------------
-{R}  TFsSetAttr=function (RemoteName:pchar;NewAttr:integer):boolean;
-{R}  TFsSetTime=Function(RemoteName:pchar;CreationTime,LastAccessTime,LastWriteTime:PWfxFileTime):boolean;
-{U}  TFsExtractCustomIcon=function(RemoteName:pchar;ExtractFlags:integer;var TheIcon:hicon):integer;
-{R}  TFsRenMovFile= function(OldName,NewName:pchar;  Move, OverWrite:boolean; ri:pRemoteInfo):Integer;
-{U}  TFsDisconnect = function (DisconnectRoot:pchar):boolean;
-{U}  TFsGetPreviewBitmap = function ( RemoteName:pchar; width,height:integer; ReturnedBitmap:HBITMAP):integer;
-{R}  TFsLinksToLocalFiles = function:boolean;
-{R}  TFsGetLocalName = function (RemoteName:pchar;maxlen:integer):boolean;
+{R}  TFsSetAttr=function (RemoteName:pansichar;NewAttr:integer):bool;
+{R}  TFsSetTime=Function(RemoteName:pansichar;CreationTime,LastAccessTime,LastWriteTime:PWfxFileTime):bool;
+{U}  TFsExtractCustomIcon=function(RemoteName:pansichar;ExtractFlags:integer;var TheIcon:hicon):integer;
+{R}  TFsRenMovFile= function(OldName,NewName:pansichar;  Move, OverWrite:bool; ri:pRemoteInfo):Integer;
+{U}  TFsDisconnect = function (DisconnectRoot:pansichar):bool;
+{U}  TFsGetPreviewBitmap = function ( RemoteName:pansichar; width,height:integer; ReturnedBitmap:HBITMAP):integer;
+{R}  TFsLinksToLocalFiles = function:bool;
+{R}  TFsGetLocalName = function (RemoteName:pansichar;maxlen:integer):bool;
 //------------------------------------------------------
      TFsGetBackgroundFlags = function: integer;
 //------------------------------------------------------
 {R}  TFsContentPluginUnloading = procedure;
-{U}  TFsContentGetDetectString = procedure (DetectString:pchar;maxlen:integer);
-{U}  TFsContentGetSupportedField = function (FieldIndex:integer;FieldName:pchar;  Units:pchar;maxlen:integer):integer;
-{U}  TFsContentGetValue = function (FileName:pchar;FieldIndex,UnitIndex:integer;FieldValue:pbyte; maxlen,flags:integer):integer;
+{U}  TFsContentGetDetectString = procedure (DetectString:pansichar;maxlen:integer);
+{U}  TFsContentGetSupportedField = function (FieldIndex:integer;FieldName:pansichar;  Units:pansichar;maxlen:integer):integer;
+{U}  TFsContentGetValue = function (FileName:pansichar;FieldIndex,UnitIndex:integer;FieldValue:pbyte; maxlen,flags:integer):integer;
 {U}  TFsContentSetDefaultParams =  procedure (dps:pContentDefaultParamStruct);
-{U}  TFsContentStopGetValue = procedure (FileName:pchar);
+{U}  TFsContentStopGetValue = procedure (FileName:pansichar);
 {U}  TFsContentGetDefaultSortOrder = function (FieldIndex:integer):integer;
 {U}  TFsContentGetSupportedFieldFlags = function (FieldIndex:integer):integer;
-{U}  TFsContentSetValue = function (FileName:pchar;FieldIndex,UnitIndex,FieldType:integer; FieldValue:pbyte;flags:integer):integer;
-{U}  TFsContentGetDefaultView = function (ViewContents,ViewHeaders,ViewWidths, ViewOptions:pchar;maxlen:integer):boolean;
+{U}  TFsContentSetValue = function (FileName:pansichar;FieldIndex,UnitIndex,FieldType:integer; FieldValue:pbyte;flags:integer):integer;
+{U}  TFsContentGetDefaultView = function (ViewContents,ViewHeaders,ViewWidths, ViewOptions:pansichar;maxlen:integer):bool;
 { Unicode }
      TFsInitW = function(PluginNr:integer;pProgressProcW:tProgressProcW;pLogProcW:tLogProcW; pRequestProcW:tRequestProcW):integer;
      TFsFindFirstW = function(path :pwidechar;var FindData:tWIN32FINDDATAW):thandle;
