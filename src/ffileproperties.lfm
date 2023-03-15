@@ -64,6 +64,7 @@ object frmFileProperties: TfrmFileProperties
             Height = 32
             Top = 0
             Width = 32
+            Stretch = True
           end
         end
         object lblFileName: TLabel
