@@ -153,6 +153,13 @@ const
   kFSEventStreamEventFlagItemIsHardlink     = $00100000;
   kFSEventStreamEventFlagItemIsLastHardlink = $00200000;
   kFSEventStreamEventFlagItemCloned         = $00400000;
+
+  CREATE_FLAGS= kFSEventStreamCreateFlagFileEvents
+             or kFSEventStreamCreateFlagWatchRoot
+             or kFSEventStreamCreateFlagNoDefer
+             or kFSEventStreamCreateFlagUseCFTypes
+             or kFSEventStreamCreateFlagUseExtendedData;
+
   NSAppKitVersionNumber10_13 = 1561;
 
 var
@@ -556,8 +563,6 @@ begin
 end;
 
 procedure TDarwinFSWatcher.updateStream;
-var
-  flags: FSEventStreamCreateFlags;
 begin
   if _watchPaths.isEqualToArray(_streamPaths) then exit;
 
@@ -572,17 +577,13 @@ begin
     exit;
   end;
 
-  flags:= kFSEventStreamCreateFlagFileEvents
-       or kFSEventStreamCreateFlagWatchRoot
-       or kFSEventStreamCreateFlagUseCFTypes
-       or kFSEventStreamCreateFlagUseExtendedData;
   _stream:= FSEventStreamCreate( nil,
               @cdeclFSEventsCallback,
               @_streamContext,
               CFArrayRef(_watchPaths),
               _lastEventId,
               _latency/1000,
-              flags );
+              CREATE_FLAGS );
   FSEventStreamScheduleWithRunLoop( _stream, _runLoop, kCFRunLoopDefaultMode );
   FSEventStreamStart( _stream );
 end;
