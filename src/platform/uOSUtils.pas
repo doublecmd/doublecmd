@@ -30,7 +30,7 @@ unit uOSUtils;
 interface
 
 uses
-    SysUtils, Classes, LCLType, uDrive, DCBasicTypes, uFindEx
+    SysUtils, Classes, LCLType, uDrive, DCBasicTypes
     {$IF DEFINED(UNIX)}
     , DCFileAttributes
       {$IFDEF DARWIN}
@@ -88,11 +88,6 @@ const
   termClose=False;
 type
   tTerminalEndindMode = boolean;
-
-  EInvalidCommandLine = class(Exception);
-  EInvalidQuoting = class(EInvalidCommandLine)
-    constructor Create; reintroduce;
-  end;
 
 {$IF DEFINED(MSWINDOWS) and DEFINED(FPC_HAS_CPSTRING)}
   NativeString = UnicodeString;
@@ -192,7 +187,7 @@ implementation
 
 uses
   StrUtils, uFileProcs, FileUtil, uDCUtils, DCOSUtils, DCStrUtils, uGlobs, uLng,
-  fConfirmCommandLine, uLog, DCConvertEncoding, LazUTF8, uSysFolders
+  fConfirmCommandLine, uLog, DCConvertEncoding, LazUTF8
   {$IF DEFINED(MSWINDOWS)}
   , Windows, uMyWindows, JwaWinNetWk,
     uShlObjAdditional, DCWindows, uNetworkThread
@@ -202,7 +197,7 @@ uses
     {$IF DEFINED(DARWIN)}
   , CocoaAll, uMyDarwin
     {$ELSEIF NOT DEFINED(HAIKU)}
-  , uGio, uClipboard, uXdg, uKde
+  , uGio, uClipboard, uKde
     {$ENDIF}
     {$IF DEFINED(LINUX)}
   , DCUnix, uMyLinux
@@ -801,13 +796,6 @@ begin
   Result:= Param;
 end;
 {$ENDIF}
-
-{ EInvalidQuoting }
-
-constructor EInvalidQuoting.Create;
-begin
-  inherited Create(rsMsgInvalidQuoting);
-end;
 
 { GetCurrentUserName }
 function GetCurrentUserName : String;

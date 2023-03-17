@@ -35,7 +35,7 @@ uses
 // this function move files and folders to trash can.
 function mbDeleteToTrash(const FileName: String): Boolean;
 // this funсtion checks trash availability.
-function mbCheckTrash(sPath: String): Boolean;
+function mbCheckTrash(const {%H-}sPath: String): Boolean;
 
 var
   FileTrashUtf8: function(const FileName: String): Boolean;
@@ -47,13 +47,13 @@ uses
   {$IF DEFINED(MSWINDOWS)}
   Windows, ShellApi, DCConvertEncoding, uMyWindows
   {$ELSEIF DEFINED(UNIX)}
-  BaseUnix, uMyUnix, uOSUtils, FileUtil, uSysFolders
+  BaseUnix, FileUtil
     {$IF DEFINED(DARWIN)}
-    , MacOSAll, DynLibs, CocoaAll, uMyDarwin
+    , MacOSAll, DynLibs, CocoaAll, uMyDarwin, uSysFolders
     {$ELSEIF DEFINED(HAIKU)}
     , DCHaiku, DCConvertEncoding
     {$ELSE}
-    , uFileProcs, uClipboard, uXdg
+    , DCConvertEncoding, DCUnix, uXdg, uElevation, uProcessInfo, uURIHandling
     {$ENDIF}
   {$ENDIF}
   ;
@@ -184,6 +184,28 @@ end;
 {$ELSEIF DEFINED(UNIX)}
 // This implementation is based on FreeDesktop.org "Trash Specification"
 // (http://www.freedesktop.org/wiki/Specifications/trash-spec)
+
+  function GetHomeEx: String;
+  var
+    UserID: TUid;
+    UserInfo: PPasswordRecord;
+  begin
+    if (WorkerService = nil) then
+      UserID:= fpGetUID
+    else begin
+      UserID:= GetProcessUserId(StrToInt(ParamStr(2)));
+    end;
+    UserInfo:= getpwuid(UserID);
+    if (UserInfo <> nil) and (UserInfo^.pw_dir <> '') then
+    begin
+      Result:= CeSysToUtf8(UserInfo^.pw_dir);
+    end
+    else begin
+      Result:= GetEnvironmentVariable('HOME');
+    end;
+    Result:= ExcludeBackPathDelimiter(Result);
+  end;
+
 const
   trashFolder = '.Trash';
   trashFiles = 'files';
@@ -219,34 +241,46 @@ var
   end;
 
   function TrashFile: Boolean;
+  var vLastError: Integer;
   begin
     Result:= False;
     if CreateTrashInfoFile then
     begin
       Result:= (fpRename(UTF8ToSys(FileName), sTrashDataFile) >= 0);
-      if not Result then mbDeleteFile(sTrashInfoFile);
-    end;
+      if not Result then
+        begin
+          vLastError := GetLastOSError;
+          mbDeleteFile(sTrashInfoFile);
+          SetLastOSError(vLastError);
+        end
+     end;
   end;
 
+var sGetUserDataDir: string;
 begin
   Result:= False;
   dtNow:= Now;
   sNow:= IntToStr(Trunc(dtNow * 86400000)); // The time in milliseconds
   sFileName:= ExtractOnlyFileName(FileName) + '_' + sNow + ExtractFileExt(FileName);
   // Get user home directory
-  sHomeDir:= GetHomeDir;
+  sHomeDir:= GetHomeEx;
   // Check if file in home directory
   // If it's a file, stat the parent directory instead for correct behavior on OverlayFS,
   // it shouldn't make any difference in other cases
-  if (fpStat(UTF8ToSys(sHomeDir), st1) >= 0)
-     and (fpLStat(UTF8ToSys(FileName), st2) >= 0)
+  if (fpStat(UTF8ToSys(sHomeDir), {%H-}st1) >= 0)
+     and (fpLStat(UTF8ToSys(FileName), {%H-}st2) >= 0)
      and (fpS_ISDIR(st2.st_mode) or (fpStat(UTF8ToSys(ExtractFileDir(FileName)), st2) >= 0))
      and (st1.st_dev = st2.st_dev) then
   begin
     // Get trash directory in $XDG_DATA_HOME
-    sTemp:= IncludeTrailingPathDelimiter(GetUserDataDir) + 'Trash';
+    if WorkerService = nil then
+      sGetUserDataDir := IncludeTrailingPathDelimiter(GetUserDataDir)
+    else
+      sGetUserDataDir := sHomeDir + '/.local/share/';
+    sTemp:= sGetUserDataDir + 'Trash';
+    //sTemp:= IncludeTrailingPathDelimiter(GetUserDataDir) + 'Trash';
     // Create destination directories if needed
-    if (mbForceDirectory(sTemp + PathDelim + trashFiles) and mbForceDirectory(sTemp + PathDelim + trashInfo)) then
+    if (ForceDirectories(sTemp + PathDelim + trashFiles) and ForceDirectories(sTemp + PathDelim + trashInfo)) then
     begin
       sTrashInfoFile:= sTemp + PathDelim + trashInfo + PathDelim + sFileName + trashExt;
       sTrashDataFile:= sTemp + PathDelim + trashFiles + PathDelim + sFileName;
@@ -264,7 +298,7 @@ begin
     begin
       sTemp:= sTemp + PathDelim + sUserID;
       // Create destination directories if needed
-      if mbForceDirectory(sTemp + PathDelim + trashFiles) and mbForceDirectory(sTemp + PathDelim + trashInfo) then
+      if ForceDirectories(sTemp + PathDelim + trashFiles) and ForceDirectories(sTemp + PathDelim + trashInfo) then
       begin
         sTrashInfoFile:= sTemp + PathDelim + trashInfo + PathDelim + sFileName + trashExt;
         sTrashDataFile:= sTemp + PathDelim + trashFiles + PathDelim + sFileName;
@@ -278,7 +312,7 @@ begin
      and not fpS_ISLNK(st1.st_mode)) or mbCreateDir(sTemp) then
     begin
       // Create destination directories if needed
-      if mbForceDirectory(sTemp + PathDelim + trashFiles) and mbForceDirectory(sTemp + PathDelim + trashInfo) then
+      if ForceDirectories(sTemp + PathDelim + trashFiles) and ForceDirectories(sTemp + PathDelim + trashInfo) then
       begin
         sTrashInfoFile:= sTemp + PathDelim + trashInfo + PathDelim + sFileName + trashExt;
         sTrashDataFile:= sTemp + PathDelim + trashFiles + PathDelim + sFileName;
@@ -293,7 +327,7 @@ begin
 end;
 {$ENDIF}
 
-function mbCheckTrash(sPath: String): Boolean;
+function mbCheckTrash(const sPath: String): Boolean;
 {$IF DEFINED(MSWINDOWS)}
 const
   wsRoot: WideString = 'SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\BitBucket\';

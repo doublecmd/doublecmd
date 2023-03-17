@@ -11,6 +11,7 @@ type
 
   TRPC_Commands = (
     RPC_Terminate,          //  = 0;
+    RPC_Execute,            // master = 1;
     RPC_FileOpen,           // = 1;
     RPC_FileCreate,         // = 2;
     RPC_DeleteFile,         // = 3;
@@ -30,7 +31,6 @@ type
     RPC_FindNext,           // = 17;
     RPC_FindClose,          // = 18;
     RPC_FileCopy,           // = 19;
-    RPC_Execute,            // master = 1;
     RPC_DeleteToTrashFile
     );
 

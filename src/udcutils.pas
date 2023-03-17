@@ -60,6 +60,15 @@ const
 type
   TUsageOfSizeConversion = (uoscFile, uoscHeader, uoscFooter, uoscOperation);
 
+  EInvalidCommandLine = class(Exception);
+
+  { EInvalidQuoting }
+
+  EInvalidQuoting = class(EInvalidCommandLine)
+    constructor Create; reintroduce;
+  end;
+
+
 function GetCmdDirFromEnvVar(const sPath : String) : String;
 function SetCmdDirAsEnvVar(const sPath : String) : String;
 {en
@@ -248,7 +257,7 @@ procedure DCPlaceCursorNearControlIfNecessary(AControl: TControl);
 implementation
 
 uses
-  uLng, LCLProc, LCLType, uMasks, FileUtil, StrUtils, uOSUtils, uGlobs, uGlobsPaths,
+  uLng, LCLProc, LCLType, uMasks, FileUtil, StrUtils, uGlobs, uGlobsPaths,
   DCStrUtils, DCOSUtils, DCConvertEncoding, LazUTF8
 {$IF DEFINED(MSWINDOWS)}
   , Windows
@@ -1356,6 +1365,13 @@ begin
   ptControlCenter := AControl.ClientToScreen(Classes.Point(AControl.Width div 2, AControl.Height div 2));
   if (abs(Mouse.CursorPos.x - ptControlCenter.x) > (AControl.Width div 2)) or  (abs(Mouse.CursorPos.y - ptControlCenter.y) > (AControl.Height div 2)) then
     Mouse.CursorPos := Classes.Point((ptControlCenter.x + (AControl.width div 2)) - 10, ptControlCenter.y);
+end;
+
+{ EInvalidQuoting }
+
+constructor EInvalidQuoting.Create;
+begin
+  inherited Create(rsMsgInvalidQuoting);
 end;
 
 end.

@@ -26,7 +26,7 @@ implementation
 
 uses
   Forms, Dialogs, SysUtils, uOSUtils, uDCUtils, uGlobsPaths, getopts, uDebug,
-  uLng, uClipboard, DCStrUtils;
+  uLng, uURIHandling, DCStrUtils;
 
 function DecodePath(const Path: String): String;
 begin

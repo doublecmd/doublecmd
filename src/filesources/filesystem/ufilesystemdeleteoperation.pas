@@ -59,7 +59,7 @@ type
 implementation
 
 uses
-  DCOSUtils, DCStrUtils, uLng, uFileSystemUtil, uTrash, uAdministrator
+  DCOSUtils, DCStrUtils, uLng, uFileSystemUtil, uAdministrator
 {$IF DEFINED(MSWINDOWS)}
   , Windows,  uFileUnlock, fFileUnlock, uSuperUser
 {$ENDIF}

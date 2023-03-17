@@ -307,7 +307,7 @@ end;"/>
         <PackageName Value="Image32"/>
       </Item13>
     </RequiredPackages>
-    <Units Count="269">
+    <Units Count="270">
       <Unit0>
         <Filename Value="doublecmd.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -1972,6 +1972,11 @@ end;"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uDarwinFSWatch"/>
       </Unit268>
+      <Unit269>
+        <Filename Value="platform\uurihandling.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uURIHandling"/>
+      </Unit269>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
