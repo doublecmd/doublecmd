@@ -389,6 +389,15 @@ begin
       else if Control is TMemo then
         TMemo(Control).Lines[wParam]:= AText;
     end;
+  DM_LISTCLEAR:
+    begin
+      if Control is TComboBox then
+        TComboBox(Control).Clear
+      else if Control is TListBox then
+        TListBox(Control).Clear
+      else if Control is TMemo then
+        TMemo(Control).Clear;
+    end;
   DM_GETTEXT:
     begin
       with DialogBox do
