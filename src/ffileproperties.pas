@@ -174,6 +174,8 @@ begin
 end;
 
 constructor TfrmFileProperties.Create(AOwner: TComponent; aFileSource: IFileSource; theFiles: TFiles);
+var
+  size: Integer;
 begin
   FExif:= TExifReader.Create;
   FFileSource:= aFileSource;
@@ -183,8 +185,10 @@ begin
 
   inherited Create(AOwner);
 
-  imgFileIcon.Width:= gIconsSize;
-  imgFileIcon.Height:= gIconsSize;
+  size:= gIconsSize * round( Application.MainForm.GetCanvasScaleFactor );
+  if size > 48 then size:= 48;
+  imgFileIcon.Width:= size;
+  imgFileIcon.Height:= size;
 end;
 
 destructor TfrmFileProperties.Destroy;
