@@ -1439,9 +1439,13 @@ begin
     aRect.Left += gIconsSize;
   end;
 
-  TextStyle := Canvas.TextStyle;
-  TextStyle.Alignment := ColumnsView.GetColumnsClass.GetColumnAlign(ACol);
-  Canvas.TextStyle := TextStyle;
+  if gColumnsTitleLikeValues then
+  begin
+    TextStyle := Canvas.TextStyle;
+    TextStyle.Alignment := ColumnsView.GetColumnsClass.GetColumnAlign(ACol);
+    Canvas.TextStyle := TextStyle;
+  end;
+
   DrawCellText(aCol, aRow, aRect, aState, GetColumnTitle(aCol));
 end;
 

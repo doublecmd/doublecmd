@@ -39,6 +39,7 @@ type
     cbExtendCellWidth: TCheckBox;
     cbGridHorzLine: TCheckBox;
     cbGridVertLine: TCheckBox;
+    cbColumnsTitleLikeValues: TCheckBox;
     chkAutoFillColumns: TCheckBox;
     cmbAutoSizeColumn: TComboBox;
     gbShowGrid: TGroupBox;
@@ -84,8 +85,11 @@ procedure TfrmOptionsColumnsView.Load;
 begin
   cbGridVertLine.Checked      := gGridVertLine;
   cbGridHorzLine.Checked      := gGridHorzLine;
+
   chkAutoFillColumns.Checked  := gAutoFillColumns;
   cmbAutoSizeColumn.ItemIndex := gAutoSizeColumn;
+
+  cbColumnsTitleLikeValues.Checked := gColumnsTitleLikeValues;
   cbCutTextToColWidth.Checked := gCutTextToColWidth;
   cbExtendCellWidth.Checked   := gExtendCellWidth;
 end;
@@ -94,8 +98,11 @@ function TfrmOptionsColumnsView.Save: TOptionsEditorSaveFlags;
 begin
   gGridVertLine      := cbGridVertLine.Checked;
   gGridHorzLine      := cbGridHorzLine.Checked;
+
   gAutoFillColumns   := chkAutoFillColumns.Checked;
   gAutoSizeColumn    := cmbAutoSizeColumn.ItemIndex;
+
+  gColumnsTitleLikeValues := cbColumnsTitleLikeValues.Checked;
   gCutTextToColWidth := cbCutTextToColWidth.Checked;
   gExtendCellWidth   := cbExtendCellWidth.Checked;
 
