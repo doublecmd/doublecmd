@@ -4216,8 +4216,6 @@ msgid "Dark mode"
 msgstr "Тёмный режим"
 
 #: tfrmoptionscolumnsview.cbcolumnstitlelikevalues.caption
-#, fuzzy
-#| msgid "Column titles alignment like values"
 msgid "Column titles alignment &like values"
 msgstr "&Выравнивать заголовки как значения"
 
