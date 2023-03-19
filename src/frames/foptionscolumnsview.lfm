@@ -164,7 +164,7 @@ inherited frmOptionsColumnsView: TfrmOptionsColumnsView
       Height = 23
       Top = 6
       Width = 256
-      Caption = 'Column titles alignment like values'
+      Caption = 'Column titles alignment &like values'
       TabOrder = 2
     end
   end

@@ -17,7 +17,6 @@ uses
   uFileSorting,
   DCXmlConfig,
   DCBasicTypes,
-  DCClassesUtf8,
   uTypes,
   uFileViewWithGrid;
 
@@ -224,7 +223,6 @@ uses
   uFileSourceProperty,
   uKeyboard,
   uFileFunctions,
-  uFormCommands,
   uFileViewNotebook,
   fOptionsCustomColumns;
 
