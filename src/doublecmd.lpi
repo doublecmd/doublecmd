@@ -1208,6 +1208,7 @@ end;"/>
       <Unit138>
         <Filename Value="filesources\filesystem\ufilesystemcalcstatisticsoperation.pas"/>
         <IsPartOfProject Value="True"/>
+        <UnitName Value="uFileSystemCalcStatisticsOperation"/>
       </Unit138>
       <Unit139>
         <Filename Value="filesources\filesystem\ufilesystemcombineoperation.pas"/>

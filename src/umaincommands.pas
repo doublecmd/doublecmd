@@ -2517,8 +2517,8 @@ begin
     BoolValue := bRecycle;
 
     if bRecycle then
-      bRecycle := FileSource.IsClass(TFileSystemFileSource) and
-                  mbCheckTrash(CurrentPath);
+      bRecycle := FileSource.IsClass(TFileSystemFileSource){$IF DEFINED(MSWINDOWS)} and
+                  mbCheckTrash(CurrentPath){$ENDIF};
 
     if not HasConfirmationParam then
     begin

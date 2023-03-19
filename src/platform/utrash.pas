@@ -34,8 +34,12 @@ uses
 
 // this function move files and folders to trash can.
 function mbDeleteToTrash(const FileName: String): Boolean;
-// this funсtion checks trash availability.
+{$IF DEFINED(MSWINDOWS)}
+{ en
+  this funсtion checks trash availability for Windows.
+}
 function mbCheckTrash(const {%H-}sPath: String): Boolean;
+{$ENDIF}
 
 var
   FileTrashUtf8: function(const FileName: String): Boolean;
@@ -77,6 +81,7 @@ var
   wsFileName: WideString;
   FileOp: TSHFileOpStructW;
   dwFileAttributes: LongWord;
+  vFuncRes: Integer;
 begin
   // Windows cannot move file with space at the end into
   // recycle bin correctly, so we return False in this case
@@ -94,12 +99,15 @@ begin
   end;
 
   wsFileName:= wsFileName + #0;
-  FillChar(FileOp, SizeOf(FileOp), 0);
+  FillChar({%H-}FileOp, SizeOf(FileOp), 0);
   FileOp.wFunc := FO_DELETE;
   FileOp.pFrom := PWideChar(wsFileName);
   // Move without question
   FileOp.fFlags := FOF_ALLOWUNDO or FOF_NOERRORUI or FOF_SILENT or FOF_NOCONFIRMATION;
-  Result := (SHFileOperationW(@FileOp) = 0) and (not FileOp.fAnyOperationsAborted);
+  vFuncRes := SHFileOperationW(@FileOp);
+  if vFuncRes = $78 then {DE_ACCESSDENIEDSRC: Security settings denied access to the source}
+    SetLastOSError(ERROR_ACCESS_DENIED);
+  Result := (vFuncRes = 0) and (not FileOp.fAnyOperationsAborted);
 end;
 {$ELSEIF DEFINED(DARWIN)}
 var
@@ -278,7 +286,6 @@ begin
     else
       sGetUserDataDir := sHomeDir + '/.local/share/';
     sTemp:= sGetUserDataDir + 'Trash';
-    //sTemp:= IncludeTrailingPathDelimiter(GetUserDataDir) + 'Trash';
     // Create destination directories if needed
     if (ForceDirectories(sTemp + PathDelim + trashFiles) and ForceDirectories(sTemp + PathDelim + trashInfo)) then
     begin
@@ -327,8 +334,8 @@ begin
 end;
 {$ENDIF}
 
-function mbCheckTrash(const sPath: String): Boolean;
 {$IF DEFINED(MSWINDOWS)}
+function mbCheckTrash(const sPath: String): Boolean;
 const
   wsRoot: WideString = 'SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\BitBucket\';
 var
@@ -340,16 +347,16 @@ begin
   Result:= False;
   if not mbDirectoryExists(sPath) then Exit;
   ValueSize:= SizeOf(DWORD);
-  // Windows Vista/Seven
+  // Windows Vista or newer
   if (Win32Platform = VER_PLATFORM_WIN32_NT) and (Win32MajorVersion >= 6) then
     begin
       VolumeName:= GetMountPointVolumeName(CeUtf8ToUtf16(ExtractFileDrive(sPath)));
-      VolumeName:= 'Volume' + PathDelim + ExtractVolumeGUID(VolumeName);
-      if RegOpenKeyExW(HKEY_CURRENT_USER, PWideChar(wsRoot + VolumeName), 0, KEY_READ, Key) = ERROR_SUCCESS then
+      if (VolumeName <> EmptyWideStr) and
+         (RegOpenKeyExW(HKEY_CURRENT_USER, PWideChar(wsRoot + 'Volume' + PathDelim +
+           ExtractVolumeGUID(VolumeName)), 0, KEY_READ, {%H-}Key) = ERROR_SUCCESS) then
         begin
-          if RegQueryValueExW(Key, 'NukeOnDelete', nil, nil, @Value, @ValueSize) <> ERROR_SUCCESS then
-            Value:= 0; // delete to trash by default
-          Result:= (Value = 0);
+          if RegQueryValueExW(Key, 'NukeOnDelete', nil, nil, @Value, @ValueSize) = ERROR_SUCCESS then
+            Result := (Value = 0);
           RegCloseKey(Key);
         end;
     end
@@ -360,27 +367,21 @@ begin
         Value:= 1; // use global settings by default
       if (Value = 1) then
         begin
-          if RegQueryValueExW(Key, 'NukeOnDelete', nil, nil, @Value, @ValueSize) <> ERROR_SUCCESS then
-            Value:= 0; // delete to trash by default
-          Result:= (Value = 0);
+          if RegQueryValueExW(Key, 'NukeOnDelete', nil, nil, @Value, @ValueSize) = ERROR_SUCCESS then
+            Result:= (Value = 0); // delete not to trash by default
           RegCloseKey(Key);
         end
       else
         begin
           RegCloseKey(Key);
-          if RegOpenKeyExW(HKEY_LOCAL_MACHINE, PWideChar(wsRoot + sPath[1]), 0, KEY_READ, Key) = ERROR_SUCCESS then
+          if RegOpenKeyExW(HKEY_LOCAL_MACHINE, PWideChar(wsRoot + sPath[1]), 0, KEY_READ, {%H-}Key) = ERROR_SUCCESS then
             begin
-              if RegQueryValueExW(Key, 'NukeOnDelete', nil, nil, @Value, @ValueSize) <> ERROR_SUCCESS then
-                Value:= 0; // delete to trash by default
-              Result:= (Value = 0);
+              if RegQueryValueExW(Key, 'NukeOnDelete', nil, nil, @Value, @ValueSize) = ERROR_SUCCESS then
+                Result:= (Value = 0); // delete not to trash by default
               RegCloseKey(Key);
             end;
         end;
     end;
-end;
-{$ELSE}
-begin
-  Result := True;
 end;
 {$ENDIF}
 

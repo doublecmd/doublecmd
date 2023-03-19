@@ -301,7 +301,7 @@ var
   LastError: Integer;
 begin
   Result:= mbDeleteToTrash(FileName);
-  if not Result {and ElevationRequired }then
+  if not Result and ElevationRequired then
   begin
     LastError:= GetLastOSError;
     if RequestElevation(rsElevationRequiredDeleteToTrash, FileName) then
