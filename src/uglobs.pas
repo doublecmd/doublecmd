@@ -2710,7 +2710,7 @@ begin
       gAutoFillColumns := GetValue(Node, 'AutoFillColumns', gAutoFillColumns);
       gAutoSizeColumn := GetValue(Node, 'AutoSizeColumn', gAutoSizeColumn);
       gDateTimeFormat := GetValidDateTimeFormat(GetValue(Node, 'DateTimeFormat', gDateTimeFormat), DefaultDateTimeFormat);
-      gColumnsTitleLikeValues := GetValue(Node, 'olumnsTitleLikeValues', gColumnsTitleLikeValues);
+      gColumnsTitleLikeValues := GetValue(Node, 'ColumnsTitleLikeValues', gColumnsTitleLikeValues);
       gCutTextToColWidth := GetValue(Node, 'CutTextToColumnWidth', gCutTextToColWidth);
       gExtendCellWidth := GetValue(Node, 'ExtendCellWidth', gExtendCellWidth);
       gShowSystemFiles := GetValue(Node, 'ShowSystemFiles', gShowSystemFiles);
