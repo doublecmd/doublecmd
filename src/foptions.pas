@@ -63,8 +63,6 @@ type
     TreeFilterEdit: TTreeFilterEdit;
     tvTreeView: TTreeView;
     splOptionsSplitter: TSplitter;
-    alOptionsActionList: TActionList;
-    actCloseWithEscape: TAction;
     procedure btnCancelClick(Sender: TObject);
     procedure btnHelpClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
@@ -77,7 +75,6 @@ type
     function TreeFilterEditFilterItem(ItemData: Pointer;
                                       out Done: Boolean): Boolean;
     procedure tvTreeViewChange(Sender: TObject; Node: TTreeNode);
-    procedure actCloseWithEscapeExecute(Sender: TObject);
   private
     FOptionsEditorList: TOptionsEditorViews;
     FOldEditor: TOptionsEditorView;
@@ -222,7 +219,7 @@ end;
 
 procedure TfrmOptions.FormCloseQuery(Sender: TObject; var CanClose: boolean);
 begin
-  CanClose := (ModalResult in [mrOK, mrCancel]) or CycleThroughOptionEditors(False);
+  CanClose := (ModalResult in [mrOK]) or CycleThroughOptionEditors(False);
 end;
 
 procedure TfrmOptions.btnCancelClick(Sender: TObject);
@@ -572,13 +569,6 @@ var
 begin
   TreeNode.MakeVisible;
   TreeFilterEdit.StoreSelection;
-end;
-
-{ TfrmOptions.actCloseWithEscapeExecute }
-procedure TfrmOptions.actCloseWithEscapeExecute(Sender: TObject);
-begin
-  // Closing with the "Escape" key this way won't set the modalresult to mrCancel so this way, if an unsaved modification has been made, we'll be able to prompt confirmation from user who attempt to quit by hitting "Escape".
-  close;
 end;
 
 finalization

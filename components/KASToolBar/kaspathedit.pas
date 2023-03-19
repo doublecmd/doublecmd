@@ -453,10 +453,15 @@ begin
     Key:= 0;
   end else begin
     if Key=VK_ESCAPE then begin
-      if Assigned(onKeyESCAPE) then onKeyESCAPE( self );
+      if Assigned(onKeyESCAPE) then begin
+        onKeyESCAPE( self );
+        Key:= 0;
+      end;
     end else begin
-      if Assigned(onKeyRETURN) then onKeyRETURN( self );
-      Key:= 0;
+      if Assigned(onKeyRETURN) then begin
+        onKeyRETURN( self );
+        Key:= 0;
+      end;
     end;
   end;
 end;
