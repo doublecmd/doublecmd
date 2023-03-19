@@ -788,7 +788,6 @@ object frmFileProperties: TfrmFileProperties
     BorderSpacing.Bottom = 4
     Caption = 'Ski&p this file'
     Kind = bkIgnore
-    ModalResult = 5
     OnClick = btnSkipFileClick
     TabOrder = 4
   end
