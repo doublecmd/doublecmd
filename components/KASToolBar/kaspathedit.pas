@@ -456,6 +456,7 @@ begin
       if Assigned(onKeyESCAPE) then onKeyESCAPE( self );
     end else begin
       if Assigned(onKeyRETURN) then onKeyRETURN( self );
+      Key:= 0;
     end;
   end;
 end;
