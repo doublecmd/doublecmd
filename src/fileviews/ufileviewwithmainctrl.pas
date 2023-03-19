@@ -643,12 +643,17 @@ var
   OldTabIndex: Integer;
   NewTabIndex: Integer;
 begin
+  if not Assigned(NotebookPage) then
+  begin
+    DoMainControlFileWork();
+    exit;
+  end;
+
   OldTabIndex := TFileViewPage(NotebookPage).Notebook.ActivePageIndex;
 
   DoMainControlFileWork();
 
   NewTabIndex := TFileViewPage(NotebookPage).Notebook.ActivePageIndex;
-  DCDebug( 'TabIndexChanged:'+InttoStr(OldTabIndex)+'-->'+InttoStr(NewTabIndex) );
   if NewTabIndex<> OldTabIndex then TControl(Sender).Perform(LM_LBUTTONUP,0,0);
 end;
 {$ELSE}
