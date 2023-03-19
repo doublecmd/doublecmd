@@ -90,7 +90,7 @@ begin
   ATransport.WriteBuffer(Code, SizeOf(UInt32));
   ATransport.WriteBuffer(TotalBytes, SizeOf(TotalBytes));
   ATransport.WriteBuffer(DoneBytes, SizeOf(DoneBytes));
-  ATransport.ReadBuffer(Result, SizeOf(Result));
+  ATransport.ReadBuffer({%H-}Result, SizeOf(Result));
 end;
 
 { TMasterService }
@@ -170,7 +170,7 @@ begin
     begin
       FileName:= ARequest.ReadAnsiString;
       DCDebug('DeleteToTrashFile ', FileName);
-      Result:= mbDeleteToTrash(FileName);
+      Result:= FileTrashUtf8(FileName);
       LastError:= GetLastOSError;
       ATransport.WriteBuffer(Result, SizeOf(Result));
       ATransport.WriteBuffer(LastError, SizeOf(LastError));

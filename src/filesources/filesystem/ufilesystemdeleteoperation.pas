@@ -28,8 +28,8 @@ type
     FSymLinkOption: TFileSourceOperationOptionSymLink;
     FSkipErrors: Boolean;
     FRecycle: Boolean;
-    FDeleteReadOnly{,
-    FDeleteDirectly}: TFileSourceOperationOptionGeneral;
+    FDeleteReadOnly,
+    FDeleteDirectly: TFileSourceOperationOptionGeneral;
 
     procedure DeleteSubDirectory(const aFile: TFile);
 
@@ -59,7 +59,7 @@ type
 implementation
 
 uses
-  DCOSUtils, DCStrUtils, uLng, uFileSystemUtil, uAdministrator
+  DCOSUtils, DCStrUtils, uLng, uFileSystemUtil, uTrash, uAdministrator
 {$IF DEFINED(MSWINDOWS)}
   , Windows,  uFileUnlock, fFileUnlock, uSuperUser
 {$ENDIF}
@@ -72,7 +72,7 @@ begin
   FSkipErrors := gSkipFileOpError;
   FRecycle := False;
   FDeleteReadOnly := fsoogNone;
-  //FDeleteDirectly:= fsoogNone;
+  FDeleteDirectly:= fsoogNone;
 
   if gProcessComments then
     FDescription := TDescription.Create(True);
@@ -171,7 +171,7 @@ var
   FileName: String;
   bRetry: Boolean;
   LastError: Integer;
-  //RemoveDirectly: TFileSourceOperationOptionGeneral = fsoogNone;
+  RemoveDirectly: TFileSourceOperationOptionGeneral = fsoogNone;
   sMessage, sQuestion: String;
   logOptions: TLogOptions;
   DeleteResult: Boolean;
@@ -223,19 +223,64 @@ begin
       begin // files and other stuff
         DeleteResult := DeleteFileUAC(FileName);
       end;
-      LastError:= GetLastOSError;
     end
     else
-    begin // FRecycle = True
+    begin
       // Delete to trash (one function for file and folder)
       DeleteResult:= DeleteToTrashFileUAC(FileName);
       if not DeleteResult then begin
         DeleteResult:= not mbFileSystemEntryExists(FileName);
       end;
-      {$IF NOT DEFINED(MSWINDOWS)}
-        LastError:= GetLastOSError;
-      {$ENDIF}
-    end; // FRecycle = True
+      if not DeleteResult then
+        begin
+          case FDeleteDirectly of
+            fsoogNone:
+              begin
+                case AskQuestion(Format(rsMsgDelToTrashForce, [WrapTextSimple(FileName)]), '',
+                                 [fsourYes, fsourAll, fsourSkip, fsourSkipAll, fsourAbort],
+                                 fsourYes, fsourAbort) of
+                  fsourYes:
+                    RemoveDirectly:= fsoogYes;
+                  fsourAll:
+                    begin
+                      FDeleteDirectly := fsoogYes;
+                      RemoveDirectly:= fsoogYes;
+                    end;
+                  fsourSkip:
+                    RemoveDirectly:= fsoogNo;
+                  fsourSkipAll:
+                    begin
+                      FDeleteDirectly := fsoogNo;
+                      RemoveDirectly:= fsoogNo;
+                    end;
+                  fsourAbort:
+                    RaiseAbortOperation;
+                end;
+              end;
+            fsoogYes:
+              RemoveDirectly:= fsoogYes;
+            fsoogNo:
+              RemoveDirectly:= fsoogNo;
+          end;
+          if RemoveDirectly = fsoogYes then
+            begin
+              if aFile.IsLink and aFile.IsDirectory then
+                begin
+                  DeleteResult := RemoveDirectoryUAC(FileName);
+                end
+              else if aFile.IsDirectory then // directory
+                begin
+                  DeleteSubDirectory(aFile);
+                  // This directory has already been processed.
+                  Exit;
+                end
+              else  // files and other stuff
+                begin
+                  DeleteResult := DeleteFileUAC(FileName);
+                end;
+            end;
+        end;
+    end;
 
     if DeleteResult then
     begin // success
@@ -270,14 +315,13 @@ begin
         sQuestion := Format(rsMsgNotDelete, [FileName]);
       end;
 
-      if FSkipErrors {or (RemoveDirectly = fsoogNo)} then
+      if FSkipErrors or (RemoveDirectly = fsoogNo) then
         LogMessage(sMessage, logOptions, lmtError)
       else
       begin
-        {if (FRecycle = False) or (RemoveDirectly = fsoogYes) then
-        begin}
-        //if not Recycle then
-          //LastError:= GetLastOSError;
+        if (FRecycle = False) or (RemoveDirectly = fsoogYes) then
+        begin
+          LastError:= GetLastOSError;
 {$IF DEFINED(MSWINDOWS)}
           if GetFileInUseProcessFast(FileName, ProcessInfo) then
           begin
@@ -292,21 +336,20 @@ begin
           end
           else
 {$ENDIF}
-        if not FRecycle then
           sQuestion+= LineEnding + mbSysErrorMessage(LastError);
-        //end;
+        end;
 
 {$IF DEFINED(MSWINDOWS)}
-        if FRecycle or (ElevateAction <> dupAccept) and ElevationRequired(LastError) then
+        if (ElevateAction <> dupAccept) and ElevationRequired(LastError) then
         begin
-          SetLength({%H-}PossibleResponses{%H+}, Length(ResponsesError) + 1);
+          SetLength(PossibleResponses, Length(ResponsesError) + 1);
           Move(ResponsesError[0], PossibleResponses[0], SizeOf(ResponsesError));
           PossibleResponses[High(PossibleResponses)]:= fsourRetryAdmin;
         end
         else
 {$ENDIF}
         begin
-          SetLength({%H-}PossibleResponses{%H+}, Length(ResponsesError));
+          SetLength({%H-}PossibleResponses, Length(ResponsesError));
           Move(ResponsesError[0], PossibleResponses[0], SizeOf(ResponsesError));
         end;
 {$IF DEFINED(MSWINDOWS)}

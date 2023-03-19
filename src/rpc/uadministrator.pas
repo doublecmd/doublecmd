@@ -300,7 +300,7 @@ function DeleteToTrashFileUAC(const FileName: String): LongBool;
 var
   LastError: Integer;
 begin
-  Result:= mbDeleteToTrash(FileName);
+  Result:= FileTrashUtf8(FileName);
   if not Result and ElevationRequired then
   begin
     LastError:= GetLastOSError;
