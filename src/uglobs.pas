@@ -357,6 +357,7 @@ var
   glsVolumeSizeHistory : TStringListEx;
   glsIgnoreList : TStringListEx;
   gOnlyOneAppInstance,
+  gColumnsTitleLikeValues: Boolean;
   gCutTextToColWidth : Boolean;
   gExtendCellWidth : Boolean;
   gSpaceMovesDown: Boolean;
@@ -1681,6 +1682,7 @@ begin
   gColumnsTitleStyle := tsNative;
   gCustomColumnsChangeAllColumns := False;
   gDateTimeFormat := DefaultDateTimeFormat;
+  gColumnsTitleLikeValues := False;
   gCutTextToColWidth := True;
   gExtendCellWidth := False;
   gShowSystemFiles := False;
@@ -2709,6 +2711,7 @@ begin
       gAutoFillColumns := GetValue(Node, 'AutoFillColumns', gAutoFillColumns);
       gAutoSizeColumn := GetValue(Node, 'AutoSizeColumn', gAutoSizeColumn);
       gDateTimeFormat := GetValidDateTimeFormat(GetValue(Node, 'DateTimeFormat', gDateTimeFormat), DefaultDateTimeFormat);
+      gColumnsTitleLikeValues := GetValue(Node, 'ColumnsTitleLikeValues', gColumnsTitleLikeValues);
       gCutTextToColWidth := GetValue(Node, 'CutTextToColumnWidth', gCutTextToColWidth);
       gExtendCellWidth := GetValue(Node, 'ExtendCellWidth', gExtendCellWidth);
       gShowSystemFiles := GetValue(Node, 'ShowSystemFiles', gShowSystemFiles);
@@ -3462,6 +3465,7 @@ begin
     SetValue(Node, 'CustomColumnsChangeAllColumns', gCustomColumnsChangeAllColumns);
     SetValue(Node, 'BriefViewFileExtAligned', gBriefViewFileExtAligned);
     SetValue(Node, 'DateTimeFormat', gDateTimeFormat);
+    SetValue(Node, 'ColumnsTitleLikeValues', gColumnsTitleLikeValues);
     SetValue(Node, 'CutTextToColumnWidth', gCutTextToColWidth);
     SetValue(Node, 'ExtendCellWidth', gExtendCellWidth);
     SetValue(Node, 'ShowSystemFiles', gShowSystemFiles);

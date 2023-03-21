@@ -17,7 +17,6 @@ uses
   uFileSorting,
   DCXmlConfig,
   DCBasicTypes,
-  DCClassesUtf8,
   uTypes,
   uFileViewWithGrid;
 
@@ -224,7 +223,6 @@ uses
   uFileSourceProperty,
   uKeyboard,
   uFileFunctions,
-  uFormCommands,
   uFileViewNotebook,
   fOptionsCustomColumns;
 
@@ -1426,6 +1424,7 @@ procedure TDrawGridEx.DrawColumnText(aCol, aRow: Integer; aRect: TRect;
   aState: TGridDrawState);
 var
   SortingDirection: TSortDirection;
+  TextStyle: TTextStyle;
 begin
   SortingDirection := ColumnsView.FColumnsSortDirections[ACol];
 
@@ -1436,6 +1435,13 @@ begin
         Canvas,
         aRect.Left, aRect.Top + (RowHeights[aRow] - gIconsSize) div 2);
     aRect.Left += gIconsSize;
+  end;
+
+  if gColumnsTitleLikeValues then
+  begin
+    TextStyle := Canvas.TextStyle;
+    TextStyle.Alignment := ColumnsView.GetColumnsClass.GetColumnAlign(ACol);
+    Canvas.TextStyle := TextStyle;
   end;
 
   DrawCellText(aCol, aRow, aRect, aState, GetColumnTitle(aCol));

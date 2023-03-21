@@ -4215,6 +4215,10 @@ msgstr "Фиксированная ширина колонок"
 msgid "Dark mode"
 msgstr "Тёмный режим"
 
+#: tfrmoptionscolumnsview.cbcolumnstitlelikevalues.caption
+msgid "Column titles alignment &like values"
+msgstr "&Выравнивать заголовки как значения"
+
 #: tfrmoptionscolumnsview.cbcuttexttocolwidth.caption
 msgctxt "TFRMOPTIONSCOLUMNSVIEW.CBCUTTEXTTOCOLWIDTH.CAPTION"
 msgid "Cut &text to column width"
