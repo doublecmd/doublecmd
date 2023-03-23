@@ -948,7 +948,7 @@ uses
   Laz2_XMLRead, DCOSUtils, DCStrUtils, fOptions, fOptionsFrame, fOptionsToolbar, uClassesEx,
   uHotDir, uFileSorting, DCBasicTypes, foptionsDirectoryHotlist, uConnectionManager,
   fOptionsToolbarBase, fOptionsToolbarMiddle, fEditor, uColumns, StrUtils, uSysFolders,
-  uColumnsFileView
+  uColumnsFileView, uFileFunctions
 {$IFDEF MSWINDOWS}
   , uNetworkThread
 {$ENDIF}
@@ -5114,7 +5114,6 @@ begin
       TabNode := TabNode.NextSibling;
     end;
   end;
-
   // Create at least one tab.
   if ANoteBook.PageCount = 0 then
   begin
@@ -5125,6 +5124,8 @@ begin
     else
       AFileViewFlags := [];
     AFileView := TColumnsFileView.Create(Page, aFileSource, gpExePath, AFileViewFlags);
+    Commands.DoSortByOneFunction(ANoteBook.ActiveView, fsfNameNoExtension);
+
     AssignEvents(AFileView);
   end
   else if Assigned(RootNode) then
