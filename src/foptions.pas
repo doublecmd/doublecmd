@@ -64,6 +64,8 @@ type
     tvTreeView: TTreeView;
     splOptionsSplitter: TSplitter;
     procedure btnCancelClick(Sender: TObject);
+    procedure btnCancelMouseDown(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Integer);
     procedure btnHelpClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure FormCloseQuery(Sender: TObject; var CanClose: boolean);
@@ -219,7 +221,14 @@ end;
 
 procedure TfrmOptions.FormCloseQuery(Sender: TObject; var CanClose: boolean);
 begin
-  CanClose := (ModalResult in [mrOK]) or CycleThroughOptionEditors(False);
+  CanClose := (ModalResult in [mrOK, mrCancel]) or CycleThroughOptionEditors(False);
+end;
+
+procedure TfrmOptions.btnCancelMouseDown(Sender: TObject; Button: TMouseButton;
+  Shift: TShiftState; X, Y: Integer);
+begin
+  // set ModalResult when mouse click, to pass FormCloseQuery
+  ModalResult:= mrCancel;
 end;
 
 procedure TfrmOptions.btnCancelClick(Sender: TObject);
