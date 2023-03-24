@@ -948,7 +948,7 @@ uses
   Laz2_XMLRead, DCOSUtils, DCStrUtils, fOptions, fOptionsFrame, fOptionsToolbar, uClassesEx,
   uHotDir, uFileSorting, DCBasicTypes, foptionsDirectoryHotlist, uConnectionManager,
   fOptionsToolbarBase, fOptionsToolbarMiddle, fEditor, uColumns, StrUtils, uSysFolders,
-  uColumnsFileView, uFileFunctions
+  uColumnsFileView
 {$IFDEF MSWINDOWS}
   , uNetworkThread
 {$ENDIF}
@@ -5124,8 +5124,7 @@ begin
     else
       AFileViewFlags := [];
     AFileView := TColumnsFileView.Create(Page, aFileSource, gpExePath, AFileViewFlags);
-    Commands.DoSortByOneFunction(ANoteBook.ActiveView, fsfNameNoExtension);
-
+    Commands.DoSortByFunctions(AFileView, ColSet.GetColumnSet('Default').GetColumnFunctions(0));
     AssignEvents(AFileView);
   end
   else if Assigned(RootNode) then

@@ -79,7 +79,6 @@ type
    procedure DoContextMenu(Panel: TFileView; X, Y: Integer; Background: Boolean; UserWishForContextMenu:TUserWishForContextMenu = uwcmComplete);
    procedure DoTransferPath(SourceFrame: TFileView; TargetNotebook: TFileViewNotebook); overload;
    procedure DoTransferPath(SourcePage: TFileViewPage; TargetPage: TFileViewPage; FromActivePanel: Boolean);
-   procedure DoSortByOneFunction(View: TFileView; SortFunction: TFileFunction);
    procedure DoSortByFunctions(View: TFileView; FileFunctions: TFileFunctions);
    procedure DoShowMainMenu(bShow: Boolean);
    procedure DoShowCmdLineHistory(bNextCmdLine: Boolean);
@@ -892,15 +891,6 @@ begin
   begin
     TargetPage.FileView.AddFileSource(SourcePage.FileView.FileSource, SourcePage.FileView.CurrentPath);
   end;
-end;
-
-procedure TMainCommands.DoSortByOneFunction(View: TFileView;
-  SortFunction: TFileFunction);
-var
-  vFileFunctions: array[0..0] of TFileFunction;
-begin
-  vFileFunctions[0] := SortFunction;
-  DoSortByFunctions(View, vFileFunctions);
 end;
 
 procedure TMainCommands.DoSortByFunctions(View: TFileView; FileFunctions: TFileFunctions);
@@ -3543,77 +3533,77 @@ end;
 
 procedure TMainCommands.cm_SortByName(const Params: array of string);
 begin
-  DoSortByOneFunction(frmMain.ActiveFrame, fsfNameNoExtension);
+  DoSortByFunctions(frmMain.ActiveFrame, [fsfNameNoExtension]);
 end;
 
 procedure TMainCommands.cm_SortByExt(const Params: array of string);
 begin
-  DoSortByOneFunction(frmMain.ActiveFrame, fsfExtension);
+  DoSortByFunctions(frmMain.ActiveFrame, [fsfExtension]);
 end;
 
 procedure TMainCommands.cm_SortBySize(const Params: array of string);
 begin
-  DoSortByOneFunction(frmMain.ActiveFrame, fsfSize);
+  DoSortByFunctions(frmMain.ActiveFrame, [fsfSize]);
 end;
 
 procedure TMainCommands.cm_SortByDate(const Params: array of string);
 begin
-  DoSortByOneFunction(frmMain.ActiveFrame, fsfModificationTime);
+  DoSortByFunctions(frmMain.ActiveFrame, [fsfModificationTime]);
 end;
 
 procedure TMainCommands.cm_SortByAttr(const Params: array of string);
 begin
-  DoSortByOneFunction(frmMain.ActiveFrame, fsfAttr);
+  DoSortByFunctions(frmMain.ActiveFrame, [fsfAttr]);
 end;
 
 procedure TMainCommands.cm_LeftSortByName(const Params: array of string);
 begin
-  DoSortByOneFunction(frmMain.FrameLeft, fsfNameNoExtension);
+  DoSortByFunctions(frmMain.FrameLeft, [fsfNameNoExtension]);
 end;
 
 procedure TMainCommands.cm_LeftSortByExt(const Params: array of string);
 begin
-  DoSortByOneFunction(frmMain.FrameLeft, fsfExtension);
+  DoSortByFunctions(frmMain.FrameLeft, [fsfExtension]);
 end;
 
 procedure TMainCommands.cm_LeftSortBySize(const Params: array of string);
 begin
-  DoSortByOneFunction(frmMain.FrameLeft, fsfSize);
+  DoSortByFunctions(frmMain.FrameLeft, [fsfSize]);
 end;
 
 procedure TMainCommands.cm_LeftSortByDate(const Params: array of string);
 begin
-  DoSortByOneFunction(frmMain.FrameLeft, fsfModificationTime);
+  DoSortByFunctions(frmMain.FrameLeft, [fsfModificationTime]);
 end;
 
 procedure TMainCommands.cm_LeftSortByAttr(const Params: array of string);
 begin
-  DoSortByOneFunction(frmMain.FrameLeft, fsfAttr);
+  DoSortByFunctions(frmMain.FrameLeft, [fsfAttr]);
 end;
 
 procedure TMainCommands.cm_RightSortByName(const Params: array of string);
 begin
-  DoSortByOneFunction(frmMain.FrameRight, fsfNameNoExtension);
+  DoSortByFunctions(frmMain.FrameRight, [fsfNameNoExtension]);
 end;
 
 procedure TMainCommands.cm_RightSortByExt(const Params: array of string);
 begin
-  DoSortByOneFunction(frmMain.FrameRight, fsfExtension);
+  DoSortByFunctions(frmMain.FrameRight, [fsfExtension]);
 end;
 
 procedure TMainCommands.cm_RightSortBySize(const Params: array of string);
 begin
-  DoSortByOneFunction(frmMain.FrameRight, fsfSize);
+  DoSortByFunctions(frmMain.FrameRight, [fsfSize]);
 end;
 
 procedure TMainCommands.cm_RightSortByDate(const Params: array of string);
 begin
-  DoSortByOneFunction(frmMain.FrameRight, fsfModificationTime);
+  DoSortByFunctions(frmMain.FrameRight, [fsfModificationTime]);
 end;
 
 procedure TMainCommands.cm_RightSortByAttr(const Params: array of string);
 begin
-  DoSortByOneFunction(frmMain.FrameRight, fsfAttr);
+  DoSortByFunctions(frmMain.FrameRight, [fsfAttr]);
 end;
 
 { Command to request to sort a frame with a column with a defined order.
