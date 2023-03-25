@@ -151,10 +151,11 @@ object frmOptions: TfrmOptions
       AutoSize = True
       BorderSpacing.Right = 8
       BorderSpacing.InnerBorder = 2
+      Cancel = True
       Caption = '&Cancel'
       Kind = bkCancel
-      ModalResult = 2
       OnClick = btnCancelClick
+      OnMouseDown = btnCancelMouseDown
       TabOrder = 1
     end
     object btnApply: TBitBtn
@@ -778,13 +779,5 @@ object frmOptions: TfrmOptions
       D73DE4F08A7C2E3B4F73707845BE85C5CDFB5C86B81C38129CE8B72873DD607D
       1D14CA2287977319F2E70F4F81E18A95C2FF03529B5370
     }
-  end
-  object alOptionsActionList: TActionList
-    Left = 72
-    Top = 80
-    object actCloseWithEscape: TAction
-      OnExecute = actCloseWithEscapeExecute
-      ShortCut = 27
-    end
   end
 end
