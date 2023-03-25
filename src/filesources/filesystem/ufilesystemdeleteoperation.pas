@@ -145,7 +145,6 @@ begin
     FillAndCount(RootFiles, True, True, SubFiles, FilesCount, BytesCount);
 
     FStatistics.TotalFiles := FStatistics.TotalFiles + FilesCount;
-    FStatistics.TotalBytes := FStatistics.TotalBytes + BytesCount;
 
     // Only now insert root directory.
     SubFiles.Insert(aFile.Clone, 0);
@@ -224,12 +223,15 @@ begin
         DeleteResult := DeleteFileUAC(FileName);
       end;
     end
-    else
+    else // Delete to Recycle
     begin
       // Delete to trash (one function for file and folder)
       DeleteResult:= DeleteToTrashFileUAC(FileName);
-      if not DeleteResult then begin
+      if not DeleteResult then
+      begin
+        LastError := GetLastOSError;
         DeleteResult:= not mbFileSystemEntryExists(FileName);
+        SetLastOSError(LastError);
       end;
       if not DeleteResult then
         begin
@@ -397,15 +399,11 @@ begin
     aFile := aFiles[CurrentFileIndex];
 
     FStatistics.CurrentFile := aFile.FullPath;
-    UpdateStatistics(FStatistics);
 
     ProcessFile(aFile);
 
-    with FStatistics do
-    begin
-      DoneFiles := DoneFiles + 1;
-      DoneBytes := DoneBytes + aFile.Size;
-    end;
+    Inc(FStatistics.DoneFiles);
+
     UpdateStatistics(FStatistics);
 
     AppProcessMessages();
