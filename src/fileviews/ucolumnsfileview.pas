@@ -657,6 +657,8 @@ procedure TColumnsFileView.SetRowCount(Count: Integer);
 begin
   FUpdatingActiveFile := True;
   dgPanel.RowCount := dgPanel.FixedRows + Count;
+  // to add fake bottom padding for last row
+  dgPanel.RowHeights[dgPanel.RowCount - 1] := dgPanel.DefaultRowHeight + CELL_PADDING;
   FUpdatingActiveFile := False;
 end;
 
@@ -1497,7 +1499,7 @@ var
         IconID := PixMapManager.GetDefaultIcon(AFile.FSFile);
 
       // center icon vertically
-      Y:= aRect.Top + (RowHeights[ARow] - gIconsSize) div 2;
+      Y := aRect.Top + (aRect.Bottom - aRect.Top - gIconsSize) div 2;
 
       if gShowHiddenDimmed and AFile.FSFile.IsHidden then
         PixMapManager.DrawBitmapAlpha(IconID,
@@ -1545,7 +1547,7 @@ var
   procedure DrawOtherCell;
   //------------------------------------------------------
   var
-    tw: Integer;
+    tw, vTextLeft: Integer;
   begin
     s := AFile.DisplayStrings.Strings[ACol];
 
@@ -1557,7 +1559,10 @@ var
       taRightJustify:
         begin
           tw := Canvas.TextWidth(s);
-          Canvas.TextOut(aRect.Right - tw - CELL_PADDING, iTextTop, s);
+          vTextLeft := aRect.Right - tw - CELL_PADDING;
+          if aCol = ColCount - 1 then
+            Dec(vTextLeft, CELL_PADDING);
+          Canvas.TextOut(vTextLeft, iTextTop, s);
         end;
 
       taLeftJustify:
@@ -1684,15 +1689,12 @@ var
         delta:=(Canvas.Pen.Width shr 1)+1;
     end;
 
-
     if ColumnsSet.UseFrameCursor and (gdSelected in aState) and (ColumnsView.Active OR ColumnsSet.GetColumnUseInactiveSelColor(Acol)) then
     begin
       if ColumnsView.Active then
         Canvas.Pen.Color := ColumnsSet.GetColumnCursorColor(ACol)
       else
         Canvas.Pen.Color := ColumnsSet.GetColumnInactiveCursorColor(ACol);
-
-
 
       if ACol=0 then
       begin
@@ -1712,13 +1714,6 @@ var
 
         Canvas.Line(aRect.Right - delta - 1, aRect.Top + delta , aRect.Right - delta - 1, aRect.Bottom - delta - 1);
       end;
-
-
-      {
-      Canvas.Pen.Color:=clred;
-      Canvas.Brush.Style:=bsClear;
-//      Canvas.Rectangle(Rect(aRect.Left + delta , aRect.Top + delta , aRect.Right - delta,aRect.Bottom - delta));
-      }
     end;
 
     // Draw drop selection.
@@ -1746,23 +1741,6 @@ var
       Canvas.Line(aRect.Right - delta - 1, aRect.Top + delta , aRect.Right - delta - 1, aRect.Bottom - delta - 1);
     end;
 
-      {
-//      Canvas.Rectangle(aRect);
-      Canvas.Line(aRect.Left, aRect.Top + delta , aRect.Right - delta, aRect.Top + delta );
-      Canvas.Line(aRect.Left, aRect.Bottom - 1 - delta, aRect.Right - delta, aRect.Bottom - 1 - delta);
-
-      if ACol=0 then
-         Canvas.Line(aRect.Left + delta, aRect.Top + delta , aRect.Left + delta, aRect.Bottom - delta - 1);
-
-
-      if ACol=ColCount-1 then
-      Canvas.Line(aRect.Right - delta - 1, aRect.Top + delta , aRect.Right - delta - 1, aRect.Bottom - delta - 1);
-        }
-        {
-        Canvas.Pen.Color:=clred;
-        Canvas.Brush.Style:=bsClear;
-        Canvas.Rectangle(Rect(aRect.Left {+ delta} , aRect.Top {+ delta} , aRect.Right - delta,aRect.Bottom - delta));
-        }
     end;
   end;
 
@@ -1917,6 +1895,10 @@ begin
   end
   else if ColumnsView.IsFileIndexInRange(ARow - FixedRows) then
   begin
+    // remove fake padding from last row
+    if aRow = RowCount - 1 then
+      Dec(aRect.Bottom, CELL_PADDING);
+
     AFile := ColumnsView.FFiles[ARow - FixedRows]; // substract fixed rows (header)
     FileSourceDirectAccess := fspDirectAccess in ColumnsView.FileSource.Properties;
 
@@ -1925,7 +1907,7 @@ begin
 
     PrepareColors;
 
-    iTextTop := aRect.Top + (RowHeights[aRow] - Canvas.TextHeight('Wg')) div 2;
+    iTextTop := aRect.Top + (aRect.Bottom - aRect.Top - Canvas.TextHeight('Wg')) div 2;
 
     if gExtendCellWidth then
       DrawExtendedCells
@@ -1939,6 +1921,15 @@ begin
 
     DrawCellGrid(aCol,aRow,aRect,aState);
     DrawLines;
+
+    // brush fake padding for last row
+    if aRow = RowCount - 1 then
+    begin
+      Canvas.Brush.Color := gBackColor;
+      aRect.Top := aRect.Bottom;
+      Inc(aRect.Bottom, CELL_PADDING + 10);
+      Canvas.FillRect(aRect);
+    end;
   end
   else
   begin
