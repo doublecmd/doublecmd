@@ -9868,10 +9868,6 @@ msgstr "创建这个对象:"
 msgid "to delete this object:"
 msgstr "删除这个对象:"
 
-#: uadministrator.rselevationrequireddeletetotrash
-msgid "to delete to trash this object:"
-msgstr ""
-
 #: uadministrator.rselevationrequiredgetattributes
 msgid "to get attributes of this object:"
 msgstr "获取此对象的属性:"

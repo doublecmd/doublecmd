@@ -10019,10 +10019,6 @@ msgstr "για τη δημιουργία αυτού του αντικειμέν�
 msgid "to delete this object:"
 msgstr "για τη διαγραφή αυτού του αντικειμένου:"
 
-#: uadministrator.rselevationrequireddeletetotrash
-msgid "to delete to trash this object:"
-msgstr ""
-
 #: uadministrator.rselevationrequiredgetattributes
 msgid "to get attributes of this object:"
 msgstr "για λήψη ιδιοτήτων αυτού του αντικειμένου:"
