@@ -1815,7 +1815,7 @@ begin
 
   gInactivePanelBrightness := 100; // Full brightness
   gIndUseGradient := True;
-  gIndForeColor := clNavy;
+  gIndForeColor := clSkyBlue;
   gIndThresholdForeColor := clRed;
   gIndBackColor := clWhite;
 

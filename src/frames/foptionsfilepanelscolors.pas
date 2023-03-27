@@ -272,7 +272,8 @@ begin
   cbUseCursorBorder.Checked := False;
   SetColorInColorBox(cbCursorBorderColor, clHighlight);
   tbInactivePanelBrightness.Position := 100;
-  SetColorInColorBox(cbIndColor, clBlack);
+  SetColorInColorBox(cbIndColor, clSkyBlue);
+  SetColorInColorBox(cbIndThresholdColor, clRed);
   SetColorInColorBox(cbIndBackColor, clWhite);
   cbbUseGradientInd.Checked := True;
   cbbUseFrameCursorChange(cbbUseFrameCursor);
