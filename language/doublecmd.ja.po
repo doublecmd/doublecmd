@@ -5915,6 +5915,10 @@ msgstr "クリックしてアイコンを変更！"
 msgid "Apply current settings to all current configured filenames and paths"
 msgstr "現在の設定を全ての現在構成されているファイル名とパスに適用する"
 
+#: tfrmoptionsfileassocextra.cbdefaultcontextactions.caption
+msgid "Default context actions (View/Edit)"
+msgstr ""
+
 #: tfrmoptionsfileassocextra.cbexecuteviashell.caption
 msgctxt "tfrmoptionsfileassocextra.cbexecuteviashell.caption"
 msgid "Execute via shell"

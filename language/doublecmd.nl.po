@@ -5816,6 +5816,10 @@ msgstr "Klik op mij om pictogram te veranderen."
 msgid "Apply current settings to all current configured filenames and paths"
 msgstr "Pas huidige instellingen toe op alle huidige ingestelde bestandsnamen en paden"
 
+#: tfrmoptionsfileassocextra.cbdefaultcontextactions.caption
+msgid "Default context actions (View/Edit)"
+msgstr ""
+
 #: tfrmoptionsfileassocextra.cbexecuteviashell.caption
 msgctxt "tfrmoptionsfileassocextra.cbexecuteviashell.caption"
 msgid "Execute via shell"

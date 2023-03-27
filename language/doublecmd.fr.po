@@ -5946,6 +5946,10 @@ msgstr "Cliquez-moi pour changer l'icône!"
 msgid "Apply current settings to all current configured filenames and paths"
 msgstr "Appliquer les paramètres aux noms de fichiers et chemins configurés"
 
+#: tfrmoptionsfileassocextra.cbdefaultcontextactions.caption
+msgid "Default context actions (View/Edit)"
+msgstr ""
+
 #: tfrmoptionsfileassocextra.cbexecuteviashell.caption
 msgctxt "tfrmoptionsfileassocextra.cbexecuteviashell.caption"
 msgid "Execute via shell"

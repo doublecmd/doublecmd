@@ -5916,6 +5916,10 @@ msgstr "Нажмите здесь для смены значка"
 msgid "Apply current settings to all current configured filenames and paths"
 msgstr "Применить настройки ко всем именам файлов и путям"
 
+#: tfrmoptionsfileassocextra.cbdefaultcontextactions.caption
+msgid "Default context actions (View/Edit)"
+msgstr "Контекстные действия по умолчанию (просмотр/редактирование)"
+
 #: tfrmoptionsfileassocextra.cbexecuteviashell.caption
 msgctxt "tfrmoptionsfileassocextra.cbexecuteviashell.caption"
 msgid "Execute via shell"

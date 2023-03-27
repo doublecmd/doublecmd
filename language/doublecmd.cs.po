@@ -5815,6 +5815,10 @@ msgstr "Klikni pro změnu ikony!"
 msgid "Apply current settings to all current configured filenames and paths"
 msgstr "Použít toto nastavení na existující položky"
 
+#: tfrmoptionsfileassocextra.cbdefaultcontextactions.caption
+msgid "Default context actions (View/Edit)"
+msgstr ""
+
 #: tfrmoptionsfileassocextra.cbexecuteviashell.caption
 msgctxt "TFRMOPTIONSFILEASSOCEXTRA.CBEXECUTEVIASHELL.CAPTION"
 msgid "Execute via shell"

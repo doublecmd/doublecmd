@@ -5903,6 +5903,10 @@ msgstr "Επιλέξτε με για αλλαγή εικόνας!"
 msgid "Apply current settings to all current configured filenames and paths"
 msgstr "Εφαρμογή τρεχουσών ρυθμίσεων σε όλα τα τρέχοντα διαμορφωμένα ονόματα αρχείων και διαδρομών"
 
+#: tfrmoptionsfileassocextra.cbdefaultcontextactions.caption
+msgid "Default context actions (View/Edit)"
+msgstr ""
+
 #: tfrmoptionsfileassocextra.cbexecuteviashell.caption
 msgctxt "TFRMOPTIONSFILEASSOCEXTRA.CBEXECUTEVIASHELL.CAPTION"
 msgid "Execute via shell"

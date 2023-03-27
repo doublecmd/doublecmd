@@ -5916,6 +5916,10 @@ msgstr "아이콘 변경하려면 클릭!"
 msgid "Apply current settings to all current configured filenames and paths"
 msgstr ""
 
+#: tfrmoptionsfileassocextra.cbdefaultcontextactions.caption
+msgid "Default context actions (View/Edit)"
+msgstr ""
+
 #: tfrmoptionsfileassocextra.cbexecuteviashell.caption
 msgctxt "TFRMOPTIONSFILEASSOCEXTRA.CBEXECUTEVIASHELL.CAPTION"
 msgid "Execute via shell"
