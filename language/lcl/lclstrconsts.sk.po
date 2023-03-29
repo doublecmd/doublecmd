@@ -3,15 +3,15 @@ msgstr ""
 "Project-Id-Version: lclstrconsts\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-02-02 16:22+0100\n"
-"PO-Revision-Date: 2022-01-07 16:00+0100\n"
-"Last-Translator: Slavo Gbúr <slavusec@azet.sk>\n"
+"PO-Revision-Date: 2023-03-29 02:29+0200\n"
+"Last-Translator: Jozef Gaal <preklady@mayday.sk>\n"
 "Language-Team: Slovenský <sk@li.org>\n"
 "Language: sk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Generator: Poedit 3.0\n"
+"X-Generator: Poedit 3.2.2\n"
 
 #: lclstrconsts.hhshelpbrowsernotexecutable
 #, object-pascal-format
@@ -88,7 +88,7 @@ msgstr "Zdroj %s nenájdený"
 
 #: lclstrconsts.rs3ddkshadowcolorcaption
 msgid "3D Dark Shadow"
-msgstr "3D tmavo tieňová"
+msgstr "3D Tmavý tieň"
 
 #: lclstrconsts.rs3dlightcolorcaption
 msgid "3D Light"
@@ -130,7 +130,7 @@ msgstr "Pracovná plocha"
 
 #: lclstrconsts.rsbackward
 msgid "Backward"
-msgstr "Spätný"
+msgstr "Späť"
 
 #: lclstrconsts.rsbitmaps
 msgid "Bitmaps"
@@ -183,7 +183,7 @@ msgstr "Plátno nedovoľuje kreslenie"
 
 #: lclstrconsts.rscaptiontextcolorcaption
 msgid "Caption Text"
-msgstr "Text názvu"
+msgstr "Text nadpisu"
 
 #: lclstrconsts.rscasesensitive
 msgid "Case sensitive"
@@ -226,16 +226,16 @@ msgstr "povolenia používateľ skupina veľkosť dátum čas"
 
 #: lclstrconsts.rsdeleterecord
 msgid "Delete record?"
-msgstr "Zmazať záznam?"
+msgstr "Vymazať záznam?"
 
 #: lclstrconsts.rsdeleterecordhint
 msgctxt "lclstrconsts.rsdeleterecordhint"
 msgid "Delete"
-msgstr "Zmazať"
+msgstr "Vymazať"
 
 #: lclstrconsts.rsdirection
 msgid "Direction"
-msgstr "Zložka"
+msgstr "Smer"
 
 #: lclstrconsts.rsdirectory
 msgid "&Directory"
@@ -286,12 +286,12 @@ msgstr "Výnimka"
 
 #: lclstrconsts.rsfddirectorymustexist
 msgid "Directory must exist"
-msgstr "Adresár musí existovať"
+msgstr "Priečinok musí existovať"
 
 #: lclstrconsts.rsfddirectorynotexist
 #, object-pascal-format
 msgid "The directory \"%s\" does not exist."
-msgstr "Adresár \"%s\" neexistuje."
+msgstr "Priečinok \"%s\" neexistuje."
 
 #: lclstrconsts.rsfdfilealreadyexists
 #, object-pascal-format
@@ -339,7 +339,7 @@ msgstr "Cesta \"%s\" neexistuje."
 
 #: lclstrconsts.rsfdselectdirectory
 msgid "Select Directory"
-msgstr "Výber adresára"
+msgstr "Vybrať priečinok"
 
 #: lclstrconsts.rsfileinfofilenotfound
 #, object-pascal-format
@@ -517,7 +517,7 @@ msgstr "Databáza pre téma bola nájdená, ale téma sa nenašlo"
 
 #: lclstrconsts.rshelpdatabasenotfound
 msgid "There is no help database installed for this topic"
-msgstr "Databáza pomoci nenájdená"
+msgstr "Pre túto tému nie je nainštalovaná žiadna databáza pomoci"
 
 #: lclstrconsts.rshelperror
 msgid "Help Error"
@@ -551,7 +551,7 @@ msgstr "Pomoc pre direktívu \"%s\" sa nenašla."
 #: lclstrconsts.rshelphelpfordirectivenotfoundindatabase
 #, object-pascal-format
 msgid "Help for directive \"%s\" not found in Database \"%s\"."
-msgstr "Nápoveda pre direktivu \"%s\" nenájdená v databázi \"%s\"."
+msgstr "Pomoc pre direktivu \"%s\" nebola nájdená v databáze \"%s\"."
 
 #: lclstrconsts.rshelphelpkeywordnotfound
 #, object-pascal-format
@@ -575,11 +575,11 @@ msgstr "Nenájdený pomocník pre riadok %d, stĺpec %d %s."
 
 #: lclstrconsts.rshelpnohelpnodesavailable
 msgid "No help entries available for this topic"
-msgstr "Nie sú dostupné žiadne uzly pomoci pre toto téma"
+msgstr "Pre túto tému nie sú k dispozícii žiadne položky pomoci"
 
 #: lclstrconsts.rshelpnotfound
 msgid "No help found for this topic"
-msgstr "Pre toto téma nebola nájdená pomoc"
+msgstr "Pre túto tému nebola nájdená pomoc"
 
 #: lclstrconsts.rshelpnotregistered
 #, object-pascal-format
@@ -617,7 +617,7 @@ msgstr "Hot Light"
 
 #: lclstrconsts.rsicns
 msgid "Mac OS X Icon"
-msgstr "Mac OS X Iikony"
+msgstr "Mac OS X Ikona"
 
 #: lclstrconsts.rsicon
 msgid "Icon"
@@ -721,7 +721,7 @@ msgstr "Posledný"
 
 #: lclstrconsts.rslimecolorcaption
 msgid "Lime"
-msgstr "Citrusová"
+msgstr "Limetková"
 
 #: lclstrconsts.rslistindexexceedsbounds
 #, object-pascal-format
@@ -739,7 +739,7 @@ msgstr "Skryť %s"
 
 #: lclstrconsts.rsmacosmenuhideothers
 msgid "Hide Others"
-msgstr "Skryť ostatných"
+msgstr "Skryť ostatné"
 
 #: lclstrconsts.rsmacosmenuquit
 #, object-pascal-format
@@ -900,7 +900,7 @@ msgstr "Olivová"
 
 #: lclstrconsts.rspickdate
 msgid "Select a date"
-msgstr "Výber dátumu"
+msgstr "Vybrať dátum"
 
 #: lclstrconsts.rspixmap
 msgid "Pixmap"
@@ -924,12 +924,12 @@ msgstr "Prenosná PixMap"
 
 #: lclstrconsts.rspostrecordhint
 msgid "Post"
-msgstr "Odoslať (pošta)"
+msgstr "Poslať"
 
 #: lclstrconsts.rspressoktoignoreandriskdatacorruptionpressaborttok
 #, object-pascal-format
 msgid "%s%sPress OK to ignore and risk data corruption.%sPress Abort to kill the program."
-msgstr "%s%sStlačte tlačítko OK, ak chcete ignorovať a riskovať poškodenie dát.%sStlačte tlačítko Prerušiť, ak chcete ukončiť program."
+msgstr "%s%sStlačte tlačidlo OK, ak chcete ignorovať a riskovať poškodenie dát.%sStlačte tlačidlo Prerušiť, ak chcete ukončiť program."
 
 #: lclstrconsts.rspriorrecordhint
 msgctxt "lclstrconsts.rspriorrecordhint"
@@ -955,15 +955,15 @@ msgstr "-disableaccurateframe, deaktivuje úplne presný rám okna pod X11. Tát
 
 #: lclstrconsts.rsqtoptiondograb
 msgid "-dograb (only under X11), running under a debugger can cause an implicit -nograb, use -dograb to override. Need QT_DEBUG."
-msgstr "-dograb (iba pod X11), beh v debuggeru môže vyústiť v implicitní --nograb, použite -dograb k prepisu. Potrebujete QT_DEBUG."
+msgstr "-dograb (iba pod X11), beh v debuggeru môže vyústiť v implicitné --nograb, použite -dograb k prepisu. Potrebuje QT_DEBUG."
 
 #: lclstrconsts.rsqtoptiongraphicsstyle
 msgid "-graphicssystem param, sets the backend to be used for on-screen widgets and QPixmaps. Available options are native, raster and opengl. OpenGL is still unstable."
-msgstr "-graphicssystem param, nastaví backend k použitiu pre widgety a QPixmaps na obrazovke. Dostupné voľby sú natíve, raster a opengl. OpenGL je stále nestabilný."
+msgstr "-graphicssystem parameter, nastaví backend k použitiu pre widgety a QPixmaps na obrazovke. Dostupné voľby sú natívne, raster a opengl. OpenGL je stále nestabilné."
 
 #: lclstrconsts.rsqtoptionnograb
 msgid "-nograb, tells Qt that it must never grab the mouse or the keyboard. Need QT_DEBUG."
-msgstr "-nograb hovorí Qt že nemá nikdy zabierať klávesnicu a myš. Potrebujete QT_DEBUG."
+msgstr "-nograb, oznámi Qt, že nikdy nesmie zachytávať myš alebo klávesnicu. Potrebujete QT_DEBUG."
 
 #: lclstrconsts.rsqtoptionreverse
 msgid "-reverse, sets the application's layout direction to Qt::RightToLeft."
@@ -975,19 +975,19 @@ msgstr "-session session, obnoví aplikáciu zo skoršej relácie."
 
 #: lclstrconsts.rsqtoptionstyle
 msgid "-style style or -style=style, sets the application GUI style. Possible values are motif, windows, and platinum. If you compiled Qt with additional styles or have additional styles as plugins these will be available to the -style  command line option. NOTE: Not all styles are available on all platforms. If style param does not exist Qt will start an application with default common style (windows)."
-msgstr "-style style alebo -style=style - nastavuje GUI štýl aplikácie. Možné hodnoty sú motif, windows a platinum. Pokiaľ ste kompilovali Qt s pridanými štýlmi alebo máte pridané štýly ako pluginy, potom budú tiež dostupné ako voľba pre tento parameter. POZOR: Nie všetky štýly sú dostupné na všetkývhh platformách - pokiaľ štýl neexistuje, Qt spustí aplikáciu s vlastným východzím štýlom (windows)."
+msgstr "-style style alebo -style=style - nastavuje GUI štýl aplikácie. Možné hodnoty sú motif, windows a platinum. Pokiaľ ste kompilovali Qt s pridanými štýlmi alebo máte pridané štýly ako pluginy, potom budú tiež dostupné ako voľba pre tento parameter. POZOR: Nie všetky štýly sú dostupné na všetkých platformách - pokiaľ štýl neexistuje, Qt spustí aplikáciu s vlastným východzím štýlom (windows)."
 
 #: lclstrconsts.rsqtoptionstylesheet
 msgid "-stylesheet stylesheet or -stylesheet=stylesheet, sets the application Style Sheet. The value must be a path to a file that contains the Style Sheet. Note: Relative URLs in the Style Sheet file are relative to the Style Sheet file's path."
-msgstr "-stylesheet stylesheet alebo -stylesheet=stylesheet - nastavuje štýl aplikácie. Hodnota musí byť cesta k súboru obsahujúcemu Style Sheet. POZOR: Relatívne cesty v URL v súbore sú relatívne voči ceste k súboru."
+msgstr "-stylesheet stylesheet alebo -stylesheet=stylesheet, nastaví aplikačný Style Sheet. Hodnota musí byť cesta k súboru, ktorý obsahuje Style Sheet. Poznámka: Relatívne adresy URL v súbore Style Sheet sú relatívne k ceste k súboru Style Sheet."
 
 #: lclstrconsts.rsqtoptionsync
 msgid "-sync (only under X11), switches to synchronous mode for debugging."
-msgstr "-sync (iba pod X11) - prepína do synchronného režimu pre ladenie."
+msgstr "-sync (iba pod X11) - prepína do synchrónneho režimu pre ladenie."
 
 #: lclstrconsts.rsqtoptionwidgetcount
 msgid "-widgetcount, prints debug message at the end about number of widgets left undestroyed and maximum number of widgets existed at the same time."
-msgstr "-widgetcount - vypíše na konci ladiacej správu o počte nezrušených widgetů a o maximálnom počte widgetů existujúcich súčasne."
+msgstr "-widgetcount, vypíše na konci debugovaciu správu o počte widgetov, ktoré zostali nezničené, a maximálnom počte widgetov existujúcich v rovnakom čase."
 
 #: lclstrconsts.rsqtoptionx11bgcolor
 msgid "-bg or -background color, sets the default background color and an application palette (light and dark shades are calculated)."
@@ -995,19 +995,19 @@ msgstr "-bg alebo -background color - nastavuje východziu farbu pozadia a palet
 
 #: lclstrconsts.rsqtoptionx11btncolor
 msgid "-btn or -button color, sets the default button color."
-msgstr "-btn nebo -button color - nastavuje východziu farbu tlačítok."
+msgstr "-btn nebo -button color - nastavuje predvolenú farbu tlačidiel."
 
 #: lclstrconsts.rsqtoptionx11cmap
 msgid "-cmap, causes the application to install a private color map on an 8-bit display."
-msgstr "-cmap - spôsobuje, že si aplikácia nainštaluje súkromú causemapu farieb na 8-mi bitovom displeji."
+msgstr "-cmap - spôsobuje, že si aplikácia nainštaluje súkromnú mapu farieb na  bitovom displeji."
 
 #: lclstrconsts.rsqtoptionx11display
 msgid "-display display, sets the X display (default is $DISPLAY)."
-msgstr "-display display - nastavuje X display (východzí je $DISPLAY)."
+msgstr "-display display - nastavuje X display (predvolené je $DISPLAY)."
 
 #: lclstrconsts.rsqtoptionx11fgcolor
 msgid "-fg or -foreground color, sets the default foreground color."
-msgstr "-fg nebo -foreground color - nastavuje východziu farbu popredia."
+msgstr "-fg nebo -foreground color - nastavuje predvolenú farbu popredia."
 
 #: lclstrconsts.rsqtoptionx11font
 msgid "-fn or -font font, defines the application font. The font should be specified using an X logical font description."
@@ -1015,7 +1015,7 @@ msgstr "-fn alebo -font font - definuje písmo aplikácie. Písmo by malo byť �
 
 #: lclstrconsts.rsqtoptionx11geometry
 msgid "-geometry geometry, sets the client geometry of the first window that is shown."
-msgstr "-geometry geometry - nastavuje klientelskú geometriu prvého zobrazeného okna."
+msgstr "-geometry geometry - nastavuje klientskú geometriu prvého zobrazeného okna."
 
 #: lclstrconsts.rsqtoptionx11im
 msgid "-im, sets the input method server (equivalent to setting the XMODIFIERS environment variable)."
@@ -1031,19 +1031,19 @@ msgstr "-name name, nastavuje názov aplikácie."
 
 #: lclstrconsts.rsqtoptionx11ncols
 msgid "-ncols count, limits the number of colors allocated in the color cube on an 8-bit display, if the application is using the QApplication::ManyColor color specification. If count is 216 then a 6x6x6 color cube is used (i.e. 6 levels of red, 6 of green, and 6 of blue); for other values, a cube approximately proportional to a 2x3x1 cube is used."
-msgstr "-ncols count - obmedzuje počet farieb alokovaných vo farebnej kocke na 8-mi bitovom displeji pokiaľ aplikácia využíva špecifikáciu QApplication::ManyColor . Pokiaľ je počet farieb 216, potom je použitá kocka 6x6x6 farieb (6 stupňov červenej, 6 zelenej a 6 modrej); pre ostatné prípady je použitá kocka zhruba v pomere 2x3x1."
+msgstr "-ncols count - obmedzuje počet farieb alokovaných vo farebnej kocke na 8 bitovom displeji pokiaľ aplikácia využíva špecifikáciu QApplication::ManyColor . Pokiaľ je počet farieb 216, potom je použitá kocka 6x6x6 farieb (6 stupňov červenej, 6 zelenej a 6 modrej); pre ostatné prípady je použitá kocka zhruba v pomere 2x3x1."
 
 #: lclstrconsts.rsqtoptionx11title
 msgid "-title title, sets the application title."
-msgstr "-title titul, nastavte titulok aplikácie."
+msgstr "-title titul, nastavuje titulok aplikácie."
 
 #: lclstrconsts.rsqtoptionx11visual
 msgid "-visual TrueColor, forces the application to use a TrueColor visual on an 8-bit display."
-msgstr "-visual TrueColor - vynútí použiť vzhľad TrueColor na 8-mi bitovom displeji."
+msgstr "-visual TrueColor - vynúti použiť vzhľad TrueColor na 8 bitovom displeji."
 
 #: lclstrconsts.rsrasterimageendupdate
 msgid "Endupdate while no update in progress"
-msgstr "Koniec aktualizácie, ale aktualizácia nie je vykonávaná"
+msgstr "Ukončiť aktualizáciu, kým neprebieha žiadna aktualizácia"
 
 #: lclstrconsts.rsrasterimagesaveinupdate
 msgid "Cannot save image while update in progress"
@@ -1089,7 +1089,7 @@ msgstr "Výber farby"
 
 #: lclstrconsts.rsselectfonttitle
 msgid "Select a font"
-msgstr "Výber fontu"
+msgstr "Vybrať písmo"
 
 #: lclstrconsts.rssilvercolorcaption
 msgid "Silver"
@@ -1105,7 +1105,7 @@ msgstr "Nebesky modrá"
 
 #: lclstrconsts.rstcustomtabcontrolaccessibilitydescription
 msgid "A control with tabs"
-msgstr "Ovládací prvok s panelmi"
+msgstr "Ovládací prvok s kartami"
 
 #: lclstrconsts.rstealcolorcaption
 msgid "Teal"
@@ -1121,7 +1121,7 @@ msgstr "Vstavaná adresa URL je len na čítanie. Namiesto toho zmeňte BaseURL.
 
 #: lclstrconsts.rstiff
 msgid "Tagged Image File Format"
-msgstr "Označkovať obrazový formát súboru"
+msgstr "Označený formát súboru obrázku"
 
 #: lclstrconsts.rstpanelaccessibilitydescription
 msgctxt "lclstrconsts.rstpanelaccessibilitydescription"
@@ -1131,7 +1131,7 @@ msgstr "Panel"
 #: lclstrconsts.rstsplitteraccessibilitydescription
 msgctxt "lclstrconsts.rstsplitteraccessibilitydescription"
 msgid "A grip to control how much size to give two parts of an area"
-msgstr "Rukoväť k ovládania miesta, ktoré zaberajú dva časti oblasti"
+msgstr "Úchop na kontrolu veľkosti dvoch častí oblasti"
 
 #: lclstrconsts.rsttreeviewaccessibilitydescription
 msgctxt "lclstrconsts.rsttreeviewaccessibilitydescription"
@@ -1152,7 +1152,7 @@ msgstr "Neznáma prípona obrázku"
 
 #: lclstrconsts.rsunknownpictureformat
 msgid "Unknown picture format"
-msgstr "Neznámy obrázkový formát"
+msgstr "Neznámy formát obrázku"
 
 #: lclstrconsts.rsunsupportedbitmapformat
 msgid "Unsupported bitmap format."
@@ -1166,12 +1166,12 @@ msgstr "Nepodporovaný formát schránky: %s"
 #: lclstrconsts.rswarningunreleaseddcsdump
 #, object-pascal-format
 msgid " WARNING: There are %d unreleased DCs, a detailed dump follows:"
-msgstr " UPOZORNENIE: Existuje %d neuvoľnených DCs, detailný výpis nasleduje:"
+msgstr " UPOZORNENIE: Existuje %d neuvoľnených DCs, nasleduje podrobný výpis:"
 
 #: lclstrconsts.rswarningunreleasedgdiobjectsdump
 #, object-pascal-format
 msgid " WARNING: There are %d unreleased GDIObjects, a detailed dump follows:"
-msgstr " UPOZORNENIE: Existuje %d neuvoľnených GDIObjects, detailný výpis nasleduje:"
+msgstr " UPOZORNENIE: Existuje %d neuvoľnených GDIObjects, nasleduje podrobný výpis:"
 
 #: lclstrconsts.rswarningunreleasedmessagesinqueue
 #, object-pascal-format
@@ -1210,7 +1210,7 @@ msgstr "Okno"
 
 #: lclstrconsts.rswindowframecolorcaption
 msgid "Window Frame"
-msgstr "Ramček okna"
+msgstr "Rám okna"
 
 #: lclstrconsts.rswindowtextcolorcaption
 msgid "Window Text"
@@ -1226,7 +1226,7 @@ msgstr "Nemôžem zamerať vypnuté alebo neviditeľné okno"
 
 #: lclstrconsts.sduplicatemenus
 msgid "Duplicate menus"
-msgstr "Duplikovaná ponuka"
+msgstr "Duplikovať ponuku"
 
 #: lclstrconsts.sinvalidactioncreation
 msgid "Invalid action creation"
@@ -1258,7 +1258,7 @@ msgstr "Súčasný text nezodpovedá špecifikovanej maske."
 
 #: lclstrconsts.smenuindexerror
 msgid "Menu index out of range"
-msgstr "Index menu mimo rozsahu"
+msgstr "Index ponuky mimo rozsahu"
 
 #: lclstrconsts.smenuitemisnil
 msgid "MenuItem is nil"
@@ -1266,7 +1266,7 @@ msgstr "MenuItem je nil"
 
 #: lclstrconsts.smenunotfound
 msgid "Sub-menu is not in menu"
-msgstr "Podmenu nie je v menu"
+msgstr "Podponuka nie je v ponuke"
 
 #: lclstrconsts.smkcalt
 msgid "Alt+"
@@ -1305,7 +1305,7 @@ msgstr "Esc"
 #: lclstrconsts.smkchome
 msgctxt "lclstrconsts.smkchome"
 msgid "Home"
-msgstr "Home"
+msgstr "Domov"
 
 #: lclstrconsts.smkcins
 msgid "Ins"
@@ -1466,4 +1466,3 @@ msgstr "Veľkosť"
 #: lclstrconsts.sshellctrlstype
 msgid "Type"
 msgstr "Typ"
-
