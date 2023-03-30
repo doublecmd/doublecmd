@@ -1264,7 +1264,7 @@ begin
   ConfigFile.Free;
 
   if Result <> '' then
-     Result := GetActualTCIni(ReplaceEnvVars(Result), SectionName)
+     Result := GetActualTCIni(ReplaceTCEnvVars(ReplaceEnvVars(Result)), SectionName)
   else
      Result := NormalizedTCIniFilename;
 end;
