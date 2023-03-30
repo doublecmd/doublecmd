@@ -378,7 +378,7 @@ begin
   if not FBriefView.IsLoadingFileList then
   begin
 
-    if (Shift=[ssCtrl])and(gFonts[dcfMain].Size > gFonts[dcfMain].MinValue) then
+    if (Shift=[ssCtrl])and(gFonts[dcfMain].Size < gFonts[dcfMain].MaxValue) then
     begin
       gFonts[dcfMain].Size:=gFonts[dcfMain].Size+1;
       frmMain.FrameLeft.UpdateView;
