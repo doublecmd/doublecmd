@@ -269,7 +269,7 @@ begin
   with frmMain.ActiveFrame do
   begin
     if SameText(MenuItem.Hint, sCmdVerbProperties) then
-      ShowFileProperties(FileSource, FFiles);
+      ShowFilePropertiesDialog(FileSource, FFiles);
   end;
 end;
 

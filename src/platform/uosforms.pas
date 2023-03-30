@@ -144,7 +144,7 @@ uses
     {$ELSEIF NOT DEFINED(HAIKU)}
     , uDCReadRSVG, uMagickWand, uGio, uGioFileSource, uVfsModule, uVideoThumb
     , uDCReadWebP, uFolderThumb, uAudioThumb, uDefaultTerminal, uDCReadHEIF
-    , uTrashFileSource, fOpenWith
+    , uTrashFileSource, uFileManager, uFileSystemFileSource, fOpenWith
     {$ENDIF}
     {$IF DEFINED(LCLQT) and not DEFINED(DARWIN)}
     , qt4, qtwidgets
@@ -783,6 +783,12 @@ end;
 procedure ShowFilePropertiesDialog(aFileSource: IFileSource; const Files: TFiles);
 {$IFDEF UNIX}
 begin
+{$IF NOT (DEFINED(DARWIN) OR DEFINED(HAIKU))}
+  if aFileSource.IsClass(TFileSystemFileSource) then
+  begin
+   if ShowItemProperties(Files) then Exit;
+  end;
+{$ENDIF}
   ShowFileProperties(aFileSource, Files);
 end;
 {$ELSE}
