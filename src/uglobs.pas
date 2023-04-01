@@ -719,6 +719,10 @@ var
   crArrowMove: Integer = 2;
   crArrowLink: Integer = 3;
 
+{$IF DEFINED(UNIX) AND NOT (DEFINED(DARWIN) OR DEFINED(HAIKU))}
+  gSystemItemProperties: Boolean = False;
+{$ENDIF}
+
   { TotalCommander Import/Export }
   {$IFDEF MSWINDOWS}
   gTotalCommanderExecutableFilename:string;
@@ -3092,6 +3096,9 @@ begin
       gHotDirPathToBeRelativeTo := gConfig.GetValue(Node, 'PathToBeRelativeTo', gHotDirPathToBeRelativeTo);
       gHotDirPathModifierElements := tHotDirPathModifierElements(GetValue(Node, 'PathModifierElements', Integer(gHotDirPathModifierElements)));
       gDefaultTextEncoding := NormalizeEncoding(GetValue(Node, 'DefaultTextEncoding', gDefaultTextEncoding));
+{$IF DEFINED(UNIX) AND NOT (DEFINED(DARWIN) OR DEFINED(HAIKU))}
+      gSystemItemProperties := GetValue(Node, 'SystemItemProperties', gSystemItemProperties);
+{$ENDIF}
     end;
 
     { Thumbnails }
@@ -3752,6 +3759,9 @@ begin
     SetValue(Node, 'PathToBeRelativeTo', gHotDirPathToBeRelativeTo);
     SetValue(Node, 'PathModifierElements', Integer(gHotDirPathModifierElements));
     SetValue(Node, 'DefaultTextEncoding', gDefaultTextEncoding);
+{$IF DEFINED(UNIX) AND NOT (DEFINED(DARWIN) OR DEFINED(HAIKU))}
+    SetValue(Node, 'SystemItemProperties', gSystemItemProperties);
+{$ENDIF}
 
     { Thumbnails }
     Node := FindNode(Root, 'Thumbnails', True);

@@ -784,7 +784,7 @@ procedure ShowFilePropertiesDialog(aFileSource: IFileSource; const Files: TFiles
 {$IFDEF UNIX}
 begin
 {$IF NOT (DEFINED(DARWIN) OR DEFINED(HAIKU))}
-  if aFileSource.IsClass(TFileSystemFileSource) then
+  if gSystemItemProperties and aFileSource.IsClass(TFileSystemFileSource) then
   begin
    if ShowItemProperties(Files) then Exit;
   end;
