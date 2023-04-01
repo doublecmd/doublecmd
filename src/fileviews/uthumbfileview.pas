@@ -55,6 +55,8 @@ type
   protected
     procedure KeyDown(var Key : Word; Shift : TShiftState); override;
     procedure MouseMove(Shift: TShiftState; X, Y: Integer); override;
+    function  DoMouseWheelUp(Shift: TShiftState; MousePos: TPoint): Boolean; override;
+    function  DoMouseWheelDown(Shift: TShiftState; MousePos: TPoint): Boolean; override;
     procedure MouseDown(Button: TMouseButton; Shift: TShiftState; X, Y: Integer); override;
     procedure DragOver(Source: TObject; X,Y: Integer; State: TDragState; var Accept: Boolean); override;
   protected
@@ -99,7 +101,7 @@ implementation
 
 uses
   LCLIntf, LCLType, LMessages, Graphics, Math, StdCtrls, uFileSourceProperty,
-  uGlobs, uPixMapManager;
+  uGlobs, uPixMapManager, fMain;
 
 { TFileThumbnailsRetriever }
 
@@ -247,6 +249,62 @@ procedure TThumbDrawGrid.MouseMove(Shift: TShiftState; X, Y: Integer);
 begin
   inherited MouseMove(Shift, X, Y);
   if FThumbView.IsMouseSelecting then DoMouseMoveScroll(nil, X, Y);
+end;
+
+function TThumbDrawGrid.DoMouseWheelUp(Shift: TShiftState; MousePos: TPoint): Boolean;
+var
+  I: Integer;
+begin
+  if not FThumbView.IsLoadingFileList then
+  begin
+
+    if (Shift=[ssCtrl])and(gFonts[dcfMain].Size < gFonts[dcfMain].MaxValue) then
+    begin
+      gFonts[dcfMain].Size:=gFonts[dcfMain].Size+1;
+      frmMain.FrameLeft.UpdateView;
+      frmMain.FrameRight.UpdateView;
+      Result:=True;
+      Exit;
+    end;
+
+    case gScrollMode of
+      smLineByLine:
+        for I:= 1 to gWheelScrollLines do
+          Perform(LM_VSCROLL, SB_LINEUP, 0);
+      smPageByPage:
+        Perform(LM_VSCROLL, SB_PAGEUP, 0);
+    end;
+  end
+  else
+    Result := True; // Handled
+end;
+
+function TThumbDrawGrid.DoMouseWheelDown(Shift: TShiftState; MousePos: TPoint): Boolean;
+var
+  I: Integer;
+begin
+  if not FThumbView.IsLoadingFileList then
+  begin
+
+    if (Shift=[ssCtrl])and(gFonts[dcfMain].Size > gFonts[dcfMain].MinValue) then
+    begin
+      gFonts[dcfMain].Size:=gFonts[dcfMain].Size-1;
+      frmMain.FrameLeft.UpdateView;
+      frmMain.FrameRight.UpdateView;
+      Result:=True;
+      Exit;
+    end;
+
+    case gScrollMode of
+      smLineByLine:
+        for I:= 1 to gWheelScrollLines do
+          Perform(LM_VSCROLL, SB_LINEDOWN, 0);
+      smPageByPage:
+        Perform(LM_VSCROLL, SB_PAGEDOWN, 0);
+    end;
+  end
+  else
+    Result := True; // Handled
 end;
 
 procedure TThumbDrawGrid.MouseDown(Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
