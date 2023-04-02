@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Double Commander 1.1.0 alpha\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-11-15 11:15+0300\n"
-"PO-Revision-Date: 2019-02-22 22:00+0800\n"
+"PO-Revision-Date: 2023-04-02 22:00+0800\n"
 "Last-Translator: iYoung <iyoung@126.com>\n"
 "Language-Team: Chinese <iyoung@126.com>\n"
 "Language: zh_CN\n"
@@ -4169,6 +4169,10 @@ msgstr "固定列宽"
 msgid "Dark mode"
 msgstr ""
 
+#: tfrmoptionscolumnsview.cbcolumnstitlelikevalues.caption
+msgid "Column titles alignment &like values"
+msgstr "按值对齐列标题(&l)"
+
 #: tfrmoptionscolumnsview.cbcuttexttocolwidth.caption
 msgid "Cut &text to column width"
 msgstr "按列宽裁剪文本(&T)"
@@ -6038,6 +6042,11 @@ msgctxt "TFRMOPTIONSFILEPANELSCOLORS.BTNINDCOLOR.CAPTION"
 msgid ">>"
 msgstr ""
 
+#: tfrmoptionsfilepanelscolors.btnindthresholdcolor.caption
+msgctxt "tfrmoptionsfilepanelscolors.btnindthresholdcolor.caption"
+msgid ">>"
+msgstr ""
+
 #: tfrmoptionsfilepanelscolors.btnmarkcolor.caption
 msgctxt "TFRMOPTIONSFILEPANELSCOLORS.BTNMARKCOLOR.CAPTION"
 msgid ">>"
@@ -6114,6 +6123,10 @@ msgstr "指示器背面颜色(&D)："
 #: tfrmoptionsfilepanelscolors.lblindcolor.caption
 msgid "&Indicator Fore Color:"
 msgstr "指示器前端颜色(&I)："
+
+#: tfrmoptionsfilepanelscolors.lblindthresholdcolor.caption
+msgid "Indicator &Threshold Color:"
+msgstr "指标阈值颜色(&T)"
 
 #: tfrmoptionsfilepanelscolors.lblmarkcolor.caption
 msgid "&Mark Color:"
@@ -6808,7 +6821,7 @@ msgstr "在主窗口标题栏中显示当前目录(&C)"
 
 #: tfrmoptionsmisc.chkshowsplashform.caption
 msgid "Show &splash screen"
-msgstr ""
+msgstr "显示启动画面(&s)"
 
 #: tfrmoptionsmisc.chkshowwarningmessages.caption
 msgid "Show &warning messages (\"OK\" button only)"
@@ -6833,7 +6846,7 @@ msgstr "向 TC 导出/导入："
 
 #: tfrmoptionsmisc.lbldefaultencoding.caption
 msgid "&Default single-byte text encoding:"
-msgstr ""
+msgstr "默认单字节文本编码"
 
 #: tfrmoptionsmisc.lbldescrdefaultencoding.caption
 msgctxt "tfrmoptionsmisc.lbldescrdefaultencoding.caption"
@@ -10594,7 +10607,7 @@ msgstr "搜索结果字体"
 
 #: ulng.rsfontusagestatusbar
 msgid "Status Bar Font"
-msgstr ""
+msgstr "状态栏字体"
 
 #: ulng.rsfontusagetreeviewmenu
 msgid "Tree View Menu Font"
@@ -10688,7 +10701,7 @@ msgstr "大小"
 
 #: ulng.rsfunctrashorigpath
 msgid "Original path"
-msgstr ""
+msgstr "原路径"
 
 #: ulng.rsfunctype
 msgid "Type"
@@ -10990,7 +11003,7 @@ msgstr ""
 
 #: ulng.rsmsgcanceloperation
 msgid "Are you sure that you want to cancel this operation?"
-msgstr ""
+msgstr "确定要取消此操作吗？"
 
 #: ulng.rsmsgcannotcopymoveitself
 #, object-pascal-format
@@ -12071,7 +12084,7 @@ msgstr "输入要保存的 TC 工具栏文件的位置和文件名"
 
 #: ulng.rsmsgterminaldisabled
 msgid "Built-in terminal window disabled. Do you want to enable it?"
-msgstr ""
+msgstr "内置终端窗口被禁用。是否启用？"
 
 #: ulng.rsmsgterminateprocess
 msgid "WARNING: Terminating a process can cause undesired results including loss of data and system instability. The process will not be given the chance to save its state or data before it is terminated. Are you sure you want to terminate the process?"
