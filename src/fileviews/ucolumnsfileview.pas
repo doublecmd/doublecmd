@@ -507,7 +507,7 @@ begin
   if gInplaceRenameButton and (ARect.Right + edtRename.ButtonWidth < dgPanel.ClientWidth) then
     Inc(ARect.Right, edtRename.ButtonWidth);
 
-  edtRename.SetBounds(ARect.Left, ARect.Top, ARect.Right - ARect.Left, ARect.Bottom - ARect.Top);
+  edtRename.SetBounds(ARect.Left, ARect.Top, ARect.Width, ARect.Height);
 end;
 
 procedure TColumnsFileView.UpdateInfoPanel;
@@ -647,7 +647,7 @@ begin
   FileIndex:= FileIndex + dgPanel.FixedRows;
   Result := dgPanel.CellRect(0, FileIndex);
 
-  Result.Top:= Result.Top + (dgPanel.RowHeights[FileIndex] - gIconsSize) div 2;
+  Result.Top:= Result.Top + (Result.Height - gIconsSize) div 2;
   Result.Left:= Result.Left + CELL_PADDING;
   Result.Right:= Result.Left + gIconsSize;
   Result.Bottom:= Result.Bottom + gIconsSize;
@@ -1499,7 +1499,7 @@ var
         IconID := PixMapManager.GetDefaultIcon(AFile.FSFile);
 
       // center icon vertically
-      Y := aRect.Top + (aRect.Bottom - aRect.Top - gIconsSize) div 2;
+      Y := aRect.Top + (aRect.Height - gIconsSize) div 2;
 
       if gShowHiddenDimmed and AFile.FSFile.IsHidden then
         PixMapManager.DrawBitmapAlpha(IconID,
@@ -1532,7 +1532,7 @@ var
 
     if gCutTextToColWidth then
     begin
-      Y:= (aRect.Right - aRect.Left) - 2*CELL_PADDING;
+      Y:= (aRect.Width) - 2*CELL_PADDING;
       if (gShowIcons <> sim_none) then Y:= Y - gIconsSize - 2;
       s:= FitFileName(s, Canvas, AFile.FSFile, Y);
     end;
@@ -1552,7 +1552,7 @@ var
     s := AFile.DisplayStrings.Strings[ACol];
 
     if gCutTextToColWidth then
-      s := FitOtherCellText(s, Canvas, ARect.Right - ARect.Left - 2*CELL_PADDING);
+      s := FitOtherCellText(s, Canvas, ARect.Width - 2*CELL_PADDING);
 
     case ColumnsSet.GetColumnAlign(ACol) of
 
@@ -1907,7 +1907,7 @@ begin
 
     PrepareColors;
 
-    iTextTop := aRect.Top + (aRect.Bottom - aRect.Top - Canvas.TextHeight('Wg')) div 2;
+    iTextTop := aRect.Top + (aRect.Height - Canvas.TextHeight('Wg')) div 2;
 
     if gExtendCellWidth then
       DrawExtendedCells
@@ -1927,7 +1927,7 @@ begin
     begin
       Canvas.Brush.Color := gBackColor;
       aRect.Top := aRect.Bottom;
-      Inc(aRect.Bottom, CELL_PADDING + 10);
+      Inc(aRect.Bottom, CELL_PADDING);
       Canvas.FillRect(aRect);
     end;
   end
