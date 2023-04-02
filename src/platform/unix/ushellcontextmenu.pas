@@ -70,12 +70,12 @@ implementation
 
 uses
   LCLProc, Dialogs, Graphics, uFindEx, uDCUtils, uShowMsg, uFileSystemFileSource,
-  uOSUtils, uFileProcs, uShellExecute, uLng, uPixMapManager, uMyUnix,
+  uOSUtils, uFileProcs, uShellExecute, uLng, uPixMapManager, uMyUnix, uOSForms,
   fMain, fFileProperties, DCOSUtils, DCStrUtils, uExts, uArchiveFileSourceUtil
   {$IF DEFINED(DARWIN)}
   , MacOSAll
   {$ELSEIF NOT DEFINED(HAIKU)}
-  , uKeyFile, uMimeActions, uOSForms, uSysFolders
+  , uKeyFile, uMimeActions, uSysFolders
     {$IF DEFINED(LINUX)}
   , uRabbitVCS
     {$ENDIF}
