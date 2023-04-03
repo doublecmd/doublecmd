@@ -501,7 +501,6 @@ msgid "--sync                Call XSynchronize (display, True) after the Xserver
 msgstr ""
 
 #: lclstrconsts.rshelp
-#, fuzzy
 msgctxt "lclstrconsts.rshelp"
 msgid "Help"
 msgstr "帮助"
@@ -1184,9 +1183,9 @@ msgid " WARNING: There are %d TimerInfo structures left, I'll free them"
 msgstr "警告:这里有%d 剩余的TimerInfo结构 在队列中!我将释放它们"
 
 #: lclstrconsts.rswarningunremovedpaintmessages
-#, object-pascal-format, fuzzy, badformat
+#, object-pascal-format
 msgid " WARNING: There are %s unremoved LM_PAINT/LM_GtkPAINT message links left."
-msgstr "警告:这里有%d剩余的未移除的LM_PAINT/LM_GtkPAINT信息链接."
+msgstr "警告：队列中尚有%s个未移除的LM_PAINT/LM_GtkPAINT消息。"
 
 #: lclstrconsts.rswhitecolorcaption
 msgid "White"
@@ -1404,17 +1403,14 @@ msgid "%s bytes"
 msgstr "%s字节"
 
 #: lclstrconsts.sshellctrlsinvalidpath
-#, object-pascal-format, fuzzy
-#| msgid ""
-#| "Invalid pathname:\n"
-#| "\"%s\"\n"
+#, object-pascal-format
 msgctxt "lclstrconsts.sshellctrlsinvalidpath"
 msgid ""
 "Invalid pathname:\n"
 "\"%s\""
 msgstr ""
-"无效路径名:\n"
-"\"%s\"\n"
+"无效路径：\n"
+"\"%s\""
 
 #: lclstrconsts.sshellctrlsinvalidpathrelative
 #, object-pascal-format
@@ -1424,19 +1420,20 @@ msgid ""
 "in relation to rootpath:\n"
 "\"%s\""
 msgstr ""
+"无效的相对路径:\n"
+"\"%s\"\n"
+"相对应的根路径:\n"
+"\"%s\""
 
 #: lclstrconsts.sshellctrlsinvalidroot
-#, object-pascal-format, fuzzy
-#| msgid ""
-#| "Invalid pathname:\n"
-#| "\"%s\"\n"
+#, object-pascal-format
 msgctxt "lclstrconsts.sshellctrlsinvalidroot"
 msgid ""
 "Invalid pathname:\n"
 "\"%s\""
 msgstr ""
-"无效路径名:\n"
-"\"%s\"\n"
+"无效路径：\n"
+"\"%s\""
 
 #: lclstrconsts.sshellctrlskb
 #, object-pascal-format
@@ -1453,16 +1450,13 @@ msgid "Name"
 msgstr "名称"
 
 #: lclstrconsts.sshellctrlsselecteditemdoesnotexists
-#, object-pascal-format, fuzzy
-#| msgid ""
-#| "The selected item does not exist on disk:\n"
-#| "\"%s\"\n"
+#, object-pascal-format
 msgid ""
 "The selected item does not exist on disk:\n"
 "\"%s\""
 msgstr ""
-"所选择项目在硬盘中不存在:\n"
-"\"%s\"\n"
+"所选择项目在磁盘中不存在：\n"
+"\"%s\""
 
 #: lclstrconsts.sshellctrlssize
 msgid "Size"
