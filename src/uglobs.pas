@@ -642,6 +642,7 @@ var
   gViewerLeftMargin: Integer;
   gViewerLineSpacing: Integer;
   gViewerAutoCopy: Boolean;
+  gViewerSynEditMask: String;
 
   { Editor }
   gEditWaitTime: Integer;
@@ -2087,6 +2088,7 @@ begin
   gViewerLineSpacing := 0;
   gPrintMargins:= Classes.Rect(200, 200, 200, 200);
   gViewerAutoCopy := True;
+  gViewerSynEditMask := AllFilesMask;
 
   { Editor }
   gEditWaitTime := 2000;
@@ -3199,6 +3201,7 @@ begin
       gBookFontColor := GetValue(Node, 'FontColor', gBookFontColor);
       gTextPosition := GetValue(Node, 'TextPosition',  gTextPosition);
       gViewerAutoCopy := GetValue(Node, 'AutoCopy',  gViewerAutoCopy);
+      gViewerSynEditMask := GetValue(Node, 'SynEditMask', gViewerSynEditMask);
       if LoadedConfigVersion < 7 then
       begin
         gThumbSave := GetValue(Node, 'SaveThumbnails', gThumbSave);
@@ -3839,6 +3842,7 @@ begin
     SetValue(Node, 'FontColor', gBookFontColor);
     SetValue(Node, 'TextPosition', gTextPosition);
     SetValue(Node, 'AutoCopy', gViewerAutoCopy);
+    SetValue(Node, 'SynEditMask', gViewerSynEditMask);
 
     { Editor }
     Node := FindNode(Root, 'Editor',True);

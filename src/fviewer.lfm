@@ -270,7 +270,7 @@ object frmViewer: TfrmViewer
   SessionProperties = 'Height;Width;Left;Top;WindowState'
   ShowHint = True
   ShowInTaskBar = stAlways
-  LCLVersion = '2.0.12.0'
+  LCLVersion = '2.2.7.0'
   object pnlFolder: TPanel
     Left = 179
     Height = 343
@@ -347,6 +347,17 @@ object frmViewer: TfrmViewer
       Color = clWindow
       Font.Color = clWindowText
     end
+  end
+  object pnlCode: TPanel
+    Left = 179
+    Height = 343
+    Top = 0
+    Width = 342
+    Align = alClient
+    BevelOuter = bvNone
+    ParentFont = False
+    TabOrder = 4
+    Visible = False
   end
   object pnlImage: TPanel
     Left = 179
@@ -1348,6 +1359,11 @@ object frmViewer: TfrmViewer
         GroupIndex = 1
         RadioItem = True
       end
+      object miCode: TMenuItem
+        Action = actShowCode
+        GroupIndex = 1
+        RadioItem = True
+      end
       object miDiv1: TMenuItem
         Caption = '-'
       end
@@ -1436,7 +1452,7 @@ object frmViewer: TfrmViewer
       Caption = '-'
     end
     object pmiSelectAll: TMenuItem
-      Caption = 'Select All'
+      Action = actSelectAll
     end
   end
   object SavePictureDialog: TSavePictureDialog
@@ -1733,8 +1749,14 @@ object frmViewer: TfrmViewer
       Category = 'Edit'
       Caption = 'Undo'
       Enabled = False
-      ImageIndex = 20
       Hint = 'Undo'
+      ImageIndex = 20
+      OnExecute = actExecute
+    end
+    object actShowCode: TAction
+      Category = 'View'
+      Caption = 'Code'
+      GroupIndex = 1
       OnExecute = actExecute
     end
   end
