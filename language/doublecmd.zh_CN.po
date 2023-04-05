@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Double Commander 1.1.0 alpha\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-11-15 11:15+0300\n"
-"PO-Revision-Date: 2023-04-02 22:00+0800\n"
+"PO-Revision-Date: 2023-04-05 22:00+0800\n"
 "Last-Translator: iYoung <iyoung@126.com>\n"
 "Language-Team: Chinese <iyoung@126.com>\n"
 "Language: zh_CN\n"
@@ -320,11 +320,11 @@ msgstr "速度（MB/秒）"
 #: tfrmchecksumcalc.caption
 msgctxt "tfrmchecksumcalc.caption"
 msgid "Calculate checksum..."
-msgstr "计算校验和..."
+msgstr "计算校验码..."
 
 #: tfrmchecksumcalc.cbopenafterjobiscomplete.caption
 msgid "Open checksum file after job is completed"
-msgstr "任务完成后打开校验和文件"
+msgstr "任务完成后打开校验码文件"
 
 #: tfrmchecksumcalc.cbseparatefile.caption
 msgid "C&reate separate checksum file for each file"
@@ -332,7 +332,7 @@ msgstr "为每个文件分别创建 MD5/SHA1 文件(&R)"
 
 #: tfrmchecksumcalc.lblsaveto.caption
 msgid "&Save checksum file(s) to:"
-msgstr "保存校验和文件为(&S)："
+msgstr "保存校验码文件为(&S)："
 
 #: tfrmchecksumverify.btnclose.caption
 msgctxt "TFRMCHECKSUMVERIFY.BTNCLOSE.CAPTION"
@@ -342,7 +342,7 @@ msgstr "关闭(&C)"
 #: tfrmchecksumverify.caption
 msgctxt "tfrmchecksumverify.caption"
 msgid "Verify checksum..."
-msgstr "验证校验和..."
+msgstr "验证校验码..."
 
 #: tfrmconnectionmanager.btnadd.caption
 msgctxt "tfrmconnectionmanager.btnadd.caption"
@@ -821,7 +821,7 @@ msgstr "仅限于此类控件"
 
 #: tfrmedithotkey.lblparameters.caption
 msgid "&Parameters (each in a separate line):"
-msgstr "参数（每项都在一个单独的行中）(&P)"
+msgstr "参数（每行一个）(&P)"
 
 #: tfrmedithotkey.lblshortcuts.caption
 msgid "Shortcuts:"
@@ -1149,7 +1149,7 @@ msgstr "方向"
 
 #: tfrmelevation.chkelevateall.caption
 msgid "Do this for &all current objects"
-msgstr "对所有当前对象执行此操作(&A)"
+msgstr "对当前所有对象执行此操作(&A)"
 
 #: tfrmextractdlg.caption
 msgid "Unpack files"
@@ -1178,7 +1178,7 @@ msgstr "解压到文件夹(&D)："
 
 #: tfrmextractdlg.lblfilemask.caption
 msgid "&Extract files matching file mask:"
-msgstr "提取与文件掩码匹配的文件(&E)"
+msgstr "解压缩与文件掩码匹配的文件(&E)"
 
 #: tfrmextractdlg.lblpassword.caption
 msgid "&Password for encrypted files:"
@@ -1516,7 +1516,7 @@ msgstr "转到 <载入/保存> 页面"
 
 #: tfrmfinddlg.actpagenext.caption
 msgid "Switch to Nex&t Page"
-msgstr "切换到下一页面(&T)"
+msgstr "切换到下一页(&T)"
 
 #: tfrmfinddlg.actpageplugins.caption
 msgid "Go to page \"Plugins\""
@@ -1524,7 +1524,7 @@ msgstr "转到 <插件> 页面"
 
 #: tfrmfinddlg.actpageprev.caption
 msgid "Switch to &Previous Page"
-msgstr "切换到前一页面(&P)"
+msgstr "切换到前一页(&P)"
 
 #: tfrmfinddlg.actpageresults.caption
 msgid "Go to page \"Results\""
@@ -1611,7 +1611,7 @@ msgstr "最大(&Z)："
 
 #: tfrmfinddlg.cbfindinarchive.caption
 msgid "Search in &archives"
-msgstr "搜索压缩文件(&A)"
+msgstr "在压缩文件中搜索(&A)"
 
 #: tfrmfinddlg.cbfindtext.caption
 msgid "Find &text in file"
@@ -1804,7 +1804,7 @@ msgstr "显示所有找到的项目"
 
 #: tfrmfinddlg.mishowineditor.caption
 msgid "Show In Editor"
-msgstr "在编辑器中显示"
+msgstr "在编辑器中打开"
 
 #: tfrmfinddlg.mishowinviewer.caption
 msgid "Show In Viewer"
@@ -2048,11 +2048,11 @@ msgstr "切换到根文件夹"
 
 #: tfrmmain.actchecksumcalc.caption
 msgid "Calculate Check&sum..."
-msgstr "计算校验和(&S)..."
+msgstr "计算校验码(&S)..."
 
 #: tfrmmain.actchecksumverify.caption
 msgid "&Verify Checksum..."
-msgstr "验证校验和(&V)..."
+msgstr "验证校验码(&V)..."
 
 #: tfrmmain.actclearlogfile.caption
 msgid "Clear log file"
@@ -2286,15 +2286,15 @@ msgstr "退出(&X)"
 
 #: tfrmmain.actextractfiles.caption
 msgid "&Extract Files..."
-msgstr "提取文件(&E)..."
+msgstr "解压缩文件(&E)..."
 
 #: tfrmmain.actfileassoc.caption
 msgid "Configuration of File &Associations"
-msgstr "文件关联配置(&A)..."
+msgstr "文件关联配置(&A)"
 
 #: tfrmmain.actfilelinker.caption
 msgid "Com&bine Files..."
-msgstr "合并文件"
+msgstr "合并文件..."
 
 #: tfrmmain.actfileproperties.caption
 msgid "Show &File Properties"
@@ -2310,7 +2310,7 @@ msgstr "平面视图(&F)"
 
 #: tfrmmain.actflatviewsel.caption
 msgid "&Flat view, only selected"
-msgstr "平面视图(&F),只被选中"
+msgstr "平面视图(&F)，仅被选中时"
 
 #: tfrmmain.actfocuscmdline.caption
 msgid "Focus command line"
@@ -2701,7 +2701,7 @@ msgstr "搜索(&S)"
 
 #: tfrmmain.actsetalltabsoptiondirsinnewtab.caption
 msgid "All tabs Locked with Dir Opened in New Tabs"
-msgstr "在新标签中打开所有锁定文件夹的标签"
+msgstr "将所有标签设置为在新标签中打开文件夹的锁定状态"
 
 #: tfrmmain.actsetalltabsoptionnormal.caption
 msgid "Set all tabs to Normal"
@@ -2713,7 +2713,7 @@ msgstr "将所有标签设置为锁定状态"
 
 #: tfrmmain.actsetalltabsoptionpathresets.caption
 msgid "All tabs Locked with Dir Changes Allowed"
-msgstr "允许更改所有锁定文件夹的标签"
+msgstr "将所有标签设置为允许更改文件夹的锁定状态"
 
 #: tfrmmain.actsetfileproperties.caption
 msgid "Change &Attributes..."
@@ -2721,7 +2721,7 @@ msgstr "更改属性(&A)..."
 
 #: tfrmmain.actsettaboptiondirsinnewtab.caption
 msgid "Locked with Directories Opened in New &Tabs"
-msgstr "锁定在新标签中打开的文件夹"
+msgstr "锁定，并在新标签中打开文件夹(&T)"
 
 #: tfrmmain.actsettaboptionnormal.caption
 msgid "&Normal"
@@ -2835,7 +2835,7 @@ msgstr "将光标下文件夹传送到右侧窗口"
 
 #: tfrmmain.acttreeview.caption
 msgid "&Tree View Panel"
-msgstr "文件夹树视图面板(&T)"
+msgstr "树状视图面板(&T)"
 
 #: tfrmmain.actuniversalsingledirectsort.caption
 msgid "Sort according to parameters"
@@ -3967,11 +3967,11 @@ msgstr "扩展名(&X)："
 #: tfrmoptionsarchivers.lblarchiverextract.caption
 msgctxt "tfrmoptionsarchivers.lblarchiverextract.caption"
 msgid "Ex&tract:"
-msgstr "提取(&T)："
+msgstr "解压缩(&T)："
 
 #: tfrmoptionsarchivers.lblarchiverextractwithoutpath.caption
 msgid "Extract &without path:"
-msgstr "无路径提取(&W)："
+msgstr "忽略路径解压缩(&W)："
 
 #: tfrmoptionsarchivers.lblarchiveridposition.caption
 msgid "ID Po&sition:"
@@ -4143,7 +4143,7 @@ msgstr ""
 
 #: tfrmoptionscolumnsview.cbcolumnstitlelikevalues.caption
 msgid "Column titles alignment &like values"
-msgstr "按值对齐列标题(&l)"
+msgstr "按值对齐列标题(&L)"
 
 #: tfrmoptionscolumnsview.cbcuttexttocolwidth.caption
 msgid "Cut &text to column width"
@@ -5929,7 +5929,7 @@ msgstr "测试存档操作"
 
 #: tfrmoptionsfileoperations.cbverifychecksumconfirmation.caption
 msgid "Verify checksum operation"
-msgstr "验证校验和操作"
+msgstr "验证校验码操作"
 
 #: tfrmoptionsfileoperations.gbexecutingoperations.caption
 msgid "Executing operations"
@@ -9917,11 +9917,11 @@ msgstr "成功："
 
 #: ulng.rschecksumverifytext
 msgid "Enter checksum and select algorithm:"
-msgstr "输入校验和并选择算法："
+msgstr "输入校验码并选择算法："
 
 #: ulng.rschecksumverifytitle
 msgid "Verify checksum"
-msgstr "验证校验和"
+msgstr "验证校验码"
 
 #: ulng.rschecksumverifytotal
 msgid "Total:"
@@ -10830,7 +10830,7 @@ msgstr "弹出"
 
 #: ulng.rsmnuextracthere
 msgid "Extract here..."
-msgstr "提取到此处..."
+msgstr "解压缩到此处..."
 
 #: ulng.rsmnumapnetworkdrive
 msgid "Map Network Drive..."
@@ -11640,7 +11640,7 @@ msgstr "外部结果"
 #: ulng.rsmsglogextract
 #, object-pascal-format
 msgid "Extract file %s"
-msgstr "提取文件 %s"
+msgstr "解压缩文件 %s"
 
 #: ulng.rsmsgloginfo
 msgid "Info: "
@@ -11858,7 +11858,7 @@ msgstr "选择可执行文件"
 
 #: ulng.rsmsgselectonlychecksumfiles
 msgid "Please select only checksum files!"
-msgstr "只能选择校验和文件！"
+msgstr "只能选择校验码文件！"
 
 #: ulng.rsmsgsellocnextvol
 msgid "Please select location of next volume"
@@ -12081,11 +12081,11 @@ msgstr "验证："
 
 #: ulng.rsmsgverifychecksum
 msgid "Do you want to verify selected checksums?"
-msgstr "您希望验证所选的校验和吗？"
+msgstr "您希望验证所选的校验码吗？"
 
 #: ulng.rsmsgverifywrong
 msgid "The target file is corrupted, checksum mismatch!"
-msgstr "目标文件已损坏，校验和不匹配！"
+msgstr "目标文件已损坏，校验码不匹配！"
 
 #: ulng.rsmsgvolumelabel
 msgid "Volume label:"
@@ -12420,12 +12420,12 @@ msgstr "已终止"
 
 #: ulng.rsopercalculatingchecksum
 msgid "Calculating checksum"
-msgstr "正在计算校验和"
+msgstr "正在计算校验码"
 
 #: ulng.rsopercalculatingchecksumin
 #, object-pascal-format
 msgid "Calculating checksum in \"%s\""
-msgstr "正在 \"%s\" 中计算校验和"
+msgstr "正在 \"%s\" 中计算校验码"
 
 #: ulng.rsopercalculatingchecksumof
 #, object-pascal-format
@@ -12498,12 +12498,12 @@ msgstr "正在执行 \"%s\""
 
 #: ulng.rsoperextracting
 msgid "Extracting"
-msgstr "正在提取"
+msgstr "正在解压缩"
 
 #: ulng.rsoperextractingfromto
 #, object-pascal-format
 msgid "Extracting from \"%s\" to \"%s\""
-msgstr "正在从 \"%s\" 提取到 \"%s\""
+msgstr "正在从 \"%s\" 解压缩到 \"%s\""
 
 #: ulng.rsoperfinished
 msgid "Finished"
@@ -12613,17 +12613,17 @@ msgstr "正在测试 \"%s\""
 
 #: ulng.rsoperverifyingchecksum
 msgid "Verifying checksum"
-msgstr "正在验证校验和"
+msgstr "正在验证校验码"
 
 #: ulng.rsoperverifyingchecksumin
 #, object-pascal-format
 msgid "Verifying checksum in \"%s\""
-msgstr "正在验证 \"%s\" 中的校验和"
+msgstr "正在验证 \"%s\" 中的校验码"
 
 #: ulng.rsoperverifyingchecksumof
 #, object-pascal-format
 msgid "Verifying checksum of \"%s\""
-msgstr "正在验证 \"%s\" 的校验和"
+msgstr "正在验证 \"%s\" 的校验码"
 
 #: ulng.rsoperwaitingforconnection
 msgid "Waiting for access to file source"
@@ -13035,7 +13035,7 @@ msgstr "文件夹标签"
 
 #: ulng.rsoptionseditorfoldertabsextra
 msgid "Folder tabs extra"
-msgstr "文件夹标签扩展项"
+msgstr "文件夹标签扩展"
 
 #: ulng.rsoptionseditorfonts
 msgctxt "ulng.rsoptionseditorfonts"
