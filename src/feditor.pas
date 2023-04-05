@@ -799,10 +799,13 @@ end;
 procedure TfrmEditor.cm_EditFindNext(const Params:array of string);
 begin
   if gFirstTextSearch then
+  begin
+    FSearchOptions.Flags -= [ssoBackwards];
     ShowSearchReplaceDialog(Self, Editor, cbUnchecked, FSearchOptions)
+  end
   else if FSearchOptions.SearchText <> '' then
   begin
-    DoSearchReplaceText(Editor, False, ssoBackwards in FSearchOptions.Flags, FSearchOptions);
+    DoSearchReplaceText(Editor, False, False, FSearchOptions);
     FSearchOptions.Flags -= [ssoEntireScope];
   end;
 end;
