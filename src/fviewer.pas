@@ -123,6 +123,7 @@ type
     actShowAsBin: TAction;
     actShowAsText: TAction;
     actPreview: TAction;
+    actGotoLine: TAction;
     actFindPrev: TAction;
     actFind: TAction;
     actSelectAll: TAction;
@@ -178,6 +179,7 @@ type
     mi270: TMenuItem;
     mi180: TMenuItem;
     mi90: TMenuItem;
+    miGotoLine: TMenuItem;
     miSearchPrev: TMenuItem;
     miPrint: TMenuItem;
     miSearchNext: TMenuItem;
@@ -465,6 +467,7 @@ type
     procedure cm_Find          (const Params: array of string);
     procedure cm_FindNext      (const Params: array of string);
     procedure cm_FindPrev      (const Params: array of string);
+    procedure cm_GotoLine      (const Params: array of string);
 
     procedure cm_Preview         (const Params: array of string);
     procedure cm_ShowAsText      (const Params: array of string);
@@ -3094,9 +3097,11 @@ begin
     miStretchOnlyLarge.Visible := bImage;
   end;
 
+  actGotoLine.Enabled  := (Panel = pnlCode);
   actShowCaret.Enabled := (Panel = pnlText);
   actWrapText.Enabled  := bPlugin or ((Panel = pnlText) and (ViewerControl.Mode in [vcmText, vcmWrap]));
 
+  miGotoLine.Visible       := (Panel = pnlCode);
   pmiSelectAll.Visible     := (Panel = pnlText) or (Panel = pnlCode);
   pmiCopyFormatted.Visible := (Panel = pnlText);
 
@@ -3516,6 +3521,24 @@ begin
   else if not miGraphics.Checked then
   begin
     DoSearch(True, True);
+  end;
+end;
+
+procedure TfrmViewer.cm_GotoLine(const Params: array of string);
+var
+  P: TPoint;
+  Value: String;
+  NewTopLine: Integer;
+begin
+  if ShowInputQuery(rsEditGotoLineTitle, rsEditGotoLineQuery, Value) then
+  begin
+    P.X := 1;
+    P.Y := StrToIntDef(Value, 1);
+    NewTopLine := P.Y - (SynEdit.LinesInWindow div 2);
+    if NewTopLine < 1 then NewTopLine:= 1;
+    SynEdit.CaretXY := P;
+    SynEdit.TopLine := NewTopLine;
+    SynEdit.SetFocus;
   end;
 end;
 

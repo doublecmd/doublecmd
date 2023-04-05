@@ -1307,6 +1307,9 @@ object frmViewer: TfrmViewer
       object miSearchPrev: TMenuItem
         Action = actFindPrev
       end
+      object miGotoLine: TMenuItem
+        Action = actGotoLine
+      end
     end
     object miView: TMenuItem
       Caption = '&View'
@@ -1708,6 +1711,12 @@ object frmViewer: TfrmViewer
     object actFindPrev: TAction
       Category = 'Edit'
       Caption = 'Find previous'
+      OnExecute = actExecute
+    end
+    object actGotoLine: TAction
+      Category = 'Edit'
+      Caption = 'Goto Line...'
+      Hint = 'Goto Line'
       OnExecute = actExecute
     end
     object actChangeEncoding: TAction
