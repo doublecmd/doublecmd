@@ -1148,7 +1148,7 @@ begin
     begin
       FSearchOptions.Flags -= [ssoBackwards];
       ShowSearchReplaceDialog(Self, SynDiffEditActive, cbUnchecked, FSearchOptions);
-    end;
+    end
     else if FSearchOptions.SearchText <> '' then
     begin
       DoSearchReplaceText(SynDiffEditActive, False, False, FSearchOptions);
