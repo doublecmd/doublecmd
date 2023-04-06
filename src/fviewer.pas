@@ -394,6 +394,7 @@ type
     procedure CutToImage;
     procedure Res(W, H: integer);
     procedure RedEyes;
+    procedure SynEditCaret;
     procedure ExitPluginMode;
     procedure DeleteCurrentFile;
     procedure EnableActions(AEnabled: Boolean);
@@ -1328,6 +1329,15 @@ begin
   Image.Picture.Bitmap.Canvas.Draw (StartX,StartY,tmp);
   CreateTmp;
   tmp.Free;
+end;
+
+procedure TfrmViewer.SynEditCaret;
+begin
+  if gShowCaret then
+    SynEdit.Options:= SynEdit.Options - [eoNoCaret]
+  else begin
+    SynEdit.Options:= SynEdit.Options + [eoNoCaret];
+  end;
 end;
 
 procedure TfrmViewer.DeleteCurrentFile;
@@ -2621,6 +2631,7 @@ begin
     FontOptionsToFont(gFonts[dcfViewer], SynEdit.Font);
     SynEdit.OnMouseWheel:= @SynEditMouseWheel;
     SynEdit.OnStatusChange:= @SynEditStatusChange;
+    SynEditCaret;
   end;
   SynEdit.Highlighter:= FHighlighter;
 
@@ -3036,6 +3047,10 @@ begin
   begin
     miCode.Checked:= True;
     UpdateTextEncodingsMenu(emEditor);
+
+    if (not bQuickView) and CanFocus and SynEdit.CanFocus then
+       SynEdit.SetFocus;
+
     Status.Panels[sbpFileSize].Text:= IntToStr(SynEdit.Lines.Count);
   end
   else if Panel = pnlText then
@@ -3090,7 +3105,7 @@ begin
   end;
 
   actGotoLine.Enabled  := (Panel = pnlCode);
-  actShowCaret.Enabled := (Panel = pnlText);
+  actShowCaret.Enabled := (Panel = pnlText) or (Panel = pnlCode);
   actWrapText.Enabled  := bPlugin or ((Panel = pnlText) and (ViewerControl.Mode in [vcmText, vcmWrap]));
 
   miGotoLine.Visible       := (Panel = pnlCode);
@@ -3665,6 +3680,7 @@ begin
     gShowCaret:= not gShowCaret;
     actShowCaret.Checked:= gShowCaret;
     ViewerControl.ShowCaret:= gShowCaret;
+    if Assigned(SynEdit) then SynEditCaret;
   end;
 end;
 
