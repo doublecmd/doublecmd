@@ -378,7 +378,7 @@ type
     //---------------------
     function GetListerRect: TRect;
     function CheckOffice(const sFileName: String): Boolean;
-    function CheckSynEdit(const sFileName: String): Boolean;
+    function CheckSynEdit(const sFileName: String; bForce: Boolean = False): Boolean;
     function CheckPlugins(const sFileName: String; bForce: Boolean = False): Boolean;
     function CheckGraphics(const sFileName:String):Boolean;
     function LoadGraphics(const sFileName:String): Boolean;
@@ -2479,14 +2479,15 @@ begin
   end;
 end;
 
-function TfrmViewer.CheckSynEdit(const sFileName: String): Boolean;
+function TfrmViewer.CheckSynEdit(const sFileName: String; bForce: Boolean = False): Boolean;
 var
   AFile: TFile;
 begin
-  if (Length(gViewerSynEditMask) = 0) then
-    Exit(False);
-
-  if Assigned(FSynEditMaskList) then
+  if bForce then
+    Result:= True
+  else if (Length(gViewerSynEditMask) = 0) then
+    Result:= False
+  else if Assigned(FSynEditMaskList) then
   begin
     Result:= FSynEditMaskList.Matches(sFileName);
   end
@@ -3632,7 +3633,7 @@ end;
 
 procedure TfrmViewer.cm_ShowCode(const Params: array of string);
 begin
-  if CheckSynEdit(FileList.Strings[iActiveFile]) then
+  if CheckSynEdit(FileList.Strings[iActiveFile], True) then
   begin
     ExitPluginMode;
     ViewerControl.FileName := ''; // unload current file if any is loaded
