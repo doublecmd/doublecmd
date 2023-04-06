@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Internal diff and merge tool
 
-   Copyright (C) 2010-2022 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2010-2023 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
@@ -1145,10 +1145,13 @@ begin
   if not actBinaryCompare.Checked then
   begin
     if gFirstTextSearch then
-      ShowSearchReplaceDialog(Self, SynDiffEditActive, cbUnchecked, FSearchOptions)
+    begin
+      FSearchOptions.Flags -= [ssoBackwards];
+      ShowSearchReplaceDialog(Self, SynDiffEditActive, cbUnchecked, FSearchOptions);
+    end;
     else if FSearchOptions.SearchText <> '' then
     begin
-      DoSearchReplaceText(SynDiffEditActive, False, ssoBackwards in FSearchOptions.Flags, FSearchOptions);
+      DoSearchReplaceText(SynDiffEditActive, False, False, FSearchOptions);
       FSearchOptions.Flags -= [ssoEntireScope];
     end;
   end;
