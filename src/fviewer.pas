@@ -366,9 +366,7 @@ type
     FRegExp: TRegExprEx;
     FPluginEncoding: Integer;
     //---------------------
-    FSynEditMaskList: TMaskList;
     FSynEditOriginalText: String;
-    FSynEditTemplate: TSearchTemplate;
     FSearchOptions: TEditSearchOptions;
     FHighlighter: TSynCustomHighlighter;
     //---------------------
@@ -2092,16 +2090,6 @@ begin
   end;
 
   // SynEdit
-  if (Length(gViewerSynEditMask) > 0) then
-  begin
-    if IsMaskSearchTemplate(gViewerSynEditMask) then
-    begin
-      FSynEditTemplate := gSearchTemplateList.TemplateByName[gViewerSynEditMask];
-    end
-    else begin
-      FSynEditMaskList := TMaskList.Create(gViewerSynEditMask);
-    end;
-  end;
   FSearchOptions.Flags := [ssoEntireScope];
 
   HotMan.Register(pnlText ,'Text files');
@@ -2309,9 +2297,6 @@ begin
     HotMan.UnRegister(pnlImage);
   end;
 
-  FSynEditTemplate.Free;
-  FSynEditMaskList.Free;
-
   FreeAndNil(FFindDialog);
   HotMan.UnRegister(Self);
 end;
@@ -2482,22 +2467,28 @@ end;
 function TfrmViewer.CheckSynEdit(const sFileName: String; bForce: Boolean = False): Boolean;
 var
   AFile: TFile;
+  ATemplate: TSearchTemplate;
 begin
   if bForce then
     Result:= True
   else if (Length(gViewerSynEditMask) = 0) then
     Result:= False
-  else if Assigned(FSynEditMaskList) then
+  else if not IsMaskSearchTemplate(gViewerSynEditMask) then
   begin
-    Result:= FSynEditMaskList.Matches(sFileName);
+    Result:= MatchesMaskList(sFileName, gViewerSynEditMask);
   end
-  else if Assigned(FSynEditTemplate) then
+  else
   try
-    AFile:= TFileSystemFileSource.CreateFile(sFileName);
-    try
-      Result:= FSynEditTemplate.CheckFile(AFile);
-    finally
-      AFile.Free;
+    ATemplate:= gSearchTemplateList.TemplateByName[gViewerSynEditMask];
+    if (ATemplate = nil) then
+      Result:= False
+    else begin
+      AFile:= TFileSystemFileSource.CreateFileFromFile(sFileName);
+      try
+        Result:= ATemplate.CheckFile(AFile);
+      finally
+        AFile.Free;
+      end;
     end;
   except
     Exit(False);
