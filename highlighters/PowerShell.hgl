@@ -1,8 +1,8 @@
 <UniHighlighter version="1.8">
   <Info>
-    <General Name="Power Shell" Extensions="ps1,psm1,psd1" Other="0"/>
+    <General Name="PowerShell" Extensions="ps1,psm1,psd1" Other="0"/>
     <Author Name="" Email="" Web="" Copyright="" Company="" Remark=""/>
-    <Version Version="1" Revision="0" Date="45023.8674616204"/>
+    <Version Version="1" Revision="0" Date="45024.9890724884"/>
     <History>
     </History>
     <Sample>
@@ -1783,7 +1783,19 @@
       <Word Value="Write-Verbose"/>
       <Word Value="Write-Warning"/>
     </Keywords>
-    <Range Name="Strings &quot;..&quot;" Attributes="255,16777215;True:True." Style=""
+    <Range Name="Strings @'..'@" Attributes="255,16777215;False:True." Style=""
+           Delimiters="!&quot;#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^`{|}~">
+      <Rule OpenSymbol="@'" CloseSymbol="'@"/>
+    </Range>
+    <Range Name="Strings @&quot;..&quot;@" Attributes="255,16777215;False:True." Style=""
+           Delimiters="!&quot;#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^`{|}~">
+      <Rule OpenSymbol="@&quot;" OpenSymbolPartOfTerm="Right" CloseSymbol="&quot;@" CloseSymbolPartOfTerm="False"/>
+    </Range>
+    <Range Name="Strings '..'" Attributes="255,16777215;False:True." Style=""
+           Delimiters="!&quot;#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^`{|}~">
+      <Rule OpenSymbol="'" CloseSymbol="'"/>
+    </Range>
+    <Range Name="Strings &quot;..&quot;" Attributes="255,16777215;False:True." Style=""
            Delimiters="!&quot;#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^`{|}~">
       <Rule OpenSymbol="&quot;" OpenSymbolPartOfTerm="Right" CloseSymbol="&quot;" CloseSymbolPartOfTerm="False"/>
     </Range>
