@@ -4,7 +4,7 @@
    Thread for search files (called from frmSearchDlg)
 
    Copyright (C) 2003-2004 Radek Cervinka (radek.cervinka@centrum.cz)
-   Copyright (C) 2006-2019 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2006-2023 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -37,6 +37,8 @@ type
 
   TDuplicate = class
     Name: String;
+    Hash: String;
+    Size: Int64;
     Index: IntPtr;
     Count: Integer;
     function Clone: TDuplicate;
@@ -675,14 +677,14 @@ var
   AValue: String = '';
   AStart, AFinish: Integer;
 
-  function FileHash(Size: Int64): Boolean;
+  function FileHash(const AName: String; Size: Int64; out Hash: String): Boolean;
   var
     Handle: THandle;
     BytesRead: Integer;
     BytesToRead: Integer;
     Context: THashContext;
   begin
-    Handle:= mbFileOpen(AFileName, fmOpenRead or fmShareDenyWrite);
+    Handle:= mbFileOpen(AName, fmOpenRead or fmShareDenyWrite);
     Result:= (Handle <> feInvalidHandle);
     if Result then
     begin
@@ -698,7 +700,7 @@ var
       end;
       FileClose(Handle);
       Result:= (Size = 0);
-      HashFinal(Context, AHash);
+      HashFinal(Context, Hash);
     end;
   end;
 
@@ -756,12 +758,7 @@ begin
     AValue+= IntToStr(sr.Size);
 
   if FSearchTemplate.DuplicateHash then
-  begin
-    if FileHash(sr.Size) then
-      AValue+= AHash
-    else
-      Exit(False);
-  end;
+    AHash:= EmptyStr;
 
   Index:= FDuplicates.Find(AValue);
   Result:= (Index >= 0);
@@ -777,7 +774,32 @@ begin
       begin
         AData:= TDuplicate(FDuplicates.List[Index]^.Data);
 
-        if FSearchTemplate.DuplicateContent then
+        if FSearchTemplate.DuplicateHash then
+        begin
+          // Group file hash
+          if Length(AData.Hash) = 0 then
+          begin
+            if not FileHash(AData.Name, AData.Size, AData.Hash) then
+            begin
+              AData.Name:= AFileName;
+              AData.Size:= sr.Size;
+              if (Index < AFinish) then
+              begin
+                Result:= False;
+                Continue;
+              end;
+              Exit(False);
+            end;
+          end;
+          // Current file hash
+          if (Length(AHash) = 0) then
+          begin
+            if not FileHash(AFileName, sr.Size, AHash) then
+              Exit;
+          end;
+          Result:= SameStr(AHash, AData.Hash);
+        end
+        else if FSearchTemplate.DuplicateContent then
           Result:= CompareFiles(AData.Name, AFileName, sr.Size)
         else begin
           Result:= True;
@@ -802,6 +824,7 @@ begin
   begin
     AData:= TDuplicate.Create;
     AData.Name:= AFileName;
+    AData.Size:= sr.Size;
     FDuplicates.Add(AValue, AData);
   end;
 end;
