@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 1.1.0 alpha\n"
 "POT-Creation-Date: 2022-11-15 11:15+0300\n"
-"PO-Revision-Date: 2022-10-26 17:31+0300\n"
+"PO-Revision-Date: 2023-04-16 19:31+0300\n"
 "Last-Translator: Alexander Koblov <alexx2000@mail.ru>\n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -831,7 +831,7 @@ msgstr "Выберите из списка оставшихся свободны
 #: tfrmedithotkey.cghkcontrols.caption
 msgctxt "tfrmedithotkey.cghkcontrols.caption"
 msgid "Only for these controls"
-msgstr "Только для этих элементов"
+msgstr "Только для этих элементов интерфейса"
 
 #: tfrmedithotkey.lblparameters.caption
 msgid "&Parameters (each in a separate line):"
@@ -1838,11 +1838,11 @@ msgstr "&Результат"
 
 #: tfrmfinddlg.mishowallfound.caption
 msgid "Show all found items"
-msgstr "Показать все найденные элементы"
+msgstr "Показать все найденные"
 
 #: tfrmfinddlg.mishowineditor.caption
 msgid "Show In Editor"
-msgstr "Показать в редакторе"
+msgstr "Правка"
 
 #: tfrmfinddlg.mishowinviewer.caption
 msgid "Show In Viewer"
@@ -1966,7 +1966,7 @@ msgstr "Импортировать выделенный"
 #: tfrmhotdirexportimport.caption
 msgctxt "tfrmhotdirexportimport.caption"
 msgid "Select the entries your want to import"
-msgstr "Выделите элементы для импорта"
+msgstr "Выделите записи для импорта"
 
 #: tfrmhotdirexportimport.lbhint.caption
 msgctxt "tfrmhotdirexportimport.lbhint.caption"
@@ -1993,7 +1993,7 @@ msgstr "Сохранить как..."
 
 #: tfrmlinker.grbxcontrol.caption
 msgid "Item"
-msgstr "Элемент"
+msgstr "Выделенный"
 
 #: tfrmlinker.lblfilename.caption
 msgctxt "TFRMLINKER.LBLFILENAME.CAPTION"
@@ -2370,7 +2370,7 @@ msgstr "Перейти к командной строке"
 
 #: tfrmmain.actfocusswap.caption
 msgid "Swap focus"
-msgstr "Сменить фокус"
+msgstr "Переключить фокус"
 
 #: tfrmmain.actfocusswap.hint
 msgid "Switch between left and right file list"
@@ -2539,7 +2539,7 @@ msgstr "С&нять выделение со всех"
 
 #: tfrmmain.actminimize.caption
 msgid "Minimize window"
-msgstr "Свернуть"
+msgstr "Свернуть окно"
 
 #: tfrmmain.actmovetableft.caption
 msgid "Move current tab to the left"
@@ -3262,7 +3262,7 @@ msgstr ""
 
 #: tfrmmaincommandsdlg.cbselectallcategorydefault.caption
 msgid "Select all categories by default"
-msgstr "Выбрать все категории по умолчанию"
+msgstr "По умолчанию выбрать все категории"
 
 #: tfrmmaincommandsdlg.gbselection.caption
 msgid "Selection:"
@@ -4833,7 +4833,7 @@ msgstr "Диалог выбора &каталога"
 #: tfrmoptionsdirectoryhotlist.actaddcopyofentry.caption
 msgctxt "tfrmoptionsdirectoryhotlist.actaddcopyofentry.caption"
 msgid "Add a copy of the selected entry"
-msgstr "Добавить копию выделенного элемента"
+msgstr "Добавить копию выделенной записи"
 
 #: tfrmoptionsdirectoryhotlist.actaddselectionsfromframe.caption
 msgid "Add current &selected or active directories of active frame"
@@ -4860,7 +4860,7 @@ msgstr "Свернуть все"
 
 #: tfrmoptionsdirectoryhotlist.actcollapseitem.caption
 msgid "Collapse item"
-msgstr "Свернуть элемент"
+msgstr "Свернуть ветку"
 
 #: tfrmoptionsdirectoryhotlist.actcut.caption
 msgid "Cut selection of entries"
@@ -4868,44 +4868,44 @@ msgstr "Вырезать выделенные"
 
 #: tfrmoptionsdirectoryhotlist.actdeleteall.caption
 msgid "Delete all!"
-msgstr "Удалить все!"
+msgstr "Удалить всё!"
 
 #: tfrmoptionsdirectoryhotlist.actdeleteselecteditem.caption
 msgctxt "tfrmoptionsdirectoryhotlist.actdeleteselecteditem.caption"
 msgid "Delete selected item"
-msgstr "Удалить выделенный элемент"
+msgstr "Удалить выделенное"
 
 #: tfrmoptionsdirectoryhotlist.actdeletesubmenuandelem.caption
 msgid "Delete sub-menu and all its elements"
-msgstr "Удалить подменю и все его элементы"
+msgstr "Удалить подменю и всё его содержимое"
 
 #: tfrmoptionsdirectoryhotlist.actdeletesubmenukeepelem.caption
 msgid "Delete just sub-menu but keep elements"
-msgstr "Удалить подменю, но оставить все его элементы"
+msgstr "Удалить подменю, но оставить его содержимое"
 
 #: tfrmoptionsdirectoryhotlist.actexpanditem.caption
 msgid "Expand item"
-msgstr "Развернуть элемент"
+msgstr "Развернуть ветку"
 
 #: tfrmoptionsdirectoryhotlist.actfocustreewindow.caption
 msgid "Focus tree window"
-msgstr "Фокус на дерево элементов"
+msgstr "Фокус на дерево"
 
 #: tfrmoptionsdirectoryhotlist.actgotofirstitem.caption
 msgid "Goto first item"
-msgstr "Перейти к первому элементу"
+msgstr "Перейти к первому пункту"
 
 #: tfrmoptionsdirectoryhotlist.actgotolastitem.caption
 msgid "Goto last item"
-msgstr "Перейти к последнему элементу"
+msgstr "Перейти к последнему пункту"
 
 #: tfrmoptionsdirectoryhotlist.actgotonextitem.caption
 msgid "Go to next item"
-msgstr "Перейти к следующему элементу"
+msgstr "Перейти к следующему пункту"
 
 #: tfrmoptionsdirectoryhotlist.actgotopreviousitem.caption
 msgid "Go to previous item"
-msgstr "Перейти к предыдущему элементу"
+msgstr "Перейти к предыдущему пункту"
 
 #: tfrmoptionsdirectoryhotlist.actinsertactiveframedir.caption
 msgid "Insert directory of the &active frame"
@@ -4921,7 +4921,7 @@ msgstr "Диалог выбора &каталога"
 
 #: tfrmoptionsdirectoryhotlist.actinsertcopyofentry.caption
 msgid "Insert a copy of the selected entry"
-msgstr "Вставить копию выделенного элемента"
+msgstr "Вставить копию выделенной записи"
 
 #: tfrmoptionsdirectoryhotlist.actinsertselectionsfromframe.caption
 msgid "Insert current &selected or active directories of active frame"
@@ -5080,7 +5080,7 @@ msgstr "&Целевой путь:"
 #: tfrmoptionsdirectoryhotlist.micurrentlevelofitemonly.caption
 msgctxt "tfrmoptionsdirectoryhotlist.micurrentlevelofitemonly.caption"
 msgid "...current le&vel of item(s) selected only"
-msgstr "...текущий &уровень элемента(ов), только выделенные"
+msgstr "...только текущий &уровень выделенного"
 
 #: tfrmoptionsdirectoryhotlist.midetectifpathexist.caption
 msgctxt "tfrmoptionsdirectoryhotlist.midetectifpathexist.caption"
@@ -5134,11 +5134,11 @@ msgstr "&Навигация..."
 
 #: tfrmoptionsdirectoryhotlist.mirestorebackuphotlist.caption
 msgid "&Restore a backup of Directory Hotlist"
-msgstr "&Восстановить избранные каталоги из резервной копии"
+msgstr "&Восстановить из резервной копии"
 
 #: tfrmoptionsdirectoryhotlist.misavebackuphotlist.caption
 msgid "&Save a backup of current Directory Hotlist"
-msgstr "&Сохранить резервную копию избранных каталогов"
+msgstr "&Сохранить резервную копию"
 
 #: tfrmoptionsdirectoryhotlist.misearchandreplace.caption
 msgctxt "tfrmoptionsdirectoryhotlist.misearchandreplace.caption"
@@ -5153,7 +5153,7 @@ msgstr "...все, от А до &Я!"
 #: tfrmoptionsdirectoryhotlist.misortsinglegroup.caption
 msgctxt "tfrmoptionsdirectoryhotlist.misortsinglegroup.caption"
 msgid "...single &group of item(s) only"
-msgstr "...только &одну группу элементов"
+msgstr "...только записи &одной группы"
 
 #: tfrmoptionsdirectoryhotlist.misortsinglesubmenu.caption
 msgctxt "tfrmoptionsdirectoryhotlist.misortsinglesubmenu.caption"
@@ -5574,7 +5574,7 @@ msgstr "Свернуть все"
 #: tfrmoptionsfavoritetabs.micurrentlevelofitemonly.caption
 msgctxt "tfrmoptionsfavoritetabs.micurrentlevelofitemonly.caption"
 msgid "...current level of item(s) selected only"
-msgstr "...текущий уровень элемента(ов), только выделенные"
+msgstr "...только текущий уровень выделенного"
 
 #: tfrmoptionsfavoritetabs.micutselection.caption
 msgctxt "tfrmoptionsfavoritetabs.micutselection.caption"
@@ -5584,27 +5584,27 @@ msgstr "Вырезать"
 #: tfrmoptionsfavoritetabs.mideleteallfavoritetabs.caption
 msgctxt "tfrmoptionsfavoritetabs.mideleteallfavoritetabs.caption"
 msgid "delete all!"
-msgstr "удалить все!"
+msgstr "Удалить всё!"
 
 #: tfrmoptionsfavoritetabs.mideletecompletesubmenu.caption
 msgctxt "tfrmoptionsfavoritetabs.mideletecompletesubmenu.caption"
 msgid "sub-menu and all its elements"
-msgstr "подменю и все его элементы"
+msgstr "Удалить подменю и всё его содержимое"
 
 #: tfrmoptionsfavoritetabs.mideletejustsubmenu.caption
 msgctxt "tfrmoptionsfavoritetabs.mideletejustsubmenu.caption"
 msgid "just sub-menu but keep elements"
-msgstr "только подменю без элементов"
+msgstr "Удалить подменю, но оставить его содержимое"
 
 #: tfrmoptionsfavoritetabs.mideleteselectedentry.caption
 msgctxt "tfrmoptionsfavoritetabs.mideleteselectedentry.caption"
 msgid "selected item"
-msgstr "выделенный элемент"
+msgstr "Удалить выделенное"
 
 #: tfrmoptionsfavoritetabs.mideleteselectedentry2.caption
 msgctxt "tfrmoptionsfavoritetabs.mideleteselectedentry2.caption"
 msgid "Delete selected item"
-msgstr "Удалить выделенный элемент"
+msgstr "Удалить выделенное"
 
 #: tfrmoptionsfavoritetabs.miexporttolegacytabsfile.caption
 msgid "Export selection to legacy .tab file(s)"
@@ -5663,12 +5663,12 @@ msgstr "...все, от А до Я!"
 #: tfrmoptionsfavoritetabs.misortsinglegroup.caption
 msgctxt "tfrmoptionsfavoritetabs.misortsinglegroup.caption"
 msgid "...single group of item(s) only"
-msgstr "...только одну группу элементов"
+msgstr "...только записи одной группы"
 
 #: tfrmoptionsfavoritetabs.misortsinglegroup2.caption
 msgctxt "tfrmoptionsfavoritetabs.misortsinglegroup2.caption"
 msgid "Sort single group of item(s) only"
-msgstr "Сортировать только одну группу элементов"
+msgstr "Сортировать только записи одной группы"
 
 #: tfrmoptionsfavoritetabs.misortsinglesubmenu.caption
 msgctxt "tfrmoptionsfavoritetabs.misortsinglesubmenu.caption"
@@ -6136,7 +6136,6 @@ msgid ">>"
 msgstr ">>"
 
 #: tfrmoptionsfilepanelscolors.btnindthresholdcolor.caption
-#, fuzzy
 msgctxt "tfrmoptionsfilepanelscolors.btnindthresholdcolor.caption"
 msgid ">>"
 msgstr ">>"
@@ -7766,7 +7765,7 @@ msgstr "Наивысшая панель инструментов..."
 
 #: tfrmoptionstoolbarbase.miexporttoptobackup.caption
 msgid "Save a backup of Toolbar"
-msgstr "Сохранить резервную копию панели инструментов"
+msgstr "Сохранить резервную копию"
 
 #: tfrmoptionstoolbarbase.miexporttoptodcbar.caption
 msgctxt "tfrmoptionstoolbarbase.miexporttoptodcbar.caption"
@@ -7796,22 +7795,22 @@ msgstr "в файл \"wincmd.ini\" TC (удалить существующий)"
 #: tfrmoptionstoolbarbase.miexternalcommandaftercurrent.caption
 msgctxt "tfrmoptionstoolbarbase.miexternalcommandaftercurrent.caption"
 msgid "just after current selection"
-msgstr "сразу после выбранного"
+msgstr "после выбранного"
 
 #: tfrmoptionstoolbarbase.miexternalcommandfirstelement.caption
 msgctxt "tfrmoptionstoolbarbase.miexternalcommandfirstelement.caption"
 msgid "as first element"
-msgstr "как первый элемент"
+msgstr "в начало"
 
 #: tfrmoptionstoolbarbase.miexternalcommandlastelement.caption
 msgctxt "tfrmoptionstoolbarbase.miexternalcommandlastelement.caption"
 msgid "as last element"
-msgstr "как последний элемент"
+msgstr "в конец"
 
 #: tfrmoptionstoolbarbase.miexternalcommandpriorcurrent.caption
 msgctxt "tfrmoptionstoolbarbase.miexternalcommandpriorcurrent.caption"
 msgid "just prior current selection"
-msgstr "сразу перед выбранным"
+msgstr "перед выбранным"
 
 #: tfrmoptionstoolbarbase.miimport.caption
 msgctxt "tfrmoptionstoolbarbase.miimport.caption"
@@ -7820,7 +7819,7 @@ msgstr "Импорт..."
 
 #: tfrmoptionstoolbarbase.miimportbackup.caption
 msgid "Restore a backup of Toolbar"
-msgstr "Восстановить панель инструментов из резервной копии"
+msgstr "Восстановить из резервной копии"
 
 #: tfrmoptionstoolbarbase.miimportbackupaddcurrent.caption
 msgctxt "tfrmoptionstoolbarbase.miimportbackupaddcurrent.caption"
@@ -7937,22 +7936,22 @@ msgstr "заменить наивысшую панель инструменто�
 #: tfrmoptionstoolbarbase.miinternalcommandaftercurrent.caption
 msgctxt "tfrmoptionstoolbarbase.miinternalcommandaftercurrent.caption"
 msgid "just after current selection"
-msgstr "сразу после выбранного"
+msgstr "после выбранного"
 
 #: tfrmoptionstoolbarbase.miinternalcommandfirstelement.caption
 msgctxt "tfrmoptionstoolbarbase.miinternalcommandfirstelement.caption"
 msgid "as first element"
-msgstr "как первый элемент"
+msgstr "в начало"
 
 #: tfrmoptionstoolbarbase.miinternalcommandlastelement.caption
 msgctxt "tfrmoptionstoolbarbase.miinternalcommandlastelement.caption"
 msgid "as last element"
-msgstr "как последний элемент"
+msgstr "в конец"
 
 #: tfrmoptionstoolbarbase.miinternalcommandpriorcurrent.caption
 msgctxt "tfrmoptionstoolbarbase.miinternalcommandpriorcurrent.caption"
 msgid "just prior current selection"
-msgstr "сразу перед выбранным"
+msgstr "перед выбранным"
 
 #: tfrmoptionstoolbarbase.misearchandreplace.caption
 msgctxt "tfrmoptionstoolbarbase.misearchandreplace.caption"
@@ -7962,22 +7961,22 @@ msgstr "Найти и заменить..."
 #: tfrmoptionstoolbarbase.miseparatoraftercurrent.caption
 msgctxt "tfrmoptionstoolbarbase.miseparatoraftercurrent.caption"
 msgid "just after current selection"
-msgstr "сразу после выбранного"
+msgstr "после выбранного"
 
 #: tfrmoptionstoolbarbase.miseparatorfirstitem.caption
 msgctxt "tfrmoptionstoolbarbase.miseparatorfirstitem.caption"
 msgid "as first element"
-msgstr "как первый элемент"
+msgstr "в начало"
 
 #: tfrmoptionstoolbarbase.miseparatorlastelement.caption
 msgctxt "tfrmoptionstoolbarbase.miseparatorlastelement.caption"
 msgid "as last element"
-msgstr "как последний элемент"
+msgstr "в конец"
 
 #: tfrmoptionstoolbarbase.miseparatorpriorcurrent.caption
 msgctxt "tfrmoptionstoolbarbase.miseparatorpriorcurrent.caption"
 msgid "just prior current selection"
-msgstr "сразу перед выбранным"
+msgstr "перед выбранным"
 
 #: tfrmoptionstoolbarbase.misrcrplallofall.caption
 msgid "in all of all the above..."
@@ -8002,22 +8001,22 @@ msgstr "во всех путях запуска..."
 #: tfrmoptionstoolbarbase.misubtoolbaraftercurrent.caption
 msgctxt "tfrmoptionstoolbarbase.misubtoolbaraftercurrent.caption"
 msgid "just after current selection"
-msgstr "сразу после выбранного"
+msgstr "после выбранного"
 
 #: tfrmoptionstoolbarbase.misubtoolbarfirstelement.caption
 msgctxt "tfrmoptionstoolbarbase.misubtoolbarfirstelement.caption"
 msgid "as first element"
-msgstr "как первый элемент"
+msgstr "в начало"
 
 #: tfrmoptionstoolbarbase.misubtoolbarlastelement.caption
 msgctxt "tfrmoptionstoolbarbase.misubtoolbarlastelement.caption"
 msgid "as last element"
-msgstr "как последний элемент"
+msgstr "в конец"
 
 #: tfrmoptionstoolbarbase.misubtoolbarpriorcurrent.caption
 msgctxt "tfrmoptionstoolbarbase.misubtoolbarpriorcurrent.caption"
 msgid "just prior current selection"
-msgstr "сразу перед выбранным"
+msgstr "перед выбранным"
 
 #: tfrmoptionstoolbarbase.rbseparator.caption
 msgid "Separator"
@@ -9171,7 +9170,7 @@ msgstr "Закрыть"
 #: tfrmsyncdirsdlg.btncompare.caption
 msgctxt "tfrmsyncdirsdlg.btncompare.caption"
 msgid "Compare"
-msgstr "Сравнить"
+msgstr "&Сравнить"
 
 #: tfrmsyncdirsdlg.btnsearchtemplate.hint
 msgctxt "tfrmsyncdirsdlg.btnsearchtemplate.hint"
@@ -9198,7 +9197,7 @@ msgstr "&асимметрично"
 
 #: tfrmsyncdirsdlg.chkbycontent.caption
 msgid "by content"
-msgstr "&по содержимому"
+msgstr "по сод&ержимому"
 
 #: tfrmsyncdirsdlg.chkignoredate.caption
 msgid "ignore date"
@@ -9343,11 +9342,11 @@ msgstr "Поиск с акцентами и лигатурами"
 
 #: tfrmtreeviewmenu.pminotshowwholebranchifmatch.caption
 msgid "Don't show the branch content \"just\" because the searched string is found in the branche name"
-msgstr "Если строка найдена в имени ветви, то не показывать содержимое ветви"
+msgstr "Если строка найдена только в имени ветки, то не показывать её"
 
 #: tfrmtreeviewmenu.pmishowwholebranchifmatch.caption
 msgid "If searched string is found in a branch name, show the whole branch even if elements don't match"
-msgstr "Если строка найдена в имени ветви, то показать всю ветвь, даже если элементы не соответствуют"
+msgstr "Если строка найдена только в имени ветки, то показать ветку и всё её содержимое"
 
 #: tfrmtreeviewmenu.tbcancelandquit.hint
 msgid "Close Tree View Menu"
@@ -11282,17 +11281,17 @@ msgstr "Удалить частично скопированный файл?"
 #: ulng.rsmsgdelfldr
 #, object-pascal-format
 msgid "Delete %d selected files/directories?"
-msgstr "Удалить %d выбранных файлов/каталогов?"
+msgstr "Удалить выбранные файлы/каталоги (%d шт.)?"
 
 #: ulng.rsmsgdelfldrt
 #, object-pascal-format
 msgid "Delete %d selected files/directories into trash can?"
-msgstr "Удалить %d выбранных файлов/каталогов в корзину?"
+msgstr "Удалить выбранные файлы/каталоги (%d шт.) в корзину?"
 
 #: ulng.rsmsgdelsel
 #, object-pascal-format
 msgid "Delete selected \"%s\"?"
-msgstr "Удалить выбранный \"%s\"?"
+msgstr "Удалить \"%s\"?"
 
 #: ulng.rsmsgdelselt
 #, object-pascal-format
@@ -11811,8 +11810,8 @@ msgid ""
 "Do you want to delete all elements inside the sub-menu [%s]?\n"
 "Answering NO will delete only menu delimiters but will keep element inside sub-menu."
 msgstr ""
-"Хотите удалить все элементы внутри подменю [%s]?\n"
-"Ответ НЕТ удалит только разделители меню и оставит элементы внутри подменю."
+"Хотите удалить всё содержимое подменю [%s]?\n"
+"Ответ НЕТ удалит только разделители меню, оставив содержимое."
 
 #: ulng.rsmsghotdirwheretosave
 msgid "Enter location and filename where to save a Directory Hotlist file"
@@ -12403,7 +12402,7 @@ msgstr ""
 
 #: ulng.rsmulrenautorename
 msgid "Do auto-rename to \"name (1).ext\", \"name (2).ext\" etc.?"
-msgstr "Автоматически переименовывать в \"name (1).ext\", \"name (2).ext\" и т.д.?"
+msgstr "Автоматически переименовывать в \"имя (1).тип\", \"имя (2).тип\" и т.д.?"
 
 #: ulng.rsmulrencounter
 msgctxt "ulng.rsmulrencounter"
