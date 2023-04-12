@@ -1925,7 +1925,7 @@ begin
     // brush fake padding for last row
     if aRow = RowCount - 1 then
     begin
-      Canvas.Brush.Color := gBackColor;
+      Canvas.Brush.Color := Self.Color;
       aRect.Top := aRect.Bottom;
       Inc(aRect.Bottom, CELL_PADDING);
       Canvas.FillRect(aRect);
