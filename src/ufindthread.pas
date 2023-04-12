@@ -824,6 +824,7 @@ begin
   begin
     AData:= TDuplicate.Create;
     AData.Name:= AFileName;
+    AData.Hash:= AHash;
     AData.Size:= sr.Size;
     FDuplicates.Add(AValue, AData);
   end;
