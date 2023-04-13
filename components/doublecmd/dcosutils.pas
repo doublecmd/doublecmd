@@ -584,7 +584,10 @@ begin
       if caoCopyTime in Options then
       begin
         utb.actime  := time_t(StatInfo.st_atime);  // last access time
-{$IF DEFINED(DARWIN)}
+{$if (defined(darwin) and (defined(cpuarm) or defined(cpuaarch64))) or defined(iphonesim)}
+  {$define darwin_new_iostructs}
+{$endif}
+{$IF DEFINED(darwin_new_iostructs)}
         utb.modtime := time_t(StatInfo.st_birthtime);  // creation time
 {$ELSE}
         utb.modtime := time_t(StatInfo.st_mtime);  // last modification time
@@ -594,7 +597,7 @@ begin
           Include(Result, caoCopyTime);
           if Assigned(Errors) then Errors^[caoCopyTime]:= GetLastOSError;
         end;
-{$IF DEFINED(DARWIN)}
+{$IF DEFINED(darwin_new_iostructs)}
         // creation time supported in MacOS:
         // 1. the first call fputime above: set creation time
         // 2. the second call here: set modification time
