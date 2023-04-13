@@ -3532,123 +3532,78 @@ begin
 end;
 
 procedure TMainCommands.cm_SortByName(const Params: array of string);
-var
-  FileFunctions: TFileFunctions = nil;
 begin
-  AddSortFunction(FileFunctions, fsfNameNoExtension);
-  DoSortByFunctions(frmMain.ActiveFrame, FileFunctions);
+  DoSortByFunctions(frmMain.ActiveFrame, [fsfNameNoExtension]);
 end;
 
 procedure TMainCommands.cm_SortByExt(const Params: array of string);
-var
-  FileFunctions: TFileFunctions = nil;
 begin
-  AddSortFunction(FileFunctions, fsfExtension);
-  DoSortByFunctions(frmMain.ActiveFrame, FileFunctions);
+  DoSortByFunctions(frmMain.ActiveFrame, [fsfExtension]);
 end;
 
 procedure TMainCommands.cm_SortBySize(const Params: array of string);
-var
-  FileFunctions: TFileFunctions = nil;
 begin
-  AddSortFunction(FileFunctions, fsfSize);
-  DoSortByFunctions(frmMain.ActiveFrame, FileFunctions);
+  DoSortByFunctions(frmMain.ActiveFrame, [fsfSize]);
 end;
 
 procedure TMainCommands.cm_SortByDate(const Params: array of string);
-var
-  FileFunctions: TFileFunctions = nil;
 begin
-  AddSortFunction(FileFunctions, fsfModificationTime);
-  DoSortByFunctions(frmMain.ActiveFrame, FileFunctions);
+  DoSortByFunctions(frmMain.ActiveFrame, [fsfModificationTime]);
 end;
 
 procedure TMainCommands.cm_SortByAttr(const Params: array of string);
-var
-  FileFunctions: TFileFunctions = nil;
 begin
-  AddSortFunction(FileFunctions, fsfAttr);
-  DoSortByFunctions(frmMain.ActiveFrame, FileFunctions);
+  DoSortByFunctions(frmMain.ActiveFrame, [fsfAttr]);
 end;
 
 procedure TMainCommands.cm_LeftSortByName(const Params: array of string);
-var
-  FileFunctions: TFileFunctions = nil;
 begin
-  AddSortFunction(FileFunctions, fsfNameNoExtension);
-  DoSortByFunctions(frmMain.FrameLeft, FileFunctions);
+  DoSortByFunctions(frmMain.FrameLeft, [fsfNameNoExtension]);
 end;
 
 procedure TMainCommands.cm_LeftSortByExt(const Params: array of string);
-var
-  FileFunctions: TFileFunctions = nil;
 begin
-  AddSortFunction(FileFunctions, fsfExtension);
-  DoSortByFunctions(frmMain.FrameLeft, FileFunctions);
+  DoSortByFunctions(frmMain.FrameLeft, [fsfExtension]);
 end;
 
 procedure TMainCommands.cm_LeftSortBySize(const Params: array of string);
-var
-  FileFunctions: TFileFunctions = nil;
 begin
-  AddSortFunction(FileFunctions, fsfSize);
-  DoSortByFunctions(frmMain.FrameLeft, FileFunctions);
+  DoSortByFunctions(frmMain.FrameLeft, [fsfSize]);
 end;
 
 procedure TMainCommands.cm_LeftSortByDate(const Params: array of string);
-var
-  FileFunctions: TFileFunctions = nil;
 begin
-  AddSortFunction(FileFunctions, fsfModificationTime);
-  DoSortByFunctions(frmMain.FrameLeft, FileFunctions);
+  DoSortByFunctions(frmMain.FrameLeft, [fsfModificationTime]);
 end;
 
 procedure TMainCommands.cm_LeftSortByAttr(const Params: array of string);
-var
-  FileFunctions: TFileFunctions = nil;
 begin
-  AddSortFunction(FileFunctions, fsfAttr);
-  DoSortByFunctions(frmMain.FrameLeft, FileFunctions);
+  DoSortByFunctions(frmMain.FrameLeft, [fsfAttr]);
 end;
 
 procedure TMainCommands.cm_RightSortByName(const Params: array of string);
-var
-  FileFunctions: TFileFunctions = nil;
 begin
-  AddSortFunction(FileFunctions, fsfNameNoExtension);
-  DoSortByFunctions(frmMain.FrameRight, FileFunctions);
+  DoSortByFunctions(frmMain.FrameRight, [fsfNameNoExtension]);
 end;
 
 procedure TMainCommands.cm_RightSortByExt(const Params: array of string);
-var
-  FileFunctions: TFileFunctions = nil;
 begin
-  AddSortFunction(FileFunctions, fsfExtension);
-  DoSortByFunctions(frmMain.FrameRight, FileFunctions);
+  DoSortByFunctions(frmMain.FrameRight, [fsfExtension]);
 end;
 
 procedure TMainCommands.cm_RightSortBySize(const Params: array of string);
-var
-  FileFunctions: TFileFunctions = nil;
 begin
-  AddSortFunction(FileFunctions, fsfSize);
-  DoSortByFunctions(frmMain.FrameRight, FileFunctions);
+  DoSortByFunctions(frmMain.FrameRight, [fsfSize]);
 end;
 
 procedure TMainCommands.cm_RightSortByDate(const Params: array of string);
-var
-  FileFunctions: TFileFunctions = nil;
 begin
-  AddSortFunction(FileFunctions, fsfModificationTime);
-  DoSortByFunctions(frmMain.FrameRight, FileFunctions);
+  DoSortByFunctions(frmMain.FrameRight, [fsfModificationTime]);
 end;
 
 procedure TMainCommands.cm_RightSortByAttr(const Params: array of string);
-var
-  FileFunctions: TFileFunctions = nil;
 begin
-  AddSortFunction(FileFunctions, fsfAttr);
-  DoSortByFunctions(frmMain.FrameRight, FileFunctions);
+  DoSortByFunctions(frmMain.FrameRight, [fsfAttr]);
 end;
 
 { Command to request to sort a frame with a column with a defined order.

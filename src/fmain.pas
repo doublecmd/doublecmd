@@ -5114,7 +5114,6 @@ begin
       TabNode := TabNode.NextSibling;
     end;
   end;
-
   // Create at least one tab.
   if ANoteBook.PageCount = 0 then
   begin
@@ -5125,6 +5124,7 @@ begin
     else
       AFileViewFlags := [];
     AFileView := TColumnsFileView.Create(Page, aFileSource, gpExePath, AFileViewFlags);
+    Commands.DoSortByFunctions(AFileView, ColSet.GetColumnSet('Default').GetColumnFunctions(0));
     AssignEvents(AFileView);
   end
   else if Assigned(RootNode) then
