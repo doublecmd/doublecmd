@@ -4,7 +4,7 @@
 DC_VER=1.1.0
 
 # The new package will be saved here
-PACK_DIR=/var/tmp/doublecmd-release
+PACK_DIR=$PWD/doublecmd-release
 
 # Temp dir for creating *.dmg package
 BUILD_PACK_DIR=/var/tmp/doublecmd-$(date +%y.%m.%d)

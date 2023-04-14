@@ -6,7 +6,7 @@ on:
     - 'components/**'
     - 'plugins/**'
     - 'sdk/**'
-    - 'src/**'    
+    - 'src/**'
     branches:
       - master
 
@@ -15,17 +15,13 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  build:
-    runs-on: ${{ matrix.operating-system }}
-    strategy:
-      matrix:
-        operating-system: [macos-11]
-        lazarus-versions: [stable]
+  build-mac:
+    runs-on: macos-11
     steps:
     - name: Install Free Pascal
       uses: alexx2000/setup-fpc@master
       with:
-        lazarus-version: ${{ matrix.lazarus-versions }}
+        lazarus-version: "stable"
 
     - name: Get Lazarus source
       uses: actions/checkout@v3
@@ -51,6 +47,30 @@ jobs:
 
     - name: Deploy to snapshot server
       run: ./.github/scripts/upload_snapshot.sh
+      env:
+        SSH_PRIVATE_KEY: ${{ secrets.SERVER_SSH_KEY }}
+        REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
+        REMOTE_USER: ${{ secrets.REMOTE_USER }}
+
+  build-win:
+    runs-on: windows-latest
+    steps:
+    - name: Install Lazarus
+      uses: alexx2000/setup-fpc@win
+      with:
+        lazarus-version: "2.2.6"
+
+    - name: Checkout source
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+
+    - name: Build packages
+      run: ./.github/scripts/create_snapshot.bat
+
+    - name: Deploy to snapshot server
+      run: ./.github/scripts/upload_snapshot.sh
+      shell: bash
       env:
         SSH_PRIVATE_KEY: ${{ secrets.SERVER_SSH_KEY }}
         REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
