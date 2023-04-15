@@ -28,8 +28,8 @@ unit uFindThread;
 interface
 
 uses
-  Classes, SysUtils, DCStringHashListUtf8, uFindFiles, uFindEx, uFindByrMr,
-  uMasks, uRegExpr, uRegExprW, uWcxModule;
+  Classes, SysUtils, Contnrs, DCStringHashListUtf8, uFindFiles, uFindEx,
+  uFindByrMr, uMasks, uRegExpr, uRegExprW, uWcxModule;
 
 type
 
@@ -44,6 +44,18 @@ type
     function Clone: TDuplicate;
   end;
 
+  { TEncoding }
+
+  TEncoding = class
+    FindText: String;
+    ReplaceText: String;
+    FRegExpr: TRegExprEx;
+    RecodeTable: TRecodeTable;
+    FTextSearchType: TTextSearch;
+  public
+    destructor Destroy; override;
+  end;
+
   { TFindThread }
 
   TFindThread = class(TThread)
@@ -54,19 +66,17 @@ type
     FFilesFound:Integer;
     FFoundFile:String;
     FCurrentDepth: Integer;
-    FTextSearchType: TTextSearch;
     FSearchText: String;
     FSearchTemplate: TSearchTemplateRec;
     FSelectedFiles: TStringList;
     FFileChecks: TFindFileChecks;
     FLinkTargets: TStringList;  // A list of encountered directories (for detecting cycles)
-    RecodeTable:TRecodeTable;
     FFilesMasks: TMaskList;
     FExcludeFiles: TMaskList;
+    FEncodings: TObjectList;
     FExcludeDirectories: TMaskList;
     FFilesMasksRegExp: TRegExprW;
     FExcludeFilesRegExp: TRegExprW;
-    FRegExpr: TRegExprEx;
     FArchive: TWcxModule;
     FHeader: TWcxHeader;
 
@@ -86,8 +96,8 @@ type
     function CheckFile(const Folder : String; const sr : TSearchRecEx) : Boolean;
     function CheckDirectory(const CurrentDir, FolderName : String) : Boolean;
     function CheckDuplicate(const Folder : String; const sr : TSearchRecEx): Boolean;
-    function FindInFile(const sFileName: String;sData: String; bCase, bRegExp: Boolean): Boolean;
-    procedure FileReplaceString(const FileName, SearchString, ReplaceString: string; bCase, bRegExp: Boolean);
+    function FindInFile(const sFileName: String; bCase, bRegExp: Boolean): Boolean;
+    procedure FileReplaceString(const FileName: String; bCase, bRegExp: Boolean);
 
   protected
     procedure Execute; override;
@@ -141,12 +151,27 @@ begin
   Result.Index:= Self.Index;
 end;
 
+{ TEncoding }
+
+destructor TEncoding.Destroy;
+begin
+  FRegExpr.Free;
+  inherited Destroy;
+end;
+
 { TFindThread }
 
 constructor TFindThread.Create(const AFindOptions: TSearchTemplateRec; SelectedFiles: TStringList);
+var
+  S: String;
+  Index: Integer;
+  AEncoding: TEncoding;
+  ATextEncoding: String;
+  AEncodings: TStringArray;
 begin
   inherited Create(True);
 
+  FEncodings:= TObjectList.Create(True);
   FLinkTargets := TStringList.Create;
   FSearchTemplate := AFindOptions;
   FSelectedFiles := SelectedFiles;
@@ -162,40 +187,55 @@ begin
     begin
       FSearchText := FindText;
 
-      if HexValue then
-      begin
-        TextEncoding := EncodingAnsi;
-        FindText := HexToBin(FindText);
-      end
-      else begin
-        TextEncoding := NormalizeEncoding(TextEncoding);
-        if TextRegExp then FRegExpr := TRegExprEx.Create(TextEncoding, True);
-        FindText := ConvertEncoding(FindText, EncodingUTF8, TextEncoding);
-        ReplaceText := ConvertEncoding(ReplaceText, EncodingUTF8, TextEncoding);
-      end;
+      AEncodings:= SplitString(TextEncoding, '|');
 
-      // Determine search type
-      if SingleByteEncoding(TextEncoding) then
+      for Index:= 0 to High(AEncodings) do
       begin
-        FTextSearchType := tsAnsi;
-        RecodeTable := InitRecodeTable(TextEncoding, CaseSensitive);
-      end
-      else if (CaseSensitive = False) then
-      begin
-        if TextEncoding = EncodingDefault then begin
-          TextEncoding := GetDefaultTextEncoding;
+        AEncoding:= TEncoding.Create;
+        ATextEncoding:= AEncodings[Index];
+
+        if HexValue then
+        begin
+          ATextEncoding := EncodingAnsi;
+          FindText := HexToBin(FindText);
+        end
+        else begin
+          ATextEncoding := NormalizeEncoding(ATextEncoding);
+          AEncoding.FindText := ConvertEncoding(FindText, EncodingUTF8, ATextEncoding);
+          AEncoding.ReplaceText := ConvertEncoding(ReplaceText, EncodingUTF8, ATextEncoding);
+          if TextRegExp then
+          begin
+            AEncoding.FRegExpr := TRegExprEx.Create(ATextEncoding, True);
+            AEncoding.FRegExpr.Expression := FSearchText;
+          end;
         end;
-        if ((TextEncoding = EncodingUTF8) or (TextEncoding = EncodingUTF8BOM)) then
-          FTextSearchType:= tsUtf8
-        else if (TextEncoding = EncodingUTF16LE) then
-          FTextSearchType:= tsUtf16le
-        else if (TextEncoding = EncodingUTF16BE) then
-          FTextSearchType:= tsUtf16be
-        else
-          FTextSearchType:= tsOther;
-      end
-      else begin
-        FTextSearchType:= tsOther;
+
+        // Determine search type
+        if SingleByteEncoding(ATextEncoding) then
+        begin
+          AEncoding.FTextSearchType := tsAnsi;
+          AEncoding.RecodeTable := InitRecodeTable(ATextEncoding, CaseSensitive);
+        end
+        else if (CaseSensitive = False) then
+        begin
+          if ATextEncoding = EncodingDefault then begin
+            ATextEncoding := GetDefaultTextEncoding;
+          end;
+          if ((ATextEncoding = EncodingUTF8) or (ATextEncoding = EncodingUTF8BOM)) then
+            AEncoding.FTextSearchType:= tsUtf8
+          else if (ATextEncoding = EncodingUTF16LE) then
+            AEncoding.FTextSearchType:= tsUtf16le
+          else if (ATextEncoding = EncodingUTF16BE) then
+            AEncoding.FTextSearchType:= tsUtf16be
+          else
+            AEncoding.FTextSearchType:= tsOther;
+        end
+        else begin
+          AEncoding.FTextSearchType:= tsOther;
+        end;
+        FEncodings.Add(AEncoding);
+
+        if HexValue then Break;
       end;
     end
   end;
@@ -228,7 +268,7 @@ var
   Index: Integer;
 begin
 //  FItems.Add('End');
-  FreeAndNil(FRegExpr);
+  FreeAndNil(FEncodings);
   FreeAndNil(FFilesMasks);
   FreeAndNil(FExcludeFiles);
   FreeThenNil(FLinkTargets);
@@ -328,7 +368,7 @@ begin
   end;
 end;
 
-function TFindThread.FindInFile(const sFileName: String; sData: String;
+function TFindThread.FindInFile(const sFileName: String;
                                 bCase, bRegExp: Boolean): Boolean;
 var
   fs: TFileStreamEx;
@@ -347,15 +387,18 @@ var
   end;
 
 var
-  lastPos,
-  sDataLength,
-  DataRead: Longint;
-  BufferSize: Integer;
-  Buffer: PAnsiChar = nil;
   S: String;
+  Index: Integer;
+  lastPos: Pointer;
+  DataRead: Integer;
+  fmr : TFileMapRec;
+  BufferSize: Integer;
+  sDataLength: Integer;
+  AEncoding: TEncoding;
+  Buffer: PAnsiChar = nil;
 begin
   Result := False;
-  if sData = '' then Exit;
+  if FSearchText = '' then Exit;
 
   if FSearchTemplate.OfficeXML and OfficeMask.Matches(sFileName) then
   begin
@@ -387,47 +430,66 @@ begin
     finally
       fs.Free;
     end;
-    FRegExpr.Expression := sData;
-    FRegExpr.SetInputString(Pointer(S), Length(S));
-    Exit(FRegExpr.Exec());
+    for Index:= 0 to FEncodings.Count - 1 do
+    begin
+      AEncoding:= TEncoding(FEncodings[Index]);
+      AEncoding.FRegExpr.SetInputString(Pointer(S), Length(S));
+      if AEncoding.FRegExpr.Exec() then Exit(True);
+    end;
+    Exit;
   end;
 
   if gUseMmapInSearch then
   begin
     // Memory mapping should be slightly faster and use less memory
-    case FTextSearchType of
-      tsAnsi:    lastPos:= FindMmapBM(sFileName, sData, RecodeTable, @IsAborting);
-      tsUtf8:    lastPos:= FindMmapU(sFileName, sData);
-      tsUtf16le: lastPos:= FindMmapW(sFileName, sData, True);
-      tsUtf16be: lastPos:= FindMmapW(sFileName, sData, False);
-      else       lastPos:= FindMmap(sFileName, sData, bCase, @IsAborting);
+    if MapFile(sFileName, fmr) then
+    try
+      for Index:= 0 to FEncodings.Count - 1 do
+      begin
+        AEncoding:= TEncoding(FEncodings[Index]);
+        with AEncoding do
+        begin
+          case FTextSearchType of
+            tsAnsi:    lastPos:= Pointer(PosMemBoyerMur(fmr.MappedFile, fmr.FileSize, FindText, RecodeTable));
+            tsUtf8:    lastPos:= PosMemU(fmr.MappedFile, fmr.FileSize, 0, FindText, False);
+            tsUtf16le: lastPos:= PosMemW(fmr.MappedFile, fmr.FileSize, 0, FindText, False, True);
+            tsUtf16be: lastPos:= PosMemW(fmr.MappedFile, fmr.FileSize, 0, FindText, False, False);
+            else       lastPos:= PosMem(fmr.MappedFile, fmr.FileSize, 0, FindText, bCase, False);
+          end;
+        end;
+        if (lastPos <> Pointer(-1)) then Exit(True);
+      end;
+      Exit;
+    finally
+      UnMapFile(fmr);
     end;
-    case lastPos of
-      0 : Exit(False);
-      1 : Exit(True);
-      // else fall back to searching via stream reading
-    end;
+    // else fall back to searching via stream reading
   end;
-
-  BufferSize := gCopyBlockSize;
-  sDataLength := Length(sData);
-
-  if sDataLength > BufferSize then
-    raise Exception.Create(rsMsgErrSmallBuf);
 
   fs := TFileStreamEx.Create(sFileName, fmOpenRead or fmShareDenyNone or fmOpenNoATime);
   try
-    if sDataLength > fs.Size then // string longer than file, cannot search
-      Exit;
+    BufferSize := gCopyBlockSize;
 
-    // Buffer is extended by sDataLength-1 and BufferSize + sDataLength - 1
-    // bytes are read. Then strings of length sDataLength are compared with
-    // sData starting from offset 0 to BufferSize-1. The remaining part of the
-    // buffer [BufferSize, BufferSize+sDataLength-1] is moved to the beginning,
-    // buffer is filled up with BufferSize bytes and the search continues.
+    for Index:= 0 to FEncodings.Count - 1 do
+    begin
+      fs.Seek(0, soFromBeginning);
+      AEncoding:= TEncoding(FEncodings[Index]);
+      sDataLength := Length(AEncoding.FindText);
 
-    GetMem(Buffer, BufferSize + sDataLength - 1);
-    if Assigned(Buffer) then
+      if sDataLength > BufferSize then
+        raise Exception.Create(rsMsgErrSmallBuf);
+
+      if sDataLength > fs.Size then // string longer than file, cannot search
+        Continue;
+
+      // Buffer is extended by sDataLength-1 and BufferSize + sDataLength - 1
+      // bytes are read. Then strings of length sDataLength are compared with
+      // sData starting from offset 0 to BufferSize-1. The remaining part of the
+      // buffer [BufferSize, BufferSize+sDataLength-1] is moved to the beginning,
+      // buffer is filled up with BufferSize bytes and the search continues.
+
+      GetMem(Buffer, BufferSize + sDataLength - 1);
+      if Assigned(Buffer) then
       try
         if FillBuffer(Buffer, sDataLength-1) = sDataLength-1 then
         begin
@@ -437,26 +499,26 @@ begin
             if DataRead = 0 then
               Break;
 
-            case FTextSearchType of
+            case AEncoding.FTextSearchType of
               tsAnsi:
                 begin
-                  if PosMemBoyerMur(@Buffer[0], DataRead + sDataLength - 1, sData, RecodeTable) <> -1 then
+                  if PosMemBoyerMur(@Buffer[0], DataRead + sDataLength - 1, AEncoding.FindText, AEncoding.RecodeTable) <> -1 then
                     Exit(True);
                 end;
               tsUtf8:
                 begin
-                  if PosMemU(@Buffer[0], DataRead + sDataLength - 1, 0, sData, False) <> Pointer(-1) then
+                  if PosMemU(@Buffer[0], DataRead + sDataLength - 1, 0, AEncoding.FindText, False) <> Pointer(-1) then
                     Exit(True);
                 end;
               tsUtf16le,
               tsUtf16be:
                 begin
-                  if PosMemW(@Buffer[0], DataRead + sDataLength - 1, 0, sData, False, FTextSearchType = tsUtf16le) <> Pointer(-1) then
+                  if PosMemW(@Buffer[0], DataRead + sDataLength - 1, 0, AEncoding.FindText, False, AEncoding.FTextSearchType = tsUtf16le) <> Pointer(-1) then
                     Exit(True);
                 end;
               else
                 begin
-                  if PosMem(@Buffer[0], DataRead + sDataLength - 1, 0, sData, bCase, False) <> Pointer(-1) then
+                  if PosMem(@Buffer[0], DataRead + sDataLength - 1, 0, AEncoding.FindText, bCase, False) <> Pointer(-1) then
                     Exit(True);
                 end;
             end;
@@ -469,6 +531,7 @@ begin
         end;
       except
       end;
+    end;
 
   finally
     FreeAndNil(fs);
@@ -480,10 +543,11 @@ begin
   end;
 end;
 
-procedure TFindThread.FileReplaceString(const FileName, SearchString, ReplaceString: string; bCase, bRegExp: Boolean);
+procedure TFindThread.FileReplaceString(const FileName: String; bCase, bRegExp: Boolean);
 var
   S: String;
   fs: TFileStreamEx;
+  AEncoding: TEncoding;
   Flags : TReplaceFlags = [];
 begin
   fs := TFileStreamEx.Create(FileName, fmOpenRead or fmShareDenyNone);
@@ -499,13 +563,15 @@ begin
     fs.Free;
   end;
 
+  AEncoding:= TEncoding(FEncodings[0]);
+
   if bRegExp then
-    S := FRegExpr.ReplaceAll(SearchString, S, replaceString)
+    S := AEncoding.FRegExpr.ReplaceAll(AEncoding.FindText, S, AEncoding.ReplaceText)
   else
     begin
       Include(Flags, rfReplaceAll);
       if not bCase then Include(Flags, rfIgnoreCase);
-      S := StringReplace(S, SearchString, replaceString, Flags);
+      S := StringReplace(S, AEncoding.FindText, AEncoding.ReplaceText, Flags);
     end;
 
   fs := TFileStreamEx.Create(FileName, fmCreate);
@@ -626,7 +692,7 @@ begin
           begin
             if Result and IsFindText then
             begin
-              Result:= FindInFile(TargetFileName, FindText, CaseSensitive, TextRegExp);
+              Result:= FindInFile(TargetFileName, CaseSensitive, TextRegExp);
               if NotContainingText then Result:= not Result;
               mbDeleteFile(TargetFileName);
             end;
@@ -862,10 +928,10 @@ begin
         Exit(False);
 
       try
-        Result := FindInFile(IncludeTrailingBackslash(Folder) + sr.Name, FindText, CaseSensitive, TextRegExp);
+        Result := FindInFile(IncludeTrailingBackslash(Folder) + sr.Name, CaseSensitive, TextRegExp);
 
         if (Result and IsReplaceText) then
-          FileReplaceString(IncludeTrailingBackslash(Folder) + sr.Name, FindText, ReplaceText, CaseSensitive, TextRegExp);
+          FileReplaceString(IncludeTrailingBackslash(Folder) + sr.Name, CaseSensitive, TextRegExp);
 
         if NotContainingText then
           Result := not Result;
