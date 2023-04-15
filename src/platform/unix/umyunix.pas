@@ -3,7 +3,7 @@
     -------------------------------------------------------------------------
     This unit contains specific UNIX functions.
 
-    Copyright (C) 2008-2022 Alexander Koblov (alexx2000@mail.ru)
+    Copyright (C) 2008-2023 Alexander Koblov (alexx2000@mail.ru)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -174,6 +174,9 @@ uses
 {$ENDIF}
 {$IF NOT (DEFINED(DARWIN) OR DEFINED(HAIKU))}
   , uMimeActions, uMimeType, uGVolume
+{$ENDIF}
+{$IFDEF DARWIN}
+  , uMyDarwin
 {$ENDIF}
 {$IFDEF LINUX}
   , uUDisks2
@@ -539,7 +542,7 @@ begin
       Result := fpSystemStatus('pumount ' + Drive^.DeviceId) = 0;
     if not Result then
 {$ELSEIF DEFINED(DARWIN)}
-    Result := fpSystemStatus('diskutil unmount ' + Drive^.Path) = 0;
+    Result := unmountAndEject( Drive^.Path );
     if not Result then
 {$ENDIF}
     Result := fpSystemStatus('umount ' + Drive^.Path) = 0;
@@ -561,7 +564,7 @@ begin
     Result := uUDisks2.Eject(Drive^.DeviceId);
   if not Result then
 {$ELSEIF DEFINED(DARWIN)}
-  Result := fpSystemStatus('diskutil eject ' + Drive^.DeviceId) = 0;
+  Result := unmountAndEject( Drive^.Path );
   if not Result then
 {$ENDIF}
   Result := fpSystemStatus('eject ' + Drive^.DeviceId) = 0;
