@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Useful functions dealing with strings.
    
-   Copyright (C) 2006-2022  Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2006-2023  Alexander Koblov (alexx2000@mail.ru)
    Copyright (C) 2012       Przemyslaw Nagay (cobines@gmail.com)
 
    This program is free software; you can redistribute it and/or modify
@@ -845,19 +845,21 @@ function ApplyRenameMask(aFileName: String; NameMask: String; ExtMask: String): 
   function ApplyMask(const TargetString, Mask: String): String;
   var
     I: Integer;
+    ALen: Integer;
   begin
     Result:= EmptyStr;
+    ALen:= UTF8Length(TargetString);
     for I:= 1 to Length(Mask) do
     begin
       if Mask[I] = '?' then
       begin
-        if I <= Length(TargetString) then
-          Result:= Result + TargetString[I]
+        if I <= ALen then
+          Result:= Result + UTF8Copy(TargetString, I, 1)
         else
           Exit(TargetString);
       end
       else if Mask[I] = '*' then
-        Result:= Result + Copy(TargetString, I, Length(TargetString) - I + 1)
+        Result:= Result + UTF8Copy(TargetString, I, MaxInt)
       else
         Result:= Result + Mask[I];
     end;
