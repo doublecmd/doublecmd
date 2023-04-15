@@ -7,20 +7,32 @@ interface
 uses
   Classes, SysUtils, SyncObjs, uService;
 
-const
-  RPC_Execute     = 1;
+{const
+  RPC_Execute     = 1;}
 
 type
 
-  { TMasterService }
+{type
+  RPC_Commands = (RPC_Terminate, RPC_FileOpen, RPC_FileCreate,
+    RPC_DeleteFile, RPC_RenameFile, RPC_CreateDirectory,
+    RPC_RemoveDirectory, RPC_CreateSymbolicLink, RPC_CreateHardLink
+    RPC_FileExists, RPC_FileGetAttr, RPC_FileSetAttr,
+    RPC_FileSetTime, RPC_DirectoryExists
+  RPC_FileSetReadOnly = 14;
+  RPC_FileCopyAttr = 15;
 
-  TMasterService = class(TBaseService)
-  public
-    constructor Create(const AName: String); override;
-    procedure ProcessRequest(ATransport: TBaseTransport; ACommand: Int32; ARequest: TStream); override;
-  end;
+  RPC_FileCopy = 19;
 
-const
+  RPC_FindFirst = 16;
+  RPC_FindNext = 17;
+  RPC_FindClose = 18;
+
+   = 8;
+   = 7;
+
+  RPC_DirectoryExists = 13; }
+
+{const
   RPC_Terminate  = 0;
   RPC_FileOpen   = 1;
   RPC_FileCreate = 2;
@@ -44,16 +56,22 @@ const
 
   RPC_CreateDirectory = 5;
   RPC_RemoveDirectory = 6;
-  RPC_DirectoryExists = 13;
+  RPC_DirectoryExists = 13;}
 
-type
+  { TMasterService }
+
+  TMasterService = class(TBaseService)
+  public
+    constructor Create(const AName: String); override;
+    procedure ProcessRequest(ATransport: TBaseTransport; const ACommand: TRPC_Commands; ARequest: TStream); override;
+  end;
 
   { TWorkerService }
 
   TWorkerService = class(TBaseService)
   public
     constructor Create(const AName: String); override;
-    procedure ProcessRequest(ATransport: TBaseTransport; ACommand: Int32; ARequest: TStream); override;
+    procedure ProcessRequest(ATransport: TBaseTransport; const ACommand: TRPC_Commands; ARequest: TStream); override;
   end;
 
 var
@@ -62,7 +80,7 @@ var
 implementation
 
 uses
-  DCBasicTypes, DCOSUtils, uFindEx, uDebug, uFileCopyEx;
+  DCBasicTypes, DCOSUtils, uFindEx, uDebug, uFileCopyEx, uTrash;
 
 function FileCopyProgress(TotalBytes, DoneBytes: Int64; UserData: Pointer): LongBool;
 var
@@ -72,7 +90,7 @@ begin
   ATransport.WriteBuffer(Code, SizeOf(UInt32));
   ATransport.WriteBuffer(TotalBytes, SizeOf(TotalBytes));
   ATransport.WriteBuffer(DoneBytes, SizeOf(DoneBytes));
-  ATransport.ReadBuffer(Result, SizeOf(Result));
+  ATransport.ReadBuffer({%H-}Result, SizeOf(Result));
 end;
 
 { TMasterService }
@@ -83,7 +101,7 @@ begin
   Self.FVerifyChild:= True;
 end;
 
-procedure TMasterService.ProcessRequest(ATransport: TBaseTransport; ACommand: Int32;
+procedure TMasterService.ProcessRequest(ATransport: TBaseTransport; const ACommand: TRPC_Commands;
   ARequest: TStream);
 var
   Result: LongBool = True;
@@ -106,7 +124,7 @@ begin
   Self.FVerifyParent:= True;
 end;
 
-procedure TWorkerService.ProcessRequest(ATransport: TBaseTransport; ACommand: Int32;
+procedure TWorkerService.ProcessRequest(ATransport: TBaseTransport; const ACommand: TRPC_Commands;
   ARequest: TStream);
 const
   FIND_MAX = 512;
@@ -144,6 +162,15 @@ begin
       FileName:= ARequest.ReadAnsiString;
       DCDebug('DeleteFile ', FileName);
       Result:= mbDeleteFile(FileName);
+      LastError:= GetLastOSError;
+      ATransport.WriteBuffer(Result, SizeOf(Result));
+      ATransport.WriteBuffer(LastError, SizeOf(LastError));
+    end;
+  RPC_DeleteToTrashFile:
+    begin
+      FileName:= ARequest.ReadAnsiString;
+      DCDebug('DeleteToTrashFile ', FileName);
+      Result:= FileTrashUtf8(FileName);
       LastError:= GetLastOSError;
       ATransport.WriteBuffer(Result, SizeOf(Result));
       ATransport.WriteBuffer(LastError, SizeOf(LastError));

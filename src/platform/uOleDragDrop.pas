@@ -189,7 +189,7 @@ uses
 
   //DC
   uOSUtils, fOptionsDragDrop, uShowMsg, UGlobs, DCStrUtils, DCOSUtils,
-  uClipboard, uLng, uDebug, uShlObjAdditional, uOSForms;
+  uClipboard, uURIHandling, uLng, uDebug, uShlObjAdditional, uOSForms;
 
 var
   // Supported formats by the source.

@@ -10074,6 +10074,10 @@ msgstr "для создания этого объекта:"
 msgid "to delete this object:"
 msgstr "для удаления этого объекта:"
 
+#: uadministrator.rselevationrequireddeletetotrash
+msgid "to delete to trash this object:"
+msgstr "для удаления в корзину этого объекта:"
+
 #: uadministrator.rselevationrequiredgetattributes
 msgid "to get attributes of this object:"
 msgstr "для получения атрибутов этого объекта:"

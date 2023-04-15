@@ -110,12 +110,6 @@ function FileIsLinkToFolder(const FileName: String; out LinkTarget: String): Boo
    @returns(The function returns @true if successful, @false otherwise)
 }
 function FileIsUnixExecutable(const Filename: String): Boolean;
-{en
-   Find mount point of file system where file is located
-   @param(FileName File name)
-   @returns(Mount point of file system)
-}
-function FindMountPointPath(const FileName: String): String;
 function FindExecutableInSystemPath(var FileName: String): Boolean;
 function ExecutableInSystemPath(const FileName: String): Boolean;
 function GetDefaultAppCmd(const FileName: String): String;
@@ -168,8 +162,8 @@ implementation
 
 uses
   URIParser, Unix, Process, LazUTF8, DCOSUtils, DCClassesUtf8, DCStrUtils,
-  DCUnix, uDCUtils, uOSUtils
-{$IF (NOT DEFINED(FPC_USE_LIBC)) or (DEFINED(BSD) AND NOT DEFINED(DARWIN))}
+  DCUnix, uDCUtils
+{$IF (NOT DEFINED(FPC_USE_LIBC) AND NOT DEFINED(LINUX)) or (DEFINED(BSD) AND NOT DEFINED(DARWIN))}
   , SysCall
 {$ENDIF}
 {$IF NOT (DEFINED(DARWIN) OR DEFINED(HAIKU))}
@@ -304,49 +298,6 @@ begin
     Result:= False;
   end;
 end;
-
-function FindMountPointPath(const FileName: String): String;
-var
-  I, J: LongInt;
-  sTemp: String;
-  recStat: Stat;
-  st_dev: QWord;
-begin
-  // Set root directory as mount point by default
-  Result:= PathDelim;
-  // Get stat info for original file
-  if (fpLStat(UTF8ToSys(FileName), recStat) < 0) then Exit;
-  // Save device ID of original file
-  st_dev:= recStat.st_dev;
-  J:= Length(FileName);
-  for I:= J downto 1 do
-  begin
-    if FileName[I] = PathDelim then
-    begin
-      if (I = 1) then
-        sTemp:= PathDelim
-      else
-        sTemp:= Copy(FileName, 1, I - 1);
-      // Stat for current directory
-      if (fpLStat(UTF8ToSys(sTemp), recStat) < 0) then Continue;
-      // If it is a link then checking link destination
-      if fpS_ISLNK(recStat.st_mode) then
-      begin
-        sTemp:= ReadSymLink(sTemp);
-        Result:= FindMountPointPath(sTemp);
-        Exit;
-      end;
-      // Check device ID
-      if (recStat.st_dev <> st_dev) then
-      begin
-        Result:= Copy(FileName, 1, J);
-        Exit;
-      end;
-      J:= I;
-    end;
-  end;
-end;
-
 function FindExecutableInSystemPath(var FileName: String): Boolean;
 var
   I: Integer;

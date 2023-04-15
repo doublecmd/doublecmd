@@ -29,10 +29,10 @@ type
   private
     FClient: TBaseTransport;
     procedure ReadSearchRec(Data: TMemoryStream; var SearchRec: TSearchRecEx);
-    function ProcessObject(ACommand: UInt32; const ObjectName: String): LongBool;
-    function ProcessObject(ACommand: UInt32; const OldName, NewName: String): LongBool;
-    function ProcessObject(ACommand: UInt32; const ObjectName: String; Attr: UInt32): LongBool;
-    function ProcessObject(ACommand: UInt32; const ObjectName: String; Mode: Integer): THandle;
+    function ProcessObject(const ACommand: TRPC_Commands; const ObjectName: String): LongBool;
+    function ProcessObject(const ACommand: TRPC_Commands; const OldName, NewName: String): LongBool;
+    function ProcessObject(const ACommand: TRPC_Commands; const ObjectName: String; Attr: UInt32): LongBool;
+    function ProcessObject(const ACommand: TRPC_Commands; const ObjectName: String; Mode: Integer): THandle;
   public
     function Terminate: Boolean;
     function FileExists(const FileName: String): LongBool; inline;
@@ -51,6 +51,7 @@ type
     function FileCopy(const Source, Target: String; Options: UInt32;
                       UpdateProgress: TFileCopyProgress; UserData: Pointer): LongBool;
     function DeleteFile(const FileName: String): LongBool; inline;
+    function DeleteToTrashFile(const FileName: String): LongBool; inline;
     function RenameFile(const OldName, NewName: String): LongBool; inline;
     function FindFirst(const Path: String; Flags: UInt32; out SearchRec: TSearchRecEx): Integer;
     function FindNext(var SearchRec: TSearchRecEx): Integer;
@@ -196,7 +197,7 @@ begin
   SearchRec.Name:= Data.ReadAnsiString;
 end;
 
-function TWorkerProxy.ProcessObject(ACommand: UInt32; const ObjectName: String): LongBool;
+function TWorkerProxy.ProcessObject(const ACommand: TRPC_Commands; const ObjectName: String): LongBool;
 var
   LastError: Integer;
   Stream: TMemoryStream;
@@ -206,7 +207,7 @@ begin
     Stream:= TMemoryStream.Create;
     try
       // Write header
-      Stream.WriteDWord(ACommand);
+      Stream.WriteDWord(UInt32(ACommand));
       Stream.Seek(SizeOf(UInt32), soFromCurrent);
       // Write arguments
       Stream.WriteAnsiString(ObjectName);
@@ -227,7 +228,7 @@ begin
   end;
 end;
 
-function TWorkerProxy.ProcessObject(ACommand: UInt32; const OldName,
+function TWorkerProxy.ProcessObject(const ACommand: TRPC_Commands; const OldName,
   NewName: String): LongBool;
 var
   LastError: Integer;
@@ -238,7 +239,7 @@ begin
     Stream:= TMemoryStream.Create;
     try
       // Write header
-      Stream.WriteDWord(ACommand);
+      Stream.WriteDWord(UInt32(ACommand));
       Stream.Seek(SizeOf(UInt32), soFromCurrent);
       // Write arguments
       Stream.WriteAnsiString(OldName);
@@ -260,7 +261,7 @@ begin
   end;
 end;
 
-function TWorkerProxy.ProcessObject(ACommand: UInt32; const ObjectName: String;
+function TWorkerProxy.ProcessObject(const ACommand: TRPC_Commands; const ObjectName: String;
   Attr: UInt32): LongBool;
 var
   LastError: Integer;
@@ -271,7 +272,7 @@ begin
     Stream:= TMemoryStream.Create;
     try
       // Write header
-      Stream.WriteDWord(ACommand);
+      Stream.WriteDWord(UInt32(ACommand));
       Stream.Seek(SizeOf(UInt32), soFromCurrent);
       // Write arguments
       Stream.WriteAnsiString(ObjectName);
@@ -293,7 +294,7 @@ begin
   end;
 end;
 
-function TWorkerProxy.ProcessObject(ACommand: UInt32; const ObjectName: String;
+function TWorkerProxy.ProcessObject(const ACommand: TRPC_Commands; const ObjectName: String;
   Mode: Integer): THandle;
 var
   Stream: TMemoryStream;
@@ -303,7 +304,7 @@ begin
     Stream:= TMemoryStream.Create;
     try
       // Write header
-      Stream.WriteDWord(ACommand);
+      Stream.WriteDWord(UInt32(ACommand));
       Stream.Seek(SizeOf(UInt32), soFromCurrent);
       // Write arguments
       Stream.WriteAnsiString(ObjectName);
@@ -332,8 +333,8 @@ begin
     Stream:= TMemoryStream.Create;
     try
       // Write header
-      Stream.WriteDWord(RPC_Terminate);
-      Stream.WriteDWord(SizeOf(SizeUInt));
+      Stream.WriteDWord(UInt32(RPC_Terminate));
+      Stream.WriteDWord(SizeOf(UInt32));
       // Write process identifier
       Stream.WriteBuffer(GetProcessID, SizeOf(SizeUInt));
       // Send command
@@ -369,7 +370,7 @@ begin
     Stream:= TMemoryStream.Create;
     try
       // Write header
-      Stream.WriteDWord(RPC_FileGetAttr);
+      Stream.WriteDWord(UInt32(RPC_FileGetAttr));
       Stream.Seek(SizeOf(UInt32), soFromCurrent);
       // Write arguments
       Stream.WriteAnsiString(FileName);
@@ -410,7 +411,7 @@ begin
     Stream:= TMemoryStream.Create;
     try
       // Write header
-      Stream.WriteDWord(RPC_FileSetTime);
+      Stream.WriteDWord(UInt32(RPC_FileSetTime));
       Stream.Seek(SizeOf(UInt32), soFromCurrent);
       // Write arguments
       Stream.WriteAnsiString(FileName);
@@ -450,7 +451,7 @@ begin
     Stream:= TMemoryStream.Create;
     try
       // Write header
-      Stream.WriteDWord(RPC_FileCopyAttr);
+      Stream.WriteDWord(UInt32(RPC_FileCopyAttr));
       Stream.Seek(SizeOf(UInt32), soFromCurrent);
       // Write arguments
       Stream.WriteAnsiString(sSrc);
@@ -495,7 +496,7 @@ begin
     Stream:= TMemoryStream.Create;
     try
       // Write header
-      Stream.WriteDWord(RPC_FileCopy);
+      Stream.WriteDWord(UInt32(RPC_FileCopy));
       Stream.Seek(SizeOf(UInt32), soFromCurrent);
       // Write arguments
       Stream.WriteAnsiString(Source);
@@ -534,6 +535,11 @@ begin
   Result:= ProcessObject(RPC_DeleteFile, FileName);
 end;
 
+function TWorkerProxy.DeleteToTrashFile(const FileName: String): LongBool;
+begin
+  Result:= ProcessObject(RPC_DeleteToTrashFile, FileName);
+end;
+
 function TWorkerProxy.RenameFile(const OldName, NewName: String): LongBool;
 begin
   Result:= ProcessObject(RPC_RenameFile, OldName, NewName);
@@ -551,7 +557,7 @@ begin
     Stream:= TMemoryStream.Create;
     try
       // Write header
-      Stream.WriteDWord(RPC_FindFirst);
+      Stream.WriteDWord(UInt32(RPC_FindFirst));
       Stream.Seek(SizeOf(UInt32), soFromCurrent);
       // Write arguments
       Stream.WriteAnsiString(Path);
@@ -597,8 +603,8 @@ begin
       Stream:= TMemoryStream.Create;
       try
         // Write header
-        Stream.WriteDWord(RPC_FindNext);
-        Stream.WriteDWord(SizeOf(Pointer));
+        Stream.WriteDWord(UInt32(RPC_FindNext));
+        Stream.WriteDWord(SizeOf(UInt32));
         // Write arguments
         Stream.WriteBuffer(Data.Memory^, SizeOf(Pointer));
         // Send command
@@ -631,8 +637,8 @@ begin
     Stream:= TMemoryStream.Create;
     try
       // Write header
-      Stream.WriteDWord(RPC_FindClose);
-      Stream.WriteDWord(SizeOf(Pointer));
+      Stream.WriteDWord(UInt32(RPC_FindClose));
+      Stream.WriteDWord(SizeOf(UInt32));
       // Write arguments
       Stream.WriteBuffer(Data.Memory^, SizeOf(Pointer));
       // Send command

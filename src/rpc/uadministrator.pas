@@ -28,6 +28,7 @@ function FileCopyUAC(const Source, Target: String; Options: UInt32;
                      UpdateProgress: TFileCopyProgress; UserData: Pointer): Boolean;
 
 function DeleteFileUAC(const FileName: String): LongBool;
+function DeleteToTrashFileUAC(const FileName: String): LongBool;
 function RenameFileUAC(const OldName, NewName: String): LongBool;
 
 function FindFirstUAC(const Path: String; Flags: UInt32; out SearchRec: TSearchRecEx): Integer;
@@ -65,12 +66,13 @@ threadvar
 implementation
 
 uses
-  RtlConsts, DCStrUtils, LCLType, uShowMsg, uElevation, uSuperUser,
+  RtlConsts, DCStrUtils, LCLType, uShowMsg, uElevation, uSuperUser, uTrash,
   fElevation;
 
 resourcestring
   rsElevationRequired = 'You need to provide administrator permission';
   rsElevationRequiredDelete = 'to delete this object:';
+  rsElevationRequiredDeleteToTrash = 'to delete to trash this object:';
   rsElevationRequiredOpen = 'to open this object:';
   rsElevationRequiredCopy = 'to copy this object:';
   rsElevationRequiredCreate = 'to create this object:';
@@ -289,6 +291,21 @@ begin
     LastError:= GetLastOSError;
     if RequestElevation(rsElevationRequiredDelete, FileName) then
       Result:= TWorkerProxy.Instance.DeleteFile(FileName)
+    else
+      SetLastOSError(LastError);
+  end;
+end;
+
+function DeleteToTrashFileUAC(const FileName: String): LongBool;
+var
+  LastError: Integer;
+begin
+  Result:= FileTrashUtf8(FileName);
+  if not Result and ElevationRequired then
+  begin
+    LastError:= GetLastOSError;
+    if RequestElevation(rsElevationRequiredDeleteToTrash, FileName) then
+      Result:= TWorkerProxy.Instance.DeleteToTrashFile(FileName)
     else
       SetLastOSError(LastError);
   end;

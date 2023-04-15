@@ -89,7 +89,7 @@ type
 implementation
 
 uses
-  uClipboard;     // URI handling
+  uURIHandling;     // URI handling
 
 
 type

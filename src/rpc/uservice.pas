@@ -9,6 +9,32 @@ uses
 
 type
 
+  TRPC_Commands = (
+    RPC_Terminate,          //  = 0;
+    RPC_Execute,            // master = 1;
+    RPC_FileOpen,           // = 1;
+    RPC_FileCreate,         // = 2;
+    RPC_DeleteFile,         // = 3;
+    RPC_RenameFile,         // = 4;
+    RPC_CreateDirectory,    // = 5;
+    RPC_RemoveDirectory,    // = 6;
+    RPC_CreateSymbolicLink, // = 7;
+    RPC_CreateHardLink,     // = 8;
+    RPC_FileExists,         // = 9;
+    RPC_FileGetAttr,        // = 10;
+    RPC_FileSetAttr,        // = 11;
+    RPC_FileSetTime,        // = 12;
+    RPC_DirectoryExists,    // = 13;
+    RPC_FileSetReadOnly,    // = 14;
+    RPC_FileCopyAttr,       // = 15;
+    RPC_FindFirst,          // = 16;
+    RPC_FindNext,           // = 17;
+    RPC_FindClose,          // = 18;
+    RPC_FileCopy,           // = 19;
+    RPC_DeleteToTrashFile
+    );
+
+
   { TBaseTransport }
 
   TBaseTransport = class
@@ -31,7 +57,7 @@ type
     FVerifyParent: Boolean;
     FServerThread: TThread;
   protected
-    procedure ProcessRequest(ATransport: TBaseTransport; ACommand: Int32; ARequest: TStream); virtual; abstract;
+    procedure ProcessRequest(ATransport: TBaseTransport; const ACommand: TRPC_Commands; ARequest: TStream); virtual; abstract;
   public
     constructor Create(const AName: String); virtual;
     destructor Destroy; override;
@@ -52,7 +78,7 @@ type
     FOwner : TBaseService;
     FTransport: TBaseTransport;
   protected
-    function ReadRequest(ARequest : TMemoryStream; var ACommand : LongInt): Integer;
+    function ReadRequest(ARequest : TMemoryStream; out ACommand : TRPC_Commands): Integer;
     procedure SendResponse(AResponse : TMemoryStream);
   public
     procedure Execute; override;
@@ -118,7 +144,7 @@ end;
 { TClientThread }
 
 function TClientThread.ReadRequest(ARequest: TMemoryStream;
-  var ACommand: LongInt): Integer;
+  out ACommand: TRPC_Commands): Integer;
 var
   R: Int64;
   ALength : Int32 = 0;
@@ -146,7 +172,7 @@ end;
 
 procedure TClientThread.Execute;
 var
-  ACommand : Int32 = 0;
+  ACommand : TRPC_Commands;// = 0;
   ARequest : TMemoryStream;
 begin
   InterLockedIncrement(FOwner.ClientCount);

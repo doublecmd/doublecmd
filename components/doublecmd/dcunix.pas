@@ -118,6 +118,15 @@ type
   TGroupRecord = group;
   PGroupRecord = ^TGroupRecord;
 
+{$IF DEFINED(UNIX)}
+{en
+   Find mount point of file system where file is located
+   @param(FileName File name)
+   @returns(Mount point of file system)
+}
+function FindMountPointPath(const FileName: String): String;
+{$ENDIF}
+
 {en
    Set the close-on-exec flag to all
 }
@@ -209,7 +218,11 @@ function fnmatch(const pattern: PAnsiChar; const str: PAnsiChar; flags: cint): c
 implementation
 
 uses
-  Unix, DCConvertEncoding;
+  Unix, DCConvertEncoding
+  {$IF DEFINED(UNIX)}
+  , DCOSUtils
+  {$ENDIF}
+  ;
 
 {$IF DEFINED(BSD)}
 type rlim_t = Int64;
@@ -242,6 +255,50 @@ function lremovexattr(const path, name: PAnsiChar): cint; cdecl; external clib;
 function llistxattr(const path: PAnsiChar; list: PAnsiChar; size: csize_t): ssize_t; cdecl; external clib;
 function lgetxattr(const path, name: PAnsiChar; value: Pointer; size: csize_t): ssize_t; cdecl; external clib;
 function lsetxattr(const path, name: PAnsiChar; const value: Pointer; size: csize_t; flags: cint): cint; cdecl; external clib;
+{$ENDIF}
+
+{$IF DEFINED(UNIX)}
+function FindMountPointPath(const FileName: String): String;
+var
+  I, J: LongInt;
+  sTemp: String;
+  recStat: Stat;
+  st_dev: QWord;
+begin
+  // Set root directory as mount point by default
+  Result:= PathDelim;
+  // Get stat info for original file
+  if (fpLStat(FileName, recStat) < 0) then Exit;
+  // Save device ID of original file
+  st_dev:= recStat.st_dev;
+  J:= Length(FileName);
+  for I:= J downto 1 do
+  begin
+    if FileName[I] = PathDelim then
+    begin
+      if (I = 1) then
+        sTemp:= PathDelim
+      else
+        sTemp:= Copy(FileName, 1, I - 1);
+      // Stat for current directory
+      if (fpLStat(sTemp, recStat) < 0) then Continue;
+      // If it is a link then checking link destination
+      if fpS_ISLNK(recStat.st_mode) then
+      begin
+        sTemp:= ReadSymLink(sTemp);
+        Result:= FindMountPointPath(sTemp);
+        Exit;
+      end;
+      // Check device ID
+      if (recStat.st_dev <> st_dev) then
+      begin
+        Result:= Copy(FileName, 1, J);
+        Exit;
+      end;
+      J:= I;
+    end;
+  end;
+end;
 {$ENDIF}
 
 procedure FileCloseOnExecAll;
