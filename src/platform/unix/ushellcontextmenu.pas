@@ -525,11 +525,17 @@ begin
     end
   else
     begin
+      {$IF not DEFINED(DARWIN)}
       mi.Caption := rsMnuUmount;
       mi.OnClick := Self.DriveUnmountSelect;
+      {$ELSE}
+      mi.Caption := rsMnuUmount + ' / ' + rsMnuEject;
+      mi.OnClick := Self.DriveEjectSelect;
+      {$ENDIF}
     end;
   Self.Items.Add(mi);
 
+  {$IF not DEFINED(DARWIN)}
   if ADrive^.IsMediaEjectable then
     begin
       mi :=TMenuItem.Create(Self);
@@ -537,6 +543,7 @@ begin
       mi.OnClick := Self.DriveEjectSelect;
       Self.Items.Add(mi);
     end;
+  {$ENDIF}
 end;
 
 { TShellContextMenu.CreateActionSubMenu }
