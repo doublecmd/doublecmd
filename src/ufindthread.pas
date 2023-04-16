@@ -389,6 +389,7 @@ var
 var
   S: String;
   Index: Integer;
+  MaxLen: Integer;
   lastPos: Pointer;
   DataRead: Integer;
   fmr : TFileMapRec;
@@ -468,78 +469,88 @@ begin
 
   fs := TFileStreamEx.Create(sFileName, fmOpenRead or fmShareDenyNone or fmOpenNoATime);
   try
+    MaxLen:= 0;
     BufferSize := gCopyBlockSize;
 
     for Index:= 0 to FEncodings.Count - 1 do
     begin
-      fs.Seek(0, soFromBeginning);
       AEncoding:= TEncoding(FEncodings[Index]);
       sDataLength := Length(AEncoding.FindText);
+      if sDataLength > MaxLen then
+        MaxLen:= sDataLength;
+    end;
 
-      if sDataLength > BufferSize then
-        raise Exception.Create(rsMsgErrSmallBuf);
+    // Buffer is extended by sDataLength-1 and BufferSize + sDataLength - 1
+    // bytes are read. Then strings of length sDataLength are compared with
+    // sData starting from offset 0 to BufferSize-1. The remaining part of the
+    // buffer [BufferSize, BufferSize+sDataLength-1] is moved to the beginning,
+    // buffer is filled up with BufferSize bytes and the search continues.
 
-      if sDataLength > fs.Size then // string longer than file, cannot search
-        Continue;
+    GetMem(Buffer, BufferSize + MaxLen - 1);
 
-      // Buffer is extended by sDataLength-1 and BufferSize + sDataLength - 1
-      // bytes are read. Then strings of length sDataLength are compared with
-      // sData starting from offset 0 to BufferSize-1. The remaining part of the
-      // buffer [BufferSize, BufferSize+sDataLength-1] is moved to the beginning,
-      // buffer is filled up with BufferSize bytes and the search continues.
+    if Assigned(Buffer) then
+    try
+      for Index:= 0 to FEncodings.Count - 1 do
+      begin
+        fs.Seek(0, soFromBeginning);
+        AEncoding:= TEncoding(FEncodings[Index]);
+        sDataLength := Length(AEncoding.FindText);
 
-      GetMem(Buffer, BufferSize + sDataLength - 1);
-      if Assigned(Buffer) then
-      try
-        if FillBuffer(Buffer, sDataLength-1) = sDataLength-1 then
-        begin
-          while not Terminated do
+        if sDataLength > BufferSize then
+          raise Exception.Create(rsMsgErrSmallBuf);
+
+        if sDataLength > fs.Size then // string longer than file, cannot search
+          Continue;
+
+        try
+          if FillBuffer(Buffer, sDataLength-1) = sDataLength-1 then
           begin
-            DataRead := FillBuffer(@Buffer[sDataLength - 1], BufferSize);
-            if DataRead = 0 then
-              Break;
+            while not Terminated do
+            begin
+              DataRead := FillBuffer(@Buffer[sDataLength - 1], BufferSize);
+              if DataRead = 0 then
+                Break;
 
-            case AEncoding.FTextSearchType of
-              tsAnsi:
-                begin
-                  if PosMemBoyerMur(@Buffer[0], DataRead + sDataLength - 1, AEncoding.FindText, AEncoding.RecodeTable) <> -1 then
-                    Exit(True);
-                end;
-              tsUtf8:
-                begin
-                  if PosMemU(@Buffer[0], DataRead + sDataLength - 1, 0, AEncoding.FindText, False) <> Pointer(-1) then
-                    Exit(True);
-                end;
-              tsUtf16le,
-              tsUtf16be:
-                begin
-                  if PosMemW(@Buffer[0], DataRead + sDataLength - 1, 0, AEncoding.FindText, False, AEncoding.FTextSearchType = tsUtf16le) <> Pointer(-1) then
-                    Exit(True);
-                end;
-              else
-                begin
-                  if PosMem(@Buffer[0], DataRead + sDataLength - 1, 0, AEncoding.FindText, bCase, False) <> Pointer(-1) then
-                    Exit(True);
-                end;
+              case AEncoding.FTextSearchType of
+                tsAnsi:
+                  begin
+                    if PosMemBoyerMur(@Buffer[0], DataRead + sDataLength - 1, AEncoding.FindText, AEncoding.RecodeTable) <> -1 then
+                      Exit(True);
+                  end;
+                tsUtf8:
+                  begin
+                    if PosMemU(@Buffer[0], DataRead + sDataLength - 1, 0, AEncoding.FindText, False) <> Pointer(-1) then
+                      Exit(True);
+                  end;
+                tsUtf16le,
+                tsUtf16be:
+                  begin
+                    if PosMemW(@Buffer[0], DataRead + sDataLength - 1, 0, AEncoding.FindText, False, AEncoding.FTextSearchType = tsUtf16le) <> Pointer(-1) then
+                      Exit(True);
+                  end;
+                else
+                  begin
+                    if PosMem(@Buffer[0], DataRead + sDataLength - 1, 0, AEncoding.FindText, bCase, False) <> Pointer(-1) then
+                      Exit(True);
+                  end;
+              end;
+
+              // Copy last 'sDataLength-1' bytes to the beginning of the buffer
+              // (to search 'on the boundary' - where previous buffer ends,
+              // and the next buffer starts).
+              Move(Buffer[DataRead], Buffer^, sDataLength-1);
             end;
-
-            // Copy last 'sDataLength-1' bytes to the beginning of the buffer
-            // (to search 'on the boundary' - where previous buffer ends,
-            // and the next buffer starts).
-            Move(Buffer[DataRead], Buffer^, sDataLength-1);
           end;
+        except
         end;
-      except
       end;
+    finally
+      FreeMem(Buffer);
+      Buffer := nil;
     end;
 
   finally
     FreeAndNil(fs);
-    if Assigned(Buffer) then
-    begin
-      FreeMem(Buffer);
-      Buffer := nil;
-    end;
   end;
 end;
 
