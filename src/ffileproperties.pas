@@ -72,6 +72,8 @@ type
     lblLastModifStr: TLabel;
     lblLastStChange: TKASCDEdit;
     lblLastStChangeStr: TLabel;
+    lblCreated: TKASCDEdit;
+    lblCreatedStr: TLabel;
     lblOctal: TLabel;
     lblAttrBitsStr: TLabel;
     lblAttrText: TLabel;
@@ -403,6 +405,15 @@ begin
       lblLastModif.Caption := Properties[fpModificationTime].Format(FPropertyFormatter)
     else
       lblLastModif.Caption := '';
+
+{$IF DEFINED(DARWIN)}
+    lblCreated.Visible := fpCreationTime in SupportedProperties;
+    lblCreatedStr.Visible := fpCreationTime in SupportedProperties;
+    if fpCreationTime in SupportedProperties then
+      lblCreated.Caption := Properties[fpCreationTime].Format(FPropertyFormatter)
+    else
+      lblCreated.Caption := '';
+{$ENDIF}
 
     // Chown
     if isFileSystem and (fpLStat(PChar(UTF8ToSys(FullPath)), sb) = 0) then

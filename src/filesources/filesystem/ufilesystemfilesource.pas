@@ -332,6 +332,9 @@ begin
   begin
 {$IF DEFINED(UNIX)}
     ChangeTimeProperty := TFileChangeDateTimeProperty.Create(DCBasicTypes.TFileTime(pSearchRecord^.PlatformTime));
+    {$IF DEFINED(DARWIN)}
+    CreationTimeProperty := TFileCreationDateTimeProperty.Create(DCBasicTypes.TFileTime(pSearchRecord^.FindData.st_birthtime));
+    {$ENDIF}
 {$ELSE}
     CreationTimeProperty := TFileCreationDateTimeProperty.Create(DCBasicTypes.TFileTime(pSearchRecord^.PlatformTime));
 {$ENDIF}
