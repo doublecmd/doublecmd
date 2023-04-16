@@ -84,7 +84,13 @@ type
 
   TDCStat = TDarwinStat64;
 {$ELSE}
-  TDCStat = BaseUnix.Stat;
+  {$IF DEFINED(UNIX)}
+    TDCStat = BaseUnix.Stat;
+  {$ELSE}
+    {$IFDEF MSWINDOWS}
+      TDCStat = Windows.TWin32FindDataW;
+    {$ENDIF}
+  {$ENDIF}
 {$ENDIF}
 
   TFileMapRec = record
@@ -359,10 +365,31 @@ end;
 
 {$ELSE}
 
+{$IF DEFINED(UNIX)}
 Function DC_fpLstat( const path:RawByteString; var Info:TDCStat ): cint; inline;
 begin
   fpLstat( path, info );
 end;
+{$ELSE}
+
+{$IF DEFINED(MSWINDOWS)}
+Function DC_fpLstat( const path:RawByteString; var Info:TDCStat ): Integer; inline;
+var
+  Handle: System.THandle;
+begin
+  Handle := FindFirstFileW(PWideChar(UTF16LongName(path)), Info);
+  if Handle <> INVALID_HANDLE_VALUE then
+    begin
+      Windows.FindClose(Handle);
+      if (Info.dwFileAttributes and FILE_ATTRIBUTE_DIRECTORY) = 0 then
+        Exit(DCBasicTypes.TWinFileTime(Info.ftCreationTime));
+    end;
+  Result:= -1;
+end;
+
+{$ENDIF}
+
+{$ENDIF}
 
 {$ENDIF}
 
