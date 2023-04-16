@@ -2628,6 +2628,11 @@ begin
     SynEdit.Align:= alClient;
     SynEdit.ReadOnly:= True;
     SynEdit.PopupMenu:= pmEditMenu;
+    with SynEdit.Gutter.SeparatorPart() do
+    begin
+      MarkupInfo.Background:= clWindow;
+      MarkupInfo.Foreground:= clGrayText;
+    end;
     FontOptionsToFont(gFonts[dcfViewer], SynEdit.Font);
     SynEdit.OnMouseWheel:= @SynEditMouseWheel;
     SynEdit.OnStatusChange:= @SynEditStatusChange;
