@@ -17,11 +17,6 @@
 
    You should have received a copy of the GNU General Public License
    along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-   Notes:
-   1. TDarwinStat64 is the workaround for the bug of BaseUnix.Stat in FPC.
-      on MacOS with x86_64, Stat64 should be used instead of Stat.
-      and lstat64() should be called instead of lstat().
 }
 
 unit DCOSUtils;
