@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    This unit contains Unix specific functions
 
-   Copyright (C) 2015-2022 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2015-2023 Alexander Koblov (alexx2000@mail.ru)
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Lesser General Public

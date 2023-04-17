@@ -5,7 +5,7 @@
 
    Copyright (C) 2003-2004 Radek Cervinka (radek.cervinka@centrum.cz)
    Copyright (C) 2003 Martin Matusu <xmat@volny.cz>
-   Copyright (C) 2006-2018 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2006-2023 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as

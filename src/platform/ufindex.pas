@@ -3,7 +3,7 @@
     -------------------------------------------------------------------------
     This unit contains UTF-8 versions of Find(First, Next, Close) functions
 
-    Copyright (C) 2006-2020 Alexander Koblov (alexx2000@mail.ru)
+    Copyright (C) 2006-2023 Alexander Koblov (alexx2000@mail.ru)
 
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Lesser General Public
