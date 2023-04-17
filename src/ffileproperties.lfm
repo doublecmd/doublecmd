@@ -8,7 +8,7 @@ object frmFileProperties: TfrmFileProperties
   ChildSizing.LeftRightSpacing = 8
   ClientHeight = 471
   ClientWidth = 458
-  Constraints.MinHeight = 432
+  Constraints.MinHeight = 450
   Constraints.MinWidth = 458
   KeyPreview = True
   OnCreate = FormCreate
@@ -284,6 +284,32 @@ object frmFileProperties: TfrmFileProperties
           Height = 23
           Top = 241
           Width = 25
+          DrawStyle = dsExtra1
+          Lines.Strings = (
+            '???'
+          )
+          ReadOnly = True
+        end
+       object lblCreatedStr: TLabel
+          AnchorSideTop.Side = asrBottom
+          Left = 10
+          Height = 17
+          Top = 261
+          Width = 119
+          BorderSpacing.Top = 2
+          BorderSpacing.CellAlignVertical = ccaCenter
+          Caption = 'Created:'
+          ParentColor = False
+        end
+        object lblCreated: TKASCDEdit
+          AnchorSideTop.Side = asrBottom
+          AnchorSideRight.Side = asrBottom
+          Cursor = crIBeam
+          Left = 128
+          Height = 23
+          Top = 258
+          Width = 25
+          AutoSize = True
           DrawStyle = dsExtra1
           Lines.Strings = (
             '???'

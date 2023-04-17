@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    This unit contains Unix specific functions
 
-   Copyright (C) 2015-2022 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2015-2023 Alexander Koblov (alexx2000@mail.ru)
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Lesser General Public
@@ -18,6 +18,11 @@
    You should have received a copy of the GNU Lesser General Public
    License along with this library; if not, write to the Free Software
    Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301 USA
+
+   Notes:
+   1. TDarwinStat64 is the workaround for the bug of BaseUnix.Stat in FPC.
+      on MacOS with x86_64, Stat64 should be used instead of Stat.
+      and lstat64() should be called instead of lstat().
 }
 
 unit DCUnix;
@@ -118,6 +123,41 @@ type
   TGroupRecord = group;
   PGroupRecord = ^TGroupRecord;
 
+type
+{$IF DEFINED(DARWIN)}
+  TDarwinStat64 = record { the types are real}
+       st_dev        : dev_t;             // inode's device
+       st_mode       : mode_t;            // inode protection mode
+       st_nlink      : nlink_t;           // number of hard links
+       st_ino        : cuint64;           // inode's number
+       st_uid        : uid_t;             // user ID of the file's owner
+       st_gid        : gid_t;             // group ID of the file's group
+       st_rdev       : dev_t;             // device type
+       st_atime      : time_t;            // time of last access
+       st_atimensec  : clong;             // nsec of last access
+       st_mtime      : time_t;            // time of last data modification
+       st_mtimensec  : clong;             // nsec of last data modification
+       st_ctime      : time_t;            // time of last file status change
+       st_ctimensec  : clong;             // nsec of last file status change
+       st_birthtime  : time_t;            // File creation time
+       st_birthtimensec : clong;          // nsec of file creation time
+       st_size       : off_t;             // file size, in bytes
+       st_blocks     : cint64;            // blocks allocated for file
+       st_blksize    : cuint32;           // optimal blocksize for I/O
+       st_flags      : cuint32;           // user defined flags for file
+       st_gen        : cuint32;           // file generation number
+       st_lspare     : cint32;
+       st_qspare     : array[0..1] Of cint64;
+  end;
+
+  TDCStat = TDarwinStat64;
+{$ELSE}
+  TDCStat = BaseUnix.Stat;
+{$ENDIF}
+
+Function DC_fpLstat( const path:RawByteString; var Info:TDCStat ): cint; inline;
+
+
 {en
    Set the close-on-exec flag to all
 }
@@ -210,6 +250,30 @@ implementation
 
 uses
   Unix, DCConvertEncoding;
+
+
+{$IF DEFINED(DARWIN)}
+
+Function fpLstat64( path:pchar; Info:pstat ): cint; cdecl; external clib name 'lstat64';
+
+Function DC_fpLstat( const path:RawByteString; var Info:TDCStat ): cint; inline;
+var
+  SystemPath: RawByteString;
+begin
+  SystemPath:=ToSingleByteFileSystemEncodedFileName( path );
+  Result:= fpLstat64( pchar(SystemPath), @info );
+end;
+
+{$ELSE}
+
+Function DC_fpLstat( const path:RawByteString; var Info:TDCStat ): cint; inline;
+begin
+  fpLstat( path, info );
+end;
+
+{$ENDIF}
+
+
 
 {$IF DEFINED(BSD)}
 type rlim_t = Int64;

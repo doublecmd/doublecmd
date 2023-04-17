@@ -5,7 +5,7 @@
 
    Copyright (C) 2003-2004 Radek Cervinka (radek.cervinka@centrum.cz)
    Copyright (C) 2003 Martin Matusu <xmat@volny.cz>
-   Copyright (C) 2006-2018 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2006-2023 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
@@ -72,6 +72,8 @@ type
     lblLastModifStr: TLabel;
     lblLastStChange: TKASCDEdit;
     lblLastStChangeStr: TLabel;
+    lblCreated: TKASCDEdit;
+    lblCreatedStr: TLabel;
     lblOctal: TLabel;
     lblAttrBitsStr: TLabel;
     lblAttrText: TLabel;
@@ -403,6 +405,13 @@ begin
       lblLastModif.Caption := Properties[fpModificationTime].Format(FPropertyFormatter)
     else
       lblLastModif.Caption := '';
+
+    lblCreated.Visible := fpCreationTime in SupportedProperties;
+    lblCreatedStr.Visible := fpCreationTime in SupportedProperties;
+    if fpCreationTime in SupportedProperties then
+      lblCreated.Caption := Properties[fpCreationTime].Format(FPropertyFormatter)
+    else
+      lblCreated.Caption := '';
 
     // Chown
     if isFileSystem and (fpLStat(PChar(UTF8ToSys(FullPath)), sb) = 0) then

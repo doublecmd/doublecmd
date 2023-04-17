@@ -3,7 +3,7 @@
     -------------------------------------------------------------------------
     This unit contains UTF-8 versions of Find(First, Next, Close) functions
 
-    Copyright (C) 2006-2020 Alexander Koblov (alexx2000@mail.ru)
+    Copyright (C) 2006-2023 Alexander Koblov (alexx2000@mail.ru)
 
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Lesser General Public
@@ -69,7 +69,7 @@ type
     property LastAccessTime: TFileTime read FindData.ftLastAccessTime;
 {$ELSE}
     FindHandle : Pointer;
-    FindData : BaseUnix.Stat;
+    FindData : TDCStat;
     property PlatformTime: TUnixTime read FindData.st_ctime;
     property LastAccessTime: TUnixTime read FindData.st_atime;
 {$ENDIF}
@@ -122,7 +122,7 @@ begin
   if UnixFindHandle = nil then Exit;
   if (UnixFindHandle^.Mask = nil) or UnixFindHandle^.Mask.Matches(SearchRec.Name) then
   begin
-    if fpLStat(UTF8ToSys(UnixFindHandle^.FindPath + SearchRec.Name), @SearchRec.FindData) >= 0 then
+    if DC_fpLStat(UTF8ToSys(UnixFindHandle^.FindPath + SearchRec.Name), SearchRec.FindData) >= 0 then
     begin
       with SearchRec.FindData do
       begin

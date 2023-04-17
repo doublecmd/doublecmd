@@ -17,11 +17,6 @@
 
    You should have received a copy of the GNU General Public License
    along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-   Notes:
-   1. TDarwinStat64 is the workaround for the bug of BaseUnix.Stat in FPC.
-      on MacOS with x86_64, Stat64 should be used instead of Stat.
-      and lstat64() should be called instead of lstat().
 }
 
 unit DCOSUtils;
@@ -56,37 +51,6 @@ const
 {$ENDIF}
 
 type
-{$IF DEFINED(DARWIN)}
-  TDarwinStat64 = record { the types are real}
-       st_dev        : dev_t;             // inode's device
-       st_mode       : mode_t;            // inode protection mode
-       st_nlink      : nlink_t;           // number of hard links
-       st_ino        : cuint64;             // inode's number
-       st_uid        : uid_t;             // user ID of the file's owner
-       st_gid        : gid_t;             // group ID of the file's group
-       st_rdev       : dev_t;             // device type
-       st_atime      : time_t;            // time of last access
-       st_atimensec  : clong;             // nsec of last access
-       st_mtime      : time_t;            // time of last data modification
-       st_mtimensec  : clong;             // nsec of last data modification
-       st_ctime      : time_t;            // time of last file status change
-       st_ctimensec  : clong;             // nsec of last file status change
-       st_birthtime  : time_t;            // File creation time
-       st_birthtimensec : clong;          // nsec of file creation time
-       st_size       : off_t;             // file size, in bytes
-       st_blocks     : cint64;            // blocks allocated for file
-       st_blksize    : cuint32;           // optimal blocksize for I/O
-       st_flags      : cuint32;           // user defined flags for file
-       st_gen        : cuint32;           // file generation number
-       st_lspare     : cint32;
-       st_qspare     : array[0..1] Of cint64;
-  end;
-
-  TDCStat = TDarwinStat64;
-{$ELSE}
-  TDCStat = BaseUnix.Stat;
-{$ENDIF}
-
   TFileMapRec = record
     FileHandle : System.THandle;
     FileSize : Int64;
@@ -344,27 +308,6 @@ uses
   Unix, dl,
 {$ENDIF}
   DCStrUtils, LazUTF8;
-
-{$IF DEFINED(DARWIN)}
-
-Function fpLstat64( path:pchar; Info:pstat ): cint; cdecl; external clib name 'lstat64';
-
-Function DC_fpLstat( const path:RawByteString; var Info:TDCStat ): cint; inline;
-var
-  SystemPath: RawByteString;
-begin
-  SystemPath:=ToSingleByteFileSystemEncodedFileName( path );
-  Result:= fpLstat64( pchar(SystemPath), @info );
-end;
-
-{$ELSE}
-
-Function DC_fpLstat( const path:RawByteString; var Info:TDCStat ): cint; inline;
-begin
-  fpLstat( path, info );
-end;
-
-{$ENDIF}
 
 {$IFDEF UNIX}
 function SetModeReadOnly(mode: TMode; ReadOnly: Boolean): TMode;
@@ -971,14 +914,18 @@ begin
 end;
 {$ELSE}
 var
-  StatInfo : BaseUnix.Stat;
+  StatInfo : TDCStat;
 begin
-  Result := fpLStat(UTF8ToSys(FileName), StatInfo) >= 0;
+  Result := DC_fpLStat(UTF8ToSys(FileName), StatInfo) >= 0;
   if Result then
   begin
     LastAccessTime   := StatInfo.st_atime;
     ModificationTime := StatInfo.st_mtime;
+    {$IF DEFINED(DARWIN)}
+    CreationTime     := StatInfo.st_birthtime;
+    {$ELSE}
     CreationTime     := StatInfo.st_ctime;
+    {$ENDIF}
   end;
 end;
 {$ENDIF}
