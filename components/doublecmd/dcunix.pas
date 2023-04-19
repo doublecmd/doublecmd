@@ -294,7 +294,9 @@ begin
   utb.modtime:= mtime;  // last modification time
   if fputime(UTF8ToSys(FileName), @utb) <> 0 then exit;
 
-  {$IF DEFINED(DARWIN)}
+  {$IF not DEFINED(DARWIN)}
+  Result:= true;
+  {$ELSE}
   Result:= MacosFileSetCreationTime( FileName, birthtime );
   {$ENDIF}
 end;
