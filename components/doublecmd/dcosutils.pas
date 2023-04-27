@@ -543,7 +543,6 @@ end;
 var
   Option: TCopyAttributesOption;
   StatInfo : TDCStat;
-  utb : BaseUnix.TUTimBuf;
   mode : TMode;
 begin
   if DC_fpLStat(UTF8ToSys(sSrc), StatInfo) < 0 then
@@ -583,28 +582,15 @@ begin
     begin
       if caoCopyTime in Options then
       begin
-        utb.actime  := time_t(StatInfo.st_atime);  // last access time
-{$IF DEFINED(DARWIN)}
-        utb.modtime := time_t(StatInfo.st_birthtime);  // creation time
-{$ELSE}
-        utb.modtime := time_t(StatInfo.st_mtime);  // last modification time
-{$ENDIF}
-        if fputime(UTF8ToSys(sDst), @utb) <> 0 then
+        if DC_FileSetTime(
+          sDst,
+          StatInfo.st_mtime,
+          {$IFDEF DARWIN} StatInfo.st_birthtime {$ELSE} 0 {$ENDIF},
+          StatInfo.st_atime) = false then
         begin
           Include(Result, caoCopyTime);
           if Assigned(Errors) then Errors^[caoCopyTime]:= GetLastOSError;
         end;
-{$IF DEFINED(DARWIN)}
-        // creation time supported in MacOS:
-        // 1. the first call fputime above: set creation time
-        // 2. the second call here: set modification time
-        utb.modtime := time_t(StatInfo.st_mtime);  // last modification time
-        if fputime(UTF8ToSys(sDst), @utb) <> 0 then
-        begin
-          Include(Result, caoCopyTime);
-          if Assigned(Errors) then Errors^[caoCopyTime]:= GetLastOSError;
-        end;
-{$ENDIF}
       end;
 
       if caoCopyOwnership in Options then
@@ -975,14 +961,14 @@ begin
 end;
 {$ELSE}
 var
-  t: TUTimBuf;
   CurrentModificationTime, CurrentCreationTime, CurrentLastAccessTime: DCBasicTypes.TFileTime;
 begin
   if mbFileGetTime(FileName,CurrentModificationTime, CurrentCreationTime, CurrentLastAccessTime) then
   begin
-    if LastAccessTime<>0 then t.actime := time_t(LastAccessTime) else t.actime := time_t(CurrentLastAccessTime);
-    if ModificationTime<>0 then t.modtime := time_t(ModificationTime) else t.modtime := time_t(CurrentModificationTime);
-    Result := (fputime(UTF8ToSys(FileName), @t) <> -1);
+    if ModificationTime<>0 then CurrentModificationTime:= ModificationTime;
+    if CreationTime<>0 then CurrentCreationTime:= CreationTime;
+    if LastAccessTime<>0 then CurrentLastAccessTime:= LastAccessTime;
+    Result := DC_FileSetTime(FileName,CurrentModificationTime, CurrentCreationTime, CurrentLastAccessTime);
   end
   else
   begin

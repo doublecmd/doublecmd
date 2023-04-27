@@ -156,6 +156,10 @@ type
 {$ENDIF}
 
 Function DC_fpLstat( const path:RawByteString; var Info:TDCStat ): cint; inline;
+function DC_FileSetTime(const FileName: String;
+                        const mtime    : time_t;
+                        const birthtime: time_t;
+                        const atime    : time_t ): Boolean;
 
 
 {en
@@ -249,7 +253,11 @@ function fnmatch(const pattern: PAnsiChar; const str: PAnsiChar; flags: cint): c
 implementation
 
 uses
-  Unix, DCConvertEncoding;
+  Unix, DCConvertEncoding, LazUTF8
+{$IFDEF DARWIN}
+  , DCDarwin
+{$ENDIF}
+  ;
 
 
 {$IF DEFINED(DARWIN)}
@@ -272,6 +280,26 @@ begin
 end;
 
 {$ENDIF}
+
+function DC_FileSetTime(const FileName: String;
+                        const mtime    : time_t;
+                        const birthtime: time_t;
+                        const atime    : time_t ): Boolean;
+var
+  utb: BaseUnix.TUTimBuf;
+begin
+  Result:= false;
+
+  utb.actime:= atime;   // last access time
+  utb.modtime:= mtime;  // last modification time
+  if fputime(UTF8ToSys(FileName), @utb) <> 0 then exit;
+
+  {$IF not DEFINED(DARWIN)}
+  Result:= true;
+  {$ELSE}
+  Result:= MacosFileSetCreationTime( FileName, birthtime );
+  {$ENDIF}
+end;
 
 
 
