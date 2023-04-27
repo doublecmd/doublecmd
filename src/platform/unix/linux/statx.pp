@@ -93,6 +93,6 @@ end;
 
 initialization
   // Linux kernel >= 4.11
-  HasStatX:= (syscall_nr_statx > 0) and (DosVersion >= 2820);
+  HasStatX:= (syscall_nr_statx > 0) and (SwapEndian(DosVersion) >= $40B);
 
 end.
