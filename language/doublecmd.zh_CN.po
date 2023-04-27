@@ -1312,6 +1312,11 @@ msgstr "文本："
 msgid "Contains:"
 msgstr "包含："
 
+#: tfrmfileproperties.lblcreatedstr.caption
+msgctxt "tfrmfileproperties.lblcreatedstr.caption"
+msgid "Created:"
+msgstr "创建时间："
+
 #: tfrmfileproperties.lblexec.caption
 msgctxt "TFRMFILEPROPERTIES.LBLEXEC.CAPTION"
 msgid "Execute"
@@ -1347,15 +1352,15 @@ msgstr "组(&G)"
 
 #: tfrmfileproperties.lbllastaccessstr.caption
 msgid "Last access:"
-msgstr "最后访问："
+msgstr "访问时间："
 
 #: tfrmfileproperties.lbllastmodifstr.caption
 msgid "Last modification:"
-msgstr "最后修改："
+msgstr "修改时间："
 
 #: tfrmfileproperties.lbllaststchangestr.caption
 msgid "Last status change:"
-msgstr "最后状态更改："
+msgstr "状态更改时间："
 
 #: tfrmfileproperties.lbloctal.caption
 msgctxt "tfrmfileproperties.lbloctal.caption"
@@ -8600,8 +8605,9 @@ msgid "Archive"
 msgstr "存档"
 
 #: tfrmsetfileproperties.chkcreationtime.caption
+msgctxt "tfrmsetfileproperties.chkcreationtime.caption"
 msgid "Created:"
-msgstr "创建日期："
+msgstr "创建时间："
 
 #: tfrmsetfileproperties.chkhidden.caption
 msgid "Hidden"
@@ -8609,11 +8615,11 @@ msgstr "隐藏"
 
 #: tfrmsetfileproperties.chklastaccesstime.caption
 msgid "Accessed:"
-msgstr "访问："
+msgstr "访问时间："
 
 #: tfrmsetfileproperties.chklastwritetime.caption
 msgid "Modified:"
-msgstr "修改："
+msgstr "修改时间："
 
 #: tfrmsetfileproperties.chkreadonly.caption
 msgid "Read only"

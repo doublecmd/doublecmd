@@ -1264,15 +1264,15 @@ msgstr "關閉 (&C)"
 
 #: tfrmfileproperties.btnsetproperties.caption
 msgid "&Set properties"
-msgstr "設定內容 (&S)"
+msgstr "設定內容(&S)"
 
 #: tfrmfileproperties.btnsetpropertiestoallfiles.caption
 msgid "Set to &all selected files"
-msgstr "設置到所有已選取的檔案 (&A)"
+msgstr "設置所有選取的檔案(&A)"
 
 #: tfrmfileproperties.btnskipfile.caption
 msgid "Ski&p this file"
-msgstr "略過這個檔案 (&P)"
+msgstr "略過此檔案(&P)"
 
 #: tfrmfileproperties.caption
 msgctxt "TFRMFILEPROPERTIES.CAPTION"
@@ -1337,6 +1337,11 @@ msgstr "文字:"
 msgid "Contains:"
 msgstr "包含:"
 
+#: tfrmfileproperties.lblcreatedstr.caption
+msgctxt "tfrmfileproperties.lblcreatedstr.caption"
+msgid "Created:"
+msgstr "建立時間:"
+
 #: tfrmfileproperties.lblexec.caption
 msgctxt "TFRMFILEPROPERTIES.LBLEXEC.CAPTION"
 msgid "Execute"
@@ -1373,15 +1378,15 @@ msgstr "群組 (&G)"
 
 #: tfrmfileproperties.lbllastaccessstr.caption
 msgid "Last access:"
-msgstr "上次存取:"
+msgstr "訪問時間:"
 
 #: tfrmfileproperties.lbllastmodifstr.caption
 msgid "Last modification:"
-msgstr "上次修改:"
+msgstr "修改時間:"
 
 #: tfrmfileproperties.lbllaststchangestr.caption
 msgid "Last status change:"
-msgstr "上次修改狀態:"
+msgstr "狀態修改時間:"
 
 #: tfrmfileproperties.lbloctal.caption
 msgctxt "TFRMFILEPROPERTIES.LBLOCTAL.CAPTION"
@@ -9234,7 +9239,7 @@ msgstr "封存"
 #: tfrmsetfileproperties.chkcreationtime.caption
 msgctxt "TFRMSETFILEPROPERTIES.CHKCREATIONTIME.CAPTION"
 msgid "Created:"
-msgstr "建立日期:"
+msgstr "建立時間:"
 
 #: tfrmsetfileproperties.chkhidden.caption
 #, fuzzy
@@ -9244,11 +9249,11 @@ msgstr "隱藏"
 
 #: tfrmsetfileproperties.chklastaccesstime.caption
 msgid "Accessed:"
-msgstr "存取日期:"
+msgstr "訪問時間:"
 
 #: tfrmsetfileproperties.chklastwritetime.caption
 msgid "Modified:"
-msgstr "修改日期:"
+msgstr "修改時間:"
 
 #: tfrmsetfileproperties.chkreadonly.caption
 #, fuzzy

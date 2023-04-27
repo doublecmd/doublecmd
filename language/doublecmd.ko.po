@@ -1351,6 +1351,11 @@ msgstr "텍스트:"
 msgid "Contains:"
 msgstr "Contains:"
 
+#: tfrmfileproperties.lblcreatedstr.caption
+msgctxt "tfrmfileproperties.lblcreatedstr.caption"
+msgid "Created:"
+msgstr "생성됨:"
+
 #: tfrmfileproperties.lblexec.caption
 msgctxt "TFRMFILEPROPERTIES.LBLEXEC.CAPTION"
 msgid "Execute"

@@ -1337,6 +1337,11 @@ msgstr "Текст:"
 msgid "Contains:"
 msgstr "Содержит:"
 
+#: tfrmfileproperties.lblcreatedstr.caption
+msgctxt "tfrmfileproperties.lblcreatedstr.caption"
+msgid "Created:"
+msgstr "Создан:"
+
 #: tfrmfileproperties.lblexec.caption
 msgctxt "TFRMFILEPROPERTIES.LBLEXEC.CAPTION"
 msgid "Execute"
