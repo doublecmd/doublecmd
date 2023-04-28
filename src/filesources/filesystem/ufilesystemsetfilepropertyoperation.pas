@@ -199,11 +199,11 @@ begin
         if (aTemplateProperty as TFileModificationDateTimeProperty).Value <>
            (aFile.Properties[fpModificationTime] as TFileModificationDateTimeProperty).Value then
         begin
-          if not FileSetTimeUAC(
+          if not FileSetTimeExUAC(
             aFile.FullPath,
-            DateTimeToFileTime((aTemplateProperty as TFileModificationDateTimeProperty).Value),
-            0,
-            0) then
+            DateTimeToFileTimeEx((aTemplateProperty as TFileModificationDateTimeProperty).Value),
+            TFileTimeExNull,
+            TFileTimeExNull) then
           begin
             Result := sfprError;
           end;
@@ -215,11 +215,11 @@ begin
         if (aTemplateProperty as TFileCreationDateTimeProperty).Value <>
            (aFile.Properties[fpCreationTime] as TFileCreationDateTimeProperty).Value then
         begin
-          if not FileSetTimeUAC(
+          if not FileSetTimeExUAC(
             aFile.FullPath,
-            0,
-            DateTimeToFileTime((aTemplateProperty as TFileCreationDateTimeProperty).Value),
-            0) then
+            TFileTimeExNull,
+            DateTimeToFileTimeEx((aTemplateProperty as TFileCreationDateTimeProperty).Value),
+            TFileTimeExNull) then
           begin
             Result := sfprError;
           end;
@@ -231,11 +231,11 @@ begin
         if (aTemplateProperty as TFileLastAccessDateTimeProperty).Value <>
            (aFile.Properties[fpLastAccessTime] as TFileLastAccessDateTimeProperty).Value then
         begin
-          if not FileSetTimeUAC(
+          if not FileSetTimeExUAC(
             aFile.FullPath,
-            0,
-            0,
-            DateTimeToFileTime((aTemplateProperty as TFileLastAccessDateTimeProperty).Value)) then
+            TFileTimeExNull,
+            TFileTimeExNull,
+            DateTimeToFileTimeEx((aTemplateProperty as TFileLastAccessDateTimeProperty).Value)) then
           begin
             Result := sfprError;
           end;

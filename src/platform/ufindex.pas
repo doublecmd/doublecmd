@@ -72,6 +72,10 @@ type
     FindData : TDCStat;
     property PlatformTime: TUnixTime read FindData.st_ctime;
     property LastAccessTime: TUnixTime read FindData.st_atime;
+    {$IF DEFINED(DARWIN)}
+    property BirthdayTime: TUnixTime read FindData.st_birthtime;
+    property BirthdayTimensec: clong read FindData.st_birthtimensec;
+    {$ENDIF}
 {$ENDIF}
   end;
 

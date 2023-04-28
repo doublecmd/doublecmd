@@ -3940,9 +3940,9 @@ var
   ActiveFile: TFile = nil;
   SelectedFiles: TFiles = nil;
   aFileProperties: TFileProperties;
-  CreationTime: DCBasicTypes.TFileTime = 0;
-  LastAccessTime : DCBasicTypes.TFileTime = 0;
-  ModificationTime: DCBasicTypes.TFileTime = 0;
+  CreationTime: DCBasicTypes.TFileTimeEx;
+  LastAccessTime : DCBasicTypes.TFileTimeEx;
+  ModificationTime: DCBasicTypes.TFileTimeEx;
   Operation: TFileSourceSetFilePropertyOperation = nil;
 
 begin
@@ -3963,11 +3963,11 @@ begin
           if mbFileGetTime(ActiveFile.FullPath, ModificationTime, CreationTime, LastAccessTime) then
           begin
             if fpModificationTime in ActiveFile.SupportedProperties then
-              ActiveFile.ModificationTime:= FileTimeToDateTime(ModificationTime);
+              ActiveFile.ModificationTime:= FileTimeToDateTimeEx(ModificationTime);
             if fpCreationTime in ActiveFile.SupportedProperties then
-              ActiveFile.CreationTime:= FileTimeToDateTime(CreationTime);
+              ActiveFile.CreationTime:= FileTimeToDateTimeEx(CreationTime);
             if fpLastAccessTime in ActiveFile.SupportedProperties then
-              ActiveFile.LastAccessTime:= FileTimeToDateTime(LastAccessTime);
+              ActiveFile.LastAccessTime:= FileTimeToDateTimeEx(LastAccessTime);
           end;
         end;
         FillByte(aFileProperties, SizeOf(aFileProperties), 0);
