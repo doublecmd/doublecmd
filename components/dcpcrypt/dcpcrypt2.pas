@@ -90,7 +90,7 @@ type
 
     procedure Update(const Buffer; Size: longword); virtual;
       { Update the hash buffer with Size bytes of data from Buffer }
-    procedure UpdateStream(Stream: TStream; Size: longword);
+    procedure UpdateStream(Stream: TStream; Size: QWord);
       { Update the hash buffer with Size bytes of data from the stream }
     procedure UpdateStr(const Str: string);
       { Update the hash buffer with the string }
@@ -328,7 +328,7 @@ procedure TDCP_hash.Update(const Buffer; Size: longword);
 begin
 end;
 
-procedure TDCP_hash.UpdateStream(Stream: TStream; Size: longword);
+procedure TDCP_hash.UpdateStream(Stream: TStream; Size: QWord);
 var
   Buffer: array[0..8191] of byte;
   i, read: integer;
