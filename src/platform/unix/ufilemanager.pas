@@ -15,6 +15,9 @@ uses
   DBus, URIParser, uDebug;
 
 const
+  DBUS_TIMEOUT_INFINITE = Integer($7fffffff);
+
+const
   FileManagerAddress    = 'org.freedesktop.FileManager1';
   FileManagerObjectPath = '/org/freedesktop/FileManager1';
   FileManagerInterface  = 'org.freedesktop.FileManager1';
@@ -45,7 +48,7 @@ var
   AReply: PDBusMessage;
 begin
   dbus_error_init (@DBusError);
-  AReply := dbus_connection_send_with_reply_and_block(DBusConn, AMessage, -1, @DBusError);
+  AReply := dbus_connection_send_with_reply_and_block(DBusConn, AMessage, DBUS_TIMEOUT_INFINITE, @DBusError);
 
   if CheckError('Error sending message', @DBusError) then
     Result:= False
