@@ -444,6 +444,7 @@ var
   AMode, ExcludeAttrs: TFileAttrs;
   CheckBox: TCheckBox absolute Sender;
 begin
+  if fsCreating in FormState then exit;
   if FChangeTriggersEnabled then
   begin
     FChangeTriggersEnabled := False;
