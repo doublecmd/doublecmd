@@ -678,9 +678,14 @@ function realpath(__name:Pchar; __resolved:Pchar):Pchar;cdecl;external clib name
 
 function toRealPath( path:String ): String;
 var
-  resolvedPath: array[0..PATH_MAX] of char;
+  buf: array[0..PATH_MAX] of char;
+  resolvedPath: pchar;
 begin
-  Result:= realpath( pchar(path), resolvedPath );
+  resolvedPath:= realpath( pchar(path), buf );
+  if resolvedPath<>nil then
+    Result:= resolvedPath
+  else
+    Result:= path;
 end;
 
 procedure TDarwinFSWatcher.addPath( path:String );
