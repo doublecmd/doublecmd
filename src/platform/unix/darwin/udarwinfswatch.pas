@@ -42,7 +42,7 @@ interface
 
 uses
   Classes, SysUtils, Contnrs, SyncObjs,
-  MacOSAll, CocoaAll, BaseUnix;
+  MacOSAll, CocoaAll, BaseUnix, Math;
 
 type TDarwinFSWatchEventCategory = (
   ecAttribChanged, ecCoreAttribChanged, ecXattrChanged,
@@ -400,6 +400,7 @@ begin
   _list:= TObjectList.Create;
   for i:=0 to amount-1 do
   begin
+    if flags^ = kFSEventStreamEventFlagHistoryDone then continue;
     event:= TInternalEvent.Create;
 
     if isFlagUseExtendedDataSupported then
@@ -557,7 +558,7 @@ begin
     exit;
   end;
 
-  for pathIndex:=0 to _watchPaths.count-1 do
+  for pathIndex:=0 to min(_watchPaths.count, _watchRealPaths.count)-1 do
   begin
     watchPath:= NSString(_watchPaths.objectAtIndex(pathIndex)).UTF8String;
     watchRealPath:= NSString(_watchRealPaths.objectAtIndex(pathIndex)).UTF8String;
