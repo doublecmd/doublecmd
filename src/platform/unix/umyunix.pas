@@ -173,7 +173,7 @@ uses
   , SysCall
 {$ENDIF}
 {$IF NOT (DEFINED(DARWIN) OR DEFINED(HAIKU))}
-  , uMimeActions, uMimeType, uGVolume
+  , libfontconfig, uMimeActions, uMimeType, uGVolume
 {$ENDIF}
 {$IFDEF DARWIN}
   , uMyDarwin
@@ -644,11 +644,44 @@ begin
 end;
 
 {$IF NOT (DEFINED(DARWIN) OR DEFINED(HAIKU))}
+function GetFontName(const AName: String): String;
+var
+  Res: TFcResult;
+  AFont: PFcPattern;
+  AFontName: PFcChar8;
+  APattern: PFcPattern;
+begin
+  Result:= AName;
+  APattern:= FcNameParse(PFcChar8(AName));
+  if Assigned(APattern) then
+  begin
+    FcConfigSubstitute(nil, APattern, FcMatchPattern);
+    FcDefaultSubstitute(APattern);
+    AFont:= FcFontMatch(nil, APattern, @Res);
+    if Assigned(AFont) then
+    begin
+      AFontName:= FcPatternFormat(AFont, '%{fullname}');
+      if Assigned(AFontName) then
+      begin
+        Result:= StrPas(AFontName);
+        FcStrFree(AFontName);
+      end;
+      FcPatternDestroy(AFont);
+    end;
+    FcPatternDestroy(APattern);
+  end;
+end;
+
 initialization
   DesktopEnv := GetDesktopEnvironment;
   {$IFDEF LINUX}
     CheckPMount;
   {$ENDIF}
+  if (LoadFontConfigLib('libfontconfig.so.1', False) > 0) then
+  begin
+    MonoSpaceFont:= GetFontName(MonoSpaceFont);
+    UnLoadFontConfigLib;
+  end;
 {$ENDIF}
 
 end.
