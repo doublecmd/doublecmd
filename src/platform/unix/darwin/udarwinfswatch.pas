@@ -42,7 +42,7 @@ interface
 
 uses
   Classes, SysUtils, Contnrs, SyncObjs,
-  MacOSAll, CocoaAll, BaseUnix, Math;
+  MacOSAll, CocoaAll, BaseUnix;
 
 type TDarwinFSWatchEventCategory = (
   ecAttribChanged, ecCoreAttribChanged, ecXattrChanged,
@@ -400,7 +400,6 @@ begin
   _list:= TObjectList.Create;
   for i:=0 to amount-1 do
   begin
-    if flags^ = kFSEventStreamEventFlagHistoryDone then continue;
     event:= TInternalEvent.Create;
 
     if isFlagUseExtendedDataSupported then
@@ -545,6 +544,8 @@ end;
 
 procedure TDarwinFSWatcher.handleEvents( const originalSession:TDarwinFSWatchEventSession );
 var
+  tempWatchPaths: NSArray;
+  tempWatchRealPaths: NSArray;
   watchPath: String;
   watchRealPath: String;
   event: TInternalEvent;
@@ -552,33 +553,46 @@ var
   i: Integer;
   session: TDarwinFSWatchEventSession;
 begin
-  if _watchPaths.count=0 then
-  begin
-    originalSession.Free;
-    exit;
-  end;
-
-  for pathIndex:=0 to min(_watchPaths.count, _watchRealPaths.count)-1 do
-  begin
-    watchPath:= NSString(_watchPaths.objectAtIndex(pathIndex)).UTF8String;
-    watchRealPath:= NSString(_watchRealPaths.objectAtIndex(pathIndex)).UTF8String;
-    if pathIndex=_watchPaths.count-1 then
-      session:= originalSession
-    else
-      session:= originalSession.deepCopy();
-    i:= 0;
-    while i < session.count do
-    begin
-      event:= session[i];
-      if isMatchWatchPath(event, watchRealPath, _watchSubtree) then
-      begin
-        session.adjustRenamedEventIfNecessary( i );
-        session.adjustSymlinkIfNecessary( i, watchPath, watchRealPath );
-        doCallback( watchPath, event );
-      end;
-      inc( i );
+  try
+    _lockObject.Acquire;
+    try
+      tempWatchPaths:= _watchPaths.copy;
+      tempWatchRealPaths:= _watchRealPaths.copy;
+    finally
+      _lockObject.Release;
     end;
-    session.Free;
+
+    if tempWatchPaths.count=0 then
+    begin
+      originalSession.Free;
+      exit;
+    end;
+
+    for pathIndex:=0 to tempWatchPaths.count-1 do
+    begin
+      watchPath:= NSString(tempWatchPaths.objectAtIndex(pathIndex)).UTF8String;
+      watchRealPath:= NSString(tempWatchRealPaths.objectAtIndex(pathIndex)).UTF8String;
+      if pathIndex=tempWatchPaths.count-1 then
+        session:= originalSession
+      else
+        session:= originalSession.deepCopy();
+      i:= 0;
+      while i < session.count do
+      begin
+        event:= session[i];
+        if isMatchWatchPath(event, watchRealPath, _watchSubtree) then
+        begin
+          session.adjustRenamedEventIfNecessary( i );
+          session.adjustSymlinkIfNecessary( i, watchPath, watchRealPath );
+          doCallback( watchPath, event );
+        end;
+        inc( i );
+      end;
+      session.Free;
+    end;
+  finally
+    tempWatchPaths.Release;
+    tempWatchRealPaths.Release;
   end;
 end;
 
@@ -727,6 +741,7 @@ begin
 
     _watchPaths.removeObjectAtIndex( index );
     _watchRealPaths.removeObjectAtIndex( index );
+
     interrupt;
   finally
     _lockObject.Release;
