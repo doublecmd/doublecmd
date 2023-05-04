@@ -78,7 +78,7 @@ type
     function LookupIcon(AIconName: String; AIconSize, AIconScale: Integer): String;
     function CreateParentTheme(const sThemeName: String): TIconTheme; virtual;
   public
-    constructor Create(sThemeName: String; BaseDirList: array of String; ADefaultTheme: String = ''); virtual;
+    constructor Create(sThemeName: String; var BaseDirList: array of String; ADefaultTheme: String = ''); virtual;
     destructor Destroy; override;
     function Load: Boolean; virtual;
     function FindIcon(AIconName: String; AIconSize: Integer; AIconScale: Integer = 1): String;
@@ -165,7 +165,7 @@ begin
 end;
 
 
-constructor TIconTheme.Create(sThemeName: String; BaseDirList: array of String;
+constructor TIconTheme.Create(sThemeName: String; var BaseDirList: array of String;
   ADefaultTheme: String);
 var
  I, J: Integer;
