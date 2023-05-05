@@ -405,6 +405,7 @@ procedure Finalize;
 begin
   if (NetFS <> NilHandle) then FreeLibrary(NetFS);
   if (CoreServices <> NilHandle) then FreeLibrary(CoreServices);
+  FreeAndNil( MacosServiceMenuHelper );
 end;
 
 initialization
