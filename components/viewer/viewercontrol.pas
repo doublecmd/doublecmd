@@ -1118,6 +1118,7 @@ function TViewerControl.GetStartOfLine(aPosition: PtrInt): PtrInt;
     tmpPos, LineStartPos: PtrInt;
     DataLength: PtrInt;
     prevChar: Cardinal;
+    MaxLineLength: Boolean;
     CharLenInBytes: Integer;
   begin
     prevChar := GetPrevCharAsAscii(aPosition, CharLenInBytes);
@@ -1147,6 +1148,7 @@ function TViewerControl.GetStartOfLine(aPosition: PtrInt): PtrInt;
     if tmpPos <= FLowLimit then
       Exit(FLowLimit);
 
+    DataLength:= 0;
     // Search for real start of line.
     while (not (prevChar in [10, 13])) and (tmpPos > FLowLimit) do
     begin
@@ -1154,6 +1156,19 @@ function TViewerControl.GetStartOfLine(aPosition: PtrInt): PtrInt;
       if CharLenInBytes = 0 then
         Break;
       Dec(tmpPos, CharLenInBytes);
+
+      case prevChar of
+      9:
+        Inc(DataLength, FTabSpaces - DataLength mod FTabSpaces);
+      else
+        Inc(DataLength, 1);
+      end;
+
+      case FViewerControlMode of
+      vcmText:   MaxLineLength := DataLength < FMaxTextWidth;
+      vcmWrap:   MaxLineLength := DataLength < FTextWidth;
+      end;
+      if not MaxLineLength then Exit(tmpPos);
     end;
 
     // Previous end of line not found and there are no more data to check.
@@ -1257,6 +1272,7 @@ function TViewerControl.GetStartOfPrevLine(aPosition: PtrInt): PtrInt;
     tmpPos, LineStartPos: PtrInt;
     DataLength: PtrInt;
     prevChar: Cardinal;
+    MaxLineLength: Boolean;
     CharLenInBytes: Integer;
   begin
     prevChar := GetPrevCharAsAscii(aPosition, CharLenInBytes);
@@ -1300,6 +1316,7 @@ function TViewerControl.GetStartOfPrevLine(aPosition: PtrInt): PtrInt;
     if tmpPos <= FLowLimit then
       Exit(FLowLimit);
 
+    DataLength:= 0;
     // Search for real start of line.
     while (not (prevChar in [10, 13])) and (tmpPos > FLowLimit) do
     begin
@@ -1307,6 +1324,19 @@ function TViewerControl.GetStartOfPrevLine(aPosition: PtrInt): PtrInt;
       if CharLenInBytes = 0 then
         Break;
       Dec(tmpPos, CharLenInBytes);
+
+      case prevChar of
+      9:
+        Inc(DataLength, FTabSpaces - DataLength mod FTabSpaces);
+      else
+        Inc(DataLength, 1);
+      end;
+
+      case FViewerControlMode of
+      vcmText:   MaxLineLength := DataLength < FMaxTextWidth;
+      vcmWrap:   MaxLineLength := DataLength < FTextWidth;
+      end;
+      if not MaxLineLength then Exit(tmpPos);
     end;
 
     // Move forward to first non-line ending character.
