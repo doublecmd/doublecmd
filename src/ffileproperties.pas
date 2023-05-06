@@ -32,7 +32,7 @@ uses
   Dialogs, Controls, ExtCtrls, Grids, ButtonPanel, DividerBevel, KASCDEdit,
   DCBasicTypes, uFile, uFileProperty, uFileSource, uFileSourceOperation,
   uFileSourceCalcStatisticsOperation, uFileSourceSetFilePropertyOperation,
-  DCOSUtils, uExifReader;
+  DCOSUtils;
 
 type
 
@@ -109,7 +109,7 @@ type
     pnlData: TPanel;
     pnlIcon: TPanel;
     pcPageControl: TPageControl;
-    sgImage: TStringGrid;
+    sgPlugins: TStringGrid;
     tsPlugins: TTabSheet;
     tmUpdateFolderSize: TTimer;
     tsProperties: TTabSheet;
@@ -128,7 +128,6 @@ type
     bPerm: Boolean;
     FFileSource: IFileSource;
     FFiles: TFiles;
-    FExif: TExifReader;
     FPropertyFormatter: IFilePropertyFormatter;
     FFileSourceCalcStatisticsOperation: TFileSourceCalcStatisticsOperation;
     FChangeTriggersEnabled: Boolean;
@@ -191,7 +190,6 @@ var
 begin
   FFiles := theFiles.Clone;
   FFileSource:= aFileSource;
-  FExif:= TExifReader.Create;
   FChangeTriggersEnabled := True;
   FPropertyFormatter := MaxDetailsFilePropertyFormatter;
 
@@ -256,7 +254,6 @@ end;
 
 destructor TfrmFileProperties.Destroy;
 begin
-  FExif.Free;
   FFiles.Free;
   StopCalcFolderSize;
   inherited Destroy;
@@ -859,79 +856,41 @@ procedure TfrmFileProperties.ShowPlugin(iIndex: Integer);
 var
   I, J: Integer;
   Value: String;
+  Index: Integer;
   FileName: String;
-  Index: Integer = 0;
   WdxModule: TWdxModule;
 begin
   FileName:= FFiles[iIndex].FullPath;
   Value:= LowerCase(FFiles[iIndex].Extension);
-  tsPlugins.TabVisible:= Contains(['jpg', 'jpeg'], Value) and FExif.LoadFromFile(FileName);
-  if tsPlugins.TabVisible then
+
+  for Index:= 0 to gWdxPlugins.Count - 1 do
   begin
-    sgImage.RowCount:= 6;
-    if FExif.ImageWidth <> 0 then
+    WdxModule:= gWdxPlugins.GetWdxModule(Index);
+    if (Length(WdxModule.DetectStr) > 0) and WdxModule.FileParamVSDetectStr(FFiles[iIndex]) then
     begin
-     Inc(Index);
-     sgImage.Cells[0, Index]:= rsImageWidth;
-     sgImage.Cells[1, Index]:= IntToStr(FExif.ImageWidth);
-    end;
-    if FExif.ImageHeight <> 0 then
-    begin
-     Inc(Index);
-     sgImage.Cells[0, Index]:= rsImageHeight;
-     sgImage.Cells[1, Index]:= IntToStr(FExif.ImageHeight);
-    end;
-    if Length(FExif.DateTimeOriginal) > 0 then
-    begin
-      Inc(Index);
-      sgImage.Cells[0, Index]:= rsDateTimeOriginal;
-      sgImage.Cells[1, Index]:= FExif.DateTimeOriginal;
-    end;
-    if Length(FExif.Make) > 0 then
-    begin
-      Inc(Index);
-      sgImage.Cells[0, Index]:= rsMake;
-      sgImage.Cells[1, Index]:= FExif.Make;
-    end;
-    if Length(FExif.Model) > 0 then
-    begin
-      Inc(Index);
-      sgImage.Cells[0, Index]:= rsModel;
-      sgImage.Cells[1, Index]:= FExif.Model;
-    end;
-    tsPlugins.TabVisible:= Index > 0;
-    sgImage.RowCount:= Index + 1;
-  end
-  else begin
-    for Index:= 0 to gWdxPlugins.Count - 1 do
-    begin
-      WdxModule:= gWdxPlugins.GetWdxModule(Index);
-      if (Length(WdxModule.DetectStr) > 0) and WdxModule.FileParamVSDetectStr(FFiles[iIndex]) then
+      if not gWdxPlugins.IsLoaded(Index) then
       begin
-        if not gWdxPlugins.IsLoaded(Index) then
+        if not gWdxPlugins.LoadModule(Index) then
+          Continue;
+      end;
+      J:= 0;
+      sgPlugins.RowCount:= WdxModule.FieldList.Count + 1;
+      for I:= 0 to WdxModule.FieldList.Count - 1 do
+      begin
+        if not (TWdxField(WdxModule.FieldList.Objects[I]).FType in [ft_fulltext, ft_fulltextw]) then
         begin
-          if not gWdxPlugins.LoadModule(Index) then
-            Continue;
-        end;
-        J:= 0;
-        sgImage.RowCount:= WdxModule.FieldList.Count + 1;
-        for I:= 0 to WdxModule.FieldList.Count - 1 do
-        begin
-          if not (TWdxField(WdxModule.FieldList.Objects[I]).FType in [ft_fulltext, ft_fulltextw]) then
+          Value:= WdxModule.CallContentGetValue(FileName, I, 0, CONTENT_DELAYIFSLOW);
+          if (Length(Value) > 0) then
           begin
-            Value:= WdxModule.CallContentGetValue(FileName, I, 0, CONTENT_DELAYIFSLOW);
-            if (Length(Value) > 0) then
-            begin
-              Inc(J);
-              sgImage.Cells[1, J]:= Value;
-              sgImage.Cells[0, J]:= TWdxField(WdxModule.FieldList.Objects[I]).LName;
-            end;
+            Inc(J);
+            sgPlugins.Cells[1, J]:= Value;
+            sgPlugins.Cells[0, J]:= TWdxField(WdxModule.FieldList.Objects[I]).LName;
           end;
         end;
-        sgImage.RowCount:= J + 1;
-        tsPlugins.TabVisible:= J > 0;
-        if tsPlugins.TabVisible then Break;
       end;
+      sgPlugins.RowCount:= J + 1;
+      tsPlugins.TabVisible:= J > 0;
+      if tsPlugins.TabVisible then Break;
     end;
   end;
 end;

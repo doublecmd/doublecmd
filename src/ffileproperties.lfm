@@ -917,7 +917,7 @@ object frmFileProperties: TfrmFileProperties
       ClientHeight = 397
       ClientWidth = 436
       TabVisible = False
-      object sgImage: TStringGrid
+      object sgPlugins: TStringGrid
         Left = 0
         Height = 397
         Top = 0

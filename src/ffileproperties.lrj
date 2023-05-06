@@ -37,6 +37,6 @@
 {"hash":44996288,"name":"tfrmfileproperties.lblgroupstr.caption","sourcebytes":[38,71,114,111,117,112],"value":"&Group"},
 {"hash":181090421,"name":"tfrmfileproperties.chkrecursive.caption","sourcebytes":[38,82,101,99,117,114,115,105,118,101],"value":"&Recursive"},
 {"hash":121364483,"name":"tfrmfileproperties.tsplugins.caption","sourcebytes":[80,108,117,103,105,110,115],"value":"Plugins"},
-{"hash":346165,"name":"tfrmfileproperties.sgimage.columns[0].title.caption","sourcebytes":[78,97,109,101],"value":"Name"},
-{"hash":6063029,"name":"tfrmfileproperties.sgimage.columns[1].title.caption","sourcebytes":[86,97,108,117,101],"value":"Value"}
+{"hash":346165,"name":"tfrmfileproperties.sgplugins.columns[0].title.caption","sourcebytes":[78,97,109,101],"value":"Name"},
+{"hash":6063029,"name":"tfrmfileproperties.sgplugins.columns[1].title.caption","sourcebytes":[86,97,108,117,101],"value":"Value"}
 ]}
