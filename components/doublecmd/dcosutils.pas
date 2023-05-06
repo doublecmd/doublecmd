@@ -173,15 +173,21 @@ function mbFileCreate(const FileName: String; Mode: LongWord): System.THandle; o
 function mbFileCreate(const FileName: String; Mode, Rights: LongWord): System.THandle; overload;
 function mbFileAge(const FileName: String): DCBasicTypes.TFileTime;
 // On success returns True.
+// nanoseconds supported
 function mbFileGetTime(const FileName: String;
-                       var ModificationTime: DCBasicTypes.TFileTime;
-                       var CreationTime    : DCBasicTypes.TFileTime;
-                       var LastAccessTime  : DCBasicTypes.TFileTime): Boolean;
+                       var ModificationTime: DCBasicTypes.TFileTimeEx;
+                       var CreationTime    : DCBasicTypes.TFileTimeEx;
+                       var LastAccessTime  : DCBasicTypes.TFileTimeEx): Boolean;
 // On success returns True.
 function mbFileSetTime(const FileName: String;
                        ModificationTime: DCBasicTypes.TFileTime;
                        CreationTime    : DCBasicTypes.TFileTime = 0;
                        LastAccessTime  : DCBasicTypes.TFileTime = 0): Boolean;
+// nanoseconds supported
+function mbFileSetTimeEx(const FileName: String;
+                         ModificationTime: DCBasicTypes.TFileTimeEx;
+                         CreationTime    : DCBasicTypes.TFileTimeEx;
+                         LastAccessTime  : DCBasicTypes.TFileTimeEx): Boolean;
 {en
    Checks if a given file exists - it can be a real file or a link to a file,
    but it can be opened and read from.
@@ -543,6 +549,9 @@ end;
 var
   Option: TCopyAttributesOption;
   StatInfo : TDCStat;
+  modificationTime: TFileTimeEx;
+  creationTime: TFileTimeEx;
+  lastAccessTime: TFileTimeEx;
   mode : TMode;
 begin
   if DC_fpLStat(UTF8ToSys(sSrc), StatInfo) < 0 then
@@ -582,11 +591,10 @@ begin
     begin
       if caoCopyTime in Options then
       begin
-        if DC_FileSetTime(
-          sDst,
-          StatInfo.st_mtime,
-          {$IFDEF DARWIN} StatInfo.st_birthtime {$ELSE} 0 {$ENDIF},
-          StatInfo.st_atime) = false then
+        modificationTime:= StatInfo.mtime;
+        lastAccessTime:= StatInfo.atime;
+        creationTime:= StatInfo.birthtime;
+        if DC_FileSetTime(sDst, modificationTime, creationTime, lastAccessTime) = false then
         begin
           Include(Result, caoCopyTime);
           if Assigned(Errors) then Errors^[caoCopyTime]:= GetLastOSError;
@@ -872,9 +880,9 @@ end;
 {$ENDIF}
 
 function mbFileGetTime(const FileName: String;
-                       var ModificationTime: DCBasicTypes.TFileTime;
-                       var CreationTime    : DCBasicTypes.TFileTime;
-                       var LastAccessTime  : DCBasicTypes.TFileTime): Boolean;
+                       var ModificationTime: DCBasicTypes.TFileTimeEx;
+                       var CreationTime    : DCBasicTypes.TFileTimeEx;
+                       var LastAccessTime  : DCBasicTypes.TFileTimeEx): Boolean;
 {$IFDEF MSWINDOWS}
 var
   Handle: System.THandle;
@@ -905,12 +913,12 @@ begin
   Result := DC_fpLStat(UTF8ToSys(FileName), StatInfo) >= 0;
   if Result then
   begin
-    LastAccessTime   := StatInfo.st_atime;
-    ModificationTime := StatInfo.st_mtime;
+    ModificationTime:= StatInfo.mtime;
+    LastAccessTime:= StatInfo.atime;
     {$IF DEFINED(DARWIN)}
-    CreationTime     := StatInfo.st_birthtime;
+    CreationTime:= StatInfo.birthtime;
     {$ELSE}
-    CreationTime     := StatInfo.st_ctime;
+    CreationTime:= StatInfo.ctime;
     {$ENDIF}
   end;
 end;
@@ -920,6 +928,27 @@ function mbFileSetTime(const FileName: String;
                        ModificationTime: DCBasicTypes.TFileTime;
                        CreationTime    : DCBasicTypes.TFileTime = 0;
                        LastAccessTime  : DCBasicTypes.TFileTime = 0): Boolean;
+{$IFDEF MSWINDOWS}
+begin
+  Result:= mbFileSetTimeEx(FileName, ModificationTime, CreationTime, LastAccessTime);
+end;
+{$ELSE}
+var
+  NewModificationTime: DCBasicTypes.TFileTimeEx;
+  NewCreationTime    : DCBasicTypes.TFileTimeEx;
+  NewLastAccessTime  : DCBasicTypes.TFileTimeEx;
+begin
+  NewModificationTime:= specialize IfThen<TFileTimeEx>(ModificationTime<>0, TFileTimeEx.create(ModificationTime), TFileTimeExNull);
+  NewCreationTime:= specialize IfThen<TFileTimeEx>(CreationTime<>0, TFileTimeEx.create(CreationTime), TFileTimeExNull);
+  NewLastAccessTime:= specialize IfThen<TFileTimeEx>(LastAccessTime<>0, TFileTimeEx.create(LastAccessTime), TFileTimeExNull);
+  Result:= mbFileSetTimeEx(FileName, NewModificationTime, NewCreationTime, NewLastAccessTime);
+end;
+{$ENDIF}
+
+function mbFileSetTimeEx(const FileName: String;
+                         ModificationTime: DCBasicTypes.TFileTimeEx;
+                         CreationTime    : DCBasicTypes.TFileTimeEx;
+                         LastAccessTime  : DCBasicTypes.TFileTimeEx): Boolean;
 {$IFDEF MSWINDOWS}
 var
   Handle: System.THandle;
@@ -961,14 +990,14 @@ begin
 end;
 {$ELSE}
 var
-  CurrentModificationTime, CurrentCreationTime, CurrentLastAccessTime: DCBasicTypes.TFileTime;
+  CurrentModificationTime, CurrentCreationTime, CurrentLastAccessTime: DCBasicTypes.TFileTimeEx;
 begin
-  if mbFileGetTime(FileName,CurrentModificationTime, CurrentCreationTime, CurrentLastAccessTime) then
+  if mbFileGetTime(FileName, CurrentModificationTime, CurrentCreationTime, CurrentLastAccessTime) then
   begin
-    if ModificationTime<>0 then CurrentModificationTime:= ModificationTime;
-    if CreationTime<>0 then CurrentCreationTime:= CreationTime;
-    if LastAccessTime<>0 then CurrentLastAccessTime:= LastAccessTime;
-    Result := DC_FileSetTime(FileName,CurrentModificationTime, CurrentCreationTime, CurrentLastAccessTime);
+    if ModificationTime<>TFileTimeExNull then CurrentModificationTime:= ModificationTime;
+    if CreationTime<>TFileTimeExNull then CurrentCreationTime:= CreationTime;
+    if LastAccessTime<>TFileTimeExNull then CurrentLastAccessTime:= LastAccessTime;
+    Result := DC_FileSetTime(FileName, CurrentModificationTime, CurrentCreationTime, CurrentLastAccessTime);
   end
   else
   begin
