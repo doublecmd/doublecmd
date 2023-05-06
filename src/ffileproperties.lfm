@@ -930,6 +930,7 @@ object frmFileProperties: TfrmFileProperties
         Columns = <        
           item
             ReadOnly = True
+            SizePriority = 0
             Title.Caption = 'Name'
             Width = 218
           end        
