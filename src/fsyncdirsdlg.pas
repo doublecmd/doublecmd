@@ -754,8 +754,11 @@ begin
   gSyncDirsShowFilterCopyLeft   := sbCopyLeft.Down;
   gSyncDirsShowFilterDuplicates := sbDuplicates.Down;
   gSyncDirsShowFilterSingles    := sbSingles.Down;
-  if not IsMaskSearchTemplate(cbExtFilter.Text) then
-    gSyncDirsFileMask           := cbExtFilter.Text;
+  if gSyncDirsFileMaskSave = True then
+  begin
+    if not IsMaskSearchTemplate(cbExtFilter.Text) then
+      gSyncDirsFileMask         := cbExtFilter.Text;
+  end;
   if chkByContent.Enabled then
     gSyncDirsByContent          := chkByContent.Checked;
   glsMaskHistory.Assign(cbExtFilter.Items);
@@ -811,6 +814,14 @@ begin
   sbCopyLeft.Down        := gSyncDirsShowFilterCopyLeft;
   sbDuplicates.Down      := gSyncDirsShowFilterDuplicates;
   sbSingles.Down         := gSyncDirsShowFilterSingles;
+  if gSyncDirsFileMaskSave = False then
+  begin
+    Index := glsMaskHistory.IndexOf(gSyncDirsFileMask);
+    if Index <> -1 then
+      glsMaskHistory.Move(Index, 0)
+    else
+      glsMaskHistory.Insert(0, gSyncDirsFileMask);
+  end;
   cbExtFilter.Items.Assign(glsMaskHistory);
   cbExtFilter.Text       := gSyncDirsFileMask;
 

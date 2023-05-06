@@ -677,6 +677,7 @@ var
   gSyncDirsShowFilterDuplicates,
   gSyncDirsShowFilterSingles: Boolean;
   gSyncDirsFileMask: string;
+  gSyncDirsFileMaskSave: Boolean;
 
   { Internal Associations}
   gFileAssociationLastCustomAction: string;
@@ -2125,6 +2126,7 @@ begin
   gSyncDirsShowFilterDuplicates := True;
   gSyncDirsShowFilterSingles := True;
   gSyncDirsFileMask := '*';
+  gSyncDirsFileMaskSave := True;
 
   { Internal Associations}
   gFileAssociationLastCustomAction := rsMsgDefaultCustomActionName;
@@ -3261,6 +3263,7 @@ begin
       gSyncDirsShowFilterDuplicates := GetValue(Node, 'FilterDuplicates', gSyncDirsShowFilterDuplicates);
       gSyncDirsShowFilterSingles := GetValue(Node, 'FilterSingles', gSyncDirsShowFilterSingles);
       gSyncDirsFileMask := GetValue(Node, 'FileMask', gSyncDirsFileMask);
+      gSyncDirsFileMaskSave := GetAttr(Node, 'FileMask/Save', gSyncDirsFileMaskSave);
       SubNode := FindNode(Node, 'Colors');
       if Assigned(SubNode) then
       begin
@@ -3884,6 +3887,7 @@ begin
     SetValue(Node, 'FilterDuplicates', gSyncDirsShowFilterDuplicates);
     SetValue(Node, 'FilterSingles', gSyncDirsShowFilterSingles);
     SetValue(Node, 'FileMask', gSyncDirsFileMask);
+    SetAttr(Node, 'FileMask/Save', gSyncDirsFileMaskSave);
     SubNode := FindNode(Node, 'Colors', True);
     SetValue(SubNode, 'Left', gSyncLeftColor);
     SetValue(SubNode, 'Right', gSyncRightColor);
