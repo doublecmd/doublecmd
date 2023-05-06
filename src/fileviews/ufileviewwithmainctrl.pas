@@ -1656,10 +1656,13 @@ end;
 
 procedure TFileViewWithMainCtrl.ShowRenameFileEditInitSelect(Data: PtrInt);
 begin
-  if gRenameSelOnlyName and not (FRenameFile.IsDirectory or FRenameFile.IsLinkToDirectory) then
-     RenameSelectPart(rfatName)
-  else
-     RenameSelectPart(rfatFull);
+  if Assigned(FRenameFile) then
+  begin
+    if gRenameSelOnlyName and not (FRenameFile.IsDirectory or FRenameFile.IsLinkToDirectory) then
+      RenameSelectPart(rfatName)
+    else
+      RenameSelectPart(rfatFull);
+  end;
 end;
 
 procedure TFileViewWithMainCtrl.ShowRenameFileEdit(var AFile: TFile);
