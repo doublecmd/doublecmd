@@ -17,13 +17,6 @@
 
    You should have received a copy of the GNU General Public License
    along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-   Notes:
-   1. PR #570 is the workaround for the bug of Lazarus.
-      related codes can be removed after Lazarus merges related Patches.
-      see also:
-      https://github.com/doublecmd/doublecmd/pull/570
-      https://gitlab.com/freepascal.org/lazarus/lazarus/-/issues/40008
 }
 
 unit KASPathEdit;
@@ -57,10 +50,6 @@ type
     FStringList: TStringList;
     FObjectTypes: TObjectTypes;
     FFileSortType: TFileSortType;
-{$IF DEFINED(LCLCOCOA)}
-    originalText: String;
-    keyDownText: String;
-{$ENDIF}
   private
     procedure setTextAndSelect( newText:String );
     procedure handleSpecialKeys( var Key: Word );
@@ -83,12 +72,6 @@ type
     procedure VisibleChanged; override;
     procedure KeyDown(var Key: Word; Shift: TShiftState); override;
     procedure KeyUpAfterInterface(var Key: Word; Shift: TShiftState); override;
-{$IF DEFINED(LCLCOCOA)}
-    procedure DoEnter; override;
-    procedure TextChanged; override;
-    procedure KeyUp(var Key: word; Shift: TShiftState); override;
-    procedure KeyDownAction(var Key: Word; Shift: TShiftState);
-{$ENDIF}
   public
     onKeyESCAPE: TNotifyEvent;
     onKeyRETURN: TNotifyEvent;
@@ -401,51 +384,6 @@ begin
   inherited VisibleChanged;
 end;
 
-{$IFDEF LCLCOCOA}
-procedure TKASPathEdit.DoEnter;
-begin
-  inherited DoEnter;
-  self.originalText:= self.Text;
-end;
-
-procedure TKASPathEdit.TextChanged;
-begin
-  inherited TextChanged;
-  self.originalText:= self.Text;
-end;
-
-procedure TKASPathEdit.KeyDown( var Key: Word; Shift: TShiftState );
-begin
-  case Key of
-    VK_ESCAPE:
-      self.keyDownText:= self.Text;
-    VK_RETURN,
-    VK_SELECT:
-      self.keyDownText:= self.originalText
-  end;
-  KeyDownAction( Key, Shift );
-end;
-
-procedure TKASPathEdit.KeyUp( var Key: Word; Shift: TShiftState );
-begin
-  case Key of
-    VK_ESCAPE,
-    VK_RETURN,
-    VK_SELECT:
-      if self.text=self.keyDownText then begin
-        // from the text has not been changed,
-        // the TKASPathEdit is not in the IME state
-        handleSpecialKeys( Key )
-      end else begin
-        // in the IME state
-        AutoComplete(self.text);
-        Key:= 0;
-      end;
-  end;
-  inherited KeyUp( Key, Shift );
-end;
-{$ENDIF}
-
 procedure TKASPathEdit.handleSpecialKeys( var Key: Word );
 begin
   if isShowingListBox() then begin
@@ -496,21 +434,14 @@ begin
       setTextAndSelect( ExtractFilePath(Text) );
 end;
 
-{$IF DEFINED(LCLCOCOA)}
-procedure TKASPathEdit.KeyDownAction(var Key: Word; Shift: TShiftState);
-{$ELSE}
 procedure TKASPathEdit.KeyDown(var Key: Word; Shift: TShiftState);
-{$ENDIF}
 begin
   FKeyDown:= Key;
   case Key of
-    // handle in KeyUp on LCLCOCOA
-    {$IF NOT DEFINED(LCLCOCOA)}
     VK_ESCAPE,
     VK_RETURN,
     VK_SELECT:
       handleSpecialKeys( Key );
-    {$ENDIF}
     VK_UP:
       if isShowingListBox() then
       begin
