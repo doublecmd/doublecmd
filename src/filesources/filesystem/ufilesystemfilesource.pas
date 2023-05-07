@@ -67,7 +67,7 @@ type
                                            const FileNamesList: TStringList;
                                            OmitNotExisting: Boolean = False): TFiles;
 
-    procedure RetrieveProperties(AFile: TFile; PropertiesToSet: TFilePropertiesTypes; AVariantProperties: array of String); override;
+    procedure RetrieveProperties(AFile: TFile; PropertiesToSet: TFilePropertiesTypes; const AVariantProperties: array of String); override;
 
     class function GetFileSource: IFileSystemFileSource;
 
@@ -459,7 +459,7 @@ begin
 end;
 
 procedure TFileSystemFileSource.RetrieveProperties(AFile: TFile;
-  PropertiesToSet: TFilePropertiesTypes; AVariantProperties: array of String);
+  PropertiesToSet: TFilePropertiesTypes; const AVariantProperties: array of String);
 var
   AIndex: Integer;
   sFullPath: String;
