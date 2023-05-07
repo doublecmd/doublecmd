@@ -15,6 +15,8 @@ type
   private
     FRoot: TJSONObject;
   public
+    constructor Create;
+    destructor Destroy; override;
     procedure SaveToFile(const FileName: String);
     procedure LoadFromFile(const FileName: String);
     property Root: TJSONObject read FRoot;
@@ -26,6 +28,17 @@ uses
   DCClassesUtf8;
 
 { TJsonConfig }
+
+constructor TJsonConfig.Create;
+begin
+  FRoot:= TJSONObject.Create;
+end;
+
+destructor TJsonConfig.Destroy;
+begin
+  inherited Destroy;
+  FRoot.Free;
+end;
 
 procedure TJsonConfig.SaveToFile(const FileName: String);
 begin
@@ -44,6 +57,7 @@ var
 begin
   AStream:= TFileStreamEx.Create(FileName, fmOpenRead or fmShareDenyNone);
   try
+    FreeAndNil(FRoot);
     FRoot:= GetJSON(AStream, True) as TJSONObject;
   finally
     AStream.Free;
