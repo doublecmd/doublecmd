@@ -534,11 +534,14 @@ procedure cdeclFSEventsCallback(
   eventFlags: FSEventStreamEventFlagsPtr;
   {%H-}eventIds: FSEventStreamEventIdPtr ); cdecl;
 var
+  pool: NSAutoReleasePool;
   watcher: TDarwinFSWatcher absolute clientCallBackInfo;
   session: TDarwinFSWatchEventSession;
 begin
+  pool:= NSAutoreleasePool.alloc.init;
   session:= TDarwinFSWatchEventSession.create( numEvents, eventPaths, eventFlags );
   watcher.handleEvents( session );
+  pool.release;
   // seesion released in handleEvents()
 end;
 
