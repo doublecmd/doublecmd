@@ -1,7 +1,7 @@
 {
    Double Commander
    -------------------------------------------------------------------------
-   This unit contains specific DARWIN FSEvent functions.
+   This unit contains specific Cocoa Components.
 
    Copyright (C) 2023 Alexander Koblov (alexx2000@mail.ru)
    Copyright (C) 2023 Rich Chang (rich2014.git@outlook.com)
@@ -18,17 +18,6 @@
 
    You should have received a copy of the GNU General Public License
    along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-   Notes:
-   1. TCocoaWSCustomComboBoxEx disalbe AutoComplete currently.
-      it is a workaround for the bug of Lazarus related IME of Cocoa.
-      related codes can be removed after Lazarus merges related Patches.
-      see also:
-      https://gitlab.com/freepascal.org/lazarus/lazarus/-/issues/40008
-   2. TCocoaWSCustomComboBoxEx.FreeItems is a workaround for the bug of Lazarus
-      related IME of Cocoa too.
-      see also:
-      https://gitlab.com/freepascal.org/lazarus/lazarus/-/merge_requests/117
 }
 
 unit uCocoaWidgetSetFix;
@@ -45,7 +34,7 @@ implementation
 uses
   Classes, SysUtils,
   LCLType, Controls, StdCtrls, WSLCLClasses, WSStdCtrls,
-  CocoaAll, CocoaWSStdCtrls, CocoaTextEdits;
+  CocoaAll, CocoaWSStdCtrls;
 
 type
 
@@ -55,57 +44,11 @@ type
  private
    class function getNSText(const ACustomComboBox: TCustomComboBox): NSText;
  published
-   class function CreateHandle(const AWinControl: TWinControl;
-     const AParams: TCreateParams): TLCLIntfHandle; override;
-   class procedure FreeItems(var AItems: TStrings); override;
-   class procedure DestroyHandle(const AWinControl: TWinControl); override;
-
    class function  GetSelStart(const ACustomComboBox: TCustomComboBox): integer; override;
    class function  GetSelLength(const ACustomComboBox: TCustomComboBox): integer; override;
    class procedure SetSelStart(const ACustomComboBox: TCustomComboBox; NewStart: integer); override;
    class procedure SetSelLength(const ACustomComboBox: TCustomComboBox; NewLength: integer); override;
  end;
-
-
-class function TCocoaWSCustomComboBoxEx.CreateHandle(const AWinControl: TWinControl;
-  const AParams: TCreateParams): TLCLIntfHandle;
-begin
-  TCustomComboBox(AWinControl).AutoComplete:= false;
-  Result:= Inherited;
-end;
-
-
-class procedure TCocoaWSCustomComboBoxEx.FreeItems(var AItems: TStrings);
-begin
-  // TCocoaComboBox.list should be released later (in DestroyHandle),
-  // to avoid invalid TCocoaComboBox.list in TCocoaComboBox.comboBox_indexOfItemWithStringValue().
-  // which will be called even in TCocoaWSWinControl.DestoryWnd(),
-  // when TCocoaComboBox hasMarkedText (in IME state).
-end;
-
-class procedure TCocoaWSCustomComboBoxEx.DestroyHandle(const AWinControl: TWinControl);
-var
-  txt: NSText;
-  list: TStrings;
-  cocoaObj: NSObject;
-begin
-  txt:= getNSText( TCustomComboBox(AWinControl) );
-  if not Assigned(txt) then exit;
-
-  // close IME first
-  {%H-}NSTextInputClientProtocol(txt).unmarktext;
-  Inherited;
-
-  // and then free the TCocoaComboBox.list
-  list:= nil;
-  cocoaObj:= NSObject( AWinControl.Handle );
-  if cocoaObj.isKindOfClass(TCocoaComboBox.classClass) then
-    list:= TCocoaComboBox(AWinControl.Handle).list
-  else if cocoaObj.isKindOfClass(TCocoaReadOnlyComboBox.classClass) then
-    list:= TCocoaReadOnlyComboBox(AWinControl.Handle).list;
-  if Assigned(list) then
-    Inherited FreeItems( list );
-end;
 
 class function TCocoaWSCustomComboBoxEx.getNSText(const ACustomComboBox: TCustomComboBox): NSText;
 var
