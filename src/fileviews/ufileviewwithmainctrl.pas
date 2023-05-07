@@ -19,14 +19,6 @@
    You should have received a copy of the GNU General Public License
    along with this program; if not, write to the Free Software
    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-
-   Notes:
-   1. PR #550 #556 are the workaround for the bug of Lazarus.
-      related codes can be removed after Lazarus merges related Patches.
-      see also:
-      https://github.com/doublecmd/doublecmd/pull/550
-      https://github.com/doublecmd/doublecmd/pull/556
-      https://gitlab.com/freepascal.org/lazarus/lazarus/-/issues/40008
 }
 
 unit uFileViewWithMainCtrl;
@@ -69,10 +61,6 @@ type
 
   TEditButtonEx = class(TEditButton)
   private
-{$IFDEF LCLCOCOA}
-    originalText: String;
-    keyDownText: String;
-{$ENDIF}
     procedure handleSpecialKeys( Key: Word );
     function GetFont: TFont;
     procedure SetFont(AValue: TFont);
@@ -80,11 +68,6 @@ type
     function CalcButtonVisible: Boolean; override;
     function GetDefaultGlyphName: String; override;
     procedure EditKeyDown(var Key: word; Shift: TShiftState); override;
-{$IFDEF LCLCOCOA}
-    procedure EditEnter; override;
-    procedure EditChange; override;
-    procedure EditKeyUp(var Key: word; Shift: TShiftState); override;
-{$ENDIF}
   public
     onKeyESCAPE: TNotifyEvent;
     onKeyRETURN: TNotifyEvent;
@@ -258,49 +241,6 @@ type
 
 { TEditButtonEx }
 
-{$IFDEF LCLCOCOA}
-procedure TEditButtonEx.EditEnter;
-begin
-  inherited EditEnter;
-  self.originalText:= self.Text;
-end;
-
-procedure TEditButtonEx.EditChange;
-begin
-  inherited EditChange;
-  self.originalText:= self.Text;
-end;
-
-procedure TEditButtonEx.EditKeyDown( var Key: Word; Shift: TShiftState );
-begin
-  case Key of
-    VK_ESCAPE:
-      self.keyDownText:= self.Text;
-    VK_RETURN,
-    VK_SELECT:
-      self.keyDownText:= self.originalText
-  end;
-  inherited EditKeyDown( Key, Shift );
-end;
-
-procedure TEditButtonEx.EditKeyUp( var Key: Word; Shift: TShiftState );
-begin
-  case Key of
-    VK_ESCAPE,
-    VK_RETURN,
-    VK_SELECT:
-      if self.text=self.keyDownText then
-        // from the text has not been changed,
-        // the EditButton is not in the IME state
-        handleSpecialKeys( Key )
-      else
-        Key:= 0;
-  end;
-  inherited EditKeyUp( Key, Shift );
-end;
-
-{$ELSE}
-
 procedure TEditButtonEx.EditKeyDown(var Key: Word; Shift: TShiftState);
 begin
   inherited EditKeyDown(Key, Shift);
@@ -319,8 +259,6 @@ begin
 {$ENDIF}
   end;
 end;
-
-{$ENDIF}
 
 procedure TEditButtonEx.handleSpecialKeys( Key: Word );
 begin
