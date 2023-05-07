@@ -32,7 +32,7 @@ type
     function GetRetrievableFileProperties: TFilePropertiesTypes; override;
     function GetDefaultView(out DefaultView: TFileSourceFields): Boolean; override;
     function QueryContextMenu(AFiles: TFiles; var AMenu: TPopupMenu): Boolean; override;
-    procedure RetrieveProperties(AFile: TFile; PropertiesToSet: TFilePropertiesTypes; AVariantProperties: array of String); override;
+    procedure RetrieveProperties(AFile: TFile; PropertiesToSet: TFilePropertiesTypes; const AVariantProperties: array of String); override;
 
     function CreateDeleteOperation(var FilesToDelete: TFiles): TFileSourceOperation; override;
   end;
@@ -183,7 +183,7 @@ begin
 end;
 
 procedure TTrashFileSource.RetrieveProperties(AFile: TFile;
-  PropertiesToSet: TFilePropertiesTypes; AVariantProperties: array of String);
+  PropertiesToSet: TFilePropertiesTypes; const AVariantProperties: array of String);
 var
   AGFile: PGFile;
   AIndex: Integer;
