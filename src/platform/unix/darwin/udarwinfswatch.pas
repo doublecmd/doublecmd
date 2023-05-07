@@ -534,11 +534,14 @@ procedure cdeclFSEventsCallback(
   eventFlags: FSEventStreamEventFlagsPtr;
   {%H-}eventIds: FSEventStreamEventIdPtr ); cdecl;
 var
+  pool: NSAutoReleasePool;
   watcher: TDarwinFSWatcher absolute clientCallBackInfo;
   session: TDarwinFSWatchEventSession;
 begin
+  pool:= NSAutoreleasePool.alloc.init;
   session:= TDarwinFSWatchEventSession.create( numEvents, eventPaths, eventFlags );
   watcher.handleEvents( session );
+  pool.release;
   // seesion released in handleEvents()
 end;
 
@@ -645,12 +648,16 @@ begin
 end;
 
 procedure TDarwinFSWatcher.start;
+var
+  pool: NSAutoReleasePool;
 begin
   _running:= true;
   _runLoop:= CFRunLoopGetCurrent();
   _thread:= TThread.CurrentThread;
 
   repeat
+
+    pool:= NSAutoreleasePool.alloc.init;
 
     _lockObject.Acquire;
     try
@@ -663,6 +670,8 @@ begin
       CFRunLoopRun
     else
       waitPath;
+
+    pool.release;
 
   until not _running;
 end;
