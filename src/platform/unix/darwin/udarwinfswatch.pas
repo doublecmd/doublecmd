@@ -648,12 +648,16 @@ begin
 end;
 
 procedure TDarwinFSWatcher.start;
+var
+  pool: NSAutoReleasePool;
 begin
   _running:= true;
   _runLoop:= CFRunLoopGetCurrent();
   _thread:= TThread.CurrentThread;
 
   repeat
+
+    pool:= NSAutoreleasePool.alloc.init;
 
     _lockObject.Acquire;
     try
@@ -666,6 +670,8 @@ begin
       CFRunLoopRun
     else
       waitPath;
+
+    pool.release;
 
   until not _running;
 end;
