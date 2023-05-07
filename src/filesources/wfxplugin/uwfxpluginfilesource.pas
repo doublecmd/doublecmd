@@ -97,7 +97,7 @@ type
     class function CreateFile(const APath: String): TFile; override;
     class function CreateFile(const APath: String; FindData: TWfxFindData): TFile; overload;
 
-    procedure RetrieveProperties(AFile: TFile; PropertiesToSet: TFilePropertiesTypes; AVariantProperties: array of String); override;
+    procedure RetrieveProperties(AFile: TFile; PropertiesToSet: TFilePropertiesTypes; const AVariantProperties: array of String); override;
 
     // Retrieve operations permitted on the source.  = capabilities?
     function GetOperationsTypes: TFileSourceOperationTypes; override;
@@ -617,7 +617,7 @@ begin
 end;
 
 procedure TWfxPluginFileSource.RetrieveProperties(AFile: TFile;
-  PropertiesToSet: TFilePropertiesTypes; AVariantProperties: array of String);
+  PropertiesToSet: TFilePropertiesTypes; const AVariantProperties: array of String);
 var
   AIndex: Integer;
   AProp: TFilePropertyType;
