@@ -44,7 +44,7 @@ procedure TJsonConfig.SaveToFile(const FileName: String);
 begin
   with TStringListEx.Create do
   try
-    Text:= FRoot.FormatJSON();
+    Text:= FRoot.FormatJSON([foDoNotQuoteMembers]);
     SaveToFile(FileName);
   finally
     Free;
