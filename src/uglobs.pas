@@ -2375,6 +2375,7 @@ begin
   LoadConfigCheckErrors(@LoadHotManConfig, gpCfgDir + gNameSCFile, ErrorMessage);
 
   { Colors }
+  gColors.LoadFromXml(gConfig);
   if mbFileExists(gpCfgDir + COLORS_JSON) then
     LoadConfigCheckErrors(@LoadColorsConfig, gpCfgDir + COLORS_JSON, ErrorMessage);
 
