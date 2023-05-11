@@ -1861,7 +1861,12 @@ begin
       Screen.BeginWaitCursor;
       try
         ViewerControl.FileName := ViewerControl.FileName;
-        ActivatePanel(pnlText);
+        ViewerControl.Enabled := Self.Active;
+        try
+          ActivatePanel(pnlText);
+        finally
+          ViewerControl.Enabled := True;
+        end;
         FLastSearchPos := -1;
         ViewerControl.GoEnd;
       finally
