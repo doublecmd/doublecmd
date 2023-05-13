@@ -164,7 +164,7 @@ uses
   LCLType, LazUTF8, uLng, BaseUnix, uUsersGroups, uDCUtils,
   uDefaultFilePropertyFormatter, uMyUnix, DCFileAttributes, uGlobs, uWdxModule,
   uFileSourceOperationTypes, uFileSystemFileSource, uOperationsManager, WdxPlugin,
-  uFileSourceOperationOptions, uKeyboard, DCStrUtils, {DCUnix,} uPixMapManager,
+  uFileSourceOperationOptions, uKeyboard, DCStrUtils, uPixMapManager,
   uFileSourceProperty, DCDateTimeUtils;
 
 procedure ShowFileProperties(aFileSource: IFileSource; const aFiles: TFiles);
@@ -198,27 +198,28 @@ begin
   HasAttr:= (fspDirectAccess in aFileSource.Properties) and
             (mbFileGetAttr(ActiveFile.FullPath, FFileAttr));
 
+  if HasAttr then
+  begin
+{$IFDEF UNIX}
+    if not (fpOwner in ActiveFile.SupportedProperties) then
+    begin
+      ActiveFile.Properties[fpOwner]:= TFileOwnerProperty.Create;
+    end;
+    ActiveFile.OwnerProperty.Group:= FFileAttr.FindData.st_gid;
+    ActiveFile.OwnerProperty.Owner:= FFileAttr.FindData.st_uid;
+{$ENDIF}
+    if fpModificationTime in ActiveFile.SupportedProperties then
+      ActiveFile.ModificationTime:= FileTimeToDateTime(FFileAttr.LastWriteTime);
+    if fpChangeTime in ActiveFile.SupportedProperties then
+      ActiveFile.ChangeTime:= FileTimeToDateTime(FFileAttr.PlatformTime);
+    if fpLastAccessTime in ActiveFile.SupportedProperties then
+      ActiveFile.LastAccessTime:= FileTimeToDateTime(FFileAttr.LastAccessTime);
+  end;
+
   if (fsoSetFileProperty in aFileSource.GetOperationsTypes) then
   begin
     AFiles:= FFiles.Clone;
 
-    if HasAttr then
-    begin
-{$IFDEF UNIX}
-      // if fpOwner in ActiveFile.SupportedProperties then
-      begin
-        ActiveFile.Properties[fpOwner]:= TFileOwnerProperty.Create;
-        ActiveFile.OwnerProperty.Group:= FFileAttr.FindData.st_gid;
-        ActiveFile.OwnerProperty.Owner:= FFileAttr.FindData.st_uid;
-      end;
-{$ENDIF}
-      if fpModificationTime in ActiveFile.SupportedProperties then
-        ActiveFile.ModificationTime:= FileTimeToDateTime(FFileAttr.LastWriteTime);
-      if fpChangeTime in ActiveFile.SupportedProperties then
-        ActiveFile.ChangeTime:= FileTimeToDateTime(FFileAttr.PlatformTime);
-      if fpLastAccessTime in ActiveFile.SupportedProperties then
-        ActiveFile.LastAccessTime:= FileTimeToDateTime(FFileAttr.LastAccessTime);
-    end;
     FillByte(aFileProperties, SizeOf(aFileProperties), 0);
     if fpAttributes in ActiveFile.SupportedProperties then
       aFileProperties[fpAttributes]:= ActiveFile.Properties[fpAttributes].Clone;
@@ -550,6 +551,14 @@ begin
     lblFile.Caption:= Name;
     lblFolder.Caption:= Path;
 
+    if not (fpCreationTime in SupportedProperties) then
+    begin
+      if fpCreationTime in FFileSource.RetrievableFileProperties then
+      begin
+        FFileSource.RetrieveProperties(FFiles[iIndex], [fpCreationTime], []);
+      end;
+    end;
+
     // Size
     hasSize := (fpSize in SupportedProperties) and (not IsLinkToDirectory);
     if hasSize then
@@ -577,12 +586,9 @@ begin
     lblSizeOnDiskStr.Visible:= hasSize;
 
     // Links
-    if isFileSystem then
-    begin
-      lblLinks.Visible:= (FPS_ISREG(Attributes)) and (FFileAttr.FindData.st_nlink > 1);
-      lblLinksStr.Visible:= lblLinks.Visible;
-      if lblLinks.Visible then lblLinks.Caption:= IntToStrTS(FFileAttr.FindData.st_nlink);
-    end;
+    lblLinks.Visible:= isFileSystem and (FPS_ISREG(Attributes)) and (FFileAttr.FindData.st_nlink > 1);
+    if lblLinks.Visible then lblLinks.Caption:= IntToStrTS(FFileAttr.FindData.st_nlink);
+    lblLinksStr.Visible:= lblLinks.Visible;
 
     // Times
     lblLastAccess.Visible := fpLastAccessTime in SupportedProperties;
@@ -637,13 +643,15 @@ begin
     end;
 
     // MIME type
-    if isFileSystem then
+    hasSize:= isFileSystem;
+    if hasSize then
     begin
       AMimeType:= GetFileMimeType(FullPath);
-      lblMediaType.Visible:= Length(AMimeType) > 0;
-      lblMediaTypeStr.Visible:= lblMediaType.Visible;
+      hasSize:= Length(AMimeType) > 0;
       lblMediaType.Caption:= AMimeType;
     end;
+    lblMediaType.Visible:= hasSize;
+    lblMediaTypeStr.Visible:= hasSize;
 
     // Attributes
     if fpAttributes in SupportedProperties then
