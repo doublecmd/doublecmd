@@ -138,7 +138,10 @@ begin
 end;
 
 procedure TQuickViewPanel.LoadFile(const aFileName: String);
+var
+  lastFocusedControl: TWinControl;
 begin
+  lastFocusedControl:= TCustomForm(self.GetTopParent).ActiveControl;
   if (not FFirstFile) then
   begin
     FViewer.LoadNextFile(aFileName);
@@ -150,7 +153,7 @@ begin
     FViewer.Show;
   end;
   // Viewer can steal focus, so restore it
-  if not FFileView.Focused then FFileView.SetFocus;
+  if Assigned(lastFocusedControl) then lastFocusedControl.SetFocus;
 end;
 
 procedure TQuickViewPanel.OnChangeFileView(Sender: TObject);
