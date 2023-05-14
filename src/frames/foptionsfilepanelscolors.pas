@@ -241,6 +241,7 @@ begin
   gUseFrameCursor := cbbUseFrameCursor.Checked;
   gUseCursorBorder := cbUseCursorBorder.Checked;
   gInactivePanelBrightness := tbInactivePanelBrightness.Position;
+  gIndUseGradient := cbbUseGradientInd.Checked;
   with gColors.FreeSpaceInd^ do
   begin
     ForeColor := cbIndColor.Selected;
