@@ -320,7 +320,11 @@ end;
 
 function TfrmFileProperties.FormatSize(ASize: Int64): String;
 begin
-  Result:= Format('%s (%s)', [cnvFormatFileSize(ASize, fsfFloat, gFileSizeDigits), IntToStrTS(ASize)]);
+  if gFileSizeFormat in [fsfByte, fsfPersonalizedByte] then
+    Result:= cnvFormatFileSize(ASize)
+  else begin
+    Result:= Format('%s (%s)', [cnvFormatFileSize(ASize), IntToStrTS(ASize)]);
+  end;
 end;
 
 procedure TfrmFileProperties.ShowMany;
