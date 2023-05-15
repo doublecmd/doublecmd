@@ -4,7 +4,7 @@
    Base class for file views which have a main control with a list of files.
 
    Copyright (C) 2012  Przemyslaw Nagay (cobines@gmail.com)
-   Copyright (C) 2015-2018  Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2015-2023  Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -65,6 +65,11 @@ type
     function GetFont: TFont;
     procedure SetFont(AValue: TFont);
   protected
+    // Workaround: https://gitlab.com/freepascal.org/lazarus/lazarus/-/issues/36006
+{$IF DEFINED(LCLQT) or DEFINED(LCLQT5) or DEFINED(LCLQT6)}
+    procedure Hack(Data: PtrInt);
+    procedure EditExit; override;
+{$ENDIF}
     function CalcButtonVisible: Boolean; override;
     function GetDefaultGlyphName: String; override;
     procedure EditKeyDown(var Key: word; Shift: TShiftState); override;
@@ -278,6 +283,23 @@ procedure TEditButtonEx.SetFont(AValue: TFont);
 begin
   BaseEditor.Font:= AValue;
 end;
+
+{$IF DEFINED(LCLQT) or DEFINED(LCLQT5) or DEFINED(LCLQT6)}
+procedure TEditButtonEx.Hack(Data: PtrInt);
+begin
+  if (csClicked in Button.ControlState) then
+  begin
+    BuddyClick;
+    Button.ControlState:= Button.ControlState - [csClicked];
+  end;
+  inherited EditExit;
+end;
+
+procedure TEditButtonEx.EditExit;
+begin
+  Application.QueueAsyncCall(@Hack, 0);
+end;
+{$ENDIF}
 
 function TEditButtonEx.GetDefaultGlyphName: String;
 begin
