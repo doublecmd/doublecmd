@@ -257,6 +257,7 @@ destructor TfrmFileProperties.Destroy;
 begin
   FFiles.Free;
   StopCalcFolderSize;
+  FreeAndNil( FOperation );
   inherited Destroy;
   FPropertyFormatter := nil; // free interface
 end;
