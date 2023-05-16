@@ -104,6 +104,7 @@ type
     ParentBackground: boolean;
     constructor Create(Name: string);
 //    destructor Destroy(); override;
+    function ToString: String; override;
     function GetHashCode: PtrInt; override;
     procedure LoadFromString(Value: string);
     procedure SaveToStream(StreamWriter: TStreamWriter);
@@ -506,6 +507,15 @@ begin
 //  UseStyle := False;
 end;
 
+function TSynAttributes.ToString: String;
+begin
+  Result:= '$' + HexStr(Foreground, 8) + ',' +
+           '$' + HexStr(Background, 8) + ';' +
+           BoolToStr(ParentForeground,True) + ':' +
+           BoolToStr(ParentBackground,True) + '.' +
+           FontStyleToStr(Style);
+end;
+
 function TSynAttributes.GetHashCode: PtrInt;
 var
   ACrc: Cardinal = 0;
@@ -550,11 +560,7 @@ end;
 
 procedure TSynAttributes.SaveToStream(StreamWriter: TStreamWriter);
 begin
-  with StreamWriter do
-    WriteParam('Attributes', IntToStr(Foreground)+','+IntToStr(Background)+';'+
-                             BoolToStr(ParentForeground,True)+':'+
-                             BoolToStr(ParentBackground,True)+'.'+
-                             FontStyleToStr(Style));
+  StreamWriter.WriteParam('Attributes', ToString);
 end;
 
 //==== TSynSymbol ============================================================
