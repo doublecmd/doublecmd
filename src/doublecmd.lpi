@@ -17,6 +17,9 @@
         <DpiAware Value="True"/>
       </XPManifest>
       <Icon Value="0"/>
+      <Resources Count="1">
+        <Resource_0 FileName="dmhigh.json" Type="RCDATA" ResourceName="HIGHLIGHTERS"/>
+      </Resources>
     </General>
     <i18n>
       <EnableI18N Value="True"/>
@@ -307,7 +310,7 @@ end;"/>
         <PackageName Value="Image32"/>
       </Item13>
     </RequiredPackages>
-    <Units Count="270">
+    <Units Count="271">
       <Unit0>
         <Filename Value="doublecmd.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -359,9 +362,6 @@ end;"/>
       <Unit7>
         <Filename Value="dmhigh.pas"/>
         <IsPartOfProject Value="True"/>
-        <ComponentName Value="dmHighl"/>
-        <HasResources Value="True"/>
-        <ResourceBaseClass Value="DataModule"/>
         <UnitName Value="dmHigh"/>
       </Unit7>
       <Unit8>
@@ -1980,6 +1980,11 @@ end;"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="fChooseEncoding"/>
       </Unit269>
+      <Unit270>
+        <Filename Value="uhighlighters.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uHighlighters"/>
+      </Unit270>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

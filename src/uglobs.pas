@@ -727,7 +727,7 @@ implementation
 uses
    LCLProc, LCLType, Dialogs, Laz2_XMLRead, LazUTF8, LConvEncoding, uExifWdx,
    uGlobsPaths, uLng, uShowMsg, uFileProcs, uOSUtils, uFindFiles, uEarlyConfig,
-   uDCUtils, fMultiRename, uDCVersion, uDebug, uFileFunctions,
+   dmHigh, uDCUtils, fMultiRename, uDCVersion, uDebug, uFileFunctions,
    uDefaultPlugins, Lua, uKeyboard, DCOSUtils, DCStrUtils, uPixMapManager,
    uSynDiffControls
    {$IF DEFINED(MSWINDOWS)}
@@ -822,6 +822,7 @@ procedure SaveColorsConfig;
 begin
   gColors.Save(gStyles.Root);
   gColorExt.Save(gStyles.Root);
+  gHighlighters.Save(gStyles.Root);
   gStyles.SaveToFile(gpCfgDir + COLORS_JSON);
 end;
 
@@ -863,6 +864,7 @@ begin
   gStyles.LoadFromFile(gpCfgDir + COLORS_JSON);
   gColors.Load(gStyles.Root);
   gColorExt.Load(gStyles.Root);
+  gHighlighters.Load(gStyles.Root);
   Result := True;
 end;
 
@@ -1591,6 +1593,7 @@ begin
   FreeAndNil(gStyles);
   FreeThenNil(ColSet);
   FreeThenNil(HotMan);
+  FreeAndNil(gHighlighters);
 end;
 
 {$IFDEF MSWINDOWS}
@@ -2365,6 +2368,15 @@ begin
   end;
   LoadStringsFromFile(glsIgnoreList, ReplaceEnvVars(gIgnoreListFile));
 
+  { Localization }
+  msgLoadLng;
+
+  if (gHighlighters = nil) then
+  begin
+    // Must be after msgLoadLng and before LoadColorsConfig
+    gHighlighters := THighlighters.Create;
+  end;
+
   { Hotkeys }
   if not mbFileExists(gpCfgDir + gNameSCFile) then
     gNameSCFile := 'shortcuts.scf';
@@ -2386,9 +2398,6 @@ begin
   { Various history }
   if mbFileExists(gpCfgDir + 'history.xml') then
     LoadConfigCheckErrors(@LoadHistoryConfig, gpCfgDir + 'history.xml', ErrorMessage);
-
-  { Localization }
-  msgLoadLng;
 
   FillFileFuncList;
 

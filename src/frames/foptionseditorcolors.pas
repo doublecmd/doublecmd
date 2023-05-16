@@ -3,7 +3,7 @@
     -------------------------------------------------------------------------
     Internal editor highlighters configuration frame
 
-    Copyright (C) 2012-2017 Alexander Koblov (alexx2000@mail.ru)
+    Copyright (C) 2012-2023 Alexander Koblov (alexx2000@mail.ru)
 
     Based on Lazarus IDE editor configuration frame (Editor/Display/Colors)
 
@@ -31,7 +31,7 @@ interface
 uses
   Classes, SysUtils, FileUtil, SynEdit, Forms, Controls, StdCtrls, ExtCtrls,
   ColorBox, ComCtrls, Dialogs, Menus, Buttons, fOptionsFrame, DividerBevel, types,
-  Graphics, SynEditHighlighter, SynUniClasses, SynUniRules, dmHigh;
+  LMessages, Graphics, SynEditHighlighter, SynUniClasses, SynUniRules, dmHigh;
 
 type
 
@@ -110,6 +110,7 @@ type
     FDefHighlightElement,
     FCurHighlightElement: TSynHighlighterAttributes;
     FCurrentHighlighter: TSynCustomHighlighter;
+    FCurHighlightRule: TSynRule;
     FIsEditingDefaults: Boolean;
     UpdatingColor: Boolean;
     procedure UpdateCurrentScheme;
@@ -122,6 +123,7 @@ type
     procedure Done; override;
     procedure Load; override;
     function Save: TOptionsEditorSaveFlags; override;
+    procedure CMThemeChanged(var Message: TLMessage); message CM_THEMECHANGED;
   public
     class function GetIconIndex: Integer; override;
     class function GetTitle: String; override;
@@ -133,7 +135,8 @@ implementation
 {$R *.lfm}
 
 uses
-  LCLType, LCLIntf, SynEditTypes, SynUniHighlighter, GraphUtil, uLng, uGlobs;
+  LCLType, LCLIntf, SynEditTypes, SynUniHighlighter, GraphUtil, uLng, uGlobs,
+  uHighlighters;
 
 const
   COLOR_NODE_PREFIX = ' abc  ';
@@ -258,8 +261,6 @@ begin
   FCurrentHighlighter:= TSynCustomHighlighter(cmbLanguage.Items.Objects[cmbLanguage.ItemIndex]);
   pnlFileExtensions.Enabled:= not (FCurrentHighlighter is TSynPlainTextHighlighter);
   edtFileExtensions.Text:= Copy(FCurrentHighlighter.DefaultFilter, Pos('|', FCurrentHighlighter.DefaultFilter) + 1, MaxInt);
-  ColorPreview.Lines.Text:= FHighl.GetSampleSource(FCurrentHighlighter);
-  if ColorPreview.Lines.Text = EmptyStr then
   try
     ColorPreview.Lines.Text:= FCurrentHighlighter.SampleSource;
   except
@@ -329,6 +330,12 @@ begin
   if Sender = FrameStyleBox then
   begin
     AttrToEdit.FrameStyle := TSynLineStyle(FrameStyleBox.ItemIndex);
+  end;
+
+  if AttrToEdit is TSynAttributes then
+  begin
+    if FCurHighlightRule is TSynRange then
+      TSynRange(FCurHighlightRule).SetColorForChilds();
   end;
 
   UpdatingColor := False;
@@ -436,7 +443,6 @@ var
   ParentFore, ParentBack: Boolean;
   AttrToShow: TSynHighlighterAttributes;
   IsDefault, CanGlobal: Boolean;
-  ARule: TSynRule;
 begin
   if UpdatingColor or (ColorElementTree.Selected = nil) or (ColorElementTree.Selected.Data = nil) then
     Exit;
@@ -450,10 +456,10 @@ begin
     ParentBack:= False;
   end
   else begin
-    ARule:= TSynRule(ColorElementTree.Selected.Data);
-    ParentFore:= ARule.Attribs.ParentForeground;
-    ParentBack:= ARule.Attribs.ParentBackground;
-    FCurHighlightElement:= ARule.Attribs;
+    FCurHighlightRule:= TSynRule(ColorElementTree.Selected.Data);
+    ParentFore:= FCurHighlightRule.Attribs.ParentForeground;
+    ParentBack:= FCurHighlightRule.Attribs.ParentBackground;
+    FCurHighlightElement:= FCurHighlightRule.Attribs;
     IsDefault := (Node.Level = 0);
     CanGlobal := False;
   end;
@@ -596,7 +602,7 @@ begin
     TextStrikeOutCheckBox.Checked := fsStrikeOut in AttrToShow.Style;
   end;
 
-  if SameText(AttrToShow.Name, rsSynDefaultText) then
+  if IsDefault then
   begin
     AttrToShow.OnChange:= @SynPlainTextHighlighterChange;
   end;
@@ -874,7 +880,6 @@ end;
 procedure TfrmOptionsEditorColors.Init;
 begin
   inherited Init;
-  FHighl:= TdmHighl.Create(nil, True);
   FontOptionsToFont(gFonts[dcfEditor], ColorPreview.Font);
 end;
 
@@ -886,7 +891,11 @@ end;
 
 procedure TfrmOptionsEditorColors.Load;
 begin
-  FHighl.Assign(dmHighl);
+  if (FHighl = nil) then
+    FHighl:= dmHighl.Clone
+  else begin
+    FHighl.Assign(dmHighl);
+  end;
   cmbLanguage.Items.Assign(FHighl.SynHighlighterList);
   cmbLanguage.ItemIndex:= 0;
   cmbLanguageChange(nil);
@@ -896,6 +905,11 @@ function TfrmOptionsEditorColors.Save: TOptionsEditorSaveFlags;
 begin
   Result:= [];
   dmHighl.Assign(FHighl);
+end;
+
+procedure TfrmOptionsEditorColors.CMThemeChanged(var Message: TLMessage);
+begin
+  Load;
 end;
 
 class function TfrmOptionsEditorColors.GetIconIndex: Integer;

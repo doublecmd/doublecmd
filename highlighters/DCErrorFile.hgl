@@ -1,8 +1,8 @@
-<UniHighlighter version="1.8.1">
+<UniHighlighter version="1.8">
   <Info>
-    <General Name="DC Error File" Extensions="err"/>
+    <General Name="DC Error File" Extensions="err" Other="0"/>
     <Author Name="Skif_off" Email="" Web="" Copyright="" Company="" Remark=""/>
-    <Version Version="0" Revision="2" Date="42820,0524461111"/>
+    <Version Version="0" Revision="2" Date="45067.6951690509"/>
     <History>
     </History>
     <Sample>
@@ -24,33 +24,32 @@
     </Sample>
   </Info>
   <Scheme File="" Name=""/>
-  <Range Name="Root" Attributes="0,16777215;False:False." Style="" CaseSensitive="True"
+  <Range Name="Root" Attributes="$80000008,$80000005;False:False." Style="" CaseSensitive="True"
          Delimiters="!&quot;#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^`{|}~">
     <Rule/>
-    <Keywords Name="Keywords" Attributes="8388608,536870911;False:False." Style="">
+    <Keywords Name="Keywords" Attributes="$00800000,$80000005;False:True." Style="">
       <word value="line"/>
       <word value="column"/>
       <word value="in"/>
       <word value="of"/>
       <word value="Stack trace:"/>
     </Keywords>
-    <Set Name="Digits" Attributes="8421376,536870911;False:False." Style="" Symbols="0123456789"/>
-    <Range Name="Date" Attributes="8388608,16777215;False:False." Style="" CaseSensitive="True"
+    <Set Name="Digits" Attributes="$00808000,$80000005;False:True." Style="" Symbols="0123456789"/>
+    <Range Name="Date" Attributes="$00800000,$80000005;False:True." Style="" CaseSensitive="True"
            Delimiters="!&quot;#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^`{|}~">
       <Rule OpenSymbol="--------------- " CloseSymbol=" ---------------"/>
     </Range>
-    <Range Name="About" Attributes="8388736,536870911;False:False." Style="" CaseSensitive="True"
+    <Range Name="About" Attributes="$00800080,$80000005;False:True." Style="" CaseSensitive="True"
            Delimiters="!&quot;#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^`{|}~">
       <Rule OpenSymbol="|" CloseOnEol="True"/>
     </Range>
-    <Range Name="Exception" Attributes="210,536870911;False:False." Style="" CaseSensitive="True"
+    <Range Name="Exception" Attributes="$000000D2,$80000005;False:True." Style="" CaseSensitive="True"
            Delimiters="!&quot;#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^`{|}~">
       <Rule OpenSymbol="Unhandled exception" OpenSymbolStartLine="True" CloseSymbol="" CloseSymbolFinishOnEol="True" CloseOnEol="True"/>
     </Range>
-    <Range Name="Address" Attributes="150,536870911;False:False." Style="" CaseSensitive="True"
+    <Range Name="Address" Attributes="$00000096,$80000005;False:True." Style="" CaseSensitive="True"
            Delimiters="!&quot;#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^`{|}~">
       <Rule OpenSymbol="$" CloseSymbolPartOfTerm="False" CloseOnTerm="True"/>
     </Range>
   </Range>
-  <CopyRight>Rule file for UniHighlighter Delphi component (Copyright(C) Fantasist(walking_in_the_sky@yahoo.com), Vit(nevzorov@yahoo.com), Vitalik(vetal-x@mail.ru), 2002-2004)</CopyRight>
 </UniHighlighter>

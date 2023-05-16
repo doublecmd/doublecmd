@@ -35,7 +35,7 @@ unit fEditor;
 interface
 
 uses
-  SysUtils, Classes, Controls, Forms, ActnList, Menus, SynEdit, StdCtrls,
+  SysUtils, Classes, Controls, Forms, ActnList, Menus, SynEdit, StdCtrls, LMessages,
   ComCtrls, SynEditSearch, SynEditHighlighter, uDebug, uOSForms, uShowForm, types, Graphics,
   uFormCommands, uHotkeyManager, LCLVersion, SynPluginMultiCaret, fEditSearch;
 
@@ -172,6 +172,9 @@ type
     function SaveFile(const aFileName: String): Boolean;
     procedure SetFileName(const AValue: String);
 
+  protected
+    procedure CMThemeChanged(var Message: TLMessage); message CM_THEMECHANGED;
+
   public
     { Public declarations }
     SynEditSearch: TSynEditSearch;
@@ -233,7 +236,7 @@ implementation
 
 uses
   Clipbrd, dmCommonData, dmHigh, SynEditTypes, LCLType, LConvEncoding,
-  uLng, uShowMsg, uGlobs, fOptions, DCClassesUtf8, uAdministrator,
+  uLng, uShowMsg, uGlobs, fOptions, DCClassesUtf8, uAdministrator, uHighlighters,
   uOSUtils, uConvEncoding, fOptionsToolsEditor, uDCUtils, uClipboard, uFindFiles;
 
 procedure ShowEditor(const sFileName: String; WaitData: TWaitData = nil);
@@ -586,6 +589,14 @@ begin
 
   FFileName := AValue;
   Caption := ReplaceHome(FFileName);
+end;
+
+procedure TfrmEditor.CMThemeChanged(var Message: TLMessage);
+var
+  Highlighter: TSynCustomHighlighter;
+begin
+  Highlighter:= TSynCustomHighlighter(dmHighl.SynHighlighterHashList.Data[StatusBar.Panels[4].Text]);
+  if Assigned(Highlighter) then dmHighl.SetHighlighter(Editor, Highlighter);
 end;
 
 destructor TfrmEditor.Destroy;

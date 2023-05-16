@@ -2,17 +2,17 @@
   <Info>
     <General Name="PowerShell" Extensions="ps1,psm1,psd1" Other="0"/>
     <Author Name="" Email="" Web="" Copyright="" Company="" Remark=""/>
-    <Version Version="1" Revision="0" Date="45024.9890724884"/>
+    <Version Version="1" Revision="0" Date="45067.6951692245"/>
     <History>
     </History>
     <Sample>
     </Sample>
   </Info>
   <Scheme File="" Name=""/>
-  <Range Name="Root" Attributes="0,16777215;False:False." Style=""
+  <Range Name="Root" Attributes="$80000008,$80000005;False:False." Style=""
          Delimiters="!&quot;#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^`{|}~">
     <Rule OpenSymbolPartOfTerm="False" CloseSymbolPartOfTerm="False"/>
-    <Keywords Name="Keywords" Attributes="16711680,16777215;False:True." Style="">
+    <Keywords Name="Keywords" Attributes="$00FF0000,$80000005;False:True." Style="">
       <Word Value="begin"/>
       <Word Value="break"/>
       <Word Value="catch"/>
@@ -50,7 +50,7 @@
       <Word Value="while"/>
       <Word Value="workflow"/>
     </Keywords>
-    <Keywords Name="Aliases" Attributes="12615680,16777215;False:True." Style="">
+    <Keywords Name="Aliases" Attributes="$00C08000,$80000005;False:True." Style="">
       <Word Value="Add-AppPackage"/>
       <Word Value="Add-AppPackageVolume"/>
       <Word Value="Add-AppProvisionedPackage"/>
@@ -104,7 +104,7 @@
       <Word Value="Set-SystemLanguage"/>
       <Word Value="Write-FileSystemCache"/>
     </Keywords>
-    <Keywords Name="Functions" Attributes="128,16777215;False:True." Style="">
+    <Keywords Name="Functions" Attributes="$00000080,$80000005;False:True." Style="">
       <Word Value="A:"/>
       <Word Value="Add-BCDataCacheExtension"/>
       <Word Value="Add-BitLockerKeyProtector"/>
@@ -1090,7 +1090,7 @@
       <Word Value="Y:"/>
       <Word Value="Z:"/>
     </Keywords>
-    <Keywords Name="Cmdlets" Attributes="8388736,16777215;False:True." Style="">
+    <Keywords Name="Cmdlets" Attributes="$00800080,$80000005;False:True." Style="">
       <Word Value="Add-AppvClientConnectionGroup"/>
       <Word Value="Add-AppvClientPackage"/>
       <Word Value="Add-AppvPublishingServer"/>
@@ -1783,31 +1783,31 @@
       <Word Value="Write-Verbose"/>
       <Word Value="Write-Warning"/>
     </Keywords>
-    <Range Name="Strings @'..'@" Attributes="255,16777215;False:True." Style=""
+    <Range Name="Strings @'..'@" Attributes="$000000FF,$80000005;False:True." Style=""
            Delimiters="!&quot;#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^`{|}~">
       <Rule OpenSymbol="@'" CloseSymbol="'@"/>
     </Range>
-    <Range Name="Strings @&quot;..&quot;@" Attributes="255,16777215;False:True." Style=""
+    <Range Name="Strings @&quot;..&quot;@" Attributes="$000000FF,$80000005;False:True." Style=""
            Delimiters="!&quot;#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^`{|}~">
       <Rule OpenSymbol="@&quot;" OpenSymbolPartOfTerm="Right" CloseSymbol="&quot;@" CloseSymbolPartOfTerm="False"/>
     </Range>
-    <Range Name="Strings '..'" Attributes="255,16777215;False:True." Style=""
+    <Range Name="Strings '..'" Attributes="$000000FF,$80000005;False:True." Style=""
            Delimiters="!&quot;#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^`{|}~">
       <Rule OpenSymbol="'" CloseSymbol="'"/>
     </Range>
-    <Range Name="Strings &quot;..&quot;" Attributes="255,16777215;False:True." Style=""
+    <Range Name="Strings &quot;..&quot;" Attributes="$000000FF,$80000005;False:True." Style=""
            Delimiters="!&quot;#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^`{|}~">
       <Rule OpenSymbol="&quot;" OpenSymbolPartOfTerm="Right" CloseSymbol="&quot;" CloseSymbolPartOfTerm="False"/>
     </Range>
-    <Range Name="Remarks #" Attributes="8388608,16777215;False:True." Style=""
+    <Range Name="Remarks #" Attributes="$00800000,$80000005;False:True." Style=""
            Delimiters="!&quot;#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^`{|}~">
       <Rule OpenSymbol="#" OpenSymbolPartOfTerm="Right" CloseSymbolPartOfTerm="False" CloseOnEol="True"/>
     </Range>
-    <Range Name="Remarks &lt;#..#&gt;" Attributes="8388608,16777215;False:True." Style=""
+    <Range Name="Remarks &lt;#..#&gt;" Attributes="$00800000,$80000005;False:True." Style=""
            Delimiters="!&quot;#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^`{|}~">
       <Rule OpenSymbol="&lt;#" OpenSymbolPartOfTerm="Right" CloseSymbol="#&gt;" CloseSymbolPartOfTerm="False"/>
     </Range>
-    <Range Name="Variables" Attributes="32768,16777215;False:True." Style=""
+    <Range Name="Variables" Attributes="$00008000,$80000005;False:True." Style=""
            Delimiters="!&quot;#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^`{|}~">
       <Rule OpenSymbol="$" OpenSymbolPartOfTerm="Right" CloseSymbolPartOfTerm="False" CloseOnTerm="True"/>
     </Range>

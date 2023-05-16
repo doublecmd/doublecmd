@@ -949,7 +949,7 @@ uses
   Laz2_XMLRead, DCOSUtils, DCStrUtils, fOptions, fOptionsFrame, fOptionsToolbar, uClassesEx,
   uHotDir, uFileSorting, DCBasicTypes, foptionsDirectoryHotlist, uConnectionManager,
   fOptionsToolbarBase, fOptionsToolbarMiddle, fEditor, uColumns, StrUtils, uSysFolders,
-  uColumnsFileView
+  uColumnsFileView, dmHigh
 {$IFDEF MSWINDOWS}
   , uNetworkThread
 {$ENDIF}
@@ -7096,6 +7096,7 @@ begin
   FrameRight.UpdateColor;
 
   gColorExt.UpdateStyle;
+  gHighlighters.UpdateStyle;
 
   DCDEbug('AppThemeChange');
 

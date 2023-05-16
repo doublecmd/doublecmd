@@ -408,6 +408,7 @@ type
   protected
     procedure WMCommand(var Message: TLMCommand); message LM_COMMAND;
     procedure WMSetFocus(var Message: TLMSetFocus); message LM_SETFOCUS;
+    procedure CMThemeChanged(var Message: TLMessage); message CM_THEMECHANGED;
 
   public
     constructor Create(TheOwner: TComponent; aWaitData: TWaitData; aQuickView: Boolean = False); overload;
@@ -1263,6 +1264,17 @@ end;
 procedure TfrmViewer.WMSetFocus(var Message: TLMSetFocus);
 begin
   if bPlugin then FWlxModule.SetFocus;
+end;
+
+procedure TfrmViewer.CMThemeChanged(var Message: TLMessage);
+var
+  Highlighter: TSynCustomHighlighter;
+begin
+  if miCode.Checked then
+  begin
+    Highlighter:= TSynCustomHighlighter(dmHighl.SynHighlighterHashList.Data[SynEdit.Highlighter.LanguageName]);
+    if Assigned(Highlighter) then dmHighl.SetHighlighter(SynEdit, Highlighter);
+  end;
 end;
 
 procedure TfrmViewer.RedEyes;
@@ -2646,7 +2658,7 @@ begin
     SynEdit.OnStatusChange:= @SynEditStatusChange;
     SynEditCaret;
   end;
-  SynEdit.Highlighter:= FHighlighter;
+  dmHighl.SetHighlighter(SynEdit, FHighlighter);
 
   PushPop(FElevate);
   try
