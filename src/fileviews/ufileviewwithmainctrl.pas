@@ -131,6 +131,7 @@ type
        or after dropping something after dragging with right mouse button.
     }
     FMainControlMouseDown: Boolean;
+    FMainControlMouseDownPoint: TPoint;
     FMouseSelectionStartIndex: Integer;
     FMouseSelectionLastState: Boolean;
     FDragStartPoint: TPoint;
@@ -638,7 +639,7 @@ begin
 {$ENDIF}
 
   FStartDrag := False; // don't start drag on double click
-  Point := MainControl.ScreenToClient(Mouse.CursorPos);
+  Point := FMainControlMouseDownPoint;
 
   // If on a file/directory then choose it.
   FileIndex := GetFileIndexFromCursor(Point.x, Point.y, AtFileList);
@@ -852,6 +853,7 @@ var
   AFile, APreviousFile: TDisplayFile;
 begin
   SetDragCursor(Shift);
+  FMainControlMouseDownPoint:= Classes.Point(X, Y);
   if (DragManager <> nil) and DragManager.IsDragging and (Button = mbRight) then
     Exit;
   FileIndex := GetFileIndexFromCursor(X, Y, AtFileList);
