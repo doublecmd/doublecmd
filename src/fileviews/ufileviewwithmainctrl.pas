@@ -1055,6 +1055,8 @@ begin
         if IsItemValid(AFile) then
         begin
           MainControl.BeginDrag(False);
+          // Restore selection of active file
+          if not AFile.Selected then MarkFile(AFile, True);
         end;
       end;
     end;
