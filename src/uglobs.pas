@@ -822,8 +822,13 @@ procedure SaveColorsConfig;
 begin
   gColors.Save(gStyles.Root);
   gColorExt.Save(gStyles.Root);
-  gHighlighters.Save(gStyles.Root);
+  gHighlighters.SaveColors(gStyles.Root);
   gStyles.SaveToFile(gpCfgDir + COLORS_JSON);
+end;
+
+procedure SaveHighlightersConfig;
+begin
+  gHighlighters.Save(gpCfgDir + HighlighterConfig);
 end;
 
 function AskUserOnError(var ErrorMessage: String): Boolean;
@@ -864,7 +869,13 @@ begin
   gStyles.LoadFromFile(gpCfgDir + COLORS_JSON);
   gColors.Load(gStyles.Root);
   gColorExt.Load(gStyles.Root);
-  gHighlighters.Load(gStyles.Root);
+  gHighlighters.LoadColors(gStyles.Root);
+  Result := True;
+end;
+
+function LoadHighlightersConfig(var {%H-}ErrorMessage: String): Boolean;
+begin
+  gHighlighters.Load(gpCfgDir + HighlighterConfig);
   Result := True;
 end;
 
@@ -2377,6 +2388,10 @@ begin
     gHighlighters := THighlighters.Create;
   end;
 
+  { Highlighters }
+  if mbFileExists(gpCfgDir + HighlighterConfig) then
+    LoadConfigCheckErrors(@LoadHighlightersConfig, gpCfgDir + HighlighterConfig, ErrorMessage);
+
   { Hotkeys }
   if not mbFileExists(gpCfgDir + gNameSCFile) then
     gNameSCFile := 'shortcuts.scf';
@@ -2435,6 +2450,7 @@ begin
     SaveWithCheck(@SaveEarlyConfig, 'early config', ErrMsg);
     SaveWithCheck(@SaveCfgIgnoreList, 'ignore list', ErrMsg);
     SaveWithCheck(@SaveCfgMainConfig, 'main configuration', ErrMsg);
+    SaveWithCheck(@SaveHighlightersConfig, 'highlighters config', ErrMsg);
     SaveWithCheck(@SaveHistoryConfig, 'various history', ErrMsg);
     SaveWithCheck(@SaveColorsConfig, 'color themes', ErrMsg);
 

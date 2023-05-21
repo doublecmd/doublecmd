@@ -21,13 +21,10 @@ type
   TdmHighl = class(TComponent)
   private
     FTemp: Boolean;
-    FChanged: Boolean;
     procedure LoadColors(AConfig: TJSONObject);
     procedure SaveColors(AConfig: TJSONObject);
     procedure LoadUniColors(AConfig: TJSONObject);
     procedure SaveUniColors(AConfig: TJSONObject);
-    function SaveToFile(const FileName: String): Boolean;
-    function LoadFromFile(const FileName: String): Boolean;
   private
     procedure CreateHighlighters;
     procedure LoadUniHighlighters;
@@ -42,9 +39,10 @@ type
     destructor Destroy; override;
     procedure Assign(Source: TPersistent); override;
     function Clone: TdmHighl;
+    procedure CopyFrom(ASource: TdmHighl);
     function GetHighlighter(SynEdit: TCustomSynEdit; const sExtension: string): TSynCustomHighlighter;
     procedure SetHighlighter(SynEdit: TCustomSynEdit; Highlighter: TSynCustomHighlighter);
-    property Changed: Boolean read FChanged write FChanged;
+    property Highlighters[Index: Integer]: TSynCustomHighlighter read GetSyn;
     property SynPlainTextHighlighter: TSynCustomHighlighter index 0 read GetSyn;
   end;
 
@@ -59,8 +57,10 @@ type
     procedure UpdateStyle;
     procedure LoadDefaults;
     function Current: TdmHighl;
-    procedure Load(AConfig: TJSONObject); overload;
-    procedure Save(AConfig: TJSONObject); overload;
+    procedure Load(const FileName: String); overload;
+    procedure Save(const FileName: String); overload;
+    procedure LoadColors(AConfig: TJSONObject); overload;
+    procedure SaveColors(AConfig: TJSONObject); overload;
   end;
 
 function dmHighl: TdmHighl; inline;
@@ -74,6 +74,9 @@ uses
   Graphics, SynEditTypes, SynUniClasses, FileUtil, uHighlighterProcs, DCXmlConfig,
   LCLType, DCJsonConfig, uGlobsPaths, LazUTF8Classes, DCOSUtils, DCStrUtils, uLng,
   uGlobs, uSysFolders, SynUniRules;
+
+const
+  ConfigVersion = 2;
 
 const
   DEFAULT_HIGHLIGHTERS: array[0..19] of TSynCustomHighlighterClass =
@@ -502,11 +505,6 @@ begin
     end;
   end;
   SynHighlighterList.CustomSort(@SynHighlighterSortCompare);
-
-  if mbFileExists(gpCfgDir + HighlighterConfig) then
-  begin
-    LoadFromFile(gpCfgDir + HighlighterConfig);
-  end;
 end;
 
 constructor TdmHighl.Create(AOwner: TComponent; ATemp: Boolean);
@@ -520,10 +518,6 @@ end;
 
 destructor TdmHighl.Destroy;
 begin
-  if FChanged and (FTemp = False) then
-  begin
-    SaveToFile(gpCfgDir + HighlighterConfig);
-  end;
   inherited Destroy;
   SynHighlighterList.Free;
   SynHighlighterHashList.Free;
@@ -556,7 +550,6 @@ begin
                     TSynCustomHighlighter(SynHighlighterList.Objects[I])
                    );
   end;
-  FChanged:= True;
 end;
 
 function TdmHighl.Clone: TdmHighl;
@@ -589,106 +582,19 @@ begin
   end;
 end;
 
-function TdmHighl.LoadFromFile(const FileName: String): Boolean;
+procedure TdmHighl.CopyFrom(ASource: TdmHighl);
 var
-  J: LongInt;
-  Config: TXmlConfig = nil;
-  Highlighter: TSynCustomHighlighter;
-  LanguageName, AttributeName: String;
-  Attribute: TSynHighlighterAttributes;
-  Root, FormNode, AttributeNode: TXmlNode;
+  I: Integer;
+  TargetHighlighter,
+  SourceHighlighter: TSynCustomHighlighter;
 begin
-  try
-    Result:= True;
-    try
-      Config:= TXmlConfig.Create(FileName, True);
-      Root := Config.FindNode(Config.RootNode, 'Highlighters');
-      if Assigned(Root) then
-      begin
-        FormNode := Config.FindNode(Root, 'Highlighter');
-        if Assigned(FormNode) then
-        begin
-          while Assigned(FormNode) do
-          begin
-            LanguageName:= Config.GetAttr(FormNode, 'Name', EmptyStr);
-            Highlighter:= TSynCustomHighlighter(SynHighlighterHashList.Data[LanguageName]);
-            if Assigned(Highlighter) then
-            begin
-              Highlighter.Tag := Config.GetAttr(FormNode, 'Tag', 1);
-              Highlighter.DefaultFilter:= Config.GetValue(FormNode, 'DefaultFilter', Highlighter.DefaultFilter);
-              if not FTemp then
-              begin
-                AttributeNode := Config.FindNode(FormNode, 'Attribute');
-                if Assigned(AttributeNode) then
-                begin
-                  while Assigned(AttributeNode) do
-                  begin
-                    AttributeName:= Config.GetAttr(AttributeNode, 'Name', EmptyStr);;
-                    for J:= 0 to Highlighter.AttrCount - 1 do
-                    begin
-                      Attribute:= Highlighter.Attribute[J];
-                      if SameText(Attribute.StoredName, AttributeName) or SameText(Attribute.Name, AttributeName) then
-                      begin
-                        Attribute.Style      := TFontStyles(Config.GetValue(AttributeNode, 'Style', Integer(Attribute.Style)));
-                        Attribute.StyleMask  := TFontStyles(Config.GetValue(AttributeNode, 'StyleMask', Integer(Attribute.StyleMask)));
-                        Attribute.Foreground := TColor(Config.GetValue(AttributeNode, 'Foreground', Integer(Attribute.Foreground)));
-                        Attribute.Background := TColor(Config.GetValue(AttributeNode, 'Background', Integer(Attribute.Background)));
-                        Attribute.FrameColor := TColor(Config.GetValue(AttributeNode, 'FrameColor', Integer(Attribute.FrameColor)));
-                        Attribute.FrameStyle := TSynLineStyle(Config.GetValue(AttributeNode, 'FrameStyle', Integer(Attribute.FrameStyle)));
-                        Attribute.FrameEdges := TSynFrameEdges(Config.GetValue(AttributeNode, 'FrameEdges', Integer(Attribute.FrameEdges)));
-                        Break;
-                      end;
-                    end;
-                    AttributeNode := AttributeNode.NextSibling;
-                  end;
-                end;
-              end;
-            end;
-            FormNode := FormNode.NextSibling;
-          end;
-        end;
-      end;
-    except
-      Result:= False;
-    end;
-  finally
-    Config.Free;
-  end;
-end;
-
-function TdmHighl.SaveToFile(const FileName: String): Boolean;
-var
-  I: LongInt;
-  Config: TXmlConfig;
-  Root, FormNode: TXmlNode;
-
-  procedure SaveHighlighter(Highlighter: TSynCustomHighlighter);
+  for I:= 0 to ASource.SynHighlighterList.Count - 1 do
   begin
-    FormNode := Config.AddNode(Root, 'Highlighter');
-    Config.SetAttr(FormNode, 'Tag', Highlighter.Tag);
-    Config.SetAttr(FormNode, 'Name', Highlighter.LanguageName);
-    Config.SetValue(FormNode, 'DefaultFilter', Highlighter.DefaultFilter);
-  end;
+    TargetHighlighter:= Self.Highlighters[I];
+    SourceHighlighter:= ASource.Highlighters[I];
 
-begin
-  Result:= True;
-  Config := TXmlConfig.Create;
-  try
-    Config.FileName := FileName;
-    Root := Config.FindNode(Config.RootNode, 'Highlighters', True);
-    Config.ClearNode(Root);
-    Config.SetAttr(Root, 'Version', 1);
-    try
-      for I := 0 to SynHighlighterList.Count - 1 do
-      begin
-        SaveHighlighter(TSynCustomHighlighter(SynHighlighterList.Objects[I]));
-      end;
-      Config.Save;
-    except
-      Result:= False;
-    end;
-  finally
-    Config.Free;
+    TargetHighlighter.Tag:= SourceHighlighter.Tag;
+    TargetHighlighter.DefaultFilter:= SourceHighlighter.DefaultFilter;
   end;
 end;
 
@@ -750,7 +656,7 @@ end;
 
 constructor THighlighters.Create;
 begin
-  UpdateStyle;
+  FStyle := TColorThemes.StyleIndex;
 
   FStyles[FStyle]:= TdmHighl.Create(Application, False);
   FStyles[Abs(FStyle - 1)]:= FStyles[FStyle].Clone;
@@ -759,8 +665,17 @@ begin
 end;
 
 procedure THighlighters.UpdateStyle;
+var
+  ANewStyle: Integer;
 begin
-  FStyle:= TColorThemes.StyleIndex;
+  ANewStyle := TColorThemes.StyleIndex;
+
+  if FStyle <> ANewStyle then
+  begin
+    // Synchronize common options
+    FStyles[ANewStyle].CopyFrom(FStyles[FStyle]);
+    FStyle := ANewStyle;
+  end;
 end;
 
 procedure THighlighters.LoadDefaults;
@@ -772,7 +687,7 @@ begin
   try
     ARoot:= GetJSON(AStream, True) as TJSONObject;
     try
-      Load(ARoot);
+      LoadColors(ARoot);
     finally
       ARoot.Free;
     end;
@@ -784,7 +699,7 @@ begin
     with TJsonConfig.Create do
     try
       LoadFromFile(gpHighPath + 'highlighters.json');
-      Load(Root);
+      LoadColors(Root);
     finally
       Free;
     end;
@@ -798,7 +713,7 @@ begin
   Result:= FStyles[FStyle];
 end;
 
-procedure THighlighters.Load(AConfig: TJSONObject);
+procedure THighlighters.LoadColors(AConfig: TJSONObject);
 var
   AName: String;
   Index: Integer;
@@ -827,7 +742,7 @@ begin
    end;
 end;
 
-procedure THighlighters.Save(AConfig: TJSONObject);
+procedure THighlighters.SaveColors(AConfig: TJSONObject);
 var
   AName: String;
   Index: Integer;
@@ -857,6 +772,101 @@ begin
         FStyles[1].SaveUniColors(Theme);
       end
     end;
+  end;
+end;
+
+procedure THighlighters.Load(const FileName: String);
+var
+  J: LongInt;
+  AVersion: Integer;
+  Config: TXmlConfig;
+  Highlighter: TSynCustomHighlighter;
+  LanguageName, AttributeName: String;
+  Attribute: TSynHighlighterAttributes;
+  Root, FormNode, AttributeNode: TXmlNode;
+begin
+  Config := TXmlConfig.Create(FileName, True);
+  try
+    Root := Config.FindNode(Config.RootNode, 'Highlighters');
+    if Assigned(Root) then
+    begin
+      AVersion := Config.GetAttr(Root, 'Version', ConfigVersion);
+      FormNode := Config.FindNode(Root, 'Highlighter');
+      if Assigned(FormNode) then
+      begin
+        while Assigned(FormNode) do
+        begin
+          LanguageName:= Config.GetAttr(FormNode, 'Name', EmptyStr);
+          Highlighter:= TSynCustomHighlighter(Current.SynHighlighterHashList.Data[LanguageName]);
+          if Assigned(Highlighter) then
+          begin
+            Highlighter.Tag := Config.GetAttr(FormNode, 'Tag', 1);
+            Highlighter.DefaultFilter:= Config.GetValue(FormNode, 'DefaultFilter', Highlighter.DefaultFilter);
+            // Import colors from old format
+            if AVersion < 2 then
+            begin
+              AttributeNode := Config.FindNode(FormNode, 'Attribute');
+              if Assigned(AttributeNode) then
+              begin
+                while Assigned(AttributeNode) do
+                begin
+                  AttributeName:= Config.GetAttr(AttributeNode, 'Name', EmptyStr);;
+                  for J:= 0 to Highlighter.AttrCount - 1 do
+                  begin
+                    Attribute:= Highlighter.Attribute[J];
+                    if SameText(Attribute.StoredName, AttributeName) or SameText(Attribute.Name, AttributeName) then
+                    begin
+                      Attribute.Style      := TFontStyles(Config.GetValue(AttributeNode, 'Style', Integer(Attribute.Style)));
+                      Attribute.StyleMask  := TFontStyles(Config.GetValue(AttributeNode, 'StyleMask', Integer(Attribute.StyleMask)));
+                      Attribute.Foreground := TColor(Config.GetValue(AttributeNode, 'Foreground', Integer(Attribute.Foreground)));
+                      Attribute.Background := TColor(Config.GetValue(AttributeNode, 'Background', Integer(Attribute.Background)));
+                      Attribute.FrameColor := TColor(Config.GetValue(AttributeNode, 'FrameColor', Integer(Attribute.FrameColor)));
+                      Attribute.FrameStyle := TSynLineStyle(Config.GetValue(AttributeNode, 'FrameStyle', Integer(Attribute.FrameStyle)));
+                      Attribute.FrameEdges := TSynFrameEdges(Config.GetValue(AttributeNode, 'FrameEdges', Integer(Attribute.FrameEdges)));
+                      Break;
+                    end;
+                  end;
+                  AttributeNode := AttributeNode.NextSibling;
+                end;
+              end;
+            end;
+          end;
+          FormNode := FormNode.NextSibling;
+        end;
+      end;
+    end;
+  finally
+    Config.Free;
+  end;
+end;
+
+procedure THighlighters.Save(const FileName: String);
+var
+  I: LongInt;
+  Config: TXmlConfig;
+  Root, FormNode: TXmlNode;
+  Highlighter: TSynCustomHighlighter;
+begin
+  Config := TXmlConfig.Create;
+  try
+    Config.FileName := FileName;
+    Root := Config.FindNode(Config.RootNode, 'Highlighters', True);
+    Config.ClearNode(Root);
+    Config.SetAttr(Root, 'Version', ConfigVersion);
+    with Current do
+    begin
+      for I := 0 to SynHighlighterList.Count - 1 do
+      begin
+        Highlighter := Highlighters[I];
+        FormNode := Config.AddNode(Root, 'Highlighter');
+        Config.SetAttr(FormNode, 'Tag', Highlighter.Tag);
+        Config.SetAttr(FormNode, 'Name', Highlighter.LanguageName);
+        Config.SetValue(FormNode, 'DefaultFilter', Highlighter.DefaultFilter);
+      end;
+    end;
+    Config.Save;
+  finally
+    Config.Free;
   end;
 end;
 
