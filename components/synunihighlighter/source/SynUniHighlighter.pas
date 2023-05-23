@@ -59,8 +59,6 @@ type
   private
     FFileName: String;
 
-    procedure ReadSyntax(Reader: TReader);
-    procedure WriteSyntax(Writer: TWriter);
   protected
     fMainRules: TSynRange;
     fEol: boolean;
@@ -75,15 +73,10 @@ type
     SymbolList: array[char] of TAbstractSymbol; //???
     fPrepared: boolean;
 
-    fSchemes: TStringList; //Vitalik 2004
-    fSchemeIndex: integer; //Vitalik 2004
+    fSchemes: TStringList;
+    fSchemeIndex: integer;
 
-    fImportFormats: TList;
-
-    procedure SpaceProc;
-    procedure NullProc;
     function GetIdentChars: TSynIdentChars; override;
-    procedure DefineProperties(Filer: TFiler); override;
     function GetSampleSource: string; override;
     procedure SetSampleSource(Value: string); override;
     function GetDefaultFilter: string; override;
@@ -102,7 +95,6 @@ type
     function GetToken: string; override; {Abstract}
     procedure GetTokenEx(out TokenStart: PChar; out TokenLength: integer); override; {Abstract}
     function GetTokenAttribute: TSynHighlighterAttributes; override; {Abstract}
-    function GetTokenID: Integer;
     function GetTokenKind: integer; override; {Abstract}
     function GetTokenPos: Integer; override; {Abstract}
     function IsKeyword(const AKeyword: string): boolean; override;
@@ -139,8 +131,8 @@ type
     SchemeName: string;
     property FileName: String read FFileName;
     property MainRules: TSynRange read fMainRules;
-    property SchemesList: TStringList read fSchemes write fSchemes; //Vitalik 2004
-    property SchemeIndex: integer read fSchemeIndex write fSchemeIndex; //Vitalik 2004
+    property SchemesList: TStringList read fSchemes write fSchemes;
+    property SchemeIndex: integer read fSchemeIndex write fSchemeIndex;
   end;
 
 implementation
@@ -148,26 +140,14 @@ implementation
 uses
   LazUTF8Classes, Laz2_XMLRead;
 
-const
-  SYNS_AttrTest = 'Test';
-
 //==== TSynUniSyn ============================================================
 constructor TSynUniSyn.Create(AOwner: TComponent);
-var
-  fTestAttri: TSynHighlighterAttributes;
 begin
   inherited Create(AOwner);
   Info := TSynInfo.Create;
   Info.History := TStringList.Create;
   Info.Sample := TStringList.Create;
   fPrepared := False;
-
-  //Вот так вот нужно все атрибуты будет добавлять! Потому как нужно еще и обработать [Underline + Italic]
-  fTestAttri := TSynHighLighterAttributes.Create(SYNS_AttrTest);
-  fTestAttri.Style := [fsUnderline, fsItalic];
-  fTestAttri.Foreground := clBlue;
-  fTestAttri.Background := clSilver;
-  AddAttribute(fTestAttri);
 
   fSchemes := TStringList.Create;
   fSchemeIndex := -1;
@@ -177,8 +157,6 @@ begin
   fEol := False;
   fPrEol := False;
   fCurrentRule := MainRules;
-//  AddNewScheme('Noname');
-  fImportFormats := TList.Create;
 end;
 
 destructor TSynUniSyn.Destroy;
@@ -189,7 +167,6 @@ begin
   Info.Sample.Free;
   Info.Free;
   fSchemes.Free;
-  fImportFormats.Free;
   inherited;
 end;
 
@@ -277,17 +254,10 @@ begin
       fCurrentRule.HasNodeAnyStart[char(i)] := HaveNodeAnyStart(TSymbols(SymbolList[fCurrentRule.CaseFunct(char(i))]).HeadNode);
 (*}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}*)
   end;
-{begin} //Vitalik 2004
-{was:
-  fTrueLine := PChar(NewValue);
-  l := Length(NewValue);
-  ReallocMem(fLine, l+1);
-  for i := 0 to l do
-    fLine[i] := fCurrentRule.CaseFunct(fTrueLine[i]);
-}
+
   fTrueLine := NewValue;
   fLine := PChar(NewValue);     //: Current string of SynEdit
-{end} //Vitalik 2004
+
   Run := 0;                     //: Set Position of "parser" at the first char of string
   fTokenPos := 0;               //: Set Position of current token at the first char of string
   fLineNumber := LineNumber;    //: Number of current line in SynEdit
@@ -340,7 +310,7 @@ begin
   end;
 
   //: if we can't find token from current position:
-  if not fCurrentRule.SymbolList[fCurrentRule.CaseFunct(fLine[Run])].GetToken(fCurrentRule, fLine, Run, fCurrToken) then //Vitalik 2004
+  if not fCurrentRule.SymbolList[fCurrentRule.CaseFunct(fLine[Run])].GetToken(fCurrentRule, fLine, Run, fCurrToken) then
   begin
     fCurrToken := fCurrentRule.fDefaultSynSymbol; //: Current token is just default symbol
     while not ((fLine[Run] in fCurrentRule.fTermSymbols) or fCurrentRule.HasNodeAnyStart[fCurrentRule.CaseFunct(fLine[Run])]) do
@@ -400,14 +370,6 @@ begin
 
 end;
 
-procedure TSynUniSyn.SpaceProc;
-//! Never used!!! SSS
-begin
-  repeat
-    Inc(Run);
-  until (fLine[Run] > #32) or (fLine[Run] in [#0, #10, #13]);
-end;
-
 function TSynUniSyn.IsKeyword(const AKeyword: string): boolean;
 //! Never used!!!! ??? SSS
 begin
@@ -455,21 +417,10 @@ begin
   TokenStart := PAnsiChar(fTrueLine) + fTokenPos;
 end;
 
-function TSynUniSyn.GetTokenID: Integer;
-//: Return ID of current token
-//: ??? Оставлена для непонятной совместимости? Нигде же не вызывается и не используется!
-//: Можено что-нить с ней сделать...
-begin
-  Result := 1; //# CODE_REVIEW fCurrToken.ID;
-end;
-
 function TSynUniSyn.GetTokenAttribute: TSynHighlighterAttributes;
 //: Returns attribute of current token
 begin
-//  fCurrToken.Attr.Style := fCurrToken.Attr.Style + [fsUnderline];
-//  if GetEol then
-//    Result := nil
-    Result := fCurrToken.Attributes;
+  Result := fCurrToken.Attributes;
 end;
 
 function TSynUniSyn.GetTokenKind: integer;
@@ -596,59 +547,10 @@ begin
       MainRules.HasNodeAnyStart[char(i)] := HaveNodeAnyStart(TSymbols(MainRules.SymbolList[MainRules.CaseFunct(char(i))]).HeadNode);
 end;
 
-procedure TSynUniSyn.NullProc;
-//: Never used!!! SSS ???
-begin
-//  fEol := True;
-end;
-
 procedure TSynUniSyn.Reset;
 //: Reset of SynUniSyn is Reset of SynUniSyn.MainRules
 begin
   MainRules.Reset;
-end;
-
-procedure TSynUniSyn.DefineProperties(Filer: TFiler);
-//! Never used ????
-var
-  iHasData: boolean;
-begin
-  inherited;
-  if Filer.Ancestor <> nil then
-    iHasData := True
-  else
-    iHasData := MainRules.RangeCount > 0;
-  Filer.DefineProperty( 'Syntax', ReadSyntax, WriteSyntax, {True}iHasData );
-end;
-
-procedure TSynUniSyn.ReadSyntax(Reader: TReader);
-//: This is some metods for reading ??? ??? ???
-var
-  iBuffer: TStringStream;
-begin
-//  iBuffer := nil;
-//  try
-    iBuffer := TStringStream.Create( Reader.ReadString );
-    iBuffer.Position := 0;
-    LoadFromStream( iBuffer );
-//  finally
-//    iBuffer.Free;
-//  end;
-end;
-
-procedure TSynUniSyn.WriteSyntax(Writer: TWriter);
-//: This is some metods for writing ??? ??? ???
-var
-  iBuffer: TStringStream;
-begin
-  iBuffer := TStringStream.Create( '' );
-  try
-    SaveToStream( iBuffer );
-    iBuffer.Position := 0;
-    Writer.WriteString( iBuffer.DataString );
-  finally
-    iBuffer.Free;
-  end;
 end;
 
 function TSynUniSyn.GetIdentChars: TSynIdentChars;
