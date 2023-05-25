@@ -1120,6 +1120,9 @@ begin
     NextChunkInit(Chunk1);
     NextChunkInit(Chunk2);
 
+    if (Chunk1.Category = cNone) and (Chunk2.Category = cNone) then
+      Exit;
+
     if Chunk1.Category <> Chunk2.Category then
       if Chunk1.Category < Chunk2.Category then
         Exit(-1)
