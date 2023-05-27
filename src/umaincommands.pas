@@ -169,6 +169,7 @@ type
    procedure cm_ContextMenu(const Params: array of string);
    procedure cm_CopyFullNamesToClip(const {%H-}Params: array of string);
    procedure cm_CopyFileDetailsToClip(const {%H-}Params: array of string);
+   procedure cm_SaveFileDetailsToFile(const {%H-}Params: array of string);
    procedure cm_Exchange(const {%H-}Params: array of string);
    procedure cm_FlatView(const {%H-}Params: array of string);
    procedure cm_FlatViewSel(const {%H-}Params: array of string);
@@ -1046,6 +1047,11 @@ procedure TMainCommands.cm_ContextMenu(const Params: array of string);
 begin
   // Let file view handle displaying context menu at appropriate position.
   frmMain.ActiveFrame.ExecuteCommand('cm_ContextMenu', Params);
+end;
+
+procedure TMainCommands.cm_SaveFileDetailsToFile(const Params: array of string);
+begin
+  frmMain.ActiveFrame.ExecuteCommand('cm_SaveFileDetailsToFile', []);
 end;
 
 procedure TMainCommands.cm_CopyFullNamesToClip(const Params: array of string);

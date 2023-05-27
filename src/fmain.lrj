@@ -258,6 +258,7 @@
 {"hash":91735966,"name":"tfrmmain.actaddplugin.caption","sourcebytes":[65,100,100,32,80,108,117,103,105,110],"value":"Add Plugin"},
 {"hash":124093428,"name":"tfrmmain.actloadlist.caption","sourcebytes":[76,111,97,100,32,76,105,115,116],"value":"Load List"},
 {"hash":228327845,"name":"tfrmmain.actloadlist.hint","sourcebytes":[76,111,97,100,32,108,105,115,116,32,111,102,32,102,105,108,101,115,47,102,111,108,100,101,114,115,32,102,114,111,109,32,116,104,101,32,115,112,101,99,105,102,105,101,100,32,116,101,120,116,32,102,105,108,101],"value":"Load list of files/folders from the specified text file"},
+{"hash":230704005,"name":"tfrmmain.actsavefiledetailstofile.caption","sourcebytes":[83,97,118,101,32,97,108,108,32,115,104,111,119,110,32,99,111,108,117,109,110,115,32,116,111,32,102,105,108,101],"value":"Save all shown columns to file"},
 {"hash":310020,"name":"tfrmmain.tbedit.caption","sourcebytes":[69,100,105,116],"value":"Edit"},
 {"hash":78392485,"name":"tfrmmain.tbdelete.caption","sourcebytes":[68,101,108,101,116,101],"value":"Delete"},
 {"hash":1140,"name":"tfrmmain.tbchangedir.caption","sourcebytes":[67,68],"value":"CD"},

@@ -2834,6 +2834,12 @@ object frmMain: TfrmMain
       Hint = 'Load list of files/folders from the specified text file'
       OnExecute = actExecute
     end
+    object actSaveFileDetailsToFile: TAction
+      Tag = 10
+      Category = 'Mark'
+      Caption = 'Save all shown columns to file'
+      OnExecute = actExecute
+    end
   end
   object pmHotList: TPopupMenu
     Images = imgLstDirectoryHotlist

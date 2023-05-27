@@ -151,6 +151,7 @@ type
     procedure dgPanelResize(Sender: TObject);
     procedure dgPanelHeaderSized(Sender: TObject; IsColumn: Boolean; index: Integer);
     procedure ColumnsMenuClick(Sender: TObject);
+    procedure CopyFileDetails(AList: TStringList);
 
   protected
     procedure CreateDefault(AOwner: TWinControl); override;
@@ -210,6 +211,7 @@ type
 
     property OnColumnResized: TColumnResized read FOnColumnResized write FOnColumnResized;
   published
+    procedure cm_SaveFileDetailsToFile(const Params: array of string);
     procedure cm_CopyFileDetailsToClip(const Params: array of string);
 
   end;
@@ -218,8 +220,8 @@ implementation
 
 uses
   LCLProc, Buttons, Clipbrd, DCStrUtils, uLng, uGlobs, uPixmapManager, uDebug,
-  uDCUtils, math, fMain, fOptions, uClipboard,
-  uOrderedFileView,
+  DCClassesUtf8, dmCommonData, uDCUtils, math, fMain, fOptions, uClipboard,
+  uOrderedFileView, uShowMsg,
   uFileSourceProperty,
   uKeyboard,
   uFileFunctions,
@@ -1211,10 +1213,9 @@ begin
       end;
 end;
 
-procedure TColumnsFileView.cm_CopyFileDetailsToClip(const Params: array of string);
+procedure TColumnsFileView.CopyFileDetails(AList: TStringList);
 var
   I: Integer;
-  sl: TStringList;
   AFile: TDisplayFile;
   ColumnsClass: TPanelColumnsClass;
 
@@ -1235,33 +1236,77 @@ var
         S:= S + AFile.DisplayStrings[J] + #09;
       end;
       J:= Length(S);
-      if J > 0 then sl.Add(Copy(S, 1, J - 1));
+      if J > 0 then AList.Add(Copy(S, 1, J - 1));
     end;
   end;
 
+begin
+  ColumnsClass:= GetColumnsClass;
+
+  for I:= 0 to FFiles.Count - 1 do
+  begin
+    AFile:= FFiles[I];
+    if AFile.Selected then AddFile;
+  end;
+
+  if AList.Count = 0 then
+  begin
+    AFile:= GetActiveDisplayFile;
+    AddFile;
+  end;
+end;
+
+procedure TColumnsFileView.cm_CopyFileDetailsToClip(const Params: array of string);
+var
+  sl: TStringList;
 begin
   if DisplayFiles.Count > 0 then
   begin
     sl:= TStringList.Create;
     try
-      ColumnsClass:= GetColumnsClass;
-
-      for I:= 0 to FFiles.Count - 1 do
-      begin
-        AFile:= FFiles[I];
-        if AFile.Selected then AddFile;
-      end;
-
-      if sl.Count = 0 then
-      begin
-        AFile:= GetActiveDisplayFile;
-        AddFile;
-      end;
+      CopyFileDetails(sl);
 
       Clipboard.Clear;   // prevent multiple formats in Clipboard
       ClipboardSetText(TrimRightLineEnding(sl.Text, sl.TextLineBreakStyle));
     finally
       FreeAndNil(sl);
+    end;
+  end;
+end;
+
+procedure TColumnsFileView.cm_SaveFileDetailsToFile(const Params: array of string);
+var
+  AFileName: String;
+  sl: TStringListEx;
+begin
+  if DisplayFiles.Count > 0 then
+  begin
+    if Length(Params) > 0 then
+      AFileName:= Params[0]
+    else begin
+      with dmComData do
+      begin
+        SaveDialog.DefaultExt := '.txt';
+        SaveDialog.Filter     := '*.txt|*.txt';
+        SaveDialog.FileName   := EmptyStr;
+
+        if not SaveDialog.Execute then Exit;
+        AFileName:= SaveDialog.FileName;
+      end;
+    end;
+
+    if (AFileName <> EmptyStr) then
+    try
+      sl:= TStringListEx.Create;
+      try
+        CopyFileDetails(sl);
+        sl.SaveToFile(AFileName);
+      finally
+        FreeAndNil(sl);
+      end;
+    except
+      on E: Exception do
+        msgError(rsMsgErrSaveFile + '-' + E.Message);
     end;
   end;
 end;
