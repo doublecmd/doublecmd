@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Multi-Rename Tool dialog window
 
-   Copyright (C) 2007-2022 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2007-2023 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -691,6 +691,24 @@ var
   DestRow: integer;
 begin
   DestRow := StringGrid.Row;
+
+  if (Shift = []) then
+  begin
+    if Key = VK_DELETE then
+    begin
+      FFiles.Delete(DestRow - 1);
+      StringGrid.RowCount:= StringGrid.RowCount - 1;
+
+      if FFiles.Count = 0 then
+      begin
+        OnCloseQuery:= nil;
+        Close;
+      end
+      else begin
+        StringGridTopLeftChanged(StringGrid);
+      end;
+    end;
+  end;
 
   if (Shift = [ssShift]) then
   begin
