@@ -54,8 +54,8 @@ type
   private
     DebugLnLock: TCriticalSection;
   protected
-    procedure DoDbgOut({$if lcl_fullversion < 2010000}const{$endif} s: string); override;
-    procedure DoDebugLn({$if lcl_fullversion < 2010000}const{$endif} s: string); override;
+    procedure DoDbgOut(s: string{$if lcl_fullversion >= 2030000}; AGroup: PLazLoggerLogGroup = nil{$endif}); override;
+    procedure DoDebugLn(s: string{$if lcl_fullversion >= 2030000}; AGroup: PLazLoggerLogGroup = nil{$endif}); override;
   public
     constructor Create;
     destructor Destroy; override;
@@ -72,7 +72,7 @@ end;
 
 { TDCLogger }
 
-procedure TDCLogger.DoDbgOut({$if lcl_fullversion < 2010000}const{$endif} s: string);
+procedure TDCLogger.DoDbgOut(s: string{$if lcl_fullversion >= 2030000}; AGroup: PLazLoggerLogGroup = nil{$endif});
 begin
   DebugLnLock.Acquire;
   try
@@ -82,7 +82,7 @@ begin
   end;
 end;
 
-procedure TDCLogger.DoDebugLn({$if lcl_fullversion < 2010000}const{$endif} s: string);
+procedure TDCLogger.DoDebugLn(s: string{$if lcl_fullversion >= 2030000}; AGroup: PLazLoggerLogGroup = nil{$endif});
 begin
   DebugLnLock.Acquire;
   try
