@@ -766,8 +766,8 @@ begin
       begin
         if (OriginalUser <> cbxUsers.Text) or (OriginalGroup <> cbxGroups.Text) then
         begin
-          TFileOwnerProperty(theNewProperties[fpOwner]).Group:= StrToUID(cbxUsers.Text);
-          TFileOwnerProperty(theNewProperties[fpOwner]).Owner:= StrToGID(cbxGroups.Text);
+          TFileOwnerProperty(theNewProperties[fpOwner]).Owner:= StrToUID(cbxUsers.Text);
+          TFileOwnerProperty(theNewProperties[fpOwner]).Group:= StrToGID(cbxGroups.Text);
         end
         // Nothing changed, clear new property
         else begin
