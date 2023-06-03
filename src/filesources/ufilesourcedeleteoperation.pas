@@ -13,6 +13,7 @@ uses
 
 type
 
+  PFileSourceDeleteOperationStatistics = ^TFileSourceDeleteOperationStatistics;
   TFileSourceDeleteOperationStatistics = record
     CurrentFile: String;
     TotalFiles: Int64;

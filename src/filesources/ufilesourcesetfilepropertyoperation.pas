@@ -20,6 +20,7 @@ type
   TSetFilePropertyResultFunction = procedure(Index: Integer; aFile: TFile;
       aTemplate: TFileProperty; Result: TSetFilePropertyResult) of object;
 
+  PFileSourceSetFilePropertyOperationStatistics = ^TFileSourceSetFilePropertyOperationStatistics;
   TFileSourceSetFilePropertyOperationStatistics = record
     CurrentFile: String;
     TotalFiles: Int64;

@@ -98,6 +98,7 @@ function GetKnownFolderPath(const rfid: TGUID; out APath: String): Boolean;
 
 function MultiFileProperties(pdtobj: IDataObject; dwFlags: DWORD): HRESULT;
 
+function GetIsFolder(AParent: IShellFolder; PIDL: PItemIDList): Boolean;
 function GetDisplayName(AFolder: IShellFolder; PIDL: PItemIDList; Flags: DWORD): String;
 function GetDetails(AFolder: IShellFolder2; PIDL: PItemIDList; const pscid: SHCOLUMNID): OleVariant;
 
@@ -129,6 +130,15 @@ end;
 function MultiFileProperties(pdtobj: IDataObject; dwFlags: DWORD): HRESULT;
 begin
   Result:= SHMultiFileProperties(pdtobj, dwFlags);
+end;
+
+function GetIsFolder(AParent: IShellFolder; PIDL: PItemIDList): Boolean;
+var
+  Flags: LongWord;
+begin
+  Flags:= SFGAO_FOLDER;
+  AParent.GetAttributesOf(1, PIDL, Flags);
+  Result:= (SFGAO_FOLDER and Flags) <> 0;
 end;
 
 function GetDisplayName(AFolder: IShellFolder; PIDL: PItemIDList;

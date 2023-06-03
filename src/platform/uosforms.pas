@@ -134,6 +134,7 @@ uses
   , uDCReadRSVG, uFileSourceUtil, uGdiPlusJPEG, uListGetPreviewBitmap
   , Dialogs, Clipbrd, uDebug, JwaDbt, uThumbnailProvider, uShellFolder
   , uRecycleBinFileSource, uWslFileSource, uDCReadHEIF, uDCReadWIC
+  , uShellFileSource
     {$IF DEFINED(DARKWIN)}
     , uDarkStyle
     {$ELSEIF DEFINED(LCLQT5)}
@@ -586,6 +587,11 @@ begin
   end;
   // Register network file source
   RegisterVirtualFileSource(rsVfsNetwork, TWinNetFileSource);
+  // Register shell folder file source
+  if (Win32MajorVersion > 5) then
+  begin
+    RegisterVirtualFileSource(TShellFileSource.RootName, TShellFileSource);
+  end;
   // Register recycle bin file source
   if CheckWin32Version(5, 1) then
   begin
