@@ -3950,7 +3950,6 @@ var
   LastAccessTime : DCBasicTypes.TFileTimeEx;
   ModificationTime: DCBasicTypes.TFileTimeEx;
   Operation: TFileSourceSetFilePropertyOperation = nil;
-
 begin
   with frmMain do
   try
@@ -3991,13 +3990,20 @@ begin
                         aFileProperties) as TFileSourceSetFilePropertyOperation;
 
         if Assigned(Operation) then
+        begin
+          if (Operation.SupportedProperties * [fpModificationTime, fpCreationTime,
+                                               fpLastAccessTime, fpAttributes] = []) then
           begin
-            if ShowChangeFilePropertiesDialog(Operation) then
-              begin
-                OperationsManager.AddOperation(Operation);
-                Operation := nil; // So it doesn't get destroyed below.
-              end;
+            msgWarning(rsMsgErrNotSupported);
+            Exit;
           end;
+
+          if ShowChangeFilePropertiesDialog(Operation) then
+          begin
+            OperationsManager.AddOperation(Operation);
+            Operation := nil; // So it doesn't get destroyed below.
+          end;
+        end;
       end;
   finally
     FreeAndNil(SelectedFiles);
