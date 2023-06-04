@@ -580,13 +580,6 @@ begin
     Screen.AddHandlerFormVisibleChanged(TScreenFormEvent(Handler), True);
   end;
 {$ENDIF}
-  // Register Windows Subsystem for Linux (WSL) file source
-  if CheckWin32Version(10) then
-  begin
-    RegisterVirtualFileSource('Linux', TWslFileSource, TWslFileSource.Available);
-  end;
-  // Register network file source
-  RegisterVirtualFileSource(rsVfsNetwork, TWinNetFileSource);
   // Register shell folder file source
   if (Win32MajorVersion > 5) then
   begin
@@ -597,6 +590,13 @@ begin
   begin
     RegisterVirtualFileSource(rsVfsRecycleBin, TRecycleBinFileSource);
   end;
+  // Register Windows Subsystem for Linux (WSL) file source
+  if CheckWin32Version(10) then
+  begin
+    RegisterVirtualFileSource('Linux', TWslFileSource, TWslFileSource.Available);
+  end;
+  // Register network file source
+  RegisterVirtualFileSource(rsVfsNetwork, TWinNetFileSource);
 
   // If run under administrator
   if (IsUserAdmin = dupAccept) then
