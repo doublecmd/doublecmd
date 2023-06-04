@@ -174,7 +174,7 @@ procedure TShellListOperation.MainExecute;
 begin
   FFiles.Clear;
   try
-    if Path = PathDelim then
+    if FShellFileSource.IsPathAtRoot(Path) then
       ListDrives
     else begin
       ListDirectory;

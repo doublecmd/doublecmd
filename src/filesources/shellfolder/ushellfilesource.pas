@@ -27,7 +27,9 @@ type
 
   TShellFileSource = class(TVirtualFileSource, IShellFileSource)
   private
+    FRootPath: String;
     FDrives: PItemIDList;
+    FRootFolder: IShellFolder2;
     FDesktopFolder: IShellFolder;
   protected
     function SetCurrentWorkingDirectory(NewDir: String): Boolean; override;
@@ -80,7 +82,7 @@ uses
   uShellCopyOperation, uShellFileOperation, uShellCreateDirectoryOperation,
   uShellExecuteOperation, uShellSetFilePropertyOperation, uShellFileSourceUtil,
   uShellDeleteOperation, uShellMoveOperation, UShellCalcStatisticsOperation,
-  uLng, uShlObjAdditional;
+  DCStrUtils, uLng, uShlObjAdditional;
 
 { TShellFileSource }
 
@@ -94,6 +96,8 @@ begin
   inherited Create;
   OleCheck(SHGetDesktopFolder(FDesktopFolder));
   OleCheck(SHGetFolderLocation(0, CSIDL_DRIVES, 0, 0, {%H-}FDrives));
+  OleCheck(FDesktopFolder.BindToObject(FDrives, nil, IID_IShellFolder2, Pointer(FRootFolder)));
+  FRootPath := GetDisplayName(FDesktopFolder, FDrives, SHGDN_NORMAL);
   FOperationsClasses[fsoMove] := TShellMoveOperation.GetOperationClass;
   FOperationsClasses[fsoCopy] := TShellCopyOperation.GetOperationClass;
   FOperationsClasses[fsoCopyIn] := TShellCopyInOperation.GetOperationClass;
@@ -108,7 +112,7 @@ end;
 
 class function TShellFileSource.IsSupportedPath(const Path: String): Boolean;
 begin
-  Result:= SameText(ExcludeTrailingBackslash(Path), PathDelim + PathDelim + PathDelim + rsVfsRecycleBin);
+  Result:= StrBegins(Path, PathDelim + PathDelim + PathDelim + RootName);
 end;
 
 class function TShellFileSource.CreateFile(const APath: String): TFile;
@@ -230,15 +234,17 @@ var
   Index: Integer;
   APath: TStringArray;
 begin
-  Result:= FDesktopFolder.BindToObject(FDrives, nil, IID_IShellFolder2, Pointer(AValue));
+  APath:= Path.Split([PathDelim], TStringSplitOptions.ExcludeEmpty);
 
-  if Succeeded(Result) then
-  begin
-    APath:= Path.Split([PathDelim], TStringSplitOptions.ExcludeEmpty);
-    if Length(APath) > 0 then
-    begin
+  if Length(APath) = 0 then
+    Result:= STG_E_PATHNOTFOUND
+  else begin
+    if (APath[0] <> FRootPath) then
+      Result:= STG_E_PATHNOTFOUND
+    else begin
+      AValue:= FRootFolder;
       // Find subdirectory
-      for Index:= 0 to High(APath) do
+      for Index:= 1 to High(APath) do
       begin
         Result:= List(AValue, APath[Index]);
         if Failed(Result) then Exit;
@@ -316,7 +322,7 @@ end;
 
 function TShellFileSource.GetRootDir(sPath: String): String;
 begin
-  Result:= PathDelim;
+  Result:= PathDelim + PathDelim + PathDelim + FRootPath + PathDelim;
 end;
 
 function TShellFileSource.GetProperties: TFileSourceProperties;
