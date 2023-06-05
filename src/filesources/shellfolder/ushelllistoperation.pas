@@ -134,16 +134,20 @@ begin
       AFile.SizeProperty.IsValid:= False;
     end;
 
-    rgfInOut:= SFGAO_FILESYSTEM or SFGAO_FOLDER;
-    AFolder.GetAttributesOf(1, PIDL, rgfInOut);
+    AFile.Attributes:= FILE_ATTRIBUTE_DEVICE or FILE_ATTRIBUTE_VIRTUAL;
 
-    if (SFGAO_FILESYSTEM and rgfInOut) <> 0 then
+    rgfInOut:= SFGAO_FILESYSTEM or SFGAO_FOLDER;
+
+    if Succeeded(AFolder.GetAttributesOf(1, PIDL, rgfInOut)) then
     begin
-      AFile.Attributes:= FILE_ATTRIBUTE_VIRTUAL or FILE_ATTRIBUTE_REPARSE_POINT;
-    end
-    else if (rgfInOut and SFGAO_FOLDER <> 0) then
-    begin
-      AFile.Attributes:= FILE_ATTRIBUTE_DIRECTORY
+      if (SFGAO_FILESYSTEM and rgfInOut) <> 0 then
+      begin
+        AFile.Attributes:= AFile.Attributes or FILE_ATTRIBUTE_NORMAL;
+      end
+      else if (rgfInOut and SFGAO_FOLDER <> 0) then
+      begin
+        AFile.Attributes:= AFile.Attributes or FILE_ATTRIBUTE_DIRECTORY;
+      end;
     end;
 
     FFiles.Add(AFile);

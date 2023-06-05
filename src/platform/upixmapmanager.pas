@@ -1976,6 +1976,8 @@ var
   FileInfo: TSHFileInfoW;
   dwFileAttributes: DWORD;
   uFlags: UINT;
+const
+  FILE_ATTRIBUTE_SHELL = FILE_ATTRIBUTE_DEVICE or FILE_ATTRIBUTE_VIRTUAL;
 {$ENDIF}
 begin
   Result := -1;
@@ -2023,7 +2025,7 @@ begin
         Exit;
       end
       {$IF DEFINED(MSWINDOWS)}
-      else if (AFile.Attributes = (FILE_ATTRIBUTE_REPARSE_POINT or FILE_ATTRIBUTE_VIRTUAL)) and Assigned(AFile.LinkProperty) then
+      else if (AFile.Attributes and FILE_ATTRIBUTE_SHELL = FILE_ATTRIBUTE_SHELL) and Assigned(AFile.LinkProperty) then
       begin
         if not LoadIcon then
           Result := -1
