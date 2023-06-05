@@ -34,8 +34,9 @@ uses
 
 { TShellListOperation }
 
-procedure TShellListOperation.ListFolder(AFolder: IShellFolder2; grfFlags: DWORD
-  );
+procedure TShellListOperation.ListFolder(AFolder: IShellFolder2; grfFlags: DWORD);
+const
+  SFGAOF_DEFAULT = SFGAO_STORAGE or SFGAO_HIDDEN or SFGAO_FOLDER;
 var
   AFile: TFile;
   PIDL: PItemIDList;
@@ -55,20 +56,28 @@ begin
     AFile.Name:= GetDisplayNameEx(AFolder, PIDL, SHGDN_INFOLDER);
     AFile.LinkProperty.LinkTo:= GetDisplayName(AFolder, PIDL, SHGDN_FORPARSING);
 
-    rgfInOut:= SFGAO_HIDDEN or SFGAO_FOLDER;
-    AFolder.GetAttributesOf(1, PIDL, rgfInOut);
+    rgfInOut:= SFGAOF_DEFAULT;
 
-    if (rgfInOut and SFGAO_FOLDER <> 0) then
+    if Succeeded(AFolder.GetAttributesOf(1, PIDL, rgfInOut)) then
     begin
-      AFile.Attributes:= FILE_ATTRIBUTE_DIRECTORY
-    end;
-    if (rgfInOut and SFGAO_HIDDEN <> 0) then
-    begin
-      AFile.Attributes:= AFile.Attributes or FILE_ATTRIBUTE_HIDDEN;
+      {
+      if (rgfInOut and SFGAO_STORAGE <> 0) then
+      begin
+        AFile.Attributes:= FILE_ATTRIBUTE_DEVICE or FILE_ATTRIBUTE_VIRTUAL;
+      end;
+      }
+      if (rgfInOut and SFGAO_FOLDER <> 0) then
+      begin
+        AFile.Attributes:= AFile.Attributes or FILE_ATTRIBUTE_DIRECTORY;
+      end;
+      if (rgfInOut and SFGAO_HIDDEN <> 0) then
+      begin
+        AFile.Attributes:= AFile.Attributes or FILE_ATTRIBUTE_HIDDEN;
+      end;
     end;
 
     AValue:= GetDetails(AFolder, PIDL, SCID_FileSize);
-    if AValue <> Unassigned then
+    if VarIsOrdinal(AValue) then
       AFile.Size:= AValue
     else if AFile.IsDirectory then
       AFile.Size:= 0
@@ -97,6 +106,8 @@ begin
 end;
 
 procedure TShellListOperation.ListDrives;
+const
+  SFGAOF_DEFAULT = SFGAO_FILESYSTEM or SFGAO_FOLDER;
 var
   AFile: TFile;
   PIDL: PItemIDList;
@@ -120,23 +131,11 @@ begin
 
     aFile:= TShellFileSource.CreateFile(Path);
 
-    AFile.Name:= GetDisplayName(AFolder, PIDL, SHGDN_INFOLDER);
+    AFile.Name:= GetDisplayNameEx(AFolder, PIDL, SHGDN_INFOLDER);
     AFile.LinkProperty.LinkTo:= GetDisplayName(AFolder, PIDL, SHGDN_FORPARSING);
 
-    AFile.ModificationTimeProperty.IsValid:= False;
-
-    AValue:= GetDetails(AFolder, PIDL, SCID_Capacity);
-    if not (TVarData(AValue).vtype in [varEmpty, varNull]) then
-      AFile.Size:= AValue
-    else if AFile.IsDirectory then
-      AFile.Size:= 0
-    else begin
-      AFile.SizeProperty.IsValid:= False;
-    end;
-
+    rgfInOut:= SFGAOF_DEFAULT;
     AFile.Attributes:= FILE_ATTRIBUTE_DEVICE or FILE_ATTRIBUTE_VIRTUAL;
-
-    rgfInOut:= SFGAO_FILESYSTEM or SFGAO_FOLDER;
 
     if Succeeded(AFolder.GetAttributesOf(1, PIDL, rgfInOut)) then
     begin
@@ -148,6 +147,17 @@ begin
       begin
         AFile.Attributes:= AFile.Attributes or FILE_ATTRIBUTE_DIRECTORY;
       end;
+    end;
+
+    AFile.ModificationTimeProperty.IsValid:= False;
+
+    AValue:= GetDetails(AFolder, PIDL, SCID_Capacity);
+    if VarIsOrdinal(AValue) then
+      AFile.Size:= AValue
+    else if AFile.IsDirectory then
+      AFile.Size:= 0
+    else begin
+      AFile.SizeProperty.IsValid:= False;
     end;
 
     FFiles.Add(AFile);
