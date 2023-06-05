@@ -8,6 +8,18 @@ uses
   Classes, SysUtils, Windows, ShlObj, ActiveX, ComObj, ShlWapi, uShlObjAdditional;
 
 const
+  SID_SYSTEM = '{B725F130-47EF-101A-A5F1-02608C9EEBAC}';
+  SCID_FileSize:      TSHColumnID = ( fmtid: SID_SYSTEM; pid: 12 );
+  SCID_DateModified:  TSHColumnID = ( fmtid: SID_SYSTEM; pid: 14 );
+  SCID_DateCreated:   TSHColumnID = ( fmtid: SID_SYSTEM; pid: 15 );
+
+  SID_NAME = '{41CF5AE0-F75A-4806-BD87-59C7D9248EB9}';
+  SCID_FileName:      TSHColumnID = ( fmtid: SID_NAME; pid: 100 );
+
+  SID_COMPUTER = '{9B174B35-40FF-11D2-A27E-00C04FC30871}';
+  SCID_Capacity:      TSHColumnID = ( fmtid: SID_COMPUTER; pid: 3 );
+
+const
   FOLDERID_AccountPictures: TGUID = '{008ca0b1-55b4-4c56-b8a8-4de4b299d3be}';
   FOLDERID_ApplicationShortcuts: TGUID = '{A3918781-E5F2-4890-B3D9-A7E54332328C}';
   FOLDERID_CameraRoll: TGUID = '{AB5FB87B-7CE2-4F83-915D-550846C9537B}';
@@ -100,6 +112,7 @@ function MultiFileProperties(pdtobj: IDataObject; dwFlags: DWORD): HRESULT;
 
 function GetIsFolder(AParent: IShellFolder; PIDL: PItemIDList): Boolean;
 function GetDisplayName(AFolder: IShellFolder; PIDL: PItemIDList; Flags: DWORD): String;
+function GetDisplayNameEx(AFolder: IShellFolder2; PIDL: PItemIDList; Flags: DWORD): String;
 function GetDetails(AFolder: IShellFolder2; PIDL: PItemIDList; const pscid: SHCOLUMNID): OleVariant;
 
 function CreateDefaultContextMenu(constref pdcm: TDefContextMenu; const riid: REFIID; out ppv): HRESULT;
@@ -107,7 +120,7 @@ function CreateDefaultContextMenu(constref pdcm: TDefContextMenu; const riid: RE
 implementation
 
 uses
-  ShellApi, LazUTF8, DCConvertEncoding;
+  Variants, ShellApi, LazUTF8, DCConvertEncoding;
 
 const
   KF_FLAG_DEFAULT = $00000000;
@@ -152,6 +165,18 @@ begin
     Result := StrRetToString(PIDL, StrRet);
   if (Length(Result) = 0) and (Flags <> SHGDN_NORMAL) then
     Result := GetDisplayName(AFolder, PIDL, SHGDN_NORMAL);
+end;
+
+function GetDisplayNameEx(AFolder: IShellFolder2; PIDL: PItemIDList; Flags: DWORD): String;
+var
+  AValue: OleVariant;
+begin
+  AValue:= GetDetails(AFolder, PIDL, SCID_FileName);
+  if VarIsStr(AValue) then
+    Result:= AValue
+  else begin
+    Result:= GetDisplayName(AFolder, PIDL, Flags);
+  end;
 end;
 
 function GetDetails(AFolder: IShellFolder2; PIDL: PItemIDList; const pscid: SHCOLUMNID): OleVariant;

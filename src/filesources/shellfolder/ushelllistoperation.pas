@@ -52,7 +52,7 @@ begin
 
     aFile:= TShellFileSource.CreateFile(Path);
 
-    AFile.Name:= GetDisplayName(AFolder, PIDL, SHGDN_INFOLDER);
+    AFile.Name:= GetDisplayNameEx(AFolder, PIDL, SHGDN_INFOLDER);
     AFile.LinkProperty.LinkTo:= GetDisplayName(AFolder, PIDL, SHGDN_FORPARSING);
 
     rgfInOut:= SFGAO_HIDDEN or SFGAO_FOLDER;

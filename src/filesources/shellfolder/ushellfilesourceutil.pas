@@ -10,15 +10,6 @@ uses
   uShellFolder, uShellFileOperation, uFileSourceCopyOperation,
   uFileSourceDeleteOperation, uFileSourceSetFilePropertyOperation, uGlobs, uLog;
 
-const
-  SID_SYSTEM = '{B725F130-47EF-101A-A5F1-02608C9EEBAC}';
-  SCID_FileSize:      TSHColumnID = ( fmtid: SID_SYSTEM; pid: 12 );
-  SCID_DateModified:  TSHColumnID = ( fmtid: SID_SYSTEM; pid: 14 );
-  SCID_DateCreated:   TSHColumnID = ( fmtid: SID_SYSTEM; pid: 15 );
-
-  SID_COMPUTER = '{9B174B35-40FF-11D2-A27E-00C04FC30871}';
-  SCID_Capacity:      TSHColumnID = ( fmtid: SID_COMPUTER; pid: 3 );
-
 type
 
   { TItemList }

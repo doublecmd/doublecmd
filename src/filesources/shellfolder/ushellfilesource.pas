@@ -97,7 +97,7 @@ begin
   OleCheck(SHGetDesktopFolder(FDesktopFolder));
   OleCheck(SHGetFolderLocation(0, CSIDL_DRIVES, 0, 0, {%H-}FDrives));
   OleCheck(FDesktopFolder.BindToObject(FDrives, nil, IID_IShellFolder2, Pointer(FRootFolder)));
-  FRootPath := GetDisplayName(FDesktopFolder, FDrives, SHGDN_NORMAL);
+  FRootPath := GetDisplayName(FDesktopFolder, FDrives, SHGDN_INFOLDER);
   FOperationsClasses[fsoMove] := TShellMoveOperation.GetOperationClass;
   FOperationsClasses[fsoCopy] := TShellCopyOperation.GetOperationClass;
   FOperationsClasses[fsoCopyIn] := TShellCopyInOperation.GetOperationClass;
@@ -142,7 +142,7 @@ var
 begin
   OleCheckUTF8(SHGetDesktopFolder(DesktopFolder));
   OleCheckUTF8(SHGetFolderLocation(0, CSIDL_DRIVES, 0, 0, {%H-}DrivesPIDL));
-  Result:= GetDisplayName(DesktopFolder, DrivesPIDL, SHGDN_NORMAL);
+  Result:= GetDisplayName(DesktopFolder, DrivesPIDL, SHGDN_INFOLDER);
 end;
 
 function TShellFileSource.FindObject(const AObject: String; out
@@ -186,7 +186,7 @@ begin
   begin
     while EnumIDList.Next(1, PIDL, NumIDs) = S_OK do
     begin
-      AItemName:= GetDisplayName(AParent, PIDL, SHGDN_NORMAL);
+      AItemName:= GetDisplayNameEx(AParent, PIDL, SHGDN_INFOLDER);
       if AName = AItemName then
       begin
         AValue:= PIDL;
@@ -215,7 +215,7 @@ function TShellFileSource.FindFolder(const Path: String; out
     begin
       while EnumIDList.Next(1, PIDL, NumIDs) = S_OK do
       try
-        AName:= GetDisplayName(AFolder, PIDL, SHGDN_NORMAL);
+        AName:= GetDisplayNameEx(AFolder, PIDL, SHGDN_INFOLDER);
 
         if AName = AObject then
         begin
