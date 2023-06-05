@@ -159,7 +159,7 @@ begin
     Operation.RequireDynamicMode:=TRUE;
     OperationsManager.AddOperation(Operation);
   finally
-    FreeThenNil(xFiles);
+    FreeAndNil(xFiles);
   end;
 end;
 

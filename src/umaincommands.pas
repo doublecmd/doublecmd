@@ -4048,8 +4048,8 @@ begin
             if Assigned(Operation) then
               Operation.Execute;
           finally
-            FreeThenNil(Operation);
-            FreeThenNil(aFile);
+            FreeAndNil(Operation);
+            FreeAndNil(aFile);
           end;
       end;
   end;
@@ -4112,7 +4112,7 @@ begin
         end;
       end;
     finally
-      FreeThenNil(aSelectedFiles);
+      FreeAndNil(aSelectedFiles);
     end; // try
   end; // with
 end;

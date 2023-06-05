@@ -960,8 +960,8 @@ end;
 
 destructor TShellContextMenu.Destroy;
 begin
-  FreeThenNil(FFiles);
-  FreeThenNil(FMenuImageList);
+  FreeAndNil(FFiles);
+  FreeAndNil(FMenuImageList);
   inherited Destroy;
 end;
 

@@ -271,7 +271,7 @@ begin
   FreeAndNil(FEncodings);
   FreeAndNil(FFilesMasks);
   FreeAndNil(FExcludeFiles);
-  FreeThenNil(FLinkTargets);
+  FreeAndNil(FLinkTargets);
   FreeAndNil(FFilesMasksRegExp);
   FreeAndNil(FExcludeFilesRegExp);
   FreeAndNil(FExcludeDirectories);

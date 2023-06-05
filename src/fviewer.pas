@@ -1664,8 +1664,8 @@ begin
   end;
 
   Image.Picture.Bitmap.LoadFromIntfImage(TargetImg);
-  FreeThenNil(SourceImg);
-  FreeThenNil(TargetImg);
+  FreeAndNil(SourceImg);
+  FreeAndNil(TargetImg);
   AdjustImageSize;
   CreateTmp;
 end;
@@ -1704,8 +1704,8 @@ begin
 
 
   Image.Picture.Bitmap.LoadFromIntfImage(TargetImg);
-  FreeThenNil(SourceImg);
-  FreeThenNil(TargetImg);
+  FreeAndNil(SourceImg);
+  FreeAndNil(TargetImg);
   AdjustImageSize;
   CreateTmp;
 end;

@@ -730,7 +730,7 @@ begin
     ShellContextMenu.PopUp(X, Y);
   finally
     // Free created menu
-    FreeThenNil(ShellContextMenu);
+    FreeAndNil(ShellContextMenu);
   end;
 end;
 {$ELSE}
@@ -742,7 +742,7 @@ begin
   end;
 
   // Free previous created menu
-  FreeThenNil(ShellContextMenu);
+  FreeAndNil(ShellContextMenu);
   // Create new context menu
   ShellContextMenu:= TShellContextMenu.Create(nil, Files, Background, UserWishForContextMenu);
   ShellContextMenu.OnClose := CloseEvent;
@@ -780,7 +780,7 @@ begin
   else
   begin
     // Free previous created menu
-    FreeThenNil(ShellContextMenu);
+    FreeAndNil(ShellContextMenu);
     // Create new context menu
     ShellContextMenu:= TShellContextMenu.Create(nil, ADrive);
     ShellContextMenu.OnClose := CloseEvent;
@@ -1022,7 +1022,7 @@ initialization
 {$ENDIF}
 
 finalization
-  FreeThenNil(ShellContextMenu);
+  FreeAndNil(ShellContextMenu);
 
 end.
 

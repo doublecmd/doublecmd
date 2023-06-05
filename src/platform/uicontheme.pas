@@ -207,9 +207,9 @@ begin
               FInherits.Objects[I]:= nil;
             end;
         end;
-      FreeThenNil(FInherits);
+      FreeAndNil(FInherits);
     end;
-  FreeThenNil(FDirectories);
+  FreeAndNil(FDirectories);
   inherited Destroy;
 end;
 

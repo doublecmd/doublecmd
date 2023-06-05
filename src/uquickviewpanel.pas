@@ -116,7 +116,7 @@ begin
   TFileViewPage(FFileView.NotebookPage).OnChangeFileView:= nil;
   FViewer.ExitQuickView;
   FFileViewPage.FileView.Visible:= True;
-  FreeThenNil(FViewer);
+  FreeAndNil(FViewer);
   FFileSource:= nil;
   FFileView.SetFocus;
   inherited Destroy;

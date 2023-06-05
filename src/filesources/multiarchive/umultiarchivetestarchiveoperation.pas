@@ -87,7 +87,7 @@ end;
 
 destructor TMultiArchiveTestArchiveOperation.Destroy;
 begin
-  FreeThenNil(FFullFilesTreeToTest);
+  FreeAndNil(FFullFilesTreeToTest);
   inherited Destroy;
 end;
 
@@ -169,7 +169,7 @@ end;
 
 procedure TMultiArchiveTestArchiveOperation.Finalize;
 begin
-  FreeThenNil(FExProcess);
+  FreeAndNil(FExProcess);
   with FMultiArchiveFileSource.MultiArcItem do
   if not FDebug then
     mbDeleteFile(FTempFile);

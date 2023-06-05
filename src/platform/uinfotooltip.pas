@@ -150,7 +150,7 @@ end;
 
 destructor TFileInfoToolTip.Destroy;
 begin
-  FreeThenNil(FHintItemList);
+  FreeAndNil(FHintItemList);
   inherited Destroy;
 end;
 

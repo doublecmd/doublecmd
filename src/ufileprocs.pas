@@ -144,8 +144,8 @@ begin
     DeleteOperation.Execute;
 
   finally
-    FreeThenNil(aFiles);
-    FreeThenNil(DeleteOperation);
+    FreeAndNil(aFiles);
+    FreeAndNil(DeleteOperation);
   end;
 end;
 

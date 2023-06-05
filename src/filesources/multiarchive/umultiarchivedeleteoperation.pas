@@ -66,7 +66,7 @@ end;
 
 destructor TMultiArchiveDeleteOperation.Destroy;
 begin
-  FreeThenNil(FFullFilesTreeToDelete);
+  FreeAndNil(FFullFilesTreeToDelete);
   inherited Destroy;
 end;
 
@@ -147,7 +147,7 @@ end;
 
 procedure TMultiArchiveDeleteOperation.Finalize;
 begin
-  FreeThenNil(FExProcess);
+  FreeAndNil(FExProcess);
   with FMultiArchiveFileSource.MultiArcItem do
   if not FDebug then
     mbDeleteFile(FTempFile);

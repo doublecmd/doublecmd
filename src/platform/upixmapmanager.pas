@@ -738,7 +738,7 @@ begin
     FreeAndNil(FIconTheme);
   {$ENDIF}
 {$ENDIF}
-  FreeThenNil(FDCIconTheme);
+  FreeAndNil(FDCIconTheme);
 end;
 
 {$IF DEFINED(UNIX) AND NOT (DEFINED(DARWIN) OR DEFINED(HAIKU))}
@@ -1548,7 +1548,7 @@ begin
           TStringList(THtDataNode(nodeList.Items[J]).Data).Free;
     end;
 
-  FreeThenNil(FExtToMimeIconName);
+  FreeAndNil(FExtToMimeIconName);
   {$ENDIF}
 
   {$IF DEFINED(MSWINDOWS) and DEFINED(LCLQT5)}
@@ -1556,8 +1556,8 @@ begin
   {$ENDIF}
 
   DestroyIconTheme;
-  FreeThenNil(FThemePixmapsFileNames);
-  FreeThenNil(FPixmapsLock);
+  FreeAndNil(FThemePixmapsFileNames);
+  FreeAndNil(FPixmapsLock);
 
   inherited Destroy;
 end;

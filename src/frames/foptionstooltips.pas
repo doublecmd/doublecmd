@@ -168,7 +168,7 @@ begin
     if lsbCustomFields.ItemIndex < FFileInfoToolTipTemp.HintItemList.Count then
       iLastDisplayedIndex := lsbCustomFields.ItemIndex;
 
-  FreeThenNil(FFileInfoToolTipTemp);
+  FreeAndNil(FFileInfoToolTipTemp);
 end;
 
 { TfrmOptionsToolTips.Save }
