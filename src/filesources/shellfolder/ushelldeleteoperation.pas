@@ -101,7 +101,7 @@ var
 begin
   ASink:= TFileOperationProgressSink.Create(@FStatistics, @UpdateStatistics);
 
-  FFileOp.SetOperationFlags(FOF_SILENT or FOF_NOCONFIRMATION);
+  FFileOp.SetOperationFlags(FOF_SILENT or FOF_NOCONFIRMATION or FOF_NORECURSION);
   try
     FFileOp.Advise(ASink, @dwCookie);
     try
