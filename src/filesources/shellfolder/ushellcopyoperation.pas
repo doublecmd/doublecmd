@@ -101,7 +101,7 @@ end;
 
 procedure TShellCopyOperation.Initialize;
 var
-  aFile: TFile;
+  AName: String;
   Index: Integer;
   AObject: PItemIDList;
   AFolder: IShellFolder2;
@@ -112,14 +112,14 @@ begin
   try
     for Index := 0 to SourceFiles.Count - 1 do
     begin
-      aFile:= SourceFiles[Index];
-      CheckObject(FShellFileSource.FindObject(aFile.FullPath, AObject), aFile.FullPath);
+      AName:= SourceFiles[Index].LinkProperty.LinkTo;
+      OleCheck(FShellFileSource.ParseDisplayName(AName, AObject));
       FSourceFilesTree.Add(AObject);
     end;
     case GetID of
       fsoCopy:
       begin
-        CheckObject(FShellFileSource.FindFolder(TargetPath, AFolder), TargetPath);
+        OleCheck(FShellFileSource.FindFolder(TargetPath, AFolder));
         OleCheck(SHGetIDListFromObject(AFolder, AObject));
         try
           OleCheck(SHCreateItemFromIDList(AObject, IShellItem, FTargetFolder));
@@ -183,7 +183,7 @@ begin
       AObject:= ILCreateFromPathW(PWideChar(CeUtf8ToUtf16(aFile.FullPath)));
       FSourceFilesTree.Add(AObject);
     end;
-    CheckObject(FShellFileSource.FindFolder(TargetPath, AFolder), TargetPath);
+    OleCheck(FShellFileSource.FindFolder(TargetPath, AFolder));
     OleCheck(SHGetIDListFromObject(AFolder, AObject));
     OleCheck(SHCreateItemFromIDList(AObject, IShellItem, FTargetFolder));
   except

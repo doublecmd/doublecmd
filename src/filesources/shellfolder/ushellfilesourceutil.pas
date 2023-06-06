@@ -58,8 +58,6 @@ type
     function ResumeTimer: HResult; stdcall;
   end;
 
-procedure CheckObject(Result: HResult; const AName: String); inline;
-
 var
   SHCreateItemWithParent: function(pidlParent: PCIDLIST_ABSOLUTE; psfParent: IShellFolder;
                                    pidl: PCUITEMID_CHILD; const riid: REFIID; out ppvItem): HRESULT; stdcall;
@@ -83,14 +81,6 @@ uses
 
 var
   AModule: HMODULE;
-
-procedure CheckObject(Result: HResult; const AName: String);
-begin
-  if Failed(Result) then
-  begin
-    raise EOleError.Create(mbSysErrorMessage(Result) + LineEnding + AName);
-  end;
-end;
 
 { TItemList }
 

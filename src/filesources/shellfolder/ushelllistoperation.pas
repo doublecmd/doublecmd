@@ -60,12 +60,10 @@ begin
 
     if Succeeded(AFolder.GetAttributesOf(1, PIDL, rgfInOut)) then
     begin
-      {
       if (rgfInOut and SFGAO_STORAGE <> 0) then
       begin
         AFile.Attributes:= FILE_ATTRIBUTE_DEVICE or FILE_ATTRIBUTE_VIRTUAL;
       end;
-      }
       if (rgfInOut and SFGAO_FOLDER <> 0) then
       begin
         AFile.Attributes:= AFile.Attributes or FILE_ATTRIBUTE_DIRECTORY;

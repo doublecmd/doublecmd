@@ -1344,15 +1344,9 @@ const
   uFlags: UINT = SHGFI_SYSICONINDEX or SHGFI_PIDL;
 var
   PIDL: PItemIDList;
-  pchEaten: ULONG = 0;
-  AName: UnicodeString;
   FileInfo: TSHFileInfoW;
-  dwAttributes: ULONG = 0;
 begin
-  AName:= CeUtf8ToUtf16(AFile.LinkProperty.LinkTo);
-
-  if Succeeded(FDesktopFolder.ParseDisplayName(0, nil, PWideChar(AName),
-                                               pchEaten, PIDL, dwAttributes)) then
+  if Succeeded(ParseDisplayName(FDesktopFolder, AFile.LinkProperty.LinkTo, PIDL)) then
   try
     if (SHGetFileInfoW(PWideChar(PIDL), 0, {%H-}FileInfo,
                        SizeOf(FileInfo), uFlags) <> 0) then
