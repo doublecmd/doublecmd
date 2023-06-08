@@ -231,11 +231,11 @@ begin
       SizeProperty := TFileSizeProperty.Create(Int64(pStatInfo^.st_size));
 
     ModificationTimeProperty := TFileModificationDateTimeProperty.Create(
-      FileTimeToDateTime(pStatInfo^.st_mtime));
+      FileTimeToDateTime(TUnixFileTime(pStatInfo^.st_mtime)));
     Properties[fpChangeTime] := TFileChangeDateTimeProperty.Create(
-      FileTimeToDateTime(pStatInfo^.st_ctime));
+      FileTimeToDateTime(TUnixFileTime(pStatInfo^.st_ctime)));
     LastAccessTimeProperty := TFileLastAccessDateTimeProperty.Create(
-      FileTimeToDateTime(pStatInfo^.st_atime));
+      FileTimeToDateTime(TUnixFileTime(pStatInfo^.st_atime)));
 
     LinkProperty := TFileLinkProperty.Create;
 
@@ -604,17 +604,17 @@ begin
 
       if not (fpModificationTime in AssignedProperties) then
         ModificationTimeProperty := TFileModificationDateTimeProperty.Create(
-          FileTimeToDateTime(StatInfo.st_mtime));
+          FileTimeToDateTime(TUnixFileTime(StatInfo.st_mtime)));
       if not (fpChangeTime in AssignedProperties) then
         Properties[fpChangeTime] := TFileChangeDateTimeProperty.Create(
-          FileTimeToDateTime(StatInfo.st_ctime));
+          FileTimeToDateTime(TUnixFileTime(StatInfo.st_ctime)));
       if not (fpLastAccessTime in AssignedProperties) then
         LastAccessTimeProperty := TFileLastAccessDateTimeProperty.Create(
-          FileTimeToDateTime(StatInfo.st_atime));
+          FileTimeToDateTime(TUnixFileTime(StatInfo.st_atime)));
 {$IF DEFINED(DARWIN)}
       if not (fpCreationTime in AssignedProperties) then
         CreationTimeProperty := TFileCreationDateTimeProperty.Create(
-          FileTimeToDateTime(StatInfo.st_birthtime));
+          FileTimeToDateTime(TUnixFileTime(StatInfo.st_birthtime)));
 {$ENDIF}
     end;
 

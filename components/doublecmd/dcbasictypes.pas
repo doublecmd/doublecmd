@@ -40,14 +40,7 @@ type
   TFileTime = TWinFileTime;
   TFileTimeEx = TFileTime;
 {$ELSE}
-  // Unix time (UTC).
-  // Unix defines time_t as signed integer,
-  // but we define it as unsigned because sign is not needed.
-  {$IFDEF cpu64}
-  TFileTime = QWord;
-  {$ELSE}
-  TFileTime = DWord;
-  {$ENDIF}
+  TFileTime = Int64;
 
   TFileTimeEx = record
     public

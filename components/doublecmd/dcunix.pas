@@ -302,20 +302,20 @@ end;
 
 function TDCStatHelper.mtime: TFileTimeEx;
 begin
-  Result.sec:= st_mtime;
-  Result.nanosec:= st_mtime_nsec;
+  Result.sec:= Int64(st_mtime);
+  Result.nanosec:= Int64(st_mtime_nsec);
 end;
 
 function TDCStatHelper.atime: TFileTimeEx;
 begin
-  Result.sec:= st_atime;
-  Result.nanosec:= st_atime_nsec;
+  Result.sec:= Int64(st_atime);
+  Result.nanosec:= Int64(st_atime_nsec);
 end;
 
 function TDCStatHelper.ctime: TFileTimeEx;
 begin
-  Result.sec:= st_ctime;
-  Result.nanosec:= st_ctime_nsec;
+  Result.sec:= Int64(st_ctime);
+  Result.nanosec:= Int64(st_ctime_nsec);
 end;
 {$ENDIF}
 
@@ -336,7 +336,7 @@ end;
 
 Function DC_fpLstat( const path:RawByteString; var Info:TDCStat ): cint; inline;
 begin
-  fpLstat( path, info );
+  Result:= fpLstat( path, info );
 end;
 
 {$ENDIF}
