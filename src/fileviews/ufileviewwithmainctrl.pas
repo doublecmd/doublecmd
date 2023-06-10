@@ -36,11 +36,7 @@ uses
   uFileView,
   uDragDropEx,
   uFileViewNotebook,
-  uDebug
-{$IFDEF LCLCOCOA}
-  ,uMyDarwin
-{$ENDIF}
-  ;
+  uDebug;
 
 type
 
@@ -1611,9 +1607,6 @@ procedure TFileViewWithMainCtrl.WorkerFinished(const Worker: TFileViewWorker);
 begin
   inherited WorkerFinished(Worker);
   MainControl.Cursor := crDefault;
-  {$IFDEF LCLCOCOA}
-  cocoaInvalidControlCursor( MainControl );
-  {$ENDIF}
   // Update status line only
   if not (csDestroying in ComponentState) then UpdateInfoPanel;
 end;
@@ -1785,9 +1778,6 @@ procedure TFileViewWithMainCtrl.WorkerStarting(const Worker: TFileViewWorker);
 begin
   inherited WorkerStarting(Worker);
   MainControl.Cursor := crHourGlass;
-  {$IFDEF LCLCOCOA}
-  cocoaInvalidControlCursor( MainControl );
-  {$ENDIF}
   UpdateInfoPanel; // Update status line only
 end;
 

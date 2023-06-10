@@ -33,10 +33,7 @@ unit uMyDarwin;
 interface
 
 uses
-  Classes, SysUtils, UnixType,
-  InterfaceBase, Controls, Menus,
-  MacOSAll, CocoaAll, CocoaPrivate, CocoaInt,
-  Cocoa_Extra, CocoaWSMenus, CocoaUtils;
+  Classes, SysUtils, UnixType, MacOSAll, CocoaAll, CocoaUtils, CocoaInt, Cocoa_Extra, InterfaceBase, Menus, CocoaWSMenus;
 
 // Darwin Util Function
 function StringToNSString(const S: String): NSString;
@@ -45,8 +42,6 @@ function NSArrayToList(const theArray:NSArray): TStringList;
 function ListToNSArray(const list:TStrings): NSArray;
 
 function getMacOSDefaultTerminal(): String;
-
-procedure cocoaInvalidControlCursor( const control:TWinControl );
 
 function NSGetTempPath: String;
 
@@ -348,17 +343,6 @@ end;
 function unmountAndEject(const path: String): Boolean;
 begin
   Result:= NSWorkspace.sharedWorkspace.unmountAndEjectDeviceAtPath( StringToNSString(path) );
-end;
-
-procedure cocoaInvalidControlCursor( const control:TWinControl );
-var
-  view: NSView;
-begin
-  if control.HandleAllocated then
-  begin
-    view:= NSObject(control.Handle).lclContentView;
-    view.window.invalidateCursorRectsForView( view );
-  end;
 end;
 
 
