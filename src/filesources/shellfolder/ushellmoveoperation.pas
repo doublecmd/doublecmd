@@ -46,7 +46,7 @@ implementation
 
 uses
   uFileSourceOperationOptions, uFileSourceOperationUI, uShellFolder, uGlobs,
-  uLog, uLng;
+  uShlObjAdditional, uLog, uLng;
 
 procedure TShellMoveOperation.ShowError(const sMessage: String);
 begin
@@ -107,11 +107,12 @@ end;
 
 procedure TShellMoveOperation.MainExecute;
 var
+  Res: HRESULT;
   dwCookie: DWORD;
   siItemArray: IShellItemArray;
   ASink: TFileOperationProgressSink;
 begin
-  ASink:= TFileOperationProgressSink.Create(@FStatistics, @UpdateStatistics);
+  ASink:= TFileOperationProgressSink.Create(@FStatistics, @UpdateStatistics, @CheckOperationStateSafe);
 
   FFileOp.SetOperationFlags(FOF_SILENT or FOF_NOCONFIRMMKDIR);
 
@@ -120,12 +121,19 @@ begin
     try
       OleCheck(SHCreateShellItemArrayFromIDLists(FSourceFilesTree.Count, PPItemIDList(FSourceFilesTree.List), siItemArray));
       OleCheck(FFileOp.MoveItems(siItemArray, FTargetFolder));
-      OleCheck(FFileOp.PerformOperations);
+      Res:= FFileOp.PerformOperations;
+      if Failed(Res) then
+      begin
+        if Res = COPYENGINE_E_USER_CANCELLED then
+          RaiseAbortOperation
+        else
+          OleError(Res);
+      end;
     finally
       FFileOp.Unadvise(dwCookie);
     end;
   except
-    on E: Exception do ShowError(E.Message);
+    on E: EOleError do ShowError(E.Message);
   end;
 end;
 

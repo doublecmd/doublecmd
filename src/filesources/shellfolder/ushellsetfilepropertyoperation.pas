@@ -46,7 +46,7 @@ type
 implementation
 
 uses
-  Windows, ActiveX, ShlObj, ComObj, DCConvertEncoding,
+  Windows, ActiveX, ShlObj, ComObj, DCConvertEncoding, uShlObjAdditional,
   uFileSourceOperationUI, uShellFolder, uGlobs, uLog, uLng;
 
 procedure TShellSetFilePropertyOperation.ShowError(const sMessage: String);
@@ -111,7 +111,7 @@ var
   CurrentFileIndex: Integer;
   ASink: TFileOperationProgressSink;
 begin
-  ASink:= TFileOperationProgressSink.Create(@FStatistics, @UpdateStatistics);
+  ASink:= TFileOperationProgressSink.Create(@FStatistics, @UpdateStatistics, @CheckOperationStateSafe);
 
   FFileOp.SetOperationFlags(FOF_SILENT or FOF_NOCONFIRMMKDIR);
 
@@ -144,6 +144,7 @@ end;
 function TShellSetFilePropertyOperation.SetNewProperty(aFile: TFile;
                                                        aTemplateProperty: TFileProperty): TSetFilePropertyResult;
 var
+  Res: HRESULT;
   PIDL: PItemIDList;
   AItem: IShellItem;
 begin
@@ -161,8 +162,16 @@ begin
         begin
           if not Succeeded(FFileOp.RenameItem(AItem, PWideChar(CeUtf8ToUtf16((aTemplateProperty as TFileNameProperty).Value)), nil)) then
             Result := sfprError
-          else if not Succeeded(FFileOp.PerformOperations()) then
-            Result := sfprError
+          else begin
+            Res:= FFileOp.PerformOperations();
+            if Failed(Res) then
+            begin
+              if Res = COPYENGINE_E_USER_CANCELLED then
+                RaiseAbortOperation
+              else
+                Result := sfprError
+            end;
+          end;
         end
         else
           Result := sfprSkipped;

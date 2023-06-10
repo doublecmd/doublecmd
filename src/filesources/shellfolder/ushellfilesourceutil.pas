@@ -19,6 +19,7 @@ type
     destructor Destroy; override;
   end;
 
+  TCheckOperationState = function(): Boolean of object;
   TUpdateCopyStatisticsFunction = procedure(var NewStatistics: TFileSourceCopyOperationStatistics) of object;
   TUpdateDeleteStatisticsFunction = procedure(var NewStatistics: TFileSourceDeleteOperationStatistics) of object;
   TUpdateSetFilePropertyStatisticsFunction = procedure(var NewStatistics: TFileSourceSetFilePropertyOperationStatistics) of object;
@@ -27,6 +28,7 @@ type
 
   TFileOperationProgressSink = class(TInterfacedObject, IFileOperationProgressSink)
   private
+    FCheckOperationState: TCheckOperationState;
     FCopyStatistics: PFileSourceCopyOperationStatistics;
     FUpdateCopyStatistics: TUpdateCopyStatisticsFunction;
     FDeleteStatistics: PFileSourceDeleteOperationStatistics;
@@ -36,9 +38,9 @@ type
   protected
     procedure LogMessage(sMessage: String; logOptions: TLogOptions; logMsgType: TLogMsgType);
   public
-    constructor Create(AStatistics: PFileSourceCopyOperationStatistics; AUpdateStatistics: TUpdateCopyStatisticsFunction); reintroduce; overload;
-    constructor Create(AStatistics: PFileSourceDeleteOperationStatistics; AUpdateStatistics: TUpdateDeleteStatisticsFunction); reintroduce; overload;
-    constructor Create(AStatistics: PFileSourceSetFilePropertyOperationStatistics; AUpdateStatistics: TUpdateSetFilePropertyStatisticsFunction); reintroduce; overload;
+    constructor Create(AStatistics: PFileSourceCopyOperationStatistics; AUpdateStatistics: TUpdateCopyStatisticsFunction; ACheckOperationState: TCheckOperationState); reintroduce; overload;
+    constructor Create(AStatistics: PFileSourceDeleteOperationStatistics; AUpdateStatistics: TUpdateDeleteStatisticsFunction; ACheckOperationState: TCheckOperationState); reintroduce; overload;
+    constructor Create(AStatistics: PFileSourceSetFilePropertyOperationStatistics; AUpdateStatistics: TUpdateSetFilePropertyStatisticsFunction; ACheckOperationState: TCheckOperationState); reintroduce; overload;
   public
     function StartOperations: HResult; stdcall;
     function FinishOperations(hrResult: HResult): HResult; stdcall;
@@ -77,7 +79,7 @@ var
 implementation
 
 uses
-  DCOSUtils, DCConvertEncoding, uLng;
+  DCOSUtils, DCConvertEncoding, uShlObjAdditional, uLng;
 
 var
   AModule: HMODULE;
@@ -117,26 +119,32 @@ end;
 
 constructor TFileOperationProgressSink.Create(
   AStatistics: PFileSourceCopyOperationStatistics;
-  AUpdateStatistics: TUpdateCopyStatisticsFunction);
+  AUpdateStatistics: TUpdateCopyStatisticsFunction;
+  ACheckOperationState: TCheckOperationState);
 begin
   FCopyStatistics:= AStatistics;
   FUpdateCopyStatistics:= AUpdateStatistics;
+  FCheckOperationState:= ACheckOperationState;
 end;
 
 constructor TFileOperationProgressSink.Create(
   AStatistics: PFileSourceDeleteOperationStatistics;
-  AUpdateStatistics: TUpdateDeleteStatisticsFunction);
+  AUpdateStatistics: TUpdateDeleteStatisticsFunction;
+  ACheckOperationState: TCheckOperationState);
 begin
   FDeleteStatistics:= AStatistics;
   FUpdateDeleteStatistics:= AUpdateStatistics;
+  FCheckOperationState:= ACheckOperationState;
 end;
 
 constructor TFileOperationProgressSink.Create(
   AStatistics: PFileSourceSetFilePropertyOperationStatistics;
-  AUpdateStatistics: TUpdateSetFilePropertyStatisticsFunction);
+  AUpdateStatistics: TUpdateSetFilePropertyStatisticsFunction;
+  ACheckOperationState: TCheckOperationState);
 begin
   FSetFilePropertyStatistics:= AStatistics;
   FUpdateSetFilePropertyStatistics:= AUpdateStatistics;
+  FCheckOperationState:= ACheckOperationState;
 end;
 
 function TFileOperationProgressSink.StartOperations: HResult; stdcall;
@@ -181,7 +189,7 @@ function TFileOperationProgressSink.PostMoveItem(dwFlags: DWORD;
   psiItem: IShellItem; psiDestinationFolder: IShellItem; pszNewName: LPCWSTR;
   hrMove: HRESULT; psiNewlyCreated: IShellItem): HResult; stdcall;
 begin
-  if (log_cp_mv_ln in gLogOptions) then
+  if (log_cp_mv_ln in gLogOptions) and (hrMove <> COPYENGINE_E_USER_CANCELLED) then
   begin
     with FCopyStatistics^ do
     begin
@@ -232,7 +240,7 @@ function TFileOperationProgressSink.PostCopyItem(dwFlags: DWORD;
   psiItem: IShellItem; psiDestinationFolder: IShellItem; pszNewName: LPCWSTR;
   hrCopy: HRESULT; psiNewlyCreated: IShellItem): HResult; stdcall;
 begin
-  if (log_cp_mv_ln in gLogOptions) then
+  if (log_cp_mv_ln in gLogOptions) and (hrCopy <> COPYENGINE_E_USER_CANCELLED) then
   begin
     with FCopyStatistics^ do
     begin
@@ -270,7 +278,7 @@ var
   AText: String;
   sfgaoAttribs: SFGAOF = 0;
 begin
-  if log_delete in gLogOptions then
+  if (log_delete in gLogOptions) and (hrDelete <> COPYENGINE_E_USER_CANCELLED) then
   begin
     psiItem.GetAttributes(SFGAO_FOLDER, @sfgaoAttribs);
     if (sfgaoAttribs and SFGAO_FOLDER) = 0 then
@@ -333,7 +341,11 @@ begin
     FUpdateSetFilePropertyStatistics(FSetFilePropertyStatistics^);
   end;
 
-  Result:= S_OK;
+  if FCheckOperationState() then
+    Result:= S_OK
+  else begin
+    Result:= COPYENGINE_E_USER_CANCELLED;
+  end;
 end;
 
 function TFileOperationProgressSink.ResetTimer: HResult; stdcall;
