@@ -742,12 +742,7 @@ begin
     begin
       // Move within the same panel.
       if ATabIndex <> -1 then
-      begin
         Tabs.Move(FDraggedPageIndex, ATabIndex);
-        {$IFDEF LCLCOCOA}
-        GetPage(ATabIndex).MakeActive;
-        {$ENDIF}
-      end;
     end
     else if (SourceNotebook.FDraggedPageIndex < SourceNotebook.PageCount) then
     begin
