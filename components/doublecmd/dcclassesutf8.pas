@@ -57,6 +57,8 @@ type
   { TStringListEx }
 
   TStringListEx = class(TStringList)
+  protected
+    function DoCompareText(const S1, S2: String): PtrInt; override;
   public
     function IndexOfValue(const Value: String): Integer;
     procedure LoadFromFile(const FileName: String); override;
@@ -79,7 +81,7 @@ type
 implementation
 
 uses
-  DCOSUtils;
+  DCOSUtils, LazUTF8;
 
 { TFileStreamEx }
 
@@ -208,6 +210,14 @@ begin
 end;
 
 { TStringListEx }
+
+function TStringListEx.DoCompareText(const S1, S2: String): PtrInt;
+begin
+  if CaseSensitive then
+    Result:= UTF8CompareStr(S1, S2)
+  else
+    Result:= UTF8CompareText(S1, S2);
+end;
 
 function TStringListEx.IndexOfValue(const Value: String): Integer;
 var

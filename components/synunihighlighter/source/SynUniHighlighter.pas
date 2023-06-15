@@ -138,7 +138,7 @@ type
 implementation
 
 uses
-  LazUTF8Classes, Laz2_XMLRead;
+  Laz2_XMLRead;
 
 //==== TSynUniSyn ============================================================
 constructor TSynUniSyn.Create(AOwner: TComponent);
@@ -716,7 +716,7 @@ end;
 procedure TSynUniSyn.LoadFromFile(FileName: string);
 begin
   FFileName:= FileName;
-  LoadFromStream(TFileStreamUTF8.Create(FileName, fmOpenRead or fmShareDenyNone));
+  LoadFromStream(TFileStream.Create(FileName, fmOpenRead or fmShareDenyNone));
 end;
 
 procedure TSynUniSyn.SaveToStream(Stream: TStream; Rule: TSynRule);
@@ -1149,11 +1149,11 @@ end;
 procedure TSynUniSyn.LoadHglFromFile(FileName: string);
 //: Load Highlighter'a from file
 var
-  F: TFileStreamUTF8;
+  F: TFileStream;
 begin
   if not FileExists(FileName) then
     raise Exception.Create(ClassName + '.LoadHglFromFile - "'+FileName+'" does not exists.');
-  F := TFileStreamUTF8.Create(FileName, fmOpenRead or fmShareDenyWrite);
+  F := TFileStream.Create(FileName, fmOpenRead or fmShareDenyWrite);
   try
     LoadHglFromStream( F );
   finally
@@ -1164,11 +1164,11 @@ end;
 procedure TSynUniSyn.SaveHglToFile(FileName: string);
 //: Save Highlighter to file
 var
-  F: TFileStreamUTF8;
+  F: TFileStream;
 begin
   if FileName = '' then
     raise exception.Create(ClassName + '.SaveHglToFile - FileName is empty');
-  F := TFileStreamUTF8.Create(FileName, fmCreate);
+  F := TFileStream.Create(FileName, fmCreate);
   try
     SaveHglToStream( F );
   finally

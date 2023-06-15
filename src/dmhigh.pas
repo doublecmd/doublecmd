@@ -72,7 +72,7 @@ implementation
 
 uses
   Graphics, SynEditTypes, SynUniClasses, FileUtil, uHighlighterProcs, DCXmlConfig,
-  LCLType, DCJsonConfig, uGlobsPaths, LazUTF8Classes, DCOSUtils, DCStrUtils, uLng,
+  LCLType, DCJsonConfig, uGlobsPaths, DCClassesUtf8, DCOSUtils, DCStrUtils, uLng,
   uGlobs, uSysFolders, SynUniRules;
 
 const
@@ -414,10 +414,10 @@ var
   I, Index: Integer;
   AList: TStringList;
   AFileName: String = '';
-  ACache: TStringListUtf8;
+  ACache: TStringListEx;
   HighLighter: TSynCustomHighlighter;
 begin
-  ACache:= TStringListUtf8.Create;
+  ACache:= TStringListEx.Create;
   ACache.CaseSensitive:= FileNameCaseSensitive;
   if not gUseConfigInProgramDir then begin
     AFileName:= IncludeTrailingBackslash(GetAppDataDir) + 'highlighters' + ';';

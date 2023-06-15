@@ -29,7 +29,7 @@ unit uWCXmodule;
 interface
 
 uses
-  LCLType, Classes, Dialogs, LazUTF8Classes, dynlibs, SysUtils, uExtension,
+  LCLType, Classes, Dialogs, DCClassesUtf8, dynlibs, SysUtils, uExtension,
   uWCXprototypes, WcxPlugin, Extension, DCBasicTypes, DCXmlConfig, uClassesEx;
 
 Type
@@ -153,7 +153,7 @@ Type
 
   TWCXModuleList = class(TStringList)
   private
-    FModuleList: TStringListUTF8;
+    FModuleList: TStringListEx;
   private
     function GetAEnabled(Index: Integer): Boolean;
     function GetAExt(Index: Integer): String;
@@ -672,7 +672,7 @@ end;
 
 constructor TWCXModuleList.Create;
 begin
-  FModuleList:= TStringListUTF8.Create;
+  FModuleList:= TStringListEx.Create;
   FModuleList.Sorted:= True;
 end;
 

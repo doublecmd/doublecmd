@@ -27,7 +27,7 @@ unit DCJclAlternative;
 interface
 
 uses
-  Classes, SysUtils, fgl, Windows, LazUTF8Classes;
+  Classes, SysUtils, fgl, Windows;
 
 // JclBase.pas -----------------------------------------------------------------
 type
@@ -151,10 +151,6 @@ type
     property Objects[Index: Integer]: TObject read GetObject write PutObject;
     property Strings[Index: Integer]: WideString read Get write Put; default;
   end;
-
-// Classes.pas -----------------------------------------------------------------
-type
-  TFileStream = TFileStreamUTF8;
 
 // SysUtils.pas -----------------------------------------------------------------
 function FileExists(const FileName: String): Boolean; inline;
