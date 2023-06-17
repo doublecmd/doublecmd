@@ -1403,8 +1403,19 @@ begin
       end
     else
       case TargetExists(aNode, AbsoluteTargetFileName) of
+
         fsoterSkip:
-          Result := False;
+        begin
+          with FStatistics do
+          begin
+            Inc(DoneFiles);
+            Dec(TotalBytes, aNode.TheFile.Size);
+            if FVerify and (FMode = fsohmCopy) then
+              Dec(TotalBytes, aNode.TheFile.Size);
+            UpdateStatistics(FStatistics);
+          end;
+          Exit(False);
+        end;
 
         fsoterDeleted, fsoterNotExists:
           Result := MoveOrCopy(aNode.TheFile, AbsoluteTargetFileName, fsohcmDefault);
