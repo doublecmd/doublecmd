@@ -3,7 +3,7 @@
   -------------------------------------------------------------------------
   Simple exchangeable image file format reader
 
-  Copyright (C) 2016 Alexander Koblov (alexx2000@mail.ru)
+  Copyright (C) 2016-2023 Alexander Koblov (alexx2000@mail.ru)
 
   Permission is hereby granted, free of charge, to any person obtaining
   a copy of this software and associated documentation files (the
@@ -103,12 +103,16 @@ function TExifReader.ReadString(Offset, Count: Int32): String;
 var
   AOffset: Int64;
 begin
-  AOffset:= Self.Seek(0, soCurrent);
-  Self.Seek(Offset, soBeginning);
-  SetLength(Result, Count);
-  Self.ReadBuffer(Result[1], Count);
-  Result:= PAnsiChar(Result);
-  Self.Seek(AOffset, soBeginning);
+  if Count <= 4 then
+    Result:= PAnsiChar(@Offset)
+  else begin
+    AOffset:= Self.Seek(0, soCurrent);
+    Self.Seek(Offset + FOffset, soBeginning);
+    SetLength(Result, Count);
+    Self.ReadBuffer(Result[1], Count);
+    Result:= PAnsiChar(Result);
+    Self.Seek(AOffset, soBeginning);
+  end;
 end;
 
 procedure TExifReader.ReadTag(var ATag: TTag);
@@ -128,7 +132,8 @@ begin
     case ATag.Typ of
       1, 6: ATag.Offset:= UInt8(ATag.Offset);
       3, 8: ATag.Offset:= SwapEndian(UInt16(ATag.Offset));
-      else  ATag.Offset:= SwapEndian(ATag.Offset);
+      else if (ATag.Typ <> 2) or (ATag.Count > 4) then
+        ATag.Offset:= SwapEndian(ATag.Offset);
     end;
   end;
 end;
@@ -156,11 +161,11 @@ begin
        end;
      $010f: // Shows manufacturer of digicam
        begin
-         FMake:= ReadString(ATag.Offset + FOffset, ATag.Count);
+         FMake:= ReadString(ATag.Offset, ATag.Count);
        end;
      $0110: // Shows model number of digicam
        begin
-         FModel:= ReadString(ATag.Offset + FOffset, ATag.Count);
+         FModel:= ReadString(ATag.Offset, ATag.Count);
        end;
      $0112: // The orientation of the camera relative to the scene
        begin
@@ -184,7 +189,7 @@ begin
       case ATag.ID of
         $9003: // Date/Time of original image taken
           begin
-            FDateTimeOriginal:= ReadString(ATag.Offset + FOffset, ATag.Count);
+            FDateTimeOriginal:= ReadString(ATag.Offset, ATag.Count);
           end;
         // Image pixel width
         $A002: if FImageWidth = 0 then FImageWidth := ATag.Offset;
