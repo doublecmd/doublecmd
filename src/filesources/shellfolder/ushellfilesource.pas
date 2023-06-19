@@ -20,7 +20,6 @@ type
     function CreateFolder(AParent: IShellFolder2; const Name: String): HRESULT;
     function FindFolder(const Path: String; out AValue: IShellFolder2): HRESULT;
     function FindObject(const AObject: String; out AValue: PItemIDList): HRESULT;
-    function ParseDisplayName(const AName: String; out PIDL: PItemIDList): HRESULT;
     function FindObject(AParent: IShellFolder2; const AName: String; out AValue: PItemIDList): HRESULT;
   end;
 
@@ -47,7 +46,6 @@ type
     function CreateFolder(AParent: IShellFolder2; const Name: String): HRESULT;
     function FindFolder(const Path: String; out AValue: IShellFolder2): HRESULT;
     function FindObject(const AObject: String; out AValue: PItemIDList): HRESULT;
-    function ParseDisplayName(const AName: String; out PIDL: PItemIDList): HRESULT;
     function FindObject(AParent: IShellFolder2; const AName: String; out AValue: PItemIDList): HRESULT;
 
     function CreateDirectory(const Path: String): Boolean; override;
@@ -126,7 +124,7 @@ begin
     SizeProperty := TFileSizeProperty.Create;
     ModificationTimeProperty := TFileModificationDateTimeProperty.Create;
     CreationTimeProperty := TFileCreationDateTimeProperty.Create;
-    LinkProperty := TFileLinkProperty.Create;
+    LinkProperty := TFileShellProperty.Create;
     CommentProperty := TFileCommentProperty.Create;
   end;
 end;
@@ -172,12 +170,6 @@ begin
       CoTaskMemFree(AItemPIDL);
     end;
   end;
-end;
-
-function TShellFileSource.ParseDisplayName(const AName: String; out
-  PIDL: PItemIDList): HRESULT;
-begin
-  Result:= uShellFolder.ParseDisplayName(FDesktopFolder, AName, PIDL);
 end;
 
 function TShellFileSource.FindObject(AParent: IShellFolder2;

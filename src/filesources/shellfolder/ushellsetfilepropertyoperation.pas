@@ -84,7 +84,6 @@ end;
 
 procedure TShellSetFilePropertyOperation.Initialize;
 var
-  AName: String;
   Index: Integer;
   AObject: PItemIDList;
 begin
@@ -94,8 +93,7 @@ begin
   try
     for Index := 0 to TargetFiles.Count - 1 do
     begin
-      AName:= TargetFiles[Index].LinkProperty.LinkTo;
-      OleCheck(FShellFileSource.ParseDisplayName(AName, AObject));
+      AObject:= ILClone(TFileShellProperty(TargetFiles[Index].LinkProperty).Item);
       FSourceFilesTree.Add(AObject);
     end;
   except

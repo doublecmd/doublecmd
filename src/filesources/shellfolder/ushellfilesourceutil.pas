@@ -7,7 +7,7 @@ interface
 uses
   Classes, SysUtils,
   Windows, ActiveX, ShlObj, ComObj, ShlWAPI, ShellAPI,
-  uShellFolder, uShellFileOperation, uFileSourceCopyOperation,
+  uShellFolder, uShellFileOperation, uFileSourceCopyOperation, uFileProperty,
   uFileSourceDeleteOperation, uFileSourceSetFilePropertyOperation, uGlobs, uLog;
 
 type
@@ -17,6 +17,18 @@ type
   TItemList = class(TFPList)
   public
     destructor Destroy; override;
+  end;
+
+  { TFileShellProperty }
+
+  TFileShellProperty = class(TFileLinkProperty)
+  private
+    FItem: PItemIDList;
+  public
+    destructor Destroy; override;
+    function Clone: TFileLinkProperty; override;
+    procedure CloneTo(FileProperty: TFileProperty); override;
+    property Item: PItemIDList read FItem write FItem;
   end;
 
   TCheckOperationState = function(): Boolean of object;
@@ -60,6 +72,8 @@ type
     function ResumeTimer: HResult; stdcall;
   end;
 
+  function SHBindToParent(pidl: LPCITEMIDLIST; constref riid: TREFIID; out ppv; var ppidlLast: LPCITEMIDLIST): HRESULT; stdcall; external Shell32;
+
 var
   SHCreateItemWithParent: function(pidlParent: PCIDLIST_ABSOLUTE; psfParent: IShellFolder;
                                    pidl: PCUITEMID_CHILD; const riid: REFIID; out ppvItem): HRESULT; stdcall;
@@ -95,6 +109,33 @@ begin
     CoTaskMemFree(AItem);
   end;
   inherited Destroy;
+end;
+
+{ TFileShellProperty }
+
+destructor TFileShellProperty.Destroy;
+begin
+  inherited Destroy;
+  if Assigned(FItem) then CoTaskMemFree(FItem);
+end;
+
+function TFileShellProperty.Clone: TFileLinkProperty;
+begin
+  Result := TFileShellProperty.Create;
+  CloneTo(Result);
+end;
+
+procedure TFileShellProperty.CloneTo(FileProperty: TFileProperty);
+begin
+  if Assigned(FileProperty) then
+  begin
+    inherited CloneTo(FileProperty);
+
+    if FileProperty is TFileShellProperty then
+    begin
+      TFileShellProperty(FileProperty).FItem := ILClone(Self.FItem);
+    end;
+  end;
 end;
 
 { TFileOperationProgressSink }

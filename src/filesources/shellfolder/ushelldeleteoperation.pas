@@ -73,7 +73,6 @@ end;
 
 procedure TShellDeleteOperation.Initialize;
 var
-  AName: String;
   Index: Integer;
   AObject: PItemIDList;
 begin
@@ -84,8 +83,7 @@ begin
   try
     for Index := 0 to FilesToDelete.Count - 1 do
     begin
-      AName := FilesToDelete[Index].LinkProperty.LinkTo;
-      OleCheck(FShellFileSource.ParseDisplayName(AName, AObject));
+      AObject:= ILClone(TFileShellProperty(FilesToDelete[Index].LinkProperty).Item);
       FSourceFilesTree.Add(AObject);
     end;
   except

@@ -78,7 +78,6 @@ end;
 
 procedure TShellMoveOperation.Initialize;
 var
-  AName: String;
   Index: Integer;
   AObject: PItemIDList;
   AFolder: IShellFolder2;
@@ -89,8 +88,7 @@ begin
   try
     for Index := 0 to SourceFiles.Count - 1 do
     begin
-      AName:= SourceFiles[Index].LinkProperty.LinkTo;
-      OleCheck(FShellFileSource.ParseDisplayName(AName, AObject));
+      AObject:= ILClone(TFileShellProperty(SourceFiles[Index].LinkProperty).Item);
       FSourceFilesTree.Add(AObject);
     end;
     OleCheck(FShellFileSource.FindFolder(TargetPath, AFolder));

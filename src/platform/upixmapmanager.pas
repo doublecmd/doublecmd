@@ -124,7 +124,6 @@ type
     FiEmblemOnline: PtrInt;
     FiEmblemOffline: PtrInt;
     FOneDrivePath: String;
-    FDesktopFolder: IShellFolder;
     {$ELSEIF DEFINED(DARWIN)}
     FUseSystemTheme: Boolean;
     {$ELSEIF DEFINED(UNIX) AND NOT DEFINED(HAIKU)}
@@ -362,7 +361,8 @@ uses
   {$ENDIF}
   {$IFDEF MSWINDOWS}
     , ActiveX, CommCtrl, ShellAPI, Windows, DCFileAttributes, uBitmap, uGdiPlus,
-      IntfGraphics, DCConvertEncoding, uShlObjAdditional, uShellFolder
+      IntfGraphics, DCConvertEncoding, uShlObjAdditional, uShellFolder,
+      uShellFileSourceUtil
   {$ELSE}
     , StrUtils, Types, DCBasicTypes
   {$ENDIF}
@@ -1343,27 +1343,21 @@ function TPixMapManager.GetShellFolderIcon(AFile: TFile): PtrInt;
 const
   uFlags: UINT = SHGFI_SYSICONINDEX or SHGFI_PIDL;
 var
-  PIDL: PItemIDList;
   FileInfo: TSHFileInfoW;
 begin
-  if Succeeded(ParseDisplayName(FDesktopFolder, AFile.LinkProperty.LinkTo, PIDL)) then
-  try
-    if (SHGetFileInfoW(PWideChar(PIDL), 0, {%H-}FileInfo,
-                       SizeOf(FileInfo), uFlags) <> 0) then
-    begin
-      Result := FileInfo.iIcon + SystemIconIndexStart;
-      {$IF DEFINED(LCLQT5)}
-      FPixmapsLock.Acquire;
-      try
-        Result := CheckAddSystemIcon(Result);
-      finally
-        FPixmapsLock.Release;
-      end;
-      {$ENDIF}
-      Exit;
+  if (SHGetFileInfoW(PWideChar(TFileShellProperty(AFile.LinkProperty).Item),
+                     0, {%H-}FileInfo, SizeOf(FileInfo), uFlags) <> 0) then
+  begin
+    Result := FileInfo.iIcon + SystemIconIndexStart;
+    {$IF DEFINED(LCLQT5)}
+    FPixmapsLock.Acquire;
+    try
+      Result := CheckAddSystemIcon(Result);
+    finally
+      FPixmapsLock.Release;
     end;
-  finally
-    CoTaskMemFree(PIDL);
+    {$ENDIF}
+    Exit;
   end;
   // Could not retrieve the icon
   if AFile.IsDirectory then
@@ -1484,7 +1478,6 @@ begin
     iIconSize := SHIL_EXTRALARGE;
   end;
 
-  SHGetDesktopFolder(FDesktopFolder);
   FSysImgList := SHGetSystemImageList(iIconSize);
   {$ENDIF}
 

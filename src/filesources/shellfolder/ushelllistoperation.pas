@@ -42,64 +42,71 @@ var
   PIDL: PItemIDList;
   AValue: OleVariant;
   rgfInOut: LongWord;
+  AParent: PItemIDList;
   NumIDs: LongWord = 0;
   EnumIDList: IEnumIDList;
 begin
-  OleCheckUTF8(AFolder.EnumObjects(0, grfFlags, EnumIDList));
-
-  while EnumIDList.Next(1, PIDL, NumIDs) = S_OK do
+  OleCheckUTF8(SHGetIDListFromObject(AFolder, AParent));
   try
-    CheckOperationState;
+    OleCheckUTF8(AFolder.EnumObjects(0, grfFlags, EnumIDList));
 
-    aFile:= TShellFileSource.CreateFile(Path);
+    while EnumIDList.Next(1, PIDL, NumIDs) = S_OK do
+    try
+      CheckOperationState;
 
-    AFile.Name:= GetDisplayNameEx(AFolder, PIDL, SHGDN_INFOLDER);
-    AFile.LinkProperty.LinkTo:= GetDisplayName(AFolder, PIDL, SHGDN_FORPARSING);
+      aFile:= TShellFileSource.CreateFile(Path);
 
-    rgfInOut:= SFGAOF_DEFAULT;
+      AFile.Name:= GetDisplayNameEx(AFolder, PIDL, SHGDN_INFOLDER);
+      TFileShellProperty(AFile.LinkProperty).Item:= ILCombine(AParent, PIDL);
+      AFile.LinkProperty.LinkTo:= GetDisplayName(AFolder, PIDL, SHGDN_INFOLDER or SHGDN_FORPARSING);
 
-    if Succeeded(AFolder.GetAttributesOf(1, PIDL, rgfInOut)) then
-    begin
-      if (rgfInOut and SFGAO_STORAGE <> 0) then
+      rgfInOut:= SFGAOF_DEFAULT;
+
+      if Succeeded(AFolder.GetAttributesOf(1, PIDL, rgfInOut)) then
       begin
-        AFile.Attributes:= FILE_ATTRIBUTE_DEVICE or FILE_ATTRIBUTE_VIRTUAL;
+        if (rgfInOut and SFGAO_STORAGE <> 0) then
+        begin
+          AFile.Attributes:= FILE_ATTRIBUTE_DEVICE or FILE_ATTRIBUTE_VIRTUAL;
+        end;
+        if (rgfInOut and SFGAO_FOLDER <> 0) then
+        begin
+          AFile.Attributes:= AFile.Attributes or FILE_ATTRIBUTE_DIRECTORY;
+        end;
+        if (rgfInOut and SFGAO_HIDDEN <> 0) then
+        begin
+          AFile.Attributes:= AFile.Attributes or FILE_ATTRIBUTE_HIDDEN;
+        end;
       end;
-      if (rgfInOut and SFGAO_FOLDER <> 0) then
-      begin
-        AFile.Attributes:= AFile.Attributes or FILE_ATTRIBUTE_DIRECTORY;
+
+      AValue:= GetDetails(AFolder, PIDL, SCID_FileSize);
+      if VarIsOrdinal(AValue) then
+        AFile.Size:= AValue
+      else if AFile.IsDirectory then
+        AFile.Size:= 0
+      else begin
+        AFile.SizeProperty.IsValid:= False;
       end;
-      if (rgfInOut and SFGAO_HIDDEN <> 0) then
-      begin
-        AFile.Attributes:= AFile.Attributes or FILE_ATTRIBUTE_HIDDEN;
+
+      AValue:= GetDetails(AFolder, PIDL, SCID_DateModified);
+      if AValue <> Unassigned then
+        AFile.ModificationTime:= AValue
+      else begin
+        AFile.ModificationTimeProperty.IsValid:= False;
       end;
-    end;
 
-    AValue:= GetDetails(AFolder, PIDL, SCID_FileSize);
-    if VarIsOrdinal(AValue) then
-      AFile.Size:= AValue
-    else if AFile.IsDirectory then
-      AFile.Size:= 0
-    else begin
-      AFile.SizeProperty.IsValid:= False;
-    end;
+      AValue:= GetDetails(AFolder, PIDL, SCID_DateCreated);
+      if AValue <> Unassigned then
+        AFile.CreationTime:= AValue
+      else begin
+        AFile.CreationTimeProperty.IsValid:= False;
+      end;
 
-    AValue:= GetDetails(AFolder, PIDL, SCID_DateModified);
-    if AValue <> Unassigned then
-      AFile.ModificationTime:= AValue
-    else begin
-      AFile.ModificationTimeProperty.IsValid:= False;
+      FFiles.Add(AFile);
+    finally
+      CoTaskMemFree(PIDL);
     end;
-
-    AValue:= GetDetails(AFolder, PIDL, SCID_DateCreated);
-    if AValue <> Unassigned then
-      AFile.CreationTime:= AValue
-    else begin
-      AFile.CreationTimeProperty.IsValid:= False;
-    end;
-
-    FFiles.Add(AFile);
   finally
-    CoTaskMemFree(PIDL);
+    CoTaskMemFree(AParent);
   end;
 end;
 
@@ -119,48 +126,53 @@ var
 begin
   OleCheckUTF8(SHGetDesktopFolder(DesktopFolder));
   OleCheckUTF8(SHGetFolderLocation(0, CSIDL_DRIVES, 0, 0, {%H-}DrivesPIDL));
-  OleCheckUTF8(DesktopFolder.BindToObject(DrivesPIDL, nil, IID_IShellFolder2, Pointer(AFolder)));
-
-  OleCheckUTF8(AFolder.EnumObjects(0, SHCONTF_FOLDERS or SHCONTF_STORAGE, EnumIDList));
-
-  while EnumIDList.Next(1, PIDL, NumIDs) = S_OK do
   try
-    CheckOperationState;
+    OleCheckUTF8(DesktopFolder.BindToObject(DrivesPIDL, nil, IID_IShellFolder2, Pointer(AFolder)));
 
-    aFile:= TShellFileSource.CreateFile(Path);
+    OleCheckUTF8(AFolder.EnumObjects(0, SHCONTF_FOLDERS or SHCONTF_STORAGE, EnumIDList));
 
-    AFile.Name:= GetDisplayNameEx(AFolder, PIDL, SHGDN_INFOLDER);
-    AFile.LinkProperty.LinkTo:= GetDisplayName(AFolder, PIDL, SHGDN_FORPARSING);
+    while EnumIDList.Next(1, PIDL, NumIDs) = S_OK do
+    try
+      CheckOperationState;
 
-    rgfInOut:= SFGAOF_DEFAULT;
-    AFile.Attributes:= FILE_ATTRIBUTE_DEVICE or FILE_ATTRIBUTE_VIRTUAL;
+      aFile:= TShellFileSource.CreateFile(Path);
 
-    if Succeeded(AFolder.GetAttributesOf(1, PIDL, rgfInOut)) then
-    begin
-      if (SFGAO_FILESYSTEM and rgfInOut) <> 0 then
+      AFile.Name:= GetDisplayNameEx(AFolder, PIDL, SHGDN_INFOLDER);
+      TFileShellProperty(AFile.LinkProperty).Item:= ILCombine(DrivesPIDL, PIDL);
+      AFile.LinkProperty.LinkTo:= GetDisplayName(AFolder, PIDL, SHGDN_INFOLDER or SHGDN_FORPARSING);
+
+      rgfInOut:= SFGAOF_DEFAULT;
+      AFile.Attributes:= FILE_ATTRIBUTE_DEVICE or FILE_ATTRIBUTE_VIRTUAL;
+
+      if Succeeded(AFolder.GetAttributesOf(1, PIDL, rgfInOut)) then
       begin
-        AFile.Attributes:= AFile.Attributes or FILE_ATTRIBUTE_NORMAL;
-      end
-      else if (rgfInOut and SFGAO_FOLDER <> 0) then
-      begin
-        AFile.Attributes:= AFile.Attributes or FILE_ATTRIBUTE_DIRECTORY;
+        if (SFGAO_FILESYSTEM and rgfInOut) <> 0 then
+        begin
+          AFile.Attributes:= AFile.Attributes or FILE_ATTRIBUTE_NORMAL;
+        end
+        else if (rgfInOut and SFGAO_FOLDER <> 0) then
+        begin
+          AFile.Attributes:= AFile.Attributes or FILE_ATTRIBUTE_DIRECTORY;
+        end;
       end;
+
+      AFile.ModificationTimeProperty.IsValid:= False;
+
+      AValue:= GetDetails(AFolder, PIDL, SCID_Capacity);
+      if VarIsOrdinal(AValue) then
+        AFile.Size:= AValue
+      else if AFile.IsDirectory then
+        AFile.Size:= 0
+      else begin
+        AFile.SizeProperty.IsValid:= False;
+      end;
+
+      FFiles.Add(AFile);
+    finally
+      CoTaskMemFree(PIDL);
     end;
-
-    AFile.ModificationTimeProperty.IsValid:= False;
-
-    AValue:= GetDetails(AFolder, PIDL, SCID_Capacity);
-    if VarIsOrdinal(AValue) then
-      AFile.Size:= AValue
-    else if AFile.IsDirectory then
-      AFile.Size:= 0
-    else begin
-      AFile.SizeProperty.IsValid:= False;
-    end;
-
-    FFiles.Add(AFile);
   finally
-    CoTaskMemFree(PIDL);
+    CoTaskMemFree(DrivesPIDL);
   end;
 end;
 

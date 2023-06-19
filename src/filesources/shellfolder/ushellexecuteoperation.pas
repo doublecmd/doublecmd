@@ -38,8 +38,8 @@ type
 implementation
 
 uses
-  Windows, ActiveX, ComObj, ShlObj, ShellAPI, DCOSUtils,
-  DCConvertEncoding, fMain;
+  Windows, ComObj, ShlObj, ShellAPI, DCOSUtils,
+  DCConvertEncoding, uShellFileSourceUtil,  fMain;
 
 constructor TShellExecuteOperation.Create(aTargetFileSource: IFileSource;
   var aExecutableFile: TFile; aCurrentPath, aVerb: String);
@@ -58,8 +58,8 @@ var
 begin
   if Verb = 'properties' then
   try
-    OleCheck(FShellFileSource.FindFolder(CurrentPath, AFolder));
-    OleCheck(FShellFileSource.FindObject(AFolder, ExecutableFile.Name, PIDL));
+    PIDL:= TFileShellProperty(ExecutableFile.LinkProperty).Item;
+    OleCheck(SHBindToParent(PIDL, IID_IShellFolder2, AFolder, PIDL));
     OleCheck(AFolder.GetUIObjectOf(frmMain.Handle, 1, PIDL, IID_IContextMenu, nil, Menu));
     if Assigned(Menu) then
     begin
@@ -84,19 +84,13 @@ begin
   else begin
     AExecInfo:= Default(TShellExecuteInfoW);
     AExecInfo.cbSize:= SizeOf(TShellExecuteInfoW);
+    AExecInfo.lpIDList:= TFileShellProperty(ExecutableFile.LinkProperty).Item;
+    AExecInfo.fMask:= SEE_MASK_IDLIST;
 
-    if Failed(FShellFileSource.FindObject(AbsolutePath, AExecInfo.lpIDList)) then
-      FExecuteOperationResult:= fseorError
+    if ShellExecuteExW(@AExecInfo) then
+      FExecuteOperationResult:= fseorSuccess
     else begin
-      AExecInfo.fMask:= SEE_MASK_IDLIST;
-
-      if ShellExecuteExW(@AExecInfo) then
-        FExecuteOperationResult:= fseorSuccess
-      else begin
-        FExecuteOperationResult:= fseorError;
-      end;
-
-      CoTaskMemFree(AExecInfo.lpIDList);
+      FExecuteOperationResult:= fseorError;
     end;
   end;
 end;
