@@ -57,10 +57,11 @@ type
     FImageWidth: UInt16;
     FImageHeight: UInt16;
     FOrientation: UInt16;
-    FDateTimeOriginal: String;
+    FDateTimeOriginal: TDateTime;
   private
     procedure Reset;
     function ReadString(Offset, Count: Int32): String;
+    function ReadDateTime(Offset, Count: Int32): TDateTime;
     procedure ReadTag(var ATag: TTag);
     function DoImageFileDirectory: Boolean;
   public
@@ -70,7 +71,7 @@ type
     property ImageWidth: UInt16 read FImageWidth;
     property ImageHeight: UInt16 read FImageHeight;
     property Orientation: UInt16 read FOrientation;
-    property DateTimeOriginal: String read FDateTimeOriginal;
+    property DateTimeOriginal: TDateTime read FDateTimeOriginal;
   end;
 
 resourcestring
@@ -96,7 +97,7 @@ begin
   FOrientation:= 0;
   FMake:= EmptyStr;
   FModel:= EmptyStr;
-  FDateTimeOriginal:= EmptyStr;
+  FDateTimeOriginal:= 0;
 end;
 
 function TExifReader.ReadString(Offset, Count: Int32): String;
@@ -112,6 +113,27 @@ begin
     Self.ReadBuffer(Result[1], Count);
     Result:= PAnsiChar(Result);
     Self.Seek(AOffset, soBeginning);
+  end;
+end;
+
+function TExifReader.ReadDateTime(Offset, Count: Int32): TDateTime;
+var
+  S: String;
+  SystemTime: TSystemTime;
+begin
+  S:= ReadString(Offset, Count);
+  try
+    SystemTime.Millisecond:= 0;
+    // Data format is "YYYY:MM:DD HH:MM:SS"
+    SystemTime.Year:= StrToDWord(Copy(S, 1, 4));
+    SystemTime.Month:= StrToDWord(Copy(S, 6, 2));
+    SystemTime.Day:= StrToDWord(Copy(S, 9, 2));
+    SystemTime.Hour:= StrToDWord(Copy(S, 12, 2));
+    SystemTime.Minute:= StrToDWord(Copy(S, 15, 2));
+    SystemTime.Second:= StrToDWord(Copy(S, 18, 2));
+    Result:= SystemTimeToDateTime(SystemTime);
+  except
+    Result:= 0;
   end;
 end;
 
@@ -189,7 +211,7 @@ begin
       case ATag.ID of
         $9003: // Date/Time of original image taken
           begin
-            FDateTimeOriginal:= ReadString(ATag.Offset, ATag.Count);
+            FDateTimeOriginal:= ReadDateTime(ATag.Offset, ATag.Count);
           end;
         // Image pixel width
         $A002: if FImageWidth = 0 then FImageWidth := ATag.Offset;

@@ -99,7 +99,7 @@ begin
   AddField(rsImageWidth, ft_numeric_32);
   AddField(rsImageHeight, ft_numeric_32);
   AddField(rsOrientation, ft_numeric_32);
-  AddField(rsDateTimeOriginal, ft_string);
+  AddField(rsDateTimeOriginal, ft_datetime);
 end;
 
 procedure TExifWdx.CallContentSetDefaultParams;
@@ -135,7 +135,7 @@ begin
       2: if FExif.ImageWidth > 0 then Result:= FExif.ImageWidth;
       3: if FExif.ImageHeight > 0 then Result:= FExif.ImageHeight;
       4: if FExif.Orientation > 0 then Result:= FExif.Orientation;
-      5: if Length(FExif.DateTimeOriginal) > 0 then Result:= FExif.DateTimeOriginal;
+      5: if FExif.DateTimeOriginal > 0 then Result:= FExif.DateTimeOriginal;
     end;
   finally
     LeaveCriticalSection(FMutex);
@@ -155,7 +155,7 @@ begin
       2: if FExif.ImageWidth > 0 then Result:= IntToStr(FExif.ImageWidth);
       3: if FExif.ImageHeight > 0 then Result:= IntToStr(FExif.ImageHeight);
       4: if FExif.Orientation > 0 then Result:= IntToStr(FExif.Orientation);
-      5: Result:= FExif.DateTimeOriginal;
+      5: Result:= DateTimeToStr(FExif.DateTimeOriginal);
     end;
   finally
     LeaveCriticalSection(FMutex);
