@@ -68,6 +68,9 @@ type
 {$IF DEFINED(LCLWIN32)}
     procedure CreateWnd; override;
 {$ENDIF}
+{$IF DEFINED(LCLCOCOA)}
+    procedure TextChanged; override;
+{$ENDIF}
     procedure DoExit; override;
     procedure VisibleChanged; override;
     procedure KeyDown(var Key: Word; Shift: TShiftState); override;
@@ -359,6 +362,17 @@ end;
 
 {$ENDIF}
 
+
+{$IF DEFINED(LCLCOCOA)}
+procedure TKASPathEdit.TextChanged;
+begin
+  Inherited;
+  // TextChanged is called by user input, "if Modified" is not need
+  if FAutoComplete then AutoComplete(Text);
+end;
+{$ENDIF}
+
+
 procedure TKASPathEdit.setTextAndSelect( newText:String );
 var
   start: Integer;
@@ -465,6 +479,7 @@ end;
 
 procedure TKASPathEdit.KeyUpAfterInterface(var Key: Word; Shift: TShiftState);
 begin
+{$IF not DEFINED(LCLCOCOA)}
   if (FKeyDown = Key) and FAutoComplete and not (Key in [VK_ESCAPE, VK_RETURN, VK_SELECT, VK_UP, VK_DOWN]) then
   begin
     if Modified then
@@ -473,6 +488,7 @@ begin
       AutoComplete(Text);
     end;
   end;
+{$ENDIF}
   inherited KeyUpAfterInterface(Key, Shift);
 {$IF DEFINED(LCLWIN32)}
   // Windows auto-completer eats the TAB so LCL doesn't get it and doesn't move to next control.
