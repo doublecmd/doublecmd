@@ -621,6 +621,7 @@ var
   gViewerLineSpacing: Integer;
   gViewerAutoCopy: Boolean;
   gViewerSynEditMask: String;
+  gViewerJpegQuality: Integer;
 
   { Editor }
   gEditWaitTime: Integer;
@@ -2059,6 +2060,7 @@ begin
   gPrintMargins:= Classes.Rect(200, 200, 200, 200);
   gViewerAutoCopy := True;
   gViewerSynEditMask := AllFilesMask;
+  gViewerJpegQuality := 80;
 
   { Editor }
   gEditWaitTime := 2000;
@@ -3149,6 +3151,7 @@ begin
       gTextPosition := GetValue(Node, 'TextPosition',  gTextPosition);
       gViewerAutoCopy := GetValue(Node, 'AutoCopy',  gViewerAutoCopy);
       gViewerSynEditMask := GetValue(Node, 'SynEditMask', gViewerSynEditMask);
+      gViewerJpegQuality := GetValue(Node, 'JpegQuality', gViewerJpegQuality);
       if LoadedConfigVersion < 7 then
       begin
         gThumbSave := GetValue(Node, 'SaveThumbnails', gThumbSave);
@@ -3735,6 +3738,7 @@ begin
     SetValue(Node, 'TextPosition', gTextPosition);
     SetValue(Node, 'AutoCopy', gViewerAutoCopy);
     SetValue(Node, 'SynEditMask', gViewerSynEditMask);
+    SetValue(Node, 'JpegQuality', gViewerJpegQuality);
 
     { Editor }
     Node := FindNode(Root, 'Editor',True);

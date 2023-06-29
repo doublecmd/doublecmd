@@ -3245,7 +3245,7 @@ begin
     try
       CreatePreview(FileList.Strings[iActiveFile], iActiveFile, True);
       sExt:= ExtractFileExt(FileList.Strings[iActiveFile]);
-      SaveImageAs(sExt, True, 80);
+      SaveImageAs(sExt, True, gViewerJpegQuality);
       CreatePreview(FileList.Strings[iActiveFile], iActiveFile);
     finally
       DrawPreview.EndUpdate;

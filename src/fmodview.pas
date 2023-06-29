@@ -177,6 +177,8 @@ begin
       sExt:= '.jpg';
       tbQuality.Enabled:=true;
       lblQuality.Enabled:=True;
+      tbQuality.Position:=gViewerJpegQuality;
+      teQuality.Text:=IntToStr(gViewerJpegQuality);
     end;
 end;
 
