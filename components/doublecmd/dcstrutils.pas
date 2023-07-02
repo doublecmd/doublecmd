@@ -709,7 +709,7 @@ begin
 
   if PathToCheckLength > BasePathLength then
   begin
-    if CompareStr(Copy(sPathToCheck, 1, BasePathLength), sBasePath) = 0 then
+    if mbCompareFileNames(Copy(sPathToCheck, 1, BasePathLength), sBasePath) then
     begin
       if AllowSubDirs then
         Result := True
@@ -734,9 +734,9 @@ begin
   else
     Result := AllowSame and
       (((PathToCheckLength = BasePathLength) and
-        (CompareStr(sPathToCheck, sBasePath) = 0)) or
+        (mbCompareFileNames(sPathToCheck, sBasePath))) or
        ((PathToCheckLength = BasePathLength - 1) and
-        (CompareStr(Copy(sBasePath, 1, PathToCheckLength), sPathToCheck) = 0)));
+        (mbCompareFileNames(Copy(sBasePath, 1, PathToCheckLength), sPathToCheck))));
 end;
 
 function ExtractDirLevel(const sPrefix, sPath: String): String;

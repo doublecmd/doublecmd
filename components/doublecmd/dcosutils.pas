@@ -1488,11 +1488,11 @@ end;
 function mbCompareFileNames(const FileName1, FileName2: String): Boolean; inline;
 {$IF DEFINED(WINDOWS) OR DEFINED(DARWIN)}
 begin
-  Result:= (WideCompareText(CeUtf8ToUtf16(FileName1), CeUtf8ToUtf16(FileName2)) = 0);
+  Result:= (UnicodeCompareText(CeUtf8ToUtf16(FileName1), CeUtf8ToUtf16(FileName2)) = 0);
 end;
 {$ELSE}
 begin
-  Result:= (WideCompareStr(CeUtf8ToUtf16(FileName1), CeUtf8ToUtf16(FileName2)) = 0);
+  Result:= (UnicodeCompareStr(CeUtf8ToUtf16(FileName1), CeUtf8ToUtf16(FileName2)) = 0);
 end;
 {$ENDIF}
 

@@ -534,7 +534,7 @@ begin
         Header := TWCXHeader(AFileList.Items[I]);
         if FPS_ISDIR(Header.FileAttr) and (Length(Header.FileName) > 0) then
         begin
-          if NewDir = IncludeTrailingPathDelimiter(GetRootDir() + Header.FileName) then
+          if mbCompareFileNames(NewDir, IncludeTrailingPathDelimiter(GetRootDir() + Header.FileName)) then
             Exit(True);
         end;
       end;
