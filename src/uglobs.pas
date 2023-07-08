@@ -2539,6 +2539,14 @@ begin
     gPreviousVersion:= GetAttr(Root, 'DCVersion', EmptyStr);
     LoadedConfigVersion := GetAttr(Root, 'ConfigVersion', ConfigVersion);
 
+    { Create config backup }
+    if (LoadedConfigVersion < ConfigVersion) then
+    try
+      WriteToFile(gpCfgDir + 'doublecmd-' + IntToStr(LoadedConfigVersion) + '.bak');
+    except
+      // Ignore
+    end;
+
     if (LoadedConfigVersion < 13) then
     begin
       DeleteNode(Root, 'Configuration/UseConfigInProgramDir');
