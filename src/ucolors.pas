@@ -344,7 +344,7 @@ begin
 
     LoadedConfigVersion := GetAttr(Root, 'ConfigVersion', ConfigVersion);
 
-    if (LoadedConfigVersion >= ConfigVersion) then Exit;
+    if (LoadedConfigVersion >= 14) then Exit;
 
     ColorTheme:= Current;
 

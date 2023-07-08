@@ -366,7 +366,7 @@ inherited frmOptionsCustomColumns: TfrmOptionsCustomColumns
         7
         0
         0
-        'Delete'
+        'Column'
         1
         0
         'Caption'
@@ -384,7 +384,7 @@ inherited frmOptionsCustomColumns: TfrmOptionsCustomColumns
         'Move'
         6
         0
-        'Config'
+        'Delete'
       )
     end
     object spGridArea: TSplitter

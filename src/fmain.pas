@@ -7078,10 +7078,11 @@ begin
   FrameLeft.UpdateColor;
   FrameRight.UpdateColor;
 
+  ColSet.UpdateStyle;
   gColorExt.UpdateStyle;
   gHighlighters.UpdateStyle;
 
-  DCDEbug('AppThemeChange');
+  DCDebug('AppThemeChange');
 
   for Index:= 0 to Screen.CustomFormCount - 1 do
   begin

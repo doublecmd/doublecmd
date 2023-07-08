@@ -212,7 +212,8 @@ const
   //       Loading a config prior of version 11 should ignore that setting and keep default.
   // 13 -  Replace Configuration/UseConfigInProgramDir by doublecmd.inf
   // 14 -  Move some colors to colors.json
-  ConfigVersion = 14;
+  // 15 -  Move custom columns colors to colors.json
+  ConfigVersion = 15;
 
   COLORS_JSON = 'colors.json';
 
@@ -823,6 +824,7 @@ procedure SaveColorsConfig;
 begin
   gColors.Save(gStyles.Root);
   gColorExt.Save(gStyles.Root);
+  ColSet.SaveColors(gStyles.Root);
   gHighlighters.SaveColors(gStyles.Root);
   gStyles.SaveToFile(gpCfgDir + COLORS_JSON);
 end;
@@ -870,6 +872,7 @@ begin
   gStyles.LoadFromFile(gpCfgDir + COLORS_JSON);
   gColors.Load(gStyles.Root);
   gColorExt.Load(gStyles.Root);
+  ColSet.LoadColors(gStyles.Root);
   gHighlighters.LoadColors(gStyles.Root);
   Result := True;
 end;
