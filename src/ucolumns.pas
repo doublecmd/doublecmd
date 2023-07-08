@@ -126,6 +126,8 @@ type
     function GetCursorBorderColor: TColor;
     function GetUseFrameCursor: Boolean;
     procedure SetUnique(const AValue: String);
+  protected
+    procedure AddColumn(AList: TJSONArray; AColumn: TPanelColumn);
   public
     constructor Create;
     destructor Destroy; override;
@@ -1050,12 +1052,31 @@ begin
   end;
 end;
 
+procedure TPanelColumnsClass.AddColumn(AList: TJSONArray; AColumn: TPanelColumn);
+var
+  AItem: TJSONObject;
+begin
+  AItem:= TJSONObject.Create;
+
+  AItem.Add('Unique', AColumn.Unique);
+  AItem.Add('Title', AColumn.Title);
+
+  AItem.Add('TextColor', AColumn.TextColor);
+  AItem.Add('Background', AColumn.Background);
+  AItem.Add('Background2', AColumn.Background2);
+  AItem.Add('MarkColor', AColumn.MarkColor);
+  AItem.Add('CursorColor', AColumn.CursorColor);
+  AItem.Add('CursorText', AColumn.CursorText);
+  AItem.Add('InactiveCursorColor', AColumn.InactiveCursorColor);
+  AItem.Add('InactiveMarkColor', AColumn.InactiveMarkColor);
+
+  AList.Add(AItem);
+end;
+
 procedure TPanelColumnsClass.SaveColors(ANode: TJSONObject);
 var
   I: Integer;
   AList: TJSONArray;
-  AItem: TJSONObject;
-  AColumn: TPanelColumn;
 begin
   ANode.Add('Unique', Unique);
   ANode.Add('Name', Name);
@@ -1070,22 +1091,7 @@ begin
 
   for I := 0 to FList.Count - 1 do
   begin
-    AItem:= TJSONObject.Create;
-    AColumn:= TPanelColumn(FList[I]);
-
-    AItem.Add('Unique', AColumn.Unique);
-    AItem.Add('Title', AColumn.Title);
-
-    AItem.Add('TextColor', AColumn.TextColor);
-    AItem.Add('Background', AColumn.Background);
-    AItem.Add('Background2', AColumn.Background2);
-    AItem.Add('MarkColor', AColumn.MarkColor);
-    AItem.Add('CursorColor', AColumn.CursorColor);
-    AItem.Add('CursorText', AColumn.CursorText);
-    AItem.Add('InactiveCursorColor', AColumn.InactiveCursorColor);
-    AItem.Add('InactiveMarkColor', AColumn.InactiveMarkColor);
-
-    AList.Add(AItem);
+    AddColumn(AList, TPanelColumn(FList[I]));
   end;
 end;
 
@@ -1106,36 +1112,19 @@ begin
     begin
       Found:= False;
       AColumn:= GetColumnItem(I);
-
       for J:= 0 to AList.Count - 1 do
       begin
         AItem:= AList.Objects[J];
         AName:= AItem.Get('Unique', EmptyStr);
-
         if AColumn.FUnique = AName then
         begin
           Found:= True;
           Break;
         end;
       end;
-
       if not Found then
       begin
-        AItem:= TJSONObject.Create;
-
-        AItem.Add('Unique', AColumn.Unique);
-        AItem.Add('Title', AColumn.Title);
-
-        AItem.Add('TextColor', AColumn.TextColor);
-        AItem.Add('Background', AColumn.Background);
-        AItem.Add('Background2', AColumn.Background2);
-        AItem.Add('MarkColor', AColumn.MarkColor);
-        AItem.Add('CursorColor', AColumn.CursorColor);
-        AItem.Add('CursorText', AColumn.CursorText);
-        AItem.Add('InactiveCursorColor', AColumn.InactiveCursorColor);
-        AItem.Add('InactiveMarkColor', AColumn.InactiveMarkColor);
-
-        AList.Add(AItem);
+        AddColumn(AList, AColumn);
       end;
     end;
     // Delete
@@ -1365,37 +1354,45 @@ begin
 end;
 
 constructor TPanelColumnsList.Create;
+var
+  Index: Integer;
 begin
-  FSet := TStringList.Create;
-  FStyles[0]:= TJSONArray.Create;
-  FStyles[1]:= TJSONArray.Create;
+  FSet:= TStringList.Create;
   FStyle:= TColorThemes.StyleIndex;
+  for Index:= 0 to High(FStyles) do
+  begin
+    FStyles[Index]:= TJSONArray.Create;
+  end;
 end;
 
 destructor TPanelColumnsList.Destroy;
 var
-  i: Integer;
+  Index: Integer;
 begin
   if Assigned(FSet) then
   begin
-    for i := 0 to Fset.Count - 1 do
-      TPanelColumnsClass(Fset.Objects[i]).Free;
+    for Index := 0 to Fset.Count - 1 do
+    begin
+      FSet.Objects[Index].Free;
+    end;
     FreeAndNil(FSet);
   end;
-
-  FStyles[0].Free;
-  FStyles[1].Free;
-
+  for Index:= 0 to High(FStyles) do
+  begin
+    FStyles[Index].Free;
+  end;
   inherited Destroy;
 end;
 
 procedure TPanelColumnsList.Clear;
 var
-  i: Integer;
+  Index: Integer;
 begin
-  for i := 0 to Fset.Count - 1 do
-    TPanelColumnsClass(Fset.Objects[i]).Free;
-  Fset.Clear;
+  for Index := 0 to Fset.Count - 1 do
+  begin
+    FSet.Objects[Index].Free;
+  end;
+  FSet.Clear;
 end;
 
 procedure TPanelColumnsList.UpdateStyle;
@@ -1517,66 +1514,57 @@ end;
 procedure TPanelColumnsList.LoadColors(AConfig: TJSONObject);
 var
   AName: String;
-  Index: Integer;
+  I, J: Integer;
   Style: TJSONArray;
   Theme: TJSONObject;
   Themes: TJSONArray;
-  Empty: TJSONArray;
 begin
-  Themes:= AConfig.Get('Styles', TJSONArray(nil));
-
-  if Assigned(Themes) then
+  if AConfig.Find('Styles', Themes) then
   begin
-    Empty:= TJSONArray.Create;
-    try
-      for Index:= 0 to Themes.Count - 1 do
+    for I:= 0 to Themes.Count - 1 do
+    begin
+      Theme:= Themes.Objects[I];
+      AName:= Theme.Get('Name', EmptyStr);
+      for J:= 0 to High(THEME_NAME) do
       begin
-        Theme:= Themes.Objects[Index];
-        AName:= Theme.Get('Name', EmptyStr);
-        if (AName = LIGHT_THEME) then
+        if (AName = THEME_NAME[J]) then
         begin
-          FStyles[0].Free;
-          Style:= Theme.Get('ColumnSets', Empty);
-          FStyles[0]:= Style.Clone as TJSONArray;
-        end
-        else if (AName = DARK_THEME) then
-        begin
-          FStyles[1].Free;
-          Style:= Theme.Get('ColumnSets', Empty);
-          FStyles[1]:= Style.Clone as TJSONArray;
-        end
+          if Theme.Find('ColumnSets', Style) then
+          begin
+            FStyles[J].Free;
+            FStyles[J]:= Style.Clone as TJSONArray;
+          end;
+          Break;
+        end;
       end;
-    finally
-      Empty.Free;
     end;
+    LoadColors;
   end;
-  LoadColors;
 end;
 
 procedure TPanelColumnsList.SaveColors(AConfig: TJSONObject);
 var
   AName: String;
-  Index: Integer;
+  I, J: Integer;
   Theme: TJSONObject;
   Themes: TJSONArray;
 begin
   SaveColors;
-  Themes:= AConfig.Get('Styles', TJSONArray(nil));
 
-  if Assigned(Themes) then
+  if AConfig.Find('Styles', Themes) then
   begin
-    for Index:= 0 to Themes.Count - 1 do
+    for I:= 0 to Themes.Count - 1 do
     begin
-      Theme:= Themes.Objects[Index];
+      Theme:= Themes.Objects[I];
       AName:= Theme.Get('Name', EmptyStr);
-      if (AName = LIGHT_THEME) then
+      for J:= 0 to High(THEME_NAME) do
       begin
-        Theme.Arrays['ColumnSets']:= FStyles[0].Clone as TJSONArray;
-      end
-      else if (AName = DARK_THEME) then
-      begin
-        Theme.Arrays['ColumnSets']:= FStyles[1].Clone as TJSONArray;
-      end
+        if (AName = THEME_NAME[J]) then
+        begin
+          Theme.Arrays['ColumnSets']:= FStyles[J].Clone as TJSONArray;
+          Break;
+        end;
+      end;
     end;
   end;
 end;

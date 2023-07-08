@@ -39,7 +39,6 @@ type
     destructor Destroy; override;
     procedure Assign(Source: TPersistent); override;
     function Clone: TdmHighl;
-    procedure CopyFrom(ASource: TdmHighl);
     function GetHighlighter(SynEdit: TCustomSynEdit; const sExtension: string): TSynCustomHighlighter;
     procedure SetHighlighter(SynEdit: TCustomSynEdit; Highlighter: TSynCustomHighlighter);
     property Highlighters[Index: Integer]: TSynCustomHighlighter read GetSyn;
@@ -51,21 +50,24 @@ type
   THighlighters = class
   private
     FStyle: Integer;
-    FStyles: array[0..Pred(THEME_COUNT)] of TdmHighl;
+    FStyles: array[0..Pred(THEME_COUNT)] of TJSONObject;
+  private
+    procedure LoadColors; overload;
+    procedure SaveColors; overload;
+    procedure LoadDefaults(const AKey: String; AConfig: TJSONObject); overload;
   public
     constructor Create;
+    destructor Destroy; override;
     procedure UpdateStyle;
-    procedure LoadDefaults;
-    function Current: TdmHighl;
+    procedure LoadDefaults; overload;
     procedure Load(const FileName: String); overload;
     procedure Save(const FileName: String); overload;
     procedure LoadColors(AConfig: TJSONObject); overload;
     procedure SaveColors(AConfig: TJSONObject); overload;
   end;
 
-function dmHighl: TdmHighl; inline;
-
 var
+  dmHighl: TdmHighl;
   gHighlighters: THighlighters;
 
 implementation
@@ -97,11 +99,6 @@ begin
     Result:=  1
   else
     Result:= CompareStr(List[Index1], List[Index2]);
-end;
-
-function dmHighl: TdmHighl;
-begin
-  Result:= gHighlighters.Current;
 end;
 
 { TdmHighl }
@@ -582,22 +579,6 @@ begin
   end;
 end;
 
-procedure TdmHighl.CopyFrom(ASource: TdmHighl);
-var
-  I: Integer;
-  TargetHighlighter,
-  SourceHighlighter: TSynCustomHighlighter;
-begin
-  for I:= 0 to ASource.SynHighlighterList.Count - 1 do
-  begin
-    TargetHighlighter:= Self.Highlighters[I];
-    SourceHighlighter:= ASource.Highlighters[I];
-
-    TargetHighlighter.Tag:= SourceHighlighter.Tag;
-    TargetHighlighter.DefaultFilter:= SourceHighlighter.DefaultFilter;
-  end;
-end;
-
 function TdmHighl.GetHighlighter(SynEdit: TCustomSynEdit;
   const sExtension: string): TSynCustomHighlighter;
 var
@@ -654,14 +635,77 @@ end;
 
 { THighlighters }
 
+procedure THighlighters.LoadColors;
+var
+  AStyle: TJSONObject;
+begin
+  AStyle:= FStyles[FStyle];
+  dmHighl.LoadColors(AStyle);
+  dmHighl.LoadUniColors(AStyle);
+end;
+
+procedure THighlighters.SaveColors;
+var
+  AStyle: TJSONObject;
+begin
+  AStyle:= FStyles[FStyle];
+  dmHighl.SaveColors(AStyle);
+  dmHighl.SaveUniColors(AStyle);
+end;
+
+procedure THighlighters.LoadDefaults(const AKey: String; AConfig: TJSONObject);
+var
+  AName: String;
+  I, J: Integer;
+  Theme: TJSONObject;
+  Themes: TJSONArray;
+
+  procedure LoadItem(Index: Integer);
+  var
+    Idx: Integer;
+  begin
+    Idx:= Theme.IndexOfName(AKey);
+    if (Idx >= 0) then begin
+      FStyles[Index].Arrays[AKey]:= Theme.Extract(Idx) as TJSONArray;
+    end;
+  end;
+
+begin
+  if AConfig.Find('Styles', Themes) then
+  begin
+    for I:= 0 to Themes.Count - 1 do
+    begin
+      Theme:= Themes.Objects[I];
+      AName:= Theme.Get('Name', EmptyStr);
+      for J:= 0 to High(THEME_NAME) do
+      begin
+        if (AName = THEME_NAME[J]) then
+        begin
+          LoadItem(J);
+          Break;
+        end;
+      end;
+    end;
+  end;
+end;
+
 constructor THighlighters.Create;
 begin
-  FStyle := TColorThemes.StyleIndex;
-
-  FStyles[FStyle]:= TdmHighl.Create(Application, False);
-  FStyles[Abs(FStyle - 1)]:= FStyles[FStyle].Clone;
-
+  FStyle:= TColorThemes.StyleIndex;
+  dmHighl:= TdmHighl.Create(Application, False);
   LoadDefaults;
+end;
+
+destructor THighlighters.Destroy;
+var
+  Index: Integer;
+begin
+  inherited Destroy;
+
+  for Index:= 0 to High(FStyles) do
+  begin
+    FStyles[Index].Free;
+  end;
 end;
 
 procedure THighlighters.UpdateStyle;
@@ -672,22 +716,28 @@ begin
 
   if FStyle <> ANewStyle then
   begin
-    // Synchronize common options
-    FStyles[ANewStyle].CopyFrom(FStyles[FStyle]);
-    FStyle := ANewStyle;
+    SaveColors;
+    FStyle:= ANewStyle;
+    LoadColors;
   end;
 end;
 
 procedure THighlighters.LoadDefaults;
 var
+  Index: Integer;
   ARoot: TJSONObject;
   AStream: TResourceStream;
 begin
+  for Index:= 0 to High(FStyles) do
+  begin
+    FStyles[Index]:= TJSONObject.Create;
+    FStyles[Index].Add('UniHighlighters', TJSONArray.Create);
+  end;
   AStream:= TResourceStream.Create(HInstance, 'HIGHLIGHTERS', RT_RCDATA);
   try
     ARoot:= GetJSON(AStream, True) as TJSONObject;
     try
-      LoadColors(ARoot);
+      LoadDefaults('Highlighters', ARoot);
     finally
       ARoot.Free;
     end;
@@ -699,78 +749,89 @@ begin
     with TJsonConfig.Create do
     try
       LoadFromFile(gpHighPath + 'highlighters.json');
-      LoadColors(Root);
+      LoadDefaults('UniHighlighters', Root);
     finally
       Free;
     end;
   except
    // Ignore
   end;
-end;
-
-function THighlighters.Current: TdmHighl;
-begin
-  Result:= FStyles[FStyle];
+  LoadColors;
 end;
 
 procedure THighlighters.LoadColors(AConfig: TJSONObject);
 var
   AName: String;
-  Index: Integer;
+  I, J: Integer;
   Theme: TJSONObject;
   Themes: TJSONArray;
-begin
-  Themes:= AConfig.Get('Styles', TJSONArray(nil));
 
-  if Assigned(Themes) then
+  procedure LoadItem(const AKey: String; Index: Integer);
+  var
+    AItem: TJSONArray;
   begin
-    for Index:= 0 to Themes.Count - 1 do
+    if Theme.Find(AKey, AItem) then
     begin
-      Theme:= Themes.Objects[Index];
-      AName:= Theme.Get('Name', EmptyStr);
-      if (AName = LIGHT_THEME) then
-      begin
-        FStyles[0].LoadColors(Theme);
-        FStyles[0].LoadUniColors(Theme);
-      end
-      else if (AName = DARK_THEME) then
-      begin
-        FStyles[1].LoadColors(Theme);
-        FStyles[1].LoadUniColors(Theme);
-      end
+      FStyles[Index].Arrays[AKey]:= AItem.Clone as TJSONArray;
     end;
-   end;
+  end;
+
+begin
+  if AConfig.Find('Styles', Themes) then
+  begin
+    for I:= 0 to Themes.Count - 1 do
+    begin
+      Theme:= Themes.Objects[I];
+      AName:= Theme.Get('Name', EmptyStr);
+      for J:= 0 to High(THEME_NAME) do
+      begin
+        if (AName = THEME_NAME[J]) then
+        begin
+          LoadItem('Highlighters', J);
+          LoadItem('UniHighlighters', J);
+          Break;
+        end;
+      end;
+    end;
+    LoadColors;
+  end;
 end;
 
 procedure THighlighters.SaveColors(AConfig: TJSONObject);
 var
   AName: String;
-  Index: Integer;
+  I, J: Integer;
   Theme: TJSONObject;
   Themes: TJSONArray;
-begin
-  if not AConfig.Find('Styles', Themes) then
+
+  procedure SaveItem(const AKey: String; Index: Integer);
+  var
+    AItem: TJSONArray;
   begin
-    Themes:= TJSONArray.Create;
-    AConfig.Add('Styles', Themes);
+    if FStyles[Index].Find(AKey, AItem) then
+    begin
+      Theme.Arrays[AKey]:= AItem.Clone as TJSONArray;
+    end;
   end;
 
-  if Assigned(Themes) then
+begin
+  SaveColors;
+
+  if AConfig.Find('Styles', Themes) then
   begin
-    for Index:= 0 to Themes.Count - 1 do
+    for I:= 0 to Themes.Count - 1 do
     begin
-      Theme:= Themes.Objects[Index];
+      Theme:= Themes.Objects[I];
       AName:= Theme.Get('Name', EmptyStr);
-      if (AName = LIGHT_THEME) then
+      for J:= 0 to High(THEME_NAME) do
       begin
-        FStyles[0].SaveColors(Theme);
-        FStyles[0].SaveUniColors(Theme);
-      end
-      else if (AName = DARK_THEME) then
-      begin
-        FStyles[1].SaveColors(Theme);
-        FStyles[1].SaveUniColors(Theme);
-      end
+        if (AName = THEME_NAME[J]) then
+        begin
+          SaveItem('Highlighters', J);
+          SaveItem('UniHighlighters', J);
+          Break;
+        end;
+      end;
     end;
   end;
 end;
@@ -797,7 +858,7 @@ begin
         while Assigned(FormNode) do
         begin
           LanguageName:= Config.GetAttr(FormNode, 'Name', EmptyStr);
-          Highlighter:= TSynCustomHighlighter(Current.SynHighlighterHashList.Data[LanguageName]);
+          Highlighter:= TSynCustomHighlighter(dmHighl.SynHighlighterHashList.Data[LanguageName]);
           if Assigned(Highlighter) then
           begin
             Highlighter.Tag := Config.GetAttr(FormNode, 'Tag', 1);
@@ -810,7 +871,7 @@ begin
               begin
                 while Assigned(AttributeNode) do
                 begin
-                  AttributeName:= Config.GetAttr(AttributeNode, 'Name', EmptyStr);;
+                  AttributeName:= Config.GetAttr(AttributeNode, 'Name', EmptyStr);
                   for J:= 0 to Highlighter.AttrCount - 1 do
                   begin
                     Attribute:= Highlighter.Attribute[J];
@@ -834,6 +895,8 @@ begin
           FormNode := FormNode.NextSibling;
         end;
       end;
+      // Import colors from old format
+      if AVersion < 2 then SaveColors;
     end;
   finally
     Config.Free;
@@ -853,7 +916,7 @@ begin
     Root := Config.FindNode(Config.RootNode, 'Highlighters', True);
     Config.ClearNode(Root);
     Config.SetAttr(Root, 'Version', ConfigVersion);
-    with Current do
+    with dmHighl do
     begin
       for I := 0 to SynHighlighterList.Count - 1 do
       begin
