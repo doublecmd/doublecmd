@@ -2598,6 +2598,7 @@ object frmMain: TfrmMain
       Tag = 17
       Category = 'Command Line'
       Caption = 'Toggle fullscreen mode console'
+      OnExecute = actExecute
     end
     object actTreeView: TAction
       Tag = 16
