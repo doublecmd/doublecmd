@@ -26,19 +26,17 @@ function FileIsArchive(const FileName: String): Boolean;
 procedure FillAndCount(Files: TFiles; out NewFiles: TFiles;
                               out FilesCount: Int64; out FilesSize: Int64);
 
+procedure InstallPlugin(const FileName: String);
+
 implementation
 
 uses
-  uFindEx,
-  uShowMsg,
-  uLng,
-  uFileSourceProperty,
-  uWcxArchiveFileSource,
-  uMultiArchiveFileSource,
-  uFileSystemFileSource,
-  uTempFileSystemFileSource,
-  uFileSourceOperation,
-  uFileSourceOperationTypes;
+  DCOSUtils, DCClassesUtf8, DCStrUtils, uFindEx, uShowMsg, uLng, uGlobs,
+  uDefaultPlugins, uFileSourceProperty, uWcxModule, uWfxModule, uFileProcs,
+  uWcxArchiveFileSource, uMultiArchiveFileSource, uFileSystemFileSource,
+  uTempFileSystemFileSource, uFileSourceOperation, uArchiveCopyOperation,
+  uFileSourceOperationTypes, uGlobsPaths, uSysFolders, fOptionsPluginsBase,
+  fOptions;
 
 // Only for direct access file sources.
 function GetArchiveFileSourceDirect(SourceFileSource: IFileSource;
@@ -326,6 +324,148 @@ begin
     FillAndCountRec(aFolderList[I]);  // recursive browse child dir
   end;
   aFolderList.Free;
+end;
+
+procedure InstallPlugin(const FileName: String);
+var
+  AFile: TFile;
+  sExt: String;
+  sType: String;
+  Sfile: String;
+  AFiles: TFiles;
+  Index: Integer;
+  Ini: TIniFileEx;
+  sPlugin: String;
+  sRootName: String;
+  InstallDir: String;
+  sDefaultDir: String;
+  PluginsPath: String;
+  SourceFiles: TFiles;
+  Result: Integer = -1;
+  WcxModule: TWcxModule;
+  WfxModule: TWfxModule;
+  FileSource: IArchiveFileSource;
+  Temp: ITempFileSystemFileSource;
+  Operation: TArchiveCopyOutOperation;
+begin
+  if FileIsArchive(FileName) then
+  try
+    AFile:= TFileSystemFileSource.CreateFileFromFile(FileName);
+    // Check if there is a ArchiveFileSource for possible archive.
+    FileSource := GetArchiveFileSource(TFileSystemFileSource.GetFileSource, aFile, EmptyStr, False, False);
+
+    if (FileSource = nil) then raise Exception.Create(rsSimpleWordError);
+
+    AFiles:= FileSource.GetFiles(PathDelim);
+    try
+      for Index:= 0 to AFiles.Count - 1 do
+      begin
+        if (AFiles[Index].Name = 'pluginst.inf') then
+        begin
+          SourceFiles:= TFiles.Create(PathDelim);
+          SourceFiles.Add(AFiles[Index].Clone);
+          Temp:= TTempFileSystemFileSource.GetFileSource;
+
+          Operation:= FileSource.CreateCopyOutOperation(Temp, SourceFiles, Temp.GetRootDir) as TArchiveCopyOutOperation;
+          try
+            Operation.Execute;
+          finally
+            Operation.Free;
+          end;
+
+          if mbFileExists(Temp.GetRootDir + 'pluginst.inf') then
+          begin
+            Ini:= TIniFileEx.Create(Temp.GetRootDir + 'pluginst.inf', fmOpenRead);
+            try
+              sFile:= Ini.ReadString('PluginInstall', 'File', EmptyStr);
+              sExt:= Ini.ReadString('PluginInstall', 'DefaultExtension', EmptyStr);
+              sType:= LowerCase(Ini.ReadString('PluginInstall', 'Type', EmptyStr));
+              sDefaultDir:= ExtractFileName(Ini.ReadString('PluginInstall', 'DefaultDir', ExtractOnlyFileName(sFile)));
+            finally
+              Ini.Free;
+            end;
+
+            if gUseConfigInProgramDir then
+              PluginsPath:= gpExePath
+            else begin
+              PluginsPath:= IncludeTrailingBackslash(GetAppDataDir);
+            end;
+            PluginsPath += 'plugins' + PathDelim;
+            InstallDir:= PluginsPath + sType + PathDelim + sDefaultDir;
+
+            // Create plugin target directory
+            if mbForceDirectory(InstallDir) then
+            begin
+              Operation:= FileSource.CreateCopyOutOperation(TFileSystemFileSource.GetFileSource, AFiles, InstallDir) as TArchiveCopyOutOperation;
+              try
+                Operation.Execute;
+                if Operation.Result = fsorAborted then Exit;
+              finally
+                Operation.Free;
+              end;
+              sPlugin:= InstallDir + PathDelim + sFile;
+
+              if not CheckPlugin(sPlugin) then
+              begin
+                Result:= MaxInt;
+                DelTree(InstallDir);
+              end
+              else if (sType = 'wcx') then
+              begin
+                WcxModule:= gWcxPlugins.LoadModule(sPlugin);
+                if Assigned(WcxModule) then
+                begin
+                  Result:= gWcxPlugins.Add(sExt, WcxModule.GetPluginCapabilities, sPlugin);
+                  gWcxPlugins.FileName[Result]:= GetPluginFilenameToSave(sPlugin);
+                end;
+              end
+              else if (sType = 'wdx') then
+              begin
+                Result:= gWdxPlugins.Add(sPlugin);
+                gWdxPlugins.GetWdxModule(Result).FileName:= GetPluginFilenameToSave(sPlugin);
+              end
+              else if (sType = 'wfx') then
+              begin
+                WfxModule:= gWfxPlugins.LoadModule(sPlugin);
+                if Assigned(WfxModule) then
+                begin
+                  sRootName:= WfxModule.VFSRootName;
+                  if Length(sRootName) = 0 then
+                  begin
+                    sRootName:= ExtractOnlyFileName(sFile);
+                  end;
+                  Result:= gWfxPlugins.Add(sRootName, sPlugin);
+                  gWfxPlugins.FileName[Result]:= GetPluginFilenameToSave(sPlugin);
+                end;
+              end
+              else if (sType = 'wlx') then
+              begin
+                Result:= gWlxPlugins.Add(sPlugin);
+                gWlxPlugins.GetWlxModule(Result).FileName:= GetPluginFilenameToSave(sPlugin);
+              end;
+            end;
+          end;
+          if (Result >= 0) and (Result < MaxInt) then
+          begin
+            ShowOptions('TfrmOptionsPlugins' + UpCase(sType));
+          end;
+          Break;
+        end;
+      end;
+    finally
+      AFiles.Free;
+    end;
+  except
+    on E: Exception do
+    begin
+      Result:= 0;
+      msgError(E.Message);
+    end;
+  end;
+  if Result < 0 then
+  begin
+    msgError(rsSimpleWordError);
+  end;
 end;
 
 end.

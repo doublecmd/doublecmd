@@ -5402,6 +5402,10 @@ begin
       if Editor.CanFocus then Editor.SetFocus;
       TfrmOptionsPluginsBase(Editor).ActualAddPlugin(sPluginFilename);
     end;
+  end
+  else if (Length(sMaybeFilename) > 0) then
+  begin
+    InstallPlugin(sMaybeFilename);
   end;
 end;
 
