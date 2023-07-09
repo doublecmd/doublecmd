@@ -6,7 +6,7 @@ interface
 
 uses
   SysUtils, Classes, Controls, Forms,
-  Dialogs, StdCtrls, Buttons, ExtCtrls, ComCtrls, ButtonPanel, uOSForms;
+  Dialogs, StdCtrls, Buttons, ExtCtrls, ComCtrls, ButtonPanel, Spin, uOSForms;
 
 type
 
@@ -33,16 +33,11 @@ type
     pnlCopyMoveFile: TPanel;
     pnlQuality: TPanel;
     pnlSize: TPanel;
-    rbBmp: TRadioButton;
-    rbIco: TRadioButton;
-    rbJpg: TRadioButton;
     rbPath1: TRadioButton;
     rbPath2: TRadioButton;
     rbPath3: TRadioButton;
     rbPath4: TRadioButton;
     rbPath5: TRadioButton;
-    rbPng: TRadioButton;
-    rbPnm: TRadioButton;
     sddCopyMoveFile: TSelectDirectoryDialog;
     tbQuality: TTrackBar;
     teHeight: TEdit;
@@ -51,7 +46,7 @@ type
     tePath3: TEdit;
     tePath4: TEdit;
     tePath5: TEdit;
-    teQuality: TEdit;
+    teQuality: TSpinEdit;
     teWidth: TEdit;
     procedure btnCancelClick(Sender: TObject);
     procedure btnOkClick(Sender: TObject);
@@ -61,24 +56,17 @@ type
     procedure FormCreate(Sender: TObject);
     procedure FormKeyPress(Sender: TObject; var Key: char);
     procedure FormShow(Sender: TObject);
-    procedure rbBmpChange(Sender: TObject);
-    procedure rbIcoChange(Sender: TObject);
-    procedure rbJpgChange(Sender: TObject);
-    procedure rbPngChange(Sender: TObject);
-    procedure rbPnmChange(Sender: TObject);
-    procedure tbQualityMouseMove(Sender: TObject; Shift: TShiftState; X,
-      Y: Integer);
+    procedure tbQualityChange(Sender: TObject);
     procedure teHeightKeyPress(Sender: TObject; var Key: char);
     procedure teHeightKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
-    procedure teQualityKeyPress(Sender: TObject; var Key: char);
-    procedure teQualityKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure teQualityChange(Sender: TObject);
     procedure teWidthKeyPress(Sender: TObject; var Key: char);
     procedure teWidthKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
   private
     { private declarations }
     prX, prY: integer;
   public
-    Path, sExt : string;
+    Path : string;
     { public declarations }
   end; 
 
@@ -100,11 +88,11 @@ end;
 
 procedure TfrmModView.FormClose(Sender: TObject; var CloseAction: TCloseAction);
 begin
-      gCopyMovePath1 := tePath1.Text;
-      gCopyMovePath2 := tePath2.Text;
-      gCopyMovePath3 := tePath3.Text;
-      gCopyMovePath4 := tePath4.Text;
-      gCopyMovePath5 := tePath5.Text;
+  gCopyMovePath1 := tePath1.Text;
+  gCopyMovePath2 := tePath2.Text;
+  gCopyMovePath3 := tePath3.Text;
+  gCopyMovePath4 := tePath4.Text;
+  gCopyMovePath5 := tePath5.Text;
 end;
 
 procedure TfrmModView.FormCreate(Sender: TObject);
@@ -174,58 +162,16 @@ begin
     end;
   if pnlQuality.Visible then
     begin
-      sExt:= '.jpg';
       tbQuality.Enabled:=true;
       lblQuality.Enabled:=True;
       tbQuality.Position:=gViewerJpegQuality;
-      teQuality.Text:=IntToStr(gViewerJpegQuality);
+      teQuality.Value:= gViewerJpegQuality;
     end;
 end;
 
-procedure TfrmModView.rbBmpChange(Sender: TObject);
+procedure TfrmModView.tbQualityChange(Sender: TObject);
 begin
-  sExt:='.bmp';
-  tbQuality.Enabled:=False;
-  teQuality.Enabled:=False;
-  lblQuality.Enabled:=False;
-end;
-
-procedure TfrmModView.rbIcoChange(Sender: TObject);
-begin
-  sExt:='.ico';
-  tbQuality.Enabled:=False;
-  teQuality.Enabled:=False;
-  lblQuality.Enabled:=False;
-end;
-
-procedure TfrmModView.rbJpgChange(Sender: TObject);
-begin
-  sExt:='.jpg';
-  tbQuality.Enabled:=True;
-  teQuality.Enabled:=True;
-  lblQuality.Enabled:=True;
-end;
-
-procedure TfrmModView.rbPngChange(Sender: TObject);
-begin
-  sExt:='.png';
-  tbQuality.Enabled:=False;
-  teQuality.Enabled:=False;
-  lblQuality.Enabled:=False;
-end;
-
-procedure TfrmModView.rbPnmChange(Sender: TObject);
-begin
-  sExt:='.pnm';
-  tbQuality.Enabled:=False;
-  teQuality.Enabled:=False;
-  lblQuality.Enabled:=False;
-end;
-
-procedure TfrmModView.tbQualityMouseMove(Sender: TObject; Shift: TShiftState;
-  X, Y: Integer);
-begin
-  teQuality.Text:= intToStr(tbQuality.Position);
+  teQuality.Value:= tbQuality.Position;
 end;
 
 procedure TfrmModView.btnOkClick(Sender: TObject);
@@ -292,16 +238,9 @@ begin
   end;
 end;
 
-procedure TfrmModView.teQualityKeyPress(Sender: TObject; var Key: char);
+procedure TfrmModView.teQualityChange(Sender: TObject);
 begin
-  if  not (key in ['0'..'9', #8]) then key:=#0;
-end;
-
-procedure TfrmModView.teQualityKeyUp(Sender: TObject; var Key: Word;
-  Shift: TShiftState);
-begin
-  if StrToInt(teQuality.Text)<=100 then
-  tbQuality.Position:=StrToInt(teQuality.Text);
+  tbQuality.Position:= teQuality.Value;
 end;
 
 procedure TfrmModView.teWidthKeyPress(Sender: TObject; var Key: char);
