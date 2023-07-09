@@ -1,13 +1,13 @@
 object frmOptions: TfrmOptions
   Left = 372
-  Height = 480
+  Height = 600
   Top = 55
-  Width = 640
+  Width = 800
   HelpType = htKeyword
   ActiveControl = tvTreeView
   Caption = 'Options'
-  ClientHeight = 480
-  ClientWidth = 640
+  ClientHeight = 600
+  ClientWidth = 800
   OnClose = FormClose
   OnCloseQuery = FormCloseQuery
   OnCreate = FormCreate
