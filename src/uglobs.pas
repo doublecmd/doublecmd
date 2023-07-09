@@ -2542,7 +2542,7 @@ begin
     { Create config backup }
     if (LoadedConfigVersion < ConfigVersion) then
     try
-      WriteToFile(gpCfgDir + 'doublecmd-' + IntToStr(LoadedConfigVersion) + '.bak');
+      WriteToFile(gpCfgDir + 'doublecmd-' + IntToStr(LoadedConfigVersion) + '.xml.bak');
     except
       // Ignore
     end;
