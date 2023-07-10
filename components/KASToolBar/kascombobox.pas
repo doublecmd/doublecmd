@@ -28,7 +28,7 @@ interface
 
 uses
   Classes, SysUtils, LResources, Forms, Controls, Graphics, Dialogs, StdCtrls,
-  LCLVersion;
+  ColorBox, Buttons, LMessages, Types;
 
 type
 
@@ -46,14 +46,51 @@ type
 
   TComboBoxAutoWidth = class(TComboBox)
   protected
-    procedure CalculatePreferredSize(
-                         var PreferredWidth, PreferredHeight: Integer;
-                         WithThemeSpace: Boolean); override;
-    procedure CalculateSize(MaxWidth: Integer; var PreferredWidth: Integer; PreferredHeight: Integer);
-    {$if lcl_fullversion >= 1070000}
+    procedure CalculatePreferredSize(var PreferredWidth, PreferredHeight: Integer;
+                                     WithThemeSpace: Boolean); override;
     procedure DoAutoAdjustLayout(const AMode: TLayoutAdjustmentPolicy;
                 const AXProportion, AYProportion: Double); override;
-    {$endif}
+  end;
+
+  { TKASColorBox }
+
+  TKASColorBox = class(TColorBox)
+  protected
+    procedure SetCustomColor(AColor: TColor);
+    function PickCustomColor: Boolean; override;
+    procedure CalculatePreferredSize(var PreferredWidth, PreferredHeight: Integer;
+                                     WithThemeSpace: Boolean); override;
+    procedure DoAutoAdjustLayout(const AMode: TLayoutAdjustmentPolicy;
+                const AXProportion, AYProportion: Double); override;
+  end;
+
+  { TKASColorBoxButton }
+
+  TKASColorBoxButton = class(TCustomControl)
+  private
+    function GetSelected: TColor;
+    function GetOnChange: TNotifyEvent;
+    procedure SetSelected(AValue: TColor);
+    procedure SetOnChange(AValue: TNotifyEvent);
+  protected
+    FButton: TSpeedButton;
+    FColorBox: TKASColorBox;
+    procedure DoAutoSize; override;
+    procedure ButtonClick(Sender: TObject);
+    class function GetControlClassDefaultSize: TSize; override;
+    procedure CalculatePreferredSize(var PreferredWidth, PreferredHeight: integer;
+                WithThemeSpace: Boolean); override;
+    procedure CMParentColorChanged(var Message: TLMessage); message CM_PARENTCOLORCHANGED;
+  public
+    constructor Create(AOwner: TComponent); override;
+    procedure SetFocus; override;
+    function Focused: Boolean; override;
+    property Selected: TColor read GetSelected write SetSelected default clBlack;
+  published
+    property Align;
+    property TabOrder;
+    property AutoSize default True;
+    property OnChange: TNotifyEvent read GetOnChange write SetOnChange;
   end;
 
 procedure Register;
@@ -65,7 +102,65 @@ uses
 
 procedure Register;
 begin
-  RegisterComponents('KASComponents',[TComboBoxWithDelItems, TComboBoxAutoWidth]);
+  RegisterComponents('KASComponents',[TComboBoxWithDelItems, TComboBoxAutoWidth,
+                                      TKASColorBox, TKASColorBoxButton]);
+end;
+
+procedure CalculateSize(ComboBox: TCustomComboBox;
+                        var PreferredWidth: Integer; PreferredHeight: Integer);
+var
+  DC: HDC;
+  R: TRect;
+  I, M: Integer;
+  Flags: Cardinal;
+  OldFont: HGDIOBJ;
+  MaxWidth: Integer;
+  LabelText: String;
+  Idx: Integer = -1;
+begin
+  with ComboBox do
+  begin
+    MaxWidth:= Constraints.MinMaxWidth(10000);
+
+    if Items.Count = 0 then
+      LabelText:= Text
+    else begin
+      M := Canvas.TextWidth(Text);
+      for I := 0 to Items.Count - 1 do
+      begin
+        Flags := Canvas.TextWidth(Items[I]);
+        if Flags > M then
+        begin
+          M := Flags;
+          Idx := I;
+        end;
+      end;
+      if Idx < 0 then
+        LabelText := Text
+      else begin
+        LabelText := Items[Idx];
+      end;
+    end;
+
+    if LabelText = '' then begin
+      PreferredWidth := 1;
+      Exit;
+    end;
+
+    DC := GetDC(Parent.Handle);
+    try
+      LabelText:= LabelText + 'W';
+      R := Rect(0, 0, MaxWidth, 10000);
+      OldFont := SelectObject(DC, HGDIOBJ(Font.Reference.Handle));
+      Flags := DT_CALCRECT or DT_EXPANDTABS;
+
+      DrawText(DC, PChar(LabelText), Length(LabelText), R, Flags);
+      SelectObject(DC, OldFont);
+      PreferredWidth := (R.Right - R.Left) + PreferredHeight;
+    finally
+      ReleaseDC(Parent.Handle, DC);
+    end;
+  end;
 end;
 
 { TComboBoxWithDelItems }
@@ -91,77 +186,207 @@ end;
 
 procedure TComboBoxAutoWidth.CalculatePreferredSize(var PreferredWidth,
   PreferredHeight: Integer; WithThemeSpace: Boolean);
-var
-  AWidth: Integer;
 begin
   inherited CalculatePreferredSize(PreferredWidth, PreferredHeight, WithThemeSpace);
 
   if csDesigning in ComponentState then Exit;
-
   if (Parent = nil) or (not Parent.HandleAllocated) then Exit;
 
-  AWidth := Constraints.MinMaxWidth(10000);
-  CalculateSize(AWidth, PreferredWidth, PreferredHeight);
+  CalculateSize(Self, PreferredWidth, PreferredHeight);
 end;
 
-procedure TComboBoxAutoWidth.CalculateSize(MaxWidth: Integer;
-  var PreferredWidth: Integer; PreferredHeight: Integer);
-var
-  DC: HDC;
-  R: TRect;
-  I, M: Integer;
-  Flags: Cardinal;
-  OldFont: HGDIOBJ;
-  LabelText: String;
-  Idx: Integer = -1;
-begin
-  if Items.Count = 0 then
-    LabelText:= Text
-  else begin
-    M := Canvas.TextWidth(Text);
-    for I := 0 to Items.Count - 1 do
-    begin
-      Flags := Canvas.TextWidth(Items[I]);
-      if Flags > M then
-      begin
-        M := Flags;
-        Idx := I;
-      end;
-    end;
-    if Idx < 0 then
-      LabelText := Text
-    else begin
-      LabelText := Items[Idx];
-    end;
-  end;
-
-  if LabelText = '' then begin
-    PreferredWidth := 1;
-    Exit;
-  end;
-
-  DC := GetDC(Parent.Handle);
-  try
-    LabelText:= LabelText + 'W';
-    R := Rect(0, 0, MaxWidth, 10000);
-    OldFont := SelectObject(DC, HGDIOBJ(Font.Reference.Handle));
-    Flags := DT_CALCRECT or DT_EXPANDTABS;
-
-    DrawText(DC, PChar(LabelText), Length(LabelText), R, Flags);
-    SelectObject(DC, OldFont);
-    PreferredWidth := (R.Right - R.Left) + PreferredHeight;
-  finally
-    ReleaseDC(Parent.Handle, DC);
-  end;
-end;
-
-{$if lcl_fullversion >= 1070000}
 procedure TComboBoxAutoWidth.DoAutoAdjustLayout(const AMode: TLayoutAdjustmentPolicy;
   const AXProportion, AYProportion: Double);
 begin
   // Don't auto adjust horizontal layout
   inherited DoAutoAdjustLayout(AMode, 1.0, AYProportion);
 end;
-{$endif}
+
+{ TKASColorBox }
+
+procedure TKASColorBox.SetCustomColor(AColor: TColor);
+var
+  Index: Integer;
+begin
+  for Index:= Ord(cbCustomColor in Style) to Items.Count - 1 do
+  begin
+    if Colors[Index] = AColor then
+    begin
+      Selected:= AColor;
+      Exit;
+    end;
+  end;
+  if cbCustomColor in Style then
+  begin
+    Items.Objects[0]:= TObject(PtrInt(AColor));
+  end;
+  Items.AddObject('$' + HexStr(AColor, 8), TObject(PtrInt(AColor)));
+  Selected:= AColor;
+end;
+
+function TKASColorBox.PickCustomColor: Boolean;
+begin
+  Result:= inherited PickCustomColor;
+  SetCustomColor(Colors[0]);
+end;
+
+procedure TKASColorBox.CalculatePreferredSize(var PreferredWidth,
+  PreferredHeight: Integer; WithThemeSpace: Boolean);
+begin
+  inherited CalculatePreferredSize(PreferredWidth, PreferredHeight, WithThemeSpace);
+
+  if csDesigning in ComponentState then Exit;
+  if (Parent = nil) or (not Parent.HandleAllocated) then Exit;
+
+  CalculateSize(Self, PreferredWidth, PreferredHeight);
+  PreferredWidth+= ColorRectWidth + ColorRectOffset;
+end;
+
+procedure TKASColorBox.DoAutoAdjustLayout(const AMode: TLayoutAdjustmentPolicy;
+  const AXProportion, AYProportion: Double);
+begin
+  if AMode in [lapAutoAdjustWithoutHorizontalScrolling, lapAutoAdjustForDPI] then
+  begin
+    ColorRectWidth:= Round(ColorRectWidth * AXProportion);
+  end;
+  // Don't auto adjust horizontal layout
+  inherited DoAutoAdjustLayout(AMode, 1.0, AYProportion);
+end;
+
+{ TKASColorBoxButton }
+
+function TKASColorBoxButton.GetSelected: TColor;
+begin
+  Result:= FColorBox.Selected;
+end;
+
+function TKASColorBoxButton.GetOnChange: TNotifyEvent;
+begin
+  Result:= FColorBox.OnChange;
+end;
+
+procedure TKASColorBoxButton.SetSelected(AValue: TColor);
+begin
+  FColorBox.SetCustomColor(AValue);
+end;
+
+procedure TKASColorBoxButton.SetOnChange(AValue: TNotifyEvent);
+begin
+  FColorBox.OnChange:= AValue;
+end;
+
+procedure TKASColorBoxButton.DoAutoSize;
+begin
+  inherited DoAutoSize;
+  FButton.Constraints.MinWidth:= FButton.Height;
+end;
+
+procedure TKASColorBoxButton.ButtonClick(Sender: TObject);
+Var
+  FreeDialog: Boolean;
+begin
+  if csDesigning in ComponentState then Exit;
+  with FColorBox do
+  begin
+    FreeDialog:= (ColorDialog = nil);
+    if FreeDialog then
+    begin
+      ColorDialog:= TColorDialog.Create(GetTopParent);
+    end;
+    try
+      with ColorDialog do
+      begin
+        Color:= FColorBox.Selected;
+        if Execute Then
+         begin
+           FColorBox.SetCustomColor(Color);
+           Invalidate;
+         end;
+      end;
+    finally
+      if FreeDialog Then
+      begin
+        ColorDialog.Free;
+        ColorDialog:= nil;
+      end;
+    end;
+  end;
+end;
+
+class function TKASColorBoxButton.GetControlClassDefaultSize: TSize;
+begin
+  Result:= TKASColorBox.GetControlClassDefaultSize;
+  Result.cx += Result.cy;
+end;
+
+procedure TKASColorBoxButton.CalculatePreferredSize(var PreferredWidth,
+  PreferredHeight: integer; WithThemeSpace: Boolean);
+begin
+  if csDesigning in ComponentState then
+  begin
+    with GetControlClassDefaultSize do
+    begin
+      PreferredWidth:= cx;
+      PreferredHeight:= cy;
+    end;
+  end
+  else begin
+    FColorBox.CalculatePreferredSize(PreferredWidth, PreferredHeight, WithThemeSpace);
+    PreferredWidth += FButton.Width;
+  end;
+end;
+
+procedure TKASColorBoxButton.CMParentColorChanged(var Message: TLMessage);
+begin
+  if inherited ParentColor then
+  begin
+    inherited SetColor(Parent.Color);
+    inherited ParentColor:= True;
+  end;
+end;
+
+constructor TKASColorBoxButton.Create(AOwner: TComponent);
+begin
+  FButton:= TSpeedButton.Create(Self);
+  FColorBox:= TKASColorBox.Create(Self);
+
+  inherited Create(AOwner);
+
+  ControlStyle:= ControlStyle + [csNoFocus];
+  FColorBox.ParentColor:= False;
+  BorderStyle:= bsNone;
+  TabStop:= True;
+  inherited TabStop:= False;
+
+  with FButton do
+  begin
+    Align:= alRight;
+    Caption:= '..';
+    OnClick:= @ButtonClick;
+    Parent:= Self;
+  end;
+  with FColorBox do
+  begin
+    Align:= alClient;
+    ParentColor:= False;
+    ParentFont:= True;
+    Style:= Style + [cbPrettyNames];
+    Parent:= Self;
+  end;
+
+  AutoSize:= True;
+  Color:= clWindow;
+  inherited ParentColor:= True;
+end;
+
+procedure TKASColorBoxButton.SetFocus;
+begin
+  FColorBox.SetFocus;
+end;
+
+function TKASColorBoxButton.Focused: Boolean;
+begin
+  Result:= FColorBox.Focused;
+end;
 
 end.
