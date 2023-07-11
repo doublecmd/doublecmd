@@ -13,7 +13,7 @@ uses
 
 var
   AFileName: String;
-  AConfig: TJSONObject;
+  AConfig: TJSONData;
   AStream: TFileStream;
   AOptions: TFormatOptions;
 begin
@@ -39,20 +39,20 @@ begin
 
   AStream:= TFileStream.Create(AFileName, fmOpenRead or fmShareDenyNone);
   try
-    AConfig:= GetJSON(AStream, True) as TJSONObject;
-    try
-      with TStringList.Create do
-      try
-        Text:= AConfig.FormatJSON(AOptions);
-        SaveToFile(AFileName);
-      finally
-        Free;
-      end;
-    finally
-      AConfig.Free;
-    end;
+    AConfig:= GetJSON(AStream, True);
   finally
     AStream.Free;
+  end;
+  try
+    with TStringList.Create do
+    try
+      Text:= AConfig.FormatJSON(AOptions);
+      SaveToFile(AFileName);
+    finally
+      Free;
+    end;
+  finally
+    AConfig.Free;
   end;
 end.
 
