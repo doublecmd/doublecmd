@@ -46,6 +46,8 @@ type
 
     procedure ShowPathEdit;
     procedure SetActive(bActive: Boolean);
+
+    property PathLabel: TPathLabel read FPathLabel;
   end;
 
   { TFileViewFixedHeader }

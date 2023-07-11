@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Options groups
 
-   Copyright (C) 2006-2011  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2006-2023  Koblov Alexander (Alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -39,14 +39,6 @@ type
     class function IsEmpty: Boolean; override;
   end;
 
-  { TOptionsColorsGroup }
-
-  TOptionsColorsGroup = class(TOptionsGroup)
-  public
-    class function GetIconIndex: Integer; override;
-    class function GetTitle: String; override;
-  end;
-
   { TOptionsToolsGroup }
 
   TOptionsToolsGroup = class(TOptionsGroup)
@@ -77,18 +69,6 @@ end;
 class function TOptionsToolsGroup.GetTitle: String;
 begin
   Result := rsOptionsEditorTools;
-end;
-
-{ TOptionsColorsGroup }
-
-class function TOptionsColorsGroup.GetIconIndex: Integer;
-begin
-  Result := 4;
-end;
-
-class function TOptionsColorsGroup.GetTitle: String;
-begin
-  Result := rsOptionsEditorColors;
 end;
 
 end.

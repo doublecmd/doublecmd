@@ -1,9 +1,9 @@
 inherited frmOptionsEditor: TfrmOptionsEditor
   Height = 513
-  Width = 601
+  Width = 586
   HelpKeyword = '/configuration.html#ConfigToolsEditor'
   ClientHeight = 513
-  ClientWidth = 601
+  ClientWidth = 586
   ParentShowHint = False
   ShowHint = True
   DesignLeft = 117
