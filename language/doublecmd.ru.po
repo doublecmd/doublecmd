@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 1.1.0 alpha\n"
-"POT-Creation-Date: 2022-11-15 11:15+0300\n"
-"PO-Revision-Date: 2023-04-16 19:31+0300\n"
+"POT-Creation-Date: 2023-07-16 21:15+0300\n"
+"PO-Revision-Date: 2023-07-17 00:03+0300\n"
 "Last-Translator: Alexander Koblov <alexx2000@mail.ru>\n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -380,7 +380,7 @@ msgstr "&Удалить"
 #: tfrmconnectionmanager.btnedit.caption
 msgctxt "TFRMCONNECTIONMANAGER.BTNEDIT.CAPTION"
 msgid "&Edit"
-msgstr "&Редактировать"
+msgstr "&Изменить"
 
 #: tfrmconnectionmanager.caption
 msgid "Connection manager"
@@ -1289,7 +1289,7 @@ msgstr "&Разрешить исполнять как программу"
 
 #: tfrmfileproperties.chkrecursive.caption
 msgid "&Recursive"
-msgstr "Рекурсивно"
+msgstr "&Рекурсивно"
 
 #: tfrmfileproperties.dividerbevel3.caption
 msgctxt "TFRMFILEPROPERTIES.DIVIDERBEVEL3.CAPTION"
@@ -1371,23 +1371,23 @@ msgstr "&Группа"
 
 #: tfrmfileproperties.lbllastaccessstr.caption
 msgid "Accessed:"
-msgstr "Последний доступ:"
+msgstr "Доступ:"
 
 #: tfrmfileproperties.lbllastmodifstr.caption
 msgid "Modified:"
-msgstr "Последнее изменение:"
+msgstr "Изменён:"
 
 #: tfrmfileproperties.lbllaststchangestr.caption
 msgid "Status changed:"
-msgstr "Изменение статуса:"
+msgstr "Статус:"
 
 #: tfrmfileproperties.lbllinksstr.caption
 msgid "Links:"
-msgstr ""
+msgstr "Ссылки:"
 
 #: tfrmfileproperties.lblmediatypestr.caption
 msgid "Media type:"
-msgstr ""
+msgstr "MIME-тип:"
 
 #: tfrmfileproperties.lbloctal.caption
 msgctxt "TFRMFILEPROPERTIES.LBLOCTAL.CAPTION"
@@ -1406,7 +1406,7 @@ msgstr "Чтение"
 
 #: tfrmfileproperties.lblsizeondiskstr.caption
 msgid "Size on disk:"
-msgstr ""
+msgstr "На диске:"
 
 #: tfrmfileproperties.lblsizestr.caption
 msgctxt "TFRMFILEPROPERTIES.LBLSIZESTR.CAPTION"
@@ -1415,7 +1415,7 @@ msgstr "Размер:"
 
 #: tfrmfileproperties.lblsymlinkstr.caption
 msgid "Symlink to:"
-msgstr "Симв. ссылка"
+msgstr "Симв. ссылка:"
 
 #: tfrmfileproperties.lbltypestr.caption
 msgid "Type:"
@@ -2745,7 +2745,7 @@ msgstr "Сохранить текущие как новые избранные �
 
 #: tfrmmain.actsavefiledetailstofile.caption
 msgid "Save all shown columns to file"
-msgstr ""
+msgstr "Сохранить содержимое всех колонок в файл"
 
 #: tfrmmain.actsaveselection.caption
 msgid "Sa&ve Selection"
@@ -3237,7 +3237,7 @@ msgstr "Удалить"
 #: tfrmmain.tbedit.caption
 msgctxt "TFRMMAIN.TBEDIT.CAPTION"
 msgid "Edit"
-msgstr "Редактировать"
+msgstr "Изменить"
 
 #: tfrmmain.tbpaste.caption
 msgctxt "TFRMMAIN.TBPASTE.CAPTION"
@@ -4212,19 +4212,19 @@ msgstr "Бинарный режим"
 
 #: tfrmoptionscolors.dbbookmode.caption
 msgid "Book Mode"
-msgstr ""
+msgstr "Режим \"Книга\""
 
 #: tfrmoptionscolors.dbimagemode.caption
 msgid "Image Mode"
-msgstr ""
+msgstr "Режим изображения"
 
 #: tfrmoptionscolors.dbtextmode.caption
 msgid "Text Mode"
-msgstr ""
+msgstr "Текстовый режим"
 
 #: tfrmoptionscolors.lbladded.caption
 msgid "Added:"
-msgstr ""
+msgstr "Добавлено:"
 
 #: tfrmoptionscolors.lblbookbackground.caption
 msgctxt "tfrmoptionscolors.lblbookbackground.caption"
@@ -4238,15 +4238,15 @@ msgstr "Текст:"
 
 #: tfrmoptionscolors.lblcategory.caption
 msgid "Category:"
-msgstr ""
+msgstr "Категория:"
 
 #: tfrmoptionscolors.lbldeleted.caption
 msgid "Deleted:"
-msgstr ""
+msgstr "Удалено:"
 
 #: tfrmoptionscolors.lblerror.caption
 msgid "Error:"
-msgstr ""
+msgstr "Ошибка:"
 
 #: tfrmoptionscolors.lblimagebackground1.caption
 msgid "Background 1:"
@@ -4272,37 +4272,34 @@ msgstr "Цвет &предела индикатора:"
 
 #: tfrmoptionscolors.lblinformation.caption
 msgid "Information:"
-msgstr ""
+msgstr "Информационное сообщение:"
 
 #: tfrmoptionscolors.lblleft.caption
 msgid "Left:"
 msgstr "Слева:"
 
 #: tfrmoptionscolors.lblmodified.caption
-#, fuzzy
 msgctxt "tfrmoptionscolors.lblmodified.caption"
 msgid "Modified:"
-msgstr "Изменён:"
+msgstr "Изменено:"
 
 #: tfrmoptionscolors.lblmodifiedbinary.caption
-#, fuzzy
 msgctxt "tfrmoptionscolors.lblmodifiedbinary.caption"
 msgid "Modified:"
-msgstr "Изменён:"
+msgstr "Изменено:"
 
 #: tfrmoptionscolors.lblright.caption
 msgid "Right:"
 msgstr "Справа:"
 
 #: tfrmoptionscolors.lblsuccess.caption
-#, fuzzy
 msgctxt "tfrmoptionscolors.lblsuccess.caption"
 msgid "Success:"
-msgstr "Успешно:"
+msgstr "Успешная операция:"
 
 #: tfrmoptionscolors.lblunknown.caption
 msgid "Unknown:"
-msgstr ""
+msgstr "Неизвестно:"
 
 #: tfrmoptionscolors.rgdarkmode.caption
 msgid "State"
@@ -5307,11 +5304,11 @@ msgstr "Предлагать все поддерживаемые форматы,
 
 #: tfrmoptionsdragdrop.cbdraganddropsaveunicodetextinuft8.caption
 msgid "When saving Unicode text, save it in UTF8 format (will be UTF16 otherwise)"
-msgstr "При сохранении текста в Unicode сохранять в кодировке UTF-8 (иначе будет UTF-16 LE)"
+msgstr "При сохранении текста в Unicode использовать UTF-8 (иначе будет UTF-16 LE)"
 
 #: tfrmoptionsdragdrop.cbdraganddroptextautofilename.caption
 msgid "When dropping text, generate filename automatically (otherwise will prompt the user)"
-msgstr "При перетаскивании текста генерировать имя файла автоматически (иначе будет спрашивать)"
+msgstr "Генерировать имя файла автоматически (иначе будет спрашивать)"
 
 #: tfrmoptionsdragdrop.cbshowconfirmationdialog.caption
 msgid "&Show confirmation dialog after drop"
@@ -5331,7 +5328,7 @@ msgstr "(если наиболее предпочтительный не под�
 
 #: tfrmoptionsdragdrop.lblwarningforaskformat.caption
 msgid "(will not work with some source application, so try to uncheck if problem)"
-msgstr "(не будет работать с некоторыми приложениями, поэтому если есть проблемы, то попробуйте снять галочку)"
+msgstr "(не будет работать с некоторыми приложениями, попробуйте отключить, если есть проблемы)"
 
 #: tfrmoptionsdriveslistbutton.cbshowfilesystem.caption
 msgid "Show &file system"
@@ -5805,7 +5802,7 @@ msgstr "&Вниз"
 #: tfrmoptionsfileassoc.btneditext.caption
 msgctxt "tfrmoptionsfileassoc.btneditext.caption"
 msgid "Edi&t"
-msgstr "&Редактировать"
+msgstr "&Изменить"
 
 #: tfrmoptionsfileassoc.btninsertact.caption
 msgctxt "tfrmoptionsfileassoc.btninsertact.caption"
@@ -5845,7 +5842,7 @@ msgstr "Уда&лить"
 #: tfrmoptionsfileassoc.btnrenametype.caption
 msgctxt "tfrmoptionsfileassoc.btnrenametype.caption"
 msgid "R&ename"
-msgstr "Пере&именовать"
+msgstr "Пе&реименовать"
 
 #: tfrmoptionsfileassoc.btnstartpathpathhelper.hint
 msgctxt "tfrmoptionsfileassoc.btnstartpathpathhelper.hint"
@@ -6322,11 +6319,11 @@ msgstr "Текст:"
 
 #: tfrmoptionsfilepanelscolors.lblpathinactiveback.caption
 msgid "Inactive Background:"
-msgstr ""
+msgstr "Фон (неактивная):"
 
 #: tfrmoptionsfilepanelscolors.lblpathinactivetext.caption
 msgid "Inactive Text Color:"
-msgstr ""
+msgstr "Текст (неактивная):"
 
 #: tfrmoptionsfilepanelscolors.lblpreview.caption
 msgid "Below is a preview. You may move cursor, select file and get immediately an actual look and feel of the various settings."
@@ -6611,7 +6608,7 @@ msgstr "&Удалить"
 #: tfrmoptionshotkeys.actedithotkey.caption
 msgctxt "tfrmoptionshotkeys.actedithotkey.caption"
 msgid "&Edit hotkey"
-msgstr "&Редактировать"
+msgstr "&Изменить"
 
 #: tfrmoptionshotkeys.actnextcategory.caption
 msgid "Next category"
@@ -7674,7 +7671,7 @@ msgstr "&Удалить"
 #: tfrmoptionstoolbarbase.btnedithotkey.caption
 msgctxt "tfrmoptionstoolbarbase.btnedithotkey.caption"
 msgid "Edit hot&key"
-msgstr "&Редактировать"
+msgstr "&Изменить"
 
 #: tfrmoptionstoolbarbase.btninsertbutton.caption
 msgctxt "tfrmoptionstoolbarbase.btninsertbutton.caption"
@@ -8489,12 +8486,12 @@ msgstr "Измените цвета слева, и вы увидите, как �
 
 #: tfrmoptionsviewer.gbinternalviewer.caption
 msgid "Internal viewer options"
-msgstr ""
+msgstr "Опции встроенной программы просмотра"
 
 #: tfrmoptionsviewer.lblnumbercolumnsviewer.caption
 msgctxt "TFRMOPTIONSVIEWER.LBLNUMBERCOLUMNSVIEWER.CAPTION"
 msgid "&Number of columns in book viewer"
-msgstr "&Кол-во колонок"
+msgstr "&Количество колонок в режиме \"Книга\""
 
 #: tfrmpackdlg.btnconfig.caption
 msgctxt "TFRMPACKDLG.BTNCONFIG.CAPTION"
@@ -10214,7 +10211,7 @@ msgid ""
 "Could you make it available and press \"OK\" when ready,\n"
 "or press \"CANCEL\" to continue without it?"
 msgstr ""
-"Файл с контрольной суммой поможет объединить файлы, но не был найден:\n"
+"Файл с контрольной суммой помогает проверить объединение файлов, но не был найден:\n"
 "%s\n"
 "\n"
 "Вы можете сделать его доступным и нажать \"OK\", когда будете готовы,\n"
@@ -10415,11 +10412,11 @@ msgstr ""
 
 #: ulng.rsdefaultsuffixdroppedtextunicodeutf16filename
 msgid "_DroppedUnicodeUTF16text"
-msgstr ""
+msgstr "_DroppedUTF16text"
 
 #: ulng.rsdefaultsuffixdroppedtextunicodeutf8filename
 msgid "_DroppedUnicodeUTF8text"
-msgstr ""
+msgstr "_DroppedUTF8text"
 
 #: ulng.rsdiffadds
 msgid " Adds: "
@@ -11305,7 +11302,9 @@ msgstr "Не удалось удалить каталог %s"
 #: ulng.rsmsgcannotoverwritedirectory
 #, object-pascal-format
 msgid "Cannot overwrite directory \"%s\" with non-directory \"%s\""
-msgstr "Невозможно перезаписать каталог \"%s\" файлом, не являющимся каталогом \"%s\""
+msgstr ""
+"Невозможно перезаписать каталог \"%s\"\n"
+"файлом \"%s\""
 
 #: ulng.rsmsgchdirfailed
 #, object-pascal-format
@@ -11685,7 +11684,9 @@ msgstr ""
 #: ulng.rsmsgfilereadonly
 #, object-pascal-format
 msgid "File %s is marked as read-only/hidden/system. Delete it?"
-msgstr "Файл %s помечен как доступный только для чтения/скрытый/системный. Удалить?"
+msgstr ""
+"Файл %s\n"
+"помечен как доступный только для чтения/скрытый/системный. Удалить?"
 
 #: ulng.rsmsgfilereloadwarning
 msgid "Are you sure you want to reload the current file and lose the changes?"
@@ -13241,7 +13242,7 @@ msgstr "Описание"
 #: ulng.rsopthotkeysedithotkey
 #, object-pascal-format
 msgid "Edit hotkey for %s"
-msgstr "Редактировать горячую клавишу для %s"
+msgstr "Изменить горячую клавишу для %s"
 
 #: ulng.rsopthotkeysfixparameter
 msgid "Fix parameter"
@@ -13797,7 +13798,7 @@ msgstr "Каталог"
 
 #: ulng.rspropsmultipletypes
 msgid "Multiple types"
-msgstr ""
+msgstr "Несколько типов"
 
 #: ulng.rspropsnmdpipe
 msgid "Named pipe"
