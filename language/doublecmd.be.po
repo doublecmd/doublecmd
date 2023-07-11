@@ -352,6 +352,12 @@ msgctxt "tfrmchecksumverify.caption"
 msgid "Verify checksum..."
 msgstr "Праверыць кантрольную суму..."
 
+#: tfrmchooseencoding.caption
+#, fuzzy
+msgctxt "tfrmchooseencoding.caption"
+msgid "Encoding"
+msgstr "Кадаванне"
+
 #: tfrmconnectionmanager.btnadd.caption
 msgctxt "tfrmconnectionmanager.btnadd.caption"
 msgid "A&dd"
@@ -477,6 +483,7 @@ msgid "Auto Compare"
 msgstr "Аўтаматычнае параўнанне"
 
 #: tfrmdiffer.actbinarycompare.caption
+msgctxt "tfrmdiffer.actbinarycompare.caption"
 msgid "Binary Mode"
 msgstr "Двайковы рэжым"
 
@@ -1240,23 +1247,6 @@ msgstr "З:"
 msgid "To:"
 msgstr "У:"
 
-#: tfrmfileproperties.btnclose.caption
-msgctxt "TFRMFILEPROPERTIES.BTNCLOSE.CAPTION"
-msgid "&Close"
-msgstr "&Закрыць"
-
-#: tfrmfileproperties.btnsetproperties.caption
-msgid "&Set properties"
-msgstr "&Вызначыць уласцівасці"
-
-#: tfrmfileproperties.btnsetpropertiestoallfiles.caption
-msgid "Set to &all selected files"
-msgstr "Вызначыць для ўс&іх абраных файлаў"
-
-#: tfrmfileproperties.btnskipfile.caption
-msgid "Ski&p this file"
-msgstr "Пра&пусціць гэты файл"
-
 #: tfrmfileproperties.caption
 msgctxt "tfrmfileproperties.caption"
 msgid "Properties"
@@ -1281,8 +1271,12 @@ msgstr "SUID"
 msgid "Allow &executing file as program"
 msgstr "Дазволіць &выконваць як праграму"
 
-#: tfrmfileproperties.gbowner.caption
-msgctxt "TFRMFILEPROPERTIES.GBOWNER.CAPTION"
+#: tfrmfileproperties.chkrecursive.caption
+msgid "&Recursive"
+msgstr ""
+
+#: tfrmfileproperties.dividerbevel3.caption
+msgctxt "TFRMFILEPROPERTIES.DIVIDERBEVEL3.CAPTION"
 msgid "Owner"
 msgstr "Уладальнік"
 
@@ -1319,6 +1313,12 @@ msgstr "Тэкст:"
 #: tfrmfileproperties.lblcontainsstr.caption
 msgid "Contains:"
 msgstr "Змяшчае:"
+
+#: tfrmfileproperties.lblcreatedstr.caption
+#, fuzzy
+msgctxt "tfrmfileproperties.lblcreatedstr.caption"
+msgid "Created:"
+msgstr "Створаны:"
 
 #: tfrmfileproperties.lblexec.caption
 msgctxt "TFRMFILEPROPERTIES.LBLEXEC.CAPTION"
@@ -1365,6 +1365,14 @@ msgstr "Апошняя змена:"
 msgid "Last status change:"
 msgstr "Апошняя змена стану:"
 
+#: tfrmfileproperties.lbllinksstr.caption
+msgid "Links:"
+msgstr ""
+
+#: tfrmfileproperties.lblmediatypestr.caption
+msgid "Media type:"
+msgstr ""
+
 #: tfrmfileproperties.lbloctal.caption
 msgctxt "tfrmfileproperties.lbloctal.caption"
 msgid "Octal:"
@@ -1378,6 +1386,10 @@ msgstr "&Уладальнік"
 msgctxt "TFRMFILEPROPERTIES.LBLREAD.CAPTION"
 msgid "Read"
 msgstr "Чытанне"
+
+#: tfrmfileproperties.lblsizeondiskstr.caption
+msgid "Size on disk:"
+msgstr ""
 
 #: tfrmfileproperties.lblsizestr.caption
 msgctxt "tfrmfileproperties.lblsizestr.caption"
@@ -1397,13 +1409,13 @@ msgctxt "TFRMFILEPROPERTIES.LBLWRITE.CAPTION"
 msgid "Write"
 msgstr "Запісаць"
 
-#: tfrmfileproperties.sgimage.columns[0].title.caption
-msgctxt "tfrmfileproperties.sgimage.columns[0].title.caption"
+#: tfrmfileproperties.sgplugins.columns[0].title.caption
+msgctxt "tfrmfileproperties.sgplugins.columns[0].title.caption"
 msgid "Name"
 msgstr "Назва"
 
-#: tfrmfileproperties.sgimage.columns[1].title.caption
-msgctxt "tfrmfileproperties.sgimage.columns[1].title.caption"
+#: tfrmfileproperties.sgplugins.columns[1].title.caption
+msgctxt "tfrmfileproperties.sgplugins.columns[1].title.caption"
 msgid "Value"
 msgstr "Значэнне"
 
@@ -2691,6 +2703,10 @@ msgstr "Запусціць &тэрмінал"
 msgid "Save current tabs to a New Favorite Tabs"
 msgstr "Захаваць бягучыя ўкладкі як новыя улюбёныя"
 
+#: tfrmmain.actsavefiledetailstofile.caption
+msgid "Save all shown columns to file"
+msgstr ""
+
 #: tfrmmain.actsaveselection.caption
 msgid "Sa&ve Selection"
 msgstr "З&ахаваць вылучэнне"
@@ -3376,34 +3392,10 @@ msgstr "Якасць сціскання Jpg"
 msgid "Width :"
 msgstr "Шырыня:"
 
-#: tfrmmodview.rbbmp.caption
-msgid "BMP"
-msgstr "BMP"
-
-#: tfrmmodview.rbico.caption
-msgid "ICO"
-msgstr "ICO"
-
-#: tfrmmodview.rbjpg.caption
-msgid "JPG"
-msgstr "JPG"
-
-#: tfrmmodview.rbpng.caption
-msgid "PNG"
-msgstr "PNG"
-
-#: tfrmmodview.rbpnm.caption
-msgid "PNM"
-msgstr "PNM"
-
 #: tfrmmodview.teheight.text
 msgctxt "tfrmmodview.teheight.text"
 msgid "Height"
 msgstr "Вышыня"
-
-#: tfrmmodview.tequality.text
-msgid "80"
-msgstr "80"
 
 #: tfrmmodview.tewidth.text
 msgctxt "tfrmmodview.tewidth.text"
@@ -4144,9 +4136,118 @@ msgstr "Фіксаваная колькасць слупкоў"
 msgid "Fixed columns width"
 msgstr "Фіксаваная шырыня слупкоў"
 
+#: tfrmoptionscolors.cbbusegradientind.caption
+msgid "Use &Gradient Indicator"
+msgstr "Выкарыстоўваць індыкатар &градыента"
+
+#: tfrmoptionscolors.dbbinarymode.caption
+#, fuzzy
+msgctxt "tfrmoptionscolors.dbbinarymode.caption"
+msgid "Binary Mode"
+msgstr "Двайковы рэжым"
+
+#: tfrmoptionscolors.dbbookmode.caption
+msgid "Book Mode"
+msgstr ""
+
+#: tfrmoptionscolors.dbimagemode.caption
+msgid "Image Mode"
+msgstr ""
+
+#: tfrmoptionscolors.dbtextmode.caption
+msgid "Text Mode"
+msgstr ""
+
+#: tfrmoptionscolors.lbladded.caption
+msgid "Added:"
+msgstr ""
+
+#: tfrmoptionscolors.lblbookbackground.caption
+msgctxt "tfrmoptionscolors.lblbookbackground.caption"
+msgid "Background:"
+msgstr ""
+
+#: tfrmoptionscolors.lblbooktext.caption
+#, fuzzy
+msgctxt "tfrmoptionscolors.lblbooktext.caption"
+msgid "Text:"
+msgstr "Тэкст:"
+
+#: tfrmoptionscolors.lblcategory.caption
+msgid "Category:"
+msgstr ""
+
+#: tfrmoptionscolors.lbldeleted.caption
+msgid "Deleted:"
+msgstr ""
+
+#: tfrmoptionscolors.lblerror.caption
+msgid "Error:"
+msgstr ""
+
+#: tfrmoptionscolors.lblimagebackground1.caption
+msgid "Background 1:"
+msgstr ""
+
+#: tfrmoptionscolors.lblimagebackground2.caption
+#, fuzzy
+msgctxt "tfrmoptionscolors.lblimagebackground2.caption"
+msgid "Background 2:"
+msgstr "Фон 2:"
+
+#: tfrmoptionscolors.lblindbackcolor.caption
+msgid "In&dicator Back Color:"
+msgstr "Колер фону &індыкатара:"
+
+#: tfrmoptionscolors.lblindcolor.caption
+msgid "&Indicator Fore Color:"
+msgstr "Колер інды&катара:"
+
+#: tfrmoptionscolors.lblindthresholdcolor.caption
+msgid "Indicator &Threshold Color:"
+msgstr ""
+
+#: tfrmoptionscolors.lblinformation.caption
+msgid "Information:"
+msgstr ""
+
+#: tfrmoptionscolors.lblleft.caption
+msgid "Left:"
+msgstr ""
+
+#: tfrmoptionscolors.lblmodified.caption
+#, fuzzy
+msgctxt "tfrmoptionscolors.lblmodified.caption"
+msgid "Modified:"
+msgstr "Зменены:"
+
+#: tfrmoptionscolors.lblmodifiedbinary.caption
+#, fuzzy
+msgctxt "tfrmoptionscolors.lblmodifiedbinary.caption"
+msgid "Modified:"
+msgstr "Зменены:"
+
+#: tfrmoptionscolors.lblright.caption
+msgid "Right:"
+msgstr ""
+
+#: tfrmoptionscolors.lblsuccess.caption
+#, fuzzy
+msgctxt "tfrmoptionscolors.lblsuccess.caption"
+msgid "Success:"
+msgstr "Паспяхова:"
+
+#: tfrmoptionscolors.lblunknown.caption
+msgid "Unknown:"
+msgstr ""
+
 #: tfrmoptionscolors.rgdarkmode.caption
-msgid "Dark mode"
-msgstr "Цёмны рэжым"
+msgid "State"
+msgstr ""
+
+#: tfrmoptionscolumnsview.cbcolumnstitlelikevalues.caption
+msgid "Column titles alignment &like values"
+msgstr ""
 
 #: tfrmoptionscolumnsview.cbcuttexttocolwidth.caption
 msgid "Cut &text to column width"
@@ -4651,6 +4752,7 @@ msgid "BackGround:"
 msgstr "Фон:"
 
 #: tfrmoptionscustomcolumns.lblbackcolor2.caption
+msgctxt "tfrmoptionscustomcolumns.lblbackcolor2.caption"
 msgid "Background 2:"
 msgstr "Фон 2:"
 
@@ -4684,6 +4786,7 @@ msgid "Size:"
 msgstr "Памер:"
 
 #: tfrmoptionscustomcolumns.lblforecolor.caption
+msgctxt "tfrmoptionscustomcolumns.lblforecolor.caption"
 msgid "Text Color:"
 msgstr "Колер тэксту:"
 
@@ -6003,18 +6106,32 @@ msgctxt "TFRMOPTIONSFILEPANELSCOLORS.BTNINACTIVEMARKCOLOR.CAPTION"
 msgid ">>"
 msgstr ">>"
 
-#: tfrmoptionsfilepanelscolors.btnindbackcolor.caption
-msgctxt "TFRMOPTIONSFILEPANELSCOLORS.BTNINDBACKCOLOR.CAPTION"
-msgid ">>"
-msgstr ">>"
-
-#: tfrmoptionsfilepanelscolors.btnindcolor.caption
-msgctxt "TFRMOPTIONSFILEPANELSCOLORS.BTNINDCOLOR.CAPTION"
-msgid ">>"
-msgstr ">>"
-
 #: tfrmoptionsfilepanelscolors.btnmarkcolor.caption
 msgctxt "TFRMOPTIONSFILEPANELSCOLORS.BTNMARKCOLOR.CAPTION"
+msgid ">>"
+msgstr ">>"
+
+#: tfrmoptionsfilepanelscolors.btnpathactiveback.caption
+#, fuzzy
+msgctxt "tfrmoptionsfilepanelscolors.btnpathactiveback.caption"
+msgid ">>"
+msgstr ">>"
+
+#: tfrmoptionsfilepanelscolors.btnpathactivetext.caption
+#, fuzzy
+msgctxt "tfrmoptionsfilepanelscolors.btnpathactivetext.caption"
+msgid ">>"
+msgstr ">>"
+
+#: tfrmoptionsfilepanelscolors.btnpathinactiveback.caption
+#, fuzzy
+msgctxt "tfrmoptionsfilepanelscolors.btnpathinactiveback.caption"
+msgid ">>"
+msgstr ">>"
+
+#: tfrmoptionsfilepanelscolors.btnpathinactivetext.caption
+#, fuzzy
+msgctxt "tfrmoptionsfilepanelscolors.btnpathinactivetext.caption"
 msgid ">>"
 msgstr ">>"
 
@@ -6031,10 +6148,6 @@ msgstr "Дазволіць накладанне колеру"
 msgid "Use &Frame Cursor"
 msgstr "Выкарыстоўваць &рамку курсора"
 
-#: tfrmoptionsfilepanelscolors.cbbusegradientind.caption
-msgid "Use &Gradient Indicator"
-msgstr "Выкарыстоўваць індыкатар &градыента"
-
 #: tfrmoptionsfilepanelscolors.cbbuseinactiveselcolor.caption
 msgid "Use Inactive Sel Color"
 msgstr "Выкарыстоўваць курсор у неактыўнай панэлі"
@@ -6048,9 +6161,9 @@ msgctxt "TFRMOPTIONSFILEPANELSCOLORS.CBUSECURSORBORDER.CAPTION"
 msgid "Cursor border"
 msgstr "Мяжа курсора"
 
-#: tfrmoptionsfilepanelscolors.dbfreespaceindicator.caption
-msgid "Drive Free Space Indicator"
-msgstr "Індыкатар вольнага месца на дыску"
+#: tfrmoptionsfilepanelscolors.dbcurrentpath.caption
+msgid "Current Path"
+msgstr ""
 
 #: tfrmoptionsfilepanelscolors.lblbackgroundcolor.caption
 msgid "Bac&kground:"
@@ -6079,20 +6192,33 @@ msgid "Inactive Mark Color:"
 msgstr "Колер неактыўнага вылучэння:"
 
 #: tfrmoptionsfilepanelscolors.lblinactivepanelbrightness.caption
-msgid "&Brightness level of inactive panel"
+#, fuzzy
+#| msgid "&Brightness level of inactive panel"
+msgid "&Brightness level of inactive panel:"
 msgstr "&Узровень яркасці неактыўнай панэлі"
-
-#: tfrmoptionsfilepanelscolors.lblindbackcolor.caption
-msgid "In&dicator Back Color:"
-msgstr "Колер фону &індыкатара:"
-
-#: tfrmoptionsfilepanelscolors.lblindcolor.caption
-msgid "&Indicator Fore Color:"
-msgstr "Колер інды&катара:"
 
 #: tfrmoptionsfilepanelscolors.lblmarkcolor.caption
 msgid "&Mark Color:"
 msgstr "&Колер вылучэння:"
+
+#: tfrmoptionsfilepanelscolors.lblpathactiveback.caption
+msgctxt "tfrmoptionsfilepanelscolors.lblpathactiveback.caption"
+msgid "Background:"
+msgstr ""
+
+#: tfrmoptionsfilepanelscolors.lblpathactivetext.caption
+#, fuzzy
+msgctxt "tfrmoptionsfilepanelscolors.lblpathactivetext.caption"
+msgid "Text Color:"
+msgstr "Колер тэксту:"
+
+#: tfrmoptionsfilepanelscolors.lblpathinactiveback.caption
+msgid "Inactive Background:"
+msgstr ""
+
+#: tfrmoptionsfilepanelscolors.lblpathinactivetext.caption
+msgid "Inactive Text Color:"
+msgstr ""
 
 #: tfrmoptionsfilepanelscolors.lblpreview.caption
 msgid "Below is a preview. You may move cursor, select file and get immediately an actual look and feel of the various settings."
@@ -8153,31 +8279,9 @@ msgstr "Колер тэксту пад курсорам, які не вылуч�
 msgid "Change color on left and you'll see here a preview of what your Tree View Menus will look likes with this sample."
 msgstr "Змяніце колеры злева, і вы ўбачыце як будзе выглядаць вашае меню."
 
-#: tfrmoptionsviewer.btnbackviewercolor.caption
-msgctxt "TFRMOPTIONSVIEWER.BTNBACKVIEWERCOLOR.CAPTION"
-msgid ">>"
-msgstr ">>"
-
-#: tfrmoptionsviewer.btnfontviewercolor.caption
-msgctxt "TFRMOPTIONSVIEWER.BTNFONTVIEWERCOLOR.CAPTION"
-msgid ">>"
-msgstr ">>"
-
-#: tfrmoptionsviewer.gbviewerbookmode.caption
-msgid "Viewer Book Mode"
-msgstr "Прагляд у рэжыме кнігі"
-
-#: tfrmoptionsviewer.gbviewerexample.caption
-msgid "Example"
-msgstr "Прыклад"
-
-#: tfrmoptionsviewer.lblbackgroundcolorviewerbook.caption
-msgid "&Background color in book viewer"
-msgstr "&Колер фону ў рэжыме кнігі"
-
-#: tfrmoptionsviewer.lblfontcolorviewerbook.caption
-msgid "&Font color in book viewer"
-msgstr "&Колер шрыфту ў рэжыме кнігі"
+#: tfrmoptionsviewer.gbinternalviewer.caption
+msgid "Internal viewer options"
+msgstr ""
 
 #: tfrmoptionsviewer.lblnumbercolumnsviewer.caption
 msgid "&Number of columns in book viewer"
@@ -8595,6 +8699,7 @@ msgid "Archive"
 msgstr "Архіў"
 
 #: tfrmsetfileproperties.chkcreationtime.caption
+msgctxt "tfrmsetfileproperties.chkcreationtime.caption"
 msgid "Created:"
 msgstr "Створаны:"
 
@@ -8607,6 +8712,7 @@ msgid "Accessed:"
 msgstr "Апошні доступ:"
 
 #: tfrmsetfileproperties.chklastwritetime.caption
+msgctxt "tfrmsetfileproperties.chklastwritetime.caption"
 msgid "Modified:"
 msgstr "Зменены:"
 
@@ -9286,6 +9392,18 @@ msgctxt "TFRMVIEWER.ACTFULLSCREEN.CAPTION"
 msgid "Full Screen"
 msgstr "На ўвесь экран"
 
+#: tfrmviewer.actgotoline.caption
+#, fuzzy
+msgctxt "tfrmviewer.actgotoline.caption"
+msgid "Goto Line..."
+msgstr "Перайсці да радка..."
+
+#: tfrmviewer.actgotoline.hint
+#, fuzzy
+msgctxt "tfrmviewer.actgotoline.hint"
+msgid "Goto Line"
+msgstr "Перайсці да радка"
+
 #: tfrmviewer.actimagecenter.caption
 msgid "Center"
 msgstr "Па цэнтры"
@@ -9433,6 +9551,10 @@ msgstr "Паказаць як тэкст з &пераносам"
 #: tfrmviewer.actshowcaret.caption
 msgid "Show text c&ursor"
 msgstr "Паказваць тэкставы &курсор"
+
+#: tfrmviewer.actshowcode.caption
+msgid "Code"
+msgstr ""
 
 #: tfrmviewer.actshowgraphics.caption
 msgctxt "tfrmviewer.actshowgraphics.caption"
@@ -9607,11 +9729,6 @@ msgstr "Здымак экрана"
 msgctxt "TFRMVIEWER.MIVIEW.CAPTION"
 msgid "&View"
 msgstr "&Праглядзець"
-
-#: tfrmviewer.pmiselectall.caption
-msgctxt "TFRMVIEWER.PMISELECTALL.CAPTION"
-msgid "Select All"
-msgstr "Абраць усё"
 
 #: tfrmviewoperations.btnstartpause.caption
 msgctxt "tfrmviewoperations.btnstartpause.caption"
@@ -9908,6 +10025,7 @@ msgid "Read error:"
 msgstr "Падчас чытання адбылася памылка:"
 
 #: ulng.rschecksumverifysuccess
+msgctxt "ulng.rschecksumverifysuccess"
 msgid "Success:"
 msgstr "Паспяхова:"
 
@@ -10005,6 +10123,10 @@ msgstr "Пацвярджэнне загаднага радка і парамет
 #, object-pascal-format
 msgid "Copy (%d) %s"
 msgstr "Копія (%d) %s"
+
+#: ulng.rsdarkmode
+msgid "Dark mode"
+msgstr "Цёмны рэжым"
 
 #: ulng.rsdarkmodeoptions
 msgid "Auto;Enabled;Disabled"
@@ -10268,6 +10390,10 @@ msgstr "Хуткасць %s/s, часу засталося %s"
 #: ulng.rsdraganddroptextformat
 msgid "Rich Text Format;HTML Format;Unicode Format;Simple Text Format"
 msgstr "Фармат RTF;Фармат HTML;Тэкст Unicode;Просты тэкст"
+
+#: ulng.rsdrivefreespaceindicator
+msgid "Drive Free Space Indicator"
+msgstr "Індыкатар вольнага месца на дыску"
 
 #: ulng.rsdrivenolabel
 msgid "<no label>"
@@ -13405,6 +13531,10 @@ msgstr "Файл"
 msgctxt "ulng.rspropsfolder"
 msgid "Directory"
 msgstr "Каталог"
+
+#: ulng.rspropsmultipletypes
+msgid "Multiple types"
+msgstr ""
 
 #: ulng.rspropsnmdpipe
 msgid "Named pipe"

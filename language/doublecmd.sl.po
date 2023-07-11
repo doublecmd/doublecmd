@@ -356,6 +356,12 @@ msgctxt "tfrmchecksumverify.caption"
 msgid "Verify checksum..."
 msgstr "Preveri nadzo&rno vsoto ..."
 
+#: tfrmchooseencoding.caption
+#, fuzzy
+msgctxt "tfrmchooseencoding.caption"
+msgid "Encoding"
+msgstr "Nabor znakov"
+
 #: tfrmconnectionmanager.btnadd.caption
 msgctxt "tfrmconnectionmanager.btnadd.caption"
 msgid "A&dd"
@@ -481,6 +487,7 @@ msgid "Auto Compare"
 msgstr "Samodejna primerjava"
 
 #: tfrmdiffer.actbinarycompare.caption
+msgctxt "tfrmdiffer.actbinarycompare.caption"
 msgid "Binary Mode"
 msgstr "Dvojiški način"
 
@@ -1257,23 +1264,6 @@ msgstr "Iz:"
 msgid "To:"
 msgstr "V:"
 
-#: tfrmfileproperties.btnclose.caption
-msgctxt "TFRMFILEPROPERTIES.BTNCLOSE.CAPTION"
-msgid "&Close"
-msgstr "&Zapri"
-
-#: tfrmfileproperties.btnsetproperties.caption
-msgid "&Set properties"
-msgstr "&Nastavi"
-
-#: tfrmfileproperties.btnsetpropertiestoallfiles.caption
-msgid "Set to &all selected files"
-msgstr "Nastavi &vsem"
-
-#: tfrmfileproperties.btnskipfile.caption
-msgid "Ski&p this file"
-msgstr "Pres&koči datoteko"
-
 #: tfrmfileproperties.caption
 msgctxt "tfrmfileproperties.caption"
 msgid "Properties"
@@ -1298,8 +1288,12 @@ msgstr "SUID"
 msgid "Allow &executing file as program"
 msgstr "Dovoli izvajanje datote&ke kot programa"
 
-#: tfrmfileproperties.gbowner.caption
-msgctxt "TFRMFILEPROPERTIES.GBOWNER.CAPTION"
+#: tfrmfileproperties.chkrecursive.caption
+msgid "&Recursive"
+msgstr ""
+
+#: tfrmfileproperties.dividerbevel3.caption
+msgctxt "TFRMFILEPROPERTIES.DIVIDERBEVEL3.CAPTION"
 msgid "Owner"
 msgstr "Lastnik"
 
@@ -1336,6 +1330,12 @@ msgstr "Črkovno:"
 #: tfrmfileproperties.lblcontainsstr.caption
 msgid "Contains:"
 msgstr "Vsebuje:"
+
+#: tfrmfileproperties.lblcreatedstr.caption
+#, fuzzy
+msgctxt "tfrmfileproperties.lblcreatedstr.caption"
+msgid "Created:"
+msgstr "Ustvarjeno:"
 
 #: tfrmfileproperties.lblexec.caption
 msgctxt "TFRMFILEPROPERTIES.LBLEXEC.CAPTION"
@@ -1382,6 +1382,14 @@ msgstr "Zadnja sprememba:"
 msgid "Last status change:"
 msgstr "Zadnja sprememba stanja:"
 
+#: tfrmfileproperties.lbllinksstr.caption
+msgid "Links:"
+msgstr ""
+
+#: tfrmfileproperties.lblmediatypestr.caption
+msgid "Media type:"
+msgstr ""
+
 #: tfrmfileproperties.lbloctal.caption
 msgctxt "tfrmfileproperties.lbloctal.caption"
 msgid "Octal:"
@@ -1395,6 +1403,10 @@ msgstr "&Lastnik"
 msgctxt "TFRMFILEPROPERTIES.LBLREAD.CAPTION"
 msgid "Read"
 msgstr "Branje"
+
+#: tfrmfileproperties.lblsizeondiskstr.caption
+msgid "Size on disk:"
+msgstr ""
 
 #: tfrmfileproperties.lblsizestr.caption
 msgctxt "tfrmfileproperties.lblsizestr.caption"
@@ -1414,13 +1426,13 @@ msgctxt "TFRMFILEPROPERTIES.LBLWRITE.CAPTION"
 msgid "Write"
 msgstr "Pisanje"
 
-#: tfrmfileproperties.sgimage.columns[0].title.caption
-msgctxt "tfrmfileproperties.sgimage.columns[0].title.caption"
+#: tfrmfileproperties.sgplugins.columns[0].title.caption
+msgctxt "tfrmfileproperties.sgplugins.columns[0].title.caption"
 msgid "Name"
 msgstr "Ime"
 
-#: tfrmfileproperties.sgimage.columns[1].title.caption
-msgctxt "tfrmfileproperties.sgimage.columns[1].title.caption"
+#: tfrmfileproperties.sgplugins.columns[1].title.caption
+msgctxt "tfrmfileproperties.sgplugins.columns[1].title.caption"
 msgid "Value"
 msgstr "Vrednost"
 
@@ -2716,6 +2728,10 @@ msgstr "Zaženi &terminal"
 msgid "Save current tabs to a New Favorite Tabs"
 msgstr "Shrani trenutne zavihke med priljubljene"
 
+#: tfrmmain.actsavefiledetailstofile.caption
+msgid "Save all shown columns to file"
+msgstr ""
+
 #: tfrmmain.actsaveselection.caption
 msgid "Sa&ve Selection"
 msgstr "Zapomni si izb&or"
@@ -3401,34 +3417,10 @@ msgstr "Kakovost stiskanja zapisa JPG"
 msgid "Width :"
 msgstr "Širina :"
 
-#: tfrmmodview.rbbmp.caption
-msgid "BMP"
-msgstr "BMP"
-
-#: tfrmmodview.rbico.caption
-msgid "ICO"
-msgstr "ICO"
-
-#: tfrmmodview.rbjpg.caption
-msgid "JPG"
-msgstr "JPG"
-
-#: tfrmmodview.rbpng.caption
-msgid "PNG"
-msgstr "PNG"
-
-#: tfrmmodview.rbpnm.caption
-msgid "PNM"
-msgstr "PNM"
-
 #: tfrmmodview.teheight.text
 msgctxt "tfrmmodview.teheight.text"
 msgid "Height"
 msgstr "Višina"
-
-#: tfrmmodview.tequality.text
-msgid "80"
-msgstr "80"
 
 #: tfrmmodview.tewidth.text
 msgctxt "tfrmmodview.tewidth.text"
@@ -4172,8 +4164,117 @@ msgstr "Določeno število stolpcev"
 msgid "Fixed columns width"
 msgstr "Določena širina stolpcev"
 
+#: tfrmoptionscolors.cbbusegradientind.caption
+msgid "Use &Gradient Indicator"
+msgstr "Uporabi kazalnik &preliva"
+
+#: tfrmoptionscolors.dbbinarymode.caption
+#, fuzzy
+msgctxt "tfrmoptionscolors.dbbinarymode.caption"
+msgid "Binary Mode"
+msgstr "Dvojiški način"
+
+#: tfrmoptionscolors.dbbookmode.caption
+msgid "Book Mode"
+msgstr ""
+
+#: tfrmoptionscolors.dbimagemode.caption
+msgid "Image Mode"
+msgstr ""
+
+#: tfrmoptionscolors.dbtextmode.caption
+msgid "Text Mode"
+msgstr ""
+
+#: tfrmoptionscolors.lbladded.caption
+msgid "Added:"
+msgstr ""
+
+#: tfrmoptionscolors.lblbookbackground.caption
+msgctxt "tfrmoptionscolors.lblbookbackground.caption"
+msgid "Background:"
+msgstr ""
+
+#: tfrmoptionscolors.lblbooktext.caption
+#, fuzzy
+msgctxt "tfrmoptionscolors.lblbooktext.caption"
+msgid "Text:"
+msgstr "Črkovno:"
+
+#: tfrmoptionscolors.lblcategory.caption
+msgid "Category:"
+msgstr ""
+
+#: tfrmoptionscolors.lbldeleted.caption
+msgid "Deleted:"
+msgstr ""
+
+#: tfrmoptionscolors.lblerror.caption
+msgid "Error:"
+msgstr ""
+
+#: tfrmoptionscolors.lblimagebackground1.caption
+msgid "Background 1:"
+msgstr ""
+
+#: tfrmoptionscolors.lblimagebackground2.caption
+#, fuzzy
+msgctxt "tfrmoptionscolors.lblimagebackground2.caption"
+msgid "Background 2:"
+msgstr "Ozadje 2:"
+
+#: tfrmoptionscolors.lblindbackcolor.caption
+msgid "In&dicator Back Color:"
+msgstr "Barva &ozadja"
+
+#: tfrmoptionscolors.lblindcolor.caption
+msgid "&Indicator Fore Color:"
+msgstr "Barva &pisave kazalnika:"
+
+#: tfrmoptionscolors.lblindthresholdcolor.caption
+msgid "Indicator &Threshold Color:"
+msgstr ""
+
+#: tfrmoptionscolors.lblinformation.caption
+msgid "Information:"
+msgstr ""
+
+#: tfrmoptionscolors.lblleft.caption
+msgid "Left:"
+msgstr ""
+
+#: tfrmoptionscolors.lblmodified.caption
+#, fuzzy
+msgctxt "tfrmoptionscolors.lblmodified.caption"
+msgid "Modified:"
+msgstr "Spremenjeno:"
+
+#: tfrmoptionscolors.lblmodifiedbinary.caption
+#, fuzzy
+msgctxt "tfrmoptionscolors.lblmodifiedbinary.caption"
+msgid "Modified:"
+msgstr "Spremenjeno:"
+
+#: tfrmoptionscolors.lblright.caption
+msgid "Right:"
+msgstr ""
+
+#: tfrmoptionscolors.lblsuccess.caption
+#, fuzzy
+msgctxt "tfrmoptionscolors.lblsuccess.caption"
+msgid "Success:"
+msgstr "Uspešno zaključeno:"
+
+#: tfrmoptionscolors.lblunknown.caption
+msgid "Unknown:"
+msgstr ""
+
 #: tfrmoptionscolors.rgdarkmode.caption
-msgid "Dark mode"
+msgid "State"
+msgstr ""
+
+#: tfrmoptionscolumnsview.cbcolumnstitlelikevalues.caption
+msgid "Column titles alignment &like values"
 msgstr ""
 
 #: tfrmoptionscolumnsview.cbcuttexttocolwidth.caption
@@ -4680,6 +4781,7 @@ msgid "BackGround:"
 msgstr "Ozadje:"
 
 #: tfrmoptionscustomcolumns.lblbackcolor2.caption
+msgctxt "tfrmoptionscustomcolumns.lblbackcolor2.caption"
 msgid "Background 2:"
 msgstr "Ozadje 2:"
 
@@ -4715,6 +4817,7 @@ msgid "Size:"
 msgstr "Velikost:"
 
 #: tfrmoptionscustomcolumns.lblforecolor.caption
+msgctxt "tfrmoptionscustomcolumns.lblforecolor.caption"
 msgid "Text Color:"
 msgstr "Barva besedila:"
 
@@ -6038,18 +6141,32 @@ msgctxt "TFRMOPTIONSFILEPANELSCOLORS.BTNINACTIVEMARKCOLOR.CAPTION"
 msgid ">>"
 msgstr ">>"
 
-#: tfrmoptionsfilepanelscolors.btnindbackcolor.caption
-msgctxt "TFRMOPTIONSFILEPANELSCOLORS.BTNINDBACKCOLOR.CAPTION"
-msgid ">>"
-msgstr ">>"
-
-#: tfrmoptionsfilepanelscolors.btnindcolor.caption
-msgctxt "TFRMOPTIONSFILEPANELSCOLORS.BTNINDCOLOR.CAPTION"
-msgid ">>"
-msgstr ">>"
-
 #: tfrmoptionsfilepanelscolors.btnmarkcolor.caption
 msgctxt "TFRMOPTIONSFILEPANELSCOLORS.BTNMARKCOLOR.CAPTION"
+msgid ">>"
+msgstr ">>"
+
+#: tfrmoptionsfilepanelscolors.btnpathactiveback.caption
+#, fuzzy
+msgctxt "tfrmoptionsfilepanelscolors.btnpathactiveback.caption"
+msgid ">>"
+msgstr ">>"
+
+#: tfrmoptionsfilepanelscolors.btnpathactivetext.caption
+#, fuzzy
+msgctxt "tfrmoptionsfilepanelscolors.btnpathactivetext.caption"
+msgid ">>"
+msgstr ">>"
+
+#: tfrmoptionsfilepanelscolors.btnpathinactiveback.caption
+#, fuzzy
+msgctxt "tfrmoptionsfilepanelscolors.btnpathinactiveback.caption"
+msgid ">>"
+msgstr ">>"
+
+#: tfrmoptionsfilepanelscolors.btnpathinactivetext.caption
+#, fuzzy
+msgctxt "tfrmoptionsfilepanelscolors.btnpathinactivetext.caption"
 msgid ">>"
 msgstr ">>"
 
@@ -6066,10 +6183,6 @@ msgstr "Dovoli nadbarvo"
 msgid "Use &Frame Cursor"
 msgstr "Uporabi kazalko &okvirja"
 
-#: tfrmoptionsfilepanelscolors.cbbusegradientind.caption
-msgid "Use &Gradient Indicator"
-msgstr "Uporabi kazalnik &preliva"
-
 #: tfrmoptionsfilepanelscolors.cbbuseinactiveselcolor.caption
 msgid "Use Inactive Sel Color"
 msgstr "Uporabi barvo in pisavo za nedejavno okno"
@@ -6083,9 +6196,9 @@ msgctxt "TFRMOPTIONSFILEPANELSCOLORS.CBUSECURSORBORDER.CAPTION"
 msgid "Cursor border"
 msgstr "Okvir kazalke"
 
-#: tfrmoptionsfilepanelscolors.dbfreespaceindicator.caption
-msgid "Drive Free Space Indicator"
-msgstr "Kazalnik zasedenosti prostora na pogonu"
+#: tfrmoptionsfilepanelscolors.dbcurrentpath.caption
+msgid "Current Path"
+msgstr ""
 
 #: tfrmoptionsfilepanelscolors.lblbackgroundcolor.caption
 msgid "Bac&kground:"
@@ -6114,20 +6227,33 @@ msgid "Inactive Mark Color:"
 msgstr "Označeno besedilo:"
 
 #: tfrmoptionsfilepanelscolors.lblinactivepanelbrightness.caption
-msgid "&Brightness level of inactive panel"
+#, fuzzy
+#| msgid "&Brightness level of inactive panel"
+msgid "&Brightness level of inactive panel:"
 msgstr "Raven &svetlosti nedejavnega okna"
-
-#: tfrmoptionsfilepanelscolors.lblindbackcolor.caption
-msgid "In&dicator Back Color:"
-msgstr "Barva &ozadja"
-
-#: tfrmoptionsfilepanelscolors.lblindcolor.caption
-msgid "&Indicator Fore Color:"
-msgstr "Barva &pisave kazalnika:"
 
 #: tfrmoptionsfilepanelscolors.lblmarkcolor.caption
 msgid "&Mark Color:"
 msgstr "Barva &oznake:"
+
+#: tfrmoptionsfilepanelscolors.lblpathactiveback.caption
+msgctxt "tfrmoptionsfilepanelscolors.lblpathactiveback.caption"
+msgid "Background:"
+msgstr ""
+
+#: tfrmoptionsfilepanelscolors.lblpathactivetext.caption
+#, fuzzy
+msgctxt "tfrmoptionsfilepanelscolors.lblpathactivetext.caption"
+msgid "Text Color:"
+msgstr "Barva besedila:"
+
+#: tfrmoptionsfilepanelscolors.lblpathinactiveback.caption
+msgid "Inactive Background:"
+msgstr ""
+
+#: tfrmoptionsfilepanelscolors.lblpathinactivetext.caption
+msgid "Inactive Text Color:"
+msgstr ""
 
 #: tfrmoptionsfilepanelscolors.lblpreview.caption
 msgid "Below is a preview. You may move cursor, select file and get immediately an actual look and feel of the various settings."
@@ -8231,31 +8357,9 @@ msgstr "Barva neizberljivega predmeta"
 msgid "Change color on left and you'll see here a preview of what your Tree View Menus will look likes with this sample."
 msgstr "S spreminjanjem barve na levi si je mogoče ogledati, kako bo drevesni pogled menija videti."
 
-#: tfrmoptionsviewer.btnbackviewercolor.caption
-msgctxt "TFRMOPTIONSVIEWER.BTNBACKVIEWERCOLOR.CAPTION"
-msgid ">>"
-msgstr ">>"
-
-#: tfrmoptionsviewer.btnfontviewercolor.caption
-msgctxt "TFRMOPTIONSVIEWER.BTNFONTVIEWERCOLOR.CAPTION"
-msgid ">>"
-msgstr ">>"
-
-#: tfrmoptionsviewer.gbviewerbookmode.caption
-msgid "Viewer Book Mode"
-msgstr "Način bralnega pregledovalnika"
-
-#: tfrmoptionsviewer.gbviewerexample.caption
-msgid "Example"
-msgstr "Primer"
-
-#: tfrmoptionsviewer.lblbackgroundcolorviewerbook.caption
-msgid "&Background color in book viewer"
-msgstr "Barva &ozadja v bralnem pregledovalniku"
-
-#: tfrmoptionsviewer.lblfontcolorviewerbook.caption
-msgid "&Font color in book viewer"
-msgstr "&Barva pisave v bralnem pregledovalniku"
+#: tfrmoptionsviewer.gbinternalviewer.caption
+msgid "Internal viewer options"
+msgstr ""
 
 #: tfrmoptionsviewer.lblnumbercolumnsviewer.caption
 msgid "&Number of columns in book viewer"
@@ -8679,6 +8783,7 @@ msgid "Archive"
 msgstr "Arhiv"
 
 #: tfrmsetfileproperties.chkcreationtime.caption
+msgctxt "tfrmsetfileproperties.chkcreationtime.caption"
 msgid "Created:"
 msgstr "Ustvarjeno:"
 
@@ -8691,6 +8796,7 @@ msgid "Accessed:"
 msgstr "Zadnji dostop:"
 
 #: tfrmsetfileproperties.chklastwritetime.caption
+msgctxt "tfrmsetfileproperties.chklastwritetime.caption"
 msgid "Modified:"
 msgstr "Spremenjeno:"
 
@@ -9375,6 +9481,18 @@ msgctxt "TFRMVIEWER.ACTFULLSCREEN.CAPTION"
 msgid "Full Screen"
 msgstr "Celozaslonski način"
 
+#: tfrmviewer.actgotoline.caption
+#, fuzzy
+msgctxt "tfrmviewer.actgotoline.caption"
+msgid "Goto Line..."
+msgstr "Skoči v vrstico ..."
+
+#: tfrmviewer.actgotoline.hint
+#, fuzzy
+msgctxt "tfrmviewer.actgotoline.hint"
+msgid "Goto Line"
+msgstr "Skoči v vrstico"
+
 #: tfrmviewer.actimagecenter.caption
 msgid "Center"
 msgstr "Sredina"
@@ -9521,6 +9639,10 @@ msgstr "Pokaži kot besedilo v &prelomu"
 
 #: tfrmviewer.actshowcaret.caption
 msgid "Show text c&ursor"
+msgstr ""
+
+#: tfrmviewer.actshowcode.caption
+msgid "Code"
 msgstr ""
 
 #: tfrmviewer.actshowgraphics.caption
@@ -9701,11 +9823,6 @@ msgstr "Zaslonski posnetek"
 msgctxt "TFRMVIEWER.MIVIEW.CAPTION"
 msgid "&View"
 msgstr "&Pogled"
-
-#: tfrmviewer.pmiselectall.caption
-msgctxt "TFRMVIEWER.PMISELECTALL.CAPTION"
-msgid "Select All"
-msgstr "Izberi vse"
 
 #: tfrmviewoperations.btnstartpause.caption
 #, fuzzy
@@ -10021,6 +10138,7 @@ msgid "Read error:"
 msgstr "Napaka branj:"
 
 #: ulng.rschecksumverifysuccess
+msgctxt "ulng.rschecksumverifysuccess"
 msgid "Success:"
 msgstr "Uspešno zaključeno:"
 
@@ -10118,6 +10236,10 @@ msgstr "Potrjevanje ukazne vrstice in parametrov"
 #, object-pascal-format
 msgid "Copy (%d) %s"
 msgstr "Kopiraj (%d) %s"
+
+#: ulng.rsdarkmode
+msgid "Dark mode"
+msgstr ""
 
 #: ulng.rsdarkmodeoptions
 msgid "Auto;Enabled;Disabled"
@@ -10380,6 +10502,10 @@ msgstr "Pri hitrosti %s/s bo opravilo trajalo še %s"
 #: ulng.rsdraganddroptextformat
 msgid "Rich Text Format;HTML Format;Unicode Format;Simple Text Format"
 msgstr "obogateno besedilo;zapis HTML;zapis v naboru Unikod;običajno besedilo"
+
+#: ulng.rsdrivefreespaceindicator
+msgid "Drive Free Space Indicator"
+msgstr "Kazalnik zasedenosti prostora na pogonu"
 
 #: ulng.rsdrivenolabel
 msgid "<no label>"
@@ -13521,6 +13647,10 @@ msgstr "Datoteka"
 msgctxt "ulng.rspropsfolder"
 msgid "Directory"
 msgstr "Mapa"
+
+#: ulng.rspropsmultipletypes
+msgid "Multiple types"
+msgstr ""
 
 #: ulng.rspropsnmdpipe
 msgid "Named pipe"

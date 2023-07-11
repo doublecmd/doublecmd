@@ -369,6 +369,12 @@ msgctxt "tfrmchecksumverify.caption"
 msgid "Verify checksum..."
 msgstr "Verifikation af kontrolsum"
 
+#: tfrmchooseencoding.caption
+#, fuzzy
+msgctxt "tfrmchooseencoding.caption"
+msgid "Encoding"
+msgstr "Koder"
+
 #: tfrmconnectionmanager.btnadd.caption
 msgctxt "tfrmconnectionmanager.btnadd.caption"
 msgid "A&dd"
@@ -503,6 +509,7 @@ msgid "Auto Compare"
 msgstr "Sammenlign automatisk"
 
 #: tfrmdiffer.actbinarycompare.caption
+msgctxt "tfrmdiffer.actbinarycompare.caption"
 msgid "Binary Mode"
 msgstr "&Binær tilstand"
 
@@ -1289,23 +1296,6 @@ msgstr "Fra:"
 msgid "To:"
 msgstr "Til:"
 
-#: tfrmfileproperties.btnclose.caption
-msgctxt "TFRMFILEPROPERTIES.BTNCLOSE.CAPTION"
-msgid "&Close"
-msgstr "&Luk"
-
-#: tfrmfileproperties.btnsetproperties.caption
-msgid "&Set properties"
-msgstr "Ind&stil egenskaber"
-
-#: tfrmfileproperties.btnsetpropertiestoallfiles.caption
-msgid "Set to &all selected files"
-msgstr "Indstil &alle valgte filer"
-
-#: tfrmfileproperties.btnskipfile.caption
-msgid "Ski&p this file"
-msgstr "S&pring filen over"
-
 #: tfrmfileproperties.caption
 msgctxt "tfrmfileproperties.caption"
 msgid "Properties"
@@ -1331,8 +1321,12 @@ msgstr "SUID"
 msgid "Allow &executing file as program"
 msgstr "Tillad &eksekvering af filen som program"
 
-#: tfrmfileproperties.gbowner.caption
-msgctxt "TFRMFILEPROPERTIES.GBOWNER.CAPTION"
+#: tfrmfileproperties.chkrecursive.caption
+msgid "&Recursive"
+msgstr ""
+
+#: tfrmfileproperties.dividerbevel3.caption
+msgctxt "TFRMFILEPROPERTIES.DIVIDERBEVEL3.CAPTION"
 msgid "Owner"
 msgstr "Ejer"
 
@@ -1369,6 +1363,12 @@ msgstr "Tekst:"
 #: tfrmfileproperties.lblcontainsstr.caption
 msgid "Contains:"
 msgstr "Indeholder:"
+
+#: tfrmfileproperties.lblcreatedstr.caption
+#, fuzzy
+msgctxt "tfrmfileproperties.lblcreatedstr.caption"
+msgid "Created:"
+msgstr "Oprettet:"
 
 #: tfrmfileproperties.lblexec.caption
 msgctxt "TFRMFILEPROPERTIES.LBLEXEC.CAPTION"
@@ -1415,6 +1415,14 @@ msgstr "Ændret:"
 msgid "Last status change:"
 msgstr "Attributter ændret:"
 
+#: tfrmfileproperties.lbllinksstr.caption
+msgid "Links:"
+msgstr ""
+
+#: tfrmfileproperties.lblmediatypestr.caption
+msgid "Media type:"
+msgstr ""
+
 #: tfrmfileproperties.lbloctal.caption
 msgctxt "tfrmfileproperties.lbloctal.caption"
 msgid "Octal:"
@@ -1428,6 +1436,10 @@ msgstr "Ejer:"
 msgctxt "TFRMFILEPROPERTIES.LBLREAD.CAPTION"
 msgid "Read"
 msgstr "Læs"
+
+#: tfrmfileproperties.lblsizeondiskstr.caption
+msgid "Size on disk:"
+msgstr ""
 
 #: tfrmfileproperties.lblsizestr.caption
 msgctxt "tfrmfileproperties.lblsizestr.caption"
@@ -1447,13 +1459,13 @@ msgctxt "TFRMFILEPROPERTIES.LBLWRITE.CAPTION"
 msgid "Write"
 msgstr "Skriv"
 
-#: tfrmfileproperties.sgimage.columns[0].title.caption
-msgctxt "tfrmfileproperties.sgimage.columns[0].title.caption"
+#: tfrmfileproperties.sgplugins.columns[0].title.caption
+msgctxt "tfrmfileproperties.sgplugins.columns[0].title.caption"
 msgid "Name"
 msgstr "Navn"
 
-#: tfrmfileproperties.sgimage.columns[1].title.caption
-msgctxt "tfrmfileproperties.sgimage.columns[1].title.caption"
+#: tfrmfileproperties.sgplugins.columns[1].title.caption
+msgctxt "tfrmfileproperties.sgplugins.columns[1].title.caption"
 msgid "Value"
 msgstr "Værdi"
 
@@ -2875,6 +2887,10 @@ msgstr "Åbn terminal (komman&do-prompt)"
 msgid "Save current tabs to a New Favorite Tabs"
 msgstr "Gem aktuelt faneblad som nyt Favoritfaneblad"
 
+#: tfrmmain.actsavefiledetailstofile.caption
+msgid "Save all shown columns to file"
+msgstr ""
+
 # Marker
 #: tfrmmain.actsaveselection.caption
 msgid "Sa&ve Selection"
@@ -3603,34 +3619,10 @@ msgstr "JPG-komprimering"
 msgid "Width :"
 msgstr "Width :"
 
-#: tfrmmodview.rbbmp.caption
-msgid "BMP"
-msgstr "BMP"
-
-#: tfrmmodview.rbico.caption
-msgid "ICO"
-msgstr "ICO"
-
-#: tfrmmodview.rbjpg.caption
-msgid "JPG"
-msgstr "JPG"
-
-#: tfrmmodview.rbpng.caption
-msgid "PNG"
-msgstr "PNG"
-
-#: tfrmmodview.rbpnm.caption
-msgid "PNM"
-msgstr "PNM"
-
 #: tfrmmodview.teheight.text
 msgctxt "tfrmmodview.teheight.text"
 msgid "Height"
 msgstr "Højde"
-
-#: tfrmmodview.tequality.text
-msgid "80"
-msgstr "80"
 
 #: tfrmmodview.tewidth.text
 msgctxt "tfrmmodview.tewidth.text"
@@ -4468,8 +4460,120 @@ msgstr "Fast antal kolonner:"
 msgid "Fixed columns width"
 msgstr "Fast kolonnebredde:"
 
+# Opsætning - Indstillinger - Farver - Filvindue
+#: tfrmoptionscolors.cbbusegradientind.caption
+msgid "Use &Gradient Indicator"
+msgstr "Anvend flydende farveover&gange (grøn - gul - rød)"
+
+#: tfrmoptionscolors.dbbinarymode.caption
+#, fuzzy
+msgctxt "tfrmoptionscolors.dbbinarymode.caption"
+msgid "Binary Mode"
+msgstr "&Binær tilstand"
+
+#: tfrmoptionscolors.dbbookmode.caption
+msgid "Book Mode"
+msgstr ""
+
+#: tfrmoptionscolors.dbimagemode.caption
+msgid "Image Mode"
+msgstr ""
+
+#: tfrmoptionscolors.dbtextmode.caption
+msgid "Text Mode"
+msgstr ""
+
+#: tfrmoptionscolors.lbladded.caption
+msgid "Added:"
+msgstr ""
+
+#: tfrmoptionscolors.lblbookbackground.caption
+msgctxt "tfrmoptionscolors.lblbookbackground.caption"
+msgid "Background:"
+msgstr ""
+
+#: tfrmoptionscolors.lblbooktext.caption
+#, fuzzy
+msgctxt "tfrmoptionscolors.lblbooktext.caption"
+msgid "Text:"
+msgstr "Tekst:"
+
+#: tfrmoptionscolors.lblcategory.caption
+msgid "Category:"
+msgstr ""
+
+#: tfrmoptionscolors.lbldeleted.caption
+msgid "Deleted:"
+msgstr ""
+
+#: tfrmoptionscolors.lblerror.caption
+msgid "Error:"
+msgstr ""
+
+#: tfrmoptionscolors.lblimagebackground1.caption
+msgid "Background 1:"
+msgstr ""
+
+#: tfrmoptionscolors.lblimagebackground2.caption
+#, fuzzy
+msgctxt "tfrmoptionscolors.lblimagebackground2.caption"
+msgid "Background 2:"
+msgstr "Baggrund &2:"
+
+# Opsætning - Indstillinger - Farver - Filvindue
+#: tfrmoptionscolors.lblindbackcolor.caption
+msgid "In&dicator Back Color:"
+msgstr "Farve for le&dig plads:"
+
+# Opsætning - Indstillinger - Farver - Filvindue
+#: tfrmoptionscolors.lblindcolor.caption
+msgid "&Indicator Fore Color:"
+msgstr "Farve for brugt plads:"
+
+#: tfrmoptionscolors.lblindthresholdcolor.caption
+msgid "Indicator &Threshold Color:"
+msgstr ""
+
+#: tfrmoptionscolors.lblinformation.caption
+msgid "Information:"
+msgstr ""
+
+#: tfrmoptionscolors.lblleft.caption
+msgid "Left:"
+msgstr ""
+
+#: tfrmoptionscolors.lblmodified.caption
+#, fuzzy
+msgctxt "tfrmoptionscolors.lblmodified.caption"
+msgid "Modified:"
+msgstr "Ændret:"
+
+#: tfrmoptionscolors.lblmodifiedbinary.caption
+#, fuzzy
+msgctxt "tfrmoptionscolors.lblmodifiedbinary.caption"
+msgid "Modified:"
+msgstr "Ændret:"
+
+#: tfrmoptionscolors.lblright.caption
+msgid "Right:"
+msgstr ""
+
+#: tfrmoptionscolors.lblsuccess.caption
+#, fuzzy
+msgctxt "tfrmoptionscolors.lblsuccess.caption"
+msgid "Success:"
+msgstr "Lykkedes:"
+
+#: tfrmoptionscolors.lblunknown.caption
+msgid "Unknown:"
+msgstr ""
+
 #: tfrmoptionscolors.rgdarkmode.caption
-msgid "Dark mode"
+msgid "State"
+msgstr ""
+
+#: tfrmoptionscolumnsview.cbcolumnstitlelikevalues.caption
+msgid "Column titles alignment &like values"
 msgstr ""
 
 # Opsætning  - Indstillinger - Visning - Kolonner
@@ -5011,6 +5115,7 @@ msgid "BackGround:"
 msgstr "&Baggrund:"
 
 #: tfrmoptionscustomcolumns.lblbackcolor2.caption
+msgctxt "tfrmoptionscustomcolumns.lblbackcolor2.caption"
 msgid "Background 2:"
 msgstr "Baggrund &2:"
 
@@ -5047,6 +5152,7 @@ msgstr "Størrelse"
 
 # Opsætning - Indstillinger - Visning - Kolonner - Brugertilpassede kolonner - Brug brugerdefinerede skrifttyper[...]
 #: tfrmoptionscustomcolumns.lblforecolor.caption
+msgctxt "tfrmoptionscustomcolumns.lblforecolor.caption"
 msgid "Text Color:"
 msgstr "&Skriftfarve:"
 
@@ -6528,18 +6634,32 @@ msgctxt "TFRMOPTIONSFILEPANELSCOLORS.BTNINACTIVEMARKCOLOR.CAPTION"
 msgid ">>"
 msgstr ">>"
 
-#: tfrmoptionsfilepanelscolors.btnindbackcolor.caption
-msgctxt "TFRMOPTIONSFILEPANELSCOLORS.BTNINDBACKCOLOR.CAPTION"
-msgid ">>"
-msgstr ">>"
-
-#: tfrmoptionsfilepanelscolors.btnindcolor.caption
-msgctxt "TFRMOPTIONSFILEPANELSCOLORS.BTNINDCOLOR.CAPTION"
-msgid ">>"
-msgstr ">>"
-
 #: tfrmoptionsfilepanelscolors.btnmarkcolor.caption
 msgctxt "TFRMOPTIONSFILEPANELSCOLORS.BTNMARKCOLOR.CAPTION"
+msgid ">>"
+msgstr ">>"
+
+#: tfrmoptionsfilepanelscolors.btnpathactiveback.caption
+#, fuzzy
+msgctxt "tfrmoptionsfilepanelscolors.btnpathactiveback.caption"
+msgid ">>"
+msgstr ">>"
+
+#: tfrmoptionsfilepanelscolors.btnpathactivetext.caption
+#, fuzzy
+msgctxt "tfrmoptionsfilepanelscolors.btnpathactivetext.caption"
+msgid ">>"
+msgstr ">>"
+
+#: tfrmoptionsfilepanelscolors.btnpathinactiveback.caption
+#, fuzzy
+msgctxt "tfrmoptionsfilepanelscolors.btnpathinactiveback.caption"
+msgid ">>"
+msgstr ">>"
+
+#: tfrmoptionsfilepanelscolors.btnpathinactivetext.caption
+#, fuzzy
+msgctxt "tfrmoptionsfilepanelscolors.btnpathinactivetext.caption"
 msgid ">>"
 msgstr ">>"
 
@@ -6560,11 +6680,6 @@ msgid "Use &Frame Cursor"
 msgstr "Ma&rkeret som ramme"
 
 # Opsætning - Indstillinger - Farver - Filvindue
-#: tfrmoptionsfilepanelscolors.cbbusegradientind.caption
-msgid "Use &Gradient Indicator"
-msgstr "Anvend flydende farveover&gange (grøn - gul - rød)"
-
-# Opsætning - Indstillinger - Farver - Filvindue
 #: tfrmoptionsfilepanelscolors.cbbuseinactiveselcolor.caption
 msgid "Use Inactive Sel Color"
 msgstr "Brug &inverteret farvevalg for inaktiv"
@@ -6580,10 +6695,9 @@ msgctxt "TFRMOPTIONSFILEPANELSCOLORS.CBUSECURSORBORDER.CAPTION"
 msgid "Cursor border"
 msgstr "Markørgrænser:"
 
-# Opsætning - Indstillinger - Farver - Filvindue
-#: tfrmoptionsfilepanelscolors.dbfreespaceindicator.caption
-msgid "Drive Free Space Indicator"
-msgstr "Bar for brugt/ledig plads"
+#: tfrmoptionsfilepanelscolors.dbcurrentpath.caption
+msgid "Current Path"
+msgstr ""
 
 # Opsætning - Indstillinger - Farver - Filvindue
 #: tfrmoptionsfilepanelscolors.lblbackgroundcolor.caption
@@ -6619,23 +6733,34 @@ msgstr "Valgt inaktiv farve:"
 
 # Opsætning - Indstillinger - Farver - Filvindue
 #: tfrmoptionsfilepanelscolors.lblinactivepanelbrightness.caption
-msgid "&Brightness level of inactive panel"
+#, fuzzy
+#| msgid "&Brightness level of inactive panel"
+msgid "&Brightness level of inactive panel:"
 msgstr "Lysstyrke i det inaktive vindue"
-
-# Opsætning - Indstillinger - Farver - Filvindue
-#: tfrmoptionsfilepanelscolors.lblindbackcolor.caption
-msgid "In&dicator Back Color:"
-msgstr "Farve for le&dig plads:"
-
-# Opsætning - Indstillinger - Farver - Filvindue
-#: tfrmoptionsfilepanelscolors.lblindcolor.caption
-msgid "&Indicator Fore Color:"
-msgstr "Farve for brugt plads:"
 
 # Opsætning - Indstillinger - Farver - Filvindue
 #: tfrmoptionsfilepanelscolors.lblmarkcolor.caption
 msgid "&Mark Color:"
 msgstr "&Valgt farve:"
+
+#: tfrmoptionsfilepanelscolors.lblpathactiveback.caption
+msgctxt "tfrmoptionsfilepanelscolors.lblpathactiveback.caption"
+msgid "Background:"
+msgstr ""
+
+#: tfrmoptionsfilepanelscolors.lblpathactivetext.caption
+#, fuzzy
+msgctxt "tfrmoptionsfilepanelscolors.lblpathactivetext.caption"
+msgid "Text Color:"
+msgstr "&Skriftfarve:"
+
+#: tfrmoptionsfilepanelscolors.lblpathinactiveback.caption
+msgid "Inactive Background:"
+msgstr ""
+
+#: tfrmoptionsfilepanelscolors.lblpathinactivetext.caption
+msgid "Inactive Text Color:"
+msgstr ""
 
 # Opsætning - Indstillinger - Farver - Filvindue
 #: tfrmoptionsfilepanelscolors.lblpreview.caption
@@ -9109,35 +9234,9 @@ msgstr "Ikke-valgbar under markør:"
 msgid "Change color on left and you'll see here a preview of what your Tree View Menus will look likes with this sample."
 msgstr "Når du til venstre ændrer farven, kan du se et preview af, hvordan din mappeoversigt kommer til at se ud i dette eksempel."
 
-#: tfrmoptionsviewer.btnbackviewercolor.caption
-msgctxt "TFRMOPTIONSVIEWER.BTNBACKVIEWERCOLOR.CAPTION"
-msgid ">>"
-msgstr ">>"
-
-#: tfrmoptionsviewer.btnfontviewercolor.caption
-msgctxt "TFRMOPTIONSVIEWER.BTNFONTVIEWERCOLOR.CAPTION"
-msgid ">>"
-msgstr ">>"
-
-# Opsætning - Indstillinger - Værktøjer - Fremviser
-#: tfrmoptionsviewer.gbviewerbookmode.caption
-msgid "Viewer Book Mode"
-msgstr "Bogvisning"
-
-# Opsætning - Indstillinger - Værktøjer - Fremviser
-#: tfrmoptionsviewer.gbviewerexample.caption
-msgid "Example"
-msgstr "Eksempel"
-
-# Opsætning - Indstillinger - Værktøjer - Fremviser
-#: tfrmoptionsviewer.lblbackgroundcolorviewerbook.caption
-msgid "&Background color in book viewer"
-msgstr "&Baggrundsfarve for bogvisning:"
-
-# Opsætning - Indstillinger - Værktøjer - Fremviser
-#: tfrmoptionsviewer.lblfontcolorviewerbook.caption
-msgid "&Font color in book viewer"
-msgstr "Skrift&farve i bogvisning:"
+#: tfrmoptionsviewer.gbinternalviewer.caption
+msgid "Internal viewer options"
+msgstr ""
 
 # Opsætning - Indstillinger - Værktøjer - Fremviser
 #: tfrmoptionsviewer.lblnumbercolumnsviewer.caption
@@ -9575,6 +9674,7 @@ msgstr "&a  Arkiv"
 
 # Filer - Ændre_attributter
 #: tfrmsetfileproperties.chkcreationtime.caption
+msgctxt "tfrmsetfileproperties.chkcreationtime.caption"
 msgid "Created:"
 msgstr "Oprettet:"
 
@@ -9590,6 +9690,7 @@ msgstr "Åbnet:"
 
 # Filer - Ændre_attributter
 #: tfrmsetfileproperties.chklastwritetime.caption
+msgctxt "tfrmsetfileproperties.chklastwritetime.caption"
 msgid "Modified:"
 msgstr "Ændret:"
 
@@ -10301,6 +10402,18 @@ msgctxt "TFRMVIEWER.ACTFULLSCREEN.CAPTION"
 msgid "Full Screen"
 msgstr "Fuldskærm"
 
+#: tfrmviewer.actgotoline.caption
+#, fuzzy
+msgctxt "tfrmviewer.actgotoline.caption"
+msgid "Goto Line..."
+msgstr "Gå til linje"
+
+#: tfrmviewer.actgotoline.hint
+#, fuzzy
+msgctxt "tfrmviewer.actgotoline.hint"
+msgid "Goto Line"
+msgstr "Gå til linje"
+
 #: tfrmviewer.actimagecenter.caption
 msgid "Center"
 msgstr "Center"
@@ -10457,6 +10570,10 @@ msgstr "Ombryd tekst"
 
 #: tfrmviewer.actshowcaret.caption
 msgid "Show text c&ursor"
+msgstr ""
+
+#: tfrmviewer.actshowcode.caption
+msgid "Code"
 msgstr ""
 
 # F3 - Vis
@@ -10643,11 +10760,6 @@ msgstr "Tag et skærmbillede"
 msgctxt "TFRMVIEWER.MIVIEW.CAPTION"
 msgid "&View"
 msgstr "&Vis"
-
-#: tfrmviewer.pmiselectall.caption
-msgctxt "TFRMVIEWER.PMISELECTALL.CAPTION"
-msgid "Select All"
-msgstr "Vælg alle"
 
 #: tfrmviewoperations.btnstartpause.caption
 msgctxt "tfrmviewoperations.btnstartpause.caption"
@@ -10958,6 +11070,7 @@ msgid "Read error:"
 msgstr "Læsefejl"
 
 #: ulng.rschecksumverifysuccess
+msgctxt "ulng.rschecksumverifysuccess"
 msgid "Success:"
 msgstr "Lykkedes:"
 
@@ -11057,6 +11170,10 @@ msgstr "Bekræfter kommandolinje og parametre"
 #, object-pascal-format
 msgid "Copy (%d) %s"
 msgstr "Kopier (%d) %s"
+
+#: ulng.rsdarkmode
+msgid "Dark mode"
+msgstr ""
 
 #: ulng.rsdarkmodeoptions
 msgid "Auto;Enabled;Disabled"
@@ -11320,6 +11437,11 @@ msgstr "Hastighed %s/s, resterende tid %s"
 #: ulng.rsdraganddroptextformat
 msgid "Rich Text Format;HTML Format;Unicode Format;Simple Text Format"
 msgstr "Rich Text-format;HTML-fFormat;Unicode-format;Simple Text-format"
+
+# Opsætning - Indstillinger - Farver - Filvindue
+#: ulng.rsdrivefreespaceindicator
+msgid "Drive Free Space Indicator"
+msgstr "Bar for brugt/ledig plads"
 
 #: ulng.rsdrivenolabel
 msgid "<no label>"
@@ -14581,6 +14703,10 @@ msgstr "Fil"
 msgctxt "ulng.rspropsfolder"
 msgid "Directory"
 msgstr "Mappe"
+
+#: ulng.rspropsmultipletypes
+msgid "Multiple types"
+msgstr ""
 
 #: ulng.rspropsnmdpipe
 msgid "Named pipe"
