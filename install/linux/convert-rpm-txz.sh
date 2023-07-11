@@ -45,7 +45,7 @@ pushd $DC_TEMP_DIR
 
 $SCRIPT_DIR/rpm2cpio.sh $1 | cpio -idmv
 
-if [ "$CPU_TARGET" = "x86_64" ]
+if [[ "$CPU_TARGET" == *"64" ]]
   then
     mv usr/lib64/doublecmd ./
   else
