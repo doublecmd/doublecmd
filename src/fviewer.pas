@@ -1723,6 +1723,8 @@ begin
   else begin
     with SavePictureDialog do
     begin
+      FileName:= EmptyStr;
+      InitialDir:= ExtractFileDir(FileList.Strings[iActiveFile]);
       if not Execute then Exit;
       sExt:= ExtensionSeparator + GetFilterExt;
       sFileName:= ChangeFileExt(FileName, sExt);
