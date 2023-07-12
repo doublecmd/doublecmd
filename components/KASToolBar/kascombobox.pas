@@ -30,6 +30,10 @@ uses
   Classes, SysUtils, LResources, Forms, Controls, Graphics, Dialogs, StdCtrls,
   ColorBox, Buttons, LMessages, Types;
 
+const
+  DEF_COLOR_STYLE = [cbStandardColors, cbExtendedColors,
+                     cbSystemColors, cbPrettyNames];
+
 type
 
   { TComboBoxWithDelItems }
@@ -62,6 +66,11 @@ type
                                      WithThemeSpace: Boolean); override;
     procedure DoAutoAdjustLayout(const AMode: TLayoutAdjustmentPolicy;
                 const AXProportion, AYProportion: Double); override;
+  public
+    constructor Create(AOwner: TComponent); override;
+  published
+    property DefaultColorColor default clNone;
+    property Style default DEF_COLOR_STYLE;
   end;
 
   { TKASColorBoxButton }
@@ -69,8 +78,10 @@ type
   TKASColorBoxButton = class(TCustomControl)
   private
     function GetSelected: TColor;
+    function GetStyle: TColorBoxStyle;
     function GetOnChange: TNotifyEvent;
     procedure SetSelected(AValue: TColor);
+    procedure SetStyle(AValue: TColorBoxStyle);
     procedure SetOnChange(AValue: TNotifyEvent);
   protected
     FButton: TSpeedButton;
@@ -91,6 +102,7 @@ type
     property TabOrder;
     property AutoSize default True;
     property OnChange: TNotifyEvent read GetOnChange write SetOnChange;
+    property Style: TColorBoxStyle read GetStyle write SetStyle default DEF_COLOR_STYLE;
   end;
 
 procedure Register;
@@ -253,11 +265,23 @@ begin
   inherited DoAutoAdjustLayout(AMode, 1.0, AYProportion);
 end;
 
+constructor TKASColorBox.Create(AOwner: TComponent);
+begin
+  inherited Create(AOwner);
+  Style:= DEF_COLOR_STYLE;
+  DefaultColorColor:= clNone;
+end;
+
 { TKASColorBoxButton }
 
 function TKASColorBoxButton.GetSelected: TColor;
 begin
   Result:= FColorBox.Selected;
+end;
+
+function TKASColorBoxButton.GetStyle: TColorBoxStyle;
+begin
+  Result:= FColorBox.Style;
 end;
 
 function TKASColorBoxButton.GetOnChange: TNotifyEvent;
@@ -268,6 +292,11 @@ end;
 procedure TKASColorBoxButton.SetSelected(AValue: TColor);
 begin
   FColorBox.SetCustomColor(AValue);
+end;
+
+procedure TKASColorBoxButton.SetStyle(AValue: TColorBoxStyle);
+begin
+  FColorBox.Style:= AValue;
 end;
 
 procedure TKASColorBoxButton.SetOnChange(AValue: TNotifyEvent);
@@ -370,7 +399,6 @@ begin
     Align:= alClient;
     ParentColor:= False;
     ParentFont:= True;
-    Style:= Style + [cbPrettyNames];
     Parent:= Self;
   end;
 

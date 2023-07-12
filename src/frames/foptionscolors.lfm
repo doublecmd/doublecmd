@@ -140,6 +140,7 @@ inherited frmOptionsColors: TfrmOptionsColors
         Top = 157
         Width = 240
         TabOrder = 3
+        Style = [cbStandardColors, cbExtendedColors, cbSystemColors, cbIncludeDefault, cbPrettyNames]
       end
     end
     object pgDiffer: TPage
