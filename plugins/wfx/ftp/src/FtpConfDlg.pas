@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Wfx plugin for working with File Transfer Protocol
 
-   Copyright (C) 2009-2018 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2009-2023 Alexander Koblov (alexx2000@mail.ru)
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Lesser General Public
@@ -448,6 +448,17 @@ begin
             gConnection.PublicKey:= PAnsiChar(Data);
             Data:= SendDlgMsg(pDlg, 'fnePrivateKey', DM_GETTEXT, 0, 0);
             gConnection.PrivateKey:= PAnsiChar(Data);
+
+            if gConnection.OpenSSH then
+            begin
+              if (Length(gConnection.PublicKey) > 0) and (Length(gConnection.PrivateKey) = 0) or
+                 (Length(gConnection.PublicKey) = 0) and (Length(gConnection.PrivateKey) > 0) then
+              begin
+                gStartupInfo.MessageBox('You must enter the location of the public/private key pair!',
+                                        nil, MB_OK or MB_ICONERROR);
+                Exit;
+              end;
+            end;
 
             if gConnection.FullSSL and (InitSSLInterface = False) then
             begin;

@@ -221,6 +221,7 @@ var
   libssh2_session_last_error: function(session: PLIBSSH2_SESSION; errmsg: PPAnsiChar;
                                        errmsg_len: pcint; want_buf: cint): cint; cdecl;
   //* Userauth API */
+  libssh2_userauth_authenticated: function(session: PLIBSSH2_SESSION): cint; cdecl;
   libssh2_userauth_list: function(session: PLIBSSH2_SESSION;
                                   const username: PAnsiChar; username_len: cuint): PAnsiChar; cdecl;
   libssh2_userauth_password_ex: function(session: PLIBSSH2_SESSION;
@@ -540,6 +541,7 @@ begin
     //* Userauth API */
     libssh2_userauth_list:= SafeGetProcAddress(libssh2, 'libssh2_userauth_list');
     libssh2_userauth_password_ex:= SafeGetProcAddress(libssh2, 'libssh2_userauth_password_ex');
+    libssh2_userauth_authenticated:= SafeGetProcAddress(libssh2, 'libssh2_userauth_authenticated');
     libssh2_userauth_keyboard_interactive_ex:= SafeGetProcAddress(libssh2, 'libssh2_userauth_keyboard_interactive_ex');
     libssh2_userauth_publickey_fromfile_ex:= SafeGetProcAddress(libssh2, 'libssh2_userauth_publickey_fromfile_ex');
 

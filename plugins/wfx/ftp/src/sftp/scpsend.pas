@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Wfx plugin for working with File Transfer Protocol
 
-   Copyright (C) 2013-2022 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2013-2023 Alexander Koblov (alexx2000@mail.ru)
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Lesser General Public
@@ -421,9 +421,15 @@ begin
       //* check what authentication methods are available */
       userauthlist := libssh2_userauth_list(FSession, PAnsiChar(FUserName), Length(FUserName));
 
-      if (strpos(userauthlist, 'publickey') <> nil) and (FPublicKey <> '') and (FPrivateKey <> '') then
+      DoStatus(False, 'Authentication methods: ' + userauthlist);
+
+      if (libssh2_userauth_authenticated(FSession) <> 0) then
       begin
-        DoStatus(False, 'Auth via public key for user: ' + FUserName);
+        DoStatus(False, 'Username authentication');
+      end
+      else if (strpos(userauthlist, 'publickey') <> nil) and (FPublicKey <> '') and (FPrivateKey <> '') then
+      begin
+        DoStatus(False, 'Public key authentication');
         if not AuthKey then begin
           LogProc(PluginNumber, msgtype_importanterror, 'Authentication by publickey failed');
           Exit(False);
@@ -431,6 +437,7 @@ begin
       end
       else if (strpos(userauthlist, 'password') <> nil) then
       begin
+        DoStatus(False, 'Password authentication');
         I:= libssh2_userauth_password(FSession, PAnsiChar(FUserName), PAnsiChar(FPassword));
         if I <> 0 then begin
           LogProc(PluginNumber, msgtype_importanterror, 'Authentication by password failed');
@@ -441,12 +448,17 @@ begin
       begin
         FSavedPassword:= False;
         libssh2_session_set_timeout(FSession, 0);
+        DoStatus(False, 'Keyboard interactive authentication');
         I:= libssh2_userauth_keyboard_interactive(FSession, PAnsiChar(FUserName), @userauth_kbdint);
         if I <> 0 then begin
           LogProc(PluginNumber, msgtype_importanterror, 'Authentication by keyboard-interactive failed');
           Exit(False);
         end;
         libssh2_session_set_timeout(FSession, FTimeout);
+      end
+      else begin
+        LogProc(PluginNumber, msgtype_importanterror, 'Authentication failed');
+        Exit(False);
       end;
 
       DoStatus(False, 'Authentication succeeded');
