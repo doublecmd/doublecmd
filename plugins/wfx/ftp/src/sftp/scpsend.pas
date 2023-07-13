@@ -58,7 +58,7 @@ type
   protected
     procedure PrintLastError;
     procedure DetectEncoding;
-    function AuthKey: Boolean;
+    function AuthKey: Integer;
     function Connect: Boolean; override;
   public
     constructor Create(const Encoding: String); override;
@@ -253,7 +253,7 @@ begin
   end;
 end;
 
-function TScpSend.AuthKey: Boolean;
+function TScpSend.AuthKey: Integer;
 const
   Alphabet = ['a'..'z','A'..'Z','0'..'9','+','/','=', #10, #13];
 var
@@ -309,15 +309,21 @@ begin
       end;
     end;
   end;
-  Result:= libssh2_userauth_publickey_fromfile(FSession, PAnsiChar(FUserName),
-                                               PAnsiChar(CeUtf8ToSys(FPublicKey)),
-                                               PAnsiChar(CeUtf8ToSys(FPrivateKey)),
-                                               PAnsiChar(Passphrase)) = 0;
+
+  repeat
+    FLastError:= libssh2_userauth_publickey_fromfile(FSession, PAnsiChar(FUserName),
+                                                     PAnsiChar(CeUtf8ToSys(FPublicKey)),
+                                                     PAnsiChar(CeUtf8ToSys(FPrivateKey)),
+                                                     PAnsiChar(Passphrase));
+  until (FLastError <> LIBSSH2_ERROR_EAGAIN);
+
   // Save passphrase to cache
-  if Result and (Length(Passphrase) > 0) then
+  if (FLastError = 0) and (Length(Passphrase) > 0) then
   begin
     FPassphrase:= Passphrase;
   end;
+
+  Result:= FLastError;
 end;
 
 function TScpSend.Connect: Boolean;
@@ -430,17 +436,21 @@ begin
       else if (strpos(userauthlist, 'publickey') <> nil) and (FPublicKey <> '') and (FPrivateKey <> '') then
       begin
         DoStatus(False, 'Public key authentication');
-        if not AuthKey then begin
-          LogProc(PluginNumber, msgtype_importanterror, 'Authentication by publickey failed');
+        if (AuthKey < 0) then
+        begin
+          PrintLastError;
           Exit(False);
         end;
       end
       else if (strpos(userauthlist, 'password') <> nil) then
       begin
         DoStatus(False, 'Password authentication');
-        I:= libssh2_userauth_password(FSession, PAnsiChar(FUserName), PAnsiChar(FPassword));
-        if I <> 0 then begin
-          LogProc(PluginNumber, msgtype_importanterror, 'Authentication by password failed');
+        repeat
+          FLastError := libssh2_userauth_password(FSession, PAnsiChar(FUserName), PAnsiChar(FPassword));
+        until (FLastError <> LIBSSH2_ERROR_EAGAIN);
+        if FLastError < 0 then
+        begin
+          PrintLastError;
           Exit(False);
         end;
       end
@@ -449,9 +459,12 @@ begin
         FSavedPassword:= False;
         libssh2_session_set_timeout(FSession, 0);
         DoStatus(False, 'Keyboard interactive authentication');
-        I:= libssh2_userauth_keyboard_interactive(FSession, PAnsiChar(FUserName), @userauth_kbdint);
-        if I <> 0 then begin
-          LogProc(PluginNumber, msgtype_importanterror, 'Authentication by keyboard-interactive failed');
+        repeat
+          FLastError := libssh2_userauth_keyboard_interactive(FSession, PAnsiChar(FUserName), @userauth_kbdint);
+        until (FLastError <> LIBSSH2_ERROR_EAGAIN);
+        if FLastError < 0 then
+        begin
+          PrintLastError;
           Exit(False);
         end;
         libssh2_session_set_timeout(FSession, FTimeout);
