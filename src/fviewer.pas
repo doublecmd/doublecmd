@@ -332,6 +332,7 @@ type
     procedure UpdateImagePlacement;
 
   private
+    FFileName: String;
     FileList: TStringList;
     iActiveFile,
     tmpX, tmpY,
@@ -399,11 +400,13 @@ type
     procedure DeleteCurrentFile;
     procedure EnableActions(AEnabled: Boolean);
     procedure SavingProperties(Sender: TObject);
+    procedure SetFileName(const AValue: String);
     procedure SaveImageAs (Var sExt: String; senderSave: boolean; Quality: integer);
     procedure ImagePaintBackground(ASender: TObject; ACanvas: TCanvas; ARect: TRect);
     procedure CreatePreview(FullPathToFile:string; index:integer; delete: boolean = false);
 
     property Commands: TFormCommands read FCommands implements IFormCommands;
+    property FileName: String write SetFileName;
 
   protected
     procedure WMCommand(var Message: TLMCommand); message LM_COMMAND;
@@ -790,7 +793,7 @@ begin
       ActivatePanel(pnlText)
     end;
 
-    Status.Panels[sbpFileName].Text:= aFileName;
+    FileName:= aFileName;
   finally
     Screen.EndWaitCursor;
   end;
@@ -804,8 +807,8 @@ begin
       if (FWlxModule.CallListLoadNext(Self.Handle, FileList[Index], PluginShowFlags) <> LISTPLUGIN_ERROR) then
       begin
         Status.Panels[sbpFileNr].Text:= Format('%d/%d', [Index + 1, FileList.Count]);
-        Status.Panels[sbpFileName].Text:= FileList[Index];
-        Caption:= ReplaceHome(FileList[Index]);
+        FileName:= FileList[Index];
+        Caption:= ReplaceHome(FFileName);
         iActiveFile := Index;
         Exit;
       end;
@@ -827,7 +830,7 @@ begin
       begin
         if CallListLoadNext(Self.Handle, aFileName, PluginShowFlags) <> LISTPLUGIN_ERROR then
         begin
-          Status.Panels[sbpFileName].Text:= aFileName;
+          FileName:= aFileName;
           Exit;
         end;
       end;
@@ -1396,6 +1399,16 @@ end;
 procedure TfrmViewer.SavingProperties(Sender: TObject);
 begin
   if miFullScreen.Checked then SessionProperties:= EmptyStr;
+end;
+
+procedure TfrmViewer.SetFileName(const AValue: String);
+begin
+  if actAutoReload.Checked then
+    Status.Panels[sbpFileName].Text:= '* ' + AValue
+  else begin
+    Status.Panels[sbpFileName].Text:= AValue;
+  end;
+  FFileName:= AValue;
 end;
 
 procedure TfrmViewer.CutToImage;
@@ -3179,6 +3192,7 @@ begin
   actAutoReload.Checked := not actAutoReload.Checked;
   if actAutoReload.Checked then ViewerControl.GoEnd;
   TimerReload.Enabled := actAutoReload.Checked;
+  FileName:= FFileName;
 end;
 
 procedure TfrmViewer.cm_LoadNextFile(const Params: array of string);
