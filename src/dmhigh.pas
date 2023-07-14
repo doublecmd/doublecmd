@@ -839,8 +839,8 @@ end;
 procedure THighlighters.Load(const FileName: String);
 var
   J: LongInt;
-  AVersion: Integer;
   Config: TXmlConfig;
+  AVersion: Integer = ConfigVersion;
   Highlighter: TSynCustomHighlighter;
   LanguageName, AttributeName: String;
   Attribute: TSynHighlighterAttributes;
@@ -897,6 +897,13 @@ begin
       end;
       // Import colors from old format
       if AVersion < 2 then SaveColors;
+      // Create config backup
+      if (AVersion < ConfigVersion) then
+      try
+        Config.WriteToFile(FileName + '.bak');
+      except
+        // Ignore
+      end;
     end;
   finally
     Config.Free;
