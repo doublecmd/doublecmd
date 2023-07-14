@@ -29,7 +29,7 @@ uses
   {$IFDEF XPLAT_GENERICS}
     Generics.Collections, Generics.Defaults, Character,
   {$ENDIF}
-  {$IFDEF UITYPES} UITypes,{$ENDIF} Math;
+  Math;
 
 type
   TRect = Types.TRect;
