@@ -40,7 +40,7 @@ type
 implementation
 
 uses
-  UITypes, Dialogs, DCStrUtils,  uGObject2, uLng, uGio, uFileProcs,
+  System.UITypes, Dialogs, DCStrUtils,  uGObject2, uLng, uGio, uFileProcs,
   uGioFileSourceUtil, uTrashDeleteOperation;
 
 const
