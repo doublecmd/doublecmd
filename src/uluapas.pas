@@ -51,7 +51,7 @@ begin
   lua_setfield(L, -2, 'Size');
   lua_pushinteger(L, Rec^.Attr);
   lua_setfield(L, -2, 'Attr');
-  lua_pushstring(L, PAnsiChar(Rec^.Name));
+  lua_pushstring(L, Rec^.Name);
   lua_setfield(L, -2, 'Name');
 end;
 
@@ -321,7 +321,7 @@ begin
   Start:= lua_tointeger(L, 2);
   Count:= lua_tointeger(L, 3);
   S:= UTF8Copy(S, Start, Count);
-  lua_pushstring(L, PAnsiChar(S));
+  lua_pushstring(L, S);
 end;
 
 function luaLength(L : Plua_State) : Integer; cdecl;
@@ -337,7 +337,7 @@ begin
   Result:= 1;
   S:= lua_tostring(L, 1);
   S:= UTF8UpperCase(S);
-  lua_pushstring(L, PAnsiChar(S));
+  lua_pushstring(L, S);
 end;
 
 function luaLowerCase(L : Plua_State) : Integer; cdecl;
@@ -347,7 +347,7 @@ begin
   Result:= 1;
   S:= lua_tostring(L, 1);
   S:= UTF8LowerCase(S);
-  lua_pushstring(L, PAnsiChar(S));
+  lua_pushstring(L, S);
 end;
 
 function luaNormalizeNFD(L : Plua_State) : Integer; cdecl;
@@ -494,7 +494,7 @@ end;
 function luaClipbrdGetText(L : Plua_State) : Integer; cdecl;
 begin
   Result:= 1;
-  lua_pushstring(L, PAnsiChar(Clipboard.AsText));
+  lua_pushstring(L, Clipboard.AsText);
 end;
 
 function luaClipbrdSetText(L : Plua_State) : Integer; cdecl;
@@ -538,7 +538,7 @@ begin
   if AMaskInput then
   begin
     Result:= 2;
-    lua_pushstring(L, PAnsiChar(AValue));
+    lua_pushstring(L, AValue);
   end;
 end;
 
@@ -569,7 +569,7 @@ begin
     AValue:= lua_tostring(L, 4);
   end;
   if ShowInputListBox(ACaption, APrompt, AStringList, AValue, AIndex) then
-    lua_pushstring(L, PAnsiChar(AValue))
+    lua_pushstring(L, AValue)
   else begin
     lua_pushnil(L);
   end;
@@ -728,14 +728,14 @@ begin
       APath := lua_tostring(L, -1);
       APath := StringReplace(APath, '.' + PathDelim, Path, []);
     lua_pop(L, 1);
-    lua_pushstring(L, PAnsiChar(APath));
+    lua_pushstring(L, APath);
     lua_setfield(L, -2, 'path');
     // Set package.cpath
     lua_getfield(L, -1, 'cpath');
       APath := lua_tostring(L, -1);
       APath := StringReplace(APath, '.' + PathDelim, Path, []);
     lua_pop(L, 1);
-    lua_pushstring(L, PAnsiChar(APath));
+    lua_pushstring(L, APath);
     lua_setfield(L, -2, 'cpath');
   lua_pop(L, 1);
 end;
@@ -792,7 +792,7 @@ begin
       if (Count > 0) then
       begin
         for Index := 0 to Count - 1 do begin
-          lua_pushstring(L, PAnsiChar(Args[Index]));
+          lua_pushstring(L, Args[Index]);
         end;
       end;
       // Execute script
