@@ -38,8 +38,6 @@ cp -r doublecmd.app/*              $DC_APP_DIR/
 cp -a doublecmd                    $DC_INSTALL_DIR/
 cp -a doublecmd.help               $DC_INSTALL_DIR/
 cp -a doublecmd.zdli               $DC_INSTALL_DIR/
-cp -a pixmaps.txt                  $DC_INSTALL_DIR/
-cp -a multiarc.ini                 $DC_INSTALL_DIR/
 cp -a pinyin.tbl                   $DC_INSTALL_DIR/
 
 # Copy plugins
@@ -77,6 +75,7 @@ cp -a scripts/terminal.sh $DC_INSTALL_DIR/scripts/
 # Copy directories
 cp -r language     $DC_INSTALL_DIR/
 cp -r pixmaps      $DC_INSTALL_DIR/
+cp -r settings     $DC_INSTALL_DIR/
 cp -r highlighters $DC_INSTALL_DIR/
 
 # Copy libraries

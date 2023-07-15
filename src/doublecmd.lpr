@@ -33,6 +33,7 @@ uses
   uQt5Workaround,
   {$ENDIF}
   {$ENDIF}
+  uMoveConfig,
   uEarlyConfig,
   DCConvertEncoding,
   {$IF DEFINED(LCLWIN32) and DEFINED(DARKWIN)}

@@ -18,7 +18,7 @@ procedure SaveEarlyConfig;
 implementation
 
 uses
-  DCOSUtils, DCStrUtils, DCClassesUtf8, uSysFolders;
+  DCOSUtils, DCStrUtils, DCClassesUtf8, uSysFolders, uGlobsPaths;
 
 var
   AConfig: String;
@@ -36,9 +36,8 @@ begin
       Exit;
     end;
   end;
-  Result:= ExtractFilePath(ParamStr(0));
-  if mbFileExists(Result + ApplicationName + '.inf') then
-    Result:= Result + ApplicationName + ConfigExtension
+  if mbFileExists(gpGlobalCfgDir + ApplicationName + '.inf') then
+    Result:= gpGlobalCfgDir + ApplicationName + ConfigExtension
   else begin
     Result:= IncludeTrailingBackslash(GetAppConfigDir) + ApplicationName + ConfigExtension;
   end;
