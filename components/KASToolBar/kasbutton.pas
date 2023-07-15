@@ -3,7 +3,7 @@
     -------------------------------------------------------------------------
     Control like TButton which does not steal focus on click
 
-    Copyright (C) 2021 Alexander Koblov (alexx2000@mail.ru)
+    Copyright (C) 2021-2023 Alexander Koblov (alexx2000@mail.ru)
 
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Lesser General Public
@@ -27,7 +27,7 @@ interface
 
 uses
   Classes, SysUtils, LResources, Forms, Controls, Graphics, Dialogs, ExtCtrls,
-  Buttons, Themes;
+  Buttons, Themes, Types;
 
 type
 
@@ -55,6 +55,7 @@ type
     procedure MouseDown(Button: TMouseButton; Shift: TShiftState; X, Y: Integer); override;
   protected
     procedure GlyphChanged(Sender: TObject);
+    class function GetControlClassDefaultSize: TSize; override;
     procedure ActionChange(Sender: TObject; CheckDefaults: Boolean); override;
     procedure CalculatePreferredSize(var PreferredWidth, PreferredHeight: Integer; WithThemeSpace: Boolean); override;
   public
@@ -243,6 +244,12 @@ procedure TKASButton.GlyphChanged(Sender: TObject);
 begin
   InvalidatePreferredSize;
   AdjustSize;
+end;
+
+class function TKASButton.GetControlClassDefaultSize: TSize;
+begin
+  Result.CX := 23;
+  Result.CY := 22;
 end;
 
 procedure TKASButton.ActionChange(Sender: TObject; CheckDefaults: Boolean);
