@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Push some useful functions to Lua
 
-   Copyright (C) 2016-2021 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2016-2023 Alexander Koblov (alexx2000@mail.ru)
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Lesser General Public
@@ -39,7 +39,7 @@ uses
   Forms, Dialogs, Clipbrd, LazUTF8, LCLVersion, uLng, DCOSUtils,
   DCConvertEncoding, fMain, uFormCommands, uOSUtils, uGlobs, uLog,
   uClipboard, uShowMsg, uLuaStd, uFindEx, uConvEncoding, uFileProcs,
-  uFilePanelSelect, uMasks, LazFileUtils;
+  uFilePanelSelect, uMasks, LazFileUtils, Character, UnicodeData;
 
 procedure luaPushSearchRec(L : Plua_State; Rec: PSearchRecEx);
 begin
@@ -260,6 +260,43 @@ begin
   lua_pushstring(L, CreateRelativePath(FileName, BaseDir));
 end;
 
+function utf8_next(L: Plua_State): Integer; cdecl;
+var
+  S: String;
+  C: Integer;
+  Len: size_t;
+  P: PAnsiChar;
+  Index: Integer;
+begin
+  P:= lua_tolstring(L, lua_upvalueindex(1), @Len);
+  Index:= lua_tointeger(L, lua_upvalueindex(2));
+  if (Index >= Integer(Len)) then Exit(0);
+
+  P:= P + Index;
+  C:= UTF8CodepointSize(P);
+
+  // Partial UTF-8 character
+  if (Index + C) > Len then Exit(0);
+
+  SetString(S, P, C);
+
+  lua_pushinteger(L, Index + C);
+  lua_replace(L, lua_upvalueindex(2));
+
+  lua_pushinteger(L, Index + 1);
+  lua_pushstring(L, S);
+
+  Result:= 2;
+end;
+
+function luaNext(L : Plua_State) : Integer; cdecl;
+begin
+  lua_pushvalue(L, 1);
+  lua_pushnumber(L, 0);
+  lua_pushcclosure(L, @utf8_next, 2);
+  Result:= 1;
+end;
+
 function luaPos(L : Plua_State) : Integer; cdecl;
 var
   Offset: SizeInt = 1;
@@ -313,6 +350,32 @@ begin
   lua_pushstring(L, PAnsiChar(S));
 end;
 
+function luaNormalizeNFD(L : Plua_State) : Integer; cdecl;
+var
+  Len: size_t;
+  P: PAnsiChar;
+  S: UnicodeString;
+begin
+  P:= lua_tolstring(L, 1, @Len);
+  S:= UTF8ToUTF16(P, Len);
+  S:= NormalizeNFD(S);
+  lua_pushstring(L, UTF16ToUTF8(S));
+  Result:= 1;
+end;
+
+function luaCanonicalOrder(L : Plua_State) : Integer; cdecl;
+var
+  Len: size_t;
+  P: PAnsiChar;
+  S: UnicodeString;
+begin
+  P:= lua_tolstring(L, 1, @Len);
+  S:= UTF8ToUTF16(P, Len);
+  CanonicalOrder(S);
+  lua_pushstring(L, UTF16ToUTF8(S));
+  Result:= 1;
+end;
+
 function luaConvertEncoding(L : Plua_State) : Integer; cdecl;
 var
   S, FromEnc, ToEnc: String;
@@ -322,6 +385,104 @@ begin
   FromEnc:= lua_tostring(L, 2);
   ToEnc:= lua_tostring(L, 3);
   lua_pushstring(L, ConvertEncoding(S, FromEnc, ToEnc));
+end;
+
+function char_prepare(L : Plua_State; out Index: Integer): UnicodeString;
+var
+  Len: size_t;
+  P: PAnsiChar;
+begin
+  P:= lua_tolstring(L, 1, @Len);
+  Result:= UTF8ToUTF16(P, Len);
+  if lua_isnumber(L, 2) then
+    Index:= Integer(lua_tointeger(L, 2))
+  else begin
+    Index:= 1;
+  end;
+end;
+
+function luaIsLower(L : Plua_State) : Integer; cdecl;
+var
+  Index: Integer;
+  S: UnicodeString;
+begin
+  S:= char_prepare(L, Index);
+  try
+    lua_pushboolean(L, TCharacter.IsLower(S, Index));
+    Result:= 1;
+  except
+    Result:= 0;
+  end;
+end;
+
+function luaIsUpper(L : Plua_State) : Integer; cdecl;
+var
+  Index: Integer;
+  S: UnicodeString;
+begin
+  S:= char_prepare(L, Index);
+  try
+    lua_pushboolean(L, TCharacter.IsUpper(S, Index));
+    Result:= 1;
+  except
+    Result:= 0;
+  end;
+end;
+
+function luaIsDigit(L : Plua_State) : Integer; cdecl;
+var
+  Index: Integer;
+  S: UnicodeString;
+begin
+  S:= char_prepare(L, Index);
+  try
+    lua_pushboolean(L, TCharacter.IsDigit(S, Index));
+    Result:= 1;
+  except
+    Result:= 0;
+  end;
+end;
+
+function luaIsLetter(L : Plua_State) : Integer; cdecl;
+var
+  Index: Integer;
+  S: UnicodeString;
+begin
+  S:= char_prepare(L, Index);
+  try
+    lua_pushboolean(L, TCharacter.IsLetter(S, Index));
+    Result:= 1;
+  except
+    Result:= 0;
+  end;
+end;
+
+function luaIsLetterOrDigit(L : Plua_State) : Integer; cdecl;
+var
+  Index: Integer;
+  S: UnicodeString;
+begin
+  S:= char_prepare(L, Index);
+  try
+    lua_pushboolean(L, TCharacter.IsLetterOrDigit(S, Index));
+    Result:= 1;
+  except
+    Result:= 0;
+  end;
+end;
+
+function luaGetUnicodeCategory(L : Plua_State) : Integer; cdecl;
+var
+  Index: Integer;
+  S: UnicodeString;
+begin
+  S:= char_prepare(L, Index);
+  try
+    lua_pushinteger(L, lua_Integer(TCharacter.GetUnicodeCategory(S, Index)));
+    Result:= 1;
+  except
+    Result:= 0;
+  end;
 end;
 
 function luaClipbrdClear(L : Plua_State) : Integer; cdecl;
@@ -516,12 +677,24 @@ begin
 
   lua_newtable(L);
     luaP_register(L, 'Pos', @luaPos);
+    luaP_register(L, 'Next', @luaNext);
     luaP_register(L, 'Copy', @luaCopy);
     luaP_register(L, 'Length', @luaLength);
     luaP_register(L, 'UpperCase', @luaUpperCase);
     luaP_register(L, 'LowerCase', @luaLowerCase);
+    luaP_register(L, 'NormalizeNFD', @luaNormalizeNFD);
+    luaP_register(L, 'CanonicalOrder', @luaCanonicalOrder);
     luaP_register(L, 'ConvertEncoding', @luaConvertEncoding);
   lua_setglobal(L, 'LazUtf8');
+
+  lua_newtable(L);
+    luaP_register(L, 'IsLower', @luaIsLower);
+    luaP_register(L, 'IsUpper', @luaIsUpper);
+    luaP_register(L, 'IsDigit', @luaIsDigit);
+    luaP_register(L, 'IsLetter', @luaIsLetter);
+    luaP_register(L, 'IsLetterOrDigit', @luaIsLetterOrDigit);
+    luaP_register(L, 'GetUnicodeCategory', @luaGetUnicodeCategory);
+  lua_setglobal(L, 'Char');
 
   lua_newtable(L);
     luaP_register(L, 'Clear', @luaClipbrdClear);
