@@ -28,7 +28,7 @@ interface
 
 uses
   Classes, SysUtils, LResources, Forms, Controls, Graphics, Dialogs, StdCtrls,
-  ColorBox, Buttons, LMessages, Types;
+  ColorBox, Buttons, LMessages, Types, KASButton;
 
 const
   DEF_COLOR_STYLE = [cbStandardColors, cbExtendedColors,
@@ -84,7 +84,7 @@ type
     procedure SetStyle(AValue: TColorBoxStyle);
     procedure SetOnChange(AValue: TNotifyEvent);
   protected
-    FButton: TSpeedButton;
+    FButton: TKASButton;
     FColorBox: TKASColorBox;
     procedure DoAutoSize; override;
     procedure ButtonClick(Sender: TObject);
@@ -99,7 +99,9 @@ type
     property Selected: TColor read GetSelected write SetSelected default clBlack;
   published
     property Align;
+    property Anchors;
     property TabOrder;
+    property BorderSpacing;
     property AutoSize default True;
     property OnChange: TNotifyEvent read GetOnChange write SetOnChange;
     property Style: TColorBoxStyle read GetStyle write SetStyle default DEF_COLOR_STYLE;
@@ -376,7 +378,7 @@ end;
 
 constructor TKASColorBoxButton.Create(AOwner: TComponent);
 begin
-  FButton:= TSpeedButton.Create(Self);
+  FButton:= TKASButton.Create(Self);
   FColorBox:= TKASColorBox.Create(Self);
 
   inherited Create(AOwner);
@@ -387,19 +389,19 @@ begin
   TabStop:= True;
   inherited TabStop:= False;
 
+  with FColorBox do
+  begin
+    Align:= alClient;
+    ParentColor:= False;
+    ParentFont:= True;
+    Parent:= Self;
+  end;
   with FButton do
   begin
     Align:= alRight;
     Caption:= '..';
     BorderSpacing.Left:= 2;
     OnClick:= @ButtonClick;
-    Parent:= Self;
-  end;
-  with FColorBox do
-  begin
-    Align:= alClient;
-    ParentColor:= False;
-    ParentFont:= True;
     Parent:= Self;
   end;
 
