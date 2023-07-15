@@ -80,9 +80,11 @@ type
     function GetSelected: TColor;
     function GetStyle: TColorBoxStyle;
     function GetOnChange: TNotifyEvent;
+    function GetColorDialog: TColorDialog;
     procedure SetSelected(AValue: TColor);
     procedure SetStyle(AValue: TColorBoxStyle);
     procedure SetOnChange(AValue: TNotifyEvent);
+    procedure SetColorDialog(AValue: TColorDialog);
   protected
     FButton: TKASButton;
     FColorBox: TKASColorBox;
@@ -101,9 +103,11 @@ type
     property Align;
     property Anchors;
     property TabOrder;
+    property Constraints;
     property BorderSpacing;
     property AutoSize default True;
     property OnChange: TNotifyEvent read GetOnChange write SetOnChange;
+    property ColorDialog: TColorDialog read GetColorDialog write SetColorDialog;
     property Style: TColorBoxStyle read GetStyle write SetStyle default DEF_COLOR_STYLE;
   end;
 
@@ -291,6 +295,11 @@ begin
   Result:= FColorBox.OnChange;
 end;
 
+function TKASColorBoxButton.GetColorDialog: TColorDialog;
+begin
+  Result:= FColorBox.ColorDialog;
+end;
+
 procedure TKASColorBoxButton.SetSelected(AValue: TColor);
 begin
   FColorBox.SetCustomColor(AValue);
@@ -304,6 +313,11 @@ end;
 procedure TKASColorBoxButton.SetOnChange(AValue: TNotifyEvent);
 begin
   FColorBox.OnChange:= AValue;
+end;
+
+procedure TKASColorBoxButton.SetColorDialog(AValue: TColorDialog);
+begin
+  FColorBox.ColorDialog:= AValue;
 end;
 
 procedure TKASColorBoxButton.DoAutoSize;
