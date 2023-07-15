@@ -391,6 +391,7 @@ begin
   begin
     Align:= alRight;
     Caption:= '..';
+    BorderSpacing.Left:= 2;
     OnClick:= @ButtonClick;
     Parent:= Self;
   end;
