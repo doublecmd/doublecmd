@@ -19,7 +19,8 @@ begin
   // Move settings from executable directory to 'settings' subdirectory
   if mbFileExists(gpExePath + 'doublecmd.inf') then
   begin
-    if mbCreateDir(ExcludeTrailingBackslash(gpGlobalCfgDir)) then
+    AFileName:= ExcludeTrailingBackslash(gpGlobalCfgDir);
+    if mbDirectoryExists(AFileName) or mbCreateDir(AFileName) then
     begin
       AList:= FindAllFiles(gpExePath, '*.cache;*.cfg;*.err;*.json;*.inf;*.ini;*.scf;*.txt;*.xml');
       for Index:= 0 to AList.Count - 1 do
