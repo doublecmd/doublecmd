@@ -1379,15 +1379,15 @@ msgid "&Group"
 msgstr "Γκρουπ"
 
 #: tfrmfileproperties.lbllastaccessstr.caption
-msgid "Last access:"
+msgid "Accessed:"
 msgstr "Τελευταία προσπέλαση:"
 
 #: tfrmfileproperties.lbllastmodifstr.caption
-msgid "Last modification:"
+msgid "Modified:"
 msgstr "Τελευταία διαμόρφωση:"
 
 #: tfrmfileproperties.lbllaststchangestr.caption
-msgid "Last status change:"
+msgid "Status changed:"
 msgstr "Τελευταία αλλαγή κατάστασης:"
 
 #: tfrmfileproperties.lbllinksstr.caption

@@ -1354,15 +1354,15 @@ msgid "&Group"
 msgstr "&Група"
 
 #: tfrmfileproperties.lbllastaccessstr.caption
-msgid "Last access:"
+msgid "Accessed:"
 msgstr "Апошні доступ:"
 
 #: tfrmfileproperties.lbllastmodifstr.caption
-msgid "Last modification:"
+msgid "Modified:"
 msgstr "Апошняя змена:"
 
 #: tfrmfileproperties.lbllaststchangestr.caption
-msgid "Last status change:"
+msgid "Status changed:"
 msgstr "Апошняя змена стану:"
 
 #: tfrmfileproperties.lbllinksstr.caption

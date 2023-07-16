@@ -1376,15 +1376,15 @@ msgid "&Group"
 msgstr "&Удружење"
 
 #: tfrmfileproperties.lbllastaccessstr.caption
-msgid "Last access:"
+msgid "Accessed:"
 msgstr "Последњи приступ:"
 
 #: tfrmfileproperties.lbllastmodifstr.caption
-msgid "Last modification:"
+msgid "Modified:"
 msgstr "Последња измена:"
 
 #: tfrmfileproperties.lbllaststchangestr.caption
-msgid "Last status change:"
+msgid "Status changed:"
 msgstr "Последња измена стања:"
 
 #: tfrmfileproperties.lbllinksstr.caption

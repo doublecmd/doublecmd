@@ -1404,15 +1404,15 @@ msgid "&Group"
 msgstr "Gruppe:"
 
 #: tfrmfileproperties.lbllastaccessstr.caption
-msgid "Last access:"
+msgid "Accessed:"
 msgstr "Åbnet:"
 
 #: tfrmfileproperties.lbllastmodifstr.caption
-msgid "Last modification:"
+msgid "Modified:"
 msgstr "Ændret:"
 
 #: tfrmfileproperties.lbllaststchangestr.caption
-msgid "Last status change:"
+msgid "Status changed:"
 msgstr "Attributter ændret:"
 
 #: tfrmfileproperties.lbllinksstr.caption

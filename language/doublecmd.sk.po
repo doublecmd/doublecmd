@@ -1374,15 +1374,15 @@ msgid "&Group"
 msgstr "Skupina"
 
 #: tfrmfileproperties.lbllastaccessstr.caption
-msgid "Last access:"
+msgid "Accessed:"
 msgstr "Posledný prístup:"
 
 #: tfrmfileproperties.lbllastmodifstr.caption
-msgid "Last modification:"
+msgid "Modified:"
 msgstr "Posledná zmena:"
 
 #: tfrmfileproperties.lbllaststchangestr.caption
-msgid "Last status change:"
+msgid "Status changed:"
 msgstr "Posledná zmena stavu:"
 
 #: tfrmfileproperties.lbllinksstr.caption

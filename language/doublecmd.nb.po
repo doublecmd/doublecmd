@@ -1390,15 +1390,15 @@ msgid "&Group"
 msgstr "&Gruppe"
 
 #: tfrmfileproperties.lbllastaccessstr.caption
-msgid "Last access:"
+msgid "Accessed:"
 msgstr "Sist åpnet:"
 
 #: tfrmfileproperties.lbllastmodifstr.caption
-msgid "Last modification:"
+msgid "Modified:"
 msgstr "Sist endret:"
 
 #: tfrmfileproperties.lbllaststchangestr.caption
-msgid "Last status change:"
+msgid "Status changed:"
 msgstr "Attributt endret:"
 
 #: tfrmfileproperties.lbllinksstr.caption

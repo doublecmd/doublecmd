@@ -1373,15 +1373,15 @@ msgid "&Group"
 msgstr "&Csoport"
 
 #: tfrmfileproperties.lbllastaccessstr.caption
-msgid "Last access:"
+msgid "Accessed:"
 msgstr "Utolsó hozzáférés:"
 
 #: tfrmfileproperties.lbllastmodifstr.caption
-msgid "Last modification:"
+msgid "Modified:"
 msgstr "Utolsó módosítás:"
 
 #: tfrmfileproperties.lbllaststchangestr.caption
-msgid "Last status change:"
+msgid "Status changed:"
 msgstr "Legutóbbi állapotváltozás:"
 
 #: tfrmfileproperties.lbllinksstr.caption

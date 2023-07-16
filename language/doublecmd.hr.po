@@ -1428,15 +1428,15 @@ msgid "&Group"
 msgstr "&Udruženje"
 
 #: tfrmfileproperties.lbllastaccessstr.caption
-msgid "Last access:"
+msgid "Accessed:"
 msgstr "Posljednji pristup:"
 
 #: tfrmfileproperties.lbllastmodifstr.caption
-msgid "Last modification:"
+msgid "Modified:"
 msgstr "Posljednja izmena:"
 
 #: tfrmfileproperties.lbllaststchangestr.caption
-msgid "Last status change:"
+msgid "Status changed:"
 msgstr "Poslednja izmena stanja:"
 
 #: tfrmfileproperties.lbllinksstr.caption

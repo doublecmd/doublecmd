@@ -1371,15 +1371,15 @@ msgid "&Group"
 msgstr "群組 (&G)"
 
 #: tfrmfileproperties.lbllastaccessstr.caption
-msgid "Last access:"
+msgid "Accessed:"
 msgstr "訪問時間:"
 
 #: tfrmfileproperties.lbllastmodifstr.caption
-msgid "Last modification:"
+msgid "Modified:"
 msgstr "修改時間:"
 
 #: tfrmfileproperties.lbllaststchangestr.caption
-msgid "Last status change:"
+msgid "Status changed:"
 msgstr "狀態修改時間:"
 
 #: tfrmfileproperties.lbllinksstr.caption
