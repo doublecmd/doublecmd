@@ -75,7 +75,8 @@ popd
 install -m 755 $DC_SOURCE_DIR/doublecmd.sh       $DC_ROOT_DIR/
 
 # Make portable config file
-touch $DC_ROOT_DIR/doublecmd.inf
+mkdir $DC_ROOT_DIR/settings
+touch $DC_ROOT_DIR/settings/doublecmd.inf
 
 # Create archive
 tar -cJvf $PACK_DIR/doublecmd-$DC_VER.$LCL_PLATFORM.$CPU_TARGET.tar.xz doublecmd
