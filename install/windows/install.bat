@@ -31,9 +31,9 @@ mkdir  %DC_INSTALL_DIR%\plugins\wlx\wmp
 
 mkdir  %DC_INSTALL_DIR%\doc
 rem Copy directories
+xcopy /E default      %DC_INSTALL_DIR%\default\
 xcopy /E language     %DC_INSTALL_DIR%\language\
 xcopy /E pixmaps      %DC_INSTALL_DIR%\pixmaps\
-xcopy /E settings     %DC_INSTALL_DIR%\settings\
 xcopy /E highlighters %DC_INSTALL_DIR%\highlighters\
 rem Copy files
 copy doc\*.txt                      %DC_INSTALL_DIR%\doc\

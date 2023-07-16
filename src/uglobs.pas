@@ -731,7 +731,7 @@ uses
    uGlobsPaths, uLng, uShowMsg, uFileProcs, uOSUtils, uFindFiles, uEarlyConfig,
    dmHigh, uDCUtils, fMultiRename, uDCVersion, uDebug, uFileFunctions,
    uDefaultPlugins, Lua, uKeyboard, DCOSUtils, DCStrUtils, uPixMapManager,
-   uSynDiffControls
+   FileUtil, uSynDiffControls
    {$IF DEFINED(MSWINDOWS)}
     , ShlObj
    {$ENDIF}
@@ -1523,19 +1523,19 @@ end;
 
 procedure CopySettingsFiles;
 begin
-  { Create default configuration files if need }
-  if gpCfgDir <> gpGlobalCfgDir then
-    begin
-      // extension file
-      if not mbFileExists(gpCfgDir + gcfExtensionAssociation) then
-        CopyFile(gpGlobalCfgDir + gcfExtensionAssociation, gpCfgDir + gcfExtensionAssociation);
-      // pixmaps file
-      if not mbFileExists(gpCfgDir + 'pixmaps.txt') then
-        CopyFile(gpGlobalCfgDir + 'pixmaps.txt', gpCfgDir + 'pixmaps.txt');
-      // multiarc configuration file
-      if not mbFileExists(gpCfgDir + sMULTIARC_FILENAME) then
-        CopyFile(gpGlobalCfgDir + sMULTIARC_FILENAME, gpCfgDir + sMULTIARC_FILENAME);
-    end;
+  {
+    Copy default configuration files if needed
+  }
+  // pixmaps file
+  if not mbFileExists(gpCfgDir + 'pixmaps.txt') then
+  begin
+    CopyFile(gpExePath + 'default' + PathDelim + 'pixmaps.txt', gpCfgDir + 'pixmaps.txt');
+  end;
+  // multiarc configuration file
+  if not mbFileExists(gpCfgDir + sMULTIARC_FILENAME) then
+  begin
+    CopyFile(gpExePath + 'default' + PathDelim + sMULTIARC_FILENAME, gpCfgDir + sMULTIARC_FILENAME);
+  end;
 end;
 
 procedure CreateGlobs;
@@ -2344,44 +2344,9 @@ begin
   CopySettingsFiles;
 
   { Internal associations }
-  //"LoadExtsConfig" checks itself if file is present or not
+  // "LoadExtsConfig" checks itself if file is present or not
   LoadConfigCheckErrors(@LoadExtsConfig, gpCfgDir + gcfExtensionAssociation, ErrorMessage);
 
-  if mbFileExists(gpCfgDir + 'dirhistory.txt') then
-  begin
-    LoadStringsFromFile(glsDirHistory, gpCfgDir + 'dirhistory.txt', cMaxStringItems);
-    mbRenameFile(gpCfgDir + 'dirhistory.txt', gpCfgDir + 'dirhistory.txt.obsolete');
-  end;
-  if mbFileExists(gpCfgDir + 'cmdhistory.txt') then
-  begin
-    LoadStringsFromFile(glsCmdLineHistory, gpCfgDir + 'cmdhistory.txt', cMaxStringItems);
-    mbRenameFile(gpCfgDir + 'cmdhistory.txt', gpCfgDir + 'cmdhistory.txt.obsolete');
-  end;
-  if mbFileExists(gpCfgDir + 'maskhistory.txt') then
-  begin
-    LoadStringsFromFile(glsMaskHistory, gpCfgDir + 'maskhistory.txt', cMaxStringItems);
-    mbRenameFile(gpCfgDir + 'maskhistory.txt', gpCfgDir + 'maskhistory.txt.obsolete');
-  end;
-  if mbFileExists(gpCfgDir + 'searchpathhistory.txt') then
-  begin
-    LoadStringsFromFile(glsSearchPathHistory, gpCfgDir + 'searchpathhistory.txt', cMaxStringItems);
-    mbRenameFile(gpCfgDir + 'searchpathhistory.txt', gpCfgDir + 'searchpathhistory.txt.obsolete');
-  end;
-  if mbFileExists(gpCfgDir + 'searchhistory.txt') then
-  begin
-    LoadStringsFromFile(glsSearchHistory, gpCfgDir + 'searchhistory.txt', cMaxStringItems);
-    mbRenameFile(gpCfgDir + 'searchhistory.txt', gpCfgDir + 'searchhistory.txt.obsolete');
-  end;
-  if mbFileExists(gpCfgDir + 'replacehistory.txt') then
-  begin
-    LoadStringsFromFile(glsReplaceHistory, gpCfgDir + 'replacehistory.txt', cMaxStringItems);
-    mbRenameFile(gpCfgDir + 'replacehistory.txt', gpCfgDir + 'replacehistory.txt.obsolete');
-  end;
-  if mbFileExists(gpCfgDir + 'replacehpathhistory.txt') then
-  begin
-    LoadStringsFromFile(glsReplacePathHistory, gpCfgDir + 'replacepathhistory.txt', cMaxStringItems);
-    mbRenameFile(gpCfgDir + 'replacepathhistory.txt', gpCfgDir + 'replacepathhistory.txt.obsolete');
-  end;
   LoadStringsFromFile(glsIgnoreList, ReplaceEnvVars(gIgnoreListFile));
 
   { Localization }
@@ -2400,10 +2365,6 @@ begin
   { Hotkeys }
   if not mbFileExists(gpCfgDir + gNameSCFile) then
     gNameSCFile := 'shortcuts.scf';
-  // Rename old shortcuts file to new name.
-  if mbFileExists(gpCfgDir + 'shortcuts.ini') and
-     not mbFileExists(gpCfgDir + gNameSCFile) then
-       mbRenameFile(gpCfgDir + 'shortcuts.ini', gpCfgDir + gNameSCFile);
   LoadConfigCheckErrors(@LoadHotManConfig, gpCfgDir + gNameSCFile, ErrorMessage);
 
   { Colors }
@@ -2429,26 +2390,31 @@ end;
 
 procedure SaveGlobs;
 var
+  OldDir: String;
   ErrMsg: String = '';
 begin
   if (gUseConfigInProgramDirNew <> gUseConfigInProgramDir) and
      (gpCmdLineCfgDir = EmptyStr) then
+  begin
+    OldDir := gpCfgDir;
+
+    if gUseConfigInProgramDirNew then
     begin
-      LoadPaths;
-
-      if gUseConfigInProgramDirNew then
-      begin
-        gpCfgDir := gpGlobalCfgDir;
-        UpdateEnvironmentVariable;
-        FileClose(mbFileCreate(gpGlobalCfgDir + 'doublecmd.inf'));
-      end
-      else begin
-        if mbFileExists(gpGlobalCfgDir + 'doublecmd.inf') then
-          mbDeleteFile(gpGlobalCfgDir + 'doublecmd.inf')
-      end;
-
-      gConfig.FileName := gpCfgDir + 'doublecmd.xml';
+      mbForceDirectory(gpGlobalCfgDir);
+      FileClose(mbFileCreate(gpGlobalCfgDir + 'doublecmd.inf'));
+    end
+    else begin
+      if mbFileExists(gpGlobalCfgDir + 'doublecmd.inf') then
+        mbDeleteFile(gpGlobalCfgDir + 'doublecmd.inf')
     end;
+
+    LoadPaths;
+    gConfig.FileName := gpCfgDir + 'doublecmd.xml';
+    // Copy the configuration to a new location
+    CopyDirTree(OldDir, gpCfgDir, [cffOverwriteFile]);
+
+    gUseConfigInProgramDir := gUseConfigInProgramDirNew;
+  end;
 
   if mbFileAccess(gpCfgDir, fmOpenWrite or fmShareDenyNone) then
   begin

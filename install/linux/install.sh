@@ -76,7 +76,7 @@ cp -a doublecmd.zdli               $DC_INSTALL_DIR/
 cp -a pinyin.tbl                   $DC_INSTALL_DIR/
 
 # Copy default settings
-cp -r settings                     $DC_INSTALL_DIR/
+cp -r default                      $DC_INSTALL_DIR/
 
 # copy plugins
 # WCX
@@ -146,6 +146,7 @@ if [ -z $CK_PORTABLE ]
     install -m 644 install/linux/org.doublecmd.root.policy $DC_INSTALL_PREFIX/usr/share/polkit-1/actions/
   else
     # Make portable version
+    mkdir $DC_INSTALL_DIR/settings
     touch $DC_INSTALL_DIR/settings/doublecmd.inf
     # Copy documentation
     mkdir -p $DC_INSTALL_DIR/doc

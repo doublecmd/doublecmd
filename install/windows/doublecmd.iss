@@ -58,10 +58,9 @@ Source: "doublecmd\doublecmd.help"; DestDir: "{app}"
 Source: "doublecmd\doublecmd.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: "doublecmd\doublecmd.zdli"; DestDir: "{app}"; Flags: ignoreversion
 Source: "doublecmd\pinyin.tbl"; DestDir: "{app}"; Flags: onlyifdoesntexist
-Source: "doublecmd\settings\pixmaps.txt"; DestDir: "{app}\settings"; Flags: onlyifdoesntexist createallsubdirs
-Source: "doublecmd\settings\multiarc.ini"; DestDir: "{app}\settings"; Flags: onlyifdoesntexist createallsubdirs
 Source: "doublecmd\doublecmd.visualelementsmanifest.xml"; DestDir: "{app}"; Flags: onlyifdoesntexist
 Source: "doublecmd\doc\*"; DestDir: "{app}\doc"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "doublecmd\default\*"; DestDir: "{app}\default"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "doublecmd\language\*"; DestDir: "{app}\language"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "doublecmd\pixmaps\*"; DestDir: "{app}\pixmaps"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "doublecmd\plugins\*"; DestDir: "{app}\plugins"; Flags: ignoreversion recursesubdirs createallsubdirs
