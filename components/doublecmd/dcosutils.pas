@@ -146,6 +146,11 @@ function FileIsReadOnly(iAttr: TFileAttrs): Boolean; inline;
             The path '/tmp' must already exist.)
 }
 function GetTempName(PathPrefix: String; Extension: String = 'tmp'): String;
+{en
+   Extract file root directory
+   @param(FileName File name)
+}
+function ExtractRootDir(const FileName: String): String;
 
 (* File mapping/unmapping routines *)
 {en
@@ -664,6 +669,17 @@ begin
       Exit('');
   until not mbFileSystemEntryExists(Result);
 end;
+
+function ExtractRootDir(const FileName: String): String;
+{$IFDEF UNIX}
+begin
+  Result:= ExcludeTrailingPathDelimiter(FindMountPointPath(ExcludeTrailingPathDelimiter(FileName)));
+end;
+{$ELSE}
+begin
+  Result:= ExtractFileDrive(FileName);
+end;
+{$ENDIF}
 
 function MapFile(const sFileName : String; out FileMapRec : TFileMapRec) : Boolean;
 {$IFDEF MSWINDOWS}

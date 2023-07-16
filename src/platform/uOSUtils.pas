@@ -165,11 +165,6 @@ function mbFileNameToSysEnc(const LongPath: String): String;
    Converts file name to native representation
 }
 function mbFileNameToNative(const FileName: String): NativeString; inline;
-{en
-   Extract the root directory part of a file name.
-   @returns(Drive letter under Windows and mount point under Unix)
-}
-function ExtractRootDir(const FileName: String): String;
 
 procedure FixFormIcon(Handle: LCLType.HWND);
 procedure HideConsoleWindow;
@@ -729,17 +724,6 @@ end;
 {$ELSE}
 begin
   Result:= CeUtf8ToSys(LongPath);
-end;
-{$ENDIF}
-
-function ExtractRootDir(const FileName: String): String;
-{$IFDEF UNIX}
-begin
-  Result:= ExcludeTrailingPathDelimiter(FindMountPointPath(ExcludeTrailingPathDelimiter(FileName)));
-end;
-{$ELSE}
-begin
-  Result:= ExtractFileDrive(FileName);
 end;
 {$ENDIF}
 

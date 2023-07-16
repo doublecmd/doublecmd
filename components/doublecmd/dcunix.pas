@@ -182,6 +182,12 @@ procedure FileCloseOnExecAll;
 }
 procedure FileCloseOnExec(Handle: System.THandle); inline;
 {en
+   Find mount point of file system where file is located
+   @param(FileName File name)
+   @returns(Mount point of file system)
+}
+function FindMountPointPath(const FileName: String): String;
+{en
    Change owner and group of a file (does not follow symbolic links)
    @param(path Full path to file)
    @param(owner User ID)
@@ -426,6 +432,48 @@ begin
 {$IF DECLARED(FD_CLOEXEC)}
   FpFcntl(Handle, F_SETFD, FpFcntl(Handle, F_GETFD) or FD_CLOEXEC);
 {$ENDIF}
+end;
+
+function FindMountPointPath(const FileName: String): String;
+var
+  I, J: LongInt;
+  sTemp: String;
+  recStat: Stat;
+  st_dev: QWord;
+begin
+  // Set root directory as mount point by default
+  Result:= PathDelim;
+  // Get stat info for original file
+  if (fpLStat(FileName, recStat) < 0) then Exit;
+  // Save device ID of original file
+  st_dev:= recStat.st_dev;
+  J:= Length(FileName);
+  for I:= J downto 1 do
+  begin
+    if FileName[I] = PathDelim then
+    begin
+      if (I = 1) then
+        sTemp:= PathDelim
+      else
+        sTemp:= Copy(FileName, 1, I - 1);
+      // Stat for current directory
+      if (fpLStat(sTemp, recStat) < 0) then Continue;
+      // If it is a link then checking link destination
+      if fpS_ISLNK(recStat.st_mode) then
+      begin
+        sTemp:= fpReadlink(sTemp);
+        Result:= FindMountPointPath(sTemp);
+        Exit;
+      end;
+      // Check device ID
+      if (recStat.st_dev <> st_dev) then
+      begin
+        Result:= Copy(FileName, 1, J);
+        Exit;
+      end;
+      J:= I;
+    end;
+  end;
 end;
 
 function fpLChown(path: String; owner: TUid; group: TGid): cInt;

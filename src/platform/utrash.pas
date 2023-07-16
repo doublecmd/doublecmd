@@ -47,7 +47,7 @@ uses
   {$IF DEFINED(MSWINDOWS)}
   Windows, ShellApi, DCConvertEncoding, uMyWindows
   {$ELSEIF DEFINED(UNIX)}
-  BaseUnix, uMyUnix, uOSUtils, FileUtil, uSysFolders
+  BaseUnix, DCUnix, uMyUnix, uOSUtils, FileUtil, uSysFolders
     {$IF DEFINED(DARWIN)}
     , MacOSAll, DynLibs, CocoaAll, uMyDarwin
     {$ELSEIF DEFINED(HAIKU)}
