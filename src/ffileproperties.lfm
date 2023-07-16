@@ -303,24 +303,24 @@ object frmFileProperties: TfrmFileProperties
           )
           ReadOnly = True
         end
-        object lblLastAccessStr: TLabel
+        object lblCreatedStr: TLabel
           AnchorSideTop.Side = asrBottom
           Left = 10
           Height = 17
           Top = 269
           Width = 107
-          BorderSpacing.Top = 8
+          BorderSpacing.Top = 10
           BorderSpacing.CellAlignVertical = ccaCenter
-          Caption = 'Last access:'
+          Caption = 'Created:'
           ParentColor = False
         end
-        object lblLastAccess: TKASCDEdit
+        object lblCreated: TKASCDEdit
           AnchorSideTop.Side = asrBottom
           AnchorSideRight.Side = asrBottom
           Cursor = crIBeam
           Left = 127
           Height = 23
-          Top = 266
+          Top = 268
           Width = 24
           AutoSize = True
           Color = clForm
@@ -338,7 +338,7 @@ object frmFileProperties: TfrmFileProperties
           Width = 107
           BorderSpacing.Top = 2
           BorderSpacing.CellAlignVertical = ccaCenter
-          Caption = 'Last modification:'
+          Caption = 'Modified:'
           ParentColor = False
         end
         object lblLastModif: TKASCDEdit
@@ -357,7 +357,7 @@ object frmFileProperties: TfrmFileProperties
           )
           ReadOnly = True
         end
-        object lblLastStChangeStr: TLabel
+        object lblLastAccessStr: TLabel
           AnchorSideTop.Side = asrBottom
           Left = 10
           Height = 17
@@ -365,10 +365,10 @@ object frmFileProperties: TfrmFileProperties
           Width = 107
           BorderSpacing.Top = 2
           BorderSpacing.CellAlignVertical = ccaCenter
-          Caption = 'Last status change:'
+          Caption = 'Accessed:'
           ParentColor = False
         end
-        object lblLastStChange: TKASCDEdit
+        object lblLastAccess: TKASCDEdit
           AnchorSideTop.Side = asrBottom
           AnchorSideRight.Side = asrBottom
           Cursor = crIBeam
@@ -376,6 +376,7 @@ object frmFileProperties: TfrmFileProperties
           Height = 23
           Top = 316
           Width = 24
+          AutoSize = True
           Color = clForm
           DrawStyle = dsExtra1
           Lines.Strings = (
@@ -383,18 +384,18 @@ object frmFileProperties: TfrmFileProperties
           )
           ReadOnly = True
         end
-        object lblCreatedStr: TLabel
+        object lblLastStChangeStr: TLabel
           AnchorSideTop.Side = asrBottom
           Left = 10
           Height = 17
           Top = 343
           Width = 107
-          BorderSpacing.Top = 1
+          BorderSpacing.Top = 2
           BorderSpacing.CellAlignVertical = ccaCenter
-          Caption = 'Created:'
+          Caption = 'Status changed:'
           ParentColor = False
         end
-        object lblCreated: TKASCDEdit
+        object lblLastStChange: TKASCDEdit
           AnchorSideTop.Side = asrBottom
           AnchorSideRight.Side = asrBottom
           Cursor = crIBeam
