@@ -411,7 +411,6 @@ var
   sCmdLine: String;
 begin
   Result:= False;
-  sCmdLine:= EmptyStr;
 
   if FileIsUnixExecutable(URL) then
   begin
@@ -421,6 +420,7 @@ begin
       sCmdLine:= IncludeTrailingPathDelimiter(mbGetCurrentDir);
       sCmdLine:= GetAbsoluteFileName(sCmdLine, URL)
     end;
+    Result:= ExecuteCommand(sCmdLine, [], mbGetCurrentDir);
   end
   else begin
   {$IF NOT DEFINED(HAIKU)}
@@ -438,11 +438,10 @@ begin
         sCmdLine:= GetAbsoluteFileName(sCmdLine, URL)
       end;
       sCmdLine:= GetDefaultAppCmd(sCmdLine);
+      if Length(sCmdLine) > 0 then begin
+        Result:= ExecCmdFork(sCmdLine);
+      end;
     end;
-  end;
-
-  if Length(sCmdLine) > 0 then begin
-    Result:= ExecCmdFork(sCmdLine);
   end;
 end;
 {$ENDIF}
