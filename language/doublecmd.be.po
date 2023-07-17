@@ -1354,10 +1354,12 @@ msgid "&Group"
 msgstr "&Група"
 
 #: tfrmfileproperties.lbllastaccessstr.caption
+msgctxt "tfrmfileproperties.lbllastaccessstr.caption"
 msgid "Accessed:"
 msgstr "Апошні доступ:"
 
 #: tfrmfileproperties.lbllastmodifstr.caption
+msgctxt "tfrmfileproperties.lbllastmodifstr.caption"
 msgid "Modified:"
 msgstr "Апошняя змена:"
 
@@ -6418,11 +6420,6 @@ msgctxt "TFRMOPTIONSFILETYPESCOLORS.BTNAPPLYCATEGORY.CAPTION"
 msgid "A&pply"
 msgstr "У&жыць"
 
-#: tfrmoptionsfiletypescolors.btncategorycolor.caption
-msgctxt "TFRMOPTIONSFILETYPESCOLORS.BTNCATEGORYCOLOR.CAPTION"
-msgid ">>"
-msgstr ">>"
-
 #: tfrmoptionsfiletypescolors.btndeletecategory.caption
 msgctxt "TFRMOPTIONSFILETYPESCOLORS.BTNDELETECATEGORY.CAPTION"
 msgid "D&elete"
@@ -8708,6 +8705,7 @@ msgid "Hidden"
 msgstr "Схаваны"
 
 #: tfrmsetfileproperties.chklastaccesstime.caption
+msgctxt "tfrmsetfileproperties.chklastaccesstime.caption"
 msgid "Accessed:"
 msgstr "Апошні доступ:"
 
@@ -11083,6 +11081,11 @@ msgstr "Гэтая ўкладка (%s) заблакаваная! Усё адно
 #: ulng.rsmsgcofirmuserparam
 msgid "Confirmation of parameter"
 msgstr "Пацвярджэнне параметра"
+
+#: ulng.rsmsgcommandnotfound
+#, object-pascal-format
+msgid "Command not found! (%s)"
+msgstr ""
 
 #: ulng.rsmsgconfirmquit
 msgid "Are you sure you want to quit?"

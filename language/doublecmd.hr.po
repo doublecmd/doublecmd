@@ -1428,10 +1428,12 @@ msgid "&Group"
 msgstr "&Udruženje"
 
 #: tfrmfileproperties.lbllastaccessstr.caption
+msgctxt "tfrmfileproperties.lbllastaccessstr.caption"
 msgid "Accessed:"
 msgstr "Posljednji pristup:"
 
 #: tfrmfileproperties.lbllastmodifstr.caption
+msgctxt "tfrmfileproperties.lbllastmodifstr.caption"
 msgid "Modified:"
 msgstr "Posljednja izmena:"
 
@@ -6873,11 +6875,6 @@ msgctxt "TFRMOPTIONSFILETYPESCOLORS.BTNAPPLYCATEGORY.CAPTION"
 msgid "A&pply"
 msgstr "Primjeni&"
 
-#: tfrmoptionsfiletypescolors.btncategorycolor.caption
-msgctxt "TFRMOPTIONSFILETYPESCOLORS.BTNCATEGORYCOLOR.CAPTION"
-msgid ">>"
-msgstr ">>"
-
 #: tfrmoptionsfiletypescolors.btndeletecategory.caption
 msgctxt "TFRMOPTIONSFILETYPESCOLORS.BTNDELETECATEGORY.CAPTION"
 msgid "D&elete"
@@ -9305,6 +9302,7 @@ msgid "Hidden"
 msgstr "Skriveno"
 
 #: tfrmsetfileproperties.chklastaccesstime.caption
+msgctxt "tfrmsetfileproperties.chklastaccesstime.caption"
 msgid "Accessed:"
 msgstr "Pristupano:"
 
@@ -11779,6 +11777,11 @@ msgstr "Kartica (%s) je zaključana. Želite li je uprkos tome zatvoriti?"
 
 #: ulng.rsmsgcofirmuserparam
 msgid "Confirmation of parameter"
+msgstr ""
+
+#: ulng.rsmsgcommandnotfound
+#, object-pascal-format
+msgid "Command not found! (%s)"
 msgstr ""
 
 #: ulng.rsmsgconfirmquit

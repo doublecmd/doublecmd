@@ -1346,10 +1346,12 @@ msgid "&Group"
 msgstr "&Grupa"
 
 #: tfrmfileproperties.lbllastaccessstr.caption
+msgctxt "tfrmfileproperties.lbllastaccessstr.caption"
 msgid "Accessed:"
 msgstr "Ostatnio używany:"
 
 #: tfrmfileproperties.lbllastmodifstr.caption
+msgctxt "tfrmfileproperties.lbllastmodifstr.caption"
 msgid "Modified:"
 msgstr "Ostatnio zmieniony:"
 
@@ -6389,11 +6391,6 @@ msgctxt "TFRMOPTIONSFILETYPESCOLORS.BTNAPPLYCATEGORY.CAPTION"
 msgid "A&pply"
 msgstr "&Zastosuj"
 
-#: tfrmoptionsfiletypescolors.btncategorycolor.caption
-msgctxt "TFRMOPTIONSFILETYPESCOLORS.BTNCATEGORYCOLOR.CAPTION"
-msgid ">>"
-msgstr ">>"
-
 #: tfrmoptionsfiletypescolors.btndeletecategory.caption
 msgctxt "TFRMOPTIONSFILETYPESCOLORS.BTNDELETECATEGORY.CAPTION"
 msgid "D&elete"
@@ -8673,6 +8670,7 @@ msgid "Hidden"
 msgstr "Ukryty"
 
 #: tfrmsetfileproperties.chklastaccesstime.caption
+msgctxt "tfrmsetfileproperties.chklastaccesstime.caption"
 msgid "Accessed:"
 msgstr "Dostępny:"
 
@@ -11044,6 +11042,11 @@ msgstr "Zakładka (%s) jest zablokowana! Zamknąć mimo to?"
 #: ulng.rsmsgcofirmuserparam
 msgid "Confirmation of parameter"
 msgstr "Potwierdzenie parametru"
+
+#: ulng.rsmsgcommandnotfound
+#, object-pascal-format
+msgid "Command not found! (%s)"
+msgstr ""
 
 #: ulng.rsmsgconfirmquit
 msgid "Are you sure you want to quit?"

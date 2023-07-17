@@ -1390,10 +1390,12 @@ msgid "&Group"
 msgstr "&Група"
 
 #: tfrmfileproperties.lbllastaccessstr.caption
+msgctxt "tfrmfileproperties.lbllastaccessstr.caption"
 msgid "Accessed:"
 msgstr "Последно използване:"
 
 #: tfrmfileproperties.lbllastmodifstr.caption
+msgctxt "tfrmfileproperties.lbllastmodifstr.caption"
 msgid "Modified:"
 msgstr "Последна промяна:"
 
@@ -6686,11 +6688,6 @@ msgctxt "TFRMOPTIONSFILETYPESCOLORS.BTNAPPLYCATEGORY.CAPTION"
 msgid "A&pply"
 msgstr "&Прилагане"
 
-#: tfrmoptionsfiletypescolors.btncategorycolor.caption
-msgctxt "TFRMOPTIONSFILETYPESCOLORS.BTNCATEGORYCOLOR.CAPTION"
-msgid ">>"
-msgstr ">>"
-
 #: tfrmoptionsfiletypescolors.btndeletecategory.caption
 msgctxt "TFRMOPTIONSFILETYPESCOLORS.BTNDELETECATEGORY.CAPTION"
 msgid "D&elete"
@@ -9128,6 +9125,7 @@ msgid "Hidden"
 msgstr "Скрит"
 
 #: tfrmsetfileproperties.chklastaccesstime.caption
+msgctxt "tfrmsetfileproperties.chklastaccesstime.caption"
 msgid "Accessed:"
 msgstr "Ползван:"
 
@@ -11557,6 +11555,11 @@ msgstr ""
 
 #: ulng.rsmsgcofirmuserparam
 msgid "Confirmation of parameter"
+msgstr ""
+
+#: ulng.rsmsgcommandnotfound
+#, object-pascal-format
+msgid "Command not found! (%s)"
 msgstr ""
 
 #: ulng.rsmsgconfirmquit

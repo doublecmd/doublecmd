@@ -1484,10 +1484,12 @@ msgid "&Group"
 msgstr "Grup"
 
 #: tfrmfileproperties.lbllastaccessstr.caption
+msgctxt "tfrmfileproperties.lbllastaccessstr.caption"
 msgid "Accessed:"
 msgstr "Últim accès:"
 
 #: tfrmfileproperties.lbllastmodifstr.caption
+msgctxt "tfrmfileproperties.lbllastmodifstr.caption"
 msgid "Modified:"
 msgstr "Última modificació"
 
@@ -6988,11 +6990,6 @@ msgctxt "tfrmoptionsfiletypescolors.btnapplycategory.caption"
 msgid "A&pply"
 msgstr "Aplica"
 
-#: tfrmoptionsfiletypescolors.btncategorycolor.caption
-msgctxt "tfrmoptionsfiletypescolors.btncategorycolor.caption"
-msgid ">>"
-msgstr ">>"
-
 #: tfrmoptionsfiletypescolors.btndeletecategory.caption
 #, fuzzy
 #| msgid "Delete"
@@ -9541,6 +9538,7 @@ msgid "Hidden"
 msgstr "Ocult"
 
 #: tfrmsetfileproperties.chklastaccesstime.caption
+msgctxt "tfrmsetfileproperties.chklastaccesstime.caption"
 msgid "Accessed:"
 msgstr "Accedit:"
 
@@ -12067,6 +12065,11 @@ msgstr "Aquesta pestanya (%s) està blocada! La tanco? "
 
 #: ulng.rsmsgcofirmuserparam
 msgid "Confirmation of parameter"
+msgstr ""
+
+#: ulng.rsmsgcommandnotfound
+#, object-pascal-format
+msgid "Command not found! (%s)"
 msgstr ""
 
 #: ulng.rsmsgconfirmquit
