@@ -5322,7 +5322,7 @@ begin
     CommandFuncResult:=Commands.Commands.ExecuteCommand(CommandItem.Command, CommandItem.Params);
     if gToolbarReportErrorWithCommands AND (CommandFuncResult=cfrNotFound) then
     begin
-      MsgError('Command not found! ('+CommandItem.Command+')');
+      MsgError(Format(rsMsgCommandNotFound, [CommandItem.Command]));
     end;
   end;
   Draging := False;

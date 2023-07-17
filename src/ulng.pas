@@ -239,6 +239,7 @@ resourcestring
   rsMsgForTextFormatToImport = 'Select the text format to import';
   rsMsgUserDidNotSetExtension = '<NO EXT>';
   rsMsgUserDidNotSetName = '<NO NAME>';
+  rsMsgCommandNotFound = 'Command not found! (%s)';
   rsMsgProblemExecutingCommand = 'Problem executing command (%s)';
   rsMsgCopyBackward = 'The file %s has changed. Do you want to copy it backward?';
   rsMsgCouldNotCopyBackward = 'Could not copy backward - do you want to keep the changed file?';
