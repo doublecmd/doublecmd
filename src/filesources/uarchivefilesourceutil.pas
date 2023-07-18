@@ -330,6 +330,7 @@ procedure InstallPlugin(const FileName: String);
 var
   AFile: TFile;
   sExt: String;
+  Flags: PtrInt;
   sType: String;
   Sfile: String;
   AFiles: TFiles;
@@ -415,8 +416,12 @@ begin
                 WcxModule:= gWcxPlugins.LoadModule(sPlugin);
                 if Assigned(WcxModule) then
                 begin
-                  Result:= gWcxPlugins.Add(sExt, WcxModule.GetPluginCapabilities, sPlugin);
-                  gWcxPlugins.FileName[Result]:= GetPluginFilenameToSave(sPlugin);
+                  Flags:= WcxModule.GetPluginCapabilities;
+                  for sExt in SplitString(sExt, ',') do
+                  begin
+                    Result:= gWcxPlugins.Add(sExt, Flags, sPlugin);
+                    gWcxPlugins.FileName[Result]:= GetPluginFilenameToSave(sPlugin);
+                  end;
                 end;
               end
               else if (sType = 'wdx') then
