@@ -304,7 +304,7 @@ end;
 function TShellFileSource.GetOperationsTypes: TFileSourceOperationTypes;
 begin
   Result := [fsoList, fsoExecute, fsoDelete, fsoCreateDirectory,
-             fsoMove, fsoCopy, fsoCopyIn, fsoCopyOut, fsoSetFileProperty,
+             fsoCopyIn, fsoCopyOut, fsoSetFileProperty,
              fsoCalcStatistics];
 end;
 
