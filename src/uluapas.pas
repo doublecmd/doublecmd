@@ -350,32 +350,6 @@ begin
   lua_pushstring(L, S);
 end;
 
-function luaNormalizeNFD(L : Plua_State) : Integer; cdecl;
-var
-  Len: size_t;
-  P: PAnsiChar;
-  S: UnicodeString;
-begin
-  P:= lua_tolstring(L, 1, @Len);
-  S:= UTF8ToUTF16(P, Len);
-  S:= NormalizeNFD(S);
-  lua_pushstring(L, UTF16ToUTF8(S));
-  Result:= 1;
-end;
-
-function luaCanonicalOrder(L : Plua_State) : Integer; cdecl;
-var
-  Len: size_t;
-  P: PAnsiChar;
-  S: UnicodeString;
-begin
-  P:= lua_tolstring(L, 1, @Len);
-  S:= UTF8ToUTF16(P, Len);
-  CanonicalOrder(S);
-  lua_pushstring(L, UTF16ToUTF8(S));
-  Result:= 1;
-end;
-
 function luaConvertEncoding(L : Plua_State) : Integer; cdecl;
 var
   S, FromEnc, ToEnc: String;
@@ -682,8 +656,6 @@ begin
     luaP_register(L, 'Length', @luaLength);
     luaP_register(L, 'UpperCase', @luaUpperCase);
     luaP_register(L, 'LowerCase', @luaLowerCase);
-    luaP_register(L, 'NormalizeNFD', @luaNormalizeNFD);
-    luaP_register(L, 'CanonicalOrder', @luaCanonicalOrder);
     luaP_register(L, 'ConvertEncoding', @luaConvertEncoding);
   lua_setglobal(L, 'LazUtf8');
 
