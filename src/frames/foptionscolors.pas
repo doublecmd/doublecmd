@@ -2,6 +2,10 @@ unit fOptionsColors;
 
 {$mode ObjFPC}{$H+}
 
+{$IF DEFINED(darwin)}
+  {$DEFINE DARKWIN}
+{$ENDIF}
+
 interface
 
 uses
@@ -94,7 +98,12 @@ implementation
 uses
   uGlobs, uLng, uDCUtils, fMain
 {$IF DEFINED(DARKWIN)}
-  , DCStrUtils, uEarlyConfig, uDarkStyle
+  , DCStrUtils, uEarlyConfig
+  {$IF not DEFINED(darwin)}
+  , uDarkStyle
+  {$ELSE}
+  , uMyDarwin
+  {$ENDIF}
 {$ENDIF}
   ;
 
@@ -252,9 +261,13 @@ begin
   end;
   if gAppMode <> FAppMode then
   try
-    SaveEarlyConfig;
     FAppMode:= gAppMode;
+    {$IF not DEFINED(darwin)}
     Result:= [oesfNeedsRestart];
+    {$ELSE}
+    setMacOSAppearance( gAppMode );
+    {$ENDIF}
+    SaveEarlyConfig;
   except
     on E: Exception do MessageDlg(E.Message, mtError, [mbOK], 0);
   end;

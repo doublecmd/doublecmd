@@ -2,6 +2,10 @@ unit uEarlyConfig;
 
 {$mode objfpc}{$H+}
 
+{$IF DEFINED(darwin)}
+  {$DEFINE DARKWIN}
+{$ENDIF}
+
 interface
 
 uses

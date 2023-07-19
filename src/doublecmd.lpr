@@ -17,8 +17,9 @@ uses
   {$ENDIF}
   cwstring,
   clocale,
-  {$IFDEF DARWIN}
+  {$IFDEF darwin}
   uAppleMagnifiedModeFix,
+  uMyDarwin,
   {$ENDIF}
   uElevation,
   {$IFDEF LINUX}
@@ -145,6 +146,10 @@ begin
 
 {$IF DEFINED(MSWINDOWS) and (DEFINED(LCLQT5) or DEFINED(DARKWIN))}
   ApplyDarkStyle;
+{$ENDIF}
+
+{$IF DEFINED(darwin)}
+  setMacOSAppearance( gAppMode );
 {$ENDIF}
 
   // Use only current directory separator
