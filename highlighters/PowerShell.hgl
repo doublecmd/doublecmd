@@ -6,6 +6,29 @@
     <History>
     </History>
     <Sample>
+      <S># Multiline Comments</S>
+      <S>&lt;#</S>
+      <S>  Hello</S>
+      <S>  world</S>
+      <S>#&gt;</S>
+      <S>'Single quoted string'</S>
+      <S>"Double quoted string"</S>
+      <S>@'</S>
+      <S>Single quoted here-string</S>
+      <S>'@</S>
+      <S>@"</S>
+      <S>Double quoted here-string</S>
+      <S>"@</S>
+      <S># Variables</S>
+      <S>$name = 'value'</S>
+      <S># Keywords</S>
+      <S>switch ("fourteen") {}</S>
+      <S># Functions</S>
+      <S>$stpool = (Get-StoragePool -FriendlyName "SpacePool")</S>
+      <S># Aliases</S>
+      <S>Disable-PhysicalDiskIndication -StoragePool $stpool</S>
+      <S># Cmdlets</S>
+      <S>Write-Host -Message 'This is a message'</S>
     </Sample>
   </Info>
   <Scheme File="" Name=""/>
