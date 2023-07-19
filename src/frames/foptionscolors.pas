@@ -253,6 +253,7 @@ begin
   if gAppMode <> FAppMode then
   try
     SaveEarlyConfig;
+    FAppMode:= gAppMode;
     Result:= [oesfNeedsRestart];
   except
     on E: Exception do MessageDlg(E.Message, mtError, [mbOK], 0);
