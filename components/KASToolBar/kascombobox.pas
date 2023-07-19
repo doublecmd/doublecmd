@@ -89,6 +89,7 @@ type
     FButton: TKASButton;
     FColorBox: TKASColorBox;
     procedure DoAutoSize; override;
+    procedure EnabledChanged; override;
     procedure ButtonClick(Sender: TObject);
     class function GetControlClassDefaultSize: TSize; override;
     procedure CMParentColorChanged(var Message: TLMessage); message CM_PARENTCOLORCHANGED;
@@ -328,6 +329,16 @@ procedure TKASColorBoxButton.DoAutoSize;
 begin
   inherited DoAutoSize;
   FButton.Constraints.MinWidth:= FButton.Height;
+end;
+
+procedure TKASColorBoxButton.EnabledChanged;
+begin
+  if Enabled then
+    FColorBox.Font.Color:= clDefault
+  else begin
+    FColorBox.Font.Color:= clGrayText;
+  end;
+  inherited EnabledChanged;
 end;
 
 procedure TKASColorBoxButton.ButtonClick(Sender: TObject);

@@ -266,10 +266,6 @@ begin
   cbUseCursorBorder.Enabled := not cbbUseFrameCursor.Checked;
   lblCursorText.Enabled := not cbbUseFrameCursor.Checked;
   cbCursorText.Enabled := not cbbUseFrameCursor.Checked;
-  if not cbbUseFrameCursor.Checked then
-    cbCursorText.Font.Color := clDefault
-  else
-    cbCursorText.Font.Color := clInactiveCaption;
   cbUseCursorBorderChange(cbUseCursorBorder);
 end;
 
@@ -283,16 +279,6 @@ begin
 
   if bLoadCompleted then
   begin
-    if cbbUseInactiveSelColor.Checked and cbbUseInactiveSelColor.Enabled then
-    begin
-      cbInactiveCursorColor.Font.Color := clDefault;
-      cbInactiveMarkColor.Font.Color := clDefault;
-    end
-    else
-    begin
-      cbInactiveCursorColor.Font.Color := clInactiveCaption;
-      cbInactiveMarkColor.Font.Color := clInactiveCaption;
-    end;
     RefreshPreviewPanel;
   end;
 end;
@@ -325,10 +311,6 @@ end;
 procedure TfrmOptionsFilePanelsColors.cbUseCursorBorderChange(Sender: TObject);
 begin
   cbCursorBorderColor.Enabled := cbUseCursorBorder.Checked and cbUseCursorBorder.Enabled;
-  if cbUseCursorBorder.Checked and cbUseCursorBorder.Enabled then
-    cbCursorBorderColor.Font.Color := clDefault
-  else
-    cbCursorBorderColor.Font.Color := clInactiveCaption;
   if bLoadCompleted then
     RefreshPreviewPanel;
 end;
