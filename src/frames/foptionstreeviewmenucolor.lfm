@@ -20,7 +20,7 @@ inherited frmOptionsTreeViewMenuColor: TfrmOptionsTreeViewMenuColor
     AnchorSideRight.Side = asrBottom
     AnchorSideBottom.Side = asrBottom
     Left = 6
-    Height = 371
+    Height = 407
     Top = 10
     Width = 588
     Anchors = [akTop, akLeft, akRight]
@@ -29,7 +29,7 @@ inherited frmOptionsTreeViewMenuColor: TfrmOptionsTreeViewMenuColor
     Caption = 'Layout and colors options:'
     ChildSizing.LeftRightSpacing = 10
     ChildSizing.TopBottomSpacing = 6
-    ClientHeight = 351
+    ClientHeight = 387
     ClientWidth = 584
     TabOrder = 0
     object cbkUsageKeyboardShortcut: TCheckBox
@@ -38,7 +38,7 @@ inherited frmOptionsTreeViewMenuColor: TfrmOptionsTreeViewMenuColor
       Left = 10
       Height = 19
       Top = 6
-      Width = 303
+      Width = 301
       Caption = 'Use and display keyboard shortcut for choosing items'
       OnChange = RefreshColorOfOurSampleClick
       TabOrder = 0
@@ -51,45 +51,28 @@ inherited frmOptionsTreeViewMenuColor: TfrmOptionsTreeViewMenuColor
       AnchorSideRight.Side = asrBottom
       Left = 59
       Height = 15
-      Top = 33
+      Top = 34
       Width = 97
       Anchors = [akTop, akRight]
       Caption = 'Background color:'
       FocusControl = cbBackgroundColor
       ParentColor = False
     end
-    object cbBackgroundColor: TColorBox
+    object cbBackgroundColor: TKASColorBoxButton
       Tag = 1
       AnchorSideLeft.Control = gbLayoutAndColors
       AnchorSideTop.Control = cbkUsageKeyboardShortcut
       AnchorSideTop.Side = asrBottom
       AnchorSideRight.Side = asrBottom
       Left = 160
-      Height = 22
+      Height = 25
       Top = 29
-      Width = 200
-      Style = [cbStandardColors, cbExtendedColors, cbSystemColors, cbPrettyNames]
+      Width = 125
+      TabOrder = 1
       BorderSpacing.Left = 160
       BorderSpacing.Top = 4
-      ItemHeight = 16
       OnChange = RefreshColorOfOurSampleClick
-      TabOrder = 1
-    end
-    object btnBackgroundColor: TButton
-      Tag = 1
-      AnchorSideLeft.Control = btnNormalTextColor
-      AnchorSideTop.Control = cbBackgroundColor
-      AnchorSideTop.Side = asrCenter
-      AnchorSideBottom.Side = asrBottom
-      Left = 366
-      Height = 22
-      Top = 29
-      Width = 28
-      BorderSpacing.Right = 10
-      BorderSpacing.InnerBorder = 4
-      Caption = '>>'
-      OnClick = btnChooseColorClick
-      TabOrder = 2
+      ColorDialog = optColorDialog
     end
     object lblShortcutColor: TLabel
       Tag = 2
@@ -98,7 +81,7 @@ inherited frmOptionsTreeViewMenuColor: TfrmOptionsTreeViewMenuColor
       AnchorSideRight.Control = cbShortcutColor
       Left = 78
       Height = 15
-      Top = 61
+      Top = 65
       Width = 78
       Anchors = [akTop, akRight]
       BorderSpacing.Right = 4
@@ -106,7 +89,7 @@ inherited frmOptionsTreeViewMenuColor: TfrmOptionsTreeViewMenuColor
       FocusControl = cbShortcutColor
       ParentColor = False
     end
-    object cbShortcutColor: TColorBox
+    object cbShortcutColor: TKASColorBoxButton
       Tag = 2
       AnchorSideLeft.Control = cbBackgroundColor
       AnchorSideTop.Control = cbBackgroundColor
@@ -114,31 +97,14 @@ inherited frmOptionsTreeViewMenuColor: TfrmOptionsTreeViewMenuColor
       AnchorSideRight.Control = cbBackgroundColor
       AnchorSideRight.Side = asrBottom
       Left = 160
-      Height = 22
-      Top = 57
-      Width = 200
-      Style = [cbStandardColors, cbExtendedColors, cbSystemColors, cbPrettyNames]
+      Height = 25
+      Top = 60
+      Width = 125
       Anchors = [akTop, akLeft, akRight]
+      TabOrder = 2
       BorderSpacing.Top = 6
-      ItemHeight = 16
       OnChange = RefreshColorOfOurSampleClick
-      TabOrder = 3
-    end
-    object btnShortcutColor: TButton
-      Tag = 2
-      AnchorSideLeft.Control = btnNormalTextColor
-      AnchorSideTop.Control = cbShortcutColor
-      AnchorSideTop.Side = asrCenter
-      AnchorSideBottom.Side = asrBottom
-      Left = 366
-      Height = 22
-      Top = 57
-      Width = 28
-      BorderSpacing.Right = 10
-      BorderSpacing.InnerBorder = 4
-      Caption = '>>'
-      OnClick = btnChooseColorClick
-      TabOrder = 4
+      ColorDialog = optColorDialog
     end
     object lblNormalTextColor: TLabel
       Tag = 3
@@ -148,14 +114,14 @@ inherited frmOptionsTreeViewMenuColor: TfrmOptionsTreeViewMenuColor
       AnchorSideRight.Side = asrBottom
       Left = 60
       Height = 15
-      Top = 89
+      Top = 96
       Width = 96
       Anchors = [akTop, akRight]
       Caption = 'Normal text color:'
       FocusControl = cbNormalTextColor
       ParentColor = False
     end
-    object cbNormalTextColor: TColorBox
+    object cbNormalTextColor: TKASColorBoxButton
       Tag = 3
       AnchorSideLeft.Control = cbBackgroundColor
       AnchorSideTop.Control = cbShortcutColor
@@ -163,34 +129,15 @@ inherited frmOptionsTreeViewMenuColor: TfrmOptionsTreeViewMenuColor
       AnchorSideRight.Control = cbBackgroundColor
       AnchorSideRight.Side = asrBottom
       Left = 160
-      Height = 22
-      Top = 85
-      Width = 200
-      Style = [cbStandardColors, cbExtendedColors, cbSystemColors, cbPrettyNames]
+      Height = 25
+      Top = 91
+      Width = 125
       Anchors = [akTop, akLeft, akRight]
-      BorderSpacing.Top = 6
+      TabOrder = 3
       Constraints.MinWidth = 100
-      ItemHeight = 16
+      BorderSpacing.Top = 6
       OnChange = RefreshColorOfOurSampleClick
-      TabOrder = 5
-    end
-    object btnNormalTextColor: TButton
-      Tag = 3
-      AnchorSideLeft.Control = cbNormalTextColor
-      AnchorSideLeft.Side = asrBottom
-      AnchorSideTop.Control = cbNormalTextColor
-      AnchorSideBottom.Control = cbNormalTextColor
-      AnchorSideBottom.Side = asrBottom
-      Left = 366
-      Height = 22
-      Top = 85
-      Width = 28
-      Anchors = [akTop, akLeft, akBottom]
-      BorderSpacing.Left = 6
-      BorderSpacing.InnerBorder = 4
-      Caption = '>>'
-      OnClick = btnChooseColorClick
-      TabOrder = 6
+      ColorDialog = optColorDialog
     end
     object lblSecondaryTextColor: TLabel
       Tag = 4
@@ -200,14 +147,14 @@ inherited frmOptionsTreeViewMenuColor: TfrmOptionsTreeViewMenuColor
       AnchorSideRight.Side = asrBottom
       Left = 45
       Height = 15
-      Top = 117
+      Top = 127
       Width = 111
       Anchors = [akTop, akRight]
       Caption = 'Secondary text color:'
       FocusControl = cbSecondaryTextColor
       ParentColor = False
     end
-    object cbSecondaryTextColor: TColorBox
+    object cbSecondaryTextColor: TKASColorBoxButton
       Tag = 4
       AnchorSideLeft.Control = cbBackgroundColor
       AnchorSideTop.Control = cbNormalTextColor
@@ -215,34 +162,15 @@ inherited frmOptionsTreeViewMenuColor: TfrmOptionsTreeViewMenuColor
       AnchorSideRight.Control = cbBackgroundColor
       AnchorSideRight.Side = asrBottom
       Left = 160
-      Height = 22
-      Top = 113
-      Width = 200
-      Style = [cbStandardColors, cbExtendedColors, cbSystemColors, cbPrettyNames]
+      Height = 25
+      Top = 122
+      Width = 125
       Anchors = [akTop, akLeft, akRight]
-      BorderSpacing.Top = 6
+      TabOrder = 4
       Constraints.MinWidth = 100
-      ItemHeight = 16
+      BorderSpacing.Top = 6
       OnChange = RefreshColorOfOurSampleClick
-      TabOrder = 7
-    end
-    object btnSecondaryTextColor: TButton
-      Tag = 4
-      AnchorSideLeft.Control = cbSecondaryTextColor
-      AnchorSideLeft.Side = asrBottom
-      AnchorSideTop.Control = cbSecondaryTextColor
-      AnchorSideBottom.Control = cbSecondaryTextColor
-      AnchorSideBottom.Side = asrBottom
-      Left = 366
-      Height = 22
-      Top = 113
-      Width = 28
-      Anchors = [akTop, akLeft, akBottom]
-      BorderSpacing.Left = 6
-      BorderSpacing.InnerBorder = 4
-      Caption = '>>'
-      OnClick = btnChooseColorClick
-      TabOrder = 8
+      ColorDialog = optColorDialog
     end
     object lblFoundTextColor: TLabel
       Tag = 5
@@ -252,14 +180,14 @@ inherited frmOptionsTreeViewMenuColor: TfrmOptionsTreeViewMenuColor
       AnchorSideRight.Side = asrBottom
       Left = 66
       Height = 15
-      Top = 143
+      Top = 156
       Width = 90
       Anchors = [akTop, akRight]
       Caption = 'Found text color:'
       FocusControl = cbFoundTextColor
       ParentColor = False
     end
-    object cbFoundTextColor: TColorBox
+    object cbFoundTextColor: TKASColorBoxButton
       Tag = 5
       AnchorSideLeft.Control = cbBackgroundColor
       AnchorSideTop.Control = cbSecondaryTextColor
@@ -267,32 +195,14 @@ inherited frmOptionsTreeViewMenuColor: TfrmOptionsTreeViewMenuColor
       AnchorSideRight.Control = cbBackgroundColor
       AnchorSideRight.Side = asrBottom
       Left = 160
-      Height = 22
-      Top = 139
-      Width = 200
-      Style = [cbStandardColors, cbExtendedColors, cbSystemColors, cbPrettyNames]
+      Height = 25
+      Top = 151
+      Width = 125
       Anchors = [akTop, akLeft, akRight]
+      TabOrder = 5
       BorderSpacing.Top = 4
-      ItemHeight = 16
       OnChange = RefreshColorOfOurSampleClick
-      TabOrder = 9
-    end
-    object btnFoundTextColor: TButton
-      Tag = 5
-      AnchorSideLeft.Control = btnNormalTextColor
-      AnchorSideTop.Control = cbFoundTextColor
-      AnchorSideBottom.Control = cbFoundTextColor
-      AnchorSideBottom.Side = asrBottom
-      Left = 366
-      Height = 22
-      Top = 139
-      Width = 28
-      Anchors = [akLeft, akBottom]
-      BorderSpacing.Right = 10
-      BorderSpacing.InnerBorder = 4
-      Caption = '>>'
-      OnClick = btnChooseColorClick
-      TabOrder = 10
+      ColorDialog = optColorDialog
     end
     object lblUnselectableTextColor: TLabel
       Tag = 6
@@ -302,14 +212,14 @@ inherited frmOptionsTreeViewMenuColor: TfrmOptionsTreeViewMenuColor
       AnchorSideRight.Side = asrBottom
       Left = 33
       Height = 15
-      Top = 169
+      Top = 185
       Width = 123
       Anchors = [akTop, akRight]
       Caption = 'Unselectable text color:'
       FocusControl = cbUnselectableTextColor
       ParentColor = False
     end
-    object cbUnselectableTextColor: TColorBox
+    object cbUnselectableTextColor: TKASColorBoxButton
       Tag = 6
       AnchorSideLeft.Control = cbBackgroundColor
       AnchorSideTop.Control = cbFoundTextColor
@@ -317,32 +227,14 @@ inherited frmOptionsTreeViewMenuColor: TfrmOptionsTreeViewMenuColor
       AnchorSideRight.Control = cbBackgroundColor
       AnchorSideRight.Side = asrBottom
       Left = 160
-      Height = 22
-      Top = 165
-      Width = 200
-      Style = [cbStandardColors, cbExtendedColors, cbSystemColors, cbPrettyNames]
+      Height = 25
+      Top = 180
+      Width = 125
       Anchors = [akTop, akLeft, akRight]
+      TabOrder = 6
       BorderSpacing.Top = 4
-      ItemHeight = 16
       OnChange = RefreshColorOfOurSampleClick
-      TabOrder = 11
-    end
-    object btnUnselectableTextColor: TButton
-      Tag = 6
-      AnchorSideLeft.Control = btnNormalTextColor
-      AnchorSideTop.Control = cbUnselectableTextColor
-      AnchorSideBottom.Control = cbUnselectableTextColor
-      AnchorSideBottom.Side = asrBottom
-      Left = 366
-      Height = 22
-      Top = 165
-      Width = 28
-      Anchors = [akTop, akLeft, akBottom]
-      BorderSpacing.Right = 10
-      BorderSpacing.InnerBorder = 4
-      Caption = '>>'
-      OnClick = btnChooseColorClick
-      TabOrder = 12
+      ColorDialog = optColorDialog
     end
     object lblCursorColor: TLabel
       Tag = 7
@@ -352,14 +244,14 @@ inherited frmOptionsTreeViewMenuColor: TfrmOptionsTreeViewMenuColor
       AnchorSideRight.Side = asrBottom
       Left = 88
       Height = 15
-      Top = 195
+      Top = 214
       Width = 68
       Anchors = [akTop, akRight]
       Caption = 'Cursor color:'
       FocusControl = cbCursorColor
       ParentColor = False
     end
-    object cbCursorColor: TColorBox
+    object cbCursorColor: TKASColorBoxButton
       Tag = 7
       AnchorSideLeft.Control = cbBackgroundColor
       AnchorSideTop.Control = cbUnselectableTextColor
@@ -367,32 +259,14 @@ inherited frmOptionsTreeViewMenuColor: TfrmOptionsTreeViewMenuColor
       AnchorSideRight.Control = cbBackgroundColor
       AnchorSideRight.Side = asrBottom
       Left = 160
-      Height = 22
-      Top = 191
-      Width = 200
-      Style = [cbStandardColors, cbExtendedColors, cbSystemColors, cbPrettyNames]
+      Height = 25
+      Top = 209
+      Width = 125
       Anchors = [akTop, akLeft, akRight]
+      TabOrder = 7
       BorderSpacing.Top = 4
-      ItemHeight = 16
       OnChange = RefreshColorOfOurSampleClick
-      TabOrder = 13
-    end
-    object btnCursorColor: TButton
-      Tag = 7
-      AnchorSideLeft.Control = btnNormalTextColor
-      AnchorSideTop.Control = cbCursorColor
-      AnchorSideBottom.Control = cbCursorColor
-      AnchorSideBottom.Side = asrBottom
-      Left = 366
-      Height = 22
-      Top = 191
-      Width = 28
-      Anchors = [akTop, akLeft, akBottom]
-      BorderSpacing.Right = 10
-      BorderSpacing.InnerBorder = 4
-      Caption = '>>'
-      OnClick = btnChooseColorClick
-      TabOrder = 14
+      ColorDialog = optColorDialog
     end
     object lblShortcutUnderCursor: TLabel
       Tag = 8
@@ -402,14 +276,14 @@ inherited frmOptionsTreeViewMenuColor: TfrmOptionsTreeViewMenuColor
       AnchorSideRight.Side = asrBottom
       Left = 38
       Height = 15
-      Top = 221
+      Top = 243
       Width = 118
       Anchors = [akTop, akRight]
       Caption = 'Shortcut under cursor:'
       FocusControl = cbShortcutUnderCursor
       ParentColor = False
     end
-    object cbShortcutUnderCursor: TColorBox
+    object cbShortcutUnderCursor: TKASColorBoxButton
       Tag = 8
       AnchorSideLeft.Control = cbBackgroundColor
       AnchorSideTop.Control = cbCursorColor
@@ -417,33 +291,14 @@ inherited frmOptionsTreeViewMenuColor: TfrmOptionsTreeViewMenuColor
       AnchorSideRight.Control = cbBackgroundColor
       AnchorSideRight.Side = asrBottom
       Left = 160
-      Height = 22
-      Top = 217
-      Width = 200
-      Style = [cbStandardColors, cbExtendedColors, cbSystemColors, cbPrettyNames]
+      Height = 25
+      Top = 238
+      Width = 125
       Anchors = [akTop, akLeft, akRight]
+      TabOrder = 8
       BorderSpacing.Top = 4
-      ItemHeight = 16
       OnChange = RefreshColorOfOurSampleClick
-      TabOrder = 15
-    end
-    object btnShortcutUnderCursor: TButton
-      Tag = 8
-      AnchorSideLeft.Control = cbShortcutUnderCursor
-      AnchorSideLeft.Side = asrBottom
-      AnchorSideTop.Control = cbShortcutUnderCursor
-      AnchorSideBottom.Control = cbShortcutUnderCursor
-      AnchorSideBottom.Side = asrBottom
-      Left = 366
-      Height = 22
-      Top = 217
-      Width = 28
-      Anchors = [akTop, akLeft, akBottom]
-      BorderSpacing.Left = 6
-      BorderSpacing.InnerBorder = 4
-      Caption = '>>'
-      OnClick = btnChooseColorClick
-      TabOrder = 16
+      ColorDialog = optColorDialog
     end
     object lblNormalTextUnderCursor: TLabel
       Tag = 9
@@ -453,14 +308,14 @@ inherited frmOptionsTreeViewMenuColor: TfrmOptionsTreeViewMenuColor
       AnchorSideRight.Side = asrBottom
       Left = 20
       Height = 15
-      Top = 247
+      Top = 272
       Width = 136
       Anchors = [akTop, akRight]
       Caption = 'Normal text under cursor:'
       FocusControl = cbNormalTextUnderCursor
       ParentColor = False
     end
-    object cbNormalTextUnderCursor: TColorBox
+    object cbNormalTextUnderCursor: TKASColorBoxButton
       Tag = 9
       AnchorSideLeft.Control = cbBackgroundColor
       AnchorSideTop.Control = cbShortcutUnderCursor
@@ -468,33 +323,14 @@ inherited frmOptionsTreeViewMenuColor: TfrmOptionsTreeViewMenuColor
       AnchorSideRight.Control = cbBackgroundColor
       AnchorSideRight.Side = asrBottom
       Left = 160
-      Height = 22
-      Top = 243
-      Width = 200
-      Style = [cbStandardColors, cbExtendedColors, cbSystemColors, cbPrettyNames]
+      Height = 25
+      Top = 267
+      Width = 125
       Anchors = [akTop, akLeft, akRight]
+      TabOrder = 9
       BorderSpacing.Top = 4
-      ItemHeight = 16
       OnChange = RefreshColorOfOurSampleClick
-      TabOrder = 17
-    end
-    object btnNormalTextUnderCursor: TButton
-      Tag = 9
-      AnchorSideLeft.Control = cbNormalTextUnderCursor
-      AnchorSideLeft.Side = asrBottom
-      AnchorSideTop.Control = cbNormalTextUnderCursor
-      AnchorSideBottom.Control = cbNormalTextUnderCursor
-      AnchorSideBottom.Side = asrBottom
-      Left = 366
-      Height = 22
-      Top = 243
-      Width = 28
-      Anchors = [akTop, akLeft, akBottom]
-      BorderSpacing.Left = 6
-      BorderSpacing.InnerBorder = 4
-      Caption = '>>'
-      OnClick = btnChooseColorClick
-      TabOrder = 18
+      ColorDialog = optColorDialog
     end
     object lblSecondaryTextUnderCursor: TLabel
       Tag = 10
@@ -504,14 +340,14 @@ inherited frmOptionsTreeViewMenuColor: TfrmOptionsTreeViewMenuColor
       AnchorSideRight.Side = asrBottom
       Left = 5
       Height = 15
-      Top = 275
+      Top = 303
       Width = 151
       Anchors = [akTop, akRight]
       Caption = 'Secondary text under cursor:'
       FocusControl = cbSecondaryTextUnderCursor
       ParentColor = False
     end
-    object cbSecondaryTextUnderCursor: TColorBox
+    object cbSecondaryTextUnderCursor: TKASColorBoxButton
       Tag = 10
       AnchorSideLeft.Control = cbBackgroundColor
       AnchorSideTop.Control = cbNormalTextUnderCursor
@@ -519,34 +355,15 @@ inherited frmOptionsTreeViewMenuColor: TfrmOptionsTreeViewMenuColor
       AnchorSideRight.Control = cbBackgroundColor
       AnchorSideRight.Side = asrBottom
       Left = 160
-      Height = 22
-      Top = 271
-      Width = 200
-      Style = [cbStandardColors, cbExtendedColors, cbSystemColors, cbPrettyNames]
+      Height = 25
+      Top = 298
+      Width = 125
       Anchors = [akTop, akLeft, akRight]
-      BorderSpacing.Top = 6
+      TabOrder = 10
       Constraints.MinWidth = 100
-      ItemHeight = 16
+      BorderSpacing.Top = 6
       OnChange = RefreshColorOfOurSampleClick
-      TabOrder = 19
-    end
-    object btnSecondaryTextUnderCursor: TButton
-      Tag = 10
-      AnchorSideLeft.Control = cbSecondaryTextUnderCursor
-      AnchorSideLeft.Side = asrBottom
-      AnchorSideTop.Control = cbSecondaryTextUnderCursor
-      AnchorSideBottom.Control = cbSecondaryTextUnderCursor
-      AnchorSideBottom.Side = asrBottom
-      Left = 366
-      Height = 22
-      Top = 271
-      Width = 28
-      Anchors = [akTop, akLeft, akBottom]
-      BorderSpacing.Left = 6
-      BorderSpacing.InnerBorder = 4
-      Caption = '>>'
-      OnClick = btnChooseColorClick
-      TabOrder = 20
+      ColorDialog = optColorDialog
     end
     object lblFoundTextUnderCursor: TLabel
       Tag = 11
@@ -556,14 +373,14 @@ inherited frmOptionsTreeViewMenuColor: TfrmOptionsTreeViewMenuColor
       AnchorSideRight.Side = asrBottom
       Left = 26
       Height = 15
-      Top = 301
+      Top = 332
       Width = 130
       Anchors = [akTop, akRight]
       Caption = 'Found text under cursor:'
       FocusControl = cbFoundTextUnderCursor
       ParentColor = False
     end
-    object cbFoundTextUnderCursor: TColorBox
+    object cbFoundTextUnderCursor: TKASColorBoxButton
       Tag = 11
       AnchorSideLeft.Control = cbBackgroundColor
       AnchorSideTop.Control = cbSecondaryTextUnderCursor
@@ -571,33 +388,14 @@ inherited frmOptionsTreeViewMenuColor: TfrmOptionsTreeViewMenuColor
       AnchorSideRight.Control = cbBackgroundColor
       AnchorSideRight.Side = asrBottom
       Left = 160
-      Height = 22
-      Top = 297
-      Width = 200
-      Style = [cbStandardColors, cbExtendedColors, cbSystemColors, cbPrettyNames]
+      Height = 25
+      Top = 327
+      Width = 125
       Anchors = [akTop, akLeft, akRight]
+      TabOrder = 11
       BorderSpacing.Top = 4
-      ItemHeight = 16
       OnChange = RefreshColorOfOurSampleClick
-      TabOrder = 21
-    end
-    object btnFoundTextUnderCursor: TButton
-      Tag = 11
-      AnchorSideLeft.Control = cbFoundTextUnderCursor
-      AnchorSideLeft.Side = asrBottom
-      AnchorSideTop.Control = cbFoundTextUnderCursor
-      AnchorSideBottom.Control = cbFoundTextUnderCursor
-      AnchorSideBottom.Side = asrBottom
-      Left = 366
-      Height = 22
-      Top = 297
-      Width = 28
-      Anchors = [akTop, akLeft, akBottom]
-      BorderSpacing.Left = 6
-      BorderSpacing.InnerBorder = 4
-      Caption = '>>'
-      OnClick = btnChooseColorClick
-      TabOrder = 22
+      ColorDialog = optColorDialog
     end
     object lblUnselectableUnderCursor: TLabel
       Tag = 12
@@ -607,14 +405,14 @@ inherited frmOptionsTreeViewMenuColor: TfrmOptionsTreeViewMenuColor
       AnchorSideRight.Side = asrBottom
       Left = 16
       Height = 15
-      Top = 327
+      Top = 361
       Width = 140
       Anchors = [akTop, akRight]
       Caption = 'Unselectable under cursor:'
       FocusControl = cbUnselectableUnderCursor
       ParentColor = False
     end
-    object cbUnselectableUnderCursor: TColorBox
+    object cbUnselectableUnderCursor: TKASColorBoxButton
       Tag = 12
       AnchorSideLeft.Control = cbBackgroundColor
       AnchorSideTop.Control = cbFoundTextUnderCursor
@@ -622,33 +420,14 @@ inherited frmOptionsTreeViewMenuColor: TfrmOptionsTreeViewMenuColor
       AnchorSideRight.Control = cbBackgroundColor
       AnchorSideRight.Side = asrBottom
       Left = 160
-      Height = 22
-      Top = 323
-      Width = 200
-      Style = [cbStandardColors, cbExtendedColors, cbSystemColors, cbPrettyNames]
+      Height = 25
+      Top = 356
+      Width = 125
       Anchors = [akTop, akLeft, akRight]
+      TabOrder = 12
       BorderSpacing.Top = 4
-      ItemHeight = 16
       OnChange = RefreshColorOfOurSampleClick
-      TabOrder = 23
-    end
-    object btnUnselectableUnderCursor: TButton
-      Tag = 12
-      AnchorSideLeft.Control = cbUnselectableUnderCursor
-      AnchorSideLeft.Side = asrBottom
-      AnchorSideTop.Control = cbUnselectableUnderCursor
-      AnchorSideBottom.Control = cbUnselectableUnderCursor
-      AnchorSideBottom.Side = asrBottom
-      Left = 366
-      Height = 22
-      Top = 323
-      Width = 28
-      Anchors = [akTop, akLeft, akBottom]
-      BorderSpacing.Left = 6
-      BorderSpacing.InnerBorder = 4
-      Caption = '>>'
-      OnClick = btnChooseColorClick
-      TabOrder = 24
+      ColorDialog = optColorDialog
     end
     object lblPreview: TLabel
       AnchorSideLeft.Control = TreeViewMenuSample
@@ -656,10 +435,10 @@ inherited frmOptionsTreeViewMenuColor: TfrmOptionsTreeViewMenuColor
       AnchorSideTop.Side = asrCenter
       AnchorSideRight.Control = TreeViewMenuSample
       AnchorSideRight.Side = asrBottom
-      Left = 404
+      Left = 295
       Height = 15
       Top = 8
-      Width = 170
+      Width = 279
       Alignment = taCenter
       Anchors = [akTop, akLeft, akRight]
       Caption = 'Tree View Menu Preview:'
@@ -668,7 +447,7 @@ inherited frmOptionsTreeViewMenuColor: TfrmOptionsTreeViewMenuColor
       Transparent = False
     end
     object TreeViewMenuSample: TTreeView
-      AnchorSideLeft.Control = btnNormalTextColor
+      AnchorSideLeft.Control = cbNormalTextUnderCursor
       AnchorSideLeft.Side = asrBottom
       AnchorSideTop.Control = lblPreview
       AnchorSideTop.Side = asrBottom
@@ -676,18 +455,18 @@ inherited frmOptionsTreeViewMenuColor: TfrmOptionsTreeViewMenuColor
       AnchorSideRight.Side = asrBottom
       AnchorSideBottom.Control = gbLayoutAndColors
       AnchorSideBottom.Side = asrBottom
-      Left = 404
-      Height = 322
+      Left = 295
+      Height = 358
       Hint = 'Change color on left and you''ll see here a preview of what your Tree View Menus will look likes with this sample.'
       Top = 23
-      Width = 170
+      Width = 279
       Anchors = [akTop, akLeft, akRight, akBottom]
       BorderSpacing.Left = 10
       BackgroundColor = clBtnFace
       Color = clBtnFace
       ReadOnly = True
       ScrollBars = ssNone
-      TabOrder = 25
+      TabOrder = 13
       OnMouseWheelDown = TreeViewMenuSampleMouseWheelDown
       OnMouseWheelUp = TreeViewMenuSampleMouseWheelUp
       Options = [tvoAutoItemHeight, tvoHideSelection, tvoKeepCollapsedNodes, tvoReadOnly, tvoShowButtons, tvoShowLines, tvoShowRoot, tvoToolTips, tvoThemedDraw]
@@ -701,7 +480,7 @@ inherited frmOptionsTreeViewMenuColor: TfrmOptionsTreeViewMenuColor
     AnchorSideRight.Side = asrBottom
     Left = 6
     Height = 55
-    Top = 381
+    Top = 417
     Width = 588
     Anchors = [akTop, akLeft, akRight]
     AutoSize = True
@@ -779,14 +558,14 @@ inherited frmOptionsTreeViewMenuColor: TfrmOptionsTreeViewMenuColor
       'ColorS=F0FBFF'
       'ColorT=A4A0A0'
     )
-    left = 488
-    top = 288
+    Left = 488
+    Top = 288
   end
   object dlgFnt: TFontDialog[3]
     MinFontSize = 0
     MaxFontSize = 0
     Options = [fdNoStyleSel]
-    left = 416
-    top = 344
+    Left = 416
+    Top = 344
   end
 end
