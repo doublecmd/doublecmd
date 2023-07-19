@@ -254,6 +254,12 @@ begin
   if csDesigning in ComponentState then Exit;
   if (Parent = nil) or (not Parent.HandleAllocated) then Exit;
 
+  if (csSubComponent in ComponentStyle) then
+  begin
+    if (Parent.Anchors * [akLeft, akRight] = [akLeft, akRight]) then
+      Exit;
+  end;
+
   CalculateSize(Self, PreferredWidth, PreferredHeight);
   PreferredWidth+= ColorRectWidth + ColorRectOffset;
 end;
@@ -385,6 +391,7 @@ begin
 
   with FColorBox do
   begin
+    SetSubComponent(True);
     Align:= alClient;
     ParentColor:= False;
     ParentFont:= True;
