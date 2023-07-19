@@ -91,8 +91,6 @@ type
     procedure DoAutoSize; override;
     procedure ButtonClick(Sender: TObject);
     class function GetControlClassDefaultSize: TSize; override;
-    procedure CalculatePreferredSize(var PreferredWidth, PreferredHeight: integer;
-                WithThemeSpace: Boolean); override;
     procedure CMParentColorChanged(var Message: TLMessage); message CM_PARENTCOLORCHANGED;
   public
     constructor Create(AOwner: TComponent); override;
@@ -364,23 +362,6 @@ begin
   Result.cx += Result.cy;
 end;
 
-procedure TKASColorBoxButton.CalculatePreferredSize(var PreferredWidth,
-  PreferredHeight: integer; WithThemeSpace: Boolean);
-begin
-  if csDesigning in ComponentState then
-  begin
-    with GetControlClassDefaultSize do
-    begin
-      PreferredWidth:= cx;
-      PreferredHeight:= cy;
-    end;
-  end
-  else begin
-    FColorBox.CalculatePreferredSize(PreferredWidth, PreferredHeight, WithThemeSpace);
-    PreferredWidth += FButton.Width;
-  end;
-end;
-
 procedure TKASColorBoxButton.CMParentColorChanged(var Message: TLMessage);
 begin
   if inherited ParentColor then
@@ -398,7 +379,6 @@ begin
   inherited Create(AOwner);
 
   ControlStyle:= ControlStyle + [csNoFocus];
-  FColorBox.ParentColor:= False;
   BorderStyle:= bsNone;
   TabStop:= True;
   inherited TabStop:= False;
