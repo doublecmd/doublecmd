@@ -145,6 +145,9 @@ procedure setMacOSAppearance( mode:Integer );
 var
   appearance: NSAppearance;
 begin
+  if not NSApp.respondsToSelector( ObjCSelector('appearance') ) then
+    exit;
+
   case mode of
     0,1:
       appearance:= nil;
