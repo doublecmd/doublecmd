@@ -279,8 +279,13 @@ uses
 {$IF not DEFINED(LINUX)}
 function TDCStatHelper.birthtime: TFileTimeEx;
 begin
+{$IF DEFINED(HAIKU)}
+  Result.sec:= st_crtime;
+  Result.nanosec:= st_crtimensec;
+{$ELSE}
   Result.sec:= st_birthtime;
   Result.nanosec:= st_birthtimensec;
+{$ENDIF}
 end;
 
 function TDCStatHelper.mtime: TFileTimeEx;
