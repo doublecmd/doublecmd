@@ -1,14 +1,10 @@
 name: build-snapshot
 
 on:
-  push:
-    paths:
-    - 'components/**'
-    - 'plugins/**'
-    - 'sdk/**'
-    - 'src/**'
+  release:
+    types: [unpublished]
     branches:
-      - master
+      - v1.1.x
 
 concurrency:
   group: ${{ github.ref }}
