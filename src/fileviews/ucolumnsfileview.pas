@@ -188,6 +188,7 @@ type
     ActiveColm: String;
     ActiveColmSlave: TPanelColumnsClass;
     isSlave:boolean;
+    Demo: Boolean;
 //---------------------
 
     constructor Create(AOwner: TWinControl; AFileSource: IFileSource; APath: String; AFlags: TFileViewFlags = []); override;
@@ -2015,6 +2016,8 @@ begin
   inherited MouseUp(Button, Shift, X, Y);
 
   ColumnsView.FMainControlMouseDown := False;
+
+  if ColumnsView.Demo then Exit;
 
   if Button = mbRight then
     begin

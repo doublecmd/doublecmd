@@ -176,8 +176,10 @@ begin
   //4. Let's define which ColumnClass it's gonna follow
   PreviewLeftPanel.ActiveColmSlave := ColumnClass;
   PreviewLeftPanel.isSlave := True;
+  PreviewLeftPanel.Demo := True;
   PreviewRightPanel.ActiveColmSlave := ColumnClass;
   PreviewRightPanel.isSlave := True;
+  PreviewRightPanel.Demo := True;
 
   with gColors.Path^ do
   begin

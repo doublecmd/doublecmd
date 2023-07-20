@@ -551,8 +551,10 @@ var
 begin
   PreviewLeftPanel.ActiveColmSlave := ColumnClass;
   PreviewLeftPanel.isSlave := True;
+  PreviewLeftPanel.Demo := True;
   PreviewRightPanel.ActiveColmSlave := ColumnClass;
   PreviewRightPanel.isSlave := True;
+  PreviewRightPanel.Demo := True;
 
   if ColumnClass.ColumnsCount > 0 then
   begin
