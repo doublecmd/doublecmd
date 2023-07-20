@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Set Double Commander version
-DC_VER=1.1.0
+DC_VER=1.2.0
 
 # The new package will be saved here
 PACK_DIR=$PWD/doublecmd-release

@@ -1,6 +1,6 @@
 
 rem Set Double Commander version
-set DC_VER=1.1.0
+set DC_VER=1.2.0
 
 rem The new package will be created from here
 set BUILD_PACK_DIR=%TEMP%\doublecmd-release

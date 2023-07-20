@@ -1,6 +1,6 @@
 
 rem Set Double Commander version
-set DC_VER=1.1.0
+set DC_VER=1.2.0
 
 rem Path to Git
 set GIT_EXE="%ProgramFiles%\Git\bin\git.exe"
