@@ -234,9 +234,10 @@ end;
 
 constructor TfrmTweakPlugin.Create(TheOwner: TComponent);
 begin
-  FWCXPlugins := nil;
   iPrevIndex := -1;
-  inherited;
+  inherited Create(TheOwner);
+  pgTweakOther.AutoSize:= True;
+  pgTweakPacker.AutoSize:= True;
 end;
 
 
