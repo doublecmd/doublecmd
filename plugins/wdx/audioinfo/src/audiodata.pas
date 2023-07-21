@@ -222,7 +222,7 @@ end;
 
 procedure TAudioData.UpdateValue(var AValue: Integer; AData: Integer);
 begin
-  if AValue <> 0 then AValue:= AData;
+  if AValue = 0 then AValue:= AData;
 end;
 
 procedure TAudioData.UpdateValue(var AValue: String; const AData: String);
