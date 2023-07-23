@@ -1208,14 +1208,6 @@ begin
   // 5. the issue can be effectively avoided by setting a larger width.
   nbLeft.Width:= 2048;
   nbRight.Width:= 2048;
-
-  // in LCLCOCOA, there is an issue about the order of CM_ENTER messages in edtCommand
-  // since CM_ENTER is sent delayed, when we press a Key in the main form,
-  // edtCommand.SelStart set in TypeInCommandLine() is overwritten when CM_ENTER is processed.
-  // if edtCommand.AutoSelect=True, it will cause all selected.
-  // there is the MR in LCL, but it has not been merged yet.
-  // see also: https://gitlab.com/freepascal.org/lazarus/lazarus/-/merge_requests/116
-  edtCommand.AutoSelect:= false;
   {$ENDIF}
 
   LoadTabs;
