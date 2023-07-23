@@ -50,8 +50,6 @@ type
     procedure lblHomePageAddressMouseEnter(Sender: TObject);
     procedure lblHomePageAddressMouseLeave(Sender: TObject);
     procedure OKButtonClick(Sender: TObject);
-    procedure FormKeyDown(Sender: TObject; var Key: Word;
-      Shift: TShiftState);
     procedure frmAboutShow(Sender: TObject);
   private
     { Private declarations }
@@ -168,13 +166,6 @@ begin
   if WSVersion <> EmptyStr then
     StrInfo := StrInfo + LineEnding + 'Widgetset library: ' + WSVersion;
   ClipboardSetText(StrInfo);
-end;
-
-procedure TfrmAbout.FormKeyDown(Sender: TObject; var Key: Word;
-  Shift: TShiftState);
-begin
-  if (Key = VK_Escape) then
-   Close;
 end;
 
 procedure TfrmAbout.frmAboutShow(Sender: TObject);
