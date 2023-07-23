@@ -382,6 +382,7 @@ object frmAbout: TfrmAbout
     AutoSize = True
     BorderSpacing.Bottom = 8
     BorderSpacing.InnerBorder = 2
+    Cancel = True
     Caption = '&Close'
     Constraints.MinWidth = 100
     Default = True
