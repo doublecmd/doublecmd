@@ -176,7 +176,7 @@ begin
   begin
     subMenu:= TCocoaMenu.alloc.initWithTitle(NSString.string_);
     TCocoaMenuItem(servicesItem.Handle).setSubmenu( subMenu );
-    TCocoaWidgetSet(WidgetSet).NSApp.setServicesMenu( NSMenu(servicesItem.Handle) );
+    NSApp.setServicesMenu( NSMenu(servicesItem.Handle) );
   end;
 end;
 
@@ -200,7 +200,7 @@ var
   sendTypes: NSArray;
   returnTypes: NSArray;
 begin
-  DCApp:= TDCCocoaApplication( TCocoaWidgetSet(WidgetSet).NSApp );
+  DCApp:= TDCCocoaApplication( NSApp );
 
   // MacOS Service menu incoming setup
   if not Assigned(NSServiceProvider) then
