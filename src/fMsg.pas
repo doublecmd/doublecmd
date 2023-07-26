@@ -107,6 +107,7 @@ procedure TfrmMsg.FormKeyPress(Sender: TObject; var Key: Char);
 begin
   if (Key = #27) and (Escape >= 0) then
   begin
+    Key:= #0;
     iSelected:= Escape;
     Close;
   end;
