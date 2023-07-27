@@ -1404,7 +1404,7 @@ var
 begin
   if Length(Params) > 0 then
     with frmMain do
-    ShellExecute(PrepareParameter(Params[0]))
+    ExecCmdFork(PrepareParameter(Params[0]))
   else
     with frmMain.ActiveFrame do
     begin
