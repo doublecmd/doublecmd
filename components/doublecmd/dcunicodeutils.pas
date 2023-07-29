@@ -23,7 +23,7 @@ uses
           the number of bytes this character spans. If the character was valid
           InvalidCharLen is zero.)
 }
-function SafeUTF8NextCharLen(P: PByte; aMaxBytes: Integer; out InvalidCharLen: Integer): Integer;
+function SafeUTF8NextCharLen(P: PByte; aMaxBytes: IntPtr; out InvalidCharLen: Integer): Integer;
 
 {en
    Retrieves length in bytes of the previous UTF-8 character.
@@ -40,7 +40,7 @@ function SafeUTF8NextCharLen(P: PByte; aMaxBytes: Integer; out InvalidCharLen: I
           the number of bytes this character spans. If the character was valid
           InvalidCharLen is zero.)
 }
-function SafeUTF8PrevCharLen(P: PByte; aMaxBytes: Integer; out InvalidCharLen: Integer): Integer;
+function SafeUTF8PrevCharLen(P: PByte; aMaxBytes: IntPtr; out InvalidCharLen: Integer): Integer;
 function SafeUTF8NextCharStart(UTF8Str: PByte; Len: PtrInt): PByte;
 function SafeUTF8PrevCharEnd(UTF8Str: PByte; Len: PtrInt): PByte;
 {en
@@ -83,7 +83,7 @@ uses
 const
   maxUTF8Len = 7;  // really is 4, but this includes any invalid characters up to length 7
 
-function SafeUTF8NextCharLen(P: PByte; aMaxBytes: Integer; out InvalidCharLen: Integer): Integer;
+function SafeUTF8NextCharLen(P: PByte; aMaxBytes: IntPtr; out InvalidCharLen: Integer): Integer;
 var
   BytesLen: Integer;
   i: Integer;
@@ -133,7 +133,7 @@ begin
   end;
 end;
 
-function SafeUTF8PrevCharLen(P: PByte; aMaxBytes: Integer; out InvalidCharLen: Integer): Integer;
+function SafeUTF8PrevCharLen(P: PByte; aMaxBytes: IntPtr; out InvalidCharLen: Integer): Integer;
 var
   BytesLen: Integer;
   signature: Byte;
