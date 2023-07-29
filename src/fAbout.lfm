@@ -10,7 +10,6 @@ object frmAbout: TfrmAbout
   Constraints.MinHeight = 400
   Constraints.MinWidth = 667
   KeyPreview = True
-  OnKeyDown = FormKeyDown
   OnShow = frmAboutShow
   Position = poScreenCenter
   LCLVersion = '2.0.12.0'
