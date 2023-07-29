@@ -1258,7 +1258,7 @@ var
         for i := 0 to fs.Count - 1 do
         begin
           f := fs.Items[i];
-          if f.IsDirectory then
+          if f.IsDirectory or f.IsLinkToDirectory then
           begin
             if (f.NameNoExt <> '.') and (f.NameNoExt <> '..') then
               dirs.Add(f.Name);
