@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Double Commander 1.1.0 alpha\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-11-15 11:15+0300\n"
-"PO-Revision-Date: 2023-04-14 01:41+0200\n"
+"PO-Revision-Date: 2023-07-24 15:22+0200\n"
 "Last-Translator: ㋡ <braass@mail.de>\n"
 "Language-Team: Deutsch <braass@mail.de>\n"
 "MIME-Version: 1.0\n"
@@ -350,7 +350,6 @@ msgid "Verify checksum..."
 msgstr "Prüfsumme verifizieren ..."
 
 #: tfrmchooseencoding.caption
-#, fuzzy
 msgctxt "tfrmchooseencoding.caption"
 msgid "Encoding"
 msgstr "Kodierung"
@@ -1276,7 +1275,7 @@ msgstr "Ausführen als Programm &erlauben"
 
 #: tfrmfileproperties.chkrecursive.caption
 msgid "&Recursive"
-msgstr ""
+msgstr "Rekursiv (Unterverzeichnisse eingeschlossen)"
 
 #: tfrmfileproperties.dividerbevel3.caption
 msgctxt "TFRMFILEPROPERTIES.DIVIDERBEVEL3.CAPTION"
@@ -1318,7 +1317,6 @@ msgid "Contains:"
 msgstr "Enthält:"
 
 #: tfrmfileproperties.lblcreatedstr.caption
-#, fuzzy
 msgctxt "tfrmfileproperties.lblcreatedstr.caption"
 msgid "Created:"
 msgstr "Erstellt:"
@@ -1372,11 +1370,11 @@ msgstr "Letzte Statusänderung:"
 
 #: tfrmfileproperties.lbllinksstr.caption
 msgid "Links:"
-msgstr ""
+msgstr "Links:"
 
 #: tfrmfileproperties.lblmediatypestr.caption
 msgid "Media type:"
-msgstr ""
+msgstr "Medienart:"
 
 #: tfrmfileproperties.lbloctal.caption
 msgctxt "TFRMFILEPROPERTIES.LBLOCTAL.CAPTION"
@@ -1394,7 +1392,7 @@ msgstr "Lesen"
 
 #: tfrmfileproperties.lblsizeondiskstr.caption
 msgid "Size on disk:"
-msgstr ""
+msgstr "Größe auf Datenträger:"
 
 #: tfrmfileproperties.lblsizestr.caption
 msgctxt "TFRMFILEPROPERTIES.LBLSIZESTR.CAPTION"
@@ -2725,7 +2723,7 @@ msgstr "Aktuelle Tabs als neuen Favorit speichern"
 
 #: tfrmmain.actsavefiledetailstofile.caption
 msgid "Save all shown columns to file"
-msgstr ""
+msgstr "Alle dargestellten Spalten in einer Datei speichern"
 
 #: tfrmmain.actsaveselection.caption
 msgid "Sa&ve Selection"
@@ -4177,59 +4175,56 @@ msgid "Use &Gradient Indicator"
 msgstr "Farbverlauf für Anzeige"
 
 #: tfrmoptionscolors.dbbinarymode.caption
-#, fuzzy
 msgctxt "tfrmoptionscolors.dbbinarymode.caption"
 msgid "Binary Mode"
-msgstr "Binärer Modus"
+msgstr "Binär-Format"
 
 #: tfrmoptionscolors.dbbookmode.caption
 msgid "Book Mode"
-msgstr ""
+msgstr "Schriftzeichen"
 
 #: tfrmoptionscolors.dbimagemode.caption
 msgid "Image Mode"
-msgstr ""
+msgstr "Bilder"
 
 #: tfrmoptionscolors.dbtextmode.caption
 msgid "Text Mode"
-msgstr ""
+msgstr "Textmodus"
 
 #: tfrmoptionscolors.lbladded.caption
 msgid "Added:"
-msgstr ""
+msgstr "Hinzugefügt:"
 
 #: tfrmoptionscolors.lblbookbackground.caption
 msgctxt "tfrmoptionscolors.lblbookbackground.caption"
 msgid "Background:"
-msgstr ""
+msgstr "Hintergrund:"
 
 #: tfrmoptionscolors.lblbooktext.caption
-#, fuzzy
 msgctxt "tfrmoptionscolors.lblbooktext.caption"
 msgid "Text:"
 msgstr "Text:"
 
 #: tfrmoptionscolors.lblcategory.caption
 msgid "Category:"
-msgstr ""
+msgstr "Kategorie:"
 
 #: tfrmoptionscolors.lbldeleted.caption
 msgid "Deleted:"
-msgstr ""
+msgstr "Entfernt:"
 
 #: tfrmoptionscolors.lblerror.caption
 msgid "Error:"
-msgstr ""
+msgstr "Fehler:"
 
 #: tfrmoptionscolors.lblimagebackground1.caption
 msgid "Background 1:"
-msgstr ""
+msgstr "Bildhintergrund:"
 
 #: tfrmoptionscolors.lblimagebackground2.caption
-#, fuzzy
 msgctxt "tfrmoptionscolors.lblimagebackground2.caption"
 msgid "Background 2:"
-msgstr "Jede 2. Zeile:"
+msgstr "Hintergrund 2:"
 
 #: tfrmoptionscolors.lblindbackcolor.caption
 msgid "In&dicator Back Color:"
@@ -4241,49 +4236,46 @@ msgstr "Balkenfarbe:"
 
 #: tfrmoptionscolors.lblindthresholdcolor.caption
 msgid "Indicator &Threshold Color:"
-msgstr ""
+msgstr "Farbe ab 90% Belegung:"
 
 #: tfrmoptionscolors.lblinformation.caption
 msgid "Information:"
-msgstr ""
+msgstr "Information:"
 
 #: tfrmoptionscolors.lblleft.caption
 msgid "Left:"
-msgstr ""
+msgstr "Links:"
 
 #: tfrmoptionscolors.lblmodified.caption
-#, fuzzy
 msgctxt "tfrmoptionscolors.lblmodified.caption"
 msgid "Modified:"
 msgstr "Geändert:"
 
 #: tfrmoptionscolors.lblmodifiedbinary.caption
-#, fuzzy
 msgctxt "tfrmoptionscolors.lblmodifiedbinary.caption"
 msgid "Modified:"
 msgstr "Geändert:"
 
 #: tfrmoptionscolors.lblright.caption
 msgid "Right:"
-msgstr ""
+msgstr "Rechts:"
 
 #: tfrmoptionscolors.lblsuccess.caption
-#, fuzzy
 msgctxt "tfrmoptionscolors.lblsuccess.caption"
 msgid "Success:"
 msgstr "Erfolgreich:"
 
 #: tfrmoptionscolors.lblunknown.caption
 msgid "Unknown:"
-msgstr ""
+msgstr "Unbekannt:"
 
 #: tfrmoptionscolors.rgdarkmode.caption
 msgid "State"
-msgstr ""
+msgstr "Zustand"
 
 #: tfrmoptionscolumnsview.cbcolumnstitlelikevalues.caption
 msgid "Column titles alignment &like values"
-msgstr ""
+msgstr "Spaltentitel wie Werte ausrichten"
 
 #: tfrmoptionscolumnsview.cbcuttexttocolwidth.caption
 msgid "Cut &text to column width"
@@ -6167,7 +6159,7 @@ msgstr "Cursorrand"
 
 #: tfrmoptionsfilepanelscolors.dbcurrentpath.caption
 msgid "Current Path"
-msgstr ""
+msgstr "Aktueller Pfad"
 
 #: tfrmoptionsfilepanelscolors.lblbackgroundcolor.caption
 msgctxt "TFRMOPTIONSFILEPANELSCOLORS.LBLBACKGROUNDCOLOR.CAPTION"
@@ -6200,11 +6192,9 @@ msgid "Inactive Mark Color:"
 msgstr "Inaktive Markierung:"
 
 #: tfrmoptionsfilepanelscolors.lblinactivepanelbrightness.caption
-#, fuzzy
-#| msgid "&Brightness level of inactive panel"
 msgctxt "TFRMOPTIONSFILEPANELSCOLORS.LBLINACTIVEPANELBRIGHTNESS.CAPTION"
 msgid "&Brightness level of inactive panel:"
-msgstr "&Helligkeit des inaktiven Dateifensters"
+msgstr "&Helligkeit des inaktiven Dateifensters:"
 
 #: tfrmoptionsfilepanelscolors.lblmarkcolor.caption
 msgctxt "TFRMOPTIONSFILEPANELSCOLORS.LBLMARKCOLOR.CAPTION"
@@ -6214,21 +6204,20 @@ msgstr "&Markierungsfarbe:"
 #: tfrmoptionsfilepanelscolors.lblpathactiveback.caption
 msgctxt "tfrmoptionsfilepanelscolors.lblpathactiveback.caption"
 msgid "Background:"
-msgstr ""
+msgstr "Hintergrund:"
 
 #: tfrmoptionsfilepanelscolors.lblpathactivetext.caption
-#, fuzzy
 msgctxt "tfrmoptionsfilepanelscolors.lblpathactivetext.caption"
 msgid "Text Color:"
 msgstr "Textfarbe:"
 
 #: tfrmoptionsfilepanelscolors.lblpathinactiveback.caption
 msgid "Inactive Background:"
-msgstr ""
+msgstr "Hintergrund wenn inaktiv:"
 
 #: tfrmoptionsfilepanelscolors.lblpathinactivetext.caption
 msgid "Inactive Text Color:"
-msgstr ""
+msgstr "Textfarbe wenn inaktiv:"
 
 #: tfrmoptionsfilepanelscolors.lblpreview.caption
 msgid "Below is a preview. You may move cursor, select file and get immediately an actual look and feel of the various settings."
@@ -8298,7 +8287,7 @@ msgstr "Ändern Sie die Farben auf der linken Seite für eine Vorschau, wie das 
 
 #: tfrmoptionsviewer.gbinternalviewer.caption
 msgid "Internal viewer options"
-msgstr ""
+msgstr "Interner Betrachter-Optionen "
 
 #: tfrmoptionsviewer.lblnumbercolumnsviewer.caption
 msgid "&Number of columns in book viewer"
@@ -9425,13 +9414,11 @@ msgid "Full Screen"
 msgstr "Ganzer Bildschirm"
 
 #: tfrmviewer.actgotoline.caption
-#, fuzzy
 msgctxt "tfrmviewer.actgotoline.caption"
 msgid "Goto Line..."
 msgstr "Gehe zu Zeile ..."
 
 #: tfrmviewer.actgotoline.hint
-#, fuzzy
 msgctxt "tfrmviewer.actgotoline.hint"
 msgid "Goto Line"
 msgstr "Gehe zu Zeile"
@@ -9601,7 +9588,7 @@ msgstr "Textcursor anzeigen"
 
 #: tfrmviewer.actshowcode.caption
 msgid "Code"
-msgstr ""
+msgstr "Code"
 
 #: tfrmviewer.actshowgraphics.caption
 msgctxt "tfrmviewer.actshowgraphics.caption"
@@ -9768,7 +9755,7 @@ msgstr "Rechteck"
 
 #: tfrmviewer.mirotate.caption
 msgid "Rotate"
-msgstr "Drehen"
+msgstr "Drehen / Spiegeln"
 
 #: tfrmviewer.miscreenshot.caption
 msgctxt "TFRMVIEWER.MISCREENSHOT.CAPTION"
@@ -11142,7 +11129,7 @@ msgstr "Bestätigung der Parameter"
 #: ulng.rsmsgcommandnotfound
 #, object-pascal-format
 msgid "Command not found! (%s)"
-msgstr ""
+msgstr "Befehl nicht gefunden! (%s)"
 
 #: ulng.rsmsgconfirmquit
 msgid "Are you sure you want to quit?"
@@ -13613,7 +13600,7 @@ msgstr "Verzeichnis"
 
 #: ulng.rspropsmultipletypes
 msgid "Multiple types"
-msgstr ""
+msgstr "Verschiedene Typen"
 
 #: ulng.rspropsnmdpipe
 msgid "Named pipe"
@@ -14207,4 +14194,3 @@ msgstr "Eine Ersetzung hat nicht stattgefunden."
 #, object-pascal-format
 msgid "No setup named \"%s\""
 msgstr "Keine Einstellung namens »%s«"
-
