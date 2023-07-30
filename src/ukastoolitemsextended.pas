@@ -45,6 +45,7 @@ type
     constructor Create(AFormCommands: IFormCommands); reintroduce;
     procedure Assign(OtherItem: TKASToolItem); override;
     function Clone: TKASToolItem; override;
+    function ActionHint: Boolean; override;
     function ConfigNodeName: String; override;
     procedure Load(Config: TXmlConfig; Node: TXmlNode; Loader: TKASToolBarLoader); override;
     procedure SaveContents(Config: TXmlConfig; Node: TXmlNode); override;
@@ -153,6 +154,11 @@ function TKASCommandItem.Clone: TKASToolItem;
 begin
   Result := TKASCommandItem.Create(FCommands);
   Result.Assign(Self);
+end;
+
+function TKASCommandItem.ActionHint: Boolean;
+begin
+  Result:= (inherited ActionHint) and (Length(Params) = 0);
 end;
 
 function TKASCommandItem.ConfigNodeName: String;

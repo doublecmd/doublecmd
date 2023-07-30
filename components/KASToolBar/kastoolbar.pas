@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Toolbar panel class
 
-   Copyright (C) 2006-2019 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2006-2023 Alexander Koblov (alexx2000@mail.ru)
    
    contributors:
      2012 Przemyslaw Nagay (cobines@gmail.com)
@@ -33,7 +33,7 @@ interface
 uses
   Classes, SysUtils, LResources, Forms, Controls, ComCtrls,
   Graphics, Dialogs, ExtCtrls, Buttons, FileUtil, Menus,
-  DCXmlConfig, KASToolItems, LCLVersion;
+  DCXmlConfig, KASToolItems, LCLVersion, LMessages;
 
 type
   TOnToolButtonClick = procedure (Sender: TObject) of object;
@@ -64,6 +64,7 @@ type
     function DrawGlyph(ACanvas: TCanvas; const AClient: TRect; const AOffset: TPoint;
       AState: TButtonState; ATransparent: Boolean; BiDiFlags: Longint): TRect; override;
     procedure ActionChange(Sender: TObject; CheckDefaults: Boolean); override;
+    procedure CMHintShow(var Message: TLMessage); message CM_HINTSHOW;
   public
     constructor Create(AOwner: TComponent; Item: TKASToolItem); reintroduce;
     destructor Destroy; override;
@@ -1086,6 +1087,17 @@ begin
       if not CheckDefaults or Checked then
         Self.Down := Checked;
     end;
+  end;
+end;
+
+procedure TKASToolButton.CMHintShow(var Message: TLMessage);
+begin
+  if (ActionLink <> nil) and FToolItem.ActionHint then
+  begin
+    inherited CMHintShow(Message);
+  end
+  else begin
+    DoOnShowHint(TCMHintShow(Message).HintInfo);
   end;
 end;
 

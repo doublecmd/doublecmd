@@ -62,6 +62,7 @@ type
     FAction: TBasicAction;
     property ToolOwner: IToolOwner read FToolOwner;
   public
+    function ActionHint: Boolean; virtual;
     procedure Assign(OtherItem: TKASToolItem); virtual;
     function CheckExecute(ToolItemID: String): Boolean; virtual;
     function Clone: TKASToolItem; virtual; abstract;
@@ -94,6 +95,8 @@ type
   { TKASNormalItem }
 
   TKASNormalItem = class(TKASToolItem)
+  private
+    FShortcutsHint: Boolean;
   strict private
     FID: String;            // Unique identificator of the button
     function GetID: String;
@@ -105,6 +108,7 @@ type
     Icon: String;
     Text: String;
     Hint: String;
+    function ActionHint: Boolean; override;
     procedure Assign(OtherItem: TKASToolItem); override;
     function CheckExecute(ToolItemID: String): Boolean; override;
     function Clone: TKASToolItem; override;
@@ -182,6 +186,11 @@ uses
   DCStrUtils;
 
 { TKASToolItem }
+
+function TKASToolItem.ActionHint: Boolean;
+begin
+  Result := True;
+end;
 
 procedure TKASToolItem.Assign(OtherItem: TKASToolItem);
 begin
@@ -481,8 +490,10 @@ function TKASNormalItem.GetShortcutsHint: String;
 begin
   if Assigned(FToolOwner) then
     Result := FToolOwner.GetToolItemShortcutsHint(Self)
-  else
+  else begin
     Result := '';
+  end;
+  FShortcutsHint := (Length(Result) > 0);
 end;
 
 procedure TKASNormalItem.Load(Config: TXmlConfig; Node: TXmlNode; Loader: TKASToolBarLoader);
@@ -523,6 +534,11 @@ end;
 procedure TKASNormalItem.SaveText(Config: TXmlConfig; Node: TXmlNode);
 begin
   Config.AddValueDef(Node, 'Text', Text, '');
+end;
+
+function TKASNormalItem.ActionHint: Boolean;
+begin
+  Result := not FShortcutsHint;
 end;
 
 { TKASToolBarItems }
