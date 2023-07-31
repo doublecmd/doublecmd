@@ -5,7 +5,7 @@
    (TC WDX-API v1.5)
 
    Copyright (C) 2008  Dmitry Kolomiets (B4rr4cuda@rambler.ru)
-   Copyright (C) 2008-2022 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2008-2023 Alexander Koblov (alexx2000@mail.ru)
 
    Some ideas were found in sources of WdxGuide by Alexey Torgashin
    and SuperWDX by Pavel Dubrovsky and Dmitry Vorotilin.
@@ -212,10 +212,8 @@ type
   protected
     function GetAName: String; override;
     function GetAFileName: String; override;
-    function GetADetectStr: String; override;
     procedure SetAName({%H-}AValue: String); override;
     procedure SetAFileName({%H-}AValue: String); override;
-    procedure SetADetectStr(const {%H-}AValue: String); override;
   protected
     procedure AddField(const AName: String; AType: Integer);
   public
@@ -1268,22 +1266,12 @@ begin
   Result:= ParamStrUTF8(0);
 end;
 
-function TEmbeddedWDX.GetADetectStr: String;
-begin
-  Result:= EmptyStr;
-end;
-
 procedure TEmbeddedWDX.SetAName(AValue: String);
 begin
 
 end;
 
 procedure TEmbeddedWDX.SetAFileName(AValue: String);
-begin
-
-end;
-
-procedure TEmbeddedWDX.SetADetectStr(const AValue: String);
 begin
 
 end;
