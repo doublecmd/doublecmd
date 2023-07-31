@@ -1569,6 +1569,7 @@ object frmFindDlg: TfrmFindDlg
     end
     object actLastSearch: TAction
       Caption = '&Last search'
+      Enabled = False
       OnExecute = actExecute
     end
     object actView: TAction
