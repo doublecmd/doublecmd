@@ -3,7 +3,7 @@
     -------------------------------------------------------------------------
     Simple exif-wdx plugin.
 
-    Copyright (C) 2016-2017 Alexander Koblov (alexx2000@mail.ru)
+    Copyright (C) 2016-2023 Alexander Koblov (alexx2000@mail.ru)
 
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License
@@ -39,7 +39,6 @@ type
     procedure GetData(const FileName: String);
   protected
     function GetAName: String; override;
-    function GetADetectStr: String; override;
   public
     //---------------------
     constructor Create; override;
@@ -75,15 +74,11 @@ begin
   Result:= '<Exif>';
 end;
 
-function TExifWdx.GetADetectStr: String;
-begin
-  Result:= CallContentGetDetectString;
-end;
-
 constructor TExifWdx.Create;
 begin
   inherited Create;
   FExif:= TExifReader.Create;
+  DetectStr:= CallContentGetDetectString;
 end;
 
 destructor TExifWdx.Destroy;
