@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Double Commander 1.1.0 alpha\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-11-15 11:15+0300\n"
-"PO-Revision-Date: 2022-11-24 12:57+0000\n"
+"PO-Revision-Date: 2023-08-01 22:10+0000\n"
 "Last-Translator: Andrzej Kamiński <endriusk@interia.pl> and Maciej Bojakowski <maciejbojakowski@gmail.com>\n"
 "Language-Team: \n"
 "Language: pl\n"
@@ -31,7 +31,7 @@ msgstr "Prawy: Usuń %d plik(ów)"
 #: fsyncdirsdlg.rsfilesfound
 #, object-pascal-format
 msgid "Files found: %d  (Identical: %d, Different: %d, Unique left: %d, Unique right: %d)"
-msgstr "Znaleziono plików: %d  (Identycznych: %d, Różnych: %d, Unikalnych po lewej: %d, Unikalnych po prawej: %d)"
+msgstr "Znaleziono plików: %d  (Identyczne: %d, Różniące się: %d, Unikalne z lewej: %d, Unikalne z prawej: %d)"
 
 #: fsyncdirsdlg.rslefttorightcopy
 #, object-pascal-format
@@ -346,8 +346,6 @@ msgid "Verify checksum..."
 msgstr "Sprawdź sumę kontrolną..."
 
 #: tfrmchooseencoding.caption
-#, fuzzy
-msgctxt "tfrmchooseencoding.caption"
 msgid "Encoding"
 msgstr "Kodowanie"
 
@@ -1265,7 +1263,7 @@ msgstr "Zezwalaj na &wykonywanie pliku jako programu"
 
 #: tfrmfileproperties.chkrecursive.caption
 msgid "&Recursive"
-msgstr ""
+msgstr "&Cykliczne"
 
 #: tfrmfileproperties.dividerbevel3.caption
 msgctxt "tfrmfileproperties.dividerbevel3.caption"
@@ -1307,8 +1305,6 @@ msgid "Contains:"
 msgstr "Zawartość:"
 
 #: tfrmfileproperties.lblcreatedstr.caption
-#, fuzzy
-msgctxt "tfrmfileproperties.lblcreatedstr.caption"
 msgid "Created:"
 msgstr "Utworzony:"
 
@@ -1361,11 +1357,11 @@ msgstr "Ostatnia zmiana statusu:"
 
 #: tfrmfileproperties.lbllinksstr.caption
 msgid "Links:"
-msgstr ""
+msgstr "Łącza:"
 
 #: tfrmfileproperties.lblmediatypestr.caption
 msgid "Media type:"
-msgstr ""
+msgstr "Typ nośnika:"
 
 #: tfrmfileproperties.lbloctal.caption
 msgctxt "tfrmfileproperties.lbloctal.caption"
@@ -1383,7 +1379,7 @@ msgstr "Odczyt"
 
 #: tfrmfileproperties.lblsizeondiskstr.caption
 msgid "Size on disk:"
-msgstr ""
+msgstr "Rozmiar na dysku:"
 
 #: tfrmfileproperties.lblsizestr.caption
 msgctxt "tfrmfileproperties.lblsizestr.caption"
@@ -2696,7 +2692,7 @@ msgstr "Zapisz bieżące zakładki do nowych ulubionych zakładek"
 
 #: tfrmmain.actsavefiledetailstofile.caption
 msgid "Save all shown columns to file"
-msgstr ""
+msgstr "Zapisz wszystkie wyświetlone kolumny do pliku"
 
 #: tfrmmain.actsaveselection.caption
 msgid "Sa&ve Selection"
@@ -4114,63 +4110,57 @@ msgid "Use &Gradient Indicator"
 msgstr "Użyj &gradientu kolorów wskaźnika"
 
 #: tfrmoptionscolors.dbbinarymode.caption
-#, fuzzy
-msgctxt "tfrmoptionscolors.dbbinarymode.caption"
 msgid "Binary Mode"
 msgstr "Tryb binarny"
 
 #: tfrmoptionscolors.dbbookmode.caption
 msgid "Book Mode"
-msgstr ""
+msgstr "Tryb książki"
 
 #: tfrmoptionscolors.dbimagemode.caption
 msgid "Image Mode"
-msgstr ""
+msgstr "Tryb obrazu"
 
 #: tfrmoptionscolors.dbtextmode.caption
 msgid "Text Mode"
-msgstr ""
+msgstr "Tryb tekstowy"
 
 #: tfrmoptionscolors.lbladded.caption
 msgid "Added:"
-msgstr ""
+msgstr "Dodane:"
 
 #: tfrmoptionscolors.lblbookbackground.caption
 msgctxt "tfrmoptionscolors.lblbookbackground.caption"
 msgid "Background:"
-msgstr ""
+msgstr "Tło:"
 
 #: tfrmoptionscolors.lblbooktext.caption
-#, fuzzy
-msgctxt "tfrmoptionscolors.lblbooktext.caption"
 msgid "Text:"
 msgstr "Tekst:"
 
 #: tfrmoptionscolors.lblcategory.caption
 msgid "Category:"
-msgstr ""
+msgstr "Kategoria:"
 
 #: tfrmoptionscolors.lbldeleted.caption
 msgid "Deleted:"
-msgstr ""
+msgstr "Usunięte:"
 
 #: tfrmoptionscolors.lblerror.caption
 msgid "Error:"
-msgstr ""
+msgstr "Błąd:"
 
 #: tfrmoptionscolors.lblimagebackground1.caption
 msgid "Background 1:"
-msgstr ""
+msgstr "Tło 1:"
 
 #: tfrmoptionscolors.lblimagebackground2.caption
-#, fuzzy
-msgctxt "tfrmoptionscolors.lblimagebackground2.caption"
 msgid "Background 2:"
 msgstr "Tło 2:"
 
 #: tfrmoptionscolors.lblindbackcolor.caption
 msgid "In&dicator Back Color:"
-msgstr "Kolor tła ws&kaźnika:"
+msgstr "Kolor &tła wskaźnika:"
 
 #: tfrmoptionscolors.lblindcolor.caption
 msgid "&Indicator Fore Color:"
@@ -4178,49 +4168,43 @@ msgstr "Kolor &wskaźnika:"
 
 #: tfrmoptionscolors.lblindthresholdcolor.caption
 msgid "Indicator &Threshold Color:"
-msgstr ""
+msgstr "Kolor &progu wskaźnika:"
 
 #: tfrmoptionscolors.lblinformation.caption
 msgid "Information:"
-msgstr ""
+msgstr "Informacje:"
 
 #: tfrmoptionscolors.lblleft.caption
 msgid "Left:"
-msgstr ""
+msgstr "Z lewej:"
 
 #: tfrmoptionscolors.lblmodified.caption
-#, fuzzy
-msgctxt "tfrmoptionscolors.lblmodified.caption"
 msgid "Modified:"
-msgstr "Zmodyfikowany:"
+msgstr "Zmodyfikowane:"
 
 #: tfrmoptionscolors.lblmodifiedbinary.caption
-#, fuzzy
-msgctxt "tfrmoptionscolors.lblmodifiedbinary.caption"
 msgid "Modified:"
-msgstr "Zmodyfikowany:"
+msgstr "Zmodyfikowane:"
 
 #: tfrmoptionscolors.lblright.caption
 msgid "Right:"
-msgstr ""
+msgstr "Z prawej:"
 
 #: tfrmoptionscolors.lblsuccess.caption
-#, fuzzy
-msgctxt "tfrmoptionscolors.lblsuccess.caption"
 msgid "Success:"
-msgstr "Pomyślne:"
+msgstr "Powodzenie:"
 
 #: tfrmoptionscolors.lblunknown.caption
 msgid "Unknown:"
-msgstr ""
+msgstr "Nierównoważne:"
 
 #: tfrmoptionscolors.rgdarkmode.caption
 msgid "State"
-msgstr ""
+msgstr "Status"
 
 #: tfrmoptionscolumnsview.cbcolumnstitlelikevalues.caption
 msgid "Column titles alignment &like values"
-msgstr ""
+msgstr "Wyrównanie tytułów kolumn &według wartości"
 
 #: tfrmoptionscolumnsview.cbcuttexttocolwidth.caption
 msgid "Cut &text to column width"
@@ -5886,7 +5870,7 @@ msgstr "Zastosuj bieżące ustawienia do wszystkich aktualnie skonfigurowanych n
 
 #: tfrmoptionsfileassocextra.cbdefaultcontextactions.caption
 msgid "Default context actions (View/Edit)"
-msgstr ""
+msgstr "Domyślne operacje kontekstowe (Widok/Edycja)"
 
 #: tfrmoptionsfileassocextra.cbexecuteviashell.caption
 msgctxt "tfrmoptionsfileassocextra.cbexecuteviashell.caption"
@@ -6067,7 +6051,7 @@ msgstr "Obramowanie kursora"
 
 #: tfrmoptionsfilepanelscolors.dbcurrentpath.caption
 msgid "Current Path"
-msgstr ""
+msgstr "Bieżąca ścieżka"
 
 #: tfrmoptionsfilepanelscolors.lblbackgroundcolor.caption
 msgid "Bac&kground:"
@@ -6096,10 +6080,8 @@ msgid "Inactive Mark Color:"
 msgstr "Kolor nieaktywnego zaznacz.:"
 
 #: tfrmoptionsfilepanelscolors.lblinactivepanelbrightness.caption
-#, fuzzy
-#| msgid "&Brightness level of inactive panel"
 msgid "&Brightness level of inactive panel:"
-msgstr "Poziom &jasności nieaktywnego panelu"
+msgstr "Poziom &jasności nieaktywnego panelu:"
 
 #: tfrmoptionsfilepanelscolors.lblmarkcolor.caption
 msgid "&Mark Color:"
@@ -6108,21 +6090,19 @@ msgstr "Kolor &zaznaczenia:"
 #: tfrmoptionsfilepanelscolors.lblpathactiveback.caption
 msgctxt "tfrmoptionsfilepanelscolors.lblpathactiveback.caption"
 msgid "Background:"
-msgstr ""
+msgstr "Tło"
 
 #: tfrmoptionsfilepanelscolors.lblpathactivetext.caption
-#, fuzzy
-msgctxt "tfrmoptionsfilepanelscolors.lblpathactivetext.caption"
 msgid "Text Color:"
 msgstr "Kolor tekstu:"
 
 #: tfrmoptionsfilepanelscolors.lblpathinactiveback.caption
 msgid "Inactive Background:"
-msgstr ""
+msgstr "Nieaktywne tło:"
 
 #: tfrmoptionsfilepanelscolors.lblpathinactivetext.caption
 msgid "Inactive Text Color:"
-msgstr ""
+msgstr "Kolor nieaktywnego tekstu:"
 
 #: tfrmoptionsfilepanelscolors.lblpreview.caption
 msgid "Below is a preview. You may move cursor, select file and get immediately an actual look and feel of the various settings."
@@ -8114,7 +8094,7 @@ msgstr "Zmień kolor po lewej, a zobaczysz tutaj podgląd tego, jak Twój widok 
 
 #: tfrmoptionsviewer.gbinternalviewer.caption
 msgid "Internal viewer options"
-msgstr ""
+msgstr "Opcje przeglądarki wewnętrznej"
 
 #: tfrmoptionsviewer.lblnumbercolumnsviewer.caption
 msgid "&Number of columns in book viewer"
@@ -9227,14 +9207,10 @@ msgid "Full Screen"
 msgstr "Pełny ekran"
 
 #: tfrmviewer.actgotoline.caption
-#, fuzzy
-msgctxt "tfrmviewer.actgotoline.caption"
 msgid "Goto Line..."
 msgstr "Przejdź do wiersza..."
 
 #: tfrmviewer.actgotoline.hint
-#, fuzzy
-msgctxt "tfrmviewer.actgotoline.hint"
 msgid "Goto Line"
 msgstr "Przejdź do wiersza"
 
@@ -9388,7 +9364,7 @@ msgstr "Pokaż k&ursor tekstowy"
 
 #: tfrmviewer.actshowcode.caption
 msgid "Code"
-msgstr ""
+msgstr "Kod"
 
 #: tfrmviewer.actshowgraphics.caption
 msgctxt "tfrmviewer.actshowgraphics.caption"
@@ -9421,8 +9397,6 @@ msgid "Stretch only large"
 msgstr "Rozciągnij tylko duże"
 
 #: tfrmviewer.actundo.caption
-#, fuzzy
-msgctxt "tfrmviewer.actundo.caption"
 msgid "Undo"
 msgstr "Cofnij"
 
@@ -10917,7 +10891,7 @@ msgstr "Potwierdzenie parametru"
 #: ulng.rsmsgcommandnotfound
 #, object-pascal-format
 msgid "Command not found! (%s)"
-msgstr ""
+msgstr "Nie znaleziono polecenia! (%s)"
 
 #: ulng.rsmsgconfirmquit
 msgid "Are you sure you want to quit?"
@@ -13369,7 +13343,7 @@ msgstr "Katalog"
 
 #: ulng.rspropsmultipletypes
 msgid "Multiple types"
-msgstr ""
+msgstr "Wiele typów"
 
 #: ulng.rspropsnmdpipe
 msgid "Named pipe"
