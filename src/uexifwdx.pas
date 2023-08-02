@@ -150,7 +150,7 @@ begin
       2: if FExif.ImageWidth > 0 then Result:= IntToStr(FExif.ImageWidth);
       3: if FExif.ImageHeight > 0 then Result:= IntToStr(FExif.ImageHeight);
       4: if FExif.Orientation > 0 then Result:= IntToStr(FExif.Orientation);
-      5: Result:= DateTimeToStr(FExif.DateTimeOriginal);
+      5: if FExif.DateTimeOriginal > 0 then Result:= DateTimeToStr(FExif.DateTimeOriginal);
     end;
   finally
     LeaveCriticalSection(FMutex);
