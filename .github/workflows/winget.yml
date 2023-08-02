@@ -9,5 +9,5 @@ jobs:
       - uses: vedantmgoyal2009/winget-releaser@v2
         with:
           identifier: alexx2000.DoubleCommander
-          installers-regex: '.(exe|msi)$'
+          installers-regex: '\.msi$'
           token: ${{ secrets.WINGET_TOKEN }}
