@@ -52,9 +52,8 @@ copy ..\..\src\doublecmd.ico %BUILD_PACK_DIR%\
 pushd %BUILD_PACK_DIR%
 
 del /Q doublecmd\settings\doublecmd.inf
-move doublecmd "Double Commander"
-heat dir "Double Commander" -ag -cg HeatGroup -dr %PF% -var var.SourcePath -o include.wxs
-candle -arch %CPU_TARGET% -dProductVersion=%DC_VER% -dSourcePath="Double Commander" -dProgramFiles=%PF% doublecmd.wxs include.wxs
+heat dir doublecmd -ag -cg HeatGroup -srd -dr APPLICATIONFOLDER -var var.SourcePath -o include.wxs
+candle -arch %CPU_TARGET% -dProductVersion=%DC_VER% -dSourcePath=doublecmd -dProgramFiles=%PF% doublecmd.wxs include.wxs
 light -ext WixUIExtension -cultures:en-us include.wixobj doublecmd.wixobj -o %PACKAGE%.msi
 
 rem Move created package

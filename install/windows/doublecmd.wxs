@@ -29,7 +29,7 @@
 
       <Directory Id="TARGETDIR" Name="SourceDir">
          <Directory Id="$(var.ProgramFiles)">
-            <Directory Id="INSTALLDIR" Name="$(var.ProductName)">
+            <Directory Id="APPLICATIONFOLDER" Name="$(var.ProductName)">
             </Directory>
          </Directory>
          <Directory Id="ProgramMenuFolder">
@@ -39,27 +39,65 @@
                     Id="Shortcut"
                     Name="$(var.ProductName)"
                     Description="$(var.ProductName)"
-                    Target="[INSTALLDIR]doublecmd.exe"
-                    WorkingDirectory="INSTALLDIR"/>
+                    Target="[APPLICATIONFOLDER]doublecmd.exe"
+                    WorkingDirectory="APPLICATIONFOLDER"/>
                   <RemoveFolder Id="ApplicationProgramsFolder" On="uninstall"/>
                   <RegistryValue Root="HKCU" Key="Software\$(var.ProductName)" Name="installed" Type="integer" Value="1" KeyPath="yes"/>
                </Component>
             </Directory>
          </Directory>
+         <Directory Id="DesktopFolder" Name="Desktop">
+             <Component Id="ApplicationShortcutDesktop" Guid="*">
+                  <Shortcut
+                    Id="ApplicationDesktopShortcut"
+                    Name="$(var.ProductName)"
+                    Description="$(var.ProductName)"
+                    Target="[APPLICATIONFOLDER]doublecmd.exe"
+                    WorkingDirectory="APPLICATIONFOLDER"/>
+                  <RemoveFolder Id="DesktopFolder" On="uninstall"/>
+                  <RegistryValue Root="HKCU" Key="Software\$(var.ProductName)" Name="installed" Type="integer" Value="1" KeyPath="yes"/>
+             </Component>
+         </Directory>
       </Directory>
+
+      <CustomAction
+        Id="Overwrite_WixSetDefaultPerMachineFolder"
+        Property="WixPerMachineFolder"
+        Value="[$(var.ProgramFiles)][ApplicationFolderName]"
+        Execute="immediate" />
+
+      <InstallUISequence>
+        <Custom Action="Overwrite_WixSetDefaultPerMachineFolder" After="WixSetDefaultPerMachineFolder" />
+      </InstallUISequence>
 
       <InstallExecuteSequence>
          <RemoveExistingProducts After="InstallValidate"/>
+         <Custom Action="Overwrite_WixSetDefaultPerMachineFolder" After="WixSetDefaultPerMachineFolder" />
       </InstallExecuteSequence>
 
-      <Feature Id="DefaultFeature" Level="1">
+      <Feature Id="DefaultFeature" Level="1" Display="hidden">
          <ComponentGroupRef Id="HeatGroup"/>
+      </Feature>
+
+      <Feature Id="ApplicationShortcut" Level="1" Title="Start Menu shortcut">
          <ComponentRef Id="ApplicationShortcut" />
+      </Feature>
+
+      <Feature Id="ApplicationShortcutDesktop" Level="1" Title="Desktop shortcut" TypicalDefault="advertise">
+         <ComponentRef Id="ApplicationShortcutDesktop" />
       </Feature>
 
       <WixVariable Id="WixUILicenseRtf" Value="license.rtf" />
 
-      <UIRef Id="WixUI_Minimal" />
+      <Property Id="ApplicationFolderName" Value="$(var.ProductName)" />
+      <Property Id="WixAppFolder" Value="WixPerMachineFolder" />
 
+      <Property Id="ALLUSERS" Secure="yes" Value="2" />
+      <Property Id="MSIINSTALLPERUSER" Secure="yes" Value="{}" />
+      <UI>
+         <UIRef Id="WixUI_Advanced" />
+         <Publish Dialog="InstallScopeDlg" Control="Next" Property="MSIINSTALLPERUSER" Value="1" Order="3">WixAppFolder = "WixPerUserFolder"</Publish>
+         <Publish Dialog="InstallScopeDlg" Control="Next" Property="MSIINSTALLPERUSER" Value="{}" Order="2">WixAppFolder = "WixPerMachineFolder"</Publish>
+      </UI>
    </Product>
 </Wix>
