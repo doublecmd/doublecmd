@@ -333,6 +333,7 @@ end;
 procedure TFileViewHeader.UpdatePathLabel;
 begin
   FPathLabel.Caption := MinimizeFilePath(FFileView.CurrentPath, FPathLabel.Canvas, FPathLabel.Width);
+  FPathLabel.Hint := FFileView.CurrentPath;
 end;
 
 procedure TFileViewHeader.UpdateFont;
