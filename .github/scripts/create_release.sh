@@ -11,7 +11,7 @@ DC_REVISION=$(install/linux/update-revision.sh ./ ./)
 
 # Read version number
 DC_MAJOR=$(grep 'MajorVersionNr' src/doublecmd.lpi | grep -o '[0-9.]\+')
-DC_MINOR=$(grep 'MinorVersionNr' src/doublecmd.lpi | grep -o '[0-9.]\+')
+DC_MINOR=$(grep 'MinorVersionNr' src/doublecmd.lpi | grep -o '[0-9.]\+' || echo 0)
 DC_MICRO=$(grep 'RevisionNr' src/doublecmd.lpi | grep -o '[0-9.]\+' || echo 0)
 DC_VER=$DC_MAJOR.$DC_MINOR.$DC_MICRO
 
