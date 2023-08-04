@@ -350,7 +350,7 @@ begin
 
     if fpS_ISLNK(pSearchRecord^.Attr) then
     begin
-      AFilePath:= APath + pSearchRecord^.Name;
+      AFilePath:= Path + pSearchRecord^.Name;
       LinkAttrs := mbFileGetAttrNoLinks(AFilePath);
       LinkProperty.LinkTo := ReadSymLink(AFilePath);
       LinkProperty.IsValid := LinkAttrs <> faInvalidAttributes;
