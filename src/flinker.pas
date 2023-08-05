@@ -82,7 +82,7 @@ uses
   LCLProc, Controls,
   //DC
   DCStrUtils, uLng, uFileProcs, uOperationsManager, uFileSourceCombineOperation,
-  uGlobs;
+  DCOSUtils, uShowMsg, uGlobs;
 
 { ShowLinkerFilesForm:
   "TMainCommands.cm_FileLinker" function from "uMainCommands.pas" is calling this routine.}
@@ -121,6 +121,16 @@ begin
         else begin
           AFileName:= aFiles.Path + edSave.Text;
           ADirectory:= ExcludeTrailingBackslash(aFiles.Path);
+        end;
+
+        for I:= 0 to lstFile.Count - 1 do
+        begin
+          with lstFile.Items do
+          if mbCompareFileNames(TFile(Objects[I]).FullPath, AFileName) then
+          begin
+            msgError(Format(rsMsgCanNotCopyMoveItSelf, [AFileName]));
+            Exit;
+          end;
         end;
 
         if mbForceDirectory(ADirectory) then
