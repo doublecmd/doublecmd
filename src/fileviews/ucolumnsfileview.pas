@@ -661,7 +661,8 @@ begin
   FUpdatingActiveFile := True;
   dgPanel.RowCount := dgPanel.FixedRows + Count;
   // to add fake bottom padding for last row
-  dgPanel.RowHeights[dgPanel.RowCount - 1] := dgPanel.DefaultRowHeight + CELL_PADDING;
+  if Count>0 then
+    dgPanel.RowHeights[dgPanel.RowCount - 1] := dgPanel.DefaultRowHeight + CELL_PADDING;
   FUpdatingActiveFile := False;
 end;
 
