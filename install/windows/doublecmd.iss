@@ -58,6 +58,7 @@ Source: "doublecmd\doublecmd.help"; DestDir: "{app}"
 Source: "doublecmd\doublecmd.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: "doublecmd\doublecmd.zdli"; DestDir: "{app}"; Flags: ignoreversion
 Source: "doublecmd\pinyin.tbl"; DestDir: "{app}"; Flags: onlyifdoesntexist
+Source: "doublecmd\winpty-agent.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: "doublecmd\doublecmd.visualelementsmanifest.xml"; DestDir: "{app}"; Flags: onlyifdoesntexist
 Source: "doublecmd\doc\*"; DestDir: "{app}\doc"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "doublecmd\default\*"; DestDir: "{app}\default"; Flags: ignoreversion recursesubdirs createallsubdirs
