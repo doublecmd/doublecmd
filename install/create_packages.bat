@@ -66,7 +66,7 @@ copy windows\lib\%CPU_TARGET%\winpty-agent.exe  %BUILD_DC_TMP_DIR%\
 cd /D %BUILD_DC_TMP_DIR%
 
 rem Build all components of Double Commander
-call build.bat release
+call build.bat darkwin
 
 rem Prepare install files
 call %BUILD_DC_TMP_DIR%\install\windows\install.bat
