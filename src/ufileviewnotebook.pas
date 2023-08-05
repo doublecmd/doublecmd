@@ -120,6 +120,7 @@ type
     FDraggedPageIndex: Integer;
     FTabDblClicked: Boolean;
     FHintPageIndex: Integer;
+    FHintPos: TPoint;
     FLastMouseDownTime: TDateTime;
     FLastMouseDownPageIndex: Integer;
 
@@ -127,6 +128,8 @@ type
     function GetActiveView: TFileView;
     function GetFileViewOnPage(Index: Integer): TFileView;
     function GetPage(Index: Integer): TFileViewPage; reintroduce;
+
+    procedure TabShowHint(Sender: TObject; HintInfo: PHintInfo);
 
   protected
     procedure DoChange; override;
@@ -418,6 +421,8 @@ begin
   FNotebookSide := NotebookSide;
   FStartDrag := False;
 
+  OnShowHint := @TabShowHint;
+
   {$IFDEF MSWINDOWS}
   // The pages contents are removed from drawing background in EraseBackground.
   // But double buffering could be enabled to eliminate flickering of drawing
@@ -584,6 +589,37 @@ begin
   if (Result >= PageCount) then Result:= -1;
 end;
 
+// compared to handling hints in MouseMove(), DoShowHint() is compatible
+// with all WidgetSets.
+// on Windows, when Mouse Move in the blank of the TabControl,
+// MouseMove() will not be called, then the wrong hint is shown.
+procedure TFileViewNotebook.TabShowHint(Sender: TObject; HintInfo: PHintInfo);
+var
+  ATabIndex: Integer;
+begin
+  ATabIndex := IndexOfPageAt( ScreenToClient(Mouse.CursorPos) );
+
+  if ATabIndex >= 0 then begin
+    if (ATabIndex <> PageIndex) and (Length(Page[ATabIndex].LockPath) <> 0) then
+      HintInfo^.HintStr := Page[ATabIndex].LockPath
+    else
+      HintInfo^.HintStr := View[ATabIndex].CurrentPath;
+  end else begin
+    HintInfo^.HintStr := '';
+    FHintPos := TPoint.Zero;
+  end;
+
+  if ATabIndex <> FHintPageIndex then begin
+    FHintPageIndex := ATabIndex;
+    FHintPos := HintInfo^.HintPos;
+  end else begin
+    if not FHintPos.IsZero then
+      HintInfo^.HintPos := FHintPos;
+  end;
+
+  HintInfo^.ReshowTimeout := 500;
+end;
+
 procedure TFileViewNotebook.MouseDown(Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
 {$IF DEFINED(LCLGTK2)}
 var
@@ -634,25 +670,8 @@ begin
 end;
 
 procedure TFileViewNotebook.MouseMove(Shift: TShiftState; X, Y: Integer);
-var
-  ATabIndex: Integer;
 begin
   inherited;
-
-  if ShowHint then
-  begin
-    ATabIndex := IndexOfPageAt(Classes.Point(X, Y));
-    if (ATabIndex >= 0) and (ATabIndex <> FHintPageIndex) then
-    begin
-      FHintPageIndex := ATabIndex;
-      Application.CancelHint;
-      if (ATabIndex <> PageIndex) and (Length(Page[ATabIndex].LockPath) <> 0) then
-        Hint := Page[ATabIndex].LockPath
-      else
-        Hint := View[ATabIndex].CurrentPath;
-    end;
-  end;
-
   if FStartDrag then
   begin
     FStartDrag := False;
