@@ -601,7 +601,7 @@ begin
 
   if ATabIndex >= 0 then begin
     if (ATabIndex <> PageIndex) and (Length(Page[ATabIndex].LockPath) <> 0) then
-      HintInfo^.HintStr := Page[ATabIndex].LockPath
+      HintInfo^.HintStr := '* ' + Page[ATabIndex].LockPath
     else
       HintInfo^.HintStr := View[ATabIndex].CurrentPath;
   end else begin
