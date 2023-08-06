@@ -41,13 +41,14 @@ uses
   ZipFunc, ZipOpt, ZipLng, AbZipTyp;
 
 function GetComboBox(pDlg: PtrUInt; DlgItemName: PAnsiChar): PtrInt;
-var
-  Index: IntPtr;
 begin
   with gStartupInfo do
   begin
-    Index:= SendDlgMsg(pDlg, DlgItemName, DM_LISTGETITEMINDEX, 0, 0);
-    Result:= SendDlgMsg(pDlg, DlgItemName, DM_LISTGETDATA, Index, 0);
+    Result:= SendDlgMsg(pDlg, DlgItemName, DM_LISTGETITEMINDEX, 0, 0);
+    if Result >= 0 then
+    begin
+      Result:= SendDlgMsg(pDlg, DlgItemName, DM_LISTGETDATA, Result, 0);
+    end;
   end;
 end;
 
