@@ -7,7 +7,7 @@ interface
 uses
   Classes, SysUtils, Dialogs,
   Windows, ShlObj,
-  uFileSourceProperty,
+  uFileSourceProperty, uDrive, uDrivesList,
   uVirtualFileSource, uFileProperty, uFileSource,
   uFileSourceOperation, uFile, uFileSourceOperationTypes;
 
@@ -42,6 +42,7 @@ type
     class function GetMainIcon(out Path: String): Boolean; override;
 
     class function RootName: String;
+    class procedure ListDrives(DrivesList: TDrivesList; UpperCase: Boolean);
 
     function CreateFolder(AParent: IShellFolder2; const Name: String): HRESULT;
     function FindFolder(const Path: String; out AValue: IShellFolder2): HRESULT;
@@ -143,6 +144,72 @@ begin
   OleCheckUTF8(SHGetDesktopFolder(DesktopFolder));
   OleCheckUTF8(SHGetFolderLocation(0, CSIDL_DRIVES, 0, 0, {%H-}DrivesPIDL));
   Result:= GetDisplayName(DesktopFolder, DrivesPIDL, SHGDN_INFOLDER);
+  CoTaskMemFree(DrivesPIDL);
+end;
+
+class procedure TShellFileSource.ListDrives(DrivesList: TDrivesList;
+  UpperCase: Boolean);
+const
+  SFGAOF_DEFAULT = SFGAO_FILESYSTEM or SFGAO_FOLDER;
+const
+  UPPER_LETTER: array[0..11] of String = ('Ù', 'Ú', 'Û', 'Ü', 'Ũ', 'Ū', 'Ŭ', 'Ů', 'Ű', 'Ų', 'Ȕ', 'Ȗ');
+  LOWER_LETTER: array[0..11] of String = ('ù', 'ú', 'û', 'ü', 'ũ', 'ū', 'ŭ', 'ů', 'ű', 'ų', 'ȕ', 'ȗ');
+var
+  ADrive: PDrive;
+  RootPath: String;
+  DeviceId: String;
+  PIDL: PItemIDList;
+  rgfInOut: LongWord;
+  Index: Integer = 0;
+  NumIDs: LongWord = 0;
+  AFolder: IShellFolder2;
+  EnumIDList: IEnumIDList;
+  DrivesPIDL: PItemIDList;
+  DesktopFolder: IShellFolder;
+begin
+  OleCheckUTF8(SHGetDesktopFolder(DesktopFolder));
+  OleCheckUTF8(SHGetFolderLocation(0, CSIDL_DRIVES, 0, 0, {%H-}DrivesPIDL));
+  try
+    OleCheckUTF8(DesktopFolder.BindToObject(DrivesPIDL, nil, IID_IShellFolder2, Pointer(AFolder)));
+    OleCheckUTF8(AFolder.EnumObjects(0, SHCONTF_FOLDERS or SHCONTF_STORAGE, EnumIDList));
+    RootPath:= '\\\' + GetDisplayName(DesktopFolder, DrivesPIDL, SHGDN_INFOLDER);
+
+    while (EnumIDList.Next(1, PIDL, NumIDs) = S_OK) do
+    try
+      rgfInOut:= SFGAOF_DEFAULT;
+
+      if Succeeded(AFolder.GetAttributesOf(1, PIDL, rgfInOut)) then
+      begin
+        if (SFGAOF_DEFAULT and rgfInOut) = SFGAO_FOLDER then
+        begin
+          DeviceId:= GetDisplayName(AFolder, PIDL, SHGDN_FORPARSING);
+          if Pos('\\?\usb', DeviceId) > 0 then
+          begin
+            New(ADrive);
+            ZeroMemory(ADrive, SizeOf(TDrive));
+            if UpperCase then
+              ADrive^.DisplayName:= UPPER_LETTER[Index]
+            else begin
+              ADrive^.DisplayName:= LOWER_LETTER[Index];
+            end;
+            ADrive^.IsMounted:= True;
+            ADrive^.DeviceId:= DeviceId;
+            ADrive^.DriveType:= dtSpecial;
+            ADrive^.IsMediaAvailable:= True;
+            ADrive^.DriveLabel:= GetDisplayNameEx(AFolder, PIDL, SHGDN_INFOLDER);
+            ADrive^.Path:= RootPath + PathDelim + ADrive^.DriveLabel;
+            DrivesList.Add(ADrive);
+            Inc(Index);
+            if (Index > High(LOWER_LETTER)) then Break;
+          end;
+        end;
+      end;
+    finally
+      CoTaskMemFree(PIDL);
+    end;
+  finally
+    CoTaskMemFree(DrivesPIDL);
+  end;
 end;
 
 function TShellFileSource.FindObject(const AObject: String; out

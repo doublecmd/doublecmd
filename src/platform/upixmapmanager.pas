@@ -2307,6 +2307,7 @@ end;
 function TPixMapManager.GetDriveIcon(Drive : PDrive; IconSize : Integer; clBackColor : TColor; LoadIcon: Boolean) : Graphics.TBitmap;
 {$IFDEF MSWINDOWS}
 var
+  PIDL: PItemIDList;
   SFI: TSHFileInfoW;
   uFlags: UINT;
   iIconSmall,
@@ -2341,7 +2342,15 @@ begin
       end;
       uFlags := uFlags or SHGFI_ICON;
 
-      if (not LoadIcon) and (Drive^.DriveType = dtNetwork) and SHGetStockIconInfo(SIID_DRIVENET, uFlags, psii) then
+      if (Drive^.DriveType = dtSpecial) then
+      begin
+        if Succeeded(SHParseDisplayName(PWideChar(CeUtf8ToUtf16(Drive^.DeviceId)), nil, PIDL, 0, nil)) then
+        begin
+          SHGetFileInfoW(PWideChar(PIDL), 0, SFI, SizeOf(SFI), uFlags or SHGFI_PIDL);
+          CoTaskMemFree(PIDL);
+        end;
+      end
+      else if (not LoadIcon) and (Drive^.DriveType = dtNetwork) and SHGetStockIconInfo(SIID_DRIVENET, uFlags, psii) then
         SFI.hIcon:= psii.hIcon
       else if (SHGetFileInfoW(PWideChar(CeUtf8ToUtf16(Drive^.Path)), 0, SFI, SizeOf(SFI), uFlags) = 0) then begin
         SFI.hIcon := 0;
