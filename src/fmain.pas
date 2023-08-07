@@ -950,7 +950,7 @@ uses
   fOptionsToolbarBase, fOptionsToolbarMiddle, fEditor, uColumns, StrUtils, uSysFolders,
   uColumnsFileView, dmHigh
 {$IFDEF MSWINDOWS}
-  , uNetworkThread
+  , uShellFileSource, uNetworkThread
 {$ENDIF}
   ;
 
@@ -4876,6 +4876,10 @@ begin
       end;
     end;
   end;
+  if (Win32MajorVersion > 5) then
+  begin
+    TShellFileSource.ListDrives(DrivesList, gUpperCaseDriveLetter);
+  end;
 {$ENDIF}
 
   UpdateDriveList(DrivesList);
@@ -6350,7 +6354,7 @@ begin
 
     for I := 0 to DrivesList.Count - 1 do
     begin
-      if DrivesList[I]^.DriveType = dtSpecial then
+      if (DrivesList[I]^.DriveType = dtSpecial) and (Length(Address) > 0) then
       begin
         if Pos(Address, DrivesList[I]^.Path) = 1 then
           Exit(I);
