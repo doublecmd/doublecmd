@@ -28,6 +28,7 @@ rm -f src/doublecmd.res doublecmd
 rm -f tools/extractdwrflnfo
 rm -f plugins/wcx/unrar/lib/rarconfdlg.lfm
 rm -f plugins/wcx/zip/lib/ZipConfDlg.lfm
+rm -f plugins/wcx/zip/lib/ZipLng.rsj
 rm -f plugins/wcx/zip/lib/abresstring.rs?
 rm -f plugins/wfx/ftp/lib/FtpConfDlg.lfm
 rm -f plugins/wfx/samba/lib/smbauthdlg.lfm
