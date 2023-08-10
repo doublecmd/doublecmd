@@ -1,5 +1,1065 @@
-﻿--------------------------------------------------------------------------------
+Double Commander - Change Log
 https://doublecmd.sourceforge.io/mantisbt/changelog_page.php
+Double Commander - 1.1.0 (Released 2023-08-05)
+==============================================
+- 0001897: [Default] MSI Installer Does Not Ask for Installation Destination (Alexx2000) - resolved.
+- 0001461: [Logic] Wish: location for option-files (Alexx2000) - resolved.
+- 0001833: [Logic] Separate colors.xml (Alexx2000) - resolved.
+- 0001164: [Logic] Wish: make all xml (and other) configs in one folder (Alexx2000) - resolved.
+- 0001368: [Default] Cannot see Memoryx / SD card of mobile phone (Alexx2000) - resolved.
+- 0001425: [Default] Not implemented search the contents of files (Alt-F7) in several encodings simultaneously (Alexx2000) - resolved.
+- 0002289: [File operations] Folder size shown as <DIR> instead of zero for empty folder (Alexx2000) - resolved.
+- 0001900: [Graphical user interface] Auto Refresh Does Not Work - File Size Not Updated - resolved.
+- 0001400: [Logic] "Вверх" внутри архива ведёт не "вверх", а "назад", если архив был открыт в одной панели, а в другую перенесен через ctrl+стрелка (Alexx2000) - resolved.
+- 0000396: [Viewer] Не масштабируется изображение на панели при «Быстром просмотре» (Alexx2000) - resolved.
+- 0002558: [File operations] Нажатие на кнопку диска не открывает папку если мы в архиве (Alexx2000) - resolved.
+- 0002389: [File operations] Asynchronous sync fails for file names with only case differences - resolved.
+- 0002644: [File operations] Closing an unavailable FTP connection not possible. (Alexx2000) - resolved.
+- 0002279: [Graphical user interface] Alt+F9 dialog layout bug - resolved.
+- 0002299: [Default] Access to WSL directory in Win 1903 (Alexx2000) - resolved.
+- 0002662: [Viewer] Добавить функцию переноса строк на горячую клавишу (Alexx2000) - resolved.
+- 0002367: [Graphical user interface] Add Find, Replace and Goto line commands to Compare files (Alexx2000) - resolved.
+- 0000132: [Default] Why can't I type to the internal terminal/console (Alexx2000) - resolved.
+- 0001313: [File operations] Wrong copy speed (Alexx2000) - closed.
+- 0001846: [File operations] Излишняя оптимистичность при рассчете скорости копирвания при наличии дублей и включении их пропуска (Alexx2000) - closed.
+- 0001340: [File operations] cannot open MTP device (mobile phone) (Alexx2000) - closed.
+- 0002544: [Default] Path to Terminal.app on Catalina is obsolete (Alexx2000) - closed.
+- 0002483: [Default] Entry Point Not Found error (Alexx2000) - closed.
+- 0001459: [File operations] verify checksum with whitespaces (Alexx2000) - closed.
+- 0002294: [Viewer] word wrap for viewer (Alexx2000) - closed.
+- 0000777: [Default] Passwords saved as plain text and easily retrievable - closed.
+- 0000087: [Default] Console / Консоль - closed.
+- 0000096: [Default] Консоль (Alexx2000) - closed.
+Double Commander - 1.0.8 (Released 2022-09-18)
+==============================================
+- 0002471: [Default] Create New File (Alexx2000) - resolved.
+- 0002576: [Plugins] Zip-plugin works with errors on some zip-archives (Alexx2000) - resolved.
+Double Commander - 1.0.4 (Released 2022-02-05)
+==============================================
+- 0001597: [Viewer] Крякозябры в просмотрщике при скролле (проблема с UTF-16?) - resolved.
+- 0002511: [Default] QuickView panel not updates when going up to parent directory (Alexx2000) - resolved.
+- 0002516: [Default] After renaming a file that is open in preview, preview displays the wrong file. (Alexx2000) - resolved.
+Double Commander - 1.0.0 (Released 2021-10-17)
+==============================================
+- 0002646: [File operations] Incorrect total file copy progress (Alexx2000) - resolved.
+- 0001009: [Graphical user interface] Deleting feature in the synchronize directories window (Alexx2000) - resolved.
+- 0002132: [Graphical user interface] "Two files are identical" window is invisible (Alexx2000) - resolved.
+- 0001268: [Graphical user interface] Add option for more helpful title bar (Alexx2000) - resolved.
+- 0002574: [File operations] Uses temp file on local tree to compress to tar (Alexx2000) - resolved.
+- 0002659: Save config on SIGTERM (Alexx2000) - resolved.
+- 0002602: [Logic] Compare by Contents: When comparing identical binary files, DC will show the Diff tool at the same time (Alexx2000) - resolved.
+- 0002653: [Editor] Включить галку в окне "заменить" - resolved.
+- 0001128: [Graphical user interface] Long file names in "Synchronize directories" window overlap "Date" columns (Alexx2000) - resolved.
+- 0002661: [Viewer] Error: [TCustomForm.SetFocus] frmFindView:TfrmFindView Can not focus (Alexx2000) - resolved.
+- 0002652: [Default] Files not selected in file panel in quickview mode (Alexx2000) - resolved.
+- 0002640: [Graphical user interface] Quick View Panel menu item stays unchecked (Alexx2000) - resolved.
+- 0002601: [File operations] Option to synchronize directory changes between panels (Alexx2000) - resolved.
+- 0001370: [Graphical user interface] Custom icon gfx uses wrong size sub-image. (Alexx2000) - resolved.
+- 0000047: [File operations] Moving on same Harddisk tooks much time (Alexx2000) - resolved.
+- 0002527: [File operations] Individual files deleted to trash remain in original folder (Alexx2000) - resolved.
+- 0002607: [File operations] Named pipes creation error in FreeBSD (Alexx2000) - resolved.
+- 0002645: [File operations] Cannot directly zip file from rar or zip archive (Alexx2000) - resolved.
+- 0002638: [File operations] Select a Group editor not recalling RegEx settings (Alexx2000) - resolved.
+- 0002631: [Graphical user interface] Mounted .dmg images should be shown in the drives list (Alexx2000) - resolved.
+- 0001223: [File operations] Access Violation when typing path manually in a large remote directory (Alexx2000) - resolved.
+- 0002618: [Language translation] Missing PO messages (Alexx2000) - resolved.
+- 0002616: [File operations] Internal diff tool changes line endings on save (Alexx2000) - resolved.
+- 0002619: [Default] Can't sort file list by [DC().GETFILECOMMENT{}] column (Alexx2000) - resolved.
+- 0002614: [Plugins] File size is most probably signed int32, should be unsigned and/or widere than 32bit (Alexx2000) - resolved.
+- 0001126: [File operations] Copy NTFS attributes (Alexx2000) - resolved.
+- 0002086: [File operations] Wrong progress info for copy operation to netword device (Alexx2000) - resolved.
+- 0002098: [File operations] An encrypted file is copied as decrypted (Alexx2000) - resolved.
+- 0002484: [File operations] NTFS Alternate Data Streams not copied (Alexx2000) - resolved.
+- 0001735: [Editor] It does not ask for confirmation when closing the main window and there are unsaved changes in a background editor (Alexx2000) - resolved.
+- 0002199: [File operations] slow copying of files to an external USB disk (Alexx2000) - resolved.
+- 0002084: [File operations] Double Commander loses xattrs on file copy (Alexx2000) - resolved.
+- 0002095: [File operations] In Place File Copy - Clipped File Name (Alexx2000) - resolved.
+- 0002595: [Graphical user interface] Selection "By clicking on icon" in Single click mode doesn't work (Alexx2000) - resolved.
+- 0000193: [Logic] Root mode (Alexx2000) - resolved.
+- 0002102: [Viewer] Падение при просмотре текстовых файлов (Alexx2000) - resolved.
+- 0001017: [Graphical user interface] Entries in Directory Hotlist have no auto-shortcut any more (Alexx2000) - resolved.
+- 0002539: [Graphical user interface] Сделать настройку цвета фона и текста контрола с текущим путём (Alexx2000) - resolved.
+- 0002569: [Default] Crash if Show Desktop is used (Alexx2000) - resolved.
+- 0001001: [File operations] Overwrite dialog could provide option to rename and auto-rename (Alexx2000) - resolved.
+- 0000750: [Graphical user interface] Open VFS List from Left/Right Drive List (Alexx2000) - resolved.
+- 0001710: [Viewer] При новом поиске курсор переходит в начало - resolved.
+- 0002232: [Graphical user interface] FIle panel columns autosize bug with Russian filename (Alexx2000) - resolved.
+- 0002256: [Graphical user interface] Feature request: add path tooltips to moving/copying files window (Alexx2000) - resolved.
+- 0000110: [Default] Get needed access under Vista (Alexx2000) - resolved.
+- 0000694: [File operations] Search for duplicates (Alexx2000) - resolved.
+- 0001685: [File operations] При перемещении папок с недостаточными правами не запрашиваются права администратора - resolved.
+- 0002485: [File operations] Description comments not updated during re-fresh (Alexx2000) - resolved.
+- 0001959: [Default] Double Commander doesn't show icons for *.directory files (Alexx2000) - resolved.
+- 0001326: [File operations] You cannot search inside archive file from inside archive file (Alexx2000) - resolved.
+- 0000910: [File operations] Unable to remove only spaces in the front of file name (Alexx2000) - resolved.
+- 0002395: [Default] buffered content of 7z archieve is obsolete (Alexx2000) - resolved.
+- 0001815: [Graphical user interface] After deleting a file in the flat view, the cursor goes to the first position (Alexx2000) - resolved.
+- 0000417: [Graphical user interface] middle click on drive button (Alexx2000) - resolved.
+- 0000959: [Viewer] Viewer doesn't get the "Case Sensitive" flag from Find Files (Alexx2000) - resolved.
+- 0002446: [Plugins] Macos cocoa build miss cpio plugin (Alexx2000) - resolved.
+- 0002188: [File operations] [enhancement] flat view of selected folders only (Alexx2000) - resolved.
+- 0001348: [Viewer] No horizontal scroll via mouse horizontal wheel in the text viewer. (Alexx2000) - resolved.
+- 0002238: [Graphical user interface] Treeview sorting different from file view panel (Alexx2000) - resolved.
+- 0001649: [Viewer] Viewer - search regex (Alexx2000) - resolved.
+- 0001671: [Default] Can't drag-n-drop from Windows Explorer when a zip archive is opened in it - closed.
+- 0001418: [Logic] Natural sorting order is unconventional (cordylus) - closed.
+- 0002265: [Graphical user interface] At file copied/moved/renamed: file comment in "descript.ion" not copied/moved/corrected - closed.
+- 0002519: [File operations] Server side copy over the network (SMB2 FSCTL_SRV_COPYCHUNK support) (Alexx2000) - closed.
+- 0002495: [File operations] Find files in archives only works the first time (Alexx2000) - closed.
+- 0002573: [Default] Update 7z.dll library old version 19.00 to current version 20.02 alpha(Many optimize and Speed) from 2020-08-08. (Alexx2000) - closed.
+- 0002627: [Default] No need to create Qt4 packages (Alexx2000) - closed.
+- 0000154: [Graphical user interface] Drag & Drop file(s) directly on tab to start copying (Alexx2000) - closed.
+- 0000190: [Graphical user interface] Multiple rename - posibility to replace more patterns at the same time (Alexx2000) - closed.
+- 0002267: [File operations] [Patch] Multi Rename - Avoid collisions with OldFiles (Alexx2000) - closed.
+- 0002357: [Graphical user interface] Add delete actions is Syncronize directories dialog (Alexx2000) - closed.
+- 0002358: [Graphical user interface] Add copy to clipboard is Syncronize directories dialog (Alexx2000) - closed.
+- 0002362: [Language translation] Belarusian language file for FTP plugin configuration (Alexx2000) - closed.
+- 0002242: [Editor] Custom ruler position (Alexx2000) - closed.
+- 0002528: [File operations] Выделение файлов мышью (Alexx2000) - closed.
+- 0002451: [File operations] Double Commander freezes Linux desktop when appropriate polkit backend is not installed (Alexx2000) - closed.
+- 0001070: [Graphical user interface] Автопрокручивание списка в файловой панели при восстановлении из трея - closed.
+Double Commander - 0.9.10 (Released 2021-01-10)
+===============================================
+- 0002591: [Default] Can't open new tabs in existing DC instance (Alexx2000) - resolved.
+- 0002590: [Viewer] Viewer - Search does not work in files more than 2 Gb (Alexx2000) - resolved.
+- 0002589: [Plugins] DEB_WDX plugin cannot show info about .deb package with data.tar.xz (Alexx2000) - resolved.
+- 0002588: [Plugins] Creates corrupted .zipx archives (Alexx2000) - resolved.
+- 0002587: [Plugins] Wrong inner .cpio file name in the .rpm with Zstandard compression (Alexx2000) - resolved.
+- 0002586: [File operations] SHA-224 - Buffer overflow (Alexx2000) - resolved.
+- 0001706: [File operations] Gzip file not showing all folders in archive (Alexx2000) - resolved.
+- 0002540: [Default] lua 5.4.0-2 gives an Access violation when running LUA scripts (Alexx2000) - resolved.
+- 0002546: [Default] Filenames in different language aren't shown (Alexx2000) - resolved.
+- 0002580: [Language translation] Update german translation 0.9.9 beta build 9478 third update (Alexx2000) - resolved.
+- 0002555: [File operations] High cpu usage when open with from external program (wayland) - closed.
+- 0002560: [File operations] Ошибка при создании архива (Alexx2000) - closed.
+- 0002542: [Viewer] access violation (Alexx2000) - closed.
+Double Commander - 1.0.0 (trunk) (Released 2020-08-01)
+======================================================
+- 0002075: [File operations] Directory Hotlist import from TC not working - closed.
+Double Commander - 0.9.9 (Released 2020-06-27)
+==============================================
+- 0002458: [Viewer] Wrong line endings rendering in file comparison view for certain encodings (Alexx2000) - resolved.
+- 0002417: [File operations] Double commander allows trailing space filenames on NTFS (Alexx2000) - resolved.
+- 0002502: [Default] When navigating pictures with keyboard in full view, preview often shows binary content instead of the picture (Alexx2000) - resolved.
+- 0002465: [Plugins] DC silently produces broken ZIP when packing file of size >4G (Alexx2000) - resolved.
+- 0002474: [Viewer] DC falls down if try to view monochrome PNG image (Alexx2000) - resolved.
+- 0002487: [Default] Can't access to WSL2 path (Alexx2000) - resolved.
+- 0002464: [Default] Unable to visit www HomePage and/or copy URL web address. (Alexx2000) - resolved.
+- 0002480: [File operations] creating a new txt file by right click with the same name overwrites existing text file without asking per dialog box (Alexx2000) - resolved.
+- 0002164: [File operations] Ability to create directory with the dot at the end of the name - resolved.
+- 0001420: [Default] Search panel is not refreshed after delete operation (Alexx2000) - resolved.
+Double Commander - 0.9.8 (Released 2020-02-01)
+==============================================
+- 0002297: [Default] No installation / build for Ubuntu 16.04 - resolved.
+- 0002287: [Default] Open terminal (F9) does not work (Alexx2000) - resolved.
+- 0002226: [Default] rabbitvcs integration not working with qt5 (Alexx2000) - resolved.
+- 0002339: [Graphical user interface] Brief View - Mouse Click on Empty Space Does Not Change Panes (Alexx2000) - resolved.
+- 0002378: [Default] app not starting if rabbitvcs installed (Alexx2000) - resolved.
+- 0002050: [File operations] Quickview crashs by scrolling through zip archive (Alexx2000) - resolved.
+- 0002404: [Default] When dragging files away from Double Commander, the cursor moves to a different file (Alexx2000) - resolved.
+- 0002419: [Plugins] DC can't unpack SFX archive (Alexx2000) - resolved.
+Double Commander - 0.9.7 (Released 2020-01-08)
+==============================================
+- 0002352: [Default] The first letter of quick search is selected by default (Alexx2000) - resolved.
+- 0002136: [Graphical user interface] Double Commander does not support Dark Mode in macOS 10.14 Mojave (Alexx2000) - resolved.
+- 0002425: [Plugins] DC failed to extract and open ACE Archive (Alexx2000) - resolved.
+- 0002353: [File operations] Unhandled exception: EAccessViolation: Access violation (when comparing same file in zip archive) (Alexx2000) - resolved.
+- 0001730: [File operations] Reading from tar files fails for path names longer than 100 characters (Alexx2000) - resolved.
+- 0002373: [File operations] If DC runs slowly, and 2nd instances runs-- crash because of "cannot read pixmap file" (Alexx2000) - resolved.
+- 0002394: [Graphical user interface] Error on "Resave on the last favorite tabs..." (Alexx2000) - resolved.
+- 0001774: [File operations] refusal to make a copy (Alexx2000) - resolved.
+- 0002415: [Default] root ("/") in the directory hotlist is deleted between sessions (Alexx2000) - resolved.
+- 0002386: [File operations] Removable drives don't show up automatically (Alexx2000) - resolved.
+- 0002401: [Default] access violation after swapping panels whilst quickview is open (Alexx2000) - resolved.
+- 0002374: [File operations] Symlink creation of files does not work (Alexx2000) - closed.
+Double Commander - 0.9.6 (Released 2019-09-01)
+==============================================
+- 0001830: [Graphical user interface] Searching for filename only finds exact matches after entering a dot - resolved.
+- 0002257: [File operations] Can't delete to the trash bin in symlinked directories on different volumes (partitions) (Alexx2000) - closed.
+- 0002321: [Graphical user interface] Some icons of hidden files are not dimmed despite the setting (Alexx2000) - closed.
+- 0002324: [Graphical user interface] Invalid floating point operation while closing tabs (Alexx2000) - closed.
+- 0002325: [Graphical user interface] File multiselect with Mac command key does not work in Cocoa build (Alexx2000) - closed.
+- 0002326: [Graphical user interface] Thumbnails not shown correctly (Alexx2000) - closed.
+- 0002327: [Language translation] Update german translation (Alexx2000) - closed.
+- 0002332: [Default] Error : List Index (4) out of bounds (Alexx2000) - closed.
+- 0002333: [Plugins] re-compressing bz2 archive shows >100% (Alexx2000) - closed.
+- 0002335: [File operations] Unhandled exception: EConvertError: 1980-0-0 is not a valid date specification (Alexx2000) - closed.
+- 0002336: [Default] Division by zero (Alexx2000) - closed.
+- 0002338: [File operations] when renaming a file, the filename will be printed twice in an overlapping way. (Alexx2000) - closed.
+- 0002340: [Viewer] DC crashes after deleting file in Viewer with WLX plugins (in preview) (Alexx2000) - closed.
+- 0002347: [Logic] Synchronize directories: Crash after reverse copy direction (Alexx2000) - closed.
+Double Commander - 0.9.5 (Released 2019-07-07)
+==============================================
+- 0002315: [Default] Program cannot start - it is throwing an error (Alexx2000) - closed.
+Double Commander - 0.9.4 (Released 2019-07-06)
+==============================================
+- 0001097: [Graphical user interface] Show thumbnails loses Custom Columns (Alexx2000) - closed.
+- 0001642: [Graphical user interface] Open &VFS list - literal & in the hint of the \\ button (Alexx2000) - closed.
+- 0001843: [Default] Text thumbnails do not display the last line of text (cordylus) - closed.
+- 0002085: [Graphical user interface] File selection with "INSERT" not working on filtered list (cordylus) - closed.
+- 0002283: [Default] Double Commander hangs for ever on file operations if RabitVCS is installed (Alexx2000) - closed.
+- 0002298: [File operations] Ошибка Division by zero при удалении примонтированного *.iso (Alexx2000) - closed.
+- 0002307: [Graphical user interface] Значение FixedRows не может превышать RowCount (cordylus) - closed.
+Double Commander - 0.9.3 (Released 2019-05-18)
+==============================================
+- 0001501: [Graphical user interface] Mounts to hidden folders must not be shown in the "drive buttons" bar (Alexx2000) - closed.
+- 0002285: [Graphical user interface] QuickView bug with file deletion and pictures (Alexx2000) - closed.
+- 0002292: [Graphical user interface] QuickView and Feed to listbox (Alexx2000) - closed.
+- 0002302: [Graphical user interface] Error on selecting an item from the file views pop-up menu (Alexx2000) - closed.
+- 0000480: [Graphical user interface] Blinking of file list panel while switching tabs (Alexx2000) - closed.
+- 0002144: [File operations] Symbol # at the beginning of dir name LOOPS with trying to view Win shares: smb://pcname/C$/#DirName/#DirName/#... etc (Alexx2000) - closed.
+- 0002194: [Graphical user interface] Ubuntu snapd produce unnecessary information at drives list. (Alexx2000) - closed.
+- 0002233: [Graphical user interface] Tabs disappear after close-reopen DC (when Tree Panelview) - closed.
+- 0002276: [Default] insecure use of /tmp (Alexx2000) - closed.
+- 0002277: [Viewer] Viewer Causes crash when using Copy To Clipboard Formatted (Alexx2000) - closed.
+- 0002288: [Graphical user interface] Content window of Tab bugged after moving it to the most right one (Alexx2000) - closed.
+- 0002290: "Range check error" when entering a directory (Alexx2000) - closed.
+- 0002291: [File operations] DC crashes when adding file to queue for delete on SMB share (Alexx2000) - closed.
+Double Commander - 0.9.2 (Released 2019-03-30)
+==============================================
+- 0002249: [Language translation] Update on Greek translation (Alexx2000) - resolved.
+- 0002227: [File operations] "Can not set permissions for…" message when moving a file to another FS (Alexx2000) - closed.
+- 0002228: [Graphical user interface] Blank OneDrive icon overlay (Alexx2000) - closed.
+- 0002229: [File operations] Неполная передача списка файлов в "Упаковать в отдельные архивы" и "Распаковать в отдельные папки" (Alexx2000) - closed.
+- 0002231: [Default] При входе по двойному щелчку мыши на первом в списке архиве сразу выход из него (Alexx2000) - closed.
+- 0002235: [Graphical user interface] On remote desktop is bottom inform line (Selected files count etc) becomes unreadable due to invalid redraw (Alexx2000) - closed.
+- 0002236: [Default] Crash when add custom columns from WFX plugins (Alexx2000) - closed.
+- 0002239: [Graphical user interface] Crashes after disabling tabstop headers (Alexx2000) - closed.
+- 0002241: [Plugins] WFX plugins Access violation (Alexx2000) - closed.
+- 0002243: [File operations] Crash on rename file from quick search/filter (Alexx2000) - closed.
+- 0002245: [Logic] Crash when exit from quick view mode after file view mode change (Alexx2000) - closed.
+- 0002246: [Default] Log window does not hide after disconnect in the WebDAV plugin (Alexx2000) - closed.
+- 0000307: [Graphical user interface] Show icons for WFX plugins / Иконки для WFX (Alexx2000) - closed.
+- 0002112: [Default] Using Enter to save Directory Hotlist crashes DC (Alexx2000) - closed.
+- 0002273: [Default] Compatibility with Lua 5.2 and 5.3: file:read() doesn't work (Alexx2000) - closed.
+- 0002254: [Plugins] Services2 WFX plugin fails to import (Alexx2000) - closed.
+Double Commander - 0.9.1 (Released 2019-02-16)
+==============================================
+- 0002220: [Graphical user interface] Ошибка при настройке цветов для типов файлов (Alexx2000) - closed.
+- 0002221: [File operations] Pressing F2 on '..' causes an exception (Alexx2000) - closed.
+- 0002222: [File operations] Verify data integrity after copy/move always show error (Alexx2000) - closed.
+- 0002223: [File operations] Moving from NTFS USB stick aborted with EDateOutOfRange (Alexx2000) - closed.
+- 0002224: [Plugins] FTP plugin: SCP copies 1 Byte too much (Alexx2000) - closed.
+Double Commander - 0.9.0 (Released 2019-02-09)
+==============================================
+- 0001837: [Logic] Freeze on entering unreachable network paths (Alexx2000) - resolved.
+- 0000836: [Graphical user interface] [patch] Restore scroll position after file list refresh (Alexx2000) - closed.
+- 0001167: [Graphical user interface] Multi file selection in Syncronize dirs (Alexx2000) - closed.
+- 0001691: [Graphical user interface] The "synchronize directory" operation does not show the progress of the operation... (Alexx2000) - closed.
+- 0001725: [Viewer] Selecting a text in viewer by mouse has problems with X coordinate (Alexx2000) - closed.
+- 0001966: [File operations] Wrong file is renamed if the original file was deleted after the start of rename (Alexx2000) - closed.
+- 0001992: [Graphical user interface] Garbage lines on resizing, when flat mode is enabled (default) (Alexx2000) - closed.
+- 0002055: [File operations] Allow compressing selected file(s) to current directory (Alexx2000) - closed.
+- 0002219: [File operations] Only absolute path works in Pack Files dialog (Alexx2000) - closed.
+- 0000990: [File operations] Creation of shortcuts *.lnk in addition to symbolic links (Alexx2000) - closed.
+- 0001731: [Graphical user interface] Feature request: counter of files while moving/copying them (Alexx2000) - closed.
+- 0002067: [Graphical user interface] sync directory dialog forgets checked 'asymetric' checkbox (Alexx2000) - closed.
+- 0002088: [File operations] Can't rename file with leading blank (Alexx2000) - closed.
+- 0000270: [File operations] Панель файлов: Сделать настраиваемое отображение размера файлов (b\Kb\Mb) - closed.
+- 0000375: [Graphical user interface] GUI improvement: Making the simplification of free-disk-space figure independent from "short file size" - closed.
+- 0000705: [Default] Tries to open BitLocker ecrypted drive (Alexx2000) - closed.
+- 0000955: [Language translation] Неправильный перевод формата размера файлов - closed.
+- 0001137: [Plugins] Sorting by content-plugin columns (Alexx2000) - closed.
+- 0001254: [Graphical user interface] Hidden files: Show with half-transparent icons (Alexx2000) - closed.
+- 0001344: [Default] Separate UseConfigInProgramDir from all other settings (Alexx2000) - closed.
+- 0001598: [Logic] После отмены распаковки файла просмотрщик/редактор все равно открывается с аргументом-путем к несуществующему временному файлу (Alexx2000) - closed.
+- 0001762: [File operations] Show the processes, which lock the file from deletion. (Alexx2000) - closed.
+- 0002012: [Default] Wrong time of JPG files (Alexx2000) - closed.
+- 0002041: [File operations] Checksum generation overwrites existing checksum file without asking for such permission + other issues with this function (Alexx2000) - closed.
+- 0002073: [Default] No scroll delay when using drag and drop outside double commander (Alexx2000) - closed.
+- 0002140: [File operations] Cancelling Wipe operation leaves a subdirectory locked (undeletable) (Alexx2000) - closed.
+- 0002133: [File operations] Compare by contents - when I delete more than one row in one text file and then hit Compare button then I get error (Alexx2000) - closed.
+- 0002138: [File operations] Synchronize dirs has problems with mixed case filenames (Alexx2000) - closed.
+- 0002141: [Default] Link failure on ARM (Alexx2000) - closed.
+- 0002143: [Logic] Renaming file as the overwrite dialog action may overwrite existing files without confirmation (Alexx2000) - closed.
+- 0002148: [Graphical user interface] Item in Directory Hotlist changes to Command when importing bookmark with prefix "ccm_" (Alexx2000) - closed.
+- 0002149: [Default] doc/INSTALL.txt: mistake in instructions and small fixes (Alexx2000) - closed.
+- 0002152: [Graphical user interface] Middle click on empty space should be ignored (Alexx2000) - closed.
+- 0002159: [Graphical user interface] Inactive Sel Frame Cursor doesn't work in Brief view and Thumbnails (Alexx2000) - closed.
+- 0002172: [Default] "Horizontal Panels Mode" does not work if the "Show drive buttons" is set to off (Alexx2000) - closed.
+- 0002174: [File operations] Find and replace in files search may overwrite the wrong part of file (Alexx2000) - closed.
+- 0002180: [Default] Crash on sorting by creation date (Alexx2000) - closed.
+- 0002182: [Graphical user interface] Can't symlink file paths to clipboard from the File Properties dialog (Alexx2000) - closed.
+- 0001481: [Default] Added 3 commands (cm_ActivateTabByIndex, cm_OpenDriveByIndex, cm_MaximizePanel) (Alexx2000) - closed.
+- 0001536: [Graphical user interface] Добавить "Сравнить" в диалог "Заменить ... файлом ...?" (Alexx2000) - closed.
+- 0002083: [Graphical user interface] Updating URL in the "About" window to HTTPS (Alexx2000) - closed.
+- 0001612: [Viewer] Viewer is Slow When Lines are Long (Alexx2000) - closed.
+- 0001941: [Viewer] Allow to change default tab stop value in settings (Alexx2000) - closed.
+- 0002072: [Default] Wrong panel scrolling when using drag and drop inside double commander (Alexx2000) - closed.
+- 0000197: [Plugins] ssh support (Alexx2000) - closed.
+- 0001300: [File operations] Synchronize Dirs please activate "Only Selected"" (Alexx2000) - closed.
+- 0001719: [Plugins] FTP shows ".." parent directory entry without access rights (Alexx2000) - closed.
+- 0001960: [Default] Add BLAKE2b, BLAKE2bp hash sum algorithms (Alexx2000) - closed.
+- 0002060: [Graphical user interface] Sync dirs: weird focus causes unfortunate situations (Alexx2000) - closed.
+- 0002061: [Graphical user interface] Sync dirs: space to cycle through file marking (Alexx2000) - closed.
+- 0001620: [File operations] Create relative symlink (Alexx2000) - closed.
+- 0001943: [Graphical user interface] Меняется позиция курсора при смене панели мышкой (Alexx2000) - closed.
+- 0000230: [File operations] Please provide SCP, SFTP functionality (Alexx2000) - closed.
+- 0001004: [Graphical user interface] Sorting WCX plugins using Drag&Drop issue - closed.
+- 0002158: [File operations] Sync dir on network drive cause popup messages (Alexx2000) - closed.
+- 0001750: [Logic] Show command line after add path / filename (Alexx2000) - closed.
+Double Commander - 0.8.4 (Released 2018-08-18)
+==============================================
+- 0001538: [Default] Access violation при сравнении некоторых больших файлов (Alexx2000) - closed.
+- 0001540: [Viewer] Unsupported viewer encoding при просмотре (F3) большого архива 7z (Alexx2000) - closed.
+- 0001907: [Graphical user interface] Delete Operation Resets Cursor Position in the Navigation Pane (Alexx2000) - closed.
+- 0001974: [Plugins] Entering path wfx://FTP\name\ causes Access Violation (Alexx2000) - closed.
+- 0001980: [Plugins] FTP plugin and master password issues (Alexx2000) - closed.
+- 0002006: [Plugins] zip.wcx doesn't show currently tested filename during Test Archive operation (Alexx2000) - closed.
+- 0002107: [Logic] Дублирующиеся (лишние) результаты поиска (Alexx2000) - closed.
+- 0002116: [Plugins] The STFP plugin reproducably crashes (Alexx2000) - closed.
+- 0002080: [Viewer] Error when select folder in Quick View mode (Alexx2000) - closed.
+- 0002099: [File operations] Symbolic links not copied in Windows (Alexx2000) - closed.
+- 0002079: [Default] Closing takes a long time (crashes on exit) (Alexx2000) - closed.
+- 0002126: access violation error (Alexx2000) - closed.
+Double Commander - 0.8.3 (Released 2018-06-03)
+==============================================
+- 0002068: [Graphical user interface] Text in the tab title does not change after swapping panels (Alexx2000) - closed.
+- 0001673: [File operations] crash comparing files by content (Alexx2000) - closed.
+- 0000589: [File operations] Drag and Drop didn't work (Alexx2000) - closed.
+- 0001600: [Viewer] Horizontal scrolling stops working after window resize despite the scroll position is not at the start (Alexx2000) - closed.
+- 0001840: [Viewer] List index out of bound in Viewer under Windows 10. (Alexx2000) - closed.
+- 0001929: [Plugins] FTP download operation does not finish properly (Alexx2000) - closed.
+- 0001951: [Graphical user interface] font in path view too big and not possible to change, highdpi trouble (Alexx2000) - closed.
+- 0001984: [File operations] Part of a folder name should not be considered as an extension (Alexx2000) - closed.
+- 0002031: [File operations] High CPU load and hanged move operation after retrying (Alexx2000) - closed.
+- 0002033: [Language translation] Update german translation doublecmd.de.po 0.8.2 beta build 8010 (Alexx2000) - closed.
+- 0002040: [Viewer] List index (68) out of bounds when viewing multiple graphics files and deleting as I go (Alexx2000) - closed.
+- 0002051: [Graphical user interface] HiDPI: incorrect scaling of certain controls (Alexx2000) - closed.
+- 0002059: [Graphical user interface] HiDPI: Font size is not taken into account to draw rows in File List (Alexx2000) - closed.
+Double Commander - 0.8.2 (Released 2018-02-23)
+==============================================
+- 0001741: [Graphical user interface] mounting folders with autofs shows double entries for each drive letter (Alexx2000) - closed.
+- 0001824: [Graphical user interface] Differ: fixed width of line numbers column (big numbers and big fonts do not fit) (cordylus) - closed.
+- 0001999: [File operations] Pressing Enter in the Search dialog no longer works (Alexx2000) - closed.
+- 0001931: [Graphical user interface] Misleading tooltip to quote files and paths in the File Associations dialog (Alexx2000) - closed.
+- 0001977: [Default] Changing DC website URL in the "About" window (Alexx2000) - closed.
+- 0001978: [Viewer] "Unable to create file" when trying to save an image in Viewer has an option to abort the whole program (Alexx2000) - closed.
+- 0001987: [Plugins] Deleting a file from the root of a zip archive (default wcx plugin) deletes all files with the same name from all subdirectories (Alexx2000) - closed.
+- 0001996: [Language translation] Typo in German Translation makes natural sorting method in "File view"-settings unselectable (Alexx2000) - closed.
+- 0001998: [File operations] The "Quick Search" function for first letter of Chinese PinYin is not working in 0.8.1 version while it's work fine in 0.7.8 (Alexx2000) - closed.
+- 0002002: [Viewer] Viewer search next/previous fault (Alexx2000) - closed.
+- 0002008: [File operations] Не работает поиск в некоторых файлах (cordylus) - closed.
+- 0002009: [Plugins] Double commander crashed by wlxmplayer when viewing avi file (Alexx2000) - closed.
+Double Commander - 0.8.1 (Released 2017-12-24)
+==============================================
+- 0001857: [Default] Infinite loop caused by TCustomGrid (Alexx2000) - closed.
+- 0001957: [Default] Long loading time on Windows (delay on splash screen, regression in 0.8) (Alexx2000) - closed.
+- 0001958: [Graphical user interface] Wrong encoding of the system error message in network locations (regression in 0.8) (Alexx2000) - closed.
+- 0001961: [File operations] Unpack all and execute doesn't work on Windows anymore (regression in 0.8) (Alexx2000) - closed.
+- 0001971: [Default] cm_ChangeDir with additional parameters and spaces is fail (Alexx2000) - closed.
+- 0001615: [Graphical user interface] After quitting Flat view DC should switch to the directory with the file under cursor (Alexx2000) - closed.
+- 0001954: [Graphical user interface] Leftovers of the last selected internal command after the list has been filtered to 0 results (Alexx2000) - closed.
+- 0001956: [Default] Crash by clicking Recycle Bin menu items from button (Alexx2000) - closed.
+- 0001963: [Default] Incorrect use of i386 assembly (Alexx2000) - closed.
+- 0001962: [File operations] Verify after copy does not work when logging disabled (Alexx2000) - closed.
+Double Commander - 0.8.0 (Released 2017-12-11)
+==============================================
+- 0001387: [File operations] Поиск по файлам с проверкой содержимого изменяет access time всех проверяемых файлов (Alexx2000) - closed.
+- 0000577: [File operations] Возможность создания символической ссылки на каталог (Alexx2000) - closed.
+- 0000678: [File operations] File type converter for viewer not working (Alexx2000) - closed.
+- 0000695: [Viewer] Standard Mac OS shortcuts for doesn't work in Viewer (Alexx2000) - closed.
+- 0000851: [Graphical user interface] Support DPI scaling (Alexx2000) - closed.
+- 0000997: [File operations] DC doesn't update descript.ion on file rename (Alexx2000) - closed.
+- 0001008: [Plugins] Please provide an SFTP plugin for Mac OS X 64-bit (Alexx2000) - closed.
+- 0001059: [Graphical user interface] Наложение элементов интерфейса - closed.
+- 0001132: [Graphical user interface] [Patch] Most icons doesn't look right on Mac OS X (Alexx2000) - closed.
+- 0001345: [Graphical user interface] Root [..] should always be the topmost entry (Alexx2000) - closed.
+- 0001456: [Graphical user interface] Не исчезает подсвеченный мышкой каталог в адресной строке (Alexx2000) - closed.
+- 0001509: [Graphical user interface] When you type an address in the address bar and got it wrong, you don't have a chance to correct the typo (Alexx2000) - closed.
+- 0001511: [Graphical user interface] Find files. No need "ansi" encoding (Alexx2000) - closed.
+- 0001569: [File operations] \ in checksum (Alexx2000) - closed.
+- 0001705: [File operations] Opening terminal while moving file keeps the file open on source drive (Alexx2000) - closed.
+- 0001727: [Graphical user interface] Disks are duplicated in the tree view panel if it was not opened at start (Alexx2000) - closed.
+- 0001749: [Graphical user interface] MacOS-style Hotkeys to search text in viewer (Alexx2000) - closed.
+- 0001768: [Default] SVG support in Viewer and thumbnails (Alexx2000) - closed.
+- 0001850: [Default] http://doublecmd.github.io/doc/en/Variables.html not found from Help in DC - closed.
+- 0001882: [File operations] Creating new folder from context menu fails (Alexx2000) - closed.
+- 0001913: [Viewer] Drag and drop delay causes for wrong file selection (Alexx2000) - closed.
+- 0001916: [Graphical user interface] copying networked path is incorrect (Alexx2000) - closed.
+- 0001947: [Language translation] Update on greek translation (Alexx2000) - closed.
+- 0001234: [File operations] Wrong estimated remaining time, if total amount of time is greather than 24 hours (Alexx2000) - closed.
+- 0001383: [Graphical user interface] Drag-n-Drop: Не меняется курсор мыши при зажатии/отпускании Shift, если не двигать курсор (Alexx2000) - closed.
+- 0001393: [Editor] Syntax Highlighter - Built in Editor (F4) (Alexx2000) - closed.
+- 0001475: [Graphical user interface] 22x22 should be 24x24 (Alexx2000) - closed.
+- 0001603: [Graphical user interface] Clicking on search result should bring main window to front (Alexx2000) - closed.
+- 0001639: [Default] Access violation when changing the language, no crash followed (Alexx2000) - closed.
+- 0001643: [Graphical user interface] Sorting direction arrow is missing when switching from Full view to Brief view. (Alexx2000) - closed.
+- 0001693: [Graphical user interface] MultiRename tool should use the overwrite dialog that is shown when copying files (Alexx2000) - closed.
+- 0001698: [Default] Cannot delete file/directory that is already deleted (Alexx2000) - closed.
+- 0001714: [Viewer] When opening a search window in the viewer, search field should be filled with currently selected text (Alexx2000) - closed.
+- 0001771: [File operations] Context menu commands run with wrong current directory (Alexx2000) - closed.
+- 0001772: [Graphical user interface] Error: Pack to file ... - Function aborted by user (Alexx2000) - closed.
+- 0001775: [Default] Command of View Action in File associations runs multiple times when multiple files are selected (Alexx2000) - closed.
+- 0001780: [Plugins] ftp.wfx: cannot enter the plugin menu after adding an entry with empty name (Alexx2000) - closed.
+- 0001785: [Graphical user interface] Interface partially covered and 5th line always selected (Alexx2000) - closed.
+- 0001788: [Default] Rename a directory. Merge? Yes. Cannot rename file c:\folder1 to folder2 (Alexx2000) - closed.
+- 0001802: [Viewer] Keyboard shortcuts to change encoding in Viewer (Alexx2000) - closed.
+- 0001804: [Default] Фильтр в окне "выберите внутренню команду" регистрозависимый для нелатинских символов (Alexx2000) - closed.
+- 0001820: [Graphical user interface] Warn before start in multi-rename tool if there is a name conflict (Alexx2000) - closed.
+- 0001821: [Default] Duplicate rows in multi-rename tool after file overwrite in name conflict situation (Alexx2000) - closed.
+- 0001822: [Graphical user interface] Hi-dpi: Copy (Alexx2000) - closed.
+- 0001823: [Graphical user interface] Hi-dpi DefTemplate dlg (Alexx2000) - closed.
+- 0001827: [Default] Error: Extract file - data is bad, but unpacks successfully after Skip (zip archive) (Alexx2000) - closed.
+- 0001829: [Default] Auto refresh and recent files coloration (Alexx2000) - closed.
+- 0001397: [Graphical user interface] Двойной щелчок по столбцу сортировки не воспринимается как два клика (Alexx2000) - closed.
+- 0001427: [Graphical user interface] Renaming from quick search displays text field over the wrong file (Alexx2000) - closed.
+- 0001627: [Graphical user interface] Btn in the bottom panel, on scale 200% (Alexx2000) - closed.
+- 0001645: [Graphical user interface] The long name of a file or folder is truncated when it is the only file/folder on the drive (Alexx2000) - closed.
+- 0001694: [Default] Replace by in the Find files dialog should understand Regexp (\0, \1, \r, \n) when the appropriate checkbox is set (Alexx2000) - closed.
+- 0001737: [Graphical user interface] Do not close the rename field if the rename has failed (Alexx2000) - closed.
+- 0001769: [Graphical user interface] Escape to cancel editing of fields in Custom columns settings (Alexx2000) - closed.
+- 0001776: [File operations] Filenames not passed on correctly to MP3Tag (Alexx2000) - closed.
+- 0001828: [Graphical user interface] DoubleCommander in taskbar on second monitor not visible (Alexx2000) - closed.
+- 0001841: [Graphical user interface] Rename field has bad size and position in columns view with horizontal scrolling or with name column not in the first position (Alexx2000) - closed.
+- 0001852: [File operations] Directory symlink is NTFS junction (Alexx2000) - closed.
+- 0001466: [Logic] Mac: must use hotkeys Meta+C/ V/ X (Alexx2000) - closed.
+- 0001631: [Graphical user interface] Формат размера файла с двумя знаками после запятой (Alexx2000) - closed.
+- 0001666: [File operations] Невозможна проверка контрольных сумм SHA224 из файлов (Alexx2000) - closed.
+- 0000171: [Graphical user interface] Add option: "Single Click To Open Files" (Alexx2000) - closed.
+- 0000943: [File operations] Please support paths longer than 259 chars on Windows (Alexx2000) - closed.
+- 0001050: [File operations] option to copy network filenames as UNC path (Alexx2000) - closed.
+- 0001484: [Default] Comments of folders are not processing when copying and moving folders (Alexx2000) - closed.
+- 0001583: [Graphical user interface] Wish: option "show icons on buttons" (Alexx2000) - closed.
+- 0001657: [Default] Lua: Error to use internal environment variables from parent DC (Alexx2000) - closed.
+- 0001435: [File operations] Multi rename - names from txt file (Alexx2000) - closed.
+- 0001467: [Language translation] Updated Czech translation (Alexx2000) - closed.
+- 0001470: [Default] Add an option to copy the working directory name to the clipboard where the cursor is at the first row in the file view panel (Alexx2000) - closed.
+- 0001479: [Graphical user interface] Add an option to change to parent folder upon double-clicking empty part of file list (Alexx2000) - closed.
+- 0001599: [Editor] После попытки открыть несуществующий файл окно редактора остается висеть на панели задач - closed.
+- 0001665: [Default] Ctrl + side arrow on an archive opens an empty temp directory in the other panel when an archive is already opened there - closed.
+- 0001800: [File operations] Ошибка проверка CRC на "русскоязычными" файлами (Alexx2000) - closed.
+- 0000194: [Graphical user interface] Extend filenames without extension to the max (Alexx2000) - closed.
+- 0001751: [Graphical user interface] Size is padding with extra spaces at the left (Alexx2000) - closed.
+- 0001468: [Viewer] Files without read permission appears like empty files (Alexx2000) - closed.
+Double Commander - 0.7.8 (Released 2017-02-24)
+==============================================
+- 0001311: [Graphical user interface] Opening a zip file (example *.7z) in a tab, then switching to another tab and back to the original -> error. (Alexx2000) - closed.
+- 0000926: [Plugins] Archive is shown empty in DC, but it is not so (Alexx2000) - closed.
+- 0000960: [File operations] Control+left/right arrow as in Total Commander (Alexx2000) - closed.
+- 0001608: [Default] Search in archives by content fails on zip archives with a comment, including any master.zip downloaded from GitHub (Alexx2000) - closed.
+- 0001634: [Graphical user interface] List filenames of selected files that are going to be deleted when asking for confirmation (Alexx2000) - closed.
+- 0001647: Confusing button focus order in the file deletion confirmation dialog (Alexx2000) - closed.
+- 0001690: [Graphical user interface] Выскакивает сообщение "Операция была отменена пользователем" после отмены удаления через системное меню (Alexx2000) - closed.
+- 0001695: [Graphical user interface] The dialog doesn't have Abort option: File ... is marked as read-only/hiden/system. Delete it? (Alexx2000) - closed.
+- 0001702: [Default] File comparison reports that files are identical when trailing bytes are different (Alexx2000) - closed.
+- 0001704: [Graphical user interface] Pressing the menu key moves mouse to "Actions" submenu item (Alexx2000) - closed.
+- 0001715: [Default] EListError: List index (-1) out of bounds after pressing a menu key with an empty file list (Alexx2000) - closed.
+- 0001728: [Graphical user interface] Hide drives with numbers only label corresponding to installed snap packages in Ubuntu (Alexx2000) - closed.
+- 0001681: [Default] Support free pascal >= 3.0.1 (Alexx2000) - closed.
+- 0001469: [Plugins] 7z Archiver can not handle locked files (Alexx2000) - closed.
+Double Commander - 0.7.7 (Released 2016-12-24)
+==============================================
+- 0001255: [File operations] It's not possible to read some files (file names) from FTP destination . (Alexx2000) - closed.
+- 0001073: [Default] Start exe from command line should not inherit cashed PATH variable (Alexx2000) - closed.
+- 0000859: [File operations] Moving directory does not preserve the directory timestamps (Alexx2000) - closed.
+- 0001606: [Graphical user interface] Search dialog doesn't find anything if it's shown for the first time (Alexx2000) - closed.
+- 0001616: [Graphical user interface] После повторного выбора вида "Эскизы" переключается на "Подробный" (Alexx2000) - closed.
+- 0001653: [File operations] After cancelling extraction from paused state, the partially extracted file is locked, and thus cannot be deleted or overwritten (Alexx2000) - closed.
+- 0001655: [File operations] After cancelling rar unpacking, the .rar file remains locked (Alexx2000) - closed.
+- 0001668: [Default] Double commander causes Dual-GPU MacBook Pro to switch to high-performance graphics (Alexx2000) - closed.
+Double Commander - 0.7.6 (Released 2016-10-29)
+==============================================
+- 0001071: [Default] cm_LeftOpenDrives fails on fuse mounts (tested with sshfs and smbnetfs) (Alexx2000) - closed.
+- 0001369: [File operations] Directory Hotlist is not working from within archives (Alexx2000) - closed.
+- 0001519: [Default] Provide high-res icon for use in the window switcher (Alexx2000) - closed.
+- 0001526: [Language translation] New improvements for Dutch translation (Alexx2000) - closed.
+- 0001529: [Default] Drives buttons and drives list should not show duplicates for volumes mounted via GPT's PARTUUID of PARTLABEL in fstab (Alexx2000) - closed.
+- 0001530: [File operations] MTP file transfer doesn't update overall progress (Alexx2000) - closed.
+- 0001534: [File operations] Verify checksum doesn't accept checksums by cksfv (Alexx2000) - closed.
+- 0001539: [Default] Out of memory при сравнении большого бинарного файла с маленьким текстовым (Alexx2000) - closed.
+- 0001543: [Graphical user interface] edit remote files (Alexx2000) - closed.
+- 0001544: [Plugins] Difference .7z archives size result at compression level ultra - normal - max between Double Commander vs 7z Archiver (Alexx2000) - closed.
+- 0001552: [Plugins] WDX: Encode path components in 8.3 format, if possible (Alexx2000) - closed.
+- 0001563: [File operations] File and directory with the same name (Alexx2000) - closed.
+- 0001573: [Graphical user interface] Options dlg: scroll left list (Alexx2000) - closed.
+- 0001576: [Default] DC will not open when Language is set to "Japanese" (Alexx2000) - closed.
+- 0001168: [File operations] Close the Syncronize directories window while compare is running (Alexx2000) - closed.
+- 0001473: [File operations] Backspace and Delete broken while renaming file (Alexx2000) - closed.
+- 0001578: [Graphical user interface] OSX: app not focused (Alexx2000) - closed.
+Double Commander - 0.7.5 (Released 2016-09-10)
+==============================================
+- 0001510: [Graphical user interface] Find files. No need both "utf8"/"utf8 with bom" (Alexx2000) - closed.
+- 0001499: [Default] "Git bash here" does not work (Alexx2000) - closed.
+- 0001523: [Language translation] Completely revised Dutch translation (Alexx2000) - closed.
+- 0001422: [Editor] Hot keys in the internal editor (Alexx2000) - closed.
+- 0001288: [Plugins] Same configuration with sevenzip plugin - different results when compressing the same files in Explorer or doublecmd (Alexx2000) - closed.
+- 0001520: [Default] Some files are invisible (Alexx2000) - closed.
+- 0001022: [Graphical user interface] DoublCmd splash screen does not pick up GTK dark theme (Alexx2000) - closed.
+- 0001476: [Viewer] Division by zero при просмотре файла .jpg нулевого размера (Alexx2000) - closed.
+Double Commander - 0.7.4 (Released 2016-08-21)
+==============================================
+- 0001124: [File operations] Incorrect Drag 'n' Drop from external arc apps (Alexx2000) - closed.
+- 0001074: [File operations] CTRL+V and CTRL+C do not work acrsoss Remote Desktop (Alexx2000) - closed.
+- 0001431: [File operations] Option to silent open files inside ZIPs (Alexx2000) - closed.
+- 0001446: [Plugins] Getting folder size in FTP client is not implemented (Alexx2000) - closed.
+- 0001447: [Graphical user interface] Assign 'Up' and 'Down' keys in the MessageBox form to move the selected button upwards and downwards instead of left and right (Alexx2000) - closed.
+- 0001455: [File operations] Crash on editing file inside ZIP and packing (Alexx2000) - closed.
+- 0001460: [Default] Internal Diff tool does not respect custom font (size, type, ...) as defined in DC (Alexx2000) - closed.
+- 0001478: [Graphical user interface] Current directory displayed improperly after "cd .." command (Alexx2000) - closed.
+- 0001480: [File operations] Taking screenshots w PicPick causes unhandled exception in DC when it's in Thumbnails view (Alexx2000) - closed.
+- 0001483: [File operations] Ghost folders on 7z archives viewed with 7zFM (Alexx2000) - closed.
+- 0001489: [Language translation] Update german translation doublecmd.de.po 0.7.3 beta build 6979 (Alexx2000) - closed.
+- 0001491: [Graphical user interface] built in Editor Search Dialog Size (Alexx2000) - closed.
+Double Commander - 0.7.3 (Released 2016-07-02)
+==============================================
+- 0000887: [Graphical user interface] & (ampersand) characters are wrongly displayed on dialogs (denisbisson) - closed.
+- 0000904: [File operations] Can't list files on FTP server in dir which contains space in dir name - closed.
+- 0001031: [Default] Invalid selection on compare by content (Alexx2000) - closed.
+- 0001182: [Default] Name cannot have directory separators: (Alexx2000) - closed.
+- 0001329: [File operations] shift enter to confirm delete dialog (Alexx2000) - closed.
+- 0001339: [Graphical user interface] Option Frame Cursor no longer works (Alexx2000) - closed.
+- 0001353: [Language translation] spelling and grammar errors (Alexx2000) - closed.
+- 0001364: [Default] EAccessViolation if both panel have many file with description (Alexx2000) - closed.
+- 0001384: [Graphical user interface] Направление сортировки по умолчанию для столбцов "Размер" и "Дата" должно быть обратным везде (Alexx2000) - closed.
+- 0001389: [Language translation] Untranslated string in Russian translation (Alexx2000) - closed.
+- 0001394: [Graphical user interface] "Дополнительные настройки вкладок каталогов изменены." (Alexx2000) - closed.
+- 0001399: [Graphical user interface] Can't use Ctrl+Z for undo when renaming a file, "Edit comment" window is opened instead (Alexx2000) - closed.
+- 0001406: [Graphical user interface] При переходе в режим "Эскизы", если курсор установлен на элемент, который будет последним в ряду, первый столбец не показывается (Alexx2000) - closed.
+- 0001411: [Language translation] Update german translation doublecmd.de.po (Alexx2000) - closed.
+- 0001423: [Editor] Клавиша "DEL" не работает должным образом в редакторе (Qt4) (Alexx2000) - closed.
+- 0001436: [File operations] Периодические ошибки при входе и выходе в любой архив. (Alexx2000) - closed.
+- 0001444: [Language translation] Update german translation doublecmd.de.po 0.7.2 beta (Alexx2000) - closed.
+- 0000946: [File operations] File copy fails with "Can't create file" message when overwritting file with hidden attribute (Alexx2000) - closed.
+- 0001271: [Graphical user interface] Sorting not consistent with displayed sorting order (Alexx2000) - closed.
+- 0001378: [Graphical user interface] Крэш при сворачивании окна временной распаковки файла (Alexx2000) - closed.
+- 0001172: [Default] Locked Tabs setting get lost (Alexx2000) - closed.
+Double Commander - 0.7.2 (Released 2016-05-21)
+==============================================
+- 0001357: [Graphical user interface] List index (0) out of bounds (Alexx2000) - closed.
+- 0001363: [Plugins] DC get freezing on openig multipart RAR archives (Alexx2000) - closed.
+- 0000628: [File operations] Many unnecessary windows (Alexx2000) - closed.
+- 0001314: [Plugins] Plugin including the Interfaces unit crashes DC when unloading the module (Alexx2000) - closed.
+- 0001338: [Default] Crash on Start Application. (Alexx2000) - closed.
+- 0001354: [File operations] Cannot unzip n files to current dir (Alexx2000) - closed.
+- 0001356: [File operations] Unhandled exception: Exception: No files selected. (Alexx2000) - closed.
+- 0001360: [Graphical user interface] Can't type numbers on file name on copy/move dialog (Alexx2000) - closed.
+- 0001341: [Plugins] FTPS Implicit not supported (Alexx2000) - closed.
+- 0001350: [File operations] quick search does not work with dot "." as the first character (Alexx2000) - closed.
+Double Commander - 0.7.1 (Released 2016-03-27)
+==============================================
+- 0000407: [Language translation] Updated Slovenian translation (Alexx2000) - closed.
+- 0001315: [Default] doublecmd FTBFS on arm64 (Alexx2000) - closed.
+- 0001316: [Default] doublecmd.desktop "Categories" in group "Desktop Entry" contains a deprecated value "Application" (Alexx2000) - closed.
+- 0001320: [Language translation] updates greek translation, DC .7.0 beta compatibility (Alexx2000) - closed.
+- 0001321: [Language translation] german translation against 0.70 latest beta (Alexx2000) - closed.
+- 0001322: [File operations] Error while Search Text in files (ALT+F7) if using UCS (Alexx2000) - closed.
+- 0001323: [Graphical user interface] GUI stops responding to mouse input after overriding file over ftp (Alexx2000) - closed.
+- 0001324: [Language translation] Translating the pop-up comment on the shortcut (Alexx2000) - closed.
+- 0001325: [File operations] Clicking on "Go to file" button when search in progress causes doublecmd crash (Alexx2000) - closed.
+- 0001332: [Graphical user interface] Ukrainian translation of selected files count (Alexx2000) - closed.
+- 0001335: [File operations] Random crashes when searching (Alt-F7). 'Can't focus' error (Alexx2000) - closed.
+Double Commander - 0.7.0 (Released 2016-03-14)
+==============================================
+- 0000636: [Logic] Undetermined result in function TWFXModule.WfxFindNext (Alexx2000) - closed.
+- 0000860: [Plugins] WFX plugin error (Alexx2000) - closed.
+- 0000883: [Plugins] SFTP plugin: "Error reading from file" during copy or view (Alexx2000) - closed.
+- 0000962: [Default] Cannot disable tool tips / Не отключаются всплывающие подсказки (Alexx2000) - closed.
+- 0001051: [Graphical user interface] Show MessageBox if compared files are identical (Alexx2000) - closed.
+- 0001102: [Graphical user interface] Размытая иконка в доке после запуска (Alexx2000) - closed.
+- 0001144: [Viewer] Add option in the viewer to center images (Alexx2000) - closed.
+- 0001190: [Graphical user interface] Drive buttons behave wrong when one drive's label is a substring of other drive's label (Alexx2000) - closed.
+- 0001220: [File operations] Swapping the panels (ctrl+U) loses the file selection (Alexx2000) - closed.
+- 0001274: [Graphical user interface] Icons in main menu disappear after hitting Save/Apply in Options (Alexx2000) - closed.
+- 0001277: [Default] Not all disconnected network drives listed in drive list (Alexx2000) - closed.
+- 0001279: [Default] Не обновляются GetFileComment (комментарии) в панели после редактирования(Ctrl+Z) (Alexx2000) - closed.
+- 0001280: [Default] Отсутствуют GetFileComment (комментарии) в панели после "Поиск Файлов" - "Файлы на панель" (Alexx2000) - closed.
+- 0001291: [Default] Scrolling through files with long names is slow (Alexx2000) - closed.
+- 0001296: [Graphical user interface] Sorting by file type cannot be reversed (Alexx2000) - closed.
+- 0000221: [Default] I need a separate tree in the double command (Alexx2000) - closed.
+- 0000489: [Plugins] Реализовать правку файла по F4 прямо в архиве (с поддержкой сторонних плагинов) (Alexx2000) - closed.
+- 0000584: [Graphical user interface] Ошибка при открытии файла (Alexx2000) - closed.
+- 0000828: [Default] Drap and Drop URL short cuts - closed.
+- 0000912: [File operations] drag and drop the url from Chrome browser does not create the .url file (Alexx2000) - closed.
+- 0000939: [Plugins] wfx ftp plugin does not support unicode filenames (Alexx2000) - closed.
+- 0001116: [Language translation] Cannot change language of column names in panel (Alexx2000) - closed.
+- 0001189: [File operations] Add option to find files/text in files inside archives (Alexx2000) - closed.
+- 0001206: [Default] Network location "\\" lost after restart (Alexx2000) - closed.
+- 0001209: [Graphical user interface] Choosing a drive using the keyboard doesn't work if the active language is not English or CAPS LOCK is off (Alexx2000) - closed.
+- 0001214: [File operations] Drag & Drop a file to the same source (Alexx2000) - closed.
+- 0001222: [File operations] Cannot unzip file, if I type folder "nnn" or "./nnn" (Alexx2000) - closed.
+- 0001251: [File operations] FTP - some characters with diacritics in filenames generates errors. (Alexx2000) - closed.
+- 0001265: [Graphical user interface] .cur icons not cached correctly (Alexx2000) - closed.
+- 0001269: [File operations] Access violation when trying to open certain zip file (Alexx2000) - closed.
+- 0001025: [Graphical user interface] Added command cm_CurrentOpenDrives which behaves like cm_LeftOpenDrives but for the currently active panel. - closed.
+- 0001026: [Graphical user interface] cm_QuickFilter, filter=toggle does not toggle - closed.
+- 0001342: [Editor] On file editing keep cursor in text. (Alexx2000) - closed.
+- 0000122: [Graphical user interface] "Tab sets" for both panes - closed.
+- 0001177: [Plugins] Additional characters not displayed (Alexx2000) - closed.
+- 0001170: [Editor] Editor should support Unicode (Alexx2000) - closed.
+Double Commander - 0.6.6 (Released 2015-10-11)
+==============================================
+- 0001158: [File operations] No feedback about missing access right (Alexx2000) - closed.
+- 0000644: [File operations] Panel of operations doesn't signal messages (questions) to the user / Не всплывает окно подтверждения - closed.
+- 0000934: [Graphical user interface] no refresh the file/directory-list (Alexx2000) - closed.
+- 0001142: [Graphical user interface] Directory color highlight (Alexx2000) - closed.
+- 0001151: [Graphical user interface] Column width settings are not preserved when restarted (Alexx2000) - closed.
+- 0001155: [Graphical user interface] Time not displayed in datetime column (Alexx2000) - closed.
+- 0001186: [Logic] CRC-file not found due to case sensitivity error (Alexx2000) - closed.
+- 0001188: [Default] Infinite thumbnails creation when switching to thumbnails view at %LOCALAPPDATA%\doublecmd\thumbnails (Alexx2000) - closed.
+- 0001157: [File operations] 'overwrite all' user interaction dialog keep requesting permission (sync folder) (Alexx2000) - closed.
+- 0001180: [Plugins] sevenzip configure don't work as expected (Alexx2000) - closed.
+- 0001179: [Plugins] Archiv Test raises error (wrong extension) (Alexx2000) - closed.
+- 0001183: [Plugins] 'Test Archive', don't show an error message (Alexx2000) - closed.
+Double Commander - 0.6.5 (Released 2015-08-16)
+==============================================
+- 0000455: [Plugins] Copying a directory to FTP and it already exists displays "Unknown error" message (Alexx2000) - closed.
+- 0001145: [Graphical user interface] Add support for PSD (Photoshop) files when viewing files as thumbnails in the file view panels (Alexx2000) - closed.
+- 0001153: [Default] Empty variables %Dl and %Dr for the root directory (Alexx2000) - closed.
+- 0001147: [Plugins] Samba: Copying error (Alexx2000) - closed.
+Double Commander - 0.6.4 (Released 2015-07-12)
+==============================================
+- 0000925: [File operations] Проблемас открытием файлов в сторонних программах если в пути файла есть русские символы - closed.
+- 0001018: [File operations] Cannot change owner/group of files when DC run with ROOT privileges - closed.
+- 0001075: [Viewer] Second image is not resized to fit windows (Alexx2000) - closed.
+- 0001115: [File operations] Cannot open file with space, [ or ] characters in directory name (Alexx2000) - closed.
+- 0001118: [Graphical user interface] do not reset column-width after "Mark / Compare Directories" (Alexx2000) - closed.
+- 0001134: [Graphical user interface] Invalid encoding in message dialogs (Alexx2000) - closed.
+- 0001129: [File operations] Cannot change owner/group under root user (Alexx2000) - closed.
+Double Commander - 0.6.3 (Released 2015-06-13)
+==============================================
+- 0001100: [Default] doc/changelog.txt not updated since version 0.5.1 (Alexx2000) - closed.
+- 0001068: [Graphical user interface] Зависание на выборе атрибутов при создании шаблона (Alexx2000) - closed.
+- 0001103: [Default] Select newly created directory automatically. (Alexx2000) - closed.
+- 0001104: [Graphical user interface] After renaming, selection moves one position down (or up) (Alexx2000) - closed.
+- 0000992: [File operations] Find Files fails with directory does not exist message if folder contains a ‘;’ character - closed.
+Double Commander - 0.6.2 (Released 2015-05-10)
+==============================================
+- 0000693: [Plugins] FTP plugin: incorrect implementation UFT8 charset under Windows (Alexx2000) - closed.
+- 0000583: [Default] Toolbar hotkeys didn't work (Alexx2000) - closed.
+- 0000704: [Graphical user interface] кнопки дисков наезжают друг на друга (Alexx2000) - closed.
+- 0000812: [File operations] Stuck & crash when trying to transfer large file from FTP (Alexx2000) - closed.
+- 0000906: [Plugins] progress bar not showing progress of ftp transfer (Alexx2000) - closed.
+- 0000965: [File operations] ftp: password is always requested though the connection is marked "anonymous" (Alexx2000) - closed.
+- 0001038: [Graphical user interface] Deleting a file does not update the flat view (Alexx2000) - closed.
+- 0001040: [File operations] Synchronize Directory give a blocking error of "Access Violation" when try to Synchronize with network folder (Alexx2000) - closed.
+- 0001063: [Language translation] Орфографические ошибки в русском переводе (Alexx2000) - closed.
+- 0001081: [Plugins] DC падает при попытке настроить плагин FTP (Alexx2000) - closed.
+- 0001083: [Graphical user interface] Flat control panel buttons checkbox (Alexx2000) - closed.
+Double Commander - 0.6.1 (Released 2015-03-28)
+==============================================
+- 0001053: [Default] Fix build under FreeBSD (Alexx2000) - closed.
+- 0000749: [Default] FTP white screen after timeout (Alexx2000) - closed.
+- 0000921: [Default] Do not remember the folder on the disk / Не запоминает папку на диске (Alexx2000) - closed.
+- 0001041: [Graphical user interface] Hot Key Configuration freezes GUI and crashed app (Alexx2000) - closed.
+- 0001046: [Default] Access Violation Error (Alexx2000) - closed.
+- 0001047: [File operations] Crash during file copying (Alexx2000) - closed.
+- 0001057: [Plugins] FTP connection cannot be deleted (Alexx2000) - closed.
+- 0000567: [Plugins] Don't close log window after ftp disconnect / Не убирается консоль после выхода с ftp (Alexx2000) - closed.
+- 0000826: [Language translation] Languaje Spanish error (Alexx2000) - closed.
+- 0000891: [Graphical user interface] Crash in file compare while scrolling (Alexx2000) - closed.
+- 0000905: [Plugins] FTP reconnecting problem (Alexx2000) - closed.
+- 0000971: [Default] Listing of hidden files (Alexx2000) - closed.
+- 0001003: [Logic] Open terminal (F9) does not go to the current directory (but to home) (Alexx2000) - closed.
+- 0001007: [Default] Incorrect FSF address in doublecmd-kde.py file (Alexx2000) - closed.
+- 0001010: [Language translation] Please convert CR/LF to LF in HTML files (doublecmd-help) (Alexx2000) - closed.
+- 0001011: [Language translation] Please optimize PNG images (doublecmd-help) (Alexx2000) - closed.
+- 0001012: [Default] Please clean static libs from plugins (Alexx2000) - closed.
+- 0001020: [Plugins] WCX plugins exception (Alexx2000) - closed.
+- 0001030: [Language translation] german translation for DC-beta 2015-Feb-08 (Alexx2000) - closed.
+- 0001034: [Language translation] Language Russian error (Alexx2000) - closed.
+- 0001027: [Plugins] Ошибка при копировании из сети (Alexx2000) - closed.
+- 0000857: [Editor] More features for text viewer - closed.
+Double Commander - 0.6.0 (Released 2015-02-09)
+==============================================
+- 0000760: [File operations] incorrect running parameters for program "Compare by Contents" (Alexx2000) - closed.
+- 0000098: [File operations] Панель файлов: Ctrl+B - показать все файлы как в TC (Alexx2000) - closed.
+- 0000691: [Graphical user interface] [Patch] Rename file (as pressing F2 key) with left mouse button (Alexx2000) - closed.
+- 0000748: [Graphical user interface] Files in panels have wrong coloring (Alexx2000) - closed.
+- 0000920: [File operations] cm_CopySamePanel acts like cm_Copy when a zip is open on the other panel (Alexx2000) - closed.
+- 0000950: [Graphical user interface] cm_makedir icon is missing (Alexx2000) - closed.
+- 0000954: [Viewer] The intrernal viewer doesn't focus or scroll properly (Alexx2000) - closed.
+- 0000972: [File operations] Setting a default program for opening files doesn't work (Alexx2000) - closed.
+- 0000977: [Graphical user interface] Coloring by file types fails when ".com" string exists in filename (Alexx2000) - closed.
+- 0000144: [Graphical user interface] CTRL+B - show the content of all nested directories (Alexx2000) - closed.
+- 0000716: [Graphical user interface] Overlay icons are not updated when pressing Ctrl+R (Alexx2000) - closed.
+- 0000923: [Plugins] Uncorrect work of build in zip.wcx plugin (Alexx2000) - closed.
+- 0000147: [File operations] меню копирования\перемещения файлов / Auto rename when file exists on copying (Alexx2000) - closed.
+- 0000497: [Plugins] не распаковываются файлы из архива (Alexx2000) - closed.
+- 0000680: [File operations] Button bar functions does not expand file/directory parameters into archives (Alexx2000) - closed.
+- 0000929: [Default] Unhandled exception: EInvalidPointer: Invalid pointer operation (Alexx2000) - closed.
+- 0000932: [Plugins] zipx support (Alexx2000) - closed.
+- 0000982: [Graphical user interface] options do not accept external editor Path (Alexx2000) - closed.
+- 0000986: [Graphical user interface] Page up/down does not work in cm_LeftOpenDrives and cm_RightOpenDrives (Alexx2000) - closed.
+- 0000989: [Graphical user interface] View files in syncdirs (Alexx2000) - closed.
+- 0000101: [Plugins] a synchronization tool (like freecommander) - closed.
+- 0000145: [Graphical user interface] Regular Expressions in file content search is really needed (Alexx2000) - closed.
+- 0000643: [File operations] [PATCH] add a hotkey to change dir to home (Alexx2000) - closed.
+- 0000173: [Graphical user interface] Display more details than just filename if file exists when copying/moving / Диалог Копирования файлов если файл уже существует (Alexx2000) - closed.
+- 0000711: [Default] Crash displaying tooltip after display change - closed.
+- 0000994: [File operations] Not all files extracted from archive (Alexx2000) - closed.
+- 0000918: [Default] External Diff request (Alexx2000) - closed.
+- 0000534: [Plugins] При выходе из архива открывается не та папка - closed.
+- 0000830: [Editor] Additional file extensions for syntax highlighters (Alexx2000) - closed.
+Double Commander - 0.6.0 (trunk) (Released 2015-02-09)
+======================================================
+- 0000593: [Default] не могу собрать dc - closed.
+- 0000551: [Default] Build failure: Can't find unit DCFileAttributes used by uFileProperty - closed.
+Double Commander - 0.5.11 (Released 2014-09-28)
+===============================================
+- 0000919: [Viewer] Can't build wlxMplayer with qt4pas (Alexx2000) - closed.
+- 0000889: [Default] Build scripts should exit on error (Alexx2000) - closed.
+- 0000656: [Graphical user interface] Panel switcher does not honor locked tabs (Alexx2000) - closed.
+- 0000895: [Graphical user interface] Tab 'locked with directories opened in new tabs' can be switched to another directory via 'Target=Source' (Alt+Z) command (Alexx2000) - closed.
+- 0000916: [Default] Ошибка при компиляции (PPU Source: viewercontrol.pas not found) (Alexx2000) - closed.
+- 0000882: [File operations] Потеря содержимого файлов при копировании (Alexx2000) - closed.
+- 0000212: [File operations] В найденных файлах (alt+f7) не работает меню / Context menu does not work in search results panel (Alexx2000) - closed.
+- 0000850: [File operations] CTRL-right on ZIP archive doesn't set parent directory correctly (Alexx2000) - closed.
+- 0000869: [File operations] Multi Rename Tool doesn't correctly handle filename containing colon character (Alexx2000) - closed.
+- 0000881: [Default] Buttons at toolbar will disappear when button bar is hidden (Alexx2000) - closed.
+- 0000888: [Default] Don't rebuild widget dependent packages for Lazarus 1.2 (Alexx2000) - closed.
+- 0000913: [Graphical user interface] Sorting works even with disabled column headers (Alexx2000) - closed.
+- 0000587: [Graphical user interface] cm_TargetEqualSource changes tabs with "Locked with Directories Opened in New Tabs" and "Locked" tab flags (Alexx2000) - closed.
+Double Commander - 0.5.10 (Released 2014-05-12)
+===============================================
+- 0000737: [Default] List index (3) out of bounds (Alexx2000) - closed.
+- 0000844: [Logic] "parent" directory for deleted directories (Alexx2000) - closed.
+- 0000847: [File operations] Unhandled exception: ERangeError: Range check error on copying large number of files/directories (Alexx2000) - closed.
+- 0000853: [Graphical user interface] Tab disappears from the GUI after Switch tab action (Alexx2000) - closed.
+- 0000854: [Graphical user interface] New tab action does not create new tab (Alexx2000) - closed.
+- 0000855: [Graphical user interface] & (ampersand) sign appears double in tab names (Alexx2000) - closed.
+- 0000862: [File operations] empty zip.ini (Alexx2000) - closed.
+Double Commander - 0.5.9 (Released 2014-03-23)
+==============================================
+- 0000806: [File operations] Error when opening files with aposhtrophes (') in name (Alexx2000) - closed.
+- 0000463: [Graphical user interface] Navigation by clicking on the path does not work for archives / Переход по щелчку на папку в пути не работает для архивов (Alexx2000) - closed.
+- 0000730: [File operations] Copy files expects user response but there's no dialogue box (Alexx2000) - closed.
+- 0000800: [Graphical user interface] File panels: file names columns shorter than avilable space in the file pane - in BRIEF mode (Alexx2000) - closed.
+- 0000803: [File operations] Compare by contents does not work (Alexx2000) - closed.
+- 0000810: [Default] Can't update to the latest version via software updater or apt-get (Alexx2000) - closed.
+- 0000814: [Default] Move /tmp/doublecmd to user's XDG_CACHE_DIR (Alexx2000) - closed.
+- 0000820: [Default] Please link with --as-needed (Alexx2000) - closed.
+- 0000821: [Default] Please add keywords to desktop file (Alexx2000) - closed.
+- 0000823: [Language translation] translations (Alexx2000) - closed.
+- 0000835: [Language translation] german translation against 0.58 (28.12.2013) revision from 14. February 2014 (Alexx2000) - closed.
+- 0000838: [File operations] Compare Files -> crashes (when works!) (Alexx2000) - closed.
+- 0000804: [Logic] Search by date from doesn't work (Alexx2000) - closed.
+- 0000846: [Default] Unable to open file pixmaps.txt (Alexx2000) - closed.
+Double Commander - 0.5.8 (Released 2013-12-29)
+==============================================
+- 0000770: [File operations] error when 'executing(opening)' files with special chars (Alexx2000) - closed.
+- 0000650: [Graphical user interface] Quickview error when resizing panel or minimizing program (Alexx2000) - closed.
+- 0000700: [Graphical user interface] Tabstop header blinks on mouse over / панель колонок мигает при наведении курсора. (Alexx2000) - closed.
+- 0000728: [File operations] App error after copy or move (Alexx2000) - closed.
+- 0000759: [File operations] copy or Drag&Drop unhandled exception (Alexx2000) - closed.
+- 0000767: [Default] If Quick View Panel is open, when resizing the window an error occurs (Alexx2000) - closed.
+- 0000769: [Graphical user interface] Search results list is only partially visible (Alexx2000) - closed.
+- 0000784: [Graphical user interface] Create many tabs by unysual way. (Alexx2000) - closed.
+- 0000788: [File operations] Software does not make use of drag n drop (Alexx2000) - closed.
+- 0000801: [Graphical user interface] Preset (and wrong) text & background colours instead of sys defaults for file panels. (Alexx2000) - closed.
+- 0000766: [File operations] Crash if search template using for file coloring has invalid regular expression (Alexx2000) - closed.
+- 0000768: [Default] If Quick View Panel is open, when deleting a file an error occurs (Alexx2000) - closed.
+- 0000733: [File operations] 'Open With' command and applicarions with spaces (Alexx2000) - closed.
+- 0000560: [File operations] descript.ion file when delete - closed.
+- 0000752: [Graphical user interface] Selection by shift+arrows (Alexx2000) - closed.
+Double Commander - 0.5.7 (Released 2013-09-22)
+==============================================
+- 0000676: [File operations] when copying a directory to its own soft-link, all files deleted (cobines) - closed.
+- 0000684: [Default] Drag&drop part of a file name when renaming file leads to ERR FILE NOT FOUND (cobines) - closed.
+- 0000710: [Default] arm-linux build patch (Alexx2000) - closed.
+- 0000715: [Graphical user interface] Language change does not update toolbar buttons text (cobines) - closed.
+- 0000718: [Graphical user interface] [PATCH] Fixed rename inactive tab (cobines) - closed.
+- 0000729: [File operations] when I move directory, after <enter> pressed, doublecmd loose focus (Alexx2000) - closed.
+- 0000722: [Plugins] Unhandled Exception when adding wdx plugin (Alexx2000) - closed.
+- 0000712: [Graphical user interface] Main form shortcuts are triggered when other non-modal dialogs are active (Alexx2000) - closed.
+Double Commander - 0.5.6 (Released 2013-07-21)
+==============================================
+- 0000450: [Default] Drag&Drop image to MS Word / Перенос фото в Word (Alexx2000) - closed.
+- 0000689: [Default] Fix build under FreeBSD (Alexx2000) - closed.
+- 0000692: [File operations] Problematic Drag & Drop (Alexx2000) - closed.
+- 0000696: [Default] Ошибка при одновременном выполнении операций "показать размеры всех папок" и "вид - подробный" (Alexx2000) - closed.
+- 0000491: [Default] DC crashes after sleep or display change - closed.
+- 0000544: [Graphical user interface] Files copy progress - closed.
+Double Commander - 0.5.5 (Released 2013-06-30)
+==============================================
+- 0000167: [Default] icons in menus (Alexx2000) - closed.
+- 0000573: [Graphical user interface] Layout и полоса (Alexx2000) - closed.
+- 0000632: [Default] Drives list do not show all mounted drives (Alexx2000) - closed.
+- 0000682: [Default] Error when starting doublecmd (Alexx2000) - closed.
+- 0000062: [Logic] When quickly doubleclicking to move through directories some doubleclicks don't work / Задержка при перемещениях в папках (cobines) - closed.
+- 0000127: [Graphical user interface] Select unit for file size (b, kB, MB, ..., dynamic) (cobines) - closed.
+- 0000255: [Graphical user interface] Панель файлов: По команде 'сортировать по имени файлы' так же отображаются значки сортировки расширения - closed.
+- 0000387: [Graphical user interface] Missing 256x256 icon on Windows Vista/7/8 (cobines) - closed.
+- 0000414: [Language translation] Modify Language doublecmd.cht.po (cobines) - closed.
+- 0000515: [Graphical user interface] Change translation "Remove Tab" and "Remove All Tabs" to "Close Tab", resp. "Remove All Tabs" (cobines) - closed.
+- 0000548: [Default] Error occurs when delete only one element in search templates (cobines) - closed.
+- 0000549: [Default] Crash when starting Double Command from a write protected device (cobines) - closed.
+- 0000563: [Language translation] german lang-file against r.4956 (cobines) - closed.
+- 0000604: [Language translation] german lang-file against r.5003 (hopefully...) (cobines) - closed.
+- 0000073: [Graphical user interface] OSX: Freeze when resizing (Alexx2000) - closed.
+- 0000273: [Default] При запуске программы и при изменении конфигурации выскакивает ошибка (Alexx2000) - closed.
+- 0000453: [Plugins] Cannot create tar.bz2 archive (Alexx2000) - closed.
+- 0000519: [Logic] quick filter is not cleaned after directory changing (Alexx2000) - closed.
+- 0000575: [Graphical user interface] Unable to reopen viewer when it was closed in minimized state (Alexx2000) - closed.
+- 0000605: [Language translation] Modify Language doublecmd.cht.po (055.4961) (cobines) - closed.
+- 0000624: [Default] Некорретная работа поиска (Alexx2000) - closed.
+- 0000631: [Editor] F4 opens external editor but not load edit file (Alexx2000) - closed.
+- 0000653: [File operations] copying(unpacking) files from inside archive to .. (above) does not work (Alexx2000) - closed.
+- 0000658: [Default] Frozen forever on Ctrl+Shift+F1 (Alexx2000) - closed.
+- 0000659: [Default] All tabs are lost after restart (Alexx2000) - closed.
+- 0000662: [Graphical user interface] Не работает добавление команды (Alexx2000) - closed.
+- 0000664: [Logic] Не выводится диалог просмотра/изменения свойств у файлов, в панели "Результаты поиска" (Alexx2000) - closed.
+- 0000665: [Language translation] german translation against 0.5.5 r5195 (Alexx2000) - closed.
+- 0000474: [Language translation] german lang-file against r.4822 from 13-May-2012 (cobines) - closed.
+- 0000478: [Graphical user interface] Hot key for Show Hidden/System files (cobines) - closed.
+- 0000655: [Graphical user interface] Folder tabs crash (Alexx2000) - closed.
+- 0000219: [Graphical user interface] Красивый прогресс Свободного места - closed.
+- 0000406: [Language translation] german lang-file against r.4534 from 3-April-2012 (cobines) - closed.
+- 0000403: [File operations] Не снимается выделение с файлов. (cobines) - closed.
+- 0000409: [Language translation] german lang-file against r.4547 from 5-April-2012 (cobines) - closed.
+- 0000416: [File operations] Folder Name Not Properly Displayed (cobines) - closed.
+- 0000067: [File operations] Add option to queue all operation (cobines) - closed.
+- 0000130: [Logic] Exclude dir\file in Find Files (cobines) - closed.
+- 0000025: [Logic] Error while copying files (cobines) - closed.
+- 0000438: [Language translation] german lang-file against r.4641 from 20-April-2012 (cobines) - closed.
+- 0000443: [Default] Annoying bug in "Configure custom columns view" dialog. (cobines) - closed.
+- 0000444: [Graphical user interface] Crash when closing "Configure custom columns view" dialog via OK-button. (cobines) - closed.
+- 0000292: [Graphical user interface] Can't sort on extension if extensions column is not in the current column setup (cobines) - closed.
+- 0000159: [Default] Directory exists dialog on copy / move (cobines) - closed.
+- 0000451: [Default] Command "cd" produces error "ChDir failed" (cobines) - closed.
+- 0000445: [Default] Hangs on archive opening / Крэш при работе с zip-файлами (cobines) - closed.
+- 0000432: [Graphical user interface] Bug: Configuration > Options > Colors > File panels > Cannot move selected node up (using up arrow) (cobines) - closed.
+- 0000322: [File operations] The ability to unpack in the parent directory with drag-and-drop (cobines) - closed.
+- 0000466: [File operations] file selection with mouse doesn't scroll (cobines) - closed.
+- 0000291: [File operations] When unpacking from an archive progress goes beyond 100% / Проценты зашкаливают (cobines) - closed.
+- 0000077: [Default] Change buttons on set file properties dialog (Unix) to be more informative (was: Атрибуты) (cobines) - closed.
+- 0000471: [Language translation] german lang-file against r.4782 from 08-May-2012 (cobines) - closed.
+- 0000183: [Graphical user interface] Close All TAB except locked TAB (cobines) - closed.
+- 0000027: [Graphical user interface] Не правильно организованы предупреждения (cobines) - closed.
+- 0000135: [Graphical user interface] Add options to enable/disable confirmations of file operations / Подтверждение операций (cobines) - closed.
+- 0000282: [Graphical user interface] Blinking of file list panel while browsing FTP (cobines) - closed.
+- 0000125: [Graphical user interface] Продолжать поиск/фильтрацию при нажатой клавише ALT как в TC (cobines) - closed.
+- 0000015: [Graphical user interface] Add missing features to quick search/filter (bbt) - closed.
+- 0000037: [Logic] Cyrillic filenames with non-UTF8 codepage FS looks like ???? (cobines) - closed.
+- 0000231: [Graphical user interface] Auto-size columns not working correctly (cobines) - closed.
+- 0000235: [Graphical user interface] Строка свободного места на диске - не до конца заполнена (cobines) - closed.
+- 0000215: [File operations] Диалог копирования и тд не закрывается по кнопке ESC / Cannot close copy/move dialog after drag&drop (cobines) - closed.
+- 0000237: [Graphical user interface] Кнопки дисков, непонятное визуальное отображение. (cobines) - closed.
+- 0000249: [Graphical user interface] Диалог создания каталога (windows) (cobines) - closed.
+- 0000232: [Default] [patch] - Remove explicit OnClick events for menu items (cobines) - closed.
+- 0000250: [Graphical user interface] [patch] Make trasfer path feature bidirectional (cobines) - closed.
+- 0000133: [Graphical user interface] tabbed dialogs little imporvement (cobines) - closed.
+- 0000241: [Logic] Не удаляет файлы через Shift+Del (cobines) - closed.
+- 0000298: [Graphical user interface] При вызове Alt+Enter перерисовывается список файлов на панели. раздражает. (cobines) - closed.
+- 0000357: [Default] При переименовании по F2 пропадает файл (cobines) - closed.
+- 0000339: [Graphical user interface] crashes then remove column in column customizer (only in portable mode) (cobines) - closed.
+- 0000362: [Plugins] Crash при попытке закрыть файл из архива (cobines) - closed.
+- 0000393: [Language translation] german against version r.4499 (cobines) - closed.
+- 0000400: [Language translation] german lang-file against r.4515 (cobines) - closed.
+- 0000266: [Viewer] [patch] Reload file using keyboard shortcut (Alexx2000) - closed.
+- 0000595: [Graphical user interface] Closing application with CMD+Q does not save current configuration (Alexx2000) - closed.
+- 0000143: [Graphical user interface] Thumbnail view for folders (Alexx2000) - closed.
+- 0000540: [Graphical user interface] List index (-1) out of bounds in search results tab (Alexx2000) - closed.
+- 0000620: [File operations] Incorrect last file selection / Некорректное выделение последнего файла (Alexx2000) - closed.
+- 0000623: [Default] Multiarc reset after saving configuration options (Alexx2000) - closed.
+- 0000626: [Graphical user interface] В окне очереди кнопка "Work in background" отличается от соседей (Alexx2000) - closed.
+- 0000627: [Logic] [PATCH] Open current dir in new tab if unable to open focused dir (Alexx2000) - closed.
+- 0000630: [Viewer] Не отображаются иконки на некоторых кнопках (Alexx2000) - closed.
+- 0000542: [Logic] [PATCH] Don't create new tab when there is already opened (Alexx2000) - closed.
+- 0000622: [File operations] Disable request to choose default application for opening "exe" files (Alexx2000) - closed.
+- 0000619: [Plugins] Negative file size in archive / Размер файла в архиве с минусом (Alexx2000) - closed.
+- 0000607: [Graphical user interface] Error: file not found (Alexx2000) - closed.
+- 0000610: [Graphical user interface] Error: Unable to open file [...]/.directory (Alexx2000) - closed.
+- 0000392: [Graphical user interface] REQUEST: "Open with" custom application option (for right click or windows right click key) (Alexx2000) - closed.
+- 0000020: [Default] not run on wine-1.1.18 (Alexx2000) - closed.
+- 0000597: [File operations] Overwrite if older (Alexx2000) - closed.
+- 0000579: [Default] Can not disable wfx-plugins / Не отключаются плагины (Alexx2000) - closed.
+- 0000590: [File operations] Drag&Drop in one DC panel doesn't work correctly for network shares (Alexx2000) - closed.
+- 0000574: [Default] [PATCH] build.bat updates (Alexx2000) - closed.
+- 0000514: [Default] Doublecmd fails to build several extensions: "recompile with -fPIC" (Alexx2000) - closed.
+- 0000226: [Logic] Нельзя уйти с панели с результатами поиска ALT+F7 (Alexx2000) - closed.
+- 0000557: [Logic] AV when click drive button from search results tab (Alexx2000) - closed.
+- 0000376: [Graphical user interface] Improvement to the "short file size" option (Alexx2000) - closed.
+- 0000555: [Graphical user interface] Missing acceleration keys and bad Tab order in find and other dialogs (Alexx2000) - closed.
+- 0000553: [Graphical user interface] Improper execution of the command in the terminal / Неправильное выполнение команды терминала в windows (Alexx2000) - closed.
+- 0000552: [Graphical user interface] Missing acceleration keys and bad Tab order in dialog "Configuration/Options" (Alexx2000) - closed.
+- 0000539: [Viewer] Viewer does not search for the text specified in file find dialog (Alexx2000) - closed.
+- 0000538: [Graphical user interface] File color is not refreshed after detection of file modification (Alexx2000) - closed.
+- 0000507: [Logic] Сломалась смена буквы диска при переключении таба (Alexx2000) - closed.
+- 0000532: [Default] Access Violation on entering invalid DC command in column customization (Alexx2000) - closed.
+- 0000511: [File operations] авто дополнение при rename не работает (Alexx2000) - closed.
+- 0000522: [File operations] Copying a folder to it’s current folder (copy into active view) does not work (Alexx2000) - closed.
+- 0000434: [Plugins] Hangs when open encrypted RAR archive / Зашифрованные RAR архивы - падает DC. (Alexx2000) - closed.
+- 0000521: [Logic] Using forward slash in paths in windows breaks navigational feature(s) (Alexx2000) - closed.
+- 0000502: [Logic] Опция или принудительно не получать значки .exe/.lnk на сетевых дисках (Alexx2000) - closed.
+- 0000384: [Editor] Excess line break at file end / В конце файла создаётся завершающий перевод строки (Alexx2000) - closed.
+- 0000510: [Editor] Garbage if saving file with BOM / Мусор при сохрании файла в UTF8 (с BOM и без) (Alexx2000) - closed.
+- 0000499: [File operations] Removable disks locked until the application is closed (Alexx2000) - closed.
+- 0000198: [Plugins] ssl support for ftps (Alexx2000) - closed.
+- 0000488: [Plugins] Incorrect tab order / Не последовательное перемещение по полям с помощю TAB. (Alexx2000) - closed.
+- 0000503: [File operations] Снижение дефрагментации (и возможно, увеличение скорости копирования/переноса) через ранее резервирование места (Alexx2000) - closed.
+- 0000129: [Graphical user interface] Brief mode (CTRL-F1 in TC) (Alexx2000) - closed.
+- 0000501: [File operations] "Drop readonly flag" should be unselected by default for file copy in new install. (Alexx2000) - closed.
+- 0000504: [Editor] When editing file and press Esc and then Esc changes will be lost (Alexx2000) - closed.
+- 0000032: [File operations] rename doesn't work if I copy files out of an archive (Alexx2000) - closed.
+- 0000486: [Graphical user interface] Button bar icon - access violation (Alexx2000) - closed.
+- 0000124: [Graphical user interface] Close tab at double click (Alexx2000) - closed.
+- 0000269: [Graphical user interface] Настройки: Шрифты: при изменении имени шрифта, то он не меняется (Alexx2000) - closed.
+- 0000397: [Graphical user interface] Feature request: Ctrl+L: Open directory in default file manager (Alexx2000) - closed.
+- 0000156: [Graphical user interface] CMD Line arguments to specify directory which DC should open (Alexx2000) - closed.
+- 0000048: [Viewer] internal viewer issues (Alexx2000) - closed.
+- 0000436: [Default] Курсор "прыгает" после копирования в туже папку и открытии файла (Alexx2000) - closed.
+- 0000355: [Logic] Не отображает каталог "etc". (Alexx2000) - closed.
+- 0000420: [Plugins] Progress bar works incorrectly when copy big file via samba plugin / при передаче файла по сети (Samba) глюки с прогресс-баром (Alexx2000) - closed.
+- 0000278: [Plugins] SFTP плагин соединяется, но не отображает список папок, пустая панель и всё (Alexx2000) - closed.
+- 0000172: [Graphical user interface] filename/dir completition (Alexx2000) - closed.
+- 0000325: [File operations] Внесите патч для uam (Alexx2000) - closed.
+- 0000320: [File operations] Overwrite all older option (Alexx2000) - closed.
+- 0000169: [Viewer] Horizontal Scrollbar in Viewer (Alexx2000) - closed.
+- 0000248: [Editor] Нет прокрутки в просмотрщике F3 (windows) (Alexx2000) - closed.
+- 0000034: [Viewer] Длинные строки в просмотровщике (Alexx2000) - closed.
+- 0000259: [Graphical user interface] Неправильно отображается командная строка для windows OS, должно быть C:\что-то> (Alexx2000) - closed.
+- 0000233: [Graphical user interface] Новый графический стиль Фонового копирования (Alexx2000) - closed.
+- 0000196: [Logic] Sorting folders differently (Alexx2000) - closed.
+- 0000541: [Graphical user interface] Show full tab path in hint (Alexx2000) - closed.
+- 0000496: [Graphical user interface] Заголовки табуляторов, дублирующаяся стрелка направления сортировки. (Alexx2000) - closed.
+- 0000556: [Language translation] german lang-file against r.4951 (Alexx2000) - closed.
+- 0000559: [Logic] Search in the selected files and directories (Alexx2000) - closed.
+- 0000306: [Logic] Проблема с шаблонами поиска (Alexx2000) - closed.
+- 0000456: [Graphical user interface] Shift+arrow_keys selection does not work (cobines) - closed.
+- 0000529: [Graphical user interface] Folder size in archive doesn't works - closed.
+- 0000311: [File operations] Ошибочное копирование файлов в себя (Alexx2000) - closed.
+- 0000527: [File operations] External Viewer for archive (Alexx2000) - closed.
+- 0000594: [Default] Last tabs/position is not saved (cobines) - closed.
+- 0000578: [Logic] Search does not returns folders (Alexx2000) - closed.
+- 0000569: [Graphical user interface] Displaying tab with folder name containing ampersand (cobines) - closed.
+- 0000570: [File operations] Double Commander locks folder and they cannot be deleted (cobines) - closed.
+- 0000670: [Graphical user interface] File groups coloring broken (Alexx2000) - closed.
+- 0000568: [File operations] Поиск файлов при нажатии Enter открывает файл во встроенном просмотрщике (Alexx2000) - closed.
+- 0000617: [File operations] opening a directory with permissions "drwxr-x---" (should not be opened, but is.) (Alexx2000) - closed.
+- 0000334: [File operations] при попытке открыть зашифрованный файл, появилась ошибка - closed.
+- 0000591: [Plugins] Hangs when viewing file from archive while unpacking operation / Зависает при распаковке файлов, если просмотреть файл из архива (Alexx2000) - closed.
+- 0000565: [Default] Ошибка при выделении всех найденных файлов (Alexx2000) - closed.
+- 0000493: [Plugins] Ошибка при переходе из меню VirtualFileSystem (Alexx2000) - closed.
+- 0000531: [File operations] Don't copy files from WIM image/Не копирует файлы из образа DISM (Alexx2000) - closed.
+- 0000516: [Plugins] Authorization on network resources / Авторизация на сетевых ресурсах (Alexx2000) - closed.
+- 0000528: [Viewer] Incorrect scroll by mouse wheel in Viewer / Прокрутка колесом мыши во встроенном вьювере (Alexx2000) - closed.
+- 0000518: [Default] Вылетает при копировании / перемещении - closed.
+- 0000283: [File operations] Ошибка при копировании и удалении файлов (Alexx2000) - closed.
+- 0000517: [File operations] В отфильтрованном списке криво срабатывает переименование файлов (Alexx2000) - closed.
+- 0000148: [Logic] additional button on file copy (Alexx2000) - closed.
+- 0000477: [Default] Crash. List index (0) out of bounds (cobines) - closed.
+- 0000473: [Default] Crash в настройках.. (cobines) - closed.
+- 0000482: [File operations] При удалении файла/каталога курсор перескакивает на [..] (cobines) - closed.
+- 0000475: [Plugins] Zip plugin doesn't handle symlinks in TAR archives / Не правильно обрабатываются ссылки в архивах tar (cobines) - closed.
+- 0000470: [Default] При подключении к FTP выдает "List out bounds" (cobines) - closed.
+- 0000055: [Default] Ошибка при клике правой кнопкой мыши на сетевой папке (Alexx2000) - closed.
+- 0000218: [Language translation] german lang-file against r.4040 (Alexx2000) - closed.
+- 0000337: [Graphical user interface] Crash (Alexx2000) - closed.
+- 0000427: [Default] опять не собирается по linux (Alexx2000) - closed.
+- 0000440: [Graphical user interface] Выделение не убирается по Esc - closed.
+- 0000462: [Plugins] Зависает при выходе из любого (zip, tar, rar) архива. - closed.
+- 0000168: [Graphical user interface] Сортировка в истории командой строки (cobines) - closed.
+- 0000165: [Graphical user interface] Удаление строк из истории ввода по Shift-D (cobines) - closed.
+- 0000174: [Graphical user interface] Сравнить по содержимому файлы с одинаковыми именами (cobines) - closed.
+- 0000383: [Default] Два разделителя в контекстном меню у каталога (cobines) - closed.
+- 0000457: [Default] Неправильное отображение в всплывающем окне - closed.
+- 0000458: [Editor] Не работает выход из редактора по Ctrl+x (cobines) - closed.
+- 0000315: [File operations] After changing attributes (like hidden) files do not appear/disappear from view / После изменения атрибутов не делается refresh (cobines) - closed.
+- 0000299: [Editor] При редактировании файла с его сохранением по F2, его размер не обновляется в окне файлов, приходиться обновлять вручную. (cobines) - closed.
+- 0000449: [Default] crash при разных файловых операциях (cobines) - closed.
+- 0000295: [Plugins] FTP plugin crash - closed.
+- 0000303: [Plugins] Зависает при выходе из любого (rar, bz2) архива. - closed.
+- 0000301: [Viewer] Viewer CP852 support (Alexx2000) - closed.
+- 0000302: [Editor] Garbage in Editor when open zero size file / При создании нового файла по Shift+F4 в файле появляется мусор (Alexx2000) - closed.
+- 0000421: [Default] Crash при изменении горячей кнопки (cobines) - closed.
+- 0000389: [Default] Crash при перезаписи файла (cobines) - closed.
+- 0000398: [File operations] Overwrite confirmation on file rename sometimes closes automatically / автоповтор при переименовании (cobines) - closed.
+- 0000354: [Editor] Redesign internal editor configuration dialog (Alexx2000) - closed.
+- 0000076: [Default] Error in rename/move directory / Переименование каталога (cobines) - closed.
+- 0000224: [Default] Crashed when going to parent directory (cobines) - closed.
+- 0000085: [Graphical user interface] Case-sensitive sorting does not work (cobines) - closed.
+- 0000024: [Graphical user interface] Quick search case sensitivity (cobines) - closed.
+- 0000146: [Default] Copy Queue hotkey(s) (cobines) - closed.
+- 0000084: [Default] Folder alt+drag&drop to .. / Перетягивание папок с alt (cobines) - closed.
+- 0000386: [Default] 4436 не компилится под linux (Alexx2000) - closed.
+- 0000379: [Viewer] Неправильное определение кодировки CP1251 (Alexx2000) - closed.
+- 0000385: [Default] в 4403 сломали сортировку файлов. (cobines) - closed.
+- 0000382: [Default] Поломали подсветку файлов (Alexx2000) - closed.
+- 0000378: [Plugins] Crash при доступе к FTP и Windows Network (cobines) - closed.
+- 0000380: [Default] Crash в редакторе при нажатии на иконку Конфигурация (cobines) - closed.
+- 0000360: [Default] сразу при загрузке не появляется иконка списка дисков на неактивной панели. и тройной Crash при открытии новой вкладки. (cobines) - closed.
+- 0000294: [Graphical user interface] System icons support under Mac OS X (Alexx2000) - closed.
+- 0000280: [Editor] End of line (EOL) conversion (Alexx2000) - closed.
+- 0000180: [Graphical user interface] Длинное имя файла в колонке - closed.
+- 0000297: [Editor] Кодировку файла по F4 не определяет правильно. (Alexx2000) - closed.
+- 0000247: [Default] [patch] small updates to wfxplugin (Alexx2000) - closed.
+- 0000275: [Graphical user interface] Настройки цвета файлов / папок (Alexx2000) - closed.
+- 0000272: [Graphical user interface] Only one instance of Options dialog (Alexx2000) - closed.
+- 0000263: [Graphical user interface] В форме 'Удалить файл' убрать свернуть и сделать форму в виде диалога (Alexx2000) - closed.
+Double Commander - 0.5.4 (Released 2012-04-01)
+==============================================
+- 0000401: [Language translation] german lang-file against 0.5.4 02-April 2012 (cobines) - closed.
+- 0000352: [Plugins] Fail in build (cobines) - closed.
+- 0000345: [Viewer] Copying text from the viewer adds a 00 character to the end of the copied text (cobines) - closed.
+- 0000343: [Graphical user interface] Directory Hotlist window is not closed by Esc button. (cobines) - closed.
+- 0000254: [Graphical user interface] Убрать кнопку 'свернуть' с формы настроек и других форм (Alexx2000) - closed.
+- 0000391: [File operations] File Operation > Archiver > Cannot create a ZIP archive (via Alt + F5) (after check / uncheck rar) (Alexx2000) - closed.
+- 0000225: [Plugins] Critical errors with FTP plugin / Критические ошибки при работе с FTP плагином (Alexx2000) - closed.
+- 0000356: [Plugins] "Неправильный вход" в архивы по CTRL+PAGEDOWN (Alexx2000) - closed.
+- 0000348: [Editor] Incorrect hint text in Editor / Неправильный текст в всплавающих подсказках в редакторе (Alexx2000) - closed.
+- 0000260: [Graphical user interface] В форме 'О программе' убрать свернуть, сделать диалог (Alexx2000) - closed.
+- 0000262: [Graphical user interface] В форме 'Задать шаблон' убрать свернуть (Alexx2000) - closed.
+- 0000349: [Default] Don't work command 'cd <directory>' from command line / Не правильный переход по команде cd, выполненной в коммандной строке (Alexx2000) - closed.
+- 0000338: [Logic] Не работает %commander_drive% в панели инструментов (Alexx2000) - closed.
+- 0000060: [Default] "One Instance" option not working in Ubuntu (Alexx2000) - closed.
+- 0000300: [Graphical user interface] В редакторе и в просмотрщике одинаковые клавиши вызова меню. (Alexx2000) - closed.
+- 0000240: [Plugins] Не тестирует архивы, вылетает с ошибкой. (Alexx2000) - closed.
+- 0000264: [Graphical user interface] В форме 'Посчитать контрольные суммы' убрать свернуть, изменять размер, сделать диалог (Alexx2000) - closed.
+- 0000261: [Graphical user interface] В форме 'Разбиение файлов' убрать свернуть, развернуть, выбор каталога, кнопки (Alexx2000) - closed.
+- 0000312: [File operations] Remove junction in recycle bin / Удаление Junction (Alexx2000) - closed.
+- 0000359: [Plugins] Zip archive deletes file instead of overwriting (Alexx2000) - closed.
+- 0000308: [File operations] Don't open archives by Ctrl+PgDn if plugin has PK_CAPS_HIDE flag / Не во все архивы входит по Ctrl+PgDn (Alexx2000) - closed.
+- 0000333: [Graphical user interface] Problems with tab scrolling / Проблема со вкладками (Alexx2000) - closed.
+- 0000285: [Plugins] Zip/tar plugin - Colons in source filenames corrupt the zip structure (Alexx2000) - closed.
+- 0000350: [Default] Don't shows offline network drives / Сетевой диск не показывается (Alexx2000) - closed.
+- 0000353: [Default] Hang on exit if some archive was opened / Зависает при закрытии программы, если был вход в любой архив (Alexx2000) - closed.
+- 0000323: [File operations] Неправильно отображаются содержимое панели (Alexx2000) - closed.
+Double Commander - 0.5.3 (Released 2012-01-15)
+==============================================
+- 0000033: [Logic] DC cancels shutdown in KDE (Alexx2000) - closed.
+- 0000238: [Plugins] Don't running from archive (incorrect encoding) / Не запускается из архива. Ошибка. Иероглифы. (Alexx2000) - closed.
+- 0000390: [Default] "Documents" folder contents not displaying - closed.
+- 0000289: [Graphical user interface] Double-click on file does not open file (Alexx2000) - closed.
+- 0000290: [Default] Неправильное отображение и работа элементов на панели (Alexx2000) - closed.
+- 0000082: [Default] Не работает редактор файла конфигурации (Alexx2000) - closed.
+- 0000293: [File operations] Auto copy into command (Alexx2000) - closed.
+Double Commander - 0.5.2 (Released 2011-12-17)
+==============================================
+- 0000214: [Logic] some file associations do not work (cobines) - closed.
+- 0000216: [Graphical user interface] Не корректное поведение при попытке удалении не удаляемых файлов (cobines) - closed.
+- 0000065: [Default] Network drive icon right click (Alexx2000) - closed.
+- 0000223: [Graphical user interface] Do not show dialogs in taskbar (Alexx2000) - closed.
+- 0000045: [Logic] Cannot use Ctrl-Right when 'Feed to listbox' (Alexx2000) - closed.
+- 0000068: [Default] Annoying msg about "Control-C hit" (Alexx2000) - closed.
+- 0000258: [Graphical user interface] В форме 'Проверка контрольной суммы' неправильная иконка и убрать свернуть (Alexx2000) - closed.
+- 0000208: [File operations] Несовпадение сумм MD5 длинных файлов (Alexx2000) - closed.
+- 0000228: [Graphical user interface] crashes when trying to access "Properties" of a file on the LAN - closed.
+- 0000288: [Graphical user interface] Hotkey of additional editor don't work correct (Alexx2000) - closed.
+- 0000053: [Default] Окно конфигурации не позволяет работать.(win7) (Alexx2000) - closed.
+- 0000061: [File operations] Переход в каталог \\192.168.1.10\ не удался (Alexx2000) - closed.
+- 0000066: [Default] Unable to chdir to network share root (Alexx2000) - closed.
+- 0000104: [Default] Browse local LAN (Alexx2000) - closed.
+- 0000160: [Logic] Support adresse start with \\ (Alexx2000) - closed.
+- 0000213: [Graphical user interface] Multiline Folder Tabs (cobines) - closed.
+- 0000050: [Default] Ошибка Control-C hit (Alexx2000) - closed.
+- 0000251: [Viewer] Не печатает (windows) (Alexx2000) - closed.
+- 0000211: [Default] Падает при щелчке правой кнопкой по папке находящейся в сети (Alexx2000) - closed.
+Double Commander - 0.5.1 (Released 2011-10-09)
+==============================================
+- 0000210: [File operations] невозможно сохранить полные пути выделенных файлов в текстовый файл из вкладки результатов поиска (Alexx2000) - closed.
+Tasks - Change Log
+Tasks - 0.5.5 (Released 2013-06-30)
+===================================
+- 0000246: [Plugins] Synchronize fparchive library with latest TurboPower Abbrevia (Alexx2000) - closed.
+- 0000207: [General] Possibility to set commands/actions/hotkeys for any form (cobines) - closed.
+- 0000009: [OS interface] Show not mounted removable devices and allow mounting/automounting (cobines) - closed.
+- 0000012: [File operations] Add support for FileCreated, FileDeleted, etc., events in the file view (cobines) - closed.
+- 0000013: [GUI] Implement grouping editors in Options (cobines) - closed.
+Tasks - 0.5.4 (Released 2012-04-01)
+===================================
+- 0000016: [- none -] FreeBSD port of Double Commander (bbt) - closed.
+
 --------------------------------------------------------------------------------
 08.10.2011 Release Double Commander 0.5.1 beta
 --------------------------------------------------------------------------------
@@ -139,8 +1199,7 @@ https://doublecmd.sourceforge.io/mantisbt/changelog_page.php
 12.03.2008 FIX: Bug [ 1888653 ] file panel and copy/move
 06.03.2008 FIX: Bug [ 1860836 ] "Show" does not refresh
 05.03.2008 FIX: Bug [ 1860660 ] Non-translatable strings
-28.02.2008 FIX: The filedate of the copied file is <> to original file date (Windows)
-           unlike TotalCmd.
+28.02.2008 FIX: The filedate of the copied file is <> to original file date (Windows) unlike TotalCmd.
 17.02.2008 FIX: Bug [ 1880539 ] Context menu for directory.
 04.02.2008 FIX: Bug [ 1886005 ] Быстрый поиск - завешивает.
 03.02.2008 FIX: Bug [ 1869787 ] Options -> Colors -> File types and attributes
@@ -156,11 +1215,8 @@ https://doublecmd.sourceforge.io/mantisbt/changelog_page.php
 13.01.2007 FIX: Bug [ 1869757 ] External editor
 13.01.2007 FIX: Bug [ 1869786 ] External diff - DC not send file.
 11.01.2008 FIX: Bug [ 1869243 ] lynx navigation and enter in arhives.
-11.01.2008 FIX: Bug [ 1860652 ] "Run Term" Opens terminal in last accessed directory, not in current
-           panel's directory
+11.01.2008 FIX: Bug [ 1860652 ] "Run Term" Opens terminal in last accessed directory, not in current panel's directory
 11.01.2008  FIX: Bug [ 1861911 ] must add version.inc
 10.01.2008  FIX: Bug [ 1860271 ] lynx navigation and archives
 --------------------------------------------------------------------------------
 26.12.2007  Release Double Commander 0.3 alpha
-
-
