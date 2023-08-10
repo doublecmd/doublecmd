@@ -861,7 +861,6 @@ object frmFileProperties: TfrmFileProperties
           Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Top = 6
           ItemHeight = 0
-          ReadOnly = True
           Sorted = True
           TabOrder = 0
         end
@@ -878,7 +877,6 @@ object frmFileProperties: TfrmFileProperties
           BorderSpacing.Top = 4
           BorderSpacing.Bottom = 6
           ItemHeight = 0
-          ReadOnly = True
           Sorted = True
           TabOrder = 1
         end
