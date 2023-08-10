@@ -551,7 +551,7 @@ begin
         end;
 
         // Refresh original text and encoding
-        if sEncodingIn <> sEncodingOut then
+        if (sEncodingIn <> sEncodingOut) or (Length(sOriginalText) = 0) then
         begin
           sEncodingIn:= sEncodingOut;
           ChooseEncoding(miEncodingIn, sEncodingIn);
@@ -722,7 +722,6 @@ end;
 
 procedure TfrmEditor.EditorChange(Sender: TObject);
 begin
-  inherited;
   UpdateStatus;
 end;
 
@@ -758,8 +757,8 @@ end;
 procedure TfrmEditor.EditorStatusChange(Sender: TObject;
   Changes: TSynStatusChanges);
 begin
-  inherited;
   UpdateStatus;
+  miEncodingIn.Enabled := not Editor.Modified;
 end;
 
 procedure TfrmEditor.UpdateHighlighter(Highlighter: TSynCustomHighlighter);
