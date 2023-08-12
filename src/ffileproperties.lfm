@@ -859,6 +859,8 @@ object frmFileProperties: TfrmFileProperties
           Top = 6
           Width = 306
           Anchors = [akTop, akLeft, akRight]
+          AutoComplete = True
+          AutoCompleteText = [cbactEnabled, cbactEndOfLineComplete, cbactSearchCaseSensitive, cbactSearchAscending]
           BorderSpacing.Top = 6
           ItemHeight = 0
           Sorted = True
@@ -874,6 +876,8 @@ object frmFileProperties: TfrmFileProperties
           Top = 39
           Width = 306
           Anchors = [akTop, akLeft, akRight]
+          AutoComplete = True
+          AutoCompleteText = [cbactEnabled, cbactEndOfLineComplete, cbactSearchCaseSensitive, cbactSearchAscending]
           BorderSpacing.Top = 4
           BorderSpacing.Bottom = 6
           ItemHeight = 0
