@@ -361,7 +361,9 @@ begin
     try
       for Index:= 0 to AFiles.Count - 1 do
       begin
-        if (AFiles[Index].Name = 'pluginst.inf') then
+        sPlugin:= AFiles[Index].Name;
+
+        if (Length(sPlugin) = 12) and (CompareText(sPlugin, 'pluginst.inf') = 0) then
         begin
           SourceFiles:= TFiles.Create(PathDelim);
           SourceFiles.Add(AFiles[Index].Clone);
@@ -374,9 +376,9 @@ begin
             Operation.Free;
           end;
 
-          if mbFileExists(Temp.GetRootDir + 'pluginst.inf') then
+          if mbFileExists(Temp.GetRootDir + sPlugin) then
           begin
-            Ini:= TIniFileEx.Create(Temp.GetRootDir + 'pluginst.inf', fmOpenRead);
+            Ini:= TIniFileEx.Create(Temp.GetRootDir + sPlugin, fmOpenRead);
             try
               sFile:= Ini.ReadString('PluginInstall', 'File', EmptyStr);
               sExt:= Ini.ReadString('PluginInstall', 'DefaultExtension', EmptyStr);
