@@ -3,7 +3,7 @@
   -------------------------------------------------------------------------
   SevenZip archiver plugin
 
-  Copyright (C) 2014 Alexander Koblov (alexx2000@mail.ru)
+  Copyright (C) 2014-2023 Alexander Koblov (alexx2000@mail.ru)
 
   This library is free software; you can redistribute it and/or
   modify it under the terms of the GNU Lesser General Public
@@ -82,7 +82,7 @@ function GetModulePath(out ModulePath: AnsiString): Boolean;
 implementation
 
 uses
-  CTypes, ActiveX, Windows, LazFileUtils, LazUTF8;
+  CTypes, ActiveX, Windows, LazFileUtils, LazUTF8, SevenZipHlp;
 
 type
   TArchiveFormats = array of TArchiveFormat;
@@ -111,18 +111,15 @@ function _wcsnicmp(const s1, s2: pwidechar; count: csize_t): cint; cdecl; extern
 function ReadStringProp(FormatIndex: Cardinal; PropID: TPropID;
   out Value: UnicodeString): LongBool;
 var
-  PropSize: Cardinal;
   PropValue: TPropVariant;
 begin
   Result:= Succeeded(GetHandlerProperty2(FormatIndex, PropID, PropValue));
   Result:= Result and (PropValue.vt = VT_BSTR);
   if Result then
   try
-    PropSize:= SysStringByteLen(PropValue.bstrVal);
-    SetLength(Value, PropSize div SizeOf(WideChar));
-    CopyMemory(PWideChar(Value), PropValue.bstrVal, PropSize);
+    Value:= BinaryToUnicode(PropValue.bstrVal);
   finally
-    SysFreeString(PropValue.bstrVal);
+    VarStringClear(PropValue);
   end;
 end;
 
@@ -165,7 +162,7 @@ begin
           ArchiveFormat.ClassID:= PGUID(PropValue.bstrVal)^;
         end;
       finally
-        SysFreeString(PropValue.bstrVal);
+        VarStringClear(PropValue);
       end;
     end;
     // Archive format signature
@@ -180,7 +177,7 @@ begin
           CopyMemory(@ArchiveFormat.StartSignature[0], PropValue.bstrVal, PropSize);
         end;
       finally
-        SysFreeString(PropValue.bstrVal);
+        VarStringClear(PropValue);
       end;
     end;
 
