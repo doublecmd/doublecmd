@@ -20,11 +20,11 @@
     </i18n>
     <VersionInfo>
       <UseVersionInfo Value="True"/>
-      <MajorVersionNr Value="21"/>
-      <MinorVersionNr Value="9"/>
-      <RevisionNr Value="18"/>
+      <MajorVersionNr Value="23"/>
+      <MinorVersionNr Value="8"/>
+      <RevisionNr Value="14"/>
       <CharSet Value="04B0"/>
-      <StringTable FileDescription="SevenZip archiver plugin" InternalName="SevenZip" LegalCopyright="Copyright (C) 2014-2021 Alexander Koblov"/>
+      <StringTable FileDescription="SevenZip archiver plugin" InternalName="SevenZip" LegalCopyright="Copyright (C) 2014-2023 Alexander Koblov"/>
     </VersionInfo>
     <BuildModes Count="2">
       <Item1 Name="Release" Default="True"/>
@@ -37,7 +37,7 @@
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir)"/>
-            <OtherUnitFiles Value="..\..\..\..\sdk;jcl\common;jcl\windows;jcl"/>
+            <OtherUnitFiles Value="..\..\..\..\sdk;jcl\common;jcl\windows;jcl;platform"/>
             <UnitOutputDirectory Value="..\lib"/>
           </SearchPaths>
           <Parsing>
@@ -124,7 +124,7 @@
     </Target>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir)"/>
-      <OtherUnitFiles Value="..\..\..\..\sdk;jcl\common;jcl\windows;jcl"/>
+      <OtherUnitFiles Value="..\..\..\..\sdk;jcl\common;jcl\windows;jcl;platform"/>
       <UnitOutputDirectory Value="..\lib"/>
     </SearchPaths>
     <Parsing>
