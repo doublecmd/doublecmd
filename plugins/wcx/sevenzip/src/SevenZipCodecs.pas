@@ -180,6 +180,7 @@ function GetCoderInfo(GetMethodProperty: TGetMethodProperty; Index: UInt32; var 
 var
   Value: TPropVariant;
 begin
+  Value.vt:= VT_EMPTY;
   if (GetMethodProperty(Index, kDecoder, Value) <> S_OK) then
     Exit(False);
   if (Value.vt <> VT_EMPTY) then
@@ -220,6 +221,7 @@ begin
     Exit(False);
   AInfo.ID:= Value.uhVal.QuadPart;
 
+  Value.vt:= VT_EMPTY;
   if (GetMethodProperty(Index, kName, Value) <> S_OK) then
     Exit(False);
   if (Value.vt = VT_BSTR) then
