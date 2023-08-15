@@ -150,6 +150,10 @@ begin
   cbHeaderSizeFormat.Items.Assign(cbFileSizeFormat.Items);
   cbFooterSizeFormat.Items.Assign(cbFileSizeFormat.Items);
   cbOperationSizeFormat.Items.Assign(cbFileSizeFormat.Items);
+  if cbDateTimeFormat.Items.IndexOf(DefaultDateTimeFormat) < 0 then
+  begin
+    cbDateTimeFormat.Items.Insert(0, DefaultDateTimeFormat);
+  end;
 end;
 
 procedure TfrmOptionsFilesViews.Load;

@@ -723,6 +723,7 @@ const
 var
   gConfig: TXmlConfig = nil;
   gStyles: TJsonConfig = nil;
+  DefaultDateTimeFormat: String;
 
 implementation
 
@@ -751,7 +752,6 @@ type
   TLoadConfigProc = function(var ErrorMessage: String): Boolean;
 
 var
-  DefaultDateTimeFormat: String;
   // Double Commander version
   // loaded from configuration file
   gPreviousVersion: String = '';
