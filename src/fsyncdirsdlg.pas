@@ -4,7 +4,7 @@
    Directories synchronization utility (specially for DC)
 
    Copyright (C) 2013 Anton Panferov (ast.a_s@mail.ru)
-   Copyright (C) 2014-2020 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2014-2023 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -237,7 +237,7 @@ uses
   uFileSystemFileSource, uFileSourceOperationOptions, DCDateTimeUtils,
   uDCUtils, uFileSourceUtil, uFileSourceOperationTypes, uShowForm, uAdministrator,
   uOSUtils, uLng, uMasks, Math, uClipboard, IntegerList, fMaskInputDlg, uSearchTemplate,
-  StrUtils, uTypes, uFileSystemDeleteOperation;
+  StrUtils, DCStrUtils, uTypes, uFileSystemDeleteOperation;
 
 {$R *.lfm}
 
@@ -503,7 +503,7 @@ var
     else begin
       Fs.Path:= fs[0].Path;
       // Create destination directory
-      Dst.CreateDirectory(Dest);
+      Dst.CreateDirectory(ExcludeBackPathDelimiter(Dest));
       // Determine operation type
       case OperationType of
         fsoCopy:
