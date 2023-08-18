@@ -15,6 +15,13 @@ DC_MINOR=$(grep 'MinorVersionNr' src/doublecmd.lpi | grep -o '[0-9.]\+' || echo 
 DC_MICRO=$(grep 'RevisionNr' src/doublecmd.lpi | grep -o '[0-9.]\+' || echo 0)
 DC_VER=$DC_MAJOR.$DC_MINOR.$DC_MICRO
 
+# Get libraries
+pushd install
+wget https://github.com/doublecmd/snapshots/raw/main/darwin.tar.gz
+tar xzf darwin.tar.gz
+rm -f darwin.tar.gz
+popd
+
 # Set widgetset
 export lcl=cocoa
 
