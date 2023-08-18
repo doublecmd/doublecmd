@@ -35,6 +35,9 @@ build_doublecmd()
   # Build all components of Double Commander
   ./build.sh release
 
+  # Copy libraries
+  cp -a install/darwin/lib/$CPU_TARGET/*.dylib ./
+
   # Create *.dmg package
   mkdir -p $BUILD_PACK_DIR
   install/darwin/install.sh $BUILD_PACK_DIR
