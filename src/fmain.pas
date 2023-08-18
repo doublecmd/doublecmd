@@ -4992,8 +4992,10 @@ begin
     Result := TBriefFileView.Create(Page, AConfig, ANode, FileViewFlags)
   else if sType = 'thumbnails' then
     Result := TThumbFileView.Create(Page, AConfig, ANode, FileViewFlags)
-  else
-    raise Exception.Create('Invalid file view type');
+  else begin
+    DCDebug(rsMsgLogError + 'Invalid file view type "%s"', [sType]);
+    Result := TColumnsFileView.Create(Page, AConfig, ANode, FileViewFlags);
+  end;
 end;
 
 procedure TfrmMain.AssignEvents(AFileView: TFileView);
