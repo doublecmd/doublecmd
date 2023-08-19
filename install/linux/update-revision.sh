@@ -3,7 +3,7 @@
 export REVISION_INC=$2/units/dcrevision.inc
 
 # DC revision number
-export REVISION=$(git -C $1 rev-list --count master..HEAD)
+export REVISION=$(git -C $1 rev-list --count 3e11343..HEAD)
 export COMMIT=$(git -C $1 rev-parse --short HEAD)
 
 # Update dcrevision.inc
