@@ -81,11 +81,11 @@ msgstr "Διόρθωση δεσμών"
 #: tfilesystemcopymoveoperationoptionsui.cbdropreadonlyflag.caption
 msgctxt "TFILESYSTEMCOPYMOVEOPERATIONOPTIONSUI.CBDROPREADONLYFLAG.CAPTION"
 msgid "Drop readonly fla&g"
-msgstr "Κατέβασμα σημαίας μόνο για ανάγνωση"
+msgstr "Αφαίρεση ιδιότητας μόνο για ανάγνωση"
 
 #: tfilesystemcopymoveoperationoptionsui.cbexcludeemptydirectories.caption
 msgid "E&xclude empty directories"
-msgstr "Αποκλεισμός άδειων καταλόγων"
+msgstr "Εξαίρεση κενών καταλόγων"
 
 #: tfilesystemcopymoveoperationoptionsui.cbfollowlinks.caption
 msgctxt "tfilesystemcopymoveoperationoptionsui.cbfollowlinks.caption"
@@ -94,11 +94,11 @@ msgstr "Ακολουθείστε τους δεσμούς"
 
 #: tfilesystemcopymoveoperationoptionsui.cbreservespace.caption
 msgid "&Reserve space"
-msgstr "Κράτηση Χώρου"
+msgstr "Δέσμευση Χώρου"
 
 #: tfilesystemcopymoveoperationoptionsui.chkcopyonwrite.caption
 msgid "Copy on write"
-msgstr "Αντιγραφή κατά την εγγραφή"
+msgstr "Τροποποίηση δημιουργεί αντίγραφο"
 
 #: tfilesystemcopymoveoperationoptionsui.chkverify.caption
 msgid "&Verify"
@@ -147,12 +147,12 @@ msgstr "Σχετικά"
 #: tfrmabout.lblbuild.caption
 msgctxt "tfrmabout.lblbuild.caption"
 msgid "Build"
-msgstr "Εσωτερική έκδοση"
+msgstr "Μεταγλώττιση"
 
 #: tfrmabout.lblcommit.caption
 msgctxt "tfrmabout.lblcommit.caption"
 msgid "Commit"
-msgstr "Υποβολή"
+msgstr "Τροποποίηση"
 
 #: tfrmabout.lblfreepascalver.caption
 msgctxt "tfrmabout.lblfreepascalver.caption"
@@ -175,7 +175,7 @@ msgstr "Lazarus"
 #: tfrmabout.lblrevision.caption
 msgctxt "TFRMABOUT.LBLREVISION.CAPTION"
 msgid "Revision"
-msgstr "Αναθεωρημένη έκδοση"
+msgstr "Αναθεώρηση"
 
 #: tfrmabout.lbltitle.caption
 msgctxt "TFRMABOUT.LBLTITLE.CAPTION"
@@ -208,7 +208,7 @@ msgstr "Επιλογή ιδιοτήτων"
 #: tfrmattributesedit.cbarchive.caption
 msgctxt "TFRMATTRIBUTESEDIT.CBARCHIVE.CAPTION"
 msgid "&Archive"
-msgstr "Αρχειοθήκη"
+msgstr "Αρχειοθετημένο"
 
 #: tfrmattributesedit.cbcompressed.caption
 msgid "Co&mpressed"
@@ -240,12 +240,12 @@ msgstr "SGID"
 
 #: tfrmattributesedit.cbsparse.caption
 msgid "S&parse"
-msgstr "Αραίωση"
+msgstr "Αραιό"
 
 #: tfrmattributesedit.cbsticky.caption
 msgctxt "TFRMATTRIBUTESEDIT.CBSTICKY.CAPTION"
 msgid "Sticky"
-msgstr "Κολημμένα"
+msgstr "Κολημμένο"
 
 #: tfrmattributesedit.cbsuid.caption
 msgctxt "TFRMATTRIBUTESEDIT.CBSUID.CAPTION"
@@ -254,7 +254,7 @@ msgstr "SUID"
 
 #: tfrmattributesedit.cbsymlink.caption
 msgid "&Symlink"
-msgstr "Συμβολοδεσμός"
+msgstr "Συμβολικός δεσμός"
 
 #: tfrmattributesedit.cbsystem.caption
 msgctxt "TFRMATTRIBUTESEDIT.CBSYSTEM.CAPTION"
@@ -276,17 +276,17 @@ msgstr "Γενικές ιδιότητες"
 #: tfrmattributesedit.lblattrbitsstr.caption
 msgctxt "TFRMATTRIBUTESEDIT.LBLATTRBITSSTR.CAPTION"
 msgid "Bits:"
-msgstr "Bits:"
+msgstr "Ιδιότητες:"
 
 #: tfrmattributesedit.lblattrgroupstr.caption
 msgctxt "TFRMATTRIBUTESEDIT.LBLATTRGROUPSTR.CAPTION"
 msgid "Group"
-msgstr "Γκρουπ"
+msgstr "Ομάδα"
 
 #: tfrmattributesedit.lblattrotherstr.caption
 msgctxt "TFRMATTRIBUTESEDIT.LBLATTROTHERSTR.CAPTION"
 msgid "Other"
-msgstr "Άλλο"
+msgstr "Λοιποί"
 
 #: tfrmattributesedit.lblattrownerstr.caption
 msgctxt "TFRMATTRIBUTESEDIT.LBLATTROWNERSTR.CAPTION"
@@ -598,12 +598,12 @@ msgstr "Εύρεση επόμενου"
 #: tfrmdiffer.actfindprev.caption
 msgctxt "tfrmdiffer.actfindprev.caption"
 msgid "Find previous"
-msgstr "Εύρεση Προηγούμενου"
+msgstr "Εύρεση προηγούμενου"
 
 #: tfrmdiffer.actfindprev.hint
 msgctxt "tfrmdiffer.actfindprev.hint"
 msgid "Find previous"
-msgstr "Εύρεση Προηγούμενου"
+msgstr "Εύρεση προηγούμενου"
 
 #: tfrmdiffer.actfindreplace.caption
 msgctxt "tfrmdiffer.actfindreplace.caption"
@@ -741,7 +741,7 @@ msgstr "Αποθήκευση Αριστερά Ως..."
 #: tfrmdiffer.actsaveleftas.hint
 msgctxt "TFRMDIFFER.ACTSAVELEFTAS.HINT"
 msgid "Save Left As..."
-msgstr "Αποθήκευση Αριστερά Ως..."
+msgstr "Αποθήκευση Αριστερά ως..."
 
 #: tfrmdiffer.actsaveright.caption
 msgctxt "TFRMDIFFER.ACTSAVERIGHT.CAPTION"
@@ -756,12 +756,12 @@ msgstr "Αποθήκευση Δεξιά"
 #: tfrmdiffer.actsaverightas.caption
 msgctxt "TFRMDIFFER.ACTSAVERIGHTAS.CAPTION"
 msgid "Save Right As..."
-msgstr "Αποθήκευση Δεξιά Ως..."
+msgstr "Αποθήκευση Δεξιά ως..."
 
 #: tfrmdiffer.actsaverightas.hint
 msgctxt "TFRMDIFFER.ACTSAVERIGHTAS.HINT"
 msgid "Save Right As..."
-msgstr "Αποθήκευση Δεξιά Ως..."
+msgstr "Αποθήκευση Δεξιά ως..."
 
 #: tfrmdiffer.actstartcompare.caption
 msgctxt "TFRMDIFFER.ACTSTARTCOMPARE.CAPTION"
@@ -836,7 +836,7 @@ msgstr "OK"
 
 #: tfrmedithotkey.btnremoveshortcut.hint
 msgid "Remove last shortcut from sequence"
-msgstr "Αφαίρεση τελευταίας μικρογραφίας από την ακολουθία"
+msgstr "Αφαίρεση τελευταίας συντόμευσης από την ακολουθία"
 
 #: tfrmedithotkey.btnselectfromlist.hint
 msgid "Select shortcut from list of remaining free available keys"
@@ -927,7 +927,7 @@ msgstr "Εύρεση επόμενου"
 #: tfrmeditor.acteditfindprevious.caption
 msgctxt "tfrmeditor.acteditfindprevious.caption"
 msgid "Find previous"
-msgstr "Εύρεση Προηγούμενου"
+msgstr "Εύρεση προηγούμενου"
 
 #: tfrmeditor.acteditgotoline.caption
 msgctxt "tfrmeditor.acteditgotoline.caption"
@@ -1069,11 +1069,11 @@ msgstr "Αποθήκευση"
 
 #: tfrmeditor.actfilesaveas.caption
 msgid "Save &As..."
-msgstr "Αποθήκευση Ως..."
+msgstr "Αποθήκευση ως..."
 
 #: tfrmeditor.actfilesaveas.hint
 msgid "Save As"
-msgstr "Αποθήκευση Ως"
+msgstr "Αποθήκευση ως"
 
 #: tfrmeditor.actsaveall.caption
 msgid "Sa&ve All"
@@ -1119,7 +1119,7 @@ msgstr "Αρχείο"
 
 #: tfrmeditor.mihighlight.caption
 msgid "Syntax highlight"
-msgstr "Υπογράμμιση Σύνταξης"
+msgstr "Επισήμανση Σύνταξης"
 
 #: tfrmeditor.milineendtype.caption
 msgid "End Of Line"
@@ -1137,7 +1137,7 @@ msgstr "OK"
 
 #: tfrmeditsearchreplace.cbmultiline.caption
 msgid "&Multiline pattern"
-msgstr "Πρότυπο πολλών γραμμών"
+msgstr "Η έκφραση εκτείνεται σε πολλές γραμμές"
 
 #: tfrmeditsearchreplace.cbsearchcasesensitive.caption
 msgctxt "TFRMEDITSEARCHREPLACE.CBSEARCHCASESENSITIVE.CAPTION"
@@ -1147,17 +1147,17 @@ msgstr "Διάκριση Πεζών-Κεφαλαίων"
 #: tfrmeditsearchreplace.cbsearchfromcursor.caption
 msgctxt "TFRMEDITSEARCHREPLACE.CBSEARCHFROMCURSOR.CAPTION"
 msgid "S&earch from caret"
-msgstr "Αναζήτηση από το σημείο εισαγωγής"
+msgstr "Αναζήτηση από το δρομέα"
 
 #: tfrmeditsearchreplace.cbsearchregexp.caption
 msgctxt "TFRMEDITSEARCHREPLACE.CBSEARCHREGEXP.CAPTION"
 msgid "&Regular expressions"
-msgstr "Συνήθεις Φράσεις"
+msgstr "Κανονικές εκφράσεις"
 
 #: tfrmeditsearchreplace.cbsearchselectedonly.caption
 msgctxt "TFRMEDITSEARCHREPLACE.CBSEARCHSELECTEDONLY.CAPTION"
 msgid "Selected &text only"
-msgstr "Το Επιλεγμένο κείμενο μόνο"
+msgstr "Το επιλεγμένο κείμενο μόνο"
 
 #: tfrmeditsearchreplace.cbsearchwholewords.caption
 msgctxt "TFRMEDITSEARCHREPLACE.CBSEARCHWHOLEWORDS.CAPTION"
@@ -1186,7 +1186,7 @@ msgstr "Κατεύθυνση"
 
 #: tfrmelevation.chkelevateall.caption
 msgid "Do this for &all current objects"
-msgstr "Εφαρμογή αυτού για όλα τα τρέχοντα αντικείμενα"
+msgstr "Εφαρμογή σε όλα τα τρέχοντα αντικείμενα"
 
 #: tfrmextractdlg.caption
 msgctxt "TFRMEXTRACTDLG.CAPTION"
@@ -1243,7 +1243,7 @@ msgstr "Από:"
 
 #: tfrmfileexecuteyourself.lblprompt.caption
 msgid "Click on Close when the temporary file can be deleted!"
-msgstr "Κάντε κλικ στο Κλείσιμο όταν το προσωρινό αρχείο δε μπορεί να διαγραφεί!"
+msgstr "Κάντε κλικ στο Κλείσιμο όταν το προσωρινό αρχείο είναι διαθέσιμο για διαγραφή!"
 
 #: tfrmfileop.btncancel.caption
 msgctxt "TFRMFILEOP.BTNCANCEL.CAPTION"
@@ -1252,7 +1252,7 @@ msgstr "Ακύρωση"
 
 #: tfrmfileop.btnminimizetopanel.caption
 msgid "&To panel"
-msgstr "Στο πάνελ"
+msgstr "Στο πλαίσιο"
 
 #: tfrmfileop.btnviewoperations.caption
 msgid "&View all"
@@ -1284,7 +1284,7 @@ msgstr "SGID"
 #: tfrmfileproperties.cbsticky.caption
 msgctxt "TFRMFILEPROPERTIES.CBSTICKY.CAPTION"
 msgid "Sticky"
-msgstr "Κολημμένα"
+msgstr "Κολημμένο"
 
 #: tfrmfileproperties.cbsuid.caption
 msgctxt "TFRMFILEPROPERTIES.CBSUID.CAPTION"
@@ -1297,7 +1297,7 @@ msgstr "Αποδοχή εκτέλεσης αρχείου σαν πρόγραμμ
 
 #: tfrmfileproperties.chkrecursive.caption
 msgid "&Recursive"
-msgstr ""
+msgstr "Αναδρομή"
 
 #: tfrmfileproperties.dividerbevel3.caption
 msgctxt "TFRMFILEPROPERTIES.DIVIDERBEVEL3.CAPTION"
@@ -1307,17 +1307,17 @@ msgstr "Ιδιοκτήτης"
 #: tfrmfileproperties.lblattrbitsstr.caption
 msgctxt "TFRMFILEPROPERTIES.LBLATTRBITSSTR.CAPTION"
 msgid "Bits:"
-msgstr "Bits:"
+msgstr "Ιδιότητες:"
 
 #: tfrmfileproperties.lblattrgroupstr.caption
 msgctxt "TFRMFILEPROPERTIES.LBLATTRGROUPSTR.CAPTION"
 msgid "Group"
-msgstr "Γκρουπ"
+msgstr "Ομάδα"
 
 #: tfrmfileproperties.lblattrotherstr.caption
 msgctxt "TFRMFILEPROPERTIES.LBLATTROTHERSTR.CAPTION"
 msgid "Other"
-msgstr "Άλλο"
+msgstr "Λοιποί"
 
 #: tfrmfileproperties.lblattrownerstr.caption
 msgctxt "TFRMFILEPROPERTIES.LBLATTROWNERSTR.CAPTION"
@@ -1342,7 +1342,7 @@ msgstr "Περιεχόμενα:"
 #, fuzzy
 msgctxt "tfrmfileproperties.lblcreatedstr.caption"
 msgid "Created:"
-msgstr "Δημιουργήθηκε:"
+msgstr "Δημιουργήθηκε:"         
 
 #: tfrmfileproperties.lblexec.caption
 msgctxt "TFRMFILEPROPERTIES.LBLEXEC.CAPTION"
@@ -1376,17 +1376,17 @@ msgstr "Διαδρομή:"
 #: tfrmfileproperties.lblgroupstr.caption
 msgctxt "TFRMFILEPROPERTIES.LBLGROUPSTR.CAPTION"
 msgid "&Group"
-msgstr "Γκρουπ"
+msgstr "Ομάδα"
 
 #: tfrmfileproperties.lbllastaccessstr.caption
 msgctxt "tfrmfileproperties.lbllastaccessstr.caption"
 msgid "Accessed:"
-msgstr "Τελευταία προσπέλαση:"
+msgstr "Τελευταία προσπέλαση:" 
 
 #: tfrmfileproperties.lbllastmodifstr.caption
 msgctxt "tfrmfileproperties.lbllastmodifstr.caption"
 msgid "Modified:"
-msgstr "Τελευταία διαμόρφωση:"
+msgstr "Τελευταία τροποποίηση:"
 
 #: tfrmfileproperties.lbllaststchangestr.caption
 msgid "Status changed:"
@@ -1394,16 +1394,16 @@ msgstr "Τελευταία αλλαγή κατάστασης:"
 
 #: tfrmfileproperties.lbllinksstr.caption
 msgid "Links:"
-msgstr ""
+msgstr "Σύνδεσμοι:"
 
 #: tfrmfileproperties.lblmediatypestr.caption
 msgid "Media type:"
-msgstr ""
+msgstr "Τύπος μέσου:"
 
 #: tfrmfileproperties.lbloctal.caption
 msgctxt "TFRMFILEPROPERTIES.LBLOCTAL.CAPTION"
 msgid "Octal:"
-msgstr "Octal:"
+msgstr "Οκταδικός:"
 
 #: tfrmfileproperties.lblownerstr.caption
 msgctxt "TFRMFILEPROPERTIES.LBLOWNERSTR.CAPTION"
@@ -1417,8 +1417,8 @@ msgstr "Ανάγνωση"
 
 #: tfrmfileproperties.lblsizeondiskstr.caption
 msgid "Size on disk:"
-msgstr ""
-
+msgstr "Μέγεθος στο μέσο αποθήκευσης:"
+ 
 #: tfrmfileproperties.lblsizestr.caption
 msgctxt "TFRMFILEPROPERTIES.LBLSIZESTR.CAPTION"
 msgid "Size:"
@@ -1426,7 +1426,7 @@ msgstr "Μέγεθος:"
 
 #: tfrmfileproperties.lblsymlinkstr.caption
 msgid "Symlink to:"
-msgstr "Συμβολοδεσμός στο:"
+msgstr "Συμβολικός δεσμός στο:"
 
 #: tfrmfileproperties.lbltypestr.caption
 msgid "Type:"
@@ -1478,7 +1478,7 @@ msgstr "Ξεκλείδωμα"
 
 #: tfrmfileunlock.btnunlockall.caption
 msgid "Unlock All"
-msgstr "Όλων"
+msgstr "Ξεκλείδωμα Όλων"
 
 #: tfrmfileunlock.caption
 msgctxt "tfrmfileunlock.caption"
@@ -1504,7 +1504,7 @@ msgstr "Ακύρωση"
 
 #: tfrmfinddlg.actcancelclose.caption
 msgid "Cancel search and close window"
-msgstr "Κλείσιμο"
+msgstr "Ακύρωση αναζήτησης και κλείσιμο"
 
 #: tfrmfinddlg.actclose.caption
 msgctxt "tfrmfinddlg.actclose.caption"
@@ -1523,7 +1523,7 @@ msgstr "Επεξεργασία"
 
 #: tfrmfinddlg.actfeedtolistbox.caption
 msgid "Feed to &listbox"
-msgstr "Τροφοδοσία στο listbox"
+msgstr "Εμφάνιση σε λίστα"
 
 #: tfrmfinddlg.actfreefrommem.caption
 msgid "Cancel search, close and free from memory"
@@ -1531,7 +1531,7 @@ msgstr "Ακύρωση αναζήτησης, κλείσιμο και απελε�
 
 #: tfrmfinddlg.actfreefrommemallothers.caption
 msgid "For all other \"Find files\", cancel, close and free from memory"
-msgstr "Για όλα τα άλλα \"Αναζήτηση Αρχείων\", ακύρωση, κλείσιμο και απελευθέρωση από τη μνήμη"
+msgstr "Για όλες τις άλλες \"Αναζητήσεις Αρχείων\", ακύρωση, κλείσιμο και απελευθέρωση από τη μνήμη"
 
 #: tfrmfinddlg.actgotofile.caption
 msgid "&Go to file"
@@ -1686,7 +1686,7 @@ msgstr "Office XML"
 
 #: tfrmfinddlg.cbopenedtabs.caption
 msgid "Opened tabs"
-msgstr "Ανοικτές Καρτέλες"
+msgstr "Ανοικτές καρτέλες"
 
 #: tfrmfinddlg.cbpartialnamesearch.caption
 msgid "Searc&h for part of file name"
@@ -2400,32 +2400,32 @@ msgstr "Εναλλαγή μεταξύ τρέχουσας λίστας αρχεί
 
 #: tfrmmain.actgotofirstentry.caption
 msgid "Place cursor on first folder or file"
-msgstr "Κέρσορας στον πρώτο φάκελο ή αρχείο"
+msgstr "Δρομέας στον πρώτο φάκελο ή αρχείο"
 
 #: tfrmmain.actgotofirstfile.caption
 msgid "Place cursor on first file in list"
-msgstr "Τοποθέτηση του κέρσορα στο πρώτο αρχείο της λίστας"
+msgstr "Τοποθέτηση του δρομέα στο πρώτο αρχείο της λίστας"
 
 #: tfrmmain.actgotolastentry.caption
 msgid "Place cursor on last folder or file"
-msgstr "Κέρσορας στον τελευταίο φάκελο ή αρχείο"
+msgstr "Δρομέας στον τελευταίο φάκελο ή αρχείο"
 
 #: tfrmmain.actgotolastfile.caption
 msgid "Place cursor on last file in list"
-msgstr "Τοποθέτηση του κέρσορα στο τελευταίο αρχείο της λίστας"
+msgstr "Τοποθέτηση του δρομέα στο τελευταίο αρχείο της λίστας"
 
 #: tfrmmain.actgotonextentry.caption
 msgid "Place cursor on next folder or file"
-msgstr "Μετάθεση κέρσορα στον επόμενο φάκελο ή αρχείο"
+msgstr "Τοποθέτηση του δρομέα στον επόμενο φάκελο ή αρχείο"
 
 #: tfrmmain.actgotopreventry.caption
 msgid "Place cursor on previous folder or file"
-msgstr "Μετάθεση κέρσορα στον προηγούμενο φάκελο ή αρχείο"
+msgstr "Τοποθέτηση του δρομέα στον προηγούμενο φάκελο ή αρχείο"
 
 #: tfrmmain.acthardlink.caption
 msgctxt "TFRMMAIN.ACTHARDLINK.CAPTION"
 msgid "Create &Hard Link..."
-msgstr "Δημιουργία δεσμού τύπου Hard Link..."
+msgstr "Δημιουργία σκληρού δεσμού..."
 
 #: tfrmmain.acthelpindex.caption
 msgid "&Contents"
@@ -2497,7 +2497,7 @@ msgstr "Φόρτωση Λίστας"
 
 #: tfrmmain.actloadlist.hint
 msgid "Load list of files/folders from the specified text file"
-msgstr "Φόρτωση λίστας αρχείων/φακέλων από το καθορισμένο αρχείο κειμένου"
+msgstr "Φόρτωση λίστας αρχείων/φακέλων από το καθορισμένο αρχείο κειμένου"      
 
 #: tfrmmain.actloadselectionfromclip.caption
 msgid "Load Selection from Clip&board"
@@ -2561,7 +2561,7 @@ msgstr "Μετακίνηση τρέχουσας καρτέλας στα αρισ
 
 #: tfrmmain.actmovetabright.caption
 msgid "Move current tab to the right"
-msgstr "Μετακίνηση τρέχουσας καρτέλας στα αριστερά"
+msgstr "Μετακίνηση τρέχουσας καρτέλας στα δεξιά"
 
 #: tfrmmain.actmultirename.caption
 msgid "Multi-&Rename Tool"
@@ -2754,7 +2754,7 @@ msgstr "Αποθήκευση τρέχουσας καρτέλας σε μία Ν�
 
 #: tfrmmain.actsavefiledetailstofile.caption
 msgid "Save all shown columns to file"
-msgstr ""
+msgstr "Αποθήκευση όλων των εμφανιζόμενων στηλών σε αρχείο"
 
 #: tfrmmain.actsaveselection.caption
 msgid "Sa&ve Selection"
@@ -2876,7 +2876,7 @@ msgstr "Σύγχρονη πλοήγηση"
 
 #: tfrmmain.actsyncchangedir.hint
 msgid "Synchronous directory changing in both panels"
-msgstr "Σύγχρονη αλλαγή καταλόγου και στα δύο πάνελ"
+msgstr "Σύγχρονη αλλαγή καταλόγου και στα δύο πλαίσια"
 
 #: tfrmmain.actsyncdirs.caption
 msgid "Syn&chronize dirs..."
@@ -2905,11 +2905,11 @@ msgstr "Εναλλαγή σε τερματικό πλήρους οθόνης"
 
 #: tfrmmain.acttransferleft.caption
 msgid "Transfer dir under cursor to left window"
-msgstr "Μεταφορά του καταλόγου κάτω από τον κέρσορα στο αριστερό παράθυρο"
+msgstr "Μεταφορά του καταλόγου κάτω από τον δρομέα στο αριστερό παράθυρο"
 
 #: tfrmmain.acttransferright.caption
 msgid "Transfer dir under cursor to right window"
-msgstr "Μεταφορά του καταλόγου κάτω από τον κέρσορα στο δεξιό παράθυρο"
+msgstr "Μεταφορά του καταλόγου κάτω από τον δρομέα στο δεξιό παράθυρο"
 
 #: tfrmmain.acttreeview.caption
 msgid "&Tree View Panel"
@@ -3383,7 +3383,7 @@ msgstr "Δημιουργία νέου καταλόγου"
 
 #: tfrmmkdir.cbextended.caption
 msgid "&Extended syntax"
-msgstr "Εκτεταμένη σύνταξη"
+msgstr "Προχωρημένη σύνταξη"
 
 #: tfrmmkdir.lblmakedir.caption
 msgid "&Input new directory name:"
@@ -3680,7 +3680,7 @@ msgstr "A≠a"
 #: tfrmmultirename.cbcasesens.hint
 msgctxt "tfrmmultirename.cbcasesens.hint"
 msgid "Case sensitive"
-msgstr "Με διάκριση πεζών -κεφαλαίων"
+msgstr "Με διάκριση πεζών - κεφαλαίων"
 
 #: tfrmmultirename.cblog.caption
 msgctxt "TFRMMULTIRENAME.CBLOG.CAPTION"
@@ -3697,7 +3697,7 @@ msgstr "1x"
 
 #: tfrmmultirename.cbonlyfirst.hint
 msgid "Replace only once per file"
-msgstr "Αντικατάσταση μόνο μία φορά για κάθε αρχείο"
+msgstr "Αντικατάσταση μια φορά μόνο σε κάθε αρχείο"
 
 #: tfrmmultirename.cbregexp.caption
 msgctxt "TFRMMULTIRENAME.CBREGEXP.CAPTION"
