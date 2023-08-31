@@ -1565,6 +1565,8 @@ begin
           FEncoding := DetectEncoding;
 
         ReReadFile;
+
+        CaretPos := FLowLimit;
       end;
     end;
   end
