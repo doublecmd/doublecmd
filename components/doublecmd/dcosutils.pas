@@ -147,6 +147,10 @@ function FileIsReadOnly(iAttr: TFileAttrs): Boolean; inline;
 }
 function GetTempName(PathPrefix: String; Extension: String = 'tmp'): String;
 {en
+   Find file in the system PATH
+}
+function FindInSystemPath(var FileName: String): Boolean;
+{en
    Extract file root directory
    @param(FileName File name)
 }
@@ -668,6 +672,26 @@ begin
     if TryNumber = MaxTries then
       Exit('');
   until not mbFileSystemEntryExists(Result);
+end;
+
+function FindInSystemPath(var FileName: String): Boolean;
+var
+  I: Integer;
+  Path, FullName: String;
+  Value: TDynamicStringArray;
+begin
+  Path:= mbGetEnvironmentVariable('PATH');
+  Value:= SplitString(Path, PathSeparator);
+  for I:= Low(Value) to High(Value) do
+  begin
+    FullName:= IncludeTrailingPathDelimiter(Value[I]) + FileName;
+    if mbFileExists(FullName) then
+    begin
+      FileName:= FullName;
+      Exit(True);
+    end;
+  end;
+  Result:= False;
 end;
 
 function ExtractRootDir(const FileName: String): String;
@@ -1788,9 +1812,16 @@ const
   PATH_ENV = 'PATH';
 var
   APath: String;
+  FullName: String;
   usName: UnicodeString;
 begin
-  usName:= CeUtf8ToUtf16(Name);
+  FullName:= Name;
+
+  if GetPathType(Name) = ptNone then
+  begin
+    FindInSystemPath(FullName);
+  end;
+  usName:= CeUtf8ToUtf16(FullName);
 
   if CheckWin32Version(10)then
   begin
