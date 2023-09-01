@@ -375,11 +375,16 @@ const
   AllowPathDelimiters : set of char = ['\','/'];
 var
   I : LongInt;
+  uriPos : Integer;
 begin
   Result:= Path;
   // If path is not URI
-  if Pos('://', Result) = 0 then
-  begin
+  uriPos := Pos('://', Result);
+  if (uriPos = 0)
+{$IF DEFINED(MSWINDOWS)}
+     or ( (uriPos = 2) and  (Path[1] in ['A'..'z']) )
+{$ENDIF} then
+ begin
     for I:= 1 to Length(Path) do
       if Path[I] in AllowPathDelimiters then
         Result[I]:= DirectorySeparator;
