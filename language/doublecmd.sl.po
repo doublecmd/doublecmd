@@ -2,22 +2,24 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER.
 # This file is distributed under the same license as the double-commander package.
 #
-# Matej Urbančič <mateju@svn.gnome.org>, 2011–2017.
+# Matej Urbančič <mateju@src.gnome.org>, 2011–2023.
+#
 msgid ""
 msgstr ""
-"Project-Id-Version: Double Commander 1.1.0 alpha\n"
+"Project-Id-Version: double-commander master\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-11-15 11:15+0300\n"
-"PO-Revision-Date: 2017-09-25 21:39+0200\n"
-"Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
+"PO-Revision-Date: 2023-08-29 21:01+0200\n"
+"Last-Translator: Matej Urbančič <mateju@src.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: sl_SI\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || n%100==4 ? 3 : 0);\n"
+"Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || "
+"n%100==4 ? 3 : 0);\n"
 "X-Poedit-SourceCharset: utf-8\n"
-"X-Generator: Poedit 2.0.1\n"
+"X-Generator: Poedit 3.0.1\n"
 "X-Native-Language: Slovenščina\n"
 
 #: fsyncdirsdlg.rscomparingpercent
@@ -28,7 +30,7 @@ msgstr "Poteka primerjava ... %d%% (s tipko ESC se opravilo prekliče)"
 #: fsyncdirsdlg.rsdeleteleft
 #, object-pascal-format
 msgid "Left: Delete %d file(s)"
-msgstr ""
+msgstr "Levo: izbriši %d datotek"
 
 #: fsyncdirsdlg.rsdeleteright
 #, object-pascal-format
@@ -37,20 +39,22 @@ msgstr "Desno: izbriši %d datotek"
 
 #: fsyncdirsdlg.rsfilesfound
 #, object-pascal-format
-msgid "Files found: %d  (Identical: %d, Different: %d, Unique left: %d, Unique right: %d)"
-msgstr "Število najdenih datotek: %d  (Enakih: %d, Različnih: %d, Različnih na levi: %d, Različnih na desni: %d)"
+msgid ""
+"Files found: %d  (Identical: %d, Different: %d, Unique left: %d, Unique "
+"right: %d)"
+msgstr ""
+"Število najdenih datotek: %d  (Enakih: %d, Različnih: %d, Različnih na levi: "
+"%d, Različnih na desni: %d)"
 
 #: fsyncdirsdlg.rslefttorightcopy
-#, object-pascal-format, fuzzy, badformat
-#| msgid "Left to Right: Copy %d files, total size: %d bytes"
+#, object-pascal-format
 msgid "Left to Right: Copy %d files, total size: %s (%s)"
-msgstr "Z leve na desno: kopiraj %d datotek s skupno velikostjo %d bajtov"
+msgstr "Z leve na desno: kopiraj %d datotek skupne velikosti %s (%s)"
 
 #: fsyncdirsdlg.rsrighttoleftcopy
-#, object-pascal-format, fuzzy, badformat
-#| msgid "Right to Left: Copy %d files, total size: %d bytes"
+#, object-pascal-format
 msgid "Right to Left: Copy %d files, total size: %s (%s)"
-msgstr "Z desne na levo: kopiraj %d datotek s skupno velikostjo %d bajtov"
+msgstr "Z desne na levo: kopiraj %d datotek skupne velikosti %s (%s)"
 
 #: tfilesystemcopymoveoperationoptionsui.btnsearchtemplate.hint
 msgid "Choose template..."
@@ -100,7 +104,7 @@ msgstr "&Zadrži prostor"
 
 #: tfilesystemcopymoveoperationoptionsui.chkcopyonwrite.caption
 msgid "Copy on write"
-msgstr ""
+msgstr "Kopiraj ob zapisovanju"
 
 #: tfilesystemcopymoveoperationoptionsui.chkverify.caption
 msgid "&Verify"
@@ -153,7 +157,7 @@ msgstr "Datum izgradnje"
 #: tfrmabout.lblcommit.caption
 msgctxt "tfrmabout.lblcommit.caption"
 msgid "Commit"
-msgstr ""
+msgstr "Uveljavi"
 
 #: tfrmabout.lblfreepascalver.caption
 msgctxt "tfrmabout.lblfreepascalver.caption"
@@ -162,7 +166,7 @@ msgstr "Free Pascal"
 
 #: tfrmabout.lblhomepage.caption
 msgid "Home Page:"
-msgstr "Domača stran:"
+msgstr "Spletna stran:"
 
 #: tfrmabout.lblhomepageaddress.caption
 msgid "https://doublecmd.sourceforge.io"
@@ -310,29 +314,29 @@ msgstr "Pisanje"
 
 #: tfrmbenchmark.caption
 msgid "Benchmark"
-msgstr ""
+msgstr "Primerjalni preizkus"
 
 #: tfrmbenchmark.lblbenchmarksize.caption
 #, object-pascal-format
 msgid "Benchmark data size: %d MB"
-msgstr ""
+msgstr "Velikost podatkov za preizkus: %d MB"
 
 #: tfrmbenchmark.stgresult.columns[0].title.caption
 msgid "Hash"
-msgstr ""
+msgstr "Nadzorna vsota"
 
 #: tfrmbenchmark.stgresult.columns[1].title.caption
 msgid "Time (ms)"
-msgstr ""
+msgstr "Čas (ms)"
 
 #: tfrmbenchmark.stgresult.columns[2].title.caption
 msgid "Speed (MB/s)"
-msgstr ""
+msgstr "Hitrost (MB/s)"
 
 #: tfrmchecksumcalc.caption
 msgctxt "tfrmchecksumcalc.caption"
 msgid "Calculate checksum..."
-msgstr "Izračun nadzornih vsot"
+msgstr "Izračunaj nadzorne vsote ..."
 
 #: tfrmchecksumcalc.cbopenafterjobiscomplete.caption
 msgid "Open checksum file after job is completed"
@@ -357,7 +361,6 @@ msgid "Verify checksum..."
 msgstr "Preveri nadzo&rno vsoto ..."
 
 #: tfrmchooseencoding.caption
-#, fuzzy
 msgctxt "tfrmchooseencoding.caption"
 msgid "Encoding"
 msgstr "Nabor znakov"
@@ -421,6 +424,7 @@ msgctxt "tfrmcopydlg.mnunewqueue.caption"
 msgid "New queue"
 msgstr "Nova čakalna vrsta"
 
+# xxx
 #: tfrmcopydlg.mnuqueue1.caption
 msgctxt "tfrmcopydlg.mnuqueue1.caption"
 msgid "Queue 1"
@@ -547,10 +551,9 @@ msgid "Redo"
 msgstr "Ponovno uveljavi"
 
 #: tfrmdiffer.acteditredo.hint
-#, fuzzy
 msgctxt "tfrmdiffer.acteditredo.hint"
 msgid "Redo"
-msgstr "Ponovno uveljavi"
+msgstr "Ponovno uveljavi dejanje"
 
 #: tfrmdiffer.acteditselectall.caption
 msgid "Select &All"
@@ -562,10 +565,9 @@ msgid "Undo"
 msgstr "Razveljavi"
 
 #: tfrmdiffer.acteditundo.hint
-#, fuzzy
 msgctxt "tfrmdiffer.acteditundo.hint"
 msgid "Undo"
-msgstr "Razveljavi"
+msgstr "Razveljavi dejanje"
 
 #: tfrmdiffer.actexit.caption
 msgctxt "tfrmdiffer.actexit.caption"
@@ -573,49 +575,41 @@ msgid "E&xit"
 msgstr "&Končaj"
 
 #: tfrmdiffer.actfind.caption
-#, fuzzy
 msgctxt "tfrmdiffer.actfind.caption"
 msgid "&Find"
 msgstr "&Najdi"
 
 #: tfrmdiffer.actfind.hint
-#, fuzzy
 msgctxt "tfrmdiffer.actfind.hint"
 msgid "Find"
 msgstr "Najdi"
 
 #: tfrmdiffer.actfindnext.caption
-#, fuzzy
 msgctxt "tfrmdiffer.actfindnext.caption"
 msgid "Find next"
-msgstr "Najdi naslednje"
+msgstr "Iskanje naprej"
 
 #: tfrmdiffer.actfindnext.hint
-#, fuzzy
 msgctxt "tfrmdiffer.actfindnext.hint"
 msgid "Find next"
 msgstr "Najdi naslednje"
 
 #: tfrmdiffer.actfindprev.caption
-#, fuzzy
 msgctxt "tfrmdiffer.actfindprev.caption"
 msgid "Find previous"
-msgstr "Najdi predhodno"
+msgstr "Iskanje nazaj"
 
 #: tfrmdiffer.actfindprev.hint
-#, fuzzy
 msgctxt "tfrmdiffer.actfindprev.hint"
 msgid "Find previous"
 msgstr "Najdi predhodno"
 
 #: tfrmdiffer.actfindreplace.caption
-#, fuzzy
 msgctxt "tfrmdiffer.actfindreplace.caption"
 msgid "&Replace"
 msgstr "&Zamenjaj"
 
 #: tfrmdiffer.actfindreplace.hint
-#, fuzzy
 msgctxt "tfrmdiffer.actfindreplace.hint"
 msgid "Replace"
 msgstr "Zamenjaj"
@@ -631,13 +625,11 @@ msgid "First Difference"
 msgstr "Prva razlika"
 
 #: tfrmdiffer.actgotoline.caption
-#, fuzzy
 msgctxt "tfrmdiffer.actgotoline.caption"
 msgid "Goto Line..."
 msgstr "Skoči v vrstico ..."
 
 #: tfrmdiffer.actgotoline.hint
-#, fuzzy
 msgctxt "tfrmdiffer.actgotoline.hint"
 msgid "Goto Line"
 msgstr "Skoči v vrstico"
@@ -652,7 +644,7 @@ msgstr "Prezri prazne"
 
 #: tfrmdiffer.actkeepscrolling.caption
 msgid "Keep Scrolling"
-msgstr "Nadaljuj drsenje"
+msgstr "Nadaljuj z drsenjem"
 
 #: tfrmdiffer.actlastdifference.caption
 msgctxt "tfrmdiffer.actlastdifference.caption"
@@ -808,7 +800,7 @@ msgstr "&Dejanja"
 #: tfrmdiffer.mnuedit.caption
 msgctxt "TFRMDIFFER.MNUEDIT.CAPTION"
 msgid "&Edit"
-msgstr "&&Uredi"
+msgstr "&Uredi"
 
 #: tfrmdiffer.mnuencoding.caption
 msgctxt "tfrmdiffer.mnuencoding.caption"
@@ -1038,7 +1030,7 @@ msgstr "Končaj"
 
 #: tfrmeditor.actfilenew.caption
 msgid "&New"
-msgstr "&Nov stolpec"
+msgstr "&Nova datoteka"
 
 #: tfrmeditor.actfilenew.hint
 msgctxt "tfrmeditor.actfilenew.hint"
@@ -1055,7 +1047,6 @@ msgid "Open"
 msgstr "Odpri"
 
 #: tfrmeditor.actfilereload.caption
-#, fuzzy
 msgctxt "tfrmeditor.actfilereload.caption"
 msgid "Reload"
 msgstr "Ponovno naloži"
@@ -1113,7 +1104,7 @@ msgstr "Odpri kot"
 #: tfrmeditor.miencodingout.caption
 msgctxt "tfrmeditor.miencodingout.caption"
 msgid "Save as"
-msgstr "Shrani kot …"
+msgstr "Shrani kot ..."
 
 #: tfrmeditor.mifile.caption
 msgctxt "TFRMEDITOR.MIFILE.CAPTION"
@@ -1126,7 +1117,7 @@ msgstr "Poudarjanje skladnje"
 
 #: tfrmeditor.milineendtype.caption
 msgid "End Of Line"
-msgstr "Konec vrstice"
+msgstr "Zapis konca vrstice"
 
 #: tfrmeditsearchreplace.buttonpanel.cancelbutton.caption
 msgctxt "TFRMEDITSEARCHREPLACE.BUTTONPANEL.CANCELBUTTON.CAPTION"
@@ -1140,7 +1131,7 @@ msgstr "V &redu"
 
 #: tfrmeditsearchreplace.cbmultiline.caption
 msgid "&Multiline pattern"
-msgstr ""
+msgstr "&Večvrstični vzorec"
 
 #: tfrmeditsearchreplace.cbsearchcasesensitive.caption
 msgid "C&ase sensitivity"
@@ -1181,7 +1172,7 @@ msgstr "Smer"
 
 #: tfrmelevation.chkelevateall.caption
 msgid "Do this for &all current objects"
-msgstr ""
+msgstr "Ponovi za &vse trenutne predmete"
 
 #: tfrmextractdlg.caption
 msgid "Unpack files"
@@ -1198,7 +1189,8 @@ msgstr "*.*"
 
 #: tfrmextractdlg.cbinseparatefolder.caption
 msgid "Unpack each archive to a &separate subdir (name of the archive)"
-msgstr "Odpakiraj vsak arhiv v &ločeno podrejeno mapo (z imenom vsakega arhiva)"
+msgstr ""
+"Odpakiraj vsak arhiv v &ločeno podrejeno mapo (z imenom vsakega arhiva)"
 
 #: tfrmextractdlg.cboverwrite.caption
 msgid "O&verwrite existing files"
@@ -1290,7 +1282,7 @@ msgstr "Dovoli izvajanje datote&ke kot programa"
 
 #: tfrmfileproperties.chkrecursive.caption
 msgid "&Recursive"
-msgstr ""
+msgstr "&Po strukturi map"
 
 #: tfrmfileproperties.dividerbevel3.caption
 msgctxt "TFRMFILEPROPERTIES.DIVIDERBEVEL3.CAPTION"
@@ -1332,7 +1324,6 @@ msgid "Contains:"
 msgstr "Vsebuje:"
 
 #: tfrmfileproperties.lblcreatedstr.caption
-#, fuzzy
 msgctxt "tfrmfileproperties.lblcreatedstr.caption"
 msgid "Created:"
 msgstr "Ustvarjeno:"
@@ -1378,19 +1369,19 @@ msgstr "Zadnji dostop:"
 #: tfrmfileproperties.lbllastmodifstr.caption
 msgctxt "tfrmfileproperties.lbllastmodifstr.caption"
 msgid "Modified:"
-msgstr "Zadnja sprememba:"
+msgstr "Spremenjeno:"
 
 #: tfrmfileproperties.lbllaststchangestr.caption
 msgid "Status changed:"
-msgstr "Zadnja sprememba stanja:"
+msgstr "Stanje je spremenjeno:"
 
 #: tfrmfileproperties.lbllinksstr.caption
 msgid "Links:"
-msgstr ""
+msgstr "Povezave:"
 
 #: tfrmfileproperties.lblmediatypestr.caption
 msgid "Media type:"
-msgstr ""
+msgstr "Vrste predstavne vsebine:"
 
 #: tfrmfileproperties.lbloctal.caption
 msgctxt "tfrmfileproperties.lbloctal.caption"
@@ -1408,7 +1399,7 @@ msgstr "Branje"
 
 #: tfrmfileproperties.lblsizeondiskstr.caption
 msgid "Size on disk:"
-msgstr ""
+msgstr "Velikost na disku:"
 
 #: tfrmfileproperties.lblsizestr.caption
 msgctxt "tfrmfileproperties.lblsizestr.caption"
@@ -1454,40 +1445,39 @@ msgid "Properties"
 msgstr "Lastnosti"
 
 #: tfrmfileunlock.btnclose.caption
-#, fuzzy
 msgctxt "tfrmfileunlock.btnclose.caption"
 msgid "Close"
 msgstr "Zapri"
 
 #: tfrmfileunlock.btnterminate.caption
 msgid "Terminate"
-msgstr ""
+msgstr "Vsili končanje"
 
 #: tfrmfileunlock.btnunlock.caption
 msgctxt "tfrmfileunlock.btnunlock.caption"
 msgid "Unlock"
-msgstr ""
+msgstr "Odkleni"
 
 #: tfrmfileunlock.btnunlockall.caption
 msgid "Unlock All"
-msgstr ""
+msgstr "Odkleni vse"
 
 #: tfrmfileunlock.caption
 msgctxt "tfrmfileunlock.caption"
 msgid "Unlock"
-msgstr ""
+msgstr "Odkleni"
 
 #: tfrmfileunlock.stgfilehandles.columns[0].title.caption
 msgid "File Handle"
-msgstr ""
+msgstr "Ročnik datoteke"
 
 #: tfrmfileunlock.stgfilehandles.columns[1].title.caption
 msgid "Process ID"
-msgstr ""
+msgstr "ID opravila"
 
 #: tfrmfileunlock.stgfilehandles.columns[2].title.caption
 msgid "Executable Path"
-msgstr ""
+msgstr "Pot do izvedljive datoteke"
 
 #: tfrmfinddlg.actcancel.caption
 msgctxt "TFRMFINDDLG.ACTCANCEL.CAPTION"
@@ -1511,7 +1501,7 @@ msgstr "Nastavitev hitrih tipk"
 #: tfrmfinddlg.actedit.caption
 msgctxt "tfrmfinddlg.actedit.caption"
 msgid "&Edit"
-msgstr "&&Uredi"
+msgstr "&Uredi"
 
 #: tfrmfinddlg.actfeedtolistbox.caption
 msgid "Feed to &listbox"
@@ -1617,8 +1607,12 @@ msgid "Sa&ve with \"Start in directory\""
 msgstr "Sh&rani z možnostjo »Začni v mapi«"
 
 #: tfrmfinddlg.btnsearchsavewithstartingpath.hint
-msgid "If saved then \"Start in directory\" will be restored when loading template. Use it if you want to fix searching to a certain directory"
-msgstr "V kolikor je možnost »Začni v mapi« shranjena, bo mesto obnovljeno med nalaganjem predloge. Možnost je uporabna pri iskanju v določeni mapi."
+msgid ""
+"If saved then \"Start in directory\" will be restored when loading template. "
+"Use it if you want to fix searching to a certain directory"
+msgstr ""
+"V kolikor je možnost »Začni v mapi« shranjena, bo mesto obnovljeno med "
+"nalaganjem predloge. Možnost je uporabna pri iskanju v določeni mapi."
 
 #: tfrmfinddlg.btnusetemplate.caption
 msgid "Use template"
@@ -1671,7 +1665,7 @@ msgstr "Ni &starejše kot:"
 
 #: tfrmfinddlg.cbofficexml.caption
 msgid "Offi&ce XML"
-msgstr ""
+msgstr "Pisarna &XML"
 
 #: tfrmfinddlg.cbopenedtabs.caption
 msgid "Opened tabs"
@@ -1691,11 +1685,11 @@ msgstr "&Zamenjaj besedilo z"
 
 #: tfrmfinddlg.cbselectedfiles.caption
 msgid "Selected directories and files"
-msgstr "Izbrane &datoteke in mape"
+msgstr "Izbrane datoteke in mape"
 
 #: tfrmfinddlg.cbtextregexp.caption
 msgid "Reg&ular expression"
-msgstr "Logični &izraz"
+msgstr "&Logični izraz"
 
 #: tfrmfinddlg.cbtimefrom.caption
 msgid "&Time from:"
@@ -1711,61 +1705,64 @@ msgstr "Uporabi vstavek &iskanja:"
 
 #: tfrmfinddlg.chkduplicatecontent.caption
 msgid "same content"
-msgstr ""
+msgstr "po vsebini"
 
 #: tfrmfinddlg.chkduplicatehash.caption
 msgid "same hash"
-msgstr ""
+msgstr "po iskalnem nizu"
 
 #: tfrmfinddlg.chkduplicatename.caption
 msgid "same name"
-msgstr ""
+msgstr "po imenu"
 
 #: tfrmfinddlg.chkduplicates.caption
 msgid "Find du&plicate files:"
-msgstr ""
+msgstr "Poišči &podvojene datoteke:"
 
 #: tfrmfinddlg.chkduplicatesize.caption
 msgid "same size"
-msgstr ""
+msgstr "Arhivirana velikost:po velikosti"
 
 #: tfrmfinddlg.chkhex.caption
 msgctxt "tfrmfinddlg.chkhex.caption"
 msgid "Hexadeci&mal"
-msgstr ""
+msgstr "Šestnajstiško"
 
 #: tfrmfinddlg.cmbexcludedirectories.hint
-msgid "Enter directories names that should be excluded from search separated with \";\""
-msgstr "Vpis imen map, ki naj ne bodo upoštevana v iskanju. Imena morajo biti ločena s podpičjem » ; «."
+msgid ""
+"Enter directories names that should be excluded from search separated with "
+"\";\""
+msgstr ""
+"Vpis imen map, ki naj ne bodo upoštevana v iskanju. Imena morajo biti ločena "
+"s podpičjem » ; «."
 
 #: tfrmfinddlg.cmbexcludefiles.hint
-msgid "Enter files names that should be excluded from search separated with \";\""
-msgstr "Vpis imen datotek, ki naj ne bodo upoštevana v iskanju. Imena morajo biti ločena s podpičjem » ; «."
+msgid ""
+"Enter files names that should be excluded from search separated with \";\""
+msgstr ""
+"Vpis imen datotek, ki naj ne bodo upoštevana v iskanju. Imena morajo biti "
+"ločena s podpičjem » ; «."
 
 #: tfrmfinddlg.cmbfindfilemask.hint
 msgid "Enter files names separated with \";\""
 msgstr "Vpis imen datotek, ločenih s podpičjem » ; «"
 
 #: tfrmfinddlg.frmcontentplugins.headercontrol.sections[0].text
-#, fuzzy
 msgctxt "tfrmfinddlg.frmcontentplugins.headercontrol.sections[0].text"
 msgid "Plugin"
 msgstr "Vstavek"
 
 #: tfrmfinddlg.frmcontentplugins.headercontrol.sections[1].text
-#, fuzzy
 msgctxt "tfrmfinddlg.frmcontentplugins.headercontrol.sections[1].text"
 msgid "Field"
 msgstr "Polje"
 
 #: tfrmfinddlg.frmcontentplugins.headercontrol.sections[2].text
-#, fuzzy
 msgctxt "tfrmfinddlg.frmcontentplugins.headercontrol.sections[2].text"
 msgid "Operator"
 msgstr "Operator"
 
 #: tfrmfinddlg.frmcontentplugins.headercontrol.sections[3].text
-#, fuzzy
 msgctxt "tfrmfinddlg.frmcontentplugins.headercontrol.sections[3].text"
 msgid "Value"
 msgstr "Vrednost"
@@ -1897,46 +1894,43 @@ msgstr "Najdi"
 
 #: tfrmfindview.cbbackwards.caption
 msgid "&Backwards"
-msgstr ""
+msgstr "&V obratni smeri"
 
 #: tfrmfindview.cbcasesens.caption
 msgid "C&ase sensitive"
-msgstr "&Razlikovanje velikosti črk"
+msgstr "Upoštevaj &velikost črk"
 
 #: tfrmfindview.cbregexp.caption
-#, fuzzy
 msgctxt "tfrmfindview.cbregexp.caption"
 msgid "&Regular expressions"
-msgstr "&Logični izraz"
+msgstr "&Logični izrazi"
 
 #: tfrmfindview.chkhex.caption
 msgctxt "tfrmfindview.chkhex.caption"
 msgid "Hexadecimal"
-msgstr ""
+msgstr "Šestnajstiško"
 
 #: tfrmgioauthdialog.lbldomain.caption
 msgid "Domain:"
-msgstr ""
+msgstr "Domena:"
 
 #: tfrmgioauthdialog.lblpassword.caption
-#, fuzzy
 msgctxt "tfrmgioauthdialog.lblpassword.caption"
 msgid "Password:"
 msgstr "Geslo:"
 
 #: tfrmgioauthdialog.lblusername.caption
-#, fuzzy
 msgctxt "tfrmgioauthdialog.lblusername.caption"
 msgid "User name:"
 msgstr "Uporabniško ime:"
 
 #: tfrmgioauthdialog.rbanonymous.caption
 msgid "Connect anonymously"
-msgstr ""
+msgstr "Poveži brezimno"
 
 #: tfrmgioauthdialog.rbconnetas.caption
 msgid "Connect as user:"
-msgstr ""
+msgstr "Poveži kot uporabnik:"
 
 #: tfrmhardlink.btncancel.caption
 msgctxt "TFRMHARDLINK.BTNCANCEL.CAPTION"
@@ -1955,12 +1949,12 @@ msgstr "Ustvarjanje trde povezave"
 #: tfrmhardlink.lblexistingfile.caption
 msgctxt "tfrmhardlink.lblexistingfile.caption"
 msgid "&Destination that the link will point to"
-msgstr "&Pot povezave:"
+msgstr "&Cilj, na katerega po kazala povezava"
 
 #: tfrmhardlink.lbllinktocreate.caption
 msgctxt "tfrmhardlink.lbllinktocreate.caption"
 msgid "&Link name"
-msgstr "Ime &povezave:"
+msgstr "Ime &povezave"
 
 #: tfrmhotdirexportimport.btnselectall.caption
 msgctxt "tfrmhotdirexportimport.btnselectall.caption"
@@ -1982,7 +1976,9 @@ msgstr "S klikom na podrejeni meni bo izbran celoten meni"
 
 #: tfrmhotdirexportimport.lblhintholdcontrol.caption
 msgid "Hold CTRL and click entries to select multiple ones"
-msgstr "S klikom ob sočasno pritisnjeni tipki CTRL je mogoče izbrati več poljubnih predmetov"
+msgstr ""
+"S klikom ob sočasno pritisnjeni tipki CTRL je mogoče izbrati več poljubnih "
+"predmetov"
 
 #: tfrmlinker.btnsave.caption
 msgctxt "tfrmlinker.btnsave.caption"
@@ -2039,7 +2035,7 @@ msgstr "&O programu"
 
 #: tfrmmain.actactivatetabbyindex.caption
 msgid "Activate Tab By Index"
-msgstr ""
+msgstr "Omogoči zavihek po indeksu"
 
 #: tfrmmain.actaddfilenametocmdline.caption
 msgid "Add file name to command line"
@@ -2059,11 +2055,11 @@ msgstr "Kopira pot v ukazno vrstico"
 
 #: tfrmmain.actaddplugin.caption
 msgid "Add Plugin"
-msgstr ""
+msgstr "Dodaj vstavek"
 
 #: tfrmmain.actbenchmark.caption
 msgid "&Benchmark"
-msgstr ""
+msgstr "&Primerjalni preizkus"
 
 #: tfrmmain.actbriefview.caption
 msgid "Brief view"
@@ -2152,7 +2148,7 @@ msgstr "Primerjaj po &vsebini"
 #: tfrmmain.actcomparedirectories.caption
 msgctxt "tfrmmain.actcomparedirectories.caption"
 msgid "Compare Directories"
-msgstr "Primerjava map"
+msgstr "Primerjaj mapi"
 
 #: tfrmmain.actcomparedirectories.hint
 msgctxt "TFRMMAIN.ACTCOMPAREDIRECTORIES.HINT"
@@ -2161,7 +2157,7 @@ msgstr "Primerjava map"
 
 #: tfrmmain.actconfigarchivers.caption
 msgid "Configuration of Archivers"
-msgstr ""
+msgstr "Nastavitve pakirnikov"
 
 #: tfrmmain.actconfigdirhotlist.caption
 msgctxt "tfrmmain.actconfigdirhotlist.caption"
@@ -2183,11 +2179,11 @@ msgstr "Nastavitev hitrih tipk"
 
 #: tfrmmain.actconfigplugins.caption
 msgid "Configuration of Plugins"
-msgstr ""
+msgstr "Nastavitev vstavkov"
 
 #: tfrmmain.actconfigsavepos.caption
 msgid "Save Position"
-msgstr ""
+msgstr "Shrani položaj"
 
 #: tfrmmain.actconfigsavesettings.caption
 msgid "Save Settings"
@@ -2203,7 +2199,7 @@ msgstr "Orodna vrstica ..."
 
 #: tfrmmain.actconfigtooltips.caption
 msgid "Configuration of tooltips"
-msgstr ""
+msgstr "Nastavitev orodnih namigov"
 
 #: tfrmmain.actconfigtreeviewmenus.caption
 msgctxt "tfrmmain.actconfigtreeviewmenus.caption"
@@ -2295,7 +2291,7 @@ msgstr "Seznam &hitrih map"
 
 #: tfrmmain.actdoanycmcommand.caption
 msgid "Execute &internal command..."
-msgstr ""
+msgstr "Izvedi &notranji ukaz"
 
 #: tfrmmain.actdoanycmcommand.hint
 msgid "Select any command and execute it"
@@ -2357,7 +2353,7 @@ msgstr "&Ploski pogled"
 
 #: tfrmmain.actflatviewsel.caption
 msgid "&Flat view, only selected"
-msgstr ""
+msgstr "&Ploski pogled, le izbrano"
 
 #: tfrmmain.actfocuscmdline.caption
 msgid "Focus command line"
@@ -2373,15 +2369,17 @@ msgstr "Preklopi med levim in desnim datotečnim oknom"
 
 #: tfrmmain.actfocustreeview.caption
 msgid "Focus on tree view"
-msgstr ""
+msgstr "Žarišči okno drevesnega prikaza"
 
 #: tfrmmain.actfocustreeview.hint
 msgid "Switch between current file list and tree view (if enabled)"
 msgstr ""
+"Preklopi med trenutnim seznamom datotek in drevesnim pogledom (če je "
+"omogočeno)"
 
 #: tfrmmain.actgotofirstentry.caption
 msgid "Place cursor on first folder or file"
-msgstr ""
+msgstr "Postavi kazalko na prvo mapo ali datoteko"
 
 #: tfrmmain.actgotofirstfile.caption
 msgid "Place cursor on first file in list"
@@ -2389,7 +2387,7 @@ msgstr "Postavi kazalko na prvo datoteko seznama"
 
 #: tfrmmain.actgotolastentry.caption
 msgid "Place cursor on last folder or file"
-msgstr ""
+msgstr "Postavi kazalko na zadnjo mapo ali datoteko"
 
 #: tfrmmain.actgotolastfile.caption
 msgid "Place cursor on last file in list"
@@ -2397,11 +2395,11 @@ msgstr "Postavi kazalko na zadnjo datoteko seznama"
 
 #: tfrmmain.actgotonextentry.caption
 msgid "Place cursor on next folder or file"
-msgstr ""
+msgstr "Postavi kazalko na naslednjo mapo ali datoteko"
 
 #: tfrmmain.actgotopreventry.caption
 msgid "Place cursor on previous folder or file"
-msgstr ""
+msgstr "Postavi kazalko na predhodno mapo ali datoteko"
 
 #: tfrmmain.acthardlink.caption
 msgid "Create &Hard Link..."
@@ -2473,11 +2471,11 @@ msgstr "Naloži zavihke iz seznama priljubljenih"
 
 #: tfrmmain.actloadlist.caption
 msgid "Load List"
-msgstr ""
+msgstr "Naloži seznam"
 
 #: tfrmmain.actloadlist.hint
 msgid "Load list of files/folders from the specified text file"
-msgstr ""
+msgstr "Naloži seznam datotek/map iz posebne besedilne datoteke"
 
 #: tfrmmain.actloadselectionfromclip.caption
 msgid "Load Selection from Clip&board"
@@ -2537,15 +2535,15 @@ msgstr "Skrči okno"
 
 #: tfrmmain.actmovetableft.caption
 msgid "Move current tab to the left"
-msgstr ""
+msgstr "Premakne trenutni zavihek v levo"
 
 #: tfrmmain.actmovetabright.caption
 msgid "Move current tab to the right"
-msgstr ""
+msgstr "Premakne trenutni zavihek v desno"
 
 #: tfrmmain.actmultirename.caption
 msgid "Multi-&Rename Tool"
-msgstr "Napredno &preimenovanje ..."
+msgstr "Napredno &preimenovanje"
 
 #: tfrmmain.actnetworkconnect.caption
 msgid "Network &Connect..."
@@ -2590,7 +2588,7 @@ msgstr "O&dpri mapo v novem zavihku"
 
 #: tfrmmain.actopendrivebyindex.caption
 msgid "Open Drive by Index"
-msgstr ""
+msgstr "Odpri seznam pogona po določilu"
 
 #: tfrmmain.actopenvirtualfilesystemlist.caption
 msgid "Open &VFS List"
@@ -2732,7 +2730,7 @@ msgstr "Shrani trenutne zavihke med priljubljene"
 
 #: tfrmmain.actsavefiledetailstofile.caption
 msgid "Save all shown columns to file"
-msgstr ""
+msgstr "Shrani vse prikazane &stolpce v datoteko"
 
 #: tfrmmain.actsaveselection.caption
 msgid "Sa&ve Selection"
@@ -2752,7 +2750,8 @@ msgstr "I&skanje ..."
 
 #: tfrmmain.actsetalltabsoptiondirsinnewtab.caption
 msgid "All tabs Locked with Dir Opened in New Tabs"
-msgstr "Nastavi vse zavihke kot zaklenjene z možnostjo odpiranja map v novih zavihkih"
+msgstr ""
+"Nastavi vse zavihke kot zaklenjene z možnostjo odpiranja map v novih zavihkih"
 
 #: tfrmmain.actsetalltabsoptionnormal.caption
 msgid "Set all tabs to Normal"
@@ -2829,7 +2828,7 @@ msgstr "Razvrsti po &imenu"
 
 #: tfrmmain.actsortbysize.caption
 msgid "Sort by &Size"
-msgstr "Razvrsti po &velikost"
+msgstr "Razvrsti po &velikosti"
 
 #: tfrmmain.actsrcopendrives.caption
 msgid "Open drive list"
@@ -2845,15 +2844,15 @@ msgstr "Ustvari &simbolno povezavo ..."
 
 #: tfrmmain.actsyncchangedir.caption
 msgid "Synchronous navigation"
-msgstr ""
+msgstr "Usklajeno upravljanje"
 
 #: tfrmmain.actsyncchangedir.hint
 msgid "Synchronous directory changing in both panels"
-msgstr ""
+msgstr "Usklajeno spreminjanje map v obeh oknih"
 
 #: tfrmmain.actsyncdirs.caption
 msgid "Syn&chronize dirs..."
-msgstr "Uskladi mape ..."
+msgstr "&Uskladi mape ..."
 
 #: tfrmmain.acttargetequalsource.caption
 msgid "Target &= Source"
@@ -2953,7 +2952,7 @@ msgstr "Končaj"
 #: tfrmmain.btnf7.caption
 msgctxt "tfrmmain.btnf7.caption"
 msgid "Directory"
-msgstr "Mapa"
+msgstr "Nova mapa"
 
 #: tfrmmain.btnf8.caption
 msgctxt "TFRMMAIN.BTNF8.CAPTION"
@@ -3326,7 +3325,7 @@ msgstr "&V redu"
 #: tfrmmaskinputdlg.chkcasesensitive.caption
 msgctxt "tfrmmaskinputdlg.chkcasesensitive.caption"
 msgid "Case sensitive"
-msgstr "Razlikovanje velikosti črk"
+msgstr "Upoštevaj velikost črk"
 
 #: tfrmmaskinputdlg.chkignoreaccentsandligatures.caption
 msgid "Ignore accents and ligatures"
@@ -3350,7 +3349,7 @@ msgstr "Ustvarjanje nove mape"
 
 #: tfrmmkdir.cbextended.caption
 msgid "&Extended syntax"
-msgstr ""
+msgstr "&Razširjena skladnja"
 
 #: tfrmmkdir.lblmakedir.caption
 msgid "&Input new directory name:"
@@ -3460,7 +3459,7 @@ msgstr "&Zapri"
 
 #: tfrmmultirename.actconfig.caption
 msgid "Confi&guration"
-msgstr "Nastavitve"
+msgstr "&Nastavitve"
 
 #: tfrmmultirename.actctrextmask.caption
 msgctxt "tfrmmultirename.actctrextmask.caption"
@@ -3489,15 +3488,15 @@ msgstr "Izbriši"
 
 #: tfrmmultirename.actdropdownpresetlist.caption
 msgid "Drop Down Presets List"
-msgstr ""
+msgstr "Spustni seznam shranjenih vnosov"
 
 #: tfrmmultirename.acteditnames.caption
 msgid "Edit Names..."
-msgstr "Urejanje imen ..."
+msgstr "Uredi imena ..."
 
 #: tfrmmultirename.acteditnewnames.caption
 msgid "Edit Current New Names..."
-msgstr ""
+msgstr "Uredi trenutna nova imena ..."
 
 #: tfrmmultirename.actextextmask.caption
 msgctxt "tfrmmultirename.actextextmask.caption"
@@ -3512,15 +3511,15 @@ msgstr "Pripona"
 #: tfrmmultirename.actinvokeeditor.caption
 msgctxt "tfrmmultirename.actinvokeeditor.caption"
 msgid "Edit&or"
-msgstr "&&Uredi"
+msgstr "&Urejevalnik"
 
 #: tfrmmultirename.actinvokerelativepath.caption
 msgid "Invoke Relative Path Menu"
-msgstr ""
+msgstr "Zaženi meni relativnih poti"
 
 #: tfrmmultirename.actloadlastpreset.caption
 msgid "Load Last Preset"
-msgstr ""
+msgstr "Naloži zadnjo predlogo"
 
 #: tfrmmultirename.actloadnamesfromfile.caption
 msgid "Load Names from File..."
@@ -3528,43 +3527,43 @@ msgstr "Naloži imena iz datoteke ..."
 
 #: tfrmmultirename.actloadpreset.caption
 msgid "Load Preset by Name or Index"
-msgstr ""
+msgstr "Naloži shranjeno po imenu oziroma določilu"
 
 #: tfrmmultirename.actloadpreset1.caption
 msgid "Load Preset 1"
-msgstr ""
+msgstr "Naloži predlogo 1"
 
 #: tfrmmultirename.actloadpreset2.caption
 msgid "Load Preset 2"
-msgstr ""
+msgstr "Naloži predlogo 2"
 
 #: tfrmmultirename.actloadpreset3.caption
 msgid "Load Preset 3"
-msgstr ""
+msgstr "Naloži predlogo 3"
 
 #: tfrmmultirename.actloadpreset4.caption
 msgid "Load Preset 4"
-msgstr ""
+msgstr "Naloži predlogo 4"
 
 #: tfrmmultirename.actloadpreset5.caption
 msgid "Load Preset 5"
-msgstr ""
+msgstr "Naloži predlogo 5"
 
 #: tfrmmultirename.actloadpreset6.caption
 msgid "Load Preset 6"
-msgstr ""
+msgstr "Naloži predlogo 6"
 
 #: tfrmmultirename.actloadpreset7.caption
 msgid "Load Preset 7"
-msgstr ""
+msgstr "Naloži predlogo 7"
 
 #: tfrmmultirename.actloadpreset8.caption
 msgid "Load Preset 8"
-msgstr ""
+msgstr "Naloži predlogo 8"
 
 #: tfrmmultirename.actloadpreset9.caption
 msgid "Load Preset 9"
-msgstr ""
+msgstr "Naloži predlogo 9"
 
 #: tfrmmultirename.actnameextmask.caption
 msgctxt "tfrmmultirename.actnameextmask.caption"
@@ -3599,7 +3598,7 @@ msgstr "Preimenuj"
 #: tfrmmultirename.actresetall.caption
 msgctxt "tfrmmultirename.actresetall.caption"
 msgid "Reset &All"
-msgstr "Ponastavi vse"
+msgstr "Ponastavi &vse"
 
 #: tfrmmultirename.actsavepreset.caption
 msgctxt "tfrmmultirename.actsavepreset.caption"
@@ -3613,58 +3612,55 @@ msgstr "Shrani kot ..."
 
 #: tfrmmultirename.actshowpresetsmenu.caption
 msgid "Show Preset Menu"
-msgstr ""
+msgstr "Pokaži meni prednastavitev"
 
 #: tfrmmultirename.actsortpresets.caption
 msgid "Sort"
-msgstr "Razvrsti "
+msgstr "Razvrsti"
 
 #: tfrmmultirename.acttimeextmask.caption
 msgctxt "tfrmmultirename.acttimeextmask.caption"
 msgid "Time"
-msgstr "Čas "
+msgstr "Čas"
 
 #: tfrmmultirename.acttimenamemask.caption
 msgctxt "tfrmmultirename.acttimenamemask.caption"
 msgid "Time"
-msgstr "Čas "
+msgstr "Čas"
 
 #: tfrmmultirename.actviewrenamelogfile.caption
 msgid "View Rename Log File"
-msgstr ""
+msgstr "Preglej vsebino datoteke preimenovalnika"
 
 #: tfrmmultirename.caption
 msgctxt "tfrmmultirename.caption"
 msgid "Multi-Rename Tool"
-msgstr "Napredno preimenovanje"
+msgstr "Napredno &preimenovanje"
 
 #: tfrmmultirename.cbcasesens.caption
 msgid "A≠a"
-msgstr ""
+msgstr "A≠a"
 
 #: tfrmmultirename.cbcasesens.hint
-#, fuzzy
 msgctxt "tfrmmultirename.cbcasesens.hint"
 msgid "Case sensitive"
 msgstr "Razlikovanje velikosti črk"
 
 #: tfrmmultirename.cblog.caption
-#, fuzzy
-#| msgid "Ena&ble"
 msgid "&Log result"
-msgstr "&Omogoči"
+msgstr "&Rezultat beleženja"
 
 #: tfrmmultirename.cblogappend.caption
 msgid "Append"
-msgstr ""
+msgstr "Pripni"
 
 #: tfrmmultirename.cbonlyfirst.caption
 msgid "1x"
-msgstr ""
+msgstr "1x"
 
 #: tfrmmultirename.cbonlyfirst.hint
 msgid "Replace only once per file"
-msgstr ""
+msgstr "Zamenjaj le enkrat na datoteko"
 
 #: tfrmmultirename.cbregexp.caption
 msgid "Regular e&xpressions"
@@ -3695,7 +3691,7 @@ msgstr "Števec"
 
 #: tfrmmultirename.gbfindreplace.caption
 msgid "Find && Replace"
-msgstr "Najdi &in zamenjaj"
+msgstr "Najdi in zamenjaj"
 
 #: tfrmmultirename.gbmaska.caption
 msgid "Mask"
@@ -3741,7 +3737,7 @@ msgstr "Dejanja"
 #: tfrmmultirename.mieditor.caption
 msgctxt "tfrmmultirename.mieditor.caption"
 msgid "Editor"
-msgstr "&&Uredi"
+msgstr "Urejevalnik"
 
 #: tfrmmultirename.stringgrid.columns[0].title.caption
 msgid "Old File Name"
@@ -3762,7 +3758,8 @@ msgstr "Double Commander"
 
 #: tfrmmultirenamewait.lblmessage.caption
 msgid "Click OK when you have closed the editor to load the changed names!"
-msgstr "Po zapiranju urejevalnika je treba potrditi nalaganje spremenenjih imen!"
+msgstr ""
+"Po zapiranju urejevalnika je treba potrditi nalaganje spremenenjih imen!"
 
 #: tfrmopenwith.caption
 msgid "Choose an application"
@@ -3834,7 +3831,7 @@ msgstr "&Prekliči"
 #: tfrmoptions.btnhelp.caption
 msgctxt "tfrmoptions.btnhelp.caption"
 msgid "&Help"
-msgstr "&Pomoč"
+msgstr "Pomo&č"
 
 #: tfrmoptions.btnok.caption
 msgctxt "TFRMOPTIONS.BTNOK.CAPTION"
@@ -3847,7 +3844,8 @@ msgid "Options"
 msgstr "Možnosti"
 
 #: tfrmoptions.lblemptyeditor.caption
-msgid "Please select one of the subpages, this page does not contain any settings."
+msgid ""
+"Please select one of the subpages, this page does not contain any settings."
 msgstr "Nastavitve sklopa so urejene na straneh podrejenih kategorij."
 
 #: tfrmoptionsarchivers.btnarchiveradd.caption
@@ -3858,7 +3856,7 @@ msgstr "&Dodaj"
 #: tfrmoptionsarchivers.btnarchiveraddhelper.hint
 msgctxt "tfrmoptionsarchivers.btnarchiveraddhelper.hint"
 msgid "Variable reminder helper"
-msgstr ""
+msgstr "Pomočnik spremenljivega opomnika"
 
 #: tfrmoptionsarchivers.btnarchiverapply.caption
 msgctxt "tfrmoptionsarchivers.btnarchiverapply.caption"
@@ -3868,37 +3866,37 @@ msgstr "&Uveljavi"
 #: tfrmoptionsarchivers.btnarchivercopy.caption
 msgctxt "tfrmoptionsarchivers.btnarchivercopy.caption"
 msgid "Cop&y"
-msgstr "Kopiraj"
+msgstr "Ko&piraj"
 
 #: tfrmoptionsarchivers.btnarchiverdelete.caption
 msgctxt "tfrmoptionsarchivers.btnarchiverdelete.caption"
 msgid "Delete"
-msgstr "&Izbriši"
+msgstr "Izbriši"
 
 #: tfrmoptionsarchivers.btnarchiverdeletehelper.hint
 msgctxt "tfrmoptionsarchivers.btnarchiverdeletehelper.hint"
 msgid "Variable reminder helper"
-msgstr ""
+msgstr "Pomočnik spremenljivega opomnika"
 
 #: tfrmoptionsarchivers.btnarchiverextracthelper.hint
 msgctxt "tfrmoptionsarchivers.btnarchiverextracthelper.hint"
 msgid "Variable reminder helper"
-msgstr ""
+msgstr "Pomočnik spremenljivega opomnika"
 
 #: tfrmoptionsarchivers.btnarchiverextractwithoutpathhelper.hint
 msgctxt "tfrmoptionsarchivers.btnarchiverextractwithoutpathhelper.hint"
 msgid "Variable reminder helper"
-msgstr ""
+msgstr "Pomočnik spremenljivega opomnika"
 
 #: tfrmoptionsarchivers.btnarchiverlisthelper.hint
 msgctxt "tfrmoptionsarchivers.btnarchiverlisthelper.hint"
 msgid "Variable reminder helper"
-msgstr ""
+msgstr "Pomočnik spremenljivega opomnika"
 
 #: tfrmoptionsarchivers.btnarchiverother.caption
 msgctxt "tfrmoptionsarchivers.btnarchiverother.caption"
 msgid "Oth&er..."
-msgstr "Drugo..."
+msgstr "D&rugo ..."
 
 #: tfrmoptionsarchivers.btnarchiverrelativer.hint
 msgctxt "tfrmoptionsarchivers.btnarchiverrelativer.hint"
@@ -3913,17 +3911,21 @@ msgstr "&Preimenuj"
 #: tfrmoptionsarchivers.btnarchiverselfextracthelper.hint
 msgctxt "tfrmoptionsarchivers.btnarchiverselfextracthelper.hint"
 msgid "Variable reminder helper"
-msgstr ""
+msgstr "Pomočnik spremenljivega opomnika"
 
 #: tfrmoptionsarchivers.btnarchivertesthelper.hint
 msgctxt "tfrmoptionsarchivers.btnarchivertesthelper.hint"
 msgid "Variable reminder helper"
-msgstr ""
+msgstr "Pomočnik spremenljivega opomnika"
 
 #: tfrmoptionsarchivers.bvlarchiverids.caption
 msgctxt "tfrmoptionsarchivers.bvlarchiverids.caption"
-msgid "ID's used with cm_OpenArchive to recognize archive by detecting its content and not via file extension:"
+msgid ""
+"ID's used with cm_OpenArchive to recognize archive by detecting its content "
+"and not via file extension:"
 msgstr ""
+"ID, uporabljen z ukazom cm_OpenArchive za prepoznavanje vrste arhiva po "
+"vsebini in ne po priponi datoteke:"
 
 #: tfrmoptionsarchivers.bvlarchiveroptions.caption
 msgctxt "tfrmoptionsarchivers.bvlarchiveroptions.caption"
@@ -3951,23 +3953,23 @@ msgstr "Pokaži &odvod konzole"
 
 #: tfrmoptionsarchivers.chkfilenameonlylist.caption
 msgid "Use archive name without extension as list"
-msgstr ""
+msgstr "Za seznam uporabi ime arhiva brez pripone"
 
 #: tfrmoptionsarchivers.ckbarchiverunixfileattributes.caption
 msgid "Uni&x file attributes"
-msgstr ""
+msgstr "Datotečni atributi &Unix"
 
 #: tfrmoptionsarchivers.ckbarchiverunixpath.caption
 msgid "&Unix path delimiter \"/\""
-msgstr ""
+msgstr "Ločilnik v naslovu poti &Unix » / «"
 
 #: tfrmoptionsarchivers.ckbarchiverwindowsfileattributes.caption
 msgid "Windows &file attributes"
-msgstr ""
+msgstr "Datotečni atributi &Windows"
 
 #: tfrmoptionsarchivers.ckbarchiverwindowspath.caption
 msgid "Windows path deli&miter \"\\\""
-msgstr ""
+msgstr "Ločilnik v naslovu poti &Windows » \\ «"
 
 #: tfrmoptionsarchivers.lblarchiveradd.caption
 msgctxt "tfrmoptionsarchivers.lblarchiveradd.caption"
@@ -3977,11 +3979,11 @@ msgstr "Doda&janje:"
 #: tfrmoptionsarchivers.lblarchiverarchiver.caption
 msgctxt "tfrmoptionsarchivers.lblarchiverarchiver.caption"
 msgid "Arc&hiver:"
-msgstr "Ar&hivirnik:"
+msgstr "Pak&irnik:"
 
 #: tfrmoptionsarchivers.lblarchiverdelete.caption
 msgid "De&lete:"
-msgstr "Izbriši:"
+msgstr "&Izbriši:"
 
 #: tfrmoptionsarchivers.lblarchiverdescription.caption
 msgctxt "tfrmoptionsarchivers.lblarchiverdescription.caption"
@@ -3991,7 +3993,7 @@ msgstr "&Opis:"
 #: tfrmoptionsarchivers.lblarchiverextension.caption
 msgctxt "tfrmoptionsarchivers.lblarchiverextension.caption"
 msgid "E&xtension:"
-msgstr "&Razširitev:"
+msgstr "&Pripona:"
 
 #: tfrmoptionsarchivers.lblarchiverextract.caption
 msgctxt "tfrmoptionsarchivers.lblarchiverextract.caption"
@@ -4000,19 +4002,19 @@ msgstr "Raz&širi:"
 
 #: tfrmoptionsarchivers.lblarchiverextractwithoutpath.caption
 msgid "Extract &without path:"
-msgstr "Odpakiraj brez navedbe poti:"
+msgstr "Odpakiraj &brez navedbe poti:"
 
 #: tfrmoptionsarchivers.lblarchiveridposition.caption
 msgid "ID Po&sition:"
-msgstr "Položaj ID:"
+msgstr "Položaj &ID:"
 
 #: tfrmoptionsarchivers.lblarchiverids.caption
 msgid "&ID:"
-msgstr "ID:"
+msgstr "&ID:"
 
 #: tfrmoptionsarchivers.lblarchiveridseekrange.caption
 msgid "ID See&k Range:"
-msgstr "ID obsega iskanja:"
+msgstr "ID &obsega iskanja:"
 
 #: tfrmoptionsarchivers.lblarchiverlist.caption
 msgctxt "tfrmoptionsarchivers.lblarchiverlist.caption"
@@ -4021,7 +4023,7 @@ msgstr "&Seznam:"
 
 #: tfrmoptionsarchivers.lblarchiverlistbox.caption
 msgid "Archi&vers:"
-msgstr "Pakirniki:"
+msgstr "&Pakirniki:"
 
 #: tfrmoptionsarchivers.lblarchiverlistend.caption
 msgctxt "tfrmoptionsarchivers.lblarchiverlistend.caption"
@@ -4040,11 +4042,11 @@ msgstr "&Začetek seznama (izbirno):"
 
 #: tfrmoptionsarchivers.lblarchiverpasswordquery.caption
 msgid "Password &query string:"
-msgstr "Niz poizvedbe gesla:"
+msgstr "Niz &poizvedbe gesla:"
 
 #: tfrmoptionsarchivers.lblarchiverselfextract.caption
 msgid "Create self extractin&g archive:"
-msgstr "Ustvari arhiv za samodejno odpakiranje:"
+msgstr "Ustvari arhiv za &samodejno odpakiranje:"
 
 #: tfrmoptionsarchivers.lblarchivertest.caption
 msgid "Tes&t:"
@@ -4052,19 +4054,19 @@ msgstr "Preizkus:"
 
 #: tfrmoptionsarchivers.miarchiverautoconfigure.caption
 msgid "Auto Configure"
-msgstr "&Samodejno nastavi"
+msgstr "Samodejna nastavitev"
 
 #: tfrmoptionsarchivers.miarchiverdisableall.caption
 msgid "Disable all"
-msgstr ""
+msgstr "Onemogoči vse"
 
 #: tfrmoptionsarchivers.miarchiverdiscardmodification.caption
 msgid "Discard modifications"
-msgstr ""
+msgstr "Zavrzi spremembe"
 
 #: tfrmoptionsarchivers.miarchiverenableall.caption
 msgid "Enable all"
-msgstr ""
+msgstr "Omogoči vse"
 
 #: tfrmoptionsarchivers.miarchiverexport.caption
 msgctxt "tfrmoptionsarchivers.miarchiverexport.caption"
@@ -4078,7 +4080,7 @@ msgstr "Uvozi ..."
 
 #: tfrmoptionsarchivers.miarchiversortarchivers.caption
 msgid "Sort archivers"
-msgstr ""
+msgstr "Razvrsti pakirnike"
 
 #: tfrmoptionsarchivers.tbarchiveradditional.caption
 msgid "Additional"
@@ -4131,8 +4133,10 @@ msgid "A&llow only one copy of DC at a time"
 msgstr "Dovoli le &en zagnan primerek programa"
 
 #: tfrmoptionsbehavior.edtdrivesblacklist.hint
-msgid "Here you can enter one or more drives or mount points, separated by \";\"."
-msgstr "Več pogonov ali priklopnih točk je mogoča vpisati ločeno s podpičjem » ; «."
+msgid ""
+"Here you can enter one or more drives or mount points, separated by \";\"."
+msgstr ""
+"Več pogonov ali priklopnih točk je mogoča vpisati ločeno s podpičjem » ; «."
 
 #: tfrmoptionsbehavior.lbldrivesblacklist.caption
 msgid "Drives &blacklist"
@@ -4168,59 +4172,56 @@ msgstr "Določena širina stolpcev"
 
 #: tfrmoptionscolors.cbbusegradientind.caption
 msgid "Use &Gradient Indicator"
-msgstr "Uporabi kazalnik &preliva"
+msgstr "Uporabi &prelivni kazalnik"
 
 #: tfrmoptionscolors.dbbinarymode.caption
-#, fuzzy
 msgctxt "tfrmoptionscolors.dbbinarymode.caption"
 msgid "Binary Mode"
 msgstr "Dvojiški način"
 
 #: tfrmoptionscolors.dbbookmode.caption
 msgid "Book Mode"
-msgstr ""
+msgstr "Bralni način"
 
 #: tfrmoptionscolors.dbimagemode.caption
 msgid "Image Mode"
-msgstr ""
+msgstr "Slikovni način"
 
 #: tfrmoptionscolors.dbtextmode.caption
 msgid "Text Mode"
-msgstr ""
+msgstr "Besedilni način"
 
 #: tfrmoptionscolors.lbladded.caption
 msgid "Added:"
-msgstr ""
+msgstr "Dodano:"
 
 #: tfrmoptionscolors.lblbookbackground.caption
 msgctxt "tfrmoptionscolors.lblbookbackground.caption"
 msgid "Background:"
-msgstr ""
+msgstr "Ozadje:"
 
 #: tfrmoptionscolors.lblbooktext.caption
-#, fuzzy
 msgctxt "tfrmoptionscolors.lblbooktext.caption"
 msgid "Text:"
-msgstr "Črkovno:"
+msgstr "Besedilo:"
 
 #: tfrmoptionscolors.lblcategory.caption
 msgid "Category:"
-msgstr ""
+msgstr "Kategorija:"
 
 #: tfrmoptionscolors.lbldeleted.caption
 msgid "Deleted:"
-msgstr ""
+msgstr "Izbrisano:"
 
 #: tfrmoptionscolors.lblerror.caption
 msgid "Error:"
-msgstr ""
+msgstr "Napaka:"
 
 #: tfrmoptionscolors.lblimagebackground1.caption
 msgid "Background 1:"
-msgstr ""
+msgstr "Ozadje 1:"
 
 #: tfrmoptionscolors.lblimagebackground2.caption
-#, fuzzy
 msgctxt "tfrmoptionscolors.lblimagebackground2.caption"
 msgid "Background 2:"
 msgstr "Ozadje 2:"
@@ -4235,49 +4236,46 @@ msgstr "Barva &pisave kazalnika:"
 
 #: tfrmoptionscolors.lblindthresholdcolor.caption
 msgid "Indicator &Threshold Color:"
-msgstr ""
+msgstr "Barva nevarne &zasedenosti prostora:"
 
 #: tfrmoptionscolors.lblinformation.caption
 msgid "Information:"
-msgstr ""
+msgstr "Podrobnosti:"
 
 #: tfrmoptionscolors.lblleft.caption
 msgid "Left:"
-msgstr ""
+msgstr "Levo:"
 
 #: tfrmoptionscolors.lblmodified.caption
-#, fuzzy
 msgctxt "tfrmoptionscolors.lblmodified.caption"
 msgid "Modified:"
 msgstr "Spremenjeno:"
 
 #: tfrmoptionscolors.lblmodifiedbinary.caption
-#, fuzzy
 msgctxt "tfrmoptionscolors.lblmodifiedbinary.caption"
 msgid "Modified:"
 msgstr "Spremenjeno:"
 
 #: tfrmoptionscolors.lblright.caption
 msgid "Right:"
-msgstr ""
+msgstr "Desno:"
 
 #: tfrmoptionscolors.lblsuccess.caption
-#, fuzzy
 msgctxt "tfrmoptionscolors.lblsuccess.caption"
 msgid "Success:"
 msgstr "Uspešno zaključeno:"
 
 #: tfrmoptionscolors.lblunknown.caption
 msgid "Unknown:"
-msgstr ""
+msgstr "Neznano:"
 
 #: tfrmoptionscolors.rgdarkmode.caption
 msgid "State"
-msgstr ""
+msgstr "Stanje"
 
 #: tfrmoptionscolumnsview.cbcolumnstitlelikevalues.caption
 msgid "Column titles alignment &like values"
-msgstr ""
+msgstr "Naslovi stolpcev se poravnajo po &vrednostih"
 
 #: tfrmoptionscolumnsview.cbcuttexttocolwidth.caption
 msgid "Cut &text to column width"
@@ -4334,10 +4332,9 @@ msgid "&File mask history"
 msgstr "zgodovino mask &imen datotek"
 
 #: tfrmoptionsconfiguration.chkfoldertabs.caption
-#, fuzzy
 msgctxt "tfrmoptionsconfiguration.chkfoldertabs.caption"
 msgid "Folder tabs"
-msgstr "Zavihki map"
+msgstr "zavihke map"
 
 #: tfrmoptionsconfiguration.chksaveconfiguration.caption
 msgid "Sa&ve configuration"
@@ -4349,10 +4346,10 @@ msgstr "zgodovino iskanj in zamenjav"
 
 #: tfrmoptionsconfiguration.chkwindowstate.caption
 msgid "Main window state"
-msgstr ""
+msgstr "stanje glavnega okna"
 
 #: tfrmoptionsconfiguration.gbdirectories.caption
-msgctxt "tfrmoptionsconfiguration.gbdirectories.caption"
+msgctxt "TFRMOPTIONSCONFIGURATION.GBDIRECTORIES.CAPTION"
 msgid "Directories"
 msgstr "Mape"
 
@@ -4370,7 +4367,7 @@ msgstr "Razvrščanje razdelkov nastavitev v drevesnem pogledu na levi:"
 
 #: tfrmoptionsconfiguration.gpconfigurationtreestate.caption
 msgid "Tree state when entering in configuration page"
-msgstr ""
+msgstr "Stanje drevesa med odpiranjem strani nastavitev"
 
 #: tfrmoptionsconfiguration.lblcmdlineconfigdir.caption
 msgid "Set on command line"
@@ -4378,7 +4375,7 @@ msgstr "Nastavi v ukazni vrstici"
 
 #: tfrmoptionsconfiguration.lblhighlighters.caption
 msgid "Highlighters:"
-msgstr ""
+msgstr "Poudarjalniki:"
 
 #: tfrmoptionsconfiguration.lbliconthemes.caption
 msgid "Icon themes:"
@@ -4788,10 +4785,8 @@ msgid "Background 2:"
 msgstr "Ozadje 2:"
 
 #: tfrmoptionscustomcolumns.lblconfigcolumns.caption
-#, fuzzy
-#| msgid "Con&figure columns view:"
 msgid "&Columns view:"
-msgstr "Nastavi &stolpce za datotečni sistem:"
+msgstr "&Stolpčni pogled"
 
 #: tfrmoptionscustomcolumns.lblcurrentcolumn.caption
 msgid "[Current Column Name]"
@@ -4807,7 +4802,7 @@ msgstr "Besedilo kazalke:"
 
 #: tfrmoptionscustomcolumns.lblfilesystem.caption
 msgid "&File system:"
-msgstr ""
+msgstr "&Datotečni sistem:"
 
 #: tfrmoptionscustomcolumns.lblfontname.caption
 msgid "Font:"
@@ -4839,8 +4834,12 @@ msgstr "Barva oznake:"
 
 #: tfrmoptionscustomcolumns.lblpreviewtop.caption
 msgctxt "tfrmoptionscustomcolumns.lblpreviewtop.caption"
-msgid "Below is a preview. You may move cursor and select files to get immediately an actual look and feel of the various settings."
-msgstr "Spodaj je okno predogleda. S premikanjem kazalnika in izborom datoteke se pokažejo različne prilagoditve nastavitev."
+msgid ""
+"Below is a preview. You may move cursor and select files to get immediately "
+"an actual look and feel of the various settings."
+msgstr ""
+"Spodaj je okno predogleda. S premikanjem kazalnika in izborom datoteke se "
+"pokažejo različne prilagoditve nastavitev."
 
 #: tfrmoptionscustomcolumns.lblworkingcolumn.caption
 msgid "Settings for column:"
@@ -4995,7 +4994,7 @@ msgstr "Prilapi izrezano"
 
 #: tfrmoptionsdirectoryhotlist.actsearchandreplaceinpath.caption
 msgid "Search && replace in &path"
-msgstr "Poišči in zamenjaj na & poti"
+msgstr "Poišči in zamenjaj na poti"
 
 #: tfrmoptionsdirectoryhotlist.actsearchandreplaceinpathandtarget.caption
 msgid "Search && replace in both path and target"
@@ -5121,8 +5120,10 @@ msgid "Scan all &hotdir's path to validate the ones that actually exist"
 msgstr "Preveri vse poti &hitrih map in potrdi tiste, ki zares obstajajo"
 
 #: tfrmoptionsdirectoryhotlist.midetectifpathtargetexist.caption
-msgid "&Scan all hotdir's path && target to validate the ones that actually exist"
-msgstr "&Preveri vse poti &in cilje hitrih map ter potrdi tiste, ki zares obstajajo"
+msgid ""
+"&Scan all hotdir's path && target to validate the ones that actually exist"
+msgstr ""
+"&Preveri vse poti in cilje hitrih map ter potrdi tiste, ki zares obstajajo"
 
 #: tfrmoptionsdirectoryhotlist.miexporttohotlistfile.caption
 msgid "to a Directory &Hotlist file (.hotlist)"
@@ -5216,46 +5217,54 @@ msgstr "Dodajanje iz glavnega okna"
 
 #: tfrmoptionsdirectoryhotlistextra.btnpathtoberelativetoall.caption
 msgid "Apply current settings to directory hotlist"
-msgstr ""
+msgstr "Uveljavi trenutne spremembe v hitri seznam mape"
 
 #: tfrmoptionsdirectoryhotlistextra.ckbdirectoryhotlistsource.caption
 msgid "Source"
-msgstr ""
+msgstr "Vir"
 
 #: tfrmoptionsdirectoryhotlistextra.ckbdirectoryhotlisttarget.caption
 msgid "Target"
-msgstr ""
+msgstr "Cilj"
 
 #: tfrmoptionsdirectoryhotlistextra.gbdirectoryhotlistoptionsextra.caption
-msgctxt "tfrmoptionsdirectoryhotlistextra.gbdirectoryhotlistoptionsextra.caption"
+msgctxt ""
+"tfrmoptionsdirectoryhotlistextra.gbdirectoryhotlistoptionsextra.caption"
 msgid "Paths"
-msgstr ""
+msgstr "Poti"
 
 #: tfrmoptionsdirectoryhotlistextra.lbdirectoryhotlistfilenamestyle.caption
 msgid "Way to set paths when adding them:"
-msgstr ""
+msgstr "Način nastavljanja poti ob dodajanju:"
 
 #: tfrmoptionsdirectoryhotlistextra.lblapplysettingsfor.caption
 msgctxt "tfrmoptionsdirectoryhotlistextra.lblapplysettingsfor.caption"
 msgid "Do this for paths of:"
-msgstr ""
+msgstr "Uveljavi za poti:"
 
 #: tfrmoptionsdirectoryhotlistextra.lbpathtoberelativeto.caption
 msgctxt "tfrmoptionsdirectoryhotlistextra.lbpathtoberelativeto.caption"
 msgid "Path to be relative to:"
-msgstr ""
+msgstr "Pot naj bo relativna na:"
 
 #: tfrmoptionsdragdrop.cbdraganddropaskformateachtime.caption
 msgid "From all the supported formats, ask which one to use every time"
 msgstr "Vedno vprašaj, kateri zapis naj bo uporabljen"
 
 #: tfrmoptionsdragdrop.cbdraganddropsaveunicodetextinuft8.caption
-msgid "When saving Unicode text, save it in UTF8 format (will be UTF16 otherwise)"
-msgstr "Med shranjevanjem besedila v naboru Unikod, shrani kot UTF8 (sicer bo uporabljen UTF16)"
+msgid ""
+"When saving Unicode text, save it in UTF8 format (will be UTF16 otherwise)"
+msgstr ""
+"Med shranjevanjem besedila v naboru Unikod, shrani kot UTF8 (sicer bo "
+"uporabljen UTF16)"
 
 #: tfrmoptionsdragdrop.cbdraganddroptextautofilename.caption
-msgid "When dropping text, generate filename automatically (otherwise will prompt the user)"
-msgstr "Med vlečenjem besedila samodejno ustvari ime datoteke (sicer se bo pojavilo vnosno polje)"
+msgid ""
+"When dropping text, generate filename automatically (otherwise will prompt "
+"the user)"
+msgstr ""
+"Med vlečenjem besedila samodejno ustvari ime datoteke (sicer se bo pojavilo "
+"vnosno polje)"
 
 #: tfrmoptionsdragdrop.cbshowconfirmationdialog.caption
 msgid "&Show confirmation dialog after drop"
@@ -5274,7 +5283,8 @@ msgid "(if the most desired is not present, we'll take second one and so on)"
 msgstr "(Če najustreznejši ni na voljo, bo uporabljen zapis na drugem mestu)"
 
 #: tfrmoptionsdragdrop.lblwarningforaskformat.caption
-msgid "(will not work with some source application, so try to uncheck if problem)"
+msgid ""
+"(will not work with some source application, so try to uncheck if problem)"
 msgstr "(lahko ne deluje z nekaterimi izvornimi programi)"
 
 #: tfrmoptionsdriveslistbutton.cbshowfilesystem.caption
@@ -5295,23 +5305,27 @@ msgstr "Seznam pogonov"
 
 #: tfrmoptionseditor.chkautoindent.caption
 msgid "Auto Indent"
-msgstr ""
+msgstr "Omogoči samodejno zamikanje"
 
 #: tfrmoptionseditor.chkautoindent.hint
-msgid "Allows to indent the caret, when new line is created with <Enter>, with the same amount of leading white space as the preceding line"
+msgid ""
+"Allows to indent the caret, when new line is created with <Enter>, with the "
+"same amount of leading white space as the preceding line"
 msgstr ""
+"Omogoča zamik kazalke za vnos besedila na enako število preslednih mest, kot "
+"je v predhodni vrstici, ko je nova vrstica ustvarjena z <Enter>."
 
 #: tfrmoptionseditor.chkrightedge.caption
 msgid "Right margin:"
-msgstr ""
+msgstr "Desni rob:"
 
 #: tfrmoptionseditor.chkscrollpastendline.caption
 msgid "Caret past end of line"
-msgstr "Kazalka je za znakom konca vrstice"
+msgstr "Dovoli prehod kazalke za konec vrstice"
 
 #: tfrmoptionseditor.chkscrollpastendline.hint
 msgid "Allows caret to go into empty space beyond end-of-line position"
-msgstr ""
+msgstr "Dovoli postavitev kazalke v prazno polje za mestom konca vrstice."
 
 #: tfrmoptionseditor.chkshowspecialchars.caption
 msgid "Show special characters"
@@ -5319,44 +5333,61 @@ msgstr "Pokaži posebne znake"
 
 #: tfrmoptionseditor.chkshowspecialchars.hint
 msgid "Shows special characters for spaces and tabulations"
-msgstr ""
+msgstr "Pokaže znake za presledke in tabulatorje."
 
 #: tfrmoptionseditor.chksmarttabs.caption
 msgid "Smart Tabs"
-msgstr ""
+msgstr "Pametni tabulatorji"
 
 #: tfrmoptionseditor.chksmarttabs.hint
-msgid "When using <Tab> key, caret will go to the next non-space character of the previous line"
+msgid ""
+"When using <Tab> key, caret will go to the next non-space character of the "
+"previous line"
 msgstr ""
+"Pri uporabi tipke <Tab> se kazalka pomakne na naslednji nepresledni znak "
+"predhodne vrstice."
 
 #: tfrmoptionseditor.chktabindent.caption
 msgid "Tab indents blocks"
-msgstr ""
+msgstr "Tipka Tab zamakne besedilo"
 
 #: tfrmoptionseditor.chktabindent.hint
-msgid "When active <Tab> and <Shift+Tab> act as block indent, unindent when text is selected"
+msgid ""
+"When active <Tab> and <Shift+Tab> act as block indent, unindent when text is "
+"selected"
 msgstr ""
+"S pritiskom tipke <Tab> oziroma <Shift+Tab> se izbrano besedilo zamakne ali "
+"primakne."
 
 #: tfrmoptionseditor.chktabstospaces.caption
 msgid "Use spaces instead tab characters"
-msgstr ""
+msgstr "Namesto tabulatorjev uporabi presledne znake"
 
 #: tfrmoptionseditor.chktabstospaces.hint
-msgid "Converts tab characters to a specified number of space characters (when entering)"
+msgid ""
+"Converts tab characters to a specified number of space characters (when "
+"entering)"
 msgstr ""
+"Vnos tabulatorja se samodejno zamenja v določeno število preslednih znakov "
+"(takoj ob pritisku tipke)"
 
 #: tfrmoptionseditor.chktrimtrailingspaces.caption
 msgid "Delete trailing spaces"
-msgstr ""
+msgstr "Izbriši prazne presledke na koncu vrstice"
 
 #: tfrmoptionseditor.chktrimtrailingspaces.hint
 msgid "Auto delete trailing spaces, this applies only to edited lines"
 msgstr ""
+"Ob urejanju posamezne vrstice se presledki na koncu te vrstice se samodejno "
+"izbrišejo."
 
 #: tfrmoptionseditor.edtabwidth.hint
 msgctxt "tfrmoptionseditor.edtabwidth.hint"
-msgid "Please note that the \"Smart Tabs\" option takes precedence over the tabulation to be performed"
+msgid ""
+"Please note that the \"Smart Tabs\" option takes precedence over the "
+"tabulation to be performed"
 msgstr ""
+"Možnost »Pametni tabulatorji« se izvede prednostno pred zamikanjem besedila."
 
 #: tfrmoptionseditor.gbinternaleditor.caption
 msgid "Internal editor options"
@@ -5364,16 +5395,20 @@ msgstr "Možnosti notranjega urejevalnika"
 
 #: tfrmoptionseditor.lblblockindent.caption
 msgid "Block indent:"
-msgstr ""
+msgstr "Zamik besedila:"
 
 #: tfrmoptionseditor.lbltabwidth.caption
 msgid "Tab width:"
-msgstr ""
+msgstr "Širina tabulatorja:"
 
 #: tfrmoptionseditor.lbltabwidth.hint
 msgctxt "tfrmoptionseditor.lbltabwidth.hint"
-msgid "Please note that the \"Smart Tabs\" option takes precedence over the tabulation to be performed"
+msgid ""
+"Please note that the \"Smart Tabs\" option takes precedence over the "
+"tabulation to be performed"
 msgstr ""
+"Upoštevajte, da je možnost »pametnih tabulatorjev« uvedena prednostno pred "
+"zamikanjem"
 
 #: tfrmoptionseditorcolors.backgroundlabel.caption
 msgctxt "tfrmoptionseditorcolors.backgroundlabel.caption"
@@ -5725,7 +5760,7 @@ msgstr "Dodaj"
 #: tfrmoptionsfileassoc.btnaddext.caption
 msgctxt "TFRMOPTIONSFILEASSOC.BTNADDEXT.CAPTION"
 msgid "Add"
-msgstr "&Dodaj"
+msgstr "Dodaj"
 
 #: tfrmoptionsfileassoc.btnaddnewtype.caption
 msgctxt "TFRMOPTIONSFILEASSOC.BTNADDNEWTYPE.CAPTION"
@@ -5734,7 +5769,7 @@ msgstr "&Dodaj"
 
 #: tfrmoptionsfileassoc.btncloneact.caption
 msgid "C&lone"
-msgstr "Kloniraj"
+msgstr "&Kloniraj"
 
 #: tfrmoptionsfileassoc.btncommands.hint
 msgctxt "tfrmoptionsfileassoc.btncommands.hint"
@@ -5749,7 +5784,7 @@ msgstr "&Dol"
 #: tfrmoptionsfileassoc.btneditext.caption
 msgctxt "TFRMOPTIONSFILEASSOC.BTNEDITEXT.CAPTION"
 msgid "Edi&t"
-msgstr "Uredi"
+msgstr "&Uredi"
 
 #: tfrmoptionsfileassoc.btninsertact.caption
 msgctxt "tfrmoptionsfileassoc.btninsertact.caption"
@@ -5759,12 +5794,12 @@ msgstr "Vstavi"
 #: tfrmoptionsfileassoc.btninsertext.caption
 msgctxt "TFRMOPTIONSFILEASSOC.BTNINSERTEXT.CAPTION"
 msgid "&Insert"
-msgstr "Vstavi"
+msgstr "&Vstavi"
 
 #: tfrmoptionsfileassoc.btnparametershelper.hint
 msgctxt "tfrmoptionsfileassoc.btnparametershelper.hint"
 msgid "Variable reminder helper"
-msgstr ""
+msgstr "Pomočnik spremenljivega opomnika"
 
 #: tfrmoptionsfileassoc.btnrelativecommand.hint
 msgctxt "tfrmoptionsfileassoc.btnrelativecommand.hint"
@@ -5797,7 +5832,7 @@ msgstr "Nekatere funkcije za izbor ustrezne poti"
 #: tfrmoptionsfileassoc.btnstartpathvarhelper.hint
 msgctxt "tfrmoptionsfileassoc.btnstartpathvarhelper.hint"
 msgid "Variable reminder helper"
-msgstr ""
+msgstr "Pomočnik spremenljivega opomnika"
 
 #: tfrmoptionsfileassoc.btnupact.caption
 msgctxt "TFRMOPTIONSFILEASSOC.BTNUPACT.CAPTION"
@@ -5809,24 +5844,26 @@ msgid "Starting path of the command. Never quote this string."
 msgstr "Začetna pot ukaza. Ta niz ne sme biti zapisan v navednicah."
 
 #: tfrmoptionsfileassoc.edbactionname.hint
-msgid "Name of the action. It is never passed to the system, it's just a mnemonic name chosen by you, for you"
+msgid ""
+"Name of the action. It is never passed to the system, it's just a mnemonic "
+"name chosen by you, for you"
 msgstr "Ime opravila. Niz ni sistemska vrednost, zato je lahko poljuben."
 
 #: tfrmoptionsfileassoc.edtparams.hint
-#, fuzzy
-#| msgid "Parameter to pass to the command. Long filename with spaces should be quoted."
-msgid "Parameter to pass to the command. Long filename with spaces should be quoted (manually entering)."
-msgstr "Parametri za ukaz. Daljše ime datoteke, ki vključuje presledke, mora biti zapisan v navednicah."
+msgid ""
+"Parameter to pass to the command. Long filename with spaces should be quoted "
+"(manually entering)."
+msgstr ""
+"Parametri za ukaz. Daljše ime datoteke, ki vključuje presledke, mora biti "
+"zapisano v navednicah (ročni vpis)."
 
 #: tfrmoptionsfileassoc.fnecommand.hint
-#, fuzzy
-#| msgid "Command to execute. Long filename with space should be quoted."
 msgid "Command to execute. Never quote this string."
-msgstr "Ukaz za izvršitev. Daljše ime datoteke, ki vključuje presledke, mora biti zapisan v navednicah."
+msgstr "Začetna pot ukaza. Ta niz ne sme biti zapisan v navednicah."
 
 #: tfrmoptionsfileassoc.gbactiondescription.caption
 msgid "Action description"
-msgstr "Opis dejanja:"
+msgstr "Opis dejanja"
 
 #: tfrmoptionsfileassoc.gbactions.caption
 msgctxt "tfrmoptionsfileassoc.gbactions.caption"
@@ -5864,12 +5901,12 @@ msgstr "Vrste datotek je mogoče razvrščati z vlečenjem"
 
 #: tfrmoptionsfileassoc.lblaction.caption
 msgid "Action &name:"
-msgstr "Ime dejanja:"
+msgstr "&Ime dejanja:"
 
 #: tfrmoptionsfileassoc.lblcommand.caption
 msgctxt "tfrmoptionsfileassoc.lblcommand.caption"
 msgid "Command:"
-msgstr "&Ukaz:"
+msgstr "Ukaz:"
 
 #: tfrmoptionsfileassoc.lblexternalparameters.caption
 msgctxt "tfrmoptionsfileassoc.lblexternalparameters.caption"
@@ -5946,11 +5983,11 @@ msgstr "Klik za zamenjavo ikone."
 
 #: tfrmoptionsfileassocextra.btnpathtoberelativetoall.caption
 msgid "Apply current settings to all current configured filenames and paths"
-msgstr ""
+msgstr "Uveljavi trenutne nastavitve za vse nastavljena imena datotek in poti"
 
 #: tfrmoptionsfileassocextra.cbdefaultcontextactions.caption
 msgid "Default context actions (View/Edit)"
-msgstr ""
+msgstr "Privzeta dejanja (Pogled / Urejanje)"
 
 #: tfrmoptionsfileassocextra.cbexecuteviashell.caption
 msgctxt "tfrmoptionsfileassocextra.cbexecuteviashell.caption"
@@ -5959,7 +5996,7 @@ msgstr "Izvedi prek lupine"
 
 #: tfrmoptionsfileassocextra.cbextendedcontextmenu.caption
 msgid "Extended context menu"
-msgstr "Razširjen vsebinski meni"
+msgstr "Pokaži razširjen vsebinski meni"
 
 #: tfrmoptionsfileassocextra.cbincludeconfigfileassoc.caption
 msgid "File association configuration"
@@ -5971,8 +6008,12 @@ msgstr "Prikaži možnost dodajanja izbrane datoteke med programske vezi"
 
 #: tfrmoptionsfileassocextra.cboffertoaddtofileassociations.hint
 msgctxt "tfrmoptionsfileassocextra.cboffertoaddtofileassociations.hint"
-msgid "When accessing file association, offer to add current selected file if not already included in a configured file type"
-msgstr "Ob dostopu do programskih vezi z datotekami naj se pokaže tudi pogovorno okno za dodajanje izbrane vrste datoteke med zbrane nastavitve vezi"
+msgid ""
+"When accessing file association, offer to add current selected file if not "
+"already included in a configured file type"
+msgstr ""
+"Ob dostopu do programskih vezi z datotekami naj se pokaže tudi pogovorno "
+"okno za dodajanje izbrane vrste datoteke med zbrane nastavitve vezi"
 
 #: tfrmoptionsfileassocextra.cbopensystemwithterminalclose.caption
 msgctxt "tfrmoptionsfileassocextra.cbopensystemwithterminalclose.caption"
@@ -5987,17 +6028,17 @@ msgstr "Izvedi v terminalu in pusti terminal odprt"
 #: tfrmoptionsfileassocextra.ckbfileassoccommand.caption
 msgctxt "tfrmoptionsfileassocextra.ckbfileassoccommand.caption"
 msgid "Commands"
-msgstr ""
+msgstr "Ukazi"
 
 #: tfrmoptionsfileassocextra.ckbfileassocicons.caption
 msgctxt "tfrmoptionsfileassocextra.ckbfileassocicons.caption"
 msgid "Icons"
-msgstr "Ikone"
+msgstr "ikone"
 
 #: tfrmoptionsfileassocextra.ckbfileassocstartpath.caption
 msgctxt "tfrmoptionsfileassocextra.ckbfileassocstartpath.caption"
 msgid "Starting paths"
-msgstr ""
+msgstr "začetne poti"
 
 #: tfrmoptionsfileassocextra.gbextendedcontextmenuoptions.caption
 msgid "Extended options items:"
@@ -6006,22 +6047,25 @@ msgstr "Možnosti v vsebinskem meniju"
 #: tfrmoptionsfileassocextra.gbtoolbaroptionsextra.caption
 msgctxt "tfrmoptionsfileassocextra.gbtoolbaroptionsextra.caption"
 msgid "Paths"
-msgstr ""
+msgstr "Poti"
 
 #: tfrmoptionsfileassocextra.lbfileassocfilenamestyle.caption
 msgctxt "tfrmoptionsfileassocextra.lbfileassocfilenamestyle.caption"
-msgid "Way to set paths when adding elements for icons, commands and starting paths:"
+msgid ""
+"Way to set paths when adding elements for icons, commands and starting paths:"
 msgstr ""
+"Način nastavljanja poti pri dodajanju predmetov za ikone, ukaze in začetne "
+"poti:"
 
 #: tfrmoptionsfileassocextra.lblapplysettingsfor.caption
 msgctxt "tfrmoptionsfileassocextra.lblapplysettingsfor.caption"
 msgid "Do this for files and path for:"
-msgstr ""
+msgstr "Določevanje poti uveljavi za datoteke in za:"
 
 #: tfrmoptionsfileassocextra.lbpathtoberelativeto.caption
 msgctxt "tfrmoptionsfileassocextra.lbpathtoberelativeto.caption"
 msgid "Path to be relative to:"
-msgstr ""
+msgstr "Pot naj bo relativna na:"
 
 #: tfrmoptionsfileoperations.bvlconfirmations.caption
 msgid "Show confirmation window for:"
@@ -6069,11 +6113,11 @@ msgstr "&Preskoči napake datotečnih opravil in jih zapiši v dnevnik"
 
 #: tfrmoptionsfileoperations.cbtestarchiveconfirmation.caption
 msgid "Test archive operation"
-msgstr ""
+msgstr "Preizkusi delovanje arhiva"
 
 #: tfrmoptionsfileoperations.cbverifychecksumconfirmation.caption
 msgid "Verify checksum operation"
-msgstr ""
+msgstr "preverjanje opravil nadzornih vsot"
 
 #: tfrmoptionsfileoperations.gbexecutingoperations.caption
 msgid "Executing operations"
@@ -6131,7 +6175,7 @@ msgstr "Okvir kazalke"
 
 #: tfrmoptionsfilepanelscolors.dbcurrentpath.caption
 msgid "Current Path"
-msgstr ""
+msgstr "Trenutna pot"
 
 #: tfrmoptionsfilepanelscolors.lblbackgroundcolor.caption
 msgid "Bac&kground:"
@@ -6160,10 +6204,8 @@ msgid "Inactive Mark Color:"
 msgstr "Označeno besedilo:"
 
 #: tfrmoptionsfilepanelscolors.lblinactivepanelbrightness.caption
-#, fuzzy
-#| msgid "&Brightness level of inactive panel"
 msgid "&Brightness level of inactive panel:"
-msgstr "Raven &svetlosti nedejavnega okna"
+msgstr "Raven &svetlosti nedejavnega okna:"
 
 #: tfrmoptionsfilepanelscolors.lblmarkcolor.caption
 msgid "&Mark Color:"
@@ -6172,25 +6214,28 @@ msgstr "Barva &oznake:"
 #: tfrmoptionsfilepanelscolors.lblpathactiveback.caption
 msgctxt "tfrmoptionsfilepanelscolors.lblpathactiveback.caption"
 msgid "Background:"
-msgstr ""
+msgstr "Ozadje:"
 
 #: tfrmoptionsfilepanelscolors.lblpathactivetext.caption
-#, fuzzy
 msgctxt "tfrmoptionsfilepanelscolors.lblpathactivetext.caption"
 msgid "Text Color:"
 msgstr "Barva besedila:"
 
 #: tfrmoptionsfilepanelscolors.lblpathinactiveback.caption
 msgid "Inactive Background:"
-msgstr ""
+msgstr "Barva nedejavnega ozadja:"
 
 #: tfrmoptionsfilepanelscolors.lblpathinactivetext.caption
 msgid "Inactive Text Color:"
-msgstr ""
+msgstr "Barva besedila nedejavnega okna:"
 
 #: tfrmoptionsfilepanelscolors.lblpreview.caption
-msgid "Below is a preview. You may move cursor, select file and get immediately an actual look and feel of the various settings."
-msgstr "Spodaj je okno predogleda. S premikanjem kazalnika in izborom datoteke se pokažejo različne prilagoditve nastavitev."
+msgid ""
+"Below is a preview. You may move cursor, select file and get immediately an "
+"actual look and feel of the various settings."
+msgstr ""
+"Spodaj je okno predogleda. S premikanjem kazalnika in izborom datoteke se "
+"pokažejo različne prilagoditve nastavitev."
 
 #: tfrmoptionsfilepanelscolors.lbltextcolor.caption
 msgid "T&ext Color:"
@@ -6198,11 +6243,11 @@ msgstr "Barva &besedila:"
 
 #: tfrmoptionsfilesearch.cbinitiallyclearfilemask.caption
 msgid "When launching file search, clear file mask filter"
-msgstr "Med zagonom iskalnika datotek, počisti predhodno masko iskanja"
+msgstr "Med zagonom iskalnika datotek počisti predhodno masko iskanja"
 
 #: tfrmoptionsfilesearch.cbpartialnamesearch.caption
 msgid "&Search for part of file name"
-msgstr "&Poišči del imena datoteke"
+msgstr "&Išči del imena datoteke"
 
 #: tfrmoptionsfilesearch.cbshowmenubarinfindfiles.caption
 msgid "Show menu bar in \"Find files\""
@@ -6244,7 +6289,7 @@ msgstr "Oblikovanje"
 
 #: tfrmoptionsfilesviews.gbpersonalizedabbreviationtouse.caption
 msgid "Personalized abbreviations to use:"
-msgstr ""
+msgstr "Poosebljena okrajšava za uporabo:"
 
 #: tfrmoptionsfilesviews.gbsorting.caption
 msgid "Sorting"
@@ -6252,7 +6297,7 @@ msgstr "Razvrščanje"
 
 #: tfrmoptionsfilesviews.lblbyte.caption
 msgid "&Byte:"
-msgstr ""
+msgstr "&Bajti"
 
 #: tfrmoptionsfilesviews.lblcasesensitivity.caption
 msgid "Case s&ensitivity:"
@@ -6272,23 +6317,23 @@ msgstr "Zapis velikosti datoteke:"
 
 #: tfrmoptionsfilesviews.lblfootersizeformat.caption
 msgid "&Footer format:"
-msgstr ""
+msgstr "Zapis &noge:"
 
 #: tfrmoptionsfilesviews.lblgigabyte.caption
 msgid "&Gigabyte:"
-msgstr ""
+msgstr "&Gigabajt:"
 
 #: tfrmoptionsfilesviews.lblheadersizeformat.caption
 msgid "&Header format:"
-msgstr ""
+msgstr "Zapis &glave:"
 
 #: tfrmoptionsfilesviews.lblkilobyte.caption
 msgid "&Kilobyte:"
-msgstr ""
+msgstr "&Kilobajt:"
 
 #: tfrmoptionsfilesviews.lblmegabyte.caption
 msgid "Megab&yte:"
-msgstr ""
+msgstr "&Megabajt:"
 
 #: tfrmoptionsfilesviews.lblnewfilesposition.caption
 msgid "&Insert new files:"
@@ -6296,7 +6341,7 @@ msgstr "&Vstavi nove datoteke:"
 
 #: tfrmoptionsfilesviews.lbloperationsizeformat.caption
 msgid "O&peration size format:"
-msgstr ""
+msgstr "Zapis velikosti &opravila:"
 
 #: tfrmoptionsfilesviews.lblsortfoldermode.caption
 msgid "So&rting directories:"
@@ -6308,7 +6353,7 @@ msgstr "&Način razvrščanja:"
 
 #: tfrmoptionsfilesviews.lblterabyte.caption
 msgid "&Terabyte:"
-msgstr ""
+msgstr "&Terabajt:"
 
 #: tfrmoptionsfilesviews.lblupdatedfilesposition.caption
 msgid "&Move updated files:"
@@ -6317,7 +6362,7 @@ msgstr "&Premakni posodobljene datoteke:"
 #: tfrmoptionsfilesviewscomplement.btnaddattribute.caption
 msgctxt "tfrmoptionsfilesviewscomplement.btnaddattribute.caption"
 msgid "&Add"
-msgstr "Dod&aj"
+msgstr "&Dodaj"
 
 #: tfrmoptionsfilesviewscomplement.btnattrshelp.caption
 msgctxt "tfrmoptionsfilesviewscomplement.btnattrshelp.caption"
@@ -6325,69 +6370,69 @@ msgid "&Help"
 msgstr "Pomo&č"
 
 #: tfrmoptionsfilesviewscomplement.cbdblclicktoparent.caption
-msgctxt "tfrmoptionsfilesviewscomplement.cbdblclicktoparent.caption"
-msgid "Enable changing to &parent folder when double-clicking on empty part of file view"
-msgstr "Omogoči prehod v &nadrejeno mapo, kadar je izveden dvojni klik na prazni del okna datotek"
+msgid ""
+"Enable changing to &parent folder when double-clicking on empty part of file "
+"view"
+msgstr ""
+"Omogoči prehod v &nadrejeno mapo, kadar je izveden dvojni klik na praznem "
+"delu okna"
 
 #: tfrmoptionsfilesviewscomplement.cbdelayloadingtabs.caption
-msgctxt "tfrmoptionsfilesviewscomplement.cbdelayloadingtabs.caption"
 msgid "Do&n't load file list until a tab is activated"
-msgstr "&Ne naloži datoteke, dokler zavihek ni omogočen"
+msgstr "&Ne naloži seznama datotek, dokler zavihek ni dejaven"
 
 #: tfrmoptionsfilesviewscomplement.cbdirbrackets.caption
-msgctxt "tfrmoptionsfilesviewscomplement.cbdirbrackets.caption"
 msgid "S&how square brackets around directories"
-msgstr "&Izpiši oglate oklepaje okoli imena mape v seznamu okna"
+msgstr "&Izpiši oglate oklepaje okoli imena mape"
 
 #: tfrmoptionsfilesviewscomplement.cbhighlightupdatedfiles.caption
-msgctxt "tfrmoptionsfilesviewscomplement.cbhighlightupdatedfiles.caption"
 msgid "Hi&ghlight new and updated files"
 msgstr "&Poudari nove in posodobljene datoteke"
 
 #: tfrmoptionsfilesviewscomplement.cbinplacerename.caption
-msgctxt "tfrmoptionsfilesviewscomplement.cbinplacerename.caption"
 msgid "Enable inplace &renaming when clicking twice on a name"
-msgstr "Omogoči takojšnje &preimenovanje z dvoklikom na ime datoteke"
+msgstr "Omogoči hitro &preimenovanje z dvoklikom na ime datoteke"
 
 #: tfrmoptionsfilesviewscomplement.cblistfilesinthread.caption
-msgctxt "tfrmoptionsfilesviewscomplement.cblistfilesinthread.caption"
 msgid "Load &file list in separate thread"
-msgstr "Naloži &seznam datotek v ločeni niti"
+msgstr "Naloži &seznam datotek ločeno"
 
 #: tfrmoptionsfilesviewscomplement.cbloadiconsseparately.caption
-msgctxt "tfrmoptionsfilesviewscomplement.cbloadiconsseparately.caption"
 msgid "Load icons af&ter file list"
-msgstr "Naloži ikone &za seznamom datotek"
+msgstr "Naloži ikone &po seznamu datotek"
 
 #: tfrmoptionsfilesviewscomplement.cbshowsystemfiles.caption
-msgctxt "tfrmoptionsfilesviewscomplement.cbshowsystemfiles.caption"
 msgid "Show s&ystem and hidden files"
-msgstr "Pokaže skrite in &sistemske datoteke"
+msgstr "Pokaži skrite in &sistemske datoteke"
 
 #: tfrmoptionsfilesviewscomplement.cbspacemovesdown.caption
-msgctxt "tfrmoptionsfilesviewscomplement.cbspacemovesdown.caption"
-msgid "&When selecting files with <SPACEBAR>, move down to next file (as with <INSERT>)"
-msgstr "&Med izbiranjem datotek s preslednico, se premakni na naslednjo datoteko v seznamu (kot z vstavljalko)"
+msgid ""
+"&When selecting files with <SPACEBAR>, move down to next file (as with "
+"<INSERT>)"
+msgstr ""
+"&Med izbiranjem datotek s preslednico se premakni na naslednjo datoteko v "
+"seznamu (kot z vstavljalko)"
 
 #: tfrmoptionsfilesviewscomplement.chkmarkmaskfilterwindows.caption
-msgctxt "tfrmoptionsfilesviewscomplement.chkmarkmaskfilterwindows.caption"
-msgid "Windows style filter when marking files (\"*.*\" also select files without extension, etc.)"
-msgstr "Filter v slogu sistema Windows za označevanje datotek (»*.*« izbere tudi datoteke brez pripone ...)"
+msgid ""
+"Windows style filter when marking files (\"*.*\" also select files without "
+"extension, etc.)"
+msgstr ""
+"Filter v slogu sistema Windows za označevanje datotek (»*.*« izbere tudi "
+"datoteke brez pripone ...)"
 
 #: tfrmoptionsfilesviewscomplement.chkmarkmaskshowattribute.caption
-msgctxt "tfrmoptionsfilesviewscomplement.chkmarkmaskshowattribute.caption"
 msgid "Use an independent attribute filter in mask input dialog each time"
-msgstr "Vsakič uporabi neodvisen filter atributa v maski"
+msgstr ""
+"V vpisnem pogovornem oknu vsakič uporabi neodvisen filter atributa v maski"
 
 #: tfrmoptionsfilesviewscomplement.gbmarking.caption
-msgctxt "tfrmoptionsfilesviewscomplement.gbmarking.caption"
 msgid "Marking/Unmarking entries"
-msgstr "Označevanje/Preklic oznake vnosov"
+msgstr "Označevanje/Odstranjevanje oznak vnosov"
 
 #: tfrmoptionsfilesviewscomplement.lbattributemask.caption
-msgctxt "tfrmoptionsfilesviewscomplement.lbattributemask.caption"
 msgid "Default attribute mask value to use:"
-msgstr "Privzeta maska za uporabo:"
+msgstr "Privzeta maska atributa za uporabo:"
 
 #: tfrmoptionsfiletypescolors.btnaddcategory.caption
 msgctxt "TFRMOPTIONSFILETYPESCOLORS.BTNADDCATEGORY.CAPTION"
@@ -6532,38 +6577,33 @@ msgid "Sort order"
 msgstr "Način razvrščanja"
 
 #: tfrmoptionshotkeys.stgcommands.columns[0].title.caption
-#, fuzzy
 msgctxt "tfrmoptionshotkeys.stgcommands.columns[0].title.caption"
 msgid "Command"
 msgstr "Ukaz"
 
 #: tfrmoptionshotkeys.stgcommands.columns[1].title.caption
-#, fuzzy
 msgctxt "tfrmoptionshotkeys.stgcommands.columns[1].title.caption"
 msgid "Hotkeys"
 msgstr "Hitre tipke"
 
 #: tfrmoptionshotkeys.stgcommands.columns[2].title.caption
-#, fuzzy
 msgctxt "tfrmoptionshotkeys.stgcommands.columns[2].title.caption"
 msgid "Description"
 msgstr "Opis"
 
 #: tfrmoptionshotkeys.stghotkeys.columns[0].title.caption
-#, fuzzy
 msgctxt "tfrmoptionshotkeys.stghotkeys.columns[0].title.caption"
 msgid "Hotkey"
 msgstr "Hitra tipka"
 
 #: tfrmoptionshotkeys.stghotkeys.columns[1].title.caption
-#, fuzzy
 msgctxt "tfrmoptionshotkeys.stghotkeys.columns[1].title.caption"
 msgid "Parameters"
 msgstr "Parametri"
 
 #: tfrmoptionshotkeys.stghotkeys.columns[2].title.caption
 msgid "Controls"
-msgstr ""
+msgstr "Tipke"
 
 #: tfrmoptionsicons.cbiconsexclude.caption
 msgctxt "TFRMOPTIONSICONS.CBICONSEXCLUDE.CAPTION"
@@ -6589,7 +6629,7 @@ msgstr "Pokaži prekrivne i&kone za npr. povezave"
 
 #: tfrmoptionsicons.chkshowhiddendimmed.caption
 msgid "&Dimmed hidden files (slower)"
-msgstr ""
+msgstr "&Zamegljene skrite datoteke (počasneje)"
 
 #: tfrmoptionsicons.gbdisablespecialicons.caption
 msgid "Disable special icons"
@@ -6760,7 +6800,7 @@ msgstr "Pokaži dve orodni vrstici gumbov pogonov (&določene širine nad okni)"
 
 #: tfrmoptionslayout.chkshowmiddletoolbar.caption
 msgid "Show middle toolbar"
-msgstr ""
+msgstr "Pokaži srednjo orodno vrstico"
 
 #: tfrmoptionslayout.gbscreenlayout.caption
 msgid " Screen layout "
@@ -6782,7 +6822,7 @@ msgstr "Vključi datum v ime dnevniške datoteke"
 
 #: tfrmoptionslog.cblogarcop.caption
 msgid "&Pack/Unpack"
-msgstr "&Zapakiranje/Odpakiranje"
+msgstr "&Zapakiranje / Odpakiranje"
 
 #: tfrmoptionslog.cblogcommandlineexecution.caption
 msgid "External command line execution"
@@ -6790,7 +6830,7 @@ msgstr "Zunanje izvajanje ukazne vrstice"
 
 #: tfrmoptionslog.cblogcpmvln.caption
 msgid "Cop&y/Move/Create link/symlink"
-msgstr "Ko&piranje/Premikanje/Ustvarjanje navadnih in simbolnih povezav"
+msgstr "Ko&piranje / Premikanje / Ustvarjanje navadnih in simbolnih povezav"
 
 #: tfrmoptionslog.cblogdelete.caption
 msgctxt "TFRMOPTIONSLOG.CBLOGDELETE.CAPTION"
@@ -6799,7 +6839,7 @@ msgstr "&Brisanje"
 
 #: tfrmoptionslog.cblogdirop.caption
 msgid "Crea&te/Delete directories"
-msgstr "Us&tvarnje/Brisanje map"
+msgstr "Us&tvarnje / Brisanje map"
 
 #: tfrmoptionslog.cblogerrors.caption
 msgid "Log &errors"
@@ -6811,7 +6851,7 @@ msgstr "Ustvari &dnevniško datoteko:"
 
 #: tfrmoptionslog.cblogfilecount.caption
 msgid "Maximum log file count"
-msgstr ""
+msgstr "Največji števec dnevniške datoteke"
 
 #: tfrmoptionslog.cbloginfo.caption
 msgid "Log &information messages"
@@ -6819,7 +6859,7 @@ msgstr "&Beleži sporočila podrobnosti"
 
 #: tfrmoptionslog.cblogstartshutdown.caption
 msgid "Start/shutdown"
-msgstr "Zagon/Izklop programa"
+msgstr "Zagon / Izklop programa"
 
 #: tfrmoptionslog.cblogsuccess.caption
 msgid "Log &successful operations"
@@ -6866,11 +6906,9 @@ msgid "&Remove thumbnails for no longer existing files"
 msgstr "&Odstrani sličice neobstoječih datotek"
 
 #: tfrmoptionsmisc.btnviewconfigfile.hint
-#, fuzzy
-#| msgid "View log file content"
 msgctxt "TFRMOPTIONSMISC.BTNVIEWCONFIGFILE.HINT"
 msgid "View configuration file content"
-msgstr "Preglej vsebino datoteke dnevnika"
+msgstr "Preglej vsebino datoteke nastavitevdnevnika"
 
 #: tfrmoptionsmisc.chkdesccreateunicode.caption
 msgctxt "TFRMOPTIONSMISC.CHKDESCCREATEUNICODE.CAPTION"
@@ -6883,11 +6921,11 @@ msgstr "Med zamenjavo pogona vedno odpri &korensko mapo"
 
 #: tfrmoptionsmisc.chkshowcurdirtitlebar.caption
 msgid "Show &current directory in the main window title bar"
-msgstr ""
+msgstr "Pokaži trenutno mapo v naslovni vrstici glavnega okna"
 
 #: tfrmoptionsmisc.chkshowsplashform.caption
 msgid "Show &splash screen"
-msgstr ""
+msgstr "Pokaži &pojavni zaslon"
 
 #: tfrmoptionsmisc.chkshowwarningmessages.caption
 msgid "Show &warning messages (\"OK\" button only)"
@@ -6912,7 +6950,7 @@ msgstr "TC izvoz in uvoz:"
 
 #: tfrmoptionsmisc.lbldefaultencoding.caption
 msgid "&Default single-byte text encoding:"
-msgstr ""
+msgstr "&Privzeti nabor eno-bitnega kodiranja:"
 
 #: tfrmoptionsmisc.lbldescrdefaultencoding.caption
 msgctxt "TFRMOPTIONSMISC.LBLDESCRDEFAULTENCODING.CAPTION"
@@ -6925,11 +6963,11 @@ msgstr "Nastavitvena datoteka:"
 
 #: tfrmoptionsmisc.lbltcexecutable.caption
 msgid "TC executable:"
-msgstr "Izvedljiva datoteka TC."
+msgstr "Izvedljiva datoteka TC:"
 
 #: tfrmoptionsmisc.lbltcpathfortool.caption
 msgid "Toolbar output path:"
-msgstr "Odvodna pot orodne vrstice"
+msgstr "Odvodna pot orodne vrstice:"
 
 #: tfrmoptionsmisc.lblthumbpixels.caption
 msgid "pixels"
@@ -6950,11 +6988,11 @@ msgstr "&Izbiranje datotek z miško"
 
 #: tfrmoptionsmouse.chkcursornofollow.caption
 msgid "The text cursor no longer follows the mouse cursor"
-msgstr ""
+msgstr "Besedilna kazalka ne sledi več kazalki miške"
 
 #: tfrmoptionsmouse.chkmouseselectioniconclick.caption
 msgid "By clic&king on icon"
-msgstr ""
+msgstr "S klikom na &ikono"
 
 #: tfrmoptionsmouse.gbopenwith.caption
 msgctxt "tfrmoptionsmouse.gbopenwith.caption"
@@ -6975,7 +7013,7 @@ msgstr "&Način:"
 
 #: tfrmoptionsmouse.rbdoubleclick.caption
 msgid "Double click"
-msgstr ""
+msgstr "Dvojni klik"
 
 #: tfrmoptionsmouse.rbscrolllinebyline.caption
 msgid "&Line by line"
@@ -6991,59 +7029,57 @@ msgstr "&Stran po stran"
 
 #: tfrmoptionsmouse.rbsingleclickboth.caption
 msgid "Single click (opens files and folders)"
-msgstr ""
+msgstr "Enojni klik (odpre datoteko in mapo)"
 
 #: tfrmoptionsmouse.rbsingleclickfolders.caption
 msgid "Single click (opens folders, double click for files)"
-msgstr ""
+msgstr "Enojni klik (odpre mapo, dvojni klik datoteko)"
 
 #: tfrmoptionsmultirename.btnmulrenlogfilenamerelative.hint
-#, fuzzy
 msgctxt "tfrmoptionsmultirename.btnmulrenlogfilenamerelative.hint"
 msgid "Some functions to select appropriate path"
 msgstr "Nekatere funkcije za izbor ustrezne poti"
 
 #: tfrmoptionsmultirename.btnmulrenlogfilenameview.hint
-#, fuzzy
 msgctxt "tfrmoptionsmultirename.btnmulrenlogfilenameview.hint"
 msgid "View log file content"
 msgstr "Preglej vsebino datoteke dnevnika"
 
 #: tfrmoptionsmultirename.ckbdailyindividualdirmultrenlog.caption
 msgid "Individual directories per day"
-msgstr ""
+msgstr "Posamične mape na dan"
 
 #: tfrmoptionsmultirename.ckbfilenamewithfullpathinlog.caption
 msgid "Log filenames with full path"
-msgstr ""
+msgstr "Beleži imena datotek s celotno potjo"
 
 #: tfrmoptionsmultirename.ckbshowmenubarontop.caption
 msgid "Show menu bar on top "
-msgstr ""
+msgstr "Pokaži menijsko vrstico na vrhu "
 
 #: tfrmoptionsmultirename.gbsaverenaminglog.caption
 msgid "Rename log"
-msgstr ""
+msgstr "Preimenuj dnevnik"
 
 #: tfrmoptionsmultirename.lbinvalidcharreplacement.caption
 msgid "Replace invalid filename character b&y"
-msgstr ""
+msgstr "Zamenjaj neveljavne znake v imenu datoteke &z znakom"
 
 #: tfrmoptionsmultirename.rbrenaminglogappendsamefile.caption
 msgid "Append in the same rename log file"
-msgstr ""
+msgstr "Pripni v isto datoteko beleženja preimenovanja"
 
 #: tfrmoptionsmultirename.rbrenaminglogperpreset.caption
 msgid "Per preset"
-msgstr ""
+msgstr "Po shranjenem preimenovanju"
 
 #: tfrmoptionsmultirename.rgexitmodifiedpreset.caption
 msgid "Exit with modified preset"
-msgstr ""
+msgstr "Končaj s spremenjenimi nastavitvami"
 
 #: tfrmoptionsmultirename.rglaunchbehavior.caption
 msgid "Preset at launch"
-msgstr ""
+msgstr "Nastavitev ob zagonu preimenovanja"
 
 #: tfrmoptionspluginsbase.btnaddplugin.caption
 msgctxt "tfrmoptionspluginsbase.btnaddplugin.caption"
@@ -7097,57 +7133,57 @@ msgstr "Ime datoteke"
 
 #: tfrmoptionspluginsdsx.lblplugindescription.caption
 msgctxt "tfrmoptionspluginsdsx.lblplugindescription.caption"
-msgid "Searc&h plugins allow one to use alternative search algorithms or external tools (like \"locate\", etc.)"
-msgstr "Vstavki &iskalnikov omogočajo uporabo dodatnih načinov iskanja oziroma uporabo zunanjih orodij (ukaz »locate« in podobno)"
+msgid ""
+"Searc&h plugins allow one to use alternative search algorithms or external "
+"tools (like \"locate\", etc.)"
+msgstr ""
+"Vstavki &iskalnikov omogočajo uporabo dodatnih načinov iskanja oziroma "
+"uporabo zunanjih orodij (ukaz »locate« in podobno)"
 
 #: tfrmoptionspluginsdsx.stgplugins.columns[0].title.caption
-#, fuzzy
 msgctxt "tfrmoptionspluginsdsx.stgplugins.columns[0].title.caption"
 msgid "Active"
 msgstr "Dejavno"
 
 #: tfrmoptionspluginsdsx.stgplugins.columns[1].title.caption
-#, fuzzy
 msgctxt "tfrmoptionspluginsdsx.stgplugins.columns[1].title.caption"
 msgid "Plugin"
 msgstr "Vstavek"
 
 #: tfrmoptionspluginsdsx.stgplugins.columns[2].title.caption
-#, fuzzy
 msgctxt "tfrmoptionspluginsdsx.stgplugins.columns[2].title.caption"
 msgid "Registered for"
 msgstr "Vpisano za"
 
 #: tfrmoptionspluginsdsx.stgplugins.columns[3].title.caption
-#, fuzzy
 msgctxt "tfrmoptionspluginsdsx.stgplugins.columns[3].title.caption"
 msgid "File name"
 msgstr "Ime datoteke"
 
 #: tfrmoptionspluginsgroup.btnpathtoberelativetoall.caption
 msgid "Apply current settings to all current configured plugins"
-msgstr ""
+msgstr "Uveljavi trenutne nastavitve za vse nameščene vstavke"
 
 #: tfrmoptionspluginsgroup.ckbautotweak.caption
 msgid "When adding a new plugin, automatically go in tweak window"
-msgstr ""
+msgstr "Ob dodajanju novega vstavka, samodejno skoči v okno nastavitev"
 
 #: tfrmoptionspluginsgroup.gbconfiguration.caption
 msgid "Configuration:"
-msgstr ""
+msgstr "Nastavitve:"
 
 #: tfrmoptionspluginsgroup.lbllualibraryfilename.caption
 msgid "Lua library file to use:"
-msgstr ""
+msgstr "Datoteka knjižnice Lua za uporabo:"
 
 #: tfrmoptionspluginsgroup.lbpathtoberelativeto.caption
 msgctxt "tfrmoptionspluginsgroup.lbpathtoberelativeto.caption"
 msgid "Path to be relative to:"
-msgstr ""
+msgstr "Pot naj bo relativna na:"
 
 #: tfrmoptionspluginsgroup.lbpluginfilenamestyle.caption
 msgid "Plugin filename style when adding a new plugin:"
-msgstr ""
+msgstr "Slog imena datotek vstavka ob dodajanju novega:"
 
 #: tfrmoptionspluginswcx.lblplugindescription.caption
 msgctxt "tfrmoptionspluginswcx.lblplugindescription.caption"
@@ -7155,112 +7191,109 @@ msgid "Pack&er plugins are used to work with archives"
 msgstr "Vstavki &pakirnikov so uporabljeni za delo z arhivi."
 
 #: tfrmoptionspluginswcx.stgplugins.columns[0].title.caption
-#, fuzzy
 msgctxt "tfrmoptionspluginswcx.stgplugins.columns[0].title.caption"
 msgid "Active"
 msgstr "Dejavno"
 
 #: tfrmoptionspluginswcx.stgplugins.columns[1].title.caption
-#, fuzzy
 msgctxt "tfrmoptionspluginswcx.stgplugins.columns[1].title.caption"
 msgid "Plugin"
 msgstr "Vstavek"
 
 #: tfrmoptionspluginswcx.stgplugins.columns[2].title.caption
-#, fuzzy
 msgctxt "tfrmoptionspluginswcx.stgplugins.columns[2].title.caption"
 msgid "Registered for"
 msgstr "Vpisano za"
 
 #: tfrmoptionspluginswcx.stgplugins.columns[3].title.caption
-#, fuzzy
 msgctxt "tfrmoptionspluginswcx.stgplugins.columns[3].title.caption"
 msgid "File name"
 msgstr "Ime datoteke"
 
 #: tfrmoptionspluginswdx.lblplugindescription.caption
 msgctxt "tfrmoptionspluginswdx.lblplugindescription.caption"
-msgid "Content plu&gins allow one to display extended file details like mp3 tags or image attributes in file lists, or use them in search and multi-rename tool"
-msgstr "Vsebinski &vstavki omogočajo prikaz podrobnosti datotek, kot so oznake mp3, atributi slik in seznami datotek, ter uporabo podatkov oznak za iskanje, preimenovanje in drugo."
+msgid ""
+"Content plu&gins allow one to display extended file details like mp3 tags or "
+"image attributes in file lists, or use them in search and multi-rename tool"
+msgstr ""
+"Vsebinski &vstavki omogočajo prikaz podrobnosti datotek, kot so oznake mp3, "
+"atributi slik in seznami datotek, ter uporabo podatkov oznak za iskanje, "
+"preimenovanje in drugo."
 
 #: tfrmoptionspluginswdx.stgplugins.columns[0].title.caption
-#, fuzzy
 msgctxt "tfrmoptionspluginswdx.stgplugins.columns[0].title.caption"
 msgid "Active"
 msgstr "Dejavno"
 
 #: tfrmoptionspluginswdx.stgplugins.columns[1].title.caption
-#, fuzzy
 msgctxt "tfrmoptionspluginswdx.stgplugins.columns[1].title.caption"
 msgid "Plugin"
 msgstr "Vstavek"
 
 #: tfrmoptionspluginswdx.stgplugins.columns[2].title.caption
-#, fuzzy
 msgctxt "tfrmoptionspluginswdx.stgplugins.columns[2].title.caption"
 msgid "Registered for"
 msgstr "Vpisano za"
 
 #: tfrmoptionspluginswdx.stgplugins.columns[3].title.caption
-#, fuzzy
 msgctxt "tfrmoptionspluginswdx.stgplugins.columns[3].title.caption"
 msgid "File name"
 msgstr "Ime datoteke"
 
 #: tfrmoptionspluginswfx.lblplugindescription.caption
 msgctxt "tfrmoptionspluginswfx.lblplugindescription.caption"
-msgid "Fi&le system plugins allow access to disks inaccessible by operating system or to external devices like Palm/PocketPC."
-msgstr "Sistemsko-datotečni vstavki omogočajo dostop do naprav, kot so dlančniki in PocketPC."
+msgid ""
+"Fi&le system plugins allow access to disks inaccessible by operating system "
+"or to external devices like Palm/PocketPC."
+msgstr ""
+"Sistemsko-datotečni vstavki omogočajo dostop do naprav, kot so dlančniki in "
+"PocketPC."
 
 #: tfrmoptionspluginswfx.stgplugins.columns[0].title.caption
-#, fuzzy
 msgctxt "tfrmoptionspluginswfx.stgplugins.columns[0].title.caption"
 msgid "Active"
 msgstr "Dejavno"
 
 #: tfrmoptionspluginswfx.stgplugins.columns[1].title.caption
-#, fuzzy
 msgctxt "tfrmoptionspluginswfx.stgplugins.columns[1].title.caption"
 msgid "Plugin"
 msgstr "Vstavek"
 
 #: tfrmoptionspluginswfx.stgplugins.columns[2].title.caption
-#, fuzzy
 msgctxt "tfrmoptionspluginswfx.stgplugins.columns[2].title.caption"
 msgid "Registered for"
 msgstr "Vpisano za"
 
 #: tfrmoptionspluginswfx.stgplugins.columns[3].title.caption
-#, fuzzy
 msgctxt "tfrmoptionspluginswfx.stgplugins.columns[3].title.caption"
 msgid "File name"
 msgstr "Ime datoteke"
 
 #: tfrmoptionspluginswlx.lblplugindescription.caption
 msgctxt "tfrmoptionspluginswlx.lblplugindescription.caption"
-msgid "Vie&wer plugins allow one to display file formats like images, spreadsheets, databases etc. in Viewer (F3, Ctrl+Q)"
-msgstr "Vstavki &pregledovalnikov omogočajo prikaz različnih datotek dokumentov, kot so slike, preglednice, podatkovne zbirke in podobno (F3, Ctrl+Q)."
+msgid ""
+"Vie&wer plugins allow one to display file formats like images, spreadsheets, "
+"databases etc. in Viewer (F3, Ctrl+Q)"
+msgstr ""
+"Vstavki &pregledovalnikov omogočajo prikaz različnih datotek dokumentov, kot "
+"so slike, preglednice, podatkovne zbirke in podobno (F3, Ctrl+Q)."
 
 #: tfrmoptionspluginswlx.stgplugins.columns[0].title.caption
-#, fuzzy
 msgctxt "tfrmoptionspluginswlx.stgplugins.columns[0].title.caption"
 msgid "Active"
 msgstr "Dejavno"
 
 #: tfrmoptionspluginswlx.stgplugins.columns[1].title.caption
-#, fuzzy
 msgctxt "tfrmoptionspluginswlx.stgplugins.columns[1].title.caption"
 msgid "Plugin"
 msgstr "Vstavek"
 
 #: tfrmoptionspluginswlx.stgplugins.columns[2].title.caption
-#, fuzzy
 msgctxt "tfrmoptionspluginswlx.stgplugins.columns[2].title.caption"
 msgid "Registered for"
 msgstr "Vpisano za"
 
 #: tfrmoptionspluginswlx.stgplugins.columns[3].title.caption
-#, fuzzy
 msgctxt "tfrmoptionspluginswlx.stgplugins.columns[3].title.caption"
 msgid "File name"
 msgstr "Ime datoteke"
@@ -7271,7 +7304,9 @@ msgstr "na &začetku (ime se mora začeti s prvim vpisanim znakom)"
 
 #: tfrmoptionsquicksearchfilter.cbexactending.caption
 msgid "En&ding (last character before a typed dot . must match)"
-msgstr "na &koncu (ime se mora končati s prvim vpisanim znakom pred piko (.) in pripono)"
+msgstr ""
+"na &koncu (ime se mora končati s prvim vpisanim znakom pred piko (.) in "
+"pripono)"
 
 #: tfrmoptionsquicksearchfilter.cgpoptions.caption
 msgctxt "TFRMOPTIONSQUICKSEARCHFILTER.CGPOPTIONS.CAPTION"
@@ -7391,8 +7426,11 @@ msgid "Goto to Favorite Tabs Configuration after saving a new one"
 msgstr "Po prvem shranjevanju skoči na nastavitve priljubljenih zavihkov"
 
 #: tfrmoptionstabsextra.cbusefavoritetabsextraoptions.caption
-msgid "Enable Favorite Tabs extra options (select target side when restore, etc.)"
-msgstr "Omogoči dodatne možnosti priljubljenih zavihkov (izbor ciljne strani ob obnovitvi ...)"
+msgid ""
+"Enable Favorite Tabs extra options (select target side when restore, etc.)"
+msgstr ""
+"Omogoči dodatne možnosti priljubljenih zavihkov (izbor ciljne strani ob "
+"obnovitvi ...)"
 
 #: tfrmoptionstabsextra.gbdefaulttabsavedrestoration.caption
 msgid "Default extra settings when saving new Favorite Tabs:"
@@ -7425,13 +7463,21 @@ msgstr "Privzet položaj v meniju med shranjevanjem:"
 
 #: tfrmoptionsterminal.edrunintermcloseparams.hint
 msgctxt "TFRMOPTIONSTERMINAL.EDRUNINTERMCLOSEPARAMS.HINT"
-msgid "{command} should normally be present here to reflect the command to be run in terminal"
-msgstr "{command} bi moral biti izpisan na tem mestu za ukaz, ki bo zagnan v terminalu"
+msgid ""
+"{command} should normally be present here to reflect the command to be run "
+"in terminal"
+msgstr ""
+"{command} bi moral biti izpisan na tem mestu za ukaz, ki bo zagnan v "
+"terminalu"
 
 #: tfrmoptionsterminal.edrunintermstayopenparams.hint
 msgctxt "TFRMOPTIONSTERMINAL.EDRUNINTERMSTAYOPENPARAMS.HINT"
-msgid "{command} should normally be present here to reflect the command to be run in terminal"
-msgstr "{command} bi moral biti izpisan na tem mestu za ukaz, ki bo zagnan v terminalu"
+msgid ""
+"{command} should normally be present here to reflect the command to be run "
+"in terminal"
+msgstr ""
+"{command} bi moral biti izpisan na tem mestu za ukaz, ki bo zagnan v "
+"terminalu"
 
 #: tfrmoptionsterminal.gbjustrunterminal.caption
 msgid "Command for just running terminal:"
@@ -7439,11 +7485,11 @@ msgstr "Ukaz za zagon terminala:"
 
 #: tfrmoptionsterminal.gbruninterminalclose.caption
 msgid "Command for running a command in terminal and close after:"
-msgstr "Ukaz za izvedbo zaključenega ukaza v terminalu"
+msgstr "Ukaz za zagon zaključenega ukaza v terminalu"
 
 #: tfrmoptionsterminal.gbruninterminalstayopen.caption
 msgid "Command for running a command in terminal and stay open:"
-msgstr "Ukaz za izvedbo ukaza v oknu terminala, ki naj ostane odprto"
+msgstr "Ukaz za zagon ukaza v oknu terminala, ki naj ostane odprto"
 
 #: tfrmoptionsterminal.lbrunintermclosecmd.caption
 msgctxt "TFRMOPTIONSTERMINAL.LBRUNINTERMCLOSECMD.CAPTION"
@@ -7520,8 +7566,10 @@ msgid "Suggest"
 msgstr "Predlagaj"
 
 #: tfrmoptionstoolbarbase.btnsuggestiontooltip.hint
-msgid "Have DC suggest the tooltip based on button type, command and parameters"
-msgstr "Naj program ponudi orodni namig na osnovi vrste gumba, ukaza in parametra"
+msgid ""
+"Have DC suggest the tooltip based on button type, command and parameters"
+msgstr ""
+"Naj program ponudi orodni namig na osnovi vrste gumba, ukaza in parametra"
 
 #: tfrmoptionstoolbarbase.cbflatbuttons.caption
 msgctxt "tfrmoptionstoolbarbase.CBFLATBUTTONS.CAPTION"
@@ -7534,11 +7582,15 @@ msgstr "Pokaži napake ukazov"
 
 #: tfrmoptionstoolbarbase.cbshowcaptions.caption
 msgid "Sho&w captions"
-msgstr ""
+msgstr "&Pokaži naslove"
 
 #: tfrmoptionstoolbarbase.edtinternalparameters.hint
-msgid "Enter command parameters, each in a separate line. Press F1 to see help on parameters."
-msgstr "Vnos parametrov ukaza, ki so podani vsak v svoji vrstici. Pritisnite tipko F1 za več pomoči o parametrih."
+msgid ""
+"Enter command parameters, each in a separate line. Press F1 to see help on "
+"parameters."
+msgstr ""
+"Vnos parametrov ukaza, ki so podani vsak v svoji vrstici. Pritisnite tipko "
+"F1 za več pomoči o parametrih."
 
 #: tfrmoptionstoolbarbase.gbgroupbox.caption
 msgid "Appearance"
@@ -7591,7 +7643,7 @@ msgstr "Začetna &pot:"
 
 #: tfrmoptionstoolbarbase.lblstyle.caption
 msgid "Style:"
-msgstr ""
+msgstr "Slog:"
 
 #: tfrmoptionstoolbarbase.lbltooltip.caption
 msgid "&Tooltip:"
@@ -7654,11 +7706,11 @@ msgstr "v datoteko »wincmd.ini« programa TotalCommander (ohrani obstoječe)"
 #: tfrmoptionstoolbarbase.miexportcurrenttotcininokeep.caption
 msgctxt "tfrmoptionstoolbarbase.MIEXPORTCURRENTTOTCININOKEEP.CAPTION"
 msgid "to a \"wincmd.ini\" of TC (erase existing)"
-msgstr "v datoteko »wincmd.ini« programa TotalCommander (ohrani obstoječe)"
+msgstr "v datoteko »wincmd.ini« programa TotalCommander (izbriši obstoječe)"
 
 #: tfrmoptionstoolbarbase.miexporttop.caption
 msgid "Top toolbar..."
-msgstr "Vrhnja orodna vrstica"
+msgstr "Vrhnja orodna vrstica ..."
 
 #: tfrmoptionstoolbarbase.miexporttoptobackup.caption
 msgid "Save a backup of Toolbar"
@@ -7687,7 +7739,7 @@ msgstr "v datoteko »wincmd.ini« programa TotalCommander (ohrani obstoječe)"
 #: tfrmoptionstoolbarbase.miexporttoptotcininokeep.caption
 msgctxt "tfrmoptionstoolbarbase.MIEXPORTTOPTOTCININOKEEP.CAPTION"
 msgid "to a \"wincmd.ini\" of TC (erase existing)"
-msgstr "v datoteko »wincmd.ini« programa TotalCommander (ohrani obstoječe)"
+msgstr "v datoteko »wincmd.ini« programa TotalCommander (izbriši obstoječe) "
 
 #: tfrmoptionstoolbarbase.miexternalcommandaftercurrent.caption
 msgctxt "tfrmoptionstoolbarbase.MIEXTERNALCOMMANDAFTERCURRENT.CAPTION"
@@ -7760,7 +7812,7 @@ msgstr "za dodajanje na novo orodno vrstico na trenutni orodni vrstici"
 #: tfrmoptionstoolbarbase.miimportdcbaraddmenutop.caption
 msgctxt "tfrmoptionstoolbarbase.miimportdcbaraddmenutop.caption"
 msgid "to add to a new toolbar to top toolbar"
-msgstr "za dodajanje na novo orodno vrstico na vrhnji orodni vrstici"
+msgstr "za dodajanje nove orodne vrstice na vrhnjo orodno vrstico"
 
 #: tfrmoptionstoolbarbase.miimportdcbaraddtop.caption
 msgctxt "tfrmoptionstoolbarbase.miimportdcbaraddtop.caption"
@@ -7833,7 +7885,7 @@ msgstr "za zamenjavo vrhnje orodne vrstice"
 #: tfrmoptionstoolbarbase.miinternalcommandaftercurrent.caption
 msgctxt "tfrmoptionstoolbarbase.MIINTERNALCOMMANDAFTERCURRENT.CAPTION"
 msgid "just after current selection"
-msgstr "takoj za trenutnim izborom"
+msgstr "takoj za trenutno izbiro"
 
 #: tfrmoptionstoolbarbase.miinternalcommandfirstelement.caption
 msgctxt "tfrmoptionstoolbarbase.MIINTERNALCOMMANDFIRSTELEMENT.CAPTION"
@@ -7858,7 +7910,7 @@ msgstr "Poišči in zamenjaj ..."
 #: tfrmoptionstoolbarbase.miseparatoraftercurrent.caption
 msgctxt "tfrmoptionstoolbarbase.miseparatoraftercurrent.caption"
 msgid "just after current selection"
-msgstr "takoj za trenutnim izborom"
+msgstr "takoj za trenutno izbiro"
 
 #: tfrmoptionstoolbarbase.miseparatorfirstitem.caption
 msgctxt "tfrmoptionstoolbarbase.miseparatorfirstitem.caption"
@@ -7898,7 +7950,7 @@ msgstr "v vseh začetnih poteh ..."
 #: tfrmoptionstoolbarbase.misubtoolbaraftercurrent.caption
 msgctxt "tfrmoptionstoolbarbase.MISUBTOOLBARAFTERCURRENT.CAPTION"
 msgid "just after current selection"
-msgstr "takoj za trenutnim izborom"
+msgstr "takoj za trenutno izbiro"
 
 #: tfrmoptionstoolbarbase.misubtoolbarfirstelement.caption
 msgctxt "tfrmoptionstoolbarbase.MISUBTOOLBARFIRSTELEMENT.CAPTION"
@@ -7913,15 +7965,15 @@ msgstr "kot zadnji predmet"
 #: tfrmoptionstoolbarbase.misubtoolbarpriorcurrent.caption
 msgctxt "tfrmoptionstoolbarbase.MISUBTOOLBARPRIORCURRENT.CAPTION"
 msgid "just prior current selection"
-msgstr "takoj pred trenutnim izborom"
+msgstr "takoj pred trenutno izbiro"
 
 #: tfrmoptionstoolbarbase.rbseparator.caption
 msgid "Separator"
-msgstr ""
+msgstr "Ločilnik"
 
 #: tfrmoptionstoolbarbase.rbspace.caption
 msgid "Space"
-msgstr ""
+msgstr "Presledek"
 
 #: tfrmoptionstoolbarbase.rgtoolitemtype.caption
 msgid "Button type"
@@ -7929,41 +7981,44 @@ msgstr "Vrsta gumba"
 
 #: tfrmoptionstoolbarextra.btnpathtoberelativetoall.caption
 msgid "Apply current settings to all configured filenames and paths"
-msgstr ""
+msgstr "Uveljavi trenutne nastavitve za vse datoteke in vpisane poti"
 
 #: tfrmoptionstoolbarextra.ckbtoolbarcommand.caption
 msgctxt "tfrmoptionstoolbarextra.ckbtoolbarcommand.caption"
 msgid "Commands"
-msgstr ""
+msgstr "ukaze"
 
 #: tfrmoptionstoolbarextra.ckbtoolbaricons.caption
 msgctxt "tfrmoptionstoolbarextra.ckbtoolbaricons.caption"
 msgid "Icons"
-msgstr "Ikone"
+msgstr "ikone"
 
 #: tfrmoptionstoolbarextra.ckbtoolbarstartpath.caption
 msgctxt "tfrmoptionstoolbarextra.ckbtoolbarstartpath.caption"
 msgid "Starting paths"
-msgstr ""
+msgstr "začetne poti"
 
 #: tfrmoptionstoolbarextra.gbtoolbaroptionsextra.caption
 msgctxt "tfrmoptionstoolbarextra.gbtoolbaroptionsextra.caption"
 msgid "Paths"
-msgstr ""
+msgstr "Poti"
 
 #: tfrmoptionstoolbarextra.lblapplysettingsfor.caption
 msgid "Do this for files and paths for:"
-msgstr ""
+msgstr "Uveljavi za datoteke in poti za:"
 
 #: tfrmoptionstoolbarextra.lbpathtoberelativeto.caption
 msgctxt "tfrmoptionstoolbarextra.lbpathtoberelativeto.caption"
 msgid "Path to be relative to:"
-msgstr ""
+msgstr "Pot naj bo relativna na:"
 
 #: tfrmoptionstoolbarextra.lbtoolbarfilenamestyle.caption
 msgctxt "tfrmoptionstoolbarextra.lbtoolbarfilenamestyle.caption"
-msgid "Way to set paths when adding elements for icons, commands and starting paths:"
+msgid ""
+"Way to set paths when adding elements for icons, commands and starting paths:"
 msgstr ""
+"Način določevanja poti pri dodajanju predmetov za ikone, ukaze in začetne "
+"poti:"
 
 #: tfrmoptionstoolbase.btnrelativetoolpath.hint
 msgctxt "TFRMOPTIONSTOOLBASE.BTNRELATIVETOOLPATH.HINT"
@@ -7988,7 +8043,7 @@ msgstr "&Dodatni parametri:"
 
 #: tfrmoptionstoolbase.lbltoolspath.caption
 msgid "&Path to program to execute"
-msgstr "&Pot do programa za izvedbo:"
+msgstr "&Pot do programa za zagon:"
 
 #: tfrmoptionstooltips.btnaddtooltipsfiletype.caption
 msgctxt "tfrmoptionstooltips.btnaddtooltipsfiletype.caption"
@@ -8003,12 +8058,12 @@ msgstr "&Uveljavi"
 #: tfrmoptionstooltips.btncopytooltipsfiletype.caption
 msgctxt "tfrmoptionstooltips.btncopytooltipsfiletype.caption"
 msgid "Cop&y"
-msgstr "Kopiraj"
+msgstr "Ko&piraj"
 
 #: tfrmoptionstooltips.btndeletetooltipsfiletype.caption
 msgctxt "tfrmoptionstooltips.btndeletetooltipsfiletype.caption"
 msgid "Delete"
-msgstr "&Izbriši"
+msgstr "Izbriši"
 
 #: tfrmoptionstooltips.btnfieldslist.caption
 msgctxt "TFRMOPTIONSTOOLTIPS.BTNFIELDSLIST.CAPTION"
@@ -8028,15 +8083,15 @@ msgstr "&Preimenuj"
 #: tfrmoptionstooltips.btntooltipother.caption
 msgctxt "tfrmoptionstooltips.btntooltipother.caption"
 msgid "Oth&er..."
-msgstr "Drugo..."
+msgstr "D&rugo ..."
 
 #: tfrmoptionstooltips.bvltooltips1.caption
 msgid "Tooltip configuration for selected file type:"
-msgstr ""
+msgstr "Nastavitev orodnih namigov za izbrano vrsto datoteke:"
 
 #: tfrmoptionstooltips.bvltooltips2.caption
 msgid "General options about tooltips:"
-msgstr ""
+msgstr "Splošne možnosti orodnih namigov"
 
 #: tfrmoptionstooltips.chkshowtooltip.caption
 msgid "&Show tooltip for files in the file panel"
@@ -8053,19 +8108,19 @@ msgstr "&Maska kategorije:"
 
 #: tfrmoptionstooltips.lbltooltiphidingdelay.caption
 msgid "Tooltip hiding delay:"
-msgstr ""
+msgstr "Časovni zamik skrivanja namiga:"
 
 #: tfrmoptionstooltips.lbltooltipshowingmode.caption
 msgid "Tooltip showing mode:"
-msgstr ""
+msgstr "Način prikazovanja orodnih namigov:"
 
 #: tfrmoptionstooltips.lbltooltipslistbox.caption
 msgid "&File types:"
-msgstr ""
+msgstr "&Vrste datotek:"
 
 #: tfrmoptionstooltips.mitooltipsfiletypediscardmodification.caption
 msgid "Discard Modifications"
-msgstr ""
+msgstr "Zavrzi spremembe"
 
 #: tfrmoptionstooltips.mitooltipsfiletypeexport.caption
 msgctxt "tfrmoptionstooltips.mitooltipsfiletypeexport.caption"
@@ -8079,11 +8134,11 @@ msgstr "Uvozi ..."
 
 #: tfrmoptionstooltips.mitooltipsfiletypesortfiletype.caption
 msgid "Sort Tooltip File Types"
-msgstr ""
+msgstr "Razvrsti vrste datotek orodnih namigov"
 
 #: tfrmoptionstreeviewmenu.ckbdirectoryhotlistfromdoubleclick.caption
 msgid "With double-click on the bar on top of a file panel"
-msgstr "Z dvojnim klikom na vrstico na vrhu datotečnega okna"
+msgstr "z dvojnim klikom na vrstico na vrhu datotečnega okna"
 
 #: tfrmoptionstreeviewmenu.ckbdirectoryhotlistfrommenucommand.caption
 msgctxt "tfrmoptionstreeviewmenu.ckbdirectoryhotlistfrommenucommand.caption"
@@ -8092,7 +8147,7 @@ msgstr "za notranji ukaz"
 
 #: tfrmoptionstreeviewmenu.ckbdoubleclickselect.caption
 msgid "Double click in tree select and exit"
-msgstr "Dvojni klik miške v izboru drevesa in končaj"
+msgstr "Z izvedbo dvojnega klika miške v izboru drevesa zapre pogled"
 
 #: tfrmoptionstreeviewmenu.ckbfavoritatabsfrommenucommand.caption
 msgctxt "TFRMOPTIONSTREEVIEWMENU.CKBFAVORITATABSFROMMENUCOMMAND.CAPTION"
@@ -8101,43 +8156,51 @@ msgstr "za notranji ukaz"
 
 #: tfrmoptionstreeviewmenu.ckbfavoritetabsfromdoubleclick.caption
 msgid "With double-click on a tab (if configured for it)"
-msgstr "Z dvojnim klikom na zavihe (če je tako nastavljeno)"
+msgstr "z dvojnim klikom na zavihe (če je tako nastavljeno)"
 
 #: tfrmoptionstreeviewmenu.ckbshortcutselectandclose.caption
-msgid "When using the keyboard shortcut, it will exit the window returning the current choice"
-msgstr "Med uporabi tipkovnih bližnjic, konča okno in se vrne na trenutno izbiro"
+msgid ""
+"When using the keyboard shortcut, it will exit the window returning the "
+"current choice"
+msgstr "Z uporabo tipkovne bližnjice zapre okno in se vrne na trenutno izbiro"
 
 #: tfrmoptionstreeviewmenu.ckbsingleclickselect.caption
 msgid "Single mouse click in tree select and exit"
-msgstr "Enojni klik miške v izboru drevesa in končaj"
+msgstr "Z izvedbo enojnega klika miške v izboru drevesa zapre pogled"
 
 #: tfrmoptionstreeviewmenu.ckbuseforcommandlinehistory.caption
 msgid "Use it for Command Line History"
-msgstr "Uporabi za zgodovino ukazne vrstice"
+msgstr "za prikaz zgodovine ukazne vrstice"
 
 #: tfrmoptionstreeviewmenu.ckbusefordirhistory.caption
 msgid "Use it for the Dir History"
-msgstr "Uporabi za zgodovino map"
+msgstr "za prikaz zgodovine map"
 
 #: tfrmoptionstreeviewmenu.ckbuseforviewhistory.caption
 msgid "Use it for the View History (Visited paths for active view)"
-msgstr "Uporabi za zgodovino pogleda (obiskane poti dejavnega okna)"
+msgstr "za prikaz zgodovine pogleda (obiskane poti dejavnega okna)"
 
 #: tfrmoptionstreeviewmenu.gbbehavior.caption
 msgid "Behavior regarding selection:"
-msgstr "Obnašanje glede na izbor:"
+msgstr "Obnašanje glede na izbor"
 
 #: tfrmoptionstreeviewmenu.gbtreeviewmenusettings.caption
 msgid "Tree View Menus related options:"
-msgstr "Možnosti, povezane z menijem drevesnega pogleda:"
+msgstr "Možnosti menija drevesnega pogleda"
 
 #: tfrmoptionstreeviewmenu.gbwheretousetreeviewmenu.caption
 msgid "Where to use Tree View Menus:"
 msgstr "Kje uporabiti menije drevesnega pogleda:"
 
 #: tfrmoptionstreeviewmenu.lblnote.caption
-msgid "*NOTE: Regarding the options like the case sensitivity, ignoring accents or not, these are saved and restored individually for each context from a usage and session to another."
-msgstr "* OPOMBA: Možnosti, kot so upoštevanje velikosti črk, izpuščanje akcentov znakov in podobno, so shranjene in naložene posamično za vsako rabo oziroma sejo."
+msgid ""
+"*NOTE: Regarding the options like the case sensitivity, ignoring accents or "
+"not, these are saved and restored individually for each context from a usage "
+"and session to another."
+msgstr ""
+"* OPOMBA: Možnosti, kot so upoštevanje velikosti črk, izpuščanje znakov "
+"preglasov in podobno, so shranjene in naložene posamično za vsako rabo "
+"oziroma sejo."
 
 #: tfrmoptionstreeviewmenu.lbluseindirectoryhotlist.caption
 msgid "With Directory Hotlist:"
@@ -8152,7 +8215,6 @@ msgid "With History:"
 msgstr "Z zgodovino:"
 
 #: tfrmoptionstreeviewmenucolor.btfont.caption
-#, fuzzy
 msgctxt "tfrmoptionstreeviewmenucolor.btfont.caption"
 msgid "..."
 msgstr "..."
@@ -8163,7 +8225,7 @@ msgstr "Uporabi in pokaži tipkovno bližnjico za izbor predmetov"
 
 #: tfrmoptionstreeviewmenucolor.gbfont.caption
 msgid "Font"
-msgstr ""
+msgstr "Pisava"
 
 #: tfrmoptionstreeviewmenucolor.gblayoutandcolors.caption
 msgid "Layout and colors options:"
@@ -8222,12 +8284,16 @@ msgid "Unselectable under cursor:"
 msgstr "Barva neizberljivega predmeta"
 
 #: tfrmoptionstreeviewmenucolor.treeviewmenusample.hint
-msgid "Change color on left and you'll see here a preview of what your Tree View Menus will look likes with this sample."
-msgstr "S spreminjanjem barve na levi si je mogoče ogledati, kako bo drevesni pogled menija videti."
+msgid ""
+"Change color on left and you'll see here a preview of what your Tree View "
+"Menus will look likes with this sample."
+msgstr ""
+"S spreminjanjem barve na levi si je mogoče ogledati, kako bo drevesni pogled "
+"menija videti."
 
 #: tfrmoptionsviewer.gbinternalviewer.caption
 msgid "Internal viewer options"
-msgstr ""
+msgstr "Možnosti notranjega pregledovalnika"
 
 #: tfrmoptionsviewer.lblnumbercolumnsviewer.caption
 msgid "&Number of columns in book viewer"
@@ -8244,7 +8310,7 @@ msgstr "Pakiranje datotek"
 
 #: tfrmpackdlg.cbcreateseparatearchives.caption
 msgid "C&reate separate archives, one per selected file/dir"
-msgstr "&Ustvari ločen arhiv za vsako izbrano datoteko oziroma mapo"
+msgstr "&Ustvari ločen arhiv za vsako izbrano datoteko / mapo"
 
 #: tfrmpackdlg.cbcreatesfx.caption
 msgid "Create self e&xtracting archive"
@@ -8253,11 +8319,11 @@ msgstr "Ustvari arhiv za samodejno odpakiranje"
 #: tfrmpackdlg.cbencrypt.caption
 msgctxt "tfrmpackdlg.cbencrypt.caption"
 msgid "Encr&ypt"
-msgstr "&Šifriraj arhiv z geslom"
+msgstr "Arhiv &šifriraj"
 
 #: tfrmpackdlg.cbmovetoarchive.caption
 msgid "Mo&ve to archive"
-msgstr "Pre&makni v arhiv"
+msgstr "Datoteke pre&makni v arhiv"
 
 #: tfrmpackdlg.cbmultivolume.caption
 msgid "&Multiple disk archive"
@@ -8269,7 +8335,7 @@ msgstr "=>"
 
 #: tfrmpackdlg.cbputintarfirst.caption
 msgid "P&ut in the TAR archive first"
-msgstr "Najprej &vstavi v arhiv TAR"
+msgstr "Pred pakiranjem &vstavi še v arhiv TAR"
 
 #: tfrmpackdlg.cbstoredir.caption
 msgid "Also &pack path names (only recursed)"
@@ -8338,27 +8404,27 @@ msgstr "Čas:"
 
 #: tfrmprintsetup.caption
 msgid "Print configuration"
-msgstr ""
+msgstr "Nastavitve tiskanja"
 
 #: tfrmprintsetup.gbmargins.caption
 msgid "Margins (mm)"
-msgstr ""
+msgstr "Robovi (mm)"
 
 #: tfrmprintsetup.lblbottom.caption
 msgid "&Bottom:"
-msgstr ""
+msgstr "&Spodaj:"
 
 #: tfrmprintsetup.lblleft.caption
 msgid "&Left:"
-msgstr ""
+msgstr "&Levo:"
 
 #: tfrmprintsetup.lblright.caption
 msgid "&Right:"
-msgstr ""
+msgstr "&Desno:"
 
 #: tfrmprintsetup.lbltop.caption
 msgid "&Top:"
-msgstr ""
+msgstr "&Zgoraj:"
 
 #: tfrmquicksearch.btncancel.caption
 msgctxt "TFRMQUICKSEARCH.BTNCANCEL.CAPTION"
@@ -8464,128 +8530,122 @@ msgid "&OR (any match)"
 msgstr "&OR (vsi zadetki)"
 
 #: tfrmselectduplicates.btnapply.caption
-#, fuzzy
 msgctxt "tfrmselectduplicates.btnapply.caption"
 msgid "&Apply"
 msgstr "&Uveljavi"
 
 #: tfrmselectduplicates.btncancel.caption
-#, fuzzy
 msgctxt "tfrmselectduplicates.btncancel.caption"
 msgid "&Cancel"
 msgstr "&Prekliči"
 
 #: tfrmselectduplicates.btnexcludemask.hint
-#, fuzzy
 msgctxt "tfrmselectduplicates.btnexcludemask.hint"
 msgid "Template..."
 msgstr "Predloga ..."
 
 #: tfrmselectduplicates.btnincludemask.hint
-#, fuzzy
 msgctxt "tfrmselectduplicates.btnincludemask.hint"
 msgid "Template..."
 msgstr "Predloga ..."
 
 #: tfrmselectduplicates.btnok.caption
-#, fuzzy
 msgctxt "tfrmselectduplicates.btnok.caption"
 msgid "&OK"
 msgstr "V &redu"
 
 #: tfrmselectduplicates.caption
 msgid "Select duplicate files"
-msgstr ""
+msgstr "Izberi podvojene datoteke"
 
 #: tfrmselectduplicates.chkleaveunselected.caption
 msgid "&Leave at least one file in each group unselected:"
-msgstr ""
+msgstr "&Pusti neizbrano vsaj eno datoteko v vsaki skupini:"
 
 #: tfrmselectduplicates.cmbincludemask.text
-#, fuzzy
 msgctxt "tfrmselectduplicates.cmbincludemask.text"
 msgid "*"
 msgstr "*"
 
 #: tfrmselectduplicates.lblexcludemask.caption
 msgid "&Remove selection by name/extension:"
-msgstr ""
+msgstr "&Odstrani izbor po imenu/razširitvi:"
 
 #: tfrmselectduplicates.lblfirstmethod.caption
 msgid "&1."
-msgstr ""
+msgstr "&1."
 
 #: tfrmselectduplicates.lblincludemask.caption
 msgid "Select by &name/extension:"
-msgstr ""
+msgstr "Izberi po &imenu/razširitvi:"
 
 #: tfrmselectduplicates.lblsecondmethod.caption
 msgid "&2."
-msgstr ""
+msgstr "&2."
 
 #: tfrmselectpathrange.buttonpanel.cancelbutton.caption
 msgctxt "tfrmselectpathrange.buttonpanel.cancelbutton.caption"
 msgid "&Cancel"
-msgstr "Prekliči"
+msgstr "&Prekliči"
 
 #: tfrmselectpathrange.buttonpanel.okbutton.caption
 msgctxt "tfrmselectpathrange.buttonpanel.okbutton.caption"
 msgid "&OK"
-msgstr "V redu"
+msgstr "V &redu"
 
 #: tfrmselectpathrange.edseparator.editlabel.caption
 msgid "Sep&arator"
-msgstr ""
+msgstr "&Ločilnik"
 
 #: tfrmselectpathrange.gbcountfrom.caption
 msgid "Count from"
-msgstr ""
+msgstr "Štej od"
 
 #: tfrmselectpathrange.lblresult.caption
 msgctxt "tfrmselectpathrange.lblresult.caption"
 msgid "Result:"
-msgstr ""
+msgstr "Rezultat:"
 
 #: tfrmselectpathrange.lblselectdirectories.caption
 msgid "&Select the directories to insert (you may select more than one)"
-msgstr ""
+msgstr "&Izbor map za vstavljanje (izbrati je dovoljeno več kot eno)"
 
 #: tfrmselectpathrange.rbfirstfromend.caption
 msgctxt "tfrmselectpathrange.rbfirstfromend.caption"
 msgid "The en&d"
-msgstr ""
+msgstr "&Konec"
 
 #: tfrmselectpathrange.rbfirstfromstart.caption
 msgctxt "tfrmselectpathrange.rbfirstfromstart.caption"
 msgid "The sta&rt"
-msgstr ""
+msgstr "&Začetek"
 
 #: tfrmselecttextrange.buttonpanel.cancelbutton.caption
 msgctxt "tfrmselecttextrange.buttonpanel.cancelbutton.caption"
 msgid "&Cancel"
-msgstr "Prekliči"
+msgstr "&Prekliči"
 
 #: tfrmselecttextrange.buttonpanel.okbutton.caption
 msgctxt "tfrmselecttextrange.buttonpanel.okbutton.caption"
 msgid "&OK"
-msgstr "V redu"
+msgstr "V &redu"
 
 #: tfrmselecttextrange.gbcountfirstfrom.caption
 msgid "Count first from"
-msgstr ""
+msgstr "Štej najprej od"
 
 #: tfrmselecttextrange.gbcountlastfrom.caption
 msgid "Count last from"
-msgstr ""
+msgstr "Štej zadnje od"
 
 #: tfrmselecttextrange.gbrangedescription.caption
 msgid "Range description"
-msgstr ""
+msgstr "Opis obsega"
 
 #: tfrmselecttextrange.lblresult.caption
 msgctxt "tfrmselecttextrange.lblresult.caption"
 msgid "Result:"
-msgstr ""
+msgstr "Rezultat:"
 
 #: tfrmselecttextrange.lblselecttext.caption
 msgid "&Select the characters to insert:"
@@ -8593,29 +8653,29 @@ msgstr "Izbor znakov za &vstavljanje:"
 
 #: tfrmselecttextrange.rbdescriptionfirstlast.caption
 msgid "[&First:Last]"
-msgstr ""
+msgstr "[&Prve:Zadnje]"
 
 #: tfrmselecttextrange.rbdescriptionfirstlength.caption
 msgid "[First,&Length]"
-msgstr ""
+msgstr "[Prve,&Dolžina]"
 
 #: tfrmselecttextrange.rbfirstfromend.caption
 msgctxt "tfrmselecttextrange.rbfirstfromend.caption"
 msgid "The en&d"
-msgstr ""
+msgstr "&Konec"
 
 #: tfrmselecttextrange.rbfirstfromstart.caption
 msgctxt "tfrmselecttextrange.rbfirstfromstart.caption"
 msgid "The sta&rt"
-msgstr ""
+msgstr "&Začetek"
 
 #: tfrmselecttextrange.rblastfromend.caption
 msgid "The &end"
-msgstr ""
+msgstr "&Konec"
 
 #: tfrmselecttextrange.rblastfromstart.caption
 msgid "The s&tart"
-msgstr ""
+msgstr "&Začetek"
 
 #: tfrmsetfileproperties.btncancel.caption
 msgctxt "TFRMSETFILEPROPERTIES.BTNCANCEL.CAPTION"
@@ -8709,7 +8769,7 @@ msgstr "Skupina"
 #: tfrmsetfileproperties.lblattrinfo.caption
 msgctxt "tfrmsetfileproperties.lblattrinfo.caption"
 msgid "(gray field means unchanged value)"
-msgstr "(sivo polje pomeni nespremenjeno vrednost)"
+msgstr "(Sivo polje pomeni nespremenjeno vrednost)"
 
 #: tfrmsetfileproperties.lblattrotherstr.caption
 msgctxt "TFRMSETFILEPROPERTIES.LBLATTROTHERSTR.CAPTION"
@@ -8759,39 +8819,39 @@ msgstr "Zapiši"
 #: tfrmsetfileproperties.zvcreationdatetime.textfornulldate
 msgctxt "tfrmsetfileproperties.zvcreationdatetime.textfornulldate"
 msgid " "
-msgstr ""
+msgstr " "
 
 #: tfrmsetfileproperties.zvlastaccessdatetime.textfornulldate
 msgctxt "tfrmsetfileproperties.zvlastaccessdatetime.textfornulldate"
 msgid " "
-msgstr ""
+msgstr " "
 
 #: tfrmsetfileproperties.zvlastwritedatetime.textfornulldate
 msgctxt "tfrmsetfileproperties.zvlastwritedatetime.textfornulldate"
 msgid " "
-msgstr ""
+msgstr " "
 
 #: tfrmsortanything.btnsort.caption
 msgid "&Sort"
-msgstr "Razvrsti "
+msgstr "&Razvrsti"
 
 #: tfrmsortanything.buttonpanel.cancelbutton.caption
 msgctxt "tfrmsortanything.buttonpanel.cancelbutton.caption"
 msgid "&Cancel"
-msgstr "Prekliči"
+msgstr "&Prekliči"
 
 #: tfrmsortanything.buttonpanel.okbutton.caption
 msgctxt "tfrmsortanything.buttonpanel.okbutton.caption"
 msgid "&OK"
-msgstr "V redu"
+msgstr "V &redu"
 
 #: tfrmsortanything.caption
 msgid "frmSortAnything"
-msgstr ""
+msgstr "frmSortAnything"
 
 #: tfrmsortanything.lblsortanything.caption
 msgid "Drag and drop elements to sort them"
-msgstr ""
+msgstr "Z vlečenjem lahko razvrstite predmete"
 
 #: tfrmsplitter.btnrelativeftchoice.hint
 msgctxt "TFRMSPLITTER.BTNRELATIVEFTCHOICE.HINT"
@@ -8815,10 +8875,8 @@ msgid "Size and number of parts"
 msgstr "Velikost in število delov"
 
 #: tfrmsplitter.lbdirtarget.caption
-#, fuzzy
-#| msgid "Directory &target"
 msgid "Split the file to directory:"
-msgstr "&Ciljna mapa:"
+msgstr "Razdeli datoteko v mapo:"
 
 #: tfrmsplitter.lblnumberparts.caption
 msgid "&Number of parts"
@@ -8853,7 +8911,7 @@ msgstr "Izgradnja"
 #: tfrmstartingsplash.lblcommit.caption
 msgctxt "tfrmstartingsplash.lblcommit.caption"
 msgid "Commit"
-msgstr ""
+msgstr "Uveljavi"
 
 #: tfrmstartingsplash.lblfreepascalver.caption
 msgctxt "TFRMSTARTINGSPLASH.LBLFREEPASCALVER.CAPTION"
@@ -8908,7 +8966,7 @@ msgstr "Ustvarjanje simbolne povezave"
 
 #: tfrmsymlink.chkuserelativepath.caption
 msgid "Use &relative path when possible"
-msgstr ""
+msgstr "Uporabi relativno pot, ko je to mogoče"
 
 #: tfrmsymlink.lblexistingfile.caption
 msgctxt "TFRMSYMLINK.LBLEXISTINGFILE.CAPTION"
@@ -8922,47 +8980,47 @@ msgstr "Ime &povezave:"
 
 #: tfrmsyncdirsdlg.actdeleteboth.caption
 msgid "Delete on both sides"
-msgstr ""
+msgstr "Izbriši na obeh straneh"
 
 #: tfrmsyncdirsdlg.actdeleteleft.caption
 msgid "<- Delete left"
-msgstr ""
+msgstr "← Izbriši na levi"
 
 #: tfrmsyncdirsdlg.actdeleteright.caption
 msgid "-> Delete right"
-msgstr ""
+msgstr "→ Izbriši na desni"
 
 #: tfrmsyncdirsdlg.actselectclear.caption
 msgid "Remove selection"
-msgstr ""
+msgstr "Odstrani izbor"
 
 #: tfrmsyncdirsdlg.actselectcopydefault.caption
 msgid "Select for copying (default direction)"
-msgstr ""
+msgstr "Izberi za kopiranje (privzeta smer)"
 
 #: tfrmsyncdirsdlg.actselectcopylefttoright.caption
 msgid "Select for copying -> (left to right)"
-msgstr ""
+msgstr "Izberi za kopiranje → (z leve na desno)"
 
 #: tfrmsyncdirsdlg.actselectcopyreverse.caption
 msgid "Reverse copy direction"
-msgstr ""
+msgstr "Obrni smer kopiranja"
 
 #: tfrmsyncdirsdlg.actselectcopyrighttoleft.caption
 msgid "Select for copying <- (right to left)"
-msgstr ""
+msgstr "Izberi za kopiranje ← (z desne na levo)"
 
 #: tfrmsyncdirsdlg.actselectdeleteboth.caption
 msgid "Select for deleting <-> (both)"
-msgstr ""
+msgstr "Izberi za brisanje ←→ (obe smeri)"
 
 #: tfrmsyncdirsdlg.actselectdeleteleft.caption
 msgid "Select for deleting <- (left)"
-msgstr ""
+msgstr "Izberi za brisanje ← (levo)"
 
 #: tfrmsyncdirsdlg.actselectdeleteright.caption
 msgid "Select for deleting -> (right)"
-msgstr ""
+msgstr "Izberi za brisanje → (desno)"
 
 #: tfrmsyncdirsdlg.btnclose.caption
 msgctxt "TFRMSYNCDIRSDLG.BTNCLOSE.CAPTION"
@@ -8975,7 +9033,6 @@ msgid "Compare"
 msgstr "Primerjaj"
 
 #: tfrmsyncdirsdlg.btnsearchtemplate.hint
-#, fuzzy
 msgctxt "tfrmsyncdirsdlg.btnsearchtemplate.hint"
 msgid "Template..."
 msgstr "Predloga ..."
@@ -8990,11 +9047,9 @@ msgid "Synchronize directories"
 msgstr "Usklajevanje map"
 
 #: tfrmsyncdirsdlg.cbextfilter.text
-#, fuzzy
-#| msgid "*.*"
 msgctxt "TFRMSYNCDIRSDLG.CBEXTFILTER.TEXT"
 msgid "*"
-msgstr "*.*"
+msgstr "*"
 
 #: tfrmsyncdirsdlg.chkasymmetric.caption
 msgid "asymmetric"
@@ -9101,7 +9156,7 @@ msgstr "posamezne"
 
 #: tfrmsyncdirsdlg.statusbar1.panels[0].text
 msgid "Please press \"Compare\" to start"
-msgstr "Pritisnite gumb »Primerjava« za začetek"
+msgstr "Pritisnite gumb »Primerjaj« za začetek"
 
 #: tfrmsyncdirsperformdlg.caption
 msgctxt "TFRMSYNCDIRSPERFORMDLG.CAPTION"
@@ -9146,12 +9201,19 @@ msgid "Search is strict regarding accents and ligatures"
 msgstr "Iskanje upošteva naglase in vezave znakov"
 
 #: tfrmtreeviewmenu.pminotshowwholebranchifmatch.caption
-msgid "Don't show the branch content \"just\" because the searched string is found in the branche name"
-msgstr "Ne pokaži vsebine veje »le zato«, ker je iskalni niz najden v imenu veje"
+msgid ""
+"Don't show the branch content \"just\" because the searched string is found "
+"in the branche name"
+msgstr ""
+"Ne pokaži vsebine veje »le zato«, ker je iskalni niz najden v imenu veje"
 
 #: tfrmtreeviewmenu.pmishowwholebranchifmatch.caption
-msgid "If searched string is found in a branch name, show the whole branch even if elements don't match"
-msgstr "Če je iskalni niz najden v imenu veje, pokaži celotno vejo tudi, če predneti niso skladni"
+msgid ""
+"If searched string is found in a branch name, show the whole branch even if "
+"elements don't match"
+msgstr ""
+"Če je iskalni niz najden v imenu veje, pokaži celotno vejo tudi, če predneti "
+"niso skladni"
 
 #: tfrmtreeviewmenu.tbcancelandquit.hint
 msgid "Close Tree View Menu"
@@ -9259,7 +9321,7 @@ msgstr "Zaznava &nizov:"
 
 #: tfrmtweakplugin.lblextension.caption
 msgid "&Extension:"
-msgstr "Ra&zširitev:"
+msgstr "&Pripona:"
 
 #: tfrmtweakplugin.lblflags.caption
 msgid "Flags:"
@@ -9290,7 +9352,7 @@ msgstr "Prikaže pogovorno okno podrobnosti"
 
 #: tfrmviewer.actautoreload.caption
 msgid "Auto Reload"
-msgstr ""
+msgstr "Samodejno ponovno naloži"
 
 #: tfrmviewer.actchangeencoding.caption
 msgid "Change encoding"
@@ -9351,13 +9413,11 @@ msgid "Full Screen"
 msgstr "Celozaslonski način"
 
 #: tfrmviewer.actgotoline.caption
-#, fuzzy
 msgctxt "tfrmviewer.actgotoline.caption"
 msgid "Goto Line..."
 msgstr "Skoči v vrstico ..."
 
 #: tfrmviewer.actgotoline.hint
-#, fuzzy
 msgctxt "tfrmviewer.actgotoline.hint"
 msgid "Goto Line"
 msgstr "Skoči v vrstico"
@@ -9411,11 +9471,11 @@ msgstr "Predogled"
 
 #: tfrmviewer.actprint.caption
 msgid "P&rint..."
-msgstr ""
+msgstr "&Natisni ..."
 
 #: tfrmviewer.actprintsetup.caption
 msgid "Print &setup..."
-msgstr ""
+msgstr "Nastavitev &tiskanja ..."
 
 #: tfrmviewer.actreload.caption
 msgctxt "TFRMVIEWER.ACTRELOAD.CAPTION"
@@ -9508,11 +9568,11 @@ msgstr "Pokaži kot besedilo v &prelomu"
 
 #: tfrmviewer.actshowcaret.caption
 msgid "Show text c&ursor"
-msgstr ""
+msgstr "Pokaži &kazalko besedila"
 
 #: tfrmviewer.actshowcode.caption
 msgid "Code"
-msgstr ""
+msgstr "Koda"
 
 #: tfrmviewer.actshowgraphics.caption
 msgctxt "tfrmviewer.actshowgraphics.caption"
@@ -9521,7 +9581,7 @@ msgstr "Grafični prikaz"
 
 #: tfrmviewer.actshowoffice.caption
 msgid "Office XML (text only)"
-msgstr ""
+msgstr "Dokument XML (le besedilo)"
 
 #: tfrmviewer.actshowplugins.caption
 msgctxt "TFRMVIEWER.ACTSHOWPLUGINS.CAPTION"
@@ -9530,7 +9590,7 @@ msgstr "Vstavki"
 
 #: tfrmviewer.actshowtransparency.caption
 msgid "Show transparenc&y"
-msgstr ""
+msgstr "Pokaži &prosojnost"
 
 #: tfrmviewer.actstretchimage.caption
 msgid "Stretch"
@@ -9545,7 +9605,6 @@ msgid "Stretch only large"
 msgstr "Raztegni le velike"
 
 #: tfrmviewer.actundo.caption
-#, fuzzy
 msgctxt "tfrmviewer.actundo.caption"
 msgid "Undo"
 msgstr "Razveljavi"
@@ -9557,7 +9616,7 @@ msgstr "Razveljavi"
 
 #: tfrmviewer.actwraptext.caption
 msgid "&Wrap text"
-msgstr ""
+msgstr "&Prelomi besedilo"
 
 #: tfrmviewer.actzoom.caption
 msgid "Zoom"
@@ -9569,7 +9628,6 @@ msgid "Zoom In"
 msgstr "Približaj"
 
 #: tfrmviewer.actzoomin.hint
-#, fuzzy
 msgctxt "tfrmviewer.actzoomin.hint"
 msgid "Zoom In"
 msgstr "Približaj"
@@ -9580,7 +9638,6 @@ msgid "Zoom Out"
 msgstr "Oddalji"
 
 #: tfrmviewer.actzoomout.hint
-#, fuzzy
 msgctxt "tfrmviewer.actzoomout.hint"
 msgid "Zoom Out"
 msgstr "Oddalji"
@@ -9596,7 +9653,7 @@ msgstr "Celozaslonski način"
 
 #: tfrmviewer.btngiftobmp.hint
 msgid "Export Frame"
-msgstr ""
+msgstr "Izvozi okno"
 
 #: tfrmviewer.btnhightlight.hint
 msgctxt "TFRMVIEWER.BTNHIGHTLIGHT.HINT"
@@ -9605,7 +9662,7 @@ msgstr "Poudari"
 
 #: tfrmviewer.btnnextgifframe.hint
 msgid "Next Frame"
-msgstr ""
+msgstr "Naslednje okno"
 
 #: tfrmviewer.btnpaint.hint
 msgctxt "TFRMVIEWER.BTNPAINT.HINT"
@@ -9613,14 +9670,13 @@ msgid "Paint"
 msgstr "Risanje"
 
 #: tfrmviewer.btnpenwidth.caption
-#, fuzzy
 msgctxt "tfrmviewer.btnpenwidth.caption"
 msgid "1"
 msgstr "1"
 
 #: tfrmviewer.btnprevgifframe.hint
 msgid "Previous Frame"
-msgstr ""
+msgstr "Predhodno okno"
 
 #: tfrmviewer.btnredeye.hint
 msgid "Red Eyes"
@@ -9631,7 +9687,6 @@ msgid "Resize"
 msgstr "Spremeni velikost"
 
 #: tfrmviewer.btnslideshow.caption
-#, fuzzy
 msgctxt "tfrmviewer.btnslideshow.caption"
 msgid "Slide Show"
 msgstr "Predstavitev"
@@ -9653,7 +9708,7 @@ msgstr "&Uredi"
 
 #: tfrmviewer.miellipse.caption
 msgid "Ellipse"
-msgstr ""
+msgstr "Elipsa"
 
 #: tfrmviewer.miencoding.caption
 msgctxt "TFRMVIEWER.MIENCODING.CAPTION"
@@ -9670,14 +9725,13 @@ msgid "&Image"
 msgstr "&Slika"
 
 #: tfrmviewer.mipen.caption
-#, fuzzy
 msgctxt "tfrmviewer.mipen.caption"
 msgid "Pen"
 msgstr "Pisalo"
 
 #: tfrmviewer.mirect.caption
 msgid "Rect"
-msgstr ""
+msgstr "Pravokotnik"
 
 #: tfrmviewer.mirotate.caption
 msgid "Rotate"
@@ -9694,43 +9748,38 @@ msgid "&View"
 msgstr "&Pogled"
 
 #: tfrmviewoperations.btnstartpause.caption
-#, fuzzy
 msgctxt "tfrmviewoperations.btnstartpause.caption"
 msgid "&Start"
 msgstr "&Začni"
 
 #: tfrmviewoperations.btnstop.caption
 msgid "S&top"
-msgstr ""
+msgstr "Za&ustavi"
 
 #: tfrmviewoperations.caption
-#, fuzzy
 msgctxt "tfrmviewoperations.caption"
 msgid "File operations"
 msgstr "Datotečna opravila"
 
 #: tfrmviewoperations.cbalwaysontop.caption
 msgid "Always on top"
-msgstr ""
+msgstr "Vedno na vrhu"
 
 #: tfrmviewoperations.lblusedragdrop.caption
 msgid "&Use \"drag && drop\" to move operations between queues"
-msgstr ""
+msgstr "&Uporabi »vlečenje« za premikanje opravil v vrsti"
 
 #: tfrmviewoperations.mnucanceloperation.caption
-#, fuzzy
 msgctxt "tfrmviewoperations.mnucanceloperation.caption"
 msgid "Cancel"
 msgstr "Prekliči"
 
 #: tfrmviewoperations.mnucancelqueue.caption
-#, fuzzy
 msgctxt "tfrmviewoperations.mnucancelqueue.caption"
 msgid "Cancel"
 msgstr "Prekliči"
 
 #: tfrmviewoperations.mnunewqueue.caption
-#, fuzzy
 msgctxt "tfrmviewoperations.mnunewqueue.caption"
 msgid "New queue"
 msgstr "Nova čakalna vrsta"
@@ -9738,52 +9787,46 @@ msgstr "Nova čakalna vrsta"
 #: tfrmviewoperations.mnuoperationshowdetached.caption
 msgctxt "tfrmviewoperations.mnuoperationshowdetached.caption"
 msgid "Show in detached window"
-msgstr ""
+msgstr "Pokaži v ločenem oknu"
 
 #: tfrmviewoperations.mnuputfirstinqueue.caption
 msgid "Put first in queue"
-msgstr ""
+msgstr "Postavi na začetek vrste"
 
 #: tfrmviewoperations.mnuputlastinqueue.caption
 msgid "Put last in queue"
-msgstr ""
+msgstr "Postavi na konec vrste"
 
 #: tfrmviewoperations.mnuqueue.caption
-#, fuzzy
 msgctxt "tfrmviewoperations.mnuqueue.caption"
 msgid "Queue"
-msgstr "V vrsto"
+msgstr "Vrsta"
 
 #: tfrmviewoperations.mnuqueue0.caption
 msgid "Out of queue"
-msgstr ""
+msgstr "Izven vrste"
 
 #: tfrmviewoperations.mnuqueue1.caption
-#, fuzzy
 msgctxt "tfrmviewoperations.mnuqueue1.caption"
 msgid "Queue 1"
 msgstr "Vrsta 1"
 
 #: tfrmviewoperations.mnuqueue2.caption
-#, fuzzy
 msgctxt "tfrmviewoperations.mnuqueue2.caption"
 msgid "Queue 2"
 msgstr "Vrsta 2"
 
 #: tfrmviewoperations.mnuqueue3.caption
-#, fuzzy
 msgctxt "tfrmviewoperations.mnuqueue3.caption"
 msgid "Queue 3"
 msgstr "Vrsta 3"
 
 #: tfrmviewoperations.mnuqueue4.caption
-#, fuzzy
 msgctxt "tfrmviewoperations.mnuqueue4.caption"
 msgid "Queue 4"
 msgstr "Vrsta 4"
 
 #: tfrmviewoperations.mnuqueue5.caption
-#, fuzzy
 msgctxt "tfrmviewoperations.mnuqueue5.caption"
 msgid "Queue 5"
 msgstr "Vrsta 5"
@@ -9791,26 +9834,23 @@ msgstr "Vrsta 5"
 #: tfrmviewoperations.mnuqueueshowdetached.caption
 msgctxt "tfrmviewoperations.mnuqueueshowdetached.caption"
 msgid "Show in detached window"
-msgstr ""
+msgstr "Pokaži v ločenem oknu"
 
 #: tfrmviewoperations.tbpauseall.caption
 msgid "&Pause all"
-msgstr ""
+msgstr "&Zaustavi vse"
 
 #: tgiocopymoveoperationoptionsui.cbfollowlinks.caption
-#, fuzzy
 msgctxt "tgiocopymoveoperationoptionsui.cbfollowlinks.caption"
 msgid "Fo&llow links"
 msgstr "Sledi &povezavam"
 
 #: tgiocopymoveoperationoptionsui.lbldirectoryexists.caption
-#, fuzzy
 msgctxt "tgiocopymoveoperationoptionsui.lbldirectoryexists.caption"
 msgid "When dir&ectory exists"
-msgstr "Če mapa že obstaja"
+msgstr "Če &mapa že obstaja"
 
 #: tgiocopymoveoperationoptionsui.lblfileexists.caption
-#, fuzzy
 msgctxt "tgiocopymoveoperationoptionsui.lblfileexists.caption"
 msgid "When file exists"
 msgstr "Če datoteka obstaja"
@@ -9821,42 +9861,37 @@ msgid "When file exists"
 msgstr "Če datoteka obstaja"
 
 #: ttfrmconfirmcommandline.btncancel.caption
-#, fuzzy
 msgctxt "ttfrmconfirmcommandline.btncancel.caption"
 msgid "&Cancel"
 msgstr "&Prekliči"
 
 #: ttfrmconfirmcommandline.btnok.caption
-#, fuzzy
 msgctxt "ttfrmconfirmcommandline.btnok.caption"
 msgid "&OK"
 msgstr "V &redu"
 
 #: ttfrmconfirmcommandline.lblecommandline.editlabel.caption
 msgid "Command line:"
-msgstr ""
+msgstr "Ukazna vrstica:"
 
 #: ttfrmconfirmcommandline.lbleparameters.editlabel.caption
-#, fuzzy
 msgctxt "ttfrmconfirmcommandline.lbleparameters.editlabel.caption"
 msgid "Parameters:"
 msgstr "Parametri:"
 
 #: ttfrmconfirmcommandline.lblestartpath.editlabel.caption
 msgid "Start path:"
-msgstr ""
+msgstr "Začetna pot:"
 
 #: twcxarchivecopyoperationoptionsui.btnconfig.caption
-#, fuzzy
 msgctxt "twcxarchivecopyoperationoptionsui.btnconfig.caption"
 msgid "Con&figure"
 msgstr "&Nastavitve"
 
 #: twcxarchivecopyoperationoptionsui.cbencrypt.caption
-#, fuzzy
 msgctxt "twcxarchivecopyoperationoptionsui.cbencrypt.caption"
 msgid "Encr&ypt"
-msgstr "&Šifriraj arhiv z geslom"
+msgstr "&Šifriranje"
 
 #: twcxarchivecopyoperationoptionsui.lblfileexists.caption
 msgctxt "TWCXARCHIVECOPYOPERATIONOPTIONSUI.LBLFILEEXISTS.CAPTION"
@@ -9878,52 +9913,60 @@ msgid "When file exists"
 msgstr "Če datoteka že obstaja,"
 
 #: uaccentsutils.rsstraccents
-msgid "á;â;à;å;ã;ä;ç;é;ê;è;ë;í;î;ì;ï;ñ;ó;ô;ò;ø;õ;ö;ú;û;ù;ü;ÿ;Á;Â;À;Å;Ã;Ä;Ç;É;Ê;È;Ë;Í;Í;Ì;Ï;Ñ;Ó;Ô;Ø;Õ;Ö;ß;Ú;Û;Ù;Ü;Ÿ;¿;¡;œ;æ;Æ;Œ"
-msgstr "á;â;à;å;ã;ä;ç;é;ê;è;ë;í;î;ì;ï;ñ;ó;ô;ò;ø;õ;ö;ú;û;ù;ü;ÿ;Á;Â;À;Å;Ã;Ä;Ç;É;Ê;È;Ë;Í;Í;Ì;Ï;Ñ;Ó;Ô;Ø;Õ;Ö;ß;Ú;Û;Ù;Ü;Ÿ;¿;¡;œ;æ;Æ;Œ"
+msgid ""
+"á;â;à;å;ã;ä;ç;é;ê;è;ë;í;î;ì;ï;ñ;ó;ô;ò;ø;õ;ö;ú;û;ù;ü;ÿ;Á;Â;À;Å;Ã;Ä;Ç;É;Ê;È;Ë;"
+"Í;Í;Ì;Ï;Ñ;Ó;Ô;Ø;Õ;Ö;ß;Ú;Û;Ù;Ü;Ÿ;¿;¡;œ;æ;Æ;Œ"
+msgstr ""
+"á;â;à;å;ã;ä;ç;é;ê;è;ë;í;î;ì;ï;ñ;ó;ô;ò;ø;õ;ö;ú;û;ù;ü;ÿ;Á;Â;À;Å;Ã;Ä;Ç;É;Ê;È;Ë;"
+"Í;Í;Ì;Ï;Ñ;Ó;Ô;Ø;Õ;Ö;ß;Ú;Û;Ù;Ü;Ÿ;¿;¡;œ;æ;Æ;Œ"
 
 #: uaccentsutils.rsstraccentsstripped
-msgid "a;a;a;a;a;a;c;e;e;e;e;i;i;i;i;n;o;o;o;o;o;o;u;u;u;u;y;A;A;A;A;A;A;C;E;E;E;E;I;I;I;I;N;O;O;O;O;O;B;U;U;U;U;Y;?;!;oe;ae;AE;OE"
-msgstr "a;a;a;a;a;a;c;e;e;e;e;i;i;i;i;n;o;o;o;o;o;o;u;u;u;u;y;A;A;A;A;A;A;C;E;E;E;E;I;I;I;I;N;O;O;O;O;O;B;U;U;U;U;Y;?;!;oe;ae;AE;OE"
+msgid ""
+"a;a;a;a;a;a;c;e;e;e;e;i;i;i;i;n;o;o;o;o;o;o;u;u;u;u;y;A;A;A;A;A;A;C;E;E;E;E;"
+"I;I;I;I;N;O;O;O;O;O;B;U;U;U;U;Y;?;!;oe;ae;AE;OE"
+msgstr ""
+"a;a;a;a;a;a;c;e;e;e;e;i;i;i;i;n;o;o;o;o;o;o;u;u;u;u;y;A;A;A;A;A;A;C;E;E;E;E;"
+"I;I;I;I;N;O;O;O;O;O;B;U;U;U;U;Y;?;!;oe;ae;AE;OE"
 
 #: uadministrator.rselevationrequired
 msgid "You need to provide administrator permission"
-msgstr ""
+msgstr "Zagotoviti je treba skrbniška dovoljenja"
 
 #: uadministrator.rselevationrequiredcopy
 msgid "to copy this object:"
-msgstr ""
+msgstr "za kopiranje predmeta:"
 
 #: uadministrator.rselevationrequiredcreate
 msgid "to create this object:"
-msgstr ""
+msgstr "za ustvarjanje tega predmeta:"
 
 #: uadministrator.rselevationrequireddelete
 msgid "to delete this object:"
-msgstr ""
+msgstr "za brisanje tega predmeta:"
 
 #: uadministrator.rselevationrequiredgetattributes
 msgid "to get attributes of this object:"
-msgstr ""
+msgstr "za pridobivanje atributov tega predmeta:"
 
 #: uadministrator.rselevationrequiredhardlink
 msgid "to create this hard link:"
-msgstr ""
+msgstr "za ustvarjanje trde povezave:"
 
 #: uadministrator.rselevationrequiredopen
 msgid "to open this object:"
-msgstr ""
+msgstr "za odpiranje predmeta:"
 
 #: uadministrator.rselevationrequiredrename
 msgid "to rename this object:"
-msgstr ""
+msgstr "za preimenovanje predmeta:"
 
 #: uadministrator.rselevationrequiredsetattributes
 msgid "to set attributes of this object:"
-msgstr ""
+msgstr "za določitev atributov za ta predmet:"
 
 #: uadministrator.rselevationrequiredsymlink
 msgid "to create this symbolic link:"
-msgstr ""
+msgstr "za ustvarjanje simbolne povezave:"
 
 #: uexifreader.rsdatetimeoriginal
 msgid "Date taken"
@@ -9954,25 +9997,27 @@ msgstr "Usmerjenost"
 #: ulng.msgtrytolocatecrcfile
 #, object-pascal-format
 msgid ""
-"This file cannot be found and could help to validate final combination of files:\n"
+"This file cannot be found and could help to validate final combination of "
+"files:\n"
 "%s\n"
 "\n"
 "Could you make it available and press \"OK\" when ready,\n"
 "or press \"CANCEL\" to continue without it?"
 msgstr ""
-"Datoteke ni mogoče najti, zato ni mogoče overiti končne kombinacije datotek:\n"
+"Datoteke ni mogoče najti, zato ni mogoče overiti končne kombinacije "
+"datotek:\n"
 "%s\n"
 "\n"
 "Omogočite dostop do datoteke in pritisnite gumb »V redu«,\n"
-"ali pa pritisnite »Prekliči« in nadaljujte brez nje?"
+"ali pa pritisnite »Prekliči« in nadaljujte opravilo brez nje?"
 
 #: ulng.rsabbrevdisplaydir
 msgid "<DIR>"
-msgstr ""
+msgstr "<MAPA>"
 
 #: ulng.rsabbrevdisplaylink
 msgid "<LNK>"
-msgstr ""
+msgstr "<LNK>"
 
 #: ulng.rscancelfilter
 msgid "Cancel Quick Filter"
@@ -10032,8 +10077,15 @@ msgid "Clipboard doesn't contain any valid toolbar data."
 msgstr "V odložišču ni veljavnih podatkov orodne vrstice."
 
 #: ulng.rscmdcategorylistinorder
-msgid "All;Active Panel;Left Panel;Right Panel;File Operations;Configuration;Network;Miscellaneous;Parallel Port;Print;Mark;Security;Clipboard;FTP;Navigation;Help;Window;Command Line;Tools;View;User;Tabs;Sorting;Log"
-msgstr "Vse;Dejavno okno;Levo okno;Desno okno;Datotečna opravila;Nastavitve;Omrežje;Razno;Paralelna vrata;Tisk;Označevanje;Varnost;Odložišče;FTP;Navigacija;Pomoč;Okno;Ukazna vrstica;Orodja;Pogled;Uporabnik;Zavihki;Razvrščanje;Beleženje"
+msgid ""
+"All;Active Panel;Left Panel;Right Panel;File Operations;Configuration;"
+"Network;Miscellaneous;Parallel Port;Print;Mark;Security;Clipboard;FTP;"
+"Navigation;Help;Window;Command Line;Tools;View;User;Tabs;Sorting;Log"
+msgstr ""
+"Vse;Dejavno okno;Levo okno;Desno okno;Datotečna opravila;Nastavitve;Omrežje;"
+"Razno;Paralelna vrata;Tisk;Označevanje;Varnost;Odložišče;FTP;Navigacija;"
+"Pomoč;Okno;Ukazna vrstica;Orodja;Pogled;Uporabnik;Zavihki;Razvrščanje;"
+"Beleženje"
 
 #: ulng.rscmdkindofsort
 msgid "Legacy sorted;A-Z sorted"
@@ -10108,11 +10160,11 @@ msgstr "Kopiraj (%d) %s"
 
 #: ulng.rsdarkmode
 msgid "Dark mode"
-msgstr ""
+msgstr "Temna tema"
 
 #: ulng.rsdarkmodeoptions
 msgid "Auto;Enabled;Disabled"
-msgstr ""
+msgstr "Samodejno;Omogočeno;Onemogočeno"
 
 #: ulng.rsdefaultimporteddctoolbarhint
 msgid "Imported DC toolbar"
@@ -10125,23 +10177,23 @@ msgstr "Uvožena orodna vrstica TC"
 #: ulng.rsdefaultpersonalizedabbrevbyte
 msgctxt "ulng.rsdefaultpersonalizedabbrevbyte"
 msgid "B"
-msgstr ""
+msgstr "B"
 
 #: ulng.rsdefaultpersonalizedabbrevgiga
 msgid "GB"
-msgstr ""
+msgstr "GB"
 
 #: ulng.rsdefaultpersonalizedabbrevkilo
 msgid "KB"
-msgstr ""
+msgstr "KB"
 
 #: ulng.rsdefaultpersonalizedabbrevmega
 msgid "MB"
-msgstr ""
+msgstr "MB"
 
 #: ulng.rsdefaultpersonalizedabbrevtera
 msgid "TB"
-msgstr ""
+msgstr "TB"
 
 #: ulng.rsdefaultsuffixdroppedtext
 msgid "_DroppedText"
@@ -10169,15 +10221,15 @@ msgstr "_Spuščeno besedilo UTF8"
 
 #: ulng.rsdiffadds
 msgid " Adds: "
-msgstr "Dodano:"
+msgstr " Dodano: "
 
 #: ulng.rsdiffcomparing
 msgid "Comparing..."
-msgstr ""
+msgstr "Poteka primerjava ..."
 
 #: ulng.rsdiffdeletes
 msgid " Deletes: "
-msgstr "Za izbris:"
+msgstr " Za izbris: "
 
 #: ulng.rsdifffilesidentical
 msgid "The two files are identical!"
@@ -10185,31 +10237,32 @@ msgstr "Datoteki sta enaki!"
 
 #: ulng.rsdiffmatches
 msgid " Matches: "
-msgstr "Število razlik:"
+msgstr " Število razlik: "
 
 #: ulng.rsdiffmodifies
 msgid " Modifies: "
-msgstr " Spremenjeno:"
+msgstr " Spremenjeno: "
 
 #: ulng.rsdifftextdifferenceencoding
-#, fuzzy
 msgctxt "ulng.rsdifftextdifferenceencoding"
 msgid "Encoding"
 msgstr "Nabor znakov"
 
 #: ulng.rsdifftextdifferencelineending
 msgid "Line-endings"
-msgstr ""
+msgstr "Konci vrstic"
 
 #: ulng.rsdifftextidentical
 msgid "The text is identical, but the following options are used:"
-msgstr ""
+msgstr "Besedilo je enako, a so u porabljene navedene možnosti:"
 
 #: ulng.rsdifftextidenticalnotmatch
 msgid ""
 "The text is identical, but the files do not match!\n"
 "The following differences were found:"
 msgstr ""
+"Besedilo je enako, vendar pa datoteki nista skladni!\n"
+"Zaznane so naslednje razlike:"
 
 #: ulng.rsdlgbuttonabort
 msgid "Ab&ort"
@@ -10230,7 +10283,7 @@ msgstr "&Samodejno preimenuj izvorne datoteke"
 
 #: ulng.rsdlgbuttonautorenametarget
 msgid "Auto-rename tar&get files"
-msgstr ""
+msgstr "Samodejno preimenuj &ciljne datoteke"
 
 #: ulng.rsdlgbuttoncancel
 msgctxt "ulng.rsdlgbuttoncancel"
@@ -10239,7 +10292,7 @@ msgstr "&Prekliči"
 
 #: ulng.rsdlgbuttoncompare
 msgid "Compare &by content"
-msgstr ""
+msgstr "Primerjaj po &vsebini"
 
 #: ulng.rsdlgbuttoncontinue
 msgid "&Continue"
@@ -10329,7 +10382,7 @@ msgstr "Pres&koči vse"
 
 #: ulng.rsdlgbuttonunlock
 msgid "&Unlock"
-msgstr ""
+msgstr "&Odkleni"
 
 #: ulng.rsdlgbuttonyes
 msgid "&Yes"
@@ -10452,12 +10505,12 @@ msgstr "Izvedi v terminalu in pusti okno odprto"
 #: ulng.rsextsclosedbracketnofound
 #, object-pascal-format
 msgid "\"]\" not found in line %s"
-msgstr ""
+msgstr "V vrstici %s ni znaka »]«"
 
 #: ulng.rsextscommandwithnoext
 #, object-pascal-format
 msgid "No extension defined before command \"%s\". It will be ignored."
-msgstr ""
+msgstr "Ni določene razširitve pred ukazom »%s«, zato bo ta prezrt."
 
 #: ulng.rsfavtabspanelsideselection
 msgid "Left;Right;Active;Inactive;Both;None"
@@ -10473,7 +10526,7 @@ msgstr "Izvozi iz DC"
 
 #: ulng.rsfileopcopymovefileexistsoptions
 msgid "Ask;Overwrite;Skip"
-msgstr ""
+msgstr "Vprašaj;Prepiši;Preskoči"
 
 #: ulng.rsfileopdirectoryexistsoptions
 msgid "Ask;Merge;Skip"
@@ -10489,43 +10542,43 @@ msgstr "vprašaj;ne nastavljaj več;prezri napake"
 
 #: ulng.rsfilteranyfiles
 msgid "Any files"
-msgstr ""
+msgstr "Katerekoli datoteke"
 
 #: ulng.rsfilterarchiverconfigfiles
 msgid "Archiver config files"
-msgstr ""
+msgstr "Nastavitvene datoteke pakirnika"
 
 #: ulng.rsfilterdctooltipfiles
 msgid "DC Tooltip files"
-msgstr ""
+msgstr "Datoteke orodnih namigov DC"
 
 #: ulng.rsfilterdirectoryhotlistfiles
 msgid "Directory Hotlist files"
-msgstr ""
+msgstr "Datoteke hitrih map"
 
 #: ulng.rsfilterexecutablefiles
 msgid "Executables files"
-msgstr ""
+msgstr "Izvedljive datoteke"
 
 #: ulng.rsfilteriniconfigfiles
 msgid ".ini Config files"
-msgstr ""
+msgstr "Nastavitvene datoteke .ini"
 
 #: ulng.rsfilterlegacytabfiles
 msgid "Legacy DC .tab files"
-msgstr ""
+msgstr "Opuščeni datptele .tab DC"
 
 #: ulng.rsfilterlibraries
 msgid "Library files"
-msgstr ""
+msgstr "Knjižnične datoteke"
 
 #: ulng.rsfilterpluginfiles
 msgid "Plugin files"
-msgstr ""
+msgstr "Datoteke vstavkov"
 
 #: ulng.rsfilterprogramslibraries
 msgid "Programs and Libraries"
-msgstr ""
+msgstr "Programi in knjižnice"
 
 #: ulng.rsfilterstatus
 msgid "FILTER"
@@ -10533,15 +10586,15 @@ msgstr "Filter"
 
 #: ulng.rsfiltertctoolbarfiles
 msgid "TC Toolbar files"
-msgstr ""
+msgstr "Datoteke orodne vrstice TC"
 
 #: ulng.rsfiltertoolbarfiles
 msgid "DC Toolbar files"
-msgstr ""
+msgstr "Datoteke orodne vrstice DC"
 
 #: ulng.rsfilterxmlconfigfiles
 msgid ".xml Config files"
-msgstr ""
+msgstr "Nastavitvene datoteke .xml"
 
 #: ulng.rsfinddefinetemplate
 msgid "Define template"
@@ -10610,7 +10663,7 @@ msgstr "Pisava &urejevalnika"
 
 #: ulng.rsfontusagefunctionbuttons
 msgid "Function Buttons Font"
-msgstr ""
+msgstr "Pisava funkcijskih tipk"
 
 #: ulng.rsfontusagelog
 msgid "&Log Font"
@@ -10626,15 +10679,15 @@ msgstr "Pisava poti"
 
 #: ulng.rsfontusagesearchresults
 msgid "Search Results Font"
-msgstr ""
+msgstr "Pisava rezultatov iskanja"
 
 #: ulng.rsfontusagestatusbar
 msgid "Status Bar Font"
-msgstr ""
+msgstr "PIsava vrstice stanja"
 
 #: ulng.rsfontusagetreeviewmenu
 msgid "Tree View Menu Font"
-msgstr ""
+msgstr "Pisava menija drevesnega pogleda"
 
 #: ulng.rsfontusageviewer
 msgid "&Viewer Font"
@@ -10646,14 +10699,14 @@ msgid "Viewer&Book Font"
 msgstr "Pisava &bralnega pregledovalnika"
 
 #: ulng.rsfreemsg
-#, object-pascal-format, fuzzy
+#, object-pascal-format
 msgid "%s of %s free"
-msgstr "Sprosti %s od %s"
+msgstr "%s od %s prostora"
 
 #: ulng.rsfreemsgshort
-#, object-pascal-format, fuzzy
+#, object-pascal-format
 msgid "%s free"
-msgstr "%s prostora"
+msgstr "Prosto %s"
 
 #: ulng.rsfuncatime
 msgid "Access date/time"
@@ -10724,7 +10777,7 @@ msgstr "Velikost"
 
 #: ulng.rsfunctrashorigpath
 msgid "Original path"
-msgstr ""
+msgstr "Izvorna pot"
 
 #: ulng.rsfunctype
 msgid "Type"
@@ -10735,16 +10788,22 @@ msgid "Error creating hardlink."
 msgstr "Napaka med ustvarjanjem trde povezave."
 
 #: ulng.rshotdirforcesortingorderchoices
-msgid "none;Name, a-z;Name, z-a;Ext, a-z;Ext, z-a;Size 9-0;Size 0-9;Date 9-0;Date 0-9"
-msgstr "brez;ime, a–z;ime, z–a;pripona, a–z;pripona, z–a;velikost 9–0;velikost 0–9;datum 9–0;datum 0–9"
+msgid ""
+"none;Name, a-z;Name, z-a;Ext, a-z;Ext, z-a;Size 9-0;Size 0-9;Date 9-0;Date "
+"0-9"
+msgstr ""
+"brez;ime, a–z;ime, z–a;pripona, a–z;pripona, z–a;velikost 9–0;velikost 0–9;"
+"datum 9–0;datum 0–9"
 
 #: ulng.rshotdirwarningabortrestorebackup
 msgid ""
-"Warning! When restoring a .hotlist backup file, this will erase existing list to replace by the imported one.\n"
+"Warning! When restoring a .hotlist backup file, this will erase existing "
+"list to replace by the imported one.\n"
 "\n"
 "Are you sure you want to proceed?"
 msgstr ""
-"Opozorilo! Med obnavljanjem datoteke varnostne kopije vročih map *.hotlist se starejša različica izbriše in je ni mogoče več povrniti.\n"
+"Opozorilo! Med obnavljanjem datoteke varnostne kopije vročih map *.hotlist "
+"se starejša različica izbriše, zamenja pa jo uvožena.\n"
 "\n"
 "Ali ste prepričani, da želite nadaljevati?"
 
@@ -10778,11 +10837,11 @@ msgstr "Glavno"
 #: ulng.rshotkeycategorymultirename
 msgctxt "ulng.rshotkeycategorymultirename"
 msgid "Multi-Rename Tool"
-msgstr "Napredno preimenovanje"
+msgstr "Orodje za napredno preimenovanje"
 
 #: ulng.rshotkeycategorysyncdirs
 msgid "Synchronize Directories"
-msgstr ""
+msgstr "Usklajevanje map"
 
 #: ulng.rshotkeycategoryviewer
 msgctxt "ulng.rshotkeycategoryviewer"
@@ -10838,7 +10897,9 @@ msgstr "Ni tipkovne bližnjice s tipko »ENTER«"
 
 #: ulng.rshotkeysortorder
 msgid "By command name;By shortcut key (grouped);By shortcut key (one per row)"
-msgstr "po imenu ukaza;po tipkovni bližnjici (skupinjeno);po tipkovni bližnjici (ena na vrstico)"
+msgstr ""
+"po imenu ukaza;po tipkovni bližnjici (skupinjeno);po tipkovni bližnjici (ena "
+"na vrstico)"
 
 #: ulng.rsimporttoolbarproblem
 msgid "Cannot find reference to default bar file"
@@ -10846,24 +10907,24 @@ msgstr "Ni mogoče najti sklica na privzeto datoteko orodne vrstice"
 
 #: ulng.rslegacydisplaysizesinglelettergiga
 msgid "G"
-msgstr ""
+msgstr "G"
 
 #: ulng.rslegacydisplaysizesingleletterkilo
 msgid "K"
-msgstr ""
+msgstr "K"
 
 #: ulng.rslegacydisplaysizesinglelettermega
 msgid "M"
-msgstr ""
+msgstr "M"
 
 #: ulng.rslegacydisplaysizesinglelettertera
 msgid "T"
-msgstr ""
+msgstr "T"
 
 #: ulng.rslegacyoperationbytesuffixletter
 msgctxt "ulng.rslegacyoperationbytesuffixletter"
 msgid "B"
-msgstr ""
+msgstr "B"
 
 #: ulng.rslistoffindfileswindows
 msgid "List of \"Find files\" windows"
@@ -10886,8 +10947,12 @@ msgid "A columns view with that name already exists."
 msgstr "Stolpčni pogled s tem imenom že obstaja"
 
 #: ulng.rsmenuconfigurecolumnssavetochange
-msgid "To change current editing colmuns view, either SAVE, COPY or DELETE current editing one"
-msgstr "Za spreminjanje trenutnega pogleda urejanja stolpcev, kopirajte, shranite ali pa izbrišite trenutne"
+msgid ""
+"To change current editing colmuns view, either SAVE, COPY or DELETE current "
+"editing one"
+msgstr ""
+"Za spreminjanje trenutnega pogleda urejanja stolpcev, kopirajte, shranite "
+"ali pa izbrišite trenutne"
 
 #: ulng.rsmenuconfigurecustomcolumns
 msgid "Configure custom columns"
@@ -10899,7 +10964,7 @@ msgstr "Vpis novega imena stolpca po meri"
 
 #: ulng.rsmenumacosservices
 msgid "Services"
-msgstr ""
+msgstr "Storitve"
 
 #: ulng.rsmnuactions
 msgctxt "ulng.rsmnuactions"
@@ -10916,7 +10981,7 @@ msgstr "Osmiško"
 
 #: ulng.rsmnucreateshortcut
 msgid "Create Shortcut..."
-msgstr ""
+msgstr "Ustvari tipkovno bližnjico ..."
 
 #: ulng.rsmnudisconnectnetworkdrive
 msgid "Disconnect Network Drive..."
@@ -10972,7 +11037,6 @@ msgid "Pack here..."
 msgstr "Zapakiraj datoteke v to mapo ..."
 
 #: ulng.rsmnurestore
-#, fuzzy
 msgctxt "ulng.rsmnurestore"
 msgid "Restore"
 msgstr "Obnovi"
@@ -11001,7 +11065,7 @@ msgstr "Vsi notranji ukazi programa DC"
 #: ulng.rsmsgapplicationname
 #, object-pascal-format
 msgid "Description: %s"
-msgstr ""
+msgstr "Opis: %s"
 
 #: ulng.rsmsgarchivercustomparams
 msgid "Additional parameters for archiver command-line:"
@@ -11026,7 +11090,7 @@ msgstr ""
 
 #: ulng.rsmsgcanceloperation
 msgid "Are you sure that you want to cancel this operation?"
-msgstr ""
+msgstr "Ali ste prepričani, da želite preklicati to opravilo?"
 
 #: ulng.rsmsgcannotcopymoveitself
 #, object-pascal-format
@@ -11036,7 +11100,7 @@ msgstr "Datoteke »%s« ni mogoče kopirati oziroma premakniti samo vase!"
 #: ulng.rsmsgcannotcopyspecialfile
 #, object-pascal-format
 msgid "Cannot copy special file %s"
-msgstr ""
+msgstr "Ni mogoče kopirati posebne datoteke %s"
 
 #: ulng.rsmsgcannotdeletedirectory
 #, object-pascal-format
@@ -11051,16 +11115,16 @@ msgstr "Mape »%s« ni mogoče prepisati s predmetom »%s«, ki ni mapa!"
 #: ulng.rsmsgchdirfailed
 #, object-pascal-format
 msgid "Change current directory to \"%s\" failed!"
-msgstr "Ukaz chdir v [%s] je spodletel!"
+msgstr "Skok iz trenutne mape v »%s« je spodletel!"
 
 #: ulng.rsmsgcloseallinactivetabs
 msgid "Remove all inactive tabs?"
-msgstr "Ali naj se odstranijo vsi nedejavni zavihki?"
+msgstr "Ali želite odstraniti vse nedejavne zavihke?"
 
 #: ulng.rsmsgcloselockedtab
 #, object-pascal-format
 msgid "This tab (%s) is locked! Close anyway?"
-msgstr "Zavihek (%s) je zaklenjen! Ali naj se vseeno zapre?"
+msgstr "Zavihek (%s) je zaklenjen! Ali ga želite vseeno zapreti?"
 
 #: ulng.rsmsgcofirmuserparam
 msgid "Confirmation of parameter"
@@ -11069,7 +11133,7 @@ msgstr "Potrditev parametra"
 #: ulng.rsmsgcommandnotfound
 #, object-pascal-format
 msgid "Command not found! (%s)"
-msgstr ""
+msgstr "Ukaza ni mogoče najti! (%s)"
 
 #: ulng.rsmsgconfirmquit
 msgid "Are you sure you want to quit?"
@@ -11087,12 +11151,12 @@ msgstr "Ni mogoče kopirati nazaj – ali želite ohraniti spremenjeno datoteko?
 #: ulng.rsmsgcpfldr
 #, object-pascal-format
 msgid "Copy %d selected files/directories?"
-msgstr "Ali naj se kopira %d izbranih datotek ali map?"
+msgstr "Ali želite kopirati %d izbranih datotek ali map?"
 
 #: ulng.rsmsgcpsel
 #, object-pascal-format
 msgid "Copy selected \"%s\"?"
-msgstr "Ali naj se »%s« kopira v:"
+msgstr "Ali želite »%s« kopirati v:"
 
 #: ulng.rsmsgcreateanewfiletype
 #, object-pascal-format
@@ -11101,7 +11165,8 @@ msgstr "< Ustvari novo vrsto »datotek %s« >"
 
 #: ulng.rsmsgdctoolbarwheretosave
 msgid "Enter location and filename where to save a DC Toolbar file"
-msgstr "Vpis mesta in imena datoteke, kamor naj se shrani datoteka orodne vrstice DC"
+msgstr ""
+"Vpis mesta in imena datoteke, kamor naj se shrani datoteka orodne vrstice DC"
 
 #: ulng.rsmsgdefaultcustomactionname
 msgid "Custom action"
@@ -11109,32 +11174,33 @@ msgstr "Dejanje po meri"
 
 #: ulng.rsmsgdeletepartiallycopied
 msgid "Delete the partially copied file ?"
-msgstr "Ali naj se delno kopirana datoteka izbriše?"
+msgstr "Ali želite delno kopirano datoteko izbrisati?"
 
 #: ulng.rsmsgdelfldr
 #, object-pascal-format
 msgid "Delete %d selected files/directories?"
-msgstr "Ali naj se izbrani predmeti izbrišejo (%d predmetov)?"
+msgstr "Ali želite izbrisati izbrane predmete (%d predmetov)?"
 
 #: ulng.rsmsgdelfldrt
 #, object-pascal-format
 msgid "Delete %d selected files/directories into trash can?"
-msgstr "Ali naj se izbrani predmeti premaknejo v smeti (%d predmetov)?"
+msgstr "Ali želite izbrane predmete premakniti v smeti (%d predmetov)?"
 
 #: ulng.rsmsgdelsel
 #, object-pascal-format
 msgid "Delete selected \"%s\"?"
-msgstr "Ali naj se »%s« izbriše?"
+msgstr "Ali želite izbrisati »%s«?"
 
 #: ulng.rsmsgdelselt
 #, object-pascal-format
 msgid "Delete selected \"%s\" into trash can?"
-msgstr "Ali naj se »%s« premakne v smeti?"
+msgstr "Ali želite »%s« premakniti v smeti?"
 
 #: ulng.rsmsgdeltotrashforce
 #, object-pascal-format
 msgid "Can not delete \"%s\" to trash! Delete directly?"
-msgstr "Predmeta »%s« ni mogoče premakniti v smeti. Ali naj se izbriše trajno?"
+msgstr ""
+"Predmeta »%s« ni mogoče premakniti v smeti. Ali ga želite izbrisati trajno?"
 
 #: ulng.rsmsgdisknotavail
 msgid "Disk is not available"
@@ -11178,12 +11244,12 @@ msgstr "Ni mogoče kopirati datoteke %s v %s"
 #: ulng.rsmsgerrcannotmovedirectory
 #, object-pascal-format
 msgid "Cannot move directory %s"
-msgstr ""
+msgstr "Ni mogoče premakniti mape %s"
 
 #: ulng.rsmsgerrcannotmovefile
 #, object-pascal-format
 msgid "Cannot move file %s"
-msgstr ""
+msgstr "Ni mogoče premakakniti datoteke %s"
 
 #: ulng.rsmsgerrcreatefiledirectoryexists
 #, object-pascal-format
@@ -11297,7 +11363,7 @@ msgstr "Ni mogoče nastaviti dovoljenj za »%s«"
 #: ulng.rsmsgerrsetxattribute
 #, object-pascal-format
 msgid "Can not set extended attributes for \"%s\""
-msgstr ""
+msgstr "Ni mogoče določiti razširjenih atributov za »%s«"
 
 #: ulng.rsmsgerrsmallbuf
 msgid "Buffer too small"
@@ -11314,15 +11380,19 @@ msgstr "Vrsta arhiva ni znana"
 #: ulng.rsmsgexecutablepath
 #, object-pascal-format
 msgid "Executable: %s"
-msgstr ""
+msgstr "Izvedljiva datoteka: %s"
 
 #: ulng.rsmsgexitstatuscode
 msgid "Exit status:"
-msgstr ""
+msgstr "Stanje izhoda:"
 
 #: ulng.rsmsgfavoritetabsdeleteallentries
-msgid "Are you sure you want to remove all entries of your Favorite Tabs? (There is no \"undo\" to this action!)"
-msgstr "Ali ste prepričani, da želite odstraniti vse vnose priljubljenih zavihkov (dejanja ni mogoče povrniti)?"
+msgid ""
+"Are you sure you want to remove all entries of your Favorite Tabs? (There is "
+"no \"undo\" to this action!)"
+msgstr ""
+"Ali ste prepričani, da želite odstraniti vse vnose priljubljenih zavihkov "
+"(dejanja ni mogoče povrniti)?"
 
 #: ulng.rsmsgfavoritetabsdraghereentry
 msgid "Drag here other entries"
@@ -11343,7 +11413,9 @@ msgstr "Uspešno izvoženi priljubljeni zavihki: %d na %d"
 
 #: ulng.rsmsgfavoritetabsextramode
 msgid "Default extra setting for save dir history for new Favorite Tabs:"
-msgstr "Privzete dodatne nastavitve za shranjevanje zgodovine za nove priljubljene zavihke:"
+msgstr ""
+"Privzete dodatne nastavitve za shranjevanje zgodovine za nove priljubljene "
+"zavihke:"
 
 #: ulng.rsmsgfavoritetabsimportedsuccessfully
 #, object-pascal-format
@@ -11359,8 +11431,12 @@ msgid "Select .tab file(s) to import (could be more than one at the time!)"
 msgstr "Izbor datotek .tab za uvoz (izbrati je dovoljeno več kot eno!)"
 
 #: ulng.rsmsgfavoritetabsmodifiednoimport
-msgid "Last Favorite Tabs modification have been saved yet. Do you want to save them prior to continue?"
-msgstr "Zadnje spremembe priljubljenih zavihkov še niso shranjene. Ali jih želite shraniti pred nadaljevanjem?"
+msgid ""
+"Last Favorite Tabs modification have been saved yet. Do you want to save "
+"them prior to continue?"
+msgstr ""
+"Zadnje spremembe priljubljenih zavihkov še niso shranjene. Ali jih želite "
+"shraniti pred nadaljevanjem?"
 
 #: ulng.rsmsgfavoritetabssimplemode
 msgctxt "ulng.rsmsgfavoritetabssimplemode"
@@ -11384,7 +11460,7 @@ msgstr "Shrani trenutne zavihke preko obstoječih priljubljenih zavihkov"
 #: ulng.rsmsgfilechangedsave
 #, object-pascal-format
 msgid "File %s changed, save?"
-msgstr "Datoteka %s je spremenjena. Ali naj se spremembe shranijo?"
+msgstr "Datoteka %s je spremenjena. Ali želite spremembe shraniti?"
 
 #: ulng.rsmsgfileexistsfileinfo
 #, object-pascal-format
@@ -11414,28 +11490,37 @@ msgid "File operations active"
 msgstr "Zaznana so dejavna datotečna opravila"
 
 #: ulng.rsmsgfileoperationsactivelong
-msgid "Some file operations have not yet finished. Closing Double Commander may result in data loss."
-msgstr "Nekatera opravila datotek še niso končana. S predčasnim končanjem programa lahko pride do izgube podatkov."
+msgid ""
+"Some file operations have not yet finished. Closing Double Commander may "
+"result in data loss."
+msgstr ""
+"Nekatera opravila datotek še niso končana. S predčasnim končanjem programa "
+"lahko pride do izgube podatkov."
 
 #: ulng.rsmsgfilepathovermaxpath
 #, object-pascal-format
 msgid ""
 "The target name length (%d) is more than %d characters!\n"
 "%s\n"
-"Most programs will not be able to access a file/directory with such a long name!"
+"Most programs will not be able to access a file/directory with such a long "
+"name!"
 msgstr ""
-"Dolžina imena cilja (%d) je več kot %d znakov!\n"
+"Dolžina imena cilja (%d) znaša več kot %d znakov!\n"
 "%s\n"
 "Mnogi programi imajo lahko težave s tako dolgimi imeni datotek in map!"
 
 #: ulng.rsmsgfilereadonly
 #, object-pascal-format
 msgid "File %s is marked as read-only/hidden/system. Delete it?"
-msgstr "Datoteka %s je označena skrita, sistemska ali le za branje. Ali naj se vseeno izbriše?"
+msgstr ""
+"Datoteka %s je označena skrita, sistemska ali le za branje. Ali jo želite "
+"vseeno izbrisati?"
 
 #: ulng.rsmsgfilereloadwarning
 msgid "Are you sure you want to reload the current file and lose the changes?"
 msgstr ""
+"Ali ste prepričani, da želite obnoviti trenutno datoteko in prepisati "
+"spremembe?"
 
 #: ulng.rsmsgfilesizetoobig
 #, object-pascal-format
@@ -11450,7 +11535,7 @@ msgstr "Mapa %s že obstaja. Ali želite datoteke združiti v to mapo?"
 #: ulng.rsmsgfollowsymlink
 #, object-pascal-format
 msgid "Follow symlink \"%s\"?"
-msgstr "Ali naj se sledi simbolni povezavi »%s«?"
+msgstr "Ali želite slediti simbolni povezavi »%s«?"
 
 #: ulng.rsmsgfortextformattoimport
 msgid "Select the text format to import"
@@ -11483,8 +11568,12 @@ msgid "Configuration of Directory Hotlist"
 msgstr "Nastavitev seznama hitrih map"
 
 #: ulng.rsmsghotdirdeleteallentries
-msgid "Are you sure you want to remove all entries of your Directory Hotlist? (There is no \"undo\" to this action!)"
-msgstr "Ali ste prepričani, da želite odstraniti vse vnose seznama hitrih map (dejanja ni mogoče povrniti)?"
+msgid ""
+"Are you sure you want to remove all entries of your Directory Hotlist? "
+"(There is no \"undo\" to this action!)"
+msgstr ""
+"Ali ste prepričani, da želite odstraniti vse vnose seznama hitrih map "
+"(dejanja ni mogoče povrniti)?"
 
 #: ulng.rsmsghotdirdemocommand
 msgid "This will execute the following command:"
@@ -11609,16 +11698,28 @@ msgid "Hotdir target"
 msgstr "Cilj vroče mape"
 
 #: ulng.rsmsghotdirtiporderpath
-msgid "Determine if you want the active frame to be sorted in a specified order after changing directory"
-msgstr "Določilo, ali naj bo dejavno okno razvrščeno na trenuten način tudi po zamenjavi mape"
+msgid ""
+"Determine if you want the active frame to be sorted in a specified order "
+"after changing directory"
+msgstr ""
+"Določilo, ali naj bo dejavno okno razvrščeno na trenuten način tudi po "
+"zamenjavi mape"
 
 #: ulng.rsmsghotdirtipordertarget
-msgid "Determine if you want the not active frame to be sorted in a specified order after changing directory"
-msgstr "Določilo, ali naj bo nedejavno okno razvrščeno na trenuten način tudi po zamenjavi mape"
+msgid ""
+"Determine if you want the not active frame to be sorted in a specified order "
+"after changing directory"
+msgstr ""
+"Določilo, ali naj bo nedejavno okno razvrščeno na trenuten način tudi po "
+"zamenjavi mape"
 
 #: ulng.rsmsghotdirtipspecialdirbut
-msgid "Some functions to select appropriate path relative, absolute, windows special folders, etc."
-msgstr "Nekatere funkcije za izbor ustrezne poti; relativne, absolutne, posebne mape ..."
+msgid ""
+"Some functions to select appropriate path relative, absolute, windows "
+"special folders, etc."
+msgstr ""
+"Nekatere funkcije za izbor ustrezne poti; relativne, absolutne, posebne "
+"mape ..."
 
 #: ulng.rsmsghotdirtotalbackuped
 #, object-pascal-format
@@ -11639,10 +11740,12 @@ msgstr "Število izvoženih vnosov:"
 #, object-pascal-format
 msgid ""
 "Do you want to delete all elements inside the sub-menu [%s]?\n"
-"Answering NO will delete only menu delimiters but will keep element inside sub-menu."
+"Answering NO will delete only menu delimiters but will keep element inside "
+"sub-menu."
 msgstr ""
 "Ali ste želeli izbrisati vse predmete znotraj podrejenega menija [%s]?\n"
-"Če izberete NE, bodo izbrisani le ločilniki menija, predmeti pa bodo ohranjeni."
+"Če izberete NE, bodo izbrisani le ločilniki menija, predmeti pa bodo "
+"ohranjeni."
 
 #: ulng.rsmsghotdirwheretosave
 msgid "Enter location and filename where to save a Directory Hotlist file"
@@ -11663,7 +11766,7 @@ msgid ""
 "\n"
 "Number of bytes still to write: %d"
 msgstr ""
-"Vstavite dodatni disk, ključ oziroma drug pogon.\n"
+"Vstavite naslednji disk, ključ oziroma drug pogon.\n"
 "\n"
 "S tem omogočite zapis datoteke:\n"
 "»%s«\n"
@@ -11685,7 +11788,7 @@ msgstr "Neveljaven zapis nastavitvene datoteke"
 #: ulng.rsmsginvalidhexnumber
 #, object-pascal-format
 msgid "Invalid hexadecimal number: \"%s\""
-msgstr ""
+msgstr "Neveljavno šestnajstiško število: »%s«"
 
 #: ulng.rsmsginvalidpath
 msgid "Invalid path"
@@ -11702,7 +11805,9 @@ msgstr "Ta vrsta vstavka ni podprta!"
 
 #: ulng.rsmsginvalidpluginarchitecture
 #, object-pascal-format
-msgid "This plugin is built for Double Commander for %s.%sIt can not work with Double Commander for %s!"
+msgid ""
+"This plugin is built for Double Commander for %s.%sIt can not work with "
+"Double Commander for %s!"
 msgstr "Ta vstavek je izgrajen za različico %s.%s. Z različico %s ne deluje."
 
 #: ulng.rsmsginvalidquoting
@@ -11737,7 +11842,7 @@ msgstr "Izbriši datoteko %s"
 
 #: ulng.rsmsglogerror
 msgid "Error: "
-msgstr "Napaka:"
+msgstr "Napaka: "
 
 #: ulng.rsmsglogextcmdlaunch
 msgid "Launch external"
@@ -11754,7 +11859,7 @@ msgstr "Razširi datoteko %s"
 
 #: ulng.rsmsgloginfo
 msgid "Info: "
-msgstr "Podrobnosti:"
+msgstr "Podrobnosti: "
 
 #: ulng.rsmsgloglink
 #, object-pascal-format
@@ -11778,11 +11883,11 @@ msgstr "Zapakiraj v datoteko %s"
 
 #: ulng.rsmsglogprogramshutdown
 msgid "Program shutdown"
-msgstr ""
+msgstr "Izklop programa"
 
 #: ulng.rsmsglogprogramstart
 msgid "Program start"
-msgstr ""
+msgstr "Zagon programa"
 
 #: ulng.rsmsglogrmdir
 #, object-pascal-format
@@ -11791,7 +11896,7 @@ msgstr "Odstrani mapo %s"
 
 #: ulng.rsmsglogsuccess
 msgid "Done: "
-msgstr "Končano:"
+msgstr "Končano: "
 
 #: ulng.rsmsglogsymlink
 #, object-pascal-format
@@ -11839,11 +11944,14 @@ msgstr "Ni izbranih datotek."
 
 #: ulng.rsmsgnofreespacecont
 msgid "No enough free space on target drive, Continue?"
-msgstr "Ni dovolj prostora na ciljnem pogonu. Ali naj se opravilo vseeno nadaljuje?"
+msgstr ""
+"Ni dovolj prostora na ciljnem pogonu. Ali želite opravilo vseeno nadaljevati?"
 
 #: ulng.rsmsgnofreespaceretry
 msgid "No enough free space on target drive, Retry?"
-msgstr "Ni dovolj prostora na ciljnem pogonu. Ali naj se prostor ponovno izračuna?"
+msgstr ""
+"Ni dovolj prostora na ciljnem pogonu. Ali želite ponoven izračun "
+"razpoložljivega prostora?"
 
 #: ulng.rsmsgnotdelete
 #, object-pascal-format
@@ -11859,13 +11967,18 @@ msgid "Object does not exist!"
 msgstr "Predmet ne obstaja!"
 
 #: ulng.rsmsgopeninanotherprogram
-msgid "The action cannot be completed because the file is open in another program:"
-msgstr ""
+msgid ""
+"The action cannot be completed because the file is open in another program:"
+msgstr "Opravila ni mogoče končati, ker je datoteka odprta v drugem programu:"
 
 #: ulng.rsmsgpanelpreview
 msgctxt "ulng.rsmsgpanelpreview"
-msgid "Below is a preview. You may move cursor and select files to get immediately an actual look and feel of the various settings."
-msgstr "Spodaj je okno predogleda. S premikanjem kazalnika in izborom datoteke se pokažejo različne prilagoditve nastavitev."
+msgid ""
+"Below is a preview. You may move cursor and select files to get immediately "
+"an actual look and feel of the various settings."
+msgstr ""
+"Spodaj je okno predogleda. S premikanjem kazalnika in izborom datoteke se "
+"pokažejo različne prilagoditve nastavitev."
 
 #: ulng.rsmsgpassword
 msgctxt "ulng.rsmsgpassword"
@@ -11896,12 +12009,12 @@ msgstr "&Izbriši %s"
 #: ulng.rsmsgpresetalreadyexists
 #, object-pascal-format
 msgid "Preset \"%s\" already exists. Overwrite?"
-msgstr "Shranjen predmet »%s« že obstaja. Ali naj se prepiše?"
+msgstr "Shranjen predmet »%s« že obstaja. Ali ga želite prepisati?"
 
 #: ulng.rsmsgpresetconfigdelete
 #, object-pascal-format
 msgid "Are you sure you want to delete preset \"%s\"?"
-msgstr ""
+msgstr "Ali ste prepričani, da želite izbrisati predlogo »%s«?"
 
 #: ulng.rsmsgproblemexecutingcommand
 #, object-pascal-format
@@ -11911,7 +12024,7 @@ msgstr "Napaka izvajanja ukaza (%s)"
 #: ulng.rsmsgprocessid
 #, object-pascal-format
 msgid "PID: %d"
-msgstr ""
+msgstr "Neznan program (PID %d)"
 
 #: ulng.rsmsgpromptaskingfilename
 msgid "Filename for dropped text:"
@@ -11932,16 +12045,16 @@ msgstr "Vnos imena tega meni"
 #: ulng.rsmsgrenfldr
 #, object-pascal-format
 msgid "Rename/move %d selected files/directories?"
-msgstr "Ali naj se izbrani predmeti preimenujejo oziroma premaknejo (%d predmetov)?"
+msgstr "Ali želite izbrane predmete preimenovati / premakniti (%d predmetov)?"
 
 #: ulng.rsmsgrensel
 #, object-pascal-format
 msgid "Rename/move selected \"%s\"?"
-msgstr "Ali naj se predmet »%s« preimenuje oziroma premakne?"
+msgstr "Ali želite predmet »%s« preimenovati / premakniti?"
 
 #: ulng.rsmsgreplacethistext
 msgid "Do you want to replace this text?"
-msgstr ""
+msgstr "Ali želite zamenjati to besedilo?"
 
 #: ulng.rsmsgrestartforapplychanges
 msgid "Please, restart Double Commander in order to apply changes"
@@ -11950,7 +12063,7 @@ msgstr "Za uveljavitev sprememb je treba program ponovno zagnati."
 #: ulng.rsmsgscriptcantfindlibrary
 #, object-pascal-format
 msgid "ERROR: Problem loading Lua library file \"%s\""
-msgstr ""
+msgstr "NAPAKA: Prišlo je do napake med nalaganjem datoteke knjižnice Lua »%s«"
 
 #: ulng.rsmsgsekectfiletype
 #, object-pascal-format
@@ -12086,7 +12199,7 @@ msgid ""
 "Error! Cannot find the TC configuration executable:\n"
 "%s"
 msgstr ""
-"Napaka: ni mogoče najti izvedbene datoteke programa Total Commander:\n"
+"Napaka: ni mogoče najti zagonljive datoteke programa Total Commander:\n"
 "%s"
 
 #: ulng.rsmsgtcisrunning
@@ -12094,8 +12207,9 @@ msgid ""
 "Error! TC is still running but it should be closed for this operation.\n"
 "Close it and press OK or press CANCEL to abort."
 msgstr ""
-"Napaka: program Total Commander je zagnan, kar pa za to dejanje ne sme biti.\n"
-"Zaprite program ali prekličite opravilo"
+"Napaka: program Total Commander je zagnan, kar pa za to dejanje ne sme "
+"biti.\n"
+"Zaprite program ali prekličite opravilo."
 
 #: ulng.rsmsgtctoolbarnotfound
 #, object-pascal-format
@@ -12103,24 +12217,33 @@ msgid ""
 "Error! Cannot find the desired wanted TC toolbar output folder:\n"
 "%s"
 msgstr ""
-"Napaka! Ni mogoče najti žele odvodne mape orodne vrstice TC:\n"
+"Napaka! Ni mogoče najti želene odvodne mape orodne vrstice TC:\n"
 "%s"
 
 #: ulng.rsmsgtctoolbarwheretosave
 msgid "Enter location and filename where to save a TC Toolbar file"
-msgstr "Vpis mesta in imena datoteke, kamor naj se shrani datoteka orodne vrstice DC"
+msgstr ""
+"Vpis mesta in imena datoteke, kamor naj se shrani datoteka orodne vrstice DC"
 
 #: ulng.rsmsgterminaldisabled
 msgid "Built-in terminal window disabled. Do you want to enable it?"
-msgstr ""
+msgstr "Vgrajeno okno terminala je onemogočeno. Ali ga želite omogočiti?"
 
 #: ulng.rsmsgterminateprocess
-msgid "WARNING: Terminating a process can cause undesired results including loss of data and system instability. The process will not be given the chance to save its state or data before it is terminated. Are you sure you want to terminate the process?"
+msgid ""
+"WARNING: Terminating a process can cause undesired results including loss of "
+"data and system instability. The process will not be given the chance to "
+"save its state or data before it is terminated. Are you sure you want to "
+"terminate the process?"
 msgstr ""
+"OPOZORILO: Prekinitev opravila lahko povzroči neželene učinke, vključno z "
+"izgubo podatkov in nestabilnostjo sistema. Opravilu ne bo dana možnost "
+"shranjevanja stanja delovanja ali podatkov. Ali ste prepričani, da želite "
+"opravilo končati?"
 
 #: ulng.rsmsgtestarchive
 msgid "Do you want to test selected archives?"
-msgstr ""
+msgstr "Ali želite preveriti celovitost izbranih arhivov?"
 
 #: ulng.rsmsgthisisnowinclipboard
 #, object-pascal-format
@@ -12149,7 +12272,7 @@ msgid ""
 "Saved!\n"
 "Toolbar filename: %s"
 msgstr ""
-"Shranjeno.\n"
+"Shranjeno!\n"
 "Ime orodne vrstice: %s'"
 
 #: ulng.rsmsgtoomanyfilesselected
@@ -12187,15 +12310,15 @@ msgstr "Uporabniško ime (požarni zid):"
 
 #: ulng.rsmsgverify
 msgid "VERIFICATION:"
-msgstr ""
+msgstr "OVERITEV:"
 
 #: ulng.rsmsgverifychecksum
 msgid "Do you want to verify selected checksums?"
-msgstr ""
+msgstr "Ali želite overiti izbrane nadzorne vsote?"
 
 #: ulng.rsmsgverifywrong
 msgid "The target file is corrupted, checksum mismatch!"
-msgstr ""
+msgstr "Ciljna datoteka je okvarjena, nadzorni vsoti nista skladni!"
 
 #: ulng.rsmsgvolumelabel
 msgid "Volume label:"
@@ -12207,18 +12330,18 @@ msgstr "Velikost dela arhiva:"
 
 #: ulng.rsmsgwanttoconfigurelibrarylocation
 msgid "Do you want to configure Lua library location?"
-msgstr ""
+msgstr "Ali želite nastaviti pot do knjižnice Lua?"
 
 # This should be multiple plural !!!!
 #: ulng.rsmsgwipefldr
 #, object-pascal-format
 msgid "Wipe %d selected files/directories?"
-msgstr "Ali naj se izbrane datoteke oziroma mape neobnovljivo izbrišejo (%d)?"
+msgstr "Ali želite datoteke oziroma mape neobnovljivo izbrisati (%d)?"
 
 #: ulng.rsmsgwipesel
 #, object-pascal-format
 msgid "Wipe selected \"%s\"?"
-msgstr "Ali naj se »%s« neobnovljivo izbriše?"
+msgstr "Ali želite »%s« neobnovljivo izbrisati?"
 
 #: ulng.rsmsgwithactionwith
 msgid "with"
@@ -12229,10 +12352,14 @@ msgid ""
 "Wrong password!\n"
 "Please try again!"
 msgstr ""
+"Napačno geslo!\n"
+"Poskusite znova."
 
 #: ulng.rsmulrenautorename
 msgid "Do auto-rename to \"name (1).ext\", \"name (2).ext\" etc.?"
-msgstr "Ali želite predmete samodejno preimenovati v »ime (1).pri«, »ime (2).pri« ... ?"
+msgstr ""
+"Ali želite predmete samodejno preimenovati v »ime (1).pri«, »ime (2)."
+"pri« ... ?"
 
 #: ulng.rsmulrencounter
 msgctxt "ulng.rsmulrencounter"
@@ -12246,28 +12373,32 @@ msgstr "Datum"
 
 #: ulng.rsmulrendefaultpresetname
 msgid "Preset name"
-msgstr ""
+msgstr "Ime shranjenega preimenovanja"
 
 #: ulng.rsmulrendefinevariablename
 msgid "Define variable name"
-msgstr ""
+msgstr "Določilo imena datoteke"
 
 #: ulng.rsmulrendefinevariablevalue
 msgid "Define variable value"
-msgstr ""
+msgstr "Določi vrednost spremenljivke."
 
 #: ulng.rsmulrenenternameforvar
 msgid "Enter variable name"
-msgstr ""
+msgstr "Vpis imena spremenljivke"
 
 #: ulng.rsmulrenentervalueforvar
 #, object-pascal-format
 msgid "Enter value for variable \"%s\""
-msgstr ""
+msgstr "Vpišite vrednost za spremenljivko »%s«"
 
 #: ulng.rsmulrenexitmodifiedpresetoptions
-msgid "Ignore, just save as the [Last One];Prompt user to confirm if we save it;Save automatically"
+msgid ""
+"Ignore, just save as the [Last One];Prompt user to confirm if we save it;"
+"Save automatically"
 msgstr ""
+"Prezri, le shrani nazadnje uporabljeno;Zahtevaj potrditev uporabnika;"
+"Samodejno shrani"
 
 #: ulng.rsmulrenextension
 msgctxt "ulng.rsmulrenextension"
@@ -12280,37 +12411,41 @@ msgid "Name"
 msgstr "Ime"
 
 #: ulng.rsmulrenfilenamestylelist
-msgid "No change;UPPERCASE;lowercase;First char uppercase;First Char Of Every Word Uppercase;"
-msgstr "Brez spremembe;VELIKE ČRKE;male črke;Prva črka je velika;Prva Črka Vsake Besede Je Velika;"
+msgid ""
+"No change;UPPERCASE;lowercase;First char uppercase;First Char Of Every Word "
+"Uppercase;"
+msgstr ""
+"Brez spremembe;VELIKE ČRKE;male črke;Prva črka je velika;Prva Črka Vsake "
+"Besede Je Velika;"
 
 #: ulng.rsmulrenlastpreset
 msgid "[The last used]"
-msgstr ""
+msgstr "[Nazadnje uporabljeno]"
 
 #: ulng.rsmulrenlaunchbehavioroptions
 msgid "Last masks under [Last One] preset;Last preset;New fresh masks"
-msgstr ""
+msgstr "Zadnje uporabljena maska;Nazadnje nastavljena maska;Prazno polje maske"
 
 #: ulng.rsmulrenlogstart
 msgctxt "ulng.rsmulrenlogstart"
 msgid "Multi-Rename Tool"
-msgstr "Napredno preimenovanje"
+msgstr "Orodje za napredno preimenovanje"
 
 #: ulng.rsmulrenmaskcharatposx
 msgid "Character at position x"
-msgstr "Znak pripone na mestu (x)"
+msgstr "Znak na mestu x"
 
 #: ulng.rsmulrenmaskcharatposxtoy
 msgid "Characters from position x to y"
-msgstr "Znaki pripone med mestoma (x) in (y)"
+msgstr "Znaki med mestoma x in y"
 
 #: ulng.rsmulrenmaskcompletedate
 msgid "Complete date"
-msgstr ""
+msgstr "Celoten zapis datuma"
 
 #: ulng.rsmulrenmaskcompletetime
 msgid "Complete time"
-msgstr ""
+msgstr "Celoten zapis časa"
 
 #: ulng.rsmulrenmaskcounter
 msgctxt "ulng.rsmulrenmaskcounter"
@@ -12323,7 +12458,7 @@ msgstr "Dan"
 
 #: ulng.rsmulrenmaskday2digits
 msgid "Day (2 digits)"
-msgstr "Dan (2 številki)"
+msgstr "Dan (2 števki)"
 
 #: ulng.rsmulrenmaskdowabrev
 msgid "Day of the week (short, e.g., \"mon\")"
@@ -12340,15 +12475,15 @@ msgstr "Pripona"
 
 #: ulng.rsmulrenmaskfullname
 msgid "Complete filename with path and extension"
-msgstr ""
+msgstr "Dopolni ime z vpisom poti in pripone"
 
 #: ulng.rsmulrenmaskfullnamecharatposxtoy
 msgid "Complete filename, char from pos x to y"
-msgstr ""
+msgstr "Polno ime datoteke, znak od mesta x do y"
 
 #: ulng.rsmulrenmaskguid
 msgid "GUID"
-msgstr ""
+msgstr "GUID"
 
 #: ulng.rsmulrenmaskhour
 msgid "Hour"
@@ -12356,7 +12491,7 @@ msgstr "Ure"
 
 #: ulng.rsmulrenmaskhour2digits
 msgid "Hour (2 digits)"
-msgstr "Ure (2 številki)"
+msgstr "Ure (2 števki)"
 
 #: ulng.rsmulrenmaskmin
 msgid "Minute"
@@ -12364,7 +12499,7 @@ msgstr "Minute"
 
 #: ulng.rsmulrenmaskmin2digits
 msgid "Minute (2 digits)"
-msgstr "Minute (2 številki)"
+msgstr "Minute (2 števki)"
 
 #: ulng.rsmulrenmaskmonth
 msgid "Month"
@@ -12372,7 +12507,7 @@ msgstr "Mesec"
 
 #: ulng.rsmulrenmaskmonth2digits
 msgid "Month (2 digits)"
-msgstr "Mesec (2 številki)"
+msgstr "Mesec (2 števki)"
 
 #: ulng.rsmulrenmaskmonthabrev
 msgid "Month name (short, e.g., \"jan\")"
@@ -12389,27 +12524,27 @@ msgstr "Ime"
 
 #: ulng.rsmulrenmaskparent
 msgid "Parent folder(s)"
-msgstr ""
+msgstr "Nadrejene mape"
 
 #: ulng.rsmulrenmasksec
 msgid "Second"
-msgstr "Sekunde"
+msgstr "Ssekunde"
 
 #: ulng.rsmulrenmasksec2digits
 msgid "Second (2 digits)"
-msgstr "Sekunde (2 številki)"
+msgstr "Sekunde (2 števki)"
 
 #: ulng.rsmulrenmaskvaronthefly
 msgid "Variable on the fly"
-msgstr ""
+msgstr "Hitra spremenljivka"
 
 #: ulng.rsmulrenmaskyear2digits
 msgid "Year (2 digits)"
-msgstr "Leto (2 številki)"
+msgstr "Leto (2 števki)"
 
 #: ulng.rsmulrenmaskyear4digits
 msgid "Year (4 digits)"
-msgstr "Leto (4 številke)"
+msgstr "Leto (4 števke)"
 
 #: ulng.rsmulrenplugins
 msgctxt "ulng.rsmulrenplugins"
@@ -12418,15 +12553,15 @@ msgstr "Vstavki"
 
 #: ulng.rsmulrenpromptforsavedpresetname
 msgid "Save preset as"
-msgstr ""
+msgstr "Shrani predlogo kot ..."
 
 #: ulng.rsmulrenpromptnewnameexists
 msgid "Preset name already exists. Overwrite?"
-msgstr ""
+msgstr "Predloga že obstaja. Ali jo želite prepisati?"
 
 #: ulng.rsmulrenpromptnewpresetname
 msgid "Enter new preset name"
-msgstr ""
+msgstr "Vpis novega imena predloge"
 
 #: ulng.rsmulrensavemodifiedpreset
 #, object-pascal-format
@@ -12434,15 +12569,17 @@ msgid ""
 "\"%s\" preset has been modified.\n"
 "Do you want to save it now?"
 msgstr ""
+"Predloga »%s« je spremenjena.\n"
+"Ali želite spremembe shraniti?"
 
 #: ulng.rsmulrensortingpresets
 msgid "Sorting presets"
-msgstr ""
+msgstr "Predloge razvrščanja"
 
 #: ulng.rsmulrentime
 msgctxt "ulng.rsmulrentime"
 msgid "Time"
-msgstr "Čas "
+msgstr "Čas"
 
 #: ulng.rsmulrenwarningduplicate
 msgid "Warning, duplicate names!"
@@ -12451,7 +12588,9 @@ msgstr "Opozorilo, imena so podvojena!"
 #: ulng.rsmulrenwronglinesnumber
 #, object-pascal-format
 msgid "File contains wrong number of lines: %d, should be %d!"
-msgstr "Datoteka vsebuje napačno število vrstic; zaznana vrednost je %d, pričakovana pa %d!"
+msgstr ""
+"Datoteka vsebuje napačno število vrstic; zaznana vrednost je %d, pričakovana "
+"pa %d!"
 
 #: ulng.rsnewsearchclearfilteroptions
 msgid "Keep;Clear;Prompt"
@@ -12467,63 +12606,60 @@ msgstr "Ni še začetega okna »iskanja datotek« ..."
 
 #: ulng.rsnootherfindfileswindowtoclose
 msgid "Sorry, no other \"Find files\" window to close and free from memory..."
-msgstr "Ni še drugih oken »iskanja datotek« za zapiranje in sproščanje pomnilnika ..."
+msgstr ""
+"Ni še drugih oken »iskanja datotek« za zapiranje in sproščanje pomnilnika ..."
 
 #: ulng.rsopenwithdevelopment
 msgid "Development"
-msgstr ""
+msgstr "Razvoj"
 
 #: ulng.rsopenwitheducation
 msgid "Education"
-msgstr ""
+msgstr "Izobraževanje"
 
 #: ulng.rsopenwithgames
 msgid "Games"
-msgstr ""
+msgstr "Igre"
 
 #: ulng.rsopenwithgraphics
-#, fuzzy
 msgctxt "ulng.rsopenwithgraphics"
 msgid "Graphics"
-msgstr "Grafični prikaz"
+msgstr "Grafične vsebine"
 
 #: ulng.rsopenwithmultimedia
 msgid "Multimedia"
-msgstr ""
+msgstr "Predstavne vsebine"
 
 #: ulng.rsopenwithnetwork
-#, fuzzy
 msgctxt "ulng.rsopenwithnetwork"
 msgid "Network"
 msgstr "Omrežje"
 
 #: ulng.rsopenwithoffice
 msgid "Office"
-msgstr ""
+msgstr "Pisarna"
 
 #: ulng.rsopenwithother
-#, fuzzy
 msgctxt "ulng.rsopenwithother"
 msgid "Other"
 msgstr "Drugo"
 
 #: ulng.rsopenwithscience
 msgid "Science"
-msgstr ""
+msgstr "Znanost"
 
 #: ulng.rsopenwithsettings
 msgid "Settings"
-msgstr ""
+msgstr "Nastavitve"
 
 #: ulng.rsopenwithsystem
-#, fuzzy
 msgctxt "ulng.rsopenwithsystem"
 msgid "System"
-msgstr "Sistemska datoteka"
+msgstr "Sistem"
 
 #: ulng.rsopenwithutility
 msgid "Accessories"
-msgstr ""
+msgstr "Dodatki"
 
 #: ulng.rsoperaborted
 msgid "Aborted"
@@ -12764,139 +12900,144 @@ msgstr "Izvajanje opravila"
 
 #: ulng.rsoptaddfrommainpanel
 msgid "Add at &beginning;Add at the end;Smart add"
-msgstr "dodaj na &začetek;dodaj na konec;pametno dodajanje"
+msgstr "Dodaj na &začetek;Dodaj na konec;Pametno dodajanje"
 
 #: ulng.rsoptaddingtooltipfiletype
 msgid "Adding new tooltip file type"
-msgstr ""
+msgstr "Dodajanje novega orodnega namiga vrste datoteke"
 
 #: ulng.rsoptarchiveconfiguresavetochange
-msgid "To change current editing archive configuration, either APPLY or DELETE current editing one"
+msgid ""
+"To change current editing archive configuration, either APPLY or DELETE "
+"current editing one"
 msgstr ""
+"Za spreminjanje trenutnih nastavitev urejanja arhivov je treba trenutno "
+"najprej uveljaviti ali izbrisati"
 
 #: ulng.rsoptarchiveradditonalcmd
 msgid "Mode dependent, additional command"
-msgstr ""
+msgstr "Odvisno od načina, dodaten ukaz"
 
 #: ulng.rsoptarchiveraddonlynotempty
 msgid "Add if it is non-empty"
-msgstr ""
+msgstr "Dodaj, če polje ni prazno"
 
 #: ulng.rsoptarchiverarchivel
 msgid "Archive File (long name)"
-msgstr ""
+msgstr "Datoteka arhiva (dolgo ime)"
 
 #: ulng.rsoptarchiverarchiver
 msgid "Select archiver executable"
-msgstr ""
+msgstr "Izbor izvedljive datoteke pakirnika"
 
 #: ulng.rsoptarchiverarchives
 msgid "Archive file (short name)"
-msgstr ""
+msgstr "Datoteka arhiva (kratko ime)"
 
 #: ulng.rsoptarchiverchangeencoding
 msgid "Change Archiver Listing Encoding"
-msgstr ""
+msgstr "Spremeni kodni nabor seznama pakirnika"
 
 #: ulng.rsoptarchiverconfirmdelete
 #, object-pascal-format
 msgctxt "ulng.rsoptarchiverconfirmdelete"
 msgid "Are you sure you want to delete: \"%s\"?"
-msgstr ""
+msgstr "Ali ste prepričani, da želite izbrisati: »%s«?"
 
 #: ulng.rsoptarchiverdefaultexportfilename
 msgid "Exported Archiver Configuration"
-msgstr ""
+msgstr "Izvožene nastavitve pakirnika"
 
 #: ulng.rsoptarchivererrorlevel
 msgid "errorlevel"
-msgstr ""
+msgstr "raven napake"
 
 #: ulng.rsoptarchiverexportcaption
 msgid "Export archiver configuration"
-msgstr ""
+msgstr "Izvozi nastavitve pakirnika"
 
 #: ulng.rsoptarchiverexportdone
 #, object-pascal-format
 msgctxt "ulng.rsoptarchiverexportdone"
 msgid "Exportation of %d elements to file \"%s\" completed."
-msgstr ""
+msgstr "Izvoz %d predmetov v datoteko »%s« je končan."
 
 #: ulng.rsoptarchiverexportprompt
 msgctxt "ulng.rsoptarchiverexportprompt"
 msgid "Select the one(s) you want to export"
-msgstr ""
+msgstr "Izberite vnose, ki jih želite uvoziti"
 
 #: ulng.rsoptarchiverfilelistl
 msgid "Filelist (long names)"
-msgstr ""
+msgstr "Seznam datotek (dolga imena)"
 
 #: ulng.rsoptarchiverfilelists
 msgid "Filelist (short names)"
-msgstr ""
+msgstr "Seznam datotek (kratka imena)"
 
 #: ulng.rsoptarchiverimportcaption
 msgid "Import archiver configuration"
-msgstr ""
+msgstr "Uvozi nastavitve pakirnika"
 
 #: ulng.rsoptarchiverimportdone
 #, object-pascal-format
 msgctxt "ulng.rsoptarchiverimportdone"
 msgid "Importation of %d elements from file \"%s\" completed."
-msgstr ""
+msgstr "Uvoz %d predmetov iz datoteke »%s« je končan."
 
 #: ulng.rsoptarchiverimportfile
 msgid "Select the file to import archiver configuration(s)"
-msgstr ""
+msgstr "Izbor datoteke za uvoz nastavitev arhivirnika"
 
 #: ulng.rsoptarchiverimportprompt
 msgctxt "ulng.rsoptarchiverimportprompt"
 msgid "Select the one(s) you want to import"
-msgstr ""
+msgstr "Izberite vnose, ki jih želite uvoziti"
 
 #: ulng.rsoptarchiverjustname
 msgid "Use name only, without path"
-msgstr ""
+msgstr "Uporabi le ime, brez poti"
 
 #: ulng.rsoptarchiverjustpath
 msgid "Use path only, without name"
-msgstr ""
+msgstr "Uporabi le pot, brez imena"
 
 #: ulng.rsoptarchiverprograml
 msgid "Archive Program (long name)"
-msgstr ""
+msgstr "Program za arhiviranje (dolgo ime)"
 
 #: ulng.rsoptarchiverprograms
 msgid "Archive Program (short name)"
-msgstr ""
+msgstr "Ime programa arhiva (kratno ime)"
 
 #: ulng.rsoptarchiverquoteall
 msgid "Quote all names"
-msgstr ""
+msgstr "Postavi vsa imena v navednice"
 
 #: ulng.rsoptarchiverquotewithspace
 msgid "Quote names with spaces"
-msgstr ""
+msgstr "Postavi imena s presledki v navednice"
 
 #: ulng.rsoptarchiversinglefprocess
 msgid "Single filename to process"
-msgstr ""
+msgstr "Ime ene datoteke za obdelavo"
 
 #: ulng.rsoptarchivertargetsubdir
 msgid "Target subdirecory"
-msgstr ""
+msgstr "Ciljna podmapa"
 
 #: ulng.rsoptarchiveruseansi
 msgid "Use ANSI encoding"
-msgstr ""
+msgstr "Uporabi kodiranje ANSI"
 
 #: ulng.rsoptarchiveruseutf8
 msgid "Use UTF8 encoding"
-msgstr ""
+msgstr "Uporabi kodiranje UTF8"
 
 #: ulng.rsoptarchiverwheretosave
 msgid "Enter location and filename where to save archiver configuration"
 msgstr ""
+"Vpis mesta in imena datoteke, kamor naj se shranijo nastavitve pakirnika"
 
 #: ulng.rsoptarchivetypename
 msgid "Archive type name:"
@@ -12917,11 +13058,15 @@ msgstr "običajno, privzet način;abecedno (razdelek »Jezik« je vedno na vrhu)
 
 #: ulng.rsoptconfigtreestate
 msgid "Full expand;Full collapse"
-msgstr ""
+msgstr "Razpni vse ravni;Zloži vse ravni"
 
 #: ulng.rsoptdifferframeposition
-msgid "Active frame panel on left, inactive on right (legacy);Left frame panel on left, right on right"
-msgstr "Dejavno okno na levi, nedejavno na desni (opuščeno);Levo okno na levi, desno na desni"
+msgid ""
+"Active frame panel on left, inactive on right (legacy);Left frame panel on "
+"left, right on right"
+msgstr ""
+"Dejavno okno na levi, nedejavno na desni (opuščeno);Levo okno na levi, desno "
+"na desni"
 
 #: ulng.rsoptenterext
 msgid "Enter extension"
@@ -12941,8 +13086,12 @@ msgstr "plavajoče"
 
 #: ulng.rsopthotkeysadddeleteshortcutlong
 #, object-pascal-format
-msgid "Shortcut %s for cm_Delete will be registered, so it can be used to reverse this setting."
-msgstr "Bližnjica %s za ukaz cm_Delete bo vpisana, zato jo bo mogoče uporabiti za povrnitev te nastavitve."
+msgid ""
+"Shortcut %s for cm_Delete will be registered, so it can be used to reverse "
+"this setting."
+msgstr ""
+"Bližnjica %s za ukaz cm_Delete bo vpisana, zato jo bo mogoče uporabiti za "
+"povrnitev te nastavitve."
 
 #: ulng.rsopthotkeysaddhotkey
 #, object-pascal-format
@@ -12968,13 +13117,22 @@ msgstr "Ukaz"
 
 #: ulng.rsopthotkeysdeletetrashcanoverrides
 #, object-pascal-format
-msgid "Shortcut %s for cm_Delete has a parameter that overrides this setting. Do you want to change this parameter to use the global setting?"
-msgstr "Tipkovna bližnjica %s za ukaz cm_Delete ima določen parametre, ki prekliče nastavitev. Ali želite spremeniti ta parameter za uporabo splošnih nastavitev?"
+msgid ""
+"Shortcut %s for cm_Delete has a parameter that overrides this setting. Do "
+"you want to change this parameter to use the global setting?"
+msgstr ""
+"Tipkovna bližnjica %s za ukaz cm_Delete ima določen parametre, ki prekliče "
+"nastavitev. Ali želite spremeniti ta parameter za uporabo splošnih "
+"nastavitev?"
 
 #: ulng.rsopthotkeysdeletetrashcanparameterexists
 #, object-pascal-format
-msgid "Shortcut %s for cm_Delete needs to have a parameter changed to match shortcut %s. Do you want to change it?"
-msgstr "Tipkovna bližnjica %s za cm_Delete mora imeti parameter spremenjen tako, da ustreza tipkovni bližnjici %s. Ali jo želite spremeniti?"
+msgid ""
+"Shortcut %s for cm_Delete needs to have a parameter changed to match "
+"shortcut %s. Do you want to change it?"
+msgstr ""
+"Tipkovna bližnjica %s za cm_Delete mora imeti parameter spremenjen tako, da "
+"ustreza tipkovni bližnjici %s. Ali jo želite spremeniti?"
 
 #: ulng.rsopthotkeysdescription
 msgctxt "ulng.rsopthotkeysdescription"
@@ -13015,13 +13173,22 @@ msgstr "Dodaj bližnjico za brisanje datotek"
 
 #: ulng.rsopthotkeysshortcutfordeletealreadyassigned
 #, object-pascal-format
-msgid "For this setting to work with shortcut %s, shortcut %s must be assigned to cm_Delete but it is already assigned to %s. Do you want to change it?"
-msgstr "Za povezavo te možnosti s tipkovno bližnjico %s mora biti bližnjica %s določena za cm_Delete, vendar je povezana z možnostjo %s. Ali jo želite spremeniti?"
+msgid ""
+"For this setting to work with shortcut %s, shortcut %s must be assigned to "
+"cm_Delete but it is already assigned to %s. Do you want to change it?"
+msgstr ""
+"Za povezavo te možnosti s tipkovno bližnjico %s mora biti bližnjica %s "
+"določena za cm_Delete, a je povezana z %s. Ali želite bližnjico spremeniti?"
 
 #: ulng.rsopthotkeysshortcutfordeleteissequence
 #, object-pascal-format
-msgid "Shortcut %s for cm_Delete is a sequence shortcut for which a hotkey with reversed Shift cannot be assigned. This setting might not work."
-msgstr "Tipkovna bližnjica %s za cm_Delete  je tipkovna bližnjica zaporedja ukazov za katerega obratnega ukaza ni mogoče določiti. Nastavitev najverjetneje ne bo delovala."
+msgid ""
+"Shortcut %s for cm_Delete is a sequence shortcut for which a hotkey with "
+"reversed Shift cannot be assigned. This setting might not work."
+msgstr ""
+"Tipkovna bližnjica %s za cm_Delete  je tipkovna bližnjica zaporedja ukazov "
+"za katerega obratnega ukaza ni mogoče določiti. Nastavitev najverjetneje ne "
+"bo delovala."
 
 #: ulng.rsopthotkeysshortcutused
 msgid "Shortcut in use"
@@ -13035,7 +13202,7 @@ msgstr "Tipkovna bližnjica %s je že v uporabi."
 #: ulng.rsopthotkeysshortcutusedtext2
 #, object-pascal-format
 msgid "Change it to %s?"
-msgstr "Ali naj se zamenja v %s?"
+msgstr "Ali želite predmet zamenjati z %s?"
 
 #: ulng.rsopthotkeysusedby
 #, object-pascal-format
@@ -13086,7 +13253,7 @@ msgstr "Seznam hitrih map"
 
 #: ulng.rsoptionseditordirectoryhotlistextra
 msgid "Directory Hotlist Extra"
-msgstr ""
+msgstr "Dodatni seznam hitrih map"
 
 #: ulng.rsoptionseditordraganddrop
 msgid "Drag & drop"
@@ -13102,7 +13269,7 @@ msgstr "Priljubljeni zavihki"
 
 #: ulng.rsoptionseditorfileassicextra
 msgid "File associations extra"
-msgstr "Dodatne programske &vezi"
+msgstr "Dodatne programske vezi"
 
 #: ulng.rsoptionseditorfileassoc
 msgid "File associations"
@@ -13133,7 +13300,7 @@ msgstr "Pogled datotek"
 
 #: ulng.rsoptionseditorfilesviewscomplement
 msgid "Files views extra"
-msgstr ""
+msgstr "Dodatni pogledi datotek"
 
 #: ulng.rsoptionseditorfiletypes
 msgctxt "ulng.rsoptionseditorfiletypes"
@@ -13231,11 +13398,11 @@ msgstr "Orodna vrstica"
 
 #: ulng.rsoptionseditortoolbarextra
 msgid "Toolbar Extra"
-msgstr ""
+msgstr "Dodatna orodna vrstica"
 
 #: ulng.rsoptionseditortoolbarmiddle
 msgid "Toolbar Middle"
-msgstr ""
+msgstr "Sredinska orodna vrstica"
 
 #: ulng.rsoptionseditortools
 msgid "Tools"
@@ -13263,12 +13430,20 @@ msgid "Left button;Right button;"
 msgstr "z desnim gumbom;z levim gumbom;"
 
 #: ulng.rsoptnewfilesposition
-msgid "at the top of the file list;after directories (if directories are sorted before files);at sorted position;at the bottom of the file list"
-msgstr "na vrhu seznama datotek;za mapami (če so mape razvrščene pred datotekami);na mestu razvrščanja;na dnu seznama datotek"
+msgid ""
+"at the top of the file list;after directories (if directories are sorted "
+"before files);at sorted position;at the bottom of the file list"
+msgstr ""
+"na vrhu seznama datotek;za mapami (če so mape razvrščene pred datotekami);na "
+"mestu razvrščanja;na dnu seznama datotek"
 
 #: ulng.rsoptpersonalizedfilesizeformat
-msgid "Personalized float;Personalized byte;Personalized kilobyte;Personalized megabyte;Personalized gigabyte;Personalized terabyte"
+msgid ""
+"Personalized float;Personalized byte;Personalized kilobyte;Personalized "
+"megabyte;Personalized gigabyte;Personalized terabyte"
 msgstr ""
+"prirejeno plavajoče;prirejeni bajt;prirejeni kilobajt;prirejeni megabajt;"
+"prirejeni gigabajt;prirejeni terabajt"
 
 #: ulng.rsoptpluginalreadyassigned
 #, object-pascal-format
@@ -13277,7 +13452,7 @@ msgstr "Vstavek %s je že vezan na naslednje pripone datotek:"
 
 #: ulng.rsoptplugindisable
 msgid "D&isable"
-msgstr "Onemogoči"
+msgstr "&Onemogoči"
 
 #: ulng.rsoptpluginenable
 msgctxt "ulng.rsoptpluginenable"
@@ -13301,11 +13476,11 @@ msgstr "Ime datoteke"
 
 #: ulng.rsoptpluginshowbyextension
 msgid "By extension"
-msgstr ""
+msgstr "po priponi"
 
 #: ulng.rsoptpluginshowbyplugin
 msgid "By Plugin"
-msgstr ""
+msgstr "po vstavku"
 
 #: ulng.rsoptpluginsname
 msgctxt "ulng.rsoptpluginsname"
@@ -13314,7 +13489,7 @@ msgstr "Ime"
 
 #: ulng.rsoptpluginsortonlywhenbyextension
 msgid "Sorting WCX plugins is only possible when showing plugins by extension!"
-msgstr ""
+msgstr "Razvrščanje vstavkov WCX je mogoče le pri razvrstitvi po priponi!"
 
 #: ulng.rsoptpluginsregisteredfor
 msgctxt "ulng.rsoptpluginsregisteredfor"
@@ -13323,11 +13498,11 @@ msgstr "Vpisano za"
 
 #: ulng.rsoptpluginsselectlualibrary
 msgid "Select Lua library file"
-msgstr ""
+msgstr "Izbor knjižnične datoteke Lua"
 
 #: ulng.rsoptrenamingtooltipfiletype
 msgid "Renaming tooltip file type"
-msgstr ""
+msgstr "Preimenovanje vrste datotek orodnih namigov"
 
 #: ulng.rsoptsearchcase
 msgid "&Sensitive;&Insensitive"
@@ -13338,22 +13513,36 @@ msgid "&Files;Di&rectories;Files a&nd Directories"
 msgstr "&Datoteke;&Mape;Datoteke &in Mape"
 
 #: ulng.rsoptsearchopt
-msgid "&Hide filter panel when not focused;Keep saving setting modifications for next session"
-msgstr "&Skrij okno filtra, kadar ni v žarišču;Nadaljuj s shranjevanjem sprememb za naslednjo sejo"
+msgid ""
+"&Hide filter panel when not focused;Keep saving setting modifications for "
+"next session"
+msgstr ""
+"&Skrij okno filtra, kadar ni v žarišču;Nadaljuj s shranjevanjem sprememb za "
+"naslednjo sejo"
 
 #: ulng.rsoptsortcasesens
-msgid "not case sensitive;according to locale settings (aAbBcC);first upper then lower case (ABCabc)"
-msgstr "ne upošteva velikosti črk;upošteva glede na jezikovno nastavitev sistema (aAbBcC);najprej velike, nato male črke (ABCabc)"
+msgid ""
+"not case sensitive;according to locale settings (aAbBcC);first upper then "
+"lower case (ABCabc)"
+msgstr ""
+"ne upošteva velikosti črk;upošteva glede na jezikovno nastavitev sistema "
+"(aAbBcC);najprej velike, nato male črke (ABCabc)"
 
 #: ulng.rsoptsortfoldermode
-msgid "sort by name and show first;sort like files and show first;sort like files"
-msgstr "razvrsti po imenu in najprej pokaži; razvrsti kot datoteke in najprej pokaži; razvrsti kot datoteke"
+msgid ""
+"sort by name and show first;sort like files and show first;sort like files"
+msgstr ""
+"razvrsti po imenu in najprej pokaži; razvrsti kot datoteke in najprej "
+"pokaži; razvrsti kot datoteke"
 
 #: ulng.rsoptsortmethod
-#, fuzzy
-#| msgid "Alphabetical, considering accents;Natural sorting: alphabetical and numbers"
-msgid "Alphabetical, considering accents;Alphabetical with special characters sort;Natural sorting: alphabetical and numbers;Natural with special characters sort"
-msgstr "abecedno, upoštevajoč znakovne naglase;naravno, številčno in abecedno"
+msgid ""
+"Alphabetical, considering accents;Alphabetical with special characters sort;"
+"Natural sorting: alphabetical and numbers;Natural with special characters "
+"sort"
+msgstr ""
+"abecedno, upoštevajoč znakovne naglase;abecedno, upoštevajoč posebne znake;"
+"naravno, številčno in abecedno;naravno z razvrščanjem posebnih znakov"
 
 #: ulng.rsopttabsposition
 msgid "Top;Bottom;"
@@ -13364,93 +13553,110 @@ msgid "S&eparator;Inte&rnal command;E&xternal command;Men&u"
 msgstr "&Ločilnik;&Notranji ukaz;&Zunanji ukaz;&Meni"
 
 #: ulng.rsopttooltipconfiguresavetochange
-msgid "To change file type tooltip configuration, either APPLY or DELETE current editing one"
+msgid ""
+"To change file type tooltip configuration, either APPLY or DELETE current "
+"editing one"
 msgstr ""
+"Za spreminjanje nastavitev orodnih namigov vrste datotek, uveljavite ali pa "
+"izbrišite trenutne"
 
 #: ulng.rsopttooltipfiletype
 msgid "Tooltip file type name:"
-msgstr "Ime &kategorije:"
+msgstr "Ime vrste datoteke orodnih namigov:"
 
 #: ulng.rsopttooltipfiletypealreadyexists
 #, object-pascal-format
 msgid "\"%s\" already exists!"
-msgstr ""
+msgstr "Predmet »%s« že obstaja!"
 
 #: ulng.rsopttooltipfiletypeconfirmdelete
 #, object-pascal-format
 msgctxt "ulng.rsopttooltipfiletypeconfirmdelete"
 msgid "Are you sure you want to delete: \"%s\"?"
-msgstr ""
+msgstr "Ali ste prepričani, da želite izbrisati »%s«?"
 
 #: ulng.rsopttooltipfiletypedefaultexportfilename
 msgid "Exported tooltip file type configuration"
-msgstr ""
+msgstr "Izvožena datoteka nastavitev orodnih namigov"
 
 #: ulng.rsopttooltipfiletypeexportcaption
 msgid "Export tooltip file type configuration"
-msgstr ""
+msgstr "Izvozi datoteko nastavitev orodnih namigov"
 
 #: ulng.rsopttooltipfiletypeexportdone
 #, object-pascal-format
 msgctxt "ulng.rsopttooltipfiletypeexportdone"
 msgid "Exportation of %d elements to file \"%s\" completed."
-msgstr ""
+msgstr "Izvoz %d predmetov v datoteko »%s« je končan."
 
 #: ulng.rsopttooltipfiletypeexportprompt
 msgctxt "ulng.rsopttooltipfiletypeexportprompt"
 msgid "Select the one(s) you want to export"
-msgstr ""
+msgstr "Izberite vnose, ki jih želite izvoziti"
 
 #: ulng.rsopttooltipfiletypeimportcaption
 msgid "Import tooltip file type configuration"
-msgstr ""
+msgstr "Uvozi datoteko nastavitev orodnih namigov"
 
 #: ulng.rsopttooltipfiletypeimportdone
 #, object-pascal-format
 msgctxt "ulng.rsopttooltipfiletypeimportdone"
 msgid "Importation of %d elements from file \"%s\" completed."
-msgstr ""
+msgstr "Uvoz %d predmetov iz datoteke »%s« je končan."
 
 #: ulng.rsopttooltipfiletypeimportfile
 msgid "Select the file to import tooltip file type configuration(s)"
-msgstr ""
+msgstr "Izbor datoteke za uvoz nastavitev orodnih namigov vrste datoteke"
 
 #: ulng.rsopttooltipfiletypeimportprompt
 msgctxt "ulng.rsopttooltipfiletypeimportprompt"
 msgid "Select the one(s) you want to import"
-msgstr ""
+msgstr "Izberite vnose, ki jih želite uvoziti"
 
 #: ulng.rsopttooltipfiletypewheretosave
-msgid "Enter location and filename where to save tooltip file type configuration"
+msgid ""
+"Enter location and filename where to save tooltip file type configuration"
 msgstr ""
+"Vpis mesta in imena datoteke, kamor naj se shrani datoteka nastavitev "
+"orodnih namigov"
 
 #: ulng.rsopttooltipsfiletypename
 msgid "Tooltip file type name"
-msgstr ""
+msgstr "Ime vrste datoteke orodnega namiga"
 
 #: ulng.rsopttypeofduplicatedrename
-msgid "DC legacy - Copy (x) filename.ext;Windows - filename (x).ext;Other - filename(x).ext"
-msgstr "opuščen slog DC – Kopija (x) ime_datoteke.pri;slog Windows – ime datoteke (x).pri;skrčen slog – ime_datoteke(x).pri"
+msgid ""
+"DC legacy - Copy (x) filename.ext;Windows - filename (x).ext;Other - "
+"filename(x).ext"
+msgstr ""
+"opuščen slog DC – Kopija (x) ime_datoteke.pri;slog Windows – ime datoteke "
+"(x).pri;skrčen slog – ime_datoteke(x).pri"
 
 #: ulng.rsoptupdatedfilesposition
-msgid "don't change position;use the same setting as for new files;to sorted position"
-msgstr "ne spremeni mesta;uporabi enake nastavitve kot za nove datoteke;na razvrščeno mesto"
+msgid ""
+"don't change position;use the same setting as for new files;to sorted "
+"position"
+msgstr ""
+"ne spremeni mesta;uporabi enake nastavitve kot za nove datoteke;na "
+"razvrščeno mesto"
 
 #: ulng.rspluginfilenamestylelist
-msgid "With complete absolute path;Path relative to %COMMANDER_PATH%;Relative to the following"
-msgstr ""
+msgid ""
+"With complete absolute path;Path relative to %COMMANDER_PATH%;Relative to "
+"the following"
+msgstr "z absolutno potjo;s potjo glede na %COMMANDER_PATH%;s potjo glede na"
 
 #: ulng.rspluginsearchcontainscasesenstive
 msgid "contains(case)"
-msgstr ""
+msgstr "vsebuje (znak)"
 
 #: ulng.rspluginsearchcontainsnotcase
 msgid "contains"
-msgstr ""
+msgstr "vsebuje"
 
 #: ulng.rspluginsearchequalcasesensitive
 msgid "=(case)"
-msgstr ""
+msgstr "= (znak)"
 
 #: ulng.rspluginsearchequalnotcase
 msgctxt "ulng.rspluginsearchequalnotcase"
@@ -13460,19 +13666,19 @@ msgstr "="
 #: ulng.rspluginsearchfieldnotfound
 #, object-pascal-format
 msgid "Field \"%s\" not found!"
-msgstr ""
+msgstr "Polja »%s« ni mogoče najti!"
 
 #: ulng.rspluginsearchnotcontainscasesenstive
 msgid "!contains(case)"
-msgstr ""
+msgstr "!vsebuje (znak)"
 
 #: ulng.rspluginsearchnotcontainsnotcase
 msgid "!contains"
-msgstr ""
+msgstr "!vsebuje"
 
 #: ulng.rspluginsearchnotequacasesensitive
 msgid "!=(case)"
-msgstr ""
+msgstr "!=(znak)"
 
 #: ulng.rspluginsearchnotequalnotcase
 msgctxt "ulng.rspluginsearchnotequalnotcase"
@@ -13481,22 +13687,22 @@ msgstr "!="
 
 #: ulng.rspluginsearchnotregexpr
 msgid "!regexp"
-msgstr ""
+msgstr "!logični izraz"
 
 #: ulng.rspluginsearchpluginnotfound
 #, object-pascal-format
 msgid "Plugin \"%s\" not found!"
-msgstr ""
+msgstr "Vstavka »%s« ni mogoče najti!"
 
 #: ulng.rspluginsearchregexpr
 msgid "regexp"
-msgstr ""
+msgstr "logični izraz"
 
 #: ulng.rspluginsearchunitnotfoundforfield
 #, object-pascal-format
 msgctxt "ulng.rspluginsearchunitnotfoundforfield"
 msgid "Unit \"%s\" not found for field \"%s\" !"
-msgstr ""
+msgstr "Enote »%s« za polje »%s« ni mogoče najti!"
 
 #: ulng.rspropscontains
 #, object-pascal-format
@@ -13524,7 +13730,7 @@ msgstr "Mapa"
 
 #: ulng.rspropsmultipletypes
 msgid "Multiple types"
-msgstr ""
+msgstr "Več vrst"
 
 #: ulng.rspropsnmdpipe
 msgid "Named pipe"
@@ -13568,7 +13774,7 @@ msgid ""
 "We need that one to be completed before to launch a new one."
 msgstr ""
 "Iskanje datotek z uporabo vstavka DSX je že v teku.\n"
-"Pred začetkom novega iskanja z vstavkom mora biti predhodno končano."
+"Pred začetkom zagona novega iskanja mora biti predhodno končano."
 
 #: ulng.rssearchwithwdxplugininprogress
 msgid ""
@@ -13576,7 +13782,7 @@ msgid ""
 "We need that one to be completed before to launch a new one."
 msgstr ""
 "Iskanje datotek z uporabo vstavka WDX je že v teku.\n"
-"Pred začetkom novega iskanja z vstavkom mora biti predhodno končano."
+"Pred začetkom zagona novega iskanja mora biti predhodno končano."
 
 #: ulng.rsselectdir
 msgid "Select a directory"
@@ -13585,6 +13791,7 @@ msgstr "Izbor mape"
 #: ulng.rsselectduplicatemethod
 msgid "Newest;Oldest;Largest;Smallest;First in group;Last in group"
 msgstr ""
+"najnovejše;najstarejše;največje;najmanjše;prvi v skupini;zadnji v skupini"
 
 #: ulng.rsselectyoufindfileswindow
 msgid "Select your window"
@@ -13616,15 +13823,15 @@ msgstr "Ukaz"
 
 #: ulng.rssimpleworderror
 msgid "Error"
-msgstr ""
+msgstr "Napaka"
 
 #: ulng.rssimplewordfailedexcla
 msgid "Failed!"
-msgstr ""
+msgstr "Opravilo je spodletelo!"
 
 #: ulng.rssimplewordfalse
 msgid "False"
-msgstr ""
+msgstr "Napak"
 
 #: ulng.rssimplewordfilename
 msgctxt "ulng.rssimplewordfilename"
@@ -13649,15 +13856,15 @@ msgstr "Rezultat"
 
 #: ulng.rssimplewordsuccessexcla
 msgid "Success!"
-msgstr ""
+msgstr "Uspešno zaključeno!"
 
 #: ulng.rssimplewordtrue
 msgid "True"
-msgstr ""
+msgstr "Prav"
 
 #: ulng.rssimplewordvariable
 msgid "Variable"
-msgstr ""
+msgstr "Spremenljivka"
 
 #: ulng.rssimplewordworkdir
 msgid "WorkDir"
@@ -13702,11 +13909,19 @@ msgstr "Ni mogoče razdeliti datoteke!"
 
 #: ulng.rssplitmsgmanyparts
 msgid "The number of parts is more than 100! Continue?"
-msgstr "Število delov presega vrednost 100! Ali naj se opravilo vseeno izvede?"
+msgstr ""
+"Število delov presega vrednost 100! Ali želite opravilo vseeno izvesti?"
 
 #: ulng.rssplitpredefinedsizes
-msgid "Automatic;1457664B - 3.5\" High Density 1.44M;1213952B - 5.25\" High Density 1.2M;730112B - 3.5\" Double Density 720K;362496B - 5.25\" Double Density 360K;98078KB - ZIP 100MB;650MB - CD 650MB;700MB - CD 700MB;4482MB - DVD+R"
-msgstr "Samodejno;1457664B – 3.5\" Visoke gostote 1.44M;1213952B – 5.25\" Visoke gostote 1.2M;730112B – 3.5\" Dvojne gostote 720K;362496B – 5.25\" Dvojne gostote 360K;98078KB – ZIP 100MB;650MB – CD 650MB;700MB – CD 700MB;4482MB - DVD+R"
+msgid ""
+"Automatic;1457664B - 3.5\" High Density 1.44M;1213952B - 5.25\" High Density "
+"1.2M;730112B - 3.5\" Double Density 720K;362496B - 5.25\" Double Density "
+"360K;98078KB - ZIP 100MB;650MB - CD 650MB;700MB - CD 700MB;4482MB - DVD+R"
+msgstr ""
+"Samodejno;1457664B – 3.5\" Visoke gostote 1.44M;1213952B – 5.25\" Visoke "
+"gostote 1.2M;730112B – 3.5\" Dvojne gostote 720K;362496B – 5.25\" Dvojne "
+"gostote 360K;98078KB – ZIP 100MB;650MB – CD 650MB;700MB – CD 700MB;4482MB - "
+"DVD+R"
 
 #: ulng.rssplitseldir
 msgid "Select directory:"
@@ -13798,7 +14013,9 @@ msgstr "Golo besedilo"
 
 #: ulng.rstabsactionondoubleclickchoices
 msgid "Do nothing;Close tab;Access Favorite Tabs;Tabs popup menu"
-msgstr "ne naredi ničesar;zapri zavihek;dostopi do priljubljenih zavihkov;pokaži pojavni meni zavihkov"
+msgstr ""
+"ne naredi ničesar;zapri zavihek;dostopi do priljubljenih zavihkov;pokaži "
+"pojavni meni zavihkov"
 
 #: ulng.rstimeunitday
 msgid "Day(s)"
@@ -13870,10 +14087,19 @@ msgstr "Terminal"
 #: ulng.rstooltiphidetimeoutlist
 msgid "System default;1 sec;2 sec;3 sec;5 sec;10 sec;30 sec;1 min;Never hide"
 msgstr ""
+"Sistemsko privzeto;1 sek;2 sek;3 sek;5 sek;10 sek;30 sek;1 min;Nikoli ne "
+"skrij"
 
 #: ulng.rstooltipmodelist
-msgid "Combine DC and system tooltip, DC first (legacy);Combine DC and system tooltip, system first;Show DC tooltip when possible and system when not;Show DC tooltip only;Show system tooltip only"
+msgid ""
+"Combine DC and system tooltip, DC first (legacy);Combine DC and system "
+"tooltip, system first;Show DC tooltip when possible and system when not;Show "
+"DC tooltip only;Show system tooltip only"
 msgstr ""
+"Združi sistemske namige in namige DC, najprej namigi DC (opuščeno);Združi "
+"sistemske namige in namige DC, najprej sistemski namigi;Pokaži namige DC, "
+"kadar je to mogoče, in sistemske, kadar ni;Pokaži samo namige DC;Pokaži samo "
+"sistemske namige"
 
 #: ulng.rstoolviewer
 msgctxt "ulng.rstoolviewer"
@@ -13882,8 +14108,13 @@ msgstr "Pregledovalnik"
 
 #: ulng.rsunhandledexceptionmessage
 #, object-pascal-format
-msgid "Please report this error to the bug tracker with a description of what you were doing and the following file:%sPress %s to continue or %s to abort the program."
-msgstr "Pošljite poročilo napake s podrobnim opisom in datoteko: %s. Pritisnite %s za nadaljevanje ali pa %s za končanje programa."
+msgid ""
+"Please report this error to the bug tracker with a description of what you "
+"were doing and the following file:%sPress %s to continue or %s to abort the "
+"program."
+msgstr ""
+"Pošljite poročilo napake s podrobnim opisom in datoteko: %s. Pritisnite %s "
+"za nadaljevanje ali pa %s za končanje programa."
 
 #: ulng.rsvarbothpanelactivetoinactive
 msgid "Both panels, from active to inactive"
@@ -13914,16 +14145,17 @@ msgid "Help with \"%\" variables"
 msgstr "Pomoč z uporabo spremenljivk »%«"
 
 #: ulng.rsvarinputparam
-msgid "Will request request user to enter a parameter with a default suggested value"
+msgid ""
+"Will request request user to enter a parameter with a default suggested value"
 msgstr "Zahteva od uporabnika vpis parametra s predlagano privzeto vrednostjo"
 
 #: ulng.rsvarlastdircurrentpath
 msgid "Last directory of panel's path"
-msgstr ""
+msgstr "Zadnja mapa poti okna"
 
 #: ulng.rsvarlastdirofpath
 msgid "Last directory of file's path"
-msgstr ""
+msgstr "Zadnja mapa poti datoteke"
 
 #: ulng.rsvarleftpanel
 msgid "Left panel"
@@ -13935,7 +14167,8 @@ msgstr "Začasno ime datoteke seznama imen datotek"
 
 #: ulng.rsvarlistfullfilename
 msgid "Temporary filename of list of complete filenames (path+filename)"
-msgstr "Začasno ime datoteke popolnega seznama imen datotek (pot in ime datoteke)"
+msgstr ""
+"Začasno ime datoteke popolnega seznama imen datotek (pot in ime datoteke)"
 
 #: ulng.rsvarlistinutf16
 msgid "Filenames in list in UTF-16 with BOM"
@@ -13974,16 +14207,23 @@ msgid "Path, without ending delimiter"
 msgstr "Pot brez končnega ločilnika"
 
 #: ulng.rsvarpercentchangetopound
-msgid "From here to the end of the line, the percent-variable indicator is the \"#\" sign"
-msgstr "Od kazalke do konca vrstice je določilnik spremenljivke odstotka znak »#«"
+msgid ""
+"From here to the end of the line, the percent-variable indicator is the "
+"\"#\" sign"
+msgstr ""
+"Od kazalke do konca vrstice je določilnik spremenljivke odstotka znak » # «"
 
 #: ulng.rsvarpercentsign
 msgid "Return the percent sign"
 msgstr "Vrne znak za odstotek"
 
 #: ulng.rsvarpoundchangetopercent
-msgid "From here to the end of the line, the percent-variable indicator is back the \"%\" sign"
-msgstr "Od kazalke do konca vrstice je določilnik spremenljivke odstotka spet znak »%«"
+msgid ""
+"From here to the end of the line, the percent-variable indicator is back the "
+"\"%\" sign"
+msgstr ""
+"Od kazalke do konca vrstice je določilnik spremenljivke odstotka spet znak » "
+"% «"
 
 #: ulng.rsvarprependelement
 msgid "Prepend each name with \"-a \" or what you want"
@@ -14007,7 +14247,7 @@ msgstr "Polna pot druge izbrane datoteke v desnem oknu"
 
 #: ulng.rsvarshowcommandprior
 msgid "Show command prior execute"
-msgstr "Pokaži ukaz pred izvedbo"
+msgstr "Pokaži ukaz pred zagonom"
 
 #: ulng.rsvarsimplemessage
 msgid "%[Simple message]"
@@ -14056,7 +14296,7 @@ msgstr "Omrežje"
 
 #: ulng.rsvfsrecyclebin
 msgid "Recycle Bin"
-msgstr ""
+msgstr "Smetnjak"
 
 #: ulng.rsviewabouttext
 msgid "Internal Viewer of Double Commander."
@@ -14087,7 +14327,7 @@ msgstr "%s ni mogoče najti!"
 
 #: ulng.rsviewpainttoolslist
 msgid "Pen;Rect;Ellipse"
-msgstr ""
+msgstr "PIsalo;Pravokotnik;Elipsa"
 
 #: ulng.rsviewwithexternalviewer
 msgid "with external viewer"
@@ -14109,5 +14349,4 @@ msgstr "Zamenjava ni bila izvršena."
 #: umaincommands.rsfavoritetabs_setupnotexist
 #, object-pascal-format
 msgid "No setup named \"%s\""
-msgstr ""
-
+msgstr "Ni nastavitve z imenom »%s«"
