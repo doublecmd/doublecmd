@@ -1019,6 +1019,8 @@ object frmStartingSplash: TfrmStartingSplash
   OnCreate = FormCreate
   Position = poScreenCenter
   LCLVersion = '2.0.12.0'
+  OnCreate = FormCreate
+  OnHide = FormHide
   object pnlInfo: TPanel
     AnchorSideLeft.Control = Owner
     AnchorSideTop.Control = Owner

@@ -230,13 +230,6 @@ begin
       // in Application.CreateForm above.
       uKeyboard.HookKeyboardLayoutChanged;
 
-      if (gSplashForm) and (not CommandLineParams.NoSplash) then
-      begin
-        // We may now remove the starting splash screen, most of the application has been started now
-        frmStartingSplash.Close;
-        frmStartingSplash.Release;
-      end;
-
       frmMain.ShowOnTop;
       {$IFDEF LCLCOCOA}
       frmMain.RestoreWindow;
