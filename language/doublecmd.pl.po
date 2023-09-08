@@ -346,6 +346,7 @@ msgid "Verify checksum..."
 msgstr "Sprawdź sumę kontrolną..."
 
 #: tfrmchooseencoding.caption
+msgctxt "tfrmchooseencoding.caption"
 msgid "Encoding"
 msgstr "Kodowanie"
 
@@ -1305,6 +1306,7 @@ msgid "Contains:"
 msgstr "Zawartość:"
 
 #: tfrmfileproperties.lblcreatedstr.caption
+msgctxt "tfrmfileproperties.lblcreatedstr.caption"
 msgid "Created:"
 msgstr "Utworzony:"
 
@@ -4110,6 +4112,7 @@ msgid "Use &Gradient Indicator"
 msgstr "Użyj &gradientu kolorów wskaźnika"
 
 #: tfrmoptionscolors.dbbinarymode.caption
+msgctxt "tfrmoptionscolors.dbbinarymode.caption"
 msgid "Binary Mode"
 msgstr "Tryb binarny"
 
@@ -4135,6 +4138,7 @@ msgid "Background:"
 msgstr "Tło:"
 
 #: tfrmoptionscolors.lblbooktext.caption
+msgctxt "tfrmoptionscolors.lblbooktext.caption"
 msgid "Text:"
 msgstr "Tekst:"
 
@@ -4155,6 +4159,7 @@ msgid "Background 1:"
 msgstr "Tło 1:"
 
 #: tfrmoptionscolors.lblimagebackground2.caption
+msgctxt "tfrmoptionscolors.lblimagebackground2.caption"
 msgid "Background 2:"
 msgstr "Tło 2:"
 
@@ -4179,10 +4184,12 @@ msgid "Left:"
 msgstr "Z lewej:"
 
 #: tfrmoptionscolors.lblmodified.caption
+msgctxt "tfrmoptionscolors.lblmodified.caption"
 msgid "Modified:"
 msgstr "Zmodyfikowane:"
 
 #: tfrmoptionscolors.lblmodifiedbinary.caption
+msgctxt "tfrmoptionscolors.lblmodifiedbinary.caption"
 msgid "Modified:"
 msgstr "Zmodyfikowane:"
 
@@ -4191,6 +4198,7 @@ msgid "Right:"
 msgstr "Z prawej:"
 
 #: tfrmoptionscolors.lblsuccess.caption
+msgctxt "tfrmoptionscolors.lblsuccess.caption"
 msgid "Success:"
 msgstr "Powodzenie:"
 
@@ -6093,6 +6101,7 @@ msgid "Background:"
 msgstr "Tło"
 
 #: tfrmoptionsfilepanelscolors.lblpathactivetext.caption
+msgctxt "tfrmoptionsfilepanelscolors.lblpathactivetext.caption"
 msgid "Text Color:"
 msgstr "Kolor tekstu:"
 
@@ -9207,10 +9216,12 @@ msgid "Full Screen"
 msgstr "Pełny ekran"
 
 #: tfrmviewer.actgotoline.caption
+msgctxt "tfrmviewer.actgotoline.caption"
 msgid "Goto Line..."
 msgstr "Przejdź do wiersza..."
 
 #: tfrmviewer.actgotoline.hint
+msgctxt "tfrmviewer.actgotoline.hint"
 msgid "Goto Line"
 msgstr "Przejdź do wiersza"
 
@@ -9397,6 +9408,7 @@ msgid "Stretch only large"
 msgstr "Rozciągnij tylko duże"
 
 #: tfrmviewer.actundo.caption
+msgctxt "tfrmviewer.actundo.caption"
 msgid "Undo"
 msgstr "Cofnij"
 
