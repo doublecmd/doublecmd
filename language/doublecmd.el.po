@@ -1342,7 +1342,7 @@ msgstr "Περιεχόμενα:"
 #, fuzzy
 msgctxt "tfrmfileproperties.lblcreatedstr.caption"
 msgid "Created:"
-msgstr "Δημιουργήθηκε:"         
+msgstr "Δημιουργήθηκε:"
 
 #: tfrmfileproperties.lblexec.caption
 msgctxt "TFRMFILEPROPERTIES.LBLEXEC.CAPTION"
@@ -1381,7 +1381,7 @@ msgstr "Ομάδα"
 #: tfrmfileproperties.lbllastaccessstr.caption
 msgctxt "tfrmfileproperties.lbllastaccessstr.caption"
 msgid "Accessed:"
-msgstr "Τελευταία προσπέλαση:" 
+msgstr "Τελευταία προσπέλαση:"
 
 #: tfrmfileproperties.lbllastmodifstr.caption
 msgctxt "tfrmfileproperties.lbllastmodifstr.caption"
@@ -1418,7 +1418,7 @@ msgstr "Ανάγνωση"
 #: tfrmfileproperties.lblsizeondiskstr.caption
 msgid "Size on disk:"
 msgstr "Μέγεθος στο μέσο αποθήκευσης:"
- 
+
 #: tfrmfileproperties.lblsizestr.caption
 msgctxt "TFRMFILEPROPERTIES.LBLSIZESTR.CAPTION"
 msgid "Size:"
@@ -2497,7 +2497,7 @@ msgstr "Φόρτωση Λίστας"
 
 #: tfrmmain.actloadlist.hint
 msgid "Load list of files/folders from the specified text file"
-msgstr "Φόρτωση λίστας αρχείων/φακέλων από το καθορισμένο αρχείο κειμένου"      
+msgstr "Φόρτωση λίστας αρχείων/φακέλων από το καθορισμένο αρχείο κειμένου"
 
 #: tfrmmain.actloadselectionfromclip.caption
 msgid "Load Selection from Clip&board"
