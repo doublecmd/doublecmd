@@ -41,6 +41,7 @@ type
     FFileSource: IFileSource;
     FViewer: TfrmViewer;
     FFileName: String;
+    FLastFocusedControl: TWinControl;
   private
     procedure LoadFile(const aFileName: String);
     procedure OnChangeFileView(Sender: TObject);
@@ -138,10 +139,7 @@ begin
 end;
 
 procedure TQuickViewPanel.LoadFile(const aFileName: String);
-var
-  lastFocusedControl: TWinControl;
 begin
-  lastFocusedControl:= TCustomForm(self.GetTopParent).ActiveControl;
   if (not FFirstFile) then
   begin
     FViewer.LoadNextFile(aFileName);
@@ -153,7 +151,10 @@ begin
     FViewer.Show;
   end;
   // Viewer can steal focus, so restore it
-  if Assigned(lastFocusedControl) then lastFocusedControl.SetFocus;
+  if Assigned(FLastFocusedControl) then
+    FLastFocusedControl.SetFocus
+  else if not FFileView.Focused then
+    FFileView.SetFocus;
 end;
 
 procedure TQuickViewPanel.OnChangeFileView(Sender: TObject);
@@ -169,6 +170,7 @@ var
 begin
   fullPath:= EmptyStr;
   showMsg:= EmptyStr;
+  FLastFocusedControl:= TCustomForm(Self.GetTopParent).ActiveControl;
   try
     if not Assigned(aFile) then
       raise EAbort.Create(rsMsgErrNotSupported);
