@@ -7,7 +7,7 @@ uses
   fpmkunit, SysUtils, Classes;
 
 const
-  AllMyUnixOSes = AllUnixOSes - [Darwin];
+  AllMyUnixOSes = AllUnixOSes - [Darwin, Haiku];
 
 const
   CommonComponents: array[1..10] of String =
@@ -43,6 +43,11 @@ const
     'plugins/wfx/samba/src/samba.lpi',
     'plugins/wlx/WlxMplayer/src/wlxMplayer.lpi',
     'plugins/dsx/DSXLocate/src/DSXLocate.lpi'
+  );
+
+  HaikuPlugins: array[1..1] of String =
+  (
+    'plugins/wcx/cpio/src/cpio.lpi'
   );
 
   DarwinPlugins: array[1..2] of String =
@@ -214,6 +219,12 @@ begin
   begin
     for I:= Low(UnixPlugins) to High(UnixPlugins) do
       BuildEngine.ExecuteCommand(FLazBuild, SetDirSeparators(UnixPlugins[I]) + FLazBuildParams);
+  end;
+
+  if Defaults.OS = Haiku then
+  begin
+    for I:= Low(HaikuPlugins) to High(HaikuPlugins) do
+      BuildEngine.ExecuteCommand(FLazBuild, SetDirSeparators(HaikuPlugins[I]) + FLazBuildParams);
   end;
 
   if Defaults.OS = Darwin then
