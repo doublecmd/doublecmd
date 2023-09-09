@@ -234,8 +234,8 @@ var
   NewPath: String;
   AClass: TFileSourceClass;
 begin
-  NewPath:= NormalizePathDelimiters(FPathEdit.Text);
-  NewPath:= ReplaceEnvVars(ReplaceTilde(NewPath));
+  NewPath:= ReplaceEnvVars(ReplaceTilde(FPathEdit.Text));
+  NewPath:= mbExpandFileName(Trim(NewPath));
   AClass:= gVfsModuleList.GetFileSource(NewPath);
 
   // Check file name on the local file system only
