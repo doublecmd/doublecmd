@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    WCX plugin for working with *.zip, *.gz, *.tar, *.tgz archives
 
-   Copyright (C) 2007-2022 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2007-2023 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
@@ -40,6 +40,7 @@ type
 
   TAbZipKitEx = class (TAbZipKit)
   private
+    FNeedPassword: Boolean;
     FOperationResult: LongInt;
     FChangeVolProcW: TChangeVolProcW;
     FProcessDataProcW : TProcessDataProcW;
@@ -88,7 +89,10 @@ implementation
 
 uses
   SysUtils, LazUTF8, ZipConfDlg, AbBrowse, DCConvertEncoding, DCOSUtils, ZipOpt,
-  ZipLng;
+  ZipLng, ZipCache;
+
+var
+  PasswordCache: TPasswordCache;
 
 threadvar
   gProcessDataProcW : TProcessDataProcW;
@@ -170,6 +174,7 @@ begin
 
     Arc.TarAutoHandle := gTarAutoHandle;
     Arc.OpenArchive(UTF16ToUTF8(UnicodeString(ArchiveData.ArcName)));
+    Arc.Password := PasswordCache.GetPassword(Arc.FileName);
     Arc.Tag := 0;
     Result := TArcHandle(Arc);
   except
@@ -243,6 +248,12 @@ begin
       begin
         Arc.TestItemAt(Arc.Tag);
 
+        if (Arc.FNeedPassword) and (Arc.FOperationResult = E_SUCCESS) and Arc.Items[Arc.Tag].IsEncrypted then
+        begin
+          Arc.FNeedPassword:= False;
+          PasswordCache.SetPassword(Arc.FileName, Arc.Password);
+        end;
+
         // Show progress and ask if aborting.
         if Assigned(Arc.FProcessDataProcW) then
         begin
@@ -263,6 +274,13 @@ begin
           Arc.FOperationResult := E_SUCCESS;
           Arc.ExtractAt(Arc.Tag, DestNameUtf8);
         until (Arc.FOperationResult <> maxLongint);
+
+        if (Arc.FNeedPassword) and (Arc.FOperationResult = E_SUCCESS) and Arc.Items[Arc.Tag].IsEncrypted then
+        begin
+          Arc.FNeedPassword:= False;
+          PasswordCache.SetPassword(Arc.FileName, Arc.Password);
+        end;
+
         // Show progress and ask if aborting.
         if Assigned(Arc.FProcessDataProcW) then
         begin
@@ -511,6 +529,8 @@ begin
   // Load configuration from ini file
   LoadConfiguration;
   TranslateResourceStrings;
+  // Create password cache object
+  PasswordCache:= TPasswordCache.Create;
 end;
 
 { TAbZipKitEx }
@@ -648,8 +668,10 @@ begin
   Result:= gStartupInfo.InputBox('Zip', 'Please enter the password:', True, PAnsiChar(aNewPassword), MAX_PATH);
   if Result then
     NewPassword := aNewPassword
-  else
+  else begin
     raise EAbUserAbort.Create;
+  end;
+  FNeedPassword:= True;
 end;
 
 end.
