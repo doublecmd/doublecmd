@@ -358,13 +358,19 @@ end;
 
 function mbExpandFileName(const sFileName: String): String;
 begin
-  if (Pos('://', sFileName) > 0) then
+  if (Pos('://', sFileName) > 2) then
     Result:= sFileName
   else begin
     Result:= NormalizePathDelimiters(sFileName);
     Result:= ReplaceEnvVars(Result);
     if Pos(PathDelim, Result) <> 0 then
       Result:= ExpandFileName(Result);
+
+{$IF DEFINED(MSWINDOWS)}
+// Remove double backslash '\\' after calling 'ExpandFileName'
+    if (Pos(':\\', Result) = 2) and (Result[1] in ['A'..'z'])  then
+      Result:= Result.Remove(2, 1);
+{$ENDIF}
   end;
 end;
 
