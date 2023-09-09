@@ -54,7 +54,7 @@ uses
     {$IF DEFINED(DARWIN)}
     , CocoaUtils, uMyDarwin
     {$ELSEIF NOT DEFINED(HAIKU)}
-    , Contnrs, uGio
+    , Math, Contnrs, uGio, uXdg
       {$IFDEF LCLGTK2}
       , gtk2
       {$ELSE}
@@ -745,43 +745,134 @@ end;
 
 procedure TPixMapManager.LoadMimeIconNames;
 const
-  mime_globs = '/usr/share/mime/globs';
-  mime_generic_icons = '/usr/share/mime/generic-icons';
+  mime_globs = 'globs';
+  mime_icons = 'icons';
+  mime_generic_icons = 'generic-icons';
   pixmaps_cache = 'pixmaps.cache';
   cache_signature: DWord = $44435043; // 'DCPC'
   cache_version: DWord = 1;
 var
   I, J, K: Integer;
-  globs: TStringListEx = nil;
-  generic_icons: TStringListEx = nil;
-  cache: TFileStreamEx = nil;
   mTime: TFileTime;
-  sMimeType,
-  sMimeIconName,
-  sExtension: String;
-  node: THTDataNode = nil;
+  LocalMime: String;
   iconsList: TStringList;
-  EntriesCount, IconsCount: Cardinal;
   nodeList: TFPObjectList;
-begin
-  try
-    // Try to load from cache.
-    mTime:= mbFileAge(mime_globs);
-    if (mbFileAge(gpCfgDir + pixmaps_cache) = mTime) and
-       (mbFileAccess(gpCfgDir + pixmaps_cache, fmOpenRead)) and
-       (mbFileSize(gpCfgDir + pixmaps_cache) > SizeOf(DWord) * 2) then
-    try
-      cache := TFileStreamEx.Create(gpCfgDir + pixmaps_cache, fmOpenRead or fmShareDenyWrite);
-      if (cache.ReadDWord <> NtoBE(cache_signature)) or
-         (cache.ReadDWord <> cache_version) then
-      begin
-        FreeAndNil(cache);
-      end;
-    except
-      cache:= nil;
-    end;
+  node: THTDataNode = nil;
+  cache: TFileStreamEx = nil;
+  EntriesCount, IconsCount: Cardinal;
+  GlobalMime: String = '/usr/share/mime/';
+  sMimeType, sMimeIconName, sExtension: String;
 
-    if Assigned(cache) then
+  procedure LoadGlobs(const APath: String);
+  var
+    I: Integer;
+    globs: TStringListEx = nil;
+    icons: TStringListEx = nil;
+    generic_icons: TStringListEx = nil;
+  begin
+    if mbFileAccess(APath + mime_globs, fmOpenRead) then
+    try
+      // Load mapping: MIME type -> file extension.
+      globs:= TStringListEx.Create;
+      globs.NameValueSeparator:= ':';
+      globs.LoadFromFile(APath + mime_globs);
+
+      // Try to load mapping: MIME type -> MIME icon name.
+      if mbFileExists(APath + mime_icons) then
+      begin
+        icons:= TStringListEx.Create;
+        icons.NameValueSeparator:= ':';
+        icons.LoadFromFile(APath + mime_icons);
+        if (icons.Count = 0) then FreeAndNil(icons);
+      end;
+
+      // Try to load mapping: MIME type -> generic MIME icon name.
+      if mbFileExists(APath + mime_generic_icons) then
+      begin
+        generic_icons:= TStringListEx.Create;
+        generic_icons.NameValueSeparator:= ':';
+        generic_icons.LoadFromFile(APath + mime_generic_icons);
+        if (generic_icons.Count = 0) then FreeAndNil(generic_icons);
+      end;
+
+      // Create mapping: file extension -> list of MIME icon names.
+      for I:= 0 to globs.Count - 1 do
+        if (globs.Strings[I]    <> '') and   // bypass empty lines
+           (globs.Strings[I][1] <> '#') then // and comments
+        begin
+          sMimeType := globs.Names[I];
+          sExtension:= ExtractFileExt(globs.ValueFromIndex[I]);
+
+          // Support only extensions, not full file name masks.
+          if (sExtension <> '') and (sExtension <> '.*') then
+          begin
+            Delete(sExtension, 1, 1);
+
+            node := THTDataNode(FExtToMimeIconName.Find(sExtension));
+            if Assigned(node) then
+              iconsList := TStringList(node.Data)
+            else begin
+              iconsList := TStringList.Create;
+              FExtToMimeIconName.Add(sExtension, iconsList);
+              Inc(EntriesCount);
+            end;
+
+            if Assigned(icons) then
+            begin
+              J := icons.IndexOfName(sMimeType);
+              if J <> -1 then
+              begin
+                sMimeIconName := icons.ValueFromIndex[J]; // found icon
+                if iconsList.IndexOf(sMimeIconName) < 0 then
+                  iconsList.Add(sMimeIconName);
+              end;
+            end;
+
+            sMimeIconName:= StringReplace(sMimeType, '/', '-', []);
+            if iconsList.IndexOf(sMimeIconName) < 0 then
+              iconsList.Add(sMimeIconName);
+
+            // Shared-mime-info spec says:
+            // "If [generic-icon] is not specified then the mimetype is used to generate the
+            // generic icon by using the top-level media type (e.g. "video" in "video/ogg")
+            // and appending "-x-generic" (i.e. "video-x-generic" in the previous example)."
+            if Assigned(generic_icons) then
+              begin
+                J := generic_icons.IndexOfName(sMimeType);
+                if J <> -1 then
+                  sMimeIconName := generic_icons.ValueFromIndex[J] // found generic icon
+                else
+                  sMimeIconName := Copy2Symb(sMimeIconName, '-') + '-x-generic';
+              end
+            else
+              sMimeIconName := Copy2Symb(sMimeIconName, '-') + '-x-generic';
+
+            if iconsList.IndexOf(sMimeIconName) < 0 then
+              iconsList.Add(sMimeIconName);
+          end;
+        end;
+    finally
+      globs.Free;
+      icons.Free;
+      generic_icons.Free;
+    end;
+  end;
+
+begin
+  LocalMime:= IncludeTrailingBackslash(GetUserDataDir) + 'mime/';
+
+  mTime:= Max(mbFileAge(LocalMime + mime_globs),
+              mbFileAge(GlobalMime + mime_globs));
+
+  // Try to load from cache.
+  if (mbFileAge(gpCfgDir + pixmaps_cache) = mTime) and
+     (mbFileAccess(gpCfgDir + pixmaps_cache, fmOpenRead)) and
+     (mbFileSize(gpCfgDir + pixmaps_cache) > SizeOf(DWord) * 2) then
+  try
+    cache := TFileStreamEx.Create(gpCfgDir + pixmaps_cache, fmOpenRead or fmShareDenyWrite);
+    try
+      if (cache.ReadDWord = NtoBE(cache_signature)) and
+         (cache.ReadDWord = cache_version) then
       begin
         EntriesCount := cache.ReadDWord;
         FExtToMimeIconName.HashTableSize := EntriesCount;
@@ -795,107 +886,54 @@ begin
           FExtToMimeIconName.Add(sExtension, iconsList);
           iconsList.Capacity := IconsCount;
           for J := 0 to IconsCount - 1 do
+          begin
             iconsList.Add(cache.ReadAnsiString);
+          end;
         end;
-      end
-    else if mbFileAccess(mime_globs, fmOpenRead) then
-      begin
-        // Load mapping: MIME type -> file extension.
-        globs:= TStringListEx.Create;
-        globs.NameValueSeparator:= ':';
-        globs.LoadFromFile(mime_globs);
 
-        // Try to load mapping: MIME type -> generic MIME icon name.
-        if mbFileExists(mime_generic_icons) then
-          begin
-            generic_icons:= TStringListEx.Create;
-            generic_icons.NameValueSeparator:= ':';
-            generic_icons.LoadFromFile(mime_generic_icons);
-          end;
-
-        EntriesCount := 0;
-        // Create mapping: file extension -> list of MIME icon names.
-        for I:= 0 to globs.Count - 1 do
-          if (globs.Strings[I]    <> '') and   // bypass empty lines
-             (globs.Strings[I][1] <> '#') then // and comments
-          begin
-            sMimeType := globs.Names[I];
-            sMimeIconName:= StringReplace(sMimeType, '/', '-', []);
-            sExtension:= ExtractFileExt(globs.ValueFromIndex[I]);
-
-            // Support only extensions, not full file name masks.
-            if (sExtension <> '') and (sExtension <> '.*') then
-            begin
-              Delete(sExtension, 1, 1);
-
-              node := THTDataNode(FExtToMimeIconName.Find(sExtension));
-              if not Assigned(node) then
-                begin
-                  iconsList := TStringList.Create;
-                  FExtToMimeIconName.Add(sExtension, iconsList);
-                  Inc(EntriesCount);
-                end
-              else
-                iconsList := TStringList(node.Data);
-
-              if iconsList.IndexOf(sMimeIconName) < 0 then
-                iconsList.Add(sMimeIconName);
-
-              // Shared-mime-info spec says:
-              // "If [generic-icon] is not specified then the mimetype is used to generate the
-              // generic icon by using the top-level media type (e.g. "video" in "video/ogg")
-              // and appending "-x-generic" (i.e. "video-x-generic" in the previous example)."
-              if Assigned(generic_icons) then
-                begin
-                  J := generic_icons.IndexOfName(sMimeType);
-                  if J <> -1 then
-                    sMimeIconName := generic_icons.ValueFromIndex[J] // found generic icon
-                  else
-                    sMimeIconName := Copy2Symb(sMimeIconName, '-') + '-x-generic';
-                end
-              else
-                sMimeIconName := Copy2Symb(sMimeIconName, '-') + '-x-generic';
-
-              if iconsList.IndexOf(sMimeIconName) < 0 then
-                iconsList.Add(sMimeIconName);
-            end;
-          end;
-
-        // save to cache
-        try
-          cache := TFileStreamEx.Create(gpCfgDir + pixmaps_cache, fmCreate or fmShareDenyWrite);
-          try
-            cache.WriteDWord(NtoBE(cache_signature));
-            cache.WriteDWord(cache_version);
-            cache.WriteDWord(EntriesCount);
-            for I := 0 to FExtToMimeIconName.HashTable.Count - 1 do
-            begin
-              nodeList := TFPObjectList(FExtToMimeIconName.HashTable.Items[I]);
-              if Assigned(nodeList) then
-                for J := 0 to nodeList.Count - 1 do
-                begin
-                  node := THtDataNode(nodeList.Items[J]);
-                  iconsList := TStringList(node.Data);
-                  cache.WriteAnsiString(node.Key);
-                  cache.WriteDWord(iconsList.Count);
-                  for K := 0 to iconsList.Count - 1 do
-                    cache.WriteAnsiString(iconsList.Strings[K]);
-                end;
-            end;
-          finally
-            FreeAndNil(cache); // Close file
-          end;
-          mbFileSetTime(gpCfgDir + pixmaps_cache, mTime, 0, 0);
-        except
-          on E: Exception do
-            DCDebug(Format('Error: Cannot save pixmaps cache [%s] : %s',[gpCfgDir + pixmaps_cache, E.Message]));
-        end;
+        Exit;
       end;
+    finally
+      FreeAndNil(cache);
+    end;
+  except
+    on E: Exception do
+      DCDebug(Format('Error: Cannot load from pixmaps cache [%s] : %s',[gpCfgDir + pixmaps_cache, E.Message]));
+  end;
 
-  finally
-    FreeAndNil(globs);
-    FreeAndNil(generic_icons);
-    FreeAndNil(cache);
+  EntriesCount := 0;
+  LoadGlobs(LocalMime);
+  LoadGlobs(GlobalMime);
+
+  // save to cache
+  if EntriesCount > 0 then
+  try
+    cache := TFileStreamEx.Create(gpCfgDir + pixmaps_cache, fmCreate or fmShareDenyWrite);
+    try
+      cache.WriteDWord(NtoBE(cache_signature));
+      cache.WriteDWord(cache_version);
+      cache.WriteDWord(EntriesCount);
+      for I := 0 to FExtToMimeIconName.HashTable.Count - 1 do
+      begin
+        nodeList := TFPObjectList(FExtToMimeIconName.HashTable.Items[I]);
+        if Assigned(nodeList) then
+          for J := 0 to nodeList.Count - 1 do
+          begin
+            node := THtDataNode(nodeList.Items[J]);
+            iconsList := TStringList(node.Data);
+            cache.WriteAnsiString(node.Key);
+            cache.WriteDWord(iconsList.Count);
+            for K := 0 to iconsList.Count - 1 do
+              cache.WriteAnsiString(iconsList.Strings[K]);
+          end;
+      end;
+    finally
+      FreeAndNil(cache); // Close file
+    end;
+    mbFileSetTime(gpCfgDir + pixmaps_cache, mTime, 0, 0);
+  except
+    on E: Exception do
+      DCDebug(Format('Error: Cannot save pixmaps cache [%s] : %s',[gpCfgDir + pixmaps_cache, E.Message]));
   end;
 end;
 
