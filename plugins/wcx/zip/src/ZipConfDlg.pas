@@ -176,12 +176,13 @@ begin
     if (Index = 1) then
     begin
       SendDlgMsg(pDlg, 'cbCompressionMethod', DM_LISTSETITEMINDEX, 0, 0);
-      SendDlgMsg(pDlg, 'cbCompressionMethod', DM_ENABLE, 0, 0);
     end
     else begin
-      SendDlgMsg(pDlg, 'cbCompressionMethod', DM_ENABLE, 1, 0);
       SetComboBox(pDlg, 'cbCompressionMethod', PluginConfig[AFormat].Method);
     end;
+    // Randomly crashes under Qt
+    // https://github.com/doublecmd/doublecmd/issues/1233
+    // SendDlgMsg(pDlg, 'cbCompressionMethod', DM_ENABLE, PtrInt(Index > 1), 0);
   end;
   UpdateLevel(pDlg, PluginConfig[AFormat].Level);
 end;
