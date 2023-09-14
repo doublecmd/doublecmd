@@ -1054,7 +1054,7 @@ begin
         begin
           MainControl.BeginDrag(False);
           // Restore selection of active file
-          if not AFile.Selected then MarkFile(AFile, True);
+          if (FSelectedCount > 0) and (not AFile.Selected) then MarkFile(AFile, True);
         end;
       end;
     end;
