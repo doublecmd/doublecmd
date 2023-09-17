@@ -233,10 +233,13 @@ begin
         begin
           SizeProperty := FSFile.SizeProperty;
 
-          if Selected then
-            SizeSelected := SizeSelected + SizeProperty.Value;
+          if SizeProperty.Value > 0 then
+          begin
+            if Selected then
+              SizeSelected := SizeSelected + SizeProperty.Value;
 
-          SizeInDir := SizeInDir + SizeProperty.Value;
+            SizeInDir := SizeInDir + SizeProperty.Value;
+          end;
         end;
       end;
     end;
