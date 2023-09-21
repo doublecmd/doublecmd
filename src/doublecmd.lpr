@@ -15,8 +15,13 @@ uses
   {$IFNDEF HEAPTRC}
   cmem,
   {$ENDIF}
+  {$IFDEF DARWIN}
+  iosxwstr,
+  iosxlocale,
+  {$ELSE}
   cwstring,
   clocale,
+  {$ENDIF}
   {$IFDEF darwin}
   uAppleMagnifiedModeFix,
   uMyDarwin,
