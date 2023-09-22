@@ -228,7 +228,7 @@ begin
 
     // Register thumbnail provider
     TThumbnailManager.RegisterProvider(@GetThumbnail);
-    MaskList:= TMaskList.Create('*.xcf;*.ppm');
+    MaskList:= TMaskList.Create('*.xcf');
     DCDebug('ImageMagick: ' + LibraryName);
   except
     FreeLibrary(MagickWand);

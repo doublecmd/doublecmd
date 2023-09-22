@@ -163,6 +163,9 @@ uses
     , Gtk2,  Glib2, Themes
     {$ENDIF}
   {$ENDIF}
+  {$IF FPC_FULLVERSION < 30300}
+  , uDCReadPNM
+  {$ENDIF}
   , uDCReadSVG, uTurboJPEG;
 
 { TAloneForm }
