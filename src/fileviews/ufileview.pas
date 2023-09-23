@@ -3332,7 +3332,9 @@ end;
 procedure TFileView.SetFlatView(AFlatView: Boolean);
 begin
   FFlatView:= AFlatView;
+  {$IFDEF DARWIN}
   TFileSystemWatcher.UpdateWatch;
+  {$ENDIF}
 end;
 
 procedure TFileView.ActivateEvent(Sender: TObject);
