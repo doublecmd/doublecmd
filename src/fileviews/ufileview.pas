@@ -215,6 +215,7 @@ type
     procedure SetFileList(var NewAllDisplayFiles: TDisplayFiles;
                           var NewFilteredDisplayFiles: TDisplayFiles);
     procedure EnableWatcher(Enable: Boolean);
+    procedure SetFlatView(AFlatView: Boolean);
 
     procedure ActivateEvent(Sender: TObject);
     function CheckIfDelayReload: Boolean;
@@ -532,7 +533,7 @@ type
     property FileSources[Index: Integer]: IFileSource read GetFileSource;
     property FileSourcesCount: Integer read GetFileSourcesCount;
     property Flags: TFileViewFlags read FFlags write SetFlags;
-    property FlatView: Boolean read FFlatView write FFlatView;
+    property FlatView: Boolean read FFlatView write SetFlatView;
     property Path[FileSourceIndex, PathIndex: Integer]: String read GetPath;
     property PathsCount[FileSourceIndex: Integer]: Integer read GetPathsCount;
 
@@ -3326,6 +3327,12 @@ begin
     TFileSystemWatcher.RemoveWatch(FWatchPath, @WatcherEvent);
     FWatchPath := EmptyStr;
   end;
+end;
+
+procedure TFileView.SetFlatView(AFlatView: Boolean);
+begin
+  FFlatView:= AFlatView;
+  TFileSystemWatcher.UpdateWatch;
 end;
 
 procedure TFileView.ActivateEvent(Sender: TObject);
