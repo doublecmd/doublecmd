@@ -197,7 +197,7 @@ begin
         if HexValue then
         begin
           ATextEncoding := EncodingAnsi;
-          FindText := HexToBin(FindText);
+          AEncoding.FindText := HexToBin(FindText);
         end
         else begin
           ATextEncoding := NormalizeEncoding(ATextEncoding);
