@@ -77,6 +77,7 @@ type
     class procedure RemoveWatch(aWatchPath: String;
                                 aWatcherEvent: TFSWatcherEvent);
     class procedure RemoveWatch(aWatcherEvent: TFSWatcherEvent);
+    class procedure UpdateWatch;
     class function CanWatch(const WatchPaths: array of String): Boolean;
     class function AvailableWatchFilter: TFSWatchFilter;
   end;
@@ -220,6 +221,7 @@ type
   private
     FWatcherLock: syncobjs.TCriticalSection;
     FOSWatchers: TOSWatchs;
+    FWatcherSubdirs: TStringList;
     {$IF DEFINED(UNIX_butnot_DARWIN)}
     FNotifyHandle: TNotifyHandle;
     {$ENDIF}
@@ -258,6 +260,7 @@ type
   protected
     procedure Execute; override;
     procedure ExecuteWatcher;
+    function isWatchSubdir(const path: String): Boolean;
   public
     constructor Create;
     destructor Destroy; override;
@@ -269,6 +272,7 @@ type
     procedure RemoveWatch(aWatchPath: String;
                           aWatcherEvent: TFSWatcherEvent);
     procedure RemoveWatch(aWatcherEvent: TFSWatcherEvent);
+    procedure UpdateWatch;
     property WatchersCount: Integer read GetWatchersCount;
   end;
 
@@ -336,6 +340,14 @@ begin
     FileSystemWatcher.RemoveWatch(aWatcherEvent);
     if FileSystemWatcher.WatchersCount = 0 then
       DestroyFileSystemWatcher;
+  end;
+end;
+
+class procedure TFileSystemWatcher.UpdateWatch;
+begin
+  if Assigned(FileSystemWatcher) then
+  begin
+    FileSystemWatcher.UpdateWatch;
   end;
 end;
 
@@ -889,11 +901,22 @@ begin
 end;
 {$ENDIF}
 
+function TFileSystemWatcherImpl.isWatchSubdir(const path: String): Boolean;
+begin
+  FWatcherLock.Acquire;
+  try
+    Result:= FWatcherSubdirs.IndexOf(path) >= 0;
+  finally
+    FWatcherLock.Release;
+  end;
+end;
+
 {$IF DEFINED(DARWIN)}
 procedure TFileSystemWatcherImpl.handleFSEvent(event:TDarwinFSWatchEvent);
 begin
   if [watch_file_name_change, watch_attributes_change] * gWatchDirs = [] then exit;
   if event.isDropabled then exit;
+  if (ecChildChanged in event.categories) and (not isWatchSubdir(event.watchPath) ) then exit;
 
   FCurrentEventData.Path := event.watchPath;
   FCurrentEventData.FileName := EmptyStr;
@@ -1086,6 +1109,9 @@ end;
 constructor TFileSystemWatcherImpl.Create;
 begin
   FOSWatchers := TOSWatchs.Create({$IFDEF MSWINDOWS}False{$ELSE}True{$ENDIF});
+  FWatcherSubdirs := TStringList.Create;
+  FWatcherSubdirs.Sorted := true;
+  FWatcherSubdirs.Duplicates := dupIgnore;
   FWatcherLock := syncobjs.TCriticalSection.Create;
 
   FFinished := False;
@@ -1179,6 +1205,9 @@ begin
 
   if Assigned(FOSWatchers) then
     FreeAndNil(FOSWatchers);
+
+  if Assigned(FWatcherSubdirs) then
+    FreeAndNil(FWatcherSubdirs);
 
   if Assigned(FWatcherLock) then
     FreeAndNil(FWatcherLock);
@@ -1289,6 +1318,7 @@ begin
     if not Result then
       RemoveOSWatchLocked(WatcherIndex);
 
+    UpdateWatch;
   finally
     FWatcherLock.Release;
   end;
@@ -1316,6 +1346,8 @@ begin
         Break;
       end;
     end;
+
+    UpdateWatch;
   finally
     FWatcherLock.Release;
   end;
@@ -1330,6 +1362,34 @@ begin
     for i := 0 to FOSWatchers.Count - 1 do
     begin
       RemoveObserverLocked(i, aWatcherEvent);
+    end;
+
+    UpdateWatch;
+  finally
+    FWatcherLock.Release;
+  end;
+end;
+
+// udpate FWatcherSubdirs List, in order to facilitate the processing of
+// subsequent subdirectory events in isWatchSubdir()
+procedure TFileSystemWatcherImpl.UpdateWatch;
+var
+  i, j: Integer;
+  watch: TOSWatch;
+  observer: TOSWatchObserver;
+begin
+  FWatcherLock.Acquire;
+  try
+    FWatcherSubdirs.Clear;
+    for i := 0 to FOSWatchers.Count - 1 do
+    begin
+      watch := FOSWatchers[i];
+      for j := 0 to watch.Observers.Count - 1 do
+      begin
+        observer := watch.Observers[j];
+        if TFileView(observer.UserData).FlatView then
+          FWatcherSubdirs.Add(watch.WatchPath);
+      end;
     end;
   finally
     FWatcherLock.Release;
