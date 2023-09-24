@@ -301,7 +301,9 @@ function TModalDialog.ShowModal: Integer;
   end;
 
 var
+{$IF DEFINED(LCLCOCOA)}
   DisabledList: TList;
+{$ENDIF}
   SavedFocusState: TFocusState;
   ActiveWindow: HWnd;
 begin
@@ -339,7 +341,9 @@ begin
       ModalResult := 0;
 
       try
+{$IF NOT DEFINED(LCLCOCOA)}
         EnableWindow(FParentWindow, False);
+{$ENDIF}
         // If window already created then recreate it to force
         // call CreateParams with appropriate parent window
         if HandleAllocated then
@@ -351,10 +355,12 @@ begin
           SetWindowLongPtr(Handle, GWL_HWNDPARENT, FParentWindow);
 {$ENDIF}
         end;
+{$IF DEFINED(LCLCOCOA)}
         if WidgetSet.GetLCLCapability(lcModalWindow) = LCL_CAPABILITY_NO then
           DisabledList := Screen.DisableForms(Self)
         else
           DisabledList := nil;
+{$ENDIF}
         Show;
         try
           EnableWindow(Handle, True);
@@ -374,7 +380,11 @@ begin
           if ModalResult = 0 then
             ModalResult := mrCancel;
 
+{$IF DEFINED(LCLCOCOA)}
           Screen.EnableForms(DisabledList);
+{$ELSE}
+          EnableWindow(FParentWindow, True);
+{$ENDIF}
           // Needs to be called only in ShowModal
           Perform(CM_DEACTIVATE, 0, 0);
           Exclude(FFormState, fsModal);
