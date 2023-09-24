@@ -1731,13 +1731,16 @@ object frmViewer: TfrmViewer
     object actPrintSetup: TAction
       Category = 'File'
       Caption = 'Print &setup...'
+      Enabled = False
       OnExecute = actExecute
+      Visible = False
     end
     object actPrint: TAction
       Category = 'File'
       Caption = 'P&rint...'
       Enabled = False
       OnExecute = actExecute
+      Visible = False
     end
     object actShowCaret: TAction
       Category = 'View'
