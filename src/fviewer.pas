@@ -398,6 +398,7 @@ type
     procedure SynEditCaret;
     procedure ExitPluginMode;
     procedure DeleteCurrentFile;
+    procedure EnablePrint(AEnabled: Boolean);
     procedure EnableActions(AEnabled: Boolean);
     procedure SavingProperties(Sender: TObject);
     procedure SetFileName(const AValue: String);
@@ -1388,6 +1389,14 @@ begin
   SplitterChangeBounds;
 end;
 
+procedure TfrmViewer.EnablePrint(AEnabled: Boolean);
+begin
+  actPrint.Enabled:= AEnabled;
+  actPrint.Visible:= AEnabled;
+  actPrintSetup.Enabled:= AEnabled;
+  actPrintSetup.Visible:= AEnabled;
+end;
+
 procedure TfrmViewer.EnableActions(AEnabled: Boolean);
 begin
   actSave.Enabled:= AEnabled;
@@ -1529,7 +1538,7 @@ begin
         ActivePlugin:= I;
         FWlxModule:= WlxModule;
         WlxModule.ResizeWindow(GetListerRect);
-        actPrint.Enabled:= WlxModule.CanPrint;
+        EnablePrint(WlxModule.CanPrint);
         // Set focus to plugin window
         if not bQuickView then WlxModule.SetFocus;
         Exit(True);
@@ -1550,7 +1559,7 @@ begin
   bPlugin:= False;
   FWlxModule:= nil;
   ActivePlugin:= -1;
-  actPrint.Enabled:= False;
+  EnablePrint(False);
 end;
 
 procedure TfrmViewer.ExitQuickView;
@@ -3714,11 +3723,14 @@ end;
 
 procedure TfrmViewer.cm_PrintSetup(const Params: array of string);
 begin
-  with TfrmPrintSetup.Create(Self) do
-  try
-    ShowModal;
-  finally
-    Free;
+  if bPlugin and actPrintSetup.Enabled then
+  begin
+    with TfrmPrintSetup.Create(Self) do
+    try
+      ShowModal;
+    finally
+      Free;
+    end;
   end;
 end;
 
