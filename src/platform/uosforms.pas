@@ -301,6 +301,7 @@ function TModalDialog.ShowModal: Integer;
   end;
 
 var
+  DisabledList: TList;
   SavedFocusState: TFocusState;
   ActiveWindow: HWnd;
 begin
@@ -350,6 +351,10 @@ begin
           SetWindowLongPtr(Handle, GWL_HWNDPARENT, FParentWindow);
 {$ENDIF}
         end;
+        if WidgetSet.GetLCLCapability(lcModalWindow) = LCL_CAPABILITY_NO then
+          DisabledList := Screen.DisableForms(Self)
+        else
+          DisabledList := nil;
         Show;
         try
           EnableWindow(Handle, True);
@@ -369,7 +374,7 @@ begin
           if ModalResult = 0 then
             ModalResult := mrCancel;
 
-          EnableWindow(FParentWindow, True);
+          Screen.EnableForms(DisabledList);
           // Needs to be called only in ShowModal
           Perform(CM_DEACTIVATE, 0, 0);
           Exclude(FFormState, fsModal);
