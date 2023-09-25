@@ -1410,6 +1410,7 @@ begin
           FWatcherSubdirs.Add(watch.WatchPath);
       end;
     end;
+    FDarwinFSWatcher.watchSubtree:= (FWatcherSubdirs.Count>0);
   finally
     FWatcherLock.Release;
   end;

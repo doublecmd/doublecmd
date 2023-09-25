@@ -114,7 +114,6 @@ private
   _watchPaths: NSMutableArray;
   _watchRealPaths: NSMutableArray;
   _streamPaths: NSArray;
-  _watchSubtree: Boolean;
 
   _callback: TDarwinFSWatchCallBack;
   _latency: Integer;
@@ -128,6 +127,8 @@ private
 
   _lockObject: TCriticalSection;
   _pathsSyncObject: TEventObject;
+public
+  watchSubtree: Boolean;
 private
   procedure handleEvents( const originalSession:TDarwinFSWatchEventSession );
   procedure doCallback( const watchPath:String; const internalEvent:TInternalEvent );
@@ -138,7 +139,7 @@ private
   procedure notifyPath;
   procedure interrupt;
 public
-  constructor create( const callback:TDarwinFSWatchCallBack; const watchSubtree:Boolean=true; const latency:Integer=300 );
+  constructor create( const callback:TDarwinFSWatchCallBack; const latency:Integer=300 );
   destructor destroy; override;
 
   procedure start;
@@ -495,12 +496,11 @@ begin
   currentEvent.renamedPath:= watchPath + currentEvent.renamedPath.Substring(watchRealPath.Length);
 end;
 
-constructor TDarwinFSWatcher.create( const callback:TDarwinFSWatchCallBack; const watchSubtree:Boolean; const latency:Integer );
+constructor TDarwinFSWatcher.create( const callback:TDarwinFSWatchCallBack; const latency:Integer );
 begin
   Inherited Create;
   _watchPaths:= NSMutableArray.alloc.initWithCapacity( 16 );
   _watchRealPaths:= NSMutableArray.alloc.initWithCapacity( 16 );
-  _watchSubtree:= watchSubtree;
 
   _callback:= callback;
   _latency:= latency;
@@ -555,7 +555,11 @@ var
   pathIndex: Integer;
   i: Integer;
   session: TDarwinFSWatchEventSession;
+  currentWatchSubtree: Boolean;
 begin
+  // for multithread
+  currentWatchSubtree:= watchSubtree;
+
   try
     _lockObject.Acquire;
     try
@@ -583,7 +587,7 @@ begin
       while i < session.count do
       begin
         event:= session[i];
-        if isMatchWatchPath(event, watchRealPath, _watchSubtree) then
+        if isMatchWatchPath(event, watchRealPath, currentWatchSubtree) then
         begin
           session.adjustRenamedEventIfNecessary( i );
           session.adjustSymlinkIfNecessary( i, watchPath, watchRealPath );
