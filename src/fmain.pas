@@ -790,6 +790,11 @@ type
     procedure LeftDriveBarExecuteDrive(ToolItem: TKASToolItem);
     procedure RightDriveBarExecuteDrive(ToolItem: TKASToolItem);
     procedure SetDragCursor(Shift: TShiftState);
+    {$IFDEF DARWIN}
+    procedure createDarwinAppMenu;
+    procedure aboutOnClick(Sender: TObject);
+    procedure optionsOnClick(Sender: TObject);
+    {$ENDIF}
 
   protected
     procedure CreateWnd; override;
@@ -1243,6 +1248,7 @@ begin
 {$IF DEFINED(DARWIN)}
   InitNSServiceProvider( @OnNSServiceOpenWithNewTab, @NSServiceMenuIsReady, @NSServiceMenuGetFilenames );
   InitNSThemeChangedObserver( @NSThemeChangedHandler );
+  createDarwinAppMenu;
 {$ENDIF}
 end;
 
@@ -7095,6 +7101,45 @@ begin
   FormCloseQuery(Self, CanClose);
   Cancel := not CanClose;
 end;
+
+{$IFDEF DARWIN}
+procedure TfrmMain.createDarwinAppMenu;
+var
+  appMenu: TMenuItem;
+  aboutItem: TMenuItem;
+  sepItem: TMenuItem;
+  prefItem: TMenuItem;
+begin
+  appMenu:= TMenuItem.Create(mnuMain);
+  appMenu.Caption:= '';
+  mnuMain.Items.Insert(0, appMenu);
+
+  aboutItem:= TMenuItem.Create(mnuMain);
+  aboutItem.Caption:= 'About ' + Application.Title;
+  aboutItem.OnClick:= @aboutOnClick;
+  appMenu.Add(aboutItem);
+
+  sepItem := TMenuItem.Create(mnuMain);
+  sepItem.Caption := '-';
+  appMenu.Add(sepItem);
+
+  prefItem := TMenuItem.Create(mnuMain);
+  prefItem.Caption := 'Preferences...';
+  prefItem.OnClick := @optionsOnClick;
+  prefItem.Shortcut := ShortCut(VK_OEM_COMMA, [ssMeta]);
+  appMenu.Add(prefItem);
+end;
+
+procedure TfrmMain.aboutOnClick(Sender: TObject);
+begin
+  Commands.cm_About([]);
+end;
+
+procedure TfrmMain.optionsOnClick(Sender: TObject);
+begin
+  Commands.cm_Options([]);
+end;
+{$ENDIF}
 
 {$IF (DEFINED(LCLQT) or DEFINED(LCLQT5) or DEFINED(LCLQT6)) and not DEFINED(MSWINDOWS)}
 function TfrmMain.QObjectEventFilter(Sender: QObjectH; Event: QEventH): Boolean; cdecl;
