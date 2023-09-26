@@ -2872,6 +2872,8 @@ end;
 
 function TFileView.BeforeChangePath(NewFileSource: IFileSource;
   Reason: TChangePathReason; NewPath: String): Boolean;
+var
+  AForm: TCustomForm;
 begin
   if NewPath <> '' then
   begin
@@ -2881,7 +2883,12 @@ begin
 
     if Assigned(NewFileSource) and not NewFileSource.SetCurrentWorkingDirectory(NewPath) then
     begin
-      msgError(Format(rsMsgChDirFailed, [NewPath]));
+      AForm:= GetParentForm(Self);
+      if Assigned(AForm) and AForm.Visible then
+      begin
+        msgError(Format(rsMsgChDirFailed, [NewPath]));
+      end;
+      DCDebug(rsMsgChDirFailed, [NewPath]);
       Exit(False);
     end;
 
