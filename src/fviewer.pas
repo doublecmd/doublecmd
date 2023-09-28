@@ -61,7 +61,7 @@ uses
   Grids, ActnList, viewercontrol, GifAnim, fFindView, WLXPlugin, uWLXModule,
   uFileSource, fModView, Types, uThumbnails, uFormCommands, uOSForms,Clipbrd,
   uExifReader, KASStatusBar, SynEdit, uShowForm, uRegExpr, uRegExprU,
-  fEditSearch, uMasks, uSearchTemplate;
+  Messages, fEditSearch, uMasks, uSearchTemplate;
 
 type
 
@@ -321,6 +321,7 @@ type
     procedure miPaintClick(Sender:TObject);
     procedure miChangeEncodingClick(Sender:TObject);
     procedure SynEditStatusChange(Sender: TObject; Changes: TSynStatusChanges);
+    procedure SynEditKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure SynEditMouseWheel(Sender: TObject; Shift: TShiftState;
          WheelDelta: Integer; MousePos: TPoint; var Handled: Boolean);
     procedure ViewerControlMouseWheelDown(Sender: TObject; Shift: TShiftState;
@@ -2404,6 +2405,19 @@ begin
   Status.Panels[sbpPosition].Text:= Format('%d:%d', [SynEdit.CaretX, SynEdit.CaretY]);
 end;
 
+procedure TfrmViewer.SynEditKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  if (not gShowCaret) and (Key in [VK_UP, VK_DOWN]) then
+  begin
+    if Key = VK_UP then
+      SynEdit.Perform(WM_VSCROLL, SB_LINEUP, 0)
+    else begin
+      SynEdit.Perform(WM_VSCROLL, SB_LINEDOWN, 0);
+    end;
+  end;
+end;
+
 procedure TfrmViewer.SynEditMouseWheel(Sender: TObject; Shift: TShiftState;
   WheelDelta: Integer; MousePos: TPoint; var Handled: Boolean);
 var
@@ -2698,6 +2712,7 @@ begin
       MarkupInfo.Foreground:= clGrayText;
     end;
     FontOptionsToFont(gFonts[dcfViewer], SynEdit.Font);
+    SynEdit.OnKeyDown:= @SynEditKeyDown;
     SynEdit.OnMouseWheel:= @SynEditMouseWheel;
     SynEdit.OnStatusChange:= @SynEditStatusChange;
     SynEditCaret;
