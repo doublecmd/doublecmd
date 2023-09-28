@@ -47,7 +47,8 @@ type
     DE_LXDE     = 4,
     DE_MATE     = 5,
     DE_CINNAMON = 6,
-    DE_LXQT     = 7
+    DE_LXQT     = 7,
+    DE_FLATPAK  = 8
   );
 
 const
@@ -59,7 +60,8 @@ const
     'LXDE',
     'MATE',
     'Cinnamon',
-    'LXQt'
+    'LXQt',
+    'Flatpak'
   );
 
 {$IF DEFINED(LINUX)}
@@ -218,6 +220,10 @@ const
                                         'XDG_SESSION_DESKTOP',
                                         'DESKTOP_SESSION');
 begin
+  if fpGetEnv(PAnsiChar('FLATPAK_ID')) <> nil then
+  begin
+    Exit(DE_FLATPAK);
+  end;
   Result:= DE_UNKNOWN;
   for I:= Low(EnvVariable) to High(EnvVariable) do
   begin
