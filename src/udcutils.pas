@@ -357,14 +357,19 @@ begin
 end;
 
 function mbExpandFileName(const sFileName: String): String;
+const
+  PATH_DELIM_POS = {$IFDEF MSWINDOWS}1{$ELSE}0{$ENDIF};
 begin
   if (Pos('://', sFileName) > 2) then
     Result:= sFileName
   else begin
     Result:= NormalizePathDelimiters(sFileName);
     Result:= ReplaceEnvVars(Result);
-    if Pos(PathDelim, Result) <> 0 then
+
+    if Pos(PathDelim, Result) > PATH_DELIM_POS then
+    begin
       Result:= ExpandFileName(Result);
+    end;
 
 {$IF DEFINED(MSWINDOWS)}
 // Remove double backslash '\\' after calling 'ExpandFileName'
