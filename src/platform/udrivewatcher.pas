@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Enumerating and monitoring drives in the system.
 
-   Copyright (C) 2006-2021  Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2006-2023  Alexander Koblov (alexx2000@mail.ru)
    Copyright (C) 2010  Przemyslaw Nagay (cobines@gmail.com)
 
    This program is free software; you can redistribute it and/or modify
@@ -708,6 +708,17 @@ end;
     Result:= False;
     with MountEntry^ do
     begin
+       if DesktopEnv = DE_FLATPAK then
+       begin
+         if (not StrBegins(mnt_dir, '/mnt/')) and
+            (not StrBegins(mnt_dir, '/media/')) and
+            (not StrBegins(mnt_dir, '/run/user/')) and
+            (not StrBegins(mnt_dir, '/run/media/')) and
+            (not StrBegins(mnt_dir, '/var/run/user/')) and
+            (not StrBegins(mnt_dir, '/var/run/media/')) then
+           Exit;
+       end;
+
       // check filesystem
       if (mnt_fsname = 'proc') then Exit;
 
