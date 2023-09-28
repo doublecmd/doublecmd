@@ -412,31 +412,28 @@ var
 begin
   Result:= False;
 
-  if FileIsUnixExecutable(URL) then
+  if GetPathType(URL) = ptAbsolute then
+    sCmdLine:= URL
+  else begin
+    sCmdLine:= IncludeTrailingPathDelimiter(mbGetCurrentDir);
+    sCmdLine:= GetAbsoluteFileName(sCmdLine, URL)
+  end;
+
+  if FileIsUnixExecutable(sCmdLine) then
   begin
-    if GetPathType(URL) = ptAbsolute then
-      sCmdLine:= URL
-    else begin
-      sCmdLine:= IncludeTrailingPathDelimiter(mbGetCurrentDir);
-      sCmdLine:= GetAbsoluteFileName(sCmdLine, URL)
-    end;
     Result:= ExecuteCommand(sCmdLine, [], mbGetCurrentDir);
   end
   else begin
   {$IF NOT DEFINED(HAIKU)}
-    if (DesktopEnv = DE_KDE) and (HasKdeOpen = True) then
-      Result:= KioOpen(URL) // Under KDE use "kioclient" to open files
+    if (DesktopEnv = DE_FLATPAK) then
+      Result:= ExecuteCommand('xdg-open', [sCmdLine], mbGetCurrentDir)
+    else if (DesktopEnv = DE_KDE) and (HasKdeOpen = True) then
+      Result:= KioOpen(sCmdLine) // Under KDE use "kioclient" to open files
     else if HasGio and (DesktopEnv <> DE_XFCE) then
-      Result:= GioOpen(URL) // Under GNOME, Unity and LXDE use "GIO" to open files
+      Result:= GioOpen(sCmdLine) // Under GNOME, Unity and LXDE use "GIO" to open files
     else
   {$ENDIF}
     begin
-      if GetPathType(URL) = ptAbsolute then
-        sCmdLine:= URL
-      else begin
-        sCmdLine:= IncludeTrailingPathDelimiter(mbGetCurrentDir);
-        sCmdLine:= GetAbsoluteFileName(sCmdLine, URL)
-      end;
       sCmdLine:= GetDefaultAppCmd(sCmdLine);
       if Length(sCmdLine) > 0 then begin
         Result:= ExecCmdFork(sCmdLine);
