@@ -107,11 +107,25 @@ begin
 
     TLazIntfImage(Img).DataDescription:= QueryDescription([riqfRGB, riqfAlpha], AWidth, AHeight);
 
-    case TLazIntfImage(Img).DataDescription.RedShift of
-       0: AFormat:= TJPF_RGBA;
-       8: AFormat:= TJPF_ARGB;
-      16: AFormat:= TJPF_BGRA;
-      24: AFormat:= TJPF_ABGR;
+    with TLazIntfImage(Img).DataDescription do
+    begin
+      if ByteOrder = riboLSBFirst then
+      begin
+        case RedShift of
+           0: AFormat:= TJPF_RGBA;
+           8: AFormat:= TJPF_ARGB;
+          16: AFormat:= TJPF_BGRA;
+          24: AFormat:= TJPF_ABGR;
+        end;
+      end
+      else begin
+        case RedShift of
+           0: AFormat:= TJPF_ABGR;
+           8: AFormat:= TJPF_BGRA;
+          16: AFormat:= TJPF_ARGB;
+          24: AFormat:= TJPF_RGBA;
+        end;
+      end;
     end;
 
     if tjDecompress2(jpegDecompressor, AStream.Memory, ASize, TLazIntfImage(Img).PixelData, AWidth, 0, AHeight, cint(AFormat), TJFLAG_ACCURATEDCT) < 0 then
