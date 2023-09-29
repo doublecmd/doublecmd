@@ -144,7 +144,7 @@ uses
   {$IF DEFINED(DARWIN)}
   , BaseUnix, Errors, fFileProperties
   , uQuickLook, uOpenDocThumb, uMyDarwin
-  {$ELSEIF DEFFINED(UNIX)}
+  {$ELSEIF DEFINED(UNIX)}
   , BaseUnix, Errors, fFileProperties, uJpegThumb, uOpenDocThumb
     {$IF NOT DEFINED(HAIKU)}
     , uDCReadRSVG, uMagickWand, uGio, uGioFileSource, uVfsModule, uVideoThumb
