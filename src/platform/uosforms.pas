@@ -151,6 +151,9 @@ uses
     , uDCReadWebP, uFolderThumb, uAudioThumb, uDefaultTerminal, uDCReadHEIF
     , uTrashFileSource, uFileManager, uFileSystemFileSource, fOpenWith
     {$ENDIF}
+    {$IF DEFINED(LINUX)}
+    , uFlatpak
+    {$ENDIF}
     {$IF DEFINED(LCLQT)}
     , qt4, qtwidgets
     {$ENDIF}
