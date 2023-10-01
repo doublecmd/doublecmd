@@ -236,10 +236,6 @@ begin
 
       frmMain.ShowOnTop;
       Application.ProcessMessages;
-      {$IFDEF LCLCOCOA}
-      frmMain.RestoreWindow;
-      {$ENDIF}
-
       Application.Run;
 
       if not UniqueInstance.isAnotherDCRunningWhileIamRunning then
