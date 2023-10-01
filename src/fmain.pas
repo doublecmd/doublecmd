@@ -798,9 +798,7 @@ type
 
   protected
     procedure CreateWnd; override;
-    {$IFNDEF LCLCOCOA}
     procedure DoFirstShow; override;
-    {$ENDIF}
     procedure DoAutoAdjustLayout(const AMode: TLayoutAdjustmentPolicy;
                             const AXProportion, AYProportion: Double); override;
 
@@ -4019,7 +4017,6 @@ begin
   Application.MainForm.Tag:= Handle;
 end;
 
-{$IFNDEF LCLCOCOA}
 procedure TfrmMain.DoFirstShow;
 var
   ANode: TXmlNode;
@@ -4034,7 +4031,6 @@ begin
 
   lastWindowState := WindowState;
 end;
-{$ENDIF}
 
 procedure TfrmMain.WMMove(var Message: TLMMove);
 begin
