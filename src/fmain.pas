@@ -6257,7 +6257,7 @@ begin
     gConfig.SetValue(ANode, 'Width', FRestoredWidth);
     gConfig.SetValue(ANode, 'Height', FRestoredHeight);
     gConfig.SetValue(ANode, 'PixelsPerInch', Screen.PixelsPerInch);
-    gConfig.SetValue(ANode, 'Maximized', (WindowState = wsMaximized));
+    gConfig.SetValue(ANode, 'Maximized', (WindowState in [wsMaximized,wsFullScreen]));
     gConfig.SetValue(ANode, 'Splitter', FMainSplitterPos);
   end;
 end;
