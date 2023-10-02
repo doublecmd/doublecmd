@@ -68,6 +68,7 @@ type
     property Count: Integer read GetCount;
     property Files[Index: Integer]: TDisplayFile read GetFile;
     property Data[Index: Integer]: Pointer read GetData;
+    property UserData: TFPList read FUserData;
   end;
 
   TSetFileListMethod = procedure (var NewAllDisplayFiles: TDisplayFiles;

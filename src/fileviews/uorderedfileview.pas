@@ -468,7 +468,7 @@ begin
       for i := VisibleFiles.First to VisibleFiles.Last do
       begin
         AFile := FFiles[i];
-        if (AFile.FSFile.Name <> '..') and (not AFile.Busy) and
+        if (AFile.FSFile.Name <> '..') and (AFile.Busy * [bsProp] = []) and
            (FileSource.CanRetrieveProperties(AFile.FSFile, AFilePropertiesNeeded) or
            (AFile.TextColor = clNone) or
            (HaveIcons and ((AFile.IconID < 0)
@@ -480,7 +480,7 @@ begin
           if not Assigned(AFileList) then
             AFileList := TFVWorkerFileList.Create;
           AFileList.AddClone(AFile, AFile);
-          AFile.Busy := True;
+          AFile.Busy := AFile.Busy + [bsProp];
         end;
       end;
 
@@ -923,7 +923,10 @@ begin
   while AStart < AList.Count do
   begin
     ADisplayFile := TDisplayFile(AList[AStart]);
-    if IsReferenceValid(ADisplayFile) then ADisplayFile.Busy:= False;
+    if IsReferenceValid(ADisplayFile) then
+    begin
+      ADisplayFile.Busy:= ADisplayFile.Busy - [bsProp];
+    end;
     Inc(AStart);
   end;
 end;
