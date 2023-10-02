@@ -1147,7 +1147,7 @@ begin
       ADisplayFile.FSFile.Name := NewFileName;
       FHashedNames.Remove(OldFileKey);
       FHashedNames.Add(NewFileKey, ADisplayFile);
-      ADisplayFile.Busy:= False;
+      ADisplayFile.Busy:= [];
       ADisplayFile.IconID := -1;
       ADisplayFile.Selected := False;
       ADisplayFile.IconOverlayID := -1;
@@ -1299,7 +1299,7 @@ begin
           Exit;
         end;
     end;
-    ADisplayFile.Busy := False;
+    ADisplayFile.Busy := [];
     ADisplayFile.TextColor := clNone;
     ADisplayFile.IconOverlayID := -1;
     ADisplayFile.DisplayStrings.Clear;
@@ -1519,7 +1519,7 @@ var
   Index: Integer;
 begin
   for Index := 0 to FFiles.Count - 1 do
-    FFiles[Index].Busy:= False;
+    FFiles[Index].Busy:= [];
 end;
 
 procedure TFileView.DoOnFileListChanged;
@@ -2014,7 +2014,7 @@ begin
 
   DoFileUpdated(OrigDisplayFile);
 
-  OrigDisplayFile.Busy:= False;
+  OrigDisplayFile.Busy:= OrigDisplayFile.Busy - [bsProp];
 end;
 
 function TFileView.GetActiveFileName: String;
