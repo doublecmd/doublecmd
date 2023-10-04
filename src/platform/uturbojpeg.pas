@@ -92,6 +92,7 @@ var
   AWidth, AHeight: cint;
   AStream: TMemoryStream;
   jpegDecompressor: tjhandle;
+  DataDescription: TRawImageDescription;
 begin
   ASize:= Str.Size;
   AStream:= Str as TMemoryStream;
@@ -105,10 +106,16 @@ begin
 
     FGrayscale:= (jpegColorspace = TJCS_GRAY) or (jpegSubsamp = TJSAMP_GRAY);
 
-    TLazIntfImage(Img).DataDescription:= QueryDescription([riqfRGB, riqfAlpha], AWidth, AHeight);
+    // Get native RGBA pixel format
+    DataDescription:= QueryDescription([riqfRGB, riqfAlpha], AWidth, AHeight);
 
-    with TLazIntfImage(Img).DataDescription do
+    with DataDescription do
     begin
+      // Library does not support reversed bits
+      if BitOrder = riboReversedBits then
+      begin
+        Init_BPP32_R8G8B8A8_BIO_TTB(AWidth, AHeight);
+      end;
       if ByteOrder = riboLSBFirst then
       begin
         case RedShift of
@@ -127,6 +134,7 @@ begin
         end;
       end;
     end;
+    TLazIntfImage(Img).DataDescription:= DataDescription;
 
     if tjDecompress2(jpegDecompressor, AStream.Memory, ASize, TLazIntfImage(Img).PixelData, AWidth, 0, AHeight, cint(AFormat), TJFLAG_ACCURATEDCT) < 0 then
       raise Exception.Create(tjGetErrorStr2(jpegDecompressor));
