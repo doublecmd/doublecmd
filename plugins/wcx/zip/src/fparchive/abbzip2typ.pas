@@ -118,7 +118,7 @@ uses
 {$IFDEF MSWINDOWS}
   Windows, // Fix inline warnings
 {$ENDIF}
-  StrUtils, SysUtils,
+  StrUtils, SysUtils, BufStream,
   AbBzip2, AbExcept, AbVMStrm, AbBitBkt, AbProgress, DCOSUtils, DCClassesUtf8;
 
 { ****************** Helper functions Not from Classes Above ***************** }
@@ -326,24 +326,28 @@ var
   CurItem: TAbBzip2Item;
   UpdateArchive: Boolean;
   TempFileName: String;
-  InputFileStream: TAbProgressFileStream;
+  InputFileStream: TStream;
 begin
   if IsBzippedTar and TarAutoHandle then
   begin
     SwapToTar;
-    inherited SaveArchive;
     UpdateArchive := (FBzip2Stream.Size > 0) and (FBzip2Stream is TFileStreamEx);
     if UpdateArchive then
     begin
       FreeAndNil(FBzip2Stream);
       TempFileName := GetTempName(FArchiveName);
       { Create new archive with temporary name }
-      FBzip2Stream := TAbProgressFileStream.Create(TempFileName, fmCreate or fmShareDenyWrite, OnProgress);
+      FBzip2Stream := TFileStreamEx.Create(TempFileName, fmCreate or fmShareDenyWrite);
     end;
     FTarStream.Position := 0;
     CompStream := TBZCompressionStream.Create(CompressionLevel, FBzip2Stream);
     try
-      CompStream.CopyFrom(FTarStream, 0);
+      FTargetStream := TWriteBufStream.Create(CompStream, $40000);
+      try
+        inherited SaveArchive;
+      finally
+        FreeAndNil(FTargetStream);
+      end;
     finally
       CompStream.Free;
     end;
@@ -377,9 +381,14 @@ begin
             if CurItem.Action = aaStreamAdd then
               CompStream.CopyFrom(InStream, 0){ Copy/compress entire Instream to FBzip2Stream }
             else begin
-              InputFileStream := TAbProgressFileStream.Create(CurItem.DiskFileName, fmOpenRead or fmShareDenyWrite, OnProgress);
+              InputFileStream := TFileStreamEx.Create(CurItem.DiskFileName, fmOpenRead or fmShareDenyWrite);
               try
-                CompStream.CopyFrom(InputFileStream, 0);{ Copy/compress entire Instream to FBzip2Stream }
+                with TAbProgressWriteStream.Create(CompStream, InputFileStream.Size, OnProgress) do
+                try
+                  CopyFrom(InputFileStream, 0);{ Copy/compress entire Instream to FBzip2Stream }
+                finally
+                  Free;
+                end;
               finally
                 InputFileStream.Free;
               end;
@@ -408,11 +417,11 @@ const
   BufSize = $F000;
 var
   DecompStream: TBZDecompressionStream;
-  ProxyStream: TAbProgressStream;
+  ProxyStream: TAbProgressReadStream;
   Buffer: PByte;
   N: Integer;
 begin
-  ProxyStream:= TAbProgressStream.Create(FBzip2Stream, OnProgress);
+  ProxyStream:= TAbProgressReadStream.Create(FBzip2Stream, OnProgress);
   try
     DecompStream := TBZDecompressionStream.Create(ProxyStream);
     try

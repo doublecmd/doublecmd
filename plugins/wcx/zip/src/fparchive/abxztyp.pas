@@ -113,7 +113,7 @@ uses
 {$IFDEF MSWINDOWS}
   Windows, // Fix inline warnings
 {$ENDIF}
-  StrUtils, SysUtils,
+  StrUtils, SysUtils, BufStream,
   AbXz, AbExcept, AbVMStrm, AbBitBkt, AbProgress, CRC, DCOSUtils, DCClassesUtf8;
 
 { ****************** Helper functions Not from Classes Above ***************** }
@@ -126,9 +126,9 @@ end;
 function VerifyXz(Strm : TStream) : TAbArchiveType;
 var
   Hdr : TAbXzHeader;
-  CurPos : Int64;
-  TarStream: TStream;
-  DecompStream: TLzmaDecompression;
+  CurPos, DecompSize : Int64;
+  DecompStream, TarStream: TStream;
+  Buffer: array[0..Pred(AB_TAR_RECORDSIZE * 4)] of Byte;
 begin
   Result := atUnknown;
 
@@ -140,19 +140,20 @@ begin
       Result := atXz;
       { Check for embedded TAR }
       Strm.Seek(0, soBeginning);
-      TarStream := TMemoryStream.Create;
+      DecompStream := TXzDecompressionStream.Create(Strm);
       try
-        DecompStream := TLzmaDecompression.Create(Strm, TarStream);
+        TarStream := TMemoryStream.Create;
         try
-          DecompStream.Code(AB_TAR_RECORDSIZE * 4);
+          DecompSize:= DecompStream.Read(Buffer, SizeOf(Buffer));
+          TarStream.Write(Buffer, DecompSize);
           TarStream.Seek(0, soBeginning);
           if VerifyTar(TarStream) = atTar then
             Result := atXzippedTar;
         finally
-          DecompStream.Free;
+          TarStream.Free;
         end;
       finally
-       TarStream.Free;
+        DecompStream.Free;
       end;
     end;
   except
@@ -317,27 +318,31 @@ var
   CurItem: TAbXzItem;
   UpdateArchive: Boolean;
   TempFileName: String;
-  LzmaCompression: TLzmaCompression;
-  InputFileStream: TAbProgressFileStream;
+  CompStream: TStream;
+  InputFileStream: TStream;
 begin
   if IsXzippedTar and TarAutoHandle then
   begin
     SwapToTar;
-    inherited SaveArchive;
     UpdateArchive := (FXzStream.Size > 0) and (FXzStream is TFileStreamEx);
     if UpdateArchive then
     begin
       FreeAndNil(FXzStream);
       TempFileName := GetTempName(FArchiveName);
       { Create new archive with temporary name }
-      FXzStream := TAbProgressFileStream.Create(TempFileName, fmCreate or fmShareDenyWrite, OnProgress);
+      FXzStream := TFileStreamEx.Create(TempFileName, fmCreate or fmShareDenyWrite);
     end;
     FTarStream.Position := 0;
-    LzmaCompression := TLzmaCompression.Create(FTarStream, FXzStream, FCompressionLevel);
+    CompStream := TXzCompressionStream.Create(FXzStream, FCompressionLevel);
     try
-      LzmaCompression.Code();
+      FTargetStream := TWriteBufStream.Create(CompStream, $40000);
+      try
+        inherited SaveArchive;
+      finally
+        FreeAndNil(FTargetStream);
+      end;
     finally
-      LzmaCompression.Free;
+      CompStream.Free;
     end;
     if UpdateArchive then
     begin
@@ -364,27 +369,25 @@ begin
         aaDelete: ; {doing nothing omits file from new stream}
         aaAdd, aaFreshen, aaReplace, aaStreamAdd: begin
           FXzStream.Size := 0;
-          if CurItem.Action = aaStreamAdd then
-          begin
-            LzmaCompression := TLzmaCompression.Create(InStream, FXzStream, FCompressionLevel);
-            try
-              LzmaCompression.Code(); { Copy/compress entire Instream to FXzStream }
-            finally
-              LzmaCompression.Free;
-            end;
-          end
-          else begin
-            InputFileStream := TAbProgressFileStream.Create(CurItem.DiskFileName, fmOpenRead or fmShareDenyWrite, OnProgress);
-            try
-              LzmaCompression := TLzmaCompression.Create(InputFileStream, FXzStream, FCompressionLevel);
+          CompStream := TXZCompressionStream.Create(FXzStream, CompressionLevel);
+          try
+            if CurItem.Action = aaStreamAdd then
+              CompStream.CopyFrom(InStream, 0){ Copy/compress entire Instream to FBzip2Stream }
+            else begin
+              InputFileStream := TFileStreamEx.Create(CurItem.DiskFileName, fmOpenRead or fmShareDenyWrite);
               try
-                LzmaCompression.Code(); { Copy/compress entire Instream to FXzStream }
+                with TAbProgressWriteStream.Create(CompStream, InputFileStream.Size, OnProgress) do
+                try
+                  CopyFrom(InputFileStream, 0);{ Copy/compress entire Instream to FBzip2Stream }
+                finally
+                  Free;
+                end;
               finally
-                LzmaCompression.Free;
+                InputFileStream.Free;
               end;
-            finally
-              InputFileStream.Free;
             end;
+          finally
+            CompStream.Free;
           end;
           Break;
         end; { End aaAdd, aaFreshen, aaReplace, & aaStreamAdd }
@@ -404,16 +407,16 @@ end;
 { -------------------------------------------------------------------------- }
 procedure TAbXzArchive.DecompressToStream(aStream: TStream);
 var
-  ProxyStream: TAbProgressStream;
-  LzmaDecompression: TLzmaDecompression;
+  ProxyStream: TAbProgressReadStream;
+  DecompStream: TXzDecompressionStream;
 begin
-  ProxyStream:= TAbProgressStream.Create(FXzStream, OnProgress);
+  ProxyStream:= TAbProgressReadStream.Create(FXzStream, OnProgress);
   try
-    LzmaDecompression := TLzmaDecompression.Create(ProxyStream, aStream);
+    DecompStream := TXzDecompressionStream.Create(ProxyStream);
     try
-      LzmaDecompression.Code
+      aStream.CopyFrom(DecompStream, 0)
     finally
-      LzmaDecompression.Free;
+      DecompStream.Free;
     end;
   finally
     ProxyStream.Free;

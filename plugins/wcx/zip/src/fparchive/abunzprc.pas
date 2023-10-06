@@ -972,13 +972,13 @@ end;
 {$IFDEF UnzipXzSupport}
 procedure DoExtractXz(Archive : TAbZipArchive; Item : TAbZipItem; InStream, OutStream : TStream);
 var
-  LzmaDecompression: TLzmaDecompression;
+  XzStream: TXzDecompressionStream;
 begin
-  LzmaDecompression := TLzmaDecompression.Create(InStream, OutStream);
+  XzStream := TXzDecompressionStream.Create(InStream);
   try
-    LzmaDecompression.Code(Item.UncompressedSize);
+    OutStream.CopyFrom(XzStream, Item.UncompressedSize);
   finally
-    LzmaDecompression.Free;
+    XzStream.Free;
   end;
 end;
 {$ENDIF}
