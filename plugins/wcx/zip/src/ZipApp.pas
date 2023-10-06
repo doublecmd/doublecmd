@@ -195,7 +195,7 @@ end;
 procedure TAbZipKit.TestItemAt(Index: Integer);
 begin
   if (Archive <> nil) then
-    TAbArchiveAccess(Archive).TestItemAt(Index)
+    TAbArchiveAccess(Archive).TestAt(Index)
   else
     raise EAbNoArchive.Create;
 end;

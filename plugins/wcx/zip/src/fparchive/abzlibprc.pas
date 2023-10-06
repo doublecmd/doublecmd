@@ -19,6 +19,8 @@ type
   public
     constructor Create(ALevel: Integer; ADest: TStream);
     function Write(const Buffer; Count: Longint): Longint; override;
+    function Seek(const Offset: Int64; Origin: TSeekOrigin): Int64; override;
+    property Hash: UInt32 read FHash;
   end;
 
   { TInflateStream }
@@ -165,6 +167,15 @@ begin
   if Assigned(FOnProgressStep) then
   begin
     FOnProgressStep(raw_written * 100 div FSize);
+  end;
+end;
+
+function TDeflateStream.Seek(const Offset: Int64; Origin: TSeekOrigin): Int64;
+begin
+  if (Offset = 0) and (Origin = soCurrent) then
+    Result:= raw_written
+  else begin
+    Result:= inherited Seek(Offset, Origin);
   end;
 end;
 

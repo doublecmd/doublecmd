@@ -441,6 +441,7 @@ type
       virtual;
     procedure TagItems(const FileMask : string);
     procedure TestTaggedItems;
+    procedure TestAt(Index : Integer);
     procedure UnTagItems(const FileMask : string);
 
 
@@ -1557,6 +1558,13 @@ begin
     DoArchiveProgress(100, Abort);
   end;
 end;
+{ -------------------------------------------------------------------------- }
+procedure TAbArchive.TestAt(Index: Integer);
+begin
+  FCurrentItem := FItemList[Index];
+  TestItemAt(Index);
+end;
+
 { -------------------------------------------------------------------------- }
 function TAbArchive.FindFile(const aFileName : string): Integer;
   {find the index of the specified file}

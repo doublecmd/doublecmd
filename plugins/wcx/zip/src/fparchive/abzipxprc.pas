@@ -66,17 +66,17 @@ uses
 procedure DoCompressXz(Archive : TAbZipArchive; Item : TAbZipItem; OutStream, InStream : TStream);
 var
   ASource: TZipHashStream;
-  LzmaCompression: TLzmaCompression;
+  CompStream: TXzCompressionStream;
 begin
   Item.CompressionMethod := cmXz;
   ASource := TZipHashStream.Create(InStream);
   try
     ASource.OnProgress := Archive.OnProgress;
-    LzmaCompression := TLzmaCompression.Create(ASource, OutStream, Archive.CompressionLevel);
+    CompStream := TXzCompressionStream.Create(OutStream, Archive.CompressionLevel);
     try
-      LzmaCompression.Code(Item.UncompressedSize);
+      CompStream.CopyFrom(ASource, Item.UncompressedSize);
     finally
-      LzmaCompression.Free;
+      CompStream.Free;
     end;
     Item.CRC32 := LongInt(ASource.Hash);
   finally
