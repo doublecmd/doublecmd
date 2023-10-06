@@ -765,10 +765,18 @@ begin
     ProgressBar.Style := pbstMarquee
   else begin
     if Operation.State = fsosRunning then ProgressBar.Style := pbstNormal;
-    ProgressBar.SetProgress(CurrentBytes, TotalBytes,
-                            cnvFormatFileSize(CurrentBytes, uoscOperation) + '/' +
-                            cnvFormatFileSize(TotalBytes, uoscOperation)
-                            );
+
+    // Show only percent
+    if TotalBytes < 0 then
+    begin
+      ProgressBar.SetProgress(CurrentBytes, -TotalBytes, EmptyStr);
+    end
+    else begin
+      ProgressBar.SetProgress(CurrentBytes, TotalBytes,
+                              cnvFormatFileSize(CurrentBytes, uoscOperation) + '/' +
+                              cnvFormatFileSize(TotalBytes, uoscOperation)
+                              );
+    end;
   end;
 end;
 
@@ -779,10 +787,18 @@ begin
     ProgressBar.Style := pbstMarquee
   else begin
     if Operation.State = fsosRunning then ProgressBar.Style := pbstNormal;
-    ProgressBar.SetProgress(CurrentFiles, TotalFiles,
-                            IntToStrTS(CurrentFiles) + '/' +
-                            IntToStrTS(TotalFiles)
-                            );
+
+    // Show only percent
+    if TotalFiles < 0 then
+    begin
+      ProgressBar.SetProgress(CurrentFiles, -TotalFiles, EmptyStr);
+    end
+    else begin
+      ProgressBar.SetProgress(CurrentFiles, TotalFiles,
+                              IntToStrTS(CurrentFiles) + '/' +
+                              IntToStrTS(TotalFiles)
+                              );
+    end;
   end;
 end;
 
