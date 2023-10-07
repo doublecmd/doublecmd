@@ -406,7 +406,7 @@ end;
 { -------------------------------------------------------------------------- }
 procedure TAbZstdArchive.DecompressToStream(aStream: TStream);
 const
-  BufSize = $F000;
+  BufSize = $40000;
 var
   DecompStream: TZSTDDecompressionStream;
   ProxyStream: TAbProgressReadStream;
