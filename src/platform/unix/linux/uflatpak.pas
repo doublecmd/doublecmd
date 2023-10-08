@@ -7,15 +7,18 @@ interface
 uses
   Classes, SysUtils, uMyUnix;
 
+function FlatpakOpen(const FileName: String; Ask: Boolean32): Boolean;
+
 implementation
 
 uses
-  BaseUnix, DCUnix, uTrash, uDebug, uGLib2, uGObject2, uGio2;
+  BaseUnix, DCOSUtils, DCUnix, uTrash, uDebug, uGLib2, uGObject2, uGio2;
 
 const
   PORTAL_BUS_NAME = 'org.freedesktop.portal.Desktop';
   PORTAL_OBJECT_PATH = '/org/freedesktop/portal/desktop';
   PORTAL_INTERFACE_TRASH = 'org.freedesktop.portal.Trash';
+  PORTAL_INTERFACE_OPENURI = 'org.freedesktop.portal.OpenURI';
 
 var
   PortalBusName: String;
@@ -27,12 +30,55 @@ begin
   g_error_free(AError);
 end;
 
+function FlatpakOpen(const FileName: String; Ask: Boolean32): Boolean;
+var
+  Res: PGVariant;
+  Handle: THandle;
+  FDList: PGUnixFDList;
+  AError: PGError = nil;
+  Options: TGVariantBuilder;
+begin
+  if (DBusConn = nil) then Exit(False);
+  Handle:= mbFileOpen(FileName, fmOpenRead or fmShareDenyNone);
+
+  if Handle < 0 then Exit(False);
+
+  FDList:= g_unix_fd_list_new_from_array(@Handle, 1);
+  g_variant_builder_init(@Options, PGVariantType(Pgchar('a{sv}')));
+  g_variant_builder_add(@Options, '{sv}', ['ask', g_variant_new_boolean(Ask)]);
+
+  Res:= g_dbus_connection_call_with_unix_fd_list_sync(DBusConn,
+                                                      Pgchar(PortalBusName),
+                                                      PORTAL_OBJECT_PATH,
+                                                      PORTAL_INTERFACE_OPENURI,
+                                                      'OpenFile',
+                                                      g_variant_new('(sha{sv})', ['', 0, @Options]),
+                                                      nil,
+                                                      G_DBUS_CALL_FLAGS_NONE,
+                                                      -1,
+                                                      FDList,
+                                                      nil,
+                                                      nil,
+                                                      @AError);
+
+  g_object_unref(PGObject(FDList));
+
+  if Assigned(AError) then
+  begin
+    PrintError(AError);
+  end;
+
+  Result:= Assigned(Res);
+  if Result then g_variant_unref(Res);
+end;
+
 function FileTrash(const FileName: String): Boolean;
 var
   Answer: guint;
   Ret: PGVariant;
   Handle: THandle;
   FDList: PGUnixFDList;
+  AError: PGError = nil;
 begin
   repeat
     Handle:= fpOpen(FileName, O_PATH or O_CLOEXEC);
@@ -54,16 +100,21 @@ begin
                                                       FDList,
                                                       nil,
                                                       nil,
-                                                      nil);
+                                                      @AError);
 
   g_object_unref(PGObject(FDList));
+
+  if Assigned(AError) then
+  begin
+    PrintError(AError);
+  end;
 
   if (Ret = nil) then
     Result:= False
   else begin
     g_variant_get(Ret, '(u)', [@Answer]);
-    g_object_unref(PGObject(Ret));
     Result:= (Answer = 1);
+    g_variant_unref(Ret);
   end;
 end;
 

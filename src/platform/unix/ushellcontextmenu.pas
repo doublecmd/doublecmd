@@ -77,7 +77,7 @@ uses
   {$ELSEIF NOT DEFINED(HAIKU)}
   , uKeyFile, uMimeActions
     {$IF DEFINED(LINUX)}
-  , uRabbitVCS
+  , uRabbitVCS, uFlatpak
     {$ENDIF}
   {$ENDIF}
   ;
@@ -318,15 +318,24 @@ begin
 end;
 
 procedure TShellContextMenu.OpenWithOtherSelect(Sender: TObject);
+{$IF NOT (DEFINED(DARWIN) OR DEFINED(HAIKU))}
 var
   I: LongInt;
   FileNames: TStringList;
+{$ENDIF}
 begin
+{$IF DEFINED(LINUX)}
+  if DesktopEnv = DE_FLATPAK then
+    FlatpakOpen(FFiles[0].FullPath, True)
+  else
+{$ENDIF}
 {$IF NOT (DEFINED(DARWIN) OR DEFINED(HAIKU))}
-  FileNames := TStringList.Create;
-  for I := 0 to FFiles.Count - 1 do
-    FileNames.Add(FFiles[I].FullPath);
-  ShowOpenWithDialog(frmMain, FileNames);
+  begin
+    FileNames := TStringList.Create;
+    for I := 0 to FFiles.Count - 1 do
+      FileNames.Add(FFiles[I].FullPath);
+    ShowOpenWithDialog(frmMain, FileNames);
+  end;
 {$ENDIF}
 end;
 
