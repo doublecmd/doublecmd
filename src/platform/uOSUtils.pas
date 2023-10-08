@@ -200,7 +200,7 @@ uses
   , uGio, uClipboard, uXdg, uKde
     {$ENDIF}
     {$IF DEFINED(LINUX)}
-  , DCUnix, uMyLinux
+  , DCUnix, uMyLinux, uFlatpak
     {$ENDIF}
   {$ENDIF}
   ;
@@ -424,10 +424,13 @@ begin
     Result:= ExecuteCommand(sCmdLine, [], mbGetCurrentDir);
   end
   else begin
+  {$IF DEFINED(LINUX)}
+  if (DesktopEnv = DE_FLATPAK) then
+    Result:= FlatpakOpen(sCmdLine, False)
+  else
+  {$ENDIF}
   {$IF NOT DEFINED(HAIKU)}
-    if (DesktopEnv = DE_FLATPAK) then
-      Result:= ExecuteCommand('xdg-open', [sCmdLine], mbGetCurrentDir)
-    else if (DesktopEnv = DE_KDE) and (HasKdeOpen = True) then
+    if (DesktopEnv = DE_KDE) and (HasKdeOpen = True) then
       Result:= KioOpen(sCmdLine) // Under KDE use "kioclient" to open files
     else if HasGio and (DesktopEnv <> DE_XFCE) then
       Result:= GioOpen(sCmdLine) // Under GNOME, Unity and LXDE use "GIO" to open files
