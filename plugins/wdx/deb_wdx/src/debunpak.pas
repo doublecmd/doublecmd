@@ -86,12 +86,16 @@ begin
 end;
 
 function ExtractXz(InStream, OutStream: TStream): Boolean;
+var
+  AStream: TStream;
 begin
-  with TLzmaDecompression.Create(InStream, OutStream) do
+  Result:= False;
+  AStream:= TXzDecompressionStream.Create(InStream);
   try
-    Result:= Code();
+    OutStream.CopyFrom(AStream, 0);
+    Result:= True;
   finally
-    Free;
+    AStream.Free;
   end;
 end;
 
