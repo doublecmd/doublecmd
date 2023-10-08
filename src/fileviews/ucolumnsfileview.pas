@@ -659,10 +659,17 @@ end;
 procedure TColumnsFileView.SetRowCount(Count: Integer);
 begin
   FUpdatingActiveFile := True;
+  // Remove a fake bottom padding for last row
+  if dgPanel.RowCount > dgPanel.FixedRows then
+  begin
+    dgPanel.RowHeights[dgPanel.RowCount - 1] := dgPanel.DefaultRowHeight;
+  end;
   dgPanel.RowCount := dgPanel.FixedRows + Count;
-  // to add fake bottom padding for last row
-  if Count>0 then
+  // Add a fake bottom padding for last row
+  if Count > 0 then
+  begin
     dgPanel.RowHeights[dgPanel.RowCount - 1] := dgPanel.DefaultRowHeight + CELL_PADDING;
+  end;
   FUpdatingActiveFile := False;
 end;
 
