@@ -4046,6 +4046,13 @@ end;
 
 procedure TfrmMain.WMSize(var message: TLMSize);
 begin
+  // https://github.com/doublecmd/doublecmd/issues/736
+  if (Message.Width > High(Int16)) or (Message.Height > High(Int16)) then
+  begin
+    DCDebug('TfrmMain.WMSize invalid size %u x %u', [Message.Width, Message.Height]);
+    Exit;
+  end;
+
   inherited WMSize(Message);
 
   if not (csDestroying in ComponentState) then
