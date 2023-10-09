@@ -251,7 +251,11 @@ begin
   inherited CreateParams(Params);
   if FParentWindow <> 0 then
   begin
+    // It doesn't affect anything under GTK2 and raise
+    // a range check error (LCLGTK2 bug in the function CreateWidgetInfo)
+{$IFNDEF LCLGTK2}
     Params.Style := Params.Style or WS_POPUP;
+{$ENDIF}
     Params.WndParent := FParentWindow;
   end;
 end;
