@@ -344,9 +344,12 @@ end;
 
 function TXzDecompressionStream.Seek(const Offset: Int64; Origin: TSeekOrigin): Int64;
 begin
-  if (Offset = 0) and (Origin = soCurrent) then
-    Result:= FLzmaRec.total_in
-  else if (Origin = soBeginning) and (FLzmaRec.total_in = Offset) then
+  if (Offset >= 0) and (Origin = soCurrent) then
+  begin
+    if (Offset > 0) then Discard(Offset);
+    Result:= FLzmaRec.total_out;
+  end
+  else if (Origin = soBeginning) and (FLzmaRec.total_out = Offset) then
     Result:= Offset
   else begin
     raise ELzmaDecompressionError.CreateFmt(SStreamInvalidSeek, [ClassName]);
