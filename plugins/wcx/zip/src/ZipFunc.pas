@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    WCX plugin for working with *.zip, *.gz, *.tar, *.tgz archives
 
-   Copyright (C) 2007-2023 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2007-2024 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
@@ -140,6 +140,16 @@ begin
     Result := E_UNKNOWN;
 end;
 
+function CheckError(E: Exception): Integer;
+begin
+  Result:= GetArchiveError(E);
+  if (Result = E_UNKNOWN) then
+  begin
+    Result := E_HANDLED;
+    gStartupInfo.MessageBox(PAnsiChar(E.Message), nil, MB_OK or MB_ICONERROR);
+  end;
+end;
+
 procedure CheckError(Arc: TAbZipKitEx; E: Exception; const FileName: String);
 var
   AMessage: String;
@@ -165,9 +175,8 @@ end;
 
 function OpenArchiveW(var ArchiveData : tOpenArchiveDataW) : TArcHandle;dcpcall; export;
 var
-  Arc : TAbZipKitEx;
+  Arc : TAbZipKitEx absolute Result;
 begin
-  Result := 0;
   Arc := TAbZipKitEx.Create(nil);
   try
     Arc.OnArchiveProgress := @Arc.AbArchiveProgressEvent;
@@ -175,6 +184,10 @@ begin
     Arc.OnNeedPassword:= @Arc.AbNeedPasswordEvent;
     Arc.OnRequestImage:= @Arc.AbRequestImageEvent;
 
+    case ArchiveData.OpenMode of
+      PK_OM_LIST: Arc.OpenMode := opList;
+      PK_OM_EXTRACT: Arc.OpenMode := opExtract;
+    end;
     Arc.TarAutoHandle := gTarAutoHandle;
     Arc.OpenArchive(UTF16ToUTF8(UnicodeString(ArchiveData.ArcName)));
 
@@ -186,17 +199,11 @@ begin
 
     Arc.Password := PasswordCache.GetPassword(Arc.FileName);
     Arc.Tag := 0;
-    Result := TArcHandle(Arc);
   except
     on E: Exception do
     begin
-      Arc.Free;
-      ArchiveData.OpenResult := GetArchiveError(E);
-      if (ArchiveData.OpenResult = E_UNKNOWN) then
-      begin
-        ArchiveData.OpenResult := E_HANDLED;
-        gStartupInfo.MessageBox(PAnsiChar(E.Message), nil, MB_OK or MB_ICONERROR);
-      end;
+      FreeAndNil(Arc);
+      ArchiveData.OpenResult := CheckError(E);
     end;
   end;
 end;
@@ -209,16 +216,27 @@ end;
 function ReadHeaderExW(hArcData : TArcHandle; var HeaderData: THeaderDataExW) : Integer;dcpcall; export;
 var
   sFileName : String;
+  Item : TAbArchiveItem;
   Arc : TAbZipKitEx absolute hArcData;
 begin
-  if Arc.Tag > Arc.Count - 1 then
-    Exit(E_END_ARCHIVE);
+  if Arc.ZipArchive.StreamMode then
+  try
+    if not Arc.ZipArchive.StreamFindNext(Item) then
+      Exit(E_END_ARCHIVE);
+  except
+    on E: Exception do Exit(CheckError(E));
+  end
+  else begin
+    if Arc.Tag > Arc.Count - 1 then
+      Exit(E_END_ARCHIVE);
+    Item:= Arc.Items[Arc.Tag];
+  end;
 
-  sFileName := Arc.GetFileName(Arc.Tag);
+  sFileName := Arc.GetFileName(Item);
 
   StringToArrayW(CeUtf8ToUtf16(sFileName), @HeaderData.FileName, SizeOf(HeaderData.FileName));
 
-  with Arc.Items[Arc.Tag] do
+  with Item do
     begin
       HeaderData.PackSize     := Lo(CompressedSize);
       HeaderData.PackSizeHigh := Hi(CompressedSize);
@@ -308,6 +326,11 @@ begin
       end;
     end; {case}
 
+    if Arc.ZipArchive.StreamMode then
+    begin
+      Arc.ZipArchive.StreamSeekNext(Operation <> PK_SKIP);
+    end
+
   except
     on E: Exception do
     begin
@@ -377,6 +400,7 @@ begin
   Arc := TAbZipKitEx.Create(nil);
   try
     Arc.AutoSave := False;
+    Arc.OpenMode := opModify;
     Arc.TarAutoHandle:= True;
     Arc.FProcessDataProcW := gProcessDataProcW;
     Arc.OnProcessItemFailure := @Arc.AbProcessItemFailureEvent;
@@ -473,6 +497,7 @@ var
 begin
   Arc := TAbZipKitEx.Create(nil);
   try
+    Arc.OpenMode := opModify;
     Arc.TarAutoHandle:= True;
     Arc.FProcessDataProcW := gProcessDataProcW;
     Arc.OnProcessItemFailure := @Arc.AbProcessItemFailureEvent;

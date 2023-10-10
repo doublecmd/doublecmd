@@ -68,7 +68,6 @@ type
     FZstdItem     : TAbArchiveList; { item in zstd (only one, but need polymorphism of class)}
     FTarStream    : TStream;        { stream for possible contained Tar }
     FTarList      : TAbArchiveList; { items in possible contained Tar }
-    FTarAutoHandle: Boolean;
     FState        : TAbZstdArchiveState;
     FIsZstdTar    : Boolean;
 
@@ -166,7 +165,6 @@ begin
   FState      := gsZstd;
   FZstdStream := FStream;
   FZstdItem   := FItemList;
-  FTarStream  := TAbVirtualMemoryStream.Create;
   FTarList    := TAbArchiveList.Create(True);
 end;
 { -------------------------------------------------------------------------- }
@@ -282,11 +280,21 @@ begin
   if FZstdStream.Size = 0 then
     Exit;
 
-  if IsZstdTar and TarAutoHandle then begin
-    { Decompress and send to tar LoadArchive }
-    DecompressToStream(FTarStream);
-    SwapToTar;
-    inherited LoadArchive;
+  if IsZstdTar and TarAutoHandle then
+  begin
+    { Decompress and load archive on the fly }
+    if OpenMode <> opModify  then
+    begin
+      FTarStream := TZstdDecompressionStream.Create(FZstdStream);
+      SwapToTar;
+    end
+    else begin
+      FTarStream := TAbVirtualMemoryStream.Create;
+      { Decompress and send to tar LoadArchive }
+      DecompressToStream(FTarStream);
+      SwapToTar;
+      inherited LoadArchive;
+    end;
   end
   else begin
     SwapToZstd;
@@ -326,7 +334,6 @@ begin
       { Create new archive with temporary name }
       FZstdStream := TFileStreamEx.Create(TempFileName, fmCreate or fmShareDenyWrite);
     end;
-    FTarStream.Position := 0;
     CompStream := TZSTDCompressionStream.Create(FZstdStream, CompressionLevel);
     try
       FTargetStream := TWriteBufStream.Create(CompStream, $40000);

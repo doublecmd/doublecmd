@@ -70,7 +70,7 @@ type
     {en
        Get the normalized file name
     }
-    function GetFileName(aFileIndex: Integer): String;
+    function GetFileName(Item : TAbArchiveItem): String;
     {en
         Delete directory entry and all file and directory entries matching
         the same path recursively
@@ -147,21 +147,18 @@ begin
   begin
     for I := Pred(Count) downto 0 do
     begin
-      with Archive.ItemList[I] do
+      if CompareStr(GetFileName(Archive.ItemList[I]), aFileName) = 0 then
       begin
-        if CompareStr(GetFileName(I), aFileName) = 0 then
-        begin
-          DeleteAt(I);
-          Break;
-        end;
+        DeleteAt(I);
+        Break;
       end;
     end;
   end;
 end;
 
-function TAbZipKit.GetFileName(aFileIndex: Integer): String;
+function TAbZipKit.GetFileName(Item: TAbArchiveItem): String;
 begin
-  Result := Items[aFileIndex].FileName;
+  Result := Item.FileName;
   if (ArchiveType in [atGzip, atGzippedTar]) and (Result = 'unknown') then
   begin
     Result := ExtractOnlyFileName(FileName);

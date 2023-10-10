@@ -59,6 +59,7 @@ type
     FFileName : string;
     FLogFile : string;
     FLogging : Boolean;
+    FOpenMode : TAbOpenMode;
     FOnArchiveProgress : TAbArchiveProgressEvent;
     FOnArchiveItemProgress : TAbArchiveItemProgressEvent;
     FOnChange : TNotifyEvent;
@@ -202,6 +203,10 @@ type
       read FForceType
       write FForceType
       default False;
+
+    property OpenMode : TAbOpenMode
+      read FOpenMode
+      write FOpenMode;
 
   public {events}
     property OnChange : TNotifyEvent
@@ -381,6 +386,7 @@ begin
   ResetMeters;
   if Assigned(FArchive) then begin
     {properties}
+    FArchive.OpenMode              := FOpenMode;
     FArchive.SpanningThreshold     := FSpanningThreshold;
     FArchive.LogFile               := FLogFile;
     FArchive.Logging               := FLogging;

@@ -92,6 +92,7 @@ type
     FBufferInSize: UIntPtr;
     FBufferOut: ZSTD_outBuffer;
     FBufferOutPos: UIntPtr;
+    FTotalOut: Int64;
   public
     constructor Create(InStream: TStream);
     destructor Destroy; override;
@@ -104,7 +105,7 @@ function ZSTD_FileSize(const InStream: TStream): UInt64;
 implementation
 
 uses
-  DynLibs;
+  DynLibs, RtlConsts;
 
 const
   libzstd = {$IF DEFINED(MSWINDOWS)}
@@ -299,11 +300,21 @@ begin
 
     if (FBufferOut.pos = 0) and (FBufferIn.size = 0) then Break;
   end;
+  Inc(FTotalOut, Result);
 end;
 
 function TZstdDecompressionStream.Seek(const Offset: Int64; Origin: TSeekOrigin): Int64;
 begin
-  Result:= -1;
+  if (Offset >= 0) and (Origin = soCurrent) then
+  begin
+    if (Offset > 0) then Discard(Offset);
+    Result:= FTotalOut;
+  end
+  else if (Origin = soBeginning) and (FTotalOut = Offset) then
+    Result:= Offset
+  else begin
+    raise EZstdError.CreateFmt(SStreamInvalidSeek, [ClassName]);
+  end;
 end;
 
 { TZstdCompressionStream }

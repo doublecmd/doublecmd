@@ -85,6 +85,7 @@ type
     procedure LoadArchive; override;
     procedure SaveArchive; override;
     procedure TestItemAt(Index : Integer); override;
+    function GetStreamMode : Boolean; override;
     function GetSupportsEmptyFolders : Boolean; override;
 
   public {methods}
@@ -447,6 +448,11 @@ begin
       BitBucket.Free;
     end;
   end;
+end;
+{ -------------------------------------------------------------------------- }
+function TAbLzmaArchive.GetStreamMode: Boolean;
+begin
+  Result := False;
 end;
 { -------------------------------------------------------------------------- }
 procedure TAbLzmaArchive.DoSpanningMediaRequest(Sender: TObject;

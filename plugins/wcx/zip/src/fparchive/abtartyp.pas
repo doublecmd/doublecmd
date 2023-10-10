@@ -423,6 +423,7 @@ type
     FArchFormat: TAbTarHeaderFormat;
   protected
     FTargetStream: TStream;
+    FTarAutoHandle: Boolean;
   protected
     function CreateItem(const SourceFileName   : string;
                         const ArchiveDirectory : string): TAbArchiveItem;
@@ -439,7 +440,9 @@ type
       override;
     function FixName(const Value: string): string;
       override;
-   	function GetSupportsEmptyFolders: Boolean;
+    function GetStreamMode : Boolean;
+      override;
+    function GetSupportsEmptyFolders: Boolean;
       override;
 
     function GetItem(Index: Integer): TAbTarItem;
@@ -448,6 +451,10 @@ type
   public {methods}
     constructor CreateFromStream(aStream : TStream; const aArchiveName : string);
       override;
+
+    function StreamFindNext(out Item: TAbArchiveItem): Boolean; override;
+    procedure StreamSeekNext(ASkip: Boolean); override;
+
     property UnsupportedTypesDetected : Boolean
       read FArchReadOnly;
     property Items[Index : Integer] : TAbTarItem
@@ -1200,7 +1207,13 @@ begin
   begin
     { Create a Header to be Stored in the Items List }
     GetMem(PTarHeader, AB_TAR_RECORDSIZE);
-    AStream.ReadBuffer(PTarHeader^, AB_TAR_RECORDSIZE);
+    I:= AStream.Read(PTarHeader^, AB_TAR_RECORDSIZE);
+    if (I < AB_TAR_RECORDSIZE) or (StrLen(PTarHeader^.Name) = 0) then
+    begin
+      FreeMem(PTarHeader);
+      PTarHeader := nil;
+      Exit;
+    end;
     FTarHeaderList.Add(PTarHeader); { Store the Header to the list }
     { Parse header based on LinkFlag }
     if PTarHeader.LinkFlag in (AB_SUPPORTED_MD_HEADERS+AB_UNSUPPORTED_MD_HEADERS) then
@@ -1248,9 +1261,6 @@ begin
   end; { end Found Item While }
   { PTarHeader points to FTarHeaderList.Items[FTarHeaderList.Count-1]; }
 
-  { Re-wind the Stream back to the begining of this Item inc. all headers }
-  AStream.Seek(-(FTarHeaderList.Count*AB_TAR_RECORDSIZE), soCurrent);
-  { AStream.Position := FTarItem.StreamPosition; } { This should be equivalent as above }
   FTarItem.FileHeaderCount := FTarHeaderList.Count;
   if FTarItem.ItemType <> UNKNOWN_ITEM then
   begin
@@ -2094,7 +2104,78 @@ end;
 constructor TAbTarArchive.CreateFromStream(aStream : TStream; const aArchiveName : string);
 begin
   inherited;
+  FTarAutoHandle := True;
   FArchFormat := V7_FORMAT;  // Default for new archives
+end;
+
+function TAbTarArchive.StreamFindNext(out Item: TAbArchiveItem): Boolean;
+var
+  I            : Integer;
+  Confirm      : Boolean;
+  Duplicate    : Boolean;
+  AItem        : TAbTarItem;
+begin
+  repeat
+    Duplicate := False;
+    {create new AItem}
+    AItem := TAbTarItem.Create;
+    AItem.FTarItem.StreamPosition := FStream.Position;
+    try  {AItem}
+      AItem.LoadTarHeaderFromStream(FStream);
+      if AItem.PTarHeader = nil then
+      begin
+        AItem.Free;
+        Exit(False);
+      end;
+      if AItem.ItemReadOnly then
+        FArchReadOnly := True; { Set Archive as Read Only }
+      if AItem.ItemType in [SUPPORTED_ITEM, UNSUPPORTED_ITEM] then begin
+      { List of supported AItem/File Types. }
+        { Add the New Supported AItem to the List }
+        if FArchFormat < AItem.ArchiveFormat then
+          FArchFormat := AItem.ArchiveFormat; { Take the max format }
+        AItem.Action := aaNone;
+        FCurrentItem := AItem;
+        {
+          TAR archive can contain the same directory multiple
+          times. In this case, use the last found directory.
+        }
+        if AItem.IsDirectory then
+        begin
+          I := FItemList.Find(AItem.FileName);
+          if (I >= 0) then
+          begin
+            Duplicate := True;
+            FItemList.Items[I] := AItem;
+          end;
+        end;
+        if Duplicate then
+          StreamSeekNext(False)
+        else begin
+          FItemList.Add(AItem);
+        end;
+      end { end if }
+      else begin
+      { unhandled Tar file system entity, notify user, but otherwise ignore }
+        if Assigned(FOnConfirmProcessItem) then
+          FOnConfirmProcessItem(self, AItem, ptFoundUnhandled, Confirm);
+      end;
+      Item := AItem;
+      Result := True;
+
+    except {AItem}
+      raise EAbTarBadOp.Create; { Invalid AItem }
+    end; {AItem}
+  until not Duplicate;
+end;
+
+procedure TAbTarArchive.StreamSeekNext(ASkip: Boolean);
+var
+  AOffset: Int64;
+begin
+  AOffset:= RoundToTarBlock(TAbTarItem(FCurrentItem).FTarItem.Size);
+  if ASkip then AOffset-= TAbTarItem(FCurrentItem).FTarItem.Size;
+  FStream.Seek(AOffset, soCurrent);
 end;
 
 function TAbTarArchive.CreateItem(const SourceFileName   : string;
@@ -2244,95 +2325,45 @@ end;
 
 procedure TAbTarArchive.LoadArchive;
 var
-  TarHelp      : TAbTarStreamHelper;
-  Item         : TAbTarItem;
+  Progress     : Byte;
+  I            : Integer;
   ItemFound    : Boolean;
   Abort        : Boolean;
-  Confirm      : Boolean;
-  Duplicate    : Boolean;
-  i            : Integer;
-  Progress     : Byte;
+  Item         : TAbArchiveItem;
 begin
-  { create helper }
-  TarHelp := TAbTarStreamHelper.Create(FStream);
-  try {TarHelp}
-    {build Items list from tar header records}
+  { Reset state }
+  FStream.Seek(0, soBeginning);
+  FArchFormat := UNKNOWN_FORMAT;
 
-    { reset Tar }
-    Duplicate := False;
-    ItemFound := (FStream.Size > 0) and TarHelp.FindFirstItem;
-    if ItemFound then FArchFormat := UNKNOWN_FORMAT
-    else FArchFormat := V7_FORMAT;
+  if StreamMode then Exit;
 
-    { while more data in Tar }
-    while (FStream.Position < FStream.Size) and ItemFound do begin
-      {create new Item}
-      Item := TAbTarItem.Create;
-      Item.FTarItem.StreamPosition := FStream.Position;
-      try  {Item}
-        Item.LoadTarHeaderFromStream(FStream);
-        if Item.ItemReadOnly then
-          FArchReadOnly := True; { Set Archive as Read Only }
-        if Item.ItemType in [SUPPORTED_ITEM, UNSUPPORTED_ITEM] then begin
-        { List of supported Item/File Types. }
-          { Add the New Supported Item to the List }
-          if FArchFormat < Item.ArchiveFormat then
-            FArchFormat := Item.ArchiveFormat; { Take the max format }
-          Item.Action := aaNone;
-          {
-            TAR archive can contain the same directory multiple
-            times. In this case, use the last found directory.
-          }
-          if Item.IsDirectory then
-          begin
-            I := FItemList.Find(Item.FileName);
-            if (I >= 0) then
-            begin
-              Duplicate := True;
-              FItemList.Items[I] := Item;
-            end;
-          end;
-          if Duplicate then
-            Duplicate := False
-          else begin
-            FItemList.Add(Item);
-          end;
-        end { end if }
-        else begin
-        { unhandled Tar file system entity, notify user, but otherwise ignore }
-          if Assigned(FOnConfirmProcessItem) then
-            FOnConfirmProcessItem(self, Item, ptFoundUnhandled, Confirm);
-        end;
+  { Build Items list from tar header records }
+  ItemFound := True;
+  { while more data in Tar }
+  while ItemFound do begin
+    ItemFound:= StreamFindNext(Item);
+    if not ItemFound then Exit;
 
-        { show progress and allow for aborting }
-        Progress := (FStream.Position*100) div FStream.Size;
-        DoArchiveProgress(Progress, Abort);
-        if Abort then begin
-          FStatus := asInvalid;
-          raise EAbUserAbort.Create;
-        end;
-
-        { get the next item }
-        ItemFound := TarHelp.FindNextItem;
-      except {Item}
-        raise EAbTarBadOp.Create; { Invalid Item }
-      end; {Item}
-    end; {end while }
-
-    { All the items need to reflect this information. }
-    for i := 0 to FItemList.Count - 1 do
-    begin
-      TAbTarItem(FItemList.Items[i]).ArchiveFormat := FArchFormat;
-      TAbTarItem(FItemList.Items[i]).ItemReadOnly := FArchReadOnly;
+    { show progress and allow for aborting }
+    Progress := (FStream.Position*100) div FStream.Size;
+    DoArchiveProgress(Progress, Abort);
+    if Abort then begin
+      FStatus := asInvalid;
+      raise EAbUserAbort.Create;
     end;
 
-    DoArchiveProgress(100, Abort);
-    FIsDirty := False;
+    StreamSeekNext(False);
+  end; {end while }
 
-  finally {TarHelp}
-    { Clean Up }
-    TarHelp.Free;
-  end; {TarHelp}
+  { All the items need to reflect this information. }
+  for i := 0 to FItemList.Count - 1 do
+  begin
+    TAbTarItem(FItemList.Items[i]).ArchiveFormat := FArchFormat;
+    TAbTarItem(FItemList.Items[i]).ItemReadOnly := FArchReadOnly;
+  end;
+
+  DoArchiveProgress(100, Abort);
+  FIsDirty := False;
 end;
 
 
@@ -2376,6 +2407,11 @@ begin
   AbFixName(lValue);
 
   Result := lValue;
+end;
+
+function TAbTarArchive.GetStreamMode: Boolean;
+begin
+  Result:= FTarAutoHandle and (FOpenMode <> opModify);
 end;
 
 function TAbTarArchive.GetItem(Index: Integer): TAbTarItem;

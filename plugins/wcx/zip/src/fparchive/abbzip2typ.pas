@@ -75,7 +75,6 @@ type
     FBzip2Item    : TAbArchiveList; { item in bzip2 (only one, but need polymorphism of class)}
     FTarStream    : TStream;        { stream for possible contained Tar }
     FTarList      : TAbArchiveList; { items in possible contained Tar }
-    FTarAutoHandle: Boolean;
     FState        : TAbBzip2ArchiveState;
     FIsBzippedTar : Boolean;
 
@@ -115,9 +114,6 @@ function VerifyBzip2(Strm : TStream) : TAbArchiveType;
 implementation
 
 uses
-{$IFDEF MSWINDOWS}
-  Windows, // Fix inline warnings
-{$ENDIF}
   StrUtils, SysUtils, BufStream,
   AbBzip2, AbExcept, AbVMStrm, AbBitBkt, AbProgress, DCOSUtils, DCClassesUtf8;
 
@@ -178,7 +174,6 @@ begin
   FState       := gsBzip2;
   FBzip2Stream := FStream;
   FBzip2Item   := FItemList;
-  FTarStream   := TAbVirtualMemoryStream.Create;
   FTarList     := TAbArchiveList.Create(True);
 end;
 { -------------------------------------------------------------------------- }
@@ -294,11 +289,21 @@ begin
   if FBzip2Stream.Size = 0 then
     Exit;
 
-  if IsBzippedTar and TarAutoHandle then begin
-    { Decompress and send to tar LoadArchive }
-    DecompressToStream(FTarStream);
-    SwapToTar;
-    inherited LoadArchive;
+  if IsBzippedTar and TarAutoHandle then
+  begin
+    { Decompress and load archive on the fly }
+    if OpenMode <> opModify  then
+    begin
+      FTarStream := TBZDecompressionStream.Create(FBzip2Stream);
+      SwapToTar;
+    end
+    else begin
+      FTarStream := TAbVirtualMemoryStream.Create;
+      { Decompress and send to tar LoadArchive }
+      DecompressToStream(FTarStream);
+      SwapToTar;
+      inherited LoadArchive;
+    end;
   end
   else begin
     SwapToBzip2;
@@ -339,7 +344,6 @@ begin
       { Create new archive with temporary name }
       FBzip2Stream := TFileStreamEx.Create(TempFileName, fmCreate or fmShareDenyWrite);
     end;
-    FTarStream.Position := 0;
     CompStream := TBZCompressionStream.Create(CompressionLevel, FBzip2Stream);
     try
       FTargetStream := TWriteBufStream.Create(CompStream, $40000);

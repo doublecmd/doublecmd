@@ -771,6 +771,8 @@ begin
       ReadBuffer(Buf, NewOff mod sizeof(Buf));
     end;
   end
+  else if (Origin = soBeginning) and (conv64.QuadPart = Offset) then
+    Result:= Offset
   else
     raise EBZDecompressionError.Create('Invalid stream operation');
   Result := conv64.QuadPart;

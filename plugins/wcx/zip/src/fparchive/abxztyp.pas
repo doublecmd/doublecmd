@@ -70,7 +70,6 @@ type
     FXzItem       : TAbArchiveList; { item in xz (only one, but need polymorphism of class)}
     FTarStream    : TStream;        { stream for possible contained Tar }
     FTarList      : TAbArchiveList; { items in possible contained Tar }
-    FTarAutoHandle: Boolean;
     FState        : TAbXzArchiveState;
     FIsXzippedTar : Boolean;
 
@@ -110,9 +109,6 @@ function VerifyXz(Strm : TStream) : TAbArchiveType;
 implementation
 
 uses
-{$IFDEF MSWINDOWS}
-  Windows, // Fix inline warnings
-{$ENDIF}
   StrUtils, SysUtils, BufStream,
   AbXz, AbExcept, AbVMStrm, AbBitBkt, AbProgress, CRC, DCOSUtils, DCClassesUtf8;
 
@@ -171,7 +167,6 @@ begin
   FState       := gsXz;
   FXzStream    := FStream;
   FXzItem      := FItemList;
-  FTarStream   := TAbVirtualMemoryStream.Create;
   FTarList     := TAbArchiveList.Create(True);
 end;
 { -------------------------------------------------------------------------- }
@@ -287,11 +282,21 @@ begin
   if FXzStream.Size = 0 then
     Exit;
 
-  if IsXzippedTar and TarAutoHandle then begin
-    { Decompress and send to tar LoadArchive }
-    DecompressToStream(FTarStream);
-    SwapToTar;
-    inherited LoadArchive;
+  if IsXzippedTar and TarAutoHandle then
+  begin
+    { Decompress and load archive on the fly }
+    if OpenMode <> opModify  then
+    begin
+      FTarStream := TXzDecompressionStream.Create(FXzStream);
+      SwapToTar;
+    end
+    else begin
+      FTarStream := TAbVirtualMemoryStream.Create;
+      { Decompress and send to tar LoadArchive }
+      DecompressToStream(FTarStream);
+      SwapToTar;
+      inherited LoadArchive;
+    end;
   end
   else begin
     SwapToXz;
@@ -332,7 +337,6 @@ begin
       { Create new archive with temporary name }
       FXzStream := TFileStreamEx.Create(TempFileName, fmCreate or fmShareDenyWrite);
     end;
-    FTarStream.Position := 0;
     CompStream := TXzCompressionStream.Create(FXzStream, FCompressionLevel);
     try
       FTargetStream := TWriteBufStream.Create(CompStream, $40000);

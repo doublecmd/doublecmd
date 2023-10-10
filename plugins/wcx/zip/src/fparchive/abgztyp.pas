@@ -260,6 +260,8 @@ type
       override;
     function FixName(const Value : string) : string;
       override;
+    function GetStreamMode : Boolean;
+      override;
     function GetSupportsEmptyFolders : Boolean;
       override;
 
@@ -1064,6 +1066,11 @@ begin
     if Value <> '' then
       Result := ExtractFileName(Value);
   end;
+end;
+
+function TAbGzipArchive.GetStreamMode: Boolean;
+begin
+  Result := False;
 end;
 
 function TAbGzipArchive.GetIsGzippedTar: Boolean;

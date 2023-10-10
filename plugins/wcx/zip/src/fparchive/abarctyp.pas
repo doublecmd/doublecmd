@@ -210,6 +210,9 @@ type
   TAbArchiveStatus =
     (asInvalid, asIdle, asBusy);
 
+  TAbOpenMode =
+    (opList, opExtract, opModify);
+
   TAbArchiveEvent =
     procedure(Sender : TObject) of object;
   TAbArchiveConfirmEvent =
@@ -287,6 +290,7 @@ type
     FBaseDirectory  : string;
     FCurrentItem    : TAbArchiveItem;
     FDOSMode        : Boolean;
+    FOpenMode       : TAbOpenMode;
     FExtractOptions : TAbExtractOptions;
     FImageNumber    : Word;
     FInStream       : TStream;
@@ -390,6 +394,8 @@ type
       virtual;
     function FixName(const Value : string) : string;
       virtual;
+    function GetStreamMode : Boolean;
+      virtual;
     function GetSpanningThreshold : Int64;
       virtual;
     function GetSupportsEmptyFolders : Boolean;
@@ -444,6 +450,8 @@ type
     procedure TestAt(Index : Integer);
     procedure UnTagItems(const FileMask : string);
 
+    function StreamFindNext(out Item: TAbArchiveItem): Boolean; virtual;
+    procedure StreamSeekNext(ASkip: Boolean); virtual;
 
     procedure DoDeflateProgress(aPercentDone : integer);
       virtual;
@@ -467,6 +475,11 @@ type
     property DOSMode : Boolean
       read FDOSMode
       write FDOSMode;
+    property OpenMode : TAbOpenMode
+      read FOpenMode
+      write FOpenMode;
+    property StreamMode : Boolean
+      read GetStreamMode;
     property ExtractOptions : TAbExtractOptions
       read FExtractOptions
       write FExtractOptions;
@@ -1615,6 +1628,11 @@ begin
   Result := lValue;
 end;
 { -------------------------------------------------------------------------- }
+function TAbArchive.GetStreamMode: Boolean;
+begin
+  Result := False;
+end;
+{ -------------------------------------------------------------------------- }
 procedure TAbArchive.Freshen(aItem : TAbArchiveItem);
   {freshen the item}
 var
@@ -2025,6 +2043,16 @@ begin
         if MatchesStoredNameEx(FileMask) then
           Tagged := False;
       end;
+end;
+{ -------------------------------------------------------------------------- }
+function TAbArchive.StreamFindNext(out Item: TAbArchiveItem): Boolean;
+begin
+  Result := False;
+end;
+{ -------------------------------------------------------------------------- }
+procedure TAbArchive.StreamSeekNext(ASkip: Boolean);
+begin
+
 end;
 { -------------------------------------------------------------------------- }
 procedure TAbArchive.DoSpanningMediaRequest(Sender: TObject;
