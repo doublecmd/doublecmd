@@ -2408,13 +2408,17 @@ end;
 procedure TfrmViewer.SynEditKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
-  if (not gShowCaret) and (Key in [VK_UP, VK_DOWN]) then
+  if (not gShowCaret) and (Key in [VK_UP, VK_DOWN, VK_PRIOR, VK_NEXT, VK_LEFT, VK_RIGHT]) then
   begin
-    if Key = VK_UP then
-      SynEdit.Perform(WM_VSCROLL, SB_LINEUP, 0)
-    else begin
-      SynEdit.Perform(WM_VSCROLL, SB_LINEDOWN, 0);
+    case Key of
+      VK_UP:    SynEdit.Perform(WM_VSCROLL, SB_LINEUP, 0);
+      VK_DOWN:  SynEdit.Perform(WM_VSCROLL, SB_LINEDOWN, 0);
+      VK_PRIOR: SynEdit.Perform(WM_VSCROLL, SB_PAGEUP, 0);
+      VK_NEXT:  SynEdit.Perform(WM_VSCROLL, SB_PAGEDOWN, 0);
+      VK_LEFT:  SynEdit.Perform(WM_HSCROLL, SB_LINELEFT, 0);
+      VK_RIGHT: SynEdit.Perform(WM_HSCROLL, SB_LINERIGHT, 0);
     end;
+    Key:= 0;
   end;
 end;
 
