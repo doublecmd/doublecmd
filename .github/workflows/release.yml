@@ -38,7 +38,7 @@ jobs:
         fetch-depth: 0
 
     - name: Download unrar source code
-      run: wget https://www.rarlab.com/rar/unrarsrc-6.2.11.tar.gz -O /tmp/unrarsrc.tar.gz
+      run: wget https://www.rarlab.com/rar/unrarsrc-6.2.12.tar.gz -O /tmp/unrarsrc.tar.gz
       
     - name: Extract unrar source code
       run: cd /tmp && tar xzf unrarsrc.tar.gz
