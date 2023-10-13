@@ -1038,7 +1038,6 @@ object frmStartingSplash: TfrmStartingSplash
     ChildSizing.ControlsPerLine = 1
     ClientHeight = 302
     ClientWidth = 196
-    Color = clForm
     ParentColor = False
     ParentFont = False
     TabOrder = 0
