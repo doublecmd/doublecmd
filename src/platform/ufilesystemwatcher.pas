@@ -801,7 +801,7 @@ begin
                       // Same cookie and path
                       if (v^.cookie = ev^.cookie) and (v^.wd = ev^.wd) then
                       begin
-                        v^.cookie := 0;
+                        v^.mask := IN_IGNORED;
                         EventType := fswFileRenamed;
                         NewFileName := StrPas(PChar(@v^.name));
                         Break;
@@ -812,13 +812,7 @@ begin
                 end
               else if (ev^.mask and IN_MOVED_TO) <> 0 then
                 begin
-                  if ev^.cookie <> 0 then
-                    EventType := fswFileCreated
-                  else begin
-                    // Already processed, skip
-                    p := p + sizeof(inotify_event) + ev^.len;
-                    Continue;
-                  end;
+                  EventType := fswFileCreated
                 end
               else if (ev^.mask and (IN_DELETE_SELF or
                                      IN_MOVE_SELF)) <> 0 then
