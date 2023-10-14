@@ -367,8 +367,10 @@ end;
 procedure TKASPathEdit.TextChanged;
 begin
   Inherited;
-  // TextChanged is called by user input, "if Modified" is not need
-  if FAutoComplete then AutoComplete(Text);
+  if not Modified then
+    Exit;
+  if FAutoComplete then
+    AutoComplete(Text);
 end;
 {$ENDIF}
 
