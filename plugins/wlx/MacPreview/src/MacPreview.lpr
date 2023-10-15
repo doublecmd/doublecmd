@@ -38,6 +38,10 @@ type
     procedure initPath( path: pchar); message 'initPath:';
   end;
 
+  DCQLPreview = objcclass(QLPreviewView)
+    function acceptsFirstResponder: ObjCBOOL; override;
+  end;
+
 // copy from uMyDarwin
 function StringToNSString(const S: String): NSString;
 begin
@@ -74,6 +78,11 @@ begin
   ext:= UpperCase( ExtractOnlyFileExt(path) );
 end;
 
+function DCQLPreview.acceptsFirstResponder: ObjCBOOL;
+begin
+  Result:= false;
+end;
+
 procedure setFilepath( view:QLPreviewView; filepath:String );
 var
   item: TQLPItem;
@@ -91,7 +100,7 @@ function ListLoad( ParentWin:THandle; FileToLoad:pchar; {%H-}ShowFlags:integer):
 var
   view: QLPreviewView;
 begin
-  view:= QLPreviewView.alloc.init;
+  view:= DCQLPreview.alloc.init;
   view.setShouldCloseWithWindow( false );
   NSView(ParentWin).addSubview( view );
   setFilepath( view, FileToLoad );
