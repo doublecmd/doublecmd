@@ -6088,9 +6088,21 @@ begin
 end;
 
 procedure TfrmMain.LoadTabs;
+var
+  AConfig: TXmlConfig;
 begin
-  LoadTabsXml(gConfig,'Tabs/OpenedTabs/Left', nbLeft);
-  LoadTabsXml(gConfig,'Tabs/OpenedTabs/Right', nbRight);
+  if gConfig.FindNode(gConfig.RootNode, 'Tabs/OpenedTabs') <> nil then
+    AConfig:= gConfig
+  else begin
+    AConfig:= TXmlConfig.Create(gpCfgDir + 'tabs.xml', True);
+  end;
+
+  try
+    LoadTabsXml(AConfig, 'Tabs/OpenedTabs/Left', nbLeft);
+    LoadTabsXml(AConfig, 'Tabs/OpenedTabs/Right', nbRight);
+  finally
+    if (AConfig <> gConfig) then AConfig.Free;
+  end;
 
   if not CommandLineParams.ActivePanelSpecified then
   begin
@@ -6306,6 +6318,8 @@ begin
 end;
 
 procedure TfrmMain.ConfigSaveSettings(bForce: Boolean);
+var
+  AConfig: TXmlConfig;
 begin
   try
     DebugLn('Saving configuration');
@@ -6316,8 +6330,15 @@ begin
     (* Save all tabs *)
     if gSaveFolderTabs or bForce then
     begin
-      SaveTabsXml(gConfig, 'Tabs/OpenedTabs/', nbLeft, gSaveDirHistory);
-      SaveTabsXml(gConfig, 'Tabs/OpenedTabs/', nbRight, gSaveDirHistory);
+      AConfig:= TXmlConfig.Create(gpCfgDir + 'tabs.xml');
+      try
+        SaveTabsXml(AConfig, 'Tabs/OpenedTabs/', nbLeft, gSaveDirHistory);
+        SaveTabsXml(AConfig, 'Tabs/OpenedTabs/', nbRight, gSaveDirHistory);
+        AConfig.Save;
+      finally
+        AConfig.Free;
+      end;
+      gConfig.DeleteNode(gConfig.RootNode, 'Tabs/OpenedTabs');
     end;
 
     if gSaveWindowState then SaveWindowState;
