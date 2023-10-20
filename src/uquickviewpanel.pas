@@ -41,6 +41,7 @@ type
     FFileSource: IFileSource;
     FViewer: TfrmViewer;
     FFileName: String;
+    FTempFileSource: IFileSource;
     FLastFocusedControl: TWinControl;
   private
     procedure LoadFile(const aFileName: String);
@@ -68,7 +69,7 @@ var
 implementation
 
 uses
-  LCLProc, Forms, DCOSUtils, fMain, uTempFileSystemFileSource, uLng,
+  LCLProc, Forms, DCOSUtils, DCStrUtils, fMain, uTempFileSystemFileSource, uLng,
   uFileSourceProperty, uFileSourceOperation, uFileSourceOperationTypes,
   uGlobs, uShellExecute;
 
@@ -302,7 +303,6 @@ var
   sCmd: string = '';
   sParams: string = '';
   sStartPath: string = '';
-  iStart, iFinish: Integer;
   bTerm, bKeepTerminalOpen: Boolean;
   bAbortOperationFlag: Boolean = False;
   bShowCommandLinePriorToExecute: Boolean = False;
@@ -323,16 +323,16 @@ begin
       end;
       if not bAbortOperationFlag then
       begin
-        iStart:= Pos('<?', sParams);
-        iFinish:= Pos('?>', sParams, iStart + 2);
-        if (iStart > 0) and (iFinish > iStart) then
+        if StrBegins(sParams, '<?') and (StrEnds(sParams, '?>')) then
         begin
-          if FFileSource is TTempFileSystemFileSource then
-            sStartPath:= FFileSource.GetRootDir
-          else begin
-            sStartPath:= EmptyStr;
+          if (FTempFileSource = nil) then
+          begin
+            if FFileSource is TTempFileSystemFileSource then
+              FTempFileSource:= FFileSource
+            else
+              FTempFileSource:= TTempFileSystemFileSource.GetFileSource;
           end;
-          PrepareOutput(sParams, sStartPath);
+          PrepareOutput(sParams, FTempFileSource.GetRootDir);
           if mbFileExists(sParams) then FileName:= sParams;
         end;
       end;
