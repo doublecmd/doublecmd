@@ -173,7 +173,7 @@ type
 
 const
   { Default hotkey list version number }
-  hkVersion = 59;
+  hkVersion = 60;
   // 54 - In "Viewer" context, added the "W" for "cm_WrapText", "4" for "cm_ShowAsDec", "8" for "cm_ShowOffice".
   // 53 - In "Main" context, change shortcut "Alt+`" to "Alt+0" for the "cm_ActivateTabByIndex".
   // 52 - In "Main" context, add shortcut "Ctrl+Shift+B" for "cm_FlatViewSel".
@@ -1206,11 +1206,25 @@ begin
       AddIfNotExists(['F1'],[],'cm_About');
       AddIfNotExists(['F2'],[],'cm_Reload');
 
+      if HotMan.Version < 60 then
+      begin
+        HMHotKey:= Find(['Right']);
+        if Assigned(HMHotKey) and (HMHotKey.Command = 'cm_LoadNextFile') then
+        begin
+          HMHotKey.Shortcuts[0]:= 'Alt+Right';
+        end;
+        HMHotKey:= Find(['Left']);
+        if Assigned(HMHotKey) and (HMHotKey.Command = 'cm_LoadPrevFile') then
+        begin
+          HMHotKey.Shortcuts[0]:= 'Alt+Left';
+        end;
+      end;
+
       AddIfNotExists(['N'   ,'','',
-                      'Right','',''],'cm_LoadNextFile'); //, ['N'], []);
+                      'Alt+Right','',''],'cm_LoadNextFile');
 
       AddIfNotExists(['P'   ,'','',
-                      'Left','',''],'cm_LoadPrevFile'); //, ['P'], []);
+                      'Alt+Left','',''],'cm_LoadPrevFile');
 
       if HotMan.Version < 54 then
       begin
