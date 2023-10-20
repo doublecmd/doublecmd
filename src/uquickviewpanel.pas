@@ -51,6 +51,7 @@ type
     function handleLinksToLocal( const Sender:TFileView; const aFile:TFile; var fullPath:String; var showMsg:String ): Boolean;
     function handleNotDirect( const Sender:TFileView; const aFile:TFile; var fullPath:String; var showMsg:String ): Boolean;
     function handleDirect( const Sender:TFileView; const aFile:TFile; var fullPath:String; var showMsg:String ): Boolean;
+    procedure PrepareView(const aFile: TFile; var FileName: String);
   protected
      procedure DoOnShowHint(HintInfo: PHintInfo) override;
   public
@@ -67,8 +68,9 @@ var
 implementation
 
 uses
-  LCLProc, Forms, fMain, uTempFileSystemFileSource, uLng,
-  uFileSourceProperty, uFileSourceOperation, uFileSourceOperationTypes;
+  LCLProc, Forms, DCOSUtils, fMain, uTempFileSystemFileSource, uLng,
+  uFileSourceProperty, uFileSourceOperation, uFileSourceOperationTypes,
+  uGlobs, uShellExecute;
 
 procedure QuickViewShow(aFileViewPage: TFileViewPage; aFileView: TFileView);
 var
@@ -188,7 +190,9 @@ begin
     end;
   end;
 
-  if not fullPath.IsEmpty() then begin
+  if not fullPath.IsEmpty() then
+  begin
+    PrepareView(aFile, fullPath);
     LoadFile( fullPath );
   end else begin
     FViewer.Hide;
@@ -289,6 +293,45 @@ begin
       showMsg:= rsPropsFolder + ': ' + parentDir
     else
       fullPath:= ExcludeTrailingBackslash(parentDir);
+  end;
+end;
+
+procedure TQuickViewPanel.PrepareView(const aFile: TFile; var FileName: String);
+var
+  sCmd: string = '';
+  sParams: string = '';
+  sStartPath: string = '';
+  iStart, iFinish: Integer;
+  bTerm, bKeepTerminalOpen: Boolean;
+  bAbortOperationFlag: Boolean = False;
+  bShowCommandLinePriorToExecute: Boolean = False;
+begin
+  // Try to find 'view' command in the internal associations
+  if gExts.GetExtActionCmd(aFile, 'view', sCmd, sParams, sStartPath) then
+  begin
+    // Internal viewer command
+    if sCmd = '{!DC-VIEWER}' then
+    begin
+      aFile.FullPath:= FileName;
+      sCmd:= PrepareParameter(sCmd, AFile, [ppoReplaceTilde]);
+      sParams:= PrepareParameter(sParams, AFile, [], @bShowCommandLinePriorToExecute, @bTerm, @bKeepTerminalOpen, @bAbortOperationFlag);
+
+      if not bAbortOperationFlag then
+      begin
+        iStart:= Pos('<?', sParams);
+        iFinish:= Pos('?>', sParams, iStart + 2);
+        if (iStart > 0) and (iFinish > iStart) then
+        begin
+          if FFileSource is TTempFileSystemFileSource then
+            sStartPath:= FFileSource.GetRootDir
+          else begin
+            sStartPath:= EmptyStr;
+          end;
+          PrepareOutput(sParams, sStartPath);
+          if mbFileExists(sParams) then FileName:= sParams;
+        end;
+      end;
+    end;
   end;
 end;
 
