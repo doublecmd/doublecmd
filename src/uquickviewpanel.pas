@@ -298,6 +298,7 @@ end;
 
 procedure TQuickViewPanel.PrepareView(const aFile: TFile; var FileName: String);
 var
+  ATemp: TFile;
   sCmd: string = '';
   sParams: string = '';
   sStartPath: string = '';
@@ -312,10 +313,14 @@ begin
     // Internal viewer command
     if sCmd = '{!DC-VIEWER}' then
     begin
-      aFile.FullPath:= FileName;
-      sCmd:= PrepareParameter(sCmd, AFile, [ppoReplaceTilde]);
-      sParams:= PrepareParameter(sParams, AFile, [], @bShowCommandLinePriorToExecute, @bTerm, @bKeepTerminalOpen, @bAbortOperationFlag);
-
+      ATemp:= AFile.Clone;
+      try
+        ATemp.FullPath:= FileName;
+        sCmd:= PrepareParameter(sCmd, ATemp, [ppoReplaceTilde]);
+        sParams:= PrepareParameter(sParams, ATemp, [], @bShowCommandLinePriorToExecute, @bTerm, @bKeepTerminalOpen, @bAbortOperationFlag);
+      finally
+        ATemp.Free;
+      end;
       if not bAbortOperationFlag then
       begin
         iStart:= Pos('<?', sParams);
