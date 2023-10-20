@@ -2716,6 +2716,8 @@ begin
       MarkupInfo.Foreground:= clGrayText;
     end;
     SynEdit.Options:= gEditorSynEditOptions;
+    SynEdit.TabWidth := gEditorSynEditTabWidth;
+    SynEdit.RightEdge := gEditorSynEditRightEdge;
     FontOptionsToFont(gFonts[dcfViewer], SynEdit.Font);
     SynEdit.OnKeyDown:= @SynEditKeyDown;
     SynEdit.OnMouseWheel:= @SynEditMouseWheel;
