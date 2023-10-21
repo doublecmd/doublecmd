@@ -112,6 +112,12 @@ function FPS_ISDIR(iAttr: TFileAttrs) : Boolean;
 }
 function FPS_ISLNK(iAttr: TFileAttrs) : Boolean;
 {en
+   Is file a regular file
+   @param(iAttr File attributes)
+   @returns(@true if file is a regular file, @false otherwise)
+}
+function FPS_ISREG(iAttr: TFileAttrs) : Boolean;
+{en
    Is file executable
    @param(sFileName File name)
    @returns(@true if file is executable, @false otherwise)
@@ -385,8 +391,6 @@ const
                 O_SYNC or O_DIRECT);
 {$ENDIF}
 
-(*Is Directory*)
-
 function  FPS_ISDIR(iAttr: TFileAttrs) : Boolean; inline;
 {$IFDEF MSWINDOWS}
 begin
@@ -398,8 +402,6 @@ begin
 end;
 {$ENDIF}
 
-(*Is Link*)
-
 function FPS_ISLNK(iAttr: TFileAttrs) : Boolean; inline;
 {$IFDEF MSWINDOWS}
 begin
@@ -408,6 +410,17 @@ end;
 {$ELSE}
 begin
   Result := BaseUnix.FPS_ISLNK(TMode(iAttr));
+end;
+{$ENDIF}
+
+function FPS_ISREG(iAttr: TFileAttrs) : Boolean; inline;
+{$IFDEF MSWINDOWS}
+begin
+  Result := (iAttr and FILE_ATTRIBUTE_DIRECTORY = 0);
+end;
+{$ELSE}
+begin
+  Result := BaseUnix.FPS_ISREG(TMode(iAttr));
 end;
 {$ENDIF}
 
