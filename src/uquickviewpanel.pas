@@ -303,7 +303,6 @@ var
   sCmd: string = '';
   sParams: string = '';
   sStartPath: string = '';
-  bTerm, bKeepTerminalOpen: Boolean;
   bAbortOperationFlag: Boolean = False;
   bShowCommandLinePriorToExecute: Boolean = False;
 begin
@@ -316,8 +315,7 @@ begin
       ATemp:= AFile.Clone;
       try
         ATemp.FullPath:= FileName;
-        sCmd:= PrepareParameter(sCmd, ATemp, [ppoReplaceTilde]);
-        sParams:= PrepareParameter(sParams, ATemp, [], @bShowCommandLinePriorToExecute, @bTerm, @bKeepTerminalOpen, @bAbortOperationFlag);
+        sParams:= PrepareParameter(sParams, ATemp, [], @bShowCommandLinePriorToExecute, nil, nil, @bAbortOperationFlag);
       finally
         ATemp.Free;
       end;
@@ -332,7 +330,7 @@ begin
             else
               FTempFileSource:= TTempFileSystemFileSource.GetFileSource;
           end;
-          PrepareOutput(sParams, FTempFileSource.GetRootDir);
+          PrepareOutput(sParams, sStartPath, FTempFileSource.GetRootDir);
           if mbFileExists(sParams) then FileName:= sParams;
         end;
       end;
