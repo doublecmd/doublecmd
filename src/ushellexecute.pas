@@ -35,7 +35,7 @@ type
   TPrepareParameterOption = (ppoNormalizePathDelims, ppoReplaceTilde);
   TPrepareParameterOptions = set of TPrepareParameterOption;
 
-procedure PrepareOutput(var sParams: String; const ATemp: String = '');
+procedure PrepareOutput(var sParams: String; const sWorkPath: String; const ATemp: String = '');
 
 function PrepareParameter(sParam: string; paramFile: TFile = nil; options: TPrepareParameterOptions = []; pbShowCommandLinePriorToExecute: PBoolean = nil; pbRunInTerminal: PBoolean = nil; pbKeepTerminalOpen: PBoolean = nil; pbAbortOperation: PBoolean = nil): string; overload;
 
@@ -937,7 +937,7 @@ begin
   end;
 end;
 
-procedure PrepareOutput(var sParams: String; const ATemp: String);
+procedure PrepareOutput(var sParams: String; const sWorkPath: String; const ATemp: String);
 var
   Process: TProcessUTF8;
   iStart, iCount: Integer;
@@ -959,6 +959,7 @@ begin
       Process := TProcessUTF8.Create(nil);
       try
         Process.CommandLine := FormatShell(sShellCmdLine);
+        Process.CurrentDirectory := sWorkPath;
         Process.Options := [poWaitOnExit];
         Process.ShowWindow := swoHide;
         Process.Execute;
@@ -1003,9 +1004,9 @@ begin
   sParams := PrepareParameter(sParams, paramFile, [], @bShowCommandLinePriorToExecute, @bTerm, @bKeepTerminalOpen, @bAbortOperationFlag);
   if not bAbortOperationFlag then sWorkPath := PrepareParameter(sWorkPath, paramFile, [ppoNormalizePathDelims, ppoReplaceTilde]);
 
-  // 2. If working directory has been specified, let's switch to it.
   if not bAbortOperationFlag then
   begin
+    // 2. If working directory has been specified, let's switch to it.
     if sWorkPath <> '' then
       mbSetCurrentDir(sWorkPath);
 
@@ -1018,7 +1019,7 @@ begin
     // For example:
     // {!VIEWER} <?rpm -qivlp --scripts %p?>
     //  Show in Viewer information about RPM package
-    PrepareOutput(sParams);
+    PrepareOutput(sParams, sWorkPath);
 
     //4. If user user wanted to execute an internal command, let's do it.
     if frmMain.Commands.Commands.ExecuteCommand(sCmd, [sParams]) = cfrSuccess then
