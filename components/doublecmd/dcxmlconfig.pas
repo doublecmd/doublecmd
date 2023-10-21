@@ -624,9 +624,9 @@ begin
     Exit;
 
   dwAttr := mbFileGetAttr(FileName);
-  bFileExists := (dwAttr <> faInvalidAttributes) and (FPS_ISREG(dwAttr));
+  bFileExists := (dwAttr <> faInvalidAttributes) and (not FPS_ISDIR(dwAttr));
 
-  if FPS_ISLNK(dwAttr) then
+  if bFileExists and FPS_ISLNK(dwAttr) then
     AFileName := mbReadAllLinks(FileName)
   else begin
     AFileName := FileName;
