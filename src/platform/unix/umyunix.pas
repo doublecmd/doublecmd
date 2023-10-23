@@ -48,7 +48,8 @@ type
     DE_MATE     = 5,
     DE_CINNAMON = 6,
     DE_LXQT     = 7,
-    DE_FLATPAK  = 8
+    DE_FLY      = 8,
+    DE_FLATPAK  = 9
   );
 
 const
@@ -61,6 +62,7 @@ const
     'MATE',
     'Cinnamon',
     'LXQt',
+    'Fly',
     'Flatpak'
   );
 
@@ -246,6 +248,8 @@ begin
       Exit(DE_MATE);
     if Pos('cinnamon', DesktopSession) <> 0 then
       Exit(DE_CINNAMON);
+    if Pos('fly', DesktopSession) <> 0 then
+      Exit(DE_FLY);
   end;
   if GetEnvironmentVariable('KDE_FULL_SESSION') <> '' then
     Exit(DE_KDE);
@@ -253,8 +257,6 @@ begin
     Exit(DE_GNOME);
   if GetEnvironmentVariable('_LXSESSION_PID') <> '' then
     Exit(DE_LXDE);
-  if fpSystemStatus('pgrep xfce4-session > /dev/null') = 0 then
-    Exit(DE_XFCE);
 end;
 
 function FileIsLinkToFolder(const FileName: String; out LinkTarget: String): Boolean;
