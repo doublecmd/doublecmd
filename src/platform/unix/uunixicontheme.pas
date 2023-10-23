@@ -207,12 +207,6 @@ function GetCurrentIconTheme: String;
 begin
   Result:= EmptyStr;
   case DesktopEnv of
-    DE_UNKNOWN:
-{$IF DEFINED(LCLQT5) OR DEFINED(LCLQT6)}
-      Result:= GetQtIconTheme;
-{$ELSE}
-      Result:= DEFAULT_THEME_NAME;
-{$ENDIF}
     DE_KDE:
       Result:= GetKdeIconTheme;
     DE_GNOME:
@@ -227,6 +221,12 @@ begin
       Result:= GetMateIconTheme;
     DE_CINNAMON:
       Result:= GetCinnamonIconTheme;
+    else
+{$IF DEFINED(LCLQT5) OR DEFINED(LCLQT6)}
+      Result:= GetQtIconTheme;
+{$ELSE}
+      Result:= DEFAULT_THEME_NAME;
+{$ENDIF}
   end;
   if Result = EmptyStr then
     Result:= DEFAULT_THEME_NAME;
