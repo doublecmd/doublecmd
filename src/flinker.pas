@@ -67,7 +67,7 @@ type
 
 { ShowLinkerFilesForm:
   "TMainCommands.cm_FileLinker" function from "uMainCommands.pas" is calling this routine.}
-function ShowLinkerFilesForm(aFileSource: IFileSource; aFiles: TFiles; TargetPath: String): Boolean;
+function ShowLinkerFilesForm(TheOwner: TComponent; aFileSource: IFileSource; aFiles: TFiles; TargetPath: String): Boolean;
 
 { DoDynamicFilesLinking:
   "TMainCommands.cm_FileLinker" function from "uMainCommands.pas" is calling this routine.}
@@ -86,7 +86,8 @@ uses
 
 { ShowLinkerFilesForm:
   "TMainCommands.cm_FileLinker" function from "uMainCommands.pas" is calling this routine.}
-function ShowLinkerFilesForm(aFileSource: IFileSource; aFiles: TFiles; TargetPath: String): Boolean;
+function ShowLinkerFilesForm(TheOwner: TComponent; aFileSource: IFileSource;
+  aFiles: TFiles; TargetPath: String): Boolean;
 var
   I: Integer;
   AFileName: String;
@@ -94,7 +95,7 @@ var
   xFiles: TFiles = nil;
   Operation: TFileSourceCombineOperation = nil;
 begin
-  with TfrmLinker.Create(Application) do
+  with TfrmLinker.Create(TheOwner) do
   begin
     try
       // Fill file list box

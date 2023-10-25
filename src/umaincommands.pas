@@ -4084,7 +4084,7 @@ begin
 
       if aSelectedFiles.Count > 1 then
       begin
-        ShowLinkerFilesForm(FileSource, aSelectedFiles, NotActiveFrame.CurrentPath);
+        ShowLinkerFilesForm(frmMain, FileSource, aSelectedFiles, NotActiveFrame.CurrentPath);
       end
       else
       begin

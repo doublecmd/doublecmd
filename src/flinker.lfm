@@ -13,7 +13,7 @@ inherited frmLinker: TfrmLinker
   ClientHeight = 425
   ClientWidth = 397
   OnCreate = FormCreate
-  Position = poScreenCenter
+  Position = poOwnerFormCenter
   SessionProperties = 'Height;Width'
   inherited pnlContent: TPanel
     AnchorSideBottom.Control = pnlButtons
