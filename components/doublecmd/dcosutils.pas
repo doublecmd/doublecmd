@@ -1684,7 +1684,7 @@ begin
     if EqualPos = 0 then Continue;
     EnvName:= Copy(EnvVar, 1, EqualPos - 1);
     EnvValue:= Copy(EnvVar, EqualPos + 1, MaxInt);
-    Result:= StringReplace(Result, '$' + EnvName, EnvValue, [rfReplaceAll, rfIgnoreCase]);
+    Result:= StringReplace(Result, '$' + EnvName, EnvValue, [rfReplaceAll]);
     Inc(Index);
   end;
 end;
