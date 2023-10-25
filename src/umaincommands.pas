@@ -2825,7 +2825,7 @@ end;
 
 procedure TMainCommands.cm_About(const Params: array of string);
 begin
-  ShowAboutBox;
+  ShowAboutBox(frmMain);
 end;
 
 procedure TMainCommands.cm_ShowSysFiles(const Params: array of string);

@@ -1,15 +1,22 @@
 {
-   Seksi Commander
-   ----------------------------
-   Implementing of About dialog
+    Double Commander
+    -------------------------------------------------------------------------
+    About dialog
 
-   Licence  : GNU GPL v 2.0
-   Author   : radek.cervinka@centrum.cz
+    Copyright (C) 2006-2023 Alexander Koblov (alexx2000@mail.ru)
 
-   contributors:
+    This program is free software; you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation; either version 2 of the License, or
+    (at your option) any later version.
 
-   Copyright (C) 2006-2008  Koblov Alexander (Alexx2000@mail.ru)
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
 
+    You should have received a copy of the GNU General Public License
+    along with this program. If not, see <http://www.gnu.org/licenses/>.
 }
 
 unit fAbout;
@@ -49,7 +56,6 @@ type
     procedure lblHomePageAddressClick(Sender: TObject);
     procedure lblHomePageAddressMouseEnter(Sender: TObject);
     procedure lblHomePageAddressMouseLeave(Sender: TObject);
-    procedure OKButtonClick(Sender: TObject);
     procedure frmAboutShow(Sender: TObject);
   private
     { Private declarations }
@@ -58,7 +64,7 @@ type
   end;
 
 
-procedure ShowAboutBox;
+procedure ShowAboutBox(TheOwner: TComponent);
 
 implementation
 
@@ -104,19 +110,14 @@ const
     '- Oxygen icon theme (http://oxygen-icons.org)' + LineEnding + LineEnding +
     'Big thanks to Lazarus and Free Pascal Team!';
 
-procedure ShowAboutBox;
+procedure ShowAboutBox(TheOwner: TComponent);
 begin
-  with TfrmAbout.Create(Application) do
+  with TfrmAbout.Create(TheOwner) do
   try
     ShowModal;
   finally
     Free;
   end;
-end;
-
-procedure TfrmAbout.OKButtonClick(Sender: TObject);
-begin
-  Close;
 end;
 
 procedure TfrmAbout.lblHomePageAddressMouseLeave(Sender: TObject);
