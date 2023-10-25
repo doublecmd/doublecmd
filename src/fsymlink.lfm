@@ -48,13 +48,11 @@ object frmSymLink: TfrmSymLink
     AnchorSideLeft.Control = Owner
     AnchorSideTop.Control = lblExistingFile
     AnchorSideTop.Side = asrBottom
-    AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
     Left = 6
     Height = 26
     Top = 86
     Width = 590
-    Anchors = [akTop, akLeft, akRight]
     BorderSpacing.Top = 6
     Constraints.MinWidth = 400
     TabOrder = 1
@@ -63,13 +61,11 @@ object frmSymLink: TfrmSymLink
     AnchorSideLeft.Control = Owner
     AnchorSideTop.Control = lblLinkToCreate
     AnchorSideTop.Side = asrBottom
-    AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
     Left = 6
     Height = 26
     Top = 30
     Width = 590
-    Anchors = [akTop, akLeft, akRight]
     BorderSpacing.Top = 6
     Constraints.MinWidth = 400
     TabOrder = 0
