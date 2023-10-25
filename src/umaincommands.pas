@@ -3454,7 +3454,7 @@ begin
 
         sLinkToCreate := sLinkToCreate + SelectedFiles[0].Name;
 
-        if ShowSymLinkForm(sExistingFile, sLinkToCreate, ActiveFrame.CurrentPath) then
+        if ShowSymLinkForm(frmMain, sExistingFile, sLinkToCreate, ActiveFrame.CurrentPath) then
         begin
           ActiveFrame.Reload;
           if NotActiveFrame.FileSource.IsClass(TFileSystemFileSource) then
@@ -3504,7 +3504,7 @@ begin
 
         sLinkToCreate := sLinkToCreate + SelectedFiles[0].Name;
 
-        if ShowHardLinkForm(sExistingFile, sLinkToCreate, ActiveFrame.CurrentPath) then
+        if ShowHardLinkForm(frmMain, sExistingFile, sLinkToCreate, ActiveFrame.CurrentPath) then
         begin
           ActiveFrame.Reload;
           if NotActiveFrame.FileSource.IsClass(TFileSystemFileSource) then

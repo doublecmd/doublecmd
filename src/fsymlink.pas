@@ -28,7 +28,7 @@ type
                        CurrentPath: String); reintroduce;
   end;
 
-function ShowSymLinkForm(const sExistingFile, sLinkToCreate, CurrentPath: String): Boolean;
+function ShowSymLinkForm(TheOwner: TComponent; const sExistingFile, sLinkToCreate, CurrentPath: String): Boolean;
 
 implementation
 
@@ -37,9 +37,9 @@ implementation
 uses
   LazFileUtils, uLng, uGlobs, uLog, uShowMsg, DCStrUtils, DCOSUtils, uAdministrator;
 
-function ShowSymLinkForm(const sExistingFile, sLinkToCreate, CurrentPath: String): Boolean;
+function ShowSymLinkForm(TheOwner: TComponent; const sExistingFile, sLinkToCreate, CurrentPath: String): Boolean;
 begin
-  with TfrmSymLink.Create(Application, CurrentPath) do
+  with TfrmSymLink.Create(TheOwner, CurrentPath) do
   begin
     try
       edtLinkToCreate.Text := sLinkToCreate;
