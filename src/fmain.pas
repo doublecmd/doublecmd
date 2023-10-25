@@ -2023,9 +2023,9 @@ begin
                 TargetFileName := TargetPath + ExtractFileName(SourceFileName);
 
                 if ((Operation = ddoSymLink) and
-                   ShowSymLinkForm(SourceFileName, TargetFileName, TargetPath))
+                   ShowSymLinkForm(Self, SourceFileName, TargetFileName, TargetPath))
                 or ((Operation = ddoHardLink) and
-                   ShowHardLinkForm(SourceFileName, TargetFileName, TargetPath))
+                   ShowHardLinkForm(Self, SourceFileName, TargetFileName, TargetPath))
                 then
                   TargetFileSource.Reload(TargetPath);
               end
