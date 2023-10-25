@@ -99,6 +99,7 @@ object frmDescrEdit: TfrmDescrEdit
       Top = 0
       Width = 90
       Anchors = [akTop, akRight]
+      AutoSize = True
       BorderSpacing.Right = 6
       Caption = '&OK'
       Default = True
@@ -117,6 +118,7 @@ object frmDescrEdit: TfrmDescrEdit
       Top = 0
       Width = 90
       Anchors = [akRight, akBottom]
+      AutoSize = True
       Cancel = True
       Caption = '&Cancel'
       Kind = bkCancel
