@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Dialog for editing file comments.
 
-   Copyright (C) 2008-2019 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2008-2023 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -27,7 +27,7 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, StdCtrls, Buttons, ActnList, uDescr,
-  uFormCommands, uFileView;
+  uFormCommands, KASButtonPanel, uFileView;
 
 type
 
@@ -39,6 +39,7 @@ type
     btnOK: TBitBtn;
     btnCancel: TBitBtn;
     cbEncoding: TStaticText;
+    KASButtonPanel: TKASButtonPanel;
     lblFileName: TLabel;
     lblEncoding: TLabel;
     lblEditCommentFor: TLabel;
