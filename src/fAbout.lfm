@@ -8,7 +8,6 @@ object frmAbout: TfrmAbout
   Caption = 'About'
   ClientHeight = 400
   ClientWidth = 667
-  Constraints.MinHeight = 400
   Constraints.MinWidth = 667
   KeyPreview = True
   Position = poOwnerFormCenter
@@ -106,6 +105,7 @@ object frmAbout: TfrmAbout
     ChildSizing.ControlsPerLine = 1
     ClientHeight = 253
     ClientWidth = 121
+    Constraints.MinHeight = 334
     ParentFont = False
     TabOrder = 1
     object imgLogo: TImage
