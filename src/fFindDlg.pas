@@ -1771,8 +1771,10 @@ begin
   actNewSearchClearFilters.Enabled := False;
   actLastSearch.Enabled := False;
 
-  if (not frmContentPlugins.chkUsePlugins.Checked) OR (not gSearchWithWDXPluginInProgress) then
-  begin
+  try
+    if (frmContentPlugins.chkUsePlugins.Checked) and (gSearchWithWDXPluginInProgress) then
+      raise EConvertError.Create(rsSearchWithWDXPluginInProgress);
+
     FillFindOptions(SearchTemplate, True);
     if frmContentPlugins.chkUsePlugins.Checked then
     begin
@@ -1789,67 +1791,66 @@ begin
 
     FoundedStringCopy.OnChange:= @FoundedStringCopyAdded;
 
-    try
-      if (cbUsePlugin.Checked) and (cmbPlugin.ItemIndex <> -1) then
+    if (cbUsePlugin.Checked) and (cmbPlugin.ItemIndex <> -1) then
+    begin
+      if not gSearchWithDSXPluginInProgress then
       begin
-        if not gSearchWithDSXPluginInProgress then
+        gSearchWithDSXPluginInProgress := True;
+        FSearchWithDSXPluginInProgress := True;
+        frmFindDlgUsingPluginDSX := Self;
+        if DSXPlugins.LoadModule(cmbPlugin.ItemIndex) then
         begin
-          gSearchWithDSXPluginInProgress := True;
-          FSearchWithDSXPluginInProgress := True;
-          frmFindDlgUsingPluginDSX := Self;
-          if DSXPlugins.LoadModule(cmbPlugin.ItemIndex) then
-          begin
-            FindOptionsToDSXSearchRec(SearchTemplate, sr);
-            DSXPlugins.GetDSXModule(cmbPlugin.ItemIndex).CallInit(@SAddFileProc, @SUpdateStatusProc);
-            DSXPlugins.GetDSXModule(cmbPlugin.ItemIndex).CallStartSearch(sr);
-          end
-          else
-            StopSearch;
+          FindOptionsToDSXSearchRec(SearchTemplate, sr);
+          DSXPlugins.GetDSXModule(cmbPlugin.ItemIndex).CallInit(@SAddFileProc, @SUpdateStatusProc);
+          DSXPlugins.GetDSXModule(cmbPlugin.ItemIndex).CallStartSearch(sr);
         end
         else
-        begin
-          MsgError(rsSearchWithDSXPluginInProgress);
           StopSearch;
-        end;
       end
       else
       begin
-        if cbSelectedFiles.Checked then PassedSelectedFiles := FSelectedFiles;
-
-        if cbOpenedTabs.Checked then
-        begin
-          frmMain.GetListOpenedPaths(FSelectedFiles);
-          PassedSelectedFiles := FSelectedFiles;
-        end;
-
-        FFindThread := TFindThread.Create(SearchTemplate, PassedSelectedFiles);
-        with FFindThread do
-        begin
-          Archive := FWcxModule;
-          Items := FoundedStringCopy;
-          OnTerminate := @ThreadTerminate; // will update the buttons after search is finished
-        end;
-
-        SetWindowCaption(wcs_StartSearch);
-
-        FTimeSearch := '';
-        FFindThread.Start;
-        FUpdateTimer.Enabled := True;
-        FUpdateTimer.OnTimer(FUpdateTimer);
-
-        FRButtonPanelSender := nil;
+        MsgError(rsSearchWithDSXPluginInProgress);
+        StopSearch;
       end;
-    except
-      StopSearch;
-      raise;
+    end
+    else
+    begin
+      if cbSelectedFiles.Checked then PassedSelectedFiles := FSelectedFiles;
+
+      if cbOpenedTabs.Checked then
+      begin
+        frmMain.GetListOpenedPaths(FSelectedFiles);
+        PassedSelectedFiles := FSelectedFiles;
+      end;
+
+      FFindThread := TFindThread.Create(SearchTemplate, PassedSelectedFiles);
+      with FFindThread do
+      begin
+        Archive := FWcxModule;
+        Items := FoundedStringCopy;
+        OnTerminate := @ThreadTerminate; // will update the buttons after search is finished
+      end;
+
+      SetWindowCaption(wcs_StartSearch);
+
+      FTimeSearch := '';
+      FFindThread.Start;
+      FUpdateTimer.Enabled := True;
+      FUpdateTimer.OnTimer(FUpdateTimer);
+
+      FRButtonPanelSender := nil;
     end;
-  end
-  else
-  begin
-    MsgError(rsSearchWithWDXPluginInProgress);
-    StopSearch;
-    AfterSearchStopped;
-    AfterSearchFocus;
+  except
+    on E: Exception do
+    begin
+      if (E is EConvertError) then
+        msgError(E.Message)
+      else
+        raise;
+      StopSearch;
+      AfterSearchStopped;
+      AfterSearchFocus;
+    end;
   end;
 end; //cm_Start
 
