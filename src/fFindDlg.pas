@@ -1926,14 +1926,21 @@ end;
 
 { TfrmFindDlg.cm_Edit }
 procedure TfrmFindDlg.cm_Edit(const Params: array of string);
+var
+  FileName: String;
 begin
   if pgcSearch.ActivePage = tsResults then
     if lsFoundedFiles.ItemIndex <> -1 then
     begin
       if (ObjectType(lsFoundedFiles.ItemIndex) = cbChecked) then
         msgError(rsMsgErrNotSupported)
-      else
-        ShowEditorByGlob(lsFoundedFiles.Items[lsFoundedFiles.ItemIndex]);
+      else begin
+        FileName:= lsFoundedFiles.Items[lsFoundedFiles.ItemIndex];
+        if mbFileExists(FileName) then
+          ShowEditorByGlob(FileName)
+        else
+          msgError(Format(rsMsgFileNotFound, [FileName]));
+      end;
     end;
 end;
 
