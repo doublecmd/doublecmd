@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Content plugin search control
 
-   Copyright (C) 2014-2019 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2014-2023 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -26,7 +26,7 @@ unit uSearchContent;
 interface
 
 uses
-  Classes, SysUtils, Controls, StdCtrls, ExtCtrls, uFindFiles;
+  Classes, SysUtils, Controls, StdCtrls, ExtCtrls, LCLType, uFindFiles;
 
 type
 
@@ -54,6 +54,8 @@ type
     procedure SetUnitName(AValue: String);
     procedure SetValue(AValue: Variant);
     procedure SetComboBox(ComboBox: TComboBox; const Value, Error: String);
+    procedure ComboValueKeyPress(Sender: TObject; var Key: Char);
+    procedure ComboValueUTF8KeyPress(Sender: TObject; var UTF8Key: TUTF8Char);
   public
     constructor Create(TheOwner: TComponent); override;
     destructor Destroy; override;
@@ -144,6 +146,7 @@ begin
   FComboUnit.Items.Clear;
   FComboValue.Items.Clear;
   FComboOperator.Items.Clear;
+  FComboValue.Text:= EmptyStr;
   if (FComboField.ItemIndex < 0) then Exit;
 
   WdxField:= TWdxField(FComboField.Items.Objects[FComboField.ItemIndex]);
@@ -302,6 +305,43 @@ begin
   end;
 end;
 
+procedure TPluginPanel.ComboValueKeyPress(Sender: TObject; var Key: Char);
+var
+  WdxField: TWdxField;
+begin
+  if (FComboField.ItemIndex < 0) then Exit;
+  WdxField:= TWdxField(FComboField.Items.Objects[FComboField.ItemIndex]);
+  case WdxField.FType of
+    FT_NUMERIC_32,
+    FT_NUMERIC_64:
+      begin
+        if not (Key in ['0'..'9', Chr(VK_BACK)]) then
+          Key:= #0;
+      end;
+  FT_NUMERIC_FLOATING:
+    begin
+      if not (Key in ['0'..'9', Chr(VK_BACK), DefaultFormatSettings.DecimalSeparator]) then
+        Key:= #0;
+    end;
+  end;
+end;
+
+procedure TPluginPanel.ComboValueUTF8KeyPress(Sender: TObject; var UTF8Key: TUTF8Char);
+var
+  WdxField: TWdxField;
+begin
+  if (FComboField.ItemIndex < 0) then Exit;
+  WdxField:= TWdxField(FComboField.Items.Objects[FComboField.ItemIndex]);
+  case WdxField.FType of
+    FT_NUMERIC_32,
+    FT_NUMERIC_64,
+    FT_NUMERIC_FLOATING:
+    begin
+      if (Length(UTF8Key) > 1) then UTF8Key:= #0;
+    end;
+  end;
+end;
+
 constructor TPluginPanel.Create(TheOwner: TComponent);
 var
   I: Integer;
@@ -328,6 +368,8 @@ begin
   FComboOperator.Style:= csDropDownList;
 
   FComboValue:= TComboBox.Create(Self);
+  FComboValue.OnKeyPress:= @ComboValueKeyPress;
+  FComboValue.OnUTF8KeyPress:= @ComboValueUTF8KeyPress;
   FComboValue.Parent:= Self;
 
   FComboUnit:= TComboBox.Create(Self);
