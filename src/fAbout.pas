@@ -183,6 +183,9 @@ begin
   lblPlatform.Caption        := TargetCPU + '-' + TargetOS + '-' + TargetWS;
   lblOperatingSystem.Caption := OSVersion;
   lblWidgetsetVer.Caption    := WSVersion;
+
+  Constraints.MinHeight      := Height;
+  btnClose.Anchors           := [akLeft, akBottom];
 end;
 
 end.
