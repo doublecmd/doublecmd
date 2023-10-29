@@ -241,6 +241,7 @@ type
     }
     procedure CreateDefault(AOwner: TWinControl); virtual;
 
+    procedure PushRenameEvent(AFile: TFile; const NewFileName: String);
     procedure AddWorker(const Worker: TFileViewWorker; SetEvents: Boolean = True);
     procedure BeginUpdate;
     procedure CalculateSpace(AFile: TDisplayFile);
@@ -1083,6 +1084,7 @@ begin
     AFile.Name := FileName;
     try
       FileSource.RetrieveProperties(AFile, FilePropertiesNeeded, GetVariantFileProperties);
+      if FFlatView and AFile.IsDirectory then raise EFileSourceException.Create(EmptyStr);
     except
       on EFileSourceException do
         begin
@@ -1394,6 +1396,11 @@ begin
     else
       Result += StringReplace(GetCurrentPath, PathDelim, '/', [rfReplaceAll]);
   end;
+end;
+
+procedure TFileView.PushRenameEvent(AFile: TFile; const NewFileName: String);
+begin
+  Self.RenameFile(NewFileName, AFile.Name, AFile.Path, gNewFilesPosition, gUpdatedFilesPosition);
 end;
 
 procedure TFileView.AddWorker(const Worker: TFileViewWorker; SetEvents: Boolean = True);

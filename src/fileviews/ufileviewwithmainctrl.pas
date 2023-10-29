@@ -342,25 +342,31 @@ end;
 procedure TFileViewWithMainCtrl.edtRenameOnKeyRETURN(Sender: TObject);
 var
   NewFileName: String;
-  OldFileNameAbsolute: String;
+  OldFileName: String;
 begin
-  NewFileName         := edtRename.Text;
-  OldFileNameAbsolute := edtRename.Hint;
+  NewFileName := edtRename.Text;
+  OldFileName := ExtractFileName(edtRename.Hint);
 
   try
-    case RenameFile(FileSource, FRenameFile, NewFileName, True) of
+    case uFileSourceUtil.RenameFile(FileSource, FRenameFile, NewFileName, True) of
       sfprSuccess:
         begin
-          edtRename.Visible:=False;
+          // FRenameFile is nil when a file list
+          // already updated by the real 'rename' event
+          if FlatView and Assigned(FRenameFile) then
+          begin
+            PushRenameEvent(FRenameFile, NewFileName);
+          end;
+          edtRename.Visible:= False;
           SetActiveFile(CurrentPath + NewFileName);
           SetFocus;
         end;
       sfprError:
-        msgError(Format(rsMsgErrRename, [ExtractFileName(OldFileNameAbsolute), NewFileName]));
+        msgError(Format(rsMsgErrRename, [OldFileName, NewFileName]));
     end;
   except
     on e: EInvalidFileProperty do
-      msgError(Format(rsMsgErrRename + ':' + LineEnding + '%s (%s)', [ExtractFileName(OldFileNameAbsolute), NewFileName, rsMsgInvalidFileName, e.Message]));
+      msgError(Format(rsMsgErrRename + ':' + LineEnding + '%s (%s)', [OldFileName, NewFileName, rsMsgInvalidFileName, e.Message]));
   end;
 end;
 
