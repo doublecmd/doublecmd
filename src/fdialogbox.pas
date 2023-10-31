@@ -111,16 +111,18 @@ type
 
 function InputBox(Caption, Prompt: PAnsiChar; MaskInput: LongBool; Value: PAnsiChar; ValueMaxLen: Integer): LongBool; dcpcall;
 function MessageBox(Text, Caption: PAnsiChar; Flags: Longint): Integer; dcpcall;
+function MsgChoiceBox(Text, Caption: PAnsiChar; Buttons: PPAnsiChar): Integer; dcpcall;
 function DialogBoxLFM(LFMData: Pointer; DataSize: LongWord; DlgProc: TDlgProc): LongBool; dcpcall;
 function DialogBoxLRS(LRSData: Pointer; DataSize: LongWord; DlgProc: TDlgProc): LongBool; dcpcall;
 function DialogBoxLFMFile(lfmFileName: PAnsiChar; DlgProc: TDlgProc): LongBool; dcpcall;
+function DialogBoxParam(Data: Pointer; DataSize: LongWord; DlgProc: TDlgProc; Flags: UInt32; UserData, Reserved: Pointer): LongBool; dcpcall;
 function SendDlgMsg(pDlg: PtrUInt; DlgItemName: PAnsiChar; Msg, wParam, lParam: PtrInt): PtrInt; dcpcall;
 
 implementation
 
 uses
-  LCLStrConsts, LazFileUtils, DCClassesUtf8, DCOSUtils, uShowMsg, uDebug,
-  uTranslator, uGlobs;
+  LCLStrConsts, LazFileUtils, DCClassesUtf8, DCOSUtils, DCStrUtils, uShowMsg,
+  uDebug, uTranslator, uGlobs, uFileProcs;
 
 type
   TControlProtected = class(TControl);
@@ -139,6 +141,19 @@ begin
   Result:= ShowMessageBox(Text, Caption, Flags);
 end;
 
+function MsgChoiceBox(Text, Caption: PAnsiChar; Buttons: PPAnsiChar): Integer; dcpcall;
+var
+  AButtons: TStringArray;
+begin
+  AButtons:= Default(TStringArray);
+  while (Buttons^ <> nil) do
+  begin
+    AddString(AButtons, Buttons^);
+    Inc(Buttons);
+  end;
+  Result:= uShowMsg.MsgChoiceBox(nil, Text, Caption, AButtons);
+end;
+
 function LFMToLRS(const LFMData: String): String;
 var
   LFMStream: TStringStream = nil;
@@ -155,14 +170,16 @@ begin
   end;
 end;
 
-function DialogBox(const LRSData: String; DlgProc: TDlgProc): LongBool;
+function DialogBox(const LRSData: String; DlgProc: TDlgProc; UserData: Pointer): LongBool;
 var
   Dialog: TDialogBox;
+  Data: PtrInt absolute UserData;
 begin
   Dialog:= TDialogBox.Create(LRSData, DlgProc);
   try
     with Dialog do
     begin
+      Tag:= Data;
       TThread.Synchronize(nil, @ShowDialogBox);
       Result:= FResult;
     end;
@@ -178,7 +195,7 @@ begin
   if Assigned(LFMData) and (DataSize > 0) then
   begin
     SetString(DataString, LFMData, DataSize);
-    Result := DialogBox(LFMToLRS(DataString), DlgProc);
+    Result := DialogBox(LFMToLRS(DataString), DlgProc, nil);
   end
   else
     Result := False;
@@ -191,7 +208,7 @@ begin
   if Assigned(LRSData) and (DataSize > 0) then
   begin
     SetString(DataString, LRSData, DataSize);
-    Result := DialogBox(DataString, DlgProc);
+    Result := DialogBox(DataString, DlgProc, nil);
   end
   else
     Result := False;
@@ -199,20 +216,35 @@ end;
 
 function DialogBoxLFMFile(lfmFileName: PAnsiChar; DlgProc: TDlgProc): LongBool; dcpcall;
 var
-  lfmStringList: TStringListEx;
+  DataString: String;
 begin
-  if Assigned(lfmFileName) then
+  if (lfmFileName = nil) then
+    Result := False
+  else begin
+    DataString := mbReadFileToString(lfmFileName);
+    Result := DialogBox(LFMToLRS(DataString), DlgProc, nil);
+  end;
+end;
+
+function DialogBoxParam(Data: Pointer; DataSize: LongWord;
+  DlgProc: TDlgProc; Flags: UInt32; UserData, Reserved: Pointer): LongBool; dcpcall;
+var
+  DataString: String;
+begin
+  if (Data = nil) then Exit(False);
+  if (DataSize = 0) then Exit(False);
+  SetString(DataString, Data, DataSize);
+
+  if (Flags and DB_LRS = 0) then
   begin
-    lfmStringList:= TStringListEx.Create;
-    try
-      lfmStringList.LoadFromFile(lfmFileName);
-      Result := DialogBox(LFMToLRS(lfmStringList.Text), DlgProc);
-    finally
-      FreeAndNil(lfmStringList);
-    end;
+    DataString:= LFMToLRS(DataString);
   end
-  else
-    Result := False;
+  else if (Flags and DB_FILENAME <> 0) then
+  begin
+    DataString:= LFMToLRS(mbReadFileToString(DataString));
+  end;
+
+  Result:= DialogBox(DataString, DlgProc, UserData);
 end;
 
 function SendDlgMsg(pDlg: PtrUInt; DlgItemName: PAnsiChar; Msg, wParam, lParam: PtrInt): PtrInt; dcpcall;

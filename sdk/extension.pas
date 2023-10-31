@@ -95,6 +95,10 @@ const
   ID_NO         = 7;
   ID_CLOSE      = 8;
   ID_HELP       = 9;
+  // DialogBoxParam: Flags
+  DB_LFM        = 0; // Data contains a form in the LFM format
+  DB_LRS        = 1; // Data contains a form in the LRS format
+  DB_FILENAME   = 2; // Data contains a form file name (*.lfm)
 
 const
   EXT_MAX_PATH = 16384; // 16 Kb
@@ -107,9 +111,11 @@ type
   { Definition of callback functions called by the DLL }
   TInputBoxProc = function(Caption, Prompt: PAnsiChar; MaskInput: LongBool; Value: PAnsiChar; ValueMaxLen: Integer): LongBool; {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
   TMessageBoxProc = function(Text, Caption: PAnsiChar; Flags: Longint): Integer; {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
+  TMsgChoiceBoxProc = function(Text, Caption: PAnsiChar; Buttons: PPAnsiChar): Integer; {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
   TDialogBoxLFMProc = function(LFMData: Pointer; DataSize: LongWord; DlgProc: TDlgProc): LongBool; {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
   TDialogBoxLRSProc = function(LRSData: Pointer; DataSize: LongWord; DlgProc: TDlgProc): LongBool; {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
   TDialogBoxLFMFileProc = function(lfmFileName: PAnsiChar; DlgProc: TDlgProc): LongBool; {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
+  TDialogBoxParamProc = function(Data: Pointer; DataSize: LongWord; DlgProc: TDlgProc; Flags: LongWord; UserData, Reserved: Pointer): LongBool; {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
   TTranslateStringProc = function(Translation: Pointer; Identifier, Original: PAnsiChar; Output: PAnsiChar; OutLen: Integer): Integer {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
 
 type
@@ -130,8 +136,11 @@ type
     SendDlgMsg: TDlgProc;
     Translation: Pointer;
     TranslateString: TTranslateStringProc;
+    VersionAPI: UIntPtr;
+    MsgChoiceBox: TMsgChoiceBoxProc;
+    DialogBoxParam: TDialogBoxParamProc;
     // Reserved for future API extension
-    Reserved: packed array [0..Pred(4094 * SizeOf(Pointer))] of Byte;
+    Reserved: packed array [0..Pred(4091 * SizeOf(Pointer))] of Byte;
   end;
 
 type
