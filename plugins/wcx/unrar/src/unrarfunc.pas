@@ -4,7 +4,7 @@
    WCX plugin for unpacking RAR archives
    This is simple wrapper for unrar.dll or libunrar.so
 
-   Copyright (C) 2008-2022 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2008-2023 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
@@ -54,6 +54,7 @@ const
   UCM_NEEDPASSWORD    =  2;
   UCM_CHANGEVOLUMEW   =  3;
   UCM_NEEDPASSWORDW   =  4;
+  UCM_LARGEDICT       =  5;
 
   // Main header flags.
   MHD_VOLUME         = $0001;
@@ -173,7 +174,8 @@ threadvar
 implementation
 
 uses
-  SysUtils, DCBasicTypes, DCDateTimeUtils, DCConvertEncoding, DCFileAttributes;
+  SysUtils, DCBasicTypes, DCDateTimeUtils, DCConvertEncoding, DCFileAttributes,
+  RarLng;
 
 type
   // From libunrar (dll.hpp)
@@ -268,8 +270,12 @@ begin
 end;
 
 function UnrarCallback(Msg: LongWord; UserData, P1: Pointer; P2: PtrInt) : Integer; dcpcall;
+const
+  Giga = 1024 * 1024;
 var
   PasswordU: String;
+  Buttons: PPAnsiChar;
+  DictSize: UIntPtr absolute P1;
   VolumeNameA: TRarUnicodeArray;
   VolumeNameU: TRarUnicodeString;
   PasswordA: array[0..511] of AnsiChar;
@@ -327,6 +333,23 @@ begin
         Result :=  1;
         StrPLCopy(VolumeNameW, CeUtf8ToUtf16(PasswordA), High(VolumeNameW));
         StrLCopy(PRarUnicodeChar(P1), PRarUnicodeChar(WideStringToRarUnicodeString(VolumeNameW)), P2 - 1);
+      end;
+    end;
+  UCM_LARGEDICT:
+    begin
+      P2:= P2 div Giga;
+      DictSize:= (DictSize div Giga) + Ord((DictSize mod Giga <> 0));
+      Buttons:= ArrayStringToPPchar([rsMsgButtonExtract, rsMsgButtonCancel], 0);
+      try
+        PasswordU:= Format(rsDictNotAllowed, [DictSize, P2, DictSize]) + LineEnding;
+
+        if gStartupInfo.MsgChoiceBox(PAnsiChar(PasswordU), PAnsiChar(rsDictLargeWarning), Buttons) = 0 then
+          Result:= 1
+        else begin
+          Result:= -1;
+        end;
+      finally
+        FreeMem(Buttons);
       end;
     end;
   end;
@@ -513,10 +536,12 @@ end;
 procedure ExtensionInitialize(StartupInfo: PExtensionStartupInfo); dcpcall;
 begin
   gStartupInfo := StartupInfo^;
+  TranslateResourceStrings;
+
   if ModuleHandle = NilHandle then
   begin
-    gStartupInfo.MessageBox('Cannot load library ' + _unrar + '! Please check your installation.',
-                                    nil, MB_OK or MB_ICONERROR);
+    gStartupInfo.MessageBox(PAnsiChar(Format(rsMsgLibraryNotFound, [_unrar])),
+                            nil, MB_OK or MB_ICONERROR);
   end;
 end;
 
