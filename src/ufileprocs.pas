@@ -229,19 +229,22 @@ end;
 
 function mbReadFileToString(const FileName: String): String;
 var
-  Text: String;
   ASize: Int64;
   Handle: THandle;
 begin
   Result:= EmptyStr;
-  ASize:= mbFileSize(FileName);
-  SetLength(Text, ASize);
-  if Length(Text) = 0 then Exit;
   Handle:= mbFileOpen(FileName, fmOpenRead or fmShareDenyNone);
   if Handle <> feInvalidHandle then
   begin
-    if FileRead(Handle, Text[1], ASize) = ASize then
-      Result:= Text;
+    ASize:= FileGetSize(Handle);
+    SetLength(Result, ASize);
+    if Length(Result) > 0 then
+    begin
+      if FileRead(Handle, Result[1], ASize) <> ASize then
+      begin
+        SetLength(Result, 0);
+      end;
+    end;
     FileClose(Handle);
   end;
 end;
