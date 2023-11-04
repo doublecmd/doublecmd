@@ -128,9 +128,6 @@ type
 implementation
 
 uses
-  {$IFDEF MSWINDOWS}
-  Windows,
-  {$ENDIF}
   SysUtils,
   {$IFDEF UnzipBzip2Support}
   AbBzip2,
@@ -163,7 +160,8 @@ uses
   AbZlibPrc,
   AbWinZipAes,
   DCOSUtils,
-  DCClassesUtf8;
+  DCClassesUtf8,
+  DCConvertEncoding;
 
 { -------------------------------------------------------------------------- }
 procedure AbReverseBits(var W : Word);
@@ -1210,6 +1208,7 @@ begin
           try    {OutStream}
             DoExtract(ZipArchive, Item, InStream, OutStream);
             SetString(LinkTarget, TMemoryStream(OutStream).Memory, OutStream.Size);
+            LinkTarget := CeRawToUtf8(LinkTarget);
           finally {OutStream}
             OutStream.Free;
           end;   {OutStream}
