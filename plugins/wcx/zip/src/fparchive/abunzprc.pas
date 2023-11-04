@@ -162,6 +162,7 @@ uses
   AbUtils,
   AbZlibPrc,
   AbWinZipAes,
+  DCOSUtils,
   DCClassesUtf8;
 
 { -------------------------------------------------------------------------- }
@@ -1191,8 +1192,9 @@ end;
 procedure AbUnzip(Sender : TObject; Item : TAbZipItem; const UseName : string);
   {create the output filestream and pass it to DoExtract}
 var
-  InStream, OutStream : TStream;
+  LinkTarget : String;
   ZipArchive : TAbZipArchive;
+  InStream, OutStream : TStream;
 begin
   ZipArchive := TAbZipArchive(Sender);
 
@@ -1201,18 +1203,38 @@ begin
   else begin
     InStream := ExtractPrep(ZipArchive, Item);
     try
-      OutStream := TFileStreamEx.Create(UseName, fmCreate or fmShareDenyWrite);
-      try
-        try    {OutStream}
-          DoExtract(ZipArchive, Item, InStream, OutStream);
-        finally {OutStream}
-          OutStream.Free;
-        end;   {OutStream}
-      except
-        if ExceptObject is EAbUserAbort then
-          ZipArchive.FStatus := asInvalid;
-        DeleteFile(UseName);
-        raise;
+      if FPS_ISLNK(Item.NativeFileAttributes) then
+      begin
+        OutStream := TMemoryStream.Create;
+        try
+          try    {OutStream}
+            DoExtract(ZipArchive, Item, InStream, OutStream);
+            SetString(LinkTarget, TMemoryStream(OutStream).Memory, OutStream.Size);
+          finally {OutStream}
+            OutStream.Free;
+          end;   {OutStream}
+          if not CreateSymLink(LinkTarget, UseName) then
+            RaiseLastOSError;
+        except
+          if ExceptObject is EAbUserAbort then
+            ZipArchive.FStatus := asInvalid;
+          raise;
+        end;
+      end
+      else begin
+        OutStream := TFileStreamEx.Create(UseName, fmCreate or fmShareDenyWrite);
+        try
+          try    {OutStream}
+            DoExtract(ZipArchive, Item, InStream, OutStream);
+          finally {OutStream}
+            OutStream.Free;
+          end;   {OutStream}
+        except
+          if ExceptObject is EAbUserAbort then
+            ZipArchive.FStatus := asInvalid;
+          DeleteFile(UseName);
+          raise;
+        end;
       end;
     finally
       InStream.Free

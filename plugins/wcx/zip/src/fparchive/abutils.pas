@@ -1179,7 +1179,9 @@ begin
   if (Attr and faReadOnly) = 0 then
     Result := Result or AB_FPERMISSION_OWNERWRITE;
 
-  if (Attr and faDirectory) <> 0 then
+  if (Attr and faSymLink) <> 0 then
+    Result := Result or AB_FMODE_FILELINK or AB_FPERMISSION_OWNEREXECUTE
+  else if (Attr and faDirectory) <> 0 then
     Result := Result or AB_FMODE_DIR or AB_FPERMISSION_OWNEREXECUTE
   else
     Result := Result or AB_FMODE_FILE;
@@ -1199,10 +1201,12 @@ begin
     AB_FMODE_DIR: { directory }
       Result := Result or faDirectory;
 
+    AB_FMODE_FILELINK: { symlink}
+      Result := Result or faSymLink;
+
     AB_FMODE_FIFO,
     AB_FMODE_CHARSPECFILE,
     AB_FMODE_BLOCKSPECFILE,
-    AB_FMODE_FILELINK,
     AB_FMODE_SOCKET:
       Result := Result or faSysFile;
   end;
