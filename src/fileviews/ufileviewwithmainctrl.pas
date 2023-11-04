@@ -235,7 +235,8 @@ uses
   LCLIntf, LCLProc, LazUTF8, Forms, Dialogs, Buttons, DCOSUtils, DCStrUtils,
   fMain, uShowMsg, uLng, uFileProperty, uFileSource, uFileSourceOperationTypes,
   uGlobs, uInfoToolTip, uDisplayFile, uFileSystemFileSource, uFileSourceUtil,
-  uArchiveFileSourceUtil, uFormCommands, uKeyboard, uFileSourceSetFilePropertyOperation;
+  uArchiveFileSourceUtil, uFormCommands, uKeyboard, uFileSourceSetFilePropertyOperation,
+  uFileSystemWatcher;
 
 type
   TControlHandlersHack = class(TWinControl)
@@ -353,7 +354,7 @@ begin
         begin
           // FRenameFile is nil when a file list
           // already updated by the real 'rename' event
-          if FlatView and Assigned(FRenameFile) then
+          if FlatView and Assigned(FRenameFile) and (TFileSystemWatcher.Features * [fsfFlatView] = []) then
           begin
             PushRenameEvent(FRenameFile, NewFileName);
           end;

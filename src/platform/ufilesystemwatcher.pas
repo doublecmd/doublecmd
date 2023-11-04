@@ -46,6 +46,8 @@ type
                          fswUnknownChange);
   TFSWatcherEventTypes = set of TFSWatcherEventType;
 
+  TFSFeatures = set of (fsfFlatView);
+
   TFSWatcherEventData = record
     Path: String;
     EventType: TFSWatcherEventType;
@@ -82,6 +84,7 @@ type
     {$ENDIF}
     class function CanWatch(const WatchPaths: array of String): Boolean;
     class function AvailableWatchFilter: TFSWatchFilter;
+    class function Features: TFSFeatures;
   end;
 
 implementation
@@ -384,6 +387,15 @@ begin
   Result := [wfFileNameChange
 {$IF NOT DEFINED(HAIKUQT)}
            , wfAttributesChange
+{$ENDIF}
+  ];
+end;
+
+class function TFileSystemWatcher.Features: TFSFeatures;
+begin
+  Result := [
+{$IF DEFINED(DARWIN)}
+             fsfFlatView
 {$ENDIF}
   ];
 end;
