@@ -48,6 +48,7 @@ type
     lblTabWidth: TLabel;
     edTabWidth: TEdit;
     chkSmartTabs: TCheckBox;
+    chkGroupUndo: TCheckBox;
     seeRightEdge: TSpinEditEx;
     seeBlockIndent: TSpinEditEx;
   protected
@@ -91,6 +92,7 @@ begin
   chkTabIndent.Checked := eoTabIndent in gEditorSynEditOptions;
   chkSmartTabs.Checked := eoSmartTabs in gEditorSynEditOptions;
   chkRightEdge.Checked := not (eoHideRightMargin in gEditorSynEditOptions);
+  chkGroupUndo.Checked := eoGroupUndo in gEditorSynEditOptions;
   edTabWidth.Text := IntToStr(gEditorSynEditTabWidth);
   seeBlockIndent.Value := gEditorSynEditBlockIndent;
   seeRightEdge.Value := gEditorSynEditRightEdge;
@@ -116,6 +118,7 @@ begin
   UpdateOptionFromBool(chkAutoIndent.Checked, eoAutoIndent);
   UpdateOptionFromBool(chkTabIndent.Checked, eoTabIndent);
   UpdateOptionFromBool(chkSmartTabs.Checked, eoSmartTabs);
+  UpdateOptionFromBool(chkGroupUndo.Checked, eoGroupUndo);
   edTabWidth.Text := IntToStr(StrToIntDef(edTabWidth.Text,8));
   gEditorSynEditTabWidth := StrToIntDef(edTabWidth.Text,8);
   gEditorSynEditBlockIndent := seeBlockIndent.Value;
