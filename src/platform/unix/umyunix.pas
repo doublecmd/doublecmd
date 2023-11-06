@@ -171,7 +171,7 @@ uses
   , SysCall
 {$ENDIF}
 {$IF NOT (DEFINED(DARWIN) OR DEFINED(HAIKU))}
-  , libfontconfig, uMimeActions, uMimeType, uGVolume
+  , uFontConfig, uMimeActions, uMimeType, uGVolume
 {$ENDIF}
 {$IFDEF DARWIN}
   , uMyDarwin
@@ -637,7 +637,7 @@ initialization
   {$IFDEF LINUX}
     CheckPMount;
   {$ENDIF}
-  if (LoadFontConfigLib('libfontconfig.so.1', False) > 0) then
+  if LoadFontConfigLib('libfontconfig.so.1') then
   begin
     MonoSpaceFont:= GetFontName(MonoSpaceFont);
     UnLoadFontConfigLib;
