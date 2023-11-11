@@ -5365,6 +5365,14 @@ msgstr "Automatické odsadenie"
 msgid "Allows to indent the caret, when new line is created with <Enter>, with the same amount of leading white space as the preceding line"
 msgstr "Umožňuje odsadiť striešku, keď sa nový riadok vytvorí pomocou <Enter>, s rovnakým množstvom úvodnej bielej medzery ako v predchádzajúcom riadku"
 
+#: tfrmoptionseditor.chkgroupundo.caption
+msgid "Group Undo"
+msgstr ""
+
+#: tfrmoptionseditor.chkgroupundo.hint
+msgid "All continuous changes of the same type will be processed in one call instead of undoing/redoing each one"
+msgstr ""
+
 #: tfrmoptionseditor.chkrightedge.caption
 msgid "Right margin:"
 msgstr "Pravý okraj:"
