@@ -5397,6 +5397,14 @@ msgstr "Indentation automatique"
 msgid "Allows to indent the caret, when new line is created with <Enter>, with the same amount of leading white space as the preceding line"
 msgstr "Lorsqu'une nouvelle ligne est crée avec <Enter>, indenter la nouvelle ligne créée de la même distance de l'indentation de la ligne précédente"
 
+#: tfrmoptionseditor.chkgroupundo.caption
+msgid "Group Undo"
+msgstr ""
+
+#: tfrmoptionseditor.chkgroupundo.hint
+msgid "All continuous changes of the same type will be processed in one call instead of undoing/redoing each one"
+msgstr ""
+
 #: tfrmoptionseditor.chkrightedge.caption
 msgid "Right margin:"
 msgstr "Marge de droite"
