@@ -1537,6 +1537,12 @@ begin
         AText:= ConvertEncoding(AText, Encoding, EncodingUTF8);
       end;
       SynDiffEdit.Lines.Text:= AText;
+      // Add empty line if needed
+      if (Length(AText) > 0) and (AText[Length(AText)] in [#10, #13]) then
+      begin
+        SynDiffEdit.Lines.Add(EmptyStr);
+        SynDiffEdit.Lines.SkipLastLineBreak:= True;
+      end;
       // Determine line break style
       SynDiffEdit.Lines.TextLineBreakStyle := GuessLineBreakStyle(AText);
     finally
