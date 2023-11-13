@@ -287,6 +287,7 @@ end;
 function TWlxModule.LoadModule: Boolean;
 begin
   // DCDebug('WLXM LoadModule entered');
+  if (FModuleHandle <> NilHandle) then Exit(True);
   FModuleHandle := mbLoadLibrary(mbExpandFileName(Self.FileName));
   Result := (FModuleHandle <> NilHandle);
   if FModuleHandle = NilHandle then Exit;
@@ -472,8 +473,8 @@ function TWlxModule.FileParamVSDetectStr(AFileName: String; bForce: Boolean): Bo
 begin
   if not Enabled then Exit(False);
   FParser.IsForce:= bForce;
-  DCDebug('DetectStr = ' + FParser.DetectStr);
-  DCDebug('AFileName = ' + AFileName);
+  // DCDebug('DetectStr = ' + FParser.DetectStr);
+  // DCDebug('AFileName = ' + AFileName);
   Result := FParser.TestFileResult(AFileName);
 end;
 
