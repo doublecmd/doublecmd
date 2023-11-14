@@ -32,6 +32,7 @@ end;
 procedure UpdateEnvironmentVariable;
 begin
   mbSetEnvironmentVariable('COMMANDER_INI', gpCfgDir + 'doublecmd.xml');
+  mbSetEnvironmentVariable('DC_CONFIG_PATH', ExcludeTrailingPathDelimiter(gpCfgDir));
 end;
 
 procedure LoadPaths;
