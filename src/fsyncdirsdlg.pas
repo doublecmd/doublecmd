@@ -265,8 +265,11 @@ type
 
   TCheckContentThread = class(TThread)
   private
-    FOwner: TfrmSyncDirsDlg;
     FDone: Boolean;
+    FOwner: TfrmSyncDirsDlg;
+  private
+    procedure DoStart;
+    procedure DoFinish;
     procedure UpdateGrid;
     procedure ReapplyFilter;
   protected
@@ -311,6 +314,18 @@ begin
 end;
 
 { TCheckContentThread }
+
+procedure TCheckContentThread.DoStart;
+begin
+  FOwner.HeaderDG.Enabled:= False;
+  FOwner.GroupBox1.Enabled:= False;
+end;
+
+procedure TCheckContentThread.DoFinish;
+begin
+  FOwner.HeaderDG.Enabled:= True;
+  FOwner.GroupBox1.Enabled:= True;
+end;
 
 procedure TCheckContentThread.UpdateGrid;
 begin
@@ -361,18 +376,22 @@ var
   i, j: Integer;
   r: TFileSyncRec;
 begin
-  with FOwner do
+  Synchronize(@DoStart);
+  try
+    with FOwner do
     for i := 0 to FFoundItems.Count - 1 do
+    begin
       for j := 0 to TStringList(FFoundItems.Objects[i]).Count - 1 do
       begin
         if Terminated then Exit;
-          r := TFileSyncRec(TStringList(FFoundItems.Objects[i]).Objects[j]);
+        r := TFileSyncRec(TStringList(FFoundItems.Objects[i]).Objects[j]);
         if Assigned(r) and (r.FState = srsUnknown) then
         begin
           try
             if CompareFiles(r.FFileL.FullPath, r.FFileR.FullPath, r.FFileL.Size) then
             begin
               Inc(Fequal);
+              Dec(Fnoneq);
               r.FState := srsEqual
             end
             else
@@ -387,8 +406,12 @@ begin
           end;
         end;
       end;
-  FDone := True;
-  Synchronize(@ReapplyFilter);
+    end;
+    FDone := True;
+    Synchronize(@ReapplyFilter);
+  finally
+    Synchronize(@DoFinish);
+  end;
 end;
 
 constructor TCheckContentThread.Create(Owner: TfrmSyncDirsDlg);
@@ -1098,7 +1121,6 @@ begin
     ClearFoundItems;
     MainDrawGrid.RowCount := 0;
     ScanDirs;
-    FillFoundItemsDG;
     MainDrawGrid.SetFocus;
   finally
     TopPanel.Enabled := True;
@@ -1387,6 +1409,7 @@ begin
   end;
   ScanDir('');
   MaskList.Free;
+  FillFoundItemsDG;
   if FCancel then Exit;
   if (FFoundItems.Count > 0) and chkByContent.Checked then
     CheckContentThread := TCheckContentThread.Create(Self);
@@ -1578,6 +1601,7 @@ begin
   edPath1.Enabled:= AEnabled;
   edPath2.Enabled:= AEnabled;
   TopPanel.Enabled:= AEnabled;
+  HeaderDG.Enabled:= AEnabled;
   pnlFilter.Enabled:= AEnabled;
   MainDrawGrid.Enabled:= AEnabled;
   pnlProgress.Visible:= not AEnabled;
