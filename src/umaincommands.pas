@@ -2026,6 +2026,24 @@ begin
     // Default to using the file source directly.
     aFileSource := ActiveFrame.FileSource;
 
+    if not (fspDirectAccess in aFileSource.Properties) and
+       not (fspLinksToLocalFiles in aFileSource.Properties) then
+    begin
+      for I := SelectedFiles.Count - 1 downto 0 do
+      begin
+        with SelectedFiles[I] do
+        begin
+          if IsDirectory or IsLinkToDirectory then
+            SelectedFiles.Delete(I);
+        end;
+      end;
+      if (SelectedFiles.Count = 0) then
+      begin
+        msgWarning(rsMsgNoFilesSelected);
+        Exit;
+      end;
+    end;
+
     if PrepareData(aFileSource, SelectedFiles, @OnCopyOutStateChanged) <> pdrSynchronous then
       Exit;
 
