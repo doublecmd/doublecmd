@@ -113,6 +113,8 @@ if [ "$CK_PORTABLE" ]; then
   mkdir -p $BUILD_PACK_DIR
   install/linux/install.sh --portable-prefix=$BUILD_PACK_DIR
   cd $BUILD_PACK_DIR
+  # Set run-time library search path
+  patchelf --set-rpath '$ORIGIN' doublecmd/doublecmd
   tar -cJvf $PACK_DIR/doublecmd-$DC_VER.$lcl.$CPU_TARGET.tar.xz doublecmd
 fi
 
