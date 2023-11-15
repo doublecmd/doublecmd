@@ -173,7 +173,7 @@ type
 
 const
   { Default hotkey list version number }
-  hkVersion = 60;
+  hkVersion = 61;
   // 54 - In "Viewer" context, added the "W" for "cm_WrapText", "4" for "cm_ShowAsDec", "8" for "cm_ShowOffice".
   // 53 - In "Main" context, change shortcut "Alt+`" to "Alt+0" for the "cm_ActivateTabByIndex".
   // 52 - In "Main" context, add shortcut "Ctrl+Shift+B" for "cm_FlatViewSel".
@@ -1304,6 +1304,12 @@ begin
       AddIfNotExists(['Alt+X'],[],'cm_Exit');
       AddIfNotExists(['Alt+Left'],[],'cm_CopyRightToLeft');
       AddIfNotExists(['Alt+Right'],[],'cm_CopyLeftToRight');
+    end;
+
+  HMForm := HotMan.Forms.FindOrCreate('Confirmation');
+  with HMForm.Hotkeys do
+    begin
+      AddIfNotExists(['F2'], [],'cm_AddToQueue');
     end;
 
   HMForm := HotMan.Forms.FindOrCreate('Copy/Move Dialog');

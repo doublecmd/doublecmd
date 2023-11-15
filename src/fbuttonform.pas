@@ -6,13 +6,13 @@ interface
 
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, ExtCtrls,
-  Buttons, Menus, uOperationsManager, uFileSource;
+  Buttons, Menus, uOperationsManager, uFileSource, uFormCommands;
 
 type
 
   { TfrmButtonForm }
 
-  TfrmButtonForm = class(TForm)
+  TfrmButtonForm = class(TForm, IFormCommands)
     btnAddToQueue: TBitBtn;
     btnCancel: TBitBtn;
     btnCreateSpecialQueue: TBitBtn;
@@ -32,11 +32,15 @@ type
     procedure mnuNewQueueClick(Sender: TObject);
     procedure mnuQueueNumberClick(Sender: TObject);
   private
+    FCommands: TFormCommands;
     function GetQueueIdentifier: TOperationsManagerQueueIdentifier;
+    property {%H-}Commands: TFormCommands read FCommands implements IFormCommands;
   public
     constructor Create(TheOwner: TComponent); override;
     constructor Create(TheOwner: TComponent; FileSource: IFileSource); reintroduce;
     property QueueIdentifier: TOperationsManagerQueueIdentifier read GetQueueIdentifier;
+  published
+    procedure cm_AddToQueue(const Params: array of String);
   end;
 
 var
@@ -45,9 +49,12 @@ var
 implementation
 
 uses
-  uFileSourceProperty;
+  LCLStrConsts, DCStrUtils, uFileSourceProperty, uHotkeyManager, uGlobs;
 
 {$R *.lfm}
+
+const
+  HotkeysCategory = 'Confirmation';
 
 var
   FQueueIdentifier: TOperationsManagerQueueIdentifier = SingleQueueId;
@@ -98,7 +105,12 @@ begin
 end;
 
 constructor TfrmButtonForm.Create(TheOwner: TComponent; FileSource: IFileSource);
+var
+  HMForm: THMForm;
+  Hotkey: THotkey;
 begin
+  FCommands := TFormCommands.Create(Self);
+
   inherited Create(TheOwner);
 
   if FQueueIdentifier <= FreeOperationsQueueId then FQueueIdentifier:= SingleQueueId;
@@ -110,7 +122,33 @@ begin
     FQueueIdentifier:= ModalQueueId;
     btnCreateSpecialQueue.Visible:= btnAddToQueue.Visible;
   end;
+
+  HMForm := HotMan.Register(Self, HotkeysCategory);
+  Hotkey := HMForm.Hotkeys.FindByCommand('cm_AddToQueue');
+
+  if Assigned(Hotkey) then
+    btnAddToQueue.Caption := btnAddToQueue.Caption + ' (' + ShortcutsToText(Hotkey.Shortcuts) + ')';
 end;
 
-end.
+procedure TfrmButtonForm.cm_AddToQueue(const Params: array of String);
+var
+  Value: Integer;
+  sQueueId: String;
+begin
+  if FQueueIdentifier = ModalQueueId then Exit;
+  if GetParamValue(Params, 'queueid', sQueueId) and TryStrToInt(sQueueId, Value) then
+    begin
+      if Value < 0 then
+        mnuNewQueue.Click
+      else
+        FQueueIdentifier := Value
+    end
+  else
+    FQueueIdentifier := SingleQueueId;
+  ModalResult := btnAddToQueue.ModalResult;
+end;
 
+initialization
+  TFormCommands.RegisterCommandsForm(TfrmButtonForm, HotkeysCategory, @rsMtConfirmation);
+
+end.
