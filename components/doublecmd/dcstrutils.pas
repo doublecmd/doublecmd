@@ -45,6 +45,12 @@ function ContainsOneOf(StringToCheck: String; PossibleCharacters: String): Boole
    Convert known directory separators to the current directory separator.
 }
 function NormalizePathDelimiters(const Path: String): String;
+
+{en
+   Convert known directory separators to user defined directory separator.
+}
+function ReplaceDirectorySeparator(const Path: String; const Separator : Char): String;
+
 {en
    Get last directory name in path
    @returns(Last directory name in path)
@@ -364,6 +370,21 @@ implementation
 
 uses
   DCOSUtils, DCConvertEncoding, StrUtils;
+
+function ReplaceDirectorySeparator(const Path: String; const Separator : Char): String;
+const
+  AllowPathDelimiters : set of char = ['\','/'];
+var
+  I : LongInt;
+begin
+  Result := Path;
+  if (Separator  in AllowPathDelimiters) then
+  begin
+    for I:= 1 to Length(Path) do
+      if Path[I] in AllowPathDelimiters then
+        Result[I]:= Separator 
+  end
+end;
 
 function NormalizePathDelimiters(const Path: String): String;
 {$IFDEF UNIX}
