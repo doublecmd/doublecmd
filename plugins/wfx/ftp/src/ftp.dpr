@@ -14,13 +14,9 @@ uses
 {$ENDIF}
   , ssl_openssl
 {$IF DEFINED(LINUX)}
-  , ssl_gnutls_lib
+  , ssl_gnutls
 {$ENDIF}
   ;
-
-{$IF DEFINED(LINUX)}
-{$I ssl_gnutls_lib.inc}
-{$ENDIF}
 
 exports
   FsInitW,
