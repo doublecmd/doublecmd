@@ -364,7 +364,7 @@ end;
 {==============================================================================}
 
 initialization
-  if InitSSLInterface then
+  if (SSLImplementation = TSSLNone) and InitSSLInterface then
     SSLImplementation := TSSLGnuTLS;
 
 end.
