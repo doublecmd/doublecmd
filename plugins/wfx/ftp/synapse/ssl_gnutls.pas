@@ -74,6 +74,7 @@ type
   TSSLGnuTLS = class(TCustomSSL)
   private
     FShutdown: Integer;
+    FDatum: gnutls_datum_t;
     FSession: gnutls_session_t;
     FPriorities: array[Byte] of AnsiChar;
     FCredentials: gnutls_certificate_credentials_t;
@@ -192,6 +193,14 @@ function TSSLGnuTLS.DeInit: Boolean;
 begin
   Result := True;
 
+  if Assigned(FSessionNew) then
+  begin
+    gnutls_free(FDatum.data);
+    FSessionNew := nil;
+    FDatum.data := nil;
+    FDatum.size := 0
+  end;
+
   if Assigned(FCredentials) then
   begin
     gnutls_certificate_free_credentials(FCredentials);
@@ -244,6 +253,10 @@ begin
   if Prepare then
   begin
     gnutls_transport_set_ptr(FSession, gnutls_transport_ptr_t(FSocket.Socket));
+    // Reuse session
+    if Assigned(FSessionOld) then begin
+      gnutls_session_set_data(FSession, gnutls_datum_ptr_t(FSessionOld)^.data, gnutls_datum_ptr_t(FSessionOld)^.size);
+    end;
     // do blocking call of SSL_Connect
     if FSocket.ConnectionTimeout <= 0 then
     begin
@@ -262,6 +275,13 @@ begin
     end;
     if SSLCheck then
     begin
+      if (FSessionOld = nil) then
+      begin
+        if (gnutls_session_get_data2(FSession, @FDatum) = GNUTLS_E_SUCCESS) then
+        begin
+          FSessionNew := @FDatum;
+        end;
+      end;
       FSSLEnabled := True;
       FShutdown := 0;
       Result := True;

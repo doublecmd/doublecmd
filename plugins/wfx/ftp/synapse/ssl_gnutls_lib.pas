@@ -22,6 +22,7 @@
 unit ssl_gnutls_lib;
 
 {$mode delphi}
+{$packrecords c}
 
 interface
 
@@ -126,6 +127,13 @@ type
   );
 
 type
+  gnutls_datum_t = record
+    data: pcuchar;
+    size: cuint;
+  end;
+  gnutls_datum_ptr_t = ^gnutls_datum_t;
+
+type
   gnutls_session_st = record end;
   gnutls_session_t = ^gnutls_session_st;
   gnutls_transport_ptr_t = type UIntPtr;
@@ -146,6 +154,10 @@ var
 
   gnutls_certificate_allocate_credentials: function(out res: gnutls_certificate_credentials_t): cint; cdecl;
   gnutls_certificate_free_credentials: procedure(sc: gnutls_certificate_credentials_t); cdecl;
+
+  gnutls_free: procedure(ptr: Pointer); cdecl;
+  gnutls_session_get_data2: function(session: gnutls_session_t; data: gnutls_datum_ptr_t): cint; cdecl;
+  gnutls_session_set_data: function(session: gnutls_session_t; session_data: Pointer; session_data_size: csize_t): cint; cdecl;
 
   gnutls_transport_set_ptr: procedure(session: gnutls_session_t; ptr: gnutls_transport_ptr_t); cdecl;
   gnutls_record_check_pending: function(session: gnutls_session_t): csize_t; cdecl;
@@ -215,6 +227,10 @@ begin
 
     @gnutls_certificate_allocate_credentials:= SafeGetProcAddress(gnutls, 'gnutls_certificate_allocate_credentials');
     @gnutls_certificate_free_credentials:= SafeGetProcAddress(gnutls, 'gnutls_certificate_free_credentials');
+
+    @gnutls_free:= SafeGetProcAddress(gnutls, 'gnutls_free');
+    @gnutls_session_get_data2:= SafeGetProcAddress(gnutls, 'gnutls_session_get_data2');
+    @gnutls_session_set_data:= SafeGetProcAddress(gnutls, 'gnutls_session_set_data');
 
     @gnutls_transport_set_ptr:= SafeGetProcAddress(gnutls, 'gnutls_transport_set_ptr');
     @gnutls_record_check_pending:= SafeGetProcAddress(gnutls, 'gnutls_record_check_pending');
