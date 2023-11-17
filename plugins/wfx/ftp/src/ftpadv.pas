@@ -675,6 +675,12 @@ begin
   Result:= inherited Login;
   if Result then
   begin
+    if IsTLS and Sock.SSL.SSLEnabled then
+    begin
+      LogProc(PluginNumber, msgtype_details, PWideChar('TLS Library ' + UTF8ToUTF16(FSock.SSL.LibVersion)));
+      LogProc(PluginNumber, msgtype_details, PWideChar('TLS Protocol ' + UTF8ToUTF16(FSock.SSL.GetSSLVersion)));
+      LogProc(PluginNumber, msgtype_details, PWideChar('TLS Cipher ' + UTF8ToUTF16(FSock.SSL.GetCipherName)));
+    end;
     if (FTPCommand('FEAT') div 100) = 2 then
     begin
       for Index:= 0 to FFullResult.Count - 1 do

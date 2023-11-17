@@ -130,7 +130,7 @@ end;
 
 function TSSLGnuTLS.LibVersion: String;
 begin
-  Result := gnutls_check_version('3.0.0');
+  Result := 'GnuTLS ' + gnutls_check_version('3.0.0');
 end;
 
 function TSSLGnuTLS.LibName: String;
