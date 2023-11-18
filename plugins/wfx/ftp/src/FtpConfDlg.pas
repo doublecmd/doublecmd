@@ -321,7 +321,7 @@ begin
             if gConnection.AutoTLS then
             begin
               gConnection.OpenSSH:= False;
-              if not InitSSLInterface then
+              if (SSLImplementation = TSSLNone) then
               begin
                 ShowWarningSSL;
                 gConnection.AutoTLS:= False;
