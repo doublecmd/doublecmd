@@ -1,5 +1,5 @@
 {==============================================================================|
-| Project : Ararat Synapse                                       | 001.003.000 |
+| Project : Ararat Synapse                                       | 001.004.001 |
 |==============================================================================|
 | Content: SSL support by OpenSSL                                              |
 |==============================================================================|
@@ -35,6 +35,7 @@
 | The Initial Developer of the Original Code is Lukas Gebauer (Czech Republic).|
 | Portions created by Lukas Gebauer are Copyright (c)2005-2017.                |
 | Portions created by Petr Fejfar are Copyright (c)2011-2012.                  |
+| Portions created by Pepak are Copyright (c)2018.                             |
 | All Rights Reserved.                                                         |
 |==============================================================================|
 | Contributor(s):                                                              |
@@ -96,6 +97,9 @@ uses
 {$IFDEF CIL}
   System.Text,
 {$ENDIF}
+{$IFDEF DELPHI23_UP}
+  AnsiStrings,
+{$ENDIF}
   ssl_openssl_lib;
 
 type
@@ -103,16 +107,20 @@ type
    Instance of this class will be created for each @link(TTCPBlockSocket).
    You not need to create instance of this class, all is done by Synapse itself!}
   TSSLOpenSSL = class(TCustomSSL)
+  private
+    FServer: boolean;
   protected
     FSsl: PSSL;
     Fctx: PSSL_CTX;
+    function NeedSigningCertificate: boolean; virtual;
     function SSLCheck: Boolean;
-    function SetSslKeys: boolean;
-    function Init(server:Boolean): Boolean;
+    function SetSslKeys: boolean; virtual;
+    function Init: Boolean;
     function DeInit: Boolean;
-    function Prepare(server:Boolean): Boolean;
+    function Prepare: Boolean;
     function LoadPFX(pfxdata: ansistring): Boolean;
     function CreateSelfSignedCert(Host: string): Boolean; override;
+    property Server: boolean read FServer;
   public
     {:See @inherited}
     constructor Create(const Value: TTCPBlockSocket); override;
@@ -148,7 +156,7 @@ type
     {:See @inherited}
     function GetPeerNameHash: cardinal; override; {pf}
     {:See @inherited}
-    function GetPeerFingerprint: string; override;
+    function GetPeerFingerprint: ansistring; override;
     {:See @inherited}
     function GetCertInfo: string; override;
     {:See @inherited}
@@ -176,7 +184,7 @@ begin
   if Length(Password) > (Size - 1) then
     SetLength(Password, Size - 1);
   Result := Length(Password);
-  StrLCopy(buf, PAnsiChar(Password + #0), Result + 1);
+  {$IFDEF DELPHI23_UP}AnsiStrings.{$ENDIF}StrLCopy(buf, PAnsiChar(Password + #0), Result + 1);
 end;
 {$ENDIF}
 
@@ -250,7 +258,7 @@ begin
   pk := EvpPkeynew;
   x := X509New;
   try
-    rsa := RsaGenerateKey(1024, $10001, nil, nil);
+    rsa := RsaGenerateKey(2048, $10001, nil, nil);
     EvpPkeyAssign(pk, EVP_PKEY_RSA, rsa);
     X509SetVersion(x, 2);
     Asn1IntegerSet(X509getSerialNumber(x), 0);
@@ -411,7 +419,12 @@ begin
   end;
 end;
 
-function TSSLOpenSSL.Init(server:Boolean): Boolean;
+function TSSLOpenSSL.NeedSigningCertificate: boolean;
+begin
+  Result := (FCertificateFile = '') and (FCertificate = '') and (FPFXfile = '') and (FPFX = '');
+end;
+
+function TSSLOpenSSL.Init: Boolean;
 var
   s: AnsiString;
 begin
@@ -459,8 +472,7 @@ begin
     SslCtxSetDefaultPasswdCbUserdata(FCtx, self);
 {$ENDIF}
 
-    if server and (FCertificateFile = '') and (FCertificate = '')
-      and (FPFXfile = '') and (FPFX = '') then
+    if server and NeedSigningCertificate then
     begin
       CreateSelfSignedcert(FSocket.ResolveIPToName(FSocket.GetRemoteSinIP));
     end;
@@ -501,11 +513,11 @@ begin
   FSSLEnabled := False;
 end;
 
-function TSSLOpenSSL.Prepare(server:Boolean): Boolean;
+function TSSLOpenSSL.Prepare: Boolean;
 begin
   Result := false;
   DeInit;
-  if Init(server) then
+  if Init then
     Result := true
   else
     DeInit;
@@ -520,7 +532,8 @@ begin
   Result := False;
   if FSocket.Socket = INVALID_SOCKET then
     Exit;
-  if Prepare(False) then
+  FServer := False;
+  if Prepare then
   begin
 {$IFDEF CIL}
     if sslsetfd(FSsl, FSocket.Socket.Handle.ToInt32) < 1 then
@@ -536,7 +549,10 @@ begin
       SslSetSession(Fssl, FSessionOld);
     end;
     if SNIHost<>'' then
+    begin
       SSLCtrl(Fssl, SSL_CTRL_SET_TLSEXT_HOSTNAME, TLSEXT_NAMETYPE_host_name, PAnsiChar(AnsiString(SNIHost)));
+      SslSet1Host(Fssl, PAnsiChar(AnsiString(SNIHost)));
+    end;
     if FSocket.ConnectionTimeout <= 0 then //do blocking call of SSL_Connect
     begin
       x := sslconnect(FSsl);
@@ -585,7 +601,8 @@ begin
   Result := False;
   if FSocket.Socket = INVALID_SOCKET then
     Exit;
-  if Prepare(True) then
+  FServer := True;
+  if Prepare then
   begin
 {$IFDEF CIL}
     if sslsetfd(FSsl, FSocket.Socket.Handle.ToInt32) < 1 then
@@ -818,7 +835,7 @@ begin
   X509Free(cert);
 end;
 
-function TSSLOpenSSL.GetPeerFingerprint: string;
+function TSSLOpenSSL.GetPeerFingerprint: ansistring;
 var
   cert: PX509;
   x: integer;
