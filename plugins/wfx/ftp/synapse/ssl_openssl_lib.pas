@@ -1,5 +1,5 @@
 {==============================================================================|
-| Project : Ararat Synapse                                       | 003.008.000 |
+| Project : Ararat Synapse                                       | 003.009.001 |
 |==============================================================================|
 | Content: SSL support by OpenSSL                                              |
 |==============================================================================|
@@ -35,10 +35,12 @@
 | The Initial Developer of the Original Code is Lukas Gebauer (Czech Republic).|
 | Portions created by Lukas Gebauer are Copyright (c)2002-2017.                |
 | Portions created by Petr Fejfar are Copyright (c)2011-2012.                  |
+| Portions created by Pepak are Copyright (c)2018.                             |
 | All Rights Reserved.                                                         |
 |==============================================================================|
 | Contributor(s):                                                              |
 |   Tomas Hajny (OS2 support)                                                  |
+|   Pepak (multiversion support)                                               |
 |==============================================================================|
 | History: see HISTORY.HTM from distribution package                           |
 |          (Found at URL: http://www.ararat.cz/synapse/)                       |
@@ -96,6 +98,7 @@ uses
   {$ENDIF}
   SysUtils;
 {$ELSE}
+  SysUtils,
   Windows;
 {$ENDIF}
 
@@ -134,6 +137,58 @@ var
   DLLSSLName2: string = 'libssl32.dll';
   DLLUtilName: string = 'libeay32.dll';
   {$ENDIF}
+{$IFDEF MSWINDOWS}
+const
+  LibCount = 5;
+  SSLLibNames: array[0..LibCount-1] of string = (
+    // OpenSSL v3.0
+    {$IFDEF WIN64}
+    'libssl-3-x64.dll',
+    {$ELSE}
+    'libssl-3.dll',
+    {$ENDIF}
+    // OpenSSL v1.1.x
+    {$IFDEF WIN64}
+    'libssl-1_1-x64.dll',
+    {$ELSE}
+    'libssl-1_1.dll',
+    {$ENDIF}
+    // OpenSSL v1.0.2 distinct names for x64 and x86
+    {$IFDEF WIN64}
+    'ssleay32-x64.dll',
+    {$ELSE}
+    'ssleay32-x86.dll',
+    {$ENDIF}
+    // OpenSSL v1.0.2
+    'ssleay32.dll',
+    // OpenSSL (ancient)
+    'libssl32.dll'
+  );
+  CryptoLibNames: array[0..LibCount-1] of string = (
+    // OpenSSL v3.0
+    {$IFDEF WIN64}
+    'libcrypto-3-x64.dll',
+    {$ELSE}
+    'libcrypto-3.dll',
+    {$ENDIF}
+    // OpenSSL v1.1.x
+    {$IFDEF WIN64}
+    'libcrypto-1_1-x64.dll',
+    {$ELSE}
+    'libcrypto-1_1.dll',
+    {$ENDIF}
+    // OpenSSL v1.0.2 distinct names for x64 and x86
+    {$IFDEF WIN64}
+    'libeay32-x64.dll',
+    {$ELSE}
+    'libeay32-x86.dll',
+    {$ENDIF}
+    // OpenSSL v1.0.2
+    'libeay32.dll',
+    // OpenSSL (ancient)
+    'libeay32.dll'
+  );
+{$ENDIF}
 {$ENDIF}
 
 type
@@ -757,6 +812,7 @@ var
   function SSLCipherGetBits(c: SslPtr; var alg_bits: Integer):Integer;
   function SSLGetVerifyResult(ssl: PSSL):Integer;
   function SSLCtrl(ssl: PSSL; cmd: integer; larg: integer; parg: SslPtr):Integer;
+  function SslSet1Host(ssl: PSSL; hostname: PAnsiChar):Integer;
   procedure SslSessionFree(session: PSslPtr);
   function SslGet1Session(ssl: PSSL):PSslPtr;
   function SslSetSession(ssl: PSSL; session: PSslPtr): Integer;
@@ -886,6 +942,7 @@ type
   TSSLCipherGetBits = function(c: SslPtr; alg_bits: PInteger):Integer; cdecl;
   TSSLGetVerifyResult = function(ssl: PSSL):Integer; cdecl;
   TSSLCtrl = function(ssl: PSSL; cmd: integer; larg: integer; parg: SslPtr):Integer; cdecl;
+  TSslSet1Host = function(ssl: PSSL; hostname: PAnsiChar):Integer; cdecl;
   TSslSessionFree = procedure(session: PSslPtr); cdecl;
   TSslGet1Session = function(ssl: PSSL):PSslPtr; cdecl;
   TSslSetSession = function(ssl: PSSL; session: PSslPtr): Integer; cdecl;
@@ -997,6 +1054,7 @@ var
   _SSLCipherGetBits: TSSLCipherGetBits = nil;
   _SSLGetVerifyResult: TSSLGetVerifyResult = nil;
   _SSLCtrl: TSSLCtrl = nil;
+  _SslSet1Host: TSslSet1Host = nil;
   _SslSessionFree: TSslSessionFree = nil;
   _SslGet1Session: TSslGet1Session = nil;
   _SslSetSession: TSslSetSession = nil;
@@ -1417,6 +1475,14 @@ begin
     Result := X509_V_ERR_APPLICATION_VERIFICATION;
 end;
 
+function SslSet1Host(ssl: PSSL; hostname: PAnsiChar):Integer;
+begin
+  if InitSSLInterface and Assigned(_SslSet1Host) then
+    Result := _SslSet1Host(ssl, hostname)
+  else
+    Result := 0;
+end;
+
 procedure SslSessionFree(session: PSslPtr);
 begin
   if InitSSLInterface and Assigned(_SslSessionFree) then
@@ -1759,7 +1825,7 @@ end;
 function d2iX509bio(b: PBIO; x: PX509): PX509; {pf}
 begin
   if InitSSLInterface and Assigned(_d2iX509bio) then
-    Result := _d2iX509bio(x,b)
+    Result := _d2iX509bio(b, x)
   else
     Result := nil;
 end;
@@ -1889,10 +1955,20 @@ begin
 {$ENDIF}
 end;
 
+function GetLibFileName(Handle: THandle): string;
+var
+  n: integer;
+begin
+  n := MAX_PATH + 1024;
+  SetLength(Result, n);
+  n := GetModuleFilename(Handle, PChar(Result), n);
+  SetLength(Result, n);
+end;
+
 function InitSSLInterface: Boolean;
 var
   s: string;
-  x: integer;
+  i: integer;
 begin
   {pf}
   if SSLLoaded then
@@ -1900,7 +1976,7 @@ begin
       Result := TRUE;
       exit;
     end;
-  {/pf}  
+  {/pf}
   SSLCS.Enter;
   try
     if not IsSSLloaded then
@@ -1909,12 +1985,24 @@ begin
       SSLLibHandle := 1;
       SSLUtilHandle := 1;
 {$ELSE}
+      // Note: It's important to ensure that the libraries both come from the
+      // same directory, preferably the one of the executable. Otherwise a
+      // version mismatch could easily occur.
+      {$IFDEF MSWINDOWS}
+      for i := 0 to Pred(LibCount) do
+      begin
+        SSLUtilHandle := LoadLib(CryptoLibNames[i]);
+        if SSLUtilHandle <> 0 then
+        begin
+          s := ExtractFilePath(GetLibFileName(SSLUtilHandle));
+          SSLLibHandle := LoadLib(s + SSLLibNames[i]);
+          Break;
+        end;
+      end;
+      {$ELSE}
       SSLUtilHandle := LoadLib(DLLUtilName);
       SSLLibHandle := LoadLib(DLLSSLName);
-  {$IFDEF MSWINDOWS}
-      if (SSLLibHandle = 0) then
-        SSLLibHandle := LoadLib(DLLSSLName2);
-  {$ENDIF}
+      {$ENDIF}
 {$ENDIF}
       if (SSLLibHandle <> 0) and (SSLUtilHandle <> 0) then
       begin
@@ -1964,6 +2052,7 @@ begin
         _SslCipherGetBits := GetProcAddr(SSLLibHandle, 'SSL_CIPHER_get_bits');
         _SslGetVerifyResult := GetProcAddr(SSLLibHandle, 'SSL_get_verify_result');
         _SslCtrl := GetProcAddr(SSLLibHandle, 'SSL_ctrl');
+        _SslSet1Host := GetProcAddr(SSLLibHandle, 'SSL_set1_host');
         _SslSessionFree := GetProcAddr(SSLLibHandle, 'SSL_SESSION_free');
         _SslGet1Session := GetProcAddr(SSLLibHandle, 'SSL_get1_session');
         _SslSetSession := GetProcAddr(SSLLibHandle, 'SSL_set_session');
@@ -2033,14 +2122,8 @@ begin
         OPENSSLaddallalgorithms;
         RandScreen;
 {$ELSE}
-        SetLength(s, 1024);
-        x := GetModuleFilename(SSLLibHandle,PChar(s),Length(s));
-        SetLength(s, x);
-        SSLLibFile := s;
-        SetLength(s, 1024);
-        x := GetModuleFilename(SSLUtilHandle,PChar(s),Length(s));
-        SetLength(s, x);
-        SSLUtilFile := s;
+        SSLLibFile := GetLibFileName(SSLLibHandle);
+        SSLUtilFile := GetLibFileName(SSLUtilHandle);
         //init library
         if assigned(_SslLibraryInit) then
           _SslLibraryInit;
@@ -2163,6 +2246,10 @@ begin
     _SslCipherGetBits := nil;
     _SslGetVerifyResult := nil;
     _SslCtrl := nil;
+    _SslSet1Host := nil;
+    _SslSessionFree := nil;
+    _SslGet1Session := nil;
+    _SslSetSession := nil;
 
     _X509New := nil;
     _X509Free := nil;
