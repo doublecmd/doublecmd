@@ -3,7 +3,7 @@
     -------------------------------------------------------------------------
     This unit contains platform depended functions.
 
-    Copyright (C) 2006-2022 Alexander Koblov (alexx2000@mail.ru)
+    Copyright (C) 2006-2023 Alexander Koblov (alexx2000@mail.ru)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -26,7 +26,7 @@ unit uOSForms;
 interface
 
 uses
-  LCLType, Forms, Classes, SysUtils, Controls,
+  LCLType, LMessages, Forms, Classes, SysUtils, Controls,
   uGlobs, uShellContextMenu, uDrive, uFile, uFileSource;
 
 type
@@ -38,6 +38,8 @@ type
   protected
     procedure DoClose(var CloseAction: TCloseAction); override;
   {$ENDIF}
+  protected
+    procedure WMSize(var Message: TLMSize); message LM_Size;
   end;
 
   { TModalDialog }
@@ -125,8 +127,8 @@ function DarkStyle: Boolean;
 implementation
 
 uses
-  ExtDlgs, LCLProc, Menus, Graphics, InterfaceBase, WSForms, LMessages, LCLIntf,
-  fMain, uConnectionManager, uShowMsg, uLng, uDCUtils
+  ExtDlgs, LCLProc, Menus, Graphics, InterfaceBase, WSForms, LCLIntf,
+  fMain, uConnectionManager, uShowMsg, uLng, uDCUtils, uDebug
   {$IF DEFINED(MSWINDOWS)}
   , LCLStrConsts, ComObj, ActiveX, DCOSUtils, uOSUtils, uFileSystemFileSource
   , uTotalCommander, FileUtil, Windows, ShlObj, uShlObjAdditional
@@ -220,6 +222,17 @@ begin
 end;
 
 {$ENDIF}
+
+procedure TAloneForm.WMSize(var Message: TLMSize);
+begin
+  // https://github.com/doublecmd/doublecmd/issues/1358
+  if (Message.Width > High(Int16)) or (Message.Height > High(Int16)) then
+  begin
+    DCDebug(ClassName + '.WMSize invalid size %u x %u', [Message.Width, Message.Height]);
+    Exit;
+  end;
+  inherited WMSize(Message);
+end;
 
 { TModalDialog }
 
