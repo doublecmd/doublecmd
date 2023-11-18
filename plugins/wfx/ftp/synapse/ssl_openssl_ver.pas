@@ -63,18 +63,16 @@ const
     Always make .so/dylib last (Darwin won't load unversioned), then versions,
     in descending order!  Add "." .before the version}
 {$IFDEF DARWIN}
-    LibVersions: array[1..12] of String = ('.48', '.47', '.46', '.45', '.44',
-                                           '.43', '.42', '.41', '.39', '.35',
-                                           '.0.9.8', '.0.9.7');
+    LibVersions: array[1..10] of String = ('.48', '.47', '.46', '.45', '.44',
+                                           '.43', '.42', '.41', '.39', '.35'
+                                          );
     {Always make .so/dylib first, then versions, in descending order!
     Add "." .before the version, first is always just "" }
 {$ELSE}
-    LibVersions: array[1..18] of String = ('', '.111', '.1.1.1',
+    LibVersions: array[1..10] of String = ('', '.3', '.111', '.1.1.1',
                                            '.11', '.1.1', '.1.1.0',
-                                           '.10', '.1.0.2', '.1.0.1',
-                                           '.1.0.0', '.0.9.8', '.0.9.7',
-                                           '.0.9.6', '.0.9.5', '.0.9.4',
-                                           '.0.9.3', '.0.9.2', '.0.9.1');
+                                           '.10', '.1.0.2', '.1.0.1'
+                                          );
 {$ENDIF}
 
 function GetLibraryName(const Value: String; Index: Integer): String;
