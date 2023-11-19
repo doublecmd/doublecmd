@@ -61,26 +61,26 @@ type
   end;
 
 {Mandatory functions}
-function OpenArchive (var ArchiveData : tOpenArchiveData) : TArcHandle;dcpcall;
-function OpenArchiveW(var ArchiveData : tOpenArchiveDataW) : TArcHandle;dcpcall;
-function ReadHeader(hArcData : TArcHandle; var HeaderData: THeaderData) : Integer;dcpcall;
-function ReadHeaderExW(hArcData : TArcHandle; var HeaderData: THeaderDataExW) : Integer;dcpcall;
-function ProcessFile (hArcData : TArcHandle; Operation : Integer; DestPath, DestName : PChar) : Integer;dcpcall;
-function ProcessFileW(hArcData : TArcHandle; Operation : Integer; DestPath, DestName : PWideChar) : Integer;dcpcall;
-function CloseArchive (hArcData : TArcHandle) : Integer;dcpcall;
-procedure SetChangeVolProc (hArcData : TArcHandle; pChangeVolProc : PChangeVolProc);dcpcall;
-procedure SetChangeVolProcW(hArcData : TArcHandle; pChangeVolProc : TChangeVolProcW);dcpcall;
-procedure SetProcessDataProc (hArcData : TArcHandle; pProcessDataProc : TProcessDataProc);dcpcall;
-procedure SetProcessDataProcW(hArcData : TArcHandle; pProcessDataProc : TProcessDataProcW);dcpcall;
+function OpenArchive (var ArchiveData : tOpenArchiveData) : TArcHandle;dcpcall; export;
+function OpenArchiveW(var ArchiveData : tOpenArchiveDataW) : TArcHandle;dcpcall; export;
+function ReadHeader(hArcData : TArcHandle; var HeaderData: THeaderData) : Integer;dcpcall; export;
+function ReadHeaderExW(hArcData : TArcHandle; var HeaderData: THeaderDataExW) : Integer;dcpcall; export;
+function ProcessFile (hArcData : TArcHandle; Operation : Integer; DestPath, DestName : PChar) : Integer;dcpcall; export;
+function ProcessFileW(hArcData : TArcHandle; Operation : Integer; DestPath, DestName : PWideChar) : Integer;dcpcall; export;
+function CloseArchive (hArcData : TArcHandle) : Integer;dcpcall; export;
+procedure SetChangeVolProc (hArcData : TArcHandle; pChangeVolProc : PChangeVolProc);dcpcall; export;
+procedure SetChangeVolProcW(hArcData : TArcHandle; pChangeVolProc : TChangeVolProcW);dcpcall; export;
+procedure SetProcessDataProc (hArcData : TArcHandle; pProcessDataProc : TProcessDataProc);dcpcall; export;
+procedure SetProcessDataProcW(hArcData : TArcHandle; pProcessDataProc : TProcessDataProcW);dcpcall; export;
 {Optional functions}
-function PackFilesW(PackedFile: PWideChar;  SubPath: PWideChar;  SrcPath: PWideChar;  AddList: PWideChar;  Flags: Integer): Integer;dcpcall;
-function DeleteFilesW(PackedFile, DeleteList : PWideChar) : Integer;dcpcall;
-function GetPackerCaps : Integer;dcpcall;
-function GetBackgroundFlags: Integer; dcpcall;
-procedure ConfigurePacker (Parent: HWND;  DllInstance: THandle);dcpcall;
-function CanYouHandleThisFileW(FileName: PWideChar): Boolean; dcpcall;
+function PackFilesW(PackedFile: PWideChar;  SubPath: PWideChar;  SrcPath: PWideChar;  AddList: PWideChar;  Flags: Integer): Integer;dcpcall; export;
+function DeleteFilesW(PackedFile, DeleteList : PWideChar) : Integer;dcpcall; export;
+function GetPackerCaps : Integer;dcpcall; export;
+function GetBackgroundFlags: Integer; dcpcall; export;
+procedure ConfigurePacker (Parent: HWND;  DllInstance: THandle);dcpcall; export;
+function CanYouHandleThisFileW(FileName: PWideChar): Boolean; dcpcall; export;
 {Extension API}
-procedure ExtensionInitialize(StartupInfo: PExtensionStartupInfo); dcpcall;
+procedure ExtensionInitialize(StartupInfo: PExtensionStartupInfo); dcpcall; export;
 
 const
   IniFileName = 'zip.ini';
@@ -157,13 +157,13 @@ end;
 
 // -- Exported functions ------------------------------------------------------
 
-function OpenArchive (var ArchiveData : tOpenArchiveData) : TArcHandle;dcpcall;
+function OpenArchive (var ArchiveData : tOpenArchiveData) : TArcHandle;dcpcall; export;
 begin
   Result := 0;
   ArchiveData.OpenResult := E_NOT_SUPPORTED;
 end;
 
-function OpenArchiveW(var ArchiveData : tOpenArchiveDataW) : TArcHandle;dcpcall;
+function OpenArchiveW(var ArchiveData : tOpenArchiveDataW) : TArcHandle;dcpcall; export;
 var
   Arc : TAbZipKitEx;
 begin
@@ -201,12 +201,12 @@ begin
   end;
 end;
 
-function ReadHeader(hArcData : TArcHandle; var HeaderData: THeaderData) : Integer;dcpcall;
+function ReadHeader(hArcData : TArcHandle; var HeaderData: THeaderData) : Integer;dcpcall; export;
 begin
   Result := E_NOT_SUPPORTED;
 end;
 
-function ReadHeaderExW(hArcData : TArcHandle; var HeaderData: THeaderDataExW) : Integer;dcpcall;
+function ReadHeaderExW(hArcData : TArcHandle; var HeaderData: THeaderDataExW) : Integer;dcpcall; export;
 var
   sFileName : String;
   Arc : TAbZipKitEx absolute hArcData;
@@ -240,12 +240,12 @@ begin
   Result := E_SUCCESS;
 end;
 
-function ProcessFile (hArcData : TArcHandle; Operation : Integer; DestPath, DestName : PChar) : Integer;dcpcall;
+function ProcessFile (hArcData : TArcHandle; Operation : Integer; DestPath, DestName : PChar) : Integer;dcpcall; export;
 begin
   Result := E_NOT_SUPPORTED;
 end;
 
-function ProcessFileW(hArcData : TArcHandle; Operation : Integer; DestPath, DestName : PWideChar) : Integer;dcpcall;
+function ProcessFileW(hArcData : TArcHandle; Operation : Integer; DestPath, DestName : PWideChar) : Integer;dcpcall; export;
 var
   Abort: Boolean;
   DestNameUtf8: String;
@@ -320,7 +320,7 @@ begin
   Arc.Tag := Arc.Tag + 1;
 end;
 
-function CloseArchive (hArcData : TArcHandle) : Integer;dcpcall;
+function CloseArchive (hArcData : TArcHandle) : Integer;dcpcall; export;
 var
   Arc : TAbZipKitEx absolute hArcData;
 begin
@@ -329,11 +329,11 @@ begin
   Result := E_SUCCESS;
 end;
 
-procedure SetChangeVolProc (hArcData : TArcHandle; pChangeVolProc : PChangeVolProc);dcpcall;
+procedure SetChangeVolProc (hArcData : TArcHandle; pChangeVolProc : PChangeVolProc);dcpcall; export;
 begin
 end;
 
-procedure SetChangeVolProcW(hArcData : TArcHandle; pChangeVolProc : TChangeVolProcW);dcpcall;
+procedure SetChangeVolProcW(hArcData : TArcHandle; pChangeVolProc : TChangeVolProcW);dcpcall; export;
 var
  Arc : TAbZipKitEx absolute hArcData;
 begin
@@ -343,11 +343,11 @@ begin
   end;
 end;
 
-procedure SetProcessDataProc (hArcData : TArcHandle; pProcessDataProc : TProcessDataProc);dcpcall;
+procedure SetProcessDataProc (hArcData : TArcHandle; pProcessDataProc : TProcessDataProc);dcpcall; export;
 begin
 end;
 
-procedure SetProcessDataProcW(hArcData : TArcHandle; pProcessDataProc : TProcessDataProcW);dcpcall;
+procedure SetProcessDataProcW(hArcData : TArcHandle; pProcessDataProc : TProcessDataProcW);dcpcall; export;
 var
   Arc : TAbZipKitEx absolute hArcData;
 begin
@@ -360,7 +360,7 @@ end;
 
 {Optional functions}
 
-function PackFilesW(PackedFile: PWideChar;  SubPath: PWideChar;  SrcPath: PWideChar;  AddList: PWideChar;  Flags: Integer): Integer;dcpcall;
+function PackFilesW(PackedFile: PWideChar;  SubPath: PWideChar;  SrcPath: PWideChar;  AddList: PWideChar;  Flags: Integer): Integer;dcpcall; export;
 var
   FileExt: String;
   FilePath: String;
@@ -464,7 +464,7 @@ begin
   end;
 end;
 
-function DeleteFilesW(PackedFile, DeleteList : PWideChar) : Integer;dcpcall;
+function DeleteFilesW(PackedFile, DeleteList : PWideChar) : Integer;dcpcall; export;
 var
  Arc : TAbZipKitEx;
  pFileName : PWideChar;
@@ -521,24 +521,24 @@ begin
   end;
 end;
 
-function GetPackerCaps : Integer;dcpcall;
+function GetPackerCaps : Integer;dcpcall; export;
 begin
   Result := PK_CAPS_NEW      or PK_CAPS_DELETE  or PK_CAPS_MODIFY
          or PK_CAPS_MULTIPLE or PK_CAPS_OPTIONS or PK_CAPS_BY_CONTENT
          or PK_CAPS_ENCRYPT;
 end;
 
-function GetBackgroundFlags: Integer; dcpcall;
+function GetBackgroundFlags: Integer; dcpcall; export;
 begin
   Result:= BACKGROUND_UNPACK or BACKGROUND_PACK;
 end;
 
-procedure ConfigurePacker(Parent: HWND; DllInstance: THandle);dcpcall;
+procedure ConfigurePacker(Parent: HWND; DllInstance: THandle);dcpcall; export;
 begin
   CreateZipConfDlg;
 end;
 
-function CanYouHandleThisFileW(FileName: PWideChar): Boolean; dcpcall;
+function CanYouHandleThisFileW(FileName: PWideChar): Boolean; dcpcall; export;
 begin
   try
     Result:= (AbDetermineArcType(UTF16ToUTF8(UnicodeString(FileName)), atUnknown) <> atUnknown);
@@ -547,7 +547,7 @@ begin
   end;
 end;
 
-procedure ExtensionInitialize(StartupInfo: PExtensionStartupInfo); dcpcall;
+procedure ExtensionInitialize(StartupInfo: PExtensionStartupInfo); dcpcall; export;
 begin
   gStartupInfo:= StartupInfo^;
   // Load configuration from ini file

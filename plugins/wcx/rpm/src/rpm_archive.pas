@@ -50,14 +50,14 @@ type
     datasig        : RPM_DataSig;
   end;{ArchiveRec}
 
-function  GetPackerCaps : Integer; dcpcall;
-function  GetBackgroundFlags: Integer; dcpcall;
-function  OpenArchive(var ArchiveData : TOpenArchiveData) : TArcHandle; dcpcall;
-function  CloseArchive(hArcData : TArcHandle) : Integer; dcpcall;
-function  ReadHeader(hArcData : TArcHandle; var HeaderData : THeaderData) : Integer; dcpcall;
-function  ProcessFile(hArcData : TArcHandle; Operation : Integer; DestPath : PChar; DestName : PChar) : Integer; dcpcall;
-procedure SetProcessDataProc(hArcData : TArcHandle; ProcessDataProc : TProcessDataProc); dcpcall;
-procedure SetChangeVolProc(hArcData : TArcHandle; ChangeVolProc : TChangeVolProc); dcpcall;
+function  GetPackerCaps : Integer; dcpcall; export;
+function  GetBackgroundFlags: Integer; dcpcall; export;
+function  OpenArchive(var ArchiveData : TOpenArchiveData) : TArcHandle; dcpcall; export;
+function  CloseArchive(hArcData : TArcHandle) : Integer; dcpcall; export;
+function  ReadHeader(hArcData : TArcHandle; var HeaderData : THeaderData) : Integer; dcpcall; export;
+function  ProcessFile(hArcData : TArcHandle; Operation : Integer; DestPath : PChar; DestName : PChar) : Integer; dcpcall; export;
+procedure SetProcessDataProc(hArcData : TArcHandle; ProcessDataProc : TProcessDataProc); dcpcall; export;
+procedure SetChangeVolProc(hArcData : TArcHandle; ChangeVolProc : TChangeVolProc); dcpcall; export;
 
 implementation
 
