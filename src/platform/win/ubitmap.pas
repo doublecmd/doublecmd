@@ -22,7 +22,7 @@ unit uBitmap;
 interface
 
 uses
-  LCLIntf, Classes, Graphics, Windows;
+  LCLIntf, Classes, Graphics, Windows, LCLVersion;
 
 function BitmapCreateFromHICON(Handle: HICON): Graphics.TBitmap;
 function BitmapCreateFromHBITMAP(Handle: HBITMAP): Graphics.TBitmap;
@@ -31,12 +31,12 @@ implementation
 
 uses
   FPImage, GraphType, Forms, IntfGraphics
-{$IF DEFINED(LCLQT5)}
+{$IF DEFINED(LCLQT5) OR (LCL_FULLVERSION >= 3000000)}
   , SysUtils, LCLProc
 {$ENDIF}
   ;
 
-{$IF DEFINED(LCLQT5)}
+{$IF DEFINED(LCLQT5) OR (LCL_FULLVERSION >= 3000000)}
 
 procedure FillRawImageDescriptionColors(var ADesc: TRawImageDescription);
 begin
