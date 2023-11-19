@@ -25,11 +25,11 @@ interface
 uses
   Classes, WdxPlugin;
 
-procedure ContentGetDetectString(DetectString:pchar; maxlen:integer); dcpcall;
+procedure ContentGetDetectString(DetectString:pchar; maxlen:integer); dcpcall; export;
 function ContentGetSupportedField(FieldIndex:integer;FieldName:pchar;
-  Units:pchar;maxlen:integer):integer; dcpcall;
+  Units:pchar;maxlen:integer):integer; dcpcall; export;
 function ContentGetValue(FileName:pchar;FieldIndex,UnitIndex:integer;FieldValue:pbyte;
-  maxlen,flags:integer):integer; dcpcall;
+  maxlen,flags:integer):integer; dcpcall; export;
   
 implementation
 
