@@ -1,7 +1,4 @@
 
-rem Set Double Commander version
-set DC_VER=1.2.0
-
 rem Path to Git
 set GIT_EXE="%ProgramFiles%\Git\bin\git.exe"
 
@@ -16,6 +13,14 @@ set BUILD_PACK_DIR=%TEMP%\doublecmd-%DATE: =%
 
 rem The new package will be saved here
 set PACK_DIR=%CD%\windows\release
+
+rem Read version number
+for /f tokens^=2delims^=^" %%a in ('findstr "MajorVersionNr" ..\src\doublecmd.lpi') do (set DC_MAJOR=%%a)
+for /f tokens^=2delims^=^" %%a in ('findstr "MinorVersionNr" ..\src\doublecmd.lpi') do (set DC_MINOR=%%a)
+for /f tokens^=2delims^=^" %%a in ('findstr "RevisionNr" ..\src\doublecmd.lpi') do (set DC_MICRO=%%a)
+if [%DC_MINOR%] == [] set DC_MINOR=0
+if [%DC_MICRO%] == [] set DC_MICRO=0
+set DC_VER=%DC_MAJOR%.%DC_MINOR%.%DC_MICRO%
 
 rem Create temp dir for building
 set BUILD_DC_TMP_DIR=%TEMP%\doublecmd-%DC_VER%
