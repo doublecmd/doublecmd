@@ -287,6 +287,7 @@ end;
 function TWlxModule.LoadModule: Boolean;
 begin
   // DCDebug('WLXM LoadModule entered');
+  if (FModuleHandle <> NilHandle) then Exit(True);
   FModuleHandle := mbLoadLibrary(mbExpandFileName(Self.FileName));
   Result := (FModuleHandle <> NilHandle);
   if FModuleHandle = NilHandle then Exit;
@@ -389,9 +390,13 @@ function TWlxModule.CallListLoadNext(ParentWin: HWND; FileToLoad: String; ShowFl
 begin
   WlxPrepareContainer(ParentWin);
 
-{$IF DEFINED(MSWINDOWS) and DEFINED(LCLQT5)}
+{$IF DEFINED(MSWINDOWS) and (DEFINED(LCLQT5) or DEFINED(DARKWIN))}
   if g_darkModeEnabled then
-    ShowFlags:= ShowFlags or lcp_darkmode or lcp_darkmodenative;
+  begin
+    ShowFlags:= ShowFlags or lcp_darkmode;
+    if g_darkModeSupported then
+      ShowFlags:= ShowFlags or lcp_darkmodenative;
+  end;
 {$ENDIF}
 
   if Assigned(ListLoadNextW) then
@@ -472,8 +477,8 @@ function TWlxModule.FileParamVSDetectStr(AFileName: String; bForce: Boolean): Bo
 begin
   if not Enabled then Exit(False);
   FParser.IsForce:= bForce;
-  DCDebug('DetectStr = ' + FParser.DetectStr);
-  DCDebug('AFileName = ' + AFileName);
+  // DCDebug('DetectStr = ' + FParser.DetectStr);
+  // DCDebug('AFileName = ' + AFileName);
   Result := FParser.TestFileResult(AFileName);
 end;
 

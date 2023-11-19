@@ -90,7 +90,7 @@ type
     destructor Destroy;override;
     function ShowMsgBox(const sMsg: String; const Buttons: array of TMyMsgButton; ButDefault, ButEscape:TMyMsgButton) : TMyMsgResult;
     function ShowMessageBox(const AText, ACaption: String; Flags: LongInt): LongInt;
-    function ShowMessageChoiceBox(const Message: String; Buttons: TDynamicStringArray): Integer;
+    function ShowMessageChoiceBox(const Message, ACaption: String; Buttons: TDynamicStringArray): Integer;
     function ShowInputQuery(const ACaption, APrompt: String; MaskInput: Boolean; var Value: String) : Boolean;
   end;
 
@@ -115,7 +115,9 @@ function MsgBox(Thread: TThread; const sMsg: String; const Buttons: array of TMy
 function MsgTest:TMyMsgResult;
 
 function MsgChoiceBox(const Message: String; Buttons: TDynamicStringArray): Integer; overload;
+function MsgChoiceBox(const Message, ACaption: String; Buttons: TDynamicStringArray): Integer; overload;
 function MsgChoiceBox(Thread: TThread; const Message: String; Buttons: TDynamicStringArray): Integer; overload;
+function MsgChoiceBox(Thread: TThread; const Message, ACaption: String; Buttons: TDynamicStringArray): Integer; overload;
 
 function ShowMessageBox(const AText, ACaption: String; Flags: LongInt): LongInt; overload;
 function ShowMessageBox(Thread: TThread; const AText, ACaption: String; Flags: LongInt): LongInt; overload;
@@ -163,7 +165,7 @@ end;
 
 procedure TDialogMainThread.SyncMessageChoiceBox;
 begin
-  FMessageBoxResult:= MsgChoiceBox(FMessage, FChoices);
+  FMessageBoxResult:= MsgChoiceBox(FMessage, FCaption, FChoices);
 end;
 
 constructor TDialogMainThread.Create(AThread : TThread);
@@ -208,11 +210,12 @@ begin
   Result:= FMessageBoxResult;
 end;
 
-function TDialogMainThread.ShowMessageChoiceBox(const Message: String;
-  Buttons: TDynamicStringArray): Integer;
+function TDialogMainThread.ShowMessageChoiceBox(const Message,
+  ACaption: String; Buttons: TDynamicStringArray): Integer;
 begin
   FMessage:= Message;
   FChoices:= Buttons;
+  FCaption:= ACaption;
 
   TThread.Synchronize(FThread, SyncMessageChoiceBox);
 
@@ -772,6 +775,11 @@ begin
 end;
 
 function MsgChoiceBox(const Message: String; Buttons: TDynamicStringArray): Integer;
+begin
+  Result:= MsgChoiceBox(Message, EmptyStr, Buttons);
+end;
+
+function MsgChoiceBox(const Message, ACaption: String; Buttons: TDynamicStringArray): Integer;
 const
   cButtonSpace = 8;
 var
@@ -785,7 +793,12 @@ begin
     frmMsg.BorderStyle:= bsSingle;
     frmMsg.Position:= poScreenCenter;
     frmMsg.BorderIcons:= [biSystemMenu];
-    frmMsg.Caption:= Application.Title;
+
+    if Length(ACaption) > 0 then
+      frmMsg.Caption:= ACaption
+    else begin
+      frmMsg.Caption:= Application.Title;
+    end;
 
     frmMsg.lblMsg.WordWrap:= True;
     frmMsg.lblMsg.Caption:= Message;
@@ -830,13 +843,19 @@ end;
 
 function MsgChoiceBox(Thread: TThread; const Message: String;
   Buttons: TDynamicStringArray): Integer;
+begin
+  Result:= MsgChoiceBox(Thread, Message, EmptyStr, Buttons);
+end;
+
+function MsgChoiceBox(Thread: TThread; const Message, ACaption: String;
+  Buttons: TDynamicStringArray): Integer;
 var
   DialogMainThread : TDialogMainThread;
 begin
   Result := -1;
   DialogMainThread:= TDialogMainThread.Create(Thread);
   try
-    Result:= DialogMainThread.ShowMessageChoiceBox(Message, Buttons);
+    Result:= DialogMainThread.ShowMessageChoiceBox(Message, ACaption, Buttons);
   finally
     DialogMainThread.Free;
   end;

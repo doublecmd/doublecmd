@@ -100,7 +100,7 @@ end;
 { TfrmOptionsPluginsWLX.Done }
 procedure TfrmOptionsPluginsWLX.Done;
 begin
-  FreeThenNil(tmpWLXPlugins);
+  FreeAndNil(tmpWLXPlugins);
 end;
 
 { TfrmOptionsPluginsWLX.GetTitle }

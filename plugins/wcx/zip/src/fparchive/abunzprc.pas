@@ -128,9 +128,6 @@ type
 implementation
 
 uses
-  {$IFDEF MSWINDOWS}
-  Windows,
-  {$ENDIF}
   SysUtils,
   {$IFDEF UnzipBzip2Support}
   AbBzip2,
@@ -162,7 +159,9 @@ uses
   AbUtils,
   AbZlibPrc,
   AbWinZipAes,
-  DCClassesUtf8;
+  DCOSUtils,
+  DCClassesUtf8,
+  DCConvertEncoding;
 
 { -------------------------------------------------------------------------- }
 procedure AbReverseBits(var W : Word);
@@ -972,13 +971,13 @@ end;
 {$IFDEF UnzipXzSupport}
 procedure DoExtractXz(Archive : TAbZipArchive; Item : TAbZipItem; InStream, OutStream : TStream);
 var
-  LzmaDecompression: TLzmaDecompression;
+  XzStream: TXzDecompressionStream;
 begin
-  LzmaDecompression := TLzmaDecompression.Create(InStream, OutStream);
+  XzStream := TXzDecompressionStream.Create(InStream);
   try
-    LzmaDecompression.Code(Item.UncompressedSize);
+    OutStream.CopyFrom(XzStream, Item.UncompressedSize);
   finally
-    LzmaDecompression.Free;
+    XzStream.Free;
   end;
 end;
 {$ENDIF}
@@ -1191,8 +1190,9 @@ end;
 procedure AbUnzip(Sender : TObject; Item : TAbZipItem; const UseName : string);
   {create the output filestream and pass it to DoExtract}
 var
-  InStream, OutStream : TStream;
+  LinkTarget : String;
   ZipArchive : TAbZipArchive;
+  InStream, OutStream : TStream;
 begin
   ZipArchive := TAbZipArchive(Sender);
 
@@ -1201,18 +1201,39 @@ begin
   else begin
     InStream := ExtractPrep(ZipArchive, Item);
     try
-      OutStream := TFileStreamEx.Create(UseName, fmCreate or fmShareDenyWrite);
-      try
-        try    {OutStream}
-          DoExtract(ZipArchive, Item, InStream, OutStream);
-        finally {OutStream}
-          OutStream.Free;
-        end;   {OutStream}
-      except
-        if ExceptObject is EAbUserAbort then
-          ZipArchive.FStatus := asInvalid;
-        DeleteFile(UseName);
-        raise;
+      if FPS_ISLNK(Item.NativeFileAttributes) then
+      begin
+        OutStream := TMemoryStream.Create;
+        try
+          try    {OutStream}
+            DoExtract(ZipArchive, Item, InStream, OutStream);
+            SetString(LinkTarget, TMemoryStream(OutStream).Memory, OutStream.Size);
+            LinkTarget := CeRawToUtf8(LinkTarget);
+          finally {OutStream}
+            OutStream.Free;
+          end;   {OutStream}
+          if not CreateSymLink(LinkTarget, UseName) then
+            RaiseLastOSError;
+        except
+          if ExceptObject is EAbUserAbort then
+            ZipArchive.FStatus := asInvalid;
+          raise;
+        end;
+      end
+      else begin
+        OutStream := TFileStreamEx.Create(UseName, fmCreate or fmShareDenyWrite);
+        try
+          try    {OutStream}
+            DoExtract(ZipArchive, Item, InStream, OutStream);
+          finally {OutStream}
+            OutStream.Free;
+          end;   {OutStream}
+        except
+          if ExceptObject is EAbUserAbort then
+            ZipArchive.FStatus := asInvalid;
+          DeleteFile(UseName);
+          raise;
+        end;
       end;
     finally
       InStream.Free

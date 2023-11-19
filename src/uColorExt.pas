@@ -4,7 +4,7 @@
    Load colors of files in file panels
 
    Copyright (C) 2003-2004 Radek Cervinka (radek.cervinka@centrum.cz)
-   Copyright (C) 2006-2020 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2006-2022 Alexander Koblov (alexx2000@mail.ru)
    Copyright (C) 2008  Dmitry Kolomiets (B4rr4cuda@rambler.ru)
 
    This program is free software; you can redistribute it and/or modify
@@ -30,7 +30,8 @@ unit uColorExt;
 interface
 
 uses
-  Classes, Graphics, uFile, uMasks, uSearchTemplate, DCXmlConfig;
+  Classes, Graphics, uFile, uMasks, uSearchTemplate, DCXmlConfig, DCJsonConfig,
+  fpJson;
 
 type
 
@@ -43,15 +44,19 @@ type
     FMaskList: TMaskList;
     FAttrList: TMaskList;
     FTemplate: TSearchTemplate;
+    FColor: array[0..1] of TColor;
+  private
+    function GetColor: TColor;
+    procedure SetColor(AValue: TColor);
     procedure SetExt(const AValue: String);
     procedure SetModeStr(const AValue: String);
   public
     sName: String;
-    cColor: TColor;
 
     destructor Destroy; override;
     procedure Assign(ASource: TMaskItem);
     property sExt: String read FExt write SetExt;
+    property cColor: TColor read GetColor write SetColor;
     property sModeStr: String read FModeStr write SetModeStr;
   end;
 
@@ -59,6 +64,7 @@ type
 
   TColorExt = class
   private
+    FStyle: Integer;
     FMaskItems: TList;
 
     function GetCount: Integer;
@@ -71,8 +77,13 @@ type
     procedure Add(AItem: TMaskItem);
 
     function GetColorBy(const AFile: TFile): TColor;
-    procedure Load(AConfig: TXmlConfig; ANode: TXmlNode);
-    procedure Save(AConfig: TXmlConfig; ANode: TXmlNode);
+    procedure Load(AConfig: TXmlConfig; ANode: TXmlNode); overload;
+    procedure Save(AConfig: TXmlConfig; ANode: TXmlNode); overload;
+
+    procedure Load(AConfig: TJSONObject); overload;
+    procedure Save(AConfig: TJSONObject); overload;
+
+    procedure UpdateStyle;
 
     property Count: Integer read GetCount;
     property Items[const Index: Integer]: TMaskItem read GetItems; default;
@@ -81,7 +92,7 @@ type
 implementation
 
 uses
-  SysUtils, uDebug, uGlobs, uFileProperty;
+  SysUtils, uDebug, uGlobs, uFileProperty, uColors;
 
 { TMaskItem }
 
@@ -112,6 +123,16 @@ begin
   end;
 end;
 
+function TMaskItem.GetColor: TColor;
+begin
+  Result:= FColor[TColorThemes.StyleIndex];
+end;
+
+procedure TMaskItem.SetColor(AValue: TColor);
+begin
+  FColor[TColorThemes.StyleIndex]:= AValue;
+end;
+
 procedure TMaskItem.SetModeStr(const AValue: String);
 begin
   if FModeStr <> AValue then
@@ -136,7 +157,8 @@ begin
   Assert(Assigned(ASource));
   sExt := ASource.sExt;
   sModeStr := ASource.sModeStr;
-  cColor := ASource.cColor;
+  FColor[0] := ASource.FColor[0];
+  FColor[1] := ASource.FColor[1];
   sName := ASource.sName;
 end;
 
@@ -153,6 +175,7 @@ end;
 constructor TColorExt.Create;
 begin
   FMaskItems:= TList.Create;
+  FStyle:= TColorThemes.StyleIndex;
 end;
 
 destructor TColorExt.Destroy;
@@ -199,7 +222,7 @@ begin
     begin
       if Assigned(MaskItem.FTemplate) and MaskItem.FTemplate.CheckFile(AFile) then
       begin
-        Result:= MaskItem.cColor;
+        Result:= MaskItem.FColor[FStyle];
         Exit;
       end;
       Continue;
@@ -214,7 +237,7 @@ begin
        ((MaskItem.FAttrList = nil) or (Length(Attr) = 0) or
          MaskItem.FAttrList.Matches(Attr)) then
       begin
-        Result:= MaskItem.cColor;
+        Result:= MaskItem.FColor[FStyle];
         Exit;
       end;
   end;
@@ -242,10 +265,11 @@ begin
            AConfig.TryGetValue(ANode, 'Attributes', sAttr) then
         begin
           MaskItem := TMaskItem.Create;
-          MaskItem.sName    := sName;
-          MaskItem.cColor   := iColor;
-          MaskItem.sExt     := sExtMask;
-          MaskItem.sModeStr := sAttr;
+          MaskItem.sName                   := sName;
+          MaskItem.FColor[FStyle]          := iColor;
+          MaskItem.FColor[Abs(FStyle - 1)] := iColor;
+          MaskItem.sExt                    := sExtMask;
+          MaskItem.sModeStr                := sAttr;
           FMaskItems.Add(MaskItem);
         end
         else
@@ -259,26 +283,80 @@ begin
 end;
 
 procedure TColorExt.Save(AConfig: TXmlConfig; ANode: TXmlNode);
+begin
+  ANode:= AConfig.FindNode(ANode, 'FileFilters', False);
+  if Assigned(ANode) then AConfig.DeleteNode(ANode);
+end;
+
+procedure TColorExt.Load(AConfig: TJSONObject);
 var
-  I : Integer;
-  SubNode: TXmlNode;
+  I: Integer;
+  AList: TJSONArray;
+  AItem: TJSONObject;
+  MaskItem: TMaskItem;
+  AColors: TJSONArray;
+  sAttr, sName, sExtMask: TJSONString;
+begin
+  if not AConfig.Find('FileColors', AList) then
+    Exit;
+
+  for I:= 0 to AList.Count - 1 do
+  begin
+    AItem:= AList.Objects[I];
+
+    if AItem.Find('Name', sName) and
+       AItem.Find('Masks', sExtMask) and
+       AItem.Find('Colors', AColors) and
+       AItem.Find('Attributes', sAttr) then
+    begin
+      MaskItem := TMaskItem.Create;
+      MaskItem.sName     := sName.AsString;
+      MaskItem.FColor[0] := AColors.Integers[0];
+      MaskItem.FColor[1] := AColors.Integers[1];
+      MaskItem.sExt      := sExtMask.AsString;
+      MaskItem.sModeStr  := sAttr.AsString;
+      FMaskItems.Add(MaskItem);
+    end;
+  end;
+end;
+
+procedure TColorExt.Save(AConfig: TJSONObject);
+var
+  I: Integer;
+  AList: TJSONArray;
+  AItem: TJSONObject;
+  AColors: TJSONArray;
   MaskItem: TMaskItem;
 begin
   if not Assigned(FMaskItems) then
     Exit;
 
-  ANode := AConfig.FindNode(ANode, 'FileFilters', True);
-  AConfig.ClearNode(ANode);
+  if AConfig.Find('FileColors', AList) then
+    AList.Clear
+  else begin
+    AList:= TJSONArray.Create;
+    AConfig.Add('FileColors', AList);
+  end;
 
-  for I:=0 to FMaskItems.Count - 1 do
+  for I:= 0 to FMaskItems.Count - 1 do
   begin
     MaskItem := TMaskItem(FMaskItems[I]);
-    SubNode := AConfig.AddNode(ANode, 'Filter');
-    AConfig.AddValue(SubNode, 'Name', MaskItem.sName);
-    AConfig.AddValue(SubNode, 'FileMasks', MaskItem.sExt);
-    AConfig.AddValue(SubNode, 'Color', MaskItem.cColor);
-    AConfig.AddValue(SubNode, 'Attributes', MaskItem.sModeStr);
+    AItem:= TJSONObject.Create;
+    AItem.Add('Name', MaskItem.sName);
+    AItem.Add('Masks', MaskItem.sExt);
+    AColors:= TJSONArray.Create;
+    AColors.Add(MaskItem.FColor[0]);
+    AColors.Add(MaskItem.FColor[1]);
+    AItem.Add('Colors', AColors);
+    AItem.Add('Attributes', MaskItem.sModeStr);
+
+    AList.Add(AItem);
   end;
+end;
+
+procedure TColorExt.UpdateStyle;
+begin
+  FStyle:= TColorThemes.StyleIndex;
 end;
 
 end.

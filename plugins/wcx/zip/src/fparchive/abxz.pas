@@ -1,7 +1,7 @@
 (* ***** BEGIN LICENSE BLOCK *****
  * Simple interface to lzma library
  *
- * Copyright (C) 2014-2020 Alexander Koblov (alexx2000@mail.ru)
+ * Copyright (C) 2014-2023 Alexander Koblov (alexx2000@mail.ru)
  *
  * Permission is hereby granted, free of charge, to any person obtaining
  * a copy of this software and associated documentation files (the
@@ -24,11 +24,11 @@
  *
  * ***** END LICENSE BLOCK ***** *)
 
-{**********************************************************}
-{* ABBREVIA: AbXz.pas                                     *}
-{**********************************************************}
-{* ABBREVIA: TLzmaCompression, TLzmaDecompression classes *}
-{**********************************************************}
+{********************************************************************}
+{* ABBREVIA: AbXz.pas                                               *}
+{********************************************************************}
+{* ABBREVIA: TXzDecompressionStream, TXzDecompressionStream classes *}
+{********************************************************************}
 
 unit AbXz;
 
@@ -81,40 +81,39 @@ type
 
 type
 
-  { TLzmaBase }
+  { TXzCustomStream }
 
-  TLzmaBase = class
-  private
+  TXzCustomStream = class(TOwnerStream)
+  protected
     FLzmaRec: TLzmaStreamRec;
-    FSource, FTarget: TStream;
-    FInput: array[Word] of Byte;
-    FOutput: array[Word] of Byte;
-  protected
-    function Check(Return: cint): cint; virtual; abstract;
+    FBuffer: array[Word] of Byte;
   public
-    constructor Create(ASource, ATarget: TStream); virtual;
+    constructor Create(AStream: TStream);
     destructor Destroy; override;
-    function Code(Count: cuint64 = High(cuint64)): Boolean; virtual; abstract;
   end;
 
-  { TLzmaCompression }
+  { TXzCompressionStream }
 
-  TLzmaCompression = class(TLzmaBase)
-  protected
-    function Check(Return: cint): cint; override;
+  TXzCompressionStream = class(TXzCustomStream)
+  private
+    procedure FlushBuffer;
+    function Check(Return: cint): cint;
   public
-    constructor Create(ASource, ATarget: TStream; ALevel: Integer);
-    function Code(Count: cuint64 = High(cuint64)): Boolean; override;
+    constructor Create(ATarget: TStream; ALevel: Integer);
+    destructor Destroy; override;
+    function Write(const Buffer; Count: Longint): Longint; override;
+    function Seek(const Offset: Int64; Origin: TSeekOrigin): Int64; override;
   end;
 
-  { TLzmaDecompression }
+  { TXzDecompressionStream }
 
-  TLzmaDecompression = class(TLzmaBase)
-  protected
-    function Check(Return: cint): cint; override;
+  TXzDecompressionStream = class(TXzCustomStream)
+  private
+    function Check(Return: cint): cint;
   public
-    constructor Create(ASource, ATarget: TStream); override;
-    function Code(Count: cuint64 = High(cuint64)): Boolean; override;
+    constructor Create(ASource: TStream);
+    function Read(var Buffer; Count: Longint): Longint; override;
+    function Seek(const Offset: Int64; Origin: TSeekOrigin): Int64; override;
   end;
 
   ELzmaError = class(Exception);
@@ -124,7 +123,7 @@ type
 implementation
 
 uses
-  DynLibs;
+  DynLibs, RtlConsts;
 
 const
   // Lzma return codes
@@ -189,25 +188,21 @@ begin
   @lzma_end := GetProcAddress(hLzma, 'lzma_end');
 end;
 
-{ TLzmaBase }
-
-constructor TLzmaBase.Create(ASource, ATarget: TStream);
+constructor TXzCustomStream.Create(AStream: TStream);
 begin
   LzmaLoadLibrary;
-  FSource:= ASource;
-  FTarget:= ATarget;
-  FillChar(FLzmaRec, SizeOf(TLzmaStreamRec), 0);
+  inherited Create(AStream);
 end;
 
-destructor TLzmaBase.Destroy;
+destructor TXzCustomStream.Destroy;
 begin
   if (@lzma_end <> nil) then lzma_end(FLzmaRec);
   inherited Destroy;
 end;
 
-{ TLzmaCompression }
+{ TXzCompressionStream }
 
-function TLzmaCompression.Check(Return: cint): cint;
+function TXzCompressionStream.Check(Return: cint): cint;
 var
   Message: String;
 begin
@@ -232,58 +227,66 @@ begin
   end;
 end;
 
-constructor TLzmaCompression.Create(ASource, ATarget: TStream; ALevel: Integer);
+constructor TXzCompressionStream.Create(ATarget: TStream; ALevel: Integer);
 begin
-  inherited Create(ASource, ATarget);
+  inherited Create(ATarget);
+  FLzmaRec.next_out:= FBuffer;
+  FLzmaRec.avail_out:= SizeOf(FBuffer);
   Check(lzma_easy_encoder(FLzmaRec, ALevel, LZMA_CHECK_CRC64));
 end;
 
-function TLzmaCompression.Code(Count: cuint64): Boolean;
-var
-  Size: csize_t;
-  State: cint = LZMA_OK;
-  Action: cint = LZMA_RUN;
+function TXzCompressionStream.Write(const Buffer; Count: Longint): Longint;
 begin
-  FLzmaRec.next_out := @FOutput;
-  FLzmaRec.avail_out := SizeOf(FOutput);
-  while (State <> LZMA_STREAM_END) do
+  FLzmaRec.avail_in:= Count;
+  FLzmaRec.next_in:= @Buffer;
+  while FLzmaRec.avail_in > 0 do
   begin
-    if (FLzmaRec.avail_in = 0) then
-    begin
-      FLzmaRec.next_in := FInput;
-      if (Count - FLzmaRec.total_in) >= SizeOf(FInput) then
-        Size:= SizeOf(FInput)
-      else begin
-        Action:= LZMA_FINISH;
-        Size:= (Count - FLzmaRec.total_in);
-      end;
-      if (Size > 0) then
-      begin
-        FLzmaRec.avail_in := FSource.Read(FInput, Size);
-        if FLzmaRec.avail_in = 0 then Action:= LZMA_FINISH;
-      end;
-    end;
-    State:= Check(lzma_code(FLzmaRec, Action));
-    if (FLzmaRec.avail_out = 0) or (State = LZMA_STREAM_END) then
-    begin
-      Size:= SizeOf(FOutput) - FLzmaRec.avail_out;
-      if FTarget.Write(FOutput, Size) <> Size then
-      begin
-        RaiseLastOSError;
-      end;
-      if (State <> LZMA_STREAM_END) then
-      begin
-        FLzmaRec.next_out := FOutput;
-        FLzmaRec.avail_out := SizeOf(FOutput);
-      end;
-    end;
+    Check(lzma_code(FLzmaRec, LZMA_RUN));
+    if FLzmaRec.avail_out = 0 then FlushBuffer;
   end;
-  Result:= (State = LZMA_STREAM_END);
+  Result:= Count;
 end;
 
-{ TLzmaDecompression }
+function TXzCompressionStream.Seek(const Offset: Int64; Origin: TSeekOrigin): Int64;
+begin
+  if (Offset = 0) and (Origin = soCurrent) then
+    Result:= FLzmaRec.total_in
+  else if (Origin = soBeginning) and (FLzmaRec.total_in = Offset) then
+    Result:= Offset
+  else begin
+    raise ELzmaCompressionError.CreateFmt(SStreamInvalidSeek, [ClassName]);
+  end;
+end;
 
-function TLzmaDecompression.Check(Return: cint): cint;
+procedure TXzCompressionStream.FlushBuffer;
+begin
+  FLzmaRec.next_out:= FBuffer;
+  FLzmaRec.avail_out:= SizeOf(FBuffer);
+  FSource.WriteBuffer(FBuffer, SizeOf(FBuffer));
+end;
+
+destructor TXzCompressionStream.Destroy;
+var
+  State: cint;
+begin
+  try
+    repeat
+      if FLzmaRec.avail_out = 0 then FlushBuffer;
+      State:= Check(lzma_code(FLzmaRec, LZMA_FINISH));
+    until State = LZMA_STREAM_END;
+
+    if FLzmaRec.avail_out < SizeOf(FBuffer) then
+    begin
+      FSource.WriteBuffer(FBuffer, SizeOf(FBuffer) - FLzmaRec.avail_out);
+    end;
+  finally
+    inherited Destroy;
+  end;
+end;
+
+{ TXzDecompressionStream }
+
+function TXzDecompressionStream.Check(Return: cint): cint;
 var
   Message: String;
 begin
@@ -308,53 +311,49 @@ begin
   end;
 end;
 
-constructor TLzmaDecompression.Create(ASource, ATarget: TStream);
+constructor TXzDecompressionStream.Create(ASource: TStream);
 const
   flags = LZMA_TELL_UNSUPPORTED_CHECK or LZMA_CONCATENATED;
 var
   memory_limit: cuint64 = High(cuint64);
 begin
-  inherited Create(ASource, ATarget);
+  inherited Create(ASource);
   Check(lzma_stream_decoder(FLzmaRec, memory_limit, flags));
 end;
 
-function TLzmaDecompression.Code(Count: cuint64): Boolean;
+function TXzDecompressionStream.Read(var Buffer; Count: Longint): Longint;
 var
-  Size: csize_t;
-  State: cint = LZMA_OK;
+  State: cint;
   Action: cint = LZMA_RUN;
 begin
-  FLzmaRec.next_out := @FOutput;
-  FLzmaRec.avail_out := SizeOf(FOutput);
-  while (State <> LZMA_STREAM_END) do
+  FLzmaRec.avail_out:= Count;
+  FLzmaRec.next_out:= @Buffer;
+  while FLzmaRec.avail_out > 0 do
   begin
-    if (FLzmaRec.avail_in = 0) then
+    if FLzmaRec.avail_in = 0 then
     begin
-      FLzmaRec.next_in := FInput;
-      FLzmaRec.avail_in := FSource.Read(FInput, SizeOf(FInput));
+      FLzmaRec.next_in:= FBuffer;
+      FLzmaRec.avail_in:= FSource.Read(FBuffer, SizeOf(FBuffer));
       if FLzmaRec.avail_in = 0 then Action:= LZMA_FINISH;
     end;
     State:= Check(lzma_code(FLzmaRec, Action));
-    if (FLzmaRec.total_out > Count) then
-    begin
-      State:= LZMA_STREAM_END;
-      FLzmaRec.avail_out:= SizeOf(FOutput) - (Count - FTarget.Position);
-    end;
-    if (FLzmaRec.avail_out = 0) or (State = LZMA_STREAM_END) then
-    begin
-      Size:= SizeOf(FOutput) - FLzmaRec.avail_out;
-      if FTarget.Write(FOutput, Size) <> Size then
-      begin
-        RaiseLastOSError;
-      end;
-      if (State <> LZMA_STREAM_END) then
-      begin
-        FLzmaRec.next_out := FOutput;
-        FLzmaRec.avail_out := SizeOf(FOutput);
-      end;
-    end;
+    if State = LZMA_STREAM_END then Break;
   end;
-  Result:= (State = LZMA_STREAM_END);
+  Result:= Count - FLzmaRec.avail_out;
+end;
+
+function TXzDecompressionStream.Seek(const Offset: Int64; Origin: TSeekOrigin): Int64;
+begin
+  if (Offset >= 0) and (Origin = soCurrent) then
+  begin
+    if (Offset > 0) then Discard(Offset);
+    Result:= FLzmaRec.total_out;
+  end
+  else if (Origin = soBeginning) and (FLzmaRec.total_out = Offset) then
+    Result:= Offset
+  else begin
+    raise ELzmaDecompressionError.CreateFmt(SStreamInvalidSeek, [ClassName]);
+  end;
 end;
 
 end.

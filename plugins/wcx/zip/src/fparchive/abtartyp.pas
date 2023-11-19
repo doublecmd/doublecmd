@@ -396,10 +396,12 @@ type
   private
     function FindItem: Boolean; { Tool for FindFirst/NextItem functions }
   protected
+    FOnProgress     : TAbProgressEvent;
     FTarHeader      : TAbTarHeaderRec; { Speed-up Buffer only }
     FCurrItemSize   : Int64;           { Current Item size }
     FCurrItemPreHdrs: Integer;         { Number of Meta-data Headers before the Item }
   public
+    constructor Create(AStream : TStream; AEvent : TAbProgressEvent); overload;
     destructor Destroy; override;
     procedure ExtractItemData(AStream : TStream); override;
     function FindFirstItem : Boolean; override;
@@ -409,7 +411,7 @@ type
     function SeekItem(Index : Integer): Boolean; override;
     procedure WriteArchiveHeader; override;
     procedure WriteArchiveItem(AStream : TStream); override;
-    procedure WriteArchiveItemSize(AStream : TStream; Size: Int64);
+    procedure WriteArchiveItemSize(AStream : TStream; ASize: Int64);
     procedure WriteArchiveTail; override;
     function GetItemCount : Integer; override;
   end;
@@ -419,6 +421,8 @@ type
   private
     FArchReadOnly : Boolean;
     FArchFormat: TAbTarHeaderFormat;
+  protected
+    FTargetStream: TStream;
   protected
     function CreateItem(const SourceFileName   : string;
                         const ArchiveDirectory : string): TAbArchiveItem;
@@ -462,7 +466,7 @@ function VerifyTar(Strm : TStream) : TAbArchiveType;
 implementation
 
 uses
-  Math, RTLConsts, SysUtils, AbVMStrm, AbExcept,
+  Math, RTLConsts, SysUtils, AbVMStrm, AbExcept, AbProgress,
   DCOSUtils, DCClassesUtf8, DCConvertEncoding, DCStrUtils;
 
 { ****************** Helper functions Not from Classes Above ***************** }
@@ -1972,6 +1976,12 @@ begin
   Result := FoundItem;
 end;
 
+constructor TAbTarStreamHelper.Create(AStream: TStream; AEvent: TAbProgressEvent);
+begin
+  Create(AStream);
+  FOnProgress:= AEvent;
+end;
+
 { Should only be used from LoadArchive, as it is slow. }
 function TAbTarStreamHelper.FindFirstItem: Boolean;
 begin
@@ -2036,18 +2046,24 @@ begin
   WriteArchiveItemSize(AStream, AStream.Size);
 end;
 
-procedure TAbTarStreamHelper.WriteArchiveItemSize(AStream: TStream; Size: Int64);
+procedure TAbTarStreamHelper.WriteArchiveItemSize(AStream: TStream; ASize: Int64);
 var
   PadBuff : PAnsiChar;
   PadSize : Integer;
 begin
-  if Size = 0 then
+  if ASize = 0 then
     Exit;
   { transfer actual item data }
-  FStream.CopyFrom(AStream, Size);
+
+  with TAbProgressWriteStream.Create(FStream, ASize, FOnProgress) do
+  try
+    CopyFrom(AStream, ASize);
+  finally
+    Free;
+  end;
 
   { Pad to Next block }
-  PadSize := RoundToTarBlock(Size) - Size;
+  PadSize := RoundToTarBlock(ASize) - ASize;
   GetMem(PadBuff, PadSize);
   FillChar(PadBuff^, PadSize, #0);
   FStream.Write(PadBuff^, PadSize);
@@ -2390,7 +2406,9 @@ begin
     raise EAbTarBadOp.Create; { Archive is read only }
 
   {init new archive stream}
-  if FOwnsStream and (FStream is TFileStreamEx) then
+  if Assigned(FTargetStream) then
+    NewStream := FTargetStream
+  else if FOwnsStream and (FStream is TFileStreamEx) then
   begin
     if FStream.Size = 0 then
       NewStream := FStream
@@ -2403,7 +2421,7 @@ begin
     NewStream := TAbVirtualMemoryStream.Create;
     TAbVirtualMemoryStream(NewStream).SwapFileDirectory := ExtractFileDir(FArchiveName);
   end;
-  OutTarHelp := TAbTarStreamHelper.Create(NewStream);
+  OutTarHelp := TAbTarStreamHelper.Create(NewStream, OnProgress);
 
   try {NewStream/OutTarHelp}
     {build new archive from existing archive}
@@ -2485,38 +2503,41 @@ begin
       end; { case }
     end; { for i ... }
 
-    if NewStream.Size <> 0  then
+    if NewStream.Position > 0  then
       OutTarHelp.WriteArchiveTail; { Terminate the TAR }
     { Size of NewStream is still 0, and max of the stream will also be 0 }
 
-    {copy new stream to FStream}
-    NewStream.Position := 0;
-    if (FStream is TMemoryStream) then
-      TMemoryStream(FStream).LoadFromStream(NewStream)
-    else if (FStream is TAbVirtualMemoryStream) then begin
-      FStream.Position := 0;
-      FStream.Size := 0;
-      TAbVirtualMemoryStream(FStream).CopyFrom(NewStream, NewStream.Size)
-    end
-    else begin
-      if FOwnsStream then
-      begin
-        {need new stream to write}
-        if NewStream = FStream then
-          NewStream := nil
-        else begin
-          FreeAndNil(FStream);
-          FreeAndNil(NewStream);
-          if (mbDeleteFile(FArchiveName) and mbRenameFile(ATempName, FArchiveName)) then
-            FStream := TFileStreamEx.Create(FArchiveName, fmOpenReadWrite or fmShareDenyWrite)
-          else
-            RaiseLastOSError;
-        end;
+    if (FTargetStream = nil) then
+    begin
+      {copy new stream to FStream}
+      NewStream.Position := 0;
+      if (FStream is TMemoryStream) then
+        TMemoryStream(FStream).LoadFromStream(NewStream)
+      else if (FStream is TAbVirtualMemoryStream) then begin
+        FStream.Position := 0;
+        FStream.Size := 0;
+        TAbVirtualMemoryStream(FStream).CopyFrom(NewStream, NewStream.Size)
       end
       else begin
-        FStream.Size := 0;
-        FStream.Position := 0;
-        FStream.CopyFrom(NewStream, 0)
+        if FOwnsStream then
+        begin
+          {need new stream to write}
+          if NewStream = FStream then
+            NewStream := nil
+          else begin
+            FreeAndNil(FStream);
+            FreeAndNil(NewStream);
+            if (mbDeleteFile(FArchiveName) and mbRenameFile(ATempName, FArchiveName)) then
+              FStream := TFileStreamEx.Create(FArchiveName, fmOpenReadWrite or fmShareDenyWrite)
+            else
+              RaiseLastOSError;
+          end;
+        end
+        else begin
+          FStream.Size := 0;
+          FStream.Position := 0;
+          FStream.CopyFrom(NewStream, 0)
+        end;
       end;
     end;
 
@@ -2532,7 +2553,7 @@ begin
     DoArchiveProgress( 100, Abort );
   finally {NewStream/OutTarHelp}
     OutTarHelp.Free;
-    if (FStream <> NewStream) then
+    if (FStream <> NewStream) and (FTargetStream <> NewStream) then
       NewStream.Free;
   end;
 end;

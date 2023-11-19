@@ -6,6 +6,7 @@
     Based on XmlConf from fcl-xml package.
 
     Copyright (C) 2010  Przemyslaw Nagay (cobines@gmail.com)
+    Copyright (C) 2013-2023 Alexander Koblov (alexx2000@mail.ru)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -21,6 +22,7 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 }
+
 unit DCXmlConfig;
 
 {$mode objfpc}{$H+}
@@ -149,7 +151,7 @@ type
 implementation
 
 uses
-  LazLogger, DCOSUtils, DCClassesUtf8, URIParser;
+  LazLogger, DCBasicTypes, DCOSUtils, DCClassesUtf8, URIParser;
 
 const
   BoolStrings: array[Boolean] of DOMString = ('False', 'True');
@@ -611,6 +613,8 @@ end;
 
 function TXmlConfig.Save: Boolean;
 var
+  AFileName: String;
+  dwAttr: TFileAttrs;
   bFileExists: Boolean;
   sTmpConfigFileName: String;
 begin
@@ -619,17 +623,25 @@ begin
   if FFileName = '' then
     Exit;
 
-  bFileExists := mbFileExists(FileName);
+  dwAttr := mbFileGetAttr(FileName);
+  bFileExists := (dwAttr <> faInvalidAttributes) and (not FPS_ISDIR(dwAttr));
+
+  if bFileExists and FPS_ISLNK(dwAttr) then
+    AFileName := mbReadAllLinks(FileName)
+  else begin
+    AFileName := FileName;
+  end;
+
   // Write to temporary file and if successfully written rename to proper name.
-  if (not bFileExists) or mbFileAccess(FileName, fmOpenWrite or fmShareDenyWrite) then
+  if (not bFileExists) or mbFileAccess(AFileName, fmOpenWrite or fmShareDenyWrite) then
   begin
-    sTmpConfigFileName := GetTempName(FileName);
+    sTmpConfigFileName := GetTempName(AFileName);
     try
       WriteToFile(sTmpConfigFileName);
       if bFileExists then begin
-        mbFileCopyAttr(FileName, sTmpConfigFileName, [caoCopyOwnership, caoCopyPermissions]);
+        mbFileCopyAttr(AFileName, sTmpConfigFileName, [caoCopyOwnership, caoCopyPermissions]);
       end;
-      if not mbRenameFile(sTmpConfigFileName, FileName) then
+      if not mbRenameFile(sTmpConfigFileName, AFileName) then
       begin
         mbDeleteFile(sTmpConfigFileName);
         DebugLogger.Debugln('Cannot save configuration file ', FileName);

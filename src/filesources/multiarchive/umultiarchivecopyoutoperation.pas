@@ -126,7 +126,7 @@ end;
 
 destructor TMultiArchiveCopyOutOperation.Destroy;
 begin
-  FreeThenNil(FFullFilesTreeToExtract);
+  FreeAndNil(FFullFilesTreeToExtract);
   inherited Destroy;
 end;
 
@@ -326,14 +326,14 @@ begin
     if (FExtractWithoutPath = False) then SetDirsAttributes(CreatedPaths);
 
   finally
-    FreeThenNil(CreatedPaths);
-    FreeThenNil(FilesToExtract);
+    FreeAndNil(CreatedPaths);
+    FreeAndNil(FilesToExtract);
   end;
 end;
 
 procedure TMultiArchiveCopyOutOperation.Finalize;
 begin
-  FreeThenNil(FExProcess);
+  FreeAndNil(FExProcess);
   with FMultiArchiveFileSource.MultiArcItem do
   if not FDebug then
     mbDeleteFile(FTempFile);

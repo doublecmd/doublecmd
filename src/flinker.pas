@@ -67,7 +67,7 @@ type
 
 { ShowLinkerFilesForm:
   "TMainCommands.cm_FileLinker" function from "uMainCommands.pas" is calling this routine.}
-function ShowLinkerFilesForm(aFileSource: IFileSource; aFiles: TFiles; TargetPath: String): Boolean;
+function ShowLinkerFilesForm(TheOwner: TComponent; aFileSource: IFileSource; aFiles: TFiles; TargetPath: String): Boolean;
 
 { DoDynamicFilesLinking:
   "TMainCommands.cm_FileLinker" function from "uMainCommands.pas" is calling this routine.}
@@ -82,11 +82,12 @@ uses
   LCLProc, Controls,
   //DC
   DCStrUtils, uLng, uFileProcs, uOperationsManager, uFileSourceCombineOperation,
-  uGlobs;
+  DCOSUtils, uShowMsg, uGlobs;
 
 { ShowLinkerFilesForm:
   "TMainCommands.cm_FileLinker" function from "uMainCommands.pas" is calling this routine.}
-function ShowLinkerFilesForm(aFileSource: IFileSource; aFiles: TFiles; TargetPath: String): Boolean;
+function ShowLinkerFilesForm(TheOwner: TComponent; aFileSource: IFileSource;
+  aFiles: TFiles; TargetPath: String): Boolean;
 var
   I: Integer;
   AFileName: String;
@@ -94,7 +95,7 @@ var
   xFiles: TFiles = nil;
   Operation: TFileSourceCombineOperation = nil;
 begin
-  with TfrmLinker.Create(Application) do
+  with TfrmLinker.Create(TheOwner) do
   begin
     try
       // Fill file list box
@@ -121,6 +122,16 @@ begin
         else begin
           AFileName:= aFiles.Path + edSave.Text;
           ADirectory:= ExcludeTrailingBackslash(aFiles.Path);
+        end;
+
+        for I:= 0 to lstFile.Count - 1 do
+        begin
+          with lstFile.Items do
+          if mbCompareFileNames(TFile(Objects[I]).FullPath, AFileName) then
+          begin
+            msgError(Format(rsMsgCanNotCopyMoveItSelf, [AFileName]));
+            Exit;
+          end;
         end;
 
         if mbForceDirectory(ADirectory) then
@@ -159,7 +170,7 @@ begin
     Operation.RequireDynamicMode:=TRUE;
     OperationsManager.AddOperation(Operation);
   finally
-    FreeThenNil(xFiles);
+    FreeAndNil(xFiles);
   end;
 end;
 

@@ -31,6 +31,7 @@ mkdir  %DC_INSTALL_DIR%\plugins\wlx\wmp
 
 mkdir  %DC_INSTALL_DIR%\doc
 rem Copy directories
+xcopy /E default      %DC_INSTALL_DIR%\default\
 xcopy /E language     %DC_INSTALL_DIR%\language\
 xcopy /E pixmaps      %DC_INSTALL_DIR%\pixmaps\
 xcopy /E highlighters %DC_INSTALL_DIR%\highlighters\
@@ -39,8 +40,6 @@ copy doc\*.txt                      %DC_INSTALL_DIR%\doc\
 copy doublecmd.exe                  %DC_INSTALL_DIR%\
 copy doublecmd.help                 %DC_INSTALL_DIR%\
 copy doublecmd.zdli                 %DC_INSTALL_DIR%\
-copy pixmaps.txt                    %DC_INSTALL_DIR%\
-copy multiarc.ini                   %DC_INSTALL_DIR%\
 copy pinyin.tbl                     %DC_INSTALL_DIR%\
 rem Copy libraries
 copy *.dll                          %DC_INSTALL_DIR%\

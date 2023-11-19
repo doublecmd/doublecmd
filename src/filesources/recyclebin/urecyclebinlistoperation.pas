@@ -24,7 +24,7 @@ implementation
 
 uses
   Windows, ShlObj, ComObj, JwaShlGuid, Variants, DCOSUtils, DCDateTimeUtils,
-  uFile, uShellFolder, uShlObjAdditional, uShowMsg;
+  ActiveX, uFile, uShellFolder, uShlObjAdditional, uShowMsg;
 
 const
   SID_DISPLACED = '{9B174B33-40FF-11d2-A27E-00C04FC30871}';
@@ -54,29 +54,35 @@ begin
   try
     OleCheckUTF8(SHGetDesktopFolder(DesktopFolder));
     OleCheckUTF8(SHGetFolderLocation(0, CSIDL_BITBUCKET, 0, 0, {%H-}TrashPIDL));
-    OleCheckUTF8(DesktopFolder.BindToObject(TrashPIDL, nil, IID_IShellFolder2, Pointer(AFolder)));
-    OleCheckUTF8(AFolder.EnumObjects(0, SHCONTF_FOLDERS or SHCONTF_NONFOLDERS or SHCONTF_INCLUDEHIDDEN, EnumIDList));
+    try
+      OleCheckUTF8(DesktopFolder.BindToObject(TrashPIDL, nil, IID_IShellFolder2, Pointer(AFolder)));
+      OleCheckUTF8(AFolder.EnumObjects(0, SHCONTF_FOLDERS or SHCONTF_NONFOLDERS or SHCONTF_INCLUDEHIDDEN, EnumIDList));
 
-    while EnumIDList.Next(1, PIDL, NumIDs) = S_OK do
-    begin
-      CheckOperationState;
+      while EnumIDList.Next(1, PIDL, NumIDs) = S_OK do
+      try
+        CheckOperationState;
 
-      aFile:= TRecycleBinFileSource.CreateFile(Path);
-      AFile.FullPath:= GetDisplayName(AFolder, PIDL, SHGDN_NORMAL);
-      AFile.LinkProperty.LinkTo:= GetDisplayName(AFolder, PIDL, SHGDN_FORPARSING);
+        aFile:= TRecycleBinFileSource.CreateFile(Path);
+        AFile.FullPath:= GetDisplayName(AFolder, PIDL, SHGDN_NORMAL);
+        AFile.LinkProperty.LinkTo:= GetDisplayName(AFolder, PIDL, SHGDN_FORPARSING);
 
-      if mbFileGetAttr(AFile.LinkProperty.LinkTo, Attr) then
-      begin
-        AFile.Size:= Attr.Size;
-        AFile.Attributes:= Attr.Attr;
-        AFile.CreationTime:= WinFileTimeToDateTime(Attr.PlatformTime);
-        AFile.LastAccessTime:= WinFileTimeToDateTime(Attr.LastAccessTime);
-        AFile.ModificationTime:= WinFileTimeToDateTime(Attr.LastWriteTime);
-        AFile.CommentProperty.Value:= GetDetails(AFolder, PIDL, SCID_OriginalLocation);
-        AFile.ChangeTime:= VariantTimeToDateTime(VarToDateTime(GetDetails(AFolder, PIDL, SCID_DateDeleted)));
+        if mbFileGetAttr(AFile.LinkProperty.LinkTo, Attr) then
+        begin
+          AFile.Size:= Attr.Size;
+          AFile.Attributes:= Attr.Attr;
+          AFile.CreationTime:= WinFileTimeToDateTime(Attr.PlatformTime);
+          AFile.LastAccessTime:= WinFileTimeToDateTime(Attr.LastAccessTime);
+          AFile.ModificationTime:= WinFileTimeToDateTime(Attr.LastWriteTime);
+          AFile.CommentProperty.Value:= GetDetails(AFolder, PIDL, SCID_OriginalLocation);
+          AFile.ChangeTime:= VariantTimeToDateTime(VarToDateTime(GetDetails(AFolder, PIDL, SCID_DateDeleted)));
+        end;
+
+        FFiles.Add(AFile);
+      finally
+        CoTaskMemFree(PIDL);
       end;
-
-      FFiles.Add(AFile);
+    finally
+      CoTaskMemFree(TrashPIDL);
     end;
   except
     on E: Exception do msgError(Thread, E.Message);

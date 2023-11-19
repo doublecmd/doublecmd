@@ -125,7 +125,8 @@ begin
         // Current file percent
         else if (Size >= -1100) and (Size <= -1000) then
         begin
-          CurrentFileTotalBytes := 100;
+          // Show only percent
+          CurrentFileTotalBytes := -100;
           CurrentFileDoneBytes := Int64(-Size) - 1000;
         end;
       end;

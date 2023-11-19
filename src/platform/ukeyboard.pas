@@ -159,11 +159,11 @@ uses
 {$ENDIF}
 {$IF DEFINED(X11) and (DEFINED(LCLQT) or DEFINED(LCLQT5) OR DEFINED(LCLQT6))}
   {$IF DEFINED(LCLQT)}
-  , qt4, qtwidgets
+  , qt4, qtwidgets, qtint
   {$ELSEIF DEFINED(LCLQT5)}
-  , qt5, qtwidgets
+  , qt5, qtwidgets, qtint
   {$ELSEIF DEFINED(LCLQT6)}
-  , qt6, qtwidgets
+  , qt6, qtwidgets, qtint
   {$ENDIF}
   , XLib, X
   , xutil, KeySym
@@ -632,6 +632,8 @@ begin
 
 {$ELSEIF DEFINED(X11) and (DEFINED(LCLQT) or DEFINED(LCLQT5) OR DEFINED(LCLQT6))}
 
+  if (XDisplay = nil) then Exit;
+
   // For QT we'll use Xlib to get text for a key.
 
   KeySym := 0;
@@ -740,7 +742,7 @@ begin
     else               KeySym := 0;
   end;
 
-  if KeySym <> 0 then
+  if (KeySym <> 0) and Assigned(XDisplay) then
   begin
     // Get base character for a key with the given keysym.
     // Don't care about modifiers state, because we already have it.
@@ -1245,13 +1247,13 @@ initialization
   {$ELSEIF DEFINED(LCLGTK2)}
   XDisplay := gdk_display_get_default;
   {$ELSEIF (DEFINED(LCLQT) or DEFINED(LCLQT5) OR DEFINED(LCLQT6))}
-  XDisplay := XOpenDisplay(nil);
+  if not IsWayland then XDisplay := XOpenDisplay(nil);
   {$ENDIF}
 {$ENDIF}
 
 {$IF DEFINED(X11) and (DEFINED(LCLQT) or DEFINED(LCLQT5) OR DEFINED(LCLQT6))}
 finalization
-  XCloseDisplay(XDisplay);
+  if Assigned(XDisplay) then XCloseDisplay(XDisplay);
 {$ENDIF}
 
 end.

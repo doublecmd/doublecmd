@@ -413,6 +413,22 @@ object frmFindDlg: TfrmFindDlg
             Style = csDropDownList
             TabOrder = 7
           end
+          object btnEncoding: TKASButton
+            AnchorSideLeft.Control = cmbEncoding
+            AnchorSideLeft.Side = asrBottom
+            AnchorSideTop.Control = cmbEncoding
+            AnchorSideBottom.Control = cmbEncoding
+            AnchorSideBottom.Side = asrBottom
+            Left = 215
+            Height = 23
+            Top = 77
+            Width = 24
+            Anchors = [akTop, akLeft, akBottom]
+            BorderSpacing.Left = 2
+            TabOrder = 8
+            TabStop = True
+            OnClick = btnEncodingClick
+          end
           object cmbFindText: TComboBoxWithDelItems
             AnchorSideLeft.Control = CheksPanel
             AnchorSideLeft.Side = asrBottom
@@ -518,7 +534,7 @@ object frmFindDlg: TfrmFindDlg
             Width = 88
             Caption = 'Hexadeci&mal'
             OnChange = chkHexChange
-            TabOrder = 8
+            TabOrder = 9
           end
           object cbOfficeXML: TCheckBox
             AnchorSideLeft.Control = cbTextRegExp
@@ -1553,6 +1569,7 @@ object frmFindDlg: TfrmFindDlg
     end
     object actLastSearch: TAction
       Caption = '&Last search'
+      Enabled = False
       OnExecute = actExecute
     end
     object actView: TAction

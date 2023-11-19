@@ -67,7 +67,7 @@ type
                                            const FileNamesList: TStringList;
                                            OmitNotExisting: Boolean = False): TFiles;
 
-    procedure RetrieveProperties(AFile: TFile; PropertiesToSet: TFilePropertiesTypes; AVariantProperties: array of String); override;
+    procedure RetrieveProperties(AFile: TFile; PropertiesToSet: TFilePropertiesTypes; const AVariantProperties: array of String); override;
 
     class function GetFileSource: IFileSystemFileSource;
 
@@ -131,7 +131,7 @@ uses
   DCWindows, uMyWindows, Windows,
 {$ENDIF}
 {$IFDEF UNIX}
-  BaseUnix, uUsersGroups, LazUTF8, uMyUnix,
+  BaseUnix, uUsersGroups, LazUTF8, DCUnix, uMyUnix,
   {$IFDEF DARWIN}
   uMyDarwin,
   {$ENDIF}
@@ -231,11 +231,11 @@ begin
       SizeProperty := TFileSizeProperty.Create(Int64(pStatInfo^.st_size));
 
     ModificationTimeProperty := TFileModificationDateTimeProperty.Create(
-      FileTimeToDateTime(pStatInfo^.st_mtime));
+      FileTimeToDateTime(TUnixFileTime(pStatInfo^.st_mtime)));
     Properties[fpChangeTime] := TFileChangeDateTimeProperty.Create(
-      FileTimeToDateTime(pStatInfo^.st_ctime));
+      FileTimeToDateTime(TUnixFileTime(pStatInfo^.st_ctime)));
     LastAccessTimeProperty := TFileLastAccessDateTimeProperty.Create(
-      FileTimeToDateTime(pStatInfo^.st_atime));
+      FileTimeToDateTime(TUnixFileTime(pStatInfo^.st_atime)));
 
     LinkProperty := TFileLinkProperty.Create;
 
@@ -332,6 +332,11 @@ begin
   begin
 {$IF DEFINED(UNIX)}
     ChangeTimeProperty := TFileChangeDateTimeProperty.Create(DCBasicTypes.TFileTime(pSearchRecord^.PlatformTime));
+    {$IF DEFINED(DARWIN)}
+    CreationTimeProperty := TFileCreationDateTimeProperty.Create(
+      UnixFileTimeToDateTimeEx(
+        TFileTimeEx.create( pSearchRecord^.BirthdayTime, pSearchRecord^.BirthdayTimensec) ));
+    {$ENDIF}
 {$ELSE}
     CreationTimeProperty := TFileCreationDateTimeProperty.Create(DCBasicTypes.TFileTime(pSearchRecord^.PlatformTime));
 {$ENDIF}
@@ -345,7 +350,7 @@ begin
 
     if fpS_ISLNK(pSearchRecord^.Attr) then
     begin
-      AFilePath:= APath + pSearchRecord^.Name;
+      AFilePath:= Path + pSearchRecord^.Name;
       LinkAttrs := mbFileGetAttrNoLinks(AFilePath);
       LinkProperty.LinkTo := ReadSymLink(AFilePath);
       LinkProperty.IsValid := LinkAttrs <> faInvalidAttributes;
@@ -454,7 +459,7 @@ begin
 end;
 
 procedure TFileSystemFileSource.RetrieveProperties(AFile: TFile;
-  PropertiesToSet: TFilePropertiesTypes; AVariantProperties: array of String);
+  PropertiesToSet: TFilePropertiesTypes; const AVariantProperties: array of String);
 var
   AIndex: Integer;
   sFullPath: String;
@@ -466,7 +471,8 @@ var
   StatXInfo: TStatX;
 {$ENDIF}
 {$IF DEFINED(UNIX)}
-  StatInfo, LinkInfo: BaseUnix.Stat; //buffer for stat info
+  StatInfo: TDCStat;
+  LinkInfo: BaseUnix.Stat; //buffer for stat info
 {$ELSEIF DEFINED(MSWINDOWS)}
   FindData: TWIN32FINDDATAW;
   FindHandle: THandle;
@@ -580,7 +586,7 @@ begin
          fpOwner] * PropertiesToSet <> []) or
        ((uFileProperty.fpLink in PropertiesToSet) and (not (fpAttributes in AssignedProperties))) then
     begin
-      if fpLstat(UTF8ToSys(sFullPath), StatInfo) = -1 then
+      if DC_fpLStat(UTF8ToSys(sFullPath), StatInfo) = -1 then
         raise EFileNotFound.Create(sFullPath);
 
       if not (fpAttributes in AssignedProperties) then
@@ -598,13 +604,18 @@ begin
 
       if not (fpModificationTime in AssignedProperties) then
         ModificationTimeProperty := TFileModificationDateTimeProperty.Create(
-          FileTimeToDateTime(StatInfo.st_mtime));
+          FileTimeToDateTime(TUnixFileTime(StatInfo.st_mtime)));
       if not (fpChangeTime in AssignedProperties) then
         Properties[fpChangeTime] := TFileChangeDateTimeProperty.Create(
-          FileTimeToDateTime(StatInfo.st_ctime));
+          FileTimeToDateTime(TUnixFileTime(StatInfo.st_ctime)));
       if not (fpLastAccessTime in AssignedProperties) then
         LastAccessTimeProperty := TFileLastAccessDateTimeProperty.Create(
-          FileTimeToDateTime(StatInfo.st_atime));
+          FileTimeToDateTime(TUnixFileTime(StatInfo.st_atime)));
+{$IF DEFINED(DARWIN)}
+      if not (fpCreationTime in AssignedProperties) then
+        CreationTimeProperty := TFileCreationDateTimeProperty.Create(
+          FileTimeToDateTime(TUnixFileTime(StatInfo.st_birthtime)));
+{$ENDIF}
     end;
 
     if uFileProperty.fpLink in PropertiesToSet then

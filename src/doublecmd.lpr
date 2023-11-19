@@ -15,10 +15,16 @@ uses
   {$IFNDEF HEAPTRC}
   cmem,
   {$ENDIF}
+  {$IFDEF DARWIN}
+  iosxwstr,
+  iosxlocale,
+  {$ELSE}
   cwstring,
   clocale,
-  {$IFDEF DARWIN}
+  {$ENDIF}
+  {$IFDEF darwin}
   uAppleMagnifiedModeFix,
+  uMyDarwin,
   {$ENDIF}
   uElevation,
   {$IFDEF LINUX}
@@ -33,6 +39,7 @@ uses
   uQt5Workaround,
   {$ENDIF}
   {$ENDIF}
+  uMoveConfig,
   uEarlyConfig,
   DCConvertEncoding,
   {$IF DEFINED(LCLWIN32) and DEFINED(DARKWIN)}
@@ -146,6 +153,10 @@ begin
   ApplyDarkStyle;
 {$ENDIF}
 
+{$IF DEFINED(darwin)}
+  setMacOSAppearance( gAppMode );
+{$ENDIF}
+
   // Use only current directory separator
   AllowDirectorySeparators:= [DirectorySeparator];
   {$IF lcl_fullversion >= 093100}
@@ -188,7 +199,6 @@ begin
   begin
     // Let's show the starting slash screen to confirm user application has been started
     Application.CreateForm(TfrmStartingSplash, frmStartingSplash);
-    frmStartingSplash.Show;
   end;
 
   LoadInMemoryOurAccentLookupTableList; // Used for conversion of string to remove accents.
@@ -209,7 +219,6 @@ begin
       InitPasswordStore;
       LoadPixMapManager;
       Application.CreateForm(TfrmMain, frmMain); // main form
-      Application.CreateForm(TdmHighl, dmHighl); // highlighters
       Application.CreateForm(TdmComData, dmComData); // common data
       Application.CreateForm(TdmHelpManager, dmHelpMgr); // help manager
 
@@ -225,18 +234,8 @@ begin
       // in Application.CreateForm above.
       uKeyboard.HookKeyboardLayoutChanged;
 
-      if (gSplashForm) and (not CommandLineParams.NoSplash) then
-      begin
-        // We may now remove the starting splash screen, most of the application has been started now
-        frmStartingSplash.Close;
-        frmStartingSplash.Release;
-      end;
-
       frmMain.ShowOnTop;
-      {$IFDEF LCLCOCOA}
-      frmMain.RestoreWindow;
-      {$ENDIF}
-
+      Application.ProcessMessages;
       Application.Run;
 
       if not UniqueInstance.isAnotherDCRunningWhileIamRunning then

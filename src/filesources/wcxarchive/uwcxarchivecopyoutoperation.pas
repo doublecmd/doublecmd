@@ -137,9 +137,15 @@ begin
       // Get the number of bytes processed since the previous call
       if Size > 0 then
       begin
+        if CurrentFileDoneBytes < 0 then
+        begin
+          CurrentFileDoneBytes:= 0;
+        end;
         CurrentFileDoneBytes := CurrentFileDoneBytes + Size;
         if CurrentFileDoneBytes > CurrentFileTotalBytes then
+        begin
           CurrentFileDoneBytes := CurrentFileTotalBytes;
+        end;
         DoneBytes := DoneBytes + Size;
       end
       // Get progress percent value to directly set progress bar
@@ -148,14 +154,14 @@ begin
         // Total operation percent
         if (Size >= -100) and (Size <= -1) then
           begin
-            if (TotalBytes = 0) then TotalBytes:= 100;
-            DoneBytes := TotalBytes * Int64(-Size) div 100;
+            if (TotalBytes = 0) then TotalBytes:= -100;
+            DoneBytes := Abs(TotalBytes) * Int64(-Size) div 100;
           end
         // Current file percent
         else if (Size >= -1100) and (Size <= -1000) then
           begin
-            if (CurrentFileTotalBytes = 0) then CurrentFileTotalBytes:= 100;
-            CurrentFileDoneBytes := CurrentFileTotalBytes * (Int64(-Size) - 1000) div 100;
+            if (CurrentFileTotalBytes = 0) then CurrentFileTotalBytes:= -100;
+            CurrentFileDoneBytes := Abs(CurrentFileTotalBytes) * (Int64(-Size) - 1000) div 100;
           end;
       end;
 
@@ -213,7 +219,6 @@ var
   Index: Integer;
   ACount: Integer;
   AFileName: String;
-  Header: TWcxHeader;
   ArcFileList: TList;
 begin
   // Is plugin allow multiple Operations?
@@ -333,7 +338,7 @@ begin
           CurrentFileFrom := Header.FileName;
           CurrentFileTo := TargetFileName;
           CurrentFileTotalBytes := Header.UnpSize;
-          CurrentFileDoneBytes := 0;
+          CurrentFileDoneBytes := -1;
 
           UpdateStatistics(FStatistics);
         end;

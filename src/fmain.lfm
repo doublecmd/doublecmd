@@ -284,6 +284,7 @@ object frmMain: TfrmMain
             BorderSpacing.Right = 2
             ParentColor = False
             OnDblClick = lblDriveInfoDblClick
+            OnResize = lblDriveInfoResize
           end
         end
       end
@@ -433,6 +434,7 @@ object frmMain: TfrmMain
             BorderSpacing.Right = 2
             ParentColor = False
             OnDblClick = lblDriveInfoDblClick
+            OnResize = lblDriveInfoResize
           end
         end
       end
@@ -2596,6 +2598,7 @@ object frmMain: TfrmMain
       Tag = 17
       Category = 'Command Line'
       Caption = 'Toggle fullscreen mode console'
+      OnExecute = actExecute
     end
     object actTreeView: TAction
       Tag = 16
@@ -2830,6 +2833,12 @@ object frmMain: TfrmMain
       Category = 'Miscellaneous'
       Caption = 'Load List'
       Hint = 'Load list of files/folders from the specified text file'
+      OnExecute = actExecute
+    end
+    object actSaveFileDetailsToFile: TAction
+      Tag = 10
+      Category = 'Mark'
+      Caption = 'Save all shown columns to file'
       OnExecute = actExecute
     end
   end

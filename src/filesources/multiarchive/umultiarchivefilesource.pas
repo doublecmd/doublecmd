@@ -280,11 +280,9 @@ begin
 
   with Result do
   begin
-  {
-      Comment,
-  }
     SizeProperty := TFileSizeProperty.Create(ArchiveItem.UnpSize);
     SizeProperty.IsValid := (ArchiveItem.UnpSize >= 0);
+
     CompressedSizeProperty := TFileCompressedSizeProperty.Create(ArchiveItem.PackSize);
     CompressedSizeProperty.IsValid := (ArchiveItem.PackSize >= 0);
 
@@ -292,8 +290,23 @@ begin
       AttributesProperty := TUnixFileAttributesProperty.Create(ArchiveItem.Attributes)
     else if (FormMode and MAF_WIN_ATTR) <> 0 then
       AttributesProperty := TNtfsFileAttributesProperty.Create(ArchiveItem.Attributes)
-    else
+    else begin
       AttributesProperty := TFileAttributesProperty.CreateOSAttributes(ArchiveItem.Attributes);
+    end;
+
+    if AttributesProperty.IsDirectory then
+    begin
+      if not SizeProperty.IsValid then
+      begin
+        SizeProperty.IsValid := True;
+        SizeProperty.Value := FOLDER_SIZE_UNKN;
+      end;
+      if not CompressedSizeProperty.IsValid then
+      begin
+        CompressedSizeProperty.IsValid := True;
+        CompressedSizeProperty.Value := FOLDER_SIZE_UNKN;
+      end;
+    end;
 
     ModificationTimeProperty := TFileModificationDateTimeProperty.Create(0);
     try

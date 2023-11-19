@@ -1,8 +1,8 @@
-<UniHighlighter version="1.8.1">
+<UniHighlighter version="1.8">
   <Info>
-    <General Name="Assembler (x86)" Extensions="ASM,S"/>
+    <General Name="Assembler (x86)" Extensions="ASM,S" Other="0"/>
     <Author Name="Vitalik, Vitaly Nevzorov" Email="v-e-t-a-l@ukr.net" Web="" Copyright="(c) Vitaly Lyapota, Vitaly Nevzorov, 2004" Company="N/A" Remark=""/>
-    <Version Version="1" Revision="2" Date="44660,8772404745"/>
+    <Version Version="1" Revision="2" Date="45067.6927801505"/>
     <History>
     </History>
     <Sample>
@@ -22,10 +22,10 @@
     </Sample>
   </Info>
   <Scheme File="" Name=""/>
-  <Range Name="Root" Attributes="0,-2147483643;False:False." Style=""
+  <Range Name="Root" Attributes="$80000008,$80000005;False:False." Style=""
          Delimiters="!&quot;#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^`{|}~">
     <Rule OpenSymbolPartOfTerm="Right" CloseSymbolPartOfTerm="False"/>
-    <Keywords Name="Commands" Attributes="32768,-2147483643;False:True." Style="">
+    <Keywords Name="Commands" Attributes="$00008000,$80000005;False:True." Style="">
       <word value="aaa"/>
       <word value="aad"/>
       <word value="aam"/>
@@ -415,7 +415,7 @@
       <word value="xlatb"/>
       <word value="xor"/>
     </Keywords>
-    <Keywords Name="Commands SSE2" Attributes="32768,-2147483643;False:True." Style="">
+    <Keywords Name="Commands SSE2" Attributes="$00008000,$80000005;False:True." Style="">
       <word value="ADDPD"/>
       <word value="ADDSD"/>
       <word value="ANDPD"/>
@@ -540,7 +540,7 @@
       <word value="UNPCKLPD"/>
       <word value="XORDP"/>
     </Keywords>
-    <Keywords Name="Registers" Attributes="16711808,-2147483643;False:True." Style="">
+    <Keywords Name="Registers" Attributes="$00FF0080,$80000005;False:True." Style="">
       <word value="ah"/>
       <word value="al"/>
       <word value="ax"/>
@@ -568,7 +568,7 @@
       <word value="si"/>
       <word value="sp"/>
     </Keywords>
-    <Keywords Name="Registers x86_64" Attributes="16711808,-2147483643;False:True." Style="">
+    <Keywords Name="Registers x86_64" Attributes="$00FF0080,$80000005;False:True." Style="">
       <word value="rax"/>
       <word value="rbx"/>
       <word value="rcx"/>
@@ -586,7 +586,7 @@
       <word value="r14"/>
       <word value="r15"/>
     </Keywords>
-    <Keywords Name="Key Words" Attributes="8421376,-2147483643;False:True." Style="">
+    <Keywords Name="Key Words" Attributes="$00808000,$80000005;False:True." Style="">
       <word value="align"/>
       <word value="assume"/>
       <word value="at"/>
@@ -672,31 +672,30 @@
       <word value="width"/>
       <word value="word"/>
     </Keywords>
-    <Keywords Name="Segments" Attributes="16711935,-2147483643;False:True.B" Style="">
+    <Keywords Name="Segments" Attributes="$00FF00FF,$80000005;False:True.B" Style="">
       <word value="dataseg"/>
       <word value="codeseg"/>
     </Keywords>
-    <Set Name="Numbers" Attributes="128,-2147483643;False:True." Style="" Symbols="0123456789"/>
-    <Range Name="Remarks" Attributes="8388608,-2147483643;False:True." Style=""
+    <Set Name="Numbers" Attributes="$00000080,$80000005;False:True." Style="" Symbols="0123456789"/>
+    <Range Name="Remarks" Attributes="$00800000,$80000005;False:True." Style=""
            Delimiters="!&quot;#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^`{|}~">
       <Rule OpenSymbol=";" OpenSymbolPartOfTerm="Right" CloseSymbolPartOfTerm="False" CloseOnEol="True"/>
     </Range>
-    <Range Name="String" Attributes="255,-2147483643;False:True." Style=""
+    <Range Name="String" Attributes="$000000FF,$80000005;False:True." Style=""
            Delimiters="!&quot;#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^`{|}~">
       <Rule OpenSymbol="'" OpenSymbolPartOfTerm="Right" CloseSymbol="'" CloseSymbolPartOfTerm="False"/>
     </Range>
-    <Range Name="." Attributes="16711680,-2147483643;False:True." Style=""
+    <Range Name="." Attributes="$00FF0000,$80000005;False:True." Style=""
            Delimiters="!&quot;#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^`{|}~">
       <Rule OpenSymbol="." OpenSymbolPartOfTerm="Right" CloseSymbolPartOfTerm="False" CloseOnTerm="True"/>
     </Range>
-    <Range Name="@" Attributes="33023,-2147483643;False:True." Style=""
+    <Range Name="@" Attributes="$000080FF,$80000005;False:True." Style=""
            Delimiters="!&quot;#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^`{|}~">
       <Rule OpenSymbol="@" OpenSymbolPartOfTerm="Right" CloseSymbolPartOfTerm="False" CloseOnTerm="True"/>
     </Range>
-    <Range Name="String" Attributes="255,-2147483643;False:True." Style=""
+    <Range Name="String" Attributes="$000000FF,$80000005;False:True." Style=""
            Delimiters="!&quot;#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^`{|}~">
       <Rule OpenSymbol="&quot;" OpenSymbolPartOfTerm="Right" CloseSymbol="&quot;" CloseSymbolPartOfTerm="False"/>
     </Range>
   </Range>
-  <CopyRight>Rule file for UniHighlighter Delphi component (Copyright(C) Fantasist(walking_in_the_sky@yahoo.com), Vit(nevzorov@yahoo.com), Vitalik(vetal-x@mail.ru), 2002-2004)</CopyRight>
 </UniHighlighter>

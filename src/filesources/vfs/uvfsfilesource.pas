@@ -67,7 +67,7 @@ end;
 
 destructor TVfsFileSource.Destroy;
 begin
-  FreeThenNil(FWFXModuleList);
+  FreeAndNil(FWFXModuleList);
   inherited Destroy;
 end;
 

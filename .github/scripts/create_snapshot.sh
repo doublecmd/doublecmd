@@ -1,16 +1,26 @@
 #!/bin/bash
 
-# Set Double Commander version
-DC_VER=1.1.0
-
 # The new package will be saved here
-PACK_DIR=/var/tmp/doublecmd-release
+PACK_DIR=$PWD/doublecmd-release
 
 # Temp dir for creating *.dmg package
 BUILD_PACK_DIR=/var/tmp/doublecmd-$(date +%y.%m.%d)
 
 # Save revision number
 DC_REVISION=$(install/linux/update-revision.sh ./ ./)
+
+# Read version number
+DC_MAJOR=$(grep 'MajorVersionNr' src/doublecmd.lpi | grep -o '[0-9.]\+')
+DC_MINOR=$(grep 'MinorVersionNr' src/doublecmd.lpi | grep -o '[0-9.]\+' || echo 0)
+DC_MICRO=$(grep 'RevisionNr' src/doublecmd.lpi | grep -o '[0-9.]\+' || echo 0)
+DC_VER=$DC_MAJOR.$DC_MINOR.$DC_MICRO
+
+# Get libraries
+pushd install
+wget https://github.com/doublecmd/snapshots/raw/main/darwin.tar.gz
+tar xzf darwin.tar.gz
+rm -f darwin.tar.gz
+popd
 
 # Set widgetset
 export lcl=cocoa
@@ -24,6 +34,9 @@ build_doublecmd()
 {
   # Build all components of Double Commander
   ./build.sh release
+
+  # Copy libraries
+  cp -a install/darwin/lib/$CPU_TARGET/*.dylib ./
 
   # Create *.dmg package
   mkdir -p $BUILD_PACK_DIR

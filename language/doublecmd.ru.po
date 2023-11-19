@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 1.1.0 alpha\n"
-"POT-Creation-Date: 2022-11-15 11:15+0300\n"
-"PO-Revision-Date: 2022-10-26 17:31+0300\n"
+"POT-Creation-Date: 2023-07-16 21:15+0300\n"
+"PO-Revision-Date: 2023-07-17 00:03+0300\n"
 "Last-Translator: Alexander Koblov <alexx2000@mail.ru>\n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -353,6 +353,11 @@ msgctxt "TFRMCHECKSUMVERIFY.CAPTION"
 msgid "Verify checksum..."
 msgstr "Проверить контрольные суммы..."
 
+#: tfrmchooseencoding.caption
+msgctxt "tfrmchooseencoding.caption"
+msgid "Encoding"
+msgstr "Кодировка"
+
 #: tfrmconnectionmanager.btnadd.caption
 msgctxt "TFRMCONNECTIONMANAGER.BTNADD.CAPTION"
 msgid "A&dd"
@@ -375,7 +380,7 @@ msgstr "&Удалить"
 #: tfrmconnectionmanager.btnedit.caption
 msgctxt "TFRMCONNECTIONMANAGER.BTNEDIT.CAPTION"
 msgid "&Edit"
-msgstr "&Редактировать"
+msgstr "&Изменить"
 
 #: tfrmconnectionmanager.caption
 msgid "Connection manager"
@@ -479,6 +484,7 @@ msgid "Auto Compare"
 msgstr "Сравнить автоматически"
 
 #: tfrmdiffer.actbinarycompare.caption
+msgctxt "tfrmdiffer.actbinarycompare.caption"
 msgid "Binary Mode"
 msgstr "Бинарный режим"
 
@@ -831,7 +837,7 @@ msgstr "Выберите из списка оставшихся свободны
 #: tfrmedithotkey.cghkcontrols.caption
 msgctxt "tfrmedithotkey.cghkcontrols.caption"
 msgid "Only for these controls"
-msgstr "Только для этих элементов"
+msgstr "Только для этих элементов интерфейса"
 
 #: tfrmedithotkey.lblparameters.caption
 msgid "&Parameters (each in a separate line):"
@@ -1257,23 +1263,6 @@ msgstr "Из:"
 msgid "To:"
 msgstr "в:"
 
-#: tfrmfileproperties.btnclose.caption
-msgctxt "TFRMFILEPROPERTIES.BTNCLOSE.CAPTION"
-msgid "&Close"
-msgstr "&Закрыть"
-
-#: tfrmfileproperties.btnsetproperties.caption
-msgid "&Set properties"
-msgstr "&Установить"
-
-#: tfrmfileproperties.btnsetpropertiestoallfiles.caption
-msgid "Set to &all selected files"
-msgstr "У&становить для всех"
-
-#: tfrmfileproperties.btnskipfile.caption
-msgid "Ski&p this file"
-msgstr "&Пропустить"
-
 #: tfrmfileproperties.caption
 msgctxt "TFRMFILEPROPERTIES.CAPTION"
 msgid "Properties"
@@ -1298,8 +1287,12 @@ msgstr "SUID"
 msgid "Allow &executing file as program"
 msgstr "&Разрешить исполнять как программу"
 
-#: tfrmfileproperties.gbowner.caption
-msgctxt "TFRMFILEPROPERTIES.GBOWNER.CAPTION"
+#: tfrmfileproperties.chkrecursive.caption
+msgid "&Recursive"
+msgstr "&Рекурсивно"
+
+#: tfrmfileproperties.dividerbevel3.caption
+msgctxt "TFRMFILEPROPERTIES.DIVIDERBEVEL3.CAPTION"
 msgid "Owner"
 msgstr "Владелец"
 
@@ -1337,6 +1330,11 @@ msgstr "Текст:"
 msgid "Contains:"
 msgstr "Содержит:"
 
+#: tfrmfileproperties.lblcreatedstr.caption
+msgctxt "tfrmfileproperties.lblcreatedstr.caption"
+msgid "Created:"
+msgstr "Создан:"
+
 #: tfrmfileproperties.lblexec.caption
 msgctxt "TFRMFILEPROPERTIES.LBLEXEC.CAPTION"
 msgid "Execute"
@@ -1372,16 +1370,26 @@ msgid "&Group"
 msgstr "&Группа"
 
 #: tfrmfileproperties.lbllastaccessstr.caption
-msgid "Last access:"
-msgstr "Последний доступ:"
+msgctxt "tfrmfileproperties.lbllastaccessstr.caption"
+msgid "Accessed:"
+msgstr "Доступ:"
 
 #: tfrmfileproperties.lbllastmodifstr.caption
-msgid "Last modification:"
-msgstr "Последнее изменение:"
+msgctxt "tfrmfileproperties.lbllastmodifstr.caption"
+msgid "Modified:"
+msgstr "Изменён:"
 
 #: tfrmfileproperties.lbllaststchangestr.caption
-msgid "Last status change:"
-msgstr "Изменение статуса:"
+msgid "Status changed:"
+msgstr "Статус:"
+
+#: tfrmfileproperties.lbllinksstr.caption
+msgid "Links:"
+msgstr "Ссылки:"
+
+#: tfrmfileproperties.lblmediatypestr.caption
+msgid "Media type:"
+msgstr "MIME-тип:"
 
 #: tfrmfileproperties.lbloctal.caption
 msgctxt "TFRMFILEPROPERTIES.LBLOCTAL.CAPTION"
@@ -1398,6 +1406,10 @@ msgctxt "TFRMFILEPROPERTIES.LBLREAD.CAPTION"
 msgid "Read"
 msgstr "Чтение"
 
+#: tfrmfileproperties.lblsizeondiskstr.caption
+msgid "Size on disk:"
+msgstr "На диске:"
+
 #: tfrmfileproperties.lblsizestr.caption
 msgctxt "TFRMFILEPROPERTIES.LBLSIZESTR.CAPTION"
 msgid "Size:"
@@ -1405,7 +1417,7 @@ msgstr "Размер:"
 
 #: tfrmfileproperties.lblsymlinkstr.caption
 msgid "Symlink to:"
-msgstr "Симв. ссылка"
+msgstr "Симв. ссылка:"
 
 #: tfrmfileproperties.lbltypestr.caption
 msgid "Type:"
@@ -1416,13 +1428,13 @@ msgctxt "TFRMFILEPROPERTIES.LBLWRITE.CAPTION"
 msgid "Write"
 msgstr "Запись"
 
-#: tfrmfileproperties.sgimage.columns[0].title.caption
-msgctxt "tfrmfileproperties.sgimage.columns[0].title.caption"
+#: tfrmfileproperties.sgplugins.columns[0].title.caption
+msgctxt "tfrmfileproperties.sgplugins.columns[0].title.caption"
 msgid "Name"
 msgstr "Имя"
 
-#: tfrmfileproperties.sgimage.columns[1].title.caption
-msgctxt "tfrmfileproperties.sgimage.columns[1].title.caption"
+#: tfrmfileproperties.sgplugins.columns[1].title.caption
+msgctxt "tfrmfileproperties.sgplugins.columns[1].title.caption"
 msgid "Value"
 msgstr "Значение"
 
@@ -1833,11 +1845,11 @@ msgstr "&Результат"
 
 #: tfrmfinddlg.mishowallfound.caption
 msgid "Show all found items"
-msgstr "Показать все найденные элементы"
+msgstr "Показать все найденные"
 
 #: tfrmfinddlg.mishowineditor.caption
 msgid "Show In Editor"
-msgstr "Показать в редакторе"
+msgstr "Правка"
 
 #: tfrmfinddlg.mishowinviewer.caption
 msgid "Show In Viewer"
@@ -1961,7 +1973,7 @@ msgstr "Импортировать выделенный"
 #: tfrmhotdirexportimport.caption
 msgctxt "tfrmhotdirexportimport.caption"
 msgid "Select the entries your want to import"
-msgstr "Выделите элементы для импорта"
+msgstr "Выделите записи для импорта"
 
 #: tfrmhotdirexportimport.lbhint.caption
 msgctxt "tfrmhotdirexportimport.lbhint.caption"
@@ -1988,7 +2000,7 @@ msgstr "Сохранить как..."
 
 #: tfrmlinker.grbxcontrol.caption
 msgid "Item"
-msgstr "Элемент"
+msgstr "Выделенный"
 
 #: tfrmlinker.lblfilename.caption
 msgctxt "TFRMLINKER.LBLFILENAME.CAPTION"
@@ -2365,7 +2377,7 @@ msgstr "Перейти к командной строке"
 
 #: tfrmmain.actfocusswap.caption
 msgid "Swap focus"
-msgstr "Сменить фокус"
+msgstr "Переключить фокус"
 
 #: tfrmmain.actfocusswap.hint
 msgid "Switch between left and right file list"
@@ -2534,7 +2546,7 @@ msgstr "С&нять выделение со всех"
 
 #: tfrmmain.actminimize.caption
 msgid "Minimize window"
-msgstr "Свернуть"
+msgstr "Свернуть окно"
 
 #: tfrmmain.actmovetableft.caption
 msgid "Move current tab to the left"
@@ -2732,6 +2744,10 @@ msgstr "Пуск &терминала"
 #: tfrmmain.actsavefavoritetabs.caption
 msgid "Save current tabs to a New Favorite Tabs"
 msgstr "Сохранить текущие как новые избранные вкладки"
+
+#: tfrmmain.actsavefiledetailstofile.caption
+msgid "Save all shown columns to file"
+msgstr "Сохранить содержимое всех колонок в файл"
 
 #: tfrmmain.actsaveselection.caption
 msgid "Sa&ve Selection"
@@ -3223,7 +3239,7 @@ msgstr "Удалить"
 #: tfrmmain.tbedit.caption
 msgctxt "TFRMMAIN.TBEDIT.CAPTION"
 msgid "Edit"
-msgstr "Редактировать"
+msgstr "Изменить"
 
 #: tfrmmain.tbpaste.caption
 msgctxt "TFRMMAIN.TBPASTE.CAPTION"
@@ -3257,7 +3273,7 @@ msgstr ""
 
 #: tfrmmaincommandsdlg.cbselectallcategorydefault.caption
 msgid "Select all categories by default"
-msgstr "Выбрать все категории по умолчанию"
+msgstr "По умолчанию выбрать все категории"
 
 #: tfrmmaincommandsdlg.gbselection.caption
 msgid "Selection:"
@@ -3428,34 +3444,10 @@ msgstr "Качество сжатия JPEG"
 msgid "Width :"
 msgstr "Ширина:"
 
-#: tfrmmodview.rbbmp.caption
-msgid "BMP"
-msgstr "BMP"
-
-#: tfrmmodview.rbico.caption
-msgid "ICO"
-msgstr "ICO"
-
-#: tfrmmodview.rbjpg.caption
-msgid "JPG"
-msgstr "JPG"
-
-#: tfrmmodview.rbpng.caption
-msgid "PNG"
-msgstr "PNG"
-
-#: tfrmmodview.rbpnm.caption
-msgid "PNM"
-msgstr "PNM"
-
 #: tfrmmodview.teheight.text
 msgctxt "tfrmmodview.teheight.text"
 msgid "Height"
 msgstr "Высота"
-
-#: tfrmmodview.tequality.text
-msgid "80"
-msgstr "80"
 
 #: tfrmmodview.tewidth.text
 msgctxt "TFRMMODVIEW.TEWIDTH.TEXT"
@@ -4211,9 +4203,113 @@ msgstr "Фиксированное число колонок"
 msgid "Fixed columns width"
 msgstr "Фиксированная ширина колонок"
 
+#: tfrmoptionscolors.cbbusegradientind.caption
+msgid "Use &Gradient Indicator"
+msgstr "Использовать &градиентный индикатор"
+
+#: tfrmoptionscolors.dbbinarymode.caption
+msgctxt "tfrmoptionscolors.dbbinarymode.caption"
+msgid "Binary Mode"
+msgstr "Бинарный режим"
+
+#: tfrmoptionscolors.dbbookmode.caption
+msgid "Book Mode"
+msgstr "Режим \"Книга\""
+
+#: tfrmoptionscolors.dbimagemode.caption
+msgid "Image Mode"
+msgstr "Режим изображения"
+
+#: tfrmoptionscolors.dbtextmode.caption
+msgid "Text Mode"
+msgstr "Текстовый режим"
+
+#: tfrmoptionscolors.lbladded.caption
+msgid "Added:"
+msgstr "Добавлено:"
+
+#: tfrmoptionscolors.lblbookbackground.caption
+msgctxt "tfrmoptionscolors.lblbookbackground.caption"
+msgid "Background:"
+msgstr "Фон:"
+
+#: tfrmoptionscolors.lblbooktext.caption
+msgctxt "tfrmoptionscolors.lblbooktext.caption"
+msgid "Text:"
+msgstr "Текст:"
+
+#: tfrmoptionscolors.lblcategory.caption
+msgid "Category:"
+msgstr "Категория:"
+
+#: tfrmoptionscolors.lbldeleted.caption
+msgid "Deleted:"
+msgstr "Удалено:"
+
+#: tfrmoptionscolors.lblerror.caption
+msgid "Error:"
+msgstr "Ошибка:"
+
+#: tfrmoptionscolors.lblimagebackground1.caption
+msgid "Background 1:"
+msgstr "Фон 1:"
+
+#: tfrmoptionscolors.lblimagebackground2.caption
+msgctxt "tfrmoptionscolors.lblimagebackground2.caption"
+msgid "Background 2:"
+msgstr "Фон 2:"
+
+#: tfrmoptionscolors.lblindbackcolor.caption
+msgid "In&dicator Back Color:"
+msgstr "Цвет фона &индикатора:"
+
+#: tfrmoptionscolors.lblindcolor.caption
+msgid "&Indicator Fore Color:"
+msgstr "&Цвет индикатора:"
+
+#: tfrmoptionscolors.lblindthresholdcolor.caption
+msgctxt "tfrmoptionscolors.lblindthresholdcolor.caption"
+msgid "Indicator &Threshold Color:"
+msgstr "Цвет &предела индикатора:"
+
+#: tfrmoptionscolors.lblinformation.caption
+msgid "Information:"
+msgstr "Информационное сообщение:"
+
+#: tfrmoptionscolors.lblleft.caption
+msgid "Left:"
+msgstr "Слева:"
+
+#: tfrmoptionscolors.lblmodified.caption
+msgctxt "tfrmoptionscolors.lblmodified.caption"
+msgid "Modified:"
+msgstr "Изменено:"
+
+#: tfrmoptionscolors.lblmodifiedbinary.caption
+msgctxt "tfrmoptionscolors.lblmodifiedbinary.caption"
+msgid "Modified:"
+msgstr "Изменено:"
+
+#: tfrmoptionscolors.lblright.caption
+msgid "Right:"
+msgstr "Справа:"
+
+#: tfrmoptionscolors.lblsuccess.caption
+msgctxt "tfrmoptionscolors.lblsuccess.caption"
+msgid "Success:"
+msgstr "Успешная операция:"
+
+#: tfrmoptionscolors.lblunknown.caption
+msgid "Unknown:"
+msgstr "Неизвестно:"
+
 #: tfrmoptionscolors.rgdarkmode.caption
-msgid "Dark mode"
-msgstr "Тёмный режим"
+msgid "State"
+msgstr "Состояние"
+
+#: tfrmoptionscolumnsview.cbcolumnstitlelikevalues.caption
+msgid "Column titles alignment &like values"
+msgstr "&Выравнивать заголовки как значения"
 
 #: tfrmoptionscolumnsview.cbcuttexttocolwidth.caption
 msgctxt "TFRMOPTIONSCOLUMNSVIEW.CBCUTTEXTTOCOLWIDTH.CAPTION"
@@ -4824,7 +4920,7 @@ msgstr "Диалог выбора &каталога"
 #: tfrmoptionsdirectoryhotlist.actaddcopyofentry.caption
 msgctxt "tfrmoptionsdirectoryhotlist.actaddcopyofentry.caption"
 msgid "Add a copy of the selected entry"
-msgstr "Добавить копию выделенного элемента"
+msgstr "Добавить копию выделенной записи"
 
 #: tfrmoptionsdirectoryhotlist.actaddselectionsfromframe.caption
 msgid "Add current &selected or active directories of active frame"
@@ -4851,7 +4947,7 @@ msgstr "Свернуть все"
 
 #: tfrmoptionsdirectoryhotlist.actcollapseitem.caption
 msgid "Collapse item"
-msgstr "Свернуть элемент"
+msgstr "Свернуть ветку"
 
 #: tfrmoptionsdirectoryhotlist.actcut.caption
 msgid "Cut selection of entries"
@@ -4859,44 +4955,44 @@ msgstr "Вырезать выделенные"
 
 #: tfrmoptionsdirectoryhotlist.actdeleteall.caption
 msgid "Delete all!"
-msgstr "Удалить все!"
+msgstr "Удалить всё!"
 
 #: tfrmoptionsdirectoryhotlist.actdeleteselecteditem.caption
 msgctxt "tfrmoptionsdirectoryhotlist.actdeleteselecteditem.caption"
 msgid "Delete selected item"
-msgstr "Удалить выделенный элемент"
+msgstr "Удалить выделенное"
 
 #: tfrmoptionsdirectoryhotlist.actdeletesubmenuandelem.caption
 msgid "Delete sub-menu and all its elements"
-msgstr "Удалить подменю и все его элементы"
+msgstr "Удалить подменю и всё его содержимое"
 
 #: tfrmoptionsdirectoryhotlist.actdeletesubmenukeepelem.caption
 msgid "Delete just sub-menu but keep elements"
-msgstr "Удалить подменю, но оставить все его элементы"
+msgstr "Удалить подменю, но оставить его содержимое"
 
 #: tfrmoptionsdirectoryhotlist.actexpanditem.caption
 msgid "Expand item"
-msgstr "Развернуть элемент"
+msgstr "Развернуть ветку"
 
 #: tfrmoptionsdirectoryhotlist.actfocustreewindow.caption
 msgid "Focus tree window"
-msgstr "Фокус на дерево элементов"
+msgstr "Фокус на дерево"
 
 #: tfrmoptionsdirectoryhotlist.actgotofirstitem.caption
 msgid "Goto first item"
-msgstr "Перейти к первому элементу"
+msgstr "Перейти к первому пункту"
 
 #: tfrmoptionsdirectoryhotlist.actgotolastitem.caption
 msgid "Goto last item"
-msgstr "Перейти к последнему элементу"
+msgstr "Перейти к последнему пункту"
 
 #: tfrmoptionsdirectoryhotlist.actgotonextitem.caption
 msgid "Go to next item"
-msgstr "Перейти к следующему элементу"
+msgstr "Перейти к следующему пункту"
 
 #: tfrmoptionsdirectoryhotlist.actgotopreviousitem.caption
 msgid "Go to previous item"
-msgstr "Перейти к предыдущему элементу"
+msgstr "Перейти к предыдущему пункту"
 
 #: tfrmoptionsdirectoryhotlist.actinsertactiveframedir.caption
 msgid "Insert directory of the &active frame"
@@ -4912,7 +5008,7 @@ msgstr "Диалог выбора &каталога"
 
 #: tfrmoptionsdirectoryhotlist.actinsertcopyofentry.caption
 msgid "Insert a copy of the selected entry"
-msgstr "Вставить копию выделенного элемента"
+msgstr "Вставить копию выделенной записи"
 
 #: tfrmoptionsdirectoryhotlist.actinsertselectionsfromframe.caption
 msgid "Insert current &selected or active directories of active frame"
@@ -5071,7 +5167,7 @@ msgstr "&Целевой путь:"
 #: tfrmoptionsdirectoryhotlist.micurrentlevelofitemonly.caption
 msgctxt "tfrmoptionsdirectoryhotlist.micurrentlevelofitemonly.caption"
 msgid "...current le&vel of item(s) selected only"
-msgstr "...текущий &уровень элемента(ов), только выделенные"
+msgstr "...только текущий &уровень выделенного"
 
 #: tfrmoptionsdirectoryhotlist.midetectifpathexist.caption
 msgctxt "tfrmoptionsdirectoryhotlist.midetectifpathexist.caption"
@@ -5125,11 +5221,11 @@ msgstr "&Навигация..."
 
 #: tfrmoptionsdirectoryhotlist.mirestorebackuphotlist.caption
 msgid "&Restore a backup of Directory Hotlist"
-msgstr "&Восстановить избранные каталоги из резервной копии"
+msgstr "&Восстановить из резервной копии"
 
 #: tfrmoptionsdirectoryhotlist.misavebackuphotlist.caption
 msgid "&Save a backup of current Directory Hotlist"
-msgstr "&Сохранить резервную копию избранных каталогов"
+msgstr "&Сохранить резервную копию"
 
 #: tfrmoptionsdirectoryhotlist.misearchandreplace.caption
 msgctxt "tfrmoptionsdirectoryhotlist.misearchandreplace.caption"
@@ -5144,7 +5240,7 @@ msgstr "...все, от А до &Я!"
 #: tfrmoptionsdirectoryhotlist.misortsinglegroup.caption
 msgctxt "tfrmoptionsdirectoryhotlist.misortsinglegroup.caption"
 msgid "...single &group of item(s) only"
-msgstr "...только &одну группу элементов"
+msgstr "...только записи &одной группы"
 
 #: tfrmoptionsdirectoryhotlist.misortsinglesubmenu.caption
 msgctxt "tfrmoptionsdirectoryhotlist.misortsinglesubmenu.caption"
@@ -5210,11 +5306,11 @@ msgstr "Предлагать все поддерживаемые форматы,
 
 #: tfrmoptionsdragdrop.cbdraganddropsaveunicodetextinuft8.caption
 msgid "When saving Unicode text, save it in UTF8 format (will be UTF16 otherwise)"
-msgstr "При сохранении текста в Unicode сохранять в кодировке UTF-8 (иначе будет UTF-16 LE)"
+msgstr "При сохранении текста в Unicode использовать UTF-8 (иначе будет UTF-16 LE)"
 
 #: tfrmoptionsdragdrop.cbdraganddroptextautofilename.caption
 msgid "When dropping text, generate filename automatically (otherwise will prompt the user)"
-msgstr "При перетаскивании текста генерировать имя файла автоматически (иначе будет спрашивать)"
+msgstr "Генерировать имя файла автоматически (иначе будет спрашивать)"
 
 #: tfrmoptionsdragdrop.cbshowconfirmationdialog.caption
 msgid "&Show confirmation dialog after drop"
@@ -5234,7 +5330,7 @@ msgstr "(если наиболее предпочтительный не под�
 
 #: tfrmoptionsdragdrop.lblwarningforaskformat.caption
 msgid "(will not work with some source application, so try to uncheck if problem)"
-msgstr "(не будет работать с некоторыми приложениями, поэтому если есть проблемы, то попробуйте снять галочку)"
+msgstr "(не будет работать с некоторыми приложениями, попробуйте отключить, если есть проблемы)"
 
 #: tfrmoptionsdriveslistbutton.cbshowfilesystem.caption
 msgid "Show &file system"
@@ -5259,6 +5355,14 @@ msgstr "Автоматический отступ"
 #: tfrmoptionseditor.chkautoindent.hint
 msgid "Allows to indent the caret, when new line is created with <Enter>, with the same amount of leading white space as the preceding line"
 msgstr "При нажатии клавиши Enter новая строка будет создана с тем же отступом, что и у предыдущей"
+
+#: tfrmoptionseditor.chkgroupundo.caption
+msgid "Group Undo"
+msgstr "Групповая отмена"
+
+#: tfrmoptionseditor.chkgroupundo.hint
+msgid "All continuous changes of the same type will be processed in one call instead of undoing/redoing each one"
+msgstr ""
 
 #: tfrmoptionseditor.chkrightedge.caption
 msgid "Right margin:"
@@ -5565,7 +5669,7 @@ msgstr "Свернуть все"
 #: tfrmoptionsfavoritetabs.micurrentlevelofitemonly.caption
 msgctxt "tfrmoptionsfavoritetabs.micurrentlevelofitemonly.caption"
 msgid "...current level of item(s) selected only"
-msgstr "...текущий уровень элемента(ов), только выделенные"
+msgstr "...только текущий уровень выделенного"
 
 #: tfrmoptionsfavoritetabs.micutselection.caption
 msgctxt "tfrmoptionsfavoritetabs.micutselection.caption"
@@ -5575,27 +5679,27 @@ msgstr "Вырезать"
 #: tfrmoptionsfavoritetabs.mideleteallfavoritetabs.caption
 msgctxt "tfrmoptionsfavoritetabs.mideleteallfavoritetabs.caption"
 msgid "delete all!"
-msgstr "удалить все!"
+msgstr "Удалить всё!"
 
 #: tfrmoptionsfavoritetabs.mideletecompletesubmenu.caption
 msgctxt "tfrmoptionsfavoritetabs.mideletecompletesubmenu.caption"
 msgid "sub-menu and all its elements"
-msgstr "подменю и все его элементы"
+msgstr "Удалить подменю и всё его содержимое"
 
 #: tfrmoptionsfavoritetabs.mideletejustsubmenu.caption
 msgctxt "tfrmoptionsfavoritetabs.mideletejustsubmenu.caption"
 msgid "just sub-menu but keep elements"
-msgstr "только подменю без элементов"
+msgstr "Удалить подменю, но оставить его содержимое"
 
 #: tfrmoptionsfavoritetabs.mideleteselectedentry.caption
 msgctxt "tfrmoptionsfavoritetabs.mideleteselectedentry.caption"
 msgid "selected item"
-msgstr "выделенный элемент"
+msgstr "Удалить выделенное"
 
 #: tfrmoptionsfavoritetabs.mideleteselectedentry2.caption
 msgctxt "tfrmoptionsfavoritetabs.mideleteselectedentry2.caption"
 msgid "Delete selected item"
-msgstr "Удалить выделенный элемент"
+msgstr "Удалить выделенное"
 
 #: tfrmoptionsfavoritetabs.miexporttolegacytabsfile.caption
 msgid "Export selection to legacy .tab file(s)"
@@ -5654,12 +5758,12 @@ msgstr "...все, от А до Я!"
 #: tfrmoptionsfavoritetabs.misortsinglegroup.caption
 msgctxt "tfrmoptionsfavoritetabs.misortsinglegroup.caption"
 msgid "...single group of item(s) only"
-msgstr "...только одну группу элементов"
+msgstr "...только записи одной группы"
 
 #: tfrmoptionsfavoritetabs.misortsinglegroup2.caption
 msgctxt "tfrmoptionsfavoritetabs.misortsinglegroup2.caption"
 msgid "Sort single group of item(s) only"
-msgstr "Сортировать только одну группу элементов"
+msgstr "Сортировать только записи одной группы"
 
 #: tfrmoptionsfavoritetabs.misortsinglesubmenu.caption
 msgctxt "tfrmoptionsfavoritetabs.misortsinglesubmenu.caption"
@@ -5708,7 +5812,7 @@ msgstr "&Вниз"
 #: tfrmoptionsfileassoc.btneditext.caption
 msgctxt "tfrmoptionsfileassoc.btneditext.caption"
 msgid "Edi&t"
-msgstr "&Редактировать"
+msgstr "&Изменить"
 
 #: tfrmoptionsfileassoc.btninsertact.caption
 msgctxt "tfrmoptionsfileassoc.btninsertact.caption"
@@ -5748,7 +5852,7 @@ msgstr "Уда&лить"
 #: tfrmoptionsfileassoc.btnrenametype.caption
 msgctxt "tfrmoptionsfileassoc.btnrenametype.caption"
 msgid "R&ename"
-msgstr "Пере&именовать"
+msgstr "Пе&реименовать"
 
 #: tfrmoptionsfileassoc.btnstartpathpathhelper.hint
 msgctxt "tfrmoptionsfileassoc.btnstartpathpathhelper.hint"
@@ -5912,6 +6016,10 @@ msgstr "Нажмите здесь для смены значка"
 msgid "Apply current settings to all current configured filenames and paths"
 msgstr "Применить настройки ко всем именам файлов и путям"
 
+#: tfrmoptionsfileassocextra.cbdefaultcontextactions.caption
+msgid "Default context actions (View/Edit)"
+msgstr "Контекстные действия по умолчанию (просмотр/редактирование)"
+
 #: tfrmoptionsfileassocextra.cbexecuteviashell.caption
 msgctxt "tfrmoptionsfileassocextra.cbexecuteviashell.caption"
 msgid "Execute via shell"
@@ -6072,61 +6180,6 @@ msgctxt "TFRMOPTIONSFILEOPERATIONS.LBLWIPEPASSNUMBER.CAPTION"
 msgid "&Number of wipe passes:"
 msgstr "Число перезаписе&й при стирании (Wipe):"
 
-#: tfrmoptionsfilepanelscolors.btnbackcolor.caption
-msgctxt "TFRMOPTIONSFILEPANELSCOLORS.BTNBACKCOLOR.CAPTION"
-msgid ">>"
-msgstr ">>"
-
-#: tfrmoptionsfilepanelscolors.btnbackcolor2.caption
-msgctxt "TFRMOPTIONSFILEPANELSCOLORS.BTNBACKCOLOR2.CAPTION"
-msgid ">>"
-msgstr ">>"
-
-#: tfrmoptionsfilepanelscolors.btncursorbordercolor.caption
-msgctxt "tfrmoptionsfilepanelscolors.btncursorbordercolor.caption"
-msgid ">>"
-msgstr ">>"
-
-#: tfrmoptionsfilepanelscolors.btncursorcolor.caption
-msgctxt "TFRMOPTIONSFILEPANELSCOLORS.BTNCURSORCOLOR.CAPTION"
-msgid ">>"
-msgstr ">>"
-
-#: tfrmoptionsfilepanelscolors.btncursortext.caption
-msgctxt "TFRMOPTIONSFILEPANELSCOLORS.BTNCURSORTEXT.CAPTION"
-msgid ">>"
-msgstr ">>"
-
-#: tfrmoptionsfilepanelscolors.btnforecolor.caption
-msgctxt "TFRMOPTIONSFILEPANELSCOLORS.BTNFORECOLOR.CAPTION"
-msgid ">>"
-msgstr ">>"
-
-#: tfrmoptionsfilepanelscolors.btninactivecursorcolor.caption
-msgctxt "tfrmoptionsfilepanelscolors.btninactivecursorcolor.caption"
-msgid ">>"
-msgstr ">>"
-
-#: tfrmoptionsfilepanelscolors.btninactivemarkcolor.caption
-msgctxt "tfrmoptionsfilepanelscolors.btninactivemarkcolor.caption"
-msgid ">>"
-msgstr ">>"
-
-#: tfrmoptionsfilepanelscolors.btnindbackcolor.caption
-msgctxt "TFRMOPTIONSFILEPANELSCOLORS.BTNINDBACKCOLOR.CAPTION"
-msgid ">>"
-msgstr ">>"
-
-#: tfrmoptionsfilepanelscolors.btnindcolor.caption
-msgctxt "TFRMOPTIONSFILEPANELSCOLORS.BTNINDCOLOR.CAPTION"
-msgid ">>"
-msgstr ">>"
-
-#: tfrmoptionsfilepanelscolors.btnmarkcolor.caption
-msgctxt "TFRMOPTIONSFILEPANELSCOLORS.BTNMARKCOLOR.CAPTION"
-msgid ">>"
-msgstr ">>"
-
 #: tfrmoptionsfilepanelscolors.btnresettodcdefault.caption
 msgid "Reset to DC default"
 msgstr "Сбросить на умолчания DC"
@@ -6140,10 +6193,6 @@ msgstr "Разрешить наложение цвета"
 msgctxt "TFRMOPTIONSFILEPANELSCOLORS.CBBUSEFRAMECURSOR.CAPTION"
 msgid "Use &Frame Cursor"
 msgstr "К&урсор-рамка"
-
-#: tfrmoptionsfilepanelscolors.cbbusegradientind.caption
-msgid "Use &Gradient Indicator"
-msgstr "Использовать &градиентный индикатор"
 
 #: tfrmoptionsfilepanelscolors.cbbuseinactiveselcolor.caption
 msgid "Use Inactive Sel Color"
@@ -6159,10 +6208,9 @@ msgctxt "tfrmoptionsfilepanelscolors.cbusecursorborder.caption"
 msgid "Cursor border"
 msgstr "Рамка вокруг курсора"
 
-#: tfrmoptionsfilepanelscolors.dbfreespaceindicator.caption
-msgctxt "TFRMOPTIONSFILEPANELSCOLORS.DBFREESPACEINDICATOR.CAPTION"
-msgid "Drive Free Space Indicator"
-msgstr "Индикатор свободного места"
+#: tfrmoptionsfilepanelscolors.dbcurrentpath.caption
+msgid "Current Path"
+msgstr "Текущий путь"
 
 #: tfrmoptionsfilepanelscolors.lblbackgroundcolor.caption
 msgctxt "TFRMOPTIONSFILEPANELSCOLORS.LBLBACKGROUNDCOLOR.CAPTION"
@@ -6196,21 +6244,31 @@ msgstr "Неактивное выделение:"
 
 #: tfrmoptionsfilepanelscolors.lblinactivepanelbrightness.caption
 msgctxt "TFRMOPTIONSFILEPANELSCOLORS.LBLINACTIVEPANELBRIGHTNESS.CAPTION"
-msgid "&Brightness level of inactive panel"
-msgstr "Уровень &яркости неактивной панели"
-
-#: tfrmoptionsfilepanelscolors.lblindbackcolor.caption
-msgid "In&dicator Back Color:"
-msgstr "Цвет фона &индикатора:"
-
-#: tfrmoptionsfilepanelscolors.lblindcolor.caption
-msgid "&Indicator Fore Color:"
-msgstr "&Цвет индикатора:"
+msgid "&Brightness level of inactive panel:"
+msgstr "Уровень &яркости неактивной панели:"
 
 #: tfrmoptionsfilepanelscolors.lblmarkcolor.caption
 msgctxt "TFRMOPTIONSFILEPANELSCOLORS.LBLMARKCOLOR.CAPTION"
 msgid "&Mark Color:"
 msgstr "&Выделение:"
+
+#: tfrmoptionsfilepanelscolors.lblpathactiveback.caption
+msgctxt "tfrmoptionsfilepanelscolors.lblpathactiveback.caption"
+msgid "Background:"
+msgstr "Фон:"
+
+#: tfrmoptionsfilepanelscolors.lblpathactivetext.caption
+msgctxt "tfrmoptionsfilepanelscolors.lblpathactivetext.caption"
+msgid "Text Color:"
+msgstr "Текст:"
+
+#: tfrmoptionsfilepanelscolors.lblpathinactiveback.caption
+msgid "Inactive Background:"
+msgstr "Фон (неактивная):"
+
+#: tfrmoptionsfilepanelscolors.lblpathinactivetext.caption
+msgid "Inactive Text Color:"
+msgstr "Текст (неактивная):"
 
 #: tfrmoptionsfilepanelscolors.lblpreview.caption
 msgid "Below is a preview. You may move cursor, select file and get immediately an actual look and feel of the various settings."
@@ -6427,11 +6485,6 @@ msgctxt "TFRMOPTIONSFILETYPESCOLORS.BTNAPPLYCATEGORY.CAPTION"
 msgid "A&pply"
 msgstr "П&рименить"
 
-#: tfrmoptionsfiletypescolors.btncategorycolor.caption
-msgctxt "TFRMOPTIONSFILETYPESCOLORS.BTNCATEGORYCOLOR.CAPTION"
-msgid ">>"
-msgstr ">>"
-
 #: tfrmoptionsfiletypescolors.btndeletecategory.caption
 msgctxt "TFRMOPTIONSFILETYPESCOLORS.BTNDELETECATEGORY.CAPTION"
 msgid "D&elete"
@@ -6495,7 +6548,7 @@ msgstr "&Удалить"
 #: tfrmoptionshotkeys.actedithotkey.caption
 msgctxt "tfrmoptionshotkeys.actedithotkey.caption"
 msgid "&Edit hotkey"
-msgstr "&Редактировать"
+msgstr "&Изменить"
 
 #: tfrmoptionshotkeys.actnextcategory.caption
 msgid "Next category"
@@ -7558,7 +7611,7 @@ msgstr "&Удалить"
 #: tfrmoptionstoolbarbase.btnedithotkey.caption
 msgctxt "tfrmoptionstoolbarbase.btnedithotkey.caption"
 msgid "Edit hot&key"
-msgstr "&Редактировать"
+msgstr "&Изменить"
 
 #: tfrmoptionstoolbarbase.btninsertbutton.caption
 msgctxt "tfrmoptionstoolbarbase.btninsertbutton.caption"
@@ -7742,7 +7795,7 @@ msgstr "Наивысшая панель инструментов..."
 
 #: tfrmoptionstoolbarbase.miexporttoptobackup.caption
 msgid "Save a backup of Toolbar"
-msgstr "Сохранить резервную копию панели инструментов"
+msgstr "Сохранить резервную копию"
 
 #: tfrmoptionstoolbarbase.miexporttoptodcbar.caption
 msgctxt "tfrmoptionstoolbarbase.miexporttoptodcbar.caption"
@@ -7772,22 +7825,22 @@ msgstr "в файл \"wincmd.ini\" TC (удалить существующий)"
 #: tfrmoptionstoolbarbase.miexternalcommandaftercurrent.caption
 msgctxt "tfrmoptionstoolbarbase.miexternalcommandaftercurrent.caption"
 msgid "just after current selection"
-msgstr "сразу после выбранного"
+msgstr "после выбранного"
 
 #: tfrmoptionstoolbarbase.miexternalcommandfirstelement.caption
 msgctxt "tfrmoptionstoolbarbase.miexternalcommandfirstelement.caption"
 msgid "as first element"
-msgstr "как первый элемент"
+msgstr "в начало"
 
 #: tfrmoptionstoolbarbase.miexternalcommandlastelement.caption
 msgctxt "tfrmoptionstoolbarbase.miexternalcommandlastelement.caption"
 msgid "as last element"
-msgstr "как последний элемент"
+msgstr "в конец"
 
 #: tfrmoptionstoolbarbase.miexternalcommandpriorcurrent.caption
 msgctxt "tfrmoptionstoolbarbase.miexternalcommandpriorcurrent.caption"
 msgid "just prior current selection"
-msgstr "сразу перед выбранным"
+msgstr "перед выбранным"
 
 #: tfrmoptionstoolbarbase.miimport.caption
 msgctxt "tfrmoptionstoolbarbase.miimport.caption"
@@ -7796,7 +7849,7 @@ msgstr "Импорт..."
 
 #: tfrmoptionstoolbarbase.miimportbackup.caption
 msgid "Restore a backup of Toolbar"
-msgstr "Восстановить панель инструментов из резервной копии"
+msgstr "Восстановить из резервной копии"
 
 #: tfrmoptionstoolbarbase.miimportbackupaddcurrent.caption
 msgctxt "tfrmoptionstoolbarbase.miimportbackupaddcurrent.caption"
@@ -7913,22 +7966,22 @@ msgstr "заменить наивысшую панель инструменто�
 #: tfrmoptionstoolbarbase.miinternalcommandaftercurrent.caption
 msgctxt "tfrmoptionstoolbarbase.miinternalcommandaftercurrent.caption"
 msgid "just after current selection"
-msgstr "сразу после выбранного"
+msgstr "после выбранного"
 
 #: tfrmoptionstoolbarbase.miinternalcommandfirstelement.caption
 msgctxt "tfrmoptionstoolbarbase.miinternalcommandfirstelement.caption"
 msgid "as first element"
-msgstr "как первый элемент"
+msgstr "в начало"
 
 #: tfrmoptionstoolbarbase.miinternalcommandlastelement.caption
 msgctxt "tfrmoptionstoolbarbase.miinternalcommandlastelement.caption"
 msgid "as last element"
-msgstr "как последний элемент"
+msgstr "в конец"
 
 #: tfrmoptionstoolbarbase.miinternalcommandpriorcurrent.caption
 msgctxt "tfrmoptionstoolbarbase.miinternalcommandpriorcurrent.caption"
 msgid "just prior current selection"
-msgstr "сразу перед выбранным"
+msgstr "перед выбранным"
 
 #: tfrmoptionstoolbarbase.misearchandreplace.caption
 msgctxt "tfrmoptionstoolbarbase.misearchandreplace.caption"
@@ -7938,22 +7991,22 @@ msgstr "Найти и заменить..."
 #: tfrmoptionstoolbarbase.miseparatoraftercurrent.caption
 msgctxt "tfrmoptionstoolbarbase.miseparatoraftercurrent.caption"
 msgid "just after current selection"
-msgstr "сразу после выбранного"
+msgstr "после выбранного"
 
 #: tfrmoptionstoolbarbase.miseparatorfirstitem.caption
 msgctxt "tfrmoptionstoolbarbase.miseparatorfirstitem.caption"
 msgid "as first element"
-msgstr "как первый элемент"
+msgstr "в начало"
 
 #: tfrmoptionstoolbarbase.miseparatorlastelement.caption
 msgctxt "tfrmoptionstoolbarbase.miseparatorlastelement.caption"
 msgid "as last element"
-msgstr "как последний элемент"
+msgstr "в конец"
 
 #: tfrmoptionstoolbarbase.miseparatorpriorcurrent.caption
 msgctxt "tfrmoptionstoolbarbase.miseparatorpriorcurrent.caption"
 msgid "just prior current selection"
-msgstr "сразу перед выбранным"
+msgstr "перед выбранным"
 
 #: tfrmoptionstoolbarbase.misrcrplallofall.caption
 msgid "in all of all the above..."
@@ -7978,22 +8031,22 @@ msgstr "во всех путях запуска..."
 #: tfrmoptionstoolbarbase.misubtoolbaraftercurrent.caption
 msgctxt "tfrmoptionstoolbarbase.misubtoolbaraftercurrent.caption"
 msgid "just after current selection"
-msgstr "сразу после выбранного"
+msgstr "после выбранного"
 
 #: tfrmoptionstoolbarbase.misubtoolbarfirstelement.caption
 msgctxt "tfrmoptionstoolbarbase.misubtoolbarfirstelement.caption"
 msgid "as first element"
-msgstr "как первый элемент"
+msgstr "в начало"
 
 #: tfrmoptionstoolbarbase.misubtoolbarlastelement.caption
 msgctxt "tfrmoptionstoolbarbase.misubtoolbarlastelement.caption"
 msgid "as last element"
-msgstr "как последний элемент"
+msgstr "в конец"
 
 #: tfrmoptionstoolbarbase.misubtoolbarpriorcurrent.caption
 msgctxt "tfrmoptionstoolbarbase.misubtoolbarpriorcurrent.caption"
 msgid "just prior current selection"
-msgstr "сразу перед выбранным"
+msgstr "перед выбранным"
 
 #: tfrmoptionstoolbarbase.rbseparator.caption
 msgid "Separator"
@@ -8243,66 +8296,6 @@ msgctxt "tfrmoptionstreeviewmenucolor.btfont.caption"
 msgid "..."
 msgstr "..."
 
-#: tfrmoptionstreeviewmenucolor.btnbackgroundcolor.caption
-msgctxt "tfrmoptionstreeviewmenucolor.btnbackgroundcolor.caption"
-msgid ">>"
-msgstr ">>"
-
-#: tfrmoptionstreeviewmenucolor.btncursorcolor.caption
-msgctxt "tfrmoptionstreeviewmenucolor.btncursorcolor.caption"
-msgid ">>"
-msgstr ">>"
-
-#: tfrmoptionstreeviewmenucolor.btnfoundtextcolor.caption
-msgctxt "tfrmoptionstreeviewmenucolor.btnfoundtextcolor.caption"
-msgid ">>"
-msgstr ">>"
-
-#: tfrmoptionstreeviewmenucolor.btnfoundtextundercursor.caption
-msgctxt "tfrmoptionstreeviewmenucolor.btnfoundtextundercursor.caption"
-msgid ">>"
-msgstr ">>"
-
-#: tfrmoptionstreeviewmenucolor.btnnormaltextcolor.caption
-msgctxt "tfrmoptionstreeviewmenucolor.btnnormaltextcolor.caption"
-msgid ">>"
-msgstr ">>"
-
-#: tfrmoptionstreeviewmenucolor.btnnormaltextundercursor.caption
-msgctxt "tfrmoptionstreeviewmenucolor.btnnormaltextundercursor.caption"
-msgid ">>"
-msgstr ">>"
-
-#: tfrmoptionstreeviewmenucolor.btnsecondarytextcolor.caption
-msgctxt "tfrmoptionstreeviewmenucolor.btnsecondarytextcolor.caption"
-msgid ">>"
-msgstr ">>"
-
-#: tfrmoptionstreeviewmenucolor.btnsecondarytextundercursor.caption
-msgctxt "tfrmoptionstreeviewmenucolor.btnsecondarytextundercursor.caption"
-msgid ">>"
-msgstr ">>"
-
-#: tfrmoptionstreeviewmenucolor.btnshortcutcolor.caption
-msgctxt "tfrmoptionstreeviewmenucolor.btnshortcutcolor.caption"
-msgid ">>"
-msgstr ">>"
-
-#: tfrmoptionstreeviewmenucolor.btnshortcutundercursor.caption
-msgctxt "tfrmoptionstreeviewmenucolor.btnshortcutundercursor.caption"
-msgid ">>"
-msgstr ">>"
-
-#: tfrmoptionstreeviewmenucolor.btnunselectabletextcolor.caption
-msgctxt "tfrmoptionstreeviewmenucolor.btnunselectabletextcolor.caption"
-msgid ">>"
-msgstr ">>"
-
-#: tfrmoptionstreeviewmenucolor.btnunselectableundercursor.caption
-msgctxt "tfrmoptionstreeviewmenucolor.btnunselectableundercursor.caption"
-msgid ">>"
-msgstr ">>"
-
 #: tfrmoptionstreeviewmenucolor.cbkusagekeyboardshortcut.caption
 msgid "Use and display keyboard shortcut for choosing items"
 msgstr "Использовать и показывать сочетания клавиш для выбора пунктов"
@@ -8371,40 +8364,14 @@ msgstr "Невыделяемый текст под курсором:"
 msgid "Change color on left and you'll see here a preview of what your Tree View Menus will look likes with this sample."
 msgstr "Измените цвета слева, и вы увидите, как будет выглядеть ваше древовидное меню."
 
-#: tfrmoptionsviewer.btnbackviewercolor.caption
-msgctxt "TFRMOPTIONSVIEWER.BTNBACKVIEWERCOLOR.CAPTION"
-msgid ">>"
-msgstr ">>"
-
-#: tfrmoptionsviewer.btnfontviewercolor.caption
-msgctxt "TFRMOPTIONSVIEWER.BTNFONTVIEWERCOLOR.CAPTION"
-msgid ">>"
-msgstr ">>"
-
-#: tfrmoptionsviewer.gbviewerbookmode.caption
-msgctxt "TFRMOPTIONSVIEWER.GBVIEWERBOOKMODE.CAPTION"
-msgid "Viewer Book Mode"
-msgstr "Режим просмотра \"Книга\""
-
-#: tfrmoptionsviewer.gbviewerexample.caption
-msgctxt "TFRMOPTIONSVIEWER.GBVIEWEREXAMPLE.CAPTION"
-msgid "Example"
-msgstr "Пример"
-
-#: tfrmoptionsviewer.lblbackgroundcolorviewerbook.caption
-msgctxt "TFRMOPTIONSVIEWER.LBLBACKGROUNDCOLORVIEWERBOOK.CAPTION"
-msgid "&Background color in book viewer"
-msgstr "&Цвет фона     "
-
-#: tfrmoptionsviewer.lblfontcolorviewerbook.caption
-msgctxt "TFRMOPTIONSVIEWER.LBLFONTCOLORVIEWERBOOK.CAPTION"
-msgid "&Font color in book viewer"
-msgstr "Цвет &текста"
+#: tfrmoptionsviewer.gbinternalviewer.caption
+msgid "Internal viewer options"
+msgstr "Опции встроенной программы просмотра"
 
 #: tfrmoptionsviewer.lblnumbercolumnsviewer.caption
 msgctxt "TFRMOPTIONSVIEWER.LBLNUMBERCOLUMNSVIEWER.CAPTION"
 msgid "&Number of columns in book viewer"
-msgstr "&Кол-во колонок"
+msgstr "&Количество колонок в режиме \"Книга\""
 
 #: tfrmpackdlg.btnconfig.caption
 msgctxt "TFRMPACKDLG.BTNCONFIG.CAPTION"
@@ -8833,10 +8800,12 @@ msgid "Hidden"
 msgstr "Скрытый"
 
 #: tfrmsetfileproperties.chklastaccesstime.caption
+msgctxt "tfrmsetfileproperties.chklastaccesstime.caption"
 msgid "Accessed:"
 msgstr "Открыт:"
 
 #: tfrmsetfileproperties.chklastwritetime.caption
+msgctxt "tfrmsetfileproperties.chklastwritetime.caption"
 msgid "Modified:"
 msgstr "Изменён:"
 
@@ -9147,7 +9116,7 @@ msgstr "Закрыть"
 #: tfrmsyncdirsdlg.btncompare.caption
 msgctxt "tfrmsyncdirsdlg.btncompare.caption"
 msgid "Compare"
-msgstr "Сравнить"
+msgstr "&Сравнить"
 
 #: tfrmsyncdirsdlg.btnsearchtemplate.hint
 msgctxt "tfrmsyncdirsdlg.btnsearchtemplate.hint"
@@ -9174,7 +9143,7 @@ msgstr "&асимметрично"
 
 #: tfrmsyncdirsdlg.chkbycontent.caption
 msgid "by content"
-msgstr "&по содержимому"
+msgstr "по сод&ержимому"
 
 #: tfrmsyncdirsdlg.chkignoredate.caption
 msgid "ignore date"
@@ -9319,11 +9288,11 @@ msgstr "Поиск с акцентами и лигатурами"
 
 #: tfrmtreeviewmenu.pminotshowwholebranchifmatch.caption
 msgid "Don't show the branch content \"just\" because the searched string is found in the branche name"
-msgstr "Если строка найдена в имени ветви, то не показывать содержимое ветви"
+msgstr "Если строка найдена только в имени ветки, то не показывать её"
 
 #: tfrmtreeviewmenu.pmishowwholebranchifmatch.caption
 msgid "If searched string is found in a branch name, show the whole branch even if elements don't match"
-msgstr "Если строка найдена в имени ветви, то показать всю ветвь, даже если элементы не соответствуют"
+msgstr "Если строка найдена только в имени ветки, то показать ветку и всё её содержимое"
 
 #: tfrmtreeviewmenu.tbcancelandquit.hint
 msgid "Close Tree View Menu"
@@ -9526,6 +9495,16 @@ msgctxt "tfrmviewer.actfullscreen.caption"
 msgid "Full Screen"
 msgstr "Развернуть на весь экран"
 
+#: tfrmviewer.actgotoline.caption
+msgctxt "tfrmviewer.actgotoline.caption"
+msgid "Goto Line..."
+msgstr "Перейти к строке..."
+
+#: tfrmviewer.actgotoline.hint
+msgctxt "tfrmviewer.actgotoline.hint"
+msgid "Goto Line"
+msgstr "Переход к строке"
+
 #: tfrmviewer.actimagecenter.caption
 msgctxt "tfrmviewer.actimagecenter.caption"
 msgid "Center"
@@ -9683,6 +9662,10 @@ msgstr "Показать как текст с &разрывами строк"
 #: tfrmviewer.actshowcaret.caption
 msgid "Show text c&ursor"
 msgstr "Показывать текстовый к&урсор"
+
+#: tfrmviewer.actshowcode.caption
+msgid "Code"
+msgstr "Код"
 
 #: tfrmviewer.actshowgraphics.caption
 msgctxt "tfrmviewer.actshowgraphics.caption"
@@ -9860,11 +9843,6 @@ msgstr "Скриншот"
 msgctxt "TFRMVIEWER.MIVIEW.CAPTION"
 msgid "&View"
 msgstr "&Вид"
-
-#: tfrmviewer.pmiselectall.caption
-msgctxt "TFRMVIEWER.PMISELECTALL.CAPTION"
-msgid "Select All"
-msgstr "Выделить &всё"
 
 #: tfrmviewoperations.btnstartpause.caption
 msgctxt "tfrmviewoperations.btnstartpause.caption"
@@ -10114,7 +10092,7 @@ msgid ""
 "Could you make it available and press \"OK\" when ready,\n"
 "or press \"CANCEL\" to continue without it?"
 msgstr ""
-"Файл с контрольной суммой поможет объединить файлы, но не был найден:\n"
+"Файл с контрольной суммой помогает проверить объединение файлов, но не был найден:\n"
 "%s\n"
 "\n"
 "Вы можете сделать его доступным и нажать \"OK\", когда будете готовы,\n"
@@ -10161,6 +10139,7 @@ msgid "Read error:"
 msgstr "Ошибка чтения:"
 
 #: ulng.rschecksumverifysuccess
+msgctxt "ulng.rschecksumverifysuccess"
 msgid "Success:"
 msgstr "Успешно:"
 
@@ -10259,6 +10238,10 @@ msgstr "Подтверждение командной строки и парам
 msgid "Copy (%d) %s"
 msgstr "Копия (%d) %s"
 
+#: ulng.rsdarkmode
+msgid "Dark mode"
+msgstr "Тёмный режим"
+
 #: ulng.rsdarkmodeoptions
 msgid "Auto;Enabled;Disabled"
 msgstr "Авто;Включён;Отключён"
@@ -10310,11 +10293,11 @@ msgstr ""
 
 #: ulng.rsdefaultsuffixdroppedtextunicodeutf16filename
 msgid "_DroppedUnicodeUTF16text"
-msgstr ""
+msgstr "_DroppedUTF16text"
 
 #: ulng.rsdefaultsuffixdroppedtextunicodeutf8filename
 msgid "_DroppedUnicodeUTF8text"
-msgstr ""
+msgstr "_DroppedUTF8text"
 
 #: ulng.rsdiffadds
 msgid " Adds: "
@@ -10522,6 +10505,11 @@ msgstr "Скорость %s/с, осталось времени %s"
 #: ulng.rsdraganddroptextformat
 msgid "Rich Text Format;HTML Format;Unicode Format;Simple Text Format"
 msgstr "Формат RTF;Формат HTML;Текст в Unicode;Простой текст"
+
+#: ulng.rsdrivefreespaceindicator
+msgctxt "TFRMOPTIONSFILEPANELSCOLORS.DBFREESPACEINDICATOR.CAPTION"
+msgid "Drive Free Space Indicator"
+msgstr "Индикатор свободного места"
 
 #: ulng.rsdrivenolabel
 msgid "<no label>"
@@ -11195,7 +11183,9 @@ msgstr "Не удалось удалить каталог %s"
 #: ulng.rsmsgcannotoverwritedirectory
 #, object-pascal-format
 msgid "Cannot overwrite directory \"%s\" with non-directory \"%s\""
-msgstr "Невозможно перезаписать каталог \"%s\" файлом, не являющимся каталогом \"%s\""
+msgstr ""
+"Невозможно перезаписать каталог \"%s\"\n"
+"файлом \"%s\""
 
 #: ulng.rsmsgchdirfailed
 #, object-pascal-format
@@ -11214,6 +11204,11 @@ msgstr "Вкладка (%s) заблокирована! Закрыть?"
 #: ulng.rsmsgcofirmuserparam
 msgid "Confirmation of parameter"
 msgstr "Подтверждение параметра"
+
+#: ulng.rsmsgcommandnotfound
+#, object-pascal-format
+msgid "Command not found! (%s)"
+msgstr "Команда не найдена! (%s)"
 
 #: ulng.rsmsgconfirmquit
 msgid "Are you sure you want to quit?"
@@ -11258,17 +11253,17 @@ msgstr "Удалить частично скопированный файл?"
 #: ulng.rsmsgdelfldr
 #, object-pascal-format
 msgid "Delete %d selected files/directories?"
-msgstr "Удалить %d выбранных файлов/каталогов?"
+msgstr "Удалить выбранные файлы/каталоги (%d шт.)?"
 
 #: ulng.rsmsgdelfldrt
 #, object-pascal-format
 msgid "Delete %d selected files/directories into trash can?"
-msgstr "Удалить %d выбранных файлов/каталогов в корзину?"
+msgstr "Удалить выбранные файлы/каталоги (%d шт.) в корзину?"
 
 #: ulng.rsmsgdelsel
 #, object-pascal-format
 msgid "Delete selected \"%s\"?"
-msgstr "Удалить выбранный \"%s\"?"
+msgstr "Удалить \"%s\"?"
 
 #: ulng.rsmsgdelselt
 #, object-pascal-format
@@ -11575,7 +11570,9 @@ msgstr ""
 #: ulng.rsmsgfilereadonly
 #, object-pascal-format
 msgid "File %s is marked as read-only/hidden/system. Delete it?"
-msgstr "Файл %s помечен как доступный только для чтения/скрытый/системный. Удалить?"
+msgstr ""
+"Файл %s\n"
+"помечен как доступный только для чтения/скрытый/системный. Удалить?"
 
 #: ulng.rsmsgfilereloadwarning
 msgid "Are you sure you want to reload the current file and lose the changes?"
@@ -11787,8 +11784,8 @@ msgid ""
 "Do you want to delete all elements inside the sub-menu [%s]?\n"
 "Answering NO will delete only menu delimiters but will keep element inside sub-menu."
 msgstr ""
-"Хотите удалить все элементы внутри подменю [%s]?\n"
-"Ответ НЕТ удалит только разделители меню и оставит элементы внутри подменю."
+"Хотите удалить всё содержимое подменю [%s]?\n"
+"Ответ НЕТ удалит только разделители меню, оставив содержимое."
 
 #: ulng.rsmsghotdirwheretosave
 msgid "Enter location and filename where to save a Directory Hotlist file"
@@ -12379,7 +12376,7 @@ msgstr ""
 
 #: ulng.rsmulrenautorename
 msgid "Do auto-rename to \"name (1).ext\", \"name (2).ext\" etc.?"
-msgstr "Автоматически переименовывать в \"name (1).ext\", \"name (2).ext\" и т.д.?"
+msgstr "Автоматически переименовывать в \"имя (1).тип\", \"имя (2).тип\" и т.д.?"
 
 #: ulng.rsmulrencounter
 msgctxt "ulng.rsmulrencounter"
@@ -13131,7 +13128,7 @@ msgstr "Описание"
 #: ulng.rsopthotkeysedithotkey
 #, object-pascal-format
 msgid "Edit hotkey for %s"
-msgstr "Редактировать горячую клавишу для %s"
+msgstr "Изменить горячую клавишу для %s"
 
 #: ulng.rsopthotkeysfixparameter
 msgid "Fix parameter"
@@ -13684,6 +13681,10 @@ msgstr "Файл"
 msgctxt "ulng.rspropsfolder"
 msgid "Directory"
 msgstr "Каталог"
+
+#: ulng.rspropsmultipletypes
+msgid "Multiple types"
+msgstr "Несколько типов"
 
 #: ulng.rspropsnmdpipe
 msgid "Named pipe"

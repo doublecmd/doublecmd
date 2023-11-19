@@ -21,7 +21,7 @@
   <Range Name="Root" Attributes="-2147483640,-2147483643;False:False." Style="" CaseSensitive="True"
          Delimiters="!&quot;#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^`{|}~">
     <Rule/>
-    <Keywords Name="Keywords" Attributes="32768,16777215;False:True." Style="">
+    <Keywords Name="Keywords" Attributes="32768,$80000005;False:True." Style="">
       <Word Value="abstract"/>
       <Word Value="as"/>
       <Word Value="base"/>
@@ -86,7 +86,7 @@
       <Word Value="volatile"/>
       <Word Value="while"/>
     </Keywords>
-    <Keywords Name="Contextual keywords" Attributes="32768,16777215;False:True." Style="">
+    <Keywords Name="Contextual keywords" Attributes="32768,$80000005;False:True." Style="">
       <Word Value="add"/>
       <Word Value="and"/>
       <Word Value="alias"/>
@@ -125,7 +125,7 @@
       <Word Value="with"/>
       <Word Value="yield"/>
     </Keywords>
-    <Keywords Name="Data types" Attributes="16711680,16777215;False:True." Style="">
+    <Keywords Name="Data types" Attributes="16711680,$80000005;False:True." Style="">
       <Word Value="bool"/>
       <Word Value="byte"/>
       <Word Value="char"/>
@@ -155,7 +155,7 @@
       <Word Value="object"/>
       <Word Value="string"/>
     </Keywords>
-    <Keywords Name=".NET Data types" Attributes="32896,16777215;False:True." Style="">
+    <Keywords Name=".NET Data types" Attributes="32896,$80000005;False:True." Style="">
       <Word Value="Boolean"/>
       <Word Value="Byte"/>
       <Word Value="SByte"/>
@@ -174,7 +174,7 @@
       <Word Value="Object"/>
       <Word Value="String"/>
     </Keywords>
-    <Keywords Name="Preprocessor directives" Attributes="16711808,16777215;False:True." Style="">
+    <Keywords Name="Preprocessor directives" Attributes="16711808,$80000005;False:True." Style="">
       <Word Value="#nullable"/>
       <Word Value="#if"/>
       <Word Value="#elif"/>
@@ -189,7 +189,7 @@
       <Word Value="#line"/>
       <Word Value="#pragma"/>
     </Keywords>
-    <Keywords Name="Operators" Attributes="33023,16777215;False:True." Style="">
+    <Keywords Name="Operators" Attributes="33023,$80000005;False:True." Style="">
       <Word Value="+"/>
       <Word Value="-"/>
       <Word Value="*"/>
@@ -207,19 +207,19 @@
       <Word Value="("/>
       <Word Value=")"/>
     </Keywords>
-    <Range Name="Strings '..'" Attributes="255,16777215;False:True." Style=""
+    <Range Name="Strings '..'" Attributes="255,$80000005;False:True." Style=""
            Delimiters="!&quot;#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^`{|}~">
       <Rule OpenSymbol="'" CloseSymbol="'"/>
     </Range>
-    <Range Name="Strings &quot;..&quot;" Attributes="255,16777215;False:True." Style=""
+    <Range Name="Strings &quot;..&quot;" Attributes="255,$80000005;False:True." Style=""
            Delimiters="!&quot;#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^`{|}~">
       <Rule OpenSymbol="&quot;" CloseSymbol="&quot;"/>
     </Range>
-    <Range Name="Remarks //" Attributes="8388608,16777215;False:True." Style=""
+    <Range Name="Remarks //" Attributes="8388608,$80000005;False:True." Style=""
            Delimiters="!&quot;#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^`{|}~">
       <Rule OpenSymbol="//" CloseOnEol="True"/>
     </Range>
-    <Range Name="Remarks /*..*/" Attributes="8388608,16777215;False:True." Style=""
+    <Range Name="Remarks /*..*/" Attributes="8388608,$80000005;False:True." Style=""
            Delimiters="!&quot;#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^`{|}~">
       <Rule OpenSymbol="/*" CloseSymbol="*/"/>
     </Range>

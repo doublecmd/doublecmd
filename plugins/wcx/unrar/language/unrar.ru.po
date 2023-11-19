@@ -40,3 +40,25 @@ msgstr "OK"
 #: tdialogbox.lblargs.caption
 msgid "Additional parameters"
 msgstr "Дополнительные параметры"
+
+#: rarlng.rsdictlargewarning
+msgid "Large dictionary warning"
+msgstr ""
+
+#: rarlng.rsdictnotallowed
+#, object-pascal-format
+msgid "%u GB dictionary exceeds %u GB limit and needs more than %u GB memory to unpack."
+msgstr ""
+
+#: rarlng.rsmsgbuttoncancel
+msgid "&Cancel"
+msgstr "О&тмена"
+
+#: rarlng.rsmsgbuttonextract
+msgid "&Extract"
+msgstr ""
+
+#: rarlng.rsmsglibrarynotfound
+#, object-pascal-format
+msgid "Cannot load library %s! Please check your installation."
+msgstr ""

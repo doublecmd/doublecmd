@@ -57,12 +57,15 @@ interface
 
 uses
   SysUtils, Classes, Graphics, Controls, Forms, ExtCtrls, ComCtrls, LMessages,
-  LCLProc, Menus, Dialogs, ExtDlgs, StdCtrls, Buttons, ColorBox, Spin,
+  LCLProc, Menus, Dialogs, ExtDlgs, StdCtrls, Buttons, SynEditHighlighter,
   Grids, ActnList, viewercontrol, GifAnim, fFindView, WLXPlugin, uWLXModule,
   uFileSource, fModView, Types, uThumbnails, uFormCommands, uOSForms,Clipbrd,
-  uExifReader, KASStatusBar, uShowForm, uRegExpr, uRegExprU;
+  uExifReader, KASStatusBar, SynEdit, uShowForm, uRegExpr, uRegExprU,
+  Messages, fEditSearch, uMasks, uSearchTemplate;
 
 type
+
+  TEncodingMenu = (emViewer, emPlugin, emEditor);
 
   TViewerCopyMoveAction=(vcmaCopy,vcmaMove);
 
@@ -92,6 +95,7 @@ type
     actCopyToClipboardFormatted: TAction;
     actChangeEncoding: TAction;
     actAutoReload: TAction;
+    actShowCode: TAction;
     actUndo: TAction;
     actShowTransparency: TAction;
     actWrapText: TAction;
@@ -119,6 +123,7 @@ type
     actShowAsBin: TAction;
     actShowAsText: TAction;
     actPreview: TAction;
+    actGotoLine: TAction;
     actFindPrev: TAction;
     actFind: TAction;
     actSelectAll: TAction;
@@ -143,6 +148,7 @@ type
     DrawPreview: TDrawGrid;
     GifAnim: TGifAnim;
     memFolder: TMemo;
+    miCode: TMenuItem;
     miShowTransparency: TMenuItem;
     miWrapText: TMenuItem;
     miPen: TMenuItem;
@@ -173,6 +179,7 @@ type
     mi270: TMenuItem;
     mi180: TMenuItem;
     mi90: TMenuItem;
+    miGotoLine: TMenuItem;
     miSearchPrev: TMenuItem;
     miPrint: TMenuItem;
     miSearchNext: TMenuItem;
@@ -184,6 +191,8 @@ type
     pmiCopy: TMenuItem;
     pnlImage: TPanel;
     pnlText: TPanel;
+    pnlCode: TPanel;
+    SynEdit: TSynEdit;
     miDiv3: TMenuItem;
     miOffice: TMenuItem;
     miEncoding: TMenuItem;
@@ -311,6 +320,10 @@ type
     procedure FormDestroy(Sender: TObject);
     procedure miPaintClick(Sender:TObject);
     procedure miChangeEncodingClick(Sender:TObject);
+    procedure SynEditStatusChange(Sender: TObject; Changes: TSynStatusChanges);
+    procedure SynEditKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure SynEditMouseWheel(Sender: TObject; Shift: TShiftState;
+         WheelDelta: Integer; MousePos: TPoint; var Handled: Boolean);
     procedure ViewerControlMouseWheelDown(Sender: TObject; Shift: TShiftState;
       MousePos: TPoint; var Handled: Boolean);
     procedure ViewerControlMouseWheelUp(Sender: TObject; Shift: TShiftState;
@@ -320,6 +333,7 @@ type
     procedure UpdateImagePlacement;
 
   private
+    FFileName: String;
     FileList: TStringList;
     iActiveFile,
     tmpX, tmpY,
@@ -344,6 +358,7 @@ type
     FZoomFactor: Integer;
     FExif: TExifReader;
     FWindowState: TWindowState;
+    FElevate: TDuplicates;
 {$IF DEFINED(LCLWIN32)}
     FWindowBounds: TRect;
 {$ENDIF}
@@ -352,7 +367,10 @@ type
 
     FRegExp: TRegExprEx;
     FPluginEncoding: Integer;
-
+    //---------------------
+    FSynEditOriginalText: String;
+    FSearchOptions: TEditSearchOptions;
+    FHighlighter: TSynCustomHighlighter;
     //---------------------
     WlxPlugins: TWLXModuleList;
     FWlxModule: TWlxModule;
@@ -360,12 +378,15 @@ type
     //---------------------
     function GetListerRect: TRect;
     function CheckOffice(const sFileName: String): Boolean;
+    function CheckSynEdit(const sFileName: String; bForce: Boolean = False): Boolean;
     function CheckPlugins(const sFileName: String; bForce: Boolean = False): Boolean;
     function CheckGraphics(const sFileName:String):Boolean;
     function LoadGraphics(const sFileName:String): Boolean;
+    function LoadSynEdit(const sFileName: String): Boolean;
     procedure AdjustImageSize;
+    procedure DoSearchCode(bQuickSearch: Boolean; bSearchBackwards: Boolean);
     procedure DoSearch(bQuickSearch: Boolean; bSearchBackwards: Boolean);
-    procedure UpdateTextEncodingsMenu(APlugin: Boolean);
+    procedure UpdateTextEncodingsMenu(AType: TEncodingMenu);
     procedure MakeTextEncodingsMenu;
     procedure ActivatePanel(Panel: TPanel);
     procedure ReopenAsTextIfNeeded;
@@ -375,19 +396,24 @@ type
     procedure CutToImage;
     procedure Res(W, H: integer);
     procedure RedEyes;
+    procedure SynEditCaret;
     procedure ExitPluginMode;
     procedure DeleteCurrentFile;
+    procedure EnablePrint(AEnabled: Boolean);
     procedure EnableActions(AEnabled: Boolean);
     procedure SavingProperties(Sender: TObject);
+    procedure SetFileName(const AValue: String);
     procedure SaveImageAs (Var sExt: String; senderSave: boolean; Quality: integer);
     procedure ImagePaintBackground(ASender: TObject; ACanvas: TCanvas; ARect: TRect);
     procedure CreatePreview(FullPathToFile:string; index:integer; delete: boolean = false);
 
     property Commands: TFormCommands read FCommands implements IFormCommands;
+    property FileName: String write SetFileName;
 
   protected
     procedure WMCommand(var Message: TLMCommand); message LM_COMMAND;
     procedure WMSetFocus(var Message: TLMSetFocus); message LM_SETFOCUS;
+    procedure CMThemeChanged(var Message: TLMessage); message CM_THEMECHANGED;
 
   public
     constructor Create(TheOwner: TComponent; aWaitData: TWaitData; aQuickView: Boolean = False); overload;
@@ -446,6 +472,7 @@ type
     procedure cm_Find          (const Params: array of string);
     procedure cm_FindNext      (const Params: array of string);
     procedure cm_FindPrev      (const Params: array of string);
+    procedure cm_GotoLine      (const Params: array of string);
 
     procedure cm_Preview         (const Params: array of string);
     procedure cm_ShowAsText      (const Params: array of string);
@@ -459,6 +486,7 @@ type
     procedure cm_ShowPlugins     (const Params: array of string);
 
     procedure cm_ShowOffice      (const Params: array of string);
+    procedure cm_ShowCode        (const Params: array of string);
 
     procedure cm_ExitViewer      (const Params: array of string);
 
@@ -479,7 +507,8 @@ uses
   FileUtil, IntfGraphics, Math, uLng, uShowMsg, uGlobs, LCLType, LConvEncoding,
   DCClassesUtf8, uFindMmap, DCStrUtils, uDCUtils, LCLIntf, uDebug, uHotkeyManager,
   uConvEncoding, DCBasicTypes, DCOSUtils, uOSUtils, uFindByrMr, uFileViewWithGrid,
-  fPrintSetup, uFindFiles, uAdministrator, uOfficeXML
+  fPrintSetup, uFindFiles, uAdministrator, uOfficeXML, uHighlighterProcs, dmHigh,
+  SynEditTypes, uFile, uFileSystemFileSource
 {$IFDEF LCLGTK2}
   , uGraphics
 {$ENDIF}
@@ -657,7 +686,7 @@ begin
   FCommands := TFormCommands.Create(Self, actionList);
 
   FontOptionsToFont(gFonts[dcfMain], memFolder.Font);
-  memFolder.Color:= gBackColor;
+  memFolder.Color:= gColors.FilePanel^.BackColor;
 
   actShowCaret.Checked := gShowCaret;
   actWrapText.Checked := gViewerWrapText;
@@ -745,7 +774,7 @@ begin
       begin
         ActivatePanel(pnlFolder);
         memFolder.Clear;
-        memFolder.Font.Color:= gForeColor;
+        memFolder.Font.Color:= gColors.FilePanel^.ForeColor;
         memFolder.Lines.Add(rsPropsFolder + ': ');
         memFolder.Lines.Add(aFileName);
         memFolder.Lines.Add('');
@@ -757,12 +786,16 @@ begin
       ActivatePanel(pnlText);
       miOffice.Checked:= True;
     end
+    else if CheckSynEdit(aFileName) and LoadSynEdit(aFileName) then
+    begin
+      ActivatePanel(pnlCode);
+    end
     else begin
       ViewerControl.FileName := aFileName;
       ActivatePanel(pnlText)
     end;
 
-    Status.Panels[sbpFileName].Text:= aFileName;
+    FileName:= aFileName;
   finally
     Screen.EndWaitCursor;
   end;
@@ -776,8 +809,8 @@ begin
       if (FWlxModule.CallListLoadNext(Self.Handle, FileList[Index], PluginShowFlags) <> LISTPLUGIN_ERROR) then
       begin
         Status.Panels[sbpFileNr].Text:= Format('%d/%d', [Index + 1, FileList.Count]);
-        Status.Panels[sbpFileName].Text:= FileList[Index];
-        Caption:= ReplaceHome(FileList[Index]);
+        FileName:= FileList[Index];
+        Caption:= ReplaceHome(FFileName);
         iActiveFile := Index;
         Exit;
       end;
@@ -799,7 +832,7 @@ begin
       begin
         if CallListLoadNext(Self.Handle, aFileName, PluginShowFlags) <> LISTPLUGIN_ERROR then
         begin
-          Status.Panels[sbpFileName].Text:= aFileName;
+          FileName:= aFileName;
           Exit;
         end;
       end;
@@ -1238,6 +1271,17 @@ begin
   if bPlugin then FWlxModule.SetFocus;
 end;
 
+procedure TfrmViewer.CMThemeChanged(var Message: TLMessage);
+var
+  Highlighter: TSynCustomHighlighter;
+begin
+  if miCode.Checked then
+  begin
+    Highlighter:= TSynCustomHighlighter(dmHighl.SynHighlighterHashList.Data[SynEdit.Highlighter.LanguageName]);
+    if Assigned(Highlighter) then dmHighl.SetHighlighter(SynEdit, Highlighter);
+  end;
+end;
+
 procedure TfrmViewer.RedEyes;
 var
   tmp:TBitMap;
@@ -1304,6 +1348,15 @@ begin
   tmp.Free;
 end;
 
+procedure TfrmViewer.SynEditCaret;
+begin
+  if gShowCaret then
+    SynEdit.Options:= SynEdit.Options - [eoNoCaret]
+  else begin
+    SynEdit.Options:= SynEdit.Options + [eoNoCaret];
+  end;
+end;
+
 procedure TfrmViewer.DeleteCurrentFile;
 var
   OldIndex, NewIndex: Integer;
@@ -1337,6 +1390,14 @@ begin
   SplitterChangeBounds;
 end;
 
+procedure TfrmViewer.EnablePrint(AEnabled: Boolean);
+begin
+  actPrint.Enabled:= AEnabled;
+  actPrint.Visible:= AEnabled;
+  actPrintSetup.Enabled:= AEnabled;
+  actPrintSetup.Visible:= AEnabled;
+end;
+
 procedure TfrmViewer.EnableActions(AEnabled: Boolean);
 begin
   actSave.Enabled:= AEnabled;
@@ -1348,6 +1409,16 @@ end;
 procedure TfrmViewer.SavingProperties(Sender: TObject);
 begin
   if miFullScreen.Checked then SessionProperties:= EmptyStr;
+end;
+
+procedure TfrmViewer.SetFileName(const AValue: String);
+begin
+  if actAutoReload.Checked then
+    Status.Panels[sbpFileName].Text:= '* ' + AValue
+  else begin
+    Status.Panels[sbpFileName].Text:= AValue;
+  end;
+  FFileName:= AValue;
 end;
 
 procedure TfrmViewer.CutToImage;
@@ -1468,7 +1539,7 @@ begin
         ActivePlugin:= I;
         FWlxModule:= WlxModule;
         WlxModule.ResizeWindow(GetListerRect);
-        actPrint.Enabled:= WlxModule.CanPrint;
+        EnablePrint(WlxModule.CanPrint);
         // Set focus to plugin window
         if not bQuickView then WlxModule.SetFocus;
         Exit(True);
@@ -1489,7 +1560,7 @@ begin
   bPlugin:= False;
   FWlxModule:= nil;
   ActivePlugin:= -1;
-  actPrint.Enabled:= False;
+  EnablePrint(False);
 end;
 
 procedure TfrmViewer.ExitQuickView;
@@ -1508,10 +1579,10 @@ begin
   ViewerControl.Mode:= AMode;
   if ViewerControl.Mode = vcmBook then
   begin
-    with ViewerControl do
+    with ViewerControl, gColors.Viewer^ do
       begin
-        Color:= gBookBackgroundColor;
-        Font.Color:= gBookFontColor;
+        Color:= BookBackgroundColor;
+        Font.Color:= BookFontColor;
         ColCount:= gColCount;
         Position:= gTextPosition;
       end;
@@ -1616,8 +1687,8 @@ begin
   end;
 
   Image.Picture.Bitmap.LoadFromIntfImage(TargetImg);
-  FreeThenNil(SourceImg);
-  FreeThenNil(TargetImg);
+  FreeAndNil(SourceImg);
+  FreeAndNil(TargetImg);
   AdjustImageSize;
   CreateTmp;
 end;
@@ -1656,67 +1727,82 @@ begin
 
 
   Image.Picture.Bitmap.LoadFromIntfImage(TargetImg);
-  FreeThenNil(SourceImg);
-  FreeThenNil(TargetImg);
+  FreeAndNil(SourceImg);
+  FreeAndNil(TargetImg);
   AdjustImageSize;
   CreateTmp;
 end;
 
-
 procedure TfrmViewer.SaveImageAs(var sExt: String; senderSave: boolean; Quality: integer);
 var
-  sFileName: string;
-  ico : TIcon = nil;
-  jpg : TJpegImage = nil;
+  sFileName: String;
   fsFileStream: TFileStreamEx;
-  pnm : TPortableAnyMapGraphic = nil;
 begin
   if senderSave then
-    sFileName:= FileList.Strings[iActiveFile]
-  else
+  begin
+    sExt:= LowerCase(sExt);
+    sFileName:= FileList.Strings[iActiveFile];
+  end
+  else begin
+    with SavePictureDialog do
     begin
-      if not SavePictureDialog.Execute then Exit;
-      sFileName:= ChangeFileExt(SavePictureDialog.FileName, sExt);
+      FileName:= EmptyStr;
+      InitialDir:= ExtractFileDir(FileList.Strings[iActiveFile]);
+      if not Execute then Exit;
+      sExt:= ExtensionSeparator + GetFilterExt;
+      sFileName:= ChangeFileExt(FileName, sExt);
     end;
+
+    if (sExt = '.jpg') or (sExt = '.jpeg') then
+    begin
+      FModSizeDialog:= TfrmModView.Create(Self);
+      try
+        FModSizeDialog.pnlSize.Visible:= False;
+        FModSizeDialog.pnlCopyMoveFile.Visible:= False;
+        FModSizeDialog.pnlQuality.Visible:= True;
+        FModSizeDialog.Caption:= SavePictureDialog.Title;
+        if FModSizeDialog.ShowModal <> mrOk then Exit;
+        Quality:= FModSizeDialog.teQuality.Value;
+      finally
+        FreeAndNil(FModSizeDialog);
+      end;
+    end;
+  end;
 
   try
     fsFileStream:= TFileStreamEx.Create(sFileName, fmCreate);
     try
       if (sExt = '.jpg') or (sExt = '.jpeg') then
-        begin
-          jpg := TJpegImage.Create;
-          try
-            jpg.Assign(Image.Picture.Graphic);
-            jpg.CompressionQuality := Quality;
-            jpg.SaveToStream(fsFileStream);
-          finally
-            jpg.Free;
+      begin
+        with TJpegImage.Create do
+        try
+          // Special case
+          if Image.Picture.Graphic is TJPEGImage then
+          begin
+            LoadFromRawImage(Image.Picture.Jpeg.RawImage, False);
+          end
+          else begin
+            Assign(Image.Picture.Graphic);
           end;
-        end
-      else if sExt = '.ico' then
-        begin
-          ico := TIcon.Create;
-          try
-            ico.Assign(Image.Picture.Graphic);
-            ico.SaveToStream(fsFileStream);
-          finally
-            ico.Free;
-          end;
-        end
-      else if sExt = '.pnm' then
-        begin
-          pnm := TPortableAnyMapGraphic.Create;
-          try
-            pnm.Assign(Image.Picture.Graphic);
-            pnm.SaveToStream(fsFileStream);
-          finally
-            pnm.Free;
-          end;
-        end
-      else if (sExt = '.png') or (sExt = '.bmp') then
-        begin
-          Image.Picture.SaveToStreamWithFileExt(fsFileStream, sExt);
+          CompressionQuality := Quality;
+          SaveToStream(fsFileStream);
+        finally
+          Free;
         end;
+      end
+      else if sExt = '.ico' then
+      begin
+        with TIcon.Create do
+        try
+          Assign(Image.Picture.Graphic);
+          SaveToStream(fsFileStream);
+        finally
+          Free;
+        end;
+      end
+      else begin
+        Image.Picture.SaveToStreamWithFileExt(fsFileStream, sExt);
+      end;
     finally
       FreeAndNil(fsFileStream);
     end;
@@ -1732,10 +1818,13 @@ const
 var
   X, Y: Integer;
 begin
-  if gImageBackColor2 = clDefault then
-    ACanvas.Brush.Color:= ContrastColor(sboxImage.Color, 30)
-  else begin
-    ACanvas.Brush.Color:= gImageBackColor2;
+  with gColors.Viewer^ do
+  begin
+    if ImageBackColor2 = clDefault then
+      ACanvas.Brush.Color:= ContrastColor(sboxImage.Color, 30)
+    else begin
+      ACanvas.Brush.Color:= ImageBackColor2;
+    end;
   end;
 
   for Y:= 0 to (ARect.Height div CELL_SIZE) + 1 do
@@ -1822,7 +1911,12 @@ begin
       Screen.BeginWaitCursor;
       try
         ViewerControl.FileName := ViewerControl.FileName;
-        ActivatePanel(pnlText);
+        ViewerControl.Enabled := Self.Active;
+        try
+          ActivatePanel(pnlText);
+        finally
+          ViewerControl.Enabled := True;
+        end;
         FLastSearchPos := -1;
         ViewerControl.GoEnd;
       finally
@@ -2013,7 +2107,7 @@ begin
 
   sboxImage.DoubleBuffered := True;
   miStretch.Checked := gImageStretch;
-  sboxImage.Color := gImageBackColor1;
+  sboxImage.Color := gColors.Viewer^.ImageBackColor1;
   miStretchOnlyLarge.Checked := gImageStretchOnlyLarge;
   miCenter.Checked := gImageCenter;
   miPreview.Checked := gPreviewVisible;
@@ -2063,8 +2157,18 @@ begin
     pmTimeShow.Items.Add(MenuItem);
   end;
 
+  // SynEdit
+  FSearchOptions.Flags := [ssoEntireScope];
+
   HotMan.Register(pnlText ,'Text files');
   HotMan.Register(pnlImage,'Image files');
+
+  SavePictureDialog.Filter:= GraphicFilter(TPortableNetworkGraphic) + '|' +
+                             GraphicFilter(TBitmap) + '|' +
+                             GraphicFilter(TJPEGImage) + '|' +
+                             GraphicFilter(TIcon) + '|' +
+                             GraphicFilter(TPortableAnyMapGraphic);
+
 end;
 
 procedure TfrmViewer.FormKeyPress(Sender: TObject; var Key: Char);
@@ -2268,7 +2372,6 @@ begin
     HotMan.UnRegister(pnlImage);
   end;
 
-
   FreeAndNil(FFindDialog);
   HotMan.UnRegister(Self);
 end;
@@ -2283,7 +2386,7 @@ end;
 
 procedure TfrmViewer.ReopenAsTextIfNeeded;
 begin
-  if bImage or bAnimation or bPlugin or miPlugins.Checked or miOffice.Checked then
+  if bImage or bAnimation or bPlugin or miPlugins.Checked or miOffice.Checked or miCode.Checked then
   begin
     Image.Picture := nil;
     ViewerControl.FileName := FileList.Strings[iActiveFile];
@@ -2294,6 +2397,56 @@ end;
 procedure TfrmViewer.miChangeEncodingClick(Sender: TObject);
 begin
   cm_ChangeEncoding([(Sender as TMenuItem).Caption]);
+end;
+
+procedure TfrmViewer.SynEditStatusChange(Sender: TObject;
+  Changes: TSynStatusChanges);
+begin
+  Status.Panels[sbpPosition].Text:= Format('%d:%d', [SynEdit.CaretX, SynEdit.CaretY]);
+end;
+
+procedure TfrmViewer.SynEditKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  if (not gShowCaret) and (Key in [VK_UP, VK_DOWN, VK_PRIOR, VK_NEXT, VK_LEFT, VK_RIGHT]) then
+  begin
+    case Key of
+      VK_UP:    SynEdit.Perform(WM_VSCROLL, SB_LINEUP, 0);
+      VK_DOWN:  SynEdit.Perform(WM_VSCROLL, SB_LINEDOWN, 0);
+      VK_PRIOR: SynEdit.Perform(WM_VSCROLL, SB_PAGEUP, 0);
+      VK_NEXT:  SynEdit.Perform(WM_VSCROLL, SB_PAGEDOWN, 0);
+      VK_LEFT:  SynEdit.Perform(WM_HSCROLL, SB_LINELEFT, 0);
+      VK_RIGHT: SynEdit.Perform(WM_HSCROLL, SB_LINERIGHT, 0);
+    end;
+    Key:= 0;
+  end;
+end;
+
+procedure TfrmViewer.SynEditMouseWheel(Sender: TObject; Shift: TShiftState;
+  WheelDelta: Integer; MousePos: TPoint; var Handled: Boolean);
+var
+  ALine: Integer;
+begin
+  if (Shift = [ssCtrl]) then
+  begin
+    if (WheelDelta > 0) and (gFonts[dcfViewer].Size < gFonts[dcfViewer].MaxValue) then
+    begin
+      Handled:= True;
+      Inc(gFonts[dcfViewer].Size);
+    end
+    else if (WheelDelta < 0) and (gFonts[dcfViewer].Size > gFonts[dcfViewer].MinValue) then
+    begin
+      Handled:= True;
+      Dec(gFonts[dcfViewer].Size);
+    end;
+    if Handled then
+    begin
+      ALine:= SynEdit.TopLine;
+      FontOptionsToFont(gFonts[dcfViewer], SynEdit.Font);
+      SynEdit.TopLine:= ALine;
+      SynEdit.Refresh;
+    end;
+  end;
 end;
 
 procedure TfrmViewer.ViewerControlMouseWheelDown(Sender: TObject;
@@ -2403,6 +2556,43 @@ begin
   end;
 end;
 
+function TfrmViewer.CheckSynEdit(const sFileName: String; bForce: Boolean = False): Boolean;
+var
+  AFile: TFile;
+  ATemplate: TSearchTemplate;
+begin
+  if bForce then
+    Result:= True
+  else if (Length(gViewerSynEditMask) = 0) then
+    Result:= False
+  else if not IsMaskSearchTemplate(gViewerSynEditMask) then
+  begin
+    Result:= MatchesMaskList(sFileName, gViewerSynEditMask);
+  end
+  else
+  try
+    ATemplate:= gSearchTemplateList.TemplateByName[gViewerSynEditMask];
+    if (ATemplate = nil) then
+      Result:= False
+    else begin
+      AFile:= TFileSystemFileSource.CreateFileFromFile(sFileName);
+      try
+        Result:= ATemplate.CheckFile(AFile);
+      finally
+        AFile.Free;
+      end;
+    end;
+  except
+    Exit(False);
+  end;
+
+  if Result then
+  begin
+    FHighlighter:= GetHighlighterFromFileExt(dmHighl.SynHighlighterList, ExtractFileExt(sFileName));
+    Result:= Assigned(FHighlighter);
+  end;
+end;
+
 function TfrmViewer.LoadGraphics(const sFileName:String): Boolean;
 
   procedure UpdateToolbar(bImage: Boolean);
@@ -2504,6 +2694,130 @@ begin
       end;
     end;
   ImgEdit:= False;
+end;
+
+function TfrmViewer.LoadSynEdit(const sFileName: String): Boolean;
+var
+  Index: Integer;
+  sEncoding: String;
+  Buffer: AnsiString;
+  Reader: TFileStreamUAC;
+begin
+  if (SynEdit = nil) then
+  begin
+    SynEdit:= TSynEdit.Create(pnlCode);
+    SynEdit.Parent:= pnlCode;
+    SynEdit.Align:= alClient;
+    SynEdit.ReadOnly:= True;
+    SynEdit.PopupMenu:= pmEditMenu;
+    with SynEdit.Gutter.SeparatorPart() do
+    begin
+      MarkupInfo.Background:= clWindow;
+      MarkupInfo.Foreground:= clGrayText;
+    end;
+    SynEdit.Options:= gEditorSynEditOptions;
+    SynEdit.TabWidth := gEditorSynEditTabWidth;
+    SynEdit.RightEdge := gEditorSynEditRightEdge;
+    FontOptionsToFont(gFonts[dcfViewer], SynEdit.Font);
+    SynEdit.OnKeyDown:= @SynEditKeyDown;
+    SynEdit.OnMouseWheel:= @SynEditMouseWheel;
+    SynEdit.OnStatusChange:= @SynEditStatusChange;
+    SynEditCaret;
+  end;
+  dmHighl.SetHighlighter(SynEdit, FHighlighter);
+
+  PushPop(FElevate);
+  try
+    Result := False;
+    try
+      Reader := TFileStreamUAC.Create(sFileName, fmOpenRead or fmShareDenyNone);
+      try
+        SetLength(FSynEditOriginalText, Reader.Size);
+        Reader.Read(Pointer(FSynEditOriginalText)^, Length(FSynEditOriginalText));
+      finally
+        Reader.Free;
+      end;
+
+      Status.Panels[sbpTextEncoding].Text:= EmptyStr;
+      // Try to detect encoding by first 4 kb of text
+      Buffer := Copy(FSynEditOriginalText, 1, 4096);
+      sEncoding := NormalizeEncoding(DetectEncoding(Buffer));
+
+      for Index:= 0 to miEncoding.Count - 1 do
+      begin
+        if SameStr(miEncoding.Items[Index].Hint, sEncoding) then
+        begin
+          miEncoding.Items[Index].Checked:= True;
+          Status.Panels[sbpTextEncoding].Text := rsViewEncoding + ': ' + miEncoding.Items[Index].Caption;
+          Break;
+        end;
+      end;
+
+      // Convert encoding if needed
+      if sEncoding = EncodingUTF8 then
+        Buffer := FSynEditOriginalText
+      else begin
+        Buffer := ConvertEncoding(FSynEditOriginalText, sEncoding, EncodingUTF8);
+      end;
+
+      // Load text into editor
+      SynEdit.Lines.Text := Buffer;
+
+      // Add empty line if needed
+      if (Length(Buffer) > 0) and (Buffer[Length(Buffer)] in [#10, #13]) then
+        SynEdit.Lines.Add(EmptyStr);
+
+      Result := True;
+    except
+      // Ignore
+    end;
+  finally
+    PushPop(FElevate);
+  end;
+end;
+
+procedure TfrmViewer.DoSearchCode(bQuickSearch: Boolean;
+  bSearchBackwards: Boolean);
+var
+  Index: Integer;
+  Options: TTextSearchOptions;
+begin
+  for Index:= 0 to glsSearchHistory.Count - 1 do
+  begin
+    Options:= TTextSearchOptions(UInt32(UIntPtr(glsSearchHistory.Objects[Index])));
+
+    if (tsoHex in Options) then
+      Continue;
+
+    if (tsoMatchCase in Options) then
+      FSearchOptions.Flags += [ssoMatchCase];
+    if (tsoRegExpr in Options) then
+      FSearchOptions.Flags += [ssoRegExpr];
+
+    FSearchOptions.SearchText:= glsSearchHistory[Index];
+    Break;
+  end;
+
+  if (bQuickSearch and gFirstTextSearch) or (not bQuickSearch) then
+  begin
+    if bQuickSearch then
+    begin
+      if bSearchBackwards then
+        FSearchOptions.Flags += [ssoBackwards]
+      else begin
+        FSearchOptions.Flags -= [ssoBackwards];
+      end;
+    end;
+    ShowSearchReplaceDialog(Self, SynEdit, cbGrayed, FSearchOptions);
+  end
+  else begin
+    if bSearchBackwards then
+    begin
+     SynEdit.SelEnd := SynEdit.SelStart;
+    end;
+    DoSearchReplaceText(SynEdit, False, bSearchBackwards, FSearchOptions);
+    FSearchOptions.Flags -= [ssoEntireScope];
+  end;
 end;
 
 procedure TfrmViewer.DoSearch(bQuickSearch: Boolean; bSearchBackwards: Boolean);
@@ -2747,9 +3061,11 @@ begin
       begin
         mi:= TMenuItem.Create(miEncoding);
         mi.Caption:= EncodingsList[I];
+        mi.Hint:= NormalizeEncoding(mi.Caption);
         mi.AutoCheck:= True;
         mi.RadioItem:= True;
         mi.GroupIndex:= 1;
+        mi.Tag:= I;
         mi.OnClick:= @miChangeEncodingClick;
         if ViewerControl.EncodingName = EncodingsList[I] then
           mi.Checked := True;
@@ -2760,16 +3076,24 @@ begin
   end;
 end;
 
-procedure TfrmViewer.UpdateTextEncodingsMenu(APlugin: Boolean);
+procedure TfrmViewer.UpdateTextEncodingsMenu(AType: TEncodingMenu);
 var
   I: Integer;
   Encoding: TViewerEncoding;
 begin
-  if not APlugin then
+  if AType = emViewer then
   begin
     for I:= 0 to miEncoding.Count - 1 do
     begin
       miEncoding.Items[I].Visible:= True;
+    end;
+  end
+  else if AType = emEditor then
+  begin
+    for I:= 0 to miEncoding.Count - 1 do
+    begin
+      Encoding:= TViewerEncoding(I);
+      miEncoding.Items[I].Visible:= not (Encoding in [veAutoDetect, veUcs2le, veUcs2be, veUtf32le, veUtf32be]);
     end;
   end
   else begin
@@ -2796,6 +3120,7 @@ end;
 procedure TfrmViewer.ActivatePanel(Panel: TPanel);
 begin
   if Panel <> pnlText then pnlText.Hide;
+  if Panel <> pnlCode then pnlCode.Hide;
   if Panel <> pnlImage then pnlImage.Hide;
   if Panel <> pnlFolder then pnlFolder.Hide;
 
@@ -2806,8 +3131,18 @@ begin
     Status.Panels[sbpFileSize].Text:= EmptyStr;
     Status.Panels[sbpPluginName].Text:= FWlxModule.Name;
 
-    UpdateTextEncodingsMenu(True);
+    UpdateTextEncodingsMenu(emPlugin);
     Status.Panels[sbpTextEncoding].Text := rsViewEncoding + ': ' + ViewerControl.EncodingName;
+  end
+  else if Panel = pnlCode then
+  begin
+    miCode.Checked:= True;
+    UpdateTextEncodingsMenu(emEditor);
+
+    if (not bQuickView) and CanFocus and SynEdit.CanFocus then
+       SynEdit.SetFocus;
+
+    Status.Panels[sbpFileSize].Text:= IntToStr(SynEdit.Lines.Count);
   end
   else if Panel = pnlText then
   begin
@@ -2823,7 +3158,7 @@ begin
       vcmBook: miLookBook.Checked := True;
     end;
 
-    UpdateTextEncodingsMenu(False);
+    UpdateTextEncodingsMenu(emViewer);
     FRegExp.ChangeEncoding(ViewerControl.EncodingName);
     Status.Panels[sbpFileSize].Text:= cnvFormatFileSize(ViewerControl.FileSize) + ' (100 %)';
     Status.Panels[sbpTextEncoding].Text := rsViewEncoding + ': ' + ViewerControl.EncodingName;
@@ -2841,9 +3176,9 @@ begin
   bPlugin              := (Panel = nil);
   miPlugins.Checked    := (Panel = nil);
   miGraphics.Checked   := (Panel = pnlImage);
-  miEncoding.Visible   := (Panel = nil) or (Panel = pnlText);
+  miEncoding.Visible   := (Panel = nil) or (Panel = pnlText) or (Panel = pnlCode);
   miAutoReload.Visible := (Panel = pnlText);
-  miEdit.Visible       := (Panel = pnlText) or (Panel = nil);
+  miEdit.Visible       := (Panel = pnlText) or (Panel = pnlCode) or (Panel = nil);
   miImage.Visible      := (bImage or bPlugin);
   miRotate.Visible     := bImage;
   miZoomIn.Visible     := bImage;
@@ -2860,10 +3195,12 @@ begin
     miStretchOnlyLarge.Visible := bImage;
   end;
 
-  actShowCaret.Enabled := (Panel = pnlText);
+  actGotoLine.Enabled  := (Panel = pnlCode);
+  actShowCaret.Enabled := (Panel = pnlText) or (Panel = pnlCode);
   actWrapText.Enabled  := bPlugin or ((Panel = pnlText) and (ViewerControl.Mode in [vcmText, vcmWrap]));
 
-  pmiSelectAll.Visible     := (Panel = pnlText);
+  miGotoLine.Visible       := (Panel = pnlCode);
+  pmiSelectAll.Visible     := (Panel = pnlText) or (Panel = pnlCode);
   pmiCopyFormatted.Visible := (Panel = pnlText);
 
   if (Panel <> pnlText) and actAutoReload.Checked then
@@ -2886,6 +3223,7 @@ begin
   actAutoReload.Checked := not actAutoReload.Checked;
   if actAutoReload.Checked then ViewerControl.GoEnd;
   TimerReload.Enabled := actAutoReload.Checked;
+  FileName:= FFileName;
 end;
 
 procedure TfrmViewer.cm_LoadNextFile(const Params: array of string);
@@ -2974,7 +3312,7 @@ begin
     try
       CreatePreview(FileList.Strings[iActiveFile], iActiveFile, True);
       sExt:= ExtractFileExt(FileList.Strings[iActiveFile]);
-      SaveImageAs(sExt, True, 80);
+      SaveImageAs(sExt, True, gViewerJpegQuality);
       CreatePreview(FileList.Strings[iActiveFile], iActiveFile);
     finally
       DrawPreview.EndUpdate;
@@ -2988,25 +3326,13 @@ begin
 end;
 
 procedure TfrmViewer.cm_SaveAs(const Params: array of string);
+var
+  sExt: String;
 begin
   if bAnimation or bImage then
   begin
-    FModSizeDialog:= TfrmModView.Create(Self);
-    try
-      FModSizeDialog.pnlSize.Visible:=false;
-      FModSizeDialog.pnlCopyMoveFile.Visible :=false;
-      FModSizeDialog.pnlQuality.Visible:=true;
-      FModSizeDialog.Caption:= rsViewImageType;
-      if FModSizeDialog.ShowModal = mrOk then
-      begin
-        if StrToInt(FModSizeDialog.teQuality.Text)<=100 then
-          SaveImageAs(FModSizeDialog.sExt,false,StrToInt(FModSizeDialog.teQuality.Text))
-        else
-          msgError(rsViewBadQuality);
-      end
-    finally
-      FreeAndNil(FModSizeDialog);
-    end;
+    sExt:= EmptyStr;
+    SaveImageAs(sExt, False, gViewerJpegQuality);
   end;
 end;
 
@@ -3183,27 +3509,36 @@ begin
     begin
       MenuItem.Checked := True;
       Encoding:= NormalizeEncoding(Params[0]);
-      if bPlugin then
+      if miCode.Checked then
       begin
-        if (Encoding = EncodingAnsi) then
-          FPluginEncoding:= lcp_ansi
-        else if (Encoding = EncodingOem) then
-          FPluginEncoding:= lcp_ascii
-        else begin
-          FPluginEncoding:= 0;
+        SynEdit.Lines.Text:= ConvertEncoding(FSynEditOriginalText, Encoding, EncodingUTF8);
+        Status.Panels[sbpTextEncoding].Text := rsViewEncoding + ': ' + MenuItem.Caption;
+      end
+      else begin
+        if bPlugin then
+        begin
+          if (Encoding = EncodingAnsi) then
+            FPluginEncoding:= lcp_ansi
+          else if (Encoding = EncodingOem) then
+            FPluginEncoding:= lcp_ascii
+          else begin
+            FPluginEncoding:= 0;
+          end;
+          FWlxModule.CallListSendCommand(lc_newparams, PluginShowFlags);
         end;
-        FWlxModule.CallListSendCommand(lc_newparams, PluginShowFlags);
+        FRegExp.ChangeEncoding(Encoding);
+        ViewerControl.EncodingName := Encoding;
+        Status.Panels[sbpTextEncoding].Text := rsViewEncoding + ': ' + ViewerControl.EncodingName;
       end;
-      FRegExp.ChangeEncoding(Encoding);
-      ViewerControl.EncodingName := Encoding;
-      Status.Panels[sbpTextEncoding].Text := rsViewEncoding + ': ' + ViewerControl.EncodingName;
     end;
   end;
 end;
 
 procedure TfrmViewer.cm_CopyToClipboard(const Params: array of string);
 begin
-  if bPlugin then
+  if miCode.Checked then
+    SynEdit.CopyToClipboard
+  else if bPlugin then
    FWlxModule.CallListSendCommand(lc_copy, 0)
   else begin
     if (miGraphics.Checked)and(Image.Picture<>nil)and(Image.Picture.Bitmap<>nil)then
@@ -3224,17 +3559,24 @@ end;
 
 procedure TfrmViewer.cm_SelectAll(const Params: array of string);
 begin
-  if bPlugin then
+  if miCode.Checked then
+    SynEdit.SelectAll
+  else if bPlugin then
     FWlxModule.CallListSendCommand(lc_selectall, 0)
-  else
+  else begin
     ViewerControl.SelectAll;
+  end;
 end;
 
 procedure TfrmViewer.cm_Find(const Params: array of string);
 var
   bSearchBackwards: Boolean;
 begin
-  if not miGraphics.Checked then
+  if miCode.Checked then
+  begin
+    DoSearchCode(False, ssoBackwards in FSearchOptions.Flags);
+  end
+  else if not miGraphics.Checked then
   begin
     if (FFindDialog = nil) then
       bSearchBackwards:= False
@@ -3247,12 +3589,44 @@ end;
 
 procedure TfrmViewer.cm_FindNext(const Params: array of string);
 begin
-  if not miGraphics.Checked then DoSearch(True, False);
+  if miCode.Checked then
+  begin
+    DoSearchCode(True, False);
+  end
+  else if not miGraphics.Checked then
+  begin
+    DoSearch(True, False);
+  end;
 end;
 
 procedure TfrmViewer.cm_FindPrev(const Params: array of string);
 begin
-  if not miGraphics.Checked then DoSearch(True, True);
+  if miCode.Checked then
+  begin
+    DoSearchCode(True, True);
+  end
+  else if not miGraphics.Checked then
+  begin
+    DoSearch(True, True);
+  end;
+end;
+
+procedure TfrmViewer.cm_GotoLine(const Params: array of string);
+var
+  P: TPoint;
+  Value: String;
+  NewTopLine: Integer;
+begin
+  if ShowInputQuery(rsEditGotoLineTitle, rsEditGotoLineQuery, Value) then
+  begin
+    P.X := 1;
+    P.Y := StrToIntDef(Value, 1);
+    NewTopLine := P.Y - (SynEdit.LinesInWindow div 2);
+    if NewTopLine < 1 then NewTopLine:= 1;
+    SynEdit.CaretXY := P;
+    SynEdit.TopLine := NewTopLine;
+    SynEdit.SetFocus;
+  end;
 end;
 
 procedure TfrmViewer.cm_Preview(const Params: array of string);
@@ -3343,6 +3717,21 @@ begin
   end;
 end;
 
+procedure TfrmViewer.cm_ShowCode(const Params: array of string);
+begin
+  if CheckSynEdit(FileList.Strings[iActiveFile], True) then
+  begin
+    ExitPluginMode;
+    ViewerControl.FileName := ''; // unload current file if any is loaded
+    if LoadSynEdit(FileList.Strings[iActiveFile]) then
+      ActivatePanel(pnlCode)
+    else begin
+      ViewerControl.FileName := FileList.Strings[iActiveFile];
+      ActivatePanel(pnlText);
+    end;
+  end;
+end;
+
 procedure TfrmViewer.cm_ExitViewer(const Params: array of string);
 begin
   Close;
@@ -3356,11 +3745,14 @@ end;
 
 procedure TfrmViewer.cm_PrintSetup(const Params: array of string);
 begin
-  with TfrmPrintSetup.Create(Self) do
-  try
-    ShowModal;
-  finally
-    Free;
+  if bPlugin and actPrintSetup.Enabled then
+  begin
+    with TfrmPrintSetup.Create(Self) do
+    try
+      ShowModal;
+    finally
+      Free;
+    end;
   end;
 end;
 
@@ -3371,6 +3763,7 @@ begin
     gShowCaret:= not gShowCaret;
     actShowCaret.Checked:= gShowCaret;
     ViewerControl.ShowCaret:= gShowCaret;
+    if Assigned(SynEdit) then SynEditCaret;
   end;
 end;
 

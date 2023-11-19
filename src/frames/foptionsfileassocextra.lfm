@@ -28,27 +28,39 @@ inherited frmOptionsFileAssocExtra: TfrmOptionsFileAssocExtra
     AnchorSideTop.Control = cbExtendedContextMenu
     AnchorSideTop.Side = asrBottom
     Left = 6
-    Height = 124
+    Height = 147
     Top = 58
-    Width = 222
+    Width = 223
     AutoSize = True
     BorderSpacing.Top = 4
     Caption = 'Extended options items:'
     ChildSizing.LeftRightSpacing = 8
     ChildSizing.TopBottomSpacing = 8
-    ClientHeight = 104
-    ClientWidth = 218
+    ClientHeight = 127
+    ClientWidth = 219
     TabOrder = 1
-    object cbExecuteViaShell: TCheckBox
+    object cbDefaultContextActions: TCheckBox
       AnchorSideLeft.Control = gbExtendedContextMenuOptions
       AnchorSideTop.Control = gbExtendedContextMenuOptions
       Left = 8
       Height = 19
       Top = 8
-      Width = 105
+      Width = 203
+      BorderSpacing.Top = 4
+      Caption = 'Default context actions (View/Edit)'
+      TabOrder = 0
+    end
+    object cbExecuteViaShell: TCheckBox
+      AnchorSideLeft.Control = cbDefaultContextActions
+      AnchorSideTop.Control = cbDefaultContextActions
+      AnchorSideTop.Side = asrBottom
+      Left = 8
+      Height = 19
+      Top = 31
+      Width = 106
       BorderSpacing.Top = 4
       Caption = 'Execute via shell'
-      TabOrder = 0
+      TabOrder = 1
     end
     object cbOpenSystemWithTerminalClose: TCheckBox
       AnchorSideLeft.Control = cbExecuteViaShell
@@ -56,11 +68,11 @@ inherited frmOptionsFileAssocExtra: TfrmOptionsFileAssocExtra
       AnchorSideTop.Side = asrBottom
       Left = 8
       Height = 19
-      Top = 31
-      Width = 178
+      Top = 54
+      Width = 179
       BorderSpacing.Top = 4
       Caption = 'Execute via terminal and close'
-      TabOrder = 1
+      TabOrder = 2
     end
     object cbOpenSystemWithTerminalStayOpen: TCheckBox
       AnchorSideLeft.Control = cbExecuteViaShell
@@ -68,11 +80,11 @@ inherited frmOptionsFileAssocExtra: TfrmOptionsFileAssocExtra
       AnchorSideTop.Side = asrBottom
       Left = 8
       Height = 19
-      Top = 54
-      Width = 202
+      Top = 77
+      Width = 203
       BorderSpacing.Top = 4
       Caption = 'Execute via terminal and stay open'
-      TabOrder = 2
+      TabOrder = 3
     end
     object cbIncludeConfigFileAssoc: TCheckBox
       AnchorSideLeft.Control = cbExecuteViaShell
@@ -80,11 +92,11 @@ inherited frmOptionsFileAssocExtra: TfrmOptionsFileAssocExtra
       AnchorSideTop.Side = asrBottom
       Left = 8
       Height = 19
-      Top = 77
+      Top = 100
       Width = 175
       BorderSpacing.Top = 4
       Caption = 'File association configuration'
-      TabOrder = 3
+      TabOrder = 4
     end
   end
   object cbExtendedContextMenu: TCheckBox[2]
@@ -94,7 +106,7 @@ inherited frmOptionsFileAssocExtra: TfrmOptionsFileAssocExtra
     Left = 6
     Height = 19
     Top = 35
-    Width = 144
+    Width = 146
     BorderSpacing.Top = 10
     Caption = 'Extended context menu'
     OnChange = cbExtendedContextMenuChange
@@ -108,7 +120,7 @@ inherited frmOptionsFileAssocExtra: TfrmOptionsFileAssocExtra
     AnchorSideRight.Side = asrBottom
     Left = 6
     Height = 161
-    Top = 182
+    Top = 205
     Width = 925
     Anchors = [akTop, akLeft, akRight]
     AutoSize = True
@@ -289,7 +301,7 @@ inherited frmOptionsFileAssocExtra: TfrmOptionsFileAssocExtra
     end
   end
   object pmPathToBeRelativeToHelper: TPopupMenu[4]
-    left = 596
-    top = 140
+    Left = 596
+    Top = 140
   end
 end

@@ -228,7 +228,7 @@ end;
 destructor TMultiArcList.Destroy;
 begin
   Clear;
-  FreeThenNil(FList);
+  FreeAndNil(FList);
   inherited Destroy;
 end;
 
@@ -327,8 +327,8 @@ begin
     end;
     if FirstTime then AutoConfigure;
   finally
-    FreeThenNil(IniFile);
-    FreeThenNil(Sections);
+    FreeAndNil(IniFile);
+    FreeAndNil(Sections);
   end;
 end;
 

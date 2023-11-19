@@ -4,7 +4,7 @@ uses
 {$IFDEF UNIX}
   cthreads,
 {$ENDIF}
-  FPCAdds, SysUtils, DynLibs, UnRARFunc, RarFunc;
+  FPCAdds, SysUtils, DynLibs, UnRARFunc, RarFunc, RarLng;
 
 exports
   { Mandatory }

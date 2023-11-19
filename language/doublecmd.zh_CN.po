@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Double Commander 1.1.0 alpha\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-11-15 11:15+0300\n"
-"PO-Revision-Date: 2019-02-22 22:00+0800\n"
+"PO-Revision-Date: 2023-04-05 22:00+0800\n"
 "Last-Translator: iYoung <iyoung@126.com>\n"
 "Language-Team: Chinese <iyoung@126.com>\n"
 "Language: zh_CN\n"
@@ -34,15 +34,13 @@ msgstr "找到文件：%d（相同：%d，不同：%d，仅左侧有：%d，仅�
 
 #: fsyncdirsdlg.rslefttorightcopy
 #, object-pascal-format, fuzzy, badformat
-#| msgid "Left to Right: Copy %d files, total size: %d bytes"
 msgid "Left to Right: Copy %d files, total size: %s (%s)"
-msgstr "左侧到右侧：复制 %d 个文件，合计大小：%d 字节"
+msgstr "左侧到右侧：复制 %d 个文件，合计大小：%d (%s)"
 
 #: fsyncdirsdlg.rsrighttoleftcopy
 #, object-pascal-format, fuzzy, badformat
-#| msgid "Right to Left: Copy %d files, total size: %d bytes"
 msgid "Right to Left: Copy %d files, total size: %s (%s)"
-msgstr "右侧到左侧：复制 %d 个文件，合计大小：%d 字节"
+msgstr "右侧到左侧：复制 %d 个文件，合计大小：%d (%s)"
 
 #: tfilesystemcopymoveoperationoptionsui.btnsearchtemplate.hint
 msgid "Choose template..."
@@ -71,7 +69,7 @@ msgstr "复制日期/时间(&A)"
 
 #: tfilesystemcopymoveoperationoptionsui.cbcorrectlinks.caption
 msgid "Correct lin&ks"
-msgstr "纠正链接(&K)"
+msgstr "修正链接(&K)"
 
 #: tfilesystemcopymoveoperationoptionsui.cbdropreadonlyflag.caption
 msgid "Drop readonly fla&g"
@@ -84,11 +82,11 @@ msgstr "排除空文件夹(&X)"
 #: tfilesystemcopymoveoperationoptionsui.cbfollowlinks.caption
 msgctxt "tfilesystemcopymoveoperationoptionsui.cbfollowlinks.caption"
 msgid "Fo&llow links"
-msgstr "保留链接(&L)"
+msgstr "使用链接指向的目标文件(&L)"
 
 #: tfilesystemcopymoveoperationoptionsui.cbreservespace.caption
 msgid "&Reserve space"
-msgstr "保留空间(&R)"
+msgstr "预留空间(&R)"
 
 #: tfilesystemcopymoveoperationoptionsui.chkcopyonwrite.caption
 msgid "Copy on write"
@@ -171,7 +169,6 @@ msgid "Revision"
 msgstr "修订"
 
 #: tfrmabout.lbltitle.caption
-#, fuzzy
 msgctxt "tfrmabout.lbltitle.caption"
 msgid "Double Commander"
 msgstr "Double Commander"
@@ -325,11 +322,11 @@ msgstr "速度（MB/秒）"
 #: tfrmchecksumcalc.caption
 msgctxt "tfrmchecksumcalc.caption"
 msgid "Calculate checksum..."
-msgstr "计算校验和..."
+msgstr "计算校验码..."
 
 #: tfrmchecksumcalc.cbopenafterjobiscomplete.caption
 msgid "Open checksum file after job is completed"
-msgstr "任务完成后打开校验和文件"
+msgstr "任务完成后打开校验码文件"
 
 #: tfrmchecksumcalc.cbseparatefile.caption
 msgid "C&reate separate checksum file for each file"
@@ -337,7 +334,7 @@ msgstr "为每个文件分别创建 MD5/SHA1 文件(&R)"
 
 #: tfrmchecksumcalc.lblsaveto.caption
 msgid "&Save checksum file(s) to:"
-msgstr "保存校验和文件为(&S)："
+msgstr "保存校验码文件为(&S)："
 
 #: tfrmchecksumverify.btnclose.caption
 msgctxt "TFRMCHECKSUMVERIFY.BTNCLOSE.CAPTION"
@@ -347,7 +344,13 @@ msgstr "关闭(&C)"
 #: tfrmchecksumverify.caption
 msgctxt "tfrmchecksumverify.caption"
 msgid "Verify checksum..."
-msgstr "验证校验和..."
+msgstr "验证校验码..."
+
+#: tfrmchooseencoding.caption
+#, fuzzy
+msgctxt "tfrmchooseencoding.caption"
+msgid "Encoding"
+msgstr "编码"
 
 #: tfrmconnectionmanager.btnadd.caption
 msgctxt "tfrmconnectionmanager.btnadd.caption"
@@ -474,6 +477,7 @@ msgid "Auto Compare"
 msgstr "自动比较"
 
 #: tfrmdiffer.actbinarycompare.caption
+msgctxt "tfrmdiffer.actbinarycompare.caption"
 msgid "Binary Mode"
 msgstr "二进制模式"
 
@@ -533,7 +537,6 @@ msgid "Redo"
 msgstr "重做"
 
 #: tfrmdiffer.acteditredo.hint
-#, fuzzy
 msgctxt "tfrmdiffer.acteditredo.hint"
 msgid "Redo"
 msgstr "重做"
@@ -548,7 +551,6 @@ msgid "Undo"
 msgstr "撤销"
 
 #: tfrmdiffer.acteditundo.hint
-#, fuzzy
 msgctxt "tfrmdiffer.acteditundo.hint"
 msgid "Undo"
 msgstr "撤销"
@@ -559,49 +561,41 @@ msgid "E&xit"
 msgstr "退出(&X)"
 
 #: tfrmdiffer.actfind.caption
-#, fuzzy
 msgctxt "tfrmdiffer.actfind.caption"
 msgid "&Find"
 msgstr "查找(&F)"
 
 #: tfrmdiffer.actfind.hint
-#, fuzzy
 msgctxt "tfrmdiffer.actfind.hint"
 msgid "Find"
 msgstr "查找"
 
 #: tfrmdiffer.actfindnext.caption
-#, fuzzy
 msgctxt "tfrmdiffer.actfindnext.caption"
 msgid "Find next"
 msgstr "查找下一个"
 
 #: tfrmdiffer.actfindnext.hint
-#, fuzzy
 msgctxt "tfrmdiffer.actfindnext.hint"
 msgid "Find next"
 msgstr "查找下一个"
 
 #: tfrmdiffer.actfindprev.caption
-#, fuzzy
 msgctxt "tfrmdiffer.actfindprev.caption"
 msgid "Find previous"
 msgstr "查找上一个"
 
 #: tfrmdiffer.actfindprev.hint
-#, fuzzy
 msgctxt "tfrmdiffer.actfindprev.hint"
 msgid "Find previous"
 msgstr "查找上一个"
 
 #: tfrmdiffer.actfindreplace.caption
-#, fuzzy
 msgctxt "tfrmdiffer.actfindreplace.caption"
 msgid "&Replace"
 msgstr "替换(&R)"
 
 #: tfrmdiffer.actfindreplace.hint
-#, fuzzy
 msgctxt "tfrmdiffer.actfindreplace.hint"
 msgid "Replace"
 msgstr "替换"
@@ -617,13 +611,11 @@ msgid "First Difference"
 msgstr "第一处差异"
 
 #: tfrmdiffer.actgotoline.caption
-#, fuzzy
 msgctxt "tfrmdiffer.actgotoline.caption"
 msgid "Goto Line..."
 msgstr "跳转到指定行..."
 
 #: tfrmdiffer.actgotoline.hint
-#, fuzzy
 msgctxt "tfrmdiffer.actgotoline.hint"
 msgid "Goto Line"
 msgstr "跳转到行"
@@ -838,7 +830,7 @@ msgstr "仅限于此类控件"
 
 #: tfrmedithotkey.lblparameters.caption
 msgid "&Parameters (each in a separate line):"
-msgstr "参数（每项都在一个单独的行中）(&P)"
+msgstr "参数（每行一个）(&P)"
 
 #: tfrmedithotkey.lblshortcuts.caption
 msgid "Shortcuts:"
@@ -1166,7 +1158,7 @@ msgstr "方向"
 
 #: tfrmelevation.chkelevateall.caption
 msgid "Do this for &all current objects"
-msgstr "对所有当前对象执行此操作(&A)"
+msgstr "对当前所有对象执行此操作(&A)"
 
 #: tfrmextractdlg.caption
 msgid "Unpack files"
@@ -1195,7 +1187,7 @@ msgstr "解压到文件夹(&D)："
 
 #: tfrmextractdlg.lblfilemask.caption
 msgid "&Extract files matching file mask:"
-msgstr "提取与文件掩码匹配的文件(&E)"
+msgstr "解压缩与文件掩码匹配的文件(&E)"
 
 #: tfrmextractdlg.lblpassword.caption
 msgid "&Password for encrypted files:"
@@ -1249,23 +1241,6 @@ msgstr "从:"
 msgid "To:"
 msgstr "到："
 
-#: tfrmfileproperties.btnclose.caption
-msgctxt "TFRMFILEPROPERTIES.BTNCLOSE.CAPTION"
-msgid "&Close"
-msgstr "关闭(&C)"
-
-#: tfrmfileproperties.btnsetproperties.caption
-msgid "&Set properties"
-msgstr "设置属性(&S)"
-
-#: tfrmfileproperties.btnsetpropertiestoallfiles.caption
-msgid "Set to &all selected files"
-msgstr "设置所有选定的文件(&A)"
-
-#: tfrmfileproperties.btnskipfile.caption
-msgid "Ski&p this file"
-msgstr "跳过此文件(&P)"
-
 #: tfrmfileproperties.caption
 msgctxt "tfrmfileproperties.caption"
 msgid "Properties"
@@ -1290,8 +1265,12 @@ msgstr ""
 msgid "Allow &executing file as program"
 msgstr "允许将文件作为程序执行(&E)"
 
-#: tfrmfileproperties.gbowner.caption
-msgctxt "TFRMFILEPROPERTIES.GBOWNER.CAPTION"
+#: tfrmfileproperties.chkrecursive.caption
+msgid "&Recursive"
+msgstr ""
+
+#: tfrmfileproperties.dividerbevel3.caption
+msgctxt "TFRMFILEPROPERTIES.DIVIDERBEVEL3.CAPTION"
 msgid "Owner"
 msgstr "所有者"
 
@@ -1329,6 +1308,11 @@ msgstr "文本："
 msgid "Contains:"
 msgstr "包含："
 
+#: tfrmfileproperties.lblcreatedstr.caption
+msgctxt "tfrmfileproperties.lblcreatedstr.caption"
+msgid "Created:"
+msgstr "创建时间："
+
 #: tfrmfileproperties.lblexec.caption
 msgctxt "TFRMFILEPROPERTIES.LBLEXEC.CAPTION"
 msgid "Execute"
@@ -1363,16 +1347,26 @@ msgid "&Group"
 msgstr "组(&G)"
 
 #: tfrmfileproperties.lbllastaccessstr.caption
-msgid "Last access:"
-msgstr "最后访问："
+msgctxt "tfrmfileproperties.lbllastaccessstr.caption"
+msgid "Accessed:"
+msgstr "访问时间："
 
 #: tfrmfileproperties.lbllastmodifstr.caption
-msgid "Last modification:"
-msgstr "最后修改："
+msgctxt "tfrmfileproperties.lbllastmodifstr.caption"
+msgid "Modified:"
+msgstr "修改时间："
 
 #: tfrmfileproperties.lbllaststchangestr.caption
-msgid "Last status change:"
-msgstr "最后状态更改："
+msgid "Status changed:"
+msgstr "状态更改时间："
+
+#: tfrmfileproperties.lbllinksstr.caption
+msgid "Links:"
+msgstr ""
+
+#: tfrmfileproperties.lblmediatypestr.caption
+msgid "Media type:"
+msgstr ""
 
 #: tfrmfileproperties.lbloctal.caption
 msgctxt "tfrmfileproperties.lbloctal.caption"
@@ -1387,6 +1381,10 @@ msgstr "所有者(&W)"
 msgctxt "TFRMFILEPROPERTIES.LBLREAD.CAPTION"
 msgid "Read"
 msgstr "可读取"
+
+#: tfrmfileproperties.lblsizeondiskstr.caption
+msgid "Size on disk:"
+msgstr ""
 
 #: tfrmfileproperties.lblsizestr.caption
 msgctxt "tfrmfileproperties.lblsizestr.caption"
@@ -1406,13 +1404,13 @@ msgctxt "TFRMFILEPROPERTIES.LBLWRITE.CAPTION"
 msgid "Write"
 msgstr "可写入"
 
-#: tfrmfileproperties.sgimage.columns[0].title.caption
-msgctxt "tfrmfileproperties.sgimage.columns[0].title.caption"
+#: tfrmfileproperties.sgplugins.columns[0].title.caption
+msgctxt "tfrmfileproperties.sgplugins.columns[0].title.caption"
 msgid "Name"
 msgstr "名称"
 
-#: tfrmfileproperties.sgimage.columns[1].title.caption
-msgctxt "tfrmfileproperties.sgimage.columns[1].title.caption"
+#: tfrmfileproperties.sgplugins.columns[1].title.caption
+msgctxt "tfrmfileproperties.sgplugins.columns[1].title.caption"
 msgid "Value"
 msgstr "数值"
 
@@ -1533,7 +1531,7 @@ msgstr "转到 <载入/保存> 页面"
 
 #: tfrmfinddlg.actpagenext.caption
 msgid "Switch to Nex&t Page"
-msgstr "切换到下一页面(&T)"
+msgstr "切换到下一页(&T)"
 
 #: tfrmfinddlg.actpageplugins.caption
 msgid "Go to page \"Plugins\""
@@ -1541,7 +1539,7 @@ msgstr "转到 <插件> 页面"
 
 #: tfrmfinddlg.actpageprev.caption
 msgid "Switch to &Previous Page"
-msgstr "切换到前一页面(&P)"
+msgstr "切换到前一页(&P)"
 
 #: tfrmfinddlg.actpageresults.caption
 msgid "Go to page \"Results\""
@@ -1628,7 +1626,7 @@ msgstr "最大(&Z)："
 
 #: tfrmfinddlg.cbfindinarchive.caption
 msgid "Search in &archives"
-msgstr "搜索压缩文件(&A)"
+msgstr "在压缩文件中搜索(&A)"
 
 #: tfrmfinddlg.cbfindtext.caption
 msgid "Find &text in file"
@@ -1724,25 +1722,21 @@ msgid "Enter files names separated with \";\""
 msgstr "输入以分号 (;) 分隔的文件名，"
 
 #: tfrmfinddlg.frmcontentplugins.headercontrol.sections[0].text
-#, fuzzy
 msgctxt "tfrmfinddlg.frmcontentplugins.headercontrol.sections[0].text"
 msgid "Plugin"
 msgstr "插件"
 
 #: tfrmfinddlg.frmcontentplugins.headercontrol.sections[1].text
-#, fuzzy
 msgctxt "tfrmfinddlg.frmcontentplugins.headercontrol.sections[1].text"
 msgid "Field"
 msgstr "字段"
 
 #: tfrmfinddlg.frmcontentplugins.headercontrol.sections[2].text
-#, fuzzy
 msgctxt "tfrmfinddlg.frmcontentplugins.headercontrol.sections[2].text"
 msgid "Operator"
 msgstr "操作符"
 
 #: tfrmfinddlg.frmcontentplugins.headercontrol.sections[3].text
-#, fuzzy
 msgctxt "tfrmfinddlg.frmcontentplugins.headercontrol.sections[3].text"
 msgid "Value"
 msgstr "数值"
@@ -1825,7 +1819,7 @@ msgstr "显示所有找到的项目"
 
 #: tfrmfinddlg.mishowineditor.caption
 msgid "Show In Editor"
-msgstr "在编辑器中显示"
+msgstr "在编辑器中打开"
 
 #: tfrmfinddlg.mishowinviewer.caption
 msgid "Show In Viewer"
@@ -1881,13 +1875,11 @@ msgid "C&ase sensitive"
 msgstr "区分大小写(&A)"
 
 #: tfrmfindview.cbregexp.caption
-#, fuzzy
 msgctxt "tfrmfindview.cbregexp.caption"
 msgid "&Regular expressions"
 msgstr "正则表达式(&R)"
 
 #: tfrmfindview.chkhex.caption
-#, fuzzy
 msgctxt "tfrmfindview.chkhex.caption"
 msgid "Hexadecimal"
 msgstr "十六进制"
@@ -1897,13 +1889,11 @@ msgid "Domain:"
 msgstr "域名:"
 
 #: tfrmgioauthdialog.lblpassword.caption
-#, fuzzy
 msgctxt "tfrmgioauthdialog.lblpassword.caption"
 msgid "Password:"
 msgstr "密码："
 
 #: tfrmgioauthdialog.lblusername.caption
-#, fuzzy
 msgctxt "tfrmgioauthdialog.lblusername.caption"
 msgid "User name:"
 msgstr "用户名："
@@ -2073,11 +2063,11 @@ msgstr "切换到根文件夹"
 
 #: tfrmmain.actchecksumcalc.caption
 msgid "Calculate Check&sum..."
-msgstr "计算校验和(&S)..."
+msgstr "计算校验码(&S)..."
 
 #: tfrmmain.actchecksumverify.caption
 msgid "&Verify Checksum..."
-msgstr "验证校验和(&V)..."
+msgstr "验证校验码(&V)..."
 
 #: tfrmmain.actclearlogfile.caption
 msgid "Clear log file"
@@ -2311,15 +2301,15 @@ msgstr "退出(&X)"
 
 #: tfrmmain.actextractfiles.caption
 msgid "&Extract Files..."
-msgstr "提取文件(&E)..."
+msgstr "解压缩文件(&E)..."
 
 #: tfrmmain.actfileassoc.caption
 msgid "Configuration of File &Associations"
-msgstr "文件关联配置(&A)..."
+msgstr "文件关联配置(&A)"
 
 #: tfrmmain.actfilelinker.caption
 msgid "Com&bine Files..."
-msgstr "合并文件"
+msgstr "合并文件..."
 
 #: tfrmmain.actfileproperties.caption
 msgid "Show &File Properties"
@@ -2335,7 +2325,7 @@ msgstr "平面视图(&F)"
 
 #: tfrmmain.actflatviewsel.caption
 msgid "&Flat view, only selected"
-msgstr "平面视图(&F),只被选中"
+msgstr "平面视图(&F)，仅被选中时"
 
 #: tfrmmain.actfocuscmdline.caption
 msgid "Focus command line"
@@ -2708,6 +2698,10 @@ msgstr "运行终端(&T)"
 msgid "Save current tabs to a New Favorite Tabs"
 msgstr "将当前标签保存到新的收藏夹标签"
 
+#: tfrmmain.actsavefiledetailstofile.caption
+msgid "Save all shown columns to file"
+msgstr ""
+
 #: tfrmmain.actsaveselection.caption
 msgid "Sa&ve Selection"
 msgstr "保存选择(&V)"
@@ -2726,7 +2720,7 @@ msgstr "搜索(&S)"
 
 #: tfrmmain.actsetalltabsoptiondirsinnewtab.caption
 msgid "All tabs Locked with Dir Opened in New Tabs"
-msgstr "在新标签中打开所有锁定文件夹的标签"
+msgstr "将所有标签设置为在新标签中打开文件夹的锁定状态"
 
 #: tfrmmain.actsetalltabsoptionnormal.caption
 msgid "Set all tabs to Normal"
@@ -2738,7 +2732,7 @@ msgstr "将所有标签设置为锁定状态"
 
 #: tfrmmain.actsetalltabsoptionpathresets.caption
 msgid "All tabs Locked with Dir Changes Allowed"
-msgstr "允许更改所有锁定文件夹的标签"
+msgstr "将所有标签设置为允许更改文件夹的锁定状态"
 
 #: tfrmmain.actsetfileproperties.caption
 msgid "Change &Attributes..."
@@ -2746,7 +2740,7 @@ msgstr "更改属性(&A)..."
 
 #: tfrmmain.actsettaboptiondirsinnewtab.caption
 msgid "Locked with Directories Opened in New &Tabs"
-msgstr "锁定在新标签中打开的文件夹"
+msgstr "锁定，并在新标签中打开文件夹(&T)"
 
 #: tfrmmain.actsettaboptionnormal.caption
 msgid "&Normal"
@@ -2860,7 +2854,7 @@ msgstr "将光标下文件夹传送到右侧窗口"
 
 #: tfrmmain.acttreeview.caption
 msgid "&Tree View Panel"
-msgstr "文件夹树视图面板(&T)"
+msgstr "树状视图面板(&T)"
 
 #: tfrmmain.actuniversalsingledirectsort.caption
 msgid "Sort according to parameters"
@@ -3020,7 +3014,6 @@ msgid ".."
 msgstr ""
 
 #: tfrmmain.caption
-#, fuzzy
 msgctxt "tfrmmain.caption"
 msgid "Double Commander"
 msgstr "Double Commander"
@@ -3394,34 +3387,10 @@ msgstr "JPG 文件压缩品质"
 msgid "Width :"
 msgstr "宽度："
 
-#: tfrmmodview.rbbmp.caption
-msgid "BMP"
-msgstr ""
-
-#: tfrmmodview.rbico.caption
-msgid "ICO"
-msgstr ""
-
-#: tfrmmodview.rbjpg.caption
-msgid "JPG"
-msgstr ""
-
-#: tfrmmodview.rbpng.caption
-msgid "PNG"
-msgstr ""
-
-#: tfrmmodview.rbpnm.caption
-msgid "PNM"
-msgstr ""
-
 #: tfrmmodview.teheight.text
 msgctxt "tfrmmodview.teheight.text"
 msgid "Height"
 msgstr "高度"
-
-#: tfrmmodview.tequality.text
-msgid "80"
-msgstr ""
 
 #: tfrmmodview.tewidth.text
 msgctxt "tfrmmodview.tewidth.text"
@@ -3642,14 +3611,11 @@ msgid "A≠a"
 msgstr ""
 
 #: tfrmmultirename.cbcasesens.hint
-#, fuzzy
 msgctxt "tfrmmultirename.cbcasesens.hint"
 msgid "Case sensitive"
 msgstr "区分大小写"
 
 #: tfrmmultirename.cblog.caption
-#, fuzzy
-#| msgid "Ena&ble"
 msgid "&Log result"
 msgstr "记录结果(&L)"
 
@@ -3995,11 +3961,11 @@ msgstr "扩展名(&X)："
 #: tfrmoptionsarchivers.lblarchiverextract.caption
 msgctxt "tfrmoptionsarchivers.lblarchiverextract.caption"
 msgid "Ex&tract:"
-msgstr "提取(&T)："
+msgstr "解压缩(&T)："
 
 #: tfrmoptionsarchivers.lblarchiverextractwithoutpath.caption
 msgid "Extract &without path:"
-msgstr "无路径提取(&W)："
+msgstr "忽略路径解压缩(&W)："
 
 #: tfrmoptionsarchivers.lblarchiveridposition.caption
 msgid "ID Po&sition:"
@@ -4165,9 +4131,118 @@ msgstr "固定列数"
 msgid "Fixed columns width"
 msgstr "固定列宽"
 
-#: tfrmoptionscolors.rgdarkmode.caption
-msgid "Dark mode"
+#: tfrmoptionscolors.cbbusegradientind.caption
+msgid "Use &Gradient Indicator"
+msgstr "使用渐变指示器(&G)"
+
+#: tfrmoptionscolors.dbbinarymode.caption
+#, fuzzy
+msgctxt "tfrmoptionscolors.dbbinarymode.caption"
+msgid "Binary Mode"
+msgstr "二进制模式"
+
+#: tfrmoptionscolors.dbbookmode.caption
+msgid "Book Mode"
 msgstr ""
+
+#: tfrmoptionscolors.dbimagemode.caption
+msgid "Image Mode"
+msgstr ""
+
+#: tfrmoptionscolors.dbtextmode.caption
+msgid "Text Mode"
+msgstr ""
+
+#: tfrmoptionscolors.lbladded.caption
+msgid "Added:"
+msgstr ""
+
+#: tfrmoptionscolors.lblbookbackground.caption
+msgctxt "tfrmoptionscolors.lblbookbackground.caption"
+msgid "Background:"
+msgstr ""
+
+#: tfrmoptionscolors.lblbooktext.caption
+#, fuzzy
+msgctxt "tfrmoptionscolors.lblbooktext.caption"
+msgid "Text:"
+msgstr "文本："
+
+#: tfrmoptionscolors.lblcategory.caption
+msgid "Category:"
+msgstr ""
+
+#: tfrmoptionscolors.lbldeleted.caption
+msgid "Deleted:"
+msgstr ""
+
+#: tfrmoptionscolors.lblerror.caption
+msgid "Error:"
+msgstr ""
+
+#: tfrmoptionscolors.lblimagebackground1.caption
+msgid "Background 1:"
+msgstr ""
+
+#: tfrmoptionscolors.lblimagebackground2.caption
+#, fuzzy
+msgctxt "tfrmoptionscolors.lblimagebackground2.caption"
+msgid "Background 2:"
+msgstr "背景色 2："
+
+#: tfrmoptionscolors.lblindbackcolor.caption
+msgid "In&dicator Back Color:"
+msgstr "指示器背面颜色(&D)："
+
+#: tfrmoptionscolors.lblindcolor.caption
+msgid "&Indicator Fore Color:"
+msgstr "指示器前端颜色(&I)："
+
+#: tfrmoptionscolors.lblindthresholdcolor.caption
+msgid "Indicator &Threshold Color:"
+msgstr "指标阈值颜色(&T)"
+
+#: tfrmoptionscolors.lblinformation.caption
+msgid "Information:"
+msgstr ""
+
+#: tfrmoptionscolors.lblleft.caption
+msgid "Left:"
+msgstr ""
+
+#: tfrmoptionscolors.lblmodified.caption
+#, fuzzy
+msgctxt "tfrmoptionscolors.lblmodified.caption"
+msgid "Modified:"
+msgstr "修改时间："
+
+#: tfrmoptionscolors.lblmodifiedbinary.caption
+#, fuzzy
+msgctxt "tfrmoptionscolors.lblmodifiedbinary.caption"
+msgid "Modified:"
+msgstr "修改时间："
+
+#: tfrmoptionscolors.lblright.caption
+msgid "Right:"
+msgstr ""
+
+#: tfrmoptionscolors.lblsuccess.caption
+#, fuzzy
+msgctxt "tfrmoptionscolors.lblsuccess.caption"
+msgid "Success:"
+msgstr "成功："
+
+#: tfrmoptionscolors.lblunknown.caption
+msgid "Unknown:"
+msgstr ""
+
+#: tfrmoptionscolors.rgdarkmode.caption
+msgid "State"
+msgstr ""
+
+#: tfrmoptionscolumnsview.cbcolumnstitlelikevalues.caption
+msgid "Column titles alignment &like values"
+msgstr "按值对齐列标题(&L)"
 
 #: tfrmoptionscolumnsview.cbcuttexttocolwidth.caption
 msgid "Cut &text to column width"
@@ -4672,12 +4747,11 @@ msgid "BackGround:"
 msgstr "背景色："
 
 #: tfrmoptionscustomcolumns.lblbackcolor2.caption
+msgctxt "tfrmoptionscustomcolumns.lblbackcolor2.caption"
 msgid "Background 2:"
 msgstr "背景色 2："
 
 #: tfrmoptionscustomcolumns.lblconfigcolumns.caption
-#, fuzzy
-#| msgid "Con&figure columns view:"
 msgid "&Columns view:"
 msgstr "列视图(&C)"
 
@@ -4708,6 +4782,7 @@ msgid "Size:"
 msgstr "大小："
 
 #: tfrmoptionscustomcolumns.lblforecolor.caption
+msgctxt "tfrmoptionscustomcolumns.lblforecolor.caption"
 msgid "Text Color:"
 msgstr "文本颜色："
 
@@ -5128,7 +5203,6 @@ msgid "Do this for paths of:"
 msgstr "对以下路径执行此操作:"
 
 #: tfrmoptionsdirectoryhotlistextra.lbpathtoberelativeto.caption
-#, fuzzy
 msgctxt "tfrmoptionsdirectoryhotlistextra.lbpathtoberelativeto.caption"
 msgid "Path to be relative to:"
 msgstr "相对路径："
@@ -5188,6 +5262,14 @@ msgstr "自动缩进"
 #: tfrmoptionseditor.chkautoindent.hint
 msgid "Allows to indent the caret, when new line is created with <Enter>, with the same amount of leading white space as the preceding line"
 msgstr "当使用 <Enter> 键创建新行时，允许缩进插入符号，前导行的前导空白量相同"
+
+#: tfrmoptionseditor.chkgroupundo.caption
+msgid "Group Undo"
+msgstr ""
+
+#: tfrmoptionseditor.chkgroupundo.hint
+msgid "All continuous changes of the same type will be processed in one call instead of undoing/redoing each one"
+msgstr ""
 
 #: tfrmoptionseditor.chkrightedge.caption
 msgid "Right margin:"
@@ -5832,6 +5914,10 @@ msgstr "点击我更改图标！"
 msgid "Apply current settings to all current configured filenames and paths"
 msgstr "将当前设置应用于所有当前配置的文件名和路径"
 
+#: tfrmoptionsfileassocextra.cbdefaultcontextactions.caption
+msgid "Default context actions (View/Edit)"
+msgstr ""
+
 #: tfrmoptionsfileassocextra.cbexecuteviashell.caption
 msgctxt "tfrmoptionsfileassocextra.cbexecuteviashell.caption"
 msgid "Execute via shell"
@@ -5870,7 +5956,6 @@ msgid "Commands"
 msgstr "命令"
 
 #: tfrmoptionsfileassocextra.ckbfileassocicons.caption
-#, fuzzy
 msgctxt "tfrmoptionsfileassocextra.ckbfileassocicons.caption"
 msgid "Icons"
 msgstr "图标"
@@ -5899,7 +5984,6 @@ msgid "Do this for files and path for:"
 msgstr "对文件和路径执行此操作"
 
 #: tfrmoptionsfileassocextra.lbpathtoberelativeto.caption
-#, fuzzy
 msgctxt "tfrmoptionsfileassocextra.lbpathtoberelativeto.caption"
 msgid "Path to be relative to:"
 msgstr "相对路径："
@@ -5954,7 +6038,7 @@ msgstr "测试存档操作"
 
 #: tfrmoptionsfileoperations.cbverifychecksumconfirmation.caption
 msgid "Verify checksum operation"
-msgstr "验证校验和操作"
+msgstr "验证校验码操作"
 
 #: tfrmoptionsfileoperations.gbexecutingoperations.caption
 msgid "Executing operations"
@@ -5984,61 +6068,6 @@ msgstr "文件重复时自动重命名样式："
 msgid "&Number of wipe passes:"
 msgstr "擦除次数(&N)："
 
-#: tfrmoptionsfilepanelscolors.btnbackcolor.caption
-msgctxt "TFRMOPTIONSFILEPANELSCOLORS.BTNBACKCOLOR.CAPTION"
-msgid ">>"
-msgstr ""
-
-#: tfrmoptionsfilepanelscolors.btnbackcolor2.caption
-msgctxt "TFRMOPTIONSFILEPANELSCOLORS.BTNBACKCOLOR2.CAPTION"
-msgid ">>"
-msgstr ""
-
-#: tfrmoptionsfilepanelscolors.btncursorbordercolor.caption
-msgctxt "tfrmoptionsfilepanelscolors.btncursorbordercolor.caption"
-msgid ">>"
-msgstr ""
-
-#: tfrmoptionsfilepanelscolors.btncursorcolor.caption
-msgctxt "TFRMOPTIONSFILEPANELSCOLORS.BTNCURSORCOLOR.CAPTION"
-msgid ">>"
-msgstr ""
-
-#: tfrmoptionsfilepanelscolors.btncursortext.caption
-msgctxt "TFRMOPTIONSFILEPANELSCOLORS.BTNCURSORTEXT.CAPTION"
-msgid ">>"
-msgstr ""
-
-#: tfrmoptionsfilepanelscolors.btnforecolor.caption
-msgctxt "TFRMOPTIONSFILEPANELSCOLORS.BTNFORECOLOR.CAPTION"
-msgid ">>"
-msgstr ""
-
-#: tfrmoptionsfilepanelscolors.btninactivecursorcolor.caption
-msgctxt "tfrmoptionsfilepanelscolors.btninactivecursorcolor.caption"
-msgid ">>"
-msgstr ""
-
-#: tfrmoptionsfilepanelscolors.btninactivemarkcolor.caption
-msgctxt "tfrmoptionsfilepanelscolors.btninactivemarkcolor.caption"
-msgid ">>"
-msgstr ""
-
-#: tfrmoptionsfilepanelscolors.btnindbackcolor.caption
-msgctxt "TFRMOPTIONSFILEPANELSCOLORS.BTNINDBACKCOLOR.CAPTION"
-msgid ">>"
-msgstr ""
-
-#: tfrmoptionsfilepanelscolors.btnindcolor.caption
-msgctxt "TFRMOPTIONSFILEPANELSCOLORS.BTNINDCOLOR.CAPTION"
-msgid ">>"
-msgstr ""
-
-#: tfrmoptionsfilepanelscolors.btnmarkcolor.caption
-msgctxt "TFRMOPTIONSFILEPANELSCOLORS.BTNMARKCOLOR.CAPTION"
-msgid ">>"
-msgstr ""
-
 #: tfrmoptionsfilepanelscolors.btnresettodcdefault.caption
 msgid "Reset to DC default"
 msgstr "重置为 DC 默认值"
@@ -6051,10 +6080,6 @@ msgstr "允许叠加着色"
 #: tfrmoptionsfilepanelscolors.cbbuseframecursor.caption
 msgid "Use &Frame Cursor"
 msgstr "使用窗体光标(&F)"
-
-#: tfrmoptionsfilepanelscolors.cbbusegradientind.caption
-msgid "Use &Gradient Indicator"
-msgstr "使用渐变指示器(&G)"
 
 #: tfrmoptionsfilepanelscolors.cbbuseinactiveselcolor.caption
 msgid "Use Inactive Sel Color"
@@ -6069,9 +6094,9 @@ msgctxt "tfrmoptionsfilepanelscolors.cbusecursorborder.caption"
 msgid "Cursor border"
 msgstr "光标边框"
 
-#: tfrmoptionsfilepanelscolors.dbfreespaceindicator.caption
-msgid "Drive Free Space Indicator"
-msgstr "驱动可用空间指示器"
+#: tfrmoptionsfilepanelscolors.dbcurrentpath.caption
+msgid "Current Path"
+msgstr ""
 
 #: tfrmoptionsfilepanelscolors.lblbackgroundcolor.caption
 msgid "Bac&kground:"
@@ -6100,20 +6125,31 @@ msgid "Inactive Mark Color:"
 msgstr "非活动标记颜色："
 
 #: tfrmoptionsfilepanelscolors.lblinactivepanelbrightness.caption
-msgid "&Brightness level of inactive panel"
-msgstr "非活动面板的亮度级别(&B)"
-
-#: tfrmoptionsfilepanelscolors.lblindbackcolor.caption
-msgid "In&dicator Back Color:"
-msgstr "指示器背面颜色(&D)："
-
-#: tfrmoptionsfilepanelscolors.lblindcolor.caption
-msgid "&Indicator Fore Color:"
-msgstr "指示器前端颜色(&I)："
+msgid "&Brightness level of inactive panel:"
+msgstr "非活动面板的亮度级别(&B)："
 
 #: tfrmoptionsfilepanelscolors.lblmarkcolor.caption
 msgid "&Mark Color:"
 msgstr "标记颜色(&M)："
+
+#: tfrmoptionsfilepanelscolors.lblpathactiveback.caption
+msgctxt "tfrmoptionsfilepanelscolors.lblpathactiveback.caption"
+msgid "Background:"
+msgstr ""
+
+#: tfrmoptionsfilepanelscolors.lblpathactivetext.caption
+#, fuzzy
+msgctxt "tfrmoptionsfilepanelscolors.lblpathactivetext.caption"
+msgid "Text Color:"
+msgstr "文本颜色："
+
+#: tfrmoptionsfilepanelscolors.lblpathinactiveback.caption
+msgid "Inactive Background:"
+msgstr ""
+
+#: tfrmoptionsfilepanelscolors.lblpathinactivetext.caption
+msgid "Inactive Text Color:"
+msgstr ""
 
 #: tfrmoptionsfilepanelscolors.lblpreview.caption
 msgid "Below is a preview. You may move cursor, select file and get immediately an actual look and feel of the various settings."
@@ -6313,11 +6349,6 @@ msgctxt "TFRMOPTIONSFILETYPESCOLORS.BTNAPPLYCATEGORY.CAPTION"
 msgid "A&pply"
 msgstr "应用(&P)"
 
-#: tfrmoptionsfiletypescolors.btncategorycolor.caption
-msgctxt "TFRMOPTIONSFILETYPESCOLORS.BTNCATEGORYCOLOR.CAPTION"
-msgid ">>"
-msgstr ""
-
 #: tfrmoptionsfiletypescolors.btndeletecategory.caption
 msgctxt "TFRMOPTIONSFILETYPESCOLORS.BTNDELETECATEGORY.CAPTION"
 msgid "D&elete"
@@ -6451,31 +6482,26 @@ msgid "Sort order"
 msgstr "排序"
 
 #: tfrmoptionshotkeys.stgcommands.columns[0].title.caption
-#, fuzzy
 msgctxt "tfrmoptionshotkeys.stgcommands.columns[0].title.caption"
 msgid "Command"
 msgstr "命令"
 
 #: tfrmoptionshotkeys.stgcommands.columns[1].title.caption
-#, fuzzy
 msgctxt "tfrmoptionshotkeys.stgcommands.columns[1].title.caption"
 msgid "Hotkeys"
 msgstr "热键"
 
 #: tfrmoptionshotkeys.stgcommands.columns[2].title.caption
-#, fuzzy
 msgctxt "tfrmoptionshotkeys.stgcommands.columns[2].title.caption"
 msgid "Description"
 msgstr "描述"
 
 #: tfrmoptionshotkeys.stghotkeys.columns[0].title.caption
-#, fuzzy
 msgctxt "tfrmoptionshotkeys.stghotkeys.columns[0].title.caption"
 msgid "Hotkey"
 msgstr "热键"
 
 #: tfrmoptionshotkeys.stghotkeys.columns[1].title.caption
-#, fuzzy
 msgctxt "tfrmoptionshotkeys.stghotkeys.columns[1].title.caption"
 msgid "Parameters"
 msgstr "参数"
@@ -6804,7 +6830,7 @@ msgstr "在主窗口标题栏中显示当前目录(&C)"
 
 #: tfrmoptionsmisc.chkshowsplashform.caption
 msgid "Show &splash screen"
-msgstr ""
+msgstr "显示启动画面(&s)"
 
 #: tfrmoptionsmisc.chkshowwarningmessages.caption
 msgid "Show &warning messages (\"OK\" button only)"
@@ -6829,7 +6855,7 @@ msgstr "向 TC 导出/导入："
 
 #: tfrmoptionsmisc.lbldefaultencoding.caption
 msgid "&Default single-byte text encoding:"
-msgstr ""
+msgstr "默认单字节文本编码"
 
 #: tfrmoptionsmisc.lbldescrdefaultencoding.caption
 msgctxt "tfrmoptionsmisc.lbldescrdefaultencoding.caption"
@@ -6915,13 +6941,11 @@ msgid "Single click (opens folders, double click for files)"
 msgstr "单击（打开文件夹，双击打开文件）"
 
 #: tfrmoptionsmultirename.btnmulrenlogfilenamerelative.hint
-#, fuzzy
 msgctxt "tfrmoptionsmultirename.btnmulrenlogfilenamerelative.hint"
 msgid "Some functions to select appropriate path"
 msgstr "某些功能可选择适当路径"
 
 #: tfrmoptionsmultirename.btnmulrenlogfilenameview.hint
-#, fuzzy
 msgctxt "tfrmoptionsmultirename.btnmulrenlogfilenameview.hint"
 msgid "View log file content"
 msgstr "查看日志文件内容"
@@ -7005,7 +7029,7 @@ msgstr "插件"
 #: tfrmoptionspluginsbase.stgplugins.columns[2].title.caption
 msgctxt "tfrmoptionspluginsbase.stgplugins.columns[2].title.caption"
 msgid "Registered for"
-msgstr "注册为"
+msgstr "适用于"
 
 #: tfrmoptionspluginsbase.stgplugins.columns[3].title.caption
 msgctxt "tfrmoptionspluginsbase.stgplugins.columns[3].title.caption"
@@ -7018,25 +7042,21 @@ msgid "Searc&h plugins allow one to use alternative search algorithms or externa
 msgstr "搜索插件允许使用替代搜索算法或外部工具（如：\"locate\" 等）"
 
 #: tfrmoptionspluginsdsx.stgplugins.columns[0].title.caption
-#, fuzzy
 msgctxt "tfrmoptionspluginsdsx.stgplugins.columns[0].title.caption"
 msgid "Active"
 msgstr "活动"
 
 #: tfrmoptionspluginsdsx.stgplugins.columns[1].title.caption
-#, fuzzy
 msgctxt "tfrmoptionspluginsdsx.stgplugins.columns[1].title.caption"
 msgid "Plugin"
 msgstr "插件"
 
 #: tfrmoptionspluginsdsx.stgplugins.columns[2].title.caption
-#, fuzzy
 msgctxt "tfrmoptionspluginsdsx.stgplugins.columns[2].title.caption"
 msgid "Registered for"
-msgstr "注册为"
+msgstr "适用于"
 
 #: tfrmoptionspluginsdsx.stgplugins.columns[3].title.caption
-#, fuzzy
 msgctxt "tfrmoptionspluginsdsx.stgplugins.columns[3].title.caption"
 msgid "File name"
 msgstr "文件名"
@@ -7084,7 +7104,7 @@ msgstr "插件"
 #: tfrmoptionspluginswcx.stgplugins.columns[2].title.caption
 msgctxt "tfrmoptionspluginswcx.stgplugins.columns[2].title.caption"
 msgid "Registered for"
-msgstr "注册为"
+msgstr "适用于"
 
 #: tfrmoptionspluginswcx.stgplugins.columns[3].title.caption
 msgctxt "tfrmoptionspluginswcx.stgplugins.columns[3].title.caption"
@@ -7097,25 +7117,21 @@ msgid "Content plu&gins allow one to display extended file details like mp3 tags
 msgstr "内容插件可以显示文件扩展信息，例如：mp3 标签或图片属性，或者在搜索和重命名工具中使用"
 
 #: tfrmoptionspluginswdx.stgplugins.columns[0].title.caption
-#, fuzzy
 msgctxt "tfrmoptionspluginswdx.stgplugins.columns[0].title.caption"
 msgid "Active"
 msgstr "活动"
 
 #: tfrmoptionspluginswdx.stgplugins.columns[1].title.caption
-#, fuzzy
 msgctxt "tfrmoptionspluginswdx.stgplugins.columns[1].title.caption"
 msgid "Plugin"
 msgstr "插件"
 
 #: tfrmoptionspluginswdx.stgplugins.columns[2].title.caption
-#, fuzzy
 msgctxt "tfrmoptionspluginswdx.stgplugins.columns[2].title.caption"
 msgid "Registered for"
-msgstr "注册为"
+msgstr "适用于"
 
 #: tfrmoptionspluginswdx.stgplugins.columns[3].title.caption
-#, fuzzy
 msgctxt "tfrmoptionspluginswdx.stgplugins.columns[3].title.caption"
 msgid "File name"
 msgstr "文件名"
@@ -7126,25 +7142,21 @@ msgid "Fi&le system plugins allow access to disks inaccessible by operating syst
 msgstr "文件系统插件允许访问操作系统或 Palm/PocketPC 等外部设备中无法访问的磁盘。"
 
 #: tfrmoptionspluginswfx.stgplugins.columns[0].title.caption
-#, fuzzy
 msgctxt "tfrmoptionspluginswfx.stgplugins.columns[0].title.caption"
 msgid "Active"
 msgstr "活动"
 
 #: tfrmoptionspluginswfx.stgplugins.columns[1].title.caption
-#, fuzzy
 msgctxt "tfrmoptionspluginswfx.stgplugins.columns[1].title.caption"
 msgid "Plugin"
 msgstr "插件"
 
 #: tfrmoptionspluginswfx.stgplugins.columns[2].title.caption
-#, fuzzy
 msgctxt "tfrmoptionspluginswfx.stgplugins.columns[2].title.caption"
 msgid "Registered for"
-msgstr "注册为"
+msgstr "适用于"
 
 #: tfrmoptionspluginswfx.stgplugins.columns[3].title.caption
-#, fuzzy
 msgctxt "tfrmoptionspluginswfx.stgplugins.columns[3].title.caption"
 msgid "File name"
 msgstr "文件名"
@@ -7155,25 +7167,21 @@ msgid "Vie&wer plugins allow one to display file formats like images, spreadshee
 msgstr "查看器插件允许查看图片、电子表格、数据库等 (F3, Ctrl+Q)"
 
 #: tfrmoptionspluginswlx.stgplugins.columns[0].title.caption
-#, fuzzy
 msgctxt "tfrmoptionspluginswlx.stgplugins.columns[0].title.caption"
 msgid "Active"
 msgstr "活动"
 
 #: tfrmoptionspluginswlx.stgplugins.columns[1].title.caption
-#, fuzzy
 msgctxt "tfrmoptionspluginswlx.stgplugins.columns[1].title.caption"
 msgid "Plugin"
 msgstr "插件"
 
 #: tfrmoptionspluginswlx.stgplugins.columns[2].title.caption
-#, fuzzy
 msgctxt "tfrmoptionspluginswlx.stgplugins.columns[2].title.caption"
 msgid "Registered for"
-msgstr "注册为"
+msgstr "适用于"
 
 #: tfrmoptionspluginswlx.stgplugins.columns[3].title.caption
-#, fuzzy
 msgctxt "tfrmoptionspluginswlx.stgplugins.columns[3].title.caption"
 msgid "File name"
 msgstr "文件名"
@@ -7850,7 +7858,6 @@ msgid "Commands"
 msgstr "命令"
 
 #: tfrmoptionstoolbarextra.ckbtoolbaricons.caption
-#, fuzzy
 msgctxt "tfrmoptionstoolbarextra.ckbtoolbaricons.caption"
 msgid "Icons"
 msgstr "图标"
@@ -7870,7 +7877,6 @@ msgid "Do this for files and paths for:"
 msgstr "对文件和路径执行此操作:"
 
 #: tfrmoptionstoolbarextra.lbpathtoberelativeto.caption
-#, fuzzy
 msgctxt "tfrmoptionstoolbarextra.lbpathtoberelativeto.caption"
 msgid "Path to be relative to:"
 msgstr "相对路径："
@@ -8071,66 +8077,6 @@ msgctxt "tfrmoptionstreeviewmenucolor.btfont.caption"
 msgid "..."
 msgstr ""
 
-#: tfrmoptionstreeviewmenucolor.btnbackgroundcolor.caption
-msgctxt "tfrmoptionstreeviewmenucolor.btnbackgroundcolor.caption"
-msgid ">>"
-msgstr ""
-
-#: tfrmoptionstreeviewmenucolor.btncursorcolor.caption
-msgctxt "tfrmoptionstreeviewmenucolor.btncursorcolor.caption"
-msgid ">>"
-msgstr ""
-
-#: tfrmoptionstreeviewmenucolor.btnfoundtextcolor.caption
-msgctxt "tfrmoptionstreeviewmenucolor.btnfoundtextcolor.caption"
-msgid ">>"
-msgstr ""
-
-#: tfrmoptionstreeviewmenucolor.btnfoundtextundercursor.caption
-msgctxt "tfrmoptionstreeviewmenucolor.btnfoundtextundercursor.caption"
-msgid ">>"
-msgstr ""
-
-#: tfrmoptionstreeviewmenucolor.btnnormaltextcolor.caption
-msgctxt "tfrmoptionstreeviewmenucolor.btnnormaltextcolor.caption"
-msgid ">>"
-msgstr ""
-
-#: tfrmoptionstreeviewmenucolor.btnnormaltextundercursor.caption
-msgctxt "tfrmoptionstreeviewmenucolor.btnnormaltextundercursor.caption"
-msgid ">>"
-msgstr ""
-
-#: tfrmoptionstreeviewmenucolor.btnsecondarytextcolor.caption
-msgctxt "tfrmoptionstreeviewmenucolor.btnsecondarytextcolor.caption"
-msgid ">>"
-msgstr ""
-
-#: tfrmoptionstreeviewmenucolor.btnsecondarytextundercursor.caption
-msgctxt "tfrmoptionstreeviewmenucolor.btnsecondarytextundercursor.caption"
-msgid ">>"
-msgstr ""
-
-#: tfrmoptionstreeviewmenucolor.btnshortcutcolor.caption
-msgctxt "tfrmoptionstreeviewmenucolor.btnshortcutcolor.caption"
-msgid ">>"
-msgstr ""
-
-#: tfrmoptionstreeviewmenucolor.btnshortcutundercursor.caption
-msgctxt "tfrmoptionstreeviewmenucolor.btnshortcutundercursor.caption"
-msgid ">>"
-msgstr ""
-
-#: tfrmoptionstreeviewmenucolor.btnunselectabletextcolor.caption
-msgctxt "tfrmoptionstreeviewmenucolor.btnunselectabletextcolor.caption"
-msgid ">>"
-msgstr ""
-
-#: tfrmoptionstreeviewmenucolor.btnunselectableundercursor.caption
-msgctxt "tfrmoptionstreeviewmenucolor.btnunselectableundercursor.caption"
-msgid ">>"
-msgstr ""
-
 #: tfrmoptionstreeviewmenucolor.cbkusagekeyboardshortcut.caption
 msgid "Use and display keyboard shortcut for choosing items"
 msgstr "使用和显示选择项目的键盘快捷键"
@@ -8199,31 +8145,9 @@ msgstr "光标下的不可选文本："
 msgid "Change color on left and you'll see here a preview of what your Tree View Menus will look likes with this sample."
 msgstr "更改左侧的颜色，您会在此处见到树状视图菜单类似此样本的预览效果。"
 
-#: tfrmoptionsviewer.btnbackviewercolor.caption
-msgctxt "TFRMOPTIONSVIEWER.BTNBACKVIEWERCOLOR.CAPTION"
-msgid ">>"
+#: tfrmoptionsviewer.gbinternalviewer.caption
+msgid "Internal viewer options"
 msgstr ""
-
-#: tfrmoptionsviewer.btnfontviewercolor.caption
-msgctxt "TFRMOPTIONSVIEWER.BTNFONTVIEWERCOLOR.CAPTION"
-msgid ">>"
-msgstr ""
-
-#: tfrmoptionsviewer.gbviewerbookmode.caption
-msgid "Viewer Book Mode"
-msgstr "书籍查看器模式"
-
-#: tfrmoptionsviewer.gbviewerexample.caption
-msgid "Example"
-msgstr "例如"
-
-#: tfrmoptionsviewer.lblbackgroundcolorviewerbook.caption
-msgid "&Background color in book viewer"
-msgstr "书籍查看器背景颜色(&B)"
-
-#: tfrmoptionsviewer.lblfontcolorviewerbook.caption
-msgid "&Font color in book viewer"
-msgstr "书籍查看器字体颜色(&F)"
 
 #: tfrmoptionsviewer.lblnumbercolumnsviewer.caption
 msgid "&Number of columns in book viewer"
@@ -8460,31 +8384,26 @@ msgid "&OR (any match)"
 msgstr "或（任意匹配）(&O)"
 
 #: tfrmselectduplicates.btnapply.caption
-#, fuzzy
 msgctxt "tfrmselectduplicates.btnapply.caption"
 msgid "&Apply"
 msgstr "应用(&A)"
 
 #: tfrmselectduplicates.btncancel.caption
-#, fuzzy
 msgctxt "tfrmselectduplicates.btncancel.caption"
 msgid "&Cancel"
 msgstr "取消(&C)"
 
 #: tfrmselectduplicates.btnexcludemask.hint
-#, fuzzy
 msgctxt "tfrmselectduplicates.btnexcludemask.hint"
 msgid "Template..."
 msgstr "模板..."
 
 #: tfrmselectduplicates.btnincludemask.hint
-#, fuzzy
 msgctxt "tfrmselectduplicates.btnincludemask.hint"
 msgid "Template..."
 msgstr "模板..."
 
 #: tfrmselectduplicates.btnok.caption
-#, fuzzy
 msgctxt "tfrmselectduplicates.btnok.caption"
 msgid "&OK"
 msgstr "确定(&O)"
@@ -8646,20 +8565,23 @@ msgid "Archive"
 msgstr "存档"
 
 #: tfrmsetfileproperties.chkcreationtime.caption
+msgctxt "tfrmsetfileproperties.chkcreationtime.caption"
 msgid "Created:"
-msgstr "创建日期："
+msgstr "创建时间："
 
 #: tfrmsetfileproperties.chkhidden.caption
 msgid "Hidden"
 msgstr "隐藏"
 
 #: tfrmsetfileproperties.chklastaccesstime.caption
+msgctxt "tfrmsetfileproperties.chklastaccesstime.caption"
 msgid "Accessed:"
-msgstr "访问："
+msgstr "访问时间："
 
 #: tfrmsetfileproperties.chklastwritetime.caption
+msgctxt "tfrmsetfileproperties.chklastwritetime.caption"
 msgid "Modified:"
-msgstr "修改："
+msgstr "修改时间："
 
 #: tfrmsetfileproperties.chkreadonly.caption
 msgid "Read only"
@@ -8831,7 +8753,6 @@ msgid "&Megabytes"
 msgstr "兆字节(&M)"
 
 #: tfrmstartingsplash.caption
-#, fuzzy
 msgctxt "tfrmstartingsplash.caption"
 msgid "Double Commander"
 msgstr "Double Commander"
@@ -8870,7 +8791,6 @@ msgid "Revision"
 msgstr "修订版本"
 
 #: tfrmstartingsplash.lbltitle.caption
-#, fuzzy
 msgctxt "tfrmstartingsplash.lbltitle.caption"
 msgid "Double Commander"
 msgstr "Double Commander"
@@ -8967,7 +8887,6 @@ msgid "Compare"
 msgstr "比较"
 
 #: tfrmsyncdirsdlg.btnsearchtemplate.hint
-#, fuzzy
 msgctxt "tfrmsyncdirsdlg.btnsearchtemplate.hint"
 msgid "Template..."
 msgstr "模板..."
@@ -9340,6 +9259,18 @@ msgctxt "tfrmviewer.actfullscreen.caption"
 msgid "Full Screen"
 msgstr "全屏显示"
 
+#: tfrmviewer.actgotoline.caption
+#, fuzzy
+msgctxt "tfrmviewer.actgotoline.caption"
+msgid "Goto Line..."
+msgstr "跳转到指定行..."
+
+#: tfrmviewer.actgotoline.hint
+#, fuzzy
+msgctxt "tfrmviewer.actgotoline.hint"
+msgid "Goto Line"
+msgstr "跳转到行"
+
 #: tfrmviewer.actimagecenter.caption
 msgid "Center"
 msgstr "居中"
@@ -9488,6 +9419,10 @@ msgstr "换行文本方式显示(&W)"
 msgid "Show text c&ursor"
 msgstr "显示文本光标(&U)"
 
+#: tfrmviewer.actshowcode.caption
+msgid "Code"
+msgstr ""
+
 #: tfrmviewer.actshowgraphics.caption
 msgctxt "tfrmviewer.actshowgraphics.caption"
 msgid "Graphics"
@@ -9519,7 +9454,6 @@ msgid "Stretch only large"
 msgstr "拉伸时仅放大"
 
 #: tfrmviewer.actundo.caption
-#, fuzzy
 msgctxt "tfrmviewer.actundo.caption"
 msgid "Undo"
 msgstr "撤销"
@@ -9543,7 +9477,6 @@ msgid "Zoom In"
 msgstr "放大"
 
 #: tfrmviewer.actzoomin.hint
-#, fuzzy
 msgctxt "tfrmviewer.actzoomin.hint"
 msgid "Zoom In"
 msgstr "放大"
@@ -9554,7 +9487,6 @@ msgid "Zoom Out"
 msgstr "缩小"
 
 #: tfrmviewer.actzoomout.hint
-#, fuzzy
 msgctxt "tfrmviewer.actzoomout.hint"
 msgid "Zoom Out"
 msgstr "缩小"
@@ -9604,10 +9536,9 @@ msgid "Resize"
 msgstr "调整大小"
 
 #: tfrmviewer.btnslideshow.caption
-#, fuzzy
 msgctxt "tfrmviewer.btnslideshow.caption"
 msgid "Slide Show"
-msgstr "幻灯显示"
+msgstr "幻灯片播放"
 
 #: tfrmviewer.caption
 msgctxt "tfrmviewer.caption"
@@ -9643,7 +9574,6 @@ msgid "&Image"
 msgstr "图片(&I)"
 
 #: tfrmviewer.mipen.caption
-#, fuzzy
 msgctxt "tfrmviewer.mipen.caption"
 msgid "Pen"
 msgstr "画笔"
@@ -9665,11 +9595,6 @@ msgstr "截图"
 msgctxt "TFRMVIEWER.MIVIEW.CAPTION"
 msgid "&View"
 msgstr "视图(&V)"
-
-#: tfrmviewer.pmiselectall.caption
-msgctxt "TFRMVIEWER.PMISELECTALL.CAPTION"
-msgid "Select All"
-msgstr "选择全部"
 
 #: tfrmviewoperations.btnstartpause.caption
 msgctxt "tfrmviewoperations.btnstartpause.caption"
@@ -9765,19 +9690,16 @@ msgid "&Pause all"
 msgstr "全部暂停(&P)"
 
 #: tgiocopymoveoperationoptionsui.cbfollowlinks.caption
-#, fuzzy
 msgctxt "tgiocopymoveoperationoptionsui.cbfollowlinks.caption"
 msgid "Fo&llow links"
-msgstr "保留链接(&L)"
+msgstr "使用链接指向的目标文件(&L)"
 
 #: tgiocopymoveoperationoptionsui.lbldirectoryexists.caption
-#, fuzzy
 msgctxt "tgiocopymoveoperationoptionsui.lbldirectoryexists.caption"
 msgid "When dir&ectory exists"
 msgstr "文件夹已存在时(&E)"
 
 #: tgiocopymoveoperationoptionsui.lblfileexists.caption
-#, fuzzy
 msgctxt "tgiocopymoveoperationoptionsui.lblfileexists.caption"
 msgid "When file exists"
 msgstr "文件存在时"
@@ -9788,13 +9710,11 @@ msgid "When file exists"
 msgstr "文件存在时"
 
 #: ttfrmconfirmcommandline.btncancel.caption
-#, fuzzy
 msgctxt "ttfrmconfirmcommandline.btncancel.caption"
 msgid "&Cancel"
 msgstr "取消(&C)"
 
 #: ttfrmconfirmcommandline.btnok.caption
-#, fuzzy
 msgctxt "ttfrmconfirmcommandline.btnok.caption"
 msgid "&OK"
 msgstr "确定(&O)"
@@ -9804,7 +9724,6 @@ msgid "Command line:"
 msgstr "命令行"
 
 #: ttfrmconfirmcommandline.lbleparameters.editlabel.caption
-#, fuzzy
 msgctxt "ttfrmconfirmcommandline.lbleparameters.editlabel.caption"
 msgid "Parameters:"
 msgstr "参数："
@@ -9814,13 +9733,11 @@ msgid "Start path:"
 msgstr "开始路径"
 
 #: twcxarchivecopyoperationoptionsui.btnconfig.caption
-#, fuzzy
 msgctxt "twcxarchivecopyoperationoptionsui.btnconfig.caption"
 msgid "Con&figure"
 msgstr "配置(&F)"
 
 #: twcxarchivecopyoperationoptionsui.cbencrypt.caption
-#, fuzzy
 msgctxt "twcxarchivecopyoperationoptionsui.cbencrypt.caption"
 msgid "Encr&ypt"
 msgstr "加密(&Y)"
@@ -9974,16 +9891,17 @@ msgid "Read error:"
 msgstr "读取错误："
 
 #: ulng.rschecksumverifysuccess
+msgctxt "ulng.rschecksumverifysuccess"
 msgid "Success:"
 msgstr "成功："
 
 #: ulng.rschecksumverifytext
 msgid "Enter checksum and select algorithm:"
-msgstr "输入校验和并选择算法："
+msgstr "输入校验码并选择算法："
 
 #: ulng.rschecksumverifytitle
 msgid "Verify checksum"
-msgstr "验证校验和"
+msgstr "验证校验码"
 
 #: ulng.rschecksumverifytotal
 msgid "Total:"
@@ -10072,6 +9990,10 @@ msgstr "确认命令行和参数"
 msgid "Copy (%d) %s"
 msgstr "复制 (%d) %s"
 
+#: ulng.rsdarkmode
+msgid "Dark mode"
+msgstr ""
+
 #: ulng.rsdarkmodeoptions
 msgid "Auto;Enabled;Disabled"
 msgstr "自动;启用;禁用"
@@ -10154,7 +10076,6 @@ msgid " Modifies: "
 msgstr " 修改："
 
 #: ulng.rsdifftextdifferenceencoding
-#, fuzzy
 msgctxt "ulng.rsdifftextdifferenceencoding"
 msgid "Encoding"
 msgstr "编码"
@@ -10335,6 +10256,10 @@ msgstr "速度 %s/秒，剩余时间 %s"
 #: ulng.rsdraganddroptextformat
 msgid "Rich Text Format;HTML Format;Unicode Format;Simple Text Format"
 msgstr "富文本格式;HTML 格式;Unicode 格式;简单文本格式"
+
+#: ulng.rsdrivefreespaceindicator
+msgid "Drive Free Space Indicator"
+msgstr "驱动器可用空间指示器"
 
 #: ulng.rsdrivenolabel
 msgid "<no label>"
@@ -10590,7 +10515,7 @@ msgstr "搜索结果字体"
 
 #: ulng.rsfontusagestatusbar
 msgid "Status Bar Font"
-msgstr ""
+msgstr "状态栏字体"
 
 #: ulng.rsfontusagetreeviewmenu
 msgid "Tree View Menu Font"
@@ -10684,7 +10609,7 @@ msgstr "大小"
 
 #: ulng.rsfunctrashorigpath
 msgid "Original path"
-msgstr ""
+msgstr "原路径"
 
 #: ulng.rsfunctype
 msgid "Type"
@@ -10893,7 +10818,7 @@ msgstr "弹出"
 
 #: ulng.rsmnuextracthere
 msgid "Extract here..."
-msgstr "提取到此处..."
+msgstr "解压缩到此处..."
 
 #: ulng.rsmnumapnetworkdrive
 msgid "Map Network Drive..."
@@ -10932,7 +10857,6 @@ msgid "Pack here..."
 msgstr "压缩此处..."
 
 #: ulng.rsmnurestore
-#, fuzzy
 msgctxt "ulng.rsmnurestore"
 msgid "Restore"
 msgstr "还原"
@@ -10986,7 +10910,7 @@ msgstr ""
 
 #: ulng.rsmsgcanceloperation
 msgid "Are you sure that you want to cancel this operation?"
-msgstr ""
+msgstr "确定要取消此操作吗？"
 
 #: ulng.rsmsgcannotcopymoveitself
 #, object-pascal-format
@@ -11025,6 +10949,11 @@ msgstr "此标签页 (%s) 已锁定！仍要关闭吗？"
 #: ulng.rsmsgcofirmuserparam
 msgid "Confirmation of parameter"
 msgstr "确认参数"
+
+#: ulng.rsmsgcommandnotfound
+#, object-pascal-format
+msgid "Command not found! (%s)"
+msgstr ""
 
 #: ulng.rsmsgconfirmquit
 msgid "Are you sure you want to quit?"
@@ -11405,7 +11334,7 @@ msgstr "文件夹 %s 已存在，覆盖吗？"
 #: ulng.rsmsgfollowsymlink
 #, object-pascal-format
 msgid "Follow symlink \"%s\"?"
-msgstr "允许符号链接 \"%s\" 吗？"
+msgstr "使用符号链接“%s”指向的目标文件吗？"
 
 #: ulng.rsmsgfortextformattoimport
 msgid "Select the text format to import"
@@ -11597,7 +11526,7 @@ msgid ""
 "Answering NO will delete only menu delimiters but will keep element inside sub-menu."
 msgstr ""
 "您想要删除子菜单 [％s] 内的所有元素吗？\n"
-"回答 <否> 将只删除菜单分隔符，但会将子元素保存在子菜单内。"
+"回答 <否> 将只删除菜单分隔符，但会保留子菜单内的元素。"
 
 #: ulng.rsmsghotdirwheretosave
 msgid "Enter location and filename where to save a Directory Hotlist file"
@@ -11705,7 +11634,7 @@ msgstr "外部结果"
 #: ulng.rsmsglogextract
 #, object-pascal-format
 msgid "Extract file %s"
-msgstr "提取文件 %s"
+msgstr "解压缩文件 %s"
 
 #: ulng.rsmsgloginfo
 msgid "Info: "
@@ -11923,7 +11852,7 @@ msgstr "选择可执行文件"
 
 #: ulng.rsmsgselectonlychecksumfiles
 msgid "Please select only checksum files!"
-msgstr "只能选择校验和文件！"
+msgstr "只能选择校验码文件！"
 
 #: ulng.rsmsgsellocnextvol
 msgid "Please select location of next volume"
@@ -12067,7 +11996,7 @@ msgstr "输入要保存的 TC 工具栏文件的位置和文件名"
 
 #: ulng.rsmsgterminaldisabled
 msgid "Built-in terminal window disabled. Do you want to enable it?"
-msgstr ""
+msgstr "内置终端窗口被禁用。是否启用？"
 
 #: ulng.rsmsgterminateprocess
 msgid "WARNING: Terminating a process can cause undesired results including loss of data and system instability. The process will not be given the chance to save its state or data before it is terminated. Are you sure you want to terminate the process?"
@@ -12146,11 +12075,11 @@ msgstr "验证："
 
 #: ulng.rsmsgverifychecksum
 msgid "Do you want to verify selected checksums?"
-msgstr "您希望验证所选的校验和吗？"
+msgstr "您希望验证所选的校验码吗？"
 
 #: ulng.rsmsgverifywrong
 msgid "The target file is corrupted, checksum mismatch!"
-msgstr "目标文件已损坏，校验和不匹配！"
+msgstr "目标文件已损坏，校验码不匹配！"
 
 #: ulng.rsmsgvolumelabel
 msgid "Volume label:"
@@ -12485,12 +12414,12 @@ msgstr "已终止"
 
 #: ulng.rsopercalculatingchecksum
 msgid "Calculating checksum"
-msgstr "正在计算校验和"
+msgstr "正在计算校验码"
 
 #: ulng.rsopercalculatingchecksumin
 #, object-pascal-format
 msgid "Calculating checksum in \"%s\""
-msgstr "正在 \"%s\" 中计算校验和"
+msgstr "正在 \"%s\" 中计算校验码"
 
 #: ulng.rsopercalculatingchecksumof
 #, object-pascal-format
@@ -12563,12 +12492,12 @@ msgstr "正在执行 \"%s\""
 
 #: ulng.rsoperextracting
 msgid "Extracting"
-msgstr "正在提取"
+msgstr "正在解压缩"
 
 #: ulng.rsoperextractingfromto
 #, object-pascal-format
 msgid "Extracting from \"%s\" to \"%s\""
-msgstr "正在从 \"%s\" 提取到 \"%s\""
+msgstr "正在从 \"%s\" 解压缩到 \"%s\""
 
 #: ulng.rsoperfinished
 msgid "Finished"
@@ -12678,17 +12607,17 @@ msgstr "正在测试 \"%s\""
 
 #: ulng.rsoperverifyingchecksum
 msgid "Verifying checksum"
-msgstr "正在验证校验和"
+msgstr "正在验证校验码"
 
 #: ulng.rsoperverifyingchecksumin
 #, object-pascal-format
 msgid "Verifying checksum in \"%s\""
-msgstr "正在验证 \"%s\" 中的校验和"
+msgstr "正在验证 \"%s\" 中的校验码"
 
 #: ulng.rsoperverifyingchecksumof
 #, object-pascal-format
 msgid "Verifying checksum of \"%s\""
-msgstr "正在验证 \"%s\" 的校验和"
+msgstr "正在验证 \"%s\" 的校验码"
 
 #: ulng.rsoperwaitingforconnection
 msgid "Waiting for access to file source"
@@ -12794,10 +12723,10 @@ msgid "Import archiver configuration"
 msgstr "导入压缩程序配置"
 
 #: ulng.rsoptarchiverimportdone
-#, object-pascal-format, fuzzy, badformat
+#, object-pascal-format
 msgctxt "ulng.rsoptarchiverimportdone"
 msgid "Importation of %d elements from file \"%s\" completed."
-msgstr "已完成从文件 \"%s\" 中导入 %d 个元素。"
+msgstr "已成功导入 %d 项（来自文件“%s”）"
 
 #: ulng.rsoptarchiverimportfile
 msgid "Select the file to import archiver configuration(s)"
@@ -13101,7 +13030,7 @@ msgstr "文件夹标签"
 
 #: ulng.rsoptionseditorfoldertabsextra
 msgid "Folder tabs extra"
-msgstr "文件夹标签扩展项"
+msgstr "文件夹标签扩展"
 
 #: ulng.rsoptionseditorfonts
 msgctxt "ulng.rsoptionseditorfonts"
@@ -13273,7 +13202,7 @@ msgstr "仅当按扩展显示插件时，才可以对 WCX 插件进行排序！"
 #: ulng.rsoptpluginsregisteredfor
 msgctxt "ulng.rsoptpluginsregisteredfor"
 msgid "Registered for"
-msgstr "注册为"
+msgstr "适用于"
 
 #: ulng.rsoptpluginsselectlualibrary
 msgid "Select Lua library file"
@@ -13304,10 +13233,8 @@ msgid "sort by name and show first;sort like files and show first;sort like file
 msgstr "按名称排序，首先显示;像文件一样排序且首先显示;像文件一样排序"
 
 #: ulng.rsoptsortmethod
-#, fuzzy
-#| msgid "Alphabetical, considering accents;Natural sorting: alphabetical and numbers"
 msgid "Alphabetical, considering accents;Alphabetical with special characters sort;Natural sorting: alphabetical and numbers;Natural with special characters sort"
-msgstr "按字母顺序, 考虑口音;自然排序：字母和数字"
+msgstr "按字母顺序：考虑重音;按字母顺序：考虑特殊字符;按自然顺序排序：考虑字母和数字;按自然顺序排序：考虑特殊字符"
 
 #: ulng.rsopttabsposition
 msgid "Top;Bottom;"
@@ -13360,10 +13287,10 @@ msgid "Import tooltip file type configuration"
 msgstr "导入工具提供文件类型配置"
 
 #: ulng.rsopttooltipfiletypeimportdone
-#, object-pascal-format, fuzzy, badformat
+#, object-pascal-format
 msgctxt "ulng.rsopttooltipfiletypeimportdone"
 msgid "Importation of %d elements from file \"%s\" completed."
-msgstr "已完成从文件 \"%s\" 中导入 %d 个元素。"
+msgstr "已成功导入 %d 项（来自文件“%s”）"
 
 #: ulng.rsopttooltipfiletypeimportfile
 msgid "Select the file to import tooltip file type configuration(s)"
@@ -13475,6 +13402,10 @@ msgstr "文件"
 msgctxt "ulng.rspropsfolder"
 msgid "Directory"
 msgstr "文件夹"
+
+#: ulng.rspropsmultipletypes
+msgid "Multiple types"
+msgstr ""
 
 #: ulng.rspropsnmdpipe
 msgid "Named pipe"

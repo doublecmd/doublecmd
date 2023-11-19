@@ -405,36 +405,42 @@ begin
     if ContextMenucm_RunTerm = nil then
       ContextMenucm_RunTerm := GetMeTheBitmapForThis(PixMapManager.GetIconByName('cm_runterm'));
 
-    // If the external generic viewer is configured, offer it.
-    if gExternalTools[etViewer].Enabled then
+    // If the default context actions not hidden
+    if gDefaultContextActions then
     begin
-      I := paramExtActionList.Add(TExtActionCommand.Create(rsMnuView + ' (' + rsViewWithExternalViewer + ')', '{!VIEWER}', QuoteStr(aFile.FullPath), ''));
-      LocalInsertMenuItemExternal(I);
+      // If the external generic viewer is configured, offer it.
+      if gExternalTools[etViewer].Enabled then
+      begin
+        I := paramExtActionList.Add(TExtActionCommand.Create(rsMnuView + ' (' + rsViewWithExternalViewer + ')', '{!VIEWER}', QuoteStr(aFile.FullPath), ''));
+        LocalInsertMenuItemExternal(I);
+        Inc(Always_Expanded_Action_Count);
+      end;
+
+      // Make sure we always shows our internal viewer
+      I := paramExtActionList.Add(TExtActionCommand.Create(rsMnuView + ' (' + rsViewWithInternalViewer + ')', '{!DC-VIEWER}', QuoteStr(aFile.FullPath), ''));
+      LocalInsertMenuItemExternal(I, ContextMenuDCIcon);
+      Inc(Always_Expanded_Action_Count);
+
+      // If the external generic editor is configured, offer it.
+      if gExternalTools[etEditor].Enabled then
+      begin
+        I := paramExtActionList.Add(TExtActionCommand.Create(rsMnuEdit + ' (' + rsEditWithExternalEditor + ')', '{!EDITOR}', QuoteStr(aFile.FullPath), ''));
+        LocalInsertMenuItemExternal(I);
+        Inc(Always_Expanded_Action_Count);
+      end;
+
+      // Make sure we always shows our internal editor
+      I := paramExtActionList.Add(TExtActionCommand.Create(rsMnuEdit + ' (' + rsEditWithInternalEditor + ')', '{!DC-EDITOR}', QuoteStr(aFile.FullPath), ''));
+      LocalInsertMenuItemExternal(I, ContextMenuDCIcon);
       Inc(Always_Expanded_Action_Count);
     end;
-
-    // Make sure we always shows our internal viewer
-    I := paramExtActionList.Add(TExtActionCommand.Create(rsMnuView + ' (' + rsViewWithInternalViewer + ')', '{!DC-VIEWER}', QuoteStr(aFile.FullPath), ''));
-    LocalInsertMenuItemExternal(I, ContextMenuDCIcon);
-    Inc(Always_Expanded_Action_Count);
-
-    // If the external generic editor is configured, offer it.
-    if gExternalTools[etEditor].Enabled then
-    begin
-      I := paramExtActionList.Add(TExtActionCommand.Create(rsMnuEdit + ' (' + rsEditWithExternalEditor + ')', '{!EDITOR}', QuoteStr(aFile.FullPath), ''));
-      LocalInsertMenuItemExternal(I);
-      Inc(Always_Expanded_Action_Count);
-    end;
-
-    // Make sure we always shows our internal editor
-    I := paramExtActionList.Add(TExtActionCommand.Create(rsMnuEdit + ' (' + rsEditWithInternalEditor + ')', '{!DC-EDITOR}', QuoteStr(aFile.FullPath), ''));
-    LocalInsertMenuItemExternal(I, ContextMenuDCIcon);
-    Inc(Always_Expanded_Action_Count);
 
     // Now let's add the action button
     if paramExtActionList.Count > Always_Expanded_Action_Count then
     begin
-      LocalInsertMenuSeparator;
+
+      if iMenuPositionInsertion > 0 then
+         LocalInsertMenuSeparator;
 
       for I := 0 to (pred(paramExtActionList.Count) - Always_Expanded_Action_Count) do
       begin
@@ -469,7 +475,7 @@ begin
       end;
     end;
 
-    if gOpenExecuteViaShell or gExecuteViaTerminalClose or gExecuteViaTerminalStayOpen then
+    if (gOpenExecuteViaShell or gExecuteViaTerminalClose or gExecuteViaTerminalStayOpen) and (iMenuPositionInsertion > 0) then
       LocalInsertMenuSeparator;
 
     // now add various SHELL item
@@ -494,7 +500,9 @@ begin
     // Add shortcut to launch file association configuration screen
     if gIncludeFileAssociation then
     begin
-      LocalInsertMenuSeparator;
+      if iMenuPositionInsertion > 0 then
+         LocalInsertMenuSeparator;
+
       I := paramExtActionList.Add(TExtActionCommand.Create(rsConfigurationFileAssociation, 'cm_FileAssoc', '', ''));
       LocalInsertMenuItemExternal(I, ContextMenucm_FileAssoc);
     end;
@@ -590,6 +598,7 @@ var
   aFile: TFile = nil;
   i: integer;
   hActionsSubMenu: HMENU = 0;
+  iActionsItemsCount: integer;
   cmd: UINT = 0;
   iCmd: integer;
   cmici: TCMInvokeCommandInfoEx;
@@ -675,7 +684,9 @@ begin
                   Break;
               end;
 
-              if FUserWishForContextMenu = uwcmComplete then
+              iActionsItemsCount := GetMenuItemCount(hActionsSubMenu);
+
+              if (FUserWishForContextMenu = uwcmComplete) and (iActionsItemsCount > 0) then
                 InsertMenuItemEx(FShellMenu, hActionsSubMenu, PWideChar(CeUtf8ToUtf16(rsMnuActions)), I, 333, MFT_STRING);
             end;
             { /Actions submenu }

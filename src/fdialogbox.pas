@@ -3,7 +3,7 @@
     -------------------------------------------------------------------------
     This unit contains realization of Dialog API functions.
 
-    Copyright (C) 2008-2019 Alexander Koblov (alexx2000@mail.ru)
+    Copyright (C) 2008-2023 Alexander Koblov (alexx2000@mail.ru)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -35,9 +35,11 @@ type
   { TDialogBox }
 
   TDialogBox = class(TForm)
+    DialogTimer: TTimer;
     DialogButton: TButton;
     DialogBitBtn: TBitBtn;
     DialogFileNameEdit: TFileNameEdit;
+    DialogDirectoryEdit: TDirectoryEdit;
     DialogComboBox: TComboBox;
     DialogListBox: TListBox;
     DialogCheckBox: TCheckBox;
@@ -88,9 +90,12 @@ type
     procedure ListBoxKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
     // CheckBox events
     procedure CheckBoxChange(Sender: TObject);
+    // Timer events
+    procedure TimerTimer(Sender: TObject);
   private
     FRect: TRect;
     FText: String;
+    FSelf: UIntPtr;
     FLRSData: String;
     FResult: LongBool;
     FDlgProc: TDlgProc;
@@ -106,16 +111,21 @@ type
 
 function InputBox(Caption, Prompt: PAnsiChar; MaskInput: LongBool; Value: PAnsiChar; ValueMaxLen: Integer): LongBool; dcpcall;
 function MessageBox(Text, Caption: PAnsiChar; Flags: Longint): Integer; dcpcall;
+function MsgChoiceBox(Text, Caption: PAnsiChar; Buttons: PPAnsiChar): Integer; dcpcall;
 function DialogBoxLFM(LFMData: Pointer; DataSize: LongWord; DlgProc: TDlgProc): LongBool; dcpcall;
 function DialogBoxLRS(LRSData: Pointer; DataSize: LongWord; DlgProc: TDlgProc): LongBool; dcpcall;
 function DialogBoxLFMFile(lfmFileName: PAnsiChar; DlgProc: TDlgProc): LongBool; dcpcall;
+function DialogBoxParam(Data: Pointer; DataSize: LongWord; DlgProc: TDlgProc; Flags: UInt32; UserData, Reserved: Pointer): LongBool; dcpcall;
 function SendDlgMsg(pDlg: PtrUInt; DlgItemName: PAnsiChar; Msg, wParam, lParam: PtrInt): PtrInt; dcpcall;
 
 implementation
 
 uses
-  LCLStrConsts, LazFileUtils, DCClassesUtf8, DCOSUtils, uShowMsg, uDebug,
-  uTranslator, uGlobs;
+  LCLStrConsts, LazFileUtils, DCClassesUtf8, DCOSUtils, DCStrUtils, uShowMsg,
+  uDebug, uTranslator, uGlobs, uFileProcs;
+
+type
+  TControlProtected = class(TControl);
 
 function InputBox(Caption, Prompt: PAnsiChar; MaskInput: LongBool; Value: PAnsiChar; ValueMaxLen: Integer): LongBool; dcpcall;
 var
@@ -129,6 +139,19 @@ end;
 function MessageBox(Text, Caption: PAnsiChar; Flags: Longint): Integer; dcpcall;
 begin
   Result:= ShowMessageBox(Text, Caption, Flags);
+end;
+
+function MsgChoiceBox(Text, Caption: PAnsiChar; Buttons: PPAnsiChar): Integer; dcpcall;
+var
+  AButtons: TStringArray;
+begin
+  AButtons:= Default(TStringArray);
+  while (Buttons^ <> nil) do
+  begin
+    AddString(AButtons, Buttons^);
+    Inc(Buttons);
+  end;
+  Result:= uShowMsg.MsgChoiceBox(nil, Text, Caption, AButtons);
 end;
 
 function LFMToLRS(const LFMData: String): String;
@@ -147,14 +170,16 @@ begin
   end;
 end;
 
-function DialogBox(const LRSData: String; DlgProc: TDlgProc): LongBool;
+function DialogBox(const LRSData: String; DlgProc: TDlgProc; UserData: Pointer): LongBool;
 var
   Dialog: TDialogBox;
+  Data: PtrInt absolute UserData;
 begin
   Dialog:= TDialogBox.Create(LRSData, DlgProc);
   try
     with Dialog do
     begin
+      Tag:= Data;
       TThread.Synchronize(nil, @ShowDialogBox);
       Result:= FResult;
     end;
@@ -170,7 +195,7 @@ begin
   if Assigned(LFMData) and (DataSize > 0) then
   begin
     SetString(DataString, LFMData, DataSize);
-    Result := DialogBox(LFMToLRS(DataString), DlgProc);
+    Result := DialogBox(LFMToLRS(DataString), DlgProc, nil);
   end
   else
     Result := False;
@@ -183,7 +208,7 @@ begin
   if Assigned(LRSData) and (DataSize > 0) then
   begin
     SetString(DataString, LRSData, DataSize);
-    Result := DialogBox(DataString, DlgProc);
+    Result := DialogBox(DataString, DlgProc, nil);
   end
   else
     Result := False;
@@ -191,39 +216,51 @@ end;
 
 function DialogBoxLFMFile(lfmFileName: PAnsiChar; DlgProc: TDlgProc): LongBool; dcpcall;
 var
-  lfmStringList: TStringListEx;
+  DataString: String;
 begin
-  if Assigned(lfmFileName) then
+  if (lfmFileName = nil) then
+    Result := False
+  else begin
+    DataString := mbReadFileToString(lfmFileName);
+    Result := DialogBox(LFMToLRS(DataString), DlgProc, nil);
+  end;
+end;
+
+function DialogBoxParam(Data: Pointer; DataSize: LongWord;
+  DlgProc: TDlgProc; Flags: UInt32; UserData, Reserved: Pointer): LongBool; dcpcall;
+var
+  DataString: String;
+begin
+  if (Data = nil) then Exit(False);
+  if (DataSize = 0) then Exit(False);
+  SetString(DataString, Data, DataSize);
+
+  if (Flags and DB_LRS = 0) then
   begin
-    lfmStringList:= TStringListEx.Create;
-    try
-      lfmStringList.LoadFromFile(lfmFileName);
-      Result := DialogBox(LFMToLRS(lfmStringList.Text), DlgProc);
-    finally
-      FreeAndNil(lfmStringList);
-    end;
+    DataString:= LFMToLRS(DataString);
   end
-  else
-    Result := False;
+  else if (Flags and DB_FILENAME <> 0) then
+  begin
+    DataString:= LFMToLRS(mbReadFileToString(DataString));
+  end;
+
+  Result:= DialogBox(DataString, DlgProc, UserData);
 end;
 
 function SendDlgMsg(pDlg: PtrUInt; DlgItemName: PAnsiChar; Msg, wParam, lParam: PtrInt): PtrInt; dcpcall;
 var
   Key: Word;
   AText: String;
-  Index: Integer;
-  Control: TControl;
+  Component: TComponent = nil;
   lText: PAnsiChar absolute lParam;
   wText: PAnsiChar absolute wParam;
   pResult: Pointer absolute Result;
   DialogBox: TDialogBox absolute pDlg;
+  Control: TControl absolute Component;
 begin
   // find component by name
-  for Index:= 0 to DialogBox.ComponentCount - 1 do
-  begin
-    Control:= TControl(DialogBox.Components[Index]);
-    if CompareText(Control.Name, DlgItemName) = 0 then Break;
-  end;
+  Component:= DialogBox.FindComponent(DlgItemName);
+  if (Component = nil) then Exit(-1);
   // process message
   case Msg of
   DM_CLOSE:
@@ -234,9 +271,17 @@ begin
     end;
   DM_ENABLE:
     begin
-      Result:= PtrInt(Control.Enabled);
-      if wParam <> -1 then
-        Control.Enabled:= Boolean(wParam);
+      if (Component is TTimer) then
+      begin
+        Result:= PtrInt(TTimer(Component).Enabled);
+        if wParam <> -1 then
+          TTimer(Component).Enabled:= Boolean(wParam);
+      end
+      else begin
+        Result:= PtrInt(Control.Enabled);
+        if wParam <> -1 then
+          Control.Enabled:= Boolean(wParam);
+      end;
     end;
   DM_GETCHECK:
     begin
@@ -406,6 +451,8 @@ begin
           FText:= TButton(Control).Caption
         else if Control is TComboBox then
           FText:= TComboBox(Control).Text
+        else if Control is TCheckBox then
+          FText:= TCheckBox(Control).Caption
         else if Control is TMemo then
           FText:= TMemo(Control).Text
         else if Control is TEdit then
@@ -415,7 +462,10 @@ begin
         else if Control is TLabel then
           FText:= TLabel(Control).Caption
         else if Control is TFileNameEdit then
-          FText:= TFileNameEdit(Control).Text;
+          FText:= TFileNameEdit(Control).Text
+        else begin
+          FText:= TControlProtected(Control).Text
+        end;
         pResult:= PAnsiChar(FText);
       end;
     end;
@@ -519,6 +569,8 @@ begin
         TButton(Control).Caption:= AText
       else if Control is TComboBox then
         TComboBox(Control).Text:= AText
+      else if Control is TCheckBox then
+        TCheckBox(Control).Caption:= AText
       else if Control is TMemo then
         TMemo(Control).Text:= AText
       else if Control is TEdit then
@@ -528,7 +580,10 @@ begin
       else if Control is TLabel then
         TLabel(Control).Caption:= AText
       else if Control is TFileNameEdit then
-        TFileNameEdit(Control).Text:= AText;
+        TFileNameEdit(Control).Text:= AText
+      else begin
+        TControlProtected(Control).Text:= AText;
+      end;
     end;
   DM_SHOWDIALOG:
     begin
@@ -562,6 +617,13 @@ begin
       if (Control is TCustomEdit) then
       begin
         TCustomEdit(Control).PasswordChar:= Char(wParam);
+      end;
+    end;
+  DM_TIMERSETINTERVAL:
+    begin
+      if (Component is TTimer) then
+      begin
+        TTimer(Component).Interval:= wParam;
       end;
     end;
   end;
@@ -644,6 +706,7 @@ var
 begin
   FLRSData:= LRSData;
   FDlgProc:= DlgProc;
+  FSelf:= UIntPtr(Self);
 
   FileName:= mbGetModuleName(DlgProc);
   Path:= ExtractFilePath(FileName) + 'language' + PathDelim;
@@ -663,103 +726,103 @@ end;
 procedure TDialogBox.DialogBoxShow(Sender: TObject);
 begin
   if Assigned(fDlgProc) then
-    fDlgProc(PtrUInt(Pointer(Self)), PAnsiChar((Sender as TControl).Name), DN_INITDIALOG,0,0);
+    fDlgProc(FSelf, PAnsiChar((Sender as TControl).Name), DN_INITDIALOG,0,0);
 end;
 
 procedure TDialogBox.DialogBoxClose(Sender: TObject; var CloseAction: TCloseAction);
 begin
   if Assigned(fDlgProc) then
-    fDlgProc(PtrUInt(Pointer(Self)), PAnsiChar((Sender as TControl).Name), DN_CLOSE, 0, 0);
+    fDlgProc(FSelf, PAnsiChar((Sender as TControl).Name), DN_CLOSE, 0, 0);
 end;
 
 procedure TDialogBox.ButtonClick(Sender: TObject);
 begin
   if Assigned(fDlgProc) then
-    fDlgProc(PtrUInt(Pointer(Self)), PAnsiChar((Sender as TControl).Name), DN_CLICK,0,0);
+    fDlgProc(FSelf, PAnsiChar((Sender as TControl).Name), DN_CLICK,0,0);
 end;
 
 procedure TDialogBox.ButtonEnter(Sender: TObject);
 begin
   if Assigned(fDlgProc) then
-    fDlgProc(PtrUInt(Pointer(Self)), PAnsiChar((Sender as TControl).Name), DN_GOTFOCUS,0,0);
+    fDlgProc(FSelf, PAnsiChar((Sender as TControl).Name), DN_GOTFOCUS,0,0);
 end;
 
 procedure TDialogBox.ButtonExit(Sender: TObject);
 begin
   if Assigned(fDlgProc) then
-    fDlgProc(PtrUInt(Pointer(Self)), PAnsiChar((Sender as TControl).Name), DN_KILLFOCUS,0,0);
+    fDlgProc(FSelf, PAnsiChar((Sender as TControl).Name), DN_KILLFOCUS,0,0);
 end;
 
 procedure TDialogBox.ButtonKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
   if Assigned(fDlgProc) then
-    fDlgProc(PtrUInt(Pointer(Self)), PAnsiChar((Sender as TControl).Name), DN_KEYDOWN, PtrInt(@Key), Integer(Shift));
+    fDlgProc(FSelf, PAnsiChar((Sender as TControl).Name), DN_KEYDOWN, PtrInt(@Key), Integer(Shift));
 end;
 
 procedure TDialogBox.ButtonKeyUp(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
   if Assigned(fDlgProc) then
-    fDlgProc(PtrUInt(Pointer(Self)), PAnsiChar((Sender as TControl).Name), DN_KEYUP, PtrInt(@Key), Integer(Shift));
+    fDlgProc(FSelf, PAnsiChar((Sender as TControl).Name), DN_KEYUP, PtrInt(@Key), Integer(Shift));
 end;
 
 procedure TDialogBox.ComboBoxClick(Sender: TObject);
 begin
   if Assigned(fDlgProc) then
-    fDlgProc(PtrUInt(Pointer(Self)), PAnsiChar((Sender as TControl).Name), DN_CLICK,PtrInt((Sender as TComboBox).ItemIndex),0);
+    fDlgProc(FSelf, PAnsiChar((Sender as TControl).Name), DN_CLICK,PtrInt((Sender as TComboBox).ItemIndex),0);
 end;
 
 procedure TDialogBox.ComboBoxDblClick(Sender: TObject);
 begin
   if Assigned(fDlgProc) then
-    fDlgProc(PtrUInt(Pointer(Self)), PAnsiChar((Sender as TControl).Name), DN_DBLCLICK,PtrInt((Sender as TComboBox).ItemIndex),0);
+    fDlgProc(FSelf, PAnsiChar((Sender as TControl).Name), DN_DBLCLICK,PtrInt((Sender as TComboBox).ItemIndex),0);
 end;
 
 procedure TDialogBox.ComboBoxChange(Sender: TObject);
 begin
   if Assigned(fDlgProc) then
     begin
-      fDlgProc(PtrUInt(Pointer(Self)), PAnsiChar((Sender as TControl).Name), DN_CHANGE, PtrInt((Sender as TComboBox).ItemIndex),0);
+      fDlgProc(FSelf, PAnsiChar((Sender as TControl).Name), DN_CHANGE, PtrInt((Sender as TComboBox).ItemIndex),0);
     end;
 end;
 
 procedure TDialogBox.ComboBoxEnter(Sender: TObject);
 begin
   if Assigned(fDlgProc) then
-    fDlgProc(PtrUInt(Pointer(Self)), PAnsiChar((Sender as TControl).Name), DN_GOTFOCUS,0,0);
+    fDlgProc(FSelf, PAnsiChar((Sender as TControl).Name), DN_GOTFOCUS,0,0);
 end;
 
 procedure TDialogBox.ComboBoxExit(Sender: TObject);
 begin
   if Assigned(fDlgProc) then
-    fDlgProc(PtrUInt(Pointer(Self)), PAnsiChar((Sender as TControl).Name), DN_KILLFOCUS,0,0);
+    fDlgProc(FSelf, PAnsiChar((Sender as TControl).Name), DN_KILLFOCUS,0,0);
 end;
 
 procedure TDialogBox.ComboBoxKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
   if Assigned(fDlgProc) then
-    fDlgProc(PtrUInt(Pointer(Self)), PAnsiChar((Sender as TControl).Name), DN_KEYDOWN, PtrInt(@Key), Integer(Shift));
+    fDlgProc(FSelf, PAnsiChar((Sender as TControl).Name), DN_KEYDOWN, PtrInt(@Key), Integer(Shift));
 end;
 
 procedure TDialogBox.ComboBoxKeyUp(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
   if Assigned(fDlgProc) then
-    fDlgProc(PtrUInt(Pointer(Self)), PAnsiChar((Sender as TControl).Name), DN_KEYUP, PtrInt(@Key), Integer(Shift));
+    fDlgProc(FSelf, PAnsiChar((Sender as TControl).Name), DN_KEYUP, PtrInt(@Key), Integer(Shift));
 end;
 
 procedure TDialogBox.EditClick(Sender: TObject);
 begin
   if Assigned(fDlgProc) then
-    fDlgProc(PtrUInt(Pointer(Self)), PAnsiChar((Sender as TControl).Name), DN_CLICK,0,0);
+    fDlgProc(FSelf, PAnsiChar((Sender as TControl).Name), DN_CLICK,0,0);
 end;
 
 procedure TDialogBox.EditDblClick(Sender: TObject);
 begin
   if Assigned(fDlgProc) then
-    fDlgProc(PtrUInt(Pointer(Self)), PAnsiChar((Sender as TControl).Name), DN_DBLCLICK,0,0);
+    fDlgProc(FSelf, PAnsiChar((Sender as TControl).Name), DN_DBLCLICK,0,0);
 end;
 
 procedure TDialogBox.EditChange(Sender: TObject);
@@ -769,39 +832,39 @@ begin
   if Assigned(fDlgProc) then
     begin
       sText:= (Sender as TEdit).Text;
-      fDlgProc(PtrUInt(Pointer(Self)), PAnsiChar((Sender as TControl).Name), DN_CHANGE, PtrInt(PAnsiChar(sText)), 0);
+      fDlgProc(FSelf, PAnsiChar((Sender as TControl).Name), DN_CHANGE, PtrInt(PAnsiChar(sText)), 0);
     end;
 end;
 
 procedure TDialogBox.EditEnter(Sender: TObject);
 begin
   if Assigned(fDlgProc) then
-    fDlgProc(PtrUInt(Pointer(Self)), PAnsiChar((Sender as TControl).Name), DN_GOTFOCUS,0,0);
+    fDlgProc(FSelf, PAnsiChar((Sender as TControl).Name), DN_GOTFOCUS,0,0);
 end;
 
 procedure TDialogBox.EditExit(Sender: TObject);
 begin
   if Assigned(fDlgProc) then
-    fDlgProc(PtrUInt(Pointer(Self)), PAnsiChar((Sender as TControl).Name), DN_KILLFOCUS,0,0);
+    fDlgProc(FSelf, PAnsiChar((Sender as TControl).Name), DN_KILLFOCUS,0,0);
 end;
 
 procedure TDialogBox.EditKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
 begin
   if Assigned(fDlgProc) then
-    fDlgProc(PtrUInt(Pointer(Self)), PAnsiChar((Sender as TControl).Name), DN_KEYDOWN, PtrInt(@Key), Integer(Shift));
+    fDlgProc(FSelf, PAnsiChar((Sender as TControl).Name), DN_KEYDOWN, PtrInt(@Key), Integer(Shift));
 end;
 
 procedure TDialogBox.EditKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
 begin
   if Assigned(fDlgProc) then
-    fDlgProc(PtrUInt(Pointer(Self)), PAnsiChar((Sender as TControl).Name), DN_KEYUP, PtrInt(@Key), Integer(Shift));
+    fDlgProc(FSelf, PAnsiChar((Sender as TControl).Name), DN_KEYUP, PtrInt(@Key), Integer(Shift));
 end;
 
 procedure TDialogBox.ListBoxClick(Sender: TObject);
 begin
   if Assigned(fDlgProc) then
     begin
-      fDlgProc(PtrUInt(Pointer(Self)), PAnsiChar((Sender as TControl).Name), DN_CLICK, PtrInt((Sender as TListBox).ItemIndex),0);
+      fDlgProc(FSelf, PAnsiChar((Sender as TControl).Name), DN_CLICK, PtrInt((Sender as TListBox).ItemIndex),0);
     end;
 end;
 
@@ -809,7 +872,7 @@ procedure TDialogBox.ListBoxDblClick(Sender: TObject);
 begin
   if Assigned(fDlgProc) then
     begin
-      fDlgProc(PtrUInt(Pointer(Self)), PAnsiChar((Sender as TControl).Name), DN_DBLCLICK, PtrInt((Sender as TListBox).ItemIndex),0);
+      fDlgProc(FSelf, PAnsiChar((Sender as TControl).Name), DN_DBLCLICK, PtrInt((Sender as TListBox).ItemIndex),0);
     end;
 end;
 
@@ -817,46 +880,51 @@ procedure TDialogBox.ListBoxSelectionChange(Sender: TObject; User: boolean);
 begin
   if Assigned(fDlgProc) then
     begin
-      fDlgProc(PtrUInt(Pointer(Self)), PAnsiChar((Sender as TControl).Name), DN_CHANGE, PtrInt((Sender as TListBox).ItemIndex),0);
+      fDlgProc(FSelf, PAnsiChar((Sender as TControl).Name), DN_CHANGE, PtrInt((Sender as TListBox).ItemIndex),0);
     end;
 end;
 
 procedure TDialogBox.ListBoxEnter(Sender: TObject);
 begin
   if Assigned(fDlgProc) then
-    fDlgProc(PtrUInt(Pointer(Self)), PAnsiChar((Sender as TControl).Name), DN_GOTFOCUS,0,0);
+    fDlgProc(FSelf, PAnsiChar((Sender as TControl).Name), DN_GOTFOCUS,0,0);
 end;
 
 procedure TDialogBox.ListBoxExit(Sender: TObject);
 begin
   if Assigned(fDlgProc) then
-    fDlgProc(PtrUInt(Pointer(Self)), PAnsiChar((Sender as TControl).Name), DN_KILLFOCUS,0,0);
+    fDlgProc(FSelf, PAnsiChar((Sender as TControl).Name), DN_KILLFOCUS,0,0);
 end;
 
 procedure TDialogBox.ListBoxKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
   if Assigned(fDlgProc) then
-    fDlgProc(PtrUInt(Pointer(Self)), PAnsiChar((Sender as TControl).Name), DN_KEYDOWN, PtrInt(@Key), Integer(Shift));
+    fDlgProc(FSelf, PAnsiChar((Sender as TControl).Name), DN_KEYDOWN, PtrInt(@Key), Integer(Shift));
 end;
 
 procedure TDialogBox.ListBoxKeyUp(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
   if Assigned(fDlgProc) then
-    fDlgProc(PtrUInt(Pointer(Self)), PAnsiChar((Sender as TControl).Name), DN_KEYUP, PtrInt(@Key), Integer(Shift));
+    fDlgProc(FSelf, PAnsiChar((Sender as TControl).Name), DN_KEYUP, PtrInt(@Key), Integer(Shift));
 end;
 
 procedure TDialogBox.CheckBoxChange(Sender: TObject);
 begin
   if Assigned(fDlgProc) then
     begin
-      fDlgProc(PtrUInt(Pointer(Self)), PAnsiChar((Sender as TControl).Name), DN_CHANGE, PtrInt((Sender as TCheckBox).Checked),0);
+      fDlgProc(FSelf, PAnsiChar((Sender as TControl).Name), DN_CHANGE, PtrInt((Sender as TCheckBox).Checked),0);
     end;
 end;
 
-initialization
-  {.$I fdialogbox.lrs}
+procedure TDialogBox.TimerTimer(Sender: TObject);
+begin
+  if Assigned(fDlgProc) then
+  begin
+    fDlgProc(FSelf, PAnsiChar((Sender as TTimer).Name), DN_TIMER, 0, 0);
+  end;
+end;
 
 end.
 

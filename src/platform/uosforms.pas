@@ -3,7 +3,7 @@
     -------------------------------------------------------------------------
     This unit contains platform depended functions.
 
-    Copyright (C) 2006-2022 Alexander Koblov (alexx2000@mail.ru)
+    Copyright (C) 2006-2023 Alexander Koblov (alexx2000@mail.ru)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -26,7 +26,7 @@ unit uOSForms;
 interface
 
 uses
-  LCLType, Forms, Classes, SysUtils, Controls,
+  LCLType, LMessages, Forms, Classes, SysUtils, Controls,
   uGlobs, uShellContextMenu, uDrive, uFile, uFileSource;
 
 type
@@ -38,6 +38,8 @@ type
   protected
     procedure DoClose(var CloseAction: TCloseAction); override;
   {$ENDIF}
+  protected
+    procedure WMSize(var Message: TLMSize); message LM_Size;
   end;
 
   { TModalDialog }
@@ -120,44 +122,55 @@ function GetControlHandle(AWindow: TWinControl): HWND;
 function GetWindowHandle(AWindow: TWinControl): HWND; overload;
 function GetWindowHandle(AHandle: HWND): HWND; overload;
 procedure CopyNetNamesToClip;
+function DarkStyle: Boolean;
 
 implementation
 
 uses
-  ExtDlgs, LCLProc, Menus, Graphics, InterfaceBase, WSForms, LMessages, LCLIntf,
-  fMain, uConnectionManager, uShowMsg, uLng
+  ExtDlgs, LCLProc, Menus, Graphics, InterfaceBase, WSForms, LCLIntf,
+  fMain, uConnectionManager, uShowMsg, uLng, uDCUtils, uDebug
   {$IF DEFINED(MSWINDOWS)}
   , LCLStrConsts, ComObj, ActiveX, DCOSUtils, uOSUtils, uFileSystemFileSource
   , uTotalCommander, FileUtil, Windows, ShlObj, uShlObjAdditional
   , uWinNetFileSource, uVfsModule, uMyWindows, DCStrUtils, uOleDragDrop
   , uDCReadRSVG, uFileSourceUtil, uGdiPlusJPEG, uListGetPreviewBitmap
-  , Dialogs, Clipbrd, uDebug, JwaDbt, uThumbnailProvider, uShellFolder
+  , Dialogs, Clipbrd, JwaDbt, uThumbnailProvider, uShellFolder
   , uRecycleBinFileSource, uWslFileSource, uDCReadHEIF, uDCReadWIC
-    {$IFDEF LCLQT5}
+  , uShellFileSource
+    {$IF DEFINED(DARKWIN)}
+    , uDarkStyle
+    {$ELSEIF DEFINED(LCLQT5)}
     , qt5, qtwidgets, uDarkStyle
     {$ENDIF}
   {$ENDIF}
-  {$IFDEF UNIX}
+  {$IF DEFINED(DARWIN)}
+  , BaseUnix, Errors, fFileProperties
+  , uQuickLook, uOpenDocThumb, uMyDarwin
+  {$ELSEIF DEFINED(UNIX)}
   , BaseUnix, Errors, fFileProperties, uJpegThumb, uOpenDocThumb
-    {$IF DEFINED(DARWIN)}
-    , MacOSAll, uQuickLook, uMyDarwin
-    {$ELSEIF NOT DEFINED(HAIKU)}
+    {$IF NOT DEFINED(HAIKU)}
     , uDCReadRSVG, uMagickWand, uGio, uGioFileSource, uVfsModule, uVideoThumb
     , uDCReadWebP, uFolderThumb, uAudioThumb, uDefaultTerminal, uDCReadHEIF
-    , uTrashFileSource, fOpenWith
+    , uTrashFileSource, uFileManager, uFileSystemFileSource, fOpenWith
     {$ENDIF}
-    {$IF DEFINED(LCLQT) and not DEFINED(DARWIN)}
+    {$IF DEFINED(LINUX)}
+    , uFlatpak
+    {$ENDIF}
+    {$IF DEFINED(LCLQT)}
     , qt4, qtwidgets
     {$ENDIF}
-    {$IF DEFINED(LCLQT5) and not DEFINED(DARWIN)}
+    {$IF DEFINED(LCLQT5)}
     , qt5, qtwidgets
     {$ENDIF}
-    {$IF DEFINED(LCLQT6) and not DEFINED(DARWIN)}
+    {$IF DEFINED(LCLQT6)}
     , qt6, qtwidgets
     {$ENDIF}
     {$IF DEFINED(LCLGTK2)}
-    , gtk2
+    , Gtk2,  Glib2, Themes
     {$ENDIF}
+  {$ENDIF}
+  {$IF FPC_FULLVERSION < 30300}
+  , uDCReadPNM
   {$ENDIF}
   , uDCReadSVG, uTurboJPEG;
 
@@ -210,6 +223,17 @@ end;
 
 {$ENDIF}
 
+procedure TAloneForm.WMSize(var Message: TLMSize);
+begin
+  // https://github.com/doublecmd/doublecmd/issues/1358
+  if (Message.Width > High(Int16)) or (Message.Height > High(Int16)) then
+  begin
+    DCDebug(ClassName + '.WMSize invalid size %u x %u', [Message.Width, Message.Height]);
+    Exit;
+  end;
+  inherited WMSize(Message);
+end;
+
 { TModalDialog }
 
 procedure TModalDialog.CloseModal;
@@ -240,7 +264,11 @@ begin
   inherited CreateParams(Params);
   if FParentWindow <> 0 then
   begin
+    // It doesn't affect anything under GTK2 and raise
+    // a range check error (LCLGTK2 bug in the function CreateWidgetInfo)
+{$IFNDEF LCLGTK2}
     Params.Style := Params.Style or WS_POPUP;
+{$ENDIF}
     Params.WndParent := FParentWindow;
   end;
 end;
@@ -294,6 +322,9 @@ function TModalDialog.ShowModal: Integer;
   end;
 
 var
+{$IF DEFINED(LCLCOCOA)}
+  DisabledList: TList;
+{$ENDIF}
   SavedFocusState: TFocusState;
   ActiveWindow: HWnd;
 begin
@@ -331,7 +362,9 @@ begin
       ModalResult := 0;
 
       try
+{$IF NOT DEFINED(LCLCOCOA)}
         EnableWindow(FParentWindow, False);
+{$ENDIF}
         // If window already created then recreate it to force
         // call CreateParams with appropriate parent window
         if HandleAllocated then
@@ -343,6 +376,12 @@ begin
           SetWindowLongPtr(Handle, GWL_HWNDPARENT, FParentWindow);
 {$ENDIF}
         end;
+{$IF DEFINED(LCLCOCOA)}
+        if WidgetSet.GetLCLCapability(lcModalWindow) = LCL_CAPABILITY_NO then
+          DisabledList := Screen.DisableForms(Self)
+        else
+          DisabledList := nil;
+{$ENDIF}
         Show;
         try
           EnableWindow(Handle, True);
@@ -362,7 +401,11 @@ begin
           if ModalResult = 0 then
             ModalResult := mrCancel;
 
+{$IF DEFINED(LCLCOCOA)}
+          Screen.EnableForms(DisabledList);
+{$ELSE}
           EnableWindow(FParentWindow, True);
+{$ENDIF}
           // Needs to be called only in ShowModal
           Perform(CM_DEACTIVATE, 0, 0);
           Exclude(FFormState, fsModal);
@@ -545,6 +588,13 @@ begin
     MountNetworkDrive(Address);
 end;
 
+{$ELSEIF DEFINED(LCLGTK2)}
+
+procedure OnThemeChange; cdecl;
+begin
+  ThemeServices.IntfDoOnThemeChange;
+end;
+
 {$ENDIF}
 
 procedure MainFormCreate(MainForm : TCustomForm);
@@ -569,6 +619,16 @@ begin
     Screen.AddHandlerFormVisibleChanged(TScreenFormEvent(Handler), True);
   end;
 {$ENDIF}
+  // Register shell folder file source
+  if (Win32MajorVersion > 5) then
+  begin
+    RegisterVirtualFileSource(TShellFileSource.RootName, TShellFileSource);
+  end;
+  // Register recycle bin file source
+  if CheckWin32Version(5, 1) then
+  begin
+    RegisterVirtualFileSource(rsVfsRecycleBin, TRecycleBinFileSource);
+  end;
   // Register Windows Subsystem for Linux (WSL) file source
   if CheckWin32Version(10) then
   begin
@@ -576,11 +636,6 @@ begin
   end;
   // Register network file source
   RegisterVirtualFileSource(rsVfsNetwork, TWinNetFileSource);
-  // Register recycle bin file source
-  if CheckWin32Version(5, 1) then
-  begin
-    RegisterVirtualFileSource(rsVfsRecycleBin, TRecycleBinFileSource);
-  end;
 
   // If run under administrator
   if (IsUserAdmin = dupAccept) then
@@ -665,6 +720,15 @@ begin
   Screen.AddHandlerFormAdded(TScreenFormEvent(Handler), True);
   {$ENDIF}
 
+  {$IF DEFINED(LCLGTK2)}
+  Handler.Data:= gtk_settings_get_default();
+  if Assigned(Handler.Data) then
+  begin
+    g_signal_connect_data(Handler.Data, 'notify::gtk-theme-name',
+                          @OnThemeChange, nil, nil, 0);
+  end;
+  {$ENDIF}
+
   {$IF DEFINED(DARWIN)}
   if HasMountURL then
   begin
@@ -705,7 +769,7 @@ begin
     ShellContextMenu.PopUp(X, Y);
   finally
     // Free created menu
-    FreeThenNil(ShellContextMenu);
+    FreeAndNil(ShellContextMenu);
   end;
 end;
 {$ELSE}
@@ -717,7 +781,7 @@ begin
   end;
 
   // Free previous created menu
-  FreeThenNil(ShellContextMenu);
+  FreeAndNil(ShellContextMenu);
   // Create new context menu
   ShellContextMenu:= TShellContextMenu.Create(nil, Files, Background, UserWishForContextMenu);
   ShellContextMenu.OnClose := CloseEvent;
@@ -755,7 +819,7 @@ begin
   else
   begin
     // Free previous created menu
-    FreeThenNil(ShellContextMenu);
+    FreeAndNil(ShellContextMenu);
     // Create new context menu
     ShellContextMenu:= TShellContextMenu.Create(nil, ADrive);
     ShellContextMenu.OnClose := CloseEvent;
@@ -783,6 +847,12 @@ end;
 procedure ShowFilePropertiesDialog(aFileSource: IFileSource; const Files: TFiles);
 {$IFDEF UNIX}
 begin
+{$IF NOT (DEFINED(DARWIN) OR DEFINED(HAIKU))}
+  if gSystemItemProperties and aFileSource.IsClass(TFileSystemFileSource) then
+  begin
+   if ShowItemProperties(Files) then Exit;
+  end;
+{$ENDIF}
   ShowFileProperties(aFileSource, Files);
 end;
 {$ELSE}
@@ -949,6 +1019,17 @@ begin
 end;
 {$ENDIF}
 
+function DarkStyle: Boolean;
+{$IF DEFINED(DARKWIN)}
+begin
+  Result:= g_darkModeEnabled;
+end;
+{$ELSE}
+begin
+  Result:= not ColorIsLight(ColorToRGB(clWindow));
+end;
+{$ENDIF}
+
 {$IF DEFINED(UNIX) AND NOT (DEFINED(DARWIN) OR DEFINED(HAIKU))}
 procedure ShowOpenWithDialog(TheOwner: TComponent; const FileList: TStringList);
 begin
@@ -980,7 +1061,7 @@ initialization
 {$ENDIF}
 
 finalization
-  FreeThenNil(ShellContextMenu);
+  FreeAndNil(ShellContextMenu);
 
 end.
 

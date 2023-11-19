@@ -241,7 +241,7 @@ const
 {$IF DEFINED(UNIX)}
   heiflib   = 'libheif.so.1';
 {$ELSEIF DEFINED(MSWINDOWS)}
-  heiflib   = 'libheif-1.dll';
+  heiflib   = 'libheif.dll';
 {$ENDIF}
 
 var
@@ -249,7 +249,7 @@ var
 
 procedure Initialize;
 begin
-  libheif:= LoadLibrary(heiflib);
+  libheif:= mbLoadLibraryEx(heiflib);
 
   if (libheif <> NilHandle) then
   try

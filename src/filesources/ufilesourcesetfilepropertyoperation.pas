@@ -20,6 +20,7 @@ type
   TSetFilePropertyResultFunction = procedure(Index: Integer; aFile: TFile;
       aTemplate: TFileProperty; Result: TSetFilePropertyResult) of object;
 
+  PFileSourceSetFilePropertyOperationStatistics = ^TFileSourceSetFilePropertyOperationStatistics;
   TFileSourceSetFilePropertyOperationStatistics = record
     CurrentFile: String;
     TotalFiles: Int64;
@@ -273,7 +274,7 @@ procedure TFileSourceSetFilePropertyOperation.SetProperties(Index: Integer;
   aFile: TFile; aTemplateFile: TFile);
 var
   FileAttrs: TFileAttrs;
-  prop: TFilePropertyType;
+  AProp: TFilePropertyType;
   templateProperty: TFileProperty;
   bRetry: Boolean;
   sMessage, sQuestion: String;
@@ -281,20 +282,21 @@ var
   ErrorString: String;
 begin
   // Iterate over all properties supported by this operation.
-  for prop := Low(SupportedProperties) to High(SupportedProperties) do
+  for AProp := Low(SupportedProperties) to High(SupportedProperties) do
   begin
     repeat
       bRetry := False;
       SetResult := sfprSuccess;
 
       // Double-check that the property really is supported by the file.
-      if prop in (aFile.SupportedProperties * fpAll) then
+      if ((AProp in (aFile.SupportedProperties * fpAll)) or
+          (AProp in (FFileSource.GetRetrievableFileProperties * fpAll))) then
       begin
         // Get template property from template file (if exists) or NewProperties.
         if Assigned(aTemplateFile) then
-          templateProperty := aTemplateFile.Properties[prop]
+          templateProperty := aTemplateFile.Properties[AProp]
         else
-          templateProperty := NewProperties[prop];
+          templateProperty := NewProperties[AProp];
 
         // Check if there is a new property to be set.
         if Assigned(templateProperty) then
@@ -357,6 +359,9 @@ begin
 
     fpModificationTime, fpCreationTime, fpLastAccessTime:
       Result := Format(rsMsgErrSetDateTime, [aFile.FullPath]);
+
+    fpOwner:
+      Result := Format(rsMsgErrSetOwnership, [aFile.FullPath]);
 
     else
       Result := rsMsgLogError;

@@ -1,3 +1,10 @@
+{
+  Implementations of BLAKE2b, BLAKE2s,
+  optimized for speed on CPUs supporting AVX
+}
+
+{$CODEALIGN CONSTMIN=32}
+
 const
   BLAKE2S_LC0: array[0..15] of cuint8 = (2,  3,  0, 1, 6,  7,  4,  5,
                                          10, 11, 8, 9, 14, 15, 12, 13);
@@ -11,6 +18,7 @@ const
 
 function blake2s_compress_avx( S: Pblake2s_state; const block: pcuint8 ): cint; assembler; nostackframe;
 asm
+.balign 32
 {$IF DEFINED(UNIX)}
   pushq	%rcx
   movq	%rdi,	%rcx

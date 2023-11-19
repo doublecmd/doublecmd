@@ -28,7 +28,7 @@ implementation
 
 uses
   LazUTF8, uFile, Windows, uShowMsg, DCOSUtils, uMyWindows, ShlObj, ComObj,
-  DCConvertEncoding, uShellFolder, uShlObjAdditional;
+  ActiveX, DCConvertEncoding, uShellFolder, uShlObjAdditional;
 
 procedure TWslListOperation.LinuxEnum;
 var
@@ -46,18 +46,24 @@ begin
     OleCheckUTF8(SHGetDesktopFolder(DesktopFolder));
     APath:= CeUtf8ToUtf16(ExcludeTrailingPathDelimiter(Path));
     OleCheckUTF8(DeskTopFolder.ParseDisplayName(0, nil, PWideChar(APath), pchEaten, NetworkPIDL, dwAttributes));
-    OleCheckUTF8(DesktopFolder.BindToObject(NetworkPIDL, nil, IID_IShellFolder, Pointer(AFolder)));
-    OleCheckUTF8(AFolder.EnumObjects(0, SHCONTF_FOLDERS or SHCONTF_NONFOLDERS or SHCONTF_INCLUDEHIDDEN, EnumIDList));
+    try
+      OleCheckUTF8(DesktopFolder.BindToObject(NetworkPIDL, nil, IID_IShellFolder, Pointer(AFolder)));
+      OleCheckUTF8(AFolder.EnumObjects(0, SHCONTF_FOLDERS or SHCONTF_NONFOLDERS or SHCONTF_INCLUDEHIDDEN, EnumIDList));
 
-    while EnumIDList.Next(1, PIDL, NumIDs) = S_OK do
-    begin
-      CheckOperationState;
+      while EnumIDList.Next(1, PIDL, NumIDs) = S_OK do
+      try
+        CheckOperationState;
 
-      aFile:= TWinNetFileSource.CreateFile(Path);
-      aFile.Attributes:= FILE_ATTRIBUTE_DIRECTORY;
-      AFile.FullPath:= GetDisplayName(AFolder, PIDL, SHGDN_FORPARSING or SHGDN_FORADDRESSBAR);
+        aFile:= TWinNetFileSource.CreateFile(Path);
+        aFile.Attributes:= FILE_ATTRIBUTE_DIRECTORY;
+        AFile.FullPath:= GetDisplayName(AFolder, PIDL, SHGDN_FORPARSING or SHGDN_FORADDRESSBAR);
 
-      FFiles.Add(AFile);
+        FFiles.Add(AFile);
+      finally
+        CoTaskMemFree(PIDL);
+      end;
+    finally
+      CoTaskMemFree(NetworkPIDL);
     end;
   except
     on E: Exception do msgError(Thread, E.Message);

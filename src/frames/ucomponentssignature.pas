@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Compute signature of a form, frame, etc. based on current options set
 
-   Copyright (C) 2016-2018 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2016-2023 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -106,7 +106,7 @@ begin
       Result := crc32(Result, @SampleValue, sizeof(SampleValue));
     end;
 
-    'TColorBox':
+    'TColorBox', 'TKASColorBox':
     begin
       ColorSampleValue := TColorBox(aComponent).Selected;
       Result := crc32(Result, @ColorSampleValue, 4);

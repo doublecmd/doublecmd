@@ -3,7 +3,7 @@
     -------------------------------------------------------------------------
     Some useful functions for Unix icon theme implementation
 
-    Copyright (C) 2009-2021  Alexander Koblov (alexx2000@mail.ru)
+    Copyright (C) 2009-2023  Alexander Koblov (alexx2000@mail.ru)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -39,7 +39,23 @@ implementation
 
 uses
   Laz2_DOM, Laz2_XMLRead, DCClassesUtf8, uMyUnix, DCOSUtils, uOSUtils, uGio,
-  uSysFolders, uXdg;
+  uSysFolders, uXdg
+{$IF DEFINED(LCLQT5)}
+  , Qt5
+{$ELSEIF DEFINED(LCLQT6)}
+  , Qt6
+{$ENDIF}
+  ;
+
+{$IF DEFINED(LCLQT5) OR DEFINED(LCLQT6)}
+function GetQtIconTheme: String;
+var
+  AValue: WideString;
+begin
+  QIcon_themeName(@AValue);
+  Result:= UTF8Encode(AValue);
+end;
+{$ENDIF}
 
 function GetKdeIconTheme: String;
 var
@@ -191,8 +207,6 @@ function GetCurrentIconTheme: String;
 begin
   Result:= EmptyStr;
   case DesktopEnv of
-    DE_UNKNOWN:
-      Result:= DEFAULT_THEME_NAME;
     DE_KDE:
       Result:= GetKdeIconTheme;
     DE_GNOME:
@@ -207,6 +221,12 @@ begin
       Result:= GetMateIconTheme;
     DE_CINNAMON:
       Result:= GetCinnamonIconTheme;
+    else
+{$IF DEFINED(LCLQT5) OR DEFINED(LCLQT6)}
+      Result:= GetQtIconTheme;
+{$ELSE}
+      Result:= DEFAULT_THEME_NAME;
+{$ENDIF}
   end;
   if Result = EmptyStr then
     Result:= DEFAULT_THEME_NAME;

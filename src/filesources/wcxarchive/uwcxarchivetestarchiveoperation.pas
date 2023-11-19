@@ -22,7 +22,6 @@ type
   private
     FWcxArchiveFileSource: IWcxArchiveFileSource;
     FStatistics: TFileSourceTestArchiveOperationStatistics; // local copy of statistics
-    FCurrentFileSize: Int64;
 
     procedure ShowError(const sMessage: String; iError: Integer; logOptions: TLogOptions = []);
     procedure LogMessage(const sMessage: String; logOptions: TLogOptions; logMsgType: TLogMsgType);
@@ -83,9 +82,15 @@ begin
       // Get the number of bytes processed since the previous call
       if Size > 0 then
       begin
+        if CurrentFileDoneBytes < 0 then
+        begin
+          CurrentFileDoneBytes:= 0;
+        end;
         CurrentFileDoneBytes := CurrentFileDoneBytes + Size;
         if CurrentFileDoneBytes > CurrentFileTotalBytes then
+        begin
           CurrentFileDoneBytes := CurrentFileTotalBytes;
+        end;
         DoneBytes := DoneBytes + Size;
       end
       // Get progress percent value to directly set progress bar
@@ -93,15 +98,16 @@ begin
       begin
         // Total operation percent
         if (Size >= -100) and (Size <= -1) then
-        begin
-          DoneBytes := TotalBytes * Int64(-Size) div 100;
-        end
+          begin
+            if (TotalBytes = 0) then TotalBytes:= -100;
+            DoneBytes := Abs(TotalBytes) * Int64(-Size) div 100;
+          end
         // Current file percent
         else if (Size >= -1100) and (Size <= -1000) then
-        begin
-          CurrentFileTotalBytes := 100;
-          CurrentFileDoneBytes := Int64(-Size) - 1000;
-        end;
+          begin
+            if (CurrentFileTotalBytes = 0) then CurrentFileTotalBytes:= -100;
+            CurrentFileDoneBytes := Abs(CurrentFileTotalBytes) * (Int64(-Size) - 1000) div 100;
+          end;
       end;
 
       WcxTestArchiveOperation.UpdateStatistics(WcxTestArchiveOperation.FStatistics);
@@ -202,10 +208,9 @@ begin
         begin
           CurrentFile := Header.FileName;
           CurrentFileTotalBytes := Header.UnpSize;
-          CurrentFileDoneBytes := 0;
+          CurrentFileDoneBytes := -1;
 
           UpdateStatistics(FStatistics);
-          FCurrentFileSize := Header.UnpSize;
         end;
 
         iResult := WcxModule.WcxProcessFile(ArcHandle, PK_TEST, EmptyStr, EmptyStr);

@@ -70,14 +70,14 @@ implementation
 
 uses
   LCLProc, Dialogs, Graphics, uFindEx, uDCUtils, uShowMsg, uFileSystemFileSource,
-  uOSUtils, uFileProcs, uShellExecute, uLng, uPixMapManager, uMyUnix,
-  fMain, fFileProperties, DCOSUtils, DCStrUtils, uExts, uArchiveFileSourceUtil
+  uOSUtils, uFileProcs, uShellExecute, uLng, uPixMapManager, uMyUnix, uOSForms,
+  fMain, fFileProperties, DCOSUtils, DCStrUtils, uExts, uArchiveFileSourceUtil, uSysFolders
   {$IF DEFINED(DARWIN)}
   , MacOSAll
   {$ELSEIF NOT DEFINED(HAIKU)}
-  , uKeyFile, uMimeActions, uOSForms, uSysFolders
+  , uKeyFile, uMimeActions
     {$IF DEFINED(LINUX)}
-  , uRabbitVCS
+  , uRabbitVCS, uFlatpak
     {$ENDIF}
   {$ENDIF}
   ;
@@ -215,14 +215,14 @@ begin
   begin
     if IsInPath(FDrive.Path, frmMain.ActiveFrame.CurrentPath, True, True) then
     begin
-      frmMain.ActiveFrame.CurrentPath:= PathDelim;
+      frmMain.ActiveFrame.CurrentPath:= GetHomeDir;
     end;
   end;
   if frmMain.NotActiveFrame.FileSource.IsClass(TFileSystemFileSource) then
   begin
     if IsInPath(FDrive.Path, frmMain.NotActiveFrame.CurrentPath, True, True) then
     begin
-      frmMain.NotActiveFrame.CurrentPath:= PathDelim;
+      frmMain.NotActiveFrame.CurrentPath:= GetHomeDir;
     end;
   end
 end;
@@ -269,7 +269,7 @@ begin
   with frmMain.ActiveFrame do
   begin
     if SameText(MenuItem.Hint, sCmdVerbProperties) then
-      ShowFileProperties(FileSource, FFiles);
+      ShowFilePropertiesDialog(FileSource, FFiles);
   end;
 end;
 
@@ -318,15 +318,24 @@ begin
 end;
 
 procedure TShellContextMenu.OpenWithOtherSelect(Sender: TObject);
+{$IF NOT (DEFINED(DARWIN) OR DEFINED(HAIKU))}
 var
   I: LongInt;
   FileNames: TStringList;
+{$ENDIF}
 begin
+{$IF DEFINED(LINUX)}
+  if DesktopEnv = DE_FLATPAK then
+    FlatpakOpen(FFiles[0].FullPath, True)
+  else
+{$ENDIF}
 {$IF NOT (DEFINED(DARWIN) OR DEFINED(HAIKU))}
-  FileNames := TStringList.Create;
-  for I := 0 to FFiles.Count - 1 do
-    FileNames.Add(FFiles[I].FullPath);
-  ShowOpenWithDialog(frmMain, FileNames);
+  begin
+    FileNames := TStringList.Create;
+    for I := 0 to FFiles.Count - 1 do
+      FileNames.Add(FFiles[I].FullPath);
+    ShowOpenWithDialog(frmMain, FileNames);
+  end;
 {$ENDIF}
 end;
 
@@ -525,11 +534,17 @@ begin
     end
   else
     begin
+      {$IF not DEFINED(DARWIN)}
       mi.Caption := rsMnuUmount;
       mi.OnClick := Self.DriveUnmountSelect;
+      {$ELSE}
+      mi.Caption := rsMnuUmount + ' / ' + rsMnuEject;
+      mi.OnClick := Self.DriveEjectSelect;
+      {$ENDIF}
     end;
   Self.Items.Add(mi);
 
+  {$IF not DEFINED(DARWIN)}
   if ADrive^.IsMediaEjectable then
     begin
       mi :=TMenuItem.Create(Self);
@@ -537,6 +552,7 @@ begin
       mi.OnClick := Self.DriveEjectSelect;
       Self.Items.Add(mi);
     end;
+  {$ENDIF}
 end;
 
 { TShellContextMenu.CreateActionSubMenu }
@@ -639,32 +655,36 @@ begin
         end;
       end;
 
-  if ContextMenuActionList.Count>0 then
-    LocalInsertMenuSeparator;
-
-  // If the external generic viewer is configured, offer it.
-  if gExternalTools[etViewer].Enabled then
+  // If the default context actions not hidden
+  if gDefaultContextActions then
   begin
-    I := ContextMenuActionList.Add(TExtActionCommand.Create(rsMnuView+' ('+rsViewWithExternalViewer+')','{!VIEWER}',QuoteStr(aFile.FullPath),''));
+    if ContextMenuActionList.Count>0 then
+       LocalInsertMenuSeparator;
+
+    // If the external generic viewer is configured, offer it.
+    if gExternalTools[etViewer].Enabled then
+    begin
+      I := ContextMenuActionList.Add(TExtActionCommand.Create(rsMnuView+' ('+rsViewWithExternalViewer+')','{!VIEWER}',QuoteStr(aFile.FullPath),''));
+      LocalInsertMenuItem(ContextMenuActionList.ExtActionCommand[I].ActionName,I);
+    end;
+
+    // Make sure we always shows our internal viewer
+    I := ContextMenuActionList.Add(TExtActionCommand.Create(rsMnuView+' ('+rsViewWithInternalViewer+')','{!DC-VIEWER}',QuoteStr(aFile.FullPath),''));
+    LocalInsertMenuItem(ContextMenuActionList.ExtActionCommand[I].ActionName,I);
+
+    // If the external generic editor is configured, offer it.
+    if gExternalTools[etEditor].Enabled then
+    begin
+      I := ContextMenuActionList.Add(TExtActionCommand.Create(rsMnuEdit+' ('+rsEditWithExternalEditor+')','{!EDITOR}',QuoteStr(aFile.FullPath),''));
+      LocalInsertMenuItem(ContextMenuActionList.ExtActionCommand[I].ActionName,I);
+    end;
+
+    // Make sure we always shows our internal editor
+    I := ContextMenuActionList.Add(TExtActionCommand.Create(rsMnuEdit+' ('+rsEditWithInternalEditor+')','{!DC-EDITOR}',QuoteStr(aFile.FullPath),''));
     LocalInsertMenuItem(ContextMenuActionList.ExtActionCommand[I].ActionName,I);
   end;
 
-  // Make sure we always shows our internal viewer
-  I := ContextMenuActionList.Add(TExtActionCommand.Create(rsMnuView+' ('+rsViewWithInternalViewer+')','{!DC-VIEWER}',QuoteStr(aFile.FullPath),''));
-  LocalInsertMenuItem(ContextMenuActionList.ExtActionCommand[I].ActionName,I);
-
-  // If the external generic editor is configured, offer it.
-  if gExternalTools[etEditor].Enabled then
-  begin
-    I := ContextMenuActionList.Add(TExtActionCommand.Create(rsMnuEdit+' ('+rsEditWithExternalEditor+')','{!EDITOR}',QuoteStr(aFile.FullPath),''));
-    LocalInsertMenuItem(ContextMenuActionList.ExtActionCommand[I].ActionName,I);
-  end;
-
-  // Make sure we always shows our internal editor
-  I := ContextMenuActionList.Add(TExtActionCommand.Create(rsMnuEdit+' ('+rsEditWithInternalEditor+')','{!DC-EDITOR}',QuoteStr(aFile.FullPath),''));
-  LocalInsertMenuItem(ContextMenuActionList.ExtActionCommand[I].ActionName,I);
-
-  if gOpenExecuteViaShell or gExecuteViaTerminalClose or gExecuteViaTerminalStayOpen then
+  if (gOpenExecuteViaShell or gExecuteViaTerminalClose or gExecuteViaTerminalStayOpen) and (ContextMenuActionList.Count>0) then
     LocalInsertMenuSeparator;
 
   // Execute via shell
@@ -691,7 +711,9 @@ begin
   // Add shortcut to launch file association cnfiguration screen
   if gIncludeFileAssociation then
   begin
-    LocalInsertMenuSeparator;
+    if ContextMenuActionList.Count>0 then
+       LocalInsertMenuSeparator;
+
     I := ContextMenuActionList.Add(TExtActionCommand.Create(rsConfigurationFileAssociation,'cm_FileAssoc','',''));
     LocalInsertMenuItem(ContextMenuActionList.ExtActionCommand[I].ActionName,I);
   end;
@@ -947,8 +969,8 @@ end;
 
 destructor TShellContextMenu.Destroy;
 begin
-  FreeThenNil(FFiles);
-  FreeThenNil(FMenuImageList);
+  FreeAndNil(FFiles);
+  FreeAndNil(FMenuImageList);
   inherited Destroy;
 end;
 

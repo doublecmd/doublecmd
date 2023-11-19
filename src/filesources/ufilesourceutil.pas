@@ -387,10 +387,10 @@ begin
       end;
 
     finally
-      FreeThenNil(NewProperties[fpName]);
-      FreeThenNil(Operation);
-      FreeThenNil(UserInterface);
-      FreeThenNil(aFiles);
+      FreeAndNil(NewProperties[fpName]);
+      FreeAndNil(Operation);
+      FreeAndNil(UserInterface);
+      FreeAndNil(aFiles);
     end;
   end;
 end;

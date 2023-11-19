@@ -63,7 +63,7 @@ type
     Name:       string;    Extensions: string; Other: Boolean
   end;
 
-  TSynInfo = class //Vitalik 2004
+  TSynInfo = class
     Author:  TAuthorInfo;
     Version: TVerInfo;
     General: THighInfo;
@@ -77,15 +77,15 @@ type
     procedure SaveToStream(StreamWriter: TStreamWriter; Ind: integer = 0); overload;
   end;
 
-  TSynEditProperties = class //Vitalik 2004
+  TSynEditProperties = class
 
   end;
 
-  TSymbStartType = (stUnspecified, stAny, stTerm); //Vitalik 2004
+  TSymbStartType = (stUnspecified, stAny, stTerm);
   TSymbBrakeType = (btUnspecified, btAny, btTerm);
-  TSymbStartLine = (slNotFirst, slFirst, slFirstNonSpace); //Vitalik 2004
+  TSymbStartLine = (slNotFirst, slFirst, slFirstNonSpace);
 
-  TStreamWriter = class //Vitalik 2004
+  TStreamWriter = class
     Stream: TStream;
     constructor Create(aStream: TStream);
     procedure WriteString(const Str: string);
@@ -95,15 +95,14 @@ type
     procedure WriteBoolParam(Key: string; Value, Default: boolean; CloseTag: string = '');
   end;
 
-  TSynAttributes = class (TSynHighlighterAttributes) //Vitalik 2004
+  TSynAttributes = class (TSynHighlighterAttributes)
   public
-//    UseStyle: boolean;
     OldColorForeground: TColor;
     OldColorBackground: TColor;
     ParentForeground: boolean;
     ParentBackground: boolean;
     constructor Create(Name: string);
-//    destructor Destroy(); override;
+    function ToString: String; override;
     function GetHashCode: PtrInt; override;
     procedure LoadFromString(Value: string);
     procedure SaveToStream(StreamWriter: TStreamWriter);
@@ -115,9 +114,9 @@ type
   public
     Symbol: string;
     fOpenRule: TAbstractRule;
-    StartType: TSymbStartType; //Vitalik 2004
+    StartType: TSymbStartType;
     BrakeType: TSymbBrakeType;
-    StartLine: TSymbStartLine; //Vitalik 2004
+    StartLine: TSymbStartLine;
     Attributes: TSynHighlighterAttributes;
     constructor Create(st: string; Attribs: TSynHighlighterAttributes); virtual;
     destructor Destroy(); override;
@@ -126,7 +125,7 @@ type
   TSymbolNode = class
     ch: char;
     BrakeType: TSymbBrakeType;
-    StartType: TSymbStartType; //Vitalik 2004
+    StartType: TSymbStartType;
     NextSymbs: TSymbolList;
     tkSynSymbol: TSynSymbol;
     constructor Create(AC: char; SynSymbol: TSynSymbol; ABrakeType: TSymbBrakeType); overload; virtual;
@@ -135,7 +134,7 @@ type
   end;
 
   TSymbolList = class
-    SymbList: TList; //Vitalik 2004
+    SymbList: TList;
     procedure AddSymbol(symb: TSymbolNode);
     procedure SetSymbolNode(Index: Integer; Value: TSymbolNode);
     function  FindSymbol(ch: char): TSymbolNode;
@@ -152,8 +151,8 @@ type
     FileName: string;
     constructor Create();
     destructor Destroy(); override;
-    function GetStyle(const Name: string): {TSynHighlighter}TSynAttributes;
-    function GetStyleDef(const Name: string; const Def: {TSynHighlighter}TSynAttributes): {TSynHighlighter}TSynAttributes;
+    function GetStyle(const Name: string): TSynAttributes;
+    function GetStyleDef(const Name: string; const Def: TSynAttributes): TSynAttributes;
     procedure AddStyle(Name: string; Foreground, Background: TColor; FontStyle: TFontStyles);
     procedure ListStylesNames(const AList: TStrings);
     function GetStylesAsXML(): string;
@@ -161,12 +160,12 @@ type
     procedure Save();
   end;
 
-  TAbstractRule = class //Vitalik 2004
+  TAbstractRule = class
     Enabled: boolean;
     constructor Create();
   end;
 
-  TSynRule = class(TAbstractRule) //Vitalik 2004
+  TSynRule = class(TAbstractRule)
   public
     Ind: integer; //temp
     Name: string;
@@ -454,37 +453,11 @@ end;
     WriteString(Format('%s<%s>%s</%s>'+EOL, [Indent(Ind), Name, GetValidValue(Value), Name]));
   end;
 
-{  procedure OpenTag(Ind: integer; Name: string; Param: string = ''; ParamValue: string = '');
-  begin
-    if Param = '' then
-      WriteString(Format('%s<%s>', [Indent(Ind), Name]))
-    else
-      WriteString(Format('%s<%s %s="%s">', [Indent(Ind), Name, Param, GetValidValue(ParamValue)]));
-  end;}
-
   procedure TStreamWriter.WriteTag(Ind: integer; Name: string; EndLine: boolean = False);
   begin
     WriteString(Format('%s<%s', [Indent(Ind), Name]));
     if EndLine then WriteString('>' + EOL);
   end;
-
-{  procedure SaveColor(MainTag: string; Ind, Fore, Back: integer; Style: TFontStyles; PFore, PBack: boolean);
-    procedure InsertTagBool(Ind: integer; Name: string; Value: Boolean);
-    begin
-      if Value then
-        WriteString(Format('%s<%s>True</%s>', [Indent(Ind), Name, Name]))
-      else
-        WriteString(Format('%s<%s>False</%s>', [Indent(Ind), Name, Name]))
-    end;
-  begin
-    OpenTag(Ind, MainTag);
-    InsertTag(Ind+1, 'Back', Inttostr(Back));
-    InsertTag(Ind+1, 'Fore', Inttostr(Fore));
-    InsertTag(Ind+1, 'Style', Fs2String(Style));
-    InsertTagBool(Ind+1, 'ParentForeground', PFore);
-    InsertTagBool(Ind+1, 'ParentBackground', PBack);
-    OpenTag(Ind, '/'+MainTag);
-  end;}
 
   procedure TStreamWriter.WriteParam(Key, Value: string; CloseTag: string = '');
   begin
@@ -501,9 +474,16 @@ end;
 //==== TAttributes ===========================================================
 constructor TSynAttributes.Create(Name: String);
 begin
-//  Std := TSynHighlighterAttributes.Create(SYNS_AttrDefaultPackage);
   inherited Create(Name{SYNS_AttrDefaultPackage});
-//  UseStyle := False;
+end;
+
+function TSynAttributes.ToString: String;
+begin
+  Result:= '$' + HexStr(Foreground, 8) + ',' +
+           '$' + HexStr(Background, 8) + ';' +
+           BoolToStr(ParentForeground,True) + ':' +
+           BoolToStr(ParentBackground,True) + '.' +
+           FontStyleToStr(Style);
 end;
 
 function TSynAttributes.GetHashCode: PtrInt;
@@ -517,16 +497,6 @@ begin
   Result:= PtrInt(CRC32(ACrc, @ParentBackground, SizeOf(Boolean)));
 end;
 
-{destructor TSynAttributes.Destroy;
-//var xml: TXMLParser;
-begin
-//  if not UseStyle then
-    //Std.Free;
-//  xml := TXMLParser.Create;
-//  xml.Standalone
-  inherited;
-end;
-}
 procedure TSynAttributes.LoadFromString(Value: string);
 begin
   ParentForeground := False;
@@ -538,23 +508,11 @@ begin
   ParentForeground := LowerCase(Copy(Value, pos(';',Value)+1, pos(':',Value)-pos(';',Value)-1)) = 'true';
   ParentBackground := LowerCase(Copy(Value, pos(':',Value)+1, pos('.',Value)-pos(':',Value)-1)) = 'true';
   Style := StrToFontStyle(Copy(Value, pos('.',Value)+1, Length(Value)-pos('.',Value)));
-//  '12345,0;true:false.'
-{  Std.Background := StrToIntDef(Value, $FFFFFF);
-  OldColorBackground := Std.Background;
-  Std.Foreground := StrToIntDef(Value, 0);
-  OldColorForeground := Std.Foreground;
-  Std.Style := String2Fs(Value)
-  ParentForeground := LoweValue = 'true'
-  ParentBackground := LowerValue = 'true';}
 end;
 
 procedure TSynAttributes.SaveToStream(StreamWriter: TStreamWriter);
 begin
-  with StreamWriter do
-    WriteParam('Attributes', IntToStr(Foreground)+','+IntToStr(Background)+';'+
-                             BoolToStr(ParentForeground,True)+':'+
-                             BoolToStr(ParentBackground,True)+'.'+
-                             FontStyleToStr(Style));
+  StreamWriter.WriteParam('Attributes', ToString);
 end;
 
 //==== TSynSymbol ============================================================
@@ -660,114 +618,18 @@ begin
 end;
 
 //==== TSynRule ==============================================================
-{function TSynRule.GetAttribs: TAttributes;
-begin
-  if (Ind < 0) or (Ind >= AttribsList.Count) then
-    raise Exception.CreateFmt ('Invalid index: %d', [Ind]);
-  Result := TAttributes(AttribsList[Ind]);
-end;
-
-function TSynRule.GetAttribsByIndex(Index: integer): TAttributes;
-begin
-  if (Index < 0) or (Index >= AttribsList.Count) then
-    raise Exception.CreateFmt ('Invalid index: %d', [Ind]);
-  Result := TAttributes(AttribsList[Index]);
-end;
-}
 constructor TSynRule.Create;
 begin
   inherited;
   ind := -1;
   Attribs := TSynAttributes.Create('unknown');
-//  AttribsList := TList.Create;
 end;
 
 destructor TSynRule.Destroy;
 begin
-//  FreeList(AttribsList);
   Attribs.Free;
   inherited Destroy;
 end;
-
-{function TSynRule.AddAttribute(): integer;
-var
-  i: integer;
-begin
-  ind := AttribsList.Add(TAttributes.Create);
-  Attribs.ParentForeground := True;
-  Attribs.ParentBackground := True;
-  Attribs.Std.Foreground := clBlack;
-  Attribs.Std.Background := clWhite;
-  Attribs.OldColorForeground := Attribs.Std.Foreground;
-  Attribs.OldColorBackground := Attribs.Std.Background;
-  Attribs.Std.Style := [];
-  Result := ind;
-
-  if self is TSynRange then
-    with self as TSynRange do begin
-      for i := 0 to RangeCount-1 do
-        Ranges[i].AddAttribute();
-      for i := 0 to KeyListCount-1 do
-        KeyLists[i].AddAttribute();
-      for i := 0 to SetCount-1 do
-        Sets[i].AddAttribute();
-    end;
-end;
-
-procedure TSynRule.DeleteAttributes(Index: integer);
-var
-  i: integer;
-begin
-  AttribsList.Delete(Index);
-  if AttribsList.Count = Index then
-    ind := Index-1
-  else
-    ind := Index;
-  if self is TSynRange then
-    with self as TSynRange do begin
-      for i := 0 to RangeCount-1 do
-        Ranges[i].DeleteAttributes(Index);
-      for i := 0 to KeyListCount-1 do
-        KeyLists[i].DeleteAttributes(Index);
-      for i := 0 to SetCount-1 do
-        Sets[i].DeleteAttributes(Index);
-    end;
-end;
-
-procedure TSynRule.ClearAttributes();
-var
-  i: integer;
-begin
-  ClearList(AttribsList);
-  ind := -1;
-
-  if self is TSynRange then
-    with self as TSynRange do begin
-      for i := 0 to RangeCount-1 do
-        Ranges[i].ClearAttributes();
-      for i := 0 to KeyListCount-1 do
-        KeyLists[i].ClearAttributes();
-      for i := 0 to SetCount-1 do
-        Sets[i].ClearAttributes();
-    end;
-end;
-
-procedure TSynRule.SetAttributesIndex(Index: integer);
-var
-  i: integer;
-begin
-  ind := Index;
-
-  if self is TSynRange then
-    with self as TSynRange do begin
-      for i := 0 to RangeCount-1 do
-        Ranges[i].SetAttributesIndex(Index);
-      for i := 0 to KeyListCount-1 do
-        KeyLists[i].SetAttributesIndex(Index);
-      for i := 0 to SetCount-1 do
-        Sets[i].SetAttributesIndex(Index);
-    end;
-end;}
 
 function TSynRule.GetAsStream: TMemoryStream;
 begin
@@ -834,20 +696,20 @@ begin
   inherited;
 end;
 
-function TSynUniStyles.GetStyle(const Name: string): {TSynHighlighter}TSynAttributes;
+function TSynUniStyles.GetStyle(const Name: string): TSynAttributes;
 begin
   Result := GetStyleDef(Name, nil);
 end;
 
 function TSynUniStyles.GetStyleDef(const Name: string;
-  const Def: {TSynHighlighter}TSynAttributes): {TSynHighlighter}TSynAttributes;
+  const Def: TSynAttributes): TSynAttributes;
 var
   i: integer;
 begin
   Result := Def;
   for i := 0 to Self.Count-1 do
-    if SameText({TSynHighlighter}TSynAttributes(Self.Items[i]).Name, Name) then begin
-      Result := {TSynHighlighter}TSynAttributes(Self.Items[i]);
+    if SameText(TSynAttributes(Self.Items[i]).Name, Name) then begin
+      Result := TSynAttributes(Self.Items[i]);
       Exit;
     end;
 end;
@@ -855,9 +717,9 @@ end;
 procedure TSynUniStyles.AddStyle(Name: string; Foreground, Background: TColor;
   FontStyle: TFontStyles);
 var
-  Atr: {TSynHighlighter}TSynAttributes;
+  Atr: TSynAttributes;
 begin
-  Atr := {TSynHighlighter}TSynAttributes.Create(Name);
+  Atr := TSynAttributes.Create(Name);
   Atr.Foreground := Foreground;
   Atr.Background := Background;
   Atr.Style := FontStyle;
@@ -872,7 +734,7 @@ begin
   try
     aList.Clear;
     for i := 0 to Self.Count-1 do
-      aList.Add({TSynHighlighter}TSynAttributes(Self.Items[i]).Name);
+      aList.Add(TSynAttributes(Self.Items[i]).Name);
   finally
     aList.EndUpdate;
   end;
@@ -886,7 +748,7 @@ begin
   Result := '<Schemes>'#13#10;
   Result := Result + '  <Scheme Name="Default">'#13#10;
   for i := 0 to Self.Count-1 do
-    with {TSynHighlighter}TSynAttributes(Self.Items[I]) do
+    with TSynAttributes(Self.Items[I]) do
       Result := Result + '    <Style Name="' + Name +
                          '" Fg="' + IntToStr(Foreground) +
                          '" Bg="' + IntToStr(Background) +

@@ -4,7 +4,7 @@
 
 Name:		doublecmd-qt5
 Summary:	Twin-panel (commander-style) file manager (Qt5)
-Version:	1.1.0
+Version:	1.2.0
 Release:	1
 URL:		https://doublecmd.sourceforge.io
 Source0:	%{doublecmd}-%{version}.tar.gz

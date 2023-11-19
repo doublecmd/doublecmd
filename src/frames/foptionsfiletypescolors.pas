@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    File types colors options page
 
-   Copyright (C) 2006-2016 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2006-2023 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -27,21 +27,19 @@ unit fOptionsFileTypesColors;
 interface
 
 uses
-  Classes, SysUtils, Controls, StdCtrls, ColorBox, Dialogs, Buttons,
-  fOptionsFrame;
+  Classes, SysUtils, Controls, StdCtrls, KASComboBox, Dialogs, Buttons,
+  LMessages, fOptionsFrame;
 
 type
 
   { TfrmOptionsFileTypesColors }
 
   TfrmOptionsFileTypesColors = class(TOptionsEditor)
-    optColorDialog: TColorDialog;
     btnAddCategory: TBitBtn;
     btnApplyCategory: TBitBtn;
     btnDeleteCategory: TBitBtn;
-    btnCategoryColor: TButton;
     btnSearchTemplate: TBitBtn;
-    cbCategoryColor: TColorBox;
+    cbCategoryColor: TKASColorBoxButton;
     edtCategoryAttr: TEdit;
     edtCategoryMask: TEdit;
     edtCategoryName: TEdit;
@@ -57,7 +55,6 @@ type
     procedure btnAddCategoryClick(Sender: TObject);
     procedure btnApplyCategoryClick(Sender: TObject);
     procedure btnDeleteCategoryClick(Sender: TObject);
-    procedure btnCategoryColorClick(Sender: TObject);
     procedure lbCategoriesDragDrop(Sender, {%H-}Source: TObject; {%H-}X, Y: Integer);
     procedure lbCategoriesDragOver(Sender, Source: TObject; {%H-}X, {%H-}Y: Integer;
       {%H-}State: TDragState; var Accept: Boolean);
@@ -69,6 +66,7 @@ type
     procedure Init; override;
     procedure Load; override;
     function Save: TOptionsEditorSaveFlags; override;
+    procedure CMThemeChanged(var Message: TLMessage); message CM_THEMECHANGED;
   public
     destructor Destroy; override;
     class function GetIconIndex: Integer; override;
@@ -96,7 +94,7 @@ begin
 
       edtCategoryName.Text := MaskItem.sName;
       edtCategoryMask.Text := MaskItem.sExt;
-      SetColorInColorBox(cbCategoryColor, MaskItem.cColor);
+      cbCategoryColor.Selected := MaskItem.cColor;
       bEnabled:= (MaskItem.sExt = '') or (MaskItem.sExt[1] <> '>');
       edtCategoryMask.Enabled:= bEnabled;
       edtCategoryAttr.Enabled:= bEnabled;
@@ -107,7 +105,7 @@ begin
       edtCategoryName.Text := '';
       edtCategoryMask.Text := '';
       edtCategoryAttr.Text := '';
-      cbCategoryColor.ItemIndex := -1;
+      cbCategoryColor.Selected := gColors.FilePanel^.ForeColor;
     end;
 end;
 
@@ -138,7 +136,6 @@ begin
       edtCategoryMask.Enabled := True;
       edtCategoryAttr.Enabled := True;
       cbCategoryColor.Enabled := True;
-      btnCategoryColor.Enabled := True;
       btnDeleteCategory.Enabled := True;
       btnApplyCategory.Enabled := True;
     end;
@@ -148,7 +145,7 @@ begin
    edtCategoryName.Text := rsOptionsEditorFileNewFileTypes;
    edtCategoryMask.Text := '*';
    edtCategoryAttr.Text := '';
-   cbCategoryColor.ItemIndex := -1;
+   cbCategoryColor.Selected := gColors.FilePanel^.ForeColor;
 
    MaskItem.sName:= edtCategoryName.Text;
    MaskItem.sExt:= edtCategoryMask.Text;
@@ -193,13 +190,6 @@ begin
   end;
 end;
 
-procedure TfrmOptionsFileTypesColors.btnCategoryColorClick(Sender: TObject);
-begin
-  optColorDialog.Color:= cbCategoryColor.Selected;
-  if optColorDialog.Execute then
-    SetColorInColorBox(cbCategoryColor, optColorDialog.Color);
-end;
-
 procedure TfrmOptionsFileTypesColors.lbCategoriesDragDrop(Sender,
   Source: TObject; X, Y: Integer);
 var
@@ -225,17 +215,17 @@ end;
 procedure TfrmOptionsFileTypesColors.lbCategoriesDrawItem(Control: TWinControl;
   Index: Integer; ARect: TRect; State: TOwnerDrawState);
 begin
-  with (Control as TListBox) do
+  with (Control as TListBox), gColors.FilePanel^ do
    begin
      if (not Selected[Index]) and Assigned(Items.Objects[Index]) then
        begin
-         Canvas.Brush.Color:= gBackColor;
+         Canvas.Brush.Color:= BackColor;
          Canvas.Font.Color:= TMaskItem(Items.Objects[Index]).cColor;
        end
      else
        begin
-         Canvas.Brush.Color:= gCursorColor;
-         Canvas.Font.Color:= gCursorText;
+         Canvas.Brush.Color:= CursorColor;
+         Canvas.Font.Color:= CursorText;
        end;
 
      Canvas.FillRect(ARect);
@@ -280,7 +270,7 @@ var
   MaskItem: TMaskItem;
 begin
   Clear;
-  lbCategories.Color:= gBackColor;
+  lbCategories.Color:= gColors.FilePanel^.BackColor;
 
   { File lbtypes category color }
   for I := 0 to gColorExt.Count - 1 do
@@ -303,7 +293,6 @@ begin
         edtCategoryMask.Enabled := False;
         edtCategoryAttr.Enabled := False;
         cbCategoryColor.Enabled := False;
-        btnCategoryColor.Enabled := False;
         btnDeleteCategory.Enabled := False;
         btnApplyCategory.Enabled := False;
       end;
@@ -330,6 +319,12 @@ begin
         raise;
       end;
     end;
+end;
+
+procedure TfrmOptionsFileTypesColors.CMThemeChanged(var Message: TLMessage);
+begin
+  lbCategories.Color:= gColors.FilePanel^.BackColor;
+  lbCategories.Repaint;
 end;
 
 destructor TfrmOptionsFileTypesColors.Destroy;

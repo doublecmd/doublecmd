@@ -65,7 +65,7 @@ type
    BoxFilter,
    TriangleFilter,
    HermiteFilter,
-   HanningFilter,
+   HannFilter,
    HammingFilter,
    BlackmanFilter,
    GaussianFilter,
@@ -73,9 +73,16 @@ type
    CubicFilter,
    CatromFilter,
    MitchellFilter,
-   LanczosFilter,
-   BesselFilter,
-   SincFilter
+   JincFilter,
+   SincFilter,
+   SincFastFilter,
+   KaiserFilter,
+   WelchFilter,
+   ParzenFilter,
+   BohmanFilter,
+   BartlettFilter,
+   LagrangeFilter,
+   LanczosFilter
   );
 
 var
@@ -90,9 +97,10 @@ var
   MagickGetException: function(wand: PMagickWand; severity: PExceptionType): PAnsiChar; cdecl;
   MagickRelinquishMemory: function(resource: Pointer): Pointer; cdecl;
   MagickReadImage: function(wand: PMagickWand; const filename: PAnsiChar): MagickBooleanType; cdecl;
-  MagickGetImageWidth: function(wand: PMagickWand): culong; cdecl;
-  MagickGetImageHeight: function(wand: PMagickWand): culong; cdecl;
-  MagickResizeImage: function(wand: PMagickWand; const columns, rows: culong; const filter: FilterTypes; const blur: double): MagickBooleanType; cdecl;
+  MagickGetImageWidth: function(wand: PMagickWand): csize_t; cdecl;
+  MagickGetImageHeight: function(wand: PMagickWand): csize_t; cdecl;
+  MagickResizeImageOld: function(wand: PMagickWand; const columns, rows: csize_t; const filter: FilterTypes; const blur: double): MagickBooleanType; cdecl;
+  MagickResizeImageNew: function(wand: PMagickWand; const columns, rows: csize_t; const filter: FilterTypes): MagickBooleanType; cdecl;
   MagickSetImageFormat: function(wand: PMagickWand; const format: PAnsiChar): MagickBooleanType; cdecl;
   MagickGetImageBlob: function(wand: PMagickWand; length: Pcsize_t): PByte; cdecl;
 
@@ -113,7 +121,7 @@ var
   Memory: PByte;
   Wand: PMagickWand;
   MemorySize: csize_t;
-  Width, Height: culong;
+  Width, Height: csize_t;
   BlobStream: TBlobStream;
   Status: MagickBooleanType;
   Bitmap: TPortableNetworkGraphic;
@@ -140,7 +148,11 @@ begin
           // Calculate aspect width and height of thumb
           aSize:= TThumbnailManager.GetPreviewScaleSize(Width, Height);
           // Create image thumbnail
-          Status:= MagickResizeImage(Wand, aSize.cx, aSize.cy, LanczosFilter, 1.0);
+          if Assigned(MagickResizeImageNew) then
+            Status:= MagickResizeImageNew(Wand, aSize.cx, aSize.cy, LanczosFilter)
+          else begin
+            Status:= MagickResizeImageOld(Wand, aSize.cx, aSize.cy, LanczosFilter, 1.0);
+          end;
           if (Status = MagickFalse) then RaiseWandException(Wand);
         end;
 
@@ -202,7 +214,12 @@ begin
     @MagickReadImage:= SafeGetProcAddress(MagickWand, 'MagickReadImage');
     @MagickGetImageWidth:= SafeGetProcAddress(MagickWand, 'MagickGetImageWidth');
     @MagickGetImageHeight:= SafeGetProcAddress(MagickWand, 'MagickGetImageHeight');
-    @MagickResizeImage:=  SafeGetProcAddress(MagickWand, 'MagickResizeImage');
+
+    if (LibraryName[15] = '6') then
+      @MagickResizeImageOld:= SafeGetProcAddress(MagickWand, 'MagickResizeImage')
+    else begin
+      @MagickResizeImageNew:= SafeGetProcAddress(MagickWand, 'MagickResizeImage');
+    end;
 
     @MagickSetImageFormat:= SafeGetProcAddress(MagickWand, 'MagickSetImageFormat');
     @MagickGetImageBlob:= SafeGetProcAddress(MagickWand, 'MagickGetImageBlob');
@@ -214,15 +231,19 @@ begin
     MaskList:= TMaskList.Create('*.xcf');
     DCDebug('ImageMagick: ' + LibraryName);
   except
-    // Ignore
+    FreeLibrary(MagickWand);
+    MagickWand:= NilHandle;
   end;
 end;
 
 procedure Finalize;
 begin
-  MaskList.Free;
-  MagickWandTerminus;
-  if (MagickWand <> NilHandle) then FreeLibrary(MagickWand);
+  if (MagickWand <> NilHandle) then
+  begin
+    MaskList.Free;
+    MagickWandTerminus;
+    FreeLibrary(MagickWand);
+  end;
 end;
 
 initialization

@@ -67,43 +67,43 @@ type
   end;
 
 function FsInitW(PluginNr: Integer; pProgressProc: TProgressProcW;
-  pLogProc: TLogProcW; pRequestProc: TRequestProcW): Integer; dcpcall;
+  pLogProc: TLogProcW; pRequestProc: TRequestProcW): Integer; dcpcall; export;
 
-function FsFindFirstW(Path: PWideChar; var FindData: TWin32FindDataW): THandle; dcpcall;
-function FsFindNextW(Hdl: THandle; var FindData: TWin32FindDataW): BOOL; dcpcall;
-function FsFindClose(Hdl: THandle): Integer; dcpcall;
+function FsFindFirstW(Path: PWideChar; var FindData: TWin32FindDataW): THandle; dcpcall; export;
+function FsFindNextW(Hdl: THandle; var FindData: TWin32FindDataW): BOOL; dcpcall; export;
+function FsFindClose(Hdl: THandle): Integer; dcpcall; export;
 
-function FsExecuteFileW(MainWin: THandle; RemoteName, Verb: PWideChar): Integer; dcpcall;
+function FsExecuteFileW(MainWin: THandle; RemoteName, Verb: PWideChar): Integer; dcpcall; export;
 function FsRenMovFileW(OldName, NewName: PWideChar; Move, OverWrite: BOOL;
-  RemoteInfo: pRemoteInfo): Integer; dcpcall;
+  RemoteInfo: pRemoteInfo): Integer; dcpcall; export;
 function FsGetFileW(RemoteName, LocalName: PWideChar; CopyFlags: Integer;
-  RemoteInfo: pRemoteInfo): Integer; dcpcall;
+  RemoteInfo: pRemoteInfo): Integer; dcpcall; export;
 function FsPutFileW(LocalName, RemoteName: PWideChar; CopyFlags: Integer)
-  : Integer; dcpcall;
-function FsDeleteFileW(RemoteName: PWideChar): BOOL; dcpcall;
+  : Integer; dcpcall; export;
+function FsDeleteFileW(RemoteName: PWideChar): BOOL; dcpcall; export;
 
-function FsMkDirW(RemoteDir: PWideChar): BOOL; dcpcall;
-function FsRemoveDirW(RemoteName: PWideChar): BOOL; dcpcall;
+function FsMkDirW(RemoteDir: PWideChar): BOOL; dcpcall; export;
+function FsRemoveDirW(RemoteName: PWideChar): BOOL; dcpcall; export;
 
 function FsSetTimeW(RemoteName: PWideChar; CreationTime, LastAccessTime,
-                    LastWriteTime: PFileTime): BOOL; dcpcall;
+                    LastWriteTime: PFileTime): BOOL; dcpcall; export;
 
-function FsDisconnectW(DisconnectRoot: PWideChar): BOOL; dcpcall;
+function FsDisconnectW(DisconnectRoot: PWideChar): BOOL; dcpcall; export;
 
-procedure FsSetCryptCallbackW(pCryptProc: TCryptProcW; CryptoNr, Flags: Integer); dcpcall;
-procedure FsGetDefRootName(DefRootName: PAnsiChar; MaxLen: Integer); dcpcall;
-procedure FsSetDefaultParams(dps: pFsDefaultParamStruct); dcpcall;
-procedure FsStatusInfoW(RemoteDir: PWideChar; InfoStartEnd, InfoOperation: Integer); dcpcall;
-function FsGetBackgroundFlags: Integer; dcpcall;
+procedure FsSetCryptCallbackW(pCryptProc: TCryptProcW; CryptoNr, Flags: Integer); dcpcall; export;
+procedure FsGetDefRootName(DefRootName: PAnsiChar; MaxLen: Integer); dcpcall; export;
+procedure FsSetDefaultParams(dps: pFsDefaultParamStruct); dcpcall; export;
+procedure FsStatusInfoW(RemoteDir: PWideChar; InfoStartEnd, InfoOperation: Integer); dcpcall; export;
+function FsGetBackgroundFlags: Integer; dcpcall; export;
 { Network API }
 {
-procedure FsNetworkGetSupportedProtocols(Protocols: PAnsiChar; MaxLen: LongInt); dcpcall;
-function FsNetworkGetConnection(Index: LongInt; Connection: PAnsiChar; MaxLen: LongInt): LongBool; dcpcall;
-function FsNetworkManageConnection(MainWin: HWND; Connection: PAnsiChar; Action: LongInt; MaxLen: LongInt): LongBool; dcpcall;
-function FsNetworkOpenConnection(Connection: PAnsiChar; RootDir, RemotePath: PAnsiChar; MaxLen: LongInt): LongBool; dcpcall;
+procedure FsNetworkGetSupportedProtocols(Protocols: PAnsiChar; MaxLen: LongInt); dcpcall; export;
+function FsNetworkGetConnection(Index: LongInt; Connection: PAnsiChar; MaxLen: LongInt): LongBool; dcpcall; export;
+function FsNetworkManageConnection(MainWin: HWND; Connection: PAnsiChar; Action: LongInt; MaxLen: LongInt): LongBool; dcpcall; export;
+function FsNetworkOpenConnection(Connection: PAnsiChar; RootDir, RemotePath: PAnsiChar; MaxLen: LongInt): LongBool; dcpcall; export;
 }
 { Extension API }
-procedure ExtensionInitialize(StartupInfo: PExtensionStartupInfo); dcpcall;
+procedure ExtensionInitialize(StartupInfo: PExtensionStartupInfo); dcpcall; export;
 
 function ReadPassword(ConnectionName: AnsiString; out Password: AnsiString): Boolean;
 function DeletePassword(ConnectionName: AnsiString): Boolean;
@@ -631,7 +631,7 @@ begin
 end;
 
 function FsInitW(PluginNr: Integer; pProgressProc: TProgressProcW;
-  pLogProc: TLogProcW; pRequestProc: TRequestProcW): Integer; dcpcall;
+  pLogProc: TLogProcW; pRequestProc: TRequestProcW): Integer; dcpcall; export;
 begin
   ProgressProc := pProgressProc;
   LogProc := pLogProc;
@@ -641,7 +641,7 @@ begin
   Result := 0;
 end;
 
-function FsFindFirstW(Path: PWideChar; var FindData: TWin32FindDataW): THandle; dcpcall;
+function FsFindFirstW(Path: PWideChar; var FindData: TWin32FindDataW): THandle; dcpcall; export;
 var
   ListRec: PListRec;
   sPath: AnsiString;
@@ -681,7 +681,7 @@ begin
     end;
 end;
 
-function FsFindNextW(Hdl: THandle; var FindData: TWin32FindDataW): BOOL; dcpcall;
+function FsFindNextW(Hdl: THandle; var FindData: TWin32FindDataW): BOOL; dcpcall; export;
 var
   ListRec: PListRec absolute Hdl;
 begin
@@ -691,7 +691,7 @@ begin
     Result := ListRec^.FtpSend.FsFindNextW(ListRec.FtpList, FindData);
 end;
 
-function FsFindClose(Hdl: THandle): Integer; dcpcall;
+function FsFindClose(Hdl: THandle): Integer; dcpcall; export;
 var
   ListRec: PListRec absolute Hdl;
 begin
@@ -705,7 +705,7 @@ begin
   end;
 end;
 
-function FsExecuteFileW(MainWin: THandle; RemoteName, Verb: PWideChar): Integer; dcpcall;
+function FsExecuteFileW(MainWin: THandle; RemoteName, Verb: PWideChar): Integer; dcpcall; export;
 var
   FtpSend: TFTPSendEx;
   asFileName: AnsiString;
@@ -780,7 +780,7 @@ begin
 end;
 
 function FsRenMovFileW(OldName, NewName: PWideChar; Move, OverWrite: BOOL;
-  RemoteInfo: pRemoteInfo): Integer; dcpcall;
+  RemoteInfo: pRemoteInfo): Integer; dcpcall; export;
 var
   O, N: Integer;
   FtpSend: TFTPSendEx;
@@ -847,7 +847,7 @@ begin
 end;
 
 function FsGetFileW(RemoteName, LocalName: PWideChar; CopyFlags: Integer;
-  RemoteInfo: pRemoteInfo): Integer; dcpcall;
+  RemoteInfo: pRemoteInfo): Integer; dcpcall; export;
 var
   FileSize: Int64;
   FtpSend: TFTPSendEx;
@@ -880,7 +880,7 @@ begin
   end;
 end;
 
-function FsPutFileW(LocalName, RemoteName: PWideChar; CopyFlags: Integer): Integer; dcpcall;
+function FsPutFileW(LocalName, RemoteName: PWideChar; CopyFlags: Integer): Integer; dcpcall; export;
 var
   FtpSend: TFTPSendEx;
   sFileName: AnsiString;
@@ -910,7 +910,7 @@ begin
   end;
 end;
 
-function FsDeleteFileW(RemoteName: PWideChar): BOOL; dcpcall;
+function FsDeleteFileW(RemoteName: PWideChar): BOOL; dcpcall; export;
 var
   FtpSend: TFTPSendEx;
   sFileName: AnsiString;
@@ -923,7 +923,7 @@ begin
     Result := FtpSend.DeleteFile(sFileName);
 end;
 
-function FsMkDirW(RemoteDir: PWideChar): BOOL; dcpcall;
+function FsMkDirW(RemoteDir: PWideChar): BOOL; dcpcall; export;
 var
   sPath: AnsiString;
   FtpSend: TFTPSendEx;
@@ -933,7 +933,7 @@ begin
     Result := FtpSend.CreateDir(sPath);
 end;
 
-function FsRemoveDirW(RemoteName: PWideChar): BOOL; dcpcall;
+function FsRemoveDirW(RemoteName: PWideChar): BOOL; dcpcall; export;
 var
   sPath: AnsiString;
   FtpSend: TFTPSendEx;
@@ -944,7 +944,7 @@ begin
 end;
 
 function FsSetTimeW(RemoteName: PWideChar; CreationTime, LastAccessTime,
-  LastWriteTime: PFileTime): BOOL; dcpcall;
+  LastWriteTime: PFileTime): BOOL; dcpcall; export;
 var
   sPath: AnsiString;
   FtpSend: TFTPSendEx;
@@ -958,7 +958,7 @@ begin
   end;
 end;
 
-function FsDisconnectW(DisconnectRoot: PWideChar): BOOL; dcpcall;
+function FsDisconnectW(DisconnectRoot: PWideChar): BOOL; dcpcall; export;
 var
   Index: Integer;
   asTemp: AnsiString;
@@ -991,25 +991,25 @@ begin
   end;
 end;
 
-procedure FsSetCryptCallbackW(pCryptProc: TCryptProcW; CryptoNr, Flags: Integer); dcpcall;
+procedure FsSetCryptCallbackW(pCryptProc: TCryptProcW; CryptoNr, Flags: Integer); dcpcall; export;
 begin
   CryptProc:= pCryptProc;
   CryptoNumber:= CryptoNr;
 end;
 
-procedure FsGetDefRootName(DefRootName: PAnsiChar; MaxLen: Integer); dcpcall;
+procedure FsGetDefRootName(DefRootName: PAnsiChar; MaxLen: Integer); dcpcall; export;
 begin
   StrPLCopy(DefRootName, 'FTP', MaxLen);
 end;
 
-procedure FsSetDefaultParams(dps: pFsDefaultParamStruct); dcpcall;
+procedure FsSetDefaultParams(dps: pFsDefaultParamStruct); dcpcall; export;
 begin
   ConnectionList := TStringList.Create;
   ActiveConnectionList := TStringList.Create;
   DefaultIniName:= ExtractFileName(dps.DefaultIniName);
 end;
 
-procedure FsStatusInfoW(RemoteDir: PWideChar; InfoStartEnd, InfoOperation: Integer); dcpcall;
+procedure FsStatusInfoW(RemoteDir: PWideChar; InfoStartEnd, InfoOperation: Integer); dcpcall; export;
 var
   FtpSend: TFtpSendEx;
   RemotePath: AnsiString;
@@ -1038,19 +1038,19 @@ begin
   end;
 end;
 
-function FsGetBackgroundFlags: Integer; dcpcall;
+function FsGetBackgroundFlags: Integer; dcpcall; export;
 begin
   Result:= BG_DOWNLOAD or BG_UPLOAD or BG_ASK_USER;
 end;
 
 {
-procedure FsNetworkGetSupportedProtocols(Protocols: PAnsiChar; MaxLen: LongInt); dcpcall;
+procedure FsNetworkGetSupportedProtocols(Protocols: PAnsiChar; MaxLen: LongInt); dcpcall; export;
 begin
   StrPLCopy(Protocols, ftpProtocol, MaxLen);
 end;
 
 function FsNetworkGetConnection(Index: LongInt; Connection: PAnsiChar;
-  MaxLen: LongInt): LongBool; dcpcall;
+  MaxLen: LongInt): LongBool; dcpcall; export;
 begin
   Result:= False;
   if Index >= ConnectionList.Count then Exit;
@@ -1059,7 +1059,7 @@ begin
 end;
 
 function FsNetworkManageConnection(MainWin: HWND; Connection: PAnsiChar; Action: LongInt;
-  MaxLen: LongInt): LongBool; dcpcall;
+  MaxLen: LongInt): LongBool; dcpcall; export;
 var
   I: Integer;
 begin
@@ -1092,7 +1092,7 @@ begin
 end;
 
 function FsNetworkOpenConnection(Connection: PAnsiChar; RootDir, RemotePath: PAnsiChar;
-  MaxLen: LongInt): LongBool; dcpcall;
+  MaxLen: LongInt): LongBool; dcpcall; export;
 var
   I: Integer;
   FtpSend: TFTPSendEx;

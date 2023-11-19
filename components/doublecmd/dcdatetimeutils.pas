@@ -36,7 +36,9 @@ uses
   ;
 
 function FileTimeToDateTime(FileTime : DCBasicTypes.TFileTime) : TDateTime;
+function FileTimeToDateTimeEx(FileTime : DCBasicTypes.TFileTimeEx) : TDateTime;
 function DateTimeToFileTime(DateTime : TDateTime) : DCBasicTypes.TFileTime;
+function DateTimeToFileTimeEx(DateTime : TDateTime) : DCBasicTypes.TFileTimeEx;
 
 {en
    Converts system specific UTC time to local time.
@@ -90,7 +92,11 @@ function DosToWinTime(const DosTime: TDosFileTime; var WinTime: TWinFileTime): L
 {$ENDIF}
 
 function UnixFileTimeToDateTime(UnixTime: TUnixFileTime) : TDateTime;
+{$IFDEF UNIX}
+function UnixFileTimeToDateTimeEx(UnixTime: DCBasicTypes.TFileTimeEx) : TDateTime;
+{$ENDIF}
 function DateTimeToUnixFileTime(DateTime: TDateTime) : TUnixFileTime;
+function DateTimeToUnixFileTimeEx(DateTime: TDateTime) : DCBasicTypes.TFileTimeEx;
 function UnixFileTimeToDosTime(UnixTime: TUnixFileTime): TDosFileTime;
 function UnixFileTimeToWinTime(UnixTime: TUnixFileTime): TWinFileTime;
 function WinFileTimeToUnixTime(WinTime: TWinFileTime) : TUnixFileTime;
@@ -225,6 +231,21 @@ begin
 end;
 {$ENDIF}
 
+function FileTimeToDateTimeEx(FileTime : DCBasicTypes.TFileTimeEx) : TDateTime;
+{$IF DEFINED(MSWINDOWS)}
+begin
+  Result := WinFileTimeToDateTime(FileTime);
+end;
+{$ELSEIF DEFINED(UNIX)}
+begin
+  Result := UnixFileTimeToDateTimeEx(FileTime);
+end;
+{$ELSE}
+begin
+  Result := 0;
+end;
+{$ENDIF}
+
 function DateTimeToFileTime(DateTime : TDateTime) : DCBasicTypes.TFileTime; inline;
 {$IF DEFINED(MSWINDOWS)}
 begin
@@ -233,6 +254,21 @@ end;
 {$ELSEIF DEFINED(UNIX)}
 begin
   Result := DateTimeToUnixFileTime(DateTime);
+end;
+{$ELSE}
+begin
+  Result := 0;
+end;
+{$ENDIF}
+
+function DateTimeToFileTimeEx(DateTime : TDateTime) : DCBasicTypes.TFileTimeEx; inline;
+{$IF DEFINED(MSWINDOWS)}
+begin
+  Result := DateTimeToWinFileTime(DateTime);
+end;
+{$ELSEIF DEFINED(UNIX)}
+begin
+  Result := DateTimeToUnixFileTimeEx(DateTime);
 end;
 {$ELSE}
 begin
@@ -431,12 +467,22 @@ begin
 end;
 {$ENDIF}
 
-function UnixFileTimeToDateTime(UnixTime: TUnixFileTime) : TDateTime;
+
 {$IF DEFINED(UNIX)}
+function UnixFileTimeToDateTime(UnixTime: TUnixFileTime) : TDateTime;
+var
+  filetime: DCBasicTypes.TFileTimeEx;
+begin
+  filetime:= TFileTimeEx.create(UnixTime);
+  Result:= UnixFileTimeToDateTimeEx(filetime);
+end;
+
+function UnixFileTimeToDateTimeEx(UnixTime: DCBasicTypes.TFileTimeEx) : TDateTime;
 var
   ATime: TTimeStruct;
+  milliseconds: Word;
 begin
-  if (fpLocalTime(@UnixTime, @ATime) = nil) then
+  if (fpLocalTime(@UnixTime.sec, @ATime) = nil) then
     Exit(UnixEpoch);
 
   ATime.tm_mon += 1;
@@ -449,10 +495,15 @@ begin
   if ATime.tm_sec > 59 then
     ATime.tm_sec := 59;
 
+  milliseconds:= round( Extended(UnixTime.nanosec) / (1000.0*1000.0) );
+  if (milliseconds > 999) then
+    milliseconds:= 999;
+
   Result := ComposeDateTime(EncodeDate(ATime.tm_year, ATime.tm_mon, ATime.tm_mday),
-                            EncodeTime(ATime.tm_hour, ATime.tm_min, ATime.tm_sec, 0));
+                            EncodeTime(ATime.tm_hour, ATime.tm_min, ATime.tm_sec, milliseconds));
 end;
 {$ELSE}
+function UnixFileTimeToDateTime(UnixTime: TUnixFileTime) : TDateTime;
 var
   WinFileTime: TWinFileTime;
 begin
@@ -491,6 +542,47 @@ begin
     Result:= 0
   else begin
     Result:= TUnixFileTime(AUnixTime);
+  end;
+end;
+{$ELSE}
+var
+  WinFileTime: TWinFileTime;
+begin
+  WinFileTime:= DateTimeToWinFileTime(DateTime);
+  Result:= WinFileTimeToUnixTime(WinFileTime);
+end;
+{$ENDIF}
+
+function DateTimeToUnixFileTimeEx(DateTime : TDateTime): DCBasicTypes.TFileTimeEx;
+{$IF DEFINED(UNIX)}
+var
+  AUnixTime: TTime;
+  ATime: TTimeStruct;
+  Year, Month, Day: Word;
+  Hour, Minute, Second, MilliSecond: Word;
+begin
+  if DateTime < UnixEpoch then
+    raise EDateOutOfRange.Create(DateTime);
+
+  DecodeDate(DateTime, Year, Month, Day);
+  DecodeTime(DateTime, Hour, Minute, Second, MilliSecond);
+
+  ATime.tm_isdst:= -1;
+
+  ATime.tm_year:= Year - 1900;
+  ATime.tm_mon:=  Month - 1;
+  ATime.tm_mday:= Day;
+
+  ATime.tm_hour:= Hour;
+  ATime.tm_min:= Minute;
+  ATime.tm_sec:= Second;
+
+  AUnixTime:= fpMkTime(@ATime);
+
+  if (AUnixTime < 0) then
+    Result:= TFileTimeExNull
+  else begin
+    Result:= TFileTimeEx.create(AUnixTime, MilliSecond*1000*1000);
   end;
 end;
 {$ELSE}

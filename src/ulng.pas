@@ -239,6 +239,7 @@ resourcestring
   rsMsgForTextFormatToImport = 'Select the text format to import';
   rsMsgUserDidNotSetExtension = '<NO EXT>';
   rsMsgUserDidNotSetName = '<NO NAME>';
+  rsMsgCommandNotFound = 'Command not found! (%s)';
   rsMsgProblemExecutingCommand = 'Problem executing command (%s)';
   rsMsgCopyBackward = 'The file %s has changed. Do you want to copy it backward?';
   rsMsgCouldNotCopyBackward = 'Could not copy backward - do you want to keep the changed file?';
@@ -571,6 +572,7 @@ resourcestring
   rsPropsSymLink = 'Symbolic link';
   rsPropsSocket = 'Socket';
   rsPropsUnknownType = 'Unknown type';
+  rsPropsMultipleTypes = 'Multiple types';
   rsPropsContains = 'Files: %d, folders: %d';
   rsPropsErrChMod = 'Can not change access rights for "%s"';
   rsPropsErrChOwn = 'Can not change owner for "%s"';
@@ -803,7 +805,10 @@ resourcestring
   rsOptConfigTreeState = 'Full expand;Full collapse';
   rsOptDifferFramePosition = 'Active frame panel on left, inactive on right (legacy);Left frame panel on left, right on right';
   //-------------------------------
+  rsDarkMode = 'Dark mode';
   rsDarkModeOptions = 'Auto;Enabled;Disabled';
+  //-------------------------------
+  rsDriveFreeSpaceIndicator = 'Drive Free Space Indicator';
   //-------------------------------
   rsOptEnterExt = 'Enter extension';
   rsOptAssocPluginWith = 'Associate plugin "%s" with:';

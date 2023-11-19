@@ -6,108 +6,90 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, SynEdit, DCStringHashListUtf8, LCLVersion,
-  SynEditHighlighter, SynHighlighterPas, SynHighlighterCPP, SynHighlighterJava,
-  SynHighlighterHTML, SynHighlighterXML, SynHighlighterLFM,
-  SynHighlighterUNIXShellScript, SynHighlighterPHP, SynHighlighterTeX,
-  SynHighlighterSQL, SynHighlighterPerl, SynHighlighterCss,
-  SynHighlighterPython, SynHighlighterDiff, SynHighlighterVB, SynHighlighterBat,
-  SynHighlighterIni, SynHighlighterPo, SynHighlighterLua, SynUniHighlighter;
-
+  SynEditHighlighter, SynHighlighterJava, SynHighlighterXML, SynHighlighterLFM,
+  SynHighlighterPHP, SynHighlighterSQL, SynHighlighterCss, SynHighlighterPython,
+  SynHighlighterVB, SynHighlighterLua, SynUniHighlighter,
+  uHighlighters, uColors, fpJson;
 
 const
   HighlighterConfig = 'highlighters.xml';
-  SYNS_XML_DefaultText = 'Default text';
 
 type
 
-  { TSynPlainTextHighlighter }
-
-  TSynPlainTextHighlighter = class(TSynCustomHighlighter)
-  public
-    class function GetLanguageName: string; override;
-  end;
-
   { TdmHighl }
 
-  TdmHighl = class(TDataModule)
-    SynBatSyn1: TSynBatSyn;
-    SynCppSyn1: TSynCppSyn;
-    SynCssSyn1: TSynCssSyn;
-    SynDiffSyn1: TSynDiffSyn;
-    SynHTMLSyn1: TSynHTMLSyn;
-    SynIniSyn1: TSynIniSyn;
-    SynJavaSyn1: TSynJavaSyn;
-    SynLFMSyn1: TSynLFMSyn;
-    SynPasSyn1: TSynPasSyn;
-    SynPerlSyn1: TSynPerlSyn;
-    SynPHPSyn1: TSynPHPSyn;
-    SynPoSyn1: TSynPoSyn;
-    SynPythonSyn1: TSynPythonSyn;
-    SynSQLSyn1: TSynSQLSyn;
-    SynTeXSyn1: TSynTeXSyn;
-    SynUNIXShellScriptSyn1: TSynUNIXShellScriptSyn;
-    SynVBSyn1: TSynVBSyn;
-    SynXMLSyn1: TSynXMLSyn;
-    procedure dmHighlCreate(Sender: TObject);
-    procedure dmHighlDestroy(Sender: TObject);
+  TdmHighl = class(TComponent)
   private
     FTemp: Boolean;
-    FChanged: Boolean;
-    procedure SaveUniHighlighters;
-    procedure ImportFromOldFormat;
+    procedure LoadColors(AConfig: TJSONObject);
+    procedure SaveColors(AConfig: TJSONObject);
+    procedure LoadUniColors(AConfig: TJSONObject);
+    procedure SaveUniColors(AConfig: TJSONObject);
+  private
+    procedure CreateHighlighters;
+    procedure LoadUniHighlighters;
+    function GetSyn(Index: Integer): TSynCustomHighlighter;
+    function GetSyn(AClass: TSynCustomHighlighterClass): TSynCustomHighlighter;
+    procedure CopyHighlighter(SourceHighlighter, TargetHighlighter: TSynCustomHighlighter);
   public
     SynHighlighterList: TStringList;
     SynHighlighterHashList: TStringHashListUtf8;
-    SynPlainTextHighlighter: TSynPlainTextHighlighter;
-    function GetSampleSource(Highlighter: TSynCustomHighlighter): string;
   public
     constructor Create(AOwner: TComponent; ATemp: Boolean); overload;
+    destructor Destroy; override;
     procedure Assign(Source: TPersistent); override;
-    function LoadFromFile(const FileName: String): Boolean;
-    function SaveToFile(const FileName: String): Boolean;
+    function Clone: TdmHighl;
     function GetHighlighter(SynEdit: TCustomSynEdit; const sExtension: string): TSynCustomHighlighter;
     procedure SetHighlighter(SynEdit: TCustomSynEdit; Highlighter: TSynCustomHighlighter);
-    property Changed: Boolean read FChanged write FChanged;
+    property Highlighters[Index: Integer]: TSynCustomHighlighter read GetSyn;
+    property SynPlainTextHighlighter: TSynCustomHighlighter index 0 read GetSyn;
   end;
 
-  { TSynCustomHighlighterHelper }
+  { THighlighters }
 
-  TSynCustomHighlighterHelper = class helper for TSynCustomHighlighter
-  public
-    function LanguageName: String;
-    function Other: Boolean;
-  end;
-
-  TSynHighlighterAttrFeature =
-    ( hafBackColor, hafForeColor, hafFrameColor,
-      hafStyle, hafStyleMask,
-      hafFrameStyle, hafFrameEdges
-    );
-  TSynHighlighterAttrFeatures = set of TSynHighlighterAttrFeature;
-
-  { TSynHighlighterAttributesHelper }
-
-  TSynHighlighterAttributesHelper = class helper for TSynHighlighterAttributes
+  THighlighters = class
   private
-    function GetFeatures: TSynHighlighterAttrFeatures;
+    FStyle: Integer;
+    FStyles: array[0..Pred(THEME_COUNT)] of TJSONObject;
+  private
+    procedure LoadColors; overload;
+    procedure SaveColors; overload;
+    procedure LoadDefaults(const AKey: String; AConfig: TJSONObject); overload;
   public
-    property Features: TSynHighlighterAttrFeatures read GetFeatures;
+    constructor Create;
+    destructor Destroy; override;
+    procedure UpdateStyle;
+    procedure LoadDefaults; overload;
+    procedure Load(const FileName: String); overload;
+    procedure Save(const FileName: String); overload;
+    procedure LoadColors(AConfig: TJSONObject); overload;
+    procedure SaveColors(AConfig: TJSONObject); overload;
   end;
 
 var
   dmHighl: TdmHighl;
+  gHighlighters: THighlighters;
 
 implementation
 
-{$R *.lfm}
-
 uses
   Graphics, SynEditTypes, SynUniClasses, FileUtil, uHighlighterProcs, DCXmlConfig,
-  uGlobsPaths, DCClassesUtf8, LazUTF8Classes, DCOSUtils, DCStrUtils, uLng, uMasks,
-  uGlobs, uSysFolders, uFileProcs;
+  LCLType, DCJsonConfig, uGlobsPaths, DCClassesUtf8, DCOSUtils, DCStrUtils, uLng,
+  uGlobs, uSysFolders, SynUniRules;
 
 const
-  csDefaultName = 'editor.col';
+  ConfigVersion = 2;
+
+const
+  DEFAULT_HIGHLIGHTERS: array[0..19] of TSynCustomHighlighterClass =
+  (
+    TSynPlainTextHighlighter,
+    TSynXMLSyn, TSynPerlSynEx, TSynPythonSyn, TSynUNIXShellScriptSynEx,
+    TSynBatSynEx, TSynCppSynEx, TSynCssSyn, TSynDiffSynEx,
+    TSynHTMLSynEx, TSynIniSynEx, TSynJavaSyn, TSynLFMSyn,
+    TSynPasSynEx, TSynPHPSyn, TSynPoSynEx, TSynSQLSyn,
+    TSynTeXSynEx, TSynVBSyn, TSynLuaSyn
+  );
 
 function SynHighlighterSortCompare(List: TStringList; Index1, Index2: Integer): Integer;
 begin
@@ -119,51 +101,320 @@ begin
     Result:= CompareStr(List[Index1], List[Index2]);
 end;
 
-{ TSynCustomHighlighterHelper }
-
-function TSynCustomHighlighterHelper.LanguageName: String;
-begin
-  if Self is TSynUniSyn then
-    Result:= TSynUniSyn(Self).Info.General.Name
-  else
-    Result:= Self.GetLanguageName;
-end;
-
-function TSynCustomHighlighterHelper.Other: Boolean;
-begin
-  if Self is TSynUniSyn then
-    Result:= TSynUniSyn(Self).Info.General.Other
-  else
-    Result:= False;
-end;
-
-{ TSynPlainTextHighlighter }
-
-class function TSynPlainTextHighlighter.GetLanguageName: string;
-begin
-  Result:= rsSynLangPlainText;
-end;
-
 { TdmHighl }
 
-procedure TdmHighl.dmHighlCreate(Sender: TObject);
+procedure TdmHighl.LoadColors(AConfig: TJSONObject);
+var
+  I, J, K: Integer;
+  AName, AValue: String;
+  AValues: TStringArray;
+  AList, Attributes: TJSONArray;
+  AItem, AttributeNode: TJSONObject;
+  Highlighter: TSynCustomHighlighter;
+  Attribute: TSynHighlighterAttributes;
+begin
+  if AConfig.Find('Highlighters', AList) then
+  begin
+    for I:= 0 to AList.Count - 1 do
+    begin
+      AItem:= AList.Objects[I];
+      AName:= AItem.Get('Name', EmptyStr);
+      Highlighter:= TSynCustomHighlighter(SynHighlighterHashList.Data[AName]);
+      if Assigned(Highlighter) and (not (Highlighter is TSynUniSyn)) then
+      begin
+        Attributes:= AItem.Get('Attributes', TJSONArray(nil));
+        if Assigned(Attributes) and (Attributes.Count > 0) then
+        begin
+          for J:= 0 to Attributes.Count - 1 do
+          begin
+            AttributeNode:= Attributes.Objects[J];
+            AName:= AttributeNode.Get('Name', EmptyStr);
+            AValue:= AttributeNode.Get('Value', EmptyStr);
+            AValues:= AValue.Split(['|'], TStringSplitOptions.ExcludeEmpty);
+
+            if (Length(AName) = 0) or (Length(AValues) <> 7) then
+              Continue;
+
+            for K:= 0 to Highlighter.AttrCount - 1 do
+            begin
+              Attribute:= Highlighter.Attribute[K];
+              if SameText(Attribute.StoredName, AName) then
+              begin
+                Attribute.Background := TColor(StrToIntDef(AValues[0], Integer(Attribute.Background)));
+                Attribute.Foreground := TColor(StrToIntDef(AValues[1],  Integer(Attribute.Foreground)));
+                Attribute.FrameColor := TColor(StrToIntDef(AValues[2], Integer(Attribute.FrameColor)));
+                Attribute.FrameStyle := TSynLineStyle(StrToIntDef(AValues[3], Integer(Attribute.FrameStyle)));
+                Attribute.FrameEdges := TSynFrameEdges(StrToIntDef(AValues[4], Integer(Attribute.FrameEdges)));
+                Attribute.IntegerStyle := StrToIntDef(AValues[5], Attribute.IntegerStyle);
+                Attribute.IntegerStyleMask  := StrToIntDef(AValues[6],  Attribute.IntegerStyleMask);
+                Break;
+              end;
+            end;
+          end;
+        end;
+      end;
+    end;
+  end;
+end;
+
+procedure TdmHighl.SaveColors(AConfig: TJSONObject);
+var
+  I, J: Integer;
+  AValue: String;
+  AttributeNode: TJSONObject;
+  HighlighterNode: TJSONObject;
+  AList, Attributes: TJSONArray;
+  Highlighter: TSynCustomHighlighter;
+  Attribute: TSynHighlighterAttributes;
+begin
+  if AConfig.Find('Highlighters', AList) then
+    AList.Clear
+  else begin
+    AList:= TJSONArray.Create;
+    AConfig.Add('Highlighters', AList);
+  end;
+
+  for I := 0 to SynHighlighterList.Count - 1 do
+  begin
+    if SynHighlighterList.Objects[I] is TSynUniSyn then Continue;
+    Highlighter:= TSynCustomHighlighter(SynHighlighterList.Objects[I]);
+
+    HighlighterNode:= TJSONObject.Create;
+    HighlighterNode.Add('Name', Highlighter.LanguageName);
+
+    Attributes:= TJSONArray.Create;
+
+    for J:= 0 to Highlighter.AttrCount - 1 do
+    begin
+      Attribute:= Highlighter.Attribute[J];
+      AttributeNode:= TJSONObject.Create;
+      AttributeNode.Add('Name', Attribute.StoredName);
+
+      AValue:= '$' + HexStr(Attribute.Background, 8) + '|' +
+               '$' + HexStr(Attribute.Foreground, 8) + '|' +
+               '$' + HexStr(Attribute.FrameColor, 8) + '|' +
+               IntToStr(Integer(Attribute.FrameStyle)) + '|' +
+               IntToStr(Integer(Attribute.FrameEdges)) + '|' +
+               IntToStr(Attribute.IntegerStyle) + '|' +
+               IntToStr(Attribute.IntegerStyleMask);
+
+      AttributeNode.Add('Value', AValue);
+
+      Attributes.Add(AttributeNode);
+    end;
+    HighlighterNode.Add('Attributes', Attributes);
+    AList.Add(HighlighterNode);
+  end;
+end;
+
+procedure TdmHighl.LoadUniColors(AConfig: TJSONObject);
+var
+  I: Integer;
+  AName: String;
+  AList: TJSONArray;
+  AItem: TJSONObject;
+  ARanges: TJSONArray;
+  Highlighter: TSynCustomHighlighter;
+
+  function LoadRule(AList: TJSONArray; SymbRule: TSynRule): TJSONObject;
+  var
+    J: Integer;
+    AValue: String;
+  begin
+    for J:= 0 to AList.Count - 1 do
+    begin
+      Result:= AList.Objects[J];
+      AName:= Result.Get('Name', EmptyStr);
+
+      if SameStr(AName, SymbRule.Name) then
+      begin
+        AValue:= Result.Get('Attributes', EmptyStr);
+        if Length(AValue) > 0 then
+        begin
+          SymbRule.Attribs.LoadFromString(AValue);
+        end;
+        Exit;
+      end;
+    end;
+    Result:= nil;
+  end;
+
+  procedure LoadRange(ARanges: TJSONArray; ARange: TSynRange);
+  var
+    Index: Integer;
+    AList: TJSONArray;
+    ARule: TJSONObject;
+  begin
+    ARule:= LoadRule(ARanges, ARange);
+
+    if (ARule = nil) then Exit;
+
+    if (ARange.SetCount > 0) then
+    begin
+      AList:= ARule.Get('Sets', TJSONArray(nil));
+      if Assigned(AList) and (AList.Count > 0) then
+      begin
+        for Index:= 0 to ARange.SetCount - 1 do
+        begin
+          LoadRule(AList, ARange.Sets[Index]);
+        end;
+      end;
+    end;
+    if (ARange.KeyListCount > 0) then
+    begin
+      AList:= ARule.Get('KeyLists', TJSONArray(nil));
+      if Assigned(AList) and (AList.Count > 0) then
+      begin
+        for Index:= 0 to ARange.KeyListCount - 1 do
+        begin
+          LoadRule(AList, ARange.KeyLists[Index]);
+        end;
+      end;
+    end;
+    if (ARange.RangeCount > 0) then
+    begin
+      AList:= ARule.Get('Ranges', TJSONArray(nil));
+      if Assigned(AList) and (AList.Count > 0) then
+      begin
+        for Index:= 0 to ARange.RangeCount - 1 do
+        begin
+          LoadRange(AList, ARange.Ranges[Index]);
+        end;
+      end;
+    end;
+  end;
+
+begin
+  if AConfig.Find('UniHighlighters', AList) then
+  begin
+    for I:= 0 to AList.Count - 1 do
+    begin
+      AItem:= AList.Objects[I];
+      AName:= AItem.Get('Name', EmptyStr);
+      Highlighter:= TSynCustomHighlighter(SynHighlighterHashList.Data[AName]);
+      if Assigned(Highlighter) and (Highlighter is TSynUniSyn) then
+      begin
+        with TSynUniSyn(Highlighter) do
+        begin
+          ARanges:= AItem.Get('Ranges', TJSONArray(nil));
+          if Assigned(ARanges) and (ARanges.Count > 0) then
+          begin
+            LoadRange(ARanges, MainRules);
+          end;
+        end;
+      end;
+    end;
+  end;
+end;
+
+procedure TdmHighl.SaveUniColors(AConfig: TJSONObject);
+var
+  I: Integer;
+  SynUniSyn: TSynUniSyn;
+
+  procedure SaveRule(ARules: TJSONArray; SymbRule: TSynRule);
+  var
+    ARule: TJSONObject;
+  begin
+    ARule:= TJSONObject.Create;
+    ARule.Add('Name', SymbRule.Name);
+    ARule.Add('Attributes', SymbRule.Attribs.ToString);
+    ARules.Add(ARule);
+  end;
+
+  procedure SaveRange(ARules: TJSONArray; ARange: TSynRange);
+  var
+    Index: Integer;
+    ARule: TJSONObject;
+    Sets, KeyLists, Ranges: TJSONArray;
+  begin
+    ARule:= TJSONObject.Create;
+
+    ARule.Add('Name', ARange.Name);
+    ARule.Add('Attributes', ARange.Attribs.ToString);
+
+    if (ARange.SetCount > 0) then
+    begin
+      Sets:= TJSONArray.Create;
+      for Index:= 0 to ARange.SetCount - 1 do
+      begin
+        SaveRule(Sets, ARange.Sets[Index]);
+      end;
+      ARule.Add('Sets', Sets);
+    end;
+
+    if (ARange.KeyListCount > 0) then
+    begin
+      KeyLists:= TJSONArray.Create;
+      for Index:= 0 to ARange.KeyListCount - 1 do
+      begin
+        SaveRule(KeyLists, ARange.KeyLists[Index]);
+      end;
+      ARule.Add('KeyLists', KeyLists);
+    end;
+
+    if (ARange.RangeCount > 0) then
+    begin
+      Ranges:= TJSONArray.Create;
+      for Index:= 0 to ARange.RangeCount - 1 do
+      begin
+        SaveRange(Ranges, ARange.Ranges[Index]);
+      end;
+      ARule.Add('Ranges', Ranges);
+    end;
+
+    ARules.Add(ARule);
+  end;
+
+  procedure SaveHighlighter(AList: TJSONArray);
+  var
+    AItem: TJSONObject;
+    ARules: TJSONArray;
+  begin
+    AItem:= TJSONObject.Create;
+    AItem.Add('Name', SynUniSyn.Info.General.Name);
+
+    ARules:= TJSONArray.Create;
+    SaveRange(ARules, SynUniSyn.MainRules);
+    AItem.Add('Ranges', ARules);
+
+    AList.Add(AItem);
+  end;
+
+var
+  AList: TJSONArray;
+begin
+  if AConfig.Find('UniHighlighters', AList) then
+    AList.Clear
+  else begin
+    AList:= TJSONArray.Create;
+    AConfig.Add('UniHighlighters', AList);
+  end;
+
+  for I := 0 to SynHighlighterList.Count - 1 do
+  begin
+    if SynHighlighterList.Objects[I] is TSynUniSyn then
+    begin
+      SynUniSyn:= TSynUniSyn(SynHighlighterList.Objects[I]);
+      //if SynUniSyn.Tag < 0 then
+      begin
+        SaveHighlighter(AList);
+        SynUniSyn.Tag:= 0;
+      end;
+    end;
+  end;
+end;
+
+procedure TdmHighl.LoadUniHighlighters;
 var
   AName: String;
   I, Index: Integer;
   AList: TStringList;
   AFileName: String = '';
-  ACache: TStringListUtf8;
+  ACache: TStringListEx;
   HighLighter: TSynCustomHighlighter;
 begin
-  TSynLuaSyn.Create(Self).Tag:= 1;
-  SynHighlighterList:= TStringList.Create;
-  SynHighlighterHashList:= TStringHashListUtf8.Create(True);
-{$PUSH}{$HINTS OFF}{$WARNINGS OFF}
-  SynPlainTextHighlighter:= TSynPlainTextHighlighter.Create(Self);
-{$POP}
-  GetHighlighters(Self, SynHighlighterList, False);
-
-  ACache:= TStringListUtf8.Create;
+  ACache:= TStringListEx.Create;
   ACache.CaseSensitive:= FileNameCaseSensitive;
   if not gUseConfigInProgramDir then begin
     AFileName:= IncludeTrailingBackslash(GetAppDataDir) + 'highlighters' + ';';
@@ -202,206 +453,80 @@ begin
   end;
   AList.Free;
   ACache.Free;
+end;
+
+function TdmHighl.GetSyn(Index: Integer): TSynCustomHighlighter;
+begin
+  Result:= TSynCustomHighlighter(SynHighlighterList.Objects[Index]);
+end;
+
+function TdmHighl.GetSyn(AClass: TSynCustomHighlighterClass): TSynCustomHighlighter;
+var
+  Index: Integer;
+begin
+  for Index:= 0 to SynHighlighterList.Count - 1 do
+  begin
+    if SynHighlighterList.Objects[Index] is AClass then
+      Exit(TSynCustomHighlighter(SynHighlighterList.Objects[Index]));
+  end;
+  Result:= nil;
+end;
+
+procedure TdmHighl.CreateHighlighters;
+var
+  I: Integer;
+  Highlighter: TSynCustomHighlighter;
+begin
+  for I:= 0 to High(DEFAULT_HIGHLIGHTERS) do
+  begin
+    {$PUSH}{$HINTS OFF}{$WARNINGS OFF}
+    Highlighter:= DEFAULT_HIGHLIGHTERS[I].Create(Self);
+    {$POP}
+    Highlighter.Tag:= PtrInt(I <> 0);
+    SynHighlighterList.AddObject(HighLighter.LanguageName, HighLighter);
+  end;
+
+  LoadUniHighlighters;
 
   for I:= 0 to SynHighlighterList.Count - 1 do
   begin
     HighLighter:= TSynCustomHighlighter(SynHighlighterList.Objects[I]);
     SynHighlighterHashList.Add(HighLighter.LanguageName, HighLighter);
-    with HighLighter.AddSpecialAttribute(rsSynDefaultText, SYNS_XML_DefaultText) do
+    if not (Highlighter is TSynUniSyn) then
     begin
-      Background:= clWindow;
-      Foreground:= clWindowText;
+      with HighLighter.AddSpecialAttribute(rsSynDefaultText, SYNS_XML_DefaultText) do
+      begin
+        Background:= clWindow;
+        Foreground:= clWindowText;
+      end;
     end;
   end;
   SynHighlighterList.CustomSort(@SynHighlighterSortCompare);
-  if (FTemp = False) then
-  begin
-    if not mbFileExists(gpCfgDir + csDefaultName) then
-      LoadFromFile(gpCfgDir + HighlighterConfig)
-    else
-      begin
-        ImportFromOldFormat;
-        SaveToFile(gpCfgDir + HighlighterConfig);
-        mbRenameFile(gpCfgDir + csDefaultName, gpCfgDir + csDefaultName + '.obsolete');
-      end;
-  end;
-end;
-
-procedure TdmHighl.dmHighlDestroy(Sender: TObject);
-begin
-  if FChanged and (FTemp = False) then
-  begin
-    SaveUniHighlighters;
-    SaveToFile(gpCfgDir + HighlighterConfig);
-  end;
-  SynHighlighterList.Free;
-  SynHighlighterHashList.Free;
-  SynPlainTextHighlighter.Free;
-end;
-
-procedure TdmHighl.SaveUniHighlighters;
-var
-  I: Integer;
-  SynUniSyn: TSynUniSyn;
-  APath, AFileName: String;
-begin
-  if not gUseConfigInProgramDir then
-  begin
-    APath:= IncludeTrailingBackslash(GetAppDataDir) + 'highlighters' + PathDelim;
-    mbForceDirectory(APath);
-  end;
-  for I := 0 to SynHighlighterList.Count - 1 do
-  begin
-    if SynHighlighterList.Objects[I] is TSynUniSyn then
-    begin
-      SynUniSyn:= TSynUniSyn(SynHighlighterList.Objects[I]);
-      if SynUniSyn.Tag < 0 then
-      begin
-        if gUseConfigInProgramDir then
-          AFileName:= SynUniSyn.FileName
-        else begin
-          AFileName:= APath + ExtractFileName(SynUniSyn.FileName);
-        end;
-        SynUniSyn.SaveToFile(AFileName);
-        SynUniSyn.Tag:= 0;
-      end;
-    end;
-  end;
-end;
-
-procedure TdmHighl.ImportFromOldFormat;
-var
-  I: Integer = 0;
-  J, K: Integer;
-  aFile: TStringListEx;
-  s, sValue: String;
-  Highlighter: TSynCustomHighlighter;
-  Attribute: TSynHighlighterAttributes;
-begin
-  aFile:= TStringListEx.Create;
-  try
-    aFile.LoadFromFile(gpCfgDir + csDefaultName);
-    while I < aFile.Count do
-    begin;
-      s:= Trim(aFile[I]);
-      Inc(I, 1);
-      if s = '' then Continue;
-      if s[1] = '#' then Continue;
-      if s[1] <> '[' then Continue;
-      Inc(I, 3);
-      sValue:= Copy(s, 2, Length(s) - 2);
-      for J:= 0 to SynHighlighterList.Count - 1 do
-      begin
-        Highlighter:= TSynCustomHighlighter(SynHighlighterList.Objects[J]);
-        for K:= 0 to Highlighter.AttrCount - 1 do
-        begin
-          Attribute:= Highlighter.Attribute[K];
-          if SameText(sValue, Attribute.StoredName) then
-          begin
-            Attribute.Background := TColor(StrToIntDef(aFile.ValueFromIndex[I - 3], 0));
-            Attribute.Foreground := TColor(StrToIntDef(aFile.ValueFromIndex[I - 2], 0));
-            Attribute.Style      := TFontStyles(StrToIntDef(aFile.ValueFromIndex[I - 1], 0));
-            Break;
-          end;
-        end;
-      end;
-    end;
-  finally
-    aFile.Free;
-  end;
-end;
-
-function TdmHighl.GetSampleSource(Highlighter: TSynCustomHighlighter): string;
-begin
-  if (Highlighter  is TSynPlainTextHighlighter) then
-    Result :=
-      'Double Commander is a cross platform open source file manager'#13 +
-      'with two panels side by side. It is inspired by Total Commander'#13 +
-      'and features some new ideas.'#13
-  else if (Highlighter  is TSynPasSyn) then
-    Result :=
-      '{ Comment }'#13 +
-      '{$R- compiler directive}'#13 +
-      'procedure TForm1.Button1Click(Sender: TObject);'#13 +
-      'var  // Delphi Comment'#13 +
-      '  Number, I, X: Integer;'#13 +
-      'begin'#13 +
-      '  Number := 12345 * (2 + 9) // << Matching Brackets ;'#13 +
-      '  Caption := ''The number is '' + IntToStr(Number);'#13 +
-      '  asm'#13 + '    MOV AX,1234h'#13 +
-      '    MOV Number,AX'#13 +
-      '  end;'#13 +
-      '  case ModalResult of'#13+
-      '    mrOK: inc(X);'#13+
-      '    mrCancel, mrIgnore: dec(X);'#13+
-      '  end;'#13+
-      '  ListBox1.Items.Add(IntToStr(X));'#13 +
-      'end;'#13 + #13
-  else if (Highlighter  is TSynCppSyn) then
-    Result :=
-      '/* Comment */'#13 + '#include <stdio.h>'#13 +
-      '#include <stdlib.h>'#13 + #13 +
-      'static char line_buf[LINE_BUF];'#13 + #13 +
-      'int main(int argc,char **argv){'#13 + '  FILE *file;'#13 +
-      '  line_buf[0]=0;'#13 + '  printf("\n");'#13 +
-      '  return 0;'#13 + '}'#13 + ''#13 + #13
-  else if (Highlighter  is TSynDiffSyn) then
-    Result :=
-      '*** /a/file'#13#10 +
-      '--- /b/file'#13#10 +
-      '***************'#13#10 +
-      '*** 2,5 ****'#13#10 +
-      '--- 2,5 ----'#13#10 +
-      '  context'#13#10 +
-      '- removed'#13#10 +
-      '! Changed'#13#10 +
-      '+ added'#13#10 +
-      '  context'#13#10
-  else if (Highlighter  is TSynHTMLSyn) then
-    Result :=
-      '<html>'#13 + '<title>Lazarus Sample source for html</title>'#13 +
-      '<body bgcolor=#ffffff background="bg.jpg">'#13 +
-      '<!-- Comment -->'#13 + '<img src="lazarus.jpg">'#13 +
-      '<p>'#13 + '  Some Text'#13 +
-      '  Ampersands: &nbsp;F&nbsp;P&nbsp;C'#13 + '</p>'#13 +
-      '<invalid_tag>'#13 + '<!-- Text Block -->'#13 +
-      '</body>'#13 + '</html>'#13 + #13
-  else if (Highlighter  is TSynPerlSyn) then
-    Result :=
-      '#!/usr/bin/perl'#13 + '# Perl sample code'#13 +
-      ''#13 + '$i = "10";'#13 + 'print "$ENV{PATH}\n";'#13 +
-      '($i =~ /\d+/) || die "Error\n";'#13 + ''#13 +
-      '# Text Block'#13 + ''#13 + #13
-  else if (Highlighter  is TSynUNIXShellScriptSyn) then
-    Result :=
-      '#!/bin/bash'#13#13 +
-      '# Bash syntax highlighting'#13#10 + 'set -x'#13#10 +
-      'set -e'#13#10 +
-      'Usage="Usage: $0 devel|stable"'#13#10 +
-      'FPCVersion=$1'#13#10 +
-      'for ver in devel stable; do'#13#10 +
-      '  if [ "x$FPCVersion" = "x$ver" ]; then'#13#10 +
-      '  fi'#13#10 + 'done'#13#10 +
-      '# Text Block'#13#10 + #13#10
-  else
-    Result:= EmptyStr;
 end;
 
 constructor TdmHighl.Create(AOwner: TComponent; ATemp: Boolean);
 begin
   FTemp:= ATemp;
+  SynHighlighterList:= TStringList.Create;
+  SynHighlighterHashList:= TStringHashListUtf8.Create(True);
+  if not FTemp then CreateHighlighters;
   inherited Create(AOwner);
 end;
 
-procedure TdmHighl.Assign(Source: TPersistent);
-var
-  I: LongWord;
-  Highl: TdmHighl absolute Source;
+destructor TdmHighl.Destroy;
+begin
+  inherited Destroy;
+  SynHighlighterList.Free;
+  SynHighlighterHashList.Free;
+end;
 
-  procedure CopyAttributes(SourceHighlighter, TargetHighlighter: TSynCustomHighlighter);
-  var
-    J: LongWord;
-  begin
+procedure TdmHighl.CopyHighlighter(SourceHighlighter, TargetHighlighter: TSynCustomHighlighter);
+var
+  J: Integer;
+begin
+  if SourceHighlighter is TSynUniSyn then
+    TSynUniSyn(TargetHighlighter).Assign(TSynUniSyn(SourceHighlighter))
+  else begin
     TargetHighlighter.Tag:= SourceHighlighter.Tag;
     TargetHighlighter.DefaultFilter:= SourceHighlighter.DefaultFilter;
     for J:= 0 to SourceHighlighter.AttrCount - 1 do
@@ -409,59 +534,348 @@ var
       TargetHighlighter.Attribute[J].Assign(SourceHighlighter.Attribute[J]);
     end;
   end;
+end;
 
+procedure TdmHighl.Assign(Source: TPersistent);
+var
+  I: Integer;
+  Highl: TdmHighl absolute Source;
 begin
-  FChanged:= True;
   for I:= 0 to SynHighlighterList.Count - 1 do
   begin
-    if Highl.SynHighlighterList.Objects[I] is TSynUniSyn then
-      TSynUniSyn(SynHighlighterList.Objects[I]).Assign(TSynUniSyn(Highl.SynHighlighterList.Objects[I]))
-
-    else
-      CopyAttributes(TSynCustomHighlighter(Highl.SynHighlighterList.Objects[I]),
-                     TSynCustomHighlighter(SynHighlighterList.Objects[I])
-                    );
+    CopyHighlighter(TSynCustomHighlighter(Highl.SynHighlighterList.Objects[I]),
+                    TSynCustomHighlighter(SynHighlighterList.Objects[I])
+                   );
   end;
 end;
 
-function TdmHighl.LoadFromFile(const FileName: String): Boolean;
+function TdmHighl.Clone: TdmHighl;
+var
+  I: Integer;
+  AClass: TSynCustomHighlighterClass;
+  Highlighter: TSynCustomHighlighter;
+  SourceHighlighter: TSynCustomHighlighter;
+begin
+  Result:= TdmHighl.Create(Application, True);
+
+  for I:= 0 to SynHighlighterList.Count - 1 do
+  begin
+    SourceHighlighter:= TSynCustomHighlighter(SynHighlighterList.Objects[I]);
+    AClass:= TSynCustomHighlighterClass(SourceHighlighter.ClassType);
+    {$PUSH}{$HINTS OFF}{$WARNINGS OFF}
+    Highlighter:= AClass.Create(Result);
+    {$POP}
+    if not (Highlighter is TSynUniSyn) then
+    begin
+      with HighLighter.AddSpecialAttribute(rsSynDefaultText, SYNS_XML_DefaultText) do
+      begin
+        Background:= clWindow;
+        Foreground:= clWindowText;
+      end;
+    end;
+    CopyHighlighter(SourceHighlighter, Highlighter);
+    Result.SynHighlighterHashList.Add(Highlighter.LanguageName, HighLighter);
+    Result.SynHighlighterList.AddObject(Highlighter.LanguageName, Highlighter);
+  end;
+end;
+
+function TdmHighl.GetHighlighter(SynEdit: TCustomSynEdit;
+  const sExtension: string): TSynCustomHighlighter;
+var
+  Extension: String;
+begin
+  Result:= GetHighlighterFromFileExt(SynHighlighterList, sExtension);
+  // Determine file type by content
+  if (Result = nil) and (SynEdit.Lines.Count > 0) then
+  begin
+    Extension:= SynEdit.Lines[0];
+    if StrBegins(Extension, '<?xml') then
+      Result:= GetSyn(TSynXMLSyn)
+    else if StrBegins(Extension, '#!') then
+    begin
+      // Unix shell script
+      if (Pos('sh', Extension) > 0) then
+        Result:= GetSyn(TSynUNIXShellScriptSynEx)
+      // Python script
+      else if (Pos('python', Extension) > 0) then
+        Result:= GetSyn(TSynPythonSyn)
+      // Perl script
+      else if (Pos('perl', Extension) > 0) then
+        Result:= GetSyn(TSynPerlSynEx);
+    end;
+  end;
+  // Default syntax highlighter
+  if (Result = nil) then Result:= SynPlainTextHighlighter;
+end;
+
+procedure TdmHighl.SetHighlighter(SynEdit: TCustomSynEdit; Highlighter: TSynCustomHighlighter);
+var
+  I: LongInt;
+  Attribute: TSynHighlighterAttributes;
+begin
+  if (Highlighter is TSynPlainTextHighlighter) then
+    SynEdit.Highlighter:= nil
+  else begin
+    SynEdit.Highlighter:= Highlighter;
+  end;
+
+  if Highlighter is TSynUniSyn then
+    Attribute:= TSynUniSyn(Highlighter).MainRules.Attribs
+  else begin
+    I:= Highlighter.AttrCount - 1;
+    repeat
+      Attribute:= Highlighter.Attribute[I];
+      Dec(I);
+    until (I < 0) or SameText(Attribute.StoredName, SYNS_XML_DefaultText);
+  end;
+
+  SynEdit.Color:= Attribute.Background;
+  SynEdit.Font.Color:= Attribute.Foreground;
+end;
+
+{ THighlighters }
+
+procedure THighlighters.LoadColors;
+var
+  AStyle: TJSONObject;
+begin
+  AStyle:= FStyles[FStyle];
+  dmHighl.LoadColors(AStyle);
+  dmHighl.LoadUniColors(AStyle);
+end;
+
+procedure THighlighters.SaveColors;
+var
+  AStyle: TJSONObject;
+begin
+  AStyle:= FStyles[FStyle];
+  dmHighl.SaveColors(AStyle);
+  dmHighl.SaveUniColors(AStyle);
+end;
+
+procedure THighlighters.LoadDefaults(const AKey: String; AConfig: TJSONObject);
+var
+  AName: String;
+  I, J: Integer;
+  Theme: TJSONObject;
+  Themes: TJSONArray;
+
+  procedure LoadItem(Index: Integer);
+  var
+    Idx: Integer;
+  begin
+    Idx:= Theme.IndexOfName(AKey);
+    if (Idx >= 0) then begin
+      FStyles[Index].Arrays[AKey]:= Theme.Extract(Idx) as TJSONArray;
+    end;
+  end;
+
+begin
+  if AConfig.Find('Styles', Themes) then
+  begin
+    for I:= 0 to Themes.Count - 1 do
+    begin
+      Theme:= Themes.Objects[I];
+      AName:= Theme.Get('Name', EmptyStr);
+      for J:= 0 to High(THEME_NAME) do
+      begin
+        if (AName = THEME_NAME[J]) then
+        begin
+          LoadItem(J);
+          Break;
+        end;
+      end;
+    end;
+  end;
+end;
+
+constructor THighlighters.Create;
+begin
+  FStyle:= TColorThemes.StyleIndex;
+  dmHighl:= TdmHighl.Create(Application, False);
+  LoadDefaults;
+end;
+
+destructor THighlighters.Destroy;
+var
+  Index: Integer;
+begin
+  inherited Destroy;
+
+  for Index:= 0 to High(FStyles) do
+  begin
+    FStyles[Index].Free;
+  end;
+end;
+
+procedure THighlighters.UpdateStyle;
+var
+  ANewStyle: Integer;
+begin
+  ANewStyle := TColorThemes.StyleIndex;
+
+  if FStyle <> ANewStyle then
+  begin
+    SaveColors;
+    FStyle:= ANewStyle;
+    LoadColors;
+  end;
+end;
+
+procedure THighlighters.LoadDefaults;
+var
+  Index: Integer;
+  ARoot: TJSONObject;
+  AStream: TResourceStream;
+begin
+  for Index:= 0 to High(FStyles) do
+  begin
+    FStyles[Index]:= TJSONObject.Create;
+    FStyles[Index].Add('UniHighlighters', TJSONArray.Create);
+  end;
+  AStream:= TResourceStream.Create(HInstance, 'HIGHLIGHTERS', RT_RCDATA);
+  try
+    ARoot:= GetJSON(AStream, True) as TJSONObject;
+    try
+      LoadDefaults('Highlighters', ARoot);
+    finally
+      ARoot.Free;
+    end;
+  finally
+    AStream.Free;
+  end;
+  if mbFileExists(gpHighPath + 'highlighters.json') then
+  try
+    with TJsonConfig.Create do
+    try
+      LoadFromFile(gpHighPath + 'highlighters.json');
+      LoadDefaults('UniHighlighters', Root);
+    finally
+      Free;
+    end;
+  except
+   // Ignore
+  end;
+  LoadColors;
+end;
+
+procedure THighlighters.LoadColors(AConfig: TJSONObject);
+var
+  AName: String;
+  I, J: Integer;
+  Theme: TJSONObject;
+  Themes: TJSONArray;
+
+  procedure LoadItem(const AKey: String; Index: Integer);
+  var
+    AItem: TJSONArray;
+  begin
+    if Theme.Find(AKey, AItem) then
+    begin
+      FStyles[Index].Arrays[AKey]:= AItem.Clone as TJSONArray;
+    end;
+  end;
+
+begin
+  if AConfig.Find('Styles', Themes) then
+  begin
+    for I:= 0 to Themes.Count - 1 do
+    begin
+      Theme:= Themes.Objects[I];
+      AName:= Theme.Get('Name', EmptyStr);
+      for J:= 0 to High(THEME_NAME) do
+      begin
+        if (AName = THEME_NAME[J]) then
+        begin
+          LoadItem('Highlighters', J);
+          LoadItem('UniHighlighters', J);
+          Break;
+        end;
+      end;
+    end;
+    LoadColors;
+  end;
+end;
+
+procedure THighlighters.SaveColors(AConfig: TJSONObject);
+var
+  AName: String;
+  I, J: Integer;
+  Theme: TJSONObject;
+  Themes: TJSONArray;
+
+  procedure SaveItem(const AKey: String; Index: Integer);
+  var
+    AItem: TJSONArray;
+  begin
+    if FStyles[Index].Find(AKey, AItem) then
+    begin
+      Theme.Arrays[AKey]:= AItem.Clone as TJSONArray;
+    end;
+  end;
+
+begin
+  SaveColors;
+
+  if AConfig.Find('Styles', Themes) then
+  begin
+    for I:= 0 to Themes.Count - 1 do
+    begin
+      Theme:= Themes.Objects[I];
+      AName:= Theme.Get('Name', EmptyStr);
+      for J:= 0 to High(THEME_NAME) do
+      begin
+        if (AName = THEME_NAME[J]) then
+        begin
+          SaveItem('Highlighters', J);
+          SaveItem('UniHighlighters', J);
+          Break;
+        end;
+      end;
+    end;
+  end;
+end;
+
+procedure THighlighters.Load(const FileName: String);
 var
   J: LongInt;
-  Config: TXmlConfig = nil;
-  Root, FormNode, AttributeNode: TXmlNode;
+  Config: TXmlConfig;
+  AVersion: Integer = ConfigVersion;
   Highlighter: TSynCustomHighlighter;
+  LanguageName, AttributeName: String;
   Attribute: TSynHighlighterAttributes;
-  LanguageName,
-  AttributeName  : String;
+  Root, FormNode, AttributeNode: TXmlNode;
 begin
+  Config := TXmlConfig.Create(FileName, True);
   try
-    Result:= True;
-    try
-      Config:= TXmlConfig.Create(FileName, True);
-      Root := Config.FindNode(Config.RootNode, 'Highlighters');
-      if Assigned(Root) then
+    Root := Config.FindNode(Config.RootNode, 'Highlighters');
+    if Assigned(Root) then
+    begin
+      AVersion := Config.GetAttr(Root, 'Version', ConfigVersion);
+      FormNode := Config.FindNode(Root, 'Highlighter');
+      if Assigned(FormNode) then
       begin
-        FormNode := Config.FindNode(Root, 'Highlighter');
-        if Assigned(FormNode) then
+        while Assigned(FormNode) do
         begin
-          while Assigned(FormNode) do
+          LanguageName:= Config.GetAttr(FormNode, 'Name', EmptyStr);
+          Highlighter:= TSynCustomHighlighter(dmHighl.SynHighlighterHashList.Data[LanguageName]);
+          if Assigned(Highlighter) then
           begin
-            LanguageName:= Config.GetAttr(FormNode, 'Name', EmptyStr);
-            Highlighter:= TSynCustomHighlighter(SynHighlighterHashList.Data[LanguageName]);
-            if Assigned(Highlighter) then
+            Highlighter.Tag := Config.GetAttr(FormNode, 'Tag', 1);
+            Highlighter.DefaultFilter:= Config.GetValue(FormNode, 'DefaultFilter', Highlighter.DefaultFilter);
+            // Import colors from old format
+            if AVersion < 2 then
             begin
-              Highlighter.Tag := Config.GetAttr(FormNode, 'Tag', 1);
-              Highlighter.DefaultFilter:= Config.GetValue(FormNode, 'DefaultFilter', Highlighter.DefaultFilter);
               AttributeNode := Config.FindNode(FormNode, 'Attribute');
               if Assigned(AttributeNode) then
               begin
                 while Assigned(AttributeNode) do
                 begin
-                  AttributeName:= Config.GetAttr(AttributeNode, 'Name', EmptyStr);;
+                  AttributeName:= Config.GetAttr(AttributeNode, 'Name', EmptyStr);
                   for J:= 0 to Highlighter.AttrCount - 1 do
                   begin
                     Attribute:= Highlighter.Attribute[J];
-                    if SameText(Attribute.StoredName, AttributeName) then
+                    if SameText(Attribute.StoredName, AttributeName) or SameText(Attribute.Name, AttributeName) then
                     begin
                       Attribute.Style      := TFontStyles(Config.GetValue(AttributeNode, 'Style', Integer(Attribute.Style)));
                       Attribute.StyleMask  := TFontStyles(Config.GetValue(AttributeNode, 'StyleMask', Integer(Attribute.StyleMask)));
@@ -477,145 +891,52 @@ begin
                 end;
               end;
             end;
-            FormNode := FormNode.NextSibling;
           end;
+          FormNode := FormNode.NextSibling;
         end;
       end;
-    except
-      Result:= False;
+      // Import colors from old format
+      if AVersion < 2 then SaveColors;
+      // Create config backup
+      if (AVersion < ConfigVersion) then
+      try
+        Config.WriteToFile(FileName + '.bak');
+      except
+        // Ignore
+      end;
     end;
   finally
     Config.Free;
   end;
 end;
 
-function TdmHighl.SaveToFile(const FileName: String): Boolean;
+procedure THighlighters.Save(const FileName: String);
 var
   I: LongInt;
   Config: TXmlConfig;
-  Root, FormNode, AttributeNode: TXmlNode;
-  Attribute: TSynHighlighterAttributes;
-
-  procedure SaveHighlighter(Highlighter: TSynCustomHighlighter);
-  var
-    J: LongWord;
-  begin
-    FormNode := Config.AddNode(Root, 'Highlighter');
-    Config.SetAttr(FormNode, 'Tag', Highlighter.Tag);
-    Config.SetAttr(FormNode, 'Name', Highlighter.LanguageName);
-    Config.SetValue(FormNode, 'DefaultFilter', Highlighter.DefaultFilter);
-    for J:= 0 to Highlighter.AttrCount - 1 do
-    begin
-      Attribute:= Highlighter.Attribute[J];
-      AttributeNode := Config.AddNode(FormNode, 'Attribute');
-      Config.SetAttr(AttributeNode, 'Name', Attribute.StoredName);
-      Config.SetValue(AttributeNode, 'Style', Integer(Attribute.Style));
-      Config.SetValue(AttributeNode, 'StyleMask', Integer(Attribute.StyleMask));
-      Config.SetValue(AttributeNode, 'Foreground', Integer(Attribute.Foreground));
-      Config.SetValue(AttributeNode, 'Background', Integer(Attribute.Background));
-      Config.SetValue(AttributeNode, 'FrameColor', Integer(Attribute.FrameColor));
-      Config.SetValue(AttributeNode, 'FrameStyle', Integer(Attribute.FrameStyle));
-      Config.SetValue(AttributeNode, 'FrameEdges', Integer(Attribute.FrameEdges));
-    end;
-  end;
-
+  Root, FormNode: TXmlNode;
+  Highlighter: TSynCustomHighlighter;
 begin
-  Result:= True;
   Config := TXmlConfig.Create;
   try
     Config.FileName := FileName;
     Root := Config.FindNode(Config.RootNode, 'Highlighters', True);
     Config.ClearNode(Root);
-    Config.SetAttr(Root, 'Version', 1);
-    try
+    Config.SetAttr(Root, 'Version', ConfigVersion);
+    with dmHighl do
+    begin
       for I := 0 to SynHighlighterList.Count - 1 do
       begin
-        if SynHighlighterList.Objects[I] is TSynUniSyn then Continue;
-        SaveHighlighter(TSynCustomHighlighter(SynHighlighterList.Objects[I]));
+        Highlighter := Highlighters[I];
+        FormNode := Config.AddNode(Root, 'Highlighter');
+        Config.SetAttr(FormNode, 'Tag', Highlighter.Tag);
+        Config.SetAttr(FormNode, 'Name', Highlighter.LanguageName);
+        Config.SetValue(FormNode, 'DefaultFilter', Highlighter.DefaultFilter);
       end;
-      Config.Save;
-    except
-      Result:= False;
     end;
+    Config.Save;
   finally
     Config.Free;
-  end;
-end;
-
-function TdmHighl.GetHighlighter(SynEdit: TCustomSynEdit;
-  const sExtension: string): TSynCustomHighlighter;
-var
-  Index: Integer;
-  Extension: String;
-  Highlighter: TSynUniSyn;
-begin
-  Result:= GetHighlighterFromFileExt(SynHighlighterList, sExtension);
-  // Try to find user custom highlighter
-  if (Result = nil) then
-  begin
-    Extension:= Copy(sExtension, 2, MaxInt);
-    for Index:= 0 to SynHighlighterList.Count - 1 do
-    begin
-      if SynHighlighterList.Objects[Index] is TSynUniSyn then
-      begin
-        Highlighter:= TSynUniSyn(SynHighlighterList.Objects[Index]);
-        if MatchesMaskList(Extension, Highlighter.Info.General.Extensions, ', ') then
-          Exit(Highlighter);
-      end;
-    end;
-  end;
-  // Determine file type by content
-  if (Result = nil) and (SynEdit.Lines.Count > 0) then
-  begin
-    Extension:= SynEdit.Lines[0];
-    if StrBegins(Extension, '<?xml') then
-      Result:= SynXMLSyn1
-    else if StrBegins(Extension, '#!') then
-    begin
-      // Unix shell script
-      if (Pos('sh', Extension) > 0) then
-        Result:= SynUNIXShellScriptSyn1
-      // Python script
-      else if (Pos('python', Extension) > 0) then
-        Result:= SynPythonSyn1
-      // Perl script
-      else if (Pos('perl', Extension) > 0) then
-        Result:= SynPerlSyn1;
-    end;
-  end;
-  // Default syntax highlighter
-  if (Result = nil) then Result:= SynPlainTextHighlighter;
-end;
-
-procedure TdmHighl.SetHighlighter(SynEdit: TCustomSynEdit; Highlighter: TSynCustomHighlighter);
-var
-  I: LongInt;
-  Attribute: TSynHighlighterAttributes;
-begin
-  if (Highlighter is TSynPlainTextHighlighter) then
-    SynEdit.Highlighter:= nil
-  else
-    SynEdit.Highlighter:= Highlighter;
-  I:= Highlighter.AttrCount - 1;
-  repeat
-    Attribute:= Highlighter.Attribute[I];
-    Dec(I);
-  until (I < 0) or SameText(Attribute.StoredName, SYNS_XML_DefaultText);
-  SynEdit.Color:= Attribute.Background;
-  SynEdit.Font.Color:= Attribute.Foreground;
-end;
-
-{ TSynHighlighterAttributesHelper }
-
-function TSynHighlighterAttributesHelper.GetFeatures: TSynHighlighterAttrFeatures;
-begin
-  if SameText(StoredName, SYNS_XML_DefaultText) then
-    Result:= [hafBackColor, hafForeColor]
-  else begin
-    if Self is TSynAttributes then
-      Result:= [hafBackColor, hafForeColor, hafStyle]
-    else
-      Result:= [hafBackColor, hafForeColor, hafFrameColor, hafStyle, hafFrameStyle, hafFrameEdges];
   end;
 end;
 

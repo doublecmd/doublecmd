@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Version information about DC, building tools and running environment.
 
-   Copyright (C) 2006-2021  Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2006-2023  Alexander Koblov (alexx2000@mail.ru)
    Copyright (C) 2010       Przemyslaw Nagay (cobines@gmail.com)
 
    This program is free software; you can redistribute it and/or modify
@@ -322,9 +322,12 @@ begin
                                      FixedInfo.FileVersion[1],
                                      FixedInfo.FileVersion[2]]);
     if (FixedInfo.FileFlags and VS_FF_PRERELEASE <> 0) then
-      DCVersion+= ' alpha'
-    else begin
-      DCVersion+= ' beta';
+    begin
+      if (FixedInfo.FileFlags and VS_FF_PRIVATEBUILD <> 0) then
+        DCVersion+= ' alpha'
+      else begin
+        DCVersion+= ' beta';
+      end;
     end;
     Free;
   end;

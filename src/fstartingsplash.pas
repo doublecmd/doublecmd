@@ -27,6 +27,8 @@ type
     pnlVersionInfos: TPanel;
     pnlInfo: TPanel;
     procedure FormCreate(Sender: TObject);
+    procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
+    procedure FormHide(Sender: TObject);
   private
     { private declarations }
   public
@@ -56,6 +58,17 @@ begin
   lblPlatform.Caption        := TargetCPU + '-' + TargetOS + '-' + TargetWS;
   lblOperatingSystem.Caption := OSVersion;
   lblWidgetsetVer.Caption    := WSVersion;
+end;
+
+procedure TfrmStartingSplash.FormClose(Sender: TObject;
+  var CloseAction: TCloseAction);
+begin
+  CloseAction:= caFree;
+end;
+
+procedure TfrmStartingSplash.FormHide(Sender: TObject);
+begin
+  close();
 end;
 
 end.

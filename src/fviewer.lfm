@@ -270,7 +270,7 @@ object frmViewer: TfrmViewer
   SessionProperties = 'Height;Width;Left;Top;WindowState'
   ShowHint = True
   ShowInTaskBar = stAlways
-  LCLVersion = '2.0.12.0'
+  LCLVersion = '2.2.7.0'
   object pnlFolder: TPanel
     Left = 179
     Height = 343
@@ -347,6 +347,17 @@ object frmViewer: TfrmViewer
       Color = clWindow
       Font.Color = clWindowText
     end
+  end
+  object pnlCode: TPanel
+    Left = 179
+    Height = 343
+    Top = 0
+    Width = 342
+    Align = alClient
+    BevelOuter = bvNone
+    ParentFont = False
+    TabOrder = 4
+    Visible = False
   end
   object pnlImage: TPanel
     Left = 179
@@ -1296,6 +1307,9 @@ object frmViewer: TfrmViewer
       object miSearchPrev: TMenuItem
         Action = actFindPrev
       end
+      object miGotoLine: TMenuItem
+        Action = actGotoLine
+      end
     end
     object miView: TMenuItem
       Caption = '&View'
@@ -1345,6 +1359,11 @@ object frmViewer: TfrmViewer
       end
       object miOffice: TMenuItem
         Action = actShowOffice
+        GroupIndex = 1
+        RadioItem = True
+      end
+      object miCode: TMenuItem
+        Action = actShowCode
         GroupIndex = 1
         RadioItem = True
       end
@@ -1436,7 +1455,7 @@ object frmViewer: TfrmViewer
       Caption = '-'
     end
     object pmiSelectAll: TMenuItem
-      Caption = 'Select All'
+      Action = actSelectAll
     end
   end
   object SavePictureDialog: TSavePictureDialog
@@ -1694,6 +1713,12 @@ object frmViewer: TfrmViewer
       Caption = 'Find previous'
       OnExecute = actExecute
     end
+    object actGotoLine: TAction
+      Category = 'Edit'
+      Caption = 'Goto Line...'
+      Hint = 'Goto Line'
+      OnExecute = actExecute
+    end
     object actChangeEncoding: TAction
       Caption = 'Change encoding'
       OnExecute = actExecute
@@ -1706,13 +1731,16 @@ object frmViewer: TfrmViewer
     object actPrintSetup: TAction
       Category = 'File'
       Caption = 'Print &setup...'
+      Enabled = False
       OnExecute = actExecute
+      Visible = False
     end
     object actPrint: TAction
       Category = 'File'
       Caption = 'P&rint...'
       Enabled = False
       OnExecute = actExecute
+      Visible = False
     end
     object actShowCaret: TAction
       Category = 'View'
@@ -1733,8 +1761,14 @@ object frmViewer: TfrmViewer
       Category = 'Edit'
       Caption = 'Undo'
       Enabled = False
-      ImageIndex = 20
       Hint = 'Undo'
+      ImageIndex = 20
+      OnExecute = actExecute
+    end
+    object actShowCode: TAction
+      Category = 'View'
+      Caption = 'Code'
+      GroupIndex = 1
       OnExecute = actExecute
     end
   end

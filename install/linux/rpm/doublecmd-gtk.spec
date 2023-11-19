@@ -1,6 +1,6 @@
 Name:		doublecmd-gtk
 Summary:	Twin-panel (commander-style) file manager (GTK2)
-Version:	1.1.0
+Version:	1.2.0
 Release:	1
 URL:		https://doublecmd.sourceforge.io
 Source0:	doublecmd_%{version}.orig.tar.gz

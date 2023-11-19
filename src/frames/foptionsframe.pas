@@ -185,10 +185,8 @@ uses
   fOptionsFileAssoc,
   fOptionsFileAssocExtra,
   fOptionsDirectoryHotlist,
-  fOptionsDirectoryHotlistExtra
-{$IFDEF DARKWIN}
-  , fOptionsColors
-{$ENDIF}
+  fOptionsDirectoryHotlistExtra,
+  fOptionsColors
   ;
 
 { TOptionsEditorRec }
@@ -373,11 +371,7 @@ begin
   Tools.Add(TfrmOptionsDiffer);
   Tools.Add(TfrmOptionsTerminal);
   Main.Add(TfrmOptionsFonts);
-{$IFDEF DARKWIN}
   Colors := Main.Add(TfrmOptionsColors);
-{$ELSE}
-  Colors := Main.Add(TOptionsColorsGroup);
-{$ENDIF}
   Colors.Add(TfrmOptionsFilePanelsColors);
   Colors.Add(TfrmOptionsFileTypesColors);
   Keyboard := Main.Add(TfrmOptionsKeyboard);

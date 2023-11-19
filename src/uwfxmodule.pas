@@ -30,7 +30,7 @@ unit uWFXmodule;
 interface
 
 uses
-  SysUtils, Classes, WfxPlugin, uWFXprototypes, LazUTF8Classes,
+  SysUtils, Classes, WfxPlugin, uWFXprototypes,
   dynlibs, DCClassesUtf8, Extension, DCBasicTypes, DCXmlConfig,
   uWdxPrototypes, uWdxModule, uFileSource;
 
@@ -158,7 +158,7 @@ type
 
   TWFXModuleList = class(TStringList)
   private
-    FModuleList: TStringListUTF8;
+    FModuleList: TStringListEx;
   private
     function GetAEnabled(Index: Integer): Boolean;
     function GetAFileName(Index: Integer): String;
@@ -931,7 +931,7 @@ end;
 
 constructor TWFXModuleList.Create;
 begin
-  FModuleList:= TStringListUTF8.Create;
+  FModuleList:= TStringListEx.Create;
   FModuleList.Sorted:= True;
 end;
 

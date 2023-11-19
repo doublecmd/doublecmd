@@ -1,3 +1,26 @@
 {"version":1,"strings":[
-{"hash":148344613,"name":"tfrmoptionscolors.rgdarkmode.caption","sourcebytes":[68,97,114,107,32,109,111,100,101],"value":"Dark mode"}
+{"hash":97881285,"name":"tfrmoptionscolors.dbbookmode.caption","sourcebytes":[66,111,111,107,32,77,111,100,101],"value":"Book Mode"},
+{"hash":5951354,"name":"tfrmoptionscolors.lblbooktext.caption","sourcebytes":[84,101,120,116,58],"value":"Text:"},
+{"hash":249486954,"name":"tfrmoptionscolors.lblbookbackground.caption","sourcebytes":[66,97,99,107,103,114,111,117,110,100,58],"value":"Background:"},
+{"hash":225593045,"name":"tfrmoptionscolors.dbimagemode.caption","sourcebytes":[73,109,97,103,101,32,77,111,100,101],"value":"Image Mode"},
+{"hash":249462170,"name":"tfrmoptionscolors.lblimagebackground1.caption","sourcebytes":[66,97,99,107,103,114,111,117,110,100,32,49,58],"value":"Background 1:"},
+{"hash":249462154,"name":"tfrmoptionscolors.lblimagebackground2.caption","sourcebytes":[66,97,99,107,103,114,111,117,110,100,32,50,58],"value":"Background 2:"},
+{"hash":258309989,"name":"tfrmoptionscolors.dbtextmode.caption","sourcebytes":[84,101,120,116,32,77,111,100,101],"value":"Text Mode"},
+{"hash":75148154,"name":"tfrmoptionscolors.lbladded.caption","sourcebytes":[65,100,100,101,100,58],"value":"Added:"},
+{"hash":204255194,"name":"tfrmoptionscolors.lbldeleted.caption","sourcebytes":[68,101,108,101,116,101,100,58],"value":"Deleted:"},
+{"hash":184332074,"name":"tfrmoptionscolors.lblmodified.caption","sourcebytes":[77,111,100,105,102,105,101,100,58],"value":"Modified:"},
+{"hash":167657765,"name":"tfrmoptionscolors.dbbinarymode.caption","sourcebytes":[66,105,110,97,114,121,32,77,111,100,101],"value":"Binary Mode"},
+{"hash":184332074,"name":"tfrmoptionscolors.lblmodifiedbinary.caption","sourcebytes":[77,111,100,105,102,105,101,100,58],"value":"Modified:"},
+{"hash":109982858,"name":"tfrmoptionscolors.lblinformation.caption","sourcebytes":[73,110,102,111,114,109,97,116,105,111,110,58],"value":"Information:"},
+{"hash":194629578,"name":"tfrmoptionscolors.lblsuccess.caption","sourcebytes":[83,117,99,99,101,115,115,58],"value":"Success:"},
+{"hash":80320090,"name":"tfrmoptionscolors.lblerror.caption","sourcebytes":[69,114,114,111,114,58],"value":"Error:"},
+{"hash":5422458,"name":"tfrmoptionscolors.lblleft.caption","sourcebytes":[76,101,102,116,58],"value":"Left:"},
+{"hash":93314938,"name":"tfrmoptionscolors.lblright.caption","sourcebytes":[82,105,103,104,116,58],"value":"Right:"},
+{"hash":86338010,"name":"tfrmoptionscolors.lblunknown.caption","sourcebytes":[85,110,107,110,111,119,110,58],"value":"Unknown:"},
+{"hash":135998194,"name":"tfrmoptionscolors.cbbusegradientind.caption","sourcebytes":[85,115,101,32,38,71,114,97,100,105,101,110,116,32,73,110,100,105,99,97,116,111,114],"value":"Use &Gradient Indicator"},
+{"hash":171869450,"name":"tfrmoptionscolors.lblindcolor.caption","sourcebytes":[38,73,110,100,105,99,97,116,111,114,32,70,111,114,101,32,67,111,108,111,114,58],"value":"&Indicator Fore Color:"},
+{"hash":115941530,"name":"tfrmoptionscolors.lblindthresholdcolor.caption","sourcebytes":[73,110,100,105,99,97,116,111,114,32,38,84,104,114,101,115,104,111,108,100,32,67,111,108,111,114,58],"value":"Indicator &Threshold Color:"},
+{"hash":171107370,"name":"tfrmoptionscolors.lblindbackcolor.caption","sourcebytes":[73,110,38,100,105,99,97,116,111,114,32,66,97,99,107,32,67,111,108,111,114,58],"value":"In&dicator Back Color:"},
+{"hash":5941413,"name":"tfrmoptionscolors.rgdarkmode.caption","sourcebytes":[83,116,97,116,101],"value":"State"},
+{"hash":180232266,"name":"tfrmoptionscolors.lblcategory.caption","sourcebytes":[67,97,116,101,103,111,114,121,58],"value":"Category:"}
 ]}

@@ -62,6 +62,7 @@ function ConvertStringToTCString(sString: string): ansistring;
 function ReplaceDCEnvVars(const sText: string): string;
 function ReplaceTCEnvVars(const sText: string): string;
 function areWeInSituationToPlayWithTCFiles: boolean;
+function GetActualTCIni(NormalizedTCIniFilename, SectionName: String): String;
 function GetTCEquivalentCommandToDCCommand(DCCommand: string; var TCIndexOfCommand: integer): string;
 function GetTCIconFromDCIconAndCreateIfNecessary(const DCIcon: string): string;
 function GetTCEquivalentCommandIconToDCCommandIcon(DCIcon: string; TCIndexOfCommand: integer): string;
@@ -1250,6 +1251,22 @@ begin
   finally
     TCToolbarFilenameList.Free;
   end;
+end;
+
+{ GetActualTCIni }
+// Returns actual ini filename when using 'RedirectSection' key
+function GetActualTCIni(NormalizedTCIniFilename, SectionName: String): String;
+var
+  ConfigFile: TIniFileEx;
+begin
+  ConfigFile := TIniFileEx.Create(NormalizedTCIniFilename);
+  Result := ConvertTCStringToString(ConfigFile.ReadString(SectionName, 'RedirectSection', ''));
+  ConfigFile.Free;
+
+  if Result <> '' then
+     Result := GetActualTCIni(ReplaceTCEnvVars(ReplaceEnvVars(Result)), SectionName)
+  else
+     Result := NormalizedTCIniFilename;
 end;
 
 end.

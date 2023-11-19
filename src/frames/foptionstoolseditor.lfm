@@ -1,9 +1,9 @@
 inherited frmOptionsEditor: TfrmOptionsEditor
   Height = 513
-  Width = 601
+  Width = 586
   HelpKeyword = '/configuration.html#ConfigToolsEditor'
   ClientHeight = 513
-  ClientWidth = 601
+  ClientWidth = 586
   ParentShowHint = False
   ShowHint = True
   DesignLeft = 117
@@ -112,6 +112,15 @@ inherited frmOptionsEditor: TfrmOptionsEditor
         Width = 306
         Caption = 'Smart Tabs'
         TabOrder = 6
+      end
+      object chkGroupUndo: TCheckBox
+        Left = 323
+        Height = 24
+        Hint = 'All continuous changes of the same type will be processed in one call instead of undoing/redoing each one'
+        Top = 63
+        Width = 226
+        Caption = 'Group Undo'
+        TabOrder = 7
       end
     end
     object edTabWidth: TEdit

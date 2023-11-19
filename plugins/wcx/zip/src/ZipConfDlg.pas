@@ -41,13 +41,14 @@ uses
   ZipFunc, ZipOpt, ZipLng, AbZipTyp;
 
 function GetComboBox(pDlg: PtrUInt; DlgItemName: PAnsiChar): PtrInt;
-var
-  Index: IntPtr;
 begin
   with gStartupInfo do
   begin
-    Index:= SendDlgMsg(pDlg, DlgItemName, DM_LISTGETITEMINDEX, 0, 0);
-    Result:= SendDlgMsg(pDlg, DlgItemName, DM_LISTGETDATA, Index, 0);
+    Result:= SendDlgMsg(pDlg, DlgItemName, DM_LISTGETITEMINDEX, 0, 0);
+    if Result >= 0 then
+    begin
+      Result:= SendDlgMsg(pDlg, DlgItemName, DM_LISTGETDATA, Result, 0);
+    end;
   end;
 end;
 
@@ -175,12 +176,13 @@ begin
     if (Index = 1) then
     begin
       SendDlgMsg(pDlg, 'cbCompressionMethod', DM_LISTSETITEMINDEX, 0, 0);
-      SendDlgMsg(pDlg, 'cbCompressionMethod', DM_ENABLE, 0, 0);
     end
     else begin
-      SendDlgMsg(pDlg, 'cbCompressionMethod', DM_ENABLE, 1, 0);
       SetComboBox(pDlg, 'cbCompressionMethod', PluginConfig[AFormat].Method);
     end;
+    // Randomly crashes under Qt
+    // https://github.com/doublecmd/doublecmd/issues/1233
+    // SendDlgMsg(pDlg, 'cbCompressionMethod', DM_ENABLE, PtrInt(Index > 1), 0);
   end;
   UpdateLevel(pDlg, PluginConfig[AFormat].Level);
 end;

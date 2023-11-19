@@ -39,7 +39,7 @@ uses
 
 type
   TSynRange = class;
-  TSynSet = class; //Vitalik 2004
+  TSynSet = class;
 
   TAbstractSymbol = class
     function GetToken(CurRule: TSynRange; fLine: PChar; var Run: integer; var tkSynSymbol: TSynSymbol): boolean; virtual; abstract;
@@ -47,13 +47,13 @@ type
 
   TSymbols = class(TAbstractSymbol)
     HeadNode: TSymbolNode;
-    SynSets: TList; //Vitalik 2004
+    SynSets: TList;
     function GetToken(CurRule: TSynRange; fLine: PChar; var Run: integer; var tkSynSymbol: TSynSymbol): boolean; override;
     function FindSymbol(st: string): TSymbolNode;
     procedure AddSymbol(st: string; tkSynSymbol: TSynSymbol; ABrakeType: TSymbBrakeType);
-    procedure AddSet(SymbolSet: TSynSet); //Vitalik 2004
+    procedure AddSet(SymbolSet: TSynSet);
     constructor Create(ch: char; tkSynSymbol: TSynSymbol; ABrakeType: TSymbBrakeType); reintroduce; overload; virtual;
-    constructor Create(SymbolSet: TSynSet); reintroduce; overload; virtual; //Vitalik 2004
+    constructor Create(SymbolSet: TSynSet); reintroduce; overload; virtual;
     destructor Destroy(); override;
   end;
 
@@ -75,16 +75,16 @@ type
     KeyList: TStringList;
     constructor Create(st: string = '');
     destructor Destroy(); override;
-    procedure LoadHglFromXml(xml: TDOMNode; SchCount,SchIndex: integer); //Vitalik 2004
-    procedure LoadFromXml(xml: TDOMNode); override; //Vitalik 2004
-    procedure SaveToStream(StreamWriter: TStreamWriter; Ind: integer = 0); overload; override; //Vitalik 2004
+    procedure LoadHglFromXml(xml: TDOMNode; SchCount,SchIndex: integer);
+    procedure LoadFromXml(xml: TDOMNode); override;
+    procedure SaveToStream(StreamWriter: TStreamWriter; Ind: integer = 0); overload; override;
   end;
 
-  TSynKeyListLink = class(TAbstractRule) //Vitalik 2004
+  TSynKeyListLink = class(TAbstractRule)
     KeyList: TSynKeyList;
   end;
 
-  TSynSet = class (TSynRule) //Vitalik 2004
+  TSynSet = class (TSynRule)
     SymbSet: TSymbSet;
     StartType: TSymbStartType;
     BrakeType: TSymbBrakeType;
@@ -95,11 +95,11 @@ type
     procedure SaveToStream(StreamWriter: TStreamWriter; Ind: integer = 0); overload; override;
   end;
 
-  TSynSetLink = class(TAbstractRule) //Vitalik 2004
+  TSynSetLink = class(TAbstractRule)
     SynSet: TSynSet;
   end;
 
-  TSynRangeLink = class(TAbstractRule) //Vitalik 2004
+  TSynRangeLink = class(TAbstractRule)
     Range: TSynRange;
     Parent: TSynRange;
     constructor Create(aRange: TSynRange); virtual;
@@ -110,7 +110,7 @@ type
     fOpenSymbol: TSynSymbol;
     fCloseOnTerm: boolean;
     fCloseOnEol: boolean;
-    fAllowPredClose: boolean; //Vitalik 2004
+    fAllowPredClose: boolean;
     constructor Create(OpenSymbs: string = ''; CloseSymbs: string = '');
     destructor Destroy(); override;
   end;
@@ -123,7 +123,7 @@ type
     fSynSymbols: TList;
     fSynRanges: TList;
     fSynKeyLists: TList;
-    fSynSets: TList; //Vitalik 2004
+    fSynSets: TList;
 
     StringCaseFunct: function (const st: string): string;
     fPrepared: boolean;
@@ -144,7 +144,7 @@ type
 
     CaseFunct: function (ch: char): char;
     fTermSymbols: TSymbSet;
-    HasNodeAnyStart: array[char] of boolean; //Vitalik 2004
+    HasNodeAnyStart: array[char] of boolean;
     SymbolList: array[char] of TAbstractSymbol;
   private
     function GetSynSymbol(Index: Integer): TSynSymbol;
@@ -152,22 +152,22 @@ type
     function GetSynRangeLink(Index: Integer): TSynRangeLink;
     function GetSynRange(Index: Integer): TSynRange;
     function GetSynKeyList(Index: Integer): TSynKeyList;
-    function GetSynSet(Index: Integer): TSynSet; //Vitalik 2004
+    function GetSynSet(Index: Integer): TSynSet;
 
     function GetSynSymbolCount(): Integer;
     function GetCommonSynRangeCount(): Integer;
     function GetSynRangeLinkCount(): Integer;
     function GetSynRangeCount(): Integer;
     function GetSynKeyListCount(): Integer;
-    function GetSynSetCount(): Integer; //Vitalik 2004
+    function GetSynSetCount(): Integer;
 
     function GetCaseSensitive: boolean;
     procedure SetCaseSensitive(const Value: boolean);
 
   public {temp}
-    procedure LoadHglFromXml(xml: TDOMNode; SchCount, SchIndex: integer); //Vitalik 2004
-    procedure LoadFromXml(xml: TDOMNode); override; //Vitalik 2004
-    procedure SaveToStream(StreamWriter: TStreamWriter; Ind: integer = 0); overload; override; //Vitalik 2004
+    procedure LoadHglFromXml(xml: TDOMNode; SchCount, SchIndex: integer);
+    procedure LoadFromXml(xml: TDOMNode); override;
+    procedure SaveToStream(StreamWriter: TStreamWriter; Ind: integer = 0); overload; override;
   public
     constructor Create(OpenSymbs: string = ''; CloseSymbs: string = ''); virtual;
     destructor Destroy(); override;
@@ -181,7 +181,7 @@ type
     function AddRange(aOpen, aClose, aName: string; aColor: TColor): TSynRange; overload;
     procedure AddKeyList(NewKeyList: TSynKeyList); overload;
     function AddKeyList(aName: string; aColor: TColor): TSynKeyList; overload;
-    procedure AddSet(NewSet: TSynSet); overload; //Vitalik 2004
+    procedure AddSet(NewSet: TSynSet); overload;
     function AddSet(aName: string; aSymbSet: TSymbSet; aColor: TColor): TSynSet; overload;//Vitalik 2004
 
     function FindSymbol(st: string): TSynSymbol;
@@ -195,14 +195,14 @@ type
     procedure DeleteRange(Range: TSynRange); overload;
     procedure DeleteKeyList(index: integer); overload;
     procedure DeleteKeyList(KeyList: TSynKeyList); overload;
-    procedure DeleteSet(index: integer); overload; //Vitalik 2004
-    procedure DeleteSet(SynSet: TSynSet); overload; //Vitalik 2004
+    procedure DeleteSet(index: integer); overload;
+    procedure DeleteSet(SynSet: TSynSet); overload;
 
 {    procedure SetParentColor;
     procedure RestoreOldColor; }
     procedure SetDelimiters(Delimiters: TSymbSet);
 //    procedure SetStyles(aStyles: TSynUniStyles);    
-    procedure SetColorForChilds(); //Vitalik 2004
+    procedure SetColorForChilds();
 
     procedure ClearParsingFields();
     procedure ResetParents(aParent: TSynRange);    
@@ -218,7 +218,7 @@ type
 //    property CloseSymbol: TSynSymbol read fCloseSymbol;
 //    property CloseOnTerm: boolean read fCloseOnTerm write fCloseOnTerm;
 //    property CloseOnEol: boolean read fCloseOnEol write fCloseOnEol;
-//    property AllowPredClose: boolean read fAllowPredClose write fAllowPredClose; //Vitalik 2004
+//    property AllowPredClose: boolean read fAllowPredClose write fAllowPredClose;
 
     property CommonRanges[index: integer]: TSynRange read GetCommonSynRange;
     property CommonRangeCount: integer read GetCommonSynRangeCount;
@@ -230,8 +230,8 @@ type
     property SymbolCount: integer read GetSynSymbolCount;
     property KeyLists[index: integer]: TSynKeyList read GetSynKeyList;
     property KeyListCount: Integer read GetSynKeyListCount;
-    property Sets[index: integer]: TSynSet read GetSynSet; //Vitalik 2004
-    property SetCount: Integer read GetSynSetCount; //Vitalik 2004
+    property Sets[index: integer]: TSynSet read GetSynSet;
+    property SetCount: Integer read GetSynSetCount;
 
     property CaseSensitive: boolean read GetCaseSensitive write SetCaseSensitive;
     property Prepared: boolean read fPrepared;
@@ -365,7 +365,7 @@ var
       end;
   end;
 
-begin //Vitalik 2004
+begin
   Result := False;
   posStart := Run;
   if Assigned(HeadNode) then begin
@@ -428,10 +428,8 @@ begin //Vitalik 2004
       end;
     until nxtStart = nil;
   end;
-//l1:
-{begin}
+
   Run := posStart;
-//  Result := False;
   AllowedTermSymbols := CurRule.fTermSymbols;
   for i := 0 to SynSets.Count-1 do begin
     AllowedTermSymbols := AllowedTermSymbols - TSynSet(SynSets[i]).SymbSet;
@@ -455,44 +453,6 @@ begin //Vitalik 2004
     end;
   end;
   Run := succ(posStart);
-{end}
-
-{ was:
- Result := false;
- curNode := HeadNode;
- nxtNode := nil;
- while (curNode.NextSymbs.Count > 0) and (parser.fLine[parser.Run] <> #0) do begin
-   inc(parser.Run);
-   nxtNode := curNode.NextSymbs.FindSymbol(parser.fCurrentRule.CaseFunct(parser.fLine[parser.Run]));    //: Ищем этот символ среди текущих веток
-   if nxtNode = nil then begin
-     dec(parser.Run);
-     break;
-   end;
-   curNode := nxtNode;
- end;
-
- if curNode.tkSynSymbol = nil then
-   exit;
-
- if (nxtNode = nil) and (curNode.NextSymbs.Count > 0) then
-   dec(parser.Run);
-
- if parser.fLine[parser.Run] <> #0 then
-   inc(parser.Run);
-
- if curNode.BrakeType = btAny then
- begin
-   Result := True;
-   tkSynSymbol := curNode.tkSynSymbol;
-   exit;
- end;
-
- if parser.fLine[parser.Run] in parser.fCurrentRule.fTermSymbols then
- begin
-   Result := True;
-   tkSynSymbol := curNode.tkSynSymbol;
- end;
-}
 end;
 
 //==== TDefaultSymbols =======================================================
@@ -546,7 +506,7 @@ end;
 constructor TSynKeyList.Create(st: string);
 begin
   inherited Create;
-//  AddAttribute();
+
   KeyList := TStringList.Create;
   KeyList.Text := st;
 end;
@@ -558,14 +518,14 @@ begin
 end;
 
 //==== TSynSet =========================================================
-constructor TSynSet.Create(aSymbSet: TSymbSet = []); //Vitalik 2004
+constructor TSynSet.Create(aSymbSet: TSymbSet = []);
 begin
   inherited Create;
-//  AddAttribute();
+
   SymbSet := aSymbSet;
 end;
 
-destructor TSynSet.Destroy; //Vitalik 2004
+destructor TSynSet.Destroy;
 begin
   inherited;
 end;
@@ -611,7 +571,6 @@ begin
   fSynRangeLinks := TList.Create;
 
   fTermSymbols := DefaultTermSymbols;
-//  AddAttribute();
 end;
 
 destructor TSynRange.Destroy;
@@ -623,7 +582,6 @@ begin
     fRule.fOpenSymbol.Free;
   if Assigned(fRule.fCloseSymbol) then
     fRule.fCloseSymbol.Free;}
-//  Attribs.Free;
   FreeList(fSynKeyLists);
   FreeList(fSynSets);
   FreeList(fSynSymbols);
@@ -742,12 +700,12 @@ begin
   AddKeyList(Result);
 end;
 
-procedure TSynRange.AddSet(NewSet: TSynSet); //Vitalik 2004
+procedure TSynRange.AddSet(NewSet: TSynSet);
 begin
   fSynSets.Add(NewSet);
 end;
 
-function TSynRange.AddSet(aName: string; aSymbSet: TSymbSet; aColor: TColor): TSynSet; //Vitalik 2004
+function TSynRange.AddSet(aName: string; aSymbSet: TSymbSet; aColor: TColor): TSynSet;
 begin
   Result := TSynSet.Create(aSymbSet);
   with Result do begin
@@ -806,13 +764,13 @@ begin
   fSynKeyLists.Delete(index);
 end;
 
-procedure TSynRange.DeleteSet(SynSet: TSynSet); //Vitalik 2004
+procedure TSynRange.DeleteSet(SynSet: TSynSet);
 begin
   fSynSets.Remove(SynSet);
   SynSet.Free;
 end;
 
-procedure TSynRange.DeleteSet(index: integer); //Vitalik 2004
+procedure TSynRange.DeleteSet(index: integer);
 begin
   TSynSet(fSynSets[index]).Free;
   fSynSets.Delete(index);
@@ -844,7 +802,7 @@ begin
   Result := fSynKeyLists.Count;
 end;
 
-function TSynRange.GetSynSetCount: Integer; //Vitalik 2004
+function TSynRange.GetSynSetCount: Integer;
 begin
   Result := fSynSets.Count;
 end;
@@ -875,7 +833,7 @@ begin
   Result := TSynKeyList(fSynKeyLists[Index]);
 end;
 
-function TSynRange.GetSynSet(Index: Integer): TSynSet; //Vitalik 2004
+function TSynRange.GetSynSet(Index: Integer): TSynSet;
 begin
   Result := TSynSet(fSynSets[Index]);
 end;
@@ -948,27 +906,6 @@ Begin
     QuickSortSymbolList(List, middlePos+1, upperPos);
   end;
 end;
-
-// Used in prepare
-(*  replaced by quicksort... arb2004
-procedure SortSymbolList(List: TList);
-//: Sort list fSynSymbols
-var
-  i: integer;
-  fin: boolean;
-begin
-  fin := False;
-  while not fin do
-  begin
-    fin := True;
-    for i := 0 to List.Count-2 do
-      if TSynSymbol(List[i]).Symbol > TSynSymbol(List[i+1]).Symbol then
-      begin
-        List.Exchange(i, i+1);
-        fin := False;
-      end;
-  end;
-end;*)
 
 procedure TSynRange.ClearParsingFields();
 var
@@ -1120,7 +1057,7 @@ begin
     end;
   end;
 
-{begin} //Vitalik 2004
+{begin}
   if fSynSets.Count > 0 then
     for i := 0 to 255 do
       for j := 0 to fSynSets.Count-1 do begin
@@ -1132,7 +1069,7 @@ begin
       end;
 //          SymbolList[char(i)] := fSetSymbols;
 //          TSetSymbols(SymbolList[char(i)]).AddSetfSetSymbols;
-{end} //Vitalik 2004
+{end}
  end;
   //Fill remaining table
   for i := 0 to 255 do
@@ -1197,7 +1134,7 @@ begin
     end;
 end;
 
-procedure TSynRange.SetColorForChilds; //Vitalik 2004
+procedure TSynRange.SetColorForChilds;
 var
   i: integer;
 begin

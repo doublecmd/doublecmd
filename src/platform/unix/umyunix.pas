@@ -3,7 +3,7 @@
     -------------------------------------------------------------------------
     This unit contains specific UNIX functions.
 
-    Copyright (C) 2008-2022 Alexander Koblov (alexx2000@mail.ru)
+    Copyright (C) 2008-2023 Alexander Koblov (alexx2000@mail.ru)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -47,7 +47,9 @@ type
     DE_LXDE     = 4,
     DE_MATE     = 5,
     DE_CINNAMON = 6,
-    DE_LXQT     = 7
+    DE_LXQT     = 7,
+    DE_FLY      = 8,
+    DE_FLATPAK  = 9
   );
 
 const
@@ -59,7 +61,9 @@ const
     'LXDE',
     'MATE',
     'Cinnamon',
-    'LXQt'
+    'LXQt',
+    'Fly',
+    'Flatpak'
   );
 
 {$IF DEFINED(LINUX)}
@@ -110,12 +114,6 @@ function FileIsLinkToFolder(const FileName: String; out LinkTarget: String): Boo
    @returns(The function returns @true if successful, @false otherwise)
 }
 function FileIsUnixExecutable(const Filename: String): Boolean;
-{en
-   Find mount point of file system where file is located
-   @param(FileName File name)
-   @returns(Mount point of file system)
-}
-function FindMountPointPath(const FileName: String): String;
 function FindExecutableInSystemPath(var FileName: String): Boolean;
 function ExecutableInSystemPath(const FileName: String): Boolean;
 function GetDefaultAppCmd(const FileName: String): String;
@@ -173,7 +171,10 @@ uses
   , SysCall
 {$ENDIF}
 {$IF NOT (DEFINED(DARWIN) OR DEFINED(HAIKU))}
-  , uMimeActions, uMimeType, uGVolume
+  , uFontConfig, uMimeActions, uMimeType, uGVolume
+{$ENDIF}
+{$IFDEF DARWIN}
+  , uMyDarwin
 {$ENDIF}
 {$IFDEF LINUX}
   , uUDisks2
@@ -221,6 +222,10 @@ const
                                         'XDG_SESSION_DESKTOP',
                                         'DESKTOP_SESSION');
 begin
+  if fpGetEnv(PAnsiChar('FLATPAK_ID')) <> nil then
+  begin
+    Exit(DE_FLATPAK);
+  end;
   Result:= DE_UNKNOWN;
   for I:= Low(EnvVariable) to High(EnvVariable) do
   begin
@@ -243,6 +248,8 @@ begin
       Exit(DE_MATE);
     if Pos('cinnamon', DesktopSession) <> 0 then
       Exit(DE_CINNAMON);
+    if Pos('fly', DesktopSession) <> 0 then
+      Exit(DE_FLY);
   end;
   if GetEnvironmentVariable('KDE_FULL_SESSION') <> '' then
     Exit(DE_KDE);
@@ -250,8 +257,6 @@ begin
     Exit(DE_GNOME);
   if GetEnvironmentVariable('_LXSESSION_PID') <> '' then
     Exit(DE_LXDE);
-  if fpSystemStatus('pgrep xfce4-session > /dev/null') = 0 then
-    Exit(DE_XFCE);
 end;
 
 function FileIsLinkToFolder(const FileName: String; out LinkTarget: String): Boolean;
@@ -299,48 +304,6 @@ begin
     end;
   except
     Result:= False;
-  end;
-end;
-
-function FindMountPointPath(const FileName: String): String;
-var
-  I, J: LongInt;
-  sTemp: String;
-  recStat: Stat;
-  st_dev: QWord;
-begin
-  // Set root directory as mount point by default
-  Result:= PathDelim;
-  // Get stat info for original file
-  if (fpLStat(UTF8ToSys(FileName), recStat) < 0) then Exit;
-  // Save device ID of original file
-  st_dev:= recStat.st_dev;
-  J:= Length(FileName);
-  for I:= J downto 1 do
-  begin
-    if FileName[I] = PathDelim then
-    begin
-      if (I = 1) then
-        sTemp:= PathDelim
-      else
-        sTemp:= Copy(FileName, 1, I - 1);
-      // Stat for current directory
-      if (fpLStat(UTF8ToSys(sTemp), recStat) < 0) then Continue;
-      // If it is a link then checking link destination
-      if fpS_ISLNK(recStat.st_mode) then
-      begin
-        sTemp:= ReadSymLink(sTemp);
-        Result:= FindMountPointPath(sTemp);
-        Exit;
-      end;
-      // Check device ID
-      if (recStat.st_dev <> st_dev) then
-      begin
-        Result:= Copy(FileName, 1, J);
-        Exit;
-      end;
-      J:= I;
-    end;
   end;
 end;
 
@@ -539,7 +502,7 @@ begin
       Result := fpSystemStatus('pumount ' + Drive^.DeviceId) = 0;
     if not Result then
 {$ELSEIF DEFINED(DARWIN)}
-    Result := fpSystemStatus('diskutil unmount ' + Drive^.Path) = 0;
+    Result := unmountAndEject( Drive^.Path );
     if not Result then
 {$ENDIF}
     Result := fpSystemStatus('umount ' + Drive^.Path) = 0;
@@ -561,7 +524,7 @@ begin
     Result := uUDisks2.Eject(Drive^.DeviceId);
   if not Result then
 {$ELSEIF DEFINED(DARWIN)}
-  Result := fpSystemStatus('diskutil eject ' + Drive^.DeviceId) = 0;
+  Result := unmountAndEject( Drive^.Path );
   if not Result then
 {$ENDIF}
   Result := fpSystemStatus('eject ' + Drive^.DeviceId) = 0;
@@ -641,11 +604,44 @@ begin
 end;
 
 {$IF NOT (DEFINED(DARWIN) OR DEFINED(HAIKU))}
+function GetFontName(const AName: String): String;
+var
+  Res: TFcResult;
+  AFont: PFcPattern;
+  AFontName: PFcChar8;
+  APattern: PFcPattern;
+begin
+  Result:= AName;
+  APattern:= FcNameParse(PFcChar8(AName));
+  if Assigned(APattern) then
+  begin
+    FcConfigSubstitute(nil, APattern, FcMatchPattern);
+    FcDefaultSubstitute(APattern);
+    AFont:= FcFontMatch(nil, APattern, @Res);
+    if Assigned(AFont) then
+    begin
+      AFontName:= FcPatternFormat(AFont, '%{fullname}');
+      if Assigned(AFontName) then
+      begin
+        Result:= StrPas(AFontName);
+        FcStrFree(AFontName);
+      end;
+      FcPatternDestroy(AFont);
+    end;
+    FcPatternDestroy(APattern);
+  end;
+end;
+
 initialization
   DesktopEnv := GetDesktopEnvironment;
   {$IFDEF LINUX}
     CheckPMount;
   {$ENDIF}
+  if LoadFontConfigLib('libfontconfig.so.1') then
+  begin
+    MonoSpaceFont:= GetFontName(MonoSpaceFont);
+    UnLoadFontConfigLib;
+  end;
 {$ENDIF}
 
 end.

@@ -108,7 +108,7 @@ function VerifyZstd(Strm : TStream) : TAbArchiveType;
 implementation
 
 uses
-  SysUtils,
+  SysUtils, BufStream,
   AbZstd, AbExcept, AbVMStrm, AbBitBkt, AbProgress, DCOSUtils, DCClassesUtf8;
 
 { ****************** Helper functions Not from Classes Above ***************** }
@@ -308,29 +308,33 @@ end;
 { -------------------------------------------------------------------------- }
 procedure TAbZstdArchive.SaveArchive;
 var
+  I: Integer;
   CompStream: TStream;
-  i: Integer;
   CurItem: TAbZstdItem;
-  UpdateArchive: Boolean;
   TempFileName: String;
-  InputFileStream: TAbProgressFileStream;
+  UpdateArchive: Boolean;
+  InputFileStream: TStream;
 begin
   if IsZstdTar and TarAutoHandle then
   begin
     SwapToTar;
-    inherited SaveArchive;
     UpdateArchive := (FZstdStream.Size > 0) and (FZstdStream is TFileStreamEx);
     if UpdateArchive then
     begin
       FreeAndNil(FZstdStream);
       TempFileName := GetTempName(FArchiveName);
       { Create new archive with temporary name }
-      FZstdStream := TAbProgressFileStream.Create(TempFileName, fmCreate or fmShareDenyWrite, OnProgress);
+      FZstdStream := TFileStreamEx.Create(TempFileName, fmCreate or fmShareDenyWrite);
     end;
     FTarStream.Position := 0;
-    CompStream := TZSTDCompressionStream.Create(FZstdStream, 5, FTarStream.Size);
+    CompStream := TZSTDCompressionStream.Create(FZstdStream, CompressionLevel);
     try
-      CompStream.CopyFrom(FTarStream, 0);
+      FTargetStream := TWriteBufStream.Create(CompStream, $40000);
+      try
+        inherited SaveArchive;
+      finally
+        FreeAndNil(FTargetStream);
+      end;
     finally
       CompStream.Free;
     end;
@@ -351,9 +355,9 @@ begin
     { aaDelete could make a zero size file unless there are two files in the list.}
     { aaAdd, aaStreamAdd, aaFreshen, & aaReplace will be the only ones to take action. }
     SwapToZstd;
-    for i := 0 to pred(Count) do begin
-      FCurrentItem := ItemList[i];
-      CurItem      := TAbZstdItem(ItemList[i]);
+    for I := 0 to pred(Count) do begin
+      FCurrentItem := ItemList[I];
+      CurItem      := TAbZstdItem(ItemList[I]);
       case CurItem.Action of
         aaNone, aaMove: Break;{ Do nothing; bz2 doesn't store metadata }
         aaDelete: ; {doing nothing omits file from new stream}
@@ -364,14 +368,19 @@ begin
           else begin
             CurItem.UncompressedSize := mbFileSize(CurItem.DiskFileName);
           end;
-          CompStream := TZSTDCompressionStream.Create(FZstdStream, 5, CurItem.UncompressedSize);
+          CompStream := TZSTDCompressionStream.Create(FZstdStream, CompressionLevel, CurItem.UncompressedSize);
           try
             if CurItem.Action = aaStreamAdd then
               CompStream.CopyFrom(InStream, 0){ Copy/compress entire Instream to FZstdStream }
             else begin
-              InputFileStream := TAbProgressFileStream.Create(CurItem.DiskFileName, fmOpenRead or fmShareDenyWrite, OnProgress);
+              InputFileStream := TFileStreamEx.Create(CurItem.DiskFileName, fmOpenRead or fmShareDenyWrite);
               try
-                CompStream.CopyFrom(InputFileStream, 0);{ Copy/compress entire Instream to FZstdStream }
+                with TAbProgressWriteStream.Create(CompStream, InputFileStream.Size, OnProgress) do
+                try
+                  CopyFrom(InputFileStream, 0);{ Copy/compress entire Instream to FZstdStream }
+                finally
+                  Free;
+                end;
               finally
                 InputFileStream.Free;
               end;
@@ -397,14 +406,14 @@ end;
 { -------------------------------------------------------------------------- }
 procedure TAbZstdArchive.DecompressToStream(aStream: TStream);
 const
-  BufSize = $F000;
+  BufSize = $40000;
 var
   DecompStream: TZSTDDecompressionStream;
-  ProxyStream: TAbProgressStream;
+  ProxyStream: TAbProgressReadStream;
   Buffer: PByte;
   N: Integer;
 begin
-  ProxyStream:= TAbProgressStream.Create(FZstdStream, OnProgress);
+  ProxyStream:= TAbProgressReadStream.Create(FZstdStream, OnProgress);
   try
     DecompStream := TZSTDDecompressionStream.Create(ProxyStream);
     try

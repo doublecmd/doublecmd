@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Push some useful functions to Lua
 
-   Copyright (C) 2016-2021 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2016-2023 Alexander Koblov (alexx2000@mail.ru)
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Lesser General Public
@@ -39,7 +39,7 @@ uses
   Forms, Dialogs, Clipbrd, LazUTF8, LCLVersion, uLng, DCOSUtils,
   DCConvertEncoding, fMain, uFormCommands, uOSUtils, uGlobs, uLog,
   uClipboard, uShowMsg, uLuaStd, uFindEx, uConvEncoding, uFileProcs,
-  uFilePanelSelect, uMasks, LazFileUtils;
+  uFilePanelSelect, uMasks, LazFileUtils, Character, UnicodeData;
 
 procedure luaPushSearchRec(L : Plua_State; Rec: PSearchRecEx);
 begin
@@ -51,7 +51,7 @@ begin
   lua_setfield(L, -2, 'Size');
   lua_pushinteger(L, Rec^.Attr);
   lua_setfield(L, -2, 'Attr');
-  lua_pushstring(L, PAnsiChar(Rec^.Name));
+  lua_pushstring(L, Rec^.Name);
   lua_setfield(L, -2, 'Name');
 end;
 
@@ -260,6 +260,43 @@ begin
   lua_pushstring(L, CreateRelativePath(FileName, BaseDir));
 end;
 
+function utf8_next(L: Plua_State): Integer; cdecl;
+var
+  S: String;
+  C: Integer;
+  Len: size_t;
+  P: PAnsiChar;
+  Index: Integer;
+begin
+  P:= lua_tolstring(L, lua_upvalueindex(1), @Len);
+  Index:= lua_tointeger(L, lua_upvalueindex(2));
+  if (Index >= Integer(Len)) then Exit(0);
+
+  P:= P + Index;
+  C:= UTF8CodepointSize(P);
+
+  // Partial UTF-8 character
+  if (Index + C) > Len then Exit(0);
+
+  SetString(S, P, C);
+
+  lua_pushinteger(L, Index + C);
+  lua_replace(L, lua_upvalueindex(2));
+
+  lua_pushinteger(L, Index + 1);
+  lua_pushstring(L, S);
+
+  Result:= 2;
+end;
+
+function luaNext(L : Plua_State) : Integer; cdecl;
+begin
+  lua_pushvalue(L, 1);
+  lua_pushnumber(L, 0);
+  lua_pushcclosure(L, @utf8_next, 2);
+  Result:= 1;
+end;
+
 function luaPos(L : Plua_State) : Integer; cdecl;
 var
   Offset: SizeInt = 1;
@@ -284,7 +321,7 @@ begin
   Start:= lua_tointeger(L, 2);
   Count:= lua_tointeger(L, 3);
   S:= UTF8Copy(S, Start, Count);
-  lua_pushstring(L, PAnsiChar(S));
+  lua_pushstring(L, S);
 end;
 
 function luaLength(L : Plua_State) : Integer; cdecl;
@@ -300,7 +337,7 @@ begin
   Result:= 1;
   S:= lua_tostring(L, 1);
   S:= UTF8UpperCase(S);
-  lua_pushstring(L, PAnsiChar(S));
+  lua_pushstring(L, S);
 end;
 
 function luaLowerCase(L : Plua_State) : Integer; cdecl;
@@ -310,7 +347,7 @@ begin
   Result:= 1;
   S:= lua_tostring(L, 1);
   S:= UTF8LowerCase(S);
-  lua_pushstring(L, PAnsiChar(S));
+  lua_pushstring(L, S);
 end;
 
 function luaConvertEncoding(L : Plua_State) : Integer; cdecl;
@@ -324,6 +361,104 @@ begin
   lua_pushstring(L, ConvertEncoding(S, FromEnc, ToEnc));
 end;
 
+function char_prepare(L : Plua_State; out Index: Integer): UnicodeString;
+var
+  Len: size_t;
+  P: PAnsiChar;
+begin
+  P:= lua_tolstring(L, 1, @Len);
+  Result:= UTF8ToUTF16(P, Len);
+  if lua_isnumber(L, 2) then
+    Index:= Integer(lua_tointeger(L, 2))
+  else begin
+    Index:= 1;
+  end;
+end;
+
+function luaIsLower(L : Plua_State) : Integer; cdecl;
+var
+  Index: Integer;
+  S: UnicodeString;
+begin
+  S:= char_prepare(L, Index);
+  try
+    lua_pushboolean(L, TCharacter.IsLower(S, Index));
+    Result:= 1;
+  except
+    Result:= 0;
+  end;
+end;
+
+function luaIsUpper(L : Plua_State) : Integer; cdecl;
+var
+  Index: Integer;
+  S: UnicodeString;
+begin
+  S:= char_prepare(L, Index);
+  try
+    lua_pushboolean(L, TCharacter.IsUpper(S, Index));
+    Result:= 1;
+  except
+    Result:= 0;
+  end;
+end;
+
+function luaIsDigit(L : Plua_State) : Integer; cdecl;
+var
+  Index: Integer;
+  S: UnicodeString;
+begin
+  S:= char_prepare(L, Index);
+  try
+    lua_pushboolean(L, TCharacter.IsDigit(S, Index));
+    Result:= 1;
+  except
+    Result:= 0;
+  end;
+end;
+
+function luaIsLetter(L : Plua_State) : Integer; cdecl;
+var
+  Index: Integer;
+  S: UnicodeString;
+begin
+  S:= char_prepare(L, Index);
+  try
+    lua_pushboolean(L, TCharacter.IsLetter(S, Index));
+    Result:= 1;
+  except
+    Result:= 0;
+  end;
+end;
+
+function luaIsLetterOrDigit(L : Plua_State) : Integer; cdecl;
+var
+  Index: Integer;
+  S: UnicodeString;
+begin
+  S:= char_prepare(L, Index);
+  try
+    lua_pushboolean(L, TCharacter.IsLetterOrDigit(S, Index));
+    Result:= 1;
+  except
+    Result:= 0;
+  end;
+end;
+
+function luaGetUnicodeCategory(L : Plua_State) : Integer; cdecl;
+var
+  Index: Integer;
+  S: UnicodeString;
+begin
+  S:= char_prepare(L, Index);
+  try
+    lua_pushinteger(L, lua_Integer(TCharacter.GetUnicodeCategory(S, Index)));
+    Result:= 1;
+  except
+    Result:= 0;
+  end;
+end;
+
 function luaClipbrdClear(L : Plua_State) : Integer; cdecl;
 begin
   Result:= 0;
@@ -333,7 +468,7 @@ end;
 function luaClipbrdGetText(L : Plua_State) : Integer; cdecl;
 begin
   Result:= 1;
-  lua_pushstring(L, PAnsiChar(Clipboard.AsText));
+  lua_pushstring(L, Clipboard.AsText);
 end;
 
 function luaClipbrdSetText(L : Plua_State) : Integer; cdecl;
@@ -377,7 +512,7 @@ begin
   if AMaskInput then
   begin
     Result:= 2;
-    lua_pushstring(L, PAnsiChar(AValue));
+    lua_pushstring(L, AValue);
   end;
 end;
 
@@ -408,7 +543,7 @@ begin
     AValue:= lua_tostring(L, 4);
   end;
   if ShowInputListBox(ACaption, APrompt, AStringList, AValue, AIndex) then
-    lua_pushstring(L, PAnsiChar(AValue))
+    lua_pushstring(L, AValue)
   else begin
     lua_pushnil(L);
   end;
@@ -516,12 +651,22 @@ begin
 
   lua_newtable(L);
     luaP_register(L, 'Pos', @luaPos);
+    luaP_register(L, 'Next', @luaNext);
     luaP_register(L, 'Copy', @luaCopy);
     luaP_register(L, 'Length', @luaLength);
     luaP_register(L, 'UpperCase', @luaUpperCase);
     luaP_register(L, 'LowerCase', @luaLowerCase);
     luaP_register(L, 'ConvertEncoding', @luaConvertEncoding);
   lua_setglobal(L, 'LazUtf8');
+
+  lua_newtable(L);
+    luaP_register(L, 'IsLower', @luaIsLower);
+    luaP_register(L, 'IsUpper', @luaIsUpper);
+    luaP_register(L, 'IsDigit', @luaIsDigit);
+    luaP_register(L, 'IsLetter', @luaIsLetter);
+    luaP_register(L, 'IsLetterOrDigit', @luaIsLetterOrDigit);
+    luaP_register(L, 'GetUnicodeCategory', @luaGetUnicodeCategory);
+  lua_setglobal(L, 'Char');
 
   lua_newtable(L);
     luaP_register(L, 'Clear', @luaClipbrdClear);
@@ -555,14 +700,14 @@ begin
       APath := lua_tostring(L, -1);
       APath := StringReplace(APath, '.' + PathDelim, Path, []);
     lua_pop(L, 1);
-    lua_pushstring(L, PAnsiChar(APath));
+    lua_pushstring(L, APath);
     lua_setfield(L, -2, 'path');
     // Set package.cpath
     lua_getfield(L, -1, 'cpath');
       APath := lua_tostring(L, -1);
       APath := StringReplace(APath, '.' + PathDelim, Path, []);
     lua_pop(L, 1);
-    lua_pushstring(L, PAnsiChar(APath));
+    lua_pushstring(L, APath);
     lua_setfield(L, -2, 'cpath');
   lua_pop(L, 1);
 end;
@@ -619,7 +764,7 @@ begin
       if (Count > 0) then
       begin
         for Index := 0 to Count - 1 do begin
-          lua_pushstring(L, PAnsiChar(Args[Index]));
+          lua_pushstring(L, Args[Index]);
         end;
       end;
       // Execute script

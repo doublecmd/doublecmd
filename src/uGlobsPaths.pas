@@ -22,7 +22,7 @@ procedure UpdateEnvironmentVariable;
 implementation
 
 uses
-  SysUtils, LazFileUtils, uDebug, uOSUtils, DCOSUtils, DCStrUtils, uSysFolders;
+  SysUtils, LazFileUtils, uDebug, DCOSUtils, DCStrUtils, uSysFolders;
 
 function GetAppName : String;
 begin
@@ -32,15 +32,13 @@ end;
 procedure UpdateEnvironmentVariable;
 begin
   mbSetEnvironmentVariable('COMMANDER_INI', gpCfgDir + 'doublecmd.xml');
+  mbSetEnvironmentVariable('DC_CONFIG_PATH', ExcludeTrailingPathDelimiter(gpCfgDir));
 end;
 
 procedure LoadPaths;
 begin
   OnGetApplicationName := @GetAppName;
-  gpExePath := ExtractFilePath(TryReadAllLinks(ParamStrU(0)));
-  DCDebug('Executable directory: ', gpExePath);
-  
-  gpGlobalCfgDir := gpExePath;
+
   if gpCmdLineCfgDir <> EmptyStr then
   begin
     if GetPathType(gpCmdLineCfgDir) <> ptAbsolute then
@@ -58,6 +56,9 @@ begin
       gpCfgDir := gpGlobalCfgDir;
     end;
   end;
+  DCDebug('Executable directory: ', gpExePath);
+  DCDebug('Configuration directory: ', gpCfgDir);
+  DCDebug('Global configuration directory: ', gpGlobalCfgDir);
 
   gpCfgDir := IncludeTrailingPathDelimiter(gpCfgDir);
   gpLngDir := gpExePath + 'language' + DirectorySeparator;
@@ -70,5 +71,14 @@ begin
   mbSetEnvironmentVariable('COMMANDER_DRIVE', ExtractRootDir(gpExePath));
   mbSetEnvironmentVariable('COMMANDER_PATH', ExcludeTrailingBackslash(gpExePath));
 end;
+
+procedure Initialize;
+begin
+  gpExePath := ExtractFilePath(TryReadAllLinks(ParamStr(0)));
+  gpGlobalCfgDir := gpExePath + 'settings' + DirectorySeparator;
+end;
+
+initialization
+  Initialize;
 
 end.

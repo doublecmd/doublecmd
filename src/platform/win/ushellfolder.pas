@@ -8,6 +8,18 @@ uses
   Classes, SysUtils, Windows, ShlObj, ActiveX, ComObj, ShlWapi, uShlObjAdditional;
 
 const
+  SID_SYSTEM = '{B725F130-47EF-101A-A5F1-02608C9EEBAC}';
+  SCID_FileSize:      TSHColumnID = ( fmtid: SID_SYSTEM; pid: 12 );
+  SCID_DateModified:  TSHColumnID = ( fmtid: SID_SYSTEM; pid: 14 );
+  SCID_DateCreated:   TSHColumnID = ( fmtid: SID_SYSTEM; pid: 15 );
+
+  SID_NAME = '{41CF5AE0-F75A-4806-BD87-59C7D9248EB9}';
+  SCID_FileName:      TSHColumnID = ( fmtid: SID_NAME; pid: 100 );
+
+  SID_COMPUTER = '{9B174B35-40FF-11D2-A27E-00C04FC30871}';
+  SCID_Capacity:      TSHColumnID = ( fmtid: SID_COMPUTER; pid: 3 );
+
+const
   FOLDERID_AccountPictures: TGUID = '{008ca0b1-55b4-4c56-b8a8-4de4b299d3be}';
   FOLDERID_ApplicationShortcuts: TGUID = '{A3918781-E5F2-4890-B3D9-A7E54332328C}';
   FOLDERID_CameraRoll: TGUID = '{AB5FB87B-7CE2-4F83-915D-550846C9537B}';
@@ -98,15 +110,18 @@ function GetKnownFolderPath(const rfid: TGUID; out APath: String): Boolean;
 
 function MultiFileProperties(pdtobj: IDataObject; dwFlags: DWORD): HRESULT;
 
+function GetIsFolder(AParent: IShellFolder; PIDL: PItemIDList): Boolean;
 function GetDisplayName(AFolder: IShellFolder; PIDL: PItemIDList; Flags: DWORD): String;
+function GetDisplayNameEx(AFolder: IShellFolder2; PIDL: PItemIDList; Flags: DWORD): String;
 function GetDetails(AFolder: IShellFolder2; PIDL: PItemIDList; const pscid: SHCOLUMNID): OleVariant;
+function ParseDisplayName(Desktop: IShellFolder; const AName: String; out PIDL: PItemIDList): HRESULT;
 
 function CreateDefaultContextMenu(constref pdcm: TDefContextMenu; const riid: REFIID; out ppv): HRESULT;
 
 implementation
 
 uses
-  ShellApi, LazUTF8, DCConvertEncoding;
+  Variants, ShellApi, LazUTF8, DCConvertEncoding, DCStrUtils;
 
 const
   KF_FLAG_DEFAULT = $00000000;
@@ -131,6 +146,15 @@ begin
   Result:= SHMultiFileProperties(pdtobj, dwFlags);
 end;
 
+function GetIsFolder(AParent: IShellFolder; PIDL: PItemIDList): Boolean;
+var
+  Flags: LongWord;
+begin
+  Flags:= SFGAO_FOLDER;
+  AParent.GetAttributesOf(1, PIDL, Flags);
+  Result:= (SFGAO_FOLDER and Flags) <> 0;
+end;
+
 function GetDisplayName(AFolder: IShellFolder; PIDL: PItemIDList;
                         Flags: DWORD): String;
 var
@@ -144,6 +168,18 @@ begin
     Result := GetDisplayName(AFolder, PIDL, SHGDN_NORMAL);
 end;
 
+function GetDisplayNameEx(AFolder: IShellFolder2; PIDL: PItemIDList; Flags: DWORD): String;
+var
+  AValue: OleVariant;
+begin
+  AValue:= GetDetails(AFolder, PIDL, SCID_FileName);
+  if VarIsStr(AValue) then
+    Result:= AValue
+  else begin
+    Result:= GetDisplayName(AFolder, PIDL, Flags);
+  end;
+end;
+
 function GetDetails(AFolder: IShellFolder2; PIDL: PItemIDList; const pscid: SHCOLUMNID): OleVariant;
 var
   AValue: OleVariant;
@@ -152,6 +188,110 @@ begin
    Result:= AValue
  else
    Result:= Unassigned;
+end;
+
+function SplitParsingPath(const S: String): TStringArray;
+var
+  P: PAnsiChar;
+  AItem: String;
+  I, Len: Integer;
+  Start: Integer = 0;
+begin
+  I:= 0;
+  Len:= Length(S);
+  P:= PAnsiChar(S);
+  Result:= Default(TStringArray);
+  while I < Len do
+  begin
+    if P[I] = '\' then
+    begin
+      SetString(AItem, @P[Start], I - Start);
+      AddString(Result, AItem);
+      Start:= I + 1;
+      // Special case for "\\?\" and "\\.\"
+      if (P[I + 1] = '\') and (P[I + 2] = '\') and (P[I + 3] in ['?', '.']) and (P[I + 4] = '\') then
+        Inc(I, 4);
+    end;
+    Inc(I);
+  end;
+  if Start < Len then
+  begin
+    SetString(AItem, @P[Start], Len - Start);
+    AddString(Result, AItem);
+  end;
+end;
+
+function ParseDisplayName(Desktop: IShellFolder; const AName: String; out
+  PIDL: PItemIDList): HRESULT;
+var
+  AItem: String;
+  Index: Integer;
+  pchEaten: ULONG;
+  APath: TStringArray;
+  NumIDs: LongWord = 0;
+  dwAttributes: ULONG = 0;
+  EnumIDList: IEnumIDList;
+  ParentFolder, AFolder: IShellFolder;
+  ParentPIDL, RelativePIDL: PItemIDList;
+begin
+  APath:= SplitParsingPath(AName);
+
+  ParentFolder:= Desktop;
+  SHGetFolderLocation(0, CSIDL_DESKTOP, 0, 0, {%H-}ParentPIDL);
+
+  for Index:= 0 to High(APath) do
+  begin
+    dwAttributes:= 0;
+    AItem:= APath[Index];
+    Result:= ParentFolder.ParseDisplayName(0, nil, PWideChar(CeUtf8ToUtf16(AItem)), pchEaten, RelativePIDL, dwAttributes);
+
+    if Failed(Result) then
+    begin
+      Result:= ParentFolder.EnumObjects(0, SHCONTF_FOLDERS or SHCONTF_NONFOLDERS or SHCONTF_STORAGE or SHCONTF_INCLUDEHIDDEN, EnumIDList);
+
+      if Succeeded(Result) then
+      begin
+        Result:= STG_E_PATHNOTFOUND;
+
+        while EnumIDList.Next(1, RelativePIDL, NumIDs) = S_OK do
+        begin
+          if AItem = GetDisplayName(ParentFolder, RelativePIDL, SHGDN_INFOLDER or SHGDN_FORPARSING) then
+          begin
+            Result:= S_OK;
+            Break;
+          end;
+          CoTaskMemFree(RelativePIDL);
+        end;
+      end;
+    end;
+
+    if Succeeded(Result) then
+    begin
+      PIDL:= ILCombine(ParentPIDL, RelativePIDL);
+    end;
+
+    CoTaskMemFree(ParentPIDL);
+
+    if Failed(Result) then Break;
+
+    if Index < High(APath) then
+    begin
+      Result:= ParentFolder.BindToObject(RelativePIDL, nil, IID_IShellFolder, Pointer(AFolder));
+      if Succeeded(Result) then
+      begin
+        ParentPIDL:= PIDL;
+        ParentFolder:= AFolder;
+      end;
+    end;
+
+    CoTaskMemFree(RelativePIDL);
+
+    if Failed(Result) then
+    begin
+      CoTaskMemFree(PIDL);
+      Break;
+    end;
+  end;
 end;
 
 function CreateDefaultContextMenu(constref pdcm: TDefContextMenu;

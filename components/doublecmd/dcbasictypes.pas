@@ -22,6 +22,9 @@
 
 unit DCBasicTypes;
 
+{$mode objfpc}{$H+}
+{$modeswitch advancedrecords}
+
 interface
 
 type
@@ -35,15 +38,18 @@ type
 
 {$IFDEF MSWINDOWS}
   TFileTime = TWinFileTime;
+  TFileTimeEx = TFileTime;
 {$ELSE}
-  // Unix time (UTC).
-  // Unix defines time_t as signed integer,
-  // but we define it as unsigned because sign is not needed.
-  {$IFDEF cpu64}
-  TFileTime = QWord;
-  {$ELSE}
-  TFileTime = DWord;
-  {$ENDIF}
+  TFileTime = Int64;
+
+  TFileTimeEx = record
+    public
+      sec: int64;
+      nanosec: int64;
+    public
+      constructor create( aSec:int64; aNanosec:int64=0 );
+      class operator =(l,r : TFileTimeEx): Boolean;
+  end;
 {$ENDIF}
 
   TUnixFileTime = TFileTime;
@@ -51,6 +57,22 @@ type
   PFileTime = ^TFileTime;
   PWinFileTime = ^TWinFileTime;
 
+const
+  TFileTimeExNull: TFileTimeEx = {$IFDEF MSWINDOWS} 0 {$ELSE} (sec:0; nanosec:-1) {$ENDIF};
+
 implementation
+
+{$IF not DEFINED(MSWINDOWS)}
+constructor TFileTimeEx.create( aSec:int64; aNanosec:int64 );
+begin
+  self.sec:= aSec;
+  self.nanosec:= aNanosec;
+end;
+
+class operator TFileTimeEx.=(l,r : TFileTimeEx): Boolean;
+begin
+  Result:= (l.sec=r.sec) and (l.nanosec=r.nanosec);
+end;
+{$ENDIF}
 
 end.

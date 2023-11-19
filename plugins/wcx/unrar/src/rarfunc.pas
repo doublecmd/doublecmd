@@ -30,10 +30,10 @@ interface
 uses
   Classes, SysUtils, WcxPlugin;
 
-procedure PackSetDefaultParams(dps: PPackDefaultParamStruct); dcpcall;
-procedure ConfigurePacker(Parent: HWND; DllInstance: THandle); dcpcall;
-function DeleteFilesW(PackedFile, DeleteList: PWideChar): Integer; dcpcall;
-function PackFilesW(PackedFile: PWideChar; SubPath: PWideChar; SrcPath: PWideChar; AddList: PWideChar; Flags: Integer): Integer; dcpcall;
+procedure PackSetDefaultParams(dps: PPackDefaultParamStruct); dcpcall; export;
+procedure ConfigurePacker(Parent: HWND; DllInstance: THandle); dcpcall; export;
+function DeleteFilesW(PackedFile, DeleteList: PWideChar): Integer; dcpcall; export;
+function PackFilesW(PackedFile: PWideChar; SubPath: PWideChar; SrcPath: PWideChar; AddList: PWideChar; Flags: Integer): Integer; dcpcall; export;
 
 var
   IniFileName: String;
@@ -125,19 +125,19 @@ begin
   end;
 end;
 
-procedure PackSetDefaultParams(dps: PPackDefaultParamStruct); dcpcall;
+procedure PackSetDefaultParams(dps: PPackDefaultParamStruct); dcpcall; export;
 begin
   IniFileName:= CeSysToUtf8(dps^.DefaultIniName);
 
   LoadConfig;
 end;
 
-procedure ConfigurePacker(Parent: HWND; DllInstance: THandle); dcpcall;
+procedure ConfigurePacker(Parent: HWND; DllInstance: THandle); dcpcall; export;
 begin
   CreateRarConfDlg;
 end;
 
-function DeleteFilesW(PackedFile, DeleteList: PWideChar): Integer; dcpcall;
+function DeleteFilesW(PackedFile, DeleteList: PWideChar): Integer; dcpcall; export;
 var
  FileName : UnicodeString;
  FolderName: UnicodeString;
@@ -182,7 +182,7 @@ begin
   end;
 end;
 
-function PackFilesW(PackedFile: PWideChar; SubPath: PWideChar;  SrcPath: PWideChar;  AddList: PWideChar;  Flags: Integer): Integer;dcpcall;
+function PackFilesW(PackedFile: PWideChar; SubPath: PWideChar;  SrcPath: PWideChar;  AddList: PWideChar;  Flags: Integer): Integer;dcpcall; export;
 var
   FileName: UnicodeString;
   FolderName: UnicodeString;

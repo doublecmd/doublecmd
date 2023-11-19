@@ -173,6 +173,9 @@ begin
   iInitialStart := edtDst.SelStart;
   iInitialLength := edtDst.SelLength;
 
+  if iFullLength = 0 then
+    exit;
+
   repeat
     FCurrentCopyDlgNameSelectionStep := TCurrentCopyDlgNameSelectionStep((ord(FCurrentCopyDlgNameSelectionStep)+1) mod ord(ccdnssInvalid));
 

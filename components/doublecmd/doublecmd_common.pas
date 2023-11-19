@@ -4,12 +4,13 @@
 
 unit doublecmd_common;
 
+{$warn 5023 off : no warning about unused units}
 interface
 
 uses
   DCClassesUtf8, DCOSUtils, DCStrUtils, DCBasicTypes, DCFileAttributes, 
   DCConvertEncoding, DCDateTimeUtils, DCXmlConfig, DCProcessUtf8, 
-  DCUnicodeUtils, DCStringHashListUtf8;
+  DCUnicodeUtils, DCStringHashListUtf8, DCJsonConfig;
 
 implementation
 

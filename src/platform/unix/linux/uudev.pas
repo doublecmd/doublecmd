@@ -409,6 +409,8 @@ begin
     DeviceIsDrive:= (Value = UDEV_DEVICE_TYPE_DISK);
     DeviceIsPartition:= (Value = UDEV_DEVICE_TYPE_PARTITION);
 
+    DeviceIsRemovable := False;
+
     if DeviceIsDrive then
     begin
       DeviceIsPartitionTable:= (udev_device_get_property_value(Device, 'ID_PART_TABLE_TYPE' ) <> nil);

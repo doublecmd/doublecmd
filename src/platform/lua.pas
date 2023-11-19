@@ -1,10 +1,10 @@
 (*
- * A Pascal wrapper for Lua 5.1-5.3 library.
+ * A Pascal wrapper for Lua 5.1-5.4 library.
  *
  * Created by Geo Massar, 2006
  * Distributed as free/open source.
- * 2008 Added dinamicly library loading by Dmitry Kolomiets (B4rr4cuda@rambler.ru)
- * 2018-2019 Added Lua 5.2 - 5.3 library support by Alexander Koblov (alexx2000@mail.ru)
+ * 2008 Added dynamically library loading by Dmitry Kolomiets (B4rr4cuda@rambler.ru)
+ * 2018-2023 Added Lua 5.2 - 5.4 library support by Alexander Koblov (alexx2000@mail.ru)
  *)
 
 unit lua;
@@ -229,9 +229,11 @@ var
   lua_gettop:     function  (L : Plua_State) : Integer;  cdecl;
   lua_settop:     procedure (L : Plua_State; idx : Integer);  cdecl;
   lua_pushvalue:  procedure (L : Plua_State; idx : Integer);  cdecl;
+  lua_rotate:     procedure (L : Plua_State; idx, n: Integer);  cdecl;
   lua_remove:     procedure (L : Plua_State; idx : Integer);  cdecl;
   lua_insert:     procedure (L : Plua_State; idx : Integer);  cdecl;
   lua_replace:    procedure (L : Plua_State; idx : Integer);  cdecl;
+  lua_copy:       procedure (L : Plua_State; fromidx, toidx: Integer);  cdecl;
   lua_checkstack: function  (L : Plua_State; sz : Integer) : LongBool;  cdecl;
   lua_xmove:      procedure (src, dest : Plua_State; n : Integer);  cdecl;
 
@@ -695,6 +697,23 @@ var
   lua_resume51:  function (L : Plua_State; narg : Integer) : Integer;  cdecl;
   lua_resume54:  function (L : Plua_State; narg : Integer; nresults : PInteger) : Integer;  cdecl;
 
+procedure lua_insert53(L : Plua_State; idx : Integer);  cdecl;
+begin
+  lua_rotate(L, idx, 1);
+end;
+
+procedure lua_remove53(L : Plua_State; idx : Integer);  cdecl;
+begin
+  lua_rotate(L, idx, -1);
+  lua_pop(L, 1);
+end;
+
+procedure lua_replace53(L : Plua_State; idx : Integer);  cdecl;
+begin
+  lua_copy(L, -1, idx);
+  lua_pop(L, 1);
+end;
+
 procedure UnloadLuaLib;
 begin
  if LuaLibD <> NilHandle then
@@ -858,9 +877,6 @@ begin
   @lua_gettop := GetProcAddress(LuaLibD, 'lua_gettop');
   @lua_settop := GetProcAddress(LuaLibD, 'lua_settop');
   @lua_pushvalue := GetProcAddress(LuaLibD, 'lua_pushvalue');
-  @lua_remove := GetProcAddress(LuaLibD, 'lua_remove');
-  @lua_insert := GetProcAddress(LuaLibD, 'lua_insert');
-  @lua_replace := GetProcAddress(LuaLibD, 'lua_replace');
   @lua_checkstack := GetProcAddress(LuaLibD, 'lua_checkstack');
   @lua_xmove := GetProcAddress(LuaLibD, 'lua_xmove');
 
@@ -891,6 +907,24 @@ begin
     LUAL_BUFFERSIZE  := LUAL_BUFFERSIZE_OLD;
     LUA_UPVALUEINDEX_:= LUA_GLOBALSINDEX;
     LUA_REGISTRYINDEX:= LUA_REGISTRYINDEX_OLD;
+  end;
+
+  if (LUA_VERSION_DYN >= 502) then
+  begin
+    @lua_copy := GetProcAddress(LuaLibD, 'lua_copy');
+  end;
+
+  if (LUA_VERSION_DYN >= 503) then
+  begin
+    @lua_insert := @lua_insert53;
+    @lua_remove := @lua_remove53;
+    @lua_replace := @lua_replace53;
+    @lua_rotate := GetProcAddress(LuaLibD, 'lua_rotate');
+  end
+  else begin
+    @lua_remove := GetProcAddress(LuaLibD, 'lua_remove');
+    @lua_insert := GetProcAddress(LuaLibD, 'lua_insert');
+    @lua_replace := GetProcAddress(LuaLibD, 'lua_replace');
   end;
 
   // Determine integer type

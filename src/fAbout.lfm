@@ -3,17 +3,16 @@ object frmAbout: TfrmAbout
   Height = 400
   Top = 209
   Width = 667
+  AutoSize = True
   BorderIcons = [biSystemMenu, biMaximize]
   Caption = 'About'
   ClientHeight = 400
   ClientWidth = 667
-  Constraints.MinHeight = 400
   Constraints.MinWidth = 667
   KeyPreview = True
-  OnKeyDown = FormKeyDown
-  OnShow = frmAboutShow
-  Position = poScreenCenter
+  Position = poOwnerFormCenter
   LCLVersion = '2.0.12.0'
+  OnShow = frmAboutShow
   object pnlText: TPanel
     AnchorSideLeft.Control = pnlInfo
     AnchorSideLeft.Side = asrBottom
@@ -106,6 +105,7 @@ object frmAbout: TfrmAbout
     ChildSizing.ControlsPerLine = 1
     ClientHeight = 253
     ClientWidth = 121
+    Constraints.MinHeight = 334
     ParentFont = False
     TabOrder = 1
     object imgLogo: TImage
@@ -372,16 +372,18 @@ object frmAbout: TfrmAbout
   object btnClose: TBitBtn
     AnchorSideLeft.Control = pnlInfo
     AnchorSideLeft.Side = asrCenter
-    AnchorSideBottom.Control = Owner
+    AnchorSideTop.Control = pnlInfo
+    AnchorSideTop.Side = asrBottom
     AnchorSideBottom.Side = asrBottom
     Left = 19
     Height = 30
     Top = 362
     Width = 100
-    Anchors = [akLeft, akBottom]
     AutoSize = True
+    BorderSpacing.Top = 20
     BorderSpacing.Bottom = 8
     BorderSpacing.InnerBorder = 2
+    Cancel = True
     Caption = '&Close'
     Constraints.MinWidth = 100
     Default = True

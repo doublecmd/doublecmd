@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Internal diff and merge tool
 
-   Copyright (C) 2010-2022 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2010-2023 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
@@ -27,7 +27,7 @@ interface
 
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Dialogs, Menus, ComCtrls,
-  ActnList, ExtCtrls, EditBtn, Buttons, SynEdit, uSynDiffControls,
+  ActnList, ExtCtrls, EditBtn, Buttons, SynEdit, uSynDiffControls, LMessages,
   uPariterControls, uDiffOND, uFormCommands, uHotkeyManager, uOSForms,
   uBinaryDiffViewer, uShowForm, KASStatusBar, Graphics, StdCtrls, fEditSearch;
 
@@ -263,6 +263,8 @@ private
     procedure SynDiffEditRightStatusChange(Sender: TObject; Changes: TSynStatusChanges);
 
     property Commands: TFormCommands read FCommands implements IFormCommands;
+  protected
+    procedure CMThemeChanged(var Message: TLMessage); message CM_THEMECHANGED;
   public
     constructor Create(TheOwner: TComponent); override;
     destructor Destroy; override;
@@ -310,7 +312,8 @@ begin
     FShowIdentical := True;
     edtFileNameLeft.Text:= FileNameLeft;
     edtFileNameRight.Text:= FileNameRight;
-    SetColors(gDifferAddedColor, gDifferDeletedColor, gDifferModifiedColor);
+    with gColors.Differ^ do
+    SetColors(AddedColor, DeletedColor, ModifiedColor);
     try
       if not (FileIsText(FileNameLeft) and FileIsText(FileNameRight)) then
         actBinaryCompare.Execute
@@ -770,8 +773,11 @@ begin
   BinaryViewerLeft.SecondViewer:= BinaryViewerRight;
   BinaryViewerRight.SecondViewer:= BinaryViewerLeft;
 
-  BinaryViewerLeft.Modified:= gDifferModifiedBinaryColor;
-  BinaryViewerRight.Modified:= gDifferModifiedBinaryColor;
+  with gColors.Differ^ do
+  begin
+    BinaryViewerLeft.Modified:= ModifiedBinaryColor;
+    BinaryViewerRight.Modified:= ModifiedBinaryColor;
+  end;
 
   FontOptionsToFont(gFonts[dcfEditor], SynDiffEditLeft.Font);
   FontOptionsToFont(gFonts[dcfEditor], SynDiffEditRight.Font);
@@ -1145,10 +1151,13 @@ begin
   if not actBinaryCompare.Checked then
   begin
     if gFirstTextSearch then
-      ShowSearchReplaceDialog(Self, SynDiffEditActive, cbUnchecked, FSearchOptions)
+    begin
+      FSearchOptions.Flags -= [ssoBackwards];
+      ShowSearchReplaceDialog(Self, SynDiffEditActive, cbUnchecked, FSearchOptions);
+    end
     else if FSearchOptions.SearchText <> '' then
     begin
-      DoSearchReplaceText(SynDiffEditActive, False, ssoBackwards in FSearchOptions.Flags, FSearchOptions);
+      DoSearchReplaceText(SynDiffEditActive, False, False, FSearchOptions);
       FSearchOptions.Flags -= [ssoEntireScope];
     end;
   end;
@@ -1528,6 +1537,9 @@ begin
         AText:= ConvertEncoding(AText, Encoding, EncodingUTF8);
       end;
       SynDiffEdit.Lines.Text:= AText;
+      // Add empty line if needed
+      if (Length(AText) > 0) and (AText[Length(AText)] in [#10, #13]) then
+        SynDiffEdit.Lines.Add(EmptyStr);
       // Determine line break style
       SynDiffEdit.Lines.TextLineBreakStyle := GuessLineBreakStyle(AText);
     finally
@@ -1556,6 +1568,7 @@ begin
   with TStringListEx.Create do
   try
     Assign(SynDiffEdit.Lines);
+    SkipLastLineBreak:= True;
     // remove fake lines
     RemoveFake;
     // restore encoding
@@ -1674,6 +1687,25 @@ begin
     finally
       Dec(ScrollLock);
     end;
+end;
+
+procedure TfrmDiffer.CMThemeChanged(var Message: TLMessage);
+begin
+  with gColors.Differ^ do
+  begin
+    BinaryViewerLeft.Modified:= ModifiedBinaryColor;
+    BinaryViewerRight.Modified:= ModifiedBinaryColor;
+    SetColors(AddedColor, DeletedColor, ModifiedColor);
+  end;
+  if not actBinaryCompare.Checked then
+  begin
+    SynDiffEditLeft.Repaint;
+    SynDiffEditRight.Repaint;
+  end
+  else begin
+    BinaryViewerLeft.Repaint;
+    BinaryViewerRight.Repaint;
+  end;
 end;
 
 initialization

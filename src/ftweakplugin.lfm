@@ -10,7 +10,7 @@ object frmTweakPlugin: TfrmTweakPlugin
   OnCreate = FormCreate
   Position = poScreenCenter
   ShowInTaskBar = stNever
-  LCLVersion = '1.8.4.0'
+  LCLVersion = '2.2.7.0'
   object nbTweakAll: TNotebook
     Left = 0
     Height = 664
@@ -18,6 +18,7 @@ object frmTweakPlugin: TfrmTweakPlugin
     Width = 533
     PageIndex = 0
     Align = alClient
+    AutoSize = True
     TabOrder = 0
     TabStop = True
     object pgTweakPacker: TPage
@@ -30,8 +31,8 @@ object frmTweakPlugin: TfrmTweakPlugin
         BorderSpacing.Around = 6
         BevelOuter = bvNone
         BorderStyle = bsSingle
-        ChildSizing.LeftRightSpacing = 6
-        ChildSizing.TopBottomSpacing = 6
+        ChildSizing.LeftRightSpacing = 10
+        ChildSizing.TopBottomSpacing = 8
         ClientHeight = 648
         ClientWidth = 517
         TabOrder = 0
@@ -40,16 +41,17 @@ object frmTweakPlugin: TfrmTweakPlugin
           AnchorSideLeft.Side = asrCenter
           AnchorSideTop.Control = lblFlags
           AnchorSideTop.Side = asrBottom
-          Left = 21
+          Left = 25
           Height = 1
-          Top = 86
+          Top = 87
           Width = 1
           ParentColor = False
         end
         object lblPlugin: TLabel
           AnchorSideLeft.Control = pnlTweak
-          AnchorSideTop.Control = pnlTweak
-          Left = 6
+          AnchorSideTop.Control = fnePlugin1
+          AnchorSideTop.Side = asrCenter
+          Left = 10
           Height = 15
           Top = 12
           Width = 37
@@ -59,11 +61,12 @@ object frmTweakPlugin: TfrmTweakPlugin
         end
         object lblExtension: TLabel
           AnchorSideLeft.Control = lblPlugin
-          AnchorSideTop.Side = asrBottom
-          Left = 6
+          AnchorSideTop.Control = pnlPackerExtsButtons
+          AnchorSideTop.Side = asrCenter
+          Left = 10
           Height = 15
-          Top = 43
-          Width = 53
+          Top = 44
+          Width = 54
           BorderSpacing.Top = 12
           Caption = '&Extension:'
           FocusControl = cbExt
@@ -73,9 +76,9 @@ object frmTweakPlugin: TfrmTweakPlugin
           AnchorSideLeft.Control = lblExtension
           AnchorSideTop.Control = pnlPackerExtsButtons
           AnchorSideTop.Side = asrBottom
-          Left = 6
+          Left = 10
           Height = 15
-          Top = 71
+          Top = 72
           Width = 30
           BorderSpacing.Top = 8
           Caption = 'Flags:'
@@ -84,28 +87,29 @@ object frmTweakPlugin: TfrmTweakPlugin
         object pnlPackerExtsButtons: TPanel
           AnchorSideLeft.Control = lblExtension
           AnchorSideLeft.Side = asrBottom
-          AnchorSideTop.Control = lblExtension
-          AnchorSideTop.Side = asrCenter
-          AnchorSideRight.Control = pnlTweak
+          AnchorSideTop.Control = fnePlugin1
+          AnchorSideTop.Side = asrBottom
+          AnchorSideRight.Control = btnRelativePlugin1
           AnchorSideRight.Side = asrBottom
-          Left = 71
+          Left = 76
           Height = 25
-          Top = 38
-          Width = 440
+          Top = 39
+          Width = 431
           Anchors = [akTop, akLeft, akRight]
+          AutoSize = True
           BorderSpacing.Left = 12
           BevelOuter = bvNone
           ChildSizing.EnlargeHorizontal = crsScaleChilds
           ChildSizing.ShrinkHorizontal = crsScaleChilds
           ChildSizing.Layout = cclTopToBottomThenLeftToRight
           ClientHeight = 25
-          ClientWidth = 440
+          ClientWidth = 431
           TabOrder = 0
           object cbExt: TComboBox
             Left = 0
             Height = 23
             Top = 0
-            Width = 129
+            Width = 128
             Constraints.MinWidth = 80
             ItemHeight = 15
             OnChange = cbExtChange
@@ -113,10 +117,10 @@ object frmTweakPlugin: TfrmTweakPlugin
             TabOrder = 0
           end
           object btnRemove: TButton
-            Left = 129
+            Left = 128
             Height = 25
             Top = 0
-            Width = 104
+            Width = 101
             AutoSize = True
             Caption = '&Remove'
             Constraints.MinWidth = 80
@@ -124,10 +128,10 @@ object frmTweakPlugin: TfrmTweakPlugin
             TabOrder = 1
           end
           object btnAdd: TButton
-            Left = 233
+            Left = 229
             Height = 25
             Top = 0
-            Width = 104
+            Width = 101
             AutoSize = True
             Caption = 'A&dd new'
             Constraints.MinWidth = 80
@@ -135,10 +139,10 @@ object frmTweakPlugin: TfrmTweakPlugin
             TabOrder = 2
           end
           object btnChange: TButton
-            Left = 337
+            Left = 330
             Height = 25
             Top = 0
-            Width = 103
+            Width = 101
             AutoSize = True
             Caption = 'C&hange'
             Constraints.MinWidth = 80
@@ -151,9 +155,9 @@ object frmTweakPlugin: TfrmTweakPlugin
           AnchorSideTop.Control = lblFlags
           AnchorSideRight.Control = pnlTweak
           AnchorSideRight.Side = asrBottom
-          Left = 71
+          Left = 76
           Height = 221
-          Top = 71
+          Top = 72
           Width = 226
           AutoSize = True
           BevelOuter = bvNone
@@ -269,8 +273,7 @@ object frmTweakPlugin: TfrmTweakPlugin
         end
         object fnePlugin1: TFileNameEdit
           AnchorSideLeft.Control = lblPlugin2
-          AnchorSideTop.Control = lblPlugin
-          AnchorSideTop.Side = asrCenter
+          AnchorSideTop.Control = pnlTweak
           AnchorSideRight.Control = btnRelativePlugin1
           Left = 71
           Height = 23
@@ -300,7 +303,6 @@ object frmTweakPlugin: TfrmTweakPlugin
           Top = 8
           Width = 24
           Anchors = [akTop, akRight, akBottom]
-          BorderSpacing.Right = 10
           Glyph.Data = {
             36040000424D3604000000000000360000002800000010000000100000000100
             20000000000000040000640000006400000000000000000000002C86D8702D88
@@ -353,8 +355,8 @@ object frmTweakPlugin: TfrmTweakPlugin
         BorderSpacing.Around = 6
         BevelOuter = bvNone
         BorderStyle = bsSingle
-        ClientHeight = 652
-        ClientWidth = 521
+        ClientHeight = 648
+        ClientWidth = 517
         TabOrder = 0
         object lblName: TLabel
           AnchorSideLeft.Control = lblPlugin2
@@ -396,11 +398,12 @@ object frmTweakPlugin: TfrmTweakPlugin
           AnchorSideLeft.Control = lblName
           AnchorSideTop.Control = lblName
           AnchorSideTop.Side = asrBottom
+          AnchorSideRight.Control = btnRelativePlugin2
           AnchorSideRight.Side = asrBottom
           Left = 10
           Height = 23
           Top = 81
-          Width = 493
+          Width = 497
           Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Top = 6
           BorderSpacing.Bottom = 8
@@ -409,11 +412,12 @@ object frmTweakPlugin: TfrmTweakPlugin
         object edtDetectStr: TEdit
           AnchorSideTop.Control = lblDetectStr
           AnchorSideTop.Side = asrBottom
+          AnchorSideRight.Control = btnRelativePlugin2
           AnchorSideRight.Side = asrBottom
           Left = 10
           Height = 23
           Top = 133
-          Width = 493
+          Width = 497
           Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Top = 6
           BorderSpacing.Bottom = 8
@@ -422,11 +426,12 @@ object frmTweakPlugin: TfrmTweakPlugin
         object edtDescription: TEdit
           AnchorSideTop.Control = lblDescription
           AnchorSideTop.Side = asrBottom
+          AnchorSideRight.Control = btnRelativePlugin2
           AnchorSideRight.Side = asrBottom
           Left = 10
           Height = 23
           Top = 185
-          Width = 493
+          Width = 497
           Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Top = 6
           BorderSpacing.Bottom = 8
@@ -570,7 +575,7 @@ object frmTweakPlugin: TfrmTweakPlugin
     end
   end
   object pmPathHelper: TPopupMenu
-    left = 224
-    top = 600
+    Left = 224
+    Top = 600
   end
 end

@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Useful functions dealing with strings.
    
-   Copyright (C) 2006-2022  Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2006-2023  Alexander Koblov (alexx2000@mail.ru)
    Copyright (C) 2012       Przemyslaw Nagay (cobines@gmail.com)
 
    This program is free software; you can redistribute it and/or modify
@@ -45,6 +45,12 @@ function ContainsOneOf(StringToCheck: String; PossibleCharacters: String): Boole
    Convert known directory separators to the current directory separator.
 }
 function NormalizePathDelimiters(const Path: String): String;
+
+{en
+   Convert known directory separators to user defined directory separator.
+}
+function ReplaceDirectorySeparator(const Path: String; const Separator : Char): String;
+
 {en
    Get last directory name in path
    @returns(Last directory name in path)
@@ -365,6 +371,21 @@ implementation
 uses
   DCOSUtils, DCConvertEncoding, StrUtils;
 
+function ReplaceDirectorySeparator(const Path: String; const Separator : Char): String;
+const
+  AllowPathDelimiters : set of char = ['\','/'];
+var
+  I : LongInt;
+begin
+  Result := Path;
+  if (Separator  in AllowPathDelimiters) then
+  begin
+    for I:= 1 to Length(Path) do
+      if Path[I] in AllowPathDelimiters then
+        Result[I]:= Separator 
+  end
+end;
+
 function NormalizePathDelimiters(const Path: String): String;
 {$IFDEF UNIX}
 begin
@@ -375,11 +396,16 @@ const
   AllowPathDelimiters : set of char = ['\','/'];
 var
   I : LongInt;
+  uriPos : Integer;
 begin
   Result:= Path;
   // If path is not URI
-  if Pos('://', Result) = 0 then
-  begin
+  uriPos := Pos('://', Result);
+  if (uriPos = 0)
+{$IF DEFINED(MSWINDOWS)}
+     or ( (uriPos = 2) and  (Path[1] in ['A'..'z']) )
+{$ENDIF} then
+ begin
     for I:= 1 to Length(Path) do
       if Path[I] in AllowPathDelimiters then
         Result[I]:= DirectorySeparator;
@@ -709,7 +735,7 @@ begin
 
   if PathToCheckLength > BasePathLength then
   begin
-    if CompareStr(Copy(sPathToCheck, 1, BasePathLength), sBasePath) = 0 then
+    if mbCompareFileNames(Copy(sPathToCheck, 1, BasePathLength), sBasePath) then
     begin
       if AllowSubDirs then
         Result := True
@@ -734,9 +760,9 @@ begin
   else
     Result := AllowSame and
       (((PathToCheckLength = BasePathLength) and
-        (CompareStr(sPathToCheck, sBasePath) = 0)) or
+        (mbCompareFileNames(sPathToCheck, sBasePath))) or
        ((PathToCheckLength = BasePathLength - 1) and
-        (CompareStr(Copy(sBasePath, 1, PathToCheckLength), sPathToCheck) = 0)));
+        (mbCompareFileNames(Copy(sBasePath, 1, PathToCheckLength), sPathToCheck))));
 end;
 
 function ExtractDirLevel(const sPrefix, sPath: String): String;
@@ -845,19 +871,21 @@ function ApplyRenameMask(aFileName: String; NameMask: String; ExtMask: String): 
   function ApplyMask(const TargetString, Mask: String): String;
   var
     I: Integer;
+    ALen: Integer;
   begin
     Result:= EmptyStr;
+    ALen:= UTF8Length(TargetString);
     for I:= 1 to Length(Mask) do
     begin
       if Mask[I] = '?' then
       begin
-        if I <= Length(TargetString) then
-          Result:= Result + TargetString[I]
+        if I <= ALen then
+          Result:= Result + UTF8Copy(TargetString, I, 1)
         else
           Exit(TargetString);
       end
       else if Mask[I] = '*' then
-        Result:= Result + Copy(TargetString, I, Length(TargetString) - I + 1)
+        Result:= Result + UTF8Copy(TargetString, I, MaxInt)
       else
         Result:= Result + Mask[I];
     end;

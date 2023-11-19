@@ -68,6 +68,7 @@ type
 
   TfrmMain = class(TAloneForm, IFormCommands)
     actAddPlugin: TAction;
+    actSaveFileDetailsToFile: TAction;
     actLoadList: TAction;
     actExtractFiles: TAction;
     actAddPathToCmdLine: TAction;
@@ -571,6 +572,7 @@ type
       Shift: TShiftState; X, Y: Integer);
     procedure FormKeyUp( Sender: TObject; var {%H-}Key: Word; Shift: TShiftState) ;
     procedure FormResize(Sender: TObject);
+    procedure lblDriveInfoResize(Sender: TObject);
     function MainToolBarToolItemShortcutsHint(Sender: TObject; ToolItem: TKASNormalItem): String;
     procedure mnuAllOperStartClick(Sender: TObject);
     procedure mnuAllOperStopClick(Sender: TObject);
@@ -666,7 +668,8 @@ type
     procedure pnlNotebooksResize(Sender: TObject);
     procedure pnlRightResize(Sender: TObject);
     procedure sboxDrivePaint(Sender: TObject);
-    procedure PaintDriveFreeBar(Sender: TObject; bIndUseGradient:boolean; pIndForeColor,pIndBackColor:TColor);
+    procedure PaintDriveFreeBar(Sender: TObject; const bIndUseGradient: boolean;
+      const pIndForeColor, pIndThresholdForeColor, pIndBackColor: TColor);
     procedure seLogWindowSpecialLineColors(Sender: TObject; Line: integer;
       var Special: boolean; var FG, BG: TColor);
 
@@ -772,6 +775,7 @@ type
     procedure AppActivate(Sender: TObject);
     procedure AppDeActivate(Sender: TObject);
     procedure AppEndSession(Sender: TObject);
+    procedure AppThemeChange(Sender: TObject);
     procedure AppQueryEndSession(var Cancel: Boolean);
     procedure AppException(Sender: TObject; E: Exception);
     procedure AppShowHint(var HintStr: string; var CanShow: Boolean; var HintInfo: THintInfo);
@@ -787,12 +791,15 @@ type
     procedure LeftDriveBarExecuteDrive(ToolItem: TKASToolItem);
     procedure RightDriveBarExecuteDrive(ToolItem: TKASToolItem);
     procedure SetDragCursor(Shift: TShiftState);
+    {$IFDEF DARWIN}
+    procedure createDarwinAppMenu;
+    procedure aboutOnClick(Sender: TObject);
+    procedure optionsOnClick(Sender: TObject);
+    {$ENDIF}
 
   protected
     procedure CreateWnd; override;
-    {$IFNDEF LCLCOCOA}
     procedure DoFirstShow; override;
-    {$ENDIF}
     procedure DoAutoAdjustLayout(const AMode: TLayoutAdjustmentPolicy;
                             const AXProportion, AYProportion: Double); override;
 
@@ -877,8 +884,6 @@ type
     procedure LoadTabsCommandLine(Params: TCommandLineParams);
     procedure AddTab(ANoteBook: TFileViewNotebook; aPath: String);
     {$IF DEFINED(DARWIN)}
-    procedure resetScreenCursor;
-    procedure FormActivate(Sender: TObject);
     procedure OnNSServiceOpenWithNewTab( filenames:TStringList );
     function NSServiceMenuIsReady(): boolean;
     function NSServiceMenuGetFilenames(): TStringList;
@@ -936,7 +941,7 @@ implementation
 {$R *.lfm}
 
 uses
-  uFileProcs, uShellContextMenu, fTreeViewMenu, uSearchResultFileSource,
+  Themes, uFileProcs, uShellContextMenu, fTreeViewMenu, uSearchResultFileSource,
   Math, LCLIntf, Dialogs, uGlobs, uLng, uMasks, fCopyMoveDlg, uQuickViewPanel,
   uShowMsg, uDCUtils, uLog, uGlobsPaths, LCLProc, uOSUtils, uPixMapManager, LazUTF8,
   uDragDropEx, uKeyboard, uFileSystemFileSource, fViewOperations, uMultiListFileSource,
@@ -947,9 +952,9 @@ uses
   Laz2_XMLRead, DCOSUtils, DCStrUtils, fOptions, fOptionsFrame, fOptionsToolbar, uClassesEx,
   uHotDir, uFileSorting, DCBasicTypes, foptionsDirectoryHotlist, uConnectionManager,
   fOptionsToolbarBase, fOptionsToolbarMiddle, fEditor, uColumns, StrUtils, uSysFolders,
-  uColumnsFileView
+  uColumnsFileView, dmHigh
 {$IFDEF MSWINDOWS}
-  , uNetworkThread
+  , uShellFileSource, uNetworkThread
 {$ENDIF}
   ;
 
@@ -1198,6 +1203,17 @@ begin
 
   UpdateActionIcons;
 
+  {$IF DEFINED(LCLCOCOA)}
+  // 1. TCustomTabControl.GetControlClassDefaultSize() return 200 for Default Width
+  // 2. on Cocoa, it is likely to cause TCocoaTabControl not wide enough to
+  //    accommodate all tabs loaded in LoadTabsXml() during startup.
+  // 3. when setting PageIndex in LoadTabsXml(), it will cause an extra tab switch.
+  // 4. and it will cause an extra directory to be monitored in FileView.
+  // 5. the issue can be effectively avoided by setting a larger width.
+  nbLeft.Width:= 2048;
+  nbRight.Width:= 2048;
+  {$ENDIF}
+
   LoadTabs;
 
   // Must be after LoadTabs
@@ -1226,10 +1242,12 @@ begin
   UpdateFreeSpace(fpLeft, True);
   UpdateFreeSpace(fpRight, True);
 
+  ThemeServices.OnThemeChange:= @AppThemeChange;
+
 {$IF DEFINED(DARWIN)}
-  self.OnActivate:= @FormActivate;
   InitNSServiceProvider( @OnNSServiceOpenWithNewTab, @NSServiceMenuIsReady, @NSServiceMenuGetFilenames );
   InitNSThemeChangedObserver( @NSThemeChangedHandler );
+  createDarwinAppMenu;
 {$ENDIF}
 end;
 
@@ -1459,7 +1477,7 @@ begin
         TargetPath := IncludeTrailingPathDelimiter(TargetPath);
         if not Assigned(TargetFileSource) then
           TargetFileSource := TFileSystemFileSource.GetFileSource;
-        case GetDropEffectByKeyAndMouse(GetKeyShiftState, mbLeft) of
+        case GetDropEffectByKeyAndMouse(GetKeyShiftStateEx, mbLeft) of
           DropCopyEffect:
             Self.CopyFiles(ActiveFrame.FileSource, TargetFileSource, SourceFiles, TargetPath, gShowDialogOnDragDrop);
           DropMoveEffect:
@@ -2006,9 +2024,9 @@ begin
                 TargetFileName := TargetPath + ExtractFileName(SourceFileName);
 
                 if ((Operation = ddoSymLink) and
-                   ShowSymLinkForm(SourceFileName, TargetFileName, TargetPath))
+                   ShowSymLinkForm(Self, SourceFileName, TargetFileName, TargetPath))
                 or ((Operation = ddoHardLink) and
-                   ShowHardLinkForm(SourceFileName, TargetFileName, TargetPath))
+                   ShowHardLinkForm(Self, SourceFileName, TargetFileName, TargetPath))
                 then
                   TargetFileSource.Reload(TargetPath);
               end
@@ -2663,7 +2681,7 @@ begin
         begin
           TargetPath := ANotebook.View[ATabIndex].CurrentPath;
           TargetFileSource := ANotebook.View[ATabIndex].FileSource;
-          case GetDropEffectByKeyAndMouse(GetKeyShiftState, mbLeft) of
+          case GetDropEffectByKeyAndMouse(GetKeyShiftStateEx, mbLeft) of
             DropCopyEffect:
               Self.CopyFiles(ActiveFrame.FileSource, TargetFileSource, SourceFiles, TargetPath, gShowDialogOnDragDrop);
             DropMoveEffect:
@@ -3127,6 +3145,7 @@ begin
       AddCommand('cm_PackFiles');
       AddCommand('cm_ExtractFiles');
       AddSeparator;
+      AddCommand('cm_NetworkConnect');
       AddCommand('cm_Search');
       AddCommand('cm_MultiRename');
       AddCommand('cm_SyncDirs');
@@ -4060,7 +4079,6 @@ begin
   Application.MainForm.Tag:= Handle;
 end;
 
-{$IFNDEF LCLCOCOA}
 procedure TfrmMain.DoFirstShow;
 var
   ANode: TXmlNode;
@@ -4075,7 +4093,6 @@ begin
 
   lastWindowState := WindowState;
 end;
-{$ENDIF}
 
 procedure TfrmMain.WMMove(var Message: TLMMove);
 begin
@@ -4091,6 +4108,13 @@ end;
 
 procedure TfrmMain.WMSize(var message: TLMSize);
 begin
+  // https://github.com/doublecmd/doublecmd/issues/736
+  if (Message.Width > High(Int16)) or (Message.Height > High(Int16)) then
+  begin
+    DCDebug('TfrmMain.WMSize invalid size %u x %u', [Message.Width, Message.Height]);
+    Exit;
+  end;
+
   inherited WMSize(Message);
 
   if not (csDestroying in ComponentState) then
@@ -4126,6 +4150,18 @@ end;
 procedure TfrmMain.FormResize(Sender: TObject);
 begin
   UpdatePrompt;
+end;
+
+procedure TfrmMain.lblDriveInfoResize(Sender: TObject);
+begin
+  with TLabel(Sender) do
+  begin
+    if Canvas.TextWidth(Caption) > Width then
+      Alignment:= taLeftJustify
+    else begin
+      Alignment:= taCenter;
+    end;
+  end;
 end;
 
 procedure TfrmMain.FormKeyDown(Sender: TObject; var Key: Word;
@@ -4370,10 +4406,13 @@ end;
 
 procedure TfrmMain.sboxDrivePaint(Sender: TObject);
 begin
-  PaintDriveFreeBar(Sender, gIndUseGradient, gIndForeColor, gIndBackColor);
+  with gColors.FreeSpaceInd^ do
+    PaintDriveFreeBar(Sender, gIndUseGradient, ForeColor, ThresholdForeColor, BackColor);
 end;
 
-procedure TfrmMain.PaintDriveFreeBar(Sender: TObject; bIndUseGradient:boolean; pIndForeColor,pIndBackColor:TColor);
+procedure TfrmMain.PaintDriveFreeBar(Sender: TObject; const bIndUseGradient: boolean;
+  const pIndForeColor, pIndThresholdForeColor, pIndBackColor: TColor);
+const OccupiedThresholdPercent = 90;
 var
   pbxDrive: TPaintBox absolute Sender;
   FillPercentage: PtrInt;
@@ -4394,7 +4433,10 @@ begin
       begin
         ARect.Left  := 1;
         ARect.Right := 1 + FillPercentage * (pbxDrive.Width - 2) div 100;
-        AColor := pIndForeColor;
+        if FillPercentage <= OccupiedThresholdPercent then
+          AColor := pIndForeColor
+        else
+          AColor := pIndThresholdForeColor;
         pbxDrive.Canvas.GradientFill(ARect, LightColor(AColor, 25), DarkColor(AColor, 25), gdVertical);
         ARect.Left  := ARect.Right + 1;
         ARect.Right := pbxDrive.Width - 2;
@@ -4406,10 +4448,10 @@ begin
         ARect.Right := 1;
         for i := 0 to FillPercentage - 1 do
         begin
-          if i <= 50 then
-            AColor:= RGB(0 + 5 * i, 255, 0)
+          if i <= OccupiedThresholdPercent then
+            AColor:= RGB((i * 255) div OccupiedThresholdPercent, 255, 0)
           else
-            AColor:= RGB(255, 255 - 5 * (i - 50), 0);
+            AColor:= RGB(255, ((100 - i) * 255) div (100 - OccupiedThresholdPercent), 0);
           AColor2:= DarkColor(AColor, 50);
 
           ARect.Left  := ARect.Right;
@@ -4432,15 +4474,18 @@ var
 begin
   LogMsgTypeObject := seLogWindow.Lines.Objects[Line-1];
   Special := True;
-  case LogMsgType of
-  lmtInfo:
-    FG := gLogInfoColor;
-  lmtSuccess:
-    FG := gLogSuccessColor;
-  lmtError:
-    FG := gLogErrorColor
-  else
-    FG := clWindowText;
+  with gColors.Log^ do
+  begin
+    case LogMsgType of
+    lmtInfo:
+      FG := InfoColor;
+    lmtSuccess:
+      FG := SuccessColor;
+    lmtError:
+      FG := ErrorColor
+    else
+      FG := clWindowText;
+    end;
   end;
 end;
 
@@ -4830,9 +4875,12 @@ begin
 
   if gSeparateTree then
   begin
-    ShellTreeView.Font.Color := gForeColor;
-    ShellTreeView.BackgroundColor := gBackColor;
-    ShellTreeView.SelectionColor := gCursorColor;
+    with gColors.FilePanel^ do
+    begin
+      ShellTreeView.Font.Color := ForeColor;
+      ShellTreeView.BackgroundColor := BackColor;
+      ShellTreeView.SelectionColor := CursorColor;
+    end;
     FontOptionsToFont(gFonts[dcfMain], ShellTreeView.Font);
   end;
 end;
@@ -4898,6 +4946,10 @@ begin
           Start;
       end;
     end;
+  end;
+  if (Win32MajorVersion > 5) then
+  begin
+    TShellFileSource.ListDrives(DrivesList, gUpperCaseDriveLetter);
   end;
 {$ENDIF}
 
@@ -5011,8 +5063,10 @@ begin
     Result := TBriefFileView.Create(Page, AConfig, ANode, FileViewFlags)
   else if sType = 'thumbnails' then
     Result := TThumbFileView.Create(Page, AConfig, ANode, FileViewFlags)
-  else
-    raise Exception.Create('Invalid file view type');
+  else begin
+    DCDebug(rsMsgLogError + 'Invalid file view type "%s"', [sType]);
+    Result := TColumnsFileView.Create(Page, AConfig, ANode, FileViewFlags);
+  end;
 end;
 
 procedure TfrmMain.AssignEvents(AFileView: TFileView);
@@ -5144,7 +5198,6 @@ begin
       TabNode := TabNode.NextSibling;
     end;
   end;
-
   // Create at least one tab.
   if ANoteBook.PageCount = 0 then
   begin
@@ -5155,6 +5208,7 @@ begin
     else
       AFileViewFlags := [];
     AFileView := TColumnsFileView.Create(Page, aFileSource, gpExePath, AFileViewFlags);
+    Commands.DoSortByFunctions(AFileView, ColSet.GetColumnSet('Default').GetColumnFunctions(0));
     AssignEvents(AFileView);
   end
   else if Assigned(RootNode) then
@@ -5337,7 +5391,7 @@ begin
     CommandFuncResult:=Commands.Commands.ExecuteCommand(CommandItem.Command, CommandItem.Params);
     if gToolbarReportErrorWithCommands AND (CommandFuncResult=cfrNotFound) then
     begin
-      MsgError('Command not found! ('+CommandItem.Command+')');
+      MsgError(Format(rsMsgCommandNotFound, [CommandItem.Command]));
     end;
   end;
   Draging := False;
@@ -5925,7 +5979,7 @@ begin
           else
             begin
               sDir:= RemoveQuotation(Copy(sCmd, iIndex + 3, Length(sCmd)));
-              sDir:= NormalizePathDelimiters(Trim(sDir));
+              sDir:= mbExpandFileName(Trim(sDir));
 
               if (sDir = DirectorySeparator) or (sDir = '..') then
               begin
@@ -6097,9 +6151,21 @@ begin
 end;
 
 procedure TfrmMain.LoadTabs;
+var
+  AConfig: TXmlConfig;
 begin
-  LoadTabsXml(gConfig,'Tabs/OpenedTabs/Left', nbLeft);
-  LoadTabsXml(gConfig,'Tabs/OpenedTabs/Right', nbRight);
+  if gConfig.FindNode(gConfig.RootNode, 'Tabs/OpenedTabs') <> nil then
+    AConfig:= gConfig
+  else begin
+    AConfig:= TXmlConfig.Create(gpCfgDir + 'tabs.xml', True);
+  end;
+
+  try
+    LoadTabsXml(AConfig, 'Tabs/OpenedTabs/Left', nbLeft);
+    LoadTabsXml(AConfig, 'Tabs/OpenedTabs/Right', nbRight);
+  finally
+    if (AConfig <> gConfig) then AConfig.Free;
+  end;
 
   if not CommandLineParams.ActivePanelSpecified then
   begin
@@ -6180,17 +6246,6 @@ begin
 end;
 
 {$IF DEFINED(DARWIN)}
-procedure TfrmMain.resetScreenCursor;
-begin
-  Screen.Cursor:= crDefault;
-  cocoaInvalidControlCursor( self );
-end;
-
-procedure TfrmMain.FormActivate(Sender: TObject);
-begin
-  resetScreenCursor;
-end;
-
 procedure TfrmMain.OnNSServiceOpenWithNewTab( filenames:TStringList );
 begin
   if Assigned(filenames) and (filenames.Count>0) then
@@ -6241,8 +6296,7 @@ end;
 
 procedure TfrmMain.NSThemeChangedHandler;
 begin
-  FrameLeft.UpdateColor;
-  FrameRight.UpdateColor;
+  ThemeServices.IntfDoOnThemeChange;
 end;
 {$ENDIF}
 
@@ -6285,7 +6339,7 @@ begin
     gConfig.SetValue(ANode, 'Width', FRestoredWidth);
     gConfig.SetValue(ANode, 'Height', FRestoredHeight);
     gConfig.SetValue(ANode, 'PixelsPerInch', Screen.PixelsPerInch);
-    gConfig.SetValue(ANode, 'Maximized', (WindowState = wsMaximized));
+    gConfig.SetValue(ANode, 'Maximized', (WindowState in [wsMaximized,wsFullScreen]));
     gConfig.SetValue(ANode, 'Splitter', FMainSplitterPos);
   end;
 end;
@@ -6327,6 +6381,8 @@ begin
 end;
 
 procedure TfrmMain.ConfigSaveSettings(bForce: Boolean);
+var
+  AConfig: TXmlConfig;
 begin
   try
     DebugLn('Saving configuration');
@@ -6337,8 +6393,15 @@ begin
     (* Save all tabs *)
     if gSaveFolderTabs or bForce then
     begin
-      SaveTabsXml(gConfig, 'Tabs/OpenedTabs/', nbLeft, gSaveDirHistory);
-      SaveTabsXml(gConfig, 'Tabs/OpenedTabs/', nbRight, gSaveDirHistory);
+      AConfig:= TXmlConfig.Create(gpCfgDir + 'tabs.xml');
+      try
+        SaveTabsXml(AConfig, 'Tabs/OpenedTabs/', nbLeft, gSaveDirHistory);
+        SaveTabsXml(AConfig, 'Tabs/OpenedTabs/', nbRight, gSaveDirHistory);
+        AConfig.Save;
+      finally
+        AConfig.Free;
+      end;
+      gConfig.DeleteNode(gConfig.RootNode, 'Tabs/OpenedTabs');
     end;
 
     if gSaveWindowState then SaveWindowState;
@@ -6386,7 +6449,7 @@ begin
 
     for I := 0 to DrivesList.Count - 1 do
     begin
-      if DrivesList[I]^.DriveType = dtSpecial then
+      if (DrivesList[I]^.DriveType = dtSpecial) and (Length(Address) > 0) then
       begin
         if Pos(Address, DrivesList[I]^.Path) = 1 then
           Exit(I);
@@ -7077,10 +7140,6 @@ end;
 
 procedure TfrmMain.AppActivate(Sender: TObject);
 begin
-  {$IFDEF DARWIN}
-  resetScreenCursor;
-  {$ENDIF}
-
   if Assigned(FrameLeft) then
     FrameLeft.ReloadIfNeeded;
   if Assigned(FrameRight) then
@@ -7103,6 +7162,25 @@ begin
   frmMainClose(Sender, CloseAction);
 end;
 
+procedure TfrmMain.AppThemeChange(Sender: TObject);
+var
+  Index: Integer;
+begin
+  FrameLeft.UpdateColor;
+  FrameRight.UpdateColor;
+
+  ColSet.UpdateStyle;
+  gColorExt.UpdateStyle;
+  gHighlighters.UpdateStyle;
+
+  DCDebug('AppThemeChange');
+
+  for Index:= 0 to Screen.CustomFormCount - 1 do
+  begin
+    Screen.CustomForms[Index].Perform(CM_THEMECHANGED, 0, 0);
+  end;
+end;
+
 procedure TfrmMain.AppQueryEndSession(var Cancel: Boolean);
 var
   CanClose: Boolean = True;
@@ -7111,18 +7189,63 @@ begin
   Cancel := not CanClose;
 end;
 
+{$IFDEF DARWIN}
+procedure TfrmMain.createDarwinAppMenu;
+var
+  appMenu: TMenuItem;
+  aboutItem: TMenuItem;
+  sepItem: TMenuItem;
+  prefItem: TMenuItem;
+begin
+  appMenu:= TMenuItem.Create(mnuMain);
+  appMenu.Caption:= '';
+  mnuMain.Items.Insert(0, appMenu);
+
+  aboutItem:= TMenuItem.Create(mnuMain);
+  aboutItem.Caption:= 'About ' + Application.Title;
+  aboutItem.OnClick:= @aboutOnClick;
+  appMenu.Add(aboutItem);
+
+  sepItem := TMenuItem.Create(mnuMain);
+  sepItem.Caption := '-';
+  appMenu.Add(sepItem);
+
+  prefItem := TMenuItem.Create(mnuMain);
+  prefItem.Caption := 'Preferences...';
+  prefItem.OnClick := @optionsOnClick;
+  prefItem.Shortcut := ShortCut(VK_OEM_COMMA, [ssMeta]);
+  appMenu.Add(prefItem);
+end;
+
+procedure TfrmMain.aboutOnClick(Sender: TObject);
+begin
+  Commands.cm_About([]);
+end;
+
+procedure TfrmMain.optionsOnClick(Sender: TObject);
+begin
+  Commands.cm_Options([]);
+end;
+{$ENDIF}
+
 {$IF (DEFINED(LCLQT) or DEFINED(LCLQT5) or DEFINED(LCLQT6)) and not DEFINED(MSWINDOWS)}
 function TfrmMain.QObjectEventFilter(Sender: QObjectH; Event: QEventH): Boolean; cdecl;
 begin
   Result:= False;
-  if QEvent_type(Event) = QEventClose then
-  begin
-    TQtWidget(Self.Handle).SlotClose;
-    Result:= CloseQueryResult;
-    if Result then
-      QEvent_accept(Event)
-    else
-      QEvent_ignore(Event);
+  case QEvent_type(Event) of
+    QEventApplicationPaletteChange:
+    begin
+      ThemeServices.IntfDoOnThemeChange;
+    end;
+    QEventClose:
+    begin
+      TQtWidget(Self.Handle).SlotClose;
+      Result:= CloseQueryResult;
+      if Result then
+        QEvent_accept(Event)
+      else
+        QEvent_ignore(Event);
+    end;
   end;
 end;
 {$ENDIF}

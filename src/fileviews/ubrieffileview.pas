@@ -378,7 +378,7 @@ begin
   if not FBriefView.IsLoadingFileList then
   begin
 
-    if (Shift=[ssCtrl])and(gFonts[dcfMain].Size > gFonts[dcfMain].MinValue) then
+    if (Shift=[ssCtrl])and(gFonts[dcfMain].Size < gFonts[dcfMain].MaxValue) then
     begin
       gFonts[dcfMain].Size:=gFonts[dcfMain].Size+1;
       frmMain.FrameLeft.UpdateView;
@@ -510,7 +510,7 @@ begin
   else
     begin
       // Draw background.
-      Canvas.Brush.Color := FBriefView.DimColor(gBackColor);
+      Canvas.Brush.Color := FBriefView.DimColor(gColors.FilePanel^.BackColor);
       Canvas.FillRect(aRect);
     end;
 

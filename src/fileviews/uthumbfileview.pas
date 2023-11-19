@@ -15,11 +15,13 @@ type
 
   TFileThumbnailsRetriever = class(TFileViewWorker)
   private
+    FIndex: Integer;
     FWorkingFile: TDisplayFile;
     FWorkingUserData: Pointer;
     FFileList: TFVWorkerFileList;
     FThumbnailManager: TThumbnailManager;
     FUpdateFileMethod: TUpdateFileMethod;
+    FAbortFileMethod: TAbortFileMethod;
     FFileSource: IFileSource;
     FBitmapList: TBitmapList;
 
@@ -28,6 +30,7 @@ type
        It is called from GUI thread.
     }
     procedure DoUpdateFile;
+    procedure DoAbortFile;
 
   protected
     procedure Execute; override;
@@ -37,6 +40,7 @@ type
                        AThread: TThread;
                        ABitmapList: TBitmapList;
                        AUpdateFileMethod: TUpdateFileMethod;
+                       ABreakFileMethod: TAbortFileMethod;
                        AThumbnailManager: TThumbnailManager;
                        var AFileList: TFVWorkerFileList); reintroduce;
     destructor Destroy; override;
@@ -76,6 +80,7 @@ type
   private
     FBitmapList: TBitmapList;
     FThumbnailManager: TThumbnailManager;
+    procedure ThumbnailsRetrieverOnAbort(AStart: Integer; AList: TFPList);
     procedure ThumbnailsRetrieverOnUpdate(const UpdatedFile: TDisplayFile; const UserData: Pointer);
   protected
     procedure CreateDefault(AOwner: TWinControl); override;
@@ -109,18 +114,22 @@ begin
     FUpdateFileMethod(FWorkingFile, FWorkingUserData);
 end;
 
+procedure TFileThumbnailsRetriever.DoAbortFile;
+begin
+  FAbortFileMethod(FIndex, FFileList.UserData);
+end;
+
 procedure TFileThumbnailsRetriever.Execute;
 var
-  I: Integer;
   Bitmap: TBitmap;
 begin
-  for I := 0 to FFileList.Count - 1 do
+  while FIndex < FFileList.Count do
   begin
     if Aborted then
-      Exit;
+      Break;
 
-    FWorkingFile := FFileList.Files[I];
-    FWorkingUserData := FFileList.Data[I];
+    FWorkingFile := FFileList.Files[FIndex];
+    FWorkingUserData := FFileList.Data[FIndex];
 
     try
         if FWorkingFile.Tag < 0 then
@@ -133,20 +142,25 @@ begin
         end;
 
       if Aborted then
-        Exit;
+        Break;
 
       TThread.Synchronize(Thread, @DoUpdateFile);
 
     except
       on EFileNotFound do;
     end;
+    Inc(FIndex);
+  end;
+  if Aborted  and Assigned(FAbortFileMethod) then
+  begin
+    TThread.Synchronize(Thread, @DoAbortFile);
   end;
 end;
 
 constructor TFileThumbnailsRetriever.Create(AFileSource: IFileSource;
   AThread: TThread; ABitmapList: TBitmapList;
-  AUpdateFileMethod: TUpdateFileMethod; AThumbnailManager: TThumbnailManager;
-  var AFileList: TFVWorkerFileList);
+  AUpdateFileMethod: TUpdateFileMethod; ABreakFileMethod: TAbortFileMethod;
+  AThumbnailManager: TThumbnailManager; var AFileList: TFVWorkerFileList);
 begin
   inherited Create(AThread);
 
@@ -155,6 +169,7 @@ begin
   AFileList             := nil;
   FFileSource           := AFileSource;
   FBitmapList           := ABitmapList;
+  FAbortFileMethod      := ABreakFileMethod;
   FThumbnailManager     := AThumbnailManager;
   FUpdateFileMethod     := AUpdateFileMethod;
 end;
@@ -506,7 +521,7 @@ var
     s:= FitFileName(s, Canvas, AFile.FSFile, aRect.Width - 4);
 
     Canvas.TextOut(aRect.Left + 2, iTextTop - 1, s);
-    Canvas.Pen.Color:= InvertColor(ColorToRGB(gBackColor));
+    Canvas.Pen.Color:= InvertColor(ColorToRGB(gColors.FilePanel^.BackColor));
     Canvas.Pen.Width := 1;
     Canvas.Frame(aRect.Left + 1, aRect.Top + 1, aRect.Right - 1, aRect.Bottom - Canvas.TextHeight('Pp') - 1);
   end; //of DrawIconCell
@@ -535,7 +550,7 @@ begin
   else
     begin
       // Draw background.
-      Canvas.Brush.Color := FThumbView.DimColor(gBackColor);
+      Canvas.Brush.Color := FThumbView.DimColor(gColors.FilePanel^.BackColor);
       Canvas.FillRect(aRect);
     end;
 
@@ -544,6 +559,22 @@ begin
 end;
 
 { TThumbFileView }
+
+procedure TThumbFileView.ThumbnailsRetrieverOnAbort(AStart: Integer;
+  AList: TFPList);
+var
+  ADisplayFile: TDisplayFile;
+begin
+  while AStart < AList.Count do
+  begin
+    ADisplayFile := TDisplayFile(AList[AStart]);
+    if IsReferenceValid(ADisplayFile) then
+    begin
+      ADisplayFile.Busy:= ADisplayFile.Busy - [bsTag];
+    end;
+    Inc(AStart);
+  end;
+end;
 
 procedure TThumbFileView.ThumbnailsRetrieverOnUpdate(
   const UpdatedFile: TDisplayFile; const UserData: Pointer);
@@ -557,6 +588,8 @@ begin
     OrigDisplayFile.Tag := UpdatedFile.Tag;
 
   DoFileUpdated(OrigDisplayFile);
+
+  OrigDisplayFile.Busy:= OrigDisplayFile.Busy - [bsTag];
 end;
 
 procedure TThumbFileView.CreateDefault(AOwner: TWinControl);
@@ -565,7 +598,7 @@ begin
 
   tmMouseScroll.Interval := 200;
   FBitmapList:= TBitmapList.Create(True);
-  FThumbnailManager:= TThumbnailManager.Create(gBackColor);
+  FThumbnailManager:= TThumbnailManager.Create(gColors.FilePanel^.BackColor);
 end;
 
 procedure TThumbFileView.AfterChangePath;
@@ -614,11 +647,12 @@ begin
         for i := VisibleFiles.First to VisibleFiles.Last do
         begin
           AFile := FFiles[i];
-          if (AFile.Tag < 0) and AFile.FSFile.IsNameValid then
+          if (AFile.Tag < 0) and AFile.FSFile.IsNameValid and (AFile.Busy * [bsTag] = []) then
           begin
             if not Assigned(AFileList) then
               AFileList := TFVWorkerFileList.Create;
             AFileList.AddClone(AFile, AFile);
+            AFile.Busy := AFile.Busy + [bsTag];
           end;
         end;
 
@@ -629,6 +663,7 @@ begin
             WorkersThread,
             FBitmapList,
             @ThumbnailsRetrieverOnUpdate,
+            @ThumbnailsRetrieverOnAbort,
             FThumbnailManager,
             AFileList);
 

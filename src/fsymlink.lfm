@@ -1,12 +1,8 @@
 object frmSymLink: TfrmSymLink
-  Left = 318
-  Height = 193
-  Top = 251
-  Width = 602
-  HorzScrollBar.Page = 399
-  HorzScrollBar.Range = 344
-  VertScrollBar.Page = 151
-  VertScrollBar.Range = 128
+  Left = 320
+  Height = 177
+  Top = 320
+  Width = 512
   ActiveControl = edtLinkToCreate
   AutoSize = True
   BorderIcons = [biSystemMenu]
@@ -14,20 +10,20 @@ object frmSymLink: TfrmSymLink
   Caption = 'Create symbolic link'
   ChildSizing.LeftRightSpacing = 6
   ChildSizing.TopBottomSpacing = 6
-  ClientHeight = 193
-  ClientWidth = 602
+  ClientHeight = 177
+  ClientWidth = 512
   KeyPreview = True
   OnShow = FormShow
-  Position = poScreenCenter
+  Position = poOwnerFormCenter
   LCLVersion = '1.8.4.0'
   object lblExistingFile: TLabel
     AnchorSideLeft.Control = edtExistingFile
     AnchorSideTop.Control = edtLinkToCreate
     AnchorSideTop.Side = asrBottom
     Left = 6
-    Height = 18
-    Top = 62
-    Width = 222
+    Height = 16
+    Top = 59
+    Width = 240
     BorderSpacing.Top = 6
     Caption = '&Destination that the link will point to'
     FocusControl = edtExistingFile
@@ -37,9 +33,9 @@ object frmSymLink: TfrmSymLink
     AnchorSideLeft.Control = edtLinkToCreate
     AnchorSideTop.Control = Owner
     Left = 6
-    Height = 18
+    Height = 16
     Top = 6
-    Width = 64
+    Width = 69
     Caption = '&Link name'
     FocusControl = edtLinkToCreate
     ParentColor = False
@@ -48,13 +44,11 @@ object frmSymLink: TfrmSymLink
     AnchorSideLeft.Control = Owner
     AnchorSideTop.Control = lblExistingFile
     AnchorSideTop.Side = asrBottom
-    AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
     Left = 6
-    Height = 26
-    Top = 86
-    Width = 590
-    Anchors = [akTop, akLeft, akRight]
+    Height = 25
+    Top = 81
+    Width = 500
     BorderSpacing.Top = 6
     Constraints.MinWidth = 400
     TabOrder = 1
@@ -63,16 +57,27 @@ object frmSymLink: TfrmSymLink
     AnchorSideLeft.Control = Owner
     AnchorSideTop.Control = lblLinkToCreate
     AnchorSideTop.Side = asrBottom
-    AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
     Left = 6
-    Height = 26
-    Top = 30
-    Width = 590
-    Anchors = [akTop, akLeft, akRight]
+    Height = 25
+    Top = 28
+    Width = 500
     BorderSpacing.Top = 6
     Constraints.MinWidth = 400
     TabOrder = 0
+  end
+  object chkUseRelativePath: TCheckBox
+    AnchorSideLeft.Control = edtExistingFile
+    AnchorSideTop.Control = edtExistingFile
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Side = asrBottom
+    Left = 6
+    Height = 24
+    Top = 118
+    Width = 219
+    BorderSpacing.Top = 6
+    Caption = 'Use &relative path when possible'
+    TabOrder = 2
   end
   object btnOK: TBitBtn
     AnchorSideTop.Control = chkUseRelativePath
@@ -114,18 +119,5 @@ object frmSymLink: TfrmSymLink
     Kind = bkCancel
     ModalResult = 2
     TabOrder = 4
-  end
-  object chkUseRelativePath: TCheckBox
-    AnchorSideLeft.Control = edtExistingFile
-    AnchorSideTop.Control = edtExistingFile
-    AnchorSideTop.Side = asrBottom
-    AnchorSideRight.Side = asrBottom
-    Left = 6
-    Height = 24
-    Top = 118
-    Width = 219
-    BorderSpacing.Top = 6
-    Caption = 'Use &relative path when possible'
-    TabOrder = 2
   end
 end

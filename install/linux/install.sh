@@ -73,9 +73,10 @@ mkdir -p $DC_INSTALL_DIR/plugins/dsx/dsxlocate
 cp -a doublecmd                    $DC_INSTALL_DIR/
 cp -a doublecmd.help               $DC_INSTALL_DIR/
 cp -a doublecmd.zdli               $DC_INSTALL_DIR/
-cp -a pixmaps.txt                  $DC_INSTALL_DIR/
-cp -a multiarc.ini                 $DC_INSTALL_DIR/
 cp -a pinyin.tbl                   $DC_INSTALL_DIR/
+
+# Copy default settings
+cp -r default                      $DC_INSTALL_DIR/
 
 # copy plugins
 # WCX
@@ -145,7 +146,8 @@ if [ -z $CK_PORTABLE ]
     install -m 644 install/linux/org.doublecmd.root.policy $DC_INSTALL_PREFIX/usr/share/polkit-1/actions/
   else
     # Make portable version
-    touch $DC_INSTALL_DIR/doublecmd.inf
+    mkdir $DC_INSTALL_DIR/settings
+    touch $DC_INSTALL_DIR/settings/doublecmd.inf
     # Copy documentation
     mkdir -p $DC_INSTALL_DIR/doc
     cp -a doc/*.txt $DC_INSTALL_DIR/doc/

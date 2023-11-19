@@ -1,0 +1,55 @@
+name: build-release
+
+on:
+  workflow_dispatch:
+  release:
+    types: [prereleased, released]
+
+concurrency:
+  group: ${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-mac:
+    runs-on: macos-11
+    steps:
+    - name: Install Free Pascal
+      uses: alexx2000/setup-fpc@master
+      with:
+        lazarus-version: "stable"
+
+    - name: Get Lazarus source
+      uses: actions/checkout@v3
+      with:
+            repository: 'fpc/Lazarus'
+
+    - name: Build and install Lazarus
+      run: make all install
+
+    - name: Create Lazarus config
+      run: |
+           sudo mkdir -p /etc/lazarus
+           sudo cp tools/install/macosx/environmentoptions.xml /etc/lazarus/environmentoptions.xml
+           sudo sed -i -e "s|_PPCARCH_|fpc|g; s|/Developer/lazarus|/usr/local/share/lazarus|g" /etc/lazarus/environmentoptions.xml
+
+    - name: Checkout source
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+
+    - name: Download unrar source code
+      run: wget https://www.rarlab.com/rar/unrarsrc-6.2.10.tar.gz -O /tmp/unrarsrc.tar.gz
+      
+    - name: Extract unrar source code
+      run: cd /tmp && tar xzf unrarsrc.tar.gz
+
+    - name: Build packages
+      run: ./.github/scripts/create_release.sh
+
+    - name: Upload binaries to release
+      uses: svenstaro/upload-release-action@v2
+      with:
+        file: doublecmd-release/doublecmd*.dmg
+        tag: ${{ github.ref }}
+        overwrite: true
+        file_glob: true

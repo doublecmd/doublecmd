@@ -45,7 +45,7 @@ pushd $DC_TEMP_DIR
 
 $SCRIPT_DIR/rpm2cpio.sh $1 | cpio -idmv
 
-if [ "$CPU_TARGET" = "x86_64" ]
+if [[ "$CPU_TARGET" == *"64" ]]
   then
     mv usr/lib64/doublecmd ./
   else
@@ -71,11 +71,12 @@ cp -a lib/$CPU_TARGET/*.so*                      $DC_ROOT_DIR/
 cp -a lib/$CPU_TARGET/$LCL_PLATFORM/*.so*        $DC_ROOT_DIR/
 popd
 
-# Copy script for execute portable version
-install -m 755 $DC_SOURCE_DIR/doublecmd.sh       $DC_ROOT_DIR/
+# Set run-time library search path
+patchelf --set-rpath '$ORIGIN' $DC_ROOT_DIR/doublecmd
 
 # Make portable config file
-touch $DC_ROOT_DIR/doublecmd.inf
+mkdir $DC_ROOT_DIR/settings
+touch $DC_ROOT_DIR/settings/doublecmd.inf
 
 # Create archive
 tar -cJvf $PACK_DIR/doublecmd-$DC_VER.$LCL_PLATFORM.$CPU_TARGET.tar.xz doublecmd

@@ -96,20 +96,18 @@ inherited frmOptionsFileTypesColors: TfrmOptionsFileTypesColors
       BorderSpacing.Bottom = 8
       TabOrder = 2
     end
-    object cbCategoryColor: TColorBox
+    object cbCategoryColor: TKASColorBoxButton
       AnchorSideTop.Side = asrBottom
-      AnchorSideRight.Control = btnCategoryColor
+      AnchorSideRight.Control = edtCategoryAttr
+      AnchorSideRight.Side = asrBottom
       AnchorSideBottom.Control = btnApplyCategory
       Left = 170
-      Height = 22
-      Top = 252
-      Width = 527
-      Style = [cbStandardColors, cbExtendedColors, cbSystemColors, cbPrettyNames]
+      Height = 25
+      Top = 249
+      Width = 561
       Anchors = [akLeft, akRight, akBottom]
-      BorderSpacing.Right = 6
-      BorderSpacing.Bottom = 12
-      ItemHeight = 16
       TabOrder = 5
+      BorderSpacing.Bottom = 12
     end
     object btnAddCategory: TBitBtn
       AnchorSideTop.Side = asrBottom
@@ -124,7 +122,7 @@ inherited frmOptionsFileTypesColors: TfrmOptionsFileTypesColors
       BorderSpacing.Right = 6
       Caption = 'A&dd'
       OnClick = btnAddCategoryClick
-      TabOrder = 7
+      TabOrder = 6
     end
     object btnDeleteCategory: TBitBtn
       AnchorSideTop.Side = asrBottom
@@ -139,24 +137,7 @@ inherited frmOptionsFileTypesColors: TfrmOptionsFileTypesColors
       BorderSpacing.Right = 6
       Caption = 'D&elete'
       OnClick = btnDeleteCategoryClick
-      TabOrder = 8
-    end
-    object btnCategoryColor: TButton
-      AnchorSideLeft.Side = asrBottom
-      AnchorSideTop.Control = cbCategoryColor
-      AnchorSideRight.Control = edtCategoryAttr
-      AnchorSideRight.Side = asrBottom
-      AnchorSideBottom.Control = cbCategoryColor
-      AnchorSideBottom.Side = asrBottom
-      Left = 703
-      Height = 22
-      Top = 252
-      Width = 28
-      Anchors = [akTop, akRight, akBottom]
-      BorderSpacing.InnerBorder = 4
-      Caption = '>>'
-      OnClick = btnCategoryColorClick
-      TabOrder = 6
+      TabOrder = 7
     end
     object lbCategories: TListBox
       AnchorSideTop.Control = gbFileTypesColors
@@ -194,7 +175,7 @@ inherited frmOptionsFileTypesColors: TfrmOptionsFileTypesColors
       BorderSpacing.Bottom = 8
       Caption = 'A&pply'
       OnClick = btnApplyCategoryClick
-      TabOrder = 9
+      TabOrder = 8
     end
     object edtCategoryAttr: TEdit
       AnchorSideTop.Side = asrBottom
@@ -264,32 +245,5 @@ inherited frmOptionsFileTypesColors: TfrmOptionsFileTypesColors
       ShowHint = True
       TabOrder = 3
     end
-  end
-  object optColorDialog: TColorDialog[1]
-    Color = clBlack
-    CustomColors.Strings = (
-      'ColorA=000000'
-      'ColorB=000080'
-      'ColorC=008000'
-      'ColorD=008080'
-      'ColorE=800000'
-      'ColorF=800080'
-      'ColorG=808000'
-      'ColorH=808080'
-      'ColorI=C0C0C0'
-      'ColorJ=0000FF'
-      'ColorK=00FF00'
-      'ColorL=00FFFF'
-      'ColorM=FF0000'
-      'ColorN=FF00FF'
-      'ColorO=FFFF00'
-      'ColorP=FFFFFF'
-      'ColorQ=C0DCC0'
-      'ColorR=F0CAA6'
-      'ColorS=F0FBFF'
-      'ColorT=A4A0A0'
-    )
-    left = 184
-    top = 288
   end
 end

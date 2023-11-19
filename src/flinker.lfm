@@ -13,25 +13,27 @@ inherited frmLinker: TfrmLinker
   ClientHeight = 425
   ClientWidth = 397
   OnCreate = FormCreate
-  Position = poScreenCenter
+  Position = poOwnerFormCenter
   SessionProperties = 'Height;Width'
   inherited pnlContent: TPanel
+    AnchorSideBottom.Control = pnlButtons
     Height = 371
     Width = 381
     ClientHeight = 371
     ClientWidth = 381
     object gbSaveTo: TGroupBox[0]
       AnchorSideLeft.Control = pnlContent
-      AnchorSideTop.Control = lstFile
-      AnchorSideTop.Side = asrBottom
       AnchorSideRight.Control = pnlContent
       AnchorSideRight.Side = asrBottom
+      AnchorSideBottom.Control = pnlContent
+      AnchorSideBottom.Side = asrBottom
       Left = 0
       Height = 76
       Top = 290
       Width = 381
-      Anchors = [akTop, akLeft, akRight]
+      Anchors = [akLeft, akRight, akBottom]
       AutoSize = True
+      BorderSpacing.Bottom = 6
       Caption = 'Save to...'
       ChildSizing.LeftRightSpacing = 6
       ChildSizing.TopBottomSpacing = 6
@@ -91,6 +93,7 @@ inherited frmLinker: TfrmLinker
       Top = 0
       Width = 100
       Anchors = [akTop, akRight, akBottom]
+      AutoSize = True
       Caption = 'Item'
       ClientHeight = 264
       ClientWidth = 96
@@ -160,6 +163,7 @@ inherited frmLinker: TfrmLinker
       AnchorSideLeft.Control = pnlContent
       AnchorSideTop.Control = pnlContent
       AnchorSideRight.Control = grbxControl
+      AnchorSideBottom.Control = gbSaveTo
       Left = 0
       Height = 284
       Top = 0
@@ -173,15 +177,7 @@ inherited frmLinker: TfrmLinker
     end
   end
   inherited pnlButtons: TPanel
-    Top = 383
-    Width = 381
-    ClientWidth = 381
-    inherited btnCancel: TBitBtn
-      Left = 199
-    end
-    inherited btnOK: TBitBtn
-      Left = 293
-    end
+    AnchorSideTop.Side = asrTop
   end
   object dlgSaveAll: TSaveDialog[3]
     Filter = 'All files|*.*'

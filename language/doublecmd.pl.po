@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Double Commander 1.1.0 alpha\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-11-15 11:15+0300\n"
-"PO-Revision-Date: 2022-11-24 12:57+0000\n"
+"PO-Revision-Date: 2023-08-01 22:10+0000\n"
 "Last-Translator: Andrzej Kamiński <endriusk@interia.pl> and Maciej Bojakowski <maciejbojakowski@gmail.com>\n"
 "Language-Team: \n"
 "Language: pl\n"
@@ -31,7 +31,7 @@ msgstr "Prawy: Usuń %d plik(ów)"
 #: fsyncdirsdlg.rsfilesfound
 #, object-pascal-format
 msgid "Files found: %d  (Identical: %d, Different: %d, Unique left: %d, Unique right: %d)"
-msgstr "Znaleziono plików: %d  (Identycznych: %d, Różnych: %d, Unikalnych po lewej: %d, Unikalnych po prawej: %d)"
+msgstr "Znaleziono plików: %d  (Identyczne: %d, Różniące się: %d, Unikalne z lewej: %d, Unikalne z prawej: %d)"
 
 #: fsyncdirsdlg.rslefttorightcopy
 #, object-pascal-format
@@ -345,6 +345,11 @@ msgstr "&Zamknij"
 msgid "Verify checksum..."
 msgstr "Sprawdź sumę kontrolną..."
 
+#: tfrmchooseencoding.caption
+msgctxt "tfrmchooseencoding.caption"
+msgid "Encoding"
+msgstr "Kodowanie"
+
 #: tfrmconnectionmanager.btnadd.caption
 msgctxt "tfrmconnectionmanager.btnadd.caption"
 msgid "A&dd"
@@ -470,6 +475,7 @@ msgid "Auto Compare"
 msgstr "Porównaj automatycznie"
 
 #: tfrmdiffer.actbinarycompare.caption
+msgctxt "tfrmdiffer.actbinarycompare.caption"
 msgid "Binary Mode"
 msgstr "Tryb binarny"
 
@@ -1232,23 +1238,6 @@ msgstr "Z:"
 msgid "To:"
 msgstr "DO:"
 
-#: tfrmfileproperties.btnclose.caption
-msgctxt "tfrmfileproperties.btnclose.caption"
-msgid "&Close"
-msgstr "&Zamknij"
-
-#: tfrmfileproperties.btnsetproperties.caption
-msgid "&Set properties"
-msgstr "&Ustaw właściwości"
-
-#: tfrmfileproperties.btnsetpropertiestoallfiles.caption
-msgid "Set to &all selected files"
-msgstr "Ustaw dla &wszystkich wybranych plików"
-
-#: tfrmfileproperties.btnskipfile.caption
-msgid "Ski&p this file"
-msgstr "&Pomiń ten plik"
-
 #: tfrmfileproperties.caption
 msgctxt "tfrmfileproperties.caption"
 msgid "Properties"
@@ -1273,8 +1262,12 @@ msgstr "SUID"
 msgid "Allow &executing file as program"
 msgstr "Zezwalaj na &wykonywanie pliku jako programu"
 
-#: tfrmfileproperties.gbowner.caption
-msgctxt "tfrmfileproperties.gbowner.caption"
+#: tfrmfileproperties.chkrecursive.caption
+msgid "&Recursive"
+msgstr "&Cykliczne"
+
+#: tfrmfileproperties.dividerbevel3.caption
+msgctxt "tfrmfileproperties.dividerbevel3.caption"
 msgid "Owner"
 msgstr "Właściciel"
 
@@ -1312,6 +1305,11 @@ msgstr "Tekst:"
 msgid "Contains:"
 msgstr "Zawartość:"
 
+#: tfrmfileproperties.lblcreatedstr.caption
+msgctxt "tfrmfileproperties.lblcreatedstr.caption"
+msgid "Created:"
+msgstr "Utworzony:"
+
 #: tfrmfileproperties.lblexec.caption
 msgctxt "tfrmfileproperties.lblexec.caption"
 msgid "Execute"
@@ -1346,16 +1344,26 @@ msgid "&Group"
 msgstr "&Grupa"
 
 #: tfrmfileproperties.lbllastaccessstr.caption
-msgid "Last access:"
+msgctxt "tfrmfileproperties.lbllastaccessstr.caption"
+msgid "Accessed:"
 msgstr "Ostatnio używany:"
 
 #: tfrmfileproperties.lbllastmodifstr.caption
-msgid "Last modification:"
+msgctxt "tfrmfileproperties.lbllastmodifstr.caption"
+msgid "Modified:"
 msgstr "Ostatnio zmieniony:"
 
 #: tfrmfileproperties.lbllaststchangestr.caption
-msgid "Last status change:"
+msgid "Status changed:"
 msgstr "Ostatnia zmiana statusu:"
+
+#: tfrmfileproperties.lbllinksstr.caption
+msgid "Links:"
+msgstr "Łącza:"
+
+#: tfrmfileproperties.lblmediatypestr.caption
+msgid "Media type:"
+msgstr "Typ nośnika:"
 
 #: tfrmfileproperties.lbloctal.caption
 msgctxt "tfrmfileproperties.lbloctal.caption"
@@ -1370,6 +1378,10 @@ msgstr "&Właściciel"
 msgctxt "tfrmfileproperties.lblread.caption"
 msgid "Read"
 msgstr "Odczyt"
+
+#: tfrmfileproperties.lblsizeondiskstr.caption
+msgid "Size on disk:"
+msgstr "Rozmiar na dysku:"
 
 #: tfrmfileproperties.lblsizestr.caption
 msgctxt "tfrmfileproperties.lblsizestr.caption"
@@ -1389,13 +1401,13 @@ msgctxt "tfrmfileproperties.lblwrite.caption"
 msgid "Write"
 msgstr "Zapis"
 
-#: tfrmfileproperties.sgimage.columns[0].title.caption
-msgctxt "tfrmfileproperties.sgimage.columns[0].title.caption"
+#: tfrmfileproperties.sgplugins.columns[0].title.caption
+msgctxt "tfrmfileproperties.sgplugins.columns[0].title.caption"
 msgid "Name"
 msgstr "Nazwa"
 
-#: tfrmfileproperties.sgimage.columns[1].title.caption
-msgctxt "tfrmfileproperties.sgimage.columns[1].title.caption"
+#: tfrmfileproperties.sgplugins.columns[1].title.caption
+msgctxt "tfrmfileproperties.sgplugins.columns[1].title.caption"
 msgid "Value"
 msgstr "Wartość"
 
@@ -2680,6 +2692,10 @@ msgstr "Uruchom &terminal"
 msgid "Save current tabs to a New Favorite Tabs"
 msgstr "Zapisz bieżące zakładki do nowych ulubionych zakładek"
 
+#: tfrmmain.actsavefiledetailstofile.caption
+msgid "Save all shown columns to file"
+msgstr "Zapisz wszystkie wyświetlone kolumny do pliku"
+
 #: tfrmmain.actsaveselection.caption
 msgid "Sa&ve Selection"
 msgstr "&Zapisz zaznaczenie"
@@ -3363,34 +3379,10 @@ msgstr "Jakośc kompresji do jpg"
 msgid "Width :"
 msgstr "Szerokość :"
 
-#: tfrmmodview.rbbmp.caption
-msgid "BMP"
-msgstr "BMP"
-
-#: tfrmmodview.rbico.caption
-msgid "ICO"
-msgstr "ICO"
-
-#: tfrmmodview.rbjpg.caption
-msgid "JPG"
-msgstr "JPG"
-
-#: tfrmmodview.rbpng.caption
-msgid "PNG"
-msgstr "PNG"
-
-#: tfrmmodview.rbpnm.caption
-msgid "PNM"
-msgstr "PNM"
-
 #: tfrmmodview.teheight.text
 msgctxt "tfrmmodview.teheight.text"
 msgid "Height"
 msgstr "Wysokość"
-
-#: tfrmmodview.tequality.text
-msgid "80"
-msgstr "80"
 
 #: tfrmmodview.tewidth.text
 msgctxt "tfrmmodview.tewidth.text"
@@ -4115,9 +4107,112 @@ msgstr "Stała liczba kolumn"
 msgid "Fixed columns width"
 msgstr "Stała szerokość kolumn"
 
+#: tfrmoptionscolors.cbbusegradientind.caption
+msgid "Use &Gradient Indicator"
+msgstr "Użyj &gradientu kolorów wskaźnika"
+
+#: tfrmoptionscolors.dbbinarymode.caption
+msgctxt "tfrmoptionscolors.dbbinarymode.caption"
+msgid "Binary Mode"
+msgstr "Tryb binarny"
+
+#: tfrmoptionscolors.dbbookmode.caption
+msgid "Book Mode"
+msgstr "Tryb książki"
+
+#: tfrmoptionscolors.dbimagemode.caption
+msgid "Image Mode"
+msgstr "Tryb obrazu"
+
+#: tfrmoptionscolors.dbtextmode.caption
+msgid "Text Mode"
+msgstr "Tryb tekstowy"
+
+#: tfrmoptionscolors.lbladded.caption
+msgid "Added:"
+msgstr "Dodane:"
+
+#: tfrmoptionscolors.lblbookbackground.caption
+msgctxt "tfrmoptionscolors.lblbookbackground.caption"
+msgid "Background:"
+msgstr "Tło:"
+
+#: tfrmoptionscolors.lblbooktext.caption
+msgctxt "tfrmoptionscolors.lblbooktext.caption"
+msgid "Text:"
+msgstr "Tekst:"
+
+#: tfrmoptionscolors.lblcategory.caption
+msgid "Category:"
+msgstr "Kategoria:"
+
+#: tfrmoptionscolors.lbldeleted.caption
+msgid "Deleted:"
+msgstr "Usunięte:"
+
+#: tfrmoptionscolors.lblerror.caption
+msgid "Error:"
+msgstr "Błąd:"
+
+#: tfrmoptionscolors.lblimagebackground1.caption
+msgid "Background 1:"
+msgstr "Tło 1:"
+
+#: tfrmoptionscolors.lblimagebackground2.caption
+msgctxt "tfrmoptionscolors.lblimagebackground2.caption"
+msgid "Background 2:"
+msgstr "Tło 2:"
+
+#: tfrmoptionscolors.lblindbackcolor.caption
+msgid "In&dicator Back Color:"
+msgstr "Kolor &tła wskaźnika:"
+
+#: tfrmoptionscolors.lblindcolor.caption
+msgid "&Indicator Fore Color:"
+msgstr "Kolor &wskaźnika:"
+
+#: tfrmoptionscolors.lblindthresholdcolor.caption
+msgid "Indicator &Threshold Color:"
+msgstr "Kolor &progu wskaźnika:"
+
+#: tfrmoptionscolors.lblinformation.caption
+msgid "Information:"
+msgstr "Informacje:"
+
+#: tfrmoptionscolors.lblleft.caption
+msgid "Left:"
+msgstr "Z lewej:"
+
+#: tfrmoptionscolors.lblmodified.caption
+msgctxt "tfrmoptionscolors.lblmodified.caption"
+msgid "Modified:"
+msgstr "Zmodyfikowane:"
+
+#: tfrmoptionscolors.lblmodifiedbinary.caption
+msgctxt "tfrmoptionscolors.lblmodifiedbinary.caption"
+msgid "Modified:"
+msgstr "Zmodyfikowane:"
+
+#: tfrmoptionscolors.lblright.caption
+msgid "Right:"
+msgstr "Z prawej:"
+
+#: tfrmoptionscolors.lblsuccess.caption
+msgctxt "tfrmoptionscolors.lblsuccess.caption"
+msgid "Success:"
+msgstr "Powodzenie:"
+
+#: tfrmoptionscolors.lblunknown.caption
+msgid "Unknown:"
+msgstr "Nierównoważne:"
+
 #: tfrmoptionscolors.rgdarkmode.caption
-msgid "Dark mode"
-msgstr "Tryb ciemny"
+msgid "State"
+msgstr "Status"
+
+#: tfrmoptionscolumnsview.cbcolumnstitlelikevalues.caption
+msgid "Column titles alignment &like values"
+msgstr "Wyrównanie tytułów kolumn &według wartości"
 
 #: tfrmoptionscolumnsview.cbcuttexttocolwidth.caption
 msgid "Cut &text to column width"
@@ -4622,6 +4717,7 @@ msgid "BackGround:"
 msgstr "Tło:"
 
 #: tfrmoptionscustomcolumns.lblbackcolor2.caption
+msgctxt "tfrmoptionscustomcolumns.lblbackcolor2.caption"
 msgid "Background 2:"
 msgstr "Tło 2:"
 
@@ -4655,6 +4751,7 @@ msgid "Size:"
 msgstr "Rozmiar:"
 
 #: tfrmoptionscustomcolumns.lblforecolor.caption
+msgctxt "tfrmoptionscustomcolumns.lblforecolor.caption"
 msgid "Text Color:"
 msgstr "Kolor tekstu:"
 
@@ -5135,6 +5232,14 @@ msgstr "Tryb automatycznego wcięcia"
 #: tfrmoptionseditor.chkautoindent.hint
 msgid "Allows to indent the caret, when new line is created with <Enter>, with the same amount of leading white space as the preceding line"
 msgstr "Pozwala na wcięcie kursora, gdy nowy wiersz jest tworzony z <Enter>, z taką samą ilością odstępów wiodących jak w poprzednim wierszu"
+
+#: tfrmoptionseditor.chkgroupundo.caption
+msgid "Group Undo"
+msgstr ""
+
+#: tfrmoptionseditor.chkgroupundo.hint
+msgid "All continuous changes of the same type will be processed in one call instead of undoing/redoing each one"
+msgstr ""
 
 #: tfrmoptionseditor.chkrightedge.caption
 msgid "Right margin:"
@@ -5779,6 +5884,10 @@ msgstr "Kliknij, aby zmienić ikonę!"
 msgid "Apply current settings to all current configured filenames and paths"
 msgstr "Zastosuj bieżące ustawienia do wszystkich aktualnie skonfigurowanych nazw plików i ścieżek"
 
+#: tfrmoptionsfileassocextra.cbdefaultcontextactions.caption
+msgid "Default context actions (View/Edit)"
+msgstr "Domyślne operacje kontekstowe (Widok/Edycja)"
+
 #: tfrmoptionsfileassocextra.cbexecuteviashell.caption
 msgctxt "tfrmoptionsfileassocextra.cbexecuteviashell.caption"
 msgid "Execute via shell"
@@ -5930,61 +6039,6 @@ msgstr "Styl automatycznej zmiany zduplikowanej nazwy:"
 msgid "&Number of wipe passes:"
 msgstr "&Liczba przebiegów wymazywania:"
 
-#: tfrmoptionsfilepanelscolors.btnbackcolor.caption
-msgctxt "TFRMOPTIONSFILEPANELSCOLORS.BTNBACKCOLOR.CAPTION"
-msgid ">>"
-msgstr ">>"
-
-#: tfrmoptionsfilepanelscolors.btnbackcolor2.caption
-msgctxt "TFRMOPTIONSFILEPANELSCOLORS.BTNBACKCOLOR2.CAPTION"
-msgid ">>"
-msgstr ">>"
-
-#: tfrmoptionsfilepanelscolors.btncursorbordercolor.caption
-msgctxt "TFRMOPTIONSFILEPANELSCOLORS.BTNCURSORBORDERCOLOR.CAPTION"
-msgid ">>"
-msgstr ">>"
-
-#: tfrmoptionsfilepanelscolors.btncursorcolor.caption
-msgctxt "TFRMOPTIONSFILEPANELSCOLORS.BTNCURSORCOLOR.CAPTION"
-msgid ">>"
-msgstr ">>"
-
-#: tfrmoptionsfilepanelscolors.btncursortext.caption
-msgctxt "TFRMOPTIONSFILEPANELSCOLORS.BTNCURSORTEXT.CAPTION"
-msgid ">>"
-msgstr ">>"
-
-#: tfrmoptionsfilepanelscolors.btnforecolor.caption
-msgctxt "TFRMOPTIONSFILEPANELSCOLORS.BTNFORECOLOR.CAPTION"
-msgid ">>"
-msgstr ">>"
-
-#: tfrmoptionsfilepanelscolors.btninactivecursorcolor.caption
-msgctxt "TFRMOPTIONSFILEPANELSCOLORS.BTNINACTIVECURSORCOLOR.CAPTION"
-msgid ">>"
-msgstr ">>"
-
-#: tfrmoptionsfilepanelscolors.btninactivemarkcolor.caption
-msgctxt "TFRMOPTIONSFILEPANELSCOLORS.BTNINACTIVEMARKCOLOR.CAPTION"
-msgid ">>"
-msgstr ">>"
-
-#: tfrmoptionsfilepanelscolors.btnindbackcolor.caption
-msgctxt "TFRMOPTIONSFILEPANELSCOLORS.BTNINDBACKCOLOR.CAPTION"
-msgid ">>"
-msgstr ">>"
-
-#: tfrmoptionsfilepanelscolors.btnindcolor.caption
-msgctxt "TFRMOPTIONSFILEPANELSCOLORS.BTNINDCOLOR.CAPTION"
-msgid ">>"
-msgstr ">>"
-
-#: tfrmoptionsfilepanelscolors.btnmarkcolor.caption
-msgctxt "TFRMOPTIONSFILEPANELSCOLORS.BTNMARKCOLOR.CAPTION"
-msgid ">>"
-msgstr ">>"
-
 #: tfrmoptionsfilepanelscolors.btnresettodcdefault.caption
 msgid "Reset to DC default"
 msgstr "Przywróć domyślne ustawienia DC"
@@ -5997,10 +6051,6 @@ msgstr "Zezwól na nakładanie kolorów"
 #: tfrmoptionsfilepanelscolors.cbbuseframecursor.caption
 msgid "Use &Frame Cursor"
 msgstr "Użyj kursora jako &ramki"
-
-#: tfrmoptionsfilepanelscolors.cbbusegradientind.caption
-msgid "Use &Gradient Indicator"
-msgstr "Użyj &gradientu kolorów wskaźnika"
 
 #: tfrmoptionsfilepanelscolors.cbbuseinactiveselcolor.caption
 msgid "Use Inactive Sel Color"
@@ -6015,9 +6065,9 @@ msgctxt "TFRMOPTIONSFILEPANELSCOLORS.CBUSECURSORBORDER.CAPTION"
 msgid "Cursor border"
 msgstr "Obramowanie kursora"
 
-#: tfrmoptionsfilepanelscolors.dbfreespaceindicator.caption
-msgid "Drive Free Space Indicator"
-msgstr "Wskaźnik wolnego miejsca na dysku"
+#: tfrmoptionsfilepanelscolors.dbcurrentpath.caption
+msgid "Current Path"
+msgstr "Bieżąca ścieżka"
 
 #: tfrmoptionsfilepanelscolors.lblbackgroundcolor.caption
 msgid "Bac&kground:"
@@ -6046,20 +6096,30 @@ msgid "Inactive Mark Color:"
 msgstr "Kolor nieaktywnego zaznacz.:"
 
 #: tfrmoptionsfilepanelscolors.lblinactivepanelbrightness.caption
-msgid "&Brightness level of inactive panel"
-msgstr "Poziom &jasności nieaktywnego panelu"
-
-#: tfrmoptionsfilepanelscolors.lblindbackcolor.caption
-msgid "In&dicator Back Color:"
-msgstr "Kolor tła ws&kaźnika:"
-
-#: tfrmoptionsfilepanelscolors.lblindcolor.caption
-msgid "&Indicator Fore Color:"
-msgstr "Kolor &wskaźnika:"
+msgid "&Brightness level of inactive panel:"
+msgstr "Poziom &jasności nieaktywnego panelu:"
 
 #: tfrmoptionsfilepanelscolors.lblmarkcolor.caption
 msgid "&Mark Color:"
 msgstr "Kolor &zaznaczenia:"
+
+#: tfrmoptionsfilepanelscolors.lblpathactiveback.caption
+msgctxt "tfrmoptionsfilepanelscolors.lblpathactiveback.caption"
+msgid "Background:"
+msgstr "Tło"
+
+#: tfrmoptionsfilepanelscolors.lblpathactivetext.caption
+msgctxt "tfrmoptionsfilepanelscolors.lblpathactivetext.caption"
+msgid "Text Color:"
+msgstr "Kolor tekstu:"
+
+#: tfrmoptionsfilepanelscolors.lblpathinactiveback.caption
+msgid "Inactive Background:"
+msgstr "Nieaktywne tło:"
+
+#: tfrmoptionsfilepanelscolors.lblpathinactivetext.caption
+msgid "Inactive Text Color:"
+msgstr "Kolor nieaktywnego tekstu:"
 
 #: tfrmoptionsfilepanelscolors.lblpreview.caption
 msgid "Below is a preview. You may move cursor, select file and get immediately an actual look and feel of the various settings."
@@ -6258,11 +6318,6 @@ msgstr "&Dodaj"
 msgctxt "TFRMOPTIONSFILETYPESCOLORS.BTNAPPLYCATEGORY.CAPTION"
 msgid "A&pply"
 msgstr "&Zastosuj"
-
-#: tfrmoptionsfiletypescolors.btncategorycolor.caption
-msgctxt "TFRMOPTIONSFILETYPESCOLORS.BTNCATEGORYCOLOR.CAPTION"
-msgid ">>"
-msgstr ">>"
 
 #: tfrmoptionsfiletypescolors.btndeletecategory.caption
 msgctxt "TFRMOPTIONSFILETYPESCOLORS.BTNDELETECATEGORY.CAPTION"
@@ -7986,66 +8041,6 @@ msgctxt "tfrmoptionstreeviewmenucolor.btfont.caption"
 msgid "..."
 msgstr "..."
 
-#: tfrmoptionstreeviewmenucolor.btnbackgroundcolor.caption
-msgctxt "tfrmoptionstreeviewmenucolor.btnbackgroundcolor.caption"
-msgid ">>"
-msgstr ">>"
-
-#: tfrmoptionstreeviewmenucolor.btncursorcolor.caption
-msgctxt "tfrmoptionstreeviewmenucolor.btncursorcolor.caption"
-msgid ">>"
-msgstr ">>"
-
-#: tfrmoptionstreeviewmenucolor.btnfoundtextcolor.caption
-msgctxt "tfrmoptionstreeviewmenucolor.btnfoundtextcolor.caption"
-msgid ">>"
-msgstr ">>"
-
-#: tfrmoptionstreeviewmenucolor.btnfoundtextundercursor.caption
-msgctxt "tfrmoptionstreeviewmenucolor.btnfoundtextundercursor.caption"
-msgid ">>"
-msgstr ">>"
-
-#: tfrmoptionstreeviewmenucolor.btnnormaltextcolor.caption
-msgctxt "tfrmoptionstreeviewmenucolor.btnnormaltextcolor.caption"
-msgid ">>"
-msgstr ">>"
-
-#: tfrmoptionstreeviewmenucolor.btnnormaltextundercursor.caption
-msgctxt "tfrmoptionstreeviewmenucolor.btnnormaltextundercursor.caption"
-msgid ">>"
-msgstr ">>"
-
-#: tfrmoptionstreeviewmenucolor.btnsecondarytextcolor.caption
-msgctxt "tfrmoptionstreeviewmenucolor.btnsecondarytextcolor.caption"
-msgid ">>"
-msgstr ">>"
-
-#: tfrmoptionstreeviewmenucolor.btnsecondarytextundercursor.caption
-msgctxt "tfrmoptionstreeviewmenucolor.btnsecondarytextundercursor.caption"
-msgid ">>"
-msgstr ">>"
-
-#: tfrmoptionstreeviewmenucolor.btnshortcutcolor.caption
-msgctxt "tfrmoptionstreeviewmenucolor.btnshortcutcolor.caption"
-msgid ">>"
-msgstr ">>"
-
-#: tfrmoptionstreeviewmenucolor.btnshortcutundercursor.caption
-msgctxt "tfrmoptionstreeviewmenucolor.btnshortcutundercursor.caption"
-msgid ">>"
-msgstr ">>"
-
-#: tfrmoptionstreeviewmenucolor.btnunselectabletextcolor.caption
-msgctxt "tfrmoptionstreeviewmenucolor.btnunselectabletextcolor.caption"
-msgid ">>"
-msgstr ">>"
-
-#: tfrmoptionstreeviewmenucolor.btnunselectableundercursor.caption
-msgctxt "tfrmoptionstreeviewmenucolor.btnunselectableundercursor.caption"
-msgid ">>"
-msgstr ">>"
-
 #: tfrmoptionstreeviewmenucolor.cbkusagekeyboardshortcut.caption
 msgid "Use and display keyboard shortcut for choosing items"
 msgstr "Użyj i wyświetl skrót klawiaturowy dla wybranych elementów"
@@ -8114,31 +8109,9 @@ msgstr "Niewybrane pod kursorem:"
 msgid "Change color on left and you'll see here a preview of what your Tree View Menus will look likes with this sample."
 msgstr "Zmień kolor po lewej, a zobaczysz tutaj podgląd tego, jak Twój widok drzewa będzie wyglądał z tym przykładem."
 
-#: tfrmoptionsviewer.btnbackviewercolor.caption
-msgctxt "TFRMOPTIONSVIEWER.BTNBACKVIEWERCOLOR.CAPTION"
-msgid ">>"
-msgstr ">>"
-
-#: tfrmoptionsviewer.btnfontviewercolor.caption
-msgctxt "TFRMOPTIONSVIEWER.BTNFONTVIEWERCOLOR.CAPTION"
-msgid ">>"
-msgstr ">>"
-
-#: tfrmoptionsviewer.gbviewerbookmode.caption
-msgid "Viewer Book Mode"
-msgstr "Tryb podglądu książki"
-
-#: tfrmoptionsviewer.gbviewerexample.caption
-msgid "Example"
-msgstr "Przykład"
-
-#: tfrmoptionsviewer.lblbackgroundcolorviewerbook.caption
-msgid "&Background color in book viewer"
-msgstr "Kolor &tła w podglądzie książki"
-
-#: tfrmoptionsviewer.lblfontcolorviewerbook.caption
-msgid "&Font color in book viewer"
-msgstr "Kolor &czcionki w podglądzie książki"
+#: tfrmoptionsviewer.gbinternalviewer.caption
+msgid "Internal viewer options"
+msgstr "Opcje przeglądarki wewnętrznej"
 
 #: tfrmoptionsviewer.lblnumbercolumnsviewer.caption
 msgid "&Number of columns in book viewer"
@@ -8556,6 +8529,7 @@ msgid "Archive"
 msgstr "Archiwizowany"
 
 #: tfrmsetfileproperties.chkcreationtime.caption
+msgctxt "tfrmsetfileproperties.chkcreationtime.caption"
 msgid "Created:"
 msgstr "Utworzony:"
 
@@ -8564,10 +8538,12 @@ msgid "Hidden"
 msgstr "Ukryty"
 
 #: tfrmsetfileproperties.chklastaccesstime.caption
+msgctxt "tfrmsetfileproperties.chklastaccesstime.caption"
 msgid "Accessed:"
 msgstr "Dostępny:"
 
 #: tfrmsetfileproperties.chklastwritetime.caption
+msgctxt "tfrmsetfileproperties.chklastwritetime.caption"
 msgid "Modified:"
 msgstr "Zmodyfikowany:"
 
@@ -9247,6 +9223,16 @@ msgctxt "TFRMVIEWER.ACTFULLSCREEN.CAPTION"
 msgid "Full Screen"
 msgstr "Pełny ekran"
 
+#: tfrmviewer.actgotoline.caption
+msgctxt "tfrmviewer.actgotoline.caption"
+msgid "Goto Line..."
+msgstr "Przejdź do wiersza..."
+
+#: tfrmviewer.actgotoline.hint
+msgctxt "tfrmviewer.actgotoline.hint"
+msgid "Goto Line"
+msgstr "Przejdź do wiersza"
+
 #: tfrmviewer.actimagecenter.caption
 msgid "Center"
 msgstr "Wyśrodkuj"
@@ -9395,6 +9381,10 @@ msgstr "Tekst z &zawijaniem wierszy"
 msgid "Show text c&ursor"
 msgstr "Pokaż k&ursor tekstowy"
 
+#: tfrmviewer.actshowcode.caption
+msgid "Code"
+msgstr "Kod"
+
 #: tfrmviewer.actshowgraphics.caption
 msgctxt "tfrmviewer.actshowgraphics.caption"
 msgid "Graphics"
@@ -9426,7 +9416,6 @@ msgid "Stretch only large"
 msgstr "Rozciągnij tylko duże"
 
 #: tfrmviewer.actundo.caption
-#, fuzzy
 msgctxt "tfrmviewer.actundo.caption"
 msgid "Undo"
 msgstr "Cofnij"
@@ -9564,11 +9553,6 @@ msgstr "Zrzut ekranu"
 msgctxt "tfrmviewer.miview.caption"
 msgid "&View"
 msgstr "&Podgląd"
-
-#: tfrmviewer.pmiselectall.caption
-msgctxt "tfrmviewer.pmiselectall.caption"
-msgid "Select All"
-msgstr "Zaznacz wszystko"
 
 #: tfrmviewoperations.btnstartpause.caption
 msgctxt "tfrmviewoperations.btnstartpause.caption"
@@ -9865,6 +9849,7 @@ msgid "Read error:"
 msgstr "Błąd odczytu:"
 
 #: ulng.rschecksumverifysuccess
+msgctxt "ulng.rschecksumverifysuccess"
 msgid "Success:"
 msgstr "Pomyślne:"
 
@@ -9962,6 +9947,10 @@ msgstr "Potwierdzenie wiersza poleceń i parametrów"
 #, object-pascal-format
 msgid "Copy (%d) %s"
 msgstr "Kopiuj (%d) %s"
+
+#: ulng.rsdarkmode
+msgid "Dark mode"
+msgstr "Tryb ciemny"
 
 #: ulng.rsdarkmodeoptions
 msgid "Auto;Enabled;Disabled"
@@ -10225,6 +10214,10 @@ msgstr "Prędkość: %s/s, pozostały czas: %s"
 #: ulng.rsdraganddroptextformat
 msgid "Rich Text Format;HTML Format;Unicode Format;Simple Text Format"
 msgstr "Format RTF;Format HTML;Format Unicode;Format tekstowy"
+
+#: ulng.rsdrivefreespaceindicator
+msgid "Drive Free Space Indicator"
+msgstr "Wskaźnik wolnego miejsca na dysku"
 
 #: ulng.rsdrivenolabel
 msgid "<no label>"
@@ -10914,6 +10907,11 @@ msgstr "Zakładka (%s) jest zablokowana! Zamknąć mimo to?"
 #: ulng.rsmsgcofirmuserparam
 msgid "Confirmation of parameter"
 msgstr "Potwierdzenie parametru"
+
+#: ulng.rsmsgcommandnotfound
+#, object-pascal-format
+msgid "Command not found! (%s)"
+msgstr "Nie znaleziono polecenia! (%s)"
 
 #: ulng.rsmsgconfirmquit
 msgid "Are you sure you want to quit?"
@@ -13362,6 +13360,10 @@ msgstr "Plik"
 msgctxt "ulng.rspropsfolder"
 msgid "Directory"
 msgstr "Katalog"
+
+#: ulng.rspropsmultipletypes
+msgid "Multiple types"
+msgstr "Wiele typów"
 
 #: ulng.rspropsnmdpipe
 msgid "Named pipe"

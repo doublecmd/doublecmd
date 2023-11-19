@@ -593,6 +593,7 @@ var
   i: Integer;
   shortcut: TShortCut;
 begin
+  if Length(hotkey.Params) > 0 then Exit;
   shortcut := TextToShortCutEx(hotkey.Shortcuts[0]);
   for i := 0 to FActionLists.Count - 1 do
   begin

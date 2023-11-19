@@ -1,13 +1,16 @@
 #!/bin/sh
 
-# Set Double Commander version
-DC_VER=1.1.0
-
 # The new package will be saved here
 PACK_DIR=$(pwd)/linux/release
 
 # Temp dir for creating *.tar.bz2 package
 BUILD_PACK_DIR=/var/tmp/doublecmd-$(date +%y.%m.%d)
+
+# Read version number
+DC_MAJOR=$(grep 'MajorVersionNr' ../src/doublecmd.lpi | grep -o '[0-9.]\+')
+DC_MINOR=$(grep 'MinorVersionNr' ../src/doublecmd.lpi | grep -o '[0-9.]\+' || echo 0)
+DC_MICRO=$(grep 'RevisionNr' ../src/doublecmd.lpi | grep -o '[0-9.]\+' || echo 0)
+DC_VER=$DC_MAJOR.$DC_MINOR.$DC_MICRO
 
 # Create temp dir for building
 BUILD_DC_TMP_DIR=/var/tmp/doublecmd-$DC_VER
@@ -113,6 +116,8 @@ if [ "$CK_PORTABLE" ]; then
   mkdir -p $BUILD_PACK_DIR
   install/linux/install.sh --portable-prefix=$BUILD_PACK_DIR
   cd $BUILD_PACK_DIR
+  # Set run-time library search path
+  patchelf --set-rpath '$ORIGIN' doublecmd/doublecmd
   tar -cJvf $PACK_DIR/doublecmd-$DC_VER.$lcl.$CPU_TARGET.tar.xz doublecmd
 fi
 

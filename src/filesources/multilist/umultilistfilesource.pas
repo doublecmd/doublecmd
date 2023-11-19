@@ -90,7 +90,7 @@ type
     function FileSystemEntryExists(const Path: String): Boolean; override;
 
     function GetRetrievableFileProperties: TFilePropertiesTypes; override;
-    procedure RetrieveProperties(AFile: TFile; PropertiesToSet: TFilePropertiesTypes; AVariantProperties: array of String); override;
+    procedure RetrieveProperties(AFile: TFile; PropertiesToSet: TFilePropertiesTypes; const AVariantProperties: array of String); override;
     function CanRetrieveProperties(AFile: TFile; PropertiesToSet: TFilePropertiesTypes): Boolean; override;
 
     function CreateListOperation(TargetPath: String): TFileSourceOperation; override;
@@ -193,7 +193,7 @@ begin
 end;
 
 procedure TMultiListFileSource.RetrieveProperties(AFile: TFile;
-  PropertiesToSet: TFilePropertiesTypes; AVariantProperties: array of String);
+  PropertiesToSet: TFilePropertiesTypes; const AVariantProperties: array of String);
 begin
   FFileSource.RetrieveProperties(AFile, PropertiesToSet, AVariantProperties);
 end;

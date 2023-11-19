@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Simple folder thumbnail provider
 
-   Copyright (C) 2019 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2019-2023 Alexander Koblov (alexx2000@mail.ru)
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Lesser General Public
@@ -30,8 +30,8 @@ implementation
 
 uses
   Math, Classes, SysUtils, Graphics, IntfGraphics, GraphType, BaseUnix, Unix,
-  Types, DCClassesUtf8, DCOSUtils, DCStrUtils, DCConvertEncoding,
-  uThumbnails, uPixMapManager, uReSample, uGraphics;
+  Types, FPImage, DCClassesUtf8, DCOSUtils, DCStrUtils, DCConvertEncoding,
+  LCLVersion, uThumbnails, uPixMapManager, uReSample, uGraphics;
 
 var
   ProviderIndex: Integer;
@@ -120,7 +120,10 @@ begin
     begin
       Target:= TLazIntfImage.Create(aSize.cx, aSize.cy, [riqfRGB, riqfAlpha]);
       try
+{$if lcl_fullversion < 2020000}
         Target.CreateData;
+{$endif}
+        Target.FillPixels(colTransparent);
 
         // Draw default folder icon
         Result:= PixMapManager.GetThemeIcon('folder', Min(aSize.cx, aSize.cy));

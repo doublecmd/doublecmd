@@ -32,7 +32,7 @@ implementation
 uses
   LazUTF8, uFile, Windows, JwaWinNetWk, JwaLmCons, JwaLmShare, JwaLmApiBuf,
   StrUtils, DCStrUtils, uShowMsg, DCOSUtils, uOSUtils, uNetworkThread, uMyWindows,
-  ShlObj, ComObj, DCConvertEncoding, uShellFolder, uShlObjAdditional;
+  ActiveX, ShlObj, ComObj, DCConvertEncoding, uShellFolder, uShlObjAdditional;
 
 function TWinNetListOperation.Connect: Boolean;
 var
@@ -194,17 +194,24 @@ begin
   try
     OleCheckUTF8(SHGetDesktopFolder(DesktopFolder));
     OleCheckUTF8(SHGetFolderLocation(0, CSIDL_NETWORK, 0, 0, {%H-}NetworkPIDL));
-    OleCheckUTF8(DesktopFolder.BindToObject(NetworkPIDL, nil, IID_IShellFolder, Pointer(AFolder)));
-    OleCheckUTF8(AFolder.EnumObjects(0, SHCONTF_FOLDERS or SHCONTF_NONFOLDERS or SHCONTF_INCLUDEHIDDEN, EnumIDList));
+    try
+      OleCheckUTF8(DesktopFolder.BindToObject(NetworkPIDL, nil, IID_IShellFolder, Pointer(AFolder)));
+      OleCheckUTF8(AFolder.EnumObjects(0, SHCONTF_FOLDERS or SHCONTF_NONFOLDERS or SHCONTF_INCLUDEHIDDEN, EnumIDList));
 
-    while EnumIDList.Next(1, PIDL, NumIDs) = S_OK do
-    begin
-      CheckOperationState;
+      while EnumIDList.Next(1, PIDL, NumIDs) = S_OK do
+      try
+        CheckOperationState;
 
-      aFile:= TWinNetFileSource.CreateFile(Path);
-      AFile.FullPath:= GetDisplayName(AFolder, PIDL, SHGDN_FORPARSING or SHGDN_FORADDRESSBAR);
+        aFile:= TWinNetFileSource.CreateFile(Path);
+        AFile.FullPath:= GetDisplayName(AFolder, PIDL, SHGDN_FORPARSING or SHGDN_FORADDRESSBAR);
 
-      FFiles.Add(AFile);
+        FFiles.Add(AFile);
+
+      finally
+        CoTaskMemFree(PIDL);
+      end;
+    finally
+      CoTaskMemFree(NetworkPIDL);
     end;
   except
     on E: Exception do msgError(Thread, E.Message);

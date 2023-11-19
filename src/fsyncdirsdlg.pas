@@ -4,7 +4,7 @@
    Directories synchronization utility (specially for DC)
 
    Copyright (C) 2013 Anton Panferov (ast.a_s@mail.ru)
-   Copyright (C) 2014-2020 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2014-2023 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -28,7 +28,7 @@ interface
 
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, StdCtrls,
-  ExtCtrls, Buttons, ComCtrls, Grids, Menus, ActnList, EditBtn, LazUTF8Classes,
+  ExtCtrls, Buttons, ComCtrls, Grids, Menus, ActnList, EditBtn, DCClassesUtf8,
   uFileView, uFileSource, uFileSourceCopyOperation, uFile, uFileSourceOperation,
   uFileSourceOperationMessageBoxesUI, uFormCommands, uHotkeyManager, uClassesEx,
   uFileSourceDeleteOperation, KASProgressBar;
@@ -153,13 +153,13 @@ type
     { private declarations }
     FCancel: Boolean;
     FScanning: Boolean;
-    FFoundItems: TStringListUtf8;
-    FVisibleItems: TStringListUtf8;
+    FFoundItems: TStringListEx;
+    FVisibleItems: TStringListEx;
     FSortIndex: Integer;
     FSortDesc: Boolean;
     FNtfsShift: Boolean;
     FFileExists: TSyncRecState;
-    FSelectedItems: TStringListUtf8;
+    FSelectedItems: TStringListEx;
     FFileSourceL, FFileSourceR: IFileSource;
     FCmpFileSourceL, FCmpFileSourceR: IFileSource;
     FCmpFilePathL, FCmpFilePathR: string;
@@ -234,10 +234,10 @@ implementation
 
 uses
   fMain, uDebug, fDiffer, fSyncDirsPerformDlg, uGlobs, LCLType, LazUTF8, LazFileUtils,
-  DCClassesUtf8, uFileSystemFileSource, uFileSourceOperationOptions, DCDateTimeUtils,
+  uFileSystemFileSource, uFileSourceOperationOptions, DCDateTimeUtils,
   uDCUtils, uFileSourceUtil, uFileSourceOperationTypes, uShowForm, uAdministrator,
   uOSUtils, uLng, uMasks, Math, uClipboard, IntegerList, fMaskInputDlg, uSearchTemplate,
-  StrUtils, uTypes, uFileSystemDeleteOperation;
+  StrUtils, DCStrUtils, uTypes, uFileSystemDeleteOperation;
 
 {$R *.lfm}
 
@@ -265,8 +265,11 @@ type
 
   TCheckContentThread = class(TThread)
   private
-    FOwner: TfrmSyncDirsDlg;
     FDone: Boolean;
+    FOwner: TfrmSyncDirsDlg;
+  private
+    procedure DoStart;
+    procedure DoFinish;
     procedure UpdateGrid;
     procedure ReapplyFilter;
   protected
@@ -311,6 +314,18 @@ begin
 end;
 
 { TCheckContentThread }
+
+procedure TCheckContentThread.DoStart;
+begin
+  FOwner.HeaderDG.Enabled:= False;
+  FOwner.GroupBox1.Enabled:= False;
+end;
+
+procedure TCheckContentThread.DoFinish;
+begin
+  FOwner.HeaderDG.Enabled:= True;
+  FOwner.GroupBox1.Enabled:= True;
+end;
 
 procedure TCheckContentThread.UpdateGrid;
 begin
@@ -361,18 +376,22 @@ var
   i, j: Integer;
   r: TFileSyncRec;
 begin
-  with FOwner do
+  Synchronize(@DoStart);
+  try
+    with FOwner do
     for i := 0 to FFoundItems.Count - 1 do
+    begin
       for j := 0 to TStringList(FFoundItems.Objects[i]).Count - 1 do
       begin
         if Terminated then Exit;
-          r := TFileSyncRec(TStringList(FFoundItems.Objects[i]).Objects[j]);
+        r := TFileSyncRec(TStringList(FFoundItems.Objects[i]).Objects[j]);
         if Assigned(r) and (r.FState = srsUnknown) then
         begin
           try
             if CompareFiles(r.FFileL.FullPath, r.FFileR.FullPath, r.FFileL.Size) then
             begin
               Inc(Fequal);
+              Dec(Fnoneq);
               r.FState := srsEqual
             end
             else
@@ -387,8 +406,12 @@ begin
           end;
         end;
       end;
-  FDone := True;
-  Synchronize(@ReapplyFilter);
+    end;
+    FDone := True;
+    Synchronize(@ReapplyFilter);
+  finally
+    Synchronize(@DoFinish);
+  end;
 end;
 
 constructor TCheckContentThread.Create(Owner: TfrmSyncDirsDlg);
@@ -503,7 +526,7 @@ var
     else begin
       Fs.Path:= fs[0].Path;
       // Create destination directory
-      Dst.CreateDirectory(Dest);
+      Dst.CreateDirectory(ExcludeBackPathDelimiter(Dest));
       // Determine operation type
       case OperationType of
         fsoCopy:
@@ -754,8 +777,11 @@ begin
   gSyncDirsShowFilterCopyLeft   := sbCopyLeft.Down;
   gSyncDirsShowFilterDuplicates := sbDuplicates.Down;
   gSyncDirsShowFilterSingles    := sbSingles.Down;
-  if not IsMaskSearchTemplate(cbExtFilter.Text) then
-    gSyncDirsFileMask           := cbExtFilter.Text;
+  if gSyncDirsFileMaskSave = True then
+  begin
+    if not IsMaskSearchTemplate(cbExtFilter.Text) then
+      gSyncDirsFileMask         := cbExtFilter.Text;
+  end;
   if chkByContent.Enabled then
     gSyncDirsByContent          := chkByContent.Checked;
   glsMaskHistory.Assign(cbExtFilter.Items);
@@ -811,6 +837,14 @@ begin
   sbCopyLeft.Down        := gSyncDirsShowFilterCopyLeft;
   sbDuplicates.Down      := gSyncDirsShowFilterDuplicates;
   sbSingles.Down         := gSyncDirsShowFilterSingles;
+  if gSyncDirsFileMaskSave = False then
+  begin
+    Index := glsMaskHistory.IndexOf(gSyncDirsFileMask);
+    if Index <> -1 then
+      glsMaskHistory.Move(Index, 0)
+    else
+      glsMaskHistory.Insert(0, gSyncDirsFileMask);
+  end;
   cbExtFilter.Items.Assign(glsMaskHistory);
   cbExtFilter.Text       := gSyncDirsFileMask;
 
@@ -863,13 +897,16 @@ begin
         TextRect(Rect(Left, aRect.Top, Left + Width, aRect.Bottom),
           Left + 2, aRect.Top + 2, FVisibleItems[aRow]);
     end else begin
-      case r.FState of
-      srsNotEq:       Font.Color := gSyncUnknownColor;
-      srsCopyLeft:    Font.Color := gSyncRightColor;
-      srsCopyRight:   Font.Color := gSyncLeftColor;
-      srsDeleteLeft:  Font.Color := gSyncLeftColor;
-      srsDeleteRight: Font.Color := gSyncRightColor;
-      else Font.Color := clWindowText;
+      with gColors.SyncDirs^ do
+      begin
+        case r.FState of
+        srsNotEq:       Font.Color := UnknownColor;
+        srsCopyLeft:    Font.Color := RightColor;
+        srsCopyRight:   Font.Color := LeftColor;
+        srsDeleteLeft:  Font.Color := LeftColor;
+        srsDeleteRight: Font.Color := RightColor;
+        else Font.Color := clWindowText;
+        end;
       end;
       if Assigned(r.FFileL) then
       begin
@@ -1084,7 +1121,6 @@ begin
     ClearFoundItems;
     MainDrawGrid.RowCount := 0;
     ScanDirs;
-    FillFoundItemsDG;
     MainDrawGrid.SetFocus;
   finally
     TopPanel.Enabled := True;
@@ -1150,7 +1186,7 @@ begin
   if Assigned(FVisibleItems) then
     FVisibleItems.Clear
   else begin
-    FVisibleItems := TStringListUtf8.Create;
+    FVisibleItems := TStringListEx.Create;
     FVisibleItems.CaseSensitive := FileNameCaseSensitive;
   end;
   { init filter }
@@ -1244,7 +1280,7 @@ var
         for i := 0 to fs.Count - 1 do
         begin
           f := fs.Items[i];
-          if f.IsDirectory then
+          if f.IsDirectory or f.IsLinkToDirectory then
           begin
             if (f.NameNoExt <> '.') and (f.NameNoExt <> '..') then
               dirs.Add(f.Name);
@@ -1283,23 +1319,23 @@ var
   var
     i, j, tot: Integer;
     it: TStringList;
-    dirsLeft, dirsRight: TStringListUtf8;
+    dirsLeft, dirsRight: TStringListEx;
     d: string;
   begin
     i := FFoundItems.IndexOf(dir);
     if i < 0 then
     begin
-      it := TStringListUtf8.Create;
+      it := TStringListEx.Create;
       it.CaseSensitive := FileNameCaseSensitive;
       it.Sorted := True;
       FFoundItems.AddObject(dir, it);
     end else
       it := TStringList(FFoundItems.Objects[i]);
     if dir <> '' then dir := AppendPathDelim(dir);
-    dirsLeft := TStringListUtf8.Create;
+    dirsLeft := TStringListEx.Create;
     dirsLeft.CaseSensitive := FileNameCaseSensitive;
     dirsLeft.Sorted := True;
-    dirsRight := TStringListUtf8.Create;
+    dirsRight := TStringListEx.Create;
     dirsRight.CaseSensitive := FileNameCaseSensitive;
     dirsRight.Sorted := True;
     try
@@ -1373,6 +1409,7 @@ begin
   end;
   ScanDir('');
   MaskList.Free;
+  FillFoundItemsDG;
   if FCancel then Exit;
   if (FFoundItems.Count > 0) and chkByContent.Checked then
     CheckContentThread := TCheckContentThread.Create(Self);
@@ -1564,6 +1601,7 @@ begin
   edPath1.Enabled:= AEnabled;
   edPath2.Enabled:= AEnabled;
   TopPanel.Enabled:= AEnabled;
+  HeaderDG.Enabled:= AEnabled;
   pnlFilter.Enabled:= AEnabled;
   MainDrawGrid.Enabled:= AEnabled;
   pnlProgress.Visible:= not AEnabled;
@@ -1866,7 +1904,7 @@ var
   AFiles: TFiles;
 begin
   inherited Create(AOwner);
-  FFoundItems := TStringListUtf8.Create;
+  FFoundItems := TStringListEx.Create;
   FFoundItems.CaseSensitive := FileNameCaseSensitive;
   FFoundItems.Sorted := True;
   FFileSourceL := FileView1.FileSource;
@@ -1886,7 +1924,7 @@ begin
   FSortDesc := False;
   MainDrawGrid.RowCount := 0;
   // ---------------------------------------------------------------------------
-  FSelectedItems := TStringListUtf8.Create;
+  FSelectedItems := TStringListEx.Create;
   FSelectedItems.Sorted := True;
   FSelectedItems.Duplicates := dupIgnore;
   FSelectedItems.CaseSensitive := FileNameCaseSensitive;

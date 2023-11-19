@@ -1,15 +1,22 @@
 {
-   Seksi Commander
-   ----------------------------
-   Implementing of About dialog
+    Double Commander
+    -------------------------------------------------------------------------
+    About dialog
 
-   Licence  : GNU GPL v 2.0
-   Author   : radek.cervinka@centrum.cz
+    Copyright (C) 2006-2023 Alexander Koblov (alexx2000@mail.ru)
 
-   contributors:
+    This program is free software; you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation; either version 2 of the License, or
+    (at your option) any later version.
 
-   Copyright (C) 2006-2008  Koblov Alexander (Alexx2000@mail.ru)
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
 
+    You should have received a copy of the GNU General Public License
+    along with this program. If not, see <http://www.gnu.org/licenses/>.
 }
 
 unit fAbout;
@@ -49,9 +56,6 @@ type
     procedure lblHomePageAddressClick(Sender: TObject);
     procedure lblHomePageAddressMouseEnter(Sender: TObject);
     procedure lblHomePageAddressMouseLeave(Sender: TObject);
-    procedure OKButtonClick(Sender: TObject);
-    procedure FormKeyDown(Sender: TObject; var Key: Word;
-      Shift: TShiftState);
     procedure frmAboutShow(Sender: TObject);
   private
     { Private declarations }
@@ -60,7 +64,7 @@ type
   end;
 
 
-procedure ShowAboutBox;
+procedure ShowAboutBox(TheOwner: TComponent);
 
 implementation
 
@@ -75,8 +79,9 @@ const
     'This program is free software under GNU GPL 2 license, see COPYING.txt file.' + LineEnding + LineEnding +
     'Active developers: '+ cIndention +
     'Alexander Koblov (alexx2000@mail.ru) - author, core developer' + cIndention +
-    'Denis Bisson (denis.bisson@denisbisson.org) - developer' + LineEnding + LineEnding +
+    'Rich Chang (rich2014.git@outlook.com) - developer' + LineEnding + LineEnding +
     'Former developers: ' + cIndention +
+    'Denis Bisson (denis.bisson@denisbisson.org) - developer' + cIndention +
     'Przemysław Nagay (cobines@gmail.com) - core developer' + cIndention +
     'Dmitry Kolomiets (B4rr4cuda@rambler.ru) - developer' + cIndention +
     'Radek Cervinka (radek.cervinka@centrum.cz) - author of Seksi Commander' + LineEnding + LineEnding +
@@ -105,19 +110,14 @@ const
     '- Oxygen icon theme (http://oxygen-icons.org)' + LineEnding + LineEnding +
     'Big thanks to Lazarus and Free Pascal Team!';
 
-procedure ShowAboutBox;
+procedure ShowAboutBox(TheOwner: TComponent);
 begin
-  with TfrmAbout.Create(Application) do
+  with TfrmAbout.Create(TheOwner) do
   try
     ShowModal;
   finally
     Free;
   end;
-end;
-
-procedure TfrmAbout.OKButtonClick(Sender: TObject);
-begin
-  Close;
 end;
 
 procedure TfrmAbout.lblHomePageAddressMouseLeave(Sender: TObject);
@@ -169,13 +169,6 @@ begin
   ClipboardSetText(StrInfo);
 end;
 
-procedure TfrmAbout.FormKeyDown(Sender: TObject; var Key: Word;
-  Shift: TShiftState);
-begin
-  if (Key = VK_Escape) then
-   Close;
-end;
-
 procedure TfrmAbout.frmAboutShow(Sender: TObject);
 begin
   memInfo.Lines.Text         := cAboutMsg;
@@ -190,6 +183,9 @@ begin
   lblPlatform.Caption        := TargetCPU + '-' + TargetOS + '-' + TargetWS;
   lblOperatingSystem.Caption := OSVersion;
   lblWidgetsetVer.Caption    := WSVersion;
+
+  Constraints.MinHeight      := Height;
+  btnClose.Anchors           := [akLeft, akBottom];
 end;
 
 end.

@@ -42,6 +42,7 @@
 #define DM_SETPROGRESSSTYLE DM_FIRST+38
 #define DM_SETPASSWORDCHAR DM_FIRST+39
 #define DM_LISTCLEAR DM_FIRST+40
+#define DM_TIMERSETINTERVAL DM_FIRST+41
 
 /* events messages */
 #define DN_FIRST 0x1000
@@ -51,6 +52,7 @@
 #define DN_GOTFOCUS DN_FIRST+4 /* Sent when the dialog item gets input focus */
 #define DN_INITDIALOG DN_FIRST+5 /* Sent before showing the dialog */
 #define DN_KILLFOCUS DN_FIRST+6 /* Sent before a dialog item loses the input focus */
+#define DN_TIMER DN_FIRST+7 /* Sent when a timer expires */
 
 #define DN_KEYDOWN DM_KEYDOWN
 #define DN_KEYUP DM_KEYUP
@@ -89,6 +91,10 @@
 #define ID_NO     7
 #define ID_CLOSE  8
 #define ID_HELP   9
+// DialogBoxParam: Flags
+#define DB_LFM      0    // Data contains a form in the LFM format
+#define DB_LRS      1    // Data contains a form in the LRS format
+#define DB_FILENAME 2    // Data contains a form file name (*.lfm)
 
 /* other */
 #define EXT_MAX_PATH  16384 /* 16 Kb */
@@ -98,9 +104,11 @@ typedef intptr_t (DCPCALL *tDlgProc)(uintptr_t pDlg, char* DlgItemName, intptr_t
 /* Definition of callback functions called by the DLL */
 typedef BOOL (DCPCALL *tInputBoxProc)(char* Caption, char* Prompt, BOOL MaskInput, char* Value, int ValueMaxLen);
 typedef int (DCPCALL *tMessageBoxProc)(char* Text, char* Caption, long Flags);
+typedef int (DCPCALL *tMsgChoiceBoxProc)(char* Text, char* Caption, char** Buttons);
 typedef BOOL (DCPCALL *tDialogBoxLFMProc)(intptr_t LFMData, unsigned long DataSize, tDlgProc DlgProc);
 typedef BOOL (DCPCALL *tDialogBoxLRSProc)(intptr_t LRSData, unsigned long DataSize, tDlgProc DlgProc);
 typedef BOOL (DCPCALL *tDialogBoxLFMFileProc)(char* LFMFileName, tDlgProc DlgProc);
+typedef BOOL (DCPCALL *tDialogBoxParamProc)(void* Data, uint32_t DataSize, tDlgProc DlgProc, uint32_t Flags, void *UserData, void* Reserved);
 typedef int (DCPCALL *tTranslateStringProc)(void *Translation, const char *Identifier, const char *Original, char *Output, int OutLen);
 
 #pragma pack(push)
@@ -117,7 +125,10 @@ typedef struct {
   tDlgProc SendDlgMsg;
   void *Translation;
   tTranslateStringProc TranslateString;
-  unsigned char Reserved[4094 * sizeof(void *)];
+  uintptr_t VersionAPI;
+  tMsgChoiceBoxProc MsgChoiceBox;
+  tDialogBoxParamProc DialogBoxParam;
+  unsigned char Reserved[4091 * sizeof(void *)];
 } tExtensionStartupInfo;
 #pragma pack(pop)
 

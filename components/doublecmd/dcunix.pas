@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    This unit contains Unix specific functions
 
-   Copyright (C) 2015-2022 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2015-2023 Alexander Koblov (alexx2000@mail.ru)
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Lesser General Public
@@ -18,22 +18,29 @@
    You should have received a copy of the GNU Lesser General Public
    License along with this library; if not, write to the Free Software
    Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301 USA
+
+   Notes:
+   1. TDarwinStat64 is the workaround for the bug of BaseUnix.Stat in FPC.
+      on MacOS with x86_64, Stat64 should be used instead of Stat.
+      and lstat64() should be called instead of lstat().
 }
 
 unit DCUnix;
 
 {$mode objfpc}{$H+}
+{$modeswitch advancedrecords}
 {$packrecords c}
 
 interface
 
 uses
-  InitC, BaseUnix, UnixType, SysUtils;
+  InitC, BaseUnix, UnixType, DCBasicTypes, SysUtils;
 
 const
 {$IF DEFINED(LINUX)}
   FD_CLOEXEC = 1;
   O_CLOEXEC  = &02000000;
+  O_PATH     = &010000000;
 {$ELSEIF DEFINED(FREEBSD)}
   O_CLOEXEC  = &04000000;
 {$ELSEIF DEFINED(NETBSD)}
@@ -118,6 +125,55 @@ type
   TGroupRecord = group;
   PGroupRecord = ^TGroupRecord;
 
+type
+{$IF DEFINED(DARWIN)}
+  TDarwinStat64 = record { the types are real}
+       st_dev        : dev_t;             // inode's device
+       st_mode       : mode_t;            // inode protection mode
+       st_nlink      : nlink_t;           // number of hard links
+       st_ino        : cuint64;           // inode's number
+       st_uid        : uid_t;             // user ID of the file's owner
+       st_gid        : gid_t;             // group ID of the file's group
+       st_rdev       : dev_t;             // device type
+       st_atime      : time_t;            // time of last access
+       st_atimensec  : clong;             // nsec of last access
+       st_mtime      : time_t;            // time of last data modification
+       st_mtimensec  : clong;             // nsec of last data modification
+       st_ctime      : time_t;            // time of last file status change
+       st_ctimensec  : clong;             // nsec of last file status change
+       st_birthtime  : time_t;            // File creation time
+       st_birthtimensec : clong;          // nsec of file creation time
+       st_size       : off_t;             // file size, in bytes
+       st_blocks     : cint64;            // blocks allocated for file
+       st_blksize    : cuint32;           // optimal blocksize for I/O
+       st_flags      : cuint32;           // user defined flags for file
+       st_gen        : cuint32;           // file generation number
+       st_lspare     : cint32;
+       st_qspare     : array[0..1] Of cint64;
+  end;
+
+  TDCStat = TDarwinStat64;
+{$ELSE}
+  TDCStat = BaseUnix.Stat;
+{$ENDIF}
+
+  TDCStatHelper = record Helper for TDCStat
+  Public
+    function birthtime: TFileTimeEx; inline;
+    function mtime:     TFileTimeEx; inline;
+    function atime:     TFileTimeEx; inline;
+    function ctime:     TFileTimeEx; inline;
+  end;
+
+Function DC_fpLstat( const path:RawByteString; var Info:TDCStat ): cint; inline;
+
+// nanoseconds supported
+function DC_FileSetTime(const FileName: String;
+                        const mtime    : TFileTimeEx;
+                        const birthtime: TFileTimeEx;
+                        const atime    : TFileTimeEx ): Boolean;
+
+
 {en
    Set the close-on-exec flag to all
 }
@@ -126,6 +182,12 @@ procedure FileCloseOnExecAll;
    Set the close-on-exec (FD_CLOEXEC) flag
 }
 procedure FileCloseOnExec(Handle: System.THandle); inline;
+{en
+   Find mount point of file system where file is located
+   @param(FileName File name)
+   @returns(Mount point of file system)
+}
+function FindMountPointPath(const FileName: String): String;
 {en
    Change owner and group of a file (does not follow symbolic links)
    @param(path Full path to file)
@@ -209,7 +271,115 @@ function fnmatch(const pattern: PAnsiChar; const str: PAnsiChar; flags: cint): c
 implementation
 
 uses
-  Unix, DCConvertEncoding;
+  Unix, DCConvertEncoding, LazUTF8
+{$IFDEF DARWIN}
+  , DCDarwin
+{$ENDIF}
+  ;
+
+{$IF not DEFINED(LINUX)}
+function TDCStatHelper.birthtime: TFileTimeEx;
+begin
+{$IF DEFINED(HAIKU)}
+  Result.sec:= st_crtime;
+  Result.nanosec:= st_crtimensec;
+{$ELSE}
+  Result.sec:= st_birthtime;
+  Result.nanosec:= st_birthtimensec;
+{$ENDIF}
+end;
+
+function TDCStatHelper.mtime: TFileTimeEx;
+begin
+  Result.sec:= st_mtime;
+  Result.nanosec:= st_mtimensec;
+end;
+
+function TDCStatHelper.atime: TFileTimeEx;
+begin
+  Result.sec:= st_atime;
+  Result.nanosec:= st_atimensec;
+end;
+
+function TDCStatHelper.ctime: TFileTimeEx;
+begin
+  Result.sec:= st_ctime;
+  Result.nanosec:= st_ctimensec;
+end;
+{$ELSE}
+function TDCStatHelper.birthtime: TFileTimeEx;
+begin
+  Result:= TFileTimeExNull;
+end;
+
+function TDCStatHelper.mtime: TFileTimeEx;
+begin
+  Result.sec:= Int64(st_mtime);
+  Result.nanosec:= Int64(st_mtime_nsec);
+end;
+
+function TDCStatHelper.atime: TFileTimeEx;
+begin
+  Result.sec:= Int64(st_atime);
+  Result.nanosec:= Int64(st_atime_nsec);
+end;
+
+function TDCStatHelper.ctime: TFileTimeEx;
+begin
+  Result.sec:= Int64(st_ctime);
+  Result.nanosec:= Int64(st_ctime_nsec);
+end;
+{$ENDIF}
+
+
+{$IF DEFINED(DARWIN)}
+
+Function fpLstat64( path:pchar; Info:pstat ): cint; cdecl; external clib name 'lstat64';
+
+Function DC_fpLstat( const path:RawByteString; var Info:TDCStat ): cint; inline;
+var
+  SystemPath: RawByteString;
+begin
+  SystemPath:=ToSingleByteFileSystemEncodedFileName( path );
+  Result:= fpLstat64( pchar(SystemPath), @info );
+end;
+
+{$ELSE}
+
+Function DC_fpLstat( const path:RawByteString; var Info:TDCStat ): cint; inline;
+begin
+  Result:= fpLstat( path, info );
+end;
+
+{$ENDIF}
+
+function fputimes( path:pchar; times:Array of UnixType.timeval ): cint; cdecl; external clib name 'utimes';
+
+function DC_FileSetTime(const FileName: String;
+                        const mtime    : TFileTimeEx;
+                        const birthtime: TFileTimeEx;
+                        const atime    : TFileTimeEx ): Boolean;
+var
+  timevals: Array[0..1] of UnixType.timeval;
+begin
+  Result:= false;
+
+  // last access time
+  timevals[0].tv_sec:= atime.sec;
+  timevals[0].tv_usec:= round( Extended(atime.nanosec) / 1000.0 );
+  // last modification time
+  timevals[1].tv_sec:= mtime.sec;
+  timevals[1].tv_usec:= round( Extended(mtime.nanosec) / 1000.0 );
+  if fputimes(pchar(UTF8ToSys(FileName)), timevals) <> 0 then exit;
+
+  {$IF not DEFINED(DARWIN)}
+  Result:= true;
+  {$ELSE}
+  Result:= MacosFileSetCreationTime( FileName, birthtime );
+  {$ENDIF}
+end;
+
+
 
 {$IF DEFINED(BSD)}
 type rlim_t = Int64;
@@ -268,6 +438,48 @@ begin
 {$IF DECLARED(FD_CLOEXEC)}
   FpFcntl(Handle, F_SETFD, FpFcntl(Handle, F_GETFD) or FD_CLOEXEC);
 {$ENDIF}
+end;
+
+function FindMountPointPath(const FileName: String): String;
+var
+  I, J: LongInt;
+  sTemp: String;
+  recStat: Stat;
+  st_dev: QWord;
+begin
+  // Set root directory as mount point by default
+  Result:= PathDelim;
+  // Get stat info for original file
+  if (fpLStat(FileName, recStat) < 0) then Exit;
+  // Save device ID of original file
+  st_dev:= recStat.st_dev;
+  J:= Length(FileName);
+  for I:= J downto 1 do
+  begin
+    if FileName[I] = PathDelim then
+    begin
+      if (I = 1) then
+        sTemp:= PathDelim
+      else
+        sTemp:= Copy(FileName, 1, I - 1);
+      // Stat for current directory
+      if (fpLStat(sTemp, recStat) < 0) then Continue;
+      // If it is a link then checking link destination
+      if fpS_ISLNK(recStat.st_mode) then
+      begin
+        sTemp:= fpReadlink(sTemp);
+        Result:= FindMountPointPath(sTemp);
+        Exit;
+      end;
+      // Check device ID
+      if (recStat.st_dev <> st_dev) then
+      begin
+        Result:= Copy(FileName, 1, J);
+        Exit;
+      end;
+      J:= I;
+    end;
+  end;
 end;
 
 function fpLChown(path: String; owner: TUid; group: TGid): cInt;

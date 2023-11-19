@@ -17,13 +17,6 @@
 
    You should have received a copy of the GNU General Public License
    along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-   Notes:
-   1. PR #570 is the workaround for the bug of Lazarus.
-      related codes can be removed after Lazarus merges related Patches.
-      see also:
-      https://github.com/doublecmd/doublecmd/pull/570
-      https://gitlab.com/freepascal.org/lazarus/lazarus/-/issues/40008
 }
 
 unit KASPathEdit;
@@ -57,10 +50,6 @@ type
     FStringList: TStringList;
     FObjectTypes: TObjectTypes;
     FFileSortType: TFileSortType;
-{$IF DEFINED(LCLCOCOA)}
-    originalText: String;
-    keyDownText: String;
-{$ENDIF}
   private
     procedure setTextAndSelect( newText:String );
     procedure handleSpecialKeys( var Key: Word );
@@ -79,16 +68,13 @@ type
 {$IF DEFINED(LCLWIN32)}
     procedure CreateWnd; override;
 {$ENDIF}
+{$IF DEFINED(LCLCOCOA)}
+    procedure TextChanged; override;
+{$ENDIF}
     procedure DoExit; override;
     procedure VisibleChanged; override;
     procedure KeyDown(var Key: Word; Shift: TShiftState); override;
     procedure KeyUpAfterInterface(var Key: Word; Shift: TShiftState); override;
-{$IF DEFINED(LCLCOCOA)}
-    procedure DoEnter; override;
-    procedure TextChanged; override;
-    procedure KeyUp(var Key: word; Shift: TShiftState); override;
-    procedure KeyDownAction(var Key: Word; Shift: TShiftState);
-{$ENDIF}
   public
     onKeyESCAPE: TNotifyEvent;
     onKeyRETURN: TNotifyEvent;
@@ -376,6 +362,19 @@ end;
 
 {$ENDIF}
 
+
+{$IF DEFINED(LCLCOCOA)}
+procedure TKASPathEdit.TextChanged;
+begin
+  Inherited;
+  if not Modified then
+    Exit;
+  if FAutoComplete then
+    AutoComplete(Text);
+end;
+{$ENDIF}
+
+
 procedure TKASPathEdit.setTextAndSelect( newText:String );
 var
   start: Integer;
@@ -401,51 +400,6 @@ begin
   inherited VisibleChanged;
 end;
 
-{$IFDEF LCLCOCOA}
-procedure TKASPathEdit.DoEnter;
-begin
-  inherited DoEnter;
-  self.originalText:= self.Text;
-end;
-
-procedure TKASPathEdit.TextChanged;
-begin
-  inherited TextChanged;
-  self.originalText:= self.Text;
-end;
-
-procedure TKASPathEdit.KeyDown( var Key: Word; Shift: TShiftState );
-begin
-  case Key of
-    VK_ESCAPE:
-      self.keyDownText:= self.Text;
-    VK_RETURN,
-    VK_SELECT:
-      self.keyDownText:= self.originalText
-  end;
-  KeyDownAction( Key, Shift );
-end;
-
-procedure TKASPathEdit.KeyUp( var Key: Word; Shift: TShiftState );
-begin
-  case Key of
-    VK_ESCAPE,
-    VK_RETURN,
-    VK_SELECT:
-      if self.text=self.keyDownText then begin
-        // from the text has not been changed,
-        // the TKASPathEdit is not in the IME state
-        handleSpecialKeys( Key )
-      end else begin
-        // in the IME state
-        AutoComplete(self.text);
-        Key:= 0;
-      end;
-  end;
-  inherited KeyUp( Key, Shift );
-end;
-{$ENDIF}
-
 procedure TKASPathEdit.handleSpecialKeys( var Key: Word );
 begin
   if isShowingListBox() then begin
@@ -453,9 +407,15 @@ begin
     Key:= 0;
   end else begin
     if Key=VK_ESCAPE then begin
-      if Assigned(onKeyESCAPE) then onKeyESCAPE( self );
+      if Assigned(onKeyESCAPE) then begin
+        onKeyESCAPE( self );
+        Key:= 0;
+      end;
     end else begin
-      if Assigned(onKeyRETURN) then onKeyRETURN( self );
+      if Assigned(onKeyRETURN) then begin
+        onKeyRETURN( self );
+        Key:= 0;
+      end;
     end;
   end;
 end;
@@ -490,21 +450,14 @@ begin
       setTextAndSelect( ExtractFilePath(Text) );
 end;
 
-{$IF DEFINED(LCLCOCOA)}
-procedure TKASPathEdit.KeyDownAction(var Key: Word; Shift: TShiftState);
-{$ELSE}
 procedure TKASPathEdit.KeyDown(var Key: Word; Shift: TShiftState);
-{$ENDIF}
 begin
   FKeyDown:= Key;
   case Key of
-    // handle in KeyUp on LCLCOCOA
-    {$IF NOT DEFINED(LCLCOCOA)}
     VK_ESCAPE,
     VK_RETURN,
     VK_SELECT:
       handleSpecialKeys( Key );
-    {$ENDIF}
     VK_UP:
       if isShowingListBox() then
       begin
@@ -528,6 +481,7 @@ end;
 
 procedure TKASPathEdit.KeyUpAfterInterface(var Key: Word; Shift: TShiftState);
 begin
+{$IF not DEFINED(LCLCOCOA)}
   if (FKeyDown = Key) and FAutoComplete and not (Key in [VK_ESCAPE, VK_RETURN, VK_SELECT, VK_UP, VK_DOWN]) then
   begin
     if Modified then
@@ -536,6 +490,7 @@ begin
       AutoComplete(Text);
     end;
   end;
+{$ENDIF}
   inherited KeyUpAfterInterface(Key, Shift);
 {$IF DEFINED(LCLWIN32)}
   // Windows auto-completer eats the TAB so LCL doesn't get it and doesn't move to next control.

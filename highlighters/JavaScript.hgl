@@ -1,8 +1,8 @@
-<UniHighlighter version="1.8.1">
+<UniHighlighter version="1.8">
   <Info>
-    <General Name="Java script" Extensions="js,json"/>
+    <General Name="Java script" Extensions="js,json" Other="0"/>
     <Author Name="Vitaly Nevzorov" Email="nevzorov@yahoo.com" Web="www.delphist.com" Copyright="Copyright (c) Vitaly Nevzorov, 2002" Company="N/A" Remark=""/>
-    <Version Version="1" Revision="0" Date="37650.2974113773"/>
+    <Version Version="1" Revision="0" Date="45067.6951690509"/>
     <History>
     </History>
     <Sample>
@@ -25,10 +25,10 @@
     </Sample>
   </Info>
   <Scheme File="" Name=""/>
-  <Range Name="Root" Attributes="0,16777215;False:False." Style=""
+  <Range Name="Root" Attributes="$80000008,$80000005;False:False." Style=""
          Delimiters="!&quot;#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^`{|}~">
     <Rule/>
-    <Keywords Name="Functions and key words" Attributes="32768,16777215;False:False." Style="">
+    <Keywords Name="Functions and key words" Attributes="$00008000,$80000005;False:True." Style="">
       <word value="E"/>
       <word value="back"/>
       <word value="big"/>
@@ -481,7 +481,7 @@
       <word value="JSObject"/>
       <word value="PrivilegeManager"/>
     </Keywords>
-    <Keywords Name="Reserved words" Attributes="16711680,16777215;False:False." Style="">
+    <Keywords Name="Reserved words" Attributes="$00FF0000,$80000005;False:True." Style="">
       <word value="if"/>
       <word value="do"/>
       <word value="in"/>
@@ -547,7 +547,7 @@
       <word value="constructor"/>
       <word value="final"/>
     </Keywords>
-    <Keywords Name="Common Events" Attributes="16711808,16777215;False:False." Style="">
+    <Keywords Name="Common Events" Attributes="$00FF0080,$80000005;False:True." Style="">
       <word value="onLoad"/>
       <word value="onClick"/>
       <word value="onChange"/>
@@ -573,18 +573,17 @@
       <word value="onmove"/>
       <word value="onresize"/>
     </Keywords>
-    <Range Name="Remark //" Attributes="10485760,16777215;False:False." Style="" CaseSensitive="True"
+    <Range Name="Remark //" Attributes="$00A00000,$80000005;False:True." Style="" CaseSensitive="True"
            Delimiters="!&quot;#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^`{|}~">
       <Rule OpenSymbol="//" CloseOnEol="True"/>
     </Range>
-    <Range Name="Remark /*...*/" Attributes="10485760,16777215;False:False." Style="" CaseSensitive="True"
+    <Range Name="Remark /*...*/" Attributes="$00A00000,$80000005;False:True." Style="" CaseSensitive="True"
            Delimiters="!&quot;#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^`{|}~">
       <Rule OpenSymbol="/*" CloseSymbol="*/"/>
     </Range>
-    <Range Name="Strings" Attributes="255,16777215;False:False." Style="" CaseSensitive="True"
+    <Range Name="Strings" Attributes="$000000FF,$80000005;False:True." Style="" CaseSensitive="True"
            Delimiters="!&quot;#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^`{|}~">
       <Rule OpenSymbol="&quot;" CloseSymbol="&quot;"/>
     </Range>
   </Range>
-  <CopyRight>Rule file for UniHighlighter Delphi component (Copyright(C) Fantasist(walking_in_the_sky@yahoo.com), Vit(nevzorov@yahoo.com), Vitalik(vetal-x@mail.ru), 2002-2004)</CopyRight>
 </UniHighlighter>

@@ -104,7 +104,7 @@ end;
 { TfrmOptionsPluginsDSX.Done }
 procedure TfrmOptionsPluginsDSX.Done;
 begin
-  FreeThenNil(tmpDSXPlugins);
+  FreeAndNil(tmpDSXPlugins);
 end;
 
 { TfrmOptionsPluginsDSX.GetTitle }

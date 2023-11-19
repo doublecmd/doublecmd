@@ -4,7 +4,7 @@
    Custom columns options page
 
    Copyright (C) 2008  Dmitry Kolomiets (B4rr4cuda@rambler.ru)
-   Copyright (C) 2008-2016 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2008-2023 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -30,7 +30,7 @@ interface
 uses
   //Lazarus, Free-Pascal, etc.
   ComCtrls, Controls, Classes, SysUtils, StdCtrls, ExtCtrls, Forms, ColorBox,
-  Buttons, Spin, Grids, Menus, Dialogs,
+  Buttons, Spin, Grids, Menus, Dialogs, LMessages,
   //DC
   uColumns, fOptionsFrame, uColumnsFileView;
 
@@ -237,6 +237,7 @@ type
     procedure Load; override;
     function Save: TOptionsEditorSaveFlags; override;
     procedure Done; override;
+    procedure CMThemeChanged(var Message: TLMessage); message CM_THEMECHANGED;
 
   public
     class function GetIconIndex: integer; override;
@@ -291,7 +292,7 @@ begin
 
   //4. Load our list of columns set.
   FillFileSystemList;
-  FillColumnsList;
+  cmbFileSystemChange(cmbFileSystem);
 
   //5. Select the one we currently have in the active panel if possible. User won't be lost and it's the most pertinent thing to do.
   if frmMain.ActiveNotebook.ActiveView.ClassNameIs('TColumnsFileView') then
@@ -353,6 +354,11 @@ begin
       stgColumns.Objects[6, i] := nil;
     end;
   end;
+end;
+
+procedure TfrmOptionsCustomColumns.CMThemeChanged(var Message: TLMessage);
+begin
+  cbConfigColumnsChange(cbConfigColumns);
 end;
 
 { TfrmOptionsCustomColumns.GetIconIndex }
@@ -434,7 +440,7 @@ end;
 { TfrmOptionsCustomColumns.cbConfigColumnsChange }
 procedure TfrmOptionsCustomColumns.cbConfigColumnsChange(Sender: TObject);
 begin
-  if bColumnConfigLoaded then
+  if bColumnConfigLoaded and (cbConfigColumns.ItemIndex >= 0) then
   begin
     ColumnClass.Assign(ColSet.GetColumnSet(PtrInt(cbConfigColumns.Items.Objects[cbConfigColumns.ItemIndex])));
     LastLoadedOptionSignature := ComputeCompleteOptionsSignature;
@@ -545,8 +551,10 @@ var
 begin
   PreviewLeftPanel.ActiveColmSlave := ColumnClass;
   PreviewLeftPanel.isSlave := True;
+  PreviewLeftPanel.Demo := True;
   PreviewRightPanel.ActiveColmSlave := ColumnClass;
   PreviewRightPanel.isSlave := True;
+  PreviewRightPanel.Demo := True;
 
   if ColumnClass.ColumnsCount > 0 then
   begin
@@ -558,6 +566,7 @@ begin
       stgColumns.Cells[2, i + 1] := IntToStr(ColumnClass.GetColumnWidth(i));
       stgColumns.Cells[3, i + 1] := ColumnClass.GetColumnAlignString(i);
       stgColumns.Cells[4, i + 1] := ColumnClass.GetColumnFuncString(i);
+      stgColumns.Objects[5, i + 1] := ColumnClass.GetColumnItem(i);
       stgColumns.Objects[6, i + 1] := ColumnClass.GetColumnPrm(i);
     end;
   end
@@ -595,26 +604,22 @@ end;
 // ***It is not saved to file yet, but if we do, it will be that one!
 procedure TfrmOptionsCustomColumns.UpdateColumnClass;
 var
-  i, indx: integer;
-  Tit, FuncString: string;
-  Wid: integer;
-  Ali: TAlignment;
+  Index: Integer;
+  AItem: TPanelColumn;
 begin
   // Save fields
-  ColumnClass.Clear;
-
-  for i := 1 to stgColumns.RowCount - 1 do
+  for Index := 1 to stgColumns.RowCount - 1 do
   begin
     with stgColumns do
     begin
-      Tit := Cells[1, i];
-      Wid := StrToInt(Cells[2, i]);
-      Ali := StrToAlign(Cells[3, i]);
-      FuncString := Cells[4, i];
+      AItem:= TPanelColumn(Objects[5, Index]);
+      AItem.Title := Cells[1, Index];
+      AItem.Width := StrToInt(Cells[2, Index]);
+      AItem.Align := StrToAlign(Cells[3, Index]);
+      AItem.FuncString := Cells[4, Index];
     end;
-    indx := ColumnClass.Add(Tit, FuncString, Wid, Ali);
-    if stgColumns.Objects[6, i] <> nil then
-      ColumnClass.SetColumnPrm(Indx, TColPrm(stgColumns.Objects[6, i]));
+    if stgColumns.Objects[6, Index] <> nil then
+      ColumnClass.SetColumnPrm(Index - 1, TColPrm(stgColumns.Objects[6, Index]));
   end;
 
   ColumnClass.FileSystem := cmbFileSystem.Text;
@@ -903,14 +908,23 @@ end;
 
 { TfrmOptionsCustomColumns.AddNewField }
 procedure TfrmOptionsCustomColumns.AddNewField;
+var
+  Index: Integer;
+  AItem: TPanelColumn;
 begin
-  stgColumns.RowCount := stgColumns.RowCount + 1;
-  stgColumns.Cells[1, stgColumns.RowCount - 1] := EmptyStr;
-  stgColumns.Cells[2, stgColumns.RowCount - 1] := '50';
-  stgColumns.Cells[3, stgColumns.RowCount - 1] := '<-';
-  stgColumns.Cells[4, stgColumns.RowCount - 1] := '';
-  stgColumns.Objects[6, stgColumns.RowCount - 1] := TColPrm.Create;
+  Index:= stgColumns.RowCount;
+  AItem:= TPanelColumn.CreateNew;
+  stgColumns.RowCount := Index + 1;
 
+  stgColumns.Cells[1, Index] := EmptyStr;
+  stgColumns.Cells[2, Index] := '50';
+  stgColumns.Cells[3, Index] := '<-';
+  stgColumns.Cells[4, Index] := '';
+  stgColumns.Objects[5, Index] := AItem;
+  stgColumns.Objects[6, Index] := TColPrm.Create;
+
+
+  ColumnClass.Add(AItem);
   UpdateColumnClass;
 end;
 
@@ -952,6 +966,8 @@ begin
     stgColumns.Objects[6, RowNr] := nil;
   end;
 
+  ColumnClass.Delete(RowNr - 1);
+
   stgColumns.DeleteColRow(False, RowNr);
   EditorSaveResult(Sender);
 
@@ -986,6 +1002,7 @@ end;
 { TfrmOptionsCustomColumns.UpDownXClick }
 procedure TfrmOptionsCustomColumns.UpDownXClick(Sender: TObject; Button: TUDBtnType);
 begin
+  ColumnClass.Exchange(updMove.Tag - 1, abs(updMove.Position) - 1);
   stgColumns.ExchangeColRow(False, updMove.Tag, abs(updMove.Position));
   with updMove do
   begin
@@ -1133,7 +1150,7 @@ begin
 
     cbCursorBorder.Checked:= gUseCursorBorder;
     cbCursorBorderChange(cbCursorBorder);
-    SetColorInColorBox(cbCursorBorderColor, gCursorBorderColor);
+    SetColorInColorBox(cbCursorBorderColor, gColors.FilePanel^.CursorBorderColor);
     cbUseFrameCursor.Checked:= gUseFrameCursor;
     cbUseFrameCursorChange(cbUseFrameCursor);
   end;
@@ -1176,7 +1193,7 @@ end;
 procedure TfrmOptionsCustomColumns.btnResetCursorBorderClick(Sender: TObject);
 begin
   cbCursorBorder.Checked := gUseCursorBorder;
-  SetColorInColorBox(cbCursorBorderColor, gCursorBorderColor);
+  SetColorInColorBox(cbCursorBorderColor, gColors.FilePanel^.CursorBorderColor);
   EditorSaveResult(nil);
 end;
 
@@ -1362,8 +1379,11 @@ end;
 { TfrmOptionsCustomColumns.btnResetForeColorClick }
 procedure TfrmOptionsCustomColumns.btnResetForeColorClick(Sender: TObject);
 begin
-  TColPrm(stgColumns.Objects[6, IndexRaw + 1]).TextColor := gForeColor;
-  SetColorInColorBox(cbForeColor, gForeColor);
+  with gColors.FilePanel^ do
+  begin
+    TColPrm(stgColumns.Objects[6, IndexRaw + 1]).TextColor := ForeColor;
+    SetColorInColorBox(cbForeColor, ForeColor);
+  end;
   EditorSaveResult(nil);
 end;
 
@@ -1392,8 +1412,11 @@ end;
 { TfrmOptionsCustomColumns.btnResetBackColorClick }
 procedure TfrmOptionsCustomColumns.btnResetBackColorClick(Sender: TObject);
 begin
-  TColPrm(stgColumns.Objects[6, IndexRaw + 1]).Background := gBackColor;
-  SetColorInColorBox(cbBackColor, gBackColor);
+  with gColors.FilePanel^ do
+  begin
+    TColPrm(stgColumns.Objects[6, IndexRaw + 1]).Background := BackColor;
+    SetColorInColorBox(cbBackColor, BackColor);
+  end;
   EditorSaveResult(nil);
 end;
 
@@ -1422,8 +1445,11 @@ end;
 { TfrmOptionsCustomColumns.btnResetBackColor2Click }
 procedure TfrmOptionsCustomColumns.btnResetBackColor2Click(Sender: TObject);
 begin
-  TColPrm(stgColumns.Objects[6, IndexRaw + 1]).Background2 := gBackColor2;
-  SetColorInColorBox(cbBackColor2, gBackColor2);
+  with gColors.FilePanel^ do
+  begin
+    TColPrm(stgColumns.Objects[6, IndexRaw + 1]).Background2 := BackColor2;
+    SetColorInColorBox(cbBackColor2, BackColor2);
+  end;
   EditorSaveResult(nil);
 end;
 
@@ -1452,8 +1478,11 @@ end;
 { TfrmOptionsCustomColumns.btnResetMarkColorClick }
 procedure TfrmOptionsCustomColumns.btnResetMarkColorClick(Sender: TObject);
 begin
-  TColPrm(stgColumns.Objects[6, IndexRaw + 1]).MarkColor := gMarkColor;
-  SetColorInColorBox(cbMarkColor, gMarkColor);
+  with gColors.FilePanel^ do
+  begin
+    TColPrm(stgColumns.Objects[6, IndexRaw + 1]).MarkColor := MarkColor;
+    SetColorInColorBox(cbMarkColor, MarkColor);
+  end;
   EditorSaveResult(nil);
 end;
 
@@ -1482,8 +1511,11 @@ end;
 { TfrmOptionsCustomColumns.btnResetCursorColorClick }
 procedure TfrmOptionsCustomColumns.btnResetCursorColorClick(Sender: TObject);
 begin
-  TColPrm(stgColumns.Objects[6, IndexRaw + 1]).CursorColor := gCursorColor;
-  SetColorInColorBox(cbCursorColor, gCursorColor);
+  with gColors.FilePanel^ do
+  begin
+    TColPrm(stgColumns.Objects[6, IndexRaw + 1]).CursorColor := CursorColor;
+    SetColorInColorBox(cbCursorColor, CursorColor);
+  end;
   EditorSaveResult(nil);
 end;
 
@@ -1512,8 +1544,11 @@ end;
 { TfrmOptionsCustomColumns.btnResetCursorTextClick }
 procedure TfrmOptionsCustomColumns.btnResetCursorTextClick(Sender: TObject);
 begin
-  TColPrm(stgColumns.Objects[6, IndexRaw + 1]).CursorText := gCursorText;
-  SetColorInColorBox(cbCursorText, gCursorText);
+  with gColors.FilePanel^ do
+  begin
+    TColPrm(stgColumns.Objects[6, IndexRaw + 1]).CursorText := CursorText;
+    SetColorInColorBox(cbCursorText, CursorText);
+  end;
   EditorSaveResult(nil);
 end;
 
@@ -1542,8 +1577,11 @@ end;
 { TfrmOptionsCustomColumns.btnResetInactiveCursorColorClick }
 procedure TfrmOptionsCustomColumns.btnResetInactiveCursorColorClick(Sender: TObject);
 begin
-  TColPrm(stgColumns.Objects[6, IndexRaw + 1]).InactiveCursorColor := gInactiveCursorColor;
-  SetColorInColorBox(cbInactiveCursorColor, gInactiveCursorColor);
+  with gColors.FilePanel^ do
+  begin
+    TColPrm(stgColumns.Objects[6, IndexRaw + 1]).InactiveCursorColor := InactiveCursorColor;
+    SetColorInColorBox(cbInactiveCursorColor, InactiveCursorColor);
+  end;
   EditorSaveResult(nil);
 end;
 
@@ -1572,8 +1610,11 @@ end;
 { TfrmOptionsCustomColumns.btnResetInactiveMarkColorClick }
 procedure TfrmOptionsCustomColumns.btnResetInactiveMarkColorClick(Sender: TObject);
 begin
-  TColPrm(stgColumns.Objects[6, IndexRaw + 1]).InactiveMarkColor := gInactiveMarkColor;
-  SetColorInColorBox(cbInactiveMarkColor, gInactiveMarkColor);
+  with gColors.FilePanel^ do
+  begin
+    TColPrm(stgColumns.Objects[6, IndexRaw + 1]).InactiveMarkColor := InactiveMarkColor;
+    SetColorInColorBox(cbInactiveMarkColor, InactiveMarkColor);
+  end;
   EditorSaveResult(nil);
 end;
 

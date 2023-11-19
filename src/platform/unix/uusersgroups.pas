@@ -56,7 +56,7 @@ var
 begin
   uinfo:= getpwuid(uid);
   if (uinfo = nil) then
-    Result:= ''
+    Result:= UIntToStr(uid)
   else
     Result:= String(uinfo^.pw_name);
 end;
@@ -67,7 +67,7 @@ var
 begin
   ginfo:= getgrgid(gid);
   if (ginfo = nil) then
-    Result:= ''
+    Result:= UIntToStr(gid)
   else
     Result:= String(ginfo^.gr_name);
 end;
@@ -134,7 +134,7 @@ var
 begin
   uinfo:= getpwnam(PChar(uname));
   if (uinfo = nil) then
-    Result:= High(Cardinal)
+    Result:= StrToUIntDef(uname, High(Cardinal))
   else
     Result:= uinfo^.pw_uid;
 end;
@@ -145,7 +145,7 @@ var
 begin
   ginfo:= getgrnam(PChar(gname));
   if (ginfo = nil) then
-    Result:= High(Cardinal)
+    Result:= StrToUIntDef(gname, High(Cardinal))
   else
     Result:= ginfo^.gr_gid;
 end;

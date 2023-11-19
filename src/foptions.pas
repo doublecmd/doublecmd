@@ -31,8 +31,8 @@ interface
 
 uses
   ActnList, SysUtils, Classes, Controls, Forms, Dialogs, ExtCtrls, ComCtrls,
-  Buttons, StdCtrls, TreeFilterEdit, KASButtonPanel, fgl, uGlobs, fOptionsFrame,
-  uDCUtils, EditBtn;
+  Buttons, StdCtrls, LMessages, TreeFilterEdit, KASButtonPanel, fgl, uGlobs,
+  fOptionsFrame, uDCUtils, EditBtn;
 
 type
 
@@ -63,9 +63,9 @@ type
     TreeFilterEdit: TTreeFilterEdit;
     tvTreeView: TTreeView;
     splOptionsSplitter: TSplitter;
-    alOptionsActionList: TActionList;
-    actCloseWithEscape: TAction;
     procedure btnCancelClick(Sender: TObject);
+    procedure btnCancelMouseDown(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Integer);
     procedure btnHelpClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure FormCloseQuery(Sender: TObject; var CanClose: boolean);
@@ -77,7 +77,6 @@ type
     function TreeFilterEditFilterItem(ItemData: Pointer;
                                       out Done: Boolean): Boolean;
     procedure tvTreeViewChange(Sender: TObject; Node: TTreeNode);
-    procedure actCloseWithEscapeExecute(Sender: TObject);
   private
     FOptionsEditorList: TOptionsEditorViews;
     FOldEditor: TOptionsEditorView;
@@ -89,6 +88,8 @@ type
     function CompareTwoNodeOfConfigurationOptionTree(Node1, Node2: TTreeNode): integer;
     function CycleThroughOptionEditors(bForceSaving:boolean):boolean;
     procedure MakeVisible(Data: PtrInt);
+  protected
+    procedure CMThemeChanged(var Message: TLMessage); message CM_THEMECHANGED;
   public
     constructor Create(TheOwner: TComponent); override;
     constructor Create(TheOwner: TComponent; EditorClass: TOptionsEditorClass); overload;
@@ -223,6 +224,13 @@ end;
 procedure TfrmOptions.FormCloseQuery(Sender: TObject; var CanClose: boolean);
 begin
   CanClose := (ModalResult in [mrOK, mrCancel]) or CycleThroughOptionEditors(False);
+end;
+
+procedure TfrmOptions.btnCancelMouseDown(Sender: TObject; Button: TMouseButton;
+  Shift: TShiftState; X, Y: Integer);
+begin
+  // set ModalResult when mouse click, to pass FormCloseQuery
+  ModalResult:= mrCancel;
 end;
 
 procedure TfrmOptions.btnCancelClick(Sender: TObject);
@@ -574,11 +582,17 @@ begin
   TreeFilterEdit.StoreSelection;
 end;
 
-{ TfrmOptions.actCloseWithEscapeExecute }
-procedure TfrmOptions.actCloseWithEscapeExecute(Sender: TObject);
+procedure TfrmOptions.CMThemeChanged(var Message: TLMessage);
+var
+  Index: Integer;
 begin
-  // Closing with the "Escape" key this way won't set the modalresult to mrCancel so this way, if an unsaved modification has been made, we'll be able to prompt confirmation from user who attempt to quit by hitting "Escape".
-  close;
+  for Index:= 0 to FOptionsEditorList.Count - 1 do
+  begin
+    if Assigned(FOptionsEditorList[Index].Instance) then
+    begin
+      FOptionsEditorList[Index].Instance.Perform(CM_THEMECHANGED, 0, 0);
+    end;
+  end;
 end;
 
 finalization

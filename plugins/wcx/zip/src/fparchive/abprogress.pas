@@ -5,7 +5,7 @@ unit AbProgress;
 interface
 
 uses
-  Classes, SysUtils, AbArcTyp, DCClassesUtf8;
+  Classes, SysUtils, AbArcTyp;
 
 type
 
@@ -18,33 +18,34 @@ type
     procedure DoProgress(Result: Integer);
   end;
 
-  { TAbProgressStream }
+  { TAbProgressReadStream }
 
-  TAbProgressStream = class(TStream)
+  TAbProgressReadStream = class(TStream)
   private
     FSource: TStream;
     FProgress: TAbProgress;
   public
     constructor Create(ASource : TStream; AEvent: TAbProgressEvent); reintroduce;
     function Read(var Buffer; Count: Longint): Longint; override;
-    function Write(const Buffer; Count: Longint): Longint; override;
     function Seek(const Offset: Int64; Origin: TSeekOrigin): Int64; override;
   end;
 
-  { TAbProgressFileStream }
+  { TAbProgressWriteStream }
 
-  TAbProgressFileStream = class(TFileStreamEx)
+  TAbProgressWriteStream = class(TStream)
   private
+    FTarget: TStream;
     FProgress: TAbProgress;
   public
-    constructor Create(const AFileName: String; Mode: LongWord; AEvent: TAbProgressEvent); reintroduce;
-    function Read(var Buffer; Count: Longint): Longint; override;
+    constructor Create(ATarget : TStream; ASize: Int64; AEvent: TAbProgressEvent); reintroduce;
+    function Write(const Buffer; Count: Longint): Longint; override;
+    function Seek(const Offset: Int64; Origin: TSeekOrigin): Int64; override;
   end;
 
 implementation
 
 uses
-  AbExcept, DCOSUtils;
+  AbExcept;
 
 { TAbProgress }
 
@@ -64,45 +65,45 @@ begin
   end;
 end;
 
-{ TAbProgressStream }
+{ TAbProgressReadStream }
 
-constructor TAbProgressStream.Create(ASource: TStream; AEvent: TAbProgressEvent);
+constructor TAbProgressReadStream.Create(ASource: TStream; AEvent: TAbProgressEvent);
 begin
   FSource:= ASource;
   FProgress.OnProgress:= AEvent;
   FProgress.FileSize:= FSource.Size;
 end;
 
-function TAbProgressStream.Read(var Buffer; Count: Longint): Longint;
+function TAbProgressReadStream.Read(var Buffer; Count: Longint): Longint;
 begin
   Result:= FSource.Read(Buffer, Count);
   if Assigned(FProgress.OnProgress) then FProgress.DoProgress(Result);
 end;
 
-function TAbProgressStream.Write(const Buffer; Count: Longint): Longint;
-begin
-  Result:= FSource.Write(Buffer, Count);
-end;
-
-function TAbProgressStream.Seek(const Offset: Int64; Origin: TSeekOrigin): Int64;
+function TAbProgressReadStream.Seek(const Offset: Int64; Origin: TSeekOrigin): Int64;
 begin
   Result:= FSource.Seek(Offset, Origin);
 end;
 
-{ TAbProgressFileStream }
+{ TAbProgressWriteStream }
 
-constructor TAbProgressFileStream.Create(const AFileName: String;
-  Mode: LongWord; AEvent: TAbProgressEvent);
+constructor TAbProgressWriteStream.Create(ATarget: TStream; ASize: Int64;
+  AEvent: TAbProgressEvent);
 begin
+  FTarget:= ATarget;
+  FProgress.FileSize:= ASize;
   FProgress.OnProgress:= AEvent;
-  inherited Create(AFileName, Mode);
-  FProgress.FileSize:= FileGetSize(Handle);
 end;
 
-function TAbProgressFileStream.Read(var Buffer; Count: Longint): Longint;
+function TAbProgressWriteStream.Write(const Buffer; Count: Longint): Longint;
 begin
-  Result:= inherited Read(Buffer, Count);
+  Result:= FTarget.Write(Buffer, Count);
   if Assigned(FProgress.OnProgress) then FProgress.DoProgress(Result);
+end;
+
+function TAbProgressWriteStream.Seek(const Offset: Int64; Origin: TSeekOrigin): Int64;
+begin
+  Result:= FTarget.Seek(Offset, Origin);
 end;
 
 end.

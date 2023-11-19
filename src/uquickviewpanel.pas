@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Quick view panel
 
-   Copyright (C) 2009-2022 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2009-2023 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -41,6 +41,8 @@ type
     FFileSource: IFileSource;
     FViewer: TfrmViewer;
     FFileName: String;
+    FTempFileSource: IFileSource;
+    FLastFocusedControl: TWinControl;
   private
     procedure LoadFile(const aFileName: String);
     procedure OnChangeFileView(Sender: TObject);
@@ -50,6 +52,7 @@ type
     function handleLinksToLocal( const Sender:TFileView; const aFile:TFile; var fullPath:String; var showMsg:String ): Boolean;
     function handleNotDirect( const Sender:TFileView; const aFile:TFile; var fullPath:String; var showMsg:String ): Boolean;
     function handleDirect( const Sender:TFileView; const aFile:TFile; var fullPath:String; var showMsg:String ): Boolean;
+    procedure PrepareView(const aFile: TFile; var FileName: String);
   protected
      procedure DoOnShowHint(HintInfo: PHintInfo) override;
   public
@@ -66,8 +69,9 @@ var
 implementation
 
 uses
-  LCLProc, Forms, fMain, uTempFileSystemFileSource, uLng,
-  uFileSourceProperty, uFileSourceOperation, uFileSourceOperationTypes;
+  LCLProc, Forms, DCOSUtils, DCStrUtils, fMain, uTempFileSystemFileSource, uLng,
+  uFileSourceProperty, uFileSourceOperation, uFileSourceOperationTypes,
+  uGlobs, uShellExecute;
 
 procedure QuickViewShow(aFileViewPage: TFileViewPage; aFileView: TFileView);
 var
@@ -116,7 +120,7 @@ begin
   TFileViewPage(FFileView.NotebookPage).OnChangeFileView:= nil;
   FViewer.ExitQuickView;
   FFileViewPage.FileView.Visible:= True;
-  FreeThenNil(FViewer);
+  FreeAndNil(FViewer);
   FFileSource:= nil;
   FFileView.SetFocus;
   inherited Destroy;
@@ -150,7 +154,10 @@ begin
     FViewer.Show;
   end;
   // Viewer can steal focus, so restore it
-  if not FFileView.Focused then FFileView.SetFocus;
+  if Assigned(FLastFocusedControl) then
+    FLastFocusedControl.SetFocus
+  else if not FFileView.Focused then
+    FFileView.SetFocus;
 end;
 
 procedure TQuickViewPanel.OnChangeFileView(Sender: TObject);
@@ -166,6 +173,7 @@ var
 begin
   fullPath:= EmptyStr;
   showMsg:= EmptyStr;
+  FLastFocusedControl:= TCustomForm(Self.GetTopParent).ActiveControl;
   try
     if not Assigned(aFile) then
       raise EAbort.Create(rsMsgErrNotSupported);
@@ -183,7 +191,9 @@ begin
     end;
   end;
 
-  if not fullPath.IsEmpty() then begin
+  if not fullPath.IsEmpty() then
+  begin
+    PrepareView(aFile, fullPath);
     LoadFile( fullPath );
   end else begin
     FViewer.Hide;
@@ -283,7 +293,48 @@ begin
     if FFileSource.IsPathAtRoot(parentDir) then
       showMsg:= rsPropsFolder + ': ' + parentDir
     else
-      fullPath:= parentDir;
+      fullPath:= ExcludeTrailingBackslash(parentDir);
+  end;
+end;
+
+procedure TQuickViewPanel.PrepareView(const aFile: TFile; var FileName: String);
+var
+  ATemp: TFile;
+  sCmd: string = '';
+  sParams: string = '';
+  sStartPath: string = '';
+  bAbortOperationFlag: Boolean = False;
+  bShowCommandLinePriorToExecute: Boolean = False;
+begin
+  // Try to find 'view' command in the internal associations
+  if gExts.GetExtActionCmd(aFile, 'view', sCmd, sParams, sStartPath) then
+  begin
+    // Internal viewer command
+    if sCmd = '{!DC-VIEWER}' then
+    begin
+      ATemp:= AFile.Clone;
+      try
+        ATemp.FullPath:= FileName;
+        sParams:= PrepareParameter(sParams, ATemp, [], @bShowCommandLinePriorToExecute, nil, nil, @bAbortOperationFlag);
+      finally
+        ATemp.Free;
+      end;
+      if not bAbortOperationFlag then
+      begin
+        if StrBegins(sParams, '<?') and (StrEnds(sParams, '?>')) then
+        begin
+          if (FTempFileSource = nil) then
+          begin
+            if FFileSource is TTempFileSystemFileSource then
+              FTempFileSource:= FFileSource
+            else
+              FTempFileSource:= TTempFileSystemFileSource.GetFileSource;
+          end;
+          PrepareOutput(sParams, sStartPath, FTempFileSource.GetRootDir);
+          if mbFileExists(sParams) then FileName:= sParams;
+        end;
+      end;
+    end;
   end;
 end;
 

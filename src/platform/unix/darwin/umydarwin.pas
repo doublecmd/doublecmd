@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    This unit contains specific DARWIN functions.
 
-   Copyright (C) 2016-2021 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2016-2023 Alexander Koblov (alexx2000@mail.ru)
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Lesser General Public
@@ -34,9 +34,8 @@ interface
 
 uses
   Classes, SysUtils, UnixType,
-  InterfaceBase, Controls, Menus,
-  MacOSAll, CocoaAll, CocoaPrivate, CocoaInt,
-  Cocoa_Extra, CocoaWSMenus, CocoaUtils;
+  Cocoa_Extra, MacOSAll, CocoaAll, CocoaUtils, CocoaInt,
+  InterfaceBase, Menus, CocoaMenus;
 
 // Darwin Util Function
 function StringToNSString(const S: String): NSString;
@@ -44,9 +43,9 @@ function StringToCFStringRef(const S: String): CFStringRef;
 function NSArrayToList(const theArray:NSArray): TStringList;
 function ListToNSArray(const list:TStrings): NSArray;
 
-function getMacOSDefaultTerminal(): String;
+procedure setMacOSAppearance( mode:Integer );
 
-procedure cocoaInvalidControlCursor( const control:TWinControl );
+function getMacOSDefaultTerminal(): String;
 
 function NSGetTempPath: String;
 
@@ -54,6 +53,8 @@ function NSGetFolderPath(Folder: NSSearchPathDirectory): String;
 
 function GetFileDescription(const FileName: String): String;
 function MountNetworkDrive(const serverAddress: String): Boolean;
+
+function unmountAndEject(const path: String): Boolean;
 
 // Workarounds for FPC RTL Bug
 // copied from ptypes.inc and modified fstypename only
@@ -140,6 +141,25 @@ implementation
 uses
   DynLibs;
 
+procedure setMacOSAppearance( mode:Integer );
+var
+  appearance: NSAppearance;
+begin
+  if not NSApp.respondsToSelector( ObjCSelector('appearance') ) then
+    exit;
+
+  case mode of
+    0,1:
+      appearance:= nil;
+    2:
+      appearance:= NSAppearance.appearanceNamed( NSSTR_DARK_NAME );
+    3:
+      appearance:= NSAppearance.appearanceNamed( NSAppearanceNameAqua );
+  end;
+  NSApp.setAppearance( appearance );
+  NSAppearance.setCurrentAppearance( appearance );
+end;
+
 procedure TMacosServiceMenuHelper.attachServicesMenu( Sender:TObject);
 var
   servicesItem: TMenuItem;
@@ -156,7 +176,7 @@ begin
   begin
     subMenu:= TCocoaMenu.alloc.initWithTitle(NSString.string_);
     TCocoaMenuItem(servicesItem.Handle).setSubmenu( subMenu );
-    TCocoaWidgetSet(WidgetSet).NSApp.setServicesMenu( NSMenu(servicesItem.Handle) );
+    NSApp.setServicesMenu( NSMenu(servicesItem.Handle) );
   end;
 end;
 
@@ -180,7 +200,7 @@ var
   sendTypes: NSArray;
   returnTypes: NSArray;
 begin
-  DCApp:= TDCCocoaApplication( TCocoaWidgetSet(WidgetSet).NSApp );
+  DCApp:= TDCCocoaApplication( NSApp );
 
   // MacOS Service menu incoming setup
   if not Assigned(NSServiceProvider) then
@@ -343,16 +363,9 @@ begin
   CFRelease(FileNameRef);
 end;
 
-
-procedure cocoaInvalidControlCursor( const control:TWinControl );
-var
-  view: NSView;
+function unmountAndEject(const path: String): Boolean;
 begin
-  if control.HandleAllocated then
-  begin
-    view:= NSObject(control.Handle).lclContentView;
-    view.window.invalidateCursorRectsForView( view );
-  end;
+  Result:= NSWorkspace.sharedWorkspace.unmountAndEjectDeviceAtPath( StringToNSString(path) );
 end;
 
 
@@ -399,6 +412,7 @@ procedure Finalize;
 begin
   if (NetFS <> NilHandle) then FreeLibrary(NetFS);
   if (CoreServices <> NilHandle) then FreeLibrary(CoreServices);
+  FreeAndNil( MacosServiceMenuHelper );
 end;
 
 initialization

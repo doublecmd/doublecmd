@@ -90,8 +90,8 @@ begin
     Dispose(PFunctionThreadItem(FFunctionsToCall[i]));
   FLock.Release;
 
-  FreeThenNil(FFunctionsToCall);
-  FreeThenNil(FLock);
+  FreeAndNil(FFunctionsToCall);
+  FreeAndNil(FLock);
 
   inherited Destroy;
 end;

@@ -51,7 +51,7 @@ uses
 
   //DC
   uOSUtils, DCOSUtils, uLng, uFileSystemUtil, uFileSystemFileSource,
-  uFileProcs, uAdministrator, DCConvertEncoding;
+  DCBasicTypes, uAdministrator, DCConvertEncoding;
 
 { TFileSystemCombineOperation.Create }
 constructor TFileSystemCombineOperation.Create(aFileSource: IFileSource;
@@ -136,6 +136,7 @@ end;
 { TFileSystemCombineOperation.MainExecute }
 procedure TFileSystemCombineOperation.MainExecute;
 var
+  Attrs: TFileAttrs;
   aFile, DynamicNextFile: TFile;
   CurrentFileIndex: Integer;
   iTotalDiskSize, iFreeDiskSize: Int64;
@@ -151,6 +152,24 @@ begin
       if FStatistics.TotalBytes > iFreeDiskSize then
       begin
         AskQuestion('', rsMsgNoFreeSpaceCont, [fsourAbort], fsourAbort, fsourAbort);
+        RaiseAbortOperation;
+      end;
+    end;
+
+    Attrs:= FileGetAttrUAC(TargetFile);
+    if Attrs <> faInvalidAttributes then
+    begin
+      if FPS_ISDIR(Attrs) then
+      begin
+        AskQuestion(Format(rsMsgErrDirExists, [TargetFile]), '',
+                    [fsourAbort], fsourAbort, fsourAbort, nil);
+        RaiseAbortOperation;
+      end;
+
+      if AskQuestion(Format(rsMsgFileExistsRwrt, [TargetFile]), '',
+                     [fsourOverwrite, fsourAbort], fsourOverwrite, fsourAbort,
+                     nil) <> fsourOverwrite then
+      begin
         RaiseAbortOperation;
       end;
     end;

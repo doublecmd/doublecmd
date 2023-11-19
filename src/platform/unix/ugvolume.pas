@@ -107,6 +107,8 @@ begin
             Result^.DisplayName := StrPas(Name);
             g_free(Name);
           end;
+          Result^.Path:= StrPas(Path);
+          {
           Name:= g_uri_unescape_string(Path, nil);
           if (Name = nil) then
             Result^.Path:= StrPas(Path)
@@ -114,6 +116,7 @@ begin
             Result^.Path:= StrPas(Name);
             g_free(Name);
           end;
+          }
           g_free(Path);
         end;
       end;
@@ -151,6 +154,8 @@ begin
             Result^.DisplayName := StrPas(Name);
             g_free(Name);
           end;
+          Result^.Path:= StrPas(Path);
+          {
           Name:= g_uri_unescape_string(Path, nil);
           if (Name = nil) then
             Result^.Path:= StrPas(Path)
@@ -158,6 +163,7 @@ begin
             Result^.Path:= StrPas(Name);
             g_free(Name);
           end;
+          }
           g_free(Path);
         end;
       end;

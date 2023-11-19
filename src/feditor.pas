@@ -26,11 +26,6 @@
      This form used SynEdit and his Highlighters
      contributors:
      Copyright (C) 2006-2015 Alexander Koblov (Alexx2000@mail.ru)
-
-   Notes:
-   1. on MacOS, the Editor dosn't support IME inputting now (such as Chinese/Japanese/Korean)
-      it's caused by Lazarus, it will be supported atfer Lazarus merges related Patches.
-      see also: https://gitlab.com/freepascal.org/lazarus/lazarus/-/issues/40008
 }
 
 unit fEditor;
@@ -40,7 +35,7 @@ unit fEditor;
 interface
 
 uses
-  SysUtils, Classes, Controls, Forms, ActnList, Menus, SynEdit, StdCtrls,
+  SysUtils, Classes, Controls, Forms, ActnList, Menus, SynEdit, StdCtrls, LMessages,
   ComCtrls, SynEditSearch, SynEditHighlighter, uDebug, uOSForms, uShowForm, types, Graphics,
   uFormCommands, uHotkeyManager, LCLVersion, SynPluginMultiCaret, fEditSearch;
 
@@ -155,7 +150,6 @@ type
     procedure frmEditorClose(Sender: TObject; var CloseAction: TCloseAction);
   private
     { Private declarations }
-    bChanged:Boolean;
     bNoName: Boolean;
     FSearchOptions: TEditSearchOptions;
     FFileName: String;
@@ -177,6 +171,9 @@ type
     }
     function SaveFile(const aFileName: String): Boolean;
     procedure SetFileName(const AValue: String);
+
+  protected
+    procedure CMThemeChanged(var Message: TLMessage); message CM_THEMECHANGED;
 
   public
     { Public declarations }
@@ -239,7 +236,7 @@ implementation
 
 uses
   Clipbrd, dmCommonData, dmHigh, SynEditTypes, LCLType, LConvEncoding,
-  uLng, uShowMsg, uGlobs, fOptions, DCClassesUtf8, uAdministrator,
+  uLng, uShowMsg, uGlobs, fOptions, DCClassesUtf8, uAdministrator, uHighlighters,
   uOSUtils, uConvEncoding, fOptionsToolsEditor, uDCUtils, uClipboard, uFindFiles;
 
 procedure ShowEditor(const sFileName: String; WaitData: TWaitData = nil);
@@ -492,7 +489,7 @@ begin
     Highlighter := dmHighl.GetHighlighter(Editor, ExtractFileExt(aFileName));
     UpdateHighlighter(Highlighter);
     FileName := aFileName;
-    bChanged := False;
+    Editor.Modified := False;
     bNoname := False;
     UpdateStatus;
   finally
@@ -554,7 +551,7 @@ begin
         end;
 
         // Refresh original text and encoding
-        if sEncodingIn <> sEncodingOut then
+        if (sEncodingIn <> sEncodingOut) or (Length(sOriginalText) = 0) then
         begin
           sEncodingIn:= sEncodingOut;
           ChooseEncoding(miEncodingIn, sEncodingIn);
@@ -592,6 +589,14 @@ begin
 
   FFileName := AValue;
   Caption := ReplaceHome(FFileName);
+end;
+
+procedure TfrmEditor.CMThemeChanged(var Message: TLMessage);
+var
+  Highlighter: TSynCustomHighlighter;
+begin
+  Highlighter:= TSynCustomHighlighter(dmHighl.SynHighlighterHashList.Data[StatusBar.Panels[4].Text]);
+  if Assigned(Highlighter) then dmHighl.SetHighlighter(Editor, Highlighter);
 end;
 
 destructor TfrmEditor.Destroy;
@@ -717,8 +722,6 @@ end;
 
 procedure TfrmEditor.EditorChange(Sender: TObject);
 begin
-  inherited;
-  bChanged:=True;
   UpdateStatus;
 end;
 
@@ -726,7 +729,7 @@ procedure TfrmEditor.UpdateStatus;
 const
   BreakStyle: array[TTextLineBreakStyle] of String = ('LF', 'CRLF', 'CR');
 begin
-  if bChanged then
+  if Editor.Modified then
     StatusBar.Panels[0].Text:= '*'
   else begin
     StatusBar.Panels[0].Text:= '';
@@ -754,8 +757,8 @@ end;
 procedure TfrmEditor.EditorStatusChange(Sender: TObject;
   Changes: TSynStatusChanges);
 begin
-  inherited;
   UpdateStatus;
+  miEncodingIn.Enabled := not Editor.Modified;
 end;
 
 procedure TfrmEditor.UpdateHighlighter(Highlighter: TSynCustomHighlighter);
@@ -767,20 +770,25 @@ end;
 procedure TfrmEditor.FormCloseQuery(Sender: TObject;
   var CanClose: Boolean);
 begin
-  CanClose:= False;
-  if bChanged then
+  if not Editor.Modified then
+    CanClose:= True
+  else begin
     case msgYesNoCancel(Format(rsMsgFileChangedSave,[FileName])) of
-      mmrYes: cm_FileSave(['']);
-      mmrNo: bChanged:= False;
+      mmrYes:
+        begin
+          cm_FileSave(['']);
+          CanClose:= not Editor.Modified;
+        end;
+      mmrNo: CanClose:= True;
     else
-      Exit;
+      CanClose:= False;
     end;
-  CanClose:= True;
+  end;
 end;
 
 procedure TfrmEditor.cm_FileReload(const Params: array of string);
 begin
-  if bChanged then
+  if Editor.Modified then
   begin
     if not msgYesNo(rsMsgFileReloadWarning) then
       Exit;
@@ -796,10 +804,13 @@ end;
 procedure TfrmEditor.cm_EditFindNext(const Params:array of string);
 begin
   if gFirstTextSearch then
+  begin
+    FSearchOptions.Flags -= [ssoBackwards];
     ShowSearchReplaceDialog(Self, Editor, cbUnchecked, FSearchOptions)
+  end
   else if FSearchOptions.SearchText <> '' then
   begin
-    DoSearchReplaceText(Editor, False, ssoBackwards in FSearchOptions.Flags, FSearchOptions);
+    DoSearchReplaceText(Editor, False, False, FSearchOptions);
     FSearchOptions.Flags -= [ssoEntireScope];
   end;
 end;
@@ -906,7 +917,7 @@ begin
   if not CanClose then Exit;
   FileName := rsMsgNewFile;
   Editor.Lines.Clear;
-  bChanged:= False;
+  Editor.Modified:= False;
   bNoname:= True;
   UpdateStatus;
 end;
@@ -936,7 +947,6 @@ begin
   else
   begin
     SaveFile(FileName);
-    bChanged:=False;
     UpdateStatus;
   end;
 end;
@@ -952,7 +962,6 @@ begin
 
   FileName := dmComData.SaveDialog.FileName;
   SaveFile(FileName);
-  bChanged:=False;
   bNoname:=False;
 
   UpdateStatus;

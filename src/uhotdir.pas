@@ -1081,7 +1081,7 @@ begin
   Index := 1;
   CurrentMenuLevel := 0;
 
-  ConfigFile := TIniFileEx.Create(mbExpandFilename(TotalCommanderConfigFilename));
+  ConfigFile := TIniFileEx.Create(GetActualTCIni(mbExpandFilename(TotalCommanderConfigFilename), CONFIGFILE_SECTIONNAME));
 
   try
     repeat

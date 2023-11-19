@@ -1,0 +1,512 @@
+{
+  Styles : [
+    {
+      Name : "Light",
+      UniHighlighters : [
+        {
+          Name : "Assembler (x86)",
+          Ranges : [
+            {
+              Name : "Root",
+              Attributes : "$80000008,$80000005;False:False.",
+              Sets : [
+                {
+                  Name : "Numbers",
+                  Attributes : "$00000080,$80000005;False:True."
+                }
+              ],
+              KeyLists : [
+                {
+                  Name : "Commands",
+                  Attributes : "$00008000,$80000005;False:True."
+                },
+                {
+                  Name : "Commands SSE2",
+                  Attributes : "$00008000,$80000005;False:True."
+                },
+                {
+                  Name : "Registers",
+                  Attributes : "$00FF0080,$80000005;False:True."
+                },
+                {
+                  Name : "Registers x86_64",
+                  Attributes : "$00FF0080,$80000005;False:True."
+                },
+                {
+                  Name : "Key Words",
+                  Attributes : "$00808000,$80000005;False:True."
+                },
+                {
+                  Name : "Segments",
+                  Attributes : "$00FF00FF,$80000005;False:True.B"
+                }
+              ],
+              Ranges : [
+                {
+                  Name : "Remarks",
+                  Attributes : "$00800000,$80000005;False:True."
+                },
+                {
+                  Name : "String",
+                  Attributes : "$000000FF,$80000005;False:True."
+                },
+                {
+                  Name : ".",
+                  Attributes : "$00FF0000,$80000005;False:True."
+                },
+                {
+                  Name : "@",
+                  Attributes : "$000080FF,$80000005;False:True."
+                },
+                {
+                  Name : "String",
+                  Attributes : "$000000FF,$80000005;False:True."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          Name : "C#",
+          Ranges : [
+            {
+              Name : "Root",
+              Attributes : "$80000008,$80000005;False:False.",
+              KeyLists : [
+                {
+                  Name : "Keywords",
+                  Attributes : "$00008000,$80000005;False:True."
+                },
+                {
+                  Name : "Contextual keywords",
+                  Attributes : "$00008000,$80000005;False:True."
+                },
+                {
+                  Name : "Data types",
+                  Attributes : "$00FF0000,$80000005;False:True."
+                },
+                {
+                  Name : ".NET Data types",
+                  Attributes : "$00008080,$80000005;False:True."
+                },
+                {
+                  Name : "Preprocessor directives",
+                  Attributes : "$00FF0080,$80000005;False:True."
+                },
+                {
+                  Name : "Operators",
+                  Attributes : "$000080FF,$80000005;False:True."
+                }
+              ],
+              Ranges : [
+                {
+                  Name : "Strings '..'",
+                  Attributes : "$000000FF,$80000005;False:True."
+                },
+                {
+                  Name : "Strings \"..\"",
+                  Attributes : "$000000FF,$80000005;False:True."
+                },
+                {
+                  Name : "Remarks //",
+                  Attributes : "$00800000,$80000005;False:True."
+                },
+                {
+                  Name : "Remarks /*..*/",
+                  Attributes : "$00800000,$80000005;False:True."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          Name : "DC Error File",
+          Ranges : [
+            {
+              Name : "Root",
+              Attributes : "$80000008,$80000005;False:False.",
+              Sets : [
+                {
+                  Name : "Digits",
+                  Attributes : "$00808000,$1FFFFFFF;False:False."
+                }
+              ],
+              KeyLists : [
+                {
+                  Name : "Keywords",
+                  Attributes : "$00800000,$1FFFFFFF;False:False."
+                }
+              ],
+              Ranges : [
+                {
+                  Name : "Date",
+                  Attributes : "$00800000,$1FFFFFFF;False:True."
+                },
+                {
+                  Name : "About",
+                  Attributes : "$00800080,$1FFFFFFF;False:False."
+                },
+                {
+                  Name : "Exception",
+                  Attributes : "$000000D2,$1FFFFFFF;False:False."
+                },
+                {
+                  Name : "Address",
+                  Attributes : "$00000096,$1FFFFFFF;False:False."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          Name : "Java script",
+          Ranges : [
+            {
+              Name : "Root",
+              Attributes : "$80000008,$80000005;False:False.",
+              KeyLists : [
+                {
+                  Name : "Functions and key words",
+                  Attributes : "$00008000,$80000005;False:True."
+                },
+                {
+                  Name : "Reserved words",
+                  Attributes : "$00FF0000,$80000005;False:True."
+                },
+                {
+                  Name : "Common Events",
+                  Attributes : "$00FF0080,$80000005;False:True."
+                }
+              ],
+              Ranges : [
+                {
+                  Name : "Remark //",
+                  Attributes : "$00A00000,$80000005;False:True."
+                },
+                {
+                  Name : "Remark /*...*/",
+                  Attributes : "$00A00000,$80000005;False:True."
+                },
+                {
+                  Name : "Strings",
+                  Attributes : "$000000FF,$80000005;False:True."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          Name : "PowerShell",
+          Ranges : [
+            {
+              Name : "Root",
+              Attributes : "$80000008,$80000005;False:False.",
+              KeyLists : [
+                {
+                  Name : "Keywords",
+                  Attributes : "$00FF0000,$80000005;False:True."
+                },
+                {
+                  Name : "Aliases",
+                  Attributes : "$00C08000,$80000005;False:True."
+                },
+                {
+                  Name : "Functions",
+                  Attributes : "$00000080,$80000005;False:True."
+                },
+                {
+                  Name : "Cmdlets",
+                  Attributes : "$00800080,$80000005;False:True."
+                }
+              ],
+              Ranges : [
+                {
+                  Name : "Strings @'..'@",
+                  Attributes : "$000000FF,$80000005;False:True."
+                },
+                {
+                  Name : "Strings @\"..\"@",
+                  Attributes : "$000000FF,$80000005;False:True."
+                },
+                {
+                  Name : "Strings '..'",
+                  Attributes : "$000000FF,$80000005;False:True."
+                },
+                {
+                  Name : "Strings \"..\"",
+                  Attributes : "$000000FF,$80000005;False:True."
+                },
+                {
+                  Name : "Remarks #",
+                  Attributes : "$00800000,$80000005;False:True."
+                },
+                {
+                  Name : "Remarks <#..#>",
+                  Attributes : "$00800000,$80000005;False:True."
+                },
+                {
+                  Name : "Variables",
+                  Attributes : "$00008000,$80000005;False:True."
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      Name : "Dark",
+      UniHighlighters : [
+        {
+          Name : "Assembler (x86)",
+          Ranges : [
+            {
+              Name : "Root",
+              Attributes : "$80000008,$80000005;False:False.",
+              Sets : [
+                {
+                  Name : "Numbers",
+                  Attributes : "$00E8BCBC,$80000005;False:True."
+                }
+              ],
+              KeyLists : [
+                {
+                  Name : "Commands",
+                  Attributes : "$008AD277,$80000005;False:True."
+                },
+                {
+                  Name : "Commands SSE2",
+                  Attributes : "$00008000,$80000005;False:True."
+                },
+                {
+                  Name : "Registers",
+                  Attributes : "$00E8BCBC,$80000005;False:True."
+                },
+                {
+                  Name : "Registers x86_64",
+                  Attributes : "$00E8BCBC,$80000005;False:True."
+                },
+                {
+                  Name : "Key Words",
+                  Attributes : "$00808000,$80000005;False:True."
+                },
+                {
+                  Name : "Segments",
+                  Attributes : "$00D15894,$80000005;False:True.B"
+                }
+              ],
+              Ranges : [
+                {
+                  Name : "Remarks",
+                  Attributes : "$00C09B61,$80000005;False:True."
+                },
+                {
+                  Name : "String",
+                  Attributes : "$00898BB9,$80000005;False:True."
+                },
+                {
+                  Name : ".",
+                  Attributes : "$00FBA249,$80000005;False:True."
+                },
+                {
+                  Name : "@",
+                  Attributes : "$000080FF,$80000005;False:True."
+                },
+                {
+                  Name : "String",
+                  Attributes : "$00898BB9,$80000005;False:True."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          Name : "C#",
+          Ranges : [
+            {
+              Name : "Root",
+              Attributes : "$80000008,$80000005;False:False.",
+              KeyLists : [
+                {
+                  Name : "Keywords",
+                  Attributes : "$00008000,$80000005;False:True."
+                },
+                {
+                  Name : "Contextual keywords",
+                  Attributes : "$00008000,$80000005;False:True."
+                },
+                {
+                  Name : "Data types",
+                  Attributes : "$00FBA249,$80000005;False:True."
+                },
+                {
+                  Name : ".NET Data types",
+                  Attributes : "$00008080,$80000005;False:True."
+                },
+                {
+                  Name : "Preprocessor directives",
+                  Attributes : "$00D15894,$80000005;False:True."
+                },
+                {
+                  Name : "Operators",
+                  Attributes : "$000080FF,$80000005;False:True."
+                }
+              ],
+              Ranges : [
+                {
+                  Name : "Strings '..'",
+                  Attributes : "$00898BB9,$80000005;False:True."
+                },
+                {
+                  Name : "Strings \"..\"",
+                  Attributes : "$00898BB9,$80000005;False:True."
+                },
+                {
+                  Name : "Remarks //",
+                  Attributes : "$00C09B61,$80000005;False:True."
+                },
+                {
+                  Name : "Remarks /*..*/",
+                  Attributes : "$00C09B61,$80000005;False:True."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          Name : "DC Error File",
+          Ranges : [
+            {
+              Name : "Root",
+              Attributes : "$00AAAAAA,$80000005;False:False.",
+              Sets : [
+                {
+                  Name : "Digits",
+                  Attributes : "$00C09B61,$80000005;False:False."
+                }
+              ],
+              KeyLists : [
+                {
+                  Name : "Keywords",
+                  Attributes : "$00C09B61,$80000005;False:False."
+                }
+              ],
+              Ranges : [
+                {
+                  Name : "Date",
+                  Attributes : "$00000000,$008AD277;False:False."
+                },
+                {
+                  Name : "About",
+                  Attributes : "$008AD277,$80000005;False:False."
+                },
+                {
+                  Name : "Exception",
+                  Attributes : "$00898BB9,$80000005;False:False."
+                },
+                {
+                  Name : "Address",
+                  Attributes : "$00898BB9,$80000005;False:False."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          Name : "Java script",
+          Ranges : [
+            {
+              Name : "Root",
+              Attributes : "$80000008,$80000005;False:False.",
+              KeyLists : [
+                {
+                  Name : "Functions and key words",
+                  Attributes : "$008AD277,$80000005;False:False."
+                },
+                {
+                  Name : "Reserved words",
+                  Attributes : "$00E8BCBC,$80000005;False:False."
+                },
+                {
+                  Name : "Common Events",
+                  Attributes : "$00E8BCBC,$80000005;False:False."
+                }
+              ],
+              Ranges : [
+                {
+                  Name : "Remark //",
+                  Attributes : "$00C09B61,$80000005;False:False."
+                },
+                {
+                  Name : "Remark /*...*/",
+                  Attributes : "$00C09B61,$80000005;False:False."
+                },
+                {
+                  Name : "Strings",
+                  Attributes : "$00898BB9,$80000005;False:False."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          Name : "PowerShell",
+          Ranges : [
+            {
+              Name : "Root",
+              Attributes : "$80000008,$80000005;False:False.",
+              KeyLists : [
+                {
+                  Name : "Keywords",
+                  Attributes : "$00FBA249,$80000005;False:True."
+                },
+                {
+                  Name : "Aliases",
+                  Attributes : "$00C08000,$80000005;False:True."
+                },
+                {
+                  Name : "Functions",
+                  Attributes : "$008AD277,$80000005;False:True."
+                },
+                {
+                  Name : "Cmdlets",
+                  Attributes : "$00D15894,$80000005;False:True."
+                }
+              ],
+              Ranges : [
+                {
+                  Name : "Strings @'..'@",
+                  Attributes : "$00898BB9,$80000005;False:True."
+                },
+                {
+                  Name : "Strings @\"..\"@",
+                  Attributes : "$00898BB9,$80000005;False:True."
+                },
+                {
+                  Name : "Strings '..'",
+                  Attributes : "$00898BB9,$80000005;False:True."
+                },
+                {
+                  Name : "Strings \"..\"",
+                  Attributes : "$00898BB9,$80000005;False:True."
+                },
+                {
+                  Name : "Remarks #",
+                  Attributes : "$00C09B61,$80000005;False:True."
+                },
+                {
+                  Name : "Remarks <#..#>",
+                  Attributes : "$00C09B61,$80000005;False:True."
+                },
+                {
+                  Name : "Variables",
+                  Attributes : "$00008000,$80000005;False:True."
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
