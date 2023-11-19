@@ -1414,9 +1414,9 @@ begin
       if Assigned(aFile) then
       try
         if aFile.IsNameValid then
-        begin
-          ShellExecute(aFile.FullPath);
-        end;
+          ShellExecute(aFile.FullPath)
+        else if aFile.Name = '..' then
+          ShellExecute(aFile.Path);
       finally
         FreeAndNil(aFile);
       end;
