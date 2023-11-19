@@ -73,7 +73,7 @@ type
    procedure DoPanelsSplitterPerPos(SplitPos: Integer);
    procedure DoUpdateFileView(AFileView: TFileView; {%H-}UserData: Pointer);
    procedure DoCloseTab(Notebook: TFileViewNotebook; PageIndex: Integer);
-   procedure DoCopySelectedFileNamesToClipboard(FileView: TFileView; TypeOfCopy: TCopyFileNamesToClipboard);
+   procedure DoCopySelectedFileNamesToClipboard(FileView: TFileView; TypeOfCopy: TCopyFileNamesToClipboard; const Params: array of string);
    procedure DoNewTab(Notebook: TFileViewNotebook);
    procedure DoRenameTab(Page: TFileViewPage);
    procedure DoContextMenu(Panel: TFileView; X, Y: Integer; Background: Boolean; UserWishForContextMenu:TUserWishForContextMenu = uwcmComplete);
@@ -626,12 +626,13 @@ begin
   end;
 end;
 
-procedure TMainCommands.DoCopySelectedFileNamesToClipboard(FileView: TFileView; TypeOfCopy: TCopyFileNamesToClipboard);
+procedure TMainCommands.DoCopySelectedFileNamesToClipboard(FileView: TFileView; TypeOfCopy: TCopyFileNamesToClipboard; const Params : Array of string);
 var
   I: Integer;
   sl: TStringList = nil;
   SelectedFiles: TFiles = nil;
   PathToAdd, FileNameToAdd: String;
+  separator : String;
 begin
   SelectedFiles := FileView.CloneSelectedOrActiveFiles;
   if (SelectedFiles.Count = 0) then
@@ -666,8 +667,9 @@ begin
         case TypeOfCopy of
           cfntcPathAndFileNames, cfntcJustFileNames: FileNameToAdd:=SelectedFiles[I].Name;
         end;
-
-        sl.Add(PathToAdd + FileNameToAdd);
+        if ((GetParamValue(Params, 'separator', separator)) and (separator.length > 0)) then
+           sl.Add(ReplaceDirectorySeparator(PathToAdd + FileNameToAdd, separator[1]))
+        else sl.Add(PathToAdd + FileNameToAdd);
       end;
 
       Clipboard.Clear;   // prevent multiple formats in Clipboard (specially synedit)
@@ -1056,7 +1058,7 @@ end;
 
 procedure TMainCommands.cm_CopyFullNamesToClip(const Params: array of string);
 begin
-  DoCopySelectedFileNamesToClipboard(frmMain.ActiveFrame, cfntcPathAndFileNames);
+  DoCopySelectedFileNamesToClipboard(frmMain.ActiveFrame, cfntcPathAndFileNames, Params);
 end;
 
 procedure TMainCommands.cm_CopyFileDetailsToClip(const Params: array of string);
@@ -1066,7 +1068,7 @@ end;
 
 procedure TMainCommands.cm_CopyNamesToClip(const Params: array of string);
 begin
-  DoCopySelectedFileNamesToClipboard(frmMain.ActiveFrame, cfntcJustFileNames);
+  DoCopySelectedFileNamesToClipboard(frmMain.ActiveFrame, cfntcJustFileNames, Params);
 end;
 
 procedure TMainCommands.cm_FocusTreeView(const Params: array of string);
@@ -4614,13 +4616,13 @@ end;
 { TMainCommands.cm_CopyPathOfFilesToClip }
 procedure TMainCommands.cm_CopyPathOfFilesToClip(const Params: array of string);
 begin
-  DoCopySelectedFileNamesToClipboard(frmMain.ActiveFrame, cfntcJustPathWithSeparator);
+  DoCopySelectedFileNamesToClipboard(frmMain.ActiveFrame, cfntcJustPathWithSeparator, Params);
 end;
 
 { TMainCommands.cm_CopyPathNoSepOfFilesToClip }
 procedure TMainCommands.cm_CopyPathNoSepOfFilesToClip(const Params: array of string);
 begin
-  DoCopySelectedFileNamesToClipboard(frmMain.ActiveFrame, cfntcPathWithoutSeparator);
+  DoCopySelectedFileNamesToClipboard(frmMain.ActiveFrame, cfntcPathWithoutSeparator, Params);
 end;
 
 { TMainCommands.cm_DoAnyCmCommand }
