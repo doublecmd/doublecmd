@@ -134,7 +134,7 @@ uses
   , uTotalCommander, FileUtil, Windows, ShlObj, uShlObjAdditional
   , uWinNetFileSource, uVfsModule, uMyWindows, DCStrUtils, uOleDragDrop
   , uDCReadRSVG, uFileSourceUtil, uGdiPlusJPEG, uListGetPreviewBitmap
-  , Dialogs, Clipbrd, uDebug, JwaDbt, uThumbnailProvider, uShellFolder
+  , Dialogs, Clipbrd, JwaDbt, uThumbnailProvider, uShellFolder
   , uRecycleBinFileSource, uWslFileSource, uDCReadHEIF, uDCReadWIC
   , uShellFileSource
     {$IF DEFINED(DARKWIN)}
