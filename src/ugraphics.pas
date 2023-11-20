@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Graphic functions
 
-   Copyright (C) 2013-2019 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2013-2023 Alexander Koblov (alexx2000@mail.ru)
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Lesser General Public
@@ -27,10 +27,11 @@ unit uGraphics;
 interface
 
 uses
-  Classes, SysUtils, Graphics, IntfGraphics;
+  Classes, SysUtils, Graphics, IntfGraphics, LCLVersion;
 
 procedure BitmapConvert(Bitmap: TRasterImage);
 procedure BitmapAssign(Bitmap, Image: TRasterImage);
+procedure BitmapConvert(ASource, ATarget: TRasterImage);
 procedure BitmapAlpha(var ABitmap: TBitmap; APercent: Single);
 procedure BitmapAssign(Bitmap: TRasterImage; Image: TLazIntfImage);
 procedure BitmapCenter(var Bitmap: TBitmap; Width, Height: Integer);
@@ -44,16 +45,23 @@ type
   TRawAccess = class(TRasterImage) end;
 
 procedure BitmapConvert(Bitmap: TRasterImage);
+begin
+  BitmapConvert(Bitmap, Bitmap);
+end;
+
+procedure BitmapConvert(ASource, ATarget: TRasterImage);
 var
   Source, Target: TLazIntfImage;
 begin
-  Source:= TLazIntfImage.Create(Bitmap.RawImage, False);
+  Source:= TLazIntfImage.Create(ASource.RawImage, False);
   try
-    Target:= TLazIntfImage.Create(Bitmap.Width, Bitmap.Height, [riqfRGB, riqfAlpha]);
+    Target:= TLazIntfImage.Create(ASource.Width, ASource.Height, [riqfRGB, riqfAlpha]);
     try
+{$if lcl_fullversion < 2020000}
       Target.CreateData;
+{$endif}
       Target.CopyPixels(Source);
-      BitmapAssign(Bitmap, Target);
+      BitmapAssign(ATarget, Target);
     finally
       Target.Free;
     end;
@@ -113,7 +121,9 @@ begin
     Masked:= ABitmap.RawImage.Description.MaskBitsPerPixel > 0;
     SrcIntfImage:= TLazIntfImage.Create(ABitmap.RawImage, False);
     AImage:= TLazIntfImage.Create(ABitmap.Width, ABitmap.Height, [riqfRGB, riqfAlpha]);
+{$if lcl_fullversion < 2020000}
     AImage.CreateData;
+{$endif}
     for X:= 0 to AImage.Width - 1 do
     begin
       for Y:= 0 to AImage.Height - 1 do
@@ -144,7 +154,9 @@ begin
     try
       Target:= TLazIntfImage.Create(Width, Height, [riqfRGB, riqfAlpha]);
       try
+{$if lcl_fullversion < 2020000}
         Target.CreateData;
+{$endif}
         Target.FillPixels(colTransparent);
         X:= (Width - Bitmap.Width) div 2;
         Y:= (Height - Bitmap.Height) div 2;
