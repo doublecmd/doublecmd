@@ -549,7 +549,10 @@ begin
             AIcon.Current:= AIcon.GetBestIndexForSize(TSize.Create(iIconSize, iIconSize));
             bmStandartBitmap:= Graphics.TBitmap.Create;
             try
-              BitmapAssign(bmStandartBitmap, AIcon);
+              if AIcon.RawImage.Description.AlphaPrec <> 0 then
+                BitmapAssign(bmStandartBitmap, AIcon)
+              else
+                BitmapConvert(AIcon, bmStandartBitmap);
             except
               FreeAndNil(bmStandartBitmap);
             end;
