@@ -34,8 +34,8 @@ interface
 
 uses
   Classes, SysUtils, UnixType,
-  Cocoa_Extra, MacOSAll, CocoaAll, CocoaUtils, CocoaInt,
-  InterfaceBase, Menus, CocoaMenus;
+  Cocoa_Extra, MacOSAll, CocoaAll, CocoaUtils, CocoaInt, CocoaConst, CocoaMenus,
+  InterfaceBase, Menus;
 
 // Darwin Util Function
 function StringToNSString(const S: String): NSString;
