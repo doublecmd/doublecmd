@@ -37,6 +37,7 @@ object frmFileExecuteYourSelf: TfrmFileExecuteYourSelf
     Height = 30
     Top = 45
     Width = 75
+    AutoSize = True
     BorderSpacing.Top = 8
     Caption = '&Close'
     Kind = bkClose
