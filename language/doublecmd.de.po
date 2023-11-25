@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Double Commander 1.1.0 alpha\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-11-15 11:15+0300\n"
-"PO-Revision-Date: 2023-07-24 15:22+0200\n"
+"PO-Revision-Date: 2023-11-25 08:32+0100\n"
 "Last-Translator: ㋡ <braass@mail.de>\n"
 "Language-Team: Deutsch <braass@mail.de>\n"
 "MIME-Version: 1.0\n"
@@ -5316,11 +5316,11 @@ msgstr "Ermöglicht das Einrücken des Cursors, wenn eine neue Zeile mit [Eingab
 
 #: tfrmoptionseditor.chkgroupundo.caption
 msgid "Group Undo"
-msgstr ""
+msgstr "Gruppe rückgängig machen"
 
 #: tfrmoptionseditor.chkgroupundo.hint
 msgid "All continuous changes of the same type will be processed in one call instead of undoing/redoing each one"
-msgstr ""
+msgstr "Alle Änderungen desselben Typs werden auf einmal verarbeitet, anstatt alle einzeln rückgängig zu machen, bzw. zu wiederholen"
 
 #: tfrmoptionseditor.chkrightedge.caption
 msgid "Right margin:"
