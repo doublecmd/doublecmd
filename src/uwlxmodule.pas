@@ -4,7 +4,7 @@
    WLX-API implementation (TC WLX-API v2.0).
 
    Copyright (C) 2008  Dmitry Kolomiets (B4rr4cuda@rambler.ru)
-   Copyright (C) 2009-2020 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2009-2023 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -426,6 +426,10 @@ begin
 {$ENDIF}
   finally
     FPluginWindow := 0;
+{$IF DEFINED(MSWINDOWS)}
+    // Reset current directory
+    SetCurrentDirectoryW(PWideChar(CeUtf8ToUtf16(gpExePath)));
+{$ENDIF}
   end;
   //  DCDebug('Call ListCloseWindow success');
 end;
