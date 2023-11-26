@@ -77,6 +77,7 @@ begin
     begin
       SendDlgMsg(pDlg, 'chkCopySCP', DM_SETCHECK, 0, 0);
       SendDlgMsg(pDlg, 'chkOnlySCP', DM_SETCHECK, 0, 0);
+      SendDlgMsg(pDlg, 'chkAgentSSH', DM_SETCHECK, 0, 0);
     end
     else begin
       SendDlgMsg(pDlg, 'chkShowHidden', DM_SETCHECK, 0, 0);
@@ -282,6 +283,8 @@ begin
           SendDlgMsg(pDlg, 'chkAutoTLS', DM_SETCHECK, Data, 0);
           Data:= PtrInt(gConnection.OpenSSH);
           SendDlgMsg(pDlg, 'chkOpenSSH', DM_SETCHECK, Data, 0);
+          Data:= PtrInt(gConnection.AgentSSH);
+          SendDlgMsg(pDlg, 'chkAgentSSH', DM_SETCHECK, Data, 0);
           Data:= PtrInt(gConnection.CopySCP);
           SendDlgMsg(pDlg, 'chkCopySCP', DM_SETCHECK, Data, 0);
           Data:= PtrInt(gConnection.OnlySCP);
@@ -435,6 +438,8 @@ begin
             gConnection.PassiveMode:= Boolean(Data);
             Data:= SendDlgMsg(pDlg, 'chkAutoTLS', DM_GETCHECK, 0, 0);
             gConnection.AutoTLS:= Boolean(Data);
+            Data:= SendDlgMsg(pDlg, 'chkAgentSSH', DM_GETCHECK, 0, 0);
+            gConnection.AgentSSH:= Boolean(Data);
             Data:= SendDlgMsg(pDlg, 'chkCopySCP', DM_GETCHECK, 0, 0);
             gConnection.CopySCP:= Boolean(Data);
             Data:= SendDlgMsg(pDlg, 'chkOnlySCP', DM_GETCHECK, 0, 0);

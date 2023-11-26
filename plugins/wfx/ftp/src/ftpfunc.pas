@@ -54,6 +54,7 @@ type
     AutoTLS: Boolean;
     FullSSL: Boolean;
     OpenSSH: Boolean;
+    AgentSSH: Boolean;
     UseAllocate: Boolean;
     Encoding: AnsiString;
     Fingerprint: AnsiString;
@@ -177,6 +178,7 @@ begin
     Connection.OpenSSH:= IniFile.ReadBool('FTP', 'Connection' + sIndex + 'OpenSSH', False);
     Connection.OnlySCP:= IniFile.ReadBool('FTP', 'Connection' + sIndex + 'OnlySCP', False);
     Connection.CopySCP:= IniFile.ReadBool('FTP', 'Connection' + sIndex + 'CopySCP', False);
+    Connection.AgentSSH:= IniFile.ReadBool('FTP', 'Connection' + sIndex + 'AgentSSH', False);
     Connection.UseAllocate:= IniFile.ReadBool('FTP', 'Connection' + sIndex + 'UseAllocate', False);
     Connection.PublicKey := IniFile.ReadString('FTP', 'Connection' + sIndex + 'PublicKey', EmptyStr);
     Connection.PrivateKey := IniFile.ReadString('FTP', 'Connection' + sIndex + 'PrivateKey', EmptyStr);
@@ -221,6 +223,7 @@ begin
     IniFile.WriteBool('FTP', 'Connection' + sIndex + 'OpenSSH', Connection.OpenSSH);
     IniFile.WriteBool('FTP', 'Connection' + sIndex + 'OnlySCP', Connection.OnlySCP);
     IniFile.WriteBool('FTP', 'Connection' + sIndex + 'CopySCP', Connection.CopySCP);
+    IniFile.WriteBool('FTP', 'Connection' + sIndex + 'AgentSSH', Connection.AgentSSH);
     IniFile.WriteBool('FTP', 'Connection' + sIndex + 'UseAllocate', Connection.UseAllocate);
     IniFile.WriteString('FTP', 'Connection' + sIndex + 'PublicKey', Connection.PublicKey);
     IniFile.WriteString('FTP', 'Connection' + sIndex + 'PrivateKey', Connection.PrivateKey);
@@ -352,6 +355,7 @@ begin
           end;
           FtpSend.PublicKey:= Connection.PublicKey;
           FtpSend.PrivateKey:= Connection.PrivateKey;
+          TScpSend(FtpSend).Agent:= Connection.AgentSSH;
           TScpSend(FtpSend).Fingerprint:= Connection.Fingerprint;
         end
         else begin
@@ -377,7 +381,7 @@ begin
             ZeroPassword(Connection.Password);
         end;
         // if no saved password then ask it
-        if Connection.OpenSSH and (Connection.PrivateKey <> '') and (Connection.PublicKey <> '') then
+        if Connection.OpenSSH and (Connection.AgentSSH or ((Connection.PrivateKey <> '') and (Connection.PublicKey <> ''))) then
           APassword:= EmptyStr
         else if Length(Connection.Password) > 0 then
           APassword:= Connection.Password
@@ -1175,6 +1179,7 @@ begin
   OpenSSH:= Connection.OpenSSH;
   CopySCP:= Connection.CopySCP;
   OnlySCP:= Connection.OnlySCP;
+  AgentSSH:= Connection.AgentSSH;
   UserName:= Connection.UserName;
   Password:= Connection.Password;
   Encoding:= Connection.Encoding;
