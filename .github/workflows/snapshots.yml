@@ -18,29 +18,46 @@ jobs:
   build-mac:
     runs-on: macos-11
     steps:
-    - name: Install Free Pascal
-      uses: alexx2000/setup-fpc@master
+#    - name: Install Free Pascal
+#      uses: alexx2000/setup-fpc@master
+#      with:
+#        lazarus-version: "stable"
+#
+#    - name: Get Lazarus source
+#      uses: actions/checkout@v3
+#      with:
+#            repository: 'fpc/Lazarus'
+#
+#    - name: Build and install Lazarus
+#      run: make all install
+#
+#    - name: Create Lazarus config
+#      run: |
+#           sudo mkdir -p /etc/lazarus
+#           sudo cp tools/install/macosx/environmentoptions.xml /etc/lazarus/environmentoptions.xml
+#           sudo sed -i -e "s|_PPCARCH_|fpc|g; s|/Developer/lazarus|/usr/local/share/lazarus|g" /etc/lazarus/environmentoptions.xml
+
+    - name: Install Lazarus
+      uses: gcarreno/setup-lazarus@v3.2.15
       with:
         lazarus-version: "stable"
-
-    - name: Get Lazarus source
-      uses: actions/checkout@v3
-      with:
-            repository: 'fpc/Lazarus'
-
-    - name: Build and install Lazarus
-      run: make all install
-
-    - name: Create Lazarus config
-      run: |
-           sudo mkdir -p /etc/lazarus
-           sudo cp tools/install/macosx/environmentoptions.xml /etc/lazarus/environmentoptions.xml
-           sudo sed -i -e "s|_PPCARCH_|fpc|g; s|/Developer/lazarus|/usr/local/share/lazarus|g" /etc/lazarus/environmentoptions.xml
 
     - name: Checkout source
       uses: actions/checkout@v2
       with:
         fetch-depth: 0
+
+    - name: temporary fix source code
+      shell: bash
+      run: |
+        echo "Install gnu-sed"
+        brew install gnu-sed
+        export PATH="/usr/local/opt/gnu-sed/libexec/gnubin:$PATH"
+        sed=$(which sed)
+        # not found CocoaConst, CocoaMenus, replace with CocoaWSMenus
+        $sed -i 's!CocoaConst, CocoaMenus,!CocoaWSMenus,!' src/platform/unix/darwin/umydarwin.pas
+        # not found NSSTR_DARK_NAME and NSAppearanceNameDarkAqua, replace with NSAppearanceNameAqua
+        $sed -i 's!NSSTR_DARK_NAME!NSAppearanceNameAqua!' src/platform/unix/darwin/umydarwin.pas
 
     - name: Build packages
       run: ./.github/scripts/create_snapshot.sh
