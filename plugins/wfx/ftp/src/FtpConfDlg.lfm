@@ -13,7 +13,7 @@ object DialogBox: TDialogBox
   ClientWidth = 440
   OnShow = DialogBoxShow
   Position = poScreenCenter
-  LCLVersion = '1.8.4.0'
+  LCLVersion = '2.2.7.0'
   object btnCancel: TButton
     AnchorSideTop.Control = PageControl
     AnchorSideTop.Side = asrBottom
@@ -417,7 +417,7 @@ object DialogBox: TDialogBox
         AnchorSideRight.Control = gbFTP
         AnchorSideRight.Side = asrBottom
         Left = 6
-        Height = 166
+        Height = 204
         Top = 101
         Width = 400
         Anchors = [akTop, akLeft, akRight]
@@ -426,18 +426,29 @@ object DialogBox: TDialogBox
         Caption = 'SSH'
         ChildSizing.LeftRightSpacing = 6
         ChildSizing.TopBottomSpacing = 6
-        ClientHeight = 139
-        ClientWidth = 394
+        ClientHeight = 184
+        ClientWidth = 396
         TabOrder = 1
-        object chkCopySCP: TCheckBox
+        object chkAgentSSH: TCheckBox
           AnchorSideLeft.Control = gbSSH
           AnchorSideTop.Control = gbSSH
           Left = 6
           Height = 19
           Top = 6
-          Width = 238
-          Caption = 'Copy using SCP protocol (faster)'
+          Width = 178
+          Caption = 'Use SSH-agent authentication'
           TabOrder = 0
+        end
+        object chkCopySCP: TCheckBox
+          AnchorSideLeft.Control = gbSSH
+          AnchorSideTop.Control = chkAgentSSH
+          AnchorSideTop.Side = asrBottom
+          Left = 6
+          Height = 19
+          Top = 25
+          Width = 192
+          Caption = 'Copy using SCP protocol (faster)'
+          TabOrder = 1
         end
         object chkOnlySCP: TCheckBox
           AnchorSideLeft.Control = gbSSH
@@ -445,11 +456,11 @@ object DialogBox: TDialogBox
           AnchorSideTop.Side = asrBottom
           Left = 6
           Height = 19
-          Top = 30
-          Width = 241
+          Top = 44
+          Width = 193
           Caption = 'Use SSH+SCP protocol (no SFTP)'
           ParentFont = False
-          TabOrder = 1
+          TabOrder = 2
         end
         object DividerBevel: TDividerBevel
           AnchorSideTop.Control = chkOnlySCP
@@ -458,7 +469,7 @@ object DialogBox: TDialogBox
           AnchorSideRight.Side = asrBottom
           Left = 6
           Height = 15
-          Top = 31
+          Top = 69
           Width = 384
           Caption = 'Client certificate for authentication:'
           Anchors = [akTop, akLeft, akRight]
@@ -471,7 +482,7 @@ object DialogBox: TDialogBox
           AnchorSideTop.Side = asrBottom
           Left = 6
           Height = 15
-          Top = 52
+          Top = 90
           Width = 116
           BorderSpacing.Top = 6
           Caption = 'Public key file (*.pub):'
@@ -485,7 +496,7 @@ object DialogBox: TDialogBox
           AnchorSideRight.Side = asrBottom
           Left = 6
           Height = 23
-          Top = 71
+          Top = 109
           Width = 384
           FilterIndex = 0
           HideDirectories = False
@@ -494,7 +505,7 @@ object DialogBox: TDialogBox
           Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Top = 4
           MaxLength = 0
-          TabOrder = 2
+          TabOrder = 3
         end
         object lblPrivateKey: TLabel
           AnchorSideLeft.Control = gbSSH
@@ -502,7 +513,7 @@ object DialogBox: TDialogBox
           AnchorSideTop.Side = asrBottom
           Left = 6
           Height = 15
-          Top = 98
+          Top = 136
           Width = 122
           BorderSpacing.Top = 4
           Caption = 'Private key file (*.pem):'
@@ -516,7 +527,7 @@ object DialogBox: TDialogBox
           AnchorSideRight.Side = asrBottom
           Left = 6
           Height = 23
-          Top = 117
+          Top = 155
           Width = 384
           FilterIndex = 0
           HideDirectories = False
@@ -525,7 +536,7 @@ object DialogBox: TDialogBox
           Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Top = 4
           MaxLength = 0
-          TabOrder = 3
+          TabOrder = 4
         end
       end
     end

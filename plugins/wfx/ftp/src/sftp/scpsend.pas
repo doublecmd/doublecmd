@@ -48,6 +48,7 @@ type
   private
     FAnswer: String;
   protected
+    FAgent: Boolean;
     FCurrentDir: String;
     FLastError: Integer;
     FSavedPassword: Boolean;
@@ -59,6 +60,7 @@ type
     procedure PrintLastError;
     procedure DetectEncoding;
     function AuthKey: Integer;
+    function AuthAgent: Integer;
     function Connect: Boolean; override;
   public
     constructor Create(const Encoding: String); override;
@@ -85,6 +87,7 @@ type
     function List(Directory: String; NameList: Boolean): Boolean; override;
     function FsSetTime(const FileName: String; LastAccessTime, LastWriteTime: PWfxFileTime): BOOL; override;
   public
+    property Agent: Boolean read FAgent write FAgent;
     property Fingerprint: AnsiString read FFingerprint write FFingerprint;
   end;
 
@@ -326,6 +329,49 @@ begin
   Result:= FLastError;
 end;
 
+function TScpSend.AuthAgent: Integer;
+var
+  agent: PLIBSSH2_AGENT;
+  identity, prev_identity: Plibssh2_agent_publickey;
+begin
+  agent:= libssh2_agent_init(FSession);
+  if (agent = nil) then Exit(-1);
+  try
+    Result:= libssh2_agent_connect(agent);
+    if (Result = LIBSSH2_ERROR_NONE) then
+    try
+      Result:= libssh2_agent_list_identities(agent);
+      if Result < 0 then Exit;
+      prev_identity:= nil;
+
+      while True do
+      begin
+        Result:= libssh2_agent_get_identity(agent, @identity, prev_identity);
+        if (Result < 0) then Exit;
+        if (Result = 1) then Exit(-1);
+
+        repeat
+          FLastError:= libssh2_agent_userauth(agent, PAnsiChar(FUserName), identity);
+        until (FLastError <> LIBSSH2_ERROR_EAGAIN);
+
+        if (FLastError <> 0) then
+        begin
+          DoStatus(False, Format('Authentication with username %s and public key %s failed', [username, identity^.comment]));
+        end
+        else begin
+          DoStatus(False, Format('Authentication with username %s and public key %s succeeded', [username, identity^.comment]));
+          Break;
+        end;
+        prev_identity:= identity;
+      end;
+    finally
+      libssh2_agent_disconnect(agent);
+    end;
+  finally
+    libssh2_agent_free(agent);
+  end;
+end;
+
 function TScpSend.Connect: Boolean;
 const
   HASH_SIZE: array[1..3] of Byte = (16, 20, 32);
@@ -433,10 +479,18 @@ begin
       begin
         DoStatus(False, 'Username authentication');
       end
-      else if (strpos(userauthlist, 'publickey') <> nil) and (FPublicKey <> '') and (FPrivateKey <> '') then
+      else if (strpos(userauthlist, 'publickey') <> nil) and (FAgent or ((FPublicKey <> '') and (FPrivateKey <> ''))) then
       begin
-        DoStatus(False, 'Public key authentication');
-        if (AuthKey < 0) then
+        if FAgent then
+        begin
+          DoStatus(False, 'SSH-agent authentication');
+          FLastError:= AuthAgent;
+        end
+        else begin
+          DoStatus(False, 'Public key authentication');
+          FLastError:= AuthKey;
+        end;
+        if (FLastError < 0) then
         begin
           PrintLastError;
           Exit(False);
@@ -555,6 +609,7 @@ end;
 procedure TScpSend.CloneTo(AValue: TFTPSendEx);
 begin
   inherited CloneTo(AValue);
+  TScpSend(AValue).FAgent:= FAgent;
   TScpSend(AValue).FPassphrase:= FPassphrase;
   TScpSend(AValue).FFingerprint:= FFingerprint;
 end;
