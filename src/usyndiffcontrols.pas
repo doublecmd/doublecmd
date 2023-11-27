@@ -81,7 +81,7 @@ type
 
   { TSynDiffEdit }
 
-  TSynDiffEdit = class(TCustomSynEdit)
+  TSynDiffEdit = class(TSynEdit)
   private
     FPaintStyle: TPaintStyle;
     FEncoding: String;
