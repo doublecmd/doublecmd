@@ -825,18 +825,14 @@ end;
 
 procedure TfrmViewer.LoadNextFile(const aFileName: String);
 begin
-  if bPlugin then
-    with FWlxModule do
+  if bPlugin and FWlxModule.FileParamVSDetectStr(aFileName, False) then
+  begin
+    if FWlxModule.CallListLoadNext(Self.Handle, aFileName, PluginShowFlags) <> LISTPLUGIN_ERROR then
     begin
-      if FileParamVSDetectStr(aFileName, False) then
-      begin
-        if CallListLoadNext(Self.Handle, aFileName, PluginShowFlags) <> LISTPLUGIN_ERROR then
-        begin
-          FileName:= aFileName;
-          Exit;
-        end;
-      end;
+      Self.FileName:= aFileName;
+      Exit;
     end;
+  end;
   ExitPluginMode;
   ViewerControl.ResetEncoding;
   LoadFile(aFileName);
