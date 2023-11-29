@@ -782,7 +782,7 @@ begin
   FilterParts.Free;
 
   if CommandsFormCreated then
-    CommandsForm.Free;
+    Application.ReleaseComponent(CommandsForm);
 end;
 
 { TfrmOptionsHotkeys.FillCategoriesList }
