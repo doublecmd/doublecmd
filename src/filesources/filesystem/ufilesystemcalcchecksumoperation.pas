@@ -121,6 +121,8 @@ begin
                      FStatistics.TotalFiles,
                      FStatistics.TotalBytes);     // gets full list of files (recursive)
 
+        FCheckSumFile.TextLineBreakStyle:= TextLineBreakStyle;
+
         if (Algorithm = HASH_SFV) and OneFile then
         begin
           FCheckSumFile.Add(SFV_HEADER);
@@ -419,6 +421,8 @@ begin
 end;
 
 function TFileSystemCalcChecksumOperation.CalcChecksumProcessFile(aFile: TFile): Boolean;
+const
+  TextLineBreak: array[TTextLineBreakStyle] of String = ('/', '\', PathDelim);
 var
   FileName: String;
   sCheckSum: String;
@@ -444,14 +448,19 @@ begin
 
   if not CheckSumCalc(aFile, sCheckSum) then Exit;
 
+  FileName:= ExtractDirLevel(FFullFilesTree.Path, aFile.Path) + aFile.Name;
+
+  if (TextLineBreak[TextLineBreakStyle] <> PathDelim) then
+  begin
+    FileName:= StringReplace(FileName, PathDelim, TextLineBreak[TextLineBreakStyle], [rfReplaceAll]);
+  end;
+
   if Algorithm = HASH_SFV then
   begin
-    FCheckSumFile.Add(ExtractDirLevel(FFullFilesTree.Path,
-                                      aFile.Path) + aFile.Name + ' ' + sCheckSum);
+    FCheckSumFile.Add(FileName + ' ' + sCheckSum);
   end
   else begin
-    FCheckSumFile.Add(sCheckSum + ' *' + ExtractDirLevel(FFullFilesTree.Path,
-                                                         aFile.Path) + aFile.Name);
+    FCheckSumFile.Add(sCheckSum + ' *' + FileName);
   end;
 
   if not OneFile then

@@ -37,8 +37,11 @@ type
     cbSeparateFile: TCheckBox;
     cbOpenAfterJobIsComplete: TCheckBox;
     edtSaveTo: TEdit;
+    lblFileFormat: TLabel;
     lblSaveTo: TLabel;
     lbHashAlgorithm: TListBox;
+    rbWindows: TRadioButton;
+    rbUnix: TRadioButton;
     procedure cbSeparateFileChange(Sender: TObject);
     procedure edtSaveToChange(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -53,6 +56,7 @@ type
 
 function ShowCalcCheckSum(var sFileName: String; out SeparateFile: Boolean;
                           out HashAlgorithm: THashAlgorithm; out OpenFileAfterJobCompleted: Boolean;
+                          out TextLineBreakStyle: TTextLineBreakStyle;
                           out QueueId: TOperationsManagerQueueIdentifier): Boolean;
 
 function ShowCalcVerifyCheckSum(out Hash: String; out HashAlgorithm: THashAlgorithm;
@@ -65,19 +69,24 @@ implementation
 uses
   uGlobs, uLng;
 
-function ShowCalcCheckSum(var sFileName: String; out SeparateFile: Boolean;
-  out HashAlgorithm: THashAlgorithm; out OpenFileAfterJobCompleted: Boolean;
-  out QueueId: TOperationsManagerQueueIdentifier): Boolean;
+function ShowCalcCheckSum(var sFileName: String; out SeparateFile: Boolean; out
+  HashAlgorithm: THashAlgorithm; out OpenFileAfterJobCompleted: Boolean; out
+  TextLineBreakStyle: TTextLineBreakStyle; out
+  QueueId: TOperationsManagerQueueIdentifier): Boolean;
+const
+  TextLineBreak: array[Boolean] of TTextLineBreakStyle = (tlbsLF, tlbsCRLF);
 begin
   with TfrmCheckSumCalc.Create(Application) do
   try
     FFileName:= sFileName;
+    rbWindows.Checked:= (DefaultTextLineBreakStyle = tlbsCRLF);
 
     Result:= (ShowModal = mrOK);
     if Result then
       begin
         sFileName:= edtSaveTo.Text;
         SeparateFile:= cbSeparateFile.Checked;
+        TextLineBreakStyle:= TextLineBreak[rbWindows.Checked];
         OpenFileAfterJobCompleted:=(cbOpenAfterJobIsComplete.Checked AND cbOpenAfterJobIsComplete.Enabled);
         HashAlgorithm:= FAlgorithm;
         QueueId:= QueueIdentifier

@@ -59,6 +59,7 @@ type
 
   protected
     FResult: TVerifyChecksumResult;
+    FTextLineBreakStyle: TTextLineBreakStyle;
 
     function GetID: TFileSourceOperationType; override;
 
@@ -85,6 +86,7 @@ type
     property Mode: TCalcCheckSumOperationMode read FMode write FMode;
     property Algorithm: THashAlgorithm read FAlgorithm write FAlgorithm;
     property OneFile: Boolean read FOneFile write FOneFile;
+    property TextLineBreakStyle: TTextLineBreakStyle read FTextLineBreakStyle write FTextLineBreakStyle;
     property OpenFileAfterOperationCompleted: Boolean  read FOpenFileAfterOperationCompleted write FOpenFileAfterOperationCompleted;
     property Result: TVerifyChecksumResult read FResult;
   end;

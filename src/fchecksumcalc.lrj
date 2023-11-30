@@ -2,5 +2,8 @@
 {"hash":124685262,"name":"tfrmchecksumcalc.caption","sourcebytes":[67,97,108,99,117,108,97,116,101,32,99,104,101,99,107,115,117,109,46,46,46],"value":"Calculate checksum..."},
 {"hash":117557194,"name":"tfrmchecksumcalc.lblsaveto.caption","sourcebytes":[38,83,97,118,101,32,99,104,101,99,107,115,117,109,32,102,105,108,101,40,115,41,32,116,111,58],"value":"&Save checksum file(s) to:"},
 {"hash":222079109,"name":"tfrmchecksumcalc.cbseparatefile.caption","sourcebytes":[67,38,114,101,97,116,101,32,115,101,112,97,114,97,116,101,32,99,104,101,99,107,115,117,109,32,102,105,108,101,32,102,111,114,32,101,97,99,104,32,102,105,108,101],"value":"C&reate separate checksum file for each file"},
-{"hash":20936404,"name":"tfrmchecksumcalc.cbopenafterjobiscomplete.caption","sourcebytes":[79,112,101,110,32,99,104,101,99,107,115,117,109,32,102,105,108,101,32,97,102,116,101,114,32,106,111,98,32,105,115,32,99,111,109,112,108,101,116,101,100],"value":"Open checksum file after job is completed"}
+{"hash":20936404,"name":"tfrmchecksumcalc.cbopenafterjobiscomplete.caption","sourcebytes":[79,112,101,110,32,99,104,101,99,107,115,117,109,32,102,105,108,101,32,97,102,116,101,114,32,106,111,98,32,105,115,32,99,111,109,112,108,101,116,101,100],"value":"Open checksum file after job is completed"},
+{"hash":136754340,"name":"tfrmchecksumcalc.lblfileformat.caption","sourcebytes":[70,105,108,101,32,38,102,111,114,109,97,116],"value":"File &format"},
+{"hash":235189939,"name":"tfrmchecksumcalc.rbwindows.caption","sourcebytes":[87,105,110,100,111,119,115],"value":"Windows"},
+{"hash":378120,"name":"tfrmchecksumcalc.rbunix.caption","sourcebytes":[85,110,105,120],"value":"Unix"}
 ]}
