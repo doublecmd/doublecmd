@@ -2641,6 +2641,7 @@ var
   sFileName: String;
   SelectedFiles: TFiles;
   HashAlgorithm: THashAlgorithm;
+  TextLineBreakStyle: TTextLineBreakStyle;
   QueueId: TOperationsManagerQueueIdentifier;
   Operation: TFileSourceCalcChecksumOperation;
   bSeparateFile, bOpenFileAfterJobCompleted: Boolean;
@@ -2681,7 +2682,7 @@ begin
       else
         sFileName:= ActiveFrame.CurrentPath + SelectedFiles[0].Name;
 
-      if ShowCalcCheckSum(sFileName, bSeparateFile, HashAlgorithm, bOpenFileAfterJobCompleted, QueueId) then
+      if ShowCalcCheckSum(sFileName, bSeparateFile, HashAlgorithm, bOpenFileAfterJobCompleted, TextLineBreakStyle, QueueId) then
       begin
         Operation := ActiveFrame.FileSource.CreateCalcChecksumOperation(
                        SelectedFiles, ActiveFrame.CurrentPath, sFileName) as TFileSourceCalcChecksumOperation;
@@ -2690,6 +2691,7 @@ begin
         begin
           Operation.Mode := checksum_calc;
           Operation.OneFile := not bSeparateFile;
+          Operation.TextLineBreakStyle:= TextLineBreakStyle;
           Operation.OpenFileAfterOperationCompleted := bOpenFileAfterJobCompleted;
           Operation.Algorithm := HashAlgorithm;
 

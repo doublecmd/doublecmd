@@ -58,21 +58,21 @@ inherited frmCheckSumCalc: TfrmCheckSumCalc
     end
     object lbHashAlgorithm: TListBox[3]
       AnchorSideLeft.Control = edtSaveTo
-      AnchorSideTop.Control = cbOpenAfterJobIsComplete
+      AnchorSideTop.Control = rbWindows
       AnchorSideTop.Side = asrBottom
       AnchorSideRight.Control = edtSaveTo
       AnchorSideRight.Side = asrBottom
       AnchorSideBottom.Side = asrBottom
       Left = 0
-      Height = 244
-      Top = 100
+      Height = 219
+      Top = 125
       Width = 384
       Anchors = [akTop, akLeft, akRight, akBottom]
       BorderSpacing.Top = 6
       ItemHeight = 0
       OnSelectionChange = lbHashAlgorithmSelectionChange
       ScrollWidth = 150
-      TabOrder = 3
+      TabOrder = 5
     end
     object cbOpenAfterJobIsComplete: TCheckBox[4]
       AnchorSideLeft.Control = edtSaveTo
@@ -86,6 +86,46 @@ inherited frmCheckSumCalc: TfrmCheckSumCalc
       Caption = 'Open checksum file after job is completed'
       OnChange = cbSeparateFileChange
       TabOrder = 2
+    end
+    object lblFileFormat: TLabel[5]
+      AnchorSideLeft.Control = cbOpenAfterJobIsComplete
+      AnchorSideTop.Control = rbWindows
+      AnchorSideTop.Side = asrCenter
+      Left = 0
+      Height = 15
+      Top = 102
+      Width = 57
+      BorderSpacing.Top = 6
+      Caption = 'File &format'
+      FocusControl = rbWindows
+      ParentColor = False
+    end
+    object rbWindows: TRadioButton[6]
+      AnchorSideLeft.Control = lblFileFormat
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = cbOpenAfterJobIsComplete
+      AnchorSideTop.Side = asrBottom
+      Left = 69
+      Height = 19
+      Top = 100
+      Width = 69
+      BorderSpacing.Left = 12
+      BorderSpacing.Top = 6
+      Caption = 'Windows'
+      TabOrder = 3
+    end
+    object rbUnix: TRadioButton[7]
+      AnchorSideLeft.Control = rbWindows
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = rbWindows
+      AnchorSideTop.Side = asrCenter
+      Left = 144
+      Height = 19
+      Top = 100
+      Width = 44
+      BorderSpacing.Left = 6
+      Caption = 'Unix'
+      TabOrder = 4
     end
   end
   inherited pnlButtons: TPanel
