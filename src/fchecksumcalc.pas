@@ -79,7 +79,11 @@ begin
   with TfrmCheckSumCalc.Create(Application) do
   try
     FFileName:= sFileName;
-    rbWindows.Checked:= (DefaultTextLineBreakStyle = tlbsCRLF);
+    if (DefaultTextLineBreakStyle = tlbsCRLF) then
+      rbWindows.Checked:= True
+    else begin
+      rbUnix.Checked:= True;
+    end;
 
     Result:= (ShowModal = mrOK);
     if Result then
