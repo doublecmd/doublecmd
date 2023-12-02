@@ -43,12 +43,12 @@ msgstr "Дополнительные параметры"
 
 #: rarlng.rsdictlargewarning
 msgid "Large dictionary warning"
-msgstr ""
+msgstr "Предупреждение о большом словаре"
 
 #: rarlng.rsdictnotallowed
 #, object-pascal-format
 msgid "%u GB dictionary exceeds %u GB limit and needs more than %u GB memory to unpack."
-msgstr ""
+msgstr "Размер словаря %u Гб превышает ограничение в %u Гб, для распаковки требуется более %u Гб памяти."
 
 #: rarlng.rsmsgbuttoncancel
 msgid "&Cancel"
@@ -56,9 +56,9 @@ msgstr "О&тмена"
 
 #: rarlng.rsmsgbuttonextract
 msgid "&Extract"
-msgstr ""
+msgstr "&Распаковать"
 
 #: rarlng.rsmsglibrarynotfound
 #, object-pascal-format
 msgid "Cannot load library %s! Please check your installation."
-msgstr ""
+msgstr "Не удалось загрузить библиотеку %s! Пожалуйста, проверьте установку."
