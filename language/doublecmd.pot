@@ -331,8 +331,20 @@ msgstr ""
 msgid "C&reate separate checksum file for each file"
 msgstr ""
 
+#: tfrmchecksumcalc.lblfileformat.caption
+msgid "File &format"
+msgstr ""
+
 #: tfrmchecksumcalc.lblsaveto.caption
 msgid "&Save checksum file(s) to:"
+msgstr ""
+
+#: tfrmchecksumcalc.rbunix.caption
+msgid "Unix"
+msgstr ""
+
+#: tfrmchecksumcalc.rbwindows.caption
+msgid "Windows"
 msgstr ""
 
 #: tfrmchecksumverify.btnclose.caption

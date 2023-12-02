@@ -352,10 +352,22 @@ msgstr "&Åbn kontrolsumfil efter opgaven er færdig"
 msgid "C&reate separate checksum file for each file"
 msgstr "Dan en &separat kontrolsumfil for hver fil"
 
+#: tfrmchecksumcalc.lblfileformat.caption
+msgid "File &format"
+msgstr ""
+
 # Filer - Dan_CRC_kontrolsumfil(er)
 #: tfrmchecksumcalc.lblsaveto.caption
 msgid "&Save checksum file(s) to:"
 msgstr "Gem kontrol&sum-fil(er) som:"
+
+#: tfrmchecksumcalc.rbunix.caption
+msgid "Unix"
+msgstr ""
+
+#: tfrmchecksumcalc.rbwindows.caption
+msgid "Windows"
+msgstr ""
 
 # Filer - Kontrollér_CRC_kontrolsumfil(er)...
 #: tfrmchecksumverify.btnclose.caption

@@ -344,9 +344,21 @@ msgstr "Deschide fișierul sumă de control după ce se termină activitatea"
 msgid "C&reate separate checksum file for each file"
 msgstr "C&reează sume de control separate pentru fiecare fișier"
 
+#: tfrmchecksumcalc.lblfileformat.caption
+msgid "File &format"
+msgstr ""
+
 #: tfrmchecksumcalc.lblsaveto.caption
 msgid "&Save checksum file(s) to:"
 msgstr "&Salvează fișierul/fișierele sumă de control în:"
+
+#: tfrmchecksumcalc.rbunix.caption
+msgid "Unix"
+msgstr ""
+
+#: tfrmchecksumcalc.rbwindows.caption
+msgid "Windows"
+msgstr ""
 
 #: tfrmchecksumverify.btnclose.caption
 msgctxt "TFRMCHECKSUMVERIFY.BTNCLOSE.CAPTION"

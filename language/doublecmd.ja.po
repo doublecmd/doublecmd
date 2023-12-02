@@ -341,9 +341,21 @@ msgstr "作業完了後にチェックサムファイルを開く"
 msgid "C&reate separate checksum file for each file"
 msgstr "ファイルごとに個別のチェックサム ファイルを作成(&r)"
 
+#: tfrmchecksumcalc.lblfileformat.caption
+msgid "File &format"
+msgstr ""
+
 #: tfrmchecksumcalc.lblsaveto.caption
 msgid "&Save checksum file(s) to:"
 msgstr "チェックサム ファイルを保存(&S)："
+
+#: tfrmchecksumcalc.rbunix.caption
+msgid "Unix"
+msgstr ""
+
+#: tfrmchecksumcalc.rbwindows.caption
+msgid "Windows"
+msgstr ""
 
 #: tfrmchecksumverify.btnclose.caption
 msgctxt "TFRMCHECKSUMVERIFY.BTNCLOSE.CAPTION"

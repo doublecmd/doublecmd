@@ -344,9 +344,21 @@ msgstr "Åpn kontrollsumfil etter at jobb er utført"
 msgid "C&reate separate checksum file for each file"
 msgstr "&Opprett separat kontrollsumfil for hver fil"
 
+#: tfrmchecksumcalc.lblfileformat.caption
+msgid "File &format"
+msgstr ""
+
 #: tfrmchecksumcalc.lblsaveto.caption
 msgid "&Save checksum file(s) to:"
 msgstr "&Lagr kontrollsum-fil(er) som:"
+
+#: tfrmchecksumcalc.rbunix.caption
+msgid "Unix"
+msgstr ""
+
+#: tfrmchecksumcalc.rbwindows.caption
+msgid "Windows"
+msgstr ""
 
 #: tfrmchecksumverify.btnclose.caption
 msgctxt "TFRMCHECKSUMVERIFY.BTNCLOSE.CAPTION"

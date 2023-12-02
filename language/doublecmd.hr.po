@@ -373,10 +373,22 @@ msgstr "Otvorite datoteku provjere nakon završetka zadatka"
 msgid "C&reate separate checksum file for each file"
 msgstr "&Učini posebnu datoteku zbirne provjere za svaku datoteku"
 
+#: tfrmchecksumcalc.lblfileformat.caption
+msgid "File &format"
+msgstr ""
+
 #: tfrmchecksumcalc.lblsaveto.caption
 msgctxt "tfrmchecksumcalc.lblsaveto.caption"
 msgid "&Save checksum file(s) to:"
 msgstr "&Kopiraj zbirnu(e) ptovjeru(e) u"
+
+#: tfrmchecksumcalc.rbunix.caption
+msgid "Unix"
+msgstr ""
+
+#: tfrmchecksumcalc.rbwindows.caption
+msgid "Windows"
+msgstr ""
 
 #: tfrmchecksumverify.btnclose.caption
 msgctxt "TFRMCHECKSUMVERIFY.BTNCLOSE.CAPTION"
