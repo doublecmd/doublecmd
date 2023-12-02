@@ -224,7 +224,13 @@ begin
       Mode:= ARequest.ReadDWord;
       DCDebug('FileOpen ', FileName);
       Handle:= mbFileOpen(FileName, Mode);
-      ATransport.WriteHandle(Handle);
+      if (Handle <> feInvalidHandle) then
+        LastError:= 0
+      else begin
+        LastError:= GetLastOSError;
+      end;
+      ATransport.WriteBuffer(LastError, SizeOf(LastError));
+      if (LastError = 0) then ATransport.WriteHandle(Handle);
     end;
   RPC_FileCreate:
     begin
@@ -232,7 +238,13 @@ begin
       Mode:= ARequest.ReadDWord;
       DCDebug('FileCreate ', FileName);
       Handle:= mbFileCreate(FileName, Mode);
-      ATransport.WriteHandle(Handle);
+      if (Handle <> feInvalidHandle) then
+        LastError:= 0
+      else begin
+        LastError:= GetLastOSError;
+      end;
+      ATransport.WriteBuffer(LastError, SizeOf(LastError));
+      if (LastError = 0) then ATransport.WriteHandle(Handle);
     end;
   RPC_RenameFile:
     begin
