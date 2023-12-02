@@ -5374,7 +5374,7 @@ msgstr "Групповая отмена"
 
 #: tfrmoptionseditor.chkgroupundo.hint
 msgid "All continuous changes of the same type will be processed in one call instead of undoing/redoing each one"
-msgstr ""
+msgstr "Все непрерывные однотипные изменения будут обрабатываться за один вызов вместо отмены/повтора каждого"
 
 #: tfrmoptionseditor.chkrightedge.caption
 msgid "Right margin:"
