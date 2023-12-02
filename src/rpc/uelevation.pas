@@ -296,6 +296,7 @@ end;
 function TWorkerProxy.ProcessObject(ACommand: UInt32; const ObjectName: String;
   Mode: Integer): THandle;
 var
+  LastError: Integer;
   Stream: TMemoryStream;
 begin
   Result:= feInvalidHandle;
@@ -314,7 +315,12 @@ begin
       // Send command
       FClient.WriteBuffer(Stream.Memory^, Stream.Size);
       // Receive command result
-      FClient.ReadHandle(Result);
+      FClient.ReadBuffer(LastError, SizeOf(LastError));
+      if (LastError = 0) then
+        FClient.ReadHandle(Result)
+      else begin
+        SetLastOSError(LastError);
+      end;
     finally
       Stream.Free;
     end;
