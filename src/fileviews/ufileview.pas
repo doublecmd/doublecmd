@@ -90,7 +90,7 @@ type
 
   { TFileView }
 
-  TFileView = class(TWinControl)
+  TFileView = class(TCustomControl)
   private
     {en
        History of viewed paths and file sources.
