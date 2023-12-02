@@ -338,9 +338,21 @@ msgstr "Адкрыць файл кантрольнай сумы пасля за�
 msgid "C&reate separate checksum file for each file"
 msgstr "С&твараць асобны файл кантрольнай сумы для кожнага файла"
 
+#: tfrmchecksumcalc.lblfileformat.caption
+msgid "File &format"
+msgstr ""
+
 #: tfrmchecksumcalc.lblsaveto.caption
 msgid "&Save checksum file(s) to:"
 msgstr "&Захаваць файл(ы) кантрольнай сумы ў:"
+
+#: tfrmchecksumcalc.rbunix.caption
+msgid "Unix"
+msgstr ""
+
+#: tfrmchecksumcalc.rbwindows.caption
+msgid "Windows"
+msgstr ""
 
 #: tfrmchecksumverify.btnclose.caption
 msgctxt "TFRMCHECKSUMVERIFY.BTNCLOSE.CAPTION"

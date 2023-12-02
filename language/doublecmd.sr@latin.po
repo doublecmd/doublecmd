@@ -346,11 +346,23 @@ msgstr ""
 msgid "C&reate separate checksum file for each file"
 msgstr "&Obrazuj posebnu datoteku zbirne provere za svaku datoteku"
 
+#: tfrmchecksumcalc.lblfileformat.caption
+msgid "File &format"
+msgstr ""
+
 #: tfrmchecksumcalc.lblsaveto.caption
 #, fuzzy
 #| msgid "&Save check sum file(s) to:"
 msgid "&Save checksum file(s) to:"
 msgstr "&Sačuvaj zbirnu(e) proveru(e) u:"
+
+#: tfrmchecksumcalc.rbunix.caption
+msgid "Unix"
+msgstr ""
+
+#: tfrmchecksumcalc.rbwindows.caption
+msgid "Windows"
+msgstr ""
 
 #: tfrmchecksumverify.btnclose.caption
 msgctxt "TFRMCHECKSUMVERIFY.BTNCLOSE.CAPTION"
@@ -5242,7 +5254,7 @@ msgid "Alwa&ys expand tree"
 msgstr "Uvek širi stablo fascikli"
 
 #: tfrmoptionsdirectoryhotlist.cbshowonlyvalidenv.caption
-#, fuzzy, badformat
+#, fuzzy
 #| msgid "Show only valid environment variables"
 msgid "Show only &valid environment variables"
 msgstr "Prikazuj samo ispravne %env_var%"

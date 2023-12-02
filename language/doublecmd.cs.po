@@ -335,9 +335,21 @@ msgstr "Otevřít soubor po vytvoření kontrolního součtu"
 msgid "C&reate separate checksum file for each file"
 msgstr "V&ytvořit samostatný kontrolní součet pro každý soubor"
 
+#: tfrmchecksumcalc.lblfileformat.caption
+msgid "File &format"
+msgstr ""
+
 #: tfrmchecksumcalc.lblsaveto.caption
 msgid "&Save checksum file(s) to:"
 msgstr "&Uložit soubor(y) s kontrolním součtem do:"
+
+#: tfrmchecksumcalc.rbunix.caption
+msgid "Unix"
+msgstr ""
+
+#: tfrmchecksumcalc.rbwindows.caption
+msgid "Windows"
+msgstr ""
 
 #: tfrmchecksumverify.btnclose.caption
 msgctxt "TFRMCHECKSUMVERIFY.BTNCLOSE.CAPTION"

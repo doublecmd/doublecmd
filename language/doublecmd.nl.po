@@ -333,9 +333,21 @@ msgstr "Open checksum-bestand nadat de taak voltooid is"
 msgid "C&reate separate checksum file for each file"
 msgstr "Maak aparte checksum aan voor elk bestand"
 
+#: tfrmchecksumcalc.lblfileformat.caption
+msgid "File &format"
+msgstr ""
+
 #: tfrmchecksumcalc.lblsaveto.caption
 msgid "&Save checksum file(s) to:"
 msgstr "Sla checksumbestand(en) op in:"
+
+#: tfrmchecksumcalc.rbunix.caption
+msgid "Unix"
+msgstr ""
+
+#: tfrmchecksumcalc.rbwindows.caption
+msgid "Windows"
+msgstr ""
 
 #: tfrmchecksumverify.btnclose.caption
 msgctxt "TFRMCHECKSUMVERIFY.BTNCLOSE.CAPTION"
@@ -13820,7 +13832,7 @@ msgid "Complete filename (path+filename)"
 msgstr "Volledige bestandsnaam (pad+bestandsnaam)"
 
 #: ulng.rsvarhelpwith
-#, fuzzy
+#, fuzzy, badformat
 msgid "Help with \"%\" variables"
 msgstr "Hulp voor '%s' variabelen"
 

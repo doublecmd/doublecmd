@@ -335,9 +335,21 @@ msgstr "Prüfsummen-Datei öffnen, nachdem der Job beendet ist"
 msgid "C&reate separate checksum file for each file"
 msgstr "Einzelne Prüfsumme fü&r jede Datei erstellen"
 
+#: tfrmchecksumcalc.lblfileformat.caption
+msgid "File &format"
+msgstr ""
+
 #: tfrmchecksumcalc.lblsaveto.caption
 msgid "&Save checksum file(s) to:"
 msgstr "Prüf&summen-Datei(en) speichern unter:"
+
+#: tfrmchecksumcalc.rbunix.caption
+msgid "Unix"
+msgstr ""
+
+#: tfrmchecksumcalc.rbwindows.caption
+msgid "Windows"
+msgstr ""
 
 #: tfrmchecksumverify.btnclose.caption
 msgctxt "TFRMCHECKSUMVERIFY.BTNCLOSE.CAPTION"
