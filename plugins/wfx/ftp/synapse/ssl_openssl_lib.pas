@@ -1955,7 +1955,7 @@ begin
 {$ENDIF}
 end;
 
-function GetLibFileName(Handle: THandle): string;
+function GetLibFileName(Handle: TLibHandle): string;
 var
   n: integer;
 begin
