@@ -41,6 +41,10 @@ msgctxt "tdialogbox.caption"
 msgid "FTP"
 msgstr "FTP"
 
+#: tdialogbox.chkagentssh.caption
+msgid "Use SSH-agent authentication"
+msgstr ""
+
 #: tdialogbox.chkcopyscp.caption
 msgid "Copy using SCP protocol (faster)"
 msgstr "Капіяваць з дапамогай пратакола SCP (хутчэй)"
