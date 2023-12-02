@@ -286,6 +286,15 @@ Index: ssl_openssl_lib.pas
  // libeay.dll
  function X509New: PX509;
  begin
+@@ -1924,7 +1955,7 @@
+ {$ENDIF}
+ end;
+
+-function GetLibFileName(Handle: THandle): string;
++function GetLibFileName(Handle: TLibHandle): string;
+ var
+   n: integer;
+ begin
 @@ -2022,6 +2053,9 @@
          _SslGetVerifyResult := GetProcAddr(SSLLibHandle, 'SSL_get_verify_result');
          _SslCtrl := GetProcAddr(SSLLibHandle, 'SSL_ctrl');
