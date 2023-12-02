@@ -1,8 +1,9 @@
-{ $threading on}
 program doublecmd;
-{%File 'doc/changelog.txt'}
 
-{.$APPTYPE GUI}
+{$IF DEFINED(LCLGTK3)}
+{$FATAL LCLGTK3 is not production ready}
+{$ENDIF}
+
 uses
   {$IFDEF MSWINDOWS}
   uElevation,

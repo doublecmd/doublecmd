@@ -157,6 +157,9 @@ uses
   , Gdk2, GLib2, Gtk2Extra
   , Gtk2Proc
 {$ENDIF}
+{$IF DEFINED(LCLGTK3)}
+  , LazGdk3, LazGLib2, LazGObject2
+{$ENDIF}
 {$IF DEFINED(X11) and (DEFINED(LCLQT) or DEFINED(LCLQT5) OR DEFINED(LCLQT6))}
   {$IF DEFINED(LCLQT)}
   , qt4, qtwidgets, qtint
@@ -190,18 +193,20 @@ const
 var
   {$IF DEFINED(LCLGTK)}
   XDisplay: PDisplay = nil;
-  {$ELSEIF DEFINED(LCLGTK2)}
+  {$ELSEIF DEFINED(LCLGTK2) or DEFINED(LCLGTK3)}
   XDisplay: PGdkDisplay = nil;
   {$ELSEIF (DEFINED(LCLQT) or DEFINED(LCLQT5) OR DEFINED(LCLQT6))}
   XDisplay: PDisplay = nil;
   {$ENDIF}
 {$ENDIF}
 
-{$IF DEFINED(UNIX) and (DEFINED(LCLGTK) or DEFINED(LCLGTK2))}
+{$IF DEFINED(UNIX) and (DEFINED(LCLGTK) or DEFINED(LCLGTK2) or DEFINED(LCLGTK3))}
 var
+  {$IF DEFINED(LCLGTK) or DEFINED(LCLGTK2)}
   // This is set to a virtual key number that AltGr is mapped on.
   VK_ALTGR: Byte = VK_UNDEFINED;
-  {$IF DEFINED(LCLGTK2)}
+  {$ENDIF}
+  {$IF DEFINED(LCLGTK2) or DEFINED(LCLGTK3)}
   KeysChangesSignalHandlerId : gulong = 0;
   {$ENDIF}
 {$ENDIF}
@@ -1111,7 +1116,7 @@ begin
       end;
   end;
 end;
-{$ELSEIF DEFINED(LCLGTK2)}
+{$ELSEIF DEFINED(LCLGTK2) or DEFINED(LCLGTK3)}
 procedure KeysChangedSignalHandler(keymap: PGdkKeymap; Data: gpointer); cdecl;
 begin
   OnKeyboardLayoutChanged;
@@ -1126,13 +1131,13 @@ begin
   if Assigned(KeyboardLayoutChangedHook) then
     FreeAndNil(KeyboardLayoutChangedHook);
 
-{$ELSEIF DEFINED(UNIX) and (DEFINED(LCLGTK) or DEFINED(LCLGTK2))}
+{$ELSEIF DEFINED(UNIX) and (DEFINED(LCLGTK) or DEFINED(LCLGTK2) or DEFINED(LCLGTK3))}
 
   {$IF DEFINED(LCLGTK)}
 
   gdk_window_remove_filter(nil, @EventHandler, nil);
 
-  {$ELSEIF DEFINED(LCLGTK2)}
+  {$ELSEIF DEFINED(LCLGTK2) or DEFINED(LCLGTK3)}
 
   if (KeysChangesSignalHandlerId <> 0)
   and g_signal_handler_is_connected(gdk_keymap_get_for_display(XDisplay),
@@ -1160,7 +1165,7 @@ begin
   KeyboardLayoutChangedHook := KeyboardLayoutChangedHook.Create(
                                TQtWidget(Application.MainForm.Handle).TheObject);
 
-{$ELSEIF DEFINED(UNIX) and (DEFINED(LCLGTK) or DEFINED(LCLGTK2))}
+{$ELSEIF DEFINED(UNIX) and (DEFINED(LCLGTK) or DEFINED(LCLGTK2) or DEFINED(LCLGTK3))}
 
   // On GTK1 XLib's MappingNotify event is used to detect keyboard mapping changes.
   // On GTK2 however (at least on my system), an event of type 112 instead of 34
@@ -1171,13 +1176,13 @@ begin
 
   gdk_window_add_filter(nil, @EventHandler, nil); // Filter events for all windows.
 
-  {$ELSEIF DEFINED(LCLGTK2)}
+  {$ELSEIF DEFINED(LCLGTK2) or DEFINED(LCLGTK3)}
 
   // Connect to GdkKeymap object for the given display.
   KeysChangesSignalHandlerId :=
-      g_signal_connect(gdk_keymap_get_for_display(XDisplay),
-                       'keys-changed',
-                       TGCallback(@KeysChangedSignalHandler), nil);
+      g_signal_connect_data(gdk_keymap_get_for_display(XDisplay), 'keys-changed',
+                            TGCallback(@KeysChangedSignalHandler), nil, nil,
+                            {$IFDEF LCLGTK2}0{$ELSE}[]{$ENDIF});
 
   {$ENDIF}
 
@@ -1244,7 +1249,7 @@ initialization
   // Get connection to X server.
   {$IF DEFINED(LCLGTK)}
   XDisplay := gdk_display;
-  {$ELSEIF DEFINED(LCLGTK2)}
+  {$ELSEIF DEFINED(LCLGTK2) or DEFINED(LCLGTK3)}
   XDisplay := gdk_display_get_default;
   {$ELSEIF (DEFINED(LCLQT) or DEFINED(LCLQT5) OR DEFINED(LCLQT6))}
   if not IsWayland then XDisplay := XOpenDisplay(nil);
