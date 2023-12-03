@@ -420,7 +420,7 @@ begin
       Reader := TFileStreamUAC.Create(aFileName, fmOpenRead or fmShareDenyNone);
       try
         SetLength(sOriginalText, Reader.Size);
-        actFileSave.Enabled:= not FileIsReadOnly(Reader.Handle);
+        actFileSave.Enabled:= not FileIsReadOnlyEx(Reader.Handle);
         Reader.Read(Pointer(sOriginalText)^, Length(sOriginalText));
       finally
         Reader.Free;

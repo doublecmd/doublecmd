@@ -235,7 +235,7 @@ function mbFileSize(const FileName: String): Int64;
 function FileGetSize(Handle: System.THandle): Int64;
 function FileFlush(Handle: System.THandle): Boolean;
 function FileFlushData(Handle: System.THandle): Boolean;
-function FileIsReadOnly(Handle: System.THandle): Boolean;
+function FileIsReadOnlyEx(Handle: System.THandle): Boolean;
 function FileAllocate(Handle: System.THandle; Size: Int64): Boolean;
 { Directory handling functions}
 function mbGetCurrentDir: String;
@@ -1408,7 +1408,7 @@ begin
 end;
 {$ENDIF}
 
-function FileIsReadOnly(Handle: System.THandle): Boolean;
+function FileIsReadOnlyEx(Handle: System.THandle): Boolean;
 {$IF DEFINED(MSWINDOWS)}
 var
   Info: BY_HANDLE_FILE_INFORMATION;
