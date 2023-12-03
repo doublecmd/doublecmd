@@ -8,7 +8,7 @@ uses
   Classes, SysUtils, SynEditHighlighter, SynHighlighterPas, SynHighlighterCPP,
   SynHighlighterHTML, SynHighlighterUNIXShellScript, SynHighlighterPerl,
   SynHighlighterDiff, SynHighlighterPo, SynHighlighterIni, SynHighlighterBat,
-  SynHighlighterTeX;
+  SynHighlighterTeX, LCLVersion;
 
 const
   SYNS_XML_DefaultText = 'Default text';
@@ -194,6 +194,9 @@ end;
 constructor TSynIniSynEx.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
+{$IF (LCL_FULLVERSION >= 3990000)}
+  CommentTypes := [ictSemicolon, ictHash];
+{$ENDIF}
   CommentAttri.StoredName := SYNS_XML_AttrComment;
   TextAttri.StoredName    := SYNS_XML_AttrText;
   SectionAttri.StoredName := SYNS_XML_AttrSection;
