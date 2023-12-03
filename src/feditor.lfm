@@ -917,13 +917,6 @@ object frmEditor: TfrmEditor
       ImageIndex = 12
       OnExecute = actExecute
     end
-    object actSaveAll: TAction
-      Category = 'File'
-      Caption = 'Sa&ve All'
-      HelpType = htKeyword
-      Hint = 'Save All'
-      OnExecute = actExecute
-    end
     object actEditFind: TAction
       Category = 'Edit'
       Caption = '&Find'
