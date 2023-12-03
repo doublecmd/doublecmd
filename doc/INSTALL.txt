@@ -13,7 +13,7 @@ directory of DC sources. You must open each .lpk package file:
 
 - chsdet/chsdet.lpk
 - multithreadprocs/multithreadprocslaz.lpk
-- dcpcrypt/dcpcrypt.lpk
+- kascrypt/kascrypt.lpk
 - doublecmd/doublecmd_common.lpk
 - gifanim/pkg_gifanim.lpk
 - KASToolBar/kascomp.lpk

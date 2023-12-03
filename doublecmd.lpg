@@ -5,7 +5,7 @@
       <Target FileName="components/chsdet/chsdet.lpk"/>
       <Target FileName="components/doublecmd/doublecmd_common.lpk"/>
       <Target FileName="components/multithreadprocs/multithreadprocslaz.lpk"/>
-      <Target FileName="components/dcpcrypt/dcpcrypt.lpk"/>
+      <Target FileName="components/kascrypt/kascrypt.lpk"/>
       <Target FileName="components/gifanim/pkg_gifanim.lpk"/>
       <Target FileName="components/Image32/Image32.lpk"/>
       <Target FileName="components/KASToolBar/kascomp.lpk"/>

@@ -49,7 +49,7 @@
 @echo Clean up components output directories
 
 @del /Q /S components\chsdet\lib\*.*
-@del /Q /S components\dcpcrypt\lib\*.*
+@del /Q /S components\kascrypt\lib\*.*
 @del /Q /S components\doublecmd\lib\*.*
 @del /Q /S components\gifanim\lib\*.*
 @del /Q /S components\KASToolBar\lib\*.*

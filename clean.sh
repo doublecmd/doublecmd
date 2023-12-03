@@ -5,7 +5,7 @@ rm -f units/*/*
 
 # Clean up components output directories
 rm -rf components/chsdet/lib/*
-rm -rf components/dcpcrypt/lib/*
+rm -rf components/kascrypt/lib/*
 rm -rf components/doublecmd/lib/*
 rm -rf components/gifanim/lib/*
 rm -rf components/Image32/lib/*

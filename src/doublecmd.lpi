@@ -270,7 +270,7 @@ end;"/>
         <PackageName Value="DateTimeCtrls"/>
       </Item2>
       <Item3>
-        <PackageName Value="dcpcrypt"/>
+        <PackageName Value="kascrypt"/>
         <MinVersion Major="3" Valid="True"/>
       </Item3>
       <Item4>
