@@ -59,6 +59,7 @@ uses
 procedure ChooseFile(aFileView: TFileView; aFileSource: IFileSource;
   aFile: TFile);
 var
+  Index, PathIndex: Integer;
   sCmd, sParams, sStartPath: String;
   Operation: TFileSourceExecuteOperation = nil;
   aFileCopy: TFile = nil;
@@ -134,7 +135,9 @@ begin
               with aFileView do
               begin
                 // If path is URI
-                if Pos('://', Operation.ResultString) > 0 then
+                Index:= Pos('://', Operation.ResultString);
+                PathIndex:= Pos(PathDelim, Operation.ResultString);
+                if (Index > 0) and ((PathIndex > Index) or (PathIndex = 0)) then
                   ChooseFileSource(aFileView, Operation.ResultString)
                 else if (FileSource.IsClass(TFileSystemFileSource)) or
                         (mbSetCurrentDir(ExcludeTrailingPathDelimiter(Operation.ResultString)) = False) then
