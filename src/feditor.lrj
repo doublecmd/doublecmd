@@ -22,8 +22,6 @@
 {"hash":21703,"name":"tfrmeditor.actfilenew.hint","sourcebytes":[78,101,119],"value":"New"},
 {"hash":4710148,"name":"tfrmeditor.actfileexit.caption","sourcebytes":[69,38,120,105,116],"value":"E&xit"},
 {"hash":315140,"name":"tfrmeditor.actfileexit.hint","sourcebytes":[69,120,105,116],"value":"Exit"},
-{"hash":231153436,"name":"tfrmeditor.actsaveall.caption","sourcebytes":[83,97,38,118,101,32,65,108,108],"value":"Sa&ve All"},
-{"hash":147276732,"name":"tfrmeditor.actsaveall.hint","sourcebytes":[83,97,118,101,32,65,108,108],"value":"Save All"},
 {"hash":2805828,"name":"tfrmeditor.acteditfind.caption","sourcebytes":[38,70,105,110,100],"value":"&Find"},
 {"hash":315460,"name":"tfrmeditor.acteditfind.hint","sourcebytes":[70,105,110,100],"value":"Find"},
 {"hash":147268901,"name":"tfrmeditor.acteditrplc.caption","sourcebytes":[38,82,101,112,108,97,99,101],"value":"&Replace"},

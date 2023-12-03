@@ -112,7 +112,6 @@ type
     miReplace: TMenuItem;
     Help1: TMenuItem;
     miAbout: TMenuItem;
-    actSaveAll: TAction;
     StatusBar: TStatusBar;
     Editor: TSynEdit;
     miHighlight: TMenuItem;
@@ -237,7 +236,8 @@ implementation
 uses
   Clipbrd, dmCommonData, dmHigh, SynEditTypes, LCLType, LConvEncoding,
   uLng, uShowMsg, uGlobs, fOptions, DCClassesUtf8, uAdministrator, uHighlighters,
-  uOSUtils, uConvEncoding, fOptionsToolsEditor, uDCUtils, uClipboard, uFindFiles;
+  uOSUtils, uConvEncoding, fOptionsToolsEditor, uDCUtils, uClipboard, uFindFiles,
+  DCOSUtils;
 
 procedure ShowEditor(const sFileName: String; WaitData: TWaitData = nil);
 var
@@ -420,6 +420,7 @@ begin
       Reader := TFileStreamUAC.Create(aFileName, fmOpenRead or fmShareDenyNone);
       try
         SetLength(sOriginalText, Reader.Size);
+        actFileSave.Enabled:= not FileIsReadOnly(Reader.Handle);
         Reader.Read(Pointer(sOriginalText)^, Length(sOriginalText));
       finally
         Reader.Free;
@@ -918,6 +919,7 @@ begin
   FileName := rsMsgNewFile;
   Editor.Lines.Clear;
   Editor.Modified:= False;
+  actFileSave.Enabled:= True;
   bNoname:= True;
   UpdateStatus;
 end;
@@ -961,7 +963,10 @@ begin
     Exit;
 
   FileName := dmComData.SaveDialog.FileName;
-  SaveFile(FileName);
+  if SaveFile(FileName) then
+  begin
+    actFileSave.Enabled:= True;
+  end;
   bNoname:=False;
 
   UpdateStatus;
