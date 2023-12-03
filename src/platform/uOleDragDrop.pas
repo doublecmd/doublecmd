@@ -64,6 +64,9 @@ type
     FHandle: HWND;
     FReleased: Boolean;
     FDragDropTarget: TDragDropTargetWindows;
+  protected
+    function GetFiles(const dataObj: IDataObject; ChosenFormat: TFormatETC;
+                      out FileNames: TStringList; out Medium: TSTGMedium): HRESULT;
   public
     constructor Create(DragDropTarget: TDragDropTargetWindows);
     {en
@@ -184,7 +187,7 @@ implementation
 
 uses
   //Lazarus, Free-Pascal, etc.
-  LazUTF8, SysUtils, ShellAPI, LCLIntf, ComObj,
+  LazUTF8, SysUtils, ShellAPI, LCLIntf, ComObj, IntegerList,
   DCDateTimeUtils, Forms, DCConvertEncoding,
 
   //DC
@@ -669,6 +672,33 @@ begin
   Result := hGlobalDropInfo;
 end;
 
+function TFileDropTarget.GetFiles(const dataObj: IDataObject; ChosenFormat: TFormatETC;
+                                  out FileNames: TStringList; out Medium: TSTGMedium): HRESULT;
+begin
+  ChosenFormat.ptd := nil;
+  ChosenFormat.dwAspect := DVASPECT_CONTENT;
+  ChosenFormat.lindex := -1;
+  ChosenFormat.tymed := TYMED_HGLOBAL;
+
+  Result:= dataObj.GetData(ChosenFormat, Medium);
+
+  if Result = S_OK then
+  begin
+    if Medium.Tymed = TYMED_HGLOBAL then
+    begin
+      case ChosenFormat.CfFormat of
+        CF_HDROP: FileNames := GetDropFilenames(Medium.hGlobal);
+        CF_UNICODETEXT, CF_TEXT: FileNames := GetDropTextCreatedFilenames(Medium, ChosenFormat);
+        else begin
+          if (ChosenFormat.CfFormat = CFU_FILEGROUPDESCRIPTORW) or (ChosenFormat.CfFormat = CFU_FILEGROUPDESCRIPTOR) then
+            FileNames := GetDropFileGroupFilenames(dataObj, Medium, ChosenFormat)
+          else if (ChosenFormat.CfFormat = CFU_HTML) or (ChosenFormat.CfFormat = CFU_RICHTEXT) then
+            FileNames := GetDropTextCreatedFilenames(Medium, ChosenFormat)
+        end;
+      end;
+    end;
+  end;
+end;
 
 { TFileDropTarget.Create }
 constructor TFileDropTarget.Create(DragDropTarget: TDragDropTargetWindows);
@@ -791,11 +821,11 @@ var
   SelectedFormatName:String;
   DropEffect: TDropEffect;
   Enum: IEnumFormatEtc;
-  DragAndDropSupportedFormatList:TStringList;
+  DragAndDropSupportedFormatList: TWordList;
   UnusedInteger : integer;
 
 begin
-  DragAndDropSupportedFormatList:=TStringList.Create;
+  DragAndDropSupportedFormatList:= TWordList.Create;
   try
     FileNames:=nil;
     UnusedInteger:=0;
@@ -810,32 +840,51 @@ begin
     // We scan through all because sometimes the best one is not the first compatible one.
     OleCheck(DataObj.EnumFormatEtc(DATADIR_GET, Enum));
     while Enum.Next(1, CyclingThroughFormat, nil) = S_OK do
-      DragAndDropSupportedFormatList.Add(IntToStr(CyclingThroughFormat.CfFormat));
+    begin
+      DragAndDropSupportedFormatList.Add(CyclingThroughFormat.CfFormat);
+    end;
 
     //2. Let's determine our best guess.
     // The order for this will be:
-    // 1st) CF_HDROP (for legacy purpose, since DC was using it first).
-    // 2nd) CFU_FILEGROUPDESCRIPTORW + CFU_FILECONTENTS (Outlook 2010 / Windows Live Mail, etc.)
-    // 3rd) CFU_FILEGROUPDESCRIPTOR + CFU_FILECONTENTS (Outlook 2010 / Windows Live Mail, etc.)
+    // 1nd) CFU_FILEGROUPDESCRIPTORW + CFU_FILECONTENTS (Outlook 2010 / Windows Live Mail, etc.)
+    // 2rd) CFU_FILEGROUPDESCRIPTOR + CFU_FILECONTENTS (Outlook 2010 / Windows Live Mail, etc.)
+    // 3st) CF_HDROP (for legacy purpose, since DC was using it first).
     // 4th) We'll see if user would like to create a new text file from possible selected text dropped on the panel
     // CF_UNICODETEXT (Notepad++ / Wordpad / Firefox)
     // CF_TEXT (Notepad / Wordpad / Firefox)
     // CFU_HTML (Firefox)
     // Rich Text (Wordpad / Microsoft Word)
-    ChosenFormat.CfFormat:=0;
-    if DragAndDropSupportedFormatList.IndexOf(IntToStr(CF_HDROP))<>-1 then ChosenFormat.CfFormat:=CF_HDROP;
-    if (ChosenFormat.CfFormat=0) AND (DragAndDropSupportedFormatList.IndexOf(IntToStr(CFU_FILEGROUPDESCRIPTORW))<>-1) AND (DragAndDropSupportedFormatList.IndexOf(IntToStr(CFU_FILECONTENTS))<>-1) then ChosenFormat.CfFormat:=CFU_FILEGROUPDESCRIPTORW;
-    if (ChosenFormat.CfFormat=0) AND (DragAndDropSupportedFormatList.IndexOf(IntToStr(CFU_FILEGROUPDESCRIPTOR))<>-1) AND (DragAndDropSupportedFormatList.IndexOf(IntToStr(CFU_FILECONTENTS))<>-1) then ChosenFormat.CfFormat:=CFU_FILEGROUPDESCRIPTOR;
+    Result:= S_FALSE;
+    ChosenFormat.CfFormat:= 0;
+    if (DragAndDropSupportedFormatList.IndexOf(CFU_FILECONTENTS) > -1) then
+    begin
+      if (DragAndDropSupportedFormatList.IndexOf(CFU_FILEGROUPDESCRIPTORW) > -1) then
+      begin
+        ChosenFormat.CfFormat:= CFU_FILEGROUPDESCRIPTORW;
+        Result:= GetFiles(dataObj, ChosenFormat, FileNames, Medium);
+      end;
+      if (Result <> S_OK) AND (DragAndDropSupportedFormatList.IndexOf(CFU_FILEGROUPDESCRIPTOR) > -1) then
+      begin
+        ChosenFormat.CfFormat:= CFU_FILEGROUPDESCRIPTOR;
+        Result:= GetFiles(dataObj, ChosenFormat, FileNames, Medium);
+      end;
+    end;
+    if (Result <> S_OK) AND (DragAndDropSupportedFormatList.IndexOf(CF_HDROP) > -1) then
+    begin
+      ChosenFormat.CfFormat:= CF_HDROP;
+      Result:= GetFiles(dataObj, ChosenFormat, FileNames, Medium);
+    end;
 
     // If we have no chosen format yet, let's attempt for text ones...
-    if ChosenFormat.CfFormat=0 then
+    if (Result <> S_OK) then
     begin
-      DragTextModeOfferedList:=TStringList.Create;
+      ChosenFormat.CfFormat:= 0;
+      DragTextModeOfferedList:= TStringList.Create;
       try
-        if (DragAndDropSupportedFormatList.IndexOf(IntToStr(CFU_RICHTEXT))<>-1) then DragTextModeOfferedList.Add(gDragAndDropDesiredTextFormat[DropTextRichText_Index].Name);
-        if (DragAndDropSupportedFormatList.IndexOf(IntToStr(CFU_HTML))<>-1) then DragTextModeOfferedList.Add(gDragAndDropDesiredTextFormat[DropTextHtml_Index].Name);
-        if (DragAndDropSupportedFormatList.IndexOf(IntToStr(CF_UNICODETEXT))<>-1) then DragTextModeOfferedList.Add(gDragAndDropDesiredTextFormat[DropTextUnicode_Index].Name);
-        if (DragAndDropSupportedFormatList.IndexOf(IntToStr(CF_TEXT))<>-1) then DragTextModeOfferedList.Add(gDragAndDropDesiredTextFormat[DropTextSimpleText_Index].Name);
+        if (DragAndDropSupportedFormatList.IndexOf(CFU_RICHTEXT) > -1) then DragTextModeOfferedList.Add(gDragAndDropDesiredTextFormat[DropTextRichText_Index].Name);
+        if (DragAndDropSupportedFormatList.IndexOf(CFU_HTML) > -1) then DragTextModeOfferedList.Add(gDragAndDropDesiredTextFormat[DropTextHtml_Index].Name);
+        if (DragAndDropSupportedFormatList.IndexOf(CF_UNICODETEXT) > -1) then DragTextModeOfferedList.Add(gDragAndDropDesiredTextFormat[DropTextUnicode_Index].Name);
+        if (DragAndDropSupportedFormatList.IndexOf(CF_TEXT) > -1) then DragTextModeOfferedList.Add(gDragAndDropDesiredTextFormat[DropTextSimpleText_Index].Name);
         SortThisListAccordingToDragAndDropDesiredFormat(DragTextModeOfferedList);
 
         if DragTextModeOfferedList.Count>0 then SelectedFormatName:=DragTextModeOfferedList.Strings[0] else SelectedFormatName:='';
@@ -850,40 +899,13 @@ begin
         finally
           DragTextModeOfferedList.Free;
         end;
-      end;
-
-    //3. According to our best guess, let's store to "FileNames" list, the list of files we got (...or that we'll create!)
-    if ChosenFormat.CfFormat<>0 then
-    begin
-      ChosenFormat.ptd := nil;
-      ChosenFormat.dwAspect := DVASPECT_CONTENT;
-      ChosenFormat.lindex := -1;
-      ChosenFormat.tymed := TYMED_HGLOBAL;
-
-      { Заносим данные в структуру Medium }
-      Result:=dataObj.GetData(ChosenFormat, Medium);
-
-      { Если все прошло успешно, далее действуем, как при операции файлового перетаскивания FMDD. }
-      if Result = S_OK then
-      begin
-        if Medium.Tymed=TYMED_HGLOBAL then
+        if ChosenFormat.CfFormat <> 0 then
         begin
-          case ChosenFormat.CfFormat of
-            CF_HDROP: FileNames := GetDropFilenames(Medium.hGlobal);
-            CF_UNICODETEXT, CF_TEXT: FileNames := GetDropTextCreatedFilenames(Medium, ChosenFormat);
-            else
-              begin
-                if ChosenFormat.CfFormat=CFU_FILEGROUPDESCRIPTORW then FileNames := GetDropFileGroupFilenames(dataObj, Medium, ChosenFormat);
-                if ChosenFormat.CfFormat=CFU_FILEGROUPDESCRIPTOR  then FileNames := GetDropFileGroupFilenames(dataObj, Medium, ChosenFormat);
-                if ChosenFormat.CfFormat=CFU_HTML then FileNames := GetDropTextCreatedFilenames(Medium, ChosenFormat);
-                if ChosenFormat.CfFormat=CFU_RICHTEXT then FileNames := GetDropTextCreatedFilenames(Medium, ChosenFormat);
-              end;
-          end;
+          Result:= GetFiles(dataObj, ChosenFormat, FileNames, Medium);
         end;
       end;
-    end;
 
-    //4. If we have some filenames in our list, continue to process the actual "Drop" of files
+    //3. If we have some filenames in our list, continue to process the actual "Drop" of files
     if (Result = S_OK) then
     begin
       { Создаем объект TDragDropInfo }
