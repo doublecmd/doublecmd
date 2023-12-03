@@ -31,6 +31,9 @@ uses
 {$IFDEF UNIX}
   , BaseUnix, DCUnix
 {$ENDIF}
+{$IFDEF LINUX}
+  , DCLinux
+{$ENDIF}
 {$IFDEF HAIKU}
   , DCHaiku
 {$ENDIF}
@@ -232,6 +235,7 @@ function mbFileSize(const FileName: String): Int64;
 function FileGetSize(Handle: System.THandle): Int64;
 function FileFlush(Handle: System.THandle): Boolean;
 function FileFlushData(Handle: System.THandle): Boolean;
+function FileIsReadOnly(Handle: System.THandle): Boolean;
 function FileAllocate(Handle: System.THandle; Size: Int64): Boolean;
 { Directory handling functions}
 function mbGetCurrentDir: String;
@@ -1401,6 +1405,33 @@ end;
 {$ELSE}
 begin
   Result:= FileFlush(Handle);
+end;
+{$ENDIF}
+
+function FileIsReadOnly(Handle: System.THandle): Boolean;
+{$IF DEFINED(MSWINDOWS)}
+var
+  Info: BY_HANDLE_FILE_INFORMATION;
+begin
+  if GetFileInformationByHandle(Handle, Info) then
+    Result:= (Info.dwFileAttributes and (faReadOnly or faHidden or faSysFile) <> 0)
+  else
+    Result:= False;
+end;
+{$ELSEIF DEFINED(LINUX)}
+var
+  Flags: UInt32;
+begin
+  if FileGetFlags(Handle, Flags) then
+  begin
+    if (Flags and (FS_IMMUTABLE_FL or FS_APPEND_FL) <> 0) then
+      Exit(True);
+  end;
+  Result:= False;
+end;
+{$ELSE}
+begin
+  Result:= False;
 end;
 {$ENDIF}
 
