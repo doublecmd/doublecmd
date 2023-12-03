@@ -8,7 +8,7 @@ rem This script is called from ..\build.bat.
 pushd components
 lazbuild chsdet\chsdet.lpk %DC_ARCH%
 lazbuild multithreadprocs\multithreadprocslaz.lpk %DC_ARCH%
-lazbuild dcpcrypt\dcpcrypt.lpk %DC_ARCH%
+lazbuild kascrypt\kascrypt.lpk %DC_ARCH%
 lazbuild doublecmd\doublecmd_common.lpk %DC_ARCH%
 lazbuild Image32\Image32.lpk %DC_ARCH%
 lazbuild KASToolBar\kascomp.lpk %DC_ARCH%

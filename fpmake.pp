@@ -14,7 +14,7 @@ const
   (
     'components\chsdet\chsdet.lpk',
     'components\multithreadprocs\multithreadprocslaz.lpk',
-    'components\dcpcrypt\dcpcrypt.lpk',
+    'components\kascrypt\kascrypt.lpk',
     'components\doublecmd\doublecmd_common.lpk',
     'components\Image32\Image32.lpk',
     'components\KASToolBar\kascomp.lpk',
