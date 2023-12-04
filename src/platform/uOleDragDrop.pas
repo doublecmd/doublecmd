@@ -640,15 +640,6 @@ begin
     pFiles -- смещение от начала структуры до первого байта массива с именами файлов. }
     DropFiles.pFiles := SizeOf(TDropFiles);
 
-    if Windows.GetCursorPos(@DropFiles.pt) = False then
-    begin
-      DropFiles.pt.x := 0;
-
-      DropFiles.pt.y := 0;
-    end;
-
-    DropFiles.fNC := True;  // Pass cursor coordinates as screen coords
-
     DropFiles.fWide := bUnicode;
 
   { Копируем имена файлов в буфер.
