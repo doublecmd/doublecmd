@@ -255,11 +255,15 @@ function TParserControl.TestFileResult(const aFileName: String): Boolean;
 var
   aFile: TFile;
 begin
-  aFile:= TFileSystemFileSource.CreateFileFromFile(aFileName);
   try
-    Result:= TestFileResult(aFile);
-  finally
-    aFile.Free;
+    aFile:= TFileSystemFileSource.CreateFileFromFile(aFileName);
+    try
+      Result:= TestFileResult(aFile);
+    finally
+      aFile.Free;
+    end;
+  except
+    Result:= False;
   end;
 end;
 
