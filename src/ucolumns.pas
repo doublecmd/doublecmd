@@ -482,7 +482,7 @@ begin
   Result.CursorColor := GetColumnCursorColor(Index);
   Result.CursorText := GetColumnCursorText(Index);
   Result.InactiveCursorColor := GetColumnInactiveCursorColor(Index);
-  Result.InactiveMarkColor := GetColumnMarkColor(Index);
+  Result.InactiveMarkColor := GetColumnInactiveMarkColor(Index);
   Result.UseInvertedSelection:= GetColumnUseInvertedSelection(Index);
   Result.UseInactiveSelColor:= GetColumnUseInactiveSelColor(Index);
   Result.Overcolor := GetColumnOvercolor(Index);
