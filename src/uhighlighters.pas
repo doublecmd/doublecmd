@@ -194,7 +194,7 @@ end;
 constructor TSynIniSynEx.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
-{$IF (LCL_FULLVERSION >= 3990000)}
+{$IF (LCL_FULLVERSION > 3000002)}
   CommentTypes := [ictSemicolon, ictHash];
 {$ENDIF}
   CommentAttri.StoredName := SYNS_XML_AttrComment;
