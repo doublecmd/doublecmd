@@ -58,6 +58,25 @@ msgstr "О&тмена"
 msgid "&Extract"
 msgstr "&Распаковать"
 
+#: rarlng.rsmsgpasswordenter
+msgid "Please enter the password:"
+msgstr "Введите пароль:"
+
+#: rarlng.rsmsgexecutablenotfound
+#, object-pascal-format
+msgid ""
+"Cannot find RAR executable!\n"
+"\n"
+"%s\n"
+"\n"
+"Please check the plugin settings."
+msgstr ""
+"Исполняемый файл RAR не найден!\n"
+"\n"
+"%s\n"
+"\n"
+"Проверьте настройки плагина."
+
 #: rarlng.rsmsglibrarynotfound
 #, object-pascal-format
 msgid "Cannot load library %s! Please check your installation."
