@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Double Commander 1.1.0 alpha\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-11-15 11:15+0300\n"
-"PO-Revision-Date: 2023-11-25 08:32+0100\n"
+"PO-Revision-Date: 2023-12-09 09:37+0100\n"
 "Last-Translator: ㋡ <braass@mail.de>\n"
 "Language-Team: Deutsch <braass@mail.de>\n"
 "MIME-Version: 1.0\n"
@@ -337,7 +337,7 @@ msgstr "Einzelne Prüfsumme fü&r jede Datei erstellen"
 
 #: tfrmchecksumcalc.lblfileformat.caption
 msgid "File &format"
-msgstr ""
+msgstr "Dateiformat"
 
 #: tfrmchecksumcalc.lblsaveto.caption
 msgid "&Save checksum file(s) to:"
@@ -345,11 +345,11 @@ msgstr "Prüf&summen-Datei(en) speichern unter:"
 
 #: tfrmchecksumcalc.rbunix.caption
 msgid "Unix"
-msgstr ""
+msgstr "Unix"
 
 #: tfrmchecksumcalc.rbwindows.caption
 msgid "Windows"
-msgstr ""
+msgstr "Windows"
 
 #: tfrmchecksumverify.btnclose.caption
 msgctxt "TFRMCHECKSUMVERIFY.BTNCLOSE.CAPTION"
@@ -5272,7 +5272,7 @@ msgstr "Pfad wird relativ zu:"
 
 #: tfrmoptionsdragdrop.cbdraganddropaskformateachtime.caption
 msgid "From all the supported formats, ask which one to use every time"
-msgstr "Von allen unterstützten Formaten, fragen welches ständig benutzt werden soll"
+msgstr "Fragen, welches von allen unterstützten Formaten ständig benutzt werden soll"
 
 #: tfrmoptionsdragdrop.cbdraganddropsaveunicodetextinuft8.caption
 msgid "When saving Unicode text, save it in UTF8 format (will be UTF16 otherwise)"
