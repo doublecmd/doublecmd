@@ -33,8 +33,10 @@ resourcestring
   rsMsgButtonCancel = '&Cancel';
   rsMsgButtonExtract = '&Extract';
   rsDictLargeWarning = 'Large dictionary warning';
+  rsMsgPasswordEnter = 'Please enter the password:';
   rsDictNotAllowed = '%u GB dictionary exceeds %u GB limit and needs more than %u GB memory to unpack.';
   rsMsgLibraryNotFound = 'Cannot load library %s! Please check your installation.';
+  rsMsgExecutableNotFound = 'Cannot find RAR executable!'#10#10'%s'#10#10'Please check the plugin settings.';
 
   procedure TranslateResourceStrings;
 

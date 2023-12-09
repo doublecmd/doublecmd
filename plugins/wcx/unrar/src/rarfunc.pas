@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Wcx plugin for packing RAR archives
 
-   Copyright (C) 2015-2022 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2015-2023 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -42,7 +42,7 @@ implementation
 
 uses
   Process, LazUTF8, DCConvertEncoding, DCProcessUtf8, DCOSUtils, UnRARFunc,
-  RarConfDlg;
+  RarConfDlg, RarLng, Extension;
 
 const
   UTF16LEBOM: WideChar = #$FEFF;
@@ -63,8 +63,21 @@ begin
     9:   Result:= E_ECREATE;       // File create error
     10:  Result:= E_BAD_DATA;      // No files matching the specified mask and options were found
     11:  Result:= E_BAD_DATA;      // Wrong password
+    12:  Result:= E_EREAD;         // Read error
     255: Result:= E_EABORTED;      // User break
     else Result:= E_UNKNOWN;       // Unknown
+  end;
+end;
+
+function RarExists(const FileName: String): Boolean;
+var
+  Message: String;
+begin
+  Result:= mbFileExists(FileName);
+  if not Result then
+  begin
+    Message:= Format(rsMsgExecutableNotFound, [FileName]);
+    gStartupInfo.MessageBox(PAnsiChar(Message), nil, MB_OK or MB_ICONERROR);
   end;
 end;
 
@@ -139,14 +152,18 @@ end;
 
 function DeleteFilesW(PackedFile, DeleteList: PWideChar): Integer; dcpcall; export;
 var
- FileName : UnicodeString;
- FolderName: UnicodeString;
+ Rar: String;
  Process : TProcessUtf8;
+ FileName : UnicodeString;
  FileList : UnicodeString;
+ FolderName: UnicodeString;
 begin
+  Rar:= mbExpandEnvironmentStrings(WinRar);
+  if not RarExists(Rar) then Exit(E_HANDLED);
+
   Process := TProcessUtf8.Create(nil);
   try
-    Process.Executable:= mbExpandEnvironmentStrings(WinRar);
+    Process.Executable:= Rar;
     Process.Parameters.Add('d');
     Process.Parameters.Add('-c-');
     Process.Parameters.Add('-r-');
@@ -184,15 +201,19 @@ end;
 
 function PackFilesW(PackedFile: PWideChar; SubPath: PWideChar;  SrcPath: PWideChar;  AddList: PWideChar;  Flags: Integer): Integer;dcpcall; export;
 var
-  FileName: UnicodeString;
-  FolderName: UnicodeString;
+  Rar: String;
   Process : TProcessUtf8;
   FileList: UnicodeString;
+  FileName: UnicodeString;
+  FolderName: UnicodeString;
   Password: array[0..MAX_PATH] of AnsiChar;
 begin
+  Rar:= mbExpandEnvironmentStrings(WinRar);
+  if not RarExists(Rar) then Exit(E_HANDLED);
+
   Process := TProcessUtf8.Create(nil);
   try
-    Process.Executable:= mbExpandEnvironmentStrings(WinRar);
+    Process.Executable:= Rar;
 
     if FileIsConsoleExe(Process.Executable) then begin
       Process.Options:= [poUsePipes, poNoConsole, poNewProcessGroup];
@@ -220,7 +241,7 @@ begin
     if (Flags and PK_PACK_ENCRYPT <> 0) then
     begin
       FillChar(Password, SizeOf(Password), #0);
-      if gStartupInfo.InputBox('Rar', 'Please enter the password:', True, PAnsiChar(Password), MAX_PATH) then
+      if gStartupInfo.InputBox('Rar', PAnsiChar(rsMsgPasswordEnter), True, PAnsiChar(Password), MAX_PATH) then
       begin
        if Encrypt then
          Process.Parameters.Add('-hp' + Password)
