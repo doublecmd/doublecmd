@@ -50,7 +50,7 @@ type
     procedure FileViewChangeActiveFile(Sender: TFileView; const aFile : TFile);
 
     function handleLinksToLocal( const Sender:TFileView; const aFile:TFile; var fullPath:String; var showMsg:String ): Boolean;
-    function handleNotDirect( const Sender:TFileView; const aFile:TFile; var fullPath:String; var showMsg:String ): Boolean;
+    function handleNotDirect( const Sender:TFileView; const aFile:TFile; var fullPath:String; var showMsg:String ): TDuplicates;
     function handleDirect( const Sender:TFileView; const aFile:TFile; var fullPath:String; var showMsg:String ): Boolean;
     procedure PrepareView(const aFile: TFile; var FileName: String);
   protected
@@ -179,8 +179,12 @@ begin
       raise EAbort.Create(rsMsgErrNotSupported);
 
     if not handleLinksToLocal(Sender, aFile, fullPath, showMsg) then
-      if not handleNotDirect(Sender, aFile, fullPath, showMsg) then
-        handleDirect(Sender, aFile, fullPath, showMsg);
+    begin
+      case handleNotDirect(Sender, aFile, fullPath, showMsg) of
+        dupError: handleDirect(Sender, aFile, fullPath, showMsg);
+        dupIgnore: Exit;
+      end;
+    end;
 
     if fullPath.IsEmpty() and ShowMsg.IsEmpty() then
       showMsg:= rsMsgErrNotSupported;
@@ -228,17 +232,21 @@ end;
 // return true if it should handle it, otherwise return false
 // If files not directly accessible copy them to temp file source.
 // for examples: ftp
-function TQuickViewPanel.handleNotDirect( const Sender:TFileView; const aFile:TFile; var fullPath:String; var showMsg:String ): Boolean;
+function TQuickViewPanel.handleNotDirect(const Sender: TFileView; const aFile: TFile; var fullPath: String; var showMsg: String): TDuplicates;
 var
   ActiveFile: TFile = nil;
   TempFiles: TFiles = nil;
   Operation: TFileSourceOperation = nil;
   TempFileSource: ITempFileSystemFileSource = nil;
 begin
-  if (fspDirectAccess in Sender.FileSource.Properties) then exit(false);
-  Result:= true;
-  if SameText(FFileName, aFile.Name) then exit;
-  FFileName:= aFile.Name;
+  if (fspDirectAccess in Sender.FileSource.Properties) then
+    Exit(dupError);
+
+  if mbCompareFileNames(FFileName, aFile.FullPath) then
+    Exit(dupIgnore);
+
+  Result:= dupAccept;
+  FFileName:= aFile.FullPath;
 
   if aFile.IsDirectory or aFile.IsLinkToDirectory then exit;
   if not (fsoCopyOut in Sender.FileSource.GetOperationsTypes) then exit;
