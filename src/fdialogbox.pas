@@ -28,7 +28,7 @@ interface
 
 uses
   Classes, SysUtils, LResources, Forms, Controls, Graphics, Dialogs, StdCtrls,
-  Types, Buttons, ExtCtrls, EditBtn, Extension, ComCtrls, DividerBevel;
+  Types, Buttons, ExtCtrls, EditBtn, Extension, ComCtrls, DividerBevel, SynEdit;
 
 type
 
@@ -49,6 +49,7 @@ type
     DialogEdit: TEdit;
     DialogMemo: TMemo;
     DialogImage: TImage;
+    DialogSynEdit: TSynEdit;
     DialogTabSheet: TTabSheet;
     DialogScrollBox: TScrollBox;
     DialogRadioGroup: TRadioGroup;

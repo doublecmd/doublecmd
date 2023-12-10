@@ -1,0 +1,88 @@
+object frmFileProperties: TfrmFileProperties
+  Left = 290
+  Height = 400
+  Top = 175
+  Width = 640
+  Caption = 'Properties'
+  ClientHeight = 400
+  ClientWidth = 640
+  Constraints.MinHeight = 223
+  Constraints.MinWidth = 334
+  DesignTimePPI = 107
+  OnShow = DialogBoxShow
+  Position = poMainFormCenter
+  LCLVersion = '2.2.6.0'
+  inline seProperties: TSynEdit
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = Owner
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
+    AnchorSideBottom.Control = btnClose
+    Left = 11
+    Height = 334
+    Top = 11
+    Width = 618
+    BorderSpacing.Left = 11
+    BorderSpacing.Top = 11
+    BorderSpacing.Right = 11
+    BorderSpacing.Bottom = 11
+    Anchors = [akTop, akLeft, akRight, akBottom]
+    Color = clWindow
+    Font.Color = clWindowText
+    Font.Height = 14
+    Font.Pitch = fpFixed
+    Font.Quality = fqNonAntialiased
+    ParentColor = False
+    ParentFont = False
+    TabOrder = 0
+    Gutter.Visible = False
+    Gutter.Width = 0
+    Gutter.MouseActions = <>
+    RightGutter.Width = 0
+    RightGutter.MouseActions = <>
+    Keystrokes = <>
+    MouseActions = <>
+    MouseTextActions = <>
+    MouseSelActions = <>
+    Options = [eoAutoIndent, eoBracketHighlight, eoGroupUndo, eoNoCaret, eoScrollPastEol, eoSmartTabs, eoTabsToSpaces, eoTrimTrailingSpaces]
+    VisibleSpecialChars = [vscSpace, vscTabAtLast]
+    ReadOnly = True
+    ScrollBars = ssNone
+    SelectedColor.BackPriority = 50
+    SelectedColor.ForePriority = 50
+    SelectedColor.FramePriority = 50
+    SelectedColor.BoldPriority = 50
+    SelectedColor.ItalicPriority = 50
+    SelectedColor.UnderlinePriority = 50
+    SelectedColor.StrikeOutPriority = 50
+    BracketHighlightStyle = sbhsBoth
+    BracketMatchColor.Background = clNone
+    BracketMatchColor.Foreground = clNone
+    BracketMatchColor.Style = [fsBold]
+    FoldedCodeColor.Background = clNone
+    FoldedCodeColor.Foreground = clGray
+    FoldedCodeColor.FrameColor = clGray
+    MouseLinkColor.Background = clNone
+    MouseLinkColor.Foreground = clBlue
+    LineHighlightColor.Background = clNone
+    LineHighlightColor.Foreground = clNone
+    inline SynLeftGutterPartList1: TSynGutterPartList
+    end
+  end
+  object btnClose: TBitBtn
+    AnchorSideLeft.Side = asrCenter
+    AnchorSideBottom.Control = Owner
+    AnchorSideBottom.Side = asrBottom
+    Left = 265
+    Height = 33
+    Top = 356
+    Width = 111
+    Anchors = [akLeft, akBottom]
+    BorderSpacing.Bottom = 11
+    Cancel = True
+    Caption = '&Close'
+    ModalResult = 2
+    Kind = bkClose
+    TabOrder = 1
+  end
+end
