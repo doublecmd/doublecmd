@@ -124,6 +124,7 @@ type
     function FileExists(const FileName: String): Boolean; virtual;
     function CreateDir(const Directory: string): Boolean; override;
     function ExecuteCommand(const Command: String): Boolean; virtual;
+    function CopyFile(const OldName, NewName: String): Boolean; virtual;
     function ChangeMode(const FileName, Mode: String): Boolean; virtual;
     function List(Directory: String; NameList: Boolean): Boolean; override;
     function StoreFile(const FileName: string; Restore: Boolean): Boolean; override;
@@ -787,6 +788,11 @@ end;
 function TFTPSendEx.ExecuteCommand(const Command: String): Boolean;
 begin
   Result:= (FTPCommand(Command) div 100) = 2;
+end;
+
+function TFTPSendEx.CopyFile(const OldName, NewName: String): Boolean;
+begin
+  Result:= False;
 end;
 
 function TFTPSendEx.ChangeMode(const FileName, Mode: String): Boolean;
