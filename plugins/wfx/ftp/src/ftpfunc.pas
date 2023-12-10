@@ -820,6 +820,20 @@ begin
         WriteConnectionList;
         Result:= FS_FILE_OK;
       end;
+    end
+    else if GetConnectionByPath(OldName, FtpSend, sOldName) then
+    begin
+      if FtpSend is TScpSend then
+      begin
+        sNewName := FtpSend.ClientToServer(NewName);
+        sNewName := ExtractRemoteFileName(sNewName);
+        ProgressProc(PluginNumber, OldName, NewName, 0);
+        if FtpSend.CopyFile(sOldName, sNewName) then
+        begin
+          ProgressProc(PluginNumber, OldName, NewName, 100);
+          Result := FS_FILE_OK;
+        end;
+      end;
     end;
     Exit;
   end;
