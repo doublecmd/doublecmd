@@ -828,6 +828,10 @@ begin
         sNewName := FtpSend.ClientToServer(NewName);
         sNewName := ExtractRemoteFileName(sNewName);
         ProgressProc(PluginNumber, OldName, NewName, 0);
+        if (not OverWrite) and (FtpSend.FileExists(sNewName)) then
+        begin
+          Exit(FS_FILE_EXISTS);
+        end;
         if FtpSend.CopyFile(sOldName, sNewName) then
         begin
           ProgressProc(PluginNumber, OldName, NewName, 100);
