@@ -76,6 +76,7 @@ type
     function DeleteDir(const Directory: string): Boolean; override;
     function DeleteFile(const FileName: string): Boolean; override;
     function ExecuteCommand(const Command: String): Boolean; override;
+    function FileProperties(const FileName: String): Boolean; override;
     function CopyFile(const OldName, NewName: String): Boolean; override;
     function ChangeWorkingDir(const Directory: string): Boolean; override;
     function RenameFile(const OldName, NewName: string): Boolean; override;
@@ -670,6 +671,12 @@ begin
     end;
     CloseChannel(FChannel);
   end;
+end;
+
+function TScpSend.FileProperties(const FileName: String): Boolean;
+begin
+  Result:= SendCommand('stat ' + EscapeNoQuotes(FileName), FAnswer);
+  if Result then FFullResult.Text:= FAnswer;
 end;
 
 function TScpSend.CopyFile(const OldName, NewName: String): Boolean;
