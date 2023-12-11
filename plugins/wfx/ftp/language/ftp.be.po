@@ -168,3 +168,6 @@ msgstr "Асноўныя"
 msgid "Proxy"
 msgstr "Проксі"
 
+#: tfrmfileproperties.caption
+msgid "Properties"
+msgstr ""

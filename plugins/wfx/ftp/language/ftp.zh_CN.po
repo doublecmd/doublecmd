@@ -157,3 +157,6 @@ msgstr "常规"
 msgid "Proxy"
 msgstr "代理"
 
+#: tfrmfileproperties.caption
+msgid "Properties"
+msgstr ""

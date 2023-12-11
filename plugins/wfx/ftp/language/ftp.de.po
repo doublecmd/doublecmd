@@ -167,3 +167,7 @@ msgstr "Allgemein"
 #: tdialogbox.tsproxy.caption
 msgid "Proxy"
 msgstr "Proxy"
+
+#: tfrmfileproperties.caption
+msgid "Properties"
+msgstr ""

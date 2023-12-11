@@ -157,3 +157,6 @@ msgstr "Общие"
 msgid "Proxy"
 msgstr "Прокси"
 
+#: tfrmfileproperties.caption
+msgid "Properties"
+msgstr "Свойства"

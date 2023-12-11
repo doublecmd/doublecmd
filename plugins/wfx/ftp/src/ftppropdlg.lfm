@@ -10,7 +10,7 @@ object frmFileProperties: TfrmFileProperties
   Constraints.MinWidth = 334
   DesignTimePPI = 107
   OnShow = DialogBoxShow
-  Position = poMainFormCenter
+  Position = poOwnerFormCenter
   LCLVersion = '2.2.6.0'
   inline seProperties: TSynEdit
     AnchorSideLeft.Control = Owner
@@ -29,12 +29,11 @@ object frmFileProperties: TfrmFileProperties
     Anchors = [akTop, akLeft, akRight, akBottom]
     Color = clWindow
     Font.Color = clWindowText
-    Font.Height = 14
     Font.Pitch = fpFixed
-    Font.Quality = fqNonAntialiased
+    Font.Quality = fqDefault
     ParentColor = False
     ParentFont = False
-    TabOrder = 0
+    TabOrder = 1
     Gutter.Visible = False
     Gutter.Width = 0
     Gutter.MouseActions = <>
@@ -44,7 +43,7 @@ object frmFileProperties: TfrmFileProperties
     MouseActions = <>
     MouseTextActions = <>
     MouseSelActions = <>
-    Options = [eoAutoIndent, eoBracketHighlight, eoGroupUndo, eoNoCaret, eoScrollPastEol, eoSmartTabs, eoTabsToSpaces, eoTrimTrailingSpaces]
+    Options = [eoAutoIndent, eoBracketHighlight, eoHideRightMargin, eoNoCaret, eoScrollPastEol, eoSmartTabs, eoTabsToSpaces, eoTrimTrailingSpaces]
     VisibleSpecialChars = [vscSpace, vscTabAtLast]
     ReadOnly = True
     ScrollBars = ssNone
@@ -80,9 +79,9 @@ object frmFileProperties: TfrmFileProperties
     Anchors = [akLeft, akBottom]
     BorderSpacing.Bottom = 11
     Cancel = True
-    Caption = '&Close'
+    DefaultCaption = True
     ModalResult = 2
     Kind = bkClose
-    TabOrder = 1
+    TabOrder = 0
   end
 end
