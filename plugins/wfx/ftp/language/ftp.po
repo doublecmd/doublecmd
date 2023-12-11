@@ -157,3 +157,6 @@ msgstr ""
 msgid "Proxy"
 msgstr ""
 
+#: tfrmfileproperties.caption
+msgid "Properties"
+msgstr ""

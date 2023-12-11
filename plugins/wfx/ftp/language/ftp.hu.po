@@ -166,3 +166,7 @@ msgstr "Általános"
 #: tdialogbox.tsproxy.caption
 msgid "Proxy"
 msgstr "Proxy"
+
+#: tfrmfileproperties.caption
+msgid "Properties"
+msgstr ""
