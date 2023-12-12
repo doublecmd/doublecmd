@@ -343,7 +343,7 @@ begin
       try
         PasswordU:= Format(rsDictNotAllowed, [DictSize, P2, DictSize]) + LineEnding;
 
-        if gStartupInfo.MsgChoiceBox(PAnsiChar(PasswordU), PAnsiChar(rsDictLargeWarning), Buttons) = 0 then
+        if gStartupInfo.MsgChoiceBox(PAnsiChar(PasswordU), PAnsiChar(rsDictLargeWarning), Buttons, 0, 1) = 0 then
           Result:= 1
         else begin
           Result:= -1;
