@@ -37,6 +37,7 @@ uses
 
 procedure TfrmMsg.FormCreate(Sender: TObject);
 begin
+  Escape:= -1;
   iSelected:= -1;
 end;
 

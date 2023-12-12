@@ -272,7 +272,7 @@ begin
 
   DCDebug('  (II) Spawning callback_ask_question...');
   // At this moment, only SFTP uses ask_question and the second button is cancellation
-  choice:= MsgChoiceBox(nil, message, buttons);
+  choice:= MsgChoiceBox(nil, message, buttons, -1, -1);
   g_print('    (II) Received choice = %d\n', [choice]);
 
   if (choice < 0) then

@@ -112,7 +112,7 @@ type
 
 function InputBox(Caption, Prompt: PAnsiChar; MaskInput: LongBool; Value: PAnsiChar; ValueMaxLen: Integer): LongBool; dcpcall;
 function MessageBox(Text, Caption: PAnsiChar; Flags: Longint): Integer; dcpcall;
-function MsgChoiceBox(Text, Caption: PAnsiChar; Buttons: PPAnsiChar): Integer; dcpcall;
+function MsgChoiceBox(Text, Caption: PAnsiChar; Buttons: PPAnsiChar; BtnDef, BtnEsc: Integer): Integer; dcpcall;
 function DialogBoxLFM(LFMData: Pointer; DataSize: LongWord; DlgProc: TDlgProc): LongBool; dcpcall;
 function DialogBoxLRS(LRSData: Pointer; DataSize: LongWord; DlgProc: TDlgProc): LongBool; dcpcall;
 function DialogBoxLFMFile(lfmFileName: PAnsiChar; DlgProc: TDlgProc): LongBool; dcpcall;
@@ -142,7 +142,7 @@ begin
   Result:= ShowMessageBox(Text, Caption, Flags);
 end;
 
-function MsgChoiceBox(Text, Caption: PAnsiChar; Buttons: PPAnsiChar): Integer; dcpcall;
+function MsgChoiceBox(Text, Caption: PAnsiChar; Buttons: PPAnsiChar; BtnDef, BtnEsc: Integer): Integer; dcpcall;
 var
   AButtons: TStringArray;
 begin
@@ -152,7 +152,7 @@ begin
     AddString(AButtons, Buttons^);
     Inc(Buttons);
   end;
-  Result:= uShowMsg.MsgChoiceBox(nil, Text, Caption, AButtons);
+  Result:= uShowMsg.MsgChoiceBox(nil, Text, Caption, AButtons, BtnDef, BtnEsc);
 end;
 
 function LFMToLRS(const LFMData: String): String;

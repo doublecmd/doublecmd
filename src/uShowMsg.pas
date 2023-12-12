@@ -78,6 +78,7 @@ type
     FValue: String;
     FMaskInput: Boolean;
     FFlags: Longint;
+    FBtnDef, FBtnEsc: Integer;
     FButtons: array of TMyMsgButton;
     FButDefault,
     FButEscape: TMyMsgButton;
@@ -90,7 +91,7 @@ type
     destructor Destroy;override;
     function ShowMsgBox(const sMsg: String; const Buttons: array of TMyMsgButton; ButDefault, ButEscape:TMyMsgButton) : TMyMsgResult;
     function ShowMessageBox(const AText, ACaption: String; Flags: LongInt): LongInt;
-    function ShowMessageChoiceBox(const Message, ACaption: String; Buttons: TDynamicStringArray): Integer;
+    function ShowMessageChoiceBox(const Message, ACaption: String; Buttons: TDynamicStringArray; BtnDef, BtnEsc: Integer): Integer;
     function ShowInputQuery(const ACaption, APrompt: String; MaskInput: Boolean; var Value: String) : Boolean;
   end;
 
@@ -114,10 +115,10 @@ function MsgBox(Thread: TThread; const sMsg: String; const Buttons: array of TMy
 
 function MsgTest:TMyMsgResult;
 
-function MsgChoiceBox(const Message: String; Buttons: TDynamicStringArray): Integer; overload;
-function MsgChoiceBox(const Message, ACaption: String; Buttons: TDynamicStringArray): Integer; overload;
-function MsgChoiceBox(Thread: TThread; const Message: String; Buttons: TDynamicStringArray): Integer; overload;
-function MsgChoiceBox(Thread: TThread; const Message, ACaption: String; Buttons: TDynamicStringArray): Integer; overload;
+function MsgChoiceBox(const Message: String; Buttons: TDynamicStringArray; BtnDef, BtnEsc: Integer): Integer; overload;
+function MsgChoiceBox(const Message, ACaption: String; Buttons: TDynamicStringArray; BtnDef, BtnEsc: Integer): Integer; overload;
+function MsgChoiceBox(Thread: TThread; const Message: String; Buttons: TDynamicStringArray; BtnDef, BtnEsc: Integer): Integer; overload;
+function MsgChoiceBox(Thread: TThread; const Message, ACaption: String; Buttons: TDynamicStringArray; BtnDef, BtnEsc: Integer): Integer; overload;
 
 function ShowMessageBox(const AText, ACaption: String; Flags: LongInt): LongInt; overload;
 function ShowMessageBox(Thread: TThread; const AText, ACaption: String; Flags: LongInt): LongInt; overload;
@@ -165,7 +166,7 @@ end;
 
 procedure TDialogMainThread.SyncMessageChoiceBox;
 begin
-  FMessageBoxResult:= MsgChoiceBox(FMessage, FCaption, FChoices);
+  FMessageBoxResult:= MsgChoiceBox(FMessage, FCaption, FChoices, FBtnDef, FBtnEsc);
 end;
 
 constructor TDialogMainThread.Create(AThread : TThread);
@@ -211,8 +212,10 @@ begin
 end;
 
 function TDialogMainThread.ShowMessageChoiceBox(const Message,
-  ACaption: String; Buttons: TDynamicStringArray): Integer;
+  ACaption: String; Buttons: TDynamicStringArray; BtnDef, BtnEsc: Integer): Integer;
 begin
+  FBtnDef:= BtnDef;
+  FBtnEsc:= BtnEsc;
   FMessage:= Message;
   FChoices:= Buttons;
   FCaption:= ACaption;
@@ -774,19 +777,19 @@ begin
   result := InnerShowInputListBox(sCaption, sPrompt, True, slValueList, slOutputIndexSelected, sDummyValue, iDummySelectedChoice);
 end;
 
-function MsgChoiceBox(const Message: String; Buttons: TDynamicStringArray): Integer;
+function MsgChoiceBox(const Message: String; Buttons: TDynamicStringArray; BtnDef, BtnEsc: Integer): Integer;
 begin
-  Result:= MsgChoiceBox(Message, EmptyStr, Buttons);
+  Result:= MsgChoiceBox(Message, EmptyStr, Buttons, BtnDef, BtnEsc);
 end;
 
-function MsgChoiceBox(const Message, ACaption: String; Buttons: TDynamicStringArray): Integer;
+function MsgChoiceBox(const Message, ACaption: String; Buttons: TDynamicStringArray; BtnDef, BtnEsc: Integer): Integer;
 const
   cButtonSpace = 8;
 var
   Index: Integer;
   frmMsg: TfrmMsg;
   CaptionWidth: Integer;
-  MinButtonWidth: Integer;
+  MinButtonWidth, iCount: Integer;
 begin
   frmMsg:= TfrmMsg.Create(Application);
   try
@@ -818,6 +821,7 @@ begin
       if CaptionWidth >= (MinButtonWidth - cButtonSpace) then
         MinButtonWidth:= CaptionWidth + cButtonSpace;
     end;
+    iCount:= Length(Buttons);
 
     // Add all buttons
     for Index:= Low(Buttons) to High(Buttons) do
@@ -830,6 +834,17 @@ begin
         Parent:= frmMsg.pnlButtons;
         OnClick:= frmMsg.ButtonClick;
         Constraints.MinWidth:= MinButtonWidth;
+        if Index = BtnDef then
+          Default:= True
+        else if (Index = BtnEsc) then
+        begin
+          Cancel:= True;
+          frmMsg.Escape:= BtnEsc;
+        end;
+        if BtnDef > -1 then
+        begin
+          TabOrder:= (Tag + iCount - BtnDef) mod iCount;
+        end;
       end;
     end;
 
@@ -842,20 +857,20 @@ begin
 end;
 
 function MsgChoiceBox(Thread: TThread; const Message: String;
-  Buttons: TDynamicStringArray): Integer;
+  Buttons: TDynamicStringArray; BtnDef, BtnEsc: Integer): Integer;
 begin
-  Result:= MsgChoiceBox(Thread, Message, EmptyStr, Buttons);
+  Result:= MsgChoiceBox(Thread, Message, EmptyStr, Buttons, BtnDef, BtnEsc);
 end;
 
 function MsgChoiceBox(Thread: TThread; const Message, ACaption: String;
-  Buttons: TDynamicStringArray): Integer;
+  Buttons: TDynamicStringArray; BtnDef, BtnEsc: Integer): Integer;
 var
   DialogMainThread : TDialogMainThread;
 begin
   Result := -1;
   DialogMainThread:= TDialogMainThread.Create(Thread);
   try
-    Result:= DialogMainThread.ShowMessageChoiceBox(Message, ACaption, Buttons);
+    Result:= DialogMainThread.ShowMessageChoiceBox(Message, ACaption, Buttons, BtnDef, BtnEsc);
   finally
     DialogMainThread.Free;
   end;
