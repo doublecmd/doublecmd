@@ -252,7 +252,7 @@ function SendDlgMsg(pDlg: PtrUInt; DlgItemName: PAnsiChar; Msg, wParam, lParam: 
 var
   Key: Word;
   AText: String;
-  Component: TComponent = nil;
+  Component: TComponent;
   lText: PAnsiChar absolute lParam;
   wText: PAnsiChar absolute wParam;
   pResult: Pointer absolute Result;
@@ -260,8 +260,12 @@ var
   Control: TControl absolute Component;
 begin
   // find component by name
-  Component:= DialogBox.FindComponent(DlgItemName);
-  if (Component = nil) then Exit(-1);
+  if (DlgItemName = nil) then
+    Component:= DialogBox
+  else begin
+    Component:= DialogBox.FindComponent(DlgItemName);
+    if (Component = nil) then Exit(-1);
+  end;
   // process message
   case Msg of
   DM_CLOSE:
@@ -334,7 +338,9 @@ begin
       else if Control is TListBox then
         Result:= TListBox(Control).Items.AddObject(AText, TObject(lText))
       else if Control is TMemo then
-        Result:= TMemo(Control).Lines.AddObject(AText, TObject(lText));
+        Result:= TMemo(Control).Lines.AddObject(AText, TObject(lText))
+      else if Control is TSynEdit then
+        Result:= TSynEdit(Control).Lines.AddObject(AText, TObject(lText));
     end;
   DM_LISTADDSTR:
     begin
@@ -344,7 +350,9 @@ begin
       else if Control is TListBox then
         Result:= TListBox(Control).Items.Add(AText)
       else if Control is TMemo then
-        Result:= TMemo(Control).Lines.Add(AText);
+        Result:= TMemo(Control).Lines.Add(AText)
+      else if Control is TSynEdit then
+        Result:= TSynEdit(Control).Lines.Add(AText);
     end;
   DM_LISTDELETE:
     begin
@@ -353,7 +361,9 @@ begin
       else if Control is TListBox then
         TListBox(Control).Items.Delete(wParam)
       else if Control is TMemo then
-        TMemo(Control).Lines.Delete(wParam);
+        TMemo(Control).Lines.Delete(wParam)
+      else if Control is TSynEdit then
+        TSynEdit(Control).Lines.Delete(wParam);
     end;
   DM_LISTINDEXOF:
     begin
@@ -363,7 +373,9 @@ begin
       else if Control is TListBox then
         Result:= TListBox(Control).Items.IndexOf(AText)
       else if Control is TMemo then
-        Result:= TMemo(Control).Lines.IndexOf(AText);
+        Result:= TMemo(Control).Lines.IndexOf(AText)
+      else if Control is TSynEdit then
+        Result:= TSynEdit(Control).Lines.IndexOf(AText);
     end;
   DM_LISTINSERT:
     begin
@@ -373,7 +385,9 @@ begin
       else if Control is TListBox then
         TListBox(Control).Items.Insert(wParam, AText)
       else if Control is TMemo then
-        TMemo(Control).Lines.Insert(wParam, AText);
+        TMemo(Control).Lines.Insert(wParam, AText)
+      else if Control is TSynEdit then
+        TSynEdit(Control).Lines.Insert(wParam, AText);
     end;
   DM_LISTGETCOUNT:
     begin
@@ -382,7 +396,9 @@ begin
       else if Control is TListBox then
         Result:= TListBox(Control).Items.Count
       else if Control is TMemo then
-        Result:= TMemo(Control).Lines.Count;
+        Result:= TMemo(Control).Lines.Count
+      else if Control is TSynEdit then
+        Result:= TSynEdit(Control).Lines.Count;
     end;
   DM_LISTGETDATA:
     begin
@@ -391,7 +407,9 @@ begin
       else if Control is TListBox then
         Result:= PtrInt(TListBox(Control).Items.Objects[wParam])
       else if Control is TMemo then
-        Result:= PtrInt(TMemo(Control).Lines.Objects[wParam]);
+        Result:= PtrInt(TMemo(Control).Lines.Objects[wParam])
+      else if Control is TSynEdit then
+        Result:= PtrInt(TSynEdit(Control).Lines.Objects[wParam]);
     end;
   DM_LISTGETITEM:
     begin
@@ -402,7 +420,9 @@ begin
         else if Control is TListBox then
           FText:= TListBox(Control).Items[wParam]
         else if Control is TMemo then
-          FText:= TMemo(Control).Lines[wParam];
+          FText:= TMemo(Control).Lines[wParam]
+        else if Control is TSynEdit then
+          FText:= TSynEdit(Control).Lines[wParam];
         pResult:= PAnsiChar(FText);
       end;
     end;
@@ -433,7 +453,9 @@ begin
       else if Control is TListBox then
         TListBox(Control).Items[wParam]:= AText
       else if Control is TMemo then
-        TMemo(Control).Lines[wParam]:= AText;
+        TMemo(Control).Lines[wParam]:= AText
+      else if Control is TSynEdit then
+        TSynEdit(Control).Lines[wParam]:= AText;
     end;
   DM_LISTCLEAR:
     begin
@@ -442,7 +464,9 @@ begin
       else if Control is TListBox then
         TListBox(Control).Clear
       else if Control is TMemo then
-        TMemo(Control).Clear;
+        TMemo(Control).Clear
+      else if Control is TSynEdit then
+        TSynEdit(Control).Clear;
     end;
   DM_GETTEXT:
     begin
@@ -506,7 +530,9 @@ begin
       else if Control is TListBox then
         TListBox(Control).Items.Objects[wParam]:= TObject(lText)
       else if Control is TMemo then
-        TMemo(Control).Lines.Objects[wParam]:= TObject(lText);
+        TMemo(Control).Lines.Objects[wParam]:= TObject(lText)
+      else if Control is TSynEdit then
+        TSynEdit(Control).Lines.Objects[wParam]:= TObject(lText);
     end;
   DM_SETDLGBOUNDS:
     begin
