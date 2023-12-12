@@ -25,7 +25,7 @@ begin
     case Msg of
       DN_INITDIALOG:
       begin
-        Data:= SendDlgMsg(pDlg, 'btnClose', DM_GETDLGDATA, 0, 0);
+        Data:= SendDlgMsg(pDlg, nil, DM_GETDLGDATA, 0, 0);
         Data:= PtrInt(PAnsiChar(Text^));
         SendDlgMsg(pDlg, 'seProperties', DM_SETTEXT, Data, 0);
       end;
