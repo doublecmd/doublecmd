@@ -104,7 +104,7 @@ typedef intptr_t (DCPCALL *tDlgProc)(uintptr_t pDlg, char* DlgItemName, intptr_t
 /* Definition of callback functions called by the DLL */
 typedef BOOL (DCPCALL *tInputBoxProc)(char* Caption, char* Prompt, BOOL MaskInput, char* Value, int ValueMaxLen);
 typedef int (DCPCALL *tMessageBoxProc)(char* Text, char* Caption, long Flags);
-typedef int (DCPCALL *tMsgChoiceBoxProc)(char* Text, char* Caption, char** Buttons);
+typedef int (DCPCALL *tMsgChoiceBoxProc)(char* Text, char* Caption, char** Buttons, int BtnDef, int BtnEsc);
 typedef BOOL (DCPCALL *tDialogBoxLFMProc)(intptr_t LFMData, unsigned long DataSize, tDlgProc DlgProc);
 typedef BOOL (DCPCALL *tDialogBoxLRSProc)(intptr_t LRSData, unsigned long DataSize, tDlgProc DlgProc);
 typedef BOOL (DCPCALL *tDialogBoxLFMFileProc)(char* LFMFileName, tDlgProc DlgProc);

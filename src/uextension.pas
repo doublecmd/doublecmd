@@ -75,7 +75,7 @@ end;
 
 procedure TDcxModule.InitializeExtension(StartupInfo: PExtensionStartupInfo);
 const
-  VERSION_API = 1;
+  VERSION_API = 2;
 var
   Language: String;
   AFileName, APath: String;
