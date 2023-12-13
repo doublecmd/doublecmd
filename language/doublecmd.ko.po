@@ -11039,6 +11039,10 @@ msgstr "새 사용자 파일속성열 이름 입력"
 msgid "Services"
 msgstr ""
 
+#: ulng.rsmenumacosshare
+msgid "Share"
+msgstr "공유됨"
+
 #: ulng.rsmnuactions
 msgctxt "ulng.rsmnuactions"
 msgid "Actions"

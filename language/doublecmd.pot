@@ -10774,6 +10774,10 @@ msgstr ""
 msgid "Services"
 msgstr ""
 
+#: ulng.rsmenumacosshare
+msgid "Share"
+msgstr ""
+
 #: ulng.rsmnuactions
 msgctxt "ulng.rsmnuactions"
 msgid "Actions"

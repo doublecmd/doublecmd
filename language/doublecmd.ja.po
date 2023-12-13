@@ -11049,6 +11049,10 @@ msgstr "新しいカスタムカラム名を入力"
 msgid "Services"
 msgstr "サービス"
 
+#: ulng.rsmenumacosshare
+msgid "Share"
+msgstr "共有"
+
 #: ulng.rsmnuactions
 msgctxt "ulng.rsmnuactions"
 msgid "Actions"
