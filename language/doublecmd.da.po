@@ -1120,14 +1120,6 @@ msgstr "Gem &som..."
 msgid "Save As"
 msgstr "Gem som"
 
-#: tfrmeditor.actsaveall.caption
-msgid "Sa&ve All"
-msgstr "Gem alle"
-
-#: tfrmeditor.actsaveall.hint
-msgid "Save All"
-msgstr "Gem alle"
-
 #: tfrmeditor.caption
 msgctxt "tfrmeditor.caption"
 msgid "Editor"
@@ -11881,6 +11873,10 @@ msgstr "Indtast navn til den tilpassede kolonne"
 
 #: ulng.rsmenumacosservices
 msgid "Services"
+msgstr ""
+
+#: ulng.rsmenumacosshare
+msgid "Share"
 msgstr ""
 
 #: ulng.rsmnuactions

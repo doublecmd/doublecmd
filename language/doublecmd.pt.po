@@ -1098,14 +1098,6 @@ msgstr "Gr&avar como..."
 msgid "Save As"
 msgstr "Gravar como"
 
-#: tfrmeditor.actsaveall.caption
-msgid "Sa&ve All"
-msgstr "Gra&var tudo"
-
-#: tfrmeditor.actsaveall.hint
-msgid "Save All"
-msgstr "Gravar tudo"
-
 #: tfrmeditor.caption
 msgctxt "TFRMEDITOR.CAPTION"
 msgid "Editor"
@@ -11076,6 +11068,10 @@ msgstr "Insira o novo nome das colunas"
 
 #: ulng.rsmenumacosservices
 msgid "Services"
+msgstr ""
+
+#: ulng.rsmenumacosshare
+msgid "Share"
 msgstr ""
 
 #: ulng.rsmnuactions

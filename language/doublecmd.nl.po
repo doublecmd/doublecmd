@@ -1080,14 +1080,6 @@ msgstr "Opslaan &als..."
 msgid "Save As"
 msgstr "Opslaan als"
 
-#: tfrmeditor.actsaveall.caption
-msgid "Sa&ve All"
-msgstr "Sla alles op"
-
-#: tfrmeditor.actsaveall.hint
-msgid "Save All"
-msgstr "Sla alles op"
-
 #: tfrmeditor.caption
 msgctxt "tfrmeditor.caption"
 msgid "Editor"
@@ -10827,6 +10819,10 @@ msgstr "Geef nieuwe aangepaste kolommennaam"
 msgid "Services"
 msgstr ""
 
+#: ulng.rsmenumacosshare
+msgid "Share"
+msgstr ""
+
 #: ulng.rsmnuactions
 msgctxt "ulng.rsmnuactions"
 msgid "Actions"
@@ -13832,7 +13828,7 @@ msgid "Complete filename (path+filename)"
 msgstr "Volledige bestandsnaam (pad+bestandsnaam)"
 
 #: ulng.rsvarhelpwith
-#, fuzzy, badformat
+#, fuzzy
 msgid "Help with \"%\" variables"
 msgstr "Hulp voor '%s' variabelen"
 

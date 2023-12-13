@@ -1065,14 +1065,6 @@ msgstr "Zapisz j&ako..."
 msgid "Save As"
 msgstr "Zapisz jako"
 
-#: tfrmeditor.actsaveall.caption
-msgid "Sa&ve All"
-msgstr "Zapisz &wszystko"
-
-#: tfrmeditor.actsaveall.hint
-msgid "Save All"
-msgstr "Zapisz wszystko"
-
 #: tfrmeditor.caption
 msgctxt "tfrmeditor.caption"
 msgid "Editor"
@@ -10755,6 +10747,10 @@ msgstr "Wpisz nową nazwę kolumny niestandardowej"
 #: ulng.rsmenumacosservices
 msgid "Services"
 msgstr "Usługi"
+
+#: ulng.rsmenumacosshare
+msgid "Share"
+msgstr ""
 
 #: ulng.rsmnuactions
 msgctxt "ulng.rsmnuactions"

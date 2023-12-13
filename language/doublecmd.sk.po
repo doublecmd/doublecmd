@@ -1082,14 +1082,6 @@ msgstr "Uložiť &ako.."
 msgid "Save As"
 msgstr "Uložiť ako"
 
-#: tfrmeditor.actsaveall.caption
-msgid "Sa&ve All"
-msgstr "&Uložiť Všetko"
-
-#: tfrmeditor.actsaveall.hint
-msgid "Save All"
-msgstr "Uložiť všetko"
-
 #: tfrmeditor.caption
 msgctxt "tfrmeditor.caption"
 msgid "Editor"
@@ -11064,6 +11056,10 @@ msgstr "Zadajte názov nového vlastného stĺpca"
 #: ulng.rsmenumacosservices
 msgid "Services"
 msgstr "Služby"
+
+#: ulng.rsmenumacosshare
+msgid "Share"
+msgstr ""
 
 #: ulng.rsmnuactions
 msgctxt "ulng.rsmnuactions"

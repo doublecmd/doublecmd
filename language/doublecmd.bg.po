@@ -1096,14 +1096,6 @@ msgstr "Съхраняване &като..."
 msgid "Save As"
 msgstr "Съхраняване &като"
 
-#: tfrmeditor.actsaveall.caption
-msgid "Sa&ve All"
-msgstr "Съ&храняване на всички"
-
-#: tfrmeditor.actsaveall.hint
-msgid "Save All"
-msgstr "Съхраняване на всички"
-
 #: tfrmeditor.caption
 msgctxt "tfrmeditor.caption"
 msgid "Editor"
@@ -11285,6 +11277,10 @@ msgstr "Задайте ново име за стълбовете"
 
 #: ulng.rsmenumacosservices
 msgid "Services"
+msgstr ""
+
+#: ulng.rsmenumacosshare
+msgid "Share"
 msgstr ""
 
 #: ulng.rsmnuactions

@@ -1094,14 +1094,6 @@ msgstr "Зберегти &як.."
 msgid "Save As"
 msgstr "Зберегти як"
 
-#: tfrmeditor.actsaveall.caption
-msgid "Sa&ve All"
-msgstr "&Зберегти все"
-
-#: tfrmeditor.actsaveall.hint
-msgid "Save All"
-msgstr "Зберегти все"
-
 #: tfrmeditor.caption
 msgctxt "tfrmeditor.caption"
 msgid "Editor"
@@ -11154,6 +11146,10 @@ msgstr "Введіть нове ім’я набору колонок"
 
 #: ulng.rsmenumacosservices
 msgid "Services"
+msgstr ""
+
+#: ulng.rsmenumacosshare
+msgid "Share"
 msgstr ""
 
 #: ulng.rsmnuactions

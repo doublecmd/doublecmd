@@ -1098,14 +1098,6 @@ msgstr "&Lagr som..."
 msgid "Save As"
 msgstr "Lagr som"
 
-#: tfrmeditor.actsaveall.caption
-msgid "Sa&ve All"
-msgstr "&Lagr alle"
-
-#: tfrmeditor.actsaveall.hint
-msgid "Save All"
-msgstr "Lagr alle"
-
 #: tfrmeditor.caption
 msgctxt "tfrmeditor.caption"
 msgid "Editor"
@@ -11314,6 +11306,10 @@ msgstr "Tast inn nytt brukarvalt kolonnenamn"
 
 #: ulng.rsmenumacosservices
 msgid "Services"
+msgstr ""
+
+#: ulng.rsmenumacosshare
+msgid "Share"
 msgstr ""
 
 #: ulng.rsmnuactions

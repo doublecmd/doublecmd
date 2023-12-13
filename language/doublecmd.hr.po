@@ -1134,14 +1134,6 @@ msgstr "Kopiraj&kao..."
 msgid "Save As"
 msgstr "Kopiraj kao"
 
-#: tfrmeditor.actsaveall.caption
-msgid "Sa&ve All"
-msgstr "Sač&uvaj sve"
-
-#: tfrmeditor.actsaveall.hint
-msgid "Save All"
-msgstr "_Kopiraj sve"
-
 #: tfrmeditor.caption
 msgctxt "TFRMEDITOR.CAPTION"
 msgid "Editor"
@@ -11491,6 +11483,10 @@ msgstr "Unesite novi naziv prilagođenih stupaca"
 
 #: ulng.rsmenumacosservices
 msgid "Services"
+msgstr ""
+
+#: ulng.rsmenumacosshare
+msgid "Share"
 msgstr ""
 
 #: ulng.rsmnuactions

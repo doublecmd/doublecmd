@@ -1094,14 +1094,6 @@ msgstr "名前を付けて保存(&A)…"
 msgid "Save As"
 msgstr "名前を付けて保存"
 
-#: tfrmeditor.actsaveall.caption
-msgid "Sa&ve All"
-msgstr "全て保存(&v)"
-
-#: tfrmeditor.actsaveall.hint
-msgid "Save All"
-msgstr "全て保存"
-
 #: tfrmeditor.caption
 msgctxt "TFRMEDITOR.CAPTION"
 msgid "Editor"

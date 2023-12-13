@@ -1065,14 +1065,6 @@ msgstr ""
 msgid "Save As"
 msgstr ""
 
-#: tfrmeditor.actsaveall.caption
-msgid "Sa&ve All"
-msgstr ""
-
-#: tfrmeditor.actsaveall.hint
-msgid "Save All"
-msgstr ""
-
 #: tfrmeditor.caption
 msgctxt "tfrmeditor.caption"
 msgid "Editor"

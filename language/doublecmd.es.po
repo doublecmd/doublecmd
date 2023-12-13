@@ -1082,14 +1082,6 @@ msgstr "Guardar &como..."
 msgid "Save As"
 msgstr "Guardar como"
 
-#: tfrmeditor.actsaveall.caption
-msgid "Sa&ve All"
-msgstr "G&uardar todo"
-
-#: tfrmeditor.actsaveall.hint
-msgid "Save All"
-msgstr "Guardar todo"
-
 #: tfrmeditor.caption
 msgctxt "tfrmeditor.caption"
 msgid "Editor"
@@ -10921,6 +10913,10 @@ msgstr "Introducir nuevo nombre de vista de columnas"
 
 #: ulng.rsmenumacosservices
 msgid "Services"
+msgstr ""
+
+#: ulng.rsmenumacosshare
+msgid "Share"
 msgstr ""
 
 #: ulng.rsmnuactions

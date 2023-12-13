@@ -1173,14 +1173,6 @@ msgstr "Anomena i desa..."
 msgid "Save As"
 msgstr "Anomena i desa"
 
-#: tfrmeditor.actsaveall.caption
-msgid "Sa&ve All"
-msgstr "De&sa-ho Tot"
-
-#: tfrmeditor.actsaveall.hint
-msgid "Save All"
-msgstr "Desa-ho tot"
-
 #: tfrmeditor.caption
 msgctxt "tfrmeditor.caption"
 msgid "Editor"
@@ -11774,6 +11766,10 @@ msgstr ""
 
 #: ulng.rsmenumacosservices
 msgid "Services"
+msgstr ""
+
+#: ulng.rsmenumacosshare
+msgid "Share"
 msgstr ""
 
 #: ulng.rsmnuactions

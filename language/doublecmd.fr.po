@@ -1115,14 +1115,6 @@ msgstr "Enregistrer &sous"
 msgid "Save As"
 msgstr "Sauvegarder sous"
 
-#: tfrmeditor.actsaveall.caption
-msgid "Sa&ve All"
-msgstr "T&out enregistrer"
-
-#: tfrmeditor.actsaveall.hint
-msgid "Save All"
-msgstr "Tout sauvegarder"
-
 #: tfrmeditor.caption
 msgctxt "tfrmeditor.caption"
 msgid "Editor"
@@ -11093,6 +11085,10 @@ msgstr "Entrez un nom pour la nouvelle colonne personnalisée"
 
 #: ulng.rsmenumacosservices
 msgid "Services"
+msgstr ""
+
+#: ulng.rsmenumacosshare
+msgid "Share"
 msgstr ""
 
 #: ulng.rsmnuactions

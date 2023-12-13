@@ -1075,14 +1075,6 @@ msgstr "Shrani &kot ..."
 msgid "Save As"
 msgstr "Shrani kot"
 
-#: tfrmeditor.actsaveall.caption
-msgid "Sa&ve All"
-msgstr "Shra&ni vse"
-
-#: tfrmeditor.actsaveall.hint
-msgid "Save All"
-msgstr "Shrani vse"
-
 #: tfrmeditor.caption
 msgctxt "tfrmeditor.caption"
 msgid "Editor"
@@ -10797,6 +10789,10 @@ msgstr "Vpis novega imena stolpca po meri"
 #: ulng.rsmenumacosservices
 msgid "Services"
 msgstr "Storitve"
+
+#: ulng.rsmenumacosshare
+msgid "Share"
+msgstr ""
 
 #: ulng.rsmnuactions
 msgctxt "ulng.rsmnuactions"

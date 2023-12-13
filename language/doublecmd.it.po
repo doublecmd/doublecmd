@@ -1105,14 +1105,6 @@ msgstr "Sal&va Come.."
 msgid "Save As"
 msgstr "Salva come"
 
-#: tfrmeditor.actsaveall.caption
-msgid "Sa&ve All"
-msgstr "Sal&va Tutto"
-
-#: tfrmeditor.actsaveall.hint
-msgid "Save All"
-msgstr "Salva tutto"
-
 #: tfrmeditor.caption
 msgctxt "TFRMEDITOR.CAPTION"
 msgid "Editor"
@@ -11257,6 +11249,10 @@ msgstr ""
 
 #: ulng.rsmenumacosservices
 msgid "Services"
+msgstr ""
+
+#: ulng.rsmenumacosshare
+msgid "Share"
 msgstr ""
 
 #: ulng.rsmnuactions
