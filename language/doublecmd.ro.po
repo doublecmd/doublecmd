@@ -1096,14 +1096,6 @@ msgstr "Salvare C&a.."
 msgid "Save As"
 msgstr "Salvează Ca"
 
-#: tfrmeditor.actsaveall.caption
-msgid "Sa&ve All"
-msgstr "Sal&vează Toate"
-
-#: tfrmeditor.actsaveall.hint
-msgid "Save All"
-msgstr "Salvează Toate"
-
 #: tfrmeditor.caption
 msgctxt "TFRMEDITOR.CAPTION"
 msgid "Editor"
@@ -11113,6 +11105,10 @@ msgstr ""
 
 #: ulng.rsmenumacosservices
 msgid "Services"
+msgstr ""
+
+#: ulng.rsmenumacosshare
+msgid "Share"
 msgstr ""
 
 #: ulng.rsmnuactions

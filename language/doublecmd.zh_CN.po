@@ -1067,14 +1067,6 @@ msgstr "另存为(&A)..."
 msgid "Save As"
 msgstr "另存为"
 
-#: tfrmeditor.actsaveall.caption
-msgid "Sa&ve All"
-msgstr "全部保存(&V)"
-
-#: tfrmeditor.actsaveall.hint
-msgid "Save All"
-msgstr "全部保存"
-
 #: tfrmeditor.caption
 msgctxt "tfrmeditor.caption"
 msgid "Editor"

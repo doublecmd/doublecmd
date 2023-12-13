@@ -1073,14 +1073,6 @@ msgstr "Speichern &unter ..."
 msgid "Save As"
 msgstr "Datei unter anderem Namen speichern"
 
-#: tfrmeditor.actsaveall.caption
-msgid "Sa&ve All"
-msgstr "Alle &speichern"
-
-#: tfrmeditor.actsaveall.hint
-msgid "Save All"
-msgstr "Alle geöffneten Dateien speichern"
-
 #: tfrmeditor.caption
 msgctxt "tfrmeditor.caption"
 msgid "Editor"
@@ -10981,6 +10973,10 @@ msgstr "Neuen Namen für die benutzerdefinierte Spaltenansicht angeben"
 #: ulng.rsmenumacosservices
 msgid "Services"
 msgstr "Dienste"
+
+#: ulng.rsmenumacosshare
+msgid "Share"
+msgstr ""
 
 #: ulng.rsmnuactions
 msgctxt "ulng.rsmnuactions"

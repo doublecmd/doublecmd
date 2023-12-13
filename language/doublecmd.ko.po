@@ -1094,14 +1094,6 @@ msgstr "새 이름 저장(&A)..."
 msgid "Save As"
 msgstr "새 이름 저장"
 
-#: tfrmeditor.actsaveall.caption
-msgid "Sa&ve All"
-msgstr "전체 저장(&V)"
-
-#: tfrmeditor.actsaveall.hint
-msgid "Save All"
-msgstr "전체 저장"
-
 #: tfrmeditor.caption
 msgctxt "TFRMEDITOR.CAPTION"
 msgid "Editor"

@@ -1084,14 +1084,6 @@ msgstr "Сачувај &као..."
 msgid "Save As"
 msgstr "Сачувај као"
 
-#: tfrmeditor.actsaveall.caption
-msgid "Sa&ve All"
-msgstr "Сач&увај све"
-
-#: tfrmeditor.actsaveall.hint
-msgid "Save All"
-msgstr "_Сачувај све"
-
 #: tfrmeditor.caption
 msgctxt "TFRMEDITOR.CAPTION"
 msgid "Editor"
@@ -11029,6 +11021,10 @@ msgstr "Унесите ново произвољно име стубца"
 #: ulng.rsmenumacosservices
 msgid "Services"
 msgstr "Услуге"
+
+#: ulng.rsmenumacosshare
+msgid "Share"
+msgstr ""
 
 #: ulng.rsmnuactions
 msgctxt "ulng.rsmnuactions"

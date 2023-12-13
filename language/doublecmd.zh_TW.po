@@ -1080,14 +1080,6 @@ msgstr "另存新檔 (&A)..."
 msgid "Save As"
 msgstr "另存新檔"
 
-#: tfrmeditor.actsaveall.caption
-msgid "Sa&ve All"
-msgstr "儲存所有檔案 (&V)"
-
-#: tfrmeditor.actsaveall.hint
-msgid "Save All"
-msgstr "儲存所有檔案"
-
 #: tfrmeditor.caption
 msgctxt "tfrmeditor.caption"
 msgid "Editor"

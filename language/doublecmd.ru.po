@@ -1079,14 +1079,6 @@ msgstr "Сохранить &как..."
 msgid "Save As"
 msgstr "Сохранить как..."
 
-#: tfrmeditor.actsaveall.caption
-msgid "Sa&ve All"
-msgstr "Сохранить &все"
-
-#: tfrmeditor.actsaveall.hint
-msgid "Save All"
-msgstr "Сохранить все"
-
 #: tfrmeditor.caption
 msgctxt "tfrmeditor.caption"
 msgid "Editor"
@@ -11053,7 +11045,7 @@ msgstr "Службы"
 
 #: ulng.rsmenumacosshare
 msgid "Share"
-msgstr "общий"
+msgstr "Поделиться"
 
 #: ulng.rsmnuactions
 msgctxt "ulng.rsmnuactions"

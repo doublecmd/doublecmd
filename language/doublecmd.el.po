@@ -1087,14 +1087,6 @@ msgstr "Αποθήκευση ως..."
 msgid "Save As"
 msgstr "Αποθήκευση ως"
 
-#: tfrmeditor.actsaveall.caption
-msgid "Sa&ve All"
-msgstr "Αποθήκευση Όλων"
-
-#: tfrmeditor.actsaveall.hint
-msgid "Save All"
-msgstr "Αποθήκευση Όλων"
-
 #: tfrmeditor.caption
 msgctxt "TFRMEDITOR.CAPTION"
 msgid "Editor"
@@ -11031,6 +11023,10 @@ msgstr "Εισάγετε νέα προσαρμοσμένα χρώματα στη
 #: ulng.rsmenumacosservices
 msgid "Services"
 msgstr "Υπηρεσίες"
+
+#: ulng.rsmenumacosshare
+msgid "Share"
+msgstr ""
 
 #: ulng.rsmnuactions
 msgctxt "ulng.rsmnuactions"

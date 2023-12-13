@@ -1073,14 +1073,6 @@ msgstr "Захаваць &як..."
 msgid "Save As"
 msgstr "Захаваць як"
 
-#: tfrmeditor.actsaveall.caption
-msgid "Sa&ve All"
-msgstr "Захаваць& усё"
-
-#: tfrmeditor.actsaveall.hint
-msgid "Save All"
-msgstr "Захаваць усё"
-
 #: tfrmeditor.caption
 msgctxt "tfrmeditor.caption"
 msgid "Editor"
@@ -10808,6 +10800,10 @@ msgstr "Увесці назву новых адвольных слупкоў"
 #: ulng.rsmenumacosservices
 msgid "Services"
 msgstr "Службы"
+
+#: ulng.rsmenumacosshare
+msgid "Share"
+msgstr ""
 
 #: ulng.rsmnuactions
 msgctxt "ulng.rsmnuactions"
