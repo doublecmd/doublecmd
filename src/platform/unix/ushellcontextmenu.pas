@@ -58,6 +58,7 @@ type
     function FillOpenWithSubMenu: Boolean;
     {$IF DEFINED(DARWIN)}
     procedure FillServicesSubMenu;
+    procedure SharingMenuItemSelect(Sender: TObject);
     {$ENDIF}
     procedure CreateActionSubMenu(MenuWhereToAdd:TComponent; aFile:TFile; bIncludeViewEdit:boolean);
   public
@@ -73,7 +74,7 @@ uses
   uOSUtils, uFileProcs, uShellExecute, uLng, uPixMapManager, uMyUnix, uOSForms,
   fMain, fFileProperties, DCOSUtils, DCStrUtils, uExts, uArchiveFileSourceUtil, uSysFolders
   {$IF DEFINED(DARWIN)}
-  , MacOSAll
+  , MacOSAll, uMyDarwin
   {$ELSEIF NOT DEFINED(HAIKU)}
   , uKeyFile, uMimeActions
     {$IF DEFINED(LINUX)}
@@ -507,6 +508,24 @@ begin
   mi:=TMenuItem.Create(Self);
   mi.Caption:=uLng.rsMenuMacOsServices;
   Self.Items.Add(mi);
+
+  // Add delimiter menu
+  mi:=TMenuItem.Create(Self);
+  mi.Caption:='-';
+  Self.Items.Add(mi);
+
+  // add Sharing Menu
+  // similar to MacOS 13, the Share MenuItem does not expand the submenu,
+  // and the SharingServicePicker pops up after clicking Share MenuItem.
+  mi:=TMenuItem.Create(Self);
+  mi.Caption := 'Share';
+  mi.OnClick:= self.SharingMenuItemSelect;
+  Self.Items.Add(mi);
+end;
+
+procedure TShellContextMenu.SharingMenuItemSelect(Sender: TObject);
+begin
+  showMacOSSharingServiceMenu;
 end;
 {$ENDIF}
 

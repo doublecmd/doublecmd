@@ -35,7 +35,7 @@ interface
 uses
   Classes, SysUtils, UnixType,
   Cocoa_Extra, MacOSAll, CocoaAll, CocoaUtils, CocoaInt, CocoaConst, CocoaMenus,
-  InterfaceBase, Menus;
+  InterfaceBase, Menus, Controls, Forms, LazLoggerBase;
 
 // Darwin Util Function
 function StringToNSString(const S: String): NSString;
@@ -124,6 +124,9 @@ procedure InitNSServiceProvider(
   serveCallback: TNSServiceProviderCallBack;
   isReadyFunc: TNSServiceMenuIsReady;
   getFilenamesFunc: TNSServiceMenuGetFilenames );
+
+// MacOS Sharing
+procedure showMacOSSharingServiceMenu;
 
 // MacOS Theme
 type TNSThemeChangedHandler = Procedure() of object;
@@ -262,6 +265,35 @@ begin
   Result:= true;
 
   FreeAndNil( filenameList );
+end;
+
+procedure showMacOSSharingServiceMenu;
+var
+  picker: NSSharingServicePicker;
+  filenameArray: NSMutableArray;
+  filenameList: TStringList;
+  url: NSUrl;
+  filename: String;
+  point: TPoint;
+  popupNSRect: NSRect;
+  control: TWinControl;
+begin
+  filenameList:= TDCCocoaApplication(NSApp).serviceMenuGetFilenames;
+
+  filenameArray:= NSMutableArray.alloc.init;
+  for filename in filenameList do begin
+    url:= NSUrl.fileURLWithPath( StringToNSString(filename) );
+    filenameArray.addObject( url );
+  end;
+
+  control:= Screen.ActiveControl;
+  point:= control.ScreenToClient( Mouse.CursorPos );
+  popupNSRect.origin.x:= point.X;
+  popupNSRect.origin.y:= point.Y;
+  popupNSRect.size:= NSZeroSize;
+
+  picker:= NSSharingServicePicker.alloc.initWithItems( filenameArray );
+  picker.showRelativeToRect_ofView_preferredEdge( popupNSRect, NSView(control.handle) , NSMinYEdge );
 end;
 
 procedure TDCCocoaApplication.observeValueForKeyPath_ofObject_change_context(
