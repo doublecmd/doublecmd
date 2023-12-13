@@ -10798,6 +10798,10 @@ msgstr "输入新的自定义列名称"
 msgid "Services"
 msgstr "服务"
 
+#: ulng.rsmenumacosshare
+msgid "Share"
+msgstr "共享"
+
 #: ulng.rsmnuactions
 msgctxt "ulng.rsmnuactions"
 msgid "Actions"

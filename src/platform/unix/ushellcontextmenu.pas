@@ -518,7 +518,7 @@ begin
   // similar to MacOS 13, the Share MenuItem does not expand the submenu,
   // and the SharingServicePicker pops up after clicking Share MenuItem.
   mi:=TMenuItem.Create(Self);
-  mi.Caption := 'Share';
+  mi.Caption:= uLng.rsMenuMacOsShare;
   mi.OnClick:= self.SharingMenuItemSelect;
   Self.Items.Add(mi);
 end;

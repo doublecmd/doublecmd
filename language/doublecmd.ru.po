@@ -11051,6 +11051,10 @@ msgstr "Введите имя нового набора колонок"
 msgid "Services"
 msgstr "Службы"
 
+#: ulng.rsmenumacosshare
+msgid "Share"
+msgstr "общий"
+
 #: ulng.rsmnuactions
 msgctxt "ulng.rsmnuactions"
 msgid "Actions"
