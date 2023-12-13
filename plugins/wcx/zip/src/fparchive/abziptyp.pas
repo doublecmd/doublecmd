@@ -660,6 +660,7 @@ uses
 function VerifyZip(Strm : TStream) : TAbArchiveType;
 { determine if stream appears to be in PkZip format }
 var
+  Empty        : TAbZipEndOfCentralDirectoryRecord;
   Footer       : TAbZipEndOfCentralDirectoryRecord;
   Sig          : LongInt;
   TailPosition : int64;
@@ -681,6 +682,8 @@ begin
           if (Strm.Read(Footer, SizeOf(Footer)) = SizeOf(Footer)) and
              (Footer.Signature = Ab_ZipEndCentralDirectorySignature) then
           begin
+            Empty:= Default(TAbZipEndOfCentralDirectoryRecord);
+            Empty.Signature:= Ab_ZipEndCentralDirectorySignature;
             { check Central Directory Offset }
             if (Footer.DirectoryOffset = High(LongWord)) or
                ((Strm.Seek(Footer.DirectoryOffset, soBeginning) = Footer.DirectoryOffset) and
@@ -691,6 +694,12 @@ begin
                 Result := atZip
               else
                 Result := atSpannedZip;
+            end
+            { empty archive }
+            else if (Strm.Size = SizeOf(Footer)) and
+                    (CompareMem(@Footer, @Empty, SizeOf(Footer))) then
+            begin
+              Result := atZip
             end;
           end;
         end;
