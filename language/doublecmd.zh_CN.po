@@ -33,14 +33,14 @@ msgid "Files found: %d  (Identical: %d, Different: %d, Unique left: %d, Unique r
 msgstr "找到文件：%d（相同：%d，不同：%d，仅左侧有：%d，仅右侧有：%d）"
 
 #: fsyncdirsdlg.rslefttorightcopy
-#, object-pascal-format, fuzzy, badformat
+#, object-pascal-format
 msgid "Left to Right: Copy %d files, total size: %s (%s)"
-msgstr "左侧到右侧：复制 %d 个文件，合计大小：%d (%s)"
+msgstr "左侧到右侧：复制 %d 个文件，合计大小：%s (%s)"
 
 #: fsyncdirsdlg.rsrighttoleftcopy
-#, object-pascal-format, fuzzy, badformat
+#, object-pascal-format
 msgid "Right to Left: Copy %d files, total size: %s (%s)"
-msgstr "右侧到左侧：复制 %d 个文件，合计大小：%d (%s)"
+msgstr "右侧到左侧：复制 %d 个文件，合计大小：%s (%s)"
 
 #: tfilesystemcopymoveoperationoptionsui.btnsearchtemplate.hint
 msgid "Choose template..."
@@ -359,7 +359,6 @@ msgid "Verify checksum..."
 msgstr "验证校验码..."
 
 #: tfrmchooseencoding.caption
-#, fuzzy
 msgctxt "tfrmchooseencoding.caption"
 msgid "Encoding"
 msgstr "编码"
@@ -4140,7 +4139,6 @@ msgid "Use &Gradient Indicator"
 msgstr "使用渐变指示器(&G)"
 
 #: tfrmoptionscolors.dbbinarymode.caption
-#, fuzzy
 msgctxt "tfrmoptionscolors.dbbinarymode.caption"
 msgid "Binary Mode"
 msgstr "二进制模式"
@@ -4167,7 +4165,6 @@ msgid "Background:"
 msgstr ""
 
 #: tfrmoptionscolors.lblbooktext.caption
-#, fuzzy
 msgctxt "tfrmoptionscolors.lblbooktext.caption"
 msgid "Text:"
 msgstr "文本："
@@ -4189,7 +4186,6 @@ msgid "Background 1:"
 msgstr ""
 
 #: tfrmoptionscolors.lblimagebackground2.caption
-#, fuzzy
 msgctxt "tfrmoptionscolors.lblimagebackground2.caption"
 msgid "Background 2:"
 msgstr "背景色 2："
@@ -4215,13 +4211,11 @@ msgid "Left:"
 msgstr ""
 
 #: tfrmoptionscolors.lblmodified.caption
-#, fuzzy
 msgctxt "tfrmoptionscolors.lblmodified.caption"
 msgid "Modified:"
 msgstr "修改时间："
 
 #: tfrmoptionscolors.lblmodifiedbinary.caption
-#, fuzzy
 msgctxt "tfrmoptionscolors.lblmodifiedbinary.caption"
 msgid "Modified:"
 msgstr "修改时间："
@@ -4231,7 +4225,6 @@ msgid "Right:"
 msgstr ""
 
 #: tfrmoptionscolors.lblsuccess.caption
-#, fuzzy
 msgctxt "tfrmoptionscolors.lblsuccess.caption"
 msgid "Success:"
 msgstr "成功："
@@ -6142,7 +6135,6 @@ msgid "Background:"
 msgstr ""
 
 #: tfrmoptionsfilepanelscolors.lblpathactivetext.caption
-#, fuzzy
 msgctxt "tfrmoptionsfilepanelscolors.lblpathactivetext.caption"
 msgid "Text Color:"
 msgstr "文本颜色："
@@ -9264,13 +9256,11 @@ msgid "Full Screen"
 msgstr "全屏显示"
 
 #: tfrmviewer.actgotoline.caption
-#, fuzzy
 msgctxt "tfrmviewer.actgotoline.caption"
 msgid "Goto Line..."
 msgstr "跳转到指定行..."
 
 #: tfrmviewer.actgotoline.hint
-#, fuzzy
 msgctxt "tfrmviewer.actgotoline.hint"
 msgid "Goto Line"
 msgstr "跳转到行"
@@ -11528,12 +11518,12 @@ msgid "Total entries exported: "
 msgstr "导出的条目总数："
 
 #: ulng.rsmsghotdirwhattodelete
-#, object-pascal-format, fuzzy, badformat
+#, object-pascal-format
 msgid ""
 "Do you want to delete all elements inside the sub-menu [%s]?\n"
 "Answering NO will delete only menu delimiters but will keep element inside sub-menu."
 msgstr ""
-"您想要删除子菜单 [％s] 内的所有元素吗？\n"
+"您想要删除子菜单 [%s] 内的所有元素吗？\n"
 "回答 <否> 将只删除菜单分隔符，但会保留子菜单内的元素。"
 
 #: ulng.rsmsghotdirwheretosave
