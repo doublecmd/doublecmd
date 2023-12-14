@@ -334,13 +334,12 @@ end;
 
 function ListToNSArray(const list:TStrings): NSArray;
 var
-  i: Integer;
   theArray: NSMutableArray;
+  item: String;
 begin
-  theArray := NSMutableArray.arrayWithCapacity(list.Count);
-  for i := 0 to list.Count - 1 do
-  begin
-    theArray.addObject( StringToNSString(list[i]) );
+  theArray := NSMutableArray.arrayWithCapacity( list.Count );
+  for item in list do begin
+    theArray.addObject( StringToNSString(item) );
   end;
   Result := theArray;
 end;
