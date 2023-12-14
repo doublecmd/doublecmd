@@ -10749,7 +10749,7 @@ msgid "Services"
 msgstr "Usługi"
 
 #: ulng.rsmenumacosshare
-msgid "Share"
+msgid "Share..."
 msgstr ""
 
 #: ulng.rsmnuactions

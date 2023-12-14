@@ -10802,7 +10802,7 @@ msgid "Services"
 msgstr "Службы"
 
 #: ulng.rsmenumacosshare
-msgid "Share"
+msgid "Share..."
 msgstr ""
 
 #: ulng.rsmnuactions

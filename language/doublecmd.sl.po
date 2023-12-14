@@ -10791,7 +10791,7 @@ msgid "Services"
 msgstr "Storitve"
 
 #: ulng.rsmenumacosshare
-msgid "Share"
+msgid "Share..."
 msgstr ""
 
 #: ulng.rsmnuactions

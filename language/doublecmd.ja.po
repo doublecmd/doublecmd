@@ -11042,8 +11042,8 @@ msgid "Services"
 msgstr "サービス"
 
 #: ulng.rsmenumacosshare
-msgid "Share"
-msgstr "共有"
+msgid "Share..."
+msgstr "共有..."
 
 #: ulng.rsmnuactions
 msgctxt "ulng.rsmnuactions"

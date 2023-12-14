@@ -10820,7 +10820,7 @@ msgid "Services"
 msgstr ""
 
 #: ulng.rsmenumacosshare
-msgid "Share"
+msgid "Share..."
 msgstr ""
 
 #: ulng.rsmnuactions
@@ -13828,7 +13828,7 @@ msgid "Complete filename (path+filename)"
 msgstr "Volledige bestandsnaam (pad+bestandsnaam)"
 
 #: ulng.rsvarhelpwith
-#, fuzzy
+#, fuzzy, badformat
 msgid "Help with \"%\" variables"
 msgstr "Hulp voor '%s' variabelen"
 
