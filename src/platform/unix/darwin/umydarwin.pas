@@ -42,6 +42,7 @@ function StringToNSString(const S: String): NSString;
 function StringToCFStringRef(const S: String): CFStringRef;
 function NSArrayToList(const theArray:NSArray): TStringList;
 function ListToNSArray(const list:TStrings): NSArray;
+function ListToNSUrlArray(const list:TStrings): NSArray;
 
 procedure setMacOSAppearance( mode:Integer );
 
@@ -270,10 +271,8 @@ end;
 procedure showMacOSSharingServiceMenu;
 var
   picker: NSSharingServicePicker;
-  filenameArray: NSMutableArray;
+  filenameArray: NSArray;
   filenameList: TStringList;
-  url: NSUrl;
-  filename: String;
   point: TPoint;
   popupNSRect: NSRect;
   control: TWinControl;
@@ -284,12 +283,7 @@ begin
   filenameList:= TDCCocoaApplication(NSApp).serviceMenuGetFilenames;
   if filenameList=nil then exit;
 
-  filenameArray:= NSMutableArray.arrayWithCapacity( filenameList.Count );
-  for filename in filenameList do begin
-    url:= NSUrl.fileURLWithPath( StringToNSString(filename) );
-    filenameArray.addObject( url );
-  end;
-
+  filenameArray:= ListToNSUrlArray( filenameList );
   FreeAndNil( filenameList );
 
   control:= Screen.ActiveControl;
@@ -349,6 +343,20 @@ begin
     theArray.addObject( StringToNSString(list[i]) );
   end;
   Result := theArray;
+end;
+
+function ListToNSUrlArray(const list:TStrings): NSArray;
+var
+  theArray: NSMutableArray;
+  item: String;
+  url: NSUrl;
+begin
+  theArray:= NSMutableArray.arrayWithCapacity( list.Count );
+  for item in list do begin
+    url:= NSUrl.fileURLWithPath( StringToNSString(item) );
+    theArray.addObject( url );
+  end;
+  Result:= theArray;
 end;
 
 function NSGetTempPath: String;
