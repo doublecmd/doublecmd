@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Double Commander 1.1.0 alpha\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-11-15 11:15+0300\n"
-"PO-Revision-Date: 2023-12-09 09:37+0100\n"
+"PO-Revision-Date: 2023-12-14 13:37+0100\n"
 "Last-Translator: ㋡ <braass@mail.de>\n"
 "Language-Team: Deutsch <braass@mail.de>\n"
 "MIME-Version: 1.0\n"
@@ -10976,7 +10976,7 @@ msgstr "Dienste"
 
 #: ulng.rsmenumacosshare
 msgid "Share..."
-msgstr ""
+msgstr "Teilen..."
 
 #: ulng.rsmnuactions
 msgctxt "ulng.rsmnuactions"
