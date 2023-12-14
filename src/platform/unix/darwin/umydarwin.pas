@@ -278,13 +278,19 @@ var
   popupNSRect: NSRect;
   control: TWinControl;
 begin
-  filenameList:= TDCCocoaApplication(NSApp).serviceMenuGetFilenames;
+  if not TDCCocoaApplication(NSApp).serviceMenuIsReady then
+    exit;
 
-  filenameArray:= NSMutableArray.alloc.init;
+  filenameList:= TDCCocoaApplication(NSApp).serviceMenuGetFilenames;
+  if filenameList=nil then exit;
+
+  filenameArray:= NSMutableArray.arrayWithCapacity( filenameList.Count );
   for filename in filenameList do begin
     url:= NSUrl.fileURLWithPath( StringToNSString(filename) );
     filenameArray.addObject( url );
   end;
+
+  FreeAndNil( filenameList );
 
   control:= Screen.ActiveControl;
   point:= control.ScreenToClient( Mouse.CursorPos );
