@@ -919,7 +919,7 @@ begin
           TextRect(Rect(Left, aRect.Top, Left + Width, aRect.Bottom),
             x, aRect.Top + 2, s);
         end;
-        s := DateTimeToStr(r.FFileL.ModificationTime);
+        s := FormatDateTime(gDateTimeFormatSync, r.FFileL.ModificationTime);
         with hCols[2] do
           TextRect(Rect(Left, aRect.Top, Left + Width, aRect.Bottom),
             Left + 2, aRect.Top + 2, s)
@@ -933,7 +933,7 @@ begin
           TextRect(Rect(Left, aRect.Top, Left + Width, aRect.Bottom),
             x, aRect.Top + 2, s);
         end;
-        s := DateTimeToStr(r.FFileR.ModificationTime);
+        s := FormatDateTime(gDateTimeFormatSync, r.FFileR.ModificationTime);
         with hCols[4] do
           TextRect(Rect(Left, aRect.Top, Left + Width, aRect.Bottom),
             Left + 2, aRect.Top + 2, s)
@@ -2033,7 +2033,7 @@ var
         s := s + #9;
         s := s + IntToStr(SyncRec.FFileL.Size);
         s := s + #9;
-        s := s + DateTimeToStr(SyncRec.FFileL.ModificationTime);
+        s := s + FormatDateTime(gDateTimeFormatSync, SyncRec.FFileL.ModificationTime);
       end;
       if Length(s) <> 0 then
         s := s + #9;
@@ -2053,7 +2053,7 @@ var
         s := s + #9;
       if Assigned(SyncRec.FFileR) then
       begin
-        s := s + DateTimeToStr(SyncRec.FFileR.ModificationTime);
+        s := s + FormatDateTime(gDateTimeFormatSync, SyncRec.FFileR.ModificationTime);
         s := s + #9;
         s := s + IntToStr(SyncRec.FFileR.Size);
         s := s + #9;

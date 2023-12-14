@@ -654,6 +654,7 @@ var
   gSyncDirsShowFilterSingles: Boolean;
   gSyncDirsFileMask: string;
   gSyncDirsFileMaskSave: Boolean;
+  gDateTimeFormatSync : String;
 
   { Internal Associations}
   gFileAssociationLastCustomAction: string;
@@ -724,6 +725,7 @@ var
   gConfig: TXmlConfig = nil;
   gStyles: TJsonConfig = nil;
   DefaultDateTimeFormat: String;
+  DefaultDateTimeFormatSync: String;
 
 implementation
 
@@ -2115,6 +2117,7 @@ begin
   gSyncDirsShowFilterSingles := True;
   gSyncDirsFileMask := '*';
   gSyncDirsFileMaskSave := True;
+  gDateTimeFormatSync := DefaultDateTimeFormatSync;
 
   { Internal Associations}
   gFileAssociationLastCustomAction := rsMsgDefaultCustomActionName;
@@ -2223,6 +2226,7 @@ begin
   gErrorFile := gpCfgDir + ExtractOnlyFileName(Application.ExeName) + '.err';
   DefaultDateTimeFormat := FormatSettings.ShortDateFormat + ' hh:nn:ss';
   FormatSettings.DecimalSeparator:='.';
+  DefaultDateTimeFormatSync := 'yyyy.mm.dd hh:nn:ss';
 end;
 
 function OpenConfig(var ErrorMessage: String): Boolean;
@@ -3196,6 +3200,7 @@ begin
       gSyncDirsShowFilterSingles := GetValue(Node, 'FilterSingles', gSyncDirsShowFilterSingles);
       gSyncDirsFileMask := GetValue(Node, 'FileMask', gSyncDirsFileMask);
       gSyncDirsFileMaskSave := GetAttr(Node, 'FileMask/Save', gSyncDirsFileMaskSave);
+      gDateTimeFormatSync := GetValidDateTimeFormat(GetValue(Node, 'DateTimeFormat', gDateTimeFormatSync), DefaultDateTimeFormatSync);
     end;
 
     { Internal Associations}
@@ -3770,6 +3775,7 @@ begin
     SetValue(Node, 'FilterSingles', gSyncDirsShowFilterSingles);
     SetValue(Node, 'FileMask', gSyncDirsFileMask);
     SetAttr(Node, 'FileMask/Save', gSyncDirsFileMaskSave);
+    SetValue(Node, 'DateTimeFormat', gDateTimeFormatSync);
 
     { Internal Associations}
     Node := FindNode(Root, 'InternalAssociations', True);
