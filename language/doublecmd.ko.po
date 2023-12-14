@@ -11032,8 +11032,8 @@ msgid "Services"
 msgstr ""
 
 #: ulng.rsmenumacosshare
-msgid "Share"
-msgstr "공유됨"
+msgid "Share..."
+msgstr "공유됨..."
 
 #: ulng.rsmnuactions
 msgctxt "ulng.rsmnuactions"

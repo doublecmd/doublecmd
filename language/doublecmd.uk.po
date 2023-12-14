@@ -11149,7 +11149,7 @@ msgid "Services"
 msgstr ""
 
 #: ulng.rsmenumacosshare
-msgid "Share"
+msgid "Share..."
 msgstr ""
 
 #: ulng.rsmnuactions
