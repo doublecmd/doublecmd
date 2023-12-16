@@ -2216,8 +2216,11 @@ begin
       end;
     end;
   end;
-  AbSetFileTime(UseName, CurItem.LastModTimeAsDateTime);
-  AbSetFileAttr(UseName, CurItem.NativeFileAttributes);
+  if (CurItem.Mode and $F000) <> AB_FMODE_FILELINK then
+  begin
+    AbSetFileTime(UseName, CurItem.LastModTimeAsDateTime);
+    AbSetFileAttr(UseName, CurItem.NativeFileAttributes);
+  end;
 end;
 
 procedure TAbTarArchive.ExtractItemToStreamAt(Index: Integer;

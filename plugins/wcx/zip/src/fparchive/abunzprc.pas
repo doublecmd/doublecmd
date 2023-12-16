@@ -1239,9 +1239,11 @@ begin
       InStream.Free
     end;
   end;
-
-  AbSetFileTime(UseName, Item.LastModTimeAsDateTime);
-  AbSetFileAttr(UseName, Item.NativeFileAttributes);
+  if not FPS_ISLNK(Item.NativeFileAttributes) then
+  begin
+    AbSetFileTime(UseName, Item.LastModTimeAsDateTime);
+    AbSetFileAttr(UseName, Item.NativeFileAttributes);
+  end;
 end;
 { -------------------------------------------------------------------------- }
 procedure AbTestZipItem(Sender : TObject; Item : TAbZipItem);
