@@ -1,44 +1,43 @@
 msgid ""
 msgstr ""
+"Project-Id-Version: doublecmd-Korean\n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: VenusGirl\n"
+"Language-Team: VenusGirl: https://venusgirls.tistory.com/\n"
+"Language: ko\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 3.4.1\n"
 
 #: lclstrconsts.hhshelpbrowsernotexecutable
-#, fuzzy,badformat
-#| msgid "Browser %s%s%s not executable."
 msgid "Browser \"%s\" not executable."
-msgstr "브라우저 %s%s%s 실행 불가"
+msgstr "\"%s\" 브라우저를 실행할 수 없습니다."
 
 #: lclstrconsts.hhshelpbrowsernotfound
-#, fuzzy,badformat
-#| msgid "Browser %s%s%s not found."
 msgid "Browser \"%s\" not found."
-msgstr "브라우저 %s%s%s 찾지 못함"
+msgstr "\"%s\" 브라우저를 찾을 수 없습니다."
 
 #: lclstrconsts.hhshelperrorwhileexecuting
-#, fuzzy,badformat
-#| msgid "Error while executing %s%s%s:%s%s"
 msgid "Error while executing \"%s\":%s%s"
-msgstr "%s%s%s:%s%s 실행중 오류"
+msgstr "\"%s\"을(를) 실행하는 동안 오류 발생: %s%s"
 
 #: lclstrconsts.hhshelpnohtmlbrowserfound
 msgid "Unable to find a HTML browser."
-msgstr "HTML 브라우저 찾을 수 없음"
+msgstr "HTML 브라우저를 찾을 수 없습니다."
 
 #: lclstrconsts.hhshelpnohtmlbrowserfoundpleasedefineone
 msgid "No HTML Browser found.%sPlease define one in Tools -> Options -> Help -> Help Options"
-msgstr "HTML 브라우저 찾을 수 없음. %s 도구->옵션->도움말->도움말 옵션에서 브라우저를 지정해주세요."
+msgstr "HTML 브라우저를 찾을 수 없습니다.%s도구 -> 옵션 -> 도움말 -> 도움말 -> 도움말 옵션에서 하나를 정의하십시오"
 
 #: lclstrconsts.hhshelpthehelpdatabasewasunabletofindfile
-#, fuzzy,badformat
-#| msgid "The help database %s%s%s was unable to find file %s%s%s."
 msgid "The help database \"%s\" was unable to find file \"%s\"."
-msgstr "도움말 데이타베이스 %s%s%s가 %s%s%s를 찾지 못함."
+msgstr "도움말 데이터베이스 \"%s\"가 \"%s\" 파일을 찾을 수 없습니다."
 
 #: lclstrconsts.hhshelpthemacrosinbrowserparamswillbereplacedbytheurl
 msgid "The macro %s in BrowserParams will be replaced by the URL."
-msgstr "매크로 %s BrowserParams 는 URL로 교체될것입니다."
+msgstr "BrowserParams의 매크로 %s가 URL로 대체됩니다."
 
 #: lclstrconsts.ifsalt
 msgid "Alt"
@@ -59,7 +58,7 @@ msgstr "도움말"
 
 #: lclstrconsts.ifsvk_meta
 msgid "Meta"
-msgstr "메타정보"
+msgstr "메타"
 
 #: lclstrconsts.ifsvk_shift
 msgid "Shift"
@@ -67,32 +66,32 @@ msgstr "Shift"
 
 #: lclstrconsts.ifsvk_super
 msgid "Super"
-msgstr "Super"
+msgstr "수퍼"
 
 #: lclstrconsts.ifsvk_unknown
 msgid "Unknown"
-msgstr "알수없음"
+msgstr "알 수 없음"
 
 #: lclstrconsts.lislclresourcesnotfound
 msgctxt "lclstrconsts.lislclresourcesnotfound"
 msgid "Resource %s not found"
-msgstr "%s 리소스를 찾을 수 없음"
+msgstr "%s 리소스를 찾을 수 없습니다"
 
 #: lclstrconsts.rs3ddkshadowcolorcaption
 msgid "3D Dark Shadow"
-msgstr "3D 다크 세도우"
+msgstr "3D 어두운 음영"
 
 #: lclstrconsts.rs3dlightcolorcaption
 msgid "3D Light"
-msgstr "3D 라이트"
+msgstr "3D 밝은"
 
 #: lclstrconsts.rsacontrolcannothaveitselfasparent
 msgid "A control can't have itself as a parent"
-msgstr "컨트롤은 그 자신을 부모 속성으로 가질 수 없습니다."
+msgstr "컨트롤은 부모가 될 수 없습니다"
 
 #: lclstrconsts.rsactivebordercolorcaption
 msgid "Active Border"
-msgstr "경계선 활성화"
+msgstr "테두리 활성화"
 
 #: lclstrconsts.rsactivecaptioncolorcaption
 msgid "Active Caption"
@@ -104,19 +103,19 @@ msgstr "모든 파일 (%s)|%s|%s"
 
 #: lclstrconsts.rsappworkspacecolorcaption
 msgid "Application Workspace"
-msgstr "어플리케이션 작업공간"
+msgstr "응용 프로그램 작업 공간"
 
 #: lclstrconsts.rsaquacolorcaption
 msgid "Aqua"
-msgstr "아쿠아색"
+msgstr "아쿠아"
 
 #: lclstrconsts.rsascannothaveasparent
 msgid "Class %s cannot have %s as parent."
-msgstr ""
+msgstr "%s 클래스는 %s을(를) 상위로 가질 수 없습니다."
 
 #: lclstrconsts.rsbackgroundcolorcaption
 msgid "Desktop"
-msgstr "데스크탑"
+msgstr "바탕 화면"
 
 #: lclstrconsts.rsbackward
 msgid "Backward"
@@ -140,11 +139,11 @@ msgstr "파랑"
 
 #: lclstrconsts.rsbtnfacecolorcaption
 msgid "Button Face"
-msgstr "버튼색"
+msgstr "버튼 표면"
 
 #: lclstrconsts.rsbtnhighlightcolorcaption
 msgid "Button Highlight"
-msgstr "버튼 하이라이트"
+msgstr "버튼 강조"
 
 #: lclstrconsts.rsbtnshadowcolorcaption
 msgid "Button Shadow"
@@ -165,11 +164,11 @@ msgstr "취소"
 
 #: lclstrconsts.rscannotfocus
 msgid "Can not focus"
-msgstr "포커스 할 수 없음"
+msgstr "초점을 맞출 수 없음"
 
 #: lclstrconsts.rscanvasdoesnotallowdrawing
 msgid "Canvas does not allow drawing"
-msgstr "캔버스에 그릴 수 없음"
+msgstr "캔버스는 그리기를 허용하지 않습니다"
 
 #: lclstrconsts.rscaptiontextcolorcaption
 msgid "Caption Text"
@@ -181,19 +180,19 @@ msgstr "대소문자 구분"
 
 #: lclstrconsts.rscontrolclasscantcontainchildclass
 msgid "Control of class '%s' can't have control of class '%s' as a child"
-msgstr "'%s'클래스 컨트롤은 '%s'를 상속으로 가질 수 없음"
+msgstr "클래스 '%s'의 제어는 하위 클래스 '%s'의 제어를 가질 수 없습니다"
 
 #: lclstrconsts.rscontrolhasnoparentformorframe
 msgid "Control '%s' has no parent form or frame"
-msgstr ""
+msgstr "'%s' 컨트롤에 상위 형식 또는 프레임이 없습니다"
 
 #: lclstrconsts.rscontrolhasnoparentwindow
 msgid "Control '%s' has no parent window"
-msgstr " '%s' 컨트롤 부모 윈도우를 가지고 있지 않음"
+msgstr "'%s' 컨트롤에 상위 창이 없습니다"
 
 #: lclstrconsts.rscontrolisnotaparent
 msgid "'%s' is not a parent of '%s'"
-msgstr "'%s'는 '%s'의 부모가 아님"
+msgstr "'%s'는 '%s'의 상위가 아닙니다"
 
 #: lclstrconsts.rscreamcolorcaption
 msgid "Cream"
@@ -205,7 +204,7 @@ msgstr "커서"
 
 #: lclstrconsts.rscustomcolorcaption
 msgid "Custom ..."
-msgstr "사용자 설정..."
+msgstr "사용자 지정..."
 
 #: lclstrconsts.rsdefaultcolorcaption
 msgid "Default"
@@ -213,11 +212,11 @@ msgstr "기본값"
 
 #: lclstrconsts.rsdefaultfileinfovalue
 msgid "permissions user group size date time"
-msgstr "퍼미션 사용자 그룹 크기 날자 시간"
+msgstr "권한 사용자 그룹 크기 날짜 시간"
 
 #: lclstrconsts.rsdeleterecord
 msgid "Delete record?"
-msgstr "기록 삭제?"
+msgstr "레코드를 삭제하시겠습니까?"
 
 #: lclstrconsts.rsdeleterecordhint
 msgctxt "lclstrconsts.rsdeleterecordhint"
@@ -230,19 +229,19 @@ msgstr "방향"
 
 #: lclstrconsts.rsdirectory
 msgid "&Directory"
-msgstr "&폴더(디렉토리)"
+msgstr "디렉터리(&D)"
 
 #: lclstrconsts.rsdocopy
 msgid "Copy"
-msgstr ""
+msgstr "복사"
 
 #: lclstrconsts.rsdopaste
 msgid "Paste"
-msgstr ""
+msgstr "붙여넣기"
 
 #: lclstrconsts.rsduplicateiconformat
 msgid "Duplicate icon format."
-msgstr "아이콘 형식 복제"
+msgstr "중복 아이콘 형식입니다."
 
 #: lclstrconsts.rseditrecordhint
 msgid "Edit"
@@ -259,16 +258,15 @@ msgstr "오류"
 
 #: lclstrconsts.rserrorcreatingdevicecontext
 msgid "Error creating device context for %s.%s"
-msgstr "%s를 위한 디바이스 컨텍스트 생성 오류. %s"
+msgstr "%s.%s에 대한 장치 컨텍스트를 생성하는 중 오류가 발생했습니다"
 
 #: lclstrconsts.rserroroccurredinataddressframe
-#, fuzzy,badformat
 msgid "Error occurred in %s at %sAddress %s%s Frame %s"
-msgstr "%s 어드레스 %s%s 프레임 %s 오류 발생"
+msgstr "%s주소 %s 프레임 %s에서 %s에서 오류가 발생했습니다"
 
 #: lclstrconsts.rserrorwhilesavingbitmap
 msgid "Error while saving bitmap."
-msgstr "비트맵 저장 중 오류"
+msgstr "비트맵을 저장하는 동안 오류가 발생했습니다."
 
 #: lclstrconsts.rsexception
 msgid "Exception"
@@ -276,19 +274,19 @@ msgstr "예외"
 
 #: lclstrconsts.rsfddirectorymustexist
 msgid "Directory must exist"
-msgstr "폴더(디렉토리) 존재해야 함"
+msgstr "디렉터리가 존재해야 합니다"
 
 #: lclstrconsts.rsfddirectorynotexist
 msgid "The directory \"%s\" does not exist."
-msgstr "\"%s\"폴더(디렉토리)가 존재하지 않습니다."
+msgstr "%s 디렉터리가 존재하지 않습니다."
 
 #: lclstrconsts.rsfdfilealreadyexists
 msgid "The file \"%s\" already exists. Overwrite ?"
-msgstr "\"%s\"파일이 있습니다. 덮어쓸까요?"
+msgstr "\"%s\" 파일이 이미 있습니다. 덮어쓰시겠습니까?"
 
 #: lclstrconsts.rsfdfilemustexist
 msgid "File must exist"
-msgstr "파일이 존재해야 함"
+msgstr "파일이 존재해야 합니다"
 
 #: lclstrconsts.rsfdfilenotexist
 msgid "The file \"%s\" does not exist."
@@ -296,11 +294,11 @@ msgstr "\"%s\"파일이 존재하지 않습니다."
 
 #: lclstrconsts.rsfdfilereadonly
 msgid "The file \"%s\" is not writable."
-msgstr "\"%s\"파일 쓰기할 수 없습니다."
+msgstr "\"%s\" 파일을 쓸 수 없습니다."
 
 #: lclstrconsts.rsfdfilereadonlytitle
 msgid "File is not writable"
-msgstr "파일 쓰기 할 수 없음"
+msgstr "파일을 쓸 수 없습니다"
 
 #: lclstrconsts.rsfdfilesaveas
 msgid "Save file as"
@@ -308,34 +306,33 @@ msgstr "다른 이름으로 저장"
 
 #: lclstrconsts.rsfdopenfile
 msgid "Open existing file"
-msgstr "존재하는 파일 열기"
+msgstr "기존 파일 열기"
 
 #: lclstrconsts.rsfdoverwritefile
 msgid "Overwrite file ?"
-msgstr "파일을 덮어쓸까요 ?"
+msgstr "파일을 덮어쓰시겠습니까 ?"
 
 #: lclstrconsts.rsfdpathmustexist
 msgid "Path must exist"
-msgstr "경로 존재해야 함"
+msgstr "경로가 존재해야 합니다"
 
 #: lclstrconsts.rsfdpathnoexist
 msgid "The path \"%s\" does not exist."
-msgstr "\"%s\"경로 존재하지 않습니다."
+msgstr "\"%s\" 경로가 존재하지 않습니다."
 
 #: lclstrconsts.rsfdselectdirectory
 msgid "Select Directory"
-msgstr "폴더(디렉토리) 선택"
+msgstr "디렉터리 선택"
 
 #: lclstrconsts.rsfileinfofilenotfound
 msgid "(file not found: \"%s\")"
-msgstr "(파일 찾지 못함: \"%s\")"
+msgstr "(파일을 찾을 수 없음: \"%s\")"
 
 #: lclstrconsts.rsfileinformation
 msgid "File information"
 msgstr "파일 정보"
 
 #: lclstrconsts.rsfilter
-#, fuzzy
 msgctxt "lclstrconsts.rsfilter"
 msgid "(filter)"
 msgstr "(필터)"
@@ -350,31 +347,27 @@ msgstr "더 찾기"
 
 #: lclstrconsts.rsfirstrecordhint
 msgid "First"
-msgstr "첫번째"
+msgstr "첫 번째"
 
 #: lclstrconsts.rsfixedcolstoobig
-#, fuzzy
-#| msgid "FixedCols can't be >= ColCount"
 msgid "FixedCols can't be > ColCount"
-msgstr "FixedCols >= ColCount (크거나 같을 수 없음)"
+msgstr "FixedCols는 > ColCount일 수 없습니다"
 
 #: lclstrconsts.rsfixedrowstoobig
-#, fuzzy
-#| msgid "FixedRows can't be >= RowCount"
 msgid "FixedRows can't be > RowCount"
-msgstr "FixedRows >= RowCount(크거나 같을 수 없음)"
+msgstr "FixedRows는 > RowCount일 수 없습니다"
 
 #: lclstrconsts.rsformcolorcaption
 msgid "Form"
-msgstr "폼"
+msgstr "양식"
 
 #: lclstrconsts.rsformresourcesnotfoundforresourcelessformscreatenew
 msgid "Form resource %s not found. For resourceless forms CreateNew constructor must be used. See the global variable RequireDerivedFormResource."
-msgstr "폼 리소트 %s 찾지 못함. 리소스 없을 때는 CreateNew 생성자(creator) 사용해야 함. 전역변수 RequireDerivedFormResource 참고."
+msgstr "%s 양식 리소스를 찾을 수 없습니다. 리소스가 없는 양식의 경우 CreateNew computer를 사용해야 합니다. 전역 변수 RequireDerivedFormResource를 참조하십시오."
 
 #: lclstrconsts.rsformstreamingerror
 msgid "Form streaming \"%s\" error: %s"
-msgstr "폼 스트리밍 \"%s\" 오류: %s"
+msgstr "양식 스트리밍 \"%s\" 오류: %s"
 
 #: lclstrconsts.rsforward
 msgid "Forward"
@@ -382,23 +375,23 @@ msgstr "앞으로"
 
 #: lclstrconsts.rsfuchsiacolorcaption
 msgid "Fuchsia"
-msgstr "Fuchsia"
+msgstr "자홍색"
 
 #: lclstrconsts.rsgdkoptiondebug
 msgid "--gdk-debug flags     Turn on specific GDK trace/debug messages."
-msgstr "--gdk-디버그 플래그    특정 GDK 추적(trace)/디버그(debug) 메시지를 켜세요."
+msgstr "--gdk-debug flags     특정 GDK 추적/디버그 메시지를 켭니다."
 
 #: lclstrconsts.rsgdkoptionnodebug
 msgid "--gdk-no-debug flags  Turn off specific GDK trace/debug messages."
-msgstr "--gdk-디버그 플래그    특정 GDK 추적(trace)/디버그(debug) 메시지를 끄세요."
+msgstr "--gdk-no-debug flags  특정 GDK 추적/디버그 메시지를 끕니다."
 
 #: lclstrconsts.rsgif
 msgid "Graphics Interchange Format"
-msgstr "그래픽 인터체인치 포맷"
+msgstr "그래픽 교환 형식"
 
 #: lclstrconsts.rsgoptionfatalwarnings
 msgid "--g-fatal-warnings    Warnings and errors generated by Gtk+/GDK will halt the application."
-msgstr "--g-치명적(fatal)-경고    Gtk+/GDK에서 생성된 경고와 오류는 응용프로그램을 중지시킬것임"
+msgstr "--g-fatal-warnings    Gtk+/GDK에서 발생한 경고 및 오류는 응용 프로그램을 중지합니다."
 
 #: lclstrconsts.rsgradientactivecaptioncolorcaption
 msgid "Gradient Active Caption"
@@ -426,85 +419,84 @@ msgstr "녹색"
 
 #: lclstrconsts.rsgridfiledoesnotexist
 msgid "Grid file doesn't exist"
-msgstr ""
+msgstr "격자 파일이 없습니다"
 
 #: lclstrconsts.rsgridhasnocols
 msgid "Cannot insert rows into a grid when it has no columns"
-msgstr ""
+msgstr "열이 없을 때는 격자에 행을 삽입할 수 없습니다"
 
 #: lclstrconsts.rsgridhasnorows
 msgid "Cannot insert columns into a grid when it has no rows"
-msgstr ""
+msgstr "행이 없을 때는 격자에 열을 삽입할 수 없습니다"
 
 #: lclstrconsts.rsgridindexoutofrange
 msgid "Grid index out of range."
-msgstr "격자 인덱스가 영역을 벗어남"
+msgstr "격자 인덱스가 범위를 벗어났습니다."
 
 #: lclstrconsts.rsgroupindexcannotbelessthanprevious
 msgid "GroupIndex cannot be less than a previous menu item's GroupIndex"
-msgstr "GroupIndex는 이전 메뉴 아이템의 GroupIndex 보다 작을 수 없음"
+msgstr "GroupIndex는 이전 메뉴 항목의 GroupIndex보다 작을 수 없습니다"
 
 #: lclstrconsts.rsgtkfilter
 msgid "Filter:"
-msgstr "필터"
+msgstr "필터:"
 
 #: lclstrconsts.rsgtkhistory
 msgid "History:"
-msgstr "히스토리"
+msgstr "기록:"
 
 #: lclstrconsts.rsgtkoptionclass
 msgid "--class classname     Following Xt conventions, the class of a program is the program name with the initial character capitalized. For example, the classname for gimp is \"Gimp\". If --class is specified, the class of the program will be set to \"classname\"."
-msgstr "--class classname     Following Xt conventions, 프로그램 클래스는 프로그램 이름과 함께 첫글자는 대문자로 표시됨. 예를 들어, gimp 클래스명은 \"Gimp\". --class가 지정되면 프로그램 클래스는 \"classname\"로 설정됩니다."
+msgstr "--class classname     Xt 규칙에 따라 프로그램의 클래스는 초기 문자가 대문자로 표시된 프로그램 이름입니다. 예를 들어 gimp의 클래스 이름은 \"Gimp\"입니다. --class를 지정하면 프로그램의 클래스가 \"classname\"으로 설정됩니다."
 
 #: lclstrconsts.rsgtkoptiondebug
 msgid "--gtk-debug flags     Turn on specific Gtk+ trace/debug messages."
-msgstr "--gtk-debug flags     Gtk+ trace/debug 메시지를 켜세요."
+msgstr "--gtk-debug flags     특정 Gtk+ 추적/디버그 메시지를 켭니다."
 
 #: lclstrconsts.rsgtkoptiondisplay
 msgid "--display h:s:d       Connect to the specified X server, where \"h\" is the hostname, \"s\" is the server number (usually 0), and \"d\" is the display number (typically omitted). If --display is not specified, the DISPLAY environment variable is used."
-msgstr "--display h:s:d       지정 X 서버에 접속, \"h\"는 호스트 네임(hostname), \"s\" 는 서버 번호(보통 0번), \"d\" 는 디스플레이 번호 (통상적으로 빠뜨림). 만약 --디스플레이가 지정되지 않으면, DISPLAY 환경 변수가 사용됨."
+msgstr "--display h:s:d       지정한 X 서버에 연결합니다. 여기서 \"h\"는 호스트 이름, \"s\"는 서버 번호 (보통 0), \"d\"는 디스플레이 번호 (일반적으로 생략)입니다. --display를 지정하지 않은 경우 DISPLAY 환경 변수가 사용됩니다."
 
 #: lclstrconsts.rsgtkoptionmodule
 msgid "--gtk-module module   Load the specified module at startup."
-msgstr "--gtk-module module   시작할 때 지정 모듈 불러오기."
+msgstr "--gtk-module module   시동 시 지정된 모듈을 로드합니다."
 
 #: lclstrconsts.rsgtkoptionname
 msgid "--name programe       Set program name to \"progname\". If not specified, program name will be set to ParamStrUTF8(0)."
-msgstr "--name programe       프로그램명을 \"progname\"로 설정. 만약 지정되지 않으면, 프로그래명은 ParamStrUTF8(0)로 설정됨."
+msgstr "--name programe       프로그램 이름을 \"progname\"으로 설정합니다. 지정하지 않으면 프로그램 이름이 ParamStrUTF8(0)으로 설정됩니다."
 
 #: lclstrconsts.rsgtkoptionnodebug
 msgid "--gtk-no-debug flags  Turn off specific Gtk+ trace/debug messages."
-msgstr "--gtk-no-debug flags    지정한 Gtk+ trace/debug 메시지를 끄세요."
+msgstr "--gtk-no-debug flags    특정 Gtk+ 추적/디버그 메시지를 끕니다."
 
 #: lclstrconsts.rsgtkoptionnotransient
 msgid "--lcl-no-transient    Do not set transient order for modal forms"
-msgstr "-lcl-no-transient    일시적인 명령을 반드시 해야하는 형태(modal forms)로 설정하지 마세요"
+msgstr "-lcl-no-transient    모달 양식에 대해 일시적 순서를 설정하지 않습니다"
 
 #: lclstrconsts.rsgtkoptionnoxshm
 msgid "--no-xshm             Disable use of the X Shared Memory Extension."
-msgstr "--no-xshm               X 공유 메모리 확장 사용 불가"
+msgstr "--no-xshm               X 공유 메모리 확장 기능을 사용하지 않도록 설정합니다."
 
 #: lclstrconsts.rsgtkoptionsync
 msgid "--sync                Call XSynchronize (display, True) after the Xserver connection has been established. This makes debugging X protocol errors easier, because X request buffering will be disabled and X errors will be received immediately after the protocol request that generated the error has been processed by the X server."
-msgstr "--sync                X서버 접속 후 XSynchronize (display, True) 호출. 이것은 debugging X protocol 오류를 쉽게 만드는데 X request 버퍼링이 불가하게 되고 프로토콜 요청이 X server의 진행에 따라 오류를 생성한 후 X errors가 즉각적으로 수신되기 때문입니다. "
+msgstr "--sync                X서버 연결 후 X동기화 (display, True)를 호출합니다. 이렇게 하면 X프로토콜 오류 디버깅이 쉬워지는데, X서버에서 오류를 발생시킨 프로토콜 요청이 처리된 후 바로 X프로토콜 버퍼링이 비활성화되고 X 오류가 수신되기 때문입니다."
 
 #: lclstrconsts.rshelp
-#, fuzzy
 msgctxt "lclstrconsts.rshelp"
 msgid "Help"
 msgstr "도움말"
 
 #: lclstrconsts.rshelpalreadyregistered
 msgid "%s: Already registered"
-msgstr "%s: 이미 등록됨"
+msgstr "%s: 이미 등록되어 있습니다"
 
 #: lclstrconsts.rshelpcontextnotfound
 msgid "A help database was found for this topic, but this topic was not found"
-msgstr "이 주제에 대한 도움말 데이타베이스 찾았지만 이 주제는 찾지 못함"
+msgstr "이 주제에 대한 도움말 데이터베이스를 찾았지만 이 항목을 찾을 수 없습니다"
 
 #: lclstrconsts.rshelpdatabasenotfound
 msgid "There is no help database installed for this topic"
-msgstr "이 주제에 대한 도움말 데이터베이스 설치되지 않음."
+msgstr "이 주제에 대해 설치된 도움말 데이터베이스가 없습니다"
 
 #: lclstrconsts.rshelperror
 msgid "Help Error"
@@ -512,82 +504,63 @@ msgstr "도움말 오류"
 
 #: lclstrconsts.rshelphelpcontextnotfound
 msgid "Help context %s not found."
-msgstr "%s 도움말 찾지 못함"
+msgstr "도움말 컨텍스트 %s을(를) 찾을 수 없습니다."
 
 #: lclstrconsts.rshelphelpcontextnotfoundindatabase
-#, fuzzy,badformat
-#| msgid "Help context %s not found in Database %s%s%s."
 msgid "Help context %s not found in Database \"%s\"."
-msgstr "%s 도움말 %s%s%s 데이터베이스에서 찾지 못함"
+msgstr "도움말 컨텍스트 %s을(를) 데이터베이스 \"%s\"에서 찾을 수 없습니다."
 
 #: lclstrconsts.rshelphelpdatabasedidnotfoundaviewerforahelppageoftype
-#, fuzzy,badformat
-#| msgid "Help Database %s%s%s did not found a viewer for a help page of type %s"
 msgid "Help Database \"%s\" did not find a viewer for a help page of type %s"
-msgstr "도움말 데이터베이스 %s%s%s 가 %s 도움말 페이지 뷰어를 찾지 못함."
+msgstr "도움말 데이터베이스 \"%s\"에서 %s 유형의 도움말 페이지에 대한 뷰어를 찾지 못했습니다"
 
 #: lclstrconsts.rshelphelpdatabasenotfound
-#, fuzzy,badformat
-#| msgid "Help Database %s%s%s not found"
 msgid "Help Database \"%s\" not found"
-msgstr "도움말 데이터베이스 %s%s%s 찾지 못함"
+msgstr "도움말 데이터베이스 \"%s\"를 찾을 수 없습니다"
 
 #: lclstrconsts.rshelphelpfordirectivenotfound
-#, fuzzy,badformat
-#| msgid "Help for directive %s%s%s not found."
 msgid "Help for directive \"%s\" not found."
-msgstr "%s%s%s 명령에 대한 도움말 찾지 못함."
+msgstr "지시어 \"%s\"에 대한 도움말을 찾을 수 없습니다."
 
 #: lclstrconsts.rshelphelpfordirectivenotfoundindatabase
-#, fuzzy,badformat
-#| msgid "Help for directive %s%s%s not found in Database %s%s%s."
 msgid "Help for directive \"%s\" not found in Database \"%s\"."
-msgstr "%s%s%s 명령에 대한 도움말을  %s%s%s데이터베이스에서 찾을 수 없음."
+msgstr "\"%s\" 데이터베이스에서 지시어 \"%s\"에 대한 도움말을 찾을 수 없습니다."
 
 #: lclstrconsts.rshelphelpkeywordnotfound
-#, fuzzy,badformat
-#| msgid "Help keyword %s%s%s not found."
 msgid "Help keyword \"%s\" not found."
-msgstr "도움말 키워드 %s%s%s 찾지 못함."
+msgstr "도움말 키워드 \"%s\"를 찾을 수 없습니다."
 
 #: lclstrconsts.rshelphelpkeywordnotfoundindatabase
-#, fuzzy,badformat
-#| msgid "Help keyword %s%s%s not found in Database %s%s%s."
 msgid "Help keyword \"%s\" not found in Database \"%s\"."
-msgstr "도움말 키워드 %s%s%s %s%s%s 데이타베이스에서 찾지 못함."
+msgstr "도움말 키워드 \"%s\"를 \"%s\" 데이터베이스에서 찾을 수 없습니다."
 
 #: lclstrconsts.rshelphelpnodehasnohelpdatabase
-#, fuzzy,badformat
-#| msgid "Help node %s%s%s has no Help Database"
 msgid "Help node \"%s\" has no Help Database"
-msgstr "도움말 노드 %s%s%s가 도움말 데이터베이스를 갖고 있지 않음"
+msgstr "도움말 노드 \"%s\"에 도움말 데이터베이스가 없습니다"
 
 #: lclstrconsts.rshelpnohelpfoundforsource
-#, fuzzy,badformat
 msgid "No help found for line %d, column %d of %s."
-msgstr "%s의 %d줄, %d 행에서 도움말 찾지 못함."
+msgstr "%s의 줄 %d, 열 %d에 대한 도움말을 찾을 수 없습니다."
 
 #: lclstrconsts.rshelpnohelpnodesavailable
 msgid "No help entries available for this topic"
-msgstr "이 주제에 대한 도움말 항목 없음"
+msgstr "이 주제에 사용할 수 있는 도움말 항목이 없습니다"
 
 #: lclstrconsts.rshelpnotfound
 msgid "No help found for this topic"
-msgstr "이 주제에 대한 도움말 찾지 못함"
+msgstr "이 주제에 대한 도움말을 찾을 수 없습니다"
 
 #: lclstrconsts.rshelpnotregistered
 msgid "%s: Not registered"
-msgstr "%s: 등록 안됨"
+msgstr "%s: 등록되지 않음"
 
 #: lclstrconsts.rshelpselectorerror
 msgid "Help Selector Error"
 msgstr "도움말 선택 오류"
 
 #: lclstrconsts.rshelpthereisnoviewerforhelptype
-#, fuzzy,badformat
-#| msgid "There is no viewer for help type %s%s%s"
 msgid "There is no viewer for help type \"%s\""
-msgstr "도움말 형태 %s%s%s에 대한 뷰어 없음"
+msgstr "도움말 유형 \"%s\"에 대한 뷰어가 없습니다"
 
 #: lclstrconsts.rshelpviewererror
 msgid "Help Viewer Error"
@@ -595,15 +568,15 @@ msgstr "도움말 뷰어 오류"
 
 #: lclstrconsts.rshelpviewernotfound
 msgid "No viewer was found for this type of help content"
-msgstr "이러한 형태의 도움말 내용 뷰어가 없음"
+msgstr "이 유형의 도움말 내용에 대한 뷰어를 찾을 수 없습니다"
 
 #: lclstrconsts.rshighlightcolorcaption
 msgid "Highlight"
-msgstr "하이라이트"
+msgstr "강ㅈ"
 
 #: lclstrconsts.rshighlighttextcolorcaption
 msgid "Highlight Text"
-msgstr "하이라이트 텍스트"
+msgstr "강조 텍스트"
 
 #: lclstrconsts.rshotlightcolorcaption
 msgid "Hot Light"
@@ -611,7 +584,7 @@ msgstr "강한 조명"
 
 #: lclstrconsts.rsicns
 msgid "Mac OS X Icon"
-msgstr "맥 OS X 아이콘"
+msgstr "Mac OS X 아이콘"
 
 #: lclstrconsts.rsicon
 msgid "Icon"
@@ -619,31 +592,31 @@ msgstr "아이콘"
 
 #: lclstrconsts.rsiconimageempty
 msgid "Icon image cannot be empty"
-msgstr "아이콘 이미지 비워둘 수 없음"
+msgstr "아이콘 이미지는 비워 둘 수 없습니다"
 
 #: lclstrconsts.rsiconimageformat
 msgid "Icon image must have the same format"
-msgstr "아이콘 이미지는 같이 파일형태이어야만 함"
+msgstr "아이콘 이미지의 형식이 동일해야 합니다"
 
 #: lclstrconsts.rsiconimageformatchange
 msgid "Cannot change format of icon image"
-msgstr "아이콘 이미지의 파일종류를 바꿀 수 없음"
+msgstr "아이콘 이미지의 형식을 변경할 수 없습니다"
 
 #: lclstrconsts.rsiconimagesize
 msgid "Icon image must have the same size"
-msgstr "아이콘 이미지는 같은 크기여야 함"
+msgstr "아이콘 이미지의 크기가 같아야 합니다"
 
 #: lclstrconsts.rsiconimagesizechange
 msgid "Cannot change size of icon image"
-msgstr "아이콘 이미지를 변경할 수 없음"
+msgstr "아이콘 이미지의 크기를 변경할 수 없습니다"
 
 #: lclstrconsts.rsiconnocurrent
 msgid "Icon has no current image"
-msgstr "아이콘 현재 이미지 없음"
+msgstr "아이콘에 현재 이미지가 없습니다"
 
 #: lclstrconsts.rsinactivebordercolorcaption
 msgid "Inactive Border"
-msgstr "비활성 경계"
+msgstr "비활성 테두리"
 
 #: lclstrconsts.rsinactivecaptioncolorcaption
 msgctxt "lclstrconsts.rsinactivecaptioncolorcaption"
@@ -657,24 +630,24 @@ msgstr "비활성 캡션"
 
 #: lclstrconsts.rsindexoutofbounds
 msgid "%s Index %d out of bounds 0 .. %d"
-msgstr "%s 인덱스 %d 경계선 0 .. %d 넘음"
+msgstr "%s 인덱스 %d가 범위를 벗어남 0 ..%d"
 
 #: lclstrconsts.rsindexoutofrange
 msgid "Index Out of range Cell[Col=%d Row=%d]"
-msgstr "셀을 벗어나는 인덱스 [Col=%d Row=%d] "
+msgstr "범위를 벗어난 셀 색인[열=%d 행=%d]"
 
 #: lclstrconsts.rsinfobkcolorcaption
 msgid "Info Background"
-msgstr "정보 백그라운드"
+msgstr "정보 배경"
 
 #: lclstrconsts.rsinfotextcolorcaption
 msgid "Info Text"
-msgstr "인포 텍스트"
+msgstr "정보 텍스트"
 
 #: lclstrconsts.rsinsertrecordhint
 msgctxt "lclstrconsts.rsinsertrecordhint"
 msgid "Insert"
-msgstr "Insert"
+msgstr "삽입"
 
 #: lclstrconsts.rsinvaliddate
 msgid "Invalid Date : %s"
@@ -682,11 +655,11 @@ msgstr "잘못된 날짜: %s"
 
 #: lclstrconsts.rsinvaliddaterangehint
 msgid "Invalid Date: %s. Must be between %s and %s"
-msgstr "잘못된 날짜: %s. %s 와 %s 사이에 있어야 함"
+msgstr "잘못된 날짜: %s. %s에서 %s 사이여야 합니다"
 
 #: lclstrconsts.rsinvalidformobjectstream
 msgid "invalid Form object stream"
-msgstr "잘못된 폼 오브젝트 스트림"
+msgstr "잘못된 양식 개체 스트림"
 
 #: lclstrconsts.rsinvalidpropertyvalue
 msgid "Invalid property value"
@@ -694,15 +667,15 @@ msgstr "잘못된 속성 값"
 
 #: lclstrconsts.rsinvalidstreamformat
 msgid "Invalid stream format"
-msgstr "잘못된 스트림 포맷"
+msgstr "잘못된 스트림 형식"
 
 #: lclstrconsts.rsisalreadyassociatedwith
 msgid "%s is already associated with %s"
-msgstr "%s가 이미 %s와 연결되어 있음"
+msgstr "%s이(가) %s과(와) 이미 연결되어 있습니다"
 
 #: lclstrconsts.rsjpeg
 msgid "Joint Picture Expert Group"
-msgstr "JPEG(Joint Picture Expert Group)"
+msgstr "공동 사진 전문가 그룹"
 
 #: lclstrconsts.rslastrecordhint
 msgid "Last"
@@ -710,31 +683,31 @@ msgstr "마지막"
 
 #: lclstrconsts.rslimecolorcaption
 msgid "Lime"
-msgstr "라임색(Lime)"
+msgstr "라임색"
 
 #: lclstrconsts.rslistindexexceedsbounds
 msgid "List index exceeds bounds (%d)"
-msgstr "리스트 인덱스가 (%d) 경계를 벗어남"
+msgstr "목록 인덱스가 범위를 초과합니다 (%d)"
 
 #: lclstrconsts.rsmacosmenuhide
 msgid "Hide %s"
-msgstr ""
+msgstr "%s 숨기기"
 
 #: lclstrconsts.rsmacosmenuhideothers
 msgid "Hide Others"
-msgstr ""
+msgstr "다른 숨기기"
 
 #: lclstrconsts.rsmacosmenuquit
 msgid "Quit %s"
-msgstr ""
+msgstr "%s 종료"
 
 #: lclstrconsts.rsmacosmenuservices
 msgid "Services"
-msgstr ""
+msgstr "서비스"
 
 #: lclstrconsts.rsmacosmenushowall
 msgid "Show All"
-msgstr ""
+msgstr "모두 표시"
 
 #: lclstrconsts.rsmarooncolorcaption
 msgid "Maroon"
@@ -746,7 +719,7 @@ msgstr "중단"
 
 #: lclstrconsts.rsmball
 msgid "&All"
-msgstr "&전체"
+msgstr "모두(&A)"
 
 #: lclstrconsts.rsmbcancel
 msgctxt "lclstrconsts.rsmbcancel"
@@ -755,19 +728,19 @@ msgstr "취소"
 
 #: lclstrconsts.rsmbclose
 msgid "&Close"
-msgstr "&종료"
+msgstr "닫기(&C)"
 
 #: lclstrconsts.rsmbhelp
 msgid "&Help"
-msgstr "&도움말"
+msgstr "도움말(&H)"
 
 #: lclstrconsts.rsmbignore
 msgid "&Ignore"
-msgstr "&무시"
+msgstr "무시(&I)"
 
 #: lclstrconsts.rsmbno
 msgid "&No"
-msgstr "&아니오"
+msgstr "아니오(&N)"
 
 #: lclstrconsts.rsmbnotoall
 msgid "No to all"
@@ -775,31 +748,31 @@ msgstr "모두 아니오"
 
 #: lclstrconsts.rsmbok
 msgid "&OK"
-msgstr "&확인"
+msgstr "확인(&O)"
 
 #: lclstrconsts.rsmbopen
 msgid "&Open"
-msgstr "&열기"
+msgstr "열기(&O)"
 
 #: lclstrconsts.rsmbretry
 msgid "&Retry"
-msgstr "&재시도"
+msgstr "재시도(&R)"
 
 #: lclstrconsts.rsmbsave
 msgid "&Save"
-msgstr "&저장"
+msgstr "저장(&S)"
 
 #: lclstrconsts.rsmbunlock
 msgid "&Unlock"
-msgstr "&락해제"
+msgstr "잠금 해제(&U)"
 
 #: lclstrconsts.rsmbyes
 msgid "&Yes"
-msgstr "&예"
+msgstr "예(&Y)"
 
 #: lclstrconsts.rsmbyestoall
 msgid "Yes to &All"
-msgstr "&모두 예"
+msgstr "모두 예(&A)"
 
 #: lclstrconsts.rsmedgraycolorcaption
 msgid "Medium Gray"
@@ -807,7 +780,7 @@ msgstr "중간 회색"
 
 #: lclstrconsts.rsmenubarcolorcaption
 msgid "Menu Bar"
-msgstr "메뉴바"
+msgstr "메뉴 막대"
 
 #: lclstrconsts.rsmenucolorcaption
 msgctxt "lclstrconsts.rsmenucolorcaption"
@@ -816,7 +789,7 @@ msgstr "메뉴"
 
 #: lclstrconsts.rsmenuhighlightcolorcaption
 msgid "Menu Highlight"
-msgstr "메뉴 하이라이트"
+msgstr "메뉴 강조"
 
 #: lclstrconsts.rsmenutextcolorcaption
 msgid "Menu Text"
@@ -824,7 +797,7 @@ msgstr "메뉴 텍스트"
 
 #: lclstrconsts.rsmodified
 msgid "  modified "
-msgstr "   수정됨"
+msgstr "  수정 날짜 "
 
 #: lclstrconsts.rsmoneygreencolorcaption
 msgid "Money Green"
@@ -870,11 +843,11 @@ msgstr "없음"
 
 #: lclstrconsts.rsnotavalidgridfile
 msgid "Not a valid grid file"
-msgstr "유효한 그리드 파일 없음"
+msgstr "유효한 격자 파일이 아닙니다."
 
 #: lclstrconsts.rsnowidgetset
 msgid "No widgetset object. Please check if the unit \"interfaces\" was added to the programs uses clause."
-msgstr "위젯모음 오브젝트 없음. \"interfaces\" 유닛이 문장절(clause)을 사용하는 프로그램에 추가되었는지 체크하세요."
+msgstr "위젯 세트 객체가 없습니다. 프로그램 사용 절에 \"인터페이스\" 단위가 추가되었는지 확인하십시오."
 
 #: lclstrconsts.rsolivecolorcaption
 msgid "Olive"
@@ -886,7 +859,7 @@ msgstr "날짜 선택"
 
 #: lclstrconsts.rspixmap
 msgid "Pixmap"
-msgstr "픽스맵(Pixmap)"
+msgstr "픽스맵"
 
 #: lclstrconsts.rsportablebitmap
 msgid "Portable BitMap"
@@ -910,20 +883,20 @@ msgstr "게시"
 
 #: lclstrconsts.rspressoktoignoreandriskdatacorruptionpressaborttok
 msgid "%s%sPress OK to ignore and risk data corruption.%sPress Abort to kill the program."
-msgstr ""
+msgstr "%s%s확인을 누르면 무시되고 데이터가 손상될 위험이 있습니다.%s중단을 누르면 프로그램이 종료됩니다."
 
 #: lclstrconsts.rspriorrecordhint
 msgctxt "lclstrconsts.rspriorrecordhint"
 msgid "Prior"
-msgstr "우선"
+msgstr "이전"
 
 #: lclstrconsts.rspromptonreplace
 msgid "Prompt on replace"
-msgstr "바꾸기에 프롬프트 표시"
+msgstr "교체 시 알림 표시"
 
 #: lclstrconsts.rspropertydoesnotexist
 msgid "Property %s does not exist"
-msgstr "%s 속성 존재하지 않음"
+msgstr "%s 속성이 존재하지 않습니다"
 
 #: lclstrconsts.rspurplecolorcaption
 msgid "Purple"
@@ -931,67 +904,67 @@ msgstr "보라"
 
 #: lclstrconsts.rsqtoptiondograb
 msgid "-dograb (only under X11), running under a debugger can cause an implicit -nograb, use -dograb to override. Need QT_DEBUG."
-msgstr "-dograb (only under X11), 디버거 영향아래 실행하면 -nograb이 암시됨, 무효화시키려면 -dograb를 사용. QT_DEBUG 필요."
+msgstr "-dograb (only under X11), 디버거에서 실행하면 암묵적인 -nograb이 발생할 수 있습니다, -dograb을 사용하여 재정의합니다. QT_DEBUG가 필요합니다."
 
 #: lclstrconsts.rsqtoptiongraphicsstyle
 msgid "-graphicssystem param, sets the backend to be used for on-screen widgets and QPixmaps. Available options are native, raster and opengl. OpenGL is still unstable."
-msgstr "-graphicssystem param, 스크린 위젯과 Qpixmaps 끝에 설정. native, raster and opengl 옵션 가능. OpenGL 여전히 불안정함."
+msgstr "-graphicssystem param, 화면 위젯 및 QPixmaps에 사용할 백엔드를 설정합니다. 사용 가능한 옵션은 native, raster 및 opengl입니다. OpenGL은 여전히 불안정합니다."
 
 #: lclstrconsts.rsqtoptionnograb
 msgid "-nograb, tells Qt that it must never grab the mouse or the keyboard. Need QT_DEBUG."
-msgstr "-nograb, Qt에 전달, 마우스와 키보드를 잡지 못함. QT_DEBUG 필요함."
+msgstr "-nograb, Qt에게 절대로 마우스나 키보드를 잡으면 안 된다고 합니다. QT_DEBUG가 필요합니다."
 
 #: lclstrconsts.rsqtoptionreverse
 msgid "-reverse, sets the application's layout direction to Qt::RightToLeft."
-msgstr "-reverse, 응용프로그램 레이아웃 방향을 Qt로 설정::RightToLeft."
+msgstr "-reverse, 응용 프로그램의 레이아웃 방향을 Qt::RightToLeft로 설정합니다."
 
 #: lclstrconsts.rsqtoptionsession
 msgid "-session session, restores the application from an earlier session."
-msgstr "-session session, 이전 session으로부터 응용프로그램 복원."
+msgstr "-session session, 이전 세션에서 응용 프로그램을 복원합니다."
 
 #: lclstrconsts.rsqtoptionstyle
 msgid "-style style or -style=style, sets the application GUI style. Possible values are motif, windows, and platinum. If you compiled Qt with additional styles or have additional styles as plugins these will be available to the -style  command line option. NOTE: Not all styles are available on all platforms. If style param does not exist Qt will start an application with default common style (windows)."
-msgstr "-style style 또는 -style=style, 응용프로그램 GUI 스타일 설정. 가능한 값은 motif, windows, and platinum. 만약 Qt를 추가적인 스타일 또는 플러그인 명령 프롬프트 -style을 사용가능함. 참고: 모든 스타일이 모든 플랫폼에 사용할 수 있는 것은 아님. 스타일 변수(style param)이 Qt에 존재하지 않으면 기본 공통 스타일의(windows)로 응용프로그램이 시작됨."
+msgstr "-style style 또는 -style=style, 응용 프로그램 GUI 스타일을 설정합니다. 가능한 값은 motif, windows 및 platinum입니다. 추가 스타일로 Qt를 컴파일했거나 플러그인으로 추가 스타일이 있는 경우 -style  명령줄 옵션을 사용할 수 있습니다. 참고: 모든 스타일을 모든 플랫폼에서 사용할 수 있는 것은 아닙니다. 스타일 매개 변수가 존재하지 않는 경우 Qt는 기본 공통 스타일 (window)로 응용 프로그램을 시작합니다."
 
 #: lclstrconsts.rsqtoptionstylesheet
 msgid "-stylesheet stylesheet or -stylesheet=stylesheet, sets the application Style Sheet. The value must be a path to a file that contains the Style Sheet. Note: Relative URLs in the Style Sheet file are relative to the Style Sheet file's path."
-msgstr "-stylesheet stylesheet 또는 -stylesheet=stylesheet, 응용프로그램 시트 설정. 그 값은 스타일시트(Style Sheet)값과 경로를 갖고 있어야 함. 참고: 스타일 시트에 상대경로는 스타일 시트 경로에 대한 상대 경로이다."
+msgstr "-stylesheet stylesheet 또는 -stylesheet=stylesheet, 응용 프로그램 스타일 시트를 설정합니다. 값은 스타일 시트를 포함하는 파일의 경로여야 합니다. 참고: 스타일 시트 파일의 상대 URL은 스타일 시트 파일의 경로와 상대적입니다."
 
 #: lclstrconsts.rsqtoptionsync
 msgid "-sync (only under X11), switches to synchronous mode for debugging."
-msgstr "-sync (only under X11) 디버깅을 위해 싱크로너스 모드(synchronous mode)로 변경(switch)"
+msgstr "-sync (only under X11) 디버깅을 위해 동기화 모드로 전환됩니다."
 
 #: lclstrconsts.rsqtoptionwidgetcount
 msgid "-widgetcount, prints debug message at the end about number of widgets left undestroyed and maximum number of widgets existed at the same time."
-msgstr "-widgetcount, 파괴되지 않고 남은 위젯 숫자와 동시에 존재하던 위젯 최대값 번호 끝에 디버그 메시지 출력 "
+msgstr "-widgetcount, 마지막에 파괴되지 않은 상태로 남아있는 위젯의 수와 최대 위젯의 수가 동시에 존재하는 것에 대한 디버그 메시지를 출력합니다."
 
 #: lclstrconsts.rsqtoptionx11bgcolor
 msgid "-bg or -background color, sets the default background color and an application palette (light and dark shades are calculated)."
-msgstr "-bg 또는 -background color, 기본 배경색과 응용프로그램 팔레트(빛과 어두운 음영이 연산됨)."
+msgstr "-bg 또는 -background color, 기본 배경색과 응용 프로그램 팔레트 (밝은 음영과 어두운 음영이 계산됨)를 설정합니다."
 
 #: lclstrconsts.rsqtoptionx11btncolor
 msgid "-btn or -button color, sets the default button color."
-msgstr "-btn 또는 -button color, 기본 버튼 색상 설정."
+msgstr "-btn 또는 -button color, 기본 버튼 색상을 설정합니다."
 
 #: lclstrconsts.rsqtoptionx11cmap
 msgid "-cmap, causes the application to install a private color map on an 8-bit display."
-msgstr "-cmap, 8비트 디스플레이로 응용프로그램이 개인색상(private color)으로 설치되게 함."
+msgstr "-cmap, 응용 프로그램이 8비트 디스플레이에 개인 컬러 맵을 설치합니다."
 
 #: lclstrconsts.rsqtoptionx11display
 msgid "-display display, sets the X display (default is $DISPLAY)."
-msgstr "-display display, X 디스플레이로 설정 (기본값은 $DISPLAY)."
+msgstr "-display display, X 디스플레이를 설정합니다 (기본값은 $DISPLAY)."
 
 #: lclstrconsts.rsqtoptionx11fgcolor
 msgid "-fg or -foreground color, sets the default foreground color."
-msgstr "-fg 또는 -foreground color, 기본 전경색을 설정."
+msgstr "-fg 또는 -foreground color, 기본 전경색을 설정합니다."
 
 #: lclstrconsts.rsqtoptionx11font
 msgid "-fn or -font font, defines the application font. The font should be specified using an X logical font description."
-msgstr "-fn 또는 -font font, 응용프로그램 글꼴 정의. 글꼴은 X logical description 로 지정해야 함. "
+msgstr "-fn 또는 -font font, 응용 프로그램 글꼴을 정의합니다. X logical font description을 사용하여 글꼴을 지정해야 합니다."
 
 #: lclstrconsts.rsqtoptionx11geometry
 msgid "-geometry geometry, sets the client geometry of the first window that is shown."
-msgstr "geometry geometry, 보여진 첫번째 윈도우 창을 클라이언트 geometry로 설정"
+msgstr "geometry geometry, 표시된 첫 번째 창의 클라이언트 기하학을 설정합니다."
 
 #: lclstrconsts.rsqtoptionx11im
 msgid "-im, sets the input method server (equivalent to setting the XMODIFIERS environment variable)."
@@ -1003,31 +976,31 @@ msgstr "-inputstyle, 주어진 위젯에 어떻게 입력될 것인지 정의, �
 
 #: lclstrconsts.rsqtoptionx11name
 msgid "-name name, sets the application name."
-msgstr "-name name, 어플리케이션명을 설정"
+msgstr "-name name, 응용 프로그램 이름을 설정합니다."
 
 #: lclstrconsts.rsqtoptionx11ncols
 msgid "-ncols count, limits the number of colors allocated in the color cube on an 8-bit display, if the application is using the QApplication::ManyColor color specification. If count is 216 then a 6x6x6 color cube is used (i.e. 6 levels of red, 6 of green, and 6 of blue); for other values, a cube approximately proportional to a 2x3x1 cube is used."
-msgstr "-ncols count, 만약 응용프로그램이 QApplication::ManyColor color specification 을 사용한다면 8비트 디스플레이 컬러 큐브에 할당된 색상 수를 제한. 만약 카운트가 216이면 6x6x6 컬러큐브 (즉, 6 레벨의 red, green과 blue)가 사용됨: 다른 값을 위해 큐브는 대략 비례하는 큐브가 2x3x1 사용됨."
+msgstr "-ncols count, 응용 프로그램이 QApplication::ManyColor 색상 사양을 사용하는 경우 8비트 디스플레이의 색상 큐브에 할당된 색상 수를 제한합니다. 카운트가 216인 경우 6x6x6 색상 큐브 (예: 빨간색 6단계, 녹색 6단계, 파란색 6단계)가 사용되며 다른 값의 경우 2x3x1 큐브에 대략 비례하는 큐브가 사용됩니다."
 
 #: lclstrconsts.rsqtoptionx11title
 msgid "-title title, sets the application title."
-msgstr "-title title, 응용프로그램 제목 설정."
+msgstr "-title title, 응용 프로그램 제목을 설정합니다."
 
 #: lclstrconsts.rsqtoptionx11visual
 msgid "-visual TrueColor, forces the application to use a TrueColor visual on an 8-bit display."
-msgstr "-visual TrueColor, 8비트 디스플레이로 트루컬러 비주얼(TrueColor visual) 강제 사용하게 함."
+msgstr "-visual TrueColor, 응용 프로그램이 8비트 디스플레이에서 TrueColor 시각을 사용하도록 강제합니다."
 
 #: lclstrconsts.rsrasterimageendupdate
 msgid "Endupdate while no update in progress"
-msgstr "업데이트가 없으면 업데이트 종료(Endupdate)"
+msgstr "진행 중인 업데이트가 없는 동안 업데이트 종료"
 
 #: lclstrconsts.rsrasterimagesaveinupdate
 msgid "Cannot save image while update in progress"
-msgstr "업데이트 진행중이어서 이미지 저장 불가"
+msgstr "업데이트가 진행되는 동안 이미지를 저장할 수 없습니다"
 
 #: lclstrconsts.rsrasterimageupdateall
 msgid "Cannot begin update all when canvas only update in progress"
-msgstr "캔버스가 업데이트 진행중에는 모든 업데이트 불가"
+msgstr "캔버스만 업데이트가 진행 중인 경우 모두 업데이트를 시작할 수 없습니다"
 
 #: lclstrconsts.rsredcolorcaption
 msgid "Red"
@@ -1035,7 +1008,7 @@ msgstr "빨강"
 
 #: lclstrconsts.rsrefreshrecordshint
 msgid "Refresh"
-msgstr "갱신"
+msgstr "새로 고침"
 
 #: lclstrconsts.rsreplace
 msgid "Replace"
@@ -1048,7 +1021,7 @@ msgstr "모두 바꾸기"
 #: lclstrconsts.rsresourcenotfound
 msgctxt "lclstrconsts.rsresourcenotfound"
 msgid "Resource %s not found"
-msgstr "%s 리소스 찾지 못함"
+msgstr "%s 리소스를 찾을 수 없습니다"
 
 #: lclstrconsts.rsscrollbarcolorcaption
 msgid "ScrollBar"
@@ -1056,7 +1029,7 @@ msgstr "ScrollBar"
 
 #: lclstrconsts.rsscrollbaroutofrange
 msgid "ScrollBar property out of range"
-msgstr "스크롤바 속성이 범위를 벗어남"
+msgstr "ScrollBar 속성이 범위를 벗어남"
 
 #: lclstrconsts.rsselectcolortitle
 msgid "Select color"
@@ -1072,7 +1045,7 @@ msgstr "은색"
 
 #: lclstrconsts.rssize
 msgid "  size "
-msgstr "  크기"
+msgstr "  크기 "
 
 #: lclstrconsts.rsskybluecolorcaption
 msgid "Sky Blue"
@@ -1080,7 +1053,7 @@ msgstr "하늘색"
 
 #: lclstrconsts.rstcustomtabcontrolaccessibilitydescription
 msgid "A control with tabs"
-msgstr "탭 컨트롤"
+msgstr "탭이 있는 컨트롤"
 
 #: lclstrconsts.rstealcolorcaption
 msgid "Teal"
@@ -1092,11 +1065,11 @@ msgstr "텍스트"
 
 #: lclstrconsts.rsthebuiltinurlisreadonlychangethebaseurlinstead
 msgid "The built-in URL is read only. Change the BaseURL instead."
-msgstr ""
+msgstr "내장된 URL은 읽기만 가능합니다. 대신 BaseURL을 변경하십시오."
 
 #: lclstrconsts.rstiff
 msgid "Tagged Image File Format"
-msgstr "태그가 있는 이미지 파일 포맷"
+msgstr "태그가 지정된 이미지 파일 형식"
 
 #: lclstrconsts.rstpanelaccessibilitydescription
 msgctxt "lclstrconsts.rstpanelaccessibilitydescription"
@@ -1106,32 +1079,32 @@ msgstr "패널"
 #: lclstrconsts.rstsplitteraccessibilitydescription
 msgctxt "lclstrconsts.rstsplitteraccessibilitydescription"
 msgid "A grip to control how much size to give two parts of an area"
-msgstr "두 부분의 영역에 얼만큼의 크기를 줄지 제어하는 그립"
+msgstr "영역의 두 부분에 어느 정도 크기를 부여할지 제어하는 그립"
 
 #: lclstrconsts.rsttreeviewaccessibilitydescription
 msgctxt "lclstrconsts.rsttreeviewaccessibilitydescription"
 msgid "A tree of items"
-msgstr "목록 트리"
+msgstr "항목의 트리"
 
 #: lclstrconsts.rsunabletoloaddefaultfont
 msgid "Unable to load default font"
-msgstr "기본 글꼴을 불러올 수 없음"
+msgstr "기본 글꼴을 불러올 수 없습니다"
 
 #: lclstrconsts.rsunknownerrorpleasereportthisbug
 msgid "Unknown Error, please report this bug"
-msgstr "알려지지 않은 오류, 이 버그를 보고해주세요."
+msgstr "알 수 없는 오류, 이 버그를 보고하십시오"
 
 #: lclstrconsts.rsunknownpictureextension
 msgid "Unknown picture extension"
-msgstr "알려지지 않은 그림파일 확장자"
+msgstr "알 수 없는 사진 확장자"
 
 #: lclstrconsts.rsunknownpictureformat
 msgid "Unknown picture format"
-msgstr "알려지지 않은 그림파일포맷"
+msgstr "알 수 없는 사진 형식"
 
 #: lclstrconsts.rsunsupportedbitmapformat
 msgid "Unsupported bitmap format."
-msgstr "지원되지 않는 비트맵 포맷"
+msgstr "지원되지 않는 비트맵 형식입니다."
 
 #: lclstrconsts.rsunsupportedclipboardformat
 msgid "Unsupported clipboard format: %s"
@@ -1147,16 +1120,15 @@ msgstr " 경고: %d 출시되지 않은 GDIObject가 있습니다. 상세한 덤
 
 #: lclstrconsts.rswarningunreleasedmessagesinqueue
 msgid " WARNING: There are %d messages left in the queue! I'll free them"
-msgstr " 경고: %d 메시지가 작업대기열에 있습니다. 그것들을 풀어주겠습니다. "
+msgstr " 경고: 대기열에 %d 메시지가 남아 있습니다! 해제하겠습니다"
 
 #: lclstrconsts.rswarningunreleasedtimerinfos
 msgid " WARNING: There are %d TimerInfo structures left, I'll free them"
-msgstr " 경고: %d TimeInfo 스트럭쳐(Structure)가 있습니다. 그것들을 풀어주겠습니다."
+msgstr " 경고: %d TimerInfo 구조가 남아 있습니다. 해제하겠습니다"
 
 #: lclstrconsts.rswarningunremovedpaintmessages
-#, fuzzy,badformat
 msgid " WARNING: There are %s unremoved LM_PAINT/LM_GtkPAINT message links left."
-msgstr " 경고: %d 제거되지 않은 LM_PAINT/LM_GtkPAINT 메시지 링크가 남아 있습니다. "
+msgstr " 경고: 경고: %s 제거되지 않은 LM_PAINT/LM_GtkPAINT 메시지 링크가 남아 있습니다."
 
 #: lclstrconsts.rswhitecolorcaption
 msgid "White"
@@ -1172,7 +1144,7 @@ msgstr "오류:"
 
 #: lclstrconsts.rswin32warning
 msgid "Warning:"
-msgstr "경고"
+msgstr "경고:"
 
 #: lclstrconsts.rswindowcolorcaption
 msgid "Window"
@@ -1180,11 +1152,11 @@ msgstr "윈도우"
 
 #: lclstrconsts.rswindowframecolorcaption
 msgid "Window Frame"
-msgstr "윈도우 프레임"
+msgstr "창 테두리"
 
 #: lclstrconsts.rswindowtextcolorcaption
 msgid "Window Text"
-msgstr "윈도우 텍스트"
+msgstr "창 텍스트"
 
 #: lclstrconsts.rsyellowcolorcaption
 msgid "Yellow"
@@ -1192,35 +1164,35 @@ msgstr "노랑"
 
 #: lclstrconsts.scannotfocus
 msgid "Cannot focus a disabled or invisible window"
-msgstr "사용가능하지 않거나 보이지 않는 윈도우 포커스 할 수 없음"
+msgstr "비활성화되거나 보이지 않는 창에 초점을 맞출 수 없습니다"
 
 #: lclstrconsts.scannotsetdesigntimeppi
 msgid "Cannot set design time PPI."
-msgstr ""
+msgstr "설계시간 PPI를 설정할 수 없습니다."
 
 #: lclstrconsts.sduplicatemenus
 msgid "Duplicate menus"
-msgstr "메뉴 복제"
+msgstr "중복 메뉴"
 
 #: lclstrconsts.sinvalidactioncreation
 msgid "Invalid action creation"
-msgstr "잘못된 액션 생성"
+msgstr "잘못된 동작 생성"
 
 #: lclstrconsts.sinvalidactionenumeration
 msgid "Invalid action enumeration"
-msgstr "잘못된 액션 열거"
+msgstr "잘못된 동작 열거"
 
 #: lclstrconsts.sinvalidactionregistration
 msgid "Invalid action registration"
-msgstr "잘못된 액션 등록"
+msgstr "잘못된 동작 등록"
 
 #: lclstrconsts.sinvalidactionunregistration
 msgid "Invalid action unregistration"
-msgstr "잘못된 액션 등록안됨"
+msgstr "잘못된 동작 등록 취소"
 
 #: lclstrconsts.sinvalidcharset
 msgid "The char set in mask \"%s\" is not valid!"
-msgstr "\"%s\" 문자셋 마스크가 불분명함!"
+msgstr "\"%s\" 마스크에 설정된 문자가 올바르지 않습니다!"
 
 #: lclstrconsts.sinvalidimagesize
 msgid "Invalid image size"
@@ -1228,23 +1200,23 @@ msgstr "잘못된 이미지 크기"
 
 #: lclstrconsts.sinvalidindex
 msgid "Invalid ImageList Index"
-msgstr "잘못된 이미지리시트 인덱스"
+msgstr "잘못된 ImageList 인덱스"
 
 #: lclstrconsts.smaskeditnomatch
 msgid "The current text does not match the specified mask."
-msgstr "현재 텍스트는 지정한 마스크 텍스트와 일치하지 않음"
+msgstr "현재 텍스트가 지정한 마스크와 일치하지 않습니다."
 
 #: lclstrconsts.smenuindexerror
 msgid "Menu index out of range"
-msgstr "메뉴 인덱스 영역밖"
+msgstr "메뉴 인덱스가 범위를 벗어남"
 
 #: lclstrconsts.smenuitemisnil
 msgid "MenuItem is nil"
-msgstr "MenuItem 없음"
+msgstr "메뉴 항목이 nil입니다"
 
 #: lclstrconsts.smenunotfound
 msgid "Sub-menu is not in menu"
-msgstr "하위메뉴가 메뉴에 없음"
+msgstr "하위 메뉴가 메뉴에 없습니다"
 
 #: lclstrconsts.smkcalt
 msgid "Alt+"
@@ -1252,7 +1224,7 @@ msgstr "Alt+"
 
 #: lclstrconsts.smkcbksp
 msgid "BkSp"
-msgstr "Backspace"
+msgstr "BkSp"
 
 #: lclstrconsts.smkcctrl
 msgid "Ctrl+"
@@ -1265,7 +1237,7 @@ msgstr "Del"
 #: lclstrconsts.smkcdown
 msgctxt "lclstrconsts.smkcdown"
 msgid "Down"
-msgstr "Down"
+msgstr "↓"
 
 #: lclstrconsts.smkcend
 msgctxt "lclstrconsts.smkcend"
@@ -1292,7 +1264,7 @@ msgstr "Ins"
 #: lclstrconsts.smkcleft
 msgctxt "lclstrconsts.smkcleft"
 msgid "Left"
-msgstr "왼쪽방항키"
+msgstr "←"
 
 #: lclstrconsts.smkcmeta
 msgid "Meta+"
@@ -1300,7 +1272,7 @@ msgstr "메타+"
 
 #: lclstrconsts.smkcpgdn
 msgid "PgDn"
-msgstr "페이지다운키"
+msgstr "PgDn"
 
 #: lclstrconsts.smkcpgup
 msgid "PgUp"
@@ -1309,7 +1281,7 @@ msgstr "PgUp"
 #: lclstrconsts.smkcright
 msgctxt "lclstrconsts.smkcright"
 msgid "Right"
-msgstr "Right"
+msgstr "→"
 
 #: lclstrconsts.smkcshift
 msgid "Shift+"
@@ -1327,7 +1299,7 @@ msgstr "Tab"
 #: lclstrconsts.smkcup
 msgctxt "lclstrconsts.smkcup"
 msgid "Up"
-msgstr "Up"
+msgstr "→"
 
 #: lclstrconsts.snotimers
 msgid "No timers available"
@@ -1335,7 +1307,7 @@ msgstr "타이머 사용할 수 없음"
 
 #: lclstrconsts.sparentrequired
 msgid "Control \"%s\" has no parent window."
-msgstr ""
+msgstr "\"%s\" 컨트롤에 상위 창이 없습니다."
 
 #: lclstrconsts.sparexpected
 msgid "Wrong token type: %s expected"
@@ -1371,7 +1343,7 @@ msgstr "잘못된 토큰 유형: %s를 기대했으나 %s가 발견됨"
 
 #: lclstrconsts.sshellctrlsbytes
 msgid "%s bytes"
-msgstr ""
+msgstr "%s 바이트"
 
 #: lclstrconsts.sshellctrlsinvalidpath
 msgctxt "lclstrconsts.sshellctrlsinvalidpath"
@@ -1379,6 +1351,8 @@ msgid ""
 "Invalid pathname:\n"
 "\"%s\"\n"
 msgstr ""
+"잘못된 경로 이름:\n"
+"\"%s\"\n"
 
 #: lclstrconsts.sshellctrlsinvalidpathrelative
 msgid ""
@@ -1387,6 +1361,10 @@ msgid ""
 "in relation to rootpath:\n"
 "\"%s\"\n"
 msgstr ""
+"잘못된 상대 경로 이름:\n"
+"\"%s\"\n"
+"루트 경로와 관련하여:\n"
+"\"%s\"\n"
 
 #: lclstrconsts.sshellctrlsinvalidroot
 msgctxt "lclstrconsts.sshellctrlsinvalidroot"
@@ -1394,30 +1372,33 @@ msgid ""
 "Invalid pathname:\n"
 "\"%s\"\n"
 msgstr ""
+"잘못된 경로 이름:\n"
+"\"%s\"\n"
 
 #: lclstrconsts.sshellctrlskb
 msgid "%s kB"
-msgstr ""
+msgstr "%s kB"
 
 #: lclstrconsts.sshellctrlsmb
 msgid "%s MB"
-msgstr ""
+msgstr "%s MB"
 
 #: lclstrconsts.sshellctrlsname
 msgid "Name"
-msgstr ""
+msgstr "이름"
 
 #: lclstrconsts.sshellctrlsselecteditemdoesnotexists
 msgid ""
 "The selected item does not exist on disk:\n"
 "\"%s\"\n"
 msgstr ""
+"선택한 항목이 디스크에 없습니다:\n"
+"\"%s\"\n"
 
 #: lclstrconsts.sshellctrlssize
 msgid "Size"
-msgstr ""
+msgstr "크기"
 
 #: lclstrconsts.sshellctrlstype
 msgid "Type"
-msgstr ""
-
+msgstr "유형"
