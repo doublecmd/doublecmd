@@ -582,7 +582,9 @@ var
     while bRetry do
     begin
       bRetry := False;
+{$IF NOT DEFINED(LINUX)}
       if FVerify then Flags := fmOpenSync;
+{$ENDIF}
       try
         TargetFileStream.Free; // In case stream was created but 'while' loop run again
         case Mode of
@@ -760,20 +762,25 @@ begin
         Exit;
 
 {$IF DEFINED(LINUX)}
-      if not FVerify and (fpFStatFS(TargetFileStream.Handle, @Sbfs) = 0) then
+      if FVerify then
+        TargetFileStream.AutoSync:= True
+      else if (fpFStatFS(TargetFileStream.Handle, @Sbfs) = 0) then
       begin
         case UInt32(Sbfs.fstype) of
           NFS_SUPER_MAGIC:
           begin
             TargetFileStream.AutoSync:= True;
-            if (fpFStat(TargetFileStream.Handle, Info) = 0) then
-            begin
-              if FCache.Device = QWord(Info.st_dev) then
-                TargetFileStream.DirtyLimit:= FCache.DirtyLimit
-              else
-                FCache.Device:= QWord(Info.st_dev);
-            end;
           end;
+        end;
+      end;
+      if TargetFileStream.AutoSync then
+      begin
+        if (fpFStat(TargetFileStream.Handle, Info) = 0) then
+        begin
+          if FCache.Device = QWord(Info.st_dev) then
+            TargetFileStream.DirtyLimit:= FCache.DirtyLimit
+          else
+            FCache.Device:= QWord(Info.st_dev);
         end;
       end;
 {$ENDIF}
