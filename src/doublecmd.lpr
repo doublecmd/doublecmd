@@ -140,7 +140,7 @@ begin
   Application.Title:='Double Commander';
   Application.Initialize;
 
-{$IF DEFINED(DARWIN) AND DEFINED(LCLQT)}
+{$IF DEFINED(DARWIN)}
   Application.Icon:= nil;
 {$ENDIF}
 
