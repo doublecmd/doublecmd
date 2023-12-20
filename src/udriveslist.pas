@@ -26,6 +26,11 @@ unit uDrivesList;
 
 {$IFDEF MSWINDOWS}
     {$DEFINE ForceVirtualKeysShortcuts}
+    {$DEFINE FileCaseInsensitive}
+{$ENDIF}
+
+{$IFDEF DARWIN}
+    {$DEFINE FileCaseInsensitive}
 {$ENDIF}
 
 interface
@@ -532,6 +537,9 @@ function TDrivesListPopup.CheckShortcut(AShortcut: TUTF8Char): Boolean;
 var
   i: Integer;
 begin
+{$IFDEF FileCaseInsensitive}
+  AShortCut := UpperCase(AShortcut);
+{$ENDIF}
   for i := 0 to Length(FShortCuts) - 1 do
   begin
     if FShortCuts[i] = AShortcut then
@@ -566,7 +574,7 @@ begin
       if Length(Drive^.DisplayName) > 0 then
       begin
         Cells[1, RowNr] := Drive^.DisplayName;
-{$IFDEF ForceVirtualKeysShortcuts}
+{$IFDEF FileCaseInsensitive}
         FShortCuts[I] := UTF8Copy(UpperCase(Drive^.DisplayName), 1, 1);
 {$ELSE}
         FShortCuts[I] := UTF8Copy(Drive^.DisplayName, 1, 1);
