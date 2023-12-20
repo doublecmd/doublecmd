@@ -1832,24 +1832,27 @@ end;
 function mbLoadLibrary(const Name: String): TLibHandle;
 {$IFDEF MSWINDOWS}
 var
+  dwMode: DWORD;
   dwErrCode: DWORD;
   sRememberPath: String;
 begin
+  dwMode:= GetErrorMode;
   try
     // Some plugins using DLL(s) in their directory are loaded correctly only if "CurrentDir" is poining their location.
     // Also, TC switch "CurrentDir" to their directory when loading them. So let's do the same.
     sRememberPath:= GetCurrentDir;
     SetCurrentDir(ExtractFileDir(Name));
-    Result:= LoadLibraryW(PWideChar(CeUtf8ToUtf16(Name)));
+    Result:= SafeLoadLibrary(CeUtf8ToUtf16(Name));
     dwErrCode:= GetLastError;
   finally
+    SetErrorMode(dwMode);
     SetCurrentDir(sRememberPath);
     SetLastError(dwErrCode);
   end;
 end;
 {$ELSE}
 begin
-  Result:= TLibHandle(dlopen(PChar(UTF8ToSys(Name)), RTLD_LAZY));
+  Result:= SafeLoadLibrary(CeUtf8ToSys(Name));
 end;
 {$ENDIF}
 
@@ -1895,7 +1898,7 @@ begin
 end;
 {$ELSE}
 begin
-  Result:= TLibHandle(dlopen(PChar(UTF8ToSys(Name)), RTLD_LAZY));
+  Result:= SafeLoadLibrary(CeUtf8ToSys(Name));
 end;
 {$ENDIF}
 
