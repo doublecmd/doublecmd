@@ -176,8 +176,6 @@ procedure CreateShortcut(const Target, Shortcut: String);
 }
 function ExtractFileAttributes(const FindData: TWin32FindDataW): DWORD;
 
-procedure InitErrorMode;
-
 procedure UpdateEnvironment;
 
 procedure FixCommandLineToUTF8;
@@ -1130,11 +1128,6 @@ begin
     Result:= FindData.dwFileAttributes - FILE_ATTRIBUTE_REPARSE_POINT
   else
     Result:= FindData.dwFileAttributes;
-end;
-
-procedure InitErrorMode;
-begin
-  SetErrorMode(SEM_FAILCRITICALERRORS or SEM_NOOPENFILEERRORBOX);
 end;
 
 procedure UpdateEnvironment;
