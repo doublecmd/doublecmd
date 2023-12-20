@@ -4,6 +4,7 @@ program doublecmd;
 
 {.$APPTYPE GUI}
 uses
+  uSystem,
   {$IFDEF MSWINDOWS}
   uElevation,
   {$IFDEF LCLQT5}
@@ -105,13 +106,13 @@ var
 {$ENDIF}
 
 begin
+  // Initialize again
+  uSystem.Initialize;
+
   DCDebug('Starting Double Commander');
 
   // Initialize random number generator
   Randomize;
-
-  // Disable invalid floating point operation exception
-  SetExceptionMask(GetExceptionMask + [exInvalidOp, exZeroDivide]);
 
   {$IF DEFINED(NIGHTLY_BUILD)}
   InitLineInfo;
@@ -125,13 +126,10 @@ begin
   {$ENDIF}
 
   {$IFDEF MSWINDOWS}
-  uMyWindows.InitErrorMode;
   uMyWindows.FixCommandLineToUTF8;
   {$ENDIF}
 
-  {$if lcl_fullversion >= 1070000}
   Application.Scaled:= True;
-  {$endif}
 
   // Fix default BidiMode
   // see http://bugs.freepascal.org/view.php?id=22044
@@ -159,14 +157,12 @@ begin
 
   // Use only current directory separator
   AllowDirectorySeparators:= [DirectorySeparator];
-  {$IF lcl_fullversion >= 093100}
   // Disable because we set a few of our own format settings and we don't want
   // them to be changed. There's no way currently to react to Application.IntfSettingsChange.
   // If in future we move to a Unicode RTL this could be removed.
   {$PUSH}{$WARN SYMBOL_PLATFORM OFF}
   Application.UpdateFormatSettings := False;
   {$POP}
-  {$ENDIF}
   DefaultFormatSettings.ThousandSeparator:= ' ';
   {$IFDEF UNIX}
   uMyUnix.FixDateTimeSeparators;
@@ -222,7 +218,7 @@ begin
       Application.CreateForm(TdmComData, dmComData); // common data
       Application.CreateForm(TdmHelpManager, dmHelpMgr); // help manager
 
-      {$IF DEFINED(LCLGTK2) AND (lcl_fullversion >= 093100)}
+      {$IF DEFINED(LCLGTK2)}
       // LCLGTK2 uses Application.MainForm as the clipboard widget, however our
       // MainForm is TfrmHackForm and it never gets realized. GTK2 doesn't
       // seem to allow a not realized widget to have clipboard ownership.
