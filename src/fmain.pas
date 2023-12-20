@@ -1606,6 +1606,11 @@ begin
             FreeAndNil(aFile);
           end;
         end;
+      if (Source is TKASToolButton) and (Toolbar <> TKASToolButton(Source).ToolBar) then
+      begin
+        Accept := False;
+        Exit;
+      end;
       if (NumberOfMoveButton <> (Sender as TSpeedButton).Tag) then
         begin
           Draging := True;
