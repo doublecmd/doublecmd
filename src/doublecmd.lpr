@@ -5,7 +5,6 @@ program doublecmd;
 {$ENDIF}
 
 uses
-  uSystem,
   {$IFDEF MSWINDOWS}
   uElevation,
   {$IFDEF LCLQT5}
@@ -41,6 +40,7 @@ uses
   uQt5Workaround,
   {$ENDIF}
   {$ENDIF}
+  uSystem,
   uMoveConfig,
   uEarlyConfig,
   DCConvertEncoding,
