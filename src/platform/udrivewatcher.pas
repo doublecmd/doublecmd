@@ -24,6 +24,12 @@ unit uDriveWatcher;
 
 {$mode objfpc}{$H+}
 
+{$IFDEF BSD}
+  {$IF not DEFINED(DARWIN)}
+     {$DEFINE BSD_not_DARWIN}
+  {$ENDIF}
+{$ENDIF}
+
 interface
 
 uses
@@ -52,14 +58,14 @@ implementation
 uses
   {$IFDEF UNIX}
   Unix, DCConvertEncoding, uMyUnix, uDebug
-   {$IFDEF BSD}
+   {$IFDEF BSD_not_DARWIN}
    , BSD, BaseUnix, StrUtils, FileUtil
    {$ENDIF}
    {$IFDEF LINUX}
    , uUDisks, uUDev, uMountWatcher, DCStrUtils, uOSUtils, FileUtil, uGVolume, DCOSUtils
    {$ENDIF}
    {$IFDEF DARWIN}
-   , uMyDarwin    // Workarounds for FPC RTL Bug
+   , StrUtils, uMyDarwin, uDarwinFSWatch
    {$ENDIF}
    {$IFDEF HAIKU}
    , BaseUnix, DCHaiku
@@ -84,22 +90,35 @@ type
   end;
 {$ENDIF}
 
-{$IFDEF BSD}
-// Workarounds for FPC RTL Bug
 {$IFDEF DARWIN}
+// Workarounds for FPC RTL Bug
 type TFixedStatfs = TDarwinStatfs;
-{$ELSE}
-type TFixedStatfs = TStatFs;
+
+const
+  MNT_DONTBROWSE = $00100000;
+
+type
+  
+  { TDarwinDriverWatcher }
+
+  TDarwinDriverWatcher = class
+  private
+    _monitor: TSimpleDarwinFSWatcher;
+    procedure handleEvent( event:TDarwinFSWatchEvent );
+  public
+    constructor Create;
+    destructor Destroy; override;
+  end;
+
 {$ENDIF}
+
+{$IFDEF BSD_not_DARWIN}
+type TFixedStatfs = TStatFs;
 
 const
   {$warning Remove this two constants when they are added to FreePascal}
   NOTE_MOUNTED = $0008;
   NOTE_UMOUNTED = $0010;
-
-{$IFDEF DARWIN}
-  MNT_DONTBROWSE = $00100000;
-{$ENDIF}
 
 type
   TKQueueDriveEvent = procedure(Event: TDriveWatcherEvent);
@@ -147,7 +166,10 @@ var
   {$IFDEF MSWINDOWS}
   OldWProc: WNDPROC;
   {$ENDIF}
-  {$IFDEF BSD}
+  {$IFDEF DARWIN}
+  DarwinDriverWatcher: TDarwinDriverWatcher;
+  {$ENDIF}
+  {$IFDEF BSD_not_DARWIN}
   KQueueDriveWatcher: TKQueueDriveEventWatcher;
   {$ENDIF}
 
@@ -183,6 +205,41 @@ begin
       FObservers[i](dweDriveChanged, ADrive);
   end;
 end;
+
+{$IFDEF DARWIN}
+
+{ TDarwinDriverWatcher }
+
+procedure TDarwinDriverWatcher.handleEvent( event:TDarwinFSWatchEvent );
+var
+  drive: TDrive;
+begin
+  Sleep( 1*1000 ); // wait so drive gets available in MacOSX
+  drive.Path:= event.fullPath;
+  if ecCreated in event.categories then begin
+    DoDriveAdded( @drive );
+  end else if ecRemoved in event.categories then begin
+    DoDriveRemoved( @drive );
+  end else if not event.fullPath.IsEmpty then begin
+    DoDriveChanged( @drive );
+  end;
+end;
+
+constructor TDarwinDriverWatcher.Create;
+const
+  VOLUME_PATH = '/Volumes';
+begin
+  Inherited;
+  _monitor:= TSimpleDarwinFSWatcher.Create( VOLUME_PATH , @handleEvent );
+end;
+
+destructor TDarwinDriverWatcher.Destroy;
+begin
+  FreeAndNil( _monitor );
+  inherited Destroy;
+end;
+
+{$ENDIF}
 
 {$IFDEF MSWINDOWS}
 const
@@ -296,7 +353,7 @@ begin
 end;
 {$ENDIF}
 
-{$IFDEF BSD}
+{$IFDEF BSD_not_DARWIN}
 procedure KQueueDriveWatcher_OnDriveEvent(Event: TDriveWatcherEvent);
 begin
   case Event of
@@ -338,7 +395,11 @@ begin
   SetMyWndProc(Handle);
   {$ENDIF}
 
-  {$IFDEF BSD}
+  {$IFDEF DARWIN}
+  DarwinDriverWatcher := TDarwinDriverWatcher.Create;
+  {$ENDIF}
+
+  {$IFDEF BSD_not_DARWIN}
   KQueueDriveWatcher := TKQueueDriveEventWatcher.Create();
   KQueueDriveWatcher.OnDriveEvent := @KQueueDriveWatcher_OnDriveEvent;
   KQueueDriveWatcher.Start;
@@ -365,7 +426,11 @@ begin
     FreeAndNil(FakeClass);
   {$ENDIF}
 
-  {$IFDEF BSD}
+  {$IFDEF DARWIN}
+  FreeAndNil( DarwinDriverWatcher );
+  {$ENDIF}
+
+  {$IFDEF BSD_not_DARWIN}
   KQueueDriveWatcher.Terminate;
   FreeAndNil(KQueueDriveWatcher);
   {$ENDIF}
@@ -1428,7 +1493,7 @@ begin
 end;
 {$ENDIF}
 
-{$IFDEF BSD}
+{$IFDEF BSD_not_DARWIN}
 { TKQueueDriveEventWatcher }
 
 procedure TKQueueDriveEventWatcher.RaiseErrorEvent;
@@ -1484,17 +1549,11 @@ begin
             if (ke.FFlags and NOTE_MOUNTED <> 0) then
             begin
               Self.Event := dweDriveAdded;
-  {$IFDEF DARWIN}
-              Sleep(1 * 1000); // wait so drive gets available in MacOSX
-  {$ENDIF}
               Synchronize(@Self.RaiseDriveEvent);
             end { if }
             else if (ke.FFlags and NOTE_UMOUNTED <> 0) then
             begin
               Self.Event := dweDriveRemoved;
-  {$IFDEF DARWIN}
-              Sleep(1 * 1000); // wait so drive disappears in MacOSX
-  {$ENDIF}
               Synchronize(@Self.RaiseDriveEvent);
             end; { else if }
           end;
