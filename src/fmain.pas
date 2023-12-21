@@ -5581,6 +5581,7 @@ begin
 
     // Separate tree
     UpdateShellTreeView;
+    UpdateTreeView;
 
     // Operations panel and menu
     if (gPanelOfOp = False) then
