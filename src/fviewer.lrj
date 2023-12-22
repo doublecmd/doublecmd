@@ -14,6 +14,7 @@
 {"hash":2805797,"name":"tfrmviewer.mifile.caption","sourcebytes":[38,70,105,108,101],"value":"&File"},
 {"hash":2800388,"name":"tfrmviewer.miedit.caption","sourcebytes":[38,69,100,105,116],"value":"&Edit"},
 {"hash":2871239,"name":"tfrmviewer.miview.caption","sourcebytes":[38,86,105,101,119],"value":"&View"},
+{"hash":121364483,"name":"tfrmviewer.mnuplugins.caption","sourcebytes":[80,108,117,103,105,110,115],"value":"Plugins"},
 {"hash":212198471,"name":"tfrmviewer.miencoding.caption","sourcebytes":[69,110,38,99,111,100,105,110,103],"value":"En&coding"},
 {"hash":45103061,"name":"tfrmviewer.miimage.caption","sourcebytes":[38,73,109,97,103,101],"value":"&Image"},
 {"hash":93759653,"name":"tfrmviewer.mirotate.caption","sourcebytes":[82,111,116,97,116,101],"value":"Rotate"},

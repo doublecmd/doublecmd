@@ -148,6 +148,7 @@ type
     DrawPreview: TDrawGrid;
     GifAnim: TGifAnim;
     memFolder: TMemo;
+    mnuPlugins: TMenuItem;
     miCode: TMenuItem;
     miShowTransparency: TMenuItem;
     miWrapText: TMenuItem;
@@ -302,6 +303,7 @@ type
     procedure miLookBookClick(Sender: TObject);
     procedure pmEditMenuPopup(Sender: TObject);
     procedure pnlImageResize(Sender: TObject);
+    procedure miPluginsClick(Sender: TObject);
 
     procedure pnlTextMouseWheelUp(Sender: TObject; Shift: TShiftState;
       MousePos: TPoint; var Handled: Boolean);
@@ -383,6 +385,7 @@ type
     function CheckGraphics(const sFileName:String):Boolean;
     function LoadGraphics(const sFileName:String): Boolean;
     function LoadSynEdit(const sFileName: String): Boolean;
+    function LoadPlugin(const sFileName: String; Index, ShowFlags: Integer): Boolean;
     procedure AdjustImageSize;
     procedure DoSearchCode(bQuickSearch: Boolean; bSearchBackwards: Boolean);
     procedure DoSearch(bQuickSearch: Boolean; bSearchBackwards: Boolean);
@@ -390,6 +393,8 @@ type
     procedure MakeTextEncodingsMenu;
     procedure ActivatePanel(Panel: TPanel);
     procedure ReopenAsTextIfNeeded;
+    procedure UpdatePluginsMenu;
+    procedure MakePluginsMenu;
     procedure CheckXY;
     procedure UndoTmp;
     procedure CreateTmp;
@@ -1414,7 +1419,12 @@ begin
   else begin
     Status.Panels[sbpFileName].Text:= AValue;
   end;
-  FFileName:= AValue;
+  if FFileName <> AValue then
+  begin
+    FFileName:= AValue;
+    MakePluginsMenu;
+  end;
+  UpdatePluginsMenu;
 end;
 
 procedure TfrmViewer.CutToImage;
@@ -1502,7 +1512,6 @@ var
   I, J: Integer;
   AFileName: String;
   ShowFlags: Integer;
-  WlxModule: TWlxModule;
   Start, Finish: Integer;
 begin
   AFileName:= ExcludeTrailingBackslash(sFileName);
@@ -1524,21 +1533,7 @@ begin
     begin
       if WlxPlugins.GetWlxModule(I).FileParamVSDetectStr(AFileName, bForce) then
       begin
-        if not WlxPlugins.LoadModule(I) then Continue;
-        WlxModule:= WlxPlugins.GetWlxModule(I);
-        WlxModule.QuickView:= bQuickView;
-        if WlxModule.CallListLoad(Self.Handle, sFileName, ShowFlags) = 0 then
-        begin
-          WlxModule.UnloadModule;
-          Continue;
-        end;
-        ActivePlugin:= I;
-        FWlxModule:= WlxModule;
-        WlxModule.ResizeWindow(GetListerRect);
-        EnablePrint(WlxModule.CanPrint);
-        // Set focus to plugin window
-        if not bQuickView then WlxModule.SetFocus;
-        Exit(True);
+        if LoadPlugin(AFileName, I, ShowFlags) then Exit(True);
       end;
     end;
   end;
@@ -1556,6 +1551,7 @@ begin
   bPlugin:= False;
   FWlxModule:= nil;
   ActivePlugin:= -1;
+  UpdatePluginsMenu;
   EnablePrint(False);
 end;
 
@@ -1838,6 +1834,23 @@ end;
 procedure TfrmViewer.pnlImageResize(Sender: TObject);
 begin
   if bImage then AdjustImageSize;
+end;
+
+procedure TfrmViewer.miPluginsClick(Sender: TObject);
+var
+  ShowFlags: Integer;
+  MenuItem: TMenuItem absolute Sender;
+begin
+  ExitPluginMode;
+  ShowFlags:= PluginShowFlags or lcp_forceshow;
+
+  if LoadPlugin(FFileName, MenuItem.Tag, ShowFlags) then
+  begin
+    ActivatePanel(nil);
+  end
+  else begin
+    LoadFile(FFileName);
+  end;
 end;
 
 procedure TfrmViewer.pnlTextMouseWheelUp(Sender: TObject; Shift: TShiftState;
@@ -2390,6 +2403,73 @@ begin
   end;
 end;
 
+procedure TfrmViewer.UpdatePluginsMenu;
+var
+  I: Integer;
+begin
+  for I:= mnuPlugins.Count - 1 downto 0 do
+  begin
+    if mnuPlugins.Items[I].Tag = ActivePlugin then
+    begin
+      mnuPlugins.Items[I].Checked:= True;
+      Exit;
+    end;
+  end;
+end;
+
+procedure TfrmViewer.MakePluginsMenu;
+var
+  I, J: Integer;
+  MenuItem: TMenuItem;
+  WlxModule: TWlxModule;
+begin
+  J:= 1;
+  mnuPlugins.Clear;
+
+  MenuItem:= TMenuItem.Create(mnuPlugins);
+  MenuItem.Caption:= rsDlgButtonNone;
+  MenuItem.RadioItem:= True;
+  MenuItem.Enabled:= False;
+  MenuItem.Checked:= True;
+  MenuItem.GroupIndex:= 2;
+  MenuItem.Tag:= -1;
+  mnuPlugins.Add(MenuItem);
+
+  for I:= 0 to WlxPlugins.Count - 1 do
+  begin
+    WlxModule:= WlxPlugins.GetWlxModule(I);
+    if not WlxModule.Enabled then Continue;
+
+    MenuItem:= TMenuItem.Create(mnuPlugins);
+    MenuItem.RadioItem:= True;
+    MenuItem.GroupIndex:= 2;
+    MenuItem.Tag:= I;
+
+    MenuItem.OnClick:= @miPluginsClick;
+    MenuItem.Caption:= ExtractOnlyFileName(WlxModule.FileName);
+
+    if WlxModule.FileParamVSDetectStr(FFileName, True) then
+    begin
+      mnuPlugins.Insert(J, MenuItem);
+      Inc(J);
+    end
+    else begin
+      mnuPlugins.Add(MenuItem);
+    end;
+    if ActivePlugin = I then
+    begin
+      MenuItem.Checked:= True;
+    end;
+  end;
+  if (J > 1) and (J < mnuPlugins.Count) then
+  begin
+    MenuItem:= TMenuItem.Create(mnuPlugins);
+    MenuItem.Caption:= '-';
+    mnuPlugins.Insert(J, MenuItem);
+  end;
+  mnuPlugins.Visible:= (mnuPlugins.Count > 1);
+end;
+
 procedure TfrmViewer.miChangeEncodingClick(Sender: TObject);
 begin
   cm_ChangeEncoding([(Sender as TMenuItem).Caption]);
@@ -2770,6 +2850,30 @@ begin
   finally
     PushPop(FElevate);
   end;
+end;
+
+function TfrmViewer.LoadPlugin(const sFileName: String; Index,
+  ShowFlags: Integer): Boolean;
+var
+  WlxModule: TWlxModule;
+begin
+  if not WlxPlugins.LoadModule(Index) then
+    Exit(False);
+  WlxModule:= WlxPlugins.GetWlxModule(Index);
+  WlxModule.QuickView:= bQuickView;
+  if WlxModule.CallListLoad(Self.Handle, sFileName, ShowFlags) = 0 then
+  begin
+    WlxModule.UnloadModule;
+    Exit(False);
+  end;
+  ActivePlugin:= Index;
+  FWlxModule:= WlxModule;
+  WlxModule.ResizeWindow(GetListerRect);
+  EnablePrint(WlxModule.CanPrint);
+  // Set focus to plugin window
+  if not bQuickView then WlxModule.SetFocus;
+  UpdatePluginsMenu;
+  Result:= True;
 end;
 
 procedure TfrmViewer.DoSearchCode(bQuickSearch: Boolean;
