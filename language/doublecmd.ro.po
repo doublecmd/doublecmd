@@ -9902,6 +9902,11 @@ msgctxt "TFRMVIEWER.MIVIEW.CAPTION"
 msgid "&View"
 msgstr "&Vizualizează"
 
+#: tfrmviewer.mnuplugins.caption
+msgctxt "tfrmviewer.mnuplugins.caption"
+msgid "Plugins"
+msgstr "Module"
+
 #: tfrmviewoperations.btnstartpause.caption
 #, fuzzy
 msgctxt "tfrmviewoperations.btnstartpause.caption"

@@ -10550,6 +10550,11 @@ msgctxt "TFRMVIEWER.MIVIEW.CAPTION"
 msgid "&View"
 msgstr "&Visualització"
 
+#: tfrmviewer.mnuplugins.caption
+msgctxt "tfrmviewer.mnuplugins.caption"
+msgid "Plugins"
+msgstr "Complements"
+
 #: tfrmviewoperations.btnstartpause.caption
 #, fuzzy
 #| msgid "Start"
