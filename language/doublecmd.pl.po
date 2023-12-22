@@ -9558,6 +9558,11 @@ msgctxt "tfrmviewer.miview.caption"
 msgid "&View"
 msgstr "&Podgląd"
 
+#: tfrmviewer.mnuplugins.caption
+msgctxt "tfrmviewer.mnuplugins.caption"
+msgid "Plugins"
+msgstr "Wtyczki"
+
 #: tfrmviewoperations.btnstartpause.caption
 msgctxt "tfrmviewoperations.btnstartpause.caption"
 msgid "&Start"
