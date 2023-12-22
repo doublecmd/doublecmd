@@ -1377,6 +1377,9 @@ object frmViewer: TfrmViewer
         Action = actShowCaret
       end
     end
+    object mnuPlugins: TMenuItem
+      Caption = 'Plugins'
+    end
     object miEncoding: TMenuItem
       Caption = 'En&coding'
     end
