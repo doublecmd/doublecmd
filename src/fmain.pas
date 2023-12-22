@@ -7046,9 +7046,9 @@ begin
   if (EventType = dweDriveRemoved) and Assigned(ADrive) then
   begin
     if IsInPath(ADrive^.Path, ActiveFrame.CurrentPath, True, True) then
-      ActiveFrame.CurrentPath:= gpExePath
+      ActiveFrame.CurrentPath:= GetHomeDir
     else if IsInPath(ADrive^.Path, NotActiveFrame.CurrentPath, True, True) then
-      NotActiveFrame.CurrentPath:= gpExePath;
+      NotActiveFrame.CurrentPath:= GetHomeDir;
   end;
 
   UpdateSelectedDrives;
