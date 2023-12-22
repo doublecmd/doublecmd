@@ -58,7 +58,7 @@ jobs:
     - name: Install Lazarus
       uses: alexx2000/setup-fpc@win
       with:
-        lazarus-version: "2.2.6"
+        lazarus-version: "stable"
 
     - name: Checkout source
       uses: actions/checkout@v2
