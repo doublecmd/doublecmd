@@ -1836,7 +1836,7 @@ var
   dwErrCode: DWORD;
   sRememberPath: String;
 begin
-  dwMode:= GetErrorMode;
+  dwMode:= SetErrorMode(SEM_FAILCRITICALERRORS or SEM_NOOPENFILEERRORBOX);
   try
     // Some plugins using DLL(s) in their directory are loaded correctly only if "CurrentDir" is poining their location.
     // Also, TC switch "CurrentDir" to their directory when loading them. So let's do the same.
