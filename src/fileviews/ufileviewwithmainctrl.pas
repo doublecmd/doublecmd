@@ -1605,6 +1605,10 @@ begin
     SetFocus;
   end;
   inherited AfterChangePath;
+  if IsMouseSelecting then
+  begin
+    FMainControlMouseDown:= False;
+  end;
 end;
 
 {$IFDEF LCLGTK2}
