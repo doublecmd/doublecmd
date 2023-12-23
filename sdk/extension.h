@@ -108,7 +108,7 @@ typedef int (DCPCALL *tMsgChoiceBoxProc)(char* Text, char* Caption, char** Butto
 typedef BOOL (DCPCALL *tDialogBoxLFMProc)(intptr_t LFMData, unsigned long DataSize, tDlgProc DlgProc);
 typedef BOOL (DCPCALL *tDialogBoxLRSProc)(intptr_t LRSData, unsigned long DataSize, tDlgProc DlgProc);
 typedef BOOL (DCPCALL *tDialogBoxLFMFileProc)(char* LFMFileName, tDlgProc DlgProc);
-typedef BOOL (DCPCALL *tDialogBoxParamProc)(void* Data, uint32_t DataSize, tDlgProc DlgProc, uint32_t Flags, void *UserData, void* Reserved);
+typedef uintptr_t (DCPCALL *tDialogBoxParamProc)(void* Data, uint32_t DataSize, tDlgProc DlgProc, uint32_t Flags, void *UserData, void* Reserved);
 typedef int (DCPCALL *tTranslateStringProc)(void *Translation, const char *Identifier, const char *Original, char *Output, int OutLen);
 
 #pragma pack(push)

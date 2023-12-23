@@ -116,7 +116,7 @@ function MsgChoiceBox(Text, Caption: PAnsiChar; Buttons: PPAnsiChar; BtnDef, Btn
 function DialogBoxLFM(LFMData: Pointer; DataSize: LongWord; DlgProc: TDlgProc): LongBool; dcpcall;
 function DialogBoxLRS(LRSData: Pointer; DataSize: LongWord; DlgProc: TDlgProc): LongBool; dcpcall;
 function DialogBoxLFMFile(lfmFileName: PAnsiChar; DlgProc: TDlgProc): LongBool; dcpcall;
-function DialogBoxParam(Data: Pointer; DataSize: LongWord; DlgProc: TDlgProc; Flags: UInt32; UserData, Reserved: Pointer): LongBool; dcpcall;
+function DialogBoxParam(Data: Pointer; DataSize: LongWord; DlgProc: TDlgProc; Flags: UInt32; UserData, Reserved: Pointer): UIntPtr; dcpcall;
 function SendDlgMsg(pDlg: PtrUInt; DlgItemName: PAnsiChar; Msg, wParam, lParam: PtrInt): PtrInt; dcpcall;
 
 implementation
@@ -228,12 +228,12 @@ begin
 end;
 
 function DialogBoxParam(Data: Pointer; DataSize: LongWord;
-  DlgProc: TDlgProc; Flags: UInt32; UserData, Reserved: Pointer): LongBool; dcpcall;
+  DlgProc: TDlgProc; Flags: UInt32; UserData, Reserved: Pointer): UIntPtr; dcpcall;
 var
   DataString: String;
 begin
-  if (Data = nil) then Exit(False);
-  if (DataSize = 0) then Exit(False);
+  if (Data = nil) then Exit(0);
+  if (DataSize = 0) then Exit(0);
   SetString(DataString, Data, DataSize);
 
   if (Flags and DB_LRS = 0) then
@@ -245,7 +245,7 @@ begin
     DataString:= LFMToLRS(mbReadFileToString(DataString));
   end;
 
-  Result:= DialogBox(DataString, DlgProc, UserData);
+  Result:= UIntPtr(DialogBox(DataString, DlgProc, UserData));
 end;
 
 function SendDlgMsg(pDlg: PtrUInt; DlgItemName: PAnsiChar; Msg, wParam, lParam: PtrInt): PtrInt; dcpcall;

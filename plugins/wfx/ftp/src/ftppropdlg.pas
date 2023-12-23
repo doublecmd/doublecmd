@@ -53,7 +53,7 @@ begin
 
         with gStartupInfo do
         begin
-          Result := DialogBoxParam(ResData, ResSize, @DlgProc, DB_LRS, @AText, nil);
+          Result := (DialogBoxParam(ResData, ResSize, @DlgProc, DB_LRS, @AText, nil) > 0);
         end;
       end;
     end;

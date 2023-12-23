@@ -115,7 +115,7 @@ type
   TDialogBoxLFMProc = function(LFMData: Pointer; DataSize: LongWord; DlgProc: TDlgProc): LongBool; {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
   TDialogBoxLRSProc = function(LRSData: Pointer; DataSize: LongWord; DlgProc: TDlgProc): LongBool; {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
   TDialogBoxLFMFileProc = function(lfmFileName: PAnsiChar; DlgProc: TDlgProc): LongBool; {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
-  TDialogBoxParamProc = function(Data: Pointer; DataSize: LongWord; DlgProc: TDlgProc; Flags: LongWord; UserData, Reserved: Pointer): LongBool; {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
+  TDialogBoxParamProc = function(Data: Pointer; DataSize: LongWord; DlgProc: TDlgProc; Flags: LongWord; UserData, Reserved: Pointer): UIntPtr; {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
   TTranslateStringProc = function(Translation: Pointer; Identifier, Original: PAnsiChar; Output: PAnsiChar; OutLen: Integer): Integer {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
 
 type
