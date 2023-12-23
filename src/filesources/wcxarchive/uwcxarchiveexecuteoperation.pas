@@ -18,6 +18,8 @@ type
   TWcxArchiveExecuteOperation = class(TFileSourceExecuteOperation)
   private
     FWcxArchiveFileSource: IWcxArchiveFileSource;
+  protected
+    procedure DoReloadFileSources; override;
   public
     {en
        @param(aTargetFileSource
@@ -41,6 +43,11 @@ implementation
 
 uses
   fPackInfoDlg, uMasks, uGlobs;
+
+procedure TWcxArchiveExecuteOperation.DoReloadFileSources;
+begin
+  // Empty
+end;
 
 constructor TWcxArchiveExecuteOperation.Create(
                 aTargetFileSource: IFileSource;
