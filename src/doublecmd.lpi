@@ -264,7 +264,7 @@ end;"/>
     <RequiredPackages Count="13">
       <Item1>
         <PackageName Value="SynUni"/>
-        <MinVersion Major="1" Minor="8" Valid="True"/>
+        <MinVersion Major="1" Minor="8" Release="2" Valid="True"/>
       </Item1>
       <Item2>
         <PackageName Value="DateTimeCtrls"/>
@@ -282,18 +282,18 @@ end;"/>
       </Item5>
       <Item6>
         <PackageName Value="pkg_gifanim"/>
-        <MinVersion Major="1" Minor="4" Valid="True"/>
+        <MinVersion Major="1" Minor="5" Valid="True"/>
       </Item6>
       <Item7>
         <PackageName Value="VirtualTerminal"/>
       </Item7>
       <Item8>
         <PackageName Value="KASComp"/>
-        <MinVersion Major="1" Minor="8" Valid="True"/>
+        <MinVersion Major="1" Minor="9" Release="4" Valid="True"/>
       </Item8>
       <Item9>
         <PackageName Value="LCL"/>
-        <MinVersion Major="1" Minor="6" Valid="True"/>
+        <MinVersion Major="2" Minor="2" Valid="True"/>
       </Item9>
       <Item10>
         <PackageName Value="SynEdit"/>
@@ -304,7 +304,7 @@ end;"/>
       </Item11>
       <Item12>
         <PackageName Value="doublecmd_common"/>
-        <MinVersion Minor="3" Valid="True"/>
+        <MinVersion Minor="4" Release="1" Valid="True"/>
       </Item12>
       <Item13>
         <PackageName Value="Image32"/>
