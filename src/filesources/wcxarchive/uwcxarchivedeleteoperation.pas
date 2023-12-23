@@ -82,9 +82,12 @@ begin
       // Get the number of bytes processed since the previous call
       if Size > 0 then
       begin
-        TotalFiles := 100;
-        DoneBytes := DoneBytes + Size;
-        DoneFiles := DoneBytes * 100 div TotalBytes;
+        if TotalBytes > 0 then
+        begin
+          TotalFiles := 100;
+          DoneBytes := DoneBytes + Size;
+          DoneFiles := DoneBytes * 100 div TotalBytes;
+        end;
       end
       // Get progress percent value to directly set progress bar
       else if Size < 0 then
