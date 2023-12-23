@@ -193,6 +193,7 @@ type
     pnlImage: TPanel;
     pnlText: TPanel;
     pnlCode: TPanel;
+    pmStatusBar: TPopupMenu;
     SynEdit: TSynEdit;
     miDiv3: TMenuItem;
     miOffice: TMenuItem;
@@ -2089,12 +2090,23 @@ begin
       OnSavingProperties:= @SavingProperties;
   end
   else begin
-    miImage.Remove(miCenter);
-    miImage.Remove(miStretch);
-    miImage.Remove(miStretchOnlyLarge);
-    pmEditMenu.Items.Add(miStretch);
-    pmEditMenu.Items.Add(miStretchOnlyLarge);
-    pmEditMenu.Items.Add(miCenter);
+    miDiv4.Visible:= False;
+    actPreview.Enabled:= False;
+    actPreview.Visible:= False;
+    actScreenshot.Enabled:= False;
+    actFullscreen.Enabled:= False;
+    actScreenShotDelay3Sec.Enabled:= False;
+    actScreenShotDelay5Sec.Enabled:= False;
+
+    Status.PopupMenu:= pmStatusBar;
+    MainMenu.Items.Remove(miView);
+    MainMenu.Items.Remove(mnuPlugins);
+    MainMenu.Items.Remove(miEncoding);
+    MainMenu.Items.Remove(miImage);
+    pmStatusBar.Items.Add(miView);
+    pmStatusBar.Items.Add(mnuPlugins);
+    pmStatusBar.Items.Add(miEncoding);
+    pmStatusBar.Items.Add(miImage);
   end;
 
   HMViewer := HotMan.Register(Self, HotkeysCategory);
@@ -3283,23 +3295,19 @@ begin
   miRotate.Visible     := bImage;
   miZoomIn.Visible     := bImage;
   miZoomOut.Visible    := bImage;
-  miFullScreen.Visible := bImage;
-  miScreenshot.Visible := bImage;
+  miFullScreen.Visible := (bImage and not bQuickView);
+  miScreenshot.Visible := (bImage and not bQuickView);
   miSave.Visible       := bImage;
   miSaveAs.Visible     := bImage;
 
-  if bQuickView then
-  begin
-    miCenter.Visible := bImage;
-    miStretch.Visible := bImage;
-    miStretchOnlyLarge.Visible := bImage;
-  end;
+  miShowTransparency.Visible := bImage;
 
   actGotoLine.Enabled  := (Panel = pnlCode);
   actShowCaret.Enabled := (Panel = pnlText) or (Panel = pnlCode);
   actWrapText.Enabled  := bPlugin or ((Panel = pnlText) and (ViewerControl.Mode in [vcmText, vcmWrap]));
 
   miGotoLine.Visible       := (Panel = pnlCode);
+  miDiv5.Visible           := (Panel = pnlText) or (Panel = pnlCode);
   pmiSelectAll.Visible     := (Panel = pnlText) or (Panel = pnlCode);
   pmiCopyFormatted.Visible := (Panel = pnlText);
 
