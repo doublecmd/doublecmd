@@ -564,7 +564,7 @@ begin
   if (Win32MajorVersion >= 10) and (PageIndex > -1) then
   begin
     ARect:= TabRect(PageIndex);
-    IntersectClipRect(DC, ARect.Left, ARect.Top, ARect.Right, ARect.Top + 2);
+    IntersectClipRect(DC, ARect.Left, ARect.Top, ARect.Right, ARect.Top + 3);
     InflateRect(ARect, ScaleX(8, 96), 0);
     DrawThemeBackground(TWin32ThemeServices(ThemeServices).Theme[teToolBar], DC, TP_BUTTON, TS_CHECKED, ARect, nil);
   end;
