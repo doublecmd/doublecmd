@@ -44,7 +44,7 @@ build_doublecmd()
   pushd $BUILD_PACK_DIR
   mv doublecmd.app 'Double Commander.app'
   codesign --deep --force --verify --verbose --sign '-' 'Double Commander.app'
-  hdiutil create -anyowners -volname "Double Commander" -imagekey zlib-level=9 -format UDZO -fs HFS+ -srcfolder 'Double Commander.app' $PACK_DIR/doublecmd-$DC_VER-$DC_REVISION.$lcl.$CPU_TARGET.dmg
+  hdiutil create -anyowners -volname "Double Commander" -imagekey zlib-level=9 -format UDZO -fs HFS+ -srcfolder "$BUILD_PACK_DIR" $PACK_DIR/doublecmd-$DC_VER-$DC_REVISION.$lcl.$CPU_TARGET.dmg
   popd
 
   # Clean DC build dir
