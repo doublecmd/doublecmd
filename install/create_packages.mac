@@ -67,7 +67,7 @@ if [ "$lcl" = "qt" ]; then
 fi
 mv doublecmd.app 'Double Commander.app'
 codesign --deep --force --verify --verbose --sign '-' 'Double Commander.app'
-hdiutil create -anyowners -volname "Double Commander" -imagekey zlib-level=9 -format UDZO -srcfolder 'Double Commander.app' $PACK_DIR/doublecmd-$DC_VER-$DC_REVISION.$lcl.$CPU_TARGET.dmg
+hdiutil create -anyowners -volname "Double Commander" -imagekey zlib-level=9 -format UDZO -srcfolder "$BUILD_PACK_DIR" $PACK_DIR/doublecmd-$DC_VER-$DC_REVISION.$lcl.$CPU_TARGET.dmg
 
 # Clean DC build dir
 rm -rf $BUILD_DC_TMP_DIR
