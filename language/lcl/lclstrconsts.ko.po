@@ -1,25 +1,29 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: doublecmd-Korean\n"
+"Project-Id-Version: Lazarus LCL - Korean\n"
 "POT-Creation-Date: \n"
 "PO-Revision-Date: \n"
-"Last-Translator: VenusGirl\n"
-"Language-Team: VenusGirl: https://venusgirls.tistory.com/\n"
+"Last-Translator: VenusGirl: https://venusgirls.tistory.com/\n"
+"Language-Team: 비너스걸: https://venusgirls.tistory.com/\n"
 "Language: ko\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 3.4.1\n"
+"X-Native-Language: 한국어\n"
+"X-Generator: Poedit 3.4.2\n"
 
 #: lclstrconsts.hhshelpbrowsernotexecutable
+#, object-pascal-format
 msgid "Browser \"%s\" not executable."
 msgstr "\"%s\" 브라우저를 실행할 수 없습니다."
 
 #: lclstrconsts.hhshelpbrowsernotfound
+#, object-pascal-format
 msgid "Browser \"%s\" not found."
 msgstr "\"%s\" 브라우저를 찾을 수 없습니다."
 
 #: lclstrconsts.hhshelperrorwhileexecuting
+#, object-pascal-format
 msgid "Error while executing \"%s\":%s%s"
 msgstr "\"%s\"을(를) 실행하는 동안 오류 발생: %s%s"
 
@@ -28,14 +32,17 @@ msgid "Unable to find a HTML browser."
 msgstr "HTML 브라우저를 찾을 수 없습니다."
 
 #: lclstrconsts.hhshelpnohtmlbrowserfoundpleasedefineone
+#, object-pascal-format
 msgid "No HTML Browser found.%sPlease define one in Tools -> Options -> Help -> Help Options"
 msgstr "HTML 브라우저를 찾을 수 없습니다.%s도구 -> 옵션 -> 도움말 -> 도움말 -> 도움말 옵션에서 하나를 정의하십시오"
 
 #: lclstrconsts.hhshelpthehelpdatabasewasunabletofindfile
+#, object-pascal-format
 msgid "The help database \"%s\" was unable to find file \"%s\"."
 msgstr "도움말 데이터베이스 \"%s\"가 \"%s\" 파일을 찾을 수 없습니다."
 
 #: lclstrconsts.hhshelpthemacrosinbrowserparamswillbereplacedbytheurl
+#, object-pascal-format
 msgid "The macro %s in BrowserParams will be replaced by the URL."
 msgstr "BrowserParams의 매크로 %s가 URL로 대체됩니다."
 
@@ -73,6 +80,7 @@ msgid "Unknown"
 msgstr "알 수 없음"
 
 #: lclstrconsts.lislclresourcesnotfound
+#, object-pascal-format
 msgctxt "lclstrconsts.lislclresourcesnotfound"
 msgid "Resource %s not found"
 msgstr "%s 리소스를 찾을 수 없습니다"
@@ -98,6 +106,7 @@ msgid "Active Caption"
 msgstr "캡션 활성화"
 
 #: lclstrconsts.rsallfiles
+#, object-pascal-format
 msgid "All files (%s)|%s|%s"
 msgstr "모든 파일 (%s)|%s|%s"
 
@@ -110,6 +119,7 @@ msgid "Aqua"
 msgstr "아쿠아"
 
 #: lclstrconsts.rsascannothaveasparent
+#, object-pascal-format
 msgid "Class %s cannot have %s as parent."
 msgstr "%s 클래스는 %s을(를) 상위로 가질 수 없습니다."
 
@@ -131,7 +141,7 @@ msgstr "검정"
 
 #: lclstrconsts.rsblank
 msgid "Blank"
-msgstr "빈 칸"
+msgstr "공백"
 
 #: lclstrconsts.rsbluecolorcaption
 msgid "Blue"
@@ -179,18 +189,17 @@ msgid "Case sensitive"
 msgstr "대소문자 구분"
 
 #: lclstrconsts.rscontrolclasscantcontainchildclass
+#, object-pascal-format
 msgid "Control of class '%s' can't have control of class '%s' as a child"
 msgstr "클래스 '%s'의 제어는 하위 클래스 '%s'의 제어를 가질 수 없습니다"
 
 #: lclstrconsts.rscontrolhasnoparentformorframe
+#, object-pascal-format
 msgid "Control '%s' has no parent form or frame"
 msgstr "'%s' 컨트롤에 상위 형식 또는 프레임이 없습니다"
 
-#: lclstrconsts.rscontrolhasnoparentwindow
-msgid "Control '%s' has no parent window"
-msgstr "'%s' 컨트롤에 상위 창이 없습니다"
-
 #: lclstrconsts.rscontrolisnotaparent
+#, object-pascal-format
 msgid "'%s' is not a parent of '%s'"
 msgstr "'%s'는 '%s'의 상위가 아닙니다"
 
@@ -257,10 +266,12 @@ msgid "Error"
 msgstr "오류"
 
 #: lclstrconsts.rserrorcreatingdevicecontext
+#, object-pascal-format
 msgid "Error creating device context for %s.%s"
 msgstr "%s.%s에 대한 장치 컨텍스트를 생성하는 중 오류가 발생했습니다"
 
 #: lclstrconsts.rserroroccurredinataddressframe
+#, object-pascal-format
 msgid "Error occurred in %s at %sAddress %s%s Frame %s"
 msgstr "%s주소 %s 프레임 %s에서 %s에서 오류가 발생했습니다"
 
@@ -277,10 +288,12 @@ msgid "Directory must exist"
 msgstr "디렉터리가 존재해야 합니다"
 
 #: lclstrconsts.rsfddirectorynotexist
+#, object-pascal-format
 msgid "The directory \"%s\" does not exist."
 msgstr "%s 디렉터리가 존재하지 않습니다."
 
 #: lclstrconsts.rsfdfilealreadyexists
+#, object-pascal-format
 msgid "The file \"%s\" already exists. Overwrite ?"
 msgstr "\"%s\" 파일이 이미 있습니다. 덮어쓰시겠습니까?"
 
@@ -289,10 +302,12 @@ msgid "File must exist"
 msgstr "파일이 존재해야 합니다"
 
 #: lclstrconsts.rsfdfilenotexist
+#, object-pascal-format
 msgid "The file \"%s\" does not exist."
 msgstr "\"%s\"파일이 존재하지 않습니다."
 
 #: lclstrconsts.rsfdfilereadonly
+#, object-pascal-format
 msgid "The file \"%s\" is not writable."
 msgstr "\"%s\" 파일을 쓸 수 없습니다."
 
@@ -317,6 +332,7 @@ msgid "Path must exist"
 msgstr "경로가 존재해야 합니다"
 
 #: lclstrconsts.rsfdpathnoexist
+#, object-pascal-format
 msgid "The path \"%s\" does not exist."
 msgstr "\"%s\" 경로가 존재하지 않습니다."
 
@@ -325,6 +341,7 @@ msgid "Select Directory"
 msgstr "디렉터리 선택"
 
 #: lclstrconsts.rsfileinfofilenotfound
+#, object-pascal-format
 msgid "(file not found: \"%s\")"
 msgstr "(파일을 찾을 수 없음: \"%s\")"
 
@@ -362,10 +379,12 @@ msgid "Form"
 msgstr "양식"
 
 #: lclstrconsts.rsformresourcesnotfoundforresourcelessformscreatenew
+#, object-pascal-format
 msgid "Form resource %s not found. For resourceless forms CreateNew constructor must be used. See the global variable RequireDerivedFormResource."
 msgstr "%s 양식 리소스를 찾을 수 없습니다. 리소스가 없는 양식의 경우 CreateNew computer를 사용해야 합니다. 전역 변수 RequireDerivedFormResource를 참조하십시오."
 
 #: lclstrconsts.rsformstreamingerror
+#, object-pascal-format
 msgid "Form streaming \"%s\" error: %s"
 msgstr "양식 스트리밍 \"%s\" 오류: %s"
 
@@ -487,6 +506,7 @@ msgid "Help"
 msgstr "도움말"
 
 #: lclstrconsts.rshelpalreadyregistered
+#, object-pascal-format
 msgid "%s: Already registered"
 msgstr "%s: 이미 등록되어 있습니다"
 
@@ -503,42 +523,52 @@ msgid "Help Error"
 msgstr "도움말 오류"
 
 #: lclstrconsts.rshelphelpcontextnotfound
+#, object-pascal-format
 msgid "Help context %s not found."
 msgstr "도움말 컨텍스트 %s을(를) 찾을 수 없습니다."
 
 #: lclstrconsts.rshelphelpcontextnotfoundindatabase
+#, object-pascal-format
 msgid "Help context %s not found in Database \"%s\"."
 msgstr "도움말 컨텍스트 %s을(를) 데이터베이스 \"%s\"에서 찾을 수 없습니다."
 
 #: lclstrconsts.rshelphelpdatabasedidnotfoundaviewerforahelppageoftype
+#, object-pascal-format
 msgid "Help Database \"%s\" did not find a viewer for a help page of type %s"
 msgstr "도움말 데이터베이스 \"%s\"에서 %s 유형의 도움말 페이지에 대한 뷰어를 찾지 못했습니다"
 
 #: lclstrconsts.rshelphelpdatabasenotfound
+#, object-pascal-format
 msgid "Help Database \"%s\" not found"
 msgstr "도움말 데이터베이스 \"%s\"를 찾을 수 없습니다"
 
 #: lclstrconsts.rshelphelpfordirectivenotfound
+#, object-pascal-format
 msgid "Help for directive \"%s\" not found."
 msgstr "지시어 \"%s\"에 대한 도움말을 찾을 수 없습니다."
 
 #: lclstrconsts.rshelphelpfordirectivenotfoundindatabase
+#, object-pascal-format
 msgid "Help for directive \"%s\" not found in Database \"%s\"."
 msgstr "\"%s\" 데이터베이스에서 지시어 \"%s\"에 대한 도움말을 찾을 수 없습니다."
 
 #: lclstrconsts.rshelphelpkeywordnotfound
+#, object-pascal-format
 msgid "Help keyword \"%s\" not found."
 msgstr "도움말 키워드 \"%s\"를 찾을 수 없습니다."
 
 #: lclstrconsts.rshelphelpkeywordnotfoundindatabase
+#, object-pascal-format
 msgid "Help keyword \"%s\" not found in Database \"%s\"."
 msgstr "도움말 키워드 \"%s\"를 \"%s\" 데이터베이스에서 찾을 수 없습니다."
 
 #: lclstrconsts.rshelphelpnodehasnohelpdatabase
+#, object-pascal-format
 msgid "Help node \"%s\" has no Help Database"
 msgstr "도움말 노드 \"%s\"에 도움말 데이터베이스가 없습니다"
 
 #: lclstrconsts.rshelpnohelpfoundforsource
+#, object-pascal-format
 msgid "No help found for line %d, column %d of %s."
 msgstr "%s의 줄 %d, 열 %d에 대한 도움말을 찾을 수 없습니다."
 
@@ -551,6 +581,7 @@ msgid "No help found for this topic"
 msgstr "이 주제에 대한 도움말을 찾을 수 없습니다"
 
 #: lclstrconsts.rshelpnotregistered
+#, object-pascal-format
 msgid "%s: Not registered"
 msgstr "%s: 등록되지 않음"
 
@@ -559,6 +590,7 @@ msgid "Help Selector Error"
 msgstr "도움말 선택 오류"
 
 #: lclstrconsts.rshelpthereisnoviewerforhelptype
+#, object-pascal-format
 msgid "There is no viewer for help type \"%s\""
 msgstr "도움말 유형 \"%s\"에 대한 뷰어가 없습니다"
 
@@ -572,7 +604,7 @@ msgstr "이 유형의 도움말 내용에 대한 뷰어를 찾을 수 없습니�
 
 #: lclstrconsts.rshighlightcolorcaption
 msgid "Highlight"
-msgstr "강ㅈ"
+msgstr "강조"
 
 #: lclstrconsts.rshighlighttextcolorcaption
 msgid "Highlight Text"
@@ -629,10 +661,12 @@ msgid "Inactive Caption"
 msgstr "비활성 캡션"
 
 #: lclstrconsts.rsindexoutofbounds
+#, object-pascal-format
 msgid "%s Index %d out of bounds 0 .. %d"
 msgstr "%s 인덱스 %d가 범위를 벗어남 0 ..%d"
 
 #: lclstrconsts.rsindexoutofrange
+#, object-pascal-format
 msgid "Index Out of range Cell[Col=%d Row=%d]"
 msgstr "범위를 벗어난 셀 색인[열=%d 행=%d]"
 
@@ -650,10 +684,12 @@ msgid "Insert"
 msgstr "삽입"
 
 #: lclstrconsts.rsinvaliddate
+#, object-pascal-format
 msgid "Invalid Date : %s"
 msgstr "잘못된 날짜: %s"
 
 #: lclstrconsts.rsinvaliddaterangehint
+#, object-pascal-format
 msgid "Invalid Date: %s. Must be between %s and %s"
 msgstr "잘못된 날짜: %s. %s에서 %s 사이여야 합니다"
 
@@ -670,6 +706,7 @@ msgid "Invalid stream format"
 msgstr "잘못된 스트림 형식"
 
 #: lclstrconsts.rsisalreadyassociatedwith
+#, object-pascal-format
 msgid "%s is already associated with %s"
 msgstr "%s이(가) %s과(와) 이미 연결되어 있습니다"
 
@@ -686,10 +723,16 @@ msgid "Lime"
 msgstr "라임색"
 
 #: lclstrconsts.rslistindexexceedsbounds
+#, object-pascal-format
 msgid "List index exceeds bounds (%d)"
 msgstr "목록 인덱스가 범위를 초과합니다 (%d)"
 
+#: lclstrconsts.rsmacosfileformat
+msgid "File Format:"
+msgstr "파일 형식:"
+
 #: lclstrconsts.rsmacosmenuhide
+#, object-pascal-format
 msgid "Hide %s"
 msgstr "%s 숨기기"
 
@@ -698,6 +741,7 @@ msgid "Hide Others"
 msgstr "다른 숨기기"
 
 #: lclstrconsts.rsmacosmenuquit
+#, object-pascal-format
 msgid "Quit %s"
 msgstr "%s 종료"
 
@@ -843,7 +887,7 @@ msgstr "없음"
 
 #: lclstrconsts.rsnotavalidgridfile
 msgid "Not a valid grid file"
-msgstr "유효한 격자 파일이 아닙니다."
+msgstr "유효한 격자 파일이 아닙니다"
 
 #: lclstrconsts.rsnowidgetset
 msgid "No widgetset object. Please check if the unit \"interfaces\" was added to the programs uses clause."
@@ -882,6 +926,7 @@ msgid "Post"
 msgstr "게시"
 
 #: lclstrconsts.rspressoktoignoreandriskdatacorruptionpressaborttok
+#, object-pascal-format
 msgid "%s%sPress OK to ignore and risk data corruption.%sPress Abort to kill the program."
 msgstr "%s%s확인을 누르면 무시되고 데이터가 손상될 위험이 있습니다.%s중단을 누르면 프로그램이 종료됩니다."
 
@@ -895,12 +940,17 @@ msgid "Prompt on replace"
 msgstr "교체 시 알림 표시"
 
 #: lclstrconsts.rspropertydoesnotexist
+#, object-pascal-format
 msgid "Property %s does not exist"
 msgstr "%s 속성이 존재하지 않습니다"
 
 #: lclstrconsts.rspurplecolorcaption
 msgid "Purple"
-msgstr "보라"
+msgstr "보라색"
+
+#: lclstrconsts.rsqtoptiondisableaccurateframe
+msgid "-disableaccurateframe, disables fully accurate window frame under X11. This feature is implemented for Qt, Qt5 and Gtk2 interfaces and used mostly by GetWindowRect()."
+msgstr "-disableaccurateframe은 X11에서 완전히 정확한 창 프레임을 비활성화합니다. 이 기능은 Qt, Qt5 및 Gtk2 인터페이스에 구현되어 있으며 주로 GetWindowRect()에서 사용됩니다."
 
 #: lclstrconsts.rsqtoptiondograb
 msgid "-dograb (only under X11), running under a debugger can cause an implicit -nograb, use -dograb to override. Need QT_DEBUG."
@@ -1019,13 +1069,14 @@ msgid "Replace all"
 msgstr "모두 바꾸기"
 
 #: lclstrconsts.rsresourcenotfound
+#, object-pascal-format
 msgctxt "lclstrconsts.rsresourcenotfound"
 msgid "Resource %s not found"
 msgstr "%s 리소스를 찾을 수 없습니다"
 
 #: lclstrconsts.rsscrollbarcolorcaption
-msgid "ScrollBar"
-msgstr "ScrollBar"
+msgid "스크롤 막대"
+msgstr "스크롤 막대"
 
 #: lclstrconsts.rsscrollbaroutofrange
 msgid "ScrollBar property out of range"
@@ -1107,26 +1158,32 @@ msgid "Unsupported bitmap format."
 msgstr "지원되지 않는 비트맵 형식입니다."
 
 #: lclstrconsts.rsunsupportedclipboardformat
+#, object-pascal-format
 msgid "Unsupported clipboard format: %s"
 msgstr "지원되지 않는 클립보드 포맷: %s"
 
 #: lclstrconsts.rswarningunreleaseddcsdump
+#, object-pascal-format
 msgid " WARNING: There are %d unreleased DCs, a detailed dump follows:"
 msgstr "  경고: %d 출시되지 않은 DC가 있습니다. 상세한 덤프는 다음과 같음:"
 
 #: lclstrconsts.rswarningunreleasedgdiobjectsdump
+#, object-pascal-format
 msgid " WARNING: There are %d unreleased GDIObjects, a detailed dump follows:"
 msgstr " 경고: %d 출시되지 않은 GDIObject가 있습니다. 상세한 덤프는 다음과 같음:"
 
 #: lclstrconsts.rswarningunreleasedmessagesinqueue
+#, object-pascal-format
 msgid " WARNING: There are %d messages left in the queue! I'll free them"
 msgstr " 경고: 대기열에 %d 메시지가 남아 있습니다! 해제하겠습니다"
 
 #: lclstrconsts.rswarningunreleasedtimerinfos
+#, object-pascal-format
 msgid " WARNING: There are %d TimerInfo structures left, I'll free them"
 msgstr " 경고: %d TimerInfo 구조가 남아 있습니다. 해제하겠습니다"
 
 #: lclstrconsts.rswarningunremovedpaintmessages
+#, object-pascal-format
 msgid " WARNING: There are %s unremoved LM_PAINT/LM_GtkPAINT message links left."
 msgstr " 경고: 경고: %s 제거되지 않은 LM_PAINT/LM_GtkPAINT 메시지 링크가 남아 있습니다."
 
@@ -1148,7 +1205,7 @@ msgstr "경고:"
 
 #: lclstrconsts.rswindowcolorcaption
 msgid "Window"
-msgstr "윈도우"
+msgstr "창"
 
 #: lclstrconsts.rswindowframecolorcaption
 msgid "Window Frame"
@@ -1165,10 +1222,6 @@ msgstr "노랑"
 #: lclstrconsts.scannotfocus
 msgid "Cannot focus a disabled or invisible window"
 msgstr "비활성화되거나 보이지 않는 창에 초점을 맞출 수 없습니다"
-
-#: lclstrconsts.scannotsetdesigntimeppi
-msgid "Cannot set design time PPI."
-msgstr "설계시간 PPI를 설정할 수 없습니다."
 
 #: lclstrconsts.sduplicatemenus
 msgid "Duplicate menus"
@@ -1189,10 +1242,6 @@ msgstr "잘못된 동작 등록"
 #: lclstrconsts.sinvalidactionunregistration
 msgid "Invalid action unregistration"
 msgstr "잘못된 동작 등록 취소"
-
-#: lclstrconsts.sinvalidcharset
-msgid "The char set in mask \"%s\" is not valid!"
-msgstr "\"%s\" 마스크에 설정된 문자가 올바르지 않습니다!"
 
 #: lclstrconsts.sinvalidimagesize
 msgid "Invalid image size"
@@ -1306,22 +1355,27 @@ msgid "No timers available"
 msgstr "타이머 사용할 수 없음"
 
 #: lclstrconsts.sparentrequired
+#, object-pascal-format
 msgid "Control \"%s\" has no parent window."
 msgstr "\"%s\" 컨트롤에 상위 창이 없습니다."
 
 #: lclstrconsts.sparexpected
+#, object-pascal-format
 msgid "Wrong token type: %s expected"
 msgstr "잘못된 토큰 형태: %s 기대됨"
 
 #: lclstrconsts.sparinvalidfloat
+#, object-pascal-format
 msgid "Invalid floating point number: %s"
 msgstr "잘못된 부동소수점 수: %s"
 
 #: lclstrconsts.sparinvalidinteger
+#, object-pascal-format
 msgid "Invalid integer number: %s"
 msgstr "잘못된 정수값: %s"
 
 #: lclstrconsts.sparlocinfo
+#, object-pascal-format
 msgid " (at %d,%d, stream offset %d)"
 msgstr "  (%d에, %d, 스트림 오프셋 %d)"
 
@@ -1334,18 +1388,22 @@ msgid "Unterminated string"
 msgstr "종결되지 않은 문자열"
 
 #: lclstrconsts.sparwrongtokensymbol
+#, object-pascal-format
 msgid "Wrong token symbol: %s expected but %s found"
 msgstr "잘못된 토큰 심벌: %s를 기대했으나 %s 발견됨"
 
 #: lclstrconsts.sparwrongtokentype
+#, object-pascal-format
 msgid "Wrong token type: %s expected but %s found"
 msgstr "잘못된 토큰 유형: %s를 기대했으나 %s가 발견됨"
 
 #: lclstrconsts.sshellctrlsbytes
+#, object-pascal-format
 msgid "%s bytes"
 msgstr "%s 바이트"
 
 #: lclstrconsts.sshellctrlsinvalidpath
+#, object-pascal-format
 msgctxt "lclstrconsts.sshellctrlsinvalidpath"
 msgid ""
 "Invalid pathname:\n"
@@ -1355,6 +1413,7 @@ msgstr ""
 "\"%s\"\n"
 
 #: lclstrconsts.sshellctrlsinvalidpathrelative
+#, object-pascal-format
 msgid ""
 "Invalid relative pathname:\n"
 "\"%s\"\n"
@@ -1367,6 +1426,7 @@ msgstr ""
 "\"%s\"\n"
 
 #: lclstrconsts.sshellctrlsinvalidroot
+#, object-pascal-format
 msgctxt "lclstrconsts.sshellctrlsinvalidroot"
 msgid ""
 "Invalid pathname:\n"
@@ -1376,10 +1436,12 @@ msgstr ""
 "\"%s\"\n"
 
 #: lclstrconsts.sshellctrlskb
+#, object-pascal-format
 msgid "%s kB"
 msgstr "%s kB"
 
 #: lclstrconsts.sshellctrlsmb
+#, object-pascal-format
 msgid "%s MB"
 msgstr "%s MB"
 
@@ -1388,6 +1450,7 @@ msgid "Name"
 msgstr "이름"
 
 #: lclstrconsts.sshellctrlsselecteditemdoesnotexists
+#, object-pascal-format
 msgid ""
 "The selected item does not exist on disk:\n"
 "\"%s\"\n"
