@@ -346,8 +346,28 @@ end;
 procedure TShellContextMenu.OpenWithMenuItemSelect(Sender: TObject);
 var
   ExecCmd: String;
+{$IFDEF DARWIN}
+  appDialog: TOpenDialog;
+{$ENDIF}
 begin
   ExecCmd := (Sender as TMenuItem).Hint;
+
+{$IFDEF DARWIN}
+  if ExecCmd.IsEmpty then begin
+    // Context Menu / Open with / Other...
+    appDialog:= TOpenDialog.Create(self);
+    appDialog.DefaultExt:= 'app';
+    appDialog.InitialDir:= '/Applications';
+    if appDialog.Execute and (NOT appDialog.FileName.IsEmpty) then begin
+      ExecCmd:= QuoteStr(appDialog.FileName) + #32 + QuoteStr(FFiles[0].FullPath);
+    end;
+    FreeAndNil(appDialog);
+  end;
+{$ENDIF}
+
+  if ExecCmd.IsEmpty then
+    Exit;
+
   try
     ExecCmdFork(ExecCmd);
   except
@@ -438,12 +458,21 @@ begin
           mi.OnClick := Self.OpenWithMenuItemSelect;
           miOpenWith.Add(mi);
           if (i=0) and (ApplicationArray.count>=2) then begin
-            mi:=TMenuItem.Create(Self);
+            mi:=TMenuItem.Create(miOpenWith);
             mi.Caption:='-';
             miOpenWith.Add(mi);
           end;
         end;
       end;
+
+      mi:= TMenuItem.Create(miOpenWith);
+      mi.Caption:='-';
+      miOpenWith.Add(mi);
+
+      mi:= TMenuItem.Create(miOpenWith);
+      mi.Caption:='Other...';
+      mi.OnClick := Self.OpenWithMenuItemSelect;
+      miOpenWith.Add(mi);
     end;
   finally
     if Assigned(FileNameCFRef) then
