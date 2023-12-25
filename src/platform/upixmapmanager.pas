@@ -1,15 +1,10 @@
 {
-   File name: uPixMapManager.pas
-   Date:      2004/04/xx
-   Author:    Radek Cervinka  <radek.cervinka@centrum.cz>
+   Double Commander
+   -------------------------------------------------------------------------
+   Fast pixmap memory manager and loader
 
-   Fast pixmap memory manager a loader
-
-   Copyright (C) 2004
-   
-   contributors:
-   
-   Copyright (C) 2006-2021 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2004 Radek Cervinka (radek.cervinka@centrum.cz)
+   Copyright (C) 2006-2023 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
@@ -43,8 +38,8 @@ interface
 
 uses
   Classes, SysUtils, Graphics, syncobjs, uFileSorting, DCStringHashListUtf8,
-  uFile, uIconTheme, uDrive, uDisplayFile, uGlobs, uDCReadPSD, uOSUtils,
-  uVectorImage
+  uFile, uIconTheme, uDrive, uDisplayFile, uGlobs, uDCReadPSD, uOSUtils, FPImage,
+  LCLVersion, uVectorImage
   {$IF DEFINED(MSWINDOWS)}
   , ShlObj
   {$ELSEIF DEFINED(MSWINDOWS) and DEFINED(LCLQT5)}
@@ -104,9 +99,7 @@ type
 
     FDriveIconList : array[0..2] of TDriveIconList;
     FiDirIconID : PtrInt;
-    FiDirLinkIconID : PtrInt;
     FiDirLinkBrokenIconID : PtrInt;
-    FiLinkIconID : PtrInt;
     FiLinkBrokenIconID : PtrInt;
     FiEmblemLinkID: PtrInt;
     FiEmblemUnreadableID: PtrInt;
@@ -152,6 +145,9 @@ type
 
     procedure CreateIconTheme;
     procedure DestroyIconTheme;
+
+    function AddSpecial(ALow, AHigh: PtrInt): PtrInt;
+
     {en
        Same as LoadBitmap but displays a warning if pixmap file doesn't exist.
     }
@@ -742,6 +738,51 @@ begin
   {$ENDIF}
 {$ENDIF}
   FreeAndNil(FDCIconTheme);
+end;
+
+function TPixMapManager.AddSpecial(ALow, AHigh: PtrInt): PtrInt;
+var
+  X, Y: Integer;
+  AIcon: TBitmap;
+  ABitmap: TBitmap;
+  Source, Target: TLazIntfImage;
+begin
+  AIcon:= GetBitmap(ALow);
+
+  Target:= TLazIntfImage.Create(AIcon.Width, AIcon.Height, [riqfRGB, riqfAlpha]);
+  try
+{$if lcl_fullversion < 2020000}
+    Target.CreateData;
+{$endif}
+    Target.FillPixels(colTransparent);
+
+    Source:= TLazIntfImage.Create(AIcon.RawImage, False);
+    try
+      Target.CopyPixels(Source);
+    finally
+      Source.Free;
+    end;
+
+    ABitmap:= GetBitmap(AHigh);
+    try
+      Source:= TLazIntfImage.Create(ABitmap.RawImage, False);
+      try
+        X:= (AIcon.Width - ABitmap.Width);
+        Y:= (AIcon.Height - ABitmap.Height);
+        BitmapMerge(Target, Source, X, Y);
+      finally
+        Source.Free;
+      end;
+    finally
+      ABitmap.Free;
+    end;
+
+    BitmapAssign(AIcon, Target);
+
+    Result := FPixmapList.Add(AIcon);
+  finally
+    Target.Free;
+  end;
 end;
 
 {$IF DEFINED(UNIX) AND NOT (DEFINED(DARWIN) OR DEFINED(HAIKU))}
@@ -1661,12 +1702,10 @@ begin
     FiDirIconID := GetSystemFolderIcon;
   if FiDirIconID = -1 then
   {$ENDIF}
-  FiDirIconID:=CheckAddThemePixmap('folder');
-  FiDirLinkIconID:=CheckAddThemePixmap('folder-link');
-  FiDirLinkBrokenIconID:=CheckAddThemePixmap('folder-link-broken');
-  FiLinkIconID:=CheckAddThemePixmap('link');
-  FiLinkBrokenIconID:=CheckAddThemePixmap('link-broken');
-  FiUpDirIconID:=CheckAddThemePixmap('go-up');
+  FiDirIconID:= CheckAddThemePixmap('folder');
+  FiDirLinkBrokenIconID:= AddSpecial(FiDirIconID, FiEmblemUnreadableID);
+  FiLinkBrokenIconID:= AddSpecial(FiDefaultIconID, FiEmblemUnreadableID);
+  FiUpDirIconID:= CheckAddThemePixmap('go-up');
   {$IFDEF MSWINDOWS}
   FiArcIconID := -1;
   if (gShowIcons > sim_standart) and (not (cimArchive in gCustomIcons)) then
@@ -2019,16 +2058,10 @@ begin
       Exit;
     end;
 
-    if IsLinkToDirectory then
+    if IsLinkToDirectory and GetIconWithLink then
     begin
-      if GetIconWithLink then
-      begin
-        if (LinkProperty = nil) or LinkProperty.IsValid then
-          Result := FiDirLinkIconID
-        else
-          Result := FiDirLinkBrokenIconID;
-        Exit;
-      end;
+      if Assigned(LinkProperty) and not LinkProperty.IsValid then
+        Exit(FiDirLinkBrokenIconID);
     end;
 
     if (DirectAccess = False) then
@@ -2111,9 +2144,7 @@ begin
     begin
       if IsLink and GetIconWithLink then
       begin
-        if (LinkProperty = nil) or LinkProperty.IsValid then
-          Exit(FiLinkIconID)
-        else
+        if Assigned(LinkProperty) and not LinkProperty.IsValid then
           Exit(FiLinkBrokenIconID);
       end;
 
@@ -2147,10 +2178,6 @@ begin
         begin
           if Ext = 'exe' then
             Exit(FiExeIconID)
-          else if Ext = 'lnk' then
-            Exit(FiLinkIconID)
-          else if Ext = 'url' then
-            Exit(FiLinkIconID)
         end;
       {$ELSEIF DEFINED(UNIX) AND NOT (DEFINED(DARWIN) OR DEFINED(HAIKU))}
       if IconsMode = sim_all_and_exe then
