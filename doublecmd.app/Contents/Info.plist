@@ -13,14 +13,36 @@
     <key>CFBundleLocalizations</key>
     <array>
       <string>en</string>
+      <string>be</string>
+      <string>bg</string>
+      <string>ca</string>
+      <string>cs</string>
+      <string>da</string>
       <string>de</string>
       <string>es</string>
-      <string>bg</string>
-      <string>cs</string>
+      <string>fr</string>
+      <string>hr</string>
       <string>hu</string>
+      <string>it</string>
+      <string>ja</string>
+      <string>ko</string>
+      <string>nb</string>
       <string>nl</string>
+      <string>nn</string>
+      <string>pl</string>
+      <string>pt</string>
+      <string>pt_BR</string>
+      <string>ro</string>
       <string>ru</string>
+      <string>sk</string>
+      <string>sl</string>
+      <string>sr</string>
+      <string>sr@latin</string>
+      <string>tr</string>
       <string>ua</string>
+      <string>uk</string>
+      <string>zh_CN</string>
+      <string>zh_TW</string>
     </array>
     <key>CFBundleName</key>
     <string>Double Commander</string>
