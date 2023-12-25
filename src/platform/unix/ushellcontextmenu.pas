@@ -470,7 +470,7 @@ begin
       miOpenWith.Add(mi);
 
       mi:= TMenuItem.Create(miOpenWith);
-      mi.Caption:='Other...';
+      mi.Caption:= rsMnuOpenWithOther;
       mi.OnClick := Self.OpenWithMenuItemSelect;
       miOpenWith.Add(mi);
     end;
