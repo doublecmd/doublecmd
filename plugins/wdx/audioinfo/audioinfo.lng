@@ -1,3 +1,29 @@
+[KOR]
+Channels=채널
+Duration (seconds)=지속 시간 (초)
+Duration (H:M:S)=지속 시간 (시:분:초)
+Sample rate=샘플 속도
+Bitrate=비트레이트
+Bitrate type=비트레이트 유형
+Title=제목
+Artist=아티스트
+Album=앨범
+Track=트랙
+Track (zero-filled)=트랙 (0으로 채워짐)
+Date=날짜
+Genre=장르
+Comment=주석
+Composer=작곡가
+Copyright=저작권
+Link=링크
+Encoder=인코더
+Tags=태그
+Bit depth=비트 깊이
+Full text=전체 텍스트
+Unknown|Mono|Stereo|Joint Stereo|Dual Channel=알 수 없음|모노|스테레오|조인트 스테레오|듀얼 채널
+Hz|kHz=Hz|kHz
+CBR|VBR|Unknown=CBR|VBR|알 수 없음
+
 [RUS]
 Channels=Каналы
 Duration (seconds)=Время (секунды)
