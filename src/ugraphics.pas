@@ -35,11 +35,12 @@ procedure BitmapConvert(ASource, ATarget: TRasterImage);
 procedure BitmapAlpha(var ABitmap: TBitmap; APercent: Single);
 procedure BitmapAssign(Bitmap: TRasterImage; Image: TLazIntfImage);
 procedure BitmapCenter(var Bitmap: TBitmap; Width, Height: Integer);
+procedure BitmapMerge(ALow, AHigh: TLazIntfImage; const ADestX, ADestY: Integer);
 
 implementation
 
 uses
-  GraphType, FPimage;
+  Math, GraphType, FPimage;
 
 type
   TRawAccess = class(TRasterImage) end;
@@ -167,6 +168,61 @@ begin
       end;
     finally
       Source.Free;
+    end;
+  end;
+end;
+
+procedure BitmapMerge(ALow, AHigh: TLazIntfImage; const ADestX, ADestY: Integer);
+var
+  CurColor: TFPColor;
+  X, Y, CurX, CurY: Integer;
+  MaskValue, InvMaskValue: Word;
+  lDrawWidth, lDrawHeight: Integer;
+begin
+  lDrawWidth := Min(ALow.Width - ADestX, AHigh.Width);
+  lDrawHeight := Min(ALow.Height - ADestY, AHigh.Height);
+  for Y := 0 to lDrawHeight - 1 do
+  begin
+    for X := 0 to lDrawWidth - 1 do
+    begin
+      CurX := ADestX + X;
+      CurY := ADestY + Y;
+
+      if (CurX < 0) or (CurY < 0) then Continue;
+
+      MaskValue := AHigh.Colors[X, Y].Alpha;
+      InvMaskValue := $FFFF - MaskValue;
+
+      if MaskValue = $FFFF then
+      begin
+        ALow.Colors[CurX, CurY] := AHigh.Colors[X, Y];
+      end
+      else if MaskValue > $00 then
+      begin
+        CurColor := ALow.Colors[CurX, CurY];
+
+        if CurColor.Alpha = 0 then
+        begin
+          CurColor:= AHigh.Colors[X, Y];
+        end
+        else begin
+          if MaskValue > CurColor.Alpha then
+            CurColor.Alpha:= MaskValue;
+
+          CurColor.Red := Round(
+            CurColor.Red * InvMaskValue / $FFFF +
+            AHigh.Colors[X, Y].Red * MaskValue / $FFFF);
+
+          CurColor.Green := Round(
+            CurColor.Green * InvMaskValue / $FFFF +
+            AHigh.Colors[X, Y].Green * MaskValue / $FFFF);
+
+          CurColor.Blue := Round(
+            CurColor.Blue * InvMaskValue / $FFFF +
+            AHigh.Colors[X, Y].Blue * MaskValue / $FFFF);
+         end;
+        ALow.Colors[CurX, CurY] := CurColor;
+      end;
     end;
   end;
 end;
