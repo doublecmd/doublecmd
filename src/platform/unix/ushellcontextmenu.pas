@@ -22,6 +22,9 @@
 unit uShellContextMenu;
 
 {$mode delphi}{$H+}
+{$IF DEFINED(DARWIN)}
+{$modeswitch objectivec2}
+{$ENDIF}
 
 interface
 
@@ -74,7 +77,7 @@ uses
   uOSUtils, uFileProcs, uShellExecute, uLng, uPixMapManager, uMyUnix, uOSForms,
   fMain, fFileProperties, DCOSUtils, DCStrUtils, uExts, uArchiveFileSourceUtil, uSysFolders
   {$IF DEFINED(DARWIN)}
-  , MacOSAll, uMyDarwin
+  , MacOSAll, CocoaAll, uMyDarwin
   {$ELSEIF NOT DEFINED(HAIKU)}
   , uKeyFile, uMimeActions
     {$IF DEFINED(LINUX)}
@@ -353,6 +356,21 @@ begin
   end;
 end;
 
+{$IF DEFINED(DARWIN)}
+function OpenWithComparator(param1:id; param2:id; theArray: pointer): NSInteger; cdecl;
+var
+  string1: NSString;
+  string2: NSString;
+begin
+  if param1 = NSArray(theArray).firstObject then
+    Exit( NSOrderedAscending );
+
+  string1:= NSFileManager.defaultManager.displayNameAtPath( param1.path );
+  string2:= NSFileManager.defaultManager.displayNameAtPath( param2.path );
+  Result:= string1.localizedStandardCompare( string2 );
+end;
+{$ENDIF}
+
 function TShellContextMenu.FillOpenWithSubMenu: Boolean;
 {$IF DEFINED(DARWIN)}
 var
@@ -365,6 +383,7 @@ var
   FileNameUrlRef: CFURLRef = nil;
   ApplicationUrlRef: CFURLRef = nil;
   ApplicationNameCFRef: CFStringRef = nil;
+  ApplicationArray: NSArray;
   ApplicationCString: array[0..MAX_PATH-1] of Char;
 begin
   Result:= False;
@@ -382,9 +401,12 @@ begin
       miOpenWith.SubMenuImages := FMenuImageList;
       Self.Items.Add(miOpenWith);
 
-      for I:= 0 to CFArrayGetCount(ApplicationArrayRef) - 1 do
+      ApplicationArray := NSArray(ApplicationArrayRef).sortedArrayUsingFunction_context(
+        @OpenWithComparator, ApplicationArrayRef );
+
+      for I:= 0 to ApplicationArray.count - 1 do
       begin
-        ApplicationUrlRef:= CFURLRef(CFArrayGetValueAtIndex(ApplicationArrayRef, I));
+        ApplicationUrlRef:= CFURLRef(ApplicationArray.objectAtIndex(I));
         if CFURLGetFileSystemRepresentation(ApplicationUrlRef,
                                             True,
                                             ApplicationCString,
@@ -415,6 +437,11 @@ begin
             end;
           mi.OnClick := Self.OpenWithMenuItemSelect;
           miOpenWith.Add(mi);
+          if (i=0) and (ApplicationArray.count>=2) then begin
+            mi:=TMenuItem.Create(Self);
+            mi.Caption:='-';
+            miOpenWith.Add(mi);
+          end;
         end;
       end;
     end;
