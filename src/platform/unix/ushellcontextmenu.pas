@@ -379,93 +379,79 @@ end;
 {$IF DEFINED(DARWIN)}
 function OpenWithComparator(param1:id; param2:id; theArray: pointer): NSInteger; cdecl;
 var
+  fileManager: NSFileManager;
   string1: NSString;
   string2: NSString;
 begin
   if param1 = NSArray(theArray).firstObject then
     Exit( NSOrderedAscending );
 
-  string1:= NSFileManager.defaultManager.displayNameAtPath( param1.path );
-  string2:= NSFileManager.defaultManager.displayNameAtPath( param2.path );
+  fileManager:= NSFileManager.defaultManager;
+  string1:= fileManager.displayNameAtPath( param1.path );
+  string2:= fileManager.displayNameAtPath( param2.path );
   Result:= string1.localizedStandardCompare( string2 );
 end;
 {$ENDIF}
 
 function TShellContextMenu.FillOpenWithSubMenu: Boolean;
 {$IF DEFINED(DARWIN)}
+const
+  ROLE_MASK = kLSRolesViewer or kLSRolesEditor or kLSRolesShell;
 var
-  I: CFIndex;
+  I: Integer;
   ImageIndex: PtrInt;
   bmpTemp: TBitmap = nil;
   mi, miOpenWith: TMenuItem;
-  ApplicationArrayRef: CFArrayRef = nil;
-  FileNameCFRef: CFStringRef = nil;
-  FileNameUrlRef: CFURLRef = nil;
-  ApplicationUrlRef: CFURLRef = nil;
-  ApplicationNameCFRef: CFStringRef = nil;
-  ApplicationArray: NSArray;
-  ApplicationCString: array[0..MAX_PATH-1] of Char;
+
+  appRawArray: NSArray;
+  appArray: NSArray;
+  contextFileUrl: NSURL;
+  appUrl: NSURL;
 begin
   Result:= False;
-  if (FFiles.Count <> 1) then Exit;
-  try
-    FileNameCFRef:= CFStringCreateWithFileSystemRepresentation(nil, PChar(FFiles[0].FullPath));
-    FileNameUrlRef:= CFURLCreateWithFileSystemPath(nil, FileNameCFRef, kCFURLPOSIXPathStyle, False);
-    ApplicationArrayRef:= LSCopyApplicationURLsForURL(FileNameUrlRef,  kLSRolesViewer or kLSRolesEditor or kLSRolesShell);
+  if FFiles.Count<>1
+    then Exit;
 
-    miOpenWith := TMenuItem.Create(Self);
-    miOpenWith.Caption := rsMnuOpenWith;
-    if Assigned(ApplicationArrayRef) and (CFArrayGetCount(ApplicationArrayRef) > 0) then
-    begin
-      Result:= True;
+  try
+    contextFileUrl:= NSURL.fileURLWithPath( StringToNSString(FFiles[0].FullPath) );
+    appRawArray:= NSArray( LSCopyApplicationURLsForURL(
+                             CFURLRef(contextFileUrl), ROLE_MASK) );
+
+    miOpenWith:= TMenuItem.Create(Self);
+    miOpenWith.Caption:= rsMnuOpenWith;
+
+    if Assigned(appRawArray) and (appRawArray.count>0) then begin
       FMenuImageList := TImageList.Create(nil);
       miOpenWith.SubMenuImages := FMenuImageList;
 
-      ApplicationArray := NSArray(ApplicationArrayRef).sortedArrayUsingFunction_context(
-        @OpenWithComparator, ApplicationArrayRef );
+      appArray := appRawArray.sortedArrayUsingFunction_context(
+        @OpenWithComparator, appRawArray );
 
-      for I:= 0 to ApplicationArray.count - 1 do
-      begin
-        ApplicationUrlRef:= CFURLRef(ApplicationArray.objectAtIndex(I));
-        if CFURLGetFileSystemRepresentation(ApplicationUrlRef,
-                                            True,
-                                            ApplicationCString,
-                                            SizeOf(ApplicationCString)) then
-        begin
-          mi := TMenuItem.Create(miOpenWith);
-          mi.Caption := ExtractOnlyFileName(ApplicationCString);
-          mi.Hint := QuoteStr(ApplicationCString) + #32 + QuoteStr(FFiles[0].FullPath);
-          ImageIndex:= PixMapManager.GetApplicationBundleIcon(ApplicationCString, -1);
-          if LSCopyDisplayNameForURL(ApplicationUrlRef, ApplicationNameCFRef) = noErr then
-          begin
-            if CFStringGetCString(ApplicationNameCFRef,
-                                  ApplicationCString,
-                                  SizeOf(ApplicationCString),
-                                  kCFStringEncodingUTF8) then
-              mi.Caption := ApplicationCString;
-            CFRelease(ApplicationNameCFRef);
+      for I:= 0 to appArray.count-1 do begin
+        appUrl:= NSURL( appArray.objectAtIndex(I) );
+        mi:= TMenuItem.Create( miOpenWith );
+        mi.Caption:= NSFileManager.defaultManager.displayNameAtPath(appUrl.path).UTF8String;
+        mi.Hint := QuoteStr(appUrl.path.UTF8String) + #32 + QuoteStr(FFiles[0].FullPath);
+        ImageIndex:= PixMapManager.GetApplicationBundleIcon(appUrl.path.UTF8String, -1);
+        if ImageIndex >= 0 then begin
+          bmpTemp:= PixMapManager.GetBitmap(ImageIndex);
+          if Assigned(bmpTemp) then begin
+            mi.ImageIndex:=FMenuImageList.Count;
+            FMenuImageList.Add( bmpTemp , nil );
+            FreeAndNil(bmpTemp);
           end;
-          if ImageIndex >= 0 then
-            begin
-              bmpTemp:= PixMapManager.GetBitmap(ImageIndex);
-              if Assigned(bmpTemp) then
-                begin
-                  mi.ImageIndex:=FMenuImageList.Count;
-                  FMenuImageList.Add( bmpTemp , nil );
-                  FreeAndNil(bmpTemp);
-                end;
-            end;
-          mi.OnClick := Self.OpenWithMenuItemSelect;
+        end;
+        mi.OnClick := Self.OpenWithMenuItemSelect;
+        miOpenWith.Add(mi);
+        if (i=0) and (appArray.count>=2) then begin
+          mi:=TMenuItem.Create(miOpenWith);
+          mi.Caption:='-';
           miOpenWith.Add(mi);
-          if (i=0) and (ApplicationArray.count>=2) then begin
-            mi:=TMenuItem.Create(miOpenWith);
-            mi.Caption:='-';
-            miOpenWith.Add(mi);
-          end;
         end;
       end;
     end;
 
+    // Other...
     mi:= TMenuItem.Create(miOpenWith);
     mi.Caption:='-';
     miOpenWith.Add(mi);
@@ -476,13 +462,10 @@ begin
     miOpenWith.Add(mi);
 
     Self.Items.Add(miOpenWith);
+    Result:= True;
   finally
-    if Assigned(FileNameCFRef) then
-      CFRelease(FileNameCFRef);
-    if Assigned(FileNameUrlRef) then
-      CFRelease(FileNameUrlRef);
-    if Assigned(ApplicationArrayRef) then
-      CFRelease(ApplicationArrayRef);
+    if Assigned(appRawArray) then
+      appRawArray.release;
   end;
 end;
 {$ELSEIF DEFINED(HAIKU)}
