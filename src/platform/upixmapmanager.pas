@@ -776,10 +776,13 @@ begin
     finally
       ABitmap.Free;
     end;
-
+{$IF DEFINED(LCLGTK2)}
+    Result := FPixmapList.Add(ImageToPixBuf(Target));
+    AIcon.Free;
+{$ELSE}
     BitmapAssign(AIcon, Target);
-
     Result := FPixmapList.Add(AIcon);
+{$ENDIF}
   finally
     Target.Free;
   end;

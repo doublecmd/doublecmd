@@ -8,6 +8,7 @@ uses
   Classes, SysUtils, Graphics, IntfGraphics,
   gtk2def, gdk2pixbuf, gdk2, glib2;
 
+function ImageToPixBuf(Image: TLazIntfImage): PGdkPixbuf;
 procedure DrawPixbufAtCanvas(Canvas: TCanvas; Pixbuf : PGdkPixbuf; SrcX, SrcY, DstX, DstY, Width, Height: Integer);
 function PixBufToBitmap(Pixbuf: PGdkPixbuf): TBitmap;
 
@@ -103,20 +104,20 @@ begin
   end;
 end;
 
-// or use this
-{
+procedure GdkPixbufDestroy(pixels: Pguchar; data: gpointer); cdecl;
 begin
-  iPixbufWidth := gdk_pixbuf_get_width(pbPicture);
-  iPixbufHeight := gdk_pixbuf_get_height(pbPicture);
-
-  Result := TBitMap.Create;
-  Result.SetSize(iPixbufWidth, iPixbufHeight);
-  Result.Canvas.Brush.Color := clBackColor;
-  Result.Canvas.FillRect(0, 0, iPixbufWidth, iPixbufHeight);
-
-  DrawPixbufAtCanvas(Result.Canvas, pbPicture, 0, 0, 0, 0, iPixbufWidth, iPixbufHeight);
+  PRawImage(data)^.FreeData;
+  Dispose(PRawImage(data));
 end;
-}
+
+function ImageToPixBuf(Image: TLazIntfImage): PGdkPixbuf;
+var
+  ARawImage: PRawImage;
+begin
+  New(ARawImage);
+  Image.GetRawImage(ARawImage^, True);
+  Result:= gdk_pixbuf_new_from_data(Image.PixelData, GDK_COLORSPACE_RGB, True, 8, Image.Width, Image.Height, Image.Width * 4, @GdkPixbufDestroy, ARawImage);
+end;
 
 end.
 
