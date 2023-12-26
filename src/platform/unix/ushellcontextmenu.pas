@@ -96,6 +96,25 @@ var
   // list.
   ContextMenuActionList: TExtActionList = nil;
 
+
+procedure addDelimiterMenuItem( menu:TMenuItem ); overload;
+var
+  item: TMenuItem;
+begin
+  item:= TMenuItem.Create( menu );
+  item.Caption:= '-';
+  menu.Add( item );
+end;
+
+procedure addDelimiterMenuItem( menu:TMenu ); overload;
+var
+  item: TMenuItem;
+begin
+  item:= TMenuItem.Create( menu );
+  item.Caption:= '-';
+  menu.Items.Add( item );
+end;
+
 {$IF NOT (DEFINED(DARWIN) OR DEFINED(HAIKU))}
 
 function GetGnomeTemplateMenu(out Items: TStringList): Boolean;
@@ -435,6 +454,7 @@ begin
         ImageIndex:= PixMapManager.GetApplicationBundleIcon(appUrl.path.UTF8String, -1);
         if ImageIndex >= 0 then begin
           bmpTemp:= PixMapManager.GetBitmap(ImageIndex);
+          Writeln( bmpTemp.Width );
           if Assigned(bmpTemp) then begin
             mi.ImageIndex:=FMenuImageList.Count;
             FMenuImageList.Add( bmpTemp , nil );
@@ -443,18 +463,13 @@ begin
         end;
         mi.OnClick := Self.OpenWithMenuItemSelect;
         miOpenWith.Add(mi);
-        if (i=0) and (appArray.count>=2) then begin
-          mi:=TMenuItem.Create(miOpenWith);
-          mi.Caption:='-';
-          miOpenWith.Add(mi);
-        end;
+        if (i=0) and (appArray.count>=2) then
+          addDelimiterMenuItem( miOpenWith );
       end;
     end;
 
     // Other...
-    mi:= TMenuItem.Create(miOpenWith);
-    mi.Caption:='-';
-    miOpenWith.Add(mi);
+    addDelimiterMenuItem( miOpenWith );
 
     mi:= TMenuItem.Create(miOpenWith);
     mi.Caption:= rsMnuOpenWithOther;
@@ -540,20 +555,14 @@ procedure TShellContextMenu.FillServicesSubMenu;
 var
   mi: TMenuItem;
 begin
-  // Add delimiter menu
-  mi:=TMenuItem.Create(Self);
-  mi.Caption:='-';
-  Self.Items.Add(mi);
+  addDelimiterMenuItem( self );
 
   // attach Services Menu in TMacosServiceMenuHelper
   mi:=TMenuItem.Create(Self);
   mi.Caption:=uLng.rsMenuMacOsServices;
   Self.Items.Add(mi);
 
-  // Add delimiter menu
-  mi:=TMenuItem.Create(Self);
-  mi.Caption:='-';
-  Self.Items.Add(mi);
+  addDelimiterMenuItem( self );
 
   // add Sharing Menu
   // similar to MacOS 13, the Share MenuItem does not expand the submenu,
@@ -830,9 +839,7 @@ begin
 
       if FUserWishForContextMenu = uwcmComplete then
       begin
-        mi:=TMenuItem.Create(Self);
-        mi.Caption:='-';
-        Self.Items.Add(mi);
+        addDelimiterMenuItem( self );
 
         // Add "Open with" submenu if needed
         AddOpenWithMenu := FillOpenWithSubMenu;
@@ -843,9 +850,7 @@ begin
         {$ENDIF}
 
         // Add delimiter menu
-        mi:=TMenuItem.Create(Self);
-        mi.Caption:='-';
-        Self.Items.Add(mi);
+        addDelimiterMenuItem( self );
 
         // Add "Pack here..."
         mi:=TMenuItem.Create(Self);
@@ -863,9 +868,7 @@ begin
         end;
 
         // Add delimiter menu
-        mi:=TMenuItem.Create(Self);
-        mi.Caption:='-';
-        Self.Items.Add(mi);
+        addDelimiterMenuItem( self );
 
         // Add "Move"
         mi:=TMenuItem.Create(Self);
@@ -887,9 +890,7 @@ begin
         mi.Action := frmMain.actRenameOnly;
         Self.Items.Add(mi);
 
-        mi:=TMenuItem.Create(Self);
-        mi.Caption:='-';
-        Self.Items.Add(mi);
+        addDelimiterMenuItem( self );
 
         // Add "Cut"
         mi:=TMenuItem.Create(Self);
@@ -906,9 +907,7 @@ begin
         mi.Action := frmMain.actPasteFromClipboard;
         Self.Items.Add(mi);
 
-        mi:=TMenuItem.Create(Self);
-        mi.Caption:='-';
-        Self.Items.Add(mi);
+        addDelimiterMenuItem( self );
 
         // Add "Show file properties"
         mi:= TMenuItem.Create(Self);
@@ -950,26 +949,19 @@ begin
       mi.Action := frmMain.actSortByAttr;
       miSortBy.Add(mi);
 
-      mi:=TMenuItem.Create(miSortBy);
-      mi.Caption := '-';
-      miSortBy.Add(mi);
+      addDelimiterMenuItem( miSortBy );
 
       mi:=TMenuItem.Create(miSortBy);
       mi.Action := frmMain.actReverseOrder;
       miSortBy.Add(mi);
 
-      mi:=TMenuItem.Create(Self);
-      mi.Caption:='-';
-      Self.Items.Add(mi);
+      addDelimiterMenuItem( self );
 
       mi:=TMenuItem.Create(Self);
       mi.Action := frmMain.actPasteFromClipboard;
       Self.Items.Add(mi);
 
-
-      mi:=TMenuItem.Create(Self);
-      mi.Caption:='-';
-      Self.Items.Add(mi);
+      addDelimiterMenuItem( self );
 
       // Add "New" submenu
       miSortBy := TMenuItem.Create(Self);
@@ -990,9 +982,7 @@ begin
 
       if GetTemplateMenu(sl) then
       begin
-        mi:= TMenuItem.Create(miSortBy);
-        mi.Caption:= '-';
-        miSortBy.Add(mi);
+        addDelimiterMenuItem( miSortBy );
 
         for I:= 0 to sl.Count - 1 do
         begin
@@ -1011,9 +1001,7 @@ begin
         FreeAndNil(sl);
       end;
 
-      mi:=TMenuItem.Create(Self);
-      mi.Caption:='-';
-      Self.Items.Add(mi);
+      addDelimiterMenuItem( self );
 
       mi:= TMenuItem.Create(Self);
       mi.Hint:= sCmdVerbProperties;
