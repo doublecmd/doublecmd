@@ -99,11 +99,11 @@ msgstr "컨트롤은 부모가 될 수 없습니다"
 
 #: lclstrconsts.rsactivebordercolorcaption
 msgid "Active Border"
-msgstr "테두리 활성화"
+msgstr " 활성 테두리"
 
 #: lclstrconsts.rsactivecaptioncolorcaption
 msgid "Active Caption"
-msgstr "캡션 활성화"
+msgstr "활성 캡션"
 
 #: lclstrconsts.rsallfiles
 #, object-pascal-format
