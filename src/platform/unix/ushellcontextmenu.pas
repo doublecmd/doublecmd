@@ -454,7 +454,6 @@ begin
         ImageIndex:= PixMapManager.GetApplicationBundleIcon(appUrl.path.UTF8String, -1);
         if ImageIndex >= 0 then begin
           bmpTemp:= PixMapManager.GetBitmap(ImageIndex);
-          Writeln( bmpTemp.Width );
           if Assigned(bmpTemp) then begin
             mi.ImageIndex:=FMenuImageList.Count;
             FMenuImageList.Add( bmpTemp , nil );
