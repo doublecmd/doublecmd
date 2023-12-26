@@ -412,14 +412,14 @@ begin
     FileNameCFRef:= CFStringCreateWithFileSystemRepresentation(nil, PChar(FFiles[0].FullPath));
     FileNameUrlRef:= CFURLCreateWithFileSystemPath(nil, FileNameCFRef, kCFURLPOSIXPathStyle, False);
     ApplicationArrayRef:= LSCopyApplicationURLsForURL(FileNameUrlRef,  kLSRolesViewer or kLSRolesEditor or kLSRolesShell);
+
+    miOpenWith := TMenuItem.Create(Self);
+    miOpenWith.Caption := rsMnuOpenWith;
     if Assigned(ApplicationArrayRef) and (CFArrayGetCount(ApplicationArrayRef) > 0) then
     begin
       Result:= True;
-      miOpenWith := TMenuItem.Create(Self);
-      miOpenWith.Caption := rsMnuOpenWith;
       FMenuImageList := TImageList.Create(nil);
       miOpenWith.SubMenuImages := FMenuImageList;
-      Self.Items.Add(miOpenWith);
 
       ApplicationArray := NSArray(ApplicationArrayRef).sortedArrayUsingFunction_context(
         @OpenWithComparator, ApplicationArrayRef );
@@ -464,16 +464,18 @@ begin
           end;
         end;
       end;
-
-      mi:= TMenuItem.Create(miOpenWith);
-      mi.Caption:='-';
-      miOpenWith.Add(mi);
-
-      mi:= TMenuItem.Create(miOpenWith);
-      mi.Caption:= rsMnuOpenWithOther;
-      mi.OnClick := Self.OpenWithMenuItemSelect;
-      miOpenWith.Add(mi);
     end;
+
+    mi:= TMenuItem.Create(miOpenWith);
+    mi.Caption:='-';
+    miOpenWith.Add(mi);
+
+    mi:= TMenuItem.Create(miOpenWith);
+    mi.Caption:= rsMnuOpenWithOther;
+    mi.OnClick := Self.OpenWithMenuItemSelect;
+    miOpenWith.Add(mi);
+
+    Self.Items.Add(miOpenWith);
   finally
     if Assigned(FileNameCFRef) then
       CFRelease(FileNameCFRef);
