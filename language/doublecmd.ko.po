@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Double Commander 1.1.0 alpha\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-11-15 11:15+0300\n"
-"PO-Revision-Date: 2023-12-25 04:32+0900\n"
+"PO-Revision-Date: 2023-12-26 03:02+0900\n"
 "Last-Translator: VenusGirl: https://venusgirls.tistory.com/\n"
 "Language-Team: 비너스걸: https://venusgirls.tistory.com/\n"
 "Language: ko\n"
@@ -2566,7 +2566,7 @@ msgstr "인덱스로 드라이브 열기"
 
 #: tfrmmain.actopenvirtualfilesystemlist.caption
 msgid "Open &VFS List"
-msgstr "VFS 목록 열기(&V)"
+msgstr "가상 파일 시스템 목록 열기(&V)"
 
 #: tfrmmain.actoperationsviewer.caption
 msgid "Operations &Viewer"
@@ -5520,7 +5520,7 @@ msgstr "오른쪽"
 
 #: tfrmoptionsfavoritetabs.gbfavoritetabs.caption
 msgid "Favorite Tabs list (reorder by drag && drop)"
-msgstr "즐겨찾는 탭 목록 (끌어서 놓기로 재정렬)"
+msgstr "즐겨찾기 탭 목록 (끌어서 놓기로 재정렬)"
 
 #: tfrmoptionsfavoritetabs.gbfavoritetabsotheroptions.caption
 msgctxt "TFRMOPTIONSFAVORITETABS.GBFAVORITETABSOTHEROPTIONS.CAPTION"
@@ -5975,7 +5975,7 @@ msgstr "경로"
 #: tfrmoptionsfileassocextra.lbfileassocfilenamestyle.caption
 msgctxt "tfrmoptionsfileassocextra.lbfileassocfilenamestyle.caption"
 msgid "Way to set paths when adding elements for icons, commands and starting paths:"
-msgstr "아이콘, 명령어 및 시작 경로에 대한 요소를 추가할 때 경로를 설정하는 방법:"
+msgstr "아이콘, 명령 및 시작 경로에 대한 요소를 추가할 때 경로를 설정하는 방법:"
 
 #: tfrmoptionsfileassocextra.lblapplysettingsfor.caption
 msgctxt "tfrmoptionsfileassocextra.lblapplysettingsfor.caption"
@@ -7307,7 +7307,7 @@ msgstr "다시 저장 후 즐겨찾기 탭 구성으로 가기"
 
 #: tfrmoptionstabsextra.cbgotoconfigaftersave.caption
 msgid "Goto to Favorite Tabs Configuration after saving a new one"
-msgstr "새 탭을 저장한 후 즐겨찾는 탭 구성으로 가기"
+msgstr "새 탭을 저장한 후 즐겨찾기 탭 구성으로 가기"
 
 #: tfrmoptionstabsextra.cbusefavoritetabsextraoptions.caption
 msgid "Enable Favorite Tabs extra options (select target side when restore, etc.)"
@@ -7882,7 +7882,7 @@ msgstr "상대 경로:"
 #: tfrmoptionstoolbarextra.lbtoolbarfilenamestyle.caption
 msgctxt "tfrmoptionstoolbarextra.lbtoolbarfilenamestyle.caption"
 msgid "Way to set paths when adding elements for icons, commands and starting paths:"
-msgstr "아이콘, 명령어 및 시작 경로에 대한 요소를 추가할 때 경로를 설정하는 방법:"
+msgstr "아이콘, 명령 및 시작 경로에 대한 요소를 추가할 때 경로를 설정하는 방법:"
 
 #: tfrmoptionstoolbase.btnrelativetoolpath.hint
 msgctxt "TFRMOPTIONSTOOLBASE.BTNRELATIVETOOLPATH.HINT"
@@ -8007,7 +8007,7 @@ msgstr "파일 패널 위에 있는 막대를 두 번 클릭하면"
 #: tfrmoptionstreeviewmenu.ckbdirectoryhotlistfrommenucommand.caption
 msgctxt "tfrmoptionstreeviewmenu.ckbdirectoryhotlistfrommenucommand.caption"
 msgid "With the menu and internal command"
-msgstr "메뉴 및 내부 명령어 사용"
+msgstr "메뉴 및 내부 명령 사용"
 
 #: tfrmoptionstreeviewmenu.ckbdoubleclickselect.caption
 msgid "Double click in tree select and exit"
@@ -8016,7 +8016,7 @@ msgstr "트리 선택 후 종료 시 두 번 클릭"
 #: tfrmoptionstreeviewmenu.ckbfavoritatabsfrommenucommand.caption
 msgctxt "TFRMOPTIONSTREEVIEWMENU.CKBFAVORITATABSFROMMENUCOMMAND.CAPTION"
 msgid "With the menu and internal command"
-msgstr "메뉴 및 내부 명령어 사용"
+msgstr "메뉴 및 내부 명령 사용"
 
 #: tfrmoptionstreeviewmenu.ckbfavoritetabsfromdoubleclick.caption
 msgid "With double-click on a tab (if configured for it)"
@@ -8149,7 +8149,7 @@ msgstr "내부 뷰어 옵션"
 
 #: tfrmoptionsviewer.lblnumbercolumnsviewer.caption
 msgid "&Number of columns in book viewer"
-msgstr "북 뷰어의 열 수(&N)"
+msgstr "책 뷰어에서 열의 수(&N)"
 
 #: tfrmpackdlg.btnconfig.caption
 msgctxt "tfrmpackdlg.btnconfig.caption"
@@ -9397,11 +9397,11 @@ msgstr "책으로 표시(&o)"
 
 #: tfrmviewer.actshowasdec.caption
 msgid "Show as &Dec"
-msgstr "12월로 표시(&D)"
+msgstr "10진수로 표시(&D)"
 
 #: tfrmviewer.actshowashex.caption
 msgid "Show as &Hex"
-msgstr "헥사코드로 표시(&H)"
+msgstr "16진수로 표시(&H)"
 
 #: tfrmviewer.actshowastext.caption
 msgid "Show as &Text"
@@ -10529,7 +10529,7 @@ msgstr "뷰어 글꼴(&V)"
 #: ulng.rsfontusageviewerbook
 msgctxt "ulng.rsfontusageviewerbook"
 msgid "Viewer&Book Font"
-msgstr "뷰어북 글꼴(&B)"
+msgstr "책 뷰어 글꼴(&B)"
 
 #: ulng.rsfreemsg
 #, object-pascal-format
@@ -11360,7 +11360,7 @@ msgstr "현재 디렉터리 추가: "
 
 #: ulng.rsmsghotdircommandname
 msgid "Do command"
-msgstr "명령어 실행"
+msgstr "명령 실행"
 
 #: ulng.rsmsghotdircommandsample
 msgid "cm_somthing"
@@ -13651,15 +13651,15 @@ msgstr "단순"
 
 #: ulng.rsstrpreviewwordwithsearched1
 msgid "Fabulous"
-msgstr "Fabulous-멋진"
+msgstr "Fabulous-멋진 VenusGirl"
 
 #: ulng.rsstrpreviewwordwithsearched2
 msgid "Marvelous"
-msgstr "Marvelous-놀라운"
+msgstr "Marvelous-놀라운 VenusGirl"
 
 #: ulng.rsstrpreviewwordwithsearched3
 msgid "Tremendous"
-msgstr "Tremendous-엄청난"
+msgstr "Tremendous-엄청난 VenusGirl"
 
 #: ulng.rsstrtvmchoosedirhistory
 msgid "Choose your directory from Dir History"
@@ -13742,11 +13742,11 @@ msgstr "년"
 
 #: ulng.rstitlerenamefavtabs
 msgid "Rename Favorite Tabs"
-msgstr "즐겨찾는 탭 이름 바꾸기"
+msgstr "즐겨찾기 탭 이름 바꾸기"
 
 #: ulng.rstitlerenamefavtabsmenu
 msgid "Rename Favorite Tabs sub-menu"
-msgstr "즐겨찾는 탭 하위 메뉴 이름 바꾸기"
+msgstr "즐겨찾기 탭 하위 메뉴 이름 바꾸기"
 
 #: ulng.rstooldiffer
 msgctxt "ulng.rstooldiffer"
