@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   height="32"
+   viewBox="0 0 32 32"
+   width="32"
+   version="1.1"
+   id="svg21"
+   sodipodi:docname="folder.svg"
+   inkscape:export-xdpi="96"
+   inkscape:export-ydpi="96"
+   inkscape:version="1.1 (c68e22c387, 2021-05-23)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs25">
+    <linearGradient
+       inkscape:collect="always"
+       id="linearGradient1428">
+      <stop
+         style="stop-color:#ffe087;stop-opacity:1"
+         offset="0"
+         id="stop1424" />
+      <stop
+         style="stop-color:#ffd255;stop-opacity:1"
+         offset="1"
+         id="stop1426" />
+    </linearGradient>
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient1428"
+       id="linearGradient1430"
+       x1="2"
+       y1="18.5"
+       x2="30"
+       y2="18.5"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(1.0714286,0,0,1.2941176,-1.1428572,-5.9411765)" />
+  </defs>
+  <path
+     d="m 3.8778536,2.9999998 c -1.594425,0 -2.877854,1.0938697 -2.877854,2.4521073 V 26.547893 C 0.9999996,27.907088 2.2834286,29 3.8778536,29 H 28.121019 C 29.716573,29 31,27.907088 31,26.547893 V 8.8716473 C 31,7.2461686 29.454029,5.9291185 27.546348,5.9291185 H 14.26923 c -0.707631,0 -1.354416,-0.3400375 -1.672175,-0.8783521 L 12.163237,4.3170499 C 11.685472,3.5095785 10.715294,2.9999998 9.6538459,2.9999998 Z m 0,0"
+     fill="#438de6"
+     id="path12"
+     style="fill:#fbbb1a;fill-opacity:1;stroke-width:0.265959" />
+  <path
+     d="M 16.570162,7 C 15.77802,7 15.0625,7.2885862 14.543044,7.7572792 c -0.655799,0.590475 -1.552735,1.338543 -2.490235,1.338543 H 3.877854 c -1.594425,0 -2.87785406,1.1686668 -2.87785406,2.6197788 V 26.380222 C 0.99999994,27.831334 2.283429,29 3.877854,29 H 28.121019 C 29.716573,29 31,27.831334 31,26.380222 V 9.6197782 C 31,8.1686672 29.716573,7 28.121019,7 Z m 0,0"
+     fill="#a4caee"
+     id="path14"
+     style="fill:url(#linearGradient1430);fill-opacity:1;stroke-width:0.2749" />
+</svg>
