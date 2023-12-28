@@ -199,7 +199,7 @@ type
        @returns(@true if AIconName points to an icon resource, @false otherwise.)
     }
     function GetIconResourceIndex(const IconPath: String; out IconFile: String; out IconIndex: PtrInt): Boolean;
-    function GetSystemFileIcon(const FileName: String): PtrInt;
+    function GetSystemFileIcon(const FileName: String; dwFileAttributes: DWORD = 0): PtrInt;
     function GetSystemFolderIcon: PtrInt;
     function GetSystemArchiveIcon: PtrInt;
     function GetSystemShortcutIcon: PtrInt; inline;
@@ -1479,12 +1479,12 @@ begin
     end;
 end;
 
-function TPixMapManager.GetSystemFileIcon(const FileName: String): PtrInt;
+function TPixMapManager.GetSystemFileIcon(const FileName: String; dwFileAttributes: DWORD): PtrInt;
 var
   FileInfo: TSHFileInfo;
 begin
   if (SHGetFileInfo(PAnsiChar(FileName),    // Ansi version is enough.
-                    FILE_ATTRIBUTE_NORMAL,
+                    FILE_ATTRIBUTE_NORMAL or dwFileAttributes,
                     FileInfo,
                     SizeOf(FileInfo),
                     SHGFI_SYSICONINDEX or SHGFI_USEFILEATTRIBUTES) = 0) then
@@ -2195,6 +2195,24 @@ begin
       Ext := UTF8LowerCase(Extension);
 
       {$IF DEFINED(MSWINDOWS)}
+      if (IconsMode > sim_standart) and (Win32MajorVersion >= 10) then
+      begin
+        if (AFile.Attributes and FILE_ATTRIBUTE_ENCRYPTED <> 0) then
+        begin
+          if (IconsMode = sim_all) or
+             ((Ext <> 'exe') and (Ext <> 'ico') and
+              (Ext <> 'ani') and (Ext <> 'cur')) then
+          begin
+            if (IconsMode = sim_all) and
+               ((Ext = 'ico') or (Ext = 'ani') or (Ext = 'cur')) then
+              Result:= GetSystemFileIcon('aaa', AFile.Attributes)
+            else begin
+              Result:= GetSystemFileIcon(AFile.Name, AFile.Attributes);
+            end;
+            if Result > -1 then Exit;
+          end;
+        end;
+      end;
       if IconsMode <> sim_all_and_exe then
         begin
           if Ext = 'exe' then
