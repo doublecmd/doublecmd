@@ -116,6 +116,7 @@ type
     FiEmblemPinned: PtrInt;
     FiEmblemOnline: PtrInt;
     FiEmblemOffline: PtrInt;
+    FiShortcutIconID: PtrInt;
     FOneDrivePath: String;
     {$ELSEIF DEFINED(DARWIN)}
     FUseSystemTheme: Boolean;
@@ -198,9 +199,11 @@ type
        @returns(@true if AIconName points to an icon resource, @false otherwise.)
     }
     function GetIconResourceIndex(const IconPath: String; out IconFile: String; out IconIndex: PtrInt): Boolean;
+    function GetSystemFileIcon(const FileName: String): PtrInt;
     function GetSystemFolderIcon: PtrInt;
     function GetSystemArchiveIcon: PtrInt;
-    function GetSystemExecutableIcon: PtrInt;
+    function GetSystemShortcutIcon: PtrInt; inline;
+    function GetSystemExecutableIcon: PtrInt; inline;
   {$ENDIF}
   {$IF DEFINED(UNIX) AND NOT (DEFINED(DARWIN) OR DEFINED(HAIKU))}
     {en
@@ -1476,6 +1479,24 @@ begin
     end;
 end;
 
+function TPixMapManager.GetSystemFileIcon(const FileName: String): PtrInt;
+var
+  FileInfo: TSHFileInfo;
+begin
+  if (SHGetFileInfo(PAnsiChar(FileName),    // Ansi version is enough.
+                    FILE_ATTRIBUTE_NORMAL,
+                    FileInfo,
+                    SizeOf(FileInfo),
+                    SHGFI_SYSICONINDEX or SHGFI_USEFILEATTRIBUTES) = 0) then
+    Result := -1
+  else begin
+    Result := FileInfo.iIcon + SystemIconIndexStart;
+{$IF DEFINED(LCLQT5)}
+    Result := CheckAddSystemIcon(Result);
+{$ENDIF}
+  end;
+end;
+
 function TPixMapManager.GetSystemFolderIcon: PtrInt;
 var
   FileInfo: TSHFileInfo;
@@ -1508,22 +1529,14 @@ begin
   end;
 end;
 
-function TPixMapManager.GetSystemExecutableIcon: PtrInt;
-var
-  FileInfo: TSHFileInfo;
+function TPixMapManager.GetSystemShortcutIcon: PtrInt;
 begin
-  if (SHGetFileInfo(PAnsiChar('a.exe'),    // Ansi version is enough.
-                    FILE_ATTRIBUTE_NORMAL,
-                    FileInfo,
-                    SizeOf(FileInfo),
-                    SHGFI_SYSICONINDEX or SHGFI_USEFILEATTRIBUTES) = 0) then
-    Result := -1
-  else begin
-    Result := FileInfo.iIcon + SystemIconIndexStart;
-{$IF DEFINED(LCLQT5)}
-    Result := CheckAddSystemIcon(Result);
-{$ENDIF}
-  end;
+  Result:= GetSystemFileIcon('a.url');
+end;
+
+function TPixMapManager.GetSystemExecutableIcon: PtrInt;
+begin
+  Result:= GetSystemFileIcon('a.exe');
 end;
 
 {$ENDIF}
@@ -1698,6 +1711,11 @@ begin
     FiEmblemOffline:= CheckAddThemePixmap('emblem-cloud-offline', I);
     GetKnownFolderPath(FOLDERID_SkyDrive, FOneDrivePath);
   end;
+  FiShortcutIconID := -1;
+  if gShowIcons > sim_standart then
+    FiShortcutIconID := GetSystemShortcutIcon;
+  if FiShortcutIconID = -1 then
+    FiShortcutIconID := CheckAddThemePixmap('text-html');
   {$ENDIF}
   {$IF DEFINED(MSWINDOWS) or DEFINED(DARWIN)}
   FiDirIconID := -1;
@@ -2181,6 +2199,10 @@ begin
         begin
           if Ext = 'exe' then
             Exit(FiExeIconID)
+          else if Ext = 'lnk' then
+            Exit(FiDefaultIconID)
+          else if Ext = 'url' then
+            Exit(FiShortcutIconID)
         end;
       {$ELSEIF DEFINED(UNIX) AND NOT (DEFINED(DARWIN) OR DEFINED(HAIKU))}
       if IconsMode = sim_all_and_exe then
