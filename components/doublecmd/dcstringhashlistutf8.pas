@@ -60,6 +60,7 @@ type
     function Add(const S: String): Integer;
     function Add(const S: String; ItemData: Pointer): Integer;
     procedure Clear;
+    procedure Remove(Index: Integer);
     function Find(const S: String): Integer;
     function Find(const S: String; Data: Pointer): Integer;
     function Remove(const S: String): Integer;
@@ -160,6 +161,15 @@ begin
     FList:=nil;
   end;
   fCount:= 0;
+end;
+
+procedure TStringHashListUtf8.Remove(Index: Integer);
+begin
+  if (Index >= 0) and (Index < FCount) then
+  begin
+    Dispose(fList[Index]);
+    Delete(Index);
+  end;
 end;
 
 function TStringHashListUtf8.CompareString(const Low, Key: String): Boolean;
