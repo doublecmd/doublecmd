@@ -7,7 +7,7 @@ interface
 uses
   Classes, SysUtils, Controls, Grids, Types, DCXmlConfig, uFileSource, uOrderedFileView,
   uDisplayFile, uFileViewWorker, uThumbnails, uFileView, uTypes, uFileViewWithGrid,
-  uFile;
+  uFileProperty, uFile;
 
 type
 
@@ -92,6 +92,7 @@ type
     procedure UpdateRenameFileEditPosition(); override;
     function GetIconRect(FileIndex: PtrInt): TRect; override;
     procedure MouseScrollTimer(Sender: TObject); override;
+    procedure DoFileChanged(ADisplayFile: TDisplayFile; APropertiesChanged: TFilePropertiesTypes); override;
   public
     constructor Create(AOwner: TWinControl; AConfig: TXmlConfig; ANode: TXmlNode; AFlags: TFileViewFlags = []); override;
     constructor Create(AOwner: TWinControl; AFileView: TFileView; AFlags: TFileViewFlags = []); override;
@@ -584,12 +585,23 @@ begin
   if not IsReferenceValid(OrigDisplayFile) then
     Exit; // File does not exist anymore (reference is invalid).
 
-  if UpdatedFile.Tag <> -1 then
-    OrigDisplayFile.Tag := UpdatedFile.Tag;
-
-  DoFileUpdated(OrigDisplayFile);
-
   OrigDisplayFile.Busy:= OrigDisplayFile.Busy - [bsTag];
+
+  if UpdatedFile.Tag <> -1 then
+  begin
+    if OrigDisplayFile.Tag = -1 then
+    begin
+      OrigDisplayFile.Tag := UpdatedFile.Tag;
+      RedrawFile(OrigDisplayFile);
+    end
+    // The file was changed while we creating a thumbnail
+    // so we need to request a thumbnail creation again
+    else begin
+      OrigDisplayFile.Tag:= -1;
+      FBitmapList[UpdatedFile.Tag]:= nil;
+      Notify([fvnVisibleFilePropertiesChanged]);
+    end;
+  end;
 end;
 
 procedure TThumbFileView.CreateDefault(AOwner: TWinControl);
@@ -746,6 +758,26 @@ begin
   begin
     APoint := dgPanel.ScreenToClient(Mouse.CursorPos);
     TThumbDrawGrid(dgPanel).DoMouseMoveScroll(tmMouseScroll, APoint.X, APoint.Y);
+  end;
+end;
+
+procedure TThumbFileView.DoFileChanged(ADisplayFile: TDisplayFile;
+  APropertiesChanged: TFilePropertiesTypes);
+begin
+  if (APropertiesChanged * [fpSize, fpModificationTime] = []) then
+    Exit;
+
+  ADisplayFile.Busy := ADisplayFile.Busy - [bsTag];
+
+  if InRange(ADisplayFile.Tag, 0, FBitmapList.Count - 1) then
+  begin
+    FBitmapList[ADisplayFile.Tag]:= nil;
+    ADisplayFile.Tag:= -1;
+  end
+  else if ADisplayFile.Tag < 0 then
+    ADisplayFile.Tag:= ADisplayFile.Tag - 1
+  else begin
+    ADisplayFile.Tag:= -1;
   end;
 end;
 

@@ -243,6 +243,7 @@ type
 
     procedure PushRenameEvent(AFile: TFile; const NewFileName: String);
     procedure AddWorker(const Worker: TFileViewWorker; SetEvents: Boolean = True);
+    procedure DoFileChanged(ADisplayFile: TDisplayFile; APropertiesChanged: TFilePropertiesTypes); virtual;
     procedure BeginUpdate;
     procedure CalculateSpace(AFile: TDisplayFile);
     procedure CalculateSpace(var AFileList: TFVWorkerFileList);
@@ -1287,6 +1288,7 @@ begin
       try
         FileSource.RetrieveProperties(AFile, FilePropertiesNeeded, GetVariantFileProperties);
         propertiesChanged:= AFile.Compare(OldFile);
+        if propertiesChanged = [] then Exit;
       finally
         FreeAndNil(OldFile);
       end;
@@ -1301,10 +1303,12 @@ begin
           Exit;
         end;
     end;
-    ADisplayFile.Busy := [];
     ADisplayFile.TextColor := clNone;
     ADisplayFile.IconOverlayID := -1;
     ADisplayFile.DisplayStrings.Clear;
+    ADisplayFile.Busy := ADisplayFile.Busy - [bsProp];
+
+    DoFileChanged(ADisplayFile, propertiesChanged);
 
     ANotifications := [fvnFileSourceFileListUpdated];
     case ApplyFilter(ADisplayFile, NewFilesPosition) of
@@ -1412,6 +1416,12 @@ begin
     Worker.OnStarting := @WorkerStarting;
     Worker.OnFinished := @WorkerFinished;
   end;
+end;
+
+procedure TFileView.DoFileChanged(ADisplayFile: TDisplayFile;
+  APropertiesChanged: TFilePropertiesTypes);
+begin
+  // Empty
 end;
 
 procedure TFileView.BeginUpdate;
@@ -3191,7 +3201,6 @@ begin
       else if fvnDisplayFileListChanged in FNotifications then
       begin
         FNotifications := FNotifications - [fvnDisplayFileListChanged];
-        ReleaseBusy;
         DisplayFileListChanged;
         StartRecentlyUpdatedTimerIfNeeded;
       end
