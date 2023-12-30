@@ -134,7 +134,7 @@ uses
   , uDCReadRSVG, uFileSourceUtil, uGdiPlusJPEG, uListGetPreviewBitmap
   , Dialogs, Clipbrd, uDebug, JwaDbt, uThumbnailProvider, uShellFolder
   , uRecycleBinFileSource, uWslFileSource, uDCReadHEIF, uDCReadWIC
-  , uShellFileSource
+  , uShellFileSource, uPixMapManager
     {$IF DEFINED(DARKWIN)}
     , uDarkStyle
     {$ELSEIF DEFINED(LCLQT5)}
@@ -414,6 +414,9 @@ var
 
 {$IFDEF MSWINDOWS}
 
+const
+  WM_USER_ASSOCCHANGED = WM_USER + 201;
+
 var
   OldWProc: WNDPROC;
 
@@ -429,6 +432,12 @@ begin
   begin
     Screen.UpdateMonitors; // Refresh monitor list
     DCDebug('WM_DEVICECHANGE:DBT_DEVNODES_CHANGED');
+  end;
+
+  if (uiMsg = WM_USER_ASSOCCHANGED) then
+  begin
+    PixMapManager.ClearSystemCache;
+    DCDebug('WM_USER_ASSOCCHANGED');
   end;
 
   Result := CallWindowProc(OldWProc, hWnd, uiMsg, wParam, lParam);
@@ -586,9 +595,13 @@ end;
 
 procedure MainFormCreate(MainForm : TCustomForm);
 {$IFDEF MSWINDOWS}
+const
+  SHCNRF_ShellLevel = $0002;
 var
+  Handle: HWND;
   Handler: TMethod;
   MenuItem: TMenuItem;
+  AEntries: TSHChangeNotifyEntry;
 begin
 {$IF DEFINED(LCLWIN32)}
   Handler.Code:= @ActivateHandler;
@@ -631,10 +644,17 @@ begin
       StaticTitle:= StaticTitle + ' - Administrator';
   end;
 
+  Handle:= GetWindowHandle(Application.MainForm);
   // Add main window message handler
   {$PUSH}{$HINTS OFF}
-  OldWProc := WNDPROC(SetWindowLongPtr(GetWindowHandle(Application.MainForm), GWL_WNDPROC, LONG_PTR(@MyWndProc)));
+  OldWProc := WNDPROC(SetWindowLongPtr(Handle, GWL_WNDPROC, LONG_PTR(@MyWndProc)));
   {$POP}
+
+  if Succeeded(SHGetFolderLocation(Handle, CSIDL_DRIVES, 0, 0, AEntries.pidl)) then
+  begin
+    AEntries.fRecursive:= False;
+    SHChangeNotifyRegister(Handle, SHCNRF_ShellLevel, SHCNE_ASSOCCHANGED, WM_USER_ASSOCCHANGED, 1, @AEntries);
+  end;
 
   with frmMain do
   begin

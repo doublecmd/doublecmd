@@ -333,6 +333,9 @@ type
        For example default folder icon for folder, default executable icon for *.exe, etc.
     }
     function GetDefaultIcon(AFile: TFile): PtrInt;
+{$IF DEFINED(MSWINDOWS)}
+    procedure ClearSystemCache;
+{$ENDIF}
   end;
 
 var
@@ -2345,6 +2348,25 @@ begin
 end;
 
 {$IF DEFINED(MSWINDOWS)}
+procedure TPixMapManager.ClearSystemCache;
+var
+  I: Integer;
+  AStart: Pointer absolute SystemIconIndexStart;
+begin
+  FPixmapsLock.Acquire;
+  try
+    for I:= FExtList.Count - 1 downto 0 do
+    begin
+      if FExtList.List[I]^.Data >= AStart then
+      begin
+        FExtList.Remove(I);
+      end;
+    end;
+  finally
+    FPixmapsLock.Release;
+  end;
+end;
+
 function TPixMapManager.GetIconOverlayByFile(AFile: TFile; DirectAccess: Boolean): PtrInt;
 begin
   if not DirectAccess then Exit(-1);
