@@ -4095,7 +4095,9 @@ msgstr "마운트되지 않은 장치 자동 숨기기(&H)"
 msgid "Mo&ve icon to system tray when minimized"
 msgstr "최소화 시 아이콘을 시스템 트레이로 이동(&V)"
 
-#: tfrmoptionsbehavior.cbonlyonce.caption"
+#: tfrmoptionsbehavior.cbonlyonce.caption
+#, fuzzy
+msgctxt "tfrmoptionsbehavior.cbonlyonce.caption"
 msgid "A&llow only one copy of DC at a time"
 msgstr "한 번에 하나의 DC 사본만 허용(&L)"
 
@@ -12377,6 +12379,10 @@ msgstr "게임"
 msgctxt "ulng.rsopenwithgraphics"
 msgid "Graphics"
 msgstr "그래픽"
+
+#: ulng.rsopenwithmacosfilter
+msgid "Applications (*.app)|*.app|All files (*)|*"
+msgstr ""
 
 #: ulng.rsopenwithmultimedia
 msgid "Multimedia"
