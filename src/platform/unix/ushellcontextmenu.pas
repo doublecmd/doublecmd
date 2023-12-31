@@ -377,6 +377,7 @@ begin
     appDialog:= TOpenDialog.Create(self);
     appDialog.DefaultExt:= 'app';
     appDialog.InitialDir:= '/Applications';
+    appDialog.Filter:= 'Applications (*.app)|*.app|All files (*)|*|';
     if appDialog.Execute and (NOT appDialog.FileName.IsEmpty) then begin
       ExecCmd:= QuoteStr(appDialog.FileName) + #32 + QuoteStr(FFiles[0].FullPath);
     end;
