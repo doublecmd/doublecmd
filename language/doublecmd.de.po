@@ -12570,6 +12570,10 @@ msgctxt "ulng.rsopenwithgraphics"
 msgid "Graphics"
 msgstr "Grafik"
 
+#: ulng.rsopenwithmacosfilter
+msgid "Applications (*.app)|*.app|All files (*)|*"
+msgstr ""
+
 #: ulng.rsopenwithmultimedia
 msgid "Multimedia"
 msgstr "Multimedia"

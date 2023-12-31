@@ -375,6 +375,7 @@ resourcestring
   rsMnuRestore = 'Restore';
   rsMnuPackHere = 'Pack here...';
   rsMnuExtractHere = 'Extract here...';
+  rsOpenWithMacOSFilter = 'Applications (*.app)|*.app|All files (*)|*';
   // for main menu
   rsMnuCreateShortcut = 'Create Shortcut...';
   rsMnuMapNetworkDrive = 'Map Network Drive...';

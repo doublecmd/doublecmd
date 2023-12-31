@@ -12645,6 +12645,10 @@ msgctxt "ulng.rsopenwithgraphics"
 msgid "Graphics"
 msgstr "Графика"
 
+#: ulng.rsopenwithmacosfilter
+msgid "Applications (*.app)|*.app|All files (*)|*"
+msgstr ""
+
 #: ulng.rsopenwithmultimedia
 msgid "Multimedia"
 msgstr "Мультимедиа"
