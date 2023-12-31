@@ -794,6 +794,7 @@ type
     procedure createDarwinAppMenu;
     procedure aboutOnClick(Sender: TObject);
     procedure optionsOnClick(Sender: TObject);
+    procedure GlobalMacOSKeyDownHandler(Sender: TObject; var Key: Word; Shift: TShiftState);
     {$ENDIF}
 
   protected
@@ -1123,6 +1124,8 @@ begin
   // See details at http://doublecmd.sourceforge.net/mantisbt/view.php?id=712
   Application.MainForm.OnClose := @frmMainClose;
   Application.MainForm.OnCloseQuery := @FormCloseQuery;
+  // support closing windows with Command+W
+  Application.AddOnKeyDownBeforeHandler( @GlobalMacOSKeyDownHandler );
   {$ENDIF}
 
   ConvertToolbarBarConfig(gpCfgDir + 'default.bar');
@@ -7169,6 +7172,25 @@ end;
 procedure TfrmMain.optionsOnClick(Sender: TObject);
 begin
   Commands.cm_Options([]);
+end;
+
+procedure TfrmMain.GlobalMacOSKeyDownHandler(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+var
+  topForm: TCustomForm;
+begin
+  if (Key=VK_W) and (Shift=[ssMeta]) then
+  begin
+    if Sender is TControl then
+    begin
+      topForm:= GetParentForm( TControl(Sender), true );
+      if topForm<>self then
+      begin
+        topForm.Close;
+        Key:= 0;
+      end;
+    end;
+  end;
 end;
 {$ENDIF}
 
