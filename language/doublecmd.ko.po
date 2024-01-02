@@ -12382,7 +12382,7 @@ msgstr "그래픽"
 
 #: ulng.rsopenwithmacosfilter
 msgid "Applications (*.app)|*.app|All files (*)|*"
-msgstr ""
+msgstr "응용 프로그램 (*.app)|*.app|모든 파일 (*)|*"
 
 #: ulng.rsopenwithmultimedia
 msgid "Multimedia"
