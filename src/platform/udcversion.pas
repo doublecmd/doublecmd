@@ -43,7 +43,8 @@ var
   DCVersion,   // Double Commander version
   TargetWS,    // Target WidgetSet of Lazarus
   OSVersion,   // Operating System where DC is run
-  WSVersion    // WidgetSet library version where DC is run
+  WSVersion,   // WidgetSet library version where DC is run
+  Copyright
   : String;
 
 procedure InitializeVersionInfo;
@@ -318,6 +319,7 @@ begin
   with TVersionInfo.Create do
   begin
     Load(HINSTANCE);
+    Copyright:= StringFileInfo.Items[0].Values['LegalCopyright'];
     DCVersion:= Format('%d.%d.%.d', [FixedInfo.FileVersion[0],
                                      FixedInfo.FileVersion[1],
                                      FixedInfo.FileVersion[2]]);
