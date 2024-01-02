@@ -3139,7 +3139,7 @@ msgstr "P&omoc"
 
 #: tfrmmain.mnumark.caption
 msgid "&Mark"
-msgstr "&Zaznacz"
+msgstr "Zaz&nacz"
 
 #: tfrmmain.mnunetwork.caption
 msgctxt "tfrmmain.mnunetwork.caption"
