@@ -82,5 +82,5 @@ cp -r highlighters $DC_INSTALL_DIR/
 cp -a *.dylib             $DC_INSTALL_DIR/
 
 # Install instruction
-cp -r -P install/darwin/dmg/. $1
+cp -r install/darwin/dmg/. $1
 
