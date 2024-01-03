@@ -1,6 +1,7 @@
 name: build-snapshot
 
 on:
+  workflow_dispatch:
   push:
     paths:
     - 'components/**'
