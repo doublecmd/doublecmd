@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 1.1.0 alpha\n"
-"POT-Creation-Date: 2023-07-16 21:15+0300\n"
-"PO-Revision-Date: 2023-07-17 00:03+0300\n"
+"POT-Creation-Date: 2023-12-31 21:15+0300\n"
+"PO-Revision-Date: 2024-01-05 00:03+0300\n"
 "Last-Translator: Alexander Koblov <alexx2000@mail.ru>\n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -12647,7 +12647,7 @@ msgstr "Графика"
 
 #: ulng.rsopenwithmacosfilter
 msgid "Applications (*.app)|*.app|All files (*)|*"
-msgstr ""
+msgstr "Приложения (*.app)|*.app|Все файлы (*)|*"
 
 #: ulng.rsopenwithmultimedia
 msgid "Multimedia"
