@@ -184,8 +184,7 @@ begin
   if WSVersion <> EmptyStr then
     DCDebug('Widgetset library: ' + WSVersion);
   DCDebug('This program is free software released under terms of GNU GPL 2');
-  DCDebug('(C)opyright 2006-2023 Alexander Koblov (alexx2000@mail.ru)');
-  DCDebug('   and contributors (see about dialog)');
+  DCDebug(Copyright + LineEnding + '   and contributors (see about dialog)');
 
   Application.ShowMainForm:= False;
   Application.CreateForm(TfrmHackForm, frmHackForm);
