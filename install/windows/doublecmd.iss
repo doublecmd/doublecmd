@@ -3,7 +3,7 @@
 
 [Setup]
 AppName=Double Commander
-AppVerName=Double Commander Beta {#DisplayVersion}
+AppVerName=Double Commander {#DisplayVersion}
 AppVersion={#DisplayVersion}
 AppPublisher=Alexander Koblov
 AppPublisherURL=https://doublecmd.sourceforge.io
