@@ -170,12 +170,33 @@ begin
   end;
 end;
 
+procedure FillLinkProperty(const AFilePath: String; dwAttrs: DWORD; LinkProperty: TFileLinkProperty);
+var
+  LinkAttrs: TFileAttrs;
+begin
+  LinkProperty.LinkTo := ReadSymLink(AFilePath);
+
+  if StrBegins(LinkProperty.LinkTo, 'Volume{') then
+  begin
+    LinkProperty.IsLinkToDirectory := True;
+    LinkProperty.IsValid:= mbDriveReady(AFilePath + PathDelim);
+  end
+  else begin
+    LinkAttrs := mbFileGetAttrNoLinks(AFilePath);
+    LinkProperty.IsValid := LinkAttrs <> faInvalidAttributes;
+    if LinkProperty.IsValid then
+      LinkProperty.IsLinkToDirectory := fpS_ISDIR(LinkAttrs)
+    else begin
+      // On Windows links to directories are marked with Directory flag on the link.
+      LinkProperty.IsLinkToDirectory := fpS_ISDIR(dwAttrs);
+    end;
+  end;
+end;
+
 procedure FillFromFindData(
   AFile: TFile;
   AFilePath: String;
   pFindData: PWIN32FINDDATAW);
-var
-  LinkAttrs: TFileAttrs;
 begin
   with AFile do
   begin
@@ -198,14 +219,7 @@ begin
 
     if fpS_ISLNK(pFindData^.dwFileAttributes) then
     begin
-      LinkAttrs := mbFileGetAttrNoLinks(AFilePath);
-      LinkProperty.LinkTo := ReadSymLink(AFilePath);
-      LinkProperty.IsValid := LinkAttrs <> faInvalidAttributes;
-      if LinkProperty.IsValid then
-        LinkProperty.IsLinkToDirectory := fpS_ISDIR(LinkAttrs)
-      else
-        // On Windows links to directories are marked with Directory flag on the link.
-        LinkProperty.IsLinkToDirectory := fpS_ISDIR(pFindData^.dwFileAttributes);
+      FillLinkProperty(AFilePath, pFindData^.dwFileAttributes, LinkProperty);
     end;
   end;
 end;
@@ -361,11 +375,17 @@ begin
         if LinkProperty.IsLinkToDirectory then SizeProperty.Value := 0;
       end;
 {$ELSE}
-      if LinkProperty.IsValid then
+      if StrBegins(LinkProperty.LinkTo, 'Volume{') then
+      begin
+        LinkProperty.IsLinkToDirectory := True;
+        LinkProperty.IsValid:= mbDriveReady(AFilePath + PathDelim);
+      end
+      else if LinkProperty.IsValid then
         LinkProperty.IsLinkToDirectory := fpS_ISDIR(LinkAttrs)
-      else
+      else begin
         // On Windows links to directories are marked with Directory flag on the link.
         LinkProperty.IsLinkToDirectory := fpS_ISDIR(pSearchRecord^.Attr);
+      end;
 {$ENDIF}
     end;
   end;
@@ -476,7 +496,6 @@ var
 {$ELSEIF DEFINED(MSWINDOWS)}
   FindData: TWIN32FINDDATAW;
   FindHandle: THandle;
-  LinkAttrs: TFileAttrs;
 {$ELSE}
   SearchRec: TSearchRecEx;
 {$ENDIF}
@@ -539,14 +558,7 @@ begin
 
       if fpS_ISLNK(Attrs) then
       begin
-        LinkAttrs := mbFileGetAttrNoLinks(sFullPath);
-        LinkProperty.LinkTo := ReadSymLink(sFullPath);
-        LinkProperty.IsValid := LinkAttrs <> faInvalidAttributes;
-        if LinkProperty.IsValid then
-          LinkProperty.IsLinkToDirectory := fpS_ISDIR(LinkAttrs)
-        else
-          // On Windows links to directories are marked with Directory flag on the link.
-          LinkProperty.IsLinkToDirectory := fpS_ISDIR(Attrs);
+        FillLinkProperty(sFullPath, Attrs, LinkProperty);
       end;
     end;
 
