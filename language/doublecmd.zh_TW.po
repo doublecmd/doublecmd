@@ -33,14 +33,12 @@ msgid "Files found: %d  (Identical: %d, Different: %d, Unique left: %d, Unique r
 msgstr "找到檔案：%d（相同：%d，不同：%d，僅左側有：%d，僅右側有：%d）"
 
 #: fsyncdirsdlg.rslefttorightcopy
-#, object-pascal-format, fuzzy, badformat
 msgid "Left to Right: Copy %d files, total size: %s (%s)"
-msgstr "左邊到右邊：複製 %d 個檔案，合計大小：%d (%s)"
+msgstr "左邊到右邊：複製 %d 個檔案，合計大小：%s (%s)"
 
 #: fsyncdirsdlg.rsrighttoleftcopy
-#, object-pascal-format, fuzzy, badformat
 msgid "Right to Left: Copy %d files, total size: %s (%s)"
-msgstr "右邊到左邊：複製 %d 個檔案，合計大小：%d (%s)"
+msgstr "右邊到左邊：複製 %d 個檔案，合計大小：%s (%s)"
 
 #: tfilesystemcopymoveoperationoptionsui.btnsearchtemplate.hint
 msgid "Choose template..."
@@ -366,7 +364,6 @@ msgid "Verify checksum..."
 msgstr "校驗驗證碼..."
 
 #: tfrmchooseencoding.caption
-#, fuzzy
 msgctxt "tfrmchooseencoding.caption"
 msgid "Encoding"
 msgstr "編碼"
@@ -3853,7 +3850,6 @@ msgid "&Apply"
 msgstr "套用 (&A)"
 
 #: tfrmoptions.btncancel.caption
-#, fuzzy
 #| msgid "Cancel"
 msgctxt "TFRMOPTIONS.BTNCANCEL.CAPTION"
 msgid "&Cancel"
@@ -4129,7 +4125,6 @@ msgid "For the following &paths and their subdirectories:"
 msgstr "在下列路徑及子資料夾時停用更新 (&P):"
 
 #: tfrmoptionsautorefresh.cbwatchfilenamechange.caption
-#, fuzzy
 #| msgid "When files are &created, deleted or renamed"
 msgctxt "TFRMOPTIONSAUTOREFRESH.CBWATCHFILENAMECHANGE.CAPTION"
 msgid "When &files are created, deleted or renamed"
@@ -4151,7 +4146,6 @@ msgid "Refresh file list"
 msgstr "更新檔案清單"
 
 #: tfrmoptionsbehavior.cbalwaysshowtrayicon.caption
-#, fuzzy
 #| msgid "Always show tray icon"
 msgctxt "TFRMOPTIONSBEHAVIOR.CBALWAYSSHOWTRAYICON.CAPTION"
 msgid "Al&ways show tray icon"
@@ -4176,7 +4170,6 @@ msgid "Here you can enter one or more drives or mount points, separated by \";\"
 msgstr "你可以在這裡輸入一個或多個磁碟及掛載位置 (分隔符號\";\")"
 
 #: tfrmoptionsbehavior.lbldrivesblacklist.caption
-#, fuzzy
 #| msgid "Drives blacklist"
 msgid "Drives &blacklist"
 msgstr "磁碟黑名單 (&B) "
@@ -4214,7 +4207,6 @@ msgid "Use &Gradient Indicator"
 msgstr "使用漸層指示器 (&G)"
 
 #: tfrmoptionscolors.dbbinarymode.caption
-#, fuzzy
 msgctxt "tfrmoptionscolors.dbbinarymode.caption"
 msgid "Binary Mode"
 msgstr "二進制模式"
@@ -4241,7 +4233,6 @@ msgid "Background:"
 msgstr ""
 
 #: tfrmoptionscolors.lblbooktext.caption
-#, fuzzy
 msgctxt "tfrmoptionscolors.lblbooktext.caption"
 msgid "Text:"
 msgstr "文字:"
@@ -4288,13 +4279,11 @@ msgid "Left:"
 msgstr ""
 
 #: tfrmoptionscolors.lblmodified.caption
-#, fuzzy
 msgctxt "tfrmoptionscolors.lblmodified.caption"
 msgid "Modified:"
 msgstr "修改時間:"
 
 #: tfrmoptionscolors.lblmodifiedbinary.caption
-#, fuzzy
 msgctxt "tfrmoptionscolors.lblmodifiedbinary.caption"
 msgid "Modified:"
 msgstr "修改時間:"
@@ -4321,7 +4310,6 @@ msgid "Column titles alignment &like values"
 msgstr ""
 
 #: tfrmoptionscolumnsview.cbcuttexttocolwidth.caption
-#, fuzzy
 #| msgid "Cut text to column width"
 msgctxt "TFRMOPTIONSCOLUMNSVIEW.CBCUTTEXTTOCOLWIDTH.CAPTION"
 msgid "Cut &text to column width"
@@ -4332,21 +4320,18 @@ msgid "&Extend cell width if text is not fitting into column"
 msgstr ""
 
 #: tfrmoptionscolumnsview.cbgridhorzline.caption
-#, fuzzy
 #| msgid "Horizontal lines"
 msgctxt "TFRMOPTIONSCOLUMNSVIEW.CBGRIDHORZLINE.CAPTION"
 msgid "&Horizontal lines"
 msgstr "水平列 (&H)"
 
 #: tfrmoptionscolumnsview.cbgridvertline.caption
-#, fuzzy
 #| msgid "Vertical lines"
 msgctxt "TFRMOPTIONSCOLUMNSVIEW.CBGRIDVERTLINE.CAPTION"
 msgid "&Vertical lines"
 msgstr "垂直列 (&V)"
 
 #: tfrmoptionscolumnsview.chkautofillcolumns.caption
-#, fuzzy
 #| msgid "Auto fill columns"
 msgctxt "TFRMOPTIONSCOLUMNSVIEW.CHKAUTOFILLCOLUMNS.CAPTION"
 msgid "A&uto fill columns"
@@ -4361,7 +4346,6 @@ msgid "Auto-size columns"
 msgstr "自動大小欄位"
 
 #: tfrmoptionscolumnsview.lblautosizecolumn.caption
-#, fuzzy
 #| msgid "Auto size column:"
 msgctxt "TFRMOPTIONSCOLUMNSVIEW.LBLAUTOSIZECOLUMN.CAPTION"
 msgid "Auto si&ze column:"
@@ -4452,7 +4436,6 @@ msgid "Thumbnails cache:"
 msgstr ""
 
 #: tfrmoptionsconfiguration.rbprogramdir.caption
-#, fuzzy
 #| msgid "Program directory (portable version)"
 msgctxt "TFRMOPTIONSCONFIGURATION.RBPROGRAMDIR.CAPTION"
 msgid "P&rogram directory (portable version)"
@@ -4464,7 +4447,6 @@ msgid "&User home directory"
 msgstr "個人資料夾 (&U)"
 
 #: tfrmoptionscustomcolumns.btnallallowovercolor.caption
-#, fuzzy
 msgctxt "tfrmoptionscustomcolumns.btnallallowovercolor.caption"
 msgid "All"
 msgstr "全部"
@@ -4475,7 +4457,6 @@ msgid "Apply modification to all columns"
 msgstr ""
 
 #: tfrmoptionscustomcolumns.btnallbackcolor.caption
-#, fuzzy
 msgctxt "tfrmoptionscustomcolumns.btnallbackcolor.caption"
 msgid "All"
 msgstr "全部"
@@ -4486,7 +4467,6 @@ msgid "Apply modification to all columns"
 msgstr ""
 
 #: tfrmoptionscustomcolumns.btnallbackcolor2.caption
-#, fuzzy
 msgctxt "tfrmoptionscustomcolumns.btnallbackcolor2.caption"
 msgid "All"
 msgstr "全部"
@@ -4497,7 +4477,6 @@ msgid "Apply modification to all columns"
 msgstr ""
 
 #: tfrmoptionscustomcolumns.btnallcursorcolor.caption
-#, fuzzy
 msgctxt "tfrmoptionscustomcolumns.btnallcursorcolor.caption"
 msgid "All"
 msgstr "全部"
