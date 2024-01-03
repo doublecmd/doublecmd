@@ -54,7 +54,7 @@ uses
   uArchiveFileSourceUtil,
   uFileSourceOperationMessageBoxesUI,
   uFileProperty, URIParser,
-  WcxPlugin, uWcxModule, uHash;
+  WcxPlugin, uWcxModule, uHash, uSuperUser;
 
 procedure ChooseFile(aFileView: TFileView; aFileSource: IFileSource;
   aFile: TFile);
@@ -306,8 +306,9 @@ end;
 
 procedure ChooseSymbolicLink(aFileView: TFileView; aFile: TFile);
 var
-  SearchRec: TSearchRecEx;
   sPath: String;
+  LastError: Integer;
+  SearchRec: TSearchRecEx;
 begin
   if not aFileView.FileSource.IsClass(TFileSystemFileSource) then
   begin
@@ -317,19 +318,23 @@ begin
 
   sPath:= aFileView.CurrentPath + IncludeTrailingPathDelimiter(aFile.Name);
   try
-    if FindFirstEx(sPath + AllFilesMask, 0, SearchRec) = 0 then
+    LastError:= FindFirstEx(sPath + AllFilesMask, 0, SearchRec);
+    if (LastError = 0) then
       begin
         with aFileView do
         CurrentPath := CurrentPath + IncludeTrailingPathDelimiter(aFile.Name);
       end
-    else
+    else if ElevationRequired(LastError) then
       begin
         sPath:= ReadSymLink(aFile.FullPath);
         if sPath <> EmptyStr then
           aFileView.CurrentPath := IncludeTrailingPathDelimiter(GetAbsoluteFileName(aFileView.CurrentPath, sPath))
         else
           msgError(Format(rsMsgChDirFailed, [aFile.FullPath]));
-      end;
+      end
+    else begin
+      aFileView.ChangePathToChild(aFile);
+    end;
   finally
     FindCloseEx(SearchRec);
   end;
