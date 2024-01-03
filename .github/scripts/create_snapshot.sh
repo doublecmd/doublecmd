@@ -44,8 +44,22 @@ build_doublecmd()
   pushd $BUILD_PACK_DIR
   mv doublecmd.app 'Double Commander.app'
   codesign --deep --force --verify --verbose --sign '-' 'Double Commander.app'
-  hdiutil create -anyowners -volname "Double Commander" -imagekey zlib-level=9 -format UDZO -fs HFS+ -srcfolder "$BUILD_PACK_DIR" $PACK_DIR/doublecmd-$DC_VER-$DC_REVISION.$lcl.$CPU_TARGET.dmg
   popd
+
+  install/darwin/create-dmg/create-dmg \
+    --volname "Double Commander" \
+    --volicon "$BUILD_PACK_DIR/.VolumeIcon.icns" \
+    --background "$BUILD_PACK_DIR/.background/bg.jpg" \
+    --window-pos 200 200 \
+    --window-size 680 366 \
+    --text-size 16 \
+    --icon-size 128 \
+    --icon "Double Commander.app" 110 120 \
+    --app-drop-link 360 120 \
+    --icon "install.txt" 566 123 \
+    --icon ".background" 100 500 \
+    "$PACK_DIR/doublecmd-$DC_VER-$DC_REVISION.$lcl.$CPU_TARGET.dmg" \
+    "$BUILD_PACK_DIR/"
 
   # Clean DC build dir
   ./clean.sh
