@@ -14028,3 +14028,4 @@ msgstr "교체가 이루어지지 않았습니다."
 #, object-pascal-format
 msgid "No setup named \"%s\""
 msgstr "\"%s\"라는 설정이 없습니다"
+

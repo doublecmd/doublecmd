@@ -5246,7 +5246,7 @@ msgid "Alwa&ys expand tree"
 msgstr "Uvek širi stablo fascikli"
 
 #: tfrmoptionsdirectoryhotlist.cbshowonlyvalidenv.caption
-#, fuzzy
+#, fuzzy, badformat
 #| msgid "Show only valid environment variables"
 msgid "Show only &valid environment variables"
 msgstr "Prikazuj samo ispravne %env_var%"

@@ -13837,9 +13837,9 @@ msgid "Complete filename (path+filename)"
 msgstr "Volledige bestandsnaam (pad+bestandsnaam)"
 
 #: ulng.rsvarhelpwith
-#, fuzzy, badformat
+#, fuzzy
 msgid "Help with \"%\" variables"
-msgstr "Hulp voor '%s' variabelen"
+msgstr "Hulp voor '%' variabelen"
 
 #: ulng.rsvarinputparam
 msgid "Will request request user to enter a parameter with a default suggested value"
