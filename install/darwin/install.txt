@@ -1,4 +1,0 @@
-Move "Double Commander.app" into "/Applications"
-and run the following command in the Terminal:
-
-xattr -cr "/Applications/Double Commander.app/"

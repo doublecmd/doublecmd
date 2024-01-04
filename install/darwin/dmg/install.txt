@@ -1,4 +1,15 @@
-Move "Double Commander.app" into "/Applications"
-and run the following command in the Terminal:
+after moving "Double Commander.app" into "/Applications"
+
+run the following command in the Terminal:
 
 xattr -cr "/Applications/Double Commander.app/"
+
+
+Official Homepage:
+https://doublecmd.sourceforge.io
+
+Github:
+https://github.com/doublecmd/doublecmd
+
+Bug Report:
+https://github.com/doublecmd/doublecmd/issues
