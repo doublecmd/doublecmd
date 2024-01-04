@@ -2834,6 +2834,14 @@ msgctxt "TFRMMAIN.ACTSHOWSYSFILES.CAPTION"
 msgid "Show &Hidden/System Files"
 msgstr "По&казать скрытые/системные файлы"
 
+#: tfrmmain.actshowtabslist.caption
+msgid "Show Tabs List"
+msgstr "Показать список вкладок"
+
+#: tfrmmain.actshowtabslist.hint
+msgid "Show list of all open tabs"
+msgstr "Показать список всех открытых вкладок"
+
 #: tfrmmain.actsortbyattr.caption
 msgid "Sort by &Attributes"
 msgstr "Сортировать по &атрибутам"

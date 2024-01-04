@@ -2777,6 +2777,14 @@ msgstr "Menu"
 msgid "Show &Hidden/System Files"
 msgstr "Pokaż pliki &ukryte/systemowe"
 
+#: tfrmmain.actshowtabslist.caption
+msgid "Show Tabs List"
+msgstr ""
+
+#: tfrmmain.actshowtabslist.hint
+msgid "Show list of all open tabs"
+msgstr ""
+
 #: tfrmmain.actsortbyattr.caption
 msgid "Sort by &Attributes"
 msgstr "Sortuj wg &Atrybutów"

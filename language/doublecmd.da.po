@@ -2987,6 +2987,14 @@ msgstr "Menu"
 msgid "Show &Hidden/System Files"
 msgstr "Vis skj&ulte/system-filer"
 
+#: tfrmmain.actshowtabslist.caption
+msgid "Show Tabs List"
+msgstr ""
+
+#: tfrmmain.actshowtabslist.hint
+msgid "Show list of all open tabs"
+msgstr ""
+
 # Vis
 #: tfrmmain.actsortbyattr.caption
 msgid "Sort by &Attributes"

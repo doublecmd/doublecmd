@@ -33,10 +33,12 @@ msgid "Files found: %d  (Identical: %d, Different: %d, Unique left: %d, Unique r
 msgstr "找到檔案：%d（相同：%d，不同：%d，僅左側有：%d，僅右側有：%d）"
 
 #: fsyncdirsdlg.rslefttorightcopy
+#, object-pascal-format
 msgid "Left to Right: Copy %d files, total size: %s (%s)"
 msgstr "左邊到右邊：複製 %d 個檔案，合計大小：%s (%s)"
 
 #: fsyncdirsdlg.rsrighttoleftcopy
+#, object-pascal-format
 msgid "Right to Left: Copy %d files, total size: %s (%s)"
 msgstr "右邊到左邊：複製 %d 個檔案，合計大小：%s (%s)"
 
@@ -2825,6 +2827,14 @@ msgctxt "TFRMMAIN.ACTSHOWSYSFILES.CAPTION"
 msgid "Show &Hidden/System Files"
 msgstr "顯示/隱藏系統檔案 (&H)"
 
+#: tfrmmain.actshowtabslist.caption
+msgid "Show Tabs List"
+msgstr ""
+
+#: tfrmmain.actshowtabslist.hint
+msgid "Show list of all open tabs"
+msgstr ""
+
 #: tfrmmain.actsortbyattr.caption
 msgid "Sort by &Attributes"
 msgstr "依屬性排序 (&A)"
@@ -3850,7 +3860,6 @@ msgid "&Apply"
 msgstr "套用 (&A)"
 
 #: tfrmoptions.btncancel.caption
-#| msgid "Cancel"
 msgctxt "TFRMOPTIONS.BTNCANCEL.CAPTION"
 msgid "&Cancel"
 msgstr "取消 (&C)"
@@ -4125,7 +4134,6 @@ msgid "For the following &paths and their subdirectories:"
 msgstr "在下列路徑及子資料夾時停用更新 (&P):"
 
 #: tfrmoptionsautorefresh.cbwatchfilenamechange.caption
-#| msgid "When files are &created, deleted or renamed"
 msgctxt "TFRMOPTIONSAUTOREFRESH.CBWATCHFILENAMECHANGE.CAPTION"
 msgid "When &files are created, deleted or renamed"
 msgstr "當檔案建立,刪除或重新命名時更新 (&F)"
@@ -4146,7 +4154,6 @@ msgid "Refresh file list"
 msgstr "更新檔案清單"
 
 #: tfrmoptionsbehavior.cbalwaysshowtrayicon.caption
-#| msgid "Always show tray icon"
 msgctxt "TFRMOPTIONSBEHAVIOR.CBALWAYSSHOWTRAYICON.CAPTION"
 msgid "Al&ways show tray icon"
 msgstr "總是顯示通知區域圖示 (&W)"
@@ -4170,7 +4177,6 @@ msgid "Here you can enter one or more drives or mount points, separated by \";\"
 msgstr "你可以在這裡輸入一個或多個磁碟及掛載位置 (分隔符號\";\")"
 
 #: tfrmoptionsbehavior.lbldrivesblacklist.caption
-#| msgid "Drives blacklist"
 msgid "Drives &blacklist"
 msgstr "磁碟黑名單 (&B) "
 
@@ -4310,7 +4316,6 @@ msgid "Column titles alignment &like values"
 msgstr ""
 
 #: tfrmoptionscolumnsview.cbcuttexttocolwidth.caption
-#| msgid "Cut text to column width"
 msgctxt "TFRMOPTIONSCOLUMNSVIEW.CBCUTTEXTTOCOLWIDTH.CAPTION"
 msgid "Cut &text to column width"
 msgstr "依欄寬裁剪文字 (&T)"
@@ -4320,19 +4325,16 @@ msgid "&Extend cell width if text is not fitting into column"
 msgstr ""
 
 #: tfrmoptionscolumnsview.cbgridhorzline.caption
-#| msgid "Horizontal lines"
 msgctxt "TFRMOPTIONSCOLUMNSVIEW.CBGRIDHORZLINE.CAPTION"
 msgid "&Horizontal lines"
 msgstr "水平列 (&H)"
 
 #: tfrmoptionscolumnsview.cbgridvertline.caption
-#| msgid "Vertical lines"
 msgctxt "TFRMOPTIONSCOLUMNSVIEW.CBGRIDVERTLINE.CAPTION"
 msgid "&Vertical lines"
 msgstr "垂直列 (&V)"
 
 #: tfrmoptionscolumnsview.chkautofillcolumns.caption
-#| msgid "Auto fill columns"
 msgctxt "TFRMOPTIONSCOLUMNSVIEW.CHKAUTOFILLCOLUMNS.CAPTION"
 msgid "A&uto fill columns"
 msgstr "自動填滿欄位 (&U)"
@@ -4346,7 +4348,6 @@ msgid "Auto-size columns"
 msgstr "自動大小欄位"
 
 #: tfrmoptionscolumnsview.lblautosizecolumn.caption
-#| msgid "Auto size column:"
 msgctxt "TFRMOPTIONSCOLUMNSVIEW.LBLAUTOSIZECOLUMN.CAPTION"
 msgid "Auto si&ze column:"
 msgstr "自動大小欄位 (&Z):"
@@ -4436,7 +4437,6 @@ msgid "Thumbnails cache:"
 msgstr ""
 
 #: tfrmoptionsconfiguration.rbprogramdir.caption
-#| msgid "Program directory (portable version)"
 msgctxt "TFRMOPTIONSCONFIGURATION.RBPROGRAMDIR.CAPTION"
 msgid "P&rogram directory (portable version)"
 msgstr "程式資料夾 (可攜版) (&R)"

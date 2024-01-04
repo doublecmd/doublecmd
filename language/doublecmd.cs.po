@@ -2800,6 +2800,14 @@ msgstr "Nabídka"
 msgid "Show &Hidden/System Files"
 msgstr "&Zobrazit skryté/systémové soubory"
 
+#: tfrmmain.actshowtabslist.caption
+msgid "Show Tabs List"
+msgstr ""
+
+#: tfrmmain.actshowtabslist.hint
+msgid "Show list of all open tabs"
+msgstr ""
+
 #: tfrmmain.actsortbyattr.caption
 msgid "Sort by &Attributes"
 msgstr "Řadit podle &atributů"
