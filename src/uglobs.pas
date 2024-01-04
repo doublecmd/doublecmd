@@ -173,7 +173,7 @@ type
 
 const
   { Default hotkey list version number }
-  hkVersion = 61;
+  hkVersion = 62;
   // 54 - In "Viewer" context, added the "W" for "cm_WrapText", "4" for "cm_ShowAsDec", "8" for "cm_ShowOffice".
   // 53 - In "Main" context, change shortcut "Alt+`" to "Alt+0" for the "cm_ActivateTabByIndex".
   // 52 - In "Main" context, add shortcut "Ctrl+Shift+B" for "cm_FlatViewSel".
@@ -1106,6 +1106,7 @@ begin
       AddIfNotExists(['Ctrl+PgDn'],[],'cm_OpenArchive');
       AddIfNotExists(['Ctrl+PgUp'],[],'cm_ChangeDirToParent');
       AddIfNotExists(['Ctrl+Alt+Enter'],[],'cm_ShellExecute');
+      AddIfNotExists(['Ctrl+Shift+A'],[],'cm_ShowTabsList');
       AddIfNotExists(['Ctrl+Shift+B'],[],'cm_FlatViewSel');
       AddIfNotExists(['Ctrl+Shift+C'],[],'cm_CopyFullNamesToClip');
       AddIfNotExists(['Ctrl+Shift+D'],[],'cm_ConfigDirHotList');

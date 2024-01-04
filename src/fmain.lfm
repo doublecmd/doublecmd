@@ -2841,6 +2841,13 @@ object frmMain: TfrmMain
       Caption = 'Save all shown columns to file'
       OnExecute = actExecute
     end
+    object actShowTabsList: TAction
+      Tag = 21
+      Category = 'Tabs'
+      Caption = 'Show Tabs List'
+      Hint = 'Show list of all open tabs'
+      OnExecute = actExecute
+    end
   end
   object pmHotList: TPopupMenu
     Images = imgLstDirectoryHotlist

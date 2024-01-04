@@ -90,7 +90,7 @@ type
   end;
 
 const
-  NUMBEROFCOMMANDS = 461;
+  NUMBEROFCOMMANDS = 465;
 
   //jcf:format=off
   COMMANDS_LIST_TC: array[1..NUMBEROFCOMMANDS] of TTCommandEquivalence =
@@ -434,6 +434,10 @@ const
     (TCCommand: 'cm_ToggleLockDcaCurrentTab';   TCIcon: -1; DCCommand: '';                          DCParameters: ''          ), //Same but with dir changes allowed
     (TCCommand: 'cm_ExchangeWithTabs';          TCIcon: 37; DCCommand: '';                          DCParameters: ''          ), //Swap all Tabs
     (TCCommand: 'cm_GoToLockedDir';             TCIcon: -1; DCCommand: '';                          DCParameters: ''          ), //Go to the base dir of locked tab
+    (TCCommand: 'cm_SrcTabsList';               TCIcon: -1; DCCommand: 'cm_ShowTabsList';           DCParameters: ''             ), //Source: Show list of all open tabs
+    (TCCommand: 'cm_TrgTabsList';               TCIcon: -1; DCCommand: 'cm_ShowTabsList';           DCParameters: 'side=inactive'), //Target: Show list of all open tabs
+    (TCCommand: 'cm_LeftTabsList';              TCIcon: -1; DCCommand: 'cm_ShowTabsList';           DCParameters: 'side=left'    ), //Left: Show list of all open tabs
+    (TCCommand: 'cm_RightTabsList';             TCIcon: -1; DCCommand: 'cm_ShowTabsList';           DCParameters: 'side=right'   ), //Right: Show list of all open tabs
     (TCCommand: 'cm_SrcActivateTab1';           TCIcon: -1; DCCommand: 'cm_ActivateTabByIndex';     DCParameters: 'index=1'   ), //Activate first tab
     (TCCommand: 'cm_SrcActivateTab2';           TCIcon: -1; DCCommand: 'cm_ActivateTabByIndex';     DCParameters: 'index=2'   ), //Activate second tab
     (TCCommand: 'cm_SrcActivateTab3';           TCIcon: -1; DCCommand: 'cm_ActivateTabByIndex';     DCParameters: 'index=3'   ), //(Source window)

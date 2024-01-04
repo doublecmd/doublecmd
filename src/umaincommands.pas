@@ -43,6 +43,7 @@ type
   private
    FCommands: TFormCommands;
    FOriginalNumberOfTabs: integer;
+   FTabsMenu: TPopupMenu;
 
    // Helper routines
    procedure TryGetParentDir(FileView: TFileView; var SelectedFiles: TFiles);
@@ -76,6 +77,7 @@ type
    procedure DoCopySelectedFileNamesToClipboard(FileView: TFileView; TypeOfCopy: TCopyFileNamesToClipboard; const Params: array of string);
    procedure DoNewTab(Notebook: TFileViewNotebook);
    procedure DoRenameTab(Page: TFileViewPage);
+   procedure DoTabMenuClick(Sender: TObject);
    procedure DoContextMenu(Panel: TFileView; X, Y: Integer; Background: Boolean; UserWishForContextMenu:TUserWishForContextMenu = uwcmComplete);
    procedure DoTransferPath(SourceFrame: TFileView; TargetNotebook: TFileViewNotebook); overload;
    procedure DoTransferPath(SourcePage: TFileViewPage; TargetPage: TFileViewPage; FromActivePanel: Boolean);
@@ -213,6 +215,7 @@ type
    procedure cm_PrevTab(const Params: array of string);
    procedure cm_MoveTabLeft(const Params: array of string);
    procedure cm_MoveTabRight(const Params: array of string);
+   procedure cm_ShowTabsList(const Params: array of string);
    procedure cm_ActivateTabByIndex(const Params: array of string);
    procedure cm_SaveTabs(const Params: array of string);
    procedure cm_LoadTabs(const Params: array of string);
@@ -699,6 +702,13 @@ begin
   sCaption := Page.CurrentTitle;
   if InputQuery(rsMsgTabRenameCaption, rsMsgTabRenamePrompt, sCaption) then
     Page.PermanentTitle := sCaption;
+end;
+
+procedure TMainCommands.DoTabMenuClick(Sender: TObject);
+var
+  MenuItem: TMenuItem absolute Sender;
+begin
+  TFileViewNotebook(FTabsMenu.PopupComponent).ActivateTabByIndex(MenuItem.Tag);
 end;
 
 procedure TMainCommands.DoOpenVirtualFileSystemList(Panel: TFileView);
@@ -1762,6 +1772,46 @@ procedure TMainCommands.cm_MoveTabRight(const Params: array of string);
 begin
   with frmMain.ActiveNotebook.ActivePage do
     PageIndex:= PageIndex + 1;
+end;
+
+procedure TMainCommands.cm_ShowTabsList(const Params: array of string);
+var
+  ARect: TRect;
+  Param: String;
+  Index: Integer;
+  AValue: String;
+  APoint: TPoint;
+  MenuItem: TMenuItem;
+  ANotebook: TFileViewNotebook;
+begin
+  ANotebook:= frmMain.ActiveNotebook;
+  for Param in Params do
+  begin
+    if GetParamValue(Param, 'side', AValue) then
+    begin
+      if AValue = 'left' then ANotebook:= frmMain.LeftTabs
+      else if AValue = 'right' then ANotebook:= frmMain.RightTabs
+      else if AValue = 'inactive' then ANotebook:= frmMain.NotActiveNotebook;
+    end
+  end;
+  if (FTabsMenu = nil) then
+  begin
+    FTabsMenu:= TPopupMenu.Create(Self);
+  end;
+  FTabsMenu.Items.Clear;
+  FTabsMenu.PopupComponent:= ANotebook;
+  for Index:= 0 to ANotebook.PageCount - 1 do
+  begin
+    MenuItem:= TMenuItem.Create(FTabsMenu);
+    MenuItem.Tag:= Index;
+    MenuItem.Caption:= ANotebook.Page[Index].Caption;
+    MenuItem.OnClick:= @DoTabMenuClick;
+    FTabsMenu.Items.Add(MenuItem);
+  end;
+  ARect:= ANotebook.TabRect(ANotebook.PageIndex);
+  APoint:= Classes.Point(ARect.Left, ARect.Bottom);
+  APoint:= ANotebook.ClientToScreen(APoint);
+  FTabsMenu.PopUp(APoint.X, APoint.Y);
 end;
 
 procedure TMainCommands.cm_ActivateTabByIndex(const Params: array of string);
