@@ -906,11 +906,8 @@ begin
 
         if (iPartId <> HP_HEADERITEMRIGHT) then
         begin
-          LCanvas.Pen.Color:= Lighter(AColor, 104);
-          LCanvas.Line(pRect.Right-1, pRect.Top, pRect.Right-1, pRect.Bottom);
-
           LCanvas.Pen.Color:= Lighter(AColor, 158);
-          LCanvas.Line(pRect.Right - 2, pRect.Top, pRect.Right - 2, pRect.Bottom);
+          LCanvas.Line(pRect.Right - 1, pRect.Top, pRect.Right - 1, pRect.Bottom);
         end;
         // Top line
         LCanvas.Pen.Color:= Lighter(AColor, 164);
