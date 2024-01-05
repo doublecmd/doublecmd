@@ -3,7 +3,7 @@
     -------------------------------------------------------------------------
     About dialog
 
-    Copyright (C) 2006-2023 Alexander Koblov (alexx2000@mail.ru)
+    Copyright (C) 2006-2024 Alexander Koblov (alexx2000@mail.ru)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -106,8 +106,9 @@ const
     '- Tango Icon Library (http://tango.freedesktop.org/Tango_Icon_Library)' + LineEnding +
     '- Silk icon set 1.3 by Mark James (http://www.famfamfam.com/lab/icons/silk/)' + LineEnding +
     '- Elementary icon theme 2.7.1 (https://github.com/elementary/icons)' + LineEnding +
+    '- Adwaita Icon Theme (https://gitlab.gnome.org/GNOME/adwaita-icon-theme)' + LineEnding +
     '- Farm-Fresh Web Icons (https://www.fatcow.com/free-icons)' + LineEnding +
-    '- Oxygen icon theme (http://oxygen-icons.org)' + LineEnding + LineEnding +
+    '- Oxygen icon theme (https://invent.kde.org/frameworks/oxygen-icons)' + LineEnding + LineEnding +
     'Big thanks to Lazarus and Free Pascal Team!';
 
 procedure ShowAboutBox(TheOwner: TComponent);
