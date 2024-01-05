@@ -44,6 +44,7 @@ type
     MarkColor,
     CursorColor,
     CursorText,
+    GridLine,
     InactiveCursorColor,
     InactiveMarkColor: TColor;
   end;
@@ -249,6 +250,7 @@ begin
     MarkColor := clRed;
     CursorColor := clHighlight;
     CursorText := clHighlightText;
+    GridLine := clSilver;
     InactiveCursorColor := clInactiveCaption;
     InactiveMarkColor := clMaroon;
   end;
@@ -311,6 +313,10 @@ begin
   FColors[1]:= TColorTheme.Create;
   FColors[1].Assign(FColors[0]);
 
+  with FColors[1].FilePanel do
+  begin
+    GridLine:= $484848;
+  end;
   with FColors[1].Log do
   begin
     InfoColor:= $C09B61;
@@ -471,6 +477,7 @@ begin
     Group.Add('MarkColor', ColorTheme.FilePanel.MarkColor);
     Group.Add('CursorColor', ColorTheme.FilePanel.CursorColor);
     Group.Add('CursorText', ColorTheme.FilePanel.CursorText);
+    Group.Add('GridLine', ColorTheme.FilePanel.GridLine);
     Group.Add('InactiveCursorColor', ColorTheme.FilePanel.InactiveCursorColor);
     Group.Add('InactiveMarkColor', ColorTheme.FilePanel.InactiveMarkColor);
 
@@ -570,6 +577,7 @@ begin
         MarkColor:= Group.Get('MarkColor', MarkColor);
         CursorColor:= Group.Get('CursorColor', CursorColor);
         CursorText:= Group.Get('CursorText', CursorText);
+        GridLine:= Group.Get('GridLine', GridLine);
         InactiveCursorColor:= Group.Get('InactiveCursorColor', InactiveCursorColor);
         InactiveMarkColor:= Group.Get('InactiveMarkColor', InactiveMarkColor);
       end;

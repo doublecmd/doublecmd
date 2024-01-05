@@ -206,6 +206,8 @@ type
     procedure LoadConfiguration(AConfig: TXmlConfig; ANode: TXmlNode); override;
     procedure SaveConfiguration(AConfig: TXmlConfig; ANode: TXmlNode; ASaveHistory:boolean); override;
 
+    procedure UpdateColor; override;
+
     procedure UpdateColumnsView;
     procedure SetColumnSet(const AName: String);
     procedure SetGridFunctionDim(ExternalDimFunction:TFunctionDime);
@@ -310,6 +312,12 @@ begin
     if (FileSystem = EmptyStr) or (FileSystem = FS_GENERAL) then
       AConfig.SetValue(ANode, 'ColumnsSet', ActiveColm);
   end;
+end;
+
+procedure TColumnsFileView.UpdateColor;
+begin
+  inherited UpdateColor;
+  dgPanel.GridLineColor:= gColors.FilePanel^.GridLine;
 end;
 
 procedure TColumnsFileView.dgPanelHeaderClick(Sender: TObject;
