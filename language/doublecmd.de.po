@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Double Commander 1.1.0 alpha\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-11-15 11:15+0300\n"
-"PO-Revision-Date: 2023-12-14 13:37+0100\n"
+"PO-Revision-Date: 2024-01-05 09:11+0100\n"
 "Last-Translator: ㋡ <braass@mail.de>\n"
 "Language-Team: Deutsch <braass@mail.de>\n"
 "MIME-Version: 1.0\n"
@@ -2812,11 +2812,11 @@ msgstr "Versteckte und Systemdateien anzeigen"
 
 #: tfrmmain.actshowtabslist.caption
 msgid "Show Tabs List"
-msgstr ""
+msgstr "Tab-Liste anzeigen"
 
 #: tfrmmain.actshowtabslist.hint
 msgid "Show list of all open tabs"
-msgstr ""
+msgstr "Liste aller offenen Tabs anzeigen"
 
 #: tfrmmain.actsortbyattr.caption
 msgid "Sort by &Attributes"
@@ -10989,7 +10989,7 @@ msgstr "Dienste"
 
 #: ulng.rsmenumacosshare
 msgid "Share..."
-msgstr "Teilen..."
+msgstr "Teilen ..."
 
 #: ulng.rsmnuactions
 msgctxt "ulng.rsmnuactions"
@@ -12579,8 +12579,9 @@ msgid "Graphics"
 msgstr "Grafik"
 
 #: ulng.rsopenwithmacosfilter
+#, fuzzy
 msgid "Applications (*.app)|*.app|All files (*)|*"
-msgstr ""
+msgstr "Anwendungen (*.app) | *.app | Alle Dateien (*) | *"
 
 #: ulng.rsopenwithmultimedia
 msgid "Multimedia"
