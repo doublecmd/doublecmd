@@ -8235,7 +8235,7 @@ msgstr "Сортировать типы файлов"
 
 #: tfrmoptionstreeviewmenu.ckbdirectoryhotlistfromdoubleclick.caption
 msgid "With double-click on the bar on top of a file panel"
-msgstr "Двойной щелчок по верхней полосе файловой панели"
+msgstr "Двойной щелчок по панели текущего пути"
 
 #: tfrmoptionstreeviewmenu.ckbdirectoryhotlistfrommenucommand.caption
 msgctxt "tfrmoptionstreeviewmenu.ckbdirectoryhotlistfrommenucommand.caption"
