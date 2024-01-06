@@ -421,27 +421,36 @@ begin
   end;
 end;
 
+// Context Menu / Open with / Other...
+function getOtherAppFromDialog(): String;
+var
+  appDialog: TOpenDialog;
+begin
+  Result:= '';
+  appDialog:= TOpenDialog.Create(nil);
+  appDialog.DefaultExt:= 'app';
+  appDialog.InitialDir:= '/Applications';
+  appDialog.Filter:= rsOpenWithMacOSFilter;
+  if appDialog.Execute and (NOT appDialog.FileName.IsEmpty) then begin
+    Result:= appDialog.FileName;
+  end;
+  FreeAndNil( appDialog );
+end;
+
 procedure TShellContextMenu.OpenWithMenuItemSelect(Sender: TObject);
 var
-  ExecCmd: String;
-  appDialog: TOpenDialog;
+  appPath: String;
   launchParam: LSLaunchURLSpec;
 begin
-  ExecCmd := (Sender as TMenuItem).Hint;
+  appPath := (Sender as TMenuItem).Hint;
 
-  if ExecCmd.IsEmpty then begin
-    // Context Menu / Open with / Other...
-    appDialog:= TOpenDialog.Create(self);
-    appDialog.DefaultExt:= 'app';
-    appDialog.InitialDir:= '/Applications';
-    appDialog.Filter:= rsOpenWithMacOSFilter;
-    if appDialog.Execute and (NOT appDialog.FileName.IsEmpty) then begin
-      ExecCmd:= QuoteStr(appDialog.FileName);
-    end;
-    FreeAndNil(appDialog);
+  if appPath.IsEmpty then begin
+    appPath:= getOtherAppFromDialog;
+    if appPath.IsEmpty then
+      Exit;
   end;
 
-  launchParam.appURL:= CFURLRef( NSUrl.fileURLWithPath(StringToNSString(ExecCmd)) );
+  launchParam.appURL:= CFURLRef( NSUrl.fileURLWithPath(StringToNSString(appPath)) );
   launchParam.itemURLs:= CFArrayRef( filesToNSUrlArray(FFiles) );
   launchParam.launchFlags:= 0;
   launchParam.asyncRefCon:= nil;
@@ -516,7 +525,7 @@ begin
       appUrl:= NSURL( appArray.objectAtIndex(I) );
       mi:= TMenuItem.Create( miOpenWith );
       mi.Caption:= NSFileManager.defaultManager.displayNameAtPath(appUrl.path).UTF8String;
-      mi.Hint := QuoteStr(appUrl.path.UTF8String);
+      mi.Hint := appUrl.path.UTF8String;
       ImageIndex:= PixMapManager.GetApplicationBundleIcon(appUrl.path.UTF8String, -1);
       if ImageIndex >= 0 then begin
         bmpTemp:= PixMapManager.GetBitmap(ImageIndex);
