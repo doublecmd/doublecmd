@@ -362,16 +362,31 @@ begin
 {$ENDIF}
 end;
 
+{$IF DEFINED(DARWIN)}
+function filesToNSUrlArray( const files:TFiles ): NSArray;
+var
+  theArray: NSMutableArray;
+  theFile: TFile;
+  path: String;
+  url: NSUrl;
+begin
+  theArray:= NSMutableArray.arrayWithCapacity( files.Count );
+  for theFile in files.List do begin
+    path:= theFile.FullPath;
+    url:= NSUrl.fileURLWithPath( StringToNSString(path) );
+    theArray.addObject( url );
+  end;
+  Result:= theArray;
+end;
+
 procedure TShellContextMenu.OpenWithMenuItemSelect(Sender: TObject);
 var
   ExecCmd: String;
-{$IFDEF DARWIN}
   appDialog: TOpenDialog;
-{$ENDIF}
+  launchParam: LSLaunchURLSpec;
 begin
   ExecCmd := (Sender as TMenuItem).Hint;
 
-{$IFDEF DARWIN}
   if ExecCmd.IsEmpty then begin
     // Context Menu / Open with / Other...
     appDialog:= TOpenDialog.Create(self);
@@ -379,24 +394,19 @@ begin
     appDialog.InitialDir:= '/Applications';
     appDialog.Filter:= rsOpenWithMacOSFilter;
     if appDialog.Execute and (NOT appDialog.FileName.IsEmpty) then begin
-      ExecCmd:= QuoteStr(appDialog.FileName) + #32 + QuoteStr(FFiles[0].FullPath);
+      ExecCmd:= QuoteStr(appDialog.FileName);
     end;
     FreeAndNil(appDialog);
   end;
-{$ENDIF}
 
-  if ExecCmd.IsEmpty then
-    Exit;
-
-  try
-    ExecCmdFork(ExecCmd);
-  except
-    on e: EInvalidCommandLine do
-      MessageDlg(rsMsgErrorInContextMenuCommand, rsMsgInvalidCommandLine + ': ' + e.Message, mtError, [mbOK], 0);
-  end;
+  launchParam.appURL:= CFURLRef( NSUrl.fileURLWithPath(StringToNSString(ExecCmd)) );
+  launchParam.itemURLs:= CFArrayRef( filesToNSUrlArray(FFiles) );
+  launchParam.launchFlags:= 0;
+  launchParam.asyncRefCon:= nil;
+  launchParam.passThruParams:= nil;
+  LSOpenFromURLSpec( launchParam, nil );
 end;
 
-{$IF DEFINED(DARWIN)}
 function OpenWithComparator(param1:id; param2:id; theArray: pointer): NSInteger; cdecl;
 var
   fileManager: NSFileManager;
@@ -410,6 +420,25 @@ begin
   string1:= fileManager.displayNameAtPath( param1.path );
   string2:= fileManager.displayNameAtPath( param2.path );
   Result:= string1.localizedStandardCompare( string2 );
+end;
+
+{$ELSE}
+
+procedure TShellContextMenu.OpenWithMenuItemSelect(Sender: TObject);
+var
+  ExecCmd: String;
+begin
+  ExecCmd := (Sender as TMenuItem).Hint;
+
+  if ExecCmd.IsEmpty then
+    Exit;
+
+  try
+    ExecCmdFork(ExecCmd);
+  except
+    on e: EInvalidCommandLine do
+      MessageDlg(rsMsgErrorInContextMenuCommand, rsMsgInvalidCommandLine + ': ' + e.Message, mtError, [mbOK], 0);
+  end;
 end;
 {$ENDIF}
 
@@ -451,7 +480,7 @@ begin
         appUrl:= NSURL( appArray.objectAtIndex(I) );
         mi:= TMenuItem.Create( miOpenWith );
         mi.Caption:= NSFileManager.defaultManager.displayNameAtPath(appUrl.path).UTF8String;
-        mi.Hint := QuoteStr(appUrl.path.UTF8String) + #32 + QuoteStr(FFiles[0].FullPath);
+        mi.Hint := QuoteStr(appUrl.path.UTF8String);
         ImageIndex:= PixMapManager.GetApplicationBundleIcon(appUrl.path.UTF8String, -1);
         if ImageIndex >= 0 then begin
           bmpTemp:= PixMapManager.GetBitmap(ImageIndex);
