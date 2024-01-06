@@ -379,6 +379,48 @@ begin
   Result:= theArray;
 end;
 
+function getAppArrayFromFiles( const files:TFiles ): NSArray;
+const
+  ROLE_MASK = kLSRolesViewer or kLSRolesEditor or kLSRolesShell;
+var
+  theFile: TFile;
+  path: String;
+  url: NSUrl;
+
+  appSet: NSMutableSet = nil;
+  newSet: NSSet;
+  appArray: NSMutableArray;
+  newArray: NSArray;
+  defaultAppUrl: NSUrl = nil;
+begin
+  Result:= nil;
+  try
+    for theFile in files.List do begin
+      path:= theFile.FullPath;
+      url:= NSUrl.fileURLWithPath( StringToNSString(path) );
+      newArray:= NSArray( LSCopyApplicationURLsForURL(CFURLRef(url), ROLE_MASK) );
+      newSet:= NSSet.setWithArray( newArray );
+      if Assigned(appSet) then begin
+        appSet.intersectSet( newSet );
+      end else begin
+        appSet:= NSMutableSet.alloc.initWithSet( newSet );
+        if newArray.count > 0 then
+          defaultAppUrl:= newArray.objectAtIndex(0);
+      end;
+      newArray.release;
+    end;
+
+    appArray:= NSMutableArray.arrayWithArray( appSet.allObjects );
+    if appArray.containsObject(defaultAppUrl) then begin
+      appArray.removeObject( defaultAppUrl );
+      appArray.insertObject_atIndex( defaultAppUrl, 0 );
+    end;
+    Result:= appArray;
+  finally
+    appSet.release;
+  end;
+end;
+
 procedure TShellContextMenu.OpenWithMenuItemSelect(Sender: TObject);
 var
   ExecCmd: String;
@@ -444,8 +486,6 @@ end;
 
 function TShellContextMenu.FillOpenWithSubMenu: Boolean;
 {$IF DEFINED(DARWIN)}
-const
-  ROLE_MASK = kLSRolesViewer or kLSRolesEditor or kLSRolesShell;
 var
   I: Integer;
   ImageIndex: PtrInt;
@@ -454,63 +494,55 @@ var
 
   appRawArray: NSArray;
   appArray: NSArray;
-  contextFileUrl: NSURL;
   appUrl: NSURL;
 begin
   Result:= False;
-  if FFiles.Count<>1
-    then Exit;
+  if FFiles.Count=0 then
+    Exit;
 
-  try
-    contextFileUrl:= NSURL.fileURLWithPath( StringToNSString(FFiles[0].FullPath) );
-    appRawArray:= NSArray( LSCopyApplicationURLsForURL(
-                             CFURLRef(contextFileUrl), ROLE_MASK) );
+  appRawArray:= getAppArrayFromFiles( FFiles );
 
-    miOpenWith:= TMenuItem.Create(Self);
-    miOpenWith.Caption:= rsMnuOpenWith;
+  miOpenWith:= TMenuItem.Create(Self);
+  miOpenWith.Caption:= rsMnuOpenWith;
 
-    if Assigned(appRawArray) and (appRawArray.count>0) then begin
-      FMenuImageList := TImageList.Create(nil);
-      miOpenWith.SubMenuImages := FMenuImageList;
+  if Assigned(appRawArray) and (appRawArray.count>0) then begin
+    FMenuImageList := TImageList.Create(nil);
+    miOpenWith.SubMenuImages := FMenuImageList;
 
-      appArray := appRawArray.sortedArrayUsingFunction_context(
-        @OpenWithComparator, appRawArray );
+    appArray := appRawArray.sortedArrayUsingFunction_context(
+      @OpenWithComparator, appRawArray );
 
-      for I:= 0 to appArray.count-1 do begin
-        appUrl:= NSURL( appArray.objectAtIndex(I) );
-        mi:= TMenuItem.Create( miOpenWith );
-        mi.Caption:= NSFileManager.defaultManager.displayNameAtPath(appUrl.path).UTF8String;
-        mi.Hint := QuoteStr(appUrl.path.UTF8String);
-        ImageIndex:= PixMapManager.GetApplicationBundleIcon(appUrl.path.UTF8String, -1);
-        if ImageIndex >= 0 then begin
-          bmpTemp:= PixMapManager.GetBitmap(ImageIndex);
-          if Assigned(bmpTemp) then begin
-            mi.ImageIndex:=FMenuImageList.Count;
-            FMenuImageList.Add( bmpTemp , nil );
-            FreeAndNil(bmpTemp);
-          end;
+    for I:= 0 to appArray.count-1 do begin
+      appUrl:= NSURL( appArray.objectAtIndex(I) );
+      mi:= TMenuItem.Create( miOpenWith );
+      mi.Caption:= NSFileManager.defaultManager.displayNameAtPath(appUrl.path).UTF8String;
+      mi.Hint := QuoteStr(appUrl.path.UTF8String);
+      ImageIndex:= PixMapManager.GetApplicationBundleIcon(appUrl.path.UTF8String, -1);
+      if ImageIndex >= 0 then begin
+        bmpTemp:= PixMapManager.GetBitmap(ImageIndex);
+        if Assigned(bmpTemp) then begin
+          mi.ImageIndex:=FMenuImageList.Count;
+          FMenuImageList.Add( bmpTemp , nil );
+          FreeAndNil(bmpTemp);
         end;
-        mi.OnClick := Self.OpenWithMenuItemSelect;
-        miOpenWith.Add(mi);
-        if (i=0) and (appArray.count>=2) then
-          addDelimiterMenuItem( miOpenWith );
       end;
+      mi.OnClick := Self.OpenWithMenuItemSelect;
+      miOpenWith.Add(mi);
+      if (i=0) and (appArray.count>=2) then
+        addDelimiterMenuItem( miOpenWith );
     end;
-
-    // Other...
-    addDelimiterMenuItem( miOpenWith );
-
-    mi:= TMenuItem.Create(miOpenWith);
-    mi.Caption:= rsMnuOpenWithOther;
-    mi.OnClick := Self.OpenWithMenuItemSelect;
-    miOpenWith.Add(mi);
-
-    Self.Items.Add(miOpenWith);
-    Result:= True;
-  finally
-    if Assigned(appRawArray) then
-      appRawArray.release;
   end;
+
+  // Other...
+  addDelimiterMenuItem( miOpenWith );
+
+  mi:= TMenuItem.Create(miOpenWith);
+  mi.Caption:= rsMnuOpenWithOther;
+  mi.OnClick := Self.OpenWithMenuItemSelect;
+  miOpenWith.Add(mi);
+
+  Self.Items.Add(miOpenWith);
+  Result:= True;
 end;
 {$ELSEIF DEFINED(HAIKU)}
 begin
