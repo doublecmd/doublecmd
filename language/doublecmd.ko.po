@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Double Commander 1.1.0 alpha\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-11-15 11:15+0300\n"
-"PO-Revision-Date: 2023-12-26 03:02+0900\n"
+"PO-Revision-Date: 2024-01-07 21:22+0900\n"
 "Last-Translator: VenusGirl: https://venusgirls.tistory.com/\n"
 "Language-Team: 비너스걸: https://venusgirls.tistory.com/\n"
 "Language: ko\n"
@@ -2785,11 +2785,11 @@ msgstr "숨김/시스템 파일 표시(&H)"
 
 #: tfrmmain.actshowtabslist.caption
 msgid "Show Tabs List"
-msgstr ""
+msgstr "탭 목록 표시"
 
 #: tfrmmain.actshowtabslist.hint
 msgid "Show list of all open tabs"
-msgstr ""
+msgstr "열려 있는 모든 탭 목록 표시"
 
 #: tfrmmain.actsortbyattr.caption
 msgid "Sort by &Attributes"
@@ -4104,7 +4104,6 @@ msgid "Mo&ve icon to system tray when minimized"
 msgstr "최소화 시 아이콘을 시스템 트레이로 이동(&V)"
 
 #: tfrmoptionsbehavior.cbonlyonce.caption
-#, fuzzy
 msgctxt "tfrmoptionsbehavior.cbonlyonce.caption"
 msgid "A&llow only one copy of DC at a time"
 msgstr "한 번에 하나의 DC 사본만 허용(&L)"
@@ -11614,7 +11613,7 @@ msgstr "잘못된 선택입니다."
 
 #: ulng.rsmsgloadingfilelist
 msgid "Loading file list..."
-msgstr "파일 목록 불러오기 중..."
+msgstr "파일 목록을 불러오는 중..."
 
 #: ulng.rsmsglocatetcconfiguation
 msgid "Locate TC configuration file (wincmd.ini)"
@@ -14036,4 +14035,3 @@ msgstr "교체가 이루어지지 않았습니다."
 #, object-pascal-format
 msgid "No setup named \"%s\""
 msgstr "\"%s\"라는 설정이 없습니다"
-
