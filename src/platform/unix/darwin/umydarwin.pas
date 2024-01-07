@@ -356,6 +356,7 @@ begin
 
   picker:= NSSharingServicePicker.alloc.initWithItems( filenameArray );
   picker.showRelativeToRect_ofView_preferredEdge( popupNSRect, NSView(control.handle) , NSMinYEdge );
+  picker.release;
 end;
 
 procedure TDCCocoaApplication.observeValueForKeyPath_ofObject_change_context(
