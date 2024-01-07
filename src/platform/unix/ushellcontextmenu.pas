@@ -363,6 +363,18 @@ begin
 end;
 
 {$IF DEFINED(DARWIN)}
+function OpenWithComparator(param1:id; param2:id; nouse: pointer): NSInteger; cdecl;
+var
+  fileManager: NSFileManager;
+  string1: NSString;
+  string2: NSString;
+begin
+  fileManager:= NSFileManager.defaultManager;
+  string1:= fileManager.displayNameAtPath( param1.path );
+  string2:= fileManager.displayNameAtPath( param2.path );
+  Result:= string1.localizedStandardCompare( string2 );
+end;
+
 function filesToNSUrlArray( const files:TFiles ): NSArray;
 var
   theArray: NSMutableArray;
@@ -410,7 +422,11 @@ begin
       newArray.release;
     end;
 
-    appArray:= NSMutableArray.arrayWithArray( appSet.allObjects );
+    newArray:= NSArray.arrayWithArray( appSet.allObjects );
+    newArray:= newArray.sortedArrayUsingFunction_context(
+                     @OpenWithComparator, nil );
+
+    appArray:= NSMutableArray.arrayWithArray( newArray );
     if appArray.containsObject(defaultAppUrl) then begin
       appArray.removeObject( defaultAppUrl );
       appArray.insertObject_atIndex( defaultAppUrl, 0 );
@@ -458,21 +474,6 @@ begin
   LSOpenFromURLSpec( launchParam, nil );
 end;
 
-function OpenWithComparator(param1:id; param2:id; theArray: pointer): NSInteger; cdecl;
-var
-  fileManager: NSFileManager;
-  string1: NSString;
-  string2: NSString;
-begin
-  if param1 = NSArray(theArray).firstObject then
-    Exit( NSOrderedAscending );
-
-  fileManager:= NSFileManager.defaultManager;
-  string1:= fileManager.displayNameAtPath( param1.path );
-  string2:= fileManager.displayNameAtPath( param2.path );
-  Result:= string1.localizedStandardCompare( string2 );
-end;
-
 {$ELSE}
 
 procedure TShellContextMenu.OpenWithMenuItemSelect(Sender: TObject);
@@ -501,7 +502,6 @@ var
   bmpTemp: TBitmap = nil;
   mi, miOpenWith: TMenuItem;
 
-  appRawArray: NSArray;
   appArray: NSArray;
   appUrl: NSURL;
 begin
@@ -509,17 +509,14 @@ begin
   if FFiles.Count=0 then
     Exit;
 
-  appRawArray:= getAppArrayFromFiles( FFiles );
+  appArray:= getAppArrayFromFiles( FFiles );
 
   miOpenWith:= TMenuItem.Create(Self);
   miOpenWith.Caption:= rsMnuOpenWith;
 
-  if Assigned(appRawArray) and (appRawArray.count>0) then begin
+  if Assigned(appArray) and (appArray.count>0) then begin
     FMenuImageList := TImageList.Create(nil);
     miOpenWith.SubMenuImages := FMenuImageList;
-
-    appArray := appRawArray.sortedArrayUsingFunction_context(
-      @OpenWithComparator, appRawArray );
 
     for I:= 0 to appArray.count-1 do begin
       appUrl:= NSURL( appArray.objectAtIndex(I) );
