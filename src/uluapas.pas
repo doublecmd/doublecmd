@@ -543,7 +543,11 @@ begin
     AValue:= lua_tostring(L, 4);
   end;
   if ShowInputListBox(ACaption, APrompt, AStringList, AValue, AIndex) then
-    lua_pushstring(L, AValue)
+  begin
+    Result:= 2;
+    lua_pushstring(L, AValue);
+    lua_pushinteger(L, AIndex + 1);
+  end
   else begin
     lua_pushnil(L);
   end;
