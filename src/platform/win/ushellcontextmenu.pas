@@ -97,7 +97,7 @@ function MyWndProc(hWnd: HWND; uiMsg: UINT; wParam: WPARAM; lParam: LPARAM): LRE
 begin
   case uiMsg of
     WM_MENUSELECT:
-      Result := DefWindowProc(hWnd, uiMsg, wParam, lParam);
+      Result := DefWindowProcW(hWnd, uiMsg, wParam, lParam);
     (* For working with submenu of context menu *)
     WM_INITMENUPOPUP,
     WM_DRAWITEM,
@@ -541,7 +541,7 @@ begin
   FParent:= GetControlHandle(Parent);
   // Replace window procedure
 {$PUSH}{$HINTS OFF}
-  OldWProc := WNDPROC(SetWindowLongPtr(FParent, GWL_WNDPROC, LONG_PTR(@MyWndProc)));
+  OldWProc := WNDPROC(SetWindowLongPtrW(FParent, GWL_WNDPROC, LONG_PTR(@MyWndProc)));
 {$POP}
   FFiles := Files;
   FBackground := Background;
@@ -580,7 +580,7 @@ destructor TShellContextMenu.Destroy;
 begin
   // Restore window procedure
   {$PUSH}{$HINTS OFF}
-  SetWindowLongPtr(FParent, GWL_WNDPROC, LONG_PTR(@OldWProc));
+  SetWindowLongPtrW(FParent, GWL_WNDPROC, LONG_PTR(@OldWProc));
   {$POP}
   // Free global variables
   ShellMenu2 := nil;

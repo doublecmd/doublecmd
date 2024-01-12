@@ -339,7 +339,7 @@ var
   AEntries: TSHChangeNotifyEntry;
 begin
   {$PUSH}{$HINTS OFF}
-  OldWProc := WNDPROC(SetWindowLongPtr(Handle, GWL_WNDPROC, LONG_PTR(@MyWndProc)));
+  OldWProc := WNDPROC(SetWindowLongPtrW(Handle, GWL_WNDPROC, LONG_PTR(@MyWndProc)));
   {$POP}
   if Assigned(SHChangeNotifyRegister) then
   begin

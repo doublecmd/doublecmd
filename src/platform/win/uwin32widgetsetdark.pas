@@ -655,7 +655,7 @@ begin
 
   Info^.DefWndProc:= @WindowProc;
 
-  CustomFormWndProc:= Windows.WNDPROC(SetWindowLongPtr(Result, GWL_WNDPROC, LONG_PTR(@FormWndProc2)));
+  CustomFormWndProc:= Windows.WNDPROC(SetWindowLongPtrW(Result, GWL_WNDPROC, LONG_PTR(@FormWndProc2)));
 
   AWinControl.Color:= SysColor[COLOR_BTNFACE];
   AWinControl.Font.Color:= SysColor[COLOR_BTNTEXT];
@@ -1361,7 +1361,7 @@ begin
     Result:= CallWindowProc(@WindowProc, Window, Msg, WParam, LParam);
     Exit;
   end;
-  Result:= DefWindowProc(Window, Msg, WParam, LParam);
+  Result:= DefWindowProcW(Window, Msg, WParam, LParam);
 end;
 
 var
