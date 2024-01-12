@@ -449,7 +449,7 @@ type
     procedure SaveConfiguration(AConfig: TXmlConfig; ANode: TXmlNode; ASaveHistory:boolean); virtual;
 
     procedure UpdateView;
-
+    procedure ApplySettings;
     procedure UpdateColor; virtual; abstract;
 
     {en
@@ -2885,6 +2885,20 @@ begin
 
   EnableWatcher(IsFileSystemWatcher);
   UpdateTitle;
+end;
+
+procedure TFileView.ApplySettings;
+var
+  Index: Integer;
+begin
+  SortAllDisplayFiles;
+  ReDisplayFileList;
+
+  for Index := 0 to FFiles.Count - 1 do
+  begin
+    FFiles[Index].TextColor := clNone;
+  end;
+  Notify([fvnVisibleFilePropertiesChanged]);
 end;
 
 function TFileView.BeforeChangePath(NewFileSource: IFileSource;
