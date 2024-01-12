@@ -2351,13 +2351,15 @@ end;
 procedure TPixMapManager.ClearSystemCache;
 var
   I: Integer;
-  AStart: Pointer absolute SystemIconIndexStart;
+  IData: IntPtr;
+  AData: Pointer absolute IData;
 begin
   FPixmapsLock.Acquire;
   try
     for I:= FExtList.Count - 1 downto 0 do
     begin
-      if FExtList.List[I]^.Data >= AStart then
+      AData:= FExtList.List[I]^.Data;
+      if (IData >= SystemIconIndexStart) and (IData <> FiArcIconID) then
       begin
         FExtList.Remove(I);
       end;
