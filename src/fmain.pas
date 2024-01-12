@@ -5388,8 +5388,16 @@ procedure TfrmMain.UpdateWindowView;
 
     if FInitializedView then
     begin
-      for I := 0 to NoteBook.PageCount - 1 do  //  change on all tabs
+      // Update all tabs
+      for I := 0 to NoteBook.PageCount - 1 do
+      begin
         NoteBook.View[I].UpdateView;
+      end;
+      // Update active tab
+      if Assigned(NoteBook.ActiveView) then
+      begin
+        NoteBook.ActiveView.ApplySettings;
+      end;
     end;
   end;
 
