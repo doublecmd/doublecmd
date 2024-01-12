@@ -213,7 +213,7 @@ begin
   if Assigned(WindowProc) then
     Result := CallWindowProc(WindowProc, hWnd, Msg, wParam, lParam)
   else begin
-    Result := DefWindowProc(hWnd, Msg, wParam, lParam);
+    Result := DefWindowProcW(hWnd, Msg, wParam, lParam);
   end;
   if (Result = 0) and (Msg = WM_COMMAND) and (lParam <> 0) then
   begin
@@ -369,7 +369,7 @@ begin
   if FPluginWindow <> 0 then
   begin
     // Subclass viewer window to catch WM_COMMAND message.
-    Result:= HWND(SetWindowLongPtr(ParentWin, GWL_WNDPROC, LONG_PTR(@ListerProc)));
+    Result:= HWND(SetWindowLongPtrW(ParentWin, GWL_WNDPROC, LONG_PTR(@ListerProc)));
     Windows.SetPropW(ParentWin, WindowProcAtom, Result);
     // Subclass plugin window to catch some hotkeys like 'n' or 'p'.
     Result := HWND(SetWindowLongPtr(FPluginWindow, GWL_WNDPROC, LONG_PTR(@PluginProc)));
@@ -413,7 +413,7 @@ begin
   try
 {$IF DEFINED(LCLWIN32)}
     SetWindowLongPtr(FPluginWindow, GWL_WNDPROC, LONG_PTR(RemovePropW(FPluginWindow, WindowProcAtom)));
-    SetWindowLongPtr(GetParent(FPluginWindow), GWL_WNDPROC, LONG_PTR(RemovePropW(GetParent(FPluginWindow), WindowProcAtom)));
+    SetWindowLongPtrW(GetParent(FPluginWindow), GWL_WNDPROC, LONG_PTR(RemovePropW(GetParent(FPluginWindow), WindowProcAtom)));
 {$ENDIF}
     if Assigned(ListCloseWindow) then
       ListCloseWindow(FPluginWindow)
