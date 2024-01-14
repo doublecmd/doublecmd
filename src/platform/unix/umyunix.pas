@@ -166,7 +166,7 @@ implementation
 
 uses
   URIParser, Unix, Process, LazUTF8, DCOSUtils, DCClassesUtf8, DCStrUtils,
-  DCUnix, uDCUtils, uOSUtils
+  LazLogger, DCUnix, uDCUtils, uOSUtils
 {$IF (NOT DEFINED(FPC_USE_LIBC)) or (DEFINED(BSD) AND NOT DEFINED(DARWIN))}
   , SysCall
 {$ENDIF}
@@ -470,7 +470,7 @@ begin
       if Result then
       begin
         Drive^.Path:= MountPath;
-        WriteLn(Drive^.DeviceId, ' -> ', MountPath);
+        DebugLn(Drive^.DeviceId, ' -> ', MountPath);
       end
     end;
     if not Result and HavePMount and Drive^.IsMediaRemovable then
@@ -584,14 +584,14 @@ begin
 
       { The child does the actual exec, and then exits }
       if FpExecLP(Command, Args) = -1 then
-        Writeln(Format('Execute error %d: %s', [fpgeterrno, SysErrorMessage(fpgeterrno)]));
+        DebugLn('Execute error %d: %s', [fpgeterrno, SysErrorMessage(fpgeterrno)]);
 
       { If the FpExecLP fails, we return an exitvalue of 127, to let it be known }
       fpExit(127);
     end
   else if pid = -1 then         { Fork failed }
     begin
-      WriteLn('Fork failed: ' + Command, LineEnding, SysErrorMessage(fpgeterrno));
+      DebugLn('Fork failed: ' + Command, LineEnding, SysErrorMessage(fpgeterrno));
     end
   else if pid > 0 then          { Parent }
     begin

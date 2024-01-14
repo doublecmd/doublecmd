@@ -172,7 +172,7 @@ const
 
 procedure Print(const sMessage: String);
 begin
-  WriteLn('UDev: ', sMessage);
+  DCDebug('UDev: ', sMessage);
 end;
 
 procedure Load;

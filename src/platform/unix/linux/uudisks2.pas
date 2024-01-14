@@ -42,7 +42,7 @@ var
 implementation
 
 uses
-  DynLibs, DCOSUtils, uGio2, uGObject2, uGlib2;
+  DynLibs, LazLogger, DCOSUtils, uGio2, uGObject2, uGlib2;
 
 type
   PUDisksBlock = Pointer;
@@ -67,7 +67,7 @@ var
 
 procedure Print(const sMessage: String);
 begin
-  WriteLn('UDisks2: ', sMessage);
+  DebugLn('UDisks2: ', sMessage);
 end;
 
 procedure PrintError(var AError: PGError);

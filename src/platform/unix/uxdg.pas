@@ -69,7 +69,7 @@ function GetDesktopPath(const DesktopName: String): String;
 implementation
 
 uses
-  BaseUnix, DCStrUtils, DCOSUtils, uSysFolders;
+  BaseUnix, LazLogger, DCStrUtils, DCOSUtils, uSysFolders;
 
 function GetUserCacheDir: String;
 begin
@@ -122,7 +122,7 @@ begin
         if not mbDirectoryExists(Result) then
         begin
           Result:= GetUserCacheDir;
-          WriteLn('WARNING: XDG_RUNTIME_DIR not set, defaulting to ', Result);
+          DebugLn('WARNING: XDG_RUNTIME_DIR not set, defaulting to ', Result);
         end;
       end;
     end;
