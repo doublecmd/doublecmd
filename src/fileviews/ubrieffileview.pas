@@ -47,6 +47,7 @@ type
     function GetVisibleFilesIndexes: TRange; override;
     function GetIconRect(FileIndex: PtrInt): TRect; override;
     procedure MouseScrollTimer(Sender: TObject); override;
+    procedure DoFileRenamed(ADisplayFile: TDisplayFile); override;
     procedure DoFileUpdated(AFile: TDisplayFile; UpdatedProperties: TFilePropertiesTypes = []); override;
   public
     function Clone(NewParent: TWinControl): TBriefFileView; override;
@@ -610,6 +611,11 @@ begin
     APoint := dgPanel.ScreenToClient(Mouse.CursorPos);
     TBriefDrawGrid(dgPanel).DoMouseMoveScroll(APoint.X, APoint.Y);
   end;
+end;
+
+procedure TBriefFileView.DoFileRenamed(ADisplayFile: TDisplayFile);
+begin
+  ADisplayFile.Tag:= -1;
 end;
 
 procedure TBriefFileView.DoFileUpdated(AFile: TDisplayFile;
