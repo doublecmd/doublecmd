@@ -244,6 +244,7 @@ type
     procedure PushRenameEvent(AFile: TFile; const NewFileName: String);
     procedure AddWorker(const Worker: TFileViewWorker; SetEvents: Boolean = True);
     procedure DoFileChanged(ADisplayFile: TDisplayFile; APropertiesChanged: TFilePropertiesTypes); virtual;
+    procedure DoFileRenamed(ADisplayFile: TDisplayFile); virtual;
     procedure BeginUpdate;
     procedure CalculateSpace(AFile: TDisplayFile);
     procedure CalculateSpace(var AFileList: TFVWorkerFileList);
@@ -1158,6 +1159,8 @@ begin
       ADisplayFile.DisplayStrings.Clear;
       ResortFile(ADisplayFile, FAllDisplayFiles);
 
+      DoFileRenamed(ADisplayFile);
+
       ANotifications := [fvnFileSourceFileListUpdated];
       case ApplyFilter(ADisplayFile, NewFilesPosition) of
         fvaprInserted, fvaprRemoved:
@@ -1420,6 +1423,11 @@ end;
 
 procedure TFileView.DoFileChanged(ADisplayFile: TDisplayFile;
   APropertiesChanged: TFilePropertiesTypes);
+begin
+  // Empty
+end;
+
+procedure TFileView.DoFileRenamed(ADisplayFile: TDisplayFile);
 begin
   // Empty
 end;
