@@ -305,7 +305,7 @@ begin
   Result:= 1;
   Search:= lua_tostring(L, 1);
   Source:= lua_tostring(L, 2);
-  if lua_isinteger(L, 3) then begin
+  if lua_isnumber(L, 3) then begin
     Offset:= lua_tointeger(L, 3)
   end;
   lua_pushinteger(L, UTF8Pos(Search, Source, Offset));
