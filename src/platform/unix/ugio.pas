@@ -46,7 +46,7 @@ var
 implementation
 
 uses
-  StrUtils, DCStrUtils, DCClassesUtf8, uGlib2, uGObject2;
+  StrUtils, LazLogger, DCStrUtils, DCClassesUtf8, uGlib2, uGObject2;
 
 function GioOpen(const Uri: String): Boolean;
 var
@@ -267,7 +267,7 @@ begin
     on E: Exception do
     begin
       HasGio:= False;
-      WriteLn(E.Message);
+      DebugLn(E.Message);
     end;
   end;
 end;

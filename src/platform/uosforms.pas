@@ -1047,7 +1047,7 @@ end;
 {$IF DEFINED(UNIX)}
 procedure handle_sigterm(signal: longint); cdecl;
 begin
-  WriteLn('SIGTERM');
+  DCDebug('SIGTERM');
   frmMain.Close;
 end;
 

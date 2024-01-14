@@ -36,7 +36,7 @@ var
 implementation
 
 uses
-  uDCUtils, uGlobs, uOSUtils, uTrash;
+  LazLogger, uDCUtils, uGlobs, uOSUtils, uTrash;
 
 var
   KdeVersion: String;
@@ -55,7 +55,7 @@ begin
     on E: Exception do
     begin
       Result:= False;
-      WriteLn('FileTrash: ', E.Message);
+      DebugLn('FileTrash: ', E.Message);
     end;
   end;
 end;

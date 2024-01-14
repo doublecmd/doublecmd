@@ -70,7 +70,7 @@ var
 implementation
 
 uses
-  BaseUnix, Unix, DBus,
+  BaseUnix, Unix, DBus, LazLogger,
   DCUnix, DCClassesUtf8, uGlobs, uGlobsPaths, uMyUnix, uPython
 {$IF DEFINED(RabbitVCS)}
   , fpjson, jsonparser, jsonscanner
@@ -95,7 +95,7 @@ procedure Initialize(Self: TObject); forward;
 
 procedure Print(const sMessage: String);
 begin
-  WriteLn('RabbitVCS: ', sMessage);
+  DebugLn('RabbitVCS: ', sMessage);
 end;
 
 function CheckError(const sMessage: String; pError: PDBusError): Boolean;

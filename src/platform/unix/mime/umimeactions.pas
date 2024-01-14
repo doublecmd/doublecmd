@@ -550,7 +550,7 @@ begin
     on E: Exception do
     begin
       Result:= nil;
-      WriteLn('GetDesktopEntry: ', E.Message);
+      DCDebug('GetDesktopEntry: ', E.Message);
     end;
   end;
 end;

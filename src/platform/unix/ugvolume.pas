@@ -46,7 +46,7 @@ function EnumerateVolumes(DrivesList: TDrivesList): Boolean;
 implementation
 
 uses
-  typinfo, fgl, uGLib2, uGio2, uGObject2, uShowMsg;
+  typinfo, fgl, LazLogger, uGLib2, uGio2, uGObject2, uShowMsg;
 
 type
   TGVolumeObserverList = specialize TFPGList<TGVolumeNotify>;
@@ -57,7 +57,7 @@ var
 
 procedure Print(const Message: String);
 begin
-  WriteLn('GVolumeMonitor: ', Message);
+  DebugLn('GVolumeMonitor: ', Message);
 end;
 
 function ReadString(Volume: PGVolume; const Kind: Pgchar): String;
