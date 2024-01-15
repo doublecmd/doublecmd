@@ -3,7 +3,7 @@
   -------------------------------------------------------------------------
   SevenZip archiver plugin, dialogs unit
 
-  Copyright (C) 2014-2017 Alexander Koblov (alexx2000@mail.ru)
+  Copyright (C) 2014-2024 Alexander Koblov (alexx2000@mail.ru)
 
   Based on 7-Zip 15.06 (http://7-zip.org)
   7-Zip Copyright (C) 1999-2015 Igor Pavlov
@@ -733,13 +733,30 @@ begin
   Result:= 0;
 end;
 
+function FindWindow(ProcessId: DWORD; szWndClassName: PWideChar): HWND;
+var
+  hWindow: HWND;
+  dwProcess: DWORD;
+begin
+  hWindow:= FindWindowExW(0, 0, szWndClassName, nil);
+  while (hWindow <> 0) do
+  begin
+    GetWindowThreadProcessId(hWindow, @dwProcess);
+    if (dwProcess = ProcessId) then Exit(hWindow);
+    hWindow:= FindWindowExW(0, hWindow, szWndClassName, nil);
+  end;
+  Result:= 0;
+end;
+
 function ShowPasswordQuery(var Encrypt: Boolean; var Password: WideString): Boolean;
 var
+  Parent: HWND;
   PasswordData: TPasswordData;
 begin
   PasswordData.Password:= Password;
   PasswordData.EncryptHeader:= Encrypt;
-  Result:= (DialogBoxParam(hInstance, 'DIALOG_PWD', 0, @PasswordDialog, LPARAM(@PasswordData)) = IDOK);
+  Parent:= FindWindow(GetProcessID, 'TTOTAL_CMD');
+  Result:= (DialogBoxParam(hInstance, 'DIALOG_PWD', Parent, @PasswordDialog, LPARAM(@PasswordData)) = IDOK);
   if Result then
   begin
     Password:= PasswordData.Password;
