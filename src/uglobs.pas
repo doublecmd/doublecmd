@@ -2039,7 +2039,7 @@ begin
   { Icons page }
   gShowIcons := sim_all_and_exe;
   gShowIconsNew := gShowIcons;
-  gIconOverlays := False;
+  gIconOverlays := {$IFDEF UNIX}True{$ELSE}False{$ENDIF};
   gIconsSize := 32;
   gIconsSizeNew := gIconsSize;
   gDiskIconsSize := 16;
