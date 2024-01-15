@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Quick view panel
 
-   Copyright (C) 2009-2023 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2009-2024 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -75,17 +75,22 @@ uses
 
 procedure QuickViewShow(aFileViewPage: TFileViewPage; aFileView: TFileView);
 var
-  aFile: TFile = nil;
+  aFile: TFile;
 begin
-  QuickViewPanel:= TQuickViewPanel.Create(Application, aFileViewPage);
-  QuickViewPanel.CreateViewer(aFileView);
-  aFile := aFileView.CloneActiveFile;
+  frmMain.actQuickView.Enabled:= False;
   try
-    QuickViewPanel.FileViewChangeActiveFile(aFileView, aFile);
+    QuickViewPanel:= TQuickViewPanel.Create(Application, aFileViewPage);
+    QuickViewPanel.CreateViewer(aFileView);
+    aFile := aFileView.CloneActiveFile;
+    try
+      QuickViewPanel.FileViewChangeActiveFile(aFileView, aFile);
+    finally
+      FreeAndNil(aFile);
+    end;
   finally
-    FreeAndNil(aFile);
+    frmMain.actQuickView.Enabled:= True;
+    frmMain.actQuickView.Checked:= True;
   end;
-  frmMain.actQuickView.Checked:= True;
 end;
 
 procedure QuickViewClose;
