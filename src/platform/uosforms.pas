@@ -3,7 +3,7 @@
     -------------------------------------------------------------------------
     This unit contains platform depended functions.
 
-    Copyright (C) 2006-2023 Alexander Koblov (alexx2000@mail.ru)
+    Copyright (C) 2006-2024 Alexander Koblov (alexx2000@mail.ru)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -38,8 +38,8 @@ type
   protected
     procedure DoClose(var CloseAction: TCloseAction); override;
   {$ENDIF}
-  protected
-    procedure WMSize(var Message: TLMSize); message LM_Size;
+  public
+    constructor CreateNew(AOwner: TComponent; Num: Integer = 0); override;
   end;
 
   { TModalDialog }
@@ -223,15 +223,13 @@ end;
 
 {$ENDIF}
 
-procedure TAloneForm.WMSize(var Message: TLMSize);
+constructor TAloneForm.CreateNew(AOwner: TComponent; Num: Integer);
 begin
+  inherited CreateNew(AOwner, Num);
+  // https://github.com/doublecmd/doublecmd/issues/769
   // https://github.com/doublecmd/doublecmd/issues/1358
-  if (Message.Width > High(Int16)) or (Message.Height > High(Int16)) then
-  begin
-    DCDebug(ClassName + '.WMSize invalid size %u x %u', [Message.Width, Message.Height]);
-    Exit;
-  end;
-  inherited WMSize(Message);
+  Constraints.MaxWidth:= High(Int16);
+  Constraints.MaxHeight:= High(Int16);
 end;
 
 { TModalDialog }
