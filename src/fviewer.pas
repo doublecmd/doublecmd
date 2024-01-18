@@ -2122,7 +2122,6 @@ begin
 
   WlxPlugins:=TWLXModuleList.Create;
   WlxPlugins.Assign(gWLXPlugins);
-  DCDebug('WLX: Load - OK');
 
   FFindDialog:= nil; // dialog is created in first use
 
