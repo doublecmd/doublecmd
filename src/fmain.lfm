@@ -6,6 +6,8 @@ object frmMain: TfrmMain
   Caption = 'Double Commander'
   ClientHeight = 370
   ClientWidth = 760
+  Constraints.MaxHeight = 32767
+  Constraints.MaxWidth = 32767
   KeyPreview = True
   OnClose = frmMainClose
   OnCloseQuery = FormCloseQuery
