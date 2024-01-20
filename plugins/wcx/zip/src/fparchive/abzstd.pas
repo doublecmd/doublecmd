@@ -147,6 +147,8 @@ var
   ZSTD_createDCtx: function(): PZSTD_DCtx; cdecl;
   ZSTD_freeDCtx: function(dctx: PZSTD_DCtx): csize_t; cdecl;
 
+  ZSTD_DCtx_setMaxWindowSize: function(dctx: PZSTD_DCtx; maxWindowSize: csize_t): csize_t; cdecl;
+
   ZSTD_decompressStream: function(zds: PZSTD_DCtx; output: PZSTD_outBuffer; input: PZSTD_inBuffer): csize_t; cdecl;
 
   ZSTD_isError: function(code: csize_t): cuint; cdecl;
@@ -182,6 +184,7 @@ begin
   @ZSTD_createDCtx:= GetProcAddress(hZstd, 'ZSTD_createDCtx');
   @ZSTD_freeDCtx:= GetProcAddress(hZstd, 'ZSTD_freeDCtx');
 
+  @ZSTD_DCtx_setMaxWindowSize:= GetProcAddress(hZstd, 'ZSTD_DCtx_setMaxWindowSize');
   @ZSTD_decompressStream:= GetProcAddress(hZstd, 'ZSTD_decompressStream');
 
   @ZSTD_isError:= GetProcAddress(hZstd, 'ZSTD_isError');
@@ -219,6 +222,12 @@ end;
 { TZstdDecompressionStream }
 
 constructor TZstdDecompressionStream.Create(InStream: TStream);
+const
+{$IFDEF CPU32}
+  ZSTD_MAXWINDOWSIZE = (1 shl 30);
+{$ELSE}
+  ZSTD_MAXWINDOWSIZE = (1 shl 31);
+{$ENDIF}
 begin
   Initialize;
 
@@ -233,6 +242,8 @@ begin
   FBufferOut.pos:= 0;
   FBufferOut.size := ZSTD_DStreamOutSize();
   FBufferOut.dst:= GetMem(FBufferOut.size);
+
+  ZSTD_Check(ZSTD_DCtx_setMaxWindowSize(FContext, ZSTD_MAXWINDOWSIZE));
 end;
 
 destructor TZstdDecompressionStream.Destroy;
