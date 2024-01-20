@@ -24,6 +24,9 @@ implementation
 uses
   SysUtils, LazFileUtils, uDebug, DCOSUtils, DCStrUtils, uSysFolders;
 
+var
+  gpExeFile: String;
+
 function GetAppName : String;
 begin
   Result := 'doublecmd';
@@ -31,6 +34,7 @@ end;
 
 procedure UpdateEnvironmentVariable;
 begin
+  mbSetEnvironmentVariable('COMMANDER_INI_PATH', gpCfgDir);
   mbSetEnvironmentVariable('COMMANDER_INI', gpCfgDir + 'doublecmd.xml');
   mbSetEnvironmentVariable('DC_CONFIG_PATH', ExcludeTrailingPathDelimiter(gpCfgDir));
 end;
@@ -68,13 +72,16 @@ begin
 
   // set up environment variables
   UpdateEnvironmentVariable;
+  mbSetEnvironmentVariable('COMMANDER_EXE', gpExeFile);
   mbSetEnvironmentVariable('COMMANDER_DRIVE', ExtractRootDir(gpExePath));
   mbSetEnvironmentVariable('COMMANDER_PATH', ExcludeTrailingBackslash(gpExePath));
 end;
 
 procedure Initialize;
 begin
-  gpExePath := ExtractFilePath(TryReadAllLinks(ParamStr(0)));
+  gpExeFile := ParamStr(0);
+  gpExeFile := TryReadAllLinks(gpExeFile);
+  gpExePath := ExtractFilePath(gpExeFile);
   gpGlobalCfgDir := gpExePath + 'settings' + DirectorySeparator;
 end;
 
