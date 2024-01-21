@@ -35,12 +35,13 @@ type
 
   TWinFileTime = QWord;      // NTFS time (UTC) (2 x DWORD)
   TDosFileTime = LongInt;    // MS-DOS time (local)
+  TUnixFileTime = Int64;     // UNIX time (UTC)
 
 {$IFDEF MSWINDOWS}
   TFileTime = TWinFileTime;
   TFileTimeEx = TFileTime;
 {$ELSE}
-  TFileTime = Int64;
+  TFileTime = TUnixFileTime;
 
   TFileTimeEx = record
     public
@@ -51,8 +52,6 @@ type
       class operator =(l,r : TFileTimeEx): Boolean;
   end;
 {$ENDIF}
-
-  TUnixFileTime = TFileTime;
 
   PFileTime = ^TFileTime;
   PWinFileTime = ^TWinFileTime;
