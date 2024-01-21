@@ -164,7 +164,10 @@ begin
   {$PUSH}{$WARN SYMBOL_PLATFORM OFF}
   Application.UpdateFormatSettings := False;
   {$POP}
-  DefaultFormatSettings.ThousandSeparator:= ' ';
+  if Ord(DefaultFormatSettings.ThousandSeparator) > $7F then
+  begin
+    DefaultFormatSettings.ThousandSeparator:= ' ';
+  end;
   {$IFDEF UNIX}
   uMyUnix.FixDateTimeSeparators;
   {$ENDIF}
