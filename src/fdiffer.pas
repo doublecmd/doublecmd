@@ -312,8 +312,6 @@ begin
     FShowIdentical := True;
     edtFileNameLeft.Text:= FileNameLeft;
     edtFileNameRight.Text:= FileNameRight;
-    with gColors.Differ^ do
-    SetColors(AddedColor, DeletedColor, ModifiedColor);
     try
       if not (FileIsText(FileNameLeft) and FileIsText(FileNameRight)) then
         actBinaryCompare.Execute
@@ -777,6 +775,7 @@ begin
   begin
     BinaryViewerLeft.Modified:= ModifiedBinaryColor;
     BinaryViewerRight.Modified:= ModifiedBinaryColor;
+    SetColors(AddedColor, DeletedColor, ModifiedColor);
   end;
 
   FontOptionsToFont(gFonts[dcfEditor], SynDiffEditLeft.Font);
@@ -1455,6 +1454,8 @@ begin
     Colors.Deleted:= cDeleted;
     Colors.Modified:= cModified;
   end;
+  SynDiffHighlighterLeft.UpdateColors;
+  SynDiffHighlighterRight.UpdateColors;
 end;
 
 procedure TfrmDiffer.ChooseEncoding(SynDiffEdit: TSynDiffEdit);
