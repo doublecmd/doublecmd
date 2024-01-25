@@ -3,8 +3,8 @@
    -------------------------------------------------------------------------
    MacOS preview plugin
 
-   Copyright (C) 2022 Alexander Koblov (alexx2000@mail.ru)
-   Copyright (C) 2022 Rich Chang (rich2014.git@outlook.com)
+   Copyright (C) 2022-2024 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2022-2024 Rich Chang (rich2014.git@outlook.com)
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Lesser General Public
@@ -101,6 +101,7 @@ var
   view: QLPreviewView;
 begin
   view:= DCQLPreview.alloc.init;
+  view.setAutostarts( true );
   view.setShouldCloseWithWindow( false );
   NSView(ParentWin).addSubview( view );
   setFilepath( view, FileToLoad );
