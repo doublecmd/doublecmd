@@ -4,7 +4,7 @@ rem Add Lazarus installation to path
 if [%LAZARUS_HOME%] == [] set LAZARUS_HOME=D:\Alexx\Prog\FreePascal\Lazarus
 set PATH=%LAZARUS_HOME%;%PATH%
 
-rem You can execute this script with different parameters:111
+rem You can execute this script with different parameters:111222
 rem components - compiling components needed for doublecmd
 rem doublecmd - compiling doublecmd only (release mode)
 rem plugins - compiling all doublecmd plugins
