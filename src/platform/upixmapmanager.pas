@@ -402,7 +402,8 @@ end;
 function StretchBitmap(var bmBitmap : Graphics.TBitmap; iIconSize : Integer;
                        clBackColor : TColor; bFreeAtEnd : Boolean = False) : Graphics.TBitmap;
 begin
-  if (iIconSize <> bmBitmap.Height) or (iIconSize <> bmBitmap.Width) then
+  if (bmBitmap.Height > 0) and (bmBitmap.Width > 0) and
+     ((iIconSize <> bmBitmap.Height) or (iIconSize <> bmBitmap.Width)) then
   begin
     Result := Graphics.TBitMap.Create;
     try
