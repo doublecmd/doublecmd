@@ -229,6 +229,7 @@ begin
   else
     Result:= GetGnomeTemplateMenu(Items);
   end;
+  if Result then Items.Sort;
 {$ENDIF}
 end;
 
