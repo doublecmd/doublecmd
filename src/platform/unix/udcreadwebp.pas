@@ -76,8 +76,12 @@ function TDCReaderWebP.InternalCheck(Stream: TStream): Boolean;
 var
   MemoryStream: TMemoryStream;
 begin
-  MemoryStream:= Stream as TMemoryStream;
-  Result:= WebPGetInfo(MemoryStream.Memory, MemoryStream.Size, nil, nil) <> 0;
+  Result:= Stream is TMemoryStream;
+  if Result then
+  begin
+    MemoryStream:= TMemoryStream(Stream);
+    Result:= WebPGetInfo(MemoryStream.Memory, MemoryStream.Size, nil, nil) <> 0;
+  end;
 end;
 
 procedure TDCReaderWebP.InternalRead(Stream: TStream; Img: TFPCustomImage);
