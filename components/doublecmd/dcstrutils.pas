@@ -685,34 +685,54 @@ begin
 end;
 
 function ExpandAbsolutePath(const Path: String): String;
+const
+  PATH_DELIM_POS = {$IFDEF MSWINDOWS}3{$ELSE}1{$ENDIF};
 var
   I, J: Integer;
 begin
   Result := Path;
 
-  {First remove all references to '\.\'}
-  I := Pos (DirectorySeparator + '.' + DirectorySeparator, Result);
+  // Remove all references to '\.\'
+  I := Pos(DirectorySeparator + '.' + DirectorySeparator, Result);
   while I <> 0 do
-    begin
-      Delete (Result, I, 2);
-      I := Pos (DirectorySeparator + '.' + DirectorySeparator, Result);
-    end;
-  if StrEnds(Result, DirectorySeparator + '.') then
-    Delete (Result, Length(Result) - 1, 2);
+  begin
+    Delete(Result, I, 2);
+    I := Pos(DirectorySeparator + '.' + DirectorySeparator, Result, I);
+  end;
 
-  {Then remove all references to '\..\'}
-  I := Pos (DirectorySeparator + '..', Result);
-  while (I <> 0) do
-    begin
-      J := Pred (I);
-      while (J > 0) and (Result [J] <> DirectorySeparator) do
-        Dec (J);
-      if (J = 0) then
-        Delete (Result, I, 3)
-      else
-        Delete (Result, J, I - J + 3);
-      I := Pos (DirectorySeparator + '..', Result);
-    end;
+  // Remove all references to '\..\'
+  I := Pos(DirectorySeparator + '..' + DirectorySeparator, Result);
+  while I <> 0 do
+  begin
+    J := Pred(I);
+    while (J > 0) and (Result[J] <> DirectorySeparator) do Dec (J);
+    Delete(Result, J + 1, I - J + 3);
+    I := Pos(DirectorySeparator + '..' + DirectorySeparator, Result);
+  end;
+
+  // Remove a reference to '\..' at the end of line
+  if StrEnds(Result, DirectorySeparator + '..') then
+  begin
+    J := Length(Result) - 3;
+    while (J > 0) and (Result[J] <> DirectorySeparator) do Dec(J);
+    if (J = 0) then
+      Result := EmptyStr
+    else
+      Delete(Result, J + 1, MaxInt);
+  end;
+
+  // Remove a reference to '\.' at the end of line
+  if Length(Result) = 1 then
+  begin
+    if Result[1] = '.' then Result := EmptyStr;
+  end
+  else if StrEnds(Result, DirectorySeparator + '.') then
+  begin
+    if Length(Result) = (PATH_DELIM_POS + 1) then
+      Delete(Result, Length(Result), 1)
+    else
+      Delete(Result, Length(Result) - 1, 2);
+  end;
 end;
 
 function HasPathInvalidCharacters(Path: String): Boolean;
