@@ -172,10 +172,15 @@ end;
 function TDCReaderHEIF.InternalCheck(Stream: TStream): boolean;
 var
   Err: Theif_error;
-  MemoryStream: TMemoryStream absolute Stream;
+  MemoryStream: TMemoryStream;
 begin
-  Err:= heif_context_read_from_memory_without_copy(FContext, MemoryStream.Memory, MemoryStream.Size, nil);
-  Result:= (Err.code = heif_error_Ok);
+  Result:= Stream is TMemoryStream;
+  if Result then
+  begin
+    MemoryStream:= TMemoryStream(Stream);
+    Err:= heif_context_read_from_memory_without_copy(FContext, MemoryStream.Memory, MemoryStream.Size, nil);
+    Result:= (Err.code = heif_error_Ok);
+  end;
 end;
 
 procedure TDCReaderHEIF.InternalRead(Stream: TStream; Img: TFPCustomImage);

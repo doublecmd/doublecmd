@@ -207,9 +207,13 @@ function TDCReaderRSVG.InternalCheck(Stream: TStream): boolean;
 var
   MemoryStream: TMemoryStream;
 begin
-  MemoryStream:= Stream as TMemoryStream;
-  FRsvgHandle:= rsvg_handle_new_from_data(MemoryStream.Memory, MemoryStream.Size, nil);
-  Result:= Assigned(FRsvgHandle);
+  Result:= Stream is TMemoryStream;
+  if Result then
+  begin
+    MemoryStream:= TMemoryStream(Stream);
+    FRsvgHandle:= rsvg_handle_new_from_data(MemoryStream.Memory, MemoryStream.Size, nil);
+    Result:= Assigned(FRsvgHandle);
+  end;
 end;
 
 procedure TDCReaderRSVG.InternalRead(Stream: TStream; Img: TFPCustomImage);
