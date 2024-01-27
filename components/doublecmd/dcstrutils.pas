@@ -712,6 +712,8 @@ begin
     while (J > 0) and (Result[J] <> DirectorySeparator) do Dec(J);
     if (J = 0) then
       Result := EmptyStr
+    else if (J > PATH_DELIM_POS) then
+      Delete(Result, J, MaxInt)
     else
       Delete(Result, J + 1, MaxInt);
   end;
