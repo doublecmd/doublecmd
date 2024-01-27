@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Several useful functions
    
-   Copyright (C) 2006-2020 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2006-2024 Alexander Koblov (alexx2000@mail.ru)
 
    contributors:
    
@@ -368,12 +368,20 @@ begin
 
     if Pos(PathDelim, Result) > PATH_DELIM_POS then
     begin
+{$IF DEFINED(MSWINDOWS)}
+    if (Length(Result) > 1) and (Result[1] in ['A'..'Z', 'a'..'z']) and
+       (Result[2] = DriveSeparator) and (GetDriveType(PAnsiChar(ExtractFileDrive(Result) + PathDelim)) = DRIVE_REMOTE) then
+    begin
+      Result:= ExpandAbsolutePath(Result)
+    end
+    else
+{$ENDIF}
       Result:= ExpandFileName(Result);
     end;
 
 {$IF DEFINED(MSWINDOWS)}
-// Remove double backslash '\\' after calling 'ExpandFileName'
-    if (Pos(':\\', Result) = 2) and (Result[1] in ['A'..'z'])  then
+    // Remove double backslash '\\' after calling 'ExpandFileName'
+    if (Pos(':\\', Result) = 2) and (Result[1] in ['A'..'Z', 'a'..'z'])  then
       Result:= Result.Remove(2, 1);
 {$ENDIF}
   end;
