@@ -225,6 +225,7 @@ begin
     if ShowModal = mrOK then
     begin
       AOptions := SearchOptions;
+      AReplace := lblReplaceWith.State;
       glsSearchHistory.Assign(cbSearchText.Items);
       glsReplaceHistory.Assign(cbReplaceText.Items);
       if AOptions.SearchText <> '' then
