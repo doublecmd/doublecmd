@@ -260,6 +260,12 @@ begin
   lua_pushstring(L, CreateRelativePath(FileName, BaseDir));
 end;
 
+function luaGetTempName(L : Plua_State) : Integer; cdecl;
+begin
+  Result:= 1;
+  lua_pushstring(L, GetTempName(GetTempFolderDeletableAtTheEnd));
+end;
+
 function utf8_next(L: Plua_State): Integer; cdecl;
 var
   S: String;
@@ -359,6 +365,15 @@ begin
   FromEnc:= lua_tostring(L, 2);
   ToEnc:= lua_tostring(L, 3);
   lua_pushstring(L, ConvertEncoding(S, FromEnc, ToEnc));
+end;
+
+function luaDetectEncoding(L : Plua_State) : Integer; cdecl;
+var
+  S: String;
+begin
+  Result:= 1;
+  S:= lua_tostring(L, 1);
+  lua_pushstring(L, DetectEncoding(S));
 end;
 
 function char_prepare(L : Plua_State; out Index: Integer): UnicodeString;
@@ -650,6 +665,8 @@ begin
     luaP_register(L, 'MatchesMask', @luaMatchesMask);
     luaP_register(L, 'MatchesMaskList', @luaMatchesMaskList);
 
+    luaP_register(L, 'GetTempName', @luaGetTempName);
+
     luaC_register(L, 'PathDelim', PathDelim);
   lua_setglobal(L, 'SysUtils');
 
@@ -661,6 +678,7 @@ begin
     luaP_register(L, 'UpperCase', @luaUpperCase);
     luaP_register(L, 'LowerCase', @luaLowerCase);
     luaP_register(L, 'ConvertEncoding', @luaConvertEncoding);
+    luaP_register(L, 'DetectEncoding', @luaDetectEncoding);
   lua_setglobal(L, 'LazUtf8');
 
   lua_newtable(L);
