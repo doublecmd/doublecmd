@@ -2226,7 +2226,6 @@ begin
   gFirstTextSearch := True;
   gErrorFile := gpCfgDir + ExtractOnlyFileName(Application.ExeName) + '.err';
   DefaultDateTimeFormat := FormatSettings.ShortDateFormat + ' hh:nn:ss';
-  FormatSettings.DecimalSeparator:='.';
   DefaultDateTimeFormatSync := 'yyyy.mm.dd hh:nn:ss';
 end;
 
