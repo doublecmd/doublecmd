@@ -140,6 +140,7 @@ begin
   Application.Initialize;
 
 {$IF DEFINED(DARWIN)}
+  GetMacFormatSettings(DefaultFormatSettings);
   Application.Icon:= nil;
 {$ENDIF}
 
