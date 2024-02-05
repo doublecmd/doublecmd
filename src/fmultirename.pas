@@ -1814,7 +1814,7 @@ begin
     iStart := Pos('[', sMask);
     if iStart > 0 then
     begin
-      iEnd := Pos(']', sMask);
+      iEnd := Pos(']', sMask, iStart + 1);
       if iEnd > 0 then
       begin
         Result := Result + Copy(sMask, 1, iStart - 1) +
