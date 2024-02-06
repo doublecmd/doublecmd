@@ -3048,10 +3048,17 @@ begin
 
     // Choose search start position.
     if FLastSearchPos <> ViewerControl.CaretPos then
+    begin
+      FLastMatchLength := 0;
       FLastSearchPos := ViewerControl.CaretPos
+    end
     else if FFindDialog.cbRegExp.Checked then
     begin
-      if bNewSearch then FLastSearchPos := 0;
+      if bNewSearch then
+      begin
+        FLastSearchPos := 0;
+        FLastMatchLength := 0;
+      end;
     end
     else if not bSearchBackwards then
     begin
@@ -3153,6 +3160,7 @@ begin
           ViewerControl.SelectText(0, 0);
         end;
         bNewSearch := True;
+        FLastMatchLength := 0;
         FLastSearchPos := ViewerControl.CaretPos;
       end;
     end;
