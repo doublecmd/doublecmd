@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Double Commander 1.1.0 alpha\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-11-15 11:15+0300\n"
-"PO-Revision-Date: 2023-08-01 22:10+0000\n"
+"PO-Revision-Date: 2024-02-06 18:30+0000\n"
 "Last-Translator: Andrzej Kamiński <endriusk@interia.pl> and Maciej Bojakowski <maciejbojakowski@gmail.com>\n"
 "Language-Team: \n"
 "Language: pl\n"
@@ -334,7 +334,7 @@ msgstr "Dla każdego pliku utwó&rz oddzielny plik sumy kontrolnej"
 
 #: tfrmchecksumcalc.lblfileformat.caption
 msgid "File &format"
-msgstr ""
+msgstr "&Format pliku"
 
 #: tfrmchecksumcalc.lblsaveto.caption
 msgid "&Save checksum file(s) to:"
@@ -342,11 +342,11 @@ msgstr "Zapi&sz plik(i) sumy kontrolnej do:"
 
 #: tfrmchecksumcalc.rbunix.caption
 msgid "Unix"
-msgstr ""
+msgstr "Unix"
 
 #: tfrmchecksumcalc.rbwindows.caption
 msgid "Windows"
-msgstr ""
+msgstr "Windows"
 
 #: tfrmchecksumverify.btnclose.caption
 msgctxt "tfrmchecksumverify.btnclose.caption"
@@ -2779,11 +2779,11 @@ msgstr "Pokaż pliki &ukryte/systemowe"
 
 #: tfrmmain.actshowtabslist.caption
 msgid "Show Tabs List"
-msgstr ""
+msgstr "Pokaż listę zakładek"
 
 #: tfrmmain.actshowtabslist.hint
 msgid "Show list of all open tabs"
-msgstr ""
+msgstr "Pokaż listę wszystkich otwartych zakładek"
 
 #: tfrmmain.actsortbyattr.caption
 msgid "Sort by &Attributes"
@@ -5247,11 +5247,11 @@ msgstr "Pozwala na wcięcie kursora, gdy nowy wiersz jest tworzony z <Enter>, z 
 
 #: tfrmoptionseditor.chkgroupundo.caption
 msgid "Group Undo"
-msgstr ""
+msgstr "Cofnij grupowanie"
 
 #: tfrmoptionseditor.chkgroupundo.hint
 msgid "All continuous changes of the same type will be processed in one call instead of undoing/redoing each one"
-msgstr ""
+msgstr "Wszystkie ciągłe zmiany tego samego typu będą przetwarzane w jednym wywołaniu, zamiast cofać/ponawiać każdą z nich"
 
 #: tfrmoptionseditor.chkrightedge.caption
 msgid "Right margin:"
@@ -10763,7 +10763,7 @@ msgstr "Usługi"
 
 #: ulng.rsmenumacosshare
 msgid "Share..."
-msgstr ""
+msgstr "Udostępnij..."
 
 #: ulng.rsmnuactions
 msgctxt "ulng.rsmnuactions"
