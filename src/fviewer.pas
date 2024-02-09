@@ -3238,6 +3238,10 @@ end;
 
 procedure TfrmViewer.ActivatePanel(Panel: TPanel);
 begin
+  bPlugin    := (Panel = nil);
+  bAnimation := (Panel = pnlImage) and (GifAnim.Visible);
+  bImage     := (Panel = pnlImage) and (bAnimation = False);
+
   if Panel <> pnlText then pnlText.Hide;
   if Panel <> pnlCode then pnlCode.Hide;
   if Panel <> pnlImage then pnlImage.Hide;
@@ -3290,9 +3294,6 @@ begin
     ToolBar1.Visible:= not (bQuickView or (miFullScreen.Checked and not ToolBar1.MouseInClient));
   end;
 
-  bAnimation           := (Panel = pnlImage) and (GifAnim.Visible);
-  bImage               := (Panel = pnlImage) and (bAnimation = False);
-  bPlugin              := (Panel = nil);
   miPlugins.Checked    := (Panel = nil);
   miGraphics.Checked   := (Panel = pnlImage);
   miEncoding.Visible   := (Panel = nil) or (Panel = pnlText) or (Panel = pnlCode);
