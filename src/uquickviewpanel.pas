@@ -143,6 +143,7 @@ begin
   FFileSource:= aFileView.FileSource;
   FFileViewPage.FileView.Visible:= False;
   FFileView.OnChangeActiveFile:= @FileViewChangeActiveFile;
+  with ClientRect do FViewer.SetBounds(Left, Top, Width, Height);
   TFileViewPage(FFileView.NotebookPage).OnChangeFileView:= @OnChangeFileView;
 end;
 
