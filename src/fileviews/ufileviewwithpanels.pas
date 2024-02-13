@@ -61,6 +61,8 @@ type
     function AddFileSource(aFileSource: IFileSource; aPath: String): Boolean; override;
     function RemoveCurrentFileSource: Boolean; override;
 
+    procedure UpdateColor; override;
+
   published
     procedure cm_EditPath(const {%H-}Params: array of string);
   end;
@@ -165,6 +167,11 @@ begin
   Result:= inherited RemoveCurrentFileSource;
   if Result and (FileSourcesCount > 0) then
     pnlHeader.UpdateAddressLabel;
+end;
+
+procedure TFileViewWithPanels.UpdateColor;
+begin
+  pnlHeader.UpdateColor;
 end;
 
 procedure TFileViewWithPanels.ShowPathEdit;

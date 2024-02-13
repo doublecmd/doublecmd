@@ -44,6 +44,7 @@ type
 
     procedure UpdateAddressLabel;
     procedure UpdatePathLabel;
+    procedure UpdateColor;
     procedure UpdateFont;
 
     procedure ShowPathEdit;
@@ -272,8 +273,7 @@ begin
   FPathLabel := TPathLabel.Create(Self, True);
   FPathLabel.Parent := Self;
 
-  PathLabelSetColor(FPathLabel);
-  PathLabelSetColor(FAddressLabel);
+  UpdateColor;
 
   // Display path below address.
   // For correct alignment, first put path at the top, then address at the top.
@@ -351,6 +351,12 @@ end;
 procedure TFileViewHeader.UpdatePathLabel;
 begin
   FPathLabel.Caption := MinimizeFilePath(FFileView.CurrentPath, FPathLabel.Canvas, FPathLabel.Width);
+end;
+
+procedure TFileViewHeader.UpdateColor;
+begin
+  PathLabelSetColor(FPathLabel);
+  PathLabelSetColor(FAddressLabel);
 end;
 
 procedure TFileViewHeader.UpdateFont;
