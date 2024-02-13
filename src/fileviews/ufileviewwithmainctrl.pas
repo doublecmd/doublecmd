@@ -567,6 +567,7 @@ end;
 
 procedure TFileViewWithMainCtrl.UpdateColor;
 begin
+  inherited UpdateColor;
   MainControl.Color := DimColor(gColors.FilePanel^.BackColor);
 end;
 

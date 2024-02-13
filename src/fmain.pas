@@ -7119,11 +7119,22 @@ begin
 end;
 
 procedure TfrmMain.AppThemeChange(Sender: TObject);
+
+  procedure UpdateNoteBook(NoteBook: TFileViewNotebook);
+  var
+    Index: Integer;
+  begin
+    for Index := 0 to NoteBook.PageCount - 1 do
+    begin
+      NoteBook.View[Index].UpdateColor;
+    end;
+  end;
+
 var
   Index: Integer;
 begin
-  FrameLeft.UpdateColor;
-  FrameRight.UpdateColor;
+  UpdateNoteBook(LeftTabs);
+  UpdateNoteBook(RightTabs);
 
   ColSet.UpdateStyle;
   gColorExt.UpdateStyle;
