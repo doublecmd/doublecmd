@@ -2,7 +2,7 @@
   <Info>
     <General Name="C#" Extensions="CS" Other="0"/>
     <Author Name="" Email="" Web="" Copyright="" Company="" Remark=""/>
-    <Version Version="1" Revision="0" Date="44702.7781275116"/>
+    <Version Version="1" Revision="1" Date="45338.7781275116"/>
     <History>
     </History>
     <Sample>
@@ -213,7 +213,11 @@
     </Range>
     <Range Name="Strings &quot;..&quot;" Attributes="255,$80000005;False:True." Style=""
            Delimiters="!&quot;#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^`{|}~">
-      <Rule OpenSymbol="&quot;" CloseSymbol="&quot;"/>
+      <Rule OpenSymbol="&quot;" OpenSymbolPartOfTerm="Right" CloseSymbol="&quot;" CloseSymbolPartOfTerm="Right" CloseOnEol="True"/>
+      <Keywords Name="Escape" Attributes="255,$80000005;True:True." Style="">
+        <word value="\&quot;"/>
+        <word value="\\"/>
+      </Keywords>
     </Range>
     <Range Name="Remarks //" Attributes="8388608,$80000005;False:True." Style=""
            Delimiters="!&quot;#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^`{|}~">
