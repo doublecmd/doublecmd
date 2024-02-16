@@ -194,8 +194,24 @@
                   Attributes : "$00A00000,$80000005;False:True."
                 },
                 {
-                  Name : "Strings",
-                  Attributes : "$000000FF,$80000005;False:True."
+                  Name : "Strings '..'",
+                  Attributes : "$000000FF,$80000005;False:True.",
+                  KeyLists : [
+                    {
+                      Name : "Escape",
+                      Attributes : "$000000FF,$80000005;True:True."
+                    }
+                  ]
+                },
+                {
+                  Name : "Strings \"..\"",
+                  Attributes : "$000000FF,$80000005;False:True.",
+                  KeyLists : [
+                    {
+                      Name : "Escape",
+                      Attributes : "$000000FF,$80000005;True:True."
+                    }
+                  ]
                 }
               ]
             }
@@ -433,29 +449,45 @@
               KeyLists : [
                 {
                   Name : "Functions and key words",
-                  Attributes : "$008AD277,$80000005;False:False."
+                  Attributes : "$008AD277,$80000005;False:True."
                 },
                 {
                   Name : "Reserved words",
-                  Attributes : "$00E8BCBC,$80000005;False:False."
+                  Attributes : "$00E8BCBC,$80000005;False:True."
                 },
                 {
                   Name : "Common Events",
-                  Attributes : "$00E8BCBC,$80000005;False:False."
+                  Attributes : "$00E8BCBC,$80000005;False:True."
                 }
               ],
               Ranges : [
                 {
                   Name : "Remark //",
-                  Attributes : "$00C09B61,$80000005;False:False."
+                  Attributes : "$00C09B61,$80000005;False:True."
                 },
                 {
                   Name : "Remark /*...*/",
-                  Attributes : "$00C09B61,$80000005;False:False."
+                  Attributes : "$00C09B61,$80000005;False:True."
                 },
                 {
-                  Name : "Strings",
-                  Attributes : "$00898BB9,$80000005;False:False."
+                  Name : "Strings '..'",
+                  Attributes : "$00898BB9,$80000005;False:True.",
+                  KeyLists : [
+                    {
+                      Name : "Escape",
+                      Attributes : "$00898BB9,$80000005;True:True."
+                    }
+                  ]
+                },
+                {
+                  Name : "Strings \"..\"",
+                  Attributes : "$00898BB9,$80000005;False:True.",
+                  KeyLists : [
+                    {
+                      Name : "Escape",
+                      Attributes : "$00898BB9,$80000005;True:True."
+                    }
+                  ]
                 }
               ]
             }
