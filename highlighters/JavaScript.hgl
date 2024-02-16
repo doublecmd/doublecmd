@@ -2,7 +2,7 @@
   <Info>
     <General Name="Java script" Extensions="js,json" Other="0"/>
     <Author Name="Vitaly Nevzorov" Email="nevzorov@yahoo.com" Web="www.delphist.com" Copyright="Copyright (c) Vitaly Nevzorov, 2002" Company="N/A" Remark=""/>
-    <Version Version="1" Revision="0" Date="45067.6951690509"/>
+    <Version Version="1" Revision="1" Date="45338,8541038426"/>
     <History>
     </History>
     <Sample>
@@ -581,9 +581,23 @@
            Delimiters="!&quot;#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^`{|}~">
       <Rule OpenSymbol="/*" CloseSymbol="*/"/>
     </Range>
-    <Range Name="Strings" Attributes="$000000FF,$80000005;False:True." Style="" CaseSensitive="True"
+    <Range Name="Strings '..'" Attributes="$000000FF,$80000005;False:True." Style=""
            Delimiters="!&quot;#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^`{|}~">
-      <Rule OpenSymbol="&quot;" CloseSymbol="&quot;"/>
+      <Rule OpenSymbol="'" OpenSymbolPartOfTerm="Right" CloseSymbol="'" CloseSymbolPartOfTerm="Right" CloseOnEol="True"/>
+      <Keywords Name="Escape" Attributes="$000000FF,$80000005;True:True." Style="">
+        <word value="\&quot;"/>
+        <word value="\'"/>
+        <word value="\\"/>
+      </Keywords>
+    </Range>
+    <Range Name="Strings &quot;..&quot;" Attributes="$000000FF,$80000005;False:True." Style=""
+           Delimiters="!&quot;#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^`{|}~">
+      <Rule OpenSymbol="&quot;" OpenSymbolPartOfTerm="Right" CloseSymbol="&quot;" CloseSymbolPartOfTerm="Right" CloseOnEol="True"/>
+      <Keywords Name="Escape" Attributes="$000000FF,$80000005;True:True." Style="">
+        <word value="\&quot;"/>
+        <word value="\'"/>
+        <word value="\\"/>
+      </Keywords>
     </Range>
   </Range>
 </UniHighlighter>
