@@ -105,7 +105,13 @@
                 },
                 {
                   Name : "Strings \"..\"",
-                  Attributes : "$000000FF,$80000005;False:True."
+                  Attributes : "$000000FF,$80000005;False:True.",
+                  KeyLists : [
+                    {
+                      Name : "Escape",
+                      Attributes : "$000000FF,$80000005;True:True."
+                    }
+                  ]
                 },
                 {
                   Name : "Remarks //",
@@ -359,7 +365,13 @@
                 },
                 {
                   Name : "Strings \"..\"",
-                  Attributes : "$00898BB9,$80000005;False:True."
+                  Attributes : "$00898BB9,$80000005;False:True.",
+                  KeyLists : [
+                    {
+                      Name : "Escape",
+                      Attributes : "$00898BB9,$80000005;True:True."
+                    }
+                  ]
                 },
                 {
                   Name : "Remarks //",
