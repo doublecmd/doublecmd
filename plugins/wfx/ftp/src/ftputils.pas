@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    WFX plugin for working with File Transfer Protocol
 
-   Copyright (C) 2009-2018 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2009-2024 Alexander Koblov (alexx2000@mail.ru)
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Lesser General Public
@@ -50,13 +50,29 @@ function DecodeMachineTime(const Time: String): TDateTime;
 implementation
 
 uses
-  Base64, DateUtils, synautil
+  Base64, DateUtils, synautil, synaip
   {$IFDEF MSWINDOWS}
   , Windows
   {$ELSE}
   , UnixUtil
   {$ENDIF}
   ;
+
+function IsIPv6(Value: String): Boolean;
+var
+  Index: Integer;
+begin
+  Index:= Pos('[', Value);
+  if Index = 1 then
+  begin
+    Index:= Pos(']', Value, Index + 1);
+    if Index > 0 then
+    begin
+      Value:= Copy(Value, 2, Index - 2);
+    end;
+  end;
+  Result:= IsIP6(Value);
+end;
 
 function StrToIp(Value: String): LongWord;
 var
@@ -173,30 +189,53 @@ end;
 
 function ExtractConnectionHost(Connection: AnsiString): AnsiString;
 var
-  I: Integer;
+  Index: Integer;
 begin
-  I:= Pos('://', Connection);
-  if I > 0 then Delete(Connection, 1, I + 2);
-  I:= Pos(':', Connection);
-  if I > 0 then
-    Result:= Copy(Connection, 1, I - 1)
-  else
-    Result:= Connection;
+  Index:= Pos('://', Connection);
+  if Index > 0 then Delete(Connection, 1, Index + 2);
+
+  if IsIPv6(Connection) then
+  begin
+    Index:= Pos('[', Connection);
+    if Index = 1 then
+    begin
+      Index:= Pos(']', Connection, Index + 1);
+      if Index > 0 then
+      begin
+        Connection:= Copy(Connection, 2, Index - 2);
+      end;
+    end;
+  end
+  else begin
+    Index:= Pos(':', Connection);
+    if Index > 0 then Connection:= Copy(Connection, 1, Index - 1)
+  end;
+  Result:= Connection;
 end;
 
 function ExtractConnectionPort(Connection: AnsiString): AnsiString;
 var
   I, J: Integer;
 begin
-  Result:= EmptyStr;
   I:= Pos('://', Connection);
   if I > 0 then Delete(Connection, 1, I + 2);
-  I:= Pos(':', Connection);
-  if I > 0 then
+
+  if IsIPv6(Connection) then
   begin
+    I:= Pos(']:', Connection);
+    if I > 0 then Delete(Connection, 1, I + 1);
+  end
+  else begin
+    I:= Pos(':', Connection);
+    if I > 0 then Delete(Connection, 1, I);
+  end;
+
+  if I = 0 then
+    Result:= EmptyStr
+  else begin
     J:= Pos('/', Connection);
     if J = 0 then J:= MaxInt;
-    Result:= Trim(Copy(Connection, I + 1, J - I - 1));
+    Result:= Trim(Copy(Connection, 1, J - 1));
   end;
 end;
 
