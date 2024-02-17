@@ -1,0 +1,204 @@
+<UniHighlighter version="1.8">
+  <Info>
+    <General Name="Rust" Extensions="RS" Other="0"/>
+    <Author Name="Skif_off" Email="" Web="" Copyright="" Company="N/A" Remark="Rules for 'Chars', 'Remarks' and 'Strings' from 'C++ Source.hgl'"/>
+    <Version Version="1" Revision="3" Date="45338,8533801736"/>
+    <History>
+    </History>
+    <Sample>
+      <S>#![crate_type = &quot;lib&quot;]</S>
+      <S></S>
+      <S>let mut num = 5;</S>
+      <S></S>
+      <S>let r1 = &amp;num as *const i32;</S>
+      <S>let r2 = &amp;mut num as *mut i32;</S>
+      <S></S>
+      <S>unsafe {</S>
+      <S>    println!(&quot;r1 is: {}&quot;, *r1);</S>
+      <S>    println!(&quot;r2 is: {}&quot;, *r2);</S>
+      <S>}</S>
+      <S></S>
+      <S>// A function marked as a unit test</S>
+      <S>#[test]</S>
+      <S>fn test_foo() {</S>
+      <S>    /* ... */</S>
+      <S>}</S>
+      <S></S>
+    </Sample>
+  </Info>
+  <Scheme File="" Name=""/>
+  <Range Name="Root" Attributes="$80000008,$80000005;False:False." Style="" CaseSensitive="True"
+         Delimiters="!&quot;%&amp;'()*+,-./:;&lt;=&gt;?@[\]^{|}~">
+    <Rule OpenSymbolPartOfTerm="Right" CloseSymbolPartOfTerm="False"/>
+    <Keywords Name="Keywords" Attributes="$00FF0000,$80000005;False:True." Style="">
+      <Word Value="as"/>
+      <Word Value="async"/>
+      <Word Value="await"/>
+      <Word Value="break"/>
+      <Word Value="const"/>
+      <Word Value="continue"/>
+      <Word Value="crate"/>
+      <Word Value="dyn"/>
+      <Word Value="else"/>
+      <Word Value="enum"/>
+      <Word Value="extern"/>
+      <Word Value="false"/>
+      <Word Value="fn"/>
+      <Word Value="for"/>
+      <Word Value="if"/>
+      <Word Value="impl"/>
+      <Word Value="in"/>
+      <Word Value="let"/>
+      <Word Value="loop"/>
+      <Word Value="match"/>
+      <Word Value="mod"/>
+      <Word Value="move"/>
+      <Word Value="mut"/>
+      <Word Value="pub"/>
+      <Word Value="ref"/>
+      <Word Value="return"/>
+      <Word Value="self"/>
+      <Word Value="static"/>
+      <Word Value="struct"/>
+      <Word Value="super"/>
+      <Word Value="trait"/>
+      <Word Value="true"/>
+      <Word Value="type"/>
+      <Word Value="union"/>
+      <Word Value="unsafe"/>
+      <Word Value="use"/>
+      <Word Value="where"/>
+      <Word Value="while"/>
+    </Keywords>
+    <Keywords Name="Macros" Attributes="$00800000,$80000005;False:True." Style="">
+      <Word Value="assert"/>
+      <Word Value="assert_eq"/>
+      <Word Value="assert_ne"/>
+      <Word Value="cfg"/>
+      <Word Value="column"/>
+      <Word Value="compile_error"/>
+      <Word Value="concat"/>
+      <Word Value="dbg"/>
+      <Word Value="debug_assert"/>
+      <Word Value="debug_assert_eq"/>
+      <Word Value="debug_assert_ne"/>
+      <Word Value="env"/>
+      <Word Value="eprint"/>
+      <Word Value="eprintln"/>
+      <Word Value="file"/>
+      <Word Value="format"/>
+      <Word Value="format_args"/>
+      <Word Value="include"/>
+      <Word Value="include_bytes"/>
+      <Word Value="include_str"/>
+      <Word Value="is_x86_feature_detected"/>
+      <Word Value="line"/>
+      <Word Value="macro_rules"/>
+      <Word Value="matches"/>
+      <Word Value="module_path"/>
+      <Word Value="option_env"/>
+      <Word Value="panic"/>
+      <Word Value="print"/>
+      <Word Value="println"/>
+      <Word Value="stringify"/>
+      <Word Value="thread_local"/>
+      <Word Value="todo"/>
+      <Word Value="try"/>
+      <Word Value="unimplemented"/>
+      <Word Value="unreachable"/>
+      <Word Value="vec"/>
+      <Word Value="write"/>
+      <Word Value="writeln"/>
+    </Keywords>
+    <Keywords Name="Operators" Attributes="$00CC3299,$80000005;False:True." Style="">
+      <Word Value="!"/>
+      <Word Value="%"/>
+      <Word Value="&amp;"/>
+      <Word Value="*"/>
+      <Word Value="+"/>
+      <Word Value="-"/>
+      <Word Value="/"/>
+      <Word Value="&lt;"/>
+      <Word Value="="/>
+      <Word Value="&gt;"/>
+      <Word Value="?"/>
+      <Word Value="\"/>
+      <Word Value="^"/>
+      <Word Value="|"/>
+    </Keywords>
+    <Keywords Name="Punctuators" Attributes="$000000FF,$80000005;False:True." Style="">
+      <Word Value="("/>
+      <Word Value=")"/>
+      <Word Value="["/>
+      <Word Value="]"/>
+      <Word Value="{"/>
+      <Word Value="}"/>
+      <Word Value=","/>
+      <Word Value="."/>
+      <Word Value=":"/>
+      <Word Value=";"/>
+    </Keywords>
+    <Keywords Name="Types" Attributes="$00000080,$80000005;False:True." Style="">
+      <Word Value="bool"/>
+      <Word Value="char"/>
+      <Word Value="str"/>
+      <Word Value="f32"/>
+      <Word Value="f64"/>
+      <Word Value="i8"/>
+      <Word Value="i16"/>
+      <Word Value="i32"/>
+      <Word Value="i64"/>
+      <Word Value="i128"/>
+      <Word Value="isize"/>
+      <Word Value="u8"/>
+      <Word Value="u16"/>
+      <Word Value="u32"/>
+      <Word Value="u64"/>
+      <Word Value="u128"/>
+      <Word Value="usize"/>
+    </Keywords>
+    <Keywords Name="Complex types" Attributes="$00000080,$80000005;False:True." Style="">
+      <Word Value="String"/>
+      <Word Value="Option"/>
+      <Word Value="Result"/>
+      <Word Value="Mutex"/>
+      <Word Value="HashMap"/>
+      <Word Value="RefCell"/>
+      <Word Value="CString"/>
+      <Word Value="Cell"/>
+      <Word Value="File"/>
+      <Word Value="CStr"/>
+      <Word Value="Arc"/>
+      <Word Value="Box"/>
+      <Word Value="Vec"/>
+    </Keywords>
+    <Range Name="Remarks //" Attributes="$00008000,$80000005;False:True." Style=""
+           Delimiters="!&quot;#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^`{|}~">
+      <Rule OpenSymbol="//" OpenSymbolPartOfTerm="Right" CloseSymbolPartOfTerm="False" CloseOnEol="True"/>
+    </Range>
+    <Range Name="Remarks /*..*/" Attributes="$00008000,$80000005;False:True." Style=""
+           Delimiters="!&quot;#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^`{|}~">
+      <Rule OpenSymbol="/*" OpenSymbolPartOfTerm="Right" CloseSymbol="*/" CloseSymbolPartOfTerm="Right"/>
+    </Range>
+    <Range Name="Strings &quot;..&quot;" Attributes="$00696969,$80000005;False:True." Style=""
+           Delimiters="!&quot;#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^`{|}~">
+      <Rule OpenSymbol="&quot;" OpenSymbolPartOfTerm="Right" CloseSymbol="&quot;" CloseSymbolPartOfTerm="Right" CloseOnEol="True"/>
+      <Keywords Name="Escape" Attributes="$00696969,$80000005;True:True." Style="">
+        <Word Value="\&quot;"/>
+        <Word Value="\\"/>
+      </Keywords>
+    </Range>
+    <Range Name="Chars '..'" Attributes="$00696969,$80000005;False:True." Style=""
+           Delimiters="!&quot;#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^`{|}~">
+      <Rule OpenSymbol="'" OpenSymbolPartOfTerm="Right" CloseSymbol="'" CloseSymbolPartOfTerm="Right" CloseOnEol="True"/>
+    </Range>
+    <Range Name="Attributes (outer)" Attributes="$00000096,$80000005;False:True." Style=""
+           Delimiters="!&quot;#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^`{|}~">
+      <Rule OpenSymbol="#[" OpenSymbolStartLine="NonSpace" CloseSymbol="]"/>
+    </Range>
+    <Range Name="Attributes (inner)" Attributes="$00000096,$80000005;False:True." Style=""
+           Delimiters="!&quot;#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^`{|}~">
+      <Rule OpenSymbol="#![" OpenSymbolStartLine="NonSpace" CloseSymbol="]"/>
+    </Range>
+  </Range>
+</UniHighlighter>
