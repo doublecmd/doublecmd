@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Windows Media Player plugin
 
-   Copyright (C) 2021 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2021-2024 Alexander Koblov (alexx2000@mail.ru)
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Lesser General Public
@@ -24,10 +24,43 @@ library wmp;
 {$mode objfpc}{$H+}
 
 uses
-  Classes, WMPLib_1_0_TLB, ActiveXContainer, SysUtils, Windows, WlxPlugin;
+  Classes, WMPLib_1_0_TLB, ActiveXContainer, SysUtils, Windows, WlxPlugin,
+  IniFiles;
 
 const
   CLASS_NAME = UnicodeString('IWMPPlayer4');
+
+var
+  Volume: Integer = 50;
+  ConfigFile: AnsiString;
+
+procedure LoadConfiguration;
+begin
+  try
+    with TIniFile.Create(ConfigFile) do
+    try
+      Volume:= ReadInteger('WMP', 'Volume', Volume);
+    finally
+      Free;
+    end;
+  except
+    // Ignore
+  end;
+end;
+
+procedure SaveConfiguration;
+begin
+  try
+    with TIniFile.Create(ConfigFile) do
+    try
+      WriteInteger('WMP', 'Volume', Volume);
+    finally
+      Free;
+    end;
+  except
+    // Ignore
+  end;
+end;
 
 function ListLoadW(ParentWin: HWND; FileToLoad: PWideChar; ShowFlags: Integer): HWND; stdcall;
 var
@@ -67,6 +100,7 @@ begin
     AData.ComServer:= APlayer;
     try
       AData.Active:= True;
+      APlayer.settings.volume:= Volume;
       APlayer.URL:= WideString(FileToLoad);
       APlayer.Controls.Play;
     except
@@ -79,12 +113,22 @@ end;
 
 procedure ListCloseWindow(ListWin: HWND); stdcall;
 var
+  AVolume: Integer;
   AData: TActiveXContainer;
   AHandle: THandle absolute AData;
 begin
   AHandle:= GetWindowLongPtr(ListWin, GWLP_USERDATA);
+  if Assigned(AData) then
+  begin
+    AVolume:= (AData.ComServer as IWMPPlayer4).settings.volume;
+    if AVolume <> Volume then
+    begin
+      Volume:= AVolume;
+      SaveConfiguration;
+    end;
+    AData.Free;
+  end;
   DestroyWindow(ListWin);
-  if Assigned(AData) then AData.Free;
 end;
 
 function ListLoadNextW(ParentWin, PluginWin: HWND; FileToLoad: PWideChar; ShowFlags: Integer): Integer; stdcall;
@@ -108,6 +152,13 @@ begin
   Result:= LISTPLUGIN_OK;
 end;
 
+procedure ListSetDefaultParams(dps: PListDefaultParamStruct); stdcall;
+begin
+  // Save configuration file name
+  ConfigFile:= dps^.DefaultIniName;
+  LoadConfiguration;
+end;
+
 procedure ListGetDetectString(DetectString: PAnsiChar; MaxLen: Integer); stdcall;
 begin
   StrLCopy(DetectString, '(EXT="WAV")|(EXT="MP3")|(EXT="WMA")|(EXT="MP4")|(EXT="AVI")|(EXT="WMV")', MaxLen);
@@ -117,7 +168,8 @@ exports
   ListLoadW,
   ListLoadNextW,
   ListCloseWindow,
-  ListGetDetectString;
+  ListGetDetectString,
+  ListSetDefaultParams;
 
 end.
 
