@@ -24,6 +24,7 @@ mkdir -p $PACK_DIR
 defaults write $(pwd)/doublecmd.app/Contents/Info CFBundleVersion $DC_REVISION
 defaults write $(pwd)/doublecmd.app/Contents/Info CFBundleShortVersionString $DC_VER
 plutil -convert xml1 $(pwd)/doublecmd.app/Contents/Info.plist
+chmod 644 $(pwd)/doublecmd.app/Contents/Info.plist
 
 build_unrar()
 {
