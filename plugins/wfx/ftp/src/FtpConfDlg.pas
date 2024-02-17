@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Wfx plugin for working with File Transfer Protocol
 
-   Copyright (C) 2009-2023 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2009-2024 Alexander Koblov (alexx2000@mail.ru)
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Lesser General Public
@@ -37,7 +37,8 @@ function ShowFtpConfDlg(Connection: TConnection): Boolean;
 implementation
 
 uses
-  LazUTF8, DynLibs, FtpUtils, blcksock, ssl_openssl_lib, libssh, FtpProxy, TypInfo;
+  LazUTF8, DynLibs, FtpUtils, blcksock, synaip, ssl_openssl_lib, libssh,
+  FtpProxy, TypInfo;
 
 var
   ProxyIndex: Integer;
@@ -249,10 +250,13 @@ begin
           Data:= PtrInt(PAnsiChar(Text));
           SendDlgMsg(pDlg, 'edtName', DM_SETTEXT, Data, 0);
           Text:= gConnection.Host;
+          if gConnection.Port <> EmptyStr then
+          begin
+            if IsIP6(Text) then Text := '[' + Text + ']';
+            Text += ':' + gConnection.Port;
+          end;
           if gConnection.FullSSL then
             Text:= 'ftps://' + Text;
-          if gConnection.Port <> EmptyStr then
-            Text:= Text + ':' + gConnection.Port;
           Data:= PtrInt(PAnsiChar(Text));
           SendDlgMsg(pDlg, 'edtHost', DM_SETTEXT, Data, 0);
           Text:= gConnection.UserName;
