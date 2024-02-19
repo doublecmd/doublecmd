@@ -236,13 +236,13 @@ begin
   if (DataSize = 0) then Exit(0);
   SetString(DataString, Data, DataSize);
 
-  if (Flags and DB_LRS = 0) then
-  begin
-    DataString:= LFMToLRS(DataString);
-  end
-  else if (Flags and DB_FILENAME <> 0) then
+  if (Flags and DB_FILENAME <> 0) then
   begin
     DataString:= LFMToLRS(mbReadFileToString(DataString));
+  end
+  else if (Flags and DB_LRS = 0) then
+  begin
+    DataString:= LFMToLRS(DataString);
   end;
 
   Result:= UIntPtr(DialogBox(DataString, DlgProc, UserData));
@@ -858,7 +858,7 @@ var
 begin
   if Assigned(fDlgProc) then
     begin
-      sText:= (Sender as TEdit).Text;
+      sText:= TControlProtected(Sender).Text;
       fDlgProc(FSelf, PAnsiChar((Sender as TControl).Name), DN_CHANGE, PtrInt(PAnsiChar(sText)), 0);
     end;
 end;
