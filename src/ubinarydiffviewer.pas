@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Binary difference viewer and comparator
 
-   Copyright (C) 2014-2021 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2014-2024 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -88,7 +88,7 @@ var
   X, Y: Integer;
   yIndex: Integer;
   P1, P2: PAnsiChar;
-  CurrentPos, LineStart: PtrInt;
+  CurrentPos: PtrInt;
   Mine, Foreign, WordHex: String;
   WordWidth, SymbolWidth: Integer;
   MineLength, ForeignLength: Integer;
@@ -107,14 +107,20 @@ begin
     begin
       X := 0;
       Y := yIndex * FTextHeight;
-      LineStart := CurrentPos;
       AddLineOffset(CurrentPos);
       // Mine text
       Mine := TransformHex(CurrentPos, FHighLimit);
       MineLength:= Min(cHexWidth, (Length(Mine) - cHexStartHex) div cWordSize);
       // Foreign text
-      Foreign := SecondViewer.TransformHex(LineStart, SecondViewer.FHighLimit);
-      ForeignLength:= (Length(Foreign) - cHexStartHex) div cWordSize;
+      if CurrentPos >= SecondViewer.FHighLimit then
+      begin
+        Foreign := Mine;
+        ForeignLength := -1;
+      end
+      else begin
+        Foreign := SecondViewer.TransformHex(CurrentPos, SecondViewer.FHighLimit);
+        ForeignLength:= (Length(Foreign) - cHexStartHex) div cWordSize;
+      end;
       // Pointers to text
       P1 := PAnsiChar(Mine) + cHexStartHex;
       P2 := PAnsiChar(Foreign) + cHexStartHex;
