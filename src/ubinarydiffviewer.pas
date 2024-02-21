@@ -88,7 +88,7 @@ var
   X, Y: Integer;
   yIndex: Integer;
   P1, P2: PAnsiChar;
-  CurrentPos: PtrInt;
+  CurrentPos, SecondPos: PtrInt;
   Mine, Foreign, WordHex: String;
   WordWidth, SymbolWidth: Integer;
   MineLength, ForeignLength: Integer;
@@ -106,19 +106,20 @@ begin
     if Assigned(SecondViewer) then
     begin
       X := 0;
+      SecondPos := CurrentPos;
       Y := yIndex * FTextHeight;
       AddLineOffset(CurrentPos);
       // Mine text
       Mine := TransformHex(CurrentPos, FHighLimit);
       MineLength:= Min(cHexWidth, (Length(Mine) - cHexStartHex) div cWordSize);
       // Foreign text
-      if CurrentPos >= SecondViewer.FHighLimit then
+      if SecondPos >= SecondViewer.FHighLimit then
       begin
         Foreign := Mine;
         ForeignLength := -1;
       end
       else begin
-        Foreign := SecondViewer.TransformHex(CurrentPos, SecondViewer.FHighLimit);
+        Foreign := SecondViewer.TransformHex(SecondPos, SecondViewer.FHighLimit);
         ForeignLength:= (Length(Foreign) - cHexStartHex) div cWordSize;
       end;
       // Pointers to text
