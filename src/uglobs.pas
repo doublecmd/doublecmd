@@ -2495,10 +2495,16 @@ procedure LoadXmlConfig;
       end;
   end;
   procedure GetDCFont(Node: TXmlNode; var FontOptions: TDCFontOptions);
+  var
+    FontQuality: Integer;
   begin
     if Assigned(Node) then
-      gConfig.GetFont(Node, '', FontOptions.Name, FontOptions.Size, Integer(FontOptions.Style), Integer(FontOptions.Quality),
-                                FontOptions.Name, FontOptions.Size, Integer(FontOptions.Style), Integer(FontOptions.Quality));
+    begin
+      FontQuality:= Integer(FontOptions.Quality);
+      gConfig.GetFont(Node, '', FontOptions.Name, FontOptions.Size, Integer(FontOptions.Style), FontQuality,
+                                FontOptions.Name, FontOptions.Size, Integer(FontOptions.Style), FontQuality);
+      FontOptions.Quality:= TFontQuality(FontQuality);
+    end;
   end;
   procedure LoadOption(Node: TXmlNode; var Options: TDrivesListButtonOptions; Option: TDrivesListButtonOption; AName: String);
   var
