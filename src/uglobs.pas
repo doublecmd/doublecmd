@@ -321,9 +321,12 @@ var
   gUpdatedFilesPosition: TUpdatedFilesPosition;
   gLynxLike:Boolean;
   gFirstTextSearch: Boolean;
+
+  { File views page }
   gExtraLineSpan: Integer;
   gFolderPrefix,
   gFolderPostfix: String;
+  gRenameConfirmMouse: Boolean;
 
   { Mouse }
   gMouseSelectionEnabled: Boolean;
@@ -1731,6 +1734,7 @@ begin
   gExtraLineSpan := 2;
   gFolderPrefix := '[';
   gFolderPostfix := ']';
+  gRenameConfirmMouse := False;
   { Brief view page }
   gBriefViewFixedCount := 2;
   gBriefViewFixedWidth := 100;
@@ -2871,6 +2875,7 @@ begin
       gExtraLineSpan := GetValue(Node, 'ExtraLineSpan', gExtraLineSpan);
       gFolderPrefix := GetValue(Node, 'FolderPrefix', gFolderPrefix);
       gFolderPostfix := GetValue(Node, 'FolderPostfix', gFolderPostfix);
+      gRenameConfirmMouse := GetValue(Node, 'RenameConfirmMouse', gRenameConfirmMouse);
     end;
 
     { Keys page }
@@ -3537,6 +3542,7 @@ begin
     SetValue(Node, 'ExtraLineSpan', gExtraLineSpan);
     SetValue(Node, 'FolderPrefix', gFolderPrefix);
     SetValue(Node, 'FolderPostfix', gFolderPostfix);
+    SetValue(Node, 'RenameConfirmMouse', gRenameConfirmMouse);
 
     { Keys page }
     Node := FindNode(Root, 'Keyboard', True);

@@ -862,6 +862,8 @@ var
 begin
   SetDragCursor(Shift);
   FMainControlMouseDownPoint:= Classes.Point(X, Y);
+  if gRenameConfirmMouse and edtRename.Visible then
+    edtRenameOnKeyRETURN(edtRename);
   if (DragManager <> nil) and DragManager.IsDragging and (Button = mbRight) then
     Exit;
   FileIndex := GetFileIndexFromCursor(X, Y, AtFileList);
