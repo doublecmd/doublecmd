@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Simple folder thumbnail provider
 
-   Copyright (C) 2019-2023 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2019-2024 Alexander Koblov (alexx2000@mail.ru)
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Lesser General Public
@@ -71,7 +71,7 @@ var
 begin
   Result:= nil;
 
-  if FPS_ISDIR(mbFileGetAttr(aFileName)) then;
+  if FPS_ISDIR(mbFileGetAttrNoLinks(aFileName)) then
   begin
     // Create half size inner icon
     InnerSize.cx:= aSize.cx * 50 div 100;
