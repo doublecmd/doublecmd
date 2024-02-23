@@ -3,7 +3,7 @@
   -------------------------------------------------------------------------
   Simple exchangeable image file format reader
 
-  Copyright (C) 2016-2023 Alexander Koblov (alexx2000@mail.ru)
+  Copyright (C) 2016-2024 Alexander Koblov (alexx2000@mail.ru)
 
   Permission is hereby granted, free of charge, to any person obtaining
   a copy of this software and associated documentation files (the
@@ -74,13 +74,21 @@ type
     property DateTimeOriginal: TDateTime read FDateTimeOriginal;
   end;
 
+const
+  cMake = 'Manufacturer';
+  cModel = 'Camera model';
+  cImageWidth = 'Width';
+  cImageHeight = 'Height';
+  cOrientation = 'Orientation';
+  cDateTimeOriginal = 'Date taken';
+
 resourcestring
-  rsMake = 'Manufacturer';
-  rsModel = 'Camera model';
-  rsImageWidth = 'Width';
-  rsImageHeight = 'Height';
-  rsOrientation = 'Orientation';
-  rsDateTimeOriginal = 'Date taken';
+  rsMake = cMake;
+  rsModel = cModel;
+  rsImageWidth = cImageWidth;
+  rsImageHeight = cImageHeight;
+  rsOrientation = cOrientation;
+  rsDateTimeOriginal = cDateTimeOriginal;
 
 implementation
 

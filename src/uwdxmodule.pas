@@ -5,7 +5,7 @@
    (TC WDX-API v1.5)
 
    Copyright (C) 2008  Dmitry Kolomiets (B4rr4cuda@rambler.ru)
-   Copyright (C) 2008-2023 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2008-2024 Alexander Koblov (alexx2000@mail.ru)
 
    Some ideas were found in sources of WdxGuide by Alexey Torgashin
    and SuperWDX by Pavel Dubrovsky and Dmitry Vorotilin.
@@ -215,7 +215,7 @@ type
     procedure SetAName({%H-}AValue: String); override;
     procedure SetAFileName({%H-}AValue: String); override;
   protected
-    procedure AddField(const AName: String; AType: Integer);
+    procedure AddField(const AName, XName: String; AType: Integer);
   public
     //---------------------
     constructor Create; override;
@@ -224,6 +224,7 @@ type
     procedure UnloadModule; override;
     function IsLoaded: Boolean; override;
     //---------------------
+    function GetFieldIndex(FieldName: String): Integer; override;
   end;
 
   { TWDXModuleList }
@@ -1276,7 +1277,7 @@ begin
 
 end;
 
-procedure TEmbeddedWDX.AddField(const AName: String; AType: Integer);
+procedure TEmbeddedWDX.AddField(const AName, XName: String; AType: Integer);
 var
   I: Integer;
 begin
@@ -1284,7 +1285,7 @@ begin
   with TWdxField(FFieldsList.Objects[I]) do
   begin
     FName := AName;
-    LName := FName;
+    LName := XName;
     FType := AType;
   end;
 end;
@@ -1308,6 +1309,21 @@ end;
 function TEmbeddedWDX.IsLoaded: Boolean;
 begin
   Result:= True;
+end;
+
+function TEmbeddedWDX.GetFieldIndex(FieldName: String): Integer;
+var
+  Index: Integer;
+begin
+  Result:= inherited GetFieldIndex(FieldName);
+  if Result < 0 then
+  begin
+    for Index:= 0 to FFieldsList.Count - 1 do
+    begin
+      if AnsiSameText(FieldName, TWdxField(FFieldsList.Objects[Index]).LName) then
+        Exit(Index);
+    end;
+  end;
 end;
 
 { TWDXModule }
