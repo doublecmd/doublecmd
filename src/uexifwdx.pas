@@ -3,7 +3,7 @@
     -------------------------------------------------------------------------
     Simple exif-wdx plugin.
 
-    Copyright (C) 2016-2023 Alexander Koblov (alexx2000@mail.ru)
+    Copyright (C) 2016-2024 Alexander Koblov (alexx2000@mail.ru)
 
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License
@@ -89,12 +89,12 @@ end;
 
 procedure TExifWdx.CallContentGetSupportedField;
 begin
-  AddField(rsMake, ft_string);
-  AddField(rsModel, ft_string);
-  AddField(rsImageWidth, ft_numeric_32);
-  AddField(rsImageHeight, ft_numeric_32);
-  AddField(rsOrientation, ft_numeric_32);
-  AddField(rsDateTimeOriginal, ft_datetime);
+  AddField(cMake, rsMake, ft_string);
+  AddField(cModel, rsModel, ft_string);
+  AddField(cImageWidth, rsImageWidth, ft_numeric_32);
+  AddField(cImageHeight, rsImageHeight, ft_numeric_32);
+  AddField(cOrientation, rsOrientation, ft_numeric_32);
+  AddField(cDateTimeOriginal, rsDateTimeOriginal, ft_datetime);
 end;
 
 procedure TExifWdx.CallContentSetDefaultParams;
