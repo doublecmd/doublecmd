@@ -1,11 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CONFIG>
   <ProjectOptions>
-    <Version Value="11"/>
+    <Version Value="12"/>
     <PathDelim Value="\"/>
     <General>
+      <Flags>
+        <MainUnitHasCreateFormStatements Value="False"/>
+        <MainUnitHasTitleStatement Value="False"/>
+        <MainUnitHasScaledStatement Value="False"/>
+        <CompatibilityMode Value="True"/>
+      </Flags>
       <SessionStorage Value="InProjectDir"/>
-      <MainUnit Value="0"/>
       <ResourceType Value="res"/>
     </General>
     <VersionInfo>
@@ -26,19 +31,19 @@
             <OtherUnitFiles Value="fparchive;../../../../sdk;lzma/compression/LZ;lzma/compression/LZMA;lzma/compression/RangeCoder"/>
             <UnitOutputDirectory Value="../lib"/>
           </SearchPaths>
-          <Conditionals Value="if (TargetCPU &lt;> 'arm') then
+          <Conditionals Value="if (TargetCPU &lt;> &apos;arm&apos;) then
 begin
-  CustomOptions += '-fPIC';
+  CustomOptions += &apos;-fPIC&apos;;
 end;
 
-if (TargetOS = 'linux') then
+if (TargetOS = &apos;linux&apos;) then
 begin
-  LinkerOptions += ' -z relro';
+  LinkerOptions += &apos; -z relro&apos;;
 end;
 
-if (TargetOS = 'darwin') then
+if (TargetOS = &apos;darwin&apos;) then
 begin
-  LinkerOptions += ' -no_order_inits';
+  LinkerOptions += &apos; -no_order_inits&apos;;
 end;"/>
           <Parsing>
             <SyntaxOptions>
@@ -76,13 +81,13 @@ end;"/>
     </PublishOptions>
     <RunParams>
       <local>
-        <LaunchingApplication PathPlusParams="\usr\X11R6\bin\xterm -T 'Lazarus Run Output' -e $(LazarusDir)\tools\runwait.sh $(TargetCmdLine)"/>
+        <LaunchingApplication PathPlusParams="\usr\X11R6\bin\xterm -T &apos;Lazarus Run Output&apos; -e $(LazarusDir)\tools\runwait.sh $(TargetCmdLine)"/>
       </local>
       <FormatVersion Value="2"/>
       <Modes Count="1">
         <Mode0 Name="default">
           <local>
-            <LaunchingApplication PathPlusParams="\usr\X11R6\bin\xterm -T 'Lazarus Run Output' -e $(LazarusDir)\tools\runwait.sh $(TargetCmdLine)"/>
+            <LaunchingApplication PathPlusParams="\usr\X11R6\bin\xterm -T &apos;Lazarus Run Output&apos; -e $(LazarusDir)\tools\runwait.sh $(TargetCmdLine)"/>
           </local>
         </Mode0>
       </Modes>
@@ -118,19 +123,19 @@ end;"/>
       <OtherUnitFiles Value="fparchive;../../../../sdk;lzma/compression/LZ;lzma/compression/LZMA;lzma/compression/RangeCoder"/>
       <UnitOutputDirectory Value="../lib"/>
     </SearchPaths>
-    <Conditionals Value="if (TargetCPU &lt;> 'arm') then
+    <Conditionals Value="if (TargetCPU &lt;> &apos;arm&apos;) then
 begin
-  CustomOptions += '-fPIC';
+  CustomOptions += &apos;-fPIC&apos;;
 end;
 
-if (TargetOS = 'darwin') then
+if (TargetOS = &apos;darwin&apos;) then
 begin
-  LinkerOptions += ' -no_order_inits';
+  LinkerOptions += &apos; -no_order_inits&apos;;
 end;
 
-if (TargetOS = 'linux') then
+if (TargetOS = &apos;linux&apos;) then
 begin
-  LinkerOptions += ' -z relro --as-needed';
+  LinkerOptions += &apos; -z relro --as-needed&apos;;
 end;"/>
     <CodeGeneration>
       <SmartLinkUnit Value="True"/>
@@ -149,6 +154,10 @@ end;"/>
       </Options>
     </Linking>
     <Other>
+      <Verbosity>
+        <ShowNotes Value="False"/>
+        <ShowHints Value="False"/>
+      </Verbosity>
       <ConfigFile>
         <CustomConfigFile Value="True"/>
         <ConfigFilePath Value="fpc-extra.cfg"/>

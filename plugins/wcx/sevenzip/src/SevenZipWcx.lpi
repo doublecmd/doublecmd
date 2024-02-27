@@ -148,6 +148,10 @@
       </Options>
     </Linking>
     <Other>
+      <Verbosity>
+        <ShowNotes Value="False"/>
+        <ShowHints Value="False"/>
+      </Verbosity>
       <CustomOptions Value="-dUNICODE_CTRLS"/>
     </Other>
   </CompilerOptions>
