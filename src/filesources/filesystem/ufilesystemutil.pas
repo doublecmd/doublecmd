@@ -74,6 +74,7 @@ type
     FReserveSpace,
     FCheckFreeSpace: Boolean;
     FSkipAllBigFiles: Boolean;
+    FSkipAllCopyItSelf: Boolean;
 {$IF DEFINED(UNIX)}
     FSkipAllSpecialFiles: Boolean;
 {$ENDIF}
@@ -1102,9 +1103,15 @@ begin
     begin
       if (FMode = fsohmCopy) and FAutoRenameItSelf then
         TargetName := GetNextCopyName(TargetName, aFile.IsDirectory or aFile.IsLinkToDirectory)
-      else
-        case AskQuestion(Format(rsMsgCanNotCopyMoveItSelf, [TargetName]), '',
-                         [fsourAbort, fsourSkip], fsourAbort, fsourSkip) of
+      else begin
+        if FSkipAllCopyItSelf then
+          AskResult:= fsourSkip
+        else begin
+          AskResult:= AskQuestion(Format(rsMsgCanNotCopyMoveItSelf, [TargetName]), '',
+                                  [fsourAbort, fsourSkip, fsourSkipAll], fsourAbort, fsourSkip);
+          FSkipAllCopyItSelf:= (AskResult = fsourSkipAll);
+        end;
+        case AskResult of
           fsourAbort:
             AbortOperation();
         else
@@ -1116,6 +1123,7 @@ begin
               Continue;
             end;
         end;
+      end;
     end;
 
     // Check MAX_PATH
