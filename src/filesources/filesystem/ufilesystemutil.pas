@@ -1135,6 +1135,7 @@ begin
         AskResult := AskQuestion(Format(rsMsgFilePathOverMaxPath,
                          [UTF8Length(TargetName), MAX_PATH - 1, LineEnding + WrapTextSimple(TargetName, 100) + LineEnding]), '',
                          [fsourIgnore, fsourSkip, fsourAbort, fsourIgnoreAll, fsourSkipAll], fsourIgnore, fsourSkip);
+        if AskResult = fsourSkipAll then FMaxPathOption := fsourSkip;
       end;
       case AskResult of
         fsourAbort: AbortOperation();
@@ -1142,7 +1143,6 @@ begin
         fsourSkipAll:
           begin
             Result := False;
-            FMaxPathOption := fsourSkip;
             SkipStatistics(CurrentSubNode);
             AppProcessMessages;
             CheckOperationState;
