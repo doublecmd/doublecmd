@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    This unit contains Unix specific functions
 
-   Copyright (C) 2015-2023 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2015-2024 Alexander Koblov (alexx2000@mail.ru)
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Lesser General Public
@@ -48,6 +48,9 @@ const
 {$ELSEIF DEFINED(HAIKU)}
   FD_CLOEXEC = 1;
   O_CLOEXEC  = $00000040;
+{$ELSEIF DEFINED(DARWIN)}
+  O_CLOEXEC  = $1000000;
+  F_NOCACHE  = 48;
 {$ELSE}
   O_CLOEXEC  = 0;
 {$ENDIF}

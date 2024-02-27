@@ -3,7 +3,7 @@
     -------------------------------------------------------------------------
     This unit contains platform dependent functions dealing with operating system.
 
-    Copyright (C) 2006-2023 Alexander Koblov (alexx2000@mail.ru)
+    Copyright (C) 2006-2024 Alexander Koblov (alexx2000@mail.ru)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -873,6 +873,16 @@ begin
   if Result <> feInvalidHandle then
   begin
     FileCloseOnExec(Result);
+{$IF DEFINED(DARWIN)}
+    if (Mode and fmOpenDirect <> 0) then
+    begin
+      if (FpFcntl(Result, F_NOCACHE, 1) = -1) then
+      begin
+        FileClose(Result);
+        Exit(feInvalidHandle);
+      end;
+    end;
+{$ENDIF}
     Result:= FileLock(Result, Mode and $FF);
   end;
 end;
@@ -904,6 +914,16 @@ begin
   if Result <> feInvalidHandle then
   begin
     FileCloseOnExec(Result);
+{$IF DEFINED(DARWIN)}
+    if (Mode and fmOpenDirect <> 0) then
+    begin
+      if (FpFcntl(Result, F_NOCACHE, 1) = -1) then
+      begin
+        FileClose(Result);
+        Exit(feInvalidHandle);
+      end;
+    end;
+{$ENDIF}
     Result:= FileLock(Result, Mode and $FF);
   end;
 end;
