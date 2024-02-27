@@ -83,7 +83,8 @@ begin
 
   filename := String(ArchiveData.ArcName);
   arch := FileOpen(filename, fmOpenRead or fmShareDenyNone);
-  if arch = -1 then begin
+  if arch = feInvalidHandle then
+  begin
     fgError := True;
   end
   else begin
