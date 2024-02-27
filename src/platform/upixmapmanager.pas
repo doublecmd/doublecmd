@@ -372,7 +372,7 @@ uses
     , CocoaAll, MacOSAll, uClassesEx
   {$ENDIF}
   {$IFDEF RabbitVCS}
-  , Math, uRabbitVCS
+  , uRabbitVCS
   {$ENDIF}
   ;
 
