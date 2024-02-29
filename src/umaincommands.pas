@@ -2017,22 +2017,35 @@ var
   aFile: TFile;
   i, n: Integer;
   IsFile: Boolean;
+  sCmd: String = '';
   AMode: Integer = 0;
+  sParams: String = '';
   Param, AValue: String;
   sl: TStringList = nil;
-  ActiveFile: TFile = nil;
   AllFiles: TFiles = nil;
-  SelectedFiles: TFiles = nil;
+  sStartPath: String = '';
+  ActiveFile: TFile = nil;
   aFileSource: IFileSource;
-  sCmd: string = '';
-  sParams: string = '';
-  sStartPath: string = '';
+  ACursor: Boolean = False;
+  SelectedFiles: TFiles = nil;
   LinksResolveNeeded: Boolean;
 begin
   with frmMain do
   try
-    SelectedFiles := ActiveFrame.CloneSelectedOrActiveFiles;
     ActiveFile := ActiveFrame.CloneActiveFile;
+
+    if (Length(Params) > 0) then
+    begin
+      if GetParamValue(Params, 'cursor', AValue) then
+        GetBoolValue(AValue, ACursor);
+    end;
+
+    if not ACursor then
+      SelectedFiles := ActiveFrame.CloneSelectedOrActiveFiles
+    else begin
+      SelectedFiles:= TFiles.Create(ActiveFrame.CurrentPath);
+      if ActiveFile.IsNameValid then SelectedFiles.Add(ActiveFile.Clone);
+    end;
 
     if SelectedFiles.Count = 0 then
     begin
@@ -2116,7 +2129,7 @@ begin
       // If only one file was selected then add all files in panel to the list.
       // Works only for directly accessible files and only when using internal viewer.
       if (sl.Count = 1) and (IsFile) and
-         (not gExternalTools[etViewer].Enabled) and
+         (not ACursor) and (not gExternalTools[etViewer].Enabled) and
          ([fspDirectAccess, fspLinksToLocalFiles] * ActiveFrame.FileSource.Properties <> []) then
         begin
           AllFiles := ActiveFrame.CloneFiles;
