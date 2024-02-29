@@ -874,7 +874,7 @@ begin
   begin
     FileCloseOnExec(Result);
 {$IF DEFINED(DARWIN)}
-    if (Mode and fmOpenDirect <> 0) then
+    if (Mode and (fmOpenSync or fmOpenDirect) <> 0) then
     begin
       if (FpFcntl(Result, F_NOCACHE, 1) = -1) then
       begin
@@ -915,7 +915,7 @@ begin
   begin
     FileCloseOnExec(Result);
 {$IF DEFINED(DARWIN)}
-    if (Mode and fmOpenDirect <> 0) then
+    if (Mode and (fmOpenSync or fmOpenDirect) <> 0) then
     begin
       if (FpFcntl(Result, F_NOCACHE, 1) = -1) then
       begin
