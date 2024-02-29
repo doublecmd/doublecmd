@@ -173,7 +173,7 @@ type
 
 const
   { Default hotkey list version number }
-  hkVersion = 62;
+  hkVersion = 63;
   // 54 - In "Viewer" context, added the "W" for "cm_WrapText", "4" for "cm_ShowAsDec", "8" for "cm_ShowOffice".
   // 53 - In "Main" context, change shortcut "Alt+`" to "Alt+0" for the "cm_ActivateTabByIndex".
   // 52 - In "Main" context, add shortcut "Ctrl+Shift+B" for "cm_FlatViewSel".
@@ -1049,11 +1049,20 @@ begin
           Remove(HMHotKey);
         end;
       end;
+      if HotMan.Version < 63 then
+      begin
+        HMHotKey:= FindByCommand('cm_View');
+        if Assigned(HMHotKey) and HMHotKey.SameShortcuts(['F3']) then
+        begin
+          Remove(HMHotKey);
+        end;
+      end;
 
       AddIfNotExists(['F1'],[],'cm_HelpIndex');
       AddIfNotExists(['F2','','',
                       'Shift+F6','',''],'cm_RenameOnly');
-      AddIfNotExists(['F3'],[],'cm_View');
+      AddIfNotExists(['F3','','',
+                      'Shift+F3','','cursor=1',''], 'cm_View');
       AddIfNotExists(['F4'],[],'cm_Edit');
       AddIfNotExists(['F5'],[],'cm_Copy');
       AddIfNotExists(['F6'],[],'cm_Rename');
