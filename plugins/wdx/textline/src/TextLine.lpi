@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CONFIG>
   <ProjectOptions>
-    <Version Value="9"/>
+    <Version Value="12"/>
     <General>
       <Flags>
         <MainUnitHasCreateFormStatements Value="False"/>
         <MainUnitHasTitleStatement Value="False"/>
+        <MainUnitHasScaledStatement Value="False"/>
+        <CompatibilityMode Value="True"/>
       </Flags>
       <SessionStorage Value="InProjectDir"/>
-      <MainUnit Value="0"/>
       <Title Value="TextLine"/>
       <UseAppBundle Value="False"/>
       <ResourceType Value="res"/>
@@ -16,9 +17,6 @@
     <i18n>
       <EnableI18N LFM="False"/>
     </i18n>
-    <VersionInfo>
-      <StringTable ProductVersion=""/>
-    </VersionInfo>
     <BuildModes Count="2">
       <Item1 Name="Release" Default="True"/>
       <Item2 Name="Debug">
@@ -32,19 +30,19 @@
             <OtherUnitFiles Value="../../../../sdk"/>
             <UnitOutputDirectory Value="../lib"/>
           </SearchPaths>
-          <Conditionals Value="if (TargetCPU &lt;> 'arm') then
+          <Conditionals Value="if (TargetCPU &lt;> &apos;arm&apos;) then
 begin
-  CustomOptions += '-fPIC';
+  CustomOptions += &apos;-fPIC&apos;;
 end;
 
-if (TargetOS = 'linux') then
+if (TargetOS = &apos;linux&apos;) then
 begin
-  LinkerOptions += ' -z relro';
+  LinkerOptions += &apos; -z relro&apos;;
 end;
 
-if (TargetOS = 'darwin') then
+if (TargetOS = &apos;darwin&apos;) then
 begin
-  LinkerOptions += ' -no_order_inits';
+  LinkerOptions += &apos; -no_order_inits&apos;;
 end;"/>
           <Parsing>
             <SyntaxOptions>
@@ -77,9 +75,10 @@ end;"/>
       <Version Value="2"/>
     </PublishOptions>
     <RunParams>
-      <local>
-        <FormatVersion Value="1"/>
-      </local>
+      <FormatVersion Value="2"/>
+      <Modes Count="1">
+        <Mode0 Name="default"/>
+      </Modes>
     </RunParams>
     <RequiredPackages Count="1">
       <Item1>
@@ -103,19 +102,19 @@ end;"/>
       <OtherUnitFiles Value="../../../../sdk"/>
       <UnitOutputDirectory Value="../lib"/>
     </SearchPaths>
-    <Conditionals Value="if (TargetCPU &lt;> 'arm') then
+    <Conditionals Value="if (TargetCPU &lt;> &apos;arm&apos;) then
 begin
-  CustomOptions += '-fPIC';
+  CustomOptions += &apos;-fPIC&apos;;
 end;
 
-if (TargetOS = 'darwin') then
+if (TargetOS = &apos;darwin&apos;) then
 begin
-  LinkerOptions += ' -no_order_inits';
+  LinkerOptions += &apos; -no_order_inits&apos;;
 end;
 
-if (TargetOS = 'linux') then
+if (TargetOS = &apos;linux&apos;) then
 begin
-  LinkerOptions += ' -z relro --as-needed';
+  LinkerOptions += &apos; -z relro --as-needed&apos;;
 end;"/>
     <CodeGeneration>
       <SmartLinkUnit Value="True"/>
@@ -133,6 +132,12 @@ end;"/>
         <ExecutableType Value="Library"/>
       </Options>
     </Linking>
+    <Other>
+      <Verbosity>
+        <ShowNotes Value="False"/>
+        <ShowHints Value="False"/>
+      </Verbosity>
+    </Other>
   </CompilerOptions>
   <Debugging>
     <Exceptions Count="3">
