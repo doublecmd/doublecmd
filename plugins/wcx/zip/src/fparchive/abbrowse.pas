@@ -236,7 +236,6 @@ uses
   AbXzTyp,
   AbZstdTyp,
   DCOSUtils,
-  DCStrUtils,
   DCClassesUtf8;
 
 { TAbBaseBrowser implementation ======================================= }
@@ -526,54 +525,37 @@ end;
 { -------------------------------------------------------------------------- }
 function AbDetermineArcType(const FN : string; AssertType : TAbArchiveType) : TAbArchiveType;
 var
+  Ext : string;
   FS : TStream;
-  Ext : String;
-  Name : String;
 begin
   Result := AssertType;
   if Result = atUnknown then begin
     { Guess archive type based on it's extension }
     Ext := UpperCase(ExtractFileExt(FN));
-    Name := UpperCase(ExtractFileName(FN));
     if (Ext = '.ZIP') or (Ext = '.JAR') or (Ext = '.ZIPX') then
       Result := atZip
     else if (Ext = '.EXE') then
       Result := atSelfExtZip
-    else if (Ext = '.CAB') then
-      Result := atCab
     else if (Ext = '.TAR') then
       Result := atTar
-    // TAR.GZ
-    else if StrEnds(Name, 'TAR.GZ') then
-      Result := atGzippedTar
     else if (Ext = '.GZ') then
       Result := atGzip
     else if (Ext = '.TGZ') then
       Result := atGzippedTar
-    // TAR.BZ2
-    else if StrEnds(Name, 'TAR.BZ2') then
-      Result := atBzippedTar
+    else if (Ext = '.CAB') then
+      Result := atCab
     else if (Ext = '.BZ2') then
       Result := atBzip2
     else if (Ext = '.TBZ') then
       Result := atBzippedTar
-    // TAR.XZ
-    else if StrEnds(Name, 'TAR.XZ') then
-      Result := atXzippedTar
     else if (Ext = '.XZ') then
       Result := atXz
     else if (Ext = '.TXZ') then
       Result := atXzippedTar
-    // TAR.LZMA
-    else if StrEnds(Name, 'TAR.LZMA') then
-      Result := atLzmaTar
     else if (Ext = '.LZMA') then
       Result := atLzma
     else if (Ext = '.TLZ') then
       Result := atLzmaTar
-    // TAR.ZST
-    else if StrEnds(Name, 'TAR.ZST') then
-      Result := atZstdTar
     else if (Ext = '.ZST') then
       Result := atZstd
     else if (Ext = '.TZST') then
