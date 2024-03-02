@@ -409,79 +409,7 @@ inherited frmOptionsFilePanelsColors: TfrmOptionsFilePanelsColors
     OnChange = cbPathInactiveBackChange
     ColorDialog = optColorDialog
   end
-  object pnlPreviewCont: TPanel[27]
-    AnchorSideLeft.Control = Owner
-    AnchorSideTop.Control = cbCursorBorderColor
-    AnchorSideTop.Side = asrBottom
-    AnchorSideRight.Control = Owner
-    AnchorSideRight.Side = asrBottom
-    AnchorSideBottom.Control = Owner
-    AnchorSideBottom.Side = asrBottom
-    Left = 0
-    Height = 254
-    Top = 267
-    Width = 880
-    Anchors = [akTop, akLeft, akRight, akBottom]
-    BorderSpacing.Top = 11
-    BevelOuter = bvNone
-    ChildSizing.LeftRightSpacing = 8
-    ClientHeight = 254
-    ClientWidth = 880
-    Color = clInactiveCaption
-    Constraints.MinHeight = 250
-    ParentBackground = False
-    ParentColor = False
-    TabOrder = 20
-    TabStop = True
-    object lblPreview: TLabel
-      Left = 8
-      Height = 15
-      Top = 0
-      Width = 864
-      Align = alTop
-      Alignment = taCenter
-      Caption = 'Below is a preview. You may move cursor, select file and get immediately an actual look and feel of the various settings.'
-      Color = clInactiveCaption
-      ParentColor = False
-      Transparent = False
-    end
-    object pnlLeftPreview: TPanel
-      Left = 8
-      Height = 231
-      Top = 15
-      Width = 439
-      Align = alClient
-      Anchors = []
-      BorderSpacing.Bottom = 8
-      ParentColor = False
-      TabOrder = 0
-      TabStop = True
-      OnEnter = pnlLeftPreviewEnter
-    end
-    object pnlRightPreview: TPanel
-      Left = 457
-      Height = 231
-      Top = 15
-      Width = 415
-      Align = alRight
-      Anchors = []
-      BorderSpacing.Bottom = 8
-      ParentColor = False
-      TabOrder = 1
-      TabStop = True
-      OnEnter = pnlRightPreviewEnter
-    end
-    object spPanelSplitter: TSplitter
-      Left = 447
-      Height = 239
-      Top = 15
-      Width = 10
-      Align = alRight
-      Anchors = [akRight]
-      ResizeAnchor = akRight
-    end
-  end
-  object cbUseCursorBorder: TCheckBox[28]
+  object cbUseCursorBorder: TCheckBox[27]
     AnchorSideLeft.Side = asrBottom
     AnchorSideTop.Control = cbCursorBorderColor
     AnchorSideTop.Side = asrCenter
@@ -495,7 +423,7 @@ inherited frmOptionsFilePanelsColors: TfrmOptionsFilePanelsColors
     OnChange = cbUseCursorBorderChange
     TabOrder = 8
   end
-  object cbCursorBorderColor: TKASColorBoxButton[29]
+  object cbCursorBorderColor: TKASColorBoxButton[28]
     AnchorSideLeft.Control = cbInactiveMarkColor
     AnchorSideTop.Control = cbInactiveMarkColor
     AnchorSideTop.Side = asrBottom
@@ -511,7 +439,7 @@ inherited frmOptionsFilePanelsColors: TfrmOptionsFilePanelsColors
     OnChange = cbColorBoxChange
     ColorDialog = optColorDialog
   end
-  object btnResetToDCDefault: TButton[30]
+  object btnResetToDCDefault: TButton[29]
     AnchorSideTop.Control = cbCursorBorderColor
     AnchorSideRight.Control = cbPathInactiveBack
     AnchorSideRight.Side = asrBottom
@@ -525,7 +453,7 @@ inherited frmOptionsFilePanelsColors: TfrmOptionsFilePanelsColors
     OnClick = btnResetToDCDefaultClick
     TabOrder = 19
   end
-  object cbAllowOverColor: TCheckBox[31]
+  object cbAllowOverColor: TCheckBox[30]
     AnchorSideLeft.Control = cbbUseInactiveSelColor
     AnchorSideTop.Control = cbbUseFrameCursor
     AnchorSideTop.Side = asrCenter
@@ -537,7 +465,7 @@ inherited frmOptionsFilePanelsColors: TfrmOptionsFilePanelsColors
     OnChange = cbbUseInactiveSelColorChange
     TabOrder = 13
   end
-  object lblPathInactiveText: TLabel[32]
+  object lblPathInactiveText: TLabel[31]
     AnchorSideLeft.Control = cbbUseInvertedSelection
     AnchorSideTop.Control = cbPathInactiveText
     AnchorSideTop.Side = asrCenter
@@ -552,7 +480,7 @@ inherited frmOptionsFilePanelsColors: TfrmOptionsFilePanelsColors
     FocusControl = cbPathInactiveText
     ParentColor = False
   end
-  object cbPathInactiveText: TKASColorBoxButton[33]
+  object cbPathInactiveText: TKASColorBoxButton[32]
     AnchorSideLeft.Control = cbbUseInactiveSelColor
     AnchorSideTop.Control = cbInactiveCursorColor
     AnchorSideTop.Side = asrCenter
@@ -567,7 +495,7 @@ inherited frmOptionsFilePanelsColors: TfrmOptionsFilePanelsColors
     OnChange = cbPathInactiveTextChange
     ColorDialog = optColorDialog
   end
-  object cbPathActiveText: TKASColorBoxButton[34]
+  object cbPathActiveText: TKASColorBoxButton[33]
     AnchorSideLeft.Control = cbbUseInactiveSelColor
     AnchorSideTop.Control = cbCursorColor
     AnchorSideTop.Side = asrCenter
@@ -582,7 +510,7 @@ inherited frmOptionsFilePanelsColors: TfrmOptionsFilePanelsColors
     OnChange = cbPathActiveTextChange
     ColorDialog = optColorDialog
   end
-  object lblPathActiveText: TLabel[35]
+  object lblPathActiveText: TLabel[34]
     AnchorSideTop.Control = cbPathActiveText
     AnchorSideTop.Side = asrCenter
     AnchorSideRight.Control = cbPathInactiveText
@@ -595,6 +523,74 @@ inherited frmOptionsFilePanelsColors: TfrmOptionsFilePanelsColors
     Caption = 'Text Color:'
     FocusControl = cbPathInactiveText
     ParentColor = False
+  end
+  object pnlPreviewCont: TKASToolPanel[35]
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = cbCursorBorderColor
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
+    AnchorSideBottom.Control = Owner
+    AnchorSideBottom.Side = asrBottom
+    Left = 0
+    Height = 259
+    Top = 262
+    Width = 880
+    Anchors = [akTop, akLeft, akRight, akBottom]
+    BorderSpacing.Top = 6
+    ChildSizing.LeftRightSpacing = 8
+    TabOrder = 20
+    object pnlLeftPreview: TPanel
+      Left = 8
+      Height = 222
+      Top = 29
+      Width = 439
+      Align = alClient
+      Anchors = []
+      BorderSpacing.Bottom = 8
+      BevelOuter = bvNone
+      ParentColor = False
+      TabOrder = 0
+      TabStop = True
+      OnEnter = pnlLeftPreviewEnter
+    end
+    object pnlRightPreview: TPanel
+      Left = 457
+      Height = 222
+      Top = 29
+      Width = 415
+      Align = alRight
+      Anchors = []
+      BorderSpacing.Bottom = 8
+      BevelOuter = bvNone
+      ParentColor = False
+      TabOrder = 1
+      TabStop = True
+      OnEnter = pnlRightPreviewEnter
+    end
+    object spPanelSplitter: TSplitter
+      Left = 447
+      Height = 230
+      Top = 29
+      Width = 10
+      Align = alRight
+      Anchors = [akRight]
+      ResizeAnchor = akRight
+    end
+    object lblPreview: TDividerBevel
+      Left = 8
+      Height = 15
+      Top = 8
+      Width = 864
+      Caption = 'Below is a preview. You may move cursor, select file and get immediately an actual look and feel of the various settings.'
+      Align = alTop
+      BorderSpacing.Top = 6
+      BorderSpacing.Bottom = 6
+      Font.Style = [fsBold]
+      ParentColor = False
+      ParentFont = False
+      Style = gsHorLines
+    end
   end
   object optColorDialog: TColorDialog[36]
     Color = clBlack

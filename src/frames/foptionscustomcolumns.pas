@@ -30,9 +30,9 @@ interface
 uses
   //Lazarus, Free-Pascal, etc.
   ComCtrls, Controls, Classes, SysUtils, StdCtrls, ExtCtrls, Forms, ColorBox,
-  Buttons, Spin, Grids, Menus, Dialogs, LMessages,
+  Buttons, Spin, Grids, Menus, Dialogs, LMessages, DividerBevel,
   //DC
-  uColumns, fOptionsFrame, uColumnsFileView;
+  uColumns, KASToolPanel, fOptionsFrame, uColumnsFileView;
 
 type
 
@@ -116,7 +116,7 @@ type
     lblInactiveCursorColor: TLabel;
     lblInactiveMarkColor: TLabel;
     lblMarkColor: TLabel;
-    lblPreviewTop: TLabel;
+    lblPreviewTop: TDividerBevel;
     lblWorkingColumn: TLabel;
     miAddColumn: TMenuItem;
     pnlCommon: TPanel;
@@ -127,7 +127,7 @@ type
     pnlConfigColumns: TPanel;
     pnlGeneralColumnsViewSettings: TPanel;
     pnlLeft: TPanel;
-    pnlPreviewCont: TPanel;
+    pnlPreviewCont: TKASToolPanel;
     pnlRight: TPanel;
     sneFontSize: TSpinEdit;
     spGridArea: TSplitter;
