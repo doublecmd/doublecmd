@@ -29,7 +29,7 @@ interface
 uses
   //Lazarus, Free-Pascal, etc.
   Graphics, Classes, SysUtils, ComCtrls, StdCtrls, ColorBox, ExtCtrls, Dialogs,
-  DividerBevel, LMessages, KASComboBox,
+  DividerBevel, LMessages, KASComboBox, KASToolPanel,
 
   //DC
   uColumns, fOptionsFrame, uColumnsFileView, Controls;
@@ -46,6 +46,7 @@ type
     dbOptionsVertical: TDividerBevel;
     lblPathInactiveText: TLabel;
     lblPathActiveText: TLabel;
+    lblPreview: TDividerBevel;
     lblTextColor: TLabel;
     cbTextColor: TKASColorBoxButton;
     lblBackgroundColor: TLabel;
@@ -66,6 +67,9 @@ type
     cbbUseInactiveSelColor: TCheckBox;
     cbbUseFrameCursor: TCheckBox;
     lblInactivePanelBrightness: TLabel;
+    pnlLeftPreview: TPanel;
+    pnlPreviewCont: TKASToolPanel;
+    pnlRightPreview: TPanel;
     spPanelSplitter: TSplitter;
     tbInactivePanelBrightness: TTrackBar;
     dbCurrentPath: TDividerBevel;
@@ -73,10 +77,6 @@ type
     cbPathActiveBack: TKASColorBoxButton;
     lblPathInactiveBack: TLabel;
     cbPathInactiveBack: TKASColorBoxButton;
-    pnlPreviewCont: TPanel;
-    lblPreview: TLabel;
-    pnlLeftPreview: TPanel;
-    pnlRightPreview: TPanel;
     optColorDialog: TColorDialog;
     procedure btnResetToDCDefaultClick(Sender: TObject);
     procedure cbbUseFrameCursorChange(Sender: TObject);

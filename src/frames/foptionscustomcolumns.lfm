@@ -1366,31 +1366,27 @@ inherited frmOptionsCustomColumns: TfrmOptionsCustomColumns
         TabOrder = 2
       end
     end
-    object pnlPreviewCont: TPanel
+    object pnlPreviewCont: TKASToolPanel
       Left = 1
       Height = 188
       Top = 368
       Width = 1060
       Align = alClient
-      BevelOuter = bvNone
       ChildSizing.LeftRightSpacing = 8
-      ClientHeight = 188
-      ClientWidth = 1060
-      Color = clInactiveCaption
-      Constraints.MinHeight = 125
-      ParentColor = False
       TabOrder = 4
-      object lblPreviewTop: TLabel
+      object lblPreviewTop: TDividerBevel
         Left = 8
         Height = 15
-        Top = 0
+        Top = 8
         Width = 1044
-        Align = alTop
-        Alignment = taCenter
         Caption = 'Below is a preview. You may move cursor and select files to get immediately an actual look and feel of the various settings.'
-        Font.Color = clHighlight
+        Align = alTop
+        BorderSpacing.Top = 6
+        BorderSpacing.Bottom = 6
+        Font.Style = [fsBold]
         ParentColor = False
         ParentFont = False
+        Style = gsHorLines
       end
       object pnlLeft: TPanel
         Left = 8
