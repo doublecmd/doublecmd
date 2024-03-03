@@ -385,6 +385,7 @@ end;
 { -------------------------------------------------------------------------- }
 procedure TAbCustomZipper.SetFileName(const aFileName : string);
 var
+  AMode : Word;
   ArcType : TAbArchiveType;
 begin
   FFileName := aFileName;
@@ -400,147 +401,91 @@ begin
   ArcType := ArchiveType;
 
   if (FileName <> '') then
-    if mbFileExists(FileName) then begin { open it }
+  begin
+    if mbFileExists(FileName) then
+      AMode := fmOpenRead or fmShareDenyNone
+    else begin
+      AMode := fmCreate or fmShareDenyWrite
+    end;
 
     if not ForceType then
       ArcType := AbDetermineArcType(FileName, atUnknown);
 
-      case ArcType of
-        atZip, atSpannedZip, atSelfExtZip : begin
-         FArchive := TAbZipArchive.Create(FileName, fmOpenRead or fmShareDenyNone);
-         InitArchive;
-        end;
-
-        atTar : begin
-          FArchive := TAbTarArchive.Create(FileName, fmOpenRead or fmShareDenyNone);
-          inherited InitArchive;
-        end;
-
-        atGZip : begin
-          FArchive := TAbGzipArchive.Create(FileName, fmOpenRead or fmShareDenyNone);
-          TAbGzipArchive(FArchive).TarAutoHandle := FTarAutoHandle;
-          TAbGzipArchive(FArchive).IsGzippedTar := False;
-          inherited InitArchive;
-        end;
-
-        atGZippedTar : begin
-          FArchive := TAbGzipArchive.Create(FileName, fmOpenRead or fmShareDenyNone);
-          TAbGzipArchive(FArchive).TarAutoHandle := FTarAutoHandle;
-          TAbGzipArchive(FArchive).IsGzippedTar := True;
-          inherited InitArchive;
-        end;
-
-        atBzip2 : begin
-          FArchive := TAbBzip2Archive.Create(FileName, fmOpenRead or fmShareDenyNone);
-          TAbBzip2Archive(FArchive).TarAutoHandle := FTarAutoHandle;
-          TAbBzip2Archive(FArchive).IsBzippedTar := False;
-          inherited InitArchive;
-        end;
-
-        atBzippedTar : begin
-          FArchive := TAbBzip2Archive.Create(FileName, fmOpenRead or fmShareDenyNone);
-          TAbBzip2Archive(FArchive).TarAutoHandle := FTarAutoHandle;
-          TAbBzip2Archive(FArchive).IsBzippedTar := True;
-          inherited InitArchive;
-        end;
-
-        atXz, atXzippedTar : begin
-          FArchive := TAbXzArchive.Create(FileName, fmOpenRead or fmShareDenyNone);
-          TAbXzArchive(FArchive).TarAutoHandle := FTarAutoHandle;
-          TAbXzArchive(FArchive).IsXzippedTar := (ArcType = atXzippedTar);
-          inherited InitArchive;
-        end;
-
-        atLzma, atLzmaTar : begin
-          FArchive := TAbLzmaArchive.Create(FileName, fmOpenRead or fmShareDenyNone);
-          TAbLzmaArchive(FArchive).TarAutoHandle := FTarAutoHandle;
-          TAbLzmaArchive(FArchive).IsLzmaTar := (ArcType = atLzmaTar);
-          inherited InitArchive;
-        end;
-
-        atZstd, atZstdTar : begin
-          FArchive := TAbZstdArchive.Create(FileName, fmOpenRead or fmShareDenyNone);
-          TAbZstdArchive(FArchive).TarAutoHandle := FTarAutoHandle;
-          TAbZstdArchive(FArchive).IsZstdTar := (ArcType = atZstdTar);
-          inherited InitArchive;
-        end;
-
-        else
-          raise EAbUnhandledType.Create;
-      end {case};
-      FArchive.Load;
-      FArchiveType := ArcType;
-
-    end else begin  { file doesn't exist, so create a new one }
-      if not ForceType then
-        ArcType := AbDetermineArcType(FileName, atUnknown);
-
-      case ArcType of
-        atZip : begin                                                    
-          FArchive := TAbZipArchive.Create(FileName, fmCreate or fmShareDenyWrite);
-          InitArchive;
-        end;
-
-        atTar : begin
-          FArchive := TAbTarArchive.Create(FileName, fmCreate or fmShareDenyWrite);
-          inherited InitArchive;
-        end;
-
-        atGZip : begin
-          FArchive := TAbGzipArchive.Create(FileName, fmCreate or fmShareDenyWrite);
-          TAbGzipArchive(FArchive).TarAutoHandle := FTarAutoHandle;
-          TAbGzipArchive(FArchive).IsGzippedTar := False;
-          inherited InitArchive;
-        end;
-
-        atGZippedTar : begin
-          FArchive := TAbGzipArchive.Create(FileName, fmCreate or fmShareDenyWrite);
-          TAbGzipArchive(FArchive).TarAutoHandle := FTarAutoHandle;
-          TAbGzipArchive(FArchive).IsGzippedTar := True;
-          inherited InitArchive;
-        end;
-
-        atBzip2 : begin
-          FArchive := TAbBzip2Archive.Create(FileName, fmCreate or fmShareDenyWrite);
-          TAbBzip2Archive(FArchive).TarAutoHandle := FTarAutoHandle;
-          TAbBzip2Archive(FArchive).IsBzippedTar := False;
-          inherited InitArchive;
-        end;
-
-        atBzippedTar : begin
-          FArchive := TAbBzip2Archive.Create(FileName, fmCreate or fmShareDenyWrite);
-          TAbBzip2Archive(FArchive).TarAutoHandle := FTarAutoHandle;
-          TAbBzip2Archive(FArchive).IsBzippedTar := True;
-          inherited InitArchive;
-        end;
-
-        atXz, atXzippedTar : begin
-          FArchive := TAbXzArchive.Create(FileName, fmCreate or fmShareDenyWrite);
-          TAbXzArchive(FArchive).TarAutoHandle := FTarAutoHandle;
-          TAbXzArchive(FArchive).IsXzippedTar := (ArcType = atXzippedTar);
-          inherited InitArchive;
-        end;
-
-        atLzma, atLzmaTar : begin
-          FArchive := TAbLzmaArchive.Create(FileName, fmCreate or fmShareDenyWrite);
-          TAbLzmaArchive(FArchive).TarAutoHandle := FTarAutoHandle;
-          TAbLzmaArchive(FArchive).IsLzmaTar := (ArcType = atLzmaTar);
-          inherited InitArchive;
-        end;
-
-        atZstd, atZstdTar : begin
-          FArchive := TAbZstdArchive.Create(FileName, fmCreate or fmShareDenyWrite);
-          TAbZstdArchive(FArchive).TarAutoHandle := FTarAutoHandle;
-          TAbZstdArchive(FArchive).IsZstdTar := (ArcType = atZstdTar);
-          inherited InitArchive;
-        end;
-
-        else
-          raise EAbUnhandledType.Create;
-      end {case};
-
-      FArchiveType := ArcType;
+    if (AMode and fmCreate = fmCreate) then
+    begin
+      if ArcType in [atSpannedZip, atSelfExtZip] then
+        raise EAbUnhandledType.Create;
     end;
+
+    case ArcType of
+      atZip, atSpannedZip, atSelfExtZip : begin
+       FArchive := TAbZipArchive.Create(FileName, AMode);
+       InitArchive;
+      end;
+
+      atTar : begin
+        FArchive := TAbTarArchive.Create(FileName, AMode);
+        inherited InitArchive;
+      end;
+
+      atGZip : begin
+        FArchive := TAbGzipArchive.Create(FileName, AMode);
+        TAbGzipArchive(FArchive).TarAutoHandle := FTarAutoHandle;
+        TAbGzipArchive(FArchive).IsGzippedTar := False;
+        inherited InitArchive;
+      end;
+
+      atGZippedTar : begin
+        FArchive := TAbGzipArchive.Create(FileName, AMode);
+        TAbGzipArchive(FArchive).TarAutoHandle := FTarAutoHandle;
+        TAbGzipArchive(FArchive).IsGzippedTar := True;
+        inherited InitArchive;
+      end;
+
+      atBzip2 : begin
+        FArchive := TAbBzip2Archive.Create(FileName, AMode);
+        TAbBzip2Archive(FArchive).TarAutoHandle := FTarAutoHandle;
+        TAbBzip2Archive(FArchive).IsBzippedTar := False;
+        inherited InitArchive;
+      end;
+
+      atBzippedTar : begin
+        FArchive := TAbBzip2Archive.Create(FileName, AMode);
+        TAbBzip2Archive(FArchive).TarAutoHandle := FTarAutoHandle;
+        TAbBzip2Archive(FArchive).IsBzippedTar := True;
+        inherited InitArchive;
+      end;
+
+      atXz, atXzippedTar : begin
+        FArchive := TAbXzArchive.Create(FileName, AMode);
+        TAbXzArchive(FArchive).TarAutoHandle := FTarAutoHandle;
+        TAbXzArchive(FArchive).IsXzippedTar := (ArcType = atXzippedTar);
+        inherited InitArchive;
+      end;
+
+      atLzma, atLzmaTar : begin
+        FArchive := TAbLzmaArchive.Create(FileName, AMode);
+        TAbLzmaArchive(FArchive).TarAutoHandle := FTarAutoHandle;
+        TAbLzmaArchive(FArchive).IsLzmaTar := (ArcType = atLzmaTar);
+        inherited InitArchive;
+      end;
+
+      atZstd, atZstdTar : begin
+        FArchive := TAbZstdArchive.Create(FileName, AMode);
+        TAbZstdArchive(FArchive).TarAutoHandle := FTarAutoHandle;
+        TAbZstdArchive(FArchive).IsZstdTar := (ArcType = atZstdTar);
+        inherited InitArchive;
+      end;
+
+      else
+        raise EAbUnhandledType.Create;
+    end {case};
+    if (AMode and fmCreate <> fmCreate) then
+    begin
+      FArchive.Load;
+    end;
+    FArchiveType := ArcType;
+  end;
   DoChange;
 end;
 { -------------------------------------------------------------------------- }
