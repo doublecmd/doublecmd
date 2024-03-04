@@ -92,6 +92,7 @@ type
     procedure LoadArchive; override;
     procedure SaveArchive; override;
     procedure TestItemAt(Index : Integer); override;
+    function GetStreamMode : Boolean; override;
     function GetSupportsEmptyFolders : Boolean; override;
 
   public {methods}
@@ -468,6 +469,11 @@ begin
       BitBucket.Free;
     end;
   end;
+end;
+{ -------------------------------------------------------------------------- }
+function TAbBzip2Archive.GetStreamMode: Boolean;
+begin
+  Result:= FIsBzippedTar and (inherited GetStreamMode);
 end;
 { -------------------------------------------------------------------------- }
 procedure TAbBzip2Archive.DoSpanningMediaRequest(Sender: TObject;
