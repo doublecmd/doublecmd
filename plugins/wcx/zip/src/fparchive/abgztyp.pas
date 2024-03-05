@@ -21,6 +21,7 @@
  *
  * Contributor(s):
  * Craig Peterson <capeterson@users.sourceforge.net>
+ * Alexander Koblov <alexx2000@users.sourceforge.net>
  *
  * ***** END LICENSE BLOCK ***** *)
 
@@ -294,7 +295,7 @@ implementation
 
 uses
   SysUtils, BufStream,
-  AbBitBkt, AbDfBase, AbDfDec, AbZlibPrc, AbExcept, AbResString, AbProgress,
+  AbBitBkt, AbDfBase, AbGz, AbZlibPrc, AbExcept, AbResString, AbProgress,
   AbVMStrm, DCOSUtils, DCClassesUtf8, DCConvertEncoding;
 
 const
@@ -899,7 +900,6 @@ begin
   FState     := gsGzip;
   FGZStream  := FStream;
   FGZItem    := FItemList;
-  FTarStream := TAbVirtualMemoryStream.Create;
   FTarList   := TAbArchiveList.Create(True);
 end;
 
@@ -1070,7 +1070,7 @@ end;
 
 function TAbGzipArchive.GetStreamMode: Boolean;
 begin
-  Result := False;
+  Result := FIsGzippedTar and (inherited GetStreamMode);
 end;
 
 function TAbGzipArchive.GetIsGzippedTar: Boolean;
@@ -1114,14 +1114,23 @@ begin
         if IsGzippedTar and TarAutoHandle then begin
           { extract Tar and set stream up }
           FGzStream.Seek(0, soBeginning);
-          GzHelp.ReadHeader;
-          repeat
-            GzHelp.ExtractItemData(FTarStream);
-            GzHelp.ReadTail;
+          { Decompress and load archive on the fly }
+          if OpenMode <> opModify  then
+          begin
+            FTarStream := TGzDecompressionStream.Create(FGzStream);
+            SwapToTar;
+          end
+          else begin
+            FTarStream := TAbVirtualMemoryStream.Create;
             GzHelp.ReadHeader;
-          until not VerifyHeader(GZHelp.FItem.FGzHeader);
-          SwapToTar;
-          inherited LoadArchive;
+            repeat
+              GzHelp.ExtractItemData(FTarStream);
+              GzHelp.ReadTail;
+              GzHelp.ReadHeader;
+            until not VerifyHeader(GZHelp.FItem.FGzHeader);
+            SwapToTar;
+            inherited LoadArchive;
+          end;
         end;
       end;
 
@@ -1182,7 +1191,6 @@ begin
         CurItem.Action := aaNone;
         CurItem.LastModTimeAsDateTime := Now;
         CurItem.SaveGzHeaderToStream(NewStream);
-        FTarStream.Position := 0;
         CompStream := TDeflateStream.Create(CompressionLevel, NewStream);
         try
           FTargetStream := TWriteBufStream.Create(CompStream, $40000);
