@@ -545,6 +545,7 @@ var
   gInplaceRename,
   gInplaceRenameButton,
   gDblClickToParent,
+  gDblClickEditPath,
   gGoToRoot: Boolean;
   gShowCurDirTitleBar: Boolean;
   gActiveRight: Boolean;
@@ -2023,6 +2024,7 @@ begin
   gInplaceRename := False;
   gInplaceRenameButton := True;
   gDblClickToParent := False;
+  gDblClickEditPath := False;
   gHotDirAddTargetOrNot := False;
   gHotDirFullExpandOrNot:=False;
   gShowPathInPopup:=FALSE;
@@ -3063,6 +3065,7 @@ begin
       gInplaceRename := GetValue(Node, 'InplaceRename', gInplaceRename);
       gInplaceRenameButton := GetValue(Node, 'InplaceRenameButton', gInplaceRenameButton);
       gDblClickToParent := GetValue(Node, 'DblClickToParent', gDblClickToParent);
+      gDblClickEditPath := GetValue(Node, 'DoubleClickEditPath', gDblClickEditPath);
       gHotDirAddTargetOrNot:=GetValue(Node, 'HotDirAddTargetOrNot', gHotDirAddTargetOrNot);
       gHotDirFullExpandOrNot:=GetValue(Node, 'HotDirFullExpandOrNot', gHotDirFullExpandOrNot);
       gShowPathInPopup:=GetValue(Node, 'ShowPathInPopup', gShowPathInPopup);
@@ -3675,6 +3678,7 @@ begin
     SetValue(Node, 'InplaceRename', gInplaceRename);
     SetValue(Node, 'InplaceRenameButton', gInplaceRenameButton);
     SetValue(Node, 'DblClickToParent', gDblClickToParent);
+    SetValue(Node, 'DoubleClickEditPath', gDblClickEditPath);
     SetValue(Node, 'HotDirAddTargetOrNot',gHotDirAddTargetOrNot);
     SetValue(Node, 'HotDirFullExpandOrNot', gHotDirFullExpandOrNot);
     SetValue(Node, 'ShowPathInPopup', gShowPathInPopup);
