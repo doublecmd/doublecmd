@@ -160,8 +160,13 @@ end;
 procedure TFileViewHeader.PathLabelDblClick(Sender: TObject);
 begin
   tmViewHistoryMenu.Enabled:=FALSE; //Cancel the possibility of a left click
-  FFileView.SetFocus;
-  frmMain.Commands.cm_DirHotList(['position=cursor']);
+
+  if gDblClickEditPath then
+    ShowPathEdit
+  else begin
+    FFileView.SetFocus;
+    frmMain.Commands.cm_DirHotList(['position=cursor']);
+  end;
 end;
 
 procedure TFileViewHeader.PathLabelMouseUp(Sender: TObject; Button: TMouseButton;
