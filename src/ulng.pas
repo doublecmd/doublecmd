@@ -263,7 +263,6 @@ resourcestring
   rsMsgHotDirTarget = 'Hotdir target';
   rsMsgHotDirSubMenuName = 'Submenu name';
   rsMsgHotDirSimpleName = '&Name:';
-  rsMsgHotDirSimpleSeparator = '(separator)';
   rsMsgHotDirSimpleMenu = 'Menu &name:';
   rsMsgHotDirSimpleEndOfMenu = '(end of sub menu)';
   rsMsgHotDirSimpleCommand = 'Command:';

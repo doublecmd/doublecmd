@@ -1069,7 +1069,7 @@ var
   OriginalNode: TTreeNode;
 begin
   OriginalNode := tvDirectoryHotlist.Selected;
-  lbleditHotDirName.Text := '';
+
   lbleditHotDirName.Enabled := False;
   lbleditHotDirPath.Visible := False;
   cbSortHotDirPath.Visible := False;
@@ -1077,6 +1077,7 @@ begin
   lbleditHotDirTarget.Visible := False;
   btnRelativePath.Visible := False;
   btnRelativeTarget.Visible := False;
+
   Application.ProcessMessages;
   try
     RefreshExistingProperty(TComponent(Sender).tag);
@@ -1525,6 +1526,7 @@ begin
         lbleditHotDirName.EditLabel.Caption := rsMsgHotDirSimpleName;
         lbleditHotDirName.Text := THotDir(WorkingPointer).HotDirName;
         lbleditHotDirName.ReadOnly := False;
+        lbleditHotDirName.Visible := True;
 
         lbleditHotDirPath.EditLabel.Caption := rsMsgHotDirJustPath;
         lbleditHotDirPath.Text := THotDir(WorkingPointer).HotDirPath; //DirectoryHotlistTemp.HotDir[IndexInHotlist].HotDirPath;
@@ -1555,10 +1557,7 @@ begin
 
       hd_SEPARATOR:
       begin
-        lbleditHotDirName.EditLabel.Caption := '';
-        lbleditHotDirName.Text := rsMsgHotDirSimpleSeparator;
-        lbleditHotDirName.ReadOnly := True;
-
+        lbleditHotDirName.Visible := False;
         lbleditHotDirPath.Visible := False;
         lbleditHotDirTarget.Visible := False;
       end;
@@ -1568,6 +1567,7 @@ begin
         lbleditHotDirName.EditLabel.Caption := rsMsgHotDirSimpleMenu;
         lbleditHotDirName.Text := THotDir(WorkingPointer).HotDirName;
         lbleditHotDirName.ReadOnly := False;
+        lbleditHotDirName.Visible := True;
 
         lbleditHotDirPath.Visible := False;
         lbleditHotDirTarget.Visible := False;
@@ -1578,6 +1578,7 @@ begin
         lbleditHotDirName.EditLabel.Caption := '';
         lbleditHotDirName.Text := rsMsgHotDirSimpleEndOfMenu;
         lbleditHotDirName.ReadOnly := True;
+        lbleditHotDirName.Visible:= True;
 
         lbleditHotDirPath.Visible := False;
         lbleditHotDirTarget.Visible := False;
@@ -1599,11 +1600,7 @@ begin
     btnInsert.Enabled := btnAdd.Enabled;
     btnMiscellaneous.Enabled := btnAdd.Enabled;
 
-    lbleditHotDirName.EditLabel.Caption := '';
-    lbleditHotDirName.Text := '';
-    lbleditHotDirName.ReadOnly := True;
-    lbleditHotDirName.Text := 'Nothing...';
-
+    lbleditHotDirName.Visible := False;
     lbleditHotDirPath.Visible := False;
     lbleditHotDirTarget.Visible := False;
   end;
