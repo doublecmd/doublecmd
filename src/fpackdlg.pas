@@ -70,6 +70,7 @@ type
     FExistsArchive : Boolean;
     FSourceFileSource: IFileSource;
     FTargetFileSource:  IArchiveFileSource;
+    FCount: Integer;
     FPlugin: Boolean;
     FPassword: String;
     FVolumeSize: String;
@@ -126,6 +127,7 @@ begin
   try
     with PackDialog do
     begin
+      FCount:= Files.Count;
       FArchiveType:= 'none';
       FNewArchive:= bNewArchive;
       FSourceFileSource:= SourceFileSource;
@@ -355,7 +357,7 @@ begin
           // If file list contain directory then
           // put to the tar archive first is needed
           if not FHasFolder then
-            cbCreateSeparateArchives.Checked:= True
+            cbCreateSeparateArchives.Checked:= (FCount > 1)
           else
             begin
               cbPutInTarFirst.Checked:= True;
@@ -407,7 +409,7 @@ begin
             // If file list contain directory then
             // put to the tar archive first is needed
             if not FHasFolder then
-              cbCreateSeparateArchives.Checked:= True
+              cbCreateSeparateArchives.Checked:= (FCount > 1)
             else
               begin
                 cbPutInTarFirst.Checked:= True;
