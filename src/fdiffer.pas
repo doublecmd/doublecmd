@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Internal diff and merge tool
 
-   Copyright (C) 2010-2023 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2010-2024 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
@@ -237,6 +237,7 @@ type
     FWaitData: TWaitData;
     FElevate: TDuplicates;
     FCommands: TFormCommands;
+    FLeftLen, FRightLen: Integer;
     FSearchOptions: TEditSearchOptions;
 private
     procedure ShowDialog;
@@ -1013,9 +1014,11 @@ begin
   gDifferIgnoreCase := actIgnoreCase.Checked;
   gDifferAutoCompare := actAutoCompare.Checked;
   gDifferKeepScrolling := actKeepScrolling.Checked;
-  gDifferLineDifferences := actLineDifferences.Checked;
   gDifferPaintBackground := actPaintBackground.Checked;
   gDifferIgnoreWhiteSpace := actIgnoreWhiteSpace.Checked;
+  if actLineDifferences.Enabled then begin
+    gDifferLineDifferences := actLineDifferences.Checked;
+  end;
 end;
 
 procedure TfrmDiffer.FormCloseQuery(Sender: TObject; var CanClose: boolean);
@@ -1419,22 +1422,34 @@ end;
 
 procedure TfrmDiffer.BuildHashList(bLeft, bRight: Boolean);
 var
+  S: String;
   I: Integer;
 begin
   if bLeft then
   begin
+    FLeftLen:= 0;
     SetLength(HashListLeft, SynDiffEditLeft.Lines.Count);
     for I := 0 to SynDiffEditLeft.Lines.Count - 1 do
-      HashListLeft[I]:= Integer(HashString(SynDiffEditLeft.Lines[I],
-        actIgnoreCase.Checked, actIgnoreWhiteSpace.Checked));
+    begin
+      S:= SynDiffEditLeft.Lines[I];
+      FLeftLen:= Max(FLeftLen, Length(S));
+      HashListLeft[I]:= Integer(HashString(S, actIgnoreCase.Checked, actIgnoreWhiteSpace.Checked));
+    end;
   end;
   if bRight then
   begin
+    FRightLen:= 0;
     SetLength(HashListRight, SynDiffEditRight.Lines.Count);
     for I := 0 to SynDiffEditRight.Lines.Count - 1 do
-      HashListRight[I]:= Integer(HashString(SynDiffEditRight.Lines[I],
-        actIgnoreCase.Checked, actIgnoreWhiteSpace.Checked));
+    begin
+      S:= SynDiffEditRight.Lines[I];
+      FRightLen:= Max(FRightLen, Length(S));
+      HashListRight[I]:= Integer(HashString(S, actIgnoreCase.Checked, actIgnoreWhiteSpace.Checked));
+    end;
   end;
+
+  actLineDifferences.Enabled:= (FLeftLen < High(UInt16)) and (FRightLen < High(UInt16));
+  if not actLineDifferences.Enabled then actLineDifferences.Checked:= False;
 
   actStartCompare.Enabled := (Length(HashListLeft) > 0) and (Length(HashListRight) > 0);
   actCopyLeftToRight.Enabled := actStartCompare.Enabled;
