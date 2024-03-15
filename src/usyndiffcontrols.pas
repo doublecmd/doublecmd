@@ -135,13 +135,7 @@ type
 implementation
 
 uses
-  LCLIntf, LCLType, SynEditMiscProcs
-{$if lcl_fullversion < 2010000}
-  , SynEditTextBuffer
-{$else}
-  , SynEditTypes
-{$endif}
-  ;
+  LCLIntf, LCLType, SynEditMiscProcs, SynEditTypes;
 
 const
   KindShift = 8;   // Line kind shift
@@ -338,19 +332,15 @@ var
   LineHeight: Integer;
   I, LineNumber: Integer;
   SynDiffEdit: TSynDiffEdit;
-{$if lcl_fullversion >= 2010000}
   LineTop: Integer;
   AliasMode: TAntialiasingMode;
-{$endif}
 begin
   if not Visible then Exit;
 
   SynDiffEdit:= TSynDiffEdit(SynEdit);
   LineHeight:= SynDiffEdit.LineHeight;
   LineCount:= SynDiffEdit.Lines.Count;
-{$if lcl_fullversion >= 2010000}
   LineTop:= ToIdx(GutterArea.TextArea.TopLine);
-{$endif}
 
   if MarkupInfo.Background <> clNone then
   begin
@@ -360,24 +350,15 @@ begin
 
   Canvas.Pen.Width := Width;
   Canvas.Pen.EndCap:= pecFlat;
-{$if lcl_fullversion >= 2010000}
   AliasMode:= Canvas.AntialiasingMode;
   Canvas.AntialiasingMode:= amOff;
-{$endif}
 
   rcLine := AClip;
   rcLine.Left := rcLine.Left + Width div 2;
-{$if lcl_fullversion < 2010000}
-  rcLine.Bottom := FirstLine * LineHeight;
-  for I := FirstLine to LastLine do
-  begin
-    LineNumber := FoldView.TextIndex[I];
-{$else}
   rcLine.Bottom := AClip.Top;
   for I := LineTop + FirstLine to LineTop + LastLine do
   begin
     LineNumber := ViewedTextBuffer.DisplayView.ViewToTextIndex(I);
-{$endif}
     // next line rect
     rcLine.Top := rcLine.Bottom;
     Inc(rcLine.Bottom, LineHeight);
@@ -396,9 +377,7 @@ begin
       Canvas.Line(rcLine.Left, rcLine.Top + 1, rcLine.Left, rcLine.Bottom - 1);
     end;
   end;
-{$if lcl_fullversion >= 2010000}
   Canvas.AntialiasingMode := AliasMode;
-{$endif}
 end;
 
 { TSynDiffGutterLineNumber }
@@ -478,11 +457,6 @@ end;
 
 procedure TSynDiffGutterLineNumber.BufferChanged(Sender: TObject);
 begin
-{$if lcl_fullversion < 2010000}
-  TSynEditStringList(Sender).RemoveHanlders(Self);
-  TSynEditStringList(TextBuffer).AddChangeHandler(senrLineCount, @LineCountChanged);
-  TSynEditStringList(TextBuffer).AddNotifyHandler(senrTextBufferChanged, @BufferChanged);
-{$endif}
   LineCountChanged(nil, 0, 0);
 end;
 
@@ -495,13 +469,8 @@ procedure TSynDiffGutterLineNumber.Init;
 begin
   inherited Init;
   FTextDrawer := Gutter.TextDrawer;
-{$if lcl_fullversion < 2010000}
-  TSynEditStringList(TextBuffer).AddChangeHandler(senrLineCount, @LineCountChanged);
-  TSynEditStringList(TextBuffer).AddNotifyHandler(senrTextBufferChanged, @BufferChanged);
-{$else}
   ViewedTextBuffer.AddChangeHandler(senrLineCount, @LineCountChanged);
   ViewedTextBuffer.AddNotifyHandler(senrTextBufferChanged, @BufferChanged);
-{$endif}
   FTextDrawer.RegisterOnFontChangeHandler(@FontChanged);
   LineCountchanged(nil, 0, 0);
 end;
@@ -516,11 +485,7 @@ end;
 
 destructor TSynDiffGutterLineNumber.Destroy;
 begin
-{$if lcl_fullversion >= 2010000}
   ViewedTextBuffer.RemoveHanlders(Self);
-{$else}
-  TSynEditStringList(TextBuffer).RemoveHanlders(Self);
-{$endif}
   FTextDrawer.UnRegisterOnFontChangeHandler(@FontChanged);
   inherited Destroy;
 end;
@@ -549,20 +514,16 @@ var
   LineKind: TChangeKind;
   I, LineHeight: Integer;
   SynDiffEdit: TSynDiffEdit;
-{$if lcl_fullversion >= 2010000}
   LineCount: Integer;
   IRange: TLineRange;
   LineTop: TLinePos;
-{$endif}
 begin
   if not Visible then Exit;
 
   SynDiffEdit:= TSynDiffEdit(SynEdit);
   LineHeight:= SynDiffEdit.LineHeight;
-{$if lcl_fullversion >= 2010000}
   LineCount:= SynDiffEdit.Lines.Count;
   LineTop:= ToIdx(GutterArea.TextArea.TopLine);
-{$endif}
   // Changed to use fTextDrawer.BeginDrawing and fTextDrawer.EndDrawing only
   // when absolutely necessary.  Note: Never change brush / pen / font of the
   // canvas inside of this block (only through methods of fTextDrawer)!
@@ -589,18 +550,11 @@ begin
     fTextDrawer.Style := MarkupInfo.Style;
     // prepare the rect initially
     rcLine := AClip;
-{$if lcl_fullversion < 2010000}
-    rcLine.Bottom := FirstLine * LineHeight;
-    for I := FirstLine to LastLine do
-    begin
-      LineNumber := FoldView.DisplayNumber[I];
-{$else}
     rcLine.Bottom := AClip.Top;
     for I := LineTop + FirstLine to LineTop + LastLine do
     begin
       LineNumber := ToPos(ViewedTextBuffer.DisplayView.ViewToTextIndexEx(I, IRange));
       if (LineNumber < 1) or (LineNumber > LineCount) then Break;
-{$endif}
       LineKind := SynDiffEdit.Lines.Kind[LineNumber - 1];
       LineNumber:= SynDiffEdit.Lines.Number[LineNumber - 1];
       // next line rect
@@ -608,9 +562,7 @@ begin
       // Get the formatted line number or dot
       S := FormatLineNumber(LineNumber, LineKind);
       Inc(rcLine.Bottom, LineHeight);
-{$if lcl_fullversion >= 2010000}
       if I <> IRange.Top then S := '';
-{$endif}
       // erase the background and draw the line number string in one go
       fTextDrawer.ExtTextOut(rcLine.Left, rcLine.Top, ETO_OPAQUE or ETO_CLIPPED, rcLine,
         PChar(Pointer(S)),Length(S));
