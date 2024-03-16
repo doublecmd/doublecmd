@@ -2346,16 +2346,34 @@ end;
 
 procedure TMainCommands.cm_Edit(const Params: array of string);
 var
-  i: Integer;
+  I: Integer;
   aFile: TFile;
+  sCmd: String = '';
+  sParams: String = '';
+  Param, AValue: String;
+  sStartPath: String = '';
+  ACursor: Boolean = False;
   SelectedFiles: TFiles = nil;
-  sCmd: string = '';
-  sParams: string = '';
-  sStartPath: string = '';
 begin
   with frmMain do
   try
-    SelectedFiles := ActiveFrame.CloneSelectedOrActiveFiles;
+    if (Length(Params) > 0) then
+    begin
+      if GetParamValue(Params, 'cursor', AValue) then
+        GetBoolValue(AValue, ACursor);
+    end;
+
+    if not ACursor then
+      SelectedFiles := ActiveFrame.CloneSelectedOrActiveFiles
+    else begin
+      SelectedFiles:= TFiles.Create(ActiveFrame.CurrentPath);
+      aFile:= ActiveFrame.CloneActiveFile;
+      if aFile.IsNameValid then
+        SelectedFiles.Add(aFile)
+      else begin
+        aFile.Free;
+      end;
+    end;
 
     for I := SelectedFiles.Count - 1 downto 0 do
     begin
@@ -2392,8 +2410,7 @@ begin
     end;
 
   finally
-    if Assigned(SelectedFiles) then
-      FreeAndNil(SelectedFiles);
+    FreeAndNil(SelectedFiles);
   end;
 end;
 
