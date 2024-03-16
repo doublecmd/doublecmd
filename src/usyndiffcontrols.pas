@@ -7,7 +7,7 @@ interface
 uses
   Classes, SysUtils, Graphics, SynEdit, LCLVersion,
   SynEditMiscClasses, SynGutterBase, SynTextDrawer,
-  LazSynEditText, uDiffOND;
+  SynGutter, LazSynEditText, uDiffOND;
 
 const
   { Default differ colors }
@@ -37,6 +37,13 @@ type
     property Added: TColor index ckAdd read GetColor write SetColor;
     property Modified: TColor index ckModify read GetColor write SetColor;
     property Deleted: TColor index ckDelete read GetColor write SetColor;
+  end;
+
+  { TSynDiffGutter }
+
+  TSynDiffGutter = class(TSynGutter)
+  protected
+    procedure CreateDefaultGutterParts; override;
   end;
 
   { TSynDiffGutterLineNumber }
@@ -93,6 +100,8 @@ type
     procedure SetOriginalFile(const AValue: TSynDiffEdit);
     procedure SetPaintStyle(const AValue: TPaintStyle);
   protected
+    function CreateGutter(AOwner: TSynEditBase; ASide: TSynGutterSide;
+                          ATextDrawer: TheTextDrawer): TSynGutter; override;
     procedure SpecialLineMarkupEvent(Sender: TObject; Line: Integer;
                                      var Special: boolean; AMarkup: TSynSelectedColor);
   public
@@ -177,6 +186,18 @@ begin
   end;
 end;
 
+{ TSynDiffGutter }
+
+procedure TSynDiffGutter.CreateDefaultGutterParts;
+begin
+  if Side <> gsLeft then Exit;
+
+  with TSynDiffGutterLineNumber.Create(Parts) do
+  Name:= 'SynDiffGutterLineNumber';
+  with TSynDiffGutterChanges.Create(Parts) do
+  Name:= 'SynDiffGutterChanges';
+end;
+
 { TSynDiffEdit }
 
 procedure TSynDiffEdit.SetModifiedFile(const AValue: TSynDiffEdit);
@@ -206,6 +227,12 @@ begin
     FPaintStyle := AValue;
     Invalidate;
   end;
+end;
+
+function TSynDiffEdit.CreateGutter(AOwner: TSynEditBase; ASide: TSynGutterSide;
+  ATextDrawer: TheTextDrawer): TSynGutter;
+begin
+  Result := TSynDiffGutter.Create(AOwner, ASide, ATextDrawer);
 end;
 
 procedure TSynDiffEdit.SpecialLineMarkupEvent(Sender: TObject; Line: Integer;
@@ -284,14 +311,6 @@ end;
 constructor TSynDiffEdit.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
-  if not (csLoading in AOwner.ComponentState) then
-  begin
-    Gutter.Parts.Clear;
-    with TSynDiffGutterLineNumber.Create(Gutter.Parts) do
-    Name:= 'SynDiffGutterLineNumber';
-    with TSynDiffGutterChanges.Create(Gutter.Parts) do
-    Name:= 'SynDiffGutterChanges';
-  end;
   Color:= clWindow;
   Font.Color:= clWindowText;
   FPaintStyle:= psBackground;
