@@ -186,6 +186,7 @@ object frmSelectDuplicates: TfrmSelectDuplicates
     Checked = True
     State = cbChecked
     TabOrder = 2
+    OnChange = chkLeaveUnselectedChange
   end
   object pnlMethods: TPanel
     AnchorSideLeft.Control = Owner
