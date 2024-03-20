@@ -2673,6 +2673,12 @@ begin
     Exit(False);
   end;
 
+  if Result and not bForce then
+  begin
+    if (mbFileSize(sFileName) > (gMaxCodeSize * $100000)) then
+      Exit(False);
+  end;
+
   if Result then
   begin
     FHighlighter:= GetHighlighterFromFileExt(dmHighl.SynHighlighterList, ExtractFileExt(sFileName));
