@@ -31,6 +31,7 @@ type
     pnlButtons: TKASButtonPanel;
     procedure btnApplyClick(Sender: TObject);
     procedure btnIncludeMaskClick(Sender: TObject);
+    procedure chkLeaveUnselectedChange(Sender: TObject);
     procedure cmbFirstMethodChange(Sender: TObject);
   private
     FFileView: TFileView;
@@ -221,6 +222,12 @@ begin
     AComboBox.Enabled:= not bTemplate;
     AComboBox.Text:= sMask;
   end;
+end;
+
+procedure TfrmSelectDuplicates.chkLeaveUnselectedChange(Sender: TObject);
+begin
+  cmbFirstMethod.Enabled:= chkLeaveUnselected.Checked;
+  cmbSecondMethod.Enabled:= chkLeaveUnselected.Checked;
 end;
 
 end.
