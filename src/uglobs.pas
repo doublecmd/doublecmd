@@ -615,6 +615,7 @@ var
   gImagePaintWidth,
   gColCount,
   gViewerMode,
+  gMaxCodeSize,
   gMaxTextWidth,
   gTabSpaces : Integer;
   gImagePaintColor,
@@ -2090,6 +2091,7 @@ begin
   gImagePaintWidth := 5;
   gColCount := 1;
   gTabSpaces := 8;
+  gMaxCodeSize := 128;
   gMaxTextWidth := 1024;
   gImagePaintColor := clRed;
   gTextPosition:= 0;
@@ -3165,6 +3167,7 @@ begin
       gColCount    := GetValue(Node, 'NumberOfColumns', gColCount);
       gTabSpaces := GetValue(Node, 'TabSpaces', gTabSpaces);
       gMaxTextWidth := GetValue(Node, 'MaxTextWidth', gMaxTextWidth);
+      gMaxCodeSize := GetValue(Node, 'MaxCodeSize', gMaxCodeSize);
       gViewerMode  := GetValue(Node, 'ViewerMode'  , gViewerMode);
       gPrintMargins := GetValue(Node, 'PrintMargins'  , gPrintMargins);
       gShowCaret := GetValue(Node, 'ShowCaret'  , gShowCaret);
@@ -3753,6 +3756,7 @@ begin
     SetValue(Node, 'PaintWidth', gImagePaintWidth);
     SetValue(Node, 'NumberOfColumns', gColCount);
     SetValue(Node, 'TabSpaces', gTabSpaces);
+    SetValue(Node, 'MaxCodeSize', gMaxCodeSize);
     SetValue(Node, 'MaxTextWidth', gMaxTextWidth);
     SetValue(Node, 'ViewerMode' , gViewerMode);
     SetValue(Node, 'PrintMargins', gPrintMargins);
