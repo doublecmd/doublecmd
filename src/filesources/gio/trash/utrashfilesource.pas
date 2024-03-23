@@ -154,6 +154,8 @@ var
   Index: Integer;
   MenuItem: TMenuItem;
 begin
+  if AFiles.Count = 0 then Exit(False);
+
   if AFiles[0].Path = 'trash:///' then
   begin
     FMenu.Assign(AMenu);
