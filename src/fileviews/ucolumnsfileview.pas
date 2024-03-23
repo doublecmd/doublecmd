@@ -43,9 +43,6 @@ type
   protected
     procedure DragCanceled; override;
     procedure DoMouseMoveScroll(X, Y: Integer);
-    {$IF lcl_fullversion < 1080003}
-    function SelectCell(aCol, aRow: Integer): Boolean; override;
-    {$ENDIF}
     procedure KeyDown(var Key: Word; Shift: TShiftState); override;
     procedure MouseDown(Button: TMouseButton; Shift: TShiftState; X,Y: Integer); override;
     procedure MouseMove(Shift: TShiftState; X, Y: Integer); override;
@@ -61,10 +58,8 @@ type
     procedure DrawCell(aCol, aRow: Integer; aRect: TRect;
               aState: TGridDrawState); override;
 
-    {$if lcl_fullversion >= 1070000}
     procedure DoAutoAdjustLayout(const AMode: TLayoutAdjustmentPolicy;
                 const AXProportion, AYProportion: Double); override;
-    {$endif}
   public
     ColumnsOwnDim: TFunctionDime;
 
@@ -138,9 +133,7 @@ type
 
     // -- Events --------------------------------------------------------------
 
-{$IF lcl_fullversion >= 093100}
     procedure dgPanelBeforeSelection(Sender: TObject; aCol, aRow: Integer);
-{$ENDIF}
     procedure dgPanelHeaderClick(Sender: TObject;IsColumn: Boolean; index: Integer);
     procedure dgPanelMouseWheelUp(Sender: TObject; Shift: TShiftState;
                                   MousePos: TPoint; var Handled: Boolean);
@@ -437,9 +430,8 @@ end;
 
 procedure TColumnsFileView.dgPanelSelection(Sender: TObject; aCol, aRow: Integer);
 begin
-{$IF lcl_fullversion >= 093100}
   dgPanel.Options := dgPanel.Options - [goDontScrollPartCell];
-{$ENDIF}
+
   DoFileIndexChanged(aRow - dgPanel.FixedRows, dgPanel.TopRow);
 
   if (FSelectedCount = 0) then UpdateFooterDetails(False);
@@ -807,13 +799,11 @@ begin
   end;
 end;
 
-{$IF lcl_fullversion >= 093100}
 procedure TColumnsFileView.dgPanelBeforeSelection(Sender: TObject; aCol, aRow: Integer);
 begin
   if dgPanel.IsRowVisible(aRow) then
     dgPanel.Options := dgPanel.Options + [goDontScrollPartCell];
 end;
-{$ENDIF}
 
 procedure TColumnsFileView.RedrawFile(DisplayFile: TDisplayFile);
 begin
@@ -932,9 +922,7 @@ begin
   dgPanel.OnMouseWheelUp := @dgPanelMouseWheelUp;
   dgPanel.OnMouseWheelDown := @dgPanelMouseWheelDown;
   dgPanel.OnSelection:= @dgPanelSelection;
-{$IF lcl_fullversion >= 093100}
   dgPanel.OnBeforeSelection:= @dgPanelBeforeSelection;
-{$ENDIF}
   dgPanel.OnTopLeftChanged:= @dgPanelTopLeftChanged;
   dgpanel.OnResize:= @dgPanelResize;
   dgPanel.OnHeaderSized:= @dgPanelHeaderSized;
@@ -2000,13 +1988,11 @@ begin
   end;
 end;
 
-{$if lcl_fullversion >= 1070000}
 procedure TDrawGridEx.DoAutoAdjustLayout(const AMode: TLayoutAdjustmentPolicy;
   const AXProportion, AYProportion: Double);
 begin
   // Don't auto adjust layout
 end;
-{$endif}
 
 procedure TDrawGridEx.MouseUp(Button: TMouseButton; Shift: TShiftState; X,
   Y: Integer);
@@ -2209,20 +2195,6 @@ begin
   else
     Options := Options - [goVertLine];
 end;
-
-{$IF lcl_fullversion < 1080003}
-// Workaround for Lazarus issue 31942.
-function TDrawGridEx.SelectCell(aCol, aRow: Integer): Boolean;
-begin
-  Result:= inherited SelectCell(aCol, aRow);
-  // ScrollToCell hangs when Width = 0
-  if Width = 0 then
-  begin
-    Result:= False;
-    SetColRow(aCol, aRow);
-  end;
-end;
-{$ENDIF}
 
 function TDrawGridEx.GetVisibleRows: TRange;
 var
