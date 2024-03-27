@@ -266,9 +266,18 @@ begin
 
   FFileView.FMainControlMouseDown := True;
 
-  AllowOutboundEvents := False;
-  inherited MouseDown(Button, Shift, X, Y);
-  AllowOutboundEvents := True;
+  if MouseOnGrid(X, Y) then
+    inherited MouseDown(Button, Shift, X, Y)
+  else begin
+    if Assigned(OnMouseDown) then
+    begin
+      OnMouseDown(Self, Button, Shift, X, Y);
+    end;
+    if not Focused then
+    begin
+      if CanSetFocus then SetFocus;
+    end;
+  end;
 end;
 
 procedure TFileViewGrid.MouseUp(Button: TMouseButton; Shift: TShiftState; X,
@@ -295,9 +304,7 @@ begin
   if not FFileView.FMainControlMouseDown then
     Exit;
 
-  AllowOutboundEvents := False;
   inherited MouseUp(Button, Shift, X, Y);
-  AllowOutboundEvents := True;
 
   FFileView.FMainControlMouseDown := False;
 
@@ -503,6 +510,7 @@ begin
   DoubleBuffered := True;
   Align := alClient;
   MouseWheelOption:= mwGrid;
+  AllowOutboundEvents := False;
   Options := [goTabs, goThumbTracking];
   TabStop := False;
 
