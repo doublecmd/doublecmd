@@ -392,16 +392,16 @@ const
 begin
   if (ssBoth * ShiftState = ssBoth) then
     Exit(DropMoveEffect);
-  ShiftState := [ssCtrl, ssShift, ssAlt] * ShiftState;
+  ShiftState := [ssModifier, ssShift, ssAlt] * ShiftState;
   if ShiftState = [] then
     Result := DropCopyEffect   // default to Copy when no keys pressed
   else if ShiftState = [ssShift] then
     Result := DropMoveEffect
-  else if ShiftState = [ssCtrl] then
+  else if ShiftState = [ssModifier] then
     Result := DropMoveEffect
   else if ShiftState = [ssAlt] then
     Result := DropAskEffect
-  else if ShiftState = [ssCtrl, ssShift] then
+  else if ShiftState = [ssModifier, ssShift] then
     Result := DropLinkEffect
   else
     Result := DropNoEffect;    // some other key combination pressed
