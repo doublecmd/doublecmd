@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    High Efficiency Image reader implementation (via libheif)
 
-   Copyright (C) 2021 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2021-2024 Alexander Koblov (alexx2000@mail.ru)
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Lesser General Public
@@ -124,9 +124,24 @@ type
     message: PAnsiChar;
   end;
 
+  Pheif_decoding_options = ^Theif_decoding_options;
+  Theif_decoding_options = record
+    version: cuint8;
+    ignore_transformations: cuint8;
+    start_progress: pointer;
+    on_progress: pointer;
+    end_progress: pointer;
+    progress_user_data: pointer;
+    // version 2 options
+    convert_hdr_to_8bit: cuint8;
+  end;
+
 var
   heif_context_alloc: function(): Pheif_context; cdecl;
   heif_context_free: procedure(context: Pheif_context); cdecl;
+
+  heif_decoding_options_alloc: function(): Pheif_decoding_options; cdecl;
+  heif_decoding_options_free: procedure(options: Pheif_decoding_options); cdecl;
 
   heif_context_read_from_memory_without_copy: function(context: Pheif_context;
                                                        mem: Pointer; size: csize_t;
@@ -185,14 +200,19 @@ end;
 
 procedure TDCReaderHEIF.InternalRead(Stream: TStream; Img: TFPCustomImage);
 var
+  Y: cint;
   Alpha: cint;
+  ASize: cint;
   AData: PByte;
+  ADelta: cint;
   AStride: cint;
+  ATarget: PByte;
   Err: Theif_error;
   Chroma: Theif_chroma;
   AWidth, AHeight: cint;
   AImage: Pointer = nil;
   AHandle: Pointer = nil;
+  AOptions: Pheif_decoding_options;
   Description: TRawImageDescription;
 begin
   Err:= heif_context_get_primary_image_handle(FContext, @AHandle);
@@ -207,7 +227,16 @@ begin
       Chroma:= heif_chroma_interleaved_RGB;
     end;
 
-    Err:= heif_decode_image(AHandle, @AImage, heif_colorspace_RGB, Chroma, nil);
+    AOptions:= heif_decoding_options_alloc();
+    try
+      if AOptions^.version > 1 then
+      begin
+        AOptions^.convert_hdr_to_8bit:= 1;
+      end;
+      Err:= heif_decode_image(AHandle, @AImage, heif_colorspace_RGB, Chroma, AOptions);
+    finally
+      heif_decoding_options_free(AOptions);
+    end;
     if (Err.code <> heif_error_Ok) then raise Exception.Create(Err.message);
 
     try
@@ -215,13 +244,34 @@ begin
       AHeight:= heif_image_get_height(AImage, heif_channel_interleaved);
       AData:= heif_image_get_plane_readonly(AImage, heif_channel_interleaved, @AStride);
 
+      if (AData = nil) then raise Exception.Create(EmptyStr);
+
       if (Alpha <> 0) then
+      begin
+        ASize:= 4;
         Description.Init_BPP32_R8G8B8A8_BIO_TTB(AWidth, AHeight)
+      end
       else begin
+        ASize:= 3;
         Description.Init_BPP24_R8G8B8_BIO_TTB(AWidth, AHeight);
       end;
+      ADelta:= AStride - AWidth * ASize;
       TLazIntfImage(Img).DataDescription:= Description;
-      Move(AData^, TLazIntfImage(Img).PixelData^, AStride * AHeight);
+
+      if ADelta = 0 then
+        // We can transfer the whole image at once
+        Move(AData^, TLazIntfImage(Img).PixelData^, AStride * AHeight)
+      else begin
+        AStride:= AWidth * ASize;
+        if Odd(AWidth) then ADelta-= ASize;
+        ATarget:= TLazIntfImage(Img).PixelData;
+        // Stride has some padding, we have to send the image line by line
+        for Y:= 0 to AHeight - 1 do
+        begin
+          Move(AData^, ATarget[Y * AStride], AStride);
+          Inc(AData, AStride + ADelta)
+        end;
+      end;
     finally
       heif_image_release(AImage);
     end;
@@ -253,6 +303,9 @@ var
   libheif: TLibHandle;
 
 procedure Initialize;
+var
+  AVersion: cint;
+  AOptions: Pheif_decoding_options;
 begin
   libheif:= mbLoadLibraryEx(heiflib);
 
@@ -265,14 +318,27 @@ begin
     @heif_image_get_width:= SafeGetProcAddress(libheif, 'heif_image_get_width');
     @heif_image_get_height:= SafeGetProcAddress(libheif, 'heif_image_get_height');
     @heif_image_handle_release:= SafeGetProcAddress(libheif, 'heif_image_handle_release');
+    @heif_decoding_options_free:= SafeGetProcAddress(libheif, 'heif_decoding_options_free');
+    @heif_decoding_options_alloc:= SafeGetProcAddress(libheif, 'heif_decoding_options_alloc');
     @heif_image_get_plane_readonly:= SafeGetProcAddress(libheif, 'heif_image_get_plane_readonly');
     @heif_image_handle_has_alpha_channel:= SafeGetProcAddress(libheif, 'heif_image_handle_has_alpha_channel');
     @heif_context_get_primary_image_handle:= SafeGetProcAddress(libheif, 'heif_context_get_primary_image_handle');
     @heif_context_read_from_memory_without_copy:= SafeGetProcAddress(libheif, 'heif_context_read_from_memory_without_copy');
 
-    // Register image handler and format
-    ImageHandlers.RegisterImageReader ('High Efficiency Image', HEIF_EXT, TDCReaderHEIF);
-    TPicture.RegisterFileFormat(HEIF_EXT, 'High Efficiency Image', THighEfficiencyImage);
+    AOptions:= heif_decoding_options_alloc();
+    AVersion:= AOptions^.version;
+    heif_decoding_options_free(AOptions);
+
+    if (AVersion < 2) then
+    begin
+      FreeLibrary(libheif);
+      libheif:= NilHandle;
+    end
+    else begin
+      // Register image handler and format
+      ImageHandlers.RegisterImageReader ('High Efficiency Image', HEIF_EXT, TDCReaderHEIF);
+      TPicture.RegisterFileFormat(HEIF_EXT, 'High Efficiency Image', THighEfficiencyImage);
+    end;
   except
     on E: Exception do DCDebug(E.Message);
   end;
