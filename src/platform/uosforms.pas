@@ -135,7 +135,7 @@ uses
   , uWinNetFileSource, uVfsModule, uMyWindows, DCStrUtils, uOleDragDrop
   , uDCReadRSVG, uFileSourceUtil, uGdiPlusJPEG, uListGetPreviewBitmap
   , Dialogs, Clipbrd, JwaDbt, uThumbnailProvider, uShellFolder
-  , uRecycleBinFileSource, uWslFileSource, uDCReadHEIF, uDCReadWIC
+  , uRecycleBinFileSource, uWslFileSource, uDCReadWIC
   , uShellFileSource, uPixMapManager
     {$IF DEFINED(DARKWIN)}
     , uDarkStyle
@@ -150,7 +150,7 @@ uses
   , BaseUnix, Errors, fFileProperties, uJpegThumb, uOpenDocThumb
     {$IF NOT DEFINED(HAIKU)}
     , uDCReadRSVG, uMagickWand, uGio, uGioFileSource, uVfsModule, uVideoThumb
-    , uDCReadWebP, uFolderThumb, uAudioThumb, uDefaultTerminal, uDCReadHEIF
+    , uDCReadWebP, uFolderThumb, uAudioThumb, uDefaultTerminal
     , uTrashFileSource, uFileManager, uFileSystemFileSource, fOpenWith
     {$ENDIF}
     {$IF DEFINED(LINUX)}
