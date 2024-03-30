@@ -219,7 +219,10 @@ begin
   if (Err.code <> heif_error_Ok) then raise Exception.Create(Err.message);
 
   try
-    Alpha:= heif_image_handle_has_alpha_channel(AHandle);
+    // Library works wrong with some images from
+    // https://github.com/link-u/avif-sample-images
+    // when decode image into RGB, but it works fine with RGBA
+    Alpha:= 1; // heif_image_handle_has_alpha_channel(AHandle);
 
     if (Alpha <> 0) then
       Chroma:= heif_chroma_interleaved_RGBA
@@ -263,7 +266,6 @@ begin
         Move(AData^, TLazIntfImage(Img).PixelData^, AStride * AHeight)
       else begin
         AStride:= AWidth * ASize;
-        if Odd(AWidth) then ADelta-= ASize;
         ATarget:= TLazIntfImage(Img).PixelData;
         // Stride has some padding, we have to send the image line by line
         for Y:= 0 to AHeight - 1 do
