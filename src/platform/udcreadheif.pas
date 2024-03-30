@@ -330,19 +330,18 @@ begin
     AOptions:= heif_decoding_options_alloc();
     AVersion:= AOptions^.version;
     heif_decoding_options_free(AOptions);
+    if (AVersion < 2) then raise Exception.Create('HEIF: Old version');
 
-    if (AVersion < 2) then
+    // Register image handler and format
+    ImageHandlers.RegisterImageReader ('High Efficiency Image', HEIF_EXT, TDCReaderHEIF);
+    TPicture.RegisterFileFormat(HEIF_EXT, 'High Efficiency Image', THighEfficiencyImage);
+  except
+    on E: Exception do
     begin
+      DCDebug(E.Message);
       FreeLibrary(libheif);
       libheif:= NilHandle;
-    end
-    else begin
-      // Register image handler and format
-      ImageHandlers.RegisterImageReader ('High Efficiency Image', HEIF_EXT, TDCReaderHEIF);
-      TPicture.RegisterFileFormat(HEIF_EXT, 'High Efficiency Image', THighEfficiencyImage);
     end;
-  except
-    on E: Exception do DCDebug(E.Message);
   end;
 end;
 
