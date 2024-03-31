@@ -3452,6 +3452,12 @@ var
   CurrentTime: TDateTime;
   AddToPending: Boolean;
 begin
+  if (not FReloadNeeded) and CheckIfDelayReload then
+  begin
+    // Delay reloading
+    FReloadNeeded:= True;
+    Exit;
+  end;
   if not (csDestroying in ComponentState) and
      not FReloadNeeded and
      String(IncludeTrailingPathDelimiter(EventData.Path)).StartsWith(CurrentPath) then
