@@ -12,10 +12,10 @@ uses
   {$ENDIF}
   {$ENDIF}
   {$IFDEF UNIX}
-  cthreads,
   {$IFNDEF HEAPTRC}
   cmem,
   {$ENDIF}
+  cthreads,
   {$IFDEF DARWIN}
   iosxwstr,
   iosxlocale,
