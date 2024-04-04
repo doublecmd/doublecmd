@@ -763,6 +763,7 @@ var
   // loaded from configuration file
   gPreviousVersion: String = '';
   FInitList: array of TProcedure;
+  CustomDecimalSeparator: String = #$EF#$BF#$BD;
 
 function LoadConfigCheckErrors(LoadConfigProc: TLoadConfigProc;
                                ConfigFileName: String;
@@ -2536,6 +2537,7 @@ procedure LoadXmlConfig;
     end;
   end;
 var
+  DecimalSeparator: String;
   Root, Node, SubNode: TXmlNode;
   LoadedConfigVersion, iIndexContextMode: Integer;
   oldQuickSearch: Boolean = True;
@@ -3080,6 +3082,13 @@ begin
 {$IF DEFINED(UNIX) AND NOT (DEFINED(DARWIN) OR DEFINED(HAIKU))}
       gSystemItemProperties := GetValue(Node, 'SystemItemProperties', gSystemItemProperties);
 {$ENDIF}
+      DecimalSeparator:= GetValue(Node, 'DecimalSeparator', FormatSettings.DecimalSeparator);
+      if (Length(DecimalSeparator) > 0) and (Ord(DecimalSeparator[1]) < $80) and
+         (DecimalSeparator[1] <> FormatSettings.DecimalSeparator) then
+      begin
+        CustomDecimalSeparator:= DecimalSeparator;
+        FormatSettings.DecimalSeparator:= CustomDecimalSeparator[1];
+      end;
     end;
 
     { Thumbnails }
@@ -3694,6 +3703,7 @@ begin
 {$IF DEFINED(UNIX) AND NOT (DEFINED(DARWIN) OR DEFINED(HAIKU))}
     SetValue(Node, 'SystemItemProperties', gSystemItemProperties);
 {$ENDIF}
+    SetValue(Node, 'DecimalSeparator', CustomDecimalSeparator);
 
     { Thumbnails }
     Node := FindNode(Root, 'Thumbnails', True);
