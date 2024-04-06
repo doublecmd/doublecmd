@@ -1997,7 +1997,7 @@ procedure TfrmViewer.TimerViewerTimer(Sender: TObject);
 begin
   if (miFullScreen.Checked) then
   begin
-    if (ToolBar1.Visible) and (i_timer > 60) and (not ToolBar1.MouseEntered) then
+    if (ToolBar1.Visible) and (i_timer > 60) and (not ToolBar1.MouseInClient) then
     begin
       ToolBar1.Visible:= False;
       AdjustImageSize;
@@ -2011,7 +2011,7 @@ begin
   Inc(i_timer);
   if (btnSlideShow.Down) and (i_timer = 60 * btnSlideShow.Tag) then
   begin
-    if (ToolBar1.Visible) and (not ToolBar1.MouseEntered) then
+    if (ToolBar1.Visible) and (not ToolBar1.MouseInClient) then
     begin
       ToolBar1.Visible:= False;
       AdjustImageSize;

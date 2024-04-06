@@ -240,7 +240,7 @@ end;
 procedure TPathLabel.TextChanged;
 begin
   inherited TextChanged;
-  if FAllowHighlight and MouseEntered then Highlight;
+  if FAllowHighlight and MouseInClient then Highlight;
 end;
 
 procedure TPathLabel.MouseEnter;

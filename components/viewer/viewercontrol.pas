@@ -3009,7 +3009,7 @@ begin
             Result := PByte(GetDataAdr)[iPosition];
 
           // Full conversion:
-          // Result := UTF8CharacterToUnicode(PAnsiChar(GetDataAdr + iPosition), CharLenInBytes);
+          // Result := UTF8CodepointToUnicode(PAnsiChar(GetDataAdr + iPosition), CharLenInBytes);
         end
         else
           CharLenInBytes := 0;
@@ -3133,7 +3133,7 @@ begin
             Result := PByte(GetDataAdr)[iPosition - 1];
 
           // Full conversion:
-          // Result := UTF8CharacterToUnicode(PAnsiChar(GetDataAdr + iPosition - CharLenInBytes), CharLenInBytes);
+          // Result := UTF8CodepointToUnicode(PAnsiChar(GetDataAdr + iPosition - CharLenInBytes), CharLenInBytes);
         end
         else
           CharLenInBytes := 0;

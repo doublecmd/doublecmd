@@ -137,7 +137,7 @@ begin
   else
     Msg := ExceptionText;
 
-  if FindInvalidUTF8Character(PChar(Msg), Length(Msg), False) > 0 then
+  if FindInvalidUTF8Codepoint(PChar(Msg), Length(Msg), False) > 0 then
     Msg := CeSysToUtf8(Msg);
   if (Msg <> '') and (Msg[length(Msg)] = LineEnding) then Delete(Msg, Length(Msg), 1);
 

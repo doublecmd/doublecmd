@@ -3719,7 +3719,7 @@ begin
       '_':  // Excel: Leave width of next character empty
         begin
           FToken := NextToken;
-          uch := UTF8CharacterToUnicode(FCurrent, n);                           // wp: Why Unicode ???
+          uch := UTF8CodepointToUnicode(FCurrent, n);                           // wp: Why Unicode ???
           if n > 1 then
           begin
             AddElement(nftEmptyCharWidth, UnicodeToUTF8(uch));
@@ -3760,7 +3760,7 @@ begin
           Exit;
         end;
       else
-        uch := UTF8CharacterToUnicode(FCurrent, n);
+        uch := UTF8CodepointToUnicode(FCurrent, n);
         if n > 1 then
         begin
           AddElement(nftText, UnicodeToUTF8(uch));
