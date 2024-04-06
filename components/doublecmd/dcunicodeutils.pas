@@ -480,7 +480,7 @@ begin
   Index:= 0;
   SrcPos:= PAnsiChar(UTF8Text);
   while Len > 0 do begin
-    Result[Index]:= UTF8CharacterToUnicode(SrcPos, CharLen);
+    Result[Index]:= UTF8CodepointToUnicode(SrcPos, CharLen);
     Inc(SrcPos, CharLen);
     Dec(Len, CharLen);
     Inc(Index);

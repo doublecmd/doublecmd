@@ -402,7 +402,7 @@ begin
 {$ENDIF}
     if StrBegins(AText, UTF8BOM) then
       FCheckSumFile.Text:= Copy(AText, 4, MaxInt)
-    else if FindInvalidUTF8Character(PChar(AText), Length(AText), True) = -1 then
+    else if FindInvalidUTF8Codepoint(PChar(AText), Length(AText), True) = -1 then
       FCheckSumFile.Text:= AText
     else begin
       FCheckSumFile.Text:= CeAnsiToUtf8(AText);
