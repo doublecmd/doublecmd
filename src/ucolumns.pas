@@ -883,6 +883,7 @@ end;
 procedure TPanelColumnsClass.AddDefaultEverything;
 begin
   AddDefaultColumns;
+  Unique := EmptyStr;
   FCustomView := False;
   FCursorBorder := gUseCursorBorder;
   FCursorBorderColor := gColors.FilePanel^.CursorBorderColor;
@@ -1628,7 +1629,7 @@ begin
     if fset.Count = 0 then
     begin
       Result:= TPanelColumnsClass.Create;
-      Result.AddDefaultColumns;
+      Result.AddDefaultEverything;
       Add(Result);
     end;
     Result := TPanelColumnsClass(Fset.Objects[0]);
