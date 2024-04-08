@@ -487,6 +487,7 @@ begin
       if (SuggestedCustomColumnsName = '') or (cbConfigColumns.Items.indexof(SuggestedCustomColumnsName) <> -1) then
         SuggestedCustomColumnsName := ColumnClassForConfig.Name + '(' + GetDateTimeInStrEZSortable(now) + ')';
       ColumnClassForConfig.Name := SuggestedCustomColumnsName;
+      ColumnClassForConfig.Unique := EmptyStr;
       ColSet.Add(ColumnClassForConfig);
       FillColumnsList;
       cbConfigColumns.ItemIndex := cbConfigColumns.Items.IndexOf(ColumnClassForConfig.Name);
