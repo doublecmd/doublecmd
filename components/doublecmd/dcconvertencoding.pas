@@ -70,7 +70,7 @@ uses
   {$IF DEFINED(UNIX)}
   iconvenc_dyn, LazUTF8
     {$IF DEFINED(DARWIN)}
-    , MacOSAll, CocoaAll
+    , MacOSAll, CocoaAll, StrUtils
     {$ELSE}
     , UnixCP
     {$ENDIF}
@@ -379,6 +379,7 @@ begin
   begin
     // Crop to terminating zero
     SystemLanguage:= PAnsiChar(SystemLanguage);
+    SystemLanguage:= Copy2Symb(SystemLanguage, '-');
     // Get system country
     CurrentLocale:= NSLocale.currentLocale();
     Country:= NSString(CurrentLocale.objectForKey(NSLocaleCountryCode)).UTF8String;
