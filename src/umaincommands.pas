@@ -748,6 +748,7 @@ var
   aFile: TFile = nil;
   aFiles: TFiles = nil;
   sPath, sName: String;
+  OperationsTypes: TFileSourceOperationTypes;
 begin
   with frmMain do
   begin
@@ -765,6 +766,9 @@ begin
             FreeAndNil(aFiles);
           end;
         end;
+        OperationsTypes:= Panel.FileSource.GetOperationsTypes;
+        mnuContextDelete.Visible:= fsoDelete in OperationsTypes;
+        mnuContextRenameOnly.Visible:= fsoSetFileProperty in OperationsTypes;
         AMenu.PopUp(X, Y);
       end;
       Exit;
