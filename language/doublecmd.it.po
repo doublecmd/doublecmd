@@ -13816,7 +13816,7 @@ msgstr ""
 
 #: ulng.rsoptupdatedfilesposition
 msgid "don't change position;use the same setting as for new files;to sorted position"
-msgstr "non cambiare posizione;usa le stesse impostazioni per i nuovi file; alla posizione ordinata"
+msgstr "non cambiare posizione;usa le stesse impostazioni per i nuovi file;alla posizione ordinata"
 
 #: ulng.rspluginfilenamestylelist
 msgid "With complete absolute path;Path relative to %COMMANDER_PATH%;Relative to the following"
