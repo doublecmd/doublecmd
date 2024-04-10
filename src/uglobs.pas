@@ -1570,7 +1570,7 @@ begin
     CopyFile(gpExePath + 'default' + PathDelim + 'pixmaps.txt', gpCfgDir + 'pixmaps.txt');
   end;
   // multiarc configuration file
-  if not mbFileExists(gpCfgDir + sMULTIARC_FILENAME) then
+  if (mbFileSize(gpCfgDir + sMULTIARC_FILENAME) = 0) then
   begin
     CopyFile(gpExePath + 'default' + PathDelim + sMULTIARC_FILENAME, gpCfgDir + sMULTIARC_FILENAME);
   end;
