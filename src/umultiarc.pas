@@ -325,7 +325,13 @@ begin
       end;
       FList.AddObject(Section, MultiArcItem);
     end;
-    if FirstTime then AutoConfigure;
+    if FirstTime then
+    try
+      AutoConfigure;
+      SaveToFile(FileName);
+    except
+      // Ignore
+    end;
   finally
     FreeAndNil(IniFile);
     FreeAndNil(Sections);
