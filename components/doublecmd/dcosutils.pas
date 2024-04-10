@@ -1311,8 +1311,10 @@ begin
       // (On Linux rename() returns success but doesn't do anything
       // if renaming a file to its hard link.)
       // We cannot use st_nlink for directories because it means "number of
-      // subdirectories"; hard links to directories are not supported on Linux
-      // or Windows anyway (on MacOSX they are). Therefore we always treat
+      // subdirectories" ("number of all entries" under macOS) in that directory,
+      // plus its special entries '.' and '..';
+      // hard links to directories are not supported on Linux
+      // or Windows anyway (on macOS they are). Therefore we always treat
       // directories as if they were a single link and rename them using temporary name.
 
       if (NewFileStat.st_nlink = 1) or BaseUnix.fpS_ISDIR(NewFileStat.st_mode) then
@@ -1326,14 +1328,7 @@ begin
             // We have renamed the old file but the new file name still exists,
             // so this wasn't a single file on a case-insensitive filesystem
             // accessible by two names that differ by case.
-
             FpRename(UTF8ToSys(tmpFileName), UTF8ToSys(OldName));  // Restore old file.
-{$IFDEF DARWIN}
-            // If it's a directory with multiple hard links then simply unlink the source.
-            if BaseUnix.fpS_ISDIR(NewFileStat.st_mode) and (NewFileStat.st_nlink > 1) then
-              Result := (fpUnLink(UTF8ToSys(OldName)) = 0)
-            else
-{$ENDIF}
             Result := False;
           end
           else if FpRename(UTF8ToSys(tmpFileName), UTF8ToSys(NewName)) = 0 then

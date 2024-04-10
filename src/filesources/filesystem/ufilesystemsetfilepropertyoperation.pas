@@ -430,7 +430,7 @@ begin
        (OldAttr.FindData.st_dev = NewAttr.FindData.st_dev) and
        // Check number of links, if it is 1 then source and target names most
        // probably differ only by case on a case-insensitive filesystem.
-       ((NewAttr.FindData.st_nlink = 1) {$IFNDEF DARWIN}or fpS_ISDIR(NewAttr.FindData.st_mode){$ENDIF}) then
+       ((NewAttr.FindData.st_nlink = 1) or fpS_ISDIR(NewAttr.FindData.st_mode)) then
     begin
       // File names differ only by case on a case-insensitive filesystem.
     end
