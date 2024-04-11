@@ -468,8 +468,8 @@ begin
   GetAndStoreSpecialDirInfos(CSIDL_FONTS,'%$FONTS%',sd_WINDOWSTC);
   GetAndStoreSpecialDirInfos(CSIDL_LOCAL_APPDATA,'%$LOCAL_APPDATA%',sd_WINDOWSTC);
   GetAndStoreSpecialDirInfos(CSIDL_MYMUSIC,'%$MYMUSIC%',sd_WINDOWSTC);
-  GetAndStoreSpecialDirInfos(CSIDL_MYVIDEO,'%$MYVIDEO%',sd_WINDOWSTC);
   GetAndStoreSpecialDirInfos(CSIDL_MYPICTURES,'%$MYPICTURES%',sd_WINDOWSTC);
+  GetAndStoreSpecialDirInfos(CSIDL_MYVIDEO,'%$MYVIDEO%',sd_WINDOWSTC);
   GetAndStoreSpecialDirInfos(CSIDL_PROGRAMS,'%$PROGRAMS%',sd_WINDOWSTC);
   GetAndStoreSpecialDirInfos(CSIDL_STARTMENU,'%$STARTMENU%',sd_WINDOWSTC);
   GetAndStoreSpecialDirInfos(CSIDL_STARTUP,'%$STARTUP%',sd_WINDOWSTC);
@@ -489,8 +489,8 @@ begin
     GetAndStoreKnownDirInfos(FOLDERID_OriginalImages, '%$OriginalImages%', sd_WINDOWSTC);
     GetAndStoreKnownDirInfos(FOLDERID_PhotoAlbums, '%$PhotoAlbums%', sd_WINDOWSTC);
     GetAndStoreKnownDirInfos(FOLDERID_Playlists, '%$Playlists%', sd_WINDOWSTC);
-    GetAndStoreKnownDirInfos(FOLDERID_ProgramFilesX64, '%$ProgramFilesX64%', sd_WINDOWSTC);
     GetAndStoreKnownDirInfos(FOLDERID_ProgramFilesCommonX64, '%$ProgramFilesCommonX64%', sd_WINDOWSTC);
+    GetAndStoreKnownDirInfos(FOLDERID_ProgramFilesX64, '%$ProgramFilesX64%', sd_WINDOWSTC);
     GetAndStoreKnownDirInfos(FOLDERID_Public, '%$Public%', sd_WINDOWSTC);
     GetAndStoreKnownDirInfos(FOLDERID_PublicDownloads, '%$PublicDownloads%', sd_WINDOWSTC);
     GetAndStoreKnownDirInfos(FOLDERID_PublicGameTasks, '%$PublicGameTasks%', sd_WINDOWSTC);
@@ -525,46 +525,46 @@ begin
 
   //These ones are new ones non-compatible on 2014-05-21 with Total Commander
   IndexOfNewVariableNotInTC:=count;
-  GetAndStoreSpecialDirInfos(CSIDL_INTERNET,'%$INTERNET%',sd_WINDOWSNONTC); //{ Internet Explorer (icon on desktop) }
-  GetAndStoreSpecialDirInfos(CSIDL_CONTROLS,'%$CONTROLS%',sd_WINDOWSNONTC); //{ My Computer\Control Panel }
-  GetAndStoreSpecialDirInfos(CSIDL_PRINTERS,'%$PRINTERS%',sd_WINDOWSNONTC); //{ My Computer\Printers }
-  GetAndStoreSpecialDirInfos(CSIDL_PERSONAL,'%$PERSONALXP%',sd_WINDOWSNONTC); //{ My Documents.  This is equivalent to CSIDL_MYDOCUMENTS in XP and above }
-  GetAndStoreSpecialDirInfos(CSIDL_FAVORITES,'%$FAVORITES%',sd_WINDOWSNONTC); //{ <user name>\Favorites }
-  GetAndStoreSpecialDirInfos(CSIDL_RECENT,'%$RECENT%',sd_WINDOWSNONTC); //{ <user name>\Recent }
-  GetAndStoreSpecialDirInfos(CSIDL_SENDTO,'%$SENDTO%',sd_WINDOWSNONTC); //{ <user name>\SendTo }
-  GetAndStoreSpecialDirInfos(CSIDL_BITBUCKET,'%$BITBUCKET%',sd_WINDOWSNONTC); //{ <desktop>\Recycle Bin }
-  GetAndStoreSpecialDirInfos(CSIDL_DESKTOPDIRECTORY,'%$DESKTOPDIRECTORY%',sd_WINDOWSNONTC); //{ <user name>\Desktop }
-  GetAndStoreSpecialDirInfos(CSIDL_DRIVES,'%$DRIVES%',sd_WINDOWSNONTC); //{ My Computer }
-  GetAndStoreSpecialDirInfos(CSIDL_NETWORK,'%$NETWORK%',sd_WINDOWSNONTC); //{ Network Neighborhood (My Network Places) }
-  GetAndStoreSpecialDirInfos(CSIDL_NETHOOD,'%$NETHOOD%',sd_WINDOWSNONTC); //{ <user name>\nethood }
-  GetAndStoreSpecialDirInfos(CSIDL_TEMPLATES,'%$TEMPLATES%',sd_WINDOWSNONTC); //
-  GetAndStoreSpecialDirInfos(CSIDL_PRINTHOOD,'%$PRINTHOOD%',sd_WINDOWSNONTC); //{ <user name>\PrintHood }
+  GetAndStoreSpecialDirInfos(CSIDL_ADMINTOOLS,'%$ADMINTOOLS%',sd_WINDOWSNONTC); // { <user name>\Start Menu\Programs\Administrative Tools }
   GetAndStoreSpecialDirInfos(CSIDL_ALTSTARTUP,'%$ALTSTARTUP%',sd_WINDOWSNONTC); //{ non localized startup }
+  GetAndStoreSpecialDirInfos(CSIDL_BITBUCKET,'%$BITBUCKET%',sd_WINDOWSNONTC); //{ <desktop>\Recycle Bin }
+  GetAndStoreSpecialDirInfos(CSIDL_CDBURN_AREA,'%$CDBURN_AREA%',sd_WINDOWSNONTC); // { USERPROFILE\Local Settings\Application Data\Microsoft\CD Burning }
+  GetAndStoreSpecialDirInfos(CSIDL_COMMON_ADMINTOOLS,'%$COMMON_ADMINTOOLS%',sd_WINDOWSNONTC); // { All Users\Start Menu\Programs\Administrative Tools }
   GetAndStoreSpecialDirInfos(CSIDL_COMMON_ALTSTARTUP,'%$COMMON_ALTSTARTUP%',sd_WINDOWSNONTC); // { non localized common startup }
   GetAndStoreSpecialDirInfos(CSIDL_COMMON_FAVORITES,'%$COMMON_FAVORITES%',sd_WINDOWSNONTC); //
-  GetAndStoreSpecialDirInfos(CSIDL_INTERNET_CACHE,'%$INTERNET_CACHE%',sd_WINDOWSNONTC); //
+  GetAndStoreSpecialDirInfos(CSIDL_COMMON_MUSIC,'%$COMMON_MUSIC%',sd_WINDOWSNONTC); // { All Users\My Music }
+  GetAndStoreSpecialDirInfos(CSIDL_COMMON_OEM_LINKS,'%$COMMON_OEM_LINKS%',sd_WINDOWSNONTC); // { Links to All Users OEM specific apps }
+  GetAndStoreSpecialDirInfos(CSIDL_COMMON_TEMPLATES,'%$COMMON_TEMPLATES%',sd_WINDOWSNONTC); // { All Users\Templates }
+  GetAndStoreSpecialDirInfos(CSIDL_COMMON_VIDEO,'%$COMMON_VIDEO%',sd_WINDOWSNONTC); // { All Users\My Video }
+  GetAndStoreSpecialDirInfos(CSIDL_COMPUTERSNEARME,'%$COMPUTERSNEARME%',sd_WINDOWSNONTC); // { Computers Near Me (computered from Workgroup membership) }
+  GetAndStoreSpecialDirInfos(CSIDL_CONNECTIONS,'%$CONNECTIONS%',sd_WINDOWSNONTC); // { Network and Dial-up Connections }
+  GetAndStoreSpecialDirInfos(CSIDL_CONTROLS,'%$CONTROLS%',sd_WINDOWSNONTC); //{ My Computer\Control Panel }
   GetAndStoreSpecialDirInfos(CSIDL_COOKIES,'%$COOKIES%',sd_WINDOWSNONTC); //
+  GetAndStoreSpecialDirInfos(CSIDL_DESKTOPDIRECTORY,'%$DESKTOPDIRECTORY%',sd_WINDOWSNONTC); //{ <user name>\Desktop }
+  GetAndStoreSpecialDirInfos(CSIDL_DRIVES,'%$DRIVES%',sd_WINDOWSNONTC); //{ My Computer }
+  GetAndStoreSpecialDirInfos(CSIDL_FAVORITES,'%$FAVORITES%',sd_WINDOWSNONTC); //{ <user name>\Favorites }
   GetAndStoreSpecialDirInfos(CSIDL_HISTORY,'%$HISTORY%',sd_WINDOWSNONTC); //
-  GetAndStoreSpecialDirInfos(CSIDL_WINDOWS,'%$WINDOWS%',sd_WINDOWSNONTC); // { GetWindowsDirectory() }
-  GetAndStoreSpecialDirInfos(CSIDL_SYSTEM,'%$SYSTEM%',sd_WINDOWSNONTC); // { GetSystemDirectory() }
-  GetAndStoreSpecialDirInfos(CSIDL_PROGRAM_FILES,'%$PROGRAM_FILES%',sd_WINDOWSNONTC); // { C:\Program Files }
+  GetAndStoreSpecialDirInfos(CSIDL_INTERNET,'%$INTERNET%',sd_WINDOWSNONTC); //{ Internet Explorer (icon on desktop) }
+  GetAndStoreSpecialDirInfos(CSIDL_INTERNET_CACHE,'%$INTERNET_CACHE%',sd_WINDOWSNONTC); //
+  GetAndStoreSpecialDirInfos(CSIDL_NETHOOD,'%$NETHOOD%',sd_WINDOWSNONTC); //{ <user name>\nethood }
+  GetAndStoreSpecialDirInfos(CSIDL_NETWORK,'%$NETWORK%',sd_WINDOWSNONTC); //{ Network Neighborhood (My Network Places) }
+  GetAndStoreSpecialDirInfos(CSIDL_PERSONAL,'%$PERSONALXP%',sd_WINDOWSNONTC); //{ My Documents.  This is equivalent to CSIDL_MYDOCUMENTS in XP and above }
+  GetAndStoreSpecialDirInfos(CSIDL_PRINTERS,'%$PRINTERS%',sd_WINDOWSNONTC); //{ My Computer\Printers }
+  GetAndStoreSpecialDirInfos(CSIDL_PRINTHOOD,'%$PRINTHOOD%',sd_WINDOWSNONTC); //{ <user name>\PrintHood }
   GetAndStoreSpecialDirInfos(CSIDL_PROFILE,'%$PROFILE%',sd_WINDOWSNONTC); // { USERPROFILE }
-  GetAndStoreSpecialDirInfos(CSIDL_SYSTEMX86,'%$SYSTEMX86%',sd_WINDOWSNONTC); //{ x86 system directory on RISC }
+  //GetAndStoreSpecialDirInfos(CSIDL_PROFILES,'%PROFILES%'); //Does not work everywhere, let's remove it.
+  GetAndStoreSpecialDirInfos(CSIDL_PROGRAM_FILES,'%$PROGRAM_FILES%',sd_WINDOWSNONTC); // { C:\Program Files }
   GetAndStoreSpecialDirInfos(CSIDL_PROGRAM_FILESX86,'%$PROGRAM_FILESX86%',sd_WINDOWSNONTC); // { x86 C:\Program Files on RISC }
   GetAndStoreSpecialDirInfos(CSIDL_PROGRAM_FILES_COMMON,'%$PROGRAM_FILES_COMMON%',sd_WINDOWSNONTC); // { C:\Program Files\Common }
   GetAndStoreSpecialDirInfos(CSIDL_PROGRAM_FILES_COMMONX86,'%$PROGRAM_FILES_COMMONX86%',sd_WINDOWSNONTC); // { x86 C:\Program Files\Common on RISC }
-  GetAndStoreSpecialDirInfos(CSIDL_COMMON_TEMPLATES,'%$COMMON_TEMPLATES%',sd_WINDOWSNONTC); // { All Users\Templates }
-  GetAndStoreSpecialDirInfos(CSIDL_COMMON_ADMINTOOLS,'%$COMMON_ADMINTOOLS%',sd_WINDOWSNONTC); // { All Users\Start Menu\Programs\Administrative Tools }
-  GetAndStoreSpecialDirInfos(CSIDL_ADMINTOOLS,'%$ADMINTOOLS%',sd_WINDOWSNONTC); // { <user name>\Start Menu\Programs\Administrative Tools }
-  GetAndStoreSpecialDirInfos(CSIDL_CONNECTIONS,'%$CONNECTIONS%',sd_WINDOWSNONTC); // { Network and Dial-up Connections }
-  GetAndStoreSpecialDirInfos(CSIDL_COMMON_MUSIC,'%$COMMON_MUSIC%',sd_WINDOWSNONTC); // { All Users\My Music }
-  GetAndStoreSpecialDirInfos(CSIDL_COMMON_VIDEO,'%$COMMON_VIDEO%',sd_WINDOWSNONTC); // { All Users\My Video }
+  GetAndStoreSpecialDirInfos(CSIDL_RECENT,'%$RECENT%',sd_WINDOWSNONTC); //{ <user name>\Recent }
   GetAndStoreSpecialDirInfos(CSIDL_RESOURCES,'%$RESOURCES%',sd_WINDOWSNONTC); // { Resource Directory }
   GetAndStoreSpecialDirInfos(CSIDL_RESOURCES_LOCALIZED,'%$RESOURCES_LOCALIZED%',sd_WINDOWSNONTC); // { Localized Resource Directory }
-  GetAndStoreSpecialDirInfos(CSIDL_COMMON_OEM_LINKS,'%$COMMON_OEM_LINKS%',sd_WINDOWSNONTC); // { Links to All Users OEM specific apps }
-  GetAndStoreSpecialDirInfos(CSIDL_CDBURN_AREA,'%$CDBURN_AREA%',sd_WINDOWSNONTC); // { USERPROFILE\Local Settings\Application Data\Microsoft\CD Burning }
-  GetAndStoreSpecialDirInfos(CSIDL_COMPUTERSNEARME,'%$COMPUTERSNEARME%',sd_WINDOWSNONTC); // { Computers Near Me (computered from Workgroup membership) }
-  //GetAndStoreSpecialDirInfos(CSIDL_PROFILES,'%PROFILES%'); //Does not work everywhere, let's remove it.
+  GetAndStoreSpecialDirInfos(CSIDL_SENDTO,'%$SENDTO%',sd_WINDOWSNONTC); //{ <user name>\SendTo }
+  GetAndStoreSpecialDirInfos(CSIDL_SYSTEM,'%$SYSTEM%',sd_WINDOWSNONTC); // { GetSystemDirectory() }
+  GetAndStoreSpecialDirInfos(CSIDL_SYSTEMX86,'%$SYSTEMX86%',sd_WINDOWSNONTC); //{ x86 system directory on RISC }
+  GetAndStoreSpecialDirInfos(CSIDL_TEMPLATES,'%$TEMPLATES%',sd_WINDOWSNONTC); //
+  GetAndStoreSpecialDirInfos(CSIDL_WINDOWS,'%$WINDOWS%',sd_WINDOWSNONTC); // { GetWindowsDirectory() }
 
   if Win32MajorVersion > 5 then
   begin
