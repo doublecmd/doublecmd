@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    This unit contains TFileViewPage and TFileViewNotebook objects.
 
-   Copyright (C) 2016-2023 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2016-2024 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -138,6 +138,11 @@ type
     procedure MouseMove(Shift: TShiftState; X, Y: Integer); override;
     procedure MouseUp(Button: TMouseButton; Shift: TShiftState; X, Y: Integer); override;
     procedure WMEraseBkgnd(var Message: TLMEraseBkgnd); message LM_ERASEBKGND;
+
+{$IF (DEFINED(LCLQT) or DEFINED(LCLQT5) or DEFINED(LCLQT6))}
+    procedure CNNotify(var Message: TLMNotify); message CN_NOTIFY;
+{$ENDIF}
+
 {$IF DEFINED(LCLWIN32)}
     procedure PaintWindow(DC: HDC); override;
 {$ENDIF}
@@ -551,6 +556,19 @@ begin
   // This is not actually needed on non-Windows because WMEraseBkgnd is not used there.
   Message.Result := 1;
 end;
+
+{$IF (DEFINED(LCLQT) or DEFINED(LCLQT5) or DEFINED(LCLQT6))}
+procedure TFileViewNotebook.CNNotify(var Message: TLMNotify);
+begin
+  // Workaround: https://github.com/doublecmd/doublecmd/issues/1570
+  if Message.NMHdr^.code = TCN_SELCHANGE then
+  begin
+    if PtrInt(Message.NMHDR^.idfrom) >= PageCount then
+      Message.NMHDR^.idfrom:= PtrUInt(PageCount - 1);
+  end;
+  inherited CNNotify(Message);
+end;
+{$ENDIF}
 
 {$IF DEFINED(LCLWIN32)}
 procedure TFileViewNotebook.PaintWindow(DC: HDC);
