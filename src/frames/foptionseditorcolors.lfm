@@ -535,7 +535,7 @@ inherited frmOptionsEditorColors: TfrmOptionsEditorColors
           Width = 19
           MouseActions = <>
           MarkupInfo.Background = clBtnFace
-          MarkupInfo.Foreground = clNone
+          MarkupInfo.Foreground = clBtnText
           DigitCount = 2
           ShowOnlyLineNumbersMultiplesOf = 1
           ZeroStart = False

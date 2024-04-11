@@ -2808,6 +2808,11 @@ begin
       MarkupInfo.Background:= clWindow;
       MarkupInfo.Foreground:= clGrayText;
     end;
+    with SynEdit.Gutter.LineNumberPart() do
+    begin
+      MarkupInfo.Background:= clBtnFace;
+      MarkupInfo.Foreground:= clBtnText;
+    end;
     SynEdit.Options:= gEditorSynEditOptions;
     SynEdit.TabWidth := gEditorSynEditTabWidth;
     SynEdit.RightEdge := gEditorSynEditRightEdge;

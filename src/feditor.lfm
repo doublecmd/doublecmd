@@ -589,7 +589,7 @@ object frmEditor: TfrmEditor
         Width = 13
         MouseActions = <>
         MarkupInfo.Background = clBtnFace
-        MarkupInfo.Foreground = clNone
+        MarkupInfo.Foreground = clBtnText
         DigitCount = 2
         ShowOnlyLineNumbersMultiplesOf = 1
         ZeroStart = False
