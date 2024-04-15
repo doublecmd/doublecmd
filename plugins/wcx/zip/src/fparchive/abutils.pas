@@ -38,6 +38,7 @@ interface
 uses
 {$IFDEF MSWINDOWS}
   Windows,
+  DCWindows,
   DCConvertEncoding,
 {$ENDIF}
 {$IFDEF LibcAPI}
@@ -1261,7 +1262,7 @@ begin
   aAttr.Attr := -1;
   aAttr.Mode := 0;
 {$IFDEF MSWINDOWS}
-  Result := GetFileAttributesExW(PWideChar(CeUtf8ToUtf16(aFileName)), GetFileExInfoStandard, @FindData);
+  Result := GetFileAttributesExW(PWideChar(UTF16LongName(aFileName)), GetFileExInfoStandard, @FindData);
   if Result then begin
     aAttr.Time := WinFileTimeToDateTime(FindData.ftLastWriteTime);
     LARGE_INTEGER(aAttr.Size).LowPart := FindData.nFileSizeLow;
