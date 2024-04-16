@@ -491,9 +491,10 @@ end;
 function DeleteFilesW(PackedFile, DeleteList : PWideChar) : Integer;dcpcall; export;
 var
  Arc : TAbZipKitEx;
+ FileNameUTF8 : String;
  pFileName : PWideChar;
  FileName : UnicodeString;
- FileNameUTF8 : String;
+ ArchiveFormat: TArchiveFormat;
 begin
   Arc := TAbZipKitEx.Create(nil);
   try
@@ -505,6 +506,10 @@ begin
 
     try
       Arc.OpenArchive(UTF16ToUTF8(UnicodeString(PackedFile)));
+
+      ArchiveFormat:= ARCHIVE_FORMAT[Arc.ArchiveType];
+
+      Arc.ZipArchive.CompressionLevel:= PluginConfig[ArchiveFormat].Level;
 
       // Set this after opening archive, to get only progress of deleting.
       Arc.OnArchiveItemProgress := @Arc.AbArchiveItemProgressEvent;
