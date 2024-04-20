@@ -475,9 +475,6 @@ end;
 
 procedure TfrmEditHotkey.FormCreate(Sender: TObject);
 begin
-  lblHotKeyConflict.Color := clHighlight;
-  lblHotKeyConflict.Font.Color := clHighlightText;
-
   FForms := TStringList.Create;
   FFormsTranslated := TStringList.Create;
   TFormCommands.GetCategoriesList(FForms, FFormsTranslated);
