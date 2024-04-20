@@ -4,14 +4,15 @@ Priority: optional
 Maintainer: Pascal Packaging Team <pkg-pascal-devel@lists.alioth.debian.org>
 Uploaders: Graham Inggs <ginggs@debian.org>
 Build-Depends: debhelper (>= 9),
-               fp-utils (>= 3.0.4),
-               fpc (>= 3.0.4),
-               lcl (>= 2.0),
+               fp-utils (>= 3.2.0),
+               fpc (>= 3.2.0),
+               lcl (>= 2.2),
                lcl-gtk2,
                lcl-qt5,
                lcl-units,
                lcl-utils,
                libbz2-dev,
+               libjpeg-dev,
                libdbus-1-dev,
                libglib2.0-dev,
                libgtk2.0-dev,
