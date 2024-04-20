@@ -12,7 +12,7 @@ object frmEditHotkey: TfrmEditHotkey
   OnShow = FormShow
   Position = poScreenCenter
   ShowHint = True
-  LCLVersion = '1.6.0.4'
+  LCLVersion = '3.3.0.0'
   object lblShortcuts: TLabel
     AnchorSideLeft.Control = pnlShortcuts
     AnchorSideTop.Control = Owner
@@ -61,7 +61,9 @@ object frmEditHotkey: TfrmEditHotkey
     Anchors = [akTop, akLeft, akRight]
     BorderSpacing.Top = 4
     BorderSpacing.Bottom = 4
+    Font.Style = [fsBold, fsUnderline]
     ParentColor = False
+    ParentFont = False
     ParentShowHint = False
     ShowHint = True
     Visible = False
@@ -110,8 +112,8 @@ object frmEditHotkey: TfrmEditHotkey
     Anchors = [akLeft, akRight, akBottom]
     AutoSize = True
     BorderSpacing.Top = 4
-    OnClick = btnShowCommandHelpClick
     TabOrder = 2
+    OnClick = btnShowCommandHelpClick
   end
   object cgHKControls: TCheckGroup
     AnchorSideLeft.Control = pnlShortcuts
@@ -254,7 +256,7 @@ object frmEditHotkey: TfrmEditHotkey
     OnClick = btnSelectFromListClick
   end
   object pmWithAllShortcuts: TPopupMenu
-    left = 310
-    top = 13
+    Left = 310
+    Top = 13
   end
 end
