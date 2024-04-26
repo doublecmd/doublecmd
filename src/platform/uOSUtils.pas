@@ -57,7 +57,7 @@ const
   faFolder = S_IFDIR;
   ReversePathDelim = '\';
   {$IF DEFINED(DARWIN)}
-  RunTermCmd = '/Applications/Utilities/Terminal.app';  // default terminal
+  RunTermCmd: String = '/Applications/Utilities/Terminal.app';  // default terminal
   RunTermParams = '%D';
   RunInTermStayOpenCmd = '%COMMANDER_PATH%/scripts/terminal.sh'; // default run in terminal command AND Stay open after command
   RunInTermStayOpenParams = '''{command}''';

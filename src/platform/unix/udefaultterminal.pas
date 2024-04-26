@@ -30,6 +30,21 @@ uses
 
 implementation
 
+{$IF DEFINED(DARWIN)}
+uses
+  uOSUtils, uMyDarwin;
+
+procedure Initialize;
+var
+  Cmd: String;
+begin
+  Cmd:= getMacOSDefaultTerminal;
+  if Length(Cmd) > 0 then
+  begin
+    RunTermCmd:= Cmd;
+  end;
+end;
+{$ELSE}
 uses
   DCOSUtils, DCClassesUtf8, uMyUnix, uGio, uOSUtils, uSysFolders;
 
@@ -206,6 +221,7 @@ begin
     end;
   end;
 end;
+{$ENDIF}
 
 initialization
   Initialize;

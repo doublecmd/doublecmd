@@ -145,7 +145,7 @@ uses
   {$ENDIF}
   {$IF DEFINED(DARWIN)}
   , BaseUnix, Errors, fFileProperties
-  , uQuickLook, uOpenDocThumb, uMyDarwin
+  , uQuickLook, uOpenDocThumb, uMyDarwin, uDefaultTerminal
   {$ELSEIF DEFINED(UNIX)}
   , BaseUnix, Errors, fFileProperties, uJpegThumb, uOpenDocThumb
     {$IF NOT DEFINED(HAIKU)}

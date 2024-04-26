@@ -743,9 +743,6 @@ uses
    {$IF DEFINED(MSWINDOWS)}
     , ShlObj
    {$ENDIF}
-   {$IF DEFINED(DARWIN)}
-    , uMyDarwin
-   {$ENDIF}
    {$if lcl_fullversion >= 2010000}
    , SynEditMiscClasses
    {$endif}
@@ -2607,62 +2604,12 @@ begin
       gShowCurDirTitleBar := GetValue(Node, 'ShowCurDirTitleBar', gShowCurDirTitleBar);
       gActiveRight := GetValue(Node, 'ActiveRight', gActiveRight);
 
-      //Trick to split initial legacy command for terminal
-      //  Initial name in config was "RunInTerminal".
-      //  If it is still present in config, it means we're running from an older version.
-      //  So if it's different than our setting, let's split it to get actual "cmd" and "params".
-      //  New version uses "RunInTerminalCloseCmd" from now on.
-      //  ALSO, in the case of Windows, installation default was "cmd.exe /K ..." which means Run-and-stayopen
-      //        in the case of Unix, installation default was "xterm -e sh -c ..." which means Run-and-close
-      //  So because of these two different behavior, transition is done slightly differently.
-      {$IF DEFINED(MSWINDOWS)}
-      gRunInTermStayOpenCmd := GetValue(Node, 'RunInTerminal', gRunInTermStayOpenCmd);
-      if gRunInTermStayOpenCmd<>RunInTermCloseCmd then
-      begin
-        SplitCmdLineToCmdParams(gRunInTermStayOpenCmd, gRunInTermStayOpenCmd, gRunInTermStayOpenParams);
-        if gRunInTermStayOpenParams<>'' then gRunInTermStayOpenParams:=gRunInTermStayOpenParams+' {command}' else gRunInTermStayOpenParams:='{command}';
-      end
-      else
-      begin
-        gRunInTermStayOpenCmd := GetValue(Node, 'RunInTerminalStayOpenCmd', RunInTermStayOpenCmd);
-        gRunInTermStayOpenParams := GetValue(Node, 'RunInTerminalStayOpenParams', RunInTermStayOpenParams);
-      end;
+      gRunTermCmd := GetValue(Node, 'JustRunTerminal', RunTermCmd);
+      gRunTermParams := GetValue(Node, 'JustRunTermParams', RunTermParams);
       gRunInTermCloseCmd := GetValue(Node, 'RunInTerminalCloseCmd', RunInTermCloseCmd);
       gRunInTermCloseParams := GetValue(Node, 'RunInTerminalCloseParams', RunInTermCloseParams);
-      {$ELSE}
-      gRunInTermCloseCmd := GetValue(Node, 'RunInTerminal', gRunInTermCloseCmd);
-      if gRunInTermCloseCmd<>RunInTermCloseCmd then
-      begin
-        SplitCmdLineToCmdParams(gRunInTermCloseCmd, gRunInTermCloseCmd, gRunInTermCloseParams);
-        if gRunInTermCloseParams<>'' then gRunInTermCloseParams:=gRunInTermCloseParams+' {command}' else gRunInTermStayOpenParams:='{command}';
-      end
-      else
-      begin
-        gRunInTermCloseCmd := GetValue(Node, 'RunInTerminalCloseCmd', RunInTermCloseCmd);
-        gRunInTermCloseParams := GetValue(Node, 'RunInTerminalCloseParams', RunInTermCloseParams);
-      end;
       gRunInTermStayOpenCmd := GetValue(Node, 'RunInTerminalStayOpenCmd', RunInTermStayOpenCmd);
       gRunInTermStayOpenParams := GetValue(Node, 'RunInTerminalStayOpenParams', RunInTermStayOpenParams);
-      {$ENDIF}
-
-      // Let's try to be backward comptible and re-load possible old values for terminal launch command
-      gRunTermCmd := GetValue(Node, 'JustRunTerminal', '');
-      if gRunTermCmd <> '' then begin
-        gRunTermParams := GetValue(Node, 'JustRunTermParams', RunTermParams);
-      end else begin
-        gRunTermCmd := GetValue(Node, 'RunTerminal', '' );
-        if gRunTermCmd <> '' then begin
-          SplitCmdLineToCmdParams(gRunTermCmd, gRunTermCmd, gRunTermParams);
-        end else begin
-          {$IF DEFINED(DARWIN)}
-          gRunTermCmd:= getMacOSDefaultTerminal;
-          if gRunTermCmd = '' then gRunTermCmd := RunTermCmd;
-          {$ELSE}
-          gRunTermCmd := RunTermCmd;
-          {$ENDIF}
-          gRunTermParams := RunTermParams;
-        end;
-      end;
 
       gOnlyOneAppInstance := GetValue(Node, 'OnlyOneAppInstance', gOnlyOneAppInstance);
       gLynxLike := GetValue(Node, 'LynxLike', gLynxLike);
