@@ -19,6 +19,7 @@ inherited frmDeleteDlg: TfrmDeleteDlg
     Align = alTop
     ClientHeight = 1
     ClientWidth = 399
+    ParentColor = True
     object lblMessage: TLabel[0]
       AnchorSideLeft.Control = pnlContent
       AnchorSideTop.Control = pnlContent
@@ -45,6 +46,7 @@ inherited frmDeleteDlg: TfrmDeleteDlg
     Anchors = [akTop, akLeft, akRight]
     BorderSpacing.Top = 32
     ClientWidth = 399
+    ParentColor = True
     inherited btnCancel: TBitBtn
       Left = 221
     end
