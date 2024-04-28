@@ -113,10 +113,23 @@ type
 implementation
 
 uses
-  LCLIntf, LCLType, LCLProc, LazUTF8, Math, LMessages,
+  Types, LCLIntf, LCLType, LCLProc, LazUTF8, Math, LMessages,
   DCStrUtils, uGlobs, uPixmapManager, uKeyboard,
   uDCUtils, fMain,
   uFileFunctions;
+
+{
+  Workaround
+  https://gitlab.com/freepascal.org/lazarus/lazarus/-/issues/40934
+}
+function TextFitInfo(ACanvas: TCanvas; const Text: String; MaxWidth: Integer): Integer;
+var
+  lSize: TSize;
+begin
+  Result:= 0;
+  LCLIntf.GetTextExtentExPoint(ACanvas.Handle, PChar(Text),
+                               Length(Text), MaxWidth, @Result, nil, lSize);
+end;
 
 function FitFileName(const AFileName: String; ACanvas: TCanvas; AFile: TFile; ATargetWidth: Integer): String;
 var
@@ -125,7 +138,7 @@ var
   AMaxWidth: Integer;
 begin
   Index:= UTF8Length(AFileName);
-  AMaxWidth:= ACanvas.TextFitInfo(AFileName, ATargetWidth);
+  AMaxWidth:= TextFitInfo(ACanvas, AFileName, ATargetWidth);
 
   if Index <= AMaxWidth then
     Result:= AFileName
@@ -136,7 +149,7 @@ begin
       else begin
         S:= '..';
       end;
-      Index:= ACanvas.TextFitInfo(AFileName, ATargetWidth - ACanvas.TextWidth(S));
+      Index:= TextFitInfo(ACanvas, AFileName, ATargetWidth - ACanvas.TextWidth(S));
       Result:= UTF8Copy(AFileName, 1, Index) + S;
   end;
 end;
@@ -150,13 +163,13 @@ var
   AMaxWidth: Integer;
 begin
   Index:= UTF8Length(sStringToFit);
-  AMaxWidth:= ACanvas.TextFitInfo(sStringToFit, ATargetWidth);
+  AMaxWidth:= TextFitInfo(ACanvas, sStringToFit, ATargetWidth);
 
   if Index <= AMaxWidth then
     Result:= sStringToFit
   else
     begin
-      Index:= ACanvas.TextFitInfo(sStringToFit, ATargetWidth - ACanvas.TextWidth(ELLIPSIS));
+      Index:= TextFitInfo(ACanvas, sStringToFit, ATargetWidth - ACanvas.TextWidth(ELLIPSIS));
       Result:= UTF8Copy(sStringToFit, 1, Index) + ELLIPSIS;
     end;
 end;
