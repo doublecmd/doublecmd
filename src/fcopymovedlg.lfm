@@ -71,8 +71,6 @@ object frmCopyDlg: TfrmCopyDlg
     AutoSize = True
     BorderSpacing.Top = 8
     BevelOuter = bvNone
-    Color = clForm
-    ParentColor = False
     TabOrder = 1
   end
   object pnlButtons: TPanel
@@ -91,8 +89,6 @@ object frmCopyDlg: TfrmCopyDlg
     BevelOuter = bvNone
     ClientHeight = 36
     ClientWidth = 596
-    Color = clForm
-    ParentColor = False
     TabOrder = 2
     object btnOptions: TButton
       Left = 0
