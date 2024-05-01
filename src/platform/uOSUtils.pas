@@ -187,7 +187,7 @@ implementation
 
 uses
   StrUtils, uFileProcs, FileUtil, uDCUtils, DCOSUtils, DCStrUtils, uGlobs, uLng,
-  fConfirmCommandLine, uLog, DCConvertEncoding, LazUTF8, uSysFolders
+  fConfirmCommandLine, uLog, DCConvertEncoding, LazUTF8
   {$IF DEFINED(MSWINDOWS)}
   , Windows, Shlwapi, WinRT.Classes, uMyWindows, JwaWinNetWk,
     uShlObjAdditional, DCWindows, uNetworkThread
