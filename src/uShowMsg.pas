@@ -300,6 +300,7 @@ begin
   begin
     with TButton.Create(frmMsg) do
     begin
+      Constraints.MinHeight:= 34;
       AutoSize:= True;
       Caption:= cLngButton[Buttons[iIndex]];
       Parent:= frmMsg.pnlButtons;
