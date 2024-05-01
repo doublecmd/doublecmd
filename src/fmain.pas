@@ -5907,10 +5907,10 @@ end;
 function TfrmMain.ExecuteCommandFromEdit(sCmd: String; bRunInTerm: Boolean): Boolean;
 var
   iIndex: Integer;
+  aFile: TFile = nil;
   sDir, sParams: String;
   sFilename: String = '';
   Operation: TFileSourceExecuteOperation = nil;
-  aFile: TFile = nil;
 begin
   Result:= True;
 
@@ -5922,8 +5922,13 @@ begin
 
   if (fspDirectAccess in ActiveFrame.FileSource.GetProperties) then
     begin
-      iIndex:= Pos('cd ', sCmd);
-      if (iIndex = 1) or (sCmd = 'cd') then
+      if FileNameCaseSensitive then
+        sDir:= sCmd
+      else begin
+        sDir:= LowerCase(sCmd);
+      end;
+      iIndex:= Pos('cd ', sDir);
+      if (iIndex = 1) or (sDir = 'cd') then
         begin
           sCmd:= ReplaceEnvVars(sCmd);
 
