@@ -27,7 +27,7 @@ interface
 
 uses
   //Lazarus, Free-Pascal, etc.
-  Classes, SysUtils, ComCtrls, StdCtrls, Grids, Buttons, Controls, ExtCtrls,
+  Classes, SysUtils, ComCtrls, Grids, Buttons, Controls, ExtCtrls,
 
   //DC
   fOptionsFrame, uWCXModule, foptionspluginsbase;
@@ -67,7 +67,7 @@ uses
   StrUtils, LCLProc, Forms, Dialogs,
 
   //DC
-  uDCUtils, uLng, uGlobs, uShowMsg, fTweakPlugin, dmCommonData, DCStrUtils,
+  uLng, uGlobs, uShowMsg, fTweakPlugin, dmCommonData, DCStrUtils,
   uDefaultPlugins;
 
 const
