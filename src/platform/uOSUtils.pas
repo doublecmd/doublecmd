@@ -189,7 +189,7 @@ uses
   StrUtils, uFileProcs, FileUtil, uDCUtils, DCOSUtils, DCStrUtils, uGlobs, uLng,
   fConfirmCommandLine, uLog, DCConvertEncoding, LazUTF8, uSysFolders
   {$IF DEFINED(MSWINDOWS)}
-  , Windows, uMyWindows, JwaWinNetWk,
+  , Windows, Shlwapi, WinRT.Classes, uMyWindows, JwaWinNetWk,
     uShlObjAdditional, DCWindows, uNetworkThread
   {$ENDIF}
   {$IF DEFINED(UNIX)}
@@ -372,18 +372,40 @@ end;
 function ShellExecute(URL: String): Boolean;
 {$IF DEFINED(MSWINDOWS)}
 var
+  cchOut: DWORD;
   Return: HINST;
   wsFileName: UnicodeString;
   wsStartPath: UnicodeString;
+  AppID, FileExt: UnicodeString;
 begin
-  URL:= NormalizePathDelimiters(URL);
+   cchOut:= MAX_PATH;
+   SetLength(AppID, cchOut);
+   URL:= NormalizePathDelimiters(URL);
+   FileExt:= CeUtf8ToUtf16(ExtractFileExt(URL));
+
+   if (AssocQueryStringW(ASSOCF_NONE, ASSOCSTR_APPID,
+                         PWideChar(FileExt), nil, PWideChar(AppID), @cchOut) = S_OK) then
+   begin
+     if cchOut > 0 then
+     begin
+      SetLength(AppID, cchOut - 1);
+      // Special case Microsoft Photos
+      if (AppID = 'Microsoft.Windows.Photos_8wekyb3d8bbwe!App') then
+      begin
+        TLauncherThread.LaunchFileAsync(URL);
+        Exit(True);
+      end;
+     end;
+  end;
   wsFileName:= CeUtf8ToUtf16(QuoteDouble(URL));
   wsStartPath:= CeUtf8ToUtf16(mbGetCurrentDir());
+
   Return:= ShellExecuteW(0, nil, PWideChar(wsFileName), nil, PWideChar(wsStartPath), SW_SHOWNORMAL);
   if Return = SE_ERR_NOASSOC then
     Result:= ExecCmdFork('rundll32 shell32.dll OpenAs_RunDLL ' + URL)
-  else
+  else begin
     Result:= Return > 32;
+  end;
 end;
 {$ELSEIF DEFINED(DARWIN)}
 var
