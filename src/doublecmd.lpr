@@ -154,6 +154,7 @@ begin
 {$ENDIF}
 
 {$IF DEFINED(darwin)}
+  FixMacFormatSettings;
   setMacOSAppearance( gAppMode );
 {$ENDIF}
 
