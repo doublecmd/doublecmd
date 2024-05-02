@@ -300,7 +300,9 @@ begin
   begin
     with TButton.Create(frmMsg) do
     begin
+{$IF DEFINED(LCLCOCOA)}
       Constraints.MinHeight:= 34;
+{$ENDIF}
       AutoSize:= True;
       Caption:= cLngButton[Buttons[iIndex]];
       Parent:= frmMsg.pnlButtons;
