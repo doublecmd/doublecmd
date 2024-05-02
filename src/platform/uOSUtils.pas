@@ -383,19 +383,27 @@ begin
    URL:= NormalizePathDelimiters(URL);
    FileExt:= CeUtf8ToUtf16(ExtractFileExt(URL));
 
-   if (AssocQueryStringW(ASSOCF_NONE, ASSOCSTR_APPID,
-                         PWideChar(FileExt), nil, PWideChar(AppID), @cchOut) = S_OK) then
-   begin
-     if cchOut > 0 then
-     begin
-      SetLength(AppID, cchOut - 1);
-      // Special case Microsoft Photos
-      if (AppID = 'Microsoft.Windows.Photos_8wekyb3d8bbwe!App') then
+  if CheckWin32Version(10) then
+  begin
+    if (AssocQueryStringW(ASSOCF_NONE, ASSOCSTR_APPID,
+                          PWideChar(FileExt), nil, PWideChar(AppID), @cchOut) = S_OK) then
+    begin
+      if cchOut > 0 then
       begin
-        TLauncherThread.LaunchFileAsync(URL);
-        Exit(True);
+        SetLength(AppID, cchOut - 1);
+        // Special case Microsoft Photos
+        if (AppID = 'Microsoft.Windows.Photos_8wekyb3d8bbwe!App') then
+        begin
+          // Microsoft Photos does not work correct
+          // when process has administrator rights
+          if (IsUserAdmin <> dupAccept) then
+          begin
+            TLauncherThread.LaunchFileAsync(URL);
+            Exit(True);
+          end;
+        end;
       end;
-     end;
+    end;
   end;
   wsFileName:= CeUtf8ToUtf16(QuoteDouble(URL));
   wsStartPath:= CeUtf8ToUtf16(mbGetCurrentDir());
