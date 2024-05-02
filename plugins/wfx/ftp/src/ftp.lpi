@@ -52,6 +52,11 @@ end;
 if (TargetOS = &apos;darwin&apos;) then
 begin
   LinkerOptions += &apos; -no_order_inits&apos;;
+end;
+
+if (TargetOS = &apos;darwin&apos;) and (TargetCPU = &apos;aarch64&apos;) then
+begin
+  LinkerOptions += &apos; -rpath /opt/homebrew/lib&apos;;
 end;"/>
           <Parsing>
             <SyntaxOptions>
@@ -152,6 +157,11 @@ end;
 if (TargetOS = &apos;linux&apos;) then
 begin
   LinkerOptions += &apos; -z relro --as-needed&apos;;
+end;
+
+if (TargetOS = &apos;darwin&apos;) and (TargetCPU = &apos;aarch64&apos;) then
+begin
+  LinkerOptions += &apos; -rpath /opt/homebrew/lib&apos;;
 end;"/>
     <Parsing>
       <SyntaxOptions>
