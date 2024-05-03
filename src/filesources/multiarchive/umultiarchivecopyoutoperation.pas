@@ -284,6 +284,21 @@ begin
 
       if FilesToExtract.Count = 0 then Exit;
 
+      with FStatistics do
+      begin
+        if FilesToExtract.Count = 1 then
+        begin
+          FStatistics.CurrentFileFrom:= FilesToExtract[0].FullPath;
+          FStatistics.CurrentFileTo:= TargetFileName;
+        end
+        else begin
+          FStatistics.CurrentFileFrom:= SourceFiles.Path;
+          FStatistics.CurrentFileTo:= TargetPath;
+        end;
+        FStatistics.DoneBytes:= -1;
+        UpdateStatistics(FStatistics);
+      end;
+
       sReadyCommand:= FormatArchiverCommand(
                                             MultiArcItem.FArchiver,
                                             sCommandLine,
@@ -307,6 +322,7 @@ begin
       // if extract from not root directory and with path
       if (SourceFiles.Path <> PathDelim) and (FExtractWithoutPath = False) then
       begin
+        FStatistics.DoneBytes:= 0;
         // move files to real target directory
         for I:= 0 to FilesToExtract.Count - 1 do
         begin
