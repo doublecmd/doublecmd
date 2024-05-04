@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Wfx plugin for working with File Transfer Protocol
 
-   Copyright (C) 2013-2020 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2013-2024 Alexander Koblov (alexx2000@mail.ru)
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Lesser General Public
@@ -96,6 +96,8 @@ begin
 end;
 
 function TSftpSend.Connect: Boolean;
+var
+  Return: Integer;
 begin
   Result:= inherited Connect;
 
@@ -104,6 +106,18 @@ begin
     FSFTPSession := libssh2_sftp_init(FSession);
 
     Result:= Assigned(FSFTPSession);
+
+    if Result and (Length(FCurrentDir) = 0) then
+    begin
+      SetLength(FCurrentDir, MAX_PATH + 1);
+      Return:= libssh2_sftp_realpath(FSFTPSession, '.', PAnsiChar(FCurrentDir), MAX_PATH);
+      if Return < 1 then
+        FCurrentDir:= '/'
+      else begin
+        SetLength(FCurrentDir, Return);
+        FCurrentDir:= CeUtf16ToUtf8(ServerToClient(FCurrentDir));
+      end;
+    end;
 
     if not Result then begin
       libssh2_session_free(FSession);
@@ -115,6 +129,7 @@ end;
 constructor TSftpSend.Create(const Encoding: String);
 begin
   inherited Create(Encoding);
+  FCurrentDir:= EmptyStr;
   FCanResume := True;
 end;
 
