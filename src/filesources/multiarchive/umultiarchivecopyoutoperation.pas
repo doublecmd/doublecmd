@@ -118,7 +118,9 @@ begin
   FStatistics := RetrieveStatistics;
   with FStatistics do
   begin
+    DoneBytes := -1;
     DoneFiles := -1;
+    RemainingTime := -1;
     CurrentFileDoneBytes := -1;
     UpdateStatistics(FStatistics);
   end;
@@ -215,6 +217,9 @@ begin
     // Get maximum acceptable command errorlevel
     FErrorLevel:= ExtractErrorLevel(sCommandLine);
     if Pos('%F', sCommandLine) <> 0 then // extract file by file
+    begin
+      FStatistics.DoneBytes:= 0;
+
       for I:= 0 to FFullFilesTreeToExtract.Count - 1 do
       begin
         CheckOperationState;
@@ -259,6 +264,7 @@ begin
             CheckForErrors(aFile.FullPath, TargetFileName, FExProcess.ExitStatus);
           end;
     end // for
+  end
   else  // extract whole file list
     begin
       sTempDir:= TargetPath; // directory where files will be unpacked
@@ -295,7 +301,6 @@ begin
           FStatistics.CurrentFileFrom:= SourceFiles.Path;
           FStatistics.CurrentFileTo:= TargetPath;
         end;
-        FStatistics.DoneBytes:= -1;
         UpdateStatistics(FStatistics);
       end;
 

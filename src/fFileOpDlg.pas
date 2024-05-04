@@ -810,7 +810,9 @@ begin
     sEstimated := #32
   else
     begin
-      if RemainingTime > 0 then
+      if RemainingTime < 0 then
+        sEstimated := #32
+      else if RemainingTime > 0 then
         begin
           // Normal view, less than 24 hours of estimated time
           if RemainingTime < 1.0 then
