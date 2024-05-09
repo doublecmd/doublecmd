@@ -3,7 +3,7 @@
   -------------------------------------------------------------------------
   Base64 archiver plugin
 
-  Copyright (C) 2022 Alexander Koblov (alexx2000@mail.ru)
+  Copyright (C) 2022-2024 Alexander Koblov (alexx2000@mail.ru)
 
   This library is free software; you can redistribute it and/or
   modify it under the terms of the GNU Lesser General Public
@@ -154,6 +154,7 @@ end;
 
 function ReadHeaderExW(hArcData: TArcHandle; var HeaderData: THeaderDataExW): Integer; dcpcall; export;
 var
+  PackSize: Int64;
   FileName: UnicodeString;
   AHandle: TRecord absolute hArcData;
 begin
@@ -163,6 +164,9 @@ begin
     Result := E_SUCCESS;
     FileName:= CeUtf8ToUtf16(AHandle.FileName);
     FillChar(HeaderData, SizeOf(AHandle.Count), 0);
+    PackSize:= AHandle.Stream.Size - AHandle.Stream.Position;
+    HeaderData.PackSize:= Int64Rec(PackSize).Lo;
+    HeaderData.PackSizeHigh:= Int64Rec(PackSize).Hi;
     StrPLCopy(HeaderData.FileName, FileName, SizeOf(HeaderData.FileName) - 1);
   end;
 end;
