@@ -164,6 +164,8 @@ begin
     Result := E_SUCCESS;
     FileName:= CeUtf8ToUtf16(AHandle.FileName);
     FillChar(HeaderData, SizeOf(AHandle.Count), 0);
+    HeaderData.UnpSize:= $FFFFFFFE;
+    HeaderData.UnpSizeHigh:= $FFFFFFFF;
     PackSize:= AHandle.Stream.Size - AHandle.Stream.Position;
     HeaderData.PackSize:= Int64Rec(PackSize).Lo;
     HeaderData.PackSizeHigh:= Int64Rec(PackSize).Hi;
