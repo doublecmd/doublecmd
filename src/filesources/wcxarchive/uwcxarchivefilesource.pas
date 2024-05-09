@@ -474,6 +474,7 @@ begin
     else
       begin
         SizeProperty := TFileSizeProperty.Create(WcxHeader.UnpSize);
+        SizeProperty.IsValid := (WcxHeader.UnpSize >= 0);
         CompressedSizeProperty := TFileCompressedSizeProperty.Create(WcxHeader.PackSize);
       end;
     ModificationTimeProperty := TFileModificationDateTimeProperty.Create(0);
