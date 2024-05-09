@@ -207,7 +207,11 @@ begin
         with FStatistics do
         begin
           CurrentFile := Header.FileName;
-          CurrentFileTotalBytes := Header.UnpSize;
+          if (Header.UnpSize < 0) then
+            CurrentFileTotalBytes := 0
+          else begin
+            CurrentFileTotalBytes := Header.UnpSize;
+          end;
           CurrentFileDoneBytes := -1;
 
           UpdateStatistics(FStatistics);

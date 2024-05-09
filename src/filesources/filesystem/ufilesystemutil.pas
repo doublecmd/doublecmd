@@ -283,6 +283,7 @@ end;
 function FileExistsMessage(const TargetName, SourceName: String;
                            SourceSize: Int64; SourceTime: TDateTime): String;
 var
+  ASize: String;
   TargetInfo: TFileAttributeData;
 begin
   Result:= rsMsgFileExistsOverwrite + LineEnding + WrapTextSimple(TargetName, 100) + LineEnding;
@@ -291,8 +292,13 @@ begin
     Result:= Result + Format(rsMsgFileExistsFileInfo, [IntToStrTS(TargetInfo.Size),
                              DateTimeToStr(FileTimeToDateTime(TargetInfo.LastWriteTime))]) + LineEnding;
   end;
+  if (SourceSize < 0) then
+    ASize:= '?'
+  else begin
+    ASize:= IntToStrTS(SourceSize);
+  end;
   Result:= Result + LineEnding + rsMsgFileExistsWithFile + LineEnding + WrapTextSimple(SourceName, 100) + LineEnding +
-           Format(rsMsgFileExistsFileInfo, [IntToStrTS(SourceSize), DateTimeToStr(SourceTime)]);
+           Format(rsMsgFileExistsFileInfo, [ASize, DateTimeToStr(SourceTime)]);
 end;
 
 function FileCopyProgress(TotalBytes, DoneBytes: Int64; UserData: Pointer): LongBool;
