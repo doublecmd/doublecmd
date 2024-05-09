@@ -62,7 +62,6 @@ type
 
     class procedure ClearCurrentOperation;
     class function GetOptionsUIClass: TFileSourceOperationOptionsUIClass; override;
-    function GetDescription(Details: TFileSourceOperationDescriptionDetails): String; override;
 
     property PackingFlags: Integer read FPackingFlags write FPackingFlags;
     property TarBefore: Boolean read FTarBefore write SetTarBefore;
@@ -71,7 +70,7 @@ type
 implementation
 
 uses
-  LazUTF8, FileUtil, StrUtils, DCStrUtils, uDCUtils, uLng, uShowMsg,
+  LazUTF8, FileUtil, DCStrUtils, uDCUtils, uLng,
   fWcxArchiveCopyOperationOptions, uFileSystemFileSource, DCOSUtils,
   uTarWriter, uClassesEx, DCConvertEncoding, DCDateTimeUtils,
   uArchiveFileSourceUtil;
@@ -298,21 +297,6 @@ end;
 procedure TWcxArchiveCopyInOperation.Finalize;
 begin
   ClearCurrentOperation;
-end;
-
-function TWcxArchiveCopyInOperation.GetDescription(Details: TFileSourceOperationDescriptionDetails): String;
-begin
-  case Details of
-    fsoddJobAndTarget:
-    begin
-      if SourceFiles.Count = 1 then
-        Result := Format(rsOperPackingSomethingTo, [SourceFiles[0].Name, FWcxArchiveFileSource.ArchiveFileName])
-      else
-        Result := Format(rsOperPackingFromTo, [SourceFiles.Path, FWcxArchiveFileSource.ArchiveFileName]);
-    end;
-    else
-      Result := rsOperPacking;
-  end;
 end;
 
 function TWcxArchiveCopyInOperation.GetFileList(const theFiles: TFiles): String;

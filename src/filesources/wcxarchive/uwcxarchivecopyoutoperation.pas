@@ -90,7 +90,6 @@ type
 
     class procedure ClearCurrentOperation;
 
-    function GetDescription(Details: TFileSourceOperationDescriptionDetails): String; override;
     class function GetOptionsUIClass: TFileSourceOperationOptionsUIClass; override;
 
     property ExtractWithoutPath: Boolean read FExtractWithoutPath write FExtractWithoutPath;
@@ -410,16 +409,6 @@ end;
 procedure TWcxArchiveCopyOutOperation.Finalize;
 begin
   ClearCurrentOperation;
-end;
-
-function TWcxArchiveCopyOutOperation.GetDescription(Details: TFileSourceOperationDescriptionDetails): String;
-begin
-  case Details of
-    fsoddJobAndTarget:
-      Result := Format(rsOperExtractingFromTo, [FWcxArchiveFileSource.ArchiveFileName, TargetPath]);
-    else
-      Result := rsOperExtracting;
-  end;
 end;
 
 procedure TWcxArchiveCopyOutOperation.CreateDirsAndCountFiles(
