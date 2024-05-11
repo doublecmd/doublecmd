@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Wfx plugin for working with File Transfer Protocol
 
-   Copyright (C) 2013-2023 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2013-2024 Alexander Koblov (alexx2000@mail.ru)
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Lesser General Public
@@ -205,6 +205,7 @@ const
   BUFFER_SIZE = 4096;
 var
   Ret: cint;
+  S, E, Buffer: String;
 begin
   Result:= OpenChannel;
   if Result then
@@ -212,18 +213,30 @@ begin
     Result:= SendCommand(Command);
     if Result then
     begin
-      SetLength(Answer, BUFFER_SIZE + 1);
+      E:= EmptyStr;
+      Answer:= EmptyStr;
+      SetLength(Buffer, BUFFER_SIZE + 1);
       while libssh2_channel_eof(FChannel) = 0 do
       begin
-        if libssh2_channel_read_stderr(FChannel, Pointer(Answer), BUFFER_SIZE) > 0 then
-          Result:= False;
-        Ret:= libssh2_channel_read(FChannel, Pointer(Answer), BUFFER_SIZE);
-        if (Ret > 0) then begin
-          SetLength(Answer, Ret);
-          Answer:= TrimRightLineEnding(Answer, tlbsLF);
+        repeat
+          Ret:= libssh2_channel_read_stderr(FChannel, Pointer(Buffer), BUFFER_SIZE);
+        until Ret <> LIBSSH2_ERROR_EAGAIN;
+        if Ret > 0 then E+= Copy(Buffer, 1, Ret);
+
+        repeat
+          Ret:= libssh2_channel_read(FChannel, Pointer(Buffer), BUFFER_SIZE);
+        until Ret <> LIBSSH2_ERROR_EAGAIN;
+        if (Ret > 0) then Answer+= Copy(Buffer, 1, Ret);
+      end;
+      if Length(E) > 0 then
+      begin
+        Ret:= 1;
+        while GetNextLine(E, S, Ret) do
+        begin
+          LogProc(PluginNumber, msgtype_importanterror, PWideChar(ServerToClient(S)));
         end;
       end;
-      Result:=  Result and (libssh2_channel_get_exit_status(FChannel) = 0);
+      Result:= (libssh2_channel_get_exit_status(FChannel) = 0);
     end;
     CloseChannel(FChannel);
   end;
