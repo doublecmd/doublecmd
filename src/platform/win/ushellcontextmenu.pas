@@ -117,6 +117,37 @@ begin
   end; // case
 end;
 
+function GetDriveContextMenu(Handle: HWND; Files: TFiles): IContextMenu;
+var
+  Path: String;
+  pchEaten: ULONG;
+  S: UnicodeString;
+  dwAttributes: ULONG = 0;
+  PathPIDL: PItemIDList = nil;
+  Folder, DesktopFolder: IShellFolder;
+begin
+  OleCheckUTF8(SHGetDesktopFolder(DesktopFolder));
+  OleCheckUTF8(SHGetFolderLocation(Handle, CSIDL_DRIVES, 0, 0, PathPIDL));
+  try
+    if Files[0].Attributes <> FILE_ATTRIBUTE_DEVICE then
+      Path:= Files[0].FullPath
+    else begin
+      Path:= GetDisplayName(DesktopFolder, PathPIDL, SHGDN_FORPARSING);
+      Path:= Copy(Files[0].LinkProperty.LinkTo, Length(Path) + 2, MaxInt);
+    end;
+    OleCheckUTF8(DeskTopFolder.BindToObject(PathPIDL, nil, IID_IShellFolder, Folder));
+  finally
+    CoTaskMemFree(PathPIDL);
+  end;
+  S := CeUtf8ToUtf16(Path);
+  OleCheckUTF8(Folder.ParseDisplayName(Handle, nil, PWideChar(S), pchEaten, PathPIDL, dwAttributes));
+  try
+    OleCheckUTF8(Folder.GetUIObjectOf(Handle, 1, PathPIDL, IID_IContextMenu, nil, Result));
+  finally
+    CoTaskMemFree(PathPIDL);
+  end;
+end;
+
 function GetRecycleBinContextMenu(Handle: HWND): IContextMenu;
 var
   PathPIDL: PItemIDList = nil;
@@ -124,7 +155,11 @@ var
 begin
   OleCheckUTF8(SHGetDesktopFolder(DesktopFolder));
   OleCheckUTF8(SHGetFolderLocation(Handle, CSIDL_BITBUCKET, 0, 0, PathPIDL));
-  DesktopFolder.GetUIObjectOf(Handle, 1, PathPIDL, IID_IContextMenu, nil, Result);
+  try
+    OleCheckUTF8(DesktopFolder.GetUIObjectOf(Handle, 1, PathPIDL, IID_IContextMenu, nil, Result));
+  finally
+    CoTaskMemFree(PathPIDL);
+  end;
 end;
 
 function GetForegroundContextMenu(Handle: HWND; Files: TFiles): IContextMenu;
@@ -244,6 +279,8 @@ function GetShellContextMenu(Handle: HWND; Files: TFiles; Background: boolean): 
 begin
   if Files = nil then
     Result := GetRecycleBinContextMenu(Handle)
+  else if (Files.Count = 1) and (Files[0].Attributes and FILE_ATTRIBUTE_DEVICE <> 0) then
+    Result := GetDriveContextMenu(Handle, Files)
   else if Background then
     Result := GetBackgroundContextMenu(Handle, Files)
   else
@@ -547,7 +584,8 @@ begin
   FBackground := Background;
   FShellMenu := 0;
   FUserWishForContextMenu := UserWishForContextMenu;
-  if Assigned(Files) then begin
+  if Assigned(Files) and (Files.Count > 0) and (Files[0].Attributes <> FILE_ATTRIBUTE_DEVICE) then
+  begin
     UFlags := UFlags or CMF_CANRENAME;
   end;
   // Add extended verbs if shift key is down
@@ -707,20 +745,17 @@ begin
 
           if SameText(sVerb, sCmdVerbRename) then
           begin
-            if FFiles.Count = 1 then
-              with FFiles[0] do
-              begin
-                if not SameText(FullPath, ExtractFileDrive(FullPath) + PathDelim) then
-                  frmMain.actRenameOnly.Execute
-                else  // change drive label
-                begin
-                  sVolumeLabel := mbGetVolumeLabel(FullPath, True);
-                  if InputQuery(rsMsgSetVolumeLabel, rsMsgVolumeLabel, sVolumeLabel) then
-                    mbSetVolumeLabel(FullPath, sVolumeLabel);
-                end;
-              end
-            else
+            // Change drive label
+            if (FFiles.Count = 1) and (FFiles[0].Attributes and FILE_ATTRIBUTE_DEVICE <> 0) then
+            begin
+              aFile := FFiles[0];
+              sVolumeLabel := mbGetVolumeLabel(aFile.FullPath, True);
+              if InputQuery(rsMsgSetVolumeLabel, rsMsgVolumeLabel, sVolumeLabel) then
+                mbSetVolumeLabel(aFile.FullPath, sVolumeLabel);
+            end
+            else begin
               frmMain.actRename.Execute;
+            end;
             bHandled := True;
           end
           else if SameText(sVerb, sCmdVerbCut) then
