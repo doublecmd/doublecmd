@@ -96,8 +96,6 @@ begin
 end;
 
 function TSftpSend.Connect: Boolean;
-var
-  Return: Integer;
 begin
   Result:= inherited Connect;
 
@@ -106,18 +104,6 @@ begin
     FSFTPSession := libssh2_sftp_init(FSession);
 
     Result:= Assigned(FSFTPSession);
-
-    if Result and (Length(FCurrentDir) = 0) then
-    begin
-      SetLength(FCurrentDir, MAX_PATH + 1);
-      Return:= libssh2_sftp_realpath(FSFTPSession, '.', PAnsiChar(FCurrentDir), MAX_PATH);
-      if Return < 1 then
-        FCurrentDir:= '/'
-      else begin
-        SetLength(FCurrentDir, Return);
-        FCurrentDir:= CeUtf16ToUtf8(ServerToClient(FCurrentDir));
-      end;
-    end;
 
     if not Result then begin
       libssh2_session_free(FSession);
@@ -129,14 +115,30 @@ end;
 constructor TSftpSend.Create(const Encoding: String);
 begin
   inherited Create(Encoding);
-  FCurrentDir:= EmptyStr;
   FCanResume := True;
 end;
 
 function TSftpSend.Login: Boolean;
+var
+  Return: Integer;
 begin
   Result:= Connect;
-  if Result and FAuto then DetectEncoding;
+  if Result then
+  begin
+    if (Length(FCurrentDir) = 0) then
+    begin
+      SetLength(FCurrentDir, MAX_PATH + 1);
+      Return:= libssh2_sftp_realpath(FSFTPSession, '.', PAnsiChar(FCurrentDir), MAX_PATH);
+      if Return < 1 then
+        FCurrentDir:= '/'
+      else begin
+        SetLength(FCurrentDir, Return);
+        FCurrentDir:= CeUtf16ToUtf8(ServerToClient(FCurrentDir));
+      end;
+      DoStatus(False, 'Remote directory: ' + FCurrentDir);
+    end;
+    if FAuto then DetectEncoding;
+  end;
 end;
 
 function TSftpSend.Logout: Boolean;

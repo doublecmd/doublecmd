@@ -555,7 +555,6 @@ end;
 
 constructor TScpSend.Create(const Encoding: String);
 begin
-  FCurrentDir:= '/';
   inherited Create(Encoding);
   FTargetPort:= '22';
   FListCommand:= 'ls -la';
@@ -581,6 +580,16 @@ begin
   Result:= Connect;
   if Result then
   begin
+    if (Length(FCurrentDir) = 0) then
+    begin
+      if not SendCommand('pwd', FAnswer) then
+        FCurrentDir:= '/'
+      else begin
+        FCurrentDir:= TrimRightLineEnding(FAnswer, tlbsLF);
+        FCurrentDir:= CeUtf16ToUtf8(ServerToClient(FCurrentDir));
+      end;
+      DoStatus(False, 'Remote directory: ' + FCurrentDir);
+    end;
     if not FAutoDetect then
     begin
       FAutoDetect:= True;
