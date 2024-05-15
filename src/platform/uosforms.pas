@@ -823,8 +823,15 @@ begin
     ShowVirtualDriveMenu(ADrive, X, Y, CloseEvent)
   else begin
     aFile := TFileSystemFileSource.CreateFile(EmptyStr);
-    aFile.FullPath := ADrive^.Path;
-    aFile.Attributes := faFolder;
+    if ADrive^.DriveType = dtSpecial then
+    begin
+      aFile.LinkProperty.LinkTo := ADrive^.DeviceId;
+      aFile.Attributes := FILE_ATTRIBUTE_DEVICE;
+    end
+    else begin
+      aFile.FullPath := ADrive^.Path;
+      aFile.Attributes := faFolder or FILE_ATTRIBUTE_DEVICE;
+    end;
     Files:= TFiles.Create(EmptyStr); // free in ShowContextMenu
     Files.Add(aFile);
     ShowContextMenu(Parent, Files, X, Y, False, CloseEvent);
