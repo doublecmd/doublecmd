@@ -125,6 +125,8 @@ begin
   Result:= Connect;
   if Result then
   begin
+    if FAuto then DetectEncoding;
+
     if (Length(FCurrentDir) = 0) then
     begin
       SetLength(FCurrentDir, MAX_PATH + 1);
@@ -137,7 +139,6 @@ begin
       end;
       DoStatus(False, 'Remote directory: ' + FCurrentDir);
     end;
-    if FAuto then DetectEncoding;
   end;
 end;
 

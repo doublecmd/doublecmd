@@ -580,6 +580,8 @@ begin
   Result:= Connect;
   if Result then
   begin
+    if FAuto then DetectEncoding;
+
     if (Length(FCurrentDir) = 0) then
     begin
       if not SendCommand('pwd', FAnswer) then
@@ -609,7 +611,6 @@ begin
         end;
       end;
     end;
-    if FAuto then DetectEncoding;
   end;
 end;
 
