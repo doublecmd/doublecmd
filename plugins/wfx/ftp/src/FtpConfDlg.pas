@@ -375,41 +375,6 @@ begin
           end;
           EnableControls(pDlg);
         end
-        else if DlgItemName = 'chkAutoTLS' then
-          begin
-            Data:= SendDlgMsg(pDlg, 'chkAutoTLS', DM_GETCHECK, 0, 0);
-            gConnection.AutoTLS:= Boolean(Data);
-            if gConnection.AutoTLS then
-            begin
-              gConnection.OpenSSH:= False;
-              if (SSLImplementation = TSSLNone) then
-              begin
-                ShowWarningSSL;
-                gConnection.AutoTLS:= False;
-                Data:= PtrInt(gConnection.AutoTLS);
-                SendDlgMsg(pDlg, 'chkAutoTLS', DM_SETCHECK, Data, 0);
-              end;
-              SendDlgMsg(pDlg, 'chkOpenSSH', DM_SETCHECK, 0, 0);
-            end;
-            EnableControls(pDlg);
-          end
-        else if DlgItemName = 'chkOpenSSH' then
-          begin
-            Data:= SendDlgMsg(pDlg, 'chkOpenSSH', DM_GETCHECK, 0, 0);
-            gConnection.OpenSSH:= Boolean(Data);
-            if gConnection.OpenSSH then
-            begin
-              if libssh2 = NilHandle then
-              begin
-                ShowWarningSSH;
-                gConnection.OpenSSH:= False;
-                Data:= PtrInt(gConnection.OpenSSH);
-                SendDlgMsg(pDlg, 'chkOpenSSH', DM_SETCHECK, Data, 0);
-               end;
-              SendDlgMsg(pDlg, 'chkAutoTLS', DM_SETCHECK, 0, 0);
-            end;
-            EnableControls(pDlg);
-          end
         else if DlgItemName = 'cmbProxy' then
           begin
             UpdateProxy(pDlg);
