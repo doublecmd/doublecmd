@@ -44,7 +44,7 @@ type
     function OpenChannel: Boolean;
     function CloseChannel(Channel: PLIBSSH2_CHANNEL): Boolean;
     function SendCommand(const Command: String): Boolean; overload;
-    function SendCommand(const Command: String; out Answer: String): Boolean; overload;
+    function SendCommand(const Command: String; out Answer: String; Err: Boolean = True): Boolean; overload;
   private
     FAnswer: String;
   protected
@@ -199,8 +199,8 @@ begin
   Result:= (FLastError >= 0);
 end;
 
-function TScpSend.SendCommand(const Command: String;
-  out Answer: String): Boolean;
+function TScpSend.SendCommand(const Command: String; out Answer: String;
+  Err: Boolean): Boolean;
 const
   BUFFER_SIZE = 4096;
 var
@@ -228,7 +228,8 @@ begin
         until Ret <> LIBSSH2_ERROR_EAGAIN;
         if (Ret > 0) then Answer+= Copy(Buffer, 1, Ret);
       end;
-      if Length(E) > 0 then
+      Result:= (libssh2_channel_get_exit_status(FChannel) = 0) and (Length(E) = 0);
+      if Err and (Length(E) > 0) then
       begin
         Ret:= 1;
         while GetNextLine(E, S, Ret) do
@@ -236,7 +237,6 @@ begin
           LogProc(PluginNumber, msgtype_importanterror, PWideChar(ServerToClient(S)));
         end;
       end;
-      Result:= (libssh2_channel_get_exit_status(FChannel) = 0);
     end;
     CloseChannel(FChannel);
   end;
@@ -597,7 +597,7 @@ begin
       FAutoDetect:= True;
       // Try to use custom time style
       ACommand:= LIST_LOCALE_C + FListCommand + LIST_TIME_STYLE;
-      if SendCommand(ACommand + ' > /dev/null', FAnswer) then
+      if SendCommand(ACommand + ' > /dev/null', FAnswer, False) then
       begin
         FListCommand:= ACommand;
         FFtpList.Masks.Insert(0, 'pppppppppp $!!!S* YYYY MM DD hh mm ss $n*');
@@ -605,7 +605,7 @@ begin
       else begin
         // Try to use 'C' locale
         ACommand:= LIST_LOCALE_C + FListCommand;
-        if SendCommand(ACommand + ' > /dev/null', FAnswer) then
+        if SendCommand(ACommand + ' > /dev/null', FAnswer, False) then
         begin
           FListCommand:= ACommand
         end;
@@ -646,7 +646,7 @@ end;
 
 function TScpSend.FileExists(const FileName: String): Boolean;
 begin
-  Result:= SendCommand('stat ' + EscapeNoQuotes(FileName), FAnswer);
+  Result:= SendCommand('stat ' + EscapeNoQuotes(FileName), FAnswer, False);
 end;
 
 function TScpSend.CreateDir(const Directory: string): Boolean;
