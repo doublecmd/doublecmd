@@ -114,6 +114,8 @@ type
   function WfxFileTimeToDateTime(FileTime : TWfxFileTime) : TDateTime; inline;
   function DateTimeToWfxFileTime(DateTime : TDateTime) : TWfxFileTime; inline;
 
+  function RepairPluginName(const AName: String): String;
+
 implementation
 
 uses
@@ -158,6 +160,21 @@ begin
   else begin
     Result.dwLowDateTime:= $FFFFFFFE;
     Result.dwHighDateTime:= $FFFFFFFF;
+  end;
+end;
+
+function RepairPluginName(const AName: String): String;
+var
+  Index: Integer;
+  DenySym: set of AnsiChar = ['\', '/', ':'];
+begin
+  Result:= AName;
+  for Index:= 1 to Length(Result) do
+  begin
+    if Result[Index] in DenySym then
+    begin
+      Result[Index]:= '_';
+    end;
   end;
 end;
 
