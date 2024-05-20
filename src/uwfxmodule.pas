@@ -882,7 +882,7 @@ begin
     Assert(Assigned(pcRootName));
     try
       FsGetDefRootName(pcRootName, MAX_PATH);
-      Result := StrPas(pcRootName);
+      Result := RepairPluginName(StrPas(pcRootName));
     finally
       FreeMem(pcRootName);
     end;
@@ -964,7 +964,7 @@ begin
       begin
         if AConfig.TryGetValue(ANode, 'Name', AName) and AConfig.TryGetValue(ANode, 'Path', APath) then
         begin
-          I := Add(AName, APath);
+          I := Add(RepairPluginName(AName), APath);
           Enabled[I] := AConfig.GetAttr(ANode, 'Enabled', True);
         end;
       end;

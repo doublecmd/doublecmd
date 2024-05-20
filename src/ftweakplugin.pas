@@ -112,7 +112,7 @@ uses
   //DC
   fOptionsPluginsDSX, fOptionsPluginsWCX, fOptionsPluginsWDX,
   fOptionsPluginsWFX, fOptionsPluginsWLX, WcxPlugin, uDCUtils, uLng,
-  uSpecialDir;
+  uSpecialDir, uWfxPluginUtil;
 
 function ShowTweakPluginDlg(PluginType: TPluginType; PluginIndex: Integer): Boolean;
 var
@@ -215,7 +215,7 @@ begin
       ptWFX:
         begin
           tmpWFXPlugins.FileName[PluginIndex]:= fnePlugin2.Text;
-          tmpWFXPlugins.Name[PluginIndex]:= edtName.Text;
+          tmpWFXPlugins.Name[PluginIndex]:= RepairPluginName(edtName.Text);
         end;
       ptWLX:
         begin
