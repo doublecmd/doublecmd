@@ -13,7 +13,7 @@ object DialogBox: TDialogBox
   ClientWidth = 440
   OnShow = DialogBoxShow
   Position = poScreenCenter
-  LCLVersion = '2.2.7.0'
+  LCLVersion = '3.3.0.0'
   object btnCancel: TButton
     AnchorSideTop.Control = PageControl
     AnchorSideTop.Side = asrBottom
@@ -29,8 +29,8 @@ object DialogBox: TDialogBox
     Cancel = True
     Caption = 'Cancel'
     ModalResult = 2
-    OnClick = ButtonClick
     TabOrder = 2
+    OnClick = ButtonClick
   end
   object btnOK: TButton
     AnchorSideTop.Control = btnCancel
@@ -43,8 +43,8 @@ object DialogBox: TDialogBox
     Anchors = [akTop, akRight]
     BorderSpacing.Right = 12
     Caption = '&OK'
-    OnClick = ButtonClick
     TabOrder = 1
+    OnClick = ButtonClick
   end
   object PageControl: TPageControl
     AnchorSideLeft.Control = Owner
@@ -113,6 +113,41 @@ object DialogBox: TDialogBox
         BorderSpacing.Top = 6
         TabOrder = 1
       end
+      object lblProtocol: TLabel
+        AnchorSideLeft.Control = tsGeneral
+        AnchorSideTop.Control = cmbProtocol
+        AnchorSideTop.Side = asrCenter
+        Left = 12
+        Height = 15
+        Top = 74
+        Width = 48
+        BorderSpacing.Left = 12
+        Caption = 'Protocol:'
+      end
+      object cmbProtocol: TComboBox
+        AnchorSideLeft.Control = edtHost
+        AnchorSideTop.Control = edtHost
+        AnchorSideTop.Side = asrBottom
+        AnchorSideRight.Control = edtHost
+        AnchorSideRight.Side = asrBottom
+        Left = 128
+        Height = 23
+        Top = 70
+        Width = 274
+        Anchors = [akTop, akLeft, akRight]
+        BorderSpacing.Top = 6
+        ItemHeight = 15
+        Items.Strings = (
+          'FTP'
+          'FTPS'
+          'FTPES'
+          'SSH+SCP'
+          'SFTP'
+        )
+        Style = csDropDownList
+        TabOrder = 2
+        OnChange = ComboBoxChange
+      end
       object lblUserName: TLabel
         AnchorSideLeft.Control = tsGeneral
         AnchorSideTop.Control = edtUserName
@@ -137,11 +172,11 @@ object DialogBox: TDialogBox
         Width = 264
         Anchors = [akTop, akLeft, akRight]
         BorderSpacing.Top = 6
-        TabOrder = 5
+        TabOrder = 4
       end
       object btnAnonymous: TButton
         AnchorSideLeft.Control = edtHost
-        AnchorSideTop.Control = edtHost
+        AnchorSideTop.Control = cmbProtocol
         AnchorSideTop.Side = asrBottom
         AnchorSideRight.Control = edtHost
         AnchorSideRight.Side = asrBottom
@@ -152,8 +187,8 @@ object DialogBox: TDialogBox
         Anchors = [akTop, akLeft, akRight]
         BorderSpacing.Top = 6
         Caption = 'Anonymous'
+        TabOrder = 3
         OnClick = ButtonClick
-        TabOrder = 4
       end
       object edtRemoteDir: TEdit
         AnchorSideLeft.Control = edtPassword
@@ -167,7 +202,7 @@ object DialogBox: TDialogBox
         Width = 264
         Anchors = [akTop, akLeft, akRight]
         BorderSpacing.Top = 6
-        TabOrder = 10
+        TabOrder = 9
       end
       object lblRemoteDir: TLabel
         AnchorSideLeft.Control = tsGeneral
@@ -195,7 +230,7 @@ object DialogBox: TDialogBox
         BorderSpacing.Top = 6
         EchoMode = emPassword
         PasswordChar = '*'
-        TabOrder = 6
+        TabOrder = 5
       end
       object lblPassword: TLabel
         AnchorSideLeft.Control = tsGeneral
@@ -220,8 +255,8 @@ object DialogBox: TDialogBox
         BorderSpacing.Left = 12
         BorderSpacing.Top = 12
         Caption = 'Use master password to protect the password'
+        TabOrder = 7
         OnChange = CheckBoxChange
-        TabOrder = 8
       end
       object btnChangePassword: TButton
         AnchorSideLeft.Control = edtUserName
@@ -236,9 +271,9 @@ object DialogBox: TDialogBox
         Anchors = [akTop, akLeft, akRight]
         BorderSpacing.Top = 6
         Caption = 'Change password...'
-        OnClick = ButtonClick
-        TabOrder = 7
+        TabOrder = 6
         Visible = False
+        OnClick = ButtonClick
       end
       object edtInitCommands: TEdit
         AnchorSideLeft.Control = edtRemoteDir
@@ -252,7 +287,7 @@ object DialogBox: TDialogBox
         Width = 264
         Anchors = [akTop, akLeft, akRight]
         BorderSpacing.Top = 6
-        TabOrder = 11
+        TabOrder = 10
       end
       object lblInitCommands: TLabel
         AnchorSideLeft.Control = tsGeneral
@@ -265,33 +300,6 @@ object DialogBox: TDialogBox
         BorderSpacing.Left = 12
         Caption = 'Init commands:'
         ParentColor = False
-      end
-      object chkAutoTLS: TCheckBox
-        AnchorSideLeft.Control = tsGeneral
-        AnchorSideTop.Control = btnAnonymous
-        AnchorSideTop.Side = asrCenter
-        Left = 12
-        Height = 24
-        Top = 76
-        Width = 47
-        BorderSpacing.Left = 12
-        Caption = 'TLS'
-        OnChange = CheckBoxChange
-        TabOrder = 2
-      end
-      object chkOpenSSH: TCheckBox
-        AnchorSideLeft.Control = chkAutoTLS
-        AnchorSideLeft.Side = asrBottom
-        AnchorSideTop.Control = chkAutoTLS
-        AnchorSideTop.Side = asrCenter
-        Left = 63
-        Height = 24
-        Top = 76
-        Width = 52
-        BorderSpacing.Left = 4
-        Caption = 'SSH'
-        OnChange = CheckBoxChange
-        TabOrder = 3
       end
       object cmbEncoding: TComboBox
         AnchorSideLeft.Control = edtPassword
@@ -334,7 +342,7 @@ object DialogBox: TDialogBox
           'ISO-8859-15'
         )
         Style = csDropDownList
-        TabOrder = 9
+        TabOrder = 8
         Text = 'Auto'
       end
       object lblEncoding: TLabel
@@ -449,26 +457,14 @@ object DialogBox: TDialogBox
           Caption = 'Copy using SCP protocol (faster)'
           TabOrder = 1
         end
-        object chkOnlySCP: TCheckBox
-          AnchorSideLeft.Control = gbSSH
-          AnchorSideTop.Control = chkCopySCP
-          AnchorSideTop.Side = asrBottom
-          Left = 6
-          Height = 19
-          Top = 44
-          Width = 193
-          Caption = 'Use SSH+SCP protocol (no SFTP)'
-          ParentFont = False
-          TabOrder = 2
-        end
         object DividerBevel: TDividerBevel
-          AnchorSideTop.Control = chkOnlySCP
+          AnchorSideTop.Control = chkCopySCP
           AnchorSideTop.Side = asrBottom
           AnchorSideRight.Control = gbSSH
           AnchorSideRight.Side = asrBottom
           Left = 6
           Height = 15
-          Top = 69
+          Top = 50
           Width = 384
           Caption = 'Client certificate for authentication:'
           Anchors = [akTop, akLeft, akRight]
@@ -481,7 +477,7 @@ object DialogBox: TDialogBox
           AnchorSideTop.Side = asrBottom
           Left = 6
           Height = 15
-          Top = 90
+          Top = 71
           Width = 116
           BorderSpacing.Top = 6
           Caption = 'Public key file (*.pub):'
@@ -495,7 +491,7 @@ object DialogBox: TDialogBox
           AnchorSideRight.Side = asrBottom
           Left = 6
           Height = 23
-          Top = 109
+          Top = 90
           Width = 384
           FilterIndex = 0
           HideDirectories = False
@@ -504,7 +500,7 @@ object DialogBox: TDialogBox
           Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Top = 4
           MaxLength = 0
-          TabOrder = 3
+          TabOrder = 2
         end
         object lblPrivateKey: TLabel
           AnchorSideLeft.Control = gbSSH
@@ -512,7 +508,7 @@ object DialogBox: TDialogBox
           AnchorSideTop.Side = asrBottom
           Left = 6
           Height = 15
-          Top = 136
+          Top = 117
           Width = 122
           BorderSpacing.Top = 4
           Caption = 'Private key file (*.pem):'
@@ -526,7 +522,7 @@ object DialogBox: TDialogBox
           AnchorSideRight.Side = asrBottom
           Left = 6
           Height = 23
-          Top = 155
+          Top = 136
           Width = 384
           FilterIndex = 0
           HideDirectories = False
@@ -535,7 +531,7 @@ object DialogBox: TDialogBox
           Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Top = 4
           MaxLength = 0
-          TabOrder = 4
+          TabOrder = 3
         end
       end
     end
@@ -576,9 +572,9 @@ object DialogBox: TDialogBox
           Width = 339
           Anchors = [akTop, akLeft, akRight]
           ItemHeight = 26
-          OnChange = ComboBoxChange
           Style = csDropDownList
           TabOrder = 0
+          OnChange = ComboBoxChange
         end
         object btnAdd: TBitBtn
           AnchorSideTop.Control = cmbProxy

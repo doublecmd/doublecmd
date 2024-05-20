@@ -49,10 +49,6 @@ msgstr ""
 msgid "Copy using SCP protocol (faster)"
 msgstr "Капіяваць з дапамогай пратакола SCP (хутчэй)"
 
-#: tdialogbox.chkautotls.caption
-msgid "TLS"
-msgstr "TLS"
-
 #: tdialogbox.chkkeepalivetransfer.caption
 msgid "Send keepalive during a transfer"
 msgstr "Падтрымліваць злучэнне падчас перадачы"
@@ -60,15 +56,6 @@ msgstr "Падтрымліваць злучэнне падчас перадач�
 #: tdialogbox.chkmasterpassword.caption
 msgid "Use master password to protect the password"
 msgstr "Выкарыcтоўваць &галоўны пароль для абароны пароля"
-
-#: tdialogbox.chkonlyscp.caption
-msgid "Use SSH+SCP protocol (no SFTP)"
-msgstr "Выкарыcтоўваць пратакол SSH+SCP (няма SFTP)"
-
-#: tdialogbox.chkopenssh.caption
-msgctxt "tdialogbox.chkopenssh.caption"
-msgid "SSH"
-msgstr "SSH"
 
 #: tdialogbox.chkpassivemode.caption
 msgid "Use passive mode for transfers (like a WWW browser)"
@@ -124,6 +111,10 @@ msgstr "&Пароль:"
 msgid "Private key file (*.pem):"
 msgstr "Файл прыватнага ключа (*.pem):"
 
+#: tdialogbox.lblprotocol.caption
+msgid "Protocol:"
+msgstr ""
+
 #: tdialogbox.lblproxy.caption
 msgid "Use firewall (proxy server)"
 msgstr "&Выкарыcтоўваць проксі-сервер"
@@ -171,3 +162,4 @@ msgstr "Проксі"
 #: tfrmfileproperties.caption
 msgid "Properties"
 msgstr ""
+

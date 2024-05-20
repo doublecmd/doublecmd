@@ -49,10 +49,6 @@ msgstr ""
 msgid "Copy using SCP protocol (faster)"
 msgstr "Kopieren mit SCP (Secure Copy Protocol) -> schneller"
 
-#: tdialogbox.chkautotls.caption
-msgid "TLS"
-msgstr "TLS"
-
 #: tdialogbox.chkkeepalivetransfer.caption
 msgid "Send keepalive during a transfer"
 msgstr "'Keepalive'-Pakete senden aktivieren"
@@ -60,15 +56,6 @@ msgstr "'Keepalive'-Pakete senden aktivieren"
 #: tdialogbox.chkmasterpassword.caption
 msgid "Use master password to protect the password"
 msgstr "Master-Passwort zum Schutz des Passworts verwenden"
-
-#: tdialogbox.chkonlyscp.caption
-msgid "Use SSH+SCP protocol (no SFTP)"
-msgstr "SSH + SCP-Protokoll verwenden (nicht SFTP)"
-
-#: tdialogbox.chkopenssh.caption
-msgctxt "tdialogbox.chkopenssh.caption"
-msgid "SSH"
-msgstr "SSH"
 
 #: tdialogbox.chkpassivemode.caption
 msgid "Use passive mode for transfers (like a WWW browser)"
@@ -124,6 +111,10 @@ msgstr "Passwort:"
 msgid "Private key file (*.pem):"
 msgstr "Datei mit privatem Schlüssel (*.pem):"
 
+#: tdialogbox.lblprotocol.caption
+msgid "Protocol:"
+msgstr "Protokoll:"
+
 #: tdialogbox.lblproxy.caption
 msgid "Use firewall (proxy server)"
 msgstr "Firewall aktivieren (Proxy-Server)"
@@ -171,3 +162,4 @@ msgstr "Proxy"
 #: tfrmfileproperties.caption
 msgid "Properties"
 msgstr ""
+

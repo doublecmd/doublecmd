@@ -48,10 +48,6 @@ msgstr ""
 msgid "Copy using SCP protocol (faster)"
 msgstr "SCP protokoll a másoláshoz (gyorsabb)"
 
-#: tdialogbox.chkautotls.caption
-msgid "TLS"
-msgstr "TLS"
-
 #: tdialogbox.chkkeepalivetransfer.caption
 msgid "Send keepalive during a transfer"
 msgstr "Életjel küldése az  átvitel alatt"
@@ -59,15 +55,6 @@ msgstr "Életjel küldése az  átvitel alatt"
 #: tdialogbox.chkmasterpassword.caption
 msgid "Use master password to protect the password"
 msgstr "Mesterjelszóval védett jelszó használata"
-
-#: tdialogbox.chkonlyscp.caption
-msgid "Use SSH+SCP protocol (no SFTP)"
-msgstr "SSH+SCP protokoll használata (nincs SFTP)"
-
-#: tdialogbox.chkopenssh.caption
-msgctxt "tdialogbox.chkopenssh.caption"
-msgid "SSH"
-msgstr "SSH"
 
 #: tdialogbox.chkpassivemode.caption
 msgid "Use passive mode for transfers (like a WWW browser)"
@@ -123,6 +110,10 @@ msgstr "Jelszó:"
 msgid "Private key file (*.pem):"
 msgstr "Privát kulcs fájl (*.pub):"
 
+#: tdialogbox.lblprotocol.caption
+msgid "Protocol:"
+msgstr "Protokoll:"
+
 #: tdialogbox.lblproxy.caption
 msgid "Use firewall (proxy server)"
 msgstr "Tűzfal használata (proxy kiszolgáló)"
@@ -170,3 +161,4 @@ msgstr "Proxy"
 #: tfrmfileproperties.caption
 msgid "Properties"
 msgstr ""
+

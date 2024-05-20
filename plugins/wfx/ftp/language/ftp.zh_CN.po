@@ -38,10 +38,6 @@ msgstr ""
 msgid "Copy using SCP protocol (faster)"
 msgstr "使用 SCP 协议复制（更快）"
 
-#: tdialogbox.chkautotls.caption
-msgid "TLS"
-msgstr ""
-
 #: tdialogbox.chkkeepalivetransfer.caption
 msgid "Send keepalive during a transfer"
 msgstr "在传输期间发送 keepalive"
@@ -49,15 +45,6 @@ msgstr "在传输期间发送 keepalive"
 #: tdialogbox.chkmasterpassword.caption
 msgid "Use master password to protect the password"
 msgstr "使用主密码保护密码"
-
-#: tdialogbox.chkonlyscp.caption
-msgid "Use SSH+SCP protocol (no SFTP)"
-msgstr "使用 SSH+SCP 协议（​​非SFTP）"
-
-#: tdialogbox.chkopenssh.caption
-msgctxt "tdialogbox.chkopenssh.caption"
-msgid "SSH"
-msgstr ""
 
 #: tdialogbox.chkpassivemode.caption
 msgid "Use passive mode for transfers (like a WWW browser)"
@@ -113,6 +100,10 @@ msgstr "密码:"
 msgid "Private key file (*.pem):"
 msgstr "私钥文件(*.pem):"
 
+#: tdialogbox.lblprotocol.caption
+msgid "Protocol:"
+msgstr "协议:"
+
 #: tdialogbox.lblproxy.caption
 msgid "Use firewall (proxy server)"
 msgstr "使用防火墙(代理服务器)"
@@ -160,3 +151,4 @@ msgstr "代理"
 #: tfrmfileproperties.caption
 msgid "Properties"
 msgstr ""
+

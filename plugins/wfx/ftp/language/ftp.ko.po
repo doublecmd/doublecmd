@@ -49,10 +49,6 @@ msgstr "SSH 에이전트 인증 사용"
 msgid "Copy using SCP protocol (faster)"
 msgstr "SCP 프로토콜을 사용한 복사 (더 빠름)"
 
-#: tdialogbox.chkautotls.caption
-msgid "TLS"
-msgstr "TLS"
-
 #: tdialogbox.chkkeepalivetransfer.caption
 msgid "Send keepalive during a transfer"
 msgstr "전송 중 킵얼라이브 전송"
@@ -60,15 +56,6 @@ msgstr "전송 중 킵얼라이브 전송"
 #: tdialogbox.chkmasterpassword.caption
 msgid "Use master password to protect the password"
 msgstr "마스터 암호를 사용하여 암호 보호"
-
-#: tdialogbox.chkonlyscp.caption
-msgid "Use SSH+SCP protocol (no SFTP)"
-msgstr "SSH+SCP 프로토콜 사용 (SFTP 없음)"
-
-#: tdialogbox.chkopenssh.caption
-msgctxt "tdialogbox.chkopenssh.caption"
-msgid "SSH"
-msgstr "SSH"
 
 #: tdialogbox.chkpassivemode.caption
 msgid "Use passive mode for transfers (like a WWW browser)"
@@ -124,6 +111,10 @@ msgstr "암호:"
 msgid "Private key file (*.pem):"
 msgstr "개인 키 파일 (*.pem):"
 
+#: tdialogbox.lblprotocol.caption
+msgid "Protocol:"
+msgstr "프로토콜:"
+
 #: tdialogbox.lblproxy.caption
 msgid "Use firewall (proxy server)"
 msgstr "방화벽 (프록시 서버) 사용"
@@ -171,3 +162,4 @@ msgstr "프록시"
 #: tfrmfileproperties.caption
 msgid "Properties"
 msgstr "속성"
+

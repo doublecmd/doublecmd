@@ -38,25 +38,12 @@ msgstr ""
 msgid "Copy using SCP protocol (faster)"
 msgstr ""
 
-#: tdialogbox.chkautotls.caption
-msgid "TLS"
-msgstr ""
-
 #: tdialogbox.chkkeepalivetransfer.caption
 msgid "Send keepalive during a transfer"
 msgstr ""
 
 #: tdialogbox.chkmasterpassword.caption
 msgid "Use master password to protect the password"
-msgstr ""
-
-#: tdialogbox.chkonlyscp.caption
-msgid "Use SSH+SCP protocol (no SFTP)"
-msgstr ""
-
-#: tdialogbox.chkopenssh.caption
-msgctxt "tdialogbox.chkopenssh.caption"
-msgid "SSH"
 msgstr ""
 
 #: tdialogbox.chkpassivemode.caption
@@ -103,6 +90,10 @@ msgstr ""
 
 #: tdialogbox.lblname.caption
 msgid "Connection name:"
+msgstr ""
+
+#: tdialogbox.lblprotocol.caption
+msgid "Protocol:"
 msgstr ""
 
 #: tdialogbox.lblpassword.caption

@@ -22,8 +22,8 @@
     <VersionInfo>
       <UseVersionInfo Value="True"/>
       <MinorVersionNr Value="3"/>
-      <RevisionNr Value="4"/>
-      <StringTable FileDescription="FTP WFX plugin for Double Commander" LegalCopyright="Copyright (C) 2006-2020 Alexander Koblov"/>
+      <RevisionNr Value="5"/>
+      <StringTable FileDescription="FTP WFX plugin for Double Commander" LegalCopyright="Copyright (C) 2006-2024 Alexander Koblov"/>
     </VersionInfo>
     <BuildModes Count="2">
       <Item1 Name="Release" Default="True"/>
@@ -75,7 +75,6 @@ end;"/>
           <Linking>
             <Debugging>
               <DebugInfoType Value="dsDwarf2Set"/>
-              <UseHeaptrc Value="True"/>
             </Debugging>
             <Options>
               <PassLinkerOptions Value="True"/>
