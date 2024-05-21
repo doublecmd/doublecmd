@@ -84,6 +84,7 @@ begin
       SendDlgMsg(pDlg, 'chkShowHidden', DM_SETCHECK, 0, 0);
       SendDlgMsg(pDlg, 'chkPassiveMode', DM_SETCHECK, 0, 0);
       SendDlgMsg(pDlg, 'chkKeepAliveTransfer', DM_SETCHECK, 0, 0);
+      SendDlgMsg(pDlg, 'chkCopySCP', DM_ENABLE, PtrInt(not gConnection.OnlySCP), 0);
     end;
   end;
 end;
@@ -368,7 +369,6 @@ begin
                 gConnection.FullSSL:= False;
                 gConnection.AutoTLS:= False;
                 gConnection.OnlySCP:= (Data = 3);
-                SendDlgMsg(pDlg, 'chkCopySCP', DM_ENABLE, PtrInt(Data <> 3), 0);
                 SendDlgMsg(pDlg, 'chkCopySCP', DM_SETCHECK, PtrInt(Data = 3), 0);
               end;
             end;
