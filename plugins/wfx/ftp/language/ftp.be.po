@@ -113,7 +113,7 @@ msgstr "Файл прыватнага ключа (*.pem):"
 
 #: tdialogbox.lblprotocol.caption
 msgid "Protocol:"
-msgstr ""
+msgstr "Пратакол:"
 
 #: tdialogbox.lblproxy.caption
 msgid "Use firewall (proxy server)"
