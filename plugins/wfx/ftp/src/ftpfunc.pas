@@ -425,9 +425,11 @@ var
   Index: Integer;
   Connection: TConnection;
 begin
-  Result:= ActiveConnectionList.IndexOf(cQuickConnection) >= 0;
-  if not Result then
-  begin
+  Index:= ActiveConnectionList.IndexOf(cQuickConnection);
+  Result:= (Index >= 0);
+  if Result then
+    FtpSend:= TFTPSendEx(ActiveConnectionList.Objects[Index])
+  else begin
     Connection := TConnection.Create;
     Connection.ConnectionName:= cQuickConnection;
     if ShowFtpConfDlg(Connection) then
