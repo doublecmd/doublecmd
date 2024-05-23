@@ -307,6 +307,11 @@ begin
       1: SetPropertyError := fsoospeDontSet;
       2: SetPropertyError := fsoospeIgnoreErrors;
     end;
+    case chkCopyOnWrite.State of
+      cbGrayed    : CopyOnWrite := fsoogNone;
+      cbChecked   : CopyOnWrite := fsoogYes;
+      cbUnchecked : CopyOnWrite := fsoogNo;
+    end;
     CorrectSymLinks := cbCorrectLinks.Checked;
     CheckFreeSpace := cbCheckFreeSpace.Checked;
     ReserveSpace := cbReserveSpace.Checked;

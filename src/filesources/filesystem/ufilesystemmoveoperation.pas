@@ -36,6 +36,7 @@ type
     FCheckFreeSpace: Boolean;
     FSkipAllBigFiles: Boolean;
     FCorrectSymlinks: Boolean;
+    FCopyOnWrite: TFileSourceOperationOptionGeneral;
     procedure SetSearchTemplate(AValue: TSearchTemplate);
 
   protected
@@ -60,6 +61,7 @@ type
     property CopyAttributesOptions: TCopyAttributesOptions read FCopyAttributesOptions write FCopyAttributesOptions;
     property SkipAllBigFiles: Boolean read FSkipAllBigFiles write FSkipAllBigFiles;
     property CorrectSymLinks: Boolean read FCorrectSymLinks write FCorrectSymLinks;
+    property CopyOnWrite: TFileSourceOperationOptionGeneral read FCopyOnWrite write FCopyOnWrite;
     property SetPropertyError: TFileSourceOperationOptionSetPropertyError read FSetPropertyError write FSetPropertyError;
     property ExcludeEmptyTemplateDirectories: Boolean read FExcludeEmptyTemplateDirectories write FExcludeEmptyTemplateDirectories;
     {en
@@ -77,24 +79,33 @@ constructor TFileSystemMoveOperation.Create(aFileSource: IFileSource;
                                             var theSourceFiles: TFiles;
                                             aTargetPath: String);
 begin
-  // Here we can read global settings if there are any.
-  FCopyAttributesOptions := [];
-  if gOperationOptionCopyAttributes then
-    FCopyAttributesOptions := FCopyAttributesOptions + [caoCopyAttributes];
-  if gOperationOptionCopyTime then
-    FCopyAttributesOptions := FCopyAttributesOptions + [caoCopyTime];
-  if gOperationOptionCopyOwnership then
-    FCopyAttributesOptions := FCopyAttributesOptions + [caoCopyOwnership];
-  FFileExistsOption := gOperationOptionFileExists;
-  FDirExistsOption := gOperationOptionDirectoryExists;
+  // Here we can read global settings if there are any
   FSetPropertyError := gOperationOptionSetPropertyError;
   FReserveSpace := gOperationOptionReserveSpace;
   FCheckFreeSpace := gOperationOptionCheckFreeSpace;
   FSkipAllBigFiles := False;
-  FCorrectSymlinks := gOperationOptionCorrectLinks;
+  FCorrectSymLinks := gOperationOptionCorrectLinks;
   FExcludeEmptyTemplateDirectories := True;
 
   inherited Create(aFileSource, theSourceFiles, aTargetPath);
+
+  // Here we can read global settings if there are any
+  FCopyOnWrite := gOperationOptionCopyOnWrite;
+  FFileExistsOption := gOperationOptionFileExists;
+  FDirExistsOption := gOperationOptionDirectoryExists;
+
+  if gOperationOptionCopyAttributes then
+    FCopyAttributesOptions := FCopyAttributesOptions + [caoCopyAttributes];
+  if gOperationOptionCopyXattributes then
+    FCopyAttributesOptions := FCopyAttributesOptions + [caoCopyXattributes];
+  if gOperationOptionCopyTime then
+    FCopyAttributesOptions := FCopyAttributesOptions + [caoCopyTime];
+  if gOperationOptionCopyOwnership then
+    FCopyAttributesOptions := FCopyAttributesOptions + [caoCopyOwnership];
+  if gOperationOptionCopyPermissions then
+    FCopyAttributesOptions := FCopyAttributesOptions + [caoCopyPermissions];
+  if gDropReadOnlyFlag then
+    FCopyAttributesOptions := FCopyAttributesOptions + [caoRemoveReadOnlyAttr];
 end;
 
 destructor TFileSystemMoveOperation.Destroy;
@@ -147,6 +158,7 @@ begin
 
   FOperationHelper.Verify := FVerify;
   FOperationHelper.RenameMask := RenameMask;
+  FOperationHelper.CopyOnWrite := FCopyOnWrite;
   FOperationHelper.ReserveSpace :=  FReserveSpace;
   FOperationHelper.CheckFreeSpace := CheckFreeSpace;
   FOperationHelper.CopyAttributesOptions := CopyAttributesOptions;
