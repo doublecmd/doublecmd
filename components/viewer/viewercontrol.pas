@@ -3016,7 +3016,7 @@ begin
       end;
 
     veAnsi, veOem,
-    veCp1250..veCp950,
+    veCp1250..veCp874,
     veIso88591,
     veIso88592,
     veKoi8r,
@@ -3108,6 +3108,18 @@ begin
       else
         CharLenInBytes := 0;
 
+    veCp932, // Unsupported variable-width encodings
+    veCp936, // TODO: Add cp932, cp936, cp949, cp950 encoding support
+    veCp949,
+    veCp950:
+      if iPosition < FHighLimit then
+      begin
+        Result := PByte(GetDataAdr)[iPosition];
+        CharLenInBytes := 1;
+      end
+      else
+        CharLenInBytes := 0;
+
     else
       raise Exception.Create('Unsupported viewer encoding');
   end;
@@ -3140,7 +3152,7 @@ begin
       end;
 
     veAnsi, veOem,
-    veCp1250..veCp950,
+    veCp1250..veCp874,
     veIso88591,
     veIso88592,
     veKoi8r,
@@ -3232,6 +3244,18 @@ begin
       else
         CharLenInBytes := 0;
 
+    veCp932, // Unsupported variable-width encodings
+    veCp936, // TODO: Add cp932, cp936, cp949, cp950 encoding support
+    veCp949,
+    veCp950:
+      if iPosition > FLowLimit then
+      begin
+        Result := PByte(GetDataAdr + iPosition)[-1];
+        CharLenInBytes := 1;
+      end
+      else
+        CharLenInBytes := 0;
+
     else
       raise Exception.Create('Unsupported viewer encoding');
   end;
@@ -3250,7 +3274,7 @@ begin
                                             FHighLimit - iPosition,
                                             InvalidCharLen);
     veAnsi, veOem,
-    veCp1250..veCp950,
+    veCp1250..veCp874,
     veIso88591,
     veIso88592,
     veKoi8r,
@@ -3277,6 +3301,13 @@ begin
         CharLenInBytes := 0;
     veUtf32be, veUtf32le:
       CharLenInBytes := 4;
+
+    veCp932, // Unsupported variable-width encodings
+    veCp936, // TODO: Add cp932, cp936, cp949, cp950 encoding support
+    veCp949,
+    veCp950:
+      CharLenInBytes := 1;
+
     else
       raise Exception.Create('Unsupported viewer encoding');
   end;
@@ -3658,7 +3689,7 @@ procedure TViewerControl.UpdateSelection;
         end;
 
       veAnsi, veOem,
-      veCp1250..veCp950,
+      veCp1250..veCp874,
       veIso88591,
       veIso88592,
       veKoi8r,
@@ -3673,6 +3704,12 @@ procedure TViewerControl.UpdateSelection;
         aPosition := ((aPosition - FLowLimit) and not 1) + FLowLimit;
       veUtf32be, veUtf32le:
         aPosition := ((aPosition - FLowLimit) and not 3) + FLowLimit;
+
+      veCp932, // Unsupported variable-width encodings
+      veCp936, // TODO: Add cp932, cp936, cp949, cp950 encoding support
+      veCp949,
+      veCp950:
+        ;
 
       else
         raise Exception.Create('Unsupported viewer encoding');
