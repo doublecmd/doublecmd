@@ -17,7 +17,7 @@ concurrency:
 
 jobs:
   build-mac:
-    runs-on: macos-11
+    runs-on: macos-12
     steps:
     - name: Install Free Pascal
       uses: alexx2000/setup-fpc@master
@@ -39,7 +39,7 @@ jobs:
            sudo sed -i -e "s|_PPCARCH_|fpc|g; s|/Developer/lazarus|/usr/local/share/lazarus|g" /etc/lazarus/environmentoptions.xml
 
     - name: Checkout source
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
       with:
         fetch-depth: 0
 
@@ -62,7 +62,7 @@ jobs:
         lazarus-version: "stable"
 
     - name: Checkout source
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
       with:
         fetch-depth: 0
 
