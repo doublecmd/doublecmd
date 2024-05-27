@@ -3,7 +3,7 @@
   -------------------------------------------------------------------------
   Windows dark style widgetset implementation
 
-  Copyright (C) 2021-2023 Alexander Koblov (alexx2000@mail.ru)
+  Copyright (C) 2021-2024 Alexander Koblov (alexx2000@mail.ru)
 
   This library is free software; you can redistribute it and/or
   modify it under the terms of the GNU Lesser General Public
@@ -1510,11 +1510,7 @@ begin
     AColor:= SysColor[COLOR_BTNFACE];
     ALight:= Lighter(AColor, 160);
 
-    case iPartId of
-      TABP_TOPTABITEM,
-      TABP_TOPTABITEMLEFTEDGE,
-      TABP_TOPTABITEMBOTHEDGE,
-      TABP_TOPTABITEMRIGHTEDGE:
+    if (iPartId < TABP_PANE) then
       begin
         ARect:= pRect;
         // Fill tab inside
@@ -1534,7 +1530,8 @@ begin
         LCanvas.FillRect(ARect);
         LCanvas.Pen.Color:= ALight;
 
-        if iPartId in [TABP_TOPTABITEMLEFTEDGE, TABP_TOPTABITEMBOTHEDGE] then
+        if iPartId in [TABP_TABITEMLEFTEDGE, TABP_TABITEMBOTHEDGE,
+                       TABP_TOPTABITEMLEFTEDGE, TABP_TOPTABITEMBOTHEDGE] then
         begin
           // Draw left border
           LCanvas.Line(pRect.Left, pRect.Top, pRect.Left, pRect.Bottom);
@@ -1547,7 +1544,7 @@ begin
         end
         else begin
           // Draw left border
-          if (iPartId = TABP_TOPTABITEM) then
+          if (iPartId in [TABP_TABITEM, TABP_TOPTABITEM]) then
           begin
             LCanvas.Line(pRect.Left, pRect.Top, pRect.Left, pRect.Bottom - 1);
           end;
@@ -1556,15 +1553,14 @@ begin
         end;
         // Draw top border
         LCanvas.Line(pRect.Left, pRect.Top, pRect.Right, pRect.Top);
-      end;
-      TABP_PANE:
+      end
+      else if (iPartId = TABP_PANE) then
       begin
         // Draw tab pane border
         LCanvas.Brush.Color:= AColor;
         LCanvas.Pen.Color:= ALight;
         LCanvas.Rectangle(pRect);
       end;
-    end;
   finally
     LCanvas.Handle:= 0;
     LCanvas.Free;
