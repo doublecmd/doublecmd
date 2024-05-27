@@ -157,8 +157,8 @@ type
   TThemeClassMap = specialize TDictionary<HTHEME, String>;
 
 var
-  Theme: TThemeData;
   ThemeClass: TThemeClassMap;
+  Win32Theme: TWin32ThemeServices;
   OldUpDownWndProc: Windows.WNDPROC;
   CustomFormWndProc: Windows.WNDPROC;
   SysColor: array[0..COLOR_ENDCOLORS] of TColor;
@@ -843,18 +843,8 @@ function DrawThemeTextDark(hTheme: HTHEME; hdc: HDC; iPartId, iStateId: Integer;
   dwTextFlags, dwTextFlags2: DWORD; const pRect: TRect): HRESULT; stdcall;
 var
   OldColor: COLORREF;
-  Index, Element: TThemedElement;
 begin
-  for Index:= Low(TThemedElement) to High(TThemedElement) do
-  begin
-    if Theme[Index] = hTheme then
-    begin
-      Element:= Index;
-      Break;
-    end;
-  end;
-
-  if Element = teToolTip then
+  if (hTheme = Win32Theme.Theme[teToolTip]) then
     OldColor:= SysColor[COLOR_INFOTEXT]
   else begin
     OldColor:= SysColor[COLOR_BTNTEXT];
@@ -879,18 +869,8 @@ var
   AColor: TColor;
   LCanvas: TCanvas;
   AStyle: TTextStyle;
-  Index, Element: TThemedElement;
 begin
-  for Index:= Low(TThemedElement) to High(TThemedElement) do
-  begin
-    if Theme[Index] = hTheme then
-    begin
-      Element:= Index;
-      Break;
-    end;
-  end;
-
-  if Element = teHeader then
+  if (hTheme = Win32Theme.Theme[teHeader]) then
   begin
     if iPartId in [HP_HEADERITEM, HP_HEADERITEMRIGHT] then
     begin
@@ -922,7 +902,7 @@ begin
     end;
   end
 
-  else if Element = teMenu then
+  else if (hTheme = Win32Theme.Theme[teMenu]) then
   begin
     if iPartId in [MENU_BARBACKGROUND, MENU_POPUPITEM, MENU_POPUPGUTTER,
                    MENU_POPUPSUBMENU, MENU_POPUPSEPARATOR, MENU_POPUPCHECK,
@@ -986,7 +966,7 @@ begin
     end;
   end
 
-  else if Element = teToolBar then
+  else if (hTheme = Win32Theme.Theme[teToolBar]) then
   begin
     if iPartId in [TP_BUTTON] then
     begin
@@ -1030,7 +1010,7 @@ begin
     end;
   end
 
-  else if Element = teButton then
+  else if (hTheme = Win32Theme.Theme[teButton]) then
   begin
     DrawButton(hTheme, hdc, iPartId, iStateId, pRect, pClipRect);
   end;
@@ -1331,14 +1311,11 @@ begin
   DrawThemeText:= @DrawThemeTextDark;
   DrawThemeBackground:= @DrawThemeBackgroundDark;
 
-  for Index:= Low(TThemedElement) to High(TThemedElement) do
-  begin
-    Theme[Index]:= TWin32ThemeServices(ThemeServices).Theme[Index];
-  end;
-
   DefaultWindowInfo.DefWndProc:= @WindowProc;
 
   TaskDialogIndirect:= @TaskDialogIndirectDark;
+
+  Win32Theme:= TWin32ThemeServices(ThemeServices);
 end;
 
 function FormWndProc(Window: HWnd; Msg: UInt; WParam: Windows.WParam;
