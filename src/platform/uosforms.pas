@@ -144,6 +144,7 @@ uses
     {$ENDIF}
   {$ENDIF}
   {$IF DEFINED(DARWIN)}
+  , LCLStrConsts
   , BaseUnix, Errors, fFileProperties
   , uQuickLook, uOpenDocThumb, uMyDarwin, uDefaultTerminal
   {$ELSEIF DEFINED(UNIX)}
@@ -805,7 +806,7 @@ begin
   ShellContextMenu.OnClose := CloseEvent;
   // Show context menu
   {$IF DEFINED(DARWIN)}
-  MacosServiceMenuHelper.PopUp( ShellContextMenu, uLng.rsMenuMacOsServices );
+  MacosServiceMenuHelper.PopUp( ShellContextMenu, rsMacOSMenuServices );
   {$ELSE}
   ShellContextMenu.PopUp(X, Y);
   {$ENDIF}

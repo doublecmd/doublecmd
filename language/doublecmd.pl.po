@@ -10757,10 +10757,6 @@ msgstr "Konfiguruj niestandardowe kolumny"
 msgid "Enter new custom columns name"
 msgstr "Wpisz nową nazwę kolumny niestandardowej"
 
-#: ulng.rsmenumacosservices
-msgid "Services"
-msgstr "Usługi"
-
 #: ulng.rsmenumacosshare
 msgid "Share..."
 msgstr "Udostępnij..."

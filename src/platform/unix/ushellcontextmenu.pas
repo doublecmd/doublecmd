@@ -77,7 +77,7 @@ uses
   uOSUtils, uFileProcs, uShellExecute, uLng, uPixMapManager, uMyUnix, uOSForms,
   fMain, fFileProperties, DCOSUtils, DCStrUtils, uExts, uArchiveFileSourceUtil, uSysFolders
   {$IF DEFINED(DARWIN)}
-  , MacOSAll, CocoaAll, uMyDarwin
+  , LCLStrConsts, MacOSAll, CocoaAll, uMyDarwin
   {$ELSEIF NOT DEFINED(HAIKU)}
   , uKeyFile, uMimeActions
     {$IF DEFINED(LINUX)}
@@ -627,7 +627,7 @@ begin
 
   // attach Services Menu in TMacosServiceMenuHelper
   mi:=TMenuItem.Create(Self);
-  mi.Caption:=uLng.rsMenuMacOsServices;
+  mi.Caption:=LCLStrConsts.rsMacOSMenuServices;
   Self.Items.Add(mi);
 
   addDelimiterMenuItem( self );

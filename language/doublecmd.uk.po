@@ -11157,10 +11157,6 @@ msgstr "Налаштувати набір колонок"
 msgid "Enter new custom columns name"
 msgstr "Введіть нове ім’я набору колонок"
 
-#: ulng.rsmenumacosservices
-msgid "Services"
-msgstr ""
-
 #: ulng.rsmenumacosshare
 msgid "Share..."
 msgstr ""

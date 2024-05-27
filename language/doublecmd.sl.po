@@ -10799,10 +10799,6 @@ msgstr "Nastavitve stolpcev po meri"
 msgid "Enter new custom columns name"
 msgstr "Vpis novega imena stolpca po meri"
 
-#: ulng.rsmenumacosservices
-msgid "Services"
-msgstr "Storitve"
-
 #: ulng.rsmenumacosshare
 msgid "Share..."
 msgstr ""

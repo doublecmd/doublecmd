@@ -10792,10 +10792,6 @@ msgstr "사용자 지정 열 구성"
 msgid "Enter new custom columns name"
 msgstr "새 사용자 지정 열 이름 입력"
 
-#: ulng.rsmenumacosservices
-msgid "Services"
-msgstr "서비스"
-
 #: ulng.rsmenumacosshare
 msgid "Share..."
 msgstr "공유..."
@@ -14035,3 +14031,4 @@ msgstr "교체가 이루어지지 않았습니다."
 #, object-pascal-format
 msgid "No setup named \"%s\""
 msgstr "\"%s\"라는 설정이 없습니다"
+

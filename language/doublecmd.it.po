@@ -11260,10 +11260,6 @@ msgstr "Configura colonne personalizzate"
 msgid "Enter new custom columns name"
 msgstr ""
 
-#: ulng.rsmenumacosservices
-msgid "Services"
-msgstr ""
-
 #: ulng.rsmenumacosshare
 msgid "Share..."
 msgstr ""

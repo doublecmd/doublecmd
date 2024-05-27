@@ -11019,10 +11019,6 @@ msgstr "Διαμόρφωση εξατομικευμένων στηλών"
 msgid "Enter new custom columns name"
 msgstr "Εισάγετε νέα προσαρμοσμένα χρώματα στηλών"
 
-#: ulng.rsmenumacosservices
-msgid "Services"
-msgstr "Υπηρεσίες"
-
 #: ulng.rsmenumacosshare
 msgid "Share..."
 msgstr "Διαμοιρασμός..."

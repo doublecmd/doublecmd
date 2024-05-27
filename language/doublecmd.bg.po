@@ -11288,10 +11288,6 @@ msgstr "Настройка на нагласените стълбове"
 msgid "Enter new custom columns name"
 msgstr "Задайте ново име за стълбовете"
 
-#: ulng.rsmenumacosservices
-msgid "Services"
-msgstr ""
-
 #: ulng.rsmenumacosshare
 msgid "Share..."
 msgstr ""

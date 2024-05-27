@@ -10828,10 +10828,6 @@ msgstr "Configureer aangepaste kolommen"
 msgid "Enter new custom columns name"
 msgstr "Geef nieuwe aangepaste kolommennaam"
 
-#: ulng.rsmenumacosservices
-msgid "Services"
-msgstr ""
-
 #: ulng.rsmenumacosshare
 msgid "Share..."
 msgstr ""

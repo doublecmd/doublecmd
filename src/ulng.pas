@@ -364,7 +364,6 @@ resourcestring
   rsMnuEdit = 'Edit';
   rsMnuOpenWith = 'Open with';
   rsMnuOpenWithOther = 'Other...';
-  rsMenuMacOsServices = 'Services';
   rsMenuMacOsShare = 'Share...';
   rsMnuMount = 'Mount';
   rsMnuUmount = 'Unmount';

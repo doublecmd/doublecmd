@@ -10789,10 +10789,6 @@ msgstr "配置自定义列"
 msgid "Enter new custom columns name"
 msgstr "输入新的自定义列名称"
 
-#: ulng.rsmenumacosservices
-msgid "Services"
-msgstr "服务"
-
 #: ulng.rsmenumacosshare
 msgid "Share..."
 msgstr "共享..."

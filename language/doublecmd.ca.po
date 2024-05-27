@@ -11777,10 +11777,6 @@ msgstr "Configura columnes a mida"
 msgid "Enter new custom columns name"
 msgstr ""
 
-#: ulng.rsmenumacosservices
-msgid "Services"
-msgstr ""
-
 #: ulng.rsmenumacosshare
 msgid "Share..."
 msgstr ""

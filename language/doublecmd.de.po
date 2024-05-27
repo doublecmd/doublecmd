@@ -10983,10 +10983,6 @@ msgstr "Konfiguriere benutzerdefinierte Spalten"
 msgid "Enter new custom columns name"
 msgstr "Neuen Namen für die benutzerdefinierte Spaltenansicht angeben"
 
-#: ulng.rsmenumacosservices
-msgid "Services"
-msgstr "Dienste"
-
 #: ulng.rsmenumacosshare
 msgid "Share..."
 msgstr "Teilen ..."

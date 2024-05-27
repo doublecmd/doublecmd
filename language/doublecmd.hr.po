@@ -11494,10 +11494,6 @@ msgstr "Podesite prilagođene stupce"
 msgid "Enter new custom columns name"
 msgstr "Unesite novi naziv prilagođenih stupaca"
 
-#: ulng.rsmenumacosservices
-msgid "Services"
-msgstr ""
-
 #: ulng.rsmenumacosshare
 msgid "Share..."
 msgstr ""

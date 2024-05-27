@@ -11031,10 +11031,6 @@ msgstr "Подесите прилагођене ступце"
 msgid "Enter new custom columns name"
 msgstr "Унесите ново произвољно име стубца"
 
-#: ulng.rsmenumacosservices
-msgid "Services"
-msgstr "Услуге"
-
 #: ulng.rsmenumacosshare
 msgid "Share..."
 msgstr ""

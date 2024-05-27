@@ -10831,10 +10831,6 @@ msgstr "Nastavit uživatelské sloupce"
 msgid "Enter new custom columns name"
 msgstr "Zadejte nový název vlastních sloupců"
 
-#: ulng.rsmenumacosservices
-msgid "Services"
-msgstr ""
-
 #: ulng.rsmenumacosshare
 msgid "Share..."
 msgstr ""

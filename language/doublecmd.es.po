@@ -10924,10 +10924,6 @@ msgstr "Configurar columnas a medida"
 msgid "Enter new custom columns name"
 msgstr "Introducir nuevo nombre de vista de columnas"
 
-#: ulng.rsmenumacosservices
-msgid "Services"
-msgstr ""
-
 #: ulng.rsmenumacosshare
 msgid "Share..."
 msgstr ""

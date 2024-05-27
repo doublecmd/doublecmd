@@ -11317,10 +11317,6 @@ msgstr "Innstillinger for kolonner"
 msgid "Enter new custom columns name"
 msgstr "Tast inn nytt brukervalgt kolonnenavn"
 
-#: ulng.rsmenumacosservices
-msgid "Services"
-msgstr ""
-
 #: ulng.rsmenumacosshare
 msgid "Share..."
 msgstr ""
