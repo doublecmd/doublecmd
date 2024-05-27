@@ -351,9 +351,9 @@ type
     procedure OutText(x, y: Integer; const sText: String; StartPos: PtrInt; DataLength: Integer);
     procedure OutBin(x, y: Integer; const sText: String; StartPos: PtrInt; DataLength: Integer);
 
-    procedure OutCustom(x, y: Integer; const sText: string;StartPos: PtrInt; DataLength: Integer);  // render one line
-    function  TransformCustom(var APosition: PtrInt; ALimit: PtrInt;AWithAdditionalData:boolean=True): AnsiString;
-    function  TransformCustomBlock(var APosition: PtrInt; DataLength: integer ; ASeparatorsOn, AAlignData:boolean; out AChars:AnsiString): AnsiString;
+    procedure OutCustom(x, y: Integer; const sText: String;StartPos: PtrInt; DataLength: Integer);  // render one line
+    function  TransformCustom(var APosition: PtrInt; ALimit: PtrInt; AWithAdditionalData: Boolean = True): String;
+    function  TransformCustomBlock(var APosition: PtrInt; DataLength: Integer; ASeparatorsOn, AAlignData: Boolean; out AChars: String): String;
 
     function HexToValueProc(AChar:AnsiChar;AMaxDigitsCount:integer):AnsiString;
     function DecToValueProc(AChar:AnsiChar;AMaxDigitsCount:integer):AnsiString;
@@ -362,7 +362,7 @@ type
     procedure WriteText;
     procedure WriteCustom; virtual;
     function  TransformText(const sText: String; const Xoffset: Integer): String;
-    function  TransformBin(var aPosition: PtrInt; aLimit: PtrInt): AnsiString;
+    function  TransformBin(var aPosition: PtrInt; aLimit: PtrInt): String;
     function  TransformHex(var aPosition: PtrInt; aLimit: PtrInt): AnsiString;virtual;
 
     procedure AddLineOffset(const iOffset: PtrInt); inline;
@@ -984,27 +984,48 @@ begin
   end;
 end;
 
-
-function TViewerControl.TransformBin(var aPosition: PtrInt; aLimit: PtrInt): AnsiString;
+function TViewerControl.TransformBin(var aPosition: PtrInt; aLimit: PtrInt): String;
 var
-  c: AnsiChar;
-  i: Integer;
+  S: String;
+  C: AnsiChar;
+  P: PAnsiChar;
+  Len: Integer;
+  I, L: Integer;
+  SingleByte: Boolean;
 begin
-  Result := '';
-  for i := 0 to cBinWidth - 1 do
-  begin
-    if aPosition >= aLimit then
-      Break;
-    c := PAnsiChar(GetDataAdr)[aPosition];
-    if c < ' ' then
-      Result := Result + '.'
-    else if c > #127 then
-      Result := Result + '.'
-    else
-      Result := Result + c;
+  Result := EmptyStr;
 
-    Inc(aPosition);
+  if (APosition + cBinWidth) > aLimit then
+    Len:= aLimit - APosition
+  else begin
+    Len:= cBinWidth;
   end;
+
+  SetString(S, PAnsiChar(GetDataAdr) + aPosition, Len);
+  SingleByte:= not (FEncoding in ViewerEncodingMultiByte);
+
+  if SingleByte then
+  begin
+    S:= ConvertToUTF8(S);
+  end;
+  L:= Length(S);
+  P:= PAnsiChar(S);
+
+  for I := 1 to L do
+  begin
+    C := P^;
+    if C < ' ' then
+      Result := Result + '.'
+    else if SingleByte then
+      Result := Result + C
+    else if C > #127 then
+      Result := Result + '.'
+    else begin
+      Result := Result + C;
+    end;
+    Inc(P);
+  end;
+  Inc(aPosition, Len);
 end;
 
 function TViewerControl.TransformHex(var aPosition: PtrInt; aLimit: PtrInt): AnsiString;
@@ -1012,9 +1033,8 @@ begin
   Result:=TransformCustom(aPosition,aLimit);
 end;
 
-
 function TViewerControl.TransformCustom(var APosition: PtrInt; ALimit: PtrInt;
-  AWithAdditionalData: boolean): AnsiString;
+  AWithAdditionalData: boolean): String;
 var
   sAscii: string = '';
   sRez  : string = '';
@@ -1039,61 +1059,82 @@ begin
   Result:=sRez;
 end;
 
-function TViewerControl.TransformCustomBlock(var APosition: PtrInt; DataLength: integer ; ASeparatorsOn, AAlignData:boolean; out AChars:AnsiString): AnsiString;
+function TViewerControl.TransformCustomBlock(var APosition: PtrInt;
+  DataLength: Integer; ASeparatorsOn, AAlignData: Boolean; out AChars: String): String;
 var
-  c: AnsiChar;
-  i: Integer;
-  iSep,Len :integer;
-  sStr: string = '';
-  sRez: string = '';
-  sEmpty:string;
-  aStartOffset: PtrInt;
+  S: String;
+  C: AnsiChar;
+  P: PAnsiChar;
+  Len: Integer;
+  I, L: Integer;
+  sEmpty: String;
+  iSep: Integer = 1;
+  SingleByte: Boolean;
 begin
-  if (APosition+DataLength)>FHighLimit then Len:=FHighLimit-APosition else
-     Len:=DataLength;
+  Result:= EmptyStr;
 
-  iSep:=1;                      // counter for set separator
-  aStartOffset := APosition;
-  for i := 0 to Len - 1 do
+  if (APosition + DataLength) > FHighLimit then
+    Len:= FHighLimit - APosition
+  else begin
+    Len:= DataLength;
+  end;
+
+  SetString(S, PAnsiChar(GetDataAdr) + aPosition, Len);
+  SingleByte:= not (FEncoding in ViewerEncodingMultiByte);
+
+  if SingleByte then
   begin
-    c := PAnsiChar(GetDataAdr)[aPosition];
-    if c < ' ' then
-      AChars := AChars + '.'
-    else if c > #127 then
-      AChars := AChars + '.'
-    else
-      AChars := AChars + c;
+    S:= ConvertToUTF8(S);
+  end;
+  L:= Length(S);
+  P:= PAnsiChar(S);
+  AChars:= EmptyStr;
 
-    sRez := sRez + FCustom.ChrToValueProc(c, FCustom.MaxValueDigits);
-    if ( iSep  =  FCustom.CountSeperate) and ASeparatorsOn and
-       ( i     < (FCustom.ValuesPerLine - 1))then
+  for I := 1 to L do
+  begin
+    C := P^;
+    if C < ' ' then
+      AChars := AChars + '.'
+    else if SingleByte then
+      AChars := AChars + C
+    else if C > #127 then
+      AChars := AChars + '.'
+    else begin
+      AChars := AChars + C;
+    end;
+    Inc(P);
+  end;
+  P:= PAnsiChar(GetDataAdr);
+
+  for I := 0 to Len - 1 do
+  begin
+    C := P[aPosition];
+    Result += FCustom.ChrToValueProc(C, FCustom.MaxValueDigits);
+
+    if (iSep  =  FCustom.CountSeperate) and ASeparatorsOn and
+       (I     < (FCustom.ValuesPerLine - 1))then
     begin
-      sRez := sRez + FCustom.SeparatorChar;
-      iSep:=0;
+      iSep := 0;
+      Result += FCustom.SeparatorChar;
     end else
     begin
-      sRez := sRez + FCustom.SeparatorSpace;
+      Result += FCustom.SeparatorSpace;
     end;
 
     Inc(aPosition);
-    inc(iSep);
+    Inc(iSep);
   end;
 
   if AAlignData then
   begin
-    setlength(sEmpty,FCustom.MaxValueDigits);
-    FillChar(sEmpty[1],FCustom.MaxValueDigits,chr(VK_SPACE));
+    sEmpty := StringOfChar(#32, FCustom.MaxValueDigits);
 
-    while (i<FCustom.ValuesPerLine-1) do
+    while (I < FCustom.ValuesPerLine - 1) do
     begin
-      sRez := sRez + sEmpty + FCustom.SeparatorSpace;
-      inc(i);
+      Result += sEmpty + FCustom.SeparatorSpace;
+      Inc(I);
     end;
-
-    setlength(sEmpty,0);
   end;
-
-  Result:=sRez;
 end;
 
 
@@ -2122,7 +2163,7 @@ begin
     Canvas.TextOut(X, Y, GetText(StartPos, iBegDrawIndex - pBegLine, 0));
 end;
 
-procedure TViewerControl.OutCustom(x, y: Integer; const sText: string;
+procedure TViewerControl.OutCustom(x, y: Integer; const sText: String;
   StartPos: PtrInt; DataLength: Integer);
 var
   sTmpText: String;
@@ -2157,13 +2198,16 @@ begin
   // Get selection start
   if (FBlockBeg <= pBegLine) then
     iBegDrawIndex := pBegLine
-  else
+  else begin
     iBegDrawIndex := FBlockBeg;
+  end;
+
   // Get selection end
   if (FBlockEnd < pEndLine) then
     iEndDrawIndex := FBlockEnd
-  else
+  else begin
     iEndDrawIndex := pEndLine;
+  end;
 
   // Text after selection (hex part)
   if pEndLine - iEndDrawIndex > 0 then
@@ -2198,7 +2242,11 @@ begin
   end;
 
   // Text before selection + selected text (ascii part)
-  sTmpText := Copy(sText, 1 + FCustom.StartAscii, iEndDrawIndex - pBegLine);
+  if (iEndDrawIndex - pBegLine) = FCustom.ValuesPerLine then
+    sTmpText := Copy(sText, 1 + FCustom.StartAscii, MaxInt)
+  else begin
+    sTmpText := UTF8Copy(sText, 1 + FCustom.StartAscii, iEndDrawIndex - pBegLine);
+  end;
   Canvas.Brush.Color := clHighlight;
   Canvas.Font.Color  := clHighlightText;
   Canvas.TextOut(x, y, sTmpText);
@@ -2210,7 +2258,7 @@ begin
   // Text before selection (ascii part)
   if iBegDrawIndex - pBegLine > 0 then
   begin
-    sTmpText := Copy(sText, 1 + FCustom.StartAscii, iBegDrawIndex - pBegLine);
+    sTmpText := UTF8Copy(sText, 1 + FCustom.StartAscii, iBegDrawIndex - pBegLine);
     Canvas.TextOut(x, y, sTmpText);
   end;
 end;
@@ -2243,12 +2291,15 @@ begin
   // Get selection start/end.
   if (FBlockBeg <= pBegLine) then
     iBegDrawIndex := pBegLine
-  else
+  else begin
     iBegDrawIndex := FBlockBeg;
+  end;
+
   if (FBlockEnd < pEndLine) then
     iEndDrawIndex := FBlockEnd
-  else
+  else begin
     iEndDrawIndex := pEndLine;
+  end;
 
   // Text after selection.
   if pEndLine - iEndDrawIndex > 0 then
@@ -2258,7 +2309,12 @@ begin
   Canvas.Brush.Color := clHighlight;
   Canvas.Font.Color  := clHighlightText;
 
-  Canvas.TextOut(X, Y, Copy(sText, 1, iEndDrawIndex - pBegLine));
+  // Whole line selected
+  if (iEndDrawIndex - pBegLine) = DataLength then
+    Canvas.TextOut(X, Y, sText)
+  else begin
+    Canvas.TextOut(X, Y, UTF8Copy(sText, 1, iEndDrawIndex - pBegLine));
+  end;
 
   // Restore previous canvas settings
   Canvas.Brush.Color := Color;
@@ -2266,7 +2322,7 @@ begin
 
   // Text before selection
   if iBegDrawIndex - pBegLine > 0 then
-    Canvas.TextOut(X, Y, Copy(sText, 1, iBegDrawIndex - pBegLine));
+    Canvas.TextOut(X, Y, UTF8Copy(sText, 1, iBegDrawIndex - pBegLine));
 end;
 
 procedure TViewerControl.AddLineOffset(const iOffset: PtrInt);
@@ -2464,7 +2520,11 @@ begin
 
             if CharSide in [csRight, csAfter] then
             begin
-              GetNextCharAsAscii(FCaretPos, CharLenInBytes);
+              if FViewerControlMode in [vcmDec, vcmHex, vcmBin] then
+                CharLenInBytes := 1
+              else begin
+                GetNextCharAsAscii(FCaretPos, CharLenInBytes);
+              end;
               FCaretPos := FCaretPos + CharLenInBytes;
             end;
 
@@ -2520,7 +2580,11 @@ procedure TViewerControl.MouseMove(Shift: TShiftState; X, Y: Integer);
   var
     CharLenInBytes: Integer;
   begin
-    GetNextCharAsAscii(aPosition, CharLenInBytes);
+    if FViewerControlMode in [vcmDec, vcmHex, vcmBin] then
+      CharLenInBytes := 1
+    else begin
+      GetNextCharAsAscii(aPosition, CharLenInBytes);
+    end;
     aPosition := aPosition + CharLenInBytes;
   end;
 
@@ -2668,18 +2732,24 @@ var
 
   function XYPos2AdrBin: PtrInt;
   var
-    I:  Integer;
+    I, J, L:  Integer;
     charWidth: Integer;
     textWidth: Integer;
     tmpPosition: PtrInt;
     s, ss, sText: String;
+    InvalidCharLen: Integer;
   begin
+    J:= 1;
     ss := EmptyStr;
     tmpPosition := StartLine;
     sText := TransformBin(tmpPosition, EndLine);
-    for I := 1 to Length(sText) do
+    L:= Length(sText);
+
+    for I := 1 to L do
     begin
-      s:= sText[I];
+      charWidth:= SafeUTF8NextCharLen(PByte(@sText[J]), (L - J) + 1, InvalidCharLen);
+      s:= Copy(sText, J, charWidth);
+      Inc(J, charWidth);
       ss := ss + s;
       textWidth := Canvas.TextWidth(ss);
       if textWidth > x then
@@ -2703,10 +2773,11 @@ var
   //    |     0000AAAA: | FF AA CC AE | djfjks       |
 
   var
-    i:  Integer;
+    I, J, L:  Integer;
     charWidth: Integer;
     textWidth: Integer;
     tmpPosition: PtrInt;
+    InvalidCharLen: Integer;
     ss, sText, sPartialText: String;
   begin
     tmpPosition  := StartLine;
@@ -2723,15 +2794,15 @@ var
     end;
 
     // Clicked on custom part
-    for i := 0 to FCustom.ValuesPerLine - 1 do
+    for I := 0 to FCustom.ValuesPerLine - 1 do
     begin
-      sPartialText := Copy(sText, 1 + FCustom.StartOfs + i * (FCustom.MaxValueDigits + FCustom.SpaceCount), FCustom.MaxValueDigits);
+      sPartialText := Copy(sText, 1 + FCustom.StartOfs + I * (FCustom.MaxValueDigits + FCustom.SpaceCount), FCustom.MaxValueDigits);
       ss := ss + sPartialText;
       textWidth := Canvas.TextWidth(ss);
       if textWidth > x then
       begin
         // Check if we're not after end of data.
-        if StartLine + i >= EndLine then
+        if StartLine + I >= EndLine then
         begin
           CharSide := csBefore;
           Exit(EndLine);
@@ -2744,17 +2815,17 @@ var
         else
           CharSide := csRight;
 
-        Exit(StartLine + i);
+        Exit(StartLine + I);
       end;
 
       // Space after hex number.
-      ss := ss + string(sText[1 + FCustom.StartOfs + i * (FCustom.MaxValueDigits + 1) + FCustom.MaxValueDigits]);
+      ss := ss + string(sText[1 + FCustom.StartOfs + I * (FCustom.MaxValueDigits + 1) + FCustom.MaxValueDigits]);
       textWidth := Canvas.TextWidth(ss);
 
       if textWidth > x then
       begin
         CharSide := csAfter;
-        Exit(StartLine + i);
+        Exit(StartLine + I);
       end;
     end;
 
@@ -2768,15 +2839,19 @@ var
     end;
 
     // Clicked on ascii part.
-    for i := 0 to FCustom.ValuesPerLine - 1 do
+    L:= Length(sText);
+    J:= 1 + FCustom.StartAscii;
+    for I := 0 to FCustom.ValuesPerLine - 1 do
     begin
-      sPartialText := string(sText[1 + FCustom.StartAscii + i]);
+      charWidth := SafeUTF8NextCharLen(PByte(@sText[J]), (L - J) + 1, InvalidCharLen);
+      sPartialText := Copy(sText, J, charWidth);
+      Inc(J, charWidth);
       ss := ss + sPartialText;
       textWidth := Canvas.TextWidth(ss);
       if textWidth > x then
       begin
         // Check if we're not after end of data.
-        if StartLine + i >= EndLine then
+        if StartLine + I >= EndLine then
         begin
           CharSide := csBefore;
           Exit(EndLine);
@@ -2789,7 +2864,7 @@ var
         else
           CharSide := csRight;
 
-        Exit(StartLine + i);
+        Exit(StartLine + I);
       end;
     end;
 
