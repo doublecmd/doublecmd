@@ -56,6 +56,7 @@ uses
   {$ELSEIF DEFINED(LCLGTK2)}
   , Glib2, Gtk2
   {$ELSEIF DEFINED(DARWIN)}
+  , CocoaMenus
   , uMyDarwin
   {$ENDIF}
   , Types, LMessages;
@@ -792,9 +793,6 @@ type
     procedure RightDriveBarExecuteDrive(ToolItem: TKASToolItem);
     procedure SetDragCursor(Shift: TShiftState);
     {$IFDEF DARWIN}
-    procedure createDarwinAppMenu;
-    procedure aboutOnClick(Sender: TObject);
-    procedure optionsOnClick(Sender: TObject);
     procedure GlobalMacOSKeyDownHandler(Sender: TObject; var Key: Word; Shift: TShiftState);
     {$ENDIF}
 
@@ -1250,7 +1248,6 @@ begin
 {$IF DEFINED(DARWIN)}
   InitNSServiceProvider( @OnNSServiceOpenWithNewTab, @NSServiceMenuIsReady, @NSServiceMenuGetFilenames );
   InitNSThemeChangedObserver( @NSThemeChangedHandler );
-  createDarwinAppMenu;
 {$ENDIF}
 end;
 
@@ -2935,6 +2932,11 @@ begin
   Screen.Cursors[crArrowCopy] := LoadCursorFromLazarusResource('ArrowCopy');
   Screen.Cursors[crArrowMove] := LoadCursorFromLazarusResource('ArrowMove');
   Screen.Cursors[crArrowLink] := LoadCursorFromLazarusResource('ArrowLink');
+
+{$IF DEFINED(DARWIN)}
+  macOS_AppMenuIntf.aboutItem:= mnuHelpAbout;
+  macOS_AppMenuIntf.preferencesItem:= mnuConfigOptions;
+{$ENDIF}
 end;
 
 procedure TfrmMain.AfterConstruction;
@@ -7162,43 +7164,6 @@ begin
 end;
 
 {$IFDEF DARWIN}
-procedure TfrmMain.createDarwinAppMenu;
-var
-  appMenu: TMenuItem;
-  aboutItem: TMenuItem;
-  sepItem: TMenuItem;
-  prefItem: TMenuItem;
-begin
-  appMenu:= TMenuItem.Create(mnuMain);
-  appMenu.Caption:= '';
-  mnuMain.Items.Insert(0, appMenu);
-
-  aboutItem:= TMenuItem.Create(mnuMain);
-  aboutItem.Caption:= 'About ' + Application.Title;
-  aboutItem.OnClick:= @aboutOnClick;
-  appMenu.Add(aboutItem);
-
-  sepItem := TMenuItem.Create(mnuMain);
-  sepItem.Caption := '-';
-  appMenu.Add(sepItem);
-
-  prefItem := TMenuItem.Create(mnuMain);
-  prefItem.Caption := 'Preferences...';
-  prefItem.OnClick := @optionsOnClick;
-  prefItem.Shortcut := ShortCut(VK_OEM_COMMA, [ssMeta]);
-  appMenu.Add(prefItem);
-end;
-
-procedure TfrmMain.aboutOnClick(Sender: TObject);
-begin
-  Commands.cm_About([]);
-end;
-
-procedure TfrmMain.optionsOnClick(Sender: TObject);
-begin
-  Commands.cm_Options([]);
-end;
-
 procedure TfrmMain.GlobalMacOSKeyDownHandler(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 var
