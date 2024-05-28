@@ -60,6 +60,8 @@ function MountNetworkDrive(const serverAddress: String): Boolean;
 
 function unmountAndEject(const path: String): Boolean;
 
+procedure openNewInstance();
+
 // Workarounds for FPC RTL Bug
 // copied from ptypes.inc and modified fstypename only
 {$if defined(cpuarm) or defined(cpuaarch64) or defined(iphonesim)}
@@ -525,6 +527,15 @@ end;
 function unmountAndEject(const path: String): Boolean;
 begin
   Result:= NSWorkspace.sharedWorkspace.unmountAndEjectDeviceAtPath( StringToNSString(path) );
+end;
+
+procedure openNewInstance();
+begin
+  NSWorkspace.sharedWorkspace.launchApplicationAtURL_options_configuration_error(
+    NSBundle.mainBundle.bundleURL,
+    NSWorkspaceLaunchNewInstance,
+    nil,
+    nil);
 end;
 
 

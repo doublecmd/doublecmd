@@ -794,6 +794,7 @@ type
     procedure SetDragCursor(Shift: TShiftState);
     {$IFDEF DARWIN}
     procedure GlobalMacOSKeyDownHandler(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure OpenNewWindow(Sender: TObject);
     {$ENDIF}
 
   protected
@@ -2920,6 +2921,26 @@ begin
 end;
 
 constructor TfrmMain.Create(TheOwner: TComponent);
+{$IF DEFINED(DARWIN)}
+  procedure setMacOSAppMenu();
+  begin
+    macOS_AppMenuIntf.aboutItem:= mnuHelpAbout;
+    macOS_AppMenuIntf.preferencesItem:= mnuConfigOptions;
+  end;
+
+  procedure setMacOSDockMenu();
+  var
+    dockMenu: TMenuItem;
+    newItem: TMenuItem;
+  begin
+    dockMenu:= TMenuItem.Create(self);
+    newItem:= TMenuItem.Create(dockMenu);
+    newItem.Caption:= 'New Window';
+    newItem.OnClick:= @OpenNewWindow;
+    dockMenu.Add(newItem);
+    macOS_DockMenuIntf.customMenus:= dockMenu;
+  end;
+{$ENDIF}
 begin
   FMainSplitterPos := 50.0;
   inherited Create(TheOwner);
@@ -2934,8 +2955,8 @@ begin
   Screen.Cursors[crArrowLink] := LoadCursorFromLazarusResource('ArrowLink');
 
 {$IF DEFINED(DARWIN)}
-  macOS_AppMenuIntf.aboutItem:= mnuHelpAbout;
-  macOS_AppMenuIntf.preferencesItem:= mnuConfigOptions;
+  setMacOSAppMenu;
+  setMacOSDockMenu;
 {$ENDIF}
 end;
 
@@ -7181,6 +7202,11 @@ begin
       end;
     end;
   end;
+end;
+
+procedure TfrmMain.OpenNewWindow(Sender: TObject);
+begin
+  uMyDarwin.openNewInstance;
 end;
 {$ENDIF}
 
