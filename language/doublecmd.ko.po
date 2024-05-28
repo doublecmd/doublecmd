@@ -10843,6 +10843,10 @@ msgctxt "ulng.rsmnunew"
 msgid "New"
 msgstr "새로 만들기"
 
+#: ulng.rsmnunewwindow
+msgid "New Window"
+msgstr "새창"
+
 #: ulng.rsmnunomedia
 msgid "No media available"
 msgstr "사용 가능한 미디어 없음"

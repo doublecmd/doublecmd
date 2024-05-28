@@ -11368,6 +11368,10 @@ msgctxt "ulng.rsmnunew"
 msgid "New"
 msgstr "Ny"
 
+#: ulng.rsmnunewwindow
+msgid "New Window"
+msgstr ""
+
 #: ulng.rsmnunomedia
 msgid "No media available"
 msgstr "Kan ikkje finna mediet"

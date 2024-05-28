@@ -10808,6 +10808,10 @@ msgctxt "ulng.rsmnunew"
 msgid "New"
 msgstr "Nowy"
 
+#: ulng.rsmnunewwindow
+msgid "New Window"
+msgstr ""
+
 #: ulng.rsmnunomedia
 msgid "No media available"
 msgstr "Brak dostępnego nośnika"

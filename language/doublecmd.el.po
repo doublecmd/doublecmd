@@ -11070,6 +11070,10 @@ msgctxt "ulng.rsmnunew"
 msgid "New"
 msgstr "Νέο"
 
+#: ulng.rsmnunewwindow
+msgid "New Window"
+msgstr ""
+
 #: ulng.rsmnunomedia
 msgid "No media available"
 msgstr "Δεν υπάρχει διαθέσιμο Μέσο"

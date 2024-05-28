@@ -10879,6 +10879,10 @@ msgctxt "ulng.rsmnunew"
 msgid "New"
 msgstr "Nieuw"
 
+#: ulng.rsmnunewwindow
+msgid "New Window"
+msgstr ""
+
 #: ulng.rsmnunomedia
 msgid "No media available"
 msgstr "Geen media beschikbaar"

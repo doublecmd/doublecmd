@@ -11103,6 +11103,10 @@ msgctxt "ulng.rsmnunew"
 msgid "New"
 msgstr "Создать"
 
+#: ulng.rsmnunewwindow
+msgid "New Window"
+msgstr "Neues Fenster"
+
 #: ulng.rsmnunomedia
 msgid "No media available"
 msgstr "Устройство недоступно"

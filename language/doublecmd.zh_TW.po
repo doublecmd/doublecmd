@@ -11574,6 +11574,10 @@ msgctxt "ulng.rsmnunew"
 msgid "New"
 msgstr "新增"
 
+#: ulng.rsmnunewwindow
+msgid "New Window"
+msgstr "新建視窗"
+
 #: ulng.rsmnunomedia
 msgid "No media available"
 msgstr "沒有可用的媒體"

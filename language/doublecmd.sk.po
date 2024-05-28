@@ -10842,6 +10842,10 @@ msgctxt "ulng.rsmnunew"
 msgid "New"
 msgstr "Nový"
 
+#: ulng.rsmnunewwindow
+msgid "New Window"
+msgstr ""
+
 #: ulng.rsmnunomedia
 msgid "No media available"
 msgstr "Nie je dostupné žiadne médium"

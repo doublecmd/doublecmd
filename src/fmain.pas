@@ -2935,7 +2935,7 @@ constructor TfrmMain.Create(TheOwner: TComponent);
   begin
     dockMenu:= TMenuItem.Create(self);
     newItem:= TMenuItem.Create(dockMenu);
-    newItem.Caption:= 'New Window';
+    newItem.Caption:= rsMnuNewWindow;
     newItem.OnClick:= @OpenNewWindow;
     dockMenu.Add(newItem);
     macOS_DockMenuIntf.customMenus:= dockMenu;

@@ -11208,6 +11208,10 @@ msgctxt "ulng.rsmnunew"
 msgid "New"
 msgstr "Створити"
 
+#: ulng.rsmnunewwindow
+msgid "New Window"
+msgstr ""
+
 #: ulng.rsmnunomedia
 msgid "No media available"
 msgstr "Немає доступних носіїв"

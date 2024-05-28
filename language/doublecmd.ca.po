@@ -11828,6 +11828,10 @@ msgctxt "ulng.rsmnunew"
 msgid "New"
 msgstr "Nou"
 
+#: ulng.rsmnunewwindow
+msgid "New Window"
+msgstr ""
+
 #: ulng.rsmnunomedia
 msgid "No media available"
 msgstr "No hi ha cap medi disponible"
