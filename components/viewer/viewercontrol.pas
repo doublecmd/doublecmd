@@ -203,6 +203,7 @@ const
 
 const
   ViewerEncodingMultiByte: TViewerEncodings = [
+    veCp932, veCp936, veCp949, veCp950,
     veUtf8, veUtf8bom, veUcs2le, veUcs2be,
     veUtf16le, veUtf16be, veUtf32le, veUtf32be];
 
