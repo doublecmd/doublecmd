@@ -19,6 +19,8 @@ var
   Solid: Boolean;
 {$IF DEFINED(MSWINDOWS)}
   WinRar: String = '%ProgramFiles%\WinRAR\WinRAR.exe';
+{$ELSEIF DEFINED(DARWIN)}
+  WinRar: String = '/usr/local/bin/rar';
 {$ELSE}
   WinRar: String = '/usr/bin/rar';
 {$ENDIF}
