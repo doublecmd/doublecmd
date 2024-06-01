@@ -68,11 +68,11 @@ implementation
 
 uses
   {$IF DEFINED(UNIX)}
-  iconvenc_dyn, LazUTF8
+  LazUTF8
     {$IF DEFINED(DARWIN)}
-    , MacOSAll, CocoaAll, StrUtils
+    , dc_iconvenc_dyn, MacOSAll, CocoaAll, StrUtils
     {$ELSE}
-    , UnixCP
+    , iconvenc_dyn, UnixCP
     {$ENDIF}
   {$ELSEIF DEFINED(MSWINDOWS)}
   Windows
