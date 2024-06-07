@@ -37,7 +37,7 @@ end"/>
     <Description Value="Common units for Double Commander"/>
     <License Value="GNU GPL 2"/>
     <Version Minor="4" Release="1"/>
-    <Files Count="14">
+    <Files Count="12">
       <Item1>
         <Filename Value="dcclassesutf8.pas"/>
         <UnitName Value="DCClassesUtf8"/>
@@ -86,14 +86,6 @@ end"/>
         <Filename Value="dcjsonconfig.pas"/>
         <UnitName Value="DCJsonConfig"/>
       </Item12>
-      <Item13>
-        <Filename Value="iconvenc\dc_iconvert.inc"/>
-        <Type Value="Include"/>
-      </Item13>
-      <Item14>
-        <Filename Value="iconvenc\dc_iconvenc_dyn.pas"/>
-        <UnitName Value="dc_iconvenc_dyn"/>
-      </Item14>
     </Files>
     <CompatibilityMode Value="True"/>
     <RequiredPkgs Count="2">
