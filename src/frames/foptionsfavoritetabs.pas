@@ -169,7 +169,7 @@ begin
   ParseLineToList(rsFavTabsPanelSideSelection, cbTargetPanelRightSavedTabs.Items);
   ParseLineToList(rsFavTabsPanelSideSelection, cbExistingTabsToKeep.Items);
   ParseLineToList(rsFavTabsSaveDirHistory, cbSaveDirHistory.Items);
-  OpenDialog.Filter := ParseLineToFileFilter([rsFilterLegacyTabFiles, '*.tab', rsFilterAnyFiles, '*.*']);
+  OpenDialog.Filter := ParseLineToFileFilter([rsFilterLegacyTabFiles, '*.tab', rsFilterAnyFiles, AllFilesMask]);
 end;
 
 { TfrmOptionsFavoriteTabs.Load }
