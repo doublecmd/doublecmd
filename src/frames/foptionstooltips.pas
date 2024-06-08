@@ -142,7 +142,7 @@ begin
   bCurrentlyFilling := True;
   ParseLineToList(rsToolTipModeList, cbTooltipShowingMode.Items);
   ParseLineToList(rsToolTipHideTimeOutList, cbToolTipHideTimeOut.Items);
-  OpenTooltipFileTypeDialog.Filter := ParseLineToFileFilter([rsFilterDCToolTipFiles, '*.tooltip', rsFilterAnyFiles, '*.*']);
+  OpenTooltipFileTypeDialog.Filter := ParseLineToFileFilter([rsFilterDCToolTipFiles, '*.tooltip', rsFilterAnyFiles, AllFilesMask]);
   SaveTooltipFileTypeDialog.Filter := OpenTooltipFileTypeDialog.Filter;
 end;
 

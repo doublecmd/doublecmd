@@ -224,7 +224,7 @@ end;
 procedure TfrmLinker.FormCreate(Sender: TObject);
 begin
   InitPropStorage(Self); // Initialize property storage
-  dlgSaveAll.Filter := ParseLineToFileFilter([rsFilterAnyFiles, '*.*']);
+  dlgSaveAll.Filter := ParseLineToFileFilter([rsFilterAnyFiles, AllFilesMask]);
 end;
 
 end.

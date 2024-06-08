@@ -359,8 +359,8 @@ begin
   cbInternalCommand.Sorted := True;
   FUpdatingButtonType := True;
   ParseLineToList(rsOptToolbarButtonType, rgToolItemType.Items);
-  OpenDialog.Filter := ParseLineToFileFilter([rsFilterToolbarFiles, '*.toolbar', rsFilterXmlConfigFiles, '*.xml', rsFilterTCToolbarFiles, '*.BAR', rsFilterAnyFiles, '*.*']);
-  SaveDialog.Filter := ParseLineToFileFilter([rsFilterToolbarFiles, '*.toolbar', rsFilterTCToolbarFiles, '*.BAR', rsFilterAnyFiles, '*.*']);
+  OpenDialog.Filter := ParseLineToFileFilter([rsFilterToolbarFiles, '*.toolbar', rsFilterXmlConfigFiles, '*.xml', rsFilterTCToolbarFiles, '*.BAR', rsFilterAnyFiles, AllFilesMask]);
+  SaveDialog.Filter := ParseLineToFileFilter([rsFilterToolbarFiles, '*.toolbar', rsFilterTCToolbarFiles, '*.BAR', rsFilterAnyFiles, AllFilesMask]);
   FUpdatingButtonType := False;
   FToolDragButtonNumber := -1;
   {$IF LCL_FULLVERSION >= 093100}

@@ -5459,7 +5459,7 @@ begin
   //3. If user provided no parameter, let's launch the file requester to have user point a file.
   if Length(Params) = 0 then
   begin
-    dmComData.OpenDialog.Filter:= ParseLineToFileFilter([rsFilterPluginFiles, '*.dsx;*.wcx;*.wdx;*.wfx;*.wlx;*.dsx64;*.wcx64;*.wdx64;*.wfx64;*.wlx64', rsFilterAnyFiles, '*.*']);
+    dmComData.OpenDialog.Filter:= ParseLineToFileFilter([rsFilterPluginFiles, '*.dsx;*.wcx;*.wdx;*.wfx;*.wlx;*.dsx64;*.wcx64;*.wdx64;*.wfx64;*.wlx64', rsFilterAnyFiles, AllFilesMask]);
     dmComData.OpenDialog.InitialDir := frmMain.ActiveNotebook.ActivePage.FileView.CurrentPath;
     if dmComData.OpenDialog.Execute then
       sPluginFilename := dmComData.OpenDialog.FileName;

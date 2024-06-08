@@ -127,8 +127,8 @@ begin
   end;
   cmbDefaultEncoding.Items.Insert(0, UpperCase(EncodingNone));
 
-  fneTCExecutableFilename.Filter := ParseLineToFileFilter([rsFilterExecutableFiles, '*.exe', rsFilterAnyFiles, '*.*']);
-  fneTCConfigFilename.Filter := ParseLineToFileFilter([rsFilterIniConfigFiles, '*.ini', rsFilterAnyFiles, '*.*']);
+  fneTCExecutableFilename.Filter := ParseLineToFileFilter([rsFilterExecutableFiles, '*.exe', rsFilterAnyFiles, AllFilesMask]);
+  fneTCConfigFilename.Filter := ParseLineToFileFilter([rsFilterIniConfigFiles, '*.ini', rsFilterAnyFiles, AllFilesMask]);
 end;
 
 procedure TfrmOptionsMisc.Load;

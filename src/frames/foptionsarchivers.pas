@@ -190,8 +190,8 @@ var
 { TfrmOptionsArchivers.Init }
 procedure TfrmOptionsArchivers.Init;
 begin
-  OpenArchiverDialog.Filter := ParseLineToFileFilter([rsFilterArchiverConfigFiles, '*.ini;*.addon', rsFilterAnyFiles, '*.*']);
-  SaveArchiverDialog.Filter := ParseLineToFileFilter([rsFilterArchiverConfigFiles, '*.ini', rsFilterAnyFiles, '*.*']);
+  OpenArchiverDialog.Filter := ParseLineToFileFilter([rsFilterArchiverConfigFiles, '*.ini;*.addon', rsFilterAnyFiles, AllFilesMask]);
+  SaveArchiverDialog.Filter := ParseLineToFileFilter([rsFilterArchiverConfigFiles, '*.ini', rsFilterAnyFiles, AllFilesMask]);
 end;
 
 { TfrmOptionsArchivers.Load }

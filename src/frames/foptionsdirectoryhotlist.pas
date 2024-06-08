@@ -297,7 +297,7 @@ begin
   ParseLineToList(rsOptAddFromMainPanel, rgWhereToAdd.Items);
   ParseLineToList(rsHotDirForceSortingOrderChoices, cbSortHotDirPath.Items);
   ParseLineToList(rsHotDirForceSortingOrderChoices, cbSortHotDirTarget.Items);
-  OpenDialog.Filter := ParseLineToFileFilter([rsFilterDirectoryHotListFiles, '*.hotlist', rsFilterXmlConfigFiles, '*.xml', rsFilterAnyFiles, '*.*']);
+  OpenDialog.Filter := ParseLineToFileFilter([rsFilterDirectoryHotListFiles, '*.hotlist', rsFilterXmlConfigFiles, '*.xml', rsFilterAnyFiles, AllFilesMask]);
   SaveDialog.Filter := ParseLineToFileFilter([rsFilterDirectoryHotListFiles, '*.hotlist']);
 end;
 

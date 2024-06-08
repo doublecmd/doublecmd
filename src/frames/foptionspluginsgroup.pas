@@ -87,13 +87,13 @@ begin
   fneLuaLibraryFilename.DialogTitle := rsOptPluginsSelectLuaLibrary;
   ParseLineToList(rsPluginFilenameStyleList, cbPluginFilenameStyle.Items);
   {$IF DEFINED(MSWINDOWS)}
-  fneLuaLibraryFilename.Filter := ParseLineToFileFilter([rsFilterLibraries, '*.dll', rsFilterAnyFiles, '*.*']);
+  fneLuaLibraryFilename.Filter := ParseLineToFileFilter([rsFilterLibraries, '*.dll', rsFilterAnyFiles, AllFilesMask]);
   {$ELSEIF DEFINED(DARWIN)}
-  fneLuaLibraryFilename.Filter := ParseLineToFileFilter([rsFilterLibraries, '*.dylib', rsFilterAnyFiles, '*.*']);
+  fneLuaLibraryFilename.Filter := ParseLineToFileFilter([rsFilterLibraries, '*.dylib', rsFilterAnyFiles, AllFilesMask]);
   {$ELSEIF DEFINED(UNIX)}
-  fneLuaLibraryFilename.Filter := ParseLineToFileFilter([rsFilterLibraries, '*.so', rsFilterAnyFiles, '*.*']);
+  fneLuaLibraryFilename.Filter := ParseLineToFileFilter([rsFilterLibraries, '*.so', rsFilterAnyFiles, AllFilesMask]);
   {$ELSE}
-  fneLuaLibraryFilename.Filter := ParseLineToFileFilter([rsFilterLibraries, '*.dll;*.dylib;*.so', rsFilterAnyFiles, '*.*']);
+  fneLuaLibraryFilename.Filter := ParseLineToFileFilter([rsFilterLibraries, '*.dll;*.dylib;*.so', rsFilterAnyFiles, AllFilesMask]);
   {$ENDIF}
   FResultForWhenWeExit := [];
 end;
