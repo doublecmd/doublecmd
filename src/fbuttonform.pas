@@ -35,6 +35,8 @@ type
     FCommands: TFormCommands;
     function GetQueueIdentifier: TOperationsManagerQueueIdentifier;
     property {%H-}Commands: TFormCommands read FCommands implements IFormCommands;
+  protected
+    procedure DoAutoSize; override;
   public
     constructor Create(TheOwner: TComponent); override;
     constructor Create(TheOwner: TComponent; FileSource: IFileSource); reintroduce;
@@ -97,6 +99,16 @@ end;
 function TfrmButtonForm.GetQueueIdentifier: TOperationsManagerQueueIdentifier;
 begin
   Result:= FQueueIdentifier;
+end;
+
+procedure TfrmButtonForm.DoAutoSize;
+begin
+  inherited DoAutoSize;
+
+  if (btnCancel.Left - btnCreateSpecialQueue.BoundsRect.Right) < 16  then
+  begin
+    Constraints.MinWidth:= Width + (16 - (btnCancel.Left - btnCreateSpecialQueue.BoundsRect.Right));
+  end;
 end;
 
 constructor TfrmButtonForm.Create(TheOwner: TComponent);
