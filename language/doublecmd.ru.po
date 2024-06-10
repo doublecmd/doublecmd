@@ -11105,7 +11105,7 @@ msgstr "Создать"
 
 #: ulng.rsmnunewwindow
 msgid "New Window"
-msgstr "Neues Fenster"
+msgstr "Новое окно"
 
 #: ulng.rsmnunomedia
 msgid "No media available"
