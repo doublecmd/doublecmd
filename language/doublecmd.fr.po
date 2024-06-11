@@ -75,7 +75,7 @@ msgstr "Vérifier l'espace disponible"
 
 #: tfilesystemcopymoveoperationoptionsui.cbcopyattributes.caption
 msgid "Cop&y attributes"
-msgstr "Copier les attributs"
+msgstr "Copier attributs"
 
 #: tfilesystemcopymoveoperationoptionsui.cbcopyownership.caption
 msgid "Copy o&wnership"
@@ -140,7 +140,7 @@ msgstr "Quand le fichier existe"
 
 #: tfilesystemcopymoveoperationoptionsui.lblsetpropertyerror.caption
 msgid "When ca&nnot set property"
-msgstr "Quand on ne peut ajuste les propriétés"
+msgstr "Quand on ne peut pas ajuster les propriétés"
 
 #: tfilesystemcopymoveoperationoptionsui.lbltemplatename.caption
 msgid "<no template>"
@@ -364,7 +364,7 @@ msgstr "Créer une signature séparée pour chaque fichier"
 
 #: tfrmchecksumcalc.lblfileformat.caption
 msgid "File &format"
-msgstr ""
+msgstr "Format de fichier"
 
 #: tfrmchecksumcalc.lblsaveto.caption
 msgid "&Save checksum file(s) to:"
@@ -372,11 +372,11 @@ msgstr "Sauvegarder le fichier de signature dans :"
 
 #: tfrmchecksumcalc.rbunix.caption
 msgid "Unix"
-msgstr ""
+msgstr "Unix"
 
 #: tfrmchecksumcalc.rbwindows.caption
 msgid "Windows"
-msgstr ""
+msgstr "Windows"
 
 #: tfrmchecksumverify.btnclose.caption
 msgctxt "TFRMCHECKSUMVERIFY.BTNCLOSE.CAPTION"
@@ -633,13 +633,13 @@ msgstr "Rechercher le suivant"
 #, fuzzy
 msgctxt "tfrmdiffer.actfindprev.caption"
 msgid "Find previous"
-msgstr "Recherche précédent"
+msgstr "Rechercher le précédent"
 
 #: tfrmdiffer.actfindprev.hint
 #, fuzzy
 msgctxt "tfrmdiffer.actfindprev.hint"
 msgid "Find previous"
-msgstr "Recherche précédent"
+msgstr "Rechercher le précédent"
 
 #: tfrmdiffer.actfindreplace.caption
 #, fuzzy
@@ -667,7 +667,7 @@ msgstr "Première différence"
 #, fuzzy
 msgctxt "tfrmdiffer.actgotoline.caption"
 msgid "Goto Line..."
-msgstr "Allez à la ligne..."
+msgstr "Aller à la ligne..."
 
 #: tfrmdiffer.actgotoline.hint
 #, fuzzy
@@ -721,17 +721,17 @@ msgstr "Ouvrir à Droite"
 
 #: tfrmdiffer.actpaintbackground.caption
 msgid "Paint Background"
-msgstr "Colorer l'arrière-plan"
+msgstr "Colorier l'arrière-plan"
 
 #: tfrmdiffer.actprevdifference.caption
 msgctxt "tfrmdiffer.actprevdifference.caption"
 msgid "Previous Difference"
-msgstr "Précédente différence"
+msgstr "Différence précédente"
 
 #: tfrmdiffer.actprevdifference.hint
 msgctxt "tfrmdiffer.actprevdifference.hint"
 msgid "Previous Difference"
-msgstr "Précédente différence"
+msgstr "Différence précédente"
 
 #: tfrmdiffer.actreload.caption
 msgctxt "TFRMDIFFER.ACTRELOAD.CAPTION"
@@ -862,7 +862,7 @@ msgstr "&Options"
 
 #: tfrmedithotkey.btnaddshortcut.hint
 msgid "Add new shortcut to sequence"
-msgstr "Ajouter un nouveau raccourcis à la séquence"
+msgstr "Ajouter un nouveau raccourci à la séquence"
 
 #: tfrmedithotkey.btncancel.caption
 msgctxt "TFRMEDITHOTKEY.BTNCANCEL.CAPTION"
@@ -876,11 +876,11 @@ msgstr "&OK"
 
 #: tfrmedithotkey.btnremoveshortcut.hint
 msgid "Remove last shortcut from sequence"
-msgstr "Retirer le dernier raccourcis de la séquence"
+msgstr "Retirer le dernier raccourci de la séquence"
 
 #: tfrmedithotkey.btnselectfromlist.hint
 msgid "Select shortcut from list of remaining free available keys"
-msgstr "Choisissiez votre raccourci-clavier de la liste des touches disponibles"
+msgstr "Choisissez votre raccourci clavier parmi la liste des touches disponibles"
 
 #: tfrmedithotkey.cghkcontrols.caption
 msgctxt "tfrmedithotkey.cghkcontrols.caption"
@@ -967,12 +967,12 @@ msgstr "Rechercher le suivant"
 #: tfrmeditor.acteditfindprevious.caption
 msgctxt "tfrmeditor.acteditfindprevious.caption"
 msgid "Find previous"
-msgstr "Recherche précédent"
+msgstr "Rechercher le précédent"
 
 #: tfrmeditor.acteditgotoline.caption
 msgctxt "tfrmeditor.acteditgotoline.caption"
 msgid "Goto Line..."
-msgstr "Allez à la ligne..."
+msgstr "Aller à la ligne..."
 
 #: tfrmeditor.acteditlineendcr.caption
 msgctxt "tfrmeditor.acteditlineendcr.caption"
@@ -1109,7 +1109,7 @@ msgstr "Enregister"
 
 #: tfrmeditor.actfilesaveas.caption
 msgid "Save &As..."
-msgstr "Enregistrer &sous"
+msgstr "Enregistrer &sous..."
 
 #: tfrmeditor.actfilesaveas.hint
 msgid "Save As"
@@ -1137,12 +1137,12 @@ msgstr "En&codage"
 
 #: tfrmeditor.miencodingin.caption
 msgid "Open as"
-msgstr "Ouvrir en :"
+msgstr "Ouvrir en tant que"
 
 #: tfrmeditor.miencodingout.caption
 msgctxt "tfrmeditor.miencodingout.caption"
 msgid "Save as"
-msgstr "Enregistrer en :"
+msgstr "Enregistrer en"
 
 #: tfrmeditor.mifile.caption
 msgctxt "TFRMEDITOR.MIFILE.CAPTION"
@@ -1169,7 +1169,7 @@ msgstr "&OK"
 
 #: tfrmeditsearchreplace.cbmultiline.caption
 msgid "&Multiline pattern"
-msgstr ""
+msgstr "&Modèle multi-lignes"
 
 #: tfrmeditsearchreplace.cbsearchcasesensitive.caption
 msgctxt "TFRMEDITSEARCHREPLACE.CBSEARCHCASESENSITIVE.CAPTION"
@@ -1204,12 +1204,12 @@ msgstr "Option"
 #: tfrmeditsearchreplace.lblreplacewith.caption
 msgctxt "TFRMEDITSEARCHREPLACE.LBLREPLACEWITH.CAPTION"
 msgid "&Replace with:"
-msgstr "&remplacer avec :"
+msgstr "&Remplacer avec :"
 
 #: tfrmeditsearchreplace.lblsearchfor.caption
 msgctxt "TFRMEDITSEARCHREPLACE.LBLSEARCHFOR.CAPTION"
 msgid "&Search for:"
-msgstr "Chaine à R&echercher :"
+msgstr "Chaîne à r&echercher :"
 
 #: tfrmeditsearchreplace.rgsearchdirection.caption
 msgctxt "TFRMEDITSEARCHREPLACE.RGSEARCHDIRECTION.CAPTION"
@@ -1329,7 +1329,7 @@ msgstr "Permettre l'exécution du fichier"
 
 #: tfrmfileproperties.chkrecursive.caption
 msgid "&Recursive"
-msgstr ""
+msgstr "&Récursif"
 
 #: tfrmfileproperties.dividerbevel3.caption
 msgctxt "TFRMFILEPROPERTIES.DIVIDERBEVEL3.CAPTION"
@@ -1426,11 +1426,11 @@ msgstr "Dernier changement de statut :"
 
 #: tfrmfileproperties.lbllinksstr.caption
 msgid "Links:"
-msgstr ""
+msgstr "Liens :"
 
 #: tfrmfileproperties.lblmediatypestr.caption
 msgid "Media type:"
-msgstr ""
+msgstr "Type de média :"
 
 #: tfrmfileproperties.lbloctal.caption
 msgctxt "TFRMFILEPROPERTIES.LBLOCTAL.CAPTION"
@@ -1449,7 +1449,7 @@ msgstr "Lecture"
 
 #: tfrmfileproperties.lblsizeondiskstr.caption
 msgid "Size on disk:"
-msgstr ""
+msgstr "Taille sur le disque :"
 
 #: tfrmfileproperties.lblsizestr.caption
 msgctxt "TFRMFILEPROPERTIES.LBLSIZESTR.CAPTION"
