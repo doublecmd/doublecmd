@@ -1,0 +1,129 @@
+<UniHighlighter version="1.8.1">
+  <Info>
+    <General Name="Go" Extensions="GO"/>
+    <Author Name="" Email="" Web="" Copyright="" Company="" Remark=""/>
+    <Version Version="1" Revision="0" Date="45442,3845858218"/>
+    <History>
+    </History>
+    <Sample>
+      <S>package main</S>
+      <S></S>
+      <S>import &quot;fmt&quot;</S>
+      <S></S>
+      <S>// Link struct</S>
+      <S>type Link struct {</S>
+      <S>    URL, Title string</S>
+      <S>}</S>
+      <S></S>
+      <S>/*</S>
+      <S>* Main function</S>
+      <S>*/</S>
+      <S>func main() {</S>
+      <S>    ch := make(chan int)</S>
+      <S>    helloPeople := `Hello people!`</S>
+      <S>    fmt.Println(&quot;Hello world!&quot;)</S>
+      <S>}</S>
+    </Sample>
+  </Info>
+  <Scheme File="" Name=""/>
+  <Range Name="Root" Attributes="$80000008,$80000005;False:False." Style="" CaseSensitive="True"
+         Delimiters="!&quot;#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^`{|}~">
+    <Rule/>
+    <Keywords Name="Keywords" Attributes="$00FF0000,$80000005;False:True." Style="">
+      <Word value="break"/>
+      <Word value="case"/>
+      <Word value="chan"/>
+      <Word value="const"/>
+      <Word value="continue"/>
+      <Word value="default"/>
+      <Word value="defer"/>
+      <Word value="else"/>
+      <Word value="fallthrough"/>
+      <Word value="for"/>
+      <Word value="func"/>
+      <Word value="go"/>
+      <Word value="goto"/>
+      <Word value="if"/>
+      <Word value="import"/>
+      <Word value="interface"/>
+      <Word value="map"/>
+      <Word value="package"/>
+      <Word value="range"/>
+      <Word value="return"/>
+      <Word value="select"/>
+      <Word value="struct"/>
+      <Word value="switch"/>
+      <Word value="type"/>
+      <Word value="var"/>
+      <Word value="_"/>
+      <Word value="false"/>
+      <Word value="iota"/>
+      <Word value="nil"/>
+      <Word value="true"/>
+    </Keywords>
+    <Keywords Name="Types" Attributes="$00000080,$80000005;False:True." Style="">
+      <Word value="any"/>
+      <Word value="bool"/>
+      <Word value="byte"/>
+      <Word value="comparable"/>
+      <Word value="complex64"/>
+      <Word value="complex128"/>
+      <Word value="error"/>
+      <Word value="float32"/>
+      <Word value="float64"/>
+      <Word value="int"/>
+      <Word value="int8"/>
+      <Word value="int16"/>
+      <Word value="int32"/>
+      <Word value="int64"/>
+      <Word value="rune"/>
+      <Word value="string"/>
+      <Word value="uint"/>
+      <Word value="uint8"/>
+      <Word value="uint16"/>
+      <Word value="uint32"/>
+      <Word value="uint64"/>
+      <Word value="uintptr"/>
+    </Keywords>
+    <Keywords Name="Functions" Attributes="$00800000,$80000005;False:True." Style="">
+      <Word value="append"/>
+      <Word value="cap"/>
+      <Word value="clear"/>
+      <Word value="close"/>
+      <Word value="complex"/>
+      <Word value="copy"/>
+      <Word value="delete"/>
+      <Word value="imag"/>
+      <Word value="len"/>
+      <Word value="make"/>
+      <Word value="max"/>
+      <Word value="min"/>
+      <Word value="new"/>
+      <Word value="panic"/>
+      <Word value="print"/>
+      <Word value="println"/>
+      <Word value="real"/>
+      <Word value="recover"/>
+    </Keywords>
+    <Range Name="Strings `..`" Attributes="$00696969,$80000005;False:True." Style=""
+           Delimiters="!&quot;#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^`{|}~">
+      <Rule OpenSymbol="`" CloseSymbol="`"/>
+    </Range>
+    <Range Name="Strings &quot;..&quot;" Attributes="$00696969,$80000005;False:True." Style=""
+           Delimiters="!&quot;#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^`{|}~">
+      <Rule OpenSymbol="&quot;" CloseSymbol="&quot;"/>
+      <Keywords Name="Escape" Attributes="$00696969,$80000005;True:True." Style="">
+        <Word Value="\&quot;"/>
+        <Word Value="\\"/>
+      </Keywords>
+    </Range>
+    <Range Name="Remarks //" Attributes="$00008000,$80000005;False:True." Style=""
+           Delimiters="!&quot;#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^`{|}~">
+      <Rule OpenSymbol="//" CloseOnEol="True"/>
+    </Range>
+    <Range Name="Remarks /*..*/" Attributes="$00008000,$80000005;False:True." Style=""
+           Delimiters="!&quot;#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^`{|}~">
+      <Rule OpenSymbol="/*" CloseSymbol="*/"/>
+    </Range>
+  </Range>
+</UniHighlighter>
