@@ -7197,23 +7197,23 @@ msgstr "Dossier séparé à chaque jour"
 
 #: tfrmoptionsmultirename.ckbfilenamewithfullpathinlog.caption
 msgid "Log filenames with full path"
-msgstr "Enregistre le nom complets des fichiers"
+msgstr "Enregistrer le nom complets des fichiers"
 
 #: tfrmoptionsmultirename.ckbshowmenubarontop.caption
 msgid "Show menu bar on top "
-msgstr "Affiche la barre de menu principal"
+msgstr "Afficher la barre de menu principal"
 
 #: tfrmoptionsmultirename.gbsaverenaminglog.caption
 msgid "Rename log"
-msgstr "Renomme le fichier-journal"
+msgstr "Renommer le fichier-journal"
 
 #: tfrmoptionsmultirename.lbinvalidcharreplacement.caption
 msgid "Replace invalid filename character b&y"
-msgstr "Remplacement d'un caractère invalide"
+msgstr "Remplacer un caractère invalide de nom de fichier par"
 
 #: tfrmoptionsmultirename.rbrenaminglogappendsamefile.caption
 msgid "Append in the same rename log file"
-msgstr "Ajoute au même fichier-journal"
+msgstr "Ajouter au même fichier journal"
 
 #: tfrmoptionsmultirename.rbrenaminglogperpreset.caption
 msgid "Per preset"
@@ -7221,7 +7221,7 @@ msgstr "Pour chaque configuration"
 
 #: tfrmoptionsmultirename.rgexitmodifiedpreset.caption
 msgid "Exit with modified preset"
-msgstr "Lorsqu'on quitte avec une configuration non-sauvegardée"
+msgstr "Quitter avec une configuration modifiée"
 
 #: tfrmoptionsmultirename.rglaunchbehavior.caption
 msgid "Preset at launch"
@@ -7280,7 +7280,7 @@ msgstr "Nom de fichier"
 #: tfrmoptionspluginsdsx.lblplugindescription.caption
 msgctxt "tfrmoptionspluginsdsx.lblplugindescription.caption"
 msgid "Searc&h plugins allow one to use alternative search algorithms or external tools (like \"locate\", etc.)"
-msgstr "Searc&h plugins allow one to use alternative search algorithms or external tools (like \"locate\", etc.)"
+msgstr "Les plugins Search permettent d'utiliser des algorithmes de recherche alternatifs ou des outils externes (comme \"localiser\", etc.)"
 
 #: tfrmoptionspluginsdsx.stgplugins.columns[0].title.caption
 msgctxt "tfrmoptionspluginsdsx.stgplugins.columns[0].title.caption"
@@ -7300,7 +7300,7 @@ msgstr "Associé à"
 #: tfrmoptionspluginsdsx.stgplugins.columns[3].title.caption
 msgctxt "tfrmoptionspluginsdsx.stgplugins.columns[3].title.caption"
 msgid "File name"
-msgstr "Nom du fichier"
+msgstr "Nom de fichier"
 
 #: tfrmoptionspluginsgroup.btnpathtoberelativetoall.caption
 msgid "Apply current settings to all current configured plugins"
@@ -7308,7 +7308,7 @@ msgstr "Appliquer à tous les \"plugins\" configurés"
 
 #: tfrmoptionspluginsgroup.ckbautotweak.caption
 msgid "When adding a new plugin, automatically go in tweak window"
-msgstr "Lorsque vous ajoutez un nouveau plugin, allez automatiquement dans la fenêtre de rafinnement"
+msgstr "Lors de l'ajout d'un nouveau plugin, aller automatiquement dans la fenêtre de raffinement"
 
 #: tfrmoptionspluginsgroup.gbconfiguration.caption
 msgid "Configuration:"
@@ -7375,12 +7375,12 @@ msgstr "Associé à"
 #: tfrmoptionspluginswdx.stgplugins.columns[3].title.caption
 msgctxt "tfrmoptionspluginswdx.stgplugins.columns[3].title.caption"
 msgid "File name"
-msgstr "Nom du fichier"
+msgstr "Nom de fichier"
 
 #: tfrmoptionspluginswfx.lblplugindescription.caption
 msgctxt "tfrmoptionspluginswfx.lblplugindescription.caption"
 msgid "Fi&le system plugins allow access to disks inaccessible by operating system or to external devices like Palm/PocketPC."
-msgstr "Les \"plugins\" de dystème de fichier permettent d'accéder à des systèmes de fichiers qui ne sont pas pris en charge par le système d'exploitation ou sur des périphériques externes comme les Palm et PocketPC."
+msgstr "Les \"plugins\" de système de fichier permettent d'accéder à des systèmes de fichiers qui ne sont pas pris en charge par le système d'exploitation ou sur des périphériques externes comme les Palm et PocketPC."
 
 #: tfrmoptionspluginswfx.stgplugins.columns[0].title.caption
 msgctxt "tfrmoptionspluginswfx.stgplugins.columns[0].title.caption"
@@ -7400,7 +7400,7 @@ msgstr "Associé à"
 #: tfrmoptionspluginswfx.stgplugins.columns[3].title.caption
 msgctxt "tfrmoptionspluginswfx.stgplugins.columns[3].title.caption"
 msgid "File name"
-msgstr "Nom du fichier"
+msgstr "Nom de fichier"
 
 #: tfrmoptionspluginswlx.lblplugindescription.caption
 msgctxt "tfrmoptionspluginswlx.lblplugindescription.caption"
@@ -7425,7 +7425,7 @@ msgstr "Associé à"
 #: tfrmoptionspluginswlx.stgplugins.columns[3].title.caption
 msgctxt "tfrmoptionspluginswlx.stgplugins.columns[3].title.caption"
 msgid "File name"
-msgstr "Nom du fichier"
+msgstr "Nom de fichier"
 
 #: tfrmoptionsquicksearchfilter.cbexactbeginning.caption
 msgctxt "TFRMOPTIONSQUICKSEARCHFILTER.CBEXACTBEGINNING.CAPTION"
