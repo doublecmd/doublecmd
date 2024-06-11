@@ -3850,7 +3850,7 @@ msgstr "Choisir une application"
 
 #: tfrmopenwith.chkcustomcommand.caption
 msgid "Custom command"
-msgstr "Commande personalisée"
+msgstr "Commande personnalisée"
 
 #: tfrmopenwith.chksaveassociation.caption
 msgid "Save association"
@@ -4507,7 +4507,7 @@ msgstr "Tous"
 #: tfrmoptionscustomcolumns.btnallallowovercolor.hint
 msgctxt "tfrmoptionscustomcolumns.btnallallowovercolor.hint"
 msgid "Apply modification to all columns"
-msgstr "Applique la modification à toutes les colonnes"
+msgstr "Appliquer la modification à toutes les colonnes"
 
 #: tfrmoptionscustomcolumns.btnallbackcolor.caption
 msgctxt "tfrmoptionscustomcolumns.btnallbackcolor.caption"
@@ -4517,7 +4517,7 @@ msgstr "Tous"
 #: tfrmoptionscustomcolumns.btnallbackcolor.hint
 msgctxt "tfrmoptionscustomcolumns.btnallbackcolor.hint"
 msgid "Apply modification to all columns"
-msgstr "Applique la modification à toutes les colonnes"
+msgstr "Appliquer la modification à toutes les colonnes"
 
 #: tfrmoptionscustomcolumns.btnallbackcolor2.caption
 msgctxt "tfrmoptionscustomcolumns.btnallbackcolor2.caption"
@@ -4527,7 +4527,7 @@ msgstr "Tous"
 #: tfrmoptionscustomcolumns.btnallbackcolor2.hint
 msgctxt "tfrmoptionscustomcolumns.btnallbackcolor2.hint"
 msgid "Apply modification to all columns"
-msgstr "Applique la modification à toutes les colonnes"
+msgstr "Appliquer la modification à toutes les colonnes"
 
 #: tfrmoptionscustomcolumns.btnallcursorcolor.caption
 msgctxt "tfrmoptionscustomcolumns.btnallcursorcolor.caption"
@@ -4537,7 +4537,7 @@ msgstr "Tous"
 #: tfrmoptionscustomcolumns.btnallcursorcolor.hint
 msgctxt "tfrmoptionscustomcolumns.btnallcursorcolor.hint"
 msgid "Apply modification to all columns"
-msgstr "Applique la modification à toutes les colonnes"
+msgstr "Appliquer la modification à toutes les colonnes"
 
 #: tfrmoptionscustomcolumns.btnallcursortext.caption
 msgctxt "tfrmoptionscustomcolumns.btnallcursortext.caption"
@@ -4547,7 +4547,7 @@ msgstr "Tous"
 #: tfrmoptionscustomcolumns.btnallcursortext.hint
 msgctxt "tfrmoptionscustomcolumns.btnallcursortext.hint"
 msgid "Apply modification to all columns"
-msgstr "Applique la modification à toutes les colonnes"
+msgstr "Appliquer la modification à toutes les colonnes"
 
 #: tfrmoptionscustomcolumns.btnallfont.caption
 msgctxt "tfrmoptionscustomcolumns.btnallfont.caption"
@@ -4557,7 +4557,7 @@ msgstr "Tous"
 #: tfrmoptionscustomcolumns.btnallfont.hint
 msgctxt "tfrmoptionscustomcolumns.btnallfont.hint"
 msgid "Apply modification to all columns"
-msgstr "Applique la modification à toutes les colonnes"
+msgstr "Appliquer la modification à toutes les colonnes"
 
 #: tfrmoptionscustomcolumns.btnallforecolor.caption
 msgctxt "tfrmoptionscustomcolumns.btnallforecolor.caption"
@@ -4704,7 +4704,7 @@ msgstr "R"
 #: tfrmoptionscustomcolumns.btnresetallowovercolor.hint
 msgctxt "tfrmoptionscustomcolumns.btnresetallowovercolor.hint"
 msgid "Reset to default"
-msgstr "Réinitialise aux valeurs par défaut"
+msgstr "Réinitialiser aux valeurs par défaut"
 
 #: tfrmoptionscustomcolumns.btnresetbackcolor.caption
 msgctxt "tfrmoptionscustomcolumns.btnresetbackcolor.caption"
@@ -4714,7 +4714,7 @@ msgstr "R"
 #: tfrmoptionscustomcolumns.btnresetbackcolor.hint
 msgctxt "tfrmoptionscustomcolumns.btnresetbackcolor.hint"
 msgid "Reset to default"
-msgstr "Réinitialise aux valeurs par défaut"
+msgstr "Réinitialiser aux valeurs par défaut"
 
 #: tfrmoptionscustomcolumns.btnresetbackcolor2.caption
 msgctxt "tfrmoptionscustomcolumns.btnresetbackcolor2.caption"
@@ -4724,7 +4724,7 @@ msgstr "R"
 #: tfrmoptionscustomcolumns.btnresetbackcolor2.hint
 msgctxt "tfrmoptionscustomcolumns.btnresetbackcolor2.hint"
 msgid "Reset to default"
-msgstr "Réinitialise aux valeurs par défaut"
+msgstr "Réinitialiser aux valeurs par défaut"
 
 #: tfrmoptionscustomcolumns.btnresetcursorborder.caption
 msgctxt "tfrmoptionscustomcolumns.btnresetcursorborder.caption"
@@ -4734,7 +4734,7 @@ msgstr "R"
 #: tfrmoptionscustomcolumns.btnresetcursorborder.hint
 msgctxt "tfrmoptionscustomcolumns.btnresetcursorborder.hint"
 msgid "Reset to default"
-msgstr "Réinitialise aux valeurs par défaut"
+msgstr "Réinitialiser aux valeurs par défaut"
 
 #: tfrmoptionscustomcolumns.btnresetcursorcolor.caption
 msgctxt "tfrmoptionscustomcolumns.btnresetcursorcolor.caption"
@@ -4744,7 +4744,7 @@ msgstr "R"
 #: tfrmoptionscustomcolumns.btnresetcursorcolor.hint
 msgctxt "tfrmoptionscustomcolumns.btnresetcursorcolor.hint"
 msgid "Reset to default"
-msgstr "Réinitialise aux valeurs par défaut"
+msgstr "Réinitialiser aux valeurs par défaut"
 
 #: tfrmoptionscustomcolumns.btnresetcursortext.caption
 msgctxt "tfrmoptionscustomcolumns.btnresetcursortext.caption"
@@ -4754,7 +4754,7 @@ msgstr "R"
 #: tfrmoptionscustomcolumns.btnresetcursortext.hint
 msgctxt "tfrmoptionscustomcolumns.btnresetcursortext.hint"
 msgid "Reset to default"
-msgstr "Réinitialise aux valeurs par défaut"
+msgstr "Réinitialiser aux valeurs par défaut"
 
 #: tfrmoptionscustomcolumns.btnresetfont.caption
 msgctxt "tfrmoptionscustomcolumns.btnresetfont.caption"
@@ -4764,7 +4764,7 @@ msgstr "R"
 #: tfrmoptionscustomcolumns.btnresetfont.hint
 msgctxt "tfrmoptionscustomcolumns.btnresetfont.hint"
 msgid "Reset to default"
-msgstr "Réinitialise aux valeurs par défaut"
+msgstr "Réinitialiser aux valeurs par défaut"
 
 #: tfrmoptionscustomcolumns.btnresetforecolor.caption
 msgctxt "tfrmoptionscustomcolumns.btnresetforecolor.caption"
@@ -4784,7 +4784,7 @@ msgstr "R"
 #: tfrmoptionscustomcolumns.btnresetframecursor.hint
 msgctxt "tfrmoptionscustomcolumns.btnresetframecursor.hint"
 msgid "Reset to default"
-msgstr "Réinitialise aux valeurs par défaut"
+msgstr "Réinitialiser aux valeurs par défaut"
 
 #: tfrmoptionscustomcolumns.btnresetinactivecursorcolor.caption
 msgctxt "tfrmoptionscustomcolumns.btnresetinactivecursorcolor.caption"
@@ -4794,7 +4794,7 @@ msgstr "R"
 #: tfrmoptionscustomcolumns.btnresetinactivecursorcolor.hint
 msgctxt "tfrmoptionscustomcolumns.btnresetinactivecursorcolor.hint"
 msgid "Reset to default"
-msgstr "Réinitialise aux valeurs par défaut"
+msgstr "Réinitialiser aux valeurs par défaut"
 
 #: tfrmoptionscustomcolumns.btnresetinactivemarkcolor.caption
 msgctxt "tfrmoptionscustomcolumns.btnresetinactivemarkcolor.caption"
@@ -4804,7 +4804,7 @@ msgstr "R"
 #: tfrmoptionscustomcolumns.btnresetinactivemarkcolor.hint
 msgctxt "tfrmoptionscustomcolumns.btnresetinactivemarkcolor.hint"
 msgid "Reset to default"
-msgstr "Réinitialise aux valeurs par défaut"
+msgstr "Réinitialiser aux valeurs par défaut"
 
 #: tfrmoptionscustomcolumns.btnresetmarkcolor.caption
 msgctxt "tfrmoptionscustomcolumns.btnresetmarkcolor.caption"
@@ -4814,7 +4814,7 @@ msgstr "R"
 #: tfrmoptionscustomcolumns.btnresetmarkcolor.hint
 msgctxt "tfrmoptionscustomcolumns.btnresetmarkcolor.hint"
 msgid "Reset to default"
-msgstr "Réinitialise aux valeurs par défaut"
+msgstr "Réinitialiser aux valeurs par défaut"
 
 #: tfrmoptionscustomcolumns.btnresetuseinactiveselcolor.caption
 msgctxt "tfrmoptionscustomcolumns.btnresetuseinactiveselcolor.caption"
@@ -4824,7 +4824,7 @@ msgstr "R"
 #: tfrmoptionscustomcolumns.btnresetuseinactiveselcolor.hint
 msgctxt "tfrmoptionscustomcolumns.btnresetuseinactiveselcolor.hint"
 msgid "Reset to default"
-msgstr "Réinitialise aux valeurs par défaut"
+msgstr "Réinitialiser aux valeurs par défaut"
 
 #: tfrmoptionscustomcolumns.btnresetuseinvertedselection.caption
 msgctxt "tfrmoptionscustomcolumns.btnresetuseinvertedselection.caption"
@@ -4834,7 +4834,7 @@ msgstr "R"
 #: tfrmoptionscustomcolumns.btnresetuseinvertedselection.hint
 msgctxt "tfrmoptionscustomcolumns.btnresetuseinvertedselection.hint"
 msgid "Reset to default"
-msgstr "Réinitialise aux valeurs par défaut"
+msgstr "Réinitialiser aux valeurs par défaut"
 
 #: tfrmoptionscustomcolumns.btnsaveasconfigcolumns.caption
 msgctxt "tfrmoptionscustomcolumns.btnsaveasconfigcolumns.caption"
@@ -4867,7 +4867,7 @@ msgstr "Bordure du curseur"
 
 #: tfrmoptionscustomcolumns.cbuseframecursor.caption
 msgid "Use Frame Cursor"
-msgstr "Utilise le curseur avec le cadre"
+msgstr "Utiliser le curseur avec le cadre"
 
 #: tfrmoptionscustomcolumns.cbuseinactiveselcolor.caption
 msgid "Use Inactive Selection Color"
@@ -4875,11 +4875,11 @@ msgstr "Utiliser une couleur pour la sélection inactive"
 
 #: tfrmoptionscustomcolumns.cbuseinvertedselection.caption
 msgid "Use Inverted Selection"
-msgstr "Utiliser la couleur inversé"
+msgstr "Utiliser la couleur inversée"
 
 #: tfrmoptionscustomcolumns.chkusecustomview.caption
 msgid "Use custom font and color for this view"
-msgstr "Personnaliser la police et couleur pour cette vue"
+msgstr "Personnaliser la police et la couleur pour cette vue"
 
 #: tfrmoptionscustomcolumns.lblbackcolor.caption
 msgctxt "tfrmoptionscustomcolumns.lblbackcolor.caption"
@@ -4947,11 +4947,11 @@ msgstr "Couleur de marque :"
 #: tfrmoptionscustomcolumns.lblpreviewtop.caption
 msgctxt "tfrmoptionscustomcolumns.lblpreviewtop.caption"
 msgid "Below is a preview. You may move cursor and select files to get immediately an actual look and feel of the various settings."
-msgstr "Ci-dessus en un aperçu. Vous pouvez promener le cuseur et sélectionner des fichiers. Ça vous donne un aperçu immédiate de l'effet des ajustements."
+msgstr "Aperçu ci-dessous. Vous pouvez bouger le curseur, sélectionner des fichiers et voir immédiatement l'effet du paramétrage."
 
 #: tfrmoptionscustomcolumns.lblworkingcolumn.caption
 msgid "Settings for column:"
-msgstr "Option pour colonne :"
+msgstr "Options pour colonne :"
 
 #: tfrmoptionscustomcolumns.miaddcolumn.caption
 msgctxt "tfrmoptionscustomcolumns.miaddcolumn.caption"
@@ -4980,11 +4980,11 @@ msgstr "Ajoute une copie de l'entrée sélectionnée"
 
 #: tfrmoptionsdirectoryhotlist.actaddselectionsfromframe.caption
 msgid "Add current &selected or active directories of active frame"
-msgstr "Ajouter ce qui est choisis présentement dans le dossier actif"
+msgstr "Ajouter ce qui est actuellement choisi dans le dossier actif"
 
 #: tfrmoptionsdirectoryhotlist.actaddseparator.caption
 msgid "Add a separator"
-msgstr "Ajoute un séparateur"
+msgstr "Ajouter un séparateur"
 
 #: tfrmoptionsdirectoryhotlist.actaddsubmenu.caption
 msgid "Add a sub menu"
@@ -4992,12 +4992,12 @@ msgstr "Ajouter un sous-menu"
 
 #: tfrmoptionsdirectoryhotlist.actaddtypeddir.caption
 msgid "Add directory I will type"
-msgstr "Ajoute un dossier dont je vais entrer le nom"
+msgstr "Ajouter un dossier dont je vais entrer le nom"
 
 #: tfrmoptionsdirectoryhotlist.actcollapseall.caption
 msgctxt "tfrmoptionsdirectoryhotlist.actcollapseall.caption"
 msgid "Collapse all"
-msgstr "Compacte le tout"
+msgstr "Compacter le tout"
 
 #: tfrmoptionsdirectoryhotlist.actcollapseitem.caption
 msgid "Collapse item"
@@ -5005,7 +5005,7 @@ msgstr "Refermer la branche"
 
 #: tfrmoptionsdirectoryhotlist.actcut.caption
 msgid "Cut selection of entries"
-msgstr "Couper vers le presse-papier les entrées"
+msgstr "Couper la sélection d'entrées vers le presse-papier"
 
 #: tfrmoptionsdirectoryhotlist.actdeleteall.caption
 msgid "Delete all!"
@@ -5022,11 +5022,11 @@ msgstr "Effacer le sous-menu et tous ses éléments"
 
 #: tfrmoptionsdirectoryhotlist.actdeletesubmenukeepelem.caption
 msgid "Delete just sub-menu but keep elements"
-msgstr "Effacer seulement le sous-menu, conserver les éléments"
+msgstr "Effacer seulement le sous-menu mais conserver les éléments"
 
 #: tfrmoptionsdirectoryhotlist.actexpanditem.caption
 msgid "Expand item"
-msgstr "Ouvrir la branche"
+msgstr "Développer la branche"
 
 #: tfrmoptionsdirectoryhotlist.actfocustreewindow.caption
 msgid "Focus tree window"
@@ -5042,7 +5042,7 @@ msgstr "Aller au dernier élément"
 
 #: tfrmoptionsdirectoryhotlist.actgotonextitem.caption
 msgid "Go to next item"
-msgstr "Aller au prochain élément"
+msgstr "Aller à l'élément suivant"
 
 #: tfrmoptionsdirectoryhotlist.actgotopreviousitem.caption
 msgid "Go to previous item"
@@ -5066,7 +5066,7 @@ msgstr "Insérer une copie de l'entrée sélectionnée"
 
 #: tfrmoptionsdirectoryhotlist.actinsertselectionsfromframe.caption
 msgid "Insert current &selected or active directories of active frame"
-msgstr "Insérer ce qui est choisis présentement dans le dossier actif"
+msgstr "Insérer ce qui est actuellement choisi dans le dossier actif"
 
 #: tfrmoptionsdirectoryhotlist.actinsertseparator.caption
 msgid "Insert a separator"
@@ -5078,7 +5078,7 @@ msgstr "Insérer un sous-menu"
 
 #: tfrmoptionsdirectoryhotlist.actinserttypeddir.caption
 msgid "Insert directory I will type"
-msgstr "Insère le dossier dont je vais entrer le nom"
+msgstr "Insérer un dossier dont je vais entrer le nom"
 
 #: tfrmoptionsdirectoryhotlist.actmovetonext.caption
 msgid "Move to next"
@@ -5091,15 +5091,15 @@ msgstr "Déplacer à la position précédente"
 #: tfrmoptionsdirectoryhotlist.actopenallbranches.caption
 msgctxt "tfrmoptionsdirectoryhotlist.actopenallbranches.caption"
 msgid "Open all branches"
-msgstr "Déploie toutes les branches"
+msgstr "Développer toutes les branches"
 
 #: tfrmoptionsdirectoryhotlist.actpaste.caption
 msgid "Paste what was cut"
-msgstr "Insère le contenu presse-papier"
+msgstr "Insérer le contenu du presse-papier"
 
 #: tfrmoptionsdirectoryhotlist.actsearchandreplaceinpath.caption
 msgid "Search && replace in &path"
-msgstr "Chercher et replacer dans le chemin"
+msgstr "Chercher et remplacer dans le chemin"
 
 #: tfrmoptionsdirectoryhotlist.actsearchandreplaceinpathandtarget.caption
 msgid "Search && replace in both path and target"
@@ -5107,7 +5107,7 @@ msgstr "Chercher et remplacer dans le chemin et la cible"
 
 #: tfrmoptionsdirectoryhotlist.actsearchandreplaceintargetpath.caption
 msgid "Search && replace in &target path"
-msgstr "Cherche et remplacement dans la cible"
+msgstr "Chercher et remplacer dans le chemin cible"
 
 #: tfrmoptionsdirectoryhotlist.acttweakpath.caption
 msgid "Tweak path"
@@ -5130,7 +5130,7 @@ msgstr "Archiver..."
 #: tfrmoptionsdirectoryhotlist.btndelete.caption
 msgctxt "tfrmoptionsdirectoryhotlist.btndelete.caption"
 msgid "De&lete..."
-msgstr "E&ffacer..."
+msgstr "Supprimer..."
 
 #: tfrmoptionsdirectoryhotlist.btnexport.caption
 msgctxt "tfrmoptionsdirectoryhotlist.btnexport.caption"
@@ -5159,7 +5159,7 @@ msgstr "Fonctions pour choisir le chemin approprié"
 #: tfrmoptionsdirectoryhotlist.btnrelativetarget.hint
 msgctxt "tfrmoptionsdirectoryhotlist.btnrelativetarget.hint"
 msgid "Some functions to select appropriate target"
-msgstr "Quelques fonctions pour choisir le chemin approprié pour la cible"
+msgstr "Fonctions pour choisir le chemin approprié pour la cible"
 
 #: tfrmoptionsdirectoryhotlist.btnsort.caption
 msgctxt "tfrmoptionsdirectoryhotlist.btnsort.caption"
@@ -5173,7 +5173,7 @@ msgstr "Lorsqu'on ajoute un dossier, ajouter aussi une cible"
 #: tfrmoptionsdirectoryhotlist.cbfullexpandtree.caption
 msgctxt "tfrmoptionsdirectoryhotlist.cbfullexpandtree.caption"
 msgid "Alwa&ys expand tree"
-msgstr "Toujours déployer tout l'arbre"
+msgstr "Toujours développer l'arbre"
 
 #: tfrmoptionsdirectoryhotlist.cbshowonlyvalidenv.caption
 msgid "Show only &valid environment variables"
@@ -5181,7 +5181,7 @@ msgstr "Afficher seulement les variables d'environnement qui semblent valides"
 
 #: tfrmoptionsdirectoryhotlist.cbshowpathinpopup.caption
 msgid "In pop&up, show [path also]"
-msgstr "Dans le menu, afficher [le chemin]"
+msgstr "Dans le menu, afficher [aussi le chemin]"
 
 #: tfrmoptionsdirectoryhotlist.cbsorthotdirpath.text
 msgctxt "tfrmoptionsdirectoryhotlist.cbsorthotdirpath.text"
@@ -5195,7 +5195,7 @@ msgstr "Nom, a-z"
 
 #: tfrmoptionsdirectoryhotlist.gbdirectoryhotlist.caption
 msgid "Directory Hotlist (reorder by drag && drop)"
-msgstr "Liste des dossiers favoris (utilisez le glisser et déposer pour changer l'ordre)"
+msgstr "Liste des dossiers favoris (utiliser le glisser/déposer pour changer l'ordre)"
 
 #: tfrmoptionsdirectoryhotlist.gbhotlistotheroptions.caption
 msgctxt "tfrmoptionsdirectoryhotlist.gbhotlistotheroptions.caption"
@@ -5249,12 +5249,12 @@ msgstr "vers le fichier \"wincmd.ini\" de TC (efface les dossiers favoris exista
 #: tfrmoptionsdirectoryhotlist.migotoconfiguretcinfo1.caption
 msgctxt "tfrmoptionsdirectoryhotlist.migotoconfiguretcinfo1.caption"
 msgid "Go to &configure TC related info"
-msgstr "Aller configurer les options relié à TC"
+msgstr "Aller configurer les options reliées à TC"
 
 #: tfrmoptionsdirectoryhotlist.migotoconfiguretcinfo2.caption
 msgctxt "tfrmoptionsdirectoryhotlist.migotoconfiguretcinfo2.caption"
 msgid "Go to &configure TC related info"
-msgstr "Aller configurer les options relié à TC"
+msgstr "Aller configurer les options reliées à TC"
 
 #: tfrmoptionsdirectoryhotlist.mihotdirtestmenu.caption
 msgid "HotDirTestMenu"
@@ -5274,16 +5274,16 @@ msgstr "Navigation"
 
 #: tfrmoptionsdirectoryhotlist.mirestorebackuphotlist.caption
 msgid "&Restore a backup of Directory Hotlist"
-msgstr "Ramène un fichier de backup d'une liste de dossiers favoris"
+msgstr "Restaurer une liste de dossiers favoris depuis un backup"
 
 #: tfrmoptionsdirectoryhotlist.misavebackuphotlist.caption
 msgid "&Save a backup of current Directory Hotlist"
-msgstr "Sauvegarder un backup de la liste courante de dossiers favoris"
+msgstr "Sauvegarder un backup de la liste courante des dossiers favoris"
 
 #: tfrmoptionsdirectoryhotlist.misearchandreplace.caption
 msgctxt "tfrmoptionsdirectoryhotlist.misearchandreplace.caption"
 msgid "Search and &replace..."
-msgstr "Recherche et remplace..."
+msgstr "Rechercher et remplacer..."
 
 #: tfrmoptionsdirectoryhotlist.misorteverything.caption
 msgctxt "tfrmoptionsdirectoryhotlist.misorteverything.caption"
@@ -5298,7 +5298,7 @@ msgstr "...simple groupe d'items seulement"
 #: tfrmoptionsdirectoryhotlist.misortsinglesubmenu.caption
 msgctxt "tfrmoptionsdirectoryhotlist.misortsinglesubmenu.caption"
 msgid "...&content of submenu(s) selected, no sublevel"
-msgstr "...le contenu des sous-menu sélectionné, mais pas plus creux"
+msgstr "...le contenu des sous-menus sélectionnés, mais pas les niveaux plus fins"
 
 #: tfrmoptionsdirectoryhotlist.misortsubmenuandsublevel.caption
 msgctxt "tfrmoptionsdirectoryhotlist.misortsubmenuandsublevel.caption"
@@ -5312,11 +5312,11 @@ msgstr "Vérification du menu résultant"
 
 #: tfrmoptionsdirectoryhotlist.mitweakpath.caption
 msgid "Tweak &path"
-msgstr "Ajuste chemin"
+msgstr "Ajuster le chemin"
 
 #: tfrmoptionsdirectoryhotlist.mitweaktargetpath.caption
 msgid "Tweak &target path"
-msgstr "Ajuste la cible"
+msgstr "Ajuster la cible"
 
 #: tfrmoptionsdirectoryhotlist.rgwheretoadd.caption
 msgid "Addition from main panel"
@@ -5355,47 +5355,47 @@ msgstr "Le chemin doit être relatif à:"
 
 #: tfrmoptionsdragdrop.cbdraganddropaskformateachtime.caption
 msgid "From all the supported formats, ask which one to use every time"
-msgstr "De tous les formats supportés, demander lequel utilisé à chaque fois"
+msgstr "De tous les formats supportés, demander lequel utiliser à chaque fois"
 
 #: tfrmoptionsdragdrop.cbdraganddropsaveunicodetextinuft8.caption
 msgid "When saving Unicode text, save it in UTF8 format (will be UTF16 otherwise)"
-msgstr "Lorsqu'on sauvegarde du texte en Unicode, utiliser le format UTF8 (autrement, cela sera UTF16)"
+msgstr "Lorsqu'on sauvegarde du texte en Unicode, utiliser le format UTF8 (UTF16 sinon)"
 
 #: tfrmoptionsdragdrop.cbdraganddroptextautofilename.caption
 msgid "When dropping text, generate filename automatically (otherwise will prompt the user)"
-msgstr "Lorsqu'on dépose du texte, décider automatiquement du nom de fichier résultant (autrement, on le demande à l'usager a chaque fois)"
+msgstr "Lorsqu'on dépose du texte, décider automatiquement du nom de fichier résultant (autrement, on demande à l'usager à chaque fois)"
 
 #: tfrmoptionsdragdrop.cbshowconfirmationdialog.caption
 msgid "&Show confirmation dialog after drop"
-msgstr "Affiche la fenêtre de confirmation après avoir déposé"
+msgstr "Afficher la fenêtre de confirmation après avoir déposé"
 
 #: tfrmoptionsdragdrop.gbtextdraganddroprelatedoptions.caption
 msgid "When drag && dropping text into panels:"
-msgstr "Lorsqu'on fait un glisser et déposer de texte vers un panneau :"
+msgstr "Lorsqu'on fait un glisser/déposer de texte vers un panneau :"
 
 #: tfrmoptionsdragdrop.lblmostdesiredtextformat1.caption
 msgid "Place the most desired format on top of list (use dag && drop):"
-msgstr "Placer le format le plus désirable en premier (utiliser le glisser et déposer)"
+msgstr "Placer le format préféré en premier (utiliser le glisser/déposer)"
 
 #: tfrmoptionsdragdrop.lblmostdesiredtextformat2.caption
 msgid "(if the most desired is not present, we'll take second one and so on)"
-msgstr "(si celui le plus désiré n'est pas présent, on prendra le second et ainsi de suite)"
+msgstr "(si celui préféré n'est pas présent, on prendra le second et ainsi de suite)"
 
 #: tfrmoptionsdragdrop.lblwarningforaskformat.caption
 msgid "(will not work with some source application, so try to uncheck if problem)"
-msgstr "(ne fonctionnera pas avec certains applications, décoché si problème)"
+msgstr "(ne fonctionnera pas avec certains applications, à décocher en cas de problème)"
 
 #: tfrmoptionsdriveslistbutton.cbshowfilesystem.caption
 msgid "Show &file system"
-msgstr "Montre les fichiers-systèmes"
+msgstr "Montrer les fichiers système"
 
 #: tfrmoptionsdriveslistbutton.cbshowfreespace.caption
 msgid "Show fr&ee space"
-msgstr "Montre l'espace-libre"
+msgstr "Montrer l'espace libre"
 
 #: tfrmoptionsdriveslistbutton.cbshowlabel.caption
 msgid "Show &label"
-msgstr "Montre les étiquettes"
+msgstr "Montrer les étiquettes"
 
 #: tfrmoptionsdriveslistbutton.gbdriveslist.caption
 msgid "Drives list"
@@ -5407,15 +5407,15 @@ msgstr "Indentation automatique"
 
 #: tfrmoptionseditor.chkautoindent.hint
 msgid "Allows to indent the caret, when new line is created with <Enter>, with the same amount of leading white space as the preceding line"
-msgstr "Lorsqu'une nouvelle ligne est crée avec <Enter>, indenter la nouvelle ligne créée de la même distance de l'indentation de la ligne précédente"
+msgstr "Lorsqu'une nouvelle ligne est créée avec <Enter>, indenter la nouvelle ligne créée de la même manière que la ligne précédente"
 
 #: tfrmoptionseditor.chkgroupundo.caption
 msgid "Group Undo"
-msgstr ""
+msgstr "Défaire Groupe"
 
 #: tfrmoptionseditor.chkgroupundo.hint
 msgid "All continuous changes of the same type will be processed in one call instead of undoing/redoing each one"
-msgstr ""
+msgstr "Toutes les modifications continues du même type seront traitées en un seul appel au lieu d'être annulées/rétablies une à une."
 
 #: tfrmoptionseditor.chkrightedge.caption
 msgid "Right margin:"
@@ -5427,15 +5427,15 @@ msgstr "Le curseur a passé la fin de la ligne"
 
 #: tfrmoptionseditor.chkscrollpastendline.hint
 msgid "Allows caret to go into empty space beyond end-of-line position"
-msgstr "Permettre de déplacer le curseur dans un espace libre au-dela de la fin de la ligne"
+msgstr "Permettre de déplacer le curseur dans un espace libre au-delà de la fin de la ligne"
 
 #: tfrmoptionseditor.chkshowspecialchars.caption
 msgid "Show special characters"
-msgstr "Affiche les caractères spéciaux"
+msgstr "Afficher les caractères spéciaux"
 
 #: tfrmoptionseditor.chkshowspecialchars.hint
 msgid "Shows special characters for spaces and tabulations"
-msgstr "Affiche les caractères spéciaux pour les espaces et les tabulations"
+msgstr "Afficher les caractères spéciaux pour les espaces et les tabulations"
 
 #: tfrmoptionseditor.chksmarttabs.caption
 msgid "Smart Tabs"
@@ -5455,7 +5455,7 @@ msgstr "Lorsque <Tab> et <Maj+Tab> agissent comme indentation de bloc, retirer l
 
 #: tfrmoptionseditor.chktabstospaces.caption
 msgid "Use spaces instead tab characters"
-msgstr "Utilisez des espaces à la place des tabulations"
+msgstr "Utiliser des espaces à la place des tabulations"
 
 #: tfrmoptionseditor.chktabstospaces.hint
 msgid "Converts tab characters to a specified number of space characters (when entering)"
@@ -5472,7 +5472,7 @@ msgstr "Supprimer automatiquement les espaces de fin, cela s'applique uniquement
 #: tfrmoptionseditor.edtabwidth.hint
 msgctxt "tfrmoptionseditor.edtabwidth.hint"
 msgid "Please note that the \"Smart Tabs\" option takes precedence over the tabulation to be performed"
-msgstr "Veuillez noter que l'option \"Tabulation astucieuse\" est prioritaire sur la tabulation à effectuer"
+msgstr "Veuiller noter que l'option \"Tabulation astucieuse\" est prioritaire sur la tabulation à effectuer"
 
 #: tfrmoptionseditor.gbinternaleditor.caption
 msgid "Internal editor options"
@@ -5480,7 +5480,7 @@ msgstr "Options de l'éditeur interne"
 
 #: tfrmoptionseditor.lblblockindent.caption
 msgid "Block indent:"
-msgstr ""
+msgstr "Indentation de bloc :"
 
 #: tfrmoptionseditor.lbltabwidth.caption
 msgid "Tab width:"
@@ -5489,7 +5489,7 @@ msgstr "Largeur de tabulation:"
 #: tfrmoptionseditor.lbltabwidth.hint
 msgctxt "tfrmoptionseditor.lbltabwidth.hint"
 msgid "Please note that the \"Smart Tabs\" option takes precedence over the tabulation to be performed"
-msgstr "Veuillez noter que l'option \"Tab intelligent\" est prioritaire sur la tabulation à effectuer"
+msgstr "Veuiller noter que l'option \"Tab intelligent\" est prioritaire sur la tabulation à effectuer"
 
 #: tfrmoptionseditorcolors.backgroundlabel.caption
 msgctxt "tfrmoptionseditorcolors.backgroundlabel.caption"
@@ -5508,7 +5508,7 @@ msgstr "Réinitialiser"
 #: tfrmoptionseditorcolors.btnsavemask.hint
 msgctxt "tfrmoptionseditorcolors.btnsavemask.hint"
 msgid "Save"
-msgstr "Enregister"
+msgstr "Enregistrer"
 
 #: tfrmoptionseditorcolors.bvlattributesection.caption
 msgid "Element Attributes"
@@ -5543,7 +5543,7 @@ msgstr "Gras"
 #: tfrmoptionseditorcolors.textboldradioinvert.caption
 msgctxt "tfrmoptionseditorcolors.textboldradioinvert.caption"
 msgid "In&vert"
-msgstr "Inverse"
+msgstr "Inversé"
 
 #: tfrmoptionseditorcolors.textboldradiooff.caption
 msgctxt "tfrmoptionseditorcolors.textboldradiooff.caption"
@@ -5562,7 +5562,7 @@ msgstr "Italique"
 #: tfrmoptionseditorcolors.textitalicradioinvert.caption
 msgctxt "tfrmoptionseditorcolors.textitalicradioinvert.caption"
 msgid "In&vert"
-msgstr "Inverse"
+msgstr "Inversé"
 
 #: tfrmoptionseditorcolors.textitalicradiooff.caption
 msgctxt "tfrmoptionseditorcolors.textitalicradiooff.caption"
@@ -5581,7 +5581,7 @@ msgstr "Barré"
 #: tfrmoptionseditorcolors.textstrikeoutradioinvert.caption
 msgctxt "tfrmoptionseditorcolors.textstrikeoutradioinvert.caption"
 msgid "In&vert"
-msgstr "Inverse"
+msgstr "Inversé"
 
 #: tfrmoptionseditorcolors.textstrikeoutradiooff.caption
 msgctxt "tfrmoptionseditorcolors.textstrikeoutradiooff.caption"
@@ -5595,12 +5595,12 @@ msgstr "Oui"
 
 #: tfrmoptionseditorcolors.textunderlinecheckbox.caption
 msgid "&Underline"
-msgstr "Soulignement"
+msgstr "Souligné"
 
 #: tfrmoptionseditorcolors.textunderlineradioinvert.caption
 msgctxt "tfrmoptionseditorcolors.textunderlineradioinvert.caption"
 msgid "In&vert"
-msgstr "Inverse"
+msgstr "Inversé"
 
 #: tfrmoptionseditorcolors.textunderlineradiooff.caption
 msgctxt "tfrmoptionseditorcolors.textunderlineradiooff.caption"
@@ -5620,11 +5620,11 @@ msgstr "Ajouter..."
 #: tfrmoptionsfavoritetabs.btndelete.caption
 msgctxt "tfrmoptionsfavoritetabs.btndelete.caption"
 msgid "Delete..."
-msgstr "Effacer..."
+msgstr "Supprimer..."
 
 #: tfrmoptionsfavoritetabs.btnimportexport.caption
 msgid "Import/Export"
-msgstr "Importation/Exportation"
+msgstr "Import/Export"
 
 #: tfrmoptionsfavoritetabs.btninsert.caption
 msgctxt "tfrmoptionsfavoritetabs.btninsert.caption"
@@ -5649,7 +5649,7 @@ msgstr "Aucun"
 #: tfrmoptionsfavoritetabs.cbfullexpandtree.caption
 msgctxt "tfrmoptionsfavoritetabs.cbfullexpandtree.caption"
 msgid "Always expand tree"
-msgstr "Toujours déployer tout l'arbre"
+msgstr "Toujours développer tout l'arbre"
 
 #: tfrmoptionsfavoritetabs.cbsavedirhistory.text
 msgctxt "tfrmoptionsfavoritetabs.cbsavedirhistory.text"
@@ -5668,7 +5668,7 @@ msgstr "Droite"
 
 #: tfrmoptionsfavoritetabs.gbfavoritetabs.caption
 msgid "Favorite Tabs list (reorder by drag && drop)"
-msgstr "Liste des groupses d'onglets favoris (on peut utiliser le glisser et déposer)"
+msgstr "Liste des groupses d'onglets favoris (on peut utiliser le glisser/déposer)"
 
 #: tfrmoptionsfavoritetabs.gbfavoritetabsotheroptions.caption
 msgctxt "tfrmoptionsfavoritetabs.gbfavoritetabsotheroptions.caption"
@@ -5681,7 +5681,7 @@ msgstr "Quoi restituer où pour l'entrée choisie :"
 
 #: tfrmoptionsfavoritetabs.lblexistingtabstokeep.caption
 msgid "Existing tabs to keep:"
-msgstr "Onglet à conserver :"
+msgstr "Onglets à conserver :"
 
 #: tfrmoptionsfavoritetabs.lblsavedirhistory.caption
 msgid "Save dir history:"
@@ -5689,11 +5689,11 @@ msgstr "Sauvegarder l'historique des dossiers :"
 
 #: tfrmoptionsfavoritetabs.lbltargetpanelleftsavedtabs.caption
 msgid "Tabs saved on left to be restored to:"
-msgstr "Les onglets de gauche sauvés seront ramenés à :"
+msgstr "Les onglets sauvegardés de gauche seront restaurés ici :"
 
 #: tfrmoptionsfavoritetabs.lbltargetpanelrightsavedtabs.caption
 msgid "Tabs saved on right to be restored to:"
-msgstr "Les onglets de droite sauvés seront ramenés à :"
+msgstr "Les onglets sauvegardés de droite seront restaurés ici :"
 
 #: tfrmoptionsfavoritetabs.miaddseparator.caption
 msgctxt "tfrmoptionsfavoritetabs.miaddseparator.caption"
@@ -5702,7 +5702,7 @@ msgstr "un séparateur"
 
 #: tfrmoptionsfavoritetabs.miaddseparator2.caption
 msgid "Add separator"
-msgstr "Ajoute un séparateur"
+msgstr "Ajouter un séparateur"
 
 #: tfrmoptionsfavoritetabs.miaddsubmenu.caption
 msgctxt "tfrmoptionsfavoritetabs.miaddsubmenu.caption"
@@ -5717,7 +5717,7 @@ msgstr "Ajouter un sous-menu"
 #: tfrmoptionsfavoritetabs.micollapseall.caption
 msgctxt "tfrmoptionsfavoritetabs.micollapseall.caption"
 msgid "Collapse all"
-msgstr "Compacte le tout"
+msgstr "Compacter le tout"
 
 #: tfrmoptionsfavoritetabs.micurrentlevelofitemonly.caption
 msgctxt "tfrmoptionsfavoritetabs.micurrentlevelofitemonly.caption"
@@ -5791,7 +5791,7 @@ msgstr "Insérer un sous-menu"
 #: tfrmoptionsfavoritetabs.miopenallbranches.caption
 msgctxt "tfrmoptionsfavoritetabs.miopenallbranches.caption"
 msgid "Open all branches"
-msgstr "Déploie toutes les branches"
+msgstr "Développer toutes les branches"
 
 #: tfrmoptionsfavoritetabs.mipasteselection.caption
 msgctxt "tfrmoptionsfavoritetabs.mipasteselection.caption"
@@ -5811,17 +5811,17 @@ msgstr "...tout, de A à Z!"
 #: tfrmoptionsfavoritetabs.misortsinglegroup.caption
 msgctxt "tfrmoptionsfavoritetabs.misortsinglegroup.caption"
 msgid "...single group of item(s) only"
-msgstr "...un seul groupe d'items seulement"
+msgstr "...un seul groupe d'élément(s) seulement"
 
 #: tfrmoptionsfavoritetabs.misortsinglegroup2.caption
 msgctxt "tfrmoptionsfavoritetabs.misortsinglegroup2.caption"
 msgid "Sort single group of item(s) only"
-msgstr "Tri un seul groupe d'items"
+msgstr "Tri un seul groupe d'élément(s)"
 
 #: tfrmoptionsfavoritetabs.misortsinglesubmenu.caption
 msgctxt "tfrmoptionsfavoritetabs.misortsinglesubmenu.caption"
 msgid "...content of submenu(s) selected, no sublevel"
-msgstr "...le contenu des sous-menus sélectionnés, mais pas plus profond"
+msgstr "...le contenu des sous-menus sélectionnés, mais pas plus fin"
 
 #: tfrmoptionsfavoritetabs.misortsubmenuandsublevel.caption
 msgctxt "tfrmoptionsfavoritetabs.misortsubmenuandsublevel.caption"
@@ -5885,7 +5885,7 @@ msgstr "Aide-mémoire des variables"
 #: tfrmoptionsfileassoc.btnrelativecommand.hint
 msgctxt "tfrmoptionsfileassoc.btnrelativecommand.hint"
 msgid "Some functions to select appropriate path"
-msgstr "Quelques fonctions pour choisir le chemin approprié"
+msgstr "Fonctions pour choisir le chemin approprié"
 
 #: tfrmoptionsfileassoc.btnremoveact.caption
 msgctxt "tfrmoptionsfileassoc.btnremoveact.caption"
@@ -5910,7 +5910,7 @@ msgstr "Renommer"
 #: tfrmoptionsfileassoc.btnstartpathpathhelper.hint
 msgctxt "tfrmoptionsfileassoc.btnstartpathpathhelper.hint"
 msgid "Some functions to select appropriate path"
-msgstr "Quelques fonctions pour choisir le chemin approprié"
+msgstr "Fonctions pour choisir le chemin approprié"
 
 #: tfrmoptionsfileassoc.btnstartpathvarhelper.hint
 msgctxt "tfrmoptionsfileassoc.btnstartpathvarhelper.hint"
@@ -5920,15 +5920,15 @@ msgstr "Aide-mémoire des variables"
 #: tfrmoptionsfileassoc.btnupact.caption
 msgctxt "tfrmoptionsfileassoc.btnupact.caption"
 msgid "&Up"
-msgstr "Au dessus"
+msgstr "Au-dessus"
 
 #: tfrmoptionsfileassoc.destartpath.hint
 msgid "Starting path of the command. Never quote this string."
-msgstr "Chemin de démarrage de la commande. Ne metter jamais entre guillemets."
+msgstr "Chemin de démarrage de la commande. Ne pas mettre cette chaîne entre guillemets."
 
 #: tfrmoptionsfileassoc.edbactionname.hint
 msgid "Name of the action. It is never passed to the system, it's just a mnemonic name chosen by you, for you"
-msgstr "Nom de l'action. Ce ne sera jamais passé au système, c'est simplement un nom idenitifant l'action choisi par vous et pour vous."
+msgstr "Nom de l'action. Ce ne sera jamais passé au système, c'est simplement un nom identifiant l'action choisie par vous et pour vous."
 
 #: tfrmoptionsfileassoc.edtparams.hint
 msgid "Parameter to pass to the command. Long filename with spaces should be quoted (manually entering)."
@@ -5954,7 +5954,7 @@ msgstr "Extensions"
 
 #: tfrmoptionsfileassoc.gbexts.hint
 msgid "Can be sorted by drag & drop"
-msgstr "Peut être réarranger par glisser et déposer"
+msgstr "Peut être réarrangé par glisser/déposer"
 
 #: tfrmoptionsfileassoc.gbfiletypes.caption
 msgctxt "tfrmoptionsfileassoc.gbfiletypes.caption"
@@ -5972,11 +5972,11 @@ msgstr "Les actions peuvent être glissées/déposées"
 
 #: tfrmoptionsfileassoc.lbexts.hint
 msgid "Extensions may be sorted by drag & drop"
-msgstr "Les extensions peuvent être triées par glisser et déposer"
+msgstr "Les extensions peuvent être triées par glisser/déposer"
 
 #: tfrmoptionsfileassoc.lbfiletypes.hint
 msgid "File types may be sorted by drag & drop"
-msgstr "Les types de fichier peuvent être trier par glisser et déposer"
+msgstr "Les types de fichier peuvent être triés par glisser/déposer"
 
 #: tfrmoptionsfileassoc.lblaction.caption
 msgctxt "tfrmoptionsfileassoc.lblaction.caption"
@@ -6000,11 +6000,11 @@ msgstr "&Chemin de démarrage :"
 
 #: tfrmoptionsfileassoc.menuitem3.caption
 msgid "Custom with..."
-msgstr "Personalisé avec..."
+msgstr "Personnalisé avec..."
 
 #: tfrmoptionsfileassoc.micustom.caption
 msgid "Custom"
-msgstr "Personalisé"
+msgstr "Personnalisé"
 
 #: tfrmoptionsfileassoc.miedit.caption
 msgctxt "tfrmoptionsfileassoc.miedit.caption"
@@ -6071,7 +6071,7 @@ msgstr "Appliquer les paramètres aux noms de fichiers et chemins configurés"
 
 #: tfrmoptionsfileassocextra.cbdefaultcontextactions.caption
 msgid "Default context actions (View/Edit)"
-msgstr ""
+msgstr "Actions contextuelles par défaut (Afficher/Modifier)"
 
 #: tfrmoptionsfileassocextra.cbexecuteviashell.caption
 msgctxt "tfrmoptionsfileassocextra.cbexecuteviashell.caption"
@@ -6093,7 +6093,7 @@ msgstr "Offrir d'ajouter à la configuration d'association d'extension la sélec
 #: tfrmoptionsfileassocextra.cboffertoaddtofileassociations.hint
 msgctxt "tfrmoptionsfileassocextra.cboffertoaddtofileassociations.hint"
 msgid "When accessing file association, offer to add current selected file if not already included in a configured file type"
-msgstr "Lorsqu'on accède les associations d'extensions, offrir d'ajouter celle du fichier sélectionné si elle n'est pas déjà configurée"
+msgstr "Lorsqu'on accède aux associations d'extensions, offrir d'ajouter celle du fichier sélectionné si elle n'est pas déjà configurée"
 
 #: tfrmoptionsfileassocextra.cbopensystemwithterminalclose.caption
 msgctxt "tfrmoptionsfileassocextra.cbopensystemwithterminalclose.caption"
@@ -6103,7 +6103,7 @@ msgstr "Exécuter via le terminal puis fermer"
 #: tfrmoptionsfileassocextra.cbopensystemwithterminalstayopen.caption
 msgctxt "tfrmoptionsfileassocextra.cbopensystemwithterminalstayopen.caption"
 msgid "Execute via terminal and stay open"
-msgstr "Exécuter via le terminal et demeurer actif"
+msgstr "Exécuter via le terminal et rester actif"
 
 #: tfrmoptionsfileassocextra.ckbfileassoccommand.caption
 msgctxt "tfrmoptionsfileassocextra.ckbfileassoccommand.caption"
@@ -6132,17 +6132,17 @@ msgstr "Chemins"
 #: tfrmoptionsfileassocextra.lbfileassocfilenamestyle.caption
 msgctxt "tfrmoptionsfileassocextra.lbfileassocfilenamestyle.caption"
 msgid "Way to set paths when adding elements for icons, commands and starting paths:"
-msgstr "Manière de définir les chemins lors de l'ajout des icônes, des commandes et des chemins:"
+msgstr "Manière de définir les chemins lors de l'ajout des icônes, des commandes et des chemins :"
 
 #: tfrmoptionsfileassocextra.lblapplysettingsfor.caption
 msgctxt "tfrmoptionsfileassocextra.lblapplysettingsfor.caption"
 msgid "Do this for files and path for:"
-msgstr "Faire ceci pour les fichiers et chemins:"
+msgstr "Faire ceci pour les fichiers et chemins :"
 
 #: tfrmoptionsfileassocextra.lbpathtoberelativeto.caption
 msgctxt "tfrmoptionsfileassocextra.lbpathtoberelativeto.caption"
 msgid "Path to be relative to:"
-msgstr "Le chemin doit être relatif à:"
+msgstr "Le chemin doit être relatif à :"
 
 #: tfrmoptionsfileoperations.bvlconfirmations.caption
 msgctxt "tfrmoptionsfileoperations.bvlconfirmations.caption"
@@ -6155,16 +6155,16 @@ msgstr "Opération de copie"
 
 #: tfrmoptionsfileoperations.cbdeleteconfirmation.caption
 msgid "&Delete operation"
-msgstr "Opération d'effacement"
+msgstr "Opération de suppression"
 
 #: tfrmoptionsfileoperations.cbdeletetotrash.caption
 msgctxt "TFRMOPTIONSFILEOPERATIONS.CBDELETETOTRASH.CAPTION"
 msgid "Dele&te to recycle bin (Shift key reverses this setting)"
-msgstr "Utiliser la corbeille lors des suppressions. (L'utilisation des touches Maj+Del permet la suppression sans passer par la corbeille.)"
+msgstr "Utiliser la corbeille lors des suppressions (L'utilisation des touches Maj+Del permet la suppression sans passer par la corbeille)"
 
 #: tfrmoptionsfileoperations.cbdeletetotrashconfirmation.caption
 msgid "D&elete to trash operation"
-msgstr "Opération d'effacement vers la corbeille"
+msgstr "Opération de suppression vers la corbeille"
 
 #: tfrmoptionsfileoperations.cbdropreadonlyflag.caption
 msgctxt "TFRMOPTIONSFILEOPERATIONS.CBDROPREADONLYFLAG.CAPTION"
@@ -6183,12 +6183,12 @@ msgstr "Traiter les commentaires avec les fichiers/dossiers"
 #: tfrmoptionsfileoperations.cbrenameselonlyname.caption
 msgctxt "TFRMOPTIONSFILEOPERATIONS.CBRENAMESELONLYNAME.CAPTION"
 msgid "Select &file name without extension when renaming"
-msgstr "Séletionner uniquement le nom du fichier lors d'un renommage (pas l'extension)"
+msgstr "Sélectionner uniquement le nom du fichier lors d'un renommage (sans extension)"
 
 #: tfrmoptionsfileoperations.cbshowcopytabselectpanel.caption
 msgctxt "TFRMOPTIONSFILEOPERATIONS.CBSHOWCOPYTABSELECTPANEL.CAPTION"
 msgid "Sho&w tab select panel in copy/move dialog"
-msgstr "Afficher l'onglet sélectionné dans la boite de dialogue des copies/déplacement"
+msgstr "Afficher l'onglet sélectionné dans la boîte de dialogue des copies/déplacements"
 
 #: tfrmoptionsfileoperations.cbskipfileoperror.caption
 msgctxt "TFRMOPTIONSFILEOPERATIONS.CBSKIPFILEOPERROR.CAPTION"
@@ -6197,7 +6197,7 @@ msgstr "Continuer en cas d'erreurs lors des opérations et les afficher dans la 
 
 #: tfrmoptionsfileoperations.cbtestarchiveconfirmation.caption
 msgid "Test archive operation"
-msgstr ""
+msgstr "Opération de test d'archive"
 
 #: tfrmoptionsfileoperations.cbverifychecksumconfirmation.caption
 msgid "Verify checksum operation"
@@ -6221,7 +6221,7 @@ msgstr "Taille du tampon pour le calcul de signature (en KB) :"
 
 #: tfrmoptionsfileoperations.lblprogresskind.caption
 msgid "Show operations progress &initially in"
-msgstr "Montre la progression des opérations dans"
+msgstr "Montrer la progression des opérations dans"
 
 #: tfrmoptionsfileoperations.lbltypeofduplicatedrename.caption
 msgctxt "tfrmoptionsfileoperations.lbltypeofduplicatedrename.caption"
@@ -6230,7 +6230,7 @@ msgstr "Méthode de renommage automatique des fichiers à dupliquer :"
 
 #: tfrmoptionsfileoperations.lblwipepassnumber.caption
 msgid "&Number of wipe passes:"
-msgstr "Nombre de cycles de pulvérisation :"
+msgstr "Nombre de cycles de suppression sécurisée :"
 
 #: tfrmoptionsfilepanelscolors.btnresettodcdefault.caption
 msgid "Reset to DC default"
@@ -6248,7 +6248,7 @@ msgstr "Utiliser un cadre seul pour le curseur"
 
 #: tfrmoptionsfilepanelscolors.cbbuseinactiveselcolor.caption
 msgid "Use Inactive Sel Color"
-msgstr "Utilisez la couleur de sélection inactive"
+msgstr "Utiliser la couleur de sélection inactive"
 
 #: tfrmoptionsfilepanelscolors.cbbuseinvertedselection.caption
 msgctxt "TFRMOPTIONSFILEPANELSCOLORS.CBBUSEINVERTEDSELECTION.CAPTION"
@@ -6262,11 +6262,11 @@ msgstr "Bordure du curseur"
 
 #: tfrmoptionsfilepanelscolors.dbcurrentpath.caption
 msgid "Current Path"
-msgstr ""
+msgstr "Chemin courant"
 
 #: tfrmoptionsfilepanelscolors.lblbackgroundcolor.caption
 msgid "Bac&kground:"
-msgstr "Fond :"
+msgstr "Arrière-plan :"
 
 #: tfrmoptionsfilepanelscolors.lblbackgroundcolor2.caption
 msgctxt "TFRMOPTIONSFILEPANELSCOLORS.LBLBACKGROUNDCOLOR2.CAPTION"
@@ -6308,7 +6308,7 @@ msgstr "Couleur de marque :"
 #: tfrmoptionsfilepanelscolors.lblpathactiveback.caption
 msgctxt "tfrmoptionsfilepanelscolors.lblpathactiveback.caption"
 msgid "Background:"
-msgstr ""
+msgstr "Arrière-plan"
 
 #: tfrmoptionsfilepanelscolors.lblpathactivetext.caption
 #, fuzzy
@@ -6318,15 +6318,15 @@ msgstr "Couleur du texte :"
 
 #: tfrmoptionsfilepanelscolors.lblpathinactiveback.caption
 msgid "Inactive Background:"
-msgstr ""
+msgstr "Arrière-plan inactif :"
 
 #: tfrmoptionsfilepanelscolors.lblpathinactivetext.caption
 msgid "Inactive Text Color:"
-msgstr ""
+msgstr "Couleur de texte inactif :"
 
 #: tfrmoptionsfilepanelscolors.lblpreview.caption
 msgid "Below is a preview. You may move cursor, select file and get immediately an actual look and feel of the various settings."
-msgstr "Un aperçu apparaît ci-dessous. Vous pouvez vous déplacer, sélectionner un fichier et voir l'effet immédiatement des différentes options."
+msgstr "Aperçu ci-dessous. Vous pouvez bouger le curseur, sélectionner un fichier et voir immédiatement l'effet du paramétrage."
 
 #: tfrmoptionsfilepanelscolors.lbltextcolor.caption
 msgctxt "TFRMOPTIONSFILEPANELSCOLORS.LBLTEXTCOLOR.CAPTION"
@@ -6335,15 +6335,15 @@ msgstr "Couleur du texte :"
 
 #: tfrmoptionsfilesearch.cbinitiallyclearfilemask.caption
 msgid "When launching file search, clear file mask filter"
-msgstr "Lorsqu'on lanche une recherche de fichier, réinitialser les filtres"
+msgstr "Lorsqu'on lance une recherche de fichier, réinitialiser les filtres"
 
 #: tfrmoptionsfilesearch.cbpartialnamesearch.caption
 msgid "&Search for part of file name"
-msgstr "Recherche pour les parties de noms"
+msgstr "Rechercher une partie du nom de fichier"
 
 #: tfrmoptionsfilesearch.cbshowmenubarinfindfiles.caption
 msgid "Show menu bar in \"Find files\""
-msgstr "Affiche la barre de menu dans la recherche de fichiers"
+msgstr "Afficher la barre de menu dans la recherche de fichiers"
 
 #: tfrmoptionsfilesearch.dbtextsearch.caption
 msgid "Text search in files"
@@ -6356,7 +6356,7 @@ msgstr "Recherche de fichiers"
 
 #: tfrmoptionsfilesearch.lblnewsearchfilters.caption
 msgid "Current filters with \"New search\" button:"
-msgstr "Action sur les filtres lorsqu'on appuis le bouton \"Nouvelle recherche\":"
+msgstr "Action sur les filtres lorsqu'on appuie le bouton \"Nouvelle recherche\":"
 
 #: tfrmoptionsfilesearch.lblsearchdefaulttemplate.caption
 msgid "Default search template:"
@@ -6411,7 +6411,7 @@ msgstr "Format de taille de fichier :"
 
 #: tfrmoptionsfilesviews.lblfootersizeformat.caption
 msgid "&Footer format:"
-msgstr ""
+msgstr "Format des bas de panneaux"
 
 #: tfrmoptionsfilesviews.lblgigabyte.caption
 msgid "&Gigabyte:"
@@ -6419,15 +6419,15 @@ msgstr "Gibioctet:"
 
 #: tfrmoptionsfilesviews.lblheadersizeformat.caption
 msgid "&Header format:"
-msgstr ""
+msgstr "Format des hauts de panneaux"
 
 #: tfrmoptionsfilesviews.lblkilobyte.caption
 msgid "&Kilobyte:"
-msgstr "Kibioctet:"
+msgstr "Kilooctet:"
 
 #: tfrmoptionsfilesviews.lblmegabyte.caption
 msgid "Megab&yte:"
-msgstr "Mébioctet:"
+msgstr "Mégaoctet:"
 
 #: tfrmoptionsfilesviews.lblnewfilesposition.caption
 msgid "&Insert new files:"
@@ -6435,11 +6435,11 @@ msgstr "Insérer les nouveaux fichiers :"
 
 #: tfrmoptionsfilesviews.lbloperationsizeformat.caption
 msgid "O&peration size format:"
-msgstr "Format pour taille durant opérations:"
+msgstr "Format pour taille durant opérations :"
 
 #: tfrmoptionsfilesviews.lblsortfoldermode.caption
 msgid "So&rting directories:"
-msgstr "Triage des dossiers :"
+msgstr "Tri des dossiers :"
 
 #: tfrmoptionsfilesviews.lblsortmethod.caption
 msgctxt "TFRMOPTIONSFILESVIEWS.LBLSORTMETHOD.CAPTION"
@@ -6448,11 +6448,11 @@ msgstr "Méthode de tri :"
 
 #: tfrmoptionsfilesviews.lblterabyte.caption
 msgid "&Terabyte:"
-msgstr "Tébioctet:"
+msgstr "Téraoctet:"
 
 #: tfrmoptionsfilesviews.lblupdatedfilesposition.caption
 msgid "&Move updated files:"
-msgstr "Déplace les fichiers mise à jour :"
+msgstr "Déplacer les fichiers mis à jour :"
 
 #: tfrmoptionsfilesviewscomplement.btnaddattribute.caption
 msgctxt "tfrmoptionsfilesviewscomplement.btnaddattribute.caption"
@@ -6467,7 +6467,7 @@ msgstr "Ai&de"
 #: tfrmoptionsfilesviewscomplement.cbdblclicktoparent.caption
 msgctxt "tfrmoptionsfilesviewscomplement.cbdblclicktoparent.caption"
 msgid "Enable changing to &parent folder when double-clicking on empty part of file view"
-msgstr "Activation du changement vers le répertoire-parent lorsqu'on double-clic dans un espace vide d'un panneau"
+msgstr "Activation du changement vers le répertoire-parent lorsqu'on double-clique dans un espace vide d'un panneau"
 
 #: tfrmoptionsfilesviewscomplement.cbdelayloadingtabs.caption
 msgctxt "tfrmoptionsfilesviewscomplement.cbdelayloadingtabs.caption"
@@ -6482,12 +6482,12 @@ msgstr "Mettre les noms des dossiers entre crochets"
 #: tfrmoptionsfilesviewscomplement.cbhighlightupdatedfiles.caption
 msgctxt "tfrmoptionsfilesviewscomplement.cbhighlightupdatedfiles.caption"
 msgid "Hi&ghlight new and updated files"
-msgstr "Colore les nouveaux fichiers et ceux actualisés"
+msgstr "Colorier les nouveaux fichiers et ceux actualisés"
 
 #: tfrmoptionsfilesviewscomplement.cbinplacerename.caption
 msgctxt "tfrmoptionsfilesviewscomplement.cbinplacerename.caption"
 msgid "Enable inplace &renaming when clicking twice on a name"
-msgstr "Active le renommage du fichier en double-cliquant sur son nom"
+msgstr "Activer le renommage du fichier en double-cliquant sur son nom"
 
 #: tfrmoptionsfilesviewscomplement.cblistfilesinthread.caption
 msgctxt "tfrmoptionsfilesviewscomplement.cblistfilesinthread.caption"
@@ -6507,12 +6507,12 @@ msgstr "Afficher les fichiers cachés et système"
 #: tfrmoptionsfilesviewscomplement.cbspacemovesdown.caption
 msgctxt "tfrmoptionsfilesviewscomplement.cbspacemovesdown.caption"
 msgid "&When selecting files with <SPACEBAR>, move down to next file (as with <INSERT>)"
-msgstr "Lors de la sélections des fichiers avec la barre d'espace, se déplacer sur le fichier suivant vers le bas (comme avec <Insér.>)"
+msgstr "Lors de la sélection des fichiers avec la barre d'espace, se déplacer sur le fichier suivant vers le bas (comme avec <Insér.>)"
 
 #: tfrmoptionsfilesviewscomplement.chkmarkmaskfilterwindows.caption
 msgctxt "tfrmoptionsfilesviewscomplement.chkmarkmaskfilterwindows.caption"
 msgid "Windows style filter when marking files (\"*.*\" also select files without extension, etc.)"
-msgstr "Interpréter le masque de filtre comme Windows (\"*.*\" sélectionne vraiment tout, même fichiers sans extension, etc.)"
+msgstr "Interpréter le masque de filtre comme Windows (\"*.*\" sélectionne vraiment tout, même les fichiers sans extension, etc.)"
 
 #: tfrmoptionsfilesviewscomplement.chkmarkmaskshowattribute.caption
 msgctxt "tfrmoptionsfilesviewscomplement.chkmarkmaskshowattribute.caption"
@@ -6527,7 +6527,7 @@ msgstr "Sélection/désélection de fichiers"
 #: tfrmoptionsfilesviewscomplement.lbattributemask.caption
 msgctxt "tfrmoptionsfilesviewscomplement.lbattributemask.caption"
 msgid "Default attribute mask value to use:"
-msgstr "Masque d'attribut à utiliser pa défaut:"
+msgstr "Masque d'attribut à utiliser par défaut :"
 
 #: tfrmoptionsfiletypescolors.btnaddcategory.caption
 msgctxt "TFRMOPTIONSFILETYPESCOLORS.BTNADDCATEGORY.CAPTION"
@@ -6551,7 +6551,7 @@ msgstr "Modèle..."
 
 #: tfrmoptionsfiletypescolors.gbfiletypescolors.caption
 msgid "File types colors (sort by drag&&drop)"
-msgstr "Couleurs de type de fichiers (se trie par glisser et déposer)"
+msgstr "Couleurs de type de fichiers (tri par glisser/déposer)"
 
 #: tfrmoptionsfiletypescolors.lblcategoryattr.caption
 msgctxt "TFRMOPTIONSFILETYPESCOLORS.LBLCATEGORYATTR.CAPTION"
@@ -6581,7 +6581,7 @@ msgstr "Polices"
 #: tfrmoptionshotkeys.actaddhotkey.caption
 msgctxt "tfrmoptionshotkeys.actaddhotkey.caption"
 msgid "Add &hotkey"
-msgstr "Ajoute un raccourci-clavier"
+msgstr "Ajouter un raccourci-clavier"
 
 #: tfrmoptionshotkeys.actcopy.caption
 msgctxt "tfrmoptionshotkeys.actcopy.caption"
@@ -6596,7 +6596,7 @@ msgstr "Supprimer"
 #: tfrmoptionshotkeys.actdeletehotkey.caption
 msgctxt "tfrmoptionshotkeys.actdeletehotkey.caption"
 msgid "&Delete hotkey"
-msgstr "Efface le raccourci-clavier"
+msgstr "Supprimer raccourci-clavier"
 
 #: tfrmoptionshotkeys.actedithotkey.caption
 msgctxt "tfrmoptionshotkeys.actedithotkey.caption"
@@ -6609,7 +6609,7 @@ msgstr "Catégorie suivante"
 
 #: tfrmoptionshotkeys.actpopupfilerelatedmenu.caption
 msgid "Make popup the file related menu"
-msgstr "Faire apparaitre le menu relié au fichier"
+msgstr "Faire apparaître le menu relié au fichier"
 
 #: tfrmoptionshotkeys.actpreviouscategory.caption
 msgid "Previous category"
@@ -6622,11 +6622,11 @@ msgstr "Renommer"
 
 #: tfrmoptionshotkeys.actrestoredefault.caption
 msgid "Restore DC default"
-msgstr "Ramener valeur par défaut de DC"
+msgstr "Restaurer la valeur par défaut de DC"
 
 #: tfrmoptionshotkeys.actsavenow.caption
 msgid "Save now"
-msgstr "Sauvegarde maintenant"
+msgstr "Sauvegarder maintenant"
 
 #: tfrmoptionshotkeys.actsortbycommand.caption
 msgid "Sort by command name"
@@ -6662,7 +6662,7 @@ msgstr "Fichiers des raccourcis clavier :"
 
 #: tfrmoptionshotkeys.lblsortorder.caption
 msgid "So&rt order:"
-msgstr "Ordre de tri:"
+msgstr "Ordre de tri :"
 
 #: tfrmoptionshotkeys.micategories.caption
 msgid "Categories"
@@ -6675,7 +6675,7 @@ msgstr "Commande"
 
 #: tfrmoptionshotkeys.misortorder.caption
 msgid "Sort order"
-msgstr "Orde de tri"
+msgstr "Ordre de tri"
 
 #: tfrmoptionshotkeys.stgcommands.columns[0].title.caption
 msgctxt "tfrmoptionshotkeys.stgcommands.columns[0].title.caption"
@@ -6713,7 +6713,7 @@ msgstr "Pour les chemins suivants et leurs sous-dossiers :"
 
 #: tfrmoptionsicons.cbiconsinmenus.caption
 msgid "Show icons for actions in &menus"
-msgstr "Montre les icônes pour les actions dans les menus"
+msgstr "Montrer les icônes pour les actions dans les menus"
 
 #: tfrmoptionsicons.cbiconsinmenussize.text
 msgctxt "tfrmoptionsicons.cbiconsinmenussize.text"
@@ -6722,7 +6722,7 @@ msgstr "16x16"
 
 #: tfrmoptionsicons.cbiconsonbuttons.caption
 msgid "Show icons on buttons"
-msgstr "Affiches les icônes sur les boutons"
+msgstr "Afficher les icônes sur les boutons"
 
 #: tfrmoptionsicons.cbiconsshowoverlay.caption
 msgctxt "TFRMOPTIONSICONS.CBICONSSHOWOVERLAY.CAPTION"
@@ -6731,7 +6731,7 @@ msgstr "Afficher les icônes \"overlay\", par exemple pour les liens"
 
 #: tfrmoptionsicons.chkshowhiddendimmed.caption
 msgid "&Dimmed hidden files (slower)"
-msgstr "Affichage ombragé pour fichiers cachés (plus lent)"
+msgstr "Afficher les fichiers cachés de manière ombragée (plus lent)"
 
 #: tfrmoptionsicons.gbdisablespecialicons.caption
 msgid "Disable special icons"
@@ -6748,7 +6748,7 @@ msgstr "Thème d'icône"
 
 #: tfrmoptionsicons.gbshowicons.caption
 msgid "Show icons"
-msgstr "Affiche les icônes"
+msgstr "Afficher les icônes"
 
 #: tfrmoptionsicons.gbshowiconsmode.caption
 msgctxt "TFRMOPTIONSICONS.GBSHOWICONSMODE.CAPTION"
@@ -6930,7 +6930,7 @@ msgstr "Afficher deux barres de boutons avec les volumes/disques (largeur fixe, 
 
 #: tfrmoptionslayout.chkshowmiddletoolbar.caption
 msgid "Show middle toolbar"
-msgstr "Affiche la barre de boutons verticale"
+msgstr "Afficher la barre de boutons verticale"
 
 #: tfrmoptionslayout.gbscreenlayout.caption
 msgctxt "TFRMOPTIONSLAYOUT.GBSCREENLAYOUT.CAPTION"
@@ -6945,16 +6945,16 @@ msgstr "Fonctions pour choisir le chemin approprié"
 #: tfrmoptionslog.btnviewlogfile.hint
 msgctxt "tfrmoptionslog.btnviewlogfile.hint"
 msgid "View log file content"
-msgstr "Voir le contenu du fichier-journal"
+msgstr "Voir le contenu du fichier journal"
 
 #: tfrmoptionslog.cbincludedateinlogfilename.caption
 msgid "Include date in log filename"
-msgstr "Inclure la date dans le nom du fichier-journal"
+msgstr "Inclure la date dans le nom du fichier journal"
 
 #: tfrmoptionslog.cblogarcop.caption
 msgctxt "TFRMOPTIONSLOG.CBLOGARCOP.CAPTION"
 msgid "&Pack/Unpack"
-msgstr "Archivage/extraction des données des archives compressées"
+msgstr "Compresser/Décompresser"
 
 #: tfrmoptionslog.cblogcommandlineexecution.caption
 msgid "External command line execution"
@@ -6987,7 +6987,7 @@ msgstr "&Créer un fichier journal :"
 
 #: tfrmoptionslog.cblogfilecount.caption
 msgid "Maximum log file count"
-msgstr "Nombre maximum de fichier-journal"
+msgstr "Nombre maximum de fichiers journaux"
 
 #: tfrmoptionslog.cbloginfo.caption
 msgctxt "TFRMOPTIONSLOG.CBLOGINFO.CAPTION"
@@ -6996,7 +6996,7 @@ msgstr "Journaliser les messages d'information"
 
 #: tfrmoptionslog.cblogstartshutdown.caption
 msgid "Start/shutdown"
-msgstr "Démarrage/Fermeture"
+msgstr "Démarrer/Eteindre"
 
 #: tfrmoptionslog.cblogsuccess.caption
 msgctxt "TFRMOPTIONSLOG.CBLOGSUCCESS.CAPTION"
@@ -7043,7 +7043,7 @@ msgstr "Fonctions pour choisir le chemin approprié"
 
 #: tfrmoptionsmisc.btnthumbcompactcache.caption
 msgid "&Remove thumbnails for no longer existing files"
-msgstr "Efface les vignettes pour les fichiers qui n'existent plus"
+msgstr "Effacer les vignettes pour les fichiers qui n'existent plus"
 
 #: tfrmoptionsmisc.btnviewconfigfile.hint
 msgctxt "tfrmoptionsmisc.btnviewconfigfile.hint"
@@ -7060,21 +7060,21 @@ msgstr "Toujours aller à la racine du lecteur lorsqu'on change de lecteur"
 
 #: tfrmoptionsmisc.chkshowcurdirtitlebar.caption
 msgid "Show &current directory in the main window title bar"
-msgstr ""
+msgstr "Afficher le répertoire actuel dans la barre de titre de la fenêtre principale"
 
 #: tfrmoptionsmisc.chkshowsplashform.caption
 msgid "Show &splash screen"
-msgstr ""
+msgstr "Afficher l'écran de démarrage"
 
 #: tfrmoptionsmisc.chkshowwarningmessages.caption
 msgctxt "tfrmoptionsmisc.chkshowwarningmessages.caption"
 msgid "Show &warning messages (\"OK\" button only)"
-msgstr "Montrer les messages d'avertissement (seulement le bouton \"OK\")"
+msgstr "Montrer les messages d'avertissement (seulement bouton \"OK\")"
 
 #: tfrmoptionsmisc.chkthumbsave.caption
 msgctxt "tfrmoptionsmisc.chkthumbsave.caption"
 msgid "&Save thumbnails in cache"
-msgstr "Sauverager les vignettes en cache"
+msgstr "Sauvegarder les vignettes en cache"
 
 #: tfrmoptionsmisc.dblthumbnails.caption
 msgctxt "tfrmoptionsmisc.dblthumbnails.caption"
@@ -7091,7 +7091,7 @@ msgstr "Concernant les importation/exportation avec TC :"
 
 #: tfrmoptionsmisc.lbldefaultencoding.caption
 msgid "&Default single-byte text encoding:"
-msgstr ""
+msgstr "Codage par défaut de texte sur un octet :"
 
 #: tfrmoptionsmisc.lbldescrdefaultencoding.caption
 msgid "Default encoding:"
@@ -7103,7 +7103,7 @@ msgstr "Fichier de configuration :"
 
 #: tfrmoptionsmisc.lbltcexecutable.caption
 msgid "TC executable:"
-msgstr "Exécutable de TC:"
+msgstr "Exécutable de TC :"
 
 #: tfrmoptionsmisc.lbltcpathfortool.caption
 msgid "Toolbar output path:"
@@ -7184,7 +7184,7 @@ msgstr "Simple clic (ouvre les dossiers, double-clic ouvre les fichiers)"
 #: tfrmoptionsmultirename.btnmulrenlogfilenamerelative.hint
 msgctxt "tfrmoptionsmultirename.btnmulrenlogfilenamerelative.hint"
 msgid "Some functions to select appropriate path"
-msgstr "Quelques fonctions pour choisir le chemin approprié"
+msgstr "Fonctions pour choisir le chemin approprié"
 
 #: tfrmoptionsmultirename.btnmulrenlogfilenameview.hint
 msgctxt "tfrmoptionsmultirename.btnmulrenlogfilenameview.hint"
@@ -9923,7 +9923,7 @@ msgstr "Toujours sur le dessus"
 
 #: tfrmviewoperations.lblusedragdrop.caption
 msgid "&Use \"drag && drop\" to move operations between queues"
-msgstr "Utilisez le glisser & déposer pour déplacer les opérations entre les files d'attente"
+msgstr "Utiliser le glisser/déposer pour déplacer les opérations entre les files d'attente"
 
 #: tfrmviewoperations.mnucanceloperation.caption
 msgctxt "tfrmviewoperations.mnucanceloperation.caption"
@@ -11308,7 +11308,7 @@ msgstr "Entrez l'emplacement et le nom de fichier pour la barre d'outil DC à sa
 
 #: ulng.rsmsgdefaultcustomactionname
 msgid "Custom action"
-msgstr "Action personalisée"
+msgstr "Action personnalisée"
 
 #: ulng.rsmsgdeletepartiallycopied
 msgid "Delete the partially copied file ?"
@@ -11345,7 +11345,7 @@ msgstr "Le volume/disque n'est pas accessible"
 
 #: ulng.rsmsgentercustomaction
 msgid "Enter custom action name:"
-msgstr "Enter le nom de l'action personalisée"
+msgstr "Enter le nom de l'action personnalisée"
 
 #: ulng.rsmsgenterfileext
 msgid "Enter file extension:"
@@ -12068,7 +12068,7 @@ msgstr "L'action ne peut pas être terminée car le fichier est ouvert dans un a
 #: ulng.rsmsgpanelpreview
 msgctxt "ulng.rsmsgpanelpreview"
 msgid "Below is a preview. You may move cursor and select files to get immediately an actual look and feel of the various settings."
-msgstr "Ci-dessous est un aperçu. Vous pouvez voir immédiatement le résultat de vos ajustements de couleur et tester un peu."
+msgstr "Aperçu ci-dessous. Vous pouvez bouger le curseur, sélectionner des fichiers et voir immédiatement l'effet du paramétrage."
 
 #: ulng.rsmsgpassword
 msgctxt "ulng.rsmsgpassword"
@@ -13291,7 +13291,7 @@ msgstr "Configuration"
 
 #: ulng.rsoptionseditorcustomcolumns
 msgid "Custom columns"
-msgstr "Colonnes personalisées"
+msgstr "Colonnes personnalisées"
 
 #: ulng.rsoptionseditordirectoryhotlist
 msgctxt "ulng.rsoptionseditordirectoryhotlist"
@@ -13304,7 +13304,7 @@ msgstr "Dossiers favoris (suite)"
 
 #: ulng.rsoptionseditordraganddrop
 msgid "Drag & drop"
-msgstr "Glisser et déposer"
+msgstr "Glisser/déposer"
 
 #: ulng.rsoptionseditordriveslistbutton
 msgid "Drives list button"
