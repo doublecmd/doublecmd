@@ -7582,20 +7582,20 @@ msgstr "Lorsqu'on restitue un onglet, conserver les onglets existants :"
 
 #: tfrmoptionstabsextra.lbldefaulttargetpanelleftsaved.caption
 msgid "Tabs saved on left will be restored to:"
-msgstr "Les onglets de gauche sauvegardé seront rechargés :"
+msgstr "Les onglets sauvegardés de gauche seront rechargés :"
 
 #: tfrmoptionstabsextra.lbldefaulttargetpanelrightsaved.caption
 msgid "Tabs saved on right will be restored to:"
-msgstr "Les onglets de droite sauvegardé seront rechargés :"
+msgstr "Les onglets sauvegardés de droite seront rechargés :"
 
 #: tfrmoptionstabsextra.lblfavoritetabssavedirhistory.caption
 msgctxt "tfrmoptionstabsextra.lblfavoritetabssavedirhistory.caption"
 msgid "Keep saving dir history with Favorite Tabs:"
-msgstr "Conservation de l'historique des dossis avec ce groupe d'onglets favoris :"
+msgstr "Conserver l'historique des dossiers avec ce groupe d'onglets favoris :"
 
 #: tfrmoptionstabsextra.rgwheretoadd.caption
 msgid "Default position in menu when saving a new Favorite Tabs:"
-msgstr "Position par défault du nouveau groupe d'onglets favori lorsqu'on l'ajoute :"
+msgstr "Position par défaut d'un nouveau groupe d'onglets favori lors de son ajout :"
 
 #: tfrmoptionsterminal.edrunintermcloseparams.hint
 msgctxt "tfrmoptionsterminal.edrunintermcloseparams.hint"
@@ -7613,11 +7613,11 @@ msgstr "Commande pour simplement exécuter le terminal :"
 
 #: tfrmoptionsterminal.gbruninterminalclose.caption
 msgid "Command for running a command in terminal and close after:"
-msgstr "Commande pour exécuter une commande en mode terminal et qui sera fermé ensuite :"
+msgstr "Commande pour exécuter une commande en mode terminal et qui sera ensuite fermée :"
 
 #: tfrmoptionsterminal.gbruninterminalstayopen.caption
 msgid "Command for running a command in terminal and stay open:"
-msgstr "Commande pour exécuter une commande en mode terminal et qui demeurera ouvert :"
+msgstr "Commande pour exécuter une commande en mode terminal et qui restera ensuite ouverte :"
 
 #: tfrmoptionsterminal.lbrunintermclosecmd.caption
 msgctxt "tfrmoptionsterminal.lbrunintermclosecmd.caption"
@@ -7671,7 +7671,7 @@ msgstr "&Insérer un nouveau bouton"
 
 #: tfrmoptionstoolbarbase.btnopencmddlg.caption
 msgid "Select"
-msgstr "Choisissez"
+msgstr "Choisir"
 
 #: tfrmoptionstoolbarbase.btnopenfile.caption
 msgctxt "tfrmoptionstoolbarbase.btnopenfile.caption"
@@ -7686,7 +7686,7 @@ msgstr "Autre..."
 #: tfrmoptionstoolbarbase.btnremovehotkey.caption
 msgctxt "tfrmoptionstoolbarbase.btnremovehotkey.caption"
 msgid "Remove hotke&y"
-msgstr "Retire raccourci clavier"
+msgstr "Retirer raccourci clavier"
 
 #: tfrmoptionstoolbarbase.btnstartpath.caption
 msgctxt "tfrmoptionstoolbarbase.btnstartpath.caption"
@@ -7699,7 +7699,7 @@ msgstr "Suggestion"
 
 #: tfrmoptionstoolbarbase.btnsuggestiontooltip.hint
 msgid "Have DC suggest the tooltip based on button type, command and parameters"
-msgstr "Suggère un tooltip basé sur le type de bouton, sa commande et paramètres"
+msgstr "Suggérer un tooltip basé sur le type de bouton, sa commande et paramètres"
 
 #: tfrmoptionstoolbarbase.cbflatbuttons.caption
 msgctxt "tfrmoptionstoolbarbase.cbflatbuttons.caption"
@@ -7716,7 +7716,7 @@ msgstr "Afficher les légendes"
 
 #: tfrmoptionstoolbarbase.edtinternalparameters.hint
 msgid "Enter command parameters, each in a separate line. Press F1 to see help on parameters."
-msgstr "Entrez les paramètres, un sur chaque ligne. Appuyez F1 pour obtenir de l'aide sur les paramètres."
+msgstr "Entrer les paramètres, un sur chaque ligne. Appuyer sur F1 pour obtenir de l'aide sur les paramètres."
 
 #: tfrmoptionstoolbarbase.gbgroupbox.caption
 msgctxt "tfrmoptionstoolbarbase.gbgroupbox.caption"
@@ -7900,7 +7900,7 @@ msgstr "Importer..."
 
 #: tfrmoptionstoolbarbase.miimportbackup.caption
 msgid "Restore a backup of Toolbar"
-msgstr "Ramène un backup de barre d'outils"
+msgstr "Restaurer un backup de barre d'outils"
 
 #: tfrmoptionstoolbarbase.miimportbackupaddcurrent.caption
 msgctxt "tfrmoptionstoolbarbase.miimportbackupaddcurrent.caption"
@@ -7954,7 +7954,7 @@ msgstr "pour ajouter à la barre d'outils principale"
 #: tfrmoptionstoolbarbase.miimportdcbarreplacetop.caption
 msgctxt "tfrmoptionstoolbarbase.miimportdcbarreplacetop.caption"
 msgid "to replace top toolbar"
-msgstr "pour remplace la barre d'outil pricipale"
+msgstr "pour remplacer la barre d'outil pricipale"
 
 #: tfrmoptionstoolbarbase.miimporttcbar.caption
 msgid "from a single TC .BAR file"
@@ -8012,7 +8012,7 @@ msgstr "pour ajouter à la barre d'outils principale"
 #: tfrmoptionstoolbarbase.miimporttcinireplacetop.caption
 msgctxt "tfrmoptionstoolbarbase.miimporttcinireplacetop.caption"
 msgid "to replace top toolbar"
-msgstr "pour remplace la barre d'outil pricipale"
+msgstr "pour remplacer la barre d'outil pricipale"
 
 #: tfrmoptionstoolbarbase.miinternalcommandaftercurrent.caption
 msgctxt "tfrmoptionstoolbarbase.miinternalcommandaftercurrent.caption"
@@ -8037,7 +8037,7 @@ msgstr "immédiatement avant la sélection courante"
 #: tfrmoptionstoolbarbase.misearchandreplace.caption
 msgctxt "tfrmoptionstoolbarbase.misearchandreplace.caption"
 msgid "Search and replace..."
-msgstr "Recherche et remplace..."
+msgstr "Rechercher et remplacer..."
 
 #: tfrmoptionstoolbarbase.miseparatoraftercurrent.caption
 msgctxt "tfrmoptionstoolbarbase.miseparatoraftercurrent.caption"
@@ -8113,7 +8113,7 @@ msgstr "Type de bouton"
 
 #: tfrmoptionstoolbarextra.btnpathtoberelativetoall.caption
 msgid "Apply current settings to all configured filenames and paths"
-msgstr "Appliquer les paramètres aux noms de fichiers et chemins  configurés"
+msgstr "Appliquer les paramètres aux noms de fichiers et chemins configurés"
 
 #: tfrmoptionstoolbarextra.ckbtoolbarcommand.caption
 msgctxt "tfrmoptionstoolbarextra.ckbtoolbarcommand.caption"
@@ -8225,7 +8225,7 @@ msgstr "Configuration de l'info-bulle pour le type de fichier sélectionné:"
 
 #: tfrmoptionstooltips.bvltooltips2.caption
 msgid "General options about tooltips:"
-msgstr "Options générales sur les info-bulles:"
+msgstr "Options générales sur les info-bulles :"
 
 #: tfrmoptionstooltips.chkshowtooltip.caption
 msgctxt "tfrmoptionstooltips.chkshowtooltip.caption"
@@ -8244,11 +8244,11 @@ msgstr "Masque de catégorie :"
 
 #: tfrmoptionstooltips.lbltooltiphidingdelay.caption
 msgid "Tooltip hiding delay:"
-msgstr "Délai de masquage des info-bulles:"
+msgstr "Délai de masquage des infobulles:"
 
 #: tfrmoptionstooltips.lbltooltipshowingmode.caption
 msgid "Tooltip showing mode:"
-msgstr "Mode d'affichage des info bulles:"
+msgstr "Mode d'affichage des infobulles:"
 
 #: tfrmoptionstooltips.lbltooltipslistbox.caption
 msgid "&File types:"
@@ -8270,7 +8270,7 @@ msgstr "Importer..."
 
 #: tfrmoptionstooltips.mitooltipsfiletypesortfiletype.caption
 msgid "Sort Tooltip File Types"
-msgstr "Trier les types de fichiers d'info-bulle"
+msgstr "Trier les types de fichiers d'infobulle"
 
 #: tfrmoptionstreeviewmenu.ckbdirectoryhotlistfromdoubleclick.caption
 msgid "With double-click on the bar on top of a file panel"
@@ -8296,7 +8296,7 @@ msgstr "Lors d'un double-clic sur un onglet (si configuré pour cela)"
 
 #: tfrmoptionstreeviewmenu.ckbshortcutselectandclose.caption
 msgid "When using the keyboard shortcut, it will exit the window returning the current choice"
-msgstr "Lorsqu'on utilise un raccourcis-clavier, cela va quitter directement en retournant notre choix"
+msgstr "Lorsqu'on utilise un raccourci-clavier, cela va quitter directement en revenant au choix courant"
 
 #: tfrmoptionstreeviewmenu.ckbsingleclickselect.caption
 msgid "Single mouse click in tree select and exit"
@@ -8304,15 +8304,15 @@ msgstr "Un clic-gauche sélectionne et quitte"
 
 #: tfrmoptionstreeviewmenu.ckbuseforcommandlinehistory.caption
 msgid "Use it for Command Line History"
-msgstr "Utilise pour l'historique de la ligne de commande"
+msgstr "A utiliser pour l'historique de la ligne de commande"
 
 #: tfrmoptionstreeviewmenu.ckbusefordirhistory.caption
 msgid "Use it for the Dir History"
-msgstr "Utilise pour l'historique des dossiers"
+msgstr "A utiliser pour l'historique des dossiers"
 
 #: tfrmoptionstreeviewmenu.ckbuseforviewhistory.caption
 msgid "Use it for the View History (Visited paths for active view)"
-msgstr "Utilise pour l'historique des chemins parcourus"
+msgstr "A utiliser pour l'historique des chemins parcourus"
 
 #: tfrmoptionstreeviewmenu.gbbehavior.caption
 msgid "Behavior regarding selection:"
@@ -8417,7 +8417,7 @@ msgstr "Changer la couleur à gauche et vous observer un avant-goût du résulta
 
 #: tfrmoptionsviewer.gbinternalviewer.caption
 msgid "Internal viewer options"
-msgstr ""
+msgstr "Options de la visionneuse interne"
 
 #: tfrmoptionsviewer.lblnumbercolumnsviewer.caption
 msgctxt "TFRMOPTIONSVIEWER.LBLNUMBERCOLUMNSVIEWER.CAPTION"
@@ -8473,7 +8473,7 @@ msgstr "Nom et emplacement du fichier archive :"
 
 #: tfrmpackdlg.rgpacker.caption
 msgid "Packer"
-msgstr "Compression"
+msgstr "Compresser"
 
 #: tfrmpackinfodlg.btnclose.caption
 msgctxt "TFRMPACKINFODLG.BTNCLOSE.CAPTION"
@@ -8491,7 +8491,7 @@ msgstr "&Extraire et exécuter"
 #: tfrmpackinfodlg.caption
 msgctxt "TFRMPACKINFODLG.CAPTION"
 msgid "Properties of packed file"
-msgstr "Propriété de l'archive"
+msgstr "Propriétés de l'archive"
 
 #: tfrmpackinfodlg.lblattributes.caption
 msgid "Attributes:"
@@ -8507,7 +8507,7 @@ msgstr "Date :"
 
 #: tfrmpackinfodlg.lblmethod.caption
 msgid "Method:"
-msgstr "Methode :"
+msgstr "Méthode :"
 
 #: tfrmpackinfodlg.lbloriginalsize.caption
 msgid "Original size:"
@@ -8539,19 +8539,19 @@ msgstr "Marges (mm)"
 
 #: tfrmprintsetup.lblbottom.caption
 msgid "&Bottom:"
-msgstr "Bas:"
+msgstr "Bas :"
 
 #: tfrmprintsetup.lblleft.caption
 msgid "&Left:"
-msgstr "Gauche:"
+msgstr "Gauche :"
 
 #: tfrmprintsetup.lblright.caption
 msgid "&Right:"
-msgstr "Droite:"
+msgstr "Droite :"
 
 #: tfrmprintsetup.lbltop.caption
 msgid "&Top:"
-msgstr "Haut:"
+msgstr "Haut :"
 
 #: tfrmquicksearch.btncancel.caption
 msgctxt "tfrmquicksearch.btncancel.caption"
@@ -8560,11 +8560,11 @@ msgstr "X"
 
 #: tfrmquicksearch.btncancel.hint
 msgid "Close filter panel"
-msgstr "Ferme le panneau de filtre"
+msgstr "Fermer le panneau de filtre"
 
 #: tfrmquicksearch.edtsearch.hint
 msgid "Enter text to search for or filter by"
-msgstr "Entrez le texte à rechercher ou pour filtrer"
+msgstr "Entrer le texte à rechercher ou utilisé pour filtrer"
 
 #: tfrmquicksearch.sbcasesensitive.caption
 msgid "Aa"
@@ -8619,7 +8619,7 @@ msgstr "Alterner entre la recherche et le filtre"
 
 #: tfrmsearchplugin.btnadd.caption
 msgid "&More rules"
-msgstr "D'avantage de règles"
+msgstr "Plus de règles"
 
 #: tfrmsearchplugin.btndelete.caption
 msgid "L&ess rules"
@@ -8684,11 +8684,11 @@ msgstr "&OK"
 
 #: tfrmselectduplicates.caption
 msgid "Select duplicate files"
-msgstr "Sélectionnez les fichiers doublons"
+msgstr "Sélectionner les fichiers en doublon"
 
 #: tfrmselectduplicates.chkleaveunselected.caption
 msgid "&Leave at least one file in each group unselected:"
-msgstr "Laissez au moins un fichier dans chaque groupe non sélectionné:"
+msgstr "Laisser au moins un fichier dans chaque groupe non sélectionné :"
 
 #: tfrmselectduplicates.cmbincludemask.text
 msgctxt "tfrmselectduplicates.cmbincludemask.text"
@@ -8697,7 +8697,7 @@ msgstr "*"
 
 #: tfrmselectduplicates.lblexcludemask.caption
 msgid "&Remove selection by name/extension:"
-msgstr "Supprimer la sélection par nom/extension:"
+msgstr "Supprimer la sélection par nom/extension :"
 
 #: tfrmselectduplicates.lblfirstmethod.caption
 msgid "&1."
@@ -8705,7 +8705,7 @@ msgstr "1."
 
 #: tfrmselectduplicates.lblincludemask.caption
 msgid "Select by &name/extension:"
-msgstr "Sélectionnez par nom/extension:"
+msgstr "Sélectionner par nom/extension :"
 
 #: tfrmselectduplicates.lblsecondmethod.caption
 msgid "&2."
@@ -8777,7 +8777,7 @@ msgstr "Résultat:"
 
 #: tfrmselecttextrange.lblselecttext.caption
 msgid "&Select the characters to insert:"
-msgstr "Choisissez les caractères à insérer :"
+msgstr "Choisir les caractères à insérer :"
 
 #: tfrmselecttextrange.rbdescriptionfirstlast.caption
 msgid "[&First:Last]"
@@ -8867,7 +8867,7 @@ msgstr "Lecture seule"
 
 #: tfrmsetfileproperties.chkrecursive.caption
 msgid "Including subfolders"
-msgstr "Récursif"
+msgstr "Avec les sous-dossiers"
 
 #: tfrmsetfileproperties.chksystem.caption
 msgctxt "TFRMSETFILEPROPERTIES.CHKSYSTEM.CAPTION"
@@ -8911,7 +8911,7 @@ msgstr "Autres"
 #: tfrmsetfileproperties.lblattrownerstr.caption
 msgctxt "TFRMSETFILEPROPERTIES.LBLATTROWNERSTR.CAPTION"
 msgid "Owner"
-msgstr "Prorpiétaire"
+msgstr "Propriétaire"
 
 #: tfrmsetfileproperties.lblattrtext.caption
 msgctxt "TFRMSETFILEPROPERTIES.LBLATTRTEXT.CAPTION"
@@ -8983,7 +8983,7 @@ msgstr "frmSortAnything"
 
 #: tfrmsortanything.lblsortanything.caption
 msgid "Drag and drop elements to sort them"
-msgstr "Glissez et relâchez pour trier"
+msgstr "Glisser et relâcher pour trier"
 
 #: tfrmsplitter.btnrelativeftchoice.hint
 msgctxt "tfrmsplitter.btnrelativeftchoice.hint"
@@ -9009,7 +9009,7 @@ msgstr "Taille et nombre de parts"
 
 #: tfrmsplitter.lbdirtarget.caption
 msgid "Split the file to directory:"
-msgstr "Fractionner le fichier vers le dossier:"
+msgstr "Fractionner le fichier vers le dossier :"
 
 #: tfrmsplitter.lblnumberparts.caption
 msgid "&Number of parts"
@@ -9061,7 +9061,7 @@ msgstr "Lazarus"
 
 #: tfrmstartingsplash.lbloperatingsystem.caption
 msgid "Operating System"
-msgstr "Système d'explotation"
+msgstr "Système d'exploitation"
 
 #: tfrmstartingsplash.lblplatform.caption
 msgid "Platform"
@@ -9102,7 +9102,7 @@ msgstr "Créer un lien symbolique"
 
 #: tfrmsymlink.chkuserelativepath.caption
 msgid "Use &relative path when possible"
-msgstr "Utilise le chemin relatif lorsque possible"
+msgstr "Utiliser le chemin relatif lorsque possible"
 
 #: tfrmsymlink.lblexistingfile.caption
 msgctxt "TFRMSYMLINK.LBLEXISTINGFILE.CAPTION"
@@ -9140,7 +9140,7 @@ msgstr "Choisir pour copie -> (gauche vers droite)"
 
 #: tfrmsyncdirsdlg.actselectcopyreverse.caption
 msgid "Reverse copy direction"
-msgstr "Inverse le sens de la copie"
+msgstr "Inverser le sens de la copie"
 
 #: tfrmsyncdirsdlg.actselectcopyrighttoleft.caption
 msgid "Select for copying <- (right to left)"
@@ -9176,11 +9176,11 @@ msgstr "Modèle..."
 #: tfrmsyncdirsdlg.btnsynchronize.caption
 msgctxt "tfrmsyncdirsdlg.btnsynchronize.caption"
 msgid "Synchronize"
-msgstr "Appairer"
+msgstr "Synchroniser"
 
 #: tfrmsyncdirsdlg.caption
 msgid "Synchronize directories"
-msgstr "Appairer les dossiers"
+msgstr "Synchroniser les dossiers"
 
 #: tfrmsyncdirsdlg.cbextfilter.text
 msgctxt "tfrmsyncdirsdlg.cbextfilter.text"
@@ -9274,7 +9274,7 @@ msgstr ">"
 
 #: tfrmsyncdirsdlg.sbduplicates.caption
 msgid "duplicates"
-msgstr "dupliqué"
+msgstr "dupliqués"
 
 #: tfrmsyncdirsdlg.sbequal.caption
 msgctxt "tfrmsyncdirsdlg.sbequal.caption"
@@ -9292,7 +9292,7 @@ msgstr "uniques"
 
 #: tfrmsyncdirsdlg.statusbar1.panels[0].text
 msgid "Please press \"Compare\" to start"
-msgstr "Appuyez \\Comparer\" pour lancer"
+msgstr "Cliquer sur \"Comparer\" pour lancer"
 
 #: tfrmsyncdirsperformdlg.caption
 msgctxt "tfrmsyncdirsperformdlg.caption"
@@ -9310,11 +9310,11 @@ msgstr "Menu en arbre"
 
 #: tfrmtreeviewmenu.lblsearchingentry.caption
 msgid "Select your hot directory:"
-msgstr "Choisissez votre dossier favori :"
+msgstr "Choisir le dossier favori :"
 
 #: tfrmtreeviewmenu.pmicasesensitive.caption
 msgid "Search is case sensitive"
-msgstr "Recherche stricte respectant majuscules/minuscules"
+msgstr "La recherche respecte les majuscules/minuscules (sensible à la casse)"
 
 #: tfrmtreeviewmenu.pmifullcollapse.caption
 msgid "Full collapse"
@@ -9322,19 +9322,19 @@ msgstr "Replier toutes les branches"
 
 #: tfrmtreeviewmenu.pmifullexpand.caption
 msgid "Full expand"
-msgstr "Déployer les branchess"
+msgstr "Développer les branchess"
 
 #: tfrmtreeviewmenu.pmiignoreaccents.caption
 msgid "Search ignore accents and ligatures"
-msgstr "Ignorer les accents et ligatures durant la recherche"
+msgstr "La recherche ignore les accents et ligatures"
 
 #: tfrmtreeviewmenu.pminotcasesensitive.caption
 msgid "Search is not case sensitive"
-msgstr "Recherche en ignorant majuscules/minuscules"
+msgstr "La recherche ignore les majuscules/minuscules (insensible à la casse)"
 
 #: tfrmtreeviewmenu.pminotignoreaccents.caption
 msgid "Search is strict regarding accents and ligatures"
-msgstr "Recherche stricte respectant les accents et ligatures"
+msgstr "La recherche respecte les accents et ligatures"
 
 #: tfrmtreeviewmenu.pminotshowwholebranchifmatch.caption
 msgid "Don't show the branch content \"just\" because the searched string is found in the branche name"
@@ -9342,7 +9342,7 @@ msgstr "Ne pas montrer la branche si la chaîne recherchée ne se trouve que dan
 
 #: tfrmtreeviewmenu.pmishowwholebranchifmatch.caption
 msgid "If searched string is found in a branch name, show the whole branch even if elements don't match"
-msgstr "Si la chaîne recherché se trouve dans le nom de la branche, afficher cette branche même si rien à l'intérieur de correspond"
+msgstr "Si la chaîne recherchée se trouve dans le nom de la branche, afficher cette branche même si rien à l'intérieur ne correspond"
 
 #: tfrmtreeviewmenu.tbcancelandquit.hint
 msgid "Close Tree View Menu"
@@ -9384,12 +9384,12 @@ msgstr "OK"
 #: tfrmtweakplugin.btnrelativeplugin1.hint
 msgctxt "tfrmtweakplugin.btnrelativeplugin1.hint"
 msgid "Some functions to select appropriate path"
-msgstr "Quelques fonctions pour choisir le chemin approprié"
+msgstr "Fonctions pour choisir le chemin approprié"
 
 #: tfrmtweakplugin.btnrelativeplugin2.hint
 msgctxt "tfrmtweakplugin.btnrelativeplugin2.hint"
 msgid "Some functions to select appropriate path"
-msgstr "Quelques fonctions pour choisir le chemin approprié"
+msgstr "Fonctions pour choisir le chemin approprié"
 
 #: tfrmtweakplugin.btnremove.caption
 msgctxt "TFRMTWEAKPLUGIN.BTNREMOVE.CAPTION"
@@ -9403,7 +9403,7 @@ msgstr "Raffiner le \"plugin\""
 
 #: tfrmtweakplugin.cbpk_caps_by_content.caption
 msgid "De&tect archive type by content"
-msgstr "Détecter le type des archives par le contenu"
+msgstr "Détecter le type d'archives par leur contenu"
 
 #: tfrmtweakplugin.cbpk_caps_delete.caption
 msgid "Can de&lete files"
@@ -9481,7 +9481,7 @@ msgstr "A propos de la visionneuse"
 
 #: tfrmviewer.actabout.hint
 msgid "Displays the About message"
-msgstr "Affiche le message d'À propos"
+msgstr "Afficher le message d'À propos"
 
 #: tfrmviewer.actautoreload.caption
 msgid "Auto Reload"
