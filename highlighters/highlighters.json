@@ -165,6 +165,53 @@
           ]
         },
         {
+          Name : "Go",
+          Ranges : [
+            {
+              Name : "Root",
+              Attributes : "$80000008,$80000005;False:False.",
+              KeyLists : [
+                {
+                  Name : "Keywords",
+                  Attributes : "$00FF0000,$80000005;False:True."
+                },
+                {
+                  Name : "Types",
+                  Attributes : "$00000080,$80000005;False:True."
+                },
+                {
+                  Name : "Functions",
+                  Attributes : "$00800000,$80000005;False:True."
+                }
+              ],
+              Ranges : [
+                {
+                  Name : "Strings `..`",
+                  Attributes : "$00696969,$80000005;False:True."
+                },
+                {
+                  Name : "Strings \"..\"",
+                  Attributes : "$00696969,$80000005;False:True.",
+                  KeyLists : [
+                    {
+                      Name : "Escape",
+                      Attributes : "$00696969,$80000005;True:True."
+                    }
+                  ]
+                },
+                {
+                  Name : "Remarks //",
+                  Attributes : "$00008000,$80000005;False:True."
+                },
+                {
+                  Name : "Remarks /*..*/",
+                  Attributes : "$00008000,$80000005;False:True."
+                }
+              ]
+            }
+          ]
+        },
+        {
           Name : "Java script",
           Ranges : [
             {
@@ -502,6 +549,53 @@
                 {
                   Name : "Address",
                   Attributes : "$00898BB9,$80000005;False:False."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          Name : "Go",
+          Ranges : [
+            {
+              Name : "Root",
+              Attributes : "$80000008,$80000005;False:False.",
+              KeyLists : [
+                {
+                  Name : "Keywords",
+                  Attributes : "$00D69C56,$80000005;False:True."
+                },
+                {
+                  Name : "Types",
+                  Attributes : "$00B0C94E,$80000005;False:True."
+                },
+                {
+                  Name : "Functions",
+                  Attributes : "$00FFC14F,$80000005;False:True."
+                }
+              ],
+              Ranges : [
+                {
+                  Name : "Strings `..`",
+                  Attributes : "$007891CE,$80000005;False:True."
+                },
+                {
+                  Name : "Strings \"..\"",
+                  Attributes : "$007891CE,$80000005;False:True.",
+                  KeyLists : [
+                    {
+                      Name : "Escape",
+                      Attributes : "$007891CE,$80000005;True:True."
+                    }
+                  ]
+                },
+                {
+                  Name : "Remarks //",
+                  Attributes : "$008AD277,$80000005;False:True."
+                },
+                {
+                  Name : "Remarks /*..*/",
+                  Attributes : "$008AD277,$80000005;False:True."
                 }
               ]
             }
