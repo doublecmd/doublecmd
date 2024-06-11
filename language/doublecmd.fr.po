@@ -1,20 +1,20 @@
-# Par soucis d'être constant, il n'y a pas d'exception, c'est toujours "Dossier" qui est utilisé.
+# Par souci d'être constant, il n'y a pas d'exception, c'est toujours "Dossier" qui est utilisé.
 # C'est comme ça pour reprendre la même nomenclature que Windows et Apple.
 # Il est vrai que TC utilise le terme "Répertoire" mais on prend le partie de Windows qui lui parle de "dossier".
 # Pour quelqu'un qui a toujours préféré le terme "Répertoire" c'est un peu irritant la première heure d'utiliser le terme "Dossier".
-# Mais courage, après quelques minutes, on fini par s'y habituer et c'est très bien.
+# Mais courage, après quelques minutes, on finit par s'y habituer et c'est très bien.
 #
 # 2016-02-12:DB-Pour le nom commun, on peut dire "double-clic". Puis pour l'action de le faire, le verbe c'est "double-cliquer".
 # C'est comme ça dans le Larousse en ligne et c'est ce qui a été suivi ici.
 #
-# 2016-02-12:DB-Pour ce qui est du terme "plugin", il y a un peu moins de certitude!
-# La Comission générale de terminologie et de néologie en France en 1999 préconisait "Module d'extension".
+# 2016-02-12:DB-Pour ce qui est du terme "plugin", il y a un peu moins de certitude !
+# La Commission générale de terminologie et de néologie en France en 1999 préconisait "Module d'extension".
 # L'Office québécois de la langue française en 2002 y allait de "plugiciel".
 # TC lui parle en façon de "Module-additionel" ou même de "Additif" sur son site web.
-# Devant ces différences, on préfère ne pas s'éparpiller d'avantage et on va utiliser le même terme qu'en angalis, soit "plugin".
-# On le mettra partout entre guillemet. Puis si c'est au pluriels on ajoutera un "s" genre "plugins" simplement.
-# La seule exception c'est pour "ulng.rsoptionseditorplugins" où il n'estpas entre guillemet. C'est juste pour que dans le menu d'option alors qu'on trie
-# alphabétiquement pour pas que cela ne se retrouve en haut de la liste à cause du guilemet.
+# Devant ces différences, on préfère ne pas s'éparpiller davantage et on va utiliser le même terme qu'en anglais, à savoir "plugin".
+# On le mettra partout entre guillemets. Puis si c'est au pluriel on ajoutera simplement un "s" soit "plugins".
+# La seule exception c'est pour "ulng.rsoptionseditorplugins" où il n'est pas entre guillemets. C'est juste pour faire en sorte que dans le menu d'option,
+# lorsqu'on trie alphabétiquement, cela ne se retrouve pas en haut de la liste à cause du guillemet.
 # C'est tout de même très répandu aussi comme terme même en français.
 #
 # 2016-06-15:DB-En français, avant et après le deux points, ça prend un espace.
@@ -43,12 +43,12 @@ msgstr "Comparaison... %d%% (ESC pour annuler)"
 #: fsyncdirsdlg.rsdeleteleft
 #, object-pascal-format
 msgid "Left: Delete %d file(s)"
-msgstr "Gauche: Effacement %d fichier(s)"
+msgstr "Gauche: Suppression %d fichier(s)"
 
 #: fsyncdirsdlg.rsdeleteright
 #, object-pascal-format
 msgid "Right: Delete %d file(s)"
-msgstr "Droite : Effacement %d fichiers(s)"
+msgstr "Droite : Suppression %d fichiers(s)"
 
 #: fsyncdirsdlg.rsfilesfound
 #, object-pascal-format
