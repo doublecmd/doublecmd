@@ -39,10 +39,8 @@ type
     function FileGetAttr(const FileName: String; FollowLink: LongBool): TFileAttrs; inline;
     function FileGetAttr(const FileName: String; out Attr: TFileAttributeData): LongBool;
     function FileSetAttr(const FileName: String; Attr: TFileAttrs): LongBool; inline;
-    function FileSetTime(const FileName: String;
-                            ModificationTime: DCBasicTypes.TFileTime;
-                            CreationTime    : DCBasicTypes.TFileTime;
-                            LastAccessTime  : DCBasicTypes.TFileTime): LongBool;
+    function FileSetTime(const FileName: String; ModificationTime: TFileTimeEx;
+                         CreationTime: TFileTimeEx; LastAccessTime: TFileTimeEx): LongBool;
     function FileSetReadOnly(const FileName: String; ReadOnly: Boolean): LongBool; inline;
     function FileCopyAttr(const sSrc, sDst: String;
                           Options: TCopyAttributesOptions): TCopyAttributesOptions;
@@ -403,10 +401,8 @@ begin
   Result:= ProcessObject(RPC_FileSetAttr, FileName, Attr);
 end;
 
-function TWorkerProxy.FileSetTime(const FileName: String;
-  ModificationTime: DCBasicTypes.TFileTime;
-  CreationTime: DCBasicTypes.TFileTime; LastAccessTime: DCBasicTypes.TFileTime
-  ): LongBool;
+function TWorkerProxy.FileSetTime(const FileName: String; ModificationTime: TFileTimeEx;
+                                  CreationTime: TFileTimeEx; LastAccessTime: TFileTimeEx): LongBool;
 var
   LastError: Integer;
   Stream: TMemoryStream;
@@ -420,9 +416,9 @@ begin
       Stream.Seek(SizeOf(UInt32), soFromCurrent);
       // Write arguments
       Stream.WriteAnsiString(FileName);
-      Stream.WriteQWord(ModificationTime);
-      Stream.WriteQWord(CreationTime);
-      Stream.WriteQWord(LastAccessTime);
+      Stream.WriteBuffer(ModificationTime, SizeOf(TFileTimeEx));
+      Stream.WriteBuffer(CreationTime, SizeOf(TFileTimeEx));
+      Stream.WriteBuffer(LastAccessTime, SizeOf(TFileTimeEx));
       // Write data size
       Stream.Seek(SizeOf(UInt32), soFromBeginning);
       Stream.WriteDWord(Stream.Size - SizeOf(UInt32) * 2);

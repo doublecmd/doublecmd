@@ -960,7 +960,7 @@ procedure TFileSystemOperationHelper.CopyProperties(SourceFile: TFile;
 var
   Msg: String = '';
   ACopyTime: Boolean;
-  CreationTime, LastAccessTime: TFileTime;
+  CreationTime, LastAccessTime: TFileTimeEx;
   CopyAttrResult: TCopyAttributesOptions = [];
   ACopyAttributesOptions: TCopyAttributesOptions;
 begin
@@ -978,18 +978,18 @@ begin
       if not (caoCopyTimeEx in CopyAttributesOptionEx) then
       begin
         if fpCreationTime in SourceFile.AssignedProperties then
-          CreationTime:= DateTimeToFileTime(SourceFile.CreationTime)
+          CreationTime:= DateTimeToFileTimeEx(SourceFile.CreationTime)
         else begin
-          CreationTime:= 0;
+          CreationTime:= TFileTimeExNull;
         end;
-        LastAccessTime:= DateTimeToFileTime(SourceFile.LastAccessTime);
+        LastAccessTime:= DateTimeToFileTimeEx(SourceFile.LastAccessTime);
       end
       else begin
-        CreationTime:= 0;
-        LastAccessTime:= 0;
+        CreationTime:= TFileTimeExNull;
+        LastAccessTime:= TFileTimeExNull;
       end;
       // Copy time from properties because move operation change time of original folder
-      if not FileSetTimeUAC(TargetFileName, DateTimeToFileTime(SourceFile.ModificationTime),
+      if not FileSetTimeUAC(TargetFileName, DateTimeToFileTimeEx(SourceFile.ModificationTime),
                                             CreationTime, LastAccessTime) then
         CopyAttrResult += [caoCopyTime];
     except

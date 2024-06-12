@@ -13,14 +13,8 @@ function FileExistsUAC(const FileName: String): Boolean;
 function FileGetAttrUAC(const FileName: String; FollowLink: Boolean = False): TFileAttrs;
 function FileGetAttrUAC(const FileName: String; out Attr: TFileAttributeData): Boolean;
 function FileSetAttrUAC(const FileName: String; Attr: TFileAttrs): Boolean;
-function FileSetTimeUAC(const FileName: String;
-                        ModificationTime: DCBasicTypes.TFileTime;
-                        CreationTime    : DCBasicTypes.TFileTime = 0;
-                        LastAccessTime  : DCBasicTypes.TFileTime = 0): LongBool;
-function FileSetTimeExUAC(const FileName: String;
-                          ModificationTime: DCBasicTypes.TFileTimeEx;
-                          CreationTime    : DCBasicTypes.TFileTimeEx;
-                          LastAccessTime  : DCBasicTypes.TFileTimeEx): LongBool;
+function FileSetTimeUAC(const FileName: String; ModificationTime: TFileTimeEx;
+                        CreationTime: TFileTimeEx; LastAccessTime: TFileTimeEx): LongBool;
 function FileSetReadOnlyUAC(const FileName: String; ReadOnly: Boolean): Boolean;
 function FileCopyAttrUAC(const sSrc, sDst: String;
                          Options: TCopyAttributesOptions): TCopyAttributesOptions;
@@ -182,27 +176,9 @@ begin
 end;
 
 function FileSetTimeUAC(const FileName: String;
-                        ModificationTime: DCBasicTypes.TFileTime;
-                        CreationTime    : DCBasicTypes.TFileTime;
-                        LastAccessTime  : DCBasicTypes.TFileTime): LongBool;
-var
-  LastError: Integer;
-begin
-  Result:= mbFileSetTime(FileName, ModificationTime, CreationTime, LastAccessTime);
-  if (not Result) and ElevationRequired then
-  begin
-    LastError:= GetLastOSError;
-    if RequestElevation(rsElevationRequiredSetAttributes, FileName) then
-      Result:= TWorkerProxy.Instance.FileSetTime(FileName, ModificationTime, CreationTime, LastAccessTime)
-    else
-      SetLastOSError(LastError);
-  end;
-end;
-
-function FileSetTimeExUAC(const FileName: String;
-                          ModificationTime: DCBasicTypes.TFileTimeEx;
-                          CreationTime    : DCBasicTypes.TFileTimeEx;
-                          LastAccessTime  : DCBasicTypes.TFileTimeEx): LongBool;
+                        ModificationTime: DCBasicTypes.TFileTimeEx;
+                        CreationTime    : DCBasicTypes.TFileTimeEx;
+                        LastAccessTime  : DCBasicTypes.TFileTimeEx): LongBool;
 var
   LastError: Integer;
 begin
@@ -211,11 +187,7 @@ begin
   begin
     LastError:= GetLastOSError;
     if RequestElevation(rsElevationRequiredSetAttributes, FileName) then
-{$IFDEF MSWINDOWS}
       Result:= TWorkerProxy.Instance.FileSetTime(FileName, ModificationTime, CreationTime, LastAccessTime)
-{$ELSE}
-      Result:= TWorkerProxy.Instance.FileSetTime(FileName, ModificationTime.sec, CreationTime.sec, LastAccessTime.sec)
-{$ENDIF}
     else
       SetLastOSError(LastError);
   end;
