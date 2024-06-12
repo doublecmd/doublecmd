@@ -122,9 +122,9 @@ var
   LastError: Integer;
   Data: TMemoryStream;
   SearchRec: PSearchRecEx;
-  CreationTime: TFileTime;
-  LastAccessTime: TFileTime;
-  ModificationTime: TFileTime;
+  CreationTime: TFileTimeEx;
+  LastAccessTime: TFileTimeEx;
+  ModificationTime: TFileTimeEx;
   FileAttr: TFileAttributeData;
 
   procedure WriteSearchRec(Data: TMemoryStream; SearchRec: PSearchRecEx);
@@ -188,11 +188,11 @@ begin
   RPC_FileSetTime:
     begin
       FileName:= ARequest.ReadAnsiString;
-      ModificationTime:= ARequest.ReadQWord;
-      CreationTime:= ARequest.ReadQWord;
-      LastAccessTime:= ARequest.ReadQWord;
+      ARequest.ReadBuffer(ModificationTime, SizeOf(TFileTimeEx));
+      ARequest.ReadBuffer(CreationTime, SizeOf(TFileTimeEx));
+      ARequest.ReadBuffer(LastAccessTime, SizeOf(TFileTimeEx));
       DCDebug('FileSetTime ', FileName);
-      Result:= mbFileSetTime(FileName, ModificationTime, CreationTime, LastAccessTime);
+      Result:= mbFileSetTimeEx(FileName, ModificationTime, CreationTime, LastAccessTime);
       LastError:= GetLastOSError;
       ATransport.WriteBuffer(Result, SizeOf(Result));
       ATransport.WriteBuffer(LastError, SizeOf(LastError));

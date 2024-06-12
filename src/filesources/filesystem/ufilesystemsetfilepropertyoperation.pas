@@ -199,7 +199,7 @@ begin
         if (aTemplateProperty as TFileModificationDateTimeProperty).Value <>
            (aFile.Properties[fpModificationTime] as TFileModificationDateTimeProperty).Value then
         begin
-          if not FileSetTimeExUAC(
+          if not FileSetTimeUAC(
             aFile.FullPath,
             DateTimeToFileTimeEx((aTemplateProperty as TFileModificationDateTimeProperty).Value),
             TFileTimeExNull,
@@ -215,7 +215,7 @@ begin
         if (aTemplateProperty as TFileCreationDateTimeProperty).Value <>
            (aFile.Properties[fpCreationTime] as TFileCreationDateTimeProperty).Value then
         begin
-          if not FileSetTimeExUAC(
+          if not FileSetTimeUAC(
             aFile.FullPath,
             TFileTimeExNull,
             DateTimeToFileTimeEx((aTemplateProperty as TFileCreationDateTimeProperty).Value),
@@ -231,7 +231,7 @@ begin
         if (aTemplateProperty as TFileLastAccessDateTimeProperty).Value <>
            (aFile.Properties[fpLastAccessTime] as TFileLastAccessDateTimeProperty).Value then
         begin
-          if not FileSetTimeExUAC(
+          if not FileSetTimeUAC(
             aFile.FullPath,
             TFileTimeExNull,
             TFileTimeExNull,
