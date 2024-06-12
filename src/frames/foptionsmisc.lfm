@@ -56,7 +56,7 @@ inherited frmOptionsMisc: TfrmOptionsMisc
       Width = 154
       BorderSpacing.Top = 4
       Caption = '&Save thumbnails in cache'
-      TabOrder = 5
+      TabOrder = 6
     end
     object lblThumbSize: TLabel
       AnchorSideTop.Control = speThumbWidth
@@ -97,7 +97,7 @@ inherited frmOptionsMisc: TfrmOptionsMisc
       BorderSpacing.Top = 6
       MaxValue = 512
       MinValue = 16
-      TabOrder = 6
+      TabOrder = 7
       Value = 16
     end
     object speThumbHeight: TSpinEdit
@@ -111,7 +111,7 @@ inherited frmOptionsMisc: TfrmOptionsMisc
       BorderSpacing.Left = 6
       MaxValue = 512
       MinValue = 16
-      TabOrder = 7
+      TabOrder = 8
       Value = 16
     end
     object lblThumbSeparator: TLabel
@@ -150,8 +150,8 @@ inherited frmOptionsMisc: TfrmOptionsMisc
       AutoSize = True
       BorderSpacing.Top = 6
       Caption = '&Remove thumbnails for no longer existing files'
+      TabOrder = 9
       OnClick = btnThumbCompactCacheClick
-      TabOrder = 8
     end
     object chkGoToRoot: TCheckBox
       AnchorSideTop.Control = chkShowWarningMessages
@@ -201,6 +201,33 @@ inherited frmOptionsMisc: TfrmOptionsMisc
       ItemHeight = 15
       Style = csDropDownList
       TabOrder = 4
+    end
+    object lblDirHistoryCount: TLabel
+      AnchorSideTop.Control = speDirHistoryCount
+      AnchorSideTop.Side = asrCenter
+      Left = 12
+      Height = 41
+      Top = 365
+      Width = 272
+      Caption = '&Max Dir History Size:'
+      FocusControl = speDirHistoryCount
+      ParentColor = False
+    end
+    object speDirHistoryCount: TSpinEdit
+      AnchorSideLeft.Control = lblDirHistoryCount
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = chkThumbSave
+      AnchorSideTop.Side = asrBottom
+      Left = 290
+      Height = 49
+      Top = 361
+      Width = 50
+      BorderSpacing.Left = 6
+      BorderSpacing.Top = 6
+      MaxValue = 500
+      MinValue = 10
+      TabOrder = 5
+      Value = 16
     end
   end
   object gbTCExportImport: TGroupBox[1]

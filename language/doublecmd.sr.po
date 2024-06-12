@@ -7043,6 +7043,10 @@ msgctxt "tfrmoptionsmisc.lbldescrdefaultencoding.caption"
 msgid "Default encoding:"
 msgstr "Подразумевано кодирање:"
 
+#: tfrmoptionsmisc.lbldirhistorycount.caption
+msgid "&Max Dir History Size:"
+msgstr ""
+
 #: tfrmoptionsmisc.lbltcconfig.caption
 msgid "Configuration file:"
 msgstr "Датотека поставки:"

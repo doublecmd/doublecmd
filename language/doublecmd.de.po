@@ -7002,6 +7002,10 @@ msgstr "Standard 'single-byte' Textkodierung (Schrift mit weniger als 256 Zeiche
 msgid "Default encoding:"
 msgstr "Standard Kodierung:"
 
+#: tfrmoptionsmisc.lbldirhistorycount.caption
+msgid "&Max Dir History Size:"
+msgstr ""
+
 #: tfrmoptionsmisc.lbltcconfig.caption
 msgid "Configuration file:"
 msgstr "Konfigurationsdatei:"

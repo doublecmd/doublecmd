@@ -7091,6 +7091,10 @@ msgstr "Co&dificação single-byte pré-definida:"
 msgid "Default encoding:"
 msgstr "Codificação predefinida:"
 
+#: tfrmoptionsmisc.lbldirhistorycount.caption
+msgid "&Max Dir History Size:"
+msgstr ""
+
 #: tfrmoptionsmisc.lbltcconfig.caption
 msgid "Configuration file:"
 msgstr "Ficheiro de configuração:"

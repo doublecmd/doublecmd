@@ -7055,6 +7055,10 @@ msgctxt "tfrmoptionsmisc.lbldescrdefaultencoding.caption"
 msgid "Default encoding:"
 msgstr "デフォルトのエンコーディング："
 
+#: tfrmoptionsmisc.lbldirhistorycount.caption
+msgid "&Max Dir History Size:"
+msgstr ""
+
 #: tfrmoptionsmisc.lbltcconfig.caption
 msgid "Configuration file:"
 msgstr "設定ファイル："

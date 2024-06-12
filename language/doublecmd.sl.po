@@ -6876,6 +6876,10 @@ msgctxt "TFRMOPTIONSMISC.LBLDESCRDEFAULTENCODING.CAPTION"
 msgid "Default encoding:"
 msgstr "Privzeti nabor:"
 
+#: tfrmoptionsmisc.lbldirhistorycount.caption
+msgid "&Max Dir History Size:"
+msgstr ""
+
 #: tfrmoptionsmisc.lbltcconfig.caption
 msgid "Configuration file:"
 msgstr "Nastavitvena datoteka:"

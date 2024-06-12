@@ -52,6 +52,7 @@ type
     lblThumbPixels: TLabel;
     lblThumbSize: TLabel;
     lblThumbSeparator: TLabel;
+    lblDirHistoryCount: TLabel;
     speThumbWidth: TSpinEdit;
     speThumbHeight: TSpinEdit;
     gbTCExportImport: TGroupBox;
@@ -67,6 +68,7 @@ type
     btnOutputPathForToolbar: TButton;
     btnRelativeOutputPathForToolbar: TSpeedButton;
     pmPathHelper: TPopupMenu;
+    speDirHistoryCount: TSpinEdit;
     procedure btnThumbCompactCacheClick(Sender: TObject);
     procedure btnRelativeTCExecutableFileClick(Sender: TObject);
     procedure btnRelativeTCConfigFileClick(Sender: TObject);
@@ -142,6 +144,7 @@ begin
   speThumbHeight.Value           := gThumbSize.cy;
   chkGoToRoot.Checked            := gGoToRoot;
   chkShowCurDirTitleBar.Checked  := gShowCurDirTitleBar;
+  speDirHistoryCount.Value       := gDirHistoryCount;
 
   Index:= cmbDefaultEncoding.Items.IndexOf(gDefaultTextEncoding);
   if (Index < 0) then
@@ -189,6 +192,7 @@ begin
   gGoToRoot            := chkGoToRoot.Checked;
   gShowCurDirTitleBar  := chkShowCurDirTitleBar.Checked;
   gDefaultTextEncoding := NormalizeEncoding(cmbDefaultEncoding.Text);
+  gDirhistoryCount     := speDirHistoryCount.Value;
 
   {$IFDEF MSWINDOWS}
   gTotalCommanderExecutableFilename := fneTCExecutableFilename.FileName;

@@ -3036,6 +3036,7 @@ begin
         CustomDecimalSeparator:= DecimalSeparator;
         FormatSettings.DecimalSeparator:= CustomDecimalSeparator[1];
       end;
+      gDirHistoryCount := GetValue(Node, 'DirHistoryCount', gDirHistoryCount);
     end;
 
     { Thumbnails }
@@ -3651,6 +3652,7 @@ begin
     SetValue(Node, 'SystemItemProperties', gSystemItemProperties);
 {$ENDIF}
     SetValue(Node, 'DecimalSeparator', CustomDecimalSeparator);
+    SetValue(Node, 'DirHistoryCount', gDirHistoryCount);
 
     { Thumbnails }
     Node := FindNode(Root, 'Thumbnails', True);

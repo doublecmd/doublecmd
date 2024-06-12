@@ -7573,6 +7573,10 @@ msgctxt "TFRMOPTIONSMISC.LBLDESCRDEFAULTENCODING.CAPTION"
 msgid "Default encoding:"
 msgstr "Standardkodning:"
 
+#: tfrmoptionsmisc.lbldirhistorycount.caption
+msgid "&Max Dir History Size:"
+msgstr ""
+
 # Opsætning - Indstillinger - Diverse
 #: tfrmoptionsmisc.lbltcconfig.caption
 msgid "Configuration file:"

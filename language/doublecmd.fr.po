@@ -7097,6 +7097,10 @@ msgstr ""
 msgid "Default encoding:"
 msgstr "Encodage par défaut :"
 
+#: tfrmoptionsmisc.lbldirhistorycount.caption
+msgid "&Max Dir History Size:"
+msgstr ""
+
 #: tfrmoptionsmisc.lbltcconfig.caption
 msgid "Configuration file:"
 msgstr "Fichier de configuration :"
