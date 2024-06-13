@@ -1,8 +1,6 @@
-# Par souci d'être constant, il n'y a pas d'exception, c'est toujours "Dossier" qui est utilisé.
-# C'est comme ça pour reprendre la même nomenclature que Windows et Apple.
-# Il est vrai que TC utilise le terme "Répertoire" mais on prend le partie de Windows qui lui parle de "dossier".
-# Pour quelqu'un qui a toujours préféré le terme "Répertoire" c'est un peu irritant la première heure d'utiliser le terme "Dossier".
-# Mais courage, après quelques minutes, on finit par s'y habituer et c'est très bien.
+# 2016-02-12:DB-Afin de reprendre la même terminologie que Windows et Apple et même si TC utilise le terme "Répertoire", 
+# c'est toujours le terme "Dossier" qui sera utilisé pour traduire "Directory".
+# Pour quelqu'un qui a toujours préféré le terme "Répertoire" c'est un peu irritant la première heure mais  courage, après quelques minutes, on s'y habitue...
 #
 # 2016-02-12:DB-Pour le nom commun, on peut dire "double-clic". Puis pour l'action de le faire, le verbe c'est "double-cliquer".
 # C'est comme ça dans le Larousse en ligne et c'est ce qui a été suivi ici.
@@ -12,10 +10,9 @@
 # L'Office québécois de la langue française en 2002 y allait de "plugiciel".
 # TC lui parle en façon de "Module-additionel" ou même de "Additif" sur son site web.
 # Devant ces différences, on préfère ne pas s'éparpiller davantage et on va utiliser le même terme qu'en anglais, à savoir "plugin".
-# On le mettra partout entre guillemets. Puis si c'est au pluriel on ajoutera simplement un "s" soit "plugins".
+# On le mettra partout entre guillemets. Au pluriel, on ajoutera simplement un "s" soit "plugins".
 # La seule exception c'est pour "ulng.rsoptionseditorplugins" où il n'est pas entre guillemets. C'est juste pour faire en sorte que dans le menu d'option,
-# lorsqu'on trie alphabétiquement, cela ne se retrouve pas en haut de la liste à cause du guillemet.
-# C'est tout de même très répandu aussi comme terme même en français.
+# lorsqu'on trie alphabétiquement, il ne se retrouve pas en haut de la liste à cause du guillemet.
 #
 # 2016-06-15:DB-En français, avant et après le deux points, ça prend un espace.
 # Au fil du temps ce fichier s'est ramassé souvent avec aucun espace après le deux points.
@@ -24,10 +21,13 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 1.1.0 alpha\n"
 "Report-Msgid-Bugs-To: \n"
+#"POT-Creation-Date: 2022-11-15 11:15+0300\n"
+#"PO-Revision-Date: 2021-05-01 11:18-0400\n"
+#"Last-Translator: Denis Bisson <denis.bisson@denisbisson.org>\n"
 "POT-Creation-Date: 2022-11-15 11:15+0300\n"
-"PO-Revision-Date: 2021-05-01 11:18-0400\n"
-"Last-Translator: Denis Bisson <denis.bisson@denisbisson.org>\n"
-"Language-Team: Zebulon Tourneboulle <zebulon.tourneboulle@gmail.com>\n"
+"PO-Revision-Date: 2024-06-13 17:41+0200\n"
+"Last-Translator: Frédéric Charlanes <f.charlanes@gmail.com>\n"
+#"Language-Team: Zebulon Tourneboulle <zebulon.tourneboulle@gmail.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
