@@ -10845,7 +10845,7 @@ msgstr "새로 만들기"
 
 #: ulng.rsmnunewwindow
 msgid "New Window"
-msgstr "새창"
+msgstr "새 창"
 
 #: ulng.rsmnunomedia
 msgid "No media available"
