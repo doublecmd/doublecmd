@@ -1,33 +1,57 @@
-# Par souci d'être constant, il n'y a pas d'exception, c'est toujours "Dossier" qui est utilisé.
-# C'est comme ça pour reprendre la même nomenclature que Windows et Apple.
-# Il est vrai que TC utilise le terme "Répertoire" mais on prend le partie de Windows qui lui parle de "dossier".
-# Pour quelqu'un qui a toujours préféré le terme "Répertoire" c'est un peu irritant la première heure d'utiliser le terme "Dossier".
-# Mais courage, après quelques minutes, on finit par s'y habituer et c'est très bien.
+# 2016-02-12[DB] (reformulation simplifiée FCH 2024-06-13) : Afin de reprendre la même terminologie que Windows et Apple et même si TC utilise le terme "Répertoire", 
+# c'est toujours le terme "Dossier" qui sera utilisé pour traduire "Directory".
+# Pour quelqu'un qui a toujours préféré le terme "Répertoire" c'est un peu irritant la première heure mais  courage, après quelques minutes, on s'y habitue...
 #
-# 2016-02-12:DB-Pour le nom commun, on peut dire "double-clic". Puis pour l'action de le faire, le verbe c'est "double-cliquer".
+# 2016-02-12[DB] : Pour le nom commun, on peut dire "double-clic". Puis pour l'action de le faire, le verbe c'est "double-cliquer".
 # C'est comme ça dans le Larousse en ligne et c'est ce qui a été suivi ici.
 #
-# 2016-02-12:DB-Pour ce qui est du terme "plugin", il y a un peu moins de certitude !
+# 2016-02-12[DB] : Pour ce qui est du terme "plugin", il y a un peu moins de certitude !
 # La Commission générale de terminologie et de néologie en France en 1999 préconisait "Module d'extension".
 # L'Office québécois de la langue française en 2002 y allait de "plugiciel".
 # TC lui parle en façon de "Module-additionel" ou même de "Additif" sur son site web.
 # Devant ces différences, on préfère ne pas s'éparpiller davantage et on va utiliser le même terme qu'en anglais, à savoir "plugin".
-# On le mettra partout entre guillemets. Puis si c'est au pluriel on ajoutera simplement un "s" soit "plugins".
+# On le mettra partout entre guillemets. Au pluriel, on ajoutera simplement un "s" soit "plugins".
 # La seule exception c'est pour "ulng.rsoptionseditorplugins" où il n'est pas entre guillemets. C'est juste pour faire en sorte que dans le menu d'option,
-# lorsqu'on trie alphabétiquement, cela ne se retrouve pas en haut de la liste à cause du guillemet.
-# C'est tout de même très répandu aussi comme terme même en français.
+# lorsqu'on trie alphabétiquement, il ne se retrouve pas en haut de la liste à cause du guillemet.
 #
-# 2016-06-15:DB-En français, avant et après le deux points, ça prend un espace.
+# 2016-06-15[DB] : En français, avant et après le deux points, ça prend un espace.
 # Au fil du temps ce fichier s'est ramassé souvent avec aucun espace après le deux points.
 # Cela vient d'être corrigé partout. Ce fut un peu long et fastidieux. Essayons de continuer cela.
+
+# 2024-06-13[FCH] : Plusieurs types hésitations de traductions à trancher ultérieurement
+# H_01 : Un verbe anglais s'écrit de la même manière à l'infinitif ou à la 1ère personne du singulier
+#        Par suite, il peut difficile être difficile de choisir, pour le verbe français correspondant, entre l'utilisation de l'infinitif et l'utilisation d'une conjuguaison à la 1ère personne du singulier au sens où moi (DC), je fais quelque chose...
+#        Exemple : 
+#          msgid "Drop readonly fla&g"
+#          msgstr "Ne pas tenir compte du marqueur lecture seule" VS "Ne tiens pas compte du marqueur lecture seule"
+#        Dans les menus, on privilégiera l'infinitif... Dans les fenêtres "d'avancement", c'est plutôt l'inverse. N'étant pas un spécialiste de l'application, il a été parfois difficile de déterminer lequel des 2 était préférable.
+#        => Cette mention H_ii, décidée tardivement et qui n'a donc pas été apposée partout où il y avait eu hésitation, signifie qu'il faudra revoir les traductions faites...
+# H_02 : Un verbe anglais conjugué de manière progressive (-ing) peut se traduire :
+#          > soit par le nom correspondant suivi du terme "en cours" (encoding => Encodage en cours ou En cours d'encodage...)
+#          > soit par le verbe français conjugé à la 1ère personne du singulier au sens où moi (DC), je suis en train de faire quelque chose... 
+#        Par suite, il peut difficile de choisir entre les 2 formulations...
+#        => Cette mention H_ii, décidée tardivement et qui n'a donc pas été apposée partout où il y avait eu hésitation, signifie qu'il faudra revoir les traductions faites...
+# H_03 : Traduction de Save/Restore
+#        Le verbe Save peut se traduire par Enregistrer ou Sauvegarder. De même, le verbe Restore peut se traduire par Restaurer ou Recharger...
+#        Le choix de l'un ou de l'autre varie en fonction du contexte.
+#        > Pour un fichier, Save se traduira par Enregistrer pour disposer de "Enregistrer sous..." que l'on trouve un peu partout... / Dans l'autre sens, on utilisera "Restaurer"
+#        > Pour un dossier, idem fichier
+#        > Pour des onglets ou des groupes d'onglets favoris => on privilégiera plutôt "Sauvegarder" et "Recharger"
+#        > Pour une sélection => idem "Sauvegarder" et "Recharger"
+#        > à compléter... 
+#        => Cette mention H_ii signifie qu'il y a eu hésitation sur la traduction la plus appropriée en fonction du contexte et de l'harmonisation d'ensemble... A revoir.
+# H_04 : Traduction pas claire => à revoir
+
 msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 1.1.0 alpha\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-11-15 11:15+0300\n"
-"PO-Revision-Date: 2021-05-01 11:18-0400\n"
-"Last-Translator: Denis Bisson <denis.bisson@denisbisson.org>\n"
-"Language-Team: Zebulon Tourneboulle <zebulon.tourneboulle@gmail.com>\n"
+#"PO-Revision-Date: 2021-05-01 11:18-0400\n"
+#"Last-Translator: Denis Bisson <denis.bisson@denisbisson.org>\n"
+"PO-Revision-Date: 2024-06-13 17:41+0200\n"
+"Last-Translator: Frédéric Charlanes <f.charlanes@gmail.com>\n"
+#"Language-Team: Zebulon Tourneboulle <zebulon.tourneboulle@gmail.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -37,8 +61,9 @@ msgstr ""
 
 #: fsyncdirsdlg.rscomparingpercent
 #, object-pascal-format
+# H_02
 msgid "Comparing... %d%% (ESC to cancel)"
-msgstr "Comparaison... %d%% (ESC pour annuler)"
+msgstr "Comparaison en cours... %d%% (ESC pour annuler)"
 
 #: fsyncdirsdlg.rsdeleteleft
 #, object-pascal-format
@@ -53,7 +78,7 @@ msgstr "Droite : Suppression %d fichiers(s)"
 #: fsyncdirsdlg.rsfilesfound
 #, object-pascal-format
 msgid "Files found: %d  (Identical: %d, Different: %d, Unique left: %d, Unique right: %d)"
-msgstr "Fichiers trouvés : %d  (Identique : %d, Différents : %d, Gauche unique : %d, Droit unique : %d)"
+msgstr "Fichiers trouvés : %d  (Identiques : %d, Différents : %d, Gauche uniques : %d, Droit uniques : %d)"
 
 #: fsyncdirsdlg.rslefttorightcopy
 #, object-pascal-format
@@ -368,7 +393,7 @@ msgstr "Format de fichier"
 
 #: tfrmchecksumcalc.lblsaveto.caption
 msgid "&Save checksum file(s) to:"
-msgstr "Sauvegarder le fichier de signature dans :"
+msgstr "Enregistrer le fichier de signature dans :"
 
 #: tfrmchecksumcalc.rbunix.caption
 msgid "Unix"
@@ -390,6 +415,7 @@ msgstr "Vérification de signature..."
 
 #: tfrmchooseencoding.caption
 #, fuzzy
+# H_02
 msgctxt "tfrmchooseencoding.caption"
 msgid "Encoding"
 msgstr "Encodage"
@@ -441,7 +467,7 @@ msgstr "O&ptions"
 
 #: tfrmcopydlg.btnsaveoptions.caption
 msgid "Sa&ve these options as default"
-msgstr "Sauvegarder les valeurs des options comme celles par défaut"
+msgstr "Enregistrer les valeurs des options comme celles par défaut"
 
 #: tfrmcopydlg.caption
 msgctxt "TFRMCOPYDLG.CAPTION"
@@ -480,7 +506,7 @@ msgstr "File d'attente 5"
 
 #: tfrmdescredit.actsavedescription.caption
 msgid "Save Description"
-msgstr "Sauvegarder la description"
+msgstr "Enregistrer la description"
 
 #: tfrmdescredit.btncancel.caption
 msgctxt "TFRMDESCREDIT.BTNCANCEL.CAPTION"
@@ -501,6 +527,7 @@ msgid "E&dit comment for:"
 msgstr "Éditer le commentaire pour :"
 
 #: tfrmdescredit.lblencoding.caption
+# H_02
 msgctxt "TFRMDESCREDIT.LBLENCODING.CAPTION"
 msgid "&Encoding:"
 msgstr "Encodage :"
@@ -766,42 +793,42 @@ msgstr "Enregistrer sous... "
 #: tfrmdiffer.actsaveleft.caption
 msgctxt "TFRMDIFFER.ACTSAVELEFT.CAPTION"
 msgid "Save Left"
-msgstr "Sauvegarder la gauche"
+msgstr "Enregistrer la gauche"
 
 #: tfrmdiffer.actsaveleft.hint
 msgctxt "TFRMDIFFER.ACTSAVELEFT.HINT"
 msgid "Save Left"
-msgstr "Sauvegarder la gauche"
+msgstr "Enregistrer la gauche"
 
 #: tfrmdiffer.actsaveleftas.caption
 msgctxt "TFRMDIFFER.ACTSAVELEFTAS.CAPTION"
 msgid "Save Left As..."
-msgstr "Sauvegarder la gauche sous..."
+msgstr "Enregistrer la gauche sous..."
 
 #: tfrmdiffer.actsaveleftas.hint
 msgctxt "TFRMDIFFER.ACTSAVELEFTAS.HINT"
 msgid "Save Left As..."
-msgstr "Sauvegarder la gauche sous..."
+msgstr "Enregistrer la gauche sous..."
 
 #: tfrmdiffer.actsaveright.caption
 msgctxt "TFRMDIFFER.ACTSAVERIGHT.CAPTION"
 msgid "Save Right"
-msgstr "Sauvegarder la droite"
+msgstr "Enregistrer la droite"
 
 #: tfrmdiffer.actsaveright.hint
 msgctxt "TFRMDIFFER.ACTSAVERIGHT.HINT"
 msgid "Save Right"
-msgstr "Sauvegarder la droite"
+msgstr "Enregistrer la droite"
 
 #: tfrmdiffer.actsaverightas.caption
 msgctxt "TFRMDIFFER.ACTSAVERIGHTAS.CAPTION"
 msgid "Save Right As..."
-msgstr "Sauvegarder la droite sous..."
+msgstr "Enregistrer la droite sous..."
 
 #: tfrmdiffer.actsaverightas.hint
 msgctxt "TFRMDIFFER.ACTSAVERIGHTAS.HINT"
 msgid "Save Right As..."
-msgstr "Sauvegarder la droite sous..."
+msgstr "Enregistrer la droite sous..."
 
 #: tfrmdiffer.actstartcompare.caption
 msgctxt "TFRMDIFFER.ACTSTARTCOMPARE.CAPTION"
@@ -814,11 +841,13 @@ msgid "Compare"
 msgstr "Comparer"
 
 #: tfrmdiffer.btnleftencoding.hint
+# H_02
 msgctxt "TFRMDIFFER.BTNLEFTENCODING.HINT"
 msgid "Encoding"
 msgstr "Encodage"
 
 #: tfrmdiffer.btnrightencoding.hint
+# H_02
 msgctxt "TFRMDIFFER.BTNRIGHTENCODING.HINT"
 msgid "Encoding"
 msgstr "Encodage"
@@ -846,6 +875,7 @@ msgid "&Edit"
 msgstr "Éditer"
 
 #: tfrmdiffer.mnuencoding.caption
+# H_02
 msgctxt "TFRMDIFFER.MNUENCODING.CAPTION"
 msgid "En&coding"
 msgstr "Encodage"
@@ -1113,7 +1143,7 @@ msgstr "Enregistrer &sous..."
 
 #: tfrmeditor.actfilesaveas.hint
 msgid "Save As"
-msgstr "Sauvegarder sous"
+msgstr "Enregistrer sous"
 
 #: tfrmeditor.caption
 msgctxt "tfrmeditor.caption"
@@ -1131,6 +1161,7 @@ msgid "&Edit"
 msgstr "Édit&er"
 
 #: tfrmeditor.miencoding.caption
+# HL_02
 msgctxt "TFRMEDITOR.MIENCODING.CAPTION"
 msgid "En&coding"
 msgstr "En&codage"
@@ -1140,6 +1171,7 @@ msgid "Open as"
 msgstr "Ouvrir en tant que"
 
 #: tfrmeditor.miencodingout.caption
+# HL_02
 msgctxt "tfrmeditor.miencodingout.caption"
 msgid "Save as"
 msgstr "Enregistrer en"
@@ -1435,7 +1467,7 @@ msgstr "Type de média :"
 #: tfrmfileproperties.lbloctal.caption
 msgctxt "TFRMFILEPROPERTIES.LBLOCTAL.CAPTION"
 msgid "Octal:"
-msgstr "Octal :"
+msgstr "Octale :"
 
 #: tfrmfileproperties.lblownerstr.caption
 msgctxt "TFRMFILEPROPERTIES.LBLOWNERSTR.CAPTION"
@@ -1654,11 +1686,11 @@ msgstr "&Enregistrer"
 
 #: tfrmfinddlg.btnsearchsavewithstartingpath.caption
 msgid "Sa&ve with \"Start in directory\""
-msgstr "Sauvegarder avec le nom du dossier de début de recherche"
+msgstr "Enregistrer avec le nom du dossier de début de recherche"
 
 #: tfrmfinddlg.btnsearchsavewithstartingpath.hint
 msgid "If saved then \"Start in directory\" will be restored when loading template. Use it if you want to fix searching to a certain directory"
-msgstr "Si sauvegardé, alors le dossier de début de recherche sera restitué lorsqu'on chargera le modèle. Utilisez cela si vous voulez chercher à nouveau dans un même dossier."
+msgstr "S'il est enregistré, \"Démarrer dans le dossier\" sera restauré lors du chargement du modèle. A utiliser si vous souhaitez toujours chercher dans un même dossier."
 
 #: tfrmfinddlg.btnusetemplate.caption
 msgid "Use template"
@@ -1830,6 +1862,7 @@ msgid "Attri&butes"
 msgstr "Attributs"
 
 #: tfrmfinddlg.lblencoding.caption
+# H_02
 msgctxt "TFRMFINDDLG.LBLENCODING.CAPTION"
 msgid "Encodin&g:"
 msgstr "Encodage :"
@@ -2013,7 +2046,7 @@ msgstr "Importer ce qui est sélectionné"
 #: tfrmhotdirexportimport.caption
 msgctxt "tfrmhotdirexportimport.caption"
 msgid "Select the entries your want to import"
-msgstr "Choisissez l'entrée à importer"
+msgstr "Choisissez les éléments à importer"
 
 #: tfrmhotdirexportimport.lbhint.caption
 msgctxt "tfrmhotdirexportimport.lbhint.caption"
@@ -2022,7 +2055,7 @@ msgstr "Un clic sur un sous-menu le sélectionnera entièrement"
 
 #: tfrmhotdirexportimport.lblhintholdcontrol.caption
 msgid "Hold CTRL and click entries to select multiple ones"
-msgstr "Maintenir la touche CTRL enfoncée et cliquer sur les entrées pour en choisir plus d'une à la fois"
+msgstr "Maintenir la touche CTRL enfoncée et cliquer sur les éléments pour en choisir plus d'un à la fois"
 
 #: tfrmlinker.btnsave.caption
 msgctxt "TFRMLINKER.BTNSAVE.CAPTION"
@@ -2177,7 +2210,7 @@ msgstr "Prochaine ligne de commande"
 
 #: tfrmmain.actcmdlinenext.hint
 msgid "Set command line to next command in history"
-msgstr "Ajuster la ligne de commande pour la prochaine commande de l'historique"
+msgstr "Définir la ligne de commande sur la prochaine commande de l'historique"
 
 #: tfrmmain.actcmdlineprev.caption
 msgid "Previous Command Line"
@@ -2185,7 +2218,7 @@ msgstr "Ligne de commande précédente"
 
 #: tfrmmain.actcmdlineprev.hint
 msgid "Set command line to previous command in history"
-msgstr "Ajuster la ligne de commande pour la précédente commande de l'historique"
+msgstr "Définir la ligne de commande sur la précédente commande de l'historique"
 
 #: tfrmmain.actcolumnsview.caption
 msgid "Full"
@@ -2258,12 +2291,12 @@ msgstr "Configuration des infobulles"
 #: tfrmmain.actconfigtreeviewmenus.caption
 msgctxt "tfrmmain.actconfigtreeviewmenus.caption"
 msgid "Configuration of Tree View Menu"
-msgstr "Configuration du menu en arbre"
+msgstr "Configuration du menu en arborescence"
 
 #: tfrmmain.actconfigtreeviewmenuscolors.caption
 msgctxt "tfrmmain.actconfigtreeviewmenuscolors.caption"
 msgid "Configuration of Tree View Menu Colors"
-msgstr "Configuration des couleurs du menu en arbre"
+msgstr "Configuration des couleurs du menu en arborescence"
 
 #: tfrmmain.actcontextmenu.caption
 msgid "Show context menu"
@@ -2719,11 +2752,11 @@ msgstr "Re&nommer l'onglet"
 
 #: tfrmmain.actresavefavoritetabs.caption
 msgid "Resave on the last Favorite Tabs loaded"
-msgstr "Réenregistrer les onglets courants dans un groupe d'onglets favoris"
+msgstr "Enregistrer les onglets courants dans un dernier groupe d'onglets favoris chargé"
 
 #: tfrmmain.actrestoreselection.caption
 msgid "&Restore Selection"
-msgstr "&Restaurer la sélection"
+msgstr "&Recharger la sélection"
 
 #: tfrmmain.actreverseorder.caption
 msgid "Re&verse Order"
@@ -2783,11 +2816,11 @@ msgstr "Ouvrir un &terminal"
 
 #: tfrmmain.actsavefavoritetabs.caption
 msgid "Save current tabs to a New Favorite Tabs"
-msgstr "Sauvegarder les onglets courants dans un groupe d'onglets favoris"
+msgstr "Enregistrer les onglets courants dans un nouveau groupe d'onglets favoris"
 
 #: tfrmmain.actsavefiledetailstofile.caption
 msgid "Save all shown columns to file"
-msgstr "Sauvegarder toutes les colonnes affichées dans un fichier"
+msgstr "Enregistrer toutes les colonnes affichées dans un fichier"
 
 #: tfrmmain.actsaveselection.caption
 msgid "Sa&ve Selection"
@@ -2799,7 +2832,7 @@ msgstr "Sauv&egarder la sélection dans un fichier..."
 
 #: tfrmmain.actsavetabs.caption
 msgid "&Save Tabs to File"
-msgstr "Sauvegarder les onglets dans un fichier"
+msgstr "Enregistrer les onglets dans un fichier"
 
 #: tfrmmain.actsearch.caption
 msgid "&Search..."
@@ -3842,7 +3875,7 @@ msgstr "Double Commander"
 
 #: tfrmmultirenamewait.lblmessage.caption
 msgid "Click OK when you have closed the editor to load the changed names!"
-msgstr "Clique OK quand vous aurez fermé l'éditeur pour charger les noms à changer!"
+msgstr "Cliquer sur OK dès la fermeture de l'éditeur afin de charger les noms modifiés !"
 
 #: tfrmopenwith.caption
 msgid "Choose an application"
@@ -3854,11 +3887,11 @@ msgstr "Commande personnalisée"
 
 #: tfrmopenwith.chksaveassociation.caption
 msgid "Save association"
-msgstr "Sauvegarder l'association"
+msgstr "Enregistrer l'association"
 
 #: tfrmopenwith.chkuseasdefault.caption
 msgid "Set selected application as default action"
-msgstr "Ajuster l'application à utiliser par défaut"
+msgstr "Définir l'application à utiliser par défaut"
 
 #: tfrmopenwith.lblmimetype.caption
 #, object-pascal-format
@@ -3928,7 +3961,7 @@ msgstr "Options"
 
 #: tfrmoptions.lblemptyeditor.caption
 msgid "Please select one of the subpages, this page does not contain any settings."
-msgstr "Choisissez une sous-page, celle-ci ne contient aucun ajustement."
+msgstr "Veuillez choisir une sous-page, celle-ci ne contient aucun paramétrage."
 
 #: tfrmoptionsarchivers.btnarchiveradd.caption
 msgctxt "tfrmoptionsarchivers.btnarchiveradd.caption"
@@ -4438,7 +4471,7 @@ msgstr "Onglets"
 #: tfrmoptionsconfiguration.chksaveconfiguration.caption
 msgctxt "TFRMOPTIONSCONFIGURATION.CHKSAVECONFIGURATION.CAPTION"
 msgid "Sa&ve configuration"
-msgstr "Sauvegarder la configuration"
+msgstr "Enregistrer la configuration"
 
 #: tfrmoptionsconfiguration.chksearchreplacehistory.caption
 msgctxt "TFRMOPTIONSCONFIGURATION.CHKSEARCHREPLACEHISTORY.CAPTION"
@@ -4462,20 +4495,20 @@ msgstr "Emplacement des fichiers de configuration"
 #: tfrmoptionsconfiguration.gbsaveonexit.caption
 msgctxt "TFRMOPTIONSCONFIGURATION.GBSAVEONEXIT.CAPTION"
 msgid "Save on exit"
-msgstr "Sauvegarder en quittant"
+msgstr "Enregistrer en quittant"
 
 #: tfrmoptionsconfiguration.gbsortorderconfigurationoption.caption
 msgid "Sort order of configuration order in left tree"
-msgstr "Classement des éléments de configuration de l'arbre de gauche"
+msgstr "Classement des éléments de configuration de l'arborescence de gauche"
 
 #: tfrmoptionsconfiguration.gpconfigurationtreestate.caption
 msgid "Tree state when entering in configuration page"
-msgstr "État de l'arbre de configuration lorsqu'on y entre"
+msgstr "État de l'arborescence de configuration lorsqu'on y entre"
 
 #: tfrmoptionsconfiguration.lblcmdlineconfigdir.caption
 msgctxt "TFRMOPTIONSCONFIGURATION.LBLCMDLINECONFIGDIR.CAPTION"
 msgid "Set on command line"
-msgstr "Ajuster sur la ligne de commande"
+msgstr "Définir sur la ligne de commande"
 
 #: tfrmoptionsconfiguration.lblhighlighters.caption
 msgid "Highlighters:"
@@ -4661,7 +4694,7 @@ msgstr ">>"
 
 #: tfrmoptionscustomcolumns.btngotosetdefault.caption
 msgid "Go to set default"
-msgstr "Aller à ajuster le défaut"
+msgstr "Aller à la valeur par défaut"
 
 #: tfrmoptionscustomcolumns.btninactivecursorcolor.caption
 msgctxt "tfrmoptionscustomcolumns.btninactivecursorcolor.caption"
@@ -5005,7 +5038,7 @@ msgstr "Refermer la branche"
 
 #: tfrmoptionsdirectoryhotlist.actcut.caption
 msgid "Cut selection of entries"
-msgstr "Couper la sélection d'entrées vers le presse-papier"
+msgstr "Couper la sélection d'éléments vers le presse-papier"
 
 #: tfrmoptionsdirectoryhotlist.actdeleteall.caption
 msgid "Delete all!"
@@ -5030,7 +5063,7 @@ msgstr "Développer la branche"
 
 #: tfrmoptionsdirectoryhotlist.actfocustreewindow.caption
 msgid "Focus tree window"
-msgstr "Se déplacer vers l'arbre"
+msgstr "Se déplacer vers l'arborescence"
 
 #: tfrmoptionsdirectoryhotlist.actgotofirstitem.caption
 msgid "Goto first item"
@@ -5115,7 +5148,7 @@ msgstr "Ajuster le chemin"
 
 #: tfrmoptionsdirectoryhotlist.acttweaktargetpath.caption
 msgid "Tweak target path"
-msgstr "Ajuster la cible"
+msgstr "Ajuster le chemin cible"
 
 #: tfrmoptionsdirectoryhotlist.btnadd.caption
 msgctxt "tfrmoptionsdirectoryhotlist.btnadd.caption"
@@ -5173,7 +5206,7 @@ msgstr "Lorsqu'on ajoute un dossier, ajouter aussi une cible"
 #: tfrmoptionsdirectoryhotlist.cbfullexpandtree.caption
 msgctxt "tfrmoptionsdirectoryhotlist.cbfullexpandtree.caption"
 msgid "Alwa&ys expand tree"
-msgstr "Toujours développer l'arbre"
+msgstr "Toujours développer l'arborescence"
 
 #: tfrmoptionsdirectoryhotlist.cbshowonlyvalidenv.caption
 msgid "Show only &valid environment variables"
@@ -5316,7 +5349,7 @@ msgstr "Ajuster le chemin"
 
 #: tfrmoptionsdirectoryhotlist.mitweaktargetpath.caption
 msgid "Tweak &target path"
-msgstr "Ajuster la cible"
+msgstr "Ajuster le chemin cible"
 
 #: tfrmoptionsdirectoryhotlist.rgwheretoadd.caption
 msgid "Addition from main panel"
@@ -5359,7 +5392,7 @@ msgstr "De tous les formats supportés, demander lequel utiliser à chaque fois"
 
 #: tfrmoptionsdragdrop.cbdraganddropsaveunicodetextinuft8.caption
 msgid "When saving Unicode text, save it in UTF8 format (will be UTF16 otherwise)"
-msgstr "Lorsqu'on sauvegarde du texte en Unicode, utiliser le format UTF8 (UTF16 sinon)"
+msgstr "Lorsqu'on enregistre du texte en Unicode, utiliser le format UTF8 (UTF16 sinon)"
 
 #: tfrmoptionsdragdrop.cbdraganddroptextautofilename.caption
 msgid "When dropping text, generate filename automatically (otherwise will prompt the user)"
@@ -5407,7 +5440,7 @@ msgstr "Indentation automatique"
 
 #: tfrmoptionseditor.chkautoindent.hint
 msgid "Allows to indent the caret, when new line is created with <Enter>, with the same amount of leading white space as the preceding line"
-msgstr "Lorsqu'une nouvelle ligne est créée avec <Enter>, indenter la nouvelle ligne créée de la même manière que la ligne précédente"
+msgstr "Lorsqu'une nouvelle ligne est créée avec <Enter>, l'indenter de la même manière que la ligne précédente"
 
 #: tfrmoptionseditor.chkgroupundo.caption
 msgid "Group Undo"
@@ -5472,7 +5505,7 @@ msgstr "Supprimer automatiquement les espaces de fin, cela s'applique uniquement
 #: tfrmoptionseditor.edtabwidth.hint
 msgctxt "tfrmoptionseditor.edtabwidth.hint"
 msgid "Please note that the \"Smart Tabs\" option takes precedence over the tabulation to be performed"
-msgstr "Veuiller noter que l'option \"Tabulation astucieuse\" est prioritaire sur la tabulation à effectuer"
+msgstr "Veuillez noter que l'option \"Tabulation astucieuse\" est prioritaire sur la tabulation à effectuer"
 
 #: tfrmoptionseditor.gbinternaleditor.caption
 msgid "Internal editor options"
@@ -5489,7 +5522,7 @@ msgstr "Largeur de tabulation:"
 #: tfrmoptionseditor.lbltabwidth.hint
 msgctxt "tfrmoptionseditor.lbltabwidth.hint"
 msgid "Please note that the \"Smart Tabs\" option takes precedence over the tabulation to be performed"
-msgstr "Veuiller noter que l'option \"Tab intelligent\" est prioritaire sur la tabulation à effectuer"
+msgstr "Veuillez noter que l'option \"Tab intelligent\" est prioritaire sur la tabulation à effectuer"
 
 #: tfrmoptionseditorcolors.backgroundlabel.caption
 msgctxt "tfrmoptionseditorcolors.backgroundlabel.caption"
@@ -5530,7 +5563,7 @@ msgstr "Texte sélectionné"
 
 #: tfrmoptionseditorcolors.tbtnglobal.caption
 msgid "Use (and edit) &global scheme settings"
-msgstr "Utiliser (et éditer) selon le schéma global des ajustements"
+msgstr "Utiliser (et éditer) selon le paramétrage global"
 
 #: tfrmoptionseditorcolors.tbtnlocal.caption
 msgid "Use &local scheme settings"
@@ -5649,7 +5682,7 @@ msgstr "Aucun"
 #: tfrmoptionsfavoritetabs.cbfullexpandtree.caption
 msgctxt "tfrmoptionsfavoritetabs.cbfullexpandtree.caption"
 msgid "Always expand tree"
-msgstr "Toujours développer tout l'arbre"
+msgstr "Toujours développer toute l'arborescence"
 
 #: tfrmoptionsfavoritetabs.cbsavedirhistory.text
 msgctxt "tfrmoptionsfavoritetabs.cbsavedirhistory.text"
@@ -5668,7 +5701,7 @@ msgstr "Droite"
 
 #: tfrmoptionsfavoritetabs.gbfavoritetabs.caption
 msgid "Favorite Tabs list (reorder by drag && drop)"
-msgstr "Liste des groupses d'onglets favoris (on peut utiliser le glisser/déposer)"
+msgstr "Liste des groupes d'onglets favoris (on peut utiliser le glisser/déposer)"
 
 #: tfrmoptionsfavoritetabs.gbfavoritetabsotheroptions.caption
 msgctxt "tfrmoptionsfavoritetabs.gbfavoritetabsotheroptions.caption"
@@ -5685,15 +5718,15 @@ msgstr "Onglets à conserver :"
 
 #: tfrmoptionsfavoritetabs.lblsavedirhistory.caption
 msgid "Save dir history:"
-msgstr "Sauvegarder l'historique des dossiers :"
+msgstr "Enregistrer l'historique des dossiers :"
 
 #: tfrmoptionsfavoritetabs.lbltargetpanelleftsavedtabs.caption
 msgid "Tabs saved on left to be restored to:"
-msgstr "Les onglets sauvegardés de gauche seront restaurés ici :"
+msgstr "Les onglets enregistrés de gauche seront restaurés ici :"
 
 #: tfrmoptionsfavoritetabs.lbltargetpanelrightsavedtabs.caption
 msgid "Tabs saved on right to be restored to:"
-msgstr "Les onglets sauvegardés de droite seront restaurés ici :"
+msgstr "Les onglets enregistrés de droite seront restaurés ici :"
 
 #: tfrmoptionsfavoritetabs.miaddseparator.caption
 msgctxt "tfrmoptionsfavoritetabs.miaddseparator.caption"
@@ -5764,7 +5797,7 @@ msgstr "Menu de test des groupes d'onglets favoris"
 
 #: tfrmoptionsfavoritetabs.miimportlegacytabfilesaccsetting.caption
 msgid "Import legacy .tab file(s) according to default setting"
-msgstr "Importe les fichiers classique d'onglets selon les ajustements par défaut"
+msgstr "Importe les fichiers classiques d'onglets selon les paramètres par défaut"
 
 #: tfrmoptionsfavoritetabs.miimportlegacytabfilesatpos.caption
 msgctxt "tfrmoptionsfavoritetabs.miimportlegacytabfilesatpos.caption"
@@ -5855,7 +5888,7 @@ msgstr "Dupliquer"
 #: tfrmoptionsfileassoc.btncommands.hint
 msgctxt "tfrmoptionsfileassoc.btncommands.hint"
 msgid "Select your internal command"
-msgstr "Choisissez vore commande interne"
+msgstr "Choisissez votre commande interne"
 
 #: tfrmoptionsfileassoc.btndownact.caption
 msgctxt "tfrmoptionsfileassoc.btndownact.caption"
@@ -6093,7 +6126,7 @@ msgstr "Offrir d'ajouter à la configuration d'association d'extension la sélec
 #: tfrmoptionsfileassocextra.cboffertoaddtofileassociations.hint
 msgctxt "tfrmoptionsfileassocextra.cboffertoaddtofileassociations.hint"
 msgid "When accessing file association, offer to add current selected file if not already included in a configured file type"
-msgstr "Lorsqu'on accède aux associations d'extensions, offrir d'ajouter celle du fichier sélectionné si elle n'est pas déjà configurée"
+msgstr "Lorsqu'on accède aux associations d'extensions, offrir d'ajouter celle du fichier sélectionné si celle-ci n'est pas déjà configurée"
 
 #: tfrmoptionsfileassocextra.cbopensystemwithterminalclose.caption
 msgctxt "tfrmoptionsfileassocextra.cbopensystemwithterminalclose.caption"
@@ -6204,8 +6237,9 @@ msgid "Verify checksum operation"
 msgstr "Vérifier la somme de contrôle"
 
 #: tfrmoptionsfileoperations.gbexecutingoperations.caption
+# H_02
 msgid "Executing operations"
-msgstr "Exécution des opérations"
+msgstr "Exécution des opérations en cours"
 
 #: tfrmoptionsfileoperations.gbuserinterface.caption
 msgid "User interface"
@@ -6438,8 +6472,9 @@ msgid "O&peration size format:"
 msgstr "Format pour taille durant opérations :"
 
 #: tfrmoptionsfilesviews.lblsortfoldermode.caption
+# H_02
 msgid "So&rting directories:"
-msgstr "Tri des dossiers :"
+msgstr "Tri des dossiers en cours :"
 
 #: tfrmoptionsfilesviews.lblsortmethod.caption
 msgctxt "TFRMOPTIONSFILESVIEWS.LBLSORTMETHOD.CAPTION"
@@ -6472,22 +6507,22 @@ msgstr "Activation du changement vers le répertoire-parent lorsqu'on double-cli
 #: tfrmoptionsfilesviewscomplement.cbdelayloadingtabs.caption
 msgctxt "tfrmoptionsfilesviewscomplement.cbdelayloadingtabs.caption"
 msgid "Do&n't load file list until a tab is activated"
-msgstr "Ne pas charger la liste des fichiers juqu'au moment où l'onglet est activé"
+msgstr "Ne pas charger la liste de fichiers juqu'à temps qu'un onglet soit activé"
 
 #: tfrmoptionsfilesviewscomplement.cbdirbrackets.caption
 msgctxt "tfrmoptionsfilesviewscomplement.cbdirbrackets.caption"
 msgid "S&how square brackets around directories"
-msgstr "Mettre les noms des dossiers entre crochets"
+msgstr "Mettre les noms de dossiers entre crochets"
 
 #: tfrmoptionsfilesviewscomplement.cbhighlightupdatedfiles.caption
 msgctxt "tfrmoptionsfilesviewscomplement.cbhighlightupdatedfiles.caption"
 msgid "Hi&ghlight new and updated files"
-msgstr "Colorier les nouveaux fichiers et ceux actualisés"
+msgstr "Colorer les nouveaux fichiers et ceux actualisés"
 
 #: tfrmoptionsfilesviewscomplement.cbinplacerename.caption
 msgctxt "tfrmoptionsfilesviewscomplement.cbinplacerename.caption"
 msgid "Enable inplace &renaming when clicking twice on a name"
-msgstr "Activer le renommage du fichier en double-cliquant sur son nom"
+msgstr "Activer le renommage du fichier en double-cliquant lentement sur son nom"
 
 #: tfrmoptionsfilesviewscomplement.cblistfilesinthread.caption
 msgctxt "tfrmoptionsfilesviewscomplement.cblistfilesinthread.caption"
@@ -6522,7 +6557,7 @@ msgstr "Utiliser un filtre d'attribut indépendant à chaque entrée de masque d
 #: tfrmoptionsfilesviewscomplement.gbmarking.caption
 msgctxt "tfrmoptionsfilesviewscomplement.gbmarking.caption"
 msgid "Marking/Unmarking entries"
-msgstr "Sélection/désélection de fichiers"
+msgstr "Sélection/désélection d'éléments"
 
 #: tfrmoptionsfilesviewscomplement.lbattributemask.caption
 msgctxt "tfrmoptionsfilesviewscomplement.lbattributemask.caption"
@@ -6626,7 +6661,7 @@ msgstr "Restaurer la valeur par défaut de DC"
 
 #: tfrmoptionshotkeys.actsavenow.caption
 msgid "Save now"
-msgstr "Sauvegarder maintenant"
+msgstr "Enregistrer maintenant"
 
 #: tfrmoptionshotkeys.actsortbycommand.caption
 msgid "Sort by command name"
@@ -7074,7 +7109,7 @@ msgstr "Montrer les messages d'avertissement (seulement bouton \"OK\")"
 #: tfrmoptionsmisc.chkthumbsave.caption
 msgctxt "tfrmoptionsmisc.chkthumbsave.caption"
 msgid "&Save thumbnails in cache"
-msgstr "Sauvegarder les vignettes en cache"
+msgstr "Enregistrer les vignettes en cache"
 
 #: tfrmoptionsmisc.dblthumbnails.caption
 msgctxt "tfrmoptionsmisc.dblthumbnails.caption"
@@ -7179,7 +7214,7 @@ msgstr "Simple clic (ouvre les fichiers et dossiers)"
 
 #: tfrmoptionsmouse.rbsingleclickfolders.caption
 msgid "Single click (opens folders, double click for files)"
-msgstr "Simple clic (ouvre les dossiers, double-clic ouvre les fichiers)"
+msgstr "Simple clic (ouvre les dossiers, le double-clic ouvre les fichiers)"
 
 #: tfrmoptionsmultirename.btnmulrenlogfilenamerelative.hint
 msgctxt "tfrmoptionsmultirename.btnmulrenlogfilenamerelative.hint"
@@ -7189,7 +7224,7 @@ msgstr "Fonctions pour choisir le chemin approprié"
 #: tfrmoptionsmultirename.btnmulrenlogfilenameview.hint
 msgctxt "tfrmoptionsmultirename.btnmulrenlogfilenameview.hint"
 msgid "View log file content"
-msgstr "Voir le contenu du fichier-journal"
+msgstr "Voir le contenu du fichier journal"
 
 #: tfrmoptionsmultirename.ckbdailyindividualdirmultrenlog.caption
 msgid "Individual directories per day"
@@ -7205,7 +7240,7 @@ msgstr "Afficher la barre de menu principal"
 
 #: tfrmoptionsmultirename.gbsaverenaminglog.caption
 msgid "Rename log"
-msgstr "Renommer le fichier-journal"
+msgstr "Renommer le fichier journal"
 
 #: tfrmoptionsmultirename.lbinvalidcharreplacement.caption
 msgid "Replace invalid filename character b&y"
@@ -7250,7 +7285,7 @@ msgstr "Supprimer"
 #: tfrmoptionspluginsbase.btntweakplugin.caption
 msgctxt "tfrmoptionspluginsbase.btntweakplugin.caption"
 msgid "&Tweak"
-msgstr "Raffiner"
+msgstr "Ajuster"
 
 #: tfrmoptionspluginsbase.lblplugindescription.caption
 msgctxt "tfrmoptionspluginsbase.lblplugindescription.caption"
@@ -7295,7 +7330,7 @@ msgstr "Plugin"
 #: tfrmoptionspluginsdsx.stgplugins.columns[2].title.caption
 msgctxt "tfrmoptionspluginsdsx.stgplugins.columns[2].title.caption"
 msgid "Registered for"
-msgstr "Associé à"
+msgstr "Enregistré pour"
 
 #: tfrmoptionspluginsdsx.stgplugins.columns[3].title.caption
 msgctxt "tfrmoptionspluginsdsx.stgplugins.columns[3].title.caption"
@@ -7304,11 +7339,11 @@ msgstr "Nom de fichier"
 
 #: tfrmoptionspluginsgroup.btnpathtoberelativetoall.caption
 msgid "Apply current settings to all current configured plugins"
-msgstr "Appliquer à tous les \"plugins\" configurés"
+msgstr "Appliquer le paramétrage actuel à tous les \"plugins\" configurés"
 
 #: tfrmoptionspluginsgroup.ckbautotweak.caption
 msgid "When adding a new plugin, automatically go in tweak window"
-msgstr "Lors de l'ajout d'un nouveau plugin, aller automatiquement dans la fenêtre de raffinement"
+msgstr "Lors de l'ajout d'un nouveau plugin, aller automatiquement dans la fenêtre d'ajustement"
 
 #: tfrmoptionspluginsgroup.gbconfiguration.caption
 msgid "Configuration:"
@@ -7325,12 +7360,12 @@ msgstr "Le chemin doit être relatif à:"
 
 #: tfrmoptionspluginsgroup.lbpluginfilenamestyle.caption
 msgid "Plugin filename style when adding a new plugin:"
-msgstr "Style de nom de fichier du plugin lors de l'ajout d'un nouveau plugin:"
+msgstr "Style de nom de fichier du plugin lors de l'ajout d'un nouveau plugin :"
 
 #: tfrmoptionspluginswcx.lblplugindescription.caption
 msgctxt "tfrmoptionspluginswcx.lblplugindescription.caption"
 msgid "Pack&er plugins are used to work with archives"
-msgstr "Les \"plugins\" de compresseur sont utilisés pour travailler avec les archives compressées."
+msgstr "Les \"plugins\" de compresseurs sont utilisés pour travailler avec les archives compressées"
 
 #: tfrmoptionspluginswcx.stgplugins.columns[0].title.caption
 msgctxt "tfrmoptionspluginswcx.stgplugins.columns[0].title.caption"
@@ -7370,7 +7405,7 @@ msgstr "Plugin"
 #: tfrmoptionspluginswdx.stgplugins.columns[2].title.caption
 msgctxt "tfrmoptionspluginswdx.stgplugins.columns[2].title.caption"
 msgid "Registered for"
-msgstr "Associé à"
+msgstr "Enregistré pour"
 
 #: tfrmoptionspluginswdx.stgplugins.columns[3].title.caption
 msgctxt "tfrmoptionspluginswdx.stgplugins.columns[3].title.caption"
@@ -7380,7 +7415,7 @@ msgstr "Nom de fichier"
 #: tfrmoptionspluginswfx.lblplugindescription.caption
 msgctxt "tfrmoptionspluginswfx.lblplugindescription.caption"
 msgid "Fi&le system plugins allow access to disks inaccessible by operating system or to external devices like Palm/PocketPC."
-msgstr "Les \"plugins\" de système de fichier permettent d'accéder à des systèmes de fichiers qui ne sont pas pris en charge par le système d'exploitation ou sur des périphériques externes comme les Palm et PocketPC."
+msgstr "Les \"plugins\" de système de fichiers permettent d'accéder à des systèmes de fichiers qui ne sont pas pris en charge par le système d'exploitation ou sur des périphériques externes comme les Palm et PocketPC."
 
 #: tfrmoptionspluginswfx.stgplugins.columns[0].title.caption
 msgctxt "tfrmoptionspluginswfx.stgplugins.columns[0].title.caption"
@@ -7395,7 +7430,7 @@ msgstr "Plugin"
 #: tfrmoptionspluginswfx.stgplugins.columns[2].title.caption
 msgctxt "tfrmoptionspluginswfx.stgplugins.columns[2].title.caption"
 msgid "Registered for"
-msgstr "Associé à"
+msgstr "Enregistré pour"
 
 #: tfrmoptionspluginswfx.stgplugins.columns[3].title.caption
 msgctxt "tfrmoptionspluginswfx.stgplugins.columns[3].title.caption"
@@ -7420,7 +7455,7 @@ msgstr "Plugin"
 #: tfrmoptionspluginswlx.stgplugins.columns[2].title.caption
 msgctxt "tfrmoptionspluginswlx.stgplugins.columns[2].title.caption"
 msgid "Registered for"
-msgstr "Associé à"
+msgstr "Enregistré pour"
 
 #: tfrmoptionspluginswlx.stgplugins.columns[3].title.caption
 msgctxt "tfrmoptionspluginswlx.stgplugins.columns[3].title.caption"
@@ -7558,54 +7593,54 @@ msgstr "Droite"
 
 #: tfrmoptionstabsextra.cbgotoconfigafterresave.caption
 msgid "Goto to Favorite Tabs Configuration after resaving"
-msgstr "Aller à la configuration des groupes d'onglets favoris après l'avoir re-sauvegarder"
+msgstr "Aller à la configuration des groupes d'onglets favoris après avoir resauvegardé"
 
 #: tfrmoptionstabsextra.cbgotoconfigaftersave.caption
 msgid "Goto to Favorite Tabs Configuration after saving a new one"
-msgstr "Aller à la configuration des groupes d'onglets favoris après en avoir sauvegarder un nouveau"
+msgstr "Aller à la configuration des groupes d'onglets favoris après en avoir sauvegardé un nouveau"
 
 #: tfrmoptionstabsextra.cbusefavoritetabsextraoptions.caption
 msgid "Enable Favorite Tabs extra options (select target side when restore, etc.)"
-msgstr "Active les options extra des groupes d'onglets favoris (choix du panneau-cible lorsqu'on rappel, etc.)"
+msgstr "Activer les options supplémentaires des onglets favoris (choix du panneau cible lors du rappel, etc.)"
 
 #: tfrmoptionstabsextra.gbdefaulttabsavedrestoration.caption
 msgid "Default extra settings when saving new Favorite Tabs:"
-msgstr "Valeurs des options extra des groupes d'onglets favoris lorsqu'on en ajoute un nouveau"
+msgstr "Paramètres supplémentaires par défaut lors de la sauvegarde de nouveaux groupes d'onglets favoris : "
 
 #: tfrmoptionstabsextra.gbtabs.caption
 msgid "Folder tabs headers extra"
-msgstr "Options \"extra\" des onglets de dossiers"
+msgstr "Entêtes supplémentaires d'onglets de dossiers"
 
 #: tfrmoptionstabsextra.lbldefaultexistingtabstokeep.caption
 msgid "When restoring tab, existing tabs to keep:"
-msgstr "Lorsqu'on restitue un onglet, conserver les onglets existants :"
+msgstr "Lorsqu'on restaure un onglet, conserver les onglets existants :"
 
 #: tfrmoptionstabsextra.lbldefaulttargetpanelleftsaved.caption
 msgid "Tabs saved on left will be restored to:"
-msgstr "Les onglets sauvegardés de gauche seront rechargés :"
+msgstr "Les onglets enregistrés de gauche seront rechargés :"
 
 #: tfrmoptionstabsextra.lbldefaulttargetpanelrightsaved.caption
 msgid "Tabs saved on right will be restored to:"
-msgstr "Les onglets sauvegardés de droite seront rechargés :"
+msgstr "Les onglets enregistrés de droite seront rechargés :"
 
 #: tfrmoptionstabsextra.lblfavoritetabssavedirhistory.caption
 msgctxt "tfrmoptionstabsextra.lblfavoritetabssavedirhistory.caption"
 msgid "Keep saving dir history with Favorite Tabs:"
-msgstr "Conserver l'historique des dossiers avec ce groupe d'onglets favoris :"
+msgstr "Conserver l'historique des dossiers avec les groupes d'onglets favoris :"
 
 #: tfrmoptionstabsextra.rgwheretoadd.caption
 msgid "Default position in menu when saving a new Favorite Tabs:"
-msgstr "Position par défaut d'un nouveau groupe d'onglets favori lors de son ajout :"
+msgstr "Position par défaut lors de l'enregistrement d'un nouveau groupe d'onglets favoris :"
 
 #: tfrmoptionsterminal.edrunintermcloseparams.hint
 msgctxt "tfrmoptionsterminal.edrunintermcloseparams.hint"
 msgid "{command} should normally be present here to reflect the command to be run in terminal"
-msgstr "L'expression {command} devrait normalement être présente ici quelque part pour refléter l'emplacement où doit être la commande à exécuter en mode terminal"
+msgstr "L'expression {command} devrait normalement être présente ici pour refléter la commande à exécuter dans le terminal"
 
 #: tfrmoptionsterminal.edrunintermstayopenparams.hint
 msgctxt "tfrmoptionsterminal.edrunintermstayopenparams.hint"
 msgid "{command} should normally be present here to reflect the command to be run in terminal"
-msgstr "L'expression {command} devrait normalement être présente ici quelque part pour refléter l'emplacement où doit être la commande à exécuter en mode terminal"
+msgstr "L'expression {command} devrait normalement être présente ici pour refléter la commande à exécuter dans le terminal"
 
 #: tfrmoptionsterminal.gbjustrunterminal.caption
 msgid "Command for just running terminal:"
@@ -7613,11 +7648,11 @@ msgstr "Commande pour simplement exécuter le terminal :"
 
 #: tfrmoptionsterminal.gbruninterminalclose.caption
 msgid "Command for running a command in terminal and close after:"
-msgstr "Commande pour exécuter une commande en mode terminal et qui sera ensuite fermée :"
+msgstr "Commande pour exécuter une commande dans le terminal et le fermer ensuite :"
 
 #: tfrmoptionsterminal.gbruninterminalstayopen.caption
 msgid "Command for running a command in terminal and stay open:"
-msgstr "Commande pour exécuter une commande en mode terminal et qui restera ensuite ouverte :"
+msgstr "Commande pour exécuter une commande dans le terminal et le laisser ensuite ouvert :"
 
 #: tfrmoptionsterminal.lbrunintermclosecmd.caption
 msgctxt "tfrmoptionsterminal.lbrunintermclosecmd.caption"
@@ -7699,7 +7734,7 @@ msgstr "Suggestion"
 
 #: tfrmoptionstoolbarbase.btnsuggestiontooltip.hint
 msgid "Have DC suggest the tooltip based on button type, command and parameters"
-msgstr "Suggérer un tooltip basé sur le type de bouton, sa commande et paramètres"
+msgstr "Demander à DC de suggérer l'infobulle en fonction du type de bouton, de la commande et des paramètres."
 
 #: tfrmoptionstoolbarbase.cbflatbuttons.caption
 msgctxt "tfrmoptionstoolbarbase.cbflatbuttons.caption"
@@ -7708,7 +7743,7 @@ msgstr "Bo&utons simples"
 
 #: tfrmoptionstoolbarbase.cbreporterrorwithcommands.caption
 msgid "Report errors with commands"
-msgstr "Rapporter les erreurs avec les commandes"
+msgstr "Signaler les erreurs avec les commandes"
 
 #: tfrmoptionstoolbarbase.cbshowcaptions.caption
 msgid "Sho&w captions"
@@ -7716,7 +7751,7 @@ msgstr "Afficher les légendes"
 
 #: tfrmoptionstoolbarbase.edtinternalparameters.hint
 msgid "Enter command parameters, each in a separate line. Press F1 to see help on parameters."
-msgstr "Entrer les paramètres, un sur chaque ligne. Appuyer sur F1 pour obtenir de l'aide sur les paramètres."
+msgstr "Entrer les paramètres de commande, un par ligne. Appuyer sur F1 pour obtenir de l'aide sur les paramètres."
 
 #: tfrmoptionstoolbarbase.gbgroupbox.caption
 msgctxt "tfrmoptionstoolbarbase.gbgroupbox.caption"
@@ -7783,7 +7818,7 @@ msgstr "&Infobulle :"
 
 #: tfrmoptionstoolbarbase.miaddallcmds.caption
 msgid "Add toolbar with ALL DC commands"
-msgstr "Ajoute une barre d'outil avec TOUTES les commandes internes"
+msgstr "Ajouter une barre d'outil avec TOUTES les commandes internes"
 
 #: tfrmoptionstoolbarbase.miaddexternalcommandsubmenu.caption
 msgid "for an external command"
@@ -7813,40 +7848,40 @@ msgstr "Exporter..."
 
 #: tfrmoptionstoolbarbase.miexportcurrent.caption
 msgid "Current toolbar..."
-msgstr "Barre courante..."
+msgstr "Barre d'outils courante..."
 
 #: tfrmoptionstoolbarbase.miexportcurrenttodcbar.caption
 msgctxt "tfrmoptionstoolbarbase.miexportcurrenttodcbar.caption"
 msgid "to a Toolbar File (.toolbar)"
-msgstr "vers un fichier de barre d'outil (.toolbar)"
+msgstr "vers un fichier de barre d'outils (.toolbar)"
 
 #: tfrmoptionstoolbarbase.miexportcurrenttotcbarkeep.caption
 msgctxt "tfrmoptionstoolbarbase.miexportcurrenttotcbarkeep.caption"
 msgid "to a TC .BAR file (keep existing)"
-msgstr "vers un fichier de barre d'outil TC en conservant les existants (.BAR)"
+msgstr "vers un fichier TC de barre d'outils (.BAR) (maintien)"
 
 #: tfrmoptionstoolbarbase.miexportcurrenttotcbarnokeep.caption
 msgctxt "tfrmoptionstoolbarbase.miexportcurrenttotcbarnokeep.caption"
 msgid "to a TC .BAR file (erase existing)"
-msgstr "vers un fichier de barre d'outil TC en remplaçant les existants (.BAR)"
+msgstr "vers un fichier TC de barre d'outils (.BAR) (remplacement)"
 
 #: tfrmoptionstoolbarbase.miexportcurrenttotcinikeep.caption
 msgctxt "tfrmoptionstoolbarbase.miexportcurrenttotcinikeep.caption"
 msgid "to a \"wincmd.ini\" of TC (keep existing)"
-msgstr "vers \"wincmd.ini\" de TC (conservant les existants)"
+msgstr "vers \"wincmd.ini\" de TC (maintien)"
 
 #: tfrmoptionstoolbarbase.miexportcurrenttotcininokeep.caption
 msgctxt "tfrmoptionstoolbarbase.miexportcurrenttotcininokeep.caption"
 msgid "to a \"wincmd.ini\" of TC (erase existing)"
-msgstr "vers \"wincmd.ini\" de TC (remplaçant les existants)"
+msgstr "vers \"wincmd.ini\" de TC (remplacement)"
 
 #: tfrmoptionstoolbarbase.miexporttop.caption
 msgid "Top toolbar..."
-msgstr "Barre d'outil principale..."
+msgstr "Barre d'outils principale..."
 
 #: tfrmoptionstoolbarbase.miexporttoptobackup.caption
 msgid "Save a backup of Toolbar"
-msgstr "Savegarde une archive de la barre d'outil"
+msgstr "Savegarder une archive de la barre d'outils"
 
 #: tfrmoptionstoolbarbase.miexporttoptodcbar.caption
 msgctxt "tfrmoptionstoolbarbase.miexporttoptodcbar.caption"
@@ -7856,27 +7891,27 @@ msgstr "vers un fichier de barre d'outils (.toolbar)"
 #: tfrmoptionstoolbarbase.miexporttoptotcbarkeep.caption
 msgctxt "tfrmoptionstoolbarbase.miexporttoptotcbarkeep.caption"
 msgid "to a TC .BAR file (keep existing)"
-msgstr "vers un fichier .BAR de TC (remplace les existants)."
+msgstr "vers un fichier TC de barre d'outils (.BAR) (maintien)"
 
 #: tfrmoptionstoolbarbase.miexporttoptotcbarnokeep.caption
 msgctxt "tfrmoptionstoolbarbase.miexporttoptotcbarnokeep.caption"
 msgid "to a TC .BAR file (erase existing)"
-msgstr "vers un fichier de barre d'outil TC en remplaçant les existants (.BAR)"
+msgstr "vers un fichier TC de barre d'outils (.BAR) (remplacement)"
 
 #: tfrmoptionstoolbarbase.miexporttoptotcinikeep.caption
 msgctxt "tfrmoptionstoolbarbase.miexporttoptotcinikeep.caption"
 msgid "to a \"wincmd.ini\" of TC (keep existing)"
-msgstr "vers \"wincmd.ini\" de TC (conservant les existants)"
+msgstr "vers \"wincmd.ini\" de TC (maintien)"
 
 #: tfrmoptionstoolbarbase.miexporttoptotcininokeep.caption
 msgctxt "tfrmoptionstoolbarbase.miexporttoptotcininokeep.caption"
 msgid "to a \"wincmd.ini\" of TC (erase existing)"
-msgstr "vers \"wincmd.ini\" de TC (remplaçant les existants)"
+msgstr "vers \"wincmd.ini\" de TC (remplacement)"
 
 #: tfrmoptionstoolbarbase.miexternalcommandaftercurrent.caption
 msgctxt "tfrmoptionstoolbarbase.miexternalcommandaftercurrent.caption"
 msgid "just after current selection"
-msgstr "immédiatement après la séelection courante"
+msgstr "immédiatement après la sélection courante"
 
 #: tfrmoptionstoolbarbase.miexternalcommandfirstelement.caption
 msgctxt "tfrmoptionstoolbarbase.miexternalcommandfirstelement.caption"
@@ -7910,12 +7945,12 @@ msgstr "pour ajouter à la barre d'outils courante"
 #: tfrmoptionstoolbarbase.miimportbackupaddmenucurrent.caption
 msgctxt "tfrmoptionstoolbarbase.miimportbackupaddmenucurrent.caption"
 msgid "to add to a new toolbar to current toolbar"
-msgstr "pour ajouter une nouvelle barre d'outils à la barre d'outil courante"
+msgstr "pour ajouter une nouvelle barre d'outils à la barre d'outils courante"
 
 #: tfrmoptionstoolbarbase.miimportbackupaddmenutop.caption
 msgctxt "tfrmoptionstoolbarbase.miimportbackupaddmenutop.caption"
 msgid "to add to a new toolbar to top toolbar"
-msgstr "pour ajouter une nouvelle barre d'outils à la barre d'outil principale"
+msgstr "pour ajouter une nouvelle barre d'outils à la barre d'outils principale"
 
 #: tfrmoptionstoolbarbase.miimportbackupaddtop.caption
 msgctxt "tfrmoptionstoolbarbase.miimportbackupaddtop.caption"
@@ -7925,11 +7960,11 @@ msgstr "pour ajouter à la barre d'outils principale"
 #: tfrmoptionstoolbarbase.miimportbackupreplacetop.caption
 msgctxt "tfrmoptionstoolbarbase.miimportbackupreplacetop.caption"
 msgid "to replace top toolbar"
-msgstr "pour remplace la barre d'outil pricipale"
+msgstr "pour remplacer la barre d'outils principale"
 
 #: tfrmoptionstoolbarbase.miimportdcbar.caption
 msgid "from a Toolbar File (.toolbar)"
-msgstr "d'un fichier de barre (.toolbar)"
+msgstr "d'un fichier de barre d'outils (.toolbar)"
 
 #: tfrmoptionstoolbarbase.miimportdcbaraddcurrent.caption
 msgctxt "tfrmoptionstoolbarbase.miimportdcbaraddcurrent.caption"
@@ -7939,7 +7974,7 @@ msgstr "pour ajouter à la barre d'outils courante"
 #: tfrmoptionstoolbarbase.miimportdcbaraddmenucurrent.caption
 msgctxt "tfrmoptionstoolbarbase.miimportdcbaraddmenucurrent.caption"
 msgid "to add to a new toolbar to current toolbar"
-msgstr "pour ajouter une nouvelle barre d'outils à la barre d'outil courante"
+msgstr "pour ajouter une nouvelle barre d'outils à la barre d'outils courante"
 
 #: tfrmoptionstoolbarbase.miimportdcbaraddmenutop.caption
 msgctxt "tfrmoptionstoolbarbase.miimportdcbaraddmenutop.caption"
@@ -7954,11 +7989,11 @@ msgstr "pour ajouter à la barre d'outils principale"
 #: tfrmoptionstoolbarbase.miimportdcbarreplacetop.caption
 msgctxt "tfrmoptionstoolbarbase.miimportdcbarreplacetop.caption"
 msgid "to replace top toolbar"
-msgstr "pour remplacer la barre d'outil pricipale"
+msgstr "pour remplacer la barre d'outils principale"
 
 #: tfrmoptionstoolbarbase.miimporttcbar.caption
 msgid "from a single TC .BAR file"
-msgstr "d'un fichier de barre de TC (.BAR)"
+msgstr "d'un fichier TC de barre d'outils (.BAR)"
 
 #: tfrmoptionstoolbarbase.miimporttcbaraddcurrent.caption
 msgctxt "tfrmoptionstoolbarbase.miimporttcbaraddcurrent.caption"
@@ -7968,7 +8003,7 @@ msgstr "pour ajouter à la barre d'outils courante"
 #: tfrmoptionstoolbarbase.miimporttcbaraddmenucurrent.caption
 msgctxt "tfrmoptionstoolbarbase.miimporttcbaraddmenucurrent.caption"
 msgid "to add to a new toolbar to current toolbar"
-msgstr "pour ajouter une nouvelle barre d'outils à la barre d'outil courante"
+msgstr "pour ajouter une nouvelle barre d'outils à la barre d'outils courante"
 
 #: tfrmoptionstoolbarbase.miimporttcbaraddmenutop.caption
 msgctxt "tfrmoptionstoolbarbase.miimporttcbaraddmenutop.caption"
@@ -7983,7 +8018,7 @@ msgstr "pour ajouter à la barre d'outils principale"
 #: tfrmoptionstoolbarbase.miimporttcbarreplacetop.caption
 msgctxt "tfrmoptionstoolbarbase.miimporttcbarreplacetop.caption"
 msgid "to replace top toolbar"
-msgstr "pour remplace la barre d'outil pricipale"
+msgstr "pour remplacer la barre d'outils principale"
 
 #: tfrmoptionstoolbarbase.miimporttcini.caption
 msgid "from \"wincmd.ini\" of TC..."
@@ -7997,7 +8032,7 @@ msgstr "pour ajouter à la barre d'outils courante"
 #: tfrmoptionstoolbarbase.miimporttciniaddmenucurrent.caption
 msgctxt "tfrmoptionstoolbarbase.miimporttciniaddmenucurrent.caption"
 msgid "to add to a new toolbar to current toolbar"
-msgstr "pour ajouter une nouvelle barre d'outils à la barre d'outil courante"
+msgstr "pour ajouter une nouvelle barre d'outils à la barre d'outils courante"
 
 #: tfrmoptionstoolbarbase.miimporttciniaddmenutop.caption
 msgctxt "tfrmoptionstoolbarbase.miimporttciniaddmenutop.caption"
@@ -8012,7 +8047,7 @@ msgstr "pour ajouter à la barre d'outils principale"
 #: tfrmoptionstoolbarbase.miimporttcinireplacetop.caption
 msgctxt "tfrmoptionstoolbarbase.miimporttcinireplacetop.caption"
 msgid "to replace top toolbar"
-msgstr "pour remplacer la barre d'outil pricipale"
+msgstr "pour remplacer la barre d'outils principale"
 
 #: tfrmoptionstoolbarbase.miinternalcommandaftercurrent.caption
 msgctxt "tfrmoptionstoolbarbase.miinternalcommandaftercurrent.caption"
@@ -8101,7 +8136,7 @@ msgstr "immédiatement avant la sélection courante"
 
 #: tfrmoptionstoolbarbase.rbseparator.caption
 msgid "Separator"
-msgstr "Separator"
+msgstr "Séparateur"
 
 #: tfrmoptionstoolbarbase.rbspace.caption
 msgid "Space"
@@ -8137,17 +8172,17 @@ msgstr "Chemins"
 
 #: tfrmoptionstoolbarextra.lblapplysettingsfor.caption
 msgid "Do this for files and paths for:"
-msgstr "Faire cela pour les fichiers et les chemins:"
+msgstr "Faire cela pour les fichiers et les chemins :"
 
 #: tfrmoptionstoolbarextra.lbpathtoberelativeto.caption
 msgctxt "tfrmoptionstoolbarextra.lbpathtoberelativeto.caption"
 msgid "Path to be relative to:"
-msgstr "Le chemin doit être relatif à:"
+msgstr "Le chemin doit être relatif à :"
 
 #: tfrmoptionstoolbarextra.lbtoolbarfilenamestyle.caption
 msgctxt "tfrmoptionstoolbarextra.lbtoolbarfilenamestyle.caption"
 msgid "Way to set paths when adding elements for icons, commands and starting paths:"
-msgstr "Manière de définir les chemins lors des ajout d'icônes, de commandes et de chemins:"
+msgstr "Manière de définir les chemins lors des ajout d'icônes, de commandes et de chemins :"
 
 #: tfrmoptionstoolbase.btnrelativetoolpath.hint
 msgctxt "tfrmoptionstoolbase.btnrelativetoolpath.hint"
@@ -8221,16 +8256,16 @@ msgstr "Autres..."
 
 #: tfrmoptionstooltips.bvltooltips1.caption
 msgid "Tooltip configuration for selected file type:"
-msgstr "Configuration de l'info-bulle pour le type de fichier sélectionné:"
+msgstr "Configuration de l'infobulle pour le type de fichier sélectionné :"
 
 #: tfrmoptionstooltips.bvltooltips2.caption
 msgid "General options about tooltips:"
-msgstr "Options générales sur les info-bulles :"
+msgstr "Options générales sur les infobulles :"
 
 #: tfrmoptionstooltips.chkshowtooltip.caption
 msgctxt "tfrmoptionstooltips.chkshowtooltip.caption"
 msgid "&Show tooltip for files in the file panel"
-msgstr "Afficher les info-bulles dans les panneaux de fichiers"
+msgstr "Afficher les infobulles dans les panneaux de fichiers"
 
 #: tfrmoptionstooltips.lblfieldslist.caption
 msgctxt "TFRMOPTIONSTOOLTIPS.LBLFIELDSLIST.CAPTION"
@@ -8244,15 +8279,15 @@ msgstr "Masque de catégorie :"
 
 #: tfrmoptionstooltips.lbltooltiphidingdelay.caption
 msgid "Tooltip hiding delay:"
-msgstr "Délai de masquage des infobulles:"
+msgstr "Délai de masquage des infobulles :"
 
 #: tfrmoptionstooltips.lbltooltipshowingmode.caption
 msgid "Tooltip showing mode:"
-msgstr "Mode d'affichage des infobulles:"
+msgstr "Mode d'affichage des infobulles :"
 
 #: tfrmoptionstooltips.lbltooltipslistbox.caption
 msgid "&File types:"
-msgstr "Types de fichiers:"
+msgstr "Types de fichiers :"
 
 #: tfrmoptionstooltips.mitooltipsfiletypediscardmodification.caption
 msgid "Discard Modifications"
@@ -8296,7 +8331,7 @@ msgstr "Lors d'un double-clic sur un onglet (si configuré pour cela)"
 
 #: tfrmoptionstreeviewmenu.ckbshortcutselectandclose.caption
 msgid "When using the keyboard shortcut, it will exit the window returning the current choice"
-msgstr "Lorsqu'on utilise un raccourci-clavier, cela va quitter directement en revenant au choix courant"
+msgstr "Lorsqu'on utilise un raccourci clavier, cela quittera la fenêtre en revenant au choix courant"
 
 #: tfrmoptionstreeviewmenu.ckbsingleclickselect.caption
 msgid "Single mouse click in tree select and exit"
@@ -8320,15 +8355,15 @@ msgstr "Comportement concernant la sélection :"
 
 #: tfrmoptionstreeviewmenu.gbtreeviewmenusettings.caption
 msgid "Tree View Menus related options:"
-msgstr "Options reliées au menu en arbre :"
+msgstr "Options reliées au menu en arborescence :"
 
 #: tfrmoptionstreeviewmenu.gbwheretousetreeviewmenu.caption
 msgid "Where to use Tree View Menus:"
-msgstr "Où utiliser les menu en arbre :"
+msgstr "Où utiliser les menus en arborescence :"
 
 #: tfrmoptionstreeviewmenu.lblnote.caption
 msgid "*NOTE: Regarding the options like the case sensitivity, ignoring accents or not, these are saved and restored individually for each context from a usage and session to another."
-msgstr "*NOTE : Concernant les options comme la sensiblité à la casse, d'ignorer les accents ou non, ces options seront sauvegardées et ramenées pour chaque contexte d'un usage et d'une session à l'autre."
+msgstr "*NOTE : Les options sensibilité à la casse et/ou aux accents seront enregistrées puis restaurées individuellement pour chaque contexte, d'une utilisation et d'une session à l'autre."
 
 #: tfrmoptionstreeviewmenu.lbluseindirectoryhotlist.caption
 msgid "With Directory Hotlist:"
@@ -8336,7 +8371,7 @@ msgstr "Avec les dossiers favoris :"
 
 #: tfrmoptionstreeviewmenu.lblusewithfavoritetabs.caption
 msgid "With Favorite Tabs:"
-msgstr "Avec les onglets favoris :"
+msgstr "Avec les groupes d'onglets favoris :"
 
 #: tfrmoptionstreeviewmenu.lblusewithhistory.caption
 msgid "With History:"
@@ -8385,7 +8420,7 @@ msgstr "Texte normal sous le curseur :"
 
 #: tfrmoptionstreeviewmenucolor.lblpreview.caption
 msgid "Tree View Menu Preview:"
-msgstr "Avant-goût du menu en arbre :"
+msgstr "Aperçu du menu en arborescence :"
 
 #: tfrmoptionstreeviewmenucolor.lblsecondarytextcolor.caption
 msgid "Secondary text color:"
@@ -8413,7 +8448,7 @@ msgstr "Texte non sélectionnable sous le curseur :"
 
 #: tfrmoptionstreeviewmenucolor.treeviewmenusample.hint
 msgid "Change color on left and you'll see here a preview of what your Tree View Menus will look likes with this sample."
-msgstr "Changer la couleur à gauche et vous observer un avant-goût du résultat à droite."
+msgstr "Changer la couleur à gauche et vous disposerez d'un aperçu du résultat à droite."
 
 #: tfrmoptionsviewer.gbinternalviewer.caption
 msgid "Internal viewer options"
@@ -8422,7 +8457,7 @@ msgstr "Options de la visionneuse interne"
 #: tfrmoptionsviewer.lblnumbercolumnsviewer.caption
 msgctxt "TFRMOPTIONSVIEWER.LBLNUMBERCOLUMNSVIEWER.CAPTION"
 msgid "&Number of columns in book viewer"
-msgstr "Nombre de colonne en mode \"Book\""
+msgstr "Nombre de colonnes en mode \"Book\""
 
 #: tfrmpackdlg.btnconfig.caption
 msgctxt "TFRMPACKDLG.BTNCONFIG.CAPTION"
@@ -8560,11 +8595,11 @@ msgstr "X"
 
 #: tfrmquicksearch.btncancel.hint
 msgid "Close filter panel"
-msgstr "Fermer le panneau de filtre"
+msgstr "Fermer le panneau de filtres"
 
 #: tfrmquicksearch.edtsearch.hint
 msgid "Enter text to search for or filter by"
-msgstr "Entrer le texte à rechercher ou utilisé pour filtrer"
+msgstr "Entrer le texte à chercher ou à utiliser pour filtrer"
 
 #: tfrmquicksearch.sbcasesensitive.caption
 msgid "Aa"
@@ -8598,7 +8633,7 @@ msgstr "{"
 
 #: tfrmquicksearch.sbmatchbeginning.hint
 msgid "Match Beginning"
-msgstr "Que le début corresponde"
+msgstr "Correspondance de début"
 
 #: tfrmquicksearch.sbmatchending.caption
 msgid "}"
@@ -8606,7 +8641,7 @@ msgstr "}"
 
 #: tfrmquicksearch.sbmatchending.hint
 msgid "Match Ending"
-msgstr "Que la fin corresponde"
+msgstr "Correspondance de fin"
 
 #: tfrmquicksearch.tglfilter.caption
 msgctxt "tfrmquicksearch.tglfilter.caption"
@@ -8655,7 +8690,7 @@ msgstr "ET (tout correspond)"
 
 #: tfrmsearchplugin.rbor.caption
 msgid "&OR (any match)"
-msgstr "OU (n'importe quel concordance)"
+msgstr "OU (n'importe quelle concordance)"
 
 #: tfrmselectduplicates.btnapply.caption
 msgctxt "tfrmselectduplicates.btnapply.caption"
@@ -8727,16 +8762,16 @@ msgstr "Séparateur"
 
 #: tfrmselectpathrange.gbcountfrom.caption
 msgid "Count from"
-msgstr "Dernier à partir de"
+msgstr "Compte à partir de"
 
 #: tfrmselectpathrange.lblresult.caption
 msgctxt "tfrmselectpathrange.lblresult.caption"
 msgid "Result:"
-msgstr "Résultat:"
+msgstr "Résultat :"
 
 #: tfrmselectpathrange.lblselectdirectories.caption
 msgid "&Select the directories to insert (you may select more than one)"
-msgstr "Choisir les répertoires à insérer (on peut en choisir plus d'un)"
+msgstr "Choisir les répertoires à insérer (plusieurs possibles)"
 
 #: tfrmselectpathrange.rbfirstfromend.caption
 msgctxt "tfrmselectpathrange.rbfirstfromend.caption"
@@ -8760,7 +8795,7 @@ msgstr "OK"
 
 #: tfrmselecttextrange.gbcountfirstfrom.caption
 msgid "Count first from"
-msgstr "Premier à part de"
+msgstr "Premier à partir de"
 
 #: tfrmselecttextrange.gbcountlastfrom.caption
 msgid "Count last from"
@@ -8773,7 +8808,7 @@ msgstr "Description de l'intervalle"
 #: tfrmselecttextrange.lblresult.caption
 msgctxt "tfrmselecttextrange.lblresult.caption"
 msgid "Result:"
-msgstr "Résultat:"
+msgstr "Résultat :"
 
 #: tfrmselecttextrange.lblselecttext.caption
 msgid "&Select the characters to insert:"
@@ -8936,7 +8971,7 @@ msgstr "(les champs grisés signifient des valeurs inchangées)"
 #: tfrmsetfileproperties.lbloctal.caption
 msgctxt "TFRMSETFILEPROPERTIES.LBLOCTAL.CAPTION"
 msgid "Octal:"
-msgstr "Octal:"
+msgstr "Octale :"
 
 #: tfrmsetfileproperties.lblread.caption
 msgctxt "TFRMSETFILEPROPERTIES.LBLREAD.CAPTION"
@@ -8997,7 +9032,7 @@ msgstr "Découper le fichier"
 
 #: tfrmsplitter.cbrequireacrc32verificationfile.caption
 msgid "Require a CRC32 verification file"
-msgstr "Demander un fichier de vérification de signature CRC21"
+msgstr "Demander un fichier de signature CRC32"
 
 #: tfrmsplitter.cmbxsize.text
 msgid "1457664B - 3.5\""
@@ -9005,7 +9040,7 @@ msgstr "1457664B - 3.5\""
 
 #: tfrmsplitter.grbxsize.caption
 msgid "Size and number of parts"
-msgstr "Taille et nombre de parts"
+msgstr "Taille et nombre de parties"
 
 #: tfrmsplitter.lbdirtarget.caption
 msgid "Split the file to directory:"
@@ -9013,7 +9048,7 @@ msgstr "Fractionner le fichier vers le dossier :"
 
 #: tfrmsplitter.lblnumberparts.caption
 msgid "&Number of parts"
-msgstr "Nombre de blocs"
+msgstr "Nombre de parties"
 
 #: tfrmsplitter.rbtnbyte.caption
 msgid "&Bytes"
@@ -9102,7 +9137,7 @@ msgstr "Créer un lien symbolique"
 
 #: tfrmsymlink.chkuserelativepath.caption
 msgid "Use &relative path when possible"
-msgstr "Utiliser le chemin relatif lorsque possible"
+msgstr "Utiliser un chemin relatif si possible"
 
 #: tfrmsymlink.lblexistingfile.caption
 msgctxt "TFRMSYMLINK.LBLEXISTINGFILE.CAPTION"
@@ -9116,7 +9151,7 @@ msgstr "Nom du lien"
 
 #: tfrmsyncdirsdlg.actdeleteboth.caption
 msgid "Delete on both sides"
-msgstr "Effacer des deux côtés"
+msgstr "Supprimer des deux côtés"
 
 #: tfrmsyncdirsdlg.actdeleteleft.caption
 msgid "<- Delete left"
@@ -9128,7 +9163,7 @@ msgstr "-> Supprimer à droite"
 
 #: tfrmsyncdirsdlg.actselectclear.caption
 msgid "Remove selection"
-msgstr "Supprément éléments sélectionnées"
+msgstr "Supprimer la sélection"
 
 #: tfrmsyncdirsdlg.actselectcopydefault.caption
 msgid "Select for copying (default direction)"
@@ -9205,11 +9240,11 @@ msgstr "seulement les sélections"
 
 #: tfrmsyncdirsdlg.chksubdirs.caption
 msgid "Subdirs"
-msgstr "Sous-dossiers"
+msgstr "sous-dossiers"
 
 #: tfrmsyncdirsdlg.groupbox1.caption
 msgid "Show:"
-msgstr "Montre :"
+msgstr "Affichage :"
 
 #: tfrmsyncdirsdlg.headerdg.columns[0].title.caption
 msgctxt "tfrmsyncdirsdlg.headerdg.columns[0].title.caption"
@@ -9292,12 +9327,12 @@ msgstr "uniques"
 
 #: tfrmsyncdirsdlg.statusbar1.panels[0].text
 msgid "Please press \"Compare\" to start"
-msgstr "Cliquer sur \"Comparer\" pour lancer"
+msgstr "Veuillez cliquer sur \"Comparer\" pour lancer"
 
 #: tfrmsyncdirsperformdlg.caption
 msgctxt "tfrmsyncdirsperformdlg.caption"
 msgid "Synchronize"
-msgstr "Synchronise"
+msgstr "Synchroniser"
 
 #: tfrmsyncdirsperformdlg.chkconfirmoverwrites.caption
 msgid "Confirm overwrites"
@@ -9306,7 +9341,7 @@ msgstr "Confirmer l'écrasement"
 #: tfrmtreeviewmenu.caption
 msgctxt "tfrmtreeviewmenu.caption"
 msgid "Tree View Menu"
-msgstr "Menu en arbre"
+msgstr "Menu en arborescence"
 
 #: tfrmtreeviewmenu.lblsearchingentry.caption
 msgid "Select your hot directory:"
@@ -9322,7 +9357,7 @@ msgstr "Replier toutes les branches"
 
 #: tfrmtreeviewmenu.pmifullexpand.caption
 msgid "Full expand"
-msgstr "Développer les branchess"
+msgstr "Développer toutes les branches"
 
 #: tfrmtreeviewmenu.pmiignoreaccents.caption
 msgid "Search ignore accents and ligatures"
@@ -9338,25 +9373,25 @@ msgstr "La recherche respecte les accents et ligatures"
 
 #: tfrmtreeviewmenu.pminotshowwholebranchifmatch.caption
 msgid "Don't show the branch content \"just\" because the searched string is found in the branche name"
-msgstr "Ne pas montrer la branche si la chaîne recherchée ne se trouve que dans le nom de cette branche"
+msgstr "Ne pas montrer la branche si la chaîne recherchée ne se trouve \"que\" dans le nom de cette branche"
 
 #: tfrmtreeviewmenu.pmishowwholebranchifmatch.caption
 msgid "If searched string is found in a branch name, show the whole branch even if elements don't match"
-msgstr "Si la chaîne recherchée se trouve dans le nom de la branche, afficher cette branche même si rien à l'intérieur ne correspond"
+msgstr "Si la chaîne recherchée se trouve dans le nom de la branche, afficher cette branche même si rien ne correspond à l'intérieur"
 
 #: tfrmtreeviewmenu.tbcancelandquit.hint
 msgid "Close Tree View Menu"
-msgstr "Fermer le menu en arbre"
+msgstr "Fermer le menu en arborescence"
 
 #: tfrmtreeviewmenu.tbconfigurationtreeviewmenus.hint
 msgctxt "tfrmtreeviewmenu.tbconfigurationtreeviewmenus.hint"
 msgid "Configuration of Tree View Menu"
-msgstr "Configuration du menu en arbre"
+msgstr "Configuration du menu en arborescence"
 
 #: tfrmtreeviewmenu.tbconfigurationtreeviewmenuscolors.hint
 msgctxt "tfrmtreeviewmenu.tbconfigurationtreeviewmenuscolors.hint"
 msgid "Configuration of Tree View Menu Colors"
-msgstr "Configuration des couleurs du menu en arbre"
+msgstr "Configuration des couleurs du menu en arborescence"
 
 #: tfrmtweakplugin.btnadd.caption
 msgid "A&dd new"
@@ -9399,7 +9434,7 @@ msgstr "Supprimer"
 #: tfrmtweakplugin.caption
 msgctxt "TFRMTWEAKPLUGIN.CAPTION"
 msgid "Tweak plugin"
-msgstr "Raffiner le \"plugin\""
+msgstr "Ajuster le \"plugin\""
 
 #: tfrmtweakplugin.cbpk_caps_by_content.caption
 msgid "De&tect archive type by content"
@@ -9415,7 +9450,7 @@ msgstr "Supporte le cryptage"
 
 #: tfrmtweakplugin.cbpk_caps_hide.caption
 msgid "Sho&w as normal files (hide packer icon)"
-msgstr "Afficher comme des fichiers normaux (cacher l'icône d'archive)"
+msgstr "Affiche comme des fichiers normaux (cache l'icône d'archive)"
 
 #: tfrmtweakplugin.cbpk_caps_mempack.caption
 msgid "Supports pac&king in memory"
@@ -9439,7 +9474,7 @@ msgstr "Supporte les boites de dialogue avec les options"
 
 #: tfrmtweakplugin.cbpk_caps_searchtext.caption
 msgid "Allow searchin&g for text in archives"
-msgstr "Autoriser la recherche de texte dans les archives"
+msgstr "Autorise la recherche de texte dans les archives"
 
 #: tfrmtweakplugin.lbldescription.caption
 msgctxt "TFRMTWEAKPLUGIN.LBLDESCRIPTION.CAPTION"
@@ -9481,15 +9516,15 @@ msgstr "A propos de la visionneuse"
 
 #: tfrmviewer.actabout.hint
 msgid "Displays the About message"
-msgstr "Afficher le message d'À propos"
+msgstr "Affiche le message \"A propos\""
 
 #: tfrmviewer.actautoreload.caption
 msgid "Auto Reload"
-msgstr "Actualiser automatiquement"
+msgstr "Actualise automatiquement"
 
 #: tfrmviewer.actchangeencoding.caption
 msgid "Change encoding"
-msgstr "Changer encodage"
+msgstr "Change l'encodage"
 
 #: tfrmviewer.actcopyfile.caption
 msgctxt "TFRMVIEWER.ACTCOPYFILE.CAPTION"
@@ -9504,11 +9539,11 @@ msgstr "Copie fichier"
 #: tfrmviewer.actcopytoclipboard.caption
 msgctxt "tfrmviewer.actcopytoclipboard.caption"
 msgid "Copy To Clipboard"
-msgstr "Copier vers le presse-papier"
+msgstr "Copie vers le presse-papier"
 
 #: tfrmviewer.actcopytoclipboardformatted.caption
 msgid "Copy To Clipboard Formatted"
-msgstr "Coper vers le presse-papier"
+msgstr "Copie vers le presse-papier"
 
 #: tfrmviewer.actdeletefile.caption
 msgctxt "TFRMVIEWER.ACTDELETEFILE.CAPTION"
@@ -9523,22 +9558,22 @@ msgstr "Efface le fichier"
 #: tfrmviewer.actexitviewer.caption
 msgctxt "tfrmviewer.actexitviewer.caption"
 msgid "E&xit"
-msgstr "&Quitter"
+msgstr "&Quitte"
 
 #: tfrmviewer.actfind.caption
 msgctxt "tfrmviewer.actfind.caption"
 msgid "Find"
-msgstr "Rechercher"
+msgstr "Recherche"
 
 #: tfrmviewer.actfindnext.caption
 msgctxt "tfrmviewer.actfindnext.caption"
 msgid "Find next"
-msgstr "Rechercher le suivant"
+msgstr "Recherche le suivant"
 
 #: tfrmviewer.actfindprev.caption
 msgctxt "tfrmviewer.actfindprev.caption"
 msgid "Find previous"
-msgstr "Recherche précédent"
+msgstr "Recherche le précédent"
 
 #: tfrmviewer.actfullscreen.caption
 msgctxt "tfrmviewer.actfullscreen.caption"
@@ -9549,18 +9584,18 @@ msgstr "Plein écran"
 #, fuzzy
 msgctxt "tfrmviewer.actgotoline.caption"
 msgid "Goto Line..."
-msgstr "Allez à la ligne..."
+msgstr "Va à la ligne..."
 
 #: tfrmviewer.actgotoline.hint
 #, fuzzy
 msgctxt "tfrmviewer.actgotoline.hint"
 msgid "Goto Line"
-msgstr "Aller à la ligne"
+msgstr "Va à la ligne"
 
 #: tfrmviewer.actimagecenter.caption
 msgctxt "tfrmviewer.actimagecenter.caption"
 msgid "Center"
-msgstr "Centrer"
+msgstr "Centre"
 
 #: tfrmviewer.actloadnextfile.caption
 msgctxt "TFRMVIEWER.ACTLOADNEXTFILE.CAPTION"
@@ -9569,7 +9604,7 @@ msgstr "Sui&vant"
 
 #: tfrmviewer.actloadnextfile.hint
 msgid "Load Next File"
-msgstr "Charger le fichier suivant"
+msgstr "Charge le fichier suivant"
 
 #: tfrmviewer.actloadprevfile.caption
 msgctxt "TFRMVIEWER.ACTLOADPREVFILE.CAPTION"
@@ -9578,7 +9613,7 @@ msgstr "&Précédent"
 
 #: tfrmviewer.actloadprevfile.hint
 msgid "Load Previous File"
-msgstr "Charger le fichier précédent"
+msgstr "Charge le fichier précédent"
 
 #: tfrmviewer.actmirrorhorz.caption
 msgid "Mirror Horizontally"
@@ -9606,11 +9641,11 @@ msgstr "Déplace fichier"
 #: tfrmviewer.actpreview.caption
 msgctxt "tfrmviewer.actpreview.caption"
 msgid "Preview"
-msgstr "Prévisualisation"
+msgstr "Aperçu"
 
 #: tfrmviewer.actprint.caption
 msgid "P&rint..."
-msgstr "Imprimer..."
+msgstr "Imprime..."
 
 #: tfrmviewer.actprintsetup.caption
 msgid "Print &setup..."
@@ -9667,7 +9702,7 @@ msgstr "Enregistrer sous..."
 
 #: tfrmviewer.actsaveas.hint
 msgid "Save File As..."
-msgstr "Sauvegarder le fichier sous..."
+msgstr "Enregistrer le fichier sous..."
 
 #: tfrmviewer.actscreenshot.caption
 msgctxt "tfrmviewer.actscreenshot.caption"
@@ -9680,7 +9715,7 @@ msgstr "Délai de 3 secondes"
 
 #: tfrmviewer.actscreenshotdelay5sec.caption
 msgid "Delay 5 sec"
-msgstr "Délain de 5 seconde"
+msgstr "Délai de 5 secondes"
 
 #: tfrmviewer.actselectall.caption
 msgctxt "tfrmviewer.actselectall.caption"
@@ -9717,7 +9752,7 @@ msgstr "Affiche le curseur"
 
 #: tfrmviewer.actshowcode.caption
 msgid "Code"
-msgstr ""
+msgstr "Code"
 
 #: tfrmviewer.actshowgraphics.caption
 msgctxt "tfrmviewer.actshowgraphics.caption"
@@ -9726,7 +9761,7 @@ msgstr "Graphiques"
 
 #: tfrmviewer.actshowoffice.caption
 msgid "Office XML (text only)"
-msgstr ""
+msgstr "Office XML (uniquement texte)"
 
 #: tfrmviewer.actshowplugins.caption
 msgctxt "tfrmviewer.actshowplugins.caption"
@@ -9735,7 +9770,7 @@ msgstr "\"Plugins\""
 
 #: tfrmviewer.actshowtransparency.caption
 msgid "Show transparenc&y"
-msgstr ""
+msgstr "Transparence d'affichage"
 
 #: tfrmviewer.actstretchimage.caption
 msgctxt "TFRMVIEWER.ACTSTRETCHIMAGE.CAPTION"
@@ -9744,18 +9779,18 @@ msgstr "Étirer"
 
 #: tfrmviewer.actstretchimage.hint
 msgid "Stretch Image"
-msgstr "Étendre l'image"
+msgstr "Étirer l'image"
 
 #: tfrmviewer.actstretchonlylarge.caption
 msgctxt "tfrmviewer.actstretchonlylarge.caption"
 msgid "Stretch only large"
-msgstr "Étendre seulement les grandes images"
+msgstr "Étirer seulement les grandes images"
 
 #: tfrmviewer.actundo.caption
 #, fuzzy
 msgctxt "tfrmviewer.actundo.caption"
 msgid "Undo"
-msgstr "Annuler (en arrière)"
+msgstr "Annuler"
 
 #: tfrmviewer.actundo.hint
 msgctxt "TFRMVIEWER.ACTUNDO.HINT"
@@ -9764,7 +9799,7 @@ msgstr "Annuler"
 
 #: tfrmviewer.actwraptext.caption
 msgid "&Wrap text"
-msgstr ""
+msgstr "Envelopper le texte"
 
 #: tfrmviewer.actzoom.caption
 msgid "Zoom"
@@ -9816,7 +9851,7 @@ msgstr "Image suivante"
 #: tfrmviewer.btnpaint.hint
 msgctxt "TFRMVIEWER.BTNPAINT.HINT"
 msgid "Paint"
-msgstr "Colorer"
+msgstr "Colorier"
 
 #: tfrmviewer.btnpenwidth.caption
 msgctxt "tfrmviewer.btnpenwidth.caption"
@@ -9861,6 +9896,7 @@ msgid "Ellipse"
 msgstr "Ellipse"
 
 #: tfrmviewer.miencoding.caption
+# H_02
 msgctxt "TFRMVIEWER.MIENCODING.CAPTION"
 msgid "En&coding"
 msgstr "En&codage"
@@ -9943,7 +9979,7 @@ msgstr "Nouvelle file d'attente"
 #: tfrmviewoperations.mnuoperationshowdetached.caption
 msgctxt "tfrmviewoperations.mnuoperationshowdetached.caption"
 msgid "Show in detached window"
-msgstr "Montre dans une fenêtre détachée"
+msgstr "Montrer dans une fenêtre détachée"
 
 #: tfrmviewoperations.mnuputfirstinqueue.caption
 msgid "Put first in queue"
@@ -9994,7 +10030,7 @@ msgstr "Montre dans une fenêtre détachée"
 
 #: tfrmviewoperations.tbpauseall.caption
 msgid "&Pause all"
-msgstr "Une pause pour tous"
+msgstr "Mettre tout en pause"
 
 #: tgiocopymoveoperationoptionsui.cbfollowlinks.caption
 msgctxt "tgiocopymoveoperationoptionsui.cbfollowlinks.caption"
@@ -10033,11 +10069,11 @@ msgstr "Ligne de commande :"
 #: ttfrmconfirmcommandline.lbleparameters.editlabel.caption
 msgctxt "ttfrmconfirmcommandline.lbleparameters.editlabel.caption"
 msgid "Parameters:"
-msgstr "Paramètres:"
+msgstr "Paramètres :"
 
 #: ttfrmconfirmcommandline.lblestartpath.editlabel.caption
 msgid "Start path:"
-msgstr "Chemin de départ:"
+msgstr "Chemin de départ :"
 
 #: twcxarchivecopyoperationoptionsui.btnconfig.caption
 #, fuzzy
@@ -10059,7 +10095,7 @@ msgstr "Quand le fichier existe"
 #: twfxplugincopymoveoperationoptionsui.cbcopytime.caption
 msgctxt "twfxplugincopymoveoperationoptionsui.cbcopytime.caption"
 msgid "Copy d&ate/time"
-msgstr "Copy d&ate/time"
+msgstr "Copier d&ate/heure"
 
 #: twfxplugincopymoveoperationoptionsui.cbworkinbackground.caption
 msgid "Work in background (separate connection)"
@@ -10084,39 +10120,39 @@ msgstr "Vous devez fournir une autorisation d'administrateur"
 
 #: uadministrator.rselevationrequiredcopy
 msgid "to copy this object:"
-msgstr "pour copier cet objet:"
+msgstr "pour copier cet objet :"
 
 #: uadministrator.rselevationrequiredcreate
 msgid "to create this object:"
-msgstr "pour créer cet objet:"
+msgstr "pour créer cet objet :"
 
 #: uadministrator.rselevationrequireddelete
 msgid "to delete this object:"
-msgstr "pour effacer cet objet:"
+msgstr "pour supprimer cet objet :"
 
 #: uadministrator.rselevationrequiredgetattributes
 msgid "to get attributes of this object:"
-msgstr "pour obtenir les attributs de cet objet:"
+msgstr "pour obtenir les attributs de cet objet :"
 
 #: uadministrator.rselevationrequiredhardlink
 msgid "to create this hard link:"
-msgstr "pour créer ce lien dur:"
+msgstr "pour créer ce lien dur :"
 
 #: uadministrator.rselevationrequiredopen
 msgid "to open this object:"
-msgstr "pour ouvrir cet object:"
+msgstr "pour ouvrir cet object :"
 
 #: uadministrator.rselevationrequiredrename
 msgid "to rename this object:"
-msgstr "pour renommer cet objet:"
+msgstr "pour renommer cet objet :"
 
 #: uadministrator.rselevationrequiredsetattributes
 msgid "to set attributes of this object:"
-msgstr "pour ajuster les attributs de cet objet:"
+msgstr "pour ajuster les attributs de cet objet :"
 
 #: uadministrator.rselevationrequiredsymlink
 msgid "to create this symbolic link:"
-msgstr "pour créer ce lien symbolique:"
+msgstr "pour créer ce lien symbolique :"
 
 #: uexifreader.rsdatetimeoriginal
 msgid "Date taken"
@@ -10134,7 +10170,7 @@ msgstr "Largeur"
 
 #: uexifreader.rsmake
 msgid "Manufacturer"
-msgstr "Manufacturier"
+msgstr "Fabricant"
 
 #: uexifreader.rsmodel
 msgid "Camera model"
@@ -10153,11 +10189,11 @@ msgid ""
 "Could you make it available and press \"OK\" when ready,\n"
 "or press \"CANCEL\" to continue without it?"
 msgstr ""
-"Ce fichier est introuvable et pourrait aider à valider la concaténation des fichiers à la finl:\n"
+"Ce fichier est introuvable et pourrait aider à valider la concaténation des fichiers à la fin:\n"
 "%s\n"
 "\n"
-"Est-ce que vous pourriez le rendre disponible et appuyer \"OK\" quand vous êtes prêt,\n"
-"ou \"ANNULER\" pour continuer tout de même sans ce fichier?"
+"Pourriez-vous le rendre disponible et presser \"OK\" quand vous êtes prêt,\n"
+"ou \"ANNULER\" pour continuer sans ?"
 
 #: ulng.rsabbrevdisplaydir
 msgid "<DIR>"
@@ -10169,7 +10205,7 @@ msgstr "<LIEN>"
 
 #: ulng.rscancelfilter
 msgid "Cancel Quick Filter"
-msgstr "Annule le filtre rapide"
+msgstr "Annuler le filtre rapide"
 
 #: ulng.rscanceloperation
 msgid "Cancel Current Operation"
@@ -10177,11 +10213,11 @@ msgstr "Annuler l'opération en cours"
 
 #: ulng.rscaptionforaskingfilename
 msgid "Enter filename, with extension, for dropped text"
-msgstr "Entrez le nom, avec l'extension, pour le texte déposé"
+msgstr "Entrer le nom, avec l'extension, pour le texte déposé"
 
 #: ulng.rscaptionfortextformattoimport
 msgid "Text format to import"
-msgstr "Format du texteà importer"
+msgstr "Format du texte à importer"
 
 #: ulng.rschecksumverifybroken
 msgid "Broken:"
@@ -10206,7 +10242,7 @@ msgstr "Succès :"
 
 #: ulng.rschecksumverifytext
 msgid "Enter checksum and select algorithm:"
-msgstr "Entrer la signature et sélectionnez l'algorithme"
+msgstr "Entrer la signature et sélectionner l'algorithme"
 
 #: ulng.rschecksumverifytitle
 msgid "Verify checksum"
@@ -10218,15 +10254,15 @@ msgstr "Total :"
 
 #: ulng.rsclearfiltersornot
 msgid "Do you want to clear filters for this new search?"
-msgstr "Voulez-vous réinitialiser les recherches pour cette nouvelle recherche?"
+msgstr "Souhaitez-vous réinitialiser les recherches pour cette nouvelle recherche ?"
 
 #: ulng.rsclipboardcontainsinvalidtoolbardata
 msgid "Clipboard doesn't contain any valid toolbar data."
-msgstr "Le presse papier ne contient aucune information de barre d'outils"
+msgstr "Le presse-papier ne contient aucune information de barre d'outils"
 
 #: ulng.rscmdcategorylistinorder
 msgid "All;Active Panel;Left Panel;Right Panel;File Operations;Configuration;Network;Miscellaneous;Parallel Port;Print;Mark;Security;Clipboard;FTP;Navigation;Help;Window;Command Line;Tools;View;User;Tabs;Sorting;Log"
-msgstr "Tous;Panneau actif;Panneau de gauche;Panneau de droite;Opérations sur fichier;Configuration;Réseau;Divers;Port parallèle;Impression;Sélection;Securité;Presse-papier;FTP;Navigation;Aide;Window;Ligne de commande;Outil;Affichage;Utilisateur;Onglet;Tri;Journal"
+msgstr "Tous;Panneau actif;Panneau de gauche;Panneau de droite;Opérations sur fichier;Configuration;Réseau;Divers;Port parallèle;Impression;Sélection;Securité;Presse-papier;FTP;Navigation;Aide;Window;Ligne de commande;Outils;Affichage;Utilisateur;Onglets;Tri;Journal"
 
 #: ulng.rscmdkindofsort
 msgid "Legacy sorted;A-Z sorted"
@@ -10301,11 +10337,11 @@ msgstr "Copie (%d) %s"
 
 #: ulng.rsdarkmode
 msgid "Dark mode"
-msgstr ""
+msgstr "Mode Sombre"
 
 #: ulng.rsdarkmodeoptions
 msgid "Auto;Enabled;Disabled"
-msgstr ""
+msgstr "Auto;Activé;Désactivé"
 
 #: ulng.rsdefaultimporteddctoolbarhint
 msgid "Imported DC toolbar"
@@ -10322,19 +10358,19 @@ msgstr "o"
 
 #: ulng.rsdefaultpersonalizedabbrevgiga
 msgid "GB"
-msgstr "Gio"
+msgstr "Go"
 
 #: ulng.rsdefaultpersonalizedabbrevkilo
 msgid "KB"
-msgstr "Kio"
+msgstr "Ko"
 
 #: ulng.rsdefaultpersonalizedabbrevmega
 msgid "MB"
-msgstr "Mio"
+msgstr "Mo"
 
 #: ulng.rsdefaultpersonalizedabbrevtera
 msgid "TB"
-msgstr "Tio"
+msgstr "To"
 
 #: ulng.rsdefaultsuffixdroppedtext
 msgid "_DroppedText"
@@ -10362,47 +10398,50 @@ msgstr "_TexteUnicodeUTF8Déposé"
 
 #: ulng.rsdiffadds
 msgid " Adds: "
-msgstr "Adjouté: "
+msgstr "Adjouté : "
 
 #: ulng.rsdiffcomparing
 msgid "Comparing..."
-msgstr ""
+msgstr "Compare..."
 
 #: ulng.rsdiffdeletes
 msgid " Deletes: "
-msgstr "Effacé: "
+msgstr " Efface : "
 
 #: ulng.rsdifffilesidentical
 msgid "The two files are identical!"
-msgstr "Les deux fichiers sont identiques!"
+msgstr "Les deux fichiers sont identiques !"
 
 #: ulng.rsdiffmatches
 msgid " Matches: "
-msgstr "Corresponde: "
+msgstr "Correspondances : "
 
 #: ulng.rsdiffmodifies
 msgid " Modifies: "
-msgstr "Modifie: "
+msgstr "Modifie : "
 
 #: ulng.rsdifftextdifferenceencoding
 #, fuzzy
+# H_02
 msgctxt "ulng.rsdifftextdifferenceencoding"
 msgid "Encoding"
-msgstr "Encodage"
+msgstr "Encode"
 
 #: ulng.rsdifftextdifferencelineending
 msgid "Line-endings"
-msgstr ""
+msgstr "Fins de lignes"
 
 #: ulng.rsdifftextidentical
 msgid "The text is identical, but the following options are used:"
-msgstr ""
+msgstr "Le texte est identique, mais les options suivantes sont utilisées :"
 
 #: ulng.rsdifftextidenticalnotmatch
 msgid ""
 "The text is identical, but the files do not match!\n"
 "The following differences were found:"
 msgstr ""
+"Le texte est identique, mais les fichiers ne correspondent pas !\n"
+"Les différences suivantes ont été trouvées :"
 
 #: ulng.rsdlgbuttonabort
 msgid "Ab&ort"
@@ -10419,7 +10458,7 @@ msgstr "Ajo&uter"
 
 #: ulng.rsdlgbuttonautorenamesource
 msgid "A&uto-rename source files"
-msgstr "Renomme automatiquement le fichier"
+msgstr "Renommer automatiquement les fichiers sources"
 
 #: ulng.rsdlgbuttonautorenametarget
 msgid "Auto-rename tar&get files"
@@ -10444,19 +10483,19 @@ msgstr "Copier &dans"
 
 #: ulng.rsdlgbuttoncopyintoall
 msgid "Mer&ge All"
-msgstr "Copie tout à l'intérieur"
+msgstr "Copier tout"
 
 #: ulng.rsdlgbuttonexitprogram
 msgid "E&xit program"
-msgstr "Sortie de l'application"
+msgstr "Sortir de l'application"
 
 #: ulng.rsdlgbuttonignore
 msgid "Ig&nore"
-msgstr "Ig&nore"
+msgstr "Ig&norer"
 
 #: ulng.rsdlgbuttonignoreall
 msgid "I&gnore All"
-msgstr "Ignorez tous"
+msgstr "Ignorer tout"
 
 #: ulng.rsdlgbuttonno
 msgid "&No"
@@ -10481,19 +10520,19 @@ msgstr "Écraser"
 
 #: ulng.rsdlgbuttonoverwriteall
 msgid "Overwrite &All"
-msgstr "&Tout Écraser"
+msgstr "&Tout écraser"
 
 #: ulng.rsdlgbuttonoverwritelarger
 msgid "Overwrite All &Larger"
-msgstr "Écrasement de ceux plus grands"
+msgstr "Écraser ceux plus grands"
 
 #: ulng.rsdlgbuttonoverwriteolder
 msgid "Overwrite All Ol&der"
-msgstr "Écrasement de ceux plus vieux"
+msgstr "Écraser ceux plus vieux"
 
 #: ulng.rsdlgbuttonoverwritesmaller
 msgid "Overwrite All S&maller"
-msgstr "Écrasement des plus petits"
+msgstr "Écrasemr ceux plus petits"
 
 #: ulng.rsdlgbuttonrename
 msgctxt "ulng.rsdlgbuttonrename"
@@ -10638,12 +10677,12 @@ msgstr "Exécuter via l'invite de commande"
 #: ulng.rsexecuteviaterminalclose
 msgctxt "ulng.rsexecuteviaterminalclose"
 msgid "Execute via terminal and close"
-msgstr "Exécuter via le terminal puis fermer"
+msgstr "Exécuter via le terminal puis le fermer"
 
 #: ulng.rsexecuteviaterminalstayopen
 msgctxt "ulng.rsexecuteviaterminalstayopen"
 msgid "Execute via terminal and stay open"
-msgstr "Exécuter via le terminal et demeurer actif"
+msgstr "Exécuter via le terminal puis le laisser ouvert"
 
 #: ulng.rsextsclosedbracketnofound
 #, object-pascal-format
@@ -10673,11 +10712,11 @@ msgstr "Demande;Ré-écris;Saute"
 
 #: ulng.rsfileopdirectoryexistsoptions
 msgid "Ask;Merge;Skip"
-msgstr "Demande;Copie à l'intérieur;Saute"
+msgstr "Demande;Fusionne;Saute"
 
 #: ulng.rsfileopfileexistsoptions
 msgid "Ask;Overwrite;Overwrite Older;Skip"
-msgstr "Demande;Ré-écris;Ré-écris plus vieux;Saute"
+msgstr "Demande;Ecrase;Ecrase si plus vieux;Saute"
 
 #: ulng.rsfileopsetpropertyerroroptions
 msgctxt "ulng.rsfileopsetpropertyerroroptions"
@@ -10694,7 +10733,7 @@ msgstr "Fichiers configuration"
 
 #: ulng.rsfilterdctooltipfiles
 msgid "DC Tooltip files"
-msgstr "Info-bulle DC"
+msgstr "Infobulle DC"
 
 #: ulng.rsfilterdirectoryhotlistfiles
 msgid "Directory Hotlist files"
@@ -10770,7 +10809,7 @@ msgstr "Trouvé : %d"
 
 #: ulng.rsfindsavetemplatecaption
 msgid "Save search template"
-msgstr "Sauvegarder le modèle de la recherche"
+msgstr "Enregistrer le modèle de la recherche"
 
 #: ulng.rsfindsavetemplatetitle
 msgid "Template name:"
@@ -10783,6 +10822,7 @@ msgid "Scanned: %d"
 msgstr "Analyse effectuée : %d"
 
 #: ulng.rsfindscanning
+# H_02
 msgid "Scanning"
 msgstr "Analyse"
 
@@ -10793,7 +10833,7 @@ msgstr "Rechercher les fichiers"
 
 #: ulng.rsfindtimeofscan
 msgid "Time of scan: "
-msgstr "Durée du balayage: "
+msgstr "Durée du balayage : "
 
 #: ulng.rsfindwherebeg
 msgid "Begin at"
@@ -10829,11 +10869,11 @@ msgstr "Police des résultats de recherche"
 
 #: ulng.rsfontusagestatusbar
 msgid "Status Bar Font"
-msgstr ""
+msgstr "Police de la barre d'état"
 
 #: ulng.rsfontusagetreeviewmenu
 msgid "Tree View Menu Font"
-msgstr "Police du menu en arbre"
+msgstr "Police du menu en arborescence"
 
 #: ulng.rsfontusageviewer
 msgid "&Viewer Font"
@@ -10869,7 +10909,7 @@ msgstr "Commentaire"
 
 #: ulng.rsfunccompressedsize
 msgid "Compressed size"
-msgstr "Taille compressé"
+msgstr "Taille compressée"
 
 #: ulng.rsfuncctime
 msgid "Creation date/time"
@@ -10923,7 +10963,7 @@ msgstr "Taille"
 
 #: ulng.rsfunctrashorigpath
 msgid "Original path"
-msgstr ""
+msgstr "Chemin d'origine"
 
 #: ulng.rsfunctype
 msgid "Type"
@@ -10943,7 +10983,7 @@ msgid ""
 "\n"
 "Are you sure you want to proceed?"
 msgstr ""
-"Avertissement! Lorsqu'on ramène liste de dossiers favoris, cela va effacer celle existant pour la replacer par celle importée.\n"
+"Avertissement! Lorsqu'on restaure une liste de dossiers favoris (.hotlist), cela va effacer celle existante pour la remplacer par celle importée.\n"
 "\n"
 "Êtes-vous sûr de vouloir continuer?"
 
@@ -10981,7 +11021,7 @@ msgstr "Renommer par lot"
 
 #: ulng.rshotkeycategorysyncdirs
 msgid "Synchronize Directories"
-msgstr "Apparairer les dossiers"
+msgstr "Synchroniser les dossiers"
 
 #: ulng.rshotkeycategoryviewer
 msgctxt "ulng.rshotkeycategoryviewer"
@@ -10994,11 +11034,11 @@ msgid ""
 "Do you want to overwrite it?"
 msgstr ""
 "Une configuration avec ce nom existe déjà.\n"
-"Est-ce que tu veux l'écraser?"
+"Souhaitez-vous l'écraser ?"
 
 #: ulng.rshotkeyfileconfirmdefault
 msgid "Are you sure you want to restore default?"
-msgstr "Êtes-vous sûr de vouloir ramener les valeur initiales?"
+msgstr "Êtes-vous sûr de vouloir restaurer les valeurs par défaut ?"
 
 #: ulng.rshotkeyfileconfirmerasure
 #, object-pascal-format
@@ -11012,7 +11052,7 @@ msgstr "Copie de %s"
 
 #: ulng.rshotkeyfileinputnewname
 msgid "Input your new name"
-msgstr "Entrez votre nouveau nom"
+msgstr "Entrer votre nouveau nom"
 
 #: ulng.rshotkeyfilemustkeepone
 msgid "You must keep at least one shortcut file."
@@ -11029,19 +11069,19 @@ msgid ""
 "Do you want to save it now?"
 msgstr ""
 "Le fichier de configuration \"%s\" a été modifié.\n"
-"Voulez-vous le sauvegarder maintenant?"
+"Souhaitez-vous l'enregistrer maintenant ?"
 
 #: ulng.rshotkeynoscenter
 msgid "No shortcut with \"ENTER\""
-msgstr "Aucun raccourcis avec la touche \"Entrée\""
+msgstr "Aucun raccourci avec la touche \"Entrée\""
 
 #: ulng.rshotkeysortorder
 msgid "By command name;By shortcut key (grouped);By shortcut key (one per row)"
-msgstr "Par nom de commande;Par raccourcis-clavier (groupé);Par raccourcis-clavier (un par ligne)"
+msgstr "Par nom de commande;Par raccourci clavier (groupé);Par raccourci clavier (un par ligne)"
 
 #: ulng.rsimporttoolbarproblem
 msgid "Cannot find reference to default bar file"
-msgstr "On ne trouve pas de rérérence à la barre par défaut"
+msgstr "Impossible de trouver la référence au fichier de barre par défaut"
 
 #: ulng.rslegacydisplaysizesinglelettergiga
 msgid "G"
@@ -11074,7 +11114,7 @@ msgstr "Désélectionner le masque"
 
 #: ulng.rsmarkplus
 msgid "Select mask"
-msgstr "Choisissez le masque"
+msgstr "Sélectionner le masque"
 
 #: ulng.rsmaskinput
 msgid "Input mask:"
@@ -11082,11 +11122,11 @@ msgstr "Masque de saisie :"
 
 #: ulng.rsmenuconfigurecolumnsalreadyexists
 msgid "A columns view with that name already exists."
-msgstr "Une configuration de colonne avec ce nom existe déjà"
+msgstr "Une configuration de colonnes avec ce nom existe déjà"
 
 #: ulng.rsmenuconfigurecolumnssavetochange
 msgid "To change current editing colmuns view, either SAVE, COPY or DELETE current editing one"
-msgstr "Pour éditer une autre vue \"colonne\", vous devez SAUVEGARDER, COPIER ou EFFACER celle qui vous éditez présentement"
+msgstr "Pour éditer une autre vue \"colonnes\", vous devez ENREGISTRER, COPIER ou SUPPRIMER celle qui vous éditez actuellement"
 
 #: ulng.rsmenuconfigurecustomcolumns
 msgid "Configure custom columns"
@@ -11094,11 +11134,11 @@ msgstr "Configurer les colonnes personnalisées"
 
 #: ulng.rsmenuconfigureentercustomcolumnname
 msgid "Enter new custom columns name"
-msgstr "Entrez un nom pour la nouvelle colonne personnalisée"
+msgstr "Entrer un nom pour la nouvelle colonne personnalisée"
 
 #: ulng.rsmenumacosshare
 msgid "Share..."
-msgstr ""
+msgstr "Partager..."
 
 #: ulng.rsmnuactions
 msgctxt "ulng.rsmnuactions"
@@ -11149,7 +11189,7 @@ msgstr "Nouveau"
 
 #: ulng.rsmnunewwindow
 msgid "New Window"
-msgstr ""
+msgstr "Nouvelle fenêtre"
 
 #: ulng.rsmnunomedia
 msgid "No media available"
@@ -11172,7 +11212,7 @@ msgstr "Autre..."
 
 #: ulng.rsmnupackhere
 msgid "Pack here..."
-msgstr "Compresse ici..."
+msgstr "Compresser ici..."
 
 #: ulng.rsmnurestore
 #, fuzzy
@@ -11212,7 +11252,7 @@ msgstr "Paramètres additionnels pour la ligne de commande du programme d'archiv
 
 #: ulng.rsmsgaskquoteornot
 msgid "Do you want to enclose between quotes?"
-msgstr "Voulez-vous mettre en guillemets"
+msgstr "Souhaitez-vous mettre des guillemets ?"
 
 #: ulng.rsmsgbadcrc32
 #, object-pascal-format
@@ -11222,14 +11262,14 @@ msgid ""
 "\n"
 "Do you want to keep the resulting corrupted file anyway?"
 msgstr ""
-"Mauvais CRC32 pour le fichier résultant:\n"
+"Mauvais CRC32 pour le fichier résultat :\n"
 "\"%s\"\n"
 "\n"
-"Voulez-vous conserver le fichier résultant même s'il est corrompu?"
+"Souhaitez-vous conserver le fichier résultat même s'il est corrompu ?"
 
 #: ulng.rsmsgcanceloperation
 msgid "Are you sure that you want to cancel this operation?"
-msgstr ""
+msgstr "Êtes-vous sûr de vouloir annuler cette opération ?"
 
 #: ulng.rsmsgcannotcopymoveitself
 #, object-pascal-format
@@ -11239,17 +11279,17 @@ msgstr "Vous ne pouvez pas copier/déplacer le fichier \"%s\" sur lui-même !"
 #: ulng.rsmsgcannotcopyspecialfile
 #, object-pascal-format
 msgid "Cannot copy special file %s"
-msgstr "Incapable de copier le fichier spécial %s"
+msgstr "Impossible de copier le fichier spécial %s"
 
 #: ulng.rsmsgcannotdeletedirectory
 #, object-pascal-format
 msgid "Cannot delete directory %s"
-msgstr "On ne peut pas effacer le dossier %s"
+msgstr "Impossible de supprimer le dossier %s"
 
 #: ulng.rsmsgcannotoverwritedirectory
 #, object-pascal-format
 msgid "Cannot overwrite directory \"%s\" with non-directory \"%s\""
-msgstr "On ne peut pas écraser le répertoire \"%s\" avec de quoi qui n'est pas un répertoire \"%s\""
+msgstr "Impossible de remplacer un répertoire \"%s\" avec autre chose qu'un répertoire \"%s\""
 
 #: ulng.rsmsgchdirfailed
 #, object-pascal-format
@@ -11258,12 +11298,12 @@ msgstr "Le changement de dossier vers \"%s\" a échoué !"
 
 #: ulng.rsmsgcloseallinactivetabs
 msgid "Remove all inactive tabs?"
-msgstr "Fermer tous les onglets inactifs?"
+msgstr "Fermer tous les onglets inactifs ?"
 
 #: ulng.rsmsgcloselockedtab
 #, object-pascal-format
 msgid "This tab (%s) is locked! Close anyway?"
-msgstr "Cet onglet (%s) est verrouillé! Forcer sa fermeture tout de même?"
+msgstr "Cet onglet (%s) est verrouillé ! Forcer sa fermeture ?"
 
 #: ulng.rsmsgcofirmuserparam
 msgid "Confirmation of parameter"
@@ -11272,7 +11312,7 @@ msgstr "Confirmation de paramètre"
 #: ulng.rsmsgcommandnotfound
 #, object-pascal-format
 msgid "Command not found! (%s)"
-msgstr ""
+msgstr "Commande non trouvée ! (%s)"
 
 #: ulng.rsmsgconfirmquit
 msgid "Are you sure you want to quit?"
@@ -11281,11 +11321,11 @@ msgstr "Êtes-vous certain de vouloir quitter ?"
 #: ulng.rsmsgcopybackward
 #, object-pascal-format
 msgid "The file %s has changed. Do you want to copy it backward?"
-msgstr "Le fichier %s a changé.  Voulez-vous tout de même l'écraser avec ce contenu?"
+msgstr "Le fichier %s a changé.  Souhaitez-vous copier la version précédente ?"
 
 #: ulng.rsmsgcouldnotcopybackward
 msgid "Could not copy backward - do you want to keep the changed file?"
-msgstr "On ne peut pas copier en retour - voulez-vous conserver le fichier qui a changé?"
+msgstr "Impossible de copier la version précédente - Souhaitez-vous conserver le fichier modifié ?"
 
 #: ulng.rsmsgcpfldr
 #, object-pascal-format
@@ -11304,7 +11344,7 @@ msgstr "< Créer un nouveau type de fichier \"%s\" >"
 
 #: ulng.rsmsgdctoolbarwheretosave
 msgid "Enter location and filename where to save a DC Toolbar file"
-msgstr "Entrez l'emplacement et le nom de fichier pour la barre d'outil DC à sauvegarder"
+msgstr "Entrer l'emplacement et le nom de fichier pour la barre d'outils DC à sauvegarder"
 
 #: ulng.rsmsgdefaultcustomactionname
 msgid "Custom action"
@@ -11312,7 +11352,7 @@ msgstr "Action personnalisée"
 
 #: ulng.rsmsgdeletepartiallycopied
 msgid "Delete the partially copied file ?"
-msgstr "Effacer le fichier copié partiellement?"
+msgstr "Supprimer le fichier copié partiellement ?"
 
 #: ulng.rsmsgdelfldr
 #, object-pascal-format
@@ -11349,20 +11389,20 @@ msgstr "Enter le nom de l'action personnalisée"
 
 #: ulng.rsmsgenterfileext
 msgid "Enter file extension:"
-msgstr "Donnez l'extension de fichier :"
+msgstr "Indiquer l'extension du fichier :"
 
 #: ulng.rsmsgentername
 msgid "Enter name:"
-msgstr "Donnez le nom :"
+msgstr "Indiquer le nom :"
 
 #: ulng.rsmsgenternewfiletypename
 #, object-pascal-format
 msgid "Enter name of new file type to create for extension \"%s\""
-msgstr "Entrez un nom pour le nouveau type de fichier à créer avec l'extension \"%s\""
+msgstr "Entrer un nom pour le nouveau type de fichier à créer avec l'extension \"%s\""
 
 #: ulng.rsmsgerrbadarchive
 msgid "CRC error in archive data"
-msgstr "Erreur CRC (contrôle de redondance cyclique) dans l'archive"
+msgstr "Erreur CRC dans l'archive"
 
 #: ulng.rsmsgerrbaddata
 msgid "Data is bad"
@@ -11381,12 +11421,12 @@ msgstr "Impossible de copier le fichier %s vers %s"
 #: ulng.rsmsgerrcannotmovedirectory
 #, object-pascal-format
 msgid "Cannot move directory %s"
-msgstr "On ne peut pas déplacer le dossier %s"
+msgstr "Impossible de déplacer le dossier %s"
 
 #: ulng.rsmsgerrcannotmovefile
 #, object-pascal-format
 msgid "Cannot move file %s"
-msgstr "On ne peut pas déplacer le fichier %s"
+msgstr "Impossible de déplacer le fichier %s"
 
 #: ulng.rsmsgerrcreatefiledirectoryexists
 #, object-pascal-format
@@ -11417,7 +11457,7 @@ msgstr "Impossible de créer le fichier"
 
 #: ulng.rsmsgerrendarchive
 msgid "No more files in archive"
-msgstr "Plus de fichier dans l'archive"
+msgstr "Plus aucun fichier dans l'archive"
 
 #: ulng.rsmsgerreopen
 msgid "Cannot open existing file"
@@ -11429,7 +11469,7 @@ msgstr "Erreur de lecture du fichier"
 
 #: ulng.rsmsgerrewrite
 msgid "Error writing to file"
-msgstr "Erreur lors de l'écriture dans le fichier"
+msgstr "Erreur d'écriture du fichier"
 
 #: ulng.rsmsgerrforcedir
 #, object-pascal-format
@@ -11442,11 +11482,11 @@ msgstr "Lien non valide"
 
 #: ulng.rsmsgerrnofiles
 msgid "No files found"
-msgstr "Pas de fichier trouvé"
+msgstr "Aucun fichier trouvé"
 
 #: ulng.rsmsgerrnomemory
 msgid "Not enough memory"
-msgstr "La mémoire est insuffisante"
+msgstr "Mémoire insuffisante"
 
 #: ulng.rsmsgerrnotsupported
 msgid "Function not supported!"
@@ -11471,11 +11511,11 @@ msgstr "Impossible de renommer le fichier %s en %s"
 
 #: ulng.rsmsgerrsaveassociation
 msgid "Can not save association!"
-msgstr "On ne peut sauver l'association!"
+msgstr "Impossible d'enregistrer l'association !"
 
 #: ulng.rsmsgerrsavefile
 msgid "Cannot save file"
-msgstr "Impossible de sauvegarder le fichier"
+msgstr "Impossible d'enregistrer le fichier"
 
 #: ulng.rsmsgerrsetattribute
 #, object-pascal-format
@@ -11490,25 +11530,25 @@ msgstr "Impossible de définir la date/heure pour \"%s\""
 #: ulng.rsmsgerrsetownership
 #, object-pascal-format
 msgid "Can not set owner/group for \"%s\""
-msgstr "On ne peut pas ajuster le propiétaire/groupe pour \"%s\""
+msgstr "Impossible de définir les propriétaire/groupe pour \"%s\""
 
 #: ulng.rsmsgerrsetpermissions
 #, object-pascal-format
 msgid "Can not set permissions for \"%s\""
-msgstr "On ne peut ajuster les permissions pour \"%s\""
+msgstr "Impossible de définir les permissions pour \"%s\""
 
 #: ulng.rsmsgerrsetxattribute
 #, object-pascal-format
 msgid "Can not set extended attributes for \"%s\""
-msgstr "Ne peut pas définir les attributs étendus pour \"%s\""
+msgstr "Impossible de définir les attributs étendus pour \"%s\""
 
 #: ulng.rsmsgerrsmallbuf
 msgid "Buffer too small"
-msgstr "Le cache (mémoire tampon) est trop petit"
+msgstr "Mémoire tampon insuffisante"
 
 #: ulng.rsmsgerrtoomanyfiles
 msgid "Too many files to pack"
-msgstr "Il y a trop de fichier à archiver"
+msgstr "Trop de fichiers à archiver"
 
 #: ulng.rsmsgerrunknownformat
 msgid "Archive format unknown"
@@ -11525,28 +11565,28 @@ msgstr "Valeur de sortie:"
 
 #: ulng.rsmsgfavoritetabsdeleteallentries
 msgid "Are you sure you want to remove all entries of your Favorite Tabs? (There is no \"undo\" to this action!)"
-msgstr "Êtes-vous sûr que vous vous détruire toutes les entrées de vos onglets-favoris? (On ne pourra pas défaire cette action!)"
+msgstr "Êtes-vous sûr de vouloir supprimer tous les éléments de vos groupes d'onglets favoris ? (annulation impossible !)"
 
 #: ulng.rsmsgfavoritetabsdraghereentry
 msgid "Drag here other entries"
-msgstr "Déplacer ici les autres entrées"
+msgstr "Déplacer ici les autres éléments"
 
 #: ulng.rsmsgfavoritetabsentername
 msgid "Enter a name for this new Favorite Tabs entry:"
-msgstr "Entrer un nom pour ce groupes d'onglets favoris"
+msgstr "Entrer un nom pour ce nouveau groupe d'onglets favoris"
 
 #: ulng.rsmsgfavoritetabsenternametitle
 msgid "Saving a new Favorite Tabs entry"
-msgstr "Savegarde vers une nouvelle entrée de groupe d'onglets favoris"
+msgstr "Sauvegarder un nouveau groupe d'onglets favoris"
 
 #: ulng.rsmsgfavoritetabsexportedsuccessfully
 #, object-pascal-format
 msgid "Number of Favorite Tabs exported successfully: %d on %d"
-msgstr "Nombre de groupes d'onglets exportés avec succès : %d sur %d"
+msgstr "Nombre de groupes d'onglets favoris exportés avec succès : %d sur %d"
 
 #: ulng.rsmsgfavoritetabsextramode
 msgid "Default extra setting for save dir history for new Favorite Tabs:"
-msgstr "Ajustement pour sauvegarde de l'historique des dossiers par défaut pour un nouveau groupe d'onglets favoris"
+msgstr "Paramètre supplémentaire par défaut pour enregistrer l'historique de dossiers pour un nouveau groupe d'onglets favoris :"
 
 #: ulng.rsmsgfavoritetabsimportedsuccessfully
 #, object-pascal-format
@@ -11555,20 +11595,20 @@ msgstr "Nombre de fichiers importés avec succès : %d sur %d"
 
 #: ulng.rsmsgfavoritetabsimportsubmenuname
 msgid "Legacy tabs imported"
-msgstr "Les .tab favoris ont été importés"
+msgstr "Les onglets hérités ont été importés"
 
 #: ulng.rsmsgfavoritetabsimporttitle
 msgid "Select .tab file(s) to import (could be more than one at the time!)"
-msgstr "Choisissez le(s) fichier(s) .tab à importer (on peut en importer plus d'un à la fois!)"
+msgstr "Choisir le(s) fichier(s) .tab à importer (plusieurs possibles !)"
 
 #: ulng.rsmsgfavoritetabsmodifiednoimport
 msgid "Last Favorite Tabs modification have been saved yet. Do you want to save them prior to continue?"
-msgstr "Les dernières modifications des onglets favoris n'ont pas été sauvegardées. Est-ce que vous voulez les sauvegarder avant de continuer?"
+msgstr "Les dernières modifications du groupe d'onglets favoris n'ont pas été sauvegardées. Souhaitez-vous les sauvegarder avant de continuer ?"
 
 #: ulng.rsmsgfavoritetabssimplemode
 msgctxt "ulng.rsmsgfavoritetabssimplemode"
 msgid "Keep saving dir history with Favorite Tabs:"
-msgstr "Conservation de l'historique des dossis avec ce groupe d'onglets favoris :"
+msgstr "Conservation de l'historique des dossiers avec ce groupe d'onglets favoris :"
 
 #: ulng.rsmsgfavoritetabssubmenuname
 msgctxt "ulng.rsmsgfavoritetabssubmenuname"
@@ -11578,11 +11618,11 @@ msgstr "Nom du sous-menu"
 #: ulng.rsmsgfavoritetabsthiswillloadfavtabs
 #, object-pascal-format
 msgid "This will load the Favorite Tabs: \"%s\""
-msgstr "Cela va restituer le groupe d'onglets favoris sauvegardé sous le nom \"%s\""
+msgstr "Cela va restituer le groupe d'onglets favoris enregistré sous le nom \"%s\""
 
 #: ulng.rsmsgfavortietabssaveoverexisting
 msgid "Save current tabs over existing Favorite Tabs entry"
-msgstr "Sauvegarder les onglets courants sur un groupe d'onglets favoris existant"
+msgstr "Enregistrer les onglets courants sur un groupe d'onglets favoris existant"
 
 #: ulng.rsmsgfilechangedsave
 #, object-pascal-format
@@ -11610,7 +11650,7 @@ msgstr "Avec fichier :"
 #: ulng.rsmsgfilenotfound
 #, object-pascal-format
 msgid "File \"%s\" not found."
-msgstr "Ce fichier est introuvable : \"%s\"."
+msgstr "Fichier introuvable : \"%s\"."
 
 #: ulng.rsmsgfileoperationsactive
 msgid "File operations active"
@@ -11627,18 +11667,18 @@ msgid ""
 "%s\n"
 "Most programs will not be able to access a file/directory with such a long name!"
 msgstr ""
-"La longueur du nom de fichier-cible (%d) est plus grande que %d caractères!\n"
+"Le nom cible (%d) est trop long de %d caractères!\n"
 "%s\n"
-"La plupart des applications ne seront pas capable d'accéder au dossier/fichier avec un nom long comme cela!"
+"La plupart des applications ne seront pas capables d'accéder au dossier/fichier avec un nom aussi long !"
 
 #: ulng.rsmsgfilereadonly
 #, object-pascal-format
 msgid "File %s is marked as read-only/hidden/system. Delete it?"
-msgstr "Le fichier %s est en lecture seule. Le supprimer quand même?"
+msgstr "Le fichier %s est en lecture seule. Le supprimer quand même ?"
 
 #: ulng.rsmsgfilereloadwarning
 msgid "Are you sure you want to reload the current file and lose the changes?"
-msgstr "Êtes-vous sûr de voulais recharger le fichier courant et perdre les modifications?"
+msgstr "Êtes-vous sûr de vouloir recharger le fichier courant et perdre les modifications ?"
 
 #: ulng.rsmsgfilesizetoobig
 #, object-pascal-format
@@ -11657,20 +11697,23 @@ msgstr "Suivre le lien symbolique \"%s\"?"
 
 #: ulng.rsmsgfortextformattoimport
 msgid "Select the text format to import"
-msgstr "Sélectionnez le format du texte à importer"
+msgstr "Sélectionner le format du texte à importer"
 
 #: ulng.rsmsghotdiraddselecteddirectories
 #, object-pascal-format
+# HL_01
 msgid "Add %d selected dirs"
-msgstr "Ajoute les %d dossiers sélectionnés"
+msgstr "Ajouter les %d dossiers sélectionnés"
 
 #: ulng.rsmsghotdiraddselecteddirectory
+# HL_01
 msgid "Add selected dir: "
-msgstr "Ajoute le dossier sélectionné: "
+msgstr "Ajouter le dossier sélectionné : "
 
 #: ulng.rsmsghotdiraddthisdirectory
+# HL_01
 msgid "Add current dir: "
-msgstr "Ajoute le dossier courant: "
+msgstr "Ajouter le dossier courant : "
 
 #: ulng.rsmsghotdircommandname
 msgid "Do command"
@@ -11687,7 +11730,7 @@ msgstr "Configuration des dossiers favoris"
 
 #: ulng.rsmsghotdirdeleteallentries
 msgid "Are you sure you want to remove all entries of your Directory Hotlist? (There is no \"undo\" to this action!)"
-msgstr "Êtes-vous sûr de retirer toutes les entrées de votre liste de dossiers favoris? (Il n'y a pas de \"undo\" à cette action!)"
+msgstr "Êtes-vous sûr de supprimer tous les dossiers de votre liste de dossiers favoris? (annulation impossible !)"
 
 #: ulng.rsmsghotdirdemocommand
 msgid "This will execute the following command:"
@@ -11707,37 +11750,37 @@ msgstr "Et le panneau inactif changerait de chemin pour le suivant :"
 
 #: ulng.rsmsghotdirerrorbackuping
 msgid "Error backuping entries..."
-msgstr "Erreur en archivant les entrées..."
+msgstr "Erreur d'archivage des éléments..."
 
 #: ulng.rsmsghotdirerrorexporting
 msgid "Error exporting entries..."
-msgstr "Erreur d'exportation d'entrées"
+msgstr "Erreur d'exportation des éléments..."
 
 #: ulng.rsmsghotdirexportall
 msgid "Export all!"
-msgstr "Exporter tous!"
+msgstr "Exporter tout !"
 
 #: ulng.rsmsghotdirexporthotlist
 msgid "Export Directory Hotlist - Select the entries you want to export"
-msgstr "Exporte la liste des dossiers favoris - Sélectionnez les entrées à exporter"
+msgstr "Exporter la liste des dossiers favoris - Sélectionner les éléments à exporter"
 
 #: ulng.rsmsghotdirexportsel
 msgid "Export selected"
-msgstr "Exporte la sélection"
+msgstr "Exporter la sélection"
 
 #: ulng.rsmsghotdirimportall
 msgctxt "ulng.rsmsghotdirimportall"
 msgid "Import all!"
-msgstr "Importe tous!"
+msgstr "Importer tout !"
 
 #: ulng.rsmsghotdirimporthotlist
 msgid "Import Directory Hotlist - Select the entries you want to import"
-msgstr "Importe liste des dossiers favoris - Sélectionnez les entrées à importer"
+msgstr "Importer la liste des dossiers favoris - Sélectionner les éléments à importer"
 
 #: ulng.rsmsghotdirimportsel
 msgctxt "ulng.rsmsghotdirimportsel"
 msgid "Import selected"
-msgstr "Importe la sélection"
+msgstr "Importer la sélection"
 
 #: ulng.rsmsghotdirjustpath
 msgctxt "ulng.rsmsghotdirjustpath"
@@ -11746,7 +11789,7 @@ msgstr "&Chemin :"
 
 #: ulng.rsmsghotdirlocatehotlistfile
 msgid "Locate \".hotlist\" file to import"
-msgstr "Pointez le fichier \".hotlist\" à importer"
+msgstr "Indiquer le fichier \".hotlist\" à importer"
 
 #: ulng.rsmsghotdirname
 msgid "Hotdir name"
@@ -11755,7 +11798,7 @@ msgstr "Nom du favori :"
 #: ulng.rsmsghotdirnbnewentries
 #, object-pascal-format
 msgid "Number of new entries: %d"
-msgstr "Nombre de nouvelles entrées : %d"
+msgstr "Nombre de nouveaux éléments : %d"
 
 #: ulng.rsmsghotdirnothingtoexport
 msgid "Nothing selected to export!"
@@ -11767,11 +11810,11 @@ msgstr "Chemin du dossier"
 
 #: ulng.rsmsghotdirreaddselecteddirectory
 msgid "Re-Add selected dir: "
-msgstr "Ajoute à nouveau le dossier sélectionné: "
+msgstr "Ajouter à nouveau le dossier sélectionné : "
 
 #: ulng.rsmsghotdirreaddthisdirectory
 msgid "Re-Add current dir: "
-msgstr "Ajoute à nouveau le dossier courant: "
+msgstr "Ajouter à nouveau le dossier courant : "
 
 #: ulng.rsmsghotdirrestorewhat
 msgid "Enter location and filename of Directory Hotlist to restore"
@@ -11785,12 +11828,12 @@ msgstr "Commande"
 #: ulng.rsmsghotdirsimpleendofmenu
 msgctxt "ulng.rsmsghotdirsimpleendofmenu"
 msgid "(end of sub menu)"
-msgstr "(fin de menu)"
+msgstr "(fin de sous-menu)"
 
 #: ulng.rsmsghotdirsimplemenu
 msgctxt "ulng.rsmsghotdirsimplemenu"
 msgid "Menu &name:"
-msgstr "Sous-me&nu :"
+msgstr "Me&nu :"
 
 #: ulng.rsmsghotdirsimplename
 msgctxt "ulng.rsmsghotdirsimplename"
@@ -11809,19 +11852,19 @@ msgstr "Nom du sous-menu"
 
 #: ulng.rsmsghotdirtarget
 msgid "Hotdir target"
-msgstr "Dossier-cible"
+msgstr "Dossier cible"
 
 #: ulng.rsmsghotdirtiporderpath
 msgid "Determine if you want the active frame to be sorted in a specified order after changing directory"
-msgstr "Détermine l''ordre de tri du panneau actif après avoir changé de dossier"
+msgstr "Déterminer si vous souhaitez que le panneau actif soit trié dans un ordre spécifié après avoir changé de dossier"
 
 #: ulng.rsmsghotdirtipordertarget
 msgid "Determine if you want the not active frame to be sorted in a specified order after changing directory"
-msgstr "Détermine l''ordre de tri du panneau inactif après avoir changé de dossier"
+msgstr "Déterminer si vous souhaitez que le panneau inactif soit trié dans un ordre spécifié après avoir changé de dossier"
 
 #: ulng.rsmsghotdirtipspecialdirbut
 msgid "Some functions to select appropriate path relative, absolute, windows special folders, etc."
-msgstr "Quelques fonctions pour choisir le chemin parmis ceux relatif, absolu, selon les dossiers spéciaux de Windows, etc."
+msgstr "Fonctions pour sélectionner le chemin approprié : relatif, absolu, dossiers spéciaux de Windows, etc."
 
 #: ulng.rsmsghotdirtotalbackuped
 #, object-pascal-format
@@ -11830,13 +11873,13 @@ msgid ""
 "\n"
 "Backup filename: %s"
 msgstr ""
-"Entrées sauvegardées : %d\n"
+"Eléments sauvegardés : %d\n"
 "\n"
 "Fichier de backup : %s"
 
 #: ulng.rsmsghotdirtotalexported
 msgid "Total entries exported: "
-msgstr "Nombre d''entrées exportées: "
+msgstr "Nombre d'éléments exportés : "
 
 #: ulng.rsmsghotdirwhattodelete
 #, object-pascal-format
@@ -11844,17 +11887,17 @@ msgid ""
 "Do you want to delete all elements inside the sub-menu [%s]?\n"
 "Answering NO will delete only menu delimiters but will keep element inside sub-menu."
 msgstr ""
-"Voulez-vous effacer tous les éléments du sous-menu [%s]?\n"
-"Répondre NON va effacer seulment les délimiteurs de menu mais conservera tous les éléments à l'intérieur du menu"
+"Souhaitez-vous supprimer tous les éléments du sous-menu [%s]?\n"
+"Répondre NON va seulement supprimer les délimiteurs de menu mais conservera tous les éléments à l'intérieur"
 
 #: ulng.rsmsghotdirwheretosave
 msgid "Enter location and filename where to save a Directory Hotlist file"
-msgstr "Sélectionnez où sauvegarder le fichier des dossiers favoris"
+msgstr "Sélectionner l'emplacement et le nom du fichier de liste des dossiers favoris"
 
 #: ulng.rsmsgincorrectfilelength
 #, object-pascal-format
 msgid "Incorrect resulting filelength for file : \"%s\""
-msgstr "Longueur de fichier résultant incorrecte : \"%s\""
+msgstr "Longueur du fichier résultant incorrecte : \"%s\""
 
 #: ulng.rsmsginsertnextdisk
 #, object-pascal-format
@@ -11866,9 +11909,9 @@ msgid ""
 "\n"
 "Number of bytes still to write: %d"
 msgstr ""
-"Insérez le prochain média de support.\n"
+"Veuillez insérer le support suivant.\n"
 "\n"
-"C'est pour écrire le fichier :\n"
+"Cela permettra d'écrire ce fichier :\n"
 "\"%s\"\n"
 "\n"
 "Nombre d'octets restant à écrire : %d"
@@ -11888,7 +11931,7 @@ msgstr "Format incorrect du fichier de configuration"
 #: ulng.rsmsginvalidhexnumber
 #, object-pascal-format
 msgid "Invalid hexadecimal number: \"%s\""
-msgstr "Nombre hexadécimal invalide: \"%s\""
+msgstr "Nombre hexadécimal invalide : \"%s\""
 
 #: ulng.rsmsginvalidpath
 msgid "Invalid path"
@@ -11897,11 +11940,11 @@ msgstr "Chemin invalide"
 #: ulng.rsmsginvalidpathlong
 #, object-pascal-format
 msgid "Path %s contains forbidden characters."
-msgstr "Le chemin \"%s\" contient de caractères interdits"
+msgstr "Le chemin \"%s\" contient des caractères interdits"
 
 #: ulng.rsmsginvalidplugin
 msgid "This is not a valid plugin!"
-msgstr "Ce n'est pas un \"plugin\" valide!"
+msgstr "Ce n'est pas un \"plugin\" valide !"
 
 #: ulng.rsmsginvalidpluginarchitecture
 #, object-pascal-format
@@ -11914,7 +11957,7 @@ msgstr "Mise entre guillemets invalide"
 
 #: ulng.rsmsginvalidselection
 msgid "Invalid selection."
-msgstr "Sélection non permise"
+msgstr "Sélection invalide"
 
 #: ulng.rsmsgloadingfilelist
 msgid "Loading file list..."
@@ -11940,7 +11983,7 @@ msgstr "Suppression du fichier %s"
 
 #: ulng.rsmsglogerror
 msgid "Error: "
-msgstr "Erreur: "
+msgstr "Erreur : "
 
 #: ulng.rsmsglogextcmdlaunch
 msgid "Launch external"
@@ -11994,7 +12037,7 @@ msgstr "Supprimer le dossier %s"
 
 #: ulng.rsmsglogsuccess
 msgid "Done: "
-msgstr "Effectué: "
+msgstr "Effectué : "
 
 #: ulng.rsmsglogsymlink
 #, object-pascal-format
@@ -12009,12 +12052,12 @@ msgstr "Test de l'intégrité du fichier %s"
 #: ulng.rsmsglogwipe
 #, object-pascal-format
 msgid "Wipe file %s"
-msgstr "Pulvérisez le fichier %s"
+msgstr "Supprimer de manière sécurisée le fichier %s"
 
 #: ulng.rsmsglogwipedir
 #, object-pascal-format
 msgid "Wipe directory %s"
-msgstr "Pulvérisez le dossier %s"
+msgstr "Supprimer de manière sécurisée le dossier %s"
 
 #: ulng.rsmsgmasterpassword
 msgid "Master Password"
@@ -12022,7 +12065,7 @@ msgstr "Mot de passe principal"
 
 #: ulng.rsmsgmasterpasswordenter
 msgid "Please enter the master password:"
-msgstr "Introduisez le mot de passe principal :"
+msgstr "Veuillez entrer le mot de passe principal :"
 
 #: ulng.rsmsgnewfile
 msgid "New file"
@@ -12038,7 +12081,7 @@ msgstr "Aucun fichier"
 
 #: ulng.rsmsgnofilesselected
 msgid "No files selected."
-msgstr "Aucun fichier sélectionner."
+msgstr "Aucun fichier sélectionné."
 
 #: ulng.rsmsgnofreespacecont
 msgid "No enough free space on target drive, Continue?"
@@ -12059,11 +12102,11 @@ msgstr "Pas encore implémenté."
 
 #: ulng.rsmsgobjectnotexists
 msgid "Object does not exist!"
-msgstr "L'oject n'existe pas!"
+msgstr "L'objet n'existe pas!"
 
 #: ulng.rsmsgopeninanotherprogram
 msgid "The action cannot be completed because the file is open in another program:"
-msgstr "L'action ne peut pas être terminée car le fichier est ouvert dans un autre programme:"
+msgstr "L'action ne peut pas être terminée car le fichier est ouvert dans un autre programme :"
 
 #: ulng.rsmsgpanelpreview
 msgctxt "ulng.rsmsgpanelpreview"
@@ -12077,11 +12120,11 @@ msgstr "Mot de passe :"
 
 #: ulng.rsmsgpassworddiff
 msgid "Passwords are different!"
-msgstr "Les mots de passe sont différent!"
+msgstr "Les mots de passe sont différents !"
 
 #: ulng.rsmsgpasswordenter
 msgid "Please enter the password:"
-msgstr "Introduire le mot de passe :"
+msgstr "Veuillez entrer le mot de passe :"
 
 #: ulng.rsmsgpasswordfirewall
 msgid "Password (Firewall):"
@@ -12089,7 +12132,7 @@ msgstr "Mot de passe (Firewall) :"
 
 #: ulng.rsmsgpasswordverify
 msgid "Please re-enter the password for verification:"
-msgstr "S'il vous plait, ré-entrez le mot de passe pour vérification :"
+msgstr "Veuillez entrer à nouveau le mot de passe pour vérification :"
 
 #: ulng.rsmsgpopuphotdelete
 #, object-pascal-format
@@ -12122,15 +12165,15 @@ msgstr "Nom de fichier pour le texte déposé :"
 
 #: ulng.rsmsgprovidethisfile
 msgid "Please, make this file available. Retry?"
-msgstr "S'il vous plait, rendez ce fichier disponible. Ré-essayer?"
+msgstr "Fichier indisponible, veuillez le libérer. Ré-essayer ?"
 
 #: ulng.rsmsgrenamefavtabs
 msgid "Enter new friendly name for this Favorite Tabs"
-msgstr "Entrez un nom pour ce groupe d'onglets favoris"
+msgstr "Entrer un nom pour ce groupe d'onglets favoris"
 
 #: ulng.rsmsgrenamefavtabsmenu
 msgid "Enter new name for this menu"
-msgstr "Entrez un nom pour ce nouveau menu"
+msgstr "Entrer un nom pour ce nouveau menu"
 
 #: ulng.rsmsgrenfldr
 #, object-pascal-format
@@ -12144,11 +12187,11 @@ msgstr "Renommer/Déplacer la sélection  \"%s\" ?"
 
 #: ulng.rsmsgreplacethistext
 msgid "Do you want to replace this text?"
-msgstr "Voulez-vous remplacer ce texte?"
+msgstr "Souhaitez-vous remplacer ce texte ?"
 
 #: ulng.rsmsgrestartforapplychanges
 msgid "Please, restart Double Commander in order to apply changes"
-msgstr "Vous devez redémarrer Double Commander pour activer les changements."
+msgstr "Veuillez redémarrer Double Commander pour activer les changements"
 
 #: ulng.rsmsgscriptcantfindlibrary
 #, object-pascal-format
@@ -12158,7 +12201,7 @@ msgstr "ERREUR: Problème de chargement du fichier de bibliothèque Lua \"%s\""
 #: ulng.rsmsgsekectfiletype
 #, object-pascal-format
 msgid "Select to which file type to add extension \"%s\""
-msgstr "Choisissez le type de fichier auquel ajouté une extension \"%s\""
+msgstr "Choisir le type de fichier auquel ajouter une extension \"%s\""
 
 #: ulng.rsmsgselectedinfo
 #, object-pascal-format
@@ -12167,15 +12210,15 @@ msgstr "Sélectionnés : %s de %s, fichiers : %d sur %d, dossiers : %d sur %d"
 
 #: ulng.rsmsgselectexecutablefile
 msgid "Select executable file for"
-msgstr "Choisissez le fichier d'exécutable pour"
+msgstr "Choisir le fichier d'exécutable pour"
 
 #: ulng.rsmsgselectonlychecksumfiles
 msgid "Please select only checksum files!"
-msgstr "S'il vous plait, choisissez uniquement un fichier contenant une (des) signature(s)!"
+msgstr "Veuillez choisir uniquement des fichiers de signature !"
 
 #: ulng.rsmsgsellocnextvol
 msgid "Please select location of next volume"
-msgstr "Merci de choisir l'emplacement du volume suivant"
+msgstr "Veuillez choisir l'emplacement du volume suivant"
 
 #: ulng.rsmsgsetvolumelabel
 msgid "Set volume label"
@@ -12187,27 +12230,27 @@ msgstr "Dossier spéciaux"
 
 #: ulng.rsmsgspecialdiraddacti
 msgid "Add path from active frame"
-msgstr "Ajoute le dossier du panneau actif"
+msgstr "Ajouter le dossier du panneau actif"
 
 #: ulng.rsmsgspecialdiraddnonacti
 msgid "Add path from inactive frame"
-msgstr "Ajoute le dossier du panneau inactif"
+msgstr "Ajouter le dossier du panneau inactif"
 
 #: ulng.rsmsgspecialdirbrowssel
 msgid "Browse and use selected path"
-msgstr "Parcourir et utiliser le dossier désigné"
+msgstr "Parcourir et utiliser le dossier sélectionné"
 
 #: ulng.rsmsgspecialdirenvvar
 msgid "Use environment variable..."
-msgstr "Utilise variable d'environnement"
+msgstr "Utiliser variable d'environnement"
 
 #: ulng.rsmsgspecialdirgotodc
 msgid "Go to Double Commander special path..."
-msgstr "Aller configurer les chemin spéciaux de DC..."
+msgstr "Aller aux chemins spéciaux de Double Commander..."
 
 #: ulng.rsmsgspecialdirgotoenvvar
 msgid "Go to environment variable..."
-msgstr "Aller au variables d'environnement"
+msgstr "Aller aux variables d'environnement"
 
 #: ulng.rsmsgspecialdirgotoother
 msgid "Go to other Windows special folder..."
@@ -12219,48 +12262,48 @@ msgstr "Aller aux dossiers spéciaux de Windows (TC)..."
 
 #: ulng.rsmsgspecialdirmakereltohotdir
 msgid "Make relative to hotdir path"
-msgstr "Rend relatif selon le chemin du dossier favori"
+msgstr "Rendre le chemin relatif par rapport à un dossier favori"
 
 #: ulng.rsmsgspecialdirmkabso
 msgid "Make path absolute"
-msgstr "Transforme le chemin en absolu"
+msgstr "Rendre le chemin absolu"
 
 #: ulng.rsmsgspecialdirmkdcrel
 msgid "Make relative to Double Commander special path..."
-msgstr "Transforme le chemin en relatif par rapport à un dossier spécial de DC..."
+msgstr "Rendre le chemin relatif par rapport à un dossier spécial de Double Commander..."
 
 #: ulng.rsmsgspecialdirmkenvrel
 msgid "Make relative to environment variable..."
-msgstr "Transforme le chemin en relatif par rapport à une variable d'environnement"
+msgstr "Rendre le chemin relatif par rapport à une variable d'environnement"
 
 #: ulng.rsmsgspecialdirmktctel
 msgid "Make relative to Windows special folder (TC)..."
-msgstr "Transforme le chemin en relatif par rapport à un dossier spécial de Windows (même que TC)..."
+msgstr "Rendre le chemin relatif par rapport à un dossier spécial de Windows (TC)..."
 
 #: ulng.rsmsgspecialdirmkwnrel
 msgid "Make relative to other Windows special folder..."
-msgstr "Transforme le chemin en relatif par rapport à un autre dossier spécial de Windows..."
+msgstr "Rendre le chemin relatif par rapport à un autre dossier spécial de Windows..."
 
 #: ulng.rsmsgspecialdirusedc
 msgid "Use Double Commander special path..."
-msgstr "Utilise un chemin spécial de Double Commander..."
+msgstr "Utiliser un chemin spécial de Double Commander..."
 
 #: ulng.rsmsgspecialdirusehotdir
 msgid "Use hotdir path"
-msgstr "Utilise le chemin du dossier favori"
+msgstr "Utiliser un chemin de dossier favori"
 
 #: ulng.rsmsgspecialdiruseother
 msgid "Use other Windows special folder..."
-msgstr "Choisir parmis d'autre dossiers spéciaux de Windows..."
+msgstr "Utiliser un autre dossier spécial de Windows..."
 
 #: ulng.rsmsgspecialdirusetc
 msgid "Use Windows special folder (TC)..."
-msgstr "Choisir parmis des dossiers spéciaux de Windows (TC)..."
+msgstr "Utiliser un dossier spécial de Windows (TC)..."
 
 #: ulng.rsmsgtabforopeninginnewtab
 #, object-pascal-format
 msgid "This tab (%s) is locked! Open directory in another tab?"
-msgstr "Cet onglet (%s) est verrouillé! Voulez-vous ouvrir ce dossier dans un autre onglet?"
+msgstr "Cet onglet (%s) est verrouillé ! Souhaitez-vous ouvrir ce dossier dans un autre onglet ?"
 
 #: ulng.rsmsgtabrenamecaption
 msgid "Rename tab"
@@ -12280,7 +12323,7 @@ msgid ""
 "Error! Cannot find the TC configuration file:\n"
 "%s"
 msgstr ""
-"Erreur! On ne trouve pas le fichier de configuratio de TC:\n"
+"Erreur! Impossible de trouver le fichier de configuration de TC:\n"
 "%s"
 
 #: ulng.rsmsgtcexecutablenotfound
@@ -12289,7 +12332,7 @@ msgid ""
 "Error! Cannot find the TC configuration executable:\n"
 "%s"
 msgstr ""
-"Erreur! On ne trouve pas le fichier de l'exécutable de TC :\n"
+"Erreur! Impossible de trouver le fichier de configuration exécutable de TC :\n"
 "%s"
 
 #: ulng.rsmsgtcisrunning
@@ -12297,8 +12340,8 @@ msgid ""
 "Error! TC is still running but it should be closed for this operation.\n"
 "Close it and press OK or press CANCEL to abort."
 msgstr ""
-"Erreur! TC est toujours en cours d'exécution mais devrait être fermé pour compléter cette opération.\n"
-"Fermez-le et appuyez OK ou ANNULER pour avorter."
+"Erreur! TC est toujours en cours d'exécution mais devrait être fermé pour cette opération.\n"
+"Fermez-le puis appuyez sur OK ou ANNULER pour abandonner."
 
 #: ulng.rsmsgtctoolbarnotfound
 #, object-pascal-format
@@ -12306,24 +12349,24 @@ msgid ""
 "Error! Cannot find the desired wanted TC toolbar output folder:\n"
 "%s"
 msgstr ""
-"Erreur! On ne trouve pas le dossier de sortie pour la barre d'outil TC désirée :\n"
+"Erreur! Impossible de trouver le dossier de sortie pour la barre d'outils TC souhaitée :\n"
 "%s"
 
 #: ulng.rsmsgtctoolbarwheretosave
 msgid "Enter location and filename where to save a TC Toolbar file"
-msgstr "Entrez l'emplacement et le nom de fichier pour la barre d'outil TC à sauvegarder"
+msgstr "Entrer l'emplacement et le nom de fichier pour la barre d'outils TC à enregistrer"
 
 #: ulng.rsmsgterminaldisabled
 msgid "Built-in terminal window disabled. Do you want to enable it?"
-msgstr ""
+msgstr "Fenêtre du terminal intégré désactivée. Souhaitez-vous l'activer ?"
 
 #: ulng.rsmsgterminateprocess
 msgid "WARNING: Terminating a process can cause undesired results including loss of data and system instability. The process will not be given the chance to save its state or data before it is terminated. Are you sure you want to terminate the process?"
-msgstr "AVERTISSEMENT: la fin d'un processus peut entraîner des résultats indésirables, notamment une perte de données et une instabilité du système. Le processus n'aura pas la possibilité de sauvegarder son état ou ses données avant qu'il ne soit terminé. Êtes-vous sûr de vouloir mettre fin au processus?"
+msgstr "AVERTISSEMENT: la fin d'un processus peut entraîner des résultats indésirables, notamment une perte de données et une instabilité du système. Le processus n'aura pas la possibilité d'enregistrer son état ou ses données avant qu'il ne soit terminé. Êtes-vous sûr de vouloir mettre fin au processus ?"
 
 #: ulng.rsmsgtestarchive
 msgid "Do you want to test selected archives?"
-msgstr ""
+msgstr "Souhaitez-vous tester les archives sélectionnées ?"
 
 #: ulng.rsmsgthisisnowinclipboard
 #, object-pascal-format
@@ -12332,7 +12375,7 @@ msgstr "\"%s\" est maintenant dans le presse-papier"
 
 #: ulng.rsmsgtitleextnotinfiletype
 msgid "Extension of selected file is not in any recognized file types"
-msgstr "L'extension du fichier sélectionné n'est pas parmis celles reconnues"
+msgstr "L'extension du fichier sélectionné ne figure pas parmi celles reconnues"
 
 #: ulng.rsmsgtoolbarlocatedctoolbarfile
 msgid "Locate \".toolbar\" file to import"
@@ -12344,7 +12387,7 @@ msgstr "Sélectionnez le fichier \".BAR\" à importer"
 
 #: ulng.rsmsgtoolbarrestorewhat
 msgid "Enter location and filename of Toolbar to restore"
-msgstr "Entrez l'emplacement et le nom de fichier pour la barre d'outil à ramener"
+msgstr "Entrez l'emplacement et le nom de fichier pour la barre d'outils à charger"
 
 #: ulng.rsmsgtoolbarsaved
 #, object-pascal-format
@@ -12352,12 +12395,12 @@ msgid ""
 "Saved!\n"
 "Toolbar filename: %s"
 msgstr ""
-"Sauvegardé!\n"
-"Nom du fichier de barre d'outil : %s"
+"Enregistré !\n"
+"Nom du fichier de barre d'outils : %s"
 
 #: ulng.rsmsgtoomanyfilesselected
 msgid "Too many files selected."
-msgstr "Trop de fichier sélectionnés."
+msgstr "Trop de fichiers sélectionnés."
 
 #: ulng.rsmsgundeterminednumberoffile
 msgid "Undetermined"
@@ -12365,7 +12408,7 @@ msgstr "Indéterminé"
 
 #: ulng.rsmsgunexpectedusagetreeviewmenu
 msgid "ERROR: Unexpected Tree View Menu usage!"
-msgstr "ERREUR : Comportement inattendu  dans le menu en arbre!"
+msgstr "ERREUR : Comportement inattendu dans le menu en arborescence !"
 
 #: ulng.rsmsgurl
 msgid "URL:"
@@ -12394,11 +12437,11 @@ msgstr "VÉRIFICATION:"
 
 #: ulng.rsmsgverifychecksum
 msgid "Do you want to verify selected checksums?"
-msgstr "Voulez-vous vérifier les sommes de contrôle sélectionnées?"
+msgstr "Souhaitez-vous vérifier les sommes de contrôle sélectionnées ?"
 
 #: ulng.rsmsgverifywrong
 msgid "The target file is corrupted, checksum mismatch!"
-msgstr "Le fichier de destination est corrompu, la somme de contrôle ne correspond pas!"
+msgstr "Le fichier de destination est corrompu, la somme de contrôle ne correspond pas !"
 
 #: ulng.rsmsgvolumelabel
 msgid "Volume label:"
@@ -12406,21 +12449,21 @@ msgstr "Nom de volume :"
 
 #: ulng.rsmsgvolumesizeenter
 msgid "Please enter the volume size:"
-msgstr "Entrez la taille du volume :"
+msgstr "Veuillez entrer la taille du volume :"
 
 #: ulng.rsmsgwanttoconfigurelibrarylocation
 msgid "Do you want to configure Lua library location?"
-msgstr "Voulez-vous configurer l'emplacement du fichier de bibliothèque Lua?"
+msgstr "Souhaitez-vous configurer l'emplacement du fichier de bibliothèque Lua ?"
 
 #: ulng.rsmsgwipefldr
 #, object-pascal-format
 msgid "Wipe %d selected files/directories?"
-msgstr "Lancer l'effacement sécurisé pour les %d fichiers/dossiers sélectionnés ?"
+msgstr "Lancer la suppression sécurisée pour les %d fichiers/dossiers sélectionnés ?"
 
 #: ulng.rsmsgwipesel
 #, object-pascal-format
 msgid "Wipe selected \"%s\"?"
-msgstr "Lancer l'effacement sécurisé pour la sélection \"%s\" ?"
+msgstr "Lancer la suppression sécurisée pour la sélection \"%s\" ?"
 
 #: ulng.rsmsgwithactionwith
 msgid "with"
@@ -12431,8 +12474,8 @@ msgid ""
 "Wrong password!\n"
 "Please try again!"
 msgstr ""
-"Mauvais mot de passe!\n"
-"Essayez à nouveau!"
+"Mot de passe erroné !\n"
+"Veuillez essayer à nouveau !"
 
 #: ulng.rsmulrenautorename
 msgid "Do auto-rename to \"name (1).ext\", \"name (2).ext\" etc.?"
@@ -12453,25 +12496,29 @@ msgid "Preset name"
 msgstr "Nom de configuration"
 
 #: ulng.rsmulrendefinevariablename
+# HL_01
 msgid "Define variable name"
-msgstr "Ajuster nom de variable"
+msgstr "Définir nom de variable"
 
 #: ulng.rsmulrendefinevariablevalue
+# HL_01
 msgid "Define variable value"
-msgstr "Ajuster valeur de variable"
+msgstr "Définir valeur de variable"
 
 #: ulng.rsmulrenenternameforvar
+# HL_01
 msgid "Enter variable name"
 msgstr "Entrez nom de variable"
 
 #: ulng.rsmulrenentervalueforvar
 #, object-pascal-format
+# HL_01
 msgid "Enter value for variable \"%s\""
 msgstr "Entrez valeur de la variable \"%s\""
 
 #: ulng.rsmulrenexitmodifiedpresetoptions
 msgid "Ignore, just save as the [Last One];Prompt user to confirm if we save it;Save automatically"
-msgstr "Sauvegarde sous [Last One];Me demander si sauvegarde;Sauvegarde automatiquement"
+msgstr "Ignorer, sauvegarder simplement comme [le dernier];Me demander pour confirmer la sauvegarde;Sauvegarder automatiquement"
 
 #: ulng.rsmulrenextension
 msgctxt "ulng.rsmulrenextension"
@@ -12560,7 +12607,7 @@ msgstr "Heure"
 
 #: ulng.rsmulrenmaskhour2digits
 msgid "Hour (2 digits)"
-msgstr "Heure (2 digits)"
+msgstr "Heure (2 chiffres)"
 
 #: ulng.rsmulrenmaskmin
 msgid "Minute"
@@ -12568,7 +12615,7 @@ msgstr "Minute"
 
 #: ulng.rsmulrenmaskmin2digits
 msgid "Minute (2 digits)"
-msgstr "Minute (2 digits)"
+msgstr "Minute (2 chiffres)"
 
 #: ulng.rsmulrenmaskmonth
 msgid "Month"
@@ -12576,7 +12623,7 @@ msgstr "Mois"
 
 #: ulng.rsmulrenmaskmonth2digits
 msgid "Month (2 digits)"
-msgstr "Mois (2 digits)"
+msgstr "Mois (2 chiffres)"
 
 #: ulng.rsmulrenmaskmonthabrev
 msgid "Month name (short, e.g., \"jan\")"
@@ -12601,7 +12648,7 @@ msgstr "Seconde"
 
 #: ulng.rsmulrenmasksec2digits
 msgid "Second (2 digits)"
-msgstr "Seconde (2 digits)"
+msgstr "Seconde (2 chiffres)"
 
 #: ulng.rsmulrenmaskvaronthefly
 msgid "Variable on the fly"
@@ -12609,11 +12656,11 @@ msgstr "Variable à la volée"
 
 #: ulng.rsmulrenmaskyear2digits
 msgid "Year (2 digits)"
-msgstr "Année (2 digits)"
+msgstr "Année (2 chiffres)"
 
 #: ulng.rsmulrenmaskyear4digits
 msgid "Year (4 digits)"
-msgstr "Année (4 digits)"
+msgstr "Année (4 chiffres)"
 
 #: ulng.rsmulrenplugins
 msgctxt "ulng.rsmulrenplugins"
@@ -12626,7 +12673,7 @@ msgstr "Enregister la configuration sous"
 
 #: ulng.rsmulrenpromptnewnameexists
 msgid "Preset name already exists. Overwrite?"
-msgstr "La configuration existe déjà. L'écraser?"
+msgstr "La configuration existe déjà. L'écraser ?"
 
 #: ulng.rsmulrenpromptnewpresetname
 msgid "Enter new preset name"
@@ -12639,7 +12686,7 @@ msgid ""
 "Do you want to save it now?"
 msgstr ""
 "La configuration «%s» a été modifiée.\n"
-"La sauvegarder maintenant ?"
+"L'enregistrer maintenant ?"
 
 #: ulng.rsmulrensortingpresets
 msgid "Sorting presets"
@@ -12652,12 +12699,12 @@ msgstr "Heure"
 
 #: ulng.rsmulrenwarningduplicate
 msgid "Warning, duplicate names!"
-msgstr "Attention, il y a des doubons!"
+msgstr "Attention, il y a des doublons !"
 
 #: ulng.rsmulrenwronglinesnumber
 #, object-pascal-format
 msgid "File contains wrong number of lines: %d, should be %d!"
-msgstr "Le fichier contient le mauvais nombre de lignes: %d, mais devrait être %d!"
+msgstr "Le fichier contient un mauvais nombre de lignes : %d, au lieu de %d!"
 
 #: ulng.rsnewsearchclearfilteroptions
 msgid "Keep;Clear;Prompt"
@@ -12665,7 +12712,7 @@ msgstr "Conserver;Réinitialiser;Demander"
 
 #: ulng.rsnoequivalentinternalcommand
 msgid "No internal equivalent command"
-msgstr "Pas commande interne équivalente"
+msgstr "Pas de commande interne équivalente"
 
 #: ulng.rsnofindfileswindowyet
 msgid "Sorry, no \"Find files\" window yet..."
@@ -12673,7 +12720,7 @@ msgstr "Désolé, aucune fenêtre de recherche de fichiers..."
 
 #: ulng.rsnootherfindfileswindowtoclose
 msgid "Sorry, no other \"Find files\" window to close and free from memory..."
-msgstr "Désolé, il n'y a pas de fenêtre de recherche à fermer et oublier..."
+msgstr "Désolé, il n'y a pas d'autres fenêtres de recherche à fermer..."
 
 #: ulng.rsopenwithdevelopment
 msgid "Development"
@@ -12694,7 +12741,7 @@ msgstr "Graphiques"
 
 #: ulng.rsopenwithmacosfilter
 msgid "Applications (*.app)|*.app|All files (*)|*"
-msgstr ""
+msgstr "Applications (*.app)|*.app|Tous les fichiers (*)|*"
 
 #: ulng.rsopenwithmultimedia
 msgid "Multimedia"
@@ -12720,7 +12767,7 @@ msgstr "Science"
 
 #: ulng.rsopenwithsettings
 msgid "Settings"
-msgstr "Ajustements"
+msgstr "Paramètres"
 
 #: ulng.rsopenwithsystem
 msgctxt "ulng.rsopenwithsystem"
@@ -12736,211 +12783,253 @@ msgid "Aborted"
 msgstr "Annulé"
 
 #: ulng.rsopercalculatingchecksum
+# HL_02
 msgid "Calculating checksum"
-msgstr "Calcul de signature"
+msgstr "Calcul de signature en cours"
 
 #: ulng.rsopercalculatingchecksumin
 #, object-pascal-format
+# HL_02
 msgid "Calculating checksum in \"%s\""
-msgstr "Calcul de signature en \"%s\""
+msgstr "Calcul de signature en cours dans \"%s\""
 
 #: ulng.rsopercalculatingchecksumof
 #, object-pascal-format
+# HL_02
 msgid "Calculating checksum of \"%s\""
-msgstr "Calcul de signature de \"%s\""
+msgstr "Calcul de signature en cours de \"%s\""
 
 #: ulng.rsopercalculatingstatictics
+# H_02
 msgctxt "ulng.rsopercalculatingstatictics"
 msgid "Calculating"
-msgstr "Calcul en cours..."
+msgstr "Calcul en cours"
 
 #: ulng.rsopercalculatingstatisticsin
 #, object-pascal-format
+# HL_02
 msgid "Calculating \"%s\""
-msgstr "Calcul \"%s\""
+msgstr "Calcul en cours \"%s\""
 
 #: ulng.rsopercombining
+# H_02
 msgid "Joining"
-msgstr "Concaténage"
+msgstr "Concaténation en cours"
 
 #: ulng.rsopercombiningfromto
 #, object-pascal-format
+# HL_02
 msgid "Joining files in \"%s\" to \"%s\""
-msgstr "Concaténer fichiers dans \"%s\" vers \"%s\""
+msgstr "Concaténation de fichiers en cours dans \"%s\" vers \"%s\""
 
 #: ulng.rsopercopying
+# H_02
 msgid "Copying"
-msgstr "Copie"
+msgstr "Copie en cours"
 
 #: ulng.rsopercopyingfromto
 #, object-pascal-format
+# H_02
 msgid "Copying from \"%s\" to \"%s\""
-msgstr "Copie de \"%s\" vers \"%s\""
+msgstr "Copie en cours de \"%s\" vers \"%s\""
 
 #: ulng.rsopercopyingsomethingto
 #, object-pascal-format
+# H_02
 msgid "Copying \"%s\" to \"%s\""
-msgstr "Copie \"%s\" vers \"%s\""
+msgstr "Copie en cours \"%s\" vers \"%s\""
 
 #: ulng.rsopercreatingdirectory
+# H_02
 msgid "Creating directory"
-msgstr "Création d'un dossier"
+msgstr "Création de dossier en cours"
 
 #: ulng.rsopercreatingsomedirectory
 #, object-pascal-format
+# H_02
 msgid "Creating directory \"%s\""
-msgstr "Création du dossier \"%s\""
+msgstr "Création du dossier \"%s\" en cours"
 
 #: ulng.rsoperdeleting
+# H_02
 msgctxt "ulng.rsoperdeleting"
 msgid "Deleting"
-msgstr "Suppression"
+msgstr "Suppression en cours"
 
 #: ulng.rsoperdeletingin
 #, object-pascal-format
+# H_02
 msgid "Deleting in \"%s\""
-msgstr "Effacement dans \"%s\""
+msgstr "Suppression en cours dans \"%s\""
 
 #: ulng.rsoperdeletingsomething
 #, object-pascal-format
+# H_02
 msgid "Deleting \"%s\""
-msgstr "Efface \"%s\""
+msgstr "Suppression en cours \"%s\""
 
 #: ulng.rsoperexecuting
+# H_02
 msgid "Executing"
-msgstr "Exécution"
+msgstr "Exécution en cours"
 
 #: ulng.rsoperexecutingsomething
 #, object-pascal-format
+# H_02
 msgid "Executing \"%s\""
-msgstr "Exécution de \"%s\""
+msgstr "Exécution en cours de \"%s\""
 
 #: ulng.rsoperextracting
+# H_02
 msgid "Extracting"
-msgstr "Décompression"
+msgstr "Décompression en cours"
 
 #: ulng.rsoperextractingfromto
 #, object-pascal-format
+# H_02
 msgid "Extracting from \"%s\" to \"%s\""
-msgstr "Décompression de \"%s\" vers \"%s\""
+msgstr "Décompression en cours de \"%s\" vers \"%s\""
 
 #: ulng.rsoperfinished
 msgid "Finished"
-msgstr "Terminés"
+msgstr "Terminé"
 
 #: ulng.rsoperlisting
+# H_02
 msgid "Listing"
-msgstr "Liste"
+msgstr "Liste en cours"
 
 #: ulng.rsoperlistingin
 #, object-pascal-format
+# H_02
 msgid "Listing \"%s\""
-msgstr "Liste \"%s\""
+msgstr "Liste en cours \"%s\""
 
 #: ulng.rsopermoving
+# H_02
 msgid "Moving"
-msgstr "Déplacement"
+msgstr "Déplacement en cours"
 
 #: ulng.rsopermovingfromto
 #, object-pascal-format
+# H_02
 msgid "Moving from \"%s\" to \"%s\""
-msgstr "Déplacement de \"%s\" vers \"%s\""
+msgstr "Déplacement en cours de \"%s\" vers \"%s\""
 
 #: ulng.rsopermovingsomethingto
 #, object-pascal-format
+# H_02
 msgid "Moving \"%s\" to \"%s\""
-msgstr "Déplacement de \"%s\" vers \"%s\""
+msgstr "Déplacement en cours de \"%s\" vers \"%s\""
 
 #: ulng.rsopernotstarted
 msgid "Not started"
-msgstr "Pas encore démarrés"
+msgstr "Non démarré"
 
 #: ulng.rsoperpacking
+# H_02
 msgid "Packing"
-msgstr "Compression"
+msgstr "Compression en cours"
 
 #: ulng.rsoperpackingfromto
 #, object-pascal-format
+# H_02
 msgid "Packing from \"%s\" to \"%s\""
-msgstr "Compression de \"%s\" vers \"%s\""
+msgstr "Compression en cours de \"%s\" vers \"%s\""
 
 #: ulng.rsoperpackingsomethingto
 #, object-pascal-format
+# H_02
 msgid "Packing \"%s\" to \"%s\""
-msgstr "Compression de \"%s\" vers \"%s\""
+msgstr "Compression en cours de \"%s\" vers \"%s\""
 
 #: ulng.rsoperpaused
 msgid "Paused"
-msgstr "En attente"
+msgstr "En pause"
 
 #: ulng.rsoperpausing
+# H_02
 msgid "Pausing"
-msgstr "Mettre en attente"
+msgstr "Pause en cours"
 
 #: ulng.rsoperrunning
+# H_02
 msgid "Running"
 msgstr "En cours"
 
 #: ulng.rsopersettingproperty
+# H_02
 msgid "Setting property"
-msgstr "Ajustement d'une propriété"
+msgstr "Paramétrage en cours d'une propriété"
 
 #: ulng.rsopersettingpropertyin
 #, object-pascal-format
+# H_02
 msgid "Setting property in \"%s\""
-msgstr "Ajustement d'une propriété dans \"%s\""
+msgstr "Paramétrage en cours d'une propriété dans \"%s\""
 
 #: ulng.rsopersettingpropertyof
 #, object-pascal-format
+# H_02
 msgid "Setting property of \"%s\""
-msgstr "Ajustement d'une propriété de \"%s\""
+msgstr "Paramétrage en cours de la propriété de \"%s\""
 
 #: ulng.rsopersplitting
+# H_02
 msgid "Splitting"
-msgstr "Fractionnement"
+msgstr "Fractionnement en cours"
 
 #: ulng.rsopersplittingfromto
 #, object-pascal-format
+# H_02
 msgid "Splitting \"%s\" to \"%s\""
-msgstr "Fractionnement de \"%s\" vers \"%s\""
+msgstr "Fractionnement en cours de \"%s\" vers \"%s\""
 
 #: ulng.rsoperstarting
+# H_02
 msgid "Starting"
-msgstr "En cours de démarrage"
+msgstr "Démarrage en cours"
 
 #: ulng.rsoperstopped
 msgid "Stopped"
 msgstr "Arrêté"
 
 #: ulng.rsoperstopping
+# H_02
 msgid "Stopping"
-msgstr "En train d'arrêter"
+msgstr "Arrêt en cours"
 
 #: ulng.rsopertesting
+# H_02
 msgid "Testing"
-msgstr "Test"
+msgstr "Test en cours"
 
 #: ulng.rsopertestingin
 #, object-pascal-format
+# H_02
 msgid "Testing in \"%s\""
-msgstr "Test dans \"%s\""
+msgstr "Test en cours dans \"%s\""
 
 #: ulng.rsopertestingsomething
 #, object-pascal-format
+# H_02
 msgid "Testing \"%s\""
-msgstr "Test \"%s\""
+msgstr "Test en cours \"%s\""
 
 #: ulng.rsoperverifyingchecksum
+# H_02
 msgid "Verifying checksum"
-msgstr "Vérification de la signature"
+msgstr "Vérification de la signature en cours"
 
 #: ulng.rsoperverifyingchecksumin
 #, object-pascal-format
+# H_02
 msgid "Verifying checksum in \"%s\""
 msgstr "Vérification de la signature dans \"%s\""
 
 #: ulng.rsoperverifyingchecksumof
 #, object-pascal-format
+# H_02
 msgid "Verifying checksum of \"%s\""
 msgstr "Vérification de la signature de \"%s\""
 
@@ -12950,25 +13039,29 @@ msgstr "En attente de l'accès au fichier source..."
 
 #: ulng.rsoperwaitingforfeedback
 msgid "Waiting for user response"
-msgstr "En attente de la réponse de l'utilisateur..."
+msgstr "En attente de la réponse utilisateur..."
 
 #: ulng.rsoperwiping
+# H_02
 msgid "Wiping"
-msgstr "Pulvérisation"
+msgstr "Suppression sécurisée en cours"
 
 #: ulng.rsoperwipingin
 #, object-pascal-format
+# H_02
 msgid "Wiping in \"%s\""
-msgstr "Pulvérise dans \"%s\""
+msgstr "Suppression sécurisée en cours dans \"%s\""
 
 #: ulng.rsoperwipingsomething
 #, object-pascal-format
+# H_02
 msgid "Wiping \"%s\""
-msgstr "Pulvérise \"%s\""
+msgstr "Suppression sécurisée en cours \"%s\""
 
 #: ulng.rsoperworking
+# H_02
 msgid "Working"
-msgstr "Dossier de travail"
+msgstr "Travail en cours"
 
 #: ulng.rsoptaddfrommainpanel
 msgid "Add at &beginning;Add at the end;Smart add"
@@ -12976,25 +13069,27 @@ msgstr "Ajout au début;Ajout à la fin;Ajout astucieux"
 
 #: ulng.rsoptaddingtooltipfiletype
 msgid "Adding new tooltip file type"
-msgstr "Ajout d'un nouveau type de fichier d'info-bulle"
+msgstr "Ajout d'un nouveau type de fichier d'infobulle"
 
 #: ulng.rsoptarchiveconfiguresavetochange
 msgid "To change current editing archive configuration, either APPLY or DELETE current editing one"
-msgstr "Pour changer la configuration des outils d'archivage, appuyez \"Appliquer\" ou \"Supprimer\""
+msgstr "Pour changer la configuration des outils d'archivage, cliquer sur \"Appliquer\" ou \"Supprimer\""
 
 #: ulng.rsoptarchiveradditonalcmd
 msgid "Mode dependent, additional command"
-msgstr "Dépendant du moade, command additionnelle"
+msgstr "Dépendant du mode, commande supplémentaire"
 
 #: ulng.rsoptarchiveraddonlynotempty
+# H_01
 msgid "Add if it is non-empty"
-msgstr "Ajoute si n'est pas vide"
+msgstr "Ajouter si non vide"
 
 #: ulng.rsoptarchiverarchivel
 msgid "Archive File (long name)"
 msgstr "Nom de l'archive (nom long)"
 
 #: ulng.rsoptarchiverarchiver
+# H_01
 msgid "Select archiver executable"
 msgstr "Choisir l'exécutable de l'outil d'archivage"
 
@@ -13010,11 +13105,11 @@ msgstr "Changer l'encodage"
 #, object-pascal-format
 msgctxt "ulng.rsoptarchiverconfirmdelete"
 msgid "Are you sure you want to delete: \"%s\"?"
-msgstr "Êtes-vous sûr de vouloir effacer: \"%s\"?"
+msgstr "Êtes-vous sûr de vouloir supprimer : \"%s\"?"
 
 #: ulng.rsoptarchiverdefaultexportfilename
 msgid "Exported Archiver Configuration"
-msgstr "Configuration outil archivage exportée"
+msgstr "Configuration d'outil archivage exportée"
 
 #: ulng.rsoptarchivererrorlevel
 msgid "errorlevel"
@@ -13033,7 +13128,7 @@ msgstr "Exportation de %d éléments vers le fichier \"%s\" complétée."
 #: ulng.rsoptarchiverexportprompt
 msgctxt "ulng.rsoptarchiverexportprompt"
 msgid "Select the one(s) you want to export"
-msgstr "Choisissez ce que vous voulez exporter"
+msgstr "Choisissez ce que vous souhaitez exporter"
 
 #: ulng.rsoptarchiverfilelistl
 msgid "Filelist (long names)"
@@ -13055,32 +13150,32 @@ msgstr "Importation de %d éléments du fichier \"%s\" complétée."
 
 #: ulng.rsoptarchiverimportfile
 msgid "Select the file to import archiver configuration(s)"
-msgstr "Choississez le fichier à importer les configurations d'outils d'archivage"
+msgstr "Choisissez le fichier pour importer des configurations d'outils d'archivage"
 
 #: ulng.rsoptarchiverimportprompt
 msgctxt "ulng.rsoptarchiverimportprompt"
 msgid "Select the one(s) you want to import"
-msgstr "Choisissez ce que vous voulez importer"
+msgstr "Choisissez ce que vous souhaitez importer"
 
 #: ulng.rsoptarchiverjustname
 msgid "Use name only, without path"
-msgstr "Utilise le nom seulement, sans le chemin"
+msgstr "Utiliser le nom seulement, sans le chemin"
 
 #: ulng.rsoptarchiverjustpath
 msgid "Use path only, without name"
-msgstr "Utilise le chemin seulement, sans le nom"
+msgstr "Utiliser le chemin seulement, sans le nom"
 
 #: ulng.rsoptarchiverprograml
 msgid "Archive Program (long name)"
-msgstr "Exécutable d'archivage (nom long)"
+msgstr "Programme d'archivage (nom long)"
 
 #: ulng.rsoptarchiverprograms
 msgid "Archive Program (short name)"
-msgstr "Exécutable d'archivage (nom court)"
+msgstr "Programme d'archivage (nom court)"
 
 #: ulng.rsoptarchiverquoteall
 msgid "Quote all names"
-msgstr "Mettre tous les noms entre guillemets"
+msgstr "Mettre entre guillemets tous les noms"
 
 #: ulng.rsoptarchiverquotewithspace
 msgid "Quote names with spaces"
@@ -13095,16 +13190,18 @@ msgid "Target subdirecory"
 msgstr "Dossier cible"
 
 #: ulng.rsoptarchiveruseansi
+# H_01
 msgid "Use ANSI encoding"
-msgstr "Utilise encodage ANSI"
+msgstr "Utiliser l'encodage ANSI"
 
 #: ulng.rsoptarchiveruseutf8
+# H_01
 msgid "Use UTF8 encoding"
-msgstr "Utilise encodage UTF8"
+msgstr "Utiliser l'encodage UTF8"
 
 #: ulng.rsoptarchiverwheretosave
 msgid "Enter location and filename where to save archiver configuration"
-msgstr "Entrez le chemin et nom de fichier où sauvegarder la configuration de l'outil d'archivage"
+msgstr "Entrer le chemin et nom de fichier où enregistrer la configuration de l'outil d'archivage"
 
 #: ulng.rsoptarchivetypename
 msgid "Archive type name:"
@@ -13121,21 +13218,22 @@ msgstr "Premier;Dernier;"
 
 #: ulng.rsoptconfigsortorder
 msgid "Classic, legacy order;Alphabetic order (but language still first)"
-msgstr "Ordre classique;Ordre alphabétique (mais \"Langue\" sera toujours premier)"
+msgstr "Ordre classique;Ordre alphabétique (avec \"Langue\" toujours en premier)"
 
 #: ulng.rsoptconfigtreestate
 msgid "Full expand;Full collapse"
-msgstr "Étendu;Replié"
+msgstr "Tout développé;Tout replié"
 
 #: ulng.rsoptdifferframeposition
 msgid "Active frame panel on left, inactive on right (legacy);Left frame panel on left, right on right"
-msgstr "Le panneau actif à gauche et l'inactif à droite (classique);Le panneau de gauche à gauche, celui de droite à droite"
+msgstr "Les panneaux actif et inactif respectivement à gauche et à droite (classique);Le panneau de gauche à gauche, celui de droite à droite"
 
 #: ulng.rsoptenterext
 msgid "Enter extension"
 msgstr "Entrer une extension"
 
 #: ulng.rsoptfavoritetabswheretoaddinlist
+# H_01
 msgid "Add at beginning;Add at the end;Alphabetical sort"
 msgstr "Ajoute au début;Ajoute à la fin;Ordre alphabétique"
 
@@ -13150,22 +13248,25 @@ msgstr "dynamique"
 #: ulng.rsopthotkeysadddeleteshortcutlong
 #, object-pascal-format
 msgid "Shortcut %s for cm_Delete will be registered, so it can be used to reverse this setting."
-msgstr "Le raccourci %s de la commande cm_Delete va être enregistré, donc it pourra être utilisé pour inverser cette option."
+msgstr "Le raccourci %s de la commande cm_Delete va être enregistré, il pourra ensuite être utilisé pour inverser ce paramétrage."
 
 #: ulng.rsopthotkeysaddhotkey
 #, object-pascal-format
+# H_01
 msgid "Add hotkey for %s"
-msgstr "Ajoute un raccourci clavier pour %s"
+msgstr "Ajouter un raccourci clavier pour %s"
 
 #: ulng.rsopthotkeysaddshortcutbutton
+# H_01
 msgid "Add shortcut"
-msgstr "Ajoute un raccourci"
+msgstr "Ajouter un raccourci"
 
 #: ulng.rsopthotkeyscannotsetshortcut
 msgid "Cannot set shortcut"
-msgstr "On ne peut ajuster de raccourci"
+msgstr "Impossible de définir un raccourci"
 
 #: ulng.rsopthotkeyschangeshortcut
+# H_01
 msgid "Change shortcut"
 msgstr "Changer le raccourci"
 
@@ -13176,13 +13277,15 @@ msgstr "Commande"
 
 #: ulng.rsopthotkeysdeletetrashcanoverrides
 #, object-pascal-format
+# HL_04
 msgid "Shortcut %s for cm_Delete has a parameter that overrides this setting. Do you want to change this parameter to use the global setting?"
-msgstr "Le raccourci %s de la commande cm_Delete a un paramètre qui peut passer outre cette option. Voulez-vous changer ce paramètre  pour utiliser celui global?"
+msgstr "Le raccourci %s de la commande cm_Delete dispose d'un paramètre qui peut outrepasser ce paramétrage. Souhaitez-vous le changer pour utiliser le paramètre global ?"
 
 #: ulng.rsopthotkeysdeletetrashcanparameterexists
 #, object-pascal-format
+# HL_04
 msgid "Shortcut %s for cm_Delete needs to have a parameter changed to match shortcut %s. Do you want to change it?"
-msgstr "Le raccourci %s de la commande cm_Delete a besoin d'avoir un paramètre modifié pour correspondre au raccourci %s. Est-ce que vous voulez le changer?"
+msgstr "Le raccourci %s de la commande cm_Delete a besoin d'avoir un paramètre modifié pour correspondre au raccourci %s. Souhaitez-vous le changer ?"
 
 #: ulng.rsopthotkeysdescription
 msgctxt "ulng.rsopthotkeysdescription"
@@ -13191,10 +13294,12 @@ msgstr "Description"
 
 #: ulng.rsopthotkeysedithotkey
 #, object-pascal-format
+# H_01
 msgid "Edit hotkey for %s"
 msgstr "Éditer raccourci clavier pour %s"
 
 #: ulng.rsopthotkeysfixparameter
+# H_01
 msgid "Fix parameter"
 msgstr "Paramètre fixe"
 
@@ -13219,21 +13324,21 @@ msgstr "Paramètres"
 
 #: ulng.rsopthotkeyssetdeleteshortcut
 msgid "Set shortcut to delete file"
-msgstr "Ajuster le raccourci pour effacer un fichier"
+msgstr "Définir un raccourci pour supprimer un fichier"
 
 #: ulng.rsopthotkeysshortcutfordeletealreadyassigned
 #, object-pascal-format
 msgid "For this setting to work with shortcut %s, shortcut %s must be assigned to cm_Delete but it is already assigned to %s. Do you want to change it?"
-msgstr "Pour que cette option fonctionne avec le raccouris %s, le raccourci %s doit être assigné à cm_Delete but imais il est déjà assigné à %s. Désirez-vous changer cela?"
+msgstr "Pour que cette option fonctionne avec le raccourci %s, ce raccourci %s doit être assigné à cm_Delete but mais il est déjà assigné à %s. Souhaitez-vous changer cela ?"
 
 #: ulng.rsopthotkeysshortcutfordeleteissequence
 #, object-pascal-format
 msgid "Shortcut %s for cm_Delete is a sequence shortcut for which a hotkey with reversed Shift cannot be assigned. This setting might not work."
-msgstr "Le raccourci %s de la commande cm_Delete est une séquence de raccouci pourlaquelle l'action inverse avec \"SHIFT\" ne peux pas être habitué. Cet ajustement peut donc ne pas fonctionner."
+msgstr "Le raccourci %s de la commande cm_Delete est une séquence de raccourci pour laquelle l'action inverse avec \"SHIFT\" ne peut pas être assignée. Ce paramétrage peut donc ne pas fonctionner."
 
 #: ulng.rsopthotkeysshortcutused
 msgid "Shortcut in use"
-msgstr "Raccourcis utilisé"
+msgstr "Raccourci utilisé"
 
 #: ulng.rsopthotkeysshortcutusedtext1
 #, object-pascal-format
@@ -13257,12 +13362,12 @@ msgstr "utilisé pour cette commande mais avec des paramètres différents"
 #: ulng.rsoptionseditorarchivers
 msgctxt "ulng.rsoptionseditorarchivers"
 msgid "Archivers"
-msgstr "Gestions des archives"
+msgstr "Gestion des archives"
 
 #: ulng.rsoptionseditorautorefresh
 msgctxt "ulng.rsoptionseditorautorefresh"
 msgid "Auto refresh"
-msgstr "Rafraichissement automatique"
+msgstr "Rafraîchissement automatique"
 
 #: ulng.rsoptionseditorbehavior
 msgctxt "ulng.rsoptionseditorbehavior"
@@ -13272,7 +13377,7 @@ msgstr "Comportements"
 #: ulng.rsoptionseditorbriefview
 msgctxt "ulng.rsoptionseditorbriefview"
 msgid "Brief"
-msgstr "Vue résumé"
+msgstr "Résumé"
 
 #: ulng.rsoptionseditorcolors
 msgctxt "ulng.rsoptionseditorcolors"
@@ -13431,7 +13536,7 @@ msgid ""
 msgstr ""
 "Les options ont changé pour \"%s\"\n"
 "\n"
-"Voulez-vous sauvegarder les modifications?"
+"Souhaitez-vous enregistrer les modifications ?"
 
 #: ulng.rsoptionseditorplugins
 msgctxt "ulng.rsoptionseditorplugins"
@@ -13473,11 +13578,11 @@ msgstr "Infobulles"
 #: ulng.rsoptionseditortreeviewmenu
 msgctxt "ulng.rsoptionseditortreeviewmenu"
 msgid "Tree View Menu"
-msgstr "Menu en arbre"
+msgstr "Menu en arborescence"
 
 #: ulng.rsoptionseditortreeviewmenucolors
 msgid "Tree View Menu Colors"
-msgstr "Couleur menu arbre"
+msgstr "Couleur menu en arborescence"
 
 #: ulng.rsoptletters
 msgid "None;Command Line;Quick Search;Quick Filter"
@@ -13493,7 +13598,7 @@ msgstr "en premier de la liste de fichiers;après les dossiers (si les dossiers 
 
 #: ulng.rsoptpersonalizedfilesizeformat
 msgid "Personalized float;Personalized byte;Personalized kilobyte;Personalized megabyte;Personalized gigabyte;Personalized terabyte"
-msgstr "Dynamique personnalisé;Octet personnalisé;Kibioctet personnalisé;Mébioctet personnalisé;Gibioctet  personnalisé;Tébioctet personnalisé"
+msgstr "Dynamique personnalisé;Octet personnalisé;Kilooctet personnalisé;Mégaoctet personnalisé;Gigaoctet  personnalisé;Téraoctet personnalisé"
 
 #: ulng.rsoptpluginalreadyassigned
 #, object-pascal-format
@@ -13539,7 +13644,7 @@ msgstr "Nom"
 
 #: ulng.rsoptpluginsortonlywhenbyextension
 msgid "Sorting WCX plugins is only possible when showing plugins by extension!"
-msgstr "Le tri des plugins WCX n'est possible que si vous affichez les plugins par extension!"
+msgstr "Le tri des plugins WCX n'est possible que si vous affichez les plugins par extension !"
 
 #: ulng.rsoptpluginsregisteredfor
 msgctxt "ulng.rsoptpluginsregisteredfor"
@@ -13552,7 +13657,7 @@ msgstr "Choisir la librairie Lua"
 
 #: ulng.rsoptrenamingtooltipfiletype
 msgid "Renaming tooltip file type"
-msgstr "Renommer le type de fichier d'info-bulle"
+msgstr "Renommer le type de fichier d'infobulle"
 
 #: ulng.rsoptsearchcase
 msgid "&Sensitive;&Insensitive"
@@ -13568,7 +13673,7 @@ msgstr "Cacher le panneau de filtre s'il n'est pas actif;conserver ces options p
 
 #: ulng.rsoptsortcasesens
 msgid "not case sensitive;according to locale settings (aAbBcC);first upper then lower case (ABCabc)"
-msgstr "non sensible à la casse;selon paramètres régionaux (aAbBcC);Première en majuscule, le reste en minuscule (ABCabc)"
+msgstr "insensible à la casse;selon paramètres régionaux (aAbBcC);Première en majuscule, le reste en minuscule (ABCabc)"
 
 #: ulng.rsoptsortfoldermode
 msgid "sort by name and show first;sort like files and show first;sort like files"
@@ -13576,7 +13681,7 @@ msgstr "trier par nom et montrer en premier;trier comme les fichiers et montrer 
 
 #: ulng.rsoptsortmethod
 msgid "Alphabetical, considering accents;Alphabetical with special characters sort;Natural sorting: alphabetical and numbers;Natural with special characters sort"
-msgstr "Alphabétique avec prise en considération des accents;Tri alphabétique avec caractères spéciaux;Tri naturel alphanumérique;Tri naturel avec caractères spécial"
+msgstr "Tri alphabétique avec accents;Tri alphabétique avec caractères spéciaux;Tri alphanumérique;Tri avec caractères spéciaux"
 
 #: ulng.rsopttabsposition
 msgid "Top;Bottom;"
@@ -13588,7 +13693,7 @@ msgstr "Séparateur;Commande interne;Commande externe;Menu"
 
 #: ulng.rsopttooltipconfiguresavetochange
 msgid "To change file type tooltip configuration, either APPLY or DELETE current editing one"
-msgstr "Pour modifier la configuration des info-bulles d'un autre type de fichier, APPLIQUEZ ou SUPPRIMEZ l'édition en cours."
+msgstr "Pour modifier la configuration des infobulles d'un autre type de fichier, APPLIQUEZ ou SUPPRIMEZ l'édition en cours."
 
 #: ulng.rsopttooltipfiletype
 msgid "Tooltip file type name:"
@@ -13603,15 +13708,15 @@ msgstr "\"%s\" existe déjà!"
 #, object-pascal-format
 msgctxt "ulng.rsopttooltipfiletypeconfirmdelete"
 msgid "Are you sure you want to delete: \"%s\"?"
-msgstr "Êtes-vous sûr de vouloir effacer: \"%s\"?"
+msgstr "Êtes-vous sûr de vouloir supprimer : \"%s\"?"
 
 #: ulng.rsopttooltipfiletypedefaultexportfilename
 msgid "Exported tooltip file type configuration"
-msgstr "Configuration de type de fichier d'info-bulle exporté"
+msgstr "Configuration de type de fichier d'infobulle exportée"
 
 #: ulng.rsopttooltipfiletypeexportcaption
 msgid "Export tooltip file type configuration"
-msgstr "Exporter la configuration du type de fichier info-bulle"
+msgstr "Exporter la configuration du type de fichier d'infobulle"
 
 #: ulng.rsopttooltipfiletypeexportdone
 #, object-pascal-format
@@ -13622,11 +13727,11 @@ msgstr "Exportation de %d éléments vers le fichier \"%s\" complétée."
 #: ulng.rsopttooltipfiletypeexportprompt
 msgctxt "ulng.rsopttooltipfiletypeexportprompt"
 msgid "Select the one(s) you want to export"
-msgstr "Choisissez ce que vous voulez exporter"
+msgstr "Choisissez ce que vous souhaitez exporter"
 
 #: ulng.rsopttooltipfiletypeimportcaption
 msgid "Import tooltip file type configuration"
-msgstr "Importer une configuration de type de fichier d'info-bulle"
+msgstr "Importer une configuration de type de fichier d'infobulle"
 
 #: ulng.rsopttooltipfiletypeimportdone
 #, object-pascal-format
@@ -13636,28 +13741,28 @@ msgstr "Importation de %d éléments du fichier \"%s\" complétée."
 
 #: ulng.rsopttooltipfiletypeimportfile
 msgid "Select the file to import tooltip file type configuration(s)"
-msgstr "Sélectionnez le fichier pour importer les configurations d'info-bulle"
+msgstr "Sélectionnez le fichier pour importer les configurations d'infobulle"
 
 #: ulng.rsopttooltipfiletypeimportprompt
 msgctxt "ulng.rsopttooltipfiletypeimportprompt"
 msgid "Select the one(s) you want to import"
-msgstr "Choisissez ce que vous voulez importer"
+msgstr "Choisissez ce que vous souhaitez importer"
 
 #: ulng.rsopttooltipfiletypewheretosave
 msgid "Enter location and filename where to save tooltip file type configuration"
-msgstr "Entrez l'emplacement et le nom du fichier où enregistrer la configuration du type de fichier d'info-bulle"
+msgstr "Entrez l'emplacement et le nom du fichier où enregistrer la configuration du type de fichier d'infobulle"
 
 #: ulng.rsopttooltipsfiletypename
 msgid "Tooltip file type name"
-msgstr "Nom du type de fichier info-bulle"
+msgstr "Nom du type de fichier d'infobulle"
 
 #: ulng.rsopttypeofduplicatedrename
 msgid "DC legacy - Copy (x) filename.ext;Windows - filename (x).ext;Other - filename(x).ext"
-msgstr "DC classique - Copy (x) nom_de_fichier.ext;Windows - nom_de_fichier (x).ext;Autre - nom_de_fichier(x).ext"
+msgstr "DC classique - Copier (x) nom_de_fichier.ext;Windows - nom_de_fichier (x).ext;Autre - nom_de_fichier(x).ext"
 
 #: ulng.rsoptupdatedfilesposition
 msgid "don't change position;use the same setting as for new files;to sorted position"
-msgstr "ne change pas de position;utilise les mêmes option que pour les nouveaux fichiers;à l'endroit normal du tri en cours"
+msgstr "ne change pas de position;utilise le même paramétrage que pour les nouveaux fichiers;à la position du tri en cours"
 
 #: ulng.rspluginfilenamestylelist
 msgid "With complete absolute path;Path relative to %COMMANDER_PATH%;Relative to the following"
@@ -13683,7 +13788,7 @@ msgstr "="
 #: ulng.rspluginsearchfieldnotfound
 #, object-pascal-format
 msgid "Field \"%s\" not found!"
-msgstr "Champ \"%s\" introuvable!"
+msgstr "Champ \"%s\" introuvable !"
 
 #: ulng.rspluginsearchnotcontainscasesenstive
 msgid "!contains(case)"
@@ -13709,7 +13814,7 @@ msgstr "!regexp"
 #: ulng.rspluginsearchpluginnotfound
 #, object-pascal-format
 msgid "Plugin \"%s\" not found!"
-msgstr "Plugin \"%s\" introuvable!"
+msgstr "Plugin \"%s\" introuvable !"
 
 #: ulng.rspluginsearchregexpr
 msgid "regexp"
@@ -13719,7 +13824,7 @@ msgstr "regexp"
 #, object-pascal-format
 msgctxt "ulng.rspluginsearchunitnotfoundforfield"
 msgid "Unit \"%s\" not found for field \"%s\" !"
-msgstr "Unité \"%s\" introuvable pour champ \"%s\"!"
+msgstr "Unité \"%s\" introuvable pour le champ \"%s\" !"
 
 #: ulng.rspropscontains
 #, object-pascal-format
@@ -13748,11 +13853,11 @@ msgstr "Dossier"
 
 #: ulng.rspropsmultipletypes
 msgid "Multiple types"
-msgstr ""
+msgstr "Types multiples"
 
 #: ulng.rspropsnmdpipe
 msgid "Named pipe"
-msgstr "Tube nommé"
+msgstr "Pipe nommé"
 
 #: ulng.rspropssocket
 msgid "Socket"
@@ -13792,7 +13897,7 @@ msgid ""
 "We need that one to be completed before to launch a new one."
 msgstr ""
 "Une recherche de fichiers avec un plugin DSX est déjà en cours.\n"
-"Nous devons attendre qu'elle soit complété avant dans lancer une nouvelle ."
+"Il faut attendre qu'elle soit complétée avant d'en lancer une nouvelle."
 
 #: ulng.rssearchwithwdxplugininprogress
 msgid ""
@@ -13800,7 +13905,7 @@ msgid ""
 "We need that one to be completed before to launch a new one."
 msgstr ""
 "Une recherche de fichiers avec un plugin WDX est déjà en cours.\n"
-"Nous devons attendre qu'elle soit complété avant dans lancer une nouvelle ."
+"Il faut attendre attendre qu'elle soit complétée avant d'en lancer une nouvelle."
 
 #: ulng.rsselectdir
 msgid "Select a directory"
@@ -13812,7 +13917,7 @@ msgstr "Plus récent;Plus ancien;Plus grand;Plus petit;Premier dans le groupe,De
 
 #: ulng.rsselectyoufindfileswindow
 msgid "Select your window"
-msgstr "Choisissez"
+msgstr "Sélectionnez votre fenêtre"
 
 #: ulng.rsshowhelpfor
 #, object-pascal-format
@@ -13844,7 +13949,7 @@ msgstr "Erreur"
 
 #: ulng.rssimplewordfailedexcla
 msgid "Failed!"
-msgstr "Échec!"
+msgstr "Échec !"
 
 #: ulng.rssimplewordfalse
 msgid "False"
@@ -13873,7 +13978,7 @@ msgstr "Résultat"
 
 #: ulng.rssimplewordsuccessexcla
 msgid "Success!"
-msgstr "Succès!"
+msgstr "Succès !"
 
 #: ulng.rssimplewordtrue
 msgid "True"
@@ -13929,7 +14034,7 @@ msgstr "Impossible de scinder le fichier !"
 
 #: ulng.rssplitmsgmanyparts
 msgid "The number of parts is more than 100! Continue?"
-msgstr "Le nombre de partie est supérieur à 100 ! Continuer ?"
+msgstr "Le nombre de parties est supérieur à 100 ! Continuer ?"
 
 #: ulng.rssplitpredefinedsizes
 msgid "Automatic;1457664B - 3.5\" High Density 1.44M;1213952B - 5.25\" High Density 1.2M;730112B - 3.5\" Double Density 720K;362496B - 5.25\" Double Density 360K;98078KB - ZIP 100MB;650MB - CD 650MB;700MB - CD 700MB;4482MB - DVD+R"
@@ -13941,7 +14046,7 @@ msgstr "Sélectionner un dossier :"
 
 #: ulng.rsstrpreviewjustpreview
 msgid "Just preview"
-msgstr "Simplement un avant-goût"
+msgstr "Juste un aperçu"
 
 #: ulng.rsstrpreviewothers
 msgid "Others"
@@ -13989,23 +14094,23 @@ msgstr "Choisissez votre groupe d'onglets favoris :"
 
 #: ulng.rsstrtvmchoosefromcmdlinehistory
 msgid "Choose your command from Command Line History"
-msgstr "Choisissez votre commande de l'historique des commandes"
+msgstr "Choisissez votre commande dans l'historique des commandes"
 
 #: ulng.rsstrtvmchoosefrommainmenu
 msgid "Choose your action from Main Menu"
-msgstr "Choisissez votre action du menu principal"
+msgstr "Choisissez votre action dans le menu principal"
 
 #: ulng.rsstrtvmchoosefromtoolbar
 msgid "Choose your action from Maintool bar"
-msgstr "Choisissez votre action de la barre d'outil principale"
+msgstr "Choisissez votre action dans la barre d'outils principale"
 
 #: ulng.rsstrtvmchoosehotdirectory
 msgid "Choose your directory from Hot Directory:"
-msgstr "Choisissez votre répertoire de la liste des répertoires favoris"
+msgstr "Choisissez votre dossier dans la liste des dossiers favoris"
 
 #: ulng.rsstrtvmchooseviewhistory
 msgid "Choose your directory from File View History"
-msgstr "Choisissez votre dossier dans l'historique selon cette vue"
+msgstr "Choisissez votre dossier dans la vue historique"
 
 #: ulng.rsstrtvmchooseyourfileordir
 msgid "Choose your file or your directory"
@@ -14026,8 +14131,9 @@ msgid "Plain text"
 msgstr "Texte simple"
 
 #: ulng.rstabsactionondoubleclickchoices
+# HL_01
 msgid "Do nothing;Close tab;Access Favorite Tabs;Tabs popup menu"
-msgstr "Ne fait rien;Ferme l'onglet;Accéder aux groupes d'onglets favoris;Le menu des onglets"
+msgstr "Ne fait rien;Ferme l'onglet;Accède aux groupes d'onglets favoris;Menu des onglets"
 
 #: ulng.rstimeunitday
 msgctxt "ulng.rstimeunitday"
@@ -14060,11 +14166,11 @@ msgstr "Année(s)"
 
 #: ulng.rstitlerenamefavtabs
 msgid "Rename Favorite Tabs"
-msgstr "Renomme l'onglet favori"
+msgstr "Renommer le groupe d'onglets favoris"
 
 #: ulng.rstitlerenamefavtabsmenu
 msgid "Rename Favorite Tabs sub-menu"
-msgstr "Renomme le sous-menu"
+msgstr "Renommer le sous-menu"
 
 #: ulng.rstooldiffer
 msgctxt "ulng.rstooldiffer"
@@ -14103,7 +14209,7 @@ msgstr "Système par défaut;1 seconde;2 secondes;3 secondes;5 secondes;10 secon
 
 #: ulng.rstooltipmodelist
 msgid "Combine DC and system tooltip, DC first (legacy);Combine DC and system tooltip, system first;Show DC tooltip when possible and system when not;Show DC tooltip only;Show system tooltip only"
-msgstr "Combiner l'info-bulle système et DC;DC d'abord et système ensuite (hérité);Combiner l'info-bulle du système et du système, d'abord le système;Afficher l'info-bulle du DC lorsque cela est possible et le système lorsque ce n'est pas le cas;Afficher l'info-bulle de DC uniquement;Afficher l'info-bulle du système uniquement"
+msgstr "Combiner l'infobulle DC et système, DC en premier (hérité);Combiner l'infobulle DC et système, système en premier;Afficher l'infobulle DC si possible et l'infobulle système sinon;Afficher l'infobulle DC uniquement;Afficher l'infobulle système uniquement"
 
 #: ulng.rstoolviewer
 msgctxt "ulng.rstoolviewer"
@@ -14113,7 +14219,7 @@ msgstr "Visionneuse"
 #: ulng.rsunhandledexceptionmessage
 #, object-pascal-format
 msgid "Please report this error to the bug tracker with a description of what you were doing and the following file:%sPress %s to continue or %s to abort the program."
-msgstr "Merci de rapporter cette erreur sur le \"bug tracker\" avec une description de ce que vous étiez en train de faire ainsi que le fichier suivant : %sCliquez %s pour continuer ou %s pour quitter le programme."
+msgstr "Veuillez signaler cette erreur sur le \"bug tracker\" avec une description de ce que vous étiez en train de faire et avec le fichier suivant : %sCliquez %s pour continuer ou %s pour quitter le programme."
 
 #: ulng.rsvarbothpanelactivetoinactive
 msgid "Both panels, from active to inactive"
@@ -14128,8 +14234,9 @@ msgid "Path of panel"
 msgstr "Chemin du panneau"
 
 #: ulng.rsvarencloseelement
+# HL_01
 msgid "Enclose each name in brackets or what you want"
-msgstr "Isole chaque nom entre crochers ou ce que vous voulez"
+msgstr "Mettre chaque nom entre crochets ou avec ce que vous souhaitez"
 
 #: ulng.rsvarfilenamenoext
 msgid "Just filename, no extension"
@@ -14145,15 +14252,15 @@ msgstr "Aide avec les variables \"%\""
 
 #: ulng.rsvarinputparam
 msgid "Will request request user to enter a parameter with a default suggested value"
-msgstr "Va demander à l'utilisateur d'entre un paramètre avec une valeur par défaut suggérée"
+msgstr "Va demander à l'utilisateur d'entrer un paramètre avec une valeur par défaut suggérée"
 
 #: ulng.rsvarlastdircurrentpath
 msgid "Last directory of panel's path"
-msgstr "Dernier répertoire du chemin du panneau"
+msgstr "Dernier dossier du chemin du panneau"
 
 #: ulng.rsvarlastdirofpath
 msgid "Last directory of file's path"
-msgstr "Dernier répertoire du chemin du fichier"
+msgstr "Dernier dossier du chemin du fichier"
 
 #: ulng.rsvarleftpanel
 msgid "Left panel"
@@ -14205,7 +14312,7 @@ msgstr "Chemin, sans le séparateur de dossier à la fin"
 
 #: ulng.rsvarpercentchangetopound
 msgid "From here to the end of the line, the percent-variable indicator is the \"#\" sign"
-msgstr "À partir d'ici jusqu'à la fin de la ligne, la variable-pourcent est indiquer par le symbole \"#\""
+msgstr "À partir d'ici jusqu'à la fin de la ligne, l'indicateur de variable en pourcentage est le signe \"#\""
 
 #: ulng.rsvarpercentsign
 msgid "Return the percent sign"
@@ -14213,15 +14320,15 @@ msgstr "Retourne le signe de pourcentage"
 
 #: ulng.rsvarpoundchangetopercent
 msgid "From here to the end of the line, the percent-variable indicator is back the \"%\" sign"
-msgstr "À partir d'ici jusqu'à la fin de la ligne, la variable-pourcent est de retour indiquer par le symbole \"%\""
+msgstr "À partir d'ici jusqu'à la fin de la ligne, l'indicateur de variable en pourcentage est de nouveau le signe \"%\""
 
 #: ulng.rsvarprependelement
 msgid "Prepend each name with \"-a \" or what you want"
-msgstr "Faire précéder chaque nom avec \"-a\" ou ce que vous désirez"
+msgstr "Faites précéder chaque nom avec \"-a\" ou avec ce que vous souhaitez"
 
 #: ulng.rsvarpromptuserforparam
 msgid "%[Prompt user for param;Default value proposed]"
-msgstr "%[Interroge l'usager pour un paramètre;La valeur par défaut proposée]"
+msgstr "%[Interroge l'utilisateur pour le paramètre;Valeur par défaut proposée]"
 
 #: ulng.rsvarrelativepathandfilename
 msgid "Filename with relative path"
@@ -14233,7 +14340,7 @@ msgstr "Panneau droit"
 
 #: ulng.rsvarsecondelementrightpanel
 msgid "Full path of second selected file in right panel"
-msgstr "Le chemin cmplet du second fichier sélectionné dans le panneau de droite"
+msgstr "Chemin complet du second fichier sélectionné dans le panneau de droite"
 
 #: ulng.rsvarshowcommandprior
 msgid "Show command prior execute"
@@ -14245,7 +14352,7 @@ msgstr "%[Simplement un message]"
 
 #: ulng.rsvarsimpleshowmessage
 msgid "Will show a simple message"
-msgstr "Va afficher un message simplement"
+msgstr "Affichera un simple message"
 
 #: ulng.rsvarsourcepanel
 msgid "Active panel (source)"
@@ -14253,7 +14360,7 @@ msgstr "Panneau actif (source)"
 
 #: ulng.rsvartargetpanel
 msgid "Inactive panel (target)"
-msgstr "Panneau inactif"
+msgstr "Panneau inactif (cible)"
 
 #: ulng.rsvarwillbequoted
 msgid "Filenames will be quoted from here (default)"
@@ -14261,7 +14368,7 @@ msgstr "Les noms de fichiers seront mis entre guillemets à partir d'ici (défau
 
 #: ulng.rsvarwilldointerminal
 msgid "Command will be done in terminal, remaining opened at the end"
-msgstr "La commande sera faite en mode terminal qui demeurera ouvert à la fin"
+msgstr "La commande sera faite dans le terminal qui restera ouvert après"
 
 #: ulng.rsvarwillhaveendingdelimiter
 msgid "Paths will have ending delimiter"
@@ -14273,7 +14380,7 @@ msgstr "Les noms de fichiers ne seront pas mis entre guillemets à partir d'ici"
 
 #: ulng.rsvarwillnotdointerminal
 msgid "Command will be done in terminal, closed at the end"
-msgstr "La commande sera faite en mode terminal qui sera fermé à la fin"
+msgstr "La commande sera faite dans le terminal qui sera fermé après"
 
 #: ulng.rsvarwillnothaveendingdelimiter
 msgid "Paths will not have ending delimiter (default)"
@@ -14286,7 +14393,7 @@ msgstr "Réseau"
 
 #: ulng.rsvfsrecyclebin
 msgid "Recycle Bin"
-msgstr ""
+msgstr "Corbeille"
 
 #: ulng.rsviewabouttext
 msgid "Internal Viewer of Double Commander."
@@ -14294,12 +14401,13 @@ msgstr "Visionneuse interne de Double Commander."
 
 #: ulng.rsviewbadquality
 msgid "Bad Quality"
-msgstr "Maubaise qualité"
+msgstr "Mauvaise qualité"
 
 #: ulng.rsviewencoding
+# H_02
 msgctxt "ulng.rsviewencoding"
 msgid "Encoding"
-msgstr "Encodage"
+msgstr "Encodage en cours"
 
 #: ulng.rsviewimagetype
 msgid "Image Type"
