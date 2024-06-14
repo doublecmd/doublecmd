@@ -104,7 +104,24 @@ type
     CmtBufSize: LongWord;
     CmtSize: LongWord;
     CmtState: LongWord;
-    Reserved: packed array [0..1023] of LongWord;
+    DictSize: LongWord;
+    HashType: LongWord;
+    Hash: array[0..31] of Byte;
+    RedirType: LongWord;
+    RedirName: PRarUnicodeChar;
+    RedirNameSize: LongWord;
+    DirTarget: LongWord;
+    MtimeLow: LongWord;
+    MtimeHigh: LongWord;
+    CtimeLow: LongWord;
+    CtimeHigh: LongWord;
+    AtimeLow: LongWord;
+    AtimeHigh: LongWord;
+    ArcNameEx: PRarUnicodeChar;
+    ArcNameExSize: LongWord;
+    FileNameEx: PRarUnicodeChar;
+    FileNameExSize: LongWord;
+    Reserved: packed array [0..981] of LongWord;
   end;
 
   {$IFDEF MSWINDOWS}{$CALLING STDCALL}{$ELSE}{$CALLING CDECL}{$ENDIF}
