@@ -40,6 +40,7 @@
 #        > Pour une sélection => idem "Sauvegarder" et "Recharger"
 #        > à compléter... 
 #        => Cette mention H_ii signifie qu'il y a eu hésitation sur la traduction la plus appropriée en fonction du contexte et de l'harmonisation d'ensemble... A revoir.
+# H_04 : Traduction pas claire => à revoir
 
 msgid ""
 msgstr ""
@@ -2045,7 +2046,7 @@ msgstr "Importer ce qui est sélectionné"
 #: tfrmhotdirexportimport.caption
 msgctxt "tfrmhotdirexportimport.caption"
 msgid "Select the entries your want to import"
-msgstr "Choisissez les entrées à importer"
+msgstr "Choisissez les éléments à importer"
 
 #: tfrmhotdirexportimport.lbhint.caption
 msgctxt "tfrmhotdirexportimport.lbhint.caption"
@@ -2054,7 +2055,7 @@ msgstr "Un clic sur un sous-menu le sélectionnera entièrement"
 
 #: tfrmhotdirexportimport.lblhintholdcontrol.caption
 msgid "Hold CTRL and click entries to select multiple ones"
-msgstr "Maintenir la touche CTRL enfoncée et cliquer sur les entrées pour en choisir plus d'une à la fois"
+msgstr "Maintenir la touche CTRL enfoncée et cliquer sur les éléments pour en choisir plus d'un à la fois"
 
 #: tfrmlinker.btnsave.caption
 msgctxt "TFRMLINKER.BTNSAVE.CAPTION"
@@ -2209,7 +2210,7 @@ msgstr "Prochaine ligne de commande"
 
 #: tfrmmain.actcmdlinenext.hint
 msgid "Set command line to next command in history"
-msgstr "Ajuster la ligne de commande pour la prochaine commande de l'historique"
+msgstr "Définir la ligne de commande sur la prochaine commande de l'historique"
 
 #: tfrmmain.actcmdlineprev.caption
 msgid "Previous Command Line"
@@ -2217,7 +2218,7 @@ msgstr "Ligne de commande précédente"
 
 #: tfrmmain.actcmdlineprev.hint
 msgid "Set command line to previous command in history"
-msgstr "Ajuster la ligne de commande pour la précédente commande de l'historique"
+msgstr "Définir la ligne de commande sur la précédente commande de l'historique"
 
 #: tfrmmain.actcolumnsview.caption
 msgid "Full"
@@ -2290,12 +2291,12 @@ msgstr "Configuration des infobulles"
 #: tfrmmain.actconfigtreeviewmenus.caption
 msgctxt "tfrmmain.actconfigtreeviewmenus.caption"
 msgid "Configuration of Tree View Menu"
-msgstr "Configuration du menu en arbre"
+msgstr "Configuration du menu en arborescence"
 
 #: tfrmmain.actconfigtreeviewmenuscolors.caption
 msgctxt "tfrmmain.actconfigtreeviewmenuscolors.caption"
 msgid "Configuration of Tree View Menu Colors"
-msgstr "Configuration des couleurs du menu en arbre"
+msgstr "Configuration des couleurs du menu en arborescence"
 
 #: tfrmmain.actcontextmenu.caption
 msgid "Show context menu"
@@ -3890,7 +3891,7 @@ msgstr "Enregistrer l'association"
 
 #: tfrmopenwith.chkuseasdefault.caption
 msgid "Set selected application as default action"
-msgstr "Ajuster l'application à utiliser par défaut"
+msgstr "Définir l'application à utiliser par défaut"
 
 #: tfrmopenwith.lblmimetype.caption
 #, object-pascal-format
@@ -3960,7 +3961,7 @@ msgstr "Options"
 
 #: tfrmoptions.lblemptyeditor.caption
 msgid "Please select one of the subpages, this page does not contain any settings."
-msgstr "Choisissez une sous-page, celle-ci ne contient aucun paramétrage."
+msgstr "Veuillez choisir une sous-page, celle-ci ne contient aucun paramétrage."
 
 #: tfrmoptionsarchivers.btnarchiveradd.caption
 msgctxt "tfrmoptionsarchivers.btnarchiveradd.caption"
@@ -4498,16 +4499,16 @@ msgstr "Enregistrer en quittant"
 
 #: tfrmoptionsconfiguration.gbsortorderconfigurationoption.caption
 msgid "Sort order of configuration order in left tree"
-msgstr "Classement des éléments de configuration de l'arbre de gauche"
+msgstr "Classement des éléments de configuration de l'arborescence de gauche"
 
 #: tfrmoptionsconfiguration.gpconfigurationtreestate.caption
 msgid "Tree state when entering in configuration page"
-msgstr "État de l'arbre de configuration lorsqu'on y entre"
+msgstr "État de l'arborescence de configuration lorsqu'on y entre"
 
 #: tfrmoptionsconfiguration.lblcmdlineconfigdir.caption
 msgctxt "TFRMOPTIONSCONFIGURATION.LBLCMDLINECONFIGDIR.CAPTION"
 msgid "Set on command line"
-msgstr "Ajuster sur la ligne de commande"
+msgstr "Définir sur la ligne de commande"
 
 #: tfrmoptionsconfiguration.lblhighlighters.caption
 msgid "Highlighters:"
@@ -4693,7 +4694,7 @@ msgstr ">>"
 
 #: tfrmoptionscustomcolumns.btngotosetdefault.caption
 msgid "Go to set default"
-msgstr "Aller à ajuster le défaut"
+msgstr "Aller à la valeur par défaut"
 
 #: tfrmoptionscustomcolumns.btninactivecursorcolor.caption
 msgctxt "tfrmoptionscustomcolumns.btninactivecursorcolor.caption"
@@ -5037,7 +5038,7 @@ msgstr "Refermer la branche"
 
 #: tfrmoptionsdirectoryhotlist.actcut.caption
 msgid "Cut selection of entries"
-msgstr "Couper la sélection d'entrées vers le presse-papier"
+msgstr "Couper la sélection d'éléments vers le presse-papier"
 
 #: tfrmoptionsdirectoryhotlist.actdeleteall.caption
 msgid "Delete all!"
@@ -5062,7 +5063,7 @@ msgstr "Développer la branche"
 
 #: tfrmoptionsdirectoryhotlist.actfocustreewindow.caption
 msgid "Focus tree window"
-msgstr "Se déplacer vers l'arbre"
+msgstr "Se déplacer vers l'arborescence"
 
 #: tfrmoptionsdirectoryhotlist.actgotofirstitem.caption
 msgid "Goto first item"
@@ -5147,7 +5148,7 @@ msgstr "Ajuster le chemin"
 
 #: tfrmoptionsdirectoryhotlist.acttweaktargetpath.caption
 msgid "Tweak target path"
-msgstr "Ajuster la cible"
+msgstr "Ajuster le chemin cible"
 
 #: tfrmoptionsdirectoryhotlist.btnadd.caption
 msgctxt "tfrmoptionsdirectoryhotlist.btnadd.caption"
@@ -5205,7 +5206,7 @@ msgstr "Lorsqu'on ajoute un dossier, ajouter aussi une cible"
 #: tfrmoptionsdirectoryhotlist.cbfullexpandtree.caption
 msgctxt "tfrmoptionsdirectoryhotlist.cbfullexpandtree.caption"
 msgid "Alwa&ys expand tree"
-msgstr "Toujours développer l'arbre"
+msgstr "Toujours développer l'arborescence"
 
 #: tfrmoptionsdirectoryhotlist.cbshowonlyvalidenv.caption
 msgid "Show only &valid environment variables"
@@ -5348,7 +5349,7 @@ msgstr "Ajuster le chemin"
 
 #: tfrmoptionsdirectoryhotlist.mitweaktargetpath.caption
 msgid "Tweak &target path"
-msgstr "Ajuster la cible"
+msgstr "Ajuster le chemin cible"
 
 #: tfrmoptionsdirectoryhotlist.rgwheretoadd.caption
 msgid "Addition from main panel"
@@ -5504,7 +5505,7 @@ msgstr "Supprimer automatiquement les espaces de fin, cela s'applique uniquement
 #: tfrmoptionseditor.edtabwidth.hint
 msgctxt "tfrmoptionseditor.edtabwidth.hint"
 msgid "Please note that the \"Smart Tabs\" option takes precedence over the tabulation to be performed"
-msgstr "Veuiller noter que l'option \"Tabulation astucieuse\" est prioritaire sur la tabulation à effectuer"
+msgstr "Veuillez noter que l'option \"Tabulation astucieuse\" est prioritaire sur la tabulation à effectuer"
 
 #: tfrmoptionseditor.gbinternaleditor.caption
 msgid "Internal editor options"
@@ -5521,7 +5522,7 @@ msgstr "Largeur de tabulation:"
 #: tfrmoptionseditor.lbltabwidth.hint
 msgctxt "tfrmoptionseditor.lbltabwidth.hint"
 msgid "Please note that the \"Smart Tabs\" option takes precedence over the tabulation to be performed"
-msgstr "Veuiller noter que l'option \"Tab intelligent\" est prioritaire sur la tabulation à effectuer"
+msgstr "Veuillez noter que l'option \"Tab intelligent\" est prioritaire sur la tabulation à effectuer"
 
 #: tfrmoptionseditorcolors.backgroundlabel.caption
 msgctxt "tfrmoptionseditorcolors.backgroundlabel.caption"
@@ -5562,7 +5563,7 @@ msgstr "Texte sélectionné"
 
 #: tfrmoptionseditorcolors.tbtnglobal.caption
 msgid "Use (and edit) &global scheme settings"
-msgstr "Utiliser (et éditer) selon le schéma global des ajustements"
+msgstr "Utiliser (et éditer) selon le paramétrage global"
 
 #: tfrmoptionseditorcolors.tbtnlocal.caption
 msgid "Use &local scheme settings"
@@ -5681,7 +5682,7 @@ msgstr "Aucun"
 #: tfrmoptionsfavoritetabs.cbfullexpandtree.caption
 msgctxt "tfrmoptionsfavoritetabs.cbfullexpandtree.caption"
 msgid "Always expand tree"
-msgstr "Toujours développer tout l'arbre"
+msgstr "Toujours développer toute l'arborescence"
 
 #: tfrmoptionsfavoritetabs.cbsavedirhistory.text
 msgctxt "tfrmoptionsfavoritetabs.cbsavedirhistory.text"
@@ -5796,7 +5797,7 @@ msgstr "Menu de test des groupes d'onglets favoris"
 
 #: tfrmoptionsfavoritetabs.miimportlegacytabfilesaccsetting.caption
 msgid "Import legacy .tab file(s) according to default setting"
-msgstr "Importe les fichiers classique d'onglets selon les ajustements par défaut"
+msgstr "Importe les fichiers classiques d'onglets selon les paramètres par défaut"
 
 #: tfrmoptionsfavoritetabs.miimportlegacytabfilesatpos.caption
 msgctxt "tfrmoptionsfavoritetabs.miimportlegacytabfilesatpos.caption"
@@ -6556,7 +6557,7 @@ msgstr "Utiliser un filtre d'attribut indépendant à chaque entrée de masque d
 #: tfrmoptionsfilesviewscomplement.gbmarking.caption
 msgctxt "tfrmoptionsfilesviewscomplement.gbmarking.caption"
 msgid "Marking/Unmarking entries"
-msgstr "Sélection/désélection de fichiers"
+msgstr "Sélection/désélection d'éléments"
 
 #: tfrmoptionsfilesviewscomplement.lbattributemask.caption
 msgctxt "tfrmoptionsfilesviewscomplement.lbattributemask.caption"
@@ -7338,7 +7339,7 @@ msgstr "Nom de fichier"
 
 #: tfrmoptionspluginsgroup.btnpathtoberelativetoall.caption
 msgid "Apply current settings to all current configured plugins"
-msgstr "Appliquer à tous les \"plugins\" configurés"
+msgstr "Appliquer le paramétrage actuel à tous les \"plugins\" configurés"
 
 #: tfrmoptionspluginsgroup.ckbautotweak.caption
 msgid "When adding a new plugin, automatically go in tweak window"
@@ -8354,11 +8355,11 @@ msgstr "Comportement concernant la sélection :"
 
 #: tfrmoptionstreeviewmenu.gbtreeviewmenusettings.caption
 msgid "Tree View Menus related options:"
-msgstr "Options reliées au menu en arbre :"
+msgstr "Options reliées au menu en arborescence :"
 
 #: tfrmoptionstreeviewmenu.gbwheretousetreeviewmenu.caption
 msgid "Where to use Tree View Menus:"
-msgstr "Où utiliser les menus en arbre :"
+msgstr "Où utiliser les menus en arborescence :"
 
 #: tfrmoptionstreeviewmenu.lblnote.caption
 msgid "*NOTE: Regarding the options like the case sensitivity, ignoring accents or not, these are saved and restored individually for each context from a usage and session to another."
@@ -8419,7 +8420,7 @@ msgstr "Texte normal sous le curseur :"
 
 #: tfrmoptionstreeviewmenucolor.lblpreview.caption
 msgid "Tree View Menu Preview:"
-msgstr "Aperçu du menu en arbre :"
+msgstr "Aperçu du menu en arborescence :"
 
 #: tfrmoptionstreeviewmenucolor.lblsecondarytextcolor.caption
 msgid "Secondary text color:"
@@ -9326,7 +9327,7 @@ msgstr "uniques"
 
 #: tfrmsyncdirsdlg.statusbar1.panels[0].text
 msgid "Please press \"Compare\" to start"
-msgstr "Cliquer sur \"Comparer\" pour lancer"
+msgstr "Veuillez cliquer sur \"Comparer\" pour lancer"
 
 #: tfrmsyncdirsperformdlg.caption
 msgctxt "tfrmsyncdirsperformdlg.caption"
@@ -9340,7 +9341,7 @@ msgstr "Confirmer l'écrasement"
 #: tfrmtreeviewmenu.caption
 msgctxt "tfrmtreeviewmenu.caption"
 msgid "Tree View Menu"
-msgstr "Menu en arbre"
+msgstr "Menu en arborescence"
 
 #: tfrmtreeviewmenu.lblsearchingentry.caption
 msgid "Select your hot directory:"
@@ -9380,17 +9381,17 @@ msgstr "Si la chaîne recherchée se trouve dans le nom de la branche, afficher 
 
 #: tfrmtreeviewmenu.tbcancelandquit.hint
 msgid "Close Tree View Menu"
-msgstr "Fermer le menu en arbre"
+msgstr "Fermer le menu en arborescence"
 
 #: tfrmtreeviewmenu.tbconfigurationtreeviewmenus.hint
 msgctxt "tfrmtreeviewmenu.tbconfigurationtreeviewmenus.hint"
 msgid "Configuration of Tree View Menu"
-msgstr "Configuration du menu en arbre"
+msgstr "Configuration du menu en arborescence"
 
 #: tfrmtreeviewmenu.tbconfigurationtreeviewmenuscolors.hint
 msgctxt "tfrmtreeviewmenu.tbconfigurationtreeviewmenuscolors.hint"
 msgid "Configuration of Tree View Menu Colors"
-msgstr "Configuration des couleurs du menu en arbre"
+msgstr "Configuration des couleurs du menu en arborescence"
 
 #: tfrmtweakplugin.btnadd.caption
 msgid "A&dd new"
@@ -10253,7 +10254,7 @@ msgstr "Total :"
 
 #: ulng.rsclearfiltersornot
 msgid "Do you want to clear filters for this new search?"
-msgstr "Voulez-vous réinitialiser les recherches pour cette nouvelle recherche ?"
+msgstr "Souhaitez-vous réinitialiser les recherches pour cette nouvelle recherche ?"
 
 #: ulng.rsclipboardcontainsinvalidtoolbardata
 msgid "Clipboard doesn't contain any valid toolbar data."
@@ -10872,7 +10873,7 @@ msgstr "Police de la barre d'état"
 
 #: ulng.rsfontusagetreeviewmenu
 msgid "Tree View Menu Font"
-msgstr "Police du menu en arbre"
+msgstr "Police du menu en arborescence"
 
 #: ulng.rsfontusageviewer
 msgid "&Viewer Font"
@@ -11264,7 +11265,7 @@ msgstr ""
 "Mauvais CRC32 pour le fichier résultat :\n"
 "\"%s\"\n"
 "\n"
-"Voulez-vous conserver le fichier résultat même s'il est corrompu ?"
+"Souhaitez-vous conserver le fichier résultat même s'il est corrompu ?"
 
 #: ulng.rsmsgcanceloperation
 msgid "Are you sure that you want to cancel this operation?"
@@ -11564,11 +11565,11 @@ msgstr "Valeur de sortie:"
 
 #: ulng.rsmsgfavoritetabsdeleteallentries
 msgid "Are you sure you want to remove all entries of your Favorite Tabs? (There is no \"undo\" to this action!)"
-msgstr "Êtes-vous sûr de vouloir supprimer tous les enregistrements de vos groupes d'onglets favoris ? (annulation impossible !)"
+msgstr "Êtes-vous sûr de vouloir supprimer tous les éléments de vos groupes d'onglets favoris ? (annulation impossible !)"
 
 #: ulng.rsmsgfavoritetabsdraghereentry
 msgid "Drag here other entries"
-msgstr "Déplacer ici les autres entrées"
+msgstr "Déplacer ici les autres éléments"
 
 #: ulng.rsmsgfavoritetabsentername
 msgid "Enter a name for this new Favorite Tabs entry:"
@@ -11729,7 +11730,7 @@ msgstr "Configuration des dossiers favoris"
 
 #: ulng.rsmsghotdirdeleteallentries
 msgid "Are you sure you want to remove all entries of your Directory Hotlist? (There is no \"undo\" to this action!)"
-msgstr "Êtes-vous sûr de supprimer tous les dossiers de votre liste de dossiers favoris? (Il n'y a pas de \"undo\" à cette action!)"
+msgstr "Êtes-vous sûr de supprimer tous les dossiers de votre liste de dossiers favoris? (annulation impossible !)"
 
 #: ulng.rsmsghotdirdemocommand
 msgid "This will execute the following command:"
@@ -11878,7 +11879,7 @@ msgstr ""
 
 #: ulng.rsmsghotdirtotalexported
 msgid "Total entries exported: "
-msgstr "Nombre d'éléments exportés: "
+msgstr "Nombre d'éléments exportés : "
 
 #: ulng.rsmsghotdirwhattodelete
 #, object-pascal-format
@@ -11886,7 +11887,7 @@ msgid ""
 "Do you want to delete all elements inside the sub-menu [%s]?\n"
 "Answering NO will delete only menu delimiters but will keep element inside sub-menu."
 msgstr ""
-"Voulez-vous supprimer tous les éléments du sous-menu [%s]?\n"
+"Souhaitez-vous supprimer tous les éléments du sous-menu [%s]?\n"
 "Répondre NON va seulement supprimer les délimiteurs de menu mais conservera tous les éléments à l'intérieur"
 
 #: ulng.rsmsghotdirwheretosave
@@ -11908,7 +11909,7 @@ msgid ""
 "\n"
 "Number of bytes still to write: %d"
 msgstr ""
-"Insérez le support suivant.\n"
+"Veuillez insérer le support suivant.\n"
 "\n"
 "Cela permettra d'écrire ce fichier :\n"
 "\"%s\"\n"
@@ -12064,7 +12065,7 @@ msgstr "Mot de passe principal"
 
 #: ulng.rsmsgmasterpasswordenter
 msgid "Please enter the master password:"
-msgstr "Entrez le mot de passe principal :"
+msgstr "Veuillez entrer le mot de passe principal :"
 
 #: ulng.rsmsgnewfile
 msgid "New file"
@@ -12123,7 +12124,7 @@ msgstr "Les mots de passe sont différents !"
 
 #: ulng.rsmsgpasswordenter
 msgid "Please enter the password:"
-msgstr "Entrez le mot de passe :"
+msgstr "Veuillez entrer le mot de passe :"
 
 #: ulng.rsmsgpasswordfirewall
 msgid "Password (Firewall):"
@@ -12131,7 +12132,7 @@ msgstr "Mot de passe (Firewall) :"
 
 #: ulng.rsmsgpasswordverify
 msgid "Please re-enter the password for verification:"
-msgstr "Entrez à nouveau le mot de passe pour vérification :"
+msgstr "Veuillez entrer à nouveau le mot de passe pour vérification :"
 
 #: ulng.rsmsgpopuphotdelete
 #, object-pascal-format
@@ -12164,7 +12165,7 @@ msgstr "Nom de fichier pour le texte déposé :"
 
 #: ulng.rsmsgprovidethisfile
 msgid "Please, make this file available. Retry?"
-msgstr "Fichier indisponible. Libérer puis ré-essayer ?"
+msgstr "Fichier indisponible, veuillez le libérer. Ré-essayer ?"
 
 #: ulng.rsmsgrenamefavtabs
 msgid "Enter new friendly name for this Favorite Tabs"
@@ -12186,11 +12187,11 @@ msgstr "Renommer/Déplacer la sélection  \"%s\" ?"
 
 #: ulng.rsmsgreplacethistext
 msgid "Do you want to replace this text?"
-msgstr "Voulez-vous remplacer ce texte?"
+msgstr "Souhaitez-vous remplacer ce texte ?"
 
 #: ulng.rsmsgrestartforapplychanges
 msgid "Please, restart Double Commander in order to apply changes"
-msgstr "Redémarrer Double Commander pour activer les changements."
+msgstr "Veuillez redémarrer Double Commander pour activer les changements"
 
 #: ulng.rsmsgscriptcantfindlibrary
 #, object-pascal-format
@@ -12213,11 +12214,11 @@ msgstr "Choisir le fichier d'exécutable pour"
 
 #: ulng.rsmsgselectonlychecksumfiles
 msgid "Please select only checksum files!"
-msgstr "Choisissez uniquement des fichiers de signature svp !"
+msgstr "Veuillez choisir uniquement des fichiers de signature !"
 
 #: ulng.rsmsgsellocnextvol
 msgid "Please select location of next volume"
-msgstr "Merci de choisir l'emplacement du volume suivant"
+msgstr "Veuillez choisir l'emplacement du volume suivant"
 
 #: ulng.rsmsgsetvolumelabel
 msgid "Set volume label"
@@ -12407,7 +12408,7 @@ msgstr "Indéterminé"
 
 #: ulng.rsmsgunexpectedusagetreeviewmenu
 msgid "ERROR: Unexpected Tree View Menu usage!"
-msgstr "ERREUR : Comportement inattendu dans le menu en arbre !"
+msgstr "ERREUR : Comportement inattendu dans le menu en arborescence !"
 
 #: ulng.rsmsgurl
 msgid "URL:"
@@ -12448,7 +12449,7 @@ msgstr "Nom de volume :"
 
 #: ulng.rsmsgvolumesizeenter
 msgid "Please enter the volume size:"
-msgstr "Entrez la taille du volume :"
+msgstr "Veuillez entrer la taille du volume :"
 
 #: ulng.rsmsgwanttoconfigurelibrarylocation
 msgid "Do you want to configure Lua library location?"
@@ -12474,7 +12475,7 @@ msgid ""
 "Please try again!"
 msgstr ""
 "Mot de passe erroné !\n"
-"Essayez à nouveau !"
+"Veuillez essayer à nouveau !"
 
 #: ulng.rsmulrenautorename
 msgid "Do auto-rename to \"name (1).ext\", \"name (2).ext\" etc.?"
@@ -12959,19 +12960,19 @@ msgstr "En cours"
 #: ulng.rsopersettingproperty
 # H_02
 msgid "Setting property"
-msgstr "Ajustement en cours d'une propriété"
+msgstr "Paramétrage en cours d'une propriété"
 
 #: ulng.rsopersettingpropertyin
 #, object-pascal-format
 # H_02
 msgid "Setting property in \"%s\""
-msgstr "Ajustement en cours d'une propriété dans \"%s\""
+msgstr "Paramétrage en cours d'une propriété dans \"%s\""
 
 #: ulng.rsopersettingpropertyof
 #, object-pascal-format
 # H_02
 msgid "Setting property of \"%s\""
-msgstr "Ajustement en cours de la propriété de \"%s\""
+msgstr "Paramétrage en cours de la propriété de \"%s\""
 
 #: ulng.rsopersplitting
 # H_02
@@ -13149,7 +13150,7 @@ msgstr "Importation de %d éléments du fichier \"%s\" complétée."
 
 #: ulng.rsoptarchiverimportfile
 msgid "Select the file to import archiver configuration(s)"
-msgstr "Choississez le fichier pour importer des configurations d'outils d'archivage"
+msgstr "Choisissez le fichier pour importer des configurations d'outils d'archivage"
 
 #: ulng.rsoptarchiverimportprompt
 msgctxt "ulng.rsoptarchiverimportprompt"
@@ -13247,7 +13248,7 @@ msgstr "dynamique"
 #: ulng.rsopthotkeysadddeleteshortcutlong
 #, object-pascal-format
 msgid "Shortcut %s for cm_Delete will be registered, so it can be used to reverse this setting."
-msgstr "Le raccourci %s de la commande cm_Delete va être enregistré, il pourra ensuite être utilisé pour inverser cette option."
+msgstr "Le raccourci %s de la commande cm_Delete va être enregistré, il pourra ensuite être utilisé pour inverser ce paramétrage."
 
 #: ulng.rsopthotkeysaddhotkey
 #, object-pascal-format
@@ -13276,11 +13277,13 @@ msgstr "Commande"
 
 #: ulng.rsopthotkeysdeletetrashcanoverrides
 #, object-pascal-format
+# HL_04
 msgid "Shortcut %s for cm_Delete has a parameter that overrides this setting. Do you want to change this parameter to use the global setting?"
-msgstr "Le raccourci %s de la commande cm_Delete dispose d'un paramètre qui peut outrepasser cette option. Souhaitez-vous le changer pour utiliser le paramètre global ?"
+msgstr "Le raccourci %s de la commande cm_Delete dispose d'un paramètre qui peut outrepasser ce paramétrage. Souhaitez-vous le changer pour utiliser le paramètre global ?"
 
 #: ulng.rsopthotkeysdeletetrashcanparameterexists
 #, object-pascal-format
+# HL_04
 msgid "Shortcut %s for cm_Delete needs to have a parameter changed to match shortcut %s. Do you want to change it?"
 msgstr "Le raccourci %s de la commande cm_Delete a besoin d'avoir un paramètre modifié pour correspondre au raccourci %s. Souhaitez-vous le changer ?"
 
@@ -13321,7 +13324,7 @@ msgstr "Paramètres"
 
 #: ulng.rsopthotkeyssetdeleteshortcut
 msgid "Set shortcut to delete file"
-msgstr "Ajuster le raccourci pour supprimer un fichier"
+msgstr "Définir un raccourci pour supprimer un fichier"
 
 #: ulng.rsopthotkeysshortcutfordeletealreadyassigned
 #, object-pascal-format
@@ -13575,11 +13578,11 @@ msgstr "Infobulles"
 #: ulng.rsoptionseditortreeviewmenu
 msgctxt "ulng.rsoptionseditortreeviewmenu"
 msgid "Tree View Menu"
-msgstr "Menu en arbre"
+msgstr "Menu en arborescence"
 
 #: ulng.rsoptionseditortreeviewmenucolors
 msgid "Tree View Menu Colors"
-msgstr "Couleur menu en arbre"
+msgstr "Couleur menu en arborescence"
 
 #: ulng.rsoptletters
 msgid "None;Command Line;Quick Search;Quick Filter"
@@ -14216,7 +14219,7 @@ msgstr "Visionneuse"
 #: ulng.rsunhandledexceptionmessage
 #, object-pascal-format
 msgid "Please report this error to the bug tracker with a description of what you were doing and the following file:%sPress %s to continue or %s to abort the program."
-msgstr "Merci de signaler cette erreur sur le \"bug tracker\" avec une description de ce que vous étiez en train de faire et avec le fichier suivant : %sCliquez %s pour continuer ou %s pour quitter le programme."
+msgstr "Veuillez signaler cette erreur sur le \"bug tracker\" avec une description de ce que vous étiez en train de faire et avec le fichier suivant : %sCliquez %s pour continuer ou %s pour quitter le programme."
 
 #: ulng.rsvarbothpanelactivetoinactive
 msgid "Both panels, from active to inactive"
@@ -14231,8 +14234,9 @@ msgid "Path of panel"
 msgstr "Chemin du panneau"
 
 #: ulng.rsvarencloseelement
+# HL_01
 msgid "Enclose each name in brackets or what you want"
-msgstr "Isole chaque nom entre crochets ou ce que vous voulez"
+msgstr "Mettre chaque nom entre crochets ou avec ce que vous souhaitez"
 
 #: ulng.rsvarfilenamenoext
 msgid "Just filename, no extension"
