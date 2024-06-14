@@ -745,13 +745,19 @@ begin
 
           if SameText(sVerb, sCmdVerbRename) then
           begin
-            // Change drive label
-            if (FFiles.Count = 1) and (FFiles[0].Attributes and FILE_ATTRIBUTE_DEVICE <> 0) then
+            if (FFiles.Count = 1) then
             begin
-              aFile := FFiles[0];
-              sVolumeLabel := mbGetVolumeLabel(aFile.FullPath, True);
-              if InputQuery(rsMsgSetVolumeLabel, rsMsgVolumeLabel, sVolumeLabel) then
-                mbSetVolumeLabel(aFile.FullPath, sVolumeLabel);
+              // Change drive label
+              if (FFiles[0].Attributes and FILE_ATTRIBUTE_DEVICE <> 0) then
+              begin
+                aFile := FFiles[0];
+                sVolumeLabel := mbGetVolumeLabel(aFile.FullPath, True);
+                if InputQuery(rsMsgSetVolumeLabel, rsMsgVolumeLabel, sVolumeLabel) then
+                  mbSetVolumeLabel(aFile.FullPath, sVolumeLabel);
+              end
+              else begin
+                frmMain.actRenameOnly.Execute;
+              end;
             end
             else begin
               frmMain.actRename.Execute;
