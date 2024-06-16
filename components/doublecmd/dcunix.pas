@@ -159,6 +159,7 @@ type
 {$ELSE}
   TDCStat = BaseUnix.Stat;
 {$ENDIF}
+  PDCStat = ^TDCStat;
 
   TDCStatHelper = record Helper for TDCStat
   Public
