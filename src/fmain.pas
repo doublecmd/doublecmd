@@ -6971,7 +6971,7 @@ var
   FoundPath: Boolean = False;
   aFileView, OtherFileView: TFileView;
 begin
-  if (Drive^.DriveType in [dtSpecial, dtVirtual]) or IsAvailable(Drive, Drive^.AutoMount) then
+  if (Drive^.DriveType in [dtSpecial, dtVirtual]) or IsAvailable(Drive, True) then
   begin
     case aPanel of
       fpLeft:
