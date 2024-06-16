@@ -229,7 +229,7 @@ end;
 procedure FillFromStat(
   AFile: TFile;
   AFilePath: String;
-  pStatInfo: BaseUnix.PStat);
+  pStatInfo: PDCStat);
 var
   LinkStatInfo: BaseUnix.Stat;
 begin
@@ -245,11 +245,11 @@ begin
       SizeProperty := TFileSizeProperty.Create(Int64(pStatInfo^.st_size));
 
     ModificationTimeProperty := TFileModificationDateTimeProperty.Create(
-      FileTimeToDateTime(TUnixFileTime(pStatInfo^.st_mtime)));
+      FileTimeToDateTimeEx(pStatInfo^.mtime));
     Properties[fpChangeTime] := TFileChangeDateTimeProperty.Create(
-      FileTimeToDateTime(TUnixFileTime(pStatInfo^.st_ctime)));
+      FileTimeToDateTimeEx(pStatInfo^.ctime));
     LastAccessTimeProperty := TFileLastAccessDateTimeProperty.Create(
-      FileTimeToDateTime(TUnixFileTime(pStatInfo^.st_atime)));
+      FileTimeToDateTimeEx(pStatInfo^.atime));
 
     LinkProperty := TFileLinkProperty.Create;
 
@@ -345,20 +345,19 @@ begin
   with Result do
   begin
 {$IF DEFINED(UNIX)}
-    ChangeTimeProperty := TFileChangeDateTimeProperty.Create(DCBasicTypes.TFileTime(pSearchRecord^.PlatformTime));
+    ChangeTimeProperty := TFileChangeDateTimeProperty.Create(UnixFileTimeToDateTimeEx(pSearchRecord^.FindData.ctime));
     {$IF DEFINED(DARWIN)}
-    CreationTimeProperty := TFileCreationDateTimeProperty.Create(
-      UnixFileTimeToDateTimeEx(
-        TFileTimeEx.create( pSearchRecord^.BirthdayTime, pSearchRecord^.BirthdayTimensec) ));
+    CreationTimeProperty := TFileCreationDateTimeProperty.Create(UnixFileTimeToDateTimeEx(pSearchRecord^.FindData.birthtime));
     {$ENDIF}
+    ModificationTimeProperty := TFileModificationDateTimeProperty.Create(UnixFileTimeToDateTimeEx(pSearchRecord^.FindData.mtime));
+    LastAccessTimeProperty := TFileLastAccessDateTimeProperty.Create(UnixFileTimeToDateTimeEx(pSearchRecord^.FindData.atime));
 {$ELSE}
     CreationTimeProperty := TFileCreationDateTimeProperty.Create(DCBasicTypes.TFileTime(pSearchRecord^.PlatformTime));
+    ModificationTimeProperty := TFileModificationDateTimeProperty.Create(pSearchRecord^.Time);
+    LastAccessTimeProperty := TFileLastAccessDateTimeProperty.Create(DCBasicTypes.TFileTime(pSearchRecord^.LastAccessTime));
 {$ENDIF}
     SizeProperty := TFileSizeProperty.Create(pSearchRecord^.Size);
     AttributesProperty := TFileAttributesProperty.CreateOSAttributes(pSearchRecord^.Attr);
-
-    ModificationTimeProperty := TFileModificationDateTimeProperty.Create(pSearchRecord^.Time);
-    LastAccessTimeProperty := TFileLastAccessDateTimeProperty.Create(DCBasicTypes.TFileTime(pSearchRecord^.LastAccessTime));
 
     LinkProperty := TFileLinkProperty.Create;
 
@@ -400,7 +399,7 @@ var
   FindData: TWIN32FINDDATAW;
   FindHandle: THandle;
 {$ELSEIF DEFINED(UNIX)}
-  StatInfo: BaseUnix.Stat;
+  StatInfo: TDCStat;
 {$ELSE}
   SearchRecord: TSearchRecEx;
   FindResult: Longint;
@@ -421,7 +420,7 @@ begin
 
 {$ELSEIF DEFINED(UNIX)}
 
-  if fpLStat(UTF8ToSys(AFilePath), StatInfo) = -1 then
+  if DC_fpLstat(UTF8ToSys(AFilePath), StatInfo) = -1 then
     raise EFileNotFound.Create(aFilePath);
 
   Result := TFile.Create(ExtractFilePath(aFilePath));
@@ -616,17 +615,17 @@ begin
 
       if not (fpModificationTime in AssignedProperties) then
         ModificationTimeProperty := TFileModificationDateTimeProperty.Create(
-          FileTimeToDateTime(TUnixFileTime(StatInfo.st_mtime)));
+          FileTimeToDateTimeEx(StatInfo.mtime));
       if not (fpChangeTime in AssignedProperties) then
         Properties[fpChangeTime] := TFileChangeDateTimeProperty.Create(
-          FileTimeToDateTime(TUnixFileTime(StatInfo.st_ctime)));
+          FileTimeToDateTimeEx(StatInfo.ctime));
       if not (fpLastAccessTime in AssignedProperties) then
         LastAccessTimeProperty := TFileLastAccessDateTimeProperty.Create(
-          FileTimeToDateTime(TUnixFileTime(StatInfo.st_atime)));
+          FileTimeToDateTimeEx(StatInfo.atime));
 {$IF DEFINED(DARWIN)}
       if not (fpCreationTime in AssignedProperties) then
         CreationTimeProperty := TFileCreationDateTimeProperty.Create(
-          FileTimeToDateTime(TUnixFileTime(StatInfo.st_birthtime)));
+          FileTimeToDateTimeEx(StatInfo.birthtime));
 {$ENDIF}
     end;
 
@@ -675,7 +674,7 @@ begin
                                       (StatXInfo.stx_mask and STATX_BTIME <> 0) and (StatXInfo.stx_btime.tv_sec > 0);
       if CreationTimeProperty.IsValid then
       begin
-        CreationTimeProperty.Value:= FileTimeToDateTime(DCBasicTypes.TFileTime(StatXInfo.stx_btime.tv_sec));
+        CreationTimeProperty.Value:= FileTimeToDateTimeEx(TFileTimeEx.Create(Int64(StatXInfo.stx_btime.tv_sec), Int64(StatXInfo.stx_btime.tv_nsec)));
       end;
     end;
     {$ENDIF}
