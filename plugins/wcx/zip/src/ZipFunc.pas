@@ -93,7 +93,7 @@ implementation
 
 uses
   SysUtils, LazUTF8, ZipConfDlg, AbBrowse, DCConvertEncoding, DCOSUtils, ZipOpt,
-  ZipLng, ZipCache;
+  ZipLng, ZipCache, DCDateTimeUtils;
 
 var
   PasswordCache: TPasswordCache;
@@ -227,6 +227,7 @@ begin
       HeaderData.FileCRC      := CRC32;
       HeaderData.FileTime     := NativeLastModFileTime;
       HeaderData.FileAttr     := NativeFileAttributes;
+      HeaderData.MfileTime    := DateTimeToWinFileTime(LastModTimeAsDateTime);
 
       if IsEncrypted then begin
         HeaderData.Flags      := RHDF_ENCRYPTED;
