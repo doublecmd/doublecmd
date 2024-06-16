@@ -4,7 +4,7 @@
    Date and time functions.
 
    Copyright (C) 2009-2012 Przemysław Nagay (cobines@gmail.com)
-   Copyright (C) 2017-2022 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2017-2024 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -34,6 +34,9 @@ uses
   , Unix, UnixUtil, DCUnix
   {$ENDIF}
   ;
+
+const
+  DATE_TIME_NULL = TDateTime(2958466.0);
 
 function FileTimeToDateTime(FileTime : DCBasicTypes.TFileTime) : TDateTime;
 function FileTimeToDateTimeEx(FileTime : DCBasicTypes.TFileTimeEx) : TDateTime;

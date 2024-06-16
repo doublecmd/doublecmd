@@ -132,6 +132,7 @@ typedef struct {
     int CmtSize;
     int CmtState;
     char Reserved[1024];
+    uint64_t MfileTime;
   } tHeaderDataExW;
 
 typedef struct {

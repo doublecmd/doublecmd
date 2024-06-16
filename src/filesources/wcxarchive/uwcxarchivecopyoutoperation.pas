@@ -555,7 +555,7 @@ var
   PathIndex: Integer;
   TargetDir: String;
   Header: TWCXHeader;
-  Time: TFileTime;
+  Time: TFileTimeEx;
 begin
   Result := True;
 
@@ -572,10 +572,10 @@ begin
         // Restore attributes
         mbFileSetAttr(TargetDir, Header.FileAttr);
 
-        Time := WcxFileTimeToFileTime(Header.FileTime);
+        Time := DateTimeToFileTimeEx(Header.DateTime);
 
         // Set creation, modification time
-        mbFileSetTime(TargetDir, Time, Time, Time);
+        mbFileSetTimeEx(TargetDir, Time, Time, Time);
 
       except
         Result := False;
@@ -627,7 +627,7 @@ var
 
   function OverwriteOlder: TFileSourceOperationOptionFileExists;
   begin
-    if WcxFileTimeToDateTime(Header.FileTime) > FileTimeToDateTime(mbFileAge(AbsoluteTargetFileName)) then
+    if Header.DateTime > FileTimeToDateTime(mbFileAge(AbsoluteTargetFileName)) then
       Result := fsoofeOverwrite
     else
       Result := fsoofeSkip;
@@ -677,7 +677,7 @@ begin
             end;
         end;
         Message:= FileExistsMessage(AbsoluteTargetFileName, Header.FileName,
-                                    Header.UnpSize, WcxFileTimeToDateTime(Header.FileTime));
+                                    Header.UnpSize, Header.DateTime);
         FCurrentFilePath := Header.FileName;
         FCurrentTargetFilePath := AbsoluteTargetFileName;
         case AskQuestion(Message, '',

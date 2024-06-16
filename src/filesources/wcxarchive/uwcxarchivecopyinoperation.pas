@@ -423,7 +423,7 @@ begin
   Result:= rsMsgFileExistsOverwrite + LineEnding + aTargetHeader.FileName + LineEnding;
 
   Result:= Result + Format(rsMsgFileExistsFileInfo, [IntToStrTS(aTargetHeader.UnpSize),
-                           DateTimeToStr(WcxFileTimeToDateTime(aTargetHeader.FileTime))]) + LineEnding;
+                           DateTimeToStr(aTargetHeader.DateTime)]) + LineEnding;
 
   Result:= Result + LineEnding + rsMsgFileExistsWithFile + LineEnding + aSourceFile.FullPath + LineEnding +
            Format(rsMsgFileExistsFileInfo, [IntToStrTS(aSourceFile.Size), DateTimeToStr(aSourceFile.ModificationTime)]);
@@ -439,7 +439,7 @@ const
 
   function OverwriteOlder: TFileSourceOperationOptionFileExists;
   begin
-    if aSourceFile.ModificationTime > WcxFileTimeToDateTime(aTargetHeader.FileTime)  then
+    if aSourceFile.ModificationTime > aTargetHeader.DateTime then
       Result := fsoofeOverwrite
     else
       Result := fsoofeSkip;
