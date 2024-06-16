@@ -4,7 +4,7 @@
    WCX plugin for unpacking RAR archives
    This is simple wrapper for unrar.dll or libunrar.so
 
-   Copyright (C) 2008-2023 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2008-2024 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
@@ -463,6 +463,9 @@ begin
         GetSystemSpecificAttributes(RarHostSystem(HeaderData.HostOS),
                                     HeaderData.FileAttr);
     HeaderData.FileTime := GetSystemSpecificFileTime(HeaderData.FileTime);
+
+    Int64Rec(HeaderData.MfileTime).Lo:= RarHeader.MtimeLow;
+    Int64Rec(HeaderData.MfileTime).Hi:= RarHeader.MtimeHigh;
 {$POP}
     AHandle.ProcessFileNameW := HeaderData.FileName;
   end;
