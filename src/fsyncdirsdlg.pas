@@ -111,6 +111,7 @@ type
     sbCopyRight: TSpeedButton;
     sbEqual: TSpeedButton;
     sbNotEqual: TSpeedButton;
+    sbUnknown: TSpeedButton;
     sbCopyLeft: TSpeedButton;
     sbDuplicates: TSpeedButton;
     sbSingles: TSpeedButton;
@@ -774,6 +775,7 @@ begin
   gSyncDirsShowFilterCopyRight  := sbCopyRight.Down;
   gSyncDirsShowFilterEqual      := sbEqual.Down;
   gSyncDirsShowFilterNotEqual   := sbNotEqual.Down;
+  gSyncDirsShowFilterUnknown    := sbUnknown.Down;
   gSyncDirsShowFilterCopyLeft   := sbCopyLeft.Down;
   gSyncDirsShowFilterDuplicates := sbDuplicates.Down;
   gSyncDirsShowFilterSingles    := sbSingles.Down;
@@ -834,6 +836,7 @@ begin
   sbCopyRight.Down       := gSyncDirsShowFilterCopyRight;
   sbEqual.Down           := gSyncDirsShowFilterEqual;
   sbNotEqual.Down        := gSyncDirsShowFilterNotEqual;
+  sbUnknown.Down         := gSyncDirsShowFilterUnknown;
   sbCopyLeft.Down        := gSyncDirsShowFilterCopyLeft;
   sbDuplicates.Down      := gSyncDirsShowFilterDuplicates;
   sbSingles.Down         := gSyncDirsShowFilterSingles;
@@ -1177,7 +1180,7 @@ procedure TfrmSyncDirsDlg.InitVisibleItems;
 var
   i, j: Integer;
   AFilter: record
-    copyLeft, copyRight, eq, neq: Boolean;
+    copyLeft, copyRight, eq, neq, unkn: Boolean;
     dup, single: Boolean;
   end;
   r: TFileSyncRec;
@@ -1196,6 +1199,7 @@ begin
     copyRight := sbCopyRight.Down;
     eq := sbEqual.Down;
     neq := sbNotEqual.Down;
+    unkn := sbUnknown.Down;
     dup := sbDuplicates.Down;
     single := sbSingles.Down;
   end;
@@ -1217,7 +1221,7 @@ begin
             (r.FState = srsDeleteRight) and AFilter.copyLeft or
             (r.FState = srsEqual) and AFilter.eq or
             (r.FState = srsNotEq) and AFilter.neq or
-            (r.FState = srsUnknown))
+            (r.FState = srsUnknown) and AFilter.unkn)
         then
           FVisibleItems.AddObject(Strings[j], Objects[j]);
       end;
