@@ -2467,6 +2467,10 @@ msgstr "Načítať karty zo súboru"
 msgid "Create &Directory"
 msgstr "Vytvoriť priečinok"
 
+#: tfrmmain.actmapnetworkdrive.caption
+msgid "Map Network Drive..."
+msgstr "Namapovať sieťovú jednotku..."
+
 #: tfrmmain.actmarkcurrentextension.caption
 msgid "Select All with the Same E&xtension"
 msgstr "Vybrať všetko s rovnakou príponou"
@@ -10828,10 +10832,6 @@ msgstr "Vysunúť"
 #: ulng.rsmnuextracthere
 msgid "Extract here..."
 msgstr "Rozbaliť sem..."
-
-#: ulng.rsmnumapnetworkdrive
-msgid "Map Network Drive..."
-msgstr "Namapovať sieťovú jednotku..."
 
 #: ulng.rsmnumount
 msgid "Mount"

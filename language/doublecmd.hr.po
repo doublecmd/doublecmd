@@ -2639,6 +2639,10 @@ msgctxt "tfrmmain.actmakedir.caption"
 msgid "Create &Directory"
 msgstr "Napravi &Mapu"
 
+#: tfrmmain.actmapnetworkdrive.caption
+msgid "Map Network Drive..."
+msgstr "Karta mrežnog pogona"
+
 #: tfrmmain.actmarkcurrentextension.caption
 msgctxt "tfrmmain.actmarkcurrentextension.caption"
 msgid "Select All with the Same E&xtension"
@@ -11531,10 +11535,6 @@ msgstr "Izbaci"
 #: ulng.rsmnuextracthere
 msgid "Extract here..."
 msgstr "Raspakirajte ovdje"
-
-#: ulng.rsmnumapnetworkdrive
-msgid "Map Network Drive..."
-msgstr "Karta mrežnog pogona"
 
 #: ulng.rsmnumount
 msgid "Mount"

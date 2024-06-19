@@ -2489,6 +2489,10 @@ msgstr "&Lade Tabs aus Datei"
 msgid "Create &Directory"
 msgstr "&Verzeichnis erstellen"
 
+#: tfrmmain.actmapnetworkdrive.caption
+msgid "Map Network Drive..."
+msgstr "Netzwerklaufwerk mappen ..."
+
 #: tfrmmain.actmarkcurrentextension.caption
 msgid "Select All with the Same E&xtension"
 msgstr "Alle mit gleicher &Erweiterung wählen"
@@ -11020,10 +11024,6 @@ msgstr "Auswerfen"
 #: ulng.rsmnuextracthere
 msgid "Extract here..."
 msgstr "Archiv hier entpacken ..."
-
-#: ulng.rsmnumapnetworkdrive
-msgid "Map Network Drive..."
-msgstr "Netzwerklaufwerk mappen ..."
 
 #: ulng.rsmnumount
 msgid "Mount"

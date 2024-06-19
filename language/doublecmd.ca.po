@@ -2724,6 +2724,10 @@ msgstr ""
 msgid "Create &Directory"
 msgstr "Crea Dir"
 
+#: tfrmmain.actmapnetworkdrive.caption
+msgid "Map Network Drive..."
+msgstr ""
+
 #: tfrmmain.actmarkcurrentextension.caption
 msgid "Select All with the Same E&xtension"
 msgstr "Selecciona amb la mateixa extensió"
@@ -11813,10 +11817,6 @@ msgstr "Expulsa"
 
 #: ulng.rsmnuextracthere
 msgid "Extract here..."
-msgstr ""
-
-#: ulng.rsmnumapnetworkdrive
-msgid "Map Network Drive..."
 msgstr ""
 
 #: ulng.rsmnumount

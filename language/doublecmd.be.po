@@ -2474,6 +2474,10 @@ msgstr "&Загрузіць укладкі з файла"
 msgid "Create &Directory"
 msgstr "Стварыць &каталог"
 
+#: tfrmmain.actmapnetworkdrive.caption
+msgid "Map Network Drive..."
+msgstr "Мапа сеткавага дыска..."
+
 #: tfrmmain.actmarkcurrentextension.caption
 msgid "Select All with the Same E&xtension"
 msgstr "Абраць усе з гэтым пашырэннем"
@@ -10847,10 +10851,6 @@ msgstr "Выняць"
 #: ulng.rsmnuextracthere
 msgid "Extract here..."
 msgstr "Распакаваць сюды..."
-
-#: ulng.rsmnumapnetworkdrive
-msgid "Map Network Drive..."
-msgstr "Мапа сеткавага дыска..."
 
 #: ulng.rsmnumount
 msgid "Mount"

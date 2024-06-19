@@ -2516,6 +2516,10 @@ msgstr "&Учитај листове из датотеке"
 msgid "Create &Directory"
 msgstr "Направи &фасциклу"
 
+#: tfrmmain.actmapnetworkdrive.caption
+msgid "Map Network Drive..."
+msgstr "Забележи мрежно складиште..."
+
 #: tfrmmain.actmarkcurrentextension.caption
 msgid "Select All with the Same E&xtension"
 msgstr "Означи све са истим наставком&"
@@ -11068,10 +11072,6 @@ msgstr "Избаци"
 #: ulng.rsmnuextracthere
 msgid "Extract here..."
 msgstr "Извуци овде..."
-
-#: ulng.rsmnumapnetworkdrive
-msgid "Map Network Drive..."
-msgstr "Забележи мрежно складиште..."
 
 #: ulng.rsmnumount
 msgid "Mount"

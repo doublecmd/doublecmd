@@ -2461,6 +2461,10 @@ msgstr "Wczytaj zakładki z p&liku"
 msgid "Create &Directory"
 msgstr "Utwórz &katalog"
 
+#: tfrmmain.actmapnetworkdrive.caption
+msgid "Map Network Drive..."
+msgstr "Mapuj dysk sieciowy..."
+
 #: tfrmmain.actmarkcurrentextension.caption
 msgid "Select All with the Same E&xtension"
 msgstr "Zaznacz wszystkie z takim samym &rozszerzeniem"
@@ -10794,10 +10798,6 @@ msgstr "Wysuń"
 #: ulng.rsmnuextracthere
 msgid "Extract here..."
 msgstr "Wypakuj tutaj..."
-
-#: ulng.rsmnumapnetworkdrive
-msgid "Map Network Drive..."
-msgstr "Mapuj dysk sieciowy..."
 
 #: ulng.rsmnumount
 msgid "Mount"

@@ -2467,6 +2467,10 @@ msgstr "파일에서 탭 불러오기(&L)"
 msgid "Create &Directory"
 msgstr "디렉터리 만들기(&D)"
 
+#: tfrmmain.actmapnetworkdrive.caption
+msgid "Map Network Drive..."
+msgstr "네트워크 드라이브 맵..."
+
 #: tfrmmain.actmarkcurrentextension.caption
 msgid "Select All with the Same E&xtension"
 msgstr "동일한 확장자 모두 선택(&X)"
@@ -10829,10 +10833,6 @@ msgstr "꺼내기"
 #: ulng.rsmnuextracthere
 msgid "Extract here..."
 msgstr "여기에 추출..."
-
-#: ulng.rsmnumapnetworkdrive
-msgid "Map Network Drive..."
-msgstr "네트워크 드라이브 맵..."
 
 #: ulng.rsmnumount
 msgid "Mount"

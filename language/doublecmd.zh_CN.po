@@ -2466,6 +2466,10 @@ msgstr "从文件加载标签(&L)"
 msgid "Create &Directory"
 msgstr "创建文件夹(&D)"
 
+#: tfrmmain.actmapnetworkdrive.caption
+msgid "Map Network Drive..."
+msgstr "映射网络驱动器..."
+
 #: tfrmmain.actmarkcurrentextension.caption
 msgid "Select All with the Same E&xtension"
 msgstr "选择所有扩展名相同的文件"
@@ -10826,10 +10830,6 @@ msgstr "弹出"
 #: ulng.rsmnuextracthere
 msgid "Extract here..."
 msgstr "解压缩到此处..."
-
-#: ulng.rsmnumapnetworkdrive
-msgid "Map Network Drive..."
-msgstr "映射网络驱动器..."
 
 #: ulng.rsmnumount
 msgid "Mount"

@@ -2475,6 +2475,10 @@ msgstr "&Naloži nastavitve zavihkov iz datoteke"
 msgid "Create &Directory"
 msgstr "Ustvari &mapo"
 
+#: tfrmmain.actmapnetworkdrive.caption
+msgid "Map Network Drive..."
+msgstr "Preslikaj omrežni pogon ..."
+
 #: tfrmmain.actmarkcurrentextension.caption
 msgid "Select All with the Same E&xtension"
 msgstr "Izberi vse datoteke z &enako pripono"
@@ -10836,10 +10840,6 @@ msgstr "Izvrzi"
 #: ulng.rsmnuextracthere
 msgid "Extract here..."
 msgstr "Odpakiraj v to mapo ..."
-
-#: ulng.rsmnumapnetworkdrive
-msgid "Map Network Drive..."
-msgstr "Preslikaj omrežni pogon ..."
 
 #: ulng.rsmnumount
 msgid "Mount"

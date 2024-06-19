@@ -2484,6 +2484,10 @@ msgstr "Načíst zá&ložky ze souboru"
 msgid "Create &Directory"
 msgstr "Vytvořit složku"
 
+#: tfrmmain.actmapnetworkdrive.caption
+msgid "Map Network Drive..."
+msgstr "Připojit síťovou jednotku..."
+
 #: tfrmmain.actmarkcurrentextension.caption
 msgid "Select All with the Same E&xtension"
 msgstr "Vybrat všechny soubory se stejnou příponou"
@@ -10868,10 +10872,6 @@ msgstr "Vysunout"
 #: ulng.rsmnuextracthere
 msgid "Extract here..."
 msgstr "Rozbalit zde..."
-
-#: ulng.rsmnumapnetworkdrive
-msgid "Map Network Drive..."
-msgstr "Připojit síťovou jednotku..."
 
 #: ulng.rsmnumount
 msgid "Mount"

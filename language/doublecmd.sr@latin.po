@@ -2564,6 +2564,10 @@ msgstr "&Učitaj kartice iz datoteke"
 msgid "Create &Directory"
 msgstr "Napravi &fasciklu"
 
+#: tfrmmain.actmapnetworkdrive.caption
+msgid "Map Network Drive..."
+msgstr ""
+
 #: tfrmmain.actmarkcurrentextension.caption
 msgid "Select All with the Same E&xtension"
 msgstr "Označi sve sa istim nastavkom&"
@@ -11357,10 +11361,6 @@ msgstr "Izbaci"
 
 #: ulng.rsmnuextracthere
 msgid "Extract here..."
-msgstr ""
-
-#: ulng.rsmnumapnetworkdrive
-msgid "Map Network Drive..."
 msgstr ""
 
 #: ulng.rsmnumount

@@ -2621,6 +2621,11 @@ msgstr "Ind&læs faneblade fra fil"
 msgid "Create &Directory"
 msgstr "Ny mappe"
 
+# Netværk
+#: tfrmmain.actmapnetworkdrive.caption
+msgid "Map Network Drive..."
+msgstr "Opret net&værksdrev..."
+
 # Marker
 #: tfrmmain.actmarkcurrentextension.caption
 msgid "Select All with the Same E&xtension"
@@ -11923,11 +11928,6 @@ msgstr "Skub ud"
 #: ulng.rsmnuextracthere
 msgid "Extract here..."
 msgstr "Udpak her..."
-
-# Netværk
-#: ulng.rsmnumapnetworkdrive
-msgid "Map Network Drive..."
-msgstr "Opret net&værksdrev..."
 
 #: ulng.rsmnumount
 msgid "Mount"

@@ -2544,6 +2544,10 @@ msgstr "Carregar &separadores de ficheiro"
 msgid "Create &Directory"
 msgstr "Criar &pasta"
 
+#: tfrmmain.actmapnetworkdrive.caption
+msgid "Map Network Drive..."
+msgstr "Mapear unidade de rede..."
+
 #: tfrmmain.actmarkcurrentextension.caption
 msgid "Select All with the Same E&xtension"
 msgstr "Seleccionar todos com a mesma e&xtensão"
@@ -11116,10 +11120,6 @@ msgstr "Ejectar"
 #: ulng.rsmnuextracthere
 msgid "Extract here..."
 msgstr "Extrair aqui..."
-
-#: ulng.rsmnumapnetworkdrive
-msgid "Map Network Drive..."
-msgstr "Mapear unidade de rede..."
 
 #: ulng.rsmnumount
 msgid "Mount"

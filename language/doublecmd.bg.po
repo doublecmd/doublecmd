@@ -2560,6 +2560,10 @@ msgstr "&Зареждане на подпрозорци от файл"
 msgid "Create &Directory"
 msgstr "&Нова папка"
 
+#: tfrmmain.actmapnetworkdrive.caption
+msgid "Map Network Drive..."
+msgstr "Прикачане на мрежово устройство..."
+
 #: tfrmmain.actmarkcurrentextension.caption
 msgid "Select All with the Same E&xtension"
 msgstr "Избор на всички със същото раз&ширение"
@@ -11325,10 +11329,6 @@ msgstr "Изваждане"
 #: ulng.rsmnuextracthere
 msgid "Extract here..."
 msgstr "Извличане тук..."
-
-#: ulng.rsmnumapnetworkdrive
-msgid "Map Network Drive..."
-msgstr "Прикачане на мрежово устройство..."
 
 #: ulng.rsmnumount
 msgid "Mount"

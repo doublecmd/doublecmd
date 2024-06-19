@@ -2512,6 +2512,10 @@ msgstr "Загрузить вкладки из файла"
 msgid "Create &Directory"
 msgstr "Создать &каталог"
 
+#: tfrmmain.actmapnetworkdrive.caption
+msgid "Map Network Drive..."
+msgstr "Подключить сетевой диск..."
+
 #: tfrmmain.actmarkcurrentextension.caption
 msgid "Select All with the Same E&xtension"
 msgstr "Выделить файлы по рас&ширению"
@@ -11089,10 +11093,6 @@ msgstr "Извлечь"
 #: ulng.rsmnuextracthere
 msgid "Extract here..."
 msgstr "Распаковать здесь..."
-
-#: ulng.rsmnumapnetworkdrive
-msgid "Map Network Drive..."
-msgstr "Подключить сетевой диск..."
 
 #: ulng.rsmnumount
 msgid "Mount"

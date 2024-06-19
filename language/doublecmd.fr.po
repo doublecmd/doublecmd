@@ -2581,6 +2581,10 @@ msgstr "Charger les onglets depuis un fichier"
 msgid "Create &Directory"
 msgstr "Nouveau dossier"
 
+#: tfrmmain.actmapnetworkdrive.caption
+msgid "Map Network Drive..."
+msgstr "Connecter un lecteur réseau..."
+
 #: tfrmmain.actmarkcurrentextension.caption
 msgid "Select All with the Same E&xtension"
 msgstr "Sélectionner tous les fichiers de même &extension"
@@ -11173,10 +11177,6 @@ msgstr "Éjecter"
 #: ulng.rsmnuextracthere
 msgid "Extract here..."
 msgstr "Extraire ici..."
-
-#: ulng.rsmnumapnetworkdrive
-msgid "Map Network Drive..."
-msgstr "Connecter un lecteur réseau..."
 
 #: ulng.rsmnumount
 msgid "Mount"

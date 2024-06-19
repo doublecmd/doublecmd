@@ -2467,6 +2467,10 @@ msgstr "Fülek betöltése fájlból"
 msgid "Create &Directory"
 msgstr "Új könyvtár"
 
+#: tfrmmain.actmapnetworkdrive.caption
+msgid "Map Network Drive..."
+msgstr "Hálózati meghajtó hozzáadása..."
+
 #: tfrmmain.actmarkcurrentextension.caption
 msgid "Select All with the Same E&xtension"
 msgstr "Minden &azonos kiterjesztésű kijelölése"
@@ -10828,10 +10832,6 @@ msgstr "Kiadás"
 #: ulng.rsmnuextracthere
 msgid "Extract here..."
 msgstr "Kibontás ide..."
-
-#: ulng.rsmnumapnetworkdrive
-msgid "Map Network Drive..."
-msgstr "Hálózati meghajtó hozzáadása..."
 
 #: ulng.rsmnumount
 msgid "Mount"

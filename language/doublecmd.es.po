@@ -2498,6 +2498,10 @@ msgstr "&Cargar pestañas desde archivo"
 msgid "Create &Directory"
 msgstr "Crear carpeta"
 
+#: tfrmmain.actmapnetworkdrive.caption
+msgid "Map Network Drive..."
+msgstr "A unidad de red"
+
 #: tfrmmain.actmarkcurrentextension.caption
 msgid "Select All with the Same E&xtension"
 msgstr "Sele&ccionar todos con la misma e&xtensión"
@@ -10961,10 +10965,6 @@ msgstr "Expulsar"
 #: ulng.rsmnuextracthere
 msgid "Extract here..."
 msgstr "Extraer aquí..."
-
-#: ulng.rsmnumapnetworkdrive
-msgid "Map Network Drive..."
-msgstr "A unidad de red"
 
 #: ulng.rsmnumount
 msgid "Mount"

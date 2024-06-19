@@ -2517,6 +2517,10 @@ msgstr "Φόρτωση Καρτελών από το Αρχείο"
 msgid "Create &Directory"
 msgstr "Δημιουργία Καταλόγου"
 
+#: tfrmmain.actmapnetworkdrive.caption
+msgid "Map Network Drive..."
+msgstr "Σχεδιασμός Δικτυακού Οδηγού..."
+
 #: tfrmmain.actmarkcurrentextension.caption
 msgid "Select All with the Same E&xtension"
 msgstr "Επιλογή όλων με την Ίδια Επέκταση"
@@ -11056,10 +11060,6 @@ msgstr "Εξαγωγή"
 #: ulng.rsmnuextracthere
 msgid "Extract here..."
 msgstr "Εξαγωγή εδώ..."
-
-#: ulng.rsmnumapnetworkdrive
-msgid "Map Network Drive..."
-msgstr "Σχεδιασμός Δικτυακού Οδηγού..."
 
 #: ulng.rsmnumount
 msgid "Mount"

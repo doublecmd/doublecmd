@@ -2481,6 +2481,10 @@ msgstr "&Laad tabbladen vanuit bestand"
 msgid "Create &Directory"
 msgstr "Maak map"
 
+#: tfrmmain.actmapnetworkdrive.caption
+msgid "Map Network Drive..."
+msgstr "Breng netwerkschijf in kaart..."
+
 #: tfrmmain.actmarkcurrentextension.caption
 msgid "Select All with the Same E&xtension"
 msgstr "Kies alles met hetzelfde achtervoegsel"
@@ -10865,10 +10869,6 @@ msgstr "Uitwerpen"
 #: ulng.rsmnuextracthere
 msgid "Extract here..."
 msgstr "Pak hier uit..."
-
-#: ulng.rsmnumapnetworkdrive
-msgid "Map Network Drive..."
-msgstr "Breng netwerkschijf in kaart..."
 
 #: ulng.rsmnumount
 msgid "Mount"

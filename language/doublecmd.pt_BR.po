@@ -2575,6 +2575,10 @@ msgstr "&Carregar guias de Arquivo."
 msgid "Create &Directory"
 msgstr "Criar &Pasta"
 
+#: tfrmmain.actmapnetworkdrive.caption
+msgid "Map Network Drive..."
+msgstr "Mapa do Drive de Rede"
+
 #: tfrmmain.actmarkcurrentextension.caption
 msgid "Select All with the Same E&xtension"
 msgstr "Selecionar todos com a mesma e&xtensão."
@@ -11283,10 +11287,6 @@ msgstr "Ejetar"
 #: ulng.rsmnuextracthere
 msgid "Extract here..."
 msgstr "Extrair aqui..."
-
-#: ulng.rsmnumapnetworkdrive
-msgid "Map Network Drive..."
-msgstr "Mapa do Drive de Rede"
 
 #: ulng.rsmnumount
 msgid "Mount"
