@@ -377,7 +377,6 @@ resourcestring
   rsOpenWithMacOSFilter = 'Applications (*.app)|*.app|All files (*)|*';
   // for main menu
   rsMnuCreateShortcut = 'Create Shortcut...';
-  rsMnuMapNetworkDrive = 'Map Network Drive...';
   rsMnuDisconnectNetworkDrive = 'Disconnect Network Drive...';
   // for dock emnu
   rsMnuNewWindow = 'New Window';

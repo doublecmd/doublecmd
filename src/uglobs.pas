@@ -173,7 +173,7 @@ type
 
 const
   { Default hotkey list version number }
-  hkVersion = 63;
+  hkVersion = 64;
   // 54 - In "Viewer" context, added the "W" for "cm_WrapText", "4" for "cm_ShowAsDec", "8" for "cm_ShowOffice".
   // 53 - In "Main" context, change shortcut "Alt+`" to "Alt+0" for the "cm_ActivateTabByIndex".
   // 52 - In "Main" context, add shortcut "Ctrl+Shift+B" for "cm_FlatViewSel".
@@ -1183,6 +1183,8 @@ begin
         if Assigned(HMHotKey) and HMHotKey.SameShortcuts(['Ctrl+Z']) then
           Remove(HMHotKey);
       end;
+
+      AddIfNotExists(VK_K, [ssModifier], 'cm_MapNetworkDrive');
     end;
 
   HMControl := HMForm.Controls.FindOrCreate('Files Panel');
