@@ -12,6 +12,7 @@
       <SessionStorage Value="InProjectDir"/>
       <AutoCreateForms Value="False"/>
       <Title Value="Double Commander"/>
+      <Scaled Value="True"/>
       <ResourceType Value="res"/>
       <XPManifest>
         <DpiAware Value="True"/>
