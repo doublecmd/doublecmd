@@ -53,7 +53,6 @@ uses
   DCUnicodeUtils, nsCore, nsUniversalDetector, uLng, uGlobs;
 
 var
-  Lang, FallbackLang: AnsiString;
   SupportedEncodings: TStringList = nil;
 
 type
@@ -334,10 +333,10 @@ begin
           // When unknown encoding then use system encoding
           if SupportedEncodings.IndexOf(Result) < 0 then
           begin
-            if (FallbackLang = 'be') or (FallbackLang = 'bg') or
-               (FallbackLang = 'ky') or (FallbackLang = 'mk') or
-               (FallbackLang = 'mn') or (FallbackLang = 'ru') or
-               (FallbackLang = 'tt') then
+            if (SystemLanguage = 'be') or (SystemLanguage = 'bg') or
+               (SystemLanguage = 'ky') or (SystemLanguage = 'mk') or
+               (SystemLanguage = 'mn') or (SystemLanguage = 'ru') or
+               (SystemLanguage = 'tt') then
               Result:= DetectCharsetCyrillic(S)
             else
               begin
@@ -618,7 +617,6 @@ end;
 
 initialization
   InitStatistic;
-  GetLanguageIDs(Lang, FallbackLang);
   SupportedEncodings:= TStringList.Create;
   GetSupportedEncodings(SupportedEncodings);
 
