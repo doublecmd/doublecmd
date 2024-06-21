@@ -166,6 +166,8 @@ function mbFileNameToSysEnc(const LongPath: String): String;
 }
 function mbFileNameToNative(const FileName: String): NativeString; inline;
 
+function AccessDenied(LastError: Integer): Boolean; inline;
+
 procedure FixFormIcon(Handle: LCLType.HWND);
 procedure HideConsoleWindow;
 procedure FixDateNamesToUTF8;
@@ -753,6 +755,17 @@ end;
 {$ELSE}
 begin
   Result:= CeUtf8ToSys(LongPath);
+end;
+{$ENDIF}
+
+function AccessDenied(LastError: Integer): Boolean;
+{$IF DEFINED(MSWINDOWS)}
+begin
+  Result:= (LastError = ERROR_ACCESS_DENIED);
+end;
+{$ELSE}
+begin
+  Result:= (LastError = ESysEPERM) or (LastError = ESysEACCES);
 end;
 {$ENDIF}
 
