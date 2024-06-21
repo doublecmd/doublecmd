@@ -324,7 +324,7 @@ begin
         with aFileView do
         CurrentPath := CurrentPath + IncludeTrailingPathDelimiter(aFile.Name);
       end
-    else if ElevationRequired(LastError) then
+    else if AccessDenied(LastError) then
       begin
         sPath:= ReadSymLink(aFile.FullPath);
         if sPath <> EmptyStr then
