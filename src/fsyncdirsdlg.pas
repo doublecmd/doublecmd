@@ -154,6 +154,7 @@ type
     { private declarations }
     FCancel: Boolean;
     FScanning: Boolean;
+    FComparing: Boolean;
     FFoundItems: TStringListEx;
     FVisibleItems: TStringListEx;
     FSortIndex: Integer;
@@ -324,7 +325,9 @@ end;
 
 procedure TCheckContentThread.DoFinish;
 begin
+  FOwner.FComparing:= False;
   FOwner.HeaderDG.Enabled:= True;
+  FOwner.TopPanel.Enabled:= True;
   FOwner.GroupBox1.Enabled:= True;
 end;
 
@@ -374,6 +377,7 @@ procedure TCheckContentThread.Execute;
   end;
 
 var
+  B: Boolean;
   i, j: Integer;
   r: TFileSyncRec;
 begin
@@ -389,7 +393,9 @@ begin
         if Assigned(r) and (r.FState = srsUnknown) then
         begin
           try
-            if CompareFiles(r.FFileL.FullPath, r.FFileR.FullPath, r.FFileL.Size) then
+            B:= CompareFiles(r.FFileL.FullPath, r.FFileR.FullPath, r.FFileL.Size);
+            if Terminated then Exit;
+            if B then
             begin
               Inc(Fequal);
               Dec(Fnoneq);
@@ -806,6 +812,11 @@ begin
   begin
     FCancel := True;
     CanClose := False;
+  end
+  else if FComparing then
+  begin
+    CanClose := False;
+    StopCheckContentThread;
   end;
 end;
 
@@ -1002,6 +1013,8 @@ begin
     Key := 0;
     if FScanning then
       FCancel := True
+    else if FComparing then
+      StopCheckContentThread
     else
       Close;
   end;
@@ -1126,7 +1139,7 @@ begin
     ScanDirs;
     MainDrawGrid.SetFocus;
   finally
-    TopPanel.Enabled := True;
+    TopPanel.Enabled := not FComparing;
   end;
 end;
 
@@ -1416,7 +1429,10 @@ begin
   FillFoundItemsDG;
   if FCancel then Exit;
   if (FFoundItems.Count > 0) and chkByContent.Checked then
+  begin
     CheckContentThread := TCheckContentThread.Create(Self);
+    FComparing := True;
+  end;
   finally
   FScanning := False;
   end;
