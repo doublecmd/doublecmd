@@ -1,15 +1,15 @@
 inherited frmOptionsDirectoryHotlist: TfrmOptionsDirectoryHotlist
   Height = 658
   Width = 730
+  HelpKeyword = '/directoryhotlist.html'
   ClientHeight = 658
   ClientWidth = 730
-  HelpKeyword = '/directoryhotlist.html'
   Constraints.MinHeight = 520
   Constraints.MinWidth = 600
   ParentShowHint = False
   ShowHint = True
-  DesignLeft = 185
-  DesignTop = 243
+  DesignLeft = 387
+  DesignTop = 232
   object gbDirectoryHotlist: TGroupBox[0]
     Left = 6
     Height = 646
@@ -20,11 +20,12 @@ inherited frmOptionsDirectoryHotlist: TfrmOptionsDirectoryHotlist
     Caption = 'Directory Hotlist (reorder by drag && drop)'
     ChildSizing.LeftRightSpacing = 6
     ChildSizing.TopBottomSpacing = 6
-    ClientHeight = 626
-    ClientWidth = 714
+    ClientHeight = 628
+    ClientWidth = 716
     Color = clForm
     Constraints.MinHeight = 460
     Constraints.MinWidth = 548
+    ParentBackground = False
     ParentColor = False
     TabOrder = 0
     object pnlClient: TPanel
@@ -34,13 +35,13 @@ inherited frmOptionsDirectoryHotlist: TfrmOptionsDirectoryHotlist
       AnchorSideRight.Side = asrBottom
       AnchorSideBottom.Control = pnlBottom
       Left = 6
-      Height = 524
+      Height = 501
       Top = 6
-      Width = 702
+      Width = 704
       Anchors = [akTop, akLeft, akRight, akBottom]
       BevelOuter = bvNone
-      ClientHeight = 524
-      ClientWidth = 702
+      ClientHeight = 501
+      ClientWidth = 704
       TabOrder = 0
       object tvDirectoryHotlist: TTreeView
         AnchorSideLeft.Control = pnlClient
@@ -49,9 +50,9 @@ inherited frmOptionsDirectoryHotlist: TfrmOptionsDirectoryHotlist
         AnchorSideBottom.Control = pnlClient
         AnchorSideBottom.Side = asrBottom
         Left = 0
-        Height = 524
+        Height = 501
         Top = 0
-        Width = 382
+        Width = 384
         Anchors = [akTop, akLeft, akRight, akBottom]
         BorderSpacing.Right = 6
         BackgroundColor = clForm
@@ -77,13 +78,14 @@ inherited frmOptionsDirectoryHotlist: TfrmOptionsDirectoryHotlist
         AnchorSideTop.Control = pnlClient
         AnchorSideRight.Control = pnlClient
         AnchorSideRight.Side = asrBottom
-        Left = 388
-        Height = 161
+        Left = 390
+        Height = 150
         Top = 0
         Width = 314
         Anchors = [akTop, akLeft, akRight]
+        AutoSize = True
         BevelOuter = bvNone
-        ClientHeight = 161
+        ClientHeight = 150
         ClientWidth = 314
         Color = clForm
         ParentColor = False
@@ -95,7 +97,7 @@ inherited frmOptionsDirectoryHotlist: TfrmOptionsDirectoryHotlist
           AnchorSideTop.Control = pnlButtons
           AnchorSideRight.Control = btnExport
           Left = 8
-          Height = 25
+          Height = 33
           Top = 0
           Width = 150
           Anchors = [akTop, akRight]
@@ -110,8 +112,8 @@ inherited frmOptionsDirectoryHotlist: TfrmOptionsDirectoryHotlist
           AnchorSideTop.Side = asrBottom
           AnchorSideRight.Control = btnBackup
           Left = 8
-          Height = 25
-          Top = 62
+          Height = 33
+          Top = 78
           Width = 150
           Anchors = [akTop, akRight]
           BorderSpacing.Top = 6
@@ -127,7 +129,7 @@ inherited frmOptionsDirectoryHotlist: TfrmOptionsDirectoryHotlist
           AnchorSideRight.Control = pnlButtons
           AnchorSideRight.Side = asrBottom
           Left = 164
-          Height = 25
+          Height = 33
           Top = 0
           Width = 150
           Anchors = [akTop, akRight]
@@ -142,8 +144,8 @@ inherited frmOptionsDirectoryHotlist: TfrmOptionsDirectoryHotlist
           AnchorSideRight.Control = pnlButtons
           AnchorSideRight.Side = asrBottom
           Left = 164
-          Height = 25
-          Top = 31
+          Height = 33
+          Top = 39
           Width = 150
           Anchors = [akTop, akRight]
           BorderSpacing.Top = 6
@@ -158,8 +160,8 @@ inherited frmOptionsDirectoryHotlist: TfrmOptionsDirectoryHotlist
           AnchorSideRight.Control = pnlButtons
           AnchorSideRight.Side = asrBottom
           Left = 164
-          Height = 25
-          Top = 62
+          Height = 33
+          Top = 78
           Width = 150
           Anchors = [akTop, akRight]
           BorderSpacing.Top = 6
@@ -169,14 +171,15 @@ inherited frmOptionsDirectoryHotlist: TfrmOptionsDirectoryHotlist
         end
         object btnMiscellaneous: TBitBtn
           Tag = 7
-          AnchorSideTop.Control = btnSort
+          AnchorSideLeft.Control = btnSort
+          AnchorSideLeft.Side = asrBottom
+          AnchorSideTop.Control = btnBackup
           AnchorSideTop.Side = asrBottom
           AnchorSideRight.Control = btnBackup
-          Left = 8
-          Height = 25
-          Top = 124
+          Left = 164
+          Height = 33
+          Top = 117
           Width = 150
-          Anchors = [akTop, akRight]
           BorderSpacing.Top = 6
           BorderSpacing.Right = 6
           Caption = '&Miscellaneous...'
@@ -189,8 +192,8 @@ inherited frmOptionsDirectoryHotlist: TfrmOptionsDirectoryHotlist
           AnchorSideTop.Side = asrBottom
           AnchorSideRight.Control = btnImport
           Left = 8
-          Height = 25
-          Top = 31
+          Height = 33
+          Top = 39
           Width = 150
           Anchors = [akTop, akRight]
           BorderSpacing.Top = 6
@@ -205,8 +208,8 @@ inherited frmOptionsDirectoryHotlist: TfrmOptionsDirectoryHotlist
           AnchorSideTop.Side = asrBottom
           AnchorSideRight.Control = btnBackup
           Left = 8
-          Height = 25
-          Top = 93
+          Height = 33
+          Top = 117
           Width = 150
           Anchors = [akTop, akRight]
           BorderSpacing.Top = 6
@@ -222,9 +225,9 @@ inherited frmOptionsDirectoryHotlist: TfrmOptionsDirectoryHotlist
         AnchorSideTop.Side = asrBottom
         AnchorSideRight.Control = pnlClient
         AnchorSideRight.Side = asrBottom
-        Left = 388
-        Height = 89
-        Top = 164
+        Left = 390
+        Height = 99
+        Top = 153
         Width = 314
         Anchors = [akTop, akLeft, akRight]
         AutoFill = True
@@ -239,8 +242,8 @@ inherited frmOptionsDirectoryHotlist: TfrmOptionsDirectoryHotlist
         ChildSizing.ShrinkVertical = crsScaleChilds
         ChildSizing.Layout = cclLeftToRightThenTopToBottom
         ChildSizing.ControlsPerLine = 1
-        ClientHeight = 69
-        ClientWidth = 310
+        ClientHeight = 81
+        ClientWidth = 312
         Items.Strings = (
           'Add at beginning'
           'Add at the end'
@@ -255,24 +258,24 @@ inherited frmOptionsDirectoryHotlist: TfrmOptionsDirectoryHotlist
         AnchorSideRight.Control = pnlClient
         AnchorSideRight.Side = asrBottom
         AnchorSideBottom.Side = asrBottom
-        Left = 388
-        Height = 114
-        Top = 253
+        Left = 390
+        Height = 128
+        Top = 252
         Width = 314
         Anchors = [akTop, akRight]
         AutoSize = True
         Caption = 'Other options'
         ChildSizing.LeftRightSpacing = 6
         ChildSizing.TopBottomSpacing = 6
-        ClientHeight = 94
-        ClientWidth = 310
+        ClientHeight = 110
+        ClientWidth = 312
         Constraints.MinWidth = 314
         TabOrder = 3
         object cbAddTarget: TCheckBox
           Left = 6
-          Height = 19
+          Height = 23
           Top = 6
-          Width = 225
+          Width = 287
           Caption = '&When adding directory, add also target'
           TabOrder = 0
         end
@@ -281,9 +284,9 @@ inherited frmOptionsDirectoryHotlist: TfrmOptionsDirectoryHotlist
           AnchorSideTop.Control = cbAddTarget
           AnchorSideTop.Side = asrBottom
           Left = 6
-          Height = 19
-          Top = 27
-          Width = 121
+          Height = 23
+          Top = 31
+          Width = 155
           BorderSpacing.Top = 2
           Caption = 'Alwa&ys expand tree'
           OnChange = cbFullExpandTreeChange
@@ -294,9 +297,9 @@ inherited frmOptionsDirectoryHotlist: TfrmOptionsDirectoryHotlist
           AnchorSideTop.Control = cbFullExpandTree
           AnchorSideTop.Side = asrBottom
           Left = 6
-          Height = 19
-          Top = 48
-          Width = 161
+          Height = 23
+          Top = 56
+          Width = 200
           BorderSpacing.Top = 2
           Caption = 'In pop&up, show [path also]'
           TabOrder = 2
@@ -306,9 +309,9 @@ inherited frmOptionsDirectoryHotlist: TfrmOptionsDirectoryHotlist
           AnchorSideTop.Control = cbShowPathInPopup
           AnchorSideTop.Side = asrBottom
           Left = 6
-          Height = 19
-          Top = 69
-          Width = 223
+          Height = 23
+          Top = 81
+          Width = 279
           BorderSpacing.Top = 2
           Caption = 'Show only &valid environment variables'
           TabOrder = 3
@@ -320,33 +323,27 @@ inherited frmOptionsDirectoryHotlist: TfrmOptionsDirectoryHotlist
       AnchorSideBottom.Control = gbDirectoryHotlist
       AnchorSideBottom.Side = asrBottom
       Left = 6
-      Height = 90
-      Top = 530
-      Width = 702
+      Height = 115
+      Top = 507
+      Width = 704
       Anchors = [akLeft, akRight, akBottom]
       AutoSize = True
       BevelOuter = bvNone
-      ClientHeight = 90
-      ClientWidth = 702
+      ClientHeight = 115
+      ClientWidth = 704
       TabOrder = 1
       object lbleditHotDirName: TLabeledEdit
         Tag = 1
         AnchorSideTop.Control = pnlBottom
         Left = 104
-        Height = 23
+        Height = 34
         Top = 9
-        Width = 598
+        Width = 600
         Anchors = [akTop, akLeft, akRight]
         BorderSpacing.Top = 9
         BorderSpacing.Bottom = 6
-        EditLabel.AnchorSideTop.Control = lbleditHotDirName
-        EditLabel.AnchorSideTop.Side = asrCenter
-        EditLabel.AnchorSideRight.Control = lbleditHotDirName
-        EditLabel.AnchorSideBottom.Side = asrBottom
-        EditLabel.Left = 66
-        EditLabel.Height = 15
-        EditLabel.Top = 13
-        EditLabel.Width = 35
+        EditLabel.Height = 17
+        EditLabel.Width = 44
         EditLabel.Caption = 'Name:'
         EditLabel.ParentColor = False
         EditLabel.ParentFont = False
@@ -361,21 +358,15 @@ inherited frmOptionsDirectoryHotlist: TfrmOptionsDirectoryHotlist
         AnchorSideTop.Side = asrCenter
         AnchorSideRight.Control = btnRelativePath
         Left = 104
-        Height = 23
-        Top = 38
-        Width = 449
+        Height = 34
+        Top = 46
+        Width = 451
         Anchors = [akTop, akLeft, akRight]
         BorderSpacing.Top = 2
         BorderSpacing.Right = 2
         EditLabel.Tag = 2
-        EditLabel.AnchorSideTop.Control = lbleditHotDirPath
-        EditLabel.AnchorSideTop.Side = asrCenter
-        EditLabel.AnchorSideRight.Control = lbleditHotDirPath
-        EditLabel.AnchorSideBottom.Side = asrBottom
-        EditLabel.Left = 74
-        EditLabel.Height = 15
-        EditLabel.Top = 42
-        EditLabel.Width = 27
+        EditLabel.Height = 17
+        EditLabel.Width = 35
         EditLabel.Caption = 'Path:'
         EditLabel.ParentColor = False
         EditLabel.ParentFont = False
@@ -389,15 +380,15 @@ inherited frmOptionsDirectoryHotlist: TfrmOptionsDirectoryHotlist
         Tag = 2
         AnchorSideLeft.Side = asrBottom
         AnchorSideTop.Control = lbleditHotDirPath
+        AnchorSideTop.Side = asrCenter
         AnchorSideRight.Control = cbSortHotDirPath
-        AnchorSideBottom.Control = lbleditHotDirPath
         AnchorSideBottom.Side = asrBottom
-        Left = 555
+        Left = 557
         Height = 23
         Hint = 'Some functions to select appropriate path'
-        Top = 38
+        Top = 52
         Width = 23
-        Anchors = [akTop, akRight, akBottom]
+        Anchors = [akTop, akRight]
         BorderSpacing.Right = 2
         Glyph.Data = {
           36040000424D3604000000000000360000002800000010000000100000000100
@@ -443,14 +434,14 @@ inherited frmOptionsDirectoryHotlist: TfrmOptionsDirectoryHotlist
         AnchorSideTop.Control = lbleditHotDirName
         AnchorSideTop.Side = asrBottom
         AnchorSideRight.Side = asrBottom
-        Left = 580
-        Height = 23
-        Top = 38
+        Left = 582
+        Height = 29
+        Top = 49
         Width = 122
         Anchors = [akTop, akRight]
         BorderSpacing.Bottom = 6
         DropDownCount = 10
-        ItemHeight = 15
+        ItemHeight = 0
         ItemIndex = 1
         Items.Strings = (
           'none'
@@ -475,21 +466,15 @@ inherited frmOptionsDirectoryHotlist: TfrmOptionsDirectoryHotlist
         AnchorSideTop.Side = asrCenter
         AnchorSideRight.Control = btnRelativeTarget
         Left = 104
-        Height = 23
-        Top = 67
-        Width = 449
+        Height = 34
+        Top = 81
+        Width = 451
         Anchors = [akTop, akLeft, akRight]
         BorderSpacing.Top = 2
         BorderSpacing.Right = 2
         EditLabel.Tag = 3
-        EditLabel.AnchorSideTop.Control = lbleditHotDirTarget
-        EditLabel.AnchorSideTop.Side = asrCenter
-        EditLabel.AnchorSideRight.Control = lbleditHotDirTarget
-        EditLabel.AnchorSideBottom.Side = asrBottom
-        EditLabel.Left = 65
-        EditLabel.Height = 15
-        EditLabel.Top = 71
-        EditLabel.Width = 36
+        EditLabel.Height = 17
+        EditLabel.Width = 48
         EditLabel.Caption = '&Target:'
         EditLabel.ParentColor = False
         EditLabel.ParentFont = False
@@ -506,10 +491,10 @@ inherited frmOptionsDirectoryHotlist: TfrmOptionsDirectoryHotlist
         AnchorSideTop.Side = asrCenter
         AnchorSideRight.Control = cbSortHotDirTarget
         AnchorSideBottom.Side = asrBottom
-        Left = 555
+        Left = 557
         Height = 23
         Hint = 'Some functions to select appropriate target'
-        Top = 67
+        Top = 87
         Width = 23
         Anchors = [akTop, akRight]
         BorderSpacing.Right = 2
@@ -558,13 +543,13 @@ inherited frmOptionsDirectoryHotlist: TfrmOptionsDirectoryHotlist
         AnchorSideTop.Side = asrBottom
         AnchorSideRight.Side = asrBottom
         AnchorSideBottom.Side = asrBottom
-        Left = 580
-        Height = 23
-        Top = 67
+        Left = 582
+        Height = 29
+        Top = 84
         Width = 122
         Anchors = [akTop, akRight]
         DropDownCount = 10
-        ItemHeight = 15
+        ItemHeight = 0
         ItemIndex = 1
         Items.Strings = (
           'none'
@@ -586,8 +571,8 @@ inherited frmOptionsDirectoryHotlist: TfrmOptionsDirectoryHotlist
     end
   end
   object actList: TActionList[1]
-    left = 256
-    top = 336
+    Left = 256
+    Top = 336
     object actInsertBrowsedDir: TAction
       Tag = 1
       Category = 'Edition'
@@ -831,8 +816,8 @@ inherited frmOptionsDirectoryHotlist: TfrmOptionsDirectoryHotlist
     end
   end
   object pmInsertDirectoryHotlist: TPopupMenu[2]
-    left = 80
-    top = 56
+    Left = 80
+    Top = 56
     object miInsertBrowsedDir: TMenuItem
       Action = actInsertBrowsedDir
     end
@@ -863,8 +848,8 @@ inherited frmOptionsDirectoryHotlist: TfrmOptionsDirectoryHotlist
     end
   end
   object pmAddDirectoryHotlist: TPopupMenu[3]
-    left = 80
-    top = 112
+    Left = 80
+    Top = 112
     object miAddBrowsedDir: TMenuItem
       Action = actAddBrowsedDir
     end
@@ -895,8 +880,8 @@ inherited frmOptionsDirectoryHotlist: TfrmOptionsDirectoryHotlist
     end
   end
   object pmDeleteDirectoryHotlist: TPopupMenu[4]
-    left = 80
-    top = 168
+    Left = 80
+    Top = 168
     object miDeleteSelectedItem: TMenuItem
       Tag = 1
       Action = actDeleteSelectedItem
@@ -920,8 +905,8 @@ inherited frmOptionsDirectoryHotlist: TfrmOptionsDirectoryHotlist
     end
   end
   object pmSortDirectoryHotlist: TPopupMenu[5]
-    left = 80
-    top = 224
+    Left = 80
+    Top = 224
     object miSortSingleGroup: TMenuItem
       Tag = 1
       Caption = '...single &group of item(s) only'
@@ -949,8 +934,8 @@ inherited frmOptionsDirectoryHotlist: TfrmOptionsDirectoryHotlist
     end
   end
   object pmMiscellaneousDirectoryHotlist: TPopupMenu[6]
-    left = 80
-    top = 280
+    Left = 80
+    Top = 280
     object miTestResultingHotlistMenu: TMenuItem
       Caption = 'Test resultin&g menu'
       OnClick = miTestResultingHotlistMenuClick
@@ -1053,8 +1038,8 @@ inherited frmOptionsDirectoryHotlist: TfrmOptionsDirectoryHotlist
     end
   end
   object pmExportDirectoryHotlist: TPopupMenu[7]
-    left = 256
-    top = 56
+    Left = 256
+    Top = 56
     object miExportToHotlistFile: TMenuItem
       Tag = 1
       Caption = 'to a Directory &Hotlist file (.hotlist)'
@@ -1078,8 +1063,8 @@ inherited frmOptionsDirectoryHotlist: TfrmOptionsDirectoryHotlist
     end
   end
   object pmImportDirectoryHotlist: TPopupMenu[8]
-    left = 256
-    top = 112
+    Left = 256
+    Top = 112
     object miImportFromHotlistFile: TMenuItem
       Tag = 1
       Caption = 'from a Directory &Hotlist file (.hotlist)'
@@ -1098,8 +1083,8 @@ inherited frmOptionsDirectoryHotlist: TfrmOptionsDirectoryHotlist
     end
   end
   object pmBackupDirectoryHotlist: TPopupMenu[9]
-    left = 256
-    top = 168
+    Left = 256
+    Top = 168
     object miSaveBackupHotlist: TMenuItem
       Tag = 2
       Caption = '&Save a backup of current Directory Hotlist'
@@ -1112,28 +1097,28 @@ inherited frmOptionsDirectoryHotlist: TfrmOptionsDirectoryHotlist
     end
   end
   object pmHotDirTestMenu: TPopupMenu[10]
-    left = 80
-    top = 336
+    Left = 80
+    Top = 336
     object miHotDirTestMenu: TMenuItem
       Caption = 'HotDirTestMenu'
     end
   end
   object pmPathHelper: TPopupMenu[11]
-    left = 256
-    top = 504
+    Left = 256
+    Top = 504
   end
   object OpenDialog: TOpenDialog[12]
     DefaultExt = '.hotlist'
     Filter = 'Directory Hotlist files|*.hotlist|.xml Config files|*.xml|Any files|*.*'
     Options = [ofPathMustExist, ofFileMustExist, ofEnableSizing, ofViewDetail]
-    left = 80
-    top = 504
+    Left = 80
+    Top = 504
   end
   object SaveDialog: TSaveDialog[13]
     DefaultExt = '.hotlist'
     Filter = 'Directory Hotlist|*.hotlist'
     Options = [ofOverwritePrompt, ofPathMustExist, ofEnableSizing, ofViewDetail]
-    left = 80
-    top = 448
+    Left = 80
+    Top = 448
   end
 end
