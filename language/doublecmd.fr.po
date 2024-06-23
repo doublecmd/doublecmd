@@ -57,7 +57,7 @@ msgstr ""
 "POT-Creation-Date: 2022-11-15 11:15+0300\n"
 #"PO-Revision-Date: 2021-05-01 11:18-0400\n"
 #"Last-Translator: Denis Bisson <denis.bisson@denisbisson.org>\n"
-"PO-Revision-Date: 2024-06-13 17:41+0200\n"
+"PO-Revision-Date: 2024-06-23 14:22+0200\n"
 "Last-Translator: Frédéric Charlanes <f.charlanes@gmail.com>\n"
 #"Language-Team: Zebulon Tourneboulle <zebulon.tourneboulle@gmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -12785,210 +12785,251 @@ msgstr "Annulé"
 #: ulng.rsopercalculatingchecksum
 # HL_02
 msgid "Calculating checksum"
-msgstr "Calcul de signature en cours"
+msgstr "Calcul de signature"
 
 #: ulng.rsopercalculatingchecksumin
 #, object-pascal-format
+# HL_02
 msgid "Calculating checksum in \"%s\""
-msgstr "Calcul de signature en cours en \"%s\""
+msgstr "Calcul de signature en \"%s\""
 
 #: ulng.rsopercalculatingchecksumof
 #, object-pascal-format
+# HL_02
 msgid "Calculating checksum of \"%s\""
-msgstr "Calcul de signature en cours de \"%s\""
+msgstr "Calcul de signature de \"%s\""
 
 #: ulng.rsopercalculatingstatictics
+# HL_02
 msgctxt "ulng.rsopercalculatingstatictics"
 msgid "Calculating"
-msgstr "Calcul en cours"
+msgstr "Calcul"
 
 #: ulng.rsopercalculatingstatisticsin
 #, object-pascal-format
+# HL_02
 msgid "Calculating \"%s\""
 msgstr "Calcul \"%s\""
 
 #: ulng.rsopercombining
+# HL_02
 msgid "Joining"
-msgstr "Concaténage"
+msgstr "Concaténation"
 
 #: ulng.rsopercombiningfromto
 #, object-pascal-format
+# HL_02
 msgid "Joining files in \"%s\" to \"%s\""
-msgstr "Concaténer fichiers dans \"%s\" vers \"%s\""
+msgstr "Concaténation de fichiers dans \"%s\" vers \"%s\""
 
 #: ulng.rsopercopying
+# HL_02
 msgid "Copying"
 msgstr "Copie"
 
 #: ulng.rsopercopyingfromto
 #, object-pascal-format
+# HL_02
 msgid "Copying from \"%s\" to \"%s\""
 msgstr "Copie de \"%s\" vers \"%s\""
 
 #: ulng.rsopercopyingsomethingto
 #, object-pascal-format
+# HL_02
 msgid "Copying \"%s\" to \"%s\""
 msgstr "Copie \"%s\" vers \"%s\""
 
 #: ulng.rsopercreatingdirectory
+# H_02
 msgid "Creating directory"
-msgstr "Création d'un dossier"
+msgstr "Création de dossier"
 
 #: ulng.rsopercreatingsomedirectory
 #, object-pascal-format
+# H_02
 msgid "Creating directory \"%s\""
 msgstr "Création du dossier \"%s\""
 
 #: ulng.rsoperdeleting
+# H_02
 msgctxt "ulng.rsoperdeleting"
 msgid "Deleting"
 msgstr "Suppression"
 
 #: ulng.rsoperdeletingin
 #, object-pascal-format
+# H_02
 msgid "Deleting in \"%s\""
-msgstr "Effacement dans \"%s\""
+msgstr "Suppression dans \"%s\""
 
 #: ulng.rsoperdeletingsomething
 #, object-pascal-format
+# H_02
 msgid "Deleting \"%s\""
-msgstr "Efface \"%s\""
+msgstr "Suppression \"%s\""
 
 #: ulng.rsoperexecuting
+# H_02
 msgid "Executing"
 msgstr "Exécution"
 
 #: ulng.rsoperexecutingsomething
 #, object-pascal-format
+# H_02
 msgid "Executing \"%s\""
 msgstr "Exécution de \"%s\""
 
 #: ulng.rsoperextracting
+# H_02
 msgid "Extracting"
 msgstr "Décompression"
 
 #: ulng.rsoperextractingfromto
 #, object-pascal-format
+# H_02
 msgid "Extracting from \"%s\" to \"%s\""
 msgstr "Décompression de \"%s\" vers \"%s\""
 
 #: ulng.rsoperfinished
 msgid "Finished"
-msgstr "Terminés"
+msgstr "Terminé"
 
 #: ulng.rsoperlisting
+# H_02
 msgid "Listing"
 msgstr "Liste"
 
 #: ulng.rsoperlistingin
 #, object-pascal-format
+# H_02
 msgid "Listing \"%s\""
 msgstr "Liste \"%s\""
 
 #: ulng.rsopermoving
+# H_02
 msgid "Moving"
 msgstr "Déplacement"
 
 #: ulng.rsopermovingfromto
 #, object-pascal-format
+# H_02
 msgid "Moving from \"%s\" to \"%s\""
 msgstr "Déplacement de \"%s\" vers \"%s\""
 
 #: ulng.rsopermovingsomethingto
 #, object-pascal-format
+# H_02
 msgid "Moving \"%s\" to \"%s\""
 msgstr "Déplacement de \"%s\" vers \"%s\""
 
 #: ulng.rsopernotstarted
 msgid "Not started"
-msgstr "Pas encore démarrés"
+msgstr "Non démarré"
 
 #: ulng.rsoperpacking
+# H_02
 msgid "Packing"
 msgstr "Compression"
 
 #: ulng.rsoperpackingfromto
 #, object-pascal-format
+# H_02
 msgid "Packing from \"%s\" to \"%s\""
 msgstr "Compression de \"%s\" vers \"%s\""
 
 #: ulng.rsoperpackingsomethingto
 #, object-pascal-format
+# H_02
 msgid "Packing \"%s\" to \"%s\""
 msgstr "Compression de \"%s\" vers \"%s\""
 
 #: ulng.rsoperpaused
 msgid "Paused"
-msgstr "En attente"
+msgstr "En pause"
 
 #: ulng.rsoperpausing
+# H_02
 msgid "Pausing"
-msgstr "Mettre en attente"
+msgstr "Mettre en pause"
 
 #: ulng.rsoperrunning
+# H_02
 msgid "Running"
 msgstr "En cours"
 
 #: ulng.rsopersettingproperty
+# H_02
 msgid "Setting property"
-msgstr "Ajustement d'une propriété"
+msgstr "Paramétrage d'une propriété"
 
 #: ulng.rsopersettingpropertyin
 #, object-pascal-format
+# H_02
 msgid "Setting property in \"%s\""
-msgstr "Ajustement d'une propriété dans \"%s\""
+msgstr "Paramétrage d'une propriété dans \"%s\""
 
 #: ulng.rsopersettingpropertyof
 #, object-pascal-format
+# H_02
 msgid "Setting property of \"%s\""
-msgstr "Ajustement d'une propriété de \"%s\""
+msgstr "Paramétrage d'une propriété de \"%s\""
 
 #: ulng.rsopersplitting
+# H_02
 msgid "Splitting"
 msgstr "Fractionnement"
 
 #: ulng.rsopersplittingfromto
 #, object-pascal-format
+# H_02
 msgid "Splitting \"%s\" to \"%s\""
 msgstr "Fractionnement de \"%s\" vers \"%s\""
 
 #: ulng.rsoperstarting
+# H_02
 msgid "Starting"
-msgstr "En cours de démarrage"
+msgstr "Démarrage"
 
 #: ulng.rsoperstopped
 msgid "Stopped"
 msgstr "Arrêté"
 
 #: ulng.rsoperstopping
+# H_02
 msgid "Stopping"
-msgstr "En train d'arrêter"
+msgstr "Arrêt en cours"
 
 #: ulng.rsopertesting
+# H_02
 msgid "Testing"
 msgstr "Test"
 
 #: ulng.rsopertestingin
 #, object-pascal-format
+# H_02
 msgid "Testing in \"%s\""
 msgstr "Test dans \"%s\""
 
 #: ulng.rsopertestingsomething
 #, object-pascal-format
+# H_02
 msgid "Testing \"%s\""
 msgstr "Test \"%s\""
 
 #: ulng.rsoperverifyingchecksum
+# H_02
 msgid "Verifying checksum"
 msgstr "Vérification de la signature"
 
 #: ulng.rsoperverifyingchecksumin
 #, object-pascal-format
+# H_02
 msgid "Verifying checksum in \"%s\""
 msgstr "Vérification de la signature dans \"%s\""
 
 #: ulng.rsoperverifyingchecksumof
 #, object-pascal-format
+# H_02
 msgid "Verifying checksum of \"%s\""
 msgstr "Vérification de la signature de \"%s\""
 
@@ -12998,23 +13039,27 @@ msgstr "En attente de l'accès au fichier source..."
 
 #: ulng.rsoperwaitingforfeedback
 msgid "Waiting for user response"
-msgstr "En attente de la réponse de l'utilisateur..."
+msgstr "En attente de la réponse utilisateur..."
 
 #: ulng.rsoperwiping
+# H_02
 msgid "Wiping"
-msgstr "Pulvérisation"
+msgstr "Suppression sécurisée"
 
 #: ulng.rsoperwipingin
 #, object-pascal-format
+# H_02
 msgid "Wiping in \"%s\""
-msgstr "Pulvérise dans \"%s\""
+msgstr "Suppression sécurisée dans \"%s\""
 
 #: ulng.rsoperwipingsomething
 #, object-pascal-format
+# H_02
 msgid "Wiping \"%s\""
-msgstr "Pulvérise \"%s\""
+msgstr "Suppression sécurisée \"%s\""
 
 #: ulng.rsoperworking
+# H_02
 msgid "Working"
 msgstr "Dossier de travail"
 
@@ -13024,7 +13069,7 @@ msgstr "Ajout au début;Ajout à la fin;Ajout astucieux"
 
 #: ulng.rsoptaddingtooltipfiletype
 msgid "Adding new tooltip file type"
-msgstr "Ajout d'un nouveau type de fichier d'info-bulle"
+msgstr "Ajout d'un nouveau type de fichier d'infobulle"
 
 #: ulng.rsoptarchiveconfiguresavetochange
 msgid "To change current editing archive configuration, either APPLY or DELETE current editing one"
@@ -13032,17 +13077,19 @@ msgstr "Pour changer la configuration des outils d'archivage, appuyez \"Applique
 
 #: ulng.rsoptarchiveradditonalcmd
 msgid "Mode dependent, additional command"
-msgstr "Dépendant du moade, command additionnelle"
+msgstr "Dépendant du mode, commande supplémentaire"
 
 #: ulng.rsoptarchiveraddonlynotempty
+# H_01
 msgid "Add if it is non-empty"
-msgstr "Ajoute si n'est pas vide"
+msgstr "Ajoute si non vide"
 
 #: ulng.rsoptarchiverarchivel
 msgid "Archive File (long name)"
 msgstr "Nom de l'archive (nom long)"
 
 #: ulng.rsoptarchiverarchiver
+# H_01
 msgid "Select archiver executable"
 msgstr "Choisir l'exécutable de l'outil d'archivage"
 
@@ -13058,11 +13105,11 @@ msgstr "Changer l'encodage"
 #, object-pascal-format
 msgctxt "ulng.rsoptarchiverconfirmdelete"
 msgid "Are you sure you want to delete: \"%s\"?"
-msgstr "Êtes-vous sûr de vouloir effacer: \"%s\"?"
+msgstr "Êtes-vous sûr de vouloir supprimer : \"%s\"?"
 
 #: ulng.rsoptarchiverdefaultexportfilename
 msgid "Exported Archiver Configuration"
-msgstr "Configuration outil archivage exportée"
+msgstr "Configuration d'outil archivage exportée"
 
 #: ulng.rsoptarchivererrorlevel
 msgid "errorlevel"
@@ -13081,7 +13128,7 @@ msgstr "Exportation de %d éléments vers le fichier \"%s\" complétée."
 #: ulng.rsoptarchiverexportprompt
 msgctxt "ulng.rsoptarchiverexportprompt"
 msgid "Select the one(s) you want to export"
-msgstr "Choisissez ce que vous voulez exporter"
+msgstr "Choisissez ce que vous souhaitez exporter"
 
 #: ulng.rsoptarchiverfilelistl
 msgid "Filelist (long names)"
@@ -13103,20 +13150,20 @@ msgstr "Importation de %d éléments du fichier \"%s\" complétée."
 
 #: ulng.rsoptarchiverimportfile
 msgid "Select the file to import archiver configuration(s)"
-msgstr "Choississez le fichier à importer les configurations d'outils d'archivage"
+msgstr "Choisissez le fichier pour importer des configurations d'outils d'archivage"
 
 #: ulng.rsoptarchiverimportprompt
 msgctxt "ulng.rsoptarchiverimportprompt"
 msgid "Select the one(s) you want to import"
-msgstr "Choisissez ce que vous voulez importer"
+msgstr "Choisissez ce que vous souhaitez importer"
 
 #: ulng.rsoptarchiverjustname
 msgid "Use name only, without path"
-msgstr "Utilise le nom seulement, sans le chemin"
+msgstr "Utiliser le nom seulement, sans le chemin"
 
 #: ulng.rsoptarchiverjustpath
 msgid "Use path only, without name"
-msgstr "Utilise le chemin seulement, sans le nom"
+msgstr "Utiliser le chemin seulement, sans le nom"
 
 #: ulng.rsoptarchiverprograml
 msgid "Archive Program (long name)"
@@ -13124,7 +13171,7 @@ msgstr "Exécutable d'archivage (nom long)"
 
 #: ulng.rsoptarchiverprograms
 msgid "Archive Program (short name)"
-msgstr "Exécutable d'archivage (nom court)"
+msgstr "Programme d'archivage (nom court)"
 
 #: ulng.rsoptarchiverquoteall
 msgid "Quote all names"
@@ -13143,16 +13190,18 @@ msgid "Target subdirecory"
 msgstr "Dossier cible"
 
 #: ulng.rsoptarchiveruseansi
+# H_01
 msgid "Use ANSI encoding"
-msgstr "Utilise encodage ANSI"
+msgstr "Utiliser l'encodage ANSI"
 
 #: ulng.rsoptarchiveruseutf8
+# H_01
 msgid "Use UTF8 encoding"
-msgstr "Utilise encodage UTF8"
+msgstr "Utiliser l'encodage UTF8"
 
 #: ulng.rsoptarchiverwheretosave
 msgid "Enter location and filename where to save archiver configuration"
-msgstr "Entrez le chemin et nom de fichier où sauvegarder la configuration de l'outil d'archivage"
+msgstr "Entrez le chemin et nom de fichier où enregistrer la configuration de l'outil d'archivage"
 
 #: ulng.rsoptarchivetypename
 msgid "Archive type name:"
@@ -13169,21 +13218,22 @@ msgstr "Premier;Dernier;"
 
 #: ulng.rsoptconfigsortorder
 msgid "Classic, legacy order;Alphabetic order (but language still first)"
-msgstr "Ordre classique;Ordre alphabétique (mais \"Langue\" sera toujours premier)"
+msgstr "Ordre classique;Ordre alphabétique (avec \"Langue\" toujours en premier)"
 
 #: ulng.rsoptconfigtreestate
 msgid "Full expand;Full collapse"
-msgstr "Étendu;Replié"
+msgstr "Tout développé;Tout replié"
 
 #: ulng.rsoptdifferframeposition
 msgid "Active frame panel on left, inactive on right (legacy);Left frame panel on left, right on right"
-msgstr "Le panneau actif à gauche et l'inactif à droite (classique);Le panneau de gauche à gauche, celui de droite à droite"
+msgstr "Panneaux actif et inactif respectivement à gauche et à droite (classique);Panneau de gauche à gauche, celui de droite à droite"
 
 #: ulng.rsoptenterext
 msgid "Enter extension"
 msgstr "Entrer une extension"
 
 #: ulng.rsoptfavoritetabswheretoaddinlist
+# H_01
 msgid "Add at beginning;Add at the end;Alphabetical sort"
 msgstr "Ajoute au début;Ajoute à la fin;Ordre alphabétique"
 
@@ -13198,22 +13248,25 @@ msgstr "dynamique"
 #: ulng.rsopthotkeysadddeleteshortcutlong
 #, object-pascal-format
 msgid "Shortcut %s for cm_Delete will be registered, so it can be used to reverse this setting."
-msgstr "Le raccourci %s de la commande cm_Delete va être enregistré, donc it pourra être utilisé pour inverser cette option."
+msgstr "Le raccourci %s de la commande cm_Delete va être enregistré, il pourra ensuite être utilisé pour inverser ce paramétrage."
 
 #: ulng.rsopthotkeysaddhotkey
 #, object-pascal-format
+# H_01
 msgid "Add hotkey for %s"
-msgstr "Ajoute un raccourci-clavier pour %s"
+msgstr "Ajouter un raccourci-clavier pour %s"
 
 #: ulng.rsopthotkeysaddshortcutbutton
+# H_01
 msgid "Add shortcut"
-msgstr "Ajoute un raccourci"
+msgstr "Ajouter un raccourci"
 
 #: ulng.rsopthotkeyscannotsetshortcut
 msgid "Cannot set shortcut"
-msgstr "On ne peut ajuster de raccourci"
+msgstr "Impossible de définir un raccourci"
 
 #: ulng.rsopthotkeyschangeshortcut
+# H_01
 msgid "Change shortcut"
 msgstr "Changer le raccourci"
 
@@ -13224,13 +13277,15 @@ msgstr "Commande"
 
 #: ulng.rsopthotkeysdeletetrashcanoverrides
 #, object-pascal-format
+# HL_04
 msgid "Shortcut %s for cm_Delete has a parameter that overrides this setting. Do you want to change this parameter to use the global setting?"
-msgstr "Le raccourci %s de la commande cm_Delete a un paramètre qui peut passer outre cette option. Voulez-vous changer ce paramètre  pour utiliser celui global?"
+msgstr "Le raccourci %s de la commande cm_Delete dispose d'un paramètre qui peut outrepasser ce paramétrage. Souhaitez-vous le changer pour utiliser le paramètre global ?"
 
 #: ulng.rsopthotkeysdeletetrashcanparameterexists
 #, object-pascal-format
+# HL_04
 msgid "Shortcut %s for cm_Delete needs to have a parameter changed to match shortcut %s. Do you want to change it?"
-msgstr "Le raccourci %s de la commande cm_Delete a besoin d'avoir un paramètre modifié pour correspondre au raccourci %s. Est-ce que vous voulez le changer?"
+msgstr "Le raccourci %s de la commande cm_Delete a besoin d'avoir un paramètre modifié pour correspondre au raccourci %s. Souhaitez-vous le changer ?"
 
 #: ulng.rsopthotkeysdescription
 msgctxt "ulng.rsopthotkeysdescription"
@@ -13239,10 +13294,12 @@ msgstr "Description"
 
 #: ulng.rsopthotkeysedithotkey
 #, object-pascal-format
+# H_01
 msgid "Edit hotkey for %s"
 msgstr "Éditer raccourci-clavier pour %s"
 
 #: ulng.rsopthotkeysfixparameter
+# H_01
 msgid "Fix parameter"
 msgstr "Paramètre fixe"
 
@@ -13267,21 +13324,21 @@ msgstr "Paramètres"
 
 #: ulng.rsopthotkeyssetdeleteshortcut
 msgid "Set shortcut to delete file"
-msgstr "Ajuster le raccourci pour effacer un fichier"
+msgstr "Définir un raccourci pour supprimer un fichier"
 
 #: ulng.rsopthotkeysshortcutfordeletealreadyassigned
 #, object-pascal-format
 msgid "For this setting to work with shortcut %s, shortcut %s must be assigned to cm_Delete but it is already assigned to %s. Do you want to change it?"
-msgstr "Pour que cette option fonctionne avec le raccouris %s, le raccourci %s doit être assigné à cm_Delete but imais il est déjà assigné à %s. Désirez-vous changer cela?"
+msgstr "Pour que cette option fonctionne avec le raccourci %s, ce raccourci %s doit être assigné à cm_Delete but mais il est déjà assigné à %s. Souhaitez-vous changer cela ?"
 
 #: ulng.rsopthotkeysshortcutfordeleteissequence
 #, object-pascal-format
 msgid "Shortcut %s for cm_Delete is a sequence shortcut for which a hotkey with reversed Shift cannot be assigned. This setting might not work."
-msgstr "Le raccourci %s de la commande cm_Delete est une séquence de raccouci pourlaquelle l'action inverse avec \"SHIFT\" ne peux pas être habitué. Cet ajustement peut donc ne pas fonctionner."
+msgstr "Le raccourci %s de la commande cm_Delete est une séquence de raccourci pour laquelle l'action inverse avec \"SHIFT\" ne peut pas être assignée. Ce paramétrage peut donc ne pas fonctionner."
 
 #: ulng.rsopthotkeysshortcutused
 msgid "Shortcut in use"
-msgstr "Raccourcis utilisé"
+msgstr "Raccourci utilisé"
 
 #: ulng.rsopthotkeysshortcutusedtext1
 #, object-pascal-format
@@ -13305,12 +13362,12 @@ msgstr "utilisé pour cette commande mais avec des paramètres différents"
 #: ulng.rsoptionseditorarchivers
 msgctxt "ulng.rsoptionseditorarchivers"
 msgid "Archivers"
-msgstr "Gestions des archives"
+msgstr "Gestion des archives"
 
 #: ulng.rsoptionseditorautorefresh
 msgctxt "ulng.rsoptionseditorautorefresh"
 msgid "Auto refresh"
-msgstr "Rafraichissement automatique"
+msgstr "Rafraîchissement automatique"
 
 #: ulng.rsoptionseditorbehavior
 msgctxt "ulng.rsoptionseditorbehavior"
@@ -13320,7 +13377,7 @@ msgstr "Comportements"
 #: ulng.rsoptionseditorbriefview
 msgctxt "ulng.rsoptionseditorbriefview"
 msgid "Brief"
-msgstr "Vue résumé"
+msgstr "Résumé"
 
 #: ulng.rsoptionseditorcolors
 msgctxt "ulng.rsoptionseditorcolors"
@@ -13339,7 +13396,7 @@ msgstr "Configuration"
 
 #: ulng.rsoptionseditorcustomcolumns
 msgid "Custom columns"
-msgstr "Colonnes personalisées"
+msgstr "Colonnes personnalisées"
 
 #: ulng.rsoptionseditordirectoryhotlist
 msgctxt "ulng.rsoptionseditordirectoryhotlist"
@@ -13352,7 +13409,7 @@ msgstr "Dossiers favoris (suite)"
 
 #: ulng.rsoptionseditordraganddrop
 msgid "Drag & drop"
-msgstr "Glisser et déposer"
+msgstr "Glisser/déposer"
 
 #: ulng.rsoptionseditordriveslistbutton
 msgid "Drives list button"
@@ -13479,7 +13536,7 @@ msgid ""
 msgstr ""
 "Les options ont changé pour \"%s\"\n"
 "\n"
-"Voulez-vous sauvegarder les modifications?"
+"Souhaitez-vous enregistrer les modifications ?"
 
 #: ulng.rsoptionseditorplugins
 msgctxt "ulng.rsoptionseditorplugins"
@@ -13521,11 +13578,11 @@ msgstr "Infobulles"
 #: ulng.rsoptionseditortreeviewmenu
 msgctxt "ulng.rsoptionseditortreeviewmenu"
 msgid "Tree View Menu"
-msgstr "Menu en arbre"
+msgstr "Menu en arborescence"
 
 #: ulng.rsoptionseditortreeviewmenucolors
 msgid "Tree View Menu Colors"
-msgstr "Couleur menu arbre"
+msgstr "Couleur menu en arborescence"
 
 #: ulng.rsoptletters
 msgid "None;Command Line;Quick Search;Quick Filter"
@@ -13541,7 +13598,7 @@ msgstr "en premier de la liste de fichiers;après les dossiers (si les dossiers 
 
 #: ulng.rsoptpersonalizedfilesizeformat
 msgid "Personalized float;Personalized byte;Personalized kilobyte;Personalized megabyte;Personalized gigabyte;Personalized terabyte"
-msgstr "Dynamique personnalisé;Octet personnalisé;Kibioctet personnalisé;Mébioctet personnalisé;Gibioctet  personnalisé;Tébioctet personnalisé"
+msgstr "Dynamique personnalisé;Octet personnalisé;Kilooctet personnalisé;Mégaoctet personnalisé;Gigaoctet  personnalisé;Téraoctet personnalisé"
 
 #: ulng.rsoptpluginalreadyassigned
 #, object-pascal-format
@@ -13587,7 +13644,7 @@ msgstr "Nom"
 
 #: ulng.rsoptpluginsortonlywhenbyextension
 msgid "Sorting WCX plugins is only possible when showing plugins by extension!"
-msgstr "Le tri des plugins WCX n'est possible que si vous affichez les plugins par extension!"
+msgstr "Le tri des plugins WCX n'est possible que si vous affichez les plugins par extension !"
 
 #: ulng.rsoptpluginsregisteredfor
 msgctxt "ulng.rsoptpluginsregisteredfor"
@@ -13600,7 +13657,7 @@ msgstr "Choisir la librairie Lua"
 
 #: ulng.rsoptrenamingtooltipfiletype
 msgid "Renaming tooltip file type"
-msgstr "Renommer le type de fichier d'info-bulle"
+msgstr "Renommer le type de fichier d'infobulle"
 
 #: ulng.rsoptsearchcase
 msgid "&Sensitive;&Insensitive"
@@ -13616,7 +13673,7 @@ msgstr "Cacher le panneau de filtre s'il n'est pas actif;conserver ces options p
 
 #: ulng.rsoptsortcasesens
 msgid "not case sensitive;according to locale settings (aAbBcC);first upper then lower case (ABCabc)"
-msgstr "non sensible à la casse;selon paramètres régionaux (aAbBcC);Première en majuscule, le reste en minuscule (ABCabc)"
+msgstr "insensible à la casse;selon paramètres régionaux (aAbBcC);Première en majuscule, le reste en minuscule (ABCabc)"
 
 #: ulng.rsoptsortfoldermode
 msgid "sort by name and show first;sort like files and show first;sort like files"
@@ -13624,7 +13681,7 @@ msgstr "trier par nom et montrer en premier;trier comme les fichiers et montrer 
 
 #: ulng.rsoptsortmethod
 msgid "Alphabetical, considering accents;Alphabetical with special characters sort;Natural sorting: alphabetical and numbers;Natural with special characters sort"
-msgstr "Alphabétique avec prise en considération des accents;Tri alphabétique avec caractères spéciaux;Tri naturel alphanumérique;Tri naturel avec caractères spécial"
+msgstr "Tri alphabétique avec accents;Tri alphabétique avec caractères spéciaux;Tri alphanumérique;Tri avec caractères spéciaux"
 
 #: ulng.rsopttabsposition
 msgid "Top;Bottom;"
@@ -13636,7 +13693,7 @@ msgstr "Séparateur;Commande interne;Commande externe;Menu"
 
 #: ulng.rsopttooltipconfiguresavetochange
 msgid "To change file type tooltip configuration, either APPLY or DELETE current editing one"
-msgstr "Pour modifier la configuration des info-bulles d'un autre type de fichier, APPLIQUEZ ou SUPPRIMEZ l'édition en cours."
+msgstr "Pour modifier la configuration des infobulles d'un autre type de fichier, APPLIQUEZ ou SUPPRIMEZ l'édition en cours."
 
 #: ulng.rsopttooltipfiletype
 msgid "Tooltip file type name:"
@@ -13651,15 +13708,15 @@ msgstr "\"%s\" existe déjà!"
 #, object-pascal-format
 msgctxt "ulng.rsopttooltipfiletypeconfirmdelete"
 msgid "Are you sure you want to delete: \"%s\"?"
-msgstr "Êtes-vous sûr de vouloir effacer: \"%s\"?"
+msgstr "Êtes-vous sûr de vouloir supprimer : \"%s\"?"
 
 #: ulng.rsopttooltipfiletypedefaultexportfilename
 msgid "Exported tooltip file type configuration"
-msgstr "Configuration de type de fichier d'info-bulle exporté"
+msgstr "Configuration de type de fichier d'infobulle exportée"
 
 #: ulng.rsopttooltipfiletypeexportcaption
 msgid "Export tooltip file type configuration"
-msgstr "Exporter la configuration du type de fichier info-bulle"
+msgstr "Exporter la configuration de type de fichier d'infobulle"
 
 #: ulng.rsopttooltipfiletypeexportdone
 #, object-pascal-format
@@ -13670,11 +13727,11 @@ msgstr "Exportation de %d éléments vers le fichier \"%s\" complétée."
 #: ulng.rsopttooltipfiletypeexportprompt
 msgctxt "ulng.rsopttooltipfiletypeexportprompt"
 msgid "Select the one(s) you want to export"
-msgstr "Choisissez ce que vous voulez exporter"
+msgstr "Choisissez ce que vous souhaitez exporter"
 
 #: ulng.rsopttooltipfiletypeimportcaption
 msgid "Import tooltip file type configuration"
-msgstr "Importer une configuration de type de fichier d'info-bulle"
+msgstr "Importer une configuration de type de fichier d'infobulle"
 
 #: ulng.rsopttooltipfiletypeimportdone
 #, object-pascal-format
@@ -13689,23 +13746,23 @@ msgstr "Sélectionnez le fichier pour importer les configurations d'info-bulle"
 #: ulng.rsopttooltipfiletypeimportprompt
 msgctxt "ulng.rsopttooltipfiletypeimportprompt"
 msgid "Select the one(s) you want to import"
-msgstr "Choisissez ce que vous voulez importer"
+msgstr "Choisissez ce que vous souhaitez importer"
 
 #: ulng.rsopttooltipfiletypewheretosave
 msgid "Enter location and filename where to save tooltip file type configuration"
-msgstr "Entrez l'emplacement et le nom du fichier où enregistrer la configuration du type de fichier d'info-bulle"
+msgstr "Entrez l'emplacement et le nom du fichier où enregistrer la configuration de type de fichier d'infobulle"
 
 #: ulng.rsopttooltipsfiletypename
 msgid "Tooltip file type name"
-msgstr "Nom du type de fichier info-bulle"
+msgstr "Nom de type de fichier d'infobulle"
 
 #: ulng.rsopttypeofduplicatedrename
 msgid "DC legacy - Copy (x) filename.ext;Windows - filename (x).ext;Other - filename(x).ext"
-msgstr "DC classique - Copy (x) nom_de_fichier.ext;Windows - nom_de_fichier (x).ext;Autre - nom_de_fichier(x).ext"
+msgstr "DC classique - Copier (x) nom_de_fichier.ext;Windows - nom_de_fichier (x).ext;Autre - nom_de_fichier(x).ext"
 
 #: ulng.rsoptupdatedfilesposition
 msgid "don't change position;use the same setting as for new files;to sorted position"
-msgstr "ne change pas de position;utilise les mêmes option que pour les nouveaux fichiers;à l'endroit normal du tri en cours"
+msgstr "ne change pas de position;utilise le même paramétrage que pour les nouveaux fichiers;à la position du tri en cours"
 
 #: ulng.rspluginfilenamestylelist
 msgid "With complete absolute path;Path relative to %COMMANDER_PATH%;Relative to the following"
@@ -13731,7 +13788,7 @@ msgstr "="
 #: ulng.rspluginsearchfieldnotfound
 #, object-pascal-format
 msgid "Field \"%s\" not found!"
-msgstr "Champ \"%s\" introuvable!"
+msgstr "Champ \"%s\" introuvable !"
 
 #: ulng.rspluginsearchnotcontainscasesenstive
 msgid "!contains(case)"
@@ -13757,7 +13814,7 @@ msgstr "!regexp"
 #: ulng.rspluginsearchpluginnotfound
 #, object-pascal-format
 msgid "Plugin \"%s\" not found!"
-msgstr "Plugin \"%s\" introuvable!"
+msgstr "Plugin \"%s\" introuvable !"
 
 #: ulng.rspluginsearchregexpr
 msgid "regexp"
@@ -13767,7 +13824,7 @@ msgstr "regexp"
 #, object-pascal-format
 msgctxt "ulng.rspluginsearchunitnotfoundforfield"
 msgid "Unit \"%s\" not found for field \"%s\" !"
-msgstr "Unité \"%s\" introuvable pour champ \"%s\"!"
+msgstr "Unité \"%s\" introuvable pour le champ \"%s\" !"
 
 #: ulng.rspropscontains
 #, object-pascal-format
@@ -13796,11 +13853,11 @@ msgstr "Dossier"
 
 #: ulng.rspropsmultipletypes
 msgid "Multiple types"
-msgstr ""
+msgstr "Types multiples"
 
 #: ulng.rspropsnmdpipe
 msgid "Named pipe"
-msgstr "Tube nommé"
+msgstr "\"Pipe\" nommé"
 
 #: ulng.rspropssocket
 msgid "Socket"
@@ -13840,7 +13897,7 @@ msgid ""
 "We need that one to be completed before to launch a new one."
 msgstr ""
 "Une recherche de fichiers avec un plugin DSX est déjà en cours.\n"
-"Nous devons attendre qu'elle soit complété avant dans lancer une nouvelle ."
+"Il faut attendre qu'elle soit complétée avant d'en lancer une nouvelle."
 
 #: ulng.rssearchwithwdxplugininprogress
 msgid ""
@@ -13848,7 +13905,7 @@ msgid ""
 "We need that one to be completed before to launch a new one."
 msgstr ""
 "Une recherche de fichiers avec un plugin WDX est déjà en cours.\n"
-"Nous devons attendre qu'elle soit complété avant dans lancer une nouvelle ."
+"Il faut attendre attendre qu'elle soit complétée avant d'en lancer une nouvelle."
 
 #: ulng.rsselectdir
 msgid "Select a directory"
@@ -13860,7 +13917,7 @@ msgstr "Plus récent;Plus ancien;Plus grand;Plus petit;Premier dans le groupe,De
 
 #: ulng.rsselectyoufindfileswindow
 msgid "Select your window"
-msgstr "Choisissez"
+msgstr "Sélectionnez votre fenêtre"
 
 #: ulng.rsshowhelpfor
 #, object-pascal-format
@@ -13892,7 +13949,7 @@ msgstr "Erreur"
 
 #: ulng.rssimplewordfailedexcla
 msgid "Failed!"
-msgstr "Échec!"
+msgstr "Échec !"
 
 #: ulng.rssimplewordfalse
 msgid "False"
@@ -13921,7 +13978,7 @@ msgstr "Résultat"
 
 #: ulng.rssimplewordsuccessexcla
 msgid "Success!"
-msgstr "Succès!"
+msgstr "Succès !"
 
 #: ulng.rssimplewordtrue
 msgid "True"
@@ -13977,7 +14034,7 @@ msgstr "Impossible de scinder le fichier !"
 
 #: ulng.rssplitmsgmanyparts
 msgid "The number of parts is more than 100! Continue?"
-msgstr "Le nombre de partie est supérieur à 100 ! Continuer ?"
+msgstr "Le nombre de parties est supérieur à 100 ! Continuer ?"
 
 #: ulng.rssplitpredefinedsizes
 msgid "Automatic;1457664B - 3.5\" High Density 1.44M;1213952B - 5.25\" High Density 1.2M;730112B - 3.5\" Double Density 720K;362496B - 5.25\" Double Density 360K;98078KB - ZIP 100MB;650MB - CD 650MB;700MB - CD 700MB;4482MB - DVD+R"
@@ -13989,7 +14046,7 @@ msgstr "Sélectionner un dossier :"
 
 #: ulng.rsstrpreviewjustpreview
 msgid "Just preview"
-msgstr "Simplement un avant-goût"
+msgstr "Juste un aperçu"
 
 #: ulng.rsstrpreviewothers
 msgid "Others"
@@ -14037,7 +14094,7 @@ msgstr "Choisissez votre groupe d'onglets favoris :"
 
 #: ulng.rsstrtvmchoosefromcmdlinehistory
 msgid "Choose your command from Command Line History"
-msgstr "Choisissez votre commande de l'historique des commandes"
+msgstr "Choisissez votre commande dans l'historique des commandes"
 
 #: ulng.rsstrtvmchoosefrommainmenu
 msgid "Choose your action from Main Menu"
@@ -14045,15 +14102,15 @@ msgstr "Choisissez votre action du menu principal"
 
 #: ulng.rsstrtvmchoosefromtoolbar
 msgid "Choose your action from Maintool bar"
-msgstr "Choisissez votre action de la barre d'outil principale"
+msgstr "Choisissez votre action dans la barre d'outils principale"
 
 #: ulng.rsstrtvmchoosehotdirectory
 msgid "Choose your directory from Hot Directory:"
-msgstr "Choisissez votre répertoire de la liste des répertoires favoris"
+msgstr "Choisissez votre dossier dans la liste des dossiers favoris"
 
 #: ulng.rsstrtvmchooseviewhistory
 msgid "Choose your directory from File View History"
-msgstr "Choisissez votre dossier dans l'historique selon cette vue"
+msgstr "Choisissez votre dossier dans la vue historique"
 
 #: ulng.rsstrtvmchooseyourfileordir
 msgid "Choose your file or your directory"
@@ -14074,8 +14131,9 @@ msgid "Plain text"
 msgstr "Texte simple"
 
 #: ulng.rstabsactionondoubleclickchoices
+# HL_01
 msgid "Do nothing;Close tab;Access Favorite Tabs;Tabs popup menu"
-msgstr "Ne fait rien;Ferme l'onglet;Accéder aux groupes d'onglets favoris;Le menu des onglets"
+msgstr "Ne fait rien;Ferme l'onglet;Accède aux groupes d'onglets favoris;Menu des onglets"
 
 #: ulng.rstimeunitday
 msgctxt "ulng.rstimeunitday"
@@ -14108,7 +14166,7 @@ msgstr "Année(s)"
 
 #: ulng.rstitlerenamefavtabs
 msgid "Rename Favorite Tabs"
-msgstr "Renomme l'onglet favori"
+msgstr "Renomme le groupe d'onglets favoris"
 
 #: ulng.rstitlerenamefavtabsmenu
 msgid "Rename Favorite Tabs sub-menu"
@@ -14151,7 +14209,7 @@ msgstr "Système par défaut;1 seconde;2 secondes;3 secondes;5 secondes;10 secon
 
 #: ulng.rstooltipmodelist
 msgid "Combine DC and system tooltip, DC first (legacy);Combine DC and system tooltip, system first;Show DC tooltip when possible and system when not;Show DC tooltip only;Show system tooltip only"
-msgstr "Combiner l'info-bulle système et DC;DC d'abord et système ensuite (hérité);Combiner l'info-bulle du système et du système, d'abord le système;Afficher l'info-bulle du DC lorsque cela est possible et le système lorsque ce n'est pas le cas;Afficher l'info-bulle de DC uniquement;Afficher l'info-bulle du système uniquement"
+msgstr "Combiner l'infobulle DC et système, DC en premier (hérité);Combiner l'infobulle DC et système, système en premier;Afficher l'infobulle DC si possible et l'infobulle système sinon;Afficher l'infobulle DC uniquement;Afficher l'infobulle système uniquement"
 
 #: ulng.rstoolviewer
 msgctxt "ulng.rstoolviewer"
@@ -14161,7 +14219,7 @@ msgstr "Visionneuse"
 #: ulng.rsunhandledexceptionmessage
 #, object-pascal-format
 msgid "Please report this error to the bug tracker with a description of what you were doing and the following file:%sPress %s to continue or %s to abort the program."
-msgstr "Merci de rapporter cette erreur sur le \"bug tracker\" avec une description de ce que vous étiez en train de faire ainsi que le fichier suivant : %sCliquez %s pour continuer ou %s pour quitter le programme."
+msgstr "Veuillez signaler cette erreur sur le \"bug tracker\" avec une description de ce que vous étiez en train de faire et avec le fichier suivant : %sCliquez %s pour continuer ou %s pour quitter le programme."
 
 #: ulng.rsvarbothpanelactivetoinactive
 msgid "Both panels, from active to inactive"
@@ -14176,8 +14234,9 @@ msgid "Path of panel"
 msgstr "Chemin du panneau"
 
 #: ulng.rsvarencloseelement
+# HL_01
 msgid "Enclose each name in brackets or what you want"
-msgstr "Isole chaque nom entre crochers ou ce que vous voulez"
+msgstr "Mettre chaque nom entre crochets ou avec ce que vous souhaitez"
 
 #: ulng.rsvarfilenamenoext
 msgid "Just filename, no extension"
@@ -14193,15 +14252,15 @@ msgstr "Aide avec les variables \"%\""
 
 #: ulng.rsvarinputparam
 msgid "Will request request user to enter a parameter with a default suggested value"
-msgstr "Va demander à l'utilisateur d'entre un paramètre avec une valeur par défaut suggérée"
+msgstr "Va demander à l'utilisateur d'entrer un paramètre avec une valeur par défaut suggérée"
 
 #: ulng.rsvarlastdircurrentpath
 msgid "Last directory of panel's path"
-msgstr "Dernier répertoire du chemin du panneau"
+msgstr "Dernier dossier du chemin du panneau"
 
 #: ulng.rsvarlastdirofpath
 msgid "Last directory of file's path"
-msgstr "Dernier répertoire du chemin du fichier"
+msgstr "Dernier dossier du chemin du fichier"
 
 #: ulng.rsvarleftpanel
 msgid "Left panel"
@@ -14253,7 +14312,7 @@ msgstr "Chemin, sans le séparateur de dossier à la fin"
 
 #: ulng.rsvarpercentchangetopound
 msgid "From here to the end of the line, the percent-variable indicator is the \"#\" sign"
-msgstr "À partir d'ici jusqu'à la fin de la ligne, la variable-pourcent est indiquer par le symbole \"#\""
+msgstr "À partir d'ici jusqu'à la fin de la ligne, l'indicateur de variable en pourcentage est le signe \"#\""
 
 #: ulng.rsvarpercentsign
 msgid "Return the percent sign"
@@ -14261,15 +14320,15 @@ msgstr "Retourne le signe de pourcentage"
 
 #: ulng.rsvarpoundchangetopercent
 msgid "From here to the end of the line, the percent-variable indicator is back the \"%\" sign"
-msgstr "À partir d'ici jusqu'à la fin de la ligne, la variable-pourcent est de retour indiquer par le symbole \"%\""
+msgstr "À partir d'ici jusqu'à la fin de la ligne, l'indicateur de variable en pourcentage est de nouveau le signe \"%\""
 
 #: ulng.rsvarprependelement
 msgid "Prepend each name with \"-a \" or what you want"
-msgstr "Faire précéder chaque nom avec \"-a\" ou ce que vous désirez"
+msgstr "Faites précéder chaque nom avec \"-a\" ou avec ce que vous souhaitez"
 
 #: ulng.rsvarpromptuserforparam
 msgid "%[Prompt user for param;Default value proposed]"
-msgstr "%[Interroge l'usager pour un paramètre;La valeur par défaut proposée]"
+msgstr "%[Interroge l'utilisateur pour le paramètre;Valeur par défaut proposée]"
 
 #: ulng.rsvarrelativepathandfilename
 msgid "Filename with relative path"
@@ -14281,7 +14340,7 @@ msgstr "Panneau droit"
 
 #: ulng.rsvarsecondelementrightpanel
 msgid "Full path of second selected file in right panel"
-msgstr "Le chemin cmplet du second fichier sélectionné dans le panneau de droite"
+msgstr "Chemin complet du second fichier sélectionné dans le panneau de droite"
 
 #: ulng.rsvarshowcommandprior
 msgid "Show command prior execute"
@@ -14293,7 +14352,7 @@ msgstr "%[Simplement un message]"
 
 #: ulng.rsvarsimpleshowmessage
 msgid "Will show a simple message"
-msgstr "Va afficher un message simplement"
+msgstr "Affichera un simple message"
 
 #: ulng.rsvarsourcepanel
 msgid "Active panel (source)"
@@ -14301,7 +14360,7 @@ msgstr "Panneau actif (source)"
 
 #: ulng.rsvartargetpanel
 msgid "Inactive panel (target)"
-msgstr "Panneau inactif"
+msgstr "Panneau inactif (cible)"
 
 #: ulng.rsvarwillbequoted
 msgid "Filenames will be quoted from here (default)"
@@ -14309,7 +14368,7 @@ msgstr "Les noms de fichiers seront mis entre guillemets à partir d'ici (défau
 
 #: ulng.rsvarwilldointerminal
 msgid "Command will be done in terminal, remaining opened at the end"
-msgstr "La commande sera faite en mode terminal qui demeurera ouvert à la fin"
+msgstr "La commande sera faite dans le terminal qui restera ouvert après"
 
 #: ulng.rsvarwillhaveendingdelimiter
 msgid "Paths will have ending delimiter"
@@ -14321,7 +14380,7 @@ msgstr "Les noms de fichiers ne seront pas mis entre guillemets à partir d'ici"
 
 #: ulng.rsvarwillnotdointerminal
 msgid "Command will be done in terminal, closed at the end"
-msgstr "La commande sera faite en mode terminal qui sera fermé à la fin"
+msgstr "La commande sera faite dans le terminal qui sera fermé après"
 
 #: ulng.rsvarwillnothaveendingdelimiter
 msgid "Paths will not have ending delimiter (default)"
@@ -14334,7 +14393,7 @@ msgstr "Réseau"
 
 #: ulng.rsvfsrecyclebin
 msgid "Recycle Bin"
-msgstr ""
+msgstr "Corbeille"
 
 #: ulng.rsviewabouttext
 msgid "Internal Viewer of Double Commander."
@@ -14342,9 +14401,10 @@ msgstr "Visionneuse interne de Double Commander."
 
 #: ulng.rsviewbadquality
 msgid "Bad Quality"
-msgstr "Maubaise qualité"
+msgstr "Mauvaise qualité"
 
 #: ulng.rsviewencoding
+# H_02
 msgctxt "ulng.rsviewencoding"
 msgid "Encoding"
 msgstr "Encodage"
