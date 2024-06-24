@@ -192,7 +192,7 @@ uses
   fConfirmCommandLine, uLog, DCConvertEncoding, LazUTF8
   {$IF DEFINED(MSWINDOWS)}
   , Windows, Shlwapi, WinRT.Classes, uMyWindows, JwaWinNetWk,
-    uShlObjAdditional, DCWindows, uNetworkThread
+    uShlObjAdditional, DCWindows, uNetworkThread, uClipboard
   {$ENDIF}
   {$IF DEFINED(UNIX)}
   , BaseUnix, Unix, uMyUnix, dl
@@ -380,10 +380,10 @@ var
   wsStartPath: UnicodeString;
   AppID, FileExt: UnicodeString;
 begin
-   cchOut:= MAX_PATH;
-   SetLength(AppID, cchOut);
-   URL:= NormalizePathDelimiters(URL);
-   FileExt:= CeUtf8ToUtf16(ExtractFileExt(URL));
+  cchOut:= MAX_PATH;
+  SetLength(AppID, cchOut);
+  URL:= NormalizePathDelimiters(URL);
+  FileExt:= CeUtf8ToUtf16(ExtractFileExt(URL));
 
   if CheckWin32Version(10) then
   begin
@@ -396,9 +396,14 @@ begin
         // Special case Microsoft Photos
         if (AppID = 'Microsoft.Windows.Photos_8wekyb3d8bbwe!App') then
         begin
+          if (Win32BuildNumber >= 22631) then
+          begin
+            URL:= URIEncode(URL);
+            URL:= 'ms-photos:viewer?fileName=' + StringReplace(URL, '%5C', '\', [rfReplaceAll]);
+          end
           // Microsoft Photos does not work correct
           // when process has administrator rights
-          if (IsUserAdmin <> dupAccept) then
+          else if (IsUserAdmin <> dupAccept) then
           begin
             TLauncherThread.LaunchFileAsync(URL);
             Exit(True);
@@ -407,12 +412,12 @@ begin
       end;
     end;
   end;
-  wsFileName:= CeUtf8ToUtf16(QuoteDouble(URL));
+  wsFileName:= CeUtf8ToUtf16(URL);
   wsStartPath:= CeUtf8ToUtf16(mbGetCurrentDir());
 
   Return:= ShellExecuteW(0, nil, PWideChar(wsFileName), nil, PWideChar(wsStartPath), SW_SHOWNORMAL);
   if Return = SE_ERR_NOASSOC then
-    Result:= ExecCmdFork('rundll32 shell32.dll OpenAs_RunDLL ' + URL)
+    Result:= ExecCmdFork('rundll32 shell32.dll OpenAs_RunDLL ' + QuoteDouble(URL))
   else begin
     Result:= Return > 32;
   end;
