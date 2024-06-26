@@ -421,7 +421,6 @@ msgid "Verify checksum..."
 msgstr "Vérification de signature..."
 
 #: tfrmchooseencoding.caption
-#, fuzzy
 # H_02
 msgctxt "tfrmchooseencoding.caption"
 msgid "Encoding"
@@ -614,7 +613,6 @@ msgid "Redo"
 msgstr "Refaire"
 
 #: tfrmdiffer.acteditredo.hint
-#, fuzzy
 msgctxt "tfrmdiffer.acteditredo.hint"
 msgid "Redo"
 msgstr "Refaire"
@@ -629,10 +627,9 @@ msgid "Undo"
 msgstr "Annuler (en arrière)"
 
 #: tfrmdiffer.acteditundo.hint
-#, fuzzy
 msgctxt "tfrmdiffer.acteditundo.hint"
 msgid "Undo"
-msgstr "Annuler (en arrière)"
+msgstr "Défaire"
 
 #: tfrmdiffer.actexit.caption
 msgctxt "tfrmdiffer.actexit.caption"
@@ -640,49 +637,41 @@ msgid "E&xit"
 msgstr "&Quitter"
 
 #: tfrmdiffer.actfind.caption
-#, fuzzy
 msgctxt "tfrmdiffer.actfind.caption"
 msgid "&Find"
 msgstr "&Rechercher"
 
 #: tfrmdiffer.actfind.hint
-#, fuzzy
 msgctxt "tfrmdiffer.actfind.hint"
 msgid "Find"
 msgstr "Rechercher"
 
 #: tfrmdiffer.actfindnext.caption
-#, fuzzy
 msgctxt "tfrmdiffer.actfindnext.caption"
 msgid "Find next"
 msgstr "Rechercher le suivant"
 
 #: tfrmdiffer.actfindnext.hint
-#, fuzzy
 msgctxt "tfrmdiffer.actfindnext.hint"
 msgid "Find next"
 msgstr "Rechercher le suivant"
 
 #: tfrmdiffer.actfindprev.caption
-#, fuzzy
 msgctxt "tfrmdiffer.actfindprev.caption"
 msgid "Find previous"
 msgstr "Rechercher le précédent"
 
 #: tfrmdiffer.actfindprev.hint
-#, fuzzy
 msgctxt "tfrmdiffer.actfindprev.hint"
 msgid "Find previous"
 msgstr "Rechercher le précédent"
 
 #: tfrmdiffer.actfindreplace.caption
-#, fuzzy
 msgctxt "tfrmdiffer.actfindreplace.caption"
 msgid "&Replace"
 msgstr "R&emplacer"
 
 #: tfrmdiffer.actfindreplace.hint
-#, fuzzy
 msgctxt "tfrmdiffer.actfindreplace.hint"
 msgid "Replace"
 msgstr "Remplacer"
@@ -698,13 +687,11 @@ msgid "First Difference"
 msgstr "Première différence"
 
 #: tfrmdiffer.actgotoline.caption
-#, fuzzy
 msgctxt "tfrmdiffer.actgotoline.caption"
 msgid "Goto Line..."
 msgstr "Aller à la ligne..."
 
 #: tfrmdiffer.actgotoline.hint
-#, fuzzy
 msgctxt "tfrmdiffer.actgotoline.hint"
 msgid "Goto Line"
 msgstr "Aller à la ligne"
@@ -1178,7 +1165,6 @@ msgid "Open as"
 msgstr "Ouvrir en tant que"
 
 #: tfrmeditor.miencodingout.caption
-#,fuzzy
 msgctxt "tfrmeditor.miencodingout.caption"
 msgid "Save as"
 msgstr "Enregistrer en"
@@ -1410,7 +1396,6 @@ msgid "Contains:"
 msgstr "Contient :"
 
 #: tfrmfileproperties.lblcreatedstr.caption
-#, fuzzy
 msgctxt "tfrmfileproperties.lblcreatedstr.caption"
 msgid "Created:"
 msgstr "Créé :"
@@ -3760,7 +3745,6 @@ msgid "A≠a"
 msgstr "A≠a"
 
 #: tfrmmultirename.cbcasesens.hint
-#, fuzzy
 msgctxt "tfrmmultirename.cbcasesens.hint"
 msgid "Case sensitive"
 msgstr "Sensibilité à la casse"
@@ -4301,7 +4285,6 @@ msgid "Use &Gradient Indicator"
 msgstr "Utiliser l'indicateur en gradient"
 
 #: tfrmoptionscolors.dbbinarymode.caption
-#, fuzzy
 msgctxt "tfrmoptionscolors.dbbinarymode.caption"
 msgid "Binary Mode"
 msgstr "Mode binaire"
@@ -4328,7 +4311,6 @@ msgid "Background:"
 msgstr "Arrière-plan :"
 
 #: tfrmoptionscolors.lblbooktext.caption
-#, fuzzy
 msgctxt "tfrmoptionscolors.lblbooktext.caption"
 msgid "Text:"
 msgstr "Texte :"
@@ -4350,7 +4332,6 @@ msgid "Background 1:"
 msgstr "Arrière-plan 1 :"
 
 #: tfrmoptionscolors.lblimagebackground2.caption
-#, fuzzy
 msgctxt "tfrmoptionscolors.lblimagebackground2.caption"
 msgid "Background 2:"
 msgstr "Arrière-plan 2 :"
@@ -4376,13 +4357,11 @@ msgid "Left:"
 msgstr "Gauche :"
 
 #: tfrmoptionscolors.lblmodified.caption
-#, fuzzy
 msgctxt "tfrmoptionscolors.lblmodified.caption"
 msgid "Modified:"
 msgstr "Modifié :"
 
 #: tfrmoptionscolors.lblmodifiedbinary.caption
-#, fuzzy
 msgctxt "tfrmoptionscolors.lblmodifiedbinary.caption"
 msgid "Modified:"
 msgstr "Modifié :"
@@ -4392,7 +4371,6 @@ msgid "Right:"
 msgstr "Droite :"
 
 #: tfrmoptionscolors.lblsuccess.caption
-#, fuzzy
 msgctxt "tfrmoptionscolors.lblsuccess.caption"
 msgid "Success:"
 msgstr "Succès :"
@@ -6335,8 +6313,6 @@ msgid "Inactive Mark Color:"
 msgstr "Couleur de sélection inactive"
 
 #: tfrmoptionsfilepanelscolors.lblinactivepanelbrightness.caption
-#, fuzzy
-#| msgid "&Brightness level of inactive panel"
 msgctxt "TFRMOPTIONSFILEPANELSCOLORS.LBLINACTIVEPANELBRIGHTNESS.CAPTION"
 msgid "&Brightness level of inactive panel:"
 msgstr "Niveau de luminosité du panneau inactif"
@@ -6352,7 +6328,6 @@ msgid "Background:"
 msgstr ""
 
 #: tfrmoptionsfilepanelscolors.lblpathactivetext.caption
-#, fuzzy
 msgctxt "tfrmoptionsfilepanelscolors.lblpathactivetext.caption"
 msgid "Text Color:"
 msgstr "Couleur du texte :"
@@ -9587,13 +9562,11 @@ msgid "Full Screen"
 msgstr "Plein écran"
 
 #: tfrmviewer.actgotoline.caption
-#, fuzzy
 msgctxt "tfrmviewer.actgotoline.caption"
 msgid "Goto Line..."
 msgstr "Va à la ligne..."
 
 #: tfrmviewer.actgotoline.hint
-#, fuzzy
 msgctxt "tfrmviewer.actgotoline.hint"
 msgid "Goto Line"
 msgstr "Va à la ligne"
@@ -9793,7 +9766,6 @@ msgid "Stretch only large"
 msgstr "Étendre seulement les grandes images"
 
 #: tfrmviewer.actundo.caption
-#, fuzzy
 msgctxt "tfrmviewer.actundo.caption"
 msgid "Undo"
 msgstr "Annuler"
@@ -10082,13 +10054,11 @@ msgid "Start path:"
 msgstr "Chemin de départ :"
 
 #: twcxarchivecopyoperationoptionsui.btnconfig.caption
-#, fuzzy
 msgctxt "twcxarchivecopyoperationoptionsui.btnconfig.caption"
 msgid "Con&figure"
 msgstr "Configurer"
 
 #: twcxarchivecopyoperationoptionsui.cbencrypt.caption
-#, fuzzy
 msgctxt "twcxarchivecopyoperationoptionsui.cbencrypt.caption"
 msgid "Encr&ypt"
 msgstr "Cr&ypter"
@@ -10427,7 +10397,6 @@ msgid " Modifies: "
 msgstr "Modifie : "
 
 #: ulng.rsdifftextdifferenceencoding
-#, fuzzy
 msgctxt "ulng.rsdifftextdifferenceencoding"
 msgid "Encoding"
 msgstr "Encode"
@@ -11220,7 +11189,6 @@ msgid "Pack here..."
 msgstr "Compresser ici..."
 
 #: ulng.rsmnurestore
-#, fuzzy
 msgctxt "ulng.rsmnurestore"
 msgid "Restore"
 msgstr "Restaurer"
