@@ -604,6 +604,7 @@ type
     procedure miTrayIconExitClick(Sender: TObject);
     procedure miTrayIconRestoreClick(Sender: TObject);
     procedure PanelButtonClick(Button: TSpeedButton; FileView: TFileView);
+    procedure pnlDiskResize(Sender: TObject);
     procedure ShellTreeViewSelect;
     procedure ShellTreeViewKeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
@@ -1711,6 +1712,24 @@ begin
 
   if tb_activate_panel_on_click in gDirTabOptions then
     SetActiveFrame(FileView);
+end;
+
+procedure TfrmMain.pnlDiskResize(Sender: TObject);
+var
+  AWidth: Integer;
+begin
+  if not gDriveBarSyncWidth then
+  begin
+    if gDriveBar1 and gDriveBar2 then
+      AWidth:= Max(0, pnlDisk.ClientWidth div 2)
+    else begin
+      AWidth:= Max(0, pnlDisk.ClientWidth);
+    end;
+    pnlDskLeft.Constraints.MinWidth:= AWidth;
+    pnlDskLeft.Constraints.MaxWidth:= AWidth;
+    pnlDskRight.Constraints.MinWidth:= AWidth;
+    pnlDskRight.Constraints.MaxWidth:= AWidth;
+  end;
 end;
 
 procedure TfrmMain.ShellTreeViewSelect;
@@ -4254,10 +4273,13 @@ end;
 
 procedure TfrmMain.pnlLeftResize(Sender: TObject);
 begin
-  if gDriveBar1 and gDriveBar2 and not gHorizontalFilePanels then
+  if gDriveBarSyncWidth then
   begin
-    pnlDskLeft.Constraints.MinWidth:= pnlLeft.Width;
-    pnlDskLeft.Constraints.MaxWidth:= pnlLeft.Width;
+    if gDriveBar1 and gDriveBar2 and not gHorizontalFilePanels then
+    begin
+      pnlDskLeft.Constraints.MinWidth:= pnlLeft.Width;
+      pnlDskLeft.Constraints.MaxWidth:= pnlLeft.Width;
+    end;
   end;
 
   // Put splitter after left panel.
@@ -4357,22 +4379,25 @@ procedure TfrmMain.pnlRightResize(Sender: TObject);
 var
   AWidth: Integer;
 begin
-  if gDriveBar1 and not gHorizontalFilePanels then
+  if gDriveBarSyncWidth then
   begin
-    if gDriveBar2 then
-      AWidth := pnlRight.Width + 1
-    else begin
-      AWidth := pnlNotebooks.Width - 2;
+    if gDriveBar1 and not gHorizontalFilePanels then
+    begin
+      if gDriveBar2 then
+        AWidth := pnlRight.Width + 1
+      else begin
+        AWidth := pnlNotebooks.Width - 2;
+      end;
+      if AWidth < 0 then AWidth := 0;
+      pnlDskRight.Constraints.MinWidth := AWidth;
+      pnlDskRight.Constraints.MaxWidth := AWidth;
+    end
+    else if gHorizontalFilePanels and not gDriveBar2 then
+    begin
+      AWidth := Max(0, pnlNotebooks.Width - 2);
+      pnlDskRight.Constraints.MinWidth := AWidth;
+      pnlDskRight.Constraints.MaxWidth := AWidth;
     end;
-    if AWidth < 0 then AWidth := 0;
-    pnlDskRight.Constraints.MinWidth := AWidth;
-    pnlDskRight.Constraints.MaxWidth := AWidth;
-  end
-  else if gHorizontalFilePanels and not gDriveBar2 then
-  begin
-    AWidth := Max(0, pnlNotebooks.Width - 2);
-    pnlDskRight.Constraints.MinWidth := AWidth;
-    pnlDskRight.Constraints.MaxWidth := AWidth;
   end;
 end;
 
@@ -5521,6 +5546,7 @@ begin
       dskRight.Parent := pnlDskRight;
     end;
 
+    pnlDiskResize(pnlDisk);
     pnlRightResize(pnlRight);
 
     dskLeft.GlyphSize:= gDiskIconsSize;

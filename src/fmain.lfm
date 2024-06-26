@@ -82,6 +82,7 @@ object frmMain: TfrmMain
       Align = alTop
       AutoSize = True
       EdgeBorders = [ebTop, ebBottom]
+      OnResize = pnlDiskResize
       Visible = False
       object pnlDskLeft: TPanel
         AnchorSideLeft.Control = pnlDisk

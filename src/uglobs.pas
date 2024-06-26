@@ -269,6 +269,7 @@ var
   gDriveBar1,
   gDriveBar2,
   gDriveBarFlat,
+  gDriveBarSyncWidth,
   gDrivesListButton,
   gDirectoryTabs,
   gCurDir,
@@ -1874,6 +1875,7 @@ begin
   gDriveBar2 := True;
   gDriveBarFlat := True;
   gDrivesListButton := True;
+  gDriveBarSyncWidth := False;
   gDirectoryTabs := True;
   gCurDir := True;
   gTabHeader := True;
