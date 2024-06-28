@@ -1716,12 +1716,20 @@ end;
 
 procedure TfrmMain.pnlDiskResize(Sender: TObject);
 var
-  AWidth: Integer;
+  ADelta, AWidth: Integer;
 begin
   if not gDriveBarSyncWidth then
   begin
     if gDriveBar1 and gDriveBar2 then
-      AWidth:= Max(0, pnlDisk.ClientWidth div 2)
+    begin
+      if gHorizontalFilePanels then
+        ADelta:= 0
+      else begin
+        ADelta:= MainSplitter.Width;
+        ADelta+= IfThen(MiddleToolBar.Visible, MiddleToolBar.Width);
+      end;
+      AWidth:= Max(0, (pnlDisk.ClientWidth - ADelta) div 2);
+    end
     else begin
       AWidth:= Max(0, pnlDisk.ClientWidth);
     end;
