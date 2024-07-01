@@ -306,7 +306,6 @@ var
   gToolbarPathModifierElements: tToolbarPathModifierElements;
 
   gRepeatPassword:Boolean;  // repeat password when packing files
-  gDirHistoryCount:Integer; // how many history we remember
   gShowSystemFiles:Boolean;
   gRunInTermStayOpenCmd: String;
   gRunInTermStayOpenParams: String;
@@ -532,6 +531,7 @@ var
   gSaveCreateDirectoriesHistory: Boolean;
   gSortOrderOfConfigurationOptionsTree: TSortConfigurationOptions;
   gCollapseConfigurationOptionsTree: TConfigurationTreeState;
+  gDirHistoryCount:Integer; // how many history we remember
   
   { Quick Search page }
   gQuickSearchOptions: TQuickSearchOptions;
@@ -2010,6 +2010,7 @@ begin
   gSaveCreateDirectoriesHistory := True;
   gPluginInAutoTweak := False;
   gWCXConfigViewMode := wcvmByPlugin;
+  gDirHistoryCount := 30;
 
   { Quick Search/Filter page }
   gQuickSearchOptions.Match := [qsmBeginning, qsmEnding];
@@ -2243,7 +2244,6 @@ begin
   { - Not in config - }
   gHelpLang := '';
   gRepeatPassword := True;
-  gDirHistoryCount := 30;
   gFirstTextSearch := True;
   gErrorFile := gpCfgDir + ExtractOnlyFileName(Application.ExeName) + '.err';
   DefaultDateTimeFormat := FormatSettings.ShortDateFormat + ' hh:nn:ss';
@@ -2975,6 +2975,7 @@ begin
     gSaveCreateDirectoriesHistory := GetAttr(Root, 'History/CreateDirectoriesHistory/Save', gSaveCreateDirectoriesHistory);
     gSortOrderOfConfigurationOptionsTree := TSortConfigurationOptions(GetAttr(Root, 'Configuration/SortOrder', Integer(scoAlphabeticalButLanguage)));
     gCollapseConfigurationOptionsTree := TConfigurationTreeState(GetAttr(Root, 'Configuration/TreeType', Integer(ctsFullExpand)));
+	gDirHistoryCount := GetValue(Root, 'History/DirHistoryCount', gDirHistoryCount);
 
     { Quick Search/Filter page }
     Node := Root.FindNode('QuickSearch');
@@ -3623,6 +3624,7 @@ begin
     SetAttr(Root, 'History/CreateDirectoriesHistory/Save', gSaveCreateDirectoriesHistory);
     SetAttr(Root, 'Configuration/SortOrder', Integer(gSortOrderOfConfigurationOptionsTree));
     SetAttr(Root, 'Configuration/TreeType', Integer(gCollapseConfigurationOptionsTree));
+	SetValue(Root, 'History/DirHistoryCount', gDirHistoryCount);
 
     { Quick Search/Filter page }
     Node := FindNode(Root, 'QuickSearch', True);
