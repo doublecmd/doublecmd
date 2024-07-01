@@ -576,12 +576,14 @@ var
 begin
   ScrollTo := IsActiveFileVisible;
 
-  // Update grid col and row count
-  dgPanel.SetColRowCount(FFiles.Count);
-
+  // Row count updates and Content updates should be grouped in one transaction
+  // otherwise, Grids may have subtle synchronization issues.
+  dgPanel.BeginUpdate;
+  dgPanel.SetColRowCount(FFiles.Count); // Update grid col and row count
   dgPanel.CalculateColRowCount;
   dgPanel.CalculateColumnWidth;
   SetFilesDisplayItems;
+  dgPanel.EndUpdate;
 
   if SetActiveFileNow(RequestedActiveFile, True, FLastTopRowIndex) then
     RequestedActiveFile := ''
