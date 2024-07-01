@@ -327,6 +327,10 @@ begin
        1253: Result:= 'CP1253';
        1255: Result:= 'CP1255';
       20866: Result:= 'KOI8-R';
+      52936,                      // GB2312
+      54936: Result:= 'CP936';    // GB18030
+      51932: Result:= 'CP932';    // EUC-JP
+      51949: Result:= 'CP949';    // EUC-KR
       else
         begin
           Result:= CharsetInfo.Name;
