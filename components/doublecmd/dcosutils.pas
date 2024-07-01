@@ -1474,7 +1474,7 @@ begin
       Sta.st_size:= (Size + Sta.st_blksize - 1) and not (Sta.st_blksize - 1);
       repeat
         Ret:= fpFAllocate(Handle, 0, 0, Sta.st_size);
-      until (Ret <> -1) or (fpgeterrno <> ESysEINTR) or (fpgeterrno <> ESysEAGAIN);
+      until (Ret <> -1) or (fpgeterrno <> ESysEINTR);
     end;
   end;
   Result:= FileTruncate(Handle, Size);
