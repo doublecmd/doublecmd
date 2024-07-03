@@ -17,7 +17,7 @@ uses
 type
   TMenuKeyCap = (mkcClear, mkcBkSp, mkcTab, mkcEsc, mkcEnter, mkcSpace, mkcPgUp,
     mkcPgDn, mkcEnd, mkcHome, mkcLeft, mkcUp, mkcRight, mkcDown, mkcIns,
-    mkcDel, mkcShift, mkcCtrl, mkcAlt, mkcWin, mkcNumDivide, mkcNumMultiply,
+    mkcDel, mkcShift, mkcCtrl, mkcAlt, mkcMeta, mkcNumDivide, mkcNumMultiply,
     mkcNumAdd, mkcNumSubstract);
 
 const
@@ -40,17 +40,20 @@ const
   SmkcShift = 'Shift+';
   SmkcCtrl = 'Ctrl+';
   SmkcAlt = 'Alt+';
+  SmkcCmd = 'Cmd+';
   SmkcWin = 'WinKey+';
   SmkcNumDivide = 'Num/';
   SmkcNumMultiply = 'Num*';
   SmkcNumAdd = 'Num+';
   SmkcNumSubstract = 'Num-';
-  SmkcSuper = {$IF DEFINED(DARWIN)}SmkcWin{$ELSE}SmkcCtrl{$ENDIF};
+  SmkcAtem = {$IF DEFINED(DARWIN)}SmkcWin{$ELSE}SmkcCmd{$ENDIF};
+  SmkcMeta = {$IF DEFINED(DARWIN)}SmkcCmd{$ELSE}SmkcWin{$ENDIF};
+  SmkcSuper = {$IF DEFINED(DARWIN)}SmkcCmd{$ELSE}SmkcCtrl{$ENDIF};
 
   MenuKeyCaps: array[TMenuKeyCap] of string = (
     SmkcClear, SmkcBkSp, SmkcTab, SmkcEsc, SmkcEnter, SmkcSpace, SmkcPgUp,
     SmkcPgDn, SmkcEnd, SmkcHome, SmkcLeft, SmkcUp, SmkcRight, SmkcDown,
-    SmkcIns, SmkcDel, SmkcShift, SmkcCtrl, SmkcAlt, SmkcWin,
+    SmkcIns, SmkcDel, SmkcShift, SmkcCtrl, SmkcAlt, SmkcMeta,
     SmkcNumDivide, SmkcNumMultiply, SmkcNumAdd, SmkcNumSubstract);
 
   // Modifiers that can be used for shortcuts (non-toggable).
@@ -186,7 +189,7 @@ const
    ((Shift: ssCtrl;  Shortcut: scCtrl;  Text: mkcCtrl),
     (Shift: ssShift; Shortcut: scShift; Text: mkcShift),
     (Shift: ssAlt;   Shortcut: scAlt;   Text: mkcAlt),
-    (Shift: ssMeta;  Shortcut: scMeta;  Text: mkcWin)
+    (Shift: ssMeta;  Shortcut: scMeta;  Text: mkcMeta)
     );
 
 {$IF DEFINED(X11)}
@@ -509,6 +512,15 @@ begin
         Result := Result or ModifiersMap[i].Shortcut;
         Found := True;
         Break;
+      end;
+    end;
+    // Special case
+    if not Found then
+    begin
+      if CompareFront(SmkcAtem) then
+      begin
+        Result := Result or scMeta;
+        Found := True;
       end;
     end;
   end;
@@ -1200,7 +1212,7 @@ const
      SmkcRight,                          // Move cursor right
      SmkcSpace,                          // Space
 {$IF DEFINED(DARWIN)}
-     SmkcWin + SmkcSpace,                // Spotlight (Mac OS X)
+     SmkcCmd + SmkcSpace,                // Spotlight (Mac OS X)
 {$ENDIF DARWIN}
      SmkcWin,                            // Context menu
      SmkcShift + 'F10',                  // Context menu
