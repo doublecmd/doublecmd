@@ -3610,7 +3610,7 @@ end;
 
 function TViewerControl.DetectEncoding: TViewerEncoding;
 var
-  DetectStringLength: Integer = 2048; // take first 2kB of the file to detect encoding
+  DetectStringLength: Integer = 4096; // take first 4kB of the file to detect encoding
   DetectString: String;
   DetectedEncodingName: String;
   Enc: TViewerEncoding;
