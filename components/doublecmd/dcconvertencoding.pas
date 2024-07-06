@@ -407,7 +407,7 @@ begin
   Lang:= SysUtils.GetEnvironmentVariable('LC_ALL');
   if Length(Lang) = 0 then
     begin
-      Lang:= SysUtils.GetEnvironmentVariable('LC_MESSAGES');
+      Lang:= SysUtils.GetEnvironmentVariable('LC_CTYPE');
       if Length(Lang) = 0 then
       begin
         Lang:= SysUtils.GetEnvironmentVariable('LANG');
