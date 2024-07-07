@@ -918,8 +918,9 @@ end;
 
 function TNtfsFileAttributesProperty.IsSysFile: boolean;
 begin
-  Result := ((FAttributes and FILE_ATTRIBUTE_SYSTEM) <> 0) or
-            ((FAttributes and FILE_ATTRIBUTE_HIDDEN) <> 0);
+  Result := ((FAttributes and FILE_ATTRIBUTE_HIDDEN) <> 0) or
+            (((FAttributes and FILE_ATTRIBUTE_SYSTEM) <> 0) and
+             ((FAttributes and FILE_ATTRIBUTE_DIRECTORY) = 0));
 end;
 
 function TNtfsFileAttributesProperty.IsLink: Boolean;
