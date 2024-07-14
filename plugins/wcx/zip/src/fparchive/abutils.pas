@@ -716,7 +716,7 @@ begin
 {$ENDIF MSWINDOWS}
 {$IFDEF UNIX}
 { UNIX absolute paths start with a slash }
-  if (Value[1] = AbPathDelim) then
+  if (Length(Value) > 0) and (Value[1] = AbPathDelim) then
 {$ENDIF UNIX}
     Result := ptAbsolute
   else if ( Pos( AbPathDelim, Value ) > 0 ) or ( Pos( AB_ZIPPATHDELIM, Value ) > 0 ) then
