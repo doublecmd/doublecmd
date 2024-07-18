@@ -40,7 +40,7 @@ if [ -z $MACOSX_DEPLOYMENT_TARGET ]; then
   if [ $CPU_TARGET = "aarch64" ]; then
     export MACOSX_DEPLOYMENT_TARGET=11.0
   else
-    export MACOSX_DEPLOYMENT_TARGET=10.5
+    export MACOSX_DEPLOYMENT_TARGET=10.11
   fi
 fi
 
