@@ -158,9 +158,12 @@ begin
   cmbGroup.ItemIndex:= 0;
 {$IF DEFINED(DARKWIN)}
   FAppMode:= gAppMode;
-  ParseLineToList(rsDarkModeOptions, rgDarkMode.Items);
-  cmbGroup.ItemIndex:= cmbGroup.Items.Add(rsDarkMode);
-  nbColors.PageIndex:= cmbGroup.ItemIndex;
+  {$IFDEF LCLWIN32}if g_darkModeSupported then{$ENDIF}
+  begin
+    ParseLineToList(rsDarkModeOptions, rgDarkMode.Items);
+    cmbGroup.ItemIndex:= cmbGroup.Items.Add(rsDarkMode);
+    nbColors.PageIndex:= cmbGroup.ItemIndex;
+  end;
 {$ENDIF}
 end;
 
@@ -263,7 +266,8 @@ begin
   try
     FAppMode:= gAppMode;
     {$IF not DEFINED(darwin)}
-    Result:= [oesfNeedsRestart];
+    if g_darkModeSupported then
+      Result:= [oesfNeedsRestart];
     {$ELSE}
     setMacOSAppearance( gAppMode );
     {$ENDIF}
