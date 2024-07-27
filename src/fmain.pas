@@ -824,10 +824,11 @@ type
     procedure HotDirSelected(Sender:TObject);
     procedure HotDirActualSwitchToDir(Index:longint);
     procedure HistorySelected(Sender:TObject);
+    procedure HistorySomeSelected(Sender:TObject);
     procedure ViewHistorySelected(Sender:TObject);
     procedure ViewHistoryPrevSelected(Sender:TObject);
     procedure ViewHistoryNextSelected(Sender:TObject);
-    procedure CreatePopUpDirHistory;
+    procedure CreatePopUpDirHistory(UseTreeViewMenu: Boolean; FromPathIndex: Integer);
     procedure ShowFileViewHistory(const Params: array of string);
     procedure ShowFileViewHistory(const Params: array of string; FromFileSourceIndex, FromPathIndex, ToFileSourceIndex, ToPathIndex: Integer);
     procedure miHotAddOrConfigClick(Sender: TObject);
@@ -3186,19 +3187,40 @@ begin
   with Sender as TComponent do Commands.cm_WorkWithDirectoryHotlist(['action='+HOTLISTMAGICWORDS[tag], 'source='+QuoteStr(ActiveFrame.CurrentLocation), 'target='+QuoteStr(NotActiveFrame.CurrentLocation), 'index=0']);
 end;
 
-procedure TfrmMain.CreatePopUpDirHistory;
+procedure TfrmMain.CreatePopUpDirHistory(UseTreeViewMenu: Boolean;
+  FromPathIndex: Integer);
 var
-  I: Integer;
+  I, Finish: Integer;
   MenuItem: TMenuItem;
 begin
   pmDirHistory.Items.Clear;
 
-  for I:= 0 to Min(gDirHistoryCount, glsDirHistory.Count - 1) do
+  if (not UseTreeViewMenu) and (FromPathIndex > 0) then
+  begin
+    MenuItem := TMenuItem.Create(pmDirHistory);
+    MenuItem.Caption := '...';
+    MenuItem.OnClick := @HistorySomeSelected;
+    MenuItem.Tag := Max(0, FromPathIndex - gDirHistoryCount - 1);
+    pmDirHistory.Items.Add(MenuItem);
+  end;
+
+  Finish:= Min(FromPathIndex + gDirHistoryCount, glsDirHistory.Count - 1);
+
+  for I:= FromPathIndex to Finish do
   begin
     MenuItem:= TMenuItem.Create(pmDirHistory);
     MenuItem.Caption:= glsDirHistory[I].Replace('&','&&');
     MenuItem.Hint:= glsDirHistory[I];
     MenuItem.OnClick:= @HistorySelected;
+    pmDirHistory.Items.Add(MenuItem);
+  end;
+
+  if (not UseTreeViewMenu) and (Finish < glsDirHistory.Count - 1) then
+  begin
+    MenuItem := TMenuItem.Create(pmDirHistory);
+    MenuItem.Caption := '...';
+    MenuItem.OnClick := @HistorySomeSelected;
+    MenuItem.Tag := Finish + 1;
     pmDirHistory.Items.Add(MenuItem);
   end;
 end;
@@ -3537,6 +3559,18 @@ begin
   aPath := (Sender as TMenuItem).Hint;
   aPath := mbExpandFileName(aPath);
   ChooseFileSource(ActiveFrame, aPath);
+end;
+
+procedure TfrmMain.HistorySomeSelected(Sender: TObject);
+var
+  P: TPoint;
+begin
+  if Sender is TMenuItem then
+  begin
+    P:= ActiveFrame.ClientToScreen(Classes.Point(0, 0));
+    CreatePopUpDirHistory(False, TMenuItem(Sender).Tag);
+    pmDirHistory.Popup(P.X, P.Y);
+  end;
 end;
 
 procedure TfrmMain.ViewHistorySelected(Sender: TObject);

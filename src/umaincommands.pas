@@ -3895,7 +3895,7 @@ begin
   // 1. Let's parse our parameters.
   DoParseParametersForPossibleTreeViewMenu(Params, gUseTreeViewMenuWithDirHistory, gUseTreeViewMenuWithDirHistory, bUseTreeViewMenu, bUsePanel, p);
 
-  frmMain.CreatePopUpDirHistory;
+  frmMain.CreatePopUpDirHistory(bUseTreeViewMenu, 0);
   Application.ProcessMessages; //TODO: In Windows, Not sure why, but on all systems tried, this eliminate a "beep" when the popup is shown.
 
   if bUseTreeViewMenu then
