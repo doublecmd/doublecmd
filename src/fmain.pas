@@ -3195,6 +3195,12 @@ var
 begin
   pmDirHistory.Items.Clear;
 
+  if UseTreeViewMenu then
+    Finish:= glsDirHistory.Count - 1
+  else begin
+    Finish:= Min(FromPathIndex + gDirHistoryCount, glsDirHistory.Count - 1);
+  end;
+
   if (not UseTreeViewMenu) and (FromPathIndex > 0) then
   begin
     MenuItem := TMenuItem.Create(pmDirHistory);
@@ -3203,8 +3209,6 @@ begin
     MenuItem.Tag := Max(0, FromPathIndex - gDirHistoryCount - 1);
     pmDirHistory.Items.Add(MenuItem);
   end;
-
-  Finish:= Min(FromPathIndex + gDirHistoryCount, glsDirHistory.Count - 1);
 
   for I:= FromPathIndex to Finish do
   begin
