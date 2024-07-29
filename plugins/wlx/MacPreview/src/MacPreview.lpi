@@ -53,6 +53,8 @@
       </Debugging>
       <LinkSmart Value="True"/>
       <Options>
+        <PassLinkerOptions Value="True"/>
+        <LinkerOptions Value="-weak_framework UniformTypeIdentifiers"/>
         <ExecutableType Value="Library"/>
       </Options>
     </Linking>
