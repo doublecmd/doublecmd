@@ -5,8 +5,6 @@ unit UniformTypeIdentifiers;
 
 interface
 
-{$linkframework UniformTypeIdentifiers}
-
 uses
   SysUtils, CocoaAll;
 

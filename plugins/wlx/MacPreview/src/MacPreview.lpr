@@ -25,21 +25,12 @@ library MacPreview;
 {$mode objfpc}{$H+}
 {$modeswitch objectivec1}
 
-// Uniform Type Identifiers framework is available from macOS 11
-// TODO: Switch to Uniform Type Identifiers framework also under
-// x86_64 target when we drop an old macOS support
-{$IF DEFINED(CPUAARCH64)}
-  {$DEFINE BIG_SUR}
-{$ENDIF}
-
 uses
-  SysUtils, WlxPlugin, CocoaAll, QuickLookUI, CFPropertyList
-{$IF DEFINED(BIG_SUR)}
-  , UniformTypeIdentifiers
-{$ELSE}
-  , MacOSAll
-{$ENDIF}
-  ;
+  SysUtils, WlxPlugin, QuickLookUI, CFPropertyList,
+  MacOSAll, CocoaAll, UniformTypeIdentifiers;
+
+const
+  NSAppKitVersionNumber11_0  = 2022;
 
 type
   TQLPItem = objcclass(NSObject, QLPreviewItemProtocol)
@@ -57,9 +48,7 @@ type
 
 var
   QLContentTypes: NSMutableArray;
-{$IF DEFINED(BIG_SUR)}
   QLContentUTTypes: NSMutableArray;
-{$ENDIF}
 
 const
   ExcludeList: array[0..2] of PAnsiChar =
@@ -95,19 +84,15 @@ begin
 end;
 
 procedure AddContentType(AType: NSString);
-{$IF NOT DEFINED(BIG_SUR)}
-begin
-  QLContentTypes.addObject(AType);
-end;
-{$ELSE}
 var
   anObject: id;
 begin
   QLContentTypes.addObject(AType);
-  anObject:= UTType.typeWithIdentifier(AType);
-  if Assigned(anObject) then QLContentUTTypes.addObject(anObject);
+  if NSAppKitVersionNumber >= NSAppKitVersionNumber11_0 then begin
+    anObject:= UTType.typeWithIdentifier(AType);
+    if Assigned(anObject) then QLContentUTTypes.addObject(anObject);
+  end;
 end;
-{$ENDIF}
 
 function CheckContentType(const Name: String; FileType: NSString): Boolean;
 var
@@ -173,8 +158,7 @@ begin
   end;
 end;
 
-function CheckFile(const FileName: String): Boolean;
-{$IF NOT DEFINED(BIG_SUR)}
+function CheckFile_oldMacOS(const FileName: String): Boolean;
 var
   Index: Integer;
   QLType: NSString;
@@ -199,7 +183,8 @@ begin
     Result:= False;
   end;
 end;
-{$ELSE}
+
+function CheckFile_newMacOS(const FileName: String): Boolean;
 var
   Index: Integer;
   FileExt: String;
@@ -233,7 +218,14 @@ begin
     Result:= False;
   end;
 end;
-{$ENDIF}
+
+function CheckFile(const FileName: String): Boolean;
+begin
+  if NSAppKitVersionNumber >= NSAppKitVersionNumber11_0 then
+    Result:= CheckFile_newMacOS( FileName )
+  else
+    Result:= CheckFile_oldMacOS( FileName );
+end;
 
 function TQLPItem.previewItemURL: NSURL;
 begin
@@ -317,9 +309,7 @@ end;
 procedure ListSetDefaultParams(dps: PListDefaultParamStruct); cdecl;
 begin
   QLContentTypes:= NSMutableArray.alloc.init;
-{$IF DEFINED(BIG_SUR)}
   QLContentUTTypes:= NSMutableArray.alloc.init;
-{$ENDIF}
   ParseFolder('/Library/QuickLook/');
   ParseFolder('/System/Library/QuickLook/');
   ParseFolder(IncludeTrailingBackslash(GetUserDir) + 'Library/QuickLook/');
