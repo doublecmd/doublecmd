@@ -47,7 +47,7 @@ uses
   uFileSourceOperationOptions, uWFXModule, uWCXModule, uWDXModule, uwlxmodule,
   udsxmodule, DCXmlConfig, uInfoToolTip, fQuickSearch, uTypes, uClassesEx, uColors,
   uHotDir, uSpecialDir, SynEdit, SynEditTypes, uFavoriteTabs, fTreeViewMenu,
-  uConvEncoding, DCJsonConfig;
+  uConvEncoding, DCJsonConfig, uFileSourceOperationTypes;
 
 type
   { Configuration options }
@@ -492,6 +492,7 @@ var
   gAutoExtractOpenMask: String;
   gFileOperationsProgressKind: TFileOperationsProgressKind;
   gFileOperationsConfirmations: TFileOperationsConfirmations;
+  gFileOperationsSounds: array[TFileSourceOperationType] of String;
 
   { Multi-Rename}
   gMulRenShowMenuBarOnTop : boolean;
@@ -2890,6 +2891,13 @@ begin
       gSearchDefaultTemplate := GetValue(Node, 'SearchDefaultTemplate', gSearchDefaultTemplate);
       gFileOperationsProgressKind := TFileOperationsProgressKind(GetValue(Node, 'ProgressKind', Integer(gFileOperationsProgressKind)));
       gFileOperationsConfirmations := TFileOperationsConfirmations(GetValue(Node, 'Confirmations', Integer(gFileOperationsConfirmations)));
+      // Operations sounds
+      SubNode := Node.FindNode('Sounds');
+      if Assigned(SubNode) then
+      begin
+        gFileOperationsSounds[fsoCopy]:= GetValue(SubNode, 'Copy', EmptyStr);
+        gFileOperationsSounds[fsoDelete]:= GetValue(SubNode, 'Delete', EmptyStr);
+      end;
       // Operations options
       SubNode := Node.FindNode('Options');
       if Assigned(SubNode) then
