@@ -955,7 +955,7 @@ uses
   Laz2_XMLRead, DCOSUtils, DCStrUtils, fOptions, fOptionsFrame, fOptionsToolbar, uClassesEx,
   uHotDir, uFileSorting, DCBasicTypes, foptionsDirectoryHotlist, uConnectionManager,
   fOptionsToolbarBase, fOptionsToolbarMiddle, fEditor, uColumns, StrUtils, uSysFolders,
-  uColumnsFileView, dmHigh
+  uColumnsFileView, dmHigh, uFileSourceOperationMisc
 {$IFDEF MSWINDOWS}
   , uShellFileSource, uNetworkThread
 {$ENDIF}
@@ -7020,6 +7020,7 @@ begin
       mnuAllOperStart.Visible:= False;
       mnuAllOperStop.Visible:= False;
     end;
+    PlaySound(Item);
   end
   else if Event = omevOperationAdded then
   begin
