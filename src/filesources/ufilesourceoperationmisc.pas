@@ -38,7 +38,7 @@ procedure ShowOperationModal(OpManItem: TOperationsManagerItem);
 implementation
 
 uses
-  fFileOpDlg, uFileSourceOperationTypes, uGlobs, uPlaySound;
+  DateUtils, fFileOpDlg, uFileSourceOperationTypes, uGlobs, uPlaySound;
 
 function GetOperationStateString(OperationState: TFileSourceOperationState): String;
 begin
@@ -57,12 +57,15 @@ procedure PlaySound(OpManItem: TOperationsManagerItem);
 var
   FileName: String;
 begin
-  if OpManItem.Operation.ID in [fsoCopy, fsoCopyIn, fsoCopyOut] then
-    FileName:= gFileOperationsSounds[fsoCopy]
-  else begin
-    FileName:= gFileOperationsSounds[OpManItem.Operation.ID];
+  if (gFileOperationDuration <= 0) or (SecondsBetween(Now, OpManItem.Operation.StartTime) >= gFileOperationDuration) then
+  begin
+    if OpManItem.Operation.ID in [fsoCopy, fsoCopyIn, fsoCopyOut] then
+      FileName:= gFileOperationsSounds[fsoCopy]
+    else begin
+      FileName:= gFileOperationsSounds[OpManItem.Operation.ID];
+    end;
+    if (Length(FileName) > 0) then uPlaySound.PlaySound(FileName);
   end;
-  if (Length(FileName) > 0) then uPlaySound.PlaySound(FileName);
 end;
 
 procedure ShowOperation(OpManItem: TOperationsManagerItem);
