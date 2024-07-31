@@ -494,6 +494,7 @@ var
   gFileOperationsProgressKind: TFileOperationsProgressKind;
   gFileOperationsConfirmations: TFileOperationsConfirmations;
   gFileOperationsSounds: array[TFileSourceOperationType] of String;
+  gFileOperationDuration: Integer;
 
   { Multi-Rename}
   gMulRenShowMenuBarOnTop : boolean;
@@ -1935,6 +1936,7 @@ begin
   gAutoExtractOpenMask := EmptyStr;
   gFileOperationsProgressKind := fopkSeparateWindow;
   gFileOperationsConfirmations := [focCopy, focMove, focDelete, focDeleteToTrash];
+  gFileOperationDuration := 10;
 
   { Multi-Rename }
   gMulRenShowMenuBarOnTop := True;
@@ -2897,8 +2899,13 @@ begin
       SubNode := Node.FindNode('Sounds');
       if Assigned(SubNode) then
       begin
+        gFileOperationDuration:= GetAttr(SubNode, 'Duration', gFileOperationDuration);
         gFileOperationsSounds[fsoCopy]:= GetValue(SubNode, 'Copy', EmptyStr);
+        gFileOperationsSounds[fsoMove]:= GetValue(SubNode, 'Move', EmptyStr);
+        gFileOperationsSounds[fsoWipe]:= GetValue(SubNode, 'Wipe', EmptyStr);
         gFileOperationsSounds[fsoDelete]:= GetValue(SubNode, 'Delete', EmptyStr);
+        gFileOperationsSounds[fsoSplit]:= GetValue(SubNode, 'Split', EmptyStr);
+        gFileOperationsSounds[fsoCombine]:= GetValue(SubNode, 'Combine', EmptyStr);
       end;
       // Operations options
       SubNode := Node.FindNode('Options');
