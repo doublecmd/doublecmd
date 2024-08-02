@@ -483,7 +483,7 @@ end;
 function UnixFileTimeToDateTimeEx(UnixTime: DCBasicTypes.TFileTimeEx) : TDateTime;
 var
   ATime: TTimeStruct;
-  milliseconds: Word;
+  Milliseconds: Word;
 begin
   if (fpLocalTime(@UnixTime.sec, @ATime) = nil) then
     Exit(UnixEpoch);
@@ -498,9 +498,11 @@ begin
   if ATime.tm_sec > 59 then
     ATime.tm_sec := 59;
 
-  milliseconds:= round( Extended(UnixTime.nanosec) / (1000.0*1000.0) );
-  if (milliseconds > 999) then
-    milliseconds:= 999;
+  if (UnixTime.nanosec > 999000000) then
+    Milliseconds := 999
+  else begin
+    Milliseconds := Round( Extended(UnixTime.nanosec) / (1000.0 * 1000.0) );
+  end;
 
   Result := ComposeDateTime(EncodeDate(ATime.tm_year, ATime.tm_mon, ATime.tm_mday),
                             EncodeTime(ATime.tm_hour, ATime.tm_min, ATime.tm_sec, milliseconds));
