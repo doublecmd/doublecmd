@@ -69,10 +69,18 @@ function FormatFileFlags(Flags: UInt32): String;
 function FileGetFlags(Handle: THandle; out Flags: UInt32): Boolean;
 function mbFileGetFlags(const FileName: String; out Flags: UInt32): Boolean;
 
+function mbFileGetXattr(const FileName: String): TStringArray;
+function mbFileCopyXattr(const Source, Target: String): Boolean;
+
 implementation
 
 uses
-  DCUnix, DCConvertEncoding, DCOSUtils;
+  InitC, DCUnix, DCConvertEncoding, DCOSUtils;
+
+function lremovexattr(const path, name: PAnsiChar): cint; cdecl; external clib;
+function llistxattr(const path: PAnsiChar; list: PAnsiChar; size: csize_t): ssize_t; cdecl; external clib;
+function lgetxattr(const path, name: PAnsiChar; value: Pointer; size: csize_t): ssize_t; cdecl; external clib;
+function lsetxattr(const path, name: PAnsiChar; const value: Pointer; size: csize_t; flags: cint): cint; cdecl; external clib;
 
 function FormatFileFlags(Flags: UInt32): String;
 var
@@ -106,5 +114,97 @@ begin
   end;
 end;
 
-end.
+function mbFileGetXattr(const FileName: String): TStringArray;
+var
+  AList: String;
+  ALength: ssize_t;
+  AFileName: String;
+begin
+  SetLength(AList, MaxSmallint);
+  Result:= Default(TStringArray);
+  AFileName:= CeUtf8ToSys(FileName);
+  ALength:= llistxattr(PAnsiChar(AFileName), Pointer(AList), Length(AList));
+  if (ALength < 0) then
+  begin
+    if (fpgetCerrno <> ESysERANGE) then
+    begin
+      fpseterrno(fpgetCerrno);
+      Exit;
+    end
+    else begin
+      ALength:= llistxattr(PAnsiChar(AFileName), nil, 0);
+      if ALength < 0 then
+      begin
+        fpseterrno(fpgetCerrno);
+        Exit;
+      end;
+      SetLength(AList, ALength);
+      ALength:= llistxattr(PAnsiChar(AFileName), Pointer(AList), ALength);
+      if ALength < 0 then
+      begin
+        fpseterrno(fpgetCerrno);
+        Exit;
+      end;
+    end;
+  end;
+  if (ALength > 0) then
+  begin
+    SetLength(AList, ALength - 1);
+    Result:= AList.Split(#0);
+  end;
+end;
 
+function mbFileCopyXattr(const Source, Target: String): Boolean;
+var
+  Value: String;
+  Index: Integer;
+  ALength: ssize_t;
+  Names: TStringArray;
+  ASource, ATarget: String;
+begin
+  Result:= True;
+  ASource:= CeUtf8ToSys(Source);
+  ATarget:= CeUtf8ToSys(Target);
+  // Remove attributes from target
+  Names:= mbFileGetXattr(Target);
+  for Index:= 0 to High(Names) do
+  begin
+    lremovexattr(PAnsiChar(ATarget), PAnsiChar(Names[Index]));
+  end;
+  SetLength(Value, MaxSmallint);
+  Names:= mbFileGetXattr(Source);
+  for Index:= 0 to High(Names) do
+  begin
+    ALength:= lgetxattr(PAnsiChar(ASource), PAnsiChar(Names[Index]), Pointer(Value), Length(Value));
+    if (ALength < 0) then
+    begin
+      if (fpgetCerrno <> ESysERANGE) then
+      begin
+        fpseterrno(fpgetCerrno);
+        Exit(False);
+      end
+      else begin
+        ALength:= lgetxattr(PAnsiChar(ASource), PAnsiChar(Names[Index]), nil, 0);
+        if ALength < 0 then
+        begin
+          fpseterrno(fpgetCerrno);
+          Exit(False);
+        end;
+        SetLength(Value, ALength);
+        ALength:= lgetxattr(PAnsiChar(ASource), PAnsiChar(Names[Index]), Pointer(Value), Length(Value));
+        if ALength < 0 then
+        begin
+          fpseterrno(fpgetCerrno);
+          Exit(False);
+        end;
+      end;
+    end;
+    if (lsetxattr(PAnsiChar(ATarget), PAnsiChar(Names[Index]), Pointer(Value), ALength, 0) < 0) then
+    begin
+      fpseterrno(fpgetCerrno);
+      Exit(fpgeterrno = ESysEOPNOTSUPP);
+    end;
+  end;
+end;
+
+end.
