@@ -35,7 +35,7 @@ procedure ChooseSymbolicLink(aFileView: TFileView; aFile: TFile);
 procedure SetFileSystemPath(aFileView: TFileView; aPath: String);
 
 function RenameFile(aFileSource: IFileSource; const aFile: TFile;
-                    const NewFileName: String; Interactive: Boolean): TSetFilePropertyResult;
+                    const NewFileName: String; Interactive: Boolean; Reload: Boolean): TSetFilePropertyResult;
 
 function GetCopyOperationType(SourceFileSource, TargetFileSource: IFileSource;
                               out OperationType: TFileSourceOperationType): Boolean;
@@ -352,7 +352,7 @@ begin
 end;
 
 function RenameFile(aFileSource: IFileSource; const aFile: TFile;
-  const NewFileName: String; Interactive: Boolean): TSetFilePropertyResult;
+  const NewFileName: String; Interactive: Boolean; Reload: Boolean): TSetFilePropertyResult;
 var
   aFiles: TFiles = nil;
   Operation: TFileSourceSetFilePropertyOperation = nil;
@@ -375,6 +375,7 @@ begin
 
       if Assigned(Operation) then
       begin
+        Operation.Reload:= Reload;
         // Only if the operation can change file name.
         if fpName in Operation.SupportedProperties then
         begin

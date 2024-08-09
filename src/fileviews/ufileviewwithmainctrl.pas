@@ -57,7 +57,7 @@ type
 
   TEditButtonEx = class(TEditButton)
   private
-    procedure handleSpecialKeys( Key: Word );
+    procedure handleSpecialKeys( var Key: Word );
     function GetFont: TFont;
     procedure SetFont(AValue: TFont);
   protected
@@ -70,6 +70,7 @@ type
     function GetDefaultGlyphName: String; override;
     procedure EditKeyDown(var Key: word; Shift: TShiftState); override;
   public
+    onKeySWITCH: TKeyEvent;
     onKeyESCAPE: TNotifyEvent;
     onKeyRETURN: TNotifyEvent;
     property Font: TFont read GetFont write SetFont;
@@ -110,6 +111,7 @@ type
 {$ENDIF}
     procedure edtRenameOnKeyESCAPE(Sender: TObject);
     procedure edtRenameOnKeyRETURN(Sender: TObject);
+    procedure edtRenameOnKeySwitch(Sender: TObject; var Key: Word; Shift: TShiftState);
   protected
     edtRename: TEditButtonEx;
     FRenameFile: TFile;
@@ -249,26 +251,28 @@ begin
   inherited EditKeyDown(Key, Shift);
 
   case Key of
+    VK_UP,
+    VK_DOWN,
     VK_ESCAPE,
     VK_RETURN,
     VK_SELECT:
       handleSpecialKeys( Key );
+  end;
 
 {$IFDEF LCLGTK2}
-    // Workaround for GTK2 - up and down arrows moving through controls.
-    VK_UP,
-    VK_DOWN:
-      Key := 0;
+  // Workaround for GTK2 - up and down arrows moving through controls.
+  if Key in [VK_UP, VK_DOWN] then Key := 0;
 {$ENDIF}
-  end;
 end;
 
-procedure TEditButtonEx.handleSpecialKeys( Key: Word );
+procedure TEditButtonEx.handleSpecialKeys(var Key: Word);
 begin
-  if Key=VK_ESCAPE then begin
+  if Key = VK_ESCAPE then begin
     if Assigned(onKeyESCAPE) then onKeyESCAPE( self );
-  end else begin
+  end else if Key in [VK_RETURN, VK_SELECT] then begin
     if Assigned(onKeyRETURN) then onKeyRETURN( self );
+  end else begin
+    if Assigned(onKeySWITCH) then onKeySWITCH( Self, Key, [] );
   end;
 end;
 
@@ -349,7 +353,7 @@ begin
   OldFileName := ExtractFileName(edtRename.Hint);
 
   try
-    case uFileSourceUtil.RenameFile(FileSource, FRenameFile, NewFileName, True) of
+    case uFileSourceUtil.RenameFile(FileSource, FRenameFile, NewFileName, True, True) of
       sfprSuccess:
         begin
           // FRenameFile is nil when a file list
@@ -368,6 +372,77 @@ begin
   except
     on e: EInvalidFileProperty do
       msgError(Format(rsMsgErrRename + ':' + LineEnding + '%s (%s)', [OldFileName, NewFileName, rsMsgInvalidFileName, e.Message]));
+  end;
+end;
+
+procedure TFileViewWithMainCtrl.edtRenameOnKeySwitch(Sender: TObject;
+  var Key: Word; Shift: TShiftState);
+var
+  AFile: TFile;
+  Index: PtrInt;
+  OldIndex: PtrInt;
+  NewFileName: String;
+  OldFileName: String;
+  Result: TSetFilePropertyResult;
+begin
+  if (Key = VK_UP) then
+    Index:= GetActiveFileIndex - 1
+  else begin
+    Index:= GetActiveFileIndex + 1
+  end;
+  if not IsFileIndexInRange(Index) then
+  begin
+    Key:= 0;
+    Exit;
+  end;
+  AFile:= FFiles[Index].FSFile.Clone;
+  try
+    if not AFile.IsNameValid then
+    begin
+      Key:= 0;
+      Exit;
+    end;
+    edtRename.Tag:= 1;
+    EnableWatcher(False);
+    NewFileName := edtRename.Text;
+    OldFileName := ExtractFileName(edtRename.Hint);
+    try
+      if (OldFileName = NewFileName) then
+        Result:= sfprSkipped
+      else begin
+        Result:= uFileSourceUtil.RenameFile(FileSource, FRenameFile, NewFileName, True, False);
+      end;
+      case Result of
+        sfprSkipped,
+        sfprSuccess:
+          begin
+            if (Result = sfprSuccess) then
+            begin
+              OldIndex:= GetActiveFileIndex;
+              FFiles[OldIndex].FSFile.Name:= NewFileName;
+              DoFileUpdated(FFiles[OldIndex], [fpName]);
+            end;
+            SetActiveFile(Index);
+            edtRename.Tag:= 2;
+            ShowRenameFileEdit(AFile);
+            edtRename.Tag:= 1;
+            UpdateRenameFileEditPosition;
+          end;
+        sfprError:
+          begin
+            Key:= 0;
+            msgError(Format(rsMsgErrRename, [OldFileName, NewFileName]));
+          end;
+      end;
+    except
+      on e: EInvalidFileProperty do
+      begin
+        Key:= 0;
+        msgError(Format(rsMsgErrRename + ':' + LineEnding + '%s (%s)', [OldFileName, NewFileName, rsMsgInvalidFileName, e.Message]));
+      end;
+    end;
+  finally
+    FreeAndNil(AFile);
   end;
 end;
 
@@ -433,6 +508,7 @@ begin
 {$ENDIF}
   edtRename.onKeyESCAPE:=@edtRenameOnKeyESCAPE;
   edtRename.onKeyRETURN:=@edtRenameOnKeyRETURN;
+  edtRename.onKeySWITCH:=@edtRenameOnKeySwitch;
   edtRename.OnMouseDown:=@edtRenameMouseDown;
   edtRename.OnEnter := @edtRenameEnter;
   edtRename.OnExit := @edtRenameExit;
@@ -1584,6 +1660,13 @@ begin
   edtRename.Visible := False;
   MainControl.WindowProc:= FWindowProc;
 
+  if edtRename.Tag > 0 then
+  begin
+    edtRename.Tag:= 0;
+    EnableWatcher(IsFileSystemWatcher);
+    Reload(True);
+  end;
+
   // OnEnter don't called automatically (bug?)
   // TODO: Check on which widgetset/OS this is needed.
   FMainControl.OnEnter(Self);
@@ -1650,7 +1733,7 @@ begin
   FRenFile.LenNam := FRenFile.LenFul - FRenFile.LenExt;
 
 
-  if edtRename.Visible then
+  if edtRename.Visible and (edtRename.Tag < 2) then
   begin
     if AFile.IsDirectory or AFile.IsLinkToDirectory then Exit;
     if FRenFile.UserManualEdit then FRenFile.CylceFinished:=True;
