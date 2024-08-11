@@ -29,6 +29,7 @@ unit uMyDarwin;
 
 {$mode delphi}
 {$modeswitch objectivec1}
+{$linkframework DiskArbitration}
 
 interface
 
@@ -57,6 +58,8 @@ function NSGetFolderPath(Folder: NSSearchPathDirectory): String;
 
 function GetFileDescription(const FileName: String): String;
 function MountNetworkDrive(const serverAddress: String): Boolean;
+
+function GetVolumeName(const Device: String): String;
 
 function unmountAndEject(const path: String): Boolean;
 
@@ -522,6 +525,37 @@ begin
     Result:= WS.localizedDescriptionForType(FileType).UTF8String;
   end;
   CFRelease(FileNameRef);
+end;
+
+function GetVolumeName(const Device: String): String;
+var
+  ADisk: DADiskRef;
+  AName: CFStringRef;
+  ASession: DASessionRef;
+  ADescription: CFDictionaryRef;
+begin
+  Result:= EmptyStr;
+  ASession:= DASessionCreate(kCFAllocatorDefault);
+  if Assigned(ASession) then
+  begin
+    ADisk:= DADiskCreateFromBSDName(kCFAllocatorDefault, ASession, PAnsiChar(Device));
+    if Assigned(ADisk) then
+    begin
+      ADescription:= DADiskCopyDescription(ADisk);
+      if Assigned(ADescription) then
+      begin
+        AName:= CFDictionaryGetValue(ADescription, kDADiskDescriptionVolumeNameKey);
+        if (AName = nil) then AName:= CFDictionaryGetValue(ADescription, kDADiskDescriptionMediaNameKey);
+        if Assigned(AName) then
+        begin
+          Result:= CFStringToStr(AName);
+        end;
+        CFRelease(ADescription);
+      end;
+      CFRelease(ADisk);
+    end;
+    CFRelease(ASession);
+  end;
 end;
 
 function unmountAndEject(const path: String): Boolean;
