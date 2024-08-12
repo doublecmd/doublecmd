@@ -2903,7 +2903,7 @@ var
           Inc(len); // Assume there is one character after conversion
                     // (otherwise use Inc(len, UTF8Length(s))).
 
-        if len <= FHPosition then
+        if (Mode = vcmText) and (len <= FHPosition) then
         begin
           i := i + CharLenInBytes;
           Continue;
@@ -3490,11 +3490,14 @@ begin
 
     Update;
 
-    if (FVisibleOffset < FHPosition) or
-       (FVisibleOffset > FHPosition + FTextWidth) then
+    if FViewerControlMode = vcmText then
     begin
-      SetHPosition(FVisibleOffset);
-      HScroll(-1);
+      if (FVisibleOffset < FHPosition) or
+         (FVisibleOffset > FHPosition + FTextWidth) then
+      begin
+        SetHPosition(FVisibleOffset);
+        HScroll(-1);
+      end;
     end;
   end;
 end;
