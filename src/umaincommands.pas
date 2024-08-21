@@ -1131,6 +1131,8 @@ begin
     if NFree then NFileView.Free;
 
     ActiveFrame.SetFocus;
+
+    UpdateSelectedDrive(NotActiveNotebook);
   end;
 end;
 
