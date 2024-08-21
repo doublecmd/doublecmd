@@ -769,7 +769,6 @@ type
     function  FindMatchingDrive(Address, Path: String): Integer;
     procedure UpdateDriveToolbarSelection(DriveToolbar: TKAStoolBar; FileView: TFileView);
     procedure UpdateDriveButtonSelection(DriveButton: TSpeedButton; FileView: TFileView);
-    procedure UpdateSelectedDrive(ANoteBook: TFileViewNotebook);
 {$IF DEFINED(MSWINDOWS)}
     procedure OnDriveIconLoaded(Data: PtrInt);
 {$ENDIF}
@@ -872,6 +871,7 @@ type
     procedure UpdateGUIFunctionKeys;
     procedure UpdateMainTitleBar;
     procedure CreateDiskPanel(dskPanel : TKASToolBar);
+    procedure UpdateSelectedDrive(ANoteBook: TFileViewNotebook);
     procedure SetPanelDrive(aPanel: TFilePanelSelect; Drive: PDrive; ActivateIfNeeded: Boolean);
     function CreateFileView(sType: String; Page: TFileViewPage; AConfig: TXmlConfig; ANode: TXmlNode): TFileView;
     procedure AssignEvents(AFileView: TFileView);
