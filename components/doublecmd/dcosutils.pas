@@ -190,6 +190,7 @@ function mbFileCreate(const FileName: String): System.THandle; overload; inline;
 function mbFileCreate(const FileName: String; Mode: LongWord): System.THandle; overload; inline;
 function mbFileCreate(const FileName: String; Mode, Rights: LongWord): System.THandle; overload;
 function mbFileAge(const FileName: String): DCBasicTypes.TFileTime;
+function mbFileGetTime(const FileName: String): DCBasicTypes.TFileTimeEx;
 // On success returns True.
 // nanoseconds supported
 function mbFileGetTime(const FileName: String;
@@ -955,6 +956,14 @@ begin
 {$POP}
 end;
 {$ENDIF}
+
+function mbFileGetTime(const FileName: String): DCBasicTypes.TFileTimeEx;
+var
+  CreationTime, LastAccessTime: DCBasicTypes.TFileTimeEx;
+begin
+  if not mbFileGetTime(FileName, Result, CreationTime, LastAccessTime) then
+    Result:= TFileTimeExNull;
+end;
 
 function mbFileGetTime(const FileName: String;
                        var ModificationTime: DCBasicTypes.TFileTimeEx;
