@@ -56,7 +56,7 @@ uses
   {$ELSEIF DEFINED(LCLGTK2)}
   , Glib2, Gtk2
   {$ELSEIF DEFINED(DARWIN)}
-  , CocoaMenus
+  , CocoaConfig
   , uMyDarwin
   {$ENDIF}
   , Types, LMessages;
@@ -2953,8 +2953,8 @@ constructor TfrmMain.Create(TheOwner: TComponent);
 {$IF DEFINED(DARWIN)}
   procedure setMacOSAppMenu();
   begin
-    macOS_AppMenuIntf.aboutItem:= mnuHelpAbout;
-    macOS_AppMenuIntf.preferencesItem:= mnuConfigOptions;
+    CocoaConfigMenu.appMenu.aboutItem:= mnuHelpAbout;
+    CocoaConfigMenu.appMenu.preferencesItem:= mnuConfigOptions;
   end;
 
   procedure setMacOSDockMenu();
@@ -2967,7 +2967,7 @@ constructor TfrmMain.Create(TheOwner: TComponent);
     newItem.Caption:= rsMnuNewWindow;
     newItem.OnClick:= @OpenNewWindow;
     dockMenu.Add(newItem);
-    macOS_DockMenuIntf.customMenus:= dockMenu;
+    CocoaConfigMenu.dockMenu.customMenus:= dockMenu;
   end;
 {$ENDIF}
 begin
