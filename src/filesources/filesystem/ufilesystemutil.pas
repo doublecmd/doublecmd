@@ -177,7 +177,8 @@ implementation
 uses
   uDebug, uDCUtils, uOSUtils, DCStrUtils, FileUtil, uFindEx, DCClassesUtf8, uFileProcs, uLng,
   DCBasicTypes, uFileSource, uFileSystemFileSource, uFileProperty, uAdministrator,
-  StrUtils, DCDateTimeUtils, uShowMsg, Forms, LazUTF8, uHash, uFileCopyEx, SysConst
+  StrUtils, DCDateTimeUtils, uShowMsg, Forms, LazUTF8, uHash, uFileCopyEx, SysConst,
+  Math, DateUtils
 {$IFDEF UNIX}
   , BaseUnix, Unix, DCUnix
 {$ENDIF}
@@ -1733,7 +1734,7 @@ var
 
   function OverwriteOlder: TFileSourceOperationOptionFileExists;
   begin
-    if aFile.ModificationTime > FileTimeToDateTime(mbFileAge(AbsoluteTargetFileName)) then
+    if CompareDateTime(aFile.ModificationTime, FileTimeToDateTimeEx(mbFileGetTime(AbsoluteTargetFileName))) = GreaterThanValue then
       Result := fsoofeOverwrite
     else
       Result := fsoofeSkip;

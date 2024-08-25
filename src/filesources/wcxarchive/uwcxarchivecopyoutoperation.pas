@@ -99,7 +99,7 @@ implementation
 
 uses
   Forms, LazUTF8, FileUtil, contnrs, DCOSUtils, DCStrUtils, uDCUtils,
-  fWcxArchiveCopyOperationOptions, uFileSystemUtil,
+  Math, DateUtils, fWcxArchiveCopyOperationOptions, uFileSystemUtil,
   uFileProcs, uLng, DCDateTimeUtils, DCBasicTypes, uShowMsg, DCConvertEncoding;
 
 // ----------------------------------------------------------------------------
@@ -627,7 +627,7 @@ var
 
   function OverwriteOlder: TFileSourceOperationOptionFileExists;
   begin
-    if Header.DateTime > FileTimeToDateTime(mbFileAge(AbsoluteTargetFileName)) then
+    if CompareDateTime(Header.DateTime, FileTimeToDateTimeEx(mbFileGetTime(AbsoluteTargetFileName))) = GreaterThanValue then
       Result := fsoofeOverwrite
     else
       Result := fsoofeSkip;
