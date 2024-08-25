@@ -740,7 +740,7 @@ begin
         if FOpenResult <> E_SUCCESS then Exit;
       end; // while
 
-      ArchiveTime:= FileTimeToDateTime(mbFileAge(ArchiveFileName));
+      ArchiveTime:= FileTimeToDateTimeEx(mbFileGetTime(ArchiveFileName));
 
       (* if plugin does not give a list of folders *)
       for I := 0 to AllDirsList.Count - 1 do
