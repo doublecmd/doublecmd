@@ -71,8 +71,8 @@ type
     procedure EnterEvent(Sender: TObject);
     procedure ExitEvent(Sender: TObject);
     procedure KeyDownEvent(Sender: TObject; var Key: Word; {%H-}Shift: TShiftState);
-{$IFNDEF ForceVirtualKeysShortcuts}
     procedure KeyPressEvent(Sender: TObject; var Key: Char);
+{$IFNDEF ForceVirtualKeysShortcuts}
     procedure UTF8KeyPressEvent(Sender: TObject; var UTF8Key: TUTF8Char);
 {$ENDIF}
     procedure SelectDrive(ADriveIndex: Integer);
@@ -186,8 +186,8 @@ begin
   OnEnter         := @EnterEvent;
   OnExit          := @ExitEvent;
   OnKeyDown       := @KeyDownEvent;
-{$IFNDEF ForceVirtualKeysShortcuts}
   OnKeyPress      := @KeyPressEvent;
+{$IFNDEF ForceVirtualKeysShortcuts}
   OnUTF8KeyPress  := @UTF8KeyPressEvent;
 {$ENDIF}
 end;
@@ -476,19 +476,22 @@ begin
         Key := 0;
       end;
 {$IFDEF ForceVirtualKeysShortcuts}
-    else if (CheckShortcut(TUTF8Char(Char(Key)))) then
-      Key := 0;
+    VK_0..VK_9, VK_A..VK_Z:
+      begin
+        if (CheckShortcut(TUTF8Char(Char(Key)))) then
+          Key := 0;
+      end;
 {$ENDIF}
   end;
 end;
 
-{$IFNDEF ForceVirtualKeysShortcuts}
 procedure TDrivesListPopup.KeyPressEvent(Sender: TObject; var Key: Char);
 begin
   if CheckShortcut(TUTF8Char(Key)) then
     Key := #0;
 end;
 
+{$IFNDEF ForceVirtualKeysShortcuts}
 procedure TDrivesListPopup.UTF8KeyPressEvent(Sender: TObject; var UTF8Key: TUTF8Char);
 begin
   if CheckShortcut(UTF8Key) then
