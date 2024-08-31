@@ -54,6 +54,7 @@ type
     gbSorting: TGroupBox;
     gbPersonalizedAbbreviationToUse: TGroupBox;
     lblByte: TLabel;
+    lblDateTimeExample: TLabel;
     lblKilobyte: TLabel;
     lblMegabyte: TLabel;
     lblGigabyte: TLabel;
@@ -65,7 +66,6 @@ type
     lblOperationSizeExample: TLabel;
     lblOperationSizeFormat: TLabel;
     lblFileSizeExample: TLabel;
-    lblDateTimeExample: TLabel;
     lblUpdatedFilesPosition: TLabel;
     lblSortFolderMode: TLabel;
     lblCaseSensitivity: TLabel;
@@ -73,7 +73,6 @@ type
     lblNewFilesPosition: TLabel;
     lblSortMethod: TLabel;
     lblFileSizeFormat: TLabel;
-    pnlDateTime: TPanel;
     speNumberOfDigitsFile: TSpinEdit;
     speNumberOfDigitsHeader: TSpinEdit;
     speNumberOfDigitsFooter: TSpinEdit;
