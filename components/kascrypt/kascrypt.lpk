@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CONFIG>
-  <Package Version="4">
+  <Package Version="5">
     <Name Value="kascrypt"/>
     <Author Value="David Barton, Barko &amp; Graeme Geldenhuys, Alexander Koblov"/>
     <CompilerOptions>
@@ -37,8 +37,8 @@
 "/>
     <License Value="KAScrypt is open source software (released under the MIT license) and as such there is no charge for inclusion in other software.
 "/>
-    <Version Major="3" Minor="1"/>
-    <Files Count="33">
+    <Version Major="3" Minor="1" Release="1"/>
+    <Files Count="30">
       <Item1>
         <Filename Value="dcpbase64.pas"/>
         <UnitName Value="DCPbase64"/>
@@ -92,86 +92,75 @@
         <UnitName Value="DCPtiger"/>
       </Item13>
       <Item14>
-        <Filename Value="Hashes/DCPhaval3.inc"/>
-        <Type Value="Include"/>
+        <Filename Value="Hashes/dcpcrc32.pas"/>
+        <UnitName Value="DCPcrc32"/>
       </Item14>
       <Item15>
-        <Filename Value="Hashes/DCPhaval4.inc"/>
+        <Filename Value="Hashes/DCPtiger.inc"/>
         <Type Value="Include"/>
       </Item15>
       <Item16>
-        <Filename Value="Hashes/DCPhaval5.inc"/>
-        <Type Value="Include"/>
-      </Item16>
-      <Item17>
-        <Filename Value="Hashes/dcpcrc32.pas"/>
-        <UnitName Value="DCPcrc32"/>
-      </Item17>
-      <Item18>
-        <Filename Value="Hashes/DCPtiger.inc"/>
-        <Type Value="Include"/>
-      </Item18>
-      <Item19>
         <Filename Value="Hashes/dccrc32.pp"/>
         <UnitName Value="DCcrc32"/>
-      </Item19>
-      <Item20>
+      </Item16>
+      <Item17>
         <Filename Value="Hashes/dcblake2.pp"/>
         <UnitName Value="DCblake2"/>
-      </Item20>
-      <Item21>
+      </Item17>
+      <Item18>
         <Filename Value="Hashes/dcpblake2.pas"/>
         <UnitName Value="DCPblake2"/>
-      </Item21>
-      <Item22>
+      </Item18>
+      <Item19>
         <Filename Value="Hashes/dcpsha3.pas"/>
         <UnitName Value="DCPsha3"/>
-      </Item22>
-      <Item23>
+      </Item19>
+      <Item20>
         <Filename Value="Hashes/Private/hmac.pas"/>
         <UnitName Value="HMAC"/>
-      </Item23>
-      <Item24>
+      </Item20>
+      <Item21>
         <Filename Value="Hashes/Private/sha3.pas"/>
         <UnitName Value="SHA3"/>
-      </Item24>
-      <Item25>
+      </Item21>
+      <Item22>
         <Filename Value="Hashes/Private/sha3_512.pas"/>
         <UnitName Value="SHA3_512"/>
-      </Item25>
-      <Item26>
+      </Item22>
+      <Item23>
         <Filename Value="Random/isaac.pas"/>
         <UnitName Value="ISAAC"/>
-      </Item26>
-      <Item27>
+      </Item23>
+      <Item24>
         <Filename Value="Hashes/Private/scrypt.pas"/>
         <UnitName Value="scrypt"/>
-      </Item27>
-      <Item28>
+      </Item24>
+      <Item25>
         <Filename Value="Ciphers/DCPrijndael.inc"/>
         <Type Value="Include"/>
-      </Item28>
-      <Item29>
+      </Item25>
+      <Item26>
         <Filename Value="Ciphers/dcprijndael.pas"/>
         <UnitName Value="DCPrijndael"/>
-      </Item29>
-      <Item30>
+      </Item26>
+      <Item27>
         <Filename Value="Hashes/Private/sha1.pas"/>
         <UnitName Value="SHA1"/>
-      </Item30>
-      <Item31>
+      </Item27>
+      <Item28>
         <Filename Value="Hashes/argon2.pas"/>
         <UnitName Value="Argon2"/>
-      </Item31>
-      <Item32>
+      </Item28>
+      <Item29>
         <Filename Value="Hashes/dcpblake3.pas"/>
         <UnitName Value="DCPblake3"/>
-      </Item32>
-      <Item33>
+      </Item29>
+      <Item30>
         <Filename Value="Hashes/dcpchecksum32.pas"/>
         <UnitName Value="dcpchecksum32"/>
-      </Item33>
+      </Item30>
     </Files>
+    <CompatibilityMode Value="True"/>
     <RequiredPkgs Count="2">
       <Item1>
         <PackageName Value="multithreadprocslaz"/>
