@@ -70,7 +70,7 @@ type
 implementation
 
 uses
-  Math;
+  Math, LazUTF8;
 
 const
   cHexWidth       = 16;
@@ -87,6 +87,7 @@ var
   I: Integer;
   X, Y: Integer;
   yIndex: Integer;
+  CharLen: Integer;
   P1, P2: PAnsiChar;
   CurrentPos, SecondPos: PtrInt;
   Mine, Foreign, WordHex: String;
@@ -144,12 +145,19 @@ begin
       end;
       Inc(X, SymbolWidth);
       // Write ASCII part
-      WordHex:= Copy(Mine, cHexStartAscii + 1, cHexWidth);
-      for I:= 1 to Length(WordHex) do
+      WordHex:= Copy(Mine, cHexStartAscii + 1, MaxInt);
+      I:= 0;
+      P1:= PAnsiChar(WordHex);
+      P2:= P1 + Length(WordHex);
+      while (P1 < P2) do
       begin
-        Canvas.Font.Color := SymbolColor[I - 1];
-        Canvas.TextOut(X, Y, WordHex[I]);
+        CharLen := UTF8CodepointSize(P1);
+        if (CharLen = 0) then Break;
+        Canvas.Font.Color := SymbolColor[I];
+        Canvas.TextOut(X, Y, Copy(P1, 1, CharLen));
         Inc(X, SymbolWidth);
+        Inc(P1, CharLen);
+        Inc(I);
       end;
       Canvas.Font.Color := clWindowText;
     end;
