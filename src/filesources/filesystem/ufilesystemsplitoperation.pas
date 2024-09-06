@@ -44,7 +44,7 @@ implementation
 
 uses
   //Lazarus, Free-Pascal, etc.
-  LCLProc, LazUTF8, crc,
+  LCLProc, LazUTF8, DCcrc32,
 
   //DC
   DCConvertEncoding, uOSUtils, DCOSUtils, uLng, uFileProcs;
@@ -262,7 +262,10 @@ begin
             if (BytesRead = 0) then
               Raise EReadError.Create(mbSysErrorMessage(GetLastOSError));
 
-            if RequireACRC32VerificationFile then CurrentCRC32:=crc32(CurrentCRC32,FBuffer,BytesRead);
+            if RequireACRC32VerificationFile then
+            begin
+              CurrentCRC32:= crc32_16bytes(FBuffer, BytesRead, CurrentCRC32);
+            end;
 
             TotalBytesToRead := TotalBytesToRead - BytesRead;
             BytesWritten := 0;
