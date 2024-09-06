@@ -47,7 +47,7 @@ implementation
 
 uses
   //Lazarus, Free-Pascal, etc.
-  LCLProc, LazUTF8, crc,
+  LCLProc, LazUTF8, DCcrc32,
 
   //DC
   uOSUtils, DCOSUtils, uLng, uFileSystemUtil, uFileSystemFileSource,
@@ -297,7 +297,10 @@ begin
             TotalBytesToRead := TotalBytesToRead - BytesRead;
             BytesWritten := 0;
 
-            if BytesRead>0 then CurrentCRC32:=crc32(CurrentCRC32,FBuffer,BytesRead);
+            if BytesRead > 0 then
+            begin
+              CurrentCRC32:= crc32_16bytes(FBuffer, BytesRead, CurrentCRC32);
+            end;
 
             repeat
               try
