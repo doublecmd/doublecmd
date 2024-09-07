@@ -13,7 +13,23 @@ uses
 
 implementation
 
+procedure toggleTreeViewAction( const Sender: id );
+begin
+  frmMain.Commands.cm_TreeView([]);
+end;
+
 const
+  treeViewItemConfig: TCocoaConfigToolBarItem = (
+    identifier: 'MainForm.TreeView';
+    priority: NSToolbarItemVisibilityPriorityStandard;
+    navigational: True;
+    iconName: 'sidebar.left';
+    title: 'Tree View';
+    tips: 'Tree View Panel';
+    bordered: True;
+    onAction: @toggleTreeViewAction;
+  );
+
   mainFormConfig: TCocoaConfigForm = (
     name: 'frmMain';
     className: '';
@@ -35,8 +51,10 @@ const
       items: (
       );
       defaultItemsIdentifiers: (
+        'MainForm.TreeView'
       );
       allowedItemsIdentifiers: (
+        'MainForm.TreeView'
       );
       itemCreator: nil;      // default item Creator
     );
@@ -44,6 +62,10 @@ const
 
 procedure initCocoaModernFormConfig;
 begin
+  mainFormConfig.toolBar.items:= [
+    TCocoaToolBarUtils.toClass(treeViewItemConfig)
+  ];
+
   CocoaConfigForms:= [ mainFormConfig ];
 end;
 
