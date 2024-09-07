@@ -1813,7 +1813,7 @@ var
       ColAlign: TAlignment;
     begin
       CellText := AFile.DisplayStrings[ACell.Col];
-      CellWidth := Canvas.TextWidth(CellText) + 2*CELL_PADDING;
+      CellWidth := Canvas.TextWidth(CellText) + 3*CELL_PADDING;
       if (ACell.Col = 0) and (gShowIcons <> sim_none) then
         CellWidth := CellWidth + gIconsSize + 2;
 
