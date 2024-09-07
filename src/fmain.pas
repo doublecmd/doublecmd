@@ -65,6 +65,10 @@ type
 
   TForEachViewFunction = procedure (AFileView: TFileView; UserData: Pointer) of object;
 
+  // currently only used on Cocoa, but it is universal,
+  // so no conditional compilation instruction is set.
+  TFileViewUpdatedHandler = procedure (const AFileView: TFileView);
+
   { TfrmMain }
 
   TfrmMain = class(TAloneForm, IFormCommands)
@@ -937,6 +941,7 @@ type
 
 var
   frmMain: TfrmMain;
+  onFileViewUpdated: TFileViewUpdatedHandler;
   Cons: TCustomPtyDevice = nil;
 
 implementation
@@ -4877,6 +4882,8 @@ begin
     actBriefView.Checked:= True
   else if AFileView is TThumbFileView then
     actThumbnailsView.Checked:= True;
+  if Assigned(onFileViewUpdated) then
+    onFileViewUpdated(AFileView);
 end;
 
 procedure TfrmMain.UpdateShellTreeView;
