@@ -2140,6 +2140,11 @@ begin
   AllowOutboundEvents := False;
   inherited MouseDown(Button, Shift, X, Y);
   AllowOutboundEvents := True;
+
+  if not Focused then
+  begin
+    if CanSetFocus then SetFocus;
+  end;
 end;
 
 procedure TDrawGridEx.MouseMove(Shift: TShiftState; X, Y: Integer);
