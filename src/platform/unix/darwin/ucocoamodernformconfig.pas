@@ -18,6 +18,11 @@ begin
   frmMain.Commands.cm_TreeView([]);
 end;
 
+procedure toggleHorzSplitAction( const Sender: id );
+begin
+  frmMain.Commands.cm_HorizontalFilePanels([]);
+end;
+
 const
   treeViewItemConfig: TCocoaConfigToolBarItem = (
     identifier: 'MainForm.TreeView';
@@ -28,6 +33,17 @@ const
     tips: 'Tree View Panel';
     bordered: True;
     onAction: @toggleTreeViewAction;
+  );
+
+  horzSplitItemConfig: TCocoaConfigToolBarItem = (
+    identifier: 'MainForm.HorzSplit';
+    priority: NSToolbarItemVisibilityPriorityStandard;
+    navigational: True;
+    iconName: 'rectangle.split.1x2';
+    title: 'HorzSplit';
+    tips: 'Horizontal Panels Mode';
+    bordered: True;
+    onAction: @toggleHorzSplitAction;
   );
 
   mainFormConfig: TCocoaConfigForm = (
@@ -51,10 +67,12 @@ const
       items: (
       );
       defaultItemsIdentifiers: (
-        'MainForm.TreeView'
+        'MainForm.TreeView',
+        'MainForm.HorzSplit'
       );
       allowedItemsIdentifiers: (
-        'MainForm.TreeView'
+      'MainForm.TreeView',
+      'MainForm.HorzSplit'
       );
       itemCreator: nil;      // default item Creator
     );
@@ -63,7 +81,8 @@ const
 procedure initCocoaModernFormConfig;
 begin
   mainFormConfig.toolBar.items:= [
-    TCocoaToolBarUtils.toClass(treeViewItemConfig)
+    TCocoaToolBarUtils.toClass(treeViewItemConfig),
+    TCocoaToolBarUtils.toClass(horzSplitItemConfig)
   ];
 
   CocoaConfigForms:= [ mainFormConfig ];
