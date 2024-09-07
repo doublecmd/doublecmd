@@ -92,6 +92,9 @@ uses
   {$IFDEF UNIX}
   , uMyUnix
   {$ENDIF}
+  {$IFDEF LclCocoa}
+  ,uCocoaModernFormConfig
+  {$ENDIF}
   ;
 
 {$R *.res}
@@ -141,7 +144,6 @@ begin
 
 {$IF DEFINED(DARWIN)}
   GetMacFormatSettings(DefaultFormatSettings);
-  Application.Icon:= nil;
 {$ENDIF}
 
   uDCVersion.InitializeVersionInfo;
