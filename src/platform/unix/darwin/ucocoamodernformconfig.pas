@@ -23,7 +23,7 @@ begin
   frmMain.Commands.cm_HorizontalFilePanels([]);
 end;
 
-procedure showBriefViewAction( const Sender: id );
+procedure showModeAction( const Sender: id );
 var
   showModeItem: NSToolBarItemGroup absolute Sender;
 begin
@@ -55,6 +55,11 @@ end;
 function onGetSharingItems( item: NSToolBarItem ): TStringArray;
 begin
   Result:= frmMain.NSServiceMenuGetFilenames()
+end;
+
+procedure swapPanelsAction( const Sender: id );
+begin
+  frmMain.Commands.cm_Exchange([]);
 end;
 
 const
@@ -115,7 +120,7 @@ const
     title: 'ShowMode';
     tips: 'Show Mode';
     bordered: True;
-    onAction: @showBriefViewAction;
+    onAction: @showModeAction;
 
     representation: NSToolbarItemGroupControlRepresentationAutomatic;
     selectionMode: NSToolbarItemGroupSelectionModeSelectOne;
@@ -134,6 +139,17 @@ const
     bordered: True;
 
     onGetItems: @onGetSharingItems;
+  );
+
+  swapPanelsItemConfig: TCocoaConfigToolBarItem = (
+    identifier: 'MainForm.SwapPanels';
+    priority: NSToolbarItemVisibilityPriorityStandard;
+    navigational: False;
+    iconName: 'arrow.left.arrow.right.square';
+    title: 'Swap';
+    tips: 'Swap Panels';
+    bordered: True;
+    onAction: @swapPanelsAction;
   );
 
   mainFormConfig: TCocoaConfigForm = (
@@ -162,15 +178,16 @@ const
 
         'MainForm.ShowMode',
         'NSToolbarFlexibleSpaceItem',
-
-        'MainForm.Share'
+        'MainForm.Share',
+        'MainForm.SwapPanels'
       );
       allowedItemsIdentifiers: (
         'MainForm.TreeView',
         'MainForm.HorzSplit',
 
         'MainForm.ShowMode',
-        'MainForm.Share'
+        'MainForm.Share',
+        'MainForm.SwapPanels'
       );
       itemCreator: nil;      // default item Creator
     );
@@ -189,7 +206,8 @@ begin
     TCocoaToolBarUtils.toClass(horzSplitItemConfig),
 
     TCocoaToolBarUtils.toClass(showModeItemConfig),
-    TCocoaToolBarUtils.toClass(shareItemConfig)
+    TCocoaToolBarUtils.toClass(shareItemConfig),
+    TCocoaToolBarUtils.toClass(swapPanelsItemConfig)
   ];
 
   CocoaConfigForms:= [ mainFormConfig ];
