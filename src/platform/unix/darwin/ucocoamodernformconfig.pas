@@ -52,6 +52,11 @@ begin
     itemGroupWrapper.lclSetSelectedIndex( 2 );
 end;
 
+function onGetSharingItems( item: NSToolBarItem ): TStringArray;
+begin
+  Result:= frmMain.NSServiceMenuGetFilenames()
+end;
+
 const
   treeViewItemConfig: TCocoaConfigToolBarItem = (
     identifier: 'MainForm.TreeView';
@@ -119,6 +124,18 @@ const
     );
   );
 
+
+  shareItemConfig: TCocoaConfigToolBarItemSharing = (
+    identifier: 'MainForm.Share';
+    priority: NSToolbarItemVisibilityPriorityUser;
+    iconName: '';
+    title: 'Share';
+    tips: 'Share...';
+    bordered: True;
+
+    onGetItems: @onGetSharingItems;
+  );
+
   mainFormConfig: TCocoaConfigForm = (
     name: 'frmMain';
     className: '';
@@ -144,13 +161,16 @@ const
         'MainForm.HorzSplit',
 
         'MainForm.ShowMode',
-        'NSToolbarFlexibleSpaceItem'
+        'NSToolbarFlexibleSpaceItem',
+
+        'MainForm.Share'
       );
       allowedItemsIdentifiers: (
         'MainForm.TreeView',
         'MainForm.HorzSplit',
 
-        'MainForm.ShowMode'
+        'MainForm.ShowMode',
+        'MainForm.Share'
       );
       itemCreator: nil;      // default item Creator
     );
@@ -168,7 +188,8 @@ begin
     TCocoaToolBarUtils.toClass(treeViewItemConfig),
     TCocoaToolBarUtils.toClass(horzSplitItemConfig),
 
-    TCocoaToolBarUtils.toClass(showModeItemConfig)
+    TCocoaToolBarUtils.toClass(showModeItemConfig),
+    TCocoaToolBarUtils.toClass(shareItemConfig)
   ];
 
   CocoaConfigForms:= [ mainFormConfig ];
