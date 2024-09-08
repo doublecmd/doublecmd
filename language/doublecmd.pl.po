@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Double Commander 1.1.0 alpha\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-11-15 11:15+0300\n"
-"PO-Revision-Date: 2024-02-06 18:30+0000\n"
+"PO-Revision-Date: 2024-09-07 22:10+0000\n"
 "Last-Translator: Andrzej Kamiński <endriusk@interia.pl> and Maciej Bojakowski <maciejbojakowski@gmail.com>\n"
 "Language-Team: \n"
 "Language: pl\n"
@@ -10810,7 +10810,7 @@ msgstr "Nowy"
 
 #: ulng.rsmnunewwindow
 msgid "New Window"
-msgstr ""
+msgstr "Nowe okno"
 
 #: ulng.rsmnunomedia
 msgid "No media available"
@@ -12354,7 +12354,7 @@ msgstr "Grafika"
 
 #: ulng.rsopenwithmacosfilter
 msgid "Applications (*.app)|*.app|All files (*)|*"
-msgstr ""
+msgstr "Aplikacje (*.app)|*.app|Wszystkie pliki (*)|*"
 
 #: ulng.rsopenwithmultimedia
 msgid "Multimedia"
@@ -12604,7 +12604,7 @@ msgstr "Weryfikowanie sumy kontrolnej z \"%s\""
 
 #: ulng.rsoperwaitingforconnection
 msgid "Waiting for access to file source"
-msgstr "Oczekiwanie na dostęp do źródłowego pliku"
+msgstr "Oczekiwanie na dostęp do pliku źródłowego"
 
 #: ulng.rsoperwaitingforfeedback
 msgid "Waiting for user response"
