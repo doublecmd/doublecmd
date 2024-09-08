@@ -893,7 +893,7 @@ type
     {$IF DEFINED(DARWIN)}
     procedure OnNSServiceOpenWithNewTab( filenames:TStringList );
     function NSServiceMenuIsReady(): boolean;
-    function NSServiceMenuGetFilenames(): TStringList;
+    function NSServiceMenuGetFilenames(): TStringArray;
     procedure NSThemeChangedHandler();
     {$ENDIF}
     procedure LoadWindowState;
@@ -6325,37 +6325,36 @@ begin
   Result:= true;
 end;
 
-function TfrmMain.NSServiceMenuGetFilenames(): TStringList;
+function TfrmMain.NSServiceMenuGetFilenames(): TStringArray;
 var
-  filenames: TStringList;
+  filenames: TStringArray;
   i: Integer;
   files: TFiles;
   activeFile: TFile;
+  path: String;
 begin
-  Result:= nil;
-  filenames:= TStringList.Create;
-
+  filenames:= nil;
   files:= ActiveFrame.CloneSelectedFiles();
-  if files.Count>0 then
-  begin
-    for i:=0 to files.Count-1 do
-    begin
-      filenames.add( files[i].FullPath );
+  if files.Count>0 then begin
+    SetLength( filenames, files.Count );
+    for i:=0 to files.Count-1 do begin
+      filenames[i]:= 'file://' + files[i].FullPath;
     end;
-  end;
-  FreeAndNil( files );
-
-  if filenames.Count = 0 then
-  begin
+  end else begin
     activeFile:= ActiveFrame.CloneActiveFile;
     if activeFile.IsNameValid() then
-      filenames.add( activeFile.FullPath )
+      path:= activeFile.FullPath
     else
-      filenames.add( activeFile.Path );
+      path:= activeFile.Path;
     FreeAndNil( activeFile );
+    if path <> '' then begin
+      SetLength( filenames, 1 );
+      filenames[0]:= 'file://' + path;
+    end;
   end;
 
-  if filenames.Count>0 then Result:= filenames;
+  FreeAndNil( files );
+  Result:= filenames;
 end;
 
 procedure TfrmMain.NSThemeChangedHandler;

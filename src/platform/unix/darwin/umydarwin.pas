@@ -121,7 +121,7 @@ end;
 // MacOS Service Integration
 type TNSServiceProviderCallBack = Procedure( filenames:TStringList ) of object;
 type TNSServiceMenuIsReady = Function(): Boolean of object;
-type TNSServiceMenuGetFilenames = Function(): TStringList of object;
+type TNSServiceMenuGetFilenames = Function(): TStringArray of object;
 
 type TDCCocoaApplication = objcclass(TCocoaApplication)
   function validRequestorForSendType_returnType (sendType: NSString; returnType: NSString): id; override;
@@ -322,26 +322,24 @@ end;
 
 function TDCCocoaApplication.writeSelectionToPasteboard_types( pboard: NSPasteboard; types: NSArray): ObjCBOOL;
 var
-  filenameList: TStringList;
-  filenameArray: NSArray;
+  lclArray: TStringArray;
+  cocoaArray: NSArray;
 begin
   Result:= false;
-  filenameList:= self.serviceMenuGetFilenames();
-  if filenameList=nil then exit;
+  lclArray:= self.serviceMenuGetFilenames();
+  if lclArray=nil then exit;
 
-  filenameArray:= ListToNSArray( filenameList );
+  cocoaArray:= StringArrayFromLCLToNS( lclArray );
   pboard.declareTypes_owner( NSArray.arrayWithObject(NSFileNamesPboardType), nil );
-  pboard.setPropertyList_forType( filenameArray, NSFileNamesPboardType );
+  pboard.setPropertyList_forType( cocoaArray, NSFileNamesPboardType );
   Result:= true;
-
-  FreeAndNil( filenameList );
 end;
 
 procedure showMacOSSharingServiceMenu;
 var
   picker: NSSharingServicePicker;
-  filenameArray: NSArray;
-  filenameList: TStringList;
+  cocoaArray: NSArray;
+  lclArray: TStringArray;
   point: TPoint;
   popupNSRect: NSRect;
   control: TWinControl;
@@ -349,11 +347,10 @@ begin
   if not TDCCocoaApplication(NSApp).serviceMenuIsReady then
     exit;
 
-  filenameList:= TDCCocoaApplication(NSApp).serviceMenuGetFilenames;
-  if filenameList=nil then exit;
+  lclArray:= TDCCocoaApplication(NSApp).serviceMenuGetFilenames;
+  if lclArray=nil then exit;
 
-  filenameArray:= ListToNSUrlArray( filenameList );
-  FreeAndNil( filenameList );
+  cocoaArray:= UrlArrayFromLCLToNS( lclArray );
 
   control:= Screen.ActiveControl;
   point:= control.ScreenToClient( Mouse.CursorPos );
@@ -361,7 +358,7 @@ begin
   popupNSRect.origin.y:= point.Y;
   popupNSRect.size:= NSZeroSize;
 
-  picker:= NSSharingServicePicker.alloc.initWithItems( filenameArray );
+  picker:= NSSharingServicePicker.alloc.initWithItems( cocoaArray );
   picker.showRelativeToRect_ofView_preferredEdge( popupNSRect, NSView(control.handle) , NSMinYEdge );
   picker.release;
 end;
