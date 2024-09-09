@@ -68,6 +68,11 @@ begin
   frmMain.Commands.cm_Exchange([]);
 end;
 
+procedure multiRenameAction( const Sender: id );
+begin
+  frmMain.Commands.cm_MultiRename([]);
+end;
+
 const
   treeViewItemConfig: TCocoaConfigToolBarItem = (
     identifier: 'MainForm.TreeView';
@@ -159,6 +164,18 @@ const
   );
 
 
+  multiRenameItemConfig: TCocoaConfigToolBarItem = (
+     identifier: 'MainForm.MultiRename';
+     priority: NSToolbarItemVisibilityPriorityStandard;
+     navigational: False;
+     iconName: 'list.bullet.rectangle';
+     title: 'Multi Rename';
+     tips: 'Multi Rename...';
+     bordered: True;
+     onAction: @multiRenameAction;
+   );
+
+
   swapPanelsItemConfig: TCocoaConfigToolBarItem = (
     identifier: 'MainForm.SwapPanels';
     priority: NSToolbarItemVisibilityPriorityStandard;
@@ -199,6 +216,7 @@ const
         'MainForm.Share',
         'MainForm.AirDrop',
         'NSToolbarFlexibleSpaceItem',
+        'MainForm.MultiRename',
         'MainForm.SwapPanels'
       );
       allowedItemsIdentifiers: (
@@ -208,6 +226,7 @@ const
         'MainForm.ShowMode',
         'MainForm.Share',
         'MainForm.AirDrop',
+        'MainForm.MultiRename',
         'MainForm.SwapPanels'
       );
       itemCreator: nil;      // default item Creator
@@ -229,7 +248,8 @@ begin
     TCocoaToolBarUtils.toClass(showModeItemConfig),
     TCocoaToolBarUtils.toClass(shareItemConfig),
     TCocoaToolBarUtils.toClass(airdropItemConfig),
-    TCocoaToolBarUtils.toClass(swapPanelsItemConfig)
+    TCocoaToolBarUtils.toClass(swapPanelsItemConfig),
+    TCocoaToolBarUtils.toClass(multiRenameItemConfig)
   ];
 
   CocoaConfigForms:= [ mainFormConfig ];
