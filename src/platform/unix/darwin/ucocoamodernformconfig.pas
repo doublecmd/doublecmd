@@ -73,6 +73,11 @@ begin
   frmMain.Commands.cm_MultiRename([]);
 end;
 
+procedure refreshAction( const Sender: id );
+begin
+  frmMain.Commands.cm_Refresh([]);
+end;
+
 const
   treeViewItemConfig: TCocoaConfigToolBarItem = (
     identifier: 'MainForm.TreeView';
@@ -164,6 +169,17 @@ const
   );
 
 
+  refreshItemConfig: TCocoaConfigToolBarItem = (
+     identifier: 'MainForm.Refresh';
+     priority: NSToolbarItemVisibilityPriorityStandard;
+     navigational: False;
+     iconName: 'arrow.clockwise';
+     title: 'Refresh';
+     tips: 'Refresh';
+     bordered: True;
+     onAction: @refreshAction;
+   );
+
   multiRenameItemConfig: TCocoaConfigToolBarItem = (
      identifier: 'MainForm.MultiRename';
      priority: NSToolbarItemVisibilityPriorityStandard;
@@ -174,7 +190,6 @@ const
      bordered: True;
      onAction: @multiRenameAction;
    );
-
 
   swapPanelsItemConfig: TCocoaConfigToolBarItem = (
     identifier: 'MainForm.SwapPanels';
@@ -216,6 +231,7 @@ const
         'MainForm.Share',
         'MainForm.AirDrop',
         'NSToolbarFlexibleSpaceItem',
+        'MainForm.Refresh',
         'MainForm.MultiRename',
         'MainForm.SwapPanels'
       );
@@ -226,6 +242,7 @@ const
         'MainForm.ShowMode',
         'MainForm.Share',
         'MainForm.AirDrop',
+        'MainForm.Refresh',
         'MainForm.MultiRename',
         'MainForm.SwapPanels'
       );
@@ -249,6 +266,7 @@ begin
     TCocoaToolBarUtils.toClass(shareItemConfig),
     TCocoaToolBarUtils.toClass(airdropItemConfig),
     TCocoaToolBarUtils.toClass(swapPanelsItemConfig),
+    TCocoaToolBarUtils.toClass(refreshItemConfig),
     TCocoaToolBarUtils.toClass(multiRenameItemConfig)
   ];
 
