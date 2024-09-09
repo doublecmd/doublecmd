@@ -6342,14 +6342,16 @@ begin
     end;
   end else begin
     activeFile:= ActiveFrame.CloneActiveFile;
-    if activeFile.IsNameValid() then
-      path:= activeFile.FullPath
-    else
-      path:= activeFile.Path;
-    FreeAndNil( activeFile );
-    if path <> '' then begin
-      SetLength( filenames, 1 );
-      filenames[0]:= 'file://' + path;
+    if activeFile<>nil then begin
+      if activeFile.IsNameValid() then
+        path:= activeFile.FullPath
+      else
+        path:= activeFile.Path;
+      FreeAndNil( activeFile );
+      if path <> '' then begin
+        SetLength( filenames, 1 );
+        filenames[0]:= 'file://' + path;
+      end;
     end;
   end;
 

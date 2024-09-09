@@ -1102,7 +1102,9 @@ end;
 
 function TColumnsFileView.GetActiveFileIndex: PtrInt;
 begin
-  Result := dgPanel.Row - dgPanel.FixedRows;
+  Result:= -1;
+  if dgPanel<>nil then
+    Result := dgPanel.Row - dgPanel.FixedRows;
 end;
 
 function TColumnsFileView.GetVisibleFilesIndexes: TRange;

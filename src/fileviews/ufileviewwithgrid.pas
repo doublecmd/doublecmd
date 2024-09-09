@@ -660,6 +660,8 @@ end;
 
 function TFileViewWithGrid.GetActiveFileIndex: PtrInt;
 begin
+  if dgPanel=nil then
+    Exit;
   Result := dgPanel.CellToIndex(dgPanel.Col, dgPanel.Row);
 end;
 
