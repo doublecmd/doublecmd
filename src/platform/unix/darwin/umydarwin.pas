@@ -155,6 +155,7 @@ procedure InitNSServiceProvider(
 
 // MacOS Sharing
 procedure showMacOSSharingServiceMenu;
+procedure showMacOSAirDropDialog;
 
 // MacOS Theme
 type TNSThemeChangedHandler = Procedure() of object;
@@ -348,7 +349,8 @@ begin
     exit;
 
   lclArray:= TDCCocoaApplication(NSApp).serviceMenuGetFilenames;
-  if lclArray=nil then exit;
+  if lclArray = nil then
+    Exit;
 
   cocoaArray:= UrlArrayFromLCLToNS( lclArray );
 
@@ -361,6 +363,21 @@ begin
   picker:= NSSharingServicePicker.alloc.initWithItems( cocoaArray );
   picker.showRelativeToRect_ofView_preferredEdge( popupNSRect, NSView(control.handle) , NSMinYEdge );
   picker.release;
+end;
+
+procedure showMacOSAirDropDialog;
+var
+  service: NSSharingService;
+  lclArray: TStringArray;
+  cocoaArray: NSArray;
+begin
+  lclArray:= TDCCocoaApplication(NSApp).serviceMenuGetFilenames;
+  if lclArray = nil then
+    Exit;
+
+  cocoaArray:= UrlArrayFromLCLToNS( lclArray );
+  service:= NSSharingService.sharingServiceNamed( NSSharingServiceNameSendViaAirDrop );
+  service.performWithItems( cocoaArray );
 end;
 
 procedure TDCCocoaApplication.observeValueForKeyPath_ofObject_change_context(

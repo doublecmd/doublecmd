@@ -8,8 +8,9 @@ interface
 uses
   Classes, SysUtils,
   Forms,
-  fMain, uFileView, uBriefFileView, uColumnsFileView, uThumbFileView,
-  CocoaAll, CocoaConfig, CocoaToolBar, Cocoa_Extra, CocoaUtils;
+  fMain, uMyDarwin,
+  uFileView, uBriefFileView, uColumnsFileView, uThumbFileView,
+  CocoaAll, CocoaConfig, CocoaToolBar, Cocoa_Extra;
 
 implementation
 
@@ -54,7 +55,12 @@ end;
 
 function onGetSharingItems( item: NSToolBarItem ): TStringArray;
 begin
-  Result:= frmMain.NSServiceMenuGetFilenames()
+  Result:= frmMain.NSServiceMenuGetFilenames();
+end;
+
+procedure airdropAction( const Sender: id );
+begin
+  showMacOSAirDropDialog;
 end;
 
 procedure swapPanelsAction( const Sender: id );
@@ -141,6 +147,18 @@ const
     onGetItems: @onGetSharingItems;
   );
 
+  airdropItemConfig: TCocoaConfigToolBarItem = (
+    identifier: 'MainForm.AirDrop';
+    priority: NSToolbarItemVisibilityPriorityStandard;
+    navigational: False;
+    iconName: 'airplayaudio';
+    title: 'AirDrop';
+    tips: 'AirDrop';
+    bordered: True;
+    onAction: @airdropAction;
+  );
+
+
   swapPanelsItemConfig: TCocoaConfigToolBarItem = (
     identifier: 'MainForm.SwapPanels';
     priority: NSToolbarItemVisibilityPriorityStandard;
@@ -179,6 +197,8 @@ const
         'MainForm.ShowMode',
         'NSToolbarFlexibleSpaceItem',
         'MainForm.Share',
+        'MainForm.AirDrop',
+        'NSToolbarFlexibleSpaceItem',
         'MainForm.SwapPanels'
       );
       allowedItemsIdentifiers: (
@@ -187,6 +207,7 @@ const
 
         'MainForm.ShowMode',
         'MainForm.Share',
+        'MainForm.AirDrop',
         'MainForm.SwapPanels'
       );
       itemCreator: nil;      // default item Creator
@@ -207,6 +228,7 @@ begin
 
     TCocoaToolBarUtils.toClass(showModeItemConfig),
     TCocoaToolBarUtils.toClass(shareItemConfig),
+    TCocoaToolBarUtils.toClass(airdropItemConfig),
     TCocoaToolBarUtils.toClass(swapPanelsItemConfig)
   ];
 
