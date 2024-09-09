@@ -7,7 +7,7 @@ interface
 
 uses
   Classes, SysUtils,
-  Forms,
+  Forms, Menus,
   fMain, uMyDarwin,
   uFileView, uBriefFileView, uColumnsFileView, uThumbFileView,
   CocoaAll, CocoaConfig, CocoaToolBar, Cocoa_Extra;
@@ -73,9 +73,44 @@ begin
   performMacOSService( 'Finder/Show Info' );
 end;
 
-procedure swapPanelsAction( const Sender: id );
+function onGetMainFormMenu: TMenuItem;
+var
+  menu: TMenuItem;
+
+  function toItem( source: TMenuItem ): TMenuItem;
+  begin
+    Result:= TMenuItem.Create( menu );
+    Result.Caption:= source.Caption;
+    Result.Action:= source.Action;
+  end;
+
 begin
-  frmMain.Commands.cm_Exchange([]);
+  menu:= TMenuItem.Create( frmMain );
+  menu.Add( toItem(frmMain.mnuFilesSymLink) );
+  menu.Add( toItem(frmMain.mnuFilesHardLink) );
+  menu.AddSeparator;
+  menu.Add( toItem(frmMain.mnuSetFileProperties) );
+  menu.Add( toItem(frmMain.mnuFilesProperties) );
+  menu.AddSeparator;
+  menu.Add( toItem(frmMain.miEditComment) );
+  menu.AddSeparator;
+  menu.Add( toItem(frmMain.mnuCheckSumCalc) );
+  menu.Add( toItem(frmMain.mnuCheckSumVerify) );
+  menu.AddSeparator;
+  menu.Add( toItem(frmMain.mnuCmdSearch) );
+  menu.Add( toItem(frmMain.mnuCmdAddNewSearch) );
+  menu.Add( toItem(frmMain.mnuCmdViewSearches) );
+  menu.AddSeparator;
+  menu.Add( toItem(frmMain.mnuShowOperations) );
+  menu.AddSeparator;
+  menu.Add( toItem(frmMain.mnuFilesShwSysFiles) );
+
+  Result:= menu;
+end;
+
+procedure refreshAction( const Sender: id );
+begin
+  frmMain.Commands.cm_Refresh([]);
 end;
 
 procedure multiRenameAction( const Sender: id );
@@ -83,9 +118,9 @@ begin
   frmMain.Commands.cm_MultiRename([]);
 end;
 
-procedure refreshAction( const Sender: id );
+procedure swapPanelsAction( const Sender: id );
 begin
-  frmMain.Commands.cm_Refresh([]);
+  frmMain.Commands.cm_Exchange([]);
 end;
 
 const
@@ -201,6 +236,21 @@ const
      onAction: @finderInfoAction;
    );
 
+
+  menuItemConfig: TCocoaConfigToolBarItemMenu = (
+    identifier: 'MainForm.Menu';
+    iconName: 'ellipsis.circle';
+    title: 'Menu';
+    tips: '';
+    bordered: True;
+    onAction: nil;
+
+    showsIndicator: True;
+    menu: nil;
+    onGetMenu: @onGetMainFormMenu;
+  );
+
+
   refreshItemConfig: TCocoaConfigToolBarItem = (
      identifier: 'MainForm.Refresh';
      priority: NSToolbarItemVisibilityPriorityStandard;
@@ -265,6 +315,9 @@ const
         'NSToolbarFlexibleSpaceItem',
         'MainForm.FinderReveal',
         'MainForm.FinderInfo',
+        'NSToolbarFlexibleSpaceItem',
+        'MainForm.Menu',
+        'NSToolbarFlexibleSpaceItem',
         'MainForm.Refresh',
         'MainForm.MultiRename',
         'MainForm.SwapPanels'
@@ -278,6 +331,7 @@ const
         'MainForm.AirDrop',
         'MainForm.FinderReveal',
         'MainForm.FinderInfo',
+        'MainForm.Menu',
         'MainForm.Refresh',
         'MainForm.MultiRename',
         'MainForm.SwapPanels'
@@ -301,11 +355,12 @@ begin
     TCocoaToolBarUtils.toClass(showModeItemConfig),
     TCocoaToolBarUtils.toClass(shareItemConfig),
     TCocoaToolBarUtils.toClass(airdropItemConfig),
+    TCocoaToolBarUtils.toClass(menuItemConfig),
     TCocoaToolBarUtils.toClass(finderRevealItemConfig),
     TCocoaToolBarUtils.toClass(finderInfoItemConfig),
-    TCocoaToolBarUtils.toClass(swapPanelsItemConfig),
     TCocoaToolBarUtils.toClass(refreshItemConfig),
-    TCocoaToolBarUtils.toClass(multiRenameItemConfig)
+    TCocoaToolBarUtils.toClass(multiRenameItemConfig),
+    TCocoaToolBarUtils.toClass(swapPanelsItemConfig)
   ];
 
   CocoaConfigForms:= [ mainFormConfig ];
