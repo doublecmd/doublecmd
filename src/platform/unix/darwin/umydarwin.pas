@@ -153,6 +153,8 @@ procedure InitNSServiceProvider(
   isReadyFunc: TNSServiceMenuIsReady;
   getFilenamesFunc: TNSServiceMenuGetFilenames );
 
+procedure performMacOSService( serviceName: String );
+
 // MacOS Sharing
 procedure showMacOSSharingServiceMenu;
 procedure showMacOSAirDropDialog;
@@ -336,6 +338,28 @@ begin
   Result:= true;
 end;
 
+procedure TDCCocoaApplication.observeValueForKeyPath_ofObject_change_context(
+  keyPath: NSString; object_: id; change: NSDictionary; context: pointer);
+begin
+  Inherited observeValueForKeyPath_ofObject_change_context( keyPath, object_, change, context );
+  if keyPath.isEqualToString(NSSTR('effectiveAppearance')) then
+  begin
+    NSAppearance.setCurrentAppearance( self.appearance );
+    if Assigned(NSThemeChangedHandler) then NSThemeChangedHandler;
+  end;
+end;
+
+procedure InitNSThemeChangedObserver( handler: TNSThemeChangedHandler );
+begin
+  if Assigned(NSThemeChangedHandler) then exit;
+
+  NSApp.addObserver_forKeyPath_options_context(
+    NSApp, NSSTR('effectiveAppearance'), 0, nil );
+
+  NSThemeChangedHandler:= handler;
+end;
+
+
 procedure showMacOSSharingServiceMenu;
 var
   picker: NSSharingServicePicker;
@@ -380,28 +404,17 @@ begin
   service.performWithItems( cocoaArray );
 end;
 
-procedure TDCCocoaApplication.observeValueForKeyPath_ofObject_change_context(
-  keyPath: NSString; object_: id; change: NSDictionary; context: pointer);
+procedure performMacOSService( serviceName: String );
+var
+  pboard: NSPasteboard;
+  ok: Boolean;
 begin
-  Inherited observeValueForKeyPath_ofObject_change_context( keyPath, object_, change, context );
-  if keyPath.isEqualToString(NSSTR('effectiveAppearance')) then
-  begin
-    NSAppearance.setCurrentAppearance( self.appearance );
-    if Assigned(NSThemeChangedHandler) then NSThemeChangedHandler;
-  end;
+  pboard:= NSPasteboard.pasteboardWithUniqueName;
+  ok:= TDCCocoaApplication(NSApp).writeSelectionToPasteboard_types(
+    pboard , nil );
+  if ok then
+    NSPerformService( NSSTR(serviceName), pboard );
 end;
-
-procedure InitNSThemeChangedObserver( handler: TNSThemeChangedHandler );
-begin
-  if Assigned(NSThemeChangedHandler) then exit;
-
-  NSApp.addObserver_forKeyPath_options_context(
-    NSApp, NSSTR('effectiveAppearance'), 0, nil );
-
-  NSThemeChangedHandler:= handler;
-end;
-
-
 
 function NSArrayToList(const theArray:NSArray): TStringList;
 var

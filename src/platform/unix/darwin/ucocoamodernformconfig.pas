@@ -63,6 +63,11 @@ begin
   showMacOSAirDropDialog;
 end;
 
+procedure finderRevealAction( const Sender: id );
+begin
+  performMacOSService( 'Finder/Reveal' );
+end;
+
 procedure swapPanelsAction( const Sender: id );
 begin
   frmMain.Commands.cm_Exchange([]);
@@ -169,6 +174,17 @@ const
   );
 
 
+  finderRevealItemConfig: TCocoaConfigToolBarItem = (
+     identifier: 'MainForm.FinderReveal';
+     priority: NSToolbarItemVisibilityPriorityStandard;
+     navigational: False;
+     iconName: 'faceid';
+     title: 'Reveal in Finder';
+     tips: 'Reveal in Finder';
+     bordered: True;
+     onAction: @finderRevealAction;
+   );
+
   refreshItemConfig: TCocoaConfigToolBarItem = (
      identifier: 'MainForm.Refresh';
      priority: NSToolbarItemVisibilityPriorityStandard;
@@ -231,6 +247,7 @@ const
         'MainForm.Share',
         'MainForm.AirDrop',
         'NSToolbarFlexibleSpaceItem',
+        'MainForm.FinderReveal',
         'MainForm.Refresh',
         'MainForm.MultiRename',
         'MainForm.SwapPanels'
@@ -242,6 +259,7 @@ const
         'MainForm.ShowMode',
         'MainForm.Share',
         'MainForm.AirDrop',
+        'MainForm.FinderReveal',
         'MainForm.Refresh',
         'MainForm.MultiRename',
         'MainForm.SwapPanels'
@@ -265,6 +283,7 @@ begin
     TCocoaToolBarUtils.toClass(showModeItemConfig),
     TCocoaToolBarUtils.toClass(shareItemConfig),
     TCocoaToolBarUtils.toClass(airdropItemConfig),
+    TCocoaToolBarUtils.toClass(finderRevealItemConfig),
     TCocoaToolBarUtils.toClass(swapPanelsItemConfig),
     TCocoaToolBarUtils.toClass(refreshItemConfig),
     TCocoaToolBarUtils.toClass(multiRenameItemConfig)
