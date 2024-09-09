@@ -68,6 +68,11 @@ begin
   performMacOSService( 'Finder/Reveal' );
 end;
 
+procedure finderInfoAction( const Sender: id );
+begin
+  performMacOSService( 'Finder/Show Info' );
+end;
+
 procedure swapPanelsAction( const Sender: id );
 begin
   frmMain.Commands.cm_Exchange([]);
@@ -185,6 +190,17 @@ const
      onAction: @finderRevealAction;
    );
 
+  finderInfoItemConfig: TCocoaConfigToolBarItem = (
+     identifier: 'MainForm.FinderInfo';
+     priority: NSToolbarItemVisibilityPriorityStandard;
+     navigational: False;
+     iconName: 'info.circle';
+     title: 'Show Info';
+     tips: 'Show Info in Finder';
+     bordered: True;
+     onAction: @finderInfoAction;
+   );
+
   refreshItemConfig: TCocoaConfigToolBarItem = (
      identifier: 'MainForm.Refresh';
      priority: NSToolbarItemVisibilityPriorityStandard;
@@ -248,6 +264,7 @@ const
         'MainForm.AirDrop',
         'NSToolbarFlexibleSpaceItem',
         'MainForm.FinderReveal',
+        'MainForm.FinderInfo',
         'MainForm.Refresh',
         'MainForm.MultiRename',
         'MainForm.SwapPanels'
@@ -260,6 +277,7 @@ const
         'MainForm.Share',
         'MainForm.AirDrop',
         'MainForm.FinderReveal',
+        'MainForm.FinderInfo',
         'MainForm.Refresh',
         'MainForm.MultiRename',
         'MainForm.SwapPanels'
@@ -284,6 +302,7 @@ begin
     TCocoaToolBarUtils.toClass(shareItemConfig),
     TCocoaToolBarUtils.toClass(airdropItemConfig),
     TCocoaToolBarUtils.toClass(finderRevealItemConfig),
+    TCocoaToolBarUtils.toClass(finderInfoItemConfig),
     TCocoaToolBarUtils.toClass(swapPanelsItemConfig),
     TCocoaToolBarUtils.toClass(refreshItemConfig),
     TCocoaToolBarUtils.toClass(multiRenameItemConfig)
