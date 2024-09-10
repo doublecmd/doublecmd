@@ -123,6 +123,11 @@ begin
   frmMain.Commands.cm_MultiRename([]);
 end;
 
+procedure terminalAction( const Sender: id );
+begin
+  frmMain.Commands.cm_RunTerm([]);
+end;
+
 procedure swapPanelsAction( const Sender: id );
 begin
   frmMain.Commands.cm_Exchange([]);
@@ -289,6 +294,17 @@ const
      onAction: @multiRenameAction;
    );
 
+  terminalItemConfig: TCocoaConfigToolBarItem = (
+    identifier: 'MainForm.Terminal';
+    priority: NSToolbarItemVisibilityPriorityStandard;
+    navigational: False;
+    iconName: 'terminal';
+    title: 'Terminal';
+    tips: 'Run Terminal';
+    bordered: True;
+    onAction: @terminalAction;
+  );
+
   swapPanelsItemConfig: TCocoaConfigToolBarItem = (
     identifier: 'MainForm.SwapPanels';
     priority: NSToolbarItemVisibilityPriorityStandard;
@@ -337,6 +353,7 @@ const
         'NSToolbarFlexibleSpaceItem',
         'MainForm.Refresh',
         'MainForm.MultiRename',
+        'MainForm.Terminal',
         'MainForm.SwapPanels'
       );
       allowedItemsIdentifiers: (
@@ -352,6 +369,7 @@ const
         'MainForm.Menu',
         'MainForm.Refresh',
         'MainForm.MultiRename',
+        'MainForm.Terminal',
         'MainForm.SwapPanels'
       );
       itemCreator: nil;      // default item Creator
@@ -379,6 +397,7 @@ begin
     TCocoaToolBarUtils.toClass(quickLookItemConfig),
     TCocoaToolBarUtils.toClass(refreshItemConfig),
     TCocoaToolBarUtils.toClass(multiRenameItemConfig),
+    TCocoaToolBarUtils.toClass(terminalItemConfig),
     TCocoaToolBarUtils.toClass(swapPanelsItemConfig)
   ];
 
