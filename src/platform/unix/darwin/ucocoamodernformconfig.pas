@@ -8,7 +8,7 @@ interface
 uses
   Classes, SysUtils,
   Forms, Menus,
-  fMain, uMyDarwin,
+  fMain, uMyDarwin, uDCUtils,
   uFileView, uBriefFileView, uColumnsFileView, uThumbFileView,
   CocoaAll, CocoaConfig, CocoaToolBar, Cocoa_Extra;
 
@@ -68,6 +68,11 @@ begin
   showMacOSAirDropDialog;
 end;
 
+procedure quickLookAction( const Sender: id );
+begin
+  showQuickLookPanel;
+end;
+
 procedure finderRevealAction( const Sender: id );
 begin
   performMacOSService( 'Finder/Reveal' );
@@ -78,17 +83,16 @@ begin
   performMacOSService( 'Finder/Show Info' );
 end;
 
-procedure quickLookAction( const Sender: id );
-begin
-  showQuickLookPanel;
-end;
-
 
 type
+  
+  { TToolBarMenuHandler }
+
   TToolBarMenuHandler = class
   public
     procedure showFavoriteTabs( Sender: TObject );
     procedure showHotlist( Sender: TObject );
+    procedure goToFolder( Sender: TObject );
   end;
 
 var
@@ -104,7 +108,70 @@ begin
   frmMain.Commands.cm_LoadFavoriteTabs(['position=cursor'])
 end;
 
-function onGetMainFormMenu: TMenuItem;
+procedure TToolBarMenuHandler.goToFolder(Sender: TObject);
+const
+  folders: TStringArray = (
+    '~/Documents',
+    '~/Desktop',
+    '~',
+    '~/Pictures',
+    '~/Movies',
+    '~/Music',
+
+    '~/Downloads',
+    '~/Library',
+    '/Applications',
+    '/Applications/Utilities'
+  );
+var
+  menuItem: TMenuItem absolute Sender;
+  path: String;
+begin
+  path:= uDCUtils.ReplaceTilde( folders[menuItem.Tag] );
+  frmMain.Commands.cm_ChangeDir( [path] );
+end;
+
+function onGetFolderMenu: TMenuItem;
+var
+  menu: TMenuItem;
+  tag: PtrInt = 0;
+
+  function newItem( caption: String ): TMenuItem;
+  begin
+    Result:= TMenuItem.Create( menu );
+    Result.Caption:= caption;
+    Result.onClick:= @toolBarMenuHandler.goToFolder;
+    Result.Tag:= tag;
+    inc( tag );
+  end;
+
+begin
+  menu:= TMenuItem.Create( frmMain );
+  menu.Add( newItem('􀈕  Documents') );
+  menu.Add( newItem('􀣰  Desktop') );
+  menu.Add( newItem('􀎞  Home') );
+  menu.Add( newItem('􀏅  Pictures') );
+  menu.Add( newItem('􀎶  Movies') );
+  menu.Add( newItem('􀫀  Music') );
+  menu.AddSeparator;
+  menu.Add( newItem(' 􀁸  Downloads') );
+  menu.Add( newItem(' 􀀚  Library') );
+  menu.Add( newItem(' 􀀄  Applications') );
+  menu.Add( newItem(' 􀀬  Utilities') );
+  Result:= menu;
+end;
+
+procedure showFolderMenu( const Sender: id );
+var
+  popupMenu: TPopupMenu;
+begin
+  popupMenu:= TPopupMenu.Create( nil );
+  popupMenu.Items.Assign( onGetFolderMenu );
+  popupMenu.PopUp;
+  popupMenu.Free;
+end;
+
+function onGetCommandMenu: TMenuItem;
 var
   menu: TMenuItem;
 
@@ -130,8 +197,6 @@ var
   end;
 
 begin
-  toolBarMenuHandler:= TToolBarMenuHandler.Create;
-
   menu:= TMenuItem.Create( frmMain );
   menu.Add( toItem(frmMain.miMultiRename) );
   menu.Add( toItem(frmMain.mnuFilesCmpCnt) );
@@ -283,6 +348,30 @@ const
   );
 
 
+  quickLookItemConfig: TCocoaConfigToolBarItem = (
+     identifier: 'MainForm.QuickLook';
+     priority: NSToolbarItemVisibilityPriorityStandard;
+     navigational: False;
+     iconName: 'eye';
+     title: 'Preview';
+     tips: 'Preview...';
+     bordered: True;
+     onAction: @quickLookAction;
+   );
+
+  goItemConfig: TCocoaConfigToolBarItemMenu = (
+    identifier: 'MainForm.Go';
+    iconName: 'folder';
+    title: 'Go';
+    tips: 'Go...';
+    bordered: True;
+    onAction: @showFolderMenu;
+
+    showsIndicator: False;
+    menu: nil;
+    onGetMenu: @onGetFolderMenu;
+  );
+
   finderRevealItemConfig: TCocoaConfigToolBarItem = (
      identifier: 'MainForm.FinderReveal';
      priority: NSToolbarItemVisibilityPriorityStandard;
@@ -305,29 +394,18 @@ const
      onAction: @finderInfoAction;
    );
 
-  quickLookItemConfig: TCocoaConfigToolBarItem = (
-     identifier: 'MainForm.QuickLook';
-     priority: NSToolbarItemVisibilityPriorityStandard;
-     navigational: False;
-     iconName: 'eye';
-     title: 'Preview';
-     tips: 'Preview...';
-     bordered: True;
-     onAction: @quickLookAction;
-   );
 
-
-  menuItemConfig: TCocoaConfigToolBarItemMenu = (
-    identifier: 'MainForm.Menu';
+  commandItemConfig: TCocoaConfigToolBarItemMenu = (
+    identifier: 'MainForm.Command';
     iconName: 'ellipsis.circle';
-    title: 'Menu';
+    title: 'Command';
     tips: '';
     bordered: True;
     onAction: nil;
 
     showsIndicator: True;
     menu: nil;
-    onGetMenu: @onGetMainFormMenu;
+    onGetMenu: @onGetCommandMenu;
   );
 
 
@@ -348,7 +426,7 @@ const
     navigational: False;
     iconName: 'terminal';
     title: 'Terminal';
-    tips: 'Run Terminal';
+    tips: 'Open in Terminal';
     bordered: True;
     onAction: @terminalAction;
   );
@@ -394,11 +472,12 @@ const
         'MainForm.Share',
         'MainForm.AirDrop',
         'NSToolbarFlexibleSpaceItem',
+        'MainForm.QuickLook',
+        'MainForm.Go',
         'MainForm.FinderReveal',
         'MainForm.FinderInfo',
-        'MainForm.QuickLook',
         'NSToolbarFlexibleSpaceItem',
-        'MainForm.Menu',
+        'MainForm.Command',
         'NSToolbarFlexibleSpaceItem',
         'MainForm.Terminal',
         'MainForm.Refresh',
@@ -412,10 +491,11 @@ const
         'MainForm.ShowMode',
         'MainForm.Share',
         'MainForm.AirDrop',
+        'MainForm.QuickLook',
+        'MainForm.Go',
         'MainForm.FinderReveal',
         'MainForm.FinderInfo',
-        'MainForm.QuickLook',
-        'MainForm.Menu',
+        'MainForm.Command',
         'MainForm.Terminal',
         'MainForm.Refresh',
         'MainForm.SearchFiles'
@@ -440,23 +520,29 @@ begin
     TCocoaToolBarUtils.toClass(showModeItemConfig),
     TCocoaToolBarUtils.toClass(shareItemConfig),
     TCocoaToolBarUtils.toClass(airdropItemConfig),
-    TCocoaToolBarUtils.toClass(menuItemConfig),
+    TCocoaToolBarUtils.toClass(commandItemConfig),
+    TCocoaToolBarUtils.toClass(quickLookItemConfig),
+    TCocoaToolBarUtils.toClass(goItemConfig),
     TCocoaToolBarUtils.toClass(finderRevealItemConfig),
     TCocoaToolBarUtils.toClass(finderInfoItemConfig),
-    TCocoaToolBarUtils.toClass(quickLookItemConfig),
     TCocoaToolBarUtils.toClass(terminalItemConfig),
     TCocoaToolBarUtils.toClass(refreshItemConfig),
     TCocoaToolBarUtils.toClass(searchFilesItemConfig)
   ];
 
   CocoaConfigForms:= [ mainFormConfig ];
+end;
 
+procedure init;
+begin
   fMain.onFileViewUpdated:= @onFileViewUpdated;
+  toolBarMenuHandler:= TToolBarMenuHandler.Create;
+  initCocoaModernFormConfig;
 end;
 
 initialization
   if NSAppKitVersionNumber >= NSAppKitVersionNumber11_0 then
-    initCocoaModernFormConfig;
+    init;
 
 end.
 
