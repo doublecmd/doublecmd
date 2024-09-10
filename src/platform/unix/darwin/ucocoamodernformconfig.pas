@@ -133,6 +133,11 @@ begin
   frmMain.Commands.cm_Exchange([]);
 end;
 
+procedure searchFilesAction( const Sender: id );
+begin
+  frmMain.Commands.cm_Search([]);
+end;
+
 const
   treeViewItemConfig: TCocoaConfigToolBarItem = (
     identifier: 'MainForm.TreeView';
@@ -316,6 +321,17 @@ const
     onAction: @swapPanelsAction;
   );
 
+  searchFilesItemConfig: TCocoaConfigToolBarItem = (
+    identifier: 'MainForm.SearchFiles';
+    priority: NSToolbarItemVisibilityPriorityStandard;
+    navigational: False;
+    iconName: 'magnifyingglass';
+    title: 'Search';
+    tips: 'Search Files...';
+    bordered: True;
+    onAction: @searchFilesAction;
+  );
+
   mainFormConfig: TCocoaConfigForm = (
     name: 'frmMain';
     className: '';
@@ -354,7 +370,8 @@ const
         'MainForm.Refresh',
         'MainForm.MultiRename',
         'MainForm.Terminal',
-        'MainForm.SwapPanels'
+        'MainForm.SwapPanels',
+        'MainForm.SearchFiles'
       );
       allowedItemsIdentifiers: (
         'MainForm.TreeView',
@@ -370,7 +387,8 @@ const
         'MainForm.Refresh',
         'MainForm.MultiRename',
         'MainForm.Terminal',
-        'MainForm.SwapPanels'
+        'MainForm.SwapPanels',
+        'MainForm.SearchFiles'
       );
       itemCreator: nil;      // default item Creator
     );
@@ -398,7 +416,8 @@ begin
     TCocoaToolBarUtils.toClass(refreshItemConfig),
     TCocoaToolBarUtils.toClass(multiRenameItemConfig),
     TCocoaToolBarUtils.toClass(terminalItemConfig),
-    TCocoaToolBarUtils.toClass(swapPanelsItemConfig)
+    TCocoaToolBarUtils.toClass(swapPanelsItemConfig),
+    TCocoaToolBarUtils.toClass(searchFilesItemConfig)
   ];
 
   CocoaConfigForms:= [ mainFormConfig ];
