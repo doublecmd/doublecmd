@@ -6338,7 +6338,7 @@ begin
   if files.Count>0 then begin
     SetLength( filenames, files.Count );
     for i:=0 to files.Count-1 do begin
-      filenames[i]:= 'file://' + files[i].FullPath;
+      filenames[i]:= files[i].FullPath;
     end;
   end else begin
     activeFile:= ActiveFrame.CloneActiveFile;
@@ -6350,7 +6350,7 @@ begin
       FreeAndNil( activeFile );
       if path <> '' then begin
         SetLength( filenames, 1 );
-        filenames[0]:= 'file://' + path;
+        filenames[0]:= path;
       end;
     end;
   end;
