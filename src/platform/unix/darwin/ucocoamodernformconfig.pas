@@ -24,6 +24,11 @@ begin
   frmMain.Commands.cm_HorizontalFilePanels([]);
 end;
 
+procedure swapPanelsAction( const Sender: id );
+begin
+  frmMain.Commands.cm_Exchange([]);
+end;
+
 procedure showModeAction( const Sender: id );
 var
   showModeItem: NSToolBarItemGroup absolute Sender;
@@ -78,6 +83,27 @@ begin
   showQuickLookPanel;
 end;
 
+
+type
+  TToolBarMenuHandler = class
+  public
+    procedure showFavoriteTabs( Sender: TObject );
+    procedure showHotlist( Sender: TObject );
+  end;
+
+var
+  toolBarMenuHandler: TToolBarMenuHandler;
+
+procedure TToolBarMenuHandler.showHotlist( Sender: TObject );
+begin
+  frmMain.Commands.cm_DirHotList(['position=cursor'])
+end;
+
+procedure TToolBarMenuHandler.showFavoriteTabs( Sender: TObject );
+begin
+  frmMain.Commands.cm_LoadFavoriteTabs(['position=cursor'])
+end;
+
 function onGetMainFormMenu: TMenuItem;
 var
   menu: TMenuItem;
@@ -89,38 +115,54 @@ var
     Result.Action:= source.Action;
   end;
 
+  function createShowHotlistMenuItem: TMenuItem;
+  begin
+    Result:= TMenuItem.Create( menu );
+    Result.Caption:= 'Directory Hotlist';
+    Result.OnClick:= @toolBarMenuHandler.showHotlist;
+  end;
+
+  function createShowFavoriteMenuItem: TMenuItem;
+  begin
+    Result:= TMenuItem.Create( menu );
+    Result.Caption:= 'Favorite Tabs';
+    Result.OnClick:= @toolBarMenuHandler.showFavoriteTabs;
+  end;
+
 begin
+  toolBarMenuHandler:= TToolBarMenuHandler.Create;
+
   menu:= TMenuItem.Create( frmMain );
+  menu.Add( toItem(frmMain.miMultiRename) );
+  menu.Add( toItem(frmMain.mnuFilesCmpCnt) );
+  menu.Add( toItem(frmMain.mnuCmdSyncDirs) );
+  menu.AddSeparator;
+  menu.Add( toItem(frmMain.mnuCmdSearch) );
+  menu.Add( toItem(frmMain.mnuCmdAddNewSearch) );
+  menu.Add( toItem(frmMain.mnuCmdViewSearches) );
+  menu.AddSeparator;
+  menu.Add( createShowHotlistMenuItem );
+  menu.Add( toItem(frmMain.mnuCmdConfigDirHotlist) );
+  menu.AddSeparator;
+  menu.Add( createShowFavoriteMenuItem );
+  menu.Add( toItem(frmMain.mnuConfigFavoriteTabs) );
+  menu.AddSeparator;
+  menu.Add( toItem(frmMain.mnuQuickView) );
+  menu.Add( toItem(frmMain.mnuFilesShwSysFiles) );
+  menu.Add( toItem(frmMain.mnuShowOperations) );
+  menu.AddSeparator;
+  menu.Add( toItem(frmMain.miEditComment) );
+  menu.AddSeparator;
   menu.Add( toItem(frmMain.mnuFilesSymLink) );
   menu.Add( toItem(frmMain.mnuFilesHardLink) );
   menu.AddSeparator;
   menu.Add( toItem(frmMain.mnuSetFileProperties) );
   menu.Add( toItem(frmMain.mnuFilesProperties) );
   menu.AddSeparator;
-  menu.Add( toItem(frmMain.miEditComment) );
-  menu.AddSeparator;
   menu.Add( toItem(frmMain.mnuCheckSumCalc) );
   menu.Add( toItem(frmMain.mnuCheckSumVerify) );
-  menu.AddSeparator;
-  menu.Add( toItem(frmMain.mnuCmdSearch) );
-  menu.Add( toItem(frmMain.mnuCmdAddNewSearch) );
-  menu.Add( toItem(frmMain.mnuCmdViewSearches) );
-  menu.AddSeparator;
-  menu.Add( toItem(frmMain.mnuShowOperations) );
-  menu.AddSeparator;
-  menu.Add( toItem(frmMain.mnuFilesShwSysFiles) );
 
   Result:= menu;
-end;
-
-procedure refreshAction( const Sender: id );
-begin
-  frmMain.Commands.cm_Refresh([]);
-end;
-
-procedure multiRenameAction( const Sender: id );
-begin
-  frmMain.Commands.cm_MultiRename([]);
 end;
 
 procedure terminalAction( const Sender: id );
@@ -128,15 +170,16 @@ begin
   frmMain.Commands.cm_RunTerm([]);
 end;
 
-procedure swapPanelsAction( const Sender: id );
+procedure refreshAction( const Sender: id );
 begin
-  frmMain.Commands.cm_Exchange([]);
+  frmMain.Commands.cm_Refresh([]);
 end;
 
 procedure searchFilesAction( const Sender: id );
 begin
   frmMain.Commands.cm_Search([]);
 end;
+
 
 const
   treeViewItemConfig: TCocoaConfigToolBarItem = (
@@ -159,6 +202,17 @@ const
     tips: 'Horizontal Panels Mode';
     bordered: True;
     onAction: @toggleHorzSplitAction;
+  );
+
+  swapPanelsItemConfig: TCocoaConfigToolBarItem = (
+    identifier: 'MainForm.SwapPanels';
+    priority: NSToolbarItemVisibilityPriorityStandard;
+    navigational: True;
+    iconName: 'arrow.left.arrow.right.square';
+    title: 'Swap';
+    tips: 'Swap Panels';
+    bordered: True;
+    onAction: @swapPanelsAction;
   );
 
 
@@ -288,17 +342,6 @@ const
      onAction: @refreshAction;
    );
 
-  multiRenameItemConfig: TCocoaConfigToolBarItem = (
-     identifier: 'MainForm.MultiRename';
-     priority: NSToolbarItemVisibilityPriorityStandard;
-     navigational: False;
-     iconName: 'list.bullet.rectangle';
-     title: 'Multi Rename';
-     tips: 'Multi Rename...';
-     bordered: True;
-     onAction: @multiRenameAction;
-   );
-
   terminalItemConfig: TCocoaConfigToolBarItem = (
     identifier: 'MainForm.Terminal';
     priority: NSToolbarItemVisibilityPriorityStandard;
@@ -308,17 +351,6 @@ const
     tips: 'Run Terminal';
     bordered: True;
     onAction: @terminalAction;
-  );
-
-  swapPanelsItemConfig: TCocoaConfigToolBarItem = (
-    identifier: 'MainForm.SwapPanels';
-    priority: NSToolbarItemVisibilityPriorityStandard;
-    navigational: False;
-    iconName: 'arrow.left.arrow.right.square';
-    title: 'Swap';
-    tips: 'Swap Panels';
-    bordered: True;
-    onAction: @swapPanelsAction;
   );
 
   searchFilesItemConfig: TCocoaConfigToolBarItem = (
@@ -355,6 +387,7 @@ const
       defaultItemsIdentifiers: (
         'MainForm.TreeView',
         'MainForm.HorzSplit',
+        'MainForm.SwapPanels',
 
         'MainForm.ShowMode',
         'NSToolbarFlexibleSpaceItem',
@@ -367,15 +400,14 @@ const
         'NSToolbarFlexibleSpaceItem',
         'MainForm.Menu',
         'NSToolbarFlexibleSpaceItem',
-        'MainForm.Refresh',
-        'MainForm.MultiRename',
         'MainForm.Terminal',
-        'MainForm.SwapPanels',
+        'MainForm.Refresh',
         'MainForm.SearchFiles'
       );
       allowedItemsIdentifiers: (
         'MainForm.TreeView',
         'MainForm.HorzSplit',
+        'MainForm.SwapPanels',
 
         'MainForm.ShowMode',
         'MainForm.Share',
@@ -384,10 +416,8 @@ const
         'MainForm.FinderInfo',
         'MainForm.QuickLook',
         'MainForm.Menu',
-        'MainForm.Refresh',
-        'MainForm.MultiRename',
         'MainForm.Terminal',
-        'MainForm.SwapPanels',
+        'MainForm.Refresh',
         'MainForm.SearchFiles'
       );
       itemCreator: nil;      // default item Creator
@@ -405,6 +435,7 @@ begin
   mainFormConfig.toolBar.items:= [
     TCocoaToolBarUtils.toClass(treeViewItemConfig),
     TCocoaToolBarUtils.toClass(horzSplitItemConfig),
+    TCocoaToolBarUtils.toClass(swapPanelsItemConfig),
 
     TCocoaToolBarUtils.toClass(showModeItemConfig),
     TCocoaToolBarUtils.toClass(shareItemConfig),
@@ -413,10 +444,8 @@ begin
     TCocoaToolBarUtils.toClass(finderRevealItemConfig),
     TCocoaToolBarUtils.toClass(finderInfoItemConfig),
     TCocoaToolBarUtils.toClass(quickLookItemConfig),
-    TCocoaToolBarUtils.toClass(refreshItemConfig),
-    TCocoaToolBarUtils.toClass(multiRenameItemConfig),
     TCocoaToolBarUtils.toClass(terminalItemConfig),
-    TCocoaToolBarUtils.toClass(swapPanelsItemConfig),
+    TCocoaToolBarUtils.toClass(refreshItemConfig),
     TCocoaToolBarUtils.toClass(searchFilesItemConfig)
   ];
 
