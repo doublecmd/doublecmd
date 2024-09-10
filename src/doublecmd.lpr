@@ -94,6 +94,7 @@ uses
   {$ENDIF}
   {$IFDEF LclCocoa}
   ,uCocoaModernFormConfig
+  ,CocoaConfig
   {$ENDIF}
   ;
 
@@ -144,6 +145,8 @@ begin
 
 {$IF DEFINED(DARWIN)}
   GetMacFormatSettings(DefaultFormatSettings);
+  CocoaConfigGlobal.useIcon:= True;
+  Application.Icon:= nil;
 {$ENDIF}
 
   uDCVersion.InitializeVersionInfo;
