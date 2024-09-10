@@ -35,7 +35,8 @@ interface
 
 uses
   Classes, SysUtils, UnixType,
-  Cocoa_Extra, MacOSAll, CocoaAll, CocoaUtils, CocoaInt, CocoaConst, CocoaMenus,
+  Cocoa_Extra, MacOSAll, CocoaAll, QuickLookUI,
+  CocoaUtils, CocoaInt, CocoaConst, CocoaMenus,
   InterfaceBase, Menus, Controls, Forms,
   uDarwinFSWatch;
 
@@ -154,6 +155,8 @@ procedure InitNSServiceProvider(
   getFilenamesFunc: TNSServiceMenuGetFilenames );
 
 procedure performMacOSService( serviceName: String );
+
+procedure showQuickLookPanel;
 
 // MacOS Sharing
 procedure showMacOSSharingServiceMenu;
@@ -644,6 +647,63 @@ begin
   if (NetFS <> NilHandle) then FreeLibrary(NetFS);
   if (CoreServices <> NilHandle) then FreeLibrary(CoreServices);
   FreeAndNil( MacosServiceMenuHelper );
+end;
+
+type
+  
+  { TDCQLPreviewPanelMate }
+
+  TDCQLPreviewPanelMate = objcclass( NSObject, QLPreviewPanelDataSourceProtocol )
+  private
+    _urlArray: NSArray;
+  public
+    function numberOfPreviewItemsInPreviewPanel (panel: QLPreviewPanel): NSInteger;
+    function previewPanel_previewItemAtIndex (panel: QLPreviewPanel; index: NSInteger): QLPreviewItemProtocol;
+  public
+    function initWithItems( urlArray: NSArray ): id; message 'setUrlArray:';
+    procedure dealloc; override;
+  end;
+
+function TDCQLPreviewPanelMate.numberOfPreviewItemsInPreviewPanel(
+  panel: QLPreviewPanel): NSInteger;
+begin
+  Result:= _urlArray.count;
+end;
+
+function TDCQLPreviewPanelMate.previewPanel_previewItemAtIndex(panel: QLPreviewPanel;
+  index: NSInteger): QLPreviewItemProtocol;
+begin
+  Result:= QLPreviewItemProtocol( _urlArray.objectAtIndex(index) );
+end;
+
+function TDCQLPreviewPanelMate.initWithItems(urlArray: NSArray): id;
+begin
+  Result:= Inherited init;
+  _urlArray:= urlArray;
+  _urlArray.retain;
+end;
+
+procedure TDCQLPreviewPanelMate.dealloc;
+begin
+  _urlArray.release;
+  Inherited;
+end;
+
+procedure showQuickLookPanel;
+var
+  lclArray: TStringArray;
+  mate: TDCQLPreviewPanelMate;
+  panel: QLPreviewPanel;
+begin
+  lclArray:= TDCCocoaApplication(NSApp).serviceMenuGetFilenames;
+  if lclArray = nil then
+    Exit;
+
+  mate:= TDCQLPreviewPanelMate.alloc.initWithItems( UrlArrayFromLCLToNS(lclArray) );
+  panel:= QLPreviewPanel.sharedPreviewPanel;
+  panel.setDataSource( mate );
+  panel.makeKeyAndOrderFront( nil );
+  mate.release;
 end;
 
 initialization

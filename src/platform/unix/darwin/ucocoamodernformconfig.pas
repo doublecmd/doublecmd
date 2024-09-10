@@ -73,6 +73,11 @@ begin
   performMacOSService( 'Finder/Show Info' );
 end;
 
+procedure quickLookAction( const Sender: id );
+begin
+  showQuickLookPanel;
+end;
+
 function onGetMainFormMenu: TMenuItem;
 var
   menu: TMenuItem;
@@ -236,6 +241,17 @@ const
      onAction: @finderInfoAction;
    );
 
+  quickLookItemConfig: TCocoaConfigToolBarItem = (
+     identifier: 'MainForm.QuickLook';
+     priority: NSToolbarItemVisibilityPriorityStandard;
+     navigational: False;
+     iconName: 'eye';
+     title: 'Preview';
+     tips: 'Preview...';
+     bordered: True;
+     onAction: @quickLookAction;
+   );
+
 
   menuItemConfig: TCocoaConfigToolBarItemMenu = (
     identifier: 'MainForm.Menu';
@@ -315,6 +331,7 @@ const
         'NSToolbarFlexibleSpaceItem',
         'MainForm.FinderReveal',
         'MainForm.FinderInfo',
+        'MainForm.QuickLook',
         'NSToolbarFlexibleSpaceItem',
         'MainForm.Menu',
         'NSToolbarFlexibleSpaceItem',
@@ -331,6 +348,7 @@ const
         'MainForm.AirDrop',
         'MainForm.FinderReveal',
         'MainForm.FinderInfo',
+        'MainForm.QuickLook',
         'MainForm.Menu',
         'MainForm.Refresh',
         'MainForm.MultiRename',
@@ -358,6 +376,7 @@ begin
     TCocoaToolBarUtils.toClass(menuItemConfig),
     TCocoaToolBarUtils.toClass(finderRevealItemConfig),
     TCocoaToolBarUtils.toClass(finderInfoItemConfig),
+    TCocoaToolBarUtils.toClass(quickLookItemConfig),
     TCocoaToolBarUtils.toClass(refreshItemConfig),
     TCocoaToolBarUtils.toClass(multiRenameItemConfig),
     TCocoaToolBarUtils.toClass(swapPanelsItemConfig)
