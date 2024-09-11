@@ -7,7 +7,7 @@ interface
 
 uses
   Classes, SysUtils,
-  Forms, Menus,
+  LCLType, Forms, Menus,
   fMain, uMyDarwin, uDCUtils,
   uFileView, uBriefFileView, uColumnsFileView, uThumbFileView,
   CocoaAll, CocoaConfig, CocoaToolBar, Cocoa_Extra;
@@ -121,7 +121,9 @@ const
     '~/Downloads',
     '~/Library',
     '/Applications',
-    '/Applications/Utilities'
+    '/Applications/Utilities',
+
+    '~/.Trash'
   );
 var
   menuItem: TMenuItem absolute Sender;
@@ -158,6 +160,8 @@ begin
   menu.Add( newItem(' 􀀚  Library') );
   menu.Add( newItem(' 􀀄  Applications') );
   menu.Add( newItem(' 􀀬  Utilities') );
+  menu.AddSeparator;
+  menu.Add( newItem(' 􀈑  Trash') );
   Result:= menu;
 end;
 
