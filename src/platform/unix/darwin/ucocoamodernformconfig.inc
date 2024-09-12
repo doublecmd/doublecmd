@@ -90,8 +90,9 @@ type
 
   TToolBarMenuHandler = class
   public
-    procedure showFavoriteTabs( Sender: TObject );
     procedure showHotlist( Sender: TObject );
+    procedure showFavoriteTabs( Sender: TObject );
+    procedure showQuickLookPanel( Sender: TObject );
     procedure goToFolder( Sender: TObject );
   end;
 
@@ -100,12 +101,17 @@ var
 
 procedure TToolBarMenuHandler.showHotlist( Sender: TObject );
 begin
-  frmMain.Commands.cm_DirHotList(['position=cursor'])
+  frmMain.Commands.cm_DirHotList(['position=cursor']);
 end;
 
 procedure TToolBarMenuHandler.showFavoriteTabs( Sender: TObject );
 begin
-  frmMain.Commands.cm_LoadFavoriteTabs(['position=cursor'])
+  frmMain.Commands.cm_LoadFavoriteTabs(['position=cursor']);
+end;
+
+procedure TToolBarMenuHandler.showQuickLookPanel( Sender: TObject );
+begin
+  quickLookAction( nil );
 end;
 
 procedure TToolBarMenuHandler.goToFolder(Sender: TObject);
@@ -200,6 +206,14 @@ var
     Result.OnClick:= @toolBarMenuHandler.showFavoriteTabs;
   end;
 
+  function createQuickLookMenuItem: TMenuItem;
+  begin
+    Result:= TMenuItem.Create( menu );
+    Result.Caption:= 'macOS QuickLook';
+    Result.OnClick:= @toolBarMenuHandler.showQuickLookPanel;
+    Result.ShortCut:= ShortCut( Word(' '), [ssAlt] );
+  end;
+
 begin
   menu:= TMenuItem.Create( frmMain );
   menu.Add( toItem(frmMain.miMultiRename) );
@@ -216,6 +230,7 @@ begin
   menu.Add( createShowFavoriteMenuItem );
   menu.Add( toItem(frmMain.mnuConfigFavoriteTabs) );
   menu.AddSeparator;
+  menu.Add( createQuickLookMenuItem );
   menu.Add( toItem(frmMain.mnuQuickView) );
   menu.Add( toItem(frmMain.mnuFilesShwSysFiles) );
   menu.Add( toItem(frmMain.mnuShowOperations) );
