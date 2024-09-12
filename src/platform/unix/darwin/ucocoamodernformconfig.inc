@@ -171,16 +171,6 @@ begin
   Result:= menu;
 end;
 
-procedure showFolderMenu( const Sender: id );
-var
-  popupMenu: TPopupMenu;
-begin
-  popupMenu:= TPopupMenu.Create( nil );
-  popupMenu.Items.Assign( onGetFolderMenu );
-  popupMenu.PopUp;
-  popupMenu.Free;
-end;
-
 function onGetCommandMenu: TMenuItem;
 var
   menu: TMenuItem;
@@ -384,7 +374,7 @@ const
     title: 'Go';
     tips: 'Go...';
     bordered: True;
-    onAction: @showFolderMenu;
+    onAction: nil;
 
     showsIndicator: False;
     menu: nil;
