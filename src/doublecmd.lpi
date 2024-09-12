@@ -311,7 +311,7 @@ end;"/>
         <PackageName Value="Image32"/>
       </Item13>
     </RequiredPackages>
-    <Units Count="273">
+    <Units Count="274">
       <Unit0>
         <Filename Value="doublecmd.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -1996,6 +1996,10 @@ end;"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uCocoaModernFormConfig"/>
       </Unit272>
+      <Unit273>
+        <Filename Value="platform\unix\darwin\ucocoamodernformconfig.inc"/>
+        <IsPartOfProject Value="True"/>
+      </Unit273>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

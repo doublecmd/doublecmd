@@ -93,7 +93,9 @@ uses
   , uMyUnix
   {$ENDIF}
   {$IFDEF LclCocoa}
+{$if NOT defined(DisableCocoaModernForm)}
   ,uCocoaModernFormConfig
+{$endif}
   ,CocoaConfig
   {$ENDIF}
   ;
