@@ -122,7 +122,7 @@ begin
             S:= EmptyStr;
           end;
         end;
-        if ProcessDataProcW(nil, -(Percent + 1000)) = 0 then
+        if ProcessDataProcW(nil, -Percent) = 0 then
         begin
           Process.Terminate(255);
           Exit(E_EABORTED);
