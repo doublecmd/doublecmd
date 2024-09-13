@@ -161,11 +161,11 @@ begin
   menu.Add( newItem('􀏅  Pictures') );
   menu.Add( newItem('􀎶  Movies') );
   menu.Add( newItem('􀫀  Music') );
+  menu.Add( newItem('􀤋  Utilities') );
   menu.AddSeparator;
   menu.Add( newItem(' 􀁸  Downloads') );
   menu.Add( newItem(' 􀀚  Library') );
   menu.Add( newItem(' 􀀄  Applications') );
-  menu.Add( newItem(' 􀀬  Utilities') );
   menu.AddSeparator;
   menu.Add( newItem(' 􀈑  Trash') );
   Result:= menu;
