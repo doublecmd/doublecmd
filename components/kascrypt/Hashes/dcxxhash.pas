@@ -111,7 +111,6 @@ const
   XXH_SECRET_CONSUME_RATE = 8;
   XXH_STRIPE_LEN = 64;
   XXH_ACC_SIZE = 64;
-  XXH_ACC_NB = 8;
 
   XXH3_SECRET_SIZE_MIN = 136;
   XXH_SECRET_DEFAULT_SIZE = 192;
@@ -146,6 +145,7 @@ type
 
 var
   XXH3_accumulate: TXXH3_accumulate_f;
+  XXH3_scrambleAcc: TXXH3_scrambleAcc_f;
   XXH3_accumulate_512: TXXH3_accumulate_512_f;
 
 function XXH_readLE32(const ptr: Pointer): UInt32; inline;
@@ -161,6 +161,12 @@ end;
 function XXH_mult32to64(x, y: UInt64): UInt64; inline;
 begin
   Result:= (x and $FFFFFFFF) * (y and $FFFFFFFF);
+end;
+
+function XXH_xorshift64(v64: UInt64; shift: Integer): UInt64; inline;
+begin
+  // XXH_ASSERT(0 <= shift && shift < 64);
+  Result:=  v64 xor (v64 shr shift);
 end;
 
 function XXH64_avalanche(hash: UInt64): UInt64;
@@ -271,6 +277,9 @@ begin
 end;
 
 {$IF DEFINED(CPUX86_64)}
+
+const
+  SSE_PRIME32_1: array[0..3] of UInt32 = (XXH_PRIME32_1, XXH_PRIME32_1, XXH_PRIME32_1, XXH_PRIME32_1);
 
 procedure XXH3_accumulate_512_sse2(acc: PByte; const input: PByte; const secret: PByte); assembler; nostackframe;
 // UNIX    RDI, RSI, RDX
@@ -467,7 +476,101 @@ asm
   ret
 end;
 
+procedure XXH3_scrambleAcc_sse2(acc: PByte; const secret: PByte); assembler; nostackframe;
+// UNIX    RDI, RSI
+// WIN64:  RCX, RDX
+asm
+{$IF DEFINED(UNIX)}
+  movq     %rdi, %rcx
+  movq     %rsi, %rdx
+{$ENDIF}
+  movdqu	(%rcx), %xmm1
+  movdqu	(%rdx), %xmm0
+  pxor	(%rcx), %xmm0
+  psrlq	$47, %xmm1
+  pxor	%xmm1, %xmm0
+  movdqu	SSE_PRIME32_1(%rip), %xmm1
+  pshufd	$49, %xmm0, %xmm2
+  pmuludq	%xmm1, %xmm2
+  pmuludq	%xmm1, %xmm0
+  psllq	$32, %xmm2
+  paddq	%xmm2, %xmm0
+  movdqu	16(%rcx), %xmm2
+  movups	%xmm0, (%rcx)
+  movdqu	16(%rdx), %xmm0
+  pxor	16(%rcx), %xmm0
+  psrlq	$47, %xmm2
+  pxor	%xmm2, %xmm0
+  pshufd	$49, %xmm0, %xmm2
+  pmuludq	%xmm1, %xmm0
+  pmuludq	%xmm1, %xmm2
+  psllq	$32, %xmm2
+  paddq	%xmm2, %xmm0
+  movdqu	32(%rcx), %xmm2
+  movups	%xmm0, 16(%rcx)
+  movdqu	32(%rdx), %xmm0
+  pxor	32(%rcx), %xmm0
+  psrlq	$47, %xmm2
+  pxor	%xmm2, %xmm0
+  pshufd	$49, %xmm0, %xmm2
+  pmuludq	%xmm1, %xmm0
+  pmuludq	%xmm1, %xmm2
+  psllq	$32, %xmm2
+  paddq	%xmm2, %xmm0
+  movdqu	48(%rcx), %xmm2
+  movups	%xmm0, 32(%rcx)
+  movdqu	48(%rdx), %xmm0
+  pxor	48(%rcx), %xmm0
+  psrlq	$47, %xmm2
+  pxor	%xmm2, %xmm0
+  pshufd	$49, %xmm0, %xmm2
+  pmuludq	%xmm1, %xmm0
+  pmuludq	%xmm2, %xmm1
+  psllq	$32, %xmm1
+  paddq	%xmm1, %xmm0
+  movups	%xmm0, 48(%rcx)
+end;
+
+procedure XXH3_scrambleAcc_avx2(acc: PByte; const secret: PByte); assembler; nostackframe;
+// UNIX    RDI, RSI
+// WIN64:  RCX, RDX
+asm
+{$IF DEFINED(UNIX)}
+  movq     %rdi, %rcx
+  movq     %rsi, %rdx
+{$ENDIF}
+  movl	$-1640531535, %eax
+  vmovdqu	(%rcx), %ymm3
+  vmovdqu	(%rdx), %ymm4
+  vmovdqu	32(%rcx), %ymm5
+  vpxor	%ymm3, %ymm4, %ymm0
+  vpsrlq	$47, %ymm3, %ymm1
+  vmovdqu	32(%rdx), %ymm3
+  vpxor	%ymm1, %ymm0, %ymm0
+  vmovd	%eax, %xmm1
+  vpbroadcastd	%xmm1, %ymm1
+  vpsrlq	$32, %ymm0, %ymm2
+  vpmuludq	%ymm1, %ymm2, %ymm2
+  vpmuludq	%ymm1, %ymm0, %ymm0
+  vpsllq	$32, %ymm2, %ymm2
+  vpaddq	%ymm2, %ymm0, %ymm0
+  vpsrlq	$47, %ymm5, %ymm2
+  vmovdqu	%ymm0, (%rcx)
+  vpxor	%ymm5, %ymm3, %ymm0
+  vpxor	%ymm2, %ymm0, %ymm0
+  vpsrlq	$32, %ymm0, %ymm2
+  vpmuludq	%ymm1, %ymm0, %ymm0
+  vpmuludq	%ymm1, %ymm2, %ymm1
+  vpsllq	$32, %ymm1, %ymm1
+  vpaddq	%ymm1, %ymm0, %ymm0
+  vmovdqu	%ymm0, 32(%rcx)
+  vzeroupper
+end;
+
 {$ELSE}
+
+const
+  XXH_ACC_NB = 8;
 
 function XXH_mult32to64_add64(lhs, rhs, acc: UInt64): UInt64; inline;
 begin
@@ -514,14 +617,6 @@ begin
   end;
 end;
 
-{$ENDIF}
-
-function XXH_xorshift64(v64: UInt64; shift: Integer): UInt64; inline;
-begin
-  // XXH_ASSERT(0 <= shift && shift < 64);
-  Result:=  v64 xor (v64 shr shift);
-end;
-
 procedure XXH3_scalarScrambleRound(acc: PByte; const secret: PByte; lane: UIntPtr); inline;
 var
   acc64: UInt64;
@@ -554,6 +649,8 @@ begin
   XXH3_scalarScrambleRound(acc, secret, 6);
   XXH3_scalarScrambleRound(acc, secret, 7);
 end;
+
+{$ENDIF}
 
 function XXH3_consumeStripes(acc: PByte; nbStripesSoFarPtr: PUIntPtr; nbStripesPerBlock: UIntPtr;
                              input: PByte; nbStripes: UIntPtr;
@@ -661,7 +758,7 @@ end;
 
 procedure XXH3_64bits_update(state: PXXH3_state_t; const input: Pointer; len: UIntPtr); inline;
 begin
-  XXH3_update(state, input, len, XXH3_accumulate, @XXH3_scrambleAcc_scalar);
+  XXH3_update(state, input, len, XXH3_accumulate, XXH3_scrambleAcc);
 end;
 
 procedure XXH3_128bits_update(state: PXXH3_state_t; const input: PByte; len: UIntPtr);
@@ -690,7 +787,7 @@ begin
                        @nbStripesSoFar, state^.nbStripesPerBlock,
                         state^.buffer, nbStripes,
                         secret, state^.secretLimit,
-                        XXH3_accumulate, @XXH3_scrambleAcc_scalar);
+                        XXH3_accumulate, XXH3_scrambleAcc);
     lastStripePtr:= @state^.buffer[state^.bufferedSize - XXH_STRIPE_LEN];
   end else begin  //* bufferedSize < XXH_STRIPE_LEN */
     //* Copy to temp buffer */
@@ -1091,14 +1188,17 @@ initialization
   if AVX2Support then
   begin
     XXH3_accumulate:= @XXH3_accumulate_avx2;
+    XXH3_scrambleAcc:= @XXH3_scrambleAcc_avx2;
     XXH3_accumulate_512:= @XXH3_accumulate_512_avx2;
   end
   else begin
     XXH3_accumulate:= @XXH3_accumulate_sse2;
+    XXH3_scrambleAcc:= @XXH3_scrambleAcc_sse2;
     XXH3_accumulate_512:= @XXH3_accumulate_512_sse2;
   end;
 {$ELSE}
   XXH3_accumulate:= @XXH3_accumulate_scalar;
+  XXH3_scrambleAcc:= @XXH3_scrambleAcc_scalar;
   XXH3_accumulate_512:= @XXH3_accumulate_512_scalar;
 {$ENDIF}
 end.
