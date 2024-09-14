@@ -797,7 +797,7 @@ procedure TfrmFileOp.SetProgressFiles(Operation: TFileSourceOperation;
 begin
   if (CurrentFiles = -1) then
   begin
-    ProgressBar.Style := pbstMarquee
+    ProgressBar.Style := pbstMarquee;
     ProgressBar.BarShowText := False;
   end
   else begin
