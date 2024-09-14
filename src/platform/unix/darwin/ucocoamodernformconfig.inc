@@ -8,9 +8,11 @@ interface
 uses
   Classes, SysUtils,
   LCLType, Forms, Menus,
-  fMain, uMyDarwin, uDCUtils,
+  fMain, uMyDarwin, uDCUtils, uLng,
   uFileView, uBriefFileView, uColumnsFileView, uThumbFileView,
   CocoaAll, CocoaConfig, CocoaToolBar, Cocoa_Extra;
+
+procedure initCocoaModernFormConfig;
 
 implementation
 
@@ -513,7 +515,7 @@ const
     );
   );
 
-procedure initCocoaModernFormConfig;
+procedure doInitConfig;
 begin
   showModeItemConfig.subitems:= [
     TCocoaToolBarUtils.toClass(showBriefItemConfig),
@@ -542,16 +544,15 @@ begin
   CocoaConfigForms:= [ mainFormConfig ];
 end;
 
-procedure init;
+procedure initCocoaModernFormConfig;
 begin
+  if NSAppKitVersionNumber < NSAppKitVersionNumber11_0 then
+    Exit;
+
   fMain.onFileViewUpdated:= @onFileViewUpdated;
   toolBarMenuHandler:= TToolBarMenuHandler.Create;
-  initCocoaModernFormConfig;
+  doInitConfig;
 end;
-
-initialization
-  if NSAppKitVersionNumber >= NSAppKitVersionNumber11_0 then
-    init;
 
 end.
 
