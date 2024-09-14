@@ -43,7 +43,7 @@ var
   HashFileExt: array[Low(THashAlgorithm)..Pred(High(THashAlgorithm))] of String = (
                  'blake2s', 'blake2sp', 'blake2b', 'blake2bp', 'blake3', 'checksum32', 'crc32', 'haval',
                  'md4', 'md5', 'ripemd128', 'ripemd160', 'sfv', 'sha', 'sha224', 'sha256',
-                 'sha384', 'sha512', 'sha3', 'sha3', 'sha3', 'sha3', 'tiger', 'xxh3'
+                 'sha384', 'sha512', 'sha3', 'sha3', 'sha3', 'sha3', 'tiger', 'xxh128'
                );
 
 var
