@@ -102,9 +102,25 @@ inherited frmPackDlg: TfrmPackDlg
       TabOrder = 4
       Visible = False
     end
-    object btnConfig: TButton[4]
-      AnchorSideLeft.Control = rgPacker
+    object lblPacker: TLabel[4]
+      AnchorSideLeft.Control = btnConfig
       AnchorSideTop.Control = cbPackerList
+      AnchorSideTop.Side = asrBottom
+      AnchorSideRight.Control = btnConfig
+      AnchorSideRight.Side = asrBottom
+      Left = 378
+      Height = 1
+      Top = 142
+      Width = 142
+      Alignment = taCenter
+      Anchors = [akTop, akLeft, akRight]
+      BorderSpacing.Top = 6
+      ShowAccelChar = False
+      WordWrap = True
+    end
+    object btnConfig: TButton[5]
+      AnchorSideLeft.Control = rgPacker
+      AnchorSideTop.Control = lblPacker
       AnchorSideTop.Side = asrBottom
       AnchorSideRight.Control = rgPacker
       AnchorSideRight.Side = asrBottom
@@ -114,14 +130,14 @@ inherited frmPackDlg: TfrmPackDlg
       Width = 136
       Anchors = [akTop, akLeft, akRight]
       BorderSpacing.Left = 6
-      BorderSpacing.Top = 6
+      BorderSpacing.Top = 10
       BorderSpacing.Right = 6
       BorderSpacing.InnerBorder = 4
       Caption = 'Con&figure'
       OnClick = btnConfigClick
       TabOrder = 5
     end
-    object cbOtherPlugins: TCheckBox[5]
+    object cbOtherPlugins: TCheckBox[6]
       AnchorSideLeft.Control = rgPacker
       AnchorSideTop.Control = cbPackerList
       AnchorSideTop.Side = asrCenter
@@ -137,7 +153,7 @@ inherited frmPackDlg: TfrmPackDlg
       TabOrder = 3
       Visible = False
     end
-    object pnlOptions: TPanel[6]
+    object pnlOptions: TPanel[7]
       AnchorSideTop.Control = edtPackCmd
       AnchorSideTop.Side = asrBottom
       Left = 0

@@ -47,6 +47,7 @@ type
     cbPutInTarFirst: TCheckBox;
     DividerBevel: TDividerBevel;
     edtPackCmd: TDirectoryEdit;
+    lblPacker: TLabel;
     lblPrompt: TLabel;
     cbStoreDir: TCheckBox;
     rgPacker: TRadioGroup;
@@ -104,7 +105,7 @@ uses
   uOperationsManager, uArchiveFileSourceUtil, uMultiArchiveFileSource,
   uWcxArchiveCopyInOperation, uMultiArchiveCopyInOperation, uMasks,
   DCStrUtils, uMultiArc, uWcxModule, uTempFileSystemFileSource,
-  uFileSourceCopyOperation, uShowForm, uShowMsg;
+  uFileSourceCopyOperation, uShowForm, uShowMsg, uGlobsPaths;
 
 procedure ShowPackDlg(TheOwner: TComponent;
                      const SourceFileSource: IFileSource;
@@ -235,6 +236,7 @@ end;
 
 procedure TfrmPackDlg.btnConfigClick(Sender: TObject);
 var
+  I: LongInt;
   WcxFileSource: IWcxArchiveFileSource;
 begin
   try
@@ -247,7 +249,16 @@ begin
       end
     else // MultiArc addon
       begin
-        FCustomParams:= InputBox(Caption, rsMsgArchiverCustomParams, FCustomParams);
+        // FIXME: for loop..
+        for I := 0 to gMultiArcList.Count - 1 do
+        begin
+          with gMultiArcList.Items[I] do
+          begin
+            if FEnabled and MatchesMaskList(FArchiveType, FExtension, ',') then
+              if ShowInputComboBox(Caption, rsMsgArchiverCustomParams, FAskHistory, FCustomParams) then
+                gMultiArcList.SaveToFile(gpCfgDir + sMULTIARC_FILENAME);
+          end;
+        end;
       end;
   except
     on e: Exception do
@@ -349,6 +360,8 @@ begin
     begin
       if gWCXPlugins.Enabled[I] and (gWCXPlugins.Ext[I] = FArchiveType) then
       begin
+        lblPacker.Caption:=ExtractFileName(gWCXPlugins.FileName[I]);
+        EnableControl(btnConfig, ((gWCXPlugins.Flags[I] and PK_CAPS_OPTIONS) <> 0));
         // If plugin supports packing with password
         EnableControl(cbEncrypt, ((gWCXPlugins.Flags[I] and PK_CAPS_ENCRYPT) <> 0));
         // If archive can not contain multiple files
@@ -398,6 +411,8 @@ begin
           else
             sCmd:= FAdd;
 
+          lblPacker.Caption:='MultiArc [' + FPacker + ']';
+          EnableControl(btnConfig, (Pos('%S', sCmd) <> 0));
           // If addon supports create multi volume archive
           EnableControl(cbMultivolume, (Pos('%V', sCmd) <> 0));
           // If addon supports packing with password

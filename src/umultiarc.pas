@@ -131,6 +131,7 @@ type
     FPasswordQuery: String;
     FFormMode: Integer;
     FFlags: TMultiArcFlags;
+    FAskHistory: TStringList;
   public
     FEnabled: Boolean;
     FOutput: Boolean;
@@ -271,7 +272,7 @@ var
   IniFile: TIniFileEx = nil;
   Sections: TStringList = nil;
   Section,
-  Format: String;
+  Format, CustomParams: String;
   FirstTime: Boolean = True;
   MultiArcItem: TMultiArcItem;
 begin
@@ -305,6 +306,14 @@ begin
           Format:= TrimQuotes(IniFile.ReadString(Section, 'Format' + IntToStr(J), EmptyStr));
           if Format <> EmptyStr then
             FFormat.Add(Format)
+          else
+            Break;
+        end;
+        for J:= 0 to 50 do
+        begin
+          CustomParams:= IniFile.ReadString(Section, 'AskHistory' + IntToStr(J), EmptyStr);
+          if CustomParams <> EmptyStr then
+            FAskHistory.Add(CustomParams)
           else
             Break;
         end;
@@ -364,6 +373,10 @@ begin
         for J:= 0 to FFormat.Count - 1 do
         begin
           IniFile.WriteString(Section, 'Format' + IntToStr(J), FFormat[J]);
+        end;
+        for J:= 0 to FAskHistory.Count - 1 do
+        begin
+          IniFile.WriteString(Section, 'AskHistory' + IntToStr(J), FAskHistory[J]);
         end;
         IniFile.WriteString(Section, 'List', FList);
         IniFile.WriteString(Section, 'Extract', FExtract);
@@ -554,6 +567,7 @@ begin
   FSignatureList:= TSignatureList.Create;
   FSignaturePositionList:= TSignaturePositionList.Create;
   FFormat:= TStringList.Create;
+  FAskHistory:= TStringList.Create;
 end;
 
 destructor TMultiArcItem.Destroy;
@@ -562,6 +576,7 @@ begin
   FreeAndNil(FSignatureList);
   FreeAndNil(FSignaturePositionList);
   FreeAndNil(FFormat);
+  FreeAndNil(FAskHistory);
   inherited Destroy;
 end;
 
@@ -672,6 +687,7 @@ begin
   Result.FEnabled := Self.FEnabled;
   Result.FOutput := Self.FOutput;
   Result.FDebug := Self.FDebug;
+  Result.FAskHistory.Assign(Self.FAskHistory);
 end;
 
 { TSignatureList }
