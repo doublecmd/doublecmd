@@ -86,6 +86,24 @@ begin
 end;
 
 
+
+const
+  COMMON_FOLDERS: TStringArray = (
+    '~/Documents',
+    '~/Desktop',
+    '~',
+    '~/Pictures',
+    '~/Movies',
+    '~/Music',
+    '/Applications/Utilities',
+
+    '~/Downloads',
+    '~/Library',
+    '/Applications',
+
+    '~/.Trash'
+  );
+
 type
   
   { TToolBarMenuHandler }
@@ -117,28 +135,22 @@ begin
 end;
 
 procedure TToolBarMenuHandler.goToFolder(Sender: TObject);
-const
-  folders: TStringArray = (
-    '~/Documents',
-    '~/Desktop',
-    '~',
-    '~/Pictures',
-    '~/Movies',
-    '~/Music',
-
-    '~/Downloads',
-    '~/Library',
-    '/Applications',
-    '/Applications/Utilities',
-
-    '~/.Trash'
-  );
 var
   menuItem: TMenuItem absolute Sender;
   path: String;
 begin
-  path:= uDCUtils.ReplaceTilde( folders[menuItem.Tag] );
+  path:= uDCUtils.ReplaceTilde( COMMON_FOLDERS[menuItem.Tag] );
   frmMain.Commands.cm_ChangeDir( [path] );
+end;
+
+function getMacOSDisplayNameFromPath(const path: String): String;
+var
+  cocoaPath: NSString;
+  displayName: NSString;
+begin
+  cocoaPath:= StringToNSString( uDCUtils.ReplaceTilde(path) );
+  displayName:= NSFileManager.defaultManager.displayNameAtPath( cocoaPath );
+  Result:= displayName.UTF8String;
 end;
 
 function onGetFolderMenu: TMenuItem;
@@ -147,9 +159,12 @@ var
   tag: PtrInt = 0;
 
   function newItem( caption: String ): TMenuItem;
+  var
+    folderName: String;
   begin
+    folderName:= getMacOSDisplayNameFromPath( COMMON_FOLDERS[tag] );
     Result:= TMenuItem.Create( menu );
-    Result.Caption:= caption;
+    Result.Caption:= caption + '  ' + folderName;
     Result.onClick:= @toolBarMenuHandler.goToFolder;
     Result.Tag:= tag;
     inc( tag );
@@ -157,19 +172,19 @@ var
 
 begin
   menu:= TMenuItem.Create( frmMain );
-  menu.Add( newItem('􀈕  Documents') );
-  menu.Add( newItem('􀣰  Desktop') );
-  menu.Add( newItem('􀎞  Home') );
-  menu.Add( newItem('􀏅  Pictures') );
-  menu.Add( newItem('􀎶  Movies') );
-  menu.Add( newItem('􀫀  Music') );
-  menu.Add( newItem('􀤋  Utilities') );
+  menu.Add( newItem('􀈕') );
+  menu.Add( newItem('􀣰') );
+  menu.Add( newItem('􀎞') );
+  menu.Add( newItem('􀏅') );
+  menu.Add( newItem('􀎶') );
+  menu.Add( newItem('􀫀') );
+  menu.Add( newItem('􀤋') );
   menu.AddSeparator;
-  menu.Add( newItem(' 􀁸  Downloads') );
-  menu.Add( newItem(' 􀀚  Library') );
-  menu.Add( newItem(' 􀀄  Applications') );
+  menu.Add( newItem(' 􀁸') );
+  menu.Add( newItem(' 􀀚') );
+  menu.Add( newItem(' 􀀄') );
   menu.AddSeparator;
-  menu.Add( newItem(' 􀈑  Trash') );
+  menu.Add( newItem(' 􀈑') );
   Result:= menu;
 end;
 
