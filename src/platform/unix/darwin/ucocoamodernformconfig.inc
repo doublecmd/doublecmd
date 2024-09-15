@@ -187,21 +187,21 @@ var
   function createShowHotlistMenuItem: TMenuItem;
   begin
     Result:= TMenuItem.Create( menu );
-    Result.Caption:= 'Directory Hotlist';
+    Result.Caption:= rsMFSTBICommandMenuDirectoryHotlist;
     Result.OnClick:= @toolBarMenuHandler.showHotlist;
   end;
 
   function createShowFavoriteMenuItem: TMenuItem;
   begin
     Result:= TMenuItem.Create( menu );
-    Result.Caption:= 'Favorite Tabs';
+    Result.Caption:= rsMFSTBICommandMenuFavoriteTabs;
     Result.OnClick:= @toolBarMenuHandler.showFavoriteTabs;
   end;
 
   function createQuickLookMenuItem: TMenuItem;
   begin
     Result:= TMenuItem.Create( menu );
-    Result.Caption:= 'macOS QuickLook';
+    Result.Caption:= rsMFSTBICommandMenuQuickLook;
     Result.OnClick:= @toolBarMenuHandler.showQuickLookPanel;
     Result.ShortCut:= ShortCut( Word(' '), [ssAlt] );
   end;
@@ -263,8 +263,8 @@ const
     priority: NSToolbarItemVisibilityPriorityStandard;
     navigational: True;
     iconName: 'sidebar.left';
-    title: 'Tree View';
-    tips: 'Tree View Panel';
+    title: rsMFSTBITreeViewTitle;
+    tips: rsMFSTBITreeViewTips;
     bordered: True;
     onAction: @toggleTreeViewAction;
   );
@@ -274,8 +274,8 @@ const
     priority: NSToolbarItemVisibilityPriorityStandard;
     navigational: True;
     iconName: 'rectangle.split.1x2';
-    title: 'HorzSplit';
-    tips: 'Horizontal Panels Mode';
+    title: rsMFSTBIHorzSplitTitle;
+    tips: rsMFSTBIHorzSplitTips;
     bordered: True;
     onAction: @toggleHorzSplitAction;
   );
@@ -285,8 +285,8 @@ const
     priority: NSToolbarItemVisibilityPriorityStandard;
     navigational: True;
     iconName: 'arrow.left.arrow.right.square';
-    title: 'Swap';
-    tips: 'Swap Panels';
+    title: rsMFSTBISwapPanelsTitle;
+    tips: rsMFSTBISwapPanelsTips;
     bordered: True;
     onAction: @swapPanelsAction;
   );
@@ -295,8 +295,8 @@ const
   showBriefItemConfig: TCocoaConfigToolBarItem = (
     identifier: 'MainForm.ShowMode.Brief';
     iconName: 'rectangle.split.3x1';
-    title: 'Brief';
-    tips: 'Brief Mode';
+    title: rsMFSTBIShowBriefTitle;
+    tips: '';
     bordered: True;
     onAction: nil;
   );
@@ -304,8 +304,8 @@ const
   showFullItemConfig: TCocoaConfigToolBarItem = (
     identifier: 'MainForm.ShowMode.Full';
     iconName: 'list.bullet';
-    title: 'Full';
-    tips: 'Full';
+    title: rsMFSTBIShowFullTitle;
+    tips: '';
     bordered: True;
     onAction: nil;
   );
@@ -313,8 +313,8 @@ const
   showThumbnailsItemConfig: TCocoaConfigToolBarItem = (
     identifier: 'MainForm.ShowMode.Thumbnails';
     iconName: 'square.grid.2x2';
-    title: 'Thumbnails';
-    tips: 'Thumbnails';
+    title: rsMFSTBIShowThumbnailsTitle;
+    tips: '';
     bordered: True;
     onAction: nil;
   );
@@ -323,8 +323,8 @@ const
     identifier: 'MainForm.ShowMode';
     priority: NSToolbarItemVisibilityPriorityHigh;
     iconName: '';
-    title: 'ShowMode';
-    tips: 'Show Mode';
+    title: rsMFSTBIShowModeTitle;
+    tips: rsMFSTBIShowModeTips;
     bordered: True;
     onAction: @showModeAction;
 
@@ -340,8 +340,8 @@ const
     identifier: 'MainForm.Share';
     priority: NSToolbarItemVisibilityPriorityUser;
     iconName: '';
-    title: 'Share';
-    tips: 'Share...';
+    title: rsMFSTBIShareTitle;
+    tips: '';
     bordered: True;
 
     onGetItems: @onGetSharingItems;
@@ -352,8 +352,8 @@ const
     priority: NSToolbarItemVisibilityPriorityStandard;
     navigational: False;
     iconName: 'airplayaudio';
-    title: 'AirDrop';
-    tips: 'AirDrop';
+    title: rsMFSTBIAirDropTitle;
+    tips: rsMFSTBIAirDropTips;
     bordered: True;
     onAction: @airdropAction;
   );
@@ -364,8 +364,8 @@ const
      priority: NSToolbarItemVisibilityPriorityStandard;
      navigational: False;
      iconName: 'eye';
-     title: 'Preview';
-     tips: 'Preview...';
+     title: rsMFSTBIQuickLookTitle;
+     tips: rsMFSTBIQuickLookTips;
      bordered: True;
      onAction: @quickLookAction;
    );
@@ -373,8 +373,8 @@ const
   goItemConfig: TCocoaConfigToolBarItemMenu = (
     identifier: 'MainForm.Go';
     iconName: 'folder';
-    title: 'Go';
-    tips: 'Go...';
+    title: rsMFSTBIGoTitle;
+    tips: rsMFSTBIGoTips;
     bordered: True;
     onAction: nil;
 
@@ -388,8 +388,8 @@ const
      priority: NSToolbarItemVisibilityPriorityStandard;
      navigational: False;
      iconName: 'faceid';
-     title: 'Reveal in Finder';
-     tips: 'Reveal in Finder';
+     title: rsMFSTBIFinderRevealTitle;
+     tips: rsMFSTBIFinderRevealTips;
      bordered: True;
      onAction: @finderRevealAction;
    );
@@ -399,8 +399,8 @@ const
      priority: NSToolbarItemVisibilityPriorityStandard;
      navigational: False;
      iconName: 'info.circle';
-     title: 'Show Info';
-     tips: 'Show Info in Finder';
+     title: rsMFSTBIShowInfoTitle;
+     tips: rsMFSTBIShowInfoTips;
      bordered: True;
      onAction: @finderInfoAction;
    );
@@ -409,7 +409,7 @@ const
   commandItemConfig: TCocoaConfigToolBarItemMenu = (
     identifier: 'MainForm.Command';
     iconName: 'ellipsis.circle';
-    title: 'Command';
+    title: rsMFSTBICommandTitle;
     tips: '';
     bordered: True;
     onAction: nil;
@@ -425,8 +425,8 @@ const
      priority: NSToolbarItemVisibilityPriorityStandard;
      navigational: False;
      iconName: 'arrow.clockwise';
-     title: 'Refresh';
-     tips: 'Refresh';
+     title: rsMFSTBIRefreshTitle;
+     tips: rsMFSTBIRefreshTips;
      bordered: True;
      onAction: @refreshAction;
    );
@@ -436,8 +436,8 @@ const
     priority: NSToolbarItemVisibilityPriorityStandard;
     navigational: False;
     iconName: 'terminal';
-    title: 'Terminal';
-    tips: 'Open in Terminal';
+    title: rsMFSTBITerminalTitle;
+    tips: rsMFSTBITerminalTips;
     bordered: True;
     onAction: @terminalAction;
   );
@@ -447,8 +447,8 @@ const
     priority: NSToolbarItemVisibilityPriorityStandard;
     navigational: False;
     iconName: 'magnifyingglass';
-    title: 'Search';
-    tips: 'Search Files...';
+    title: rsMFSTBISearchTitle;
+    tips: rsMFSTBISearchTips;
     bordered: True;
     onAction: @searchFilesAction;
   );

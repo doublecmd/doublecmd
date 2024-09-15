@@ -10310,6 +10310,7 @@ msgid "&Backward"
 msgstr "后退(&B)"
 
 #: ulng.rseditsearchcaption
+msgctxt "ulng.rseditsearchcaption"
 msgid "Search"
 msgstr "搜索"
 
@@ -10796,6 +10797,171 @@ msgstr "输入新的自定义列名称"
 #: ulng.rsmenumacosshare
 msgid "Share..."
 msgstr "共享..."
+
+#: ulng.rsmfstbiairdroptips
+msgctxt "ulng.rsmfstbiairdroptips"
+msgid "AirDrop"
+msgstr ""
+
+#: ulng.rsmfstbiairdroptitle
+msgctxt "ulng.rsmfstbiairdroptitle"
+msgid "AirDrop"
+msgstr ""
+
+#: ulng.rsmfstbicommandmenudirectoryhotlist
+#, fuzzy
+msgctxt "ulng.rsmfstbicommandmenudirectoryhotlist"
+msgid "Directory Hotlist"
+msgstr "常用文件夹列表"
+
+#: ulng.rsmfstbicommandmenufavoritetabs
+#, fuzzy
+msgctxt "ulng.rsmfstbicommandmenufavoritetabs"
+msgid "Favorite Tabs"
+msgstr "收藏夹标签"
+
+#: ulng.rsmfstbicommandmenuquicklook
+msgctxt "ulng.rsmfstbicommandmenuquicklook"
+msgid "macOS QuickLook"
+msgstr ""
+
+#: ulng.rsmfstbicommandtitle
+#, fuzzy
+msgctxt "ulng.rsmfstbicommandtitle"
+msgid "Command"
+msgstr "命令"
+
+#: ulng.rsmfstbifinderrevealtips
+msgctxt "ulng.rsmfstbifinderrevealtips"
+msgid "Reveal in Finder"
+msgstr ""
+
+#: ulng.rsmfstbifinderrevealtitle
+msgctxt "ulng.rsmfstbifinderrevealtitle"
+msgid "Finder"
+msgstr ""
+
+#: ulng.rsmfstbigotips
+msgctxt "ulng.rsmfstbigotips"
+msgid "Go"
+msgstr ""
+
+#: ulng.rsmfstbigotitle
+msgctxt "ulng.rsmfstbigotitle"
+msgid "Go"
+msgstr ""
+
+#: ulng.rsmfstbihorzsplittips
+msgctxt "ulng.rsmfstbihorzsplittips"
+msgid "Toggle Horizontal Split Mode"
+msgstr ""
+
+#: ulng.rsmfstbihorzsplittitle
+msgctxt "ulng.rsmfstbihorzsplittitle"
+msgid "HorzSplit"
+msgstr ""
+
+#: ulng.rsmfstbiquicklooktips
+msgctxt "ulng.rsmfstbiquicklooktips"
+msgid "macOS Quick Look Panel"
+msgstr ""
+
+#: ulng.rsmfstbiquicklooktitle
+msgctxt "ulng.rsmfstbiquicklooktitle"
+msgid "QuickLook"
+msgstr ""
+
+#: ulng.rsmfstbirefreshtips
+msgctxt "ulng.rsmfstbirefreshtips"
+msgid "Refresh File List"
+msgstr ""
+
+#: ulng.rsmfstbirefreshtitle
+msgctxt "ulng.rsmfstbirefreshtitle"
+msgid "Refresh"
+msgstr ""
+
+#: ulng.rsmfstbisearchtips
+msgctxt "ulng.rsmfstbisearchtips"
+msgid "Search Files..."
+msgstr ""
+
+#: ulng.rsmfstbisearchtitle
+#, fuzzy
+msgctxt "ulng.rsmfstbisearchtitle"
+msgid "Search"
+msgstr "搜索"
+
+#: ulng.rsmfstbisharetitle
+msgctxt "ulng.rsmfstbisharetitle"
+msgid "Share"
+msgstr ""
+
+#: ulng.rsmfstbishowbrieftitle
+msgctxt "ulng.rsmfstbishowbrieftitle"
+msgid "as Brief"
+msgstr ""
+
+#: ulng.rsmfstbishowfulltitle
+msgctxt "ulng.rsmfstbishowfulltitle"
+msgid "as Full"
+msgstr ""
+
+#: ulng.rsmfstbishowinfotips
+msgctxt "ulng.rsmfstbishowinfotips"
+msgid "Show Info in Finder"
+msgstr ""
+
+#: ulng.rsmfstbishowinfotitle
+msgctxt "ulng.rsmfstbishowinfotitle"
+msgid "ShowInfo"
+msgstr ""
+
+#: ulng.rsmfstbishowmodetips
+msgctxt "ulng.rsmfstbishowmodetips"
+msgid "Show as Brief, Full or Thumbnails"
+msgstr ""
+
+#: ulng.rsmfstbishowmodetitle
+msgctxt "ulng.rsmfstbishowmodetitle"
+msgid "ShowMode"
+msgstr ""
+
+#: ulng.rsmfstbishowthumbnailstitle
+msgctxt "ulng.rsmfstbishowthumbnailstitle"
+msgid "as Thumbnails"
+msgstr ""
+
+#: ulng.rsmfstbiswappanelstips
+msgctxt "ulng.rsmfstbiswappanelstips"
+msgid "Swap Panels"
+msgstr ""
+
+#: ulng.rsmfstbiswappanelstitle
+msgctxt "ulng.rsmfstbiswappanelstitle"
+msgid "SwapPanels"
+msgstr ""
+
+#: ulng.rsmfstbiterminaltips
+msgctxt "ulng.rsmfstbiterminaltips"
+msgid "Open in Terminal"
+msgstr ""
+
+#: ulng.rsmfstbiterminaltitle
+#, fuzzy
+msgctxt "ulng.rsmfstbiterminaltitle"
+msgid "Terminal"
+msgstr "终端"
+
+#: ulng.rsmfstbitreeviewtips
+msgctxt "ulng.rsmfstbitreeviewtips"
+msgid "Show Tree View Panel"
+msgstr ""
+
+#: ulng.rsmfstbitreeviewtitle
+msgctxt "ulng.rsmfstbitreeviewtitle"
+msgid "TreeView"
+msgstr ""
 
 #: ulng.rsmnuactions
 msgctxt "ulng.rsmnuactions"
@@ -12995,6 +13161,7 @@ msgid "Drives list button"
 msgstr "驱动器列表按钮"
 
 #: ulng.rsoptionseditorfavoritetabs
+msgctxt "ulng.rsoptionseditorfavoritetabs"
 msgid "Favorite Tabs"
 msgstr "收藏夹标签"
 

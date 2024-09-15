@@ -995,6 +995,42 @@ resourcestring
   rsMsgTCisRunning = 'Error! TC is still running but it should be closed for this operation.'+#$0A+'Close it and press OK or press CANCEL to abort.';
   rsMsgAllDCIntCmds = 'All Double Commander internal commands';
 
+  // macOS Modernn Form Sytle
+  rsMFSTBITreeViewTitle = 'TreeView';
+  rsMFSTBITreeViewTips = 'Show Tree View Panel';
+  rsMFSTBIHorzSplitTitle = 'HorzSplit';
+  rsMFSTBIHorzSplitTips = 'Toggle Horizontal Split Mode';
+  rsMFSTBISwapPanelsTitle = 'SwapPanels';
+  rsMFSTBISwapPanelsTips = 'Swap Panels';
+  rsMFSTBIShowModeTitle = 'ShowMode';
+  rsMFSTBIShowModeTips = 'Show as Brief, Full or Thumbnails';
+  rsMFSTBIShowBriefTitle = 'as Brief';
+  rsMFSTBIShowFullTitle = 'as Full';
+  rsMFSTBIShowThumbnailsTitle = 'as Thumbnails';
+  rsMFSTBIShareTitle = 'Share';
+  rsMFSTBIAirDropTitle = 'AirDrop';
+  rsMFSTBIAirDropTips = 'AirDrop';
+  rsMFSTBIQuickLookTitle = 'QuickLook';
+  rsMFSTBIQuickLookTips = 'macOS Quick Look Panel';
+  rsMFSTBIGoTitle = 'Go';
+  rsMFSTBIGoTips = 'Go';
+  rsMFSTBIFinderRevealTitle = 'Finder';
+  rsMFSTBIFinderRevealTips = 'Reveal in Finder';
+  rsMFSTBIShowInfoTitle = 'ShowInfo';
+  rsMFSTBIShowInfoTips = 'Show Info in Finder';
+
+  rsMFSTBICommandTitle = 'Command';
+  rsMFSTBICommandMenuDirectoryHotlist = 'Directory Hotlist';
+  rsMFSTBICommandMenuFavoriteTabs = 'Favorite Tabs';
+  rsMFSTBICommandMenuQuickLook = 'macOS QuickLook';
+
+  rsMFSTBIRefreshTitle = 'Refresh';
+  rsMFSTBIRefreshTips = 'Refresh File List';
+  rsMFSTBITerminalTitle = 'Terminal';
+  rsMFSTBITerminalTips  = 'Open in Terminal';
+  rsMFSTBISearchTitle = 'Search';
+  rsMFSTBISearchTips  = 'Search Files...';
+
   //Columns Menu
   rsMenuConfigureCustomColumns= 'Configure custom columns';
   rsMenuConfigureEnterCustomColumnName = 'Enter new custom columns name';

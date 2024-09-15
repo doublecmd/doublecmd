@@ -10445,6 +10445,7 @@ msgid "&Backward"
 msgstr "Hacia &atrás"
 
 #: ulng.rseditsearchcaption
+msgctxt "ulng.rseditsearchcaption"
 msgid "Search"
 msgstr "Búsqueda"
 
@@ -10930,6 +10931,148 @@ msgstr "Introducir nuevo nombre de vista de columnas"
 
 #: ulng.rsmenumacosshare
 msgid "Share..."
+msgstr ""
+
+#: ulng.rsmfstbiairdroptips
+msgctxt "ulng.rsmfstbiairdroptips"
+msgid "AirDrop"
+msgstr ""
+
+#: ulng.rsmfstbiairdroptitle
+msgctxt "ulng.rsmfstbiairdroptitle"
+msgid "AirDrop"
+msgstr ""
+
+#: ulng.rsmfstbicommandmenudirectoryhotlist
+#, fuzzy
+msgctxt "ulng.rsmfstbicommandmenudirectoryhotlist"
+msgid "Directory Hotlist"
+msgstr "Marcadores"
+
+#: ulng.rsmfstbicommandmenufavoritetabs
+#, fuzzy
+msgctxt "ulng.rsmfstbicommandmenufavoritetabs"
+msgid "Favorite Tabs"
+msgstr "Pestañas favoritas"
+
+#: ulng.rsmfstbicommandmenuquicklook
+msgid "macOS QuickLook"
+msgstr ""
+
+#: ulng.rsmfstbicommandtitle
+#, fuzzy
+msgctxt "ulng.rsmfstbicommandtitle"
+msgid "Command"
+msgstr "Comando"
+
+#: ulng.rsmfstbifinderrevealtips
+msgid "Reveal in Finder"
+msgstr ""
+
+#: ulng.rsmfstbifinderrevealtitle
+msgid "Finder"
+msgstr ""
+
+#: ulng.rsmfstbigotips
+msgctxt "ulng.rsmfstbigotips"
+msgid "Go"
+msgstr ""
+
+#: ulng.rsmfstbigotitle
+msgctxt "ulng.rsmfstbigotitle"
+msgid "Go"
+msgstr ""
+
+#: ulng.rsmfstbihorzsplittips
+msgid "Toggle Horizontal Split Mode"
+msgstr ""
+
+#: ulng.rsmfstbihorzsplittitle
+msgid "HorzSplit"
+msgstr ""
+
+#: ulng.rsmfstbiquicklooktips
+msgid "macOS Quick Look Panel"
+msgstr ""
+
+#: ulng.rsmfstbiquicklooktitle
+msgid "QuickLook"
+msgstr ""
+
+#: ulng.rsmfstbirefreshtips
+msgid "Refresh File List"
+msgstr ""
+
+#: ulng.rsmfstbirefreshtitle
+msgid "Refresh"
+msgstr ""
+
+#: ulng.rsmfstbisearchtips
+msgid "Search Files..."
+msgstr ""
+
+#: ulng.rsmfstbisearchtitle
+#, fuzzy
+msgctxt "ulng.rsmfstbisearchtitle"
+msgid "Search"
+msgstr "Búsqueda"
+
+#: ulng.rsmfstbisharetitle
+msgid "Share"
+msgstr ""
+
+#: ulng.rsmfstbishowbrieftitle
+msgid "as Brief"
+msgstr ""
+
+#: ulng.rsmfstbishowfulltitle
+msgid "as Full"
+msgstr ""
+
+#: ulng.rsmfstbishowinfotips
+msgid "Show Info in Finder"
+msgstr ""
+
+#: ulng.rsmfstbishowinfotitle
+msgid "ShowInfo"
+msgstr ""
+
+#: ulng.rsmfstbishowmodetips
+msgid "Show as Brief, Full or Thumbnails"
+msgstr ""
+
+#: ulng.rsmfstbishowmodetitle
+msgid "ShowMode"
+msgstr ""
+
+#: ulng.rsmfstbishowthumbnailstitle
+msgid "as Thumbnails"
+msgstr ""
+
+#: ulng.rsmfstbiswappanelstips
+msgid "Swap Panels"
+msgstr ""
+
+#: ulng.rsmfstbiswappanelstitle
+msgid "SwapPanels"
+msgstr ""
+
+#: ulng.rsmfstbiterminaltips
+msgid "Open in Terminal"
+msgstr ""
+
+#: ulng.rsmfstbiterminaltitle
+#, fuzzy
+msgctxt "ulng.rsmfstbiterminaltitle"
+msgid "Terminal"
+msgstr "Terminal"
+
+#: ulng.rsmfstbitreeviewtips
+msgid "Show Tree View Panel"
+msgstr ""
+
+#: ulng.rsmfstbitreeviewtitle
+msgid "TreeView"
 msgstr ""
 
 #: ulng.rsmnuactions
@@ -13150,6 +13293,7 @@ msgid "Drives list button"
 msgstr "Botón de lista de unidades"
 
 #: ulng.rsoptionseditorfavoritetabs
+msgctxt "ulng.rsoptionseditorfavoritetabs"
 msgid "Favorite Tabs"
 msgstr "Pestañas favoritas"
 

@@ -17,7 +17,6 @@
 # 2016-06-15[DB] : En français, avant et après le deux points, ça prend un espace.
 # Au fil du temps ce fichier s'est ramassé souvent avec aucun espace après le deux points.
 # Cela vient d'être corrigé partout. Ce fut un peu long et fastidieux. Essayons de continuer cela.
-
 # 2024-06-13[FCH] : Plusieurs types hésitations de traductions à trancher ultérieurement
 # H_01 : Un verbe anglais s'écrit de la même manière à l'infinitif ou à la 1ère personne du singulier
 #        Par suite, il peut difficile être difficile de choisir, pour le verbe français correspondant, entre l'utilisation de l'infinitif et l'utilisation d'une conjuguaison à la 1ère personne du singulier au sens où moi (DC), je fais quelque chose...
@@ -41,27 +40,25 @@
 #        > à compléter... 
 #        => Cette mention H_ii signifie qu'il y a eu hésitation sur la traduction la plus appropriée en fonction du contexte et de l'harmonisation d'ensemble... A revoir.
 # H_04 : Traduction pas claire => à revoir
-
 msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 1.1.0 alpha\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-11-15 11:15+0300\n"
-#"PO-Revision-Date: 2021-05-01 11:18-0400\n"
-#"Last-Translator: Denis Bisson <denis.bisson@denisbisson.org>\n"
-"PO-Revision-Date: 2024-06-13 17:41+0200\n"
-"Last-Translator: Frédéric Charlanes <f.charlanes@gmail.com>\n"
-#"Language-Team: Zebulon Tourneboulle <zebulon.tourneboulle@gmail.com>\n"
-"MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"X-Native-Language: Français\n"
-"Language: fr\n"
-"X-Generator: Poedit 2.0\n"
 
-#: fsyncdirsdlg.rscomparingpercent
-#, object-pascal-format
 # H_02
+#: fsyncdirsdlg.rscomparingpercent
+#, object-pascal-format, fuzzy
+#| msgid ""
+#| "PO-Revision-Date: 2024-06-13 17:41+0200\n"
+#| "Last-Translator: Frédéric Charlanes <f.charlanes@gmail.com>\n"
+#| "MIME-Version: 1.0\n"
+#| "Content-Type: text/plain; charset=utf-8\n"
+#| "Content-Transfer-Encoding: 8bit\n"
+#| "X-Native-Language: Français\n"
+#| "Language: fr\n"
+#| "X-Generator: Poedit 2.0\n"
+#| "Comparing... %d%% (ESC to cancel)"
 msgid "Comparing... %d%% (ESC to cancel)"
 msgstr "Comparaison en cours... %d%% (ESC pour annuler)"
 
@@ -413,9 +410,9 @@ msgctxt "TFRMCHECKSUMVERIFY.CAPTION"
 msgid "Verify checksum..."
 msgstr "Vérification de signature..."
 
+# H_02
 #: tfrmchooseencoding.caption
 #, fuzzy
-# H_02
 msgctxt "tfrmchooseencoding.caption"
 msgid "Encoding"
 msgstr "Encodage"
@@ -526,8 +523,8 @@ msgstr "Commentaires liés aux fichiers/dossiers"
 msgid "E&dit comment for:"
 msgstr "Éditer le commentaire pour :"
 
-#: tfrmdescredit.lblencoding.caption
 # H_02
+#: tfrmdescredit.lblencoding.caption
 msgctxt "TFRMDESCREDIT.LBLENCODING.CAPTION"
 msgid "&Encoding:"
 msgstr "Encodage :"
@@ -840,14 +837,14 @@ msgctxt "TFRMDIFFER.ACTSTARTCOMPARE.HINT"
 msgid "Compare"
 msgstr "Comparer"
 
-#: tfrmdiffer.btnleftencoding.hint
 # H_02
+#: tfrmdiffer.btnleftencoding.hint
 msgctxt "TFRMDIFFER.BTNLEFTENCODING.HINT"
 msgid "Encoding"
 msgstr "Encodage"
 
-#: tfrmdiffer.btnrightencoding.hint
 # H_02
+#: tfrmdiffer.btnrightencoding.hint
 msgctxt "TFRMDIFFER.BTNRIGHTENCODING.HINT"
 msgid "Encoding"
 msgstr "Encodage"
@@ -874,8 +871,8 @@ msgctxt "TFRMDIFFER.MNUEDIT.CAPTION"
 msgid "&Edit"
 msgstr "Éditer"
 
-#: tfrmdiffer.mnuencoding.caption
 # H_02
+#: tfrmdiffer.mnuencoding.caption
 msgctxt "TFRMDIFFER.MNUENCODING.CAPTION"
 msgid "En&coding"
 msgstr "Encodage"
@@ -1160,8 +1157,8 @@ msgctxt "TFRMEDITOR.MIEDIT.CAPTION"
 msgid "&Edit"
 msgstr "Édit&er"
 
-#: tfrmeditor.miencoding.caption
 # HL_02
+#: tfrmeditor.miencoding.caption
 msgctxt "TFRMEDITOR.MIENCODING.CAPTION"
 msgid "En&coding"
 msgstr "En&codage"
@@ -1170,8 +1167,8 @@ msgstr "En&codage"
 msgid "Open as"
 msgstr "Ouvrir en tant que"
 
-#: tfrmeditor.miencodingout.caption
 # HL_02
+#: tfrmeditor.miencodingout.caption
 msgctxt "tfrmeditor.miencodingout.caption"
 msgid "Save as"
 msgstr "Enregistrer en"
@@ -1861,8 +1858,8 @@ msgstr "Chercher des données"
 msgid "Attri&butes"
 msgstr "Attributs"
 
-#: tfrmfinddlg.lblencoding.caption
 # H_02
+#: tfrmfinddlg.lblencoding.caption
 msgctxt "TFRMFINDDLG.LBLENCODING.CAPTION"
 msgid "Encodin&g:"
 msgstr "Encodage :"
@@ -6240,8 +6237,8 @@ msgstr "Opération de test d'archive"
 msgid "Verify checksum operation"
 msgstr "Vérifier la somme de contrôle"
 
-#: tfrmoptionsfileoperations.gbexecutingoperations.caption
 # H_02
+#: tfrmoptionsfileoperations.gbexecutingoperations.caption
 msgid "Executing operations"
 msgstr "Exécution des opérations en cours"
 
@@ -6475,8 +6472,8 @@ msgstr "Insérer les nouveaux fichiers :"
 msgid "O&peration size format:"
 msgstr "Format pour taille durant opérations :"
 
-#: tfrmoptionsfilesviews.lblsortfoldermode.caption
 # H_02
+#: tfrmoptionsfilesviews.lblsortfoldermode.caption
 msgid "So&rting directories:"
 msgstr "Tri des dossiers en cours :"
 
@@ -9899,8 +9896,8 @@ msgstr "Édit&er"
 msgid "Ellipse"
 msgstr "Ellipse"
 
-#: tfrmviewer.miencoding.caption
 # H_02
+#: tfrmviewer.miencoding.caption
 msgctxt "TFRMVIEWER.MIENCODING.CAPTION"
 msgid "En&coding"
 msgstr "En&codage"
@@ -10424,9 +10421,9 @@ msgstr "Correspondances : "
 msgid " Modifies: "
 msgstr "Modifie : "
 
+# H_02
 #: ulng.rsdifftextdifferenceencoding
 #, fuzzy
-# H_02
 msgctxt "ulng.rsdifftextdifferenceencoding"
 msgid "Encoding"
 msgstr "Encode"
@@ -10825,8 +10822,8 @@ msgctxt "ulng.rsfindscanned"
 msgid "Scanned: %d"
 msgstr "Analyse effectuée : %d"
 
-#: ulng.rsfindscanning
 # H_02
+#: ulng.rsfindscanning
 msgid "Scanning"
 msgstr "Analyse"
 
@@ -11143,6 +11140,148 @@ msgstr "Entrer un nom pour la nouvelle colonne personnalisée"
 #: ulng.rsmenumacosshare
 msgid "Share..."
 msgstr "Partager..."
+
+#: ulng.rsmfstbiairdroptips
+msgctxt "ulng.rsmfstbiairdroptips"
+msgid "AirDrop"
+msgstr ""
+
+#: ulng.rsmfstbiairdroptitle
+msgctxt "ulng.rsmfstbiairdroptitle"
+msgid "AirDrop"
+msgstr ""
+
+#: ulng.rsmfstbicommandmenudirectoryhotlist
+#, fuzzy
+msgctxt "ulng.rsmfstbicommandmenudirectoryhotlist"
+msgid "Directory Hotlist"
+msgstr "Liste des dossiers favoris"
+
+#: ulng.rsmfstbicommandmenufavoritetabs
+#, fuzzy
+msgctxt "ulng.rsmfstbicommandmenufavoritetabs"
+msgid "Favorite Tabs"
+msgstr "Onglets favoris"
+
+#: ulng.rsmfstbicommandmenuquicklook
+msgid "macOS QuickLook"
+msgstr ""
+
+#: ulng.rsmfstbicommandtitle
+#, fuzzy
+msgctxt "ulng.rsmfstbicommandtitle"
+msgid "Command"
+msgstr "Commande"
+
+#: ulng.rsmfstbifinderrevealtips
+msgid "Reveal in Finder"
+msgstr ""
+
+#: ulng.rsmfstbifinderrevealtitle
+msgid "Finder"
+msgstr ""
+
+#: ulng.rsmfstbigotips
+msgctxt "ulng.rsmfstbigotips"
+msgid "Go"
+msgstr ""
+
+#: ulng.rsmfstbigotitle
+msgctxt "ulng.rsmfstbigotitle"
+msgid "Go"
+msgstr ""
+
+#: ulng.rsmfstbihorzsplittips
+msgid "Toggle Horizontal Split Mode"
+msgstr ""
+
+#: ulng.rsmfstbihorzsplittitle
+msgid "HorzSplit"
+msgstr ""
+
+#: ulng.rsmfstbiquicklooktips
+msgid "macOS Quick Look Panel"
+msgstr ""
+
+#: ulng.rsmfstbiquicklooktitle
+msgid "QuickLook"
+msgstr ""
+
+#: ulng.rsmfstbirefreshtips
+msgid "Refresh File List"
+msgstr ""
+
+#: ulng.rsmfstbirefreshtitle
+msgid "Refresh"
+msgstr ""
+
+#: ulng.rsmfstbisearchtips
+msgid "Search Files..."
+msgstr ""
+
+#: ulng.rsmfstbisearchtitle
+#, fuzzy
+msgctxt "ulng.rsmfstbisearchtitle"
+msgid "Search"
+msgstr "Rechercher"
+
+#: ulng.rsmfstbisharetitle
+msgid "Share"
+msgstr ""
+
+#: ulng.rsmfstbishowbrieftitle
+msgid "as Brief"
+msgstr ""
+
+#: ulng.rsmfstbishowfulltitle
+msgid "as Full"
+msgstr ""
+
+#: ulng.rsmfstbishowinfotips
+msgid "Show Info in Finder"
+msgstr ""
+
+#: ulng.rsmfstbishowinfotitle
+msgid "ShowInfo"
+msgstr ""
+
+#: ulng.rsmfstbishowmodetips
+msgid "Show as Brief, Full or Thumbnails"
+msgstr ""
+
+#: ulng.rsmfstbishowmodetitle
+msgid "ShowMode"
+msgstr ""
+
+#: ulng.rsmfstbishowthumbnailstitle
+msgid "as Thumbnails"
+msgstr ""
+
+#: ulng.rsmfstbiswappanelstips
+msgid "Swap Panels"
+msgstr ""
+
+#: ulng.rsmfstbiswappanelstitle
+msgid "SwapPanels"
+msgstr ""
+
+#: ulng.rsmfstbiterminaltips
+msgid "Open in Terminal"
+msgstr ""
+
+#: ulng.rsmfstbiterminaltitle
+#, fuzzy
+msgctxt "ulng.rsmfstbiterminaltitle"
+msgid "Terminal"
+msgstr "Terminal"
+
+#: ulng.rsmfstbitreeviewtips
+msgid "Show Tree View Panel"
+msgstr ""
+
+#: ulng.rsmfstbitreeviewtitle
+msgid "TreeView"
+msgstr ""
 
 #: ulng.rsmnuactions
 msgctxt "ulng.rsmnuactions"
@@ -11699,19 +11838,19 @@ msgstr "Suivre le lien symbolique \"%s\"?"
 msgid "Select the text format to import"
 msgstr "Sélectionner le format du texte à importer"
 
+# HL_01
 #: ulng.rsmsghotdiraddselecteddirectories
 #, object-pascal-format
-# HL_01
 msgid "Add %d selected dirs"
 msgstr "Ajouter les %d dossiers sélectionnés"
 
-#: ulng.rsmsghotdiraddselecteddirectory
 # HL_01
+#: ulng.rsmsghotdiraddselecteddirectory
 msgid "Add selected dir: "
 msgstr "Ajouter le dossier sélectionné : "
 
-#: ulng.rsmsghotdiraddthisdirectory
 # HL_01
+#: ulng.rsmsghotdiraddthisdirectory
 msgid "Add current dir: "
 msgstr "Ajouter le dossier courant : "
 
@@ -12495,24 +12634,24 @@ msgstr "Date"
 msgid "Preset name"
 msgstr "Nom de configuration"
 
-#: ulng.rsmulrendefinevariablename
 # HL_01
+#: ulng.rsmulrendefinevariablename
 msgid "Define variable name"
 msgstr "Définir nom de variable"
 
-#: ulng.rsmulrendefinevariablevalue
 # HL_01
+#: ulng.rsmulrendefinevariablevalue
 msgid "Define variable value"
 msgstr "Définir valeur de variable"
 
-#: ulng.rsmulrenenternameforvar
 # HL_01
+#: ulng.rsmulrenenternameforvar
 msgid "Enter variable name"
 msgstr "Entrez nom de variable"
 
+# HL_01
 #: ulng.rsmulrenentervalueforvar
 #, object-pascal-format
-# HL_01
 msgid "Enter value for variable \"%s\""
 msgstr "Entrez valeur de la variable \"%s\""
 
@@ -12782,111 +12921,111 @@ msgstr "Accessoires"
 msgid "Aborted"
 msgstr "Annulé"
 
-#: ulng.rsopercalculatingchecksum
 # HL_02
+#: ulng.rsopercalculatingchecksum
 msgid "Calculating checksum"
 msgstr "Calcul de signature en cours"
 
+# HL_02
 #: ulng.rsopercalculatingchecksumin
 #, object-pascal-format
-# HL_02
 msgid "Calculating checksum in \"%s\""
 msgstr "Calcul de signature en cours dans \"%s\""
 
+# HL_02
 #: ulng.rsopercalculatingchecksumof
 #, object-pascal-format
-# HL_02
 msgid "Calculating checksum of \"%s\""
 msgstr "Calcul de signature en cours de \"%s\""
 
-#: ulng.rsopercalculatingstatictics
 # H_02
+#: ulng.rsopercalculatingstatictics
 msgctxt "ulng.rsopercalculatingstatictics"
 msgid "Calculating"
 msgstr "Calcul en cours"
 
+# HL_02
 #: ulng.rsopercalculatingstatisticsin
 #, object-pascal-format
-# HL_02
 msgid "Calculating \"%s\""
 msgstr "Calcul en cours \"%s\""
 
-#: ulng.rsopercombining
 # H_02
+#: ulng.rsopercombining
 msgid "Joining"
 msgstr "Concaténation en cours"
 
+# HL_02
 #: ulng.rsopercombiningfromto
 #, object-pascal-format
-# HL_02
 msgid "Joining files in \"%s\" to \"%s\""
 msgstr "Concaténation de fichiers en cours dans \"%s\" vers \"%s\""
 
-#: ulng.rsopercopying
 # H_02
+#: ulng.rsopercopying
 msgid "Copying"
 msgstr "Copie en cours"
 
+# H_02
 #: ulng.rsopercopyingfromto
 #, object-pascal-format
-# H_02
 msgid "Copying from \"%s\" to \"%s\""
 msgstr "Copie en cours de \"%s\" vers \"%s\""
 
+# H_02
 #: ulng.rsopercopyingsomethingto
 #, object-pascal-format
-# H_02
 msgid "Copying \"%s\" to \"%s\""
 msgstr "Copie en cours \"%s\" vers \"%s\""
 
-#: ulng.rsopercreatingdirectory
 # H_02
+#: ulng.rsopercreatingdirectory
 msgid "Creating directory"
 msgstr "Création de dossier en cours"
 
+# H_02
 #: ulng.rsopercreatingsomedirectory
 #, object-pascal-format
-# H_02
 msgid "Creating directory \"%s\""
 msgstr "Création du dossier \"%s\" en cours"
 
-#: ulng.rsoperdeleting
 # H_02
+#: ulng.rsoperdeleting
 msgctxt "ulng.rsoperdeleting"
 msgid "Deleting"
 msgstr "Suppression en cours"
 
+# H_02
 #: ulng.rsoperdeletingin
 #, object-pascal-format
-# H_02
 msgid "Deleting in \"%s\""
 msgstr "Suppression en cours dans \"%s\""
 
+# H_02
 #: ulng.rsoperdeletingsomething
 #, object-pascal-format
-# H_02
 msgid "Deleting \"%s\""
 msgstr "Suppression en cours \"%s\""
 
-#: ulng.rsoperexecuting
 # H_02
+#: ulng.rsoperexecuting
 msgid "Executing"
 msgstr "Exécution en cours"
 
+# H_02
 #: ulng.rsoperexecutingsomething
 #, object-pascal-format
-# H_02
 msgid "Executing \"%s\""
 msgstr "Exécution en cours de \"%s\""
 
-#: ulng.rsoperextracting
 # H_02
+#: ulng.rsoperextracting
 msgid "Extracting"
 msgstr "Décompression en cours"
 
+# H_02
 #: ulng.rsoperextractingfromto
 #, object-pascal-format
-# H_02
 msgid "Extracting from \"%s\" to \"%s\""
 msgstr "Décompression en cours de \"%s\" vers \"%s\""
 
@@ -12894,31 +13033,31 @@ msgstr "Décompression en cours de \"%s\" vers \"%s\""
 msgid "Finished"
 msgstr "Terminé"
 
-#: ulng.rsoperlisting
 # H_02
+#: ulng.rsoperlisting
 msgid "Listing"
 msgstr "Liste en cours"
 
+# H_02
 #: ulng.rsoperlistingin
 #, object-pascal-format
-# H_02
 msgid "Listing \"%s\""
 msgstr "Liste en cours \"%s\""
 
-#: ulng.rsopermoving
 # H_02
+#: ulng.rsopermoving
 msgid "Moving"
 msgstr "Déplacement en cours"
 
+# H_02
 #: ulng.rsopermovingfromto
 #, object-pascal-format
-# H_02
 msgid "Moving from \"%s\" to \"%s\""
 msgstr "Déplacement en cours de \"%s\" vers \"%s\""
 
+# H_02
 #: ulng.rsopermovingsomethingto
 #, object-pascal-format
-# H_02
 msgid "Moving \"%s\" to \"%s\""
 msgstr "Déplacement en cours de \"%s\" vers \"%s\""
 
@@ -12926,20 +13065,20 @@ msgstr "Déplacement en cours de \"%s\" vers \"%s\""
 msgid "Not started"
 msgstr "Non démarré"
 
-#: ulng.rsoperpacking
 # H_02
+#: ulng.rsoperpacking
 msgid "Packing"
 msgstr "Compression en cours"
 
+# H_02
 #: ulng.rsoperpackingfromto
 #, object-pascal-format
-# H_02
 msgid "Packing from \"%s\" to \"%s\""
 msgstr "Compression en cours de \"%s\" vers \"%s\""
 
+# H_02
 #: ulng.rsoperpackingsomethingto
 #, object-pascal-format
-# H_02
 msgid "Packing \"%s\" to \"%s\""
 msgstr "Compression en cours de \"%s\" vers \"%s\""
 
@@ -12947,46 +13086,46 @@ msgstr "Compression en cours de \"%s\" vers \"%s\""
 msgid "Paused"
 msgstr "En pause"
 
-#: ulng.rsoperpausing
 # H_02
+#: ulng.rsoperpausing
 msgid "Pausing"
 msgstr "Pause en cours"
 
-#: ulng.rsoperrunning
 # H_02
+#: ulng.rsoperrunning
 msgid "Running"
 msgstr "En cours"
 
-#: ulng.rsopersettingproperty
 # H_02
+#: ulng.rsopersettingproperty
 msgid "Setting property"
 msgstr "Paramétrage en cours d'une propriété"
 
+# H_02
 #: ulng.rsopersettingpropertyin
 #, object-pascal-format
-# H_02
 msgid "Setting property in \"%s\""
 msgstr "Paramétrage en cours d'une propriété dans \"%s\""
 
+# H_02
 #: ulng.rsopersettingpropertyof
 #, object-pascal-format
-# H_02
 msgid "Setting property of \"%s\""
 msgstr "Paramétrage en cours de la propriété de \"%s\""
 
-#: ulng.rsopersplitting
 # H_02
+#: ulng.rsopersplitting
 msgid "Splitting"
 msgstr "Fractionnement en cours"
 
+# H_02
 #: ulng.rsopersplittingfromto
 #, object-pascal-format
-# H_02
 msgid "Splitting \"%s\" to \"%s\""
 msgstr "Fractionnement en cours de \"%s\" vers \"%s\""
 
-#: ulng.rsoperstarting
 # H_02
+#: ulng.rsoperstarting
 msgid "Starting"
 msgstr "Démarrage en cours"
 
@@ -12994,42 +13133,42 @@ msgstr "Démarrage en cours"
 msgid "Stopped"
 msgstr "Arrêté"
 
-#: ulng.rsoperstopping
 # H_02
+#: ulng.rsoperstopping
 msgid "Stopping"
 msgstr "Arrêt en cours"
 
-#: ulng.rsopertesting
 # H_02
+#: ulng.rsopertesting
 msgid "Testing"
 msgstr "Test en cours"
 
+# H_02
 #: ulng.rsopertestingin
 #, object-pascal-format
-# H_02
 msgid "Testing in \"%s\""
 msgstr "Test en cours dans \"%s\""
 
+# H_02
 #: ulng.rsopertestingsomething
 #, object-pascal-format
-# H_02
 msgid "Testing \"%s\""
 msgstr "Test en cours \"%s\""
 
-#: ulng.rsoperverifyingchecksum
 # H_02
+#: ulng.rsoperverifyingchecksum
 msgid "Verifying checksum"
 msgstr "Vérification de la signature en cours"
 
+# H_02
 #: ulng.rsoperverifyingchecksumin
 #, object-pascal-format
-# H_02
 msgid "Verifying checksum in \"%s\""
 msgstr "Vérification de la signature dans \"%s\""
 
+# H_02
 #: ulng.rsoperverifyingchecksumof
 #, object-pascal-format
-# H_02
 msgid "Verifying checksum of \"%s\""
 msgstr "Vérification de la signature de \"%s\""
 
@@ -13041,25 +13180,25 @@ msgstr "En attente de l'accès au fichier source..."
 msgid "Waiting for user response"
 msgstr "En attente de la réponse utilisateur..."
 
-#: ulng.rsoperwiping
 # H_02
+#: ulng.rsoperwiping
 msgid "Wiping"
 msgstr "Suppression sécurisée en cours"
 
+# H_02
 #: ulng.rsoperwipingin
 #, object-pascal-format
-# H_02
 msgid "Wiping in \"%s\""
 msgstr "Suppression sécurisée en cours dans \"%s\""
 
+# H_02
 #: ulng.rsoperwipingsomething
 #, object-pascal-format
-# H_02
 msgid "Wiping \"%s\""
 msgstr "Suppression sécurisée en cours \"%s\""
 
-#: ulng.rsoperworking
 # H_02
+#: ulng.rsoperworking
 msgid "Working"
 msgstr "Travail en cours"
 
@@ -13079,8 +13218,8 @@ msgstr "Pour changer la configuration des outils d'archivage, cliquer sur \"Appl
 msgid "Mode dependent, additional command"
 msgstr "Dépendant du mode, commande supplémentaire"
 
-#: ulng.rsoptarchiveraddonlynotempty
 # H_01
+#: ulng.rsoptarchiveraddonlynotempty
 msgid "Add if it is non-empty"
 msgstr "Ajouter si non vide"
 
@@ -13088,8 +13227,8 @@ msgstr "Ajouter si non vide"
 msgid "Archive File (long name)"
 msgstr "Nom de l'archive (nom long)"
 
-#: ulng.rsoptarchiverarchiver
 # H_01
+#: ulng.rsoptarchiverarchiver
 msgid "Select archiver executable"
 msgstr "Choisir l'exécutable de l'outil d'archivage"
 
@@ -13189,13 +13328,13 @@ msgstr "Nom du fichier à traiter"
 msgid "Target subdirecory"
 msgstr "Dossier cible"
 
-#: ulng.rsoptarchiveruseansi
 # H_01
+#: ulng.rsoptarchiveruseansi
 msgid "Use ANSI encoding"
 msgstr "Utiliser l'encodage ANSI"
 
-#: ulng.rsoptarchiveruseutf8
 # H_01
+#: ulng.rsoptarchiveruseutf8
 msgid "Use UTF8 encoding"
 msgstr "Utiliser l'encodage UTF8"
 
@@ -13232,8 +13371,8 @@ msgstr "Les panneaux actif et inactif respectivement à gauche et à droite (cla
 msgid "Enter extension"
 msgstr "Entrer une extension"
 
-#: ulng.rsoptfavoritetabswheretoaddinlist
 # H_01
+#: ulng.rsoptfavoritetabswheretoaddinlist
 msgid "Add at beginning;Add at the end;Alphabetical sort"
 msgstr "Ajoute au début;Ajoute à la fin;Ordre alphabétique"
 
@@ -13250,14 +13389,14 @@ msgstr "dynamique"
 msgid "Shortcut %s for cm_Delete will be registered, so it can be used to reverse this setting."
 msgstr "Le raccourci %s de la commande cm_Delete va être enregistré, il pourra ensuite être utilisé pour inverser ce paramétrage."
 
+# H_01
 #: ulng.rsopthotkeysaddhotkey
 #, object-pascal-format
-# H_01
 msgid "Add hotkey for %s"
 msgstr "Ajouter un raccourci clavier pour %s"
 
-#: ulng.rsopthotkeysaddshortcutbutton
 # H_01
+#: ulng.rsopthotkeysaddshortcutbutton
 msgid "Add shortcut"
 msgstr "Ajouter un raccourci"
 
@@ -13265,8 +13404,8 @@ msgstr "Ajouter un raccourci"
 msgid "Cannot set shortcut"
 msgstr "Impossible de définir un raccourci"
 
-#: ulng.rsopthotkeyschangeshortcut
 # H_01
+#: ulng.rsopthotkeyschangeshortcut
 msgid "Change shortcut"
 msgstr "Changer le raccourci"
 
@@ -13275,15 +13414,15 @@ msgctxt "ulng.rsopthotkeyscommand"
 msgid "Command"
 msgstr "Commande"
 
+# HL_04
 #: ulng.rsopthotkeysdeletetrashcanoverrides
 #, object-pascal-format
-# HL_04
 msgid "Shortcut %s for cm_Delete has a parameter that overrides this setting. Do you want to change this parameter to use the global setting?"
 msgstr "Le raccourci %s de la commande cm_Delete dispose d'un paramètre qui peut outrepasser ce paramétrage. Souhaitez-vous le changer pour utiliser le paramètre global ?"
 
+# HL_04
 #: ulng.rsopthotkeysdeletetrashcanparameterexists
 #, object-pascal-format
-# HL_04
 msgid "Shortcut %s for cm_Delete needs to have a parameter changed to match shortcut %s. Do you want to change it?"
 msgstr "Le raccourci %s de la commande cm_Delete a besoin d'avoir un paramètre modifié pour correspondre au raccourci %s. Souhaitez-vous le changer ?"
 
@@ -13292,14 +13431,14 @@ msgctxt "ulng.rsopthotkeysdescription"
 msgid "Description"
 msgstr "Description"
 
+# H_01
 #: ulng.rsopthotkeysedithotkey
 #, object-pascal-format
-# H_01
 msgid "Edit hotkey for %s"
 msgstr "Éditer raccourci clavier pour %s"
 
-#: ulng.rsopthotkeysfixparameter
 # H_01
+#: ulng.rsopthotkeysfixparameter
 msgid "Fix parameter"
 msgstr "Paramètre fixe"
 
@@ -13416,6 +13555,7 @@ msgid "Drives list button"
 msgstr "Bouton de lecteurs"
 
 #: ulng.rsoptionseditorfavoritetabs
+msgctxt "ulng.rsoptionseditorfavoritetabs"
 msgid "Favorite Tabs"
 msgstr "Onglets favoris"
 
@@ -14130,8 +14270,8 @@ msgctxt "ulng.rssynlangplaintext"
 msgid "Plain text"
 msgstr "Texte simple"
 
-#: ulng.rstabsactionondoubleclickchoices
 # HL_01
+#: ulng.rstabsactionondoubleclickchoices
 msgid "Do nothing;Close tab;Access Favorite Tabs;Tabs popup menu"
 msgstr "Ne fait rien;Ferme l'onglet;Accède aux groupes d'onglets favoris;Menu des onglets"
 
@@ -14233,8 +14373,8 @@ msgstr "Les deux panneaux, de gauche à droite"
 msgid "Path of panel"
 msgstr "Chemin du panneau"
 
-#: ulng.rsvarencloseelement
 # HL_01
+#: ulng.rsvarencloseelement
 msgid "Enclose each name in brackets or what you want"
 msgstr "Mettre chaque nom entre crochets ou avec ce que vous souhaitez"
 
@@ -14403,8 +14543,8 @@ msgstr "Visionneuse interne de Double Commander."
 msgid "Bad Quality"
 msgstr "Mauvaise qualité"
 
-#: ulng.rsviewencoding
 # H_02
+#: ulng.rsviewencoding
 msgctxt "ulng.rsviewencoding"
 msgid "Encoding"
 msgstr "Encodage en cours"
