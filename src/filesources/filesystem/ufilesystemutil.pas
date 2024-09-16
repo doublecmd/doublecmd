@@ -615,7 +615,7 @@ var
             TotalBytesToRead := SourceFileStream.Size;
             if FReserveSpace then
             begin
-              TargetFileStream.Size:= SourceFileStream.Size;
+              TargetFileStream.Capacity:= SourceFileStream.Size;
               TargetFileStream.Seek(0, fsFromBeginning);
             end;
           end;
@@ -759,7 +759,7 @@ begin
 
         if FReserveSpace then
         begin
-          TargetFileStream.Size:= SourceFileStream.Size;
+          TargetFileStream.Capacity:= SourceFileStream.Size;
           TargetFileStream.Seek(0, fsFromBeginning);
         end;
       end else

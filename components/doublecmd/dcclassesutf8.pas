@@ -42,7 +42,7 @@ type
   protected
     FFileName: String;
     procedure Sync(AWritten: Int64);
-    procedure SetSize64(const NewSize: Int64); override;
+    procedure SetCapacity(const NewCapacity: Int64);
   public
     constructor Create(const AFileName: String; Mode: LongWord); virtual; overload;
     destructor Destroy; override;
@@ -51,6 +51,7 @@ type
     function Write(const Buffer; Count: LongInt): LongInt; override;
     property DirtyLimit: Int64 read FDirtyLimit write FDirtyLimit;
     property AutoSync: Boolean read FAutoSync write SetAutoSync;
+    property Capacity: Int64 write SetCapacity;
     property FileName: String read FFileName;
   end; 
 
@@ -156,9 +157,9 @@ begin
   end;
 end;
 
-procedure TFileStreamEx.SetSize64(const NewSize: Int64);
+procedure TFileStreamEx.SetCapacity(const NewCapacity: Int64);
 begin
-  FileAllocate(Handle, NewSize);
+  FileAllocate(Handle, NewCapacity);
 end;
 
 constructor TFileStreamEx.Create(const AFileName: String; Mode: LongWord);
