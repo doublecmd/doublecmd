@@ -26,7 +26,8 @@ unit uSearchContent;
 interface
 
 uses
-  Classes, SysUtils, Controls, StdCtrls, ExtCtrls, LCLType, uFindFiles;
+  Classes, SysUtils, Controls, StdCtrls, ExtCtrls, LCLType, uFindFiles,
+  EditBtn, DateTimePicker;
 
 type
 
@@ -39,6 +40,8 @@ type
    FComboOperator,
    FComboValue,
    FComboUnit: TComboBox;
+   FEditValue:TCalcEdit;
+   FDateTimeValue:TDateTimePicker;
   private
     function GetCompare: TPluginOperator;
     function GetField: String;
@@ -110,7 +113,26 @@ var
 begin
   WdxField:= TWdxField(FComboField.Items.Objects[FComboField.ItemIndex]);
   if (WdxField.FType <> ft_multiplechoice) then
-    Result:= StrToVar(FComboValue.Text, WdxField.FType)
+    case WdxField.FType of
+    FT_NUMERIC_32:
+      result:= FEditValue.AsInteger;
+    FT_NUMERIC_64:
+      result:= round(FEditValue.AsFloat);
+    FT_NUMERIC_FLOATING:
+      result:= FEditValue.AsFloat;
+    FT_DATE:
+      result:= FDateTimeValue.Date;
+    FT_TIME:
+      result:= FDateTimeValue.Time;
+    FT_DATETIME:
+      result:= FDateTimeValue.DateTime;
+    FT_BOOLEAN,
+    FT_STRING,
+    FT_STRINGW,
+    FT_FULLTEXT,
+    FT_FULLTEXTW:
+      Result:= StrToVar(FComboValue.Text, WdxField.FType)
+    end
   else begin
     Result:= StrToVar(WdxField.FUnits[FComboValue.ItemIndex], WdxField.FType)
   end;
@@ -147,6 +169,11 @@ begin
   FComboValue.Items.Clear;
   FComboOperator.Items.Clear;
   FComboValue.Text:= EmptyStr;
+  FComboValue.Visible:= True;
+  FDateTimeValue.DateTime:= Now;
+  FDateTimeValue.Visible:= False;
+  FEditValue.Text:= EmptyStr;
+  FEditValue.Visible:= False;
   if (FComboField.ItemIndex < 0) then Exit;
 
   WdxField:= TWdxField(FComboField.Items.Objects[FComboField.ItemIndex]);
@@ -166,7 +193,21 @@ begin
   FT_TIME,
   FT_DATETIME:
     begin
-      FComboValue.Style:= csDropDown;
+      FComboValue.Visible:= False;
+      if (WdxField.FType > FT_NUMERIC_FLOATING) then
+      begin
+        FDateTimeValue.Visible:= True;
+        if (WdxField.FType = FT_DATETIME) then
+          FDateTimeValue.Kind:= dtkDateTime
+        else if (WdxField.FType = FT_TIME) then
+          FDateTimeValue.Kind:= dtkTime
+        else
+          FDateTimeValue.Kind:= dtkDate
+      end
+      else
+      begin
+        FEditValue.Visible:= True;;
+      end;
       FComboOperator.Items.AddObject('=', TObject(PtrInt(poEqualCaseSensitive)));
       FComboOperator.Items.AddObject('!=', TObject(PtrInt(poNotEqualCaseSensitive)));
       FComboOperator.Items.AddObject('>', TObject(PtrInt(poMore)));
@@ -196,6 +237,7 @@ begin
   FT_STRINGW:
     begin
       FComboValue.Style:= csDropDown;
+      FComboValue.Items := glsSearchHistory;
       FComboOperator.Items.AddObject(rsPluginSearchEqualNotCase, TObject(PtrInt(poEqualCaseInsensitive)));
       FComboOperator.Items.AddObject(rsPluginSearchNotEqualNotCase, TObject(PtrInt(poNotEqualCaseInsensitive)));
       FComboOperator.Items.AddObject(rsPluginSearchEqualCaseSensitive, TObject(PtrInt(poEqualCaseSensitive)));
@@ -211,6 +253,7 @@ begin
   FT_FULLTEXTW:
     begin
       FComboValue.Style:= csDropDown;
+      FComboValue.Items := glsSearchHistory;
       FComboOperator.Items.AddObject(rsPluginSearchContainsNotCase, TObject(PtrInt(poContainsCaseInsensitive)));
       FComboOperator.Items.AddObject(rsPluginSearchNotContainsNotCase, TObject(PtrInt(poNotContainsCaseInsensitive)));
       FComboOperator.Items.AddObject(rsPluginSearchContainsCaseSenstive, TObject(PtrInt(poContainsCaseSensitive)));
@@ -281,7 +324,14 @@ begin
   else begin
     WdxField:= TWdxField(FComboField.Items.Objects[FComboField.ItemIndex]);
     if (WdxField.FType <> FT_MULTIPLECHOICE) then
-      FComboValue.Text := AValue
+    begin
+      if (WdxField.FType < FT_DATE) then
+        FEditValue.Text:=AValue
+      else if (WdxField.FType < FT_STRING) then
+        FDateTimeValue.DateTime:= AValue
+      else
+        FComboValue.Text := AValue;
+    end
     else begin
       Index:= WdxField.GetUnitIndex(AValue);
       if Index < 0 then
@@ -372,6 +422,14 @@ begin
   FComboValue.OnUTF8KeyPress:= @ComboValueUTF8KeyPress;
   FComboValue.Parent:= Self;
 
+  FEditValue:= TCalcEdit.Create(Self);
+  FEditValue.Parent:= Self;
+
+  FDateTimeValue:= TDateTimePicker.Create(Self);
+  FDateTimeValue.Parent:= Self;
+  FDateTimeValue.BorderSpacing.CellAlignVertical:=ccaCenter;
+  FDateTimeValue.BorderSpacing.CellAlignHorizontal:=ccaCenter;
+
   FComboUnit:= TComboBox.Create(Self);
   FComboUnit.Style:= csDropDownList;
   FComboUnit.Parent:= Self;
@@ -396,6 +454,8 @@ begin
   FComboField.Free;
   FComboOperator.Free;
   FComboValue.Free;
+  FEditValue.Free;
+  FDateTimeValue.Free;
   FComboUnit.Free;
   inherited Destroy;
 end;
