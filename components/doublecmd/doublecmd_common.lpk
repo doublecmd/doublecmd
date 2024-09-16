@@ -36,7 +36,7 @@ end"/>
     </CompilerOptions>
     <Description Value="Common units for Double Commander"/>
     <License Value="GNU GPL 2"/>
-    <Version Minor="4" Release="1"/>
+    <Version Minor="4" Release="2"/>
     <Files Count="12">
       <Item1>
         <Filename Value="dcclassesutf8.pas"/>
