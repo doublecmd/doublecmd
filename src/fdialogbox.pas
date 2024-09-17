@@ -3,7 +3,7 @@
     -------------------------------------------------------------------------
     This unit contains realization of Dialog API functions.
 
-    Copyright (C) 2008-2023 Alexander Koblov (alexx2000@mail.ru)
+    Copyright (C) 2008-2024 Alexander Koblov (alexx2000@mail.ru)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -28,7 +28,8 @@ interface
 
 uses
   Classes, SysUtils, LResources, Forms, Controls, Graphics, Dialogs, StdCtrls,
-  Types, Buttons, ExtCtrls, EditBtn, Extension, ComCtrls, DividerBevel, SynEdit;
+  Types, Buttons, ExtCtrls, EditBtn, Extension, ComCtrls, DividerBevel, SynEdit,
+  RttiUtils;
 
 type
 
@@ -100,7 +101,16 @@ type
     FLRSData: String;
     FResult: LongBool;
     FDlgProc: TDlgProc;
+    FPropValue: String;
+    FInfoList: TStringList;
+    FPropsStorage: TPropsStorage;
     FTranslator: TAbstractTranslator;
+  private
+    function FindPropInfoList(AObject: TComponent): TPropInfoList;
+    procedure WritePropValue(const ASection, Item, Value: String);
+    function ReadPropValue(const ASection, Item, Default: String): String;
+    function SetProperty(AObject: TComponent; const AName: String; AValue: Pointer; AType: Integer): Boolean;
+    function GetProperty(AObject: TComponent; const AName: String; AValue: Pointer; AType, ASize: Integer): Boolean;
   protected
     procedure ShowDialogBox;
     procedure ProcessResource; override;
@@ -118,11 +128,13 @@ function DialogBoxLRS(LRSData: Pointer; DataSize: LongWord; DlgProc: TDlgProc): 
 function DialogBoxLFMFile(lfmFileName: PAnsiChar; DlgProc: TDlgProc): LongBool; dcpcall;
 function DialogBoxParam(Data: Pointer; DataSize: LongWord; DlgProc: TDlgProc; Flags: UInt32; UserData, Reserved: Pointer): UIntPtr; dcpcall;
 function SendDlgMsg(pDlg: PtrUInt; DlgItemName: PAnsiChar; Msg, wParam, lParam: PtrInt): PtrInt; dcpcall;
+function SetProperty(pDlg: UIntPtr; DlgItemName, PropName: PAnsiChar; PropValue: Pointer; PropType: Integer): PtrInt; dcpcall;
+function GetProperty(pDlg: UIntPtr; DlgItemName, PropName: PAnsiChar; PropValue: Pointer; PropType, PropSize: Integer): PtrInt; dcpcall;
 
 implementation
 
 uses
-  LCLStrConsts, LazFileUtils, DCClassesUtf8, DCOSUtils, DCStrUtils, uShowMsg,
+  TypInfo, LCLStrConsts, LazFileUtils, DCOSUtils, DCStrUtils, uShowMsg,
   uDebug, uTranslator, uGlobs, uFileProcs;
 
 type
@@ -656,6 +668,36 @@ begin
   end;
 end;
 
+function SetProperty(pDlg: UIntPtr; DlgItemName, PropName: PAnsiChar; PropValue: Pointer; PropType: Integer): PtrInt; dcpcall;
+var
+  Component: TComponent;
+  DialogBox: TDialogBox absolute pDlg;
+begin
+  // find component by name
+  if (DlgItemName = nil) then
+    Component:= DialogBox
+  else begin
+    Component:= DialogBox.FindComponent(DlgItemName);
+    if (Component = nil) then Exit(-1);
+  end;
+  Result:= PtrInt(DialogBox.SetProperty(Component, PropName, PropValue, PropType));
+end;
+
+function GetProperty(pDlg: UIntPtr; DlgItemName, PropName: PAnsiChar; PropValue: Pointer; PropType, PropSize: Integer): PtrInt; dcpcall;
+var
+  Component: TComponent;
+  DialogBox: TDialogBox absolute pDlg;
+begin
+  // find component by name
+  if (DlgItemName = nil) then
+    Component:= DialogBox
+  else begin
+    Component:= DialogBox.FindComponent(DlgItemName);
+    if (Component = nil) then Exit(-1);
+  end;
+  Result:= PtrInt(DialogBox.GetProperty(Component, PropName, PropValue, PropType, PropSize));
+end;
+
 { TDialogBox }
 
 procedure TDialogBox.ShowDialogBox;
@@ -741,13 +783,135 @@ begin
   FileName:= Path + ExtractFileNameOnly(FileName) + Language + '.po';
   if mbFileExists(FileName) then FTranslator:= TTranslator.Create(FileName);
 
+  FInfoList:= TStringList.Create;
+  FInfoList.OwnsObjects:= True;
+  FPropsStorage:= TPropsStorage.Create;
+  FPropsStorage.OnReadString:= @ReadPropValue;
+  FPropsStorage.OnWriteString:= @WritePropValue;
+
   inherited Create(Screen.ActiveForm);
 end;
 
 destructor TDialogBox.Destroy;
 begin
   inherited Destroy;
+  FPropsStorage.Free;
   FTranslator.Free;
+  FInfoList.Free;
+end;
+
+procedure TDialogBox.WritePropValue(const ASection, Item, Value: String);
+begin
+  FPropValue:= Value;
+end;
+
+function TDialogBox.ReadPropValue(const ASection, Item, Default: String): String;
+begin
+  Result:= FPropValue;
+end;
+
+function TDialogBox.FindPropInfoList(AObject: TComponent): TPropInfoList;
+var
+  Index: Integer;
+begin
+  FPropsStorage.AObject:= AObject;
+  Index:= FInfoList.IndexOf(AObject.Name);
+  if Index >= 0 then
+    Result:= TPropInfoList(FInfoList.Objects[Index])
+  else begin
+    Result:= TPropInfoList.Create(AObject, tkProperties);
+    try
+      FInfoList.AddObject(AObject.Name, Result);
+    except
+      FreeAndNil(Result);
+    end;
+  end;
+end;
+
+function TDialogBox.SetProperty(AObject: TComponent; const AName: String;
+  AValue: Pointer; AType: Integer): Boolean;
+var
+  PropInfo: PPropInfo;
+  Props: TPropInfoList;
+begin
+  Result:= False;
+  Props:= FindPropInfoList(AObject);
+  if Props <> nil then
+  begin
+    PropInfo:= Props.Find(AName);
+    if (PropInfo = nil) then Exit;
+    case AType of
+      TK_BOOL:
+        begin
+          Result:= (PropInfo^.PropType^.Kind = tkBool);
+          if Result then SetOrdProp(AObject, PropInfo, PInt32(AValue)^);
+        end;
+      TK_INT32:
+        begin
+          Result:= (PropInfo^.PropType^.Kind = tkInteger);
+          if Result then SetOrdProp(AObject, PropInfo, PInt32(AValue)^);
+        end;
+      TK_INT64:
+        begin
+          Result:= (PropInfo^.PropType^.Kind = tkInt64);
+          if Result then SetOrdProp(AObject, PropInfo, PInt64(AValue)^);
+        end;
+      TK_FLOAT:
+        begin
+          Result:= (PropInfo^.PropType^.Kind = tkFloat);
+          if Result then SetFloatProp(AObject, PropInfo, PDouble(AValue)^);
+        end;
+      TK_STRING:
+        begin
+          Result:= True;
+          FPropValue:= StrPas(PAnsiChar(AValue));
+          FPropsStorage.LoadAnyProperty(PropInfo);
+        end;
+    end;
+  end;
+end;
+
+function TDialogBox.GetProperty(AObject: TComponent; const AName: String;
+  AValue: Pointer; AType, ASize: Integer): Boolean;
+var
+  PropInfo: PPropInfo;
+  Props: TPropInfoList;
+begin
+  Result:= False;
+  Props:= FindPropInfoList(AObject);
+  if Props <> nil then
+  begin
+    PropInfo:= Props.Find(AName);
+    if (PropInfo = nil) then Exit;
+    case AType of
+      TK_BOOL:
+        begin
+          Result:= (PropInfo^.PropType^.Kind = tkBool) and (ASize = SizeOf(Int32));
+          if Result then PInt32(AValue)^:= Int32(GetOrdProp(AObject, PropInfo));
+        end;
+      TK_INT32:
+        begin
+          Result:= (PropInfo^.PropType^.Kind = tkInteger) and (ASize = SizeOf(Int32));
+          if Result then PInt32(AValue)^:= Int32(GetOrdProp(AObject, PropInfo));
+        end;
+      TK_INT64:
+        begin
+          Result:= (PropInfo^.PropType^.Kind = tkInt64) and (ASize = SizeOf(Int64));
+          if Result then PInt64(AValue)^:= GetOrdProp(AObject, PropInfo);
+        end;
+      TK_FLOAT:
+        begin
+          Result:= (PropInfo^.PropType^.Kind = tkFloat) and (ASize = SizeOf(Double));
+          if Result then PDouble(AValue)^:= Double(GetFloatProp(AObject, PropInfo));
+        end;
+      TK_STRING:
+        begin
+          Result:= True;
+          FPropsStorage.StoreAnyProperty(PropInfo);
+          StrPLCopy(PAnsiChar(AValue), FPropValue, ASize);
+        end;
+    end;
+  end;
 end;
 
 procedure TDialogBox.DialogBoxShow(Sender: TObject);

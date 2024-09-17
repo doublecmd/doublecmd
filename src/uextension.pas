@@ -104,6 +104,8 @@ begin
     VersionAPI:= VERSION_API;
     MsgChoiceBox:= @fDialogBox.MsgChoiceBox;
     DialogBoxParam:= @fDialogBox.DialogBoxParam;
+    SetProperty:= @fDialogBox.SetProperty;
+    GetProperty:= @fDialogBox.GetProperty;
   end;
 end;
 
