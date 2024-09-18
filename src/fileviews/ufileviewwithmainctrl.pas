@@ -29,7 +29,7 @@ interface
 
 uses
   Classes, SysUtils, Controls, ExtCtrls, StdCtrls, LCLType, LMessages, EditBtn,
-  Graphics,
+  Graphics, LCLVersion,
   uFile,
   uFileViewWorker,
   uOrderedFileView,
@@ -62,7 +62,7 @@ type
     procedure SetFont(AValue: TFont);
   protected
     // Workaround: https://gitlab.com/freepascal.org/lazarus/lazarus/-/issues/36006
-{$IF DEFINED(LCLQT) or DEFINED(LCLQT5) or DEFINED(LCLQT6)}
+{$IF (DEFINED(LCLQT) or DEFINED(LCLQT5) or DEFINED(LCLQT6)) and (LCL_FULLVERSION < 3020000)}
     procedure Hack(Data: PtrInt);
     procedure EditExit; override;
 {$ENDIF}
@@ -282,7 +282,7 @@ begin
   BaseEditor.Font:= AValue;
 end;
 
-{$IF DEFINED(LCLQT) or DEFINED(LCLQT5) or DEFINED(LCLQT6)}
+{$IF (DEFINED(LCLQT) or DEFINED(LCLQT5) or DEFINED(LCLQT6)) and (LCL_FULLVERSION < 3020000)}
 procedure TEditButtonEx.Hack(Data: PtrInt);
 begin
   if (csClicked in Button.ControlState) then
