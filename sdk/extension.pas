@@ -127,6 +127,7 @@ type
   TTranslateStringProc = function(Translation: Pointer; Identifier, Original: PAnsiChar; Output: PAnsiChar; OutLen: Integer): Integer {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
   TSetProperty = function(pDlg: UIntPtr; DlgItemName, PropName: PAnsiChar; PropValue: Pointer; PropType: Integer): PtrInt; {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
   TGetProperty = function(pDlg: UIntPtr; DlgItemName, PropName: PAnsiChar; PropValue: Pointer; PropType, PropSize: Integer): PtrInt; {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
+  TCreateComponent = function(pDlg: UIntPtr; Parent, DlgItemName, DlgItemClass: PAnsiChar; Reserved: Pointer): UIntPtr; {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
 
 type
   PExtensionStartupInfo = ^TExtensionStartupInfo;
@@ -151,8 +152,9 @@ type
     DialogBoxParam: TDialogBoxParamProc;
     SetProperty: TSetProperty;
     GetProperty: TGetProperty;
+    CreateComponent: TCreateComponent;
     // Reserved for future API extension
-    Reserved: packed array [0..Pred(4089 * SizeOf(Pointer))] of Byte;
+    Reserved: packed array [0..Pred(4088 * SizeOf(Pointer))] of Byte;
   end;
 
 type

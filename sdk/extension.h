@@ -119,6 +119,7 @@ typedef uintptr_t (DCPCALL *tDialogBoxParamProc)(void* Data, uint32_t DataSize, 
 typedef int (DCPCALL *tTranslateStringProc)(void *Translation, const char *Identifier, const char *Original, char *Output, int OutLen);
 typedef intptr_t (DCPCALL *tSetProperty)(uintptr_t pDlg, const char* DlgItemName, const char *PropName, void *PropValue, int PropType);
 typedef intptr_t (DCPCALL *tGetProperty)(uintptr_t pDlg, const char* DlgItemName, const char *PropName, void *PropValue, int PropType, int PropSize);
+typedef uintptr_t (DCPCALL *tCreateComponent)(uintptr_t pDlg, const char* Parent, const char* DlgItemName, const char* DlgItemClass, void* Reserved);
 
 #pragma pack(push)
 #pragma pack(1)
@@ -139,7 +140,8 @@ typedef struct {
   tDialogBoxParamProc DialogBoxParam;
   tSetProperty SetProperty;
   tGetProperty GetProperty;
-  unsigned char Reserved[4089 * sizeof(void *)];
+  tCreateComponent CreateComponent;
+  unsigned char Reserved[4088 * sizeof(void *)];
 } tExtensionStartupInfo;
 #pragma pack(pop)
 

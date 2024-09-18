@@ -36,27 +36,6 @@ type
   { TDialogBox }
 
   TDialogBox = class(TForm)
-    DialogTimer: TTimer;
-    DialogButton: TButton;
-    DialogBitBtn: TBitBtn;
-    DialogFileNameEdit: TFileNameEdit;
-    DialogDirectoryEdit: TDirectoryEdit;
-    DialogComboBox: TComboBox;
-    DialogListBox: TListBox;
-    DialogCheckBox: TCheckBox;
-    DialogGroupBox: TGroupBox;
-    DialogLabel: TLabel;
-    DialogPanel: TPanel;
-    DialogEdit: TEdit;
-    DialogMemo: TMemo;
-    DialogImage: TImage;
-    DialogSynEdit: TSynEdit;
-    DialogTabSheet: TTabSheet;
-    DialogScrollBox: TScrollBox;
-    DialogRadioGroup: TRadioGroup;
-    DialogPageControl: TPageControl;
-    DialogProgressBar: TProgressBar;
-    DialogDividerBevel: TDividerBevel;
     // Dialog events
     procedure DialogBoxShow(Sender: TObject);
     procedure DialogBoxClose(Sender: TObject; var CloseAction: TCloseAction);
@@ -106,6 +85,7 @@ type
     FPropsStorage: TPropsStorage;
     FTranslator: TAbstractTranslator;
   private
+    function GetComponent(const AName: PAnsiChar): TComponent;
     function FindPropInfoList(AObject: TComponent): TPropInfoList;
     procedure WritePropValue(const ASection, Item, Value: String);
     function ReadPropValue(const ASection, Item, Default: String): String;
@@ -130,6 +110,7 @@ function DialogBoxParam(Data: Pointer; DataSize: LongWord; DlgProc: TDlgProc; Fl
 function SendDlgMsg(pDlg: PtrUInt; DlgItemName: PAnsiChar; Msg, wParam, lParam: PtrInt): PtrInt; dcpcall;
 function SetProperty(pDlg: UIntPtr; DlgItemName, PropName: PAnsiChar; PropValue: Pointer; PropType: Integer): PtrInt; dcpcall;
 function GetProperty(pDlg: UIntPtr; DlgItemName, PropName: PAnsiChar; PropValue: Pointer; PropType, PropSize: Integer): PtrInt; dcpcall;
+function CreateComponent(pDlg: UIntPtr; Parent, DlgItemName, DlgItemClass: PAnsiChar; Reserved: Pointer): UIntPtr; dcpcall;
 
 implementation
 
@@ -272,12 +253,8 @@ var
   Control: TControl absolute Component;
 begin
   // find component by name
-  if (DlgItemName = nil) then
-    Component:= DialogBox
-  else begin
-    Component:= DialogBox.FindComponent(DlgItemName);
-    if (Component = nil) then Exit(-1);
-  end;
+  Component:= DialogBox.GetComponent(DlgItemName);
+  if (Component = nil) then Exit(-1);
   // process message
   case Msg of
   DM_CLOSE:
@@ -674,13 +651,12 @@ var
   DialogBox: TDialogBox absolute pDlg;
 begin
   // find component by name
-  if (DlgItemName = nil) then
-    Component:= DialogBox
+  Component:= DialogBox.GetComponent(DlgItemName);
+  if (Component = nil) then
+    Result:= -1
   else begin
-    Component:= DialogBox.FindComponent(DlgItemName);
-    if (Component = nil) then Exit(-1);
+    Result:= PtrInt(DialogBox.SetProperty(Component, PropName, PropValue, PropType));
   end;
-  Result:= PtrInt(DialogBox.SetProperty(Component, PropName, PropValue, PropType));
 end;
 
 function GetProperty(pDlg: UIntPtr; DlgItemName, PropName: PAnsiChar; PropValue: Pointer; PropType, PropSize: Integer): PtrInt; dcpcall;
@@ -689,13 +665,36 @@ var
   DialogBox: TDialogBox absolute pDlg;
 begin
   // find component by name
-  if (DlgItemName = nil) then
-    Component:= DialogBox
+  Component:= DialogBox.GetComponent(DlgItemName);
+  if (Component = nil) then
+    Result:= -1
   else begin
-    Component:= DialogBox.FindComponent(DlgItemName);
-    if (Component = nil) then Exit(-1);
+    Result:= PtrInt(DialogBox.GetProperty(Component, PropName, PropValue, PropType, PropSize));
   end;
-  Result:= PtrInt(DialogBox.GetProperty(Component, PropName, PropValue, PropType, PropSize));
+end;
+
+function CreateComponent(pDlg: UIntPtr; Parent, DlgItemName, DlgItemClass: PAnsiChar; Reserved: Pointer): UIntPtr; dcpcall;
+var
+  AParent: TComponent;
+  AClass: TPersistentClass;
+  DialogBox: TDialogBox absolute pDlg;
+  Component: TComponent absolute Result;
+begin
+  AClass:= GetClass(DlgItemClass);
+  if (AClass = nil) then
+    Result:= 0
+  else begin
+    Component:= TComponent(TComponentClass(AClass).Create(DialogBox));
+    Component.Name:= DlgItemName;
+    if Component is TControl then
+    begin
+      AParent:= DialogBox.GetComponent(Parent);
+      if Assigned(AParent) and (AParent is TWinControl) then
+      begin
+        TControl(Component).Parent:= TWinControl(AParent);
+      end;
+    end;
+  end;
 end;
 
 { TDialogBox }
@@ -810,6 +809,15 @@ begin
   Result:= FPropValue;
 end;
 
+function TDialogBox.GetComponent(const AName: PAnsiChar): TComponent;
+begin
+  if (AName = nil) then
+    Result:= Self
+  else begin
+    Result:= Self.FindComponent(AName);
+  end;
+end;
+
 function TDialogBox.FindPropInfoList(AObject: TComponent): TPropInfoList;
 var
   Index: Integer;
@@ -819,7 +827,7 @@ begin
   if Index >= 0 then
     Result:= TPropInfoList(FInfoList.Objects[Index])
   else begin
-    Result:= TPropInfoList.Create(AObject, tkProperties);
+    Result:= TPropInfoList.Create(AObject, tkAny - [tkUnknown]);
     try
       FInfoList.AddObject(AObject.Name, Result);
     except
@@ -831,8 +839,10 @@ end;
 function TDialogBox.SetProperty(AObject: TComponent; const AName: String;
   AValue: Pointer; AType: Integer): Boolean;
 var
+  Method: TMethod;
   PropInfo: PPropInfo;
   Props: TPropInfoList;
+  Address: CodePointer;
 begin
   Result:= False;
   Props:= FindPropInfoList(AObject);
@@ -863,9 +873,22 @@ begin
         end;
       TK_STRING:
         begin
-          Result:= True;
-          FPropValue:= StrPas(PAnsiChar(AValue));
-          FPropsStorage.LoadAnyProperty(PropInfo);
+          if (PropInfo^.PropType^.Kind = tkMethod) then
+          begin
+            Address:= MethodAddress(PAnsiChar(AValue));
+            if Assigned(Address) then
+            begin
+              Result:= True;
+              Method.Data:= Self;
+              Method.Code:= Address;
+              SetMethodProp(AObject, AName, Method);
+            end;
+          end
+          else begin
+            Result:= True;
+            FPropValue:= StrPas(PAnsiChar(AValue));
+            FPropsStorage.LoadAnyProperty(PropInfo);
+          end;
         end;
     end;
   end;
@@ -874,6 +897,7 @@ end;
 function TDialogBox.GetProperty(AObject: TComponent; const AName: String;
   AValue: Pointer; AType, ASize: Integer): Boolean;
 var
+  Method: TMethod;
   PropInfo: PPropInfo;
   Props: TPropInfoList;
 begin
@@ -906,8 +930,15 @@ begin
         end;
       TK_STRING:
         begin
+          if (PropInfo^.PropType^.Kind = tkMethod) then
+          begin
+            Method:= GetMethodProp(AObject, PropInfo);
+            FPropValue:= MethodName(Method.Code);
+          end
+          else begin
+            FPropsStorage.StoreAnyProperty(PropInfo);
+          end;
           Result:= True;
-          FPropsStorage.StoreAnyProperty(PropInfo);
           StrPLCopy(PAnsiChar(AValue), FPropValue, ASize);
         end;
     end;
@@ -1116,6 +1147,13 @@ begin
     fDlgProc(FSelf, PAnsiChar((Sender as TTimer).Name), DN_TIMER, 0, 0);
   end;
 end;
+
+initialization
+  RegisterClasses([TTimer, TButton, TBitBtn, TFileNameEdit,
+                   TDirectoryEdit, TComboBox, TListBox, TCheckBox,
+                   TGroupBox, TLabel, TPanel, TEdit, TMemo, TImage,
+                   TSynEdit, TTabSheet, TScrollBox, TRadioGroup,
+                   TPageControl, TProgressBar, TDividerBevel]);
 
 end.
 
