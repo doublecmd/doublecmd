@@ -290,9 +290,10 @@ var
   fsExeScr : TFileStreamEx = nil;
 begin
   // First check FileName is not a directory and then check if executable
-  Result:= (fpStat(UTF8ToSys(FileName), Info) <> -1) and FPS_ISREG(Info.st_mode) and
+  Result:= (fpStat(UTF8ToSys(FileName), Info) <> -1) and
+           (FPS_ISREG(Info.st_mode)) and (Info.st_size >= SizeOf(dwSign)) and
            (BaseUnix.fpAccess(UTF8ToSys(FileName), BaseUnix.X_OK) = 0);
-  if Result and (Info.st_size >= SizeOf(dwSign)) then
+  if Result then
   try
     fsExeScr := TFileStreamEx.Create(FileName, fmOpenRead or fmShareDenyNone);
     try
