@@ -762,15 +762,27 @@ procedure TfrmFileOp.SetProgressBytes(Operation: TFileSourceOperation;
   ProgressBar: TKASProgressBar; CurrentBytes: Int64; TotalBytes: Int64);
 begin
   if (CurrentBytes = -1) then
-    ProgressBar.Style := pbstMarquee
+  begin
+    ProgressBar.Style := pbstMarquee;
+    ProgressBar.BarShowText := False;
+  end
   else begin
-    if Operation.State = fsosRunning then ProgressBar.Style := pbstNormal;
+    if (ProgressBar.Style = pbstMarquee) and (Operation.State = fsosRunning) then
+    begin
+      if (TotalBytes <> 0) then
+      begin
+        ProgressBar.Style := pbstNormal;
+        ProgressBar.BarShowText := True;
+      end;
+    end;
 
     // Show only percent
     if TotalBytes < 0 then
     begin
       ProgressBar.SetProgress(CurrentBytes, -TotalBytes, EmptyStr);
     end
+    else if TotalBytes = 0 then
+      ProgressBar.BarShowText := False
     else begin
       ProgressBar.SetProgress(CurrentBytes, TotalBytes,
                               cnvFormatFileSize(CurrentBytes, uoscOperation) + '/' +
@@ -784,15 +796,27 @@ procedure TfrmFileOp.SetProgressFiles(Operation: TFileSourceOperation;
   ProgressBar: TKASProgressBar; CurrentFiles: Int64; TotalFiles: Int64);
 begin
   if (CurrentFiles = -1) then
-    ProgressBar.Style := pbstMarquee
+  begin
+    ProgressBar.Style := pbstMarquee;
+    ProgressBar.BarShowText := False;
+  end
   else begin
-    if Operation.State = fsosRunning then ProgressBar.Style := pbstNormal;
+    if (ProgressBar.Style = pbstMarquee) and (Operation.State = fsosRunning) then
+    begin
+      if (TotalFiles <> 0) then
+      begin
+        ProgressBar.Style := pbstNormal;
+        ProgressBar.BarShowText := True;
+      end;
+    end;
 
     // Show only percent
     if TotalFiles < 0 then
     begin
       ProgressBar.SetProgress(CurrentFiles, -TotalFiles, EmptyStr);
     end
+    else if TotalFiles = 0 then
+      ProgressBar.BarShowText := False
     else begin
       ProgressBar.SetProgress(CurrentFiles, TotalFiles,
                               IntToStrTS(CurrentFiles) + '/' +
