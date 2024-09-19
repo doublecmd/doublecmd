@@ -29,7 +29,7 @@ interface
 uses
   Classes, SysUtils, LResources, Forms, Controls, Graphics, Dialogs, StdCtrls,
   Types, Buttons, ExtCtrls, EditBtn, Extension, ComCtrls, DividerBevel, SynEdit,
-  RttiUtils;
+  RttiUtils, TypInfo;
 
 type
 
@@ -86,11 +86,11 @@ type
     FTranslator: TAbstractTranslator;
   private
     function GetComponent(const AName: PAnsiChar): TComponent;
-    function FindPropInfoList(AObject: TComponent): TPropInfoList;
     procedure WritePropValue(const ASection, Item, Value: String);
     function ReadPropValue(const ASection, Item, Default: String): String;
-    function SetProperty(AObject: TComponent; const AName: String; AValue: Pointer; AType: Integer): Boolean;
-    function GetProperty(AObject: TComponent; const AName: String; AValue: Pointer; AType, ASize: Integer): Boolean;
+    function FindPropInfo(var AObject: TObject; const AName: String): PPropInfo;
+    function SetProperty(AComponent: TComponent; const AName: String; AValue: Pointer; AType: Integer): Boolean;
+    function GetProperty(AComponent: TComponent; const AName: String; AValue: Pointer; AType, ASize: Integer): Boolean;
   protected
     procedure ShowDialogBox;
     procedure ProcessResource; override;
@@ -115,7 +115,7 @@ function CreateComponent(pDlg: UIntPtr; Parent, DlgItemName, DlgItemClass: PAnsi
 implementation
 
 uses
-  TypInfo, LCLStrConsts, LazFileUtils, DCOSUtils, DCStrUtils, uShowMsg,
+  LCLStrConsts, LazFileUtils, DCOSUtils, DCStrUtils, uShowMsg,
   uDebug, uTranslator, uGlobs, uFileProcs;
 
 type
@@ -818,38 +818,52 @@ begin
   end;
 end;
 
-function TDialogBox.FindPropInfoList(AObject: TComponent): TPropInfoList;
+function TDialogBox.FindPropInfo(var AObject: TObject; const AName: String): PPropInfo;
 var
-  Index: Integer;
+  PropName: String;
+  FullName: String;
+  Index, J: Integer;
+  Props: TPropInfoList;
+  ANames: TStringArray;
 begin
-  FPropsStorage.AObject:= AObject;
-  Index:= FInfoList.IndexOf(AObject.Name);
-  if Index >= 0 then
-    Result:= TPropInfoList(FInfoList.Objects[Index])
-  else begin
-    Result:= TPropInfoList.Create(AObject, tkAny - [tkUnknown]);
-    try
-      FInfoList.AddObject(AObject.Name, Result);
-    except
-      FreeAndNil(Result);
+  FullName:= TComponent(AObject).Name;
+  ANames:= AName.Split(['.'], TStringSplitOptions.ExcludeEmpty);
+  for J:= 0 to High(ANames) do
+  begin
+    FPropsStorage.AObject:= AObject;
+    Index:= FInfoList.IndexOf(FullName);
+    if Index >= 0 then
+      Props:= TPropInfoList(FInfoList.Objects[Index])
+    else begin
+      Props:= TPropInfoList.Create(AObject, tkAny - [tkUnknown]);
+      FInfoList.AddObject(FullName, Props);
+    end;
+    PropName:= ANames[J];
+    Result:= Props.Find(PropName);
+    if (Result = nil) then Break;
+    if (J < High(ANames)) then
+    begin
+      if Result^.PropType^.Kind <> tkClass then Exit(nil);
+      AObject:= GetObjectProp(AObject, PropName);
+      if (AObject = nil) then Exit(nil);
+      FullName+= '.' + PropName;
     end;
   end;
 end;
 
-function TDialogBox.SetProperty(AObject: TComponent; const AName: String;
+function TDialogBox.SetProperty(AComponent: TComponent; const AName: String;
   AValue: Pointer; AType: Integer): Boolean;
 var
   Method: TMethod;
+  AObject: TObject;
   PropInfo: PPropInfo;
-  Props: TPropInfoList;
   Address: CodePointer;
 begin
   Result:= False;
-  Props:= FindPropInfoList(AObject);
-  if Props <> nil then
+  AObject:= AComponent;
+  PropInfo:= FindPropInfo(AObject, AName);
+  if Assigned(PropInfo) then
   begin
-    PropInfo:= Props.Find(AName);
-    if (PropInfo = nil) then Exit;
     case AType of
       TK_BOOL:
         begin
@@ -894,19 +908,19 @@ begin
   end;
 end;
 
-function TDialogBox.GetProperty(AObject: TComponent; const AName: String;
+function TDialogBox.GetProperty(AComponent: TComponent; const AName: String;
   AValue: Pointer; AType, ASize: Integer): Boolean;
 var
   Method: TMethod;
+  AObject: TObject;
   PropInfo: PPropInfo;
   Props: TPropInfoList;
 begin
   Result:= False;
-  Props:= FindPropInfoList(AObject);
-  if Props <> nil then
+  AObject:= AComponent;
+  PropInfo:= FindPropInfo(AObject, AName);
+  if Assigned(PropInfo) then
   begin
-    PropInfo:= Props.Find(AName);
-    if (PropInfo = nil) then Exit;
     case AType of
       TK_BOOL:
         begin
