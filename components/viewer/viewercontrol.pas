@@ -1735,6 +1735,16 @@ var
   CharLenInBytes: Integer;
   DataLength: PtrInt;
   sText: String;
+
+  procedure DrawCaret(X, Y: Integer; LinePos: PtrInt);
+  begin
+    if FShowCaret and (FCaretPos = LinePos) then
+    begin
+      LCLIntf.SetCaretPos(X, Y);
+      if not FCaretVisible then FCaretVisible:= LCLIntf.ShowCaret(Handle);
+    end;
+  end;
+
 begin
   iPos := FPosition;
   if Mode = vcmBook then
@@ -1747,8 +1757,17 @@ begin
   begin
     for yIndex := 0 to GetClientHeightInLines(False) - 1 do
     begin
-      if iPos >= FHighLimit then
+      if iPos > FHighLimit then
         Break;
+
+      if iPos = FHighLimit then
+      begin
+        if GetPrevCharAsAscii(iPos, CharLenInBytes) = 10 then
+        begin
+          DrawCaret(0, yIndex * FTextHeight, iPos);
+        end;
+        Break;
+      end;
 
       AddLineOffset(iPos);
       LineStart := iPos;
@@ -1757,8 +1776,9 @@ begin
 
       if i > FHLowEnd then FHLowEnd:= i;
 
-      if DataLength > 0 then
-      begin
+      if DataLength = 0 then
+        DrawCaret(0, yIndex * FTextHeight, LineStart)
+      else begin
         if (Mode = vcmText) and (FHPosition > 0) then
         begin
           for i:= 1 to FHPosition do
@@ -1896,7 +1916,10 @@ begin
     // Don't allow empty lines at the bottom of the control.
     LinesTooMany := GetClientHeightInLines - GetLinesTillEnd(Value, LastLineReached);
     if LinesTooMany > 0 then
-      ScrollPosition(Value, -LinesTooMany); // scroll back upwards
+    begin
+      // scroll back upwards
+      ScrollPosition(Value, -LinesTooMany);
+    end;
 
     FPosition := Value;
     if Assigned(FOnPositionChanged) then
@@ -1977,9 +2000,10 @@ end;
 function TViewerControl.GetLinesTillEnd(FromPosition: PtrInt;
   out LastLineReached: Boolean): Integer;
 var
+  iPos: PtrInt;
   yIndex: Integer;
-  iPos:   PtrInt;
   DataLength: PtrInt;
+  CharLenInBytes: Integer;
 begin
   Result := 0;
   iPos   := FromPosition;
@@ -1998,6 +2022,11 @@ begin
     end;
   end;
   LastLineReached := (iPos >= FHighLimit);
+  if LastLineReached and (FViewerControlMode in [vcmText, vcmWrap, vcmBook]) then
+  begin
+    if (GetPrevCharAsAscii(FHighLimit, CharLenInBytes) = 10) then
+      Inc(Result);
+  end;
 end;
 
 procedure TViewerControl.SetShowCaret(AValue: Boolean);
@@ -2337,8 +2366,7 @@ begin
       VK_END:
         begin
           Key := 0;
-          GetPrevCharAsAscii(FHighLimit, CharLenInBytes);
-          CaretPos := (FHighLimit - CharLenInBytes);
+          CaretPos := FHighLimit;
           MakeVisible(FCaretPos);
         end;
       else
