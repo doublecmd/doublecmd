@@ -311,7 +311,7 @@ end;"/>
         <PackageName Value="Image32"/>
       </Item13>
     </RequiredPackages>
-    <Units Count="274">
+    <Units Count="275">
       <Unit0>
         <Filename Value="doublecmd.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -2000,6 +2000,11 @@ end;"/>
         <Filename Value="platform\unix\darwin\ucocoamodernformconfig.inc"/>
         <IsPartOfProject Value="True"/>
       </Unit273>
+      <Unit274>
+        <Filename Value="platform\unix\darwin\udarwinfinder.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uDarwinFinder"/>
+      </Unit274>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

@@ -8,7 +8,7 @@ interface
 uses
   Classes, SysUtils,
   LCLType, Forms, Menus,
-  fMain, uMyDarwin, uDCUtils, uLng,
+  fMain, uMyDarwin, uDarwinFinder, uDCUtils, uLng,
   uFileView, uBriefFileView, uColumnsFileView, uThumbFileView,
   CocoaAll, CocoaConfig, CocoaToolBar, Cocoa_Extra;
 
@@ -76,7 +76,22 @@ begin
 end;
 
 procedure editTagAction( const Sender: id );
+var
+  tagItem: NSToolBarItem absolute Sender;
+  filenames: TStringArray;
+  view: NSView;
 begin
+  filenames:= frmMain.NSServiceMenuGetFilenames();
+  if length(filenames) = 0 then
+    Exit;
+
+  view:= nil;
+  if NSObject(Sender).isKindOfClass(NSToolBarItem) then
+    view:= tagItem.valueForKey( NSSTR('_itemViewer') );
+  if (view=nil) or (view.window=nil) then
+    view:= NSView( frmMain.Handle );
+
+  uDarwinFinderUtil.popoverFileTags( filenames[0], view , NSMaxYEdge );
 end;
 
 procedure finderRevealAction( const Sender: id );
