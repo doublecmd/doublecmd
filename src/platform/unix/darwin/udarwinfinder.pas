@@ -19,13 +19,12 @@ type
     class procedure popoverFileTags(
       const path: String; const positioningView: NSView; const edge: NSRectEdge );
   private
-    class function getTagNamesOfFile( const path: String ): NSArray;
+    class function getTagNamesOfFile( const url: NSUrl ): NSArray;
+    class procedure setTagNamesOfFile( const url: NSUrl; const tagNames: NSArray );
   private
     class function getAllTags: NSDictionary;
     class function getAllTagsFromPlist( const plistBytes: TBytes ): NSDictionary;
     class function getTagsPlistFromDatabase: TBytes;
-  private
-    class procedure popoverTags( const tagArray: NSArray; const positioningView: NSView; const edge: NSRectEdge );
   end;
 
 implementation
@@ -87,6 +86,25 @@ type
       message 'setUpTokenAttachmentCell:forRepresentedObject:';
   end;
 
+  { TFinderTagsEditorPanel }
+
+  TFinderTagsEditorPanel = objcclass( NSObject,
+    NSPopoverDelegateProtocol,
+    NSTokenFieldDelegateProtocol )
+  private
+    _url: NSUrl;
+    _tagsTokenField: NSTokenField;
+    _cancel: Boolean;
+  public
+    class function editorWithPath( const path: NSString): id; message 'editorWithPath:';
+    procedure dealloc; override;
+    procedure showPopover( const sender: NSView ; const edge: NSRectEdge );
+      message 'showPopover:sender:';
+  private
+    function control_textView_doCommandBySelector (control: NSControl; textView: NSTextView; commandSelector: SEL): ObjCBOOL;
+    procedure popoverWillClose(notification: NSNotification);
+    procedure popoverDidClose (notification: NSNotification);
+  end;
 
 { TFinderTag }
 
@@ -178,25 +196,38 @@ begin
   Result.autorelease;
 end;
 
-{ uDarwinFinderUtil }
+{ TFinderTagsEditorPanel }
 
-class procedure uDarwinFinderUtil.popoverFileTags(
-  const path: String; const positioningView: NSView ; const edge: NSRectEdge );
+class function TFinderTagsEditorPanel.editorWithPath( const path: NSString ): id;
 var
-  tagArray: NSArray;
+  panel: TFinderTagsEditorPanel;
 begin
-  tagArray:= uDarwinFinderUtil.getTagNamesOfFile( path );
-  uDarwinFinderUtil.popoverTags( tagArray, positioningView, edge );
+  panel:= TFinderTagsEditorPanel.new;
+  panel._url:= NSURL.fileURLWithPath( path );
+  panel._url.retain;
+  Result:= panel;
+
+  TFinderTags.update;
 end;
 
-class procedure uDarwinFinderUtil.popoverTags(
-  const tagArray: NSArray; const positioningView: NSView ; const edge: NSRectEdge );
+procedure TFinderTagsEditorPanel.dealloc;
+begin
+  _tagsTokenField.release;
+  _url.release;
+end;
+
+procedure TFinderTagsEditorPanel.popoverDidClose(notification: NSNotification);
+begin
+  self.release;
+end;
+
+procedure TFinderTagsEditorPanel.showPopover( const sender: NSView; const edge: NSRectEdge );
 var
   contentRect: NSRect;
   popover: NSPopover;
   controller: NSViewController;
   contentView: NSView;
-  tagsTokenField: NSTokenField;
+  tagNameArray: NSArray;
 begin
   contentRect.origin.x:= 0;
   contentRect.origin.y:= 0;
@@ -206,41 +237,76 @@ begin
   controller:= NSViewController.new;
   controller.setView( contentView );
 
+  tagNameArray:= uDarwinFinderUtil.getTagNamesOfFile( _url );
   contentRect:= NSInsetRect( contentRect, 10, 10 );
   NSTokenField.setCellClass( TCocoaTokenFieldCell );
-  tagsTokenField:= NSTokenField.alloc.initWithFrame( contentRect );
-  tagsTokenField.setObjectValue( tagArray );
-  tagsTokenField.setFocusRingType( NSFocusRingTypeNone );
-  contentView.addSubview( tagsTokenField );
+  _tagsTokenField:= NSTokenField.alloc.initWithFrame( contentRect );
+  _tagsTokenField.setDelegate( self );
+  _tagsTokenField.setObjectValue( tagNameArray );
+  _tagsTokenField.setFocusRingType( NSFocusRingTypeNone );
+  contentView.addSubview( _tagsTokenField );
 
   popover:= NSPopover.new;
   popover.setContentViewController( controller );
+  popover.setDelegate( self );
   popover.setBehavior( NSPopoverBehaviorTransient );
 
   popover.showRelativeToRect_ofView_preferredEdge(
-    positioningView.bounds,
-    positioningView,
+    sender.bounds,
+    sender,
     edge );
 
-  NSControlMoveCaretToTheEnd( tagsTokenField );
+  NSControlMoveCaretToTheEnd( _tagsTokenField );
 
-  tagsTokenField.release;
   contentView.release;
   controller.release;
   popover.release;
 end;
 
-class function uDarwinFinderUtil.getTagNamesOfFile( const path: String ): NSArray;
+function TFinderTagsEditorPanel.control_textView_doCommandBySelector(
+  control: NSControl; textView: NSTextView; commandSelector: SEL): ObjCBOOL;
+begin
+  if commandSelector = ObjCSelector('cancelOperation:') then
+    _cancel:= True;
+  Result:= False;
+end;
+
+procedure TFinderTagsEditorPanel.popoverWillClose(notification: NSNotification);
 var
-  url: NSUrl;
-  success: Boolean;
-  tags: NSArray;
+  tagNameArray: NSArray;
+begin
+  if _cancel then
+    Exit;
+  tagNameArray:= _tagsTokenField.objectValue;
+  uDarwinFinderUtil.setTagNamesOfFile( _url, tagNameArray );
+end;
+
+{ uDarwinFinderUtil }
+
+class procedure uDarwinFinderUtil.popoverFileTags(
+  const path: String; const positioningView: NSView ; const edge: NSRectEdge );
+var
+  panel: TFinderTagsEditorPanel;
+begin
+  panel:= TFinderTagsEditorPanel.editorWithPath( StrToNSString(path) );
+  panel.showPopover( positioningView, edge );
+end;
+
+class function uDarwinFinderUtil.getTagNamesOfFile( const url: NSUrl ): NSArray;
+var
+  ret: Boolean;
+  tagNames: NSArray;
 begin
   Result:= nil;
-  url:= NSUrl.fileURLWithPath( StrToNSString(path) );
-  success:= url.getResourceValue_forKey_error( @tags, NSURLTagNamesKey, nil );
-  if success then
-    Result:= tags;
+  ret:= url.getResourceValue_forKey_error( @tagNames, NSURLTagNamesKey, nil );
+  if ret then
+    Result:= tagNames;
+end;
+
+class procedure uDarwinFinderUtil.setTagNamesOfFile( const url: NSUrl;
+  const tagNames: NSArray);
+begin
+  url.setResourceValue_forKey_error( tagNames, NSURLTagNamesKey, nil );
 end;
 
 const
