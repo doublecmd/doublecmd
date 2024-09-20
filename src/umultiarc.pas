@@ -252,7 +252,7 @@ begin
         if not mbFileExists(FixExeExt(ReplaceEnvVars(AExeList[J]))) then
           ExePath:= FindDefaultExecutablePath(FixExeExt(AExeList[J]))
         else
-          ExePath:= AExeList[J];
+          ExePath:= FixExeExt(AExeList[J]);
         if ExePath <> EmptyStr then break;
       end;
     end;
