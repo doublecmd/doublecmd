@@ -7,6 +7,7 @@ interface
 
 uses
   Classes, SysUtils, LCLType,
+  sqldb, SQLite3Conn,
   MacOSAll, CocoaAll, CocoaUtils;
 
 type
@@ -21,6 +22,8 @@ type
     class function getTagNamesOfFile( const path: String ): NSArray;
   private
     class function getAllTags: NSDictionary;
+    class function getAllTagsFromPlist( const plistBytes: TBytes ): NSDictionary;
+    class function getTagsPlistFromDatabase: TBytes;
   private
     class procedure popoverTags( const tagArray: NSArray; const positioningView: NSView; const edge: NSRectEdge );
   end;
@@ -240,9 +243,94 @@ begin
     Result:= tags;
 end;
 
+const
+  NEW_FINDER_TAGS_DATABASE_PATH = '/Library/SyncedPreferences/com.apple.kvs/com.apple.KeyValueService-Production.sqlite';
+
 class function uDarwinFinderUtil.getAllTags: NSDictionary;
+var
+  plistBytes: TBytes;
 begin
   Result:= nil;
+  plistBytes:= uDarwinFinderUtil.getTagsPlistFromDatabase;
+  if plistBytes <> nil then
+    Result:= uDarwinFinderUtil.getAllTagsFromPlist( plistBytes );
+end;
+
+class function uDarwinFinderUtil.getTagsPlistFromDatabase: TBytes;
+var
+  connection: TSQLConnection = nil;
+  transaction: TSQLTransaction = nil;
+  query: TSQLQuery = nil;
+  databasePath: String;
+begin
+  Result:= nil;
+  try
+    connection:= TSQLite3Connection.Create( nil );
+    transaction:= TSQLTransaction.Create( connection );
+    connection.Transaction:= transaction;
+    databasePath:= NSHomeDirectory.UTF8String + NEW_FINDER_TAGS_DATABASE_PATH;
+    connection.DatabaseName:= databasePath;
+
+    query:= TSQLQuery.Create( nil );
+    query.SQL.Text:= 'select ZPLISTDATAVALUE from ZSYDMANAGEDKEYVALUE where ZKEY="FinderTagDict"';
+    query.Database:= connection;
+    query.Open;
+    Result:= query.FieldByName('ZPLISTDATAVALUE').AsBytes;
+
+    query.Close;
+    connection.Close;
+  finally
+    if query <> nil then
+      query.Free;
+    if transaction <> nil then
+      transaction.Free;
+    if connection <> nil then
+      connection.Free;
+  end;
+end;
+
+class function uDarwinFinderUtil.getAllTagsFromPlist( const plistBytes: TBytes ): NSDictionary;
+var
+  plistData: NSData;
+  plistProperties: id;
+  plistTagArray: NSArray;
+
+  plistTagItem: NSDictionary;
+  plistTagName: NSString;
+  plistTagColorNumber: NSNumber;
+  plistTagUserDefined: NSNumber;
+
+  allFinderTagDict: NSMutableDictionary;
+  tag: TFinderTag;
+begin
+  Result:= nil;
+  plistData:= NSData.dataWithBytes_length( @plistBytes[0], Length(plistBytes) );
+  if plistData = nil then
+    Exit;
+
+  plistProperties:= NSPropertyListSerialization.propertyListWithData_options_format_error(
+    plistData, NSPropertyListImmutable, nil, nil );
+
+  if plistProperties = nil then
+    Exit;
+
+  plistTagArray:= plistProperties.valueForKeyPath( NSSTR('FinderTags') );
+  if plistTagArray = nil then
+    Exit;
+
+  allFinderTagDict:= NSMutableDictionary.dictionaryWithCapacity( plistTagArray.count  );
+  for plistTagItem in plistTagArray do begin
+    plistTagName:= plistTagItem.valueForKey( NSSTR('n') );
+    plistTagColorNumber:= plistTagItem.valueForKey( NSSTR('l') );
+    plistTagUserDefined:= plistTagItem.valueForKey( NSSTR('p') );
+    tag:= TFinderTag.tagWithParams(
+      plistTagName,
+      plistTagColorNumber.integerValue,
+      plistTagUserDefined.boolValue );
+    allFinderTagDict.setValue_forKey( tag, plistTagName );
+  end;
+
+  Result:= allFinderTagDict;
 end;
 
 procedure initFinderTagNSColors;
