@@ -561,7 +561,11 @@ begin
     CalcStatisticsOperationStatistics := CalcStatisticsOperation.RetrieveStatistics;
     with CalcStatisticsOperationStatistics do
     begin
-      msgOK(Format(rsSpaceMsg, [Files, Directories, cnvFormatFileSize(Size), IntToStrTS(Size)]));
+      if Size < 0 then
+        msgOK(Format(rsSpaceMsg, [Files, Directories, '???', '???']))
+      else begin
+        msgOK(Format(rsSpaceMsg, [Files, Directories, cnvFormatFileSize(Size), IntToStrTS(Size)]));
+      end;
     end;
   end;
 end;

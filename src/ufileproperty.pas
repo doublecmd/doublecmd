@@ -12,6 +12,7 @@ const
   FOLDER_SIZE_ZERO = -1;
   FOLDER_SIZE_WAIT = -2;
   FOLDER_SIZE_CALC = -3;
+  FOLDER_SIZE_ERRO = -4;
 
 type
 
