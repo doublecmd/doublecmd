@@ -76,6 +76,8 @@ type
 
   TCocoaTokenAttachmentCell = objcclass( NSTokenAttachmentCell )
     procedure drawWithFrame_inView(cellFrame: NSRect; controlView_: NSView); override;
+    function cellSizeForBounds(aRect: NSRect): NSSize; override;
+    function titleRectForBounds(theRect: NSRect): NSRect; override;
   end;
 
   { TCocoaTokenFieldCell }
@@ -175,15 +177,36 @@ procedure TCocoaTokenAttachmentCell.drawWithFrame_inView(cellFrame: NSRect;
   controlView_: NSView);
 var
   finderTag: TFinderTag;
-  titleRect: NSRect;
+  tagRect: NSRect;
+  path: NSBezierPath;
 begin
   finderTag:= TFinderTags.getTagOfName( self.stringValue );
   if finderTag <> nil then begin
-    titleRect:= self.drawingRectForBounds( cellFrame );
+    tagRect:= self.drawingRectForBounds( cellFrame );
+    path:= NSBezierPath.bezierPathWithRoundedRect_xRadius_yRadius(
+           tagRect,
+           2,
+           2 );
     finderTag.color.set_;
-    NSRectFill( titleRect );
+    path.fill;
   end;
   drawInteriorWithFrame_inView( cellFrame, controlView_ );
+end;
+
+function TCocoaTokenAttachmentCell.cellSizeForBounds(aRect: NSRect): NSSize;
+var
+  preferedWidth: CGFloat;
+begin
+  Result:= inherited;
+  preferedWidth:= self.attributedStringValue.size.width + 14;
+  if Result.width > preferedWidth then
+    Result.width:= preferedWidth;
+end;
+
+function TCocoaTokenAttachmentCell.titleRectForBounds(theRect: NSRect): NSRect;
+begin
+  Result:= theRect;
+  Result.origin.x:= Result.origin.x + 2;
 end;
 
 { TCocoaTokenFieldCell }
@@ -231,14 +254,14 @@ var
 begin
   contentRect.origin.x:= 0;
   contentRect.origin.y:= 0;
-  contentRect.size.Width:= 250;
-  contentRect.size.Height:= 100;
+  contentRect.size.Width:= 260;
+  contentRect.size.Height:= 108;
   contentView:= NSView.alloc.initWithFrame( contentRect );
   controller:= NSViewController.new;
   controller.setView( contentView );
 
   tagNameArray:= uDarwinFinderUtil.getTagNamesOfFile( _url );
-  contentRect:= NSInsetRect( contentRect, 10, 10 );
+  contentRect:= NSInsetRect( contentRect, 6, 6 );
   NSTokenField.setCellClass( TCocoaTokenFieldCell );
   _tagsTokenField:= NSTokenField.alloc.initWithFrame( contentRect );
   _tagsTokenField.setDelegate( self );
@@ -296,6 +319,7 @@ class function uDarwinFinderUtil.getTagNamesOfFile( const url: NSUrl ): NSArray;
 var
   ret: Boolean;
   tagNames: NSArray;
+  tagColor: NSColor;
 begin
   Result:= nil;
   ret:= url.getResourceValue_forKey_error( @tagNames, NSURLTagNamesKey, nil );
@@ -403,13 +427,13 @@ procedure initFinderTagNSColors;
 begin
   defaultFinderTagNSColors:= [
     NSColor.windowBackgroundColor,
-    NSColor.grayColor,
-    NSColor.greenColor,
-    NSColor.purpleColor,
-    NSColor.blueColor,
-    NSColor.yellowColor,
-    NSColor.redColor,
-    NSColor.orangeColor
+    NSColor.colorWithCalibratedRed_green_blue_alpha( 0.656, 0.656, 0.656, 1 ).retain,
+    NSColor.colorWithCalibratedRed_green_blue_alpha( 0.699, 0.836, 0.266, 1 ).retain,
+    NSColor.colorWithCalibratedRed_green_blue_alpha( 0.746, 0.547, 0.844, 1 ).retain,
+    NSColor.colorWithCalibratedRed_green_blue_alpha( 0.340, 0.629, 0.996, 1 ).retain,
+    NSColor.colorWithCalibratedRed_green_blue_alpha( 0.934, 0.852, 0.266, 1 ).retain,
+    NSColor.colorWithCalibratedRed_green_blue_alpha( 0.980, 0.383, 0.348, 1 ).retain,
+    NSColor.colorWithCalibratedRed_green_blue_alpha( 0.961, 0.660, 0.254, 1 ).retain
   ];
 end;
 
