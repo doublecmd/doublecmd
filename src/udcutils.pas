@@ -818,8 +818,12 @@ begin
             '\', '''', '"':
               QuoteChar := sCmdLine[I];
             ' ', #9:
-              if CurrentArg <> '' then
-                AddArgument;
+              if not bSplitArgs then
+                CurrentArg := CurrentArg + sCmdLine[I]
+              else begin
+                if CurrentArg <> '' then
+                  AddArgument;
+              end;
             #10:
               AddArgument;
             else
