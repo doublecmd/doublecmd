@@ -75,8 +75,13 @@ type
   { TCocoaTokenAttachmentCell }
 
   TCocoaTokenAttachmentCell = objcclass( NSTokenAttachmentCell )
+  private
+    function isSelected: Boolean; message 'token_isSelected';
+  public
+    procedure drawInteriorWithFrame_inView (cellFrame: NSRect; controlView_: NSView); override;
     procedure drawWithFrame_inView(cellFrame: NSRect; controlView_: NSView); override;
     function cellSizeForBounds(aRect: NSRect): NSSize; override;
+    function drawingRectForBounds(theRect: NSRect): NSRect; override;
     function titleRectForBounds(theRect: NSRect): NSRect; override;
   end;
 
@@ -86,6 +91,18 @@ type
     function setUpTokenAttachmentCell( aCell: NSTokenAttachmentCell;
       anObject: id ): NSTokenAttachmentCell;
       message 'setUpTokenAttachmentCell:forRepresentedObject:';
+  end;
+
+  { TCocoaTokenField }
+
+  TCocoaTokenField = objcclass( NSTokenField, NSTextViewDelegateProtocol )
+  private
+    _selectedTokenObjects: NSMutableSet;
+  public
+    procedure dealloc; override;
+    procedure textViewDidChangeSelection(notification: NSNotification);
+    function isSelectedTokenObject( const anObject: id ): Boolean;
+      message 'isSelectedTokenObject:';
   end;
 
   { TFinderTagsEditorPanel }
@@ -124,6 +141,7 @@ end;
 procedure TFinderTag.dealloc;
 begin
   _name.release;
+  Inherited;
 end;
 
 function TFinderTag.name: NSString;
@@ -173,23 +191,58 @@ end;
 
 { TCocoaTokenAttachmentCell }
 
+function TCocoaTokenAttachmentCell.isSelected: Boolean;
+begin
+  Result:= TCocoaTokenField(controlView).isSelectedTokenObject( self.objectValue );
+end;
+
+procedure TCocoaTokenAttachmentCell.drawInteriorWithFrame_inView(
+  cellFrame: NSRect; controlView_: NSView);
+var
+  titleRect: NSRect;
+  attributes: NSMutableDictionary;
+  color: NSColor;
+begin
+  titleRect:= titleRectForBounds( cellFrame );
+
+  if self.isSelected then
+    color:= NSColor.textBackgroundColor
+  else
+    color:= NSColor.textColor;
+  attributes:= NSMutableDictionary.new;
+  attributes.setValue_forKey( color, NSForegroundColorAttributeName );
+  NSString(self.objectValue).drawWithRect_options_attributes( titleRect, 0, attributes );
+  attributes.release;
+end;
+
 procedure TCocoaTokenAttachmentCell.drawWithFrame_inView(cellFrame: NSRect;
   controlView_: NSView);
 var
   finderTag: TFinderTag;
-  tagRect: NSRect;
+  color: NSColor;
+  drawingRect: NSRect;
   path: NSBezierPath;
 begin
   finderTag:= TFinderTags.getTagOfName( self.stringValue );
-  if finderTag <> nil then begin
-    tagRect:= self.drawingRectForBounds( cellFrame );
-    path:= NSBezierPath.bezierPathWithRoundedRect_xRadius_yRadius(
-           tagRect,
-           2,
-           2 );
-    finderTag.color.set_;
-    path.fill;
+  if finderTag <> nil then
+    color:= finderTag.color
+  else
+    color:= defaultFinderTagNSColors[0];
+
+  drawingRect:= self.drawingRectForBounds( cellFrame );
+  path:= NSBezierPath.bezierPathWithRoundedRect_xRadius_yRadius(
+         drawingRect,
+         2,
+         2 );
+
+  if self.isSelected then begin
+    NSColor.selectedTextBackgroundColor.set_;
+    NSRectFill( cellFrame );
   end;
+
+  color.set_;
+  path.fill;
+
   drawInteriorWithFrame_inView( cellFrame, controlView_ );
 end;
 
@@ -201,12 +254,24 @@ begin
   preferedWidth:= self.attributedStringValue.size.width + 14;
   if Result.width > preferedWidth then
     Result.width:= preferedWidth;
+  Result.height:= Result.height + 4;
+end;
+
+function TCocoaTokenAttachmentCell.drawingRectForBounds(theRect: NSRect
+  ): NSRect;
+begin
+  Result.origin.x:= theRect.origin.x + 2;
+  Result.origin.y:= theRect.origin.y + 2;
+  Result.size.width:= theRect.size.width - 4;
+  Result.size.height:= theRect.size.height - 4;
 end;
 
 function TCocoaTokenAttachmentCell.titleRectForBounds(theRect: NSRect): NSRect;
 begin
-  Result:= theRect;
-  Result.origin.x:= Result.origin.x + 2;
+  Result.origin.x:= theRect.origin.x + 7;
+  Result.origin.y:= theRect.origin.y + self.font.pointSize + 2;
+  Result.size.width:= theRect.size.width - 14;
+  Result.size.height:= theRect.size.Height - 4;
 end;
 
 { TCocoaTokenFieldCell }
@@ -215,8 +280,48 @@ function TCocoaTokenFieldCell.setUpTokenAttachmentCell(
   aCell: NSTokenAttachmentCell; anObject: id): NSTokenAttachmentCell;
 begin
   Result:= TCocoaTokenAttachmentCell.alloc.initTextCell( NSString(anObject) );
+  Result.setControlView( self.controlView );
   Result.setRepresentedObject( anObject );
   Result.autorelease;
+end;
+
+procedure TCocoaTokenField.dealloc;
+begin
+  if _selectedTokenObjects <> nil then
+    _selectedTokenObjects.release;
+  inherited;
+end;
+
+{ TCocoaTokenField }
+
+procedure TCocoaTokenField.textViewDidChangeSelection( notification: NSNotification);
+var
+  range: NSRange;
+  i: NSUInteger;
+  endIndex: NSUInteger;
+  tokenNames: NSArray;
+begin
+  if _selectedTokenObjects = nil then
+    _selectedTokenObjects:= NSMutableSet.new
+  else
+    _selectedTokenObjects.removeAllObjects;
+
+  self.currentEditor.setNeedsDisplay_( True );
+
+  range:= self.currentEditor.selectedRange;
+  if range.length = 0 then
+    Exit;
+
+  tokenNames:= NSArray( objectValue );
+  endIndex:= range.location + range.length - 1;
+  for i:= range.location to endIndex do begin
+    _selectedTokenObjects.addObject( tokenNames.objectAtIndex(i) );
+  end;
+end;
+
+function TCocoaTokenField.isSelectedTokenObject( const anObject: id ): Boolean;
+begin
+  Result:= _selectedTokenObjects.containsObject( anObject );
 end;
 
 { TFinderTagsEditorPanel }
@@ -237,6 +342,7 @@ procedure TFinderTagsEditorPanel.dealloc;
 begin
   _tagsTokenField.release;
   _url.release;
+  Inherited;
 end;
 
 procedure TFinderTagsEditorPanel.popoverDidClose(notification: NSNotification);
@@ -255,7 +361,7 @@ begin
   contentRect.origin.x:= 0;
   contentRect.origin.y:= 0;
   contentRect.size.Width:= 260;
-  contentRect.size.Height:= 108;
+  contentRect.size.Height:= 120;
   contentView:= NSView.alloc.initWithFrame( contentRect );
   controller:= NSViewController.new;
   controller.setView( contentView );
@@ -263,7 +369,7 @@ begin
   tagNameArray:= uDarwinFinderUtil.getTagNamesOfFile( _url );
   contentRect:= NSInsetRect( contentRect, 6, 6 );
   NSTokenField.setCellClass( TCocoaTokenFieldCell );
-  _tagsTokenField:= NSTokenField.alloc.initWithFrame( contentRect );
+  _tagsTokenField:= TCocoaTokenField.alloc.initWithFrame( contentRect );
   _tagsTokenField.setDelegate( self );
   _tagsTokenField.setObjectValue( tagNameArray );
   _tagsTokenField.setFocusRingType( NSFocusRingTypeNone );
@@ -426,7 +532,7 @@ end;
 procedure initFinderTagNSColors;
 begin
   defaultFinderTagNSColors:= [
-    NSColor.windowBackgroundColor,
+    NSColor.colorWithCalibratedRed_green_blue_alpha( 0.656, 0.656, 0.656, 0.5 ).retain,
     NSColor.colorWithCalibratedRed_green_blue_alpha( 0.656, 0.656, 0.656, 1 ).retain,
     NSColor.colorWithCalibratedRed_green_blue_alpha( 0.699, 0.836, 0.266, 1 ).retain,
     NSColor.colorWithCalibratedRed_green_blue_alpha( 0.746, 0.547, 0.844, 1 ).retain,
