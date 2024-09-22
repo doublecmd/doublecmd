@@ -3,12 +3,26 @@
 
 [Setup]
 AppName=Double Commander
-AppVerName=Double Commander Beta {#DisplayVersion}
 AppVersion={#DisplayVersion}
+AppVerName=Double Commander Beta {#DisplayVersion}
+
+VersionInfoProductName=Double Commander
+VersionInfoDescription=Double Commander Beta installer
+VersionInfoVersion={#DisplayVersion}
+
+UninstallDisplayName=Double Commander Beta
+UninstallDisplayIcon={app}\doublecmd.exe
 AppPublisher=Alexander Koblov
+
+AppCopyright=Alexander Koblov
 AppPublisherURL=https://doublecmd.sourceforge.io
 AppSupportURL=https://doublecmd.sourceforge.io
 AppUpdatesURL=https://doublecmd.sourceforge.io
+
+ShowLanguageDialog=yes
+UsePreviousLanguage=no
+LanguageDetectionMethod=uilanguage
+
 DefaultDirName={pf}\Double Commander
 DefaultGroupName=Double Commander
 AllowNoIcons=yes
