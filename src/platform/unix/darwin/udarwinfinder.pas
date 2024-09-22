@@ -297,24 +297,35 @@ end;
 procedure TCocoaTokenField.textViewDidChangeSelection( notification: NSNotification);
 var
   range: NSRange;
-  i: NSUInteger;
+  beginIndex: NSUInteger;
   endIndex: NSUInteger;
+  i: NSUInteger;
   tokenNames: NSArray;
+  editor: NSText;
 begin
   if _selectedTokenObjects = nil then
     _selectedTokenObjects:= NSMutableSet.new
   else
     _selectedTokenObjects.removeAllObjects;
 
-  self.currentEditor.setNeedsDisplay_( True );
+  editor:= self.currentEditor;
+  if editor = nil then
+    Exit;
+
+  editor.setNeedsDisplay_( True );
 
   range:= self.currentEditor.selectedRange;
   if range.length = 0 then
     Exit;
 
-  tokenNames:= NSArray( objectValue );
+  beginIndex:= range.location;
   endIndex:= range.location + range.length - 1;
-  for i:= range.location to endIndex do begin
+
+  if editor.string_.characterAtIndex(beginIndex) <> NSAttachmentCharacter then
+    Exit;
+
+  tokenNames:= NSArray( objectValue );
+  for i:= beginIndex to endIndex do begin
     _selectedTokenObjects.addObject( tokenNames.objectAtIndex(i) );
   end;
 end;
