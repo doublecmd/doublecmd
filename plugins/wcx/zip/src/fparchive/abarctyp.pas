@@ -873,7 +873,7 @@ begin
     Look := TAbArchiveItem(Last^);
     while Look <> nil do begin
       if CompareText(Look.FileName, FN) = 0 then begin
-        Move(Look.NextItem, Last^, 4);
+        Move(Look.NextItem, Last^, SizeOf(Pointer));
         Break;
       end;
       Last := @Look.NextItem;
@@ -985,7 +985,7 @@ begin
     { Delete old index }
     while Look <> nil do begin
       if CompareText(Look.FileName, FN) = 0 then begin
-        Move(Look.NextItem, Last^, 4);
+        Move(Look.NextItem, Last^, SizeOf(Pointer));
         Break;
       end;
       Last := @Look.NextItem;
