@@ -4,7 +4,7 @@
    Directories synchronization utility (specially for DC)
 
    Copyright (C) 2013 Anton Panferov (ast.a_s@mail.ru)
-   Copyright (C) 2014-2023 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2014-2024 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -239,7 +239,7 @@ uses
   uFileSystemFileSource, uFileSourceOperationOptions, DCDateTimeUtils,
   uDCUtils, uFileSourceUtil, uFileSourceOperationTypes, uShowForm, uAdministrator,
   uOSUtils, uLng, uMasks, Math, uClipboard, IntegerList, fMaskInputDlg, uSearchTemplate,
-  StrUtils, DCStrUtils, uTypes, uFileSystemDeleteOperation;
+  StrUtils, DCStrUtils, uTypes, uFileSystemDeleteOperation, uFindFiles;
 
 {$R *.lfm}
 
@@ -1300,7 +1300,10 @@ var
           if f.IsDirectory or f.IsLinkToDirectory then
           begin
             if (f.NameNoExt <> '.') and (f.NameNoExt <> '..') then
-              dirs.Add(f.Name);
+            begin
+              if (Template = nil) or (CheckDirectoryName(Template.FileChecks, f.Name)) then
+                dirs.Add(f.Name);
+            end;
           end
           else if (Template = nil) or Template.CheckFile(f) then
           begin
