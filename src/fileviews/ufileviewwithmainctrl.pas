@@ -176,6 +176,7 @@ type
     function IsMouseSelecting: Boolean; inline;
     procedure MainControlDblClick(Sender: TObject);
     procedure DoMainControlFileWork;
+    procedure MouseStateReset;
     procedure MainControlQuadClick(Sender: TObject);
     procedure MainControlDragDrop(Sender, Source: TObject; X, Y: Integer);
     procedure MainControlDragOver(Sender, Source: TObject; X, Y: Integer; State: TDragState; var Accept: Boolean);
@@ -743,6 +744,17 @@ begin
 {$ENDIF}
 end;
 
+procedure TFileViewWithMainCtrl.MouseStateReset;
+begin
+  FStartDrag := False;
+  FRangeSelecting := False;
+
+  if IsMouseSelecting and (GetCaptureControl = MainControl) then
+    SetCaptureControl(nil);
+
+  FMainControlMouseDown := False;
+end;
+
 procedure TFileViewWithMainCtrl.MainControlDragDrop(Sender, Source: TObject; X, Y: Integer);
 var
   SourcePanel: TFileViewWithMainCtrl;
@@ -955,17 +967,15 @@ begin
 {$ENDIF}
 
   // history navigation for mice with extra buttons
-  case Button of
-    mbExtra1:
-      begin
-        GoToPrevHistory;
-        Exit;
-      end;
-    mbExtra2:
-      begin
-        GoToNextHistory;
-        Exit;
-      end;
+  if Button in [mbExtra1, mbExtra2] then
+  begin
+    MouseStateReset;
+
+    case Button of
+      mbExtra1: GoToPrevHistory;
+      mbExtra2: GoToNextHistory;
+    end;
+    Exit;
   end;
 
   if IsLoadingFileList then Exit;
@@ -1693,7 +1703,7 @@ begin
   inherited AfterChangePath;
   if IsMouseSelecting then
   begin
-    FMainControlMouseDown:= False;
+    MouseStateReset;
   end;
 end;
 
