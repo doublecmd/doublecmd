@@ -80,7 +80,7 @@ uses
   uShellExecute, fMain, uDCUtils, uFormCommands, DCOSUtils, uOSUtils, uShowMsg,
   uExts, uFileSystemFileSource, DCConvertEncoding, LazUTF8, uOSForms, uGraphics,
   Forms, DCWindows, DCStrUtils, Clipbrd, uFileSystemWatcher, uShellFolder,
-  uOleDragDrop;
+  uOleDragDrop, uGdiPlus;
 
 const
   USER_CMD_ID = $1000;
@@ -353,7 +353,7 @@ var
   Always_Expanded_Action_Count: integer = 0;
   bSeparatorAlreadyInserted: boolean;
 
-  function GetMeTheBitmapForThis(ImageRequiredIndex: PtrInt): TBitmap;
+  function CreateBitmap: TBitmap;
   begin
     Result := Graphics.TBitmap.Create;
     Result.SetSize(gIconsSize, gIconsSize);
@@ -361,8 +361,35 @@ var
     Result.Canvas.Brush.Color := clMenu;
     Result.Canvas.Brush.Style := bsSolid;
     Result.Canvas.FillRect(0, 0, gIconsSize, gIconsSize);
-    PixMapManager.DrawBitmap(ImageRequiredIndex, Result.Canvas, 0, 0);
+  end;
 
+  function GetMyIcon: TBitmap;
+  var
+    AIcon: TIcon;
+  begin
+    Result:= CreateBitmap;
+    AIcon:= TIcon.Create;
+    try
+      AIcon.LoadFromResourceName(MainInstance, 'MAINICON');
+      AIcon.Current:= AIcon.GetBestIndexForSize(TSize.Create(gIconsSize, gIconsSize));
+
+      if (AIcon.Width = gIconsSize) and (AIcon.Height = gIconsSize) then
+        DrawIcon(Result.Canvas.Handle, 0, 0, AIcon.Handle)
+      else if IsGdiPlusLoaded then
+        GdiPlusStretchDraw(AIcon.Handle, Result.Canvas.Handle, 0, 0, gIconsSize, gIconsSize)
+      else begin
+        DrawIconEx(Result.Canvas.Handle, 0, 0, AIcon.Handle, gIconsSize, gIconsSize, 0, 0, DI_NORMAL);
+      end;
+    finally
+      AIcon.Free;
+    end;
+    if Result.PixelFormat <> pf32bit then BitmapConvert(Result);
+  end;
+
+  function GetMeTheBitmapForThis(ImageRequiredIndex: PtrInt): TBitmap;
+  begin
+    Result:= CreateBitmap;
+    PixMapManager.DrawBitmap(ImageRequiredIndex, Result.Canvas, 0, 0);
     if Result.PixelFormat <> pf32bit then BitmapConvert(Result);
   end;
 
@@ -436,7 +463,7 @@ begin
 
     // Let's prepare our icon for extended menu if not already prepaed during the session.
     if ContextMenuDCIcon = nil then
-      ContextMenuDCIcon := GetMeTheBitmapForThis(gFiOwnDCIcon);
+      ContextMenuDCIcon := GetMyIcon;
     if ContextMenucm_FileAssoc = nil then
       ContextMenucm_FileAssoc := GetMeTheBitmapForThis(PixMapManager.GetIconByName('cm_fileassoc'));
     if ContextMenucm_RunTerm = nil then

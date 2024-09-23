@@ -452,7 +452,6 @@ var
   gDiskIconsSize : Integer;
   gDiskIconsAlpha : Integer;
   gToolIconsSize: Integer;
-  gFiOwnDCIcon : PtrInt;
   gIconsExclude: Boolean;
   gIconsExcludeDirs: String;
   gPixelsPerInch: Integer;

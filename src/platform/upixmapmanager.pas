@@ -1748,7 +1748,6 @@ begin
   FiSortAscID := CheckAddThemePixmap('view-sort-ascending');
   FiSortDescID := CheckAddThemePixmap('view-sort-descending');
   FiHashIconID := CheckAddThemePixmap('text-x-hash');
-  gFiOwnDCIcon := CheckAddPixmap(ParamStr(0), gIconsSize);
 
   { Load icons from "extassoc.xml" }
   for I := 0 to gExts.Count - 1 do
