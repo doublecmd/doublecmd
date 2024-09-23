@@ -43,6 +43,7 @@ type
   public
     constructor Create;
     function CheckFile(const AFile: TFile): Boolean;
+    property FileChecks: TFindFileChecks read FFileChecks;
     property SearchRecord: TSearchTemplateRec read FSearchRecord write SetSearchRecord;
     property TemplateName: String read FTemplateName write FTemplateName;
   end;
