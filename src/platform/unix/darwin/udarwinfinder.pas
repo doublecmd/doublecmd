@@ -8,7 +8,7 @@ interface
 uses
   Classes, SysUtils, LCLType,
   sqldb, SQLite3Conn,
-  MacOSAll, CocoaAll, CocoaUtils;
+  MacOSAll, CocoaAll, CocoaUtils, Cocoa_Extra;
 
 type
 
@@ -93,6 +93,12 @@ type
       message 'setUpTokenAttachmentCell:forRepresentedObject:';
   end;
 
+  { TCocoaTokenFieldDelegateProtocol }
+
+  TCocoaTokenFieldDelegateProtocol = objcprotocol( NSTokenFieldDelegateProtocol )
+    procedure updateFilter( substring: NSString ); message 'updateFilter:';
+  end;
+
   { TCocoaTokenField }
 
   TCocoaTokenField = objcclass( NSTokenField, NSTextViewDelegateProtocol )
@@ -105,20 +111,35 @@ type
       message 'isSelectedTokenObject:';
   end;
 
+  { TFinderTagsListView }
+
+  TFinderTagsListView = objcclass( NSTableView )
+     procedure drawRow_clipRect (row: NSInteger; clipRect: NSRect); override;
+  end;
+
   { TFinderTagsEditorPanel }
 
   TFinderTagsEditorPanel = objcclass( NSObject,
     NSPopoverDelegateProtocol,
-    NSTokenFieldDelegateProtocol )
+    TCocoaTokenFieldDelegateProtocol,
+    NSTableViewDataSourceProtocol )
   private
     _url: NSUrl;
     _tagsTokenField: NSTokenField;
+    _filterListView: NSTableView;
+    _filterTagNames: NSMutableArray;
     _cancel: Boolean;
   public
     class function editorWithPath( const path: NSString): id; message 'editorWithPath:';
     procedure dealloc; override;
     procedure showPopover( const sender: NSView ; const edge: NSRectEdge );
       message 'showPopover:sender:';
+  public
+    function numberOfRowsInTableView (tableView: NSTableView): NSInteger;
+    function tableView_objectValueForTableColumn_row (
+      tableView: NSTableView; tableColumn: NSTableColumn; row: NSInteger): id;
+  public
+    procedure updateFilter( substring: NSString );
   private
     function control_textView_doCommandBySelector (control: NSControl; textView: NSTextView; commandSelector: SEL): ObjCBOOL;
     procedure popoverWillClose(notification: NSNotification);
@@ -335,6 +356,36 @@ begin
   Result:= _selectedTokenObjects.containsObject( anObject );
 end;
 
+{ TFinderTagsListView }
+
+procedure TFinderTagsListView.drawRow_clipRect(row: NSInteger; clipRect: NSRect
+  );
+var
+  colorRect: NSRect;
+  path: NSBezierPath;
+  tagName: NSString;
+  finderTag: TFinderTag;
+begin
+  inherited drawRow_clipRect(row, clipRect);
+
+  colorRect:= frameOfCellAtColumn_row( 0, row );
+  colorRect:= NSInsetRect( colorRect, 4, 4 );
+
+  tagName:= NSTableViewDataSourceProtocol(self.datasource).tableView_objectValueForTableColumn_row(
+    self, self.tableColumnWithIdentifier(NSSTR('tagName')), row );
+  finderTag:= TFinderTags.getTagOfName(tagName);
+
+  finderTag.color.set_;
+  if finderTag.colorIndex <> 0 then begin
+    path:= NSBezierPath.bezierPathWithOvalInRect( colorRect );
+    path.fill;
+  end else begin
+    colorRect:= NSInsetRect( colorRect, 0.5, 0.5 );
+    path:= NSBezierPath.bezierPathWithOvalInRect( colorRect );
+    path.stroke;
+  end;
+end;
+
 { TFinderTagsEditorPanel }
 
 class function TFinderTagsEditorPanel.editorWithPath( const path: NSString ): id;
@@ -344,6 +395,7 @@ begin
   panel:= TFinderTagsEditorPanel.new;
   panel._url:= NSURL.fileURLWithPath( path );
   panel._url.retain;
+  panel._filterTagNames:= NSMutableArray.new;
   Result:= panel;
 
   TFinderTags.update;
@@ -353,6 +405,7 @@ procedure TFinderTagsEditorPanel.dealloc;
 begin
   _tagsTokenField.release;
   _url.release;
+  _filterTagNames.release;
   Inherited;
 end;
 
@@ -368,23 +421,56 @@ var
   controller: NSViewController;
   contentView: NSView;
   tagNameArray: NSArray;
+  scrollView: NSScrollView;
+  column: NSTableColumn;
 begin
   contentRect.origin.x:= 0;
   contentRect.origin.y:= 0;
-  contentRect.size.Width:= 260;
-  contentRect.size.Height:= 120;
+  contentRect.size.Width:= 266;
+  contentRect.size.Height:= 300;
   contentView:= NSView.alloc.initWithFrame( contentRect );
   controller:= NSViewController.new;
   controller.setView( contentView );
 
   tagNameArray:= uDarwinFinderUtil.getTagNamesOfFile( _url );
   contentRect:= NSInsetRect( contentRect, 6, 6 );
+  contentRect.origin.x:= 6;
+  contentRect.origin.y:= 190;
+  contentRect.size.Width:= 250;
+  contentRect.size.Height:= 100;
   NSTokenField.setCellClass( TCocoaTokenFieldCell );
   _tagsTokenField:= TCocoaTokenField.alloc.initWithFrame( contentRect );
-  _tagsTokenField.setDelegate( self );
+  _tagsTokenField.setDelegate( NSTokenFieldDelegateProtocol(self) );
   _tagsTokenField.setObjectValue( tagNameArray );
   _tagsTokenField.setFocusRingType( NSFocusRingTypeNone );
   contentView.addSubview( _tagsTokenField );
+
+  contentRect.origin.x:= 0;
+  contentRect.origin.y:= 15;
+  contentRect.size.Width:= 266;
+  contentRect.size.Height:= 172;
+  scrollView:= NSScrollView.alloc.initWithFrame( contentRect );
+  _filterListView:= TFinderTagsListView.new;
+  _filterListView.setIntercellSpacing( NSZeroSize );
+  column:= NSTableColumn.new;
+  column.setWidth( 16 );
+  _filterListView.addTableColumn( column );
+  column.release;
+  column:= NSTableColumn.alloc.initWithIdentifier( NSSTR('tagName') );
+  column.setWidth( 250 );
+  _filterListView.addTableColumn( column );
+  column.release;
+  _filterListView.setStyle( NSTableViewStyleAutomatic );
+  _filterListView.setRowHeight( 16 );
+  _filterListView.setFocusRingType( NSFocusRingTypeNone );
+  _filterListView.setDataSource( self );
+  _filterListView.setHeaderView( nil );
+  _filterListView.setBackgroundColor( NSColor.clearColor );
+  scrollView.setDocumentView( _filterListView );
+  scrollView.setAutohidesScrollers( True );
+  scrollView.setHasVerticalScroller( True );
+  scrollView.setDrawsBackground( False );
+  contentView.addSubview( scrollView );
 
   popover:= NSPopover.new;
   popover.setContentViewController( controller );
@@ -397,10 +483,45 @@ begin
     edge );
 
   NSControlMoveCaretToTheEnd( _tagsTokenField );
+  self.updateFilter( nil );
 
+  scrollView.release;
   contentView.release;
   controller.release;
   popover.release;
+end;
+
+function TFinderTagsEditorPanel.numberOfRowsInTableView(tableView: NSTableView
+  ): NSInteger;
+begin
+  Result:= _filterTagNames.count;
+end;
+
+function TFinderTagsEditorPanel.tableView_objectValueForTableColumn_row(
+  tableView: NSTableView; tableColumn: NSTableColumn; row: NSInteger): id;
+begin
+  if tableColumn.identifier.isEqualToString(NSSTR('tagName')) then
+    Result:= _filterTagNames.objectAtIndex( row )
+  else
+    Result:= nil;
+end;
+
+procedure TFinderTagsEditorPanel.updateFilter( substring: NSString );
+var
+  tagName: NSString;
+  usedTagNames: NSArray;
+begin
+  _filterTagNames.removeAllObjects;
+  usedTagNames:= _tagsTokenField.objectValue;
+  for tagName in TFinderTags._tags do begin
+    if (substring<>nil) and (NOT tagName.containsString(substring)) then
+      continue;
+    if usedTagNames.containsObject(tagName) then
+      continue;
+    _filterTagNames.addObject( tagName );
+  end;
+
+  _filterListView.reloadData;
 end;
 
 function TFinderTagsEditorPanel.control_textView_doCommandBySelector(
