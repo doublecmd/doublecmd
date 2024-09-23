@@ -8,7 +8,7 @@ interface
 uses
   Classes, SysUtils, LCLType,
   sqldb, SQLite3Conn,
-  MacOSAll, CocoaAll, CocoaUtils, Cocoa_Extra;
+  MacOSAll, CocoaAll, CocoaConst, CocoaUtils, Cocoa_Extra;
 
 type
 
@@ -63,7 +63,8 @@ type
   TFinderTagNSColors = Array of NSColor;
 
 var
-  defaultFinderTagNSColors: TFinderTagNSColors;
+  rectFinderTagNSColors: TFinderTagNSColors;
+  dotFinderTagNSColors: TFinderTagNSColors;
 
 type
 
@@ -107,6 +108,7 @@ type
   public
     procedure dealloc; override;
     procedure textViewDidChangeSelection(notification: NSNotification);
+    procedure textDidChange(notification: NSNotification); override;
     function isSelectedTokenObject( const anObject: id ): Boolean;
       message 'isSelectedTokenObject:';
   end;
@@ -131,6 +133,7 @@ type
     _cancel: Boolean;
   public
     class function editorWithPath( const path: NSString): id; message 'editorWithPath:';
+    function initWithPath( const path: NSString): id; message 'initWithPath:';
     procedure dealloc; override;
     procedure showPopover( const sender: NSView ; const edge: NSRectEdge );
       message 'showPopover:sender:';
@@ -153,7 +156,7 @@ class function TFinderTag.tagWithParams( const name: NSString; const colorIndex:
 begin
   Result:= TFinderTag.new;
   Result._name:= name.retain;
-  if (colorIndex>=0) and (colorIndex<length(defaultFinderTagNSColors)) then
+  if (colorIndex>=0) and (colorIndex<length(rectFinderTagNSColors)) then
     Result._colorIndex:= colorIndex;
   Result._isUserDefined:= isUserDefined;
   Result.autorelease;
@@ -182,7 +185,7 @@ end;
 
 function TFinderTag.color: NSColor;
 begin
-  Result:= defaultFinderTagNSColors[ _colorIndex ];
+  Result:= rectFinderTagNSColors[ _colorIndex ];
 end;
 
 { TFinderTags }
@@ -248,7 +251,7 @@ begin
   if finderTag <> nil then
     color:= finderTag.color
   else
-    color:= defaultFinderTagNSColors[0];
+    color:= rectFinderTagNSColors[0];
 
   drawingRect:= self.drawingRectForBounds( cellFrame );
   path:= NSBezierPath.bezierPathWithRoundedRect_xRadius_yRadius(
@@ -356,6 +359,67 @@ begin
   Result:= _selectedTokenObjects.containsObject( anObject );
 end;
 
+procedure TCocoaTokenField.textDidChange(notification: NSNotification);
+var
+  filterString: NSString;
+  editor: NSText;
+  editorString: NSString;
+  caretIndex: NSUInteger;
+
+  function findLastToken: NSUInteger;
+  var
+    tokenRange: NSRange;
+    tokenIndex: NSUInteger;
+  begin
+    tokenRange.location:= 0;
+    tokenRange.length:= caretIndex;
+    tokenRange:= editorString.rangeOfString_options_range(
+      NSSTR_ATTACHMENT_CHARACTER, NSBackwardsSearch, tokenRange );
+    tokenIndex:= tokenRange.location;
+    if tokenIndex = NSNotFound then
+      tokenIndex:= 0
+    else
+      tokenIndex:= tokenIndex + 1;
+    Result:= tokenIndex;
+  end;
+
+  function findNextToken: NSUInteger;
+  var
+    tokenRange: NSRange;
+    tokenIndex: NSUInteger;
+  begin
+    tokenRange.location:= caretIndex;
+    tokenRange.length:= editorString.length - caretIndex;
+    tokenRange:= editorString.rangeOfString_options_range(
+      NSSTR_ATTACHMENT_CHARACTER, 0, tokenRange );
+    tokenIndex:= tokenRange.location;
+    if tokenIndex = NSNotFound then
+      tokenIndex:= editorString.length;
+    Result:= tokenIndex;
+  end;
+
+  function substring( beginIndex: NSUInteger; endIndex: NSUInteger ): NSString;
+  var
+    range: NSRange;
+  begin
+    Result:= nil;
+    if endIndex > beginIndex then begin
+      range.location:= beginIndex;
+      range.length:= endIndex - beginIndex;
+      Result:= editorString.substringWithRange( range );
+    end;
+  end;
+
+begin
+  Inherited;
+
+  editor:= self.currentEditor;
+  editorString:= editor.string_;
+  caretIndex:= editor.selectedRange.location;
+  filterString:= substring( findLastToken, findNextToken );
+  TCocoaTokenFieldDelegateProtocol(self.delegate).updateFilter( filterString );
+end;
+
 { TFinderTagsListView }
 
 procedure TFinderTagsListView.drawRow_clipRect(row: NSInteger; clipRect: NSRect
@@ -375,7 +439,7 @@ begin
     self, self.tableColumnWithIdentifier(NSSTR('tagName')), row );
   finderTag:= TFinderTags.getTagOfName(tagName);
 
-  finderTag.color.set_;
+  dotFinderTagNSColors[finderTag.colorIndex].set_;
   if finderTag.colorIndex <> 0 then begin
     path:= NSBezierPath.bezierPathWithOvalInRect( colorRect );
     path.fill;
@@ -389,14 +453,16 @@ end;
 { TFinderTagsEditorPanel }
 
 class function TFinderTagsEditorPanel.editorWithPath( const path: NSString ): id;
-var
-  panel: TFinderTagsEditorPanel;
 begin
-  panel:= TFinderTagsEditorPanel.new;
-  panel._url:= NSURL.fileURLWithPath( path );
-  panel._url.retain;
-  panel._filterTagNames:= NSMutableArray.new;
-  Result:= panel;
+  Result:= TFinderTagsEditorPanel.alloc.initWithPath( path );
+end;
+
+function TFinderTagsEditorPanel.initWithPath( const path: NSString ): id;
+begin
+  _url:= NSURL.fileURLWithPath( path );
+  _url.retain;
+  _filterTagNames:= NSMutableArray.new;
+  Result:= self;
 
   TFinderTags.update;
 end;
@@ -663,7 +729,7 @@ end;
 
 procedure initFinderTagNSColors;
 begin
-  defaultFinderTagNSColors:= [
+  rectFinderTagNSColors:= [
     NSColor.colorWithCalibratedRed_green_blue_alpha( 0.656, 0.656, 0.656, 0.5 ).retain,
     NSColor.colorWithCalibratedRed_green_blue_alpha( 0.656, 0.656, 0.656, 1 ).retain,
     NSColor.colorWithCalibratedRed_green_blue_alpha( 0.699, 0.836, 0.266, 1 ).retain,
@@ -672,6 +738,17 @@ begin
     NSColor.colorWithCalibratedRed_green_blue_alpha( 0.934, 0.852, 0.266, 1 ).retain,
     NSColor.colorWithCalibratedRed_green_blue_alpha( 0.980, 0.383, 0.348, 1 ).retain,
     NSColor.colorWithCalibratedRed_green_blue_alpha( 0.961, 0.660, 0.254, 1 ).retain
+  ];
+
+  dotFinderTagNSColors:= [
+    NSColor.textColor,
+    NSColor.grayColor,
+    NSColor.greenColor,
+    NSColor.purpleColor,
+    NSColor.blueColor,
+    NSColor.yellowColor,
+    NSColor.redColor,
+    NSColor.orangeColor
   ];
 end;
 
