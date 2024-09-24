@@ -109,6 +109,10 @@ type
     procedure dealloc; override;
     procedure textViewDidChangeSelection(notification: NSNotification);
     procedure textDidChange(notification: NSNotification); override;
+  public
+    procedure insertTokenNameReplaceEditingString( const tokenName: NSString );
+      message 'insertTokenNameReplaceEditingString:';
+    function editingStringRange: NSRange; message 'token_editingStringRange';
     function isSelectedTokenObject( const anObject: id ): Boolean;
       message 'isSelectedTokenObject:';
   end;
@@ -127,7 +131,7 @@ type
     NSTableViewDataSourceProtocol )
   private
     _url: NSUrl;
-    _tagsTokenField: NSTokenField;
+    _tagsTokenField: TCocoaTokenField;
     _filterListView: NSTableView;
     _filterTagNames: NSMutableArray;
     _cancel: Boolean;
@@ -362,6 +366,28 @@ end;
 procedure TCocoaTokenField.textDidChange(notification: NSNotification);
 var
   filterString: NSString;
+  range: NSRange;
+begin
+  Inherited;
+
+  filterString:= nil;
+  range:= self.editingStringRange;
+  if range.location <> NSNotFound then
+    filterString:= self.currentEditor.string_.substringWithRange( range );
+  TCocoaTokenFieldDelegateProtocol(self.delegate).updateFilter( filterString );
+end;
+
+procedure TCocoaTokenField.insertTokenNameReplaceEditingString(
+  const tokenName: NSString);
+var
+  editor: NSTextView;
+begin
+  editor:= NSTextView( self.currentEditor );
+  editor.insertText_replacementRange( tokenName, self.editingStringRange );
+end;
+
+function TCocoaTokenField.editingStringRange: NSRange;
+var
   editor: NSText;
   editorString: NSString;
   caretIndex: NSUInteger;
@@ -398,26 +424,21 @@ var
     Result:= tokenIndex;
   end;
 
-  function substring( beginIndex: NSUInteger; endIndex: NSUInteger ): NSString;
-  var
-    range: NSRange;
+  function calcRange( beginIndex: NSUInteger; endIndex: NSUInteger ): NSRange;
   begin
-    Result:= nil;
     if endIndex > beginIndex then begin
-      range.location:= beginIndex;
-      range.length:= endIndex - beginIndex;
-      Result:= editorString.substringWithRange( range );
+      Result.location:= beginIndex;
+      Result.length:= endIndex - beginIndex;
+    end else begin
+      Result.location:= NSNotFound;
+      Result.length:= 0;
     end;
   end;
-
 begin
-  Inherited;
-
   editor:= self.currentEditor;
   editorString:= editor.string_;
   caretIndex:= editor.selectedRange.location;
-  filterString:= substring( findLastToken, findNextToken );
-  TCocoaTokenFieldDelegateProtocol(self.delegate).updateFilter( filterString );
+  Result:= calcRange( findLastToken, findNextToken );
 end;
 
 { TFinderTagsListView }
@@ -592,10 +613,28 @@ end;
 
 function TFinderTagsEditorPanel.control_textView_doCommandBySelector(
   control: NSControl; textView: NSTextView; commandSelector: SEL): ObjCBOOL;
+
+  procedure insertTokenName;
+  var
+    tokenName: NSString;
+  begin
+    if _filterListView.selectedRow < 0 then
+      Exit;
+    tokenName:= _filterTagNames.objectAtIndex(_filterListView.selectedRow);
+    _tagsTokenField.insertTokenNameReplaceEditingString( tokenName );
+  end;
+
 begin
-  if commandSelector = ObjCSelector('cancelOperation:') then
-    _cancel:= True;
   Result:= False;
+  if commandSelector = ObjCSelector('cancelOperation:') then begin
+    _cancel:= True;
+  end else if commandSelector = ObjCSelector('insertNewline:') then begin
+    insertTokenName;
+  end else if (commandSelector=ObjCSelector('moveDown:')) or
+              (commandSelector=ObjCSelector('moveUp:')) then begin
+    _filterListView.keyDown( NSApp.currentEvent );
+    Result:= True;
+  end;
 end;
 
 procedure TFinderTagsEditorPanel.popoverWillClose(notification: NSNotification);
