@@ -120,7 +120,11 @@ type
   { TFinderTagsListView }
 
   TFinderTagsListView = objcclass( NSTableView )
-     procedure drawRow_clipRect (row: NSInteger; clipRect: NSRect); override;
+    function init: id; override;
+    procedure drawRow_clipRect (row: NSInteger; clipRect: NSRect); override;
+    function acceptsFirstResponder: ObjCBOOL; override;
+  private
+    procedure onDoubleClick( sender: id ); message 'onDoubleClick:';
   end;
 
   { TFinderTagsEditorPanel }
@@ -146,6 +150,7 @@ type
     function tableView_objectValueForTableColumn_row (
       tableView: NSTableView; tableColumn: NSTableColumn; row: NSInteger): id;
   public
+    procedure insertCurrentFilterToken; message 'insertCurrentFilterToken';
     procedure updateFilter( substring: NSString );
   private
     function control_textView_doCommandBySelector (control: NSControl; textView: NSTextView; commandSelector: SEL): ObjCBOOL;
@@ -443,6 +448,13 @@ end;
 
 { TFinderTagsListView }
 
+function TFinderTagsListView.init: id;
+begin
+  Result:= inherited init;
+  self.setTarget( self );
+  self.setDoubleAction( objcselector('onDoubleClick:') ) ;
+end;
+
 procedure TFinderTagsListView.drawRow_clipRect(row: NSInteger; clipRect: NSRect
   );
 var
@@ -469,6 +481,16 @@ begin
     path:= NSBezierPath.bezierPathWithOvalInRect( colorRect );
     path.stroke;
   end;
+end;
+
+function TFinderTagsListView.acceptsFirstResponder: ObjCBOOL;
+begin
+  Result:= False;
+end;
+
+procedure TFinderTagsListView.onDoubleClick(sender: id);
+begin
+  TFinderTagsEditorPanel(self.dataSource).insertCurrentFilterToken;
 end;
 
 { TFinderTagsEditorPanel }
@@ -591,6 +613,11 @@ begin
     Result:= _filterTagNames.objectAtIndex( row )
   else
     Result:= nil;
+end;
+
+procedure TFinderTagsEditorPanel.insertCurrentFilterToken;
+begin
+  _tagsTokenField.currentEditor.doCommandBySelector( ObjCSelector('insertNewline:') );
 end;
 
 procedure TFinderTagsEditorPanel.updateFilter( substring: NSString );
