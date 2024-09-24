@@ -4298,6 +4298,10 @@ msgstr "Mostra sortida de consola"
 msgid "Use archive name without extension as list"
 msgstr ""
 
+#: tfrmoptionsarchivers.chkhide.caption
+msgid "Show as normal files"
+msgstr ""
+
 #: tfrmoptionsarchivers.ckbarchiverunixfileattributes.caption
 msgid "Uni&x file attributes"
 msgstr ""

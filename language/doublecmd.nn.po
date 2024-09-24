@@ -4062,6 +4062,10 @@ msgstr "&Vis terminalvindaugets ut-data"
 msgid "Use archive name without extension as list"
 msgstr "Bruk arkivnamnet utan ending som liste"
 
+#: tfrmoptionsarchivers.chkhide.caption
+msgid "Show as normal files"
+msgstr ""
+
 #: tfrmoptionsarchivers.ckbarchiverunixfileattributes.caption
 msgid "Uni&x file attributes"
 msgstr "&Unix-filattributt"

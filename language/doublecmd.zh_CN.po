@@ -3933,6 +3933,10 @@ msgstr "显示控制台输出(&H)"
 msgid "Use archive name without extension as list"
 msgstr "使用不含扩展名的压缩文件名称作为列表"
 
+#: tfrmoptionsarchivers.chkhide.caption
+msgid "Show as normal files"
+msgstr ""
+
 #: tfrmoptionsarchivers.ckbarchiverunixfileattributes.caption
 msgid "Uni&x file attributes"
 msgstr "Unix 文件属性(&X)"

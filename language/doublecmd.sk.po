@@ -3934,6 +3934,10 @@ msgstr "Ukázať výstup konzoly"
 msgid "Use archive name without extension as list"
 msgstr "Použiť názov archívu bez prípony ako zoznam"
 
+#: tfrmoptionsarchivers.chkhide.caption
+msgid "Show as normal files"
+msgstr ""
+
 #: tfrmoptionsarchivers.ckbarchiverunixfileattributes.caption
 msgid "Uni&x file attributes"
 msgstr "Unixové atribúty súboru"

@@ -4218,6 +4218,10 @@ msgstr "Vi&s konsollens output"
 msgid "Use archive name without extension as list"
 msgstr "Anvend arkivnavn uden filendelse som liste"
 
+#: tfrmoptionsarchivers.chkhide.caption
+msgid "Show as normal files"
+msgstr ""
+
 # Opsætning - Indstillinger - Pakkeprogrammer - Ekstra
 #: tfrmoptionsarchivers.ckbarchiverunixfileattributes.caption
 msgid "Uni&x file attributes"

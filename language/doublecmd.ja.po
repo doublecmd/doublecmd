@@ -4015,6 +4015,10 @@ msgstr "コンソール出力を表示(&h)"
 msgid "Use archive name without extension as list"
 msgstr "拡張子のないアーカイブ名をリストとして使用"
 
+#: tfrmoptionsarchivers.chkhide.caption
+msgid "Show as normal files"
+msgstr ""
+
 #: tfrmoptionsarchivers.ckbarchiverunixfileattributes.caption
 msgid "Uni&x file attributes"
 msgstr "UNIXファイル属性(&x)"

@@ -139,6 +139,7 @@ class function TMultiArchiveFileSource.CreateByArchiveSign(anArchiveFileSource: 
 var
   I: Integer;
   aMultiArcItem: TMultiArcItem;
+  bFound: Boolean = False;
 begin
   Result := nil;
 
@@ -147,9 +148,13 @@ begin
   begin
     aMultiArcItem:= gMultiArcList.Items[I];
 
-    if (aMultiArcItem.FEnabled) and (aMultiArcItem.FID <> EmptyStr) then
+    if (aMultiArcItem.FEnabled) then
     begin
-      if aMultiArcItem.CanYouHandleThisFile(anArchiveFileName) then
+      if (aMultiArcItem.FID <> EmptyStr) and aMultiArcItem.CanYouHandleThisFile(anArchiveFileName) then
+        bFound:= True
+      else
+        bFound:= aMultiArcItem.Matches(anArchiveFileName);
+      if bFound then
       begin
         Result := TMultiArchiveFileSource.Create(anArchiveFileSource,
                                                  anArchiveFileName,
@@ -176,7 +181,7 @@ begin
   begin
     aMultiArcItem:= gMultiArcList.Items[I];
 
-    if (aMultiArcItem.FEnabled) and MatchesMaskList(anArchiveType, aMultiArcItem.FExtension, ',') then
+    if (aMultiArcItem.FEnabled) and not (mafHide in aMultiArcItem.FFlags) and MatchesMaskList(anArchiveType, aMultiArcItem.FExtension, ',') then
     begin
       Result := TMultiArchiveFileSource.Create(anArchiveFileSource,
                                                anArchiveFileName,
@@ -202,7 +207,7 @@ begin
   begin
     aMultiArcItem:= gMultiArcList.Items[I];
 
-    if (aMultiArcItem.FEnabled) and aMultiArcItem.Matches(anArchiveFileName) then
+    if (aMultiArcItem.FEnabled) and not (mafHide in aMultiArcItem.FFlags) and aMultiArcItem.Matches(anArchiveFileName) then
     begin
       Result := TMultiArchiveFileSource.Create(anArchiveFileSource,
                                                anArchiveFileName,

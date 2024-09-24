@@ -40,7 +40,7 @@ const
   MAF_WIN_ATTR         = 8; // Use Windows file attributes
 
 type
-  TMultiArcFlag = (mafFileNameList);
+  TMultiArcFlag = (mafFileNameList, mafHide);
   TMultiArcFlags = set of TMultiArcFlag;
 
 type
