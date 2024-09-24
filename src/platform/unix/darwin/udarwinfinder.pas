@@ -25,6 +25,8 @@ type
     class function getAllTags: NSDictionary;
     class function getAllTagsFromPlist( const plistBytes: TBytes ): NSDictionary;
     class function getTagsPlistFromDatabase: TBytes;
+  private
+    class procedure drawTagName( tagName: NSString; color: NSColor; rect: NSRect );
   end;
 
 implementation
@@ -124,7 +126,7 @@ type
     procedure drawRow_clipRect (row: NSInteger; clipRect: NSRect); override;
     function acceptsFirstResponder: ObjCBOOL; override;
   private
-    procedure onDoubleClick( sender: id ); message 'onDoubleClick:';
+    procedure onTagSelected( sender: id ); message 'onTagSelected:';
   end;
 
   { TFinderTagsEditorPanel }
@@ -232,20 +234,17 @@ end;
 procedure TCocoaTokenAttachmentCell.drawInteriorWithFrame_inView(
   cellFrame: NSRect; controlView_: NSView);
 var
-  titleRect: NSRect;
-  attributes: NSMutableDictionary;
   color: NSColor;
+  titleRect: NSRect;
 begin
-  titleRect:= titleRectForBounds( cellFrame );
-
   if self.isSelected then
     color:= NSColor.textBackgroundColor
   else
     color:= NSColor.textColor;
-  attributes:= NSMutableDictionary.new;
-  attributes.setValue_forKey( color, NSForegroundColorAttributeName );
-  NSString(self.objectValue).drawWithRect_options_attributes( titleRect, 0, attributes );
-  attributes.release;
+
+  titleRect:= titleRectForBounds( cellFrame );
+
+  uDarwinFinderUtil.drawTagName( NSString(self.objectValue), color, titleRect );
 end;
 
 procedure TCocoaTokenAttachmentCell.drawWithFrame_inView(cellFrame: NSRect;
@@ -452,35 +451,78 @@ function TFinderTagsListView.init: id;
 begin
   Result:= inherited init;
   self.setTarget( self );
-  self.setDoubleAction( objcselector('onDoubleClick:') ) ;
+  self.setAction( objcselector('onTagSelected:') ) ;
+  self.setDoubleAction( self.action ) ;
 end;
 
 procedure TFinderTagsListView.drawRow_clipRect(row: NSInteger; clipRect: NSRect
   );
 var
-  colorRect: NSRect;
-  path: NSBezierPath;
+  cellRect: NSRect;
   tagName: NSString;
-  finderTag: TFinderTag;
-begin
-  inherited drawRow_clipRect(row, clipRect);
 
-  colorRect:= frameOfCellAtColumn_row( 0, row );
-  colorRect:= NSInsetRect( colorRect, 4, 4 );
-
-  tagName:= NSTableViewDataSourceProtocol(self.datasource).tableView_objectValueForTableColumn_row(
-    self, self.tableColumnWithIdentifier(NSSTR('tagName')), row );
-  finderTag:= TFinderTags.getTagOfName(tagName);
-
-  dotFinderTagNSColors[finderTag.colorIndex].set_;
-  if finderTag.colorIndex <> 0 then begin
-    path:= NSBezierPath.bezierPathWithOvalInRect( colorRect );
+  procedure drawSelectedBackground;
+  var
+    rect: NSRect;
+    path: NSBezierPath;
+  begin
+    if NOT self.isRowSelected(row) then
+      Exit;
+    NSColor.alternateSelectedControlColor.set_;
+    rect:= self.rectOfRow( row );
+    rect:= NSInsetRect( rect, 10, 0 );
+    path:= NSBezierPath.bezierPathWithRoundedRect_xRadius_yRadius( rect, 4, 4 );
     path.fill;
-  end else begin
-    colorRect:= NSInsetRect( colorRect, 0.5, 0.5 );
-    path:= NSBezierPath.bezierPathWithOvalInRect( colorRect );
-    path.stroke;
   end;
+
+  procedure drawTagColor;
+  var
+    finderTag: TFinderTag;
+    rect: NSRect;
+    path: NSBezierPath;
+  begin
+    rect:= cellRect;
+    rect.size.width:= rect.size.height;
+    rect:= NSInsetRect( rect, 5, 5 );
+    finderTag:= TFinderTags.getTagOfName( tagName );
+    dotFinderTagNSColors[finderTag.colorIndex].set_;
+    if finderTag.colorIndex <> 0 then begin
+      path:= NSBezierPath.bezierPathWithOvalInRect( rect );
+      path.fill;
+    end else begin
+      rect:= NSInsetRect( rect, 0.5, 0.5 );
+      path:= NSBezierPath.bezierPathWithOvalInRect( rect );
+      path.stroke;
+    end;
+  end;
+
+  procedure drawTagName;
+  var
+    color: NSColor;
+    rect: NSRect;
+  begin
+    if self.isRowSelected(row) then begin
+      color:= NSColor.controlColor;
+    end else begin
+      color:= NSColor.textColor;
+    end;
+
+    rect:= cellRect;
+    rect.origin.x:= rect.origin.x + 20;
+    rect.size.width:= rect.size.width - 20;
+    rect.origin.y:= rect.origin.y + 14;
+
+    uDarwinFinderUtil.drawTagName( tagName, color, rect );
+  end;
+
+begin
+  tagName:= NSTableViewDataSourceProtocol(self.datasource).tableView_objectValueForTableColumn_row(
+    self, nil, row );
+  cellRect:= frameOfCellAtColumn_row( 0, row );
+
+  drawSelectedBackground;
+  drawTagColor;
+  drawTagName;
 end;
 
 function TFinderTagsListView.acceptsFirstResponder: ObjCBOOL;
@@ -488,7 +530,7 @@ begin
   Result:= False;
 end;
 
-procedure TFinderTagsListView.onDoubleClick(sender: id);
+procedure TFinderTagsListView.onTagSelected(sender: id);
 begin
   TFinderTagsEditorPanel(self.dataSource).insertCurrentFilterToken;
 end;
@@ -535,7 +577,7 @@ var
 begin
   contentRect.origin.x:= 0;
   contentRect.origin.y:= 0;
-  contentRect.size.Width:= 266;
+  contentRect.size.Width:= 262;
   contentRect.size.Height:= 300;
   contentView:= NSView.alloc.initWithFrame( contentRect );
   controller:= NSViewController.new;
@@ -555,22 +597,18 @@ begin
   contentView.addSubview( _tagsTokenField );
 
   contentRect.origin.x:= 0;
-  contentRect.origin.y:= 15;
-  contentRect.size.Width:= 266;
-  contentRect.size.Height:= 172;
+  contentRect.origin.y:= 14;
+  contentRect.size.Width:= 262;
+  contentRect.size.Height:= 170;
   scrollView:= NSScrollView.alloc.initWithFrame( contentRect );
   _filterListView:= TFinderTagsListView.new;
   _filterListView.setIntercellSpacing( NSZeroSize );
   column:= NSTableColumn.new;
-  column.setWidth( 16 );
-  _filterListView.addTableColumn( column );
-  column.release;
-  column:= NSTableColumn.alloc.initWithIdentifier( NSSTR('tagName') );
-  column.setWidth( 250 );
+  column.setWidth( 256 );
   _filterListView.addTableColumn( column );
   column.release;
   _filterListView.setStyle( NSTableViewStyleAutomatic );
-  _filterListView.setRowHeight( 16 );
+  _filterListView.setRowHeight( 20 );
   _filterListView.setFocusRingType( NSFocusRingTypeNone );
   _filterListView.setDataSource( self );
   _filterListView.setHeaderView( nil );
@@ -609,10 +647,7 @@ end;
 function TFinderTagsEditorPanel.tableView_objectValueForTableColumn_row(
   tableView: NSTableView; tableColumn: NSTableColumn; row: NSInteger): id;
 begin
-  if tableColumn.identifier.isEqualToString(NSSTR('tagName')) then
-    Result:= _filterTagNames.objectAtIndex( row )
-  else
-    Result:= nil;
+  Result:= _filterTagNames.objectAtIndex( row );
 end;
 
 procedure TFinderTagsEditorPanel.insertCurrentFilterToken;
@@ -701,6 +736,24 @@ class procedure uDarwinFinderUtil.setTagNamesOfFile( const url: NSUrl;
   const tagNames: NSArray);
 begin
   url.setResourceValue_forKey_error( tagNames, NSURLTagNamesKey, nil );
+end;
+
+class procedure uDarwinFinderUtil.drawTagName( tagName: NSString; color: NSColor; rect: NSRect );
+var
+  attributes: NSMutableDictionary;
+  ps: NSMutableParagraphStyle;
+begin
+  ps:= NSMutableParagraphStyle.new;
+  ps.setLineBreakMode( NSLineBreakByTruncatingTail );
+
+  attributes:= NSMutableDictionary.new;
+  attributes.setValue_forKey( color, NSForegroundColorAttributeName );
+  attributes.setValue_forKey( ps, NSParagraphStyleAttributeName );
+
+  tagName.drawWithRect_options_attributes( rect, 0, attributes );
+
+  ps.release;
+  attributes.release;
 end;
 
 const
