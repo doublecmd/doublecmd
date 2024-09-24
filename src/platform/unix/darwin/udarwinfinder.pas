@@ -502,7 +502,7 @@ var
     rect: NSRect;
   begin
     if self.isRowSelected(row) then begin
-      color:= NSColor.controlColor;
+      color:= NSColor.alternateSelectedControlTextColor;
     end else begin
       color:= NSColor.textColor;
     end;
