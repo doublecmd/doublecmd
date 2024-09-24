@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Double Commander 1.1.0 alpha\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-11-15 11:15+0300\n"
-"PO-Revision-Date: 2024-01-07 21:22+0900\n"
+"PO-Revision-Date: 2024-09-24 23:13+0900\n"
 "Last-Translator: VenusGirl: https://venusgirls.tistory.com/\n"
 "Language-Team: 비너스걸: https://venusgirls.tistory.com/\n"
 "Language: ko\n"
@@ -11,7 +11,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Native-Language: 한국어\n"
-"X-Generator: Poedit 3.4.2\n"
+"X-Generator: Poedit 3.5\n"
 
 #: fsyncdirsdlg.rscomparingpercent
 #, object-pascal-format
@@ -10804,12 +10804,12 @@ msgstr "공유..."
 #: ulng.rsmfstbiairdroptips
 msgctxt "ulng.rsmfstbiairdroptips"
 msgid "AirDrop"
-msgstr ""
+msgstr "AirDrop"
 
 #: ulng.rsmfstbiairdroptitle
 msgctxt "ulng.rsmfstbiairdroptitle"
 msgid "AirDrop"
-msgstr ""
+msgstr "AirDrop"
 
 #: ulng.rsmfstbicommandmenudirectoryhotlist
 #, fuzzy
@@ -10825,7 +10825,7 @@ msgstr "즐겨찾기 탭"
 
 #: ulng.rsmfstbicommandmenuquicklook
 msgid "macOS QuickLook"
-msgstr ""
+msgstr "macOS QuickLook"
 
 #: ulng.rsmfstbicommandtitle
 #, fuzzy
@@ -10835,49 +10835,49 @@ msgstr "명령"
 
 #: ulng.rsmfstbifinderrevealtips
 msgid "Reveal in Finder"
-msgstr ""
+msgstr "파인더에서 공개"
 
 #: ulng.rsmfstbifinderrevealtitle
 msgid "Finder"
-msgstr ""
+msgstr "파인더"
 
 #: ulng.rsmfstbigotips
 msgctxt "ulng.rsmfstbigotips"
 msgid "Go"
-msgstr ""
+msgstr "가기"
 
 #: ulng.rsmfstbigotitle
 msgctxt "ulng.rsmfstbigotitle"
 msgid "Go"
-msgstr ""
+msgstr "가기"
 
 #: ulng.rsmfstbihorzsplittips
 msgid "Toggle Horizontal Split Mode"
-msgstr ""
+msgstr "수평 분할 모드 전환"
 
 #: ulng.rsmfstbihorzsplittitle
 msgid "HorzSplit"
-msgstr ""
+msgstr "수평 분할"
 
 #: ulng.rsmfstbiquicklooktips
 msgid "macOS Quick Look Panel"
-msgstr ""
+msgstr "macOS Quick Look 패널"
 
 #: ulng.rsmfstbiquicklooktitle
 msgid "QuickLook"
-msgstr ""
+msgstr "QuickLook"
 
 #: ulng.rsmfstbirefreshtips
 msgid "Refresh File List"
-msgstr ""
+msgstr "파일 목록 새로 고침"
 
 #: ulng.rsmfstbirefreshtitle
 msgid "Refresh"
-msgstr ""
+msgstr "새로 고침"
 
 #: ulng.rsmfstbisearchtips
 msgid "Search Files..."
-msgstr ""
+msgstr "파일 검색..."
 
 #: ulng.rsmfstbisearchtitle
 #, fuzzy
@@ -10887,47 +10887,47 @@ msgstr "검색"
 
 #: ulng.rsmfstbisharetitle
 msgid "Share"
-msgstr ""
+msgstr "공유"
 
 #: ulng.rsmfstbishowbrieftitle
 msgid "as Brief"
-msgstr ""
+msgstr "간단히"
 
 #: ulng.rsmfstbishowfulltitle
 msgid "as Full"
-msgstr ""
+msgstr "자세히"
 
 #: ulng.rsmfstbishowinfotips
 msgid "Show Info in Finder"
-msgstr ""
+msgstr "파인더에 정보 표시"
 
 #: ulng.rsmfstbishowinfotitle
 msgid "ShowInfo"
-msgstr ""
+msgstr "정보 표시"
 
 #: ulng.rsmfstbishowmodetips
 msgid "Show as Brief, Full or Thumbnails"
-msgstr ""
+msgstr "간단히, 자세히 또는 썸네일로 표시"
 
 #: ulng.rsmfstbishowmodetitle
 msgid "ShowMode"
-msgstr ""
+msgstr "모드 표시"
 
 #: ulng.rsmfstbishowthumbnailstitle
 msgid "as Thumbnails"
-msgstr ""
+msgstr "썸네일"
 
 #: ulng.rsmfstbiswappanelstips
 msgid "Swap Panels"
-msgstr ""
+msgstr "패널 교환"
 
 #: ulng.rsmfstbiswappanelstitle
 msgid "SwapPanels"
-msgstr ""
+msgstr "SwapPanels"
 
 #: ulng.rsmfstbiterminaltips
 msgid "Open in Terminal"
-msgstr ""
+msgstr "터미널에서 열기"
 
 #: ulng.rsmfstbiterminaltitle
 #, fuzzy
@@ -10937,11 +10937,11 @@ msgstr "터미널"
 
 #: ulng.rsmfstbitreeviewtips
 msgid "Show Tree View Panel"
-msgstr ""
+msgstr "트리 보기 패널 표시"
 
 #: ulng.rsmfstbitreeviewtitle
 msgid "TreeView"
-msgstr ""
+msgstr "트리 보기"
 
 #: ulng.rsmnuactions
 msgctxt "ulng.rsmnuactions"
@@ -14179,4 +14179,3 @@ msgstr "교체가 이루어지지 않았습니다."
 #, object-pascal-format
 msgid "No setup named \"%s\""
 msgstr "\"%s\"라는 설정이 없습니다"
-
