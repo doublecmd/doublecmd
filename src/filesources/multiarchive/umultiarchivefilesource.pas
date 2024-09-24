@@ -309,11 +309,18 @@ begin
     end;
 
     ModificationTimeProperty := TFileModificationDateTimeProperty.Create(0);
-    try
-      with ArchiveItem do
-        ModificationTime := EncodeDate(Year, Month, Day) + EncodeTime(Hour, Minute, Second, 0);
-    except
-      on EConvertError do ModificationTimeProperty.IsValid:= False;
+    with ArchiveItem do
+    begin
+      if (Month = 0) or (Day = 0) then
+        ModificationTimeProperty.IsValid:= False
+      else
+      begin
+        try
+          ModificationTime := EncodeDate(Year, Month, Day) + EncodeTime(Hour, Minute, Second, 0);
+        except
+          on EConvertError do ModificationTimeProperty.IsValid:= False;
+        end;
+      end;
     end;
 
     if AttributesProperty.IsLink and (Length(ArchiveItem.FileLink) > 0) then
