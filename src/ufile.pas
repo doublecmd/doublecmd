@@ -189,6 +189,7 @@ type
     // the result is false for all these functions.
     // These functions should probably be moved from here and should not be methods.
     function IsDirectory: Boolean;
+    function IsSpecial: Boolean;
     function IsSysFile: Boolean;
     function IsHidden: Boolean;
     function IsLink: Boolean;
@@ -815,6 +816,14 @@ begin
     Result := False;
 end;
 
+function TFile.IsSpecial: Boolean;
+begin
+  if fpAttributes in SupportedProperties then
+    Result := TFileAttributesProperty(FProperties[fpAttributes]).IsSpecial
+  else
+    Result := False;
+end;
+
 function TFile.IsLink: Boolean;
 begin
   if fpAttributes in SupportedProperties then
@@ -901,7 +910,7 @@ procedure TFile.UpdateNameAndExtension(const FileName: string);
 begin
   // Cache Extension and NameNoExt.
 
-  if (FileName = '') or IsDirectory or IsLinkToDirectory
+  if (FileName = '') or IsDirectory or IsLinkToDirectory or IsSpecial
   then
   begin
     // For directories there is no extension.

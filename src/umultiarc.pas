@@ -117,6 +117,7 @@ type
   public
     FPacker,
     FArchiver,
+    FFallBack,
     FDescription,
     FStart,
     FEnd: String;
@@ -234,14 +235,27 @@ end;
 
 procedure TMultiArcList.AutoConfigure;
 var
-  I: Integer;
+  I, J: Integer;
   ExePath: String;
+  AExeList: TStringArray;
 begin
   for I:= 0 to Count - 1 do
   begin
     ExePath:= Items[I].FArchiver;
     if not mbFileExists(ReplaceEnvVars(ExePath)) then
       ExePath:= FindDefaultExecutablePath(ExePath);
+    if (ExePath = EmptyStr) and (Items[I].FFallBack <> EmptyStr) then
+    begin
+      AExeList:= SplitString(Items[I].FFallBack, ',');
+      for J:= Low(AExeList) to High(AExeList) do
+      begin
+        if not mbFileExists(FixExeExt(ReplaceEnvVars(AExeList[J]))) then
+          ExePath:= FindDefaultExecutablePath(FixExeExt(AExeList[J]))
+        else
+          ExePath:= FixExeExt(AExeList[J]);
+        if ExePath <> EmptyStr then break;
+      end;
+    end;
     if ExePath = EmptyStr then
       Items[I].FEnabled:= False
     else
@@ -293,6 +307,7 @@ begin
       begin
         FPacker:= Section;
         FArchiver:= FixExeExt(TrimQuotes(IniFile.ReadString(Section, 'Archiver', EmptyStr)));
+        FFallBack:= IniFile.ReadString(Section, 'FallBackArchivers', EmptyStr);
         FDescription:= TrimQuotes(IniFile.ReadString(Section, 'Description', EmptyStr));
         FID:= TrimQuotes(IniFile.ReadString(Section, 'ID', EmptyStr));
         FIDPos:= TrimQuotes(IniFile.ReadString(Section, 'IDPos', EmptyStr));
@@ -354,6 +369,7 @@ begin
       with MultiArcItem do
       begin
         IniFile.WriteString(Section, 'Archiver', FArchiver);
+        IniFile.WriteString(Section, 'FallBackArchivers', FFallBack);
         IniFile.WriteString(Section, 'Description', FDescription);
         IniFile.WriteString(Section, 'ID', FID);
         IniFile.WriteString(Section, 'IDPos', FIDPos);
@@ -433,6 +449,7 @@ begin
     UpdateSignature(Self.FList.Strings[Index]);
     UpdateSignature(Self.Items[Index].FDescription);
     UpdateSignature(Self.Items[Index].FArchiver);
+    UpdateSignature(Self.Items[Index].FFallBack);
     UpdateSignature(Self.Items[Index].FExtension);
     UpdateSignature(Self.Items[Index].FList);
     UpdateSignature(Self.Items[Index].FStart);
@@ -651,6 +668,7 @@ begin
   //Keep elements in some ordre a when loading them from the .ini, it will be simpler to validate if we are missing one.
   Result.FPacker := Self.FPacker;
   Result.FArchiver := Self.FArchiver;
+  Result.FFallBack := Self.FFallBack;
   Result.FDescription := Self.FDescription;
   Result.FID := Self.FID;
   Result.FIDPos := Self.FIDPos;

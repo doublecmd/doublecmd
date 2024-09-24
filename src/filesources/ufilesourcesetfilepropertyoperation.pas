@@ -76,6 +76,7 @@ type
     FTargetFiles: TFiles;
     FTemplateFiles: TFiles;
     FNewProperties: TFileProperties;
+    FReload: Boolean;
     FRecursive: Boolean;
     FSkipErrors: Boolean;
 
@@ -121,6 +122,7 @@ type
     function GetDescription(Details: TFileSourceOperationDescriptionDetails): String; override;
     function RetrieveStatistics: TFileSourceSetFilePropertyOperationStatistics;
 
+    property Reload: Boolean write FReload;
     property TargetFiles: TFiles read FTargetFiles;
     property NewProperties: TFileProperties read FNewProperties write FNewProperties;
     property TemplateFiles: TFiles read FTemplateFiles; // set by SetTemplateFiles because can't use "var" in properties
@@ -159,6 +161,7 @@ begin
   FNewProperties := theNewProperties;
   FillByte(theNewProperties, SizeOf(theNewProperties), 0);
   FTemplateFiles := nil;
+  FReload := True;
   FRecursive := False;
   FSkipErrors := gSkipFileOpError;
 
@@ -190,7 +193,7 @@ end;
 
 procedure TFileSourceSetFilePropertyOperation.DoReloadFileSources;
 begin
-  FFileSource.Reload(FTargetFiles.Path);
+  if FReload then FFileSource.Reload(FTargetFiles.Path);
 end;
 
 function TFileSourceSetFilePropertyOperation.GetDescription(Details: TFileSourceOperationDescriptionDetails): String;

@@ -261,6 +261,7 @@
 {"hash":230704005,"name":"tfrmmain.actsavefiledetailstofile.caption","sourcebytes":[83,97,118,101,32,97,108,108,32,115,104,111,119,110,32,99,111,108,117,109,110,115,32,116,111,32,102,105,108,101],"value":"Save all shown columns to file"},
 {"hash":104763204,"name":"tfrmmain.actshowtabslist.caption","sourcebytes":[83,104,111,119,32,84,97,98,115,32,76,105,115,116],"value":"Show Tabs List"},
 {"hash":154792195,"name":"tfrmmain.actshowtabslist.hint","sourcebytes":[83,104,111,119,32,108,105,115,116,32,111,102,32,97,108,108,32,111,112,101,110,32,116,97,98,115],"value":"Show list of all open tabs"},
+{"hash":255983166,"name":"tfrmmain.actmapnetworkdrive.caption","sourcebytes":[77,97,112,32,78,101,116,119,111,114,107,32,68,114,105,118,101,46,46,46],"value":"Map Network Drive..."},
 {"hash":310020,"name":"tfrmmain.tbedit.caption","sourcebytes":[69,100,105,116],"value":"Edit"},
 {"hash":78392485,"name":"tfrmmain.tbdelete.caption","sourcebytes":[68,101,108,101,116,101],"value":"Delete"},
 {"hash":1140,"name":"tfrmmain.tbchangedir.caption","sourcebytes":[67,68],"value":"CD"},

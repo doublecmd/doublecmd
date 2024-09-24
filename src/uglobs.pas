@@ -47,7 +47,7 @@ uses
   uFileSourceOperationOptions, uWFXModule, uWCXModule, uWDXModule, uwlxmodule,
   udsxmodule, DCXmlConfig, uInfoToolTip, fQuickSearch, uTypes, uClassesEx, uColors,
   uHotDir, uSpecialDir, SynEdit, SynEditTypes, uFavoriteTabs, fTreeViewMenu,
-  uConvEncoding, DCJsonConfig;
+  uConvEncoding, DCJsonConfig, uFileSourceOperationTypes;
 
 type
   { Configuration options }
@@ -173,7 +173,7 @@ type
 
 const
   { Default hotkey list version number }
-  hkVersion = 63;
+  hkVersion = 64;
   // 54 - In "Viewer" context, added the "W" for "cm_WrapText", "4" for "cm_ShowAsDec", "8" for "cm_ShowOffice".
   // 53 - In "Main" context, change shortcut "Alt+`" to "Alt+0" for the "cm_ActivateTabByIndex".
   // 52 - In "Main" context, add shortcut "Ctrl+Shift+B" for "cm_FlatViewSel".
@@ -269,6 +269,7 @@ var
   gDriveBar1,
   gDriveBar2,
   gDriveBarFlat,
+  gDriveBarSyncWidth,
   gDrivesListButton,
   gDirectoryTabs,
   gCurDir,
@@ -452,7 +453,6 @@ var
   gDiskIconsSize : Integer;
   gDiskIconsAlpha : Integer;
   gToolIconsSize: Integer;
-  gFiOwnDCIcon : PtrInt;
   gIconsExclude: Boolean;
   gIconsExcludeDirs: String;
   gPixelsPerInch: Integer;
@@ -492,6 +492,8 @@ var
   gAutoExtractOpenMask: String;
   gFileOperationsProgressKind: TFileOperationsProgressKind;
   gFileOperationsConfirmations: TFileOperationsConfirmations;
+  gFileOperationsSounds: array[TFileSourceOperationType] of String;
+  gFileOperationDuration: Integer;
 
   { Multi-Rename}
   gMulRenShowMenuBarOnTop : boolean;
@@ -654,6 +656,7 @@ var
   gSyncDirsShowFilterCopyRight,
   gSyncDirsShowFilterEqual,
   gSyncDirsShowFilterNotEqual,
+  gSyncDirsShowFilterUnknown,
   gSyncDirsShowFilterCopyLeft,
   gSyncDirsShowFilterDuplicates,
   gSyncDirsShowFilterSingles: Boolean;
@@ -1183,6 +1186,8 @@ begin
         if Assigned(HMHotKey) and HMHotKey.SameShortcuts(['Ctrl+Z']) then
           Remove(HMHotKey);
       end;
+
+      AddIfNotExists(VK_K, [ssModifier], 'cm_MapNetworkDrive');
     end;
 
   HMControl := HMForm.Controls.FindOrCreate('Files Panel');
@@ -1871,6 +1876,7 @@ begin
   gDriveBar2 := True;
   gDriveBarFlat := True;
   gDrivesListButton := True;
+  gDriveBarSyncWidth := False;
   gDirectoryTabs := True;
   gCurDir := True;
   gTabHeader := True;
@@ -1929,6 +1935,7 @@ begin
   gAutoExtractOpenMask := EmptyStr;
   gFileOperationsProgressKind := fopkSeparateWindow;
   gFileOperationsConfirmations := [focCopy, focMove, focDelete, focDeleteToTrash];
+  gFileOperationDuration := 10;
 
   { Multi-Rename }
   gMulRenShowMenuBarOnTop := True;
@@ -1999,6 +2006,7 @@ begin
   gSaveFolderTabs := True;
   gSaveSearchReplaceHistory := True;
   gSaveDirHistory := True;
+  gDirHistoryCount := 30;
   gSaveCmdLineHistory := True;
   gSaveFileMaskHistory := True;
   gSaveVolumeSizeHistory := True;
@@ -2128,6 +2136,7 @@ begin
   gSyncDirsShowFilterCopyRight := True;
   gSyncDirsShowFilterEqual := True;
   gSyncDirsShowFilterNotEqual := True;
+  gSyncDirsShowFilterUnknown := True;
   gSyncDirsShowFilterCopyLeft := True;
   gSyncDirsShowFilterDuplicates := True;
   gSyncDirsShowFilterSingles := True;
@@ -2237,7 +2246,6 @@ begin
   { - Not in config - }
   gHelpLang := '';
   gRepeatPassword := True;
-  gDirHistoryCount := 30;
   gFirstTextSearch := True;
   gErrorFile := gpCfgDir + ExtractOnlyFileName(Application.ExeName) + '.err';
   DefaultDateTimeFormat := FormatSettings.ShortDateFormat + ' hh:nn:ss';
@@ -2886,6 +2894,18 @@ begin
       gSearchDefaultTemplate := GetValue(Node, 'SearchDefaultTemplate', gSearchDefaultTemplate);
       gFileOperationsProgressKind := TFileOperationsProgressKind(GetValue(Node, 'ProgressKind', Integer(gFileOperationsProgressKind)));
       gFileOperationsConfirmations := TFileOperationsConfirmations(GetValue(Node, 'Confirmations', Integer(gFileOperationsConfirmations)));
+      // Operations sounds
+      SubNode := Node.FindNode('Sounds');
+      if Assigned(SubNode) then
+      begin
+        gFileOperationDuration:= GetAttr(SubNode, 'Duration', gFileOperationDuration);
+        gFileOperationsSounds[fsoCopy]:= GetValue(SubNode, 'Copy', EmptyStr);
+        gFileOperationsSounds[fsoMove]:= GetValue(SubNode, 'Move', EmptyStr);
+        gFileOperationsSounds[fsoWipe]:= GetValue(SubNode, 'Wipe', EmptyStr);
+        gFileOperationsSounds[fsoDelete]:= GetValue(SubNode, 'Delete', EmptyStr);
+        gFileOperationsSounds[fsoSplit]:= GetValue(SubNode, 'Split', EmptyStr);
+        gFileOperationsSounds[fsoCombine]:= GetValue(SubNode, 'Combine', EmptyStr);
+      end;
       // Operations options
       SubNode := Node.FindNode('Options');
       if Assigned(SubNode) then
@@ -2963,6 +2983,7 @@ begin
     gSaveFolderTabs := GetAttr(Root, 'Configuration/FolderTabs/Save', gSaveFolderTabs);
     gSaveSearchReplaceHistory:= GetAttr(Root, 'History/SearchReplaceHistory/Save', gSaveSearchReplaceHistory);
     gSaveDirHistory := GetAttr(Root, 'History/DirHistory/Save', gSaveDirHistory);
+    gDirHistoryCount := GetAttr(Root, 'History/DirHistory/Count', gDirHistoryCount);
     gSaveCmdLineHistory := GetAttr(Root, 'History/CmdLineHistory/Save', gSaveCmdLineHistory);
     gSaveFileMaskHistory := GetAttr(Root, 'History/FileMaskHistory/Save', gSaveFileMaskHistory);
     gSaveVolumeSizeHistory := GetAttr(Root, 'History/VolumeSizeHistory/Save', gSaveVolumeSizeHistory);
@@ -3177,6 +3198,7 @@ begin
       gSyncDirsShowFilterCopyRight := GetValue(Node, 'FilterCopyRight', gSyncDirsShowFilterCopyRight);
       gSyncDirsShowFilterEqual := GetValue(Node, 'FilterEqual', gSyncDirsShowFilterEqual);
       gSyncDirsShowFilterNotEqual := GetValue(Node, 'FilterNotEqual', gSyncDirsShowFilterNotEqual);
+      gSyncDirsShowFilterUnknown := GetValue(Node, 'FilterUnknown', gSyncDirsShowFilterUnknown);
       gSyncDirsShowFilterCopyLeft := GetValue(Node, 'FilterCopyLeft', gSyncDirsShowFilterCopyLeft);
       gSyncDirsShowFilterDuplicates := GetValue(Node, 'FilterDuplicates', gSyncDirsShowFilterDuplicates);
       gSyncDirsShowFilterSingles := GetValue(Node, 'FilterSingles', gSyncDirsShowFilterSingles);
@@ -3610,6 +3632,7 @@ begin
     SetAttr(Root, 'Configuration/FolderTabs/Save', gSaveFolderTabs);
     SetAttr(Root, 'History/SearchReplaceHistory/Save', gSaveSearchReplaceHistory);
     SetAttr(Root, 'History/DirHistory/Save', gSaveDirHistory);
+    SetAttr(Root, 'History/DirHistory/Count', gDirHistoryCount);
     SetAttr(Root, 'History/CmdLineHistory/Save', gSaveCmdLineHistory);
     SetAttr(Root, 'History/FileMaskHistory/Save', gSaveFileMaskHistory);
     SetAttr(Root, 'History/VolumeSizeHistory/Save', gSaveVolumeSizeHistory);
@@ -3756,6 +3779,7 @@ begin
     SetValue(Node, 'FilterCopyRight', gSyncDirsShowFilterCopyRight);
     SetValue(Node, 'FilterEqual', gSyncDirsShowFilterEqual);
     SetValue(Node, 'FilterNotEqual', gSyncDirsShowFilterNotEqual);
+    SetValue(Node, 'FilterUnknown', gSyncDirsShowFilterUnknown);
     SetValue(Node, 'FilterCopyLeft', gSyncDirsShowFilterCopyLeft);
     SetValue(Node, 'FilterDuplicates', gSyncDirsShowFilterDuplicates);
     SetValue(Node, 'FilterSingles', gSyncDirsShowFilterSingles);

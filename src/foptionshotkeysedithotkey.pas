@@ -79,6 +79,7 @@ type
        Conflicting hotkeys are deleted if DeleteConflicts parameter is true.
     }
     procedure CheckHotKeyConflicts(DeleteConflicts: Boolean = false);
+    procedure CheckHotKeyConflicts(Key: Word; Shift: TShiftState);
     procedure FillHKControlList;
     function GetShortcutsEditorsCount: Integer;
     function GetParameters: TDynamicStringArray;
@@ -183,7 +184,15 @@ begin
     if Length(NewHotkey.Shortcuts) = 0 then
       Exit;
 
-    if (lblHotKeyConflict.Caption <> EmptyStr) then
+    if (lblHotKeyConflict.Tag > 0) then
+    begin
+      if (MessageDlg(rsOptHotkeysShortCutUsed,
+                     Format(rsOptHotkeysShortCutUsedText1,
+                            [ShortcutsToText(NewHotkey.Shortcuts)]),
+                     mtWarning, [mbIgnore, mbCancel], 0) = mrCancel) then
+        Exit;
+    end
+    else if (lblHotKeyConflict.Caption <> EmptyStr) then
     begin
       if (MessageDlg(rsOptHotkeysShortCutUsed,                                     // delete command on assigned shortcut
                      Format(rsOptHotkeysShortCutUsedText1,                         // if another was applied
@@ -343,6 +352,45 @@ begin
   end;
 end;
 
+procedure TfrmEditHotkey.CheckHotKeyConflicts(Key: Word; Shift: TShiftState);
+var
+  Index: Integer;
+  sConflict: String;
+  UTF8Char: TUTF8Char;
+  OptLetters: TStringArray;
+  SearchOrFilterModifiers: TShiftState;
+  KeyTypingModifier: TKeyTypingModifier;
+begin
+  lblHotKeyConflict.Tag:= 0;
+
+  if (Key = VK_SPACE) then Exit;
+
+  for KeyTypingModifier in TKeyTypingModifier do
+  begin
+    if gKeyTyping[KeyTypingModifier] <> ktaNone then
+    begin
+      SearchOrFilterModifiers := TKeyTypingModifierToShift[KeyTypingModifier];
+
+      if (Shift * KeyModifiersShortcutNoText = SearchOrFilterModifiers) then
+      begin
+        UTF8Char := VirtualKeyToUTF8Char(Key, Shift - SearchOrFilterModifiers);
+
+        if (UTF8Char <> '') and (not ((Length(UTF8Char) = 1) and (UTF8Char[1] < #32))) then
+        begin
+          Index:= Ord(gKeyTyping[KeyTypingModifier]);
+          OptLetters:= rsOptLetters.Split([';']);
+          sConflict := Format(rsOptHotkeysUsedBy, [OptLetters[Index], rsOptionsEditorKeyboard]);
+          lblHotKeyConflict.Caption:= sConflict;
+          lblHotKeyConflict.Hint:= sConflict;
+          lblHotKeyConflict.Visible:= True;
+          lblHotKeyConflict.Tag:= 1;
+          Break;
+        end;
+      end;
+    end;
+  end;
+end;
+
 function TfrmEditHotkey.CloneNewHotkey: THotkey;
 begin
   Result := THotkey.Create;
@@ -361,9 +409,9 @@ end;
 
 procedure TfrmEditHotkey.edtShortcutKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
 var
-  ShortCut: TShortCut;
   sShortCut: String;
   EditControl: TEdit;
+  ShortCut: TShortCut;
 begin
   if (Key<>VK_RETURN) or (not gUseEnterToCloseHotKeyEditor) then
   begin
@@ -375,11 +423,17 @@ begin
     if (ShortCut <> VK_ESCAPE) or (EditControl.Text <> sShortCut) then
     begin
       EditControl.Text := sShortCut;
-      Key := 0;
       btnOK.Enabled := GetShortcuts <> nil;
       lblHotKeyConflict.Caption := '';
 
       CheckHotKeyConflicts;
+
+      if lblHotKeyConflict.Caption = EmptyStr then
+      begin
+        CheckHotKeyConflicts(Key, Shift);
+      end;
+
+      Key := 0;
     end;
   end;
 end;
@@ -672,7 +726,7 @@ begin
 end;
 
 { TfrmEditHotKey.PopulateHelperMenu }
-procedure TfrmEditHotKey.PopulateHelperMenu;
+procedure TfrmEditHotkey.PopulateHelperMenu;
 const
   STD_PREFIX=6;
   CommandPrefix:array[0..pred(STD_PREFIX)] of string =('','Alt+','Ctrl+','Shift+','Ctrl+Shift+','Shift+Alt+');

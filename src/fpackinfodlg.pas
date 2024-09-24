@@ -133,7 +133,9 @@ begin
   begin
     lblPackedOrgSize.Caption := IntToStr(aFile.Size);
     lblPackedPackedSize.Caption := IntToStr(aFile.CompressedSize);
-    if aFile.Size > 0 then
+    lblPackedOrgSize.Visible := aFile.SizeProperty.IsValid;
+    lblPackedPackedSize.Visible := aFile.CompressedSizeProperty.IsValid;
+    if (aFile.Size > 0) and aFile.CompressedSizeProperty.IsValid then
     begin
       lblPackedCompression.Caption := IntToStr(100 - (aFile.CompressedSize * 100 div aFile.Size)) + '%';
       lblPackedCompression.Visible := True;
@@ -141,8 +143,16 @@ begin
   end;
 
   // DateTime and Attributes
-  lblPackedDate.Caption:= DateToStr(aFile.ModificationTime);
-  lblPackedTime.Caption:= TimeToStr(aFile.ModificationTime);
+  if not aFile.ModificationTimeProperty.IsValid then
+  begin
+    lblPackedDate.Visible:= False;
+    lblPackedTime.Visible:= False;
+  end
+  else
+  begin
+    lblPackedDate.Caption:= DateToStr(aFile.ModificationTime);
+    lblPackedTime.Caption:= TimeToStr(aFile.ModificationTime);
+  end;
   lblPackedAttr.Caption:= aFile.AttributesProperty.AsString;
 
   // Hide labels for not visible values.
@@ -150,6 +160,8 @@ begin
   lblPackedSize.Visible       := lblPackedPackedSize.Visible;
   lblCompressionRatio.Visible := lblPackedCompression.Visible;
   lblMethod.Visible           := lblPackedMethod.Visible;
+  lblDate.Visible             := lblPackedDate.Visible;
+  lblTime.Visible             := lblPackedTime.Visible;
 
   // Controls from the dividing line to top.
   upperInfoControls[0] := lblMethod;

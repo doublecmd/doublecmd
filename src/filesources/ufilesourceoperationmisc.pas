@@ -31,13 +31,14 @@ uses
 
 function GetOperationStateString(OperationState: TFileSourceOperationState): String;
 function GetProgressString(const Progress: Double): String;
+procedure PlaySound(OpManItem: TOperationsManagerItem);
 procedure ShowOperation(OpManItem: TOperationsManagerItem);
 procedure ShowOperationModal(OpManItem: TOperationsManagerItem);
 
 implementation
 
 uses
-  fFileOpDlg, uGlobs;
+  DateUtils, fFileOpDlg, uFileSourceOperationTypes, uGlobs, uPlaySound;
 
 function GetOperationStateString(OperationState: TFileSourceOperationState): String;
 begin
@@ -50,6 +51,21 @@ end;
 function GetProgressString(const Progress: Double): String;
 begin
   Result := FloatToStrF(Progress * 100, ffFixed, 0, 0) + '%';
+end;
+
+procedure PlaySound(OpManItem: TOperationsManagerItem);
+var
+  FileName: String;
+begin
+  if (gFileOperationDuration <= 0) or (SecondsBetween(Now, OpManItem.Operation.StartTime) >= gFileOperationDuration) then
+  begin
+    if OpManItem.Operation.ID in [fsoCopy, fsoCopyIn, fsoCopyOut] then
+      FileName:= gFileOperationsSounds[fsoCopy]
+    else begin
+      FileName:= gFileOperationsSounds[OpManItem.Operation.ID];
+    end;
+    if (Length(FileName) > 0) then uPlaySound.PlaySound(FileName);
+  end;
 end;
 
 procedure ShowOperation(OpManItem: TOperationsManagerItem);

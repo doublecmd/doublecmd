@@ -82,6 +82,7 @@ object frmMain: TfrmMain
       Align = alTop
       AutoSize = True
       EdgeBorders = [ebTop, ebBottom]
+      OnResize = pnlDiskResize
       Visible = False
       object pnlDskLeft: TPanel
         AnchorSideLeft.Control = pnlDisk
@@ -2848,6 +2849,12 @@ object frmMain: TfrmMain
       Category = 'Tabs'
       Caption = 'Show Tabs List'
       Hint = 'Show list of all open tabs'
+      OnExecute = actExecute
+    end
+    object actMapNetworkDrive: TAction
+      Tag = 6
+      Category = 'Network'
+      Caption = 'Map Network Drive...'
       OnExecute = actExecute
     end
   end

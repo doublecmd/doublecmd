@@ -214,7 +214,6 @@ type
     }
     procedure SetFileList(var NewAllDisplayFiles: TDisplayFiles;
                           var NewFilteredDisplayFiles: TDisplayFiles);
-    procedure EnableWatcher(Enable: Boolean);
     procedure SetFlatView(AFlatView: Boolean);
 
     procedure ActivateEvent(Sender: TObject);
@@ -236,6 +235,7 @@ type
     FSavedSelection: TStringListEx;
     FSortingProperties: TFilePropertiesTypes;
 
+    procedure EnableWatcher(Enable: Boolean);
     {en
        Initializes parts of the view common to all creation methods.
     }

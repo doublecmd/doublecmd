@@ -50,6 +50,8 @@ procedure FileWriteLn(hFile: THandle; S: String);
 
 function GetNextCopyName(FileName: String; IsDirectory: Boolean): String;
 
+function mbFileIsText(const FileName: String): Boolean;
+
 function mbReadFileToString(const FileName: String): String;
 
 implementation
@@ -57,7 +59,7 @@ implementation
 uses
   LCLProc, Dialogs, SysUtils, uLng, uGlobs, DCClassesUtf8, DCStrUtils,
   DCOSUtils, uFileSystemFileSource, uFile, uFileSystemDeleteOperation,
-  uFileSourceOperationOptions;
+  uFileSourceOperationOptions, uAdministrator;
 
 const
   cBlockSize=16384; // size of block if copyfile
@@ -225,6 +227,79 @@ begin
     end;
 
     until not mbFileSystemEntryExists(Result);
+end;
+
+function mbFileIsText(const FileName: String): Boolean;
+const
+  BUF_LEN = 4096;
+var
+  Len: Integer;
+  H, L: Integer;
+  Wide: Boolean;
+  Buffer: String;
+  Handle: THandle;
+  P, F: PAnsiChar;
+begin
+  Handle:= FileOpenUAC(FileName, fmOpenRead or fmShareDenyNone);
+  if (Handle = feInvalidHandle) then Exit(False);
+  try
+    Wide:= False;
+    SetLength(Buffer{%H-}, BUF_LEN);
+    Len:= FileRead(Handle, Buffer[1], BUF_LEN);
+    if Len > 0 then
+    begin
+      P:= PAnsiChar(Buffer);
+      F:= P + Len;
+
+      // UTF-8 BOM
+      if (P[0] = #$EF) and (P[1] = #$BB) and (P[2] = #$BF) then
+      begin
+        Inc(P, 3);
+      end
+      // UTF-16LE BOM
+      else if (P[0] = #$FF) and (P[1] = #$FE) then
+      begin
+        H:= 1;
+        L:= 0;
+        Inc(P, 2);
+        Wide:= True;
+      end
+      // UTF-16BE BOM
+      else if (P[0] = #$FE) and (P[1] = #$FF) then
+      begin
+        H:= 0;
+        L:= 1;
+        Inc(P, 2);
+        Wide:= True;
+      end;
+
+      if not Wide then
+      begin
+        while P < F do
+        begin
+          case P^ of
+            #0..#8, #11, #14..#25, #27..#31: Exit(False);
+          end;
+          Inc(P);
+        end;
+      end
+      else begin
+        while P < F do
+        begin
+          if P[H] = #0 then
+          begin
+            case P[L] of
+              #0..#8, #11, #14..#25, #27..#31: Exit(False);
+            end;
+          end;
+          Inc(P, 2);
+        end;
+      end;
+    end;
+  finally
+    FileClose(Handle);
+  end;
+  Result:= True;
 end;
 
 function mbReadFileToString(const FileName: String): String;

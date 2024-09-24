@@ -2507,6 +2507,10 @@ msgstr "从档案载入分頁 (&L)"
 msgid "Create &Directory"
 msgstr "建立資料夾"
 
+#: tfrmmain.actmapnetworkdrive.caption
+msgid "Map Network Drive..."
+msgstr "映射網路磁碟..."
+
 #: tfrmmain.actmarkcurrentextension.caption
 msgid "Select All with the Same E&xtension"
 msgstr "選擇所有相同副檔名 (&X)"
@@ -11527,6 +11531,143 @@ msgstr ""
 msgid "Share..."
 msgstr "共享..."
 
+#: ulng.rsmfstbiairdroptips
+msgctxt "ulng.rsmfstbiairdroptips"
+msgid "AirDrop"
+msgstr "隔空投送"
+
+#: ulng.rsmfstbiairdroptitle
+msgctxt "ulng.rsmfstbiairdroptitle"
+msgid "AirDrop"
+msgstr "隔空投送"
+
+#: ulng.rsmfstbicommandmenudirectoryhotlist
+msgctxt "ulng.rsmfstbicommandmenudirectoryhotlist"
+msgid "Directory Hotlist"
+msgstr "常用資料夾清單"
+
+#: ulng.rsmfstbicommandmenufavoritetabs
+msgctxt "ulng.rsmfstbicommandmenufavoritetabs"
+msgid "Favorite Tabs"
+msgstr "「我的最愛」分頁"
+
+#: ulng.rsmfstbicommandmenuquicklook
+msgid "macOS QuickLook"
+msgstr "macOS快速查看"
+
+#: ulng.rsmfstbicommandtitle
+msgctxt "ulng.rsmfstbicommandtitle"
+msgid "Command"
+msgstr "指令"
+
+#: ulng.rsmfstbifinderrevealtips
+msgid "Reveal in Finder"
+msgstr "在訪達中訪問文件"
+
+#: ulng.rsmfstbifinderrevealtitle
+msgid "Finder"
+msgstr "訪達"
+
+#: ulng.rsmfstbigotips
+msgctxt "ulng.rsmfstbigotips"
+msgid "Go"
+msgstr "前往"
+
+#: ulng.rsmfstbigotitle
+msgctxt "ulng.rsmfstbigotitle"
+msgid "Go"
+msgstr "前往"
+
+#: ulng.rsmfstbihorzsplittips
+msgid "Toggle Horizontal Split Mode"
+msgstr "切換水平/垂直分隔顯示模式"
+
+#: ulng.rsmfstbihorzsplittitle
+msgid "HorzSplit"
+msgstr "水平分隔"
+
+#: ulng.rsmfstbiquicklooktips
+msgid "macOS Quick Look Panel"
+msgstr "macOS快速查看"
+
+#: ulng.rsmfstbiquicklooktitle
+msgid "QuickLook"
+msgstr "快速查看"
+
+#: ulng.rsmfstbirefreshtips
+msgid "Refresh File List"
+msgstr "刷新檔案清單"
+
+#: ulng.rsmfstbirefreshtitle
+msgid "Refresh"
+msgstr "刷新"
+
+#: ulng.rsmfstbisearchtips
+msgid "Search Files..."
+msgstr "搜尋檔案"
+
+#: ulng.rsmfstbisearchtitle
+msgctxt "ulng.rsmfstbisearchtitle"
+msgid "Search"
+msgstr "搜尋"
+
+#: ulng.rsmfstbisharetitle
+msgid "Share"
+msgstr "共享"
+
+#: ulng.rsmfstbishowbrieftitle
+msgid "as Brief"
+msgstr "以簡要檢視"
+
+#: ulng.rsmfstbishowfulltitle
+msgid "as Full"
+msgstr "以完整詳細清單方式檢視"
+
+#: ulng.rsmfstbishowinfotips
+msgid "Show Info in Finder"
+msgstr "在訪達中顯示檔案簡介"
+
+#: ulng.rsmfstbishowinfotitle
+msgid "ShowInfo"
+msgstr "簡介"
+
+#: ulng.rsmfstbishowmodetips
+msgid "Show as Brief, Full or Thumbnails"
+msgstr "以簡要、完整或縮圖方式檢視"
+
+#: ulng.rsmfstbishowmodetitle
+msgid "ShowMode"
+msgstr "檢視方式"
+
+#: ulng.rsmfstbishowthumbnailstitle
+msgid "as Thumbnails"
+msgstr "以縮圖方式檢視"
+
+#: ulng.rsmfstbiswappanelstips
+msgid "Swap Panels"
+msgstr "對調面板"
+
+#: ulng.rsmfstbiswappanelstitle
+msgid "SwapPanels"
+msgstr "對調面板"
+
+#: ulng.rsmfstbiterminaltips
+msgid "Open in Terminal"
+msgstr "在終端機打開當前路徑"
+
+#: ulng.rsmfstbiterminaltitle
+msgctxt "ulng.rsmfstbiterminaltitle"
+msgid "Terminal"
+msgstr "終端機"
+
+#: ulng.rsmfstbitreeviewtips
+msgid "Show Tree View Panel"
+msgstr "檢視樹形面板"
+
+#: ulng.rsmfstbitreeviewtitle
+msgid "TreeView"
+msgstr "樹形面板"
+
 #: ulng.rsmnuactions
 msgctxt "ulng.rsmnuactions"
 msgid "Actions"
@@ -11560,10 +11701,6 @@ msgstr "退出"
 #: ulng.rsmnuextracthere
 msgid "Extract here..."
 msgstr "解壓縮到此處..."
-
-#: ulng.rsmnumapnetworkdrive
-msgid "Map Network Drive..."
-msgstr "映射網路磁碟..."
 
 #: ulng.rsmnumount
 msgid "Mount"
@@ -13728,6 +13865,7 @@ msgid "Drives list button"
 msgstr "磁碟清單按鈕"
 
 #: ulng.rsoptionseditorfavoritetabs
+msgctxt "ulng.rsoptionseditorfavoritetabs"
 msgid "Favorite Tabs"
 msgstr "「我的最愛」分頁"
 

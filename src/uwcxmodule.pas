@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Archive File support - class for manage WCX plugins (Version 2.20)
 
-   Copyright (C) 2006-2018 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2006-2024 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -47,15 +47,18 @@ Type
   { Handles THeaderData and THeaderDataEx }
   TWCXHeader = class(TObjectEx)
   private
+    FileTime: LongInt;
+    FDateTime: TDateTime;
+    FNanoTime: TWinFileTime;
+  private
+    function GetDateTime: TDateTime;
     function PCharLToUTF8(CharString: PChar; MaxSize: Integer): String;
-
   public
     ArcName: String;
     FileName: String;
     Flags,
     HostOS,
     FileCRC,
-    FileTime,
     UnpVer,
     Method: Longint;
     FileAttr: TFileAttrs;
@@ -70,6 +73,8 @@ Type
     constructor Create(const Data: PHeaderDataEx); overload;
     constructor Create(const Data: PHeaderDataExW); overload;
     constructor Create; overload; // allows creating empty record
+
+    property DateTime: TDateTime read GetDateTime write FDateTime;
   end;
 
   
@@ -867,10 +872,29 @@ begin
   if Assigned(Data^.CmtBuf) then
     Cmt := PCharLToUTF8(Data^.CmtBuf, Data^.CmtSize);
   CmtState := Data^.CmtState;
+  FNanoTime:= Data^.MfileTime;
 end;
 
 constructor TWCXHeader.Create;
 begin
+end;
+
+function TWCXHeader.GetDateTime: TDateTime;
+begin
+  if FDateTime <> 0 then
+    Result:= FDateTime
+  else begin
+    if (FNanoTime > 0) then
+      FDateTime:= WinFileTimeToDateTime(FNanoTime)
+    else begin
+      if (FileTime = 0) then
+        FDateTime:= DATE_TIME_NULL
+      else begin
+        FDateTime:= WcxFileTimeToDateTime(FileTime);
+      end;
+    end;
+    Result:= FDateTime;
+  end;
 end;
 
 function TWCXHeader.PCharLToUTF8(CharString: PChar; MaxSize: Integer): String;
@@ -903,6 +927,8 @@ begin
   Result.UnpSize:= UnpSize;
   Result.Cmt:= Cmt;
   Result.CmtState:= CmtState;
+  Result.FNanoTime:= FNanoTime;
+  Result.FDateTime:= FDateTime;
 end;
 
 end.

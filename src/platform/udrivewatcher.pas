@@ -1330,7 +1330,7 @@ begin
                                             );
 
     // only add known drive types and skip root directory
-    if (dtype = dtUnknown) or (fs.mountpoint = PathDelim) then
+    if (dtype = dtUnknown) {$IFNDEF DARWIN}or (fs.mountpoint = PathDelim){$ENDIF} then
       Continue;
 
     New(drive);
@@ -1350,6 +1350,13 @@ begin
       IsMounted := true;
       AutoMount := true;
     end; { with }
+{$IF DEFINED(DARWIN)}
+    if (fs.mountpoint = PathDelim) then
+    begin
+      Drive^.DisplayName:= GetVolumeName(fs.mntfromname);
+      if Length(Drive^.DisplayName) = 0 then Drive^.DisplayName:= 'System';
+    end;
+{$ENDIF}
   end; { for }
 end;
 {$ELSEIF DEFINED(HAIKU)}

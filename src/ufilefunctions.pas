@@ -244,6 +244,7 @@ begin
                 FOLDER_SIZE_ZERO: Result := '0';
                 FOLDER_SIZE_WAIT: Result := '??';
                 FOLDER_SIZE_CALC: Result := '--';
+                FOLDER_SIZE_ERRO: Result := '0?';
               end;
             end
             else if AFile.SizeProperty.IsValid then

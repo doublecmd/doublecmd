@@ -51,6 +51,10 @@ build_doublecmd()
   codesign --deep --force --verify --verbose --sign '-' 'Double Commander.app'
   popd
 
+  # Bug: https://github.com/actions/runner-images/issues/7522
+  echo Killing XProtect...; sudo pkill -9 XProtect >/dev/null || true;
+  echo Waiting for XProtect process...; while pgrep XProtect; do sleep 3; done;
+
   install/darwin/create-dmg/create-dmg \
     --volname "Double Commander" \
     --volicon "$BUILD_PACK_DIR/.VolumeIcon.icns" \

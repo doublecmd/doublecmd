@@ -12,6 +12,7 @@ const
   FOLDER_SIZE_ZERO = -1;
   FOLDER_SIZE_WAIT = -2;
   FOLDER_SIZE_CALC = -3;
+  FOLDER_SIZE_ERRO = -4;
 
 type
 
@@ -242,6 +243,8 @@ type
     // Is the file a directory.
     function IsDirectory: Boolean; virtual;
 
+    function IsSpecial: Boolean; virtual;
+
     // Is this a system file.
     function IsSysFile: boolean; virtual abstract;
 
@@ -266,6 +269,8 @@ type
 
     // Is the file a directory.
     function IsDirectory: Boolean; override;
+
+    function IsSpecial: Boolean; override;
 
     // Is this a system file.
     function IsSysFile: boolean; override;
@@ -883,6 +888,11 @@ begin
   Result := fpS_ISDIR(FAttributes);
 end;
 
+function TFileAttributesProperty.IsSpecial: Boolean;
+begin
+  Result := False;
+end;
+
 function TFileAttributesProperty.IsLink: Boolean;
 begin
   Result := fpS_ISLNK(FAttributes);
@@ -901,10 +911,17 @@ begin
   Result:= ((FAttributes and FILE_ATTRIBUTE_DIRECTORY) <> 0);
 end;
 
+function TNtfsFileAttributesProperty.IsSpecial: Boolean;
+begin
+  Result:= ((FAttributes and FILE_ATTRIBUTE_DEVICE) <> 0) or
+           ((FAttributes and FILE_ATTRIBUTE_VOLUME) <> 0);
+end;
+
 function TNtfsFileAttributesProperty.IsSysFile: boolean;
 begin
-  Result := ((FAttributes and FILE_ATTRIBUTE_SYSTEM) <> 0) or
-            ((FAttributes and FILE_ATTRIBUTE_HIDDEN) <> 0);
+  Result := ((FAttributes and FILE_ATTRIBUTE_HIDDEN) <> 0) or
+            (((FAttributes and FILE_ATTRIBUTE_SYSTEM) <> 0) and
+             ((FAttributes and FILE_ATTRIBUTE_DIRECTORY) = 0));
 end;
 
 function TNtfsFileAttributesProperty.IsLink: Boolean;

@@ -125,7 +125,7 @@ implementation
 uses
   IniFiles, StrUtils, FtpAdv, FtpUtils, FtpConfDlg, syncobjs, LazFileUtils,
   LazUTF8, DCClassesUtf8, DCConvertEncoding, SftpSend, ScpSend, FtpProxy,
-  FtpPropDlg;
+  FtpPropDlg, DCFileAttributes;
 
 var
   DefaultIniName: String;
@@ -623,7 +623,7 @@ begin
   begin
     Connection := TConnection(ConnectionList.Objects[I - RootCount]);
     StrPCopy(FindData.cFileName, CeUtf8ToUtf16(Connection.ConnectionName));
-    FindData.dwFileAttributes := FILE_ATTRIBUTE_NORMAL;
+    FindData.dwFileAttributes := FILE_ATTRIBUTE_VOLUME;
     Inc(ListRec^.Index);
     Result := True;
   end;

@@ -56,7 +56,7 @@ uses
   {$ELSEIF DEFINED(LCLGTK2)}
   , Glib2, Gtk2
   {$ELSEIF DEFINED(DARWIN)}
-  , CocoaMenus
+  , CocoaConfig
   , uMyDarwin
   {$ENDIF}
   , Types, LMessages;
@@ -65,10 +65,15 @@ type
 
   TForEachViewFunction = procedure (AFileView: TFileView; UserData: Pointer) of object;
 
+  // currently only used on Cocoa, but it is universal,
+  // so no conditional compilation instruction is set.
+  TFileViewUpdatedHandler = procedure (const AFileView: TFileView);
+
   { TfrmMain }
 
   TfrmMain = class(TAloneForm, IFormCommands)
     actAddPlugin: TAction;
+    actMapNetworkDrive: TAction;
     actShowTabsList: TAction;
     actSaveFileDetailsToFile: TAction;
     actLoadList: TAction;
@@ -603,6 +608,7 @@ type
     procedure miTrayIconExitClick(Sender: TObject);
     procedure miTrayIconRestoreClick(Sender: TObject);
     procedure PanelButtonClick(Button: TSpeedButton; FileView: TFileView);
+    procedure pnlDiskResize(Sender: TObject);
     procedure ShellTreeViewSelect;
     procedure ShellTreeViewKeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
@@ -767,7 +773,6 @@ type
     function  FindMatchingDrive(Address, Path: String): Integer;
     procedure UpdateDriveToolbarSelection(DriveToolbar: TKAStoolBar; FileView: TFileView);
     procedure UpdateDriveButtonSelection(DriveButton: TSpeedButton; FileView: TFileView);
-    procedure UpdateSelectedDrive(ANoteBook: TFileViewNotebook);
 {$IF DEFINED(MSWINDOWS)}
     procedure OnDriveIconLoaded(Data: PtrInt);
 {$ENDIF}
@@ -822,10 +827,11 @@ type
     procedure HotDirSelected(Sender:TObject);
     procedure HotDirActualSwitchToDir(Index:longint);
     procedure HistorySelected(Sender:TObject);
+    procedure HistorySomeSelected(Sender:TObject);
     procedure ViewHistorySelected(Sender:TObject);
     procedure ViewHistoryPrevSelected(Sender:TObject);
     procedure ViewHistoryNextSelected(Sender:TObject);
-    procedure CreatePopUpDirHistory;
+    procedure CreatePopUpDirHistory(UseTreeViewMenu: Boolean; FromPathIndex: Integer);
     procedure ShowFileViewHistory(const Params: array of string);
     procedure ShowFileViewHistory(const Params: array of string; FromFileSourceIndex, FromPathIndex, ToFileSourceIndex, ToPathIndex: Integer);
     procedure miHotAddOrConfigClick(Sender: TObject);
@@ -869,6 +875,7 @@ type
     procedure UpdateGUIFunctionKeys;
     procedure UpdateMainTitleBar;
     procedure CreateDiskPanel(dskPanel : TKASToolBar);
+    procedure UpdateSelectedDrive(ANoteBook: TFileViewNotebook);
     procedure SetPanelDrive(aPanel: TFilePanelSelect; Drive: PDrive; ActivateIfNeeded: Boolean);
     function CreateFileView(sType: String; Page: TFileViewPage; AConfig: TXmlConfig; ANode: TXmlNode): TFileView;
     procedure AssignEvents(AFileView: TFileView);
@@ -886,7 +893,7 @@ type
     {$IF DEFINED(DARWIN)}
     procedure OnNSServiceOpenWithNewTab( filenames:TStringList );
     function NSServiceMenuIsReady(): boolean;
-    function NSServiceMenuGetFilenames(): TStringList;
+    function NSServiceMenuGetFilenames(): TStringArray;
     procedure NSThemeChangedHandler();
     {$ENDIF}
     procedure LoadWindowState;
@@ -934,6 +941,7 @@ type
 
 var
   frmMain: TfrmMain;
+  onFileViewUpdated: TFileViewUpdatedHandler;
   Cons: TCustomPtyDevice = nil;
 
 implementation
@@ -952,7 +960,7 @@ uses
   Laz2_XMLRead, DCOSUtils, DCStrUtils, fOptions, fOptionsFrame, fOptionsToolbar, uClassesEx,
   uHotDir, uFileSorting, DCBasicTypes, foptionsDirectoryHotlist, uConnectionManager,
   fOptionsToolbarBase, fOptionsToolbarMiddle, fEditor, uColumns, StrUtils, uSysFolders,
-  uColumnsFileView, dmHigh
+  uColumnsFileView, dmHigh, uFileSourceOperationMisc
 {$IFDEF MSWINDOWS}
   , uShellFileSource, uNetworkThread
 {$ENDIF}
@@ -1710,6 +1718,32 @@ begin
 
   if tb_activate_panel_on_click in gDirTabOptions then
     SetActiveFrame(FileView);
+end;
+
+procedure TfrmMain.pnlDiskResize(Sender: TObject);
+var
+  ADelta, AWidth: Integer;
+begin
+  if not gDriveBarSyncWidth then
+  begin
+    if gDriveBar1 and gDriveBar2 then
+    begin
+      if gHorizontalFilePanels then
+        ADelta:= 0
+      else begin
+        ADelta:= MainSplitter.Width;
+        ADelta+= IfThen(MiddleToolBar.Visible, MiddleToolBar.Width);
+      end;
+      AWidth:= Max(0, (pnlDisk.ClientWidth - ADelta) div 2);
+    end
+    else begin
+      AWidth:= Max(0, pnlDisk.ClientWidth);
+    end;
+    pnlDskLeft.Constraints.MinWidth:= AWidth;
+    pnlDskLeft.Constraints.MaxWidth:= AWidth;
+    pnlDskRight.Constraints.MinWidth:= AWidth;
+    pnlDskRight.Constraints.MaxWidth:= AWidth;
+  end;
 end;
 
 procedure TfrmMain.ShellTreeViewSelect;
@@ -2924,8 +2958,8 @@ constructor TfrmMain.Create(TheOwner: TComponent);
 {$IF DEFINED(DARWIN)}
   procedure setMacOSAppMenu();
   begin
-    macOS_AppMenuIntf.aboutItem:= mnuHelpAbout;
-    macOS_AppMenuIntf.preferencesItem:= mnuConfigOptions;
+    CocoaConfigMenu.appMenu.aboutItem:= mnuHelpAbout;
+    CocoaConfigMenu.appMenu.preferencesItem:= mnuConfigOptions;
   end;
 
   procedure setMacOSDockMenu();
@@ -2938,7 +2972,7 @@ constructor TfrmMain.Create(TheOwner: TComponent);
     newItem.Caption:= rsMnuNewWindow;
     newItem.OnClick:= @OpenNewWindow;
     dockMenu.Add(newItem);
-    macOS_DockMenuIntf.customMenus:= dockMenu;
+    CocoaConfigMenu.dockMenu.customMenus:= dockMenu;
   end;
 {$ENDIF}
 begin
@@ -3158,19 +3192,44 @@ begin
   with Sender as TComponent do Commands.cm_WorkWithDirectoryHotlist(['action='+HOTLISTMAGICWORDS[tag], 'source='+QuoteStr(ActiveFrame.CurrentLocation), 'target='+QuoteStr(NotActiveFrame.CurrentLocation), 'index=0']);
 end;
 
-procedure TfrmMain.CreatePopUpDirHistory;
+procedure TfrmMain.CreatePopUpDirHistory(UseTreeViewMenu: Boolean;
+  FromPathIndex: Integer);
 var
-  I: Integer;
+  I, Finish: Integer;
   MenuItem: TMenuItem;
 begin
   pmDirHistory.Items.Clear;
 
-  for I:= 0 to Min(gDirHistoryCount, glsDirHistory.Count - 1) do
+  if UseTreeViewMenu then
+    Finish:= glsDirHistory.Count - 1
+  else begin
+    Finish:= Min(FromPathIndex + gDirHistoryCount, glsDirHistory.Count - 1);
+  end;
+
+  if (not UseTreeViewMenu) and (FromPathIndex > 0) then
+  begin
+    MenuItem := TMenuItem.Create(pmDirHistory);
+    MenuItem.Caption := '...';
+    MenuItem.OnClick := @HistorySomeSelected;
+    MenuItem.Tag := Max(0, FromPathIndex - gDirHistoryCount - 1);
+    pmDirHistory.Items.Add(MenuItem);
+  end;
+
+  for I:= FromPathIndex to Finish do
   begin
     MenuItem:= TMenuItem.Create(pmDirHistory);
     MenuItem.Caption:= glsDirHistory[I].Replace('&','&&');
     MenuItem.Hint:= glsDirHistory[I];
     MenuItem.OnClick:= @HistorySelected;
+    pmDirHistory.Items.Add(MenuItem);
+  end;
+
+  if (not UseTreeViewMenu) and (Finish < glsDirHistory.Count - 1) then
+  begin
+    MenuItem := TMenuItem.Create(pmDirHistory);
+    MenuItem.Caption := '...';
+    MenuItem.OnClick := @HistorySomeSelected;
+    MenuItem.Tag := Finish + 1;
     pmDirHistory.Items.Add(MenuItem);
   end;
 end;
@@ -3509,6 +3568,18 @@ begin
   aPath := (Sender as TMenuItem).Hint;
   aPath := mbExpandFileName(aPath);
   ChooseFileSource(ActiveFrame, aPath);
+end;
+
+procedure TfrmMain.HistorySomeSelected(Sender: TObject);
+var
+  P: TPoint;
+begin
+  if Sender is TMenuItem then
+  begin
+    P:= ActiveFrame.ClientToScreen(Classes.Point(0, 0));
+    CreatePopUpDirHistory(False, TMenuItem(Sender).Tag);
+    pmDirHistory.Popup(P.X, P.Y);
+  end;
 end;
 
 procedure TfrmMain.ViewHistorySelected(Sender: TObject);
@@ -4253,10 +4324,13 @@ end;
 
 procedure TfrmMain.pnlLeftResize(Sender: TObject);
 begin
-  if gDriveBar1 and gDriveBar2 and not gHorizontalFilePanels then
+  if gDriveBarSyncWidth then
   begin
-    pnlDskLeft.Constraints.MinWidth:= pnlLeft.Width;
-    pnlDskLeft.Constraints.MaxWidth:= pnlLeft.Width;
+    if gDriveBar1 and gDriveBar2 and not gHorizontalFilePanels then
+    begin
+      pnlDskLeft.Constraints.MinWidth:= pnlLeft.Width;
+      pnlDskLeft.Constraints.MaxWidth:= pnlLeft.Width;
+    end;
   end;
 
   // Put splitter after left panel.
@@ -4356,22 +4430,25 @@ procedure TfrmMain.pnlRightResize(Sender: TObject);
 var
   AWidth: Integer;
 begin
-  if gDriveBar1 and not gHorizontalFilePanels then
+  if gDriveBarSyncWidth then
   begin
-    if gDriveBar2 then
-      AWidth := pnlRight.Width + 1
-    else begin
-      AWidth := pnlNotebooks.Width - 2;
+    if gDriveBar1 and not gHorizontalFilePanels then
+    begin
+      if gDriveBar2 then
+        AWidth := pnlRight.Width + 1
+      else begin
+        AWidth := pnlNotebooks.Width - 2;
+      end;
+      if AWidth < 0 then AWidth := 0;
+      pnlDskRight.Constraints.MinWidth := AWidth;
+      pnlDskRight.Constraints.MaxWidth := AWidth;
+    end
+    else if gHorizontalFilePanels and not gDriveBar2 then
+    begin
+      AWidth := Max(0, pnlNotebooks.Width - 2);
+      pnlDskRight.Constraints.MinWidth := AWidth;
+      pnlDskRight.Constraints.MaxWidth := AWidth;
     end;
-    if AWidth < 0 then AWidth := 0;
-    pnlDskRight.Constraints.MinWidth := AWidth;
-    pnlDskRight.Constraints.MaxWidth := AWidth;
-  end
-  else if gHorizontalFilePanels and not gDriveBar2 then
-  begin
-    AWidth := Max(0, pnlNotebooks.Width - 2);
-    pnlDskRight.Constraints.MinWidth := AWidth;
-    pnlDskRight.Constraints.MaxWidth := AWidth;
   end;
 end;
 
@@ -4805,6 +4882,8 @@ begin
     actBriefView.Checked:= True
   else if AFileView is TThumbFileView then
     actThumbnailsView.Checked:= True;
+  if Assigned(onFileViewUpdated) then
+    onFileViewUpdated(AFileView);
 end;
 
 procedure TfrmMain.UpdateShellTreeView;
@@ -5520,6 +5599,7 @@ begin
       dskRight.Parent := pnlDskRight;
     end;
 
+    pnlDiskResize(pnlDisk);
     pnlRightResize(pnlRight);
 
     dskLeft.GlyphSize:= gDiskIconsSize;
@@ -6245,37 +6325,38 @@ begin
   Result:= true;
 end;
 
-function TfrmMain.NSServiceMenuGetFilenames(): TStringList;
+function TfrmMain.NSServiceMenuGetFilenames(): TStringArray;
 var
-  filenames: TStringList;
+  filenames: TStringArray;
   i: Integer;
   files: TFiles;
   activeFile: TFile;
+  path: String;
 begin
-  Result:= nil;
-  filenames:= TStringList.Create;
-
+  filenames:= nil;
   files:= ActiveFrame.CloneSelectedFiles();
-  if files.Count>0 then
-  begin
-    for i:=0 to files.Count-1 do
-    begin
-      filenames.add( files[i].FullPath );
+  if files.Count>0 then begin
+    SetLength( filenames, files.Count );
+    for i:=0 to files.Count-1 do begin
+      filenames[i]:= files[i].FullPath;
+    end;
+  end else begin
+    activeFile:= ActiveFrame.CloneActiveFile;
+    if activeFile<>nil then begin
+      if activeFile.IsNameValid() then
+        path:= activeFile.FullPath
+      else
+        path:= activeFile.Path;
+      FreeAndNil( activeFile );
+      if path <> '' then begin
+        SetLength( filenames, 1 );
+        filenames[0]:= path;
+      end;
     end;
   end;
+
   FreeAndNil( files );
-
-  if filenames.Count = 0 then
-  begin
-    activeFile:= ActiveFrame.CloneActiveFile;
-    if activeFile.IsNameValid() then
-      filenames.add( activeFile.FullPath )
-    else
-      filenames.add( activeFile.Path );
-    FreeAndNil( activeFile );
-  end;
-
-  if filenames.Count>0 then Result:= filenames;
+  Result:= filenames;
 end;
 
 procedure TfrmMain.NSThemeChangedHandler;
@@ -6947,6 +7028,7 @@ begin
       mnuAllOperStart.Visible:= False;
       mnuAllOperStop.Visible:= False;
     end;
+    PlaySound(Item);
   end
   else if Event = omevOperationAdded then
   begin
@@ -6971,7 +7053,7 @@ var
   FoundPath: Boolean = False;
   aFileView, OtherFileView: TFileView;
 begin
-  if (Drive^.DriveType in [dtSpecial, dtVirtual]) or IsAvailable(Drive, Drive^.AutoMount) then
+  if (Drive^.DriveType in [dtSpecial, dtVirtual]) or IsAvailable(Drive, True) then
   begin
     case aPanel of
       fpLeft:

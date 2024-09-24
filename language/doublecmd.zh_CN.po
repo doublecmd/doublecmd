@@ -2466,6 +2466,10 @@ msgstr "从文件加载标签(&L)"
 msgid "Create &Directory"
 msgstr "创建文件夹(&D)"
 
+#: tfrmmain.actmapnetworkdrive.caption
+msgid "Map Network Drive..."
+msgstr "映射网络驱动器..."
+
 #: tfrmmain.actmarkcurrentextension.caption
 msgid "Select All with the Same E&xtension"
 msgstr "选择所有扩展名相同的文件"
@@ -10306,6 +10310,7 @@ msgid "&Backward"
 msgstr "后退(&B)"
 
 #: ulng.rseditsearchcaption
+msgctxt "ulng.rseditsearchcaption"
 msgid "Search"
 msgstr "搜索"
 
@@ -10793,6 +10798,166 @@ msgstr "输入新的自定义列名称"
 msgid "Share..."
 msgstr "共享..."
 
+#: ulng.rsmfstbiairdroptips
+msgctxt "ulng.rsmfstbiairdroptips"
+msgid "AirDrop"
+msgstr "隔空投送"
+
+#: ulng.rsmfstbiairdroptitle
+msgctxt "ulng.rsmfstbiairdroptitle"
+msgid "AirDrop"
+msgstr "隔空投送"
+
+#: ulng.rsmfstbicommandmenudirectoryhotlist
+msgctxt "ulng.rsmfstbicommandmenudirectoryhotlist"
+msgid "Directory Hotlist"
+msgstr "常用文件夹列表"
+
+#: ulng.rsmfstbicommandmenufavoritetabs
+msgctxt "ulng.rsmfstbicommandmenufavoritetabs"
+msgid "Favorite Tabs"
+msgstr "收藏夹标签"
+
+#: ulng.rsmfstbicommandmenuquicklook
+msgctxt "ulng.rsmfstbicommandmenuquicklook"
+msgid "macOS QuickLook"
+msgstr "macOS快速查看"
+
+#: ulng.rsmfstbicommandtitle
+msgctxt "ulng.rsmfstbicommandtitle"
+msgid "Command"
+msgstr "命令"
+
+#: ulng.rsmfstbifinderrevealtips
+msgctxt "ulng.rsmfstbifinderrevealtips"
+msgid "Reveal in Finder"
+msgstr "在访达中访问文件"
+
+#: ulng.rsmfstbifinderrevealtitle
+msgctxt "ulng.rsmfstbifinderrevealtitle"
+msgid "Finder"
+msgstr "访达"
+
+#: ulng.rsmfstbigotips
+msgctxt "ulng.rsmfstbigotips"
+msgid "Go"
+msgstr "前往"
+
+#: ulng.rsmfstbigotitle
+msgctxt "ulng.rsmfstbigotitle"
+msgid "Go"
+msgstr "前往"
+
+#: ulng.rsmfstbihorzsplittips
+msgctxt "ulng.rsmfstbihorzsplittips"
+msgid "Toggle Horizontal Split Mode"
+msgstr "切换水平/垂直分隔显示模式"
+
+#: ulng.rsmfstbihorzsplittitle
+msgctxt "ulng.rsmfstbihorzsplittitle"
+msgid "HorzSplit"
+msgstr "水平分隔"
+
+#: ulng.rsmfstbiquicklooktips
+msgctxt "ulng.rsmfstbiquicklooktips"
+msgid "macOS Quick Look Panel"
+msgstr "macOS快速查看"
+
+#: ulng.rsmfstbiquicklooktitle
+msgctxt "ulng.rsmfstbiquicklooktitle"
+msgid "QuickLook"
+msgstr "快速查看"
+
+#: ulng.rsmfstbirefreshtips
+msgctxt "ulng.rsmfstbirefreshtips"
+msgid "Refresh File List"
+msgstr "刷新文件列表"
+
+#: ulng.rsmfstbirefreshtitle
+msgctxt "ulng.rsmfstbirefreshtitle"
+msgid "Refresh"
+msgstr "刷新"
+
+#: ulng.rsmfstbisearchtips
+msgctxt "ulng.rsmfstbisearchtips"
+msgid "Search Files..."
+msgstr "搜索文件..."
+
+#: ulng.rsmfstbisearchtitle
+msgctxt "ulng.rsmfstbisearchtitle"
+msgid "Search"
+msgstr "搜索"
+
+#: ulng.rsmfstbisharetitle
+msgctxt "ulng.rsmfstbisharetitle"
+msgid "Share"
+msgstr "共享"
+
+#: ulng.rsmfstbishowbrieftitle
+msgctxt "ulng.rsmfstbishowbrieftitle"
+msgid "as Brief"
+msgstr "以简约方式显示"
+
+#: ulng.rsmfstbishowfulltitle
+msgctxt "ulng.rsmfstbishowfulltitle"
+msgid "as Full"
+msgstr "以完整详细列表方式显示"
+
+#: ulng.rsmfstbishowinfotips
+msgctxt "ulng.rsmfstbishowinfotips"
+msgid "Show Info in Finder"
+msgstr "在访达中显示文件简介"
+
+#: ulng.rsmfstbishowinfotitle
+msgctxt "ulng.rsmfstbishowinfotitle"
+msgid "ShowInfo"
+msgstr "简介"
+
+#: ulng.rsmfstbishowmodetips
+msgctxt "ulng.rsmfstbishowmodetips"
+msgid "Show as Brief, Full or Thumbnails"
+msgstr "以简约、完整或者缩略图方式显示"
+
+#: ulng.rsmfstbishowmodetitle
+msgctxt "ulng.rsmfstbishowmodetitle"
+msgid "ShowMode"
+msgstr "显示方式"
+
+#: ulng.rsmfstbishowthumbnailstitle
+msgctxt "ulng.rsmfstbishowthumbnailstitle"
+msgid "as Thumbnails"
+msgstr "以缩略图方式显示"
+
+#: ulng.rsmfstbiswappanelstips
+msgctxt "ulng.rsmfstbiswappanelstips"
+msgid "Swap Panels"
+msgstr "对调面板"
+
+#: ulng.rsmfstbiswappanelstitle
+msgctxt "ulng.rsmfstbiswappanelstitle"
+msgid "SwapPanels"
+msgstr "对调面板"
+
+#: ulng.rsmfstbiterminaltips
+msgctxt "ulng.rsmfstbiterminaltips"
+msgid "Open in Terminal"
+msgstr "在终端打开当前路径"
+
+#: ulng.rsmfstbiterminaltitle
+msgctxt "ulng.rsmfstbiterminaltitle"
+msgid "Terminal"
+msgstr "终端"
+
+#: ulng.rsmfstbitreeviewtips
+msgctxt "ulng.rsmfstbitreeviewtips"
+msgid "Show Tree View Panel"
+msgstr "显示文件树状图面板"
+
+#: ulng.rsmfstbitreeviewtitle
+msgctxt "ulng.rsmfstbitreeviewtitle"
+msgid "TreeView"
+msgstr "树状图"
+
 #: ulng.rsmnuactions
 msgctxt "ulng.rsmnuactions"
 msgid "Actions"
@@ -10826,10 +10991,6 @@ msgstr "弹出"
 #: ulng.rsmnuextracthere
 msgid "Extract here..."
 msgstr "解压缩到此处..."
-
-#: ulng.rsmnumapnetworkdrive
-msgid "Map Network Drive..."
-msgstr "映射网络驱动器..."
 
 #: ulng.rsmnumount
 msgid "Mount"
@@ -12995,6 +13156,7 @@ msgid "Drives list button"
 msgstr "驱动器列表按钮"
 
 #: ulng.rsoptionseditorfavoritetabs
+msgctxt "ulng.rsoptionseditorfavoritetabs"
 msgid "Favorite Tabs"
 msgstr "收藏夹标签"
 

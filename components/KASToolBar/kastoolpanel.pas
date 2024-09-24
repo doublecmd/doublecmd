@@ -23,6 +23,7 @@ type
     property EdgeBorders default [ebTop];
     property EdgeInner;
     property EdgeOuter;
+    property OnResize;
     property TabOrder;
     property Visible;
   end;

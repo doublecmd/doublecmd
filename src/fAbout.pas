@@ -27,7 +27,7 @@ interface
 
 uses
   Graphics, Forms, Controls, StdCtrls, ExtCtrls, Buttons,
-  SysUtils, Classes, LCLType;
+  SysUtils, Classes, LCLType, LMessages;
 
 type
 
@@ -53,12 +53,16 @@ type
     memInfo: TMemo;
     pnlInfo: TPanel;
     procedure btnCopyToClipboardClick(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
     procedure lblHomePageAddressClick(Sender: TObject);
     procedure lblHomePageAddressMouseEnter(Sender: TObject);
     procedure lblHomePageAddressMouseLeave(Sender: TObject);
     procedure frmAboutShow(Sender: TObject);
   private
-    { Private declarations }
+    FMouseLeave, FMouseEnter: TColor;
+  protected
+    procedure UpdateStyle;
+    procedure CMThemeChanged(var Message: TLMessage); message CM_THEMECHANGED;
   public
     { Public declarations }
   end;
@@ -71,7 +75,7 @@ implementation
 {$R *.lfm}
 
 uses
-  Clipbrd, dmHelpManager, uDCVersion, uClipboard;
+  Clipbrd, dmHelpManager, uDCVersion, uClipboard, uOSForms;
 
 const
   cIndention = LineEnding + #32#32;
@@ -126,7 +130,7 @@ begin
   with Sender as TLabel do
   begin
     Font.Style:= [];
-    Font.Color:= clBlue;
+    Font.Color:= FMouseLeave;
     Cursor:= crDefault;
   end;
 end;
@@ -136,7 +140,7 @@ begin
   with Sender as TLabel do
   begin
     Font.Style:= [fsUnderLine];
-    Font.Color:= clRed;
+    Font.Color:= FMouseEnter;
     Cursor:= crHandPoint;
   end;
 end;
@@ -170,6 +174,13 @@ begin
   ClipboardSetText(StrInfo);
 end;
 
+procedure TfrmAbout.FormCreate(Sender: TObject);
+begin
+  UpdateStyle;
+  lblTitle.Font.Color:= FMouseEnter;
+  lblHomePageAddress.Font.Color:= FMouseLeave;
+end;
+
 procedure TfrmAbout.frmAboutShow(Sender: TObject);
 begin
   memInfo.Lines.Text         := cAboutMsg;
@@ -187,6 +198,24 @@ begin
 
   Constraints.MinHeight      := Height;
   btnClose.Anchors           := [akLeft, akBottom];
+end;
+
+procedure TfrmAbout.UpdateStyle;
+begin
+  if DarkStyle then
+  begin
+    FMouseLeave:= RGBToColor(97, 155, 192);
+    FMouseEnter:= RGBToColor(192, 102, 97);
+  end
+  else begin
+    FMouseLeave:= clBlue;
+    FMouseEnter:= clRed;
+  end;
+end;
+
+procedure TfrmAbout.CMThemeChanged(var Message: TLMessage);
+begin
+  UpdateStyle;
 end;
 
 end.

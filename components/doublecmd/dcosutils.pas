@@ -190,6 +190,7 @@ function mbFileCreate(const FileName: String): System.THandle; overload; inline;
 function mbFileCreate(const FileName: String; Mode: LongWord): System.THandle; overload; inline;
 function mbFileCreate(const FileName: String; Mode, Rights: LongWord): System.THandle; overload;
 function mbFileAge(const FileName: String): DCBasicTypes.TFileTime;
+function mbFileGetTime(const FileName: String): DCBasicTypes.TFileTimeEx;
 // On success returns True.
 // nanoseconds supported
 function mbFileGetTime(const FileName: String;
@@ -956,6 +957,14 @@ begin
 end;
 {$ENDIF}
 
+function mbFileGetTime(const FileName: String): DCBasicTypes.TFileTimeEx;
+var
+  CreationTime, LastAccessTime: DCBasicTypes.TFileTimeEx;
+begin
+  if not mbFileGetTime(FileName, Result, CreationTime, LastAccessTime) then
+    Result:= TFileTimeExNull;
+end;
+
 function mbFileGetTime(const FileName: String;
                        var ModificationTime: DCBasicTypes.TFileTimeEx;
                        var CreationTime    : DCBasicTypes.TFileTimeEx;
@@ -1455,9 +1464,16 @@ function FileAllocate(Handle: System.THandle; Size: Int64): Boolean;
 var
   Ret: cint;
   Sta: TStat;
+  StaFS: TStatFS;
 begin
   if (Size > 0) then
   begin
+    repeat
+      Ret:= fpfStatFS(Handle, @StaFS);
+    until (Ret <> -1) or (fpgeterrno <> ESysEINTR);
+    // FAT32 does not support a fast allocation
+    if (StaFS.fstype = MSDOS_SUPER_MAGIC) then
+      Exit(False);
     repeat
       Ret:= fpFStat(Handle, Sta);
     until (Ret <> -1) or (fpgeterrno <> ESysEINTR);
@@ -1467,7 +1483,7 @@ begin
       Sta.st_size:= (Size + Sta.st_blksize - 1) and not (Sta.st_blksize - 1);
       repeat
         Ret:= fpFAllocate(Handle, 0, 0, Sta.st_size);
-      until (Ret <> -1) or (fpgeterrno <> ESysEINTR) or (fpgeterrno <> ESysEAGAIN);
+      until (Ret <> -1) or (fpgeterrno <> ESysEINTR);
     end;
   end;
   Result:= FileTruncate(Handle, Size);

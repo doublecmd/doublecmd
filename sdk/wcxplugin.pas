@@ -179,6 +179,7 @@ type
     CmtSize,
     CmtState:longint;
     Reserved:array[0..1023] of char;
+    MfileTime: UInt64;
   end;
 
   tOpenArchiveData=packed record

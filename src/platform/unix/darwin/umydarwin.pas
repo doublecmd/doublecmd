@@ -29,12 +29,14 @@ unit uMyDarwin;
 
 {$mode delphi}
 {$modeswitch objectivec1}
+{$linkframework DiskArbitration}
 
 interface
 
 uses
   Classes, SysUtils, UnixType,
-  Cocoa_Extra, MacOSAll, CocoaAll, CocoaUtils, CocoaInt, CocoaConst, CocoaMenus,
+  Cocoa_Extra, MacOSAll, CocoaAll, QuickLookUI,
+  CocoaUtils, CocoaInt, CocoaConst, CocoaMenus,
   InterfaceBase, Menus, Controls, Forms,
   uDarwinFSWatch;
 
@@ -57,6 +59,8 @@ function NSGetFolderPath(Folder: NSSearchPathDirectory): String;
 
 function GetFileDescription(const FileName: String): String;
 function MountNetworkDrive(const serverAddress: String): Boolean;
+
+function GetVolumeName(const Device: String): String;
 
 function unmountAndEject(const path: String): Boolean;
 
@@ -118,7 +122,7 @@ end;
 // MacOS Service Integration
 type TNSServiceProviderCallBack = Procedure( filenames:TStringList ) of object;
 type TNSServiceMenuIsReady = Function(): Boolean of object;
-type TNSServiceMenuGetFilenames = Function(): TStringList of object;
+type TNSServiceMenuGetFilenames = Function(): TStringArray of object;
 
 type TDCCocoaApplication = objcclass(TCocoaApplication)
   function validRequestorForSendType_returnType (sendType: NSString; returnType: NSString): id; override;
@@ -150,8 +154,13 @@ procedure InitNSServiceProvider(
   isReadyFunc: TNSServiceMenuIsReady;
   getFilenamesFunc: TNSServiceMenuGetFilenames );
 
+procedure performMacOSService( serviceName: String );
+
+procedure showQuickLookPanel;
+
 // MacOS Sharing
 procedure showMacOSSharingServiceMenu;
+procedure showMacOSAirDropDialog;
 
 // MacOS Theme
 type TNSThemeChangedHandler = Procedure() of object;
@@ -319,48 +328,17 @@ end;
 
 function TDCCocoaApplication.writeSelectionToPasteboard_types( pboard: NSPasteboard; types: NSArray): ObjCBOOL;
 var
-  filenameList: TStringList;
-  filenameArray: NSArray;
+  lclArray: TStringArray;
+  cocoaArray: NSArray;
 begin
   Result:= false;
-  filenameList:= self.serviceMenuGetFilenames();
-  if filenameList=nil then exit;
+  lclArray:= self.serviceMenuGetFilenames();
+  if lclArray=nil then exit;
 
-  filenameArray:= ListToNSArray( filenameList );
+  cocoaArray:= StringArrayFromLCLToNS( lclArray );
   pboard.declareTypes_owner( NSArray.arrayWithObject(NSFileNamesPboardType), nil );
-  pboard.setPropertyList_forType( filenameArray, NSFileNamesPboardType );
+  pboard.setPropertyList_forType( cocoaArray, NSFileNamesPboardType );
   Result:= true;
-
-  FreeAndNil( filenameList );
-end;
-
-procedure showMacOSSharingServiceMenu;
-var
-  picker: NSSharingServicePicker;
-  filenameArray: NSArray;
-  filenameList: TStringList;
-  point: TPoint;
-  popupNSRect: NSRect;
-  control: TWinControl;
-begin
-  if not TDCCocoaApplication(NSApp).serviceMenuIsReady then
-    exit;
-
-  filenameList:= TDCCocoaApplication(NSApp).serviceMenuGetFilenames;
-  if filenameList=nil then exit;
-
-  filenameArray:= ListToNSUrlArray( filenameList );
-  FreeAndNil( filenameList );
-
-  control:= Screen.ActiveControl;
-  point:= control.ScreenToClient( Mouse.CursorPos );
-  popupNSRect.origin.x:= point.X;
-  popupNSRect.origin.y:= point.Y;
-  popupNSRect.size:= NSZeroSize;
-
-  picker:= NSSharingServicePicker.alloc.initWithItems( filenameArray );
-  picker.showRelativeToRect_ofView_preferredEdge( popupNSRect, NSView(control.handle) , NSMinYEdge );
-  picker.release;
 end;
 
 procedure TDCCocoaApplication.observeValueForKeyPath_ofObject_change_context(
@@ -385,6 +363,61 @@ begin
 end;
 
 
+procedure showMacOSSharingServiceMenu;
+var
+  picker: NSSharingServicePicker;
+  cocoaArray: NSArray;
+  lclArray: TStringArray;
+  point: TPoint;
+  popupNSRect: NSRect;
+  control: TWinControl;
+begin
+  if not TDCCocoaApplication(NSApp).serviceMenuIsReady then
+    exit;
+
+  lclArray:= TDCCocoaApplication(NSApp).serviceMenuGetFilenames;
+  if lclArray = nil then
+    Exit;
+
+  cocoaArray:= UrlArrayFromLCLToNS( lclArray );
+
+  control:= Screen.ActiveControl;
+  point:= control.ScreenToClient( Mouse.CursorPos );
+  popupNSRect.origin.x:= point.X;
+  popupNSRect.origin.y:= point.Y;
+  popupNSRect.size:= NSZeroSize;
+
+  picker:= NSSharingServicePicker.alloc.initWithItems( cocoaArray );
+  picker.showRelativeToRect_ofView_preferredEdge( popupNSRect, NSView(control.handle) , NSMinYEdge );
+  picker.release;
+end;
+
+procedure showMacOSAirDropDialog;
+var
+  service: NSSharingService;
+  lclArray: TStringArray;
+  cocoaArray: NSArray;
+begin
+  lclArray:= TDCCocoaApplication(NSApp).serviceMenuGetFilenames;
+  if lclArray = nil then
+    Exit;
+
+  cocoaArray:= UrlArrayFromLCLToNS( lclArray );
+  service:= NSSharingService.sharingServiceNamed( NSSharingServiceNameSendViaAirDrop );
+  service.performWithItems( cocoaArray );
+end;
+
+procedure performMacOSService( serviceName: String );
+var
+  pboard: NSPasteboard;
+  ok: Boolean;
+begin
+  pboard:= NSPasteboard.pasteboardWithUniqueName;
+  ok:= TDCCocoaApplication(NSApp).writeSelectionToPasteboard_types(
+    pboard , nil );
+  if ok then
+    NSPerformService( NSSTR(serviceName), pboard );
+end;
 
 function NSArrayToList(const theArray:NSArray): TStringList;
 var
@@ -524,6 +557,37 @@ begin
   CFRelease(FileNameRef);
 end;
 
+function GetVolumeName(const Device: String): String;
+var
+  ADisk: DADiskRef;
+  AName: CFStringRef;
+  ASession: DASessionRef;
+  ADescription: CFDictionaryRef;
+begin
+  Result:= EmptyStr;
+  ASession:= DASessionCreate(kCFAllocatorDefault);
+  if Assigned(ASession) then
+  begin
+    ADisk:= DADiskCreateFromBSDName(kCFAllocatorDefault, ASession, PAnsiChar(Device));
+    if Assigned(ADisk) then
+    begin
+      ADescription:= DADiskCopyDescription(ADisk);
+      if Assigned(ADescription) then
+      begin
+        AName:= CFDictionaryGetValue(ADescription, kDADiskDescriptionVolumeNameKey);
+        if (AName = nil) then AName:= CFDictionaryGetValue(ADescription, kDADiskDescriptionMediaNameKey);
+        if Assigned(AName) then
+        begin
+          Result:= CFStringToStr(AName);
+        end;
+        CFRelease(ADescription);
+      end;
+      CFRelease(ADisk);
+    end;
+    CFRelease(ASession);
+  end;
+end;
+
 function unmountAndEject(const path: String): Boolean;
 begin
   Result:= NSWorkspace.sharedWorkspace.unmountAndEjectDeviceAtPath( StringToNSString(path) );
@@ -583,6 +647,63 @@ begin
   if (NetFS <> NilHandle) then FreeLibrary(NetFS);
   if (CoreServices <> NilHandle) then FreeLibrary(CoreServices);
   FreeAndNil( MacosServiceMenuHelper );
+end;
+
+type
+  
+  { TDCQLPreviewPanelMate }
+
+  TDCQLPreviewPanelMate = objcclass( NSObject, QLPreviewPanelDataSourceProtocol )
+  private
+    _urlArray: NSArray;
+  public
+    function numberOfPreviewItemsInPreviewPanel (panel: QLPreviewPanel): NSInteger;
+    function previewPanel_previewItemAtIndex (panel: QLPreviewPanel; index: NSInteger): QLPreviewItemProtocol;
+  public
+    function initWithItems( urlArray: NSArray ): id; message 'setUrlArray:';
+    procedure dealloc; override;
+  end;
+
+function TDCQLPreviewPanelMate.numberOfPreviewItemsInPreviewPanel(
+  panel: QLPreviewPanel): NSInteger;
+begin
+  Result:= _urlArray.count;
+end;
+
+function TDCQLPreviewPanelMate.previewPanel_previewItemAtIndex(panel: QLPreviewPanel;
+  index: NSInteger): QLPreviewItemProtocol;
+begin
+  Result:= QLPreviewItemProtocol( _urlArray.objectAtIndex(index) );
+end;
+
+function TDCQLPreviewPanelMate.initWithItems(urlArray: NSArray): id;
+begin
+  Result:= Inherited init;
+  _urlArray:= urlArray;
+  _urlArray.retain;
+end;
+
+procedure TDCQLPreviewPanelMate.dealloc;
+begin
+  _urlArray.release;
+  Inherited;
+end;
+
+procedure showQuickLookPanel;
+var
+  lclArray: TStringArray;
+  mate: TDCQLPreviewPanelMate;
+  panel: QLPreviewPanel;
+begin
+  lclArray:= TDCCocoaApplication(NSApp).serviceMenuGetFilenames;
+  if lclArray = nil then
+    Exit;
+
+  mate:= TDCQLPreviewPanelMate.alloc.initWithItems( UrlArrayFromLCLToNS(lclArray) );
+  panel:= QLPreviewPanel.sharedPreviewPanel;
+  panel.setDataSource( mate );
+  panel.makeKeyAndOrderFront( nil );
+  mate.release;
 end;
 
 initialization

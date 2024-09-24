@@ -10,9 +10,10 @@ object frmAbout: TfrmAbout
   ClientWidth = 667
   Constraints.MinWidth = 667
   KeyPreview = True
-  Position = poOwnerFormCenter
-  LCLVersion = '2.0.12.0'
+  OnCreate = FormCreate
   OnShow = frmAboutShow
+  Position = poOwnerFormCenter
+  LCLVersion = '3.5.0.0'
   object pnlText: TPanel
     AnchorSideLeft.Control = pnlInfo
     AnchorSideLeft.Side = asrBottom
@@ -364,9 +365,9 @@ object frmAbout: TfrmAbout
       BorderSpacing.CellAlignHorizontal = ccaCenter
       Caption = 'Copy to clipboard'
       Constraints.MinWidth = 100
-      OnClick = btnCopyToClipboardClick
       ParentFont = False
       TabOrder = 0
+      OnClick = btnCopyToClipboardClick
     end
   end
   object btnClose: TBitBtn

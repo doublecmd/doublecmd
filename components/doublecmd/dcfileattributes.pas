@@ -34,8 +34,10 @@ const
   FILE_ATTRIBUTE_READONLY              = $0001;
   FILE_ATTRIBUTE_HIDDEN                = $0002;
   FILE_ATTRIBUTE_SYSTEM                = $0004;
+  FILE_ATTRIBUTE_VOLUME                = $0008;
   FILE_ATTRIBUTE_DIRECTORY             = $0010;
   FILE_ATTRIBUTE_ARCHIVE               = $0020;
+  FILE_ATTRIBUTE_DEVICE                = $0040;
   FILE_ATTRIBUTE_NORMAL                = $0080;
   FILE_ATTRIBUTE_TEMPORARY             = $0100;
   FILE_ATTRIBUTE_SPARSE_FILE           = $0200;

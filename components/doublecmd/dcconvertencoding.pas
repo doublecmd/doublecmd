@@ -61,8 +61,11 @@ function CeTryDecode(const aValue: AnsiString; aCodePage: Cardinal;
 {$ELSEIF DEFINED(UNIX)}
 var
   SystemEncodingUtf8: Boolean = False;
-  SystemLanguage, SystemEncoding, SystemLocale: String;
+  SystemEncoding, SystemLocale: String;
 {$ENDIF}
+
+var
+  SystemLanguage: String;
 
 implementation
 
@@ -324,6 +327,8 @@ begin
 end;
 
 procedure Initialize;
+var
+  Buffer: array[1..4] of AnsiChar;
 begin
   CeOemToSys:=   @OEM2Ansi;
   CeSysToOem:=   @Ansi2OEM;
@@ -335,6 +340,9 @@ begin
   CeUtf8ToAnsi:= @UTF82Sys;
   CeSysToUtf8:=  @Sys2UTF8;
   CeUtf8ToSys:=  @UTF82Sys;
+
+  if GetLocaleInfo(GetUserDefaultLCID, LOCALE_SABBREVLANGNAME, @Buffer[1], 4) > 0 then
+    SystemLanguage := LowerCase(Copy(Buffer, 1, 2));
 end;
 
 {$ELSEIF DEFINED(UNIX)}
@@ -399,7 +407,7 @@ begin
   Lang:= SysUtils.GetEnvironmentVariable('LC_ALL');
   if Length(Lang) = 0 then
     begin
-      Lang:= SysUtils.GetEnvironmentVariable('LC_MESSAGES');
+      Lang:= SysUtils.GetEnvironmentVariable('LC_CTYPE');
       if Length(Lang) = 0 then
       begin
         Lang:= SysUtils.GetEnvironmentVariable('LANG');

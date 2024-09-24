@@ -92,6 +92,12 @@ uses
   {$IFDEF UNIX}
   , uMyUnix
   {$ENDIF}
+  {$IFDEF LclCocoa}
+{$if NOT defined(DisableCocoaModernForm)}
+  ,uCocoaModernFormConfig
+{$endif}
+  ,CocoaConfig
+  {$ENDIF}
   ;
 
 {$R *.res}
@@ -141,6 +147,7 @@ begin
 
 {$IF DEFINED(DARWIN)}
   GetMacFormatSettings(DefaultFormatSettings);
+  CocoaConfigGlobal.useIcon:= True;
   Application.Icon:= nil;
 {$ENDIF}
 
@@ -219,6 +226,9 @@ begin
 
       InitPasswordStore;
       LoadPixMapManager;
+{$IF DEFINED(DARWIN)}
+      initCocoaModernFormConfig;
+{$ENDIF}
       Application.CreateForm(TfrmMain, frmMain); // main form
       Application.CreateForm(TdmComData, dmComData); // common data
       Application.CreateForm(TdmHelpManager, dmHelpMgr); // help manager

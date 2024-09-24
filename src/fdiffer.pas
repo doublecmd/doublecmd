@@ -296,13 +296,15 @@ implementation
 
 uses
   Math, LCLType, LazFileUtils, LConvEncoding, SynEditTypes, uHash, uLng, uGlobs,
-  uShowMsg, DCClassesUtf8, dmCommonData, uDCUtils, uConvEncoding, uAdministrator;
+  uShowMsg, DCClassesUtf8, dmCommonData, uDCUtils, uConvEncoding, uAdministrator,
+  uFileProcs;
 
 const
   HotkeysCategory = 'Differ';
 
 procedure ShowDiffer(const FileNameLeft, FileNameRight: String; WaitData: TWaitData = nil; Modal: Boolean = False);
 var
+  Binary: Boolean;
   Differ: TfrmDiffer;
 begin
   Differ := TfrmDiffer.Create(Application);
@@ -314,7 +316,13 @@ begin
     edtFileNameLeft.Text:= FileNameLeft;
     edtFileNameRight.Text:= FileNameRight;
     try
-      if not (FileIsText(FileNameLeft) and FileIsText(FileNameRight)) then
+      PushPop(FElevate);
+      try
+        Binary:= not (mbFileIsText(FileNameLeft) and mbFileIsText(FileNameRight));
+      finally
+        PushPop(FElevate);
+      end;
+      if Binary then
         actBinaryCompare.Execute
       else begin
         OpenFileLeft(FileNameLeft);

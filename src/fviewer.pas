@@ -515,7 +515,7 @@ uses
   DCClassesUtf8, uFindMmap, DCStrUtils, uDCUtils, LCLIntf, uDebug, uHotkeyManager,
   uConvEncoding, DCBasicTypes, DCOSUtils, uOSUtils, uFindByrMr, uFileViewWithGrid,
   fPrintSetup, uFindFiles, uAdministrator, uOfficeXML, uHighlighterProcs, dmHigh,
-  SynEditTypes, uFile, uFileSystemFileSource
+  SynEditTypes, uFile, uFileSystemFileSource, uFileProcs
 {$IFDEF LCLGTK2}
   , uGraphics
 {$ENDIF}
@@ -2690,6 +2690,16 @@ begin
   begin
     FHighlighter:= GetHighlighterFromFileExt(dmHighl.SynHighlighterList, ExtractFileExt(sFileName));
     Result:= Assigned(FHighlighter);
+  end;
+
+  if Result and not bForce then
+  begin
+    PushPop(FElevate);
+    try
+      Result:= mbFileIsText(sFileName);
+    finally
+      PushPop(FElevate);
+    end;
   end;
 end;
 

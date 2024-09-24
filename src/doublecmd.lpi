@@ -12,6 +12,7 @@
       <SessionStorage Value="InProjectDir"/>
       <AutoCreateForms Value="False"/>
       <Title Value="Double Commander"/>
+      <Scaled Value="True"/>
       <ResourceType Value="res"/>
       <XPManifest>
         <DpiAware Value="True"/>
@@ -310,7 +311,7 @@ end;"/>
         <PackageName Value="Image32"/>
       </Item13>
     </RequiredPackages>
-    <Units Count="272">
+    <Units Count="275">
       <Unit0>
         <Filename Value="doublecmd.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -1990,6 +1991,20 @@ end;"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uShellFileSource"/>
       </Unit271>
+      <Unit272>
+        <Filename Value="platform\unix\darwin\ucocoamodernformconfig.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uCocoaModernFormConfig"/>
+      </Unit272>
+      <Unit273>
+        <Filename Value="platform\unix\darwin\ucocoamodernformconfig.inc"/>
+        <IsPartOfProject Value="True"/>
+      </Unit273>
+      <Unit274>
+        <Filename Value="platform\unix\darwin\udarwinfinder.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uDarwinFinder"/>
+      </Unit274>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

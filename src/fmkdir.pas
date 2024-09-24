@@ -12,14 +12,18 @@ type
   { TfrmMkDir }
 
   TfrmMkDir = class(TForm)
+    pnlMkDir: TPanel;
     ButtonPanel: TButtonPanel;
     cbExtended: TCheckBox;
     cbMkDir: TComboBox;
     lblExample: TLabel;
     lblMakeDir: TLabel;
+    btnAutoComplete: TSpeedButton;
     procedure cbExtendedChange(Sender: TObject);
     procedure cbMkDirChange(Sender: TObject);
     procedure cbMkDirKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure btnAutoCompleteClick(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
     procedure RefreshExample;
   public
 
@@ -78,6 +82,16 @@ end;
 procedure TfrmMkDir.cbMkDirKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
 begin
   RefreshExample;
+end;
+
+procedure TfrmMkDir.btnAutoCompleteClick(Sender: TObject);
+begin
+  cbMkDir.AutoComplete:= btnAutoComplete.Down;
+end;
+
+procedure TfrmMkDir.FormCreate(Sender: TObject);
+begin
+  InitPropStorage(Self).IniSection:= ClassName;
 end;
 
 procedure TfrmMkDir.cbExtendedChange(Sender: TObject);

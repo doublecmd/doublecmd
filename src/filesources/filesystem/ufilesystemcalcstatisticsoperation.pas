@@ -17,6 +17,7 @@ type
   TFileSystemCalcStatisticsOperation = class(TFileSourceCalcStatisticsOperation)
 
   private
+    FErrorCount: Integer;
     FStatistics: TFileSourceCalcStatisticsOperationStatistics; // local copy of statistics
 
     procedure ProcessFile(aFile: TFile);
@@ -38,7 +39,7 @@ implementation
 
 uses
   uFileSourceOperationOptions, DCOSUtils, uLng, uFindEx,
-  uFileSystemFileSource;
+  uFileSystemFileSource, uFileProperty, uOSUtils;
 
 constructor TFileSystemCalcStatisticsOperation.Create(
                 aTargetFileSource: IFileSource;
@@ -66,6 +67,11 @@ begin
   begin
     ProcessFile(Files[CurrentFileIndex]);
     CheckOperationState;
+  end;
+  if (FStatistics.Size = 0) and (FErrorCount > 0) then
+  begin
+    FStatistics.Size := FOLDER_SIZE_ERRO;
+    UpdateStatistics(FStatistics);
   end;
 end;
 
@@ -160,7 +166,11 @@ var
 begin
   FindResult := FindFirstEx(srcPath + '*', 0, sr);
   try
-    if FindResult = 0 then
+    if FindResult <> 0 then
+    begin
+      if AccessDenied(FindResult) then Inc(FErrorCount);
+    end
+    else
     repeat
       if (sr.Name='.') or (sr.Name='..') then Continue;
 

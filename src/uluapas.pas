@@ -39,7 +39,10 @@ uses
   Forms, Dialogs, Clipbrd, LazUTF8, LCLVersion, uLng, DCOSUtils,
   DCConvertEncoding, fMain, uFormCommands, uOSUtils, uGlobs, uLog,
   uClipboard, uShowMsg, uLuaStd, uFindEx, uConvEncoding, uFileProcs,
-  uFilePanelSelect, uMasks, LazFileUtils, Character, UnicodeData;
+  uFilePanelSelect, uMasks, LazFileUtils, Character, UnicodeData,
+  DCBasicTypes, Variants, uFile, uFileProperty, uFileSource,
+  uFileSourceProperty, uFileSourceUtil, uFileSystemFileSource,
+  uDefaultFilePropertyFormatter, DCDateTimeUtils, uShellExecute;
 
 procedure luaPushSearchRec(L : Plua_State; Rec: PSearchRecEx);
 begin
@@ -138,6 +141,22 @@ function luaCreateDirectory(L : Plua_State) : Integer; cdecl;
 begin
   Result:= 1;
   lua_pushboolean(L, mbForceDirectory(lua_tostring(L, 1)));
+end;
+
+function luaRemoveDirectory(L : Plua_State) : Integer; cdecl;
+var
+  sDir: String;
+  Res: Boolean = True;
+begin
+  Result:= 1;
+  sDir:= lua_tostring(L, 1);
+  if mbDirectoryExists(sDir) then
+  begin
+    DelTree(sDir);
+    if mbDirectoryExists(sDir) then
+      Res:= False;
+  end;
+  lua_pushboolean(L, Res);
 end;
 
 function luaCreateHardLink(L : Plua_State) : Integer; cdecl;
@@ -624,6 +643,208 @@ begin
     frmMain.SetActiveFrame(TFilePanelSelect(lua_tointeger(L, 1)));
 end;
 
+function luaExpandEnv(L : Plua_State) : Integer; cdecl;
+var
+  S: String;
+  Special: Boolean = False;
+begin
+  Result:= 1;
+  S:= lua_tostring(L, 1);
+  if lua_isboolean(L, 2) then
+    Special:= lua_toboolean(L, 2);
+  if Special then
+    lua_pushstring(L, ReplaceEnvVars(S))
+  else begin
+    lua_pushstring(L, mbExpandEnvironmentStrings(S));
+  end;
+end;
+
+function luaExpandVar(L : Plua_State) : Integer; cdecl;
+var
+  S: String;
+begin
+  Result:= 1;
+  S:= lua_tostring(L, 1);
+  lua_pushstring(L, ReplaceVarParams(S));
+end;
+
+function luaFileSetTime(L : Plua_State) : Integer; cdecl;
+var
+  sFile: String;
+  ModificationTime, CreationTime, LastAccessTime: DCBasicTypes.TFileTime;
+begin
+  Result:= 1;
+  sFile:= lua_tostring(L, 1);
+
+{$IFDEF MSWINDOWS}
+  ModificationTime:= UnixFileTimeToWinTime(lua_tointeger(L, 2));
+  CreationTime:= UnixFileTimeToWinTime(lua_tointeger(L, 3));
+  LastAccessTime:= UnixFileTimeToWinTime(lua_tointeger(L, 4));
+{$ELSE}
+  ModificationTime:= lua_tointeger(L, 2);
+  CreationTime:= lua_tointeger(L, 3);
+  LastAccessTime:= lua_tointeger(L, 4);
+{$ENDIF}
+
+  lua_pushboolean(L, mbFileSetTime(sFile, ModificationTime, CreationTime, LastAccessTime));
+end;
+
+function luaGetFileProperty(L : Plua_State) : Integer; cdecl;
+var
+  AFile: TFile;
+  AFileSource: IFileSource;
+  AValue: Variant;
+  FilePropertiesNeeded: TFilePropertiesTypes;
+  AIndex: Integer;
+const
+  FileFuncToProp: array [0..9] of TFilePropertiesTypes = ([fpSize], [fpAttributes], [fpOwner], [fpOwner],
+      [fpModificationTime], [fpCreationTime], [fpLastAccessTime], [fpChangeTime], [fpType], [fpComment]);
+begin
+  Result:= 1;
+  if lua_isnumber(L, 2) then
+  begin
+    AIndex:= lua_tointeger(L, 2);
+    if AIndex < 10 then
+    begin
+      try
+        AFile := TFileSystemFileSource.CreateFileFromFile(lua_tostring(L, 1));
+      except
+        lua_pushnil(L);
+        Exit;
+      end;
+      AFileSource := TFileSystemFileSource.GetFileSource;
+      // Retrieve additional properties if needed
+      FilePropertiesNeeded:= FileFuncToProp[AIndex];
+      if AFileSource.CanRetrieveProperties(AFile, FilePropertiesNeeded) then
+        AFileSource.RetrieveProperties(AFile, FilePropertiesNeeded, []);
+      case AIndex of
+        0: // fsfSize
+          begin
+            if fpSize in AFile.SupportedProperties then
+            begin
+              if AFile.SizeProperty.IsValid then
+                AValue := AFile.Size;
+            end;
+          end;
+        1: // fsfAttr
+          if fpAttributes in AFile.SupportedProperties then
+            AValue := AFile.Properties[fpAttributes].Format(DefaultFilePropertyFormatter);
+        2: // fsfGroup
+          if fpOwner in AFile.SupportedProperties then
+            AValue := AFile.OwnerProperty.GroupStr;
+        3: // fsfOwner
+          if fpOwner in AFile.SupportedProperties then
+            AValue := AFile.OwnerProperty.OwnerStr;
+        4: // fsfModificationTime
+          if fpModificationTime in AFile.SupportedProperties then
+          begin
+            if AFile.ModificationTimeProperty.IsValid then
+              AValue := DateTimeToUnixFileTime(AFile.ModificationTime);
+          end;
+        5: // fsfCreationTime
+          if fpCreationTime in AFile.SupportedProperties then
+            AValue := DateTimeToUnixFileTime(AFile.CreationTime);
+        6: // fsfLastAccessTime
+          if fpLastAccessTime in AFile.SupportedProperties then
+            AValue := DateTimeToUnixFileTime(AFile.LastAccessTime);
+        7: // fsfChangeTime
+          if fpChangeTime in AFile.SupportedProperties then
+            AValue := DateTimeToUnixFileTime(AFile.ChangeTime);
+        8: // fsfType
+          if fpType in AFile.SupportedProperties then
+            AValue := AFile.TypeProperty.Format(DefaultFilePropertyFormatter);
+        9: // fsfComment:
+          if fpComment in AFile.SupportedProperties then
+            AValue := AFile.CommentProperty.Format(DefaultFilePropertyFormatter);
+      end;
+      FreeAndNil(AFile);
+    end;
+  end;
+  case VarType(AValue) of
+    varInteger,
+    varInt64:
+      lua_pushinteger(L, Int64(AValue));
+    varString:
+      lua_pushstring(L, AValue);
+  else
+    lua_pushnil(L);
+  end;
+end;
+
+function luaGetPluginField(L : Plua_State) : Integer; cdecl;
+var
+  AFile: TFile;
+  AFileSource: IFileSource;
+  AValue: Variant;
+  AName: String;
+  FieldIndex, UnitIndex: Integer;
+begin
+  Result:= 1;
+  try
+    AFile := TFileSystemFileSource.CreateFileFromFile(lua_tostring(L, 1));
+  except
+    lua_pushnil(L);
+    Exit;
+  end;
+  AName := upcase(lua_tostring(L, 2));
+  FieldIndex := lua_tointeger(L, 3);
+  UnitIndex := lua_tointeger(L, 4);
+  AFileSource := TFileSystemFileSource.GetFileSource;
+  if fspDirectAccess in AFileSource.Properties then
+  begin
+    if not gWdxPlugins.IsLoaded(AName) then
+    begin
+      if not gWdxPlugins.LoadModule(AName) then
+      begin
+        lua_pushnil(L);
+        FreeAndNil(AFile);
+        Exit;
+      end;
+    end;
+    if gWdxPlugins.GetWdxModule(AName).FileParamVSDetectStr(AFile) then
+    begin
+      AValue := gWdxPlugins.GetWdxModule(AName).CallContentGetValueV(
+        AFile.FullPath, FieldIndex, UnitIndex, 0);
+    end;
+  end;
+  FreeAndNil(AFile);
+  case VarType(AValue) of
+    varBoolean:
+      lua_pushboolean(L, AValue);
+    varInteger,
+    varInt64:
+      lua_pushinteger(L, Int64(AValue));
+    varDouble:
+      lua_pushnumber(L, Double(AValue));
+    varDate:
+      lua_pushinteger(L, DateTimeToUnixFileTime(AValue));
+    varString:
+      lua_pushstring(L, AValue);
+  else
+    lua_pushnil(L);
+  end;
+end;
+
+function luaGoToFile(L : Plua_State) : Integer; cdecl;
+var
+  sFilePath: String;
+  bActive: Boolean = True;
+begin
+  Result:= 0;
+  sFilePath:= lua_tostring(L, 1);
+  if lua_isboolean(L, 2) then
+    bActive:= lua_toboolean(L, 2);
+  if bActive then
+  begin
+    SetFileSystemPath(frmMain.ActiveFrame, ExtractFilePath(sFilePath));
+    frmMain.ActiveFrame.SetActiveFile(ExtractFileName(sFilePath));
+  end
+  else begin
+    SetFileSystemPath(frmMain.NotActiveFrame, ExtractFilePath(sFilePath));
+    frmMain.NotActiveFrame.SetActiveFile(ExtractFileName(sFilePath));
+  end;
+end;
+
 procedure luaP_register(L : Plua_State; n : PChar; f : lua_CFunction);
 begin
   lua_pushcfunction(L, f);
@@ -648,6 +869,7 @@ begin
     luaP_register(L, 'GetTickCount', @luaGetTickCount);
     luaP_register(L, 'DirectoryExists', @luaDirectoryExists);
     luaP_register(L, 'CreateDirectory', @luaCreateDirectory);
+    luaP_register(L, 'RemoveDirectory', @luaRemoveDirectory);
 
     luaP_register(L, 'CreateHardLink', @luaCreateHardLink);
     luaP_register(L, 'CreateSymbolicLink', @luaCreateSymbolicLink);
@@ -665,6 +887,9 @@ begin
     luaP_register(L, 'MatchesMask', @luaMatchesMask);
     luaP_register(L, 'MatchesMaskList', @luaMatchesMaskList);
 
+    luaP_register(L, 'ExpandEnv', @luaExpandEnv);
+    luaP_register(L, 'FileSetTime', @luaFileSetTime);
+    luaP_register(L, 'GetFileProperty', @luaGetFileProperty);
     luaP_register(L, 'GetTempName', @luaGetTempName);
 
     luaC_register(L, 'PathDelim', PathDelim);
@@ -707,6 +932,9 @@ begin
     luaP_register(L, 'LogWrite', @luaLogWrite);
     luaP_register(L, 'CurrentPanel', @luaCurrentPanel);
     luaP_register(L, 'ExecuteCommand', @luaExecuteCommand);
+    luaP_register(L, 'ExpandVar', @luaExpandVar);
+    luaP_register(L, 'GetPluginField', @luaGetPluginField);
+    luaP_register(L, 'GoToFile', @luaGoToFile);
   lua_setglobal(L, 'DC');
 
   ReplaceLibrary(L);

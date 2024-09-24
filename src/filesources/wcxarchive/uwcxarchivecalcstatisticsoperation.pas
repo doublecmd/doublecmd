@@ -123,7 +123,7 @@ begin
         begin
           Inc(FStatistics.Files);
           FStatistics.Size := FStatistics.Size + Header.UnpSize;
-          ModificationTime:= WcxFileTimeToDateTime(Header.FileTime);
+          ModificationTime:= Header.DateTime;
           if ModificationTime < FStatistics.OldestFile then
             FStatistics.OldestFile := ModificationTime;
           if ModificationTime > FStatistics.NewestFile then

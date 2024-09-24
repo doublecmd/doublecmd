@@ -630,7 +630,7 @@ var
         Exit(False);
 
       if (IsDateFrom or IsDateTo or IsTimeFrom or IsTimeTo or IsNotOlderThan) then
-        Result := CheckFileDateTime(FFileChecks, WcxFileTimeToDateTime(FHeader.FileTime));
+        Result := CheckFileDateTime(FFileChecks, FHeader.DateTime);
 
       if (IsFileSizeFrom or IsFileSizeTo) and Result then
         Result := CheckFileSize(FFileChecks, FHeader.UnpSize);

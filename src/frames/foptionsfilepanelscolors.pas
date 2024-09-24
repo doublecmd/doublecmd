@@ -323,9 +323,7 @@ begin
   if bLoadCompleted then
   begin
     PreviewLeftPanel.UpdateColumnsView;
-    PreviewLeftPanel.Reload;
     PreviewRightPanel.UpdateColumnsView;
-    PreviewRightPanel.Reload;
   end;
 end;
 

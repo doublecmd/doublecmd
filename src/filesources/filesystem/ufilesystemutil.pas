@@ -177,7 +177,8 @@ implementation
 uses
   uDebug, uDCUtils, uOSUtils, DCStrUtils, FileUtil, uFindEx, DCClassesUtf8, uFileProcs, uLng,
   DCBasicTypes, uFileSource, uFileSystemFileSource, uFileProperty, uAdministrator,
-  StrUtils, DCDateTimeUtils, uShowMsg, Forms, LazUTF8, uHash, uFileCopyEx, SysConst
+  StrUtils, DCDateTimeUtils, uShowMsg, Forms, LazUTF8, uHash, uFileCopyEx, SysConst,
+  Math, DateUtils
 {$IFDEF UNIX}
   , BaseUnix, Unix, DCUnix
 {$ENDIF}
@@ -614,7 +615,7 @@ var
             TotalBytesToRead := SourceFileStream.Size;
             if FReserveSpace then
             begin
-              TargetFileStream.Size:= SourceFileStream.Size;
+              TargetFileStream.Capacity:= SourceFileStream.Size;
               TargetFileStream.Seek(0, fsFromBeginning);
             end;
           end;
@@ -758,7 +759,7 @@ begin
 
         if FReserveSpace then
         begin
-          TargetFileStream.Size:= SourceFileStream.Size;
+          TargetFileStream.Capacity:= SourceFileStream.Size;
           TargetFileStream.Seek(0, fsFromBeginning);
         end;
       end else
@@ -960,7 +961,7 @@ procedure TFileSystemOperationHelper.CopyProperties(SourceFile: TFile;
 var
   Msg: String = '';
   ACopyTime: Boolean;
-  CreationTime, LastAccessTime: TFileTime;
+  CreationTime, LastAccessTime: TFileTimeEx;
   CopyAttrResult: TCopyAttributesOptions = [];
   ACopyAttributesOptions: TCopyAttributesOptions;
 begin
@@ -978,18 +979,18 @@ begin
       if not (caoCopyTimeEx in CopyAttributesOptionEx) then
       begin
         if fpCreationTime in SourceFile.AssignedProperties then
-          CreationTime:= DateTimeToFileTime(SourceFile.CreationTime)
+          CreationTime:= DateTimeToFileTimeEx(SourceFile.CreationTime)
         else begin
-          CreationTime:= 0;
+          CreationTime:= TFileTimeExNull;
         end;
-        LastAccessTime:= DateTimeToFileTime(SourceFile.LastAccessTime);
+        LastAccessTime:= DateTimeToFileTimeEx(SourceFile.LastAccessTime);
       end
       else begin
-        CreationTime:= 0;
-        LastAccessTime:= 0;
+        CreationTime:= TFileTimeExNull;
+        LastAccessTime:= TFileTimeExNull;
       end;
       // Copy time from properties because move operation change time of original folder
-      if not FileSetTimeUAC(TargetFileName, DateTimeToFileTime(SourceFile.ModificationTime),
+      if not FileSetTimeUAC(TargetFileName, DateTimeToFileTimeEx(SourceFile.ModificationTime),
                                             CreationTime, LastAccessTime) then
         CopyAttrResult += [caoCopyTime];
     except
@@ -1733,7 +1734,7 @@ var
 
   function OverwriteOlder: TFileSourceOperationOptionFileExists;
   begin
-    if aFile.ModificationTime > FileTimeToDateTime(mbFileAge(AbsoluteTargetFileName)) then
+    if CompareDateTime(aFile.ModificationTime, FileTimeToDateTimeEx(mbFileGetTime(AbsoluteTargetFileName))) = GreaterThanValue then
       Result := fsoofeOverwrite
     else
       Result := fsoofeSkip;

@@ -4,7 +4,7 @@
    Date and time functions.
 
    Copyright (C) 2009-2012 Przemysław Nagay (cobines@gmail.com)
-   Copyright (C) 2017-2022 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2017-2024 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -34,6 +34,9 @@ uses
   , Unix, UnixUtil, DCUnix
   {$ENDIF}
   ;
+
+const
+  DATE_TIME_NULL = TDateTime(2958466.0);
 
 function FileTimeToDateTime(FileTime : DCBasicTypes.TFileTime) : TDateTime;
 function FileTimeToDateTimeEx(FileTime : DCBasicTypes.TFileTimeEx) : TDateTime;
@@ -480,7 +483,7 @@ end;
 function UnixFileTimeToDateTimeEx(UnixTime: DCBasicTypes.TFileTimeEx) : TDateTime;
 var
   ATime: TTimeStruct;
-  milliseconds: Word;
+  Milliseconds: Word;
 begin
   if (fpLocalTime(@UnixTime.sec, @ATime) = nil) then
     Exit(UnixEpoch);
@@ -495,9 +498,11 @@ begin
   if ATime.tm_sec > 59 then
     ATime.tm_sec := 59;
 
-  milliseconds:= round( Extended(UnixTime.nanosec) / (1000.0*1000.0) );
-  if (milliseconds > 999) then
-    milliseconds:= 999;
+  if (UnixTime.nanosec > 999000000) then
+    Milliseconds := 999
+  else begin
+    Milliseconds := Round( Extended(UnixTime.nanosec) / (1000.0 * 1000.0) );
+  end;
 
   Result := ComposeDateTime(EncodeDate(ATime.tm_year, ATime.tm_mon, ATime.tm_mday),
                             EncodeTime(ATime.tm_hour, ATime.tm_min, ATime.tm_sec, milliseconds));
@@ -520,9 +525,6 @@ var
   Year, Month, Day: Word;
   Hour, Minute, Second, MilliSecond: Word;
 begin
-  if DateTime < UnixEpoch then
-    raise EDateOutOfRange.Create(DateTime);
-
   DecodeDate(DateTime, Year, Month, Day);
   DecodeTime(DateTime, Hour, Minute, Second, MilliSecond);
 
@@ -538,7 +540,7 @@ begin
 
   AUnixTime:= fpMkTime(@ATime);
 
-  if (AUnixTime < 0) then
+  if (AUnixTime = -1) then
     Result:= 0
   else begin
     Result:= TUnixFileTime(AUnixTime);
@@ -579,7 +581,7 @@ begin
 
   AUnixTime:= fpMkTime(@ATime);
 
-  if (AUnixTime < 0) then
+  if (AUnixTime = -1) then
     Result:= TFileTimeExNull
   else begin
     Result:= TFileTimeEx.create(AUnixTime, MilliSecond*1000*1000);

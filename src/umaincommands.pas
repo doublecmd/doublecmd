@@ -335,6 +335,7 @@ type
    procedure cm_NetworkConnect(const Params: array of string);
    procedure cm_NetworkDisconnect(const Params: array of string);
    procedure cm_CopyNetNamesToClip(const Params: array of string);
+   procedure cm_MapNetworkDrive(const Params: array of string);
    procedure cm_HorizontalFilePanels(const Params: array of string);
    procedure cm_OperationsViewer(const Params: array of string);
    procedure cm_CompareDirectories(const Params: array of string);
@@ -560,7 +561,11 @@ begin
     CalcStatisticsOperationStatistics := CalcStatisticsOperation.RetrieveStatistics;
     with CalcStatisticsOperationStatistics do
     begin
-      msgOK(Format(rsSpaceMsg, [Files, Directories, cnvFormatFileSize(Size), IntToStrTS(Size)]));
+      if Size < 0 then
+        msgOK(Format(rsSpaceMsg, [Files, Directories, '???', '???']))
+      else begin
+        msgOK(Format(rsSpaceMsg, [Files, Directories, cnvFormatFileSize(Size), IntToStrTS(Size)]));
+      end;
     end;
   end;
 end;
@@ -1131,6 +1136,8 @@ begin
     if NFree then NFileView.Free;
 
     ActiveFrame.SetFocus;
+
+    UpdateSelectedDrive(NotActiveNotebook);
   end;
 end;
 
@@ -3894,7 +3901,7 @@ begin
   // 1. Let's parse our parameters.
   DoParseParametersForPossibleTreeViewMenu(Params, gUseTreeViewMenuWithDirHistory, gUseTreeViewMenuWithDirHistory, bUseTreeViewMenu, bUsePanel, p);
 
-  frmMain.CreatePopUpDirHistory;
+  frmMain.CreatePopUpDirHistory(bUseTreeViewMenu, 0);
   Application.ProcessMessages; //TODO: In Windows, Not sure why, but on all systems tried, this eliminate a "beep" when the popup is shown.
 
   if bUseTreeViewMenu then
@@ -4561,6 +4568,11 @@ end;
 procedure TMainCommands.cm_CopyNetNamesToClip(const Params: array of string);
 begin
   CopyNetNamesToClip;
+end;
+
+procedure TMainCommands.cm_MapNetworkDrive(const Params: array of string);
+begin
+  MapNetworkDrive;
 end;
 
 procedure TMainCommands.cm_HorizontalFilePanels(const Params: array of string);
