@@ -105,7 +105,8 @@ type
   { TCocoaTokenFieldDelegateProtocol }
 
   TCocoaTokenFieldDelegateProtocol = objcprotocol( NSTokenFieldDelegateProtocol )
-    procedure updateFilter( substring: NSString ); message 'updateFilter:';
+    procedure updateFilter( substring: NSString ); message 'doublecmd_updateFilter:';
+    procedure updateLayout; message 'doublecmd_updateLayout';
   end;
 
   { TCocoaTokenField }
@@ -118,6 +119,7 @@ type
     procedure textViewDidChangeSelection(notification: NSNotification);
     procedure textDidChange(notification: NSNotification); override;
   public
+    function intrinsicContentSize: NSSize; override;
     procedure insertTokenNameReplaceEditingString( const tokenName: NSString );
       message 'insertTokenNameReplaceEditingString:';
     function editingStringRange: NSRange; message 'token_editingStringRange';
@@ -143,6 +145,7 @@ type
     NSTableViewDataSourceProtocol )
   private
     _url: NSUrl;
+    _popover: NSPopover;
     _tagsTokenField: TCocoaTokenField;
     _filterListView: NSTableView;
     _filterTagNames: NSMutableArray;
@@ -160,6 +163,7 @@ type
   public
     procedure insertCurrentFilterToken; message 'insertCurrentFilterToken';
     procedure updateFilter( substring: NSString );
+    procedure updateLayout;
   private
     function control_textView_doCommandBySelector (control: NSControl; textView: NSTextView; commandSelector: SEL): ObjCBOOL;
     procedure popoverWillClose(notification: NSNotification);
@@ -270,8 +274,8 @@ begin
   drawingRect:= self.drawingRectForBounds( cellFrame );
   path:= NSBezierPath.bezierPathWithRoundedRect_xRadius_yRadius(
          drawingRect,
-         2,
-         2 );
+         3,
+         3 );
 
   if self.isSelected then begin
     NSColor.selectedTextBackgroundColor.set_;
@@ -391,6 +395,18 @@ begin
   if range.location <> NSNotFound then
     filterString:= self.currentEditor.string_.substringWithRange( range );
   TCocoaTokenFieldDelegateProtocol(self.delegate).updateFilter( filterString );
+  TCocoaTokenFieldDelegateProtocol(self.delegate).updateLayout;
+end;
+
+function TCocoaTokenField.intrinsicContentSize: NSSize;
+var
+  rect: NSRect;
+begin
+  rect:= self.bounds;
+  rect.size.width:= rect.size.width - 7;
+  rect.size.height:= 1000;
+  Result:= self.cell.cellSizeForBounds( rect );
+  Result.width:= self.frame.size.width;
 end;
 
 procedure TCocoaTokenField.insertTokenNameReplaceEditingString(
@@ -483,7 +499,7 @@ var
     NSColor.alternateSelectedControlColor.set_;
     rect:= self.rectOfRow( row );
     rect:= NSInsetRect( rect, 10, 0 );
-    path:= NSBezierPath.bezierPathWithRoundedRect_xRadius_yRadius( rect, 4, 4 );
+    path:= NSBezierPath.bezierPathWithRoundedRect_xRadius_yRadius( rect, 5, 5 );
     path.fill;
   end;
 
@@ -569,6 +585,7 @@ begin
   _tagsTokenField.release;
   _url.release;
   _filterTagNames.release;
+  _popover.release;
   Inherited;
 end;
 
@@ -579,46 +596,27 @@ end;
 
 procedure TFinderTagsEditorPanel.showPopover( const sender: NSView; const edge: NSRectEdge );
 var
-  contentRect: NSRect;
-  popover: NSPopover;
   controller: NSViewController;
   contentView: NSView;
   tagNameArray: NSArray;
   scrollView: NSScrollView;
-  column: NSTableColumn;
 begin
-  contentRect.origin.x:= 0;
-  contentRect.origin.y:= 0;
-  contentRect.size.Width:= 262;
-  contentRect.size.Height:= 300;
-  contentView:= NSView.alloc.initWithFrame( contentRect );
+  contentView:= NSView.alloc.initWithFrame( NSMakeRect(0,0,262,300) );
   controller:= NSViewController.new;
   controller.setView( contentView );
 
   tagNameArray:= uDarwinFinderUtil.getTagNamesOfFile( _url );
-  contentRect:= NSInsetRect( contentRect, 6, 6 );
-  contentRect.origin.x:= 6;
-  contentRect.origin.y:= 190;
-  contentRect.size.Width:= 250;
-  contentRect.size.Height:= 100;
   NSTokenField.setCellClass( TCocoaTokenFieldCell );
-  _tagsTokenField:= TCocoaTokenField.alloc.initWithFrame( contentRect );
+  _tagsTokenField:= TCocoaTokenField.alloc.initWithFrame( NSMakeRect(0,0,250,0) );
   _tagsTokenField.setDelegate( NSTokenFieldDelegateProtocol(self) );
   _tagsTokenField.setObjectValue( tagNameArray );
   _tagsTokenField.setFocusRingType( NSFocusRingTypeNone );
   contentView.addSubview( _tagsTokenField );
 
-  contentRect.origin.x:= 0;
-  contentRect.origin.y:= 14;
-  contentRect.size.Width:= 262;
-  contentRect.size.Height:= 170;
-  scrollView:= NSScrollView.alloc.initWithFrame( contentRect );
+  scrollView:= NSScrollView.alloc.initWithFrame( NSZeroRect );
   _filterListView:= TFinderTagsListView.new;
   _filterListView.setIntercellSpacing( NSZeroSize );
-  column:= NSTableColumn.new;
-  column.setWidth( 256 );
-  _filterListView.addTableColumn( column );
-  column.release;
+  _filterListView.addTableColumn( NSTableColumn.new.autorelease );
   _filterListView.setRowHeight( TAG_NAME_VERT_SPACING + TAG_NAME_FONT_SIZE + TAG_NAME_VERT_SPACING );
   _filterListView.setFocusRingType( NSFocusRingTypeNone );
   _filterListView.setDataSource( self );
@@ -630,23 +628,23 @@ begin
   scrollView.setDrawsBackground( False );
   contentView.addSubview( scrollView );
 
-  popover:= NSPopover.new;
-  popover.setContentViewController( controller );
-  popover.setDelegate( self );
-  popover.setBehavior( NSPopoverBehaviorTransient );
+  _popover:= NSPopover.new;
+  _popover.setContentViewController( controller );
+  _popover.setDelegate( self );
+  _popover.setBehavior( NSPopoverBehaviorTransient );
 
-  popover.showRelativeToRect_ofView_preferredEdge(
+  _popover.showRelativeToRect_ofView_preferredEdge(
     sender.bounds,
     sender,
     edge );
 
   NSControlMoveCaretToTheEnd( _tagsTokenField );
   self.updateFilter( nil );
+  self.updateLayout;
 
   scrollView.release;
   contentView.release;
   controller.release;
-  popover.release;
 end;
 
 function TFinderTagsEditorPanel.numberOfRowsInTableView(tableView: NSTableView
@@ -682,6 +680,32 @@ begin
   end;
 
   _filterListView.reloadData;
+end;
+
+procedure TFinderTagsEditorPanel.updateLayout;
+var
+  tagsTokenFieldFrame: NSRect;
+  filterListFrame: NSRect;
+  popoverHeight: CGFloat;
+begin
+  popoverHeight:= _popover.contentSize.height;
+
+  tagsTokenFieldFrame.size:= _tagsTokenField.intrinsicContentSize;
+  if tagsTokenFieldFrame.size.height < 24 then
+    tagsTokenFieldFrame.size.height:= 24
+  else if tagsTokenFieldFrame.size.height > 100 then
+    tagsTokenFieldFrame.size.height:= 100;
+  tagsTokenFieldFrame.origin.x:= 6;
+  tagsTokenFieldFrame.origin.y:= popoverHeight - (tagsTokenFieldFrame.size.height+10);
+
+  filterListFrame.size.width:= 260;
+  filterListFrame.size.height:= popoverHeight - (tagsTokenFieldFrame.size.height+30);
+  filterListFrame.origin.x:= 0;
+  filterListFrame.origin.y:= 10;
+
+  _tagsTokenField.setFrame( tagsTokenFieldFrame );
+  _filterListView.enclosingScrollView.setFrame( filterListFrame );
+  _filterListView.sizeToFit;
 end;
 
 function TFinderTagsEditorPanel.control_textView_doCommandBySelector(
