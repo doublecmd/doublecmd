@@ -6021,8 +6021,8 @@ begin
   Result:= True;
 
   InsertFirstItem(sCmd, edtCommand);
-  // only cMaxStringItems(see uGlobs.pas) is stored
-  if edtCommand.Items.Count>cMaxStringItems then
+  // only gMaxStringItems(see uGlobs.pas) is stored
+  if edtCommand.Items.Count>gMaxStringItems then
     edtCommand.Items.Delete(edtCommand.Items.Count-1);
   edtCommand.DroppedDown:= False;
 
