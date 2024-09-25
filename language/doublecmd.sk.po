@@ -1,9 +1,9 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: Double Commander 1.1.14\n"
+"Project-Id-Version: Double Commander 1.1.18g\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-11-15 11:15+0300\n"
-"PO-Revision-Date: 2024-05-18 20:38+0200\n"
+"PO-Revision-Date: 2024-09-24 18:53+0200\n"
 "Last-Translator: Jozef Gaal <preklady@mayday.sk>\n"
 "Language-Team: Jozef Gaál <preklady@mayday.sk>\n"
 "Language: sk\n"
@@ -3142,7 +3142,7 @@ msgstr "&Príkazy"
 
 #: tfrmmain.mnuconfig.caption
 msgid "C&onfiguration"
-msgstr "&Konfigurácia"
+msgstr "Kon&figurácia"
 
 #: tfrmmain.mnufavoritetabs.caption
 msgid "Favorites"
@@ -3164,7 +3164,7 @@ msgstr "&Označiť"
 #: tfrmmain.mnunetwork.caption
 msgctxt "tfrmmain.mnunetwork.caption"
 msgid "Network"
-msgstr "Sieť"
+msgstr "S&ieť"
 
 #: tfrmmain.mnushow.caption
 msgid "&Show"
@@ -8166,7 +8166,7 @@ msgstr "&Počet stĺpcov v prehliadači kníh"
 #: tfrmpackdlg.btnconfig.caption
 msgctxt "tfrmpackdlg.btnconfig.caption"
 msgid "Con&figure"
-msgstr "Konfigurovať"
+msgstr "Kon&figurovať"
 
 #: tfrmpackdlg.caption
 msgid "Pack files"
@@ -9748,7 +9748,7 @@ msgstr "Počiatočná cesta:"
 #: twcxarchivecopyoperationoptionsui.btnconfig.caption
 msgctxt "twcxarchivecopyoperationoptionsui.btnconfig.caption"
 msgid "Con&figure"
-msgstr "Konfigurovať"
+msgstr "Kon&figurovať"
 
 #: twcxarchivecopyoperationoptionsui.cbencrypt.caption
 msgctxt "twcxarchivecopyoperationoptionsui.cbencrypt.caption"
@@ -10314,7 +10314,7 @@ msgstr "&Vzad"
 #: ulng.rseditsearchcaption
 msgctxt "ulng.rseditsearchcaption"
 msgid "Search"
-msgstr "Hľadanie"
+msgstr "Hľadať"
 
 #: ulng.rseditsearchfrw
 msgid "&Forward"
@@ -10803,144 +10803,139 @@ msgstr "Zbaliť sem..."
 #: ulng.rsmfstbiairdroptips
 msgctxt "ulng.rsmfstbiairdroptips"
 msgid "AirDrop"
-msgstr ""
+msgstr "AirDrop"
 
 #: ulng.rsmfstbiairdroptitle
 msgctxt "ulng.rsmfstbiairdroptitle"
 msgid "AirDrop"
-msgstr ""
+msgstr "AirDrop"
 
 #: ulng.rsmfstbicommandmenudirectoryhotlist
-#, fuzzy
 msgctxt "ulng.rsmfstbicommandmenudirectoryhotlist"
 msgid "Directory Hotlist"
 msgstr "Rýchle priečinky"
 
 #: ulng.rsmfstbicommandmenufavoritetabs
-#, fuzzy
 msgctxt "ulng.rsmfstbicommandmenufavoritetabs"
 msgid "Favorite Tabs"
 msgstr "Obľúbené karty"
 
 #: ulng.rsmfstbicommandmenuquicklook
 msgid "macOS QuickLook"
-msgstr ""
+msgstr "macOS Rýchly náhľad"
 
 #: ulng.rsmfstbicommandtitle
-#, fuzzy
 msgctxt "ulng.rsmfstbicommandtitle"
 msgid "Command"
 msgstr "Príkaz"
 
 #: ulng.rsmfstbifinderrevealtips
 msgid "Reveal in Finder"
-msgstr ""
+msgstr "Zobraziť vo vyhľadávači"
 
 #: ulng.rsmfstbifinderrevealtitle
 msgid "Finder"
-msgstr ""
+msgstr "Vyhľadávač"
 
 #: ulng.rsmfstbigotips
 msgctxt "ulng.rsmfstbigotips"
 msgid "Go"
-msgstr ""
+msgstr "Prejsť"
 
 #: ulng.rsmfstbigotitle
 msgctxt "ulng.rsmfstbigotitle"
 msgid "Go"
-msgstr ""
+msgstr "Prejsť"
 
 #: ulng.rsmfstbihorzsplittips
 msgid "Toggle Horizontal Split Mode"
-msgstr ""
+msgstr "Prepnúť režim s horizontálnymi panelmi"
 
 #: ulng.rsmfstbihorzsplittitle
 msgid "HorzSplit"
-msgstr ""
+msgstr "Horizontálne rozdelenie"
 
 #: ulng.rsmfstbiquicklooktips
 msgid "macOS Quick Look Panel"
-msgstr ""
+msgstr "Panel rýchleho náhľadu macOS"
 
 #: ulng.rsmfstbiquicklooktitle
 msgid "QuickLook"
-msgstr ""
+msgstr "Rýchly náhľad"
 
 #: ulng.rsmfstbirefreshtips
 msgid "Refresh File List"
-msgstr ""
+msgstr "Obnoviť zoznam súborov"
 
 #: ulng.rsmfstbirefreshtitle
 msgid "Refresh"
-msgstr ""
+msgstr "Obnoviť"
 
 #: ulng.rsmfstbisearchtips
 msgid "Search Files..."
-msgstr ""
+msgstr "Hľadať súbory..."
 
 #: ulng.rsmfstbisearchtitle
-#, fuzzy
 msgctxt "ulng.rsmfstbisearchtitle"
 msgid "Search"
-msgstr "Hľadanie"
+msgstr "Hľadať"
 
 #: ulng.rsmfstbisharetitle
 msgid "Share"
-msgstr ""
+msgstr "Zdieľať"
 
 #: ulng.rsmfstbishowbrieftitle
 msgid "as Brief"
-msgstr ""
+msgstr "ako jednoduché"
 
 #: ulng.rsmfstbishowfulltitle
 msgid "as Full"
-msgstr ""
+msgstr "ako plné"
 
 #: ulng.rsmfstbishowinfotips
 msgid "Show Info in Finder"
-msgstr ""
+msgstr "Zobraziť info vo vyhľadávači"
 
 #: ulng.rsmfstbishowinfotitle
 msgid "ShowInfo"
-msgstr ""
+msgstr "Zobraziť info"
 
 #: ulng.rsmfstbishowmodetips
 msgid "Show as Brief, Full or Thumbnails"
-msgstr ""
+msgstr "Zobraziť ako jednoduché, plné alebo náhľady"
 
 #: ulng.rsmfstbishowmodetitle
 msgid "ShowMode"
-msgstr ""
+msgstr "Zobraziť"
 
 #: ulng.rsmfstbishowthumbnailstitle
 msgid "as Thumbnails"
-msgstr ""
+msgstr "ako náhľady"
 
 #: ulng.rsmfstbiswappanelstips
 msgid "Swap Panels"
-msgstr ""
+msgstr "Zameniť panely"
 
 #: ulng.rsmfstbiswappanelstitle
 msgid "SwapPanels"
-msgstr ""
+msgstr "Zameniť panely"
 
 #: ulng.rsmfstbiterminaltips
 msgid "Open in Terminal"
-msgstr ""
+msgstr "Otvoriť v termináli"
 
 #: ulng.rsmfstbiterminaltitle
-#, fuzzy
 msgctxt "ulng.rsmfstbiterminaltitle"
 msgid "Terminal"
 msgstr "Terminál"
 
 #: ulng.rsmfstbitreeviewtips
 msgid "Show Tree View Panel"
-msgstr ""
+msgstr "Zobraziť panel stromového zobrazenia"
 
 #: ulng.rsmfstbitreeviewtitle
 msgid "TreeView"
-msgstr ""
+msgstr "Ponuka stromového zobrazenia"
 
 #: ulng.rsmnuactions
 msgctxt "ulng.rsmnuactions"
@@ -10987,7 +10982,7 @@ msgstr "Nový"
 
 #: ulng.rsmnunewwindow
 msgid "New Window"
-msgstr ""
+msgstr "Nové okno"
 
 #: ulng.rsmnunomedia
 msgid "No media available"
