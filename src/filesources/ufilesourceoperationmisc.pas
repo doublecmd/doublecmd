@@ -57,7 +57,7 @@ procedure PlaySound(OpManItem: TOperationsManagerItem);
 var
   FileName: String;
 begin
-  if (gFileOperationDuration <= 0) or (SecondsBetween(Now, OpManItem.Operation.StartTime) >= gFileOperationDuration) then
+  if (gFileOperationDuration >= 0) and (SecondsBetween(Now, OpManItem.Operation.StartTime) >= gFileOperationDuration) then
   begin
     if OpManItem.Operation.ID in [fsoCopy, fsoCopyIn, fsoCopyOut] then
       FileName:= gFileOperationsSounds[fsoCopy]

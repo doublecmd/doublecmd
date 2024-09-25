@@ -2898,12 +2898,12 @@ begin
       if Assigned(SubNode) then
       begin
         gFileOperationDuration:= GetAttr(SubNode, 'Duration', gFileOperationDuration);
-        gFileOperationsSounds[fsoCopy]:= GetValue(SubNode, 'Copy', EmptyStr);
-        gFileOperationsSounds[fsoMove]:= GetValue(SubNode, 'Move', EmptyStr);
-        gFileOperationsSounds[fsoWipe]:= GetValue(SubNode, 'Wipe', EmptyStr);
-        gFileOperationsSounds[fsoDelete]:= GetValue(SubNode, 'Delete', EmptyStr);
-        gFileOperationsSounds[fsoSplit]:= GetValue(SubNode, 'Split', EmptyStr);
-        gFileOperationsSounds[fsoCombine]:= GetValue(SubNode, 'Combine', EmptyStr);
+        gFileOperationsSounds[fsoCopy]:= ReplaceEnvVars(GetValue(SubNode, 'Copy', EmptyStr));
+        gFileOperationsSounds[fsoMove]:= ReplaceEnvVars(GetValue(SubNode, 'Move', EmptyStr));
+        gFileOperationsSounds[fsoWipe]:= ReplaceEnvVars(GetValue(SubNode, 'Wipe', EmptyStr));
+        gFileOperationsSounds[fsoDelete]:= ReplaceEnvVars(GetValue(SubNode, 'Delete', EmptyStr));
+        gFileOperationsSounds[fsoSplit]:= ReplaceEnvVars(GetValue(SubNode, 'Split', EmptyStr));
+        gFileOperationsSounds[fsoCombine]:= ReplaceEnvVars(GetValue(SubNode, 'Combine', EmptyStr));
       end;
       // Operations options
       SubNode := Node.FindNode('Options');
