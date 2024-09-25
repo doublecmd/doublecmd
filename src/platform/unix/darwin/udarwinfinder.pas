@@ -8,7 +8,13 @@ interface
 uses
   Classes, SysUtils, LCLType,
   sqldb, SQLite3Conn,
-  MacOSAll, CocoaAll, CocoaConst, CocoaUtils, Cocoa_Extra;
+  MacOSAll, CocoaAll, CocoaConst, CocoaUtils;
+
+const
+  TAG_NAME_FONT_SIZE = 12.0;
+  TAG_NAME_HORZ_SPACING = 7.0;
+  TAG_NAME_VERT_SPACING = 4.0;
+  TAG_NAME_INTERIOR_SPACING = 2.0;
 
 type
 
@@ -280,30 +286,35 @@ end;
 
 function TCocoaTokenAttachmentCell.cellSizeForBounds(aRect: NSRect): NSSize;
 var
+  stringSize: NSSize;
   preferedWidth: CGFloat;
+  maxWidth: CGFloat;
 begin
-  Result:= inherited;
-  preferedWidth:= self.attributedStringValue.size.width + 14;
-  if Result.width > preferedWidth then
-    Result.width:= preferedWidth;
-  Result.height:= Result.height + 4;
+  maxWidth:= self.controlView.bounds.size.width - 8;
+  stringSize:= self.attributedStringValue.size;
+  preferedWidth:= stringSize.width + TAG_NAME_HORZ_SPACING * 2;
+  if preferedWidth > maxWidth then
+    preferedWidth:= maxWidth;
+
+  Result.width:= preferedWidth;
+  Result.height:= stringSize.height + TAG_NAME_VERT_SPACING;
 end;
 
 function TCocoaTokenAttachmentCell.drawingRectForBounds(theRect: NSRect
   ): NSRect;
 begin
-  Result.origin.x:= theRect.origin.x + 2;
-  Result.origin.y:= theRect.origin.y + 2;
-  Result.size.width:= theRect.size.width - 4;
-  Result.size.height:= theRect.size.height - 4;
+  Result.origin.x:= theRect.origin.x + TAG_NAME_INTERIOR_SPACING;
+  Result.origin.y:= theRect.origin.y + TAG_NAME_INTERIOR_SPACING;
+  Result.size.width:= theRect.size.width - TAG_NAME_INTERIOR_SPACING * 2;
+  Result.size.height:= theRect.size.height - TAG_NAME_INTERIOR_SPACING * 2;
 end;
 
 function TCocoaTokenAttachmentCell.titleRectForBounds(theRect: NSRect): NSRect;
 begin
-  Result.origin.x:= theRect.origin.x + 7;
-  Result.origin.y:= theRect.origin.y + self.font.pointSize + 2;
-  Result.size.width:= theRect.size.width - 14;
-  Result.size.height:= theRect.size.Height - 4;
+  Result.origin.x:= theRect.origin.x + TAG_NAME_HORZ_SPACING;
+  Result.origin.y:= theRect.origin.y + self.font.pointSize + TAG_NAME_VERT_SPACING / 2;
+  Result.size.width:= theRect.size.width - TAG_NAME_HORZ_SPACING * 2;
+  Result.size.height:= theRect.size.Height - TAG_NAME_VERT_SPACING;
 end;
 
 { TCocoaTokenFieldCell }
@@ -312,6 +323,7 @@ function TCocoaTokenFieldCell.setUpTokenAttachmentCell(
   aCell: NSTokenAttachmentCell; anObject: id): NSTokenAttachmentCell;
 begin
   Result:= TCocoaTokenAttachmentCell.alloc.initTextCell( NSString(anObject) );
+  Result.setFont( NSFont.systemFontOfSize(TAG_NAME_FONT_SIZE) );
   Result.setControlView( self.controlView );
   Result.setRepresentedObject( anObject );
   Result.autorelease;
@@ -510,7 +522,7 @@ var
     rect:= cellRect;
     rect.origin.x:= rect.origin.x + 20;
     rect.size.width:= rect.size.width - 20;
-    rect.origin.y:= rect.origin.y + 14;
+    rect.origin.y:= rect.origin.y + TAG_NAME_FONT_SIZE + TAG_NAME_INTERIOR_SPACING;
 
     uDarwinFinderUtil.drawTagName( tagName, color, rect );
   end;
@@ -607,8 +619,7 @@ begin
   column.setWidth( 256 );
   _filterListView.addTableColumn( column );
   column.release;
-  _filterListView.setStyle( NSTableViewStyleAutomatic );
-  _filterListView.setRowHeight( 20 );
+  _filterListView.setRowHeight( TAG_NAME_VERT_SPACING + TAG_NAME_FONT_SIZE + TAG_NAME_VERT_SPACING );
   _filterListView.setFocusRingType( NSFocusRingTypeNone );
   _filterListView.setDataSource( self );
   _filterListView.setHeaderView( nil );
@@ -742,11 +753,15 @@ class procedure uDarwinFinderUtil.drawTagName( tagName: NSString; color: NSColor
 var
   attributes: NSMutableDictionary;
   ps: NSMutableParagraphStyle;
+  font: NSFont;
 begin
   ps:= NSMutableParagraphStyle.new;
   ps.setLineBreakMode( NSLineBreakByTruncatingTail );
 
+  font:= NSFont.systemFontOfSize( TAG_NAME_FONT_SIZE );
+
   attributes:= NSMutableDictionary.new;
+  attributes.setValue_forKey( font, NSFontAttributeName );
   attributes.setValue_forKey( color, NSForegroundColorAttributeName );
   attributes.setValue_forKey( ps, NSParagraphStyleAttributeName );
 
