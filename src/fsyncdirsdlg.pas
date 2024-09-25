@@ -236,10 +236,10 @@ implementation
 
 uses
   fMain, uDebug, fDiffer, fSyncDirsPerformDlg, uGlobs, LCLType, LazUTF8, LazFileUtils,
-  uFileSystemFileSource, uFileSourceOperationOptions, DCDateTimeUtils,
+  uFileSystemFileSource, uFileSourceOperationOptions, DCDateTimeUtils, SyncObjs,
   uDCUtils, uFileSourceUtil, uFileSourceOperationTypes, uShowForm, uAdministrator,
   uOSUtils, uLng, uMasks, Math, uClipboard, IntegerList, fMaskInputDlg, uSearchTemplate,
-  StrUtils, DCStrUtils, uTypes, uFileSystemDeleteOperation, uFindFiles;
+  SysConst, DCStrUtils, uTypes, uFileSystemDeleteOperation, uFindFiles;
 
 {$R *.lfm}
 
@@ -268,7 +268,10 @@ type
   TCheckContentThread = class(TThread)
   private
     FDone: Boolean;
+    FTimer: Integer;
     FOwner: TfrmSyncDirsDlg;
+    FMutex: TCriticalSection;
+    FStatistics: TFileSourceCopyOperationStatistics;
   private
     procedure DoStart;
     procedure DoFinish;
@@ -276,8 +279,12 @@ type
     procedure ReapplyFilter;
   protected
     procedure Execute; override;
+    function RetrieveStatistics: TFileSourceCopyOperationStatistics;
+    procedure UpdateStatistics(var NewStatistics: TFileSourceCopyOperationStatistics);
+    procedure SetProgressBytes(AProgressBar: TKASProgressBar; CurrentBytes: Int64; TotalBytes: Int64);
   public
     constructor Create(Owner: TfrmSyncDirsDlg);
+    destructor Destroy; override;
     property Done: Boolean read FDone;
   end;
 
@@ -319,16 +326,29 @@ end;
 
 procedure TCheckContentThread.DoStart;
 begin
-  FOwner.HeaderDG.Enabled:= False;
-  FOwner.GroupBox1.Enabled:= False;
+  with FOwner do
+  begin
+    Timer.Enabled:= True;
+    HeaderDG.Enabled:= False;
+    GroupBox1.Enabled:= False;
+    MainDrawGrid.Enabled:= False;
+    pnlCopyProgress.Visible:= True;
+    ProgressBar.SetProgress(0, 100);
+    pnlDeleteProgress.Visible:= False;
+    lblProgress.Caption:= rsDiffComparing;
+  end;
+  FOwner.pnlProgress.Visible:= True;
 end;
 
 procedure TCheckContentThread.DoFinish;
 begin
   FOwner.FComparing:= False;
+  FOwner.Timer.Enabled:= False;
   FOwner.HeaderDG.Enabled:= True;
   FOwner.TopPanel.Enabled:= True;
   FOwner.GroupBox1.Enabled:= True;
+  FOwner.MainDrawGrid.Enabled:= True;
+  FOwner.pnlProgress.Visible:= False;
 end;
 
 procedure TCheckContentThread.UpdateGrid;
@@ -344,72 +364,112 @@ begin
 end;
 
 procedure TCheckContentThread.Execute;
+const
+  BUF_LEN = 1024 * 1024;
+var
+  Buffer1, Buffer2: PByte;
+  Statistics: TFileSourceCopyOperationStatistics;
 
-  function CompareFiles(fn1, fn2: String; len: Int64): Boolean;
-  const
-    BUFLEN = 1024 * 32;
+  function CompareFiles(const FileName1, FileName2: String; Size: Int64): Boolean;
   var
-    fs1, fs2: TFileStreamEx;
-    buf1, buf2: array [1..BUFLEN] of Byte;
-    i, j: Int64;
+    DoneBytes, Count: Int64;
+    File1, File2: TFileStreamEx;
   begin
-    fs1 := TFileStreamEx.Create(fn1, fmOpenRead or fmShareDenyWrite);
+    File1 := TFileStreamEx.Create(FileName1, fmOpenRead or fmShareDenyWrite);
     try
-      fs2 := TFileStreamEx.Create(fn2, fmOpenRead or fmShareDenyWrite);
+      File2 := TFileStreamEx.Create(FileName2, fmOpenRead or fmShareDenyWrite);
       try
-        i := 0;
+        DoneBytes := 0;
+
         repeat
-          if len - i <= BUFLEN then
-            j := len - i
-          else
-            j := BUFLEN;
-          fs1.Read(buf1, j);
-          fs2.Read(buf2, j);
-          i := i + j;
-          Result := CompareMem(@buf1, @buf2, j);
-        until Terminated or not Result or (i >= len);
+          if Size - DoneBytes <= BUF_LEN then
+            Count := Size - DoneBytes
+          else begin
+            Count := BUF_LEN;
+          end;
+
+          File1.ReadBuffer(Buffer1^, Count);
+          File2.ReadBuffer(Buffer2^, Count);
+
+          if (Count <> BUF_LEN) then
+            Result := CompareByte(Buffer1^, Buffer2^, Count) = 0
+          else begin
+            Result := CompareDWord(Buffer1^, Buffer2^, Count div SizeOf(Dword)) = 0;
+          end;
+
+          Statistics.DoneBytes += Count;
+          DoneBytes := DoneBytes + Count;
+
+          UpdateStatistics(Statistics);
+
+        until Terminated or not Result or (DoneBytes >= Size);
       finally
-        fs2.Free;
+        File2.Free;
       end;
     finally
-      fs1.Free;
+      File1.Free;
     end;
   end;
 
 var
   B: Boolean;
-  i, j: Integer;
-  r: TFileSyncRec;
+  I, J: Integer;
+  R: TFileSyncRec;
 begin
   Synchronize(@DoStart);
+  Buffer1:= GetMem(BUF_LEN);
+  Buffer2:= GetMem(BUF_LEN);
   try
+    if (Buffer1 = nil) or (Buffer2 = nil) then
+      raise EOutOfMemory.Create(SOutOfMemory);
+
     with FOwner do
-    for i := 0 to FFoundItems.Count - 1 do
     begin
-      for j := 0 to TStringList(FFoundItems.Objects[i]).Count - 1 do
+      Statistics.DoneBytes:= 0;
+      Statistics.TotalBytes:= 0;
+      for I := 0 to FFoundItems.Count - 1 do
+      begin
+        for J := 0 to TStringList(FFoundItems.Objects[I]).Count - 1 do
+        begin
+          if Terminated then Exit;
+          R := TFileSyncRec(TStringList(FFoundItems.Objects[I]).Objects[J]);
+          if Assigned(R) and (R.FState = srsUnknown) then
+          begin
+            Statistics.TotalBytes+= R.FFileL.Size;
+          end;
+        end;
+      end;
+      UpdateStatistics(Statistics);
+    end;
+
+    with FOwner do
+    for I := 0 to FFoundItems.Count - 1 do
+    begin
+      for J := 0 to TStringList(FFoundItems.Objects[I]).Count - 1 do
       begin
         if Terminated then Exit;
-        r := TFileSyncRec(TStringList(FFoundItems.Objects[i]).Objects[j]);
-        if Assigned(r) and (r.FState = srsUnknown) then
+        R := TFileSyncRec(TStringList(FFoundItems.Objects[I]).Objects[J]);
+        if Assigned(R) and (R.FState = srsUnknown) then
         begin
           try
-            B:= CompareFiles(r.FFileL.FullPath, r.FFileR.FullPath, r.FFileL.Size);
+            B:= CompareFiles(R.FFileL.FullPath, R.FFileR.FullPath, R.FFileL.Size);
             if Terminated then Exit;
             if B then
             begin
               Inc(Fequal);
               Dec(Fnoneq);
-              r.FState := srsEqual
+              R.FState := srsEqual
             end
-            else
-              r.FState := srsNotEq;
-            if r.FAction = srsUnknown then
-              r.FAction := r.FState;
-            if j mod 20 = 0 then
-              Synchronize(@UpdateGrid);
+            else begin
+              R.FState := srsNotEq;
+            end;
+            if R.FAction = srsUnknown then
+            begin
+              R.FAction := R.FState;
+            end;
           except
-            on e: Exception do
-              DCDebug('[SyncDirs::CmpContentThread] ' + e.Message);
+            on E: Exception do
+              DCDebug('[SyncDirs::CmpContentThread] ' + E.Message);
           end;
         end;
       end;
@@ -418,14 +478,54 @@ begin
     Synchronize(@ReapplyFilter);
   finally
     Synchronize(@DoFinish);
+    if Assigned(Buffer1) then FreeMem(Buffer1);
+    if Assigned(Buffer2) then FreeMem(Buffer2);
   end;
+end;
+
+function TCheckContentThread.RetrieveStatistics: TFileSourceCopyOperationStatistics;
+begin
+  FMutex.Acquire;
+  try
+    Result := Self.FStatistics;
+  finally
+    FMutex.Release;
+  end;
+end;
+
+procedure TCheckContentThread.UpdateStatistics(var NewStatistics: TFileSourceCopyOperationStatistics);
+begin
+  FMutex.Acquire;
+  try
+    FStatistics := NewStatistics;
+  finally
+    FMutex.Release;
+  end;
+end;
+
+procedure TCheckContentThread.SetProgressBytes(AProgressBar: TKASProgressBar;
+  CurrentBytes: Int64; TotalBytes: Int64);
+var
+  BarText : String;
+begin
+  BarText := cnvFormatFileSize(CurrentBytes, uoscOperation) + '/' + cnvFormatFileSize(TotalBytes, uoscOperation);
+  AProgressBar.SetProgress(CurrentBytes, TotalBytes, BarText );
 end;
 
 constructor TCheckContentThread.Create(Owner: TfrmSyncDirsDlg);
 begin
   FOwner := Owner;
+  FMutex := TCriticalSection.Create;
   inherited Create(False);
 end;
+
+destructor TCheckContentThread.Destroy;
+begin
+  inherited Destroy;
+  FMutex.Free;
+end;
+
+{ TFileSyncRec }
 
 constructor TFileSyncRec.Create(AForm: TfrmSyncDirsDlg; RelPath: string);
 begin
@@ -503,6 +603,8 @@ procedure TfrmSyncDirsDlg.btnAbortClick(Sender: TObject);
 begin
   if Assigned(FOperation) then
     FOperation.Stop
+  else if FComparing then
+    StopCheckContentThread
   else begin
     pnlProgress.Hide;
   end;
@@ -1083,6 +1185,16 @@ begin
       DeleteStatistics:= TFileSourceDeleteOperation(FOperation).RetrieveStatistics;
       SetProgressFiles(ProgressBarDelete, FDeleteStatistics.DoneFiles +
                        DeleteStatistics.DoneFiles, FDeleteStatistics.TotalFiles);
+    end;
+  end
+  else if Assigned(CheckContentThread) then
+  begin
+    with TCheckContentThread(CheckContentThread) do
+    begin
+      Inc(FTimer);
+      CopyStatistics:= RetrieveStatistics;
+      if (FTimer mod 5 = 0) then UpdateGrid;
+      SetProgressBytes(ProgressBar, CopyStatistics.DoneBytes, CopyStatistics.TotalBytes);
     end;
   end;
 end;
