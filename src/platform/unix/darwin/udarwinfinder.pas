@@ -717,10 +717,15 @@ end;
 procedure TFinderTagsEditorPanel.updateFilter( substring: NSString );
 var
   tagName: NSString;
-  usedTagNames: NSArray;
+  usedTagNames: NSMutableArray;
+  editingRange: NSRange;
 begin
   _filterTagNames.removeAllObjects;
-  usedTagNames:= _tagsTokenField.objectValue;
+  usedTagNames:= NSMutableArray.arrayWithArray( _tagsTokenField.objectValue );
+  editingRange:= _tagsTokenField.editingStringRange;
+  if editingRange.length > 0 then
+    usedTagNames.removeObjectAtIndex( editingRange.location );
+
   for tagName in TFinderTags._tags do begin
     if (substring.length>0) and (NOT tagName.containsString(substring)) then
       continue;
