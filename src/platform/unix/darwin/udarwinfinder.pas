@@ -412,7 +412,34 @@ procedure TCocoaTokenField.insertTokenNameReplaceEditingString(
   const tokenName: NSString);
 var
   tokenNames: NSMutableArray;
-  range: NSRange;
+  newTokenRange: NSRange;
+
+  procedure removeEditingToken;
+  begin
+    if newTokenRange.length > 0 then
+      tokenNames.removeObjectAtIndex( newTokenRange.location );
+  end;
+
+  procedure removeDuplicateToken;
+  var
+    i: NSUInteger;
+  begin
+    i:= 0;
+    while i < tokenNames.count do begin
+      if tokenName.isEqualTo( tokenNames.objectAtIndex(i) ) then begin
+        tokenNames.removeObjectAtIndex( i );
+        if i < newTokenRange.location then
+          dec( newTokenRange.location );
+      end else begin
+        inc( i );
+      end;
+    end;
+  end;
+
+  procedure insertNewToken;
+  begin
+    tokenNames.insertObject_atIndex( tokenName, newTokenRange.location );
+  end;
 
   procedure setCaretLocation( location: NSUInteger );
   var
@@ -425,13 +452,12 @@ var
 
 begin
   tokenNames:= NSMutableArray.arrayWithArray( self.objectValue );
-  range:= self.editingStringRange;
-  if range.length = 0 then
-    tokenNames.insertObject_atIndex( tokenName, range.location )
-  else
-    tokenNames.replaceObjectAtIndex_withObject( range.location, tokenName );
+  newTokenRange:= self.editingStringRange;
+  removeEditingToken;
+  removeDuplicateToken;
+  insertNewToken;
   self.setObjectValue( tokenNames );
-  setCaretLocation( range.location + 1 );
+  setCaretLocation( newTokenRange.location + 1 );
 end;
 
 function TCocoaTokenField.editingString: NSString;
