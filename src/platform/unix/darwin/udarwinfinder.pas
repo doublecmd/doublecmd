@@ -85,7 +85,7 @@ type
 
   TCocoaTokenAttachmentCell = objcclass( NSTokenAttachmentCell )
   private
-    function isSelected: Boolean; message 'token_isSelected';
+    function isSelected: Boolean; message 'doublecmd_isSelected';
   public
     procedure drawInteriorWithFrame_inView (cellFrame: NSRect; controlView_: NSView); override;
     procedure drawWithFrame_inView(cellFrame: NSRect; controlView_: NSView); override;
@@ -105,8 +105,8 @@ type
   { TCocoaTokenFieldDelegateProtocol }
 
   TCocoaTokenFieldDelegateProtocol = objcprotocol( NSTokenFieldDelegateProtocol )
-    procedure updateFilter( substring: NSString ); message 'doublecmd_updateFilter:';
-    procedure updateLayout; message 'doublecmd_updateLayout';
+    procedure tokenField_onUpdate( editingString: NSString = nil );
+      message 'doublecmd_tokenField_onUpdate:';
   end;
 
   { TCocoaTokenField }
@@ -121,10 +121,13 @@ type
   public
     function intrinsicContentSize: NSSize; override;
     procedure insertTokenNameReplaceEditingString( const tokenName: NSString );
-      message 'insertTokenNameReplaceEditingString:';
-    function editingStringRange: NSRange; message 'token_editingStringRange';
+      message 'doublecmd_insertTokenNameReplaceEditingString:';
+    function editingString: NSString;
+      message 'doublecmd_editingString';
+    function editingStringRange: NSRange;
+      message 'doublecmd_editingStringRange';
     function isSelectedTokenObject( const anObject: id ): Boolean;
-      message 'isSelectedTokenObject:';
+      message 'doublecmd_isSelectedTokenObject:';
   end;
 
   { TFinderTagsListView }
@@ -134,7 +137,7 @@ type
     procedure drawRow_clipRect (row: NSInteger; clipRect: NSRect); override;
     function acceptsFirstResponder: ObjCBOOL; override;
   private
-    procedure onTagSelected( sender: id ); message 'onTagSelected:';
+    procedure onTagSelected( sender: id ); message 'doublecmd_onTagSelected:';
   end;
 
   { TFinderTagsEditorPanel }
@@ -151,23 +154,24 @@ type
     _filterTagNames: NSMutableArray;
     _cancel: Boolean;
   public
-    class function editorWithPath( const path: NSString): id; message 'editorWithPath:';
-    function initWithPath( const path: NSString): id; message 'initWithPath:';
+    class function editorWithPath( const path: NSString): id; message 'doublecmd_editorWithPath:';
+    function initWithPath( const path: NSString): id; message 'doublecmd_initWithPath:';
     procedure dealloc; override;
     procedure showPopover( const sender: NSView ; const edge: NSRectEdge );
-      message 'showPopover:sender:';
+      message 'doublecmd_showPopover:sender:';
   public
     function numberOfRowsInTableView (tableView: NSTableView): NSInteger;
     function tableView_objectValueForTableColumn_row (
       tableView: NSTableView; tableColumn: NSTableColumn; row: NSInteger): id;
   public
-    procedure insertCurrentFilterToken; message 'insertCurrentFilterToken';
-    procedure updateFilter( substring: NSString );
-    procedure updateLayout;
+    procedure insertCurrentFilterToken; message 'doublecmd_insertCurrentFilterToken';
+    procedure tokenField_onUpdate( editingString: NSString = nil );
   private
     function control_textView_doCommandBySelector (control: NSControl; textView: NSTextView; commandSelector: SEL): ObjCBOOL;
     procedure popoverWillClose(notification: NSNotification);
     procedure popoverDidClose (notification: NSNotification);
+    procedure updateFilter( substring: NSString ); message 'doublecmd_updateFilter:';
+    procedure updateLayout; message 'doublecmd_updateLayout';
   end;
 
 { TFinderTag }
@@ -385,17 +389,12 @@ end;
 
 procedure TCocoaTokenField.textDidChange(notification: NSNotification);
 var
-  filterString: NSString;
-  range: NSRange;
+  cocoaDelegate: TCocoaTokenFieldDelegateProtocol;
 begin
   Inherited;
 
-  filterString:= nil;
-  range:= self.editingStringRange;
-  if range.location <> NSNotFound then
-    filterString:= self.currentEditor.string_.substringWithRange( range );
-  TCocoaTokenFieldDelegateProtocol(self.delegate).updateFilter( filterString );
-  TCocoaTokenFieldDelegateProtocol(self.delegate).updateLayout;
+  cocoaDelegate:= TCocoaTokenFieldDelegateProtocol( self.delegate );
+  cocoaDelegate.tokenField_onUpdate( self.editingString );
 end;
 
 function TCocoaTokenField.intrinsicContentSize: NSSize;
@@ -412,10 +411,35 @@ end;
 procedure TCocoaTokenField.insertTokenNameReplaceEditingString(
   const tokenName: NSString);
 var
-  editor: NSTextView;
+  tokenNames: NSMutableArray;
+  range: NSRange;
+
+  procedure setCaretLocation( location: NSUInteger );
+  var
+    range: NSRange;
+  begin
+    range.location:= location;
+    range.length:= 0;
+    self.currentEditor.setSelectedRange( range );
+  end;
+
 begin
-  editor:= NSTextView( self.currentEditor );
-  editor.insertText_replacementRange( tokenName, self.editingStringRange );
+  tokenNames:= NSMutableArray.arrayWithArray( self.objectValue );
+  range:= self.editingStringRange;
+  if range.length = 0 then
+    tokenNames.insertObject_atIndex( tokenName, range.location )
+  else
+    tokenNames.replaceObjectAtIndex_withObject( range.location, tokenName );
+  self.setObjectValue( tokenNames );
+  setCaretLocation( range.location + 1 );
+end;
+
+function TCocoaTokenField.editingString: NSString;
+var
+  editorString: NSString;
+begin
+  editorString:= self.currentEditor.string_;
+  Result:= editorString.substringWithRange( self.editingStringRange );
 end;
 
 function TCocoaTokenField.editingStringRange: NSRange;
@@ -458,13 +482,8 @@ var
 
   function calcRange( beginIndex: NSUInteger; endIndex: NSUInteger ): NSRange;
   begin
-    if endIndex > beginIndex then begin
-      Result.location:= beginIndex;
-      Result.length:= endIndex - beginIndex;
-    end else begin
-      Result.location:= NSNotFound;
-      Result.length:= 0;
-    end;
+    Result.location:= beginIndex;
+    Result.length:= endIndex - beginIndex;
   end;
 begin
   editor:= self.currentEditor;
@@ -479,7 +498,7 @@ function TFinderTagsListView.init: id;
 begin
   Result:= inherited init;
   self.setTarget( self );
-  self.setAction( objcselector('onTagSelected:') ) ;
+  self.setAction( objcselector('doublecmd_onTagSelected:') ) ;
   self.setDoubleAction( self.action ) ;
 end;
 
@@ -639,8 +658,7 @@ begin
     edge );
 
   NSControlMoveCaretToTheEnd( _tagsTokenField );
-  self.updateFilter( nil );
-  self.updateLayout;
+  self.tokenField_onUpdate;
 
   scrollView.release;
   contentView.release;
@@ -664,6 +682,12 @@ begin
   _tagsTokenField.currentEditor.doCommandBySelector( ObjCSelector('insertNewline:') );
 end;
 
+procedure TFinderTagsEditorPanel.tokenField_onUpdate( editingString: NSString = nil );
+begin
+  self.updateFilter( editingString );
+  self.updateLayout;
+end;
+
 procedure TFinderTagsEditorPanel.updateFilter( substring: NSString );
 var
   tagName: NSString;
@@ -672,7 +696,7 @@ begin
   _filterTagNames.removeAllObjects;
   usedTagNames:= _tagsTokenField.objectValue;
   for tagName in TFinderTags._tags do begin
-    if (substring<>nil) and (NOT tagName.containsString(substring)) then
+    if (substring.length>0) and (NOT tagName.containsString(substring)) then
       continue;
     if usedTagNames.containsObject(tagName) then
       continue;
@@ -680,6 +704,7 @@ begin
   end;
 
   _filterListView.reloadData;
+  _filterListView.deselectAll(nil);
 end;
 
 procedure TFinderTagsEditorPanel.updateLayout;
@@ -711,14 +736,20 @@ end;
 function TFinderTagsEditorPanel.control_textView_doCommandBySelector(
   control: NSControl; textView: NSTextView; commandSelector: SEL): ObjCBOOL;
 
-  procedure insertTokenName;
+  function insertTokenName: Boolean;
   var
     tokenName: NSString;
   begin
-    if _filterListView.selectedRow < 0 then
+    Result:= False;
+    if _filterListView.selectedRow >= 0 then
+      tokenName:= _filterTagNames.objectAtIndex(_filterListView.selectedRow)
+    else
+      tokenName:= _tagsTokenField.editingString;
+    if tokenName.length = 0 then
       Exit;
-    tokenName:= _filterTagNames.objectAtIndex(_filterListView.selectedRow);
     _tagsTokenField.insertTokenNameReplaceEditingString( tokenName );
+    self.tokenField_onUpdate;
+    Result:= True;
   end;
 
 begin
@@ -726,9 +757,9 @@ begin
   if commandSelector = ObjCSelector('cancelOperation:') then begin
     _cancel:= True;
   end else if commandSelector = ObjCSelector('insertNewline:') then begin
-    insertTokenName;
-  end else if (commandSelector=ObjCSelector('moveDown:')) or
-              (commandSelector=ObjCSelector('moveUp:')) then begin
+    Result:= insertTokenName;
+  end else if (commandSelector = ObjCSelector('moveDown:')) or
+              (commandSelector = ObjCSelector('moveUp:')) then begin
     _filterListView.keyDown( NSApp.currentEvent );
     Result:= True;
   end;
