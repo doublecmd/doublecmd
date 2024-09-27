@@ -30,7 +30,6 @@ type
        It is called from GUI thread.
     }
     procedure DoUpdateFile;
-    procedure DoAbortFile;
 
   protected
     procedure Execute; override;
@@ -44,6 +43,7 @@ type
                        AThumbnailManager: TThumbnailManager;
                        var AFileList: TFVWorkerFileList); reintroduce;
     destructor Destroy; override;
+    procedure Abort; override;
   end;
 
   TThumbFileView = class;
@@ -111,24 +111,16 @@ uses
 
 procedure TFileThumbnailsRetriever.DoUpdateFile;
 begin
-  if not Aborted and Assigned(FUpdateFileMethod) then
+  if Assigned(FUpdateFileMethod) then
     FUpdateFileMethod(FWorkingFile, FWorkingUserData);
-end;
-
-procedure TFileThumbnailsRetriever.DoAbortFile;
-begin
-  FAbortFileMethod(FIndex, FFileList.UserData);
 end;
 
 procedure TFileThumbnailsRetriever.Execute;
 var
   Bitmap: TBitmap;
 begin
-  while FIndex < FFileList.Count do
+  while (FIndex < FFileList.Count) and (Aborted = False) do
   begin
-    if Aborted then
-      Break;
-
     FWorkingFile := FFileList.Files[FIndex];
     FWorkingUserData := FFileList.Data[FIndex];
 
@@ -142,19 +134,12 @@ begin
           end;
         end;
 
-      if Aborted then
-        Break;
-
       TThread.Synchronize(Thread, @DoUpdateFile);
 
     except
       on EFileNotFound do;
     end;
     Inc(FIndex);
-  end;
-  if Aborted  and Assigned(FAbortFileMethod) then
-  begin
-    TThread.Synchronize(Thread, @DoAbortFile);
   end;
 end;
 
@@ -179,6 +164,16 @@ destructor TFileThumbnailsRetriever.Destroy;
 begin
   FFileList.Free;
   inherited Destroy;
+end;
+
+procedure TFileThumbnailsRetriever.Abort;
+begin
+  inherited Abort;
+
+  if Assigned(FAbortFileMethod) then
+  begin
+    FAbortFileMethod(FIndex, FFileList.UserData);
+  end;
 end;
 
 { TThumbDrawGrid }

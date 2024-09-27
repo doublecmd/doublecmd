@@ -189,7 +189,6 @@ type
        It is called from GUI thread.
     }
     procedure DoUpdateFile;
-    procedure DoAbortFile;
 
   protected
     procedure Execute; override;
@@ -203,6 +202,7 @@ type
                        ABreakFileMethod: TAbortFileMethod;
                        var AFileList: TFVWorkerFileList); reintroduce;
     destructor Destroy; override;
+    procedure Abort; override;
   end;
 
   { TCalculateSpaceWorker }
@@ -893,6 +893,16 @@ begin
   inherited Destroy;
 end;
 
+procedure TFilePropertiesRetriever.Abort;
+begin
+  inherited Abort;
+
+  if Assigned(FAbortFileMethod) then
+  begin
+    FAbortFileMethod(FIndex, FFileList.FUserData);
+  end;
+end;
+
 procedure TFilePropertiesRetriever.Execute;
 var
   HaveIcons: Boolean;
@@ -904,10 +914,8 @@ begin
   begin
     DirectAccess := not IsInPathList(gIconsExcludeDirs, FFileList.Files[0].FSFile.Path);
   end;
-  while FIndex < FFileList.Count do
+  while (FIndex < FFileList.Count) and (Aborted = False) do
   begin
-    if Aborted then
-      Break;
 
     try
       FWorkingFile := FFileList.Files[FIndex];
@@ -937,9 +945,6 @@ begin
         {$ENDIF}
       end;
 
-      if Aborted then
-        Break;
-
       TThread.Synchronize(Thread, @DoUpdateFile);
 
     except
@@ -948,21 +953,12 @@ begin
     end;
     Inc(FIndex);
   end;
-  if Aborted  and Assigned(FAbortFileMethod) then
-  begin
-    TThread.Synchronize(Thread, @DoAbortFile);
-  end;
 end;
 
 procedure TFilePropertiesRetriever.DoUpdateFile;
 begin
-  if not Aborted and Assigned(FUpdateFileMethod) then
+  if Assigned(FUpdateFileMethod) then
     FUpdateFileMethod(FWorkingFile, FWorkingUserData);
-end;
-
-procedure TFilePropertiesRetriever.DoAbortFile;
-begin
-  FAbortFileMethod(FIndex, FFileList.FUserData);
 end;
 
 { TCalculateSpaceWorker }
