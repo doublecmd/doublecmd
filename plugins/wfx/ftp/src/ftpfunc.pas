@@ -714,6 +714,7 @@ end;
 function FsExecuteFileW(MainWin: THandle; RemoteName, Verb: PWideChar): Integer; dcpcall; export;
 var
   FtpSend: TFTPSendEx;
+  RemoteDir: AnsiString;
   asFileName: AnsiString;
   wsFileName: UnicodeString;
 begin
@@ -769,10 +770,10 @@ begin
     end
   else if Pos('quote', UnicodeString(Verb)) = 1 then
     begin
-      if GetConnectionByPath(RemoteName, FtpSend, asFileName) then
+      if GetConnectionByPath(RemoteName, FtpSend, RemoteDir) then
       begin
         asFileName:= FtpSend.ClientToServer(Verb);
-        if FtpSend.ExecuteCommand(Copy(asFileName, 7, MaxInt)) then
+        if FtpSend.ExecuteCommand(Copy(asFileName, 7, MaxInt), RemoteDir) then
           Result := FS_EXEC_OK
         else
           Result := FS_EXEC_ERROR;
