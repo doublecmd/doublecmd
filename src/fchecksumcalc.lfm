@@ -71,7 +71,6 @@ inherited frmCheckSumCalc: TfrmCheckSumCalc
       BorderSpacing.Top = 6
       ItemHeight = 0
       OnSelectionChange = lbHashAlgorithmSelectionChange
-      ScrollWidth = 150
       TabOrder = 5
     end
     object cbOpenAfterJobIsComplete: TCheckBox[4]
