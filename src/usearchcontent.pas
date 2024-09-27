@@ -40,8 +40,9 @@ type
    FComboOperator,
    FComboValue,
    FComboUnit: TComboBox;
-   FEditValue:TCalcEdit;
-   FDateTimeValue:TDateTimePicker;
+   FEditValue: TCalcEdit;
+   FDateTimeValue: TDateTimePicker;
+   FValuePanel: TPanel;
   private
     function GetCompare: TPluginOperator;
     function GetField: String;
@@ -57,11 +58,14 @@ type
     procedure SetUnitName(AValue: String);
     procedure SetValue(AValue: Variant);
     procedure SetComboBox(ComboBox: TComboBox; const Value, Error: String);
+    procedure ValueKeyPress(Sender: TObject; var Key: Char);
+    procedure ValueUTF8KeyPress(Sender: TObject; var UTF8Key: TUTF8Char);
     procedure ComboValueKeyPress(Sender: TObject; var Key: Char);
     procedure ComboValueUTF8KeyPress(Sender: TObject; var UTF8Key: TUTF8Char);
   public
     constructor Create(TheOwner: TComponent); override;
     destructor Destroy; override;
+    procedure UpdateSizes(ColumnWidth: Integer);
   public
     property Plugin: String read GetPlugin write SetPlugin;
     property Field: String read GetField write SetField;
@@ -182,8 +186,8 @@ begin
   begin
     FComboUnit.Items.AddStrings(WdxField.LUnits);
   end;
-  FComboUnit.Enabled := (WdxField.FType <> FT_MULTIPLECHOICE) and (FComboUnit.Items.Count > 0);
-  if FComboUnit.Enabled then FComboUnit.ItemIndex:= 0;
+  FComboUnit.Visible := (WdxField.FType <> FT_MULTIPLECHOICE) and (FComboUnit.Items.Count > 0);
+  if FComboUnit.Visible then FComboUnit.ItemIndex:= 0;
 
   case WdxField.FType of
   FT_NUMERIC_32,
@@ -355,11 +359,10 @@ begin
   end;
 end;
 
-procedure TPluginPanel.ComboValueKeyPress(Sender: TObject; var Key: Char);
+procedure TPluginPanel.ValueKeyPress(Sender: TObject; var Key: Char);
 var
   WdxField: TWdxField;
 begin
-  if (FComboField.ItemIndex < 0) then Exit;
   WdxField:= TWdxField(FComboField.Items.Objects[FComboField.ItemIndex]);
   case WdxField.FType of
     FT_NUMERIC_32,
@@ -376,11 +379,10 @@ begin
   end;
 end;
 
-procedure TPluginPanel.ComboValueUTF8KeyPress(Sender: TObject; var UTF8Key: TUTF8Char);
+procedure TPluginPanel.ValueUTF8KeyPress(Sender: TObject; var UTF8Key: TUTF8Char);
 var
   WdxField: TWdxField;
 begin
-  if (FComboField.ItemIndex < 0) then Exit;
   WdxField:= TWdxField(FComboField.Items.Objects[FComboField.ItemIndex]);
   case WdxField.FType of
     FT_NUMERIC_32,
@@ -392,16 +394,41 @@ begin
   end;
 end;
 
+procedure TPluginPanel.ComboValueKeyPress(Sender: TObject; var Key: Char);
+var
+  WdxField: TWdxField;
+begin
+  if (FComboField.ItemIndex < 0) then Exit;
+  ValueKeyPress(Sender, Key);
+end;
+
+procedure TPluginPanel.ComboValueUTF8KeyPress(Sender: TObject; var UTF8Key: TUTF8Char);
+var
+  WdxField: TWdxField;
+begin
+  if (FComboField.ItemIndex < 0) then Exit;
+  ValueUTF8KeyPress(Sender, UTF8Key);
+end;
+
+procedure TPluginPanel.UpdateSizes(ColumnWidth: Integer);
+begin
+  FComboPlugin.Constraints.MinWidth:= ColumnWidth;
+  FComboPlugin.Constraints.MaxWidth:= ColumnWidth;
+  FComboField.Constraints.MinWidth:= ColumnWidth;
+  FComboField.Constraints.MaxWidth:= ColumnWidth;
+  FComboOperator.Constraints.MinWidth:= ColumnWidth;
+  FComboOperator.Constraints.MaxWidth:= ColumnWidth;
+  FValuePanel.Constraints.MinWidth:= ColumnWidth * 2;
+  FValuePanel.Constraints.MaxWidth:= ColumnWidth * 2;
+end;
+
 constructor TPluginPanel.Create(TheOwner: TComponent);
 var
-  I: Integer;
+  I, ColumnWidth: Integer;
 begin
   inherited Create(TheOwner);
   AutoSize:= True;
   BevelOuter:= bvNone;
-  ChildSizing.ControlsPerLine:= 5;
-  ChildSizing.Layout:= cclLeftToRightThenTopToBottom;
-  ChildSizing.EnlargeHorizontal:= crsScaleChilds;
 
   FComboPlugin:= TComboBox.Create(Self);
   FComboPlugin.Parent:= Self;
@@ -417,22 +444,42 @@ begin
   FComboOperator.Parent:= Self;
   FComboOperator.Style:= csDropDownList;
 
+  FValuePanel:= TPanel.Create(Self);
+  FValuePanel.Parent:= Self;
+  FValuePanel.AutoSize:= True;
+  FValuePanel.BevelOuter:= bvNone;
+  FValuePanel.ChildSizing.ControlsPerLine:= 2;
+  FValuePanel.ChildSizing.Layout:= cclLeftToRightThenTopToBottom;
+  FValuePanel.ChildSizing.EnlargeHorizontal:= crsScaleChilds;
+  FValuePanel.ChildSizing.EnlargeVertical:= crsScaleChilds;
+
   FComboValue:= TComboBox.Create(Self);
   FComboValue.OnKeyPress:= @ComboValueKeyPress;
   FComboValue.OnUTF8KeyPress:= @ComboValueUTF8KeyPress;
-  FComboValue.Parent:= Self;
+  FComboValue.Parent:= FValuePanel;
 
   FEditValue:= TCalcEdit.Create(Self);
-  FEditValue.Parent:= Self;
+  FEditValue.OnKeyPress:= @ValueKeyPress;
+  FEditValue.OnUTF8KeyPress:= @ValueUTF8KeyPress;
+  FEditValue.Parent:= FValuePanel;
 
   FDateTimeValue:= TDateTimePicker.Create(Self);
-  FDateTimeValue.Parent:= Self;
+  FDateTimeValue.Parent:= FValuePanel;
   FDateTimeValue.BorderSpacing.CellAlignVertical:=ccaCenter;
   FDateTimeValue.BorderSpacing.CellAlignHorizontal:=ccaCenter;
 
   FComboUnit:= TComboBox.Create(Self);
   FComboUnit.Style:= csDropDownList;
-  FComboUnit.Parent:= Self;
+  FComboUnit.Parent:= FValuePanel;
+
+  FComboPlugin.AnchorVerticalCenterTo(FValuePanel);
+  FComboField.AnchorVerticalCenterTo(FValuePanel);
+  FComboField.AnchorToNeighbour(akLeft, 0, FComboPlugin);
+  FComboOperator.AnchorVerticalCenterTo(FValuePanel);
+  FComboOperator.AnchorToNeighbour(akLeft, 0, FComboField);
+  FValuePanel.AnchorToNeighbour(akLeft, 0, FComboOperator);
+  ColumnWidth:= TControl(TheOwner).ClientWidth div 5;
+  UpdateSizes(ColumnWidth);
 
   for I:= 0 to gWDXPlugins.Count - 1do
   begin
@@ -453,6 +500,7 @@ begin
   FComboPlugin.Free;
   FComboField.Free;
   FComboOperator.Free;
+  FValuePanel.Free;
   FComboValue.Free;
   FEditValue.Free;
   FDateTimeValue.Free;
