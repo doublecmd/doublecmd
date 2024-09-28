@@ -767,7 +767,7 @@ end;
 function TFinderTagsEditorPanel.control_textView_doCommandBySelector(
   control: NSControl; textView: NSTextView; commandSelector: SEL): ObjCBOOL;
 
-  function insertTokenName: Boolean;
+  function tryInsertTokenName: Boolean;
   var
     tokenName: NSString;
   begin
@@ -783,12 +783,24 @@ function TFinderTagsEditorPanel.control_textView_doCommandBySelector(
     Result:= True;
   end;
 
+  procedure closePopover;
+  begin
+    _popover.close;
+  end;
+
+  procedure handleEnter;
+  begin
+    if tryInsertTokenName = false then
+      closePopover;
+  end;
+
 begin
   Result:= False;
   if commandSelector = ObjCSelector('cancelOperation:') then begin
     _cancel:= True;
   end else if commandSelector = ObjCSelector('insertNewline:') then begin
-    Result:= insertTokenName;
+    handleEnter;
+    Result:= true;
   end else if (commandSelector = ObjCSelector('moveDown:')) or
               (commandSelector = ObjCSelector('moveUp:')) then begin
     _filterListView.keyDown( NSApp.currentEvent );
