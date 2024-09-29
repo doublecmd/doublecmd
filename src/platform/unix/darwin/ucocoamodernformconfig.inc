@@ -304,6 +304,15 @@ begin
   frmMain.Commands.cm_Search([]);
 end;
 
+procedure privilegeAction( const Sender: id );
+const
+  Privacy_AllFiles = 'x-apple.systempreferences:com.apple.preference.security?Privacy_AllFiles';
+var
+  url: NSURL;
+begin
+  url:= NSURL.URLWithString( NSSTR(Privacy_AllFiles) );
+  NSWorkspace.sharedWorkspace.openURL( url );
+end;
 
 const
   treeViewItemConfig: TCocoaConfigToolBarItem = (
@@ -512,6 +521,17 @@ const
     onAction: @searchFilesAction;
   );
 
+  privilegeItemConfig: TCocoaConfigToolBarItem = (
+    identifier: 'MainForm.Privilege';
+    priority: NSToolbarItemVisibilityPriorityStandard;
+    navigational: False;
+    iconName: 'lock.shield';
+    title: 'Privilege';
+    tips: 'As a file manager, Double Command requires full disk access permissions. Clicking this button will pop up the macOS system settings page. Please add "Double Commander.app" to the "Full Disk Access" list to complete the authorization.';
+    bordered: True;
+    onAction: @privilegeAction;
+  );
+
   mainFormConfig: TCocoaConfigForm = (
     name: 'frmMain';
     className: '';
@@ -552,7 +572,8 @@ const
         'NSToolbarFlexibleSpaceItem',
         'MainForm.Terminal',
         'MainForm.Refresh',
-        'MainForm.SearchFiles'
+        'MainForm.SearchFiles',
+        'MainForm.Privilege'
       );
       allowedItemsIdentifiers: (
         'MainForm.TreeView',
@@ -570,7 +591,8 @@ const
         'MainForm.Command',
         'MainForm.Terminal',
         'MainForm.Refresh',
-        'MainForm.SearchFiles'
+        'MainForm.SearchFiles',
+        'MainForm.Privilege'
       );
       itemCreator: nil;      // default item Creator
     );
@@ -600,7 +622,8 @@ begin
     TCocoaToolBarUtils.toClass(finderInfoItemConfig),
     TCocoaToolBarUtils.toClass(terminalItemConfig),
     TCocoaToolBarUtils.toClass(refreshItemConfig),
-    TCocoaToolBarUtils.toClass(searchFilesItemConfig)
+    TCocoaToolBarUtils.toClass(searchFilesItemConfig),
+    TCocoaToolBarUtils.toClass(privilegeItemConfig)
   ];
 
   CocoaConfigForms:= [ mainFormConfig ];
