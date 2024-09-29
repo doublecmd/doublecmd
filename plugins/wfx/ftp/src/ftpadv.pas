@@ -119,6 +119,7 @@ type
     constructor Create(const Encoding: String); virtual; reintroduce;
     function Login: Boolean; override;
     function Clone: TFTPSendEx; virtual;
+    function GetCurrentDir: String; override;
     procedure CloneTo(AValue: TFTPSendEx); virtual;
     procedure ParseRemote(Value: string); override;
     function FileExists(const FileName: String): Boolean; virtual;
@@ -767,6 +768,11 @@ begin
     FDataIP:= RemoteIP;
     DoStatus(False, 'Server reports local IP -> Redirect to: ' + FDataIP);
   end;
+end;
+
+function TFTPSendEx.GetCurrentDir: String;
+begin
+  Result:= CeUtf16ToUtf8(ServerToClient(inherited GetCurrentDir));
 end;
 
 function TFTPSendEx.FileExists(const FileName: String): Boolean;

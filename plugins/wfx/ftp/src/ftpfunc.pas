@@ -310,6 +310,7 @@ end;
 function FtpConnect(const ConnectionName: AnsiString; out FtpSend: TFTPSendEx): Boolean;
 var
   I: Integer;
+  APath: String;
   APassword: String;
   Connection: TConnection;
 begin
@@ -403,7 +404,8 @@ begin
         end
         else begin
           Connection.CachedPassword:= APassword;
-          LogProc(PluginNumber, MSGTYPE_CONNECT, PWideChar('CONNECT ' + PathDelim + CeUtf8ToUtf16(ConnectionName)));
+          APath:= PathDelim + ConnectionName + FtpSend.GetCurrentDir;
+          LogProc(PluginNumber, MSGTYPE_CONNECT, PWideChar('CONNECT ' + CeUtf8ToUtf16(APath)));
           ActiveConnectionList.AddObject(ConnectionName, FtpSend);
           if Connection.OpenSSH and (ConnectionName <> cQuickConnection) then
           begin
