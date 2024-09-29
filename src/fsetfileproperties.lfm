@@ -828,7 +828,6 @@ object frmSetFileProperties: TfrmSetFileProperties
       Width = 55
       BorderSpacing.Bottom = 6
       Caption = '-----------'
-      Font.Color = clBlack
       ParentColor = False
       ParentFont = False
     end
