@@ -11,10 +11,11 @@ uses
   MacOSAll, CocoaAll, CocoaConst, CocoaUtils;
 
 const
-  TAG_NAME_FONT_SIZE = 12.0;
-  TAG_NAME_HORZ_SPACING = 7.0;
-  TAG_NAME_VERT_SPACING = 4.0;
-  TAG_NAME_INTERIOR_SPACING = 2.0;
+  TAG_LIST_FONT_SIZE = 12.0;
+  TAG_NAME_FONT_SIZE = 11.0;
+  TAG_NAME_HORZ_EXTENSION = 4.0;
+  TAG_NAME_TOKEN_SPACING = 2.0;
+  TAG_NAME_LINE_SPACING = 1.0;
 
 type
 
@@ -32,7 +33,8 @@ type
     class function getAllTagsFromPlist( const plistBytes: TBytes ): NSDictionary;
     class function getTagsPlistFromDatabase: TBytes;
   private
-    class procedure drawTagName( tagName: NSString; color: NSColor; rect: NSRect );
+    class procedure drawTagName( const tagName: NSString;
+      const fontSize: CGFloat; const color: NSColor; const rect: NSRect );
   end;
 
 implementation
@@ -258,7 +260,8 @@ begin
 
   titleRect:= titleRectForBounds( cellFrame );
 
-  uDarwinFinderUtil.drawTagName( NSString(self.objectValue), color, titleRect );
+  uDarwinFinderUtil.drawTagName( NSString(self.objectValue),
+    TAG_NAME_FONT_SIZE, color, titleRect );
 end;
 
 procedure TCocoaTokenAttachmentCell.drawWithFrame_inView(cellFrame: NSRect;
@@ -281,11 +284,6 @@ begin
          3,
          3 );
 
-  if self.isSelected then begin
-    NSColor.selectedTextBackgroundColor.set_;
-    NSRectFill( cellFrame );
-  end;
-
   color.set_;
   path.fill;
 
@@ -300,29 +298,29 @@ var
 begin
   maxWidth:= self.controlView.bounds.size.width - 8;
   stringSize:= self.attributedStringValue.size;
-  preferedWidth:= stringSize.width + TAG_NAME_HORZ_SPACING * 2;
+  preferedWidth:= TAG_NAME_HORZ_EXTENSION + stringSize.width + TAG_NAME_HORZ_EXTENSION + TAG_NAME_TOKEN_SPACING;
   if preferedWidth > maxWidth then
     preferedWidth:= maxWidth;
 
   Result.width:= preferedWidth;
-  Result.height:= stringSize.height + TAG_NAME_VERT_SPACING;
+  Result.height:= stringSize.height + TAG_NAME_LINE_SPACING;
 end;
 
 function TCocoaTokenAttachmentCell.drawingRectForBounds(theRect: NSRect
   ): NSRect;
 begin
-  Result.origin.x:= theRect.origin.x + TAG_NAME_INTERIOR_SPACING;
-  Result.origin.y:= theRect.origin.y + TAG_NAME_INTERIOR_SPACING;
-  Result.size.width:= theRect.size.width - TAG_NAME_INTERIOR_SPACING * 2;
-  Result.size.height:= theRect.size.height - TAG_NAME_INTERIOR_SPACING * 2;
+  Result.origin.x:= theRect.origin.x;
+  Result.origin.y:= theRect.origin.y;
+  Result.size.width:= theRect.size.width - TAG_NAME_TOKEN_SPACING;
+  Result.size.height:= theRect.size.height - TAG_NAME_LINE_SPACING;
 end;
 
 function TCocoaTokenAttachmentCell.titleRectForBounds(theRect: NSRect): NSRect;
 begin
-  Result.origin.x:= theRect.origin.x + TAG_NAME_HORZ_SPACING;
-  Result.origin.y:= theRect.origin.y + self.font.pointSize + TAG_NAME_VERT_SPACING / 2;
-  Result.size.width:= theRect.size.width - TAG_NAME_HORZ_SPACING * 2;
-  Result.size.height:= theRect.size.Height - TAG_NAME_VERT_SPACING;
+  Result.origin.x:= theRect.origin.x + TAG_NAME_HORZ_EXTENSION ;
+  Result.origin.y:= theRect.origin.y + theRect.size.height - 4;
+  Result.size.width:= theRect.size.width - TAG_NAME_HORZ_EXTENSION * 2;
+  Result.size.height:= theRect.size.Height;
 end;
 
 { TCocoaTokenFieldCell }
@@ -583,9 +581,9 @@ var
     rect:= cellRect;
     rect.origin.x:= rect.origin.x + 20;
     rect.size.width:= rect.size.width - 20;
-    rect.origin.y:= rect.origin.y + TAG_NAME_FONT_SIZE + TAG_NAME_INTERIOR_SPACING;
+    rect.origin.y:= rect.origin.y + TAG_LIST_FONT_SIZE + 2;
 
-    uDarwinFinderUtil.drawTagName( tagName, color, rect );
+    uDarwinFinderUtil.drawTagName( tagName, TAG_LIST_FONT_SIZE, color, rect );
   end;
 
 begin
@@ -646,15 +644,16 @@ var
   tagNameArray: NSArray;
   scrollView: NSScrollView;
 begin
-  contentView:= NSView.alloc.initWithFrame( NSMakeRect(0,0,262,300) );
+  contentView:= NSView.alloc.initWithFrame( NSMakeRect(0,0,228,300) );
   controller:= NSViewController.new;
   controller.setView( contentView );
 
   tagNameArray:= uDarwinFinderUtil.getTagNamesOfFile( _url );
   NSTokenField.setCellClass( TCocoaTokenFieldCell );
-  _tagsTokenField:= TCocoaTokenField.alloc.initWithFrame( NSMakeRect(0,0,250,0) );
+  _tagsTokenField:= TCocoaTokenField.alloc.initWithFrame( NSMakeRect(0,0,216,0) );
   _tagsTokenField.setDelegate( NSTokenFieldDelegateProtocol(self) );
   _tagsTokenField.setObjectValue( tagNameArray );
+  _tagsTokenField.setFont( NSFont.systemFontOfSize(TAG_NAME_FONT_SIZE+1) );
   _tagsTokenField.setFocusRingType( NSFocusRingTypeNone );
   contentView.addSubview( _tagsTokenField );
 
@@ -662,7 +661,7 @@ begin
   _filterListView:= TFinderTagsListView.new;
   _filterListView.setIntercellSpacing( NSZeroSize );
   _filterListView.addTableColumn( NSTableColumn.new.autorelease );
-  _filterListView.setRowHeight( TAG_NAME_VERT_SPACING + TAG_NAME_FONT_SIZE + TAG_NAME_VERT_SPACING );
+  _filterListView.setRowHeight( 20 );
   _filterListView.setFocusRingType( NSFocusRingTypeNone );
   _filterListView.setDataSource( self );
   _filterListView.setHeaderView( nil );
@@ -747,14 +746,12 @@ begin
   popoverHeight:= _popover.contentSize.height;
 
   tagsTokenFieldFrame.size:= _tagsTokenField.intrinsicContentSize;
-  if tagsTokenFieldFrame.size.height < 24 then
-    tagsTokenFieldFrame.size.height:= 24
-  else if tagsTokenFieldFrame.size.height > 100 then
-    tagsTokenFieldFrame.size.height:= 100;
+  if tagsTokenFieldFrame.size.height > 190 then
+    tagsTokenFieldFrame.size.height:= 190;
   tagsTokenFieldFrame.origin.x:= 6;
   tagsTokenFieldFrame.origin.y:= popoverHeight - (tagsTokenFieldFrame.size.height+10);
 
-  filterListFrame.size.width:= 260;
+  filterListFrame.size.width:= 228;
   filterListFrame.size.height:= popoverHeight - (tagsTokenFieldFrame.size.height+30);
   filterListFrame.origin.x:= 0;
   filterListFrame.origin.y:= 10;
@@ -847,7 +844,8 @@ begin
   url.setResourceValue_forKey_error( tagNames, NSURLTagNamesKey, nil );
 end;
 
-class procedure uDarwinFinderUtil.drawTagName( tagName: NSString; color: NSColor; rect: NSRect );
+class procedure uDarwinFinderUtil.drawTagName( const tagName: NSString;
+  const fontSize: CGFloat; const color: NSColor; const rect: NSRect );
 var
   attributes: NSMutableDictionary;
   ps: NSMutableParagraphStyle;
@@ -856,7 +854,7 @@ begin
   ps:= NSMutableParagraphStyle.new;
   ps.setLineBreakMode( NSLineBreakByTruncatingTail );
 
-  font:= NSFont.systemFontOfSize( TAG_NAME_FONT_SIZE );
+  font:= NSFont.systemFontOfSize( fontSize );
 
   attributes:= NSMutableDictionary.new;
   attributes.setValue_forKey( font, NSFontAttributeName );
