@@ -13,6 +13,8 @@ uses
   , MMSystem, LazUTF8
 {$ELSEIF DEFINED(DARWIN)}
   , CocoaAll, uMyDarwin
+{$ELSE}
+  , LazLogger, sdl2
 {$ENDIF}
   ;
 
@@ -66,8 +68,27 @@ begin
   end;
 end;
 {$ELSE}
+const
+  Res: Integer = -1;
+  First: Boolean = True;
 begin
-  Result:= False;
+  if First then
+  begin
+    if SDL_Initialize then
+    begin
+      Res:= SDL_InitSubSystem(SDL_INIT_AUDIO);
+      if (Res < 0) then
+      begin
+        DebugLn('SDL_InitSubSystem: ', SDL_GetError());
+      end;
+    end;
+    First:= False;
+  end;
+  if (Res < 0) then
+    Result:= False
+  else begin
+    Result:= SDL_Play(FileName);
+  end;
 end;
 {$ENDIF}
 
