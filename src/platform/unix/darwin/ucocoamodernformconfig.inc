@@ -104,6 +104,20 @@ begin
   performMacOSService( 'Finder/Show Info' );
 end;
 
+procedure compareAction( const Sender: id );
+begin
+  frmMain.Commands.cm_CompareContents([]);
+end;
+
+procedure syncAction( const Sender: id );
+begin
+  frmMain.Commands.cm_SyncDirs([]);
+end;
+
+procedure editAction( const Sender: id );
+begin
+  frmMain.Commands.cm_Edit([]);
+end;
 
 
 const
@@ -488,17 +502,6 @@ const
   );
 
 
-  refreshItemConfig: TCocoaConfigToolBarItem = (
-     identifier: 'MainForm.Refresh';
-     priority: NSToolbarItemVisibilityPriorityStandard;
-     navigational: False;
-     iconName: 'arrow.clockwise';
-     title: rsMFSTBIRefreshTitle;
-     tips: rsMFSTBIRefreshTips;
-     bordered: True;
-     onAction: @refreshAction;
-   );
-
   terminalItemConfig: TCocoaConfigToolBarItem = (
     identifier: 'MainForm.Terminal';
     priority: NSToolbarItemVisibilityPriorityStandard;
@@ -531,6 +534,52 @@ const
     bordered: True;
     onAction: @privilegeAction;
   );
+
+
+  refreshItemConfig: TCocoaConfigToolBarItem = (
+     identifier: 'MainForm.Refresh';
+     priority: NSToolbarItemVisibilityPriorityStandard;
+     navigational: False;
+     iconName: 'arrow.clockwise';
+     title: rsMFSTBIRefreshTitle;
+     tips: rsMFSTBIRefreshTips;
+     bordered: True;
+     onAction: @refreshAction;
+   );
+
+  compareItemConfig: TCocoaConfigToolBarItem = (
+    identifier: 'MainForm.Compare';
+    priority: NSToolbarItemVisibilityPriorityStandard;
+    navigational: False;
+    iconName: 'rectangle.on.rectangle';
+    title: 'Compare';
+    tips: 'Compare by Contents...';
+    bordered: True;
+    onAction: @compareAction;
+  );
+
+  syncItemConfig: TCocoaConfigToolBarItem = (
+    identifier: 'MainForm.Sync';
+    priority: NSToolbarItemVisibilityPriorityStandard;
+    navigational: False;
+    iconName: 'arrow.triangle.2.circlepath';
+    title: 'Sync';
+    tips: 'Synchronize Dirs...';
+    bordered: True;
+    onAction: @syncAction;
+  );
+
+  editItemConfig: TCocoaConfigToolBarItem = (
+    identifier: 'MainForm.Edit';
+    priority: NSToolbarItemVisibilityPriorityStandard;
+    navigational: False;
+    iconName: 'square.and.pencil';
+    title: 'Edit';
+    tips: 'Edit...';
+    bordered: True;
+    onAction: @editAction;
+  );
+
 
   mainFormConfig: TCocoaConfigForm = (
     name: 'frmMain';
@@ -570,9 +619,8 @@ const
         'NSToolbarFlexibleSpaceItem',
         'MainForm.Command',
         'NSToolbarFlexibleSpaceItem',
-        'MainForm.Terminal',
-        'MainForm.Refresh',
         'MainForm.SearchFiles',
+        'MainForm.Terminal',
         'MainForm.Privilege'
       );
       allowedItemsIdentifiers: (
@@ -589,10 +637,15 @@ const
         'MainForm.FinderReveal',
         'MainForm.FinderInfo',
         'MainForm.Command',
-        'MainForm.Terminal',
-        'MainForm.Refresh',
+
         'MainForm.SearchFiles',
-        'MainForm.Privilege'
+        'MainForm.Terminal',
+        'MainForm.Privilege',
+
+        'MainForm.Refresh',
+        'MainForm.Compare',
+        'MainForm.Sync',
+        'MainForm.Edit'
       );
       itemCreator: nil;      // default item Creator
     );
@@ -621,9 +674,13 @@ begin
     TCocoaToolBarUtils.toClass(finderRevealItemConfig),
     TCocoaToolBarUtils.toClass(finderInfoItemConfig),
     TCocoaToolBarUtils.toClass(terminalItemConfig),
-    TCocoaToolBarUtils.toClass(refreshItemConfig),
     TCocoaToolBarUtils.toClass(searchFilesItemConfig),
-    TCocoaToolBarUtils.toClass(privilegeItemConfig)
+    TCocoaToolBarUtils.toClass(privilegeItemConfig),
+
+    TCocoaToolBarUtils.toClass(refreshItemConfig),
+    TCocoaToolBarUtils.toClass(compareItemConfig),
+    TCocoaToolBarUtils.toClass(syncItemConfig),
+    TCocoaToolBarUtils.toClass(editItemConfig)
   ];
 
   CocoaConfigForms:= [ mainFormConfig ];
