@@ -132,6 +132,8 @@ var
   libsdl: TLibHandle;
 
 function SDL_Initialize: Boolean;
+var
+  AMsg: String;
 begin
   libsdl:= SafeLoadLibrary(sdllib);
   Result:= (libsdl <> NilHandle);
@@ -148,6 +150,14 @@ begin
     SDL_OpenAudioDevice:= SafeGetProcAddress(libsdl, 'SDL_OpenAudioDevice');
     SDL_PauseAudioDevice:= SafeGetProcAddress(libsdl, 'SDL_PauseAudioDevice');
     SDL_CloseAudioDevice:= SafeGetProcAddress(libsdl, 'SDL_CloseAudioDevice');
+
+    Result:= SDL_InitSubSystem(SDL_INIT_AUDIO) = 0;
+
+    if not Result then
+    begin
+      AMsg:= SDL_GetError();
+      raise Exception.Create(AMsg);
+    end;
   except
     on E: Exception do
     begin
