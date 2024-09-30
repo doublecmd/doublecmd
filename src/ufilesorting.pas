@@ -551,7 +551,12 @@ end;
 
 function ICompareByVariant(Value1, Value2: Variant; bSortNegative: Boolean):Integer;
 begin
-  if VarIsType(Value1, varString) then
+  // Put clear values last.
+  if VarIsClear(Value1) then
+    Exit(1)
+  else if VarIsClear(Value2) then
+    Exit(-1)
+  else if VarIsType(Value1, varString) then
     Result := CompareStrings(Value1, Value2, gSortNatural, gSortSpecial, gSortCaseSensitivity)
   else if Value1 = Value2 then
     Exit(0)
