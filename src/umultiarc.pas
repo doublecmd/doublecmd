@@ -309,14 +309,6 @@ begin
           else
             Break;
         end;
-        for J:= 0 to 50 do
-        begin
-          CustomParams:= IniFile.ReadString(Section, 'AskHistory' + IntToStr(J), EmptyStr);
-          if CustomParams <> EmptyStr then
-            FAskHistory.Add(CustomParams)
-          else
-            Break;
-        end;
         FList:= TrimQuotes(IniFile.ReadString(Section, 'List', EmptyStr));
         FExtract:= TrimQuotes(IniFile.ReadString(Section, 'Extract', EmptyStr));
         FExtractWithoutPath:= TrimQuotes(IniFile.ReadString(Section, 'ExtractWithoutPath', EmptyStr));
@@ -326,6 +318,14 @@ begin
         FAddSelfExtract:= TrimQuotes(IniFile.ReadString(Section, 'AddSelfExtract', EmptyStr));
         FPasswordQuery:= IniFile.ReadString(Section, 'PasswordQuery', EmptyStr);
         // optional
+        for J:= 0 to 50 do
+        begin
+          CustomParams:= IniFile.ReadString(Section, 'AskHistory' + IntToStr(J), EmptyStr);
+          if CustomParams <> EmptyStr then
+            FAskHistory.Add(CustomParams)
+          else
+            Break;
+        end;
         FFlags:= TMultiArcFlags(IniFile.ReadInteger(Section, 'Flags', 0));
         FFormMode:= IniFile.ReadInteger(Section, 'FormMode', 0);
         FEnabled:= IniFile.ReadBool(Section, 'Enabled', True);
@@ -374,10 +374,6 @@ begin
         begin
           IniFile.WriteString(Section, 'Format' + IntToStr(J), FFormat[J]);
         end;
-        for J:= 0 to FAskHistory.Count - 1 do
-        begin
-          IniFile.WriteString(Section, 'AskHistory' + IntToStr(J), FAskHistory[J]);
-        end;
         IniFile.WriteString(Section, 'List', FList);
         IniFile.WriteString(Section, 'Extract', FExtract);
         IniFile.WriteString(Section, 'ExtractWithoutPath', FExtractWithoutPath);
@@ -387,6 +383,10 @@ begin
         IniFile.WriteString(Section, 'AddSelfExtract', FAddSelfExtract);
         IniFile.WriteString(Section, 'PasswordQuery', FPasswordQuery);
         // optional
+        for J:= 0 to FAskHistory.Count - 1 do
+        begin
+          IniFile.WriteString(Section, 'AskHistory' + IntToStr(J), FAskHistory[J]);
+        end;
         IniFile.WriteInteger(Section, 'Flags', Integer(FFlags));
         IniFile.WriteInteger(Section, 'FormMode', FFormMode);
         IniFile.WriteBool(Section, 'Enabled', FEnabled);
@@ -452,6 +452,8 @@ begin
     UpdateSignature(Self.Items[Index].FEnd);
     for iInnerIndex := 0 to pred(Self.Items[Index].FFormat.Count) do
       UpdateSignature(Self.Items[Index].FFormat.Strings[iInnerIndex]);
+    for iInnerIndex := 0 to pred(Self.Items[Index].FAskHistory.Count) do
+      UpdateSignature(Self.Items[Index].FAskHistory.Strings[iInnerIndex]);
     UpdateSignature(Self.Items[Index].FExtract);
     UpdateSignature(Self.Items[Index].FAdd);
     UpdateSignature(Self.Items[Index].FDelete);
