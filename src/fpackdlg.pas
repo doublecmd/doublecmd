@@ -249,14 +249,18 @@ begin
       end
     else // MultiArc addon
       begin
-        // FIXME: for loop..
         for I := 0 to gMultiArcList.Count - 1 do
         begin
           with gMultiArcList.Items[I] do
           begin
-            if FEnabled and MatchesMaskList(FArchiveType, FExtension, ',') then
+            if FEnabled and Matches(FArchiveType) then
+            begin
               if ShowInputComboBox(Caption, rsMsgArchiverCustomParams, FAskHistory, FCustomParams) then
+              begin
                 gMultiArcList.SaveToFile(gpCfgDir + sMULTIARC_FILENAME);
+              end;
+              Break;
+            end;
           end;
         end;
       end;
@@ -399,7 +403,7 @@ begin
     begin
       with gMultiArcList.Items[I] do
       begin
-        if FEnabled and MatchesMaskList(FArchiveType, FExtension, ',') then
+        if FEnabled and Matches(FArchiveType) then
         begin
           // Archive can contain multiple files
           cbCreateSeparateArchives.Checked:= False;
@@ -411,7 +415,7 @@ begin
           else
             sCmd:= FAdd;
 
-          lblPacker.Caption:='MultiArc [' + FPacker + ']';
+          lblPacker.Caption:='[' + FPacker + ']';
           EnableControl(btnConfig, (Pos('%S', sCmd) <> 0));
           // If addon supports create multi volume archive
           EnableControl(cbMultivolume, (Pos('%V', sCmd) <> 0));
