@@ -452,8 +452,6 @@ begin
     UpdateSignature(Self.Items[Index].FEnd);
     for iInnerIndex := 0 to pred(Self.Items[Index].FFormat.Count) do
       UpdateSignature(Self.Items[Index].FFormat.Strings[iInnerIndex]);
-    for iInnerIndex := 0 to pred(Self.Items[Index].FAskHistory.Count) do
-      UpdateSignature(Self.Items[Index].FAskHistory.Strings[iInnerIndex]);
     UpdateSignature(Self.Items[Index].FExtract);
     UpdateSignature(Self.Items[Index].FAdd);
     UpdateSignature(Self.Items[Index].FDelete);
