@@ -253,7 +253,7 @@ begin
         begin
           with gMultiArcList.Items[I] do
           begin
-            if FEnabled and Matches(FArchiveType) then
+            if FEnabled and MatchesMaskList(FArchiveType, FExtension, ',') then
             begin
               if ShowInputComboBox(Caption, rsMsgArchiverCustomParams, FAskHistory, FCustomParams) then
               begin
@@ -403,7 +403,7 @@ begin
     begin
       with gMultiArcList.Items[I] do
       begin
-        if FEnabled and Matches(FArchiveType) then
+        if FEnabled and MatchesMaskList(FArchiveType, FExtension, ',') then
         begin
           // Archive can contain multiple files
           cbCreateSeparateArchives.Checked:= False;
