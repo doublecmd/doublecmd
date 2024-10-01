@@ -132,6 +132,7 @@ type
     FPasswordQuery: String;
     FFormMode: Integer;
     FFlags: TMultiArcFlags;
+    FIgnoreString: TStringList;
   public
     FEnabled: Boolean;
     FOutput: Boolean;
@@ -332,6 +333,14 @@ begin
         FAddSelfExtract:= TrimQuotes(IniFile.ReadString(Section, 'AddSelfExtract', EmptyStr));
         FPasswordQuery:= IniFile.ReadString(Section, 'PasswordQuery', EmptyStr);
         // optional
+        for J:= 0 to 50 do
+        begin
+          Format:= IniFile.ReadString(Section, 'IgnoreString' + IntToStr(J), EmptyStr);
+          if Format <> EmptyStr then
+            FIgnoreString.Add(Format)
+          else
+            Break;
+        end;
         FFlags:= TMultiArcFlags(IniFile.ReadInteger(Section, 'Flags', 0));
         FFormMode:= IniFile.ReadInteger(Section, 'FormMode', 0);
         FEnabled:= IniFile.ReadBool(Section, 'Enabled', True);
@@ -390,6 +399,10 @@ begin
         IniFile.WriteString(Section, 'AddSelfExtract', FAddSelfExtract);
         IniFile.WriteString(Section, 'PasswordQuery', FPasswordQuery);
         // optional
+        for J:= 0 to FIgnoreString.Count - 1 do
+        begin
+          IniFile.WriteString(Section, 'IgnoreString' + IntToStr(J), FIgnoreString[J]);
+        end;
         IniFile.WriteInteger(Section, 'Flags', Integer(FFlags));
         IniFile.WriteInteger(Section, 'FormMode', FFormMode);
         IniFile.WriteBool(Section, 'Enabled', FEnabled);
@@ -456,6 +469,8 @@ begin
     UpdateSignature(Self.Items[Index].FEnd);
     for iInnerIndex := 0 to pred(Self.Items[Index].FFormat.Count) do
       UpdateSignature(Self.Items[Index].FFormat.Strings[iInnerIndex]);
+    for iInnerIndex := 0 to pred(Self.Items[Index].FIgnoreString.Count) do
+      UpdateSignature(Self.Items[Index].FIgnoreString.Strings[iInnerIndex]);
     UpdateSignature(Self.Items[Index].FExtract);
     UpdateSignature(Self.Items[Index].FAdd);
     UpdateSignature(Self.Items[Index].FDelete);
@@ -571,6 +586,7 @@ begin
   FSignatureList:= TSignatureList.Create;
   FSignaturePositionList:= TSignaturePositionList.Create;
   FFormat:= TStringList.Create;
+  FIgnoreString:= TStringList.Create;
 end;
 
 destructor TMultiArcItem.Destroy;
@@ -578,6 +594,7 @@ begin
   FreeAndNil(FMaskList);
   FreeAndNil(FSignatureList);
   FreeAndNil(FSignaturePositionList);
+  FreeAndNil(FIgnoreString);
   FreeAndNil(FFormat);
   inherited Destroy;
 end;
@@ -690,6 +707,7 @@ begin
   Result.FEnabled := Self.FEnabled;
   Result.FOutput := Self.FOutput;
   Result.FDebug := Self.FDebug;
+  Result.FIgnoreString.Assign(Self.FIgnoreString);
 end;
 
 { TSignatureList }
