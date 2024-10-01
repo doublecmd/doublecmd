@@ -570,6 +570,8 @@ begin
       ArchiveItem.Minute:= ArchiveTime.Minute;
       ArchiveItem.Second:= ArchiveTime.Second;
       ArchiveItem.Attributes := mbFileGetAttr(ArchiveFileName);
+      ArchiveItem.UnpSize:= -1;
+      ArchiveItem.PackSize:= mbFileSize(ArchiveFileName);
       AFileList.Add(ArchiveItem);
       Exit(True);
     end;
