@@ -464,6 +464,10 @@ begin
       CompressionMethod,
       Comment,
     }
+    CommentProperty := TFileCommentProperty.Create;
+    //dc dosent allocate buffer, so cmt will be empty
+    //CommentProperty.Value:= WcxHeader.Cmt;
+
     AttributesProperty := {TNtfsFileAttributesProperty or Unix?}
                           TFileAttributesProperty.CreateOSAttributes(WcxHeader.FileAttr);
     if AttributesProperty.IsDirectory then

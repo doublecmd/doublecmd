@@ -322,6 +322,9 @@ begin
       LinkProperty.LinkTo := ArchiveItem.FileLink;
     end;
 
+    CommentProperty := TFileCommentProperty.Create;
+    CommentProperty.Value := ArchiveItem.Comment;
+
     // Set name after assigning Attributes property, because it is used to get extension.
     Name := ExtractFileNameEx(ArchiveItem.FileName);
     if ArchiveItem.FileExt <> EmptyStr then
