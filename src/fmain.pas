@@ -1486,7 +1486,7 @@ begin
         TargetPath := IncludeTrailingPathDelimiter(TargetPath);
         if not Assigned(TargetFileSource) then
           TargetFileSource := TFileSystemFileSource.GetFileSource;
-        case GetDropEffectByKeyAndMouse(GetKeyShiftStateEx, mbLeft) of
+        case GetDropEffectByKeyAndMouse(GetKeyShiftStateEx, mbLeft, gDefaultDropEffect) of
           DropCopyEffect:
             Self.CopyFiles(ActiveFrame.FileSource, TargetFileSource, SourceFiles, TargetPath, gShowDialogOnDragDrop);
           DropMoveEffect:
@@ -1920,7 +1920,7 @@ begin
 
         DropParams := TDropParams.Create(
             Files,
-            GetDropEffectByKeyAndMouse(GetKeyShiftState, mbLeft),
+            GetDropEffectByKeyAndMouse(GetKeyShiftState, mbLeft, gDefaultDropEffect),
             Point, False,
             nil, TargetFileView,
             TargetFileView.FileSource,
@@ -2721,7 +2721,7 @@ begin
         begin
           TargetPath := ANotebook.View[ATabIndex].CurrentPath;
           TargetFileSource := ANotebook.View[ATabIndex].FileSource;
-          case GetDropEffectByKeyAndMouse(GetKeyShiftStateEx, mbLeft) of
+          case GetDropEffectByKeyAndMouse(GetKeyShiftStateEx, mbLeft, gDefaultDropEffect) of
             DropCopyEffect:
               Self.CopyFiles(ActiveFrame.FileSource, TargetFileSource, SourceFiles, TargetPath, gShowDialogOnDragDrop);
             DropMoveEffect:

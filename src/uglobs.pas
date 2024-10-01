@@ -483,6 +483,7 @@ var
   gShowCopyTabSelectPanel:boolean;
   gUseTrash : Boolean; // if using delete to trash by default
   gRenameSelOnlyName:boolean;
+  gDefaultDropEffect: Boolean;
   gShowDialogOnDragDrop: Boolean;
   gDragAndDropDesiredTextFormat:array[0..pred(NbOfDropTextFormat)] of tDesiredDropTextFormat;
   gDragAndDropAskFormatEachTime: Boolean;
@@ -1919,6 +1920,7 @@ begin
   gUseTrash := True;
   gSkipFileOpError := False;
   gTypeOfDuplicatedRename := drLegacyWithCopy;
+  gDefaultDropEffect:= True;
   gShowDialogOnDragDrop := True;
   gDragAndDropDesiredTextFormat[DropTextRichText_Index].Name:='Richtext format';
   gDragAndDropDesiredTextFormat[DropTextRichText_Index].DesireLevel:=0;
@@ -2881,6 +2883,7 @@ begin
       gUseTrash := GetValue(Node, 'UseTrash', gUseTrash);
       gSkipFileOpError := GetValue(Node, 'SkipFileOpError', gSkipFileOpError);
       gTypeOfDuplicatedRename := tDuplicatedRename(GetValue(Node, 'TypeOfDuplicatedRename', Integer(gTypeOfDuplicatedRename)));
+      gDefaultDropEffect := GetValue(Node, 'DefaultDropEffect', gDefaultDropEffect);
       gShowDialogOnDragDrop := GetValue(Node, 'ShowDialogOnDragDrop', gShowDialogOnDragDrop);
       gDragAndDropDesiredTextFormat[DropTextRichText_Index].DesireLevel := GetValue(Node, 'DragAndDropTextRichtextDesireLevel', gDragAndDropDesiredTextFormat[DropTextRichText_Index].DesireLevel);
       gDragAndDropDesiredTextFormat[DropTextHtml_Index].DesireLevel := GetValue(Node, 'DragAndDropTextHtmlDesireLevel',gDragAndDropDesiredTextFormat[DropTextHtml_Index].DesireLevel);
@@ -3562,6 +3565,7 @@ begin
     SetValue(Node, 'UseTrash', gUseTrash);
     SetValue(Node, 'SkipFileOpError', gSkipFileOpError);
     SetValue(Node, 'TypeOfDuplicatedRename', Integer(gTypeOfDuplicatedRename));
+    SetValue(Node, 'DefaultDropEffect', gDefaultDropEffect);
     SetValue(Node, 'ShowDialogOnDragDrop', gShowDialogOnDragDrop);
     SetValue(Node, 'DragAndDropTextRichtextDesireLevel', gDragAndDropDesiredTextFormat[DropTextRichText_Index].DesireLevel);
     SetValue(Node, 'DragAndDropTextHtmlDesireLevel',gDragAndDropDesiredTextFormat[DropTextHtml_Index].DesireLevel);
