@@ -10829,6 +10829,26 @@ msgctxt "ulng.rsmfstbicommandtitle"
 msgid "Command"
 msgstr "Príkaz"
 
+#: ulng.rsmfstbicomparetips
+msgid "Compare by Contents..."
+msgstr ""
+
+#: ulng.rsmfstbicomparetitle
+#, fuzzy
+msgctxt "ulng.rsmfstbicomparetitle"
+msgid "Compare"
+msgstr "Porovnať"
+
+#: ulng.rsmfstbiedittips
+msgid "Edit..."
+msgstr ""
+
+#: ulng.rsmfstbiedittitle
+#, fuzzy
+msgctxt "ulng.rsmfstbiedittitle"
+msgid "Edit"
+msgstr "Upraviť"
+
 #: ulng.rsmfstbifinderrevealtips
 msgid "Reveal in Finder"
 msgstr "Zobraziť vo vyhľadávači"
@@ -10854,6 +10874,14 @@ msgstr "Prepnúť režim s horizontálnymi panelmi"
 #: ulng.rsmfstbihorzsplittitle
 msgid "HorzSplit"
 msgstr "Horizontálne rozdelenie"
+
+#: ulng.rsmfstbiprivilegetips
+msgid "As a file manager, Double Command requires full disk access permissions. Clicking this button will pop up the macOS system settings page. Please add \"Double Commander.app\" to the \"Full Disk Access\" list to complete the authorization."
+msgstr ""
+
+#: ulng.rsmfstbiprivilegetitle
+msgid "Privilege"
+msgstr ""
 
 #: ulng.rsmfstbiquicklooktips
 msgid "macOS Quick Look Panel"
@@ -10919,6 +10947,14 @@ msgstr "Zameniť panely"
 #: ulng.rsmfstbiswappanelstitle
 msgid "SwapPanels"
 msgstr "Zameniť panely"
+
+#: ulng.rsmfstbisynctips
+msgid "Synchronize Dirs..."
+msgstr ""
+
+#: ulng.rsmfstbisynctitle
+msgid "Sync"
+msgstr ""
 
 #: ulng.rsmfstbiterminaltips
 msgid "Open in Terminal"

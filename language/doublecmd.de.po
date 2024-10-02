@@ -10830,6 +10830,26 @@ msgctxt "ulng.rsmfstbicommandtitle"
 msgid "Command"
 msgstr "Befehl"
 
+#: ulng.rsmfstbicomparetips
+msgid "Compare by Contents..."
+msgstr ""
+
+#: ulng.rsmfstbicomparetitle
+#, fuzzy
+msgctxt "ulng.rsmfstbicomparetitle"
+msgid "Compare"
+msgstr "Vergleichen"
+
+#: ulng.rsmfstbiedittips
+msgid "Edit..."
+msgstr ""
+
+#: ulng.rsmfstbiedittitle
+#, fuzzy
+msgctxt "ulng.rsmfstbiedittitle"
+msgid "Edit"
+msgstr "Bearbeiten"
+
 #: ulng.rsmfstbifinderrevealtips
 msgid "Reveal in Finder"
 msgstr "Im Finder aufzeigen"
@@ -10855,6 +10875,14 @@ msgstr "Horizontal geteilt ein- und ausschalten"
 #: ulng.rsmfstbihorzsplittitle
 msgid "HorzSplit"
 msgstr "Horizontal geteilt"
+
+#: ulng.rsmfstbiprivilegetips
+msgid "As a file manager, Double Command requires full disk access permissions. Clicking this button will pop up the macOS system settings page. Please add \"Double Commander.app\" to the \"Full Disk Access\" list to complete the authorization."
+msgstr ""
+
+#: ulng.rsmfstbiprivilegetitle
+msgid "Privilege"
+msgstr ""
 
 #: ulng.rsmfstbiquicklooktips
 msgid "macOS Quick Look Panel"
@@ -10920,6 +10948,14 @@ msgstr "Dateifenster tauschen"
 #: ulng.rsmfstbiswappanelstitle
 msgid "SwapPanels"
 msgstr "Dateifenster tauschen"
+
+#: ulng.rsmfstbisynctips
+msgid "Synchronize Dirs..."
+msgstr ""
+
+#: ulng.rsmfstbisynctitle
+msgid "Sync"
+msgstr ""
 
 #: ulng.rsmfstbiterminaltips
 msgid "Open in Terminal"

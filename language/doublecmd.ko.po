@@ -10833,6 +10833,26 @@ msgctxt "ulng.rsmfstbicommandtitle"
 msgid "Command"
 msgstr "명령"
 
+#: ulng.rsmfstbicomparetips
+msgid "Compare by Contents..."
+msgstr ""
+
+#: ulng.rsmfstbicomparetitle
+#, fuzzy
+msgctxt "ulng.rsmfstbicomparetitle"
+msgid "Compare"
+msgstr "비교"
+
+#: ulng.rsmfstbiedittips
+msgid "Edit..."
+msgstr ""
+
+#: ulng.rsmfstbiedittitle
+#, fuzzy
+msgctxt "ulng.rsmfstbiedittitle"
+msgid "Edit"
+msgstr "편집"
+
 #: ulng.rsmfstbifinderrevealtips
 msgid "Reveal in Finder"
 msgstr "파인더에서 공개"
@@ -10858,6 +10878,14 @@ msgstr "수평 분할 모드 전환"
 #: ulng.rsmfstbihorzsplittitle
 msgid "HorzSplit"
 msgstr "수평 분할"
+
+#: ulng.rsmfstbiprivilegetips
+msgid "As a file manager, Double Command requires full disk access permissions. Clicking this button will pop up the macOS system settings page. Please add \"Double Commander.app\" to the \"Full Disk Access\" list to complete the authorization."
+msgstr ""
+
+#: ulng.rsmfstbiprivilegetitle
+msgid "Privilege"
+msgstr ""
 
 #: ulng.rsmfstbiquicklooktips
 msgid "macOS Quick Look Panel"
@@ -10924,6 +10952,14 @@ msgstr "패널 교환"
 #: ulng.rsmfstbiswappanelstitle
 msgid "SwapPanels"
 msgstr "SwapPanels"
+
+#: ulng.rsmfstbisynctips
+msgid "Synchronize Dirs..."
+msgstr ""
+
+#: ulng.rsmfstbisynctitle
+msgid "Sync"
+msgstr ""
 
 #: ulng.rsmfstbiterminaltips
 msgid "Open in Terminal"
@@ -14179,3 +14215,4 @@ msgstr "교체가 이루어지지 않았습니다."
 #, object-pascal-format
 msgid "No setup named \"%s\""
 msgstr "\"%s\"라는 설정이 없습니다"
+
