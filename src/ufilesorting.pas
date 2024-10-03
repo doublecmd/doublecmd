@@ -558,7 +558,7 @@ begin
     Exit(1)
   else if gSortClearVariant and VarIsClear(Value2) then
     Exit(-1)
-  else if VarIsType(Value1, varString) then
+  else if VarIsType(Value1, varString) and not VarIsClear(Value2) then
     Result := CompareStrings(Value1, Value2, gSortNatural, gSortSpecial, gSortCaseSensitivity)
   else
   begin
