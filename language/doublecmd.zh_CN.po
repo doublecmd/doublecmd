@@ -10830,20 +10830,18 @@ msgstr "命令"
 
 #: ulng.rsmfstbicomparetips
 msgid "Compare by Contents..."
-msgstr ""
+msgstr "比较内容..."
 
 #: ulng.rsmfstbicomparetitle
-#, fuzzy
 msgctxt "ulng.rsmfstbicomparetitle"
 msgid "Compare"
 msgstr "比较"
 
 #: ulng.rsmfstbiedittips
 msgid "Edit..."
-msgstr ""
+msgstr "编辑..."
 
 #: ulng.rsmfstbiedittitle
-#, fuzzy
 msgctxt "ulng.rsmfstbiedittitle"
 msgid "Edit"
 msgstr "编辑"
@@ -10880,11 +10878,11 @@ msgstr "水平分隔"
 
 #: ulng.rsmfstbiprivilegetips
 msgid "As a file manager, Double Command requires full disk access permissions. Clicking this button will pop up the macOS system settings page. Please add \"Double Commander.app\" to the \"Full Disk Access\" list to complete the authorization."
-msgstr ""
+msgstr "Double Command作为文件管理器，需要获得完全磁盘访问权限。点击此按钮将弹出macOS系统设置页，请添加“Double Commander.app”到“完全磁盘访问权限”列表中完成授权。"
 
 #: ulng.rsmfstbiprivilegetitle
 msgid "Privilege"
-msgstr ""
+msgstr "权限"
 
 #: ulng.rsmfstbiquicklooktips
 msgctxt "ulng.rsmfstbiquicklooktips"
@@ -10968,11 +10966,11 @@ msgstr "对调面板"
 
 #: ulng.rsmfstbisynctips
 msgid "Synchronize Dirs..."
-msgstr ""
+msgstr "同步文件夹..."
 
 #: ulng.rsmfstbisynctitle
 msgid "Sync"
-msgstr ""
+msgstr "同步"
 
 #: ulng.rsmfstbiterminaltips
 msgctxt "ulng.rsmfstbiterminaltips"
