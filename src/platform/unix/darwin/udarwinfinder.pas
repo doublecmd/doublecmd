@@ -8,7 +8,8 @@ interface
 uses
   Classes, SysUtils, LCLType,
   sqldb, SQLite3Conn,
-  MacOSAll, CocoaAll, CocoaConst, CocoaTextEdits, CocoaUtils;
+  uDebug,
+  MacOSAll, CocoaAll, CocoaConst, CocoaTextEdits, CocoaUtils, Cocoa_Extra;
 
 const
   TAG_POPOVER_WIDTH = 228.0;
@@ -36,8 +37,10 @@ type
     class procedure setTagNamesOfFile( const url: NSUrl; const tagNames: NSArray );
   private
     class function getAllTags: NSDictionary;
-    class function getAllTagsFromPlist( const plistBytes: TBytes ): NSDictionary;
-    class function getTagsPlistFromDatabase: TBytes;
+    class function getTagsData_macOS12: NSDictionary;
+    class function getTagsData_macOS11: NSDictionary;
+    class function doGetAllTags( const tagDictionary: NSDictionary ): NSDictionary;
+    class function getTagsDataFromDatabase: TBytes;
   private
     class procedure drawTagName( const tagName: NSString;
       const fontSize: CGFloat; const color: NSColor; const rect: NSRect );
@@ -904,18 +907,69 @@ end;
 
 const
   NEW_FINDER_TAGS_DATABASE_PATH = '/Library/SyncedPreferences/com.apple.kvs/com.apple.KeyValueService-Production.sqlite';
+  OLD_FINDER_TAGS_FILE_PATH     = '/Library/SyncedPreferences/com.apple.finder.plist';
 
 class function uDarwinFinderUtil.getAllTags: NSDictionary;
 var
-  plistBytes: TBytes;
+  tagDictionary: NSDictionary;
 begin
   Result:= nil;
-  plistBytes:= uDarwinFinderUtil.getTagsPlistFromDatabase;
-  if plistBytes <> nil then
-    Result:= uDarwinFinderUtil.getAllTagsFromPlist( plistBytes );
+
+  try
+    if NSAppKitVersionNumber >= NSAppKitVersionNumber12_0 then
+      tagDictionary:= getTagsData_macOS12
+    else
+      tagDictionary:= getTagsData_macOS11;
+
+    Result:= doGetAllTags( tagDictionary );
+  except
+    // it is suitable for just recording exception and handling it silently
+    on e: Exception do begin
+      DCDebug( 'Exception in uDarwinFinderUtil.getAllTags(): ', e.ToString );
+    end;
+  end;
 end;
 
-class function uDarwinFinderUtil.getTagsPlistFromDatabase: TBytes;
+class function uDarwinFinderUtil.getTagsData_macOS12: NSDictionary;
+var
+  plistBytes: TBytes;
+  plistData: NSData;
+begin
+  Result:= nil;
+  plistBytes:= uDarwinFinderUtil.getTagsDataFromDatabase;
+  if plistBytes = nil then
+    Exit;
+
+  plistData:= NSData.dataWithBytes_length( @plistBytes[0], Length(plistBytes) );
+  if plistData = nil then
+    Exit;
+
+  Result:= NSPropertyListSerialization.propertyListWithData_options_format_error(
+    plistData, NSPropertyListImmutable, nil, nil );
+end;
+
+class function uDarwinFinderUtil.getTagsData_macOS11: NSDictionary;
+var
+  path: NSString;
+  plistData: NSData;
+  plistProperties: id;
+begin
+  Result:= nil;
+  path:= NSHomeDirectory.stringByAppendingString( NSSTR(OLD_FINDER_TAGS_FILE_PATH) );
+
+  plistData:= NSData.dataWithContentsOfFile( path );
+  if plistData = nil then
+    Exit;
+
+  plistProperties:= NSPropertyListSerialization.propertyListWithData_options_format_error(
+    plistData, NSPropertyListImmutable, nil, nil );
+  if plistProperties = nil then
+    Exit;
+
+  Result:= plistProperties.valueForKeyPath( NSSTR('values.FinderTagDict.value') );
+end;
+
+class function uDarwinFinderUtil.getTagsDataFromDatabase: TBytes;
 var
   connection: TSQLConnection = nil;
   transaction: TSQLTransaction = nil;
@@ -948,10 +1002,8 @@ begin
   end;
 end;
 
-class function uDarwinFinderUtil.getAllTagsFromPlist( const plistBytes: TBytes ): NSDictionary;
+class function uDarwinFinderUtil.doGetAllTags( const tagDictionary: NSDictionary ): NSDictionary;
 var
-  plistData: NSData;
-  plistProperties: id;
   plistTagArray: NSArray;
 
   plistTagItem: NSDictionary;
@@ -963,17 +1015,10 @@ var
   tag: TFinderTag;
 begin
   Result:= nil;
-  plistData:= NSData.dataWithBytes_length( @plistBytes[0], Length(plistBytes) );
-  if plistData = nil then
+  if tagDictionary = nil then
     Exit;
 
-  plistProperties:= NSPropertyListSerialization.propertyListWithData_options_format_error(
-    plistData, NSPropertyListImmutable, nil, nil );
-
-  if plistProperties = nil then
-    Exit;
-
-  plistTagArray:= plistProperties.valueForKeyPath( NSSTR('FinderTags') );
+  plistTagArray:= tagDictionary.valueForKeyPath( NSSTR('FinderTags') );
   if plistTagArray = nil then
     Exit;
 
