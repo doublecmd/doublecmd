@@ -977,7 +977,6 @@ object frmFileProperties: TfrmFileProperties
     CloseButton.DefaultCaption = True
     CancelButton.Name = 'CancelButton'
     CancelButton.DefaultCaption = True
-    Color = clForm
     ButtonOrder = boCloseOKCancel
     TabOrder = 1
     ShowButtons = [pbOK, pbCancel]
