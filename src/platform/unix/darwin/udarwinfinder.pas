@@ -543,6 +543,7 @@ procedure TFinderTagsListView.drawRow_clipRect(row: NSInteger; clipRect: NSRect
 var
   cellRect: NSRect;
   tagName: NSString;
+  newStyle: Boolean;
 
   procedure drawSelectedBackground;
   var
@@ -553,9 +554,13 @@ var
       Exit;
     NSColor.alternateSelectedControlColor.set_;
     rect:= self.rectOfRow( row );
-    rect:= NSInsetRect( rect, 10, 0 );
-    path:= NSBezierPath.bezierPathWithRoundedRect_xRadius_yRadius( rect, 5, 5 );
-    path.fill;
+    if newStyle then begin
+      rect:= NSInsetRect( rect, 10, 0 );
+      path:= NSBezierPath.bezierPathWithRoundedRect_xRadius_yRadius( rect, 5, 5 );
+      path.fill;
+    end else begin
+      NSRectFill( rect );
+    end;
   end;
 
   procedure drawTagColor;
@@ -567,6 +572,8 @@ var
     rect:= cellRect;
     rect.size.width:= rect.size.height;
     rect:= NSInsetRect( rect, 5, 5 );
+    if NOT newStyle then
+      rect.origin.x:= rect.origin.x + 10;
     finderTag:= TFinderTags.getTagOfName( tagName );
     dotFinderTagNSColors[finderTag.colorIndex].set_;
     if finderTag.colorIndex <> 0 then begin
@@ -591,14 +598,25 @@ var
     end;
 
     rect:= cellRect;
-    rect.origin.x:= rect.origin.x + 20;
-    rect.size.width:= rect.size.width - 20;
+    if newStyle then begin
+      rect.origin.x:= rect.origin.x + 20;
+      rect.size.width:= rect.size.width - 20;
+    end else begin
+      rect.origin.x:= rect.origin.x + 30;
+      rect.size.width:= rect.size.width - 40;
+    end;
     rect.origin.y:= rect.origin.y + TAG_LIST_FONT_SIZE + 2;
 
     uDarwinFinderUtil.drawTagName( tagName, TAG_LIST_FONT_SIZE, color, rect );
   end;
 
 begin
+  newStyle:= True;
+  if NSAppKitVersionNumber < NSAppKitVersionNumber11_0 then
+    newStyle:= false
+  else if self.style = NSTableViewStylePlain then
+    newStyle:= false;
+
   tagName:= NSTableViewDataSourceProtocol(self.datasource).tableView_objectValueForTableColumn_row(
     self, nil, row );
   cellRect:= frameOfCellAtColumn_row( 0, row );
