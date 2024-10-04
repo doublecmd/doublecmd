@@ -436,7 +436,7 @@ var
   begin
     i:= 0;
     while i < tokenNames.count do begin
-      if tokenName.isEqualTo( tokenNames.objectAtIndex(i) ) then begin
+      if tokenName.localizedCaseInsensitiveCompare(tokenNames.objectAtIndex(i)) = NSOrderedSame then begin
         tokenNames.removeObjectAtIndex( i );
         if i < newTokenRange.location then
           dec( newTokenRange.location );
@@ -757,7 +757,7 @@ begin
     usedTagNames.removeObjectAtIndex( editingRange.location );
 
   for tagName in TFinderTags._tags do begin
-    if (substring.length>0) and (NOT tagName.containsString(substring)) then
+    if (substring.length>0) and (NOT tagName.localizedCaseInsensitiveContainsString(substring)) then
       continue;
     if usedTagNames.containsObject(tagName) then
       continue;
