@@ -47,7 +47,6 @@ type
     cbPutInTarFirst: TCheckBox;
     DividerBevel: TDividerBevel;
     edtPackCmd: TDirectoryEdit;
-    lblPacker: TLabel;
     lblPrompt: TLabel;
     cbStoreDir: TCheckBox;
     rgPacker: TRadioGroup;
@@ -364,8 +363,7 @@ begin
     begin
       if gWCXPlugins.Enabled[I] and (gWCXPlugins.Ext[I] = FArchiveType) then
       begin
-        lblPacker.Caption:=ExtractFileName(gWCXPlugins.FileName[I]);
-        EnableControl(btnConfig, ((gWCXPlugins.Flags[I] and PK_CAPS_OPTIONS) <> 0));
+         EnableControl(btnConfig, ((gWCXPlugins.Flags[I] and PK_CAPS_OPTIONS) <> 0));
         // If plugin supports packing with password
         EnableControl(cbEncrypt, ((gWCXPlugins.Flags[I] and PK_CAPS_ENCRYPT) <> 0));
         // If archive can not contain multiple files
@@ -415,7 +413,6 @@ begin
           else
             sCmd:= FAdd;
 
-          lblPacker.Caption:='[' + FPacker + ']';
           EnableControl(btnConfig, (Pos('%S', sCmd) <> 0));
           // If addon supports create multi volume archive
           EnableControl(cbMultivolume, (Pos('%V', sCmd) <> 0));
