@@ -51,7 +51,6 @@ object frmFileProperties: TfrmFileProperties
         ChildSizing.ControlsPerLine = 2
         ClientHeight = 397
         ClientWidth = 436
-        Color = clForm
         ParentColor = False
         TabOrder = 0
         object pnlIcon: TPanel
