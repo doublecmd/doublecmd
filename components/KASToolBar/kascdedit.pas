@@ -382,6 +382,10 @@ begin
         end;
     end;
   end;
+  if ReadOnly and (Key in [VK_BACK, VK_DELETE]) then
+  begin
+    Key:= 0;
+  end;
   inherited KeyDown(Key, Shift);
 end;
 
