@@ -107,7 +107,6 @@ object frmFileProperties: TfrmFileProperties
           Top = 60
           Width = 24
           AutoSize = True
-          Color = clForm
           DrawStyle = dsExtra1
           Lines.Strings = (
             '???'
@@ -134,7 +133,6 @@ object frmFileProperties: TfrmFileProperties
           Top = 85
           Width = 24
           AutoSize = True
-          Color = clForm
           DrawStyle = dsExtra1
           Lines.Strings = (
             '???'
@@ -161,7 +159,6 @@ object frmFileProperties: TfrmFileProperties
           Top = 110
           Width = 24
           AutoSize = True
-          Color = clForm
           DrawStyle = dsExtra1
           Lines.Strings = (
             '???'
@@ -188,7 +185,6 @@ object frmFileProperties: TfrmFileProperties
           Top = 135
           Width = 24
           AutoSize = True
-          Color = clForm
           DrawStyle = dsExtra1
           Lines.Strings = (
             '???'
@@ -215,7 +211,6 @@ object frmFileProperties: TfrmFileProperties
           Top = 160
           Width = 24
           AutoSize = True
-          Color = clForm
           DrawStyle = dsExtra1
           Lines.Strings = (
             '???'
@@ -242,7 +237,6 @@ object frmFileProperties: TfrmFileProperties
           Top = 185
           Width = 24
           AutoSize = True
-          Color = clForm
           DrawStyle = dsExtra1
           Lines.Strings = (
             '???'
@@ -269,7 +263,6 @@ object frmFileProperties: TfrmFileProperties
           Top = 210
           Width = 24
           AutoSize = True
-          Color = clForm
           DrawStyle = dsExtra1
           Lines.Strings = (
             '???'
@@ -296,7 +289,6 @@ object frmFileProperties: TfrmFileProperties
           Top = 235
           Width = 24
           AutoSize = True
-          Color = clForm
           DrawStyle = dsExtra1
           Lines.Strings = (
             '???'
@@ -323,7 +315,6 @@ object frmFileProperties: TfrmFileProperties
           Top = 268
           Width = 24
           AutoSize = True
-          Color = clForm
           DrawStyle = dsExtra1
           Lines.Strings = (
             '???'
@@ -350,7 +341,6 @@ object frmFileProperties: TfrmFileProperties
           Top = 291
           Width = 24
           AutoSize = True
-          Color = clForm
           DrawStyle = dsExtra1
           Lines.Strings = (
             '???'
@@ -377,7 +367,6 @@ object frmFileProperties: TfrmFileProperties
           Top = 316
           Width = 24
           AutoSize = True
-          Color = clForm
           DrawStyle = dsExtra1
           Lines.Strings = (
             '???'
@@ -404,7 +393,6 @@ object frmFileProperties: TfrmFileProperties
           Top = 340
           Width = 24
           AutoSize = True
-          Color = clForm
           DrawStyle = dsExtra1
           Lines.Strings = (
             '???'
