@@ -107,9 +107,11 @@ type
     class function CreateByArchiveSign(anArchiveFileSource: IFileSource;
                                        anArchiveFileName: String): IMultiArchiveFileSource;
     class function CreateByArchiveType(anArchiveFileSource: IFileSource;
-                                       anArchiveFileName, anArchiveType: String): IMultiArchiveFileSource;
+                                       anArchiveFileName, anArchiveType: String;
+                                       bIncludeHidden: Boolean = False): IMultiArchiveFileSource;
     class function CreateByArchiveName(anArchiveFileSource: IFileSource;
-                                       anArchiveFileName: String): IMultiArchiveFileSource;
+                                       anArchiveFileName: String;
+                                       bIncludeHidden: Boolean = False): IMultiArchiveFileSource;
     {en
        Returns @true if there is an addon registered for the archive name.
     }
@@ -168,8 +170,8 @@ begin
 end;
 
 class function TMultiArchiveFileSource.CreateByArchiveType(
-    anArchiveFileSource: IFileSource;
-    anArchiveFileName, anArchiveType: String): IMultiArchiveFileSource;
+  anArchiveFileSource: IFileSource; anArchiveFileName, anArchiveType: String;
+  bIncludeHidden: Boolean): IMultiArchiveFileSource;
 var
   I: Integer;
   aMultiArcItem: TMultiArcItem;
@@ -181,7 +183,8 @@ begin
   begin
     aMultiArcItem:= gMultiArcList.Items[I];
 
-    if (aMultiArcItem.FEnabled) and not (mafHide in aMultiArcItem.FFlags) and MatchesMaskList(anArchiveType, aMultiArcItem.FExtension, ',') then
+    if (aMultiArcItem.FEnabled) and
+       ((bIncludeHidden) or not (mafHide in aMultiArcItem.FFlags)) and MatchesMaskList(anArchiveType, aMultiArcItem.FExtension, ',') then
     begin
       Result := TMultiArchiveFileSource.Create(anArchiveFileSource,
                                                anArchiveFileName,
@@ -194,8 +197,8 @@ begin
 end;
 
 class function TMultiArchiveFileSource.CreateByArchiveName(
-    anArchiveFileSource: IFileSource;
-    anArchiveFileName: String): IMultiArchiveFileSource;
+  anArchiveFileSource: IFileSource; anArchiveFileName: String;
+  bIncludeHidden: Boolean): IMultiArchiveFileSource;
 var
   I: Integer;
   aMultiArcItem: TMultiArcItem;
@@ -207,7 +210,8 @@ begin
   begin
     aMultiArcItem:= gMultiArcList.Items[I];
 
-    if (aMultiArcItem.FEnabled) and not (mafHide in aMultiArcItem.FFlags) and aMultiArcItem.Matches(anArchiveFileName) then
+    if (aMultiArcItem.FEnabled) and
+       ((bIncludeHidden) or not (mafHide in aMultiArcItem.FFlags)) and aMultiArcItem.Matches(anArchiveFileName) then
     begin
       Result := TMultiArchiveFileSource.Create(anArchiveFileSource,
                                                anArchiveFileName,

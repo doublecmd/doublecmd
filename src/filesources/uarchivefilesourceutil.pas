@@ -70,7 +70,7 @@ begin
       else if (ArchiveType = EmptyStr) then
         Result := TMultiArchiveFileSource.CreateByArchiveName(SourceFileSource, ArchiveFileName)
       else
-        Result := TMultiArchiveFileSource.CreateByArchiveType(SourceFileSource, ArchiveFileName, ArchiveType);
+        Result := TMultiArchiveFileSource.CreateByArchiveType(SourceFileSource, ArchiveFileName, ArchiveType, IncludeHidden);
     end;
   end;
 end;
