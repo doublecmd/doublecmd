@@ -8,14 +8,129 @@ object frmSearchPlugin: TfrmSearchPlugin
   TabOrder = 0
   DesignLeft = 573
   DesignTop = 336
+  object pnlOptions: TPanel
+    Left = 0
+    Height = 35
+    Top = 0
+    Width = 581
+    Align = alTop
+    AutoSize = True
+    BevelOuter = bvNone
+    ChildSizing.TopBottomSpacing = 6
+    ChildSizing.HorizontalSpacing = 6
+    ChildSizing.EnlargeHorizontal = crsHomogenousChildResize
+    ChildSizing.Layout = cclLeftToRightThenTopToBottom
+    ChildSizing.ControlsPerLine = 4
+    ClientHeight = 35
+    ClientWidth = 581
+    TabOrder = 2
+    object chkUsePlugins: TCheckBox
+      Left = 0
+      Height = 23
+      Top = 6
+      Width = 264
+      Caption = 'Use &content plugins, combine with:'
+      TabOrder = 0
+      OnChange = chkUsePluginsChange
+    end
+    object rbAnd: TRadioButton
+      Left = 270
+      Height = 23
+      Top = 6
+      Width = 153
+      Caption = '&AND (all match)'
+      Checked = True
+      Enabled = False
+      TabOrder = 1
+      TabStop = True
+    end
+    object rbOr: TRadioButton
+      Left = 429
+      Height = 23
+      Top = 6
+      Width = 152
+      Caption = '&OR (any match)'
+      Enabled = False
+      TabOrder = 2
+    end
+  end
+  object pnlHeaders: TPanel
+    Left = 0
+    Height = 16
+    Top = 40
+    Width = 581
+    Align = alTop
+    BorderSpacing.Top = 5
+    BevelOuter = bvNone
+    ClientHeight = 16
+    ClientWidth = 581
+    Enabled = False
+    TabOrder = 3
+    object lblPlugin: TLabel
+      AnchorSideLeft.Control = pnlHeaders
+      AnchorSideTop.Control = pnlHeaders
+      AnchorSideTop.Side = asrCenter
+      Left = 0
+      Height = 16
+      Top = 0
+      Width = 41
+      Alignment = taCenter
+      Caption = 'Plugin'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object lblField: TLabel
+      AnchorSideLeft.Control = lblPlugin
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = lblPlugin
+      AnchorSideTop.Side = asrCenter
+      Left = 41
+      Height = 16
+      Top = 0
+      Width = 31
+      Alignment = taCenter
+      Caption = 'Field'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object lblOperator: TLabel
+      AnchorSideLeft.Control = lblField
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = lblPlugin
+      Left = 72
+      Height = 16
+      Top = 0
+      Width = 54
+      Alignment = taCenter
+      Caption = 'Operator'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object lblValue: TLabel
+      AnchorSideLeft.Control = lblOperator
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = lblPlugin
+      Left = 126
+      Height = 16
+      Top = 0
+      Width = 34
+      Alignment = taCenter
+      Caption = 'Value'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+  end
   object pnlTable: TScrollBox
     Left = 0
-    Height = 125
-    Top = 65
+    Height = 134
+    Top = 56
     Width = 581
     HorzScrollBar.Page = 1
     HorzScrollBar.Visible = False
+    VertScrollBar.Increment = 1
     VertScrollBar.Page = 1
+    VertScrollBar.Smooth = True
+    VertScrollBar.Tracking = True
     Align = alClient
     ChildSizing.EnlargeHorizontal = crsHomogenousChildResize
     ChildSizing.Layout = cclLeftToRightThenTopToBottom
@@ -42,107 +157,22 @@ object frmSearchPlugin: TfrmSearchPlugin
     TabOrder = 1
     object btnAdd: TButton
       Left = 12
-      Height = 25
+      Height = 26
       Top = 12
-      Width = 82
+      Width = 71
       AutoSize = True
       Caption = '&More rules'
-      OnClick = btnAddClick
       TabOrder = 0
+      OnClick = btnAddClick
     end
     object btnDelete: TBitBtn
-      Left = 106
-      Height = 25
+      Left = 95
+      Height = 26
       Top = 12
-      Width = 76
+      Width = 70
       Caption = 'L&ess rules'
       OnClick = btnDeleteClick
       TabOrder = 1
-    end
-  end
-  object HeaderControl: THeaderControl
-    Left = 0
-    Height = 34
-    Top = 31
-    Width = 581
-    DragReorder = False
-    Sections = <    
-      item
-        Alignment = taLeftJustify
-        Text = 'Plugin'
-        Width = 30
-        Visible = True
-      end    
-      item
-        Alignment = taLeftJustify
-        Text = 'Field'
-        Width = 30
-        Visible = True
-      end    
-      item
-        Alignment = taLeftJustify
-        Text = 'Operator'
-        Width = 30
-        Visible = True
-      end    
-      item
-        Alignment = taLeftJustify
-        Text = 'Value'
-        Width = 30
-        Visible = True
-      end    
-      item
-        Alignment = taLeftJustify
-        Width = 30
-        Visible = True
-      end>
-    Align = alTop
-    Enabled = False
-  end
-  object pnlHeader: TPanel
-    Left = 0
-    Height = 31
-    Top = 0
-    Width = 581
-    Align = alTop
-    AutoSize = True
-    BevelOuter = bvNone
-    ChildSizing.TopBottomSpacing = 6
-    ChildSizing.HorizontalSpacing = 6
-    ChildSizing.EnlargeHorizontal = crsHomogenousChildResize
-    ChildSizing.Layout = cclLeftToRightThenTopToBottom
-    ChildSizing.ControlsPerLine = 4
-    ClientHeight = 31
-    ClientWidth = 581
-    TabOrder = 3
-    object chkUsePlugins: TCheckBox
-      Left = 0
-      Height = 19
-      Top = 6
-      Width = 259
-      Caption = 'Use &content plugins, combine with:'
-      OnChange = chkUsePluginsChange
-      TabOrder = 0
-    end
-    object rbAnd: TRadioButton
-      Left = 265
-      Height = 19
-      Top = 6
-      Width = 157
-      Caption = '&AND (all match)'
-      Checked = True
-      Enabled = False
-      TabOrder = 1
-      TabStop = True
-    end
-    object rbOr: TRadioButton
-      Left = 428
-      Height = 19
-      Top = 6
-      Width = 153
-      Caption = '&OR (any match)'
-      Enabled = False
-      TabOrder = 2
     end
   end
 end
