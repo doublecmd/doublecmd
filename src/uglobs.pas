@@ -306,6 +306,7 @@ var
   gToolbarPathModifierElements: tToolbarPathModifierElements;
 
   gRepeatPassword:Boolean;  // repeat password when packing files
+  gMaxStringItems: Integer;
   gDirHistoryCount:Integer; // how many history we remember
   gShowSystemFiles:Boolean;
   gRunInTermStayOpenCmd: String;
