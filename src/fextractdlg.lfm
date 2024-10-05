@@ -185,6 +185,7 @@ inherited frmExtractDlg: TfrmExtractDlg
     Anchors = [akTop, akLeft, akRight]
     ClientHeight = 38
     ClientWidth = 481
+    Color = clDefault
     inherited btnCancel: TBitBtn
       Left = 282
       Height = 38
