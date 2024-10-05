@@ -22,10 +22,8 @@ inherited frmOptionsDirectoryHotlist: TfrmOptionsDirectoryHotlist
     ChildSizing.TopBottomSpacing = 6
     ClientHeight = 626
     ClientWidth = 714
-    Color = clForm
     Constraints.MinHeight = 460
     Constraints.MinWidth = 548
-    ParentColor = False
     TabOrder = 0
     object pnlClient: TPanel
       AnchorSideLeft.Control = gbDirectoryHotlist
@@ -85,8 +83,6 @@ inherited frmOptionsDirectoryHotlist: TfrmOptionsDirectoryHotlist
         BevelOuter = bvNone
         ClientHeight = 161
         ClientWidth = 314
-        Color = clForm
-        ParentColor = False
         TabOrder = 1
         OnResize = pnlButtonsResize
         object btnInsert: TBitBtn
