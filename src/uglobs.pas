@@ -727,9 +727,6 @@ function GetValidDateTimeFormat(const aFormat, ADefaultFormat: string): string;
 
 procedure RegisterInitialization(InitProc: TProcedure);
 
-const
-  cMaxStringItems=50;
-  
 var
   gConfig: TXmlConfig = nil;
   gStyles: TJsonConfig = nil;
@@ -921,7 +918,7 @@ var
           if LoadObj then begin
             HistoryList.Objects[Idx]:= TObject(UIntPtr(History.GetAttr(Node, 'Tag', 0)));
           end;
-          if HistoryList.Count >= cMaxStringItems then Break;
+          if HistoryList.Count >= gMaxStringItems then Break;
         end;
         Node := Node.NextSibling;
       end;
@@ -975,7 +972,7 @@ var
       if SaveObj then begin
         History.SetAttr(SubNode, 'Tag', UInt32(UIntPtr(HistoryList.Objects[I])));
       end;
-      if I >= cMaxStringItems then Break;
+      if I >= gMaxStringItems then Break;
     end;
   end;
 
@@ -2009,6 +2006,7 @@ begin
   gSaveSearchReplaceHistory := True;
   gSaveDirHistory := True;
   gDirHistoryCount := 30;
+  gMaxStringItems := 50;
   gSaveCmdLineHistory := True;
   gSaveFileMaskHistory := True;
   gSaveVolumeSizeHistory := True;
@@ -2987,6 +2985,7 @@ begin
     gSaveSearchReplaceHistory:= GetAttr(Root, 'History/SearchReplaceHistory/Save', gSaveSearchReplaceHistory);
     gSaveDirHistory := GetAttr(Root, 'History/DirHistory/Save', gSaveDirHistory);
     gDirHistoryCount := GetAttr(Root, 'History/DirHistory/Count', gDirHistoryCount);
+    gMaxStringItems := GetAttr(Root, 'History/MaxStringItems', gMaxStringItems);
     gSaveCmdLineHistory := GetAttr(Root, 'History/CmdLineHistory/Save', gSaveCmdLineHistory);
     gSaveFileMaskHistory := GetAttr(Root, 'History/FileMaskHistory/Save', gSaveFileMaskHistory);
     gSaveVolumeSizeHistory := GetAttr(Root, 'History/VolumeSizeHistory/Save', gSaveVolumeSizeHistory);
@@ -3637,6 +3636,7 @@ begin
     SetAttr(Root, 'History/SearchReplaceHistory/Save', gSaveSearchReplaceHistory);
     SetAttr(Root, 'History/DirHistory/Save', gSaveDirHistory);
     SetAttr(Root, 'History/DirHistory/Count', gDirHistoryCount);
+    SetAttr(Root, 'History/MaxStringItems', gMaxStringItems);
     SetAttr(Root, 'History/CmdLineHistory/Save', gSaveCmdLineHistory);
     SetAttr(Root, 'History/FileMaskHistory/Save', gSaveFileMaskHistory);
     SetAttr(Root, 'History/VolumeSizeHistory/Save', gSaveVolumeSizeHistory);
