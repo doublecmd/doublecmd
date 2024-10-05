@@ -3919,6 +3919,10 @@ msgstr "P&okaż dane wyjściowe konsoli"
 msgid "Use archive name without extension as list"
 msgstr "Użyj nazwy archiwum bez rozszerzenia jako listy"
 
+#: tfrmoptionsarchivers.chkhide.caption
+msgid "Show as normal files"
+msgstr ""
+
 #: tfrmoptionsarchivers.ckbarchiverunixfileattributes.caption
 msgid "Uni&x file attributes"
 msgstr "Atrybuty plików systemu UNI&X"

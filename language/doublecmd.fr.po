@@ -4067,6 +4067,10 @@ msgstr "Afficher la sortie de la console"
 msgid "Use archive name without extension as list"
 msgstr "Utiliser le nom de l'archive sans extension comme liste"
 
+#: tfrmoptionsarchivers.chkhide.caption
+msgid "Show as normal files"
+msgstr ""
+
 #: tfrmoptionsarchivers.ckbarchiverunixfileattributes.caption
 msgid "Uni&x file attributes"
 msgstr "Attributs de fichier Unix"

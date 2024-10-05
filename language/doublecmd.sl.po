@@ -3942,6 +3942,10 @@ msgstr "Pokaži &odvod konzole"
 msgid "Use archive name without extension as list"
 msgstr "Za seznam uporabi ime arhiva brez pripone"
 
+#: tfrmoptionsarchivers.chkhide.caption
+msgid "Show as normal files"
+msgstr ""
+
 #: tfrmoptionsarchivers.ckbarchiverunixfileattributes.caption
 msgid "Uni&x file attributes"
 msgstr "Datotečni atributi &Unix"

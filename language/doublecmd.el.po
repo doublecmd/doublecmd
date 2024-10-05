@@ -4005,6 +4005,10 @@ msgstr "Εμφάνιση αποτελέσματος στο τερματικό"
 msgid "Use archive name without extension as list"
 msgstr "Χρήση ονόματος αρχείου χωρίς επέκταση σαν λίστα"
 
+#: tfrmoptionsarchivers.chkhide.caption
+msgid "Show as normal files"
+msgstr ""
+
 #: tfrmoptionsarchivers.ckbarchiverunixfileattributes.caption
 msgid "Uni&x file attributes"
 msgstr "Ιδιότητες αρχείου Unix"

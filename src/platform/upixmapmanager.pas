@@ -39,7 +39,7 @@ interface
 uses
   Classes, SysUtils, Graphics, syncobjs, uFileSorting, DCStringHashListUtf8,
   uFile, uIconTheme, uDrive, uDisplayFile, uGlobs, uDCReadPSD, uOSUtils, FPImage,
-  LCLVersion, uVectorImage
+  LCLVersion, uVectorImage, uMultiArc
   {$IF DEFINED(MSWINDOWS)}
   , ShlObj
   {$ELSEIF DEFINED(MSWINDOWS) and DEFINED(LCLQT5)}
@@ -1826,7 +1826,7 @@ begin
 
   for I:= 0 to gMultiArcList.Count - 1 do
     begin
-      if gMultiArcList.Items[I].FEnabled then
+      if gMultiArcList.Items[I].FEnabled and not (mafHide in gMultiArcList.Items[I].FFlags) then
         begin
           sExt := gMultiArcList.Items[I].FExtension;
           if (Length(sExt) > 0) and (FExtList.Find(sExt) < 0) then
