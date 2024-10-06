@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Double Commander 1.1.0 alpha\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-11-15 11:15+0300\n"
-"PO-Revision-Date: 2024-09-19 16:22+0200\n"
+"PO-Revision-Date: 2024-10-03 10:53+0200\n"
 "Last-Translator:  ㋡  <braass@mail.de>\n"
 "Language-Team: Deutsch <braass@mail.de>\n"
 "Language: de\n"
@@ -10836,20 +10836,18 @@ msgstr "Befehl"
 
 #: ulng.rsmfstbicomparetips
 msgid "Compare by Contents..."
-msgstr ""
+msgstr "Vergleiche nach Inhalt ..."
 
 #: ulng.rsmfstbicomparetitle
-#, fuzzy
 msgctxt "ulng.rsmfstbicomparetitle"
 msgid "Compare"
-msgstr "Vergleichen"
+msgstr "Vergleich"
 
 #: ulng.rsmfstbiedittips
 msgid "Edit..."
-msgstr ""
+msgstr "Bearbeiten ..."
 
 #: ulng.rsmfstbiedittitle
-#, fuzzy
 msgctxt "ulng.rsmfstbiedittitle"
 msgid "Edit"
 msgstr "Bearbeiten"
@@ -10882,11 +10880,11 @@ msgstr "Horizontal geteilt"
 
 #: ulng.rsmfstbiprivilegetips
 msgid "As a file manager, Double Command requires full disk access permissions. Clicking this button will pop up the macOS system settings page. Please add \"Double Commander.app\" to the \"Full Disk Access\" list to complete the authorization."
-msgstr ""
+msgstr "Als Dateimanager benötigt Double Commander volle Festplattenzugriffsrechte. Klicken Sie auf diese Schaltfläche, um die macOS-Systemeinstellungsseite zu öffnen. Bitte klicken Sie auf \"Datenschutz & Sicherheit\" und fügen Sie \"Double Commander.app\" zur Liste „Festplattenvollzugriff“ hinzu, um die Autorisierung abzuschließen."
 
 #: ulng.rsmfstbiprivilegetitle
 msgid "Privilege"
-msgstr ""
+msgstr "Zugriffsrechte"
 
 #: ulng.rsmfstbiquicklooktips
 msgid "macOS Quick Look Panel"
@@ -10955,11 +10953,11 @@ msgstr "Dateifenster tauschen"
 
 #: ulng.rsmfstbisynctips
 msgid "Synchronize Dirs..."
-msgstr ""
+msgstr "Verzeichnisse synchronisieren ..."
 
 #: ulng.rsmfstbisynctitle
 msgid "Sync"
-msgstr ""
+msgstr "Synchronisieren"
 
 #: ulng.rsmfstbiterminaltips
 msgid "Open in Terminal"
