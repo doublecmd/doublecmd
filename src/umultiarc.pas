@@ -708,9 +708,9 @@ begin
   Result.FFormMode := Self.FFormMode;
   Result.FEnabled := Self.FEnabled;
   Result.FOutput := Self.FOutput;
-  Result.FDebug := Self.FDebug
+  Result.FDebug := Self.FDebug;
   Result.FSizeStripChars := Self.FSizeStripChars;
-  Result.FAskHistory.Assign(Self.FAskHistory)
+  Result.FAskHistory.Assign(Self.FAskHistory);
 end;
 
 { TSignatureList }
