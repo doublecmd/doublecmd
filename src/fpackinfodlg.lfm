@@ -131,7 +131,6 @@ object frmPackInfoDlg: TfrmPackInfoDlg
         Height = 15
         Top = 0
         Width = 62
-        Color = clForm
         DrawStyle = dsExtra1
         ReadOnly = True
         TabStop = False
@@ -150,7 +149,6 @@ object frmPackInfoDlg: TfrmPackInfoDlg
         Height = 15
         Top = 20
         Width = 62
-        Color = clForm
         DrawStyle = dsExtra1
         ReadOnly = True
         TabStop = False
@@ -169,7 +167,6 @@ object frmPackInfoDlg: TfrmPackInfoDlg
         Height = 15
         Top = 40
         Width = 62
-        Color = clForm
         DrawStyle = dsExtra1
         ReadOnly = True
         TabStop = False
@@ -188,7 +185,6 @@ object frmPackInfoDlg: TfrmPackInfoDlg
         Height = 15
         Top = 60
         Width = 62
-        Color = clForm
         DrawStyle = dsExtra1
         ReadOnly = True
         TabStop = False
@@ -207,7 +203,6 @@ object frmPackInfoDlg: TfrmPackInfoDlg
         Height = 15
         Top = 80
         Width = 62
-        Color = clForm
         DrawStyle = dsExtra1
         ReadOnly = True
         TabStop = False
@@ -226,7 +221,6 @@ object frmPackInfoDlg: TfrmPackInfoDlg
         Height = 15
         Top = 100
         Width = 62
-        Color = clForm
         DrawStyle = dsExtra1
         ReadOnly = True
         TabStop = False
@@ -245,7 +239,6 @@ object frmPackInfoDlg: TfrmPackInfoDlg
         Height = 15
         Top = 120
         Width = 62
-        Color = clForm
         DrawStyle = dsExtra1
         ReadOnly = True
         TabStop = False
@@ -264,7 +257,6 @@ object frmPackInfoDlg: TfrmPackInfoDlg
         Height = 15
         Top = 140
         Width = 62
-        Color = clForm
         DrawStyle = dsExtra1
         ReadOnly = True
         TabStop = False
