@@ -40,7 +40,7 @@ const
   MAF_WIN_ATTR         = 8; // Use Windows file attributes
 
 type
-  TMultiArcFlag = (mafFileNameList);
+  TMultiArcFlag = (mafFileNameList, mafHide);
   TMultiArcFlags = set of TMultiArcFlag;
 
 type
@@ -133,6 +133,7 @@ type
     FFormMode: Integer;
     FFlags: TMultiArcFlags;
     FIgnoreString: TStringList;
+    FAskHistory: TStringList;
   public
     FEnabled: Boolean;
     FOutput: Boolean;
@@ -286,7 +287,7 @@ var
   IniFile: TIniFileEx = nil;
   Sections: TStringList = nil;
   Section,
-  Format: String;
+  Format, CustomParams: String;
   FirstTime: Boolean = True;
   MultiArcItem: TMultiArcItem;
 begin
@@ -338,6 +339,14 @@ begin
           Format:= IniFile.ReadString(Section, 'IgnoreString' + IntToStr(J), EmptyStr);
           if Format <> EmptyStr then
             FIgnoreString.Add(Format)
+          else
+            Break;
+        end;
+        for J:= 0 to 50 do
+        begin
+          CustomParams:= IniFile.ReadString(Section, 'AskHistory' + IntToStr(J), EmptyStr);
+          if CustomParams <> EmptyStr then
+            FAskHistory.Add(CustomParams)
           else
             Break;
         end;
@@ -400,8 +409,10 @@ begin
         IniFile.WriteString(Section, 'PasswordQuery', FPasswordQuery);
         // optional
         for J:= 0 to FIgnoreString.Count - 1 do
-        begin
           IniFile.WriteString(Section, 'IgnoreString' + IntToStr(J), FIgnoreString[J]);
+        for J:= 0 to FAskHistory.Count - 1 do
+        begin
+          IniFile.WriteString(Section, 'AskHistory' + IntToStr(J), FAskHistory[J]);
         end;
         IniFile.WriteInteger(Section, 'Flags', Integer(FFlags));
         IniFile.WriteInteger(Section, 'FormMode', FFormMode);
@@ -587,6 +598,7 @@ begin
   FSignaturePositionList:= TSignaturePositionList.Create;
   FFormat:= TStringList.Create;
   FIgnoreString:= TStringList.Create;
+  FAskHistory:= TStringList.Create;
 end;
 
 destructor TMultiArcItem.Destroy;
@@ -596,6 +608,7 @@ begin
   FreeAndNil(FSignaturePositionList);
   FreeAndNil(FIgnoreString);
   FreeAndNil(FFormat);
+  FreeAndNil(FAskHistory);
   inherited Destroy;
 end;
 
@@ -708,6 +721,7 @@ begin
   Result.FOutput := Self.FOutput;
   Result.FDebug := Self.FDebug;
   Result.FIgnoreString.Assign(Self.FIgnoreString);
+  Result.FAskHistory.Assign(Self.FAskHistory);
 end;
 
 { TSignatureList }

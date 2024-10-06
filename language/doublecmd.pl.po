@@ -3919,6 +3919,10 @@ msgstr "P&okaż dane wyjściowe konsoli"
 msgid "Use archive name without extension as list"
 msgstr "Użyj nazwy archiwum bez rozszerzenia jako listy"
 
+#: tfrmoptionsarchivers.chkhide.caption
+msgid "Show as normal files"
+msgstr ""
+
 #: tfrmoptionsarchivers.ckbarchiverunixfileattributes.caption
 msgid "Uni&x file attributes"
 msgstr "Atrybuty plików systemu UNI&X"
@@ -10798,6 +10802,26 @@ msgctxt "ulng.rsmfstbicommandtitle"
 msgid "Command"
 msgstr "Polecenie"
 
+#: ulng.rsmfstbicomparetips
+msgid "Compare by Contents..."
+msgstr ""
+
+#: ulng.rsmfstbicomparetitle
+#, fuzzy
+msgctxt "ulng.rsmfstbicomparetitle"
+msgid "Compare"
+msgstr "Porównaj"
+
+#: ulng.rsmfstbiedittips
+msgid "Edit..."
+msgstr ""
+
+#: ulng.rsmfstbiedittitle
+#, fuzzy
+msgctxt "ulng.rsmfstbiedittitle"
+msgid "Edit"
+msgstr "Edytuj"
+
 #: ulng.rsmfstbifinderrevealtips
 msgid "Reveal in Finder"
 msgstr ""
@@ -10822,6 +10846,14 @@ msgstr ""
 
 #: ulng.rsmfstbihorzsplittitle
 msgid "HorzSplit"
+msgstr ""
+
+#: ulng.rsmfstbiprivilegetips
+msgid "As a file manager, Double Command requires full disk access permissions. Clicking this button will pop up the macOS system settings page. Please add \"Double Commander.app\" to the \"Full Disk Access\" list to complete the authorization."
+msgstr ""
+
+#: ulng.rsmfstbiprivilegetitle
+msgid "Privilege"
 msgstr ""
 
 #: ulng.rsmfstbiquicklooktips
@@ -10888,6 +10920,14 @@ msgstr ""
 
 #: ulng.rsmfstbiswappanelstitle
 msgid "SwapPanels"
+msgstr ""
+
+#: ulng.rsmfstbisynctips
+msgid "Synchronize Dirs..."
+msgstr ""
+
+#: ulng.rsmfstbisynctitle
+msgid "Sync"
 msgstr ""
 
 #: ulng.rsmfstbiterminaltips

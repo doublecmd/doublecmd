@@ -774,7 +774,8 @@ begin
     DropParams := TDropParams.Create(
       SourceFiles, // Will be freed automatically.
       GetDropEffectByKeyAndMouse(GetKeyShiftStateEx,
-                                 SourcePanel.FMainControlLastMouseButton),
+                                 SourcePanel.FMainControlLastMouseButton,
+                                 gDefaultDropEffect),
       MainControl.ClientToScreen(Classes.Point(X, Y)),
       True,
       SourcePanel, Self,
@@ -1476,7 +1477,7 @@ var
 begin
   if (DragManager <> nil) and DragManager.IsDragging then
     begin
-      DropEffect := GetDropEffectByKey(Shift);
+      DropEffect := GetDropEffectByKey(Shift, gDefaultDropEffect);
 
       if DropEffect = DropMoveEffect then
         TControlHandlersHack(MainControl).DragCursor:= crArrowMove

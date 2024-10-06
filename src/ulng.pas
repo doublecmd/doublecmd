@@ -1024,12 +1024,23 @@ resourcestring
   rsMFSTBICommandMenuFavoriteTabs = 'Favorite Tabs';
   rsMFSTBICommandMenuQuickLook = 'macOS QuickLook';
 
-  rsMFSTBIRefreshTitle = 'Refresh';
-  rsMFSTBIRefreshTips = 'Refresh File List';
-  rsMFSTBITerminalTitle = 'Terminal';
-  rsMFSTBITerminalTips  = 'Open in Terminal';
   rsMFSTBISearchTitle = 'Search';
   rsMFSTBISearchTips  = 'Search Files...';
+  rsMFSTBITerminalTitle = 'Terminal';
+  rsMFSTBITerminalTips  = 'Open in Terminal';
+  rsMFSTBIPrivilegeTitle = 'Privilege';
+  rsMFSTBIPrivilegeTips = 'As a file manager, Double Command requires full disk access permissions. Clicking this button will pop up the macOS system settings page. Please add "Double Commander.app" to the "Full Disk Access" list to complete the authorization.';
+
+  rsMFSTBIRefreshTitle = 'Refresh';
+  rsMFSTBIRefreshTips = 'Refresh File List';
+  rsMFSTBICompareTitle = 'Compare';
+  rsMFSTBICompareTips = 'Compare by Contents...';
+
+  rsMFSTBISyncTitle = 'Sync';
+  rsMFSTBISyncTips = 'Synchronize Dirs...';
+
+  rsMFSTBIEditTitle = 'Edit';
+  rsMFSTBIEditTips = 'Edit...';
 
   //Columns Menu
   rsMenuConfigureCustomColumns= 'Configure custom columns';

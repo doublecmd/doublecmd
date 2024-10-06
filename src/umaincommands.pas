@@ -1816,6 +1816,11 @@ begin
     MenuItem:= TMenuItem.Create(FTabsMenu);
     MenuItem.Tag:= Index;
     MenuItem.Caption:= ANotebook.Page[Index].Caption;
+    if (ANotebook.Page[Index].LockState in [tlsPathLocked, tlsPathResets, tlsDirsInNewTab]) and
+       (tb_show_asterisk_for_locked in gDirTabOptions) then
+    begin
+      MenuItem.Caption:= Copy(MenuItem.Caption, 2, MaxInt);
+    end;
     MenuItem.OnClick:= @DoTabMenuClick;
     FTabsMenu.Items.Add(MenuItem);
   end;

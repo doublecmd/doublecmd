@@ -8,14 +8,21 @@ interface
 uses
   Classes, SysUtils, LCLType,
   sqldb, SQLite3Conn,
-  MacOSAll, CocoaAll, CocoaConst, CocoaUtils;
+  uDebug,
+  MacOSAll, CocoaAll, CocoaConst, CocoaTextEdits, CocoaUtils, Cocoa_Extra;
 
 const
+  TAG_POPOVER_WIDTH = 228.0;
+  TAG_POPOVER_HEIGHT = 303.0;
+  TAG_POPOVER_PADDING = 6.0;
+
+  TAG_LABEL_FONT_SIZE = 12.0;
   TAG_LIST_FONT_SIZE = 12.0;
-  TAG_NAME_FONT_SIZE = 11.0;
-  TAG_NAME_HORZ_EXTENSION = 4.0;
-  TAG_NAME_TOKEN_SPACING = 2.0;
-  TAG_NAME_LINE_SPACING = 1.0;
+  TAG_TOKEN_FONT_SIZE = 11.0;
+
+  TAG_TOKEN_HORZ_EXTENSION = 4.0;
+  TAG_TOKEN_COL_SPACING = 2.0;
+  TAG_TOKEN_LINE_SPACING = 1.0;
 
 type
 
@@ -30,8 +37,10 @@ type
     class procedure setTagNamesOfFile( const url: NSUrl; const tagNames: NSArray );
   private
     class function getAllTags: NSDictionary;
-    class function getAllTagsFromPlist( const plistBytes: TBytes ): NSDictionary;
-    class function getTagsPlistFromDatabase: TBytes;
+    class function getTagsData_macOS12: NSDictionary;
+    class function getTagsData_macOS11: NSDictionary;
+    class function doGetAllTags( const tagDictionary: NSDictionary ): NSDictionary;
+    class function getTagsDataFromDatabase: TBytes;
   private
     class procedure drawTagName( const tagName: NSString;
       const fontSize: CGFloat; const color: NSColor; const rect: NSRect );
@@ -144,13 +153,14 @@ type
 
   { TFinderTagsEditorPanel }
 
-  TFinderTagsEditorPanel = objcclass( NSObject,
+  TFinderTagsEditorPanel = objcclass( NSViewController,
     NSPopoverDelegateProtocol,
     TCocoaTokenFieldDelegateProtocol,
     NSTableViewDataSourceProtocol )
   private
     _url: NSUrl;
     _popover: NSPopover;
+    _pathLabel: NSTextField;
     _tagsTokenField: TCocoaTokenField;
     _filterListView: NSTableView;
     _filterTagNames: NSMutableArray;
@@ -161,6 +171,8 @@ type
     procedure dealloc; override;
     procedure showPopover( const sender: NSView ; const edge: NSRectEdge );
       message 'doublecmd_showPopover:sender:';
+  public
+    procedure loadView; override;
   public
     function numberOfRowsInTableView (tableView: NSTableView): NSInteger;
     function tableView_objectValueForTableColumn_row (
@@ -261,7 +273,7 @@ begin
   titleRect:= titleRectForBounds( cellFrame );
 
   uDarwinFinderUtil.drawTagName( NSString(self.objectValue),
-    TAG_NAME_FONT_SIZE, color, titleRect );
+    TAG_TOKEN_FONT_SIZE, color, titleRect );
 end;
 
 procedure TCocoaTokenAttachmentCell.drawWithFrame_inView(cellFrame: NSRect;
@@ -298,12 +310,12 @@ var
 begin
   maxWidth:= self.controlView.bounds.size.width - 8;
   stringSize:= self.attributedStringValue.size;
-  preferedWidth:= TAG_NAME_HORZ_EXTENSION + stringSize.width + TAG_NAME_HORZ_EXTENSION + TAG_NAME_TOKEN_SPACING;
+  preferedWidth:= TAG_TOKEN_HORZ_EXTENSION + stringSize.width + TAG_TOKEN_HORZ_EXTENSION + TAG_TOKEN_COL_SPACING;
   if preferedWidth > maxWidth then
     preferedWidth:= maxWidth;
 
   Result.width:= preferedWidth;
-  Result.height:= stringSize.height + TAG_NAME_LINE_SPACING;
+  Result.height:= stringSize.height + TAG_TOKEN_LINE_SPACING;
 end;
 
 function TCocoaTokenAttachmentCell.drawingRectForBounds(theRect: NSRect
@@ -311,15 +323,15 @@ function TCocoaTokenAttachmentCell.drawingRectForBounds(theRect: NSRect
 begin
   Result.origin.x:= theRect.origin.x;
   Result.origin.y:= theRect.origin.y;
-  Result.size.width:= theRect.size.width - TAG_NAME_TOKEN_SPACING;
-  Result.size.height:= theRect.size.height - TAG_NAME_LINE_SPACING;
+  Result.size.width:= theRect.size.width - TAG_TOKEN_COL_SPACING;
+  Result.size.height:= theRect.size.height - TAG_TOKEN_LINE_SPACING;
 end;
 
 function TCocoaTokenAttachmentCell.titleRectForBounds(theRect: NSRect): NSRect;
 begin
-  Result.origin.x:= theRect.origin.x + TAG_NAME_HORZ_EXTENSION ;
+  Result.origin.x:= theRect.origin.x + TAG_TOKEN_HORZ_EXTENSION ;
   Result.origin.y:= theRect.origin.y + theRect.size.height - 4;
-  Result.size.width:= theRect.size.width - TAG_NAME_HORZ_EXTENSION * 2;
+  Result.size.width:= theRect.size.width - TAG_TOKEN_HORZ_EXTENSION * 2;
   Result.size.height:= theRect.size.Height;
 end;
 
@@ -329,7 +341,7 @@ function TCocoaTokenFieldCell.setUpTokenAttachmentCell(
   aCell: NSTokenAttachmentCell; anObject: id): NSTokenAttachmentCell;
 begin
   Result:= TCocoaTokenAttachmentCell.alloc.initTextCell( NSString(anObject) );
-  Result.setFont( NSFont.systemFontOfSize(TAG_NAME_FONT_SIZE) );
+  Result.setFont( NSFont.systemFontOfSize(TAG_TOKEN_FONT_SIZE) );
   Result.setControlView( self.controlView );
   Result.setRepresentedObject( anObject );
   Result.autorelease;
@@ -424,7 +436,7 @@ var
   begin
     i:= 0;
     while i < tokenNames.count do begin
-      if tokenName.isEqualTo( tokenNames.objectAtIndex(i) ) then begin
+      if tokenName.localizedCaseInsensitiveCompare(tokenNames.objectAtIndex(i)) = NSOrderedSame then begin
         tokenNames.removeObjectAtIndex( i );
         if i < newTokenRange.location then
           dec( newTokenRange.location );
@@ -531,6 +543,7 @@ procedure TFinderTagsListView.drawRow_clipRect(row: NSInteger; clipRect: NSRect
 var
   cellRect: NSRect;
   tagName: NSString;
+  newStyle: Boolean;
 
   procedure drawSelectedBackground;
   var
@@ -541,9 +554,13 @@ var
       Exit;
     NSColor.alternateSelectedControlColor.set_;
     rect:= self.rectOfRow( row );
-    rect:= NSInsetRect( rect, 10, 0 );
-    path:= NSBezierPath.bezierPathWithRoundedRect_xRadius_yRadius( rect, 5, 5 );
-    path.fill;
+    if newStyle then begin
+      rect:= NSInsetRect( rect, 10, 0 );
+      path:= NSBezierPath.bezierPathWithRoundedRect_xRadius_yRadius( rect, 5, 5 );
+      path.fill;
+    end else begin
+      NSRectFill( rect );
+    end;
   end;
 
   procedure drawTagColor;
@@ -555,6 +572,8 @@ var
     rect:= cellRect;
     rect.size.width:= rect.size.height;
     rect:= NSInsetRect( rect, 5, 5 );
+    if NOT newStyle then
+      rect.origin.x:= rect.origin.x + 10;
     finderTag:= TFinderTags.getTagOfName( tagName );
     dotFinderTagNSColors[finderTag.colorIndex].set_;
     if finderTag.colorIndex <> 0 then begin
@@ -579,14 +598,25 @@ var
     end;
 
     rect:= cellRect;
-    rect.origin.x:= rect.origin.x + 20;
-    rect.size.width:= rect.size.width - 20;
+    if newStyle then begin
+      rect.origin.x:= rect.origin.x + 20;
+      rect.size.width:= rect.size.width - 20;
+    end else begin
+      rect.origin.x:= rect.origin.x + 30;
+      rect.size.width:= rect.size.width - 40;
+    end;
     rect.origin.y:= rect.origin.y + TAG_LIST_FONT_SIZE + 2;
 
     uDarwinFinderUtil.drawTagName( tagName, TAG_LIST_FONT_SIZE, color, rect );
   end;
 
 begin
+  newStyle:= True;
+  if NSAppKitVersionNumber < NSAppKitVersionNumber11_0 then
+    newStyle:= false
+  else if self.style = NSTableViewStylePlain then
+    newStyle:= false;
+
   tagName:= NSTableViewDataSourceProtocol(self.datasource).tableView_objectValueForTableColumn_row(
     self, nil, row );
   cellRect:= frameOfCellAtColumn_row( 0, row );
@@ -609,12 +639,18 @@ end;
 { TFinderTagsEditorPanel }
 
 class function TFinderTagsEditorPanel.editorWithPath( const path: NSString ): id;
+var
+  panel: TFinderTagsEditorPanel;
 begin
-  Result:= TFinderTagsEditorPanel.alloc.initWithPath( path );
+  panel:= TFinderTagsEditorPanel.alloc.initWithPath( path );
+  panel.loadView;
+  Result:= panel;
 end;
 
 function TFinderTagsEditorPanel.initWithPath( const path: NSString ): id;
 begin
+  Inherited init;
+
   _url:= NSURL.fileURLWithPath( path );
   _url.retain;
   _filterTagNames:= NSMutableArray.new;
@@ -638,22 +674,43 @@ begin
 end;
 
 procedure TFinderTagsEditorPanel.showPopover( const sender: NSView; const edge: NSRectEdge );
+begin
+  self.view.setFrameSize( NSMakeSize(TAG_POPOVER_WIDTH, TAG_POPOVER_HEIGHT) );
+
+  _tagsTokenField.setObjectValue( uDarwinFinderUtil.getTagNamesOfFile(_url) );
+  _tagsTokenField.setFrameSize( NSMakeSize(TAG_POPOVER_WIDTH-TAG_POPOVER_PADDING*2,0) );
+
+  _popover.showRelativeToRect_ofView_preferredEdge(
+    sender.bounds,
+    sender,
+    edge );
+
+  NSControlMoveCaretToTheEnd( _tagsTokenField );
+  self.tokenField_onUpdate;
+end;
+
+procedure TFinderTagsEditorPanel.loadView;
 var
-  controller: NSViewController;
   contentView: NSView;
-  tagNameArray: NSArray;
   scrollView: NSScrollView;
 begin
-  contentView:= NSView.alloc.initWithFrame( NSMakeRect(0,0,228,300) );
-  controller:= NSViewController.new;
-  controller.setView( contentView );
+  contentView:= NSView.new;
 
-  tagNameArray:= uDarwinFinderUtil.getTagNamesOfFile( _url );
+  _pathLabel:= NSTextField.new;
+  _pathLabel.setHidden( False );
+  _pathLabel.setStringValue( _url.lastPathComponent  );
+  _pathLabel.setAlignment( NSTextAlignmentCenter );
+  _pathLabel.setLineBreakMode( NSLineBreakByTruncatingMiddle );
+  _pathLabel.setEditable( False );
+  _pathLabel.setBordered( False );
+  _pathLabel.setBackgroundColor( NSColor.clearColor );
+  _pathLabel.setFocusRingType( NSFocusRingTypeNone );
+  contentView.addSubview( _pathLabel );
+
   NSTokenField.setCellClass( TCocoaTokenFieldCell );
-  _tagsTokenField:= TCocoaTokenField.alloc.initWithFrame( NSMakeRect(0,0,216,0) );
+  _tagsTokenField:= TCocoaTokenField.new;
   _tagsTokenField.setDelegate( NSTokenFieldDelegateProtocol(self) );
-  _tagsTokenField.setObjectValue( tagNameArray );
-  _tagsTokenField.setFont( NSFont.systemFontOfSize(TAG_NAME_FONT_SIZE+1) );
+  _tagsTokenField.setFont( NSFont.systemFontOfSize(TAG_TOKEN_FONT_SIZE+1) );
   _tagsTokenField.setFocusRingType( NSFocusRingTypeNone );
   contentView.addSubview( _tagsTokenField );
 
@@ -671,23 +728,15 @@ begin
   scrollView.setHasVerticalScroller( True );
   scrollView.setDrawsBackground( False );
   contentView.addSubview( scrollView );
+  scrollView.release;
 
   _popover:= NSPopover.new;
-  _popover.setContentViewController( controller );
+  _popover.setContentViewController( self );
   _popover.setDelegate( self );
   _popover.setBehavior( NSPopoverBehaviorTransient );
 
-  _popover.showRelativeToRect_ofView_preferredEdge(
-    sender.bounds,
-    sender,
-    edge );
-
-  NSControlMoveCaretToTheEnd( _tagsTokenField );
-  self.tokenField_onUpdate;
-
-  scrollView.release;
+  self.setView( contentView );
   contentView.release;
-  controller.release;
 end;
 
 function TFinderTagsEditorPanel.numberOfRowsInTableView(tableView: NSTableView
@@ -726,7 +775,7 @@ begin
     usedTagNames.removeObjectAtIndex( editingRange.location );
 
   for tagName in TFinderTags._tags do begin
-    if (substring.length>0) and (NOT tagName.containsString(substring)) then
+    if (substring.length>0) and (NOT tagName.localizedCaseInsensitiveContainsString(substring)) then
       continue;
     if usedTagNames.containsObject(tagName) then
       continue;
@@ -739,22 +788,29 @@ end;
 
 procedure TFinderTagsEditorPanel.updateLayout;
 var
+  pathLabelFrame: NSRect;
   tagsTokenFieldFrame: NSRect;
   filterListFrame: NSRect;
   popoverHeight: CGFloat;
 begin
   popoverHeight:= _popover.contentSize.height;
 
+  pathLabelFrame.size.width:= TAG_POPOVER_WIDTH - TAG_POPOVER_PADDING * 2;
+  pathLabelFrame.size.height:= TAG_LABEL_FONT_SIZE + 3;
+  pathLabelFrame.origin.x:= TAG_POPOVER_PADDING;
+  pathLabelFrame.origin.y:= popoverHeight - ( pathLabelFrame.size.height + TAG_POPOVER_PADDING );
+  _pathLabel.setFrame( pathLabelFrame );
+
   tagsTokenFieldFrame.size:= _tagsTokenField.intrinsicContentSize;
   if tagsTokenFieldFrame.size.height > 190 then
     tagsTokenFieldFrame.size.height:= 190;
-  tagsTokenFieldFrame.origin.x:= 6;
-  tagsTokenFieldFrame.origin.y:= popoverHeight - (tagsTokenFieldFrame.size.height+10);
+  tagsTokenFieldFrame.origin.x:= TAG_POPOVER_PADDING;
+  tagsTokenFieldFrame.origin.y:= pathLabelFrame.origin.y - ( tagsTokenFieldFrame.size.height + TAG_POPOVER_PADDING );
 
-  filterListFrame.size.width:= 228;
-  filterListFrame.size.height:= popoverHeight - (tagsTokenFieldFrame.size.height+30);
   filterListFrame.origin.x:= 0;
   filterListFrame.origin.y:= 10;
+  filterListFrame.size.width:= TAG_POPOVER_WIDTH;
+  filterListFrame.size.height:= tagsTokenFieldFrame.origin.y - ( filterListFrame.origin.y + TAG_POPOVER_PADDING );
 
   _tagsTokenField.setFrame( tagsTokenFieldFrame );
   _filterListView.enclosingScrollView.setFrame( filterListFrame );
@@ -869,18 +925,69 @@ end;
 
 const
   NEW_FINDER_TAGS_DATABASE_PATH = '/Library/SyncedPreferences/com.apple.kvs/com.apple.KeyValueService-Production.sqlite';
+  OLD_FINDER_TAGS_FILE_PATH     = '/Library/SyncedPreferences/com.apple.finder.plist';
 
 class function uDarwinFinderUtil.getAllTags: NSDictionary;
 var
-  plistBytes: TBytes;
+  tagDictionary: NSDictionary;
 begin
   Result:= nil;
-  plistBytes:= uDarwinFinderUtil.getTagsPlistFromDatabase;
-  if plistBytes <> nil then
-    Result:= uDarwinFinderUtil.getAllTagsFromPlist( plistBytes );
+
+  try
+    if NSAppKitVersionNumber >= NSAppKitVersionNumber12_0 then
+      tagDictionary:= getTagsData_macOS12
+    else
+      tagDictionary:= getTagsData_macOS11;
+
+    Result:= doGetAllTags( tagDictionary );
+  except
+    // it is suitable for just recording exception and handling it silently
+    on e: Exception do begin
+      DCDebug( 'Exception in uDarwinFinderUtil.getAllTags(): ', e.ToString );
+    end;
+  end;
 end;
 
-class function uDarwinFinderUtil.getTagsPlistFromDatabase: TBytes;
+class function uDarwinFinderUtil.getTagsData_macOS12: NSDictionary;
+var
+  plistBytes: TBytes;
+  plistData: NSData;
+begin
+  Result:= nil;
+  plistBytes:= uDarwinFinderUtil.getTagsDataFromDatabase;
+  if plistBytes = nil then
+    Exit;
+
+  plistData:= NSData.dataWithBytes_length( @plistBytes[0], Length(plistBytes) );
+  if plistData = nil then
+    Exit;
+
+  Result:= NSPropertyListSerialization.propertyListWithData_options_format_error(
+    plistData, NSPropertyListImmutable, nil, nil );
+end;
+
+class function uDarwinFinderUtil.getTagsData_macOS11: NSDictionary;
+var
+  path: NSString;
+  plistData: NSData;
+  plistProperties: id;
+begin
+  Result:= nil;
+  path:= NSHomeDirectory.stringByAppendingString( NSSTR(OLD_FINDER_TAGS_FILE_PATH) );
+
+  plistData:= NSData.dataWithContentsOfFile( path );
+  if plistData = nil then
+    Exit;
+
+  plistProperties:= NSPropertyListSerialization.propertyListWithData_options_format_error(
+    plistData, NSPropertyListImmutable, nil, nil );
+  if plistProperties = nil then
+    Exit;
+
+  Result:= plistProperties.valueForKeyPath( NSSTR('values.FinderTagDict.value') );
+end;
+
+class function uDarwinFinderUtil.getTagsDataFromDatabase: TBytes;
 var
   connection: TSQLConnection = nil;
   transaction: TSQLTransaction = nil;
@@ -913,10 +1020,8 @@ begin
   end;
 end;
 
-class function uDarwinFinderUtil.getAllTagsFromPlist( const plistBytes: TBytes ): NSDictionary;
+class function uDarwinFinderUtil.doGetAllTags( const tagDictionary: NSDictionary ): NSDictionary;
 var
-  plistData: NSData;
-  plistProperties: id;
   plistTagArray: NSArray;
 
   plistTagItem: NSDictionary;
@@ -928,17 +1033,10 @@ var
   tag: TFinderTag;
 begin
   Result:= nil;
-  plistData:= NSData.dataWithBytes_length( @plistBytes[0], Length(plistBytes) );
-  if plistData = nil then
+  if tagDictionary = nil then
     Exit;
 
-  plistProperties:= NSPropertyListSerialization.propertyListWithData_options_format_error(
-    plistData, NSPropertyListImmutable, nil, nil );
-
-  if plistProperties = nil then
-    Exit;
-
-  plistTagArray:= plistProperties.valueForKeyPath( NSSTR('FinderTags') );
+  plistTagArray:= tagDictionary.valueForKeyPath( NSSTR('FinderTags') );
   if plistTagArray = nil then
     Exit;
 

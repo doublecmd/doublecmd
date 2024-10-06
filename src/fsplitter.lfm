@@ -251,6 +251,7 @@ inherited frmSplitter: TfrmSplitter
     Top = 207
     Width = 488
     ClientWidth = 488
+    Color = clDefault
     inherited btnCancel: TBitBtn
       Left = 306
     end
