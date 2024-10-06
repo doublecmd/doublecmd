@@ -131,6 +131,7 @@ inherited frmCheckSumCalc: TfrmCheckSumCalc
     Top = 358
     Width = 384
     ClientWidth = 384
+    Color = clDefault
     inherited btnCancel: TBitBtn
       Left = 202
     end

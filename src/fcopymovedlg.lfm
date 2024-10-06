@@ -255,8 +255,6 @@ object frmCopyDlg: TfrmCopyDlg
     BevelOuter = bvNone
     ClientHeight = 39
     ClientWidth = 596
-    Color = clForm
-    ParentColor = False
     TabOrder = 3
     OnResize = pnlOptionsResize
     object grpOptions: TGroupBox

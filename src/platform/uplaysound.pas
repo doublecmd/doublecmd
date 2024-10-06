@@ -15,6 +15,9 @@ uses
   , CocoaAll, uMyDarwin
 {$ELSE}
   , LazLogger, sdl2
+  {$IFNDEF HAIKU}
+  , gst
+  {$ENDIF}
 {$ENDIF}
   ;
 
@@ -69,25 +72,28 @@ begin
 end;
 {$ELSE}
 const
-  Res: Integer = -1;
   First: Boolean = True;
+  Play: function(const FileName: String): Boolean = nil;
 begin
   if First then
   begin
+  {$IF NOT DEFINED(HAIKU)}
+    if GST_Initialize then
+    begin
+      Play:= @GST_Play;
+    end
+    else
+  {$ENDIF}
     if SDL_Initialize then
     begin
-      Res:= SDL_InitSubSystem(SDL_INIT_AUDIO);
-      if (Res < 0) then
-      begin
-        DebugLn('SDL_InitSubSystem: ', SDL_GetError());
-      end;
+      Play:= @SDL_Play;
     end;
     First:= False;
   end;
-  if (Res < 0) then
+  if (Play = nil) then
     Result:= False
   else begin
-    Result:= SDL_Play(FileName);
+    Result:= Play(FileName);
   end;
 end;
 {$ENDIF}

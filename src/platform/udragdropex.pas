@@ -163,8 +163,10 @@ type
   { Analyzes keyboard modifier keys (Shift, Ctrl, etc.) and mouse button nr
     and returns the appropriate drop effect. }
   function GetDropEffectByKeyAndMouse(ShiftState: TShiftState;
-                                      MouseButton: TMouseButton): TDropEffect;
-  function GetDropEffectByKey(ShiftState: TShiftState): TDropEffect;
+                                      MouseButton: TMouseButton;
+                                      DefaultEffect: Boolean): TDropEffect;
+  function GetDropEffectByKey(ShiftState: TShiftState;
+                              DefaultEffect: Boolean): TDropEffect;
 
 var
   { If set to True, then dragging is being transformed: internal to external or vice-versa. }
@@ -192,6 +194,8 @@ uses
   uDragDropQt;
 {$ENDIF}
 
+const
+  DropDefaultEffect: array[Boolean] of TDropEffect = (DropMoveEffect, DropCopyEffect);
 
 { ---------- TDragDropSource ---------- }
 
@@ -386,19 +390,20 @@ begin
 {$ENDIF}
 end;
 
-function GetDropEffectByKey(ShiftState: TShiftState): TDropEffect;
+function GetDropEffectByKey(ShiftState: TShiftState;
+                            DefaultEffect: Boolean): TDropEffect;
 const
   ssBoth = [ssLeft, ssRight];
 begin
   if (ssBoth * ShiftState = ssBoth) then
-    Exit(DropMoveEffect);
+    Exit(DropDefaultEffect[not DefaultEffect]);
   ShiftState := [ssModifier, ssShift, ssAlt] * ShiftState;
   if ShiftState = [] then
-    Result := DropCopyEffect   // default to Copy when no keys pressed
+    Result := DropDefaultEffect[DefaultEffect]   // default to Copy when no keys pressed
   else if ShiftState = [ssShift] then
-    Result := DropMoveEffect
+    Result := DropDefaultEffect[not DefaultEffect]
   else if ShiftState = [ssModifier] then
-    Result := DropMoveEffect
+    Result := DropDefaultEffect[not DefaultEffect]
   else if ShiftState = [ssAlt] then
     Result := DropAskEffect
   else if ShiftState = [ssModifier, ssShift] then
@@ -408,15 +413,16 @@ begin
 end;
 
 function GetDropEffectByKeyAndMouse(ShiftState: TShiftState;
-                                    MouseButton: TMouseButton): TDropEffect;
+                                    MouseButton: TMouseButton;
+                                    DefaultEffect: Boolean): TDropEffect;
 begin
   case MouseButton of
     mbLeft:
       begin
         if ShiftState = [ssRight] then
-          Result := DropMoveEffect
+          Result := DropDefaultEffect[not DefaultEffect]
         else
-          Result := GetDropEffectByKey(ShiftState);
+          Result := GetDropEffectByKey(ShiftState, DefaultEffect);
       end;
 
     mbMiddle:

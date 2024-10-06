@@ -8,7 +8,7 @@ interface
 uses
   Classes, SysUtils,
   LCLType, Forms, Menus,
-  fMain, uMyDarwin, uDarwinFinder, uDCUtils, uLng,
+  fMain, uMyDarwin, uDCUtils, uLng,
   uFileView, uBriefFileView, uColumnsFileView, uThumbFileView,
   CocoaAll, CocoaConfig, CocoaToolBar, Cocoa_Extra;
 
@@ -76,22 +76,8 @@ begin
 end;
 
 procedure editTagAction( const Sender: id );
-var
-  tagItem: NSToolBarItem absolute Sender;
-  filenames: TStringArray;
-  view: NSView;
 begin
-  filenames:= frmMain.NSServiceMenuGetFilenames();
-  if length(filenames) = 0 then
-    Exit;
-
-  view:= nil;
-  if NSObject(Sender).isKindOfClass(NSToolBarItem) then
-    view:= tagItem.valueForKey( NSSTR('_itemViewer') );
-  if (view=nil) or (view.window=nil) then
-    view:= NSView( frmMain.Handle );
-
-  uDarwinFinderUtil.popoverFileTags( filenames[0], view , NSMaxYEdge );
+  showEditFinderTagsPanel( Sender, frmMain );
 end;
 
 procedure finderRevealAction( const Sender: id );
@@ -529,8 +515,8 @@ const
     priority: NSToolbarItemVisibilityPriorityStandard;
     navigational: False;
     iconName: 'lock.shield';
-    title: 'Privilege';
-    tips: 'As a file manager, Double Command requires full disk access permissions. Clicking this button will pop up the macOS system settings page. Please add "Double Commander.app" to the "Full Disk Access" list to complete the authorization.';
+    title: rsMFSTBIPrivilegeTitle;
+    tips: rsMFSTBIPrivilegeTips;
     bordered: True;
     onAction: @privilegeAction;
   );
@@ -552,8 +538,8 @@ const
     priority: NSToolbarItemVisibilityPriorityStandard;
     navigational: False;
     iconName: 'rectangle.on.rectangle';
-    title: 'Compare';
-    tips: 'Compare by Contents...';
+    title: rsMFSTBICompareTitle;
+    tips: rsMFSTBICompareTips;
     bordered: True;
     onAction: @compareAction;
   );
@@ -563,8 +549,8 @@ const
     priority: NSToolbarItemVisibilityPriorityStandard;
     navigational: False;
     iconName: 'arrow.triangle.2.circlepath';
-    title: 'Sync';
-    tips: 'Synchronize Dirs...';
+    title: rsMFSTBISyncTitle;
+    tips: rsMFSTBISyncTips;
     bordered: True;
     onAction: @syncAction;
   );
@@ -574,8 +560,8 @@ const
     priority: NSToolbarItemVisibilityPriorityStandard;
     navigational: False;
     iconName: 'square.and.pencil';
-    title: 'Edit';
-    tips: 'Edit...';
+    title: rsMFSTBIEditTitle;
+    tips: rsMFSTBIEditTips;
     bordered: True;
     onAction: @editAction;
   );

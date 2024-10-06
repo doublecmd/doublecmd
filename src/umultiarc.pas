@@ -40,7 +40,7 @@ const
   MAF_WIN_ATTR         = 8; // Use Windows file attributes
 
 type
-  TMultiArcFlag = (mafFileNameList);
+  TMultiArcFlag = (mafFileNameList, mafHide);
   TMultiArcFlags = set of TMultiArcFlag;
 
 type
@@ -133,6 +133,7 @@ type
     FSizeStripChars: String;
     FFormMode: Integer;
     FFlags: TMultiArcFlags;
+    FAskHistory: TStringList;
   public
     FEnabled: Boolean;
     FOutput: Boolean;
@@ -286,7 +287,7 @@ var
   IniFile: TIniFileEx = nil;
   Sections: TStringList = nil;
   Section,
-  Format: String;
+  Format, CustomParams: String;
   FirstTime: Boolean = True;
   MultiArcItem: TMultiArcItem;
 begin
@@ -333,6 +334,14 @@ begin
         FAddSelfExtract:= TrimQuotes(IniFile.ReadString(Section, 'AddSelfExtract', EmptyStr));
         FPasswordQuery:= IniFile.ReadString(Section, 'PasswordQuery', EmptyStr);
         // optional
+        for J:= 0 to 50 do
+        begin
+          CustomParams:= IniFile.ReadString(Section, 'AskHistory' + IntToStr(J), EmptyStr);
+          if CustomParams <> EmptyStr then
+            FAskHistory.Add(CustomParams)
+          else
+            Break;
+        end;
         FFlags:= TMultiArcFlags(IniFile.ReadInteger(Section, 'Flags', 0));
         FSizeStripChars:= Trim(IniFile.ReadString(Section, 'SizeStripChars', EmptyStr));
         FFormMode:= IniFile.ReadInteger(Section, 'FormMode', 0);
@@ -392,6 +401,10 @@ begin
         IniFile.WriteString(Section, 'AddSelfExtract', FAddSelfExtract);
         IniFile.WriteString(Section, 'PasswordQuery', FPasswordQuery);
         // optional
+        for J:= 0 to FAskHistory.Count - 1 do
+        begin
+          IniFile.WriteString(Section, 'AskHistory' + IntToStr(J), FAskHistory[J]);
+        end;
         IniFile.WriteInteger(Section, 'Flags', Integer(FFlags));
         IniFile.WriteString(Section, 'SizeStripChars', FSizeStripChars);
         IniFile.WriteInteger(Section, 'FormMode', FFormMode);
@@ -575,6 +588,7 @@ begin
   FSignatureList:= TSignatureList.Create;
   FSignaturePositionList:= TSignaturePositionList.Create;
   FFormat:= TStringList.Create;
+  FAskHistory:= TStringList.Create;
 end;
 
 destructor TMultiArcItem.Destroy;
@@ -583,6 +597,7 @@ begin
   FreeAndNil(FSignatureList);
   FreeAndNil(FSignaturePositionList);
   FreeAndNil(FFormat);
+  FreeAndNil(FAskHistory);
   inherited Destroy;
 end;
 
@@ -693,8 +708,9 @@ begin
   Result.FFormMode := Self.FFormMode;
   Result.FEnabled := Self.FEnabled;
   Result.FOutput := Self.FOutput;
-  Result.FDebug := Self.FDebug;
+  Result.FDebug := Self.FDebug
   Result.FSizeStripChars := Self.FSizeStripChars;
+  Result.FAskHistory.Assign(Self.FAskHistory)
 end;
 
 { TSignatureList }

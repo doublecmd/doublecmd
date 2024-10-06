@@ -178,6 +178,7 @@ inherited frmLinker: TfrmLinker
   end
   inherited pnlButtons: TPanel
     AnchorSideTop.Side = asrTop
+    Color = clDefault
   end
   object dlgSaveAll: TSaveDialog[3]
     Filter = 'All files|*.*'
