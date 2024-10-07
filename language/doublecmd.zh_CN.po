@@ -3933,6 +3933,10 @@ msgstr "显示控制台输出(&H)"
 msgid "Use archive name without extension as list"
 msgstr "使用不含扩展名的压缩文件名称作为列表"
 
+#: tfrmoptionsarchivers.chkhide.caption
+msgid "Show as normal files"
+msgstr ""
+
 #: tfrmoptionsarchivers.ckbarchiverunixfileattributes.caption
 msgid "Uni&x file attributes"
 msgstr "Unix 文件属性(&X)"
@@ -10828,6 +10832,24 @@ msgctxt "ulng.rsmfstbicommandtitle"
 msgid "Command"
 msgstr "命令"
 
+#: ulng.rsmfstbicomparetips
+msgid "Compare by Contents..."
+msgstr "比较内容..."
+
+#: ulng.rsmfstbicomparetitle
+msgctxt "ulng.rsmfstbicomparetitle"
+msgid "Compare"
+msgstr "比较"
+
+#: ulng.rsmfstbiedittips
+msgid "Edit..."
+msgstr "编辑..."
+
+#: ulng.rsmfstbiedittitle
+msgctxt "ulng.rsmfstbiedittitle"
+msgid "Edit"
+msgstr "编辑"
+
 #: ulng.rsmfstbifinderrevealtips
 msgctxt "ulng.rsmfstbifinderrevealtips"
 msgid "Reveal in Finder"
@@ -10857,6 +10879,14 @@ msgstr "切换水平/垂直分隔显示模式"
 msgctxt "ulng.rsmfstbihorzsplittitle"
 msgid "HorzSplit"
 msgstr "水平分隔"
+
+#: ulng.rsmfstbiprivilegetips
+msgid "As a file manager, Double Command requires full disk access permissions. Clicking this button will pop up the macOS system settings page. Please add \"Double Commander.app\" to the \"Full Disk Access\" list to complete the authorization."
+msgstr "Double Command作为文件管理器，需要获得完全磁盘访问权限。点击此按钮将弹出macOS系统设置页，请添加“Double Commander.app”到“完全磁盘访问权限”列表中完成授权。"
+
+#: ulng.rsmfstbiprivilegetitle
+msgid "Privilege"
+msgstr "权限"
 
 #: ulng.rsmfstbiquicklooktips
 msgctxt "ulng.rsmfstbiquicklooktips"
@@ -10937,6 +10967,14 @@ msgstr "对调面板"
 msgctxt "ulng.rsmfstbiswappanelstitle"
 msgid "SwapPanels"
 msgstr "对调面板"
+
+#: ulng.rsmfstbisynctips
+msgid "Synchronize Dirs..."
+msgstr "同步文件夹..."
+
+#: ulng.rsmfstbisynctitle
+msgid "Sync"
+msgstr "同步"
 
 #: ulng.rsmfstbiterminaltips
 msgctxt "ulng.rsmfstbiterminaltips"

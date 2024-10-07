@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Double Commander 1.1.0 alpha\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-11-15 11:15+0300\n"
-"PO-Revision-Date: 2024-09-19 16:22+0200\n"
+"PO-Revision-Date: 2024-10-03 10:53+0200\n"
 "Last-Translator:  ㋡  <braass@mail.de>\n"
 "Language-Team: Deutsch <braass@mail.de>\n"
 "Language: de\n"
@@ -3934,6 +3934,10 @@ msgstr "Die Ausgabe der Befehlszeile anzeigen"
 #: tfrmoptionsarchivers.chkfilenameonlylist.caption
 msgid "Use archive name without extension as list"
 msgstr "Archivname ohne Erweiterung als Liste verwenden"
+
+#: tfrmoptionsarchivers.chkhide.caption
+msgid "Show as normal files"
+msgstr ""
 
 #: tfrmoptionsarchivers.ckbarchiverunixfileattributes.caption
 msgid "Uni&x file attributes"
@@ -10830,6 +10834,24 @@ msgctxt "ulng.rsmfstbicommandtitle"
 msgid "Command"
 msgstr "Befehl"
 
+#: ulng.rsmfstbicomparetips
+msgid "Compare by Contents..."
+msgstr "Vergleiche nach Inhalt ..."
+
+#: ulng.rsmfstbicomparetitle
+msgctxt "ulng.rsmfstbicomparetitle"
+msgid "Compare"
+msgstr "Vergleich"
+
+#: ulng.rsmfstbiedittips
+msgid "Edit..."
+msgstr "Bearbeiten ..."
+
+#: ulng.rsmfstbiedittitle
+msgctxt "ulng.rsmfstbiedittitle"
+msgid "Edit"
+msgstr "Bearbeiten"
+
 #: ulng.rsmfstbifinderrevealtips
 msgid "Reveal in Finder"
 msgstr "Im Finder aufzeigen"
@@ -10855,6 +10877,14 @@ msgstr "Horizontal geteilt ein- und ausschalten"
 #: ulng.rsmfstbihorzsplittitle
 msgid "HorzSplit"
 msgstr "Horizontal geteilt"
+
+#: ulng.rsmfstbiprivilegetips
+msgid "As a file manager, Double Command requires full disk access permissions. Clicking this button will pop up the macOS system settings page. Please add \"Double Commander.app\" to the \"Full Disk Access\" list to complete the authorization."
+msgstr "Als Dateimanager benötigt Double Commander volle Festplattenzugriffsrechte. Klicken Sie auf diese Schaltfläche, um die macOS-Systemeinstellungsseite zu öffnen. Bitte klicken Sie auf \"Datenschutz & Sicherheit\" und fügen Sie \"Double Commander.app\" zur Liste „Festplattenvollzugriff“ hinzu, um die Autorisierung abzuschließen."
+
+#: ulng.rsmfstbiprivilegetitle
+msgid "Privilege"
+msgstr "Zugriffsrechte"
 
 #: ulng.rsmfstbiquicklooktips
 msgid "macOS Quick Look Panel"
@@ -10920,6 +10950,14 @@ msgstr "Dateifenster tauschen"
 #: ulng.rsmfstbiswappanelstitle
 msgid "SwapPanels"
 msgstr "Dateifenster tauschen"
+
+#: ulng.rsmfstbisynctips
+msgid "Synchronize Dirs..."
+msgstr "Verzeichnisse synchronisieren ..."
+
+#: ulng.rsmfstbisynctitle
+msgid "Sync"
+msgstr "Synchronisieren"
 
 #: ulng.rsmfstbiterminaltips
 msgid "Open in Terminal"

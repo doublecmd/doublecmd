@@ -311,7 +311,7 @@ end;"/>
         <PackageName Value="Image32"/>
       </Item13>
     </RequiredPackages>
-    <Units Count="275">
+    <Units Count="276">
       <Unit0>
         <Filename Value="doublecmd.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -2005,6 +2005,11 @@ end;"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uDarwinFinder"/>
       </Unit274>
+      <Unit275>
+        <Filename Value="platform\unix\darwin\udarwinfindermodel.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uDarwinFinderModel"/>
+      </Unit275>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

@@ -22,6 +22,7 @@
 {"hash":174915802,"name":"tfrmoptionsarchivers.lblarchiveradd.caption","sourcebytes":[65,100,100,38,105,110,103,58],"value":"Add&ing:"},
 {"hash":197225810,"name":"tfrmoptionsarchivers.btnarchiveraddhelper.hint","sourcebytes":[86,97,114,105,97,98,108,101,32,114,101,109,105,110,100,101,114,32,104,101,108,112,101,114],"value":"Variable reminder helper"},
 {"hash":160240324,"name":"tfrmoptionsarchivers.chkfilenameonlylist.caption","sourcebytes":[85,115,101,32,97,114,99,104,105,118,101,32,110,97,109,101,32,119,105,116,104,111,117,116,32,101,120,116,101,110,115,105,111,110,32,97,115,32,108,105,115,116],"value":"Use archive name without extension as list"},
+{"hash":72555635,"name":"tfrmoptionsarchivers.chkhide.caption","sourcebytes":[83,104,111,119,32,97,115,32,110,111,114,109,97,108,32,102,105,108,101,115],"value":"Show as normal files"},
 {"hash":11288268,"name":"tfrmoptionsarchivers.tbarchiveradditional.caption","sourcebytes":[65,100,100,105,116,105,111,110,97,108],"value":"Additional"},
 {"hash":131255850,"name":"tfrmoptionsarchivers.lblarchiverdelete.caption","sourcebytes":[68,101,38,108,101,116,101,58],"value":"De&lete:"},
 {"hash":197225810,"name":"tfrmoptionsarchivers.btnarchiverdeletehelper.hint","sourcebytes":[86,97,114,105,97,98,108,101,32,114,101,109,105,110,100,101,114,32,104,101,108,112,101,114],"value":"Variable reminder helper"},

@@ -26,8 +26,6 @@ inherited frmOptionsFavoriteTabs: TfrmOptionsFavoriteTabs
     ChildSizing.TopBottomSpacing = 6
     ClientHeight = 572
     ClientWidth = 568
-    Color = clForm
-    ParentColor = False
     TabOrder = 0
     object pnlClient: TPanel
       AnchorSideLeft.Control = gbFavoriteTabs
@@ -93,8 +91,6 @@ inherited frmOptionsFavoriteTabs: TfrmOptionsFavoriteTabs
         ChildSizing.TopBottomSpacing = 6
         ClientHeight = 249
         ClientWidth = 149
-        Color = clForm
-        ParentColor = False
         TabOrder = 1
         object btnInsert: TBitBtn
           Tag = 1

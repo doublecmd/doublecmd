@@ -214,6 +214,11 @@ begin
         CreateDirs(FFullFilesTreeToExtract, TargetPath, SourcePath, CreatedPaths);
         sCommandLine:= MultiArcItem.FExtract;
       end;
+    if not FExtractWithoutPath then
+    begin
+      sTempDir:= GetTempName(TargetPath);
+      mbCreateDir(sTempDir);
+    end;
     // Get maximum acceptable command errorlevel
     FErrorLevel:= ExtractErrorLevel(sCommandLine);
     if Pos('%F', sCommandLine) <> 0 then // extract file by file
@@ -237,8 +242,6 @@ begin
             if (DoFileExists(aFile, TargetFileName) <> fsoofeOverwrite) then
               Continue;
 
-            // Get target directory
-            sTempDir:= ExtractFileDirEx(TargetFileName);
 
             UpdateProgress(aFile.FullPath, TargetFileName, 0);
 
@@ -255,9 +258,16 @@ begin
             OnReadLn(sReadyCommand);
 
             // Set target directory as archiver current directory
-            FExProcess.Process.CurrentDirectory:= sTempDir;
+            if FExtractWithoutPath then
+              FExProcess.Process.CurrentDirectory:= TargetPath
+            else
+              FExProcess.Process.CurrentDirectory:= sTempDir;
+
             FExProcess.SetCmdLine(sReadyCommand);
             FExProcess.Execute;
+
+            if not FExtractWithoutPath then
+              mbRenameFile(sTempDir + PathDelim + aFile.FullPath, TargetFileName);
 
             UpdateProgress(aFile.FullPath, TargetFileName, aFile.Size);
             // Check for errors.
@@ -267,14 +277,6 @@ begin
   end
   else  // extract whole file list
     begin
-      sTempDir:= TargetPath; // directory where files will be unpacked
-      // if extract from not root directory and with path
-      if (SourceFiles.Path <> PathDelim) and (FExtractWithoutPath = False) then
-        begin
-          sTempDir:= GetTempName(TargetPath);
-          mbCreateDir(sTempDir);
-        end;
-
       // Check existence of target files
       FilesToExtract:= TFiles.Create(FFullFilesTreeToExtract.Path);
       for I:= 0 to FFullFilesTreeToExtract.Count - 1 do
@@ -317,7 +319,11 @@ begin
       OnReadLn(sReadyCommand);
 
       // Set target directory as archiver current directory
-      FExProcess.Process.CurrentDirectory:= sTempDir;
+      if (SourceFiles.Path = PathDelim) or FExtractWithoutPath then
+        FExProcess.Process.CurrentDirectory:= TargetPath
+      else
+        FExProcess.Process.CurrentDirectory:= sTempDir;
+
       FExProcess.SetCmdLine(sReadyCommand);
       FExProcess.Execute;
 
@@ -340,11 +346,14 @@ begin
               UpdateProgress(aFile.FullPath, TargetFileName, aFile.Size);
             end
         end;
-        DelTree(sTempDir);
       end;
     end;
 
-    if (FExtractWithoutPath = False) then SetDirsAttributes(CreatedPaths);
+    if not FExtractWithoutPath then
+    begin
+      SetDirsAttributes(CreatedPaths);
+      DelTree(sTempDir);
+    end;
 
   finally
     FreeAndNil(CreatedPaths);

@@ -119,16 +119,17 @@ type
     constructor Create(const Encoding: String); virtual; reintroduce;
     function Login: Boolean; override;
     function Clone: TFTPSendEx; virtual;
+    function GetCurrentDir: String; override;
     procedure CloneTo(AValue: TFTPSendEx); virtual;
     procedure ParseRemote(Value: string); override;
     function FileExists(const FileName: String): Boolean; virtual;
     function CreateDir(const Directory: string): Boolean; override;
-    function ExecuteCommand(const Command: String): Boolean; virtual;
     function FileProperties(const FileName: String): Boolean; virtual;
     function CopyFile(const OldName, NewName: String): Boolean; virtual;
     function ChangeMode(const FileName, Mode: String): Boolean; virtual;
     function List(Directory: String; NameList: Boolean): Boolean; override;
     function StoreFile(const FileName: string; Restore: Boolean): Boolean; override;
+    function ExecuteCommand(const Command: String; const Directory: String = ''): Boolean; virtual;
     function RetrieveFile(const FileName: string; FileSize: Int64; Restore: Boolean): Boolean; virtual; overload;
     function NetworkError(): Boolean; virtual;
   public
@@ -769,6 +770,11 @@ begin
   end;
 end;
 
+function TFTPSendEx.GetCurrentDir: String;
+begin
+  Result:= CeUtf16ToUtf8(ServerToClient(inherited GetCurrentDir));
+end;
+
 function TFTPSendEx.FileExists(const FileName: String): Boolean;
 begin
   Result:= (Self.FileSize(FileName) >= 0);
@@ -786,7 +792,7 @@ begin
   end;
 end;
 
-function TFTPSendEx.ExecuteCommand(const Command: String): Boolean;
+function TFTPSendEx.ExecuteCommand(const Command, Directory: String): Boolean;
 begin
   Result:= (FTPCommand(Command) div 100) = 2;
 end;

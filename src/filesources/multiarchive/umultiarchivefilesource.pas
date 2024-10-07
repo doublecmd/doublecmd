@@ -107,9 +107,11 @@ type
     class function CreateByArchiveSign(anArchiveFileSource: IFileSource;
                                        anArchiveFileName: String): IMultiArchiveFileSource;
     class function CreateByArchiveType(anArchiveFileSource: IFileSource;
-                                       anArchiveFileName, anArchiveType: String): IMultiArchiveFileSource;
+                                       anArchiveFileName, anArchiveType: String;
+                                       bIncludeHidden: Boolean = False): IMultiArchiveFileSource;
     class function CreateByArchiveName(anArchiveFileSource: IFileSource;
-                                       anArchiveFileName: String): IMultiArchiveFileSource;
+                                       anArchiveFileName: String;
+                                       bIncludeHidden: Boolean = False): IMultiArchiveFileSource;
     {en
        Returns @true if there is an addon registered for the archive name.
     }
@@ -139,6 +141,7 @@ class function TMultiArchiveFileSource.CreateByArchiveSign(anArchiveFileSource: 
 var
   I: Integer;
   aMultiArcItem: TMultiArcItem;
+  bFound: Boolean = False;
 begin
   Result := nil;
 
@@ -147,9 +150,13 @@ begin
   begin
     aMultiArcItem:= gMultiArcList.Items[I];
 
-    if (aMultiArcItem.FEnabled) and (aMultiArcItem.FID <> EmptyStr) then
+    if (aMultiArcItem.FEnabled) then
     begin
-      if aMultiArcItem.CanYouHandleThisFile(anArchiveFileName) then
+      if (aMultiArcItem.FID <> EmptyStr) and aMultiArcItem.CanYouHandleThisFile(anArchiveFileName) then
+        bFound:= True
+      else
+        bFound:= aMultiArcItem.Matches(anArchiveFileName);
+      if bFound then
       begin
         Result := TMultiArchiveFileSource.Create(anArchiveFileSource,
                                                  anArchiveFileName,
@@ -163,8 +170,8 @@ begin
 end;
 
 class function TMultiArchiveFileSource.CreateByArchiveType(
-    anArchiveFileSource: IFileSource;
-    anArchiveFileName, anArchiveType: String): IMultiArchiveFileSource;
+  anArchiveFileSource: IFileSource; anArchiveFileName, anArchiveType: String;
+  bIncludeHidden: Boolean): IMultiArchiveFileSource;
 var
   I: Integer;
   aMultiArcItem: TMultiArcItem;
@@ -176,7 +183,8 @@ begin
   begin
     aMultiArcItem:= gMultiArcList.Items[I];
 
-    if (aMultiArcItem.FEnabled) and MatchesMaskList(anArchiveType, aMultiArcItem.FExtension, ',') then
+    if (aMultiArcItem.FEnabled) and
+       ((bIncludeHidden) or not (mafHide in aMultiArcItem.FFlags)) and MatchesMaskList(anArchiveType, aMultiArcItem.FExtension, ',') then
     begin
       Result := TMultiArchiveFileSource.Create(anArchiveFileSource,
                                                anArchiveFileName,
@@ -189,8 +197,8 @@ begin
 end;
 
 class function TMultiArchiveFileSource.CreateByArchiveName(
-    anArchiveFileSource: IFileSource;
-    anArchiveFileName: String): IMultiArchiveFileSource;
+  anArchiveFileSource: IFileSource; anArchiveFileName: String;
+  bIncludeHidden: Boolean): IMultiArchiveFileSource;
 var
   I: Integer;
   aMultiArcItem: TMultiArcItem;
@@ -202,7 +210,8 @@ begin
   begin
     aMultiArcItem:= gMultiArcList.Items[I];
 
-    if (aMultiArcItem.FEnabled) and aMultiArcItem.Matches(anArchiveFileName) then
+    if (aMultiArcItem.FEnabled) and
+       ((bIncludeHidden) or not (mafHide in aMultiArcItem.FFlags)) and aMultiArcItem.Matches(anArchiveFileName) then
     begin
       Result := TMultiArchiveFileSource.Create(anArchiveFileSource,
                                                anArchiveFileName,
@@ -322,6 +331,9 @@ begin
       LinkProperty.LinkTo := ArchiveItem.FileLink;
     end;
 
+    CommentProperty := TFileCommentProperty.Create;
+    CommentProperty.Value := ArchiveItem.Comment;
+
     // Set name after assigning Attributes property, because it is used to get extension.
     Name := ExtractFileNameEx(ArchiveItem.FileName);
     if ArchiveItem.FileExt <> EmptyStr then
@@ -351,7 +363,7 @@ end;
 
 function TMultiArchiveFileSource.GetSupportedFileProperties: TFilePropertiesTypes;
 begin
-  Result := inherited GetSupportedFileProperties + [fpLink];
+  Result := inherited GetSupportedFileProperties + [fpLink, fpComment];
 end;
 
 function TMultiArchiveFileSource.SetCurrentWorkingDirectory(NewDir: String): Boolean;
@@ -570,6 +582,8 @@ begin
       ArchiveItem.Minute:= ArchiveTime.Minute;
       ArchiveItem.Second:= ArchiveTime.Second;
       ArchiveItem.Attributes := mbFileGetAttr(ArchiveFileName);
+      ArchiveItem.UnpSize:= -1;
+      ArchiveItem.PackSize:= mbFileSize(ArchiveFileName);
       AFileList.Add(ArchiveItem);
       Exit(True);
     end;

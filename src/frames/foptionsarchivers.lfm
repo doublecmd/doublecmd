@@ -370,9 +370,9 @@ inherited frmOptionsArchivers: TfrmOptionsArchivers
         end
         object lblArchiverExtension: TLabel
           AnchorSideLeft.Control = lblArchiverDescription
-          AnchorSideTop.Control = edtArchiverArchiver
-          AnchorSideTop.Side = asrBottom
+          AnchorSideTop.Control = chkHide
           AnchorSideRight.Side = asrBottom
+          AnchorSideBottom.Control = edtArchiverExtension
           Left = 10
           Height = 18
           Top = 102
@@ -384,9 +384,24 @@ inherited frmOptionsArchivers: TfrmOptionsArchivers
           FocusControl = edtArchiverExtension
           ParentColor = False
         end
+        object chkHide: TCheckBox
+          AnchorSideTop.Control = edtArchiverArchiver
+          AnchorSideTop.Side = asrBottom
+          AnchorSideRight.Control = edtArchiverExtension
+          AnchorSideRight.Side = asrBottom
+          Left = 625
+          Height = 23
+          Top = 102
+          Width = 148
+          Anchors = [akTop, akRight]
+          BorderSpacing.Top = 2
+          Caption = 'Show as normal files'
+          TabOrder = 2
+          OnChange = chkHideChange
+        end
         object edtArchiverExtension: TEdit
           AnchorSideLeft.Control = lblArchiverDescription
-          AnchorSideTop.Control = lblArchiverExtension
+          AnchorSideTop.Control = chkHide
           AnchorSideTop.Side = asrBottom
           AnchorSideRight.Control = lblArchiverDescription
           AnchorSideRight.Side = asrBottom
@@ -396,7 +411,7 @@ inherited frmOptionsArchivers: TfrmOptionsArchivers
           Width = 769
           Anchors = [akTop, akLeft, akRight]
           OnChange = edtAnyChange
-          TabOrder = 2
+          TabOrder = 3
         end
         object lblArchiverList: TLabel
           AnchorSideLeft.Control = lblArchiverDescription
@@ -413,6 +428,39 @@ inherited frmOptionsArchivers: TfrmOptionsArchivers
           FocusControl = edtArchiverList
           ParentColor = False
         end
+        object pnlFileNameOnlyList: TPanel
+          AnchorSideLeft.Control = lblArchiverList
+          AnchorSideLeft.Side = asrBottom
+          AnchorSideTop.Control = edtArchiverExtension
+          AnchorSideTop.Side = asrBottom
+          AnchorSideRight.Control = edtArchiverList
+          AnchorSideRight.Side = asrBottom
+          Left = 45
+          Height = 24
+          Top = 148
+          Width = 704
+          Anchors = [akTop, akLeft, akRight]
+          AutoSize = True
+          BorderSpacing.Top = 2
+          BevelOuter = bvNone
+          ClientHeight = 24
+          ClientWidth = 704
+          TabOrder = 4
+          object chkFileNameOnlyList: TCheckBox
+            AnchorSideLeft.Side = asrBottom
+            AnchorSideTop.Side = asrBottom
+            AnchorSideRight.Side = asrBottom
+            Left = 419
+            Height = 24
+            Top = 0
+            Width = 285
+            Anchors = [akTop, akRight]
+            Caption = 'Use archive name without extension as list'
+            OnChange = chkFileNameOnlyListChange
+            ParentBidiMode = False
+            TabOrder = 0
+          end
+        end
         object edtArchiverList: TEdit
           AnchorSideLeft.Control = lblArchiverDescription
           AnchorSideTop.Control = pnlFileNameOnlyList
@@ -425,7 +473,7 @@ inherited frmOptionsArchivers: TfrmOptionsArchivers
           Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Right = 3
           OnChange = edtAnyChange
-          TabOrder = 4
+          TabOrder = 5
         end
         object btnArchiverListHelper: TSpeedButton
           AnchorSideLeft.Side = asrBottom
@@ -506,7 +554,7 @@ inherited frmOptionsArchivers: TfrmOptionsArchivers
           Width = 769
           Anchors = [akTop, akLeft, akRight]
           OnChange = edtAnyChange
-          TabOrder = 5
+          TabOrder = 6
         end
         object lblArchiverListEnd: TLabel
           AnchorSideLeft.Control = lblArchiverDescription
@@ -535,7 +583,7 @@ inherited frmOptionsArchivers: TfrmOptionsArchivers
           Width = 769
           Anchors = [akTop, akLeft, akRight]
           OnChange = edtAnyChange
-          TabOrder = 6
+          TabOrder = 7
         end
         object lblArchiverListFormat: TLabel
           AnchorSideLeft.Control = lblArchiverDescription
@@ -604,7 +652,7 @@ inherited frmOptionsArchivers: TfrmOptionsArchivers
           Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Right = 3
           OnChange = edtAnyChange
-          TabOrder = 8
+          TabOrder = 9
         end
         object btnArchiverExtractHelper: TSpeedButton
           AnchorSideLeft.Side = asrBottom
@@ -687,7 +735,7 @@ inherited frmOptionsArchivers: TfrmOptionsArchivers
           BorderSpacing.Right = 3
           BorderSpacing.Bottom = 6
           OnChange = edtAnyChange
-          TabOrder = 9
+          TabOrder = 10
         end
         object btnArchiverAddHelper: TSpeedButton
           AnchorSideLeft.Side = asrBottom
@@ -739,39 +787,6 @@ inherited frmOptionsArchivers: TfrmOptionsArchivers
             000000000000000000000000000000000000BB8747FFFFFFFF00
           }
           OnClick = btnHelperClick
-        end
-        object pnlFileNameOnlyList: TPanel
-          AnchorSideLeft.Control = lblArchiverList
-          AnchorSideLeft.Side = asrBottom
-          AnchorSideTop.Control = edtArchiverExtension
-          AnchorSideTop.Side = asrBottom
-          AnchorSideRight.Control = edtArchiverList
-          AnchorSideRight.Side = asrBottom
-          Left = 45
-          Height = 24
-          Top = 148
-          Width = 704
-          Anchors = [akTop, akLeft, akRight]
-          AutoSize = True
-          BorderSpacing.Top = 2
-          BevelOuter = bvNone
-          ClientHeight = 24
-          ClientWidth = 704
-          TabOrder = 3
-          object chkFileNameOnlyList: TCheckBox
-            AnchorSideLeft.Side = asrBottom
-            AnchorSideTop.Side = asrBottom
-            AnchorSideRight.Side = asrBottom
-            Left = 419
-            Height = 24
-            Top = 0
-            Width = 285
-            Anchors = [akTop, akRight]
-            Caption = 'Use archive name without extension as list'
-            OnChange = chkFileNameOnlyListChange
-            ParentBidiMode = False
-            TabOrder = 0
-          end
         end
       end
       object tbArchiverAdditional: TTabSheet

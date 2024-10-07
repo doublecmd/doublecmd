@@ -8,7 +8,7 @@ interface
 uses
   Classes, SysUtils,
   LCLType, Forms, Menus,
-  fMain, uMyDarwin, uDarwinFinder, uDCUtils, uLng,
+  fMain, uMyDarwin, uDCUtils, uLng,
   uFileView, uBriefFileView, uColumnsFileView, uThumbFileView,
   CocoaAll, CocoaConfig, CocoaToolBar, Cocoa_Extra;
 
@@ -76,22 +76,8 @@ begin
 end;
 
 procedure editTagAction( const Sender: id );
-var
-  tagItem: NSToolBarItem absolute Sender;
-  filenames: TStringArray;
-  view: NSView;
 begin
-  filenames:= frmMain.NSServiceMenuGetFilenames();
-  if length(filenames) = 0 then
-    Exit;
-
-  view:= nil;
-  if NSObject(Sender).isKindOfClass(NSToolBarItem) then
-    view:= tagItem.valueForKey( NSSTR('_itemViewer') );
-  if (view=nil) or (view.window=nil) then
-    view:= NSView( frmMain.Handle );
-
-  uDarwinFinderUtil.popoverFileTags( filenames[0], view , NSMaxYEdge );
+  showEditFinderTagsPanel( Sender, frmMain );
 end;
 
 procedure finderRevealAction( const Sender: id );
@@ -104,6 +90,20 @@ begin
   performMacOSService( 'Finder/Show Info' );
 end;
 
+procedure compareAction( const Sender: id );
+begin
+  frmMain.Commands.cm_CompareContents([]);
+end;
+
+procedure syncAction( const Sender: id );
+begin
+  frmMain.Commands.cm_SyncDirs([]);
+end;
+
+procedure editAction( const Sender: id );
+begin
+  frmMain.Commands.cm_Edit([]);
+end;
 
 
 const
@@ -304,6 +304,15 @@ begin
   frmMain.Commands.cm_Search([]);
 end;
 
+procedure privilegeAction( const Sender: id );
+const
+  Privacy_AllFiles = 'x-apple.systempreferences:com.apple.preference.security?Privacy_AllFiles';
+var
+  url: NSURL;
+begin
+  url:= NSURL.URLWithString( NSSTR(Privacy_AllFiles) );
+  NSWorkspace.sharedWorkspace.openURL( url );
+end;
 
 const
   treeViewItemConfig: TCocoaConfigToolBarItem = (
@@ -479,17 +488,6 @@ const
   );
 
 
-  refreshItemConfig: TCocoaConfigToolBarItem = (
-     identifier: 'MainForm.Refresh';
-     priority: NSToolbarItemVisibilityPriorityStandard;
-     navigational: False;
-     iconName: 'arrow.clockwise';
-     title: rsMFSTBIRefreshTitle;
-     tips: rsMFSTBIRefreshTips;
-     bordered: True;
-     onAction: @refreshAction;
-   );
-
   terminalItemConfig: TCocoaConfigToolBarItem = (
     identifier: 'MainForm.Terminal';
     priority: NSToolbarItemVisibilityPriorityStandard;
@@ -511,6 +509,63 @@ const
     bordered: True;
     onAction: @searchFilesAction;
   );
+
+  privilegeItemConfig: TCocoaConfigToolBarItem = (
+    identifier: 'MainForm.Privilege';
+    priority: NSToolbarItemVisibilityPriorityStandard;
+    navigational: False;
+    iconName: 'lock.shield';
+    title: rsMFSTBIPrivilegeTitle;
+    tips: rsMFSTBIPrivilegeTips;
+    bordered: True;
+    onAction: @privilegeAction;
+  );
+
+
+  refreshItemConfig: TCocoaConfigToolBarItem = (
+     identifier: 'MainForm.Refresh';
+     priority: NSToolbarItemVisibilityPriorityStandard;
+     navigational: False;
+     iconName: 'arrow.clockwise';
+     title: rsMFSTBIRefreshTitle;
+     tips: rsMFSTBIRefreshTips;
+     bordered: True;
+     onAction: @refreshAction;
+   );
+
+  compareItemConfig: TCocoaConfigToolBarItem = (
+    identifier: 'MainForm.Compare';
+    priority: NSToolbarItemVisibilityPriorityStandard;
+    navigational: False;
+    iconName: 'rectangle.on.rectangle';
+    title: rsMFSTBICompareTitle;
+    tips: rsMFSTBICompareTips;
+    bordered: True;
+    onAction: @compareAction;
+  );
+
+  syncItemConfig: TCocoaConfigToolBarItem = (
+    identifier: 'MainForm.Sync';
+    priority: NSToolbarItemVisibilityPriorityStandard;
+    navigational: False;
+    iconName: 'arrow.triangle.2.circlepath';
+    title: rsMFSTBISyncTitle;
+    tips: rsMFSTBISyncTips;
+    bordered: True;
+    onAction: @syncAction;
+  );
+
+  editItemConfig: TCocoaConfigToolBarItem = (
+    identifier: 'MainForm.Edit';
+    priority: NSToolbarItemVisibilityPriorityStandard;
+    navigational: False;
+    iconName: 'square.and.pencil';
+    title: rsMFSTBIEditTitle;
+    tips: rsMFSTBIEditTips;
+    bordered: True;
+    onAction: @editAction;
+  );
+
 
   mainFormConfig: TCocoaConfigForm = (
     name: 'frmMain';
@@ -550,9 +605,9 @@ const
         'NSToolbarFlexibleSpaceItem',
         'MainForm.Command',
         'NSToolbarFlexibleSpaceItem',
+        'MainForm.SearchFiles',
         'MainForm.Terminal',
-        'MainForm.Refresh',
-        'MainForm.SearchFiles'
+        'MainForm.Privilege'
       );
       allowedItemsIdentifiers: (
         'MainForm.TreeView',
@@ -568,9 +623,15 @@ const
         'MainForm.FinderReveal',
         'MainForm.FinderInfo',
         'MainForm.Command',
+
+        'MainForm.SearchFiles',
         'MainForm.Terminal',
+        'MainForm.Privilege',
+
         'MainForm.Refresh',
-        'MainForm.SearchFiles'
+        'MainForm.Compare',
+        'MainForm.Sync',
+        'MainForm.Edit'
       );
       itemCreator: nil;      // default item Creator
     );
@@ -599,8 +660,13 @@ begin
     TCocoaToolBarUtils.toClass(finderRevealItemConfig),
     TCocoaToolBarUtils.toClass(finderInfoItemConfig),
     TCocoaToolBarUtils.toClass(terminalItemConfig),
+    TCocoaToolBarUtils.toClass(searchFilesItemConfig),
+    TCocoaToolBarUtils.toClass(privilegeItemConfig),
+
     TCocoaToolBarUtils.toClass(refreshItemConfig),
-    TCocoaToolBarUtils.toClass(searchFilesItemConfig)
+    TCocoaToolBarUtils.toClass(compareItemConfig),
+    TCocoaToolBarUtils.toClass(syncItemConfig),
+    TCocoaToolBarUtils.toClass(editItemConfig)
   ];
 
   CocoaConfigForms:= [ mainFormConfig ];

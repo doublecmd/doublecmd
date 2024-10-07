@@ -3,7 +3,7 @@
     -------------------------------------------------------------------------
     Custom edit control with the look and feel like TLabel
 
-    Copyright (C) 2017-2018 Alexander Koblov (alexx2000@mail.ru)
+    Copyright (C) 2017-2024 Alexander Koblov (alexx2000@mail.ru)
 
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License
@@ -58,6 +58,9 @@ type
     procedure SelectAll;
     procedure CopyToClipboard;
   published
+    property Color default clDefault;
+    property Cursor default crIBeam;
+    property ReadOnly default True;
     property OnMouseDown;
     property OnMouseMove;
     property OnMouseUp;
@@ -104,12 +107,7 @@ end;
 procedure TKASCDDrawer.DrawEditBackground(ADest: TCanvas; ADestPos: TPoint;
   ASize: TSize; AState: TCDControlState; AStateEx: TCDEditStateEx);
 begin
-  // The background
-  ADest.Pen.Style := psSolid;
-  ADest.Pen.Color := AStateEx.RGBColor;
-  ADest.Brush.Style := bsSolid;
-  ADest.Brush.Color := AStateEx.RGBColor;
-  ADest.Rectangle(0, 0, ASize.cx, ASize.cy);
+  // None
 end;
 
 procedure TKASCDDrawer.DrawEdit(ADest: TCanvas; ASize: TSize;
@@ -122,10 +120,8 @@ var
   lTextLeftSpacing, lTextTopSpacing, lTextBottomSpacing: Integer;
   lTextColor: TColor;
   i, lVisibleLinesCount: Integer;
+  AClipRect: TRect;
 begin
-  // Background
-  DrawEditBackground(ADest, Point(0, 0), ASize, AState, AStateEx);
-
   // General text configurations which apply to all lines
   // Configure the text color
   if csfEnabled in AState then
@@ -168,10 +164,10 @@ begin
     // The text
     ADest.Pen.Style := psClear;
     ADest.Brush.Style := bsClear;
+    lVisibleText := UTF8Copy(lControlText, AStateEx.VisibleTextStart.X, lControlTextLen);
     // ToDo: Implement multi-line selection
     if (AStateEx.SelLength = 0) or (AStateEx.SelStart.Y <> AStateEx.VisibleTextStart.Y+i) then
     begin
-      lVisibleText := UTF8Copy(lControlText, AStateEx.VisibleTextStart.X, lControlTextLen);
       ADest.TextOut(lTextLeftSpacing, lLineTop, lVisibleText);
     end
     // Text and Selection
@@ -186,22 +182,18 @@ begin
       lSelLength := AStateEx.SelLength;
       if lSelLength < 0 then lSelLength := lSelLength * -1;
 
-      // Text right of the selection
+      // Draw a normal text
       ADest.Font.Color := lTextColor;
-      ADest.Brush.Color := AStateEx.RGBColor;
-      lVisibleText := UTF8Copy(lControlText, AStateEx.VisibleTextStart.X, lControlTextLen);
       ADest.TextOut(lTextLeftSpacing, lLineTop, lVisibleText);
 
-      // The selection text
+      // Draw a selected text
       ADest.Brush.Color := clHighlight;
       ADest.Font.Color := clHighlightText;
-      lVisibleText := UTF8Copy(lControlText, AStateEx.VisibleTextStart.X, lSelLeftPos + lSelLength);
-      ADest.TextOut(lTextLeftSpacing, lLineTop, lVisibleText);
-
-      // Text left of the selection
-      ADest.Font.Color := lTextColor;
-      ADest.Brush.Color := AStateEx.RGBColor;
-      lVisibleText := UTF8Copy(lControlText, AStateEx.VisibleTextStart.X, lSelLeftPos-AStateEx.VisibleTextStart.X + 1);
+      // Calculate a clip rect
+      AClipRect := ADest.ClipRect;
+      AClipRect.Left := ADest.TextWidth(UTF8Copy(lVisibleText, 1, lSelLeftPos));
+      AClipRect.Right := ADest.TextWidth(UTF8Copy(lVisibleText, 1, lSelLeftPos + lSelLength));
+      IntersectClipRect(ADest.Handle, AClipRect.Left, AClipRect.Top, AClipRect.Right, AClipRect.Bottom);
       ADest.TextOut(lTextLeftSpacing, lLineTop, lVisibleText);
     end;
   end;
@@ -382,6 +374,10 @@ begin
         end;
     end;
   end;
+  if ReadOnly and (Key in [VK_BACK, VK_DELETE]) then
+  begin
+    Key:= 0;
+  end;
   inherited KeyDown(Key, Shift);
 end;
 
@@ -389,10 +385,11 @@ constructor TKASCDEdit.Create(AOwner: TComponent);
 begin
   CreatePopupMenu;
   inherited Create(AOwner);
-  Color:= clForm;
   ReadOnly:= True;
   Cursor:= crIBeam;
+  Color:= clDefault;
   DrawStyle:= dsExtra1;
+  ControlStyle:= ControlStyle + [csParentBackground] - [csOpaque];
 end;
 
 procedure TKASCDEdit.MouseMove(Shift: TShiftState; X, Y: integer);

@@ -16,8 +16,6 @@ object frmButtonForm: TfrmButtonForm
     Align = alClient
     AutoSize = True
     BevelOuter = bvNone
-    Color = clForm
-    ParentColor = False
     TabOrder = 0
   end
   object pnlButtons: TPanel
@@ -33,8 +31,6 @@ object frmButtonForm: TfrmButtonForm
     BevelOuter = bvNone
     ClientHeight = 34
     ClientWidth = 593
-    Color = clForm
-    ParentColor = False
     TabOrder = 1
     object btnAddToQueue: TBitBtn
       Left = 0
@@ -141,8 +137,8 @@ object frmButtonForm: TfrmButtonForm
     end
   end
   object pmQueuePopup: TPopupMenu
-    left = 280
-    top = 280
+    Left = 280
+    Top = 280
     object mnuNewQueue: TMenuItem
       Caption = 'New queue'
       OnClick = mnuNewQueueClick

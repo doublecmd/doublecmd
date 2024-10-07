@@ -13,6 +13,11 @@ uses
   , MMSystem, LazUTF8
 {$ELSEIF DEFINED(DARWIN)}
   , CocoaAll, uMyDarwin
+{$ELSE}
+  , LazLogger, sdl2
+  {$IFNDEF HAIKU}
+  , gst
+  {$ENDIF}
 {$ENDIF}
   ;
 
@@ -66,8 +71,30 @@ begin
   end;
 end;
 {$ELSE}
+const
+  First: Boolean = True;
+  Play: function(const FileName: String): Boolean = nil;
 begin
-  Result:= False;
+  if First then
+  begin
+  {$IF NOT DEFINED(HAIKU)}
+    if GST_Initialize then
+    begin
+      Play:= @GST_Play;
+    end
+    else
+  {$ENDIF}
+    if SDL_Initialize then
+    begin
+      Play:= @SDL_Play;
+    end;
+    First:= False;
+  end;
+  if (Play = nil) then
+    Result:= False
+  else begin
+    Result:= Play(FileName);
+  end;
 end;
 {$ENDIF}
 

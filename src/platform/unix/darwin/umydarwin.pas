@@ -38,7 +38,7 @@ uses
   Cocoa_Extra, MacOSAll, CocoaAll, QuickLookUI,
   CocoaUtils, CocoaInt, CocoaConst, CocoaMenus,
   InterfaceBase, Menus, Controls, Forms,
-  uDarwinFSWatch;
+  uDarwinFSWatch, uDarwinFinder;
 
 // Darwin Util Function
 function StringToNSString(const S: String): NSString;
@@ -157,6 +157,7 @@ procedure InitNSServiceProvider(
 procedure performMacOSService( serviceName: String );
 
 procedure showQuickLookPanel;
+procedure showEditFinderTagsPanel( const Sender: id; control: TWinControl );
 
 // MacOS Sharing
 procedure showMacOSSharingServiceMenu;
@@ -704,6 +705,25 @@ begin
   panel.setDataSource( mate );
   panel.makeKeyAndOrderFront( nil );
   mate.release;
+end;
+
+procedure showEditFinderTagsPanel( const Sender: id; control: TWinControl );
+var
+  tagItem: NSToolBarItem absolute Sender;
+  filenames: TStringArray;
+  view: NSView;
+begin
+  filenames:= TDCCocoaApplication(NSApp).serviceMenuGetFilenames;
+  if length(filenames) = 0 then
+    Exit;
+
+  view:= nil;
+  if Assigned(tagItem) then
+    view:= tagItem.valueForKey( NSSTR('_itemViewer') );
+  if (view=nil) or (view.window=nil) then
+    view:= NSView( control.Handle );
+
+  uDarwinFinderUtil.popoverFileTags( filenames[0], view , NSMaxYEdge );
 end;
 
 initialization

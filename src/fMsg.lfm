@@ -51,8 +51,6 @@ object frmMsg: TfrmMsg
     ChildSizing.EnlargeHorizontal = crsHomogenousSpaceResize
     ChildSizing.Layout = cclLeftToRightThenTopToBottom
     ChildSizing.ControlsPerLine = 3
-    Color = clForm
-    ParentColor = False
     TabOrder = 0
   end
   object mnuOther: TPopupMenu
