@@ -52,22 +52,31 @@ type
   strict private class var
     _rectFinderTagNSColors: TFinderTagNSColors;
     _dotFinderTagNSColors: TFinderTagNSColors;
+    _favoriteTags: NSArray;
+  private
+    class function getAllTags: NSDictionary;
+    class function getFavoriteTags: NSArray; static;
+    class function getTagsData_macOS12: NSDictionary;
+    class function getTagsData_macOS11: NSDictionary;
+    class function doGetAllTags( const tagDictionary: NSDictionary ): NSDictionary;
+    class function getTagsDataFromDatabase: TBytes;
+    class function getFavoriteTagNames: NSArray;
+    class procedure initFinderTagNSColors;
   public
     class function getTagNamesOfFile( const url: NSUrl ): NSArray;
     class procedure setTagNamesOfFile( const url: NSUrl; const tagNames: NSArray );
   public
     class property rectFinderTagNSColors: TFinderTagNSColors read _rectFinderTagNSColors;
     class property dotFinderTagNSColors: TFinderTagNSColors read _dotFinderTagNSColors;
-  private
-    class function getAllTags: NSDictionary;
-    class function getTagsData_macOS12: NSDictionary;
-    class function getTagsData_macOS11: NSDictionary;
-    class function doGetAllTags( const tagDictionary: NSDictionary ): NSDictionary;
-    class function getTagsDataFromDatabase: TBytes;
-    class procedure initFinderTagNSColors;
+    class property favoriteTags: NSArray read getFavoriteTags;
   end;
 
 implementation
+
+const
+  NEW_FINDER_TAGS_DATABASE_PATH  = '/Library/SyncedPreferences/com.apple.kvs/com.apple.KeyValueService-Production.sqlite';
+  OLD_FINDER_TAGS_FILE_PATH      = '/Library/SyncedPreferences/com.apple.finder.plist';
+  FAVORITE_FINDER_TAGS_FILE_PATH = '/Library/Preferences/com.apple.finder.plist';
 
 { TFinderTag }
 
@@ -158,10 +167,6 @@ begin
   url.setResourceValue_forKey_error( tagNames, NSURLTagNamesKey, nil );
 end;
 
-const
-  NEW_FINDER_TAGS_DATABASE_PATH = '/Library/SyncedPreferences/com.apple.kvs/com.apple.KeyValueService-Production.sqlite';
-  OLD_FINDER_TAGS_FILE_PATH     = '/Library/SyncedPreferences/com.apple.finder.plist';
-
 class function uDarwinFinderModelUtil.getAllTags: NSDictionary;
 var
   tagDictionary: NSDictionary;
@@ -181,6 +186,51 @@ begin
       DCDebug( 'Exception in uDarwinFinderUtil.getAllTags(): ', e.ToString );
     end;
   end;
+end;
+
+class function uDarwinFinderModelUtil.getFavoriteTagNames: NSArray;
+var
+  path: NSString;
+  plistData: NSData;
+  plistProperties: id;
+begin
+  Result:= nil;
+  path:= NSHomeDirectory.stringByAppendingString( NSSTR(FAVORITE_FINDER_TAGS_FILE_PATH) );
+
+  plistData:= NSData.dataWithContentsOfFile( path );
+  if plistData = nil then
+    Exit;
+
+  plistProperties:= NSPropertyListSerialization.propertyListWithData_options_format_error(
+    plistData, NSPropertyListImmutable, nil, nil );
+  if plistProperties = nil then
+    Exit;
+
+  Result:= plistProperties.valueForKeyPath( NSSTR('FavoriteTagNames') );
+end;
+
+class function uDarwinFinderModelUtil.getFavoriteTags: NSArray;
+var
+  tagNames: NSArray;
+  tagName: NSString;
+  tags: NSMutableArray;
+  tag: TFinderTag;
+begin
+  tagNames:= uDarwinFinderModelUtil.getFavoriteTagNames;
+  tags:= NSMutableArray.alloc.initWithCapacity( tagNames.count );
+  for tagName in tagNames do begin
+    if tagName.length = 0 then
+      continue;
+    tag:= TFinderTags.getTagOfName( tagName );
+    tags.addObject( tag );
+  end;
+
+  if tags.count > 0 then begin
+    _favoriteTags.release;
+    _favoriteTags:= tags;
+  end;
+
+  Result:= _favoriteTags;
 end;
 
 class function uDarwinFinderModelUtil.getTagsData_macOS12: NSDictionary;
