@@ -354,7 +354,7 @@ end;
 
 function TMultiArchiveFileSource.GetSupportedFileProperties: TFilePropertiesTypes;
 begin
-  Result := inherited GetSupportedFileProperties + [fpLink];
+  Result := inherited GetSupportedFileProperties + [fpLink, fpComment];
 end;
 
 function TMultiArchiveFileSource.SetCurrentWorkingDirectory(NewDir: String): Boolean;

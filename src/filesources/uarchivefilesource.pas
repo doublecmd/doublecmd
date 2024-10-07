@@ -80,7 +80,6 @@ begin
     CompressedSizeProperty := TFileCompressedSizeProperty.Create;
     AttributesProperty := TFileAttributesProperty.CreateOSAttributes;
     ModificationTimeProperty := TFileModificationDateTimeProperty.Create;
-    CommentProperty := TFileCommentProperty.Create;
   end;
 end;
 
@@ -100,7 +99,7 @@ end;
 function TArchiveFileSource.GetSupportedFileProperties: TFilePropertiesTypes;
 begin
   Result := inherited GetSupportedFileProperties
-          + [fpSize, fpCompressedSize, fpAttributes, fpModificationTime, fpComment];
+          + [fpSize, fpCompressedSize, fpAttributes, fpModificationTime];
 end;
 
 end.
