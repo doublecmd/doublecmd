@@ -69,6 +69,7 @@ type
     Size: Ansistring;
     PackSize: AnsiString;
     Attributes: Ansistring;
+    Comment: string;
     procedure ClearStore; virtual;
     function CheckValues: Boolean; virtual;
     procedure FillRecord(const Value: TArchiveItem); virtual;
@@ -134,6 +135,7 @@ begin
   Size := '';
   PackSize := '';
   Attributes := '';
+  Comment := '';
 end;
 
 function TMultiArchiveDynamicParser.ParseByMask(Value, NextValue, Mask: ansistring): Integer;
@@ -191,6 +193,8 @@ begin
         PackSize := PackSize + c;
       'a':
         Attributes := Attributes + c;
+      'c':
+        Comment := Comment + c;
       'x':
         if c <> ' ' then
           begin
@@ -405,6 +409,7 @@ begin
   Value.Minute:= StrToIntDef(Minutes, 0);
   Value.Second:= StrToIntDef(Seconds, 0);
   Value.Attributes:= FGetFileAttr(Attributes);
+  Value.Comment:= Comment;
 
   if ThreeMonth <> '' then begin
     Value.Month:= MonthToNumberDef(ThreeMonth, 1);

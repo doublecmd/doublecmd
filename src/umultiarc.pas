@@ -84,7 +84,8 @@ type
   TArchiveItem = class(TObjectEx)
     FileName,
     FileExt,
-    FileLink:  String;
+    FileLink,
+    Comment:  String;
     PackSize,
     UnpSize: Int64;
     Year,
@@ -189,6 +190,7 @@ begin
   Result.FileName:= FileName;
   Result.FileExt:= FileExt;
   Result.FileLink:= FileLink;
+  Result.Comment:= Comment;
   Result.PackSize:= PackSize;
   Result.UnpSize:= UnpSize;
   Result.Year:= Year;

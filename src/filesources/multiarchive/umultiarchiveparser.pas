@@ -60,7 +60,8 @@ type
     FHourModifierPos,
     FMinPos,
     FSecPos,
-    FAttrPos: TKeyPos;
+    FAttrPos,
+    FCmtPos: TKeyPos;
   private
     FFormatIndex: Integer;
   private
@@ -238,6 +239,7 @@ begin
   KeyPos('m', FMinPos);
   KeyPos('s', FSecPos);
   KeyPos('a', FAttrPos);
+  KeyPos('c', FCmtPos);
 end;
 
 procedure TMultiArchiveStaticParser.ParseLines;
@@ -281,6 +283,8 @@ begin
     FArchiveItem.Second := StrToIntDef(Trim(GetKeyValue(str, FSecPos)), 0);
   if FAttrPos.Index = FFormatIndex then
     FArchiveItem.Attributes := FGetFileAttr(GetKeyValue(str, FAttrPos));
+  if FCmtPos.Index = FFormatIndex then
+    FArchiveItem.Comment := Trim(GetKeyValue(str, FCmtPos));
 
   FFormatIndex := FFormatIndex + 1;
   if FFormatIndex >= FMultiArcItem.FFormat.Count then
