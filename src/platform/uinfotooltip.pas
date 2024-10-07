@@ -86,9 +86,6 @@ function GetFileInfoToolTip(aFileSource: IFileSource; const aFile: TFile): Strin
   function GetDefaultToolTip(const Hint: String): String;
   begin
     Result:= Hint;
-    if (fpComment in aFile.SupportedProperties) then
-      with (aFile.Properties[fpComment] as TFileCommentProperty) do
-      Result:= IfThen(Result = EmptyStr, EmptyStr, Result + LineEnding) + AsString;
     if (fpModificationTime in aFile.SupportedProperties) and aFile.ModificationTimeProperty.IsValid then
       with (aFile.Properties[fpModificationTime] as TFileModificationDateTimeProperty) do
       Result:= IfThen(Result = EmptyStr, EmptyStr, Result + LineEnding) + GetDescription + #58#32 +  AsString;
