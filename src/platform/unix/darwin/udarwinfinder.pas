@@ -7,8 +7,7 @@ interface
 
 uses
   Classes, SysUtils, LCLType,
-  sqldb, SQLite3Conn,
-  uDebug,
+  uDarwinFinderModel, uDebug,
   MacOSAll, CocoaAll, CocoaConst, CocoaTextEdits, CocoaUtils, Cocoa_Extra;
 
 const
@@ -25,7 +24,6 @@ const
   TAG_TOKEN_LINE_SPACING = 1.0;
 
 type
-
   { uDarwinFinderUtil }
 
   uDarwinFinderUtil = class
@@ -33,57 +31,11 @@ type
     class procedure popoverFileTags(
       const path: String; const positioningView: NSView; const edge: NSRectEdge );
   private
-    class function getTagNamesOfFile( const url: NSUrl ): NSArray;
-    class procedure setTagNamesOfFile( const url: NSUrl; const tagNames: NSArray );
-  private
-    class function getAllTags: NSDictionary;
-    class function getTagsData_macOS12: NSDictionary;
-    class function getTagsData_macOS11: NSDictionary;
-    class function doGetAllTags( const tagDictionary: NSDictionary ): NSDictionary;
-    class function getTagsDataFromDatabase: TBytes;
-  private
     class procedure drawTagName( const tagName: NSString;
       const fontSize: CGFloat; const color: NSColor; const rect: NSRect );
   end;
 
 implementation
-
-type
-
-  { TFinderTag }
-
-  TFinderTag = objcclass( NSObject )
-  private
-    _name: NSString;
-    _colorIndex: NSInteger;
-    _isUserDefined: Boolean;
-  public
-    class function tagWithParams( const name: NSString; const colorIndex: Integer;
-      const isUserDefined: Boolean ): TFinderTag; message 'tagWithParams:name:colorIndex:';
-    procedure dealloc; override;
-
-    function name: NSString; message 'tag_name';
-    function colorIndex: NSInteger; message 'tag_colorIndex';
-    function isUserDefined: Boolean; message 'tag_isUserDefined';
-    function color: NSColor; message 'tag_color';
-  end;
-
-  { TFinderTags }
-
-  TFinderTags = class
-  private class var
-    _tags: NSDictionary;
-  public
-    class procedure update;
-    class function getTagOfName( tagName: NSString ): TFinderTag;
-  end;
-
-type
-  TFinderTagNSColors = Array of NSColor;
-
-var
-  rectFinderTagNSColors: TFinderTagNSColors;
-  dotFinderTagNSColors: TFinderTagNSColors;
 
 type
 
@@ -188,70 +140,6 @@ type
     procedure updateLayout; message 'doublecmd_updateLayout';
   end;
 
-{ TFinderTag }
-
-class function TFinderTag.tagWithParams( const name: NSString; const colorIndex: Integer;
-  const isUserDefined: Boolean): TFinderTag;
-begin
-  Result:= TFinderTag.new;
-  Result._name:= name.retain;
-  if (colorIndex>=0) and (colorIndex<length(rectFinderTagNSColors)) then
-    Result._colorIndex:= colorIndex;
-  Result._isUserDefined:= isUserDefined;
-  Result.autorelease;
-end;
-
-procedure TFinderTag.dealloc;
-begin
-  _name.release;
-  Inherited;
-end;
-
-function TFinderTag.name: NSString;
-begin
-  Result:= _name;
-end;
-
-function TFinderTag.colorIndex: NSInteger;
-begin
-  Result:= _colorIndex;
-end;
-
-function TFinderTag.isUserDefined: Boolean;
-begin
-  Result:= _isUserDefined;
-end;
-
-function TFinderTag.color: NSColor;
-begin
-  Result:= rectFinderTagNSColors[ _colorIndex ];
-end;
-
-{ TFinderTags }
-
-class procedure TFinderTags.update;
-var
-  newTags: NSDictionary;
-begin
-  newTags:= uDarwinFinderUtil.getAllTags;
-  if newTags = nil then
-    Exit;
-  if _tags <> nil then
-    _tags.release;
-  _tags:= newTags;
-  _tags.retain;
-end;
-
-class function TFinderTags.getTagOfName( tagName: NSString ): TFinderTag;
-begin
-  Result:= nil;
-  if _tags = nil then
-    self.update;
-  if _tags = nil then
-    Exit;
-  Result:= _tags.objectForKey( tagName );
-end;
-
 { TCocoaTokenAttachmentCell }
 
 function TCocoaTokenAttachmentCell.isSelected: Boolean;
@@ -288,7 +176,7 @@ begin
   if finderTag <> nil then
     color:= finderTag.color
   else
-    color:= rectFinderTagNSColors[0];
+    color:= uDarwinFinderModelUtil.rectFinderTagNSColors[0];
 
   drawingRect:= self.drawingRectForBounds( cellFrame );
   path:= NSBezierPath.bezierPathWithRoundedRect_xRadius_yRadius(
@@ -575,7 +463,7 @@ var
     if NOT newStyle then
       rect.origin.x:= rect.origin.x + 10;
     finderTag:= TFinderTags.getTagOfName( tagName );
-    dotFinderTagNSColors[finderTag.colorIndex].set_;
+    uDarwinFinderModelUtil.dotFinderTagNSColors[finderTag.colorIndex].set_;
     if finderTag.colorIndex <> 0 then begin
       path:= NSBezierPath.bezierPathWithOvalInRect( rect );
       path.fill;
@@ -677,7 +565,7 @@ procedure TFinderTagsEditorPanel.showPopover( const sender: NSView; const edge: 
 begin
   self.view.setFrameSize( NSMakeSize(TAG_POPOVER_WIDTH, TAG_POPOVER_HEIGHT) );
 
-  _tagsTokenField.setObjectValue( uDarwinFinderUtil.getTagNamesOfFile(_url) );
+  _tagsTokenField.setObjectValue( uDarwinFinderModelUtil.getTagNamesOfFile(_url) );
   _tagsTokenField.setFrameSize( NSMakeSize(TAG_POPOVER_WIDTH-TAG_POPOVER_PADDING*2,0) );
 
   _popover.showRelativeToRect_ofView_preferredEdge(
@@ -774,7 +662,7 @@ begin
   if editingRange.length > 0 then
     usedTagNames.removeObjectAtIndex( editingRange.location );
 
-  for tagName in TFinderTags._tags do begin
+  for tagName in TFinderTags.tags do begin
     if (substring.length>0) and (NOT tagName.localizedCaseInsensitiveContainsString(substring)) then
       continue;
     if usedTagNames.containsObject(tagName) then
@@ -868,7 +756,7 @@ begin
   if _cancel then
     Exit;
   tagNameArray:= _tagsTokenField.objectValue;
-  uDarwinFinderUtil.setTagNamesOfFile( _url, tagNameArray );
+  uDarwinFinderModelUtil.setTagNamesOfFile( _url, tagNameArray );
 end;
 
 { uDarwinFinderUtil }
@@ -880,24 +768,6 @@ var
 begin
   panel:= TFinderTagsEditorPanel.editorWithPath( StrToNSString(path) );
   panel.showPopover( positioningView, edge );
-end;
-
-class function uDarwinFinderUtil.getTagNamesOfFile( const url: NSUrl ): NSArray;
-var
-  ret: Boolean;
-  tagNames: NSArray;
-  tagColor: NSColor;
-begin
-  Result:= nil;
-  ret:= url.getResourceValue_forKey_error( @tagNames, NSURLTagNamesKey, nil );
-  if ret then
-    Result:= tagNames;
-end;
-
-class procedure uDarwinFinderUtil.setTagNamesOfFile( const url: NSUrl;
-  const tagNames: NSArray);
-begin
-  url.setResourceValue_forKey_error( tagNames, NSURLTagNamesKey, nil );
 end;
 
 class procedure uDarwinFinderUtil.drawTagName( const tagName: NSString;
@@ -922,166 +792,6 @@ begin
   ps.release;
   attributes.release;
 end;
-
-const
-  NEW_FINDER_TAGS_DATABASE_PATH = '/Library/SyncedPreferences/com.apple.kvs/com.apple.KeyValueService-Production.sqlite';
-  OLD_FINDER_TAGS_FILE_PATH     = '/Library/SyncedPreferences/com.apple.finder.plist';
-
-class function uDarwinFinderUtil.getAllTags: NSDictionary;
-var
-  tagDictionary: NSDictionary;
-begin
-  Result:= nil;
-
-  try
-    if NSAppKitVersionNumber >= NSAppKitVersionNumber12_0 then
-      tagDictionary:= getTagsData_macOS12
-    else
-      tagDictionary:= getTagsData_macOS11;
-
-    Result:= doGetAllTags( tagDictionary );
-  except
-    // it is suitable for just recording exception and handling it silently
-    on e: Exception do begin
-      DCDebug( 'Exception in uDarwinFinderUtil.getAllTags(): ', e.ToString );
-    end;
-  end;
-end;
-
-class function uDarwinFinderUtil.getTagsData_macOS12: NSDictionary;
-var
-  plistBytes: TBytes;
-  plistData: NSData;
-begin
-  Result:= nil;
-  plistBytes:= uDarwinFinderUtil.getTagsDataFromDatabase;
-  if plistBytes = nil then
-    Exit;
-
-  plistData:= NSData.dataWithBytes_length( @plistBytes[0], Length(plistBytes) );
-  if plistData = nil then
-    Exit;
-
-  Result:= NSPropertyListSerialization.propertyListWithData_options_format_error(
-    plistData, NSPropertyListImmutable, nil, nil );
-end;
-
-class function uDarwinFinderUtil.getTagsData_macOS11: NSDictionary;
-var
-  path: NSString;
-  plistData: NSData;
-  plistProperties: id;
-begin
-  Result:= nil;
-  path:= NSHomeDirectory.stringByAppendingString( NSSTR(OLD_FINDER_TAGS_FILE_PATH) );
-
-  plistData:= NSData.dataWithContentsOfFile( path );
-  if plistData = nil then
-    Exit;
-
-  plistProperties:= NSPropertyListSerialization.propertyListWithData_options_format_error(
-    plistData, NSPropertyListImmutable, nil, nil );
-  if plistProperties = nil then
-    Exit;
-
-  Result:= plistProperties.valueForKeyPath( NSSTR('values.FinderTagDict.value') );
-end;
-
-class function uDarwinFinderUtil.getTagsDataFromDatabase: TBytes;
-var
-  connection: TSQLConnection = nil;
-  transaction: TSQLTransaction = nil;
-  query: TSQLQuery = nil;
-  databasePath: String;
-begin
-  Result:= nil;
-  try
-    connection:= TSQLite3Connection.Create( nil );
-    transaction:= TSQLTransaction.Create( connection );
-    connection.Transaction:= transaction;
-    databasePath:= NSHomeDirectory.UTF8String + NEW_FINDER_TAGS_DATABASE_PATH;
-    connection.DatabaseName:= databasePath;
-
-    query:= TSQLQuery.Create( nil );
-    query.SQL.Text:= 'select ZPLISTDATAVALUE from ZSYDMANAGEDKEYVALUE where ZKEY="FinderTagDict"';
-    query.Database:= connection;
-    query.Open;
-    Result:= query.FieldByName('ZPLISTDATAVALUE').AsBytes;
-
-    query.Close;
-    connection.Close;
-  finally
-    if query <> nil then
-      query.Free;
-    if transaction <> nil then
-      transaction.Free;
-    if connection <> nil then
-      connection.Free;
-  end;
-end;
-
-class function uDarwinFinderUtil.doGetAllTags( const tagDictionary: NSDictionary ): NSDictionary;
-var
-  plistTagArray: NSArray;
-
-  plistTagItem: NSDictionary;
-  plistTagName: NSString;
-  plistTagColorNumber: NSNumber;
-  plistTagUserDefined: NSNumber;
-
-  allFinderTagDict: NSMutableDictionary;
-  tag: TFinderTag;
-begin
-  Result:= nil;
-  if tagDictionary = nil then
-    Exit;
-
-  plistTagArray:= tagDictionary.valueForKeyPath( NSSTR('FinderTags') );
-  if plistTagArray = nil then
-    Exit;
-
-  allFinderTagDict:= NSMutableDictionary.dictionaryWithCapacity( plistTagArray.count  );
-  for plistTagItem in plistTagArray do begin
-    plistTagName:= plistTagItem.valueForKey( NSSTR('n') );
-    plistTagColorNumber:= plistTagItem.valueForKey( NSSTR('l') );
-    plistTagUserDefined:= plistTagItem.valueForKey( NSSTR('p') );
-    tag:= TFinderTag.tagWithParams(
-      plistTagName,
-      plistTagColorNumber.integerValue,
-      plistTagUserDefined.boolValue );
-    allFinderTagDict.setValue_forKey( tag, plistTagName );
-  end;
-
-  Result:= allFinderTagDict;
-end;
-
-procedure initFinderTagNSColors;
-begin
-  rectFinderTagNSColors:= [
-    NSColor.colorWithCalibratedRed_green_blue_alpha( 0.656, 0.656, 0.656, 0.5 ).retain,
-    NSColor.colorWithCalibratedRed_green_blue_alpha( 0.656, 0.656, 0.656, 1 ).retain,
-    NSColor.colorWithCalibratedRed_green_blue_alpha( 0.699, 0.836, 0.266, 1 ).retain,
-    NSColor.colorWithCalibratedRed_green_blue_alpha( 0.746, 0.547, 0.844, 1 ).retain,
-    NSColor.colorWithCalibratedRed_green_blue_alpha( 0.340, 0.629, 0.996, 1 ).retain,
-    NSColor.colorWithCalibratedRed_green_blue_alpha( 0.934, 0.852, 0.266, 1 ).retain,
-    NSColor.colorWithCalibratedRed_green_blue_alpha( 0.980, 0.383, 0.348, 1 ).retain,
-    NSColor.colorWithCalibratedRed_green_blue_alpha( 0.961, 0.660, 0.254, 1 ).retain
-  ];
-
-  dotFinderTagNSColors:= [
-    NSColor.textColor,
-    NSColor.grayColor,
-    NSColor.greenColor,
-    NSColor.purpleColor,
-    NSColor.blueColor,
-    NSColor.yellowColor,
-    NSColor.redColor,
-    NSColor.orangeColor
-  ];
-end;
-
-initialization
-  initFinderTagNSColors;
 
 end.
 

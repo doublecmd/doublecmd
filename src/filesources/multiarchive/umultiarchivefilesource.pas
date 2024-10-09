@@ -331,6 +331,9 @@ begin
       LinkProperty.LinkTo := ArchiveItem.FileLink;
     end;
 
+    CommentProperty := TFileCommentProperty.Create;
+    CommentProperty.Value := ArchiveItem.Comment;
+
     // Set name after assigning Attributes property, because it is used to get extension.
     Name := ExtractFileNameEx(ArchiveItem.FileName);
     if ArchiveItem.FileExt <> EmptyStr then
@@ -360,7 +363,7 @@ end;
 
 function TMultiArchiveFileSource.GetSupportedFileProperties: TFilePropertiesTypes;
 begin
-  Result := inherited GetSupportedFileProperties + [fpLink];
+  Result := inherited GetSupportedFileProperties + [fpLink, fpComment];
 end;
 
 function TMultiArchiveFileSource.SetCurrentWorkingDirectory(NewDir: String): Boolean;
@@ -579,6 +582,8 @@ begin
       ArchiveItem.Minute:= ArchiveTime.Minute;
       ArchiveItem.Second:= ArchiveTime.Second;
       ArchiveItem.Attributes := mbFileGetAttr(ArchiveFileName);
+      ArchiveItem.UnpSize:= -1;
+      ArchiveItem.PackSize:= mbFileSize(ArchiveFileName);
       AFileList.Add(ArchiveItem);
       Exit(True);
     end;
