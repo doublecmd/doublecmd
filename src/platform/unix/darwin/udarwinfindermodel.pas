@@ -63,8 +63,10 @@ type
     class function getFavoriteTagNames: NSArray;
     class procedure initFinderTagNSColors;
   public
-    class function getTagNamesOfFile( const url: NSUrl ): NSArray;
-    class procedure setTagNamesOfFile( const url: NSUrl; const tagNames: NSArray );
+    class function getTagNamesOfFile( const url: NSURL ): NSArray;
+    class procedure setTagNamesOfFile( const url: NSURL; const tagNames: NSArray );
+    class procedure addTagForFile( const url: NSURL; const tagName: NSString );
+    class procedure removeTagForFile( const url: NSURL; const tagName: NSString );
   public
     class property rectFinderTagNSColors: TFinderTagNSColors read _rectFinderTagNSColors;
     class property dotFinderTagNSColors: TFinderTagNSColors read _dotFinderTagNSColors;
@@ -149,7 +151,8 @@ end;
 
 { uDarwinFinderModelUtil }
 
-class function uDarwinFinderModelUtil.getTagNamesOfFile( const url: NSUrl ): NSArray;
+class function uDarwinFinderModelUtil.getTagNamesOfFile(const url: NSURL
+  ): NSArray;
 var
   ret: Boolean;
   tagNames: NSArray;
@@ -161,10 +164,34 @@ begin
     Result:= tagNames;
 end;
 
-class procedure uDarwinFinderModelUtil.setTagNamesOfFile( const url: NSUrl;
+class procedure uDarwinFinderModelUtil.setTagNamesOfFile(const url: NSURL;
   const tagNames: NSArray);
 begin
   url.setResourceValue_forKey_error( tagNames, NSURLTagNamesKey, nil );
+end;
+
+class procedure uDarwinFinderModelUtil.addTagForFile(const url: NSURL;
+  const tagName: NSString );
+var
+  tagNames: NSArray;
+  newTagNames: NSMutableArray;
+begin
+  tagNames:= uDarwinFinderModelUtil.getTagNamesOfFile( url );
+  newTagNames:= NSMutableArray.arrayWithArray( tagNames );
+  newTagNames.addObject( tagName );
+  uDarwinFinderModelUtil.setTagNamesOfFile( url, newTagNames );
+end;
+
+class procedure uDarwinFinderModelUtil.removeTagForFile(const url: NSURL;
+  const tagName: NSString);
+var
+  tagNames: NSArray;
+  newTagNames: NSMutableArray;
+begin
+  tagNames:= uDarwinFinderModelUtil.getTagNamesOfFile( url );
+  newTagNames:= NSMutableArray.arrayWithArray( tagNames );
+  newTagNames.removeObject( tagName );
+  uDarwinFinderModelUtil.setTagNamesOfFile( url, newTagNames );
 end;
 
 class function uDarwinFinderModelUtil.getAllTags: NSDictionary;

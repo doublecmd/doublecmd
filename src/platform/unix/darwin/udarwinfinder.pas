@@ -155,7 +155,9 @@ type
     _hover: Boolean;
   public
     procedure setFinderTag( const finderTag: TFinderTag ); message 'doublecmd_setFinderTag:';
+    function finderTag: TFinderTag; message 'doublecmd_finderTag';
     procedure setUsing( const using: Boolean ); message 'doublecmd_setUsing:';
+    function using: Boolean; message 'doublecmd_using';
   public
     procedure dealloc; override;
     procedure updateTrackingAreas; override;
@@ -169,11 +171,15 @@ type
 
   TFinderFavoriteTagsMenuView = objcclass( NSView )
   private
+    _lclMenu: TPopupMenu;
     _favoriteTags: NSArray;
     _url: NSURL;
   public
+    procedure setLclMenu( const lclMenu: TPopupMenu ); message 'doublecmd_setLclMenu:';
     procedure setPath( const path: NSString ); message 'doublecmd_setPath:';
     procedure setFavoriteTags( const favoriteTags: NSArray ); message 'doublecmd_setFavoriteTags:';
+  private
+    procedure onTagMenuItemSelected( tagMenuItem: TFinderFavoriteTagMenuItemControl ); message 'doublecmd_onTagMenuItemSelected:';
   public
     procedure dealloc; override;
   end;
@@ -821,6 +827,7 @@ begin
 
   cocoaItem:= NSMenuItem(lclItem.Handle);
   menuView:= TFinderFavoriteTagsMenuView.alloc.initWithFrame( NSMakeRect(0,0,200,30) );
+  menuView.setLclMenu( lclMenu );
   menuView.setPath( StrToNSString(path) );
   menuView.setFavoriteTags( uDarwinFinderModelUtil.favoriteTags );
   cocoaItem.setView( menuView );
@@ -857,9 +864,19 @@ begin
   _finderTag:= finderTag;
 end;
 
+function TFinderFavoriteTagMenuItemControl.finderTag: TFinderTag;
+begin
+  Result:= _finderTag;
+end;
+
 procedure TFinderFavoriteTagMenuItemControl.setUsing(const using: Boolean);
 begin
   _using:= using;
+end;
+
+function TFinderFavoriteTagMenuItemControl.using: Boolean;
+begin
+  Result:= _using;
 end;
 
 procedure TFinderFavoriteTagMenuItemControl.dealloc;
@@ -966,6 +983,11 @@ end;
 
 { TFinderFavoriteTagsMenuView }
 
+procedure TFinderFavoriteTagsMenuView.setLclMenu( const lclMenu: TPopupMenu );
+begin
+  _lclMenu:= lclMenu;
+end;
+
 procedure TFinderFavoriteTagsMenuView.setPath(const path: NSString);
 begin
   _url:= NSURL.alloc.initFileURLWithPath( path );
@@ -987,6 +1009,8 @@ var
     Result:= TFinderFavoriteTagMenuItemControl.alloc.initWithFrame( itemRect );
     Result.setFinderTag( finderTag );
     Result.setUsing( using );
+    Result.setTarget( self );
+    Result.setAction( objcselector('doublecmd_onTagMenuItemSelected:') );
   end;
 
   procedure createSubviews;
@@ -1004,6 +1028,19 @@ var
 begin
   _favoriteTags:= favoriteTags;
   createSubviews;
+end;
+
+procedure TFinderFavoriteTagsMenuView.onTagMenuItemSelected(tagMenuItem: TFinderFavoriteTagMenuItemControl);
+var
+  tagName: NSString;
+begin
+  tagName:= tagMenuItem.finderTag.name;
+  Writeln( tagName.utf8string );
+  if tagMenuItem.using then
+    uDarwinFinderModelUtil.removeTagForFile( _url, tagName )
+  else
+    uDarwinFinderModelUtil.addTagForFile( _url, tagName );
+  NSMenu(_lclMenu.Handle).cancelTracking;
 end;
 
 procedure TFinderFavoriteTagsMenuView.dealloc;
