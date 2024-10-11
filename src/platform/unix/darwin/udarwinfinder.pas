@@ -7,6 +7,7 @@ interface
 
 uses
   Classes, SysUtils, LCLType, Menus,
+  uLng,
   uDarwinFinderModel,
   MacOSAll, CocoaAll, CocoaConst, CocoaTextEdits, CocoaUtils, Cocoa_Extra;
 
@@ -1069,14 +1070,14 @@ var
   mateCaption: String;
 begin
   if tagMenuItem <> nil then begin
-    mateCaption:= '"' + tagMenuItem.finderTag.name.UTF8String + '"';
+    mateCaption:= tagMenuItem.finderTag.name.UTF8String;
     if tagMenuItem.using then
-      mateCaption:= 'remove ' + mateCaption
+      mateCaption:= Format( rsMenuMacOSRemoveFinderTag, [mateCaption] )
     else
-      mateCaption:= 'add ' + mateCaption;
+      mateCaption:= Format( rsMenuMacOSAddFinderTag, [mateCaption] );
   end
   else
-    mateCaption:= 'Edit Finder Tags...';
+    mateCaption:= rsMenuMacOSEditFinderTags;
   _lclMateMenuItem.Caption:= mateCaption;
 end;
 

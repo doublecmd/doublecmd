@@ -10801,6 +10801,21 @@ msgstr "사용자 지정 열 구성"
 msgid "Enter new custom columns name"
 msgstr "새 사용자 지정 열 이름 입력"
 
+#: ulng.rsmenumacosaddfindertag
+#, object-pascal-format
+msgid "Add \"%s\""
+msgstr ""
+
+#: ulng.rsmenumacoseditfindertags
+msgctxt "ulng.rsmenumacoseditfindertags"
+msgid "Edit Finder Tags..."
+msgstr ""
+
+#: ulng.rsmenumacosremovefindertag
+#, object-pascal-format
+msgid "Remove \"%s\""
+msgstr ""
+
 #: ulng.rsmenumacosshare
 msgid "Share..."
 msgstr "공유..."
@@ -10846,6 +10861,15 @@ msgstr "내용별 비교..."
 msgctxt "ulng.rsmfstbicomparetitle"
 msgid "Compare"
 msgstr "비교"
+
+#: ulng.rsmfstbieditfindertagtips
+msgctxt "ulng.rsmfstbieditfindertagtips"
+msgid "Edit Finder Tags..."
+msgstr ""
+
+#: ulng.rsmfstbieditfindertagtitle
+msgid "EditTag"
+msgstr ""
 
 #: ulng.rsmfstbiedittips
 msgid "Edit..."
@@ -14219,3 +14243,4 @@ msgstr "교체가 이루어지지 않았습니다."
 #, object-pascal-format
 msgid "No setup named \"%s\""
 msgstr "\"%s\"라는 설정이 없습니다"
+

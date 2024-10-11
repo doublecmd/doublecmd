@@ -647,7 +647,7 @@ begin
   Self.Items.Add(mi);
 
   mi:=TMenuItem.Create(Self);
-  mi.Caption:= 'Edit Finder Tags...';
+  mi.Caption:= rsMenuMacOSEditFinderTags;
   mi.OnClick:= self.EditFinderTagsAction;
   Self.Items.Add(mi);
 end;

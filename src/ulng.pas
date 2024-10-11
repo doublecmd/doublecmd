@@ -364,7 +364,10 @@ resourcestring
   rsMnuEdit = 'Edit';
   rsMnuOpenWith = 'Open with';
   rsMnuOpenWithOther = 'Other...';
-  rsMenuMacOsShare = 'Share...';
+  rsMenuMacOSShare = 'Share...';
+  rsMenuMacOSEditFinderTags = 'Edit Finder Tags...';
+  rsMenuMacOSAddFinderTag = 'Add "%s"';
+  rsMenuMacOSRemoveFinderTag = 'Remove "%s"';
   rsMnuMount = 'Mount';
   rsMnuUmount = 'Unmount';
   rsMnuNoMedia = 'No media available';
@@ -1012,6 +1015,9 @@ resourcestring
   rsMFSTBIAirDropTips = 'AirDrop';
   rsMFSTBIQuickLookTitle = 'QuickLook';
   rsMFSTBIQuickLookTips = 'macOS Quick Look Panel';
+  rsMFSTBIEditFinderTagTitle = 'EditTag';
+  rsMFSTBIEditFinderTagTips = 'Edit Finder Tags...';
+
   rsMFSTBIGoTitle = 'Go';
   rsMFSTBIGoTips = 'Go';
   rsMFSTBIFinderRevealTitle = 'Finder';

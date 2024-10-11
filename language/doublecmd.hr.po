@@ -11502,6 +11502,21 @@ msgstr "Podesite prilagođene stupce"
 msgid "Enter new custom columns name"
 msgstr "Unesite novi naziv prilagođenih stupaca"
 
+#: ulng.rsmenumacosaddfindertag
+#, object-pascal-format
+msgid "Add \"%s\""
+msgstr ""
+
+#: ulng.rsmenumacoseditfindertags
+msgctxt "ulng.rsmenumacoseditfindertags"
+msgid "Edit Finder Tags..."
+msgstr ""
+
+#: ulng.rsmenumacosremovefindertag
+#, object-pascal-format
+msgid "Remove \"%s\""
+msgstr ""
+
 #: ulng.rsmenumacosshare
 msgid "Share..."
 msgstr ""
@@ -11547,6 +11562,15 @@ msgstr ""
 msgctxt "ulng.rsmfstbicomparetitle"
 msgid "Compare"
 msgstr "Usporedi"
+
+#: ulng.rsmfstbieditfindertagtips
+msgctxt "ulng.rsmfstbieditfindertagtips"
+msgid "Edit Finder Tags..."
+msgstr ""
+
+#: ulng.rsmfstbieditfindertagtitle
+msgid "EditTag"
+msgstr ""
 
 #: ulng.rsmfstbiedittips
 msgid "Edit..."

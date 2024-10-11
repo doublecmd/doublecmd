@@ -4268,9 +4268,10 @@ msgid "Background 1:"
 msgstr ""
 
 #: tfrmoptionscolors.lblimagebackground2.caption
+#, fuzzy
 msgctxt "tfrmoptionscolors.lblimagebackground2.caption"
 msgid "Background 2:"
-msgstr ""
+msgstr "背景色彩2:"
 
 #: tfrmoptionscolors.lblindbackcolor.caption
 msgid "In&dicator Back Color:"
@@ -4847,7 +4848,6 @@ msgid "Background 2:"
 msgstr "背景色彩2:"
 
 #: tfrmoptionscustomcolumns.lblconfigcolumns.caption
-#| msgid "Con&figure columns for file system:"
 msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.LBLCONFIGCOLUMNS.CAPTION"
 msgid "&Columns view:"
 msgstr "欄位檢視 (&C):"
@@ -5348,17 +5348,14 @@ msgid "(will not work with some source application, so try to uncheck if problem
 msgstr ""
 
 #: tfrmoptionsdriveslistbutton.cbshowfilesystem.caption
-#| msgid "Show file system"
 msgid "Show &file system"
 msgstr "顯示檔案系統 (&F)"
 
 #: tfrmoptionsdriveslistbutton.cbshowfreespace.caption
-#| msgid "Show free space"
 msgid "Show fr&ee space"
 msgstr "顯示可用空間 (&E)"
 
 #: tfrmoptionsdriveslistbutton.cbshowlabel.caption
-#| msgid "Show label"
 msgid "Show &label"
 msgstr "顯示標籤 (&L)"
 
@@ -6364,9 +6361,10 @@ msgid "Background:"
 msgstr ""
 
 #: tfrmoptionsfilepanelscolors.lblpathactivetext.caption
+#, fuzzy
 msgctxt "tfrmoptionsfilepanelscolors.lblpathactivetext.caption"
 msgid "Text Color:"
-msgstr ""
+msgstr "文字色彩:"
 
 #: tfrmoptionsfilepanelscolors.lblpathinactiveback.caption
 msgid "Inactive Background:"
@@ -11478,6 +11476,21 @@ msgstr "設置自訂欄位"
 msgid "Enter new custom columns name"
 msgstr ""
 
+#: ulng.rsmenumacosaddfindertag
+#, object-pascal-format
+msgid "Add \"%s\""
+msgstr ""
+
+#: ulng.rsmenumacoseditfindertags
+msgctxt "ulng.rsmenumacoseditfindertags"
+msgid "Edit Finder Tags..."
+msgstr ""
+
+#: ulng.rsmenumacosremovefindertag
+#, object-pascal-format
+msgid "Remove \"%s\""
+msgstr ""
+
 #: ulng.rsmenumacosshare
 msgid "Share..."
 msgstr "共享..."
@@ -11519,6 +11532,15 @@ msgstr "比較檔案內容..."
 msgctxt "ulng.rsmfstbicomparetitle"
 msgid "Compare"
 msgstr "比較"
+
+#: ulng.rsmfstbieditfindertagtips
+msgctxt "ulng.rsmfstbieditfindertagtips"
+msgid "Edit Finder Tags..."
+msgstr ""
+
+#: ulng.rsmfstbieditfindertagtitle
+msgid "EditTag"
+msgstr ""
 
 #: ulng.rsmfstbiedittips
 msgid "Edit..."
