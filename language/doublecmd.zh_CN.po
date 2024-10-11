@@ -10801,17 +10801,16 @@ msgstr "输入新的自定义列名称"
 #: ulng.rsmenumacosaddfindertag
 #, object-pascal-format
 msgid "Add \"%s\""
-msgstr ""
+msgstr "添加“%s”"
 
 #: ulng.rsmenumacoseditfindertags
-msgctxt "ulng.rsmenumacoseditfindertags"
 msgid "Edit Finder Tags..."
-msgstr ""
+msgstr "编辑访达标签..."
 
 #: ulng.rsmenumacosremovefindertag
 #, object-pascal-format
 msgid "Remove \"%s\""
-msgstr ""
+msgstr "移除“%s”"
 
 #: ulng.rsmenumacosshare
 msgid "Share..."
@@ -10859,11 +10858,11 @@ msgstr "比较"
 #: ulng.rsmfstbieditfindertagtips
 msgctxt "ulng.rsmfstbieditfindertagtips"
 msgid "Edit Finder Tags..."
-msgstr ""
+msgstr "编辑访达标签..."
 
 #: ulng.rsmfstbieditfindertagtitle
 msgid "EditTag"
-msgstr ""
+msgstr "编辑标签"
 
 #: ulng.rsmfstbiedittips
 msgid "Edit..."
