@@ -844,6 +844,8 @@ begin
 
   cocoaItem:= NSMenuItem( lclMenu.Items[menuIndex].Handle );
   cocoaItem.setView( menuView );
+
+  menuView.release;
 end;
 
 class procedure uDarwinFinderUtil.drawTagName( const tagName: NSString;

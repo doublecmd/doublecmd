@@ -767,14 +767,16 @@ begin
   end;
 
   filepath:= Files[0].FullPath;
-
-  // Free previous created menu
-  FreeAndNil(ShellContextMenu);
-  // Create new context menu
-  ShellContextMenu:= TShellContextMenu.Create(nil, Files, Background, UserWishForContextMenu);
-  ShellContextMenu.OnClose := CloseEvent;
-  // Show context menu
-  MacosServiceMenuHelper.PopUp( ShellContextMenu, rsMacOSMenuServices, filepath );
+  try
+    // Create new context menu
+    ShellContextMenu:= TShellContextMenu.Create(nil, Files, Background, UserWishForContextMenu);
+    ShellContextMenu.OnClose := CloseEvent;
+    // Show context menu
+    MacosServiceMenuHelper.PopUp( ShellContextMenu, rsMacOSMenuServices, filepath );
+  finally
+    // Free created menu
+    FreeAndNil(ShellContextMenu);
+  end;
 end;
 {$ELSE}
 begin
