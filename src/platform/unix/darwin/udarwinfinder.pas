@@ -14,6 +14,10 @@ const
   FINDER_FAVORITE_TAGS_MENU_ITEM_CAPTION = #$EF#$BF#$BC'FinderFavoriteTags';
 
 const
+  FINDER_FAVORITE_TAGS_MENU_ITEM_SIZE = 20.0;
+  FINDER_FAVORITE_TAGS_MENU_ITEM_SPACING = 4.0;
+
+const
   TAG_POPOVER_WIDTH = 228.0;
   TAG_POPOVER_HEIGHT = 303.0;
   TAG_POPOVER_PADDING = 6.0;
@@ -837,7 +841,10 @@ begin
   if menuIndex < 0 then
     Exit;
 
-  menuView:= TFinderFavoriteTagsMenuView.alloc.initWithFrame( NSMakeRect(0,0,200,30) );
+  menuView:= TFinderFavoriteTagsMenuView.alloc.initWithFrame(
+    NSMakeRect( 0, 0,
+      200,
+      FINDER_FAVORITE_TAGS_MENU_ITEM_SIZE + FINDER_FAVORITE_TAGS_MENU_ITEM_SPACING*2 ) );
   menuView.setLclMenu( lclMenu, lclMenu.Items[menuIndex+1] );
   menuView.setPath( StrToNSString(path) );
   menuView.setFavoriteTags( uDarwinFinderModelUtil.favoriteTags );
@@ -926,7 +933,7 @@ procedure TFinderFavoriteTagMenuItem.drawRect(dirtyRect: NSRect);
     rect: NSRect;
     path: NSBezierPath;
   begin
-    rect:= NSMakeRect( 0, 0, 20, 20 );
+    rect:= NSMakeRect( 0, 0, FINDER_FAVORITE_TAGS_MENU_ITEM_SIZE, FINDER_FAVORITE_TAGS_MENU_ITEM_SIZE );
     if NOT _hover then
       rect:= NSInsetRect( rect, 2, 2 );
 
@@ -942,7 +949,7 @@ procedure TFinderFavoriteTagMenuItem.drawRect(dirtyRect: NSRect);
     stateFontSize: CGFloat;
     attributes: NSMutableDictionary;
   begin
-    stateRect:= NSMakeRect( 5, 6, 100, 20 );
+    stateRect:= NSMakeRect( 5, 6, FINDER_FAVORITE_TAGS_MENU_ITEM_SIZE, FINDER_FAVORITE_TAGS_MENU_ITEM_SIZE );
     stateFontSize:= 11;
     if _hover then begin
       if _using then begin
@@ -1038,12 +1045,16 @@ var
   procedure createSubviews;
   begin
     fileTagNames:= uDarwinFinderModelUtil.getTagNamesOfFile( _url );
-    itemRect:= NSMakeRect( 16, 4, 24, 20 );
+    itemRect:= NSMakeRect(
+      16,
+      FINDER_FAVORITE_TAGS_MENU_ITEM_SPACING,
+      FINDER_FAVORITE_TAGS_MENU_ITEM_SIZE + FINDER_FAVORITE_TAGS_MENU_ITEM_SPACING,
+      FINDER_FAVORITE_TAGS_MENU_ITEM_SIZE );
     for finderTag in _favoriteTags do begin
       itemControl:= createItemControl;
       self.addSubview( itemControl );
       itemControl.release;
-      itemRect.origin.x:= itemRect.origin.x + 24;
+      itemRect.origin.x:= itemRect.origin.x + FINDER_FAVORITE_TAGS_MENU_ITEM_SIZE + FINDER_FAVORITE_TAGS_MENU_ITEM_SPACING;
     end;
   end;
 
