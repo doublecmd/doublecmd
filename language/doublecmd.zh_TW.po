@@ -4268,7 +4268,6 @@ msgid "Background 1:"
 msgstr ""
 
 #: tfrmoptionscolors.lblimagebackground2.caption
-#, fuzzy
 msgctxt "tfrmoptionscolors.lblimagebackground2.caption"
 msgid "Background 2:"
 msgstr "背景色彩2:"
@@ -5454,15 +5453,11 @@ msgid "Please note that the \"Smart Tabs\" option takes precedence over the tabu
 msgstr ""
 
 #: tfrmoptionseditorcolors.backgroundlabel.caption
-#, fuzzy
-#| msgid "Background"
 msgctxt "tfrmoptionseditorcolors.backgroundlabel.caption"
 msgid "Bac&kground"
 msgstr "背景色彩 (&K)"
 
 #: tfrmoptionseditorcolors.backgroundusedefaultcheckbox.caption
-#, fuzzy
-#| msgid "Background"
 msgctxt "tfrmoptionseditorcolors.backgroundusedefaultcheckbox.caption"
 msgid "Bac&kground"
 msgstr "背景色彩 (&K)"
@@ -5503,55 +5498,39 @@ msgid "Use &local scheme settings"
 msgstr "使用本處格式設定值 (&L)"
 
 #: tfrmoptionseditorcolors.textboldcheckbox.caption
-#, fuzzy
-#| msgid "Bold"
 msgid "&Bold"
 msgstr "粗體 (&B)"
 
 #: tfrmoptionseditorcolors.textboldradioinvert.caption
-#, fuzzy
-#| msgid "Invert"
 msgctxt "tfrmoptionseditorcolors.textboldradioinvert.caption"
 msgid "In&vert"
 msgstr "反向 (&V)"
 
 #: tfrmoptionseditorcolors.textboldradiooff.caption
-#, fuzzy
-#| msgid "Off"
 msgctxt "tfrmoptionseditorcolors.textboldradiooff.caption"
 msgid "O&ff"
 msgstr "關 (&F)"
 
 #: tfrmoptionseditorcolors.textboldradioon.caption
-#, fuzzy
-#| msgid "On"
 msgctxt "tfrmoptionseditorcolors.textboldradioon.caption"
 msgid "O&n"
 msgstr "開 (&N)"
 
 #: tfrmoptionseditorcolors.textitaliccheckbox.caption
-#, fuzzy
-#| msgid "Italic"
 msgid "&Italic"
 msgstr "斜體 (&I)"
 
 #: tfrmoptionseditorcolors.textitalicradioinvert.caption
-#, fuzzy
-#| msgid "Invert"
 msgctxt "tfrmoptionseditorcolors.textitalicradioinvert.caption"
 msgid "In&vert"
 msgstr "反向 (&V)"
 
 #: tfrmoptionseditorcolors.textitalicradiooff.caption
-#, fuzzy
-#| msgid "Off"
 msgctxt "tfrmoptionseditorcolors.textitalicradiooff.caption"
 msgid "O&ff"
 msgstr "關 (&F)"
 
 #: tfrmoptionseditorcolors.textitalicradioon.caption
-#, fuzzy
-#| msgid "On"
 msgctxt "tfrmoptionseditorcolors.textitalicradioon.caption"
 msgid "O&n"
 msgstr "開 (&N)"
@@ -5561,49 +5540,35 @@ msgid "&Strike Out"
 msgstr "刪除線 (&S)"
 
 #: tfrmoptionseditorcolors.textstrikeoutradioinvert.caption
-#, fuzzy
-#| msgid "Invert"
 msgctxt "tfrmoptionseditorcolors.textstrikeoutradioinvert.caption"
 msgid "In&vert"
 msgstr "反向 (&V)"
 
 #: tfrmoptionseditorcolors.textstrikeoutradiooff.caption
-#, fuzzy
-#| msgid "Off"
 msgctxt "tfrmoptionseditorcolors.textstrikeoutradiooff.caption"
 msgid "O&ff"
 msgstr "關 (&F)"
 
 #: tfrmoptionseditorcolors.textstrikeoutradioon.caption
-#, fuzzy
-#| msgid "On"
 msgctxt "tfrmoptionseditorcolors.textstrikeoutradioon.caption"
 msgid "O&n"
 msgstr "開 (&N)"
 
 #: tfrmoptionseditorcolors.textunderlinecheckbox.caption
-#, fuzzy
-#| msgid "Underline"
 msgid "&Underline"
 msgstr "底線 (&U)"
 
 #: tfrmoptionseditorcolors.textunderlineradioinvert.caption
-#, fuzzy
-#| msgid "Invert"
 msgctxt "tfrmoptionseditorcolors.textunderlineradioinvert.caption"
 msgid "In&vert"
 msgstr "反向 (&V)"
 
 #: tfrmoptionseditorcolors.textunderlineradiooff.caption
-#, fuzzy
-#| msgid "Off"
 msgctxt "tfrmoptionseditorcolors.textunderlineradiooff.caption"
 msgid "O&ff"
 msgstr "關 (&F)"
 
 #: tfrmoptionseditorcolors.textunderlineradioon.caption
-#, fuzzy
-#| msgid "On"
 msgctxt "tfrmoptionseditorcolors.textunderlineradioon.caption"
 msgid "O&n"
 msgstr "開 (&N)"
@@ -5845,8 +5810,6 @@ msgid "Add"
 msgstr "新增 (&A)"
 
 #: tfrmoptionsfileassoc.btnaddnewtype.caption
-#, fuzzy
-#| msgid "Add"
 msgctxt "tfrmoptionsfileassoc.btnaddnewtype.caption"
 msgid "A&dd"
 msgstr "新增 (&D)"
@@ -5891,29 +5854,21 @@ msgid "Some functions to select appropriate path"
 msgstr ""
 
 #: tfrmoptionsfileassoc.btnremoveact.caption
-#, fuzzy
-#| msgid "Remove"
 msgctxt "tfrmoptionsfileassoc.btnremoveact.caption"
 msgid "Remo&ve"
 msgstr "移除 (&V)"
 
 #: tfrmoptionsfileassoc.btnremoveext.caption
-#, fuzzy
-#| msgid "Remove"
 msgctxt "tfrmoptionsfileassoc.btnremoveext.caption"
 msgid "Re&move"
 msgstr "移除 (&M)"
 
 #: tfrmoptionsfileassoc.btnremovetype.caption
-#, fuzzy
-#| msgid "Remove"
 msgctxt "tfrmoptionsfileassoc.btnremovetype.caption"
 msgid "&Remove"
 msgstr "移除 (&R)"
 
 #: tfrmoptionsfileassoc.btnrenametype.caption
-#, fuzzy
-#| msgid "Rename"
 msgctxt "tfrmoptionsfileassoc.btnrenametype.caption"
 msgid "R&ename"
 msgstr "重新命名 (&E)"
@@ -5929,8 +5884,6 @@ msgid "Variable reminder helper"
 msgstr ""
 
 #: tfrmoptionsfileassoc.btnupact.caption
-#, fuzzy
-#| msgid "Up"
 msgctxt "tfrmoptionsfileassoc.btnupact.caption"
 msgid "&Up"
 msgstr "上移 (&U)"
@@ -6008,8 +5961,6 @@ msgid "Parameter&s:"
 msgstr "參數 (&S):"
 
 #: tfrmoptionsfileassoc.lblstartpath.caption
-#, fuzzy
-#| msgid "Start path:"
 msgctxt "tfrmoptionsfileassoc.lblstartpath.caption"
 msgid "Start pat&h:"
 msgstr "開始路徑 (&H):"
@@ -6064,8 +6015,6 @@ msgid "Run in terminal"
 msgstr "使用終端機執行"
 
 #: tfrmoptionsfileassoc.miview.caption
-#, fuzzy
-#| msgid "View"
 msgctxt "tfrmoptionsfileassoc.miview.caption"
 msgid "View"
 msgstr "檢視"
@@ -6188,8 +6137,6 @@ msgid "D&elete to trash operation"
 msgstr "刪除到資源回收筒操作 (&E)"
 
 #: tfrmoptionsfileoperations.cbdropreadonlyflag.caption
-#, fuzzy
-#| msgid "Drop readonly flag"
 msgctxt "TFRMOPTIONSFILEOPERATIONS.CBDROPREADONLYFLAG.CAPTION"
 msgid "D&rop readonly flag"
 msgstr "丟棄唯讀屬性(&R)"
@@ -6199,29 +6146,21 @@ msgid "&Move operation"
 msgstr "移動操作 (&M)"
 
 #: tfrmoptionsfileoperations.cbprocesscomments.caption
-#, fuzzy
-#| msgid "Process comments with files/folders"
 msgctxt "TFRMOPTIONSFILEOPERATIONS.CBPROCESSCOMMENTS.CAPTION"
 msgid "&Process comments with files/folders"
 msgstr "處理檔案/資料夾的註解 (&P)"
 
 #: tfrmoptionsfileoperations.cbrenameselonlyname.caption
-#, fuzzy
-#| msgid "Select file name without extension when renaming"
 msgctxt "TFRMOPTIONSFILEOPERATIONS.CBRENAMESELONLYNAME.CAPTION"
 msgid "Select &file name without extension when renaming"
 msgstr "重新命名檔案名稱時不包含副檔名 (&F)"
 
 #: tfrmoptionsfileoperations.cbshowcopytabselectpanel.caption
-#, fuzzy
-#| msgid "Show tab select panel in copy/move dialog"
 msgctxt "TFRMOPTIONSFILEOPERATIONS.CBSHOWCOPYTABSELECTPANEL.CAPTION"
 msgid "Sho&w tab select panel in copy/move dialog"
 msgstr "顯示分頁選擇面板在複製/移動對話盒 (&W)"
 
 #: tfrmoptionsfileoperations.cbskipfileoperror.caption
-#, fuzzy
-#| msgid "Skip file operations errors and write them to log window"
 msgctxt "TFRMOPTIONSFILEOPERATIONS.CBSKIPFILEOPERROR.CAPTION"
 msgid "S&kip file operations errors and write them to log window"
 msgstr "略過操作有錯誤的檔案並將錯誤寫到記錄視窗 (&K)"
@@ -6260,8 +6199,6 @@ msgid "Duplicated name auto-rename style:"
 msgstr ""
 
 #: tfrmoptionsfileoperations.lblwipepassnumber.caption
-#, fuzzy
-#| msgid "Number of wipe passes:"
 msgctxt "TFRMOPTIONSFILEOPERATIONS.LBLWIPEPASSNUMBER.CAPTION"
 msgid "&Number of wipe passes:"
 msgstr "檔案抹除次數: (&N)"
@@ -6277,8 +6214,6 @@ msgid "Allow Overcolor"
 msgstr "允許顏色覆蓋"
 
 #: tfrmoptionsfilepanelscolors.cbbuseframecursor.caption
-#, fuzzy
-#| msgid "Use Frame Cursor"
 msgctxt "TFRMOPTIONSFILEPANELSCOLORS.CBBUSEFRAMECURSOR.CAPTION"
 msgid "Use &Frame Cursor"
 msgstr "使用框架指標 (&F)"
@@ -6288,8 +6223,6 @@ msgid "Use Inactive Sel Color"
 msgstr ""
 
 #: tfrmoptionsfilepanelscolors.cbbuseinvertedselection.caption
-#, fuzzy
-#| msgid "Use Inverted Selection"
 msgctxt "TFRMOPTIONSFILEPANELSCOLORS.CBBUSEINVERTEDSELECTION.CAPTION"
 msgid "U&se Inverted Selection"
 msgstr "使用反白選取 (&S)"
@@ -6305,28 +6238,20 @@ msgid "Current Path"
 msgstr ""
 
 #: tfrmoptionsfilepanelscolors.lblbackgroundcolor.caption
-#, fuzzy
-#| msgid "Background:"
 msgid "Bac&kground:"
 msgstr "背景色彩 (&K):"
 
 #: tfrmoptionsfilepanelscolors.lblbackgroundcolor2.caption
-#, fuzzy
-#| msgid "Background 2:"
 msgctxt "TFRMOPTIONSFILEPANELSCOLORS.LBLBACKGROUNDCOLOR2.CAPTION"
 msgid "Backg&round 2:"
 msgstr "背景色彩2 (&R):"
 
 #: tfrmoptionsfilepanelscolors.lblcursorcolor.caption
-#, fuzzy
-#| msgid "Cursor Color:"
 msgctxt "TFRMOPTIONSFILEPANELSCOLORS.LBLCURSORCOLOR.CAPTION"
 msgid "C&ursor Color:"
 msgstr "指標行背景色彩 (&U):"
 
 #: tfrmoptionsfilepanelscolors.lblcursortext.caption
-#, fuzzy
-#| msgid "Cursor Text:"
 msgctxt "TFRMOPTIONSFILEPANELSCOLORS.LBLCURSORTEXT.CAPTION"
 msgid "Cursor Te&xt:"
 msgstr "指標行文字色彩 (&X):"
@@ -6342,15 +6267,11 @@ msgid "Inactive Mark Color:"
 msgstr ""
 
 #: tfrmoptionsfilepanelscolors.lblinactivepanelbrightness.caption
-#, fuzzy
-#| msgid "&Brightness level of inactive panel"
 msgctxt "TFRMOPTIONSFILEPANELSCOLORS.LBLINACTIVEPANELBRIGHTNESS.CAPTION"
 msgid "&Brightness level of inactive panel:"
 msgstr "非現用面板的亮度級別 (&B):"
 
 #: tfrmoptionsfilepanelscolors.lblmarkcolor.caption
-#, fuzzy
-#| msgid "Mark Color:"
 msgctxt "TFRMOPTIONSFILEPANELSCOLORS.LBLMARKCOLOR.CAPTION"
 msgid "&Mark Color:"
 msgstr "標記色彩 (&M):"
@@ -6379,8 +6300,6 @@ msgid "Below is a preview. You may move cursor, select file and get immediately 
 msgstr ""
 
 #: tfrmoptionsfilepanelscolors.lbltextcolor.caption
-#, fuzzy
-#| msgid "Text Color:"
 msgctxt "TFRMOPTIONSFILEPANELSCOLORS.LBLTEXTCOLOR.CAPTION"
 msgid "T&ext Color:"
 msgstr "文字色彩 (&E):"
@@ -6446,8 +6365,6 @@ msgid "&Byte:"
 msgstr ""
 
 #: tfrmoptionsfilesviews.lblcasesensitivity.caption
-#, fuzzy
-#| msgid "Case sensitivity:"
 msgid "Case s&ensitivity:"
 msgstr "區分大小寫 (&E):"
 
@@ -6456,8 +6373,6 @@ msgid "Incorrect format"
 msgstr "格式不正確"
 
 #: tfrmoptionsfilesviews.lbldatetimeformat.caption
-#, fuzzy
-#| msgid "Date and time format:"
 msgctxt "TFRMOPTIONSFILESVIEWS.LBLDATETIMEFORMAT.CAPTION"
 msgid "&Date and time format:"
 msgstr "日期及時間格式 (&D):"
@@ -6487,8 +6402,6 @@ msgid "Megab&yte:"
 msgstr ""
 
 #: tfrmoptionsfilesviews.lblnewfilesposition.caption
-#, fuzzy
-#| msgid "&Insert new files"
 msgid "&Insert new files:"
 msgstr "插入新檔案 (&I):"
 
@@ -6501,8 +6414,6 @@ msgid "So&rting directories:"
 msgstr "排序資料夾 (&R):"
 
 #: tfrmoptionsfilesviews.lblsortmethod.caption
-#, fuzzy
-#| msgid "Sort &method:"
 msgctxt "TFRMOPTIONSFILESVIEWS.LBLSORTMETHOD.CAPTION"
 msgid "&Sort method:"
 msgstr "排序方式 (&S):"
@@ -6591,22 +6502,16 @@ msgid "Default attribute mask value to use:"
 msgstr ""
 
 #: tfrmoptionsfiletypescolors.btnaddcategory.caption
-#, fuzzy
-#| msgid "Add"
 msgctxt "TFRMOPTIONSFILETYPESCOLORS.BTNADDCATEGORY.CAPTION"
 msgid "A&dd"
 msgstr "新增 (&D)"
 
 #: tfrmoptionsfiletypescolors.btnapplycategory.caption
-#, fuzzy
-#| msgid "Apply"
 msgctxt "TFRMOPTIONSFILETYPESCOLORS.BTNAPPLYCATEGORY.CAPTION"
 msgid "A&pply"
 msgstr "套用 (&P)"
 
 #: tfrmoptionsfiletypescolors.btndeletecategory.caption
-#, fuzzy
-#| msgid "Delete"
 msgctxt "TFRMOPTIONSFILETYPESCOLORS.BTNDELETECATEGORY.CAPTION"
 msgid "D&elete"
 msgstr "刪除 (&E)"
@@ -6617,36 +6522,26 @@ msgid "Template..."
 msgstr "範本..."
 
 #: tfrmoptionsfiletypescolors.gbfiletypescolors.caption
-#, fuzzy
-#| msgid "File types colors"
 msgctxt "TFRMOPTIONSFILETYPESCOLORS.GBFILETYPESCOLORS.CAPTION"
 msgid "File types colors (sort by drag&&drop)"
 msgstr "檔案類型色彩 (可用拖曳排序)"
 
 #: tfrmoptionsfiletypescolors.lblcategoryattr.caption
-#, fuzzy
-#| msgid "Category attributes:"
 msgctxt "TFRMOPTIONSFILETYPESCOLORS.LBLCATEGORYATTR.CAPTION"
 msgid "Category a&ttributes:"
 msgstr "類別屬性 (&T):"
 
 #: tfrmoptionsfiletypescolors.lblcategorycolor.caption
-#, fuzzy
-#| msgid "Category color:"
 msgctxt "TFRMOPTIONSFILETYPESCOLORS.LBLCATEGORYCOLOR.CAPTION"
 msgid "Category co&lor:"
 msgstr "類別色彩 (&L):"
 
 #: tfrmoptionsfiletypescolors.lblcategorymask.caption
-#, fuzzy
-#| msgid "Category mask:"
 msgctxt "TFRMOPTIONSFILETYPESCOLORS.LBLCATEGORYMASK.CAPTION"
 msgid "Category &mask:"
 msgstr "類別遮罩 (&M):"
 
 #: tfrmoptionsfiletypescolors.lblcategoryname.caption
-#, fuzzy
-#| msgid "Category name:"
 msgctxt "TFRMOPTIONSFILETYPESCOLORS.LBLCATEGORYNAME.CAPTION"
 msgid "Category &name:"
 msgstr "類別名稱 (&N):"
@@ -6657,8 +6552,6 @@ msgid "Fonts"
 msgstr "字型"
 
 #: tfrmoptionshotkeys.actaddhotkey.caption
-#, fuzzy
-#| msgid "Add hotkey"
 msgctxt "tfrmoptionshotkeys.actaddhotkey.caption"
 msgid "Add &hotkey"
 msgstr "新增熱鍵 (&H)"
@@ -6676,15 +6569,11 @@ msgid "Delete"
 msgstr "刪除"
 
 #: tfrmoptionshotkeys.actdeletehotkey.caption
-#, fuzzy
-#| msgid "Delete hotkey"
 msgctxt "tfrmoptionshotkeys.actdeletehotkey.caption"
 msgid "&Delete hotkey"
 msgstr "刪除熱鍵 (&D)"
 
 #: tfrmoptionshotkeys.actedithotkey.caption
-#, fuzzy
-#| msgid "Edit hotkey"
 msgctxt "tfrmoptionshotkeys.actedithotkey.caption"
 msgid "&Edit hotkey"
 msgstr "編輯熱鍵 (&E)"
@@ -6728,29 +6617,21 @@ msgid "Sort by hotkeys (one per row)"
 msgstr ""
 
 #: tfrmoptionshotkeys.lbfilter.caption
-#, fuzzy
-#| msgid "Filter"
 msgctxt "TFRMOPTIONSHOTKEYS.LBFILTER.CAPTION"
 msgid "&Filter"
 msgstr "篩選 (&F):"
 
 #: tfrmoptionshotkeys.lblcategories.caption
-#, fuzzy
-#| msgid "Categories:"
 msgctxt "tfrmoptionshotkeys.lblcategories.caption"
 msgid "C&ategories:"
 msgstr "類別 (&A):"
 
 #: tfrmoptionshotkeys.lblcommands.caption
-#, fuzzy
-#| msgid "Commands:"
 msgctxt "tfrmoptionshotkeys.lblcommands.caption"
 msgid "Co&mmands:"
 msgstr "指令 (&M):"
 
 #: tfrmoptionshotkeys.lblscfiles.caption
-#, fuzzy
-#| msgid "Shortcut files:"
 msgctxt "TFRMOPTIONSHOTKEYS.LBLSCFILES.CAPTION"
 msgid "&Shortcut files:"
 msgstr "快速鍵檔案 (&S):"
@@ -6839,8 +6720,6 @@ msgid "Disable special icons"
 msgstr "停用特定的圖示"
 
 #: tfrmoptionsicons.gbiconssize.caption
-#, fuzzy
-#| msgid " Icon &size "
 msgctxt "TFRMOPTIONSICONS.GBICONSSIZE.CAPTION"
 msgid " Icon size "
 msgstr "圖示大小"
@@ -6867,8 +6746,6 @@ msgid "File panel:"
 msgstr ""
 
 #: tfrmoptionsicons.rbiconsshowall.caption
-#, fuzzy
-#| msgid "&All"
 msgctxt "TFRMOPTIONSICONS.RBICONSSHOWALL.CAPTION"
 msgid "A&ll"
 msgstr "全部 (&L)"
@@ -6885,15 +6762,11 @@ msgid "&No icons"
 msgstr "不顯示圖示 (&N)"
 
 #: tfrmoptionsicons.rbiconsshowstandard.caption
-#, fuzzy
-#| msgid "&Only standard icons"
 msgctxt "TFRMOPTIONSICONS.RBICONSSHOWSTANDARD.CAPTION"
 msgid "Only &standard icons"
 msgstr "僅標準圖示 (&S)"
 
 #: tfrmoptionsignorelist.btnaddsel.caption
-#, fuzzy
-#| msgid "&Add selected names"
 msgctxt "TFRMOPTIONSIGNORELIST.BTNADDSEL.CAPTION"
 msgid "A&dd selected names"
 msgstr "加入已選取項目的名稱 (&D)"
@@ -6927,15 +6800,11 @@ msgid "Typing"
 msgstr "輸入焦點"
 
 #: tfrmoptionskeyboard.lblalt.caption
-#, fuzzy
-#| msgid "Alt+L&etters"
 msgctxt "TFRMOPTIONSKEYBOARD.LBLALT.CAPTION"
 msgid "Alt+L&etters:"
 msgstr "Alt+字母 (&E):"
 
 #: tfrmoptionskeyboard.lblctrlalt.caption
-#, fuzzy
-#| msgid "Ctrl+Alt+Le&tters"
 msgctxt "TFRMOPTIONSKEYBOARD.LBLCTRLALT.CAPTION"
 msgid "Ctrl+Alt+Le&tters:"
 msgstr "Ctrl+Alt+字母 (&T):"
@@ -6945,15 +6814,11 @@ msgid "&Letters:"
 msgstr "字母 (&L):"
 
 #: tfrmoptionslayout.cbflatdiskpanel.caption
-#, fuzzy
-#| msgid "Flat buttons"
 msgctxt "TFRMOPTIONSLAYOUT.CBFLATDISKPANEL.CAPTION"
 msgid "&Flat buttons"
 msgstr "平面按鈕 (&F)"
 
 #: tfrmoptionslayout.cbflatinterface.caption
-#, fuzzy
-#| msgid "Flat interface"
 msgctxt "TFRMOPTIONSLAYOUT.CBFLATINTERFACE.CAPTION"
 msgid "Flat i&nterface"
 msgstr "平面介面 (&N)"
@@ -6964,8 +6829,6 @@ msgid "Show fr&ee space indicator on drive label"
 msgstr "顯示可用空間指示器在磁碟標籤 (&E)"
 
 #: tfrmoptionslayout.cblogwindow.caption
-#, fuzzy
-#| msgid "Show log window"
 msgctxt "TFRMOPTIONSLAYOUT.CBLOGWINDOW.CAPTION"
 msgid "Show lo&g window"
 msgstr "顯示記錄視窗 (&G)"
@@ -6981,15 +6844,11 @@ msgid "Show common progress in menu bar"
 msgstr "顯示處理進度在選單列"
 
 #: tfrmoptionslayout.cbshowcmdline.caption
-#, fuzzy
-#| msgid "Show command &line"
 msgctxt "TFRMOPTIONSLAYOUT.CBSHOWCMDLINE.CAPTION"
 msgid "Show command l&ine"
 msgstr "顯示指令行 (&I)"
 
 #: tfrmoptionslayout.cbshowcurdir.caption
-#, fuzzy
-#| msgid "Show &current directory"
 msgctxt "TFRMOPTIONSLAYOUT.CBSHOWCURDIR.CAPTION"
 msgid "Show current director&y"
 msgstr "顯示當前資料夾 (&Y)"
@@ -11479,17 +11338,17 @@ msgstr ""
 #: ulng.rsmenumacosaddfindertag
 #, object-pascal-format
 msgid "Add \"%s\""
-msgstr ""
+msgstr "添加“%s”"
 
 #: ulng.rsmenumacoseditfindertags
 msgctxt "ulng.rsmenumacoseditfindertags"
 msgid "Edit Finder Tags..."
-msgstr ""
+msgstr "編輯訪達標籤..."
 
 #: ulng.rsmenumacosremovefindertag
 #, object-pascal-format
 msgid "Remove \"%s\""
-msgstr ""
+msgstr "移除“%s”"
 
 #: ulng.rsmenumacosshare
 msgid "Share..."
@@ -11536,11 +11395,11 @@ msgstr "比較"
 #: ulng.rsmfstbieditfindertagtips
 msgctxt "ulng.rsmfstbieditfindertagtips"
 msgid "Edit Finder Tags..."
-msgstr ""
+msgstr "編輯訪達標籤..."
 
 #: ulng.rsmfstbieditfindertagtitle
 msgid "EditTag"
-msgstr ""
+msgstr "編輯標籤"
 
 #: ulng.rsmfstbiedittips
 msgid "Edit..."
