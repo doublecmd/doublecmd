@@ -339,9 +339,12 @@ begin
   DCDebug('VerifyChild');
   ProcessId:= GetSocketClientProcessId(Handle);
   DCDebug(['Credentials from socket: pid=', ProcessId]);
+{$IF DEFINED(DARWIN)}
+  Result:= (GetProcessFileName(ProcessId) = GetProcessFileName(GetProcessId));
+{$ELSE}
   Result:= CheckParent(ProcessId, GetProcessId);{ and
            (GetProcessFileName(ProcessId) = GetProcessFileName(GetProcessId));}
-
+{$ENDIF}
   DCDebug(['VerifyChild: ', Result]);
 end;
 
@@ -352,8 +355,13 @@ begin
   DCDebug('VerifyParent');
   ProcessId:= GetSocketClientProcessId(Handle);
   DCDebug(['Credentials from socket: pid=', ProcessId]);
+{$IF DEFINED(DARWIN)}
+  Result:= (StrToInt(ParamStr(2)) = ProcessId) and
+           (GetProcessFileName(ProcessId) = GetProcessFileName(GetProcessId));
+{$ELSE}
   Result:= CheckParent(FpGetppid, ProcessId) and
            (GetProcessFileName(ProcessId) = GetProcessFileName(GetProcessId));
+{$ENDIF}
   DCDebug(['VerifyParent: ', Result]);
 end;
 
