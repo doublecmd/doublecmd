@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Double Commander 1.1.0 alpha\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-11-15 11:15+0300\n"
-"PO-Revision-Date: 2024-10-06 23:14+0200\n"
+"PO-Revision-Date: 2024-10-11 16:17+0200\n"
 "Last-Translator:  ㋡  <braass@mail.de>\n"
 "Language-Team: Deutsch <braass@mail.de>\n"
 "Language: de\n"
@@ -10804,17 +10804,17 @@ msgstr "Neuen Namen für die benutzerdefinierte Spaltenansicht angeben"
 #: ulng.rsmenumacosaddfindertag
 #, object-pascal-format
 msgid "Add \"%s\""
-msgstr ""
+msgstr "\"%s\" hinzufügen"
 
 #: ulng.rsmenumacoseditfindertags
 msgctxt "ulng.rsmenumacoseditfindertags"
 msgid "Edit Finder Tags..."
-msgstr ""
+msgstr "Finder-Tags bearbeiten ..."
 
 #: ulng.rsmenumacosremovefindertag
 #, object-pascal-format
 msgid "Remove \"%s\""
-msgstr ""
+msgstr "\"%s\" entfernen"
 
 #: ulng.rsmenumacosshare
 msgid "Share..."
@@ -10861,11 +10861,11 @@ msgstr "Vergleich"
 #: ulng.rsmfstbieditfindertagtips
 msgctxt "ulng.rsmfstbieditfindertagtips"
 msgid "Edit Finder Tags..."
-msgstr ""
+msgstr "Finder-Tags bearbeiten ..."
 
 #: ulng.rsmfstbieditfindertagtitle
 msgid "EditTag"
-msgstr ""
+msgstr "Tag bearbeiten"
 
 #: ulng.rsmfstbiedittips
 msgid "Edit..."
