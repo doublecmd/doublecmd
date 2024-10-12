@@ -36,7 +36,7 @@ interface
 uses
   Classes, SysUtils, UnixType,
   Cocoa_Extra, MacOSAll, CocoaAll, QuickLookUI,
-  CocoaUtils, CocoaInt, CocoaConst, CocoaMenus,
+  CocoaUtils, CocoaInt, CocoaPrivate, CocoaConst, CocoaMenus,
   InterfaceBase, Menus, Controls, Forms,
   uDarwinFSWatch, uDarwinFinder;
 
@@ -46,6 +46,8 @@ function StringToCFStringRef(const S: String): CFStringRef;
 function NSArrayToList(const theArray:NSArray): TStringList;
 function ListToNSArray(const list:TStrings): NSArray;
 function ListToNSUrlArray(const list:TStrings): NSArray;
+
+procedure onMainMenuCreate( menu: NSMenu );
 
 procedure setMacOSAppearance( mode:Integer );
 
@@ -179,6 +181,19 @@ implementation
 
 uses
   DynLibs;
+
+procedure onMainMenuCreate( menu: NSMenu );
+var
+  lclForm: TObject;
+  keyWindow: NSWindow;
+begin
+  lclForm:= nil;
+  keyWindow:= NSApplication(NSApp).keyWindow;
+  if keyWindow <> nil then
+    lclForm:= keyWindow.lclGetTarget;
+  if (lclForm=nil) or (lclForm.ClassName='TfrmMain') then
+    AttachEditMenu( menu, menu.numberOfItems, CocoaConst.NSSTR_EDIT_MENU );
+end;
 
 { TSimpleDarwinFSWatcher }
 

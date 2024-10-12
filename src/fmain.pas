@@ -2960,6 +2960,7 @@ constructor TfrmMain.Create(TheOwner: TComponent);
   begin
     CocoaConfigMenu.appMenu.aboutItem:= mnuHelpAbout;
     CocoaConfigMenu.appMenu.preferencesItem:= mnuConfigOptions;
+    CocoaConfigMenu.appMenu.onCreate:= @onMainMenuCreate;
   end;
 
   procedure setMacOSDockMenu();
