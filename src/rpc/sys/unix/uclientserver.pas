@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Remote procedure call implementation (Unix)
 
-   Copyright (C) 2019 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2019-2024 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -26,15 +26,22 @@ unit uClientServer;
 interface
 
 uses
-  Classes, SysUtils, Ssockets, uService;
+  Classes, SysUtils, Ssockets, SyncObjs, uService;
 
 type
 
   { TUnixServer }
 
   TUnixServer = class(Ssockets.TUnixServer)
+  private
+    FEvent: TEvent;
   protected
     procedure Bind; override;
+  public
+    constructor Create(AFileName: String); reintroduce;
+    destructor Destroy; override;
+    procedure Terminate;
+    procedure Start;
   end;
 
   { TPipeTransport }
@@ -86,6 +93,31 @@ procedure TUnixServer.Bind;
 begin
   inherited Bind;
   fpChmod(FileName, &0666);
+end;
+
+constructor TUnixServer.Create(AFileName: String);
+begin
+  inherited Create(AFileName, nil);
+  FEvent:= TEvent.Create(nil, False, False, '');
+end;
+
+destructor TUnixServer.Destroy;
+begin
+  inherited Destroy;
+  FEvent.Free;
+end;
+
+procedure TUnixServer.Terminate;
+begin
+  StopAccepting(True);
+  Close;
+  FEvent.SetEvent;
+end;
+
+procedure TUnixServer.Start;
+begin
+  StartAccepting;
+  FEvent.WaitFor(INFINITE);
 end;
 
 { TPipeTransport }
@@ -201,7 +233,7 @@ end;
 destructor TServerListnerThread.Destroy;
 begin
   DCDebug('TServerListnerThread.Destroy');
-  FSocketObject.StopAccepting(True);
+  FSocketObject.Terminate;
   inherited Destroy;
 end;
 
@@ -213,13 +245,14 @@ begin
       FSocketObject.Bind;
       FReadyEvent.SetEvent;
       FSocketObject.OnConnect:= @DoConnect;
-      FSocketObject.StartAccepting;
+      FSocketObject.Start;
     finally
       FreeAndNil(FSocketObject);
     end;
   except
-     on e : Exception do
+     on E : Exception do
      begin
+       DCDebug('TServerListnerThread.Execute ' + E.Message);
        Terminate;
      end;
   end;
