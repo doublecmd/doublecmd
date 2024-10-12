@@ -135,14 +135,14 @@ function SendMessage(__fd: cInt; __message: pmsghdr; __flags: cInt): ssize_t;
 begin
   repeat
     Result:= sendmsg(__fd, __message, __flags);
-  until (Result <> -1) or (fpgetCerrno <> ESysEINTR);
+  until not ((Result = -1) and ((Cerrno = ESysEINTR) or (Cerrno = ESysEAGAIN)));
 end;
 
 function RecvMessage(__fd: cInt; __message: pmsghdr; __flags: cInt): ssize_t;
 begin
   repeat
     Result:= recvmsg(__fd, __message, __flags);
-  until (Result <> -1) or (fpgetCerrno <> ESysEINTR);
+  until not ((Result = -1) and ((Cerrno = ESysEINTR) or (Cerrno = ESysEAGAIN)));
 end;
 
 procedure SetSocketClientProcessId(fd: cint);

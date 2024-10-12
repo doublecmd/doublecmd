@@ -155,7 +155,9 @@ begin
   P := PByte(@AData);
   Len := ALength;
   repeat
-    C := FConnection.Write(P^,len);
+    repeat
+      C := FConnection.Write(P^,len);
+    until (C <> -1) or (FConnection.LastError <> ESysEAGAIN);
     if (C < 0) then
        raise EInOutError.Create(SysErrorMessage(FConnection.LastError));
     if (C > 0) then
@@ -175,7 +177,9 @@ begin
   Len := ALength;
   P:= PByte(@AData);
   repeat
-    C:= FConnection.Read(P^, Len);
+    repeat
+      C:= FConnection.Read(P^, Len);
+    until (C <> -1) or (FConnection.LastError <> ESysEAGAIN);
     if (C <= 0) then
       raise EInOutError.Create(SysErrorMessage(FConnection.LastError));
     if (C > 0) then
