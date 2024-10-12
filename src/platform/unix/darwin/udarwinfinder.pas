@@ -990,6 +990,7 @@ begin
   inherited mouseEntered(theEvent);
   _hover:= True;
   self.setNeedsDisplay_( True );
+  self.superview.setNeedsDisplay_( True );
   self.actionHandler.onTagMenuItemHoverChanged( self );
 end;
 
@@ -998,6 +999,7 @@ begin
   inherited mouseExited(theEvent);
   _hover:= False;
   self.setNeedsDisplay_( True );
+  self.superview.setNeedsDisplay_( True );
   self.actionHandler.onTagMenuItemHoverChanged( nil );
 end;
 
