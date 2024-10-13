@@ -40,6 +40,8 @@ type
       const path: String; const positioningView: NSView; const edge: NSRectEdge );
     class procedure attachFinderTagsMenu(
       const path: String; const lclMenu: TPopupMenu );
+    class procedure drawTagsAsDecoration(
+      const tagNames: NSArray; const drawRect: TRect; const focused: Boolean );
   private
     class procedure drawTagName( const tagName: NSString;
       const fontSize: CGFloat; const color: NSColor; const rect: NSRect );
@@ -854,6 +856,41 @@ begin
   cocoaItem.setView( menuView );
 
   menuView.release;
+end;
+
+class procedure uDarwinFinderUtil.drawTagsAsDecoration(
+  const tagNames: NSArray; const drawRect: TRect; const focused: Boolean );
+var
+  tagName: NSString;
+  tag: TFinderTag;
+  length: NSUInteger;
+  i: NSUInteger;
+  tagRect: NSRect;
+  path: NSBezierPath;
+begin
+  tagRect.size.width:= 11;
+  tagRect.size.height:= 11;
+  tagRect.origin.x:= drawRect.Right - 17;
+  tagRect.origin.y:= drawRect.Top + (drawRect.Height-tagRect.size.height)/2;
+
+  length:= tagNames.count;
+  i:= 0;
+  if length > 3 then
+    i:= length - 3;
+  while i < length do begin
+    tagName:= NSString( tagNames.objectAtIndex(i) );
+    tag:= TFinderTags.getTagOfName( tagName );
+    tag.color.set_;
+    path:= NSBezierPath.bezierPathWithOvalInRect( tagRect );
+    path.fill;
+    if focused then
+      NSColor.alternateSelectedControlTextColor.set_
+    else
+      NSColor.textBackgroundColor.set_;
+    path.stroke;
+    tagRect.origin.x:= tagRect.origin.x - 5;
+    inc( i );
+  end;
 end;
 
 class procedure uDarwinFinderUtil.drawTagName( const tagName: NSString;

@@ -5108,9 +5108,12 @@ begin
 
   if gDelayLoadingTabs then
     FileViewFlags := [fvfDelayLoadingFiles];
-  if sType = 'columns' then
-    Result := TColumnsFileView.Create(Page, AConfig, ANode, FileViewFlags)
-  else if sType = 'brief' then
+  if sType = 'columns' then begin
+    Result := TColumnsFileView.Create(Page, AConfig, ANode, FileViewFlags);
+    {$IFDEF DARWIN}
+    TColumnsFileView(Result).OnDrawCell:= @DarwinFileViewDrawHelper.OnDrawCell;
+    {$ENDIF}
+  end else if sType = 'brief' then
     Result := TBriefFileView.Create(Page, AConfig, ANode, FileViewFlags)
   else if sType = 'thumbnails' then
     Result := TThumbFileView.Create(Page, AConfig, ANode, FileViewFlags)

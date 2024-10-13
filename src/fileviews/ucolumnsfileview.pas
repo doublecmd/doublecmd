@@ -26,6 +26,9 @@ type
   TColumnsSortDirections = array of TSortDirection;
   TColumnsFileView = class;
 
+  TFileViewOnDrawCell = procedure(Sender: TFileView; aCol, aRow: Integer;
+    aRect: TRect; aState: TGridDrawState; aFile: TDisplayFile) of object;
+
   { TDrawGridEx }
 
   TDrawGridEx = class(TDrawGrid)
@@ -34,6 +37,8 @@ type
     FLastMouseMoveTime: QWord;
     FLastMouseScrollTime: QWord;
     ColumnsView: TColumnsFileView;
+
+    FOnDrawCell: TFileViewOnDrawCell;
 
     function GetGridHorzLine: Boolean;
     function GetGridVertLine: Boolean;
@@ -85,6 +90,7 @@ type
     property GridVertLine: Boolean read GetGridVertLine write SetGridVertLine;
     property GridHorzLine: Boolean read GetGridHorzLine write SetGridHorzLine;
 
+    property OnDrawCell: TFileViewOnDrawCell read FOnDrawCell write FOnDrawCell;
   end;
 
   TColumnResized = procedure (Sender: TObject; ColumnIndex: Integer; ColumnNewsize: integer) of object;
@@ -102,6 +108,8 @@ type
     pmColumnsMenu: TPopupMenu;
     dgPanel: TDrawGridEx;
     FOnColumnResized: TColumnResized;
+
+    procedure SetOnDrawCell( OnDrawCell: TFileViewOnDrawCell );
 
     function GetColumnsClass: TPanelColumnsClass;
 
@@ -206,10 +214,10 @@ type
     procedure SetGridFunctionDim(ExternalDimFunction:TFunctionDime);
 
     property OnColumnResized: TColumnResized read FOnColumnResized write FOnColumnResized;
+    property OnDrawCell: TFileViewOnDrawCell write SetOnDrawCell;
   published
     procedure cm_SaveFileDetailsToFile(const Params: array of string);
     procedure cm_CopyFileDetailsToClip(const Params: array of string);
-
   end;
 
 implementation
@@ -1114,6 +1122,11 @@ begin
   Dec(Result.Last, dgPanel.FixedRows);
 end;
 
+procedure TColumnsFileView.SetOnDrawCell(OnDrawCell: TFileViewOnDrawCell);
+begin
+  dgPanel.OnDrawCell:= OnDrawCell;
+end;
+
 function TColumnsFileView.GetColumnsClass: TPanelColumnsClass;
 begin
   if isSlave then
@@ -1972,6 +1985,10 @@ begin
         DrawIconCell  // Draw icon in the first column
       else
         DrawOtherCell;
+    end;
+
+    if Assigned(OnDrawCell) and not(CsDesigning in ComponentState) then begin
+      OnDrawCell(Self.ColumnsView,aCol,aRow,aRect,aState,AFile);
     end;
 
     DrawCellGrid(aCol,aRow,aRect,aState);
