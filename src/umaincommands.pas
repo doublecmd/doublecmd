@@ -28,7 +28,11 @@ interface
 
 uses
   Classes, SysUtils, ActnList, uFileView, uFileViewNotebook, uFileSourceOperation,
-  uGlobs, uFileFunctions, uFormCommands, uFileSorting, uShellContextMenu, Menus, ufavoritetabs,ufile;
+  uGlobs, uFileFunctions, uFormCommands, uFileSorting, uShellContextMenu, Menus, ufavoritetabs,ufile
+{$IFDEF DARWIN}
+  , uMyDarwin
+{$ENDIF}
+  ;
 
 type
 
@@ -2257,6 +2261,9 @@ begin
       TColumnsFileView(ActiveFrame).SetColumnSet(AParam)
     else begin
       aFileView:= TColumnsFileView.Create(ActiveNotebook.ActivePage, ActiveFrame, AParam);
+      {$IFDEF DARWIN}
+      TColumnsFileView(aFileView).OnDrawCell:= @DarwinFileViewDrawHelper.OnDrawCell;
+      {$ENDIF}
       ActiveNotebook.ActivePage.FileView:= aFileView;
       ActiveFrame.SetFocus;
     end;

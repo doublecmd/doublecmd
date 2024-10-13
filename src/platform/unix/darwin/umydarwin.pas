@@ -36,7 +36,7 @@ interface
 uses
   Classes, SysUtils, UnixType,
   InterfaceBase, Menus, Controls, Forms, Grids,
-  uDisplayFile, uFileView, uColumnsFileView,
+  uFileSourceProperty, uDisplayFile, uFileView, uColumnsFileView,
   Cocoa_Extra, MacOSAll, CocoaAll, QuickLookUI,
   CocoaUtils, CocoaInt, CocoaPrivate, CocoaConst, CocoaMenus,
   uDarwinFSWatch, uDarwinFinder, uDarwinFinderModel;
@@ -315,6 +315,9 @@ var
   tagNames: NSArray;
 begin
   if aCol <> 0 then
+    Exit;
+
+  if NOT (fspDirectAccess in Sender.FileSource.Properties) then
     Exit;
 
   url:= NSURL.fileURLWithPath( StrToNSString(aFile.FSFile.FullPath) );
