@@ -184,7 +184,7 @@ type
 
   TDarwinFileViewDrawHelper = class
     procedure onDrawCell(Sender: TFileView; aCol, aRow: Integer;
-      aRect: TRect; aState: TGridDrawState; aFile: TDisplayFile);
+      aRect: TRect; focused: Boolean; aFile: TDisplayFile);
   end;
 
 var
@@ -309,7 +309,7 @@ end;
 { TDarwinFileViewDrawHelper }
 
 procedure TDarwinFileViewDrawHelper.onDrawCell(Sender: TFileView; aCol, aRow: Integer;
-  aRect: TRect; aState: TGridDrawState; aFile: TDisplayFile);
+  aRect: TRect; focused: Boolean; aFile: TDisplayFile);
 var
   url: NSURL;
   tagNames: NSArray;
@@ -324,7 +324,7 @@ begin
   tagNames:= uDarwinFinderModelUtil.getTagNamesOfFile( url );
   if tagNames.count = 0 then
     Exit;
-  uDarwinFinderUtil.drawTagsAsDecoration( tagNames, aRect, gdFocused in aState );
+  uDarwinFinderUtil.drawTagsAsDecoration( tagNames, aRect, focused );
 end;
 
 

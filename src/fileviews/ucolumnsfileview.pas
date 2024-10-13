@@ -1536,6 +1536,7 @@ var
   AFile: TDisplayFile;
   FileSourceDirectAccess: Boolean;
   ColumnsSet: TPanelColumnsClass;
+  onDrawCellFocused: Boolean;
 
   //------------------------------------------------------
   // begin subprocedures
@@ -1992,7 +1993,8 @@ begin
     end;
 
     if Assigned(OnDrawCell) and not(CsDesigning in ComponentState) then begin
-      OnDrawCell(Self.ColumnsView,aCol,aRow,aRect,aState,AFile);
+      onDrawCellFocused:= (gdSelected in aState) and ColumnsView.Active;
+      OnDrawCell(Self.ColumnsView,aCol,aRow,aRect,onDrawCellFocused,AFile);
     end;
 
     DrawCellGrid(aCol,aRow,aRect,aState);

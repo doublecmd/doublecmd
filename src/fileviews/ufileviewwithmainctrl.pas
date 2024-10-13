@@ -29,7 +29,7 @@ interface
 
 uses
   Classes, SysUtils, Controls, ExtCtrls, StdCtrls, LCLType, LMessages, EditBtn,
-  Grids, Graphics, LCLVersion,
+  Graphics, LCLVersion,
   uFile, uDisplayFile,
   uFileViewWorker,
   uOrderedFileView,
@@ -41,7 +41,7 @@ uses
 type
 
   TFileViewOnDrawCell = procedure(Sender: TFileView; aCol, aRow: Integer;
-    aRect: TRect; aState: TGridDrawState; aFile: TDisplayFile) of object;
+    aRect: TRect; focused: Boolean; aFile: TDisplayFile) of object;
 
   TRenameFileActionType=(rfatName,rfatExt,rfatFull,rfatToSeparators,rfatNextSeparated);
 

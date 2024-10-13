@@ -429,6 +429,7 @@ var
   iTextTop: Integer;
   AFile: TDisplayFile;
   FileSourceDirectAccess: Boolean;
+  onDrawCellFocused: Boolean;
 
   //------------------------------------------------------
   //begin subprocedures
@@ -518,7 +519,8 @@ begin
       DrawIconCell;
 
       if Assigned(OnDrawCell) and not(CsDesigning in ComponentState) then begin
-        OnDrawCell(FBriefView,aCol,aRow,aRect,aState,AFile);
+        onDrawCellFocused:= (gdSelected in aState) and FFileView.Active;
+        OnDrawCell(FBriefView,aCol,aRow,aRect,onDrawCellFocused,AFile);
       end;
     end
   else
