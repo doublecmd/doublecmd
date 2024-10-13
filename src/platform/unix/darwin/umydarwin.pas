@@ -314,7 +314,7 @@ var
   url: NSURL;
   tagNames: NSArray;
 begin
-  if aCol <> 0 then
+  if (Sender is TColumnsFileView) and (aCol<>0) then
     Exit;
 
   if NOT (fspDirectAccess in Sender.FileSource.Properties) then

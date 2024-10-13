@@ -5113,9 +5113,12 @@ begin
     {$IFDEF DARWIN}
     TColumnsFileView(Result).OnDrawCell:= @DarwinFileViewDrawHelper.OnDrawCell;
     {$ENDIF}
-  end else if sType = 'brief' then
-    Result := TBriefFileView.Create(Page, AConfig, ANode, FileViewFlags)
-  else if sType = 'thumbnails' then
+  end else if sType = 'brief' then begin
+    Result := TBriefFileView.Create(Page, AConfig, ANode, FileViewFlags);
+    {$IFDEF DARWIN}
+    TBriefFileView(Result).OnDrawCell:= @DarwinFileViewDrawHelper.OnDrawCell;
+    {$ENDIF}
+  end else if sType = 'thumbnails' then
     Result := TThumbFileView.Create(Page, AConfig, ANode, FileViewFlags)
   else begin
     DCDebug(rsMsgLogError + 'Invalid file view type "%s"', [sType]);

@@ -29,8 +29,8 @@ interface
 
 uses
   Classes, SysUtils, Controls, ExtCtrls, StdCtrls, LCLType, LMessages, EditBtn,
-  Graphics, LCLVersion,
-  uFile,
+  Grids, Graphics, LCLVersion,
+  uFile, uDisplayFile,
   uFileViewWorker,
   uOrderedFileView,
   uFileView,
@@ -39,6 +39,9 @@ uses
   uDebug;
 
 type
+
+  TFileViewOnDrawCell = procedure(Sender: TFileView; aCol, aRow: Integer;
+    aRect: TRect; aState: TGridDrawState; aFile: TDisplayFile) of object;
 
   TRenameFileActionType=(rfatName,rfatExt,rfatFull,rfatToSeparators,rfatNextSeparated);
 
@@ -237,7 +240,7 @@ uses
 {$ENDIF}
   LCLIntf, LCLProc, LazUTF8, Forms, Dialogs, Buttons, DCOSUtils, DCStrUtils,
   fMain, uShowMsg, uLng, uFileProperty, uFileSource, uFileSourceOperationTypes,
-  uGlobs, uInfoToolTip, uDisplayFile, uFileSystemFileSource, uFileSourceUtil,
+  uGlobs, uInfoToolTip, uFileSystemFileSource, uFileSourceUtil,
   uArchiveFileSourceUtil, uFormCommands, uKeyboard, uFileSourceSetFilePropertyOperation,
   uFileSystemWatcher;
 

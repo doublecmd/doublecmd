@@ -26,9 +26,6 @@ type
   TColumnsSortDirections = array of TSortDirection;
   TColumnsFileView = class;
 
-  TFileViewOnDrawCell = procedure(Sender: TFileView; aCol, aRow: Integer;
-    aRect: TRect; aState: TGridDrawState; aFile: TDisplayFile) of object;
-
   { TDrawGridEx }
 
   TDrawGridEx = class(TDrawGrid)
