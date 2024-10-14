@@ -123,7 +123,6 @@ type
     btnTestParser: TButton;
     bvlArchiverCommands: TDividerBevel;
     bvlArchiverOther: TDividerBevel;
-    bvlParserTest: TDividerBevel;
     edtArchiverFallBack: TEdit;
     edtTestArchive: TFileNameEdit;
     lblIgnoreString: TLabel;
@@ -160,7 +159,9 @@ type
     lblParserOutput: TLabel;
     lblResult: TLabel;
     lblSpacer: TLabel;
+    ckbParserTest: TCheckBox;
     tbParser: TTabSheet;
+    procedure ckbParserTestChange(Sender: TObject);
     procedure chkFileNameOnlyListChange(Sender: TObject);
     procedure chkHideChange(Sender: TObject);
     procedure lbxArchiverSelectionChange(Sender: TObject; {%H-}User: boolean);
@@ -436,6 +437,11 @@ begin
   pnlParser.Enabled:= AEnabled;
 
   edtAnyChange(Sender);
+end;
+
+procedure TfrmOptionsArchivers.ckbParserTestChange(Sender: TObject);
+begin
+  ScrollBox.Visible:= ckbParserTest.Checked;
 end;
 
 procedure TfrmOptionsArchivers.OnParserAddLine(line: string);

@@ -79,7 +79,7 @@
 {"hash":13879346,"name":"tfrmoptionsarchivers.ckbarchiverwindowspath.caption","sourcebytes":[87,105,110,100,111,119,115,32,112,97,116,104,32,100,101,108,105,38,109,105,116,101,114,32,34,92,34],"value":"Windows path deli&miter \"\\\""},
 {"hash":22376883,"name":"tfrmoptionsarchivers.ckbarchiverunixfileattributes.caption","sourcebytes":[85,110,105,38,120,32,102,105,108,101,32,97,116,116,114,105,98,117,116,101,115],"value":"Uni&x file attributes"},
 {"hash":20825811,"name":"tfrmoptionsarchivers.ckbarchiverwindowsfileattributes.caption","sourcebytes":[87,105,110,100,111,119,115,32,38,102,105,108,101,32,97,116,116,114,105,98,117,116,101,115],"value":"Windows &file attributes"},
-{"hash":157340826,"name":"tfrmoptionsarchivers.bvlparsertest.caption","sourcebytes":[70,111,114,109,97,116,32,112,97,114,115,105,110,103,32,116,101,115,116,58],"value":"Format parsing test:"},
+{"hash":244714820,"name":"tfrmoptionsarchivers.ckbparsertest.caption","sourcebytes":[70,111,114,109,97,116,32,112,97,114,115,105,110,103,32,116,101,115,116],"value":"Format parsing test"},
 {"hash":39152218,"name":"tfrmoptionsarchivers.lbltestarchive.caption","sourcebytes":[84,101,115,116,32,97,114,99,104,105,118,101,58],"value":"Test archive:"},
 {"hash":371876,"name":"tfrmoptionsarchivers.btntestparser.caption","sourcebytes":[84,101,115,116],"value":"Test"},
 {"hash":54201530,"name":"tfrmoptionsarchivers.lblparseroutput.caption","sourcebytes":[82,101,99,101,105,118,101,100,32,116,101,120,116,32,102,111,114,32,112,97,115,105,110,103,58],"value":"Received text for pasing:"},

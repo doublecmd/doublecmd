@@ -1113,16 +1113,15 @@ inherited frmOptionsArchivers: TfrmOptionsArchivers
           end
           object lblArchiverListFormat: TLabel
             AnchorSideLeft.Control = pnlParser
-            AnchorSideTop.Control = edtArchiverListEnd
-            AnchorSideTop.Side = asrBottom
+            AnchorSideTop.Control = pnlParserHelpers
+            AnchorSideTop.Side = asrCenter
             AnchorSideRight.Control = pnlParser
             AnchorSideRight.Side = asrBottom
-            AnchorSideBottom.Control = memArchiverListFormat
             Left = 10
             Height = 16
-            Top = 114
+            Top = 107
             Width = 763
-            Anchors = [akLeft, akRight, akBottom]
+            Anchors = [akTop, akLeft, akRight]
             BorderSpacing.Top = 2
             BorderSpacing.Right = 1
             Caption = 'Listing for&mat:'
@@ -1372,7 +1371,6 @@ inherited frmOptionsArchivers: TfrmOptionsArchivers
             Width = 763
             Anchors = [akTop, akLeft, akRight]
             Constraints.MaxHeight = 100
-            Font.Height = -16
             Lines.Strings = (
               ''
             )
@@ -1477,41 +1475,42 @@ inherited frmOptionsArchivers: TfrmOptionsArchivers
             TabOrder = 8
             OnChange = ckbArchiverWindowsFileAttributesChange
           end
-          object bvlParserTest: TDividerBevel
+          object ckbParserTest: TCheckBox
             AnchorSideLeft.Control = lblArchiverListStart
             AnchorSideTop.Control = ckbArchiverWindowsFileAttributes
             AnchorSideTop.Side = asrBottom
-            AnchorSideRight.Control = lblArchiverListStart
-            AnchorSideRight.Side = asrBottom
             Left = 10
-            Height = 16
+            Height = 23
             Top = 312
-            Width = 763
-            Caption = 'Format parsing test:'
-            Anchors = [akTop, akLeft, akRight]
+            Width = 147
             BorderSpacing.Top = 10
+            Caption = 'Format parsing test'
             Font.Style = [fsBold]
             ParentFont = False
+            TabOrder = 10
+            OnChange = ckbParserTestChange
           end
           object ScrollBox: TScrollBox
-            AnchorSideTop.Control = bvlParserTest
+            AnchorSideTop.Control = ckbParserTest
             AnchorSideTop.Side = asrBottom
             Left = 10
-            Height = 196
-            Top = 328
+            Height = 189
+            Top = 335
             Width = 763
             HorzScrollBar.Increment = 1
             HorzScrollBar.Page = 1
             HorzScrollBar.Visible = False
-            VertScrollBar.Increment = 19
-            VertScrollBar.Page = 194
+            VertScrollBar.Increment = 18
+            VertScrollBar.Page = 187
             VertScrollBar.Smooth = True
             VertScrollBar.Tracking = True
             Align = alBottom
             Anchors = [akTop, akLeft, akRight, akBottom]
-            ClientHeight = 194
+            AutoSize = True
+            ClientHeight = 187
             ClientWidth = 748
             TabOrder = 9
+            Visible = False
             object lblTestArchive: TLabel
               AnchorSideLeft.Control = ScrollBox
               AnchorSideTop.Control = ScrollBox
@@ -1578,7 +1577,6 @@ inherited frmOptionsArchivers: TfrmOptionsArchivers
               Width = 748
               Anchors = [akTop, akLeft, akRight]
               BorderSpacing.Top = 5
-              Font.Height = -16
               ParentFont = False
               ReadOnly = True
               ScrollBars = ssAutoBoth
