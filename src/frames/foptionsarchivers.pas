@@ -159,6 +159,7 @@ type
     lblTestArchive: TLabel;
     lblParserOutput: TLabel;
     lblResult: TLabel;
+    lblSpacer: TLabel;
     tbParser: TTabSheet;
     procedure chkFileNameOnlyListChange(Sender: TObject);
     procedure chkHideChange(Sender: TObject);
@@ -196,7 +197,7 @@ type
     procedure OnGetArchiveItem(ArchiveItem: TArchiveItem);
     procedure OnParserAddLine(line: string);
     procedure btnStaticHelperClick(Sender: TObject);
-    procedure btnExtHelper(Sender: TObject);
+    procedure btnExtHelperClick(Sender: TObject);
     procedure ClearTestGrid;
   private
     MultiArcListTemp: TMultiArcList;
@@ -456,7 +457,7 @@ begin
   memArchiverListFormat.SelText:= str;
 end;
 
-procedure TfrmOptionsArchivers.btnExtHelper(Sender: TObject);
+procedure TfrmOptionsArchivers.btnExtHelperClick(Sender: TObject);
 begin
   memArchiverListFormat.SelText:= TSpeedButton(Sender).Caption;
 end;
@@ -662,7 +663,7 @@ begin
     for iComponentIndex := 0 to pred(ComponentCount) do
       if Components[iComponentIndex].Owner <> nil then
         if Components[iComponentIndex].InheritsFrom(TControl) then
-          if (TControl(Components[iComponentIndex]).Parent = tbArchiverGeneral) or (TControl(Components[iComponentIndex]).Parent = tbArchiverAdditional) then
+          if (TControl(Components[iComponentIndex]).Parent = tbArchiverGeneral) or (TControl(Components[iComponentIndex]).Parent = tbArchiverAdditional)  or (TControl(Components[iComponentIndex]).Parent = tbParser) then
             if Components[iComponentIndex].Name <> chkArchiverEnabled.Name then
               TControl(Components[iComponentIndex]).Enabled := bWantedState;
 end;

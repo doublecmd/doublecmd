@@ -6,8 +6,8 @@ inherited frmOptionsArchivers: TfrmOptionsArchivers
   ClientWidth = 923
   ParentShowHint = False
   ShowHint = True
-  DesignLeft = 439
-  DesignTop = 115
+  DesignLeft = 402
+  DesignTop = 25
   object pnlArchiverListbox: TPanel[0]
     Left = 5
     Height = 598
@@ -1134,10 +1134,10 @@ inherited frmOptionsArchivers: TfrmOptionsArchivers
             AnchorSideTop.Side = asrBottom
             AnchorSideRight.Control = memArchiverListFormat
             AnchorSideRight.Side = asrBottom
-            Left = 411
+            Left = 243
             Height = 30
             Top = 100
-            Width = 362
+            Width = 530
             Anchors = [akTop, akRight]
             AutoSize = True
             BevelOuter = bvNone
@@ -1145,191 +1145,218 @@ inherited frmOptionsArchivers: TfrmOptionsArchivers
             ChildSizing.TopBottomSpacing = 5
             ChildSizing.HorizontalSpacing = 5
             ChildSizing.VerticalSpacing = 5
-            ChildSizing.EnlargeHorizontal = crsHomogenousSpaceResize
+            ChildSizing.EnlargeHorizontal = crsHomogenousChildResize
             ChildSizing.Layout = cclLeftToRightThenTopToBottom
-            ChildSizing.ControlsPerLine = 20
+            ChildSizing.ControlsPerLine = 21
             ClientHeight = 30
-            ClientWidth = 362
+            ClientWidth = 530
             TabOrder = 2
             object btnStaticFileName: TSpeedButton
               Left = 10
               Height = 20
               Hint = 'Filename char'
               Top = 5
-              Width = 11
+              Width = 20
+              Constraints.MinWidth = 20
               Caption = 'n'
               OnClick = btnStaticHelperClick
             end
-            object btnDynamicFileName: TSpeedButton
-              Left = 26
-              Height = 20
-              Hint = 'Use all chars until the end of the line for filename'
-              Top = 5
-              Width = 19
-              Caption = 'n+'
-              OnClick = btnExtHelper
-            end
             object btnStaticExt: TSpeedButton
-              Left = 50
+              Left = 35
               Height = 20
               Hint = 'File extension char'
               Top = 5
-              Width = 11
+              Width = 20
+              Constraints.MinWidth = 20
               Caption = 'e'
               OnClick = btnStaticHelperClick
             end
             object btnStaticComment: TSpeedButton
-              Left = 66
+              Left = 60
               Height = 20
               Hint = 'File description char'
               Top = 5
-              Width = 11
+              Width = 20
+              Constraints.MinWidth = 20
               Caption = 'c'
               OnClick = btnStaticHelperClick
             end
             object btnStaticAttr: TSpeedButton
-              Left = 82
+              Left = 85
               Height = 20
               Hint = 'Attributes char'
               Top = 5
-              Width = 11
+              Width = 20
+              Constraints.MinWidth = 20
               Caption = 'a'
               OnClick = btnStaticHelperClick
             end
             object btnStaticSize: TSpeedButton
-              Left = 98
+              Left = 110
               Height = 20
               Hint = 'Unpacked size digit'
               Top = 5
-              Width = 11
+              Width = 20
+              Constraints.MinWidth = 20
               Caption = 'z'
               OnClick = btnStaticHelperClick
             end
-            object btnDynamicSize: TSpeedButton
-              Left = 114
-              Height = 20
-              Hint = 'Use all digits up to first non-digit character for the unpacked size'
-              Top = 5
-              Width = 19
-              Caption = 'z+'
-              OnClick = btnExtHelper
-            end
             object btnStaticPkSize: TSpeedButton
-              Left = 138
+              Left = 135
               Height = 20
               Hint = 'Packed size digit'
               Top = 5
-              Width = 11
+              Width = 20
+              Constraints.MinWidth = 20
               Caption = 'p'
               OnClick = btnStaticHelperClick
             end
-            object btnDynamicPkSize: TSpeedButton
-              Left = 154
-              Height = 20
-              Hint = 'Use all digits up to first non-digit character for the packed size'
-              Top = 5
-              Width = 19
-              Caption = 'p+'
-              OnClick = btnExtHelper
-            end
             object btnStaticYear: TSpeedButton
-              Left = 178
+              Left = 160
               Height = 20
               Hint = 'Year digit'
               Top = 5
-              Width = 11
+              Width = 20
+              Constraints.MinWidth = 20
               Caption = 'y'
               OnClick = btnStaticHelperClick
             end
             object btnStaticMonth: TSpeedButton
-              Left = 194
+              Left = 185
               Height = 20
               Hint = 'Month digit'
               Top = 5
-              Width = 8
+              Width = 20
+              Constraints.MinWidth = 20
               Caption = 't'
               OnClick = btnStaticHelperClick
             end
             object btnStaticMonthWord: TSpeedButton
-              Left = 207
+              Left = 210
               Height = 20
               Hint = 'Three letters month char'
               Top = 5
-              Width = 12
+              Width = 20
+              Constraints.MinWidth = 20
               Caption = 'T'
               OnClick = btnStaticHelperClick
             end
             object btnStaticDay: TSpeedButton
-              Left = 224
+              Left = 235
               Height = 20
               Hint = 'Day digit'
               Top = 5
-              Width = 11
+              Width = 20
+              Constraints.MinWidth = 20
               Caption = 'd'
               OnClick = btnStaticHelperClick
             end
             object btnStaticHour: TSpeedButton
-              Left = 240
+              Left = 260
               Height = 20
               Hint = 'Hours digit'
               Top = 5
-              Width = 11
+              Width = 20
+              Constraints.MinWidth = 20
               Caption = 'h'
               OnClick = btnStaticHelperClick
             end
             object btnStaticHourMod: TSpeedButton
-              Left = 256
+              Left = 285
               Height = 20
               Hint = 'Hours modifier letter (a – a.m. time, p – p.m. time)'
               Top = 5
-              Width = 14
+              Width = 20
+              Constraints.MinWidth = 20
               Caption = 'H'
-              OnClick = btnExtHelper
+              OnClick = btnExtHelperClick
             end
             object btnStaticMinute: TSpeedButton
-              Left = 275
+              Left = 310
               Height = 20
               Hint = 'Minutes digit'
               Top = 5
-              Width = 15
+              Width = 20
+              Constraints.MinWidth = 20
               Caption = 'm'
               OnClick = btnStaticHelperClick
             end
             object btnStaticSecond: TSpeedButton
-              Left = 295
+              Left = 335
               Height = 20
               Hint = 'Seconds digit'
               Top = 5
-              Width = 11
+              Width = 20
+              Constraints.MinWidth = 20
               Caption = 's'
               OnClick = btnStaticHelperClick
             end
             object btnSkipChar: TSpeedButton
-              Left = 311
+              Left = 360
               Height = 20
               Hint = 'Skip one symbol'
               Top = 5
-              Width = 11
+              Width = 20
+              Constraints.MinWidth = 20
               Caption = '?'
-              OnClick = btnExtHelper
+              OnClick = btnStaticHelperClick
             end
             object btnSkipToFirstSpace: TSpeedButton
-              Left = 327
+              Left = 385
               Height = 20
               Hint = 'Skip until first space or end of line'
               Top = 5
-              Width = 9
+              Width = 20
+              Constraints.MinWidth = 20
               Caption = '*'
-              OnClick = btnExtHelper
+              OnClick = btnExtHelperClick
+            end
+            object lblSpacer: TLabel
+              Left = 410
+              Height = 20
+              Top = 5
+              Width = 10
+              Constraints.MinWidth = 10
+            end
+            object btnDynamicFileName: TSpeedButton
+              Left = 425
+              Height = 20
+              Hint = 'Use all chars until the end of the line for filename'
+              Top = 5
+              Width = 20
+              Constraints.MinWidth = 20
+              Caption = 'n+'
+              OnClick = btnExtHelperClick
+            end
+            object btnDynamicSize: TSpeedButton
+              Left = 450
+              Height = 20
+              Hint = 'Use all digits up to first non-digit character for the unpacked size'
+              Top = 5
+              Width = 20
+              Constraints.MinWidth = 20
+              Caption = 'z+'
+              OnClick = btnExtHelperClick
+            end
+            object btnDynamicPkSize: TSpeedButton
+              Left = 475
+              Height = 20
+              Hint = 'Use all digits up to first non-digit character for the packed size'
+              Top = 5
+              Width = 20
+              Constraints.MinWidth = 20
+              Caption = 'p+'
+              OnClick = btnExtHelperClick
             end
             object btnSkipSpaces: TSpeedButton
-              Left = 341
+              Left = 500
               Height = 20
               Hint = 'Skip all spaces/tabstops until next character or end of line'
               Top = 5
-              Width = 11
+              Width = 20
+              Constraints.MinWidth = 20
               Caption = '$'
-              OnClick = btnExtHelper
+              OnClick = btnExtHelperClick
             end
           end
           object memArchiverListFormat: TMemo
@@ -1377,6 +1404,7 @@ inherited frmOptionsArchivers: TfrmOptionsArchivers
             Top = 198
             Width = 763
             Anchors = [akTop, akLeft, akRight]
+            ScrollBars = ssAutoBoth
             TabOrder = 4
             OnChange = edtAnyChange
           end
@@ -1860,6 +1888,7 @@ inherited frmOptionsArchivers: TfrmOptionsArchivers
           Top = 304
           Width = 763
           Anchors = [akTop, akLeft, akRight]
+          ScrollBars = ssAutoBoth
           TabOrder = 5
           OnChange = edtAnyChange
         end
