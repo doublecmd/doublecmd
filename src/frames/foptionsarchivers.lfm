@@ -441,7 +441,6 @@ inherited frmOptionsArchivers: TfrmOptionsArchivers
           Height = 16
           Top = 184
           Width = 25
-          AutoSize = False
           BorderSpacing.Top = 2
           BorderSpacing.Right = 10
           Caption = '&List:'
@@ -1366,7 +1365,7 @@ inherited frmOptionsArchivers: TfrmOptionsArchivers
             AnchorSideRight.Side = asrBottom
             AnchorSideBottom.Side = asrBottom
             Left = 10
-            Height = 50
+            Height = 70
             Top = 130
             Width = 763
             Anchors = [akTop, akLeft, akRight]
@@ -1386,7 +1385,7 @@ inherited frmOptionsArchivers: TfrmOptionsArchivers
             AnchorSideTop.Side = asrBottom
             Left = 10
             Height = 16
-            Top = 182
+            Top = 202
             Width = 83
             BorderSpacing.Top = 2
             Caption = 'Ignore strings:'
@@ -1398,8 +1397,8 @@ inherited frmOptionsArchivers: TfrmOptionsArchivers
             AnchorSideRight.Control = pnlParser
             AnchorSideRight.Side = asrBottom
             Left = 10
-            Height = 50
-            Top = 198
+            Height = 70
+            Top = 218
             Width = 763
             Anchors = [akTop, akLeft, akRight]
             ScrollBars = ssAutoBoth
@@ -1414,7 +1413,7 @@ inherited frmOptionsArchivers: TfrmOptionsArchivers
             AnchorSideRight.Side = asrBottom
             Left = 10
             Height = 16
-            Top = 258
+            Top = 298
             Width = 763
             Caption = 'Format parsing mode:'
             Anchors = [akTop, akLeft, akRight]
@@ -1428,7 +1427,7 @@ inherited frmOptionsArchivers: TfrmOptionsArchivers
             AnchorSideTop.Side = asrBottom
             Left = 10
             Height = 23
-            Top = 279
+            Top = 319
             Width = 153
             BorderSpacing.Top = 5
             Caption = '&Unix path delimiter "/"'
@@ -1441,7 +1440,7 @@ inherited frmOptionsArchivers: TfrmOptionsArchivers
             AnchorSideTop.Control = ckbArchiverUnixPath
             Left = 173
             Height = 23
-            Top = 279
+            Top = 319
             Width = 180
             BorderSpacing.Left = 10
             Caption = 'Windows path deli&miter "\"'
@@ -1454,7 +1453,7 @@ inherited frmOptionsArchivers: TfrmOptionsArchivers
             AnchorSideTop.Control = ckbArchiverUnixPath
             Left = 363
             Height = 23
-            Top = 279
+            Top = 319
             Width = 132
             BorderSpacing.Left = 10
             Caption = 'Uni&x file attributes'
@@ -1467,7 +1466,7 @@ inherited frmOptionsArchivers: TfrmOptionsArchivers
             AnchorSideTop.Control = ckbArchiverUnixPath
             Left = 505
             Height = 23
-            Top = 279
+            Top = 319
             Width = 159
             BorderSpacing.Left = 10
             Caption = 'Windows &file attributes'
@@ -1481,7 +1480,7 @@ inherited frmOptionsArchivers: TfrmOptionsArchivers
             AnchorSideTop.Side = asrBottom
             Left = 10
             Height = 23
-            Top = 312
+            Top = 352
             Width = 147
             BorderSpacing.Top = 10
             Caption = 'Format parsing test'
@@ -1491,30 +1490,32 @@ inherited frmOptionsArchivers: TfrmOptionsArchivers
             OnChange = ckbParserTestChange
           end
           object ScrollBox: TScrollBox
+            AnchorSideLeft.Control = pnlParser
             AnchorSideTop.Control = ckbParserTest
             AnchorSideTop.Side = asrBottom
+            AnchorSideRight.Control = pnlParser
+            AnchorSideRight.Side = asrBottom
             Left = 10
-            Height = 189
-            Top = 335
+            Height = 155
+            Top = 375
             Width = 763
             HorzScrollBar.Increment = 1
             HorzScrollBar.Page = 1
             HorzScrollBar.Visible = False
-            VertScrollBar.Increment = 18
-            VertScrollBar.Page = 187
+            VertScrollBar.Increment = 15
+            VertScrollBar.Page = 153
             VertScrollBar.Smooth = True
             VertScrollBar.Tracking = True
-            Align = alBottom
-            Anchors = [akTop, akLeft, akRight, akBottom]
-            AutoSize = True
-            ClientHeight = 187
+            Anchors = [akTop, akLeft, akRight]
+            ChildSizing.LeftRightSpacing = 5
+            ClientHeight = 153
             ClientWidth = 748
             TabOrder = 9
             Visible = False
             object lblTestArchive: TLabel
               AnchorSideLeft.Control = ScrollBox
               AnchorSideTop.Control = ScrollBox
-              Left = 0
+              Left = 5
               Height = 16
               Top = 0
               Width = 75
@@ -1525,10 +1526,10 @@ inherited frmOptionsArchivers: TfrmOptionsArchivers
               AnchorSideTop.Control = lblTestArchive
               AnchorSideTop.Side = asrBottom
               AnchorSideRight.Control = btnTestParser
-              Left = 0
+              Left = 5
               Height = 28
               Top = 21
-              Width = 668
+              Width = 658
               FilterIndex = 0
               HideDirectories = False
               ButtonWidth = 23
@@ -1545,7 +1546,7 @@ inherited frmOptionsArchivers: TfrmOptionsArchivers
               AnchorSideRight.Side = asrBottom
               AnchorSideBottom.Control = edtTestArchive
               AnchorSideBottom.Side = asrBottom
-              Left = 673
+              Left = 668
               Height = 28
               Top = 21
               Width = 75
@@ -1558,7 +1559,7 @@ inherited frmOptionsArchivers: TfrmOptionsArchivers
               AnchorSideLeft.Control = ScrollBox
               AnchorSideTop.Control = edtTestArchive
               AnchorSideTop.Side = asrBottom
-              Left = 0
+              Left = 5
               Height = 16
               Top = 51
               Width = 146
@@ -1571,10 +1572,10 @@ inherited frmOptionsArchivers: TfrmOptionsArchivers
               AnchorSideTop.Side = asrBottom
               AnchorSideRight.Control = ScrollBox
               AnchorSideRight.Side = asrBottom
-              Left = 0
-              Height = 50
+              Left = 5
+              Height = 60
               Top = 72
-              Width = 748
+              Width = 738
               Anchors = [akTop, akLeft, akRight]
               BorderSpacing.Top = 5
               ParentFont = False
@@ -1588,9 +1589,9 @@ inherited frmOptionsArchivers: TfrmOptionsArchivers
               AnchorSideLeft.Control = ScrollBox
               AnchorSideTop.Control = memArchiverOutput
               AnchorSideTop.Side = asrBottom
-              Left = 0
+              Left = 5
               Height = 16
-              Top = 124
+              Top = 134
               Width = 42
               BorderSpacing.Top = 2
               Caption = 'Result:'
@@ -1601,10 +1602,10 @@ inherited frmOptionsArchivers: TfrmOptionsArchivers
               AnchorSideTop.Side = asrBottom
               AnchorSideRight.Control = ScrollBox
               AnchorSideRight.Side = asrBottom
-              Left = 0
+              Left = 5
               Height = 84
-              Top = 145
-              Width = 748
+              Top = 155
+              Width = 738
               Anchors = [akTop, akLeft, akRight]
               AutoEdit = False
               BorderSpacing.Top = 5
@@ -1882,7 +1883,7 @@ inherited frmOptionsArchivers: TfrmOptionsArchivers
           AnchorSideRight.Control = lblArchiverAskHistory
           AnchorSideRight.Side = asrBottom
           Left = 10
-          Height = 50
+          Height = 70
           Top = 304
           Width = 763
           Anchors = [akTop, akLeft, akRight]
@@ -1898,7 +1899,7 @@ inherited frmOptionsArchivers: TfrmOptionsArchivers
           AnchorSideRight.Side = asrBottom
           Left = 10
           Height = 16
-          Top = 364
+          Top = 384
           Width = 763
           Caption = 'Options:'
           Anchors = [akTop, akLeft, akRight]
@@ -1912,7 +1913,7 @@ inherited frmOptionsArchivers: TfrmOptionsArchivers
           AnchorSideTop.Side = asrBottom
           Left = 10
           Height = 23
-          Top = 385
+          Top = 405
           Width = 148
           BorderSpacing.Top = 5
           Caption = 'S&how console output'
@@ -1926,7 +1927,7 @@ inherited frmOptionsArchivers: TfrmOptionsArchivers
           AnchorSideRight.Side = asrBottom
           Left = 168
           Height = 23
-          Top = 385
+          Top = 405
           Width = 100
           BorderSpacing.Left = 10
           Caption = 'De&bug mode'
