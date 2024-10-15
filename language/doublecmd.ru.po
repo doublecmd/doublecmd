@@ -11163,7 +11163,7 @@ msgstr "Горизонтальное разделение"
 
 #: ulng.rsmfstbiprivilegetips
 msgid "As a file manager, Double Command requires full disk access permissions. Clicking this button will pop up the macOS system settings page. Please add \"Double Commander.app\" to the \"Full Disk Access\" list to complete the authorization."
-msgstr "Как файловый менеджер, Double Commande требует разрешения на полный доступ к диску. Нажатие этой кнопки откроет страницу системных настроек macOS. Пожалуйста, добавьте \"Double Commande.app\" в список \"Полный доступ к диску\", чтобы завершить авторизацию."
+msgstr "Как файловый менеджер, Double Commander требует разрешения на полный доступ к диску. Нажатие этой кнопки откроет страницу системных настроек macOS. Пожалуйста, добавьте \"Double Commande.app\" в список \"Полный доступ к диску\", чтобы завершить авторизацию."
 
 #: ulng.rsmfstbiprivilegetitle
 msgid "Privilege"
