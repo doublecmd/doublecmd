@@ -10798,6 +10798,20 @@ msgstr "配置自定义列"
 msgid "Enter new custom columns name"
 msgstr "输入新的自定义列名称"
 
+#: ulng.rsmenumacosaddfindertag
+#, object-pascal-format
+msgid "Add \"%s\""
+msgstr "添加“%s”"
+
+#: ulng.rsmenumacoseditfindertags
+msgid "Edit Finder Tags..."
+msgstr "编辑访达标签..."
+
+#: ulng.rsmenumacosremovefindertag
+#, object-pascal-format
+msgid "Remove \"%s\""
+msgstr "移除“%s”"
+
 #: ulng.rsmenumacosshare
 msgid "Share..."
 msgstr "共享..."
@@ -10840,6 +10854,15 @@ msgstr "比较内容..."
 msgctxt "ulng.rsmfstbicomparetitle"
 msgid "Compare"
 msgstr "比较"
+
+#: ulng.rsmfstbieditfindertagtips
+msgctxt "ulng.rsmfstbieditfindertagtips"
+msgid "Edit Finder Tags..."
+msgstr "编辑访达标签..."
+
+#: ulng.rsmfstbieditfindertagtitle
+msgid "EditTag"
+msgstr "编辑标签"
 
 #: ulng.rsmfstbiedittips
 msgid "Edit..."

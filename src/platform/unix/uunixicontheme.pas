@@ -221,15 +221,15 @@ begin
       Result:= GetMateIconTheme;
     DE_CINNAMON:
       Result:= GetCinnamonIconTheme;
-    else
-{$IF DEFINED(LCLQT5) OR DEFINED(LCLQT6)}
-      Result:= GetQtIconTheme;
-{$ELSE}
-      Result:= DEFAULT_THEME_NAME;
-{$ENDIF}
   end;
   if Result = EmptyStr then
+  begin
+{$IF DEFINED(LCLQT5) OR DEFINED(LCLQT6)}
+    Result:= GetQtIconTheme;
+    if Result = EmptyStr then
+{$ENDIF}
     Result:= DEFAULT_THEME_NAME;
+  end;
 end;
 
 var

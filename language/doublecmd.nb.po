@@ -11325,6 +11325,21 @@ msgstr "Innstillinger for kolonner"
 msgid "Enter new custom columns name"
 msgstr "Tast inn nytt brukervalgt kolonnenavn"
 
+#: ulng.rsmenumacosaddfindertag
+#, object-pascal-format
+msgid "Add \"%s\""
+msgstr ""
+
+#: ulng.rsmenumacoseditfindertags
+msgctxt "ulng.rsmenumacoseditfindertags"
+msgid "Edit Finder Tags..."
+msgstr ""
+
+#: ulng.rsmenumacosremovefindertag
+#, object-pascal-format
+msgid "Remove \"%s\""
+msgstr ""
+
 #: ulng.rsmenumacosshare
 msgid "Share..."
 msgstr ""
@@ -11370,6 +11385,15 @@ msgstr ""
 msgctxt "ulng.rsmfstbicomparetitle"
 msgid "Compare"
 msgstr "&Sammenlikn"
+
+#: ulng.rsmfstbieditfindertagtips
+msgctxt "ulng.rsmfstbieditfindertagtips"
+msgid "Edit Finder Tags..."
+msgstr ""
+
+#: ulng.rsmfstbieditfindertagtitle
+msgid "EditTag"
+msgstr ""
 
 #: ulng.rsmfstbiedittips
 msgid "Edit..."

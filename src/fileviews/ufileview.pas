@@ -358,7 +358,6 @@ type
 
     function GetVariantFileProperties: TDynamicStringArray; virtual;
 
-    property Active: Boolean read FActive write SetActive;
     property FilePropertiesNeeded: TFilePropertiesTypes read FFilePropertiesNeeded write FFilePropertiesNeeded;
     property History: TFileViewHistory read FHistory;
     property LastActiveFile: String read FLastActiveFile write FLastActiveFile;
@@ -368,6 +367,7 @@ type
 
   public
     property  DisplayFiles: TDisplayFiles read FFiles;
+    property Active: Boolean read FActive write SetActive;
 
   public
     constructor Create(AOwner: TWinControl;

@@ -737,7 +737,7 @@ end;
 
 procedure ShowContextMenu(Parent: TWinControl; var Files : TFiles; X, Y : Integer;
                           Background: Boolean; CloseEvent: TNotifyEvent; UserWishForContextMenu:TUserWishForContextMenu = uwcmComplete);
-{$IFDEF MSWINDOWS}
+{$IF DEFINED(MSWINDOWS)}
 begin
   if Assigned(Files) and (Files.Count = 0) then
   begin
@@ -756,6 +756,28 @@ begin
     FreeAndNil(ShellContextMenu);
   end;
 end;
+{$ELSEIF DEFINED(DARWIN)}
+var
+  filepath: String;
+begin
+  if Files.Count = 0 then
+  begin
+    FreeAndNil(Files);
+    Exit;
+  end;
+
+  filepath:= Files[0].FullPath;
+  try
+    // Create new context menu
+    ShellContextMenu:= TShellContextMenu.Create(nil, Files, Background, UserWishForContextMenu);
+    ShellContextMenu.OnClose := CloseEvent;
+    // Show context menu
+    MacosServiceMenuHelper.PopUp( ShellContextMenu, rsMacOSMenuServices, filepath );
+  finally
+    // Free created menu
+    FreeAndNil(ShellContextMenu);
+  end;
+end;
 {$ELSE}
 begin
   if Files.Count = 0 then
@@ -769,12 +791,7 @@ begin
   // Create new context menu
   ShellContextMenu:= TShellContextMenu.Create(nil, Files, Background, UserWishForContextMenu);
   ShellContextMenu.OnClose := CloseEvent;
-  // Show context menu
-  {$IF DEFINED(DARWIN)}
-  MacosServiceMenuHelper.PopUp( ShellContextMenu, rsMacOSMenuServices );
-  {$ELSE}
   ShellContextMenu.PopUp(X, Y);
-  {$ENDIF}
 end;
 {$ENDIF}
 

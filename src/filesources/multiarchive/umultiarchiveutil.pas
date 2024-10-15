@@ -91,6 +91,9 @@ begin
 end;
 
 procedure TOutputParser.OnReadLn(str: string);
+var
+  I: Integer;
+  IgnoreString: Boolean = False;
 begin
   str:= FConvertEncoding(str);
 
@@ -110,7 +113,15 @@ begin
 
   if FStartParsing then
   begin
-    FParser.AddLine(Str);
+    for I := 0 to FMultiArcItem.FIgnoreString.Count - 1 do
+    begin
+    if CheckOut(FMultiArcItem.FIgnoreString[I], Str) then
+       begin
+         IgnoreString := True;
+         break;
+       end;
+    end;
+    if not IgnoreString then FParser.AddLine(Str);
   end
   else
   begin
@@ -122,6 +133,9 @@ procedure TOutputParser.OnQueryString(str: string);
 var
   pcPassword: PAnsiChar;
 begin
+  if FMultiArcItem.FDebug then
+    DCDebug(str);
+
   if not ShowInputQuery(FMultiArcItem.FDescription, rsMsgPasswordEnter, True, FPassword) then
     FExProcess.Stop
   else begin

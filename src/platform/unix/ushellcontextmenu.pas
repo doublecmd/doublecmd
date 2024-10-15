@@ -78,7 +78,7 @@ uses
   uOSUtils, uFileProcs, uShellExecute, uLng, uPixMapManager, uMyUnix, uOSForms,
   fMain, fFileProperties, DCOSUtils, DCStrUtils, uExts, uArchiveFileSourceUtil, uSysFolders
   {$IF DEFINED(DARWIN)}
-  , LCLStrConsts, MacOSAll, CocoaAll, uMyDarwin
+  , LCLStrConsts, MacOSAll, CocoaAll, uMyDarwin, uDarwinFinder
   {$ELSEIF NOT DEFINED(HAIKU)}
   , uKeyFile, uMimeActions
     {$IF DEFINED(LINUX)}
@@ -643,7 +643,11 @@ begin
 
   addDelimiterMenuItem( self );
   mi:=TMenuItem.Create(Self);
-  mi.Caption:= 'Edit Finder Tags...';
+  mi.Caption:= FINDER_FAVORITE_TAGS_MENU_ITEM_CAPTION;
+  Self.Items.Add(mi);
+
+  mi:=TMenuItem.Create(Self);
+  mi.Caption:= rsMenuMacOSEditFinderTags;
   mi.OnClick:= self.EditFinderTagsAction;
   Self.Items.Add(mi);
 end;

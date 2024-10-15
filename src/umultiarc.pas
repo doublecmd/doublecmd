@@ -133,6 +133,7 @@ type
     FPasswordQuery: String;
     FFormMode: Integer;
     FFlags: TMultiArcFlags;
+    FIgnoreString: TStringList;
     FAskHistory: TStringList;
   public
     FEnabled: Boolean;
@@ -337,6 +338,14 @@ begin
         // optional
         for J:= 0 to 50 do
         begin
+          Format:= IniFile.ReadString(Section, 'IgnoreString' + IntToStr(J), EmptyStr);
+          if Format <> EmptyStr then
+            FIgnoreString.Add(Format)
+          else
+            Break;
+        end;
+        for J:= 0 to 50 do
+        begin
           CustomParams:= IniFile.ReadString(Section, 'AskHistory' + IntToStr(J), EmptyStr);
           if CustomParams <> EmptyStr then
             FAskHistory.Add(CustomParams)
@@ -401,6 +410,8 @@ begin
         IniFile.WriteString(Section, 'AddSelfExtract', FAddSelfExtract);
         IniFile.WriteString(Section, 'PasswordQuery', FPasswordQuery);
         // optional
+        for J:= 0 to FIgnoreString.Count - 1 do
+          IniFile.WriteString(Section, 'IgnoreString' + IntToStr(J), FIgnoreString[J]);
         for J:= 0 to FAskHistory.Count - 1 do
         begin
           IniFile.WriteString(Section, 'AskHistory' + IntToStr(J), FAskHistory[J]);
@@ -471,6 +482,8 @@ begin
     UpdateSignature(Self.Items[Index].FEnd);
     for iInnerIndex := 0 to pred(Self.Items[Index].FFormat.Count) do
       UpdateSignature(Self.Items[Index].FFormat.Strings[iInnerIndex]);
+    for iInnerIndex := 0 to pred(Self.Items[Index].FIgnoreString.Count) do
+      UpdateSignature(Self.Items[Index].FIgnoreString.Strings[iInnerIndex]);
     UpdateSignature(Self.Items[Index].FExtract);
     UpdateSignature(Self.Items[Index].FAdd);
     UpdateSignature(Self.Items[Index].FDelete);
@@ -586,6 +599,7 @@ begin
   FSignatureList:= TSignatureList.Create;
   FSignaturePositionList:= TSignaturePositionList.Create;
   FFormat:= TStringList.Create;
+  FIgnoreString:= TStringList.Create;
   FAskHistory:= TStringList.Create;
 end;
 
@@ -594,6 +608,7 @@ begin
   FreeAndNil(FMaskList);
   FreeAndNil(FSignatureList);
   FreeAndNil(FSignaturePositionList);
+  FreeAndNil(FIgnoreString);
   FreeAndNil(FFormat);
   FreeAndNil(FAskHistory);
   inherited Destroy;
@@ -707,6 +722,7 @@ begin
   Result.FEnabled := Self.FEnabled;
   Result.FOutput := Self.FOutput;
   Result.FDebug := Self.FDebug;
+  Result.FIgnoreString.Assign(Self.FIgnoreString);
   Result.FAskHistory.Assign(Self.FAskHistory);
 end;
 

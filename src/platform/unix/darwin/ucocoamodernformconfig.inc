@@ -249,7 +249,7 @@ var
   function createTagMenuItem: TMenuItem;
   begin
     Result:= TMenuItem.Create( menu );
-    Result.Caption:= 'Edit Finder Tag...';
+    Result.Caption:= rsMenuMacOSEditFinderTags;
     Result.OnClick:= @toolBarMenuHandler.showEditTagPanel;
   end;
 
@@ -432,8 +432,8 @@ const
     priority: NSToolbarItemVisibilityPriorityStandard;
     navigational: False;
     iconName: 'tag';
-    title: 'EditTag';
-    tips: 'Edit Tag...';
+    title: rsMFSTBIEditFinderTagTitle;
+    tips: rsMFSTBIEditFinderTagTips;
     bordered: True;
     onAction: @editTagAction;
   );
