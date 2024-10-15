@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 1.1.0 alpha\n"
-"POT-Creation-Date: 2023-12-31 21:15+0300\n"
-"PO-Revision-Date: 2024-01-05 00:03+0300\n"
+"POT-Creation-Date: 2024-10-11 21:15+0300\n"
+"PO-Revision-Date: 2024-10-14 00:03+0300\n"
 "Last-Translator: Alexander Koblov <alexx2000@mail.ru>\n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -3999,7 +3999,7 @@ msgstr "Использовать имя архива без расширения
 
 #: tfrmoptionsarchivers.chkhide.caption
 msgid "Show as normal files"
-msgstr ""
+msgstr "Показывать как нормальные файлы"
 
 #: tfrmoptionsarchivers.ckbarchiverunixfileattributes.caption
 msgid "Uni&x file attributes"
@@ -10302,27 +10302,27 @@ msgstr "Тб"
 
 #: ulng.rsdefaultsuffixdroppedtext
 msgid "_DroppedText"
-msgstr ""
+msgstr "_DroppedText"
 
 #: ulng.rsdefaultsuffixdroppedtexthtmlfilename
 msgid "_DroppedHTMLtext"
-msgstr ""
+msgstr "_DroppedText"
 
 #: ulng.rsdefaultsuffixdroppedtextrichtextfilename
 msgid "_DroppedRichtext"
-msgstr ""
+msgstr "_DroppedText"
 
 #: ulng.rsdefaultsuffixdroppedtextsimplefilename
 msgid "_DroppedSimpleText"
-msgstr ""
+msgstr "_DroppedText"
 
 #: ulng.rsdefaultsuffixdroppedtextunicodeutf16filename
 msgid "_DroppedUnicodeUTF16text"
-msgstr "_DroppedUTF16text"
+msgstr "_DroppedTextUTF16"
 
 #: ulng.rsdefaultsuffixdroppedtextunicodeutf8filename
 msgid "_DroppedUnicodeUTF8text"
-msgstr "_DroppedUTF8text"
+msgstr "_DroppedTextUTF8"
 
 #: ulng.rsdiffadds
 msgid " Adds: "
@@ -11005,7 +11005,7 @@ msgstr "По имени команды;По горячим клавишам (г�
 
 #: ulng.rsimporttoolbarproblem
 msgid "Cannot find reference to default bar file"
-msgstr "Не удалось найти ссылку на файл панели инструментов по умолчанию"
+msgstr "Не удалось найти файл панели инструментов по умолчанию"
 
 #: ulng.rslegacydisplaysizesinglelettergiga
 msgid "G"
@@ -11063,17 +11063,17 @@ msgstr "Введите имя нового набора колонок"
 #: ulng.rsmenumacosaddfindertag
 #, object-pascal-format
 msgid "Add \"%s\""
-msgstr ""
+msgstr "Добавить \"%s\""
 
 #: ulng.rsmenumacoseditfindertags
 msgctxt "ulng.rsmenumacoseditfindertags"
 msgid "Edit Finder Tags..."
-msgstr ""
+msgstr "Изменить теги Finder..."
 
 #: ulng.rsmenumacosremovefindertag
 #, object-pascal-format
 msgid "Remove \"%s\""
-msgstr ""
+msgstr "Удалить \"%s\""
 
 #: ulng.rsmenumacosshare
 msgid "Share..."
@@ -11090,33 +11090,29 @@ msgid "AirDrop"
 msgstr ""
 
 #: ulng.rsmfstbicommandmenudirectoryhotlist
-#, fuzzy
 msgctxt "ulng.rsmfstbicommandmenudirectoryhotlist"
 msgid "Directory Hotlist"
 msgstr "Избранные каталоги"
 
 #: ulng.rsmfstbicommandmenufavoritetabs
-#, fuzzy
 msgctxt "ulng.rsmfstbicommandmenufavoritetabs"
 msgid "Favorite Tabs"
 msgstr "Избранные вкладки"
 
 #: ulng.rsmfstbicommandmenuquicklook
 msgid "macOS QuickLook"
-msgstr ""
+msgstr "Быстрый просмотр macOS"
 
 #: ulng.rsmfstbicommandtitle
-#, fuzzy
 msgctxt "ulng.rsmfstbicommandtitle"
 msgid "Command"
 msgstr "Команда"
 
 #: ulng.rsmfstbicomparetips
 msgid "Compare by Contents..."
-msgstr ""
+msgstr "Сравнить по содержимому..."
 
 #: ulng.rsmfstbicomparetitle
-#, fuzzy
 msgctxt "ulng.rsmfstbicomparetitle"
 msgid "Compare"
 msgstr "Сравнить"
@@ -11124,25 +11120,24 @@ msgstr "Сравнить"
 #: ulng.rsmfstbieditfindertagtips
 msgctxt "ulng.rsmfstbieditfindertagtips"
 msgid "Edit Finder Tags..."
-msgstr ""
+msgstr "Изменить теги Finder..."
 
 #: ulng.rsmfstbieditfindertagtitle
 msgid "EditTag"
-msgstr ""
+msgstr "Изменить тег"
 
 #: ulng.rsmfstbiedittips
 msgid "Edit..."
-msgstr ""
+msgstr "Правка..."
 
 #: ulng.rsmfstbiedittitle
-#, fuzzy
 msgctxt "ulng.rsmfstbiedittitle"
 msgid "Edit"
 msgstr "Правка"
 
 #: ulng.rsmfstbifinderrevealtips
 msgid "Reveal in Finder"
-msgstr ""
+msgstr "Открыть в Finder"
 
 #: ulng.rsmfstbifinderrevealtitle
 msgid "Finder"
@@ -11151,120 +11146,118 @@ msgstr ""
 #: ulng.rsmfstbigotips
 msgctxt "ulng.rsmfstbigotips"
 msgid "Go"
-msgstr ""
+msgstr "Перейти в"
 
 #: ulng.rsmfstbigotitle
 msgctxt "ulng.rsmfstbigotitle"
 msgid "Go"
-msgstr ""
+msgstr "Перейти в"
 
 #: ulng.rsmfstbihorzsplittips
 msgid "Toggle Horizontal Split Mode"
-msgstr ""
+msgstr "Переключить режим расположения панелей (вертикально/горизонтально)"
 
 #: ulng.rsmfstbihorzsplittitle
 msgid "HorzSplit"
-msgstr ""
+msgstr "Горизонтальное разделение"
 
 #: ulng.rsmfstbiprivilegetips
 msgid "As a file manager, Double Command requires full disk access permissions. Clicking this button will pop up the macOS system settings page. Please add \"Double Commander.app\" to the \"Full Disk Access\" list to complete the authorization."
-msgstr ""
+msgstr "Как файловый менеджер, Double Commander требует разрешения на полный доступ к диску. Нажатие этой кнопки откроет страницу системных настроек macOS. Пожалуйста, добавьте \"Double Commande.app\" в список \"Полный доступ к диску\", чтобы завершить авторизацию."
 
 #: ulng.rsmfstbiprivilegetitle
 msgid "Privilege"
-msgstr ""
+msgstr "Привилегия"
 
 #: ulng.rsmfstbiquicklooktips
 msgid "macOS Quick Look Panel"
-msgstr ""
+msgstr "Панель быстрого просмотра macOS"
 
 #: ulng.rsmfstbiquicklooktitle
 msgid "QuickLook"
-msgstr ""
+msgstr "Быстрый просмотр"
 
 #: ulng.rsmfstbirefreshtips
 msgid "Refresh File List"
-msgstr ""
+msgstr "Обновить список файлов"
 
 #: ulng.rsmfstbirefreshtitle
 msgid "Refresh"
-msgstr ""
+msgstr "Обновить"
 
 #: ulng.rsmfstbisearchtips
 msgid "Search Files..."
-msgstr ""
+msgstr "Поиск файлов..."
 
 #: ulng.rsmfstbisearchtitle
-#, fuzzy
 msgctxt "ulng.rsmfstbisearchtitle"
 msgid "Search"
-msgstr "Найти..."
+msgstr "Поиск"
 
 #: ulng.rsmfstbisharetitle
 msgid "Share"
-msgstr ""
+msgstr "Поделиться"
 
 #: ulng.rsmfstbishowbrieftitle
 msgid "as Brief"
-msgstr ""
+msgstr "Краткий"
 
 #: ulng.rsmfstbishowfulltitle
 msgid "as Full"
-msgstr ""
+msgstr "Подробный"
 
 #: ulng.rsmfstbishowinfotips
 msgid "Show Info in Finder"
-msgstr ""
+msgstr "Показать информацию о файле в Finder"
 
 #: ulng.rsmfstbishowinfotitle
 msgid "ShowInfo"
-msgstr ""
+msgstr "Показать информацию"
 
 #: ulng.rsmfstbishowmodetips
 msgid "Show as Brief, Full or Thumbnails"
-msgstr ""
+msgstr "Показать в кратком виде, в подробном виде или в виде эскизов"
 
 #: ulng.rsmfstbishowmodetitle
 msgid "ShowMode"
-msgstr ""
+msgstr "Режим отображения"
 
 #: ulng.rsmfstbishowthumbnailstitle
 msgid "as Thumbnails"
-msgstr ""
+msgstr "Эскизы"
 
 #: ulng.rsmfstbiswappanelstips
 msgid "Swap Panels"
-msgstr ""
+msgstr "Поменять файловые панели местами"
 
 #: ulng.rsmfstbiswappanelstitle
 msgid "SwapPanels"
-msgstr ""
+msgstr "Поменять панели местами"
 
 #: ulng.rsmfstbisynctips
 msgid "Synchronize Dirs..."
-msgstr ""
+msgstr "Синхронизировать каталоги..."
 
 #: ulng.rsmfstbisynctitle
 msgid "Sync"
-msgstr ""
+msgstr "Синхронизация"
 
 #: ulng.rsmfstbiterminaltips
 msgid "Open in Terminal"
-msgstr ""
+msgstr "Открыть в терминале"
 
 #: ulng.rsmfstbiterminaltitle
-#, fuzzy
 msgctxt "ulng.rsmfstbiterminaltitle"
 msgid "Terminal"
 msgstr "Терминал"
 
 #: ulng.rsmfstbitreeviewtips
 msgid "Show Tree View Panel"
-msgstr ""
+msgstr "Показать панель с деревом каталогов"
 
 #: ulng.rsmfstbitreeviewtitle
 msgid "TreeView"
-msgstr ""
+msgstr "Дерево каталогов"
 
 #: ulng.rsmnuactions
 msgctxt "ulng.rsmnuactions"
