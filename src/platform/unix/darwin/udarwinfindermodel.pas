@@ -9,7 +9,7 @@ uses
   Classes, SysUtils, LCLType,
   sqldb, SQLite3Conn,
   uDebug,
-  CocoaAll, CocoaConst, Cocoa_Extra;
+  MacOSAll, CocoaAll, CocoaConst, Cocoa_Extra;
 
 type
 
@@ -19,14 +19,17 @@ type
   private
     _name: NSString;
     _colorIndex: NSInteger;
+    _isShowingInSidebar: Boolean;
     _isUserDefined: Boolean;
   public
     class function tagWithParams( const name: NSString; const colorIndex: Integer;
-      const isUserDefined: Boolean ): TFinderTag; message 'tagWithParams:name:colorIndex:';
+      const isShowingInSidebar: Boolean; const isUserDefined: Boolean ): TFinderTag;
+      message 'tagWithParams:name:colorIndex:isShowingInSidebar:';
     procedure dealloc; override;
 
     function name: NSString; message 'tag_name';
     function colorIndex: NSInteger; message 'tag_colorIndex';
+    function isShowingInSidebar: Boolean; message 'tag_isShowingInSidebar';
     function isUserDefined: Boolean; message 'tag_isUserDefined';
     function color: NSColor; message 'tag_color';
   end;
@@ -60,8 +63,10 @@ type
     class function getTagsData_macOS11: NSDictionary;
     class function doGetAllTags( const tagDictionary: NSDictionary ): NSDictionary;
     class function getTagsDataFromDatabase: TBytes;
-    class function getFavoriteTagNames: NSArray;
     class procedure initFinderTagNSColors;
+  public
+    class function getFavoriteTagNames: NSArray;
+    class function getSidebarTagNames: NSArray;
   public
     class function getTagNamesOfFile( const url: NSURL ): NSArray;
     class procedure setTagNamesOfFile( const url: NSURL; const tagNames: NSArray );
@@ -83,12 +88,13 @@ const
 { TFinderTag }
 
 class function TFinderTag.tagWithParams( const name: NSString; const colorIndex: Integer;
-  const isUserDefined: Boolean): TFinderTag;
+  const isShowingInSidebar: Boolean; const isUserDefined: Boolean ): TFinderTag;
 begin
   Result:= TFinderTag.new;
   Result._name:= name.retain;
   if (colorIndex>=0) and (colorIndex<length(uDarwinFinderModelUtil.rectFinderTagNSColors)) then
     Result._colorIndex:= colorIndex;
+  Result._isShowingInSidebar:= isShowingInSidebar;
   Result._isUserDefined:= isUserDefined;
   Result.autorelease;
 end;
@@ -107,6 +113,11 @@ end;
 function TFinderTag.colorIndex: NSInteger;
 begin
   Result:= _colorIndex;
+end;
+
+function TFinderTag.isShowingInSidebar: Boolean;
+begin
+  Result:= _isShowingInSidebar;
 end;
 
 function TFinderTag.isUserDefined: Boolean;
@@ -156,7 +167,6 @@ class function uDarwinFinderModelUtil.getTagNamesOfFile(const url: NSURL
 var
   ret: Boolean;
   tagNames: NSArray;
-  tagColor: NSColor;
 begin
   Result:= nil;
   ret:= url.getResourceValue_forKey_error( @tagNames, NSURLTagNamesKey, nil );
@@ -234,6 +244,20 @@ begin
     Exit;
 
   Result:= plistProperties.valueForKeyPath( NSSTR('FavoriteTagNames') );
+end;
+
+class function uDarwinFinderModelUtil.getSidebarTagNames: NSArray;
+var
+  tagNames: NSMutableArray;
+  tag: TFinderTag;
+begin
+  TFinderTags.update;
+  tagNames:= NSMutableArray.arrayWithCapacity( 16 );
+  for tag in TFinderTags.tags.allValues do begin
+    if tag.isShowingInSidebar then
+      tagNames.addObject( tag.name );
+  end;
+  Result:= tagNames;
 end;
 
 class function uDarwinFinderModelUtil.getFavoriteTags: NSArray;
@@ -339,7 +363,9 @@ var
   plistTagItem: NSDictionary;
   plistTagName: NSString;
   plistTagColorNumber: NSNumber;
+  plistShowingInSidebar: NSNumber;
   plistTagUserDefined: NSNumber;
+  showingInSidebar: Boolean;
 
   allFinderTagDict: NSMutableDictionary;
   tag: TFinderTag;
@@ -356,11 +382,19 @@ begin
   for plistTagItem in plistTagArray do begin
     plistTagName:= plistTagItem.valueForKey( NSSTR('n') );
     plistTagColorNumber:= plistTagItem.valueForKey( NSSTR('l') );
+    plistShowingInSidebar:= plistTagItem.valueForKey( NSSTR('v') );
     plistTagUserDefined:= plistTagItem.valueForKey( NSSTR('p') );
+
+    showingInSidebar:= True;
+    if plistShowingInSidebar <> nil then
+      showingInSidebar:= plistShowingInSidebar.boolValue;
+
     tag:= TFinderTag.tagWithParams(
       plistTagName,
       plistTagColorNumber.integerValue,
+      showingInSidebar,
       plistTagUserDefined.boolValue );
+
     allFinderTagDict.setValue_forKey( tag, plistTagName );
   end;
 
