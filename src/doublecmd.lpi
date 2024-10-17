@@ -2010,6 +2010,11 @@ end;"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uDarwinFinderModel"/>
       </Unit275>
+      <Unit276>
+        <Filename Value="platform\unix\darwin\usearchresultutil.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uSearchResultUtil"/>
+      </Unit276>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

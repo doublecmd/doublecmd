@@ -49,6 +49,8 @@ type
 
   TFinderTagNSColors = Array of NSColor;
 
+  TMacOSSearchResultHandler = procedure ( const files: TStringArray ) of object;
+
   { uDarwinFinderModelUtil }
 
   uDarwinFinderModelUtil = class
@@ -72,6 +74,7 @@ type
     class procedure setTagNamesOfFile( const url: NSURL; const tagNames: NSArray );
     class procedure addTagForFile( const url: NSURL; const tagName: NSString );
     class procedure removeTagForFile( const url: NSURL; const tagName: NSString );
+    class procedure searchFilesForTagName( const tagName: NSString; const handler: TMacOSSearchResultHandler );
   public
     class property rectFinderTagNSColors: TFinderTagNSColors read _rectFinderTagNSColors;
     class property dotFinderTagNSColors: TFinderTagNSColors read _dotFinderTagNSColors;
@@ -160,6 +163,44 @@ begin
   Result:= _tags.objectForKey( tagName );
 end;
 
+{ TMacOSQueryHandler }
+
+type
+  TMacOSQueryHandler = objcclass( NSObject )
+  private
+    _query: NSMetadataQuery;
+    _handler: TMacOSSearchResultHandler;
+    procedure initalGatherComplete( sender: id ); message 'initalGatherComplete:';
+  end;
+
+procedure TMacOSQueryHandler.initalGatherComplete(sender: id);
+var
+  item: NSMetadataItem;
+  path: NSString;
+  files: TStringArray;
+  i: Integer;
+  count: Integer;
+begin
+  _query.stopQuery;
+  NSNotificationCenter.defaultCenter.removeObserver_name_object(
+    self,
+    NSMetadataQueryDidFinishGatheringNotification,
+    _query );
+
+  files:= nil;
+  count:= _query.resultCount;
+  if count > 0 then begin
+    SetLength( files, count );
+    for i:=0 to count-1 do begin
+      item:= NSMetadataItem( _query.results.objectAtIndex(i) );
+      path:= item.valueForAttribute( NSString(kMDItemPath) );
+      files[i]:= path.UTF8String;
+    end;
+  end;
+
+  _handler( files );
+end;
+
 { uDarwinFinderModelUtil }
 
 class function uDarwinFinderModelUtil.getTagNamesOfFile(const url: NSURL
@@ -202,6 +243,30 @@ begin
   newTagNames:= NSMutableArray.arrayWithArray( tagNames );
   newTagNames.removeObject( tagName );
   uDarwinFinderModelUtil.setTagNamesOfFile( url, newTagNames );
+end;
+
+class procedure uDarwinFinderModelUtil.searchFilesForTagName(
+  const tagName: NSString; const handler: TMacOSSearchResultHandler);
+var
+  queryHandler: TMacOSQueryHandler;
+  query: NSMetadataQuery;
+  predicate: NSPredicate;
+  format: NSString;
+begin
+  query:= NSMetadataQuery.new;
+  queryHandler:= TMacOSQueryHandler.new;
+  queryHandler._query:= query;
+  queryHandler._handler:= handler;
+  NSNotificationCenter.defaultCenter.addObserver_selector_name_object(
+    QueryHandler,
+    objcselector('initalGatherComplete:'),
+    NSMetadataQueryDidFinishGatheringNotification,
+    query );
+
+  format:= NSString.stringWithFormat( NSSTR('kMDItemUserTags == ''%@'''), tagName );
+  predicate:= NSPredicate.predicateWithFormat( format );
+  query.setPredicate( predicate );
+  query.startQuery;
 end;
 
 class function uDarwinFinderModelUtil.getAllTags: NSDictionary;
