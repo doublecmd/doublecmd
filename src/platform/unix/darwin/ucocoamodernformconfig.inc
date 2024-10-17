@@ -8,7 +8,7 @@ interface
 uses
   Classes, SysUtils,
   LCLType, Forms, Menus,
-  fMain, uMyDarwin, uDCUtils, uLng,
+  fMain, uMyDarwin, uDarwinFinderModel, uSearchResultUtil, uDCUtils, uLng,
   uFileView, uBriefFileView, uColumnsFileView, uThumbFileView,
   CocoaAll, CocoaConfig, CocoaToolBar, Cocoa_Extra;
 
@@ -134,6 +134,9 @@ type
     procedure showQuickLookPanel( Sender: TObject );
     procedure showEditTagPanel( Sender: TObject );
     procedure goToFolder( Sender: TObject );
+
+    procedure searchFinderTag( Sender: TObject );
+    procedure onSearchFinderTagComplete( const files: TStringArray );
   end;
 
 var
@@ -166,6 +169,20 @@ var
 begin
   path:= uDCUtils.ReplaceTilde( COMMON_FOLDERS[menuItem.Tag] );
   frmMain.Commands.cm_ChangeDir( [path] );
+end;
+
+procedure TToolBarMenuHandler.searchFinderTag( Sender: TObject );
+var
+  menuItem: TMenuItem absolute Sender;
+  tagName: NSString;
+begin
+  tagName:= StringToNSString( menuItem.Caption );
+  uDarwinFinderModelUtil.searchFilesForTagName( tagName, @self.onSearchFinderTagComplete );
+end;
+
+procedure TToolBarMenuHandler.onSearchFinderTagComplete(const files: TStringArray);
+begin
+  TSearchResultUtil.addResultPage( files );
 end;
 
 function getMacOSDisplayNameFromPath(const path: String): String;
@@ -213,15 +230,20 @@ begin
   Result:= menu;
 end;
 
+function copyMenuItem( owner: TComponent; source: TMenuItem ): TMenuItem;
+begin
+  Result:= TMenuItem.Create( owner );
+  Result.Caption:= source.Caption;
+  Result.Action:= source.Action;
+end;
+
 function onGetCommandMenu: TMenuItem;
 var
   menu: TMenuItem;
 
   function toItem( source: TMenuItem ): TMenuItem;
   begin
-    Result:= TMenuItem.Create( menu );
-    Result.Caption:= source.Caption;
-    Result.Action:= source.Action;
+    Result:= copyMenuItem( menu, source );
   end;
 
   function createShowHotlistMenuItem: TMenuItem;
@@ -286,6 +308,41 @@ begin
   menu.Add( toItem(frmMain.mnuCheckSumCalc) );
   menu.Add( toItem(frmMain.mnuCheckSumVerify) );
 
+  Result:= menu;
+end;
+
+function onGetSearchMenu: TMenuItem;
+var
+  menu: TMenuItem;
+
+  procedure createSidebarTagMenuItem;
+  var
+    tagNames: NSArray;
+    tagName: NSString;
+    menuItem: TMenuItem;
+  begin
+    tagNames:= uDarwinFinderModelUtil.getSidebarTagNames;
+    for tagName in tagNames do begin
+      menuItem:= TMenuItem.Create( menu );
+      menuItem.Caption:= tagName.UTF8String;
+      menuItem.OnClick:= @ToolBarMenuHandler.searchFinderTag;
+      menu.Add( menuItem );
+    end;
+  end;
+
+  procedure createSearchFileMenuItem;
+  var
+    menuItem: TMenuItem;
+  begin
+    menuItem:= copyMenuItem( menu, frmMain.mnuCmdSearch );
+    menu.Add( menuItem );
+  end;
+
+begin
+  menu:= TMenuItem.Create( frmMain );
+  createSidebarTagMenuItem;
+  menu.AddSeparator;
+  createSearchFileMenuItem;
   Result:= menu;
 end;
 
@@ -499,15 +556,17 @@ const
     onAction: @terminalAction;
   );
 
-  searchFilesItemConfig: TCocoaConfigToolBarItem = (
-    identifier: 'MainForm.SearchFiles';
-    priority: NSToolbarItemVisibilityPriorityStandard;
-    navigational: False;
+  searchItemConfig: TCocoaConfigToolBarItemMenu = (
+    identifier: 'MainForm.Search';
     iconName: 'magnifyingglass';
     title: rsMFSTBISearchTitle;
     tips: rsMFSTBISearchTips;
     bordered: True;
-    onAction: @searchFilesAction;
+    onAction: nil;
+
+    showsIndicator: False;
+    menu: nil;
+    onGetMenu: @onGetSearchMenu;
   );
 
   privilegeItemConfig: TCocoaConfigToolBarItem = (
@@ -605,7 +664,7 @@ const
         'NSToolbarFlexibleSpaceItem',
         'MainForm.Command',
         'NSToolbarFlexibleSpaceItem',
-        'MainForm.SearchFiles',
+        'MainForm.Search',
         'MainForm.Terminal',
         'MainForm.Privilege'
       );
@@ -624,7 +683,7 @@ const
         'MainForm.FinderInfo',
         'MainForm.Command',
 
-        'MainForm.SearchFiles',
+        'MainForm.Search',
         'MainForm.Terminal',
         'MainForm.Privilege',
 
@@ -660,7 +719,7 @@ begin
     TCocoaToolBarUtils.toClass(finderRevealItemConfig),
     TCocoaToolBarUtils.toClass(finderInfoItemConfig),
     TCocoaToolBarUtils.toClass(terminalItemConfig),
-    TCocoaToolBarUtils.toClass(searchFilesItemConfig),
+    TCocoaToolBarUtils.toClass(searchItemConfig),
     TCocoaToolBarUtils.toClass(privilegeItemConfig),
 
     TCocoaToolBarUtils.toClass(refreshItemConfig),
