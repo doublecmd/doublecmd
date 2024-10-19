@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Double Commander 1.1.0 alpha\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-11-15 11:15+0300\n"
-"PO-Revision-Date: 2024-01-02 22:43+0200\n"
+"PO-Revision-Date: 2024-10-18 21:05+0300\n"
 "Last-Translator: Anastasios Kazakis <anastasios.kazakis@tutanota.com>\n"
 "Language-Team: Anastasios Kazakis <anastasios.kazakis@tutanota.com>\n"
 "Language: el_GR\n"
@@ -12,7 +12,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Native-Language: ελληνικά\n"
-"X-Generator: Poedit 3.4.1\n"
+"X-Generator: Poedit 3.4.2\n"
 "X-Language: el_GR\n"
 "X-Source-Language: el\n"
 "X-Poedit-SourceCharset: ISO-8859-7\n"
@@ -2841,11 +2841,11 @@ msgstr "Εμφάνιση Κρυφών Αρχείων/Αρχείων Συστήμ
 
 #: tfrmmain.actshowtabslist.caption
 msgid "Show Tabs List"
-msgstr ""
+msgstr "Εμφάνιση Λίστας Καρτελών"
 
 #: tfrmmain.actshowtabslist.hint
 msgid "Show list of all open tabs"
-msgstr ""
+msgstr "Εμφάνιση λίστας όλων των ανοικτών καρτελών"
 
 #: tfrmmain.actsortbyattr.caption
 msgid "Sort by &Attributes"
