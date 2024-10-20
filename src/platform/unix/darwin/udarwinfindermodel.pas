@@ -338,6 +338,8 @@ begin
     if tagName.length = 0 then
       continue;
     tag:= TFinderTags.getTagOfName( tagName );
+    if tag = nil then
+      continue;
     tags.addObject( tag );
   end;
 
