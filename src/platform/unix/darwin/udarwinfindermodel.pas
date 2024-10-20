@@ -84,9 +84,10 @@ type
 implementation
 
 const
-  NEW_FINDER_TAGS_DATABASE_PATH  = '/Library/SyncedPreferences/com.apple.kvs/com.apple.KeyValueService-Production.sqlite';
-  OLD_FINDER_TAGS_FILE_PATH      = '/Library/SyncedPreferences/com.apple.finder.plist';
-  FAVORITE_FINDER_TAGS_FILE_PATH = '/Library/Preferences/com.apple.finder.plist';
+  FINDER_TAGS_DATABASE_PATH_14plus  = '/Library/Daemon Containers/F6F9E4C1-EF5D-4BF3-BEAD-0D777574F0A0/Data/com.apple.kvs/com.apple.KeyValueService-Production.sqlite';
+  FINDER_TAGS_DATABASE_PATH_12to13  = '/Library/SyncedPreferences/com.apple.kvs/com.apple.KeyValueService-Production.sqlite';
+  FINDER_TAGS_FILE_PATH_11minus     = '/Library/SyncedPreferences/com.apple.finder.plist';
+  FAVORITE_FINDER_TAGS_FILE_PATH    = '/Library/Preferences/com.apple.finder.plist';
 
 { TFinderTag }
 
@@ -376,7 +377,7 @@ var
   plistProperties: id;
 begin
   Result:= nil;
-  path:= NSHomeDirectory.stringByAppendingString( NSSTR(OLD_FINDER_TAGS_FILE_PATH) );
+  path:= NSHomeDirectory.stringByAppendingString( NSSTR(FINDER_TAGS_FILE_PATH_11minus) );
 
   plistData:= NSData.dataWithContentsOfFile( path );
   if plistData = nil then
@@ -402,7 +403,11 @@ begin
     connection:= TSQLite3Connection.Create( nil );
     transaction:= TSQLTransaction.Create( connection );
     connection.Transaction:= transaction;
-    databasePath:= NSHomeDirectory.UTF8String + NEW_FINDER_TAGS_DATABASE_PATH;
+    if NSAppKitVersionNumber >= NSAppKitVersionNumber14_0 then
+      databasePath:= FINDER_TAGS_DATABASE_PATH_14plus
+    else
+      databasePath:= FINDER_TAGS_DATABASE_PATH_12to13;
+    databasePath:= NSHomeDirectory.UTF8String + databasePath;
     connection.DatabaseName:= databasePath;
 
     query:= TSQLQuery.Create( nil );
