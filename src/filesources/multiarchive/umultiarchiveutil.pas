@@ -70,14 +70,23 @@ begin
   Result:= FMultiArcItem.FList;
   Index:= Pos('%O', Result);
   FConvertEncoding:= @DCOSUtils.ConsoleToUTF8;
-  if (Index > 0) and (Index + 2 <= Length(Result)) then
-  begin
-    case (Result[Index + 2]) of
-      'A': FConvertEncoding:= CeSysToUtf8;
-      'U': FConvertEncoding:= @Utf8ToUtf8;
+  if (Index > 0) then
+    if (Index + 2 <= Length(Result)) then
+    begin
+      // force encoding
+      case (Result[Index + 2]) of
+        'O': FConvertEncoding:= CeOemToUtf8;
+        'A': FConvertEncoding:= CeAnsiToUtf8;
+        'U': FConvertEncoding:= @Utf8ToUtf8;
+      end;
+      Delete(Result, Index, 3);
+    end
+    else if (Index + 1 <= Length(Result)) then
+    begin
+      // "skip oem->ansi encoding" behavior on win
+      FConvertEncoding:= CeSysToUtf8;
+      Delete(Result, Index, 2);
     end;
-    Delete(Result, Index, 3);
-  end;
 end;
 
 procedure TOutputParser.SetOnGetArchiveItem(AValue: TOnGetArchiveItem);
