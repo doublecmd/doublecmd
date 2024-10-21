@@ -112,10 +112,14 @@ begin
   with TfrmCheckSumCalc.Create(TheOwner) do
   try
     OnShow:= nil;
+    rbUnix.Visible:= False;
+    rbWindows.Visible:= False;
     edtSaveTo.Text:= EmptyStr;
     SessionProperties:= EmptyStr;
     Caption:= rsCheckSumVerifyTitle;
+    lblFileFormat.Visible:= False;
     cbSeparateFile.Visible:= False;
+    cbSeparateFolder.Visible:= False;
     cbOpenAfterJobIsComplete.Visible:= False;
     lbHashAlgorithm.OnSelectionChange:= nil;
     edtSaveTo.OnChange:= @edtSaveToChange;
