@@ -133,7 +133,7 @@ type
     memArchiverAskHistory: TMemo;
     pnlParser: TPanel;
     pnlParserHelpers: TPanel;
-    ScrollBox: TScrollBox;
+    pnlTester: TPanel;
     btnStaticFileName: TSpeedButton;
     btnStaticDay: TSpeedButton;
     btnStaticHour: TSpeedButton;
@@ -200,6 +200,7 @@ type
     procedure btnStaticHelperClick(Sender: TObject);
     procedure btnExtHelperClick(Sender: TObject);
     procedure ClearTestGrid;
+    procedure tbParserResize(Sender: TObject);
   private
     MultiArcListTemp: TMultiArcList;
     bCurrentlyFilling: boolean;
@@ -441,7 +442,7 @@ end;
 
 procedure TfrmOptionsArchivers.ckbParserTestChange(Sender: TObject);
 begin
-  ScrollBox.Visible:= ckbParserTest.Checked;
+  pnlTester.Visible:= ckbParserTest.Checked;
 end;
 
 procedure TfrmOptionsArchivers.OnParserAddLine(line: string);
@@ -477,6 +478,11 @@ begin
   if Count > 1 then
     for I:= Count - 1 downto 1 do
       gridArcItems.DeleteRow(I);
+end;
+
+procedure TfrmOptionsArchivers.tbParserResize(Sender: TObject);
+begin
+  pnlParser.Height:= tbParser.Height;
 end;
 
 procedure TfrmOptionsArchivers.OnGetArchiveItem(ArchiveItem: TArchiveItem);
@@ -532,6 +538,7 @@ begin
     FStart := edtArchiverListStart.Text;
     FEnd := edtArchiverListEnd.Text;
     FFormat.Assign(memArchiverListFormat.Lines);
+    FPasswordQuery:= edtArchiverPasswordQuery.Text;
     FFormMode := 0;
     if ckbArchiverUnixPath.Checked then  FFormMode := FFormMode or $01;
     if ckbArchiverWindowsPath.Checked then  FFormMode := FFormMode or $02;
