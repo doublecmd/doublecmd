@@ -333,6 +333,10 @@ msgstr "Az ellenőrzőösszeg-fájl megnyitása amikor kész"
 msgid "C&reate separate checksum file for each file"
 msgstr "&Külön MD5/SHA1 készítése fájlonként"
 
+#: tfrmchecksumcalc.cbseparatefolder.caption
+msgid "Create separate checksum file for each &directory"
+msgstr ""
+
 #: tfrmchecksumcalc.lblfileformat.caption
 msgid "File &format"
 msgstr "Fájl &formátum"

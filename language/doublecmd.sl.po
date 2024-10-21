@@ -340,6 +340,10 @@ msgstr "Po koncu izračunavanja odpri datoteko nadzorne vsote"
 msgid "C&reate separate checksum file for each file"
 msgstr "Za vsako datoteko &ustvari ločeno datoteko nadzorne vsote"
 
+#: tfrmchecksumcalc.cbseparatefolder.caption
+msgid "Create separate checksum file for each &directory"
+msgstr ""
+
 #: tfrmchecksumcalc.lblfileformat.caption
 msgid "File &format"
 msgstr ""

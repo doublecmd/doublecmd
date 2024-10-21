@@ -373,6 +373,10 @@ msgstr "Otvorite datoteku provjere nakon završetka zadatka"
 msgid "C&reate separate checksum file for each file"
 msgstr "&Učini posebnu datoteku zbirne provjere za svaku datoteku"
 
+#: tfrmchecksumcalc.cbseparatefolder.caption
+msgid "Create separate checksum file for each &directory"
+msgstr ""
+
 #: tfrmchecksumcalc.lblfileformat.caption
 msgid "File &format"
 msgstr ""

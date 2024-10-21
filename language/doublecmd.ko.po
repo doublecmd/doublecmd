@@ -333,6 +333,10 @@ msgstr "작업 완료 후 체크섬 파일 열기"
 msgid "C&reate separate checksum file for each file"
 msgstr "각 파일에 대해 별도의 체크섬 파일 생성(&R)"
 
+#: tfrmchecksumcalc.cbseparatefolder.caption
+msgid "Create separate checksum file for each &directory"
+msgstr ""
+
 #: tfrmchecksumcalc.lblfileformat.caption
 msgid "File &format"
 msgstr "파일 형식(&F)"
@@ -14243,3 +14247,4 @@ msgstr "교체가 이루어지지 않았습니다."
 #, object-pascal-format
 msgid "No setup named \"%s\""
 msgstr "\"%s\"라는 이름의 설정 없음"
+

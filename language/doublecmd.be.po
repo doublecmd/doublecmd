@@ -338,6 +338,10 @@ msgstr "Адкрыць файл кантрольнай сумы пасля за�
 msgid "C&reate separate checksum file for each file"
 msgstr "С&твараць асобны файл кантрольнай сумы для кожнага файла"
 
+#: tfrmchecksumcalc.cbseparatefolder.caption
+msgid "Create separate checksum file for each &directory"
+msgstr ""
+
 #: tfrmchecksumcalc.lblfileformat.caption
 msgid "File &format"
 msgstr ""

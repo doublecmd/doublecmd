@@ -343,6 +343,10 @@ msgstr "Abrir arq checksum após trabalho concluído."
 msgid "C&reate separate checksum file for each file"
 msgstr "C&riar arquivo checksum separado para cada arquivo."
 
+#: tfrmchecksumcalc.cbseparatefolder.caption
+msgid "Create separate checksum file for each &directory"
+msgstr ""
+
 #: tfrmchecksumcalc.lblfileformat.caption
 msgid "File &format"
 msgstr ""

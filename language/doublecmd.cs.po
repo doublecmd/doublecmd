@@ -335,6 +335,10 @@ msgstr "Otevřít soubor po vytvoření kontrolního součtu"
 msgid "C&reate separate checksum file for each file"
 msgstr "V&ytvořit samostatný kontrolní součet pro každý soubor"
 
+#: tfrmchecksumcalc.cbseparatefolder.caption
+msgid "Create separate checksum file for each &directory"
+msgstr ""
+
 #: tfrmchecksumcalc.lblfileformat.caption
 msgid "File &format"
 msgstr ""

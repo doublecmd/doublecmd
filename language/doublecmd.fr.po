@@ -384,6 +384,10 @@ msgstr "Ouvre le fichier de signature à la fin de la tâche"
 msgid "C&reate separate checksum file for each file"
 msgstr "Créer une signature séparée pour chaque fichier"
 
+#: tfrmchecksumcalc.cbseparatefolder.caption
+msgid "Create separate checksum file for each &directory"
+msgstr ""
+
 #: tfrmchecksumcalc.lblfileformat.caption
 msgid "File &format"
 msgstr "Format de fichier"

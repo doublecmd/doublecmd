@@ -339,6 +339,10 @@ msgstr "任務完成後打開校驗碼檔案"
 msgid "C&reate separate checksum file for each file"
 msgstr "為每個檔案建立單獨的驗證碼檔案 (&R)"
 
+#: tfrmchecksumcalc.cbseparatefolder.caption
+msgid "Create separate checksum file for each &directory"
+msgstr ""
+
 #: tfrmchecksumcalc.lblfileformat.caption
 msgid "File &format"
 msgstr ""

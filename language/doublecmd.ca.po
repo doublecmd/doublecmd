@@ -377,6 +377,10 @@ msgstr ""
 msgid "C&reate separate checksum file for each file"
 msgstr "Crea un fitxer por cada comprobació"
 
+#: tfrmchecksumcalc.cbseparatefolder.caption
+msgid "Create separate checksum file for each &directory"
+msgstr ""
+
 #: tfrmchecksumcalc.lblfileformat.caption
 msgid "File &format"
 msgstr ""

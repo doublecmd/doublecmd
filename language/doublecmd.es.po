@@ -334,6 +334,10 @@ msgstr "Abrir la suma de verificación tras completar el trabajo"
 msgid "C&reate separate checksum file for each file"
 msgstr "C&rear suma de verificación por cada archivo"
 
+#: tfrmchecksumcalc.cbseparatefolder.caption
+msgid "Create separate checksum file for each &directory"
+msgstr ""
+
 #: tfrmchecksumcalc.lblfileformat.caption
 msgid "File &format"
 msgstr ""

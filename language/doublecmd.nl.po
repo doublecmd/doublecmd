@@ -333,6 +333,10 @@ msgstr "Open checksum-bestand nadat de taak voltooid is"
 msgid "C&reate separate checksum file for each file"
 msgstr "Maak aparte checksum aan voor elk bestand"
 
+#: tfrmchecksumcalc.cbseparatefolder.caption
+msgid "Create separate checksum file for each &directory"
+msgstr ""
+
 #: tfrmchecksumcalc.lblfileformat.caption
 msgid "File &format"
 msgstr ""
