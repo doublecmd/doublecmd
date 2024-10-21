@@ -246,7 +246,7 @@ type
     ftVolumeSize, ftPassword, ftCustomParams);
   TStatePos = (spNone, spPercent, spFunction, spComplete);
   TFuncModifiers = set of (fmOnlyFiles, fmQuoteWithSpaces, fmQuoteAny, fmNameOnly,
-    fmPathOnly, fmUTF8, fmAnsi);
+    fmPathOnly, fmUTF8, fmAnsi, fmOEM, fmSysEnc);
 
   TState = record
     pos: TStatePos;
@@ -294,8 +294,12 @@ var
       else begin
         FileName := BuildName(aFiles[I].FullPath);
       end;
-      if (fmAnsi in state.FuncModifiers) then
+      if (fmSysEnc in state.FuncModifiers) then
         FileName := CeUtf8ToSys(FileName)
+      else if (fmAnsi in state.FuncModifiers) then
+        FileName := CeUtf8ToAnsi(FileName)
+      else if (fmOEM in state.FuncModifiers) then
+        FileName := CeUtf8ToOem(FileName)
       else if not (fmUTF8 in state.FuncModifiers) then begin
         FileName := UTF8ToConsole(FileName);
       end;
@@ -516,7 +520,17 @@ begin
             end;
             'A':
             begin
+              state.FuncModifiers := state.FuncModifiers + [fmSysEnc];
+              state.pos := spFunction;
+            end;
+            'a':
+            begin
               state.FuncModifiers := state.FuncModifiers + [fmAnsi];
+              state.pos := spFunction;
+            end;
+            'o':
+            begin
+              state.FuncModifiers := state.FuncModifiers + [fmOEM];
               state.pos := spFunction;
             end;
             '}':
