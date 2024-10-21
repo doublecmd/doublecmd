@@ -1374,6 +1374,7 @@ inherited frmOptionsArchivers: TfrmOptionsArchivers
     end
     object miArchiverDiscardModification: TMenuItem
       Caption = 'Discard modifications'
+      Enabled = False
       OnClick = miArchiverDiscardModificationClick
     end
     object miSeparator1: TMenuItem
