@@ -348,6 +348,32 @@ procedure TfrmPackDlg.SwitchOptions(ArcTypeChange: Boolean); // Ugly but working
 var
   I: LongInt;
   sCmd: String;
+  procedure SwitchTarOptions(SingleFileMode: Boolean);
+  begin
+    if SingleFileMode then
+    begin
+      // If file list contain directory then
+      // put to the tar archive first is needed
+      if FHasFolder then
+      begin
+        cbPutInTarFirst.Checked:= True;
+        EnableControl(cbPutInTarFirst, False);
+      end
+      else
+      begin
+        cbCreateSeparateArchives.Checked:= (FCount = 1);
+        cbPutInTarFirst.Checked:= (FCount > 1);
+        EnableControl(cbPutInTarFirst, True);
+      end;
+    end
+    else
+    begin
+      sCmd:= LowerCase(FArchiveType);
+      cbPutInTarFirst.Checked:= False;
+      EnableControl(cbPutInTarFirst, not ((sCmd = 'tar') or StrBegins(sCmd, 'tar.')));
+      cbCreateSeparateArchives.Checked:= False;
+    end;
+  end;
 begin
   cbPutInTarFirst.OnChange:= nil;
 
@@ -367,25 +393,7 @@ begin
         // If plugin supports packing with password
         EnableControl(cbEncrypt, ((gWCXPlugins.Flags[I] and PK_CAPS_ENCRYPT) <> 0));
         // If archive can not contain multiple files
-        if ((gWCXPlugins.Flags[I] and PK_CAPS_MULTIPLE) = 0) then
-        begin
-          // If file list contain directory then
-          // put to the tar archive first is needed
-          if not FHasFolder then
-            cbCreateSeparateArchives.Checked:= (FCount > 1)
-          else
-            begin
-              cbPutInTarFirst.Checked:= True;
-              EnableControl(cbPutInTarFirst, False);
-            end;
-        end
-        else
-          begin
-            sCmd:= LowerCase(FArchiveType);
-            cbPutInTarFirst.Checked:= False;
-            EnableControl(cbPutInTarFirst, not ((sCmd = 'tar') or StrBegins(sCmd, 'tar.')));
-            cbCreateSeparateArchives.Checked:= False;
-          end;
+        SwitchTarOptions((gWCXPlugins.Flags[I] and PK_CAPS_MULTIPLE) = 0);
         FPlugin:= True;
         // Options that supported by plugins
         EnableControl(cbStoreDir, True);
@@ -420,24 +428,7 @@ begin
           EnableControl(cbEncrypt, (Pos('%W', sCmd) <> 0));
 
           // If archive can not contain multiple files
-          if (mafFileNameList in FFlags) then
-          begin
-            // If file list contain directory then
-            // put to the tar archive first is needed
-            if not FHasFolder then
-              cbCreateSeparateArchives.Checked:= (FCount > 1)
-            else
-              begin
-                cbPutInTarFirst.Checked:= True;
-                EnableControl(cbPutInTarFirst, False);
-              end;
-          end
-          else begin
-            sCmd:= LowerCase(FArchiveType);
-            cbPutInTarFirst.Checked:= False;
-            EnableControl(cbPutInTarFirst, not ((sCmd = 'tar') or StrBegins(sCmd, 'tar.')));
-            cbCreateSeparateArchives.Checked:= False;
-          end;
+          SwitchTarOptions(mafFileNameList in FFlags);
           FPlugin:= False;
           // Options that don't supported by addons
           cbStoreDir.Checked:= True;
