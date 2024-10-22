@@ -8,8 +8,9 @@ interface
 uses
   Classes, SysUtils,
   LCLType, Forms, Menus,
-  fMain, uMyDarwin, uDarwinFinderModel, uSearchResultUtil, uDCUtils, uLng,
+  fMain, uDCUtils, uLng,
   uFileView, uBriefFileView, uColumnsFileView, uThumbFileView,
+  uMyDarwin, uDarwinFinder, uDarwinFinderModel, uSearchResultUtil,
   CocoaAll, CocoaConfig, CocoaToolBar, Cocoa_Extra;
 
 procedure initCocoaModernFormConfig;
@@ -328,6 +329,7 @@ var
       menuItem.OnClick:= @ToolBarMenuHandler.searchFinderTag;
       menu.Add( menuItem );
     end;
+    uDarwinFinderUtil.attachSearchForTagsMenu( menu );
   end;
 
   procedure createSearchFileMenuItem;

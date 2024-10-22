@@ -18,6 +18,8 @@ const
   FINDER_FAVORITE_TAGS_MENU_ITEM_SIZE = 20.0;
   FINDER_FAVORITE_TAGS_MENU_ITEM_SPACING = 4.0;
 
+  FINDER_TAGS_MENU_ROUND_SIZE = 12;
+
 const
   TAG_POPOVER_WIDTH = 228.0;
   TAG_POPOVER_HEIGHT = 303.0;
@@ -32,19 +34,24 @@ const
   TAG_TOKEN_LINE_SPACING = 1.0;
 
 type
+  TFinderTagMenuRoundImages = Array of NSImage;
+
   { uDarwinFinderUtil }
 
   uDarwinFinderUtil = class
+  strict private class var
+    _menuTagRoundImages: TFinderTagMenuRoundImages;
   public
     class procedure popoverFileTags(
       const path: String; const positioningView: NSView; const edge: NSRectEdge );
-    class procedure attachFinderTagsMenu(
-      const path: String; const lclMenu: TPopupMenu );
+    class procedure attachFinderTagsMenu( const path: String; const lclMenu: TPopupMenu );
+    class procedure attachSearchForTagsMenu( const lclMenu: TMenuItem );
     class procedure drawTagsAsDecoration(
       const tagNames: NSArray; const drawRect: TRect; const focused: Boolean );
   private
     class procedure drawTagName( const tagName: NSString;
       const fontSize: CGFloat; const color: NSColor; const rect: NSRect );
+    class procedure initMenuRoundNSImages;
   end;
 
 implementation
@@ -858,6 +865,29 @@ begin
   menuView.release;
 end;
 
+class procedure uDarwinFinderUtil.attachSearchForTagsMenu(const lclMenu: TMenuItem);
+  procedure setColorImage( const lclMenuItem: TMenuItem );
+  var
+    cocoaItem: NSMenuItem;
+    tag: TFinderTag;
+  begin
+    cocoaItem:= NSMenuItem( lclMenuItem.Handle );
+    tag:= TFinderTags.getTagOfName( cocoaItem.title );
+    if tag = nil then
+      Exit;
+    cocoaItem.setImage( _menuTagRoundImages[tag.colorIndex] );
+  end;
+
+var
+  i: Integer;
+  count: Integer;
+begin
+  count:= lclMenu.Count;
+  for i:=0 to count-1 do begin
+    setColorImage( lclMenu[i] );
+  end;
+end;
+
 class procedure uDarwinFinderUtil.drawTagsAsDecoration(
   const tagNames: NSArray; const drawRect: TRect; const focused: Boolean );
 var
@@ -914,6 +944,58 @@ begin
 
   ps.release;
   attributes.release;
+end;
+
+class procedure uDarwinFinderUtil.initMenuRoundNSImages;
+var
+  imageSize: NSSize;
+  colors: TFinderTagNSColors;
+  count: Integer;
+  i: Integer;
+
+  procedure drawImageContent( const color: NSColor );
+  var
+    rect: NSRect;
+    path: NSBezierPath;
+  begin
+    color.set_;
+    rect.origin:= NSZeroPoint;
+    rect.size:= imageSize;
+    path:= NSBezierPath.bezierPathWithOvalInRect( rect );
+    path.fill;
+  end;
+
+  function createOneColorImage( const color: NSColor ): NSImage;
+  var
+    image: NSImage;
+    imageRep: NSBitmapImageRep;
+    context: NSGraphicsContext;
+  begin
+    imageRep:= NSBitmapImageRep.alloc.initWithBitmapDataPlanes_pixelsWide_pixelsHigh__colorSpaceName_bytesPerRow_bitsPerPixel(
+      nil,
+      FINDER_TAGS_MENU_ROUND_SIZE, FINDER_TAGS_MENU_ROUND_SIZE,
+      8, 4,
+      True, False,
+      NSCalibratedRGBColorSpace,
+      0, 0 );
+    context:= NSGraphicsContext.graphicsContextWithBitmapImageRep( imageRep );
+    NSGraphicsContext.classSaveGraphicsState;
+    NSGraphicsContext.setCurrentContext( context );
+    drawImageContent( color );
+    image:= NSImage.alloc.initWithSize( imageSize );
+    image.addRepresentation( imageRep );
+    Result:= image;
+    NSGraphicsContext.classRestoreGraphicsState;
+  end;
+
+begin
+  imageSize:= NSMakeSize( FINDER_TAGS_MENU_ROUND_SIZE, FINDER_TAGS_MENU_ROUND_SIZE );
+  colors:= uDarwinFinderModelUtil.rectFinderTagNSColors;
+  count:= Length( colors );
+  SetLength( _menuTagRoundImages, count );
+  for i:= 0 to count-1 do begin
+    _menuTagRoundImages[i]:= createOneColorImage( colors[i] );
+  end;
 end;
 
 { TFinderFavoriteTagMenuItemControl }
@@ -1138,6 +1220,9 @@ begin
   Inherited;
   _url.release;
 end;
+
+initialization
+  uDarwinFinderUtil.initMenuRoundNSImages;
 
 end.
 
