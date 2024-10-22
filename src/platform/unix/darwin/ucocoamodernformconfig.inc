@@ -137,7 +137,7 @@ type
     procedure goToFolder( Sender: TObject );
 
     procedure searchFinderTag( Sender: TObject );
-    procedure onSearchFinderTagComplete( const files: TStringArray );
+    procedure onSearchFinderTagComplete( const searchName: String; const files: TStringArray );
   end;
 
 var
@@ -181,9 +181,10 @@ begin
   uDarwinFinderModelUtil.searchFilesForTagName( tagName, @self.onSearchFinderTagComplete );
 end;
 
-procedure TToolBarMenuHandler.onSearchFinderTagComplete(const files: TStringArray);
+procedure TToolBarMenuHandler.onSearchFinderTagComplete(
+  const searchName: String; const files: TStringArray);
 begin
-  TSearchResultUtil.addResultPage( files );
+  TSearchResultUtil.addResultPage( searchName, files );
 end;
 
 function getMacOSDisplayNameFromPath(const path: String): String;

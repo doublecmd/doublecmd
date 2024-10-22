@@ -49,7 +49,7 @@ type
 
   TFinderTagNSColors = Array of NSColor;
 
-  TMacOSSearchResultHandler = procedure ( const files: TStringArray ) of object;
+  TMacOSSearchResultHandler = procedure ( const searchName: String; const files: TStringArray ) of object;
 
   { uDarwinFinderModelUtil }
 
@@ -169,9 +169,13 @@ end;
 type
   TMacOSQueryHandler = objcclass( NSObject )
   private
+    _queryName: NSString;
     _query: NSMetadataQuery;
     _handler: TMacOSSearchResultHandler;
     procedure initalGatherComplete( sender: id ); message 'initalGatherComplete:';
+  public
+    function initWithName( name: NSString ): id; message 'doublecmd_initWithName:';
+    procedure dealloc; override;
   end;
 
 procedure TMacOSQueryHandler.initalGatherComplete(sender: id);
@@ -199,7 +203,19 @@ begin
     end;
   end;
 
-  _handler( files );
+  _handler( _queryName.UTF8String, files );
+end;
+
+function TMacOSQueryHandler.initWithName(name: NSString): id;
+begin
+  _queryName:= name;
+  _queryName.retain;
+  Result:= self;
+end;
+
+procedure TMacOSQueryHandler.dealloc;
+begin
+  _queryName.release;
 end;
 
 { uDarwinFinderModelUtil }
@@ -255,11 +271,11 @@ var
   format: NSString;
 begin
   query:= NSMetadataQuery.new;
-  queryHandler:= TMacOSQueryHandler.new;
+  queryHandler:= TMacOSQueryHandler.alloc.initWithName( tagName );
   queryHandler._query:= query;
   queryHandler._handler:= handler;
   NSNotificationCenter.defaultCenter.addObserver_selector_name_object(
-    QueryHandler,
+    queryHandler,
     objcselector('initalGatherComplete:'),
     NSMetadataQueryDidFinishGatheringNotification,
     query );
