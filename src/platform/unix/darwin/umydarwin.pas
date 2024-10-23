@@ -161,7 +161,7 @@ procedure InitNSServiceProvider(
 procedure performMacOSService( serviceName: String );
 
 procedure showQuickLookPanel;
-procedure showEditFinderTagsPanel( const Sender: id; control: TWinControl );
+procedure showEditFinderTagsPanel( const Sender: id; const control: TWinControl );
 
 // MacOS Sharing
 procedure showMacOSSharingServiceMenu;
@@ -765,11 +765,40 @@ begin
   mate.release;
 end;
 
-procedure showEditFinderTagsPanel( const Sender: id; control: TWinControl );
+
+type
+
+  { TFinderTagsEditorPanelHandler }
+
+  TFinderTagsEditorPanelHandler = class
+  private
+    _path: String;
+  public
+    constructor Create( const path: String );
+    procedure onClose( const cancel: Boolean; const tagNames: NSArray );
+  end;
+
+constructor TFinderTagsEditorPanelHandler.Create( const path: String );
+begin
+  _path:= path;
+end;
+
+procedure TFinderTagsEditorPanelHandler.onClose( const cancel: Boolean; const tagNames: NSArray );
+var
+  url: NSURL;
+begin
+  if cancel then
+    Exit;
+  url:= NSURL.fileURLWithPath( StrToNSString(_path) );
+  uDarwinFinderModelUtil.setTagNamesOfFile( url, tagNames );
+end;
+
+procedure showEditFinderTagsPanel( const Sender: id; const control: TWinControl );
 var
   tagItem: NSToolBarItem absolute Sender;
   filenames: TStringArray;
   view: NSView;
+  handler: TFinderTagsEditorPanelHandler;
 begin
   filenames:= TDCCocoaApplication(NSApp).serviceMenuGetFilenames;
   if length(filenames) = 0 then
@@ -781,7 +810,8 @@ begin
   if (view=nil) or (view.window=nil) then
     view:= NSView( control.Handle );
 
-  uDarwinFinderUtil.popoverFileTags( filenames[0], view , NSMaxYEdge );
+  handler:= TFinderTagsEditorPanelHandler.Create( filenames[0] );
+  uDarwinFinderUtil.popoverFileTagsEditor( filenames[0], handler.onClose, view , NSMaxYEdge );
 end;
 
 initialization

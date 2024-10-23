@@ -136,7 +136,9 @@ type
     procedure showEditTagPanel( Sender: TObject );
     procedure goToFolder( Sender: TObject );
 
-    procedure searchFinderTag( Sender: TObject );
+    procedure showFinderTagSelectorPanel( Sender: TObject );
+    procedure onFinderTagSelectorPanelClose( const cancel: Boolean; const tagNames: NSArray );
+    procedure searchOneFinderTagAction( Sender: TObject );
     procedure onSearchFinderTagComplete( const searchName: String; const files: TStringArray );
   end;
 
@@ -172,7 +174,23 @@ begin
   frmMain.Commands.cm_ChangeDir( [path] );
 end;
 
-procedure TToolBarMenuHandler.searchFinderTag( Sender: TObject );
+procedure TToolBarMenuHandler.showFinderTagSelectorPanel(Sender: TObject);
+begin
+  uDarwinFinderUtil.popoverTagsSelector(
+    'Search for combined tags...',
+    @self.onFinderTagSelectorPanelClose,
+    NSView(frmMain.Handle) , NSMaxYEdge );
+end;
+
+procedure TToolBarMenuHandler.onFinderTagSelectorPanelClose(const cancel: Boolean;
+  const tagNames: NSArray);
+begin
+  if cancel then
+    Exit;
+  uDarwinFinderModelUtil.searchFilesForTagNames( tagNames, @self.onSearchFinderTagComplete );
+end;
+
+procedure TToolBarMenuHandler.searchOneFinderTagAction( Sender: TObject );
 var
   menuItem: TMenuItem absolute Sender;
   tagName: NSString;
@@ -327,10 +345,20 @@ var
     for tagName in tagNames do begin
       menuItem:= TMenuItem.Create( menu );
       menuItem.Caption:= tagName.UTF8String;
-      menuItem.OnClick:= @ToolBarMenuHandler.searchFinderTag;
+      menuItem.OnClick:= @toolBarMenuHandler.searchOneFinderTagAction;
       menu.Add( menuItem );
     end;
     uDarwinFinderUtil.attachSearchForTagsMenu( menu );
+  end;
+
+  procedure createCombinedTagMenuItem;
+  var
+    menuItem: TMenuItem;
+  begin
+    menuItem:= TMenuItem.Create( menu );
+    menuItem.Caption:= 'Search for combined tags...';
+    menuItem.OnClick:= @toolBarMenuHandler.showFinderTagSelectorPanel;
+    menu.Add( menuItem );
   end;
 
   procedure createSearchFileMenuItem;
@@ -344,6 +372,8 @@ var
 begin
   menu:= TMenuItem.Create( frmMain );
   createSidebarTagMenuItem;
+  menu.AddSeparator;
+  createCombinedTagMenuItem;
   menu.AddSeparator;
   createSearchFileMenuItem;
   Result:= menu;
