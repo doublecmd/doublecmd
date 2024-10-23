@@ -32,6 +32,7 @@ type
     function CheckForErrors(const FileName: String; ExitStatus: LongInt): Boolean;
     procedure DeleteFile(const BasePath: String; aFile: TFile);
     procedure DeleteFiles(const BasePath: String; aFiles: TFiles);
+    function RecreateTree(const aFiles: TFiles; sRootPath, sDestPath: String) : Boolean;
 
   protected
     FExProcess: TExProcess;
@@ -70,7 +71,8 @@ implementation
 uses
   LazUTF8, DCStrUtils, uDCUtils, uMultiArc, uLng, WcxPlugin, uFileSourceOperationUI,
   uFileSystemFileSource, uFileSystemUtil, uMultiArchiveUtil, DCOSUtils, uOSUtils,
-  uTarWriter, uShowMsg, uAdministrator;
+  uTarWriter, uShowMsg, uAdministrator, LazFileUtils, uFileProcs, DCBasicTypes,
+  DCDateTimeUtils;
 
 constructor TMultiArchiveCopyInOperation.Create(aSourceFileSource: IFileSource;
                                               aTargetFileSource: IFileSource;
@@ -114,13 +116,13 @@ begin
     else
       FCommandLine:= MultiArcItem.FAdd;
   end;
-
+{
   if (TargetPath <> PathDelim) and (Pos('%R', FCommandLine) = 0) then
   begin
     AskQuestion('', rsMsgErrNotSupported, [fsourOk], fsourOk, fsourOk);
     RaiseAbortOperation;
   end;
-
+}
   FExProcess:= TExProcess.Create(EmptyStr);
   FExProcess.OnReadLn:= @OnReadLn;
   FExProcess.OnOperationProgress:= @OperationProgressHandler;
@@ -160,10 +162,15 @@ var
   sDestPath: String;
   MultiArcItem: TMultiArcItem;
   aFile: TFile;
+  sTempDir,
+  sWorkDir,
   sReadyCommand: String;
+  isTempCopy: Boolean;
 begin
   // Put to TAR archive if needed
   if FTarBefore then Tar;
+  isTempCopy:= not FTarBefore and (((TargetPath <> PathDelim) and (Pos('%R', FCommandLine) = 0))
+               or ((Pos('%F', FCommandLine) = 0) and (Pos('%L', FCommandLine) = 0) and (Pos('%l', FCommandLine) = 0)));
 
   MultiArcItem := FMultiArchiveFileSource.MultiArcItem;
 
@@ -171,13 +178,34 @@ begin
   sDestPath := ExcludeTrailingPathDelimiter(sDestPath);
   sRootPath:= FFullFilesTree.Path;
   ChangeFileListRoot(EmptyStr, FFullFilesTree);
+
+  if isTempCopy then
+  begin
+    sTempDir:= GetTempName(FMultiArchiveFileSource.ArchiveFileName);
+    if not mbForceDirectory(sTempDir + TargetPath) then
+    begin
+      AskQuestion('', Format(rsMsgErrForceDir, [sTempDir + TargetPath]), [fsourOk], fsourOk, fsourOk);
+      RaiseAbortOperation;
+    end;
+    if not RecreateTree(FFullFilesTree, sRootPath, sTempDir + TargetPath) then
+    begin
+      DelTree(sTempDir);
+      AskQuestion('', rsMsgErrECreate, [fsourOk], fsourOk, fsourOk);
+      RaiseAbortOperation;
+    end;
+    ChangeFileListRoot(sDestPath, FFullFilesTree);
+    sWorkDir:= sTempDir;
+  end
+  else
+    sWorkDir:= sRootPath;
+
   // Get maximum acceptable command errorlevel
   FErrorLevel:= ExtractErrorLevel(FCommandLine);
   if Pos('%F', FCommandLine) <> 0 then // pack file by file
     for I:= FFullFilesTree.Count - 1 downto 0 do
     begin
       aFile:= FFullFilesTree[I];
-      UpdateProgress(sRootPath + aFile.FullPath, sDestPath, 0);
+      UpdateProgress(sWorkDir + aFile.FullPath, sDestPath, 0);
 
       sReadyCommand:= FormatArchiverCommand(
                                             MultiArcItem.FArchiver,
@@ -194,7 +222,7 @@ begin
       OnReadLn(sReadyCommand);
 
       // Set archiver current path to file list root
-      FExProcess.Process.CurrentDirectory:= sRootPath;
+      FExProcess.Process.CurrentDirectory:= sWorkDir;
       FExProcess.SetCmdLine(sReadyCommand);
       FExProcess.Execute;
 
@@ -223,7 +251,7 @@ begin
       OnReadLn(sReadyCommand);
 
       // Set archiver current path to file list root
-      FExProcess.Process.CurrentDirectory:= sRootPath;
+      FExProcess.Process.CurrentDirectory:= sWorkDir;
       FExProcess.SetCmdLine(sReadyCommand);
       FExProcess.Execute;
 
@@ -234,6 +262,9 @@ begin
             DeleteFiles(sRootPath, FFullFilesTree);
         end;
     end;
+
+  if isTempCopy then
+    DelTree(sTempDir);
 
   // Delete temporary TAR archive if needed
   if FTarBefore then
@@ -381,6 +412,53 @@ begin
   ShowInputQuery(FMultiArchiveFileSource.MultiArcItem.FDescription, rsMsgPasswordEnter, True, FPassword);
   pcPassword:= PAnsiChar(UTF8ToConsole(FPassword + LineEnding));
   FExProcess.Process.Input.Write(pcPassword^, Length(pcPassword));
+end;
+
+function TMultiArchiveCopyInOperation.RecreateTree(const aFiles: TFiles; sRootPath, sDestPath: String) : Boolean;
+var
+  I: Integer;
+  aFile: TFile;
+  Time: TFileTime;
+  sSrc, sDst: String;
+begin
+  Result:= True;
+  for I:= 0 to aFiles.Count - 1 do
+  begin
+    aFile:= aFiles[i];
+    sSrc:= sRootPath + aFile.FullPath;
+    if aFile.AttributesProperty.IsDirectory then
+      sDst:= sDestPath + aFile.FullPath
+    else
+      sDst:= sDestPath + aFile.Path;
+    if not DirPathExists(sDst) then
+      if mbForceDirectory(sDst) = False then
+      begin
+        Result:= False;
+        Break;
+      end;
+    sDst:= sDestPath + aFile.FullPath;
+    if not aFile.AttributesProperty.IsDirectory then
+    begin
+      if CreateHardLink(sSrc, sDst) = False then
+      begin
+        if CopyFile(sSrc, sDst) = False then
+        begin
+          Result:= False;
+          Break;
+        end;
+      end;
+    end
+    else // aFile.AttributesProperty.IsDirectory
+    begin
+      try
+        mbFileSetAttr(sDst, aFile.Attributes);
+        Time:= DateTimeToFileTime(aFile.ModificationTime);
+        mbFileSetTime(sDst, Time, Time, Time);
+      except
+        // nothing
+      end;
+    end;
+  end;
 end;
 
 procedure TMultiArchiveCopyInOperation.UpdateProgress(SourceName,
