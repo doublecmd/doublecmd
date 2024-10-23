@@ -71,6 +71,7 @@ var
   Index: Integer;
 begin
   Result:= FMultiArcItem.FList;
+  FErrorLevel:= ExtractErrorLevel(Result);
   Index:= Pos('%O', Result);
   FConvertEncoding:= @DCOSUtils.ConsoleToUTF8;
   if (Index > 0) and (Index + 2 <= Length(Result)) then
@@ -194,7 +195,6 @@ begin
   sCommandLine:= FormatArchiverCommand(FMultiArcItem.FArchiver,
                                        sCommandLine, FArchiveName,
                                        nil, '', '','', FPassword);
-  FErrorLevel:= ExtractErrorLevel(sCommandLine);
 
   if FMultiArcItem.FDebug then
     DCDebug(sCommandLine);
