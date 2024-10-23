@@ -17,6 +17,8 @@ type
     FExProcess: TExProcess;
     FMultiArcItem: TMultiArcItem;
     FParser: TMultiArchiveParser;
+    FErrorLevel: LongInt;
+    FOpenError: Boolean;
     FConvertEncoding: function (const Source: String): RawByteString;
   private
     FArchiveName: String;
@@ -35,6 +37,7 @@ type
     procedure Prepare;
     procedure Execute;
 
+    property OpenError: Boolean read FOpenError;
     property Password: String read FPassword write FPassword;
     property OnGetArchiveItem: TOnGetArchiveItem write SetOnGetArchiveItem;
   end;
@@ -87,6 +90,7 @@ end;
 
 procedure TOutputParser.OnProcessExit;
 begin
+  FOpenError:= (FExProcess.ExitStatus > FErrorLevel);
   FParser.ParseLines;
 end;
 
@@ -190,6 +194,8 @@ begin
   sCommandLine:= FormatArchiverCommand(FMultiArcItem.FArchiver,
                                        sCommandLine, FArchiveName,
                                        nil, '', '','', FPassword);
+  FErrorLevel:= ExtractErrorLevel(sCommandLine);
+
   if FMultiArcItem.FDebug then
     DCDebug(sCommandLine);
 
