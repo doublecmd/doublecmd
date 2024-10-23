@@ -672,7 +672,7 @@ begin
       ShowError(Format(rsMsgLogError + rsMsgLogExtract,
                        [FMultiArchiveFileSource.ArchiveFileName + PathDelim +
                         SourceName + ' -> ' + TargetName +
-                        ' - Exit status: ' + IntToStr(ExitStatus)]), [log_arc_op]);
+                        ' - ' + rsMsgExitStatusCode + ' ' + IntToStr(ExitStatus)]), [log_arc_op]);
     end // Error
   else
     begin

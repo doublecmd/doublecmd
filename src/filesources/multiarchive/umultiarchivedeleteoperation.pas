@@ -199,7 +199,7 @@ begin
     begin
       ShowError(Format(rsMsgLogError + rsMsgLogDelete,
                  [FileName +
-                  ' - Exit status: ' + IntToStr(ExitStatus)]), [log_arc_op]);
+                  ' - ' + rsMsgExitStatusCode + ' ' + IntToStr(ExitStatus)]), [log_arc_op]);
     end
   else
     begin
