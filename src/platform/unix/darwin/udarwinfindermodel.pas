@@ -304,6 +304,9 @@ var
   query: NSMetadataQuery;
   predicate: NSPredicate;
 begin
+  if tagNames.count = 0 then
+    Exit;
+
   // release in initalGatherComplete()
   query:= NSMetadataQuery.new;
   // release in initalGatherComplete()

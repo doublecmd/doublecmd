@@ -187,6 +187,8 @@ procedure TToolBarMenuHandler.onFinderTagSelectorPanelClose(const cancel: Boolea
 begin
   if cancel then
     Exit;
+  if tagNames.count = 0 then
+    Exit;
   uDarwinFinderModelUtil.searchFilesForTagNames( tagNames, @self.onSearchFinderTagComplete );
 end;
 
