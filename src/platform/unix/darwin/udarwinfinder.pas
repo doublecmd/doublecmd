@@ -612,6 +612,7 @@ var
   url: NSURL;
 begin
   url:= NSURL.fileURLWithPath( path );
+  // release in popoverDidClose()
   panel:= TFinderTagsEditorPanel.new;
   panel.loadView;
   panel.setTitle( url.lastPathComponent );
@@ -623,6 +624,7 @@ class function TFinderTagsEditorPanel.selectorWithTitle( const titleString: NSSt
 var
   panel: TFinderTagsEditorPanel;
 begin
+  // release in popoverDidClose()
   panel:= TFinderTagsEditorPanel.new;
   panel.loadView;
   panel.setTitle( titleString );
@@ -641,6 +643,7 @@ end;
 
 procedure TFinderTagsEditorPanel.dealloc;
 begin
+  _titleLabel.release;
   _tagsTokenField.release;
   _filterTagNames.release;
   _popover.release;
@@ -649,6 +652,8 @@ end;
 
 procedure TFinderTagsEditorPanel.popoverDidClose(notification: NSNotification);
 begin
+  _popover.setDelegate( nil );
+  _popover.setContentViewController( nil );
   self.release;
 end;
 

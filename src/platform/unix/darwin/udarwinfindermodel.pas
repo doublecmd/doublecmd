@@ -206,6 +206,8 @@ begin
   end;
 
   _handler( _queryName.UTF8String, files );
+
+  self.release;
 end;
 
 function TMacOSQueryHandler.initWithName(name: NSString): id;
@@ -218,6 +220,7 @@ end;
 procedure TMacOSQueryHandler.dealloc;
 begin
   _queryName.release;
+  _query.release;
 end;
 
 { uDarwinFinderModelUtil }
@@ -301,7 +304,9 @@ var
   query: NSMetadataQuery;
   predicate: NSPredicate;
 begin
+  // release in initalGatherComplete()
   query:= NSMetadataQuery.new;
+  // release in initalGatherComplete()
   queryHandler:= TMacOSQueryHandler.alloc.initWithName( toString() );
   queryHandler._query:= query;
   queryHandler._handler:= handler;
