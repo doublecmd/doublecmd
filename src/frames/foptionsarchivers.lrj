@@ -1,5 +1,6 @@
 {"version":1,"strings":[
 {"hash":194265226,"name":"tfrmoptionsarchivers.lblarchiverlistbox.caption","sourcebytes":[65,114,99,104,105,38,118,101,114,115,58],"value":"Archi&vers:"},
+{"hash":142516837,"name":"tfrmoptionsarchivers.btnautoconf.caption","sourcebytes":[65,117,116,111,32,67,111,110,102,105,103,117,114,101],"value":"Auto Configure"},
 {"hash":222795460,"name":"tfrmoptionsarchivers.chkarchiverenabled.caption","sourcebytes":[69,38,110,97,98,108,101,100],"value":"E&nabled"},
 {"hash":71137081,"name":"tfrmoptionsarchivers.btnarchiverapply.caption","sourcebytes":[65,38,112,112,108,121],"value":"A&pply"},
 {"hash":277668,"name":"tfrmoptionsarchivers.btnarchiveradd.caption","sourcebytes":[65,38,100,100],"value":"A&dd"},

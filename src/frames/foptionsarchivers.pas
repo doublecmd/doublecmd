@@ -28,19 +28,18 @@ interface
 uses
   //Lazarus, Free-Pascal, etc.
   DividerBevel, Classes, SysUtils, StdCtrls, ExtCtrls, ComCtrls, EditBtn,
-  Buttons, Menus, Dialogs,
+  Buttons, Menus, Dialogs, CheckLst, Controls, Grids, Forms,
   //DC
-  uMultiArc, fOptionsFrame, Controls, Grids, Forms;
+  uMultiArc, fOptionsFrame;
 type
 
   { TfrmOptionsArchivers }
   TfrmOptionsArchivers = class(TOptionsEditor)
     chkHide: TCheckBox;
     chkFileNameOnlyList: TCheckBox;
-    pnlFileNameOnlyList: TPanel;
     pnlArchiverListbox: TPanel;
     lblArchiverListBox: TLabel;
-    lbxArchiver: TListBox;
+    lbxArchiver: TCheckListBox;
     splArchiver: TSplitter;
     pnlArchiverCommands: TPanel;
     pnlArchiverButtons: TPanel;
@@ -160,10 +159,13 @@ type
     lblResult: TLabel;
     lblSpacer: TLabel;
     ckbParserTest: TCheckBox;
+    btnAutoConf: TButton;
+    btnAddonsConf: TSpeedButton;
     tbParser: TTabSheet;
     procedure ckbParserTestChange(Sender: TObject);
     procedure chkFileNameOnlyListChange(Sender: TObject);
     procedure chkHideChange(Sender: TObject);
+    procedure lbxArchiverItemClick(Sender: TObject; Index: integer);
     procedure lbxArchiverSelectionChange(Sender: TObject; {%H-}User: boolean);
     procedure lbxArchiverDragOver(Sender, {%H-}Source: TObject; {%H-}X, {%H-}Y: integer; {%H-}State: TDragState; var Accept: boolean);
     procedure lbxArchiverDragDrop(Sender, {%H-}Source: TObject; {%H-}X, Y: integer);
@@ -319,7 +321,12 @@ begin
   bCurrentlyFilling := True;
   iRememberIndex := lbxArchiver.ItemIndex;
   lbxArchiver.Clear;
-  for I := 0 to MultiArcListTemp.Count - 1 do lbxArchiver.Items.AddObject(MultiArcListTemp.Names[I], MultiArcListTemp[I]);
+  for I := 0 to MultiArcListTemp.Count - 1 do
+  begin
+    lbxArchiver.Items.AddObject(MultiArcListTemp.Names[I], MultiArcListTemp[I]);
+    lbxArchiver.Checked[I]:= MultiArcListTemp[I].FEnabled;
+  end;
+
   pcArchiverCommands.Enabled := (lbxArchiver.Items.Count <> 0);
   chkArchiverEnabled.Enabled := (lbxArchiver.Items.Count <> 0);
   if lbxArchiver.Items.Count > 0 then
@@ -560,6 +567,15 @@ end;
 procedure TfrmOptionsArchivers.chkHideChange(Sender: TObject);
 begin
   edtAnyChange(Sender);
+end;
+
+procedure TfrmOptionsArchivers.lbxArchiverItemClick(Sender: TObject;
+  Index: integer);
+var
+  Checked: Boolean;
+begin
+  if not bCurrentlyLoadingSettings then
+    SetControlsState(lbxArchiver.Checked[Index]);
 end;
 
 { TfrmOptionsArchivers.lbxArchiverDragOver }
@@ -849,14 +865,18 @@ procedure TfrmOptionsArchivers.btnArchiverOtherClick(Sender: TObject);
 var
   pWantedPos: TPoint;
 begin
-  pWantedPos := btnArchiverOther.ClientToScreen(Point(btnArchiverOther.Width div 2, btnArchiverOther.Height - 5)); // Position this way instead of using mouse cursor since it will work for keyboard user.
+  pWantedPos := btnAddonsConf.ClientToScreen(Point(btnArchiverOther.Width div 2, btnArchiverOther.Height - 5)); // Position this way instead of using mouse cursor since it will work for keyboard user.
   pmArchiverOther.PopUp(pWantedPos.X, pWantedPos.Y);
 end;
 
 { TfrmOptionsArchivers.miArchiverAutoConfigureClick }
 procedure TfrmOptionsArchivers.miArchiverAutoConfigureClick(Sender: TObject);
+var
+  I: Integer;
 begin
   MultiArcListTemp.AutoConfigure;
+  for I := 0 to MultiArcListTemp.Count - 1 do
+    lbxArchiver.Checked[I]:= MultiArcListTemp[I].FEnabled;
   lbxArchiverSelectionChange(lbxArchiver, False);
 end;
 
@@ -887,7 +907,10 @@ var
   iIndex: integer;
 begin
   for iIndex := 0 to pred(MultiArcListTemp.Count) do
+  begin
     MultiArcListTemp.Items[iIndex].FEnabled := (TComponent(Sender).Tag = 1);
+    lbxArchiver.Checked[iIndex]:= MultiArcListTemp.Items[iIndex].FEnabled;
+  end;
   lbxArchiverSelectionChange(lbxArchiver, False);
 end;
 
