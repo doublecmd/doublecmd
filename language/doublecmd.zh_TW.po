@@ -341,7 +341,7 @@ msgstr "為每個檔案建立單獨的驗證碼檔案 (&R)"
 
 #: tfrmchecksumcalc.cbseparatefolder.caption
 msgid "Create separate checksum file for each &directory"
-msgstr ""
+msgstr "為每個資料夾建立單獨的驗證碼檔案 (&D)"
 
 #: tfrmchecksumcalc.lblfileformat.caption
 msgid "File &format"
@@ -5329,10 +5329,8 @@ msgid "When dropping text, generate filename automatically (otherwise will promp
 msgstr ""
 
 #: tfrmoptionsdragdrop.cbshowconfirmationdialog.caption
-#, fuzzy
-#| msgid "Show confirmation dialog after drop"
 msgid "&Show confirmation dialog after drop"
-msgstr "顯示確認對話盒在拖曳操作後 (&S)"
+msgstr "在拖曳操作後顯示確認對話盒 (&S)"
 
 #: tfrmoptionsdragdrop.gbtextdraganddroprelatedoptions.caption
 msgid "When drag && dropping text into panels:"
@@ -5597,7 +5595,6 @@ msgid "Insert..."
 msgstr ""
 
 #: tfrmoptionsfavoritetabs.btnrename.caption
-#, fuzzy
 msgctxt "tfrmoptionsfavoritetabs.btnrename.caption"
 msgid "Rename"
 msgstr "重新命名"
@@ -5618,7 +5615,6 @@ msgid "Always expand tree"
 msgstr ""
 
 #: tfrmoptionsfavoritetabs.cbsavedirhistory.text
-#, fuzzy
 msgctxt "tfrmoptionsfavoritetabs.cbsavedirhistory.text"
 msgid "No"
 msgstr "否"
@@ -5692,7 +5688,6 @@ msgid "...current level of item(s) selected only"
 msgstr ""
 
 #: tfrmoptionsfavoritetabs.micutselection.caption
-#, fuzzy
 msgctxt "tfrmoptionsfavoritetabs.micutselection.caption"
 msgid "Cut"
 msgstr "剪下"
@@ -5762,13 +5757,11 @@ msgid "Open all branches"
 msgstr ""
 
 #: tfrmoptionsfavoritetabs.mipasteselection.caption
-#, fuzzy
 msgctxt "tfrmoptionsfavoritetabs.mipasteselection.caption"
 msgid "Paste"
 msgstr "貼上"
 
 #: tfrmoptionsfavoritetabs.mirename.caption
-#, fuzzy
 msgctxt "tfrmoptionsfavoritetabs.mirename.caption"
 msgid "Rename"
 msgstr "重新命名"
@@ -5959,7 +5952,6 @@ msgid "Command:"
 msgstr "指令 (&C):"
 
 #: tfrmoptionsfileassoc.lblexternalparameters.caption
-#, fuzzy
 msgctxt "tfrmoptionsfileassoc.lblexternalparameters.caption"
 msgid "Parameter&s:"
 msgstr "參數 (&S):"
@@ -6116,7 +6108,6 @@ msgid "Path to be relative to:"
 msgstr ""
 
 #: tfrmoptionsfileoperations.bvlconfirmations.caption
-#, fuzzy
 msgctxt "tfrmoptionsfileoperations.bvlconfirmations.caption"
 msgid "Show confirmation window for:"
 msgstr "顯示確認視窗在:"
@@ -6130,8 +6121,6 @@ msgid "&Delete operation"
 msgstr "刪除操作 (&D)"
 
 #: tfrmoptionsfileoperations.cbdeletetotrash.caption
-#, fuzzy
-#| msgid "Delete to recycle bin (Shift key reverses this setting)"
 msgctxt "TFRMOPTIONSFILEOPERATIONS.CBDELETETOTRASH.CAPTION"
 msgid "Dele&te to recycle bin (Shift key reverses this setting)"
 msgstr "刪除到資源回收筒 (與 Shift 鍵同按為徹底刪除) (&T)"
@@ -6212,7 +6201,6 @@ msgid "Reset to DC default"
 msgstr ""
 
 #: tfrmoptionsfilepanelscolors.cballowovercolor.caption
-#, fuzzy
 msgctxt "tfrmoptionsfilepanelscolors.cballowovercolor.caption"
 msgid "Allow Overcolor"
 msgstr "允許顏色覆蓋"
@@ -6232,7 +6220,6 @@ msgid "U&se Inverted Selection"
 msgstr "使用反白選取 (&S)"
 
 #: tfrmoptionsfilepanelscolors.cbusecursorborder.caption
-#, fuzzy
 msgctxt "tfrmoptionsfilepanelscolors.cbusecursorborder.caption"
 msgid "Cursor border"
 msgstr "指標外框"
@@ -6286,7 +6273,6 @@ msgid "Background:"
 msgstr ""
 
 #: tfrmoptionsfilepanelscolors.lblpathactivetext.caption
-#, fuzzy
 msgctxt "tfrmoptionsfilepanelscolors.lblpathactivetext.caption"
 msgid "Text Color:"
 msgstr "文字色彩:"
@@ -6359,7 +6345,6 @@ msgid "Personalized abbreviations to use:"
 msgstr ""
 
 #: tfrmoptionsfilesviews.gbsorting.caption
-#, fuzzy
 msgctxt "TFRMOPTIONSFILESVIEWS.GBSORTING.CAPTION"
 msgid "Sorting"
 msgstr "排序"
@@ -6561,13 +6546,11 @@ msgid "Add &hotkey"
 msgstr "新增熱鍵 (&H)"
 
 #: tfrmoptionshotkeys.actcopy.caption
-#, fuzzy
 msgctxt "tfrmoptionshotkeys.actcopy.caption"
 msgid "Copy"
 msgstr "複製"
 
 #: tfrmoptionshotkeys.actdelete.caption
-#, fuzzy
 msgctxt "tfrmoptionshotkeys.actdelete.caption"
 msgid "Delete"
 msgstr "刪除"
@@ -6595,7 +6578,6 @@ msgid "Previous category"
 msgstr ""
 
 #: tfrmoptionshotkeys.actrename.caption
-#, fuzzy
 msgctxt "tfrmoptionshotkeys.actrename.caption"
 msgid "Rename"
 msgstr "重新命名"
@@ -6649,7 +6631,6 @@ msgid "Categories"
 msgstr ""
 
 #: tfrmoptionshotkeys.micommands.caption
-#, fuzzy
 msgctxt "tfrmoptionshotkeys.micommands.caption"
 msgid "Command"
 msgstr "指令"
@@ -6659,31 +6640,26 @@ msgid "Sort order"
 msgstr ""
 
 #: tfrmoptionshotkeys.stgcommands.columns[0].title.caption
-#, fuzzy
 msgctxt "tfrmoptionshotkeys.stgcommands.columns[0].title.caption"
 msgid "Command"
 msgstr "指令"
 
 #: tfrmoptionshotkeys.stgcommands.columns[1].title.caption
-#, fuzzy
 msgctxt "tfrmoptionshotkeys.stgcommands.columns[1].title.caption"
 msgid "Hotkeys"
 msgstr "熱鍵"
 
 #: tfrmoptionshotkeys.stgcommands.columns[2].title.caption
-#, fuzzy
 msgctxt "tfrmoptionshotkeys.stgcommands.columns[2].title.caption"
 msgid "Description"
 msgstr "描述"
 
 #: tfrmoptionshotkeys.stghotkeys.columns[0].title.caption
-#, fuzzy
 msgctxt "tfrmoptionshotkeys.stghotkeys.columns[0].title.caption"
 msgid "Hotkey"
 msgstr "熱鍵"
 
 #: tfrmoptionshotkeys.stghotkeys.columns[1].title.caption
-#, fuzzy
 msgctxt "tfrmoptionshotkeys.stghotkeys.columns[1].title.caption"
 msgid "Parameters"
 msgstr "參數"
@@ -6760,7 +6736,6 @@ msgid "All associated + &EXE/LNK (slow)"
 msgstr "所有已關聯的檔案 + 執行檔/捷徑 (較慢) (&E)"
 
 #: tfrmoptionsicons.rbiconsshownone.caption
-#, fuzzy
 msgctxt "TFRMOPTIONSICONS.RBICONSSHOWNONE.CAPTION"
 msgid "&No icons"
 msgstr "不顯示圖示 (&N)"
@@ -6863,35 +6838,25 @@ msgid "Show &drive buttons"
 msgstr "顯示磁碟按鈕 (&D)"
 
 #: tfrmoptionslayout.cbshowdrivefreespace.caption
-#, fuzzy
-#| msgid "Show free space label"
 msgctxt "TFRMOPTIONSLAYOUT.CBSHOWDRIVEFREESPACE.CAPTION"
 msgid "Show free s&pace label"
 msgstr "顯示可用空間標籤 (&P)"
 
 #: tfrmoptionslayout.cbshowdriveslistbutton.caption
-#, fuzzy
-#| msgid "Show d&rives list button"
 msgid "Show drives list bu&tton"
 msgstr "顯示碟磁清單按鈕 (&T)"
 
 #: tfrmoptionslayout.cbshowkeyspanel.caption
-#, fuzzy
-#| msgid "Show &function key buttons"
 msgctxt "TFRMOPTIONSLAYOUT.CBSHOWKEYSPANEL.CAPTION"
 msgid "Show function &key buttons"
 msgstr "顯示功能鍵按鈕 (&K)"
 
 #: tfrmoptionslayout.cbshowmainmenu.caption
-#, fuzzy
-#| msgid "Show main menu"
 msgctxt "TFRMOPTIONSLAYOUT.CBSHOWMAINMENU.CAPTION"
 msgid "Show &main menu"
 msgstr "顯示主要選單 (&M)"
 
 #: tfrmoptionslayout.cbshowmaintoolbar.caption
-#, fuzzy
-#| msgid "Show &button bar"
 msgctxt "TFRMOPTIONSLAYOUT.CBSHOWMAINTOOLBAR.CAPTION"
 msgid "Show tool&bar"
 msgstr "顯示工具列 (&B)"
@@ -6906,8 +6871,6 @@ msgid "Show &status bar"
 msgstr "顯示狀態列 (&S)"
 
 #: tfrmoptionslayout.cbshowtabheader.caption
-#, fuzzy
-#| msgid "Show &tabstop header"
 msgctxt "TFRMOPTIONSLAYOUT.CBSHOWTABHEADER.CAPTION"
 msgid "S&how tabstop header"
 msgstr "顯示欄位名稱 (&H)"
@@ -6918,8 +6881,6 @@ msgid "Sho&w folder tabs"
 msgstr "顯示資料夾分頁 (&W)"
 
 #: tfrmoptionslayout.cbtermwindow.caption
-#, fuzzy
-#| msgid "Show terminal window"
 msgctxt "TFRMOPTIONSLAYOUT.CBTERMWINDOW.CAPTION"
 msgid "Show te&rminal window"
 msgstr "顯示終端機視窗 (&R)"
@@ -6955,8 +6916,6 @@ msgid "Include date in log filename"
 msgstr ""
 
 #: tfrmoptionslog.cblogarcop.caption
-#, fuzzy
-#| msgid "Pack/Unpack"
 msgctxt "TFRMOPTIONSLOG.CBLOGARCOP.CAPTION"
 msgid "&Pack/Unpack"
 msgstr "壓縮/解壓縮 (&P)"
@@ -6966,22 +6925,16 @@ msgid "External command line execution"
 msgstr ""
 
 #: tfrmoptionslog.cblogcpmvln.caption
-#, fuzzy
-#| msgid "Copy/Move/Create link/symlink"
 msgctxt "TFRMOPTIONSLOG.CBLOGCPMVLN.CAPTION"
 msgid "Cop&y/Move/Create link/symlink"
 msgstr "複製/移動/建立硬式連結/建立符號連結 (&Y)"
 
 #: tfrmoptionslog.cblogdelete.caption
-#, fuzzy
-#| msgid "Delete"
 msgctxt "TFRMOPTIONSLOG.CBLOGDELETE.CAPTION"
 msgid "&Delete"
 msgstr "刪除 (&D)"
 
 #: tfrmoptionslog.cblogdirop.caption
-#, fuzzy
-#| msgid "Create/Delete directories"
 msgctxt "TFRMOPTIONSLOG.CBLOGDIROP.CAPTION"
 msgid "Crea&te/Delete directories"
 msgstr "建立/刪除資料夾 (&T)"
@@ -6992,8 +6945,6 @@ msgid "Log &errors"
 msgstr "記錄錯誤 (&E)"
 
 #: tfrmoptionslog.cblogfile.caption
-#, fuzzy
-#| msgid "&Create a log file:"
 msgctxt "TFRMOPTIONSLOG.CBLOGFILE.CAPTION"
 msgid "C&reate a log file:"
 msgstr "建立記錄檔案 (&R):"
@@ -7003,8 +6954,6 @@ msgid "Maximum log file count"
 msgstr ""
 
 #: tfrmoptionslog.cbloginfo.caption
-#, fuzzy
-#| msgid "Log information messages"
 msgctxt "TFRMOPTIONSLOG.CBLOGINFO.CAPTION"
 msgid "Log &information messages"
 msgstr "記錄資訊 (&I)"
@@ -11466,7 +11415,7 @@ msgstr "刷新"
 
 #: ulng.rsmfstbisearchcombinedtags
 msgid "Search for combined tags..."
-msgstr ""
+msgstr "搜尋組合標籤"
 
 #: ulng.rsmfstbisearchtips
 msgid "Search Files..."
