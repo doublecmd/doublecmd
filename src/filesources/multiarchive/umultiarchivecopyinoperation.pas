@@ -72,7 +72,7 @@ uses
   LazUTF8, DCStrUtils, uDCUtils, uMultiArc, uLng, WcxPlugin, uFileSourceOperationUI,
   uFileSystemFileSource, uFileSystemUtil, uMultiArchiveUtil, DCOSUtils, uOSUtils,
   uTarWriter, uShowMsg, uAdministrator, LazFileUtils, uFileProcs, DCBasicTypes,
-  DCDateTimeUtils;
+  DCDateTimeUtils, uDebug;
 
 constructor TMultiArchiveCopyInOperation.Create(aSourceFileSource: IFileSource;
                                               aTargetFileSource: IFileSource;
@@ -181,11 +181,16 @@ begin
 
   if isTempCopy then
   begin
-    sTempDir:= GetTempName(FMultiArchiveFileSource.ArchiveFileName);
+    sTempDir:= GetTempName(sRootPath);
     if not mbForceDirectory(sTempDir + TargetPath) then
     begin
-      AskQuestion('', Format(rsMsgErrForceDir, [sTempDir + TargetPath]), [fsourOk], fsourOk, fsourOk);
-      RaiseAbortOperation;
+      DCDebug(Format(rsMsgErrForceDir, [sTempDir + TargetPath]));
+      sTempDir:= GetTempName(FMultiArchiveFileSource.ArchiveFileName);
+      if not mbForceDirectory(sTempDir + TargetPath) then
+      begin
+        AskQuestion('', Format(rsMsgErrForceDir, [sTempDir + TargetPath]), [fsourOk], fsourOk, fsourOk);
+        RaiseAbortOperation;
+      end;
     end;
     if not RecreateTree(FFullFilesTree, sRootPath, sTempDir + TargetPath) then
     begin
@@ -433,6 +438,7 @@ begin
     if not DirPathExists(sDst) then
       if mbForceDirectory(sDst) = False then
       begin
+        DCDebug(Format(rsMsgErrForceDir, [sDst]));
         Result:= False;
         Break;
       end;
@@ -441,8 +447,12 @@ begin
     begin
       if CreateHardLink(sSrc, sDst) = False then
       begin
+        DCDebug('Cannot create hardlink ' + sSrc + ' -> ' + sDst);
         if CopyFile(sSrc, sDst) = False then
+          DCDebug('Error while copying file ' + sSrc + ' -> ' + sDst);
+        if mbFileExists(sDst) = False then
         begin
+          DCDebug('Cannot copy file ' + sSrc + ' -> ' + sDst);
           Result:= False;
           Break;
         end;
@@ -455,7 +465,7 @@ begin
         Time:= DateTimeToFileTime(aFile.ModificationTime);
         mbFileSetTime(sDst, Time, Time, Time);
       except
-        // nothing
+        DCDebug('Cannot set time/attr: ' + sDst);
       end;
     end;
   end;
