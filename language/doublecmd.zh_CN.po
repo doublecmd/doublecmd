@@ -330,11 +330,11 @@ msgstr "任务完成后打开校验码文件"
 
 #: tfrmchecksumcalc.cbseparatefile.caption
 msgid "C&reate separate checksum file for each file"
-msgstr "为每个文件分别创建 MD5/SHA1 文件(&R)"
+msgstr "为每个文件分别创建校验码文件(&R)"
 
 #: tfrmchecksumcalc.cbseparatefolder.caption
 msgid "Create separate checksum file for each &directory"
-msgstr ""
+msgstr "为每个文件夹分别创建校验码文件(&D)"
 
 #: tfrmchecksumcalc.lblfileformat.caption
 msgid "File &format"
@@ -10938,7 +10938,7 @@ msgstr "刷新"
 
 #: ulng.rsmfstbisearchcombinedtags
 msgid "Search for combined tags..."
-msgstr ""
+msgstr "搜索组合标签"
 
 #: ulng.rsmfstbisearchtips
 msgctxt "ulng.rsmfstbisearchtips"
