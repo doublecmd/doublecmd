@@ -39,6 +39,18 @@ const
   MAF_UNIX_ATTR        = 4; // Use Unix file attributes
   MAF_WIN_ATTR         = 8; // Use Windows file attributes
 
+  MA_CONF_VER          = 1;
+{$IF DEFINED(MSWINDOWS)}
+  MA_PLATFORM          = 1;
+{$ELSEIF DEFINED(DARWIN)}
+  MA_PLATFORM          = 2;
+{$ELSEIF DEFINED(HAIKU)}
+  MA_PLATFORM          = 3;
+{$ELSEIF DEFINED(UNIX)}
+  MA_PLATFORM          = 4;
+{$ELSE}
+  MA_PLATFORM          = 0;
+{$ENDIF}
 type
   TMultiArcFlag = (mafFileNameList, mafHide);
   TMultiArcFlags = set of TMultiArcFlag;
@@ -164,8 +176,8 @@ type
     destructor Destroy; override;
     procedure AutoConfigure;
     procedure Clear;
-    procedure LoadFromFile(const FileName: String);
-    procedure SaveToFile(const FileName: String);
+    procedure LoadFromFile(const FileName: String; Import: Boolean = False);
+    procedure SaveToFile(const FileName: String; Export: Boolean = False);
     function Add(const S: String; aMultiArcItem: TMultiArcItem): Integer;
     function Insert(Index: integer; const S: string; aMultiArcItem: TMultiArcItem): integer;
     function Clone: TMultiArcList;
@@ -180,7 +192,7 @@ implementation
 
 uses
   crc, LCLProc, StrUtils, Math, FileUtil, DCClassesUtf8, uDCUtils, DCOSUtils,
-  DCStrUtils;
+  DCStrUtils, uGlobs, uGlobsPaths;
 
 { TArchiveItem }
 
@@ -283,97 +295,129 @@ begin
       end;
 end;
 
-procedure TMultiArcList.LoadFromFile(const FileName: String);
+procedure TMultiArcList.LoadFromFile(const FileName: String; Import: Boolean = False);
 var
-  I, J: Integer;
-  IniFile: TIniFileEx = nil;
-  Sections: TStringList = nil;
-  Section,
-  Format, CustomParams: String;
+  ID, Version: Integer;
   FirstTime: Boolean = True;
   MultiArcItem: TMultiArcItem;
+  procedure LoadAddons(FileName: String);
+  var
+    I, J: Integer;
+    IniFile: TIniFileEx = nil;
+    Sections: TStringList = nil;
+    Section,
+    Format, CustomParams: String;
+  begin
+    IniFile:= TIniFileEx.Create(FileName, fmOpenRead);
+    try
+      Sections:= TStringList.Create;
+      IniFile.ReadSections(Sections);
+      for I:= 0 to Sections.Count - 1 do
+      begin
+        Section:= Sections[I];
+        if SameText(Section, 'MultiArc') then
+        begin
+          FirstTime:= IniFile.ReadBool(Section, 'FirstTime', True);
+          Version:= IniFile.ReadInteger(Section, 'Version', 0);
+          ID:= IniFile.ReadInteger(Section, 'PlatformID', -1);
+          Continue;
+        end;
+        MultiArcItem:= TMultiArcItem.Create;
+        with MultiArcItem do
+        begin
+          FPacker:= Section;
+          FArchiver:= FixExeExt(TrimQuotes(IniFile.ReadString(Section, 'Archiver', EmptyStr)));
+          FFallBack:= IniFile.ReadString(Section, 'FallBackArchivers', EmptyStr);
+          FDescription:= TrimQuotes(IniFile.ReadString(Section, 'Description', EmptyStr));
+          FID:= TrimQuotes(IniFile.ReadString(Section, 'ID', EmptyStr));
+          FIDPos:= TrimQuotes(IniFile.ReadString(Section, 'IDPos', EmptyStr));
+          FIDSeekRange:= IniFile.ReadString(Section, 'IDSeekRange', EmptyStr);
+          FExtension:= TrimQuotes(IniFile.ReadString(Section, 'Extension', EmptyStr));
+          FStart:= TrimQuotes(IniFile.ReadString(Section, 'Start', EmptyStr));
+          FEnd:= TrimQuotes(IniFile.ReadString(Section, 'End', EmptyStr));
+          for J:= 0 to 50 do
+          begin
+            Format:= TrimQuotes(IniFile.ReadString(Section, 'Format' + IntToStr(J), EmptyStr));
+            if Format <> EmptyStr then
+            begin
+              if Import then
+              begin
+                // mvv build stuff
+                Format:= ReplaceStr(Format, ' +', '$');
+                Format:= ReplaceStr(Format, 'n++', 'n+');
+              end;
+              FFormat.Add(Format)
+            end
+            else
+              Break;
+          end;
+          FList:= TrimQuotes(IniFile.ReadString(Section, 'List', EmptyStr));
+          FExtract:= TrimQuotes(IniFile.ReadString(Section, 'Extract', EmptyStr));
+          FExtractWithoutPath:= TrimQuotes(IniFile.ReadString(Section, 'ExtractWithoutPath', EmptyStr));
+          FTest:= TrimQuotes(IniFile.ReadString(Section, 'Test', EmptyStr));
+          FDelete:= TrimQuotes(IniFile.ReadString(Section, 'Delete', EmptyStr));
+          FAdd:= TrimQuotes(IniFile.ReadString(Section, 'Add', EmptyStr));
+          FAddSelfExtract:= TrimQuotes(IniFile.ReadString(Section, 'AddSelfExtract', EmptyStr));
+          FPasswordQuery:= IniFile.ReadString(Section, 'PasswordQuery', EmptyStr);
+          // optional
+          for J:= 0 to 50 do
+          begin
+            Format:= IniFile.ReadString(Section, 'IgnoreString' + IntToStr(J), EmptyStr);
+            if Format <> EmptyStr then
+              FIgnoreString.Add(Format)
+            else
+              Break;
+          end;
+          for J:= 0 to 50 do
+          begin
+            CustomParams:= IniFile.ReadString(Section, 'AskHistory' + IntToStr(J), EmptyStr);
+            if CustomParams <> EmptyStr then
+              FAskHistory.Add(CustomParams)
+            else
+              Break;
+          end;
+          FFlags:= TMultiArcFlags(IniFile.ReadInteger(Section, 'Flags', 0));
+          FFormMode:= IniFile.ReadInteger(Section, 'FormMode', 0);
+          FEnabled:= IniFile.ReadBool(Section, 'Enabled', True);
+          FOutput:= IniFile.ReadBool(Section, 'Output', False);
+          FDebug:= IniFile.ReadBool(Section, 'Debug', False);
+          if Import then
+          begin
+            if IniFile.ReadBool(Section, 'UnixPath', False) then
+              FFormMode:= FFormMode or MAF_UNIX_PATH;
+          end;
+        end;
+        FList.AddObject(Section, MultiArcItem);
+      end;
+    finally
+      FreeAndNil(IniFile);
+      FreeAndNil(Sections);
+    end;
+  end;
 begin
   Self.Clear;
-  IniFile:= TIniFileEx.Create(FileName, fmOpenRead);
+  LoadAddons(FileName);
   try
-    Sections:= TStringList.Create;
-    IniFile.ReadSections(Sections);
-    for I:= 0 to Sections.Count - 1 do
+    if FirstTime or (ID <> MA_PLATFORM) then
     begin
-      Section:= Sections[I];
-      if SameText(Section, 'MultiArc') then
-      begin
-        FirstTime:= IniFile.ReadBool(Section, 'FirstTime', True);
-        Continue;
-      end;
-      MultiArcItem:= TMultiArcItem.Create;
-      with MultiArcItem do
-      begin
-        FPacker:= Section;
-        FArchiver:= FixExeExt(TrimQuotes(IniFile.ReadString(Section, 'Archiver', EmptyStr)));
-        FFallBack:= IniFile.ReadString(Section, 'FallBackArchivers', EmptyStr);
-        FDescription:= TrimQuotes(IniFile.ReadString(Section, 'Description', EmptyStr));
-        FID:= TrimQuotes(IniFile.ReadString(Section, 'ID', EmptyStr));
-        FIDPos:= TrimQuotes(IniFile.ReadString(Section, 'IDPos', EmptyStr));
-        FIDSeekRange:= IniFile.ReadString(Section, 'IDSeekRange', EmptyStr);
-        FExtension:= TrimQuotes(IniFile.ReadString(Section, 'Extension', EmptyStr));
-        FStart:= TrimQuotes(IniFile.ReadString(Section, 'Start', EmptyStr));
-        FEnd:= TrimQuotes(IniFile.ReadString(Section, 'End', EmptyStr));
-        for J:= 0 to 50 do
-        begin
-          Format:= TrimQuotes(IniFile.ReadString(Section, 'Format' + IntToStr(J), EmptyStr));
-          if Format <> EmptyStr then
-            FFormat.Add(Format)
-          else
-            Break;
-        end;
-        FList:= TrimQuotes(IniFile.ReadString(Section, 'List', EmptyStr));
-        FExtract:= TrimQuotes(IniFile.ReadString(Section, 'Extract', EmptyStr));
-        FExtractWithoutPath:= TrimQuotes(IniFile.ReadString(Section, 'ExtractWithoutPath', EmptyStr));
-        FTest:= TrimQuotes(IniFile.ReadString(Section, 'Test', EmptyStr));
-        FDelete:= TrimQuotes(IniFile.ReadString(Section, 'Delete', EmptyStr));
-        FAdd:= TrimQuotes(IniFile.ReadString(Section, 'Add', EmptyStr));
-        FAddSelfExtract:= TrimQuotes(IniFile.ReadString(Section, 'AddSelfExtract', EmptyStr));
-        FPasswordQuery:= IniFile.ReadString(Section, 'PasswordQuery', EmptyStr);
-        // optional
-        for J:= 0 to 50 do
-        begin
-          Format:= IniFile.ReadString(Section, 'IgnoreString' + IntToStr(J), EmptyStr);
-          if Format <> EmptyStr then
-            FIgnoreString.Add(Format)
-          else
-            Break;
-        end;
-        for J:= 0 to 50 do
-        begin
-          CustomParams:= IniFile.ReadString(Section, 'AskHistory' + IntToStr(J), EmptyStr);
-          if CustomParams <> EmptyStr then
-            FAskHistory.Add(CustomParams)
-          else
-            Break;
-        end;
-        FFlags:= TMultiArcFlags(IniFile.ReadInteger(Section, 'Flags', 0));
-        FFormMode:= IniFile.ReadInteger(Section, 'FormMode', 0);
-        FEnabled:= IniFile.ReadBool(Section, 'Enabled', True);
-        FOutput:= IniFile.ReadBool(Section, 'Output', False);
-        FDebug:= IniFile.ReadBool(Section, 'Debug', False);
-      end;
-      FList.AddObject(Section, MultiArcItem);
+        AutoConfigure;
+        if not Import then SaveToFile(FileName);
     end;
-    if FirstTime then
-    try
+    if not Import and (MA_CONF_VER > Version) then
+    begin
+      SaveToFile(FileName + '.bak', True);
+      LoadAddons(gpExePath + 'default' + PathDelim + sMULTIARC_FILENAME);
       AutoConfigure;
-      SaveToFile(FileName);
-    except
-      // Ignore
+      SaveToFile(FileName); // just to replace duplicates
+      Self.Clear;
+      LoadAddons(FileName); // e - efficiency
     end;
-  finally
-    FreeAndNil(IniFile);
-    FreeAndNil(Sections);
+  except
+    // Ignore
   end;
 end;
 
-procedure TMultiArcList.SaveToFile(const FileName: String);
+procedure TMultiArcList.SaveToFile(const FileName: String; Export: Boolean = False);
 var
   I, J: Integer;
   IniFile: TIniFileEx;
@@ -423,7 +467,12 @@ begin
         IniFile.WriteBool(Section, 'Debug', FDebug);
       end;
     end;
-    IniFile.WriteBool('MultiArc', 'FirstTime', False);
+    if not Export then
+    begin
+      IniFile.WriteBool('MultiArc', 'FirstTime', False);
+      IniFile.WriteInteger('MultiArc', 'Version', MA_CONF_VER);
+      IniFile.WriteInteger('MultiArc', 'PlatformID', MA_PLATFORM);
+    end;
     IniFile.UpdateFile;
   finally
     IniFile.Free;
