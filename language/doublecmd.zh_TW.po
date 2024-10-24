@@ -11464,6 +11464,10 @@ msgstr "刷新檔案清單"
 msgid "Refresh"
 msgstr "刷新"
 
+#: ulng.rsmfstbisearchcombinedtags
+msgid "Search for combined tags..."
+msgstr ""
+
 #: ulng.rsmfstbisearchtips
 msgid "Search Files..."
 msgstr "搜尋檔案"

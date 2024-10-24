@@ -10936,6 +10936,10 @@ msgctxt "ulng.rsmfstbirefreshtitle"
 msgid "Refresh"
 msgstr "刷新"
 
+#: ulng.rsmfstbisearchcombinedtags
+msgid "Search for combined tags..."
+msgstr ""
+
 #: ulng.rsmfstbisearchtips
 msgctxt "ulng.rsmfstbisearchtips"
 msgid "Search Files..."

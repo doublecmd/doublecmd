@@ -1032,6 +1032,8 @@ resourcestring
 
   rsMFSTBISearchTitle = 'Search';
   rsMFSTBISearchTips  = 'Search Files...';
+  rsMFSTBISearchCombinedTags = 'Search for combined tags...';
+
   rsMFSTBITerminalTitle = 'Terminal';
   rsMFSTBITerminalTips  = 'Open in Terminal';
   rsMFSTBIPrivilegeTitle = 'Privilege';

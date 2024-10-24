@@ -177,7 +177,7 @@ end;
 procedure TToolBarMenuHandler.showFinderTagSelectorPanel(Sender: TObject);
 begin
   uDarwinFinderUtil.popoverTagsSelector(
-    'Search for combined tags...',
+    rsMFSTBISearchCombinedTags,
     @self.onFinderTagSelectorPanelClose,
     NSView(frmMain.Handle) , NSMaxYEdge );
 end;
@@ -358,7 +358,7 @@ var
     menuItem: TMenuItem;
   begin
     menuItem:= TMenuItem.Create( menu );
-    menuItem.Caption:= 'Search for combined tags...';
+    menuItem.Caption:= rsMFSTBISearchCombinedTags;
     menuItem.OnClick:= @toolBarMenuHandler.showFinderTagSelectorPanel;
     menu.Add( menuItem );
   end;

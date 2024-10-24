@@ -10930,6 +10930,10 @@ msgstr "Dateiliste aktualisieren"
 msgid "Refresh"
 msgstr "Aktualisieren"
 
+#: ulng.rsmfstbisearchcombinedtags
+msgid "Search for combined tags..."
+msgstr ""
+
 #: ulng.rsmfstbisearchtips
 msgid "Search Files..."
 msgstr "Dateien suchen ..."
