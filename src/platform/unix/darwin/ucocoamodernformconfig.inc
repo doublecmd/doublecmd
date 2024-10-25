@@ -111,13 +111,12 @@ const
   COMMON_FOLDERS: TStringArray = (
     '~/Documents',
     '~/Desktop',
+    '~/Downloads',
     '~',
     '~/Pictures',
     '~/Movies',
     '~/Music',
     '/Applications/Utilities',
-
-    '~/Downloads',
     '~/Library',
     '/Applications',
 
@@ -222,33 +221,42 @@ var
   menu: TMenuItem;
   tag: PtrInt = 0;
 
-  function newItem( caption: String ): TMenuItem;
+  procedure newItem( imageName: String );
   var
     folderName: String;
+    lclItem: TMenuItem;
+    cocoaItem: NSMenuItem;
+    cocoaImage: NSImage;
   begin
     folderName:= getMacOSDisplayNameFromPath( COMMON_FOLDERS[tag] );
-    Result:= TMenuItem.Create( menu );
-    Result.Caption:= caption + '  ' + folderName;
-    Result.onClick:= @toolBarMenuHandler.goToFolder;
-    Result.Tag:= tag;
+    lclItem:= TMenuItem.Create( menu );
+    lclItem.Caption:= folderName;
+    lclItem.onClick:= @toolBarMenuHandler.goToFolder;
+    lclItem.Tag:= tag;
+    menu.Add( lclItem );
+
+    cocoaImage:= NSImage.imageWithSystemSymbolName_accessibilityDescription(
+      NSSTR(imageName), nil );
+    cocoaItem:= NSMenuItem( lclItem.Handle );
+    cocoaItem.setImage( cocoaImage );
+
     inc( tag );
   end;
 
 begin
   menu:= TMenuItem.Create( frmMain );
-  menu.Add( newItem('􀈕') );
-  menu.Add( newItem('􀣰') );
-  menu.Add( newItem('􀎞') );
-  menu.Add( newItem('􀏅') );
-  menu.Add( newItem('􀎶') );
-  menu.Add( newItem('􀫀') );
-  menu.Add( newItem('􀤋') );
+  newItem('doc');
+  newItem('menubar.dock.rectangle');
+  newItem('arrow.down.circle');
+  newItem('house');
+  newItem('photo');
+  newItem('film');
+  newItem('music.quarternote.3');
+  newItem('wrench.and.screwdriver.fill');
+  newItem('l.circle');
+  newItem('a.circle');
   menu.AddSeparator;
-  menu.Add( newItem(' 􀁸') );
-  menu.Add( newItem(' 􀀚') );
-  menu.Add( newItem(' 􀀄') );
-  menu.AddSeparator;
-  menu.Add( newItem(' 􀈑') );
+  newItem('trash');
   Result:= menu;
 end;
 
