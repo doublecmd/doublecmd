@@ -176,6 +176,7 @@ type
     destructor Destroy; override;
     procedure AutoConfigure;
     procedure Clear;
+    procedure ConfigureItem(MultiArcItem: TMultiArcItem);
     procedure LoadFromFile(const FileName: String; Import: Boolean = False);
     procedure SaveToFile(const FileName: String; Export: Boolean = False);
     function Add(const S: String; aMultiArcItem: TMultiArcItem): Integer;
@@ -249,36 +250,46 @@ begin
   inherited Destroy;
 end;
 
-procedure TMultiArcList.AutoConfigure;
+procedure TMultiArcList.ConfigureItem(MultiArcItem: TMultiArcItem);
 var
-  I, J: Integer;
+  I: Integer;
   ExePath: String;
   AExeList: TStringArray;
 begin
-  for I:= 0 to Count - 1 do
+  with MultiArcItem do
   begin
-    ExePath:= Items[I].FArchiver;
+    ExePath:= FArchiver;
     if not mbFileExists(ReplaceEnvVars(ExePath)) then
       ExePath:= FindDefaultExecutablePath(ExePath);
-    if (ExePath = EmptyStr) and (Items[I].FFallBack <> EmptyStr) then
+    if (ExePath = EmptyStr) and (FFallBack <> EmptyStr) then
     begin
-      AExeList:= SplitString(Items[I].FFallBack, ',');
-      for J:= Low(AExeList) to High(AExeList) do
+      AExeList:= SplitString(FFallBack, ',');
+      for I:= Low(AExeList) to High(AExeList) do
       begin
-        if not mbFileExists(FixExeExt(ReplaceEnvVars(AExeList[J]))) then
-          ExePath:= FindDefaultExecutablePath(FixExeExt(AExeList[J]))
+        if not mbFileExists(FixExeExt(ReplaceEnvVars(AExeList[I]))) then
+          ExePath:= FindDefaultExecutablePath(FixExeExt(AExeList[I]))
         else
-          ExePath:= FixExeExt(AExeList[J]);
+          ExePath:= FixExeExt(AExeList[I]);
         if ExePath <> EmptyStr then break;
       end;
     end;
     if ExePath = EmptyStr then
-      Items[I].FEnabled:= False
+      FEnabled:= False
     else
-      begin
-        Items[I].FArchiver:= ExePath;
-        Items[I].FEnabled:= True;
-      end;
+    begin
+      FArchiver:= ExePath;
+      FEnabled:= True;
+    end;
+  end;
+end;
+
+procedure TMultiArcList.AutoConfigure;
+var
+  I: Integer;
+begin
+  for I:= 0 to Count - 1 do
+  begin
+    ConfigureItem(Items[I]);
   end;
 end;
 
@@ -300,7 +311,7 @@ var
   ID, Version: Integer;
   FirstTime: Boolean = True;
   MultiArcItem: TMultiArcItem;
-  procedure LoadAddons(FileName: String);
+  procedure LoadAddons(FileName: String; Configure: Boolean = False);
   var
     I, J: Integer;
     IniFile: TIniFileEx = nil;
@@ -327,7 +338,7 @@ var
         begin
           FPacker:= Section;
           FArchiver:= FixExeExt(TrimQuotes(IniFile.ReadString(Section, 'Archiver', EmptyStr)));
-          FFallBack:= IniFile.ReadString(Section, 'FallBackArchivers', EmptyStr);
+          FFallBack:= TrimQuotes(IniFile.ReadString(Section, 'FallBackArchivers', EmptyStr));
           FDescription:= TrimQuotes(IniFile.ReadString(Section, 'Description', EmptyStr));
           FID:= TrimQuotes(IniFile.ReadString(Section, 'ID', EmptyStr));
           FIDPos:= TrimQuotes(IniFile.ReadString(Section, 'IDPos', EmptyStr));
@@ -358,11 +369,11 @@ var
           FDelete:= TrimQuotes(IniFile.ReadString(Section, 'Delete', EmptyStr));
           FAdd:= TrimQuotes(IniFile.ReadString(Section, 'Add', EmptyStr));
           FAddSelfExtract:= TrimQuotes(IniFile.ReadString(Section, 'AddSelfExtract', EmptyStr));
-          FPasswordQuery:= IniFile.ReadString(Section, 'PasswordQuery', EmptyStr);
+          FPasswordQuery:= TrimQuotes(IniFile.ReadString(Section, 'PasswordQuery', EmptyStr));
           // optional
           for J:= 0 to 50 do
           begin
-            Format:= IniFile.ReadString(Section, 'IgnoreString' + IntToStr(J), EmptyStr);
+            Format:= TrimQuotes(IniFile.ReadString(Section, 'IgnoreString' + IntToStr(J), EmptyStr));
             if Format <> EmptyStr then
               FIgnoreString.Add(Format)
             else
@@ -370,7 +381,7 @@ var
           end;
           for J:= 0 to 50 do
           begin
-            CustomParams:= IniFile.ReadString(Section, 'AskHistory' + IntToStr(J), EmptyStr);
+            CustomParams:= TrimQuotes(IniFile.ReadString(Section, 'AskHistory' + IntToStr(J), EmptyStr));
             if CustomParams <> EmptyStr then
               FAskHistory.Add(CustomParams)
             else
@@ -387,6 +398,8 @@ var
               FFormMode:= FFormMode or MAF_UNIX_PATH;
           end;
         end;
+        if Configure then
+          ConfigureItem(MultiArcItem);
         FList.AddObject(Section, MultiArcItem);
       end;
     finally
@@ -406,8 +419,7 @@ begin
     if not Import and (MA_CONF_VER > Version) then
     begin
       SaveToFile(FileName + '.bak', True);
-      LoadAddons(gpExePath + 'default' + PathDelim + sMULTIARC_FILENAME);
-      AutoConfigure;
+      LoadAddons(gpExePath + 'default' + PathDelim + sMULTIARC_FILENAME, True);
       SaveToFile(FileName); // just to replace duplicates
       Self.Clear;
       LoadAddons(FileName); // e - efficiency
@@ -433,38 +445,52 @@ begin
       with MultiArcItem do
       begin
         IniFile.WriteString(Section, 'Archiver', FArchiver);
-        IniFile.WriteString(Section, 'FallBackArchivers', FFallBack);
+        if FFallBack <> EmptyStr then
+          IniFile.WriteString(Section, 'FallBackArchivers', FFallBack);
         IniFile.WriteString(Section, 'Description', FDescription);
-        IniFile.WriteString(Section, 'ID', FID);
-        IniFile.WriteString(Section, 'IDPos', FIDPos);
-        IniFile.WriteString(Section, 'IDSeekRange', FIDSeekRange);
+        if FID <> EmptyStr then
+          IniFile.WriteString(Section, 'ID', FID);
+        if FIDPos <> EmptyStr then
+          IniFile.WriteString(Section, 'IDPos', FIDPos);
+        if FIDSeekRange <> EmptyStr then
+          IniFile.WriteString(Section, 'IDSeekRange', FIDSeekRange);
         IniFile.WriteString(Section, 'Extension', FExtension);
-        IniFile.WriteString(Section, 'Start', FStart);
-        IniFile.WriteString(Section, 'End', FEnd);
+        if FStart <> EmptyStr then
+          IniFile.WriteString(Section, 'Start', '"' + FStart + '"');
+        if FEnd <> EmptyStr then
+          IniFile.WriteString(Section, 'End', '"' + FEnd + '"');
         for J:= 0 to FFormat.Count - 1 do
         begin
-          IniFile.WriteString(Section, 'Format' + IntToStr(J), FFormat[J]);
+          IniFile.WriteString(Section, 'Format' + IntToStr(J), '"' + FFormat[J] + '"');
         end;
-        IniFile.WriteString(Section, 'List', FList);
-        IniFile.WriteString(Section, 'Extract', FExtract);
-        IniFile.WriteString(Section, 'ExtractWithoutPath', FExtractWithoutPath);
-        IniFile.WriteString(Section, 'Test', FTest);
-        IniFile.WriteString(Section, 'Delete', FDelete);
-        IniFile.WriteString(Section, 'Add', FAdd);
-        IniFile.WriteString(Section, 'AddSelfExtract', FAddSelfExtract);
-        IniFile.WriteString(Section, 'PasswordQuery', FPasswordQuery);
+        if FList <> EmptyStr then
+          IniFile.WriteString(Section, 'List', '"' + FList + '"');
+        if FExtract <> EmptyStr then
+          IniFile.WriteString(Section, 'Extract', '"' + FExtract + '"');
+        if FExtractWithoutPath <> EmptyStr then
+          IniFile.WriteString(Section, 'ExtractWithoutPath', '"' + FExtractWithoutPath + '"');
+        if FTest <> EmptyStr then
+          IniFile.WriteString(Section, 'Test', '"' + FTest + '"');
+        if FDelete <> EmptyStr then
+          IniFile.WriteString(Section, 'Delete', '"' + FDelete + '"');
+        if FAdd <> EmptyStr then
+        IniFile.WriteString(Section, 'Add', '"' + FAdd + '"');
+        if FAddSelfExtract <> EmptyStr then
+          IniFile.WriteString(Section, 'AddSelfExtract', '"' + FAddSelfExtract + '"');
+        if FPasswordQuery <> EmptyStr then
+          IniFile.WriteString(Section, 'PasswordQuery', '"' + FPasswordQuery + '"');
         // optional
         for J:= 0 to FIgnoreString.Count - 1 do
-          IniFile.WriteString(Section, 'IgnoreString' + IntToStr(J), FIgnoreString[J]);
+          IniFile.WriteString(Section, 'IgnoreString' + IntToStr(J), '"' + FIgnoreString[J] + '"');
         for J:= 0 to FAskHistory.Count - 1 do
-        begin
           IniFile.WriteString(Section, 'AskHistory' + IntToStr(J), FAskHistory[J]);
-        end;
         IniFile.WriteInteger(Section, 'Flags', Integer(FFlags));
         IniFile.WriteInteger(Section, 'FormMode', FFormMode);
         IniFile.WriteBool(Section, 'Enabled', FEnabled);
-        IniFile.WriteBool(Section, 'Output', FOutput);
-        IniFile.WriteBool(Section, 'Debug', FDebug);
+        if FOutput then
+          IniFile.WriteBool(Section, 'Output', FOutput);
+        if FDebug then
+          IniFile.WriteBool(Section, 'Debug', FDebug);
       end;
     end;
     if not Export then
