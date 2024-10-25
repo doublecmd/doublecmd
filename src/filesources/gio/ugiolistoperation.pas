@@ -45,6 +45,7 @@ var
   AInfo: PGFileInfo;
   AError: PGError = nil;
   AFileEnum: PGFileEnumerator;
+  AFileSource: TGioFileSource;
 begin
   FFiles.Clear;
   with FGioFileSource do
@@ -82,11 +83,12 @@ begin
       end;
       // List files
       try
+        AFileSource:= TGioFileSource(GetClass);
         AInfo:= g_file_enumerator_next_file(AFileEnum, nil, @AError);
         while Assigned(AInfo) do
         begin
           CheckOperationState;
-          AFile:= TGioFileSource.CreateFile(Path, AFolder, AInfo);
+          AFile:= AFileSource.CreateFile(Path, AFolder, AInfo);
           g_object_unref(AInfo);
           FFiles.Add(AFile);
           AInfo:= g_file_enumerator_next_file(AFileEnum, nil, @AError);

@@ -41,7 +41,7 @@ type
       function GetFreeSpace(Path: String; out FreeSize, TotalSize : Int64) : Boolean; override;
 
       class function CreateFile(const APath: String): TFile; override;
-      class function CreateFile(const APath: String; AFolder: PGFile; AFileInfo: PGFileInfo): TFile;
+      class function CreateFile(const APath: String; AFolder: PGFile; AFileInfo: PGFileInfo): TFile; virtual;
 
       procedure Reload(const PathsToReload: TPathsArray); override;
       function GetParentDir(sPath : String): String; override;
@@ -178,7 +178,7 @@ end;
 
 function TGioFileSource.SetCurrentWorkingDirectory(NewDir: String): Boolean;
 begin
-  Result:= TRue; //inherited SetCurrentWorkingDirectory(NewDir);
+  Result:= True;
 end;
 
 procedure ask_password_cb (op: PGMountOperation;
@@ -527,4 +527,3 @@ begin
 end;
 
 end.
-
