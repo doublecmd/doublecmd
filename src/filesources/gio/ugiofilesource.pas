@@ -120,7 +120,6 @@ begin
   Result.Size:= g_file_info_get_size (AFileInfo);
   Result.Attributes:= g_file_info_get_attribute_uint32 (AFileInfo, FILE_ATTRIBUTE_UNIX_MODE);
   Result.ModificationTime:= UnixFileTimeToDateTime(g_file_info_get_attribute_uint64 (AFileInfo, FILE_ATTRIBUTE_TIME_MODIFIED));
-  Result.LinkProperty := TFileLinkProperty.Create;
 
   // Get a file's type (whether it is a regular file, symlink, etc).
   AFileType:= g_file_info_get_file_type (AFileInfo);
