@@ -156,6 +156,9 @@ begin
   else if AFileType in [G_FILE_TYPE_SHORTCUT, G_FILE_TYPE_MOUNTABLE] then
   begin
     Result.Attributes:= Result.Attributes or S_IFLNK or S_IFDIR;
+    Result.SizeProperty.IsValid:= g_file_info_has_attribute(AFileInfo, FILE_ATTRIBUTE_STANDARD_SIZE);
+    Result.ModificationTimeProperty.IsValid:= g_file_info_has_attribute(AFileInfo, FILE_ATTRIBUTE_TIME_MODIFIED);
+
     ATarget:= g_file_info_get_attribute_string(AFileInfo, FILE_ATTRIBUTE_STANDARD_TARGET_URI);
     Result.LinkProperty.IsValid := Length(ATarget) > 0;
     Result.LinkProperty.LinkTo := ATarget;
