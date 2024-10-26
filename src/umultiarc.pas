@@ -311,7 +311,6 @@ begin
       begin
         FPacker:= Section;
         FArchiver:= FixExeExt(TrimQuotes(IniFile.ReadString(Section, 'Archiver', EmptyStr)));
-        FFallBack:= IniFile.ReadString(Section, 'FallBackArchivers', EmptyStr);
         FDescription:= TrimQuotes(IniFile.ReadString(Section, 'Description', EmptyStr));
         FID:= TrimQuotes(IniFile.ReadString(Section, 'ID', EmptyStr));
         FIDPos:= TrimQuotes(IniFile.ReadString(Section, 'IDPos', EmptyStr));
@@ -357,6 +356,7 @@ begin
         FEnabled:= IniFile.ReadBool(Section, 'Enabled', True);
         FOutput:= IniFile.ReadBool(Section, 'Output', False);
         FDebug:= IniFile.ReadBool(Section, 'Debug', False);
+        FFallBack:= IniFile.ReadString(Section, 'FallBackArchivers', EmptyStr);
       end;
       FList.AddObject(Section, MultiArcItem);
     end;
@@ -389,7 +389,6 @@ begin
       with MultiArcItem do
       begin
         IniFile.WriteString(Section, 'Archiver', FArchiver);
-        IniFile.WriteString(Section, 'FallBackArchivers', FFallBack);
         IniFile.WriteString(Section, 'Description', FDescription);
         IniFile.WriteString(Section, 'ID', FID);
         IniFile.WriteString(Section, 'IDPos', FIDPos);
@@ -421,6 +420,8 @@ begin
         IniFile.WriteBool(Section, 'Enabled', FEnabled);
         IniFile.WriteBool(Section, 'Output', FOutput);
         IniFile.WriteBool(Section, 'Debug', FDebug);
+        if FFallBack <> EmptyStr then
+          IniFile.WriteString(Section, 'FallBackArchivers', FFallBack);
       end;
     end;
     IniFile.WriteBool('MultiArc', 'FirstTime', False);
