@@ -747,6 +747,11 @@ begin
 
   dwFileAttributes := mbFileGetAttr(aFileName);
 
+  if FPS_ISLNK(dwFileAttributes) then
+  begin
+    dwFileAttributes := mbFileGetAttrNoLinks(aFileName);
+  end;
+
   if dwFileAttributes = faInvalidAttributes then
   begin
     ActivatePanel(pnlFolder);
