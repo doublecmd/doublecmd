@@ -7363,12 +7363,12 @@ msgstr "新的收藏夹标签保存在菜单中的默认位置："
 #: tfrmoptionsterminal.edrunintermcloseparams.hint
 msgctxt "tfrmoptionsterminal.edrunintermcloseparams.hint"
 msgid "{command} should normally be present here to reflect the command to be run in terminal"
-msgstr "{命令} 通常应该在此出现，以反映在终端中运行的命令"
+msgstr "{command} 通常应该在此出现，以反映在终端中运行的命令"
 
 #: tfrmoptionsterminal.edrunintermstayopenparams.hint
 msgctxt "tfrmoptionsterminal.edrunintermstayopenparams.hint"
 msgid "{command} should normally be present here to reflect the command to be run in terminal"
-msgstr "{命令} 通常应该在此出现，以反映在终端中运行的命令"
+msgstr "{command} 通常应该在此出现，以反映在终端中运行的命令"
 
 #: tfrmoptionsterminal.gbjustrunterminal.caption
 msgid "Command for just running terminal:"
