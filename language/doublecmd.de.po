@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Double Commander 1.1.0 alpha\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-11-15 11:15+0300\n"
-"PO-Revision-Date: 2024-10-11 16:17+0200\n"
+"PO-Revision-Date: 2024-10-24 23:14+0200\n"
 "Last-Translator:  ㋡  <braass@mail.de>\n"
 "Language-Team: Deutsch <braass@mail.de>\n"
 "Language: de\n"
@@ -336,7 +336,7 @@ msgstr "Einzelne Prüfsumme fü&r jede Datei erstellen"
 
 #: tfrmchecksumcalc.cbseparatefolder.caption
 msgid "Create separate checksum file for each &directory"
-msgstr ""
+msgstr "Einzelne Prüfsumme für jedes &Verzeichnis erstellen"
 
 #: tfrmchecksumcalc.lblfileformat.caption
 msgid "File &format"
@@ -10932,7 +10932,7 @@ msgstr "Aktualisieren"
 
 #: ulng.rsmfstbisearchcombinedtags
 msgid "Search for combined tags..."
-msgstr ""
+msgstr "Suche nach kombinierten Tags ..."
 
 #: ulng.rsmfstbisearchtips
 msgid "Search Files..."
@@ -14223,4 +14223,3 @@ msgstr "Eine Ersetzung hat nicht stattgefunden."
 #, object-pascal-format
 msgid "No setup named \"%s\""
 msgstr "Keine Einstellung namens »%s«"
-
