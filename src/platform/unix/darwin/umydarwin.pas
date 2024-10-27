@@ -35,8 +35,8 @@ interface
 
 uses
   Classes, SysUtils, UnixType,
-  InterfaceBase, Menus, Controls, Forms, Grids,
-  uFileSourceProperty, uDisplayFile, uFileView, uColumnsFileView,
+  InterfaceBase, Menus, Controls, Forms,
+  uFileProperty, uFileSourceProperty, uDisplayFile, uFileView, uColumnsFileView,
   Cocoa_Extra, MacOSAll, CocoaAll, QuickLookUI,
   CocoaUtils, CocoaInt, CocoaPrivate, CocoaConst, CocoaMenus,
   uDarwinFSWatch, uDarwinFinder, uDarwinFinderModel;
@@ -162,6 +162,7 @@ procedure performMacOSService( serviceName: String );
 
 procedure showQuickLookPanel;
 procedure showEditFinderTagsPanel( const Sender: id; const control: TWinControl );
+function getMacOSFinderTagFileProperty( const path: String ): TFileFinderTagProperty;
 
 // MacOS Sharing
 procedure showMacOSSharingServiceMenu;
@@ -185,6 +186,8 @@ type
   TDarwinFileViewDrawHelper = class
     procedure onDrawCell(Sender: TFileView; aCol, aRow: Integer;
       aRect: TRect; focused: Boolean; aFile: TDisplayFile);
+    procedure drawTagsAsDecoration(
+      const colors: TFileFinderTagPrimaryColors; const drawRect: TRect; const focused: Boolean );
   end;
 
 var
@@ -311,20 +314,48 @@ end;
 procedure TDarwinFileViewDrawHelper.onDrawCell(Sender: TFileView; aCol, aRow: Integer;
   aRect: TRect; focused: Boolean; aFile: TDisplayFile);
 var
-  url: NSURL;
-  tagNames: NSArray;
+  tagProperty: TFileFinderTagProperty;
 begin
   if (Sender is TColumnsFileView) and (aCol<>0) then
     Exit;
 
-  if NOT (fspDirectAccess in Sender.FileSource.Properties) then
+  tagProperty:= aFile.FSFile.FinderTagProperty;
+  if tagProperty = nil then
     Exit;
 
-  url:= NSURL.fileURLWithPath( StrToNSString(aFile.FSFile.FullPath) );
-  tagNames:= uDarwinFinderModelUtil.getTagNamesOfFile( url );
-  if tagNames.count = 0 then
-    Exit;
-  uDarwinFinderUtil.drawTagsAsDecoration( tagNames, aRect, focused );
+  drawTagsAsDecoration( tagProperty.Colors, aRect, focused );
+end;
+
+procedure TDarwinFileViewDrawHelper.drawTagsAsDecoration(
+  const colors: TFileFinderTagPrimaryColors; const drawRect: TRect;
+  const focused: Boolean);
+var
+  i: Integer;
+  colorIndex: Integer;
+  color: NSColor;
+  tagRect: NSRect;
+  path: NSBezierPath;
+begin
+  tagRect.size.width:= 11;
+  tagRect.size.height:= 11;
+  tagRect.origin.x:= drawRect.Right - 17;
+  tagRect.origin.y:= drawRect.Top + (drawRect.Height-tagRect.size.height)/2;
+
+  for i:=0 to 2 do begin
+    colorIndex:= colors.indexes[i];
+    if colorIndex < 0 then
+      break;
+    color:= uDarwinFinderModelUtil.rectFinderTagNSColors[colorIndex];
+    color.set_;
+    path:= NSBezierPath.bezierPathWithOvalInRect( tagRect );
+    path.fill;
+    if focused then
+      NSColor.alternateSelectedControlTextColor.set_
+    else
+      NSColor.textBackgroundColor.set_;
+    path.stroke;
+    tagRect.origin.x:= tagRect.origin.x - 5;
+  end;
 end;
 
 
@@ -812,6 +843,46 @@ begin
 
   handler:= TFinderTagsEditorPanelHandler.Create( filenames[0] );
   uDarwinFinderUtil.popoverFileTagsEditor( filenames[0], handler.onClose, view , NSMaxYEdge );
+end;
+
+function getMacOSFinderTagFileProperty( const path: String ): TFileFinderTagProperty;
+var
+  url: NSURL;
+  tagNames: NSArray;
+  tagName: NSString;
+
+  function toPrimaryColors: TFileFinderTagPrimaryColors;
+  var
+    tag: TFinderTag;
+    iSource: NSUInteger;
+    iDest: Integer;
+    colorIndex: Integer;
+  begin
+    iSource:= 0;
+    if tagNames.count > 3 then
+      iSource:= tagNames.count - 3;
+    for iDest:=0 to 2 do begin
+      colorIndex:= -1;
+      if iSource < tagNames.count then begin
+        tagName:= NSString( tagNames.objectAtIndex(iSource) );
+        tag:= TFinderTags.getTagOfName( tagName );
+        colorIndex:= tag.colorIndex;
+      end;
+      Result.indexes[iDest]:= colorIndex;
+      inc( iSource );
+    end;
+  end;
+
+begin
+  Result:= nil;
+  url:= NSURL.fileURLWithPath( StrToNSString(path) );
+  tagNames:= uDarwinFinderModelUtil.getTagNamesOfFile( url );
+
+  if tagNames = nil then
+    Exit;
+
+  Result:= TFileFinderTagProperty.Create;
+  Result.Colors:= toPrimaryColors;
 end;
 
 initialization
