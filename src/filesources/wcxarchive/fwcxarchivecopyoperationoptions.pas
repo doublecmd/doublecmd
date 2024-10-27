@@ -52,7 +52,8 @@ begin
   FFileSource := AFileSource as IWcxArchiveFileSource;
   inherited Create(AOwner, AFileSource);
   pnlCheckboxes.Visible := True;
-  btnConfig.Visible := True;
+  cbEncrypt.Enabled:= ((FFileSource.PluginCapabilities and PK_CAPS_ENCRYPT) <> 0);
+  btnConfig.Visible := ((FFileSource.PluginCapabilities and PK_CAPS_OPTIONS) <> 0);
 end;
 
 { TWcxArchiveCopyOperationOptionsUI }
