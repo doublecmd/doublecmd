@@ -89,6 +89,10 @@ type
     procedure SetTypeProperty(NewValue: TFileTypeProperty);
     function GetCommentProperty: TFileCommentProperty;
     procedure SetCommentProperty(NewValue: TFileCommentProperty);
+    {$IFDEF DARWIN}
+    function GetFinderTagProperty: TFileFinderTagProperty;
+    procedure SetFinderTagProperty(NewValue: TFileFinderTagProperty);
+    {$ENDIF}
   public
     constructor Create(const APath: String);
     constructor CreateForCloning;
@@ -162,6 +166,9 @@ type
     property OwnerProperty: TFileOwnerProperty read GetOwnerProperty write SetOwnerProperty;
     property TypeProperty: TFileTypeProperty read GetTypeProperty write SetTypeProperty;
     property CommentProperty: TFileCommentProperty read GetCommentProperty write SetCommentProperty;
+    {$IFDEF DARWIN}
+    property FinderTagProperty: TFileFinderTagProperty read GetFinderTagProperty write SetFinderTagProperty;
+    {$ENDIF}
 
     { Accessors to each property's value. }
 
@@ -799,6 +806,22 @@ begin
   else
     Exclude(FSupportedProperties, fpComment);
 end;
+
+{$IFDEF DARWIN}
+function TFile.GetFinderTagProperty: TFileFinderTagProperty;
+begin
+  Result := TFileFinderTagProperty(FProperties[fpMacOSFinderTag]);
+end;
+
+procedure TFile.SetFinderTagProperty(NewValue: TFileFinderTagProperty);
+begin
+  FProperties[fpMacOSFinderTag] := NewValue;
+  if Assigned(NewValue) then
+    Include(FSupportedProperties, fpMacOSFinderTag)
+  else
+    Exclude(FSupportedProperties, fpMacOSFinderTag);
+end;
+{$ENDIF}
 
 function TFile.IsNameValid: Boolean;
 begin
