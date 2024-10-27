@@ -110,6 +110,7 @@ end;
 class function TGioFileSource.CreateFile(const APath: String; AFolder: PGFile;
   AFileInfo: PGFileInfo): TFile;
 var
+  Addr: TURI;
   AFile: PGFile;
   ATarget: Pgchar;
   AFileType: TGFileType;
@@ -166,6 +167,18 @@ begin
     ATarget:= g_file_info_get_attribute_string(AFileInfo, FILE_ATTRIBUTE_STANDARD_TARGET_URI);
     Result.LinkProperty.IsValid := Length(ATarget) > 0;
     Result.LinkProperty.LinkTo := ATarget;
+
+    // Remove a standard port from address
+    Addr:= ParseURI(Result.LinkProperty.LinkTo);
+    if Addr.Port > 0 then
+    begin
+      case Addr.Port of
+          22: if (Addr.Protocol = 'sftp') then Addr.Port:= 0;
+         445: if (Addr.Protocol = 'smb')  then Addr.Port:= 0;
+        2049: if (Addr.Protocol = 'nfs')  then Addr.Port:= 0;
+      end;
+      if Addr.Port = 0 then Result.LinkProperty.LinkTo:= EncodeURI(Addr);
+    end;
   end;
 end;
 
