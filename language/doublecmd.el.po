@@ -3211,7 +3211,7 @@ msgid "C&onfiguration"
 msgstr "Διαμόρφωση"
 
 #: tfrmmain.mnufavoritetabs.caption
-msgid "Favorites"
+msgid "F&avorites"
 msgstr "Αγαπημένα"
 
 #: tfrmmain.mnufiles.caption
@@ -3229,7 +3229,7 @@ msgstr "Επιλογή"
 
 #: tfrmmain.mnunetwork.caption
 msgctxt "TFRMMAIN.MNUNETWORK.CAPTION"
-msgid "Network"
+msgid "&Network"
 msgstr "Δίκτυο"
 
 #: tfrmmain.mnushow.caption

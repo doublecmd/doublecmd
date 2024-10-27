@@ -3150,7 +3150,7 @@ msgid "C&onfiguration"
 msgstr "K&onfigurieren"
 
 #: tfrmmain.mnufavoritetabs.caption
-msgid "Favorites"
+msgid "F&avorites"
 msgstr "☆-&Tabs"
 
 #: tfrmmain.mnufiles.caption
@@ -3168,7 +3168,7 @@ msgstr "&Markieren"
 
 #: tfrmmain.mnunetwork.caption
 msgctxt "TFRMMAIN.MNUNETWORK.CAPTION"
-msgid "Network"
+msgid "&Network"
 msgstr "&Netzwerk"
 
 #: tfrmmain.mnushow.caption

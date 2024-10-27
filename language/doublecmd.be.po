@@ -3156,7 +3156,7 @@ msgid "C&onfiguration"
 msgstr "&Канфігурацыя"
 
 #: tfrmmain.mnufavoritetabs.caption
-msgid "Favorites"
+msgid "F&avorites"
 msgstr "Улюбёнае"
 
 #: tfrmmain.mnufiles.caption
@@ -3174,7 +3174,7 @@ msgstr "&Пазначэнне"
 
 #: tfrmmain.mnunetwork.caption
 msgctxt "tfrmmain.mnunetwork.caption"
-msgid "Network"
+msgid "&Network"
 msgstr "Сетка"
 
 #: tfrmmain.mnushow.caption

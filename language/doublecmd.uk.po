@@ -3229,7 +3229,7 @@ msgid "C&onfiguration"
 msgstr "&Налаштування"
 
 #: tfrmmain.mnufavoritetabs.caption
-msgid "Favorites"
+msgid "F&avorites"
 msgstr "Вибране"
 
 #: tfrmmain.mnufiles.caption
@@ -3247,7 +3247,7 @@ msgstr "&Виділення"
 
 #: tfrmmain.mnunetwork.caption
 msgctxt "TFRMMAIN.MNUNETWORK.CAPTION"
-msgid "Network"
+msgid "&Network"
 msgstr "Мережа"
 
 #: tfrmmain.mnushow.caption

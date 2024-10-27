@@ -3464,7 +3464,7 @@ msgid "C&onfiguration"
 msgstr "C&onfiguració"
 
 #: tfrmmain.mnufavoritetabs.caption
-msgid "Favorites"
+msgid "F&avorites"
 msgstr ""
 
 #: tfrmmain.mnufiles.caption
@@ -3484,7 +3484,7 @@ msgstr "&Selecció"
 
 #: tfrmmain.mnunetwork.caption
 msgctxt "TFRMMAIN.MNUNETWORK.CAPTION"
-msgid "Network"
+msgid "&Network"
 msgstr "Xarxa"
 
 #: tfrmmain.mnushow.caption

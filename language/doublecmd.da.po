@@ -3374,7 +3374,7 @@ msgstr "&Opsætning"
 
 # In the menu bar
 #: tfrmmain.mnufavoritetabs.caption
-msgid "Favorites"
+msgid "F&avorites"
 msgstr "Favo&ritter"
 
 #: tfrmmain.mnufiles.caption
@@ -3394,7 +3394,7 @@ msgstr "&Marker"
 
 #: tfrmmain.mnunetwork.caption
 msgctxt "tfrmmain.mnunetwork.caption"
-msgid "Network"
+msgid "&Network"
 msgstr "&Netværk"
 
 # Vis

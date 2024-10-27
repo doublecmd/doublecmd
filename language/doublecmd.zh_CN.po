@@ -3148,7 +3148,7 @@ msgid "C&onfiguration"
 msgstr "配置(&O)"
 
 #: tfrmmain.mnufavoritetabs.caption
-msgid "Favorites"
+msgid "F&avorites"
 msgstr "收藏夹(&A)"
 
 #: tfrmmain.mnufiles.caption
@@ -3166,7 +3166,7 @@ msgstr "标记(&M)"
 
 #: tfrmmain.mnunetwork.caption
 msgctxt "tfrmmain.mnunetwork.caption"
-msgid "Network"
+msgid "&Network"
 msgstr "网络(&N)"
 
 #: tfrmmain.mnushow.caption

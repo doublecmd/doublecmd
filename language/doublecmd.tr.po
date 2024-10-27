@@ -3386,7 +3386,7 @@ msgid "C&onfiguration"
 msgstr "&Yapılandır"
 
 #: tfrmmain.mnufavoritetabs.caption
-msgid "Favorites"
+msgid "F&avorites"
 msgstr ""
 
 #: tfrmmain.mnufiles.caption
@@ -3404,7 +3404,7 @@ msgstr "&İşaretle"
 
 #: tfrmmain.mnunetwork.caption
 msgctxt "TFRMMAIN.MNUNETWORK.CAPTION"
-msgid "Network"
+msgid "&Network"
 msgstr "Ağ"
 
 #: tfrmmain.mnushow.caption
