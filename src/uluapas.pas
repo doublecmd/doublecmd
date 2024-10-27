@@ -676,15 +676,9 @@ begin
   Result:= 1;
   sFile:= lua_tostring(L, 1);
 
-{$IFDEF MSWINDOWS}
-  ModificationTime:= UnixFileTimeToWinTime(lua_tointeger(L, 2));
-  CreationTime:= UnixFileTimeToWinTime(lua_tointeger(L, 3));
-  LastAccessTime:= UnixFileTimeToWinTime(lua_tointeger(L, 4));
-{$ELSE}
-  ModificationTime:= lua_tointeger(L, 2);
-  CreationTime:= lua_tointeger(L, 3);
-  LastAccessTime:= lua_tointeger(L, 4);
-{$ENDIF}
+  ModificationTime:= UnixFileTimeToFileTime(lua_tointeger(L, 2));
+  CreationTime:= UnixFileTimeToFileTime(lua_tointeger(L, 3));
+  LastAccessTime:= UnixFileTimeToFileTime(lua_tointeger(L, 4));
 
   lua_pushboolean(L, mbFileSetTime(sFile, ModificationTime, CreationTime, LastAccessTime));
 end;

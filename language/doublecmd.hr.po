@@ -11636,6 +11636,10 @@ msgstr ""
 msgid "Refresh"
 msgstr ""
 
+#: ulng.rsmfstbisearchcombinedtags
+msgid "Search for combined tags..."
+msgstr ""
+
 #: ulng.rsmfstbisearchtips
 msgid "Search Files..."
 msgstr ""

@@ -41,7 +41,7 @@ type
       function GetFreeSpace(Path: String; out FreeSize, TotalSize : Int64) : Boolean; override;
 
       class function CreateFile(const APath: String): TFile; override;
-      class function CreateFile(const APath: String; AFolder: PGFile; AFileInfo: PGFileInfo): TFile;
+      class function CreateFile(const APath: String; AFolder: PGFile; AFileInfo: PGFileInfo): TFile; virtual;
 
       procedure Reload(const PathsToReload: TPathsArray); override;
       function GetParentDir(sPath : String): String; override;
@@ -117,10 +117,14 @@ var
 begin
   Result:= CreateFile(APath);
   Result.Name:= g_file_info_get_name(AFileInfo);
-  Result.Size:= g_file_info_get_size (AFileInfo);
-  Result.Attributes:= g_file_info_get_attribute_uint32 (AFileInfo, FILE_ATTRIBUTE_UNIX_MODE);
+  Result.Attributes:= g_file_info_get_attribute_uint32(AFileInfo, FILE_ATTRIBUTE_UNIX_MODE);
   Result.ModificationTime:= UnixFileTimeToDateTime(g_file_info_get_attribute_uint64 (AFileInfo, FILE_ATTRIBUTE_TIME_MODIFIED));
-  Result.LinkProperty := TFileLinkProperty.Create;
+
+  if g_file_info_has_attribute(AFileInfo, FILE_ATTRIBUTE_STANDARD_SIZE) then
+    Result.Size:= g_file_info_get_size(AFileInfo)
+  else begin
+    Result.SizeProperty.IsValid:= False;
+  end;
 
   // Get a file's type (whether it is a regular file, symlink, etc).
   AFileType:= g_file_info_get_file_type (AFileInfo);
@@ -157,6 +161,8 @@ begin
   else if AFileType in [G_FILE_TYPE_SHORTCUT, G_FILE_TYPE_MOUNTABLE] then
   begin
     Result.Attributes:= Result.Attributes or S_IFLNK or S_IFDIR;
+    Result.ModificationTimeProperty.IsValid:= g_file_info_has_attribute(AFileInfo, FILE_ATTRIBUTE_TIME_MODIFIED);
+
     ATarget:= g_file_info_get_attribute_string(AFileInfo, FILE_ATTRIBUTE_STANDARD_TARGET_URI);
     Result.LinkProperty.IsValid := Length(ATarget) > 0;
     Result.LinkProperty.LinkTo := ATarget;
@@ -178,7 +184,7 @@ end;
 
 function TGioFileSource.SetCurrentWorkingDirectory(NewDir: String): Boolean;
 begin
-  Result:= TRue; //inherited SetCurrentWorkingDirectory(NewDir);
+  Result:= True;
 end;
 
 procedure ask_password_cb (op: PGMountOperation;
@@ -527,4 +533,3 @@ begin
 end;
 
 end.
-

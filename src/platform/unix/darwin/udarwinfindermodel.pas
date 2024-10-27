@@ -74,7 +74,9 @@ type
     class procedure setTagNamesOfFile( const url: NSURL; const tagNames: NSArray );
     class procedure addTagForFile( const url: NSURL; const tagName: NSString );
     class procedure removeTagForFile( const url: NSURL; const tagName: NSString );
+  public
     class procedure searchFilesForTagName( const tagName: NSString; const handler: TMacOSSearchResultHandler );
+    class procedure searchFilesForTagNames( const tagNames: NSArray; const handler: TMacOSSearchResultHandler );
   public
     class property rectFinderTagNSColors: TFinderTagNSColors read _rectFinderTagNSColors;
     class property dotFinderTagNSColors: TFinderTagNSColors read _dotFinderTagNSColors;
@@ -204,6 +206,8 @@ begin
   end;
 
   _handler( _queryName.UTF8String, files );
+
+  self.release;
 end;
 
 function TMacOSQueryHandler.initWithName(name: NSString): id;
@@ -216,6 +220,7 @@ end;
 procedure TMacOSQueryHandler.dealloc;
 begin
   _queryName.release;
+  _query.release;
 end;
 
 { uDarwinFinderModelUtil }
@@ -262,16 +267,50 @@ begin
   uDarwinFinderModelUtil.setTagNamesOfFile( url, newTagNames );
 end;
 
-class procedure uDarwinFinderModelUtil.searchFilesForTagName(
-  const tagName: NSString; const handler: TMacOSSearchResultHandler);
+class procedure uDarwinFinderModelUtil.searchFilesForTagNames(
+  const tagNames: NSArray; const handler: TMacOSSearchResultHandler);
+
+  function toString: NSString;
+  var
+    tagName: NSString;
+    name: NSMutableString;
+  begin
+    name:= NSMutableString.new;
+    for tagName in tagNames do begin
+      name.appendString( tagName );
+      name.appendString( NSSTR('|') );
+    end;
+    Result:= name.substringToIndex( name.length-1 );
+    name.release;
+  end;
+
+  function formatString: NSString;
+  var
+    format: NSMutableString;
+    count: Integer;
+    i: Integer;
+  begin
+    format:= NSMutableString.new;
+    count:= tagNames.count;
+    for i:=1 to count do begin
+      format.appendString( NSSTR('(kMDItemUserTags == %@) && ') );
+    end;
+    Result:= format.substringToIndex( format.length-4 );
+    format.release;
+  end;
+
 var
   queryHandler: TMacOSQueryHandler;
   query: NSMetadataQuery;
   predicate: NSPredicate;
-  format: NSString;
 begin
+  if tagNames.count = 0 then
+    Exit;
+
+  // release in initalGatherComplete()
   query:= NSMetadataQuery.new;
-  queryHandler:= TMacOSQueryHandler.alloc.initWithName( tagName );
+  // release in initalGatherComplete()
+  queryHandler:= TMacOSQueryHandler.alloc.initWithName( toString() );
   queryHandler._query:= query;
   queryHandler._handler:= handler;
   NSNotificationCenter.defaultCenter.addObserver_selector_name_object(
@@ -280,10 +319,18 @@ begin
     NSMetadataQueryDidFinishGatheringNotification,
     query );
 
-  format:= NSString.stringWithFormat( NSSTR('kMDItemUserTags == ''%@'''), tagName );
-  predicate:= NSPredicate.predicateWithFormat( format );
+  predicate:= NSPredicate.predicateWithFormat_argumentArray( formatString(), tagNames );
   query.setPredicate( predicate );
   query.startQuery;
+end;
+
+class procedure uDarwinFinderModelUtil.searchFilesForTagName(
+  const tagName: NSString; const handler: TMacOSSearchResultHandler);
+var
+  tagNames: NSArray;
+begin
+  tagNames:= NSArray.arrayWithObject( tagName );
+  uDarwinFinderModelUtil.searchFilesForTagNames( tagNames, handler );
 end;
 
 class function uDarwinFinderModelUtil.getAllTags: NSDictionary;

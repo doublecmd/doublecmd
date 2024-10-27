@@ -10935,6 +10935,10 @@ msgstr "파일 목록 새로 고침"
 msgid "Refresh"
 msgstr "새로 고침"
 
+#: ulng.rsmfstbisearchcombinedtags
+msgid "Search for combined tags..."
+msgstr ""
+
 #: ulng.rsmfstbisearchtips
 msgid "Search Files..."
 msgstr "파일 검색..."

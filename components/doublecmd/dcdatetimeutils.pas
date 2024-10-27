@@ -100,6 +100,7 @@ function UnixFileTimeToDateTimeEx(UnixTime: DCBasicTypes.TFileTimeEx) : TDateTim
 {$ENDIF}
 function DateTimeToUnixFileTime(DateTime: TDateTime) : TUnixFileTime;
 function DateTimeToUnixFileTimeEx(DateTime: TDateTime) : DCBasicTypes.TFileTimeEx;
+function UnixFileTimeToFileTime(UnixTime: TUnixFileTime): DCBasicTypes.TFileTime;
 function UnixFileTimeToDosTime(UnixTime: TUnixFileTime): TDosFileTime;
 function UnixFileTimeToWinTime(UnixTime: TUnixFileTime): TWinFileTime;
 function WinFileTimeToUnixTime(WinTime: TWinFileTime) : TUnixFileTime;
@@ -595,6 +596,15 @@ begin
   Result:= WinFileTimeToUnixTime(WinFileTime);
 end;
 {$ENDIF}
+
+function UnixFileTimeToFileTime(UnixTime: TUnixFileTime): DCBasicTypes.TFileTime; inline;
+begin
+{$IF DEFINED(MSWINDOWS)}
+  Result:= UnixFileTimeToWinTime(UnixTime);
+{$ELSE}
+  Result:= UnixTime;
+{$ENDIF}
+end;
 
 function UnixFileTimeToDosTime(UnixTime: TUnixFileTime): TDosFileTime;
 begin

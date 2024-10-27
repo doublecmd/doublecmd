@@ -10931,6 +10931,10 @@ msgstr "Obnoviť zoznam súborov"
 msgid "Refresh"
 msgstr "Obnoviť"
 
+#: ulng.rsmfstbisearchcombinedtags
+msgid "Search for combined tags..."
+msgstr ""
+
 #: ulng.rsmfstbisearchtips
 msgid "Search Files..."
 msgstr "Hľadať súbory..."

@@ -11156,6 +11156,10 @@ msgstr "Ανανέωση Λίστας Αρχείων"
 msgid "Refresh"
 msgstr "Ανανέωση"
 
+#: ulng.rsmfstbisearchcombinedtags
+msgid "Search for combined tags..."
+msgstr ""
+
 #: ulng.rsmfstbisearchtips
 msgid "Search Files..."
 msgstr "Αναζήτηση Αρχείων..."

@@ -338,7 +338,6 @@ var
         begin
           FPacker:= Section;
           FArchiver:= FixExeExt(TrimQuotes(IniFile.ReadString(Section, 'Archiver', EmptyStr)));
-          FFallBack:= TrimQuotes(IniFile.ReadString(Section, 'FallBackArchivers', EmptyStr));
           FDescription:= TrimQuotes(IniFile.ReadString(Section, 'Description', EmptyStr));
           FID:= TrimQuotes(IniFile.ReadString(Section, 'ID', EmptyStr));
           FIDPos:= TrimQuotes(IniFile.ReadString(Section, 'IDPos', EmptyStr));
@@ -392,6 +391,7 @@ var
           FEnabled:= IniFile.ReadBool(Section, 'Enabled', True);
           FOutput:= IniFile.ReadBool(Section, 'Output', False);
           FDebug:= IniFile.ReadBool(Section, 'Debug', False);
+          FFallBack:= TrimQuotes(IniFile.ReadString(Section, 'FallBackArchivers', EmptyStr));
           if Import then
           begin
             if IniFile.ReadBool(Section, 'UnixPath', False) then
@@ -445,8 +445,6 @@ begin
       with MultiArcItem do
       begin
         IniFile.WriteString(Section, 'Archiver', FArchiver);
-        if FFallBack <> EmptyStr then
-          IniFile.WriteString(Section, 'FallBackArchivers', FFallBack);
         IniFile.WriteString(Section, 'Description', FDescription);
         if FID <> EmptyStr then
           IniFile.WriteString(Section, 'ID', FID);
@@ -464,22 +462,24 @@ begin
           IniFile.WriteString(Section, 'Format' + IntToStr(J), '"' + FFormat[J] + '"');
         end;
         if FList <> EmptyStr then
-          IniFile.WriteString(Section, 'List', '"' + FList + '"');
+          IniFile.WriteString(Section, 'List', FList);
         if FExtract <> EmptyStr then
-          IniFile.WriteString(Section, 'Extract', '"' + FExtract + '"');
+          IniFile.WriteString(Section, 'Extract', FExtract);
         if FExtractWithoutPath <> EmptyStr then
-          IniFile.WriteString(Section, 'ExtractWithoutPath', '"' + FExtractWithoutPath + '"');
+          IniFile.WriteString(Section, 'ExtractWithoutPath', FExtractWithoutPath);
         if FTest <> EmptyStr then
-          IniFile.WriteString(Section, 'Test', '"' + FTest + '"');
+          IniFile.WriteString(Section, 'Test', FTest);
         if FDelete <> EmptyStr then
-          IniFile.WriteString(Section, 'Delete', '"' + FDelete + '"');
+          IniFile.WriteString(Section, 'Delete', FDelete);
         if FAdd <> EmptyStr then
-        IniFile.WriteString(Section, 'Add', '"' + FAdd + '"');
+        IniFile.WriteString(Section, 'Add', FAdd);
         if FAddSelfExtract <> EmptyStr then
-          IniFile.WriteString(Section, 'AddSelfExtract', '"' + FAddSelfExtract + '"');
+          IniFile.WriteString(Section, 'AddSelfExtract', FAddSelfExtract);
         if FPasswordQuery <> EmptyStr then
           IniFile.WriteString(Section, 'PasswordQuery', '"' + FPasswordQuery + '"');
         // optional
+        if FFallBack <> EmptyStr then
+          IniFile.WriteString(Section, 'FallBackArchivers', FFallBack);
         for J:= 0 to FIgnoreString.Count - 1 do
           IniFile.WriteString(Section, 'IgnoreString' + IntToStr(J), '"' + FIgnoreString[J] + '"');
         for J:= 0 to FAskHistory.Count - 1 do
