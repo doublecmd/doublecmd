@@ -472,7 +472,7 @@ begin
         if FDelete <> EmptyStr then
           IniFile.WriteString(Section, 'Delete', FDelete);
         if FAdd <> EmptyStr then
-        IniFile.WriteString(Section, 'Add', FAdd);
+          IniFile.WriteString(Section, 'Add', FAdd);
         if FAddSelfExtract <> EmptyStr then
           IniFile.WriteString(Section, 'AddSelfExtract', FAddSelfExtract);
         if FPasswordQuery <> EmptyStr then
