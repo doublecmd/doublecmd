@@ -1230,7 +1230,7 @@ object frmMain: TfrmMain
       end
     end
     object mnuNetwork: TMenuItem
-      Caption = 'Network'
+      Caption = '&Network'
       object miNetworkConnect: TMenuItem
         Action = actNetworkConnect
       end
@@ -1342,7 +1342,7 @@ object frmMain: TfrmMain
       end
     end
     object mnuFavoriteTabs: TMenuItem
-      Caption = 'Favorites'
+      Caption = 'F&avorites'
       object mnuCreateNewFavoriteTabs: TMenuItem
         Action = actSaveFavoriteTabs
       end
