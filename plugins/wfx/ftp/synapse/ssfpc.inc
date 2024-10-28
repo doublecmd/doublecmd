@@ -451,7 +451,7 @@ uses
 
 {$if defined(LINUX) or defined(OPENBSD)}
   {$define FIRST_ADDR_THEN_CANONNAME}
-{$elseif defined(FREEBSD) or defined(NETBSD) or defined(DRAGONFLY) or defined(SOLARIS) or defined(ANDROID) or defined(DARWIN)}
+{$elseif defined(FREEBSD) or defined(NETBSD) or defined(DRAGONFLY) or defined(SOLARIS) or defined(ANDROID) or defined(DARWIN) or defined(HAIKU)}
   {$define FIRST_CANONNAME_THEN_ADDR}
 {$else}
   {$error fatal 'Please consult the netdb.h file for your system to determine the order of ai_addr and ai_canonname'}
