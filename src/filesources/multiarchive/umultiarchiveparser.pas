@@ -41,6 +41,7 @@ type
     procedure Prepare; virtual; abstract;
     procedure ParseLines; virtual; abstract;
     procedure AddLine(const Str: String); virtual; abstract;
+    function CleanSize(Str: String): String;
     property OnGetArchiveItem: TOnGetArchiveItem write FOnGetArchiveItem;
   end;
 
@@ -247,6 +248,20 @@ begin
 
 end;
 
+function TMultiArchiveParser.CleanSize(Str: String): String;
+var
+  I: Integer;
+  Size: String;
+begin
+  Size:= Trim(Str);
+  if FMultiArcItem.FSizeStripChars <> EmptyStr then
+  begin
+    for I:= 1 to Length(FMultiArcItem.FSizeStripChars) do
+      Size:= Size.Replace(FMultiArcItem.FSizeStripChars[I], '');
+  end;
+  Result:= Size;
+end;
+
 procedure TMultiArchiveStaticParser.AddLine(const Str: String);
 begin
   // if next item
@@ -262,9 +277,9 @@ begin
   if FNamePos.Index = FFormatIndex then
     FArchiveItem.FileName := FGetFileName(Trim(GetKeyValue(str, FNamePos)));
   if FUnpSizePos.Index = FFormatIndex then
-    FArchiveItem.UnpSize := StrToInt64Def(Trim(GetKeyValue(str, FUnpSizePos)), -1);
+    FArchiveItem.UnpSize := StrToInt64Def(CleanSize(GetKeyValue(str, FUnpSizePos)), -1);
   if FPackSizePos.Index = FFormatIndex then
-    FArchiveItem.PackSize := StrToInt64Def(Trim(GetKeyValue(str, FPackSizePos)), -1);
+    FArchiveItem.PackSize := StrToInt64Def(CleanSize(GetKeyValue(str, FPackSizePos)), -1);
   if FYearPos.Index = FFormatIndex then
     FArchiveItem.Year := YearShortToLong(StrToIntDef(Trim(GetKeyValue(str, FYearPos)), 0));
   if FMonthPos.Index = FFormatIndex then
