@@ -3157,7 +3157,7 @@ msgid "C&onfiguration"
 msgstr "&Nastavitve"
 
 #: tfrmmain.mnufavoritetabs.caption
-msgid "Favorites"
+msgid "F&avorites"
 msgstr "Priljubljeno"
 
 #: tfrmmain.mnufiles.caption
@@ -3175,7 +3175,7 @@ msgstr "&Izbor"
 
 #: tfrmmain.mnunetwork.caption
 msgctxt "tfrmmain.mnunetwork.caption"
-msgid "Network"
+msgid "&Network"
 msgstr "Omrežje"
 
 #: tfrmmain.mnushow.caption

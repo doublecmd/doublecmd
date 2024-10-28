@@ -3150,7 +3150,7 @@ msgid "C&onfiguration"
 msgstr "&Beállítások"
 
 #: tfrmmain.mnufavoritetabs.caption
-msgid "Favorites"
+msgid "F&avorites"
 msgstr "&Kedvencek"
 
 #: tfrmmain.mnufiles.caption
@@ -3168,7 +3168,7 @@ msgstr "&Megjelölés"
 
 #: tfrmmain.mnunetwork.caption
 msgctxt "tfrmmain.mnunetwork.caption"
-msgid "Network"
+msgid "&Network"
 msgstr "Hálózat"
 
 #: tfrmmain.mnushow.caption

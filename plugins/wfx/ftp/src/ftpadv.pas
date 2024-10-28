@@ -574,9 +574,21 @@ begin
 end;
 
 procedure TFTPSendEx.OnSocketStatus(Sender: TObject; Reason: THookSocketReason; const Value: String);
+var
+  MsgType: Integer;
 begin
-  if (Reason in [HR_Error]) and (Length(Value) > 0) then
-    LogProc(PluginNumber, msgtype_importanterror, PWideChar(ServerToClient(Value)));
+  if (Reason in [HR_ResolvingBegin, HR_ResolvingEnd, HR_Error]) then
+  begin
+    if (Length(Value) > 0) then
+    begin
+      if Reason = HR_Error then
+        MsgType:= msgtype_importanterror
+      else begin
+        MsgType:= msgtype_details;
+      end;
+      LogProc(PluginNumber, MsgType, PWideChar(ServerToClient(Value)));
+    end;
+  end;
 end;
 
 function TFTPSendEx.ClientToServer(const Value: AnsiString): AnsiString;

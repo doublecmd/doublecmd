@@ -3210,7 +3210,7 @@ msgid "C&onfiguration"
 msgstr "&Поставке"
 
 #: tfrmmain.mnufavoritetabs.caption
-msgid "Favorites"
+msgid "F&avorites"
 msgstr "Омиљено"
 
 #: tfrmmain.mnufiles.caption
@@ -3228,7 +3228,7 @@ msgstr "Ознака&"
 
 #: tfrmmain.mnunetwork.caption
 msgctxt "TFRMMAIN.MNUNETWORK.CAPTION"
-msgid "Network"
+msgid "&Network"
 msgstr "Мрежа"
 
 #: tfrmmain.mnushow.caption

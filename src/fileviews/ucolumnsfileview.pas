@@ -620,6 +620,9 @@ begin
              fpAttributes,        // For distinguishing directories
              fpLink,              // For distinguishing directories (link to dir) and link icons
              fpModificationTime   // For selecting/coloring files (by SearchTemplate)
+             {$IFDEF DARWIN}
+             ,fpMacOSFinderTag    // macOS finder tag
+             {$ENDIF}
             ];
 
   ColumnsClass := GetColumnsClass;

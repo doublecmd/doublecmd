@@ -3149,7 +3149,7 @@ msgid "C&onfiguration"
 msgstr "구성(&O)"
 
 #: tfrmmain.mnufavoritetabs.caption
-msgid "Favorites"
+msgid "F&avorites"
 msgstr "즐겨찾기"
 
 #: tfrmmain.mnufiles.caption
@@ -3167,7 +3167,7 @@ msgstr "선택(&M)"
 
 #: tfrmmain.mnunetwork.caption
 msgctxt "tfrmmain.mnunetwork.caption"
-msgid "Network"
+msgid "&Network"
 msgstr "네트워크"
 
 #: tfrmmain.mnushow.caption

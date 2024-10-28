@@ -3261,7 +3261,7 @@ msgid "C&onfiguration"
 msgstr "&Postavke"
 
 #: tfrmmain.mnufavoritetabs.caption
-msgid "Favorites"
+msgid "F&avorites"
 msgstr ""
 
 #: tfrmmain.mnufiles.caption
@@ -3279,7 +3279,7 @@ msgstr "Oznaka&"
 
 #: tfrmmain.mnunetwork.caption
 msgctxt "TFRMMAIN.MNUNETWORK.CAPTION"
-msgid "Network"
+msgid "&Network"
 msgstr "Mreža"
 
 #: tfrmmain.mnushow.caption

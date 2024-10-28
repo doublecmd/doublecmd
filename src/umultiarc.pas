@@ -142,7 +142,8 @@ type
     FDelete,
     FAdd,
     FAddSelfExtract,
-    FPasswordQuery: String;
+    FPasswordQuery,
+    FSizeStripChars: String;
     FFormMode: Integer;
     FFlags: TMultiArcFlags;
     FIgnoreString: TStringList;
@@ -386,6 +387,7 @@ var
             else
               Break;
           end;
+          FSizeStripChars:= TrimQuotes(IniFile.ReadString(Section, 'SizeStripChars', EmptyStr));
           FFlags:= TMultiArcFlags(IniFile.ReadInteger(Section, 'Flags', 0));
           FFormMode:= IniFile.ReadInteger(Section, 'FormMode', 0);
           FEnabled:= IniFile.ReadBool(Section, 'Enabled', True);
@@ -484,6 +486,8 @@ begin
           IniFile.WriteString(Section, 'IgnoreString' + IntToStr(J), '"' + FIgnoreString[J] + '"');
         for J:= 0 to FAskHistory.Count - 1 do
           IniFile.WriteString(Section, 'AskHistory' + IntToStr(J), FAskHistory[J]);
+        if FSizeStripChars <> EmptyStr then
+          IniFile.WriteString(Section, 'SizeStripChars', '"' + FSizeStripChars + '"');
         IniFile.WriteInteger(Section, 'Flags', Integer(FFlags));
         IniFile.WriteInteger(Section, 'FormMode', FFormMode);
         IniFile.WriteBool(Section, 'Enabled', FEnabled);
@@ -569,6 +573,7 @@ begin
     UpdateSignature(Self.Items[Index].FID);
     UpdateSignature(Self.Items[Index].FIDPos);
     UpdateSignature(Self.Items[Index].FIDSeekRange);
+    UpdateSignature(Self.Items[Index].FSizeStripChars);
     Result := crc32(Result, @Self.Items[Index].FFlags, sizeof(Self.Items[Index].FFlags));
     Result := crc32(Result, @Self.Items[Index].FFormMode, sizeof(Self.Items[Index].FFormMode));
     Result := crc32(Result, @Self.Items[Index].FEnabled, sizeof(Self.Items[Index].FEnabled));
@@ -797,6 +802,7 @@ begin
   Result.FEnabled := Self.FEnabled;
   Result.FOutput := Self.FOutput;
   Result.FDebug := Self.FDebug;
+  Result.FSizeStripChars := Self.FSizeStripChars;
   Result.FIgnoreString.Assign(Self.FIgnoreString);
   Result.FAskHistory.Assign(Self.FAskHistory);
 end;

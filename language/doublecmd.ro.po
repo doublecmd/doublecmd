@@ -3233,7 +3233,7 @@ msgid "C&onfiguration"
 msgstr "C&onfigurare"
 
 #: tfrmmain.mnufavoritetabs.caption
-msgid "Favorites"
+msgid "F&avorites"
 msgstr ""
 
 #: tfrmmain.mnufiles.caption
@@ -3251,7 +3251,7 @@ msgstr "&Marchează"
 
 #: tfrmmain.mnunetwork.caption
 msgctxt "TFRMMAIN.MNUNETWORK.CAPTION"
-msgid "Network"
+msgid "&Network"
 msgstr "Rețea"
 
 #: tfrmmain.mnushow.caption

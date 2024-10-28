@@ -3166,7 +3166,7 @@ msgid "C&onfiguration"
 msgstr "N&astavení"
 
 #: tfrmmain.mnufavoritetabs.caption
-msgid "Favorites"
+msgid "F&avorites"
 msgstr "Oblíbené"
 
 #: tfrmmain.mnufiles.caption
@@ -3184,7 +3184,7 @@ msgstr "&Výběr"
 
 #: tfrmmain.mnunetwork.caption
 msgctxt "TFRMMAIN.MNUNETWORK.CAPTION"
-msgid "Network"
+msgid "&Network"
 msgstr "Síť"
 
 #: tfrmmain.mnushow.caption

@@ -361,9 +361,9 @@ begin
 
     LinkProperty := TFileLinkProperty.Create;
 
+    AFilePath:= Path + pSearchRecord^.Name;
     if fpS_ISLNK(pSearchRecord^.Attr) then
     begin
-      AFilePath:= Path + pSearchRecord^.Name;
       LinkAttrs := mbFileGetAttrNoLinks(AFilePath);
       LinkProperty.LinkTo := ReadSymLink(AFilePath);
       LinkProperty.IsValid := LinkAttrs <> faInvalidAttributes;
@@ -387,6 +387,9 @@ begin
       end;
 {$ENDIF}
     end;
+    {$IFDEF DARWIN}
+    FinderTagProperty := uMyDarwin.getMacOSFinderTagFileProperty(AFilePath);
+    {$ENDIF}
   end;
 
   // Set name after assigning Attributes property, because it is used to get extension.
@@ -712,6 +715,12 @@ begin
       CommentProperty.Value := FDescr.ReadDescription(sFullPath);
     end;
 
+{$IFDEF DARWIN}
+   if fpMacOSFinderTag in PropertiesToSet then begin
+     FinderTagProperty := uMyDarwin.getMacOSFinderTagFileProperty(sFullPath);
+   end;
+{$ENDIF}
+
     PropertiesToSet:= PropertiesToSet * fpVariantAll;
     for AProp in PropertiesToSet do
     begin
@@ -854,6 +863,9 @@ begin
              {$ENDIF}
              fpLastAccessTime,
              uFileProperty.fpLink
+             {$IF DEFINED(DARWIN)}
+             ,fpMacOSFinderTag
+             {$ENDIF}
             ];
 end;
 
@@ -874,6 +886,9 @@ begin
              fpComment
              {$IF DEFINED(MSWINDOWS)}
              , fpCompressedSize
+             {$ENDIF}
+             {$IF DEFINED(DARWIN)}
+             ,fpMacOSFinderTag
              {$ENDIF}
              ] + fpVariantAll;
 {$IF DEFINED(LINUX)}
