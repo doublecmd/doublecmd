@@ -2877,6 +2877,10 @@ begin
       if sEncoding = EncodingUTF8 then
         Buffer := FSynEditOriginalText
       else begin
+        if (sEncoding = EncodingUTF16LE) or (sEncoding = EncodingUTF16BE) then
+        begin
+          FSynEditOriginalText := Copy(FSynEditOriginalText, 3, MaxInt); // Skip BOM
+        end;
         Buffer := ConvertEncoding(FSynEditOriginalText, sEncoding, EncodingUTF8);
       end;
 
