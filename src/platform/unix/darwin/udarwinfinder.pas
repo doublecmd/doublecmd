@@ -52,7 +52,7 @@ type
       const positioningView: NSView; const edge: NSRectEdge );
 
     class procedure attachFinderTagsMenu( const path: String; const lclMenu: TPopupMenu );
-    class procedure attachSearchForTagsMenu( const lclMenu: TMenuItem );
+    class procedure attachSearchForTagsMenu( const lclMenu: TMenu );
   private
     class procedure drawTagName( const tagName: NSString;
       const fontSize: CGFloat; const color: NSColor; const rect: NSRect );
@@ -914,7 +914,7 @@ begin
   menuView.release;
 end;
 
-class procedure uDarwinFinderUtil.attachSearchForTagsMenu(const lclMenu: TMenuItem);
+class procedure uDarwinFinderUtil.attachSearchForTagsMenu(const lclMenu: TMenu);
   procedure setColorImage( const lclMenuItem: TMenuItem );
   var
     cocoaItem: NSMenuItem;
@@ -931,9 +931,9 @@ var
   i: Integer;
   count: Integer;
 begin
-  count:= lclMenu.Count;
+  count:= lclMenu.Items.Count;
   for i:=0 to count-1 do begin
-    setColorImage( lclMenu[i] );
+    setColorImage( lclMenu.Items[i] );
   end;
 end;
 
