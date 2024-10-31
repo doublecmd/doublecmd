@@ -65,6 +65,7 @@ copy windows\license.rtf   %BUILD_PACK_DIR%\
 copy ..\src\doublecmd.ico  %BUILD_PACK_DIR%\
 
 rem Copy libraries
+copy windows\lib\%CPU_TARGET%\*.sfx             %BUILD_DC_TMP_DIR%\
 copy windows\lib\%CPU_TARGET%\*.dll             %BUILD_DC_TMP_DIR%\
 copy windows\lib\%CPU_TARGET%\winpty-agent.exe  %BUILD_DC_TMP_DIR%\
 

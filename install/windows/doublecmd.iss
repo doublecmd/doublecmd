@@ -95,6 +95,7 @@ Source: "doublecmd\pixmaps\*"; DestDir: "{app}\pixmaps"; Flags: ignoreversion re
 Source: "doublecmd\plugins\*"; DestDir: "{app}\plugins"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "doublecmd\highlighters\*"; DestDir: "{app}\highlighters"; Flags: ignoreversion recursesubdirs createallsubdirs
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
+Source: "doublecmd\*.sfx"; DestDir: "{app}"; Flags: skipifsourcedoesntexist
 Source: "doublecmd\*.dll"; DestDir: "{app}"; Flags: skipifsourcedoesntexist
 
 [Icons]
