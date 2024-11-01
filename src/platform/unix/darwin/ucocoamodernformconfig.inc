@@ -401,13 +401,8 @@ begin
 end;
 
 procedure privilegeAction( const Sender: id );
-const
-  Privacy_AllFiles = 'x-apple.systempreferences:com.apple.preference.security?Privacy_AllFiles';
-var
-  url: NSURL;
 begin
-  url:= NSURL.URLWithString( NSSTR(Privacy_AllFiles) );
-  NSWorkspace.sharedWorkspace.openURL( url );
+  openSystemSecurityPreferences_PrivacyAllFiles;
 end;
 
 const

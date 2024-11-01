@@ -41,6 +41,9 @@ uses
   CocoaUtils, CocoaInt, CocoaPrivate, CocoaConst, CocoaMenus,
   uDarwinFSWatch, uDarwinFinder, uDarwinFinderModel;
 
+const
+  FINDER_FAVORITE_TAGS_MENU_ITEM_CAPTION = #$EF#$BF#$BC'FinderFavoriteTags';
+
 // Darwin Util Function
 function StringToNSString(const S: String): NSString;
 function StringToCFStringRef(const S: String): CFStringRef;
@@ -64,6 +67,8 @@ function GetFileDescription(const FileName: String): String;
 function MountNetworkDrive(const serverAddress: String): Boolean;
 
 function GetVolumeName(const Device: String): String;
+
+procedure openSystemSecurityPreferences_PrivacyAllFiles;
 
 function unmountAndEject(const path: String): Boolean;
 
@@ -143,15 +148,22 @@ public
   procedure openWithNewTab( pboard:NSPasteboard; userData:NSString; error:NSStringPtr ); message 'openWithNewTab:userData:error:';
 end;
 
-type TMacosServiceMenuHelper = class
-private
-  oldMenuPopupHandler: TNotifyEvent;
-  serviceSubMenuCaption: String;
-  tagFilePath: String;
-  procedure attachServicesMenu( Sender:TObject);
-public
-  procedure PopUp( const menu: TPopupMenu; const caption: String; const path: String );
-end;
+type 
+
+  { TMacosServiceMenuHelper }
+
+  TMacosServiceMenuHelper = class
+  private
+    oldMenuPopupHandler: TNotifyEvent;
+    serviceSubMenuCaption: String;
+    tagFilePath: String;
+    procedure attachSystemMenu( Sender: TObject );
+    procedure attachServicesMenu( Sender: TObject );
+    procedure attachFinderTagsMenu( Sender: TObject );
+    procedure privilegeAction( Sender: TObject );
+  public
+    procedure PopUp( const menu: TPopupMenu; const caption: String; const path: String );
+  end;
 
 procedure InitNSServiceProvider(
   serveCallback: TNSServiceProviderCallBack;
@@ -272,14 +284,18 @@ begin
   NSAppearance.setCurrentAppearance( appearance );
 end;
 
+procedure TMacosServiceMenuHelper.attachSystemMenu(Sender: TObject);
+begin
+  self.attachServicesMenu( Sender );
+  self.attachFinderTagsMenu( Sender );
+end;
+
 procedure TMacosServiceMenuHelper.attachServicesMenu( Sender: TObject );
 var
-  menu: TPopupMenu;
+  menu: TPopupMenu Absolute Sender;
   servicesItem: TMenuItem;
   subMenu: TCocoaMenu;
 begin
-  menu:= TPopupMenu(Sender);
-
   // call the previous OnMenuPopupHandler and restore it
   if Assigned(oldMenuPopupHandler) then oldMenuPopupHandler( Sender );
   OnMenuPopupHandler:= oldMenuPopupHandler;
@@ -293,8 +309,31 @@ begin
     TCocoaMenuItem(servicesItem.Handle).setSubmenu( subMenu );
     NSApp.setServicesMenu( NSMenu(servicesItem.Handle) );
   end;
+end;
 
-  uDarwinFinderUtil.attachFinderTagsMenu( self.tagFilePath, menu );
+procedure TMacosServiceMenuHelper.attachFinderTagsMenu( Sender: TObject );
+var
+  menu: TPopupMenu Absolute Sender;
+  menuItem: TMenuItem;
+  menuIndex: Integer;
+  success: Boolean;
+begin
+  menuIndex:= menu.Items.IndexOfCaption( FINDER_FAVORITE_TAGS_MENU_ITEM_CAPTION );
+  if menuIndex < 0 then
+    Exit;
+
+  success:= uDarwinFinderUtil.attachFinderTagsMenu( self.tagFilePath, menu, menuIndex );
+  if success then
+    Exit;
+
+  menuItem:= menu.Items[menuIndex];
+  menuItem.Caption:= 'Grant "Full Disk Access" permissions to support Finder Tags';
+  menuItem.OnClick:= self.privilegeAction;
+end;
+
+procedure TMacosServiceMenuHelper.privilegeAction(Sender: TObject);
+begin
+  openSystemSecurityPreferences_PrivacyAllFiles;
 end;
 
 procedure TMacosServiceMenuHelper.PopUp( const menu: TPopupMenu;
@@ -303,7 +342,7 @@ begin
   // because the menu item handle will be destroyed in TPopupMenu.PopUp()
   // we can only call NSApplication.setServicesMenu() in OnMenuPopupHandler()
   oldMenuPopupHandler:= OnMenuPopupHandler;
-  OnMenuPopupHandler:= attachServicesMenu;
+  OnMenuPopupHandler:= attachSystemMenu;
   serviceSubMenuCaption:= caption;
   tagFilePath:= path;
   menu.PopUp();
@@ -675,6 +714,16 @@ begin
     end;
     CFRelease(ASession);
   end;
+end;
+
+procedure openSystemSecurityPreferences_PrivacyAllFiles;
+const
+  Privacy_AllFiles = 'x-apple.systempreferences:com.apple.preference.security?Privacy_AllFiles';
+var
+  url: NSURL;
+begin
+  url:= NSURL.URLWithString( NSSTR(Privacy_AllFiles) );
+  NSWorkspace.sharedWorkspace.openURL( url );
 end;
 
 function unmountAndEject(const path: String): Boolean;

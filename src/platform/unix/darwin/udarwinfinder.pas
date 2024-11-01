@@ -12,9 +12,6 @@ uses
   MacOSAll, CocoaAll, CocoaConst, CocoaTextEdits, CocoaUtils, Cocoa_Extra;
 
 const
-  FINDER_FAVORITE_TAGS_MENU_ITEM_CAPTION = #$EF#$BF#$BC'FinderFavoriteTags';
-
-const
   FINDER_FAVORITE_TAGS_MENU_ITEM_SIZE = 20.0;
   FINDER_FAVORITE_TAGS_MENU_ITEM_SPACING = 4.0;
 
@@ -51,7 +48,8 @@ type
       const title: String; onClose: TFinderEditorCloseHandler;
       const positioningView: NSView; const edge: NSRectEdge );
 
-    class procedure attachFinderTagsMenu( const path: String; const lclMenu: TPopupMenu );
+    class function attachFinderTagsMenu( const path: String;
+      const lclMenu: TPopupMenu; const menuIndex: Integer ): Boolean;
     class procedure attachSearchForTagsMenu( const lclMenu: TMenu );
   private
     class procedure drawTagName( const tagName: NSString;
@@ -889,15 +887,17 @@ begin
   panel.showPopover( positioningView, edge );
 end;
 
-class procedure uDarwinFinderUtil.attachFinderTagsMenu( const path: String;
-  const lclMenu: TPopupMenu );
+class function uDarwinFinderUtil.attachFinderTagsMenu( const path: String;
+  const lclMenu: TPopupMenu; const menuIndex: Integer ): Boolean;
 var
-  menuIndex: Integer;
   menuView: TFinderFavoriteTagsMenuView;
   cocoaItem: NSMenuItem;
+  favoriteTags: NSArray;
 begin
-  menuIndex:= lclMenu.Items.IndexOfCaption( FINDER_FAVORITE_TAGS_MENU_ITEM_CAPTION );
-  if menuIndex < 0 then
+  Result:= False;
+
+  favoriteTags:= uDarwinFinderModelUtil.favoriteTags;
+  if favoriteTags = nil then
     Exit;
 
   menuView:= TFinderFavoriteTagsMenuView.alloc.initWithFrame(
@@ -906,12 +906,13 @@ begin
       FINDER_FAVORITE_TAGS_MENU_ITEM_SIZE + FINDER_FAVORITE_TAGS_MENU_ITEM_SPACING*2 ) );
   menuView.setLclMenu( lclMenu, lclMenu.Items[menuIndex+1] );
   menuView.setPath( StrToNSString(path) );
-  menuView.setFavoriteTags( uDarwinFinderModelUtil.favoriteTags );
+  menuView.setFavoriteTags( favoriteTags );
 
   cocoaItem:= NSMenuItem( lclMenu.Items[menuIndex].Handle );
   cocoaItem.setView( menuView );
 
   menuView.release;
+  Result:= True;
 end;
 
 class procedure uDarwinFinderUtil.attachSearchForTagsMenu(const lclMenu: TMenu);
