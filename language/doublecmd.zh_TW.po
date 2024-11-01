@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Double Commander 1.1.0 alpha\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-11-15 11:15+0300\n"
-"PO-Revision-Date: 2023-04-04 19:07+0800\n"
+"PO-Revision-Date: 2024-11-01 21:00+0800\n"
 "Last-Translator: Kne luo\n"
 "Language-Team: \n"
 "Language: zh_TW\n"
@@ -6886,8 +6886,6 @@ msgid "Show te&rminal window"
 msgstr "顯示終端機視窗 (&R)"
 
 #: tfrmoptionslayout.cbtwodiskpanels.caption
-#, fuzzy
-#| msgid "Show two drive button bars (fixed width, above file windows)"
 msgctxt "TFRMOPTIONSLAYOUT.CBTWODISKPANELS.CAPTION"
 msgid "Show two drive button bars (fi&xed width, above file windows)"
 msgstr "顯示兩個磁碟按鈕列 (&X)"
@@ -6968,8 +6966,6 @@ msgid "Log &successful operations"
 msgstr "記錄操作成功 (&S)"
 
 #: tfrmoptionslog.cblogvfs.caption
-#, fuzzy
-#| msgid "File system plugins"
 msgctxt "TFRMOPTIONSLOG.CBLOGVFS.CAPTION"
 msgid "&File system plugins"
 msgstr "檔案系統插件 (&F)"
@@ -6985,8 +6981,6 @@ msgid "Log operations"
 msgstr "操作記錄"
 
 #: tfrmoptionslog.gblogfilestatus.caption
-#, fuzzy
-#| msgid "Operation status:"
 msgctxt "TFRMOPTIONSLOG.GBLOGFILESTATUS.CAPTION"
 msgid "Operation status"
 msgstr "操作狀態"
@@ -7038,15 +7032,11 @@ msgid "Show &splash screen"
 msgstr ""
 
 #: tfrmoptionsmisc.chkshowwarningmessages.caption
-#, fuzzy
-#| msgid "Show warning messages (\"OK\" button only)"
 msgctxt "tfrmoptionsmisc.chkshowwarningmessages.caption"
 msgid "Show &warning messages (\"OK\" button only)"
 msgstr "顯示警告訊息 (&W)"
 
 #: tfrmoptionsmisc.chkthumbsave.caption
-#, fuzzy
-#| msgid "Save thumbnails in cache"
 msgctxt "tfrmoptionsmisc.chkthumbsave.caption"
 msgid "&Save thumbnails in cache"
 msgstr "儲存縮圖快取 (&S)"
@@ -7099,8 +7089,6 @@ msgid "&Thumbnail size:"
 msgstr "縮圖大小 (&T):"
 
 #: tfrmoptionsmouse.cbselectionbymouse.caption
-#, fuzzy
-#| msgid "Selection by mouse"
 msgctxt "TFRMOPTIONSMOUSE.CBSELECTIONBYMOUSE.CAPTION"
 msgid "&Selection by mouse"
 msgstr "使用滑鼠選取項目 (&S)"
@@ -7128,8 +7116,6 @@ msgid "Selection"
 msgstr "選取項目"
 
 #: tfrmoptionsmouse.lblmousemode.caption
-#, fuzzy
-#| msgid "Mode:"
 msgctxt "TFRMOPTIONSMOUSE.LBLMOUSEMODE.CAPTION"
 msgid "&Mode:"
 msgstr "模式 (&M):"
@@ -7139,22 +7125,16 @@ msgid "Double click"
 msgstr ""
 
 #: tfrmoptionsmouse.rbscrolllinebyline.caption
-#, fuzzy
-#| msgid "Line by line"
 msgctxt "TFRMOPTIONSMOUSE.RBSCROLLLINEBYLINE.CAPTION"
 msgid "&Line by line"
 msgstr "一次捲動行數 (&L)"
 
 #: tfrmoptionsmouse.rbscrolllinebylinecursor.caption
-#, fuzzy
-#| msgid "Line by line with cursor movement"
 msgctxt "TFRMOPTIONSMOUSE.RBSCROLLLINEBYLINECURSOR.CAPTION"
 msgid "Line by line &with cursor movement"
 msgstr "一次捲動一行 + 指標行跟隨移動 (&W)"
 
 #: tfrmoptionsmouse.rbscrollpagebypage.caption
-#, fuzzy
-#| msgid "Page by page"
 msgctxt "TFRMOPTIONSMOUSE.RBSCROLLPAGEBYPAGE.CAPTION"
 msgid "&Page by page"
 msgstr "一次捲動一頁 (&P)"
@@ -7269,25 +7249,21 @@ msgid "Searc&h plugins allow one to use alternative search algorithms or externa
 msgstr "搜尋插件可允許使用其他替代搜尋演算法或外部工具搜尋 (像 \"locate\" 等)"
 
 #: tfrmoptionspluginsdsx.stgplugins.columns[0].title.caption
-#, fuzzy
 msgctxt "tfrmoptionspluginsdsx.stgplugins.columns[0].title.caption"
 msgid "Active"
 msgstr "啟動"
 
 #: tfrmoptionspluginsdsx.stgplugins.columns[1].title.caption
-#, fuzzy
 msgctxt "tfrmoptionspluginsdsx.stgplugins.columns[1].title.caption"
 msgid "Plugin"
 msgstr "插件"
 
 #: tfrmoptionspluginsdsx.stgplugins.columns[2].title.caption
-#, fuzzy
 msgctxt "tfrmoptionspluginsdsx.stgplugins.columns[2].title.caption"
 msgid "Registered for"
 msgstr "登錄對象"
 
 #: tfrmoptionspluginsdsx.stgplugins.columns[3].title.caption
-#, fuzzy
 msgctxt "tfrmoptionspluginsdsx.stgplugins.columns[3].title.caption"
 msgid "File name"
 msgstr "檔案名稱"
@@ -7323,25 +7299,21 @@ msgid "Pack&er plugins are used to work with archives"
 msgstr "壓縮插件用於支援特定壓縮格式的處理"
 
 #: tfrmoptionspluginswcx.stgplugins.columns[0].title.caption
-#, fuzzy
 msgctxt "tfrmoptionspluginswcx.stgplugins.columns[0].title.caption"
 msgid "Active"
 msgstr "啟動"
 
 #: tfrmoptionspluginswcx.stgplugins.columns[1].title.caption
-#, fuzzy
 msgctxt "tfrmoptionspluginswcx.stgplugins.columns[1].title.caption"
 msgid "Plugin"
 msgstr "插件"
 
 #: tfrmoptionspluginswcx.stgplugins.columns[2].title.caption
-#, fuzzy
 msgctxt "tfrmoptionspluginswcx.stgplugins.columns[2].title.caption"
 msgid "Registered for"
 msgstr "登錄對象"
 
 #: tfrmoptionspluginswcx.stgplugins.columns[3].title.caption
-#, fuzzy
 msgctxt "tfrmoptionspluginswcx.stgplugins.columns[3].title.caption"
 msgid "File name"
 msgstr "檔案名稱"
@@ -7352,25 +7324,21 @@ msgid "Content plu&gins allow one to display extended file details like mp3 tags
 msgstr "內容插件可允許在檔案清單顯示 MP3 標籤或圖片屬性等延伸的檔案詳細資料, 或是在搜尋和多重命名工具中使用"
 
 #: tfrmoptionspluginswdx.stgplugins.columns[0].title.caption
-#, fuzzy
 msgctxt "tfrmoptionspluginswdx.stgplugins.columns[0].title.caption"
 msgid "Active"
 msgstr "啟動"
 
 #: tfrmoptionspluginswdx.stgplugins.columns[1].title.caption
-#, fuzzy
 msgctxt "tfrmoptionspluginswdx.stgplugins.columns[1].title.caption"
 msgid "Plugin"
 msgstr "插件"
 
 #: tfrmoptionspluginswdx.stgplugins.columns[2].title.caption
-#, fuzzy
 msgctxt "tfrmoptionspluginswdx.stgplugins.columns[2].title.caption"
 msgid "Registered for"
 msgstr "登錄對象"
 
 #: tfrmoptionspluginswdx.stgplugins.columns[3].title.caption
-#, fuzzy
 msgctxt "tfrmoptionspluginswdx.stgplugins.columns[3].title.caption"
 msgid "File name"
 msgstr "檔案名稱"
@@ -7381,25 +7349,21 @@ msgid "Fi&le system plugins allow access to disks inaccessible by operating syst
 msgstr "檔案系統插件可允許存取一些作業系統上罕見的檔案系統, 或是像 Palm/PocketPC 等外部裝置"
 
 #: tfrmoptionspluginswfx.stgplugins.columns[0].title.caption
-#, fuzzy
 msgctxt "tfrmoptionspluginswfx.stgplugins.columns[0].title.caption"
 msgid "Active"
 msgstr "啟動"
 
 #: tfrmoptionspluginswfx.stgplugins.columns[1].title.caption
-#, fuzzy
 msgctxt "tfrmoptionspluginswfx.stgplugins.columns[1].title.caption"
 msgid "Plugin"
 msgstr "插件"
 
 #: tfrmoptionspluginswfx.stgplugins.columns[2].title.caption
-#, fuzzy
 msgctxt "tfrmoptionspluginswfx.stgplugins.columns[2].title.caption"
 msgid "Registered for"
 msgstr "登錄對象"
 
 #: tfrmoptionspluginswfx.stgplugins.columns[3].title.caption
-#, fuzzy
 msgctxt "tfrmoptionspluginswfx.stgplugins.columns[3].title.caption"
 msgid "File name"
 msgstr "檔案名稱"
@@ -7410,25 +7374,21 @@ msgid "Vie&wer plugins allow one to display file formats like images, spreadshee
 msgstr "檢視器插件可允許顯示圖片,試算表,資料庫等檔案格式在檢視器"
 
 #: tfrmoptionspluginswlx.stgplugins.columns[0].title.caption
-#, fuzzy
 msgctxt "tfrmoptionspluginswlx.stgplugins.columns[0].title.caption"
 msgid "Active"
 msgstr "啟動"
 
 #: tfrmoptionspluginswlx.stgplugins.columns[1].title.caption
-#, fuzzy
 msgctxt "tfrmoptionspluginswlx.stgplugins.columns[1].title.caption"
 msgid "Plugin"
 msgstr "插件"
 
 #: tfrmoptionspluginswlx.stgplugins.columns[2].title.caption
-#, fuzzy
 msgctxt "tfrmoptionspluginswlx.stgplugins.columns[2].title.caption"
 msgid "Registered for"
 msgstr "登錄對象"
 
 #: tfrmoptionspluginswlx.stgplugins.columns[3].title.caption
-#, fuzzy
 msgctxt "tfrmoptionspluginswlx.stgplugins.columns[3].title.caption"
 msgid "File name"
 msgstr "檔案名稱"
@@ -7449,8 +7409,6 @@ msgid "Options"
 msgstr "選項"
 
 #: tfrmoptionsquicksearchfilter.gbexactnamematch.caption
-#, fuzzy
-#| msgid "Exact name match:"
 msgctxt "TFRMOPTIONSQUICKSEARCHFILTER.GBEXACTNAMEMATCH.CAPTION"
 msgid "Exact name match"
 msgstr "精準名稱比對"
@@ -7482,8 +7440,6 @@ msgid "Close duplicate tabs when closing application"
 msgstr ""
 
 #: tfrmoptionstabs.cbtabsconfirmcloseall.caption
-#, fuzzy
-#| msgid "&Confirm close all tabs"
 msgctxt "TFRMOPTIONSTABS.CBTABSCONFIRMCLOSEALL.CAPTION"
 msgid "Con&firm close all tabs"
 msgstr "關閉所有分頁時需確認 (&F)"
@@ -7493,11 +7449,9 @@ msgid "Confirm close locked tabs"
 msgstr ""
 
 #: tfrmoptionstabs.cbtabslimitoption.caption
-#, fuzzy
-#| msgid "&Limit tab title length to:"
 msgctxt "TFRMOPTIONSTABS.CBTABSLIMITOPTION.CAPTION"
 msgid "&Limit tab title length to"
-msgstr "限制分頁標題長度為 (&L):"
+msgstr "限制分頁標題長度為 (&L)"
 
 #: tfrmoptionstabs.cbtabslockedasterisk.caption
 msgctxt "TFRMOPTIONSTABS.CBTABSLOCKEDASTERISK.CAPTION"
@@ -7524,8 +7478,6 @@ msgid "Reuse existing tab when possible"
 msgstr ""
 
 #: tfrmoptionstabs.cbtabsshowclosebutton.caption
-#, fuzzy
-#| msgid "Show tab close button"
 msgctxt "TFRMOPTIONSTABS.CBTABSSHOWCLOSEBUTTON.CAPTION"
 msgid "Show ta&b close button"
 msgstr "顯示分頁關閉按鈕 (&B)"
@@ -7549,8 +7501,6 @@ msgid "Action to do when double click on a tab:"
 msgstr ""
 
 #: tfrmoptionstabs.lbltabsposition.caption
-#, fuzzy
-#| msgid "Tabs position"
 msgctxt "TFRMOPTIONSTABS.LBLTABSPOSITION.CAPTION"
 msgid "Ta&bs position"
 msgstr "分頁位置 (&B):"
@@ -7561,7 +7511,6 @@ msgid "None"
 msgstr ""
 
 #: tfrmoptionstabsextra.cbdefaultsavedirhistory.text
-#, fuzzy
 msgctxt "tfrmoptionstabsextra.cbdefaultsavedirhistory.text"
 msgid "No"
 msgstr "否"
@@ -7670,8 +7619,6 @@ msgid "Parameters:"
 msgstr "參數:"
 
 #: tfrmoptionstoolbarbase.btnclonebutton.caption
-#, fuzzy
-#| msgid "&Clone button"
 msgctxt "tfrmoptionstoolbarbase.btnclonebutton.caption"
 msgid "C&lone button"
 msgstr "複製按鈕 (&L)"
@@ -7682,15 +7629,11 @@ msgid "&Delete"
 msgstr "刪除 (&D)"
 
 #: tfrmoptionstoolbarbase.btnedithotkey.caption
-#, fuzzy
-#| msgid "Edit hotkey"
 msgctxt "tfrmoptionstoolbarbase.btnedithotkey.caption"
 msgid "Edit hot&key"
 msgstr "編輯熱鍵 (&K)"
 
 #: tfrmoptionstoolbarbase.btninsertbutton.caption
-#, fuzzy
-#| msgid "&Insert new buttonX"
 msgctxt "tfrmoptionstoolbarbase.btninsertbutton.caption"
 msgid "&Insert new button"
 msgstr "插入新按鈕 (&I)"
@@ -7728,8 +7671,6 @@ msgid "Have DC suggest the tooltip based on button type, command and parameters"
 msgstr ""
 
 #: tfrmoptionstoolbarbase.cbflatbuttons.caption
-#, fuzzy
-#| msgid "Flat b&uttons"
 msgctxt "tfrmoptionstoolbarbase.cbflatbuttons.caption"
 msgid "&Flat buttons"
 msgstr "平面按鈕 (&F)"
@@ -7752,8 +7693,6 @@ msgid "Appearance"
 msgstr "外觀"
 
 #: tfrmoptionstoolbarbase.lblbarsize.caption
-#, fuzzy
-#| msgid "Ba&r size:"
 msgctxt "tfrmoptionstoolbarbase.lblbarsize.caption"
 msgid "&Bar size:"
 msgstr "工具列大小 (&B):"
@@ -7778,15 +7717,11 @@ msgid "Hot key:"
 msgstr "熱鍵:"
 
 #: tfrmoptionstoolbarbase.lbliconfile.caption
-#, fuzzy
-#| msgid "Icon:"
 msgctxt "tfrmoptionstoolbarbase.lbliconfile.caption"
 msgid "Ico&n:"
 msgstr "圖示 (&N):"
 
 #: tfrmoptionstoolbarbase.lbliconsize.caption
-#, fuzzy
-#| msgid "Ic&on size:"
 msgctxt "tfrmoptionstoolbarbase.lbliconsize.caption"
 msgid "Icon si&ze:"
 msgstr "圖示大小 (&Z):"
@@ -7802,8 +7737,6 @@ msgid "&Parameters:"
 msgstr "參數 (&P):"
 
 #: tfrmoptionstoolbarbase.lblstartpath.caption
-#, fuzzy
-#| msgid "Start path:"
 msgctxt "tfrmoptionstoolbarbase.lblstartpath.caption"
 msgid "Start pat&h:"
 msgstr "開始路徑 (&H):"
@@ -7813,8 +7746,6 @@ msgid "Style:"
 msgstr ""
 
 #: tfrmoptionstoolbarbase.lbltooltip.caption
-#, fuzzy
-#| msgid "Tooltip:"
 msgctxt "tfrmoptionstoolbarbase.lbltooltip.caption"
 msgid "&Tooltip:"
 msgstr "工具提示 (&T):"
@@ -8198,29 +8129,21 @@ msgid "&Keep terminal window open after executing program"
 msgstr "在執行程式後保持終端機視窗開啟 (&K)"
 
 #: tfrmoptionstoolbase.cbtoolsruninterminal.caption
-#, fuzzy
-#| msgid "Execute in terminal"
 msgctxt "TFRMOPTIONSTOOLBASE.CBTOOLSRUNINTERMINAL.CAPTION"
 msgid "&Execute in terminal"
 msgstr "使用終端機執行 (&E)"
 
 #: tfrmoptionstoolbase.cbtoolsuseexternalprogram.caption
-#, fuzzy
-#| msgid "Use external program"
 msgctxt "TFRMOPTIONSTOOLBASE.CBTOOLSUSEEXTERNALPROGRAM.CAPTION"
 msgid "&Use external program"
 msgstr "使用外部程式 (&U)"
 
 #: tfrmoptionstoolbase.lbltoolsparameters.caption
-#, fuzzy
-#| msgid "Additional parameters"
 msgctxt "TFRMOPTIONSTOOLBASE.LBLTOOLSPARAMETERS.CAPTION"
 msgid "A&dditional parameters"
 msgstr "額外參數 (&D)"
 
 #: tfrmoptionstoolbase.lbltoolspath.caption
-#, fuzzy
-#| msgid "Path to program to execute"
 msgctxt "TFRMOPTIONSTOOLBASE.LBLTOOLSPATH.CAPTION"
 msgid "&Path to program to execute"
 msgstr "執行程式路徑 (&P)"
@@ -8281,15 +8204,11 @@ msgid "&Show tooltip for files in the file panel"
 msgstr "顯示工具提示"
 
 #: tfrmoptionstooltips.lblfieldslist.caption
-#, fuzzy
-#| msgid "Category hint:"
 msgctxt "TFRMOPTIONSTOOLTIPS.LBLFIELDSLIST.CAPTION"
 msgid "Category &hint:"
 msgstr "類別提示 (&H):"
 
 #: tfrmoptionstooltips.lblfieldsmask.caption
-#, fuzzy
-#| msgid "Category mask:"
 msgctxt "TFRMOPTIONSTOOLTIPS.LBLFIELDSMASK.CAPTION"
 msgid "Category &mask:"
 msgstr "類別遮罩 (&M):"
@@ -8395,7 +8314,6 @@ msgid "With History:"
 msgstr ""
 
 #: tfrmoptionstreeviewmenucolor.btfont.caption
-#, fuzzy
 msgctxt "tfrmoptionstreeviewmenucolor.btfont.caption"
 msgid "..."
 msgstr "..."
@@ -8478,8 +8396,6 @@ msgid "&Number of columns in book viewer"
 msgstr "閱讀模式欄位數量 (&N)"
 
 #: tfrmpackdlg.btnconfig.caption
-#, fuzzy
-#| msgid "&Configure"
 msgctxt "TFRMPACKDLG.BTNCONFIG.CAPTION"
 msgid "Con&figure"
 msgstr "設置 (&F)"
@@ -11296,11 +11212,11 @@ msgstr "添加“%s”"
 #: ulng.rsmenumacoseditfindertags
 msgctxt "ulng.rsmenumacoseditfindertags"
 msgid "Edit Finder Tags..."
-msgstr "編輯訪達標籤..."
+msgstr "編輯「訪達」標籤..."
 
 #: ulng.rsmenumacosgrantpermissiontosupportfindertags
 msgid "Grant \"Full Disk Access\" permission to support Finder Tags..."
-msgstr ""
+msgstr "授予「完全磁盤訪問」權限以支持「訪達」標籤..."
 
 #: ulng.rsmenumacosremovefindertag
 #, object-pascal-format
@@ -11352,7 +11268,7 @@ msgstr "比較"
 #: ulng.rsmfstbieditfindertagtips
 msgctxt "ulng.rsmfstbieditfindertagtips"
 msgid "Edit Finder Tags..."
-msgstr "編輯訪達標籤..."
+msgstr "編輯「訪達」標籤..."
 
 #: ulng.rsmfstbieditfindertagtitle
 msgid "EditTag"
@@ -11369,7 +11285,7 @@ msgstr "編輯"
 
 #: ulng.rsmfstbifinderrevealtips
 msgid "Reveal in Finder"
-msgstr "在訪達中訪問文件"
+msgstr "在「訪達」中訪問文件"
 
 #: ulng.rsmfstbifinderrevealtitle
 msgid "Finder"
@@ -11444,7 +11360,7 @@ msgstr "以完整詳細清單方式檢視"
 
 #: ulng.rsmfstbishowinfotips
 msgid "Show Info in Finder"
-msgstr "在訪達中顯示檔案簡介"
+msgstr "在「訪達」中顯示檔案簡介"
 
 #: ulng.rsmfstbishowinfotitle
 msgid "ShowInfo"
