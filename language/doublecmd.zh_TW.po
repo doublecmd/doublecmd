@@ -11298,6 +11298,10 @@ msgctxt "ulng.rsmenumacoseditfindertags"
 msgid "Edit Finder Tags..."
 msgstr "編輯訪達標籤..."
 
+#: ulng.rsmenumacosgrantpermissiontosupportfindertags
+msgid "Grant \"Full Disk Access\" permission to support Finder Tags..."
+msgstr ""
+
 #: ulng.rsmenumacosremovefindertag
 #, object-pascal-format
 msgid "Remove \"%s\""

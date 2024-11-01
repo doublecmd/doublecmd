@@ -37,6 +37,7 @@ uses
   Classes, SysUtils, UnixType,
   InterfaceBase, Menus, Controls, Forms,
   uFileProperty, uFileSourceProperty, uDisplayFile, uFileView, uColumnsFileView,
+  uLng,
   Cocoa_Extra, MacOSAll, CocoaAll, QuickLookUI,
   CocoaUtils, CocoaInt, CocoaPrivate, CocoaConst, CocoaMenus,
   uDarwinFSWatch, uDarwinFinder, uDarwinFinderModel;
@@ -327,7 +328,7 @@ begin
     Exit;
 
   menuItem:= menu.Items[menuIndex];
-  menuItem.Caption:= 'Grant "Full Disk Access" permissions to support Finder Tags';
+  menuItem.Caption:= rsMenuMacOSGrantPermissionToSupportFinderTags;
   menuItem.OnClick:= self.privilegeAction;
 end;
 
