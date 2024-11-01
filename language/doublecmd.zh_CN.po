@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Double Commander 1.1.0 alpha\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-11-15 11:15+0300\n"
-"PO-Revision-Date: 2023-04-05 22:00+0800\n"
+"PO-Revision-Date: 2024-11-01 21:00+0800\n"
 "Last-Translator: iYoung <iyoung@126.com>\n"
 "Language-Team: Chinese <iyoung@126.com>\n"
 "Language: zh_CN\n"
@@ -10810,11 +10810,11 @@ msgstr "添加“%s”"
 #: ulng.rsmenumacoseditfindertags
 msgctxt "ulng.rsmenumacoseditfindertags"
 msgid "Edit Finder Tags..."
-msgstr "编辑访达标签..."
+msgstr "编辑“访达”标签..."
 
 #: ulng.rsmenumacosgrantpermissiontosupportfindertags
 msgid "Grant \"Full Disk Access\" permission to support Finder Tags..."
-msgstr ""
+msgstr "授予“完全磁盘访问”权限以支持“访达”标签..."
 
 #: ulng.rsmenumacosremovefindertag
 #, object-pascal-format
@@ -10867,7 +10867,7 @@ msgstr "比较"
 #: ulng.rsmfstbieditfindertagtips
 msgctxt "ulng.rsmfstbieditfindertagtips"
 msgid "Edit Finder Tags..."
-msgstr "编辑访达标签..."
+msgstr "编辑“访达”标签..."
 
 #: ulng.rsmfstbieditfindertagtitle
 msgid "EditTag"
@@ -10885,7 +10885,7 @@ msgstr "编辑"
 #: ulng.rsmfstbifinderrevealtips
 msgctxt "ulng.rsmfstbifinderrevealtips"
 msgid "Reveal in Finder"
-msgstr "在访达中访问文件"
+msgstr "在“访达”中访问文件"
 
 #: ulng.rsmfstbifinderrevealtitle
 msgctxt "ulng.rsmfstbifinderrevealtitle"
@@ -10972,7 +10972,7 @@ msgstr "以完整详细列表方式显示"
 #: ulng.rsmfstbishowinfotips
 msgctxt "ulng.rsmfstbishowinfotips"
 msgid "Show Info in Finder"
-msgstr "在访达中显示文件简介"
+msgstr "在“访达”中显示文件简介"
 
 #: ulng.rsmfstbishowinfotitle
 msgctxt "ulng.rsmfstbishowinfotitle"
