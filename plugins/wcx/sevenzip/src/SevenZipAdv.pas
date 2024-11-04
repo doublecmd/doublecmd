@@ -75,14 +75,12 @@ function FindCompressFormats(const AFileName: TFileName): TJclCompressArchiveCla
 function FindDecompressFormats(const AFileName: TFileName): TJclDecompressArchiveClassArray;
 
 function GetNestedArchiveName(const ArchiveName: String; Item: TJclCompressionItem): WideString;
-function ExpandEnvironmentStrings(const FileName: UnicodeString): UnicodeString;
 function WideExtractFilePath(const FileName: WideString): WideString;
-function GetModulePath(out ModulePath: AnsiString): Boolean;
 
 implementation
 
 uses
-  CTypes, ActiveX, Windows, LazFileUtils, LazUTF8, SevenZipHlp;
+  CTypes, ActiveX, Windows, LazFileUtils, LazUTF8, DCOSUtils, SevenZipHlp;
 
 type
   TArchiveFormats = array of TArchiveFormat;
@@ -252,7 +250,7 @@ var
 begin
   if Length(ArchiveFormatsX) = 0 then LoadArchiveFormats(ArchiveFormatsX);
 
-  AFile:= FileOpenUTF8(AFileName, fmOpenRead or fmShareDenyNone);
+  AFile:= mbFileOpen(AFileName, fmOpenRead or fmShareDenyNone);
   if AFile = feInvalidHandle then Exit;
   try
     SetLength(Buffer, BufferSize);
@@ -457,15 +455,6 @@ begin
   end;
 end;
 
-function ExpandEnvironmentStrings(const FileName: UnicodeString): UnicodeString;
-var
-  dwSize: DWORD;
-begin
-  SetLength(Result, MAX_PATH + 1);
-  dwSize:= ExpandEnvironmentStringsW(PWideChar(FileName), PWideChar(Result), MAX_PATH);
-  if dwSize > 0 then SetLength(Result, dwSize - 1);
-end;
-
 function WideExtractFilePath(const FileName: WideString): WideString;
 var
   Index: Integer;
@@ -475,22 +464,6 @@ begin
     PathDelim: Exit(Copy(FileName, 1, Index));
   end;
   Result:= EmptyWideStr;
-end;
-
-function GetModulePath(out ModulePath: AnsiString): Boolean;
-var
-  lpBuffer: TMemoryBasicInformation;
-  ModuleName: array[0..MAX_PATH] of WideChar;
-begin
-  Result:= VirtualQuery(@GetModulePath, @lpBuffer, SizeOf(lpBuffer)) = SizeOf(lpBuffer);
-  if Result then
-  begin
-    Result:= GetModuleFileNameW(THandle(lpBuffer.AllocationBase), ModuleName, MAX_PATH) > 0;
-    if Result then
-    begin
-      ModulePath:= ExtractFilePath(Utf16ToUtf8(WideString(ModuleName)));
-    end;
-  end;
 end;
 
 initialization

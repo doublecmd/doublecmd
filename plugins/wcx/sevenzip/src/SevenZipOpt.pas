@@ -222,7 +222,7 @@ var
 implementation
 
 uses
-  ActiveX, LazUTF8, SevenZipAdv, SevenZipCodecs;
+  ActiveX, LazUTF8, DCOSUtils, SevenZipAdv, SevenZipCodecs;
 
 function GetNumberOfProcessors: LongWord;
 var
@@ -458,7 +458,7 @@ begin
     Ini:= TIniFile.Create(ConfigFile);
     try
       LibraryPath:= Ini.ReadString('Library', TargetCPU, EmptyStr);
-      LibraryPath:= Utf16ToUtf8(ExpandEnvironmentStrings(UTF8ToUTF16(LibraryPath)));
+      LibraryPath:= mbExpandEnvironmentStrings(LibraryPath);
       for ArchiveFormat:= Low(TArchiveFormat) to High(TArchiveFormat) do
       begin
         Section:= GUIDToString(PluginConfig[ArchiveFormat].ArchiveCLSID^);

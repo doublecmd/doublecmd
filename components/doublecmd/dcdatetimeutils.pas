@@ -43,6 +43,9 @@ function FileTimeToDateTimeEx(FileTime : DCBasicTypes.TFileTimeEx) : TDateTime;
 function DateTimeToFileTime(DateTime : TDateTime) : DCBasicTypes.TFileTime;
 function DateTimeToFileTimeEx(DateTime : TDateTime) : DCBasicTypes.TFileTimeEx;
 
+function FileTimeToWinFileTime(FileTime : DCBasicTypes.TFileTime) : TWinFileTime;
+function WinFileTimeToFileTimeEx(FileTime: TWinFileTime) : DCBasicTypes.TFileTimeEx;
+
 {en
    Converts system specific UTC time to local time.
 }
@@ -277,6 +280,29 @@ end;
 {$ELSE}
 begin
   Result := 0;
+end;
+{$ENDIF}
+
+function FileTimeToWinFileTime(FileTime: DCBasicTypes.TFileTime): TWinFileTime;
+{$IF DEFINED(MSWINDOWS)}
+begin
+  Result:= TWinFileTime(FileTime)
+end;
+{$ELSEIF DEFINED(UNIX)}
+begin
+  Result:= UnixFileTimeToWinTime(TUnixFileTime(FileTime));
+end;
+{$ENDIF}
+
+function WinFileTimeToFileTimeEx(FileTime: TWinFileTime): DCBasicTypes.TFileTimeEx;
+{$IF DEFINED(MSWINDOWS)}
+begin
+  Result := TFileTimeEx(FileTime);
+end;
+{$ELSEIF DEFINED(UNIX)}
+begin
+  Result.Sec:= Int64((FileTime - UnixWinEpoch) div 10000000);
+  Result.NanoSec:= Int64((FileTime - UnixWinEpoch) mod 10000000) * 100;
 end;
 {$ENDIF}
 
