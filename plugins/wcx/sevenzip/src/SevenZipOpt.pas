@@ -27,7 +27,7 @@ unit SevenZipOpt;
 interface
 
 uses
-  Classes, SysUtils, Windows, IniFiles, JclCompression, SevenZip;
+  Classes, SysUtils, Windows, DCClassesUtf8, JclCompression, SevenZip;
 
 const
   cKilo = 1024;
@@ -450,12 +450,12 @@ end;
 
 procedure LoadConfiguration;
 var
-  Ini: TIniFile;
+  Ini: TIniFileEx;
   Section: AnsiString;
   ArchiveFormat: TArchiveFormat;
 begin
   try
-    Ini:= TIniFile.Create(ConfigFile);
+    Ini:= TIniFileEx.Create(ConfigFile);
     try
       LibraryPath:= Ini.ReadString('Library', TargetCPU, EmptyStr);
       LibraryPath:= mbExpandEnvironmentStrings(LibraryPath);
@@ -481,12 +481,12 @@ end;
 
 procedure SaveConfiguration;
 var
-  Ini: TIniFile;
+  Ini: TIniFileEx;
   Section: AnsiString;
   ArchiveFormat: TArchiveFormat;
 begin
   try
-    Ini:= TIniFile.Create(ConfigFile);
+    Ini:= TIniFileEx.Create(ConfigFile);
     try
       for ArchiveFormat:= Low(TArchiveFormat) to High(TArchiveFormat) do
       begin
