@@ -496,7 +496,7 @@ begin
   ConfigFile:= ExtractFilePath(dps^.DefaultIniName);
   ConfigFile:= WinCPToUTF8(ConfigFile) + DefaultIniName;
   // Get plugin path
-  ModulePath:= mbGetModuleName;
+  ModulePath:= ExtractFilePath(mbGetModuleName);
   // Use configuration from plugin path
   if mbFileExists(ModulePath + DefaultIniName) then
   begin
