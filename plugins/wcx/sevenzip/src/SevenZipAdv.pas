@@ -104,8 +104,6 @@ var
   CompressFormatsCache: TArchiveFormatCache;
   DecompressFormatsCache: TArchiveFormatCache;
 
-function _wcsnicmp(const s1, s2: pwidechar; count: csize_t): cint; cdecl; external 'msvcrt.dll';
-
 function ReadStringProp(FormatIndex: Cardinal; PropID: TPropID;
   out Value: UnicodeString): LongBool;
 var
@@ -390,6 +388,7 @@ end;
 
 procedure TJclSevenzipUpdateArchiveHelper.RemoveDirectory(const PackedName: WideString);
 var
+  FileName: WideString;
   DirectoryName: WideString;
   AItem: TJclCompressionItem;
   Index, PackedNamesIndex: Integer;
@@ -409,10 +408,13 @@ begin
       Break;
     end;
   end;
+  DirectoryName:= WideLowerCase(PackedName);
   // Remove directory content
   for Index := ItemCount - 1 downto 0 do
   begin
-    if (_wcsnicmp(PWideChar(PackedName), PWideChar(Items[Index].PackedName), Length(PackedName)) = 0) then
+    FileName:= WideLowerCase(Items[Index].PackedName);
+    if Length(FileName) < Length(DirectoryName) then Continue;
+    if (CompareWord(DirectoryName[1], FileName[1], Length(DirectoryName)) = 0) then
     begin
       if (FPackedNames <> nil) and FPackedNames.Find(Items[Index].PackedName, PackedNamesIndex) then
         FPackedNames.Delete(PackedNamesIndex);
