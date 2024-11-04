@@ -126,7 +126,7 @@ implementation
 
 uses
   uDebug, uGlobs, DCFileAttributes, DCOSUtils, DCStrUtils, DCDateTimeUtils,
-  FileUtil, uMasks,
+  FileUtil, uMasks, uLng,
   uMultiArchiveListOperation,
   uMultiArchiveCopyInOperation,
   uMultiArchiveCopyOutOperation,
@@ -605,6 +605,9 @@ begin
       FOutputParser.Prepare;
       FOutputParser.Execute;
       FPassword:= FOutputParser.Password;
+
+      if FOutputParser.OpenError and (AFileList.Count < 1) then
+        raise EFileSourceException.Create(rsMsgErrEOpen);
 
       (* if archiver does not give a list of folders *)
       for I := 0 to FAllDirsList.Count - 1 do
