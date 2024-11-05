@@ -37,6 +37,8 @@ type
   TfrmOptionsArchivers = class(TOptionsEditor)
     chkHide: TCheckBox;
     chkFileNameOnlyList: TCheckBox;
+    edtArchiverSizeStripChars: TEdit;
+    lblArchiverSizeStripChars: TLabel;
     pnlArchiverListbox: TPanel;
     lblArchiverListBox: TLabel;
     lbxArchiver: TCheckListBox;
@@ -383,6 +385,7 @@ begin
       memIgnoreString.Lines.Clear;
       memArchiverAskHistory.Lines.Clear;
       edtArchiverFallBack.Text:= EmptyStr;
+      edtArchiverSizeStripChars.Text:= EmptyStr;
     end
     else
     begin
@@ -417,6 +420,7 @@ begin
         memIgnoreString.Lines.Assign(FIgnoreString);
         memArchiverAskHistory.Lines.Assign(FAskHistory);
         edtArchiverFallBack.Text:= FFallBack;
+        edtArchiverSizeStripChars.Text:= FSizeStripChars;
       end;
     end;
     chkFileNameOnlyListChange(chkFileNameOnlyList);
@@ -552,6 +556,7 @@ begin
     if ckbArchiverUnixFileAttributes.Checked then  FFormMode := FFormMode or $04;
     if ckbArchiverWindowsFileAttributes.Checked then  FFormMode := FFormMode or $08;
     FIgnoreString.Assign(memIgnoreString.Lines);
+    FSizeStripChars:= edtArchiverSizeStripChars.Text;
   end;
   OutputParser := TOutputParser.Create(MultiArcItem, edtTestArchive.FileName);
   OutputParser.OnAddLine:= @OnParserAddLine;
@@ -746,6 +751,7 @@ begin
     FIgnoreString.Assign(memIgnoreString.Lines);
     FAskHistory.Assign(memArchiverAskHistory.Lines);
     FFallBack:= edtArchiverFallBack.Text;
+    FSizeStripChars:= edtArchiverSizeStripChars.Text;
     SetConfigurationState(CONFIG_SAVED);
   end;
 end;

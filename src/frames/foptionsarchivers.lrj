@@ -92,6 +92,7 @@
 {"hash":1932346,"name":"tfrmoptionsarchivers.lblarchiveridseekrange.caption","sourcebytes":[73,68,32,83,101,101,38,107,32,82,97,110,103,101,58],"value":"ID See&k Range:"},
 {"hash":90893402,"name":"tfrmoptionsarchivers.bvlarchiverother.caption","sourcebytes":[79,116,104,101,114,58],"value":"Other:"},
 {"hash":205166506,"name":"tfrmoptionsarchivers.lblarchiverpasswordquery.caption","sourcebytes":[80,97,115,115,119,111,114,100,32,38,113,117,101,114,121,32,115,116,114,105,110,103,58],"value":"Password &query string:"},
+{"hash":9454314,"name":"tfrmoptionsarchivers.lblarchiversizestripchars.caption","sourcebytes":[83,116,114,105,112,32,99,104,97,114,97,99,116,101,114,115,32,102,114,111,109,32,115,105,122,101,32,115,117,98,115,116,114,105,110,103,115,58],"value":"Strip characters from size substrings:"},
 {"hash":227119498,"name":"tfrmoptionsarchivers.lblarchiverfallback.caption","sourcebytes":[70,97,108,108,98,97,99,107,32,116,111,32,97,114,99,104,105,118,101,114,58],"value":"Fallback to archiver:"},
 {"hash":60220698,"name":"tfrmoptionsarchivers.lblarchiveraskhistory.caption","sourcebytes":[67,117,115,116,111,109,32,112,97,114,97,109,115,32,104,105,115,116,111,114,121,58],"value":"Custom params history:"},
 {"hash":128999434,"name":"tfrmoptionsarchivers.bvlarchiveroptions.caption","sourcebytes":[79,112,116,105,111,110,115,58],"value":"Options:"},
