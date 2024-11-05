@@ -886,6 +886,7 @@ begin
   if MultiArcListTemp <> nil then
     MultiArcListTemp.Free;
   MultiArcListTemp := gMultiArcList.Clone;
+  FillListBoxWithArchiverList;
   lbxArchiverSelectionChange(lbxArchiver, False);
 end;
 

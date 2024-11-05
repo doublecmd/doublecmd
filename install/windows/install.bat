@@ -42,6 +42,7 @@ copy doublecmd.help                 %DC_INSTALL_DIR%\
 copy doublecmd.zdli                 %DC_INSTALL_DIR%\
 copy pinyin.tbl                     %DC_INSTALL_DIR%\
 rem Copy libraries
+copy *.sfx                          %DC_INSTALL_DIR%\
 copy *.dll                          %DC_INSTALL_DIR%\
 copy winpty-agent.exe               %DC_INSTALL_DIR%\
 rem Copy manifest

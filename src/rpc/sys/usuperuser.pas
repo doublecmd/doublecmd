@@ -317,8 +317,10 @@ end;
 {$ENDIF}
 
 initialization
-{$IF DEFINED(DARWIN) OR DEFINED(HAIKU)}
+{$IF DEFINED(HAIKU)}
   FAdministratorPrivileges:= True;
+{$ELSEIF DEFINED(DARWIN)}
+  FAdministratorPrivileges:= (fpGetUID = 0);
 {$ELSEIF DEFINED(UNIX)}
   {$IFDEF LINUX}
   if FindExecutable('pkexec', SuperExe) then

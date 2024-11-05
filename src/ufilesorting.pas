@@ -660,9 +660,8 @@ begin
         Result := ICompareByAttr(File1, File2, bNegative);
       fsfPath:
         begin
-          Result := mbCompareText(File1.Path, File2.Path);
-          if bNegative then
-            Result := -Result;
+          Result := CompareStrings(File1.Path, File2.Path, gSortNatural, gSortSpecial, gSortCaseSensitivity);
+          if bNegative then Result := -Result;
         end;
       fsfGroup:
         begin
@@ -696,10 +695,9 @@ begin
                                  bNegative);
       fsfLinkTo:
         begin
-          Result := mbCompareText(File1.LinkProperty.LinkTo,
-                                  File2.LinkProperty.LinkTo);
-          if bNegative then
-            Result := -Result;
+          Result := CompareStrings(File1.LinkProperty.LinkTo, File2.LinkProperty.LinkTo, 
+                                   gSortNatural, gSortSpecial, gSortCaseSensitivity);
+          if bNegative then Result := -Result;
         end;
       fsfNameNoExtension:
         Result := ICompareByNameNoExt(File1, File2, bNegative);

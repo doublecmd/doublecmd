@@ -19,6 +19,8 @@ type
     FMultiArcItem: TMultiArcItem;
     FParser: TMultiArchiveParser;
     FOnAddLine: TOnAddLine;
+    FErrorLevel: LongInt;
+    FOpenError: Boolean;
     FConvertEncoding: function (const Source: String): RawByteString;
   private
     FArchiveName: String;
@@ -37,6 +39,7 @@ type
     procedure Prepare;
     procedure Execute;
 
+    property OpenError: Boolean read FOpenError;
     property Password: String read FPassword write FPassword;
     property OnGetArchiveItem: TOnGetArchiveItem write SetOnGetArchiveItem;
     property OnAddLine: TOnAddLine write FOnAddLine;
@@ -71,6 +74,7 @@ var
   Index: Integer;
 begin
   Result:= FMultiArcItem.FList;
+  FErrorLevel:= ExtractErrorLevel(Result);
   Index:= Pos('%O', Result);
   FConvertEncoding:= @DCOSUtils.ConsoleToUTF8;
   if (Index > 0) and (Index + 2 <= Length(Result)) then
@@ -90,6 +94,7 @@ end;
 
 procedure TOutputParser.OnProcessExit;
 begin
+  FOpenError:= (FExProcess.ExitStatus > FErrorLevel);
   FParser.ParseLines;
 end;
 
@@ -198,6 +203,7 @@ begin
   sCommandLine:= FormatArchiverCommand(FMultiArcItem.FArchiver,
                                        sCommandLine, FArchiveName,
                                        nil, '', '','', FPassword);
+
   if FMultiArcItem.FDebug then
     DCDebug(sCommandLine);
 

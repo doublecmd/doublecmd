@@ -964,7 +964,7 @@ begin
       end;
     end else if TDarwinFSWatchEventCategory.ecCreated in event.categories then
       FCurrentEventData.EventType := fswFileCreated
-    else if TDarwinFSWatchEventCategory.ecCoreAttribChanged in event.categories then
+    else if TDarwinFSWatchEventCategory.ecAttribChanged in event.categories then
       FCurrentEventData.EventType := fswFileChanged
     else
       exit;

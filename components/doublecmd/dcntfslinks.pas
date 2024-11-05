@@ -250,6 +250,7 @@ function _CreateSymLink_Old(aTargetFileName, aSymlinkFileName: UnicodeString): B
 var
   hDevice: THandle;
   lpInBuffer: PReparseDataBuffer;
+  dwLastError,
   nInBufferSize,
   dwPathBufferSize: DWORD;
   wsNativeFileName: UnicodeString;
@@ -261,7 +262,11 @@ begin
     hDevice:= CreateFileW(PWideChar(aSymlinkFileName),
                           GENERIC_WRITE, 0, nil, OPEN_EXISTING,
                           FILE_FLAG_BACKUP_SEMANTICS or FILE_FLAG_OPEN_REPARSE_POINT, 0);
-    if hDevice = INVALID_HANDLE_VALUE then Exit(False);
+    if hDevice = INVALID_HANDLE_VALUE then
+    begin
+      dwLastError:= GetLastError;
+      Exit(False);
+    end;
     if Pos(wsLongFileNamePrefix, aTargetFileName) <> 1 then
       wsNativeFileName:= wsNativeFileNamePrefix + aTargetFileName
     else begin
@@ -288,11 +293,15 @@ begin
                              0,                        // nOutBufferSize
                              lpBytesReturned,          // lpBytesReturned
                              nil);                     // OVERLAPPED structure
-
+    if not Result then dwLastError:= GetLastError;
     FreeMem(lpInBuffer);
     CloseHandle(hDevice);
   finally
-    if not Result then RemoveDirectoryW(PWideChar(aSymlinkFileName));
+    if not Result then
+    begin
+      RemoveDirectoryW(PWideChar(aSymlinkFileName));
+      SetLastError(dwLastError);
+    end;
   end;
 end;
 

@@ -29,7 +29,8 @@ type
     fpLink = 9,
     fpType = 10,
     fpComment = 11,
-    fpInvalid = 12,
+    fpMacOSFinderTag = 12,
+    fpInvalid = 13,
     fpVariant = 128,
     fpMaximum = 255
   );
@@ -421,6 +422,40 @@ type
     property Value: String read FComment write FComment;
 
   end;
+
+  {$IFDEF DARWIN}
+  { TFileFinderTagPrimaryColors }
+
+  TFileFinderTagPrimaryColors = record
+    case Byte of
+      0: (intValue: Integer);
+      1: (indexes: array [0..2] of int8);
+  end;
+
+  { TFileFinderTagProperty }
+
+  TFileFinderTagProperty = class(TFileProperty)
+
+  private
+    FColors: TFileFinderTagPrimaryColors;
+
+  public
+    constructor Create; override;
+
+    function Clone: TFileFinderTagProperty; override;
+    procedure CloneTo(FileProperty: TFileProperty); override;
+
+    class function GetDescription: String; override;
+    class function GetID: TFilePropertyType; override;
+
+    function Equals(p: TObject): Boolean; override;
+
+    function Format({%H-}Formatter: IFilePropertyFormatter): String; override;
+
+    property Colors: TFileFinderTagPrimaryColors read FColors write FColors;
+
+  end;
+  {$ENDIF}
 
   { TFileVariantProperty }
 
@@ -1205,6 +1240,60 @@ function TFileCommentProperty.Format(Formatter: IFilePropertyFormatter): String;
 begin
   Result:= FComment;
 end;
+
+{$IFDEF DARWIN}
+
+{ TFileFinderTagProperty }
+
+constructor TFileFinderTagProperty.Create;
+begin
+  inherited Create;
+  FColors.intValue:= -1;
+end;
+
+function TFileFinderTagProperty.Clone: TFileFinderTagProperty;
+begin
+  Result := TFileFinderTagProperty.Create;
+  CloneTo(Result);
+end;
+
+procedure TFileFinderTagProperty.CloneTo(FileProperty: TFileProperty);
+begin
+  if Assigned(FileProperty) then
+  begin
+    inherited CloneTo(FileProperty);
+
+    with FileProperty as TFileFinderTagProperty do
+    begin
+      FColors := Self.FColors;
+    end;
+  end;
+end;
+
+class function TFileFinderTagProperty.GetDescription: String;
+begin
+  Result:= '';
+end;
+
+class function TFileFinderTagProperty.GetID: TFilePropertyType;
+begin
+  Result := fpMacOSFinderTag;
+end;
+
+function TFileFinderTagProperty.Equals(p: TObject): Boolean;
+begin
+  Result:= false;
+  if not (p is TFileFinderTagProperty) then exit;
+  if self.FColors.intValue <> TFileFinderTagProperty(p).FColors.intValue then exit;
+  Result:= true;
+end;
+
+function TFileFinderTagProperty.Format(Formatter: IFilePropertyFormatter): String;
+begin
+  Result:= '';
+end;
+
+{$ENDIF}
 
 { TFileVariantProperty }
 

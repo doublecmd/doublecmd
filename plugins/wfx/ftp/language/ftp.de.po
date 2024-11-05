@@ -1,16 +1,16 @@
 msgid ""
 msgstr ""
-"Content-Type: text/plain; charset=UTF-8\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"Project-Id-Version: Double  Commander Plugin 'ftp'\n"
+"Project-Id-Version: Double Commander Plugin 'ftp'\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: \n"
-"Last-Translator: ㋡ <braass@mail.de>\n"
+"PO-Revision-Date: 2024-11-01 18:01+0100\n"
+"Last-Translator:  ㋡  <braass@mail.de>\n"
 "Language-Team: \n"
-"MIME-Version: 1.0\n"
-"Content-Transfer-Encoding: 8bit\n"
 "Language: de_DE\n"
-"X-Generator: Poedit 2.3\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 3.0.1\n"
 
 #: tdialogbox.btnadd.caption
 msgid "+"
@@ -43,7 +43,7 @@ msgstr "FTP"
 
 #: tdialogbox.chkagentssh.caption
 msgid "Use SSH-agent authentication"
-msgstr ""
+msgstr "SSH-Agent-Authentifizierung verwenden"
 
 #: tdialogbox.chkcopyscp.caption
 msgid "Copy using SCP protocol (faster)"
@@ -129,7 +129,7 @@ msgstr "&Passwort:"
 
 #: tdialogbox.lblproxyuser.caption
 msgid "&User name:"
-msgstr "Benutzername:"
+msgstr "Ben&utzername:"
 
 #: tdialogbox.lblpublickey.caption
 msgid "Public key file (*.pub):"
@@ -161,5 +161,5 @@ msgstr "Proxy"
 
 #: tfrmfileproperties.caption
 msgid "Properties"
-msgstr ""
+msgstr "Eigenschaften"
 

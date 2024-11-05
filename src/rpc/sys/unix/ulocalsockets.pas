@@ -135,14 +135,14 @@ function SendMessage(__fd: cInt; __message: pmsghdr; __flags: cInt): ssize_t;
 begin
   repeat
     Result:= sendmsg(__fd, __message, __flags);
-  until (Result <> -1) or (fpgetCerrno <> ESysEINTR);
+  until not ((Result = -1) and ((Cerrno = ESysEINTR) or (Cerrno = ESysEAGAIN)));
 end;
 
 function RecvMessage(__fd: cInt; __message: pmsghdr; __flags: cInt): ssize_t;
 begin
   repeat
     Result:= recvmsg(__fd, __message, __flags);
-  until (Result <> -1) or (fpgetCerrno <> ESysEINTR);
+  until not ((Result = -1) and ((Cerrno = ESysEINTR) or (Cerrno = ESysEAGAIN)));
 end;
 
 procedure SetSocketClientProcessId(fd: cint);
@@ -339,9 +339,12 @@ begin
   DCDebug('VerifyChild');
   ProcessId:= GetSocketClientProcessId(Handle);
   DCDebug(['Credentials from socket: pid=', ProcessId]);
+{$IF DEFINED(DARWIN)}
+  Result:= (GetProcessFileName(ProcessId) = GetProcessFileName(GetProcessId));
+{$ELSE}
   Result:= CheckParent(ProcessId, GetProcessId);{ and
            (GetProcessFileName(ProcessId) = GetProcessFileName(GetProcessId));}
-
+{$ENDIF}
   DCDebug(['VerifyChild: ', Result]);
 end;
 
@@ -352,8 +355,13 @@ begin
   DCDebug('VerifyParent');
   ProcessId:= GetSocketClientProcessId(Handle);
   DCDebug(['Credentials from socket: pid=', ProcessId]);
+{$IF DEFINED(DARWIN)}
+  Result:= (StrToInt(ParamStr(2)) = ProcessId) and
+           (GetProcessFileName(ProcessId) = GetProcessFileName(GetProcessId));
+{$ELSE}
   Result:= CheckParent(FpGetppid, ProcessId) and
            (GetProcessFileName(ProcessId) = GetProcessFileName(GetProcessId));
+{$ENDIF}
   DCDebug(['VerifyParent: ', Result]);
 end;
 

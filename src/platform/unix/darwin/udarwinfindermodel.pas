@@ -9,7 +9,7 @@ uses
   Classes, SysUtils, LCLType,
   sqldb, SQLite3Conn,
   uDebug,
-  CocoaAll, CocoaConst, Cocoa_Extra;
+  MacOSAll, CocoaAll, CocoaConst, Cocoa_Extra;
 
 type
 
@@ -19,14 +19,17 @@ type
   private
     _name: NSString;
     _colorIndex: NSInteger;
+    _isShowingInSidebar: Boolean;
     _isUserDefined: Boolean;
   public
     class function tagWithParams( const name: NSString; const colorIndex: Integer;
-      const isUserDefined: Boolean ): TFinderTag; message 'tagWithParams:name:colorIndex:';
+      const isShowingInSidebar: Boolean; const isUserDefined: Boolean ): TFinderTag;
+      message 'tagWithParams:name:colorIndex:isShowingInSidebar:';
     procedure dealloc; override;
 
     function name: NSString; message 'tag_name';
     function colorIndex: NSInteger; message 'tag_colorIndex';
+    function isShowingInSidebar: Boolean; message 'tag_isShowingInSidebar';
     function isUserDefined: Boolean; message 'tag_isUserDefined';
     function color: NSColor; message 'tag_color';
   end;
@@ -46,6 +49,8 @@ type
 
   TFinderTagNSColors = Array of NSColor;
 
+  TMacOSSearchResultHandler = procedure ( const searchName: String; const files: TStringArray ) of object;
+
   { uDarwinFinderModelUtil }
 
   uDarwinFinderModelUtil = class
@@ -60,13 +65,18 @@ type
     class function getTagsData_macOS11: NSDictionary;
     class function doGetAllTags( const tagDictionary: NSDictionary ): NSDictionary;
     class function getTagsDataFromDatabase: TBytes;
-    class function getFavoriteTagNames: NSArray;
     class procedure initFinderTagNSColors;
+  public
+    class function getFavoriteTagNames: NSArray;
+    class function getSidebarTagNames: NSArray;
   public
     class function getTagNamesOfFile( const url: NSURL ): NSArray;
     class procedure setTagNamesOfFile( const url: NSURL; const tagNames: NSArray );
     class procedure addTagForFile( const url: NSURL; const tagName: NSString );
     class procedure removeTagForFile( const url: NSURL; const tagName: NSString );
+  public
+    class procedure searchFilesForTagName( const tagName: NSString; const handler: TMacOSSearchResultHandler );
+    class procedure searchFilesForTagNames( const tagNames: NSArray; const handler: TMacOSSearchResultHandler );
   public
     class property rectFinderTagNSColors: TFinderTagNSColors read _rectFinderTagNSColors;
     class property dotFinderTagNSColors: TFinderTagNSColors read _dotFinderTagNSColors;
@@ -76,19 +86,21 @@ type
 implementation
 
 const
-  NEW_FINDER_TAGS_DATABASE_PATH  = '/Library/SyncedPreferences/com.apple.kvs/com.apple.KeyValueService-Production.sqlite';
-  OLD_FINDER_TAGS_FILE_PATH      = '/Library/SyncedPreferences/com.apple.finder.plist';
-  FAVORITE_FINDER_TAGS_FILE_PATH = '/Library/Preferences/com.apple.finder.plist';
+  FINDER_TAGS_DATABASE_PATH_14plus  = '/Library/Daemon Containers/F6F9E4C1-EF5D-4BF3-BEAD-0D777574F0A0/Data/com.apple.kvs/com.apple.KeyValueService-Production.sqlite';
+  FINDER_TAGS_DATABASE_PATH_12to13  = '/Library/SyncedPreferences/com.apple.kvs/com.apple.KeyValueService-Production.sqlite';
+  FINDER_TAGS_FILE_PATH_11minus     = '/Library/SyncedPreferences/com.apple.finder.plist';
+  FAVORITE_FINDER_TAGS_FILE_PATH    = '/Library/Preferences/com.apple.finder.plist';
 
 { TFinderTag }
 
 class function TFinderTag.tagWithParams( const name: NSString; const colorIndex: Integer;
-  const isUserDefined: Boolean): TFinderTag;
+  const isShowingInSidebar: Boolean; const isUserDefined: Boolean ): TFinderTag;
 begin
   Result:= TFinderTag.new;
   Result._name:= name.retain;
   if (colorIndex>=0) and (colorIndex<length(uDarwinFinderModelUtil.rectFinderTagNSColors)) then
     Result._colorIndex:= colorIndex;
+  Result._isShowingInSidebar:= isShowingInSidebar;
   Result._isUserDefined:= isUserDefined;
   Result.autorelease;
 end;
@@ -107,6 +119,11 @@ end;
 function TFinderTag.colorIndex: NSInteger;
 begin
   Result:= _colorIndex;
+end;
+
+function TFinderTag.isShowingInSidebar: Boolean;
+begin
+  Result:= _isShowingInSidebar;
 end;
 
 function TFinderTag.isUserDefined: Boolean;
@@ -149,6 +166,63 @@ begin
   Result:= _tags.objectForKey( tagName );
 end;
 
+{ TMacOSQueryHandler }
+
+type
+  TMacOSQueryHandler = objcclass( NSObject )
+  private
+    _queryName: NSString;
+    _query: NSMetadataQuery;
+    _handler: TMacOSSearchResultHandler;
+    procedure initalGatherComplete( sender: id ); message 'initalGatherComplete:';
+  public
+    function initWithName( name: NSString ): id; message 'doublecmd_initWithName:';
+    procedure dealloc; override;
+  end;
+
+procedure TMacOSQueryHandler.initalGatherComplete(sender: id);
+var
+  item: NSMetadataItem;
+  path: NSString;
+  files: TStringArray;
+  i: Integer;
+  count: Integer;
+begin
+  _query.stopQuery;
+  NSNotificationCenter.defaultCenter.removeObserver_name_object(
+    self,
+    NSMetadataQueryDidFinishGatheringNotification,
+    _query );
+
+  files:= nil;
+  count:= _query.resultCount;
+  if count > 0 then begin
+    SetLength( files, count );
+    for i:=0 to count-1 do begin
+      item:= NSMetadataItem( _query.results.objectAtIndex(i) );
+      path:= item.valueForAttribute( NSString(kMDItemPath) );
+      files[i]:= path.UTF8String;
+    end;
+  end;
+
+  _handler( _queryName.UTF8String, files );
+
+  self.release;
+end;
+
+function TMacOSQueryHandler.initWithName(name: NSString): id;
+begin
+  _queryName:= name;
+  _queryName.retain;
+  Result:= self;
+end;
+
+procedure TMacOSQueryHandler.dealloc;
+begin
+  _queryName.release;
+  _query.release;
+end;
+
 { uDarwinFinderModelUtil }
 
 class function uDarwinFinderModelUtil.getTagNamesOfFile(const url: NSURL
@@ -156,7 +230,6 @@ class function uDarwinFinderModelUtil.getTagNamesOfFile(const url: NSURL
 var
   ret: Boolean;
   tagNames: NSArray;
-  tagColor: NSColor;
 begin
   Result:= nil;
   ret:= url.getResourceValue_forKey_error( @tagNames, NSURLTagNamesKey, nil );
@@ -192,6 +265,72 @@ begin
   newTagNames:= NSMutableArray.arrayWithArray( tagNames );
   newTagNames.removeObject( tagName );
   uDarwinFinderModelUtil.setTagNamesOfFile( url, newTagNames );
+end;
+
+class procedure uDarwinFinderModelUtil.searchFilesForTagNames(
+  const tagNames: NSArray; const handler: TMacOSSearchResultHandler);
+
+  function toString: NSString;
+  var
+    tagName: NSString;
+    name: NSMutableString;
+  begin
+    name:= NSMutableString.new;
+    for tagName in tagNames do begin
+      name.appendString( tagName );
+      name.appendString( NSSTR('|') );
+    end;
+    Result:= name.substringToIndex( name.length-1 );
+    name.release;
+  end;
+
+  function formatString: NSString;
+  var
+    format: NSMutableString;
+    count: Integer;
+    i: Integer;
+  begin
+    format:= NSMutableString.new;
+    count:= tagNames.count;
+    for i:=1 to count do begin
+      format.appendString( NSSTR('(kMDItemUserTags == %@) && ') );
+    end;
+    Result:= format.substringToIndex( format.length-4 );
+    format.release;
+  end;
+
+var
+  queryHandler: TMacOSQueryHandler;
+  query: NSMetadataQuery;
+  predicate: NSPredicate;
+begin
+  if tagNames.count = 0 then
+    Exit;
+
+  // release in initalGatherComplete()
+  query:= NSMetadataQuery.new;
+  // release in initalGatherComplete()
+  queryHandler:= TMacOSQueryHandler.alloc.initWithName( toString() );
+  queryHandler._query:= query;
+  queryHandler._handler:= handler;
+  NSNotificationCenter.defaultCenter.addObserver_selector_name_object(
+    queryHandler,
+    objcselector('initalGatherComplete:'),
+    NSMetadataQueryDidFinishGatheringNotification,
+    query );
+
+  predicate:= NSPredicate.predicateWithFormat_argumentArray( formatString(), tagNames );
+  query.setPredicate( predicate );
+  query.startQuery;
+end;
+
+class procedure uDarwinFinderModelUtil.searchFilesForTagName(
+  const tagName: NSString; const handler: TMacOSSearchResultHandler);
+var
+  tagNames: NSArray;
+begin
+  tagNames:= NSArray.arrayWithObject( tagName );
+  uDarwinFinderModelUtil.searchFilesForTagNames( tagNames, handler );
 end;
 
 class function uDarwinFinderModelUtil.getAllTags: NSDictionary;
@@ -236,6 +375,20 @@ begin
   Result:= plistProperties.valueForKeyPath( NSSTR('FavoriteTagNames') );
 end;
 
+class function uDarwinFinderModelUtil.getSidebarTagNames: NSArray;
+var
+  tagNames: NSMutableArray;
+  tag: TFinderTag;
+begin
+  TFinderTags.update;
+  tagNames:= NSMutableArray.arrayWithCapacity( 16 );
+  for tag in TFinderTags.tags.allValues do begin
+    if tag.isShowingInSidebar then
+      tagNames.addObject( tag.name );
+  end;
+  Result:= tagNames;
+end;
+
 class function uDarwinFinderModelUtil.getFavoriteTags: NSArray;
 var
   tagNames: NSArray;
@@ -249,6 +402,8 @@ begin
     if tagName.length = 0 then
       continue;
     tag:= TFinderTags.getTagOfName( tagName );
+    if tag = nil then
+      continue;
     tags.addObject( tag );
   end;
 
@@ -285,7 +440,7 @@ var
   plistProperties: id;
 begin
   Result:= nil;
-  path:= NSHomeDirectory.stringByAppendingString( NSSTR(OLD_FINDER_TAGS_FILE_PATH) );
+  path:= NSHomeDirectory.stringByAppendingString( NSSTR(FINDER_TAGS_FILE_PATH_11minus) );
 
   plistData:= NSData.dataWithContentsOfFile( path );
   if plistData = nil then
@@ -311,7 +466,11 @@ begin
     connection:= TSQLite3Connection.Create( nil );
     transaction:= TSQLTransaction.Create( connection );
     connection.Transaction:= transaction;
-    databasePath:= NSHomeDirectory.UTF8String + NEW_FINDER_TAGS_DATABASE_PATH;
+    if NSAppKitVersionNumber >= NSAppKitVersionNumber14_0 then
+      databasePath:= FINDER_TAGS_DATABASE_PATH_14plus
+    else
+      databasePath:= FINDER_TAGS_DATABASE_PATH_12to13;
+    databasePath:= NSHomeDirectory.UTF8String + databasePath;
     connection.DatabaseName:= databasePath;
 
     query:= TSQLQuery.Create( nil );
@@ -339,7 +498,9 @@ var
   plistTagItem: NSDictionary;
   plistTagName: NSString;
   plistTagColorNumber: NSNumber;
+  plistShowingInSidebar: NSNumber;
   plistTagUserDefined: NSNumber;
+  showingInSidebar: Boolean;
 
   allFinderTagDict: NSMutableDictionary;
   tag: TFinderTag;
@@ -356,11 +517,19 @@ begin
   for plistTagItem in plistTagArray do begin
     plistTagName:= plistTagItem.valueForKey( NSSTR('n') );
     plistTagColorNumber:= plistTagItem.valueForKey( NSSTR('l') );
+    plistShowingInSidebar:= plistTagItem.valueForKey( NSSTR('v') );
     plistTagUserDefined:= plistTagItem.valueForKey( NSSTR('p') );
+
+    showingInSidebar:= True;
+    if plistShowingInSidebar <> nil then
+      showingInSidebar:= plistShowingInSidebar.boolValue;
+
     tag:= TFinderTag.tagWithParams(
       plistTagName,
       plistTagColorNumber.integerValue,
+      showingInSidebar,
       plistTagUserDefined.boolValue );
+
     allFinderTagDict.setValue_forKey( tag, plistTagName );
   end;
 

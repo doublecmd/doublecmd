@@ -491,7 +491,11 @@ begin
   Result := [fsoList, fsoCopyOut, fsoTestArchive, fsoExecute, fsoCalcStatistics]; // by default
   with FWcxModule do
   begin
-    if (((FPluginCapabilities and PK_CAPS_NEW) <> 0) or ((FPluginCapabilities and PK_CAPS_MODIFY) <> 0)) and
+    if (((FPluginCapabilities and PK_CAPS_MODIFY) = 0) and mbFileExists(ArchiveFileName)) then
+    begin
+      // not supported
+    end
+    else if (((FPluginCapabilities and PK_CAPS_NEW) <> 0) or ((FPluginCapabilities and PK_CAPS_MODIFY) <> 0)) and
        (Assigned(PackFiles) or Assigned(PackFilesW)) then
       Result:= Result + [fsoCopyIn];
     if ((FPluginCapabilities and PK_CAPS_DELETE) <> 0) and

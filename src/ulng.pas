@@ -365,6 +365,7 @@ resourcestring
   rsMnuOpenWith = 'Open with';
   rsMnuOpenWithOther = 'Other...';
   rsMenuMacOSShare = 'Share...';
+  rsMenuMacOSGrantPermissionToSupportFinderTags = 'Grant "Full Disk Access" permission to support Finder Tags...';
   rsMenuMacOSEditFinderTags = 'Edit Finder Tags...';
   rsMenuMacOSAddFinderTag = 'Add "%s"';
   rsMenuMacOSRemoveFinderTag = 'Remove "%s"';
@@ -1032,6 +1033,8 @@ resourcestring
 
   rsMFSTBISearchTitle = 'Search';
   rsMFSTBISearchTips  = 'Search Files...';
+  rsMFSTBISearchCombinedTags = 'Search for combined tags...';
+
   rsMFSTBITerminalTitle = 'Terminal';
   rsMFSTBITerminalTips  = 'Open in Terminal';
   rsMFSTBIPrivilegeTitle = 'Privilege';

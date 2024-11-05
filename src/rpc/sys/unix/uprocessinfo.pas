@@ -111,7 +111,10 @@ function GetProcessFileName(ProcessId: pid_t): String;
 begin
   SetLength(Result, MAX_PATH + 1);
   if proc_pidinfo(ProcessId, PROC_PIDPATHINFO, 0, Pointer(Result), MAX_PATH) < 0 then
-    SetLength(Result, 0);
+    SetLength(Result, 0)
+  else begin
+    Result:= PAnsiChar(Result);
+  end;
 end;
 
 {$ELSEIF DEFINED(FREEBSD)}

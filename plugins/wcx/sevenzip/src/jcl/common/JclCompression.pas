@@ -2228,7 +2228,7 @@ const
 implementation
 
 uses
-  DCJclResources, DCJclCompression;
+  DCJclResources, DCJclCompression, DCBasicTypes, DCOSUtils, DCDateTimeUtils, DCClassesUtf8;
 
 const
   JclDefaultBufferSize = 131072; // 128k
@@ -3572,15 +3572,15 @@ var
   GZipStreamDateTime: TDateTime;
 begin
   Result := False;
-  if not FileExists(SourceFile) then // can't copy what doesn't exist!
+  if not mbFileExists(SourceFile) then // can't copy what doesn't exist!
     Exit;
 
   GetFileLastWrite(SourceFile, GZipStreamDateTime);
 
   {destination and source streams first and second}
-  SourceStream := TFileStream.Create(SourceFile, fmOpenRead or fmShareDenyWrite);
+  SourceStream := TFileStreamEx.Create(SourceFile, fmOpenRead or fmShareDenyWrite);
   try
-    DestStream := TFileStream.Create(DestinationFile, fmCreate); // see SysUtils
+    DestStream := TFileStreamEx.Create(DestinationFile, fmCreate); // see SysUtils
     try
       {   create compressionstream third, and copy from source,
           through zlib compress layer,
@@ -3598,7 +3598,7 @@ begin
   finally
     SourceStream.Free;
   end;
-  Result := FileExists(DestinationFile);
+  Result := mbFileExists(DestinationFile);
 end;
 
 { Decompress a .gz file }
@@ -3612,13 +3612,13 @@ var
   GZipStreamDateTime: TDateTime;
 begin
   Result := False;
-  if not FileExists(SourceFile) then // can't copy what doesn't exist!
+  if not mbFileExists(SourceFile) then // can't copy what doesn't exist!
     Exit;
 
   {destination and source streams first and second}
-  SourceStream := TFileStream.Create(SourceFile, {mode} fmOpenRead or fmShareDenyWrite);
+  SourceStream := TFileStreamEx.Create(SourceFile, {mode} fmOpenRead or fmShareDenyWrite);
   try
-    DestStream := TFileStream.Create(DestinationFile, {mode} fmCreate); // see SysUtils
+    DestStream := TFileStreamEx.Create(DestinationFile, {mode} fmCreate); // see SysUtils
     try
       {   create decompressionstream third, and copy from source,
           through zlib decompress layer, out through file stream
@@ -3636,7 +3636,7 @@ begin
   finally
     SourceStream.Free;
   end;
-  Result := FileExists(DestinationFile);
+  Result := mbFileExists(DestinationFile);
   if Result and (GZipStreamDateTime <> 0) then
     // preserve datetime when unpacking! (see JclFileUtils)
     SetFileLastWrite(DestinationFile, GZipStreamDateTime);
@@ -3678,13 +3678,13 @@ var
   SourceStream: TFileStream;
 begin
   Result := False;
-  if not FileExists(SourceFile) then // can't copy what doesn't exist!
+  if not mbFileExists(SourceFile) then // can't copy what doesn't exist!
     Exit;
 
   {destination and source streams first and second}
-  SourceStream := TFileStream.Create(SourceFile, fmOpenRead or fmShareDenyWrite);
+  SourceStream := TFileStreamEx.Create(SourceFile, fmOpenRead or fmShareDenyWrite);
   try
-    DestStream := TFileStream.Create(DestinationFile, fmCreate); // see SysUtils
+    DestStream := TFileStreamEx.Create(DestinationFile, fmCreate); // see SysUtils
     try
       {   create compressionstream third, and copy from source,
           through zlib compress layer,
@@ -3701,7 +3701,7 @@ begin
   finally
     SourceStream.Free;
   end;
-  Result := FileExists(DestinationFile);
+  Result := mbFileExists(DestinationFile);
 end;
 
 { Decompress a .bzip2 file }
@@ -3714,13 +3714,13 @@ var
   SourceStream: TFileStream;
 begin
   Result := False;
-  if not FileExists(SourceFile) then // can't copy what doesn't exist!
+  if not mbFileExists(SourceFile) then // can't copy what doesn't exist!
     Exit;
 
   {destination and source streams first and second}
-  SourceStream := TFileStream.Create(SourceFile, {mode} fmOpenRead or fmShareDenyWrite);
+  SourceStream := TFileStreamEx.Create(SourceFile, {mode} fmOpenRead or fmShareDenyWrite);
   try
-    DestStream := TFileStream.Create(DestinationFile, {mode} fmCreate); // see SysUtils
+    DestStream := TFileStreamEx.Create(DestinationFile, {mode} fmCreate); // see SysUtils
     try
       {   create decompressionstream third, and copy from source,
           through zlib decompress layer, out through file stream
@@ -3737,7 +3737,7 @@ begin
   finally
     SourceStream.Free;
   end;
-  Result := FileExists(DestinationFile);
+  Result := mbFileExists(DestinationFile);
 end;
 
 procedure BZip2Stream(SourceStream, DestinationStream: TStream; CompressionLevel: Integer = 5;
@@ -3775,25 +3775,25 @@ begin
   Result := nil;
   case StreamAccess of
     saCreate:
-      Result := TFileStream.Create(FileName, fmCreate);
+      Result := TFileStreamEx.Create(FileName, fmCreate);
     saReadOnly:
-      if FileExists(FileName) then
-        Result := TFileStream.Create(FileName, fmOpenRead or fmShareDenyWrite);
+      if mbFileExists(FileName) then
+        Result := TFileStreamEx.Create(FileName, fmOpenRead or fmShareDenyWrite);
     saReadOnlyDenyNone:
-      if FileExists(FileName) then
-        Result := TFileStream.Create(FileName, fmOpenRead or fmShareDenyNone);
+      if mbFileExists(FileName) then
+        Result := TFileStreamEx.Create(FileName, fmOpenRead or fmShareDenyNone);
     saWriteOnly:
-      if FileExists(FileName) then
-        Result := TFileStream.Create(FileName, fmOpenWrite)
+      if mbFileExists(FileName) then
+        Result := TFileStreamEx.Create(FileName, fmOpenWrite)
       else
       if FileName <> '' then
-        Result := TFileStream.Create(FileName, fmCreate);
+        Result := TFileStreamEx.Create(FileName, fmCreate);
     saReadWrite:
-      if FileExists(FileName) then
-        Result := TFileStream.Create(FileName, fmOpenReadWrite)
+      if mbFileExists(FileName) then
+        Result := TFileStreamEx.Create(FileName, fmOpenReadWrite)
       else
       if FileName <> '' then
-        Result := TFileStream.Create(FileName, fmCreate);
+        Result := TFileStreamEx.Create(FileName, fmCreate);
   end;
 end;
 
@@ -3808,7 +3808,7 @@ end;
 
 function TJclCompressionItem.DeleteOutputFile: Boolean;
 begin
-  Result := (FFileName <> '') and FileExists(FFileName) and FileDelete(FFileName);
+  Result := (FFileName <> '') and mbFileExists(FFileName) and mbDeleteFile(FFileName);
 end;
 
 destructor TJclCompressionItem.Destroy;
@@ -3836,7 +3836,7 @@ begin
   Result := FCRC;
 end;
 
-function TJclCompressionItem.GetCreationTime: TFileTime;
+function TJclCompressionItem.GetCreationTime: Windows.TFileTime;
 begin
   CheckGetProperty(ipCreationTime);
   Result := FCreationTime;
@@ -3891,13 +3891,13 @@ begin
     Result := ikFile;
 end;
 
-function TJclCompressionItem.GetLastAccessTime: TFileTime;
+function TJclCompressionItem.GetLastAccessTime: Windows.TFileTime;
 begin
   CheckGetProperty(ipLastAccessTime);
   Result := FLastAccessTime;
 end;
 
-function TJclCompressionItem.GetLastWriteTime: TFileTime;
+function TJclCompressionItem.GetLastWriteTime: Windows.TFileTime;
 begin
   CheckGetProperty(ipLastWriteTime);
   Result := FLastWriteTime;
@@ -4037,7 +4037,7 @@ begin
   Include(FValidProperties, ipCRC);
 end;
 
-procedure TJclCompressionItem.SetCreationTime(const Value: TFileTime);
+procedure TJclCompressionItem.SetCreationTime(const Value: Windows.TFileTime);
 begin
   CheckSetProperty(ipCreationTime);
   FCreationTime := Value;
@@ -4066,7 +4066,7 @@ end;
 
 procedure TJclCompressionItem.SetFileName(const Value: TFileName);
 var
-  AFindData: TWin32FindData;
+  AFindData: TFileAttributeData;
 begin
   CheckSetProperty(ipFileName);
   FFileName := Value;
@@ -4081,20 +4081,19 @@ begin
     Exclude(FValidProperties, ipFileName);
   end;
 
-  if (Value <> '') and (FArchive is TJclCompressionArchive)
-    and GetFileAttributesEx(PChar(Value), GetFileExInfoStandard, @AFindData) then
+  if (Value <> '') and (FArchive is TJclCompressionArchive) and mbFileGetAttr(Value, AFindData) then
   begin
-    FileSize := (Int64(AFindData.nFileSizeHigh) shl 32) or AFindData.nFileSizeLow;
-    Attributes := AFindData.dwFileAttributes;
-    CreationTime := AFindData.ftCreationTime;
-    LastAccessTime := AFindData.ftLastAccessTime;
-    LastWriteTime := AFindData.ftLastWriteTime;
+    FileSize := AFindData.Size;
+    Attributes := AFindData.Attr;
+    CreationTime := Windows.TFileTime(FileTimeToWinFileTime(AFindData.PlatformTime));
+    LastAccessTime := Windows.TFileTime(FileTimeToWinFileTime(AFindData.LastAccessTime));
+    LastWriteTime := Windows.TFileTime(FileTimeToWinFileTime(AFindData.LastWriteTime));
     // TODO: user name and group (using file handle and GetSecurityInfo)
     {$IFDEF MSWINDOWS}
-    HostOS := LoadResString(@RsCompression7zWindows);
+    HostOS := WideString(LoadResString(@RsCompression7zWindows));
     {$ENDIF MSWINDOWS}
     {$IFDEF UNIX}
-    HostOS := LoadResString(@RsCompression7zUnix);
+    HostOS := WideString(LoadResString(@RsCompression7zUnix));
     {$ENDIF UNIX}
   end;
 end;
@@ -4131,7 +4130,7 @@ begin
   Include(FValidProperties, ipHostOS);
 end;
 
-procedure TJclCompressionItem.SetLastAccessTime(const Value: TFileTime);
+procedure TJclCompressionItem.SetLastAccessTime(const Value: Windows.TFileTime);
 begin
   CheckSetProperty(ipLastAccessTime);
   FLastAccessTime := Value;
@@ -4139,7 +4138,7 @@ begin
   Include(FValidProperties, ipLastAccessTime);
 end;
 
-procedure TJclCompressionItem.SetLastWriteTime(const Value: TFileTime);
+procedure TJclCompressionItem.SetLastWriteTime(const Value: Windows.TFileTime);
 begin
   CheckSetProperty(ipLastWriteTime);
   FLastWriteTime := Value;
@@ -4226,53 +4225,58 @@ begin
 end;
 
 function TJclCompressionItem.UpdateFileTimes: Boolean;
-const
-  FILE_WRITE_ATTRIBUTES = $00000100;
 var
-  FileHandle: HFILE;
-  ACreationTime, ALastAccessTime, ALastWriteTime: PFileTime;
+  AFileTime: PFileTime;
+  ACreationTime, ALastAccessTime, ALastWriteTime: TFileTimeEx;
 begin
   ReleaseStream;
   Result := FFileName <> '';
   if Result then
   begin
-    FileHandle := CreateFile(PChar(FFileName), FILE_WRITE_ATTRIBUTES, FILE_SHARE_READ, nil, OPEN_ALWAYS, 0, 0);
-    try
-      // creation time should be the oldest
-      if ipCreationTime in FValidProperties then
-        ACreationTime := @FCreationTime
-      else
-      if ipLastWriteTime in FValidProperties then
-        ACreationTime := @FLastWriteTime
-      else
-      if ipLastAccessTime in FValidProperties then
-        ACreationTime := @FLastAccessTime
-      else
-        ACreationTime := nil;
-
-      // last access time may default to now if not set
-      if ipLastAccessTime in FValidProperties then
-        ALastAccessTime := @FLastAccessTime
-      else
-        ALastAccessTime := nil;
-
-      // last write time may, if not set, be the creation time or last access time
-      if ipLastWriteTime in FValidProperties then
-        ALastWriteTime := @FLastWriteTime
-      else
-      if ipCreationTime in FValidProperties then
-        ALastWriteTime := @FCreationTime
-      else
-      if ipLastAccessTime in FValidProperties then
-        ALastWriteTime := @FLastAccessTime
-      else
-        ALastWriteTime := nil;
-
-      Result := (FileHandle <> INVALID_HANDLE_VALUE) and SetFileTime(FileHandle, ACreationTime, ALastAccessTime,
-        ALastWriteTime);
-    finally
-      CloseHandle(FileHandle);
+    // creation time should be the oldest
+    if ipCreationTime in FValidProperties then
+      AFileTime := @FCreationTime
+    else
+    if ipLastWriteTime in FValidProperties then
+      AFileTime := @FLastWriteTime
+    else
+    if ipLastAccessTime in FValidProperties then
+      AFileTime := @FLastAccessTime
+    else begin
+      AFileTime := nil;
     end;
+    if Assigned(AFileTime) then
+      ACreationTime := WinFileTimeToFileTimeEx(TWinFileTime(AFileTime^))
+    else begin
+      ACreationTime := TFileTimeExNull;
+    end;
+
+    // last access time may default to now if not set
+    if ipLastAccessTime in FValidProperties then
+      ALastAccessTime := WinFileTimeToFileTimeEx(TWinFileTime(FLastAccessTime))
+    else begin
+      ALastAccessTime := TFileTimeExNull;
+    end;
+
+    // last write time may, if not set, be the creation time or last access time
+    if ipLastWriteTime in FValidProperties then
+      AFileTime := @FLastWriteTime
+    else
+    if ipCreationTime in FValidProperties then
+      AFileTime := @FCreationTime
+    else
+    if ipLastAccessTime in FValidProperties then
+      AFileTime := @FLastAccessTime
+    else begin
+      AFileTime := nil;
+    end;
+    if Assigned(AFileTime) then
+      ALastWriteTime := WinFileTimeToFileTimeEx(TWinFileTime(AFileTime^))
+    else begin
+      ALastWriteTime := TFileTimeExNull;
+    end;
+
+    Result := mbFileSetTimeEx(FFileName, ALastWriteTime, ACreationTime, ALastAccessTime);
   end;
 end;
 
@@ -4502,7 +4506,7 @@ begin
     Result := nil;
 
   // load archive to test signature
-  ArchiveStream := TFileStream.Create(AFileName, fmOpenRead and fmShareDenyNone);
+  ArchiveStream := TFileStreamEx.Create(AFileName, fmOpenRead and fmShareDenyNone);
   try
     for Index := Low(MatchingFormats) to High(MatchingFormats) do
       if SignatureMatches(MatchingFormats[Index], ArchiveStream, Buffer) then
@@ -4578,7 +4582,7 @@ begin
     Result := nil;
   
   // load archive to test signature
-  ArchiveStream := TFileStream.Create(AFileName, fmOpenRead and fmShareDenyNone);
+  ArchiveStream := TFileStreamEx.Create(AFileName, fmOpenRead and fmShareDenyNone);
   try
     for Index := Low(MatchingFormats) to High(MatchingFormats) do
       if SignatureMatches(MatchingFormats[Index], ArchiveStream, Buffer) then
@@ -5165,7 +5169,7 @@ function TJclCompressArchive.AddFile(const PackedName: WideString;
   AStream: TStream; AOwnsStream: Boolean): Integer;
 var
   AItem: TJclCompressionItem;
-  NowFileTime: TFileTime;
+  NowFileTime: Windows.TFileTime;
 begin
   CheckNotCompressing;
 
@@ -5175,16 +5179,16 @@ begin
     AItem.Stream := AStream;
     AItem.OwnsStream := AOwnsStream;
     AItem.FileSize := AStream.Size - AStream.Position;
-    NowFileTime := LocalDateTimeToFileTime(Now);
+    NowFileTime := Windows.TFileTime(DateTimeToWinFileTime(Now));
     AItem.Attributes := faReadOnly and faArchive;
     AItem.CreationTime := NowFileTime;
     AItem.LastAccessTime := NowFileTime;
     AItem.LastWriteTime := NowFileTime;
     {$IFDEF MSWINDOWS}
-    AItem.HostOS := LoadResString(@RsCompression7zWindows);
+    AItem.HostOS := WideString(LoadResString(@RsCompression7zWindows));
     {$ENDIF MSWINDOWS}
     {$IFDEF UNIX}
-    AItem.HostOS := LoadResString(@RsCompression7zUnix);
+    AItem.HostOS := WideString(LoadResString(@RsCompression7zUnix));
     {$ENDIF UNIX}
   except
     AItem.Destroy;
@@ -5585,7 +5589,7 @@ begin
       if AVolume.OwnsTmpStream then
       begin
         FreeAndNil(AVolume.FTmpStream);
-        FileDelete(AVolume.TmpFileName);
+        mbDeleteFile(AVolume.TmpFileName);
       end;
     end;
   end;
@@ -6804,7 +6808,7 @@ begin
         if AVolume.OwnsStream then
         begin
           FreeAndNil(AVolume.FStream);
-          FileDelete(AVolume.FileName);
+          mbDeleteFile(AVolume.FileName);
         end;
       end;
     end;

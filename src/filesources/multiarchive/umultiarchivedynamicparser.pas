@@ -419,8 +419,8 @@ begin
   Value.PackSize:= StrToInt64Def(CleanSize(PackSize), -1);
   Value.UnpSize:= StrToInt64Def(CleanSize(Size), -1);
   Value.Year:= YearShortToLong(StrToIntDef(Year, 0));
-  Value.Month:= StrToIntDef(Month, 1);
-  Value.Day:= StrToIntDef(Day, 1);
+  Value.Month:= StrToIntDef(Month, 0);
+  Value.Day:= StrToIntDef(Day, 0);
   Value.Hour:= StrToIntDef(Hours, 0);
   Value.Minute:= StrToIntDef(Minutes, 0);
   Value.Second:= StrToIntDef(Seconds, 0);
@@ -428,7 +428,7 @@ begin
   Value.Comment:= Comment;
 
   if ThreeMonth <> '' then begin
-    Value.Month:= MonthToNumberDef(ThreeMonth, 1);
+    Value.Month:= MonthToNumberDef(ThreeMonth, 0);
   end;
 
   if HoursModif <> '' then begin
