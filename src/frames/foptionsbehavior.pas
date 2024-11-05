@@ -39,9 +39,11 @@ type
     cbMinimizeToTray: TCheckBox;
     cbOnlyOnce: TCheckBox;
     cbBlacklistUnmountedDevices: TCheckBox;
+    cbSetNewestFileTime: TCheckBox;
     edtDrivesBlackList: TEdit;
     gbMisc1: TGroupBox;
     gbMisc2: TGroupBox;
+    gbMisc3: TGroupBox;
     lblDrivesBlackList: TLabel;
     procedure cbAlwaysShowTrayIconChange(Sender: TObject);
   protected
@@ -85,6 +87,7 @@ begin
   cbAlwaysShowTrayIcon.Checked:= gAlwaysShowTrayIcon;
   edtDrivesBlackList.Text:= gDriveBlackList;
   cbBlacklistUnmountedDevices.Checked:= gDriveBlackListUnmounted;
+  cbSetNewestFileTime.Checked:= gSetNewestFileTime;
 end;
 
 function TfrmOptionsBehavior.Save: TOptionsEditorSaveFlags;
@@ -96,7 +99,8 @@ begin
   gAlwaysShowTrayIcon:= cbAlwaysShowTrayIcon.Checked;
   gDriveBlackList:= edtDrivesBlackList.Text;
   gDriveBlackListUnmounted:= cbBlacklistUnmountedDevices.Checked;
+  gSetNewestFileTime:= cbSetNewestFileTime.Checked;
 end;
 
 end.
-
+

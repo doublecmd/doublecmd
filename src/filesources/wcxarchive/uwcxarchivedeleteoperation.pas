@@ -53,7 +53,7 @@ implementation
 
 uses
   DCOSUtils, DCStrUtils, uDCUtils, uLng, uShowMsg, uWCXmodule, WcxPlugin, uMasks,
-  FileUtil, LazUTF8, DCConvertEncoding;
+  FileUtil, LazUTF8, DCConvertEncoding, uArchiveFileSourceUtil;
 
 // ----------------------------------------------------------------------------
 // WCX callbacks
@@ -177,6 +177,8 @@ end;
 procedure TWcxArchiveDeleteOperation.Finalize;
 begin
   ClearCurrentOperation;
+  if gSetNewestFileTime then
+    SetNewestFileTime(FWcxArchiveFileSource.ArchiveFileName, FWcxArchiveFileSource.GetFiles(PathDelim));
 end;
 
 procedure TWcxArchiveDeleteOperation.ShowError(const sMessage: String;
