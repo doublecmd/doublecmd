@@ -20,6 +20,7 @@ type
   TFileSystemCalcChecksumOperation = class(TFileSourceCalcChecksumOperation)
 
   private
+    FSourceFilesTree: TFileTree;
     FFullFilesTree: TFiles;  // source files including all files/dirs in subdirectories
     FStatistics: TFileSourceCalcChecksumOperationStatistics; // local copy of statistics
     FCheckSumFile: TStringListEx;
@@ -40,7 +41,11 @@ type
     function CheckSumCalc(aFile: TFile; out aValue: String): Boolean;
     procedure LogMessage(sMessage: String; logOptions: TLogOptions; logMsgType: TLogMsgType);
 
+    procedure SaveHash(const FileName: String);
+    procedure SaveHashFile(const FileName: String);
+    procedure AddFile(FileName: String; const Hash: String);
     function CalcChecksumProcessFile(aFile: TFile): Boolean;
+    function ProcessNode(aFileTreeNode: TFileTreeNode; const AFolder: String): Boolean;
     function VerifyChecksumProcessFile(aFile: TFile; ExpectedChecksum: String): Boolean;
     function FileExists(var AbsoluteTargetFileName: String): TFileSourceOperationOptionFileExists;
 
@@ -106,9 +111,12 @@ begin
   FreeAndNil(FFullFilesTree);
   FreeAndNil(FCheckSumFile);
   FreeAndNil(FChecksumsList);
+  FreeAndNil(FSourceFilesTree);
 end;
 
 procedure TFileSystemCalcChecksumOperation.Initialize;
+var
+  TreeBuilder: TFileSystemTreeBuilder;
 begin
   // Get initialized statistics; then we change only what is needed.
   FStatistics := RetrieveStatistics;
@@ -116,10 +124,27 @@ begin
   case Mode of
     checksum_calc:
       begin
-        FillAndCount(Files, False, False,
-                     FFullFilesTree,
-                     FStatistics.TotalFiles,
-                     FStatistics.TotalBytes);     // gets full list of files (recursive)
+        if SeparateFolder then
+        begin
+          TreeBuilder := TFileSystemTreeBuilder.Create(
+                                @AskQuestion,
+                                @CheckOperationState);
+          try
+            TreeBuilder.SymLinkOption  := fsooslDontFollow;
+            TreeBuilder.BuildFromFiles(Files);
+            FSourceFilesTree := TreeBuilder.ReleaseTree;
+            FStatistics.TotalFiles := TreeBuilder.FilesCount;
+            FStatistics.TotalBytes := TreeBuilder.FilesSize;
+          finally
+            FreeAndNil(TreeBuilder);
+          end;
+        end
+        else begin
+          FillAndCount(Files, False, False,
+                       FFullFilesTree,
+                       FStatistics.TotalFiles,
+                       FStatistics.TotalBytes);     // gets full list of files (recursive)
+        end;
 
         FCheckSumFile.TextLineBreakStyle:= TextLineBreakStyle;
 
@@ -145,6 +170,12 @@ var
   Entry: TChecksumEntry;
   TargetFileName: String;
 begin
+  if SeparateFolder then
+  begin
+    ProcessNode(FSourceFilesTree, ExcludeTrailingBackslash(Files.Path));
+    Exit;
+  end;
+
   if OneFile and (Mode = checksum_calc) then
   begin
     TargetFileName:= TargetMask;
@@ -199,19 +230,9 @@ begin
 
   case Mode of
     checksum_calc:
-      // make result
-      if OneFile then
-      try
-        CurrentFileIndex:= IfThen(Algorithm = HASH_SFV, 2, 0);
-        if (FCheckSumFile.Count > CurrentFileIndex) then
-          FCheckSumFile.SaveToFile(TargetFileName);
-      except
-        on E: EFCreateError do
-          AskQuestion(rsMsgErrECreate + ' ' + TargetFileName + ':',
-                               E.Message, [fsourOk], fsourOk, fsourOk);
-        on E: EWriteError do
-          AskQuestion(rsMsgErrEWrite + ' ' + TargetFileName + ':',
-                             E.Message, [fsourOk], fsourOk, fsourOk);
+      begin
+        // make result
+        if OneFile then SaveHashFile(TargetFileName);
       end;
 
     checksum_verify:
@@ -421,8 +442,6 @@ begin
 end;
 
 function TFileSystemCalcChecksumOperation.CalcChecksumProcessFile(aFile: TFile): Boolean;
-const
-  TextLineBreak: array[TTextLineBreakStyle] of String = ('/', '\', PathDelim);
 var
   FileName: String;
   sCheckSum: String;
@@ -450,30 +469,9 @@ begin
 
   FileName:= ExtractDirLevel(FFullFilesTree.Path, aFile.Path) + aFile.Name;
 
-  if (TextLineBreak[TextLineBreakStyle] <> PathDelim) then
-  begin
-    FileName:= StringReplace(FileName, PathDelim, TextLineBreak[TextLineBreakStyle], [rfReplaceAll]);
-  end;
+  AddFile(FileName, sCheckSum);
 
-  if Algorithm = HASH_SFV then
-  begin
-    FCheckSumFile.Add(FileName + ' ' + sCheckSum);
-  end
-  else begin
-    FCheckSumFile.Add(sCheckSum + ' *' + FileName);
-  end;
-
-  if not OneFile then
-    try
-      FCheckSumFile.SaveToFile(TargetFileName);
-    except
-      on E: EFCreateError do
-        AskQuestion(rsMsgErrECreate + ' ' + TargetFileName + LineEnding,
-                                 E.Message, [fsourOk], fsourOk, fsourOk);
-      on E: EWriteError do
-        AskQuestion(rsMsgErrEWrite + ' ' + TargetFileName + LineEnding,
-                               E.Message, [fsourOk], fsourOk, fsourOk);
-    end;
+  if not OneFile then SaveHash(TargetFileName);
 end;
 
 function TFileSystemCalcChecksumOperation.VerifyChecksumProcessFile(
@@ -494,6 +492,80 @@ begin
       else
         AddString(FResult.Broken, sFileName);
     end;
+end;
+
+function TFileSystemCalcChecksumOperation.ProcessNode(aFileTreeNode: TFileTreeNode; const AFolder: String): Boolean;
+var
+  aFile: TFile;
+  bSkip: Boolean;
+  aFolders: TList;
+  FileName: String;
+  sCheckSum: String;
+  TargetName: String;
+  OldDoneBytes: Int64;
+  CurrentFileIndex: Integer;
+  CurrentSubNode: TFileTreeNode;
+begin
+  Result := True;
+  aFolders := TList.Create;
+
+  FCheckSumFile.Clear;
+  if Algorithm = HASH_SFV then
+  begin
+    FCheckSumFile.Add(SFV_HEADER);
+    FCheckSumFile.Add(DC_HEADER);
+  end;
+  TargetName:= AFolder + PathDelim + MakeFileName(AFolder, 'checksum') + '.' + HashFileExt[Algorithm];
+
+  case FileExists(TargetName) of
+    fsoofeSkip: bSkip:= True;
+    else        bSkip:= False;
+  end;
+
+  for CurrentFileIndex := 0 to aFileTreeNode.SubNodesCount - 1 do
+  begin
+    CurrentSubNode := aFileTreeNode.SubNodes[CurrentFileIndex];
+    aFile := CurrentSubNode.TheFile;
+
+    with FStatistics do
+    begin
+      CurrentFile := aFile.FullPath;
+      CurrentFileTotalBytes := aFile.Size;
+      CurrentFileDoneBytes := 0;
+    end;
+
+    UpdateStatistics(FStatistics);
+
+    if aFile.IsDirectory or aFile.IsLinkToDirectory then
+    begin
+      aFolders.Add(CurrentSubNode)
+    end
+    else begin
+      OldDoneBytes := FStatistics.DoneBytes;
+
+      if (not bSkip) and CheckSumCalc(aFile, sCheckSum) then
+      begin
+        FileName:= ExtractDirLevel(AFolder + PathDelim, aFile.Path) + aFile.Name;
+        AddFile(FileName, sCheckSum);
+      end;
+
+      with FStatistics do
+      begin
+        DoneFiles := DoneFiles + 1;
+        DoneBytes := OldDoneBytes + aFile.Size;
+
+        UpdateStatistics(FStatistics);
+      end;
+    end;
+  end;
+  SaveHashFile(TargetName);
+
+  for CurrentFileIndex := 0 to aFolders.Count - 1 do
+  begin
+    CurrentSubNode:= TFileTreeNode(aFolders[CurrentFileIndex]);
+    ProcessNode(CurrentSubNode, CurrentSubNode.TheFile.FullPath);
+  end;
+  aFolders.Free;
 end;
 
 function TFileSystemCalcChecksumOperation.FileExists(var AbsoluteTargetFileName: String): TFileSourceOperationOptionFileExists;
@@ -660,6 +732,49 @@ begin
   if logOptions <= gLogOptions then
   begin
     logWrite(Thread, sMessage, logMsgType);
+  end;
+end;
+
+procedure TFileSystemCalcChecksumOperation.SaveHash(const FileName: String);
+begin
+  try
+    FCheckSumFile.SaveToFile(FileName);
+  except
+    on E: EFCreateError do
+      AskQuestion(rsMsgErrECreate + ' ' + FileName + ':',
+                           E.Message, [fsourOk], fsourOk, fsourOk);
+    on E: EWriteError do
+      AskQuestion(rsMsgErrEWrite + ' ' + FileName + ':',
+                         E.Message, [fsourOk], fsourOk, fsourOk);
+  end;
+end;
+
+procedure TFileSystemCalcChecksumOperation.SaveHashFile(const FileName: String);
+var
+  Index: Integer;
+begin
+  Index:= IfThen(Algorithm = HASH_SFV, 2, 0);
+  if (FCheckSumFile.Count > Index) then
+  begin
+    SaveHash(FileName);
+  end;
+end;
+
+procedure TFileSystemCalcChecksumOperation.AddFile(FileName: String; const Hash: String);
+const
+  TextLineBreak: array[TTextLineBreakStyle] of String = ('/', '\', PathDelim);
+begin
+  if (TextLineBreak[TextLineBreakStyle] <> PathDelim) then
+  begin
+    FileName:= StringReplace(FileName, PathDelim, TextLineBreak[TextLineBreakStyle], [rfReplaceAll]);
+  end;
+
+  if Algorithm = HASH_SFV then
+  begin
+    FCheckSumFile.Add(FileName + ' ' + Hash);
+  end
+  else begin
+    FCheckSumFile.Add(Hash + ' *' + FileName);
   end;
 end;
 

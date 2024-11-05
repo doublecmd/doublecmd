@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Double Commander 1.1.0 alpha\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-11-15 11:15+0300\n"
-"PO-Revision-Date: 2024-10-08 05:02+0900\n"
+"PO-Revision-Date: 2024-10-16 04:48+0900\n"
 "Last-Translator: VenusGirl: venusgirl@outlook.com/\n"
 "Language-Team: 비너스걸: https://venusgirls.tistory.com/\n"
 "Language: ko\n"
@@ -332,6 +332,10 @@ msgstr "작업 완료 후 체크섬 파일 열기"
 #: tfrmchecksumcalc.cbseparatefile.caption
 msgid "C&reate separate checksum file for each file"
 msgstr "각 파일에 대해 별도의 체크섬 파일 생성(&R)"
+
+#: tfrmchecksumcalc.cbseparatefolder.caption
+msgid "Create separate checksum file for each &directory"
+msgstr ""
 
 #: tfrmchecksumcalc.lblfileformat.caption
 msgid "File &format"
@@ -3145,7 +3149,7 @@ msgid "C&onfiguration"
 msgstr "구성(&O)"
 
 #: tfrmmain.mnufavoritetabs.caption
-msgid "Favorites"
+msgid "F&avorites"
 msgstr "즐겨찾기"
 
 #: tfrmmain.mnufiles.caption
@@ -3163,7 +3167,7 @@ msgstr "선택(&M)"
 
 #: tfrmmain.mnunetwork.caption
 msgctxt "tfrmmain.mnunetwork.caption"
-msgid "Network"
+msgid "&Network"
 msgstr "네트워크"
 
 #: tfrmmain.mnushow.caption
@@ -10804,17 +10808,21 @@ msgstr "새 사용자 지정 열 이름 입력"
 #: ulng.rsmenumacosaddfindertag
 #, object-pascal-format
 msgid "Add \"%s\""
-msgstr ""
+msgstr "\"%s\" 추가"
 
 #: ulng.rsmenumacoseditfindertags
 msgctxt "ulng.rsmenumacoseditfindertags"
 msgid "Edit Finder Tags..."
+msgstr "파인더 태그 편집..."
+
+#: ulng.rsmenumacosgrantpermissiontosupportfindertags
+msgid "Grant \"Full Disk Access\" permission to support Finder Tags..."
 msgstr ""
 
 #: ulng.rsmenumacosremovefindertag
 #, object-pascal-format
 msgid "Remove \"%s\""
-msgstr ""
+msgstr "\"%s\" 제거"
 
 #: ulng.rsmenumacosshare
 msgid "Share..."
@@ -10865,11 +10873,11 @@ msgstr "비교"
 #: ulng.rsmfstbieditfindertagtips
 msgctxt "ulng.rsmfstbieditfindertagtips"
 msgid "Edit Finder Tags..."
-msgstr ""
+msgstr "파인더 태그 편집..."
 
 #: ulng.rsmfstbieditfindertagtitle
 msgid "EditTag"
-msgstr ""
+msgstr "태그 편집"
 
 #: ulng.rsmfstbiedittips
 msgid "Edit..."
@@ -10930,6 +10938,10 @@ msgstr "파일 목록 새로 고침"
 #: ulng.rsmfstbirefreshtitle
 msgid "Refresh"
 msgstr "새로 고침"
+
+#: ulng.rsmfstbisearchcombinedtags
+msgid "Search for combined tags..."
+msgstr ""
 
 #: ulng.rsmfstbisearchtips
 msgid "Search Files..."
@@ -14242,5 +14254,5 @@ msgstr "교체가 이루어지지 않았습니다."
 #: umaincommands.rsfavoritetabs_setupnotexist
 #, object-pascal-format
 msgid "No setup named \"%s\""
-msgstr "\"%s\"라는 설정이 없습니다"
+msgstr "\"%s\"라는 이름의 설정 없음"
 

@@ -72,6 +72,7 @@ type
     Comment: string;
     procedure ClearStore; virtual;
     function CheckValues: Boolean; virtual;
+    function CheckSizeChar(Chr: AnsiChar): Boolean; virtual;
     procedure FillRecord(const Value: TArchiveItem); virtual;
     function ParseByMask(Value, NextValue, Mask: ansistring): Integer; virtual;
   public
@@ -227,7 +228,7 @@ begin
           begin
             while IValue <= Length(Value) do
             begin
-              if not(Value[Ivalue] in ['0'..'9']) then
+              if CheckSizeChar(Value[Ivalue]) = False then
                 break;
               s := s + Value[Ivalue];
               Inc(Ivalue);
@@ -304,6 +305,21 @@ begin
   end;
 end;
 
+function TMultiArchiveDynamicParser.CheckSizeChar(Chr: AnsiChar): Boolean;
+var
+  I: Integer;
+begin
+  Result:= False;
+  if not (Chr in ['0'..'9']) then
+  begin
+    with FMultiArcItem do
+    if (FSizeStripChars <> EmptyStr) and ContainsOneOf(Chr, FSizeStripChars) then
+      Result:= True;
+  end
+  else
+    Result:= True;
+end;
+
 function TMultiArchiveDynamicParser.CheckValues: Boolean;
 var
   x, n: integer;
@@ -356,7 +372,7 @@ begin
   begin
     Size := Trim(Size);
     for n := 1 to Length(Size) do
-      if not (Size[n] in ['0'..'9']) then
+      if CheckSizeChar(Size[n]) = False then
         Exit;
   end;
   if ThreeMonth <> '' then
@@ -400,11 +416,11 @@ var
 begin
   Value.FileName:= FGetFileName(FileName);
   Value.FileExt:= FGetFileName(FileExt);
-  Value.PackSize:= StrToInt64Def(PackSize, -1);
-  Value.UnpSize:= StrToInt64Def(Size, -1);
+  Value.PackSize:= StrToInt64Def(CleanSize(PackSize), -1);
+  Value.UnpSize:= StrToInt64Def(CleanSize(Size), -1);
   Value.Year:= YearShortToLong(StrToIntDef(Year, 0));
-  Value.Month:= StrToIntDef(Month, 1);
-  Value.Day:= StrToIntDef(Day, 1);
+  Value.Month:= StrToIntDef(Month, 0);
+  Value.Day:= StrToIntDef(Day, 0);
   Value.Hour:= StrToIntDef(Hours, 0);
   Value.Minute:= StrToIntDef(Minutes, 0);
   Value.Second:= StrToIntDef(Seconds, 0);
@@ -412,7 +428,7 @@ begin
   Value.Comment:= Comment;
 
   if ThreeMonth <> '' then begin
-    Value.Month:= MonthToNumberDef(ThreeMonth, 1);
+    Value.Month:= MonthToNumberDef(ThreeMonth, 0);
   end;
 
   if HoursModif <> '' then begin

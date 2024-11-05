@@ -101,6 +101,7 @@ const
   function WinToUnixFileAttr(Attr: TFileAttrs): TFileAttrs;
   function UnixToWinFileAttr(Attr: TFileAttrs): TFileAttrs;
   function UnixToWcxFileAttr(Attr: TFileAttrs): TFileAttrs;
+  function WinToWcxFileAttr(Attr: TFileAttrs): TFileAttrs;
   function UnixToWinFileAttr(const FileName: String; Attr: TFileAttrs): TFileAttrs;
 
   function SingleStrToFileAttr(sAttr: String): TFileAttrs;
@@ -223,6 +224,17 @@ begin
 {$IF DEFINED(MSWINDOWS)}
   Result := UnixToWinFileAttr(Attr);
 {$ELSEIF DEFINED(UNIX)}
+  Result := Attr;
+{$ELSE}
+  Result := 0;
+{$ENDIF}
+end;
+
+function WinToWcxFileAttr(Attr: TFileAttrs): TFileAttrs;
+begin
+{$IF DEFINED(UNIX)}
+  Result := WinToUnixFileAttr(Attr);
+{$ELSEIF DEFINED(MSWINDOWS)}
   Result := Attr;
 {$ELSE}
   Result := 0;

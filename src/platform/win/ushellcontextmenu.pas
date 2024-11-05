@@ -688,6 +688,8 @@ begin
             aFile := FFiles[0];
             if FBackground then // Add "Background" context menu specific items
             begin
+              SetMenuDefaultItem(FShellMenu, UINT(-1), 0);
+
               InnerExtActionList := TExtActionList.Create;
 
               // Add commands to root of context menu

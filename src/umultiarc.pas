@@ -130,7 +130,8 @@ type
     FDelete,
     FAdd,
     FAddSelfExtract,
-    FPasswordQuery: String;
+    FPasswordQuery,
+    FSizeStripChars: String;
     FFormMode: Integer;
     FFlags: TMultiArcFlags;
     FIgnoreString: TStringList;
@@ -311,7 +312,6 @@ begin
       begin
         FPacker:= Section;
         FArchiver:= FixExeExt(TrimQuotes(IniFile.ReadString(Section, 'Archiver', EmptyStr)));
-        FFallBack:= IniFile.ReadString(Section, 'FallBackArchivers', EmptyStr);
         FDescription:= TrimQuotes(IniFile.ReadString(Section, 'Description', EmptyStr));
         FID:= TrimQuotes(IniFile.ReadString(Section, 'ID', EmptyStr));
         FIDPos:= TrimQuotes(IniFile.ReadString(Section, 'IDPos', EmptyStr));
@@ -353,10 +353,12 @@ begin
             Break;
         end;
         FFlags:= TMultiArcFlags(IniFile.ReadInteger(Section, 'Flags', 0));
+        FSizeStripChars:= Trim(IniFile.ReadString(Section, 'SizeStripChars', EmptyStr));
         FFormMode:= IniFile.ReadInteger(Section, 'FormMode', 0);
         FEnabled:= IniFile.ReadBool(Section, 'Enabled', True);
         FOutput:= IniFile.ReadBool(Section, 'Output', False);
         FDebug:= IniFile.ReadBool(Section, 'Debug', False);
+        FFallBack:= IniFile.ReadString(Section, 'FallBackArchivers', EmptyStr);
       end;
       FList.AddObject(Section, MultiArcItem);
     end;
@@ -389,7 +391,6 @@ begin
       with MultiArcItem do
       begin
         IniFile.WriteString(Section, 'Archiver', FArchiver);
-        IniFile.WriteString(Section, 'FallBackArchivers', FFallBack);
         IniFile.WriteString(Section, 'Description', FDescription);
         IniFile.WriteString(Section, 'ID', FID);
         IniFile.WriteString(Section, 'IDPos', FIDPos);
@@ -417,10 +418,13 @@ begin
           IniFile.WriteString(Section, 'AskHistory' + IntToStr(J), FAskHistory[J]);
         end;
         IniFile.WriteInteger(Section, 'Flags', Integer(FFlags));
+        IniFile.WriteString(Section, 'SizeStripChars', FSizeStripChars);
         IniFile.WriteInteger(Section, 'FormMode', FFormMode);
         IniFile.WriteBool(Section, 'Enabled', FEnabled);
         IniFile.WriteBool(Section, 'Output', FOutput);
         IniFile.WriteBool(Section, 'Debug', FDebug);
+        if FFallBack <> EmptyStr then
+          IniFile.WriteString(Section, 'FallBackArchivers', FFallBack);
       end;
     end;
     IniFile.WriteBool('MultiArc', 'FirstTime', False);
@@ -494,6 +498,7 @@ begin
     UpdateSignature(Self.Items[Index].FID);
     UpdateSignature(Self.Items[Index].FIDPos);
     UpdateSignature(Self.Items[Index].FIDSeekRange);
+    UpdateSignature(Self.Items[Index].FSizeStripChars);
     Result := crc32(Result, @Self.Items[Index].FFlags, sizeof(Self.Items[Index].FFlags));
     Result := crc32(Result, @Self.Items[Index].FFormMode, sizeof(Self.Items[Index].FFormMode));
     Result := crc32(Result, @Self.Items[Index].FEnabled, sizeof(Self.Items[Index].FEnabled));
@@ -722,6 +727,7 @@ begin
   Result.FEnabled := Self.FEnabled;
   Result.FOutput := Self.FOutput;
   Result.FDebug := Self.FDebug;
+  Result.FSizeStripChars := Self.FSizeStripChars;
   Result.FIgnoreString.Assign(Self.FIgnoreString);
   Result.FAskHistory.Assign(Self.FAskHistory);
 end;

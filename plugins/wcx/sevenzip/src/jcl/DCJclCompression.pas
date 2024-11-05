@@ -52,20 +52,20 @@ type
 implementation
 
 uses
-  ActiveX, JwaWinError;
+  ActiveX, JwaWinError, DCClassesUtf8;
 
 { TSfxSevenzipOutStream }
 
 constructor TSfxSevenzipOutStream.Create(AStream: TStream; const ASfxModule: String);
 var
-  SfxModule: TFileStream;
+  SfxModule: TFileStreamEX;
 begin
   inherited Create;
 
   FStream := AStream;
   FSfxModule := ASfxModule;
 
-  SfxModule:= TFileStream.Create(FSfxModule, fmOpenRead or fmShareDenyNone);
+  SfxModule:= TFileStreamEx.Create(FSfxModule, fmOpenRead or fmShareDenyNone);
   try
     FStream.Seek(0, soBeginning);
     FSfxLength := FStream.CopyFrom(SfxModule, SfxModule.Size);

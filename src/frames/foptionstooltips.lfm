@@ -117,7 +117,6 @@ inherited frmOptionsToolTips: TfrmOptionsToolTips
         Width = 54
         AutoSize = True
         BorderSpacing.Left = 3
-        Cancel = True
         Caption = 'Cop&y'
         OnClick = btnCopyToolTipsFileTypeClick
         TabOrder = 2

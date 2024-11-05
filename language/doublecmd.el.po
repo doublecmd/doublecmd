@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Double Commander 1.1.0 alpha\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-11-15 11:15+0300\n"
-"PO-Revision-Date: 2024-01-02 22:43+0200\n"
+"PO-Revision-Date: 2024-10-18 20:59+0300\n"
 "Last-Translator: Anastasios Kazakis <anastasios.kazakis@tutanota.com>\n"
 "Language-Team: Anastasios Kazakis <anastasios.kazakis@tutanota.com>\n"
 "Language: el_GR\n"
@@ -12,7 +12,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Native-Language: ελληνικά\n"
-"X-Generator: Poedit 3.4.1\n"
+"X-Generator: Poedit 3.4.2\n"
 "X-Language: el_GR\n"
 "X-Source-Language: el\n"
 "X-Poedit-SourceCharset: ISO-8859-7\n"
@@ -345,6 +345,10 @@ msgstr "Άνοιγμα αρχείου αθροίσματος ελέγχου με
 #: tfrmchecksumcalc.cbseparatefile.caption
 msgid "C&reate separate checksum file for each file"
 msgstr "Δημιουργία ξεχωριστού αρχείου αθροίσματος ελέγχου για κάθε αρχείο"
+
+#: tfrmchecksumcalc.cbseparatefolder.caption
+msgid "Create separate checksum file for each &directory"
+msgstr ""
 
 #: tfrmchecksumcalc.lblfileformat.caption
 msgid "File &format"
@@ -2845,11 +2849,11 @@ msgstr "Εμφάνιση Κρυφών Αρχείων/Αρχείων Συστήμ
 
 #: tfrmmain.actshowtabslist.caption
 msgid "Show Tabs List"
-msgstr ""
+msgstr "Εμφάνιση Λίστας Καρτελών"
 
 #: tfrmmain.actshowtabslist.hint
 msgid "Show list of all open tabs"
-msgstr ""
+msgstr "Εμφάνιση λίστας όλων των ανοικτών καρτελών"
 
 #: tfrmmain.actsortbyattr.caption
 msgid "Sort by &Attributes"
@@ -2915,7 +2919,7 @@ msgstr "Προβολή Μικρογραφιών"
 
 #: tfrmmain.acttogglefullscreenconsole.caption
 msgid "Toggle fullscreen mode console"
-msgstr "Εναλλαγή σε τερματικό πλήρους οθόνης"
+msgstr "Εναλλαγή σε λειτουργία τερματικού πλήρους οθόνης"
 
 #: tfrmmain.acttransferleft.caption
 msgid "Transfer dir under cursor to left window"
@@ -3207,7 +3211,7 @@ msgid "C&onfiguration"
 msgstr "Διαμόρφωση"
 
 #: tfrmmain.mnufavoritetabs.caption
-msgid "Favorites"
+msgid "F&avorites"
 msgstr "Αγαπημένα"
 
 #: tfrmmain.mnufiles.caption
@@ -3225,7 +3229,7 @@ msgstr "Επιλογή"
 
 #: tfrmmain.mnunetwork.caption
 msgctxt "TFRMMAIN.MNUNETWORK.CAPTION"
-msgid "Network"
+msgid "&Network"
 msgstr "Δίκτυο"
 
 #: tfrmmain.mnushow.caption
@@ -4007,7 +4011,7 @@ msgstr "Χρήση ονόματος αρχείου χωρίς επέκταση �
 
 #: tfrmoptionsarchivers.chkhide.caption
 msgid "Show as normal files"
-msgstr ""
+msgstr "Εμφάνιση σαν κανονικά αρχεία"
 
 #: tfrmoptionsarchivers.ckbarchiverunixfileattributes.caption
 msgid "Uni&x file attributes"
@@ -7093,7 +7097,7 @@ msgstr "Επιλογή"
 
 #: tfrmoptionsmouse.lblmousemode.caption
 msgid "&Mode:"
-msgstr "Λειτουργία:"
+msgstr "Τρόπος Λειτουργίας:"
 
 #: tfrmoptionsmouse.rbdoubleclick.caption
 msgid "Double click"
@@ -11030,17 +11034,21 @@ msgstr "Εισάγετε νέα προσαρμοσμένα χρώματα στη
 #: ulng.rsmenumacosaddfindertag
 #, object-pascal-format
 msgid "Add \"%s\""
-msgstr ""
+msgstr "Προσθήκη \"%s\""
 
 #: ulng.rsmenumacoseditfindertags
 msgctxt "ulng.rsmenumacoseditfindertags"
 msgid "Edit Finder Tags..."
+msgstr "Επεξεργασία Ετικετών Εφαρμογής Εύρεσης..."
+
+#: ulng.rsmenumacosgrantpermissiontosupportfindertags
+msgid "Grant \"Full Disk Access\" permission to support Finder Tags..."
 msgstr ""
 
 #: ulng.rsmenumacosremovefindertag
 #, object-pascal-format
 msgid "Remove \"%s\""
-msgstr ""
+msgstr "Αφαίρεση \"%s\""
 
 #: ulng.rsmenumacosshare
 msgid "Share..."
@@ -11049,41 +11057,37 @@ msgstr "Διαμοιρασμός..."
 #: ulng.rsmfstbiairdroptips
 msgctxt "ulng.rsmfstbiairdroptips"
 msgid "AirDrop"
-msgstr ""
+msgstr "AirDrop"
 
 #: ulng.rsmfstbiairdroptitle
 msgctxt "ulng.rsmfstbiairdroptitle"
 msgid "AirDrop"
-msgstr ""
+msgstr "AirDrop"
 
 #: ulng.rsmfstbicommandmenudirectoryhotlist
-#, fuzzy
 msgctxt "ulng.rsmfstbicommandmenudirectoryhotlist"
 msgid "Directory Hotlist"
 msgstr "Κατάλογος Hotlist"
 
 #: ulng.rsmfstbicommandmenufavoritetabs
-#, fuzzy
 msgctxt "ulng.rsmfstbicommandmenufavoritetabs"
 msgid "Favorite Tabs"
 msgstr "Αγαπημένες Καρτέλες"
 
 #: ulng.rsmfstbicommandmenuquicklook
 msgid "macOS QuickLook"
-msgstr ""
+msgstr "macOS QuickLook"
 
 #: ulng.rsmfstbicommandtitle
-#, fuzzy
 msgctxt "ulng.rsmfstbicommandtitle"
 msgid "Command"
 msgstr "Εντολή"
 
 #: ulng.rsmfstbicomparetips
 msgid "Compare by Contents..."
-msgstr ""
+msgstr "Σύγκριση ανά Περιεχόμενο..."
 
 #: ulng.rsmfstbicomparetitle
-#, fuzzy
 msgctxt "ulng.rsmfstbicomparetitle"
 msgid "Compare"
 msgstr "Σύγκριση"
@@ -11091,147 +11095,148 @@ msgstr "Σύγκριση"
 #: ulng.rsmfstbieditfindertagtips
 msgctxt "ulng.rsmfstbieditfindertagtips"
 msgid "Edit Finder Tags..."
-msgstr ""
+msgstr "Επεξεργασία Ετικετών Εφαρμογής Εύρεσης..."
 
 #: ulng.rsmfstbieditfindertagtitle
 msgid "EditTag"
-msgstr ""
+msgstr "ΕπεξεργασίαΕτικέτας"
 
 #: ulng.rsmfstbiedittips
 msgid "Edit..."
-msgstr ""
+msgstr "Επεξεργασία..."
 
 #: ulng.rsmfstbiedittitle
-#, fuzzy
 msgctxt "ulng.rsmfstbiedittitle"
 msgid "Edit"
 msgstr "Επεξεργασία"
 
 #: ulng.rsmfstbifinderrevealtips
 msgid "Reveal in Finder"
-msgstr ""
+msgstr "Αποκάλυψη στην Εφαρμογή Αναζήτησης"
 
 #: ulng.rsmfstbifinderrevealtitle
 msgid "Finder"
-msgstr ""
+msgstr "Εφαρμογής Εύρεσης"
 
 #: ulng.rsmfstbigotips
 msgctxt "ulng.rsmfstbigotips"
 msgid "Go"
-msgstr ""
+msgstr "Μετάβαση"
 
 #: ulng.rsmfstbigotitle
 msgctxt "ulng.rsmfstbigotitle"
 msgid "Go"
-msgstr ""
+msgstr "Μετάβαση"
 
 #: ulng.rsmfstbihorzsplittips
 msgid "Toggle Horizontal Split Mode"
-msgstr ""
+msgstr "Εναλλαγή σε Λειτουργία Οριζοντίου Διαχωρισμού"
 
 #: ulng.rsmfstbihorzsplittitle
 msgid "HorzSplit"
-msgstr ""
+msgstr "HorzSplit"
 
 #: ulng.rsmfstbiprivilegetips
 msgid "As a file manager, Double Command requires full disk access permissions. Clicking this button will pop up the macOS system settings page. Please add \"Double Commander.app\" to the \"Full Disk Access\" list to complete the authorization."
-msgstr ""
+msgstr "Σαν διαχειριστής αρχείων, ο Double Commander απαιτεί πλήρεις άδειες δίσκου. Πατώντας αυτό το πλήκτρο θα εμφανιστεί σαν αναδυόμενο η καρτέλα ρυθμίσεων του συστήματος macOS. Παρακαλώ προσθέστε \"Double Commander.app\" στην λίστα \"Full Disk Access\" για ολοκλήρωση της αδειοδότησης."
 
 #: ulng.rsmfstbiprivilegetitle
 msgid "Privilege"
-msgstr ""
+msgstr "Προνόμιο"
 
 #: ulng.rsmfstbiquicklooktips
 msgid "macOS Quick Look Panel"
-msgstr ""
+msgstr "Καρτέλα macOS Quick Look"
 
 #: ulng.rsmfstbiquicklooktitle
 msgid "QuickLook"
-msgstr ""
+msgstr "QuickLook"
 
 #: ulng.rsmfstbirefreshtips
 msgid "Refresh File List"
-msgstr ""
+msgstr "Ανανέωση Λίστας Αρχείων"
 
 #: ulng.rsmfstbirefreshtitle
 msgid "Refresh"
+msgstr "Ανανέωση"
+
+#: ulng.rsmfstbisearchcombinedtags
+msgid "Search for combined tags..."
 msgstr ""
 
 #: ulng.rsmfstbisearchtips
 msgid "Search Files..."
-msgstr ""
+msgstr "Αναζήτηση Αρχείων..."
 
 #: ulng.rsmfstbisearchtitle
-#, fuzzy
 msgctxt "ulng.rsmfstbisearchtitle"
 msgid "Search"
 msgstr "Αναζήτηση"
 
 #: ulng.rsmfstbisharetitle
 msgid "Share"
-msgstr ""
+msgstr "Διαμοιρασμός"
 
 #: ulng.rsmfstbishowbrieftitle
 msgid "as Brief"
-msgstr ""
+msgstr "Σύντομη Περιγραφή"
 
 #: ulng.rsmfstbishowfulltitle
 msgid "as Full"
-msgstr ""
+msgstr "Πλήρης Περιγραφή"
 
 #: ulng.rsmfstbishowinfotips
 msgid "Show Info in Finder"
-msgstr ""
+msgstr "Εμφάνιση Πληροφοριών στην Εφαρμογή Αναζήτησης"
 
 #: ulng.rsmfstbishowinfotitle
 msgid "ShowInfo"
-msgstr ""
+msgstr "ΕμφάνισηΠληροφοριών"
 
 #: ulng.rsmfstbishowmodetips
 msgid "Show as Brief, Full or Thumbnails"
-msgstr ""
+msgstr "Εμφάνιση Σύντομης, Πλήρους Περιγραφής ή σε Μικρογραφίες"
 
 #: ulng.rsmfstbishowmodetitle
 msgid "ShowMode"
-msgstr ""
+msgstr "ΕμφάνισηΤρόπουΛειτουργίας"
 
 #: ulng.rsmfstbishowthumbnailstitle
 msgid "as Thumbnails"
-msgstr ""
+msgstr "σαν Μικρογραφίες"
 
 #: ulng.rsmfstbiswappanelstips
 msgid "Swap Panels"
-msgstr ""
+msgstr "Ανταλλαγή Καρτελών"
 
 #: ulng.rsmfstbiswappanelstitle
 msgid "SwapPanels"
-msgstr ""
+msgstr "ΑνταλλαγήΚαρτελών"
 
 #: ulng.rsmfstbisynctips
 msgid "Synchronize Dirs..."
-msgstr ""
+msgstr "Συγχρονισμός Καταλόγων..."
 
 #: ulng.rsmfstbisynctitle
 msgid "Sync"
-msgstr ""
+msgstr "Συγχρονισμός"
 
 #: ulng.rsmfstbiterminaltips
 msgid "Open in Terminal"
-msgstr ""
+msgstr "Άνοιγμα σε Τερματικό"
 
 #: ulng.rsmfstbiterminaltitle
-#, fuzzy
 msgctxt "ulng.rsmfstbiterminaltitle"
 msgid "Terminal"
 msgstr "Τερματικό"
 
 #: ulng.rsmfstbitreeviewtips
 msgid "Show Tree View Panel"
-msgstr ""
+msgstr "Εμφάνιση Καρτέλας Προβολής Δέντρου"
 
 #: ulng.rsmfstbitreeviewtitle
 msgid "TreeView"
-msgstr ""
+msgstr "ΠροβολήΔέντρου"
 
 #: ulng.rsmnuactions
 msgctxt "ulng.rsmnuactions"
@@ -11278,7 +11283,7 @@ msgstr "Νέο"
 
 #: ulng.rsmnunewwindow
 msgid "New Window"
-msgstr ""
+msgstr "Νέο Παράθυρο"
 
 #: ulng.rsmnunomedia
 msgid "No media available"
@@ -13112,7 +13117,7 @@ msgstr "Για να αλλάξετε τη τρέχουσα διαμόρφωση 
 
 #: ulng.rsoptarchiveradditonalcmd
 msgid "Mode dependent, additional command"
-msgstr "Εξαρτώμενο από την κατάσταση, επιπρόσθετη εντολή"
+msgstr "Εξαρτώμενη από τον τρόπο λειτουργίας κατάσταση, επιπρόσθετη εντολή"
 
 #: ulng.rsoptarchiveraddonlynotempty
 msgid "Add if it is non-empty"

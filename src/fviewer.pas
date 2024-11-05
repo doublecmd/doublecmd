@@ -747,6 +747,11 @@ begin
 
   dwFileAttributes := mbFileGetAttr(aFileName);
 
+  if FPS_ISLNK(dwFileAttributes) then
+  begin
+    dwFileAttributes := mbFileGetAttrNoLinks(aFileName);
+  end;
+
   if dwFileAttributes = faInvalidAttributes then
   begin
     ActivatePanel(pnlFolder);
@@ -2872,6 +2877,10 @@ begin
       if sEncoding = EncodingUTF8 then
         Buffer := FSynEditOriginalText
       else begin
+        if (sEncoding = EncodingUTF16LE) or (sEncoding = EncodingUTF16BE) then
+        begin
+          FSynEditOriginalText := Copy(FSynEditOriginalText, 3, MaxInt); // Skip BOM
+        end;
         Buffer := ConvertEncoding(FSynEditOriginalText, sEncoding, EncodingUTF8);
       end;
 

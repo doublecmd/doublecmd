@@ -341,6 +341,10 @@ msgstr "作業完了後にチェックサムファイルを開く"
 msgid "C&reate separate checksum file for each file"
 msgstr "ファイルごとに個別のチェックサム ファイルを作成(&r)"
 
+#: tfrmchecksumcalc.cbseparatefolder.caption
+msgid "Create separate checksum file for each &directory"
+msgstr ""
+
 #: tfrmchecksumcalc.lblfileformat.caption
 msgid "File &format"
 msgstr ""
@@ -3216,7 +3220,7 @@ msgid "C&onfiguration"
 msgstr "構成設定(&o)"
 
 #: tfrmmain.mnufavoritetabs.caption
-msgid "Favorites"
+msgid "F&avorites"
 msgstr "お気に入り"
 
 #: tfrmmain.mnufiles.caption
@@ -3234,7 +3238,7 @@ msgstr "マーク(&M)"
 
 #: tfrmmain.mnunetwork.caption
 msgctxt "TFRMMAIN.MNUNETWORK.CAPTION"
-msgid "Network"
+msgid "&Network"
 msgstr "ネットワーク(&N)"
 
 #: tfrmmain.mnushow.caption
@@ -11068,6 +11072,10 @@ msgctxt "ulng.rsmenumacoseditfindertags"
 msgid "Edit Finder Tags..."
 msgstr ""
 
+#: ulng.rsmenumacosgrantpermissiontosupportfindertags
+msgid "Grant \"Full Disk Access\" permission to support Finder Tags..."
+msgstr ""
+
 #: ulng.rsmenumacosremovefindertag
 #, object-pascal-format
 msgid "Remove \"%s\""
@@ -11186,6 +11194,10 @@ msgstr ""
 
 #: ulng.rsmfstbirefreshtitle
 msgid "Refresh"
+msgstr ""
+
+#: ulng.rsmfstbisearchcombinedtags
+msgid "Search for combined tags..."
 msgstr ""
 
 #: ulng.rsmfstbisearchtips

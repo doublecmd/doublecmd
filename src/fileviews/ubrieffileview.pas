@@ -6,8 +6,9 @@ interface
 
 uses
   Classes, SysUtils, Controls, LMessages, Grids, Graphics,
-  uDisplayFile, DCXmlConfig, uTypes, uFileViewWithGrid, uFile,
-  uFileSource, uFileProperty;
+  uDisplayFile, DCXmlConfig, uTypes,
+  uFileView, uFileViewWithMainCtrl, uFileViewWithGrid,
+  uFile, uFileSource, uFileProperty;
 
 type
 
@@ -18,6 +19,7 @@ type
   TBriefDrawGrid = class(TFileViewGrid)
   protected
     FBriefView: TBriefFileView;
+    FOnDrawCell: TFileViewOnDrawCell;
   protected
     procedure UpdateView; override;
     procedure CalculateColRowCount; override;
@@ -34,11 +36,16 @@ type
     function  CellToIndex(ACol, ARow: Integer): Integer; override;
     procedure IndexToCell(Index: Integer; out ACol, ARow: Integer); override;
     procedure DrawCell(aCol, aRow: Integer; aRect: TRect; aState: TGridDrawState); override;
+
+    property OnDrawCell: TFileViewOnDrawCell read FOnDrawCell write FOnDrawCell;
   end;
 
   { TBriefFileView }
 
   TBriefFileView = class (TFileViewWithGrid)
+  protected
+    function GetOnDrawCell: TFileViewOnDrawCell;
+    procedure SetOnDrawCell( OnDrawCell: TFileViewOnDrawCell );
   protected
     procedure CreateDefault(AOwner: TWinControl); override;
     function GetFileViewGridClass: TFileViewGridClass; override;
@@ -51,7 +58,9 @@ type
     procedure DoFileUpdated(AFile: TDisplayFile; UpdatedProperties: TFilePropertiesTypes = []); override;
   public
     function Clone(NewParent: TWinControl): TBriefFileView; override;
+    procedure CloneTo(FileView: TFileView); override;
     procedure SaveConfiguration(AConfig: TXmlConfig; ANode: TXmlNode; ASaveHistory:boolean); override;
+    property OnDrawCell: TFileViewOnDrawCell read GetOnDrawCell write SetOnDrawCell;
   end;
 
 implementation
@@ -420,6 +429,7 @@ var
   iTextTop: Integer;
   AFile: TDisplayFile;
   FileSourceDirectAccess: Boolean;
+  onDrawCellFocused: Boolean;
 
   //------------------------------------------------------
   //begin subprocedures
@@ -507,6 +517,11 @@ begin
       iTextTop := aRect.Top + (RowHeights[aRow] - Canvas.TextHeight('Wg')) div 2;
 
       DrawIconCell;
+
+      if Assigned(OnDrawCell) and not(CsDesigning in ComponentState) then begin
+        onDrawCellFocused:= (gdSelected in aState) and FFileView.Active;
+        OnDrawCell(FBriefView,aCol,aRow,aRect,onDrawCellFocused,AFile);
+      end;
     end
   else
     begin
@@ -520,6 +535,16 @@ begin
 end;
 
 { TBriefFileView }
+
+function TBriefFileView.GetOnDrawCell: TFileViewOnDrawCell;
+begin
+  Result:= TBriefDrawGrid(dgPanel).OnDrawCell;
+end;
+
+procedure TBriefFileView.SetOnDrawCell(OnDrawCell: TFileViewOnDrawCell);
+begin
+  TBriefDrawGrid(dgPanel).OnDrawCell:= OnDrawCell;
+end;
 
 procedure TBriefFileView.CreateDefault(AOwner: TWinControl);
 begin
@@ -628,6 +653,13 @@ end;
 function TBriefFileView.Clone(NewParent: TWinControl): TBriefFileView;
 begin
   Result := TBriefFileView.Create(NewParent, Self);
+end;
+
+procedure TBriefFileView.CloneTo(FileView: TFileView);
+begin
+  inherited CloneTo(FileView);
+  if FileView is TBriefFileView then
+    TBriefFileView(FileView).OnDrawCell:= self.OnDrawCell;
 end;
 
 procedure TBriefFileView.SaveConfiguration(AConfig: TXmlConfig; ANode: TXmlNode; ASaveHistory:boolean);
