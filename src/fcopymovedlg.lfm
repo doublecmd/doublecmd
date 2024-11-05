@@ -9,7 +9,7 @@ object frmCopyDlg: TfrmCopyDlg
   VertScrollBar.Range = 186
   ActiveControl = edtDst
   AutoSize = True
-  BorderIcons = [biSystemMenu, biMaximize]
+  BorderIcons = [biSystemMenu]
   Caption = 'Copy file(s)'
   ChildSizing.LeftRightSpacing = 6
   ChildSizing.TopBottomSpacing = 6

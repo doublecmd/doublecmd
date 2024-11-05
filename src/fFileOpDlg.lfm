@@ -3,6 +3,7 @@ object frmFileOp: TfrmFileOp
   Height = 212
   Top = 272
   Width = 522
+  BorderIcons = [biSystemMenu, biMinimize]
   ClientHeight = 212
   ClientWidth = 522
   Constraints.MinWidth = 500
