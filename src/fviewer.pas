@@ -61,7 +61,8 @@ uses
   Grids, ActnList, viewercontrol, GifAnim, fFindView, WLXPlugin, uWLXModule,
   uFileSource, fModView, Types, uThumbnails, uFormCommands, uOSForms,Clipbrd,
   uExifReader, KASStatusBar, SynEdit, uShowForm, uRegExpr, uRegExprU,
-  Messages, fEditSearch, uMasks, uSearchTemplate;
+  Messages, fEditSearch, uMasks, uSearchTemplate, uFileSourceOperation,
+  uFileSourceCalcStatisticsOperation;
 
 type
 
@@ -233,6 +234,7 @@ type
     TimerReload: TTimer;
     TimerScreenshot: TTimer;
     TimerViewer: TTimer;
+    tmUpdateFolderSize: TTimer;
     ToolBar1: TToolBar;
     btnReload: TToolButton;
     btn270: TToolButton;
@@ -317,6 +319,9 @@ type
     procedure TimerReloadTimer(Sender: TObject);
     procedure TimerScreenshotTimer(Sender: TObject);
     procedure TimerViewerTimer(Sender: TObject);
+    procedure tmUpdateFolderSizeTimer(Sender: TObject);
+    procedure FileSourceOperationStateChangedNotify(Operation: TFileSourceOperation;
+                                                    State: TFileSourceOperationState);
     procedure ViewerControlMouseUp(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
     procedure frmViewerClose(Sender: TObject; var CloseAction: TCloseAction);
@@ -334,6 +339,8 @@ type
     procedure ViewerPositionChanged(Sender:TObject);
     function  PluginShowFlags : Integer;
     procedure UpdateImagePlacement;
+    procedure StartCalcFolderSize;
+    procedure StopCalcFolderSize;
 
   private
     FFileName: String;
@@ -357,6 +364,7 @@ type
     tmp_all: TCustomBitmap;
     FModSizeDialog: TfrmModView;
     FThumbnailManager: TThumbnailManager;
+    FFileSourceCalcStatisticsOperation: TFileSourceCalcStatisticsOperation;
     FCommands: TFormCommands;
     FZoomFactor: Integer;
     FExif: TExifReader;
@@ -515,7 +523,8 @@ uses
   DCClassesUtf8, uFindMmap, DCStrUtils, uDCUtils, LCLIntf, uDebug, uHotkeyManager,
   uConvEncoding, DCBasicTypes, DCOSUtils, uOSUtils, uFindByrMr, uFileViewWithGrid,
   fPrintSetup, uFindFiles, uAdministrator, uOfficeXML, uHighlighterProcs, dmHigh,
-  SynEditTypes, uFile, uFileSystemFileSource, uFileProcs
+  SynEditTypes, uFile, uFileSystemFileSource, uFileProcs, uOperationsManager,
+  uFileSourceOperationOptions
 {$IFDEF LCLGTK2}
   , uGraphics
 {$ENDIF}
@@ -714,6 +723,7 @@ end;
 destructor TfrmViewer.Destroy;
 begin
   FExif.Free;
+  StopCalcFolderSize;
   FreeAndNil(FRegExp);
   FreeAndNil(FileList);
   FreeAndNil(FThumbnailManager);
@@ -790,6 +800,7 @@ begin
         memFolder.Lines.Add(rsPropsFolder + ': ');
         memFolder.Lines.Add(aFileName);
         memFolder.Lines.Add('');
+        StartCalcFolderSize;
       end
     else if CheckGraphics(aFileName) and LoadGraphics(aFileName) then
       ActivatePanel(pnlImage)
@@ -2038,6 +2049,30 @@ begin
   end;
 end;
 
+procedure TfrmViewer.tmUpdateFolderSizeTimer(Sender: TObject);
+begin
+  if Assigned(FFileSourceCalcStatisticsOperation) then
+    with FFileSourceCalcStatisticsOperation.RetrieveStatistics do
+    begin
+      if Size < 0 then
+        memFolder.Lines[2]:= Format(rsSpaceMsg, [Files, Directories, '???', '???'])
+      else begin
+        memFolder.Lines[2]:= Format(rsSpaceMsg, [Files, Directories, cnvFormatFileSize(Size), IntToStrTS(Size)]);
+      end;
+    end;
+end;
+
+procedure TfrmViewer.FileSourceOperationStateChangedNotify(
+  Operation: TFileSourceOperation; State: TFileSourceOperationState);
+begin
+  if Assigned(FFileSourceCalcStatisticsOperation) and (State = fsosStopped) then
+  begin
+    tmUpdateFolderSize.Enabled:= False;
+    tmUpdateFolderSizeTimer(tmUpdateFolderSize);
+    FFileSourceCalcStatisticsOperation := nil;
+  end;
+end;
+
 procedure TfrmViewer.ViewerControlMouseUp(Sender: TObject;
   Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
 begin
@@ -2088,6 +2123,45 @@ begin
     end;
     AdjustImageSize;
   end;
+end;
+
+procedure TfrmViewer.StartCalcFolderSize;
+var
+  aFile: TFile;
+  aFiles: TFiles;
+  AFileSource: IFileSource;
+begin
+  try
+    aFile:= TFileSystemFileSource.CreateFileFromFile(memFolder.Lines[1]);
+  except
+    Exit;
+  end;
+  aFiles:= TFiles.Create(EmptyStr);
+  try
+    aFiles.Add(aFile);
+    AFileSource:= TFileSystemFileSource.GetFileSource;
+    FFileSourceCalcStatisticsOperation:= AFileSource.CreateCalcStatisticsOperation(aFiles) as TFileSourceCalcStatisticsOperation;
+    if Assigned(FFileSourceCalcStatisticsOperation) then
+    begin
+      FFileSourceCalcStatisticsOperation.SkipErrors:= True;
+      FFileSourceCalcStatisticsOperation.SymLinkOption:= fsooslDontFollow;
+      FFileSourceCalcStatisticsOperation.AddStateChangedListener([fsosStopped], @FileSourceOperationStateChangedNotify);
+      OperationsManager.AddOperation(FFileSourceCalcStatisticsOperation, False);
+      tmUpdateFolderSize.Enabled:= True;
+    end;
+  finally
+    aFiles.Free;
+  end;
+end;
+
+procedure TfrmViewer.StopCalcFolderSize;
+begin
+  if Assigned(FFileSourceCalcStatisticsOperation) then
+  begin
+    tmUpdateFolderSize.Enabled:= False;
+    FFileSourceCalcStatisticsOperation.Stop;
+  end;
+  FFileSourceCalcStatisticsOperation:= nil;
 end;
 
 procedure TfrmViewer.FormCreate(Sender: TObject);
@@ -3358,6 +3432,8 @@ begin
 
   if (Panel <> pnlText) and actAutoReload.Checked then
     cm_AutoReload([]);
+
+  StopCalcFolderSize;
 end;
 
 procedure TfrmViewer.cm_About(const Params: array of string);
