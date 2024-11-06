@@ -1823,4 +1823,11 @@ object frmViewer: TfrmViewer
     Left = 80
     Top = 211
   end
+  object tmUpdateFolderSize: TTimer
+    Enabled = False
+    Interval = 500
+    OnTimer = tmUpdateFolderSizeTimer
+    Left = 196
+    Top = 232
+  end
 end
