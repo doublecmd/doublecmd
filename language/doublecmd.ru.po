@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: Double Commander 1.1.0 alpha\n"
-"POT-Creation-Date: 2024-10-11 21:15+0300\n"
-"PO-Revision-Date: 2024-10-14 00:03+0300\n"
+"Project-Id-Version: Double Commander 1.2.0 alpha\n"
+"POT-Creation-Date: 2024-11-01 15:03+0300\n"
+"PO-Revision-Date: 2024-11-05 19:30+0300\n"
 "Last-Translator: Alexander Koblov <alexx2000@mail.ru>\n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -11076,7 +11076,7 @@ msgstr "Изменить теги Finder..."
 
 #: ulng.rsmenumacosgrantpermissiontosupportfindertags
 msgid "Grant \"Full Disk Access\" permission to support Finder Tags..."
-msgstr ""
+msgstr "Предоставьте разрешение \"Полный доступ к диску\" для поддержки тегов Finder..."
 
 #: ulng.rsmenumacosremovefindertag
 #, object-pascal-format
@@ -11195,7 +11195,7 @@ msgstr "Обновить"
 
 #: ulng.rsmfstbisearchcombinedtags
 msgid "Search for combined tags..."
-msgstr ""
+msgstr "Поиск комбинированных тегов..."
 
 #: ulng.rsmfstbisearchtips
 msgid "Search Files..."
