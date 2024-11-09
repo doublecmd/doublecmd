@@ -152,6 +152,7 @@ uses
     , uDCReadRSVG, uMagickWand, uGio, uGioFileSource, uVfsModule, uVideoThumb
     , uDCReadWebP, uFolderThumb, uAudioThumb, uDefaultTerminal, uDCReadHEIF
     , uTrashFileSource, uFileManager, uFileSystemFileSource, fOpenWith
+    , uNetworkFileSource
     {$ENDIF}
     {$IF DEFINED(LINUX)}
     , uFlatpak
@@ -722,6 +723,8 @@ begin
   begin
     if TGioFileSource.IsSupportedPath('trash://') then
       RegisterVirtualFileSource(rsVfsRecycleBin, TTrashFileSource, True);
+    if TGioFileSource.IsSupportedPath('network://') then
+      RegisterVirtualFileSource(rsVfsNetwork, TNetworkFileSource, True);
     RegisterVirtualFileSource('GVfs', TGioFileSource, False);
   end;
   {$ENDIF}

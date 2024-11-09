@@ -42,6 +42,7 @@ type
     function Equals(aFileSource: IFileSource): Boolean;
     function IsInterface(InterfaceGuid: TGuid): Boolean;
     function IsClass(ClassType: TClass): Boolean;
+    function GetClass: TFileSource;
     function GetURI: TURI;
     function GetClassName: String;
     function GetRefCount: Integer;
@@ -214,6 +215,7 @@ type
     function Equals(aFileSource: IFileSource): Boolean; overload;
     function IsInterface(InterfaceGuid: TGuid): Boolean;
     function IsClass(aClassType: TClass): Boolean;
+    function GetClass: TFileSource;
     function GetClassName: String; // For debugging purposes.
     function GetRefCount: Integer; // For debugging purposes.
 
@@ -484,6 +486,11 @@ end;
 function TFileSource.IsClass(aClassType: TClass): Boolean;
 begin
   Result := Self is aClassType;
+end;
+
+function TFileSource.GetClass: TFileSource;
+begin
+  Result := Self
 end;
 
 function TFileSource.GetClassName: String;
