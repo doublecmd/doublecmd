@@ -396,8 +396,7 @@ begin
         // Special case Microsoft Photos
         if (AppID = 'Microsoft.Windows.Photos_8wekyb3d8bbwe!App') then
         begin
-          // https://blogs.windows.com/windowsdeveloper/2024/06/03/microsoft-photos-migrating-from-uwp-to-windows-app-sdk/
-          if CheckPhotosVersion(2024, 11050) then
+          if CheckPhotosVersion then
           begin
             URL:= URIEncode(URL);
             URL:= 'ms-photos:viewer?fileName=' + StringReplace(URL, '%5C', '\', [rfReplaceAll]);
