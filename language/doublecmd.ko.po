@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Double Commander 1.1.0 alpha\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-11-15 11:15+0300\n"
-"PO-Revision-Date: 2024-10-16 04:48+0900\n"
+"PO-Revision-Date: 2024-11-10 23:13+0900\n"
 "Last-Translator: VenusGirl: venusgirl@outlook.com/\n"
 "Language-Team: 비너스걸: https://venusgirls.tistory.com/\n"
 "Language: ko\n"
@@ -335,7 +335,7 @@ msgstr "각 파일에 대해 별도의 체크섬 파일 생성(&R)"
 
 #: tfrmchecksumcalc.cbseparatefolder.caption
 msgid "Create separate checksum file for each &directory"
-msgstr ""
+msgstr "각 디렉터리에 대해 별도의 체크섬 파일 만들기(&D)"
 
 #: tfrmchecksumcalc.lblfileformat.caption
 msgid "File &format"
@@ -10817,7 +10817,7 @@ msgstr "파인더 태그 편집..."
 
 #: ulng.rsmenumacosgrantpermissiontosupportfindertags
 msgid "Grant \"Full Disk Access\" permission to support Finder Tags..."
-msgstr ""
+msgstr "파인더 태그를 지원하기 위한 \"전체 디스크 액세스\" 권한 부여..."
 
 #: ulng.rsmenumacosremovefindertag
 #, object-pascal-format
@@ -10941,7 +10941,7 @@ msgstr "새로 고침"
 
 #: ulng.rsmfstbisearchcombinedtags
 msgid "Search for combined tags..."
-msgstr ""
+msgstr "결합된 태그 검색..."
 
 #: ulng.rsmfstbisearchtips
 msgid "Search Files..."
@@ -14255,4 +14255,3 @@ msgstr "교체가 이루어지지 않았습니다."
 #, object-pascal-format
 msgid "No setup named \"%s\""
 msgstr "\"%s\"라는 이름의 설정 없음"
-
