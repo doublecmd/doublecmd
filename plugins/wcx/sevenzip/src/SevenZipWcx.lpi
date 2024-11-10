@@ -37,7 +37,7 @@
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir)"/>
-            <OtherUnitFiles Value="..\..\..\..\sdk;jcl\common;jcl\windows;jcl;platform"/>
+            <OtherUnitFiles Value="..\..\..\..\sdk;jcl\common;jcl\windows;jcl;platform;platform\$(SrcOS)"/>
             <UnitOutputDirectory Value="..\lib"/>
           </SearchPaths>
           <Parsing>
@@ -127,7 +127,7 @@
     </Target>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir)"/>
-      <OtherUnitFiles Value="..\..\..\..\sdk;jcl\common;jcl\windows;jcl;platform"/>
+      <OtherUnitFiles Value="..\..\..\..\sdk;jcl\common;jcl\windows;jcl;platform;platform\$(SrcOS)"/>
       <UnitOutputDirectory Value="..\lib"/>
     </SearchPaths>
     <Parsing>
