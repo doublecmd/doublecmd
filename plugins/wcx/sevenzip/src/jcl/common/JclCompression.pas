@@ -813,9 +813,9 @@ type
     function GetSupportsNestedArchive: Boolean; virtual;
   public
     { IInterface }
-    // function QueryInterface(const IID: TGUID; out Obj): HRESULT; stdcall;
-    function _AddRef: Integer; stdcall;
-    function _Release: Integer; stdcall;
+    // function QueryInterface(const IID: TGUID; out Obj): HRESULT; winapi;
+    function _AddRef: Integer; winapi;
+    function _Release: Integer; winapi;
   public
     PropNames: array of WideString;
     PropValues: array of TPropVariant;
@@ -2076,10 +2076,10 @@ type
     constructor Create(AStream: TStream; AOwnsStream: Boolean; ATruncateOnRelease: Boolean); overload;
     destructor Destroy; override;
     // ISequentialOutStream
-    function Write(Data: Pointer; Size: Cardinal; ProcessedSize: PCardinal): HRESULT; stdcall;
+    function Write(Data: Pointer; Size: Cardinal; ProcessedSize: PCardinal): HRESULT; winapi;
     // IOutStream
-    function Seek(Offset: Int64; SeekOrigin: Cardinal; NewPosition: PInt64): HRESULT; stdcall;
-    function SetSize(NewSize: Int64): HRESULT; stdcall;
+    function Seek(Offset: Int64; SeekOrigin: Cardinal; NewPosition: PInt64): HRESULT; winapi;
+    function SetSize(NewSize: Int64): HRESULT; winapi;
   end;
 
   TJclSevenzipNestedInStream = class(TJclStream)
@@ -2108,11 +2108,11 @@ type
     constructor Create(AStream: TStream; AOwnsStream: Boolean); overload;
     destructor Destroy; override;
     // ISequentialInStream
-    function Read(Data: Pointer; Size: Cardinal; ProcessedSize: PCardinal): HRESULT; stdcall;
+    function Read(Data: Pointer; Size: Cardinal; ProcessedSize: PCardinal): HRESULT; winapi;
     // IInStream
-    function Seek(Offset: Int64; SeekOrigin: Cardinal; NewPosition: PInt64): HRESULT; stdcall;
+    function Seek(Offset: Int64; SeekOrigin: Cardinal; NewPosition: PInt64): HRESULT; winapi;
     // IStreamGetSize
-    function GetSize(Size: PInt64): HRESULT; stdcall;
+    function GetSize(Size: PInt64): HRESULT; winapi;
   end;
 
   TJclSevenzipOpenCallback = class(TInterfacedObject, IArchiveOpenCallback,
@@ -2122,10 +2122,10 @@ type
   public
     constructor Create(AArchive: TJclCompressionArchive);
     // IArchiveOpenCallback
-    function SetCompleted(Files: PInt64; Bytes: PInt64): HRESULT; stdcall;
-    function SetTotal(Files: PInt64; Bytes: PInt64): HRESULT; stdcall;
+    function SetCompleted(Files: PInt64; Bytes: PInt64): HRESULT; winapi;
+    function SetTotal(Files: PInt64; Bytes: PInt64): HRESULT; winapi;
     // ICryptoGetTextPassword
-    function CryptoGetTextPassword(password: PBStr): HRESULT; stdcall;
+    function CryptoGetTextPassword(password: PBStr): HRESULT; winapi;
   end;
 
   TJclSevenzipExtractCallback = class(TInterfacedObject, IUnknown, IProgress,
@@ -2137,16 +2137,16 @@ type
     constructor Create(AArchive: TJclCompressionArchive);
     // IArchiveExtractCallback
     function GetStream(Index: Cardinal; out OutStream: ISequentialOutStream;
-      askExtractMode: Cardinal): HRESULT; stdcall;
-    function PrepareOperation(askExtractMode: Cardinal): HRESULT; stdcall;
-    function SetOperationResult(resultEOperationResult: Integer): HRESULT; stdcall;
+      askExtractMode: Cardinal): HRESULT; winapi;
+    function PrepareOperation(askExtractMode: Cardinal): HRESULT; winapi;
+    function SetOperationResult(resultEOperationResult: Integer): HRESULT; winapi;
     // IProgress
-    function SetCompleted(CompleteValue: PInt64): HRESULT; stdcall;
-    function SetTotal(Total: Int64): HRESULT; stdcall;
+    function SetCompleted(CompleteValue: PInt64): HRESULT; winapi;
+    function SetTotal(Total: Int64): HRESULT; winapi;
     // ICryptoGetTextPassword
-    function CryptoGetTextPassword(password: PBStr): HRESULT; stdcall;
+    function CryptoGetTextPassword(password: PBStr): HRESULT; winapi;
     // ICompressProgressInfo
-    function SetRatioInfo(InSize: PInt64; OutSize: PInt64): HRESULT; stdcall;
+    function SetRatioInfo(InSize: PInt64; OutSize: PInt64): HRESULT; winapi;
   end;
 
   TJclSevenzipUpdateCallback = class(TInterfacedObject, IUnknown, IProgress,
@@ -2158,23 +2158,23 @@ type
   public
     constructor Create(AArchive: TJclCompressionArchive);
     // IProgress
-    function SetCompleted(CompleteValue: PInt64): HRESULT; stdcall;
-    function SetTotal(Total: Int64): HRESULT; stdcall;
+    function SetCompleted(CompleteValue: PInt64): HRESULT; winapi;
+    function SetTotal(Total: Int64): HRESULT; winapi;
     // IArchiveUpdateCallback
-    function GetProperty(Index: Cardinal; PropID: Cardinal; out Value: tagPROPVARIANT): HRESULT; stdcall;
-    function GetStream(Index: Cardinal; out InStream: ISequentialInStream): HRESULT; stdcall;
+    function GetProperty(Index: Cardinal; PropID: Cardinal; out Value: tagPROPVARIANT): HRESULT; winapi;
+    function GetStream(Index: Cardinal; out InStream: ISequentialInStream): HRESULT; winapi;
     function GetUpdateItemInfo(Index: Cardinal; NewData: PInteger;
-      NewProperties: PInteger; IndexInArchive: PCardinal): HRESULT; stdcall;
-    function SetOperationResult(OperationResult: Integer): HRESULT; stdcall;
+      NewProperties: PInteger; IndexInArchive: PCardinal): HRESULT; winapi;
+    function SetOperationResult(OperationResult: Integer): HRESULT; winapi;
     // IArchiveUpdateCallback2
-    function GetVolumeSize(Index: Cardinal; Size: PInt64): HRESULT; stdcall;
+    function GetVolumeSize(Index: Cardinal; Size: PInt64): HRESULT; winapi;
     function GetVolumeStream(Index: Cardinal;
-      out VolumeStream: ISequentialOutStream): HRESULT; stdcall;
+      out VolumeStream: ISequentialOutStream): HRESULT; winapi;
     // ICryptoGetTextPassword2
     function CryptoGetTextPassword2(PasswordIsDefined: PInteger;
-      Password: PBStr): HRESULT; stdcall;
+      Password: PBStr): HRESULT; winapi;
     // ICompressProgressInfo  
-    function SetRatioInfo(InSize: PInt64; OutSize: PInt64): HRESULT; stdcall;
+    function SetRatioInfo(InSize: PInt64; OutSize: PInt64): HRESULT; winapi;
   end;
 
 type

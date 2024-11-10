@@ -43,10 +43,10 @@ type
     constructor Create(AStream: TStream; const ASfxModule: String);
     destructor Destroy; override;
     // ISequentialOutStream
-    function Write(Data: Pointer; Size: Cardinal; ProcessedSize: PCardinal): HRESULT; stdcall;
+    function Write(Data: Pointer; Size: Cardinal; ProcessedSize: PCardinal): HRESULT; winapi;
     // IOutStream
-    function Seek(Offset: Int64; SeekOrigin: Cardinal; NewPosition: PInt64): HRESULT; stdcall;
-    function SetSize(NewSize: Int64): HRESULT; stdcall;
+    function Seek(Offset: Int64; SeekOrigin: Cardinal; NewPosition: PInt64): HRESULT; winapi;
+    function SetSize(NewSize: Int64): HRESULT; winapi;
   end;
 
 implementation
@@ -82,7 +82,7 @@ begin
 end;
 
 function TSfxSevenzipOutStream.Write(Data: Pointer; Size: Cardinal;
-  ProcessedSize: PCardinal): HRESULT; stdcall;
+  ProcessedSize: PCardinal): HRESULT; winapi;
 var
   Processed: Cardinal;
 begin
@@ -98,7 +98,7 @@ begin
 end;
 
 function TSfxSevenzipOutStream.Seek(Offset: Int64; SeekOrigin: Cardinal;
-  NewPosition: PInt64): HRESULT; stdcall;
+  NewPosition: PInt64): HRESULT; winapi;
 var
   NewPos: Int64;
   NewOffset: Int64;
@@ -123,7 +123,7 @@ begin
     Result := S_FALSE;
 end;
 
-function TSfxSevenzipOutStream.SetSize(NewSize: Int64): HRESULT; stdcall;
+function TSfxSevenzipOutStream.SetSize(NewSize: Int64): HRESULT; winapi;
 begin
   if Assigned(FStream) then
   begin

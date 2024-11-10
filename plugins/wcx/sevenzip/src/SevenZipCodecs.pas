@@ -60,9 +60,9 @@ type
       GetNumberOfFormats: TGetNumberOfFormatsFunc;
       GetNumberOfMethods: TGetNumberOfMethodsFunc;
       SetLargePageMode: TSetLargePageMode;
-      SetCodecs: function(compressCodecsInfo: ICompressCodecsInfo): HRESULT; stdcall;
-      CreateDecoder: function(Index: Cardinal; IID: PGUID; out Decoder): HRESULT; stdcall;
-      CreateEncoder: function(Index: Cardinal; IID: PGUID; out Coder): HRESULT; stdcall;
+      SetCodecs: function(compressCodecsInfo: ICompressCodecsInfo): HRESULT; winapi;
+      CreateDecoder: function(Index: Cardinal; IID: PGUID; out Decoder): HRESULT; winapi;
+      CreateEncoder: function(Index: Cardinal; IID: PGUID; out Coder): HRESULT; winapi;
     end;
 
     { TCodecInfo }
@@ -87,10 +87,10 @@ type
     public
       constructor Create(ACodecs: TFPGObjectList<TCodecInfo>; ALibraries: TFPGObjectList<TLibraryInfo>);
     public
-      function GetNumberOfMethods(NumMethods: PCardinal): HRESULT; stdcall;
-      function GetProperty(Index: Cardinal; PropID: TPropID; out Value: TPropVariant): HRESULT; stdcall;
-      function CreateDecoder(Index: Cardinal; IID: PGUID; out Decoder): HRESULT; stdcall;
-      function CreateEncoder(Index: Cardinal; IID: PGUID; out Coder): HRESULT; stdcall;
+      function GetNumberOfMethods(NumMethods: PCardinal): HRESULT; winapi;
+      function GetProperty(Index: Cardinal; PropID: TPropID; out Value: TPropVariant): HRESULT; winapi;
+      function CreateDecoder(Index: Cardinal; IID: PGUID; out Decoder): HRESULT; winapi;
+      function CreateEncoder(Index: Cardinal; IID: PGUID; out Coder): HRESULT; winapi;
     end;
 
 procedure LoadLibraries;
@@ -113,14 +113,14 @@ begin
   FLibraries:= ALibraries;
 end;
 
-function TCompressCodecsInfo.GetNumberOfMethods(NumMethods: PCardinal): HRESULT; stdcall;
+function TCompressCodecsInfo.GetNumberOfMethods(NumMethods: PCardinal): HRESULT; winapi;
 begin
   NumMethods^:= FCodecs.Count;
   Result:= S_OK;
 end;
 
 function TCompressCodecsInfo.GetProperty(Index: Cardinal; PropID: TPropID; out
-  Value: TPropVariant): HRESULT; stdcall;
+  Value: TPropVariant): HRESULT; winapi;
 var
   ACodecInfo: TCodecInfo;
 begin
@@ -141,7 +141,7 @@ begin
 end;
 
 function TCompressCodecsInfo.CreateDecoder(Index: Cardinal; IID: PGUID; out
-  Decoder): HRESULT; stdcall;
+  Decoder): HRESULT; winapi;
 var
   ACodecInfo: TCodecInfo;
   ALibraryInfo: TLibraryInfo;
@@ -159,7 +159,7 @@ begin
 end;
 
 function TCompressCodecsInfo.CreateEncoder(Index: Cardinal; IID: PGUID; out
-  Coder): HRESULT; stdcall;
+  Coder): HRESULT; winapi;
 var
   ACodecInfo: TCodecInfo;
   ALibraryInfo: TLibraryInfo;
