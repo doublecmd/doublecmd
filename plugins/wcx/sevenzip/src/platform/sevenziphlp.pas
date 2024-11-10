@@ -7,6 +7,7 @@ interface
 uses
   Classes, SysUtils, ActiveX;
 
+function GetNumberOfProcessors: LongWord;
 function WideToBinary(const Value: WideString): TBstr;
 procedure VarStringClear(var PropVariant: TPropVariant);
 function BinaryToUnicode(const bstrVal: TBstr): UnicodeString;
@@ -19,6 +20,22 @@ uses
   , SevenZip
 {$ENDIF}
   ;
+
+function GetNumberOfProcessors: LongWord;
+var
+  SystemInfo: TSYSTEMINFO;
+  SystemAffinityMask: DWORD_PTR = 0;
+  ProcessAffinityMask: DWORD_PTR = 0;
+begin
+  if GetProcessAffinityMask(GetCurrentProcess, ProcessAffinityMask, SystemAffinityMask) then
+  begin
+    Result:= PopCnt(ProcessAffinityMask);
+  end
+  else begin
+    GetSystemInfo(@SystemInfo);
+    Result:= SystemInfo.dwNumberOfProcessors;
+  end;
+end;
 
 procedure VarStringClear(var PropVariant: TPropVariant);
 begin

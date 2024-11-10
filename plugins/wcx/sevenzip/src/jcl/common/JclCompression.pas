@@ -65,9 +65,9 @@ uses
   System.ZLib,
   {$ENDIF ZLIB_RTL}
   {$ELSE ~HAS_UNITSCOPE}
-  {$IFDEF MSWINDOWS}
+  {.$IFDEF MSWINDOWS}
   Windows, Sevenzip, ActiveX,
-  {$ENDIF MSWINDOWS}
+  {.$ENDIF MSWINDOWS}
   Types,
   SysUtils, Classes, Contnrs,
   {$IFDEF ZLIB_RTL}
@@ -598,7 +598,7 @@ procedure UnBZip2Stream(SourceStream, DestinationStream: TStream;
 {$ENDIF FPC}
 
 // archive ancestor classes
-{$IFDEF MSWINDOWS}
+{.$IFDEF MSWINDOWS}
 type
   TJclCompressionVolumeEvent = procedure(Sender: TObject; Index: Integer;
     var AFileName: TFileName; var AStream: TStream; var AOwnsStream: Boolean) of object;
@@ -2211,7 +2211,7 @@ function Create7zFile(const SourceFile, DestinationFile: TFileName; VolumeSize: 
 var
   JclCompressSharedFiles: Boolean = False;
 
-{$ENDIF MSWINDOWS}
+{.$ENDIF MSWINDOWS}
 
 {$IFDEF UNITVERSIONING}
 const
@@ -3768,7 +3768,7 @@ end;
 
 {$ENDIF FPC}
 
-{$IFDEF MSWINDOWS}
+{.$IFDEF MSWINDOWS}
 
 function OpenFileStream(const FileName: TFileName; StreamAccess: TJclStreamAccess): TStream;
 begin
@@ -9911,7 +9911,7 @@ begin
   Result := CLSID_CFormatSwfc;
 end;
 
-{$ENDIF MSWINDOWS}
+{.$ENDIF MSWINDOWS}
 
 initialization
   {$IFDEF UNITVERSIONING}

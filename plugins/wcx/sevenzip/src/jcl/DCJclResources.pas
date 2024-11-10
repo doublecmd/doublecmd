@@ -30,6 +30,7 @@ resourcestring
   RsCompressionUnavailableProperty = 'This property is unavailable';
   RsCompressionNoNestedArchive     = 'Nested archive is not implemented';
   RsCompression7zWindows           = 'Windows';
+  RsCompression7zUnix              = 'Unix';
   RsCompressionDuplicate           = 'Archive already contains the file %s';
   RsCompressionUnsupportedMethod   = 'Unsupported method';
   RsCompressionDataError           = 'Data error';

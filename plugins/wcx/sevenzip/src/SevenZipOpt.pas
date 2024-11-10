@@ -180,7 +180,6 @@ type
     Parameters: WideString;
   end;
 
-function GetNumberOfProcessors: LongWord;
 function FormatFileSize(ASize: Int64; AGiga: Boolean = True): String;
 
 procedure SetArchiveOptions(AJclArchive: IInterface);
@@ -223,14 +222,6 @@ implementation
 
 uses
   ActiveX, LazUTF8, DCOSUtils, SevenZipAdv, SevenZipCodecs, SevenZipHlp;
-
-function GetNumberOfProcessors: LongWord;
-var
-  SystemInfo: TSYSTEMINFO;
-begin
-  GetSystemInfo(@SystemInfo);
-  Result:= SystemInfo.dwNumberOfProcessors;
-end;
 
 function FormatFileSize(ASize: Int64; AGiga: Boolean): String;
 begin
