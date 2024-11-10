@@ -4081,7 +4081,8 @@ begin
     Exclude(FValidProperties, ipFileName);
   end;
 
-  if (Value <> '') and (FArchive is TJclCompressionArchive) and mbFileGetAttr(Value, AFindData) then
+  if (Value <> '') and (FArchive is TJclCompressionArchive) and
+     (mbFileGetAttr(ExcludeTrailingPathDelimiter(Value), AFindData)) then
   begin
     FileSize := AFindData.Size;
     Attributes := AFindData.Attr;
