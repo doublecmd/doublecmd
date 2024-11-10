@@ -52,6 +52,7 @@ type
     FOperation    : TFileSourceOperation;
     FQueue        : TOperationsManagerQueue;
     FThread       : TOperationThread;
+    FVisible      : Boolean;
 
   private
     function RemoveFromQueue: Boolean;
@@ -96,6 +97,7 @@ type
     property Operation: TFileSourceOperation read FOperation;
     property Queue: TOperationsManagerQueue read FQueue;
     property Thread: TOperationThread read FThread;
+    property Visible: Boolean read FVisible write FVisible;
   end;
 
   { TOperationsManagerQueue }
@@ -292,6 +294,7 @@ begin
   FHandle := AHandle;
   FOperation := AOperation;
   FThread := AThread;
+  FVisible := True;
 end;
 
 destructor TOperationsManagerItem.Destroy;
@@ -670,6 +673,8 @@ begin
       Operation.PreventStart;
 
       Result := Item.Handle;
+
+      Item.Visible := ShowProgress;
 
       Item.SetQueue(GetOrCreateQueue(QueueIdentifier), InsertAtFrontOfQueue);
 

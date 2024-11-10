@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Calculate checksum dialog
 
-   Copyright (C) 2009-2023 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2009-2024 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -36,6 +36,7 @@ type
   TfrmCheckSumCalc = class(TfrmButtonForm)
     cbSeparateFile: TCheckBox;
     cbOpenAfterJobIsComplete: TCheckBox;
+    cbSeparateFolder: TCheckBox;
     edtSaveTo: TEdit;
     lblFileFormat: TLabel;
     lblSaveTo: TLabel;
@@ -43,6 +44,7 @@ type
     rbWindows: TRadioButton;
     rbUnix: TRadioButton;
     procedure cbSeparateFileChange(Sender: TObject);
+    procedure cbSeparateFolderChange(Sender: TObject);
     procedure edtSaveToChange(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -50,16 +52,18 @@ type
   private
     FFileName: String;
     FAlgorithm: THashAlgorithm;
+    procedure Change(Sender, Alien: TCheckBox);
   public
     { public declarations }
   end; 
 
-function ShowCalcCheckSum(var sFileName: String; out SeparateFile: Boolean;
+function ShowCalcCheckSum(TheOwner: TComponent; var sFileName: String;
+                          out SeparateFile: Boolean; out SeparateFolder: Boolean;
                           out HashAlgorithm: THashAlgorithm; out OpenFileAfterJobCompleted: Boolean;
                           out TextLineBreakStyle: TTextLineBreakStyle;
                           out QueueId: TOperationsManagerQueueIdentifier): Boolean;
 
-function ShowCalcVerifyCheckSum(out Hash: String; out HashAlgorithm: THashAlgorithm;
+function ShowCalcVerifyCheckSum(TheOwner: TComponent; out Hash: String; out HashAlgorithm: THashAlgorithm;
                                 out QueueId: TOperationsManagerQueueIdentifier): Boolean;
 
 implementation
@@ -69,14 +73,15 @@ implementation
 uses
   uGlobs, uLng;
 
-function ShowCalcCheckSum(var sFileName: String; out SeparateFile: Boolean; out
+function ShowCalcCheckSum(TheOwner: TComponent; var sFileName: String; out
+  SeparateFile: Boolean; out SeparateFolder: Boolean; out
   HashAlgorithm: THashAlgorithm; out OpenFileAfterJobCompleted: Boolean; out
   TextLineBreakStyle: TTextLineBreakStyle; out
   QueueId: TOperationsManagerQueueIdentifier): Boolean;
 const
   TextLineBreak: array[Boolean] of TTextLineBreakStyle = (tlbsLF, tlbsCRLF);
 begin
-  with TfrmCheckSumCalc.Create(Application) do
+  with TfrmCheckSumCalc.Create(TheOwner) do
   try
     FFileName:= sFileName;
     if (DefaultTextLineBreakStyle = tlbsCRLF) then
@@ -90,6 +95,7 @@ begin
       begin
         sFileName:= edtSaveTo.Text;
         SeparateFile:= cbSeparateFile.Checked;
+        SeparateFolder:= cbSeparateFolder.Checked;;
         TextLineBreakStyle:= TextLineBreak[rbWindows.Checked];
         OpenFileAfterJobCompleted:=(cbOpenAfterJobIsComplete.Checked AND cbOpenAfterJobIsComplete.Enabled);
         HashAlgorithm:= FAlgorithm;
@@ -100,16 +106,20 @@ begin
   end;
 end;
 
-function ShowCalcVerifyCheckSum(out Hash: String; out HashAlgorithm: THashAlgorithm;
-  out QueueId: TOperationsManagerQueueIdentifier): Boolean;
+function ShowCalcVerifyCheckSum(TheOwner: TComponent; out Hash: String; out
+  HashAlgorithm: THashAlgorithm; out QueueId: TOperationsManagerQueueIdentifier): Boolean;
 begin
-  with TfrmCheckSumCalc.Create(Application) do
+  with TfrmCheckSumCalc.Create(TheOwner) do
   try
     OnShow:= nil;
+    rbUnix.Visible:= False;
+    rbWindows.Visible:= False;
     edtSaveTo.Text:= EmptyStr;
     SessionProperties:= EmptyStr;
     Caption:= rsCheckSumVerifyTitle;
+    lblFileFormat.Visible:= False;
     cbSeparateFile.Visible:= False;
+    cbSeparateFolder.Visible:= False;
     cbOpenAfterJobIsComplete.Visible:= False;
     lbHashAlgorithm.OnSelectionChange:= nil;
     edtSaveTo.OnChange:= @edtSaveToChange;
@@ -132,12 +142,12 @@ end;
 
 procedure TfrmCheckSumCalc.cbSeparateFileChange(Sender: TObject);
 begin
-  if cbSeparateFile.Checked then
-    edtSaveTo.Text:= ExtractFilePath(edtSaveTo.Text) + '*.' + HashFileExt[FAlgorithm]
-  else
-    edtSaveTo.Text:= ExtractFilePath(edtSaveTo.Text) + ExtractFileName(FFileName) + '.' + HashFileExt[FAlgorithm];
+  Change(cbSeparateFile, cbSeparateFolder);
+end;
 
-  cbOpenAfterJobIsComplete.Enabled:=not cbSeparateFile.Checked;
+procedure TfrmCheckSumCalc.cbSeparateFolderChange(Sender: TObject);
+begin
+  Change(cbSeparateFolder, cbSeparateFile);
 end;
 
 procedure TfrmCheckSumCalc.edtSaveToChange(Sender: TObject);
@@ -177,6 +187,20 @@ begin
     lbHashAlgorithm.ItemIndex:= lbHashAlgorithm.Count - 1;
   FAlgorithm:= THashAlgorithm(lbHashAlgorithm.ItemIndex);
   edtSaveTo.Text:= ChangeFileExt(edtSaveTo.Text, '.' + HashFileExt[FAlgorithm]);
+end;
+
+procedure TfrmCheckSumCalc.Change(Sender, Alien: TCheckBox);
+begin
+  if Sender.Checked then
+  begin
+    Alien.Checked:= False;
+    edtSaveTo.Text:= ExtractFilePath(edtSaveTo.Text) + '*.' + HashFileExt[FAlgorithm]
+  end
+  else begin
+    edtSaveTo.Text:= ExtractFilePath(edtSaveTo.Text) + ExtractFileName(FFileName) + '.' + HashFileExt[FAlgorithm];
+  end;
+
+  cbOpenAfterJobIsComplete.Enabled:= not (Sender.Checked or Alien.Checked);
 end;
 
 end.

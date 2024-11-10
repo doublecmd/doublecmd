@@ -126,7 +126,7 @@ implementation
 
 uses
   uDebug, uGlobs, DCFileAttributes, DCOSUtils, DCStrUtils, DCDateTimeUtils,
-  FileUtil, uMasks,
+  FileUtil, uMasks, uLng,
   uMultiArchiveListOperation,
   uMultiArchiveCopyInOperation,
   uMultiArchiveCopyOutOperation,
@@ -318,11 +318,18 @@ begin
     end;
 
     ModificationTimeProperty := TFileModificationDateTimeProperty.Create(0);
-    try
-      with ArchiveItem do
-        ModificationTime := EncodeDate(Year, Month, Day) + EncodeTime(Hour, Minute, Second, 0);
-    except
-      on EConvertError do ModificationTimeProperty.IsValid:= False;
+    with ArchiveItem do
+    begin
+      if (Month = 0) or (Day = 0) then
+        ModificationTimeProperty.IsValid:= False
+      else
+      begin
+        try
+          ModificationTime := EncodeDate(Year, Month, Day) + EncodeTime(Hour, Minute, Second, 0);
+        except
+          on EConvertError do ModificationTimeProperty.IsValid:= False;
+        end;
+      end;
     end;
 
     if AttributesProperty.IsLink and (Length(ArchiveItem.FileLink) > 0) then
@@ -598,6 +605,9 @@ begin
       FOutputParser.Prepare;
       FOutputParser.Execute;
       FPassword:= FOutputParser.Password;
+
+      if FOutputParser.OpenError and (AFileList.Count < 1) then
+        raise EFileSourceException.Create(rsMsgErrEOpen);
 
       (* if archiver does not give a list of folders *)
       for I := 0 to FAllDirsList.Count - 1 do

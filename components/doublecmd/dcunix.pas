@@ -507,6 +507,7 @@ begin
   if (fpFStatFS(Handle, @Sbfs) = 0) then
   begin
     case UInt32(Sbfs.fstype) of
+      NFS_SUPER_MAGIC,
       SMB_SUPER_MAGIC,
       SMB2_MAGIC_NUMBER,
       CIFS_MAGIC_NUMBER: Exit;

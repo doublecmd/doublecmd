@@ -27,7 +27,7 @@ unit SevenZipOpt;
 interface
 
 uses
-  Classes, SysUtils, Windows, IniFiles, JclCompression, SevenZip;
+  Classes, SysUtils, Windows, DCClassesUtf8, JclCompression, SevenZip;
 
 const
   cKilo = 1024;
@@ -222,7 +222,7 @@ var
 implementation
 
 uses
-  ActiveX, LazUTF8, SevenZipAdv, SevenZipCodecs;
+  ActiveX, LazUTF8, DCOSUtils, SevenZipAdv, SevenZipCodecs;
 
 function GetNumberOfProcessors: LongWord;
 var
@@ -450,15 +450,15 @@ end;
 
 procedure LoadConfiguration;
 var
-  Ini: TIniFile;
+  Ini: TIniFileEx;
   Section: AnsiString;
   ArchiveFormat: TArchiveFormat;
 begin
   try
-    Ini:= TIniFile.Create(ConfigFile);
+    Ini:= TIniFileEx.Create(ConfigFile);
     try
       LibraryPath:= Ini.ReadString('Library', TargetCPU, EmptyStr);
-      LibraryPath:= Utf16ToUtf8(ExpandEnvironmentStrings(UTF8ToUTF16(LibraryPath)));
+      LibraryPath:= mbExpandEnvironmentStrings(LibraryPath);
       for ArchiveFormat:= Low(TArchiveFormat) to High(TArchiveFormat) do
       begin
         Section:= GUIDToString(PluginConfig[ArchiveFormat].ArchiveCLSID^);
@@ -481,12 +481,12 @@ end;
 
 procedure SaveConfiguration;
 var
-  Ini: TIniFile;
+  Ini: TIniFileEx;
   Section: AnsiString;
   ArchiveFormat: TArchiveFormat;
 begin
   try
-    Ini:= TIniFile.Create(ConfigFile);
+    Ini:= TIniFileEx.Create(ConfigFile);
     try
       for ArchiveFormat:= Low(TArchiveFormat) to High(TArchiveFormat) do
       begin

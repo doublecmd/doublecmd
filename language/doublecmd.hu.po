@@ -333,6 +333,10 @@ msgstr "Az ellenőrzőösszeg-fájl megnyitása amikor kész"
 msgid "C&reate separate checksum file for each file"
 msgstr "&Külön MD5/SHA1 készítése fájlonként"
 
+#: tfrmchecksumcalc.cbseparatefolder.caption
+msgid "Create separate checksum file for each &directory"
+msgstr ""
+
 #: tfrmchecksumcalc.lblfileformat.caption
 msgid "File &format"
 msgstr "Fájl &formátum"
@@ -3146,7 +3150,7 @@ msgid "C&onfiguration"
 msgstr "&Beállítások"
 
 #: tfrmmain.mnufavoritetabs.caption
-msgid "Favorites"
+msgid "F&avorites"
 msgstr "&Kedvencek"
 
 #: tfrmmain.mnufiles.caption
@@ -3164,7 +3168,7 @@ msgstr "&Megjelölés"
 
 #: tfrmmain.mnunetwork.caption
 msgctxt "tfrmmain.mnunetwork.caption"
-msgid "Network"
+msgid "&Network"
 msgstr "Hálózat"
 
 #: tfrmmain.mnushow.caption
@@ -10811,6 +10815,10 @@ msgctxt "ulng.rsmenumacoseditfindertags"
 msgid "Edit Finder Tags..."
 msgstr ""
 
+#: ulng.rsmenumacosgrantpermissiontosupportfindertags
+msgid "Grant \"Full Disk Access\" permission to support Finder Tags..."
+msgstr ""
+
 #: ulng.rsmenumacosremovefindertag
 #, object-pascal-format
 msgid "Remove \"%s\""
@@ -10929,6 +10937,10 @@ msgstr ""
 
 #: ulng.rsmfstbirefreshtitle
 msgid "Refresh"
+msgstr ""
+
+#: ulng.rsmfstbisearchcombinedtags
+msgid "Search for combined tags..."
 msgstr ""
 
 #: ulng.rsmfstbisearchtips

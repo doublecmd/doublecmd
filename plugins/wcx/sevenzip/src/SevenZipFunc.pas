@@ -48,8 +48,8 @@ procedure ConfigurePacker(Parent: HWND; DllInstance: THandle); stdcall;
 implementation
 
 uses
-  JwaWinBase, Windows, SysUtils, Classes, JclCompression, SevenZip, SevenZipAdv, fpTimer,
-  SevenZipDlg, SevenZipLng, SevenZipOpt, LazFileUtils, SyncObjs, LazUTF8, SevenZipCodecs;
+  Windows, SysUtils, Classes, JclCompression, SevenZip, SevenZipAdv, fpTimer, DCOSUtils,
+  SevenZipDlg, SevenZipLng, SevenZipOpt, LazFileUtils, SyncObjs, LazUTF8, SevenZipCodecs, DCFileAttributes;
 
 type
 
@@ -145,14 +145,6 @@ begin
   end;
 end;
 
-function WinToDosTime(const WinTime: TFILETIME; var DosTime: Cardinal): LongBool;
-var
-  lft : Windows.TFILETIME;
-begin
-  Result:= Windows.FileTimeToLocalFileTime(@Windows.FILETIME(WinTime), @lft) and
-           Windows.FileTimeToDosDateTime(@lft, @LongRec(Dostime).Hi, @LongRec(DosTime).Lo);
-end;
-
 function OpenArchiveW(var ArchiveData : tOpenArchiveDataW) : TArcHandle; stdcall;
 var
   I: Integer;
@@ -221,11 +213,11 @@ begin
     HeaderData.PackSize:= Int64Rec(Item.PackedSize).Lo;
     HeaderData.PackSizeHigh:= Int64Rec(Item.PackedSize).Hi;
     if ipAttributes in Item.ValidProperties then
-      HeaderData.FileAttr:= LongInt(Item.Attributes)
+      HeaderData.FileAttr:= WinToWcxFileAttr(Item.Attributes)
     else begin
-      HeaderData.FileAttr:= FILE_ATTRIBUTE_ARCHIVE;
+      HeaderData.FileAttr:= GENERIC_ATTRIBUTE_FILE;
     end;
-    WinToDosTime(Item.LastWriteTime, LongWord(HeaderData.FileTime));
+    HeaderData.MfileTime:= UInt64(Item.LastWriteTime);
     if Item.Encrypted then begin
       HeaderData.Flags:= RHDF_ENCRYPTED;
     end;
@@ -331,7 +323,7 @@ begin
   FileNameUTF8 := Utf16ToUtf8(WideString(PackedFile));
 
   // If update existing archive
-  if (GetFileAttributesW(PackedFile) <> INVALID_FILE_ATTRIBUTES) then
+  if (mbFileGetAttr(FileNameUTF8) <> faInvalidAttributes) then
     AFormats := TJclCompressArchiveClassArray(FindUpdateFormats(FileNameUTF8))
   else begin
     if not SameText(ExtractFileExt(FileNameUTF8), '.exe') then
@@ -504,22 +496,22 @@ begin
   ConfigFile:= ExtractFilePath(dps^.DefaultIniName);
   ConfigFile:= WinCPToUTF8(ConfigFile) + DefaultIniName;
   // Get plugin path
-  if GetModulePath(ModulePath) then
+  ModulePath:= ExtractFilePath(mbGetModuleName);
+  // Use configuration from plugin path
+  if mbFileExists(ModulePath + DefaultIniName) then
   begin
-    // Use configuration from plugin path
-    if FileExistsUTF8(ModulePath + DefaultIniName) then
-      ConfigFile:= ModulePath + DefaultIniName;
+    ConfigFile:= ModulePath + DefaultIniName;
   end;
   // Load plugin configuration
   LoadConfiguration;
   // Try to find library path
-  if FileExistsUTF8(LibraryPath) then
+  if mbFileExists(LibraryPath) then
     SevenzipLibraryName:= LibraryPath
   else if Length(ModulePath) > 0 then
   begin
-    if FileExistsUTF8(ModulePath + TargetCPU + PathDelim + SevenzipDefaultLibraryName) then
+    if mbFileExists(ModulePath + TargetCPU + PathDelim + SevenzipDefaultLibraryName) then
       SevenzipLibraryName:= ModulePath + TargetCPU + PathDelim + SevenzipDefaultLibraryName
-    else if FileExistsUTF8(ModulePath + SevenzipDefaultLibraryName) then begin
+    else if mbFileExists(ModulePath + SevenzipDefaultLibraryName) then begin
       SevenzipLibraryName:= ModulePath + SevenzipDefaultLibraryName;
     end;
   end;

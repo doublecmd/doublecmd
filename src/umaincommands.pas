@@ -2762,7 +2762,7 @@ var
   TextLineBreakStyle: TTextLineBreakStyle;
   QueueId: TOperationsManagerQueueIdentifier;
   Operation: TFileSourceCalcChecksumOperation;
-  bSeparateFile, bOpenFileAfterJobCompleted: Boolean;
+  bSeparateFile, bSeparateFolder, bOpenFileAfterJobCompleted: Boolean;
 begin
   // This will work only for filesystem.
   // For other file sources use temp file system when it's done.
@@ -2800,7 +2800,8 @@ begin
       else
         sFileName:= ActiveFrame.CurrentPath + SelectedFiles[0].Name;
 
-      if ShowCalcCheckSum(sFileName, bSeparateFile, HashAlgorithm, bOpenFileAfterJobCompleted, TextLineBreakStyle, QueueId) then
+      if ShowCalcCheckSum(frmMain, sFileName, bSeparateFile, bSeparateFolder,
+                          HashAlgorithm, bOpenFileAfterJobCompleted, TextLineBreakStyle, QueueId) then
       begin
         Operation := ActiveFrame.FileSource.CreateCalcChecksumOperation(
                        SelectedFiles, ActiveFrame.CurrentPath, sFileName) as TFileSourceCalcChecksumOperation;
@@ -2809,6 +2810,7 @@ begin
         begin
           Operation.Mode := checksum_calc;
           Operation.OneFile := not bSeparateFile;
+          Operation.SeparateFolder:= bSeparateFolder;
           Operation.TextLineBreakStyle:= TextLineBreakStyle;
           Operation.OpenFileAfterOperationCompleted := bOpenFileAfterJobCompleted;
           Operation.Algorithm := HashAlgorithm;
@@ -2887,7 +2889,7 @@ begin
             Exit;
           end
           else begin
-            if not ShowCalcVerifyCheckSum(Hash, Algorithm, QueueId) then
+            if not ShowCalcVerifyCheckSum(frmMain, Hash, Algorithm, QueueId) then
               Exit;
             bConfirmation:= False;
           end;

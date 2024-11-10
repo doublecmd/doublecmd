@@ -346,6 +346,10 @@ msgstr ""
 msgid "C&reate separate checksum file for each file"
 msgstr "&Obrazuj posebnu datoteku zbirne provere za svaku datoteku"
 
+#: tfrmchecksumcalc.cbseparatefolder.caption
+msgid "Create separate checksum file for each &directory"
+msgstr ""
+
 #: tfrmchecksumcalc.lblfileformat.caption
 msgid "File &format"
 msgstr ""
@@ -3257,7 +3261,7 @@ msgid "C&onfiguration"
 msgstr "&Postavke"
 
 #: tfrmmain.mnufavoritetabs.caption
-msgid "Favorites"
+msgid "F&avorites"
 msgstr ""
 
 #: tfrmmain.mnufiles.caption
@@ -3275,7 +3279,7 @@ msgstr "Oznaka&"
 
 #: tfrmmain.mnunetwork.caption
 msgctxt "TFRMMAIN.MNUNETWORK.CAPTION"
-msgid "Network"
+msgid "&Network"
 msgstr "Mreža"
 
 #: tfrmmain.mnushow.caption
@@ -11339,6 +11343,10 @@ msgctxt "ulng.rsmenumacoseditfindertags"
 msgid "Edit Finder Tags..."
 msgstr ""
 
+#: ulng.rsmenumacosgrantpermissiontosupportfindertags
+msgid "Grant \"Full Disk Access\" permission to support Finder Tags..."
+msgstr ""
+
 #: ulng.rsmenumacosremovefindertag
 #, object-pascal-format
 msgid "Remove \"%s\""
@@ -11456,6 +11464,10 @@ msgstr ""
 
 #: ulng.rsmfstbirefreshtitle
 msgid "Refresh"
+msgstr ""
+
+#: ulng.rsmfstbisearchcombinedtags
+msgid "Search for combined tags..."
 msgstr ""
 
 #: ulng.rsmfstbisearchtips

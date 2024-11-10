@@ -1,0 +1,101 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Double Commander Plugin 'unrar'\n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: 2024-11-01 18:01+0100\n"
+"Last-Translator:  ㋡  <braass@mail.de>\n"
+"Language-Team: \n"
+"Language: de_DE\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 3.0.1\n"
+
+#: tdialogbox.caption
+msgid "Options"
+msgstr "Optionen"
+
+#: tdialogbox.lblpath.caption
+msgid "Path to Win&RAR executable"
+msgstr "Pfad zur ausführbaren Win&RAR-Datei"
+
+#: tdialogbox.gboptions.caption
+msgid "Archiving options"
+msgstr "Optionen für die Archivierung"
+
+#: tdialogbox.gboptions.chkrecovery.caption
+msgid "Add r&ecovery record"
+msgstr "Wiederherstellungs&eintrag hinzufügen"
+
+#: tdialogbox.gboptions.chkencrypt.caption
+msgid "Encrypt file &names"
+msgstr "Datei&namen verschlüsseln"
+
+#: tdialogbox.gboptions.chksolid.caption
+msgid "Create &solid archive"
+msgstr "&Solide (progressiv) komprimiertes Archiv erstellen"
+
+#: tdialogbox.lblmethod.caption
+msgid "&Compression method"
+msgstr "&Komprimierungsmethode"
+
+#: tdialogbox.brncancel.caption
+msgid "Cancel"
+msgstr "Abbrechen"
+
+#: tdialogbox.btnsave.caption
+msgid "OK"
+msgstr "OK"
+
+#: tdialogbox.lblargs.caption
+msgid "Additional parameters"
+msgstr "Zusätzliche Parameter"
+
+#: rarlng.rsdictlargewarning
+msgid "Large dictionary warning"
+msgstr ""
+"\"Großes Wörterbuch\"-Warnung (es fallen extrem viele Ersatzsymbole für "
+"Zeichenfolgen an)"
+
+#: rarlng.rsdictnotallowed
+#, object-pascal-format
+msgid ""
+"%u GB dictionary exceeds %u GB limit and needs more than %u GB memory to "
+"unpack."
+msgstr ""
+"%u GB \"Wörterbuch\" übersteigt %u GB Grenze und braucht mehr als %u GB "
+"Speicher zum Entpacken."
+
+#: rarlng.rsmsgbuttoncancel
+msgid "&Cancel"
+msgstr "Abbre&chen"
+
+#: rarlng.rsmsgbuttonextract
+msgid "&Extract"
+msgstr "&Entpacke einzelne Datei(en)"
+
+#: rarlng.rsmsgpasswordenter
+msgid "Please enter the password:"
+msgstr "Bitte Passwort eingeben:"
+
+#: rarlng.rsmsgexecutablenotfound
+#, object-pascal-format
+msgid ""
+"Cannot find RAR executable!\n"
+"\n"
+"%s\n"
+"\n"
+"Please check the plugin settings."
+msgstr ""
+"Ausführbares RAR-Programm nicht gefunden!\n"
+"\n"
+"%s\n"
+"\n"
+"Bitte überprüfen Sie die Einstellungen des Plugins."
+
+#: rarlng.rsmsglibrarynotfound
+#, object-pascal-format
+msgid "Cannot load library %s! Please check your installation."
+msgstr ""
+"Kann Bibliothek %s nicht laden! Bitte überprüfen Sie Ihre Installation."

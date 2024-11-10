@@ -12,14 +12,13 @@ inherited frmCheckSumCalc: TfrmCheckSumCalc
   Constraints.MinWidth = 400
   OnCreate = FormCreate
   OnShow = FormShow
-  Position = poScreenCenter
-  SessionProperties = 'cbOpenAfterJobIsComplete.Checked;cbSeparateFile.Checked;lbHashAlgorithm.ItemIndex'
+  Position = poOwnerFormCenter
+  SessionProperties = 'cbOpenAfterJobIsComplete.Checked;cbSeparateFile.Checked;lbHashAlgorithm.ItemIndex;cbSeparateFolder.Checked'
   inherited pnlContent: TPanel
     Height = 346
     Width = 384
     ClientHeight = 346
     ClientWidth = 384
-    ParentColor = True
     object lblSaveTo: TLabel[0]
       Left = 0
       Height = 15
@@ -51,10 +50,10 @@ inherited frmCheckSumCalc: TfrmCheckSumCalc
       Height = 19
       Top = 50
       Width = 242
-      BorderSpacing.Top = 6
+      BorderSpacing.Top = 4
       Caption = 'C&reate separate checksum file for each file'
-      OnChange = cbSeparateFileChange
       TabOrder = 1
+      OnChange = cbSeparateFileChange
     end
     object lbHashAlgorithm: TListBox[3]
       AnchorSideLeft.Control = edtSaveTo
@@ -70,21 +69,21 @@ inherited frmCheckSumCalc: TfrmCheckSumCalc
       Anchors = [akTop, akLeft, akRight, akBottom]
       BorderSpacing.Top = 6
       ItemHeight = 0
+      TabOrder = 6
       OnSelectionChange = lbHashAlgorithmSelectionChange
-      TabOrder = 5
     end
     object cbOpenAfterJobIsComplete: TCheckBox[4]
       AnchorSideLeft.Control = edtSaveTo
-      AnchorSideTop.Control = cbSeparateFile
+      AnchorSideTop.Control = cbSeparateFolder
       AnchorSideTop.Side = asrBottom
       Left = 0
       Height = 19
-      Top = 75
+      Top = 102
       Width = 243
-      BorderSpacing.Top = 6
+      BorderSpacing.Top = 4
       Caption = 'Open checksum file after job is completed'
+      TabOrder = 3
       OnChange = cbSeparateFileChange
-      TabOrder = 2
     end
     object lblFileFormat: TLabel[5]
       AnchorSideLeft.Control = cbOpenAfterJobIsComplete
@@ -92,7 +91,7 @@ inherited frmCheckSumCalc: TfrmCheckSumCalc
       AnchorSideTop.Side = asrCenter
       Left = 0
       Height = 15
-      Top = 102
+      Top = 131
       Width = 57
       BorderSpacing.Top = 6
       Caption = 'File &format'
@@ -106,12 +105,12 @@ inherited frmCheckSumCalc: TfrmCheckSumCalc
       AnchorSideTop.Side = asrBottom
       Left = 69
       Height = 19
-      Top = 100
+      Top = 129
       Width = 69
       BorderSpacing.Left = 12
       BorderSpacing.Top = 6
       Caption = 'Windows'
-      TabOrder = 3
+      TabOrder = 4
     end
     object rbUnix: TRadioButton[7]
       AnchorSideLeft.Control = rbWindows
@@ -120,18 +119,30 @@ inherited frmCheckSumCalc: TfrmCheckSumCalc
       AnchorSideTop.Side = asrCenter
       Left = 144
       Height = 19
-      Top = 100
+      Top = 129
       Width = 44
       BorderSpacing.Left = 6
       Caption = 'Unix'
-      TabOrder = 4
+      TabOrder = 5
+    end
+    object cbSeparateFolder: TCheckBox[8]
+      AnchorSideLeft.Control = cbSeparateFile
+      AnchorSideTop.Control = cbSeparateFile
+      AnchorSideTop.Side = asrBottom
+      Left = 0
+      Height = 21
+      Top = 77
+      Width = 300
+      BorderSpacing.Top = 4
+      Caption = 'Create separate checksum file for each &directory'
+      TabOrder = 2
+      OnChange = cbSeparateFolderChange
     end
   end
   inherited pnlButtons: TPanel
     Top = 358
     Width = 384
     ClientWidth = 384
-    Color = clDefault
     inherited btnCancel: TBitBtn
       Left = 202
     end

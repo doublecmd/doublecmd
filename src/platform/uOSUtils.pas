@@ -396,7 +396,7 @@ begin
         // Special case Microsoft Photos
         if (AppID = 'Microsoft.Windows.Photos_8wekyb3d8bbwe!App') then
         begin
-          if (Win32BuildNumber >= 22631) then
+          if CheckPhotosVersion then
           begin
             URL:= URIEncode(URL);
             URL:= 'ms-photos:viewer?fileName=' + StringReplace(URL, '%5C', '\', [rfReplaceAll]);
