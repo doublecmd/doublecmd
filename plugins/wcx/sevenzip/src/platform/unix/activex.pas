@@ -29,7 +29,6 @@ const
   STREAM_SEEK_END             = 2;
 
   E_ABORT = HRESULT($80004004);
-  E_INVALIDARG = HRESULT($80070057);
 
   VT_EMPTY                    = 0;
   VT_NULL                     = 1;

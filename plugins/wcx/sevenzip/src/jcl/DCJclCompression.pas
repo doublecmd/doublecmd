@@ -52,7 +52,10 @@ type
 implementation
 
 uses
-  ActiveX, JwaWinError, DCClassesUtf8;
+  ActiveX, DCClassesUtf8;
+
+const
+  E_INVALIDARG = HRESULT($80070057);
 
 { TSfxSevenzipOutStream }
 

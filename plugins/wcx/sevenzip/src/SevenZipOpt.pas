@@ -180,7 +180,6 @@ type
     Parameters: WideString;
   end;
 
-function GetNumberOfProcessors: LongWord;
 function FormatFileSize(ASize: Int64; AGiga: Boolean = True): String;
 
 procedure SetArchiveOptions(AJclArchive: IInterface);
@@ -222,15 +221,7 @@ var
 implementation
 
 uses
-  ActiveX, LazUTF8, DCOSUtils, SevenZipAdv, SevenZipCodecs;
-
-function GetNumberOfProcessors: LongWord;
-var
-  SystemInfo: TSYSTEMINFO;
-begin
-  GetSystemInfo(@SystemInfo);
-  Result:= SystemInfo.dwNumberOfProcessors;
-end;
+  ActiveX, LazUTF8, DCOSUtils, SevenZipAdv, SevenZipCodecs, SevenZipHlp;
 
 function FormatFileSize(ASize: Int64; AGiga: Boolean): String;
 begin
@@ -280,7 +271,7 @@ var
     PropValue: TPropVariant;
   begin
     PropValue.vt := VT_BSTR;
-    PropValue.bstrVal := SysAllocString(PWideChar(Value));
+    PropValue.bstrVal := WideToBinary(Value);
     AddProperty(Name, PropValue);
   end;
 
@@ -298,9 +289,14 @@ var
       PropValue.vt:= VT_EMPTY;
       C:= Option[Length(Option)];
       if C = '+' then
-        Variant(PropValue):= True
-      else if C = '-' then begin
-        Variant(PropValue):= False;
+      begin
+        PropValue.vt:= VT_BOOL;
+        PropValue.bool:= True;
+      end
+      else if C = '-' then
+      begin
+        PropValue.vt:= VT_BOOL;
+        PropValue.bool:= False;
       end;
       if (PropValue.vt <> VT_EMPTY) then
       begin
@@ -514,4 +510,3 @@ initialization
              @DefaultConfig[Low(DefaultConfig)], SizeOf(PluginConfig));
 
 end.
-

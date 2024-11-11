@@ -38,7 +38,7 @@ function ShowPasswordQuery(var Encrypt: Boolean; var Password: WideString): Bool
 implementation
 
 uses
-  LazUTF8, SevenZipCodecs;
+  LazUTF8, SevenZipCodecs, SevenZipHlp;
 
 {$R *.res}
 
