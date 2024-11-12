@@ -2228,7 +2228,8 @@ const
 implementation
 
 uses
-  DCJclResources, DCJclCompression, DCBasicTypes, DCOSUtils, DCDateTimeUtils, DCClassesUtf8;
+  DCJclResources, DCJclCompression, DCBasicTypes, DCOSUtils, DCDateTimeUtils,
+  DCClassesUtf8, SevenZipHlp;
 
 const
   JclDefaultBufferSize = 131072; // 128k
@@ -3836,7 +3837,7 @@ begin
   Result := FCRC;
 end;
 
-function TJclCompressionItem.GetCreationTime: Windows.TFileTime;
+function TJclCompressionItem.GetCreationTime: Types.TFileTime;
 begin
   CheckGetProperty(ipCreationTime);
   Result := FCreationTime;
@@ -3891,13 +3892,13 @@ begin
     Result := ikFile;
 end;
 
-function TJclCompressionItem.GetLastAccessTime: Windows.TFileTime;
+function TJclCompressionItem.GetLastAccessTime: Types.TFileTime;
 begin
   CheckGetProperty(ipLastAccessTime);
   Result := FLastAccessTime;
 end;
 
-function TJclCompressionItem.GetLastWriteTime: Windows.TFileTime;
+function TJclCompressionItem.GetLastWriteTime: Types.TFileTime;
 begin
   CheckGetProperty(ipLastWriteTime);
   Result := FLastWriteTime;
@@ -4037,7 +4038,7 @@ begin
   Include(FValidProperties, ipCRC);
 end;
 
-procedure TJclCompressionItem.SetCreationTime(const Value: Windows.TFileTime);
+procedure TJclCompressionItem.SetCreationTime(const Value: Types.TFileTime);
 begin
   CheckSetProperty(ipCreationTime);
   FCreationTime := Value;
@@ -4086,9 +4087,9 @@ begin
   begin
     FileSize := AFindData.Size;
     Attributes := AFindData.Attr;
-    CreationTime := Windows.TFileTime(FileTimeToWinFileTime(AFindData.PlatformTime));
-    LastAccessTime := Windows.TFileTime(FileTimeToWinFileTime(AFindData.LastAccessTime));
-    LastWriteTime := Windows.TFileTime(FileTimeToWinFileTime(AFindData.LastWriteTime));
+    CreationTime := Types.TFileTime(FileTimeToWinFileTime(AFindData.PlatformTime));
+    LastAccessTime := Types.TFileTime(FileTimeToWinFileTime(AFindData.LastAccessTime));
+    LastWriteTime := Types.TFileTime(FileTimeToWinFileTime(AFindData.LastWriteTime));
     // TODO: user name and group (using file handle and GetSecurityInfo)
     {$IFDEF MSWINDOWS}
     HostOS := WideString(LoadResString(@RsCompression7zWindows));
@@ -4131,7 +4132,7 @@ begin
   Include(FValidProperties, ipHostOS);
 end;
 
-procedure TJclCompressionItem.SetLastAccessTime(const Value: Windows.TFileTime);
+procedure TJclCompressionItem.SetLastAccessTime(const Value: Types.TFileTime);
 begin
   CheckSetProperty(ipLastAccessTime);
   FLastAccessTime := Value;
@@ -4139,7 +4140,7 @@ begin
   Include(FValidProperties, ipLastAccessTime);
 end;
 
-procedure TJclCompressionItem.SetLastWriteTime(const Value: Windows.TFileTime);
+procedure TJclCompressionItem.SetLastWriteTime(const Value: Types.TFileTime);
 begin
   CheckSetProperty(ipLastWriteTime);
   FLastWriteTime := Value;
@@ -5170,7 +5171,7 @@ function TJclCompressArchive.AddFile(const PackedName: WideString;
   AStream: TStream; AOwnsStream: Boolean): Integer;
 var
   AItem: TJclCompressionItem;
-  NowFileTime: Windows.TFileTime;
+  NowFileTime: Types.TFileTime;
 begin
   CheckNotCompressing;
 
@@ -5180,7 +5181,7 @@ begin
     AItem.Stream := AStream;
     AItem.OwnsStream := AOwnsStream;
     AItem.FileSize := AStream.Size - AStream.Position;
-    NowFileTime := Windows.TFileTime(DateTimeToWinFileTime(Now));
+    NowFileTime := Types.TFileTime(DateTimeToWinFileTime(Now));
     AItem.Attributes := faReadOnly and faArchive;
     AItem.CreationTime := NowFileTime;
     AItem.LastAccessTime := NowFileTime;
@@ -6212,7 +6213,7 @@ var
     PropValue: TPropVariant;
   begin
     PropValue.vt := VT_BSTR;
-    PropValue.bstrVal := SysAllocString(PWideChar(Value));
+    PropValue.bstrVal := WideToBinary(Value);
     AddProperty(Name, PropValue);
   end;
 
@@ -6223,7 +6224,7 @@ var
     BooleanValues: array [False..True] of WideString = ( 'OFF', 'ON' );
   begin
     PropValue.vt := VT_BSTR;
-      PropValue.bstrVal := SysAllocString(PWideChar(BooleanValues[Value]));
+      PropValue.bstrVal := WideToBinary(BooleanValues[Value]);
     AddProperty(Name, PropValue);
   end;
 const
@@ -6457,7 +6458,7 @@ begin
       PasswordIsDefined^ := 0;
   end;
   if Assigned(Password) then
-    Password^ := SysAllocString(PWideChar(FArchive.Password));
+    Password^ := WideToBinary(FArchive.Password);
   Result := S_OK;
 end;
 
@@ -6476,13 +6477,13 @@ begin
     kpidPath:
       begin
         Value.vt := VT_BSTR;
-        Value.bstrVal := SysAllocString(PWideChar(AItem.PackedName));
+        Value.bstrVal := WideToBinary(AItem.PackedName);
       end;
     //kpidName: (read only)
 {    kpidExtension:
       begin
         Value.vt := VT_BSTR;
-        Value.bstrVal := SysAllocString(PWideChar(WideString(ExtractFileExt(FCompressionStream.FileNames[Index]))));
+        Value.bstrVal := WideToBinary(WideString(ExtractFileExt(FCompressionStream.FileNames[Index])));
       end;}
     kpidIsDir:
       begin
@@ -6538,12 +6539,12 @@ begin
     kpidUser:
       begin
         Value.vt := VT_BSTR;
-        Value.bstrVal := SysAllocString(PWideChar(AItem.User));
+        Value.bstrVal := WideToBinary(AItem.User);
       end;
     kpidGroup:
       begin
         Value.vt := VT_BSTR;
-        Value.bstrVal := SysAllocString(PWideChar(AItem.Group));
+        Value.bstrVal := WideToBinary(AItem.Group);
       end;
     // kpidBlock: ;
     kpidComment:
@@ -7545,7 +7546,7 @@ begin
       if Assigned(FArchive.OnPassword) then
         FArchive.OnPassword(FArchive, FArchive.FPassword);
     end;
-    password^ := SysAllocString(PWideChar(FArchive.Password));
+    password^ := WideToBinary(FArchive.Password);
   end;
   Result := S_OK;
 end;
@@ -7586,7 +7587,7 @@ begin
       if Assigned(FArchive.OnPassword) then
         FArchive.OnPassword(FArchive, FArchive.FPassword);
     end;
-    password^ := SysAllocString(PWideChar(FArchive.Password));
+    password^ := WideToBinary(FArchive.Password);
   end;
   Result := S_OK;
 end;
