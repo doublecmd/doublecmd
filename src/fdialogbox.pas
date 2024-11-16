@@ -92,13 +92,25 @@ type
     function SetProperty(AComponent: TComponent; const AName: String; AValue: Pointer; AType: Integer): Boolean;
     function GetProperty(AComponent: TComponent; const AName: String; AValue: Pointer; AType, ASize: Integer): Boolean;
   protected
-    procedure ShowDialogBox;
     procedure ProcessResource; override;
     function InitResourceComponent(Instance: TComponent; RootAncestor: TClass): Boolean;
   public
     constructor Create(const LRSData: String; DlgProc: TDlgProc); reintroduce;
     destructor Destroy; override;
   end; 
+
+  { TDialogBoxData }
+
+  TDialogBoxData = class
+  private
+    FLRSData: String;
+    FDlgProc: TDlgProc;
+    FUserData: Pointer;
+    DialogResult: LongBool;
+    procedure ShowDialogBox;
+  public
+    constructor Create(const LRSData: String; DlgProc: TDlgProc; UserData: Pointer);
+  end;
 
 function InputBox(Caption, Prompt: PAnsiChar; MaskInput: LongBool; Value: PAnsiChar; ValueMaxLen: Integer): LongBool; dcpcall;
 function MessageBox(Text, Caption: PAnsiChar; Flags: Longint): Integer; dcpcall;
@@ -166,19 +178,14 @@ end;
 
 function DialogBox(const LRSData: String; DlgProc: TDlgProc; UserData: Pointer): LongBool;
 var
-  Dialog: TDialogBox;
-  Data: PtrInt absolute UserData;
+  AData: TDialogBoxData;
 begin
-  Dialog:= TDialogBox.Create(LRSData, DlgProc);
+  AData:= TDialogBoxData.Create(LRSData, DlgProc, UserData);
   try
-    with Dialog do
-    begin
-      Tag:= Data;
-      TThread.Synchronize(nil, @ShowDialogBox);
-      Result:= FResult;
-    end;
+    TThread.Synchronize(nil, @AData.ShowDialogBox);
+    Result:= AData.DialogResult;
   finally
-    FreeAndNil(Dialog);
+    AData.Free;
   end;
 end;
 
@@ -699,11 +706,6 @@ end;
 
 { TDialogBox }
 
-procedure TDialogBox.ShowDialogBox;
-begin
-  FResult:= (ShowModal = mrOK);
-end;
-
 procedure TDialogBox.ProcessResource;
 begin
   if not InitResourceComponent(Self, TForm) then
@@ -1160,6 +1162,33 @@ begin
   begin
     fDlgProc(FSelf, PAnsiChar((Sender as TTimer).Name), DN_TIMER, 0, 0);
   end;
+end;
+
+{ TDialogBoxData }
+
+procedure TDialogBoxData.ShowDialogBox;
+var
+  UserData: Pointer;
+  Dialog: TDialogBox;
+  TagData: PtrInt absolute UserData;
+begin
+  Dialog:= TDialogBox.Create(FLRSData, FDlgProc);
+  try
+    UserData:= FUserData;
+    Dialog.Tag:= TagData;
+    DialogResult:= (Dialog.ShowModal = mrOK);
+  finally
+    FreeAndNil(Dialog);
+  end;
+end;
+
+constructor TDialogBoxData.Create(const LRSData: String; DlgProc: TDlgProc;
+  UserData: Pointer);
+begin
+  inherited Create;
+  FLRSData:= LRSData;
+  FDlgProc:= DlgProc;
+  FUserData:= UserData;
 end;
 
 initialization
