@@ -6324,6 +6324,13 @@ begin
       begin
         SysFreeString(PropNames[Index]);
       end;
+      for Index := 0 to High(PropValues) do
+      begin
+        if (PropValues[Index].vt = VT_BSTR) and (PropValues[Index].bstrVal <> nil) then
+        begin
+          SysFreeString(PropValues[Index].bstrVal);
+        end;
+      end;
       SetLength(JclArchive.PropNames, 0); SetLength(JclArchive.PropValues, 0);
     end;
   end;
