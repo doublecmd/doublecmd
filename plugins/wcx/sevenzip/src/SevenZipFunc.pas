@@ -517,6 +517,7 @@ var
   ModulePath: String;
 begin
   DialogInitialize(StartupInfo);
+  TranslateResourceStrings(StartupInfo);
   // Save configuration file name
   ConfigFile:= StartupInfo^.PluginConfDir + DefaultIniName;
   // Get plugin path
