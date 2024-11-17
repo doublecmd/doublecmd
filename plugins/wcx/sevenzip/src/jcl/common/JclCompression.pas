@@ -5690,6 +5690,8 @@ begin
   FOwnsStream := False;
   FMaximumPosition := 0;
   FTruncateOnRelease := False;
+
+  NeedStream;
 end;
 
 constructor TJclSevenzipOutStream.Create(AStream: TStream; AOwnsStream: Boolean; ATruncateOnRelease: Boolean);
