@@ -69,7 +69,7 @@ object DialogBox: TDialogBox
       BorderSpacing.Left = 22
       ItemHeight = 26
       Style = csDropDownList
-      TabOrder = 2
+      TabOrder = 1
       OnChange = ComboBoxChange
     end
     object lblCompressionMethod: TLabel
@@ -90,7 +90,7 @@ object DialogBox: TDialogBox
       Width = 120
       ItemHeight = 26
       Style = csDropDownList
-      TabOrder = 1
+      TabOrder = 2
       OnChange = ComboBoxChange
     end
     object lblCompressionDictionary: TLabel
