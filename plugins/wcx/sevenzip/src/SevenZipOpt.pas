@@ -163,12 +163,6 @@ type
 
   TArchiveFormat = (afSevenZip, afBzip2, afGzip, afTar, afWim, afXz, afZip);
 
-  PPasswordData = ^TPasswordData;
-  TPasswordData = record
-    EncryptHeader: Boolean;
-    Password: array[0..MAX_PATH] of WideChar;
-  end;
-
   TFormatOptions = record
     Level: PtrInt;
     Method: PtrInt;
@@ -436,7 +430,7 @@ begin
         SetArchiveCustom(AJclArchive, Index);
       except
         on E: Exception do
-          MessageBoxW(0, PWideChar(UTF8ToUTF16(E.Message)), nil, MB_OK or MB_ICONERROR);
+          MessageBox(E.Message, nil, MB_OK or MB_ICONERROR);
       end;
 
       Exit;
@@ -471,7 +465,7 @@ begin
     end;
   except
     on E: Exception do
-      MessageBoxW(0, PWideChar(UTF8ToUTF16(E.Message)), nil, MB_OK or MB_ICONERROR);
+      MessageBox(E.Message, nil, MB_OK or MB_ICONERROR);
   end;
 end;
 
@@ -501,7 +495,7 @@ begin
     end;
   except
     on E: Exception do
-      MessageBoxW(0, PWideChar(UTF8ToUTF16(E.Message)), nil, MB_OK or MB_ICONERROR);
+      MessageBox(E.Message, nil, MB_OK or MB_ICONERROR);
   end;
 end;
 

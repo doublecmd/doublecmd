@@ -3,7 +3,7 @@
   -------------------------------------------------------------------------
   SevenZip archiver plugin
 
-  Copyright (C) 2015 Alexander Koblov (alexx2000@mail.ru)
+  Copyright (C) 2015-2024 Alexander Koblov (alexx2000@mail.ru)
 
   This library is free software; you can redistribute it and/or
   modify it under the terms of the GNU Lesser General Public
@@ -27,7 +27,7 @@ unit DCJclCompression;
 interface
 
 uses
-  Classes, SysUtils, SevenZip;
+  Classes, SysUtils, SevenZip, ActiveX;
 
 type
 
@@ -52,7 +52,7 @@ type
 implementation
 
 uses
-  ActiveX, DCClassesUtf8;
+  DCClassesUtf8;
 
 const
   E_INVALIDARG = HRESULT($80070057);

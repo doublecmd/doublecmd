@@ -30,8 +30,8 @@ uses
   Classes, SysUtils;
 
 resourcestring
-  rsSevenZipLoadError = 'Failed to load 7z.dll';
-  rsSevenZipSfxNotFound = 'Cannot find specified SFX module';
+  rsSevenZipLoadError = 'Failed to load 7-Zip library (%s)!';
+  rsSevenZipSfxNotFound = 'Cannot find specified SFX module!';
 
 resourcestring
   rsCompressionLevelStore = 'Store';

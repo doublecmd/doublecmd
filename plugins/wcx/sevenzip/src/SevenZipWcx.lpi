@@ -21,8 +21,8 @@
     <VersionInfo>
       <UseVersionInfo Value="True"/>
       <MajorVersionNr Value="24"/>
-      <MinorVersionNr Value="7"/>
-      <RevisionNr Value="29"/>
+      <MinorVersionNr Value="11"/>
+      <RevisionNr Value="17"/>
       <CharSet Value="04B0"/>
       <StringTable FileDescription="SevenZip archiver plugin" InternalName="SevenZip" LegalCopyright="Copyright (C) 2014-2024 Alexander Koblov"/>
     </VersionInfo>
@@ -108,6 +108,7 @@
       <Unit3>
         <Filename Value="SevenZipDlg.pas"/>
         <IsPartOfProject Value="True"/>
+        <HasResources Value="True"/>
       </Unit3>
       <Unit4>
         <Filename Value="SevenZipLng.pas"/>

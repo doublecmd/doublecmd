@@ -4086,7 +4086,7 @@ begin
      (mbFileGetAttr(ExcludeTrailingPathDelimiter(Value), AFindData)) then
   begin
     FileSize := AFindData.Size;
-    Attributes := AFindData.Attr;
+    Attributes := SysAttrToSevenZip(AFindData.Attr);
     CreationTime := Types.TFileTime(FileTimeToWinFileTime(AFindData.PlatformTime));
     LastAccessTime := Types.TFileTime(FileTimeToWinFileTime(AFindData.LastAccessTime));
     LastWriteTime := Types.TFileTime(FileTimeToWinFileTime(AFindData.LastWriteTime));
@@ -5552,7 +5552,7 @@ begin
             FreeAndNil(SrcStream);
           if OwnsDestStream then
             FreeAndNil(DestStream);
-          Handled := FileMove(SrcFileName, DestFileName, True);
+          Handled := FileMove(SrcFileName, DestFileName);
         end
         else
         if (SrcFileName = '') and (DestFileName = '') and Assigned(SrcStream) and Assigned(DestStream) then
@@ -5959,12 +5959,12 @@ begin
     VT_LPWSTR:
       begin
         Result := True;
-        Setter(Value.pwszVal);
+        Setter(CWideCharToWideString(Value.pwszVal));
       end;
     VT_BSTR:
       begin
         Result := True;
-        Setter(Value.bstrVal);
+        Setter(BinaryToUnicode(Value.bstrVal));
         SysFreeString(Value.bstrVal);
       end;
     VT_I1:
@@ -6191,15 +6191,15 @@ var
   PropNames: array of PWideChar;
   PropValues: array of TPropVariant;
 
-  procedure AddProperty(const Name: PWideChar; const Value: TPropVariant);
+  procedure AddProperty(const Name: WideString; const Value: TPropVariant);
   begin
     SetLength(PropNames, Length(PropNames)+1);
-    PropNames[High(PropNames)] := Name;
+    PropNames[High(PropNames)] := WideToBinary(Name);
     SetLength(PropValues, Length(PropValues)+1);
     PropValues[High(PropValues)] := Value;
   end;
 
-  procedure AddCardinalProperty(const Name: PWideChar; Value: Cardinal);
+  procedure AddCardinalProperty(const Name: WideString; Value: Cardinal);
   var
     PropValue: TPropVariant;
   begin
@@ -6208,7 +6208,7 @@ var
     AddProperty(Name, PropValue);
   end;
 
-  procedure AddWideStringProperty(const Name: PWideChar; const Value: WideString);
+  procedure AddWideStringProperty(const Name: WideString; const Value: WideString);
   var
     PropValue: TPropVariant;
   begin
@@ -6217,7 +6217,7 @@ var
     AddProperty(Name, PropValue);
   end;
 
-  procedure AddBooleanProperty(const Name: PWideChar; Value: Boolean);
+  procedure AddBooleanProperty(const Name: WideString; Value: Boolean);
   var
     PropValue: TPropVariant;
   const
@@ -6227,6 +6227,7 @@ var
       PropValue.bstrVal := WideToBinary(BooleanValues[Value]);
     AddProperty(Name, PropValue);
   end;
+
 const
   EncryptionMethodNames: array [TJclEncryptionMethod] of WideString =
     ( '' {emNone},
@@ -6266,7 +6267,7 @@ begin
       if Supports(AJclArchive, IJclArchiveDictionarySize, DictionarySize) and Assigned(DictionarySize) and
         Supports(AJclArchive, IJclArchiveCompressionMethod, CompressionMethod) and Assigned(CompressionMethod) and
         (CompressionMethod.CompressionMethod in [cmBZip2,cmLZMA,cmLZMA2]) then
-        AddWideStringProperty('D', IntToStr(DictionarySize.DictionarySize) + 'B');
+        AddWideStringProperty('D', WideString(IntToStr(DictionarySize.DictionarySize) + 'B'));
 
       if Supports(AJclArchive, IJclArchiveNumberOfPasses, NumberOfPasses) and Assigned(NumberOfPasses) then
         AddCardinalProperty('PASS', NumberOfPasses.NumberOfPasses);
@@ -6304,20 +6305,25 @@ begin
         if Solid.SolidExtension then
           AddWideStringProperty('S', 'E');
         if Solid.SolidBlockSize > 0 then
-          AddWideStringProperty('S', IntToStr(Solid.SolidBlockSize) + 'B')
+          AddWideStringProperty('S', WideString(IntToStr(Solid.SolidBlockSize) + 'B'))
         else
-          AddWideStringProperty('S', IntToStr(Solid.SolidBlockSize) + 'F');
+          AddWideStringProperty('S', WideString(IntToStr(Solid.SolidBlockSize) + 'F'));
       end;
 
       JclArchive := AJclArchive as TJclCompressionArchive;
       for Index := Low(JclArchive.PropNames) to High(JclArchive.PropNames) do
       begin
-        AddProperty(PWideChar(JclArchive.PropNames[Index]), JclArchive.PropValues[Index]);
+        AddProperty(JclArchive.PropNames[Index], JclArchive.PropValues[Index]);
       end;
     end;
     if Length(PropNames) > 0 then
-    begin
+    try
       SevenZipCheck(PropertySetter.SetProperties(@PropNames[0], @PropValues[0], Length(PropNames)));
+    finally
+      for Index:= 0 to High(PropNames) do
+      begin
+        SysFreeString(PropNames[Index]);
+      end;
       SetLength(JclArchive.PropNames, 0); SetLength(JclArchive.PropValues, 0);
     end;
   end;
@@ -6617,7 +6623,7 @@ begin
     except
       on E: Exception do
       begin
-        case MessageBoxW(0, PWideChar(UTF8Decode(E.Message)), nil, MB_ABORTRETRYIGNORE or MB_ICONERROR) of
+        case MessageBox(E.Message, nil, MB_ABORTRETRYIGNORE or MB_ICONERROR) of
           IDABORT: Exit(E_ABORT);
           IDIGNORE:
             begin

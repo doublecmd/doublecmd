@@ -3,7 +3,7 @@
   -------------------------------------------------------------------------
   SevenZip archiver plugin
 
-  Copyright (C) 2014-2022 Alexander Koblov (alexx2000@mail.ru)
+  Copyright (C) 2014-2024 Alexander Koblov (alexx2000@mail.ru)
 
   This library is free software; you can redistribute it and/or
   modify it under the terms of the GNU Lesser General Public
@@ -16,8 +16,7 @@
   Lesser General Public License for more details.
 
   You should have received a copy of the GNU Lesser General Public
-  License along with this library; if not, write to the Free Software
-  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301 USA
+  License along with this library. If not, see <http://www.gnu.org/licenses/>.
 }
 
 unit SevenZipFunc;
@@ -32,24 +31,25 @@ uses
   WcxPlugin;
 
 { Mandatory }
-function OpenArchiveW(var ArchiveData : tOpenArchiveDataW) : TArcHandle;stdcall;
-function ReadHeaderExW(hArcData : TArcHandle; var HeaderData: THeaderDataExW) : Integer;stdcall;
-function ProcessFileW(hArcData : TArcHandle; Operation : Integer; DestPath, DestName : PWideChar) : Integer;stdcall;
-function CloseArchive (hArcData : TArcHandle) : Integer;stdcall;
-procedure SetChangeVolProcW(hArcData : TArcHandle; pChangeVolProc : TChangeVolProcW);stdcall;
-procedure SetProcessDataProcW(hArcData : TArcHandle; pProcessDataProc : TProcessDataProcW);stdcall;
+function OpenArchiveW(var ArchiveData : tOpenArchiveDataW) : TArcHandle; winapi;
+function ReadHeaderExW(hArcData : TArcHandle; var HeaderData: THeaderDataExW) : Integer; winapi;
+function ProcessFileW(hArcData : TArcHandle; Operation : Integer; DestPath, DestName : PWideChar) : Integer; winapi;
+function CloseArchive (hArcData : TArcHandle) : Integer; winapi;
+procedure SetChangeVolProcW(hArcData : TArcHandle; pChangeVolProc : TChangeVolProcW); winapi;
+procedure SetProcessDataProcW(hArcData : TArcHandle; pProcessDataProc : TProcessDataProcW); winapi;
 { Optional }
-function PackFilesW(PackedFile: PWideChar; SubPath: PWideChar; SrcPath: PWideChar; AddList: PWideChar; Flags: Integer): Integer; stdcall;
-function DeleteFilesW(PackedFile, DeleteList: PWideChar): Integer; stdcall;
-function CanYouHandleThisFileW(FileName: PWideChar): Boolean; stdcall;
-procedure PackSetDefaultParams(dps: PPackDefaultParamStruct); stdcall;
-procedure ConfigurePacker(Parent: HWND; DllInstance: THandle); stdcall;
+function PackFilesW(PackedFile: PWideChar; SubPath: PWideChar; SrcPath: PWideChar; AddList: PWideChar; Flags: Integer): Integer; winapi;
+function DeleteFilesW(PackedFile, DeleteList: PWideChar): Integer; winapi;
+function CanYouHandleThisFileW(FileName: PWideChar): Boolean; winapi;
+procedure PackSetDefaultParams(dps: PPackDefaultParamStruct); winapi;
+procedure ConfigurePacker(Parent: HWND; DllInstance: THandle); winapi;
 
 implementation
 
 uses
   Windows, SysUtils, Classes, JclCompression, SevenZip, SevenZipAdv, fpTimer, DCOSUtils,
-  SevenZipDlg, SevenZipLng, SevenZipOpt, LazFileUtils, SyncObjs, LazUTF8, SevenZipCodecs, DCFileAttributes;
+  SevenZipDlg, SevenZipLng, SevenZipOpt, LazFileUtils, SyncObjs, LazUTF8, SevenZipCodecs,
+  DCFileAttributes, DCConvertEncoding, SevenZipHlp;
 
 type
 
@@ -145,13 +145,28 @@ begin
   end;
 end;
 
-function OpenArchiveW(var ArchiveData : tOpenArchiveDataW) : TArcHandle; stdcall;
+function Verify: Boolean;
+begin
+  Result:= Is7ZipLoaded;
+  if not Result then
+  begin
+    MessageBox(Format(rsSevenZipLoadError, [SevenZipDefaultLibraryName]),
+               'SevenZip', MB_OK or MB_ICONERROR);
+  end;
+end;
+
+function OpenArchiveW(var ArchiveData : tOpenArchiveDataW) : TArcHandle; winapi;
 var
   I: Integer;
   ResultHandle: TSevenZipHandle;
   Archive: TJclDecompressArchive;
   AFormats: TJclDecompressArchiveClassArray;
 begin
+  if not Verify then
+  begin
+    ArchiveData.OpenResult:= E_HANDLED;
+    Exit(0);
+  end;
   ResultHandle:= TSevenZipHandle.Create;
   with ResultHandle do
   begin
@@ -197,7 +212,7 @@ begin
   Result:= 0;
 end;
 
-function ReadHeaderExW(hArcData : TArcHandle; var HeaderData: THeaderDataExW) : Integer; stdcall;
+function ReadHeaderExW(hArcData : TArcHandle; var HeaderData: THeaderDataExW) : Integer; winapi;
 var
   FileNameW: UnicodeString;
   Item: TJclCompressionItem;
@@ -213,7 +228,7 @@ begin
     HeaderData.PackSize:= Int64Rec(Item.PackedSize).Lo;
     HeaderData.PackSizeHigh:= Int64Rec(Item.PackedSize).Hi;
     if ipAttributes in Item.ValidProperties then
-      HeaderData.FileAttr:= WinToWcxFileAttr(Item.Attributes)
+      HeaderData.FileAttr:= SevenZipToWcxAttr(Item.Attributes)
     else begin
       HeaderData.FileAttr:= GENERIC_ATTRIBUTE_FILE;
     end;
@@ -236,7 +251,7 @@ begin
   Result:= E_SUCCESS;
 end;
 
-function ProcessFileW(hArcData: TArcHandle; Operation: Integer; DestPath, DestName: PWideChar): Integer; stdcall;
+function ProcessFileW(hArcData: TArcHandle; Operation: Integer; DestPath, DestName: PWideChar): Integer; winapi;
 var
   Handle: TSevenZipHandle absolute hArcData;
 begin
@@ -270,7 +285,7 @@ begin
   end;
 end;
 
-function CloseArchive(hArcData: TArcHandle): Integer; stdcall;
+function CloseArchive(hArcData: TArcHandle): Integer; winapi;
 var
   Handle: TSevenZipHandle absolute hArcData;
 begin
@@ -288,12 +303,12 @@ begin
   end;
 end;
 
-procedure SetChangeVolProcW(hArcData : TArcHandle; pChangeVolProc : TChangeVolProcW); stdcall;
+procedure SetChangeVolProcW(hArcData : TArcHandle; pChangeVolProc : TChangeVolProcW); winapi;
 begin
 
 end;
 
-procedure SetProcessDataProcW(hArcData : TArcHandle; pProcessDataProc : TProcessDataProcW); stdcall;
+procedure SetProcessDataProcW(hArcData : TArcHandle; pProcessDataProc : TProcessDataProcW); winapi;
 var
   Handle: TSevenZipHandle absolute hArcData;
 begin
@@ -305,7 +320,7 @@ begin
 end;
 
 function PackFilesW(PackedFile: PWideChar; SubPath: PWideChar;
-  SrcPath: PWideChar; AddList: PWideChar; Flags: Integer): Integer; stdcall;
+  SrcPath: PWideChar; AddList: PWideChar; Flags: Integer): Integer; winapi;
 var
   I, J: Integer;
   Encrypt: Boolean;
@@ -320,26 +335,28 @@ var
   Archive: TJclCompressArchive;
   AFormats: TJclCompressArchiveClassArray;
 begin
+  if not Verify then Exit(E_HANDLED);
+
   FileNameUTF8 := Utf16ToUtf8(WideString(PackedFile));
 
   // If update existing archive
   if (mbFileGetAttr(FileNameUTF8) <> faInvalidAttributes) then
     AFormats := TJclCompressArchiveClassArray(FindUpdateFormats(FileNameUTF8))
   else begin
-    if not SameText(ExtractFileExt(FileNameUTF8), '.exe') then
+    if not SameText(ExtractFileExt(FileNameUTF8), SevenZipSfxExt) then
       AFormats := FindCompressFormats(FileNameUTF8)
     else begin
       // Only 7-Zip supports self-extract
-      SfxModule := ExtractFilePath(SevenzipLibraryName) + '7z.sfx';
+      SfxModule := ExtractFilePath(SevenzipLibraryName) + SevenZipSfxName;
       if FileExistsUTF8(SfxModule) then
       begin
         SetLength(AFormats, 1);
         AFormats[0] := TJcl7zCompressArchive;
       end
       else begin
-        AMessage := SysErrorMessage(GetLastError) + LineEnding;
+        AMessage := SysErrorMessage(GetLastOSError) + LineEnding;
         AMessage += rsSevenZipSfxNotFound + LineEnding + SfxModule;
-        MessageBoxW(0, PWideChar(UTF8ToUTF16(AMessage)), nil, MB_OK or MB_ICONERROR);
+        MessageBox(AMessage, nil, MB_OK or MB_ICONERROR);
         Exit(E_NO_FILES);
       end;
     end;
@@ -431,7 +448,7 @@ begin
   Result:= E_NOT_SUPPORTED;
 end;
 
-function DeleteFilesW(PackedFile, DeleteList: PWideChar): Integer; stdcall;
+function DeleteFilesW(PackedFile, DeleteList: PWideChar): Integer; winapi;
 var
   I: Integer;
   PathEnd : WideChar;
@@ -483,18 +500,19 @@ begin
   Result:= E_NOT_SUPPORTED;
 end;
 
-function CanYouHandleThisFileW(FileName: PWideChar): Boolean; stdcall;
+function CanYouHandleThisFileW(FileName: PWideChar): Boolean; winapi;
 begin
+  if not Is7ZipLoaded then Exit(False);
   Result:= FindDecompressFormats(Utf16ToUtf8(WideString(FileName))) <> nil;
 end;
 
-procedure PackSetDefaultParams(dps: PPackDefaultParamStruct); stdcall;
+procedure PackSetDefaultParams(dps: PPackDefaultParamStruct); winapi;
 var
-  ModulePath: AnsiString;
+  ModulePath: String;
 begin
   // Save configuration file name
   ConfigFile:= ExtractFilePath(dps^.DefaultIniName);
-  ConfigFile:= WinCPToUTF8(ConfigFile) + DefaultIniName;
+  ConfigFile:= CeSysToUtf8(ConfigFile) + DefaultIniName;
   // Get plugin path
   ModulePath:= ExtractFilePath(mbGetModuleName);
   // Use configuration from plugin path
@@ -515,6 +533,17 @@ begin
       SevenzipLibraryName:= ModulePath + SevenzipDefaultLibraryName;
     end;
   end;
+  if (SevenzipLibraryName = SevenzipDefaultLibraryName) then
+  begin
+    ModulePath:= mbGetEnvironmentVariable('COMMANDER_PATH') + PathDelim;
+    if mbFileExists(ModulePath + SevenzipDefaultLibraryName) then
+      SevenZipLibraryName:= ModulePath + SevenzipDefaultLibraryName
+    else begin
+      ModulePath:= mbExpandEnvironmentStrings(SevenZipDefaultLibraryPath);
+      if mbFileExists(ModulePath + SevenZipDefaultLibraryName) then
+        SevenZipLibraryName:= ModulePath + SevenZipDefaultLibraryName;
+    end;
+  end;
   // Process Xz files as archives
   GetArchiveFormats.RegisterFormat(TJclXzDecompressArchive);
   // Replace TJclXzCompressArchive by TJclXzCompressArchiveEx
@@ -526,13 +555,14 @@ begin
   if (Is7ZipLoaded or Load7Zip) then
     LoadLibraries
   else begin
-    MessageBoxW(0, PWideChar(UTF8ToUTF16(rsSevenZipLoadError)), 'SevenZip', MB_OK or MB_ICONERROR);
+    MessageBox(Format(rsSevenZipLoadError, [SevenZipDefaultLibraryName]) +
+               LineEnding + GetLoadErrorStr, 'SevenZip', MB_OK or MB_ICONERROR);
   end;
   // Create password cache object
   PasswordCache:= TPasswordCache.Create;
 end;
 
-procedure ConfigurePacker(Parent: WcxPlugin.HWND; DllInstance: THandle); stdcall;
+procedure ConfigurePacker(Parent: WcxPlugin.HWND; DllInstance: THandle); winapi;
 begin
   ShowConfigurationDialog(Parent);
 end;
@@ -623,7 +653,7 @@ begin
     on E: Exception do
     begin
       ReturnValue:= GetArchiveError(E);
-      MessageBoxW(0, PWideChar(UTF8ToUTF16(E.Message)), nil, MB_OK or MB_ICONERROR);
+      MessageBox(E.Message, nil, MB_OK or MB_ICONERROR);
     end;
   end;
   Terminate;
