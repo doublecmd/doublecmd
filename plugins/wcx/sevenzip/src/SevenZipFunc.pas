@@ -28,7 +28,7 @@ unit SevenZipFunc;
 interface
 
 uses
-  WcxPlugin;
+  WcxPlugin, Extension;
 
 { Mandatory }
 function OpenArchiveW(var ArchiveData : tOpenArchiveDataW) : TArcHandle; winapi;
@@ -41,8 +41,9 @@ procedure SetProcessDataProcW(hArcData : TArcHandle; pProcessDataProc : TProcess
 function PackFilesW(PackedFile: PWideChar; SubPath: PWideChar; SrcPath: PWideChar; AddList: PWideChar; Flags: Integer): Integer; winapi;
 function DeleteFilesW(PackedFile, DeleteList: PWideChar): Integer; winapi;
 function CanYouHandleThisFileW(FileName: PWideChar): Boolean; winapi;
-procedure PackSetDefaultParams(dps: PPackDefaultParamStruct); winapi;
 procedure ConfigurePacker(Parent: HWND; DllInstance: THandle); winapi;
+{ Extension }
+procedure ExtensionInitialize(StartupInfo: PExtensionStartupInfo); winapi;
 
 implementation
 
@@ -506,15 +507,20 @@ begin
   Result:= FindDecompressFormats(Utf16ToUtf8(WideString(FileName))) <> nil;
 end;
 
-procedure PackSetDefaultParams(dps: PPackDefaultParamStruct); winapi;
+procedure ConfigurePacker(Parent: WcxPlugin.HWND; DllInstance: THandle); winapi;
+begin
+  ShowConfigurationDialog(Parent);
+end;
+
+procedure ExtensionInitialize(StartupInfo: PExtensionStartupInfo); winapi;
 var
   ModulePath: String;
 begin
+  DialogInitialize(StartupInfo);
   // Save configuration file name
-  ConfigFile:= ExtractFilePath(dps^.DefaultIniName);
-  ConfigFile:= CeSysToUtf8(ConfigFile) + DefaultIniName;
+  ConfigFile:= StartupInfo^.PluginConfDir + DefaultIniName;
   // Get plugin path
-  ModulePath:= ExtractFilePath(mbGetModuleName);
+  ModulePath:= StartupInfo^.PluginDir;
   // Use configuration from plugin path
   if mbFileExists(ModulePath + DefaultIniName) then
   begin
@@ -558,11 +564,6 @@ begin
   end;
   // Create password cache object
   PasswordCache:= TPasswordCache.Create;
-end;
-
-procedure ConfigurePacker(Parent: WcxPlugin.HWND; DllInstance: THandle); winapi;
-begin
-  ShowConfigurationDialog(Parent);
 end;
 
 { TSevenZipUpdate }

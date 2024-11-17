@@ -35,8 +35,7 @@ uses
 procedure ShowConfigurationDialog(Parent: HWND);
 function ShowPasswordQuery(var Encrypt: Boolean; var Password: WideString): Boolean;
 
-{Extension API}
-procedure ExtensionInitialize(StartupInfo: PExtensionStartupInfo); winapi;
+procedure DialogInitialize(StartupInfo: PExtensionStartupInfo);
 
 implementation
 
@@ -831,7 +830,7 @@ begin
   end;
 end;
 
-procedure ExtensionInitialize(StartupInfo: PExtensionStartupInfo); winapi;
+procedure DialogInitialize(StartupInfo: PExtensionStartupInfo);
 begin
   gStartupInfo:= StartupInfo^;
   MessageBoxFunction:= gStartupInfo.MessageBox;

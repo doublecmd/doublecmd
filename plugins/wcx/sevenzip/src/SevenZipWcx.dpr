@@ -49,8 +49,8 @@ end;
 
 function GetPackerCaps : Integer; winapi;
 begin
-  Result:= PK_CAPS_NEW or PK_CAPS_DELETE  or PK_CAPS_MODIFY
-           or PK_CAPS_MULTIPLE or PK_CAPS_OPTIONS or PK_CAPS_ENCRYPT;
+  Result:= PK_CAPS_NEW or PK_CAPS_DELETE or PK_CAPS_MODIFY or PK_CAPS_MULTIPLE or
+           PK_CAPS_OPTIONS or PK_CAPS_BY_CONTENT or PK_CAPS_ENCRYPT;
 end;
 
 exports
@@ -74,7 +74,6 @@ exports
   GetPackerCaps,
   ConfigurePacker,
   GetBackgroundFlags,
-  PackSetDefaultParams,
   CanYouHandleThisFileW,
   { Extension }
   ExtensionInitialize
