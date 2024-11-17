@@ -544,8 +544,6 @@ begin
         SevenZipLibraryName:= ModulePath + SevenZipDefaultLibraryName;
     end;
   end;
-  // Process Xz files as archives
-  GetArchiveFormats.RegisterFormat(TJclXzDecompressArchive);
   // Replace TJclXzCompressArchive by TJclXzCompressArchiveEx
   GetArchiveFormats.UnregisterFormat(TJclXzCompressArchive);
   GetArchiveFormats.RegisterFormat(TJclXzCompressArchiveEx);
