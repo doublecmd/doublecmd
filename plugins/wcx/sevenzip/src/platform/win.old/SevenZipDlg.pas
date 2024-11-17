@@ -62,6 +62,13 @@ const
   IDC_MEMORY_COMP = 1027;
   IDC_MEMORY_DECOMP = 1028;
 
+type
+  PPasswordData = ^TPasswordData;
+  TPasswordData = record
+    EncryptHeader: Boolean;
+    Password: array[0..MAX_PATH] of WideChar;
+  end;
+
 function GetComboBox(hwndDlg: HWND; ItemID: Integer): PtrInt;
 var
   Index: Integer;
