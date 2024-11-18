@@ -53,6 +53,7 @@ rem WCX
 copy  plugins\wcx\base64\base64.wcx       %DC_INSTALL_DIR%\plugins\wcx\base64\
 copy  plugins\wcx\rpm\rpm.wcx             %DC_INSTALL_DIR%\plugins\wcx\rpm\
 copy  plugins\wcx\sevenzip\sevenzip.wcx   %DC_INSTALL_DIR%\plugins\wcx\sevenzip\
+xcopy /E plugins\wcx\sevenzip\language    %DC_INSTALL_DIR%\plugins\wcx\sevenzip\language\
 copy  plugins\wcx\unrar\unrar.wcx         %DC_INSTALL_DIR%\plugins\wcx\unrar\
 xcopy /E plugins\wcx\unrar\language       %DC_INSTALL_DIR%\plugins\wcx\unrar\language\
 copy  plugins\wcx\zip\zip.wcx             %DC_INSTALL_DIR%\plugins\wcx\zip\
