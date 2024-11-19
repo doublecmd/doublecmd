@@ -75,6 +75,8 @@ function unmountAndEject(const path: String): Boolean;
 
 procedure openNewInstance();
 
+function getMacOSDisplayNameFromPath(const path: String): String;
+
 // Workarounds for FPC RTL Bug
 // copied from ptypes.inc and modified fstypename only
 {$if defined(cpuarm) or defined(cpuaarch64) or defined(iphonesim)}
@@ -933,6 +935,16 @@ begin
 
   Result:= TFileFinderTagProperty.Create;
   Result.Colors:= toPrimaryColors;
+end;
+
+function getMacOSDisplayNameFromPath(const path: String): String;
+var
+  cocoaPath: NSString;
+  displayName: NSString;
+begin
+  cocoaPath:= StringToNSString( path );
+  displayName:= NSFileManager.defaultManager.displayNameAtPath( cocoaPath );
+  Result:= displayName.UTF8String;
 end;
 
 initialization

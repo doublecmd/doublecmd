@@ -311,7 +311,7 @@ end;"/>
         <PackageName Value="Image32"/>
       </Item13>
     </RequiredPackages>
-    <Units Count="279">
+    <Units Count="280">
       <Unit0>
         <Filename Value="doublecmd.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -2027,6 +2027,11 @@ end;"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uMountedListOperation"/>
       </Unit278>
+      <Unit279>
+        <Filename Value="platform\unix\darwin\uiclouddriver.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uiCloudDriver"/>
+      </Unit279>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
