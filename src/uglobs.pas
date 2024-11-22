@@ -306,6 +306,7 @@ var
   gToolbarPathModifierElements: tToolbarPathModifierElements;
 
   gRepeatPassword:Boolean;  // repeat password when packing files
+  gMaxStringItems: Integer;
   gDirHistoryCount:Integer; // how many history we remember
   gShowSystemFiles:Boolean;
   gRunInTermStayOpenCmd: String;
@@ -453,7 +454,6 @@ var
   gDiskIconsSize : Integer;
   gDiskIconsAlpha : Integer;
   gToolIconsSize: Integer;
-  gFiOwnDCIcon : PtrInt;
   gIconsExclude: Boolean;
   gIconsExcludeDirs: String;
   gPixelsPerInch: Integer;
@@ -484,6 +484,7 @@ var
   gShowCopyTabSelectPanel:boolean;
   gUseTrash : Boolean; // if using delete to trash by default
   gRenameSelOnlyName:boolean;
+  gDefaultDropEffect: Boolean;
   gShowDialogOnDragDrop: Boolean;
   gDragAndDropDesiredTextFormat:array[0..pred(NbOfDropTextFormat)] of tDesiredDropTextFormat;
   gDragAndDropAskFormatEachTime: Boolean;
@@ -727,9 +728,6 @@ function GetValidDateTimeFormat(const aFormat, ADefaultFormat: string): string;
 
 procedure RegisterInitialization(InitProc: TProcedure);
 
-const
-  cMaxStringItems=50;
-  
 var
   gConfig: TXmlConfig = nil;
   gStyles: TJsonConfig = nil;
@@ -921,7 +919,7 @@ var
           if LoadObj then begin
             HistoryList.Objects[Idx]:= TObject(UIntPtr(History.GetAttr(Node, 'Tag', 0)));
           end;
-          if HistoryList.Count >= cMaxStringItems then Break;
+          if HistoryList.Count >= gMaxStringItems then Break;
         end;
         Node := Node.NextSibling;
       end;
@@ -975,7 +973,7 @@ var
       if SaveObj then begin
         History.SetAttr(SubNode, 'Tag', UInt32(UIntPtr(HistoryList.Objects[I])));
       end;
-      if I >= cMaxStringItems then Break;
+      if I >= gMaxStringItems then Break;
     end;
   end;
 
@@ -1920,6 +1918,7 @@ begin
   gUseTrash := True;
   gSkipFileOpError := False;
   gTypeOfDuplicatedRename := drLegacyWithCopy;
+  gDefaultDropEffect:= True;
   gShowDialogOnDragDrop := True;
   gDragAndDropDesiredTextFormat[DropTextRichText_Index].Name:='Richtext format';
   gDragAndDropDesiredTextFormat[DropTextRichText_Index].DesireLevel:=0;
@@ -2008,6 +2007,7 @@ begin
   gSaveSearchReplaceHistory := True;
   gSaveDirHistory := True;
   gDirHistoryCount := 30;
+  gMaxStringItems := 50;
   gSaveCmdLineHistory := True;
   gSaveFileMaskHistory := True;
   gSaveVolumeSizeHistory := True;
@@ -2882,6 +2882,7 @@ begin
       gUseTrash := GetValue(Node, 'UseTrash', gUseTrash);
       gSkipFileOpError := GetValue(Node, 'SkipFileOpError', gSkipFileOpError);
       gTypeOfDuplicatedRename := tDuplicatedRename(GetValue(Node, 'TypeOfDuplicatedRename', Integer(gTypeOfDuplicatedRename)));
+      gDefaultDropEffect := GetValue(Node, 'DefaultDropEffect', gDefaultDropEffect);
       gShowDialogOnDragDrop := GetValue(Node, 'ShowDialogOnDragDrop', gShowDialogOnDragDrop);
       gDragAndDropDesiredTextFormat[DropTextRichText_Index].DesireLevel := GetValue(Node, 'DragAndDropTextRichtextDesireLevel', gDragAndDropDesiredTextFormat[DropTextRichText_Index].DesireLevel);
       gDragAndDropDesiredTextFormat[DropTextHtml_Index].DesireLevel := GetValue(Node, 'DragAndDropTextHtmlDesireLevel',gDragAndDropDesiredTextFormat[DropTextHtml_Index].DesireLevel);
@@ -2900,12 +2901,12 @@ begin
       if Assigned(SubNode) then
       begin
         gFileOperationDuration:= GetAttr(SubNode, 'Duration', gFileOperationDuration);
-        gFileOperationsSounds[fsoCopy]:= GetValue(SubNode, 'Copy', EmptyStr);
-        gFileOperationsSounds[fsoMove]:= GetValue(SubNode, 'Move', EmptyStr);
-        gFileOperationsSounds[fsoWipe]:= GetValue(SubNode, 'Wipe', EmptyStr);
-        gFileOperationsSounds[fsoDelete]:= GetValue(SubNode, 'Delete', EmptyStr);
-        gFileOperationsSounds[fsoSplit]:= GetValue(SubNode, 'Split', EmptyStr);
-        gFileOperationsSounds[fsoCombine]:= GetValue(SubNode, 'Combine', EmptyStr);
+        gFileOperationsSounds[fsoCopy]:= ReplaceEnvVars(GetValue(SubNode, 'Copy', EmptyStr));
+        gFileOperationsSounds[fsoMove]:= ReplaceEnvVars(GetValue(SubNode, 'Move', EmptyStr));
+        gFileOperationsSounds[fsoWipe]:= ReplaceEnvVars(GetValue(SubNode, 'Wipe', EmptyStr));
+        gFileOperationsSounds[fsoDelete]:= ReplaceEnvVars(GetValue(SubNode, 'Delete', EmptyStr));
+        gFileOperationsSounds[fsoSplit]:= ReplaceEnvVars(GetValue(SubNode, 'Split', EmptyStr));
+        gFileOperationsSounds[fsoCombine]:= ReplaceEnvVars(GetValue(SubNode, 'Combine', EmptyStr));
       end;
       // Operations options
       SubNode := Node.FindNode('Options');
@@ -2985,6 +2986,7 @@ begin
     gSaveSearchReplaceHistory:= GetAttr(Root, 'History/SearchReplaceHistory/Save', gSaveSearchReplaceHistory);
     gSaveDirHistory := GetAttr(Root, 'History/DirHistory/Save', gSaveDirHistory);
     gDirHistoryCount := GetAttr(Root, 'History/DirHistory/Count', gDirHistoryCount);
+    gMaxStringItems := GetAttr(Root, 'History/MaxStringItems', gMaxStringItems);
     gSaveCmdLineHistory := GetAttr(Root, 'History/CmdLineHistory/Save', gSaveCmdLineHistory);
     gSaveFileMaskHistory := GetAttr(Root, 'History/FileMaskHistory/Save', gSaveFileMaskHistory);
     gSaveVolumeSizeHistory := GetAttr(Root, 'History/VolumeSizeHistory/Save', gSaveVolumeSizeHistory);
@@ -3563,6 +3565,7 @@ begin
     SetValue(Node, 'UseTrash', gUseTrash);
     SetValue(Node, 'SkipFileOpError', gSkipFileOpError);
     SetValue(Node, 'TypeOfDuplicatedRename', Integer(gTypeOfDuplicatedRename));
+    SetValue(Node, 'DefaultDropEffect', gDefaultDropEffect);
     SetValue(Node, 'ShowDialogOnDragDrop', gShowDialogOnDragDrop);
     SetValue(Node, 'DragAndDropTextRichtextDesireLevel', gDragAndDropDesiredTextFormat[DropTextRichText_Index].DesireLevel);
     SetValue(Node, 'DragAndDropTextHtmlDesireLevel',gDragAndDropDesiredTextFormat[DropTextHtml_Index].DesireLevel);
@@ -3634,6 +3637,7 @@ begin
     SetAttr(Root, 'History/SearchReplaceHistory/Save', gSaveSearchReplaceHistory);
     SetAttr(Root, 'History/DirHistory/Save', gSaveDirHistory);
     SetAttr(Root, 'History/DirHistory/Count', gDirHistoryCount);
+    SetAttr(Root, 'History/MaxStringItems', gMaxStringItems);
     SetAttr(Root, 'History/CmdLineHistory/Save', gSaveCmdLineHistory);
     SetAttr(Root, 'History/FileMaskHistory/Save', gSaveFileMaskHistory);
     SetAttr(Root, 'History/VolumeSizeHistory/Save', gSaveVolumeSizeHistory);

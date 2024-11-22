@@ -104,7 +104,7 @@ uses
   uOperationsManager, uArchiveFileSourceUtil, uMultiArchiveFileSource,
   uWcxArchiveCopyInOperation, uMultiArchiveCopyInOperation, uMasks,
   DCStrUtils, uMultiArc, uWcxModule, uTempFileSystemFileSource,
-  uFileSourceCopyOperation, uShowForm, uShowMsg;
+  uFileSourceCopyOperation, uShowForm, uShowMsg, uGlobsPaths;
 
 procedure ShowPackDlg(TheOwner: TComponent;
                      const SourceFileSource: IFileSource;
@@ -235,6 +235,7 @@ end;
 
 procedure TfrmPackDlg.btnConfigClick(Sender: TObject);
 var
+  I: LongInt;
   WcxFileSource: IWcxArchiveFileSource;
 begin
   try
@@ -247,7 +248,20 @@ begin
       end
     else // MultiArc addon
       begin
-        FCustomParams:= InputBox(Caption, rsMsgArchiverCustomParams, FCustomParams);
+        for I := 0 to gMultiArcList.Count - 1 do
+        begin
+          with gMultiArcList.Items[I] do
+          begin
+            if FEnabled and MatchesMaskList(FArchiveType, FExtension, ',') then
+            begin
+              if ShowInputComboBox(Caption, rsMsgArchiverCustomParams, FAskHistory, FCustomParams) then
+              begin
+                gMultiArcList.SaveToFile(gpCfgDir + sMULTIARC_FILENAME);
+              end;
+              Break;
+            end;
+          end;
+        end;
       end;
   except
     on e: Exception do
@@ -334,6 +348,32 @@ procedure TfrmPackDlg.SwitchOptions(ArcTypeChange: Boolean); // Ugly but working
 var
   I: LongInt;
   sCmd: String;
+  procedure SwitchTarOptions(SingleFileMode: Boolean);
+  begin
+    if SingleFileMode then
+    begin
+      // If file list contain directory then
+      // put to the tar archive first is needed
+      if FHasFolder then
+      begin
+        cbPutInTarFirst.Checked:= True;
+        EnableControl(cbPutInTarFirst, False);
+      end
+      else
+      begin
+        cbCreateSeparateArchives.Checked:= (FCount = 1);
+        cbPutInTarFirst.Checked:= (FCount > 1);
+        EnableControl(cbPutInTarFirst, True);
+      end;
+    end
+    else
+    begin
+      sCmd:= LowerCase(FArchiveType);
+      cbPutInTarFirst.Checked:= False;
+      EnableControl(cbPutInTarFirst, not ((sCmd = 'tar') or StrBegins(sCmd, 'tar.')));
+      cbCreateSeparateArchives.Checked:= False;
+    end;
+  end;
 begin
   cbPutInTarFirst.OnChange:= nil;
 
@@ -349,28 +389,11 @@ begin
     begin
       if gWCXPlugins.Enabled[I] and (gWCXPlugins.Ext[I] = FArchiveType) then
       begin
+         EnableControl(btnConfig, ((gWCXPlugins.Flags[I] and PK_CAPS_OPTIONS) <> 0));
         // If plugin supports packing with password
         EnableControl(cbEncrypt, ((gWCXPlugins.Flags[I] and PK_CAPS_ENCRYPT) <> 0));
         // If archive can not contain multiple files
-        if ((gWCXPlugins.Flags[I] and PK_CAPS_MULTIPLE) = 0) then
-        begin
-          // If file list contain directory then
-          // put to the tar archive first is needed
-          if not FHasFolder then
-            cbCreateSeparateArchives.Checked:= (FCount > 1)
-          else
-            begin
-              cbPutInTarFirst.Checked:= True;
-              EnableControl(cbPutInTarFirst, False);
-            end;
-        end
-        else
-          begin
-            sCmd:= LowerCase(FArchiveType);
-            cbPutInTarFirst.Checked:= False;
-            EnableControl(cbPutInTarFirst, not ((sCmd = 'tar') or StrBegins(sCmd, 'tar.')));
-            cbCreateSeparateArchives.Checked:= False;
-          end;
+        SwitchTarOptions((gWCXPlugins.Flags[I] and PK_CAPS_MULTIPLE) = 0);
         FPlugin:= True;
         // Options that supported by plugins
         EnableControl(cbStoreDir, True);
@@ -398,30 +421,14 @@ begin
           else
             sCmd:= FAdd;
 
+          EnableControl(btnConfig, (Pos('%S', sCmd) <> 0));
           // If addon supports create multi volume archive
           EnableControl(cbMultivolume, (Pos('%V', sCmd) <> 0));
           // If addon supports packing with password
           EnableControl(cbEncrypt, (Pos('%W', sCmd) <> 0));
 
           // If archive can not contain multiple files
-          if (mafFileNameList in FFlags) then
-          begin
-            // If file list contain directory then
-            // put to the tar archive first is needed
-            if not FHasFolder then
-              cbCreateSeparateArchives.Checked:= (FCount > 1)
-            else
-              begin
-                cbPutInTarFirst.Checked:= True;
-                EnableControl(cbPutInTarFirst, False);
-              end;
-          end
-          else begin
-            sCmd:= LowerCase(FArchiveType);
-            cbPutInTarFirst.Checked:= False;
-            EnableControl(cbPutInTarFirst, not ((sCmd = 'tar') or StrBegins(sCmd, 'tar.')));
-            cbCreateSeparateArchives.Checked:= False;
-          end;
+          SwitchTarOptions(mafFileNameList in FFlags);
           FPlugin:= False;
           // Options that don't supported by addons
           cbStoreDir.Checked:= True;

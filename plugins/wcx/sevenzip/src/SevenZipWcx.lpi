@@ -21,8 +21,8 @@
     <VersionInfo>
       <UseVersionInfo Value="True"/>
       <MajorVersionNr Value="24"/>
-      <MinorVersionNr Value="7"/>
-      <RevisionNr Value="29"/>
+      <MinorVersionNr Value="11"/>
+      <RevisionNr Value="17"/>
       <CharSet Value="04B0"/>
       <StringTable FileDescription="SevenZip archiver plugin" InternalName="SevenZip" LegalCopyright="Copyright (C) 2014-2024 Alexander Koblov"/>
     </VersionInfo>
@@ -37,7 +37,7 @@
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir)"/>
-            <OtherUnitFiles Value="..\..\..\..\sdk;jcl\common;jcl\windows;jcl;platform"/>
+            <OtherUnitFiles Value="..\..\..\..\sdk;jcl\common;jcl\windows;jcl;platform;platform\$(SrcOS)"/>
             <UnitOutputDirectory Value="..\lib"/>
           </SearchPaths>
           <Parsing>
@@ -84,10 +84,13 @@
         </Mode0>
       </Modes>
     </RunParams>
-    <RequiredPackages Count="1">
+    <RequiredPackages Count="2">
       <Item1>
-        <PackageName Value="LazUtils"/>
+        <PackageName Value="doublecmd_common"/>
       </Item1>
+      <Item2>
+        <PackageName Value="LazUtils"/>
+      </Item2>
     </RequiredPackages>
     <Units Count="6">
       <Unit0>
@@ -105,6 +108,7 @@
       <Unit3>
         <Filename Value="SevenZipDlg.pas"/>
         <IsPartOfProject Value="True"/>
+        <HasResources Value="True"/>
       </Unit3>
       <Unit4>
         <Filename Value="SevenZipLng.pas"/>
@@ -124,7 +128,7 @@
     </Target>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir)"/>
-      <OtherUnitFiles Value="..\..\..\..\sdk;jcl\common;jcl\windows;jcl;platform"/>
+      <OtherUnitFiles Value="..\..\..\..\sdk;jcl\common;jcl\windows;jcl;platform;platform\$(SrcOS)"/>
       <UnitOutputDirectory Value="..\lib"/>
     </SearchPaths>
     <Parsing>

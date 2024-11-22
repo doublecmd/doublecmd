@@ -64,6 +64,14 @@ const
   DM_USER                 = $4000; // Starting value for user defined messages
 
 const
+  // Set/Get Property
+  TK_STRING = 1;
+  TK_FLOAT  = 2;
+  TK_INT32  = 3;
+  TK_INT64  = 4;
+  TK_BOOL   = 5;
+
+const
   // MessageBox: To indicate the buttons displayed in the message box,
   // specify one of the following values.
   MB_OK                   = $00000000;
@@ -117,6 +125,9 @@ type
   TDialogBoxLFMFileProc = function(lfmFileName: PAnsiChar; DlgProc: TDlgProc): LongBool; {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
   TDialogBoxParamProc = function(Data: Pointer; DataSize: LongWord; DlgProc: TDlgProc; Flags: LongWord; UserData, Reserved: Pointer): UIntPtr; {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
   TTranslateStringProc = function(Translation: Pointer; Identifier, Original: PAnsiChar; Output: PAnsiChar; OutLen: Integer): Integer {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
+  TSetProperty = function(pDlg: UIntPtr; DlgItemName, PropName: PAnsiChar; PropValue: Pointer; PropType: Integer): PtrInt; {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
+  TGetProperty = function(pDlg: UIntPtr; DlgItemName, PropName: PAnsiChar; PropValue: Pointer; PropType, PropSize: Integer): PtrInt; {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
+  TCreateComponent = function(pDlg: UIntPtr; Parent, DlgItemName, DlgItemClass: PAnsiChar; Reserved: Pointer): UIntPtr; {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
 
 type
   PExtensionStartupInfo = ^TExtensionStartupInfo;
@@ -139,8 +150,11 @@ type
     VersionAPI: UIntPtr;
     MsgChoiceBox: TMsgChoiceBoxProc;
     DialogBoxParam: TDialogBoxParamProc;
+    SetProperty: TSetProperty;
+    GetProperty: TGetProperty;
+    CreateComponent: TCreateComponent;
     // Reserved for future API extension
-    Reserved: packed array [0..Pred(4091 * SizeOf(Pointer))] of Byte;
+    Reserved: packed array [0..Pred(4088 * SizeOf(Pointer))] of Byte;
   end;
 
 type

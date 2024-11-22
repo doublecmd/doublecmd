@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    This unit contains specific DARWIN functions.
 
-   Copyright (C) 2016-2023 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2016-2024 Alexander Koblov (alexx2000@mail.ru)
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Lesser General Public
@@ -28,17 +28,22 @@
 unit uMyDarwin;
 
 {$mode delphi}
-{$modeswitch objectivec1}
+{$modeswitch objectivec2}
 {$linkframework DiskArbitration}
 
 interface
 
 uses
   Classes, SysUtils, UnixType,
-  Cocoa_Extra, MacOSAll, CocoaAll, QuickLookUI,
-  CocoaUtils, CocoaInt, CocoaConst, CocoaMenus,
   InterfaceBase, Menus, Controls, Forms,
-  uDarwinFSWatch;
+  uFileProperty, uFileSourceProperty, uDisplayFile, uFileView, uColumnsFileView,
+  uLng,
+  Cocoa_Extra, MacOSAll, CocoaAll, QuickLookUI,
+  CocoaUtils, CocoaInt, CocoaPrivate, CocoaConst, CocoaMenus,
+  uDarwinFSWatch, uDarwinFinder, uDarwinFinderModel;
+
+const
+  FINDER_FAVORITE_TAGS_MENU_ITEM_CAPTION = #$EF#$BF#$BC'FinderFavoriteTags';
 
 // Darwin Util Function
 function StringToNSString(const S: String): NSString;
@@ -46,6 +51,8 @@ function StringToCFStringRef(const S: String): CFStringRef;
 function NSArrayToList(const theArray:NSArray): TStringList;
 function ListToNSArray(const list:TStrings): NSArray;
 function ListToNSUrlArray(const list:TStrings): NSArray;
+
+procedure onMainMenuCreate( menu: NSMenu );
 
 procedure setMacOSAppearance( mode:Integer );
 
@@ -62,9 +69,13 @@ function MountNetworkDrive(const serverAddress: String): Boolean;
 
 function GetVolumeName(const Device: String): String;
 
+procedure openSystemSecurityPreferences_PrivacyAllFiles;
+
 function unmountAndEject(const path: String): Boolean;
 
 procedure openNewInstance();
+
+function getMacOSDisplayNameFromPath(const path: String): String;
 
 // Workarounds for FPC RTL Bug
 // copied from ptypes.inc and modified fstypename only
@@ -140,14 +151,22 @@ public
   procedure openWithNewTab( pboard:NSPasteboard; userData:NSString; error:NSStringPtr ); message 'openWithNewTab:userData:error:';
 end;
 
-type TMacosServiceMenuHelper = class
-private
-  oldMenuPopupHandler: TNotifyEvent;
-  serviceSubMenuCaption: String;
-  procedure attachServicesMenu( Sender:TObject);
-public
-  procedure PopUp( menu:TPopupMenu; caption:String );
-end;
+type 
+
+  { TMacosServiceMenuHelper }
+
+  TMacosServiceMenuHelper = class
+  private
+    oldMenuPopupHandler: TNotifyEvent;
+    serviceSubMenuCaption: String;
+    tagFilePath: String;
+    procedure attachSystemMenu( Sender: TObject );
+    procedure attachServicesMenu( Sender: TObject );
+    procedure attachFinderTagsMenu( Sender: TObject );
+    procedure privilegeAction( Sender: TObject );
+  public
+    procedure PopUp( const menu: TPopupMenu; const caption: String; const path: String );
+  end;
 
 procedure InitNSServiceProvider(
   serveCallback: TNSServiceProviderCallBack;
@@ -157,6 +176,8 @@ procedure InitNSServiceProvider(
 procedure performMacOSService( serviceName: String );
 
 procedure showQuickLookPanel;
+procedure showEditFinderTagsPanel( const Sender: id; const control: TWinControl );
+function getMacOSFinderTagFileProperty( const path: String ): TFileFinderTagProperty;
 
 // MacOS Sharing
 procedure showMacOSSharingServiceMenu;
@@ -173,10 +194,37 @@ var
   MacosServiceMenuHelper: TMacosServiceMenuHelper;
   NSThemeChangedHandler: TNSThemeChangedHandler;
 
+type
+  
+  { TDarwinFileViewDrawHelper }
+
+  TDarwinFileViewDrawHelper = class
+    procedure onDrawCell(Sender: TFileView; aCol, aRow: Integer;
+      aRect: TRect; focused: Boolean; aFile: TDisplayFile);
+    procedure drawTagsAsDecoration(
+      const colors: TFileFinderTagPrimaryColors; const drawRect: TRect; const focused: Boolean );
+  end;
+
+var
+  DarwinFileViewDrawHelper: TDarwinFileViewDrawHelper;
+
 implementation
 
 uses
   DynLibs;
+
+procedure onMainMenuCreate( menu: NSMenu );
+var
+  lclForm: TObject;
+  keyWindow: NSWindow;
+begin
+  lclForm:= nil;
+  keyWindow:= NSApplication(NSApp).keyWindow;
+  if keyWindow <> nil then
+    lclForm:= keyWindow.lclGetTarget;
+  if (lclForm=nil) or (lclForm.ClassName='TfrmMain') then
+    AttachEditMenu( menu, menu.numberOfItems, CocoaConst.NSSTR_EDIT_MENU );
+end;
 
 { TSimpleDarwinFSWatcher }
 
@@ -239,8 +287,15 @@ begin
   NSAppearance.setCurrentAppearance( appearance );
 end;
 
-procedure TMacosServiceMenuHelper.attachServicesMenu( Sender:TObject);
+procedure TMacosServiceMenuHelper.attachSystemMenu(Sender: TObject);
+begin
+  self.attachServicesMenu( Sender );
+  self.attachFinderTagsMenu( Sender );
+end;
+
+procedure TMacosServiceMenuHelper.attachServicesMenu( Sender: TObject );
 var
+  menu: TPopupMenu Absolute Sender;
   servicesItem: TMenuItem;
   subMenu: TCocoaMenu;
 begin
@@ -250,7 +305,7 @@ begin
   oldMenuPopupHandler:= nil;
 
   // attach the Services Sub Menu by calling NSApplication.setServicesMenu()
-  servicesItem:= TPopupMenu(Sender).Items.Find(serviceSubMenuCaption);
+  servicesItem:= menu.Items.Find(serviceSubMenuCaption);
   if servicesItem<>nil then
   begin
     subMenu:= TCocoaMenu.alloc.initWithTitle(NSString.string_);
@@ -259,14 +314,90 @@ begin
   end;
 end;
 
-procedure TMacosServiceMenuHelper.PopUp( menu:TPopupMenu; caption:String );
+procedure TMacosServiceMenuHelper.attachFinderTagsMenu( Sender: TObject );
+var
+  menu: TPopupMenu Absolute Sender;
+  menuItem: TMenuItem;
+  menuIndex: Integer;
+  success: Boolean;
+begin
+  menuIndex:= menu.Items.IndexOfCaption( FINDER_FAVORITE_TAGS_MENU_ITEM_CAPTION );
+  if menuIndex < 0 then
+    Exit;
+
+  success:= uDarwinFinderUtil.attachFinderTagsMenu( self.tagFilePath, menu, menuIndex );
+  if success then
+    Exit;
+
+  menuItem:= menu.Items[menuIndex];
+  menuItem.Caption:= rsMenuMacOSGrantPermissionToSupportFinderTags;
+  menuItem.OnClick:= self.privilegeAction;
+end;
+
+procedure TMacosServiceMenuHelper.privilegeAction(Sender: TObject);
+begin
+  openSystemSecurityPreferences_PrivacyAllFiles;
+end;
+
+procedure TMacosServiceMenuHelper.PopUp( const menu: TPopupMenu;
+  const caption: String; const path: String );
 begin
   // because the menu item handle will be destroyed in TPopupMenu.PopUp()
   // we can only call NSApplication.setServicesMenu() in OnMenuPopupHandler()
   oldMenuPopupHandler:= OnMenuPopupHandler;
-  OnMenuPopupHandler:= attachServicesMenu;
+  OnMenuPopupHandler:= attachSystemMenu;
   serviceSubMenuCaption:= caption;
+  tagFilePath:= path;
   menu.PopUp();
+end;
+
+{ TDarwinFileViewDrawHelper }
+
+procedure TDarwinFileViewDrawHelper.onDrawCell(Sender: TFileView; aCol, aRow: Integer;
+  aRect: TRect; focused: Boolean; aFile: TDisplayFile);
+var
+  tagProperty: TFileFinderTagProperty;
+begin
+  if (Sender is TColumnsFileView) and (aCol<>0) then
+    Exit;
+
+  tagProperty:= aFile.FSFile.FinderTagProperty;
+  if tagProperty = nil then
+    Exit;
+
+  drawTagsAsDecoration( tagProperty.Colors, aRect, focused );
+end;
+
+procedure TDarwinFileViewDrawHelper.drawTagsAsDecoration(
+  const colors: TFileFinderTagPrimaryColors; const drawRect: TRect;
+  const focused: Boolean);
+var
+  i: Integer;
+  colorIndex: Integer;
+  color: NSColor;
+  tagRect: NSRect;
+  path: NSBezierPath;
+begin
+  tagRect.size.width:= 11;
+  tagRect.size.height:= 11;
+  tagRect.origin.x:= drawRect.Right - 17;
+  tagRect.origin.y:= drawRect.Top + (drawRect.Height-tagRect.size.height)/2;
+
+  for i:=0 to 2 do begin
+    colorIndex:= colors.indexes[i];
+    if colorIndex < 0 then
+      break;
+    color:= uDarwinFinderModelUtil.rectFinderTagNSColors[colorIndex];
+    color.set_;
+    path:= NSBezierPath.bezierPathWithOvalInRect( tagRect );
+    path.fill;
+    if focused then
+      NSColor.alternateSelectedControlTextColor.set_
+    else
+      NSColor.textBackgroundColor.set_;
+    path.stroke;
+    tagRect.origin.x:= tagRect.origin.x - 5;
+  end;
 end;
 
 
@@ -588,6 +719,16 @@ begin
   end;
 end;
 
+procedure openSystemSecurityPreferences_PrivacyAllFiles;
+const
+  Privacy_AllFiles = 'x-apple.systempreferences:com.apple.preference.security?Privacy_AllFiles';
+var
+  url: NSURL;
+begin
+  url:= NSURL.URLWithString( NSSTR(Privacy_AllFiles) );
+  NSWorkspace.sharedWorkspace.openURL( url );
+end;
+
 function unmountAndEject(const path: String): Boolean;
 begin
   Result:= NSWorkspace.sharedWorkspace.unmountAndEjectDeviceAtPath( StringToNSString(path) );
@@ -640,6 +781,7 @@ begin
   end;
   HasMountURL:= Assigned(NetFSMountURLSync) or Assigned(FSMountServerVolumeSync);
   MacosServiceMenuHelper:= TMacosServiceMenuHelper.Create;
+  DarwinFileViewDrawHelper:= TDarwinFileViewDrawHelper.Create;
 end;
 
 procedure Finalize;
@@ -704,6 +846,105 @@ begin
   panel.setDataSource( mate );
   panel.makeKeyAndOrderFront( nil );
   mate.release;
+end;
+
+
+type
+
+  { TFinderTagsEditorPanelHandler }
+
+  TFinderTagsEditorPanelHandler = class
+  private
+    _path: String;
+  public
+    constructor Create( const path: String );
+    procedure onClose( const cancel: Boolean; const tagNames: NSArray );
+  end;
+
+constructor TFinderTagsEditorPanelHandler.Create( const path: String );
+begin
+  _path:= path;
+end;
+
+procedure TFinderTagsEditorPanelHandler.onClose( const cancel: Boolean; const tagNames: NSArray );
+var
+  url: NSURL;
+begin
+  if cancel then
+    Exit;
+  url:= NSURL.fileURLWithPath( StrToNSString(_path) );
+  uDarwinFinderModelUtil.setTagNamesOfFile( url, tagNames );
+end;
+
+procedure showEditFinderTagsPanel( const Sender: id; const control: TWinControl );
+var
+  tagItem: NSToolBarItem absolute Sender;
+  filenames: TStringArray;
+  view: NSView;
+  handler: TFinderTagsEditorPanelHandler;
+begin
+  filenames:= TDCCocoaApplication(NSApp).serviceMenuGetFilenames;
+  if length(filenames) = 0 then
+    Exit;
+
+  view:= nil;
+  if Assigned(tagItem) then
+    view:= tagItem.valueForKey( NSSTR('_itemViewer') );
+  if (view=nil) or (view.window=nil) then
+    view:= NSView( control.Handle );
+
+  handler:= TFinderTagsEditorPanelHandler.Create( filenames[0] );
+  uDarwinFinderUtil.popoverFileTagsEditor( filenames[0], handler.onClose, view , NSMaxYEdge );
+end;
+
+function getMacOSFinderTagFileProperty( const path: String ): TFileFinderTagProperty;
+var
+  url: NSURL;
+  tagNames: NSArray;
+  tagName: NSString;
+
+  function toPrimaryColors: TFileFinderTagPrimaryColors;
+  var
+    tag: TFinderTag;
+    iSource: NSUInteger;
+    iDest: Integer;
+    colorIndex: Integer;
+  begin
+    iSource:= 0;
+    if tagNames.count > 3 then
+      iSource:= tagNames.count - 3;
+    for iDest:=0 to 2 do begin
+      colorIndex:= -1;
+      if iSource < tagNames.count then begin
+        tagName:= NSString( tagNames.objectAtIndex(iSource) );
+        tag:= TFinderTags.getTagOfName( tagName );
+        colorIndex:= tag.colorIndex;
+      end;
+      Result.indexes[iDest]:= colorIndex;
+      inc( iSource );
+    end;
+  end;
+
+begin
+  Result:= nil;
+  url:= NSURL.fileURLWithPath( StrToNSString(path) );
+  tagNames:= uDarwinFinderModelUtil.getTagNamesOfFile( url );
+
+  if tagNames = nil then
+    Exit;
+
+  Result:= TFileFinderTagProperty.Create;
+  Result.Colors:= toPrimaryColors;
+end;
+
+function getMacOSDisplayNameFromPath(const path: String): String;
+var
+  cocoaPath: NSString;
+  displayName: NSString;
+begin
+  cocoaPath:= StringToNSString( path );
+  displayName:= NSFileManager.defaultManager.displayNameAtPath( cocoaPath );
+  Result:= displayName.UTF8String;
 end;
 
 initialization

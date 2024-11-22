@@ -35,6 +35,8 @@ type
     FLastMouseScrollTime: QWord;
     ColumnsView: TColumnsFileView;
 
+    FOnDrawCell: TFileViewOnDrawCell;
+
     function GetGridHorzLine: Boolean;
     function GetGridVertLine: Boolean;
     procedure SetGridHorzLine(const AValue: Boolean);
@@ -85,6 +87,7 @@ type
     property GridVertLine: Boolean read GetGridVertLine write SetGridVertLine;
     property GridHorzLine: Boolean read GetGridHorzLine write SetGridHorzLine;
 
+    property OnDrawCell: TFileViewOnDrawCell read FOnDrawCell write FOnDrawCell;
   end;
 
   TColumnResized = procedure (Sender: TObject; ColumnIndex: Integer; ColumnNewsize: integer) of object;
@@ -102,6 +105,9 @@ type
     pmColumnsMenu: TPopupMenu;
     dgPanel: TDrawGridEx;
     FOnColumnResized: TColumnResized;
+
+    function GetOnDrawCell: TFileViewOnDrawCell;
+    procedure SetOnDrawCell( OnDrawCell: TFileViewOnDrawCell );
 
     function GetColumnsClass: TPanelColumnsClass;
 
@@ -206,10 +212,10 @@ type
     procedure SetGridFunctionDim(ExternalDimFunction:TFunctionDime);
 
     property OnColumnResized: TColumnResized read FOnColumnResized write FOnColumnResized;
+    property OnDrawCell: TFileViewOnDrawCell read GetOnDrawCell write SetOnDrawCell;
   published
     procedure cm_SaveFileDetailsToFile(const Params: array of string);
     procedure cm_CopyFileDetailsToClip(const Params: array of string);
-
   end;
 
 implementation
@@ -614,6 +620,9 @@ begin
              fpAttributes,        // For distinguishing directories
              fpLink,              // For distinguishing directories (link to dir) and link icons
              fpModificationTime   // For selecting/coloring files (by SearchTemplate)
+             {$IFDEF DARWIN}
+             ,fpMacOSFinderTag    // macOS finder tag
+             {$ENDIF}
             ];
 
   ColumnsClass := GetColumnsClass;
@@ -956,6 +965,7 @@ begin
     with TColumnsFileView(FileView) do
     begin
       FColumnsSortDirections := Self.FColumnsSortDirections;
+      OnDrawCell := Self.OnDrawCell;
 
       ActiveColm := Self.ActiveColm;
       ActiveColmSlave := nil;
@@ -1112,6 +1122,16 @@ begin
   Result := dgPanel.GetVisibleRows;
   Dec(Result.First, dgPanel.FixedRows);
   Dec(Result.Last, dgPanel.FixedRows);
+end;
+
+function TColumnsFileView.GetOnDrawCell: TFileViewOnDrawCell;
+begin
+  Result:= dgPanel.OnDrawCell;
+end;
+
+procedure TColumnsFileView.SetOnDrawCell(OnDrawCell: TFileViewOnDrawCell);
+begin
+  dgPanel.OnDrawCell:= OnDrawCell;
 end;
 
 function TColumnsFileView.GetColumnsClass: TPanelColumnsClass;
@@ -1519,6 +1539,7 @@ var
   AFile: TDisplayFile;
   FileSourceDirectAccess: Boolean;
   ColumnsSet: TPanelColumnsClass;
+  onDrawCellFocused: Boolean;
 
   //------------------------------------------------------
   // begin subprocedures
@@ -1972,6 +1993,11 @@ begin
         DrawIconCell  // Draw icon in the first column
       else
         DrawOtherCell;
+    end;
+
+    if Assigned(OnDrawCell) and not(CsDesigning in ComponentState) then begin
+      onDrawCellFocused:= (gdSelected in aState) and ColumnsView.Active;
+      OnDrawCell(Self.ColumnsView,aCol,aRow,aRect,onDrawCellFocused,AFile);
     end;
 
     DrawCellGrid(aCol,aRow,aRect,aState);

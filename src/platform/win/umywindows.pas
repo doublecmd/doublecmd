@@ -176,6 +176,8 @@ procedure CreateShortcut(const Target, Shortcut: String);
 }
 function ExtractFileAttributes(const FindData: TWin32FindDataW): DWORD;
 
+function CheckPhotosVersion: Boolean;
+
 procedure UpdateEnvironment;
 
 procedure FixCommandLineToUTF8;
@@ -1209,10 +1211,128 @@ begin
   end;
 end;
 
+type
+  PACKAGE_INFO_REFERENCE = record
+    reserved: PVOID;
+  end;
+  PPACKAGE_INFO_REFERENCE = ^PACKAGE_INFO_REFERENCE;
+
+  PACKAGE_VERSION = record
+    case Boolean of
+      False: (
+        Version: UINT64;
+      );
+      True: (
+        Revision: USHORT;
+        Build: USHORT;
+        Minor: USHORT;
+        Major: USHORT;
+      );
+  end;
+
+  PACKAGE_ID = record
+    reserved: UINT32;
+    processorArchitecture: UINT32;
+    version: PACKAGE_VERSION;
+    name: PWSTR;
+    publisher: PWSTR;
+    resourceId: PWSTR;
+    publisherId: PWSTR;
+  end;
+
+  PACKAGE_INFO = record
+    reserved: UINT32;
+    flags: UINT32;
+    path: PWSTR;
+    packageFullName: PWSTR;
+    packageFamilyName: PWSTR;
+    packageId: PACKAGE_ID;
+  end;
+  PPACKAGE_INFO = ^PACKAGE_INFO;
+
+var
+  OpenPackageInfoByFullName: function(packageFullName: PCWSTR; const reserved: UINT32;
+                                      packageInfoReference: PPACKAGE_INFO_REFERENCE): LONG; stdcall;
+  GetPackagesByPackageFamily: function(packageFamilyName: PCWSTR; count: PUINT32; packageFullNames: PPWideChar;
+                                       bufferLength: PUINT32; buffer: PWCHAR): LONG; stdcall;
+  GetPackageInfo: function(packageInfoReference: PACKAGE_INFO_REFERENCE; const flags: UINT32;
+                           bufferLength: PUINT32; buffer: PBYTE; count: PUINT32): LONG; stdcall;
+  ClosePackageInfo: function(packageInfoReference: PACKAGE_INFO_REFERENCE): LONG; stdcall;
+
+function CheckPackageVersion(const Package: UnicodeString; Build, Revision: UInt16): Boolean;
+var
+  Ret: ULONG;
+  Count: UINT32 = 0;
+  PackageBuffer: TBytes;
+  BufferLength: UINT32 = 0;
+  Buffer: array of WideChar;
+  P: PACKAGE_INFO_REFERENCE;
+  PackageFullNames: array of PWideChar;
+begin
+  Result:= False;
+  Ret:= GetPackagesByPackageFamily(PWideChar(Package), @Count, nil, @BufferLength, nil);
+  if Ret = ERROR_INSUFFICIENT_BUFFER then
+  begin
+    SetLength(PackageFullNames, Count);
+    SetLength(Buffer, BufferLength + 1);
+    Ret:= GetPackagesByPackageFamily(PWideChar(Package), @Count, @PackageFullNames[0], @BufferLength, @Buffer[0]);
+    if Ret = ERROR_SUCCESS then
+    begin
+      if OpenPackageInfoByFullName(PackageFullNames[0], 0, @P) = ERROR_SUCCESS then
+      begin
+        Count:= 0;
+        BufferLength:= 0;
+        Ret:= GetPackageInfo(P, 0, @BufferLength, nil, @Count);
+        if Ret = ERROR_INSUFFICIENT_BUFFER then
+        begin
+          SetLength(PackageBuffer, BufferLength);
+          if GetPackageInfo(P, 0, @BufferLength, @PackageBuffer[0], @Count) = ERROR_SUCCESS then
+          begin
+            with PPACKAGE_INFO(@PackageBuffer[0])^.packageId do
+            begin
+              Result:= (version.Build > Build) or ((version.Build = Build) and (version.Revision >= Revision));
+            end;
+          end;
+        end;
+        ClosePackageInfo(P);
+      end;
+    end;
+  end;
+end;
+
+function CheckPhotosVersion: Boolean;
+const
+  PhotosNew: TDuplicates = dupIgnore;
+begin
+  if (PhotosNew = dupIgnore) then
+  begin
+    // https://blogs.windows.com/windowsdeveloper/2024/06/03/microsoft-photos-migrating-from-uwp-to-windows-app-sdk/
+    if CheckPackageVersion('Microsoft.Windows.Photos_8wekyb3d8bbwe', 2024, 11050) then
+      PhotosNew:= dupAccept
+    else begin
+      PhotosNew:= dupError;
+    end;
+  end;
+  Result:= (PhotosNew = dupAccept);
+end;
+
+var
+  hModule: TLibHandle;
+
 initialization
-  if (IsWow64) then begin
-    Pointer(Wow64DisableWow64FsRedirection):= GetProcAddress(GetModuleHandle(Kernel32), 'Wow64DisableWow64FsRedirection');
-    Pointer(Wow64RevertWow64FsRedirection):= GetProcAddress(GetModuleHandle(Kernel32), 'Wow64RevertWow64FsRedirection');
+  if (IsWow64) then
+  begin
+    hModule:= GetModuleHandle(Kernel32);
+    Pointer(Wow64DisableWow64FsRedirection):= GetProcAddress(hModule, 'Wow64DisableWow64FsRedirection');
+    Pointer(Wow64RevertWow64FsRedirection):= GetProcAddress(hModule, 'Wow64RevertWow64FsRedirection');
+  end;
+  if CheckWin32Version(10) then
+  begin
+    hModule:= GetModuleHandle(Kernel32);
+    Pointer(GetPackageInfo):= GetProcAddress(hModule, 'GetPackageInfo');
+    Pointer(ClosePackageInfo):= GetProcAddress(hModule, 'ClosePackageInfo');
+    Pointer(OpenPackageInfoByFullName):= GetProcAddress(hModule, 'OpenPackageInfoByFullName');
+    Pointer(GetPackagesByPackageFamily):= GetProcAddress(hModule, 'GetPackagesByPackageFamily');
   end;
 
 end.

@@ -358,7 +358,6 @@ type
 
     function GetVariantFileProperties: TDynamicStringArray; virtual;
 
-    property Active: Boolean read FActive write SetActive;
     property FilePropertiesNeeded: TFilePropertiesTypes read FFilePropertiesNeeded write FFilePropertiesNeeded;
     property History: TFileViewHistory read FHistory;
     property LastActiveFile: String read FLastActiveFile write FLastActiveFile;
@@ -368,6 +367,7 @@ type
 
   public
     property  DisplayFiles: TDisplayFiles read FFiles;
+    property Active: Boolean read FActive write SetActive;
 
   public
     constructor Create(AOwner: TWinControl;
@@ -1581,11 +1581,6 @@ begin
   begin
     FFlatView:= False;
     EnableWatcher(False);
-
-    //-- before changing path, remember currently active filename
-    //   TODO: move this call to some generic place that is called
-    //         ALWAYS when currently selected file is changed
-    FHistory.SetFilenameForCurrentPath(GetActiveFileName());
     FHistory.AddPath(NewPath); // Sets CurrentPath.
     AfterChangePath;
     EnableWatcher(True);
@@ -2919,6 +2914,11 @@ begin
     if Assigned(OnBeforeChangePath) then
       if not OnBeforeChangePath(Self, NewFileSource, Reason, NewPath) then
         Exit(False);
+
+    //-- before changing path, remember currently active filename
+    //   TODO: move this call to some generic place that is called
+    //         ALWAYS when currently selected file is changed
+    FHistory.SetFilenameForCurrentPath(GetActiveFileName());
 
     if Assigned(NewFileSource) and not NewFileSource.SetCurrentWorkingDirectory(NewPath) then
     begin

@@ -17,6 +17,8 @@ type
     FExProcess: TExProcess;
     FMultiArcItem: TMultiArcItem;
     FParser: TMultiArchiveParser;
+    FErrorLevel: LongInt;
+    FOpenError: Boolean;
     FConvertEncoding: function (const Source: String): RawByteString;
   private
     FArchiveName: String;
@@ -35,6 +37,7 @@ type
     procedure Prepare;
     procedure Execute;
 
+    property OpenError: Boolean read FOpenError;
     property Password: String read FPassword write FPassword;
     property OnGetArchiveItem: TOnGetArchiveItem write SetOnGetArchiveItem;
   end;
@@ -68,6 +71,7 @@ var
   Index: Integer;
 begin
   Result:= FMultiArcItem.FList;
+  FErrorLevel:= ExtractErrorLevel(Result);
   Index:= Pos('%O', Result);
   FConvertEncoding:= @DCOSUtils.ConsoleToUTF8;
   if (Index > 0) and (Index + 2 <= Length(Result)) then
@@ -87,10 +91,14 @@ end;
 
 procedure TOutputParser.OnProcessExit;
 begin
+  FOpenError:= (FExProcess.ExitStatus > FErrorLevel);
   FParser.ParseLines;
 end;
 
 procedure TOutputParser.OnReadLn(str: string);
+var
+  I: Integer;
+  IgnoreString: Boolean = False;
 begin
   str:= FConvertEncoding(str);
 
@@ -110,7 +118,15 @@ begin
 
   if FStartParsing then
   begin
-    FParser.AddLine(Str);
+    for I := 0 to FMultiArcItem.FIgnoreString.Count - 1 do
+    begin
+    if CheckOut(FMultiArcItem.FIgnoreString[I], Str) then
+       begin
+         IgnoreString := True;
+         break;
+       end;
+    end;
+    if not IgnoreString then FParser.AddLine(Str);
   end
   else
   begin
@@ -122,6 +138,9 @@ procedure TOutputParser.OnQueryString(str: string);
 var
   pcPassword: PAnsiChar;
 begin
+  if FMultiArcItem.FDebug then
+    DCDebug(str);
+
   if not ShowInputQuery(FMultiArcItem.FDescription, rsMsgPasswordEnter, True, FPassword) then
     FExProcess.Stop
   else begin
@@ -176,6 +195,7 @@ begin
   sCommandLine:= FormatArchiverCommand(FMultiArcItem.FArchiver,
                                        sCommandLine, FArchiveName,
                                        nil, '', '','', FPassword);
+
   if FMultiArcItem.FDebug then
     DCDebug(sCommandLine);
 

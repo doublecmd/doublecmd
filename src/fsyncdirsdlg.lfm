@@ -553,7 +553,7 @@ object frmSyncDirsDlg: TfrmSyncDirsDlg
     FixedCols = 0
     FixedRows = 0
     MouseWheelOption = mwGrid
-    Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goRowSelect, goSmoothScroll, goHeaderPushedLook, goDontScrollPartCell, goRowHighlight]
+    Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goRowSelect, goThumbTracking, goSmoothScroll, goHeaderPushedLook, goDontScrollPartCell, goRowHighlight]
     ParentFont = False
     PopupMenu = pmGridMenu
     RangeSelectMode = rsmMulti

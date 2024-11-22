@@ -29,7 +29,7 @@ type
 implementation
 
 uses
-  ActiveX, Variants, DCOSUtils, DCDateTimeUtils, ShellAPI,
+  ActiveX, Variants, DCOSUtils, DCDateTimeUtils, ShellAPI, DCStrUtils,
   uFile, uShellFolder, uShlObjAdditional, uShowMsg, uShellFileSourceUtil;
 
 { TShellListOperation }
@@ -115,6 +115,7 @@ const
   SFGAOF_DEFAULT = SFGAO_FILESYSTEM or SFGAO_FOLDER;
 var
   AFile: TFile;
+  LinkTo: String;
   PIDL: PItemIDList;
   rgfInOut: LongWord;
   AValue: OleVariant;
@@ -135,11 +136,16 @@ begin
     try
       CheckOperationState;
 
+      LinkTo:= GetDisplayName(AFolder, PIDL, SHGDN_INFOLDER or SHGDN_FORPARSING);
+
+      // Skip virtual folders
+      if StrBegins(LinkTo, '::{') then Continue;
+
       aFile:= TShellFileSource.CreateFile(Path);
 
+      AFile.LinkProperty.LinkTo:= LinkTo;
       AFile.Name:= GetDisplayNameEx(AFolder, PIDL, SHGDN_INFOLDER);
       TFileShellProperty(AFile.LinkProperty).Item:= ILCombine(DrivesPIDL, PIDL);
-      AFile.LinkProperty.LinkTo:= GetDisplayName(AFolder, PIDL, SHGDN_INFOLDER or SHGDN_FORPARSING);
 
       rgfInOut:= SFGAOF_DEFAULT;
       AFile.Attributes:= FILE_ATTRIBUTE_DEVICE or FILE_ATTRIBUTE_VIRTUAL;

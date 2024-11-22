@@ -29,8 +29,8 @@ interface
 
 uses
   Classes, SysUtils, Controls, ExtCtrls, StdCtrls, LCLType, LMessages, EditBtn,
-  Graphics,
-  uFile,
+  Graphics, LCLVersion,
+  uFile, uDisplayFile,
   uFileViewWorker,
   uOrderedFileView,
   uFileView,
@@ -39,6 +39,9 @@ uses
   uDebug;
 
 type
+
+  TFileViewOnDrawCell = procedure(Sender: TFileView; aCol, aRow: Integer;
+    aRect: TRect; focused: Boolean; aFile: TDisplayFile) of object;
 
   TRenameFileActionType=(rfatName,rfatExt,rfatFull,rfatToSeparators,rfatNextSeparated);
 
@@ -62,7 +65,7 @@ type
     procedure SetFont(AValue: TFont);
   protected
     // Workaround: https://gitlab.com/freepascal.org/lazarus/lazarus/-/issues/36006
-{$IF DEFINED(LCLQT) or DEFINED(LCLQT5) or DEFINED(LCLQT6)}
+{$IF (DEFINED(LCLQT) or DEFINED(LCLQT5) or DEFINED(LCLQT6)) and (LCL_FULLVERSION < 3020000)}
     procedure Hack(Data: PtrInt);
     procedure EditExit; override;
 {$ENDIF}
@@ -176,6 +179,7 @@ type
     function IsMouseSelecting: Boolean; inline;
     procedure MainControlDblClick(Sender: TObject);
     procedure DoMainControlFileWork;
+    procedure MouseStateReset;
     procedure MainControlQuadClick(Sender: TObject);
     procedure MainControlDragDrop(Sender, Source: TObject; X, Y: Integer);
     procedure MainControlDragOver(Sender, Source: TObject; X, Y: Integer; State: TDragState; var Accept: Boolean);
@@ -236,7 +240,7 @@ uses
 {$ENDIF}
   LCLIntf, LCLProc, LazUTF8, Forms, Dialogs, Buttons, DCOSUtils, DCStrUtils,
   fMain, uShowMsg, uLng, uFileProperty, uFileSource, uFileSourceOperationTypes,
-  uGlobs, uInfoToolTip, uDisplayFile, uFileSystemFileSource, uFileSourceUtil,
+  uGlobs, uInfoToolTip, uFileSystemFileSource, uFileSourceUtil,
   uArchiveFileSourceUtil, uFormCommands, uKeyboard, uFileSourceSetFilePropertyOperation,
   uFileSystemWatcher;
 
@@ -286,7 +290,7 @@ begin
   BaseEditor.Font:= AValue;
 end;
 
-{$IF DEFINED(LCLQT) or DEFINED(LCLQT5) or DEFINED(LCLQT6)}
+{$IF (DEFINED(LCLQT) or DEFINED(LCLQT5) or DEFINED(LCLQT6)) and (LCL_FULLVERSION < 3020000)}
 procedure TEditButtonEx.Hack(Data: PtrInt);
 begin
   if (csClicked in Button.ControlState) then
@@ -743,6 +747,17 @@ begin
 {$ENDIF}
 end;
 
+procedure TFileViewWithMainCtrl.MouseStateReset;
+begin
+  FStartDrag := False;
+  FRangeSelecting := False;
+
+  if IsMouseSelecting and (GetCaptureControl = MainControl) then
+    SetCaptureControl(nil);
+
+  FMainControlMouseDown := False;
+end;
+
 procedure TFileViewWithMainCtrl.MainControlDragDrop(Sender, Source: TObject; X, Y: Integer);
 var
   SourcePanel: TFileViewWithMainCtrl;
@@ -762,7 +777,8 @@ begin
     DropParams := TDropParams.Create(
       SourceFiles, // Will be freed automatically.
       GetDropEffectByKeyAndMouse(GetKeyShiftStateEx,
-                                 SourcePanel.FMainControlLastMouseButton),
+                                 SourcePanel.FMainControlLastMouseButton,
+                                 gDefaultDropEffect),
       MainControl.ClientToScreen(Classes.Point(X, Y)),
       True,
       SourcePanel, Self,
@@ -955,17 +971,15 @@ begin
 {$ENDIF}
 
   // history navigation for mice with extra buttons
-  case Button of
-    mbExtra1:
-      begin
-        GoToPrevHistory;
-        Exit;
-      end;
-    mbExtra2:
-      begin
-        GoToNextHistory;
-        Exit;
-      end;
+  if Button in [mbExtra1, mbExtra2] then
+  begin
+    MouseStateReset;
+
+    case Button of
+      mbExtra1: GoToPrevHistory;
+      mbExtra2: GoToNextHistory;
+    end;
+    Exit;
   end;
 
   if IsLoadingFileList then Exit;
@@ -1466,7 +1480,7 @@ var
 begin
   if (DragManager <> nil) and DragManager.IsDragging then
     begin
-      DropEffect := GetDropEffectByKey(Shift);
+      DropEffect := GetDropEffectByKey(Shift, gDefaultDropEffect);
 
       if DropEffect = DropMoveEffect then
         TControlHandlersHack(MainControl).DragCursor:= crArrowMove
@@ -1693,7 +1707,7 @@ begin
   inherited AfterChangePath;
   if IsMouseSelecting then
   begin
-    FMainControlMouseDown:= False;
+    MouseStateReset;
   end;
 end;
 

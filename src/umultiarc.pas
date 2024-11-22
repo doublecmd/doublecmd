@@ -40,7 +40,7 @@ const
   MAF_WIN_ATTR         = 8; // Use Windows file attributes
 
 type
-  TMultiArcFlag = (mafFileNameList);
+  TMultiArcFlag = (mafFileNameList, mafHide);
   TMultiArcFlags = set of TMultiArcFlag;
 
 type
@@ -84,7 +84,8 @@ type
   TArchiveItem = class(TObjectEx)
     FileName,
     FileExt,
-    FileLink:  String;
+    FileLink,
+    Comment:  String;
     PackSize,
     UnpSize: Int64;
     Year,
@@ -117,6 +118,7 @@ type
   public
     FPacker,
     FArchiver,
+    FFallBack,
     FDescription,
     FStart,
     FEnd: String;
@@ -128,9 +130,12 @@ type
     FDelete,
     FAdd,
     FAddSelfExtract,
-    FPasswordQuery: String;
+    FPasswordQuery,
+    FSizeStripChars: String;
     FFormMode: Integer;
     FFlags: TMultiArcFlags;
+    FIgnoreString: TStringList;
+    FAskHistory: TStringList;
   public
     FEnabled: Boolean;
     FOutput: Boolean;
@@ -187,6 +192,7 @@ begin
   Result.FileName:= FileName;
   Result.FileExt:= FileExt;
   Result.FileLink:= FileLink;
+  Result.Comment:= Comment;
   Result.PackSize:= PackSize;
   Result.UnpSize:= UnpSize;
   Result.Year:= Year;
@@ -234,14 +240,27 @@ end;
 
 procedure TMultiArcList.AutoConfigure;
 var
-  I: Integer;
+  I, J: Integer;
   ExePath: String;
+  AExeList: TStringArray;
 begin
   for I:= 0 to Count - 1 do
   begin
     ExePath:= Items[I].FArchiver;
     if not mbFileExists(ReplaceEnvVars(ExePath)) then
       ExePath:= FindDefaultExecutablePath(ExePath);
+    if (ExePath = EmptyStr) and (Items[I].FFallBack <> EmptyStr) then
+    begin
+      AExeList:= SplitString(Items[I].FFallBack, ',');
+      for J:= Low(AExeList) to High(AExeList) do
+      begin
+        if not mbFileExists(FixExeExt(ReplaceEnvVars(AExeList[J]))) then
+          ExePath:= FindDefaultExecutablePath(FixExeExt(AExeList[J]))
+        else
+          ExePath:= FixExeExt(AExeList[J]);
+        if ExePath <> EmptyStr then break;
+      end;
+    end;
     if ExePath = EmptyStr then
       Items[I].FEnabled:= False
     else
@@ -271,7 +290,7 @@ var
   IniFile: TIniFileEx = nil;
   Sections: TStringList = nil;
   Section,
-  Format: String;
+  Format, CustomParams: String;
   FirstTime: Boolean = True;
   MultiArcItem: TMultiArcItem;
 begin
@@ -317,11 +336,29 @@ begin
         FAddSelfExtract:= TrimQuotes(IniFile.ReadString(Section, 'AddSelfExtract', EmptyStr));
         FPasswordQuery:= IniFile.ReadString(Section, 'PasswordQuery', EmptyStr);
         // optional
+        for J:= 0 to 50 do
+        begin
+          Format:= IniFile.ReadString(Section, 'IgnoreString' + IntToStr(J), EmptyStr);
+          if Format <> EmptyStr then
+            FIgnoreString.Add(Format)
+          else
+            Break;
+        end;
+        for J:= 0 to 50 do
+        begin
+          CustomParams:= IniFile.ReadString(Section, 'AskHistory' + IntToStr(J), EmptyStr);
+          if CustomParams <> EmptyStr then
+            FAskHistory.Add(CustomParams)
+          else
+            Break;
+        end;
         FFlags:= TMultiArcFlags(IniFile.ReadInteger(Section, 'Flags', 0));
+        FSizeStripChars:= Trim(IniFile.ReadString(Section, 'SizeStripChars', EmptyStr));
         FFormMode:= IniFile.ReadInteger(Section, 'FormMode', 0);
         FEnabled:= IniFile.ReadBool(Section, 'Enabled', True);
         FOutput:= IniFile.ReadBool(Section, 'Output', False);
         FDebug:= IniFile.ReadBool(Section, 'Debug', False);
+        FFallBack:= IniFile.ReadString(Section, 'FallBackArchivers', EmptyStr);
       end;
       FList.AddObject(Section, MultiArcItem);
     end;
@@ -374,11 +411,20 @@ begin
         IniFile.WriteString(Section, 'AddSelfExtract', FAddSelfExtract);
         IniFile.WriteString(Section, 'PasswordQuery', FPasswordQuery);
         // optional
+        for J:= 0 to FIgnoreString.Count - 1 do
+          IniFile.WriteString(Section, 'IgnoreString' + IntToStr(J), FIgnoreString[J]);
+        for J:= 0 to FAskHistory.Count - 1 do
+        begin
+          IniFile.WriteString(Section, 'AskHistory' + IntToStr(J), FAskHistory[J]);
+        end;
         IniFile.WriteInteger(Section, 'Flags', Integer(FFlags));
+        IniFile.WriteString(Section, 'SizeStripChars', FSizeStripChars);
         IniFile.WriteInteger(Section, 'FormMode', FFormMode);
         IniFile.WriteBool(Section, 'Enabled', FEnabled);
         IniFile.WriteBool(Section, 'Output', FOutput);
         IniFile.WriteBool(Section, 'Debug', FDebug);
+        if FFallBack <> EmptyStr then
+          IniFile.WriteString(Section, 'FallBackArchivers', FFallBack);
       end;
     end;
     IniFile.WriteBool('MultiArc', 'FirstTime', False);
@@ -433,12 +479,15 @@ begin
     UpdateSignature(Self.FList.Strings[Index]);
     UpdateSignature(Self.Items[Index].FDescription);
     UpdateSignature(Self.Items[Index].FArchiver);
+    UpdateSignature(Self.Items[Index].FFallBack);
     UpdateSignature(Self.Items[Index].FExtension);
     UpdateSignature(Self.Items[Index].FList);
     UpdateSignature(Self.Items[Index].FStart);
     UpdateSignature(Self.Items[Index].FEnd);
     for iInnerIndex := 0 to pred(Self.Items[Index].FFormat.Count) do
       UpdateSignature(Self.Items[Index].FFormat.Strings[iInnerIndex]);
+    for iInnerIndex := 0 to pred(Self.Items[Index].FIgnoreString.Count) do
+      UpdateSignature(Self.Items[Index].FIgnoreString.Strings[iInnerIndex]);
     UpdateSignature(Self.Items[Index].FExtract);
     UpdateSignature(Self.Items[Index].FAdd);
     UpdateSignature(Self.Items[Index].FDelete);
@@ -449,6 +498,7 @@ begin
     UpdateSignature(Self.Items[Index].FID);
     UpdateSignature(Self.Items[Index].FIDPos);
     UpdateSignature(Self.Items[Index].FIDSeekRange);
+    UpdateSignature(Self.Items[Index].FSizeStripChars);
     Result := crc32(Result, @Self.Items[Index].FFlags, sizeof(Self.Items[Index].FFlags));
     Result := crc32(Result, @Self.Items[Index].FFormMode, sizeof(Self.Items[Index].FFormMode));
     Result := crc32(Result, @Self.Items[Index].FEnabled, sizeof(Self.Items[Index].FEnabled));
@@ -554,6 +604,8 @@ begin
   FSignatureList:= TSignatureList.Create;
   FSignaturePositionList:= TSignaturePositionList.Create;
   FFormat:= TStringList.Create;
+  FIgnoreString:= TStringList.Create;
+  FAskHistory:= TStringList.Create;
 end;
 
 destructor TMultiArcItem.Destroy;
@@ -561,7 +613,9 @@ begin
   FreeAndNil(FMaskList);
   FreeAndNil(FSignatureList);
   FreeAndNil(FSignaturePositionList);
+  FreeAndNil(FIgnoreString);
   FreeAndNil(FFormat);
+  FreeAndNil(FAskHistory);
   inherited Destroy;
 end;
 
@@ -651,6 +705,7 @@ begin
   //Keep elements in some ordre a when loading them from the .ini, it will be simpler to validate if we are missing one.
   Result.FPacker := Self.FPacker;
   Result.FArchiver := Self.FArchiver;
+  Result.FFallBack := Self.FFallBack;
   Result.FDescription := Self.FDescription;
   Result.FID := Self.FID;
   Result.FIDPos := Self.FIDPos;
@@ -672,6 +727,9 @@ begin
   Result.FEnabled := Self.FEnabled;
   Result.FOutput := Self.FOutput;
   Result.FDebug := Self.FDebug;
+  Result.FSizeStripChars := Self.FSizeStripChars;
+  Result.FIgnoreString.Assign(Self.FIgnoreString);
+  Result.FAskHistory.Assign(Self.FAskHistory);
 end;
 
 { TSignatureList }

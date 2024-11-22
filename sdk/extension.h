@@ -60,6 +60,13 @@
 
 #define DM_USER 0x4000 /* Starting value for user defined messages */
 
+/* Set/Get Property */
+#define TK_STRING  1
+#define TK_FLOAT   2
+#define TK_INT32   3
+#define TK_INT64   4
+#define TK_BOOL    5
+
 // MessageBox: To indicate the buttons displayed in the message box,
 // specify one of the following values.
 #define MB_OK               0x00000000
@@ -110,6 +117,9 @@ typedef BOOL (DCPCALL *tDialogBoxLRSProc)(intptr_t LRSData, unsigned long DataSi
 typedef BOOL (DCPCALL *tDialogBoxLFMFileProc)(char* LFMFileName, tDlgProc DlgProc);
 typedef uintptr_t (DCPCALL *tDialogBoxParamProc)(void* Data, uint32_t DataSize, tDlgProc DlgProc, uint32_t Flags, void *UserData, void* Reserved);
 typedef int (DCPCALL *tTranslateStringProc)(void *Translation, const char *Identifier, const char *Original, char *Output, int OutLen);
+typedef intptr_t (DCPCALL *tSetProperty)(uintptr_t pDlg, const char* DlgItemName, const char *PropName, void *PropValue, int PropType);
+typedef intptr_t (DCPCALL *tGetProperty)(uintptr_t pDlg, const char* DlgItemName, const char *PropName, void *PropValue, int PropType, int PropSize);
+typedef uintptr_t (DCPCALL *tCreateComponent)(uintptr_t pDlg, const char* Parent, const char* DlgItemName, const char* DlgItemClass, void* Reserved);
 
 #pragma pack(push)
 #pragma pack(1)
@@ -128,7 +138,10 @@ typedef struct {
   uintptr_t VersionAPI;
   tMsgChoiceBoxProc MsgChoiceBox;
   tDialogBoxParamProc DialogBoxParam;
-  unsigned char Reserved[4091 * sizeof(void *)];
+  tSetProperty SetProperty;
+  tGetProperty GetProperty;
+  tCreateComponent CreateComponent;
+  unsigned char Reserved[4088 * sizeof(void *)];
 } tExtensionStartupInfo;
 #pragma pack(pop)
 

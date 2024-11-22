@@ -364,7 +364,11 @@ resourcestring
   rsMnuEdit = 'Edit';
   rsMnuOpenWith = 'Open with';
   rsMnuOpenWithOther = 'Other...';
-  rsMenuMacOsShare = 'Share...';
+  rsMenuMacOSShare = 'Share...';
+  rsMenuMacOSGrantPermissionToSupportFinderTags = 'Grant "Full Disk Access" permission to support Finder Tags...';
+  rsMenuMacOSEditFinderTags = 'Edit Finder Tags...';
+  rsMenuMacOSAddFinderTag = 'Add "%s"';
+  rsMenuMacOSRemoveFinderTag = 'Remove "%s"';
   rsMnuMount = 'Mount';
   rsMnuUmount = 'Unmount';
   rsMnuNoMedia = 'No media available';
@@ -994,6 +998,58 @@ resourcestring
   rsMsgTCExecutableNotFound = 'Error! Cannot find the TC configuration executable:'+#$0A+'%s';
   rsMsgTCisRunning = 'Error! TC is still running but it should be closed for this operation.'+#$0A+'Close it and press OK or press CANCEL to abort.';
   rsMsgAllDCIntCmds = 'All Double Commander internal commands';
+
+  // macOS Modernn Form Sytle
+  rsMFSTBITreeViewTitle = 'TreeView';
+  rsMFSTBITreeViewTips = 'Show Tree View Panel';
+  rsMFSTBIHorzSplitTitle = 'HorzSplit';
+  rsMFSTBIHorzSplitTips = 'Toggle Horizontal Split Mode';
+  rsMFSTBISwapPanelsTitle = 'SwapPanels';
+  rsMFSTBISwapPanelsTips = 'Swap Panels';
+  rsMFSTBIShowModeTitle = 'ShowMode';
+  rsMFSTBIShowModeTips = 'Show as Brief, Full or Thumbnails';
+  rsMFSTBIShowBriefTitle = 'as Brief';
+  rsMFSTBIShowFullTitle = 'as Full';
+  rsMFSTBIShowThumbnailsTitle = 'as Thumbnails';
+  rsMFSTBIShareTitle = 'Share';
+  rsMFSTBIAirDropTitle = 'AirDrop';
+  rsMFSTBIAirDropTips = 'AirDrop';
+  rsMFSTBIQuickLookTitle = 'QuickLook';
+  rsMFSTBIQuickLookTips = 'macOS Quick Look Panel';
+  rsMFSTBIEditFinderTagTitle = 'EditTag';
+  rsMFSTBIEditFinderTagTips = 'Edit Finder Tags...';
+
+  rsMFSTBIGoTitle = 'Go';
+  rsMFSTBIGoTips = 'Go';
+  rsMFSTBIFinderRevealTitle = 'Finder';
+  rsMFSTBIFinderRevealTips = 'Reveal in Finder';
+  rsMFSTBIShowInfoTitle = 'ShowInfo';
+  rsMFSTBIShowInfoTips = 'Show Info in Finder';
+
+  rsMFSTBICommandTitle = 'Command';
+  rsMFSTBICommandMenuDirectoryHotlist = 'Directory Hotlist';
+  rsMFSTBICommandMenuFavoriteTabs = 'Favorite Tabs';
+  rsMFSTBICommandMenuQuickLook = 'macOS QuickLook';
+
+  rsMFSTBISearchTitle = 'Search';
+  rsMFSTBISearchTips  = 'Search Files...';
+  rsMFSTBISearchCombinedTags = 'Search for combined tags...';
+
+  rsMFSTBITerminalTitle = 'Terminal';
+  rsMFSTBITerminalTips  = 'Open in Terminal';
+  rsMFSTBIPrivilegeTitle = 'Privilege';
+  rsMFSTBIPrivilegeTips = 'As a file manager, Double Command requires full disk access permissions. Clicking this button will pop up the macOS system settings page. Please add "Double Commander.app" to the "Full Disk Access" list to complete the authorization.';
+
+  rsMFSTBIRefreshTitle = 'Refresh';
+  rsMFSTBIRefreshTips = 'Refresh File List';
+  rsMFSTBICompareTitle = 'Compare';
+  rsMFSTBICompareTips = 'Compare by Contents...';
+
+  rsMFSTBISyncTitle = 'Sync';
+  rsMFSTBISyncTips = 'Synchronize Dirs...';
+
+  rsMFSTBIEditTitle = 'Edit';
+  rsMFSTBIEditTips = 'Edit...';
 
   //Columns Menu
   rsMenuConfigureCustomColumns= 'Configure custom columns';

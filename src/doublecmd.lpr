@@ -23,10 +23,6 @@ uses
   cwstring,
   clocale,
   {$ENDIF}
-  {$IFDEF darwin}
-  uAppleMagnifiedModeFix,
-  uMyDarwin,
-  {$ENDIF}
   uElevation,
   {$IFDEF LINUX}
   uAppImage,
@@ -40,6 +36,7 @@ uses
   uQt5Workaround,
   {$ENDIF}
   {$ENDIF}
+  Interfaces,
   uSystem,
   uMoveConfig,
   uEarlyConfig,
@@ -47,9 +44,12 @@ uses
   {$IF DEFINED(LCLWIN32) and DEFINED(DARKWIN)}
   uWin32WidgetSetDark,
   {$ENDIF}
-  Interfaces,
   {$IFDEF LCLGTK2}
   uGtk2FixCursorPos,
+  {$ENDIF}
+  {$IFDEF darwin}
+  uAppleMagnifiedModeFix,
+  uMyDarwin,
   {$ENDIF}
   {$IFDEF LCLWIN32}
   uDClass,

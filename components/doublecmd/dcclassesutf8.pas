@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    This module contains classes with UTF8 file names support.
 
-   Copyright (C) 2008-2022 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2008-2024 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -42,7 +42,7 @@ type
   protected
     FFileName: String;
     procedure Sync(AWritten: Int64);
-    procedure SetSize64(const NewSize: Int64); override;
+    procedure SetCapacity(const NewCapacity: Int64);
   public
     constructor Create(const AFileName: String; Mode: LongWord); virtual; overload;
     destructor Destroy; override;
@@ -51,6 +51,7 @@ type
     function Write(const Buffer; Count: LongInt): LongInt; override;
     property DirtyLimit: Int64 read FDirtyLimit write FDirtyLimit;
     property AutoSync: Boolean read FAutoSync write SetAutoSync;
+    property Capacity: Int64 write SetCapacity;
     property FileName: String read FFileName;
   end; 
 
@@ -71,8 +72,8 @@ type
   private
     FReadOnly: Boolean;
   public
-    constructor Create(const AFileName: String; Mode: Word); virtual;
-    constructor Create(const AFileName: String; AEscapeLineFeeds : Boolean = False); override;
+    constructor Create(const AFileName: String; Mode: Word; AOptions: TIniFileOptions = []); virtual;
+    constructor Create(const AFileName: String; AOptions: TIniFileOptions = []); override;
     procedure UpdateFile; override;
   public
     property ReadOnly: Boolean read FReadOnly;
@@ -156,9 +157,9 @@ begin
   end;
 end;
 
-procedure TFileStreamEx.SetSize64(const NewSize: Int64);
+procedure TFileStreamEx.SetCapacity(const NewCapacity: Int64);
 begin
-  FileAllocate(Handle, NewSize);
+  FileAllocate(Handle, NewCapacity);
 end;
 
 constructor TFileStreamEx.Create(const AFileName: String; Mode: LongWord);
@@ -270,13 +271,14 @@ end;
 
 { TIniFileEx }
 
-constructor TIniFileEx.Create(const AFileName: String; Mode: Word);
+constructor TIniFileEx.Create(const AFileName: String; Mode: Word;
+  AOptions: TIniFileOptions);
 var
   slLines : TStringListEx;
 begin
   FReadOnly := ((Mode and $03) = fmOpenRead);
 
-  inherited Create(EmptyStr);
+  inherited Create(EmptyStr, AOptions);
 
   if ((Mode and $03) <> fmOpenWrite) then
   begin
@@ -294,7 +296,7 @@ begin
   Rename(AFileName, False);
 end;
 
-constructor TIniFileEx.Create(const AFileName: String; AEscapeLineFeeds: Boolean);
+constructor TIniFileEx.Create(const AFileName: String; AOptions: TIniFileOptions);
 var
   Mode: Word;
 begin
@@ -305,7 +307,7 @@ begin
   else begin
     Mode := fmOpenRead or fmShareDenyNone;
   end;
-  Create(AFileName, Mode);
+  Create(AFileName, Mode, AOptions);
 end;
 
 procedure TIniFileEx.UpdateFile;

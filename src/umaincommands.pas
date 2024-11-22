@@ -28,7 +28,11 @@ interface
 
 uses
   Classes, SysUtils, ActnList, uFileView, uFileViewNotebook, uFileSourceOperation,
-  uGlobs, uFileFunctions, uFormCommands, uFileSorting, uShellContextMenu, Menus, ufavoritetabs,ufile;
+  uGlobs, uFileFunctions, uFormCommands, uFileSorting, uShellContextMenu, Menus, ufavoritetabs,ufile
+{$IFDEF DARWIN}
+  , uMyDarwin
+{$ENDIF}
+  ;
 
 type
 
@@ -561,7 +565,11 @@ begin
     CalcStatisticsOperationStatistics := CalcStatisticsOperation.RetrieveStatistics;
     with CalcStatisticsOperationStatistics do
     begin
-      msgOK(Format(rsSpaceMsg, [Files, Directories, cnvFormatFileSize(Size), IntToStrTS(Size)]));
+      if Size < 0 then
+        msgOK(Format(rsSpaceMsg, [Files, Directories, '???', '???']))
+      else begin
+        msgOK(Format(rsSpaceMsg, [Files, Directories, cnvFormatFileSize(Size), IntToStrTS(Size)]));
+      end;
     end;
   end;
 end;
@@ -1812,6 +1820,11 @@ begin
     MenuItem:= TMenuItem.Create(FTabsMenu);
     MenuItem.Tag:= Index;
     MenuItem.Caption:= ANotebook.Page[Index].Caption;
+    if (ANotebook.Page[Index].LockState in [tlsPathLocked, tlsPathResets, tlsDirsInNewTab]) and
+       (tb_show_asterisk_for_locked in gDirTabOptions) then
+    begin
+      MenuItem.Caption:= Copy(MenuItem.Caption, 2, MaxInt);
+    end;
     MenuItem.OnClick:= @DoTabMenuClick;
     FTabsMenu.Items.Add(MenuItem);
   end;
@@ -2209,6 +2222,9 @@ begin
   with frmMain do
   begin
     aFileView:= TBriefFileView.Create(ActiveNotebook.ActivePage, ActiveFrame);
+    {$IFDEF DARWIN}
+    TBriefFileView(aFileView).OnDrawCell:= @DarwinFileViewDrawHelper.OnDrawCell;
+    {$ENDIF}
     ActiveNotebook.ActivePage.FileView:= aFileView;
     ActiveFrame.SetFocus;
   end;
@@ -2221,6 +2237,9 @@ begin
   with frmMain do
   begin
     aFileView:= TBriefFileView.Create(LeftTabs.ActivePage, FrameLeft);
+    {$IFDEF DARWIN}
+    TBriefFileView(aFileView).OnDrawCell:= @DarwinFileViewDrawHelper.OnDrawCell;
+    {$ENDIF}
     LeftTabs.ActivePage.FileView:= aFileView;
   end;
 end;
@@ -2232,6 +2251,9 @@ begin
   with frmMain do
   begin
     aFileView:= TBriefFileView.Create(RightTabs.ActivePage, FrameRight);
+    {$IFDEF DARWIN}
+    TBriefFileView(aFileView).OnDrawCell:= @DarwinFileViewDrawHelper.OnDrawCell;
+    {$ENDIF}
     RightTabs.ActivePage.FileView:= aFileView;
   end;
 end;
@@ -2248,6 +2270,9 @@ begin
       TColumnsFileView(ActiveFrame).SetColumnSet(AParam)
     else begin
       aFileView:= TColumnsFileView.Create(ActiveNotebook.ActivePage, ActiveFrame, AParam);
+      {$IFDEF DARWIN}
+      TColumnsFileView(aFileView).OnDrawCell:= @DarwinFileViewDrawHelper.OnDrawCell;
+      {$ENDIF}
       ActiveNotebook.ActivePage.FileView:= aFileView;
       ActiveFrame.SetFocus;
     end;
@@ -2266,6 +2291,9 @@ begin
       TColumnsFileView(FrameLeft).SetColumnSet(AParam)
     else begin
       aFileView:= TColumnsFileView.Create(LeftTabs.ActivePage, FrameLeft, AParam);
+      {$IFDEF DARWIN}
+      TColumnsFileView(aFileView).OnDrawCell:= @DarwinFileViewDrawHelper.OnDrawCell;
+      {$ENDIF}
       LeftTabs.ActivePage.FileView:= aFileView;
     end;
   end;
@@ -2283,6 +2311,9 @@ begin
       TColumnsFileView(FrameRight).SetColumnSet(AParam)
     else begin
       aFileView:= TColumnsFileView.Create(RightTabs.ActivePage, FrameRight, AParam);
+      {$IFDEF DARWIN}
+      TColumnsFileView(aFileView).OnDrawCell:= @DarwinFileViewDrawHelper.OnDrawCell;
+      {$ENDIF}
       RightTabs.ActivePage.FileView:= aFileView;
     end;
   end;
@@ -2731,7 +2762,7 @@ var
   TextLineBreakStyle: TTextLineBreakStyle;
   QueueId: TOperationsManagerQueueIdentifier;
   Operation: TFileSourceCalcChecksumOperation;
-  bSeparateFile, bOpenFileAfterJobCompleted: Boolean;
+  bSeparateFile, bSeparateFolder, bOpenFileAfterJobCompleted: Boolean;
 begin
   // This will work only for filesystem.
   // For other file sources use temp file system when it's done.
@@ -2769,7 +2800,8 @@ begin
       else
         sFileName:= ActiveFrame.CurrentPath + SelectedFiles[0].Name;
 
-      if ShowCalcCheckSum(sFileName, bSeparateFile, HashAlgorithm, bOpenFileAfterJobCompleted, TextLineBreakStyle, QueueId) then
+      if ShowCalcCheckSum(frmMain, sFileName, bSeparateFile, bSeparateFolder,
+                          HashAlgorithm, bOpenFileAfterJobCompleted, TextLineBreakStyle, QueueId) then
       begin
         Operation := ActiveFrame.FileSource.CreateCalcChecksumOperation(
                        SelectedFiles, ActiveFrame.CurrentPath, sFileName) as TFileSourceCalcChecksumOperation;
@@ -2778,6 +2810,7 @@ begin
         begin
           Operation.Mode := checksum_calc;
           Operation.OneFile := not bSeparateFile;
+          Operation.SeparateFolder:= bSeparateFolder;
           Operation.TextLineBreakStyle:= TextLineBreakStyle;
           Operation.OpenFileAfterOperationCompleted := bOpenFileAfterJobCompleted;
           Operation.Algorithm := HashAlgorithm;
@@ -2856,7 +2889,7 @@ begin
             Exit;
           end
           else begin
-            if not ShowCalcVerifyCheckSum(Hash, Algorithm, QueueId) then
+            if not ShowCalcVerifyCheckSum(frmMain, Hash, Algorithm, QueueId) then
               Exit;
             bConfirmation:= False;
           end;

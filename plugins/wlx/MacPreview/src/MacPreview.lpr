@@ -254,6 +254,7 @@ begin
     item.initPath( pchar(filepath) );
   end;
   view.setPreviewItem( item );
+  item.release;
 end;
 
 function ListLoad( ParentWin:THandle; FileToLoad:pchar; {%H-}ShowFlags:integer):THandle; cdecl;

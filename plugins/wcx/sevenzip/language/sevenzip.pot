@@ -1,0 +1,108 @@
+msgid ""
+msgstr "Content-Type: text/plain; charset=UTF-8"
+
+#: tdialogbox.btnapply.caption
+msgid "Apply"
+msgstr ""
+
+#: tdialogbox.caption
+msgid "Options"
+msgstr ""
+
+#: tdialogbox.lblarchiveformat.caption
+msgid "Archive &format:"
+msgstr ""
+
+#: tdialogbox.lblcompressiondictionary.caption
+msgid "&Dictionary size:"
+msgstr ""
+
+#: tdialogbox.lblcompressionlevel.caption
+msgid "Compression &level:"
+msgstr ""
+
+#: tdialogbox.lblcompressionmethod.caption
+msgid "Compression &method:"
+msgstr ""
+
+#: tdialogbox.lblcompressionsolid.caption
+msgid "&Solid Block size:"
+msgstr ""
+
+#: tdialogbox.lblcompressionword.caption
+msgid "&Word size:"
+msgstr ""
+
+#: tdialogbox.lblmemorycompression.caption
+msgid "Memory usage for Compressing:"
+msgstr ""
+
+#: tdialogbox.lblmemorydecompression.caption
+msgid "Memory usage for Decompressing:"
+msgstr ""
+
+#: tdialogbox.lblparameters.caption
+msgid "&Parameters:"
+msgstr ""
+
+#: tdialogbox.lblthreads.caption
+msgid "&Number of CPU threads:"
+msgstr ""
+
+#: tpasswordbox.caption
+msgid "Enter password"
+msgstr ""
+
+#: tpasswordbox.cbencryptnames.caption
+msgid "Encrypt file &names"
+msgstr ""
+
+#: tpasswordbox.cbshowpassword.caption
+msgid "&Show password"
+msgstr ""
+
+#: tpasswordbox.lblpassword.caption
+msgid "&Enter password:"
+msgstr ""
+
+#: sevenziplng.rscompressionlevelfast
+msgid "Fast"
+msgstr ""
+
+#: sevenziplng.rscompressionlevelfastest
+msgid "Fastest"
+msgstr ""
+
+#: sevenziplng.rscompressionlevelmaximum
+msgid "Maximum"
+msgstr ""
+
+#: sevenziplng.rscompressionlevelnormal
+msgid "Normal"
+msgstr ""
+
+#: sevenziplng.rscompressionlevelstore
+msgid "Store"
+msgstr ""
+
+#: sevenziplng.rscompressionlevelultra
+msgid "Ultra"
+msgstr ""
+
+#: sevenziplng.rssevenziploaderror
+#, object-pascal-format
+msgid "Failed to load 7-Zip library (%s)!"
+msgstr ""
+
+#: sevenziplng.rssevenzipsfxnotfound
+msgid "Cannot find specified SFX module!"
+msgstr ""
+
+#: sevenziplng.rssolidblocknonsolid
+msgid "Non-solid"
+msgstr ""
+
+#: sevenziplng.rssolidblocksolid
+msgid "Solid"
+msgstr ""
+

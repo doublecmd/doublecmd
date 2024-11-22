@@ -134,8 +134,6 @@ inherited frmExtractDlg: TfrmExtractDlg
       ChildSizing.Layout = cclLeftToRightThenTopToBottom
       ClientHeight = 90
       ClientWidth = 446
-      Color = clForm
-      ParentColor = False
       TabOrder = 2
       object cbInSeparateFolder: TCheckBox
         AnchorSideTop.Side = asrBottom
@@ -185,6 +183,7 @@ inherited frmExtractDlg: TfrmExtractDlg
     Anchors = [akTop, akLeft, akRight]
     ClientHeight = 38
     ClientWidth = 481
+    Color = clDefault
     inherited btnCancel: TBitBtn
       Left = 282
       Height = 38

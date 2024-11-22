@@ -592,6 +592,7 @@ begin
           Caption := sPrompt;
           Top := 6;
           Left := 6;
+          WordWrap := True;
         end;
       cbValue := TComboBox.Create(frmDialog);
       with cbValue do
@@ -603,6 +604,9 @@ begin
           AnchorToNeighbour(akTop, 6, lblPrompt);
           Constraints.MinWidth := max(280, Screen.Width div 4);
         end;
+      lblPrompt.AnchorSide[akRight].Side:= asrBottom;
+      lblPrompt.AnchorSide[akRight].Control:= cbValue;
+      lblPrompt.Anchors := lblPrompt.Anchors + [akRight];
       bbtnCancel := TBitBtn.Create(frmDialog);
       with bbtnCancel do
         begin
@@ -683,6 +687,7 @@ begin
           Caption := sPrompt;
           Top := 6;
           Left := 6;
+          WordWrap := True;
         end;
       lbValue := TListBox.Create(frmDialog);
       with lbValue do
@@ -701,6 +706,9 @@ begin
           Constraints.MinWidth := max(280, Screen.Width div 4);
           OnDblClick:= ProcedureHolder.ListBoxDblClick;
         end;
+      lblPrompt.AnchorSide[akRight].Side:= asrBottom;
+      lblPrompt.AnchorSide[akRight].Control:= lbValue;
+      lblPrompt.Anchors := lblPrompt.Anchors + [akRight];
       if bMultiSelect then
         begin
           bbtnSelectAll := TBitBtn.Create(frmDialog);

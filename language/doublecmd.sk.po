@@ -1,9 +1,9 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: Double Commander 1.1.14\n"
+"Project-Id-Version: Double Commander 1.1.18g\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-11-15 11:15+0300\n"
-"PO-Revision-Date: 2024-05-18 20:38+0200\n"
+"PO-Revision-Date: 2024-09-24 18:53+0200\n"
 "Last-Translator: Jozef Gaal <preklady@mayday.sk>\n"
 "Language-Team: Jozef Gaál <preklady@mayday.sk>\n"
 "Language: sk\n"
@@ -332,6 +332,10 @@ msgstr "Otvoriť súbor s kontrolným súčtom po dokončení"
 #: tfrmchecksumcalc.cbseparatefile.caption
 msgid "C&reate separate checksum file for each file"
 msgstr "Vytvoriť samostatný kontrolný súčet pre každý súbor"
+
+#: tfrmchecksumcalc.cbseparatefolder.caption
+msgid "Create separate checksum file for each &directory"
+msgstr ""
 
 #: tfrmchecksumcalc.lblfileformat.caption
 msgid "File &format"
@@ -3142,10 +3146,10 @@ msgstr "&Príkazy"
 
 #: tfrmmain.mnuconfig.caption
 msgid "C&onfiguration"
-msgstr "&Konfigurácia"
+msgstr "Kon&figurácia"
 
 #: tfrmmain.mnufavoritetabs.caption
-msgid "Favorites"
+msgid "F&avorites"
 msgstr "Obľúbené"
 
 #: tfrmmain.mnufiles.caption
@@ -3163,8 +3167,8 @@ msgstr "&Označiť"
 
 #: tfrmmain.mnunetwork.caption
 msgctxt "tfrmmain.mnunetwork.caption"
-msgid "Network"
-msgstr "Sieť"
+msgid "&Network"
+msgstr "S&ieť"
 
 #: tfrmmain.mnushow.caption
 msgid "&Show"
@@ -3933,6 +3937,10 @@ msgstr "Ukázať výstup konzoly"
 #: tfrmoptionsarchivers.chkfilenameonlylist.caption
 msgid "Use archive name without extension as list"
 msgstr "Použiť názov archívu bez prípony ako zoznam"
+
+#: tfrmoptionsarchivers.chkhide.caption
+msgid "Show as normal files"
+msgstr ""
 
 #: tfrmoptionsarchivers.ckbarchiverunixfileattributes.caption
 msgid "Uni&x file attributes"
@@ -8166,7 +8174,7 @@ msgstr "&Počet stĺpcov v prehliadači kníh"
 #: tfrmpackdlg.btnconfig.caption
 msgctxt "tfrmpackdlg.btnconfig.caption"
 msgid "Con&figure"
-msgstr "Konfigurovať"
+msgstr "Kon&figurovať"
 
 #: tfrmpackdlg.caption
 msgid "Pack files"
@@ -9748,7 +9756,7 @@ msgstr "Počiatočná cesta:"
 #: twcxarchivecopyoperationoptionsui.btnconfig.caption
 msgctxt "twcxarchivecopyoperationoptionsui.btnconfig.caption"
 msgid "Con&figure"
-msgstr "Konfigurovať"
+msgstr "Kon&figurovať"
 
 #: twcxarchivecopyoperationoptionsui.cbencrypt.caption
 msgctxt "twcxarchivecopyoperationoptionsui.cbencrypt.caption"
@@ -10312,8 +10320,9 @@ msgid "&Backward"
 msgstr "&Vzad"
 
 #: ulng.rseditsearchcaption
+msgctxt "ulng.rseditsearchcaption"
 msgid "Search"
-msgstr "Hľadanie"
+msgstr "Hľadať"
 
 #: ulng.rseditsearchfrw
 msgid "&Forward"
@@ -10795,9 +10804,214 @@ msgstr "Konfigurovať vlastné stĺpce"
 msgid "Enter new custom columns name"
 msgstr "Zadajte názov nového vlastného stĺpca"
 
+#: ulng.rsmenumacosaddfindertag
+#, object-pascal-format
+msgid "Add \"%s\""
+msgstr ""
+
+#: ulng.rsmenumacoseditfindertags
+msgctxt "ulng.rsmenumacoseditfindertags"
+msgid "Edit Finder Tags..."
+msgstr ""
+
+#: ulng.rsmenumacosgrantpermissiontosupportfindertags
+msgid "Grant \"Full Disk Access\" permission to support Finder Tags..."
+msgstr ""
+
+#: ulng.rsmenumacosremovefindertag
+#, object-pascal-format
+msgid "Remove \"%s\""
+msgstr ""
+
 #: ulng.rsmenumacosshare
 msgid "Share..."
 msgstr "Zbaliť sem..."
+
+#: ulng.rsmfstbiairdroptips
+msgctxt "ulng.rsmfstbiairdroptips"
+msgid "AirDrop"
+msgstr "AirDrop"
+
+#: ulng.rsmfstbiairdroptitle
+msgctxt "ulng.rsmfstbiairdroptitle"
+msgid "AirDrop"
+msgstr "AirDrop"
+
+#: ulng.rsmfstbicommandmenudirectoryhotlist
+msgctxt "ulng.rsmfstbicommandmenudirectoryhotlist"
+msgid "Directory Hotlist"
+msgstr "Rýchle priečinky"
+
+#: ulng.rsmfstbicommandmenufavoritetabs
+msgctxt "ulng.rsmfstbicommandmenufavoritetabs"
+msgid "Favorite Tabs"
+msgstr "Obľúbené karty"
+
+#: ulng.rsmfstbicommandmenuquicklook
+msgid "macOS QuickLook"
+msgstr "macOS Rýchly náhľad"
+
+#: ulng.rsmfstbicommandtitle
+msgctxt "ulng.rsmfstbicommandtitle"
+msgid "Command"
+msgstr "Príkaz"
+
+#: ulng.rsmfstbicomparetips
+msgid "Compare by Contents..."
+msgstr ""
+
+#: ulng.rsmfstbicomparetitle
+#, fuzzy
+msgctxt "ulng.rsmfstbicomparetitle"
+msgid "Compare"
+msgstr "Porovnať"
+
+#: ulng.rsmfstbieditfindertagtips
+msgctxt "ulng.rsmfstbieditfindertagtips"
+msgid "Edit Finder Tags..."
+msgstr ""
+
+#: ulng.rsmfstbieditfindertagtitle
+msgid "EditTag"
+msgstr ""
+
+#: ulng.rsmfstbiedittips
+msgid "Edit..."
+msgstr ""
+
+#: ulng.rsmfstbiedittitle
+#, fuzzy
+msgctxt "ulng.rsmfstbiedittitle"
+msgid "Edit"
+msgstr "Upraviť"
+
+#: ulng.rsmfstbifinderrevealtips
+msgid "Reveal in Finder"
+msgstr "Zobraziť vo vyhľadávači"
+
+#: ulng.rsmfstbifinderrevealtitle
+msgid "Finder"
+msgstr "Vyhľadávač"
+
+#: ulng.rsmfstbigotips
+msgctxt "ulng.rsmfstbigotips"
+msgid "Go"
+msgstr "Prejsť"
+
+#: ulng.rsmfstbigotitle
+msgctxt "ulng.rsmfstbigotitle"
+msgid "Go"
+msgstr "Prejsť"
+
+#: ulng.rsmfstbihorzsplittips
+msgid "Toggle Horizontal Split Mode"
+msgstr "Prepnúť režim s horizontálnymi panelmi"
+
+#: ulng.rsmfstbihorzsplittitle
+msgid "HorzSplit"
+msgstr "Horizontálne rozdelenie"
+
+#: ulng.rsmfstbiprivilegetips
+msgid "As a file manager, Double Command requires full disk access permissions. Clicking this button will pop up the macOS system settings page. Please add \"Double Commander.app\" to the \"Full Disk Access\" list to complete the authorization."
+msgstr ""
+
+#: ulng.rsmfstbiprivilegetitle
+msgid "Privilege"
+msgstr ""
+
+#: ulng.rsmfstbiquicklooktips
+msgid "macOS Quick Look Panel"
+msgstr "Panel rýchleho náhľadu macOS"
+
+#: ulng.rsmfstbiquicklooktitle
+msgid "QuickLook"
+msgstr "Rýchly náhľad"
+
+#: ulng.rsmfstbirefreshtips
+msgid "Refresh File List"
+msgstr "Obnoviť zoznam súborov"
+
+#: ulng.rsmfstbirefreshtitle
+msgid "Refresh"
+msgstr "Obnoviť"
+
+#: ulng.rsmfstbisearchcombinedtags
+msgid "Search for combined tags..."
+msgstr ""
+
+#: ulng.rsmfstbisearchtips
+msgid "Search Files..."
+msgstr "Hľadať súbory..."
+
+#: ulng.rsmfstbisearchtitle
+msgctxt "ulng.rsmfstbisearchtitle"
+msgid "Search"
+msgstr "Hľadať"
+
+#: ulng.rsmfstbisharetitle
+msgid "Share"
+msgstr "Zdieľať"
+
+#: ulng.rsmfstbishowbrieftitle
+msgid "as Brief"
+msgstr "ako jednoduché"
+
+#: ulng.rsmfstbishowfulltitle
+msgid "as Full"
+msgstr "ako plné"
+
+#: ulng.rsmfstbishowinfotips
+msgid "Show Info in Finder"
+msgstr "Zobraziť info vo vyhľadávači"
+
+#: ulng.rsmfstbishowinfotitle
+msgid "ShowInfo"
+msgstr "Zobraziť info"
+
+#: ulng.rsmfstbishowmodetips
+msgid "Show as Brief, Full or Thumbnails"
+msgstr "Zobraziť ako jednoduché, plné alebo náhľady"
+
+#: ulng.rsmfstbishowmodetitle
+msgid "ShowMode"
+msgstr "Zobraziť"
+
+#: ulng.rsmfstbishowthumbnailstitle
+msgid "as Thumbnails"
+msgstr "ako náhľady"
+
+#: ulng.rsmfstbiswappanelstips
+msgid "Swap Panels"
+msgstr "Zameniť panely"
+
+#: ulng.rsmfstbiswappanelstitle
+msgid "SwapPanels"
+msgstr "Zameniť panely"
+
+#: ulng.rsmfstbisynctips
+msgid "Synchronize Dirs..."
+msgstr ""
+
+#: ulng.rsmfstbisynctitle
+msgid "Sync"
+msgstr ""
+
+#: ulng.rsmfstbiterminaltips
+msgid "Open in Terminal"
+msgstr "Otvoriť v termináli"
+
+#: ulng.rsmfstbiterminaltitle
+msgctxt "ulng.rsmfstbiterminaltitle"
+msgid "Terminal"
+msgstr "Terminál"
+
+#: ulng.rsmfstbitreeviewtips
+msgid "Show Tree View Panel"
+msgstr "Zobraziť panel stromového zobrazenia"
+
+#: ulng.rsmfstbitreeviewtitle
+msgid "TreeView"
+msgstr "Ponuka stromového zobrazenia"
 
 #: ulng.rsmnuactions
 msgctxt "ulng.rsmnuactions"
@@ -10844,7 +11058,7 @@ msgstr "Nový"
 
 #: ulng.rsmnunewwindow
 msgid "New Window"
-msgstr ""
+msgstr "Nové okno"
 
 #: ulng.rsmnunomedia
 msgid "No media available"
@@ -12997,6 +13211,7 @@ msgid "Drives list button"
 msgstr "Tlačidlo zoznamu diskov"
 
 #: ulng.rsoptionseditorfavoritetabs
+msgctxt "ulng.rsoptionseditorfavoritetabs"
 msgid "Favorite Tabs"
 msgstr "Obľúbené karty"
 

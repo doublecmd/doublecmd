@@ -1486,7 +1486,7 @@ begin
         TargetPath := IncludeTrailingPathDelimiter(TargetPath);
         if not Assigned(TargetFileSource) then
           TargetFileSource := TFileSystemFileSource.GetFileSource;
-        case GetDropEffectByKeyAndMouse(GetKeyShiftStateEx, mbLeft) of
+        case GetDropEffectByKeyAndMouse(GetKeyShiftStateEx, mbLeft, gDefaultDropEffect) of
           DropCopyEffect:
             Self.CopyFiles(ActiveFrame.FileSource, TargetFileSource, SourceFiles, TargetPath, gShowDialogOnDragDrop);
           DropMoveEffect:
@@ -1920,7 +1920,7 @@ begin
 
         DropParams := TDropParams.Create(
             Files,
-            GetDropEffectByKeyAndMouse(GetKeyShiftState, mbLeft),
+            GetDropEffectByKeyAndMouse(GetKeyShiftState, mbLeft, gDefaultDropEffect),
             Point, False,
             nil, TargetFileView,
             TargetFileView.FileSource,
@@ -2721,7 +2721,7 @@ begin
         begin
           TargetPath := ANotebook.View[ATabIndex].CurrentPath;
           TargetFileSource := ANotebook.View[ATabIndex].FileSource;
-          case GetDropEffectByKeyAndMouse(GetKeyShiftStateEx, mbLeft) of
+          case GetDropEffectByKeyAndMouse(GetKeyShiftStateEx, mbLeft, gDefaultDropEffect) of
             DropCopyEffect:
               Self.CopyFiles(ActiveFrame.FileSource, TargetFileSource, SourceFiles, TargetPath, gShowDialogOnDragDrop);
             DropMoveEffect:
@@ -2960,6 +2960,7 @@ constructor TfrmMain.Create(TheOwner: TComponent);
   begin
     CocoaConfigMenu.appMenu.aboutItem:= mnuHelpAbout;
     CocoaConfigMenu.appMenu.preferencesItem:= mnuConfigOptions;
+    CocoaConfigMenu.appMenu.onCreate:= @onMainMenuCreate;
   end;
 
   procedure setMacOSDockMenu();
@@ -5107,11 +5108,17 @@ begin
 
   if gDelayLoadingTabs then
     FileViewFlags := [fvfDelayLoadingFiles];
-  if sType = 'columns' then
-    Result := TColumnsFileView.Create(Page, AConfig, ANode, FileViewFlags)
-  else if sType = 'brief' then
-    Result := TBriefFileView.Create(Page, AConfig, ANode, FileViewFlags)
-  else if sType = 'thumbnails' then
+  if sType = 'columns' then begin
+    Result := TColumnsFileView.Create(Page, AConfig, ANode, FileViewFlags);
+    {$IFDEF DARWIN}
+    TColumnsFileView(Result).OnDrawCell:= @DarwinFileViewDrawHelper.OnDrawCell;
+    {$ENDIF}
+  end else if sType = 'brief' then begin
+    Result := TBriefFileView.Create(Page, AConfig, ANode, FileViewFlags);
+    {$IFDEF DARWIN}
+    TBriefFileView(Result).OnDrawCell:= @DarwinFileViewDrawHelper.OnDrawCell;
+    {$ENDIF}
+  end else if sType = 'thumbnails' then
     Result := TThumbFileView.Create(Page, AConfig, ANode, FileViewFlags)
   else begin
     DCDebug(rsMsgLogError + 'Invalid file view type "%s"', [sType]);
@@ -6021,8 +6028,8 @@ begin
   Result:= True;
 
   InsertFirstItem(sCmd, edtCommand);
-  // only cMaxStringItems(see uGlobs.pas) is stored
-  if edtCommand.Items.Count>cMaxStringItems then
+  // only gMaxStringItems(see uGlobs.pas) is stored
+  if edtCommand.Items.Count>gMaxStringItems then
     edtCommand.Items.Delete(edtCommand.Items.Count-1);
   edtCommand.DroppedDown:= False;
 

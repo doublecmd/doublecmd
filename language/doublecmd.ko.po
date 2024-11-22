@@ -3,15 +3,15 @@ msgstr ""
 "Project-Id-Version: Double Commander 1.1.0 alpha\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-11-15 11:15+0300\n"
-"PO-Revision-Date: 2024-01-07 21:22+0900\n"
-"Last-Translator: VenusGirl: https://venusgirls.tistory.com/\n"
+"PO-Revision-Date: 2024-11-10 23:13+0900\n"
+"Last-Translator: VenusGirl: venusgirl@outlook.com/\n"
 "Language-Team: 비너스걸: https://venusgirls.tistory.com/\n"
 "Language: ko\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Native-Language: 한국어\n"
-"X-Generator: Poedit 3.4.2\n"
+"X-Generator: Poedit 3.5\n"
 
 #: fsyncdirsdlg.rscomparingpercent
 #, object-pascal-format
@@ -149,7 +149,7 @@ msgstr "커밋"
 #: tfrmabout.lblfreepascalver.caption
 msgctxt "tfrmabout.lblfreepascalver.caption"
 msgid "Free Pascal"
-msgstr "무료 Pascal"
+msgstr "Free Pascal"
 
 #: tfrmabout.lblhomepage.caption
 msgid "Home Page:"
@@ -332,6 +332,10 @@ msgstr "작업 완료 후 체크섬 파일 열기"
 #: tfrmchecksumcalc.cbseparatefile.caption
 msgid "C&reate separate checksum file for each file"
 msgstr "각 파일에 대해 별도의 체크섬 파일 생성(&R)"
+
+#: tfrmchecksumcalc.cbseparatefolder.caption
+msgid "Create separate checksum file for each &directory"
+msgstr "각 디렉터리에 대해 별도의 체크섬 파일 만들기(&D)"
 
 #: tfrmchecksumcalc.lblfileformat.caption
 msgid "File &format"
@@ -2099,7 +2103,7 @@ msgstr "다음 명령줄"
 
 #: tfrmmain.actcmdlinenext.hint
 msgid "Set command line to next command in history"
-msgstr "명령줄을 기록의 다음 명령으로 설정"
+msgstr "내역에서 명령줄을 다음 명령으로 설정"
 
 #: tfrmmain.actcmdlineprev.caption
 msgid "Previous Command Line"
@@ -2107,7 +2111,7 @@ msgstr "이전 명령줄"
 
 #: tfrmmain.actcmdlineprev.hint
 msgid "Set command line to previous command in history"
-msgstr "명령줄을 기록의 이전 명령으로 설정"
+msgstr "내역에서 명령줄을 이전 명령으로 설정"
 
 #: tfrmmain.actcolumnsview.caption
 msgid "Full"
@@ -2777,7 +2781,7 @@ msgstr "버튼 메뉴 표시"
 
 #: tfrmmain.actshowcmdlinehistory.caption
 msgid "Show command line history"
-msgstr "명령줄 기록 표시"
+msgstr "명령줄 내역 표시"
 
 #: tfrmmain.actshowmainmenu.caption
 msgid "Menu"
@@ -2899,15 +2903,15 @@ msgstr "보기"
 
 #: tfrmmain.actviewhistory.caption
 msgid "Show history of visited paths for active view"
-msgstr "활성 보기를 위해 방문한 경로 기록 표시"
+msgstr "활성 보기를 위해 방문한 경로 내역 표시"
 
 #: tfrmmain.actviewhistorynext.caption
 msgid "Go to next entry in history"
-msgstr "기록의 다음 항목으로 가기"
+msgstr "내역의 다음 항목으로 가기"
 
 #: tfrmmain.actviewhistoryprev.caption
 msgid "Go to previous entry in history"
-msgstr "기록의 이전 항목으로 가기"
+msgstr "내역의 이전 항목으로 가기"
 
 #: tfrmmain.actviewlogfile.caption
 msgid "View log file"
@@ -3145,7 +3149,7 @@ msgid "C&onfiguration"
 msgstr "구성(&O)"
 
 #: tfrmmain.mnufavoritetabs.caption
-msgid "Favorites"
+msgid "F&avorites"
 msgstr "즐겨찾기"
 
 #: tfrmmain.mnufiles.caption
@@ -3163,7 +3167,7 @@ msgstr "선택(&M)"
 
 #: tfrmmain.mnunetwork.caption
 msgctxt "tfrmmain.mnunetwork.caption"
-msgid "Network"
+msgid "&Network"
 msgstr "네트워크"
 
 #: tfrmmain.mnushow.caption
@@ -3934,6 +3938,10 @@ msgstr "콘솔 출력 표시(&H)"
 msgid "Use archive name without extension as list"
 msgstr "확장자가 없는 압축파일 이름을 목록으로 사용"
 
+#: tfrmoptionsarchivers.chkhide.caption
+msgid "Show as normal files"
+msgstr "일반 파일로 표시"
+
 #: tfrmoptionsarchivers.ckbarchiverunixfileattributes.caption
 msgid "Uni&x file attributes"
 msgstr "Unix 파일 속성(&X)"
@@ -4299,7 +4307,7 @@ msgstr "편집(&E)"
 
 #: tfrmoptionsconfiguration.cbcmdlinehistory.caption
 msgid "Co&mmand line history"
-msgstr "명령줄 기록(&M)"
+msgstr "명령줄 내역(&M)"
 
 #: tfrmoptionsconfiguration.cbdirhistory.caption
 msgid "&Directory history"
@@ -4307,7 +4315,7 @@ msgstr "디렉터리 내역(&D)"
 
 #: tfrmoptionsconfiguration.cbfilemaskhistory.caption
 msgid "&File mask history"
-msgstr "마스크 기록(&F)"
+msgstr "파일 마스크 내역(&F)"
 
 #: tfrmoptionsconfiguration.chkfoldertabs.caption
 msgctxt "tfrmoptionsconfiguration.chkfoldertabs.caption"
@@ -4320,7 +4328,7 @@ msgstr "구성 저장(&V)"
 
 #: tfrmoptionsconfiguration.chksearchreplacehistory.caption
 msgid "Searc&h/Replace history"
-msgstr "기록 검색/바꾸기(&H)"
+msgstr "검색/바꾸기 내역(&H)"
 
 #: tfrmoptionsconfiguration.chkwindowstate.caption
 msgid "Main window state"
@@ -5550,7 +5558,7 @@ msgstr "유지하려는 기존 탭:"
 
 #: tfrmoptionsfavoritetabs.lblsavedirhistory.caption
 msgid "Save dir history:"
-msgstr "디렉터리 기록 저장:"
+msgstr "디렉터리 내역 저장:"
 
 #: tfrmoptionsfavoritetabs.lbltargetpanelleftsavedtabs.caption
 msgid "Tabs saved on left to be restored to:"
@@ -6967,7 +6975,7 @@ msgstr "일일 개별 디렉터리"
 
 #: tfrmoptionsmultirename.ckbfilenamewithfullpathinlog.caption
 msgid "Log filenames with full path"
-msgstr "전체 경로로 파일 이름 기록"
+msgstr "전체 경로가 포함된 로그 파일 이름"
 
 #: tfrmoptionsmultirename.ckbshowmenubarontop.caption
 msgid "Show menu bar on top "
@@ -7199,11 +7207,11 @@ msgstr "파일 이름"
 
 #: tfrmoptionsquicksearchfilter.cbexactbeginning.caption
 msgid "&Beginning (name must start with first typed character)"
-msgstr "시작 (이름은 첫번째 입력 문자로 시작해야 함)(&B)"
+msgstr "시작 (이름은 처음 입력한 문자로 시작해야 합니다)(&B)"
 
 #: tfrmoptionsquicksearchfilter.cbexactending.caption
 msgid "En&ding (last character before a typed dot . must match)"
-msgstr "끝 (입력한 점 앞의 마지막 문자가 일치해야 함)(&D)"
+msgstr "끝 (입력한 점 . 앞의 마지막 문자는 일치해야 합니다)(&D)"
 
 #: tfrmoptionsquicksearchfilter.cgpoptions.caption
 msgctxt "TFRMOPTIONSQUICKSEARCHFILTER.CGPOPTIONS.CAPTION"
@@ -7248,11 +7256,11 @@ msgstr "잠긴 탭 닫기 확인"
 
 #: tfrmoptionstabs.cbtabslimitoption.caption
 msgid "&Limit tab title length to"
-msgstr "탭 제목 길이 제한(&L)"
+msgstr "탭 제목 길이 제한"
 
 #: tfrmoptionstabs.cbtabslockedasterisk.caption
 msgid "Show locked tabs &with an asterisk *"
-msgstr "별표로 잠긴 탭 표시 *(&W)"
+msgstr "별표 * 로 잠긴 탭 표시(&W)"
 
 #: tfrmoptionstabs.cbtabsmultilines.caption
 msgid "&Tabs on multiple lines"
@@ -7284,7 +7292,7 @@ msgstr "폴더 탭 머리글"
 
 #: tfrmoptionstabs.lblchar.caption
 msgid "characters"
-msgstr "문자"
+msgstr "문자(&L)"
 
 #: tfrmoptionstabs.lbltabsactionondoubleclick.caption
 msgid "Action to do when double click on a tab:"
@@ -7349,7 +7357,7 @@ msgstr "오른쪽에 저장된 탭은 다음과 같이 복원:"
 #: tfrmoptionstabsextra.lblfavoritetabssavedirhistory.caption
 msgctxt "tfrmoptionstabsextra.lblfavoritetabssavedirhistory.caption"
 msgid "Keep saving dir history with Favorite Tabs:"
-msgstr "즐겨찾기 탭을 사용하여 디렉터리 기록 저장:"
+msgstr "즐겨찾기 탭을 사용하여 디렉터리 내역 저장:"
 
 #: tfrmoptionstabsextra.rgwheretoadd.caption
 msgid "Default position in menu when saving a new Favorite Tabs:"
@@ -8045,15 +8053,15 @@ msgstr "마우스 클릭 한 번으로 트리 선택 후 종료"
 
 #: tfrmoptionstreeviewmenu.ckbuseforcommandlinehistory.caption
 msgid "Use it for Command Line History"
-msgstr "명령줄 기록에 사용"
+msgstr "명령줄 내역에 사용"
 
 #: tfrmoptionstreeviewmenu.ckbusefordirhistory.caption
 msgid "Use it for the Dir History"
-msgstr "디렉터리 기록에 사용"
+msgstr "디렉터리 내역에 사용"
 
 #: tfrmoptionstreeviewmenu.ckbuseforviewhistory.caption
 msgid "Use it for the View History (Visited paths for active view)"
-msgstr "보기 기록 (활성 보기의 방문 경로)에 사용"
+msgstr "보기 내역 (활성 보기의 방문 경로)에 사용"
 
 #: tfrmoptionstreeviewmenu.gbbehavior.caption
 msgid "Behavior regarding selection:"
@@ -8081,7 +8089,7 @@ msgstr "즐겨찾기 탭 포함:"
 
 #: tfrmoptionstreeviewmenu.lblusewithhistory.caption
 msgid "With History:"
-msgstr "기록 포함:"
+msgstr "내역:"
 
 #: tfrmoptionstreeviewmenucolor.btfont.caption
 msgctxt "tfrmoptionstreeviewmenucolor.btfont.caption"
@@ -9067,11 +9075,11 @@ msgstr "억양 및 합자에 대한 검색은 엄격함"
 
 #: tfrmtreeviewmenu.pminotshowwholebranchifmatch.caption
 msgid "Don't show the branch content \"just\" because the searched string is found in the branche name"
-msgstr "검색된 문자열이 분기 이름에 있으므로 분기 내용을 \"그냥\" 표시하지 않음"
+msgstr "분기 이름에 검색된 문자열이 발견되었다는 \"이유만으로\" 분기 내용을 표시하지 않음"
 
 #: tfrmtreeviewmenu.pmishowwholebranchifmatch.caption
 msgid "If searched string is found in a branch name, show the whole branch even if elements don't match"
-msgstr "검색된 문자열이 분기 이름에 있으면 요소가 일치하지 않더라도 분기 전체를 표시합니다"
+msgstr "검색된 문자열이 분기 이름에서 발견되면 요소가 일치하지 않더라도 분기 전체를 표시"
 
 #: tfrmtreeviewmenu.tbcancelandquit.hint
 msgid "Close Tree View Menu"
@@ -9302,15 +9310,15 @@ msgstr "이전 파일 불러오기"
 
 #: tfrmviewer.actmirrorhorz.caption
 msgid "Mirror Horizontally"
-msgstr "가로로 거울"
+msgstr "가로로 반전"
 
 #: tfrmviewer.actmirrorhorz.hint
 msgid "Mirror"
-msgstr "미러"
+msgstr "반전"
 
 #: tfrmviewer.actmirrorvert.caption
 msgid "Mirror Vertically"
-msgstr "세로로 거울"
+msgstr "세로로 반전"
 
 #: tfrmviewer.actmovefile.caption
 msgctxt "tfrmviewer.actmovefile.caption"
@@ -10289,7 +10297,7 @@ msgstr "Double Commander의 내부 편집기입니다."
 
 #: ulng.rseditgotolinequery
 msgid "Goto line:"
-msgstr "줄로 가기:"
+msgstr "줄로 이동:"
 
 #: ulng.rseditgotolinetitle
 msgctxt "ulng.rseditgotolinetitle"
@@ -10313,6 +10321,7 @@ msgid "&Backward"
 msgstr "뒤로(&B)"
 
 #: ulng.rseditsearchcaption
+msgctxt "ulng.rseditsearchcaption"
 msgid "Search"
 msgstr "검색"
 
@@ -10400,7 +10409,7 @@ msgstr "DC 도구 설명 파일"
 
 #: ulng.rsfilterdirectoryhotlistfiles
 msgid "Directory Hotlist files"
-msgstr "디렉토리 주요 목록 파일"
+msgstr "디렉터리 주요 목록 파일"
 
 #: ulng.rsfilterexecutablefiles
 msgid "Executables files"
@@ -10796,9 +10805,219 @@ msgstr "사용자 지정 열 구성"
 msgid "Enter new custom columns name"
 msgstr "새 사용자 지정 열 이름 입력"
 
+#: ulng.rsmenumacosaddfindertag
+#, object-pascal-format
+msgid "Add \"%s\""
+msgstr "\"%s\" 추가"
+
+#: ulng.rsmenumacoseditfindertags
+msgctxt "ulng.rsmenumacoseditfindertags"
+msgid "Edit Finder Tags..."
+msgstr "파인더 태그 편집..."
+
+#: ulng.rsmenumacosgrantpermissiontosupportfindertags
+msgid "Grant \"Full Disk Access\" permission to support Finder Tags..."
+msgstr "파인더 태그를 지원하기 위한 \"전체 디스크 액세스\" 권한 부여..."
+
+#: ulng.rsmenumacosremovefindertag
+#, object-pascal-format
+msgid "Remove \"%s\""
+msgstr "\"%s\" 제거"
+
 #: ulng.rsmenumacosshare
 msgid "Share..."
 msgstr "공유..."
+
+#: ulng.rsmfstbiairdroptips
+msgctxt "ulng.rsmfstbiairdroptips"
+msgid "AirDrop"
+msgstr "AirDrop"
+
+#: ulng.rsmfstbiairdroptitle
+msgctxt "ulng.rsmfstbiairdroptitle"
+msgid "AirDrop"
+msgstr "AirDrop"
+
+#: ulng.rsmfstbicommandmenudirectoryhotlist
+#, fuzzy
+msgctxt "ulng.rsmfstbicommandmenudirectoryhotlist"
+msgid "Directory Hotlist"
+msgstr "디렉터리 주요 목록"
+
+#: ulng.rsmfstbicommandmenufavoritetabs
+#, fuzzy
+msgctxt "ulng.rsmfstbicommandmenufavoritetabs"
+msgid "Favorite Tabs"
+msgstr "즐겨찾기 탭"
+
+#: ulng.rsmfstbicommandmenuquicklook
+msgid "macOS QuickLook"
+msgstr "macOS QuickLook"
+
+#: ulng.rsmfstbicommandtitle
+#, fuzzy
+msgctxt "ulng.rsmfstbicommandtitle"
+msgid "Command"
+msgstr "명령"
+
+#: ulng.rsmfstbicomparetips
+msgid "Compare by Contents..."
+msgstr "내용별 비교..."
+
+#: ulng.rsmfstbicomparetitle
+#, fuzzy
+msgctxt "ulng.rsmfstbicomparetitle"
+msgid "Compare"
+msgstr "비교"
+
+#: ulng.rsmfstbieditfindertagtips
+msgctxt "ulng.rsmfstbieditfindertagtips"
+msgid "Edit Finder Tags..."
+msgstr "파인더 태그 편집..."
+
+#: ulng.rsmfstbieditfindertagtitle
+msgid "EditTag"
+msgstr "태그 편집"
+
+#: ulng.rsmfstbiedittips
+msgid "Edit..."
+msgstr "편집..."
+
+#: ulng.rsmfstbiedittitle
+#, fuzzy
+msgctxt "ulng.rsmfstbiedittitle"
+msgid "Edit"
+msgstr "편집"
+
+#: ulng.rsmfstbifinderrevealtips
+msgid "Reveal in Finder"
+msgstr "파인더에서 공개"
+
+#: ulng.rsmfstbifinderrevealtitle
+msgid "Finder"
+msgstr "파인더"
+
+#: ulng.rsmfstbigotips
+msgctxt "ulng.rsmfstbigotips"
+msgid "Go"
+msgstr "가기"
+
+#: ulng.rsmfstbigotitle
+msgctxt "ulng.rsmfstbigotitle"
+msgid "Go"
+msgstr "가기"
+
+#: ulng.rsmfstbihorzsplittips
+msgid "Toggle Horizontal Split Mode"
+msgstr "수평 분할 모드 전환"
+
+#: ulng.rsmfstbihorzsplittitle
+msgid "HorzSplit"
+msgstr "수평 분할"
+
+#: ulng.rsmfstbiprivilegetips
+msgid "As a file manager, Double Command requires full disk access permissions. Clicking this button will pop up the macOS system settings page. Please add \"Double Commander.app\" to the \"Full Disk Access\" list to complete the authorization."
+msgstr "파일 관리자인 Double Command에는 전체 디스크 액세스 권한이 필요합니다. 이 버튼을 클릭하면 macOS 시스템 설정 페이지가 나타납니다. “전체 디스크 액세스” 목록에 ‘Double Commander.app’을 추가하여 권한 부여를 완료하세요."
+
+#: ulng.rsmfstbiprivilegetitle
+msgid "Privilege"
+msgstr "권한"
+
+#: ulng.rsmfstbiquicklooktips
+msgid "macOS Quick Look Panel"
+msgstr "macOS Quick Look 패널"
+
+#: ulng.rsmfstbiquicklooktitle
+msgid "QuickLook"
+msgstr "QuickLook"
+
+#: ulng.rsmfstbirefreshtips
+msgid "Refresh File List"
+msgstr "파일 목록 새로 고침"
+
+#: ulng.rsmfstbirefreshtitle
+msgid "Refresh"
+msgstr "새로 고침"
+
+#: ulng.rsmfstbisearchcombinedtags
+msgid "Search for combined tags..."
+msgstr "결합된 태그 검색..."
+
+#: ulng.rsmfstbisearchtips
+msgid "Search Files..."
+msgstr "파일 검색..."
+
+#: ulng.rsmfstbisearchtitle
+#, fuzzy
+msgctxt "ulng.rsmfstbisearchtitle"
+msgid "Search"
+msgstr "검색"
+
+#: ulng.rsmfstbisharetitle
+msgid "Share"
+msgstr "공유"
+
+#: ulng.rsmfstbishowbrieftitle
+msgid "as Brief"
+msgstr "간단히"
+
+#: ulng.rsmfstbishowfulltitle
+msgid "as Full"
+msgstr "자세히"
+
+#: ulng.rsmfstbishowinfotips
+msgid "Show Info in Finder"
+msgstr "파인더에 정보 표시"
+
+#: ulng.rsmfstbishowinfotitle
+msgid "ShowInfo"
+msgstr "정보 표시"
+
+#: ulng.rsmfstbishowmodetips
+msgid "Show as Brief, Full or Thumbnails"
+msgstr "간단히, 자세히 또는 썸네일로 표시"
+
+#: ulng.rsmfstbishowmodetitle
+msgid "ShowMode"
+msgstr "모드 표시"
+
+#: ulng.rsmfstbishowthumbnailstitle
+msgid "as Thumbnails"
+msgstr "썸네일"
+
+#: ulng.rsmfstbiswappanelstips
+msgid "Swap Panels"
+msgstr "패널 교환"
+
+#: ulng.rsmfstbiswappanelstitle
+msgid "SwapPanels"
+msgstr "SwapPanels"
+
+#: ulng.rsmfstbisynctips
+msgid "Synchronize Dirs..."
+msgstr "디렉터리 동기화..."
+
+#: ulng.rsmfstbisynctitle
+msgid "Sync"
+msgstr "동기화"
+
+#: ulng.rsmfstbiterminaltips
+msgid "Open in Terminal"
+msgstr "터미널에서 열기"
+
+#: ulng.rsmfstbiterminaltitle
+#, fuzzy
+msgctxt "ulng.rsmfstbiterminaltitle"
+msgid "Terminal"
+msgstr "터미널"
+
+#: ulng.rsmfstbitreeviewtips
+msgid "Show Tree View Panel"
+msgstr "트리 보기 패널 표시"
+
+#: ulng.rsmfstbitreeviewtitle
+msgid "TreeView"
+msgstr "트리 보기"
 
 #: ulng.rsmnuactions
 msgctxt "ulng.rsmnuactions"
@@ -11076,7 +11295,7 @@ msgstr "파일 %s를 %s로 복사할 수 없습니다"
 #: ulng.rsmsgerrcannotmovedirectory
 #, object-pascal-format
 msgid "Cannot move directory %s"
-msgstr "%s 디렉토리를 이동할 수 없습니다"
+msgstr "%s 디렉터리를 이동할 수 없습니다"
 
 #: ulng.rsmsgerrcannotmovefile
 #, object-pascal-format
@@ -11112,7 +11331,7 @@ msgstr "파일을 만들 수 없습니다"
 
 #: ulng.rsmsgerrendarchive
 msgid "No more files in archive"
-msgstr "압축파일에 파일이 더 이상 없음"
+msgstr "압축파일에 파일이 더 이상 없습니다"
 
 #: ulng.rsmsgerreopen
 msgid "Cannot open existing file"
@@ -11241,7 +11460,7 @@ msgstr "성공적으로 내보낸 즐겨찾기 탭 수: %d / %d"
 
 #: ulng.rsmsgfavoritetabsextramode
 msgid "Default extra setting for save dir history for new Favorite Tabs:"
-msgstr "새 즐겨찾기 탭에 대한 디렉터리 기록 저장에 대한 기본 추가 설정:"
+msgstr "새 즐겨찾기 탭에 대한 디렉터리 내역 저장에 대한 기본 추가 설정:"
 
 #: ulng.rsmsgfavoritetabsimportedsuccessfully
 #, object-pascal-format
@@ -11263,7 +11482,7 @@ msgstr "마지막 즐겨찾기 탭 수정이 저장되었습니다. 계속하기
 #: ulng.rsmsgfavoritetabssimplemode
 msgctxt "ulng.rsmsgfavoritetabssimplemode"
 msgid "Keep saving dir history with Favorite Tabs:"
-msgstr "즐겨찾기 탭을 사용하여 디렉터리 기록 저장:"
+msgstr "즐겨찾기 탭을 사용하여 디렉터리 내역 저장:"
 
 #: ulng.rsmsgfavoritetabssubmenuname
 msgctxt "ulng.rsmsgfavoritetabssubmenuname"
@@ -12115,7 +12334,7 @@ msgstr "선택한 파일/디렉터리 %d을(를) 영구 삭제하시겠습니까
 #: ulng.rsmsgwipesel
 #, object-pascal-format
 msgid "Wipe selected \"%s\"?"
-msgstr "선택한 \"%s\"를 영구 삭제하시겠습니까?"
+msgstr "선택한 \"%s\"을(를) 영구 삭제하시겠습니까?"
 
 #: ulng.rsmsgwithactionwith
 msgid "with"
@@ -12131,7 +12350,7 @@ msgstr ""
 
 #: ulng.rsmulrenautorename
 msgid "Do auto-rename to \"name (1).ext\", \"name (2).ext\" etc.?"
-msgstr "\"name(1).ext\", \"name(2).ext\" 등으로 자동 이름을 변경합니까?"
+msgstr "\"이름 (1.ext)\", \"이름 (2.ext)\" 등으로 자동 이름을 바꾸시겠습니까?"
 
 #: ulng.rsmulrencounter
 msgctxt "ulng.rsmulrencounter"
@@ -12166,7 +12385,7 @@ msgstr "변수 \"%s\" 값 입력"
 
 #: ulng.rsmulrenexitmodifiedpresetoptions
 msgid "Ignore, just save as the [Last One];Prompt user to confirm if we save it;Save automatically"
-msgstr "무시하고 [마지막 하나으로 저장;저장 여부 확인을 위한 사용자 프롬프트;자동으로 저장"
+msgstr "무시하고 [마지막 한 개]로 저장;저장 여부 확인을 위해 사용자 프롬프트;자동으로 저장"
 
 #: ulng.rsmulrenextension
 msgctxt "ulng.rsmulrenextension"
@@ -12188,7 +12407,7 @@ msgstr "[마지막 사용]"
 
 #: ulng.rsmulrenlaunchbehavioroptions
 msgid "Last masks under [Last One] preset;Last preset;New fresh masks"
-msgstr "[마지막 하나] 사전 설정의 마지막 마스크;마지막 사전 설정;새로운 새 마스크"
+msgstr "[마지막 한 개] 사전 설정 아래의 마지막 마스크;마지막 사전 설정;새로운 새 마스크"
 
 #: ulng.rsmulrenlogstart
 msgctxt "ulng.rsmulrenlogstart"
@@ -12963,7 +13182,7 @@ msgstr "자동 새로 고침"
 #: ulng.rsoptionseditorbehavior
 msgctxt "ulng.rsoptionseditorbehavior"
 msgid "Behaviors"
-msgstr "행동"
+msgstr "동작"
 
 #: ulng.rsoptionseditorbriefview
 msgctxt "ulng.rsoptionseditorbriefview"
@@ -13006,6 +13225,7 @@ msgid "Drives list button"
 msgstr "드라이브 목록 버튼"
 
 #: ulng.rsoptionseditorfavoritetabs
+msgctxt "ulng.rsoptionseditorfavoritetabs"
 msgid "Favorite Tabs"
 msgstr "즐겨찾기 탭"
 
@@ -13636,7 +13856,7 @@ msgstr "디렉터리 선택:"
 
 #: ulng.rsstrpreviewjustpreview
 msgid "Just preview"
-msgstr "바로 미리보기"
+msgstr "미리보기"
 
 #: ulng.rsstrpreviewothers
 msgid "Others"
@@ -13676,7 +13896,7 @@ msgstr "Tremendous-엄청난 VenusGirl"
 
 #: ulng.rsstrtvmchoosedirhistory
 msgid "Choose your directory from Dir History"
-msgstr "디렉터리 기록에서 디렉터리 선택"
+msgstr "디렉터리 내역에서 디렉터리 선택"
 
 #: ulng.rsstrtvmchoosefavoritetabs
 msgid "Choose you Favorite Tabs:"
@@ -13684,7 +13904,7 @@ msgstr "즐겨찾기 탭 선택:"
 
 #: ulng.rsstrtvmchoosefromcmdlinehistory
 msgid "Choose your command from Command Line History"
-msgstr "명령줄 기록에서 명령 선택"
+msgstr "명령줄 내역에서 명령 선택"
 
 #: ulng.rsstrtvmchoosefrommainmenu
 msgid "Choose your action from Main Menu"
@@ -13700,7 +13920,7 @@ msgstr "주요 디렉터리에서 디렉터리 선택:"
 
 #: ulng.rsstrtvmchooseviewhistory
 msgid "Choose your directory from File View History"
-msgstr "파일 보기 기록에서 디렉터리 선택"
+msgstr "파일 보기 내역에서 디렉터리 선택"
 
 #: ulng.rsstrtvmchooseyourfileordir
 msgid "Choose your file or your directory"
@@ -14016,11 +14236,11 @@ msgstr "펜;직사각형;타원"
 
 #: ulng.rsviewwithexternalviewer
 msgid "with external viewer"
-msgstr "외장뷰어로"
+msgstr "외장 뷰어로"
 
 #: ulng.rsviewwithinternalviewer
 msgid "with internal viewer"
-msgstr "내장뷰어로"
+msgstr "내장 뷰어로"
 
 #: ulng.rsxreplacements
 #, object-pascal-format
@@ -14034,5 +14254,4 @@ msgstr "교체가 이루어지지 않았습니다."
 #: umaincommands.rsfavoritetabs_setupnotexist
 #, object-pascal-format
 msgid "No setup named \"%s\""
-msgstr "\"%s\"라는 설정이 없습니다"
-
+msgstr "\"%s\"라는 이름의 설정 없음"

@@ -27,7 +27,7 @@ unit SevenZipOpt;
 interface
 
 uses
-  Classes, SysUtils, Windows, IniFiles, JclCompression, SevenZip;
+  Classes, SysUtils, Windows, DCClassesUtf8, JclCompression, SevenZip;
 
 const
   cKilo = 1024;
@@ -163,12 +163,6 @@ type
 
   TArchiveFormat = (afSevenZip, afBzip2, afGzip, afTar, afWim, afXz, afZip);
 
-  PPasswordData = ^TPasswordData;
-  TPasswordData = record
-    EncryptHeader: Boolean;
-    Password: array[0..MAX_PATH] of WideChar;
-  end;
-
   TFormatOptions = record
     Level: PtrInt;
     Method: PtrInt;
@@ -180,7 +174,6 @@ type
     Parameters: WideString;
   end;
 
-function GetNumberOfProcessors: LongWord;
 function FormatFileSize(ASize: Int64; AGiga: Boolean = True): String;
 
 procedure SetArchiveOptions(AJclArchive: IInterface);
@@ -222,15 +215,7 @@ var
 implementation
 
 uses
-  ActiveX, LazUTF8, SevenZipAdv, SevenZipCodecs;
-
-function GetNumberOfProcessors: LongWord;
-var
-  SystemInfo: TSYSTEMINFO;
-begin
-  GetSystemInfo(@SystemInfo);
-  Result:= SystemInfo.dwNumberOfProcessors;
-end;
+  ActiveX, LazUTF8, DCOSUtils, SevenZipAdv, SevenZipCodecs, SevenZipHlp;
 
 function FormatFileSize(ASize: Int64; AGiga: Boolean): String;
 begin
@@ -280,7 +265,7 @@ var
     PropValue: TPropVariant;
   begin
     PropValue.vt := VT_BSTR;
-    PropValue.bstrVal := SysAllocString(PWideChar(Value));
+    PropValue.bstrVal := WideToBinary(Value);
     AddProperty(Name, PropValue);
   end;
 
@@ -298,9 +283,14 @@ var
       PropValue.vt:= VT_EMPTY;
       C:= Option[Length(Option)];
       if C = '+' then
-        Variant(PropValue):= True
-      else if C = '-' then begin
-        Variant(PropValue):= False;
+      begin
+        PropValue.vt:= VT_BOOL;
+        PropValue.bool:= True;
+      end
+      else if C = '-' then
+      begin
+        PropValue.vt:= VT_BOOL;
+        PropValue.bool:= False;
       end;
       if (PropValue.vt <> VT_EMPTY) then
       begin
@@ -440,7 +430,7 @@ begin
         SetArchiveCustom(AJclArchive, Index);
       except
         on E: Exception do
-          MessageBoxW(0, PWideChar(UTF8ToUTF16(E.Message)), nil, MB_OK or MB_ICONERROR);
+          MessageBox(E.Message, nil, MB_OK or MB_ICONERROR);
       end;
 
       Exit;
@@ -450,15 +440,15 @@ end;
 
 procedure LoadConfiguration;
 var
-  Ini: TIniFile;
+  Ini: TIniFileEx;
   Section: AnsiString;
   ArchiveFormat: TArchiveFormat;
 begin
   try
-    Ini:= TIniFile.Create(ConfigFile);
+    Ini:= TIniFileEx.Create(ConfigFile);
     try
       LibraryPath:= Ini.ReadString('Library', TargetCPU, EmptyStr);
-      LibraryPath:= Utf16ToUtf8(ExpandEnvironmentStrings(UTF8ToUTF16(LibraryPath)));
+      LibraryPath:= mbExpandEnvironmentStrings(LibraryPath);
       for ArchiveFormat:= Low(TArchiveFormat) to High(TArchiveFormat) do
       begin
         Section:= GUIDToString(PluginConfig[ArchiveFormat].ArchiveCLSID^);
@@ -475,18 +465,18 @@ begin
     end;
   except
     on E: Exception do
-      MessageBoxW(0, PWideChar(UTF8ToUTF16(E.Message)), nil, MB_OK or MB_ICONERROR);
+      MessageBox(E.Message, nil, MB_OK or MB_ICONERROR);
   end;
 end;
 
 procedure SaveConfiguration;
 var
-  Ini: TIniFile;
+  Ini: TIniFileEx;
   Section: AnsiString;
   ArchiveFormat: TArchiveFormat;
 begin
   try
-    Ini:= TIniFile.Create(ConfigFile);
+    Ini:= TIniFileEx.Create(ConfigFile);
     try
       for ArchiveFormat:= Low(TArchiveFormat) to High(TArchiveFormat) do
       begin
@@ -505,7 +495,7 @@ begin
     end;
   except
     on E: Exception do
-      MessageBoxW(0, PWideChar(UTF8ToUTF16(E.Message)), nil, MB_OK or MB_ICONERROR);
+      MessageBox(E.Message, nil, MB_OK or MB_ICONERROR);
   end;
 end;
 
@@ -514,4 +504,3 @@ initialization
              @DefaultConfig[Low(DefaultConfig)], SizeOf(PluginConfig));
 
 end.
-

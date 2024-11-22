@@ -228,6 +228,7 @@ inherited frmPackDlg: TfrmPackDlg
     BorderSpacing.Top = 6
     BorderSpacing.Right = 8
     ClientWidth = 524
+    Color = clDefault
     inherited btnCancel: TBitBtn
       Left = 342
     end

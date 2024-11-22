@@ -60,8 +60,9 @@ type
     procedure LeaveDrive;
     function FillOpenWithSubMenu: Boolean;
     {$IF DEFINED(DARWIN)}
-    procedure FillServicesSubMenu;
-    procedure SharingMenuItemSelect(Sender: TObject);
+    procedure FillMacOSMenu;
+    procedure SharingMenuItemAction(Sender: TObject);
+    procedure EditFinderTagsAction(Sender: TObject);
     {$ENDIF}
     procedure CreateActionSubMenu(MenuWhereToAdd:TComponent; aFile:TFile; bIncludeViewEdit:boolean);
   public
@@ -619,7 +620,7 @@ end;
 
 
 {$IF DEFINED(DARWIN)}
-procedure TShellContextMenu.FillServicesSubMenu;
+procedure TShellContextMenu.FillMacOSMenu;
 var
   mi: TMenuItem;
 begin
@@ -637,14 +638,30 @@ begin
   // and the SharingServicePicker pops up after clicking Share MenuItem.
   mi:=TMenuItem.Create(Self);
   mi.Caption:= uLng.rsMenuMacOsShare;
-  mi.OnClick:= self.SharingMenuItemSelect;
+  mi.OnClick:= self.SharingMenuItemAction;
+  Self.Items.Add(mi);
+
+  addDelimiterMenuItem( self );
+  mi:=TMenuItem.Create(Self);
+  mi.Caption:= FINDER_FAVORITE_TAGS_MENU_ITEM_CAPTION;
+  Self.Items.Add(mi);
+
+  mi:=TMenuItem.Create(Self);
+  mi.Caption:= rsMenuMacOSEditFinderTags;
+  mi.OnClick:= self.EditFinderTagsAction;
   Self.Items.Add(mi);
 end;
 
-procedure TShellContextMenu.SharingMenuItemSelect(Sender: TObject);
+procedure TShellContextMenu.SharingMenuItemAction(Sender: TObject);
 begin
   showMacOSSharingServiceMenu;
 end;
+
+procedure TShellContextMenu.EditFinderTagsAction(Sender: TObject);
+begin
+  showEditFinderTagsPanel( nil, frmMain );
+end;
+
 {$ENDIF}
 
 
@@ -912,9 +929,9 @@ begin
         // Add "Open with" submenu if needed
         AddOpenWithMenu := FillOpenWithSubMenu;
 
-        // Add "Services" menu if MacOS
+        // Add "Services" menu for MacOS
         {$IF DEFINED(DARWIN)}
-        FillServicesSubMenu;
+        FillMacOSMenu;
         {$ENDIF}
 
         // Add delimiter menu

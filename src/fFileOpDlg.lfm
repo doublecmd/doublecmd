@@ -3,6 +3,7 @@ object frmFileOp: TfrmFileOp
   Height = 212
   Top = 272
   Width = 522
+  BorderIcons = [biSystemMenu, biMinimize]
   ClientHeight = 212
   ClientWidth = 522
   Constraints.MinWidth = 500
@@ -140,8 +141,8 @@ object frmFileOp: TfrmFileOp
       BorderSpacing.Top = 3
       Max = 516
       Smooth = True
+      Style = pbstMarquee
       TabOrder = 3
-      BarShowText = True
     end
     object pbTotal: TKASProgressBar
       Left = 0
@@ -152,8 +153,8 @@ object frmFileOp: TfrmFileOp
       BorderSpacing.Top = 3
       Max = 516
       Smooth = True
+      Style = pbstMarquee
       TabOrder = 4
-      BarShowText = True
     end
     object pnlButtons: TPanel
       Left = 0

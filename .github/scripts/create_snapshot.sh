@@ -51,7 +51,7 @@ build_doublecmd()
   echo Killing XProtect...; sudo pkill -9 XProtect >/dev/null || true;
   echo Waiting for XProtect process...; while pgrep XProtect; do sleep 3; done;
 
-  install/darwin/create-dmg/create-dmg \
+  sudo install/darwin/create-dmg/create-dmg \
     --volname "Double Commander" \
     --volicon "$BUILD_PACK_DIR/.VolumeIcon.icns" \
     --background "$BUILD_PACK_DIR/.background/bg.jpg" \

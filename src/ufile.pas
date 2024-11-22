@@ -89,6 +89,10 @@ type
     procedure SetTypeProperty(NewValue: TFileTypeProperty);
     function GetCommentProperty: TFileCommentProperty;
     procedure SetCommentProperty(NewValue: TFileCommentProperty);
+    {$IFDEF DARWIN}
+    function GetFinderTagProperty: TFileFinderTagProperty;
+    procedure SetFinderTagProperty(NewValue: TFileFinderTagProperty);
+    {$ENDIF}
   public
     constructor Create(const APath: String);
     constructor CreateForCloning;
@@ -162,6 +166,9 @@ type
     property OwnerProperty: TFileOwnerProperty read GetOwnerProperty write SetOwnerProperty;
     property TypeProperty: TFileTypeProperty read GetTypeProperty write SetTypeProperty;
     property CommentProperty: TFileCommentProperty read GetCommentProperty write SetCommentProperty;
+    {$IFDEF DARWIN}
+    property FinderTagProperty: TFileFinderTagProperty read GetFinderTagProperty write SetFinderTagProperty;
+    {$ENDIF}
 
     { Accessors to each property's value. }
 
@@ -346,6 +353,7 @@ begin
     begin
       if Assigned(Self.FProperties[PropertyType]) then
       begin
+        AFile.FProperties[PropertyType].Free;
         AFile.FProperties[PropertyType] := Self.FProperties[PropertyType].Clone;
       end;
     end;
@@ -355,6 +363,7 @@ begin
     begin
       if Assigned(Self.FVariantProperties[AIndex]) then
       begin
+        AFile.FVariantProperties[AIndex].Free;
         AFile.FVariantProperties[AIndex] := Self.FVariantProperties[AIndex].Clone;
       end;
     end;
@@ -488,11 +497,17 @@ var
   AIndex: Integer;
 begin
   if PropType < fpInvalid then
+  begin
+    FProperties[PropType].Free;
     FProperties[PropType] := NewValue
+  end
   else begin
     AIndex := Ord(PropType) - Ord(fpVariant);
     if AIndex > High(FVariantProperties) then
-      SetLength(FVariantProperties, AIndex + 4);
+      SetLength(FVariantProperties, AIndex + 4)
+    else begin
+      FVariantProperties[AIndex].Free;
+    end;
     FVariantProperties[AIndex]:= NewValue;
   end;
   if Assigned(NewValue) then
@@ -626,11 +641,7 @@ end;
 
 procedure TFile.SetNameProperty(NewValue: TFileNameProperty);
 begin
-  FProperties[fpName] := NewValue;
-  if Assigned(NewValue) then
-    Include(FSupportedProperties, fpName)
-  else
-    Exclude(FSupportedProperties, fpName);
+  Properties[fpName] := NewValue;
 end;
 
 function TFile.GetAttributesProperty: TFileAttributesProperty;
@@ -640,14 +651,11 @@ end;
 
 procedure TFile.SetAttributesProperty(NewValue: TFileAttributesProperty);
 begin
-  FProperties[fpAttributes] := NewValue;
+  Properties[fpAttributes] := NewValue;
   if Assigned(NewValue) then
   begin
-    Include(FSupportedProperties, fpAttributes);
     UpdateNameAndExtension(Name);
-  end
-  else
-    Exclude(FSupportedProperties, fpAttributes);
+  end;
 end;
 
 function TFile.GetSizeProperty: TFileSizeProperty;
@@ -657,11 +665,7 @@ end;
 
 procedure TFile.SetSizeProperty(NewValue: TFileSizeProperty);
 begin
-  FProperties[fpSize] := NewValue;
-  if Assigned(NewValue) then
-    Include(FSupportedProperties, fpSize)
-  else
-    Exclude(FSupportedProperties, fpSize);
+  Properties[fpSize] := NewValue;
 end;
 
 function TFile.GetCompressedSizeProperty: TFileCompressedSizeProperty;
@@ -671,11 +675,7 @@ end;
 
 procedure TFile.SetCompressedSizeProperty(NewValue: TFileCompressedSizeProperty);
 begin
-  FProperties[fpCompressedSize] := NewValue;
-  if Assigned(NewValue) then
-    Include(FSupportedProperties, fpCompressedSize)
-  else
-    Exclude(FSupportedProperties, fpCompressedSize);
+  Properties[fpCompressedSize] := NewValue;
 end;
 
 function TFile.GetModificationTimeProperty: TFileModificationDateTimeProperty;
@@ -685,11 +685,7 @@ end;
 
 procedure TFile.SetModificationTimeProperty(NewValue: TFileModificationDateTimeProperty);
 begin
-  FProperties[fpModificationTime] := NewValue;
-  if Assigned(NewValue) then
-    Include(FSupportedProperties, fpModificationTime)
-  else
-    Exclude(FSupportedProperties, fpModificationTime);
+  Properties[fpModificationTime] := NewValue;
 end;
 
 function TFile.GetCreationTimeProperty: TFileCreationDateTimeProperty;
@@ -699,11 +695,7 @@ end;
 
 procedure TFile.SetCreationTimeProperty(NewValue: TFileCreationDateTimeProperty);
 begin
-  FProperties[fpCreationTime] := NewValue;
-  if Assigned(NewValue) then
-    Include(FSupportedProperties, fpCreationTime)
-  else
-    Exclude(FSupportedProperties, fpCreationTime);
+  Properties[fpCreationTime] := NewValue;
 end;
 
 function TFile.GetLastAccessTimeProperty: TFileLastAccessDateTimeProperty;
@@ -713,11 +705,7 @@ end;
 
 procedure TFile.SetLastAccessTimeProperty(NewValue: TFileLastAccessDateTimeProperty);
 begin
-  FProperties[fpLastAccessTime] := NewValue;
-  if Assigned(NewValue) then
-    Include(FSupportedProperties, fpLastAccessTime)
-  else
-    Exclude(FSupportedProperties, fpLastAccessTime);
+  Properties[fpLastAccessTime] := NewValue;
 end;
 
 function TFile.GetChangeTime: TDateTime;
@@ -737,11 +725,7 @@ end;
 
 procedure TFile.SetChangeTimeProperty(AValue: TFileChangeDateTimeProperty);
 begin
-  FProperties[fpChangeTime] := AValue;
-  if Assigned(AValue) then
-    Include(FSupportedProperties, fpChangeTime)
-  else
-    Exclude(FSupportedProperties, fpChangeTime);
+  Properties[fpChangeTime] := AValue;
 end;
 
 function TFile.GetLinkProperty: TFileLinkProperty;
@@ -751,11 +735,7 @@ end;
 
 procedure TFile.SetLinkProperty(NewValue: TFileLinkProperty);
 begin
-  FProperties[fpLink] := NewValue;
-  if Assigned(NewValue) then
-    Include(FSupportedProperties, fpLink)
-  else
-    Exclude(FSupportedProperties, fpLink);
+  Properties[fpLink] := NewValue;
 end;
 
 function TFile.GetOwnerProperty: TFileOwnerProperty;
@@ -765,11 +745,7 @@ end;
 
 procedure TFile.SetOwnerProperty(NewValue: TFileOwnerProperty);
 begin
-  FProperties[fpOwner] := NewValue;
-  if Assigned(NewValue) then
-    Include(FSupportedProperties, fpOwner)
-  else
-    Exclude(FSupportedProperties, fpOwner);
+  Properties[fpOwner] := NewValue;
 end;
 
 function TFile.GetTypeProperty: TFileTypeProperty;
@@ -779,11 +755,7 @@ end;
 
 procedure TFile.SetTypeProperty(NewValue: TFileTypeProperty);
 begin
-  FProperties[fpType] := NewValue;
-  if Assigned(NewValue) then
-    Include(FSupportedProperties, fpType)
-  else
-    Exclude(FSupportedProperties, fpType);
+  Properties[fpType] := NewValue;
 end;
 
 function TFile.GetCommentProperty: TFileCommentProperty;
@@ -793,12 +765,20 @@ end;
 
 procedure TFile.SetCommentProperty(NewValue: TFileCommentProperty);
 begin
-  FProperties[fpComment] := NewValue;
-  if Assigned(NewValue) then
-    Include(FSupportedProperties, fpComment)
-  else
-    Exclude(FSupportedProperties, fpComment);
+  Properties[fpComment] := NewValue;
 end;
+
+{$IFDEF DARWIN}
+function TFile.GetFinderTagProperty: TFileFinderTagProperty;
+begin
+  Result := TFileFinderTagProperty(FProperties[fpMacOSFinderTag]);
+end;
+
+procedure TFile.SetFinderTagProperty(NewValue: TFileFinderTagProperty);
+begin
+  Properties[fpMacOSFinderTag] := NewValue;
+end;
+{$ENDIF}
 
 function TFile.IsNameValid: Boolean;
 begin
