@@ -151,6 +151,7 @@ uses
   DCFileAttributes,
   FileUtil, uCryptProc,
   uWcxArchiveListOperation,
+  uTempFileSystemFileSource,
   uWcxArchiveCopyInOperation,
   uWcxArchiveCopyOutOperation,
   uWcxArchiveDeleteOperation,
@@ -588,10 +589,14 @@ function TWcxArchiveFileSource.CreateCopyInOperation(
 var
   TargetFileSource: IFileSource;
 begin
-  TargetFileSource := Self;
-  Result := TWcxArchiveCopyInOperation.Create(SourceFileSource,
-                                              TargetFileSource,
-                                              SourceFiles, TargetPath);
+  if ParentFileSource is ITempFileSystemFileSource then
+    Result := nil
+  else begin
+    TargetFileSource := Self;
+    Result := TWcxArchiveCopyInOperation.Create(SourceFileSource,
+                                                TargetFileSource,
+                                                SourceFiles, TargetPath);
+  end;
 end;
 
 function TWcxArchiveFileSource.CreateCopyOutOperation(
@@ -611,9 +616,13 @@ function TWcxArchiveFileSource.CreateDeleteOperation(var FilesToDelete: TFiles):
 var
   TargetFileSource: IFileSource;
 begin
-  TargetFileSource := Self;
-  Result := TWcxArchiveDeleteOperation.Create(TargetFileSource,
-                                              FilesToDelete);
+  if ParentFileSource is ITempFileSystemFileSource then
+    Result := nil
+  else begin
+    TargetFileSource := Self;
+    Result := TWcxArchiveDeleteOperation.Create(TargetFileSource,
+                                                FilesToDelete);
+  end;
 end;
 
 function TWcxArchiveFileSource.CreateExecuteOperation(var ExecutableFile: TFile;
