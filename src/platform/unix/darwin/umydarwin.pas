@@ -942,7 +942,7 @@ var
   cocoaPath: NSString;
   displayName: NSString;
 begin
-  cocoaPath:= StringToNSString( path );
+  cocoaPath:= StringToNSString(path).stringByStandardizingPath;
   displayName:= NSFileManager.defaultManager.displayNameAtPath( cocoaPath );
   Result:= displayName.UTF8String;
 end;
