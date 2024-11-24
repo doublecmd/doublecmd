@@ -45,6 +45,7 @@ type
     procedure mount( const path: String; const point: String );
     procedure mount( const path: String );
     function getDefaultPointForPath( const path: String ): String; virtual;
+    function getRealPath( const path: String ): String; virtual;
   public
     class function CreateFile(const APath: String): TFile; override;
     function GetRootDir(sPath : String): String; override;
@@ -115,6 +116,20 @@ end;
 function TMountedFileSource.getDefaultPointForPath(const path: String): String;
 begin
   Result:= String.Empty;
+end;
+
+function TMountedFileSource.getRealPath( const path: String ): String;
+var
+  mountPoint: TMountPoint;
+  logicPath: String;
+begin
+  logicPath:= Path.Substring( self.GetRootDir.Length - 1 );
+  for mountPoint in _mountPoints do begin
+    if logicPath.StartsWith(mountPoint.point) then begin
+      Result:= mountPoint.path + logicPath.Substring(mountPoint.point.Length);
+      Exit;
+    end;
+  end;
 end;
 
 class function TMountedFileSource.CreateFile(const APath: String): TFile;

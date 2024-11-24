@@ -35,7 +35,7 @@ end;
 
 {
   self.Path
-    ///iCloud云盘/Pages Documents
+    ///iCloud Drivers/Pages Documents
   logicPath
     /Pages Documents
   realPath
@@ -46,18 +46,6 @@ var
   mountedFS: TMountedFileSource;
   logicPath: String;
   realPath: String;
-
-  function getRealPath: String;
-  var
-    mountPoint: TMountPoint;
-  begin
-    for mountPoint in mountedFS.mountPoints do begin
-      if logicPath.StartsWith(mountPoint.point) then begin
-        Result:= mountPoint.path + logicPath.Substring(mountPoint.point.Length);
-        Exit;
-      end;
-    end;
-  end;
 
   procedure addMountedPaths;
   var
@@ -90,11 +78,11 @@ var
   end;
 
 begin
-  FFiles.Clear;
   mountedFS:= FFileSource as TMountedFileSource;
-  logicPath:= self.Path.Substring( FileSource.GetRootDir.Length - 1 );
-  realPath:= getRealPath;
+  logicPath:= self.Path.Substring( FFileSource.GetRootDir.Length - 1 );
+  realPath:= mountedFS.getRealPath( self.Path );
 
+  FFiles.Clear;
   addMountedPaths;
   addRegularFiles;
 end;
