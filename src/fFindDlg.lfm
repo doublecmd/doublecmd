@@ -1077,21 +1077,9 @@ object frmFindDlg: TfrmFindDlg
           ClientHeight = 311
           ClientWidth = 740
           TabOrder = 2
-          inherited pnlTable: TScrollBox
-            Height = 196
-            Width = 740
-          end
-          inherited pnlButtons: TPanel
-            Top = 261
-            Width = 740
-            ClientWidth = 740
-          end
-          inherited HeaderControl: THeaderControl
-            Width = 740
-          end
-          inherited pnlHeader: TPanel
-            Width = 740
-            ClientWidth = 740
+          inherited pnlOptions: TPanel
+            Width = 741
+            ClientWidth = 741
             inherited chkUsePlugins: TCheckBox
               Width = 312
             end
@@ -1103,6 +1091,19 @@ object frmFindDlg: TfrmFindDlg
               Left = 534
               Width = 206
             end
+          end
+          inherited pnlHeaders: TPanel
+            Width = 741
+            ClientWidth = 741
+          end
+          inherited pnlTable: TScrollBox
+            Height = 270
+            Width = 741
+          end
+          inherited pnlButtons: TPanel
+            Top = 331
+            Width = 741
+            ClientWidth = 741
           end
         end
       end
