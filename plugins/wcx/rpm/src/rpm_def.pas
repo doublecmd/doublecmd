@@ -14,7 +14,7 @@ unit rpm_def;
 interface
 
 uses
-  Classes;
+  Classes, SysUtils;
 
 {$ifdef ver90}
 type longword=longint;
@@ -79,6 +79,8 @@ const
 
   RPMTAG_ARCHIVESIZE  = 1046;
 
+  RPMTAG_REQUIRENAME  = 1049;
+
 type
   RPM_DataSig = array[0..5] of char;
 
@@ -127,6 +129,10 @@ type
     arch         : AnsiString; // RPMTAG_ARCH
     sourcerpm    : AnsiString; // RPMTAG_SOURCERPM
   end;{RPM_Info}
+
+  RPM_DepsRec = record
+    names: TStringArray;
+  end;
 
 implementation
 
