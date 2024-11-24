@@ -330,8 +330,8 @@ begin
     if (WdxField.FType <> FT_MULTIPLECHOICE) then
     begin
       if (WdxField.FType < FT_DATE) then
-        FEditValue.Text:=AValue
-      else if (WdxField.FType < FT_STRING) then
+        FEditValue.Text:= AValue
+      else if (WdxField.FType in [FT_DATE, FT_TIME, FT_DATETIME]) then
         FDateTimeValue.DateTime:= AValue
       else
         FComboValue.Text := AValue;
