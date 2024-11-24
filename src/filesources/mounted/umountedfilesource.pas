@@ -6,8 +6,8 @@ interface
 
 uses
   Classes, SysUtils, Generics.Collections,
-  uFile, uFileSource, uFileSourceProperty, uFileSystemFileSource,
-  uFileSourceOperation, uFileSourceOperationTypes,
+  uFile, uFileSource, uLocalFileSource, uFileSystemFileSource,
+  uFileSourceProperty, uFileSourceOperation, uFileSourceOperationTypes,
   uDCUtils;
 
 type
@@ -36,7 +36,7 @@ type
 
   { TMountedFileSource }
 
-  TMountedFileSource = class(TFileSource, IMountedFileSource)
+  TMountedFileSource = class(TLocalFileSource, IMountedFileSource)
   private
     _mountPoints: TMountPoints;
   public
@@ -52,6 +52,8 @@ type
     function GetProperties: TFileSourceProperties; override;
     function GetOperationsTypes: TFileSourceOperationTypes; override;
     function CreateListOperation(TargetPath: String): TFileSourceOperation; override;
+    function CreateCopyOperation(var SourceFiles: TFiles; TargetPath: String
+      ): TFileSourceOperation; override;
     function CreateCopyInOperation(SourceFileSource: IFileSource;
       var SourceFiles: TFiles; TargetPath: String): TFileSourceOperation;
       override;
@@ -176,6 +178,17 @@ end;
 function TMountedFileSource.CreateListOperation(TargetPath: String): TFileSourceOperation;
 begin
   Result:= TMountedListOperation.Create( self, TargetPath );
+end;
+
+function TMountedFileSource.CreateCopyOperation(var SourceFiles: TFiles;
+  TargetPath: String): TFileSourceOperation;
+var
+  fs: TFileSystemFileSource;
+  realPath: String;
+begin
+  fs:= TFileSystemFileSource.create;
+  realPath:= getRealPath( TargetPath );
+  Result:= fs.CreateCopyOperation( SourceFiles, RealPath );
 end;
 
 function TMountedFileSource.CreateCopyInOperation(

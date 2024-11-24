@@ -952,7 +952,7 @@ uses
   Themes, uFileProcs, uShellContextMenu, fTreeViewMenu, uSearchResultFileSource,
   Math, LCLIntf, Dialogs, uGlobs, uLng, uMasks, fCopyMoveDlg, uQuickViewPanel,
   uShowMsg, uDCUtils, uLog, uGlobsPaths, LCLProc, uOSUtils, uPixMapManager, LazUTF8,
-  uDragDropEx, uKeyboard, uFileSystemFileSource, fViewOperations, uMultiListFileSource,
+  uDragDropEx, uKeyboard, uLocalFileSource, uFileSystemFileSource, fViewOperations, uMultiListFileSource,
   uFileSourceOperationTypes, uFileSourceCopyOperation, uFileSourceMoveOperation,
   uFileSourceProperty, uFileSourceExecuteOperation, uArchiveFileSource, uThumbFileView,
   uShellExecute, fSymLink, fHardLink, uExceptions, uUniqueInstance, Clipbrd, ShellCtrls,
@@ -4024,7 +4024,7 @@ begin
   else
   begin
     // This only work for filesystem for now.
-    if TargetFileSource.IsClass(TFileSystemFileSource) then
+    if TargetFileSource.IsClass(TLocalFileSource) then
       AbsolutePath := BaseDir + EnteredPath
     else
       AbsolutePath := PathDelim{TargetFileSource.GetRoot} + EnteredPath;
