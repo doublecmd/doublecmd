@@ -304,7 +304,7 @@ var
   Index: Integer;
   WdxField: TWdxField;
 begin
-  if FComboUnit.Enabled then
+  if FComboUnit.Visible then
   begin
     WdxField:= TWdxField(FComboField.Items.Objects[FComboField.ItemIndex]);
     Index := WdxField.GetUnitIndex(AValue);
