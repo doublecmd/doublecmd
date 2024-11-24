@@ -78,7 +78,7 @@ type
 implementation
 
 uses
-  uLng, Variants, WdxPlugin, uGlobs, uWDXModule, Graphics, uShowMsg;
+  DateUtils, uLng, Variants, WdxPlugin, uGlobs, uWDXModule, Graphics, uShowMsg;
 
 { TPluginPanel }
 
@@ -174,7 +174,7 @@ begin
   FComboOperator.Items.Clear;
   FComboValue.Text:= EmptyStr;
   FComboValue.Visible:= True;
-  FDateTimeValue.DateTime:= Now;
+  FDateTimeValue.DateTime:= RecodeMilliSecond(Now, 0);
   FDateTimeValue.Visible:= False;
   FEditValue.Text:= EmptyStr;
   FEditValue.Visible:= False;
