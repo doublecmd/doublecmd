@@ -52,6 +52,9 @@ type
     function GetProperties: TFileSourceProperties; override;
     function GetOperationsTypes: TFileSourceOperationTypes; override;
     function CreateListOperation(TargetPath: String): TFileSourceOperation; override;
+    function CreateCopyInOperation(SourceFileSource: IFileSource;
+      var SourceFiles: TFiles; TargetPath: String): TFileSourceOperation;
+      override;
     function CreateCopyOutOperation(TargetFileSource: IFileSource;
       var SourceFiles: TFiles; TargetPath: String): TFileSourceOperation;
       override;
@@ -173,6 +176,18 @@ end;
 function TMountedFileSource.CreateListOperation(TargetPath: String): TFileSourceOperation;
 begin
   Result:= TMountedListOperation.Create( self, TargetPath );
+end;
+
+function TMountedFileSource.CreateCopyInOperation(
+  SourceFileSource: IFileSource; var SourceFiles: TFiles; TargetPath: String
+  ): TFileSourceOperation;
+var
+  fs: TFileSystemFileSource;
+  realPath: String;
+begin
+  fs:= TFileSystemFileSource.create;
+  realPath:= getRealPath( TargetPath );
+  Result:= fs.CreateCopyInOperation( SourceFileSource, SourceFiles, RealPath );
 end;
 
 function TMountedFileSource.CreateCopyOutOperation(
