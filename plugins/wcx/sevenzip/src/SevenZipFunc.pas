@@ -122,7 +122,7 @@ type
   end;
 
 var
-  PasswordCache: TPasswordCache;
+  PasswordCache: TPasswordCache = nil;
 
 threadvar
   ProcessDataProcT: TProcessDataProcW;
@@ -777,6 +777,9 @@ begin
   FMutex.Free;
   inherited Destroy;
 end;
+
+finalization
+  PasswordCache.Free;
 
 end.
 

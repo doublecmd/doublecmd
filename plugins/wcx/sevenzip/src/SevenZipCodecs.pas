@@ -348,14 +348,17 @@ procedure Finish;
 var
   Index: Integer;
 begin
-  if Assigned(ALibraries) then begin
+  if Assigned(ALibraries) then
+  begin
     for Index:= 0 to ALibraries.Count - 1 do
     begin
       if Assigned(ALibraries[Index].SetCodecs) then
         ALibraries[Index].SetCodecs(nil);
       FreeLibrary(ALibraries[Index].Handle);
     end;
+    ALibraries.Free;
   end;
+  ACodecs.Free;
 end;
 
 finalization

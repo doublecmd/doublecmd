@@ -69,5 +69,8 @@ begin
   end;
 end;
 
+finalization
+  FinalizeResourceTables;
+
 end.
 
