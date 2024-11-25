@@ -60,6 +60,8 @@ type
     function CreateCopyOutOperation(TargetFileSource: IFileSource;
       var SourceFiles: TFiles; TargetPath: String): TFileSourceOperation;
       override;
+    function CreateDeleteOperation(var FilesToDelete: TFiles
+      ): TFileSourceOperation; override;
     function GetLocalName(var aFile: TFile): Boolean; override;
 
   public
@@ -211,6 +213,15 @@ var
 begin
   fs:= TFileSystemFileSource.create;
   Result:= fs.CreateCopyOutOperation( TargetFileSource, SourceFiles, TargetPath );
+end;
+
+function TMountedFileSource.CreateDeleteOperation(var FilesToDelete: TFiles
+  ): TFileSourceOperation;
+var
+  fs: TFileSystemFileSource;
+begin
+  fs:= TFileSystemFileSource.create;
+  Result:= fs.CreateDeleteOperation( FilesToDelete );
 end;
 
 function TMountedFileSource.GetLocalName(var aFile: TFile): Boolean;
