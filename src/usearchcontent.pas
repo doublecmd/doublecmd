@@ -169,7 +169,7 @@ procedure TPluginPanel.FieldChange(Sender: TObject);
 var
   WdxField: TWdxField;
 begin
-  FComboUnit.Items.Clear;
+  FComboUnit.Clear;
   FComboValue.Items.Clear;
   FComboOperator.Items.Clear;
   FComboValue.Text:= EmptyStr;

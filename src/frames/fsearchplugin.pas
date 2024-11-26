@@ -94,7 +94,6 @@ var
   I: Integer;
   Panel: TPluginPanel;
 begin
-  chkUsePlugins.Checked:= SearchTemplate.ContentPlugin;
   if SearchTemplate.ContentPluginCombine then
     rbAnd.Checked:= True
   else begin
@@ -111,6 +110,7 @@ begin
     Panel.Value:= SearchTemplate.ContentPlugins[I].Value;
     Panel.UnitName:= SearchTemplate.ContentPlugins[I].UnitName;
   end;
+  chkUsePlugins.Checked:= SearchTemplate.ContentPlugin;
 end;
 
 procedure TfrmSearchPlugin.btnAddClick(Sender: TObject);
