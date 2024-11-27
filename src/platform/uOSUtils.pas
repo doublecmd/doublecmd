@@ -498,6 +498,7 @@ begin
     Exit(GetFreeMem(FreeSize, TotalSize));
   end;
 {$ENDIF}
+  if (sbfs.blocks = 0) then Exit(False);
   FreeSize := (Int64(sbfs.bavail) * sbfs.bsize);
   TotalSize := (Int64(sbfs.blocks) * sbfs.bsize);
 end;
