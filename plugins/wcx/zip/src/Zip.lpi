@@ -67,12 +67,6 @@ end;"/>
               <ExecutableType Value="Library"/>
             </Options>
           </Linking>
-          <Other>
-            <ConfigFile>
-              <CustomConfigFile Value="True"/>
-              <ConfigFilePath Value="fpc-extra.cfg"/>
-            </ConfigFile>
-          </Other>
         </CompilerOptions>
       </Item2>
     </BuildModes>
@@ -158,10 +152,6 @@ end;"/>
         <ShowNotes Value="False"/>
         <ShowHints Value="False"/>
       </Verbosity>
-      <ConfigFile>
-        <CustomConfigFile Value="True"/>
-        <ConfigFilePath Value="fpc-extra.cfg"/>
-      </ConfigFile>
     </Other>
   </CompilerOptions>
 </CONFIG>
