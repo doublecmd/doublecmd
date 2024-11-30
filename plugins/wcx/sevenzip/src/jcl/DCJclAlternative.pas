@@ -3,7 +3,7 @@
   -------------------------------------------------------------------------
   SevenZip archiver plugin
 
-  Copyright (C) 2015 Alexander Koblov (alexx2000@mail.ru)
+  Copyright (C) 2015-2024 Alexander Koblov (alexx2000@mail.ru)
 
   This library is free software; you can redistribute it and/or
   modify it under the terms of the GNU Lesser General Public
@@ -27,7 +27,7 @@ unit DCJclAlternative;
 interface
 
 uses
-  Classes, SysUtils, fgl, Windows;
+  Classes, SysUtils, fgl, Windows, DCClassesUtf8;
 
 // JclBase.pas -----------------------------------------------------------------
 type
@@ -106,10 +106,10 @@ function FileMove(const OldName, NewName: String; Replace: Boolean = False): Boo
 
 // JclSysUtils.pas -------------------------------------------------------------
 type
-  TModuleHandle = HINST;
+  TModuleHandle = TLibHandle;
 
 const
-  INVALID_MODULEHANDLE_VALUE = TModuleHandle(0);
+  INVALID_MODULEHANDLE_VALUE = NilHandle;
 
 type
   JclSysUtils = class
@@ -152,7 +152,11 @@ type
     property Strings[Index: Integer]: WideString read Get write Put; default;
   end;
 
-// SysUtils.pas -----------------------------------------------------------------
+// Classes.pas -----------------------------------------------------------------
+type
+  TFileStream = TFileStreamEx;
+
+// SysUtils.pas ----------------------------------------------------------------
 function FileExists(const FileName: String): Boolean; inline;
 
 // Windows.pas -----------------------------------------------------------------
@@ -163,7 +167,7 @@ function GetFileAttributesEx(lpFileName: LPCSTR; fInfoLevelId: TGET_FILEEX_INFO_
 implementation
 
 uses
-  LazUTF8, LazFileUtils;
+  LazFileUtils, DCOSUtils, DCWindows;
 
 function StreamCopy(Source, Target: TStream): Int64;
 begin
@@ -228,7 +232,7 @@ end;
 
 function FileDelete(const FileName: String): Boolean;
 begin
-  Result:= DeleteFileW(PWideChar(UTF8ToUTF16(FileName)));
+  Result:= mbDeleteFile(FileName);
 end;
 
 function FindUnusedFileName(const FileName, FileExt: String): String;
@@ -247,7 +251,7 @@ function FileMove(const OldName, NewName: String; Replace: Boolean): Boolean;
 const
   dwFlags: array[Boolean] of DWORD = (0, MOVEFILE_REPLACE_EXISTING);
 begin
-  Result:= MoveFileExW(PWideChar(UTF8ToUTF16(OldName)), PWideChar(UTF8ToUTF16(NewName)),
+  Result:= MoveFileExW(PWideChar(UTF16LongName(OldName)), PWideChar(UTF16LongName(NewName)),
                        dwFlags[Replace] or MOVEFILE_COPY_ALLOWED);
 end;
 
@@ -258,7 +262,7 @@ end;
 
 class function JclSysUtils.LoadModule(var Module: TModuleHandle; FileName: String): Boolean;
 begin
-  Module:= LoadLibraryW(PWideChar(UTF8ToUTF16(FileName)));
+  Module:= mbLoadLibrary(FileName);
   Result:= Module <> INVALID_MODULEHANDLE_VALUE;
 end;
 
@@ -304,19 +308,19 @@ end;
 
 function FileExists(const FileName: String): Boolean;
 begin
-  Result:= FileExistsUTF8(FileName);
+  Result:= mbFileExists(FileName);
 end;
 
 function CreateFile(lpFileName: LPCSTR; dwDesiredAccess: DWORD; dwShareMode: DWORD; lpSecurityAttributes: LPSECURITY_ATTRIBUTES;
                     dwCreationDisposition: DWORD; dwFlagsAndAttributes: DWORD; hTemplateFile: HANDLE): HANDLE;
 begin
-  Result:= CreateFileW(PWideChar(UTF8ToUTF16(lpFileName)), dwDesiredAccess, dwShareMode,
+  Result:= CreateFileW(PWideChar(UTF16LongName(lpFileName)), dwDesiredAccess, dwShareMode,
                        lpSecurityAttributes, dwCreationDisposition, dwFlagsAndAttributes, hTemplateFile);
 end;
 
 function GetFileAttributesEx(lpFileName: LPCSTR; fInfoLevelId: TGET_FILEEX_INFO_LEVELS; lpFileInformation: Pointer): BOOL;
 begin
-  Result:= GetFileAttributesExW(PWideChar(UTF8ToUTF16(lpFileName)), fInfoLevelId, lpFileInformation);
+  Result:= GetFileAttributesExW(PWideChar(UTF16LongName(lpFileName)), fInfoLevelId, lpFileInformation);
 end;
 
 { TJclDynamicSplitStream }
