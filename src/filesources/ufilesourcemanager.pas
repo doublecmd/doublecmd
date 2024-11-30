@@ -138,7 +138,36 @@ end;
 { TDefaultFileSourceProcessor }
 
 procedure TDefaultFileSourceProcessor.consultBeforeOperate( var params: TFileSourceConsultParams );
+var
+  sourceFS: IFileSource;
+  targetFS: IFileSource;
 begin
+  if params.operationType <> fsoMove then
+    Exit;
+
+  if params.currentFS <> params.sourceFS then
+    Exit;
+
+  sourceFS:= params.sourceFS;
+  targetFS:= params.targetFS;
+
+  if (sourceFS.IsInterface(targetFS) or
+      targetFS.IsInterface(sourceFS)) and
+     (sourceFS.CurrentAddress = targetFS.CurrentAddress) and
+     (fsoMove in sourceFS.GetOperationsTypes) and
+     (fsoMove in targetFS.GetOperationsTypes) then
+  begin
+    params.consultResult:= fscrSuccess;
+  end
+  else if ((fsoCopyOut in sourceFS.GetOperationsTypes) and
+           (fsoCopyIn in targetFS.GetOperationsTypes)) then
+  begin
+    params.consultResult:= fscrNotImplemented;
+  end
+  else
+  begin
+    params.consultResult:= fscrNotSupported;
+  end;
 end;
 
 initialization
