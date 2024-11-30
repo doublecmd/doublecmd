@@ -6312,9 +6312,17 @@ begin
       end;
     end;
     if Length(PropNames) > 0 then
-    begin
+    try
       SevenZipCheck(PropertySetter.SetProperties(@PropNames[0], @PropValues[0], Length(PropNames)));
-      SetLength(JclArchive.PropNames, 0); SetLength(JclArchive.PropValues, 0);
+    finally
+      for Index := 0 to High(PropValues) do
+      begin
+        if (PropValues[Index].vt = VT_BSTR) and (PropValues[Index].bstrVal <> nil) then
+        begin
+          SysFreeString(PropValues[Index].bstrVal);
+        end;
+        SetLength(JclArchive.PropNames, 0); SetLength(JclArchive.PropValues, 0);
+      end
     end;
   end;
 end;
