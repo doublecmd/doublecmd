@@ -10,7 +10,7 @@ uses
   LCLType, Forms, Menus,
   fMain, uDCUtils, uLng,
   uFileView, uBriefFileView, uColumnsFileView, uThumbFileView,
-  uMyDarwin, uDarwinFinder, uDarwinFinderModel, uSearchResultUtil,
+  uMyDarwin, uDarwinFinder, uDarwinFinderModel, uDarwinFileView,
   CocoaAll, CocoaConfig, CocoaToolBar, Cocoa_Extra;
 
 procedure initCocoaModernFormConfig;
@@ -203,17 +203,7 @@ end;
 procedure TToolBarMenuHandler.onSearchFinderTagComplete(
   const searchName: String; const files: TStringArray);
 begin
-  TSearchResultUtil.addResultPage( searchName, files );
-end;
-
-function getMacOSDisplayNameFromPath(const path: String): String;
-var
-  cocoaPath: NSString;
-  displayName: NSString;
-begin
-  cocoaPath:= StringToNSString( uDCUtils.ReplaceTilde(path) );
-  displayName:= NSFileManager.defaultManager.displayNameAtPath( cocoaPath );
-  Result:= displayName.UTF8String;
+  uDarwinFileViewUtil.addSearchTagResultPage( searchName, files );
 end;
 
 procedure onGetFolderMenu( const menu: TMenu );
@@ -383,6 +373,11 @@ begin
   createCombinedTagMenuItem;
   items.AddSeparator;
   createSearchFileMenuItem;
+end;
+
+procedure cloudAction( const Sender: id );
+begin
+  uDarwinFileViewUtil.addiCloudDriverPage;
 end;
 
 procedure terminalAction( const Sender: id );
@@ -660,6 +655,16 @@ const
     onAction: @editAction;
   );
 
+  cloudItemConfig: TCocoaConfigToolBarItem = (
+    identifier: 'MainForm.Cloud';
+    priority: NSToolbarItemVisibilityPriorityStandard;
+    navigational: False;
+    iconName: 'cloud';
+    title: 'iCloud Driver';
+    tips: 'iCloud Driver';
+    bordered: True;
+    onAction: @cloudAction;
+  );
 
   mainFormConfig: TCocoaConfigForm = (
     name: 'frmMain';
@@ -725,7 +730,9 @@ const
         'MainForm.Refresh',
         'MainForm.Compare',
         'MainForm.Sync',
-        'MainForm.Edit'
+        'MainForm.Edit',
+
+        'MainForm.Cloud'
       );
       itemCreator: nil;      // default item Creator
     );
@@ -760,7 +767,9 @@ begin
     TCocoaToolBarUtils.toClass(refreshItemConfig),
     TCocoaToolBarUtils.toClass(compareItemConfig),
     TCocoaToolBarUtils.toClass(syncItemConfig),
-    TCocoaToolBarUtils.toClass(editItemConfig)
+    TCocoaToolBarUtils.toClass(editItemConfig),
+
+    TCocoaToolBarUtils.toClass(cloudItemConfig)
   ];
 
   CocoaConfigForms:= [ mainFormConfig ];

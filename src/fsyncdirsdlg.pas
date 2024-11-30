@@ -1029,7 +1029,7 @@ begin
         with hCols[0] do
           TextRect(Rect(Left, aRect.Top, Left + Width, aRect.Bottom),
             Left + 2, aRect.Top + 2, FVisibleItems[aRow]);
-        s := IntToStr(r.FFileL.Size);
+        s := IntToStrTS(r.FFileL.Size);
         with hCols[1] do begin
           x := Left + Width - 8 - TextWidth(s);
           TextRect(Rect(Left, aRect.Top, Left + Width, aRect.Bottom),
@@ -1043,7 +1043,7 @@ begin
       if Assigned(r.FFileR) then
       begin
         TextOut(hCols[6].Left + 2, aRect.Top + 2, FVisibleItems[aRow]);
-        s := IntToStr(r.FFileR.Size);
+        s := IntToStrTS(r.FFileR.Size);
         with hCols[5] do begin
           x := Left + Width - 8 - TextWidth(s);
           TextRect(Rect(Left, aRect.Top, Left + Width, aRect.Bottom),
@@ -2166,7 +2166,7 @@ var
       begin
         s := s + FVisibleItems[R];
         s := s + #9;
-        s := s + IntToStr(SyncRec.FFileL.Size);
+        s := s + IntToStrTS(SyncRec.FFileL.Size);
         s := s + #9;
         s := s + FormatDateTime(gDateTimeFormatSync, SyncRec.FFileL.ModificationTime);
       end;
@@ -2190,7 +2190,7 @@ var
       begin
         s := s + FormatDateTime(gDateTimeFormatSync, SyncRec.FFileR.ModificationTime);
         s := s + #9;
-        s := s + IntToStr(SyncRec.FFileR.Size);
+        s := s + IntToStrTS(SyncRec.FFileR.Size);
         s := s + #9;
         s := s + FVisibleItems[R];
       end;

@@ -8561,23 +8561,23 @@ msgstr "Λιγότεροι κανόνες"
 msgid "Use &content plugins, combine with:"
 msgstr "Χρήση προσθέτων περιεχομένου, συνδυασμός με:"
 
-#: tfrmsearchplugin.headercontrol.sections[0].text
-msgctxt "TFRMSEARCHPLUGIN.HEADERCONTROL.SECTIONS[0].TEXT"
+#: tfrmsearchplugin.lblplugin.caption
+msgctxt "tfrmsearchplugin.lblplugin.caption"
 msgid "Plugin"
 msgstr "Πρόσθετο"
 
-#: tfrmsearchplugin.headercontrol.sections[1].text
-msgctxt "tfrmsearchplugin.headercontrol.sections[1].text"
+#: tfrmsearchplugin.lblfield.caption
+msgctxt "tfrmsearchplugin.lblfield.caption"
 msgid "Field"
 msgstr "Πεδίο"
 
-#: tfrmsearchplugin.headercontrol.sections[2].text
-msgctxt "tfrmsearchplugin.headercontrol.sections[2].text"
+#: tfrmsearchplugin.lbloperator.caption
+msgctxt "tfrmsearchplugin.lbloperator.caption"
 msgid "Operator"
 msgstr "Χειριστής"
 
-#: tfrmsearchplugin.headercontrol.sections[3].text
-msgctxt "TFRMSEARCHPLUGIN.HEADERCONTROL.SECTIONS[3].TEXT"
+#: tfrmsearchplugin.lblvalue.caption
+msgctxt "tfrmsearchplugin.lblvalue.caption"
 msgid "Value"
 msgstr "Τιμή"
 

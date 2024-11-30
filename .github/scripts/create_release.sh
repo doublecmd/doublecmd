@@ -43,7 +43,7 @@ build_doublecmd()
   # Copy libraries
   cp -a install/darwin/lib/$CPU_TARGET/*.dylib ./
 
-  # Create *.dmg package
+  # Prepare *.dmg package
   mkdir -p $BUILD_PACK_DIR
   install/darwin/install.sh $BUILD_PACK_DIR
   pushd $BUILD_PACK_DIR
@@ -51,11 +51,18 @@ build_doublecmd()
   codesign --deep --force --verify --verbose --sign '-' 'Double Commander.app'
   popd
 
+  # Create *.dmg package
+  HDI_TRY=1
+
+  while [ $HDI_TRY -le 3 ]; do
+
+  echo "Try to create a package $HDI_TRY ..."
+
   # Bug: https://github.com/actions/runner-images/issues/7522
   echo Killing XProtect...; sudo pkill -9 XProtect >/dev/null || true;
   echo Waiting for XProtect process...; while pgrep XProtect; do sleep 3; done;
 
-  sudo install/darwin/create-dmg/create-dmg \
+  install/darwin/create-dmg/create-dmg \
     --volname "Double Commander" \
     --volicon "$BUILD_PACK_DIR/.VolumeIcon.icns" \
     --background "$BUILD_PACK_DIR/.background/bg.jpg" \
@@ -69,6 +76,16 @@ build_doublecmd()
     --icon ".background" 100 500 \
     "$PACK_DIR/doublecmd-$DC_VER.$lcl.$CPU_TARGET.dmg" \
     "$BUILD_PACK_DIR/"
+
+  if [ $? -eq 0 ]; then
+    break
+  fi
+
+  HDI_TRY=$((HDI_TRY+1))
+
+  sleep 10
+
+  done
 
   # Clean DC build dir
   ./clean.sh

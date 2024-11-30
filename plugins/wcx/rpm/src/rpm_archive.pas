@@ -47,6 +47,7 @@ type
     changevol_proc : TChangeVolProc;
 //- RPM tags -------------------------------------------
     info           : RPM_InfoRec;
+    deps           : RPM_DepsRec;
     datasig        : RPM_DataSig;
   end;{ArchiveRec}
 
@@ -117,7 +118,7 @@ begin
       else begin
         if not RPM_ReadSignature(arec^.handle_file, r_lead.signature_type, signature) then fgError := True
         else
-          if not RPM_ReadHeader(arec^.handle_file, False, arec^.header, arec^.info) then fgError := True
+          if not RPM_ReadHeader(arec^.handle_file, False, arec^.header, arec^.info, arec^.deps) then fgError := True
           else
             arec^.arch_len := FileSize(arec^.handle_file) - FilePos(arec^.handle_file);
         if not fgError then begin
@@ -164,8 +165,8 @@ begin
           end;
         HDR_INFO: begin
             copy_str2buf(TStrBuf(FileName), 'INFO.TXT');
-            PackSize := 0;
-            UnpSize  := 0;
+            PackSize := -1;
+            UnpSize  := -1;
           end;
         else
           Result := E_END_ARCHIVE;
@@ -184,6 +185,7 @@ function ProcessFile(hArcData: TArcHandle; Operation: Integer; DestPath: PChar; 
 var
   rpm_file    : file;
   rpm_name    : String;
+  index       : Integer;
   buf         : Pointer;
   buf_size    : LongWord;
   fsize       : LongWord;
@@ -285,6 +287,15 @@ begin
               Line('SOURCE RPM:   ' + sourcerpm);
               Line('DESCRIPTION:  ');
               Line(description);
+              if Length(arec^.deps.names) > 0 then
+              begin
+                Line(EmptyStr);
+                Line('REQUIRES:     ');
+                for index:= 0 to High(arec^.deps.names) do
+                begin
+                  Line('  ' + arec^.deps.names[index]);
+                end;
+              end;
             end;
         end;
         if faborted then Result:=E_EABORTED

@@ -102,7 +102,7 @@ var
 implementation
 
 uses
-  LazUTF8, FileUtil, SevenZipHlp;
+  LazUTF8, FileUtil, DCOSUtils, SevenZipHlp;
 
 { TCompressCodecsInfo }
 
@@ -251,7 +251,7 @@ begin
   AFiles:= FindAllFiles(ExtractFilePath(SevenzipLibraryName) + 'Codecs', '*.' + SharedSuffix);
   for Index:= 0 to AFiles.Count - 1 do
   begin
-    Handle:= System.LoadLibrary(AFiles[Index]);
+    Handle:= mbLoadLibrary(AFiles[Index]);
     if Handle <> 0 then
     begin
       ALibraryInfo:= TLibraryInfo.Create;
@@ -348,14 +348,17 @@ procedure Finish;
 var
   Index: Integer;
 begin
-  if Assigned(ALibraries) then begin
+  if Assigned(ALibraries) then
+  begin
     for Index:= 0 to ALibraries.Count - 1 do
     begin
       if Assigned(ALibraries[Index].SetCodecs) then
         ALibraries[Index].SetCodecs(nil);
       FreeLibrary(ALibraries[Index].Handle);
     end;
+    ALibraries.Free;
   end;
+  ACodecs.Free;
 end;
 
 finalization

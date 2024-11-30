@@ -1484,7 +1484,7 @@ begin
         else begin
           ShowPackDlg(frmMain,
                       ActiveFrame.FileSource,
-                      nil, // No specific target (create new)
+                      TargetFileSource,
                       SelectedFiles,
                       TargetPath,
                       PathDelim { Copy to root of archive } {NotActiveFrame.FileSource.GetRootString}

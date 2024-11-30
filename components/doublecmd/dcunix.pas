@@ -41,16 +41,19 @@ const
   FD_CLOEXEC = 1;
   O_CLOEXEC  = &02000000;
   O_PATH     = &010000000;
+  _SC_NPROCESSORS_ONLN = 83;
 {$ELSEIF DEFINED(FREEBSD)}
   O_CLOEXEC  = &04000000;
+  _SC_NPROCESSORS_ONLN = 58;
 {$ELSEIF DEFINED(NETBSD)}
   O_CLOEXEC  = $00400000;
 {$ELSEIF DEFINED(HAIKU)}
   FD_CLOEXEC = 1;
   O_CLOEXEC  = $00000040;
 {$ELSEIF DEFINED(DARWIN)}
-  O_CLOEXEC  = $1000000;
   F_NOCACHE  = 48;
+  O_CLOEXEC  = $1000000;
+  _SC_NPROCESSORS_ONLN = 58;
 {$ELSE}
   O_CLOEXEC  = 0;
 {$ENDIF}
@@ -253,6 +256,10 @@ function getgrgid(gid: gid_t): PGroupRecord; cdecl; external clib;
             fields of the record in the group database that matches the group name)
 }
 function getgrnam(name: PChar): PGroupRecord; cdecl; external clib;
+{en
+   Get configuration information at run time
+}
+function sysconf(name: cint): clong; cdecl; external clib;
 
 function FileLock(Handle: System.THandle; Mode: cInt): System.THandle;
 
@@ -401,7 +408,6 @@ const
   {$ENDIF}
 
 procedure tzset(); cdecl; external clib;
-function sysconf(name: cint): clong; cdecl; external clib;
 function mktime(tp: PTimeStruct): TTime; cdecl; external clib;
 function localtime_r(timer: PTime; tp: PTimeStruct): PTimeStruct; cdecl; external clib;
 function lchown(path : PChar; owner : TUid; group : TGid): cInt; cdecl; external clib;

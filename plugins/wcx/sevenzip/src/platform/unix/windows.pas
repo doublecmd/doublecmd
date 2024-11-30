@@ -13,6 +13,15 @@ const
   E_OUTOFMEMORY = HRESULT($8007000E);
   FILE_ATTRIBUTE_ARCHIVE = faArchive;
   FILE_ATTRIBUTE_DIRECTORY = faDirectory;
+  // MessageBox: Flags
+  MB_OK                   = $00000000;
+  MB_ABORTRETRYIGNORE     = $00000002;
+  MB_ICONERROR            = $00000010;
+  // MessageBox: Result
+  IDOK         = 1;
+  IDABORT      = 3;
+  IDRETRY      = 4;
+  IDIGNORE     = 5;
 
 type
   UCHAR = byte;

@@ -1,4 +1,4 @@
-unit uSearchResultUtil;
+unit uDarwinFileView;
 
 {$mode ObjFPC}{$H+}
 
@@ -6,12 +6,13 @@ interface
 
 uses
   SysUtils, Classes,
-  uSearchResultFileSource, uFile, uFileSystemFileSource, uFileSource,
+  uiCloudDriver, uSearchResultFileSource, uFile, uFileSystemFileSource, uFileSource,
   fMain, uFileViewNotebook, ulng;
 
 type
-  TSearchResultUtil = class
-    class procedure addResultPage( const searchName: String; const files: TStringArray);
+  uDarwinFileViewUtil = class
+    class procedure addSearchTagResultPage( const searchName: String; const files: TStringArray );
+    class procedure addiCloudDriverPage;
   end;
 
 implementation
@@ -41,7 +42,9 @@ begin
   Result:= PathDelim + PathDelim + PathDelim + rsSearchResult + ': ' + _tagName + PathDelim;
 end;
 
-class procedure TSearchResultUtil.addResultPage( const searchName: String; const files: TStringArray);
+{ uDarwinFileViewUtil }
+
+class procedure uDarwinFileViewUtil.addSearchTagResultPage( const searchName: String; const files: TStringArray);
 var
   i: integer;
   count: Integer;
@@ -71,6 +74,25 @@ begin
 
   NewPage.FileView.AddFileSource(SearchResultFS, SearchResultFS.GetRootDir);
   NewPage.FileView.FlatView := True;
+  NewPage.MakeActive;
+end;
+
+class procedure uDarwinFileViewUtil.addiCloudDriverPage;
+var
+  iCloudFS: TiCloudDriverFileSource;
+  Notebook: TFileViewNotebook;
+  NewPage: TFileViewPage;
+begin
+  Notebook := frmMain.ActiveNotebook;
+  NewPage := Notebook.NewPage(Notebook.ActiveView);
+
+  iCloudFS := TiCloudDriverFileSource.Create;
+  iCloudFS.mount( '~/Library/Mobile Documents/com~apple~Pages/Documents' );
+  iCloudFS.mount( '~/Library/Mobile Documents/com~apple~Numbers/Documents' );
+  iCloudFS.mount( '~/Library/Mobile Documents/com~apple~Keynote/Documents' );
+  iCloudFS.mount( '~/Library/Mobile Documents/com~apple~CloudDocs', '/' );
+
+  NewPage.FileView.AddFileSource(iCloudFS, iCloudFS.GetRootDir);
   NewPage.MakeActive;
 end;
 

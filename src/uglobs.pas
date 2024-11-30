@@ -1935,7 +1935,7 @@ begin
   gAutoExtractOpenMask := EmptyStr;
   gFileOperationsProgressKind := fopkSeparateWindow;
   gFileOperationsConfirmations := [focCopy, focMove, focDelete, focDeleteToTrash];
-  gFileOperationDuration := 10;
+  gFileOperationDuration := -1;
 
   { Multi-Rename }
   gMulRenShowMenuBarOnTop := True;
