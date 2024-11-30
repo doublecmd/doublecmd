@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Double Commander 1.1.0 alpha\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-11-15 11:15+0300\n"
-"PO-Revision-Date: 2024-11-10 23:13+0900\n"
+"PO-Revision-Date: 2024-11-12 03:42+0900\n"
 "Last-Translator: VenusGirl: venusgirl@outlook.com/\n"
 "Language-Team: 비너스걸: https://venusgirls.tistory.com/\n"
 "Language: ko\n"
@@ -619,12 +619,12 @@ msgstr "바꾸기"
 #: tfrmdiffer.actfirstdifference.caption
 msgctxt "tfrmdiffer.actfirstdifference.caption"
 msgid "First Difference"
-msgstr "첫번째 차이점"
+msgstr "첫 번째 차이점"
 
 #: tfrmdiffer.actfirstdifference.hint
 msgctxt "TFRMDIFFER.ACTFIRSTDIFFERENCE.HINT"
 msgid "First Difference"
-msgstr "첫번째 차이점"
+msgstr "첫 번째 차이점"
 
 #: tfrmdiffer.actgotoline.caption
 msgctxt "tfrmdiffer.actgotoline.caption"
@@ -2357,11 +2357,11 @@ msgstr "현재 파일 목록 및 트리 보기 간 전환(활성화된 경우)"
 
 #: tfrmmain.actgotofirstentry.caption
 msgid "Place cursor on first folder or file"
-msgstr "첫번째 폴더 또는 파일에 커서 배치"
+msgstr "첫 번째 폴더 또는 파일에 커서 배치"
 
 #: tfrmmain.actgotofirstfile.caption
 msgid "Place cursor on first file in list"
-msgstr "목록의 첫번째 파일에 커서 배치"
+msgstr "목록의 첫 번째 파일에 커서 배치"
 
 #: tfrmmain.actgotolastentry.caption
 msgid "Place cursor on last folder or file"
@@ -3150,7 +3150,7 @@ msgstr "구성(&O)"
 
 #: tfrmmain.mnufavoritetabs.caption
 msgid "F&avorites"
-msgstr "즐겨찾기"
+msgstr "즐겨찾기(&A)"
 
 #: tfrmmain.mnufiles.caption
 msgid "&Files"
@@ -3168,7 +3168,7 @@ msgstr "선택(&M)"
 #: tfrmmain.mnunetwork.caption
 msgctxt "tfrmmain.mnunetwork.caption"
 msgid "&Network"
-msgstr "네트워크"
+msgstr "네트워크(&N)"
 
 #: tfrmmain.mnushow.caption
 msgid "&Show"
@@ -4910,7 +4910,7 @@ msgstr "트리 창 초점"
 
 #: tfrmoptionsdirectoryhotlist.actgotofirstitem.caption
 msgid "Goto first item"
-msgstr "첫번째 항목으로 가기"
+msgstr "첫 번째 항목으로 가기"
 
 #: tfrmoptionsdirectoryhotlist.actgotolastitem.caption
 msgid "Goto last item"
@@ -6991,7 +6991,7 @@ msgstr "잘못된 파일 이름 문자 바꾸기(&Y)"
 
 #: tfrmoptionsmultirename.rbrenaminglogappendsamefile.caption
 msgid "Append in the same rename log file"
-msgstr "동일한 이름 변경 로그 파일에 추가"
+msgstr "동일한 이름 바꾸기 로그 파일에 추가"
 
 #: tfrmoptionsmultirename.rbrenaminglogperpreset.caption
 msgid "Per preset"
@@ -7207,11 +7207,11 @@ msgstr "파일 이름"
 
 #: tfrmoptionsquicksearchfilter.cbexactbeginning.caption
 msgid "&Beginning (name must start with first typed character)"
-msgstr "시작 (이름은 처음 입력한 문자로 시작해야 합니다)(&B)"
+msgstr "시작 (이름은 첫 번째 입력 문자로 시작해야 합니다)(&B)"
 
 #: tfrmoptionsquicksearchfilter.cbexactending.caption
 msgid "En&ding (last character before a typed dot . must match)"
-msgstr "끝 (입력한 점 . 앞의 마지막 문자는 일치해야 합니다)(&D)"
+msgstr "끝 (입력한 점 . 앞의 마지막 문자가 일치해야 합니다)(&D)"
 
 #: tfrmoptionsquicksearchfilter.cgpoptions.caption
 msgctxt "TFRMOPTIONSQUICKSEARCHFILTER.CGPOPTIONS.CAPTION"
@@ -7292,7 +7292,7 @@ msgstr "폴더 탭 머리글"
 
 #: tfrmoptionstabs.lblchar.caption
 msgid "characters"
-msgstr "문자(&L)"
+msgstr "문자"
 
 #: tfrmoptionstabs.lbltabsactionondoubleclick.caption
 msgid "Action to do when double click on a tab:"
@@ -7637,7 +7637,7 @@ msgstr "현재 선택 바로 뒤"
 #: tfrmoptionstoolbarbase.miexternalcommandfirstelement.caption
 msgctxt "tfrmoptionstoolbarbase.MIEXTERNALCOMMANDFIRSTELEMENT.CAPTION"
 msgid "as first element"
-msgstr "첫번째 요소로"
+msgstr "첫 번째 요소로"
 
 #: tfrmoptionstoolbarbase.miexternalcommandlastelement.caption
 msgctxt "tfrmoptionstoolbarbase.MIEXTERNALCOMMANDLASTELEMENT.CAPTION"
@@ -7778,7 +7778,7 @@ msgstr "현재 선택 바로 뒤"
 #: tfrmoptionstoolbarbase.miinternalcommandfirstelement.caption
 msgctxt "tfrmoptionstoolbarbase.MIINTERNALCOMMANDFIRSTELEMENT.CAPTION"
 msgid "as first element"
-msgstr "첫번째 요소로"
+msgstr "첫 번째 요소로"
 
 #: tfrmoptionstoolbarbase.miinternalcommandlastelement.caption
 msgctxt "tfrmoptionstoolbarbase.MIINTERNALCOMMANDLASTELEMENT.CAPTION"
@@ -7803,7 +7803,7 @@ msgstr "현재 선택 바로 뒤"
 #: tfrmoptionstoolbarbase.miseparatorfirstitem.caption
 msgctxt "tfrmoptionstoolbarbase.miseparatorfirstitem.caption"
 msgid "as first element"
-msgstr "첫번째 요소로"
+msgstr "첫 번째 요소로"
 
 #: tfrmoptionstoolbarbase.miseparatorlastelement.caption
 msgctxt "tfrmoptionstoolbarbase.miseparatorlastelement.caption"
@@ -7843,7 +7843,7 @@ msgstr "현재 선택 바로 뒤"
 #: tfrmoptionstoolbarbase.misubtoolbarfirstelement.caption
 msgctxt "tfrmoptionstoolbarbase.MISUBTOOLBARFIRSTELEMENT.CAPTION"
 msgid "as first element"
-msgstr "첫번째 요소로"
+msgstr "첫 번째 요소로"
 
 #: tfrmoptionstoolbarbase.misubtoolbarlastelement.caption
 msgctxt "tfrmoptionstoolbarbase.MISUBTOOLBARLASTELEMENT.CAPTION"
@@ -8374,23 +8374,23 @@ msgstr "더 적은 규칙(&E)"
 msgid "Use &content plugins, combine with:"
 msgstr "콘텐츠 플러그인을 사용하여 다음과 결합(&C):"
 
-#: tfrmsearchplugin.lblplugin.caption
-msgctxt "tfrmsearchplugin.lblplugin.caption"
+#: tfrmsearchplugin.headercontrol.sections[0].text
+msgctxt "TFRMSEARCHPLUGIN.HEADERCONTROL.SECTIONS[0].TEXT"
 msgid "Plugin"
 msgstr "플러그인"
 
-#: tfrmsearchplugin.lblfield.caption
-msgctxt "tfrmsearchplugin.lblfield.caption"
+#: tfrmsearchplugin.headercontrol.sections[1].text
+msgctxt "tfrmsearchplugin.headercontrol.sections[1].text"
 msgid "Field"
 msgstr "필드"
 
-#: tfrmsearchplugin.lbloperator.caption
-msgctxt "tfrmsearchplugin.lbloperator.caption"
+#: tfrmsearchplugin.headercontrol.sections[2].text
+msgctxt "tfrmsearchplugin.headercontrol.sections[2].text"
 msgid "Operator"
 msgstr "연산자"
 
-#: tfrmsearchplugin.lblvalue.caption
-msgctxt "tfrmsearchplugin.lblvalue.caption"
+#: tfrmsearchplugin.headercontrol.sections[3].text
+msgctxt "tfrmsearchplugin.headercontrol.sections[3].text"
 msgid "Value"
 msgstr "값"
 
@@ -8505,7 +8505,7 @@ msgstr "확인(&O)"
 
 #: tfrmselecttextrange.gbcountfirstfrom.caption
 msgid "Count first from"
-msgstr "첫번째부터 계산"
+msgstr "첫 번째부터 계산"
 
 #: tfrmselecttextrange.gbcountlastfrom.caption
 msgid "Count last from"
@@ -8526,11 +8526,11 @@ msgstr "삽입할 문자를 선택(&S)"
 
 #: tfrmselecttextrange.rbdescriptionfirstlast.caption
 msgid "[&First:Last]"
-msgstr "[첫번째:마지막(&F)]"
+msgstr "[첫 번째:마지막(&F)]"
 
 #: tfrmselecttextrange.rbdescriptionfirstlength.caption
 msgid "[First,&Length]"
-msgstr "[첫번째,길이(&L)]"
+msgstr "[첫 번째,길이(&L)]"
 
 #: tfrmselecttextrange.rbfirstfromend.caption
 msgctxt "tfrmselecttextrange.rbfirstfromend.caption"
@@ -9075,7 +9075,7 @@ msgstr "억양 및 합자에 대한 검색은 엄격함"
 
 #: tfrmtreeviewmenu.pminotshowwholebranchifmatch.caption
 msgid "Don't show the branch content \"just\" because the searched string is found in the branche name"
-msgstr "분기 이름에 검색된 문자열이 발견되었다는 \"이유만으로\" 분기 내용을 표시하지 않음"
+msgstr "검색된 문자열이 분기 이름에 있으므로 분기 내용을 \"그냥\" 표시하지 않음"
 
 #: tfrmtreeviewmenu.pmishowwholebranchifmatch.caption
 msgid "If searched string is found in a branch name, show the whole branch even if elements don't match"
@@ -9662,7 +9662,7 @@ msgstr "분리창에 표시"
 
 #: tfrmviewoperations.mnuputfirstinqueue.caption
 msgid "Put first in queue"
-msgstr "대기열에 첫번째 놓기"
+msgstr "대기열에 첫 번째 놓기"
 
 #: tfrmviewoperations.mnuputlastinqueue.caption
 msgid "Put last in queue"
@@ -12399,7 +12399,7 @@ msgstr "이름"
 
 #: ulng.rsmulrenfilenamestylelist
 msgid "No change;UPPERCASE;lowercase;First char uppercase;First Char Of Every Word Uppercase;"
-msgstr "변경 없음;대문자;소문자;첫번째 문자 대문자;모든 단어의 첫번째는 대문자;"
+msgstr "변경 없음;대문자;소문자;첫 번째 문자 대문자;모든 단어의 첫 번째는 대문자;"
 
 #: ulng.rsmulrenlastpreset
 msgid "[The last used]"
@@ -13030,7 +13030,7 @@ msgstr "\"%s\" 플러그인 연결:"
 
 #: ulng.rsoptautosizecolumn
 msgid "First;Last;"
-msgstr "첫번째;마지막;"
+msgstr "첫 번째;마지막;"
 
 #: ulng.rsoptconfigsortorder
 msgid "Classic, legacy order;Alphabetic order (but language still first)"
@@ -13723,7 +13723,7 @@ msgstr "디렉터리 선택"
 
 #: ulng.rsselectduplicatemethod
 msgid "Newest;Oldest;Largest;Smallest;First in group;Last in group"
-msgstr "최신;가장 오래된;가장 큰;가장 작은;그룹 내 첫번째;그룹 내 마지막"
+msgstr "최신;가장 오래된;가장 큰;가장 작은;그룹 내 첫 번째;그룹 내 마지막"
 
 #: ulng.rsselectyoufindfileswindow
 msgid "Select your window"
