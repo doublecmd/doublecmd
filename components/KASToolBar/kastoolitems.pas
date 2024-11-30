@@ -35,6 +35,8 @@ type
 
   TOnLoadToolItem = procedure (Item: TKASToolItem) of object;
 
+  TKASSeparatorStyle = (kssSeparator, kssDivider, kssLineBreak);
+
   {$interfaces corba}
   IToolOwner = interface
     ['{A7908D38-1E13-4E8D-8FA7-8830A2FF9290}']
@@ -82,7 +84,7 @@ type
 
   TKASSeparatorItem = class(TKASToolItem)
   public
-    Style: Boolean;
+    Style: TKASSeparatorStyle;
     procedure Assign(OtherItem: TKASToolItem); override;
     function Clone: TKASToolItem; override;
     function ConfigNodeName: String; override;
@@ -413,13 +415,20 @@ begin
 end;
 
 procedure TKASSeparatorItem.Load(Config: TXmlConfig; Node: TXmlNode; Loader: TKASToolBarLoader);
+var
+  OldStyle: Boolean;
+  AStyle: array[Boolean] of TKASSeparatorStyle = (kssSeparator, kssDivider);
 begin
-  Style := Config.GetValue(Node, 'Style', False);
+  if Config.TryGetValue(Node, 'Style', OldStyle) then
+    Style := AStyle[OldStyle]
+  else begin
+    Style := TKASSeparatorStyle(Config.GetValue(Node, 'Style', Integer(kssSeparator)));
+  end;
 end;
 
 procedure TKASSeparatorItem.SaveContents(Config: TXmlConfig; Node: TXmlNode);
 begin
-  Config.AddValue(Node, 'Style', Style);
+  Config.AddValue(Node, 'Style', Integer(Style));
 end;
 
 { TKASNormalItem }

@@ -3113,7 +3113,7 @@ var
     AToolbar.AddButton(CommandItem);
   end;
 
-  procedure AddSeparator(Style: Boolean = False);
+  procedure AddSeparator(Style: TKASSeparatorStyle = kssSeparator);
   var
     SeparatorItem: TKASSeparatorItem;
   begin
@@ -3169,7 +3169,7 @@ begin
       AddCommand('cm_Edit');
       AddCommand('cm_Copy');
       AddCommand('cm_Rename');
-      AddSeparator(True);
+      AddSeparator(kssDivider);
       AddCommand('cm_PackFiles');
       AddCommand('cm_MakeDir');
       SaveToolBar(MiddleToolBar);
