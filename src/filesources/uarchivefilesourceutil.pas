@@ -9,7 +9,7 @@ uses
  uFileView,
  uFile,
  uArchiveFileSource,
- uFileSource,
+ uFileSource, uFileSourceManager,
  uOperationsManager;
 
 function GetArchiveFileSource(SourceFileSource: IFileSource;

@@ -18,6 +18,28 @@ type
   TFileSourceConnection = class;
   IFileSource = interface;
 
+  TFileSourceConsultResult = ( fscrSuccess, fscrNotImplemented, fscrNotSupported );
+
+  TFileSourceConsultParams = Record
+    consultResult: TFileSourceConsultResult;
+    handled: Boolean;
+
+    operationType: TFileSourceOperationType;
+    files: TFiles;
+    targetPath: String;
+
+    sourceFS: IFileSource;
+    targetFS: IFileSource;
+
+    currentFS: IFileSource;
+    partnerFS: IFileSource;
+    resultFS: IFileSource;
+  end;
+
+  TFileSourceProcessor = class
+    procedure consultBeforeOperate( var params: TFileSourceConsultParams ); virtual; abstract;
+  end;
+
   TFileSourceField = record
     Content: String;
     Header: String;
@@ -38,6 +60,8 @@ type
 
   IFileSource = interface(IInterface)
     ['{B7F0C4C8-59F6-4A35-A54C-E8242F4AD809}']
+
+    function GetProcessor: TFileSourceProcessor;
 
     function Equals(aFileSource: IFileSource): Boolean;
     function IsInterface(InterfaceGuid: TGuid): Boolean;
@@ -212,6 +236,8 @@ type
     constructor Create(const URI: TURI); virtual; overload;
     destructor Destroy; override;
 
+    function GetProcessor: TFileSourceProcessor; virtual;
+
     function Equals(aFileSource: IFileSource): Boolean; overload;
     function IsInterface(InterfaceGuid: TGuid): Boolean;
     function IsClass(aClassType: TClass): Boolean;
@@ -351,28 +377,12 @@ type
   TFileSources = class(TInterfaceList)
   private
     function Get(I: Integer): IFileSource;
+    procedure Put(i : Integer;item : IFileSource);
 
   public
     procedure Assign(otherFileSources: TFileSources);
 
-    property Items[I: Integer]: IFileSource read Get; default;
-  end;
-
-  { TFileSourceManager }
-
-  TFileSourceManager = class
-  private
-    FFileSources: TFileSources;
-
-    // Only allow adding and removing to/from Manager by TFileSource constructor and destructor.
-    procedure Add(aFileSource: IFileSource);
-    procedure Remove(aFileSource: IFileSource);
-
-  public
-    constructor Create;
-    destructor Destroy; override;
-
-    function Find(FileSourceClass: TClass; Address: String; CaseSensitive: Boolean = True): IFileSource;
+    property Items[I: Integer]: IFileSource read Get write Put; default;
   end;
 
   EFileSourceException = class(Exception);
@@ -385,12 +395,12 @@ type
   end;
 
 var
-  FileSourceManager: TFileSourceManager;
+  defaultFileSourceProcessor: TFileSourceProcessor;
 
 implementation
 
 uses
-  uDebug, uFileSourceListOperation, uLng;
+  uDebug, uFileSourceManager, uFileSourceListOperation, uLng;
 
 { TFileSource }
 
@@ -466,6 +476,11 @@ begin
   FreeAndNil(FReloadEventListeners);
 
   inherited Destroy;
+end;
+
+function TFileSource.GetProcessor: TFileSourceProcessor;
+begin
+  Result:= defaultFileSourceProcessor;
 end;
 
 function TFileSource.Equals(aFileSource: IFileSource): Boolean;
@@ -939,6 +954,11 @@ begin
     Result := nil;
 end;
 
+procedure TFileSources.Put(i: Integer; item: IFileSource);
+begin
+  inherited Put(i, item);
+end;
+
 procedure TFileSources.Assign(otherFileSources: TFileSources);
 var
   i: Integer;
@@ -948,85 +968,11 @@ begin
     Add(otherFileSources.Items[i]);
 end;
 
-{ TFileSourceManager }
-
-constructor TFileSourceManager.Create;
-begin
-  FFileSources := TFileSources.Create;
-end;
-
-destructor TFileSourceManager.Destroy;
-var
-  i: Integer;
-begin
-  if FFileSources.Count > 0 then
-  begin
-    DCDebug('Warning: Destroying manager with existing file sources!');
-
-    for i := 0 to FFileSources.Count - 1 do
-    begin
-      // Restore the reference taken in TFileSource.Create before removing
-      // all file sources from the list.
-      FFileSources[i]._AddRef;
-      // Free instance.
-      FFileSources.put(i, nil);
-    end;
-  end;
-
-  FreeAndNil(FFileSources);
-
-  inherited Destroy;
-end;
-
-procedure TFileSourceManager.Add(aFileSource: IFileSource);
-begin
-  if FFileSources.IndexOf(aFileSource) < 0 then
-  begin
-    FFileSources.Add(aFileSource);
-  end
-  else
-    DCDebug('Error: File source already exists in manager!');
-end;
-
-procedure TFileSourceManager.Remove(aFileSource: IFileSource);
-begin
-  FFileSources.Remove(aFileSource);
-end;
-
-function TFileSourceManager.Find(FileSourceClass: TClass; Address: String;
-  CaseSensitive: Boolean): IFileSource;
-var
-  I: Integer;
-  StrCmp: function(const S1, S2: String): Integer;
-begin
-  if CaseSensitive then
-    StrCmp:= @CompareStr
-  else begin
-    StrCmp:= @CompareText;
-  end;
-  for I := 0 to FFileSources.Count - 1 do
-  begin
-    if (FFileSources[I].IsClass(FileSourceClass)) and
-       (StrCmp(FFileSources[I].CurrentAddress, Address) = 0) then
-    begin
-      Result := FFileSources[I];
-      Exit;
-    end;
-  end;
-  Result := nil;
-end;
-
 constructor EFileNotFound.Create(const AFilePath: string);
 begin
   FFilePath := AFilePath;
   inherited Create(Format(rsMsgFileNotFound, [aFilePath]));
 end;
-
-initialization
-  FileSourceManager := TFileSourceManager.Create;
-
-finalization
-  FreeAndNil(FileSourceManager);
 
 end.
 

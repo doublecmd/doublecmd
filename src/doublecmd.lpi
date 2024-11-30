@@ -311,7 +311,7 @@ end;"/>
         <PackageName Value="Image32"/>
       </Item13>
     </RequiredPackages>
-    <Units Count="280">
+    <Units Count="281">
       <Unit0>
         <Filename Value="doublecmd.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -2032,6 +2032,11 @@ end;"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uiCloudDriver"/>
       </Unit279>
+      <Unit280>
+        <Filename Value="filesources\ufilesourcemanager.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uFileSourceManager"/>
+      </Unit280>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
