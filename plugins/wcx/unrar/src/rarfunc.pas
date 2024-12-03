@@ -200,6 +200,12 @@ begin
 end;
 
 function PackFilesW(PackedFile: PWideChar; SubPath: PWideChar;  SrcPath: PWideChar;  AddList: PWideChar;  Flags: Integer): Integer;dcpcall; export;
+const
+{$IF DEFINED(MSWINDOWS)}
+  SFXExt = '.exe';
+{$ELSE}
+  SFXExt = '.run';
+{$ENDIF}
 var
   Rar: String;
   Process : TProcessUtf8;
@@ -215,10 +221,6 @@ begin
   try
     Process.Executable:= Rar;
 
-    if FileIsConsoleExe(Process.Executable) then begin
-      Process.Options:= [poUsePipes, poNoConsole, poNewProcessGroup];
-    end;
-
     if (Flags and PK_PACK_MOVE_FILES <> 0) then
       Process.Parameters.Add('m')
     else begin
@@ -230,6 +232,13 @@ begin
     if Solid then Process.Parameters.Add('-s');
     // Compression method
     Process.Parameters.Add('-m' + IntToStr(Method));
+
+    if FileIsConsoleExe(Process.Executable) then begin
+      Process.Options:= [poUsePipes, poNoConsole, poNewProcessGroup];
+      if SameStr(ExtractFileExt(CeUtf16ToUtf8(UnicodeString(PackedFile))), SFXExt) then
+        Process.Parameters.Add('-sfx');
+    end;
+
     // Add user command line parameters
     if Length(Args) > 0 then CommandToList(Args, Process.Parameters);
 
