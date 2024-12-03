@@ -141,7 +141,7 @@ implementation
 uses
   StrUtils, DateUtils, DCDateTimeUtils, DCFileAttributes, RegExpr, uMasks,
   DCStrUtils, DCUnicodeUtils, uFileProperty, uGlobs, uWDXModule, LazUTF8,
-  WdxPlugin, Variants, uRegExprW, uFileSystemFileSource;
+  Math, WdxPlugin, Variants, uRegExprW, uFileSystemFileSource;
 
 const
   cKilo = 1024;
@@ -385,6 +385,7 @@ var
   Value: Variant;
   FileName: String;
   Module: TWdxModule;
+  Res: TValueRelationship;
 begin
   FileName := AFile.FullPath;
   Result := SearchTemplate.ContentPluginCombine;
@@ -403,6 +404,19 @@ begin
       if VarIsEmpty(Value) then
       begin
         Work:= False;
+      end
+      else if VarIsType(Value, varDate) then
+      begin
+        Value := RecodeMilliSecond(Value, 0);
+        Res := CompareDateTime(Value, ContentPlugins[I].Value);
+        case ContentPlugins[I].Compare of
+          poEqualCaseSensitive: Work := (Res = EqualsValue);
+          poNotEqualCaseSensitive: Work:= (Res <> EqualsValue);
+          poMore: Work := (Res = GreaterThanValue);
+          poLess: Work := (Res = LessThanValue);
+          poMoreEqual: Work := (Res >= EqualsValue);
+          poLessEqual: Work := (Res <= EqualsValue);
+        end;
       end
       else
       case ContentPlugins[I].Compare of

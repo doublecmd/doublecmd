@@ -1,0 +1,337 @@
+object DialogBox: TDialogBox
+  Left = 552
+  Height = 408
+  Top = 310
+  Width = 377
+  AutoSize = True
+  BorderStyle = bsDialog
+  Caption = 'Options'
+  ChildSizing.LeftRightSpacing = 12
+  ChildSizing.TopBottomSpacing = 12
+  ClientHeight = 408
+  ClientWidth = 377
+  DesignTimePPI = 108
+  OnShow = DialogBoxShow
+  Position = poOwnerFormCenter
+  LCLVersion = '3.6.0.0'
+  object pnlCompression: TPanel
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = Owner
+    Left = 12
+    Height = 266
+    Top = 12
+    Width = 357
+    AutoSize = True
+    BevelOuter = bvNone
+    ChildSizing.VerticalSpacing = 6
+    ChildSizing.Layout = cclLeftToRightThenTopToBottom
+    ChildSizing.ControlsPerLine = 2
+    ClientHeight = 266
+    ClientWidth = 357
+    TabOrder = 0
+    object lblArchiveFormat: TLabel
+      Left = 0
+      Height = 26
+      Top = 0
+      Width = 215
+      Caption = 'Archive &format:'
+      Layout = tlCenter
+      ParentColor = False
+    end
+    object cbArchiveFormat: TComboBox
+      Left = 237
+      Height = 26
+      Top = 0
+      Width = 120
+      ItemHeight = 26
+      Style = csDropDownList
+      TabOrder = 0
+      OnChange = ComboBoxChange
+    end
+    object lblCompressionLevel: TLabel
+      AnchorSideTop.Side = asrCenter
+      Left = 0
+      Height = 26
+      Top = 32
+      Width = 215
+      Caption = 'Compression &level:'
+      Layout = tlCenter
+      ParentColor = False
+    end
+    object cbCompressionLevel: TComboBox
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Side = asrBottom
+      AnchorSideRight.Side = asrBottom
+      Left = 237
+      Height = 26
+      Top = 32
+      Width = 120
+      BorderSpacing.Left = 22
+      ItemHeight = 26
+      Style = csDropDownList
+      TabOrder = 1
+      OnChange = ComboBoxChange
+    end
+    object lblCompressionMethod: TLabel
+      AnchorSideTop.Side = asrCenter
+      Left = 0
+      Height = 26
+      Top = 64
+      Width = 215
+      Caption = 'Compression &method:'
+      Layout = tlCenter
+      ParentColor = False
+    end
+    object cbCompressionMethod: TComboBox
+      AnchorSideRight.Side = asrBottom
+      Left = 237
+      Height = 26
+      Top = 64
+      Width = 120
+      ItemHeight = 26
+      Style = csDropDownList
+      TabOrder = 2
+      OnChange = ComboBoxChange
+    end
+    object lblCompressionDictionary: TLabel
+      AnchorSideTop.Side = asrCenter
+      Left = 0
+      Height = 26
+      Top = 96
+      Width = 215
+      Caption = '&Dictionary size:'
+      Layout = tlCenter
+      ParentColor = False
+    end
+    object cbCompressionDictionary: TComboBox
+      AnchorSideRight.Side = asrBottom
+      Left = 237
+      Height = 26
+      Top = 96
+      Width = 120
+      ItemHeight = 26
+      Style = csDropDownList
+      TabOrder = 3
+      OnChange = ComboBoxChange
+    end
+    object lblCompressionWord: TLabel
+      AnchorSideTop.Side = asrCenter
+      Left = 0
+      Height = 26
+      Top = 128
+      Width = 215
+      Caption = '&Word size:'
+      Layout = tlCenter
+      ParentColor = False
+    end
+    object cbCompressionWord: TComboBox
+      AnchorSideRight.Side = asrBottom
+      Left = 237
+      Height = 26
+      Top = 128
+      Width = 120
+      ItemHeight = 26
+      Style = csDropDownList
+      TabOrder = 4
+      OnChange = ComboBoxChange
+    end
+    object lblCompressionSolid: TLabel
+      AnchorSideTop.Side = asrCenter
+      Left = 0
+      Height = 26
+      Top = 160
+      Width = 215
+      Caption = '&Solid Block size:'
+      Layout = tlCenter
+      ParentColor = False
+    end
+    object cbCompressionSolid: TComboBox
+      AnchorSideRight.Side = asrBottom
+      Left = 237
+      Height = 26
+      Top = 160
+      Width = 120
+      ItemHeight = 26
+      Style = csDropDownList
+      TabOrder = 5
+      OnChange = ComboBoxChange
+    end
+    object lblThreads: TLabel
+      AnchorSideTop.Side = asrCenter
+      Left = 0
+      Height = 26
+      Top = 192
+      Width = 215
+      Caption = '&Number of CPU threads:'
+      Layout = tlCenter
+      ParentColor = False
+    end
+    object pnlThreads: TPanel
+      Left = 237
+      Height = 26
+      Top = 192
+      Width = 120
+      BevelOuter = bvNone
+      ClientHeight = 26
+      ClientWidth = 120
+      TabOrder = 6
+      object cbThreads: TComboBox
+        AnchorSideLeft.Control = pnlThreads
+        AnchorSideTop.Control = pnlThreads
+        Left = 0
+        Height = 26
+        Top = 0
+        Width = 112
+        ItemHeight = 26
+        Style = csDropDownList
+        TabOrder = 0
+        OnChange = ComboBoxChange
+      end
+      object lblMaxThreads: TLabel
+        AnchorSideLeft.Control = cbThreads
+        AnchorSideLeft.Side = asrBottom
+        AnchorSideTop.Control = cbThreads
+        AnchorSideTop.Side = asrCenter
+        Left = 119
+        Height = 1
+        Top = 13
+        Width = 1
+        BorderSpacing.Left = 7
+      end
+    end
+    object lblMemoryCompression: TLabel
+      AnchorSideTop.Side = asrCenter
+      Left = 0
+      Height = 18
+      Top = 224
+      Width = 215
+      Caption = 'Memory usage for Compressing:'
+      Layout = tlCenter
+      ParentColor = False
+    end
+    object lblMemoryCompressionValue: TLabel
+      AnchorSideTop.Side = asrCenter
+      Left = 237
+      Height = 18
+      Top = 224
+      Width = 120
+      Layout = tlCenter
+      ParentColor = False
+    end
+    object lblMemoryDecompression: TLabel
+      AnchorSideTop.Side = asrCenter
+      Left = 0
+      Height = 18
+      Top = 248
+      Width = 215
+      Caption = 'Memory usage for Decompressing:'
+      Layout = tlCenter
+      ParentColor = False
+    end
+    object lblMemoryDecompressionValue: TLabel
+      AnchorSideTop.Side = asrCenter
+      Left = 237
+      Height = 18
+      Top = 248
+      Width = 120
+      Layout = tlCenter
+      ParentColor = False
+    end
+  end
+  object lblParameters: TLabel
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = pnlCompression
+    AnchorSideTop.Side = asrBottom
+    Left = 12
+    Height = 18
+    Top = 292
+    Width = 75
+    BorderSpacing.Top = 14
+    Caption = '&Parameters:'
+  end
+  object edtParameters: TEdit
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = lblParameters
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = pnlCompression
+    AnchorSideRight.Side = asrBottom
+    Left = 12
+    Height = 26
+    Top = 317
+    Width = 357
+    Anchors = [akTop, akLeft, akRight]
+    BorderSpacing.Top = 7
+    TabOrder = 1
+  end
+  object pnlButtons: TPanel
+    AnchorSideLeft.Control = pnlCompression
+    AnchorSideTop.Control = edtParameters
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = pnlCompression
+    AnchorSideRight.Side = asrBottom
+    Left = 12
+    Height = 29
+    Top = 361
+    Width = 357
+    Anchors = [akTop, akLeft, akRight]
+    AutoSize = True
+    BorderSpacing.Top = 18
+    BevelOuter = bvNone
+    ClientHeight = 29
+    ClientWidth = 357
+    TabOrder = 2
+    object btnOK: TBitBtn
+      AnchorSideTop.Control = btnCancel
+      AnchorSideTop.Side = asrCenter
+      AnchorSideRight.Control = btnCancel
+      Left = -7
+      Height = 29
+      Top = 0
+      Width = 112
+      Anchors = [akTop, akRight]
+      AutoSize = True
+      BorderSpacing.Right = 14
+      Constraints.MinWidth = 112
+      Default = True
+      DefaultCaption = True
+      Kind = bkOK
+      ModalResult = 1
+      OnClick = ButtonClick
+      TabOrder = 0
+    end
+    object btnCancel: TBitBtn
+      AnchorSideTop.Control = btnApply
+      AnchorSideTop.Side = asrCenter
+      AnchorSideRight.Control = btnApply
+      Left = 119
+      Height = 29
+      Top = 0
+      Width = 112
+      Anchors = [akTop, akRight]
+      AutoSize = True
+      BorderSpacing.Right = 14
+      Cancel = True
+      Constraints.MinWidth = 112
+      DefaultCaption = True
+      Kind = bkCancel
+      ModalResult = 2
+      OnClick = ButtonClick
+      TabOrder = 1
+    end
+    object btnApply: TBitBtn
+      AnchorSideTop.Control = pnlButtons
+      AnchorSideRight.Control = pnlButtons
+      AnchorSideRight.Side = asrBottom
+      Left = 245
+      Height = 29
+      Top = 0
+      Width = 112
+      Anchors = [akTop, akRight]
+      AutoSize = True
+      Caption = 'Apply'
+      Constraints.MinWidth = 112
+      OnClick = ButtonClick
+      TabOrder = 2
+    end
+  end
+end

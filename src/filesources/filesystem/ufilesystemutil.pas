@@ -635,9 +635,8 @@ begin
   Result := False;
 
   { Check disk free space }
-  if FCheckFreeSpace = True then
+  if FCheckFreeSpace and GetDiskFreeSpace(ExtractFilePath(TargetFileName), iFreeDiskSize, iTotalDiskSize) then
   begin
-    GetDiskFreeSpace(ExtractFilePath(TargetFileName), iFreeDiskSize, iTotalDiskSize);
     if SourceFile.Size > iFreeDiskSize then
     begin
       if FSkipAllBigFiles = True then
@@ -832,8 +831,7 @@ begin
                 on E: EWriteError do
                   begin
                     { Check disk free space }
-                    GetDiskFreeSpace(ExtractFilePath(TargetFileName), iFreeDiskSize, iTotalDiskSize);
-                    if BytesRead > iFreeDiskSize then
+                    if GetDiskFreeSpace(ExtractFilePath(TargetFileName), iFreeDiskSize, iTotalDiskSize) and (BytesRead > iFreeDiskSize) then
                       begin
                         case AskQuestion(rsMsgNoFreeSpaceRetry, '',
                                          [fsourYes, fsourNo, fsourSkip],

@@ -3,7 +3,7 @@
   -------------------------------------------------------------------------
   SevenZip archiver plugin
 
-  Copyright (C) 2015 Alexander Koblov (alexx2000@mail.ru)
+  Copyright (C) 2015-2024 Alexander Koblov (alexx2000@mail.ru)
 
   This library is free software; you can redistribute it and/or
   modify it under the terms of the GNU Lesser General Public
@@ -27,7 +27,7 @@ unit DCJclAlternative;
 interface
 
 uses
-  Classes, SysUtils, fgl, Windows;
+  Classes, SysUtils, fgl;
 
 // JclBase.pas -----------------------------------------------------------------
 type
@@ -76,9 +76,6 @@ type
 
   function StreamCopy(Source, Target: TStream): Int64;
 
-// JclDateTime.pas -------------------------------------------------------------
-function LocalDateTimeToFileTime(DateTime: TDateTime): TFileTime;
-
 // JclFileUtils.pas ------------------------------------------------------------
 const
   DirDelimiter = DirectorySeparator;
@@ -93,20 +90,18 @@ function PathRemoveSeparator(const Path: String): String; inline;
 function PathGetRelativePath(const Base, Path: String): String; inline;
 
 function PathCanonicalize(const Path: WideString): WideString;
-function IsFileNameMatch(const FileName, Mask: WideString): Boolean; inline;
+function IsFileNameMatch(const FileName, Mask: String): Boolean; inline;
 
 procedure BuildFileList(const SourceFile: String; FileAttr: Integer; InnerList: TStrings; Dummy: Boolean);
 procedure EnumFiles(const Path: String; OnAddFile: TJclOnAddFile; ExcludeAttributes: Integer);
 procedure EnumDirectories(const Path: String; OnAddDirectory: TJclOnAddDirectory;
                           DummyBoolean: Boolean; const DummyString: String; DummyPointer: Pointer);
 
-function FileDelete(const FileName: String): Boolean; inline;
 function FindUnusedFileName(const FileName, FileExt: String): String;
-function FileMove(const OldName, NewName: String; Replace: Boolean = False): Boolean;
 
 // JclSysUtils.pas -------------------------------------------------------------
 type
-  TModuleHandle = HINST;
+  TModuleHandle = TLibHandle;
 
 const
   INVALID_MODULEHANDLE_VALUE = TModuleHandle(0);
@@ -152,28 +147,14 @@ type
     property Strings[Index: Integer]: WideString read Get write Put; default;
   end;
 
-// SysUtils.pas -----------------------------------------------------------------
-function FileExists(const FileName: String): Boolean; inline;
-
-// Windows.pas -----------------------------------------------------------------
-function CreateFile(lpFileName: LPCSTR; dwDesiredAccess: DWORD; dwShareMode: DWORD; lpSecurityAttributes: LPSECURITY_ATTRIBUTES;
-                    dwCreationDisposition: DWORD; dwFlagsAndAttributes: DWORD; hTemplateFile: HANDLE): HANDLE; inline;
-function GetFileAttributesEx(lpFileName: LPCSTR; fInfoLevelId: TGET_FILEEX_INFO_LEVELS; lpFileInformation: Pointer): BOOL; inline;
-
 implementation
 
 uses
-  LazUTF8, LazFileUtils;
+  LazUTF8, LazFileUtils, Masks, DCOSUtils;
 
 function StreamCopy(Source, Target: TStream): Int64;
 begin
   Result:= Target.CopyFrom(Source, Source.Size);
-end;
-
-function LocalDateTimeToFileTime(DateTime: TDateTime): TFileTime;
-begin
-  Int64(Result) := Round((Extended(DateTime) + 109205.0) * 864000000000.0);
-  Windows.LocalFileTimeToFileTime(@Result, @Result);
 end;
 
 function PathAddSeparator(const Path: String): String;
@@ -191,22 +172,14 @@ begin
   Result:= ExtractRelativePath(Base, Path);
 end;
 
-function PathMatchSpecW(pszFile, pszSpec: LPCWSTR): BOOL; stdcall; external 'shlwapi.dll';
-function PathCanonicalizeW(lpszDst, lpszSrc: LPCWSTR): BOOL; stdcall; external 'shlwapi.dll';
-
 function PathCanonicalize(const Path: WideString): WideString;
 begin
-  SetLength(Result, MAX_PATH);
-  if PathCanonicalizeW(PWideChar(Result), PWideChar(Path)) then
-    Result:= PWideChar(Result)
-  else begin
-    Result:= EmptyWideStr;
-  end;
+  Result:= ExpandFileName(Path);
 end;
 
-function IsFileNameMatch(const FileName, Mask: WideString): Boolean;
+function IsFileNameMatch(const FileName, Mask: String): Boolean;
 begin
-  Result:= PathMatchSpecW(PWideChar(FileName), PWideChar(Mask));
+  Result:= MatchesMask(FileName, Mask);
 end;
 
 procedure BuildFileList(const SourceFile: String; FileAttr: Integer;
@@ -226,11 +199,6 @@ begin
   raise Exception.Create('Not implemented');
 end;
 
-function FileDelete(const FileName: String): Boolean;
-begin
-  Result:= DeleteFileW(PWideChar(UTF8ToUTF16(FileName)));
-end;
-
 function FindUnusedFileName(const FileName, FileExt: String): String;
 var
   Counter: Int64 = 0;
@@ -243,14 +211,6 @@ begin
   until not FileExists(Result);
 end;
 
-function FileMove(const OldName, NewName: String; Replace: Boolean): Boolean;
-const
-  dwFlags: array[Boolean] of DWORD = (0, MOVEFILE_REPLACE_EXISTING);
-begin
-  Result:= MoveFileExW(PWideChar(UTF8ToUTF16(OldName)), PWideChar(UTF8ToUTF16(NewName)),
-                       dwFlags[Replace] or MOVEFILE_COPY_ALLOWED);
-end;
-
 function GUIDEquals(const GUID1, GUID2: TGUID): Boolean;
 begin
   Result:= IsEqualGUID(GUID1, GUID2);
@@ -258,7 +218,7 @@ end;
 
 class function JclSysUtils.LoadModule(var Module: TModuleHandle; FileName: String): Boolean;
 begin
-  Module:= LoadLibraryW(PWideChar(UTF8ToUTF16(FileName)));
+  Module:= mbLoadLibrary(FileName);
   Result:= Module <> INVALID_MODULEHANDLE_VALUE;
 end;
 
@@ -300,23 +260,6 @@ begin
   finally
     Strings.EndUpdate;
   end;
-end;
-
-function FileExists(const FileName: String): Boolean;
-begin
-  Result:= FileExistsUTF8(FileName);
-end;
-
-function CreateFile(lpFileName: LPCSTR; dwDesiredAccess: DWORD; dwShareMode: DWORD; lpSecurityAttributes: LPSECURITY_ATTRIBUTES;
-                    dwCreationDisposition: DWORD; dwFlagsAndAttributes: DWORD; hTemplateFile: HANDLE): HANDLE;
-begin
-  Result:= CreateFileW(PWideChar(UTF8ToUTF16(lpFileName)), dwDesiredAccess, dwShareMode,
-                       lpSecurityAttributes, dwCreationDisposition, dwFlagsAndAttributes, hTemplateFile);
-end;
-
-function GetFileAttributesEx(lpFileName: LPCSTR; fInfoLevelId: TGET_FILEEX_INFO_LEVELS; lpFileInformation: Pointer): BOOL;
-begin
-  Result:= GetFileAttributesExW(PWideChar(UTF8ToUTF16(lpFileName)), fInfoLevelId, lpFileInformation);
 end;
 
 { TJclDynamicSplitStream }

@@ -38,8 +38,12 @@ type
     btnDelete: TBitBtn;
     btnAdd: TButton;
     chkUsePlugins: TCheckBox;
-    HeaderControl: THeaderControl;
-    pnlHeader: TPanel;
+    lblPlugin: TLabel;
+    lblField: TLabel;
+    lblOperator: TLabel;
+    lblValue: TLabel;
+    pnlHeaders: TPanel;
+    pnlOptions: TPanel;
     pnlButtons: TPanel;
     pnlTable: TScrollBox;
     rbAnd: TRadioButton;
@@ -90,7 +94,6 @@ var
   I: Integer;
   Panel: TPluginPanel;
 begin
-  chkUsePlugins.Checked:= SearchTemplate.ContentPlugin;
   if SearchTemplate.ContentPluginCombine then
     rbAnd.Checked:= True
   else begin
@@ -107,6 +110,7 @@ begin
     Panel.Value:= SearchTemplate.ContentPlugins[I].Value;
     Panel.UnitName:= SearchTemplate.ContentPlugins[I].UnitName;
   end;
+  chkUsePlugins.Checked:= SearchTemplate.ContentPlugin;
 end;
 
 procedure TfrmSearchPlugin.btnAddClick(Sender: TObject);
@@ -129,20 +133,28 @@ procedure TfrmSearchPlugin.chkUsePluginsChange(Sender: TObject);
 begin
   rbAnd.Enabled:= chkUsePlugins.Checked;
   rbOr.Enabled:= chkUsePlugins.Checked;
-  HeaderControl.Enabled:= chkUsePlugins.Checked;
+  pnlHeaders.Enabled:= chkUsePlugins.Checked;
   pnlTable.Enabled:= chkUsePlugins.Checked;
   pnlButtons.Enabled:= chkUsePlugins.Checked;
+  if chkUsePlugins.Checked and (pnlTable.ControlCount = 0) then
+    btnAddClick(Sender);
 end;
 
 procedure TfrmSearchPlugin.pnlTableResize(Sender: TObject);
 var
   I, ColumnWidth: Integer;
 begin
-  ColumnWidth:= pnlTable.ClientWidth div HeaderControl.Sections.Count;
-  for I:= 0 to HeaderControl.Sections.Count - 1 do
-  begin
-    HeaderControl.Sections[I].Width:= ColumnWidth;
-  end;
+  ColumnWidth:= pnlTable.ClientWidth div 5;
+  lblPlugin.Constraints.MinWidth:= ColumnWidth;
+  lblPlugin.Constraints.MaxWidth:= ColumnWidth;
+  lblField.Constraints.MinWidth:= ColumnWidth;
+  lblField.Constraints.MaxWidth:= ColumnWidth;
+  lblOperator.Constraints.MinWidth:= ColumnWidth;
+  lblOperator.Constraints.MaxWidth:= ColumnWidth;
+  lblValue.Constraints.MinWidth:= ColumnWidth * 2;
+  lblValue.Constraints.MaxWidth:= ColumnWidth * 2;
+  for I:= 0 to pnlTable.ControlCount - 1 do
+    TPluginPanel(pnlTable.Controls[I]).UpdateSizes(ColumnWidth)
 end;
 
 end.

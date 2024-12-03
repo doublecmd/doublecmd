@@ -79,7 +79,7 @@ uses
   LCLType,
   LCLVersion,
   {$ENDIF}
-  uFileSourceOperationTypes;
+  uDCUtils, uFileSourceOperationTypes;
 
 function ShowPackInfoDlg(aFileSource: IArchiveFileSource; aFile: TFile): TFileSourceExecuteOperationResult;
 begin
@@ -131,8 +131,8 @@ begin
 
   if not aFile.IsDirectory then
   begin
-    lblPackedOrgSize.Caption := IntToStr(aFile.Size);
-    lblPackedPackedSize.Caption := IntToStr(aFile.CompressedSize);
+    lblPackedOrgSize.Caption := IntToStrTS(aFile.Size);
+    lblPackedPackedSize.Caption := IntToStrTS(aFile.CompressedSize);
     lblPackedOrgSize.Visible := aFile.SizeProperty.IsValid;
     lblPackedPackedSize.Visible := aFile.CompressedSizeProperty.IsValid;
     if (aFile.Size > 0) and aFile.CompressedSizeProperty.IsValid then

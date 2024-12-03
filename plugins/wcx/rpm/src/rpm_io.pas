@@ -26,9 +26,9 @@ type
 
 function  RPM_ReadLead(var f : file; var lead : RPM_Lead) : Boolean;
 function  RPM_ReadSignature(var f : file; sig_type : Word; var signature : RPM_Header) : Boolean;
-function  RPM_ReadHeader(var f : file; align_data : Boolean; var header : RPM_Header; var info : RPM_InfoRec) : Boolean;
+function  RPM_ReadHeader(var f : file; align_data : Boolean; var header : RPM_Header; var info : RPM_InfoRec; var deps : RPM_DepsRec) : Boolean;
 function  RPM_ReadEntry(var f : file; data_start : LongInt; var entry : RPM_EntryInfo) : Boolean;
-function  RPM_ProcessEntry(var f : file; data_start : LongInt; var entry : RPM_EntryInfo; var info : RPM_InfoRec) : Boolean;
+function  RPM_ProcessEntry(var f : file; data_start : LongInt; var entry : RPM_EntryInfo; var info : RPM_InfoRec; var deps : RPM_DepsRec) : Boolean;
 
 procedure swap_value(var value; size : Integer);
 procedure copy_str2buf(var buf : TStrBuf; s : AnsiString);
@@ -126,7 +126,7 @@ begin
       for i_entry := 0 to count - 1 do begin
         if not RPM_ReadEntry(f, start, entry) then Exit
         else
-          if not RPM_ProcessEntry(f, start, entry, info) then Exit;
+          if not RPM_ProcessEntry(f, start, entry, info, deps) then Exit;
       end;
     end;
     start := start + LongInt(header.data_size);
@@ -158,6 +158,7 @@ end;
 function RPM_ReadSignature;
 var
   info : RPM_InfoRec;
+  deps : RPM_DepsRec;
 begin
   Result := False;
   case sig_type of
@@ -166,7 +167,7 @@ begin
     RPMSIG_MD5_PGP     : ;  //
     RPMSIG_HEADERSIG   :    // New header signature
       begin
-        if RPM_ReadHeader(f, True, signature, info) then Result := True;
+        if RPM_ReadHeader(f, True, signature, info, deps) then Result := True;
       end;
   end;{case signature type}
 end;
@@ -176,6 +177,7 @@ var s:string;
     i,l:integer;
     ch,ch2:char;
 begin
+  s := '';
   instr:=instr+' ';   {Avoid overflow}
   l:=length(instr)-1;
   for i:=1 to l do begin
@@ -193,6 +195,8 @@ function RPM_ProcessEntry;
 var
   save_pos : Integer;
   fgError  : Boolean;
+  i        : Integer;
+  s        : String;
 begin
   result:=true;
   if entry.tag = RPMTAG_FILENAMES then exit;
@@ -262,6 +266,18 @@ begin
       RPMTAG_SOURCERPM :
 
         if entry.etype = 6 then fgError := not read_string(f, info.sourcerpm);
+
+      RPMTAG_REQUIRENAME:
+        if entry.etype = 8 then
+          begin
+            SetLength(deps.names, entry.Count);
+            for i := 0 to entry.Count - 1 do
+            begin
+              read_string(f, s);
+              deps.names[i] := s;
+            end;
+          end;
+
     end;{case}
 
   end

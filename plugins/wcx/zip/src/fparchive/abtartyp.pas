@@ -2105,7 +2105,7 @@ constructor TAbTarArchive.CreateFromStream(aStream : TStream; const aArchiveName
 begin
   inherited;
   FTarAutoHandle := True;
-  FArchFormat := V7_FORMAT;  // Default for new archives
+  FArchFormat := OLDGNU_FORMAT;  // Default for new archives
 end;
 
 function TAbTarArchive.StreamFindNext(out Item: TAbArchiveItem): Boolean;

@@ -194,7 +194,7 @@ begin
         for OperIndex := 0 to Queue.Count - 1 do
         begin
           OpManItem := Queue.Items[OperIndex];
-          if Assigned(OpManItem) then
+          if Assigned(OpManItem) and OpManItem.Visible then
           begin
             New(OperationItem);
             FOperations.Add(OperationItem);
@@ -251,7 +251,7 @@ begin
         for OperIndex := 0 to Queue.Count - 1 do
         begin
           OpManItem := Queue.Items[OperIndex];
-          if Assigned(OpManItem) then
+          if Assigned(OpManItem) and OpManItem.Visible then
           begin
             if not TfrmFileOp.IsOpenedFor(OpManItem.Handle) and
                not (OpManItem.Operation.State in [fsosStopping, fsosStopped]) then

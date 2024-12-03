@@ -72,10 +72,6 @@ end;"/>
             </Options>
           </Linking>
           <Other>
-            <ConfigFile>
-              <CustomConfigFile Value="True"/>
-              <ConfigFilePath Value="fpc-extra.cfg"/>
-            </ConfigFile>
             <CustomOptions Value="-dLCL$(LCLWidgetType)"/>
           </Other>
         </CompilerOptions>
@@ -154,10 +150,6 @@ end;"/>
       </Options>
     </Linking>
     <Other>
-      <ConfigFile>
-        <CustomConfigFile Value="True"/>
-        <ConfigFilePath Value="fpc-extra.cfg"/>
-      </ConfigFile>
       <CustomOptions Value="-dLCL$(LCLWidgetType)"/>
     </Other>
   </CompilerOptions>

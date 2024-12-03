@@ -1,0 +1,117 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Double Commander Plugin - sevenzip\n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: VenusGirl: https://venusgirls.tistory.com/\n"
+"Language-Team: 비너스걸: https://venusgirls.tistory.com/\n"
+"Language: ko\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 3.5\n"
+
+#: tdialogbox.btnapply.caption
+msgid "Apply"
+msgstr "적용"
+
+#: tdialogbox.caption
+msgid "Options"
+msgstr "옵션"
+
+#: tdialogbox.lblarchiveformat.caption
+msgid "Archive &format:"
+msgstr "압축 형식(&F):"
+
+#: tdialogbox.lblcompressiondictionary.caption
+msgid "&Dictionary size:"
+msgstr "사전 크기(&D):"
+
+#: tdialogbox.lblcompressionlevel.caption
+msgid "Compression &level:"
+msgstr "압축 수준(&L):"
+
+#: tdialogbox.lblcompressionmethod.caption
+msgid "Compression &method:"
+msgstr "압축 방식(&M):"
+
+#: tdialogbox.lblcompressionsolid.caption
+msgid "&Solid Block size:"
+msgstr "솔리드 블록 크기(&S):"
+
+#: tdialogbox.lblcompressionword.caption
+msgid "&Word size:"
+msgstr "단어 크기(&W):"
+
+#: tdialogbox.lblmemorycompression.caption
+msgid "Memory usage for Compressing:"
+msgstr "압축을 위한 메모리 사용량:"
+
+#: tdialogbox.lblmemorydecompression.caption
+msgid "Memory usage for Decompressing:"
+msgstr "압축 해제를 위한 메모리 사용량:"
+
+#: tdialogbox.lblparameters.caption
+msgid "&Parameters:"
+msgstr "매개변수(&P):"
+
+#: tdialogbox.lblthreads.caption
+msgid "&Number of CPU threads:"
+msgstr "CPU 스레드 수(&N):"
+
+#: tpasswordbox.caption
+msgid "Enter password"
+msgstr "암호 입력"
+
+#: tpasswordbox.cbencryptnames.caption
+msgid "Encrypt file &names"
+msgstr "파일 이름 암호화(&N)"
+
+#: tpasswordbox.cbshowpassword.caption
+msgid "&Show password"
+msgstr "암호 표시(&S)"
+
+#: tpasswordbox.lblpassword.caption
+msgid "&Enter password:"
+msgstr "암호 입력(&E)"
+
+#: sevenziplng.rscompressionlevelfast
+msgid "Fast"
+msgstr "빠름"
+
+#: sevenziplng.rscompressionlevelfastest
+msgid "Fastest"
+msgstr "가장 빠름"
+
+#: sevenziplng.rscompressionlevelmaximum
+msgid "Maximum"
+msgstr "최대"
+
+#: sevenziplng.rscompressionlevelnormal
+msgid "Normal"
+msgstr "일반"
+
+#: sevenziplng.rscompressionlevelstore
+msgid "Store"
+msgstr "저장"
+
+#: sevenziplng.rscompressionlevelultra
+msgid "Ultra"
+msgstr "울트라"
+
+#: sevenziplng.rssevenziploaderror
+#, object-pascal-format
+msgid "Failed to load 7-Zip library (%s)!"
+msgstr "7-Zip 라이브러리(%s)를 로드하지 못했습니다!"
+
+#: sevenziplng.rssevenzipsfxnotfound
+msgid "Cannot find specified SFX module!"
+msgstr "지정한 SFX 모듈을 찾을 수 없습니다!"
+
+#: sevenziplng.rssolidblocknonsolid
+msgid "Non-solid"
+msgstr "비-솔리드"
+
+#: sevenziplng.rssolidblocksolid
+msgid "Solid"
+msgstr "솔리드"

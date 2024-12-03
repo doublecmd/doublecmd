@@ -316,10 +316,8 @@ begin
   end;
 
   {$IF DEFINED(UNIX) AND NOT DEFINED(DARWIN)}
-  if gWFXPlugins.IndexOfName('Windows Network') < 0 then
-  begin
-    gWFXPlugins.Add('Windows Network', Folder + 'samba' + PathDelim + 'samba.wfx');
-  end;
+  I:= gWFXPlugins.IndexOfName('Windows Network');
+  if I >= 0 then gWFXPlugins.Enabled[I]:= False;
   {$ENDIF}
 
   // Wlx plugins

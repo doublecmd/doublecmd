@@ -66,7 +66,7 @@ type
     procedure ActionChange(Sender: TObject; CheckDefaults: Boolean); override;
     procedure CMHintShow(var Message: TLMessage); message CM_HINTSHOW;
   public
-    constructor Create(AOwner: TComponent; Item: TKASToolItem); reintroduce;
+    constructor Create(AOwner: TComponent; Item: TKASToolItem); reintroduce; virtual;
     destructor Destroy; override;
     procedure Click; override;
   public
@@ -81,6 +81,8 @@ type
     procedure CalculatePreferredSize(var PreferredWidth,
       PreferredHeight: integer; WithThemeSpace: Boolean); override;
     procedure Paint; override;
+  public
+    constructor Create(AOwner: TComponent; Item: TKASToolItem); override;
   end;
 
   { TKASToolBar }
@@ -287,14 +289,19 @@ var
   procedure CalculatePosition;
   var
     NewBounds: TRect;
+    ALineBreak: Boolean;
   begin
+    ALineBreak:= (CurControl is TKASToolDivider) and (not FShowDividerAsButton) and
+                 (TKASToolDivider(CurControl).FToolItem is TKASSeparatorItem) and
+                 (TKASSeparatorItem(TKASToolDivider(CurControl).FToolItem).Style = kssLineBreak);
+
     if IsVertical then
     begin
       NewBounds := Bounds(x, y, FRowWidth, CurControl.Height);
       repeat
         if (not Wrapable) or
-           (NewBounds.Bottom <= ARect.Bottom) or
-           (NewBounds.Top = StartY) then
+           (NewBounds.Top = StartY) or
+           ((NewBounds.Bottom <= ARect.Bottom) and not ALineBreak) then
         begin
           // control fits into the column
           x := NewBounds.Left;
@@ -313,8 +320,8 @@ var
       NewBounds := Bounds(x, y, CurControl.Width, FRowHeight);
       repeat
         if (not Wrapable) or
-           (NewBounds.Right <= ARect.Right) or
-           (NewBounds.Left = StartX) then
+           (NewBounds.Left = StartX) or
+           ((NewBounds.Right <= ARect.Right) and not ALineBreak) then
         begin
           // control fits into the row
           x := NewBounds.Left;
@@ -1127,18 +1134,30 @@ end;
 
 procedure TKASToolDivider.CalculatePreferredSize(var PreferredWidth,
   PreferredHeight: integer; WithThemeSpace: Boolean);
+var
+  ASize: Integer;
 begin
   if Assigned(Parent) and (Parent is TKASToolBar) and
-     (not TKASSeparatorItem(FToolItem).Style) and
      (not TKASToolBar(Parent).FShowDividerAsButton) then
   begin
-    if ToolBar.IsVertical then
+    if (TKASSeparatorItem(FToolItem).Style = kssSeparator) then
+      ASize:= 5
+    else if (TKASSeparatorItem(FToolItem).Style = kssLineBreak) then
+      ASize:= 0
+    else begin
+      ASize:= -1;
+    end;
+    if ASize < 0 then
     begin
-      PreferredHeight := 5;
+      inherited;
+    end
+    else if ToolBar.IsVertical then
+    begin
+      PreferredHeight := ASize;
       PreferredWidth  := ToolBar.FRowWidth;
     end
     else begin
-      PreferredWidth  := 5;
+      PreferredWidth  := ASize;
       PreferredHeight := ToolBar.FRowHeight;
     end;
   end
@@ -1154,7 +1173,7 @@ begin
   if Assigned(Parent) and (Parent is TKASToolBar) and
      not TKASToolBar(Parent).FShowDividerAsButton then
   begin
-    if TKASSeparatorItem(FToolItem).Style then Exit;
+    if TKASSeparatorItem(FToolItem).Style > kssSeparator then Exit;
 
     DividerRect:= ClientRect;
 
@@ -1195,6 +1214,12 @@ begin
   end
   else
     inherited Paint;
+end;
+
+constructor TKASToolDivider.Create(AOwner: TComponent; Item: TKASToolItem);
+begin
+  inherited Create(AOwner, Item);
+  ControlStyle:= ControlStyle + [csAutoSize0x0];
 end;
 
 end.

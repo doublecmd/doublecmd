@@ -43,7 +43,7 @@ uses
   ufavoritetabs, Graphics, Forms, Menus, Controls, StdCtrls, ExtCtrls, ActnList,
   Buttons, SysUtils, Classes, SynEdit, LCLType, ComCtrls, LResources,
   KASToolBar, KASComboBox, uFilePanelSelect, uBriefFileView, VTEmuCtl, VTEmuPty,
-  uFileView, uFileSource, uFileViewNotebook, uFile, LCLVersion, KASToolPanel,
+  uFileView, uFileSource, uFileSourceManager, uFileViewNotebook, uFile, LCLVersion, KASToolPanel,
   uOperationsManager, uFileSourceOperation, uDrivesList, DCClassesUtf8,
   DCXmlConfig, uDrive, uDriveWatcher, uDCVersion, uMainCommands, uFormCommands,
   uOperationsPanel, KASToolItems, uKASToolItemsExtended, uCmdLineParams, uOSForms
@@ -952,7 +952,7 @@ uses
   Themes, uFileProcs, uShellContextMenu, fTreeViewMenu, uSearchResultFileSource,
   Math, LCLIntf, Dialogs, uGlobs, uLng, uMasks, fCopyMoveDlg, uQuickViewPanel,
   uShowMsg, uDCUtils, uLog, uGlobsPaths, LCLProc, uOSUtils, uPixMapManager, LazUTF8,
-  uDragDropEx, uKeyboard, uFileSystemFileSource, fViewOperations, uMultiListFileSource,
+  uDragDropEx, uKeyboard, uLocalFileSource, uFileSystemFileSource, fViewOperations, uMultiListFileSource,
   uFileSourceOperationTypes, uFileSourceCopyOperation, uFileSourceMoveOperation,
   uFileSourceProperty, uFileSourceExecuteOperation, uArchiveFileSource, uThumbFileView,
   uShellExecute, fSymLink, fHardLink, uExceptions, uUniqueInstance, Clipbrd, ShellCtrls,
@@ -3113,7 +3113,7 @@ var
     AToolbar.AddButton(CommandItem);
   end;
 
-  procedure AddSeparator(Style: Boolean = False);
+  procedure AddSeparator(Style: TKASSeparatorStyle = kssSeparator);
   var
     SeparatorItem: TKASSeparatorItem;
   begin
@@ -3169,7 +3169,7 @@ begin
       AddCommand('cm_Edit');
       AddCommand('cm_Copy');
       AddCommand('cm_Rename');
-      AddSeparator(True);
+      AddSeparator(kssDivider);
       AddCommand('cm_PackFiles');
       AddCommand('cm_MakeDir');
       SaveToolBar(MiddleToolBar);
@@ -3855,33 +3855,32 @@ var
   Operation: TFileSourceMoveOperation;
   bMove: Boolean;
   MoveDialog: TfrmCopyDlg = nil;
+
+  params: TFileSourceConsultParams;
 begin
   Result := False;
   try
-    // Special case for Search Result File Source
-    if SourceFileSource.IsClass(TSearchResultFileSource) then begin
-      SourceFileSource:= ISearchResultFileSource(SourceFileSource).FileSource;
-    end;
-    // Only allow moving within the same file source.
-    if (SourceFileSource.IsInterface(TargetFileSource) or
-        TargetFileSource.IsInterface(SourceFileSource)) and
-       (SourceFileSource.CurrentAddress = TargetFileSource.CurrentAddress) and
-       (fsoMove in SourceFileSource.GetOperationsTypes) and
-       (fsoMove in TargetFileSource.GetOperationsTypes) then
-    begin
-      bMove := True;
-    end
-    else if ((fsoCopyOut in SourceFileSource.GetOperationsTypes) and
-             (fsoCopyIn in TargetFileSource.GetOperationsTypes)) then
-    begin
-      bMove := False;  // copy + delete through temporary file system
-      msgWarning(rsMsgNotImplemented);
-      Exit;
-    end
-    else
-    begin
-      msgWarning(rsMsgErrNotSupported);
-      Exit;
+    params.operationType:= fsoMove;
+    params.sourceFS:= SourceFileSource;
+    params.targetFS:= TargetFileSource;
+    params.files:= SourceFiles;
+    params.targetPath:= TargetPath;
+    FileSourceManager.consultBeforeOperate( params );
+
+    SourceFileSource:= params.sourceFS;
+    bMove:= (params.consultResult = fscrSuccess);
+
+    if NOT bMove then begin
+      if params.consultResult = fscrNotImplemented then
+      begin
+        msgWarning(rsMsgNotImplemented);
+        Exit;
+      end
+      else
+      begin
+        msgWarning(rsMsgErrNotSupported);
+        Exit;
+      end;
     end;
 
     if SourceFiles.Count = 0 then
@@ -3934,7 +3933,7 @@ begin
     if bMove then
     begin
       Operation := SourceFileSource.CreateMoveOperation(
-                     SourceFiles, TargetPath) as TFileSourceMoveOperation;
+                     SourceFiles, params.TargetPath) as TFileSourceMoveOperation;
 
       if Assigned(Operation) then
       begin
@@ -4024,7 +4023,7 @@ begin
   else
   begin
     // This only work for filesystem for now.
-    if TargetFileSource.IsClass(TFileSystemFileSource) then
+    if TargetFileSource.IsClass(TLocalFileSource) then
       AbsolutePath := BaseDir + EnteredPath
     else
       AbsolutePath := PathDelim{TargetFileSource.GetRoot} + EnteredPath;

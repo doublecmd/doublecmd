@@ -988,6 +988,19 @@ inherited frmOptionsToolbarBase: TfrmOptionsToolbarBase
         Caption = 'Space'
         TabOrder = 14
       end
+      object rbLineBreak: TRadioButton
+        AnchorSideLeft.Control = rbSpace
+        AnchorSideLeft.Side = asrBottom
+        AnchorSideTop.Control = rbSeparator
+        AnchorSideTop.Side = asrCenter
+        Left = 279
+        Height = 26
+        Top = 310
+        Width = 96
+        BorderSpacing.Left = 12
+        Caption = 'Line break'
+        TabOrder = 15
+      end
     end
   end
   object pnToolbars: TPanel[3]

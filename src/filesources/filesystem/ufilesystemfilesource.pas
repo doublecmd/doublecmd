@@ -9,7 +9,7 @@ uses
   uFileSourceOperation,
   uFileSourceOperationTypes,
   uLocalFileSource,
-  uFileSource,
+  uFileSource, uFileSourceManager,
   uFileSourceProperty,
   uFileProperty,
   uFile,

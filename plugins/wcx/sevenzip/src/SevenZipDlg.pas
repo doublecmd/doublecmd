@@ -3,7 +3,7 @@
   -------------------------------------------------------------------------
   SevenZip archiver plugin, dialogs unit
 
-  Copyright (C) 2014-2017 Alexander Koblov (alexx2000@mail.ru)
+  Copyright (C) 2014-2024 Alexander Koblov (alexx2000@mail.ru)
 
   Based on 7-Zip 15.06 (http://7-zip.org)
   7-Zip Copyright (C) 1999-2015 Igor Pavlov
@@ -30,67 +30,106 @@ unit SevenZipDlg;
 interface
 
 uses
-  Classes, SysUtils, Windows, Math, SevenZipOpt, SevenZipLng, JclCompression;
+  Classes, SysUtils, Windows, Math, SevenZipOpt, SevenZipLng, JclCompression, Extension;
 
 procedure ShowConfigurationDialog(Parent: HWND);
 function ShowPasswordQuery(var Encrypt: Boolean; var Password: WideString): Boolean;
 
+procedure DialogInitialize(StartupInfo: PExtensionStartupInfo);
+
 implementation
 
 uses
-  LazUTF8, SevenZipCodecs;
+  LazUTF8, SevenZipCodecs, SevenZipHlp;
 
-{$R *.res}
-
-const
-  IDC_PASSWORD = 1001;
-  IDC_SHOW_PASSWORD = 1002;
-  IDC_ENCRYPT_HEADER = 0;
+{$R SevenZipDlg.lfm}
+{$R SevenZipPwd.lfm}
 
 const
-  IDC_APPLY_BUTTON = 9;
-  IDC_COMP_FORMAT = 1076;
-  IDC_COMP_METHOD = 1078;
-  IDC_COMP_LEVEL = 1074;
-  IDC_VOLUME_SIZE = 1077;
-  IDC_COMP_DICT = 1079;
-  IDC_COMP_WORD = 1080;
-  IDC_COMP_SOLID = 1081;
-  IDC_COMP_THREAD = 1082;
-  IDC_MAX_THREAD = 1083;
-  IDC_PARAMETERS = 1091;
-  IDC_MEMORY_COMP = 1027;
-  IDC_MEMORY_DECOMP = 1028;
+  IDC_PASSWORD = 'edtPassword';
+  IDC_SHOW_PASSWORD = 'cbShowPassword';
+  IDC_ENCRYPT_HEADER = 'cbEncryptNames';
 
-function GetComboBox(hwndDlg: HWND; ItemID: Integer): PtrInt;
+const
+  IDC_APPLY_BUTTON = 'btnApply';
+  IDC_COMP_FORMAT = 'cbArchiveFormat';
+  IDC_COMP_METHOD = 'cbCompressionMethod';
+  IDC_COMP_LEVEL = 'cbCompressionLevel';
+  IDC_COMP_DICT = 'cbCompressionDictionary';
+  IDC_COMP_WORD = 'cbCompressionWord';
+  IDC_COMP_SOLID = 'cbCompressionSolid';
+  IDC_COMP_THREAD = 'cbThreads';
+  IDC_MAX_THREAD = 'lblMaxThreads';
+  IDC_PARAMETERS = 'edtParameters';
+  IDC_MEMORY_COMP = 'lblMemoryCompressionValue';
+  IDC_MEMORY_DECOMP = 'lblMemoryDecompressionValue';
+
+type
+  PPasswordData = ^TPasswordData;
+  TPasswordData = record
+    Password: String;
+    EncryptHeader: Boolean;
+  end;
+
 var
-  Index: Integer;
+  gStartupInfo: TExtensionStartupInfo;
+
+procedure SetDlgItemText(hDlg: HWND; const DlgItemName: String; lpString: PAnsiChar);
+var
+  Data: PtrInt absolute lpString;
 begin
-  Index:= SendDlgItemMessage(hwndDlg, ItemID, CB_GETCURSEL, 0, 0);
-  Result:= SendDlgItemMessage(hwndDlg, ItemID, CB_GETITEMDATA, Index, 0);
+  gStartupInfo.SendDlgMsg(hDlg, PAnsiChar(DlgItemName), DM_SETTEXT, Data, 0);
 end;
 
-procedure SetComboBox(hwndDlg: HWND; ItemID: Integer; ItemData: PtrInt);
+function GetComboBox(pDlg: PtrUInt; DlgItemName: PAnsiChar): PtrInt;
 var
-  Index, Count: Integer;
+  Index: IntPtr;
 begin
-  Count:= SendDlgItemMessage(hwndDlg, ItemID, CB_GETCOUNT, 0, 0);
-  for Index:= 0 to Count - 1 do
+  with gStartupInfo do
   begin
-    if SendDlgItemMessage(hwndDlg, ItemID, CB_GETITEMDATA, Index, 0) = ItemData then
-    begin
-      SendDlgItemMessage(hwndDlg, ItemID, CB_SETCURSEL, Index, 0);
-      Exit;
+    Index:= SendDlgMsg(pDlg, DlgItemName, DM_LISTGETITEMINDEX, 0, 0);
+    if (Index < 0) then
+      Result:= Index
+    else begin
+      Result:= SendDlgMsg(pDlg, DlgItemName, DM_LISTGETDATA, Index, 0);
     end;
   end;
 end;
 
+procedure SetComboBox(pDlg: PtrUInt; DlgItemName: PAnsiChar; ItemData: PtrInt);
+var
+  Index, Count: Integer;
+begin
+  with gStartupInfo do
+  begin
+    Count:= SendDlgMsg(pDlg, DlgItemName, DM_LISTGETCOUNT, 0, 0);
+    for Index:= 0 to Count - 1 do
+    begin
+      if SendDlgMsg(pDlg, DlgItemName, DM_LISTGETDATA, Index, 0) = ItemData then
+      begin
+        SendDlgMsg(pDlg, DlgItemName, DM_LISTSETITEMINDEX, Index, 0);
+        Exit;
+      end;
+    end;
+  end;
+end;
+
+function ComboBoxAdd(pDlg: PtrUInt; DlgItemName: PAnsiChar; ItemText: String; ItemData: PtrInt): IntPtr;
+var
+  P: PAnsiChar;
+  AText: IntPtr absolute P;
+begin
+  P:= PAnsiChar(ItemText);
+  Result:= gStartupInfo.SendDlgMsg(pDlg, DlgItemName, DM_LISTADD, AText, ItemData);
+end;
+
 procedure SaveArchiver(hwndDlg: HWND);
 var
+  Data: PtrInt;
   Format: TArchiveFormat;
-  Parameters: array[0..MAX_PATH] of WideChar;
+  Parameters: PAnsiChar absolute Data;
 begin
-  Format:= TArchiveFormat(GetWindowLongPtr(hwndDlg, GWLP_USERDATA));
+  Format:= TArchiveFormat(gStartupInfo.SendDlgMsg(hwndDlg, IDC_APPLY_BUTTON, DM_GETDLGDATA, 0, 0));
   PluginConfig[Format].Level:= GetComboBox(hwndDlg, IDC_COMP_LEVEL);
   PluginConfig[Format].Method:= GetComboBox(hwndDlg, IDC_COMP_METHOD);
   if PluginConfig[Format].Level <> PtrInt(clStore) then
@@ -100,19 +139,10 @@ begin
     PluginConfig[Format].SolidSize:= GetComboBox(hwndDlg, IDC_COMP_SOLID);
     PluginConfig[Format].ThreadCount:= GetComboBox(hwndDlg, IDC_COMP_THREAD);
   end;
-  GetDlgItemTextW(hwndDlg, IDC_PARAMETERS, Parameters, MAX_PATH);
+  Data:= gStartupInfo.SendDlgMsg(hwndDlg, IDC_PARAMETERS, DM_GETTEXT, 0, 0);
   PluginConfig[Format].Parameters:= Parameters;
 
   SaveConfiguration;
-end;
-
-function ComboBoxAdd(hwndDlg: HWND; ItemID: Integer; ItemText: String; ItemData: PtrInt): Integer;
-var
-  Text: UnicodeString;
-begin
-  Text:= UTF8ToUTF16(ItemText);
-  Result:= SendDlgItemMessageW(hwndDlg, ItemID, CB_ADDSTRING, 0, LPARAM(PWideChar(Text)));
-  SendDlgItemMessage(hwndDlg, ItemID, CB_SETITEMDATA, Result, ItemData);
 end;
 
 function GetMemoryUsage(hwndDlg: HWND; out decompressMemory: Int64): Int64;
@@ -254,7 +284,7 @@ begin
          clUltra:
            SetComboBox(hwndDlg, IDC_COMP_WORD, 128);
          end;
-         SendDlgItemMessage(hwndDlg, IDC_COMP_DICT, CB_SETCURSEL, 0, 0);
+         gStartupInfo.SendDlgMsg(hwndDlg, IDC_COMP_DICT, DM_LISTSETITEMINDEX, 0, 0);
        end;
     cmBZip2:
        begin
@@ -355,10 +385,10 @@ var
   Format: TArchiveFormat;
   Level: TCompressionLevel;
 begin
-  SendDlgItemMessage(hwndDlg, IDC_COMP_SOLID, CB_RESETCONTENT, 0, 0);
+  gStartupInfo.SendDlgMsg(hwndDlg, IDC_COMP_SOLID, DM_LISTCLEAR, 0, 0);
   // Get compression level
   Level:= TCompressionLevel(GetComboBox(hwndDlg, IDC_COMP_LEVEL));
-  Format:= TArchiveFormat(GetWindowLongPtr(hwndDlg, GWLP_USERDATA));
+  Format:= TArchiveFormat(gStartupInfo.SendDlgMsg(hwndDlg, IDC_APPLY_BUTTON, DM_GETDLGDATA, 0, 0));
   if (Format in [afSevenZip]) and (Level <> clStore) then
   begin
     ComboBoxAdd(hwndDlg, IDC_COMP_SOLID, rsSolidBlockNonSolid, kNoSolidBlockSize);
@@ -373,12 +403,12 @@ end;
 procedure UpdateThread(hwndDlg: HWND; dwAlgoThreadMax: LongWord);
 var
   Index: LongWord;
+  wsMaxThread: String;
   dwMaxThread: LongWord;
   dwDefaultValue: DWORD;
-  wsMaxThread: WideString;
   dwHardwareThreads: DWORD;
 begin
-  SendDlgItemMessage(hwndDlg, IDC_COMP_THREAD, CB_RESETCONTENT, 0, 0);
+  gStartupInfo.SendDlgMsg(hwndDlg, IDC_COMP_THREAD, DM_LISTCLEAR, 0, 0);
   dwHardwareThreads:= GetNumberOfProcessors;
   dwDefaultValue:= dwHardwareThreads;
   dwMaxThread:= dwHardwareThreads * 2;
@@ -388,9 +418,9 @@ begin
   begin
     ComboBoxAdd(hwndDlg, IDC_COMP_THREAD, IntToStr(Index), Index);
   end;
-  wsMaxThread:= '/ ' + WideString(IntToStr(dwHardwareThreads));
-  SendDlgItemMessage(hwndDlg, IDC_COMP_THREAD, CB_SETCURSEL, dwDefaultValue - 1, 0);
-  SendDlgItemMessageW(hwndDlg, IDC_MAX_THREAD, WM_SETTEXT, 0, LPARAM(PWideChar(wsMaxThread)));
+  wsMaxThread:= '/ ' + IntToStr(dwHardwareThreads);
+  gStartupInfo.SendDlgMsg(hwndDlg, IDC_COMP_THREAD, DM_LISTSETITEMINDEX, dwDefaultValue - 1, 0);
+  SetDlgItemText(hwndDlg, IDC_MAX_THREAD, PAnsiChar(wsMaxThread));
 end;
 
 procedure UpdateMethod(hwndDlg: HWND);
@@ -401,21 +431,21 @@ var
   Method: TJclCompressionMethod;
 begin
   // Clear comboboxes
-  SendDlgItemMessage(hwndDlg, IDC_COMP_DICT, CB_RESETCONTENT, 0, 0);
-  SendDlgItemMessage(hwndDlg, IDC_COMP_WORD, CB_RESETCONTENT, 0, 0);
-  Format:= TArchiveFormat(GetWindowLongPtr(hwndDlg, GWLP_USERDATA));
-  EnableWindow(GetDlgItem(hwndDlg, IDC_COMP_DICT), not (Format in [afTar, afWim]));
+  gStartupInfo.SendDlgMsg(hwndDlg, IDC_COMP_DICT, DM_LISTCLEAR, 0, 0);
+  gStartupInfo.SendDlgMsg(hwndDlg, IDC_COMP_WORD, DM_LISTCLEAR, 0, 0);
+  Format:= TArchiveFormat(gStartupInfo.SendDlgMsg(hwndDlg, IDC_APPLY_BUTTON, DM_GETDLGDATA, 0, 0));
+  gStartupInfo.SendDlgMsg(hwndDlg, IDC_COMP_DICT, DM_ENABLE, PtrInt(not (Format in [afTar, afWim])), 0);
   // Get Compression method
   Index:= GetComboBox(hwndDlg, IDC_COMP_METHOD);
   if Index > cmMaximum then
   begin
     dwAlgoThreadMax:= GetNumberOfProcessors;
-    EnableWindow(GetDlgItem(hwndDlg, IDC_COMP_DICT), False);
-    EnableWindow(GetDlgItem(hwndDlg, IDC_COMP_WORD), False);
+    gStartupInfo.SendDlgMsg(hwndDlg, IDC_COMP_DICT, DM_ENABLE, PtrInt(False), 0);
+    gStartupInfo.SendDlgMsg(hwndDlg, IDC_COMP_WORD, DM_ENABLE, PtrInt(False), 0);
   end
   else begin
     Method:= TJclCompressionMethod(Index);
-    EnableWindow(GetDlgItem(hwndDlg, IDC_COMP_WORD), (Format in [afSevenZip, afGzip, afXz, afZip]) and (Method <> cmBZip2));
+    gStartupInfo.SendDlgMsg(hwndDlg, IDC_COMP_WORD, DM_ENABLE, PtrInt((Format in [afSevenZip, afGzip, afXz, afZip]) and (Method <> cmBZip2)), 0);
     case Method of
     cmDeflate:
       begin
@@ -483,8 +513,8 @@ var
   Format: TArchiveFormat;
 begin
   // Clear combobox
-  SendDlgItemMessage(hwndDlg, IDC_COMP_METHOD, CB_RESETCONTENT, 0, 0);
-  Format:= TArchiveFormat(GetWindowLongPtr(hwndDlg, GWLP_USERDATA));
+  gStartupInfo.SendDlgMsg(hwndDlg, IDC_COMP_METHOD, DM_LISTCLEAR, 0, 0);
+  Format:= TArchiveFormat(gStartupInfo.SendDlgMsg(hwndDlg, IDC_APPLY_BUTTON, DM_GETDLGDATA, 0, 0));
   case Format of
   afSevenZip:
    begin
@@ -495,7 +525,7 @@ begin
      ComboBoxAdd(hwndDlg, IDC_COMP_METHOD, 'BZip2', PtrInt(cmBZip2));
      if Assigned(ACodecs) then begin
        for Index:= 0 to ACodecs.Count - 1 do begin
-         ComboBoxAdd(hwndDlg, IDC_COMP_METHOD, ACodecs[Index].Name, PtrInt(ACodecs[Index].ID));
+         ComboBoxAdd(hwndDlg, IDC_COMP_METHOD, UTF8Encode(ACodecs[Index].Name), PtrInt(ACodecs[Index].ID));
        end;
      end;
      SetComboBox(hwndDlg, IDC_COMP_METHOD, PluginConfig[Format].Method);
@@ -504,19 +534,19 @@ begin
    begin
      // Fill compression method
      ComboBoxAdd(hwndDlg, IDC_COMP_METHOD, 'BZip2', PtrInt(cmBZip2));
-     SendDlgItemMessage(hwndDlg, IDC_COMP_METHOD, CB_SETCURSEL, 0, 0);
+     gStartupInfo.SendDlgMsg(hwndDlg, IDC_COMP_METHOD, DM_LISTSETITEMINDEX, 0, 0);
    end;
   afGzip:
    begin
      // Fill compression method
      ComboBoxAdd(hwndDlg, IDC_COMP_METHOD, 'Deflate', PtrInt(cmDeflate));
-     SendDlgItemMessage(hwndDlg, IDC_COMP_METHOD, CB_SETCURSEL, 0, 0);
+     gStartupInfo.SendDlgMsg(hwndDlg, IDC_COMP_METHOD, DM_LISTSETITEMINDEX, 0, 0);
    end;
   afXz:
    begin
      // Fill compression method
      ComboBoxAdd(hwndDlg, IDC_COMP_METHOD, 'LZMA2', PtrInt(cmLZMA2));
-     SendDlgItemMessage(hwndDlg, IDC_COMP_METHOD, CB_SETCURSEL, 0, 0);
+     gStartupInfo.SendDlgMsg(hwndDlg, IDC_COMP_METHOD, DM_LISTSETITEMINDEX, 0, 0);
    end;
   afZip:
    begin
@@ -535,11 +565,12 @@ var
   Format: TArchiveFormat;
 begin
   // Clear comboboxes
-  SendDlgItemMessage(hwndDlg, IDC_COMP_LEVEL, CB_RESETCONTENT, 0, 0);
+  gStartupInfo.SendDlgMsg(hwndDlg, IDC_COMP_LEVEL, DM_LISTCLEAR, 0, 0);
+
   // Get archive format
   Format:= TArchiveFormat(GetComboBox(hwndDlg, IDC_COMP_FORMAT));
-  SetWindowLongPtr(hwndDlg, GWLP_USERDATA, LONG_PTR(Format));
-  EnableWindow(GetDlgItem(hwndDlg, IDC_COMP_SOLID), Format = afSevenZip);
+  gStartupInfo.SendDlgMsg(hwndDlg, IDC_APPLY_BUTTON, DM_SETDLGDATA, PtrInt(Format), 0);
+  gStartupInfo.SendDlgMsg(hwndDlg, IDC_COMP_SOLID, DM_ENABLE, PtrInt(Format = afSevenZip), 0);
   // 7Zip and Zip
   if Format in [afSevenZip, afZip] then
   begin
@@ -581,24 +612,24 @@ var
   Format: TArchiveFormat;
   Level: TCompressionLevel;
 begin
-  Format:= TArchiveFormat(GetWindowLongPtr(hwndDlg, GWLP_USERDATA));
+  Format:= TArchiveFormat(gStartupInfo.SendDlgMsg(hwndDlg, IDC_APPLY_BUTTON, DM_GETDLGDATA, 0, 0));
   // Get compression level
   Level:= TCompressionLevel(GetComboBox(hwndDlg, IDC_COMP_LEVEL));
   // Get compression method
   MethodStd:= (GetComboBox(hwndDlg, IDC_COMP_METHOD) <= cmMaximum);
 
-  EnableWindow(GetDlgItem(hwndDlg, IDC_COMP_DICT), (Level <> clStore) and MethodStd);
-  EnableWindow(GetDlgItem(hwndDlg, IDC_COMP_WORD), (Level <> clStore) and MethodStd);
-  EnableWindow(GetDlgItem(hwndDlg, IDC_COMP_SOLID), (Format = afSevenZip) and (Level <> clStore));
+  gStartupInfo.SendDlgMsg(hwndDlg, IDC_COMP_DICT, DM_ENABLE, PtrInt((Level <> clStore) and MethodStd), 0);
+  gStartupInfo.SendDlgMsg(hwndDlg, IDC_COMP_WORD, DM_ENABLE, PtrInt((Level <> clStore) and MethodStd), 0);
+  gStartupInfo.SendDlgMsg(hwndDlg, IDC_COMP_SOLID, DM_ENABLE, PtrInt((Format = afSevenZip) and (Level <> clStore)), 0);
 
   if Level = clStore then
   begin
-    SendDlgItemMessage(hwndDlg, IDC_COMP_METHOD, CB_RESETCONTENT, 0, 0);
-    SendDlgItemMessage(hwndDlg, IDC_COMP_DICT, CB_RESETCONTENT, 0, 0);
-    SendDlgItemMessage(hwndDlg, IDC_COMP_WORD, CB_RESETCONTENT, 0, 0);
-    SendDlgItemMessage(hwndDlg, IDC_COMP_SOLID, CB_RESETCONTENT, 0, 0);
-    ComboBoxAdd(hwndDlg, IDC_COMP_METHOD, MethodName[cmCopy], PtrInt(cmCopy));
-    SendDlgItemMessage(hwndDlg, IDC_COMP_METHOD, CB_SETCURSEL, 0, 0);
+    gStartupInfo.SendDlgMsg(hwndDlg, IDC_COMP_METHOD, DM_LISTCLEAR, 0, 0);
+    gStartupInfo.SendDlgMsg(hwndDlg, IDC_COMP_DICT, DM_LISTCLEAR, 0, 0);
+    gStartupInfo.SendDlgMsg(hwndDlg, IDC_COMP_WORD, DM_LISTCLEAR, 0, 0);
+    gStartupInfo.SendDlgMsg(hwndDlg, IDC_COMP_SOLID, DM_LISTCLEAR, 0, 0);
+    ComboBoxAdd(hwndDlg, IDC_COMP_METHOD, UTF8Encode(MethodName[cmCopy]), PtrInt(cmCopy));
+    gStartupInfo.SendDlgMsg(hwndDlg, IDC_COMP_METHOD, DM_LISTSETITEMINDEX, 0, 0);
     UpdateThread(hwndDlg, 1);
   end
   else if not First then
@@ -608,7 +639,7 @@ begin
     SetComboBox(hwndDlg, IDC_COMP_METHOD, PluginConfig[Format].Method);
     UpdateMethod(hwndDlg);
     UpdateSolid(hwndDlg);
-    EnableWindow(GetDlgItem(hwndDlg, IDC_COMP_SOLID), Format = afSevenZip);
+    gStartupInfo.SendDlgMsg(hwndDlg, IDC_COMP_SOLID, DM_ENABLE, PtrInt(Format = afSevenZip), 0);
   end;
 end;
 
@@ -617,7 +648,7 @@ var
   Format: TArchiveFormat;
 begin
   UpdateFormat(hwndDlg);
-  Format:= TArchiveFormat(GetWindowLongPtr(hwndDlg, GWLP_USERDATA));
+  Format:= TArchiveFormat(gStartupInfo.SendDlgMsg(hwndDlg, IDC_APPLY_BUTTON, DM_GETDLGDATA, 0, 0));
   SetComboBox(hwndDlg, IDC_COMP_LEVEL, PluginConfig[Format].Level);
   SetComboBox(hwndDlg, IDC_COMP_METHOD, PluginConfig[Format].Method);
   UpdateMethod(hwndDlg);
@@ -627,67 +658,107 @@ begin
   SetComboBox(hwndDlg, IDC_COMP_WORD, PluginConfig[Format].WordSize);
   SetComboBox(hwndDlg, IDC_COMP_SOLID, PluginConfig[Format].SolidSize);
   SetComboBox(hwndDlg, IDC_COMP_THREAD, PluginConfig[Format].ThreadCount);
-  SetDlgItemTextW(hwndDlg, IDC_PARAMETERS, PWideChar(PluginConfig[Format].Parameters));
+  SetDlgItemText(hwndDlg, IDC_PARAMETERS, PAnsiChar(Utf16ToUtf8(PluginConfig[Format].Parameters)));
   UpdateMemoryUsage(hwndDlg);
 end;
 
-function DialogProc(hwndDlg: HWND; uMsg: UINT; wParam: WPARAM; lParam: LPARAM): INT_PTR; stdcall;
+function DlgProc(hwndDlg: PtrUInt; DlgItemName: PAnsiChar; Msg, wParam, lParam: PtrInt): PtrInt; winapi;
 var
   Index: TArchiveFormat;
 begin
-  case uMsg of
-    WM_INITDIALOG:
+  Result:= 0;
+  case Msg of
+    DN_INITDIALOG:
     begin
-      EnableWindow(GetDlgItem(hwndDlg, IDC_VOLUME_SIZE), False);
       for Index:= Low(ArchiveExtension) to High(ArchiveExtension) do
-      ComboBoxAdd(hwndDlg, IDC_COMP_FORMAT, ArchiveExtension[Index], PtrInt(Index));
-      SendDlgItemMessage(hwndDlg, IDC_COMP_FORMAT, CB_SETCURSEL, 0, 0);
+      begin
+        ComboBoxAdd(hwndDlg, IDC_COMP_FORMAT, UTF8Encode(ArchiveExtension[Index]), PtrInt(Index));
+      end;
+      gStartupInfo.SendDlgMsg(hwndDlg, IDC_COMP_FORMAT, DM_LISTSETITEMINDEX, 0, 0);
+      gStartupInfo.SendDlgMsg(hwndDlg, IDC_APPLY_BUTTON, DM_SETDLGDATA, PtrInt(afSevenZip), 0);
       SelectFormat(hwndDlg);
       Result:= 1;
     end;
-    WM_COMMAND:
+    DN_CHANGE:
     begin
-      case LOWORD(wParam) of
-      IDC_COMP_FORMAT:
+      if DlgItemName = IDC_COMP_FORMAT then
         begin
-          if (HIWORD(wParam) = CBN_SELCHANGE) then
-          begin
-            SelectFormat(hwndDlg);
-          end;
-        end;
-      IDC_COMP_METHOD:
-        if (HIWORD(wParam) = CBN_SELCHANGE) then
+          SelectFormat(hwndDlg);
+        end
+      else if DlgItemName = IDC_COMP_METHOD then
         begin
           UpdateMethod(hwndDlg);
           SetDefaultOptions(hwndDlg);
-        end;
-      IDC_COMP_LEVEL:
-        if (HIWORD(wParam) = CBN_SELCHANGE) then
+        end
+      else if DlgItemName = IDC_COMP_LEVEL then
         begin
           UpdateLevel(hwndDlg, False);
           SetDefaultOptions(hwndDlg);
-        end;
-      IDC_COMP_DICT,
-      IDC_COMP_WORD,
-      IDC_COMP_THREAD:
-        if (HIWORD(wParam) = CBN_SELCHANGE) then
+        end
+      else if (DlgItemName = IDC_COMP_DICT) or
+              (DlgItemName = IDC_COMP_WORD) or
+              (DlgItemName = IDC_COMP_THREAD) then
         begin
           UpdateMemoryUsage(hwndDlg);
         end;
-      IDOK:
+      end;
+    DN_CLICK:
+    begin
+      if DlgItemName = 'btnOK' then
         begin
           SaveArchiver(hwndDlg);
-          EndDialog(hwndDlg, IDOK);
+          gStartupInfo.SendDlgMsg(hwndDlg, nil, DM_CLOSE, 1, 0);
         end;
-      IDCANCEL:
-        EndDialog(hwndDlg, IDCANCEL);
-      IDC_APPLY_BUTTON:
+      if DlgItemName = 'btnCancel' then
+        gStartupInfo.SendDlgMsg(hwndDlg, nil, DM_CLOSE, 2, 0);
+      if DlgItemName = IDC_APPLY_BUTTON then
         SaveArchiver(hwndDlg);
       end;
+    else begin
+      Result:= 0;
     end;
-    WM_CLOSE:
+  end;
+end;
+
+function PasswordDialog(hwndDlg: PtrUInt; DlgItemName: PAnsiChar; Msg, wParam, lParam: PtrInt): PtrInt; winapi;
+var
+  Data: PtrInt;
+  AText: PAnsiChar absolute Data;
+  PasswordData: PPasswordData absolute lParam;
+begin
+  Result:= 0;
+  case Msg of
+    DN_INITDIALOG:
     begin
-      EndDialog(hwndDlg, 0);
+      lParam:= gStartupInfo.SendDlgMsg(hwndDlg, nil, DM_GETDLGDATA, 0, 0);
+      AText:= PAnsiChar(PasswordData^.Password);
+      gStartupInfo.SendDlgMsg(hwndDlg, IDC_PASSWORD, DM_SETTEXT, Data, 0);
+      gStartupInfo.SendDlgMsg(hwndDlg, IDC_PASSWORD, DM_SETMAXTEXTLENGTH, MAX_PATH, 0);
+      gStartupInfo.SendDlgMsg(hwndDlg, IDC_ENCRYPT_HEADER, DM_ENABLE, PtrInt(PasswordData^.EncryptHeader), 0)
+    end;
+    DN_CHANGE:
+    begin
+      if DlgItemName = IDC_SHOW_PASSWORD then
+      begin
+        Data:= gStartupInfo.SendDlgMsg(hwndDlg, IDC_SHOW_PASSWORD, DM_GETCHECK, 0, 0);
+        wParam:= IfThen(Data <> 0, 0, Ord('*'));
+        gStartupInfo.SendDlgMsg(hwndDlg, IDC_PASSWORD, DM_SETPASSWORDCHAR, wParam, 0);
+      end;
+    end;
+    DN_CLICK:
+    begin
+      if DlgItemName = 'btnOK' then
+        begin
+          lParam:= gStartupInfo.SendDlgMsg(hwndDlg, nil, DM_GETDLGDATA, 0, 0);
+          PasswordData^.EncryptHeader:= gStartupInfo.SendDlgMsg(hwndDlg, IDC_ENCRYPT_HEADER, DM_GETCHECK, 0, 0) <> 0;
+          Data:= gStartupInfo.SendDlgMsg(hwndDlg, IDC_PASSWORD, DM_GETTEXT, 0, 0);
+          PasswordData^.Password:= AText;
+          gStartupInfo.SendDlgMsg(hwndDlg, nil, DM_CLOSE, 1, 0);
+        end
+      else if DlgItemName = 'btnCancel' then
+      begin
+        gStartupInfo.SendDlgMsg(hwndDlg, nil, DM_CLOSE, 2, 0);
+      end;
     end
     else begin
       Result:= 0;
@@ -695,61 +766,74 @@ begin
   end;
 end;
 
-function PasswordDialog(hwndDlg: HWND; uMsg: UINT; wParam: WPARAM; lParam: LPARAM): INT_PTR; stdcall;
-var
-  PasswordData: PPasswordData;
-begin
-  case uMsg of
-    WM_INITDIALOG:
-    begin
-      PasswordData:= PPasswordData(lParam);
-      SetWindowLongPtr(hwndDlg, GWLP_USERDATA, LONG_PTR(lParam));
-      SetDlgItemTextW(hwndDlg, IDC_PASSWORD, PasswordData^.Password);
-      SendDlgItemMessage(hwndDlg, IDC_PASSWORD, EM_SETLIMITTEXT, MAX_PATH, 0);
-      EnableWindow(GetDlgItem(hwndDlg, IDC_ENCRYPT_HEADER), PasswordData^.EncryptHeader);
-      Exit(1);
-    end;
-    WM_COMMAND:
-    begin
-      case LOWORD(wParam) of
-       IDOK:
-       begin
-         PasswordData:= PPasswordData(GetWindowLongPtr(hwndDlg, GWLP_USERDATA));
-         PasswordData^.EncryptHeader:= IsDlgButtonChecked(hwndDlg, IDC_ENCRYPT_HEADER) <> 0;
-         GetDlgItemTextW(hwndDlg, IDC_PASSWORD, PasswordData^.Password, MAX_PATH);
-         EndDialog(hwndDlg, IDOK);
-       end;
-       IDCANCEL:
-         EndDialog(hwndDlg, IDCANCEL);
-       IDC_SHOW_PASSWORD:
-       begin
-         wParam:= (not IsDlgButtonChecked(hwndDlg, IDC_SHOW_PASSWORD) and $01) * $2A;
-         SendDlgItemMessageW(hwndDlg, IDC_PASSWORD, EM_SETPASSWORDCHAR, wParam, 0);
-         RedrawWindow(hwndDlg, nil, 0, RDW_INVALIDATE or RDW_UPDATENOW);
-       end;
-      end;
-    end;
-  end;
-  Result:= 0;
-end;
-
 function ShowPasswordQuery(var Encrypt: Boolean; var Password: WideString): Boolean;
 var
+  ResData: Pointer;
+  ResSize: LongWord;
   PasswordData: TPasswordData;
+  ResHandle: TFPResourceHandle;
+  ResGlobal: TFPResourceHGLOBAL;
 begin
-  PasswordData.Password:= Password;
-  PasswordData.EncryptHeader:= Encrypt;
-  Result:= (DialogBoxParam(hInstance, 'DIALOG_PWD', 0, @PasswordDialog, LPARAM(@PasswordData)) = IDOK);
-  if Result then
+  ResHandle := FindResource(HINSTANCE, PAnsiChar('TPasswordBox'), MAKEINTRESOURCE(10) {RT_RCDATA});
+  if ResHandle <> 0 then
   begin
-    Password:= PasswordData.Password;
-    Encrypt:= PasswordData.EncryptHeader;
+    ResGlobal := LoadResource(HINSTANCE, ResHandle);
+    if ResGlobal <> 0 then
+    try
+      ResData := LockResource(ResGlobal);
+      ResSize := SizeofResource(HINSTANCE, ResHandle);
+
+      with gStartupInfo do
+      begin
+        PasswordData.EncryptHeader:= Encrypt;
+        PasswordData.Password:= UTF16ToUTF8(Password);
+
+        Result:= DialogBoxParam(ResData, ResSize, @PasswordDialog, DB_LRS, @PasswordData, nil) <> 0;
+
+        if Result then
+        begin
+          Encrypt:= PasswordData.EncryptHeader;
+          Password:= UTF8ToUTF16(PasswordData.Password);
+        end;
+      end;
+    finally
+      UnlockResource(ResGlobal);
+      FreeResource(ResGlobal);
+    end;
   end;
 end;
 
 procedure ShowConfigurationDialog(Parent: HWND);
+var
+  ResSize: LongWord;
+  ResData: Pointer = nil;
+  ResHandle: TFPResourceHandle;
+  ResGlobal: TFPResourceHGLOBAL;
 begin
-  DialogBox(hInstance, 'DIALOG_CFG', Parent, @DialogProc);
+  ResHandle := FindResource(HINSTANCE, PChar('TDIALOGBOX'), MAKEINTRESOURCE(10) {RT_RCDATA});
+  if ResHandle <> 0 then
+  begin
+    ResGlobal := LoadResource(HINSTANCE, ResHandle);
+    if ResGlobal <> 0 then
+    try
+      ResData := LockResource(ResGlobal);
+      ResSize := SizeofResource(HINSTANCE, ResHandle);
+
+      with gStartupInfo do
+      begin
+        DialogBoxLRS(ResData, ResSize, @DlgProc);
+      end;
+    finally
+      UnlockResource(ResGlobal);
+      FreeResource(ResGlobal);
+    end;
+  end;
+end;
+
+procedure DialogInitialize(StartupInfo: PExtensionStartupInfo);
+begin
+  gStartupInfo:= StartupInfo^;
+  MessageBoxFunction:= gStartupInfo.MessageBox;
 end;
 
 end.

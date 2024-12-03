@@ -1,0 +1,108 @@
+msgid ""
+msgstr "Content-Type: text/plain; charset=UTF-8"
+
+#: tdialogbox.btnapply.caption
+msgid "Apply"
+msgstr "Применить"
+
+#: tdialogbox.caption
+msgid "Options"
+msgstr "Настройки"
+
+#: tdialogbox.lblarchiveformat.caption
+msgid "Archive &format:"
+msgstr "&Формат архива:"
+
+#: tdialogbox.lblcompressiondictionary.caption
+msgid "&Dictionary size:"
+msgstr "Размер &словаря:"
+
+#: tdialogbox.lblcompressionlevel.caption
+msgid "Compression &level:"
+msgstr "&Уровень сжатия:"
+
+#: tdialogbox.lblcompressionmethod.caption
+msgid "Compression &method:"
+msgstr "&Метод сжатия:"
+
+#: tdialogbox.lblcompressionsolid.caption
+msgid "&Solid Block size:"
+msgstr "Размер блока:"
+
+#: tdialogbox.lblcompressionword.caption
+msgid "&Word size:"
+msgstr "Размер с&лова:"
+
+#: tdialogbox.lblmemorycompression.caption
+msgid "Memory usage for Compressing:"
+msgstr "Объем памяти для упаковки:"
+
+#: tdialogbox.lblmemorydecompression.caption
+msgid "Memory usage for Decompressing:"
+msgstr "Объем памяти для распаковки:"
+
+#: tdialogbox.lblparameters.caption
+msgid "&Parameters:"
+msgstr "&Параметры:"
+
+#: tdialogbox.lblthreads.caption
+msgid "&Number of CPU threads:"
+msgstr "Число потоков:"
+
+#: tpasswordbox.caption
+msgid "Enter password"
+msgstr "Ввод пароля"
+
+#: tpasswordbox.cbencryptnames.caption
+msgid "Encrypt file &names"
+msgstr "&Шифровать имена файлов"
+
+#: tpasswordbox.cbshowpassword.caption
+msgid "&Show password"
+msgstr "&Показать пароль"
+
+#: tpasswordbox.lblpassword.caption
+msgid "&Enter password:"
+msgstr "Введите пароль:"
+
+#: sevenziplng.rscompressionlevelfast
+msgid "Fast"
+msgstr "Быстрый"
+
+#: sevenziplng.rscompressionlevelfastest
+msgid "Fastest"
+msgstr "Скоростной"
+
+#: sevenziplng.rscompressionlevelmaximum
+msgid "Maximum"
+msgstr "Максимальный"
+
+#: sevenziplng.rscompressionlevelnormal
+msgid "Normal"
+msgstr "Нормальный"
+
+#: sevenziplng.rscompressionlevelstore
+msgid "Store"
+msgstr "Без сжатия"
+
+#: sevenziplng.rscompressionlevelultra
+msgid "Ultra"
+msgstr "Ультра"
+
+#: sevenziplng.rssevenziploaderror
+#, object-pascal-format
+msgid "Failed to load 7-Zip library (%s)!"
+msgstr "Не удалось загрузить библиотеку 7-Zip (%s)!"
+
+#: sevenziplng.rssevenzipsfxnotfound
+msgid "Cannot find specified SFX module!"
+msgstr "Не удалось найти указанный SFX модуль!"
+
+#: sevenziplng.rssolidblocknonsolid
+msgid "Non-solid"
+msgstr "По размеру файла"
+
+#: sevenziplng.rssolidblocksolid
+msgid "Solid"
+msgstr "Непрерывный"
+
