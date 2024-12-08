@@ -221,6 +221,10 @@ begin
   try
     Process.Executable:= Rar;
 
+    if FileIsConsoleExe(Process.Executable) then begin
+      Process.Options:= [poUsePipes, poNoConsole, poNewProcessGroup];
+    end;
+
     if (Flags and PK_PACK_MOVE_FILES <> 0) then
       Process.Parameters.Add('m')
     else begin
@@ -233,11 +237,8 @@ begin
     // Compression method
     Process.Parameters.Add('-m' + IntToStr(Method));
 
-    if FileIsConsoleExe(Process.Executable) then begin
-      Process.Options:= [poUsePipes, poNoConsole, poNewProcessGroup];
-      if SameStr(ExtractFileExt(CeUtf16ToUtf8(UnicodeString(PackedFile))), SFXExt) then
-        Process.Parameters.Add('-sfx');
-    end;
+    if SameStr(ExtractFileExt(CeUtf16ToUtf8(UnicodeString(PackedFile))), SFXExt) then
+      Process.Parameters.Add('-sfx');
 
     // Add user command line parameters
     if Length(Args) > 0 then CommandToList(Args, Process.Parameters);
