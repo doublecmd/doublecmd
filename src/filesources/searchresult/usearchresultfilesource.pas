@@ -50,27 +50,32 @@ type
   { TSearchResultFileSourceProcessor }
 
   TSearchResultFileSourceProcessor = class( TDefaultFileSourceProcessor )
+  private
+    procedure consultMoveOperation( var params: TFileSourceConsultParams );
+  public
     procedure consultBeforeOperate( var params: TFileSourceConsultParams ); override;
   end;
 
 var
   searchResultFileSourceProcessor: TSearchResultFileSourceProcessor;
 
-procedure TSearchResultFileSourceProcessor.consultBeforeOperate( var params: TFileSourceConsultParams);
-  procedure process;
-  var
-    searchResultFS: ISearchResultFileSource;
-  begin
-    if params.operationType <> fsoMove then
-      Exit;
-    if params.currentFS <> params.sourceFS then
-      Exit;
-
-    searchResultFS:= params.currentFS as ISearchResultFileSource;
-    params.sourceFS:= searchResultFS.FileSource;
-  end;
+procedure TSearchResultFileSourceProcessor.consultMoveOperation( var params: TFileSourceConsultParams);
+var
+  searchResultFS: ISearchResultFileSource;
 begin
-  process;
+  if params.currentFS <> params.sourceFS then
+    Exit;
+
+  searchResultFS:= params.currentFS as ISearchResultFileSource;
+  params.sourceFS:= searchResultFS.FileSource;
+end;
+
+procedure TSearchResultFileSourceProcessor.consultBeforeOperate( var params: TFileSourceConsultParams);
+begin
+  case params.operationType of
+    fsoMove:
+      self.consultMoveOperation( params );
+  end;
   Inherited;
 end;
 

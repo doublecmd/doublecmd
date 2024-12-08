@@ -30,6 +30,9 @@ type
   { TDefaultFileSourceProcessor }
 
   TDefaultFileSourceProcessor = class( TFileSourceProcessor )
+  private
+    procedure consultMoveOperation( var params: TFileSourceConsultParams );
+  public
     procedure consultBeforeOperate( var params: TFileSourceConsultParams ); override;
   end;
 
@@ -137,14 +140,11 @@ end;
 
 { TDefaultFileSourceProcessor }
 
-procedure TDefaultFileSourceProcessor.consultBeforeOperate( var params: TFileSourceConsultParams );
+procedure TDefaultFileSourceProcessor.consultMoveOperation( var params: TFileSourceConsultParams);
 var
   sourceFS: IFileSource;
   targetFS: IFileSource;
 begin
-  if params.operationType <> fsoMove then
-    Exit;
-
   if params.currentFS <> params.sourceFS then
     Exit;
 
@@ -167,6 +167,14 @@ begin
   else
   begin
     params.consultResult:= fscrNotSupported;
+  end;
+end;
+
+procedure TDefaultFileSourceProcessor.consultBeforeOperate( var params: TFileSourceConsultParams );
+begin
+  case params.operationType of
+    fsoMove:
+      self.consultMoveOperation( params );
   end;
 end;
 
