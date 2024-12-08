@@ -767,7 +767,7 @@ begin
             Header.FileName := AllDirsList.List[I]^.Key;
             Header.ArcName  := ArchiveFileName;
             Header.FileAttr := GENERIC_ATTRIBUTE_FOLDER;
-            Header.DateTime := ArchiveTime;
+            Header.DateTime := DATE_TIME_NULL; //ArchiveTime;
 
             AFileList.Add(Header);
           except
