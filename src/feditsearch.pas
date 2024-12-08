@@ -111,6 +111,7 @@ begin
       cbSearchFromCursor.Enabled := ((eswoSearchFromCursorChecked in OptionAllowed) OR (eswoSearchFromCursorUnchecked in OptionAllowed));
       cbSearchRegExp.Enabled := ((eswoRegularExpressChecked in OptionAllowed) OR (eswoRegularExpressUnchecked in OptionAllowed));
       rgSearchDirection.Enabled := ((eswoDirectionEnabledForward in OptionAllowed) OR (eswoDirectionEnabledBackward in OptionAllowed));
+      cbMultiLine.Enabled := cbSearchRegExp.Enabled;
 
       //2. Let's set the option to their default according to what host wants to offer
       cbSearchCaseSensitive.Checked := (eswoCaseSensitiveChecked in OptionAllowed);
