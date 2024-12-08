@@ -8367,25 +8367,21 @@ msgid "Use &content plugins, combine with:"
 msgstr "콘텐츠 플러그인을 사용하여 다음과 결합(&C):"
 
 #: tfrmsearchplugin.lblfield.caption
-#, fuzzy
 msgctxt "tfrmsearchplugin.lblfield.caption"
 msgid "Field"
 msgstr "필드"
 
 #: tfrmsearchplugin.lbloperator.caption
-#, fuzzy
 msgctxt "tfrmsearchplugin.lbloperator.caption"
 msgid "Operator"
 msgstr "연산자"
 
 #: tfrmsearchplugin.lblplugin.caption
-#, fuzzy
 msgctxt "tfrmsearchplugin.lblplugin.caption"
 msgid "Plugin"
 msgstr "플러그인"
 
 #: tfrmsearchplugin.lblvalue.caption
-#, fuzzy
 msgctxt "tfrmsearchplugin.lblvalue.caption"
 msgid "Value"
 msgstr "값"

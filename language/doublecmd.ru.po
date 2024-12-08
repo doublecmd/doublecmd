@@ -8058,7 +8058,7 @@ msgstr "перед выбранным"
 
 #: tfrmoptionstoolbarbase.rblinebreak.caption
 msgid "Line break"
-msgstr ""
+msgstr "Перенос строки"
 
 #: tfrmoptionstoolbarbase.rbseparator.caption
 msgid "Separator"
