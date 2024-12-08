@@ -27,7 +27,7 @@ uses
 
 type
   { TProcessUtf8 }
-  {$IF DEFINED(UNIX)}
+{$IF DEFINED(UNIX)}
   TProcessUtf8 = class(UTF8Process.TProcessUTF8)
   private
     procedure DoForkEvent(Sender : TObject);
@@ -38,12 +38,14 @@ type
     function Suspend : Integer; override;
     function Terminate (AExitCode : Integer): Boolean; override;
   end;
-  {$ELSEIF DEFINED(MSWINDOWS)}
+{$ELSEIF DEFINED(MSWINDOWS) AND (FPC_FULLVERSION < 30301)}
   TProcessUtf8 = class(TProcess)
   public
     procedure Execute; override;
   end;
-  {$ENDIF}
+{$ELSE}
+  TProcessUtf8 = class(TProcess);
+{$ENDIF}
 
 implementation
 
@@ -102,7 +104,7 @@ begin
   if Result then WaitOnExit;
 end;
 
-{$ELSEIF DEFINED(MSWINDOWS)}
+{$ELSEIF DEFINED(MSWINDOWS) AND (FPC_FULLVERSION < 30301)}
 
 {$WARN SYMBOL_DEPRECATED OFF}
 
