@@ -1753,30 +1753,6 @@ msgstr ""
 msgid "Enter files names separated with \";\""
 msgstr "Introducir nombres de archivos separados con «;»"
 
-#: tfrmfinddlg.frmcontentplugins.headercontrol.sections[0].text
-#, fuzzy
-msgctxt "tfrmfinddlg.frmcontentplugins.headercontrol.sections[0].text"
-msgid "Plugin"
-msgstr "Complemento"
-
-#: tfrmfinddlg.frmcontentplugins.headercontrol.sections[1].text
-#, fuzzy
-msgctxt "tfrmfinddlg.frmcontentplugins.headercontrol.sections[1].text"
-msgid "Field"
-msgstr "Campo"
-
-#: tfrmfinddlg.frmcontentplugins.headercontrol.sections[2].text
-#, fuzzy
-msgctxt "tfrmfinddlg.frmcontentplugins.headercontrol.sections[2].text"
-msgid "Operator"
-msgstr "Operador"
-
-#: tfrmfinddlg.frmcontentplugins.headercontrol.sections[3].text
-#, fuzzy
-msgctxt "tfrmfinddlg.frmcontentplugins.headercontrol.sections[3].text"
-msgid "Value"
-msgstr "Valor"
-
 #: tfrmfinddlg.gbdirectories.caption
 msgctxt "tfrmfinddlg.gbdirectories.caption"
 msgid "Directories"
@@ -7950,6 +7926,10 @@ msgctxt "tfrmoptionstoolbarbase.MISUBTOOLBARPRIORCURRENT.CAPTION"
 msgid "just prior current selection"
 msgstr "antes de la selección actual"
 
+#: tfrmoptionstoolbarbase.rblinebreak.caption
+msgid "Line break"
+msgstr ""
+
 #: tfrmoptionstoolbarbase.rbseparator.caption
 msgid "Separator"
 msgstr ""
@@ -8470,11 +8450,6 @@ msgstr "M&enos reglas"
 msgid "Use &content plugins, combine with:"
 msgstr "Usar plugins de &contenido, combinado con:"
 
-#: tfrmsearchplugin.lblplugin.caption
-msgctxt "tfrmsearchplugin.lblplugin.caption"
-msgid "Plugin"
-msgstr "Complemento"
-
 #: tfrmsearchplugin.lblfield.caption
 msgctxt "tfrmsearchplugin.lblfield.caption"
 msgid "Field"
@@ -8484,6 +8459,11 @@ msgstr "Campo"
 msgctxt "tfrmsearchplugin.lbloperator.caption"
 msgid "Operator"
 msgstr "Operador"
+
+#: tfrmsearchplugin.lblplugin.caption
+msgctxt "tfrmsearchplugin.lblplugin.caption"
+msgid "Plugin"
+msgstr "Complemento"
 
 #: tfrmsearchplugin.lblvalue.caption
 msgctxt "tfrmsearchplugin.lblvalue.caption"

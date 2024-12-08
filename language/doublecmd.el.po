@@ -1764,26 +1764,6 @@ msgstr "Εισαγωγή ονομάτων αρχείων τα οποία θα έ
 msgid "Enter files names separated with \";\""
 msgstr "Εισαγωγή ονομάτων αρχείων διαχωρισμένα με \";\""
 
-#: tfrmfinddlg.frmcontentplugins.headercontrol.sections[0].text
-msgctxt "tfrmfinddlg.frmcontentplugins.headercontrol.sections[0].text"
-msgid "Plugin"
-msgstr "Πρόσθετο"
-
-#: tfrmfinddlg.frmcontentplugins.headercontrol.sections[1].text
-msgctxt "tfrmfinddlg.frmcontentplugins.headercontrol.sections[1].text"
-msgid "Field"
-msgstr "Πεδίο"
-
-#: tfrmfinddlg.frmcontentplugins.headercontrol.sections[2].text
-msgctxt "tfrmfinddlg.frmcontentplugins.headercontrol.sections[2].text"
-msgid "Operator"
-msgstr "Χειριστής"
-
-#: tfrmfinddlg.frmcontentplugins.headercontrol.sections[3].text
-msgctxt "tfrmfinddlg.frmcontentplugins.headercontrol.sections[3].text"
-msgid "Value"
-msgstr "Τιμή"
-
 #: tfrmfinddlg.gbdirectories.caption
 msgctxt "TFRMFINDDLG.GBDIRECTORIES.CAPTION"
 msgid "Directories"
@@ -8037,6 +8017,10 @@ msgctxt "tfrmoptionstoolbarbase.MISUBTOOLBARPRIORCURRENT.CAPTION"
 msgid "just prior current selection"
 msgstr "αμέσως πριν την τρέχουσα επιλογή"
 
+#: tfrmoptionstoolbarbase.rblinebreak.caption
+msgid "Line break"
+msgstr ""
+
 #: tfrmoptionstoolbarbase.rbseparator.caption
 msgid "Separator"
 msgstr "Διαχωριστικό"
@@ -8561,11 +8545,6 @@ msgstr "Λιγότεροι κανόνες"
 msgid "Use &content plugins, combine with:"
 msgstr "Χρήση προσθέτων περιεχομένου, συνδυασμός με:"
 
-#: tfrmsearchplugin.lblplugin.caption
-msgctxt "tfrmsearchplugin.lblplugin.caption"
-msgid "Plugin"
-msgstr "Πρόσθετο"
-
 #: tfrmsearchplugin.lblfield.caption
 msgctxt "tfrmsearchplugin.lblfield.caption"
 msgid "Field"
@@ -8575,6 +8554,11 @@ msgstr "Πεδίο"
 msgctxt "tfrmsearchplugin.lbloperator.caption"
 msgid "Operator"
 msgstr "Χειριστής"
+
+#: tfrmsearchplugin.lblplugin.caption
+msgctxt "tfrmsearchplugin.lblplugin.caption"
+msgid "Plugin"
+msgstr "Πρόσθετο"
 
 #: tfrmsearchplugin.lblvalue.caption
 msgctxt "tfrmsearchplugin.lblvalue.caption"

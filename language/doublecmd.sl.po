@@ -1737,26 +1737,6 @@ msgstr "Vpis imen datotek, ki naj ne bodo upoštevana v iskanju. Imena morajo bi
 msgid "Enter files names separated with \";\""
 msgstr "Vpis imen datotek, ločenih s podpičjem » ; «"
 
-#: tfrmfinddlg.frmcontentplugins.headercontrol.sections[0].text
-msgctxt "tfrmfinddlg.frmcontentplugins.headercontrol.sections[0].text"
-msgid "Plugin"
-msgstr "Vstavek"
-
-#: tfrmfinddlg.frmcontentplugins.headercontrol.sections[1].text
-msgctxt "tfrmfinddlg.frmcontentplugins.headercontrol.sections[1].text"
-msgid "Field"
-msgstr "Polje"
-
-#: tfrmfinddlg.frmcontentplugins.headercontrol.sections[2].text
-msgctxt "tfrmfinddlg.frmcontentplugins.headercontrol.sections[2].text"
-msgid "Operator"
-msgstr "Operator"
-
-#: tfrmfinddlg.frmcontentplugins.headercontrol.sections[3].text
-msgctxt "tfrmfinddlg.frmcontentplugins.headercontrol.sections[3].text"
-msgid "Value"
-msgstr "Vrednost"
-
 #: tfrmfinddlg.gbdirectories.caption
 msgctxt "tfrmfinddlg.gbdirectories.caption"
 msgid "Directories"
@@ -7862,6 +7842,10 @@ msgctxt "tfrmoptionstoolbarbase.MISUBTOOLBARPRIORCURRENT.CAPTION"
 msgid "just prior current selection"
 msgstr "takoj pred trenutno izbiro"
 
+#: tfrmoptionstoolbarbase.rblinebreak.caption
+msgid "Line break"
+msgstr ""
+
 #: tfrmoptionstoolbarbase.rbseparator.caption
 msgid "Separator"
 msgstr "Ločilnik"
@@ -8381,11 +8365,6 @@ msgstr "Man%j pravil"
 msgid "Use &content plugins, combine with:"
 msgstr "Uporabi &vsebinske vstavke združeno z:"
 
-#: tfrmsearchplugin.lblplugin.caption
-msgctxt "tfrmsearchplugin.lblplugin.caption"
-msgid "Plugin"
-msgstr "Vstavek"
-
 #: tfrmsearchplugin.lblfield.caption
 msgctxt "tfrmsearchplugin.lblfield.caption"
 msgid "Field"
@@ -8395,6 +8374,11 @@ msgstr "Polje"
 msgctxt "tfrmsearchplugin.lbloperator.caption"
 msgid "Operator"
 msgstr "Operator"
+
+#: tfrmsearchplugin.lblplugin.caption
+msgctxt "tfrmsearchplugin.lblplugin.caption"
+msgid "Plugin"
+msgstr "Vstavek"
 
 #: tfrmsearchplugin.lblvalue.caption
 msgctxt "tfrmsearchplugin.lblvalue.caption"

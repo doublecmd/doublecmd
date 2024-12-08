@@ -1757,26 +1757,6 @@ msgstr "Перечислите через \";\" имена файлов, кот�
 msgid "Enter files names separated with \";\""
 msgstr "Введите имя файла или несколько имён, разделяя символом \";\""
 
-#: tfrmfinddlg.frmcontentplugins.headercontrol.sections[0].text
-msgctxt "tfrmfinddlg.frmcontentplugins.headercontrol.sections[0].text"
-msgid "Plugin"
-msgstr "Плагин"
-
-#: tfrmfinddlg.frmcontentplugins.headercontrol.sections[1].text
-msgctxt "tfrmfinddlg.frmcontentplugins.headercontrol.sections[1].text"
-msgid "Field"
-msgstr "Поле"
-
-#: tfrmfinddlg.frmcontentplugins.headercontrol.sections[2].text
-msgctxt "tfrmfinddlg.frmcontentplugins.headercontrol.sections[2].text"
-msgid "Operator"
-msgstr "Оператор"
-
-#: tfrmfinddlg.frmcontentplugins.headercontrol.sections[3].text
-msgctxt "tfrmfinddlg.frmcontentplugins.headercontrol.sections[3].text"
-msgid "Value"
-msgstr "Значение"
-
 #: tfrmfinddlg.gbdirectories.caption
 msgctxt "tfrmfinddlg.gbdirectories.caption"
 msgid "Directories"
@@ -8072,6 +8052,10 @@ msgctxt "tfrmoptionstoolbarbase.misubtoolbarpriorcurrent.caption"
 msgid "just prior current selection"
 msgstr "перед выбранным"
 
+#: tfrmoptionstoolbarbase.rblinebreak.caption
+msgid "Line break"
+msgstr "Перенос строки"
+
 #: tfrmoptionstoolbarbase.rbseparator.caption
 msgid "Separator"
 msgstr "Разделитель"
@@ -8602,11 +8586,6 @@ msgstr "Удалить правило"
 msgid "Use &content plugins, combine with:"
 msgstr "Использовать контентные плагины, объединять с:"
 
-#: tfrmsearchplugin.lblplugin.caption
-msgctxt "tfrmsearchplugin.lblplugin.caption"
-msgid "Plugin"
-msgstr "Плагин"
-
 #: tfrmsearchplugin.lblfield.caption
 msgctxt "tfrmsearchplugin.lblfield.caption"
 msgid "Field"
@@ -8616,6 +8595,11 @@ msgstr "Поле"
 msgctxt "tfrmsearchplugin.lbloperator.caption"
 msgid "Operator"
 msgstr "Оператор"
+
+#: tfrmsearchplugin.lblplugin.caption
+msgctxt "tfrmsearchplugin.lblplugin.caption"
+msgid "Plugin"
+msgstr "Плагин"
 
 #: tfrmsearchplugin.lblvalue.caption
 msgctxt "tfrmsearchplugin.lblvalue.caption"

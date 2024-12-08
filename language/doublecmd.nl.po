@@ -1743,26 +1743,6 @@ msgstr "Geef bestandnamen in die uitgesloten zijn van zoekopdrachten, gescheiden
 msgid "Enter files names separated with \";\""
 msgstr "Geef bestandnamen in gescheiden door puntkomma"
 
-#: tfrmfinddlg.frmcontentplugins.headercontrol.sections[0].text
-msgctxt "tfrmfinddlg.frmcontentplugins.headercontrol.sections[0].text"
-msgid "Plugin"
-msgstr "Invoegsel"
-
-#: tfrmfinddlg.frmcontentplugins.headercontrol.sections[1].text
-msgctxt "tfrmfinddlg.frmcontentplugins.headercontrol.sections[1].text"
-msgid "Field"
-msgstr "Veld"
-
-#: tfrmfinddlg.frmcontentplugins.headercontrol.sections[2].text
-msgctxt "tfrmfinddlg.frmcontentplugins.headercontrol.sections[2].text"
-msgid "Operator"
-msgstr "Uitvoerder"
-
-#: tfrmfinddlg.frmcontentplugins.headercontrol.sections[3].text
-msgctxt "tfrmfinddlg.frmcontentplugins.headercontrol.sections[3].text"
-msgid "Value"
-msgstr "Waarde"
-
 #: tfrmfinddlg.gbdirectories.caption
 msgctxt "tfrmfinddlg.gbdirectories.caption"
 msgid "Directories"
@@ -7891,6 +7871,10 @@ msgctxt "tfrmoptionstoolbarbase.MISUBTOOLBARPRIORCURRENT.CAPTION"
 msgid "just prior current selection"
 msgstr "net voor huidige selectie"
 
+#: tfrmoptionstoolbarbase.rblinebreak.caption
+msgid "Line break"
+msgstr ""
+
 #: tfrmoptionstoolbarbase.rbseparator.caption
 msgid "Separator"
 msgstr "Scheidingsteken"
@@ -8410,11 +8394,6 @@ msgstr "Minder regels"
 msgid "Use &content plugins, combine with:"
 msgstr "Gebruik inhoud-invoegsels, combineer met:"
 
-#: tfrmsearchplugin.lblplugin.caption
-msgctxt "tfrmsearchplugin.lblplugin.caption"
-msgid "Plugin"
-msgstr "Invoegsel"
-
 #: tfrmsearchplugin.lblfield.caption
 msgctxt "tfrmsearchplugin.lblfield.caption"
 msgid "Field"
@@ -8424,6 +8403,11 @@ msgstr "Veld"
 msgctxt "tfrmsearchplugin.lbloperator.caption"
 msgid "Operator"
 msgstr "Uitvoerder"
+
+#: tfrmsearchplugin.lblplugin.caption
+msgctxt "tfrmsearchplugin.lblplugin.caption"
+msgid "Plugin"
+msgstr "Invoegsel"
 
 #: tfrmsearchplugin.lblvalue.caption
 msgctxt "tfrmsearchplugin.lblvalue.caption"
