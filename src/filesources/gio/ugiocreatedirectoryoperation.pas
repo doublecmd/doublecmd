@@ -33,7 +33,7 @@ begin
   if Assigned(AError) then
   begin
     AResult:= g_error_matches (AError, g_io_error_quark(), G_IO_ERROR_EXISTS);
-    if not AResult then;
+    if not AResult then
     begin
       if g_error_matches (AError, g_io_error_quark(), G_IO_ERROR_NOT_SUPPORTED) then
         AskQuestion(rsMsgErrNotSupported, '', [fsourOk], fsourOk, fsourOk)
