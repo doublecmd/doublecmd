@@ -2194,6 +2194,7 @@ begin
     pmStatusBar.Items.Add(miEncoding);
     pmStatusBar.Items.Add(miImage);
   end;
+  actExitViewer.Enabled:= not bQuickView;
 
   HMViewer := HotMan.Register(Self, HotkeysCategory);
   HMViewer.RegisterActionList(actionList);
@@ -3960,7 +3961,7 @@ end;
 
 procedure TfrmViewer.cm_ExitViewer(const Params: array of string);
 begin
-  Close;
+  if not bQuickView then Close;
 end;
 
 procedure TfrmViewer.cm_Print(const Params: array of string);
