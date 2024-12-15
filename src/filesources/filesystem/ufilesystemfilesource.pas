@@ -11,6 +11,7 @@ uses
   uLocalFileSource,
   uFileSource, uFileSourceManager,
   uFileSourceProperty,
+  uFileSourceUtil,
   uFileProperty,
   uFile,
   uDescr,
@@ -44,6 +45,8 @@ type
   public
     constructor Create; override;
     destructor Destroy; override;
+
+    function GetProcessor: TFileSourceProcessor; override;
 
     class function CreateFile(const APath: String): TFile; override;
     class function CreateFile(const APath: String; pSearchRecord: PSearchRecEx): TFile; overload;
@@ -116,6 +119,15 @@ type
     property Description: TDescription read FDescr;
   end;
 
+  { TFileSystemFileSourceProcessor }
+
+  TFileSystemFileSourceProcessor = class( TDefaultFileSourceProcessor )
+  private
+    procedure consultCopyOperation( var params: TFileSourceConsultParams );
+  public
+    procedure consultBeforeOperate( var params: TFileSourceConsultParams ); override;
+  end;
+
   { TFileSystemFileSourceConnection }
 
   TFileSystemFileSourceConnection = class(TFileSourceConnection)
@@ -152,6 +164,9 @@ uses
   uFileSystemCalcChecksumOperation,
   uFileSystemCalcStatisticsOperation,
   uFileSystemSetFilePropertyOperation;
+
+var
+  fileSystemFileSourceProcessor: TFileSystemFileSourceProcessor;
 
 {$IF DEFINED(MSWINDOWS)}
 
@@ -315,6 +330,11 @@ destructor TFileSystemFileSource.Destroy;
 begin
   inherited Destroy;
   FDescr.Free;
+end;
+
+function TFileSystemFileSource.GetProcessor: TFileSourceProcessor;
+begin
+  Result:= fileSystemFileSourceProcessor;
 end;
 
 class function TFileSystemFileSource.CreateFile(const APath: String): TFile;
@@ -1030,6 +1050,62 @@ begin
                 theNewProperties);
 end;
 
+{ TFileSystemFileSourceProcessor }
+
+procedure TFileSystemFileSourceProcessor.consultCopyOperation( var params: TFileSourceConsultParams );
+var
+  sourceFS: IFileSource;
+  targetFS: IFileSource;
+
+  procedure doSource;
+  begin
+    // If same file source and address
+    if isCompatibleFileSourceForCopyOperation( sourceFS, targetFS ) then begin
+      params.resultFS:= sourceFS;
+    end else if fsoCopyIn in targetFS.GetOperationsTypes then begin
+      params.operationType := fsoCopyIn;
+      params.resultFS:= targetFS;
+    end else if (fsoCopyOut in sourceFS.GetOperationsTypes) and (fsoCopyIn in targetFS.GetOperationsTypes) then begin
+      params.operationType:= fsoCopyOut;
+      params.resultFS:= params.sourceFS;
+      params.operationTemp:= True;
+    end else begin
+      params.consultResult:= fscrNotSupported;
+    end;
+  end;
+
+  procedure doTarget;
+  begin
+    if params.resultFS <> nil then
+      Exit;
+
+    if fsoCopyOut in sourceFS.GetOperationsTypes then begin
+      params.operationType:= fsoCopyOut;
+      params.resultFS:= sourceFS;
+      params.consultResult:= fscrSuccess;
+    end
+  end;
+
+begin
+  sourceFS:= params.sourceFS;
+  targetFS:= params.targetFS;
+
+  if params.currentFS = params.sourceFS then
+    doSource
+  else
+    doTarget;
+end;
+
+procedure TFileSystemFileSourceProcessor.consultBeforeOperate( var params: TFileSourceConsultParams );
+begin
+  case params.operationType of
+    fsoCopy:
+      self.consultCopyOperation( params );
+    else
+      Inherited;
+  end;
+end;
+
 { TFileSystemFileSourceConnection }
 
 procedure TFileSystemFileSourceConnection.SetCurrentPath(NewPath: String);
@@ -1041,6 +1117,12 @@ begin
 
   inherited SetCurrentPath(NewPath);
 end;
+
+initialization
+  fileSystemFileSourceProcessor:= TFileSystemFileSourceProcessor.Create;
+
+finalization
+  FreeAndNil( fileSystemFileSourceProcessor );
 
 end.
 

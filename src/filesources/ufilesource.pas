@@ -25,6 +25,7 @@ type
     handled: Boolean;
 
     operationType: TFileSourceOperationType;
+    operationTemp: Boolean;
     files: TFiles;
     targetPath: String;
 

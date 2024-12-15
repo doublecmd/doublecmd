@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils,
-  uFileSource, uFileSourceOperationTypes,
+  uFileSource, uFileSourceOperationTypes, uFileSourceUtil,
   uDebug;
 
 type
@@ -31,6 +31,7 @@ type
 
   TDefaultFileSourceProcessor = class( TFileSourceProcessor )
   private
+    procedure consultCopyOperation( var params: TFileSourceConsultParams );
     procedure consultMoveOperation( var params: TFileSourceConsultParams );
   public
     procedure consultBeforeOperate( var params: TFileSourceConsultParams ); override;
@@ -124,7 +125,7 @@ begin
   if processor <> nil then
     processor.consultBeforeOperate( params );
 
-  if (params.consultResult<>fscrSuccess) or params.handled then
+  if params.handled then
     Exit;
 
   if params.targetFS = nil then
@@ -139,6 +140,29 @@ begin
 end;
 
 { TDefaultFileSourceProcessor }
+
+procedure TDefaultFileSourceProcessor.consultCopyOperation( var params: TFileSourceConsultParams );
+var
+  sourceFS: IFileSource;
+  targetFS: IFileSource;
+begin
+  if params.currentFS <> params.sourceFS then
+    Exit;
+
+  sourceFS:= params.sourceFS;
+  targetFS:= params.targetFS;
+
+  // If same file source and address
+  if isCompatibleFileSourceForCopyOperation( sourceFS, targetFS ) then begin
+    params.resultFS:= params.sourceFS;
+  end else if (fsoCopyOut in sourceFS.GetOperationsTypes) and (fsoCopyIn in targetFS.GetOperationsTypes) then begin
+    params.operationType:= fsoCopyOut;
+    params.operationTemp:= True;
+    params.resultFS:= params.sourceFS;
+  end else begin
+    params.consultResult:= fscrNotSupported;
+  end;
+end;
 
 procedure TDefaultFileSourceProcessor.consultMoveOperation( var params: TFileSourceConsultParams);
 var
@@ -173,6 +197,8 @@ end;
 procedure TDefaultFileSourceProcessor.consultBeforeOperate( var params: TFileSourceConsultParams );
 begin
   case params.operationType of
+    fsoCopy:
+      self.consultCopyOperation( params );
     fsoMove:
       self.consultMoveOperation( params );
   end;

@@ -81,9 +81,9 @@ type
 
   { TMountedFileSourceProcessor }
 
-  TMountedFileSourceProcessor = class( TDefaultFileSourceProcessor )
+  TMountedFileSourceProcessor = class( TFileSystemFileSourceProcessor )
   private
-    procedure consultMoveOperation( var params: TFileSourceConsultParams );
+    procedure resolveRealPath( var params: TFileSourceConsultParams );
   public
     procedure consultBeforeOperate( var params: TFileSourceConsultParams ); override;
   end;
@@ -264,7 +264,7 @@ end;
 
 { TMountedFileSourceProcessor }
 
-procedure TMountedFileSourceProcessor.consultMoveOperation( var params: TFileSourceConsultParams);
+procedure TMountedFileSourceProcessor.resolveRealPath( var params: TFileSourceConsultParams);
 var
   mountedFS: TMountedFileSource;
 begin
@@ -278,8 +278,8 @@ end;
 procedure TMountedFileSourceProcessor.consultBeforeOperate( var params: TFileSourceConsultParams );
 begin
   case params.operationType of
-    fsoMove:
-      self.consultMoveOperation( params );
+    fsoCopy, fsoMove:
+      self.resolveRealPath( params );
   end;
   Inherited;
 end;

@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils,
-  uFileSource, uFileSourceManager, uFileView, uFile, uFileSourceOperationTypes,
+  uFileSource, uFileView, uFile, uFileSourceOperationTypes,
   uFileSourceSetFilePropertyOperation;
 
 {en
@@ -37,6 +37,9 @@ procedure SetFileSystemPath(aFileView: TFileView; aPath: String);
 function RenameFile(aFileSource: IFileSource; const aFile: TFile;
                     const NewFileName: String; Interactive: Boolean; Reload: Boolean): TSetFilePropertyResult;
 
+
+function isCompatibleFileSourceForCopyOperation( fs1: IFileSource; fs2: IFileSource ): Boolean;
+
 function GetCopyOperationType(SourceFileSource, TargetFileSource: IFileSource;
                               out OperationType: TFileSourceOperationType): Boolean;
 
@@ -45,6 +48,7 @@ implementation
 uses
   LCLProc, fFileExecuteYourSelf, uGlobs, uShellExecute, uFindEx, uDebug,
   uOSUtils, uShowMsg, uLng, uVfsModule, DCOSUtils, DCStrUtils,
+  uFileSourceManager,
   uFileSourceOperation,
   uFileSourceExecuteOperation,
   uVfsFileSource,
@@ -402,6 +406,14 @@ begin
       FreeAndNil(aFiles);
     end;
   end;
+end;
+
+function isCompatibleFileSourceForCopyOperation(fs1: IFileSource; fs2: IFileSource): Boolean;
+begin
+  Result:= (fsoCopy in fs1.GetOperationsTypes) and
+           (fsoCopy in fs2.GetOperationsTypes) and
+           fs1.Equals(fs1) and
+           SameText(fs1.GetCurrentAddress, fs2.GetCurrentAddress);
 end;
 
 function GetCopyOperationType(SourceFileSource, TargetFileSource: IFileSource;
