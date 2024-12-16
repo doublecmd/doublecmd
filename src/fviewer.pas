@@ -3191,6 +3191,7 @@ begin
 
     if FFindDialog.cbRegExp.Checked then
     begin
+      FRegExp.ModifierI:= not FFindDialog.cbCaseSens.Checked;
       FRegExp.Expression:= sSearchTextU;
       bTextFound:= FRegExp.Exec(FLastSearchPos + FLastMatchLength + 1);
       if bTextFound then
