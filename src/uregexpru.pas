@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    PCRE - Perl Compatible Regular Expressions
 
-   Copyright (C) 2019 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2019-2024 Alexander Koblov (alexx2000@mail.ru)
 
    Permission is hereby granted, free of charge, to any person obtaining
    a copy of this software and associated documentation files (the
@@ -42,12 +42,15 @@ type
   private
     FCode: Pointer;
     FMatch: Pointer;
+    FOptions: UInt32;
     FInput: PAnsiChar;
     FVector: pcsize_t;
     FVectorLength: cint;
     FExpression: String;
     FInputLength: UIntPtr;
     FOvector: array[Byte] of cint;
+    function GetModifierI: Boolean;
+    procedure SetModifierI(AValue: Boolean);
     procedure SetExpression(const AValue: String);
     function GetMatchLen(Idx : integer): PtrInt;
     function GetMatchPos(Idx : integer): PtrInt;
@@ -62,6 +65,7 @@ type
     property Expression : String read FExpression write SetExpression;
     property MatchPos [Idx : integer] : PtrInt read GetMatchPos;
     property MatchLen [Idx : integer] : PtrInt read GetMatchLen;
+    property ModifierI: Boolean read GetModifierI write SetModifierI;
   end;
 
 function ExecRegExpr(const ARegExpr, AInputStr: String): Boolean;
@@ -83,6 +87,7 @@ const
 
 const
   PCRE2_CONFIG_UNICODE = 9;
+  PCRE2_CASELESS       = $00000008;
   PCRE2_UTF            = $00080000;
 
   PCRE2_SUBSTITUTE_GLOBAL          = $00000100;
@@ -120,6 +125,7 @@ const
 
 const
   PCRE_CONFIG_UTF8     = 0;
+  PCRE_CASELESS        = $00000001;
   PCRE_UTF8            = $00000800;
 
 var
@@ -148,7 +154,8 @@ begin
 
   if pcre_new then
   begin
-    FCode := pcre2_compile(PAnsiChar(AValue), Length(AValue), PCRE2_UTF, @errornumber, @erroroffset, nil);
+    FOptions := FOptions or PCRE2_UTF;
+    FCode := pcre2_compile(PAnsiChar(AValue), Length(AValue), FOptions, @errornumber, @erroroffset, nil);
     if Assigned(FCode) then
       FMatch := pcre2_match_data_create_from_pattern(FCode, nil)
     else begin
@@ -160,7 +167,8 @@ begin
     end;
   end
   else begin
-    FCode := pcre_compile(PAnsiChar(AValue), PCRE_UTF8, @error, @erroroffset, nil);
+    FOptions := FOptions or PCRE_UTF8;
+    FCode := pcre_compile(PAnsiChar(AValue), cint(FOptions), @error, @erroroffset, nil);
     if Assigned(FCode) then
       FMatch:= pcre_study(FCode, 0, @error)
     else
@@ -192,6 +200,40 @@ begin
   end
   else
     Result:= 0;
+end;
+
+function TRegExprU.GetModifierI: Boolean;
+begin
+  if pcre_new then
+  begin
+    Result:= (FOptions and PCRE2_CASELESS) <> 0;
+  end
+  else begin
+    Result:= (FOptions and PCRE_CASELESS) <> 0;
+  end;
+end;
+
+procedure TRegExprU.SetModifierI(AValue: Boolean);
+begin
+  if GetModifierI <> AValue then
+  begin
+    if pcre_new then
+    begin
+      if AValue then
+        FOptions:= FOptions or PCRE2_CASELESS
+      else begin
+        FOptions:= FOptions and (not PCRE2_CASELESS);
+      end;
+    end
+    else begin
+      if AValue then
+        FOptions:= FOptions or PCRE_CASELESS
+      else begin
+        FOptions:= FOptions and (not PCRE_CASELESS);
+      end;
+    end;
+    SetExpression(FExpression);
+  end;
 end;
 
 destructor TRegExprU.Destroy;

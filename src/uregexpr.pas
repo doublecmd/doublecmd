@@ -21,6 +21,8 @@ type
     FRegExpW: TRegExprW;
     FRegExpU: TRegExprU;
     FType: TRegExprType;
+    function GetModifierI: Boolean;
+    procedure SetModifierI(AValue: Boolean);
     procedure SetExpression(const AValue: String);
     function GetMatchLen(Idx : Integer): PtrInt;
     function GetMatchPos(Idx : Integer): PtrInt;
@@ -35,6 +37,7 @@ type
     property Expression : String write SetExpression;
     property MatchPos [Idx : Integer] : PtrInt read GetMatchPos;
     property MatchLen [Idx : Integer] : PtrInt read GetMatchLen;
+    property ModifierI: Boolean read GetModifierI write SetModifierI;
   end;
 
 implementation
@@ -43,6 +46,24 @@ uses
   LazUTF8;
 
 { TRegExprEx }
+
+function TRegExprEx.GetModifierI: Boolean;
+begin
+  case FType of
+    retAnsi:    Result:= FRegExpA.ModifierI;
+    retUtf8:    Result:= FRegExpU.ModifierI;
+    retUtf16le: Result:= FRegExpW.ModifierI;
+  end;
+end;
+
+procedure TRegExprEx.SetModifierI(AValue: Boolean);
+begin
+  case FType of
+    retAnsi:    FRegExpA.ModifierI:= AValue;
+    retUtf8:    FRegExpU.ModifierI:= AValue;
+    retUtf16le: FRegExpW.ModifierI:= AValue;
+  end;
+end;
 
 procedure TRegExprEx.SetExpression(const AValue: String);
 begin
@@ -53,7 +74,7 @@ begin
   end;
 end;
 
-function TRegExprEx.GetMatchLen(Idx: integer): PtrInt;
+function TRegExprEx.GetMatchLen(Idx: Integer): PtrInt;
 begin
   case FType of
     retAnsi:    Result:= FRegExpA.MatchLen[Idx];
@@ -62,7 +83,7 @@ begin
   end;
 end;
 
-function TRegExprEx.GetMatchPos(Idx: integer): PtrInt;
+function TRegExprEx.GetMatchPos(Idx: Integer): PtrInt;
 begin
   case FType of
     retAnsi:    Result:= FRegExpA.MatchPos[Idx];
