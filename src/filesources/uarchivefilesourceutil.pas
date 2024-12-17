@@ -21,6 +21,8 @@ function GetArchiveFileSource(SourceFileSource: IFileSource;
 procedure TestArchive(aFileView: TFileView; aFiles: TFiles;
                               QueueIdentifier: TOperationsManagerQueueIdentifier);
 
+procedure SetNewestFileTime(ArchiveFileName: String; FullFilesTree: TFiles);
+
 function FileIsArchive(const FileName: String): Boolean;
 
 procedure FillAndCount(Files: TFiles; out NewFiles: TFiles;
@@ -36,7 +38,7 @@ uses
   uWcxArchiveFileSource, uMultiArchiveFileSource, uFileSystemFileSource,
   uTempFileSystemFileSource, uFileSourceOperation, uArchiveCopyOperation,
   uFileSourceOperationTypes, uGlobsPaths, uSysFolders, fOptionsPluginsBase,
-  fOptions;
+  fOptions, DCBasicTypes, DCDateTimeUtils;
 
 // Only for direct access file sources.
 function GetArchiveFileSourceDirect(SourceFileSource: IFileSource;
@@ -236,6 +238,31 @@ begin
         end
       else
         msgWarning(rsMsgErrNotSupported);
+  finally
+
+  end;
+end;
+
+procedure SetNewestFileTime(ArchiveFileName: String; FullFilesTree: TFiles);
+var
+  I: Integer;
+  DateTime: TDateTime = 0;
+  Time: TFileTime;
+  aFile: TFile;
+begin
+  try
+    for I:= 0 to FullFilesTree.Count - 1 do
+    begin
+      aFile := FullFilesTree[I];
+      if aFile.ModificationTime > DateTime then
+        DateTime:= aFile.ModificationTime;
+    end;
+    if DateTime > 0 then
+    begin
+      Time:= DateTimeToFileTime(DateTime);
+      if mbFileAge(ArchiveFileName) <> Time then
+        mbFileSetTime(ArchiveFileName, Time, Time, Time);
+    end;
   finally
 
   end;
