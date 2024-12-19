@@ -511,14 +511,8 @@ begin
   {$ENDIF}
 
   {$IF DEFINED(LCLQT) or DEFINED(LCLQT5) or DEFINED(LCLQT6)}
-  WSVersion := 'Qt ' + QtVersion + ', libQt' + QtVersion[0] + 'Pas ';
-
-  WSVersion := WSVersion + IntToStr((QT_VERSION shr 16) and 255) + '.' +
-                           IntToStr((QT_VERSION shr  8) and 255) + '.' +
-                           IntToStr((QT_VERSION       ) and 255);
-  {$ENDIF}
-
-  {$IFDEF LCLGTK2}
+  WSVersion := 'Qt ' + QtVersion;
+  {$ELSEIF DEFINED(LCLGTK2)}
   WSVersion := 'GTK ' + IntToStr(gtk_major_version) + '.' +
                         IntToStr(gtk_minor_version) + '.' +
                         IntToStr(gtk_micro_version);
