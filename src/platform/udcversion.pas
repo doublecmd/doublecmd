@@ -71,6 +71,9 @@ uses
   {$IFDEF LCLGTK2}
   , gtk2
   {$ENDIF}
+  {$IFDEF LCLGTK3}
+  , LazGtk3
+  {$ENDIF}
   {$IFDEF MSWINDOWS}
   , Windows, JwaNative, JwaNtStatus, JwaWinType, uMyWindows
   {$ENDIF}
@@ -516,6 +519,10 @@ begin
   WSVersion := 'GTK ' + IntToStr(gtk_major_version) + '.' +
                         IntToStr(gtk_minor_version) + '.' +
                         IntToStr(gtk_micro_version);
+  {$ELSEIF DEFINED(LCLGTK3)}
+  WSVersion := 'GTK ' + IntToStr(gtk_get_major_version) + '.' +
+                        IntToStr(gtk_get_minor_version) + '.' +
+                        IntToStr(gtk_get_micro_version);
   {$ENDIF}
 end;
 
