@@ -820,6 +820,9 @@ object frmEditor: TfrmEditor
       object miGotoLine: TMenuItem
         Action = actEditGotoLine
       end
+      object miTimeDate: TMenuItem
+        Action = actEditTimeDate
+      end
       object N5: TMenuItem
         Caption = '-'
       end
@@ -1030,6 +1033,11 @@ object frmEditor: TfrmEditor
       Category = 'Edit'
       Caption = 'Goto Line...'
       ImageIndex = 16
+      OnExecute = actExecute
+    end
+    object actEditTimeDate: TAction
+      Category = 'Edit'
+      Caption = 'Time/Date'
       OnExecute = actExecute
     end
     object actEditFindPrevious: TAction

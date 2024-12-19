@@ -51,6 +51,7 @@
 {"hash":42146617,"name":"tfrmeditor.acteditlineendcrlf.caption","sourcebytes":[87,105,110,100,111,119,115,32,40,67,82,76,70,41],"value":"Windows (CRLF)"},
 {"hash":42146617,"name":"tfrmeditor.acteditlineendcrlf.hint","sourcebytes":[87,105,110,100,111,119,115,32,40,67,82,76,70,41],"value":"Windows (CRLF)"},
 {"hash":102945374,"name":"tfrmeditor.acteditgotoline.caption","sourcebytes":[71,111,116,111,32,76,105,110,101,46,46,46],"value":"Goto Line..."},
+{"hash":58979237,"name":"tfrmeditor.actedittimedate.caption","sourcebytes":[84,105,109,101,47,68,97,116,101],"value":"Time/Date"},
 {"hash":97034739,"name":"tfrmeditor.acteditfindprevious.caption","sourcebytes":[70,105,110,100,32,112,114,101,118,105,111,117,115],"value":"Find previous"},
 {"hash":93074804,"name":"tfrmeditor.actfilereload.caption","sourcebytes":[82,101,108,111,97,100],"value":"Reload"}
 ]}
