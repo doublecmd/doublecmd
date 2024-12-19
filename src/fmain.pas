@@ -3889,9 +3889,9 @@ begin
     if (SourceFiles.Count = 1) and
        (not (SourceFiles[0].IsDirectory or SourceFiles[0].IsLinkToDirectory))
     then
-      sDestination := TargetPath + ExtractFileName(SourceFiles[0].Name)
+      sDestination := params.targetPath + ExtractFileName(SourceFiles[0].Name)
     else
-      sDestination := TargetPath + '*.*';
+      sDestination := params.targetPath + '*.*';
 
     if bShowDialog then
     begin
@@ -3909,16 +3909,16 @@ begin
 
         GetDestinationPathAndMask(SourceFiles, SourceFileSource,
                                   TargetFileSource, sDestination,
-                                  SourceFiles.Path, TargetPath, sDstMaskTemp);
+                                  SourceFiles.Path, params.targetPath, sDstMaskTemp);
 
-        if (TargetFileSource = nil) or (Length(TargetPath) = 0) then
+        if (TargetFileSource = nil) or (Length(params.targetPath) = 0) then
         begin
           MessageDlg(EmptyStr, rsMsgInvalidPath, mtWarning, [mbOK], 0);
           Continue;
         end;
 
-        if HasPathInvalidCharacters(TargetPath) then
-          MessageDlg(rsMsgInvalidPath, Format(rsMsgInvalidPathLong, [TargetPath]),
+        if HasPathInvalidCharacters(params.targetPath) then
+          MessageDlg(rsMsgInvalidPath, Format(rsMsgInvalidPathLong, [params.targetPath]),
             mtWarning, [mbOK], 0)
         else
           Break;
@@ -3928,12 +3928,12 @@ begin
     end
     else
       GetDestinationPathAndMask(SourceFiles, TargetFileSource, sDestination,
-                                SourceFiles.Path, TargetPath, sDstMaskTemp);
+                                SourceFiles.Path, params.targetPath, sDstMaskTemp);
 
     if bMove then
     begin
       Operation := SourceFileSource.CreateMoveOperation(
-                     SourceFiles, params.TargetPath) as TFileSourceMoveOperation;
+                     SourceFiles, params.targetPath) as TFileSourceMoveOperation;
 
       if Assigned(Operation) then
       begin
