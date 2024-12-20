@@ -210,11 +210,9 @@ function TMountedFileSource.CreateCopyOperation(var SourceFiles: TFiles;
   TargetPath: String): TFileSourceOperation;
 var
   fs: TFileSystemFileSource;
-  realPath: String;
 begin
   fs:= TFileSystemFileSource.create;
-  realPath:= getRealPath( TargetPath );
-  Result:= fs.CreateCopyOperation( SourceFiles, RealPath );
+  Result:= fs.CreateCopyOperation( SourceFiles, TargetPath );
 end;
 
 function TMountedFileSource.CreateCopyInOperation(

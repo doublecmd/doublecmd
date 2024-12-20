@@ -3641,82 +3641,60 @@ var
   BaseDir: String;
   sDestination: String;
   sDstMaskTemp: String;
-  FileSource: IFileSource;
   TargetFiles: TFiles = nil;
   CopyDialog: TfrmCopyDlg = nil;
-  OperationTemp: Boolean = False;
-  OperationType: TFileSourceOperationType;
   OperationClass: TFileSourceOperationClass;
   Operation: TFileSourceCopyOperation = nil;
   OperationOptionsUIClass: TFileSourceOperationOptionsUIClass = nil;
+
+  params: TFileSourceConsultParams;
 begin
   Result := False;
   try
     if SourceFiles.Count = 0 then
       Exit;
 
+    params.operationType:= fsoCopy;
+    params.sourceFS:= SourceFileSource;
+    params.targetFS:= TargetFileSource;
+    params.files:= SourceFiles;
+    params.targetPath:= TargetPath;
+    FileSourceManager.consultBeforeOperate( params );
+
+    if params.consultResult <> fscrSuccess then begin
+      msgWarning(rsMsgErrNotSupported);
+      Exit;
+    end;
+
+    if params.operationTemp then begin
+      if (fspCopyOutOnMainThread in params.sourceFS.Properties) or
+         (fspCopyInOnMainThread in params.targetFS.Properties) then
+      begin
+        QueueIdentifier:= ModalQueueId;
+      end;
+    end;
+
+    OperationClass:= params.resultFS.GetOperationClass( params.operationType );
+
     if (SourceFiles.Count = 1) and
        ((not (SourceFiles[0].IsDirectory or SourceFiles[0].IsLinkToDirectory)) or
         (TargetPath = ''))
     then
-      sDestination := TargetPath + ReplaceInvalidChars(SourceFiles[0].Name)
+      sDestination := params.targetPath + ReplaceInvalidChars(SourceFiles[0].Name)
     else
-      sDestination := TargetPath + '*.*';
-
-    // If same file source and address
-    if (fsoCopy in SourceFileSource.GetOperationsTypes) and
-       (fsoCopy in TargetFileSource.GetOperationsTypes) and
-       SourceFileSource.Equals(TargetFileSource) and
-       SameText(SourceFileSource.GetCurrentAddress, TargetFileSource.GetCurrentAddress) then
-    begin
-      OperationType := fsoCopy;
-      FileSource := SourceFileSource;
-      OperationClass := SourceFileSource.GetOperationClass(fsoCopy);
-    end
-    else if TargetFileSource.IsClass(TFileSystemFileSource) and
-            (fsoCopyOut in SourceFileSource.GetOperationsTypes) then
-    begin
-      OperationType := fsoCopyOut;
-      FileSource := SourceFileSource;
-      OperationClass := SourceFileSource.GetOperationClass(fsoCopyOut);
-    end
-    else if SourceFileSource.IsClass(TFileSystemFileSource) and
-            (fsoCopyIn in TargetFileSource.GetOperationsTypes) then
-    begin
-      OperationType := fsoCopyIn;
-      FileSource := TargetFileSource;
-      OperationClass := TargetFileSource.GetOperationClass(fsoCopyIn);
-    end
-    else if (fsoCopyOut in SourceFileSource.GetOperationsTypes) and
-            (fsoCopyIn in TargetFileSource.GetOperationsTypes) then
-    begin
-      OperationTemp := True;
-      OperationType := fsoCopyOut;
-      FileSource := SourceFileSource;
-      OperationClass := SourceFileSource.GetOperationClass(fsoCopyOut);
-      if (fspCopyOutOnMainThread in SourceFileSource.Properties) or
-         (fspCopyInOnMainThread in TargetFileSource.Properties) then
-      begin
-        QueueIdentifier:= ModalQueueId;
-      end;
-    end
-    else
-    begin
-      msgWarning(rsMsgErrNotSupported);
-      Exit;
-    end;
+      sDestination := params.targetPath + '*.*';
 
     if bShowDialog then
     begin
       if Assigned(OperationClass) then
         OperationOptionsUIClass := OperationClass.GetOptionsUIClass;
 
-      CopyDialog := TfrmCopyDlg.Create(Self, cmdtCopy, FileSource, OperationOptionsUIClass);
+      CopyDialog := TfrmCopyDlg.Create(Self, cmdtCopy, params.resultFS, OperationOptionsUIClass);
       CopyDialog.edtDst.Text := sDestination;
-      CopyDialog.edtDst.ReadOnly := OperationTemp;
+      CopyDialog.edtDst.ReadOnly := params.operationTemp;
       CopyDialog.lblCopySrc.Caption := GetFileDlgStr(rsMsgCpSel, rsMsgCpFlDr, SourceFiles);
 
-      if OperationTemp and (QueueIdentifier = ModalQueueId) then
+      if params.operationTemp and (QueueIdentifier = ModalQueueId) then
       begin
         CopyDialog.QueueIdentifier:= QueueIdentifier;
         CopyDialog.btnAddToQueue.Visible:= False;
@@ -3739,16 +3717,16 @@ begin
 
         GetDestinationPathAndMask(SourceFiles, SourceFileSource,
                                   TargetFileSource, sDestination,
-                                  BaseDir, TargetPath, sDstMaskTemp);
+                                  BaseDir, params.targetPath, sDstMaskTemp);
 
-        if (TargetFileSource = nil) or (Length(TargetPath) = 0) then
+        if (TargetFileSource = nil) or (Length(params.targetPath) = 0) then
         begin
           MessageDlg(rsMsgInvalidPath, rsMsgErrNotSupported, mtWarning, [mbOK], 0);
           Continue;
         end;
 
-        if HasPathInvalidCharacters(TargetPath) then
-          MessageDlg(rsMsgInvalidPath, Format(rsMsgInvalidPathLong, [TargetPath]),
+        if HasPathInvalidCharacters(params.targetPath) then
+          MessageDlg(rsMsgInvalidPath, Format(rsMsgInvalidPathLong, [params.targetPath]),
             mtWarning, [mbOK], 0)
         else
           Break;
@@ -3758,44 +3736,43 @@ begin
     end
     else
       GetDestinationPathAndMask(SourceFiles, TargetFileSource, sDestination,
-                                SourceFiles.Path, TargetPath, sDstMaskTemp);
+                                SourceFiles.Path, params.targetPath, sDstMaskTemp);
 
     // Copy via temp directory
-    if OperationTemp then
+    if params.operationTemp then
     begin
       // Execute both operations in one new queue
       if QueueIdentifier = FreeOperationsQueueId then
         QueueIdentifier := OperationsManager.GetNewQueueIdentifier;
       // Save real target
-      sDestination := TargetPath;
-      FileSource := TargetFileSource;
+      sDestination := params.targetPath;
       TargetFiles := SourceFiles.Clone;
       // Replace target by temp directory
       TargetFileSource := TTempFileSystemFileSource.Create();
-      TargetPath := TargetFileSource.GetRootDir;
-      ChangeFileListRoot(TargetPath, TargetFiles);
+      params.targetPath := TargetFileSource.GetRootDir;
+      ChangeFileListRoot(params.targetPath, TargetFiles);
     end;
 
-    case OperationType of
+    case params.OperationType of
       fsoCopy:
         begin
           // Copy within the same file source.
-          Operation := SourceFileSource.CreateCopyOperation(
+          Operation := params.resultFS.CreateCopyOperation(
                          SourceFiles,
-                         TargetPath) as TFileSourceCopyOperation;
+                         params.targetPath) as TFileSourceCopyOperation;
         end;
       fsoCopyOut:
         // CopyOut to filesystem.
-        Operation := SourceFileSource.CreateCopyOutOperation(
+        Operation := params.resultFS.CreateCopyOutOperation(
                        TargetFileSource,
                        SourceFiles,
-                       TargetPath) as TFileSourceCopyOperation;
+                       params.targetPath) as TFileSourceCopyOperation;
       fsoCopyIn:
         // CopyIn from filesystem.
-        Operation := TargetFileSource.CreateCopyInOperation(
+        Operation := params.resultFS.CreateCopyInOperation(
                        SourceFileSource,
                        SourceFiles,
-                       TargetPath) as TFileSourceCopyOperation;
+                       params.targetPath) as TFileSourceCopyOperation;
     end;
 
     if Assigned(Operation) then
@@ -3806,7 +3783,7 @@ begin
       if Assigned(CopyDialog) then
         CopyDialog.SetOperationOptions(Operation);
 
-      if OperationTemp and (QueueIdentifier = ModalQueueId) then
+      if params.operationTemp and (QueueIdentifier = ModalQueueId) then
       begin
         Operation.AddStateChangedListener([fsosStopped], @OnCopyOutTempStateChanged);
       end;
@@ -3819,10 +3796,10 @@ begin
       msgWarning(rsMsgNotImplemented);
 
     // Copy via temp directory
-    if OperationTemp and Result and ((QueueIdentifier <> ModalQueueId) or FModalOperationResult) then
+    if params.operationTemp and Result and ((QueueIdentifier <> ModalQueueId) or FModalOperationResult) then
     begin
       // CopyIn from temp filesystem
-      Operation := FileSource.CreateCopyInOperation(
+      Operation := params.resultFS.CreateCopyInOperation(
                      TargetFileSource,
                      TargetFiles,
                      sDestination) as TFileSourceCopyOperation;
