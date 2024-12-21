@@ -3,7 +3,10 @@ library EverythingDsx;
 {$mode objfpc}{$H+}
 
 uses
-  Classes, Everything, DsxPlugin, DCConvertEncoding;
+  Classes, SysUtils, Everything, DsxPlugin, DCConvertEncoding;
+
+var
+  List: TFPList;
 
 threadvar
   AddFileProc: TSAddFileProc;
@@ -18,9 +21,12 @@ end;
 
 function Init(dps: PDsxDefaultParamStruct; pAddFileProc: TSAddFileProc;
   pUpdateStatus: TSUpdateStatusProc): Integer; stdcall;
-
 begin
   AddFileProc:= pAddFileProc;
+
+  if (List = nil) then List:= TFPList.Create;
+
+  Result:= List.Add(pAddFileProc);
 end;
 
 procedure StartSearch(FPluginNr: Integer; pSearchRecRec: PDsxSearchRecord); stdcall;
@@ -38,7 +44,14 @@ end;
 
 procedure Finalize(FPluginNr: Integer); stdcall;
 begin
-
+  if Assigned(List) then
+  begin
+    if FPluginNr < List.Count then
+    begin
+      List.Delete(FPluginNr);
+      if (List.Count = 0) then FreeAndNil(List);
+    end;
+  end;
 end;
 
 exports

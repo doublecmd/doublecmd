@@ -66,13 +66,13 @@
     </PublishOptions>
     <RunParams>
       <local>
-        <HostApplicationFilename Value="R:\Temp\doublecmd\doublecmd.exe"/>
+        <HostApplicationFilename Value="X:\Projects\doublecmd\doublecmd.exe"/>
       </local>
       <FormatVersion Value="2"/>
       <Modes Count="1">
         <Mode0 Name="default">
           <local>
-            <HostApplicationFilename Value="R:\Temp\doublecmd\doublecmd.exe"/>
+            <HostApplicationFilename Value="X:\Projects\doublecmd\doublecmd.exe"/>
           </local>
         </Mode0>
       </Modes>

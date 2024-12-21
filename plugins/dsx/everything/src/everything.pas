@@ -1,7 +1,7 @@
 {
   Everything search engine interface via IPC
 
-  Copyright (C) 2017 Alexander Koblov (alexx2000@mail.ru)
+  Copyright (C) 2017-2023 Alexander Koblov (alexx2000@mail.ru)
 
   Based on Everything command line interface source
 
@@ -37,8 +37,11 @@ uses
   Classes, SysUtils, Windows;
 
 const
+  EVERYTHING_DSX_WNDCLASS         = 'EVERYTHING_DSX';
+
+const
   COPYDATA_IPCTEST_QUERYCOMPLETEW = 0;
-  MSGFLT_RESET		          = 0;
+  MSGFLT_RESET                    = 0;
   MSGFLT_ALLOW                    = 1;
   MSGFLT_DISALLOW                 = 2;
 
@@ -49,12 +52,13 @@ const
 
   EVERYTHING_IPC_ALLRESULTS       = $FFFFFFFF; // all results
 
-  EVERYTHING_IPC_FOLDER           = $00000001;	// The item is a folder. (its a file if not set)
-  EVERYTHING_IPC_DRIVE            = $00000002;	// The folder is a drive. Path will be an empty string.
+  EVERYTHING_IPC_FOLDER           = $00000001;  // The item is a folder. (its a file if not set)
+  EVERYTHING_IPC_DRIVE            = $00000002;  // The folder is a drive. Path will be an empty string.
 
   // search flags for querys
-  EVERYTHING_IPC_MATCHCASE        = $00000001;	// match case
-  EVERYTHING_IPC_REGEX            = $00000008;	// enable regex
+  EVERYTHING_IPC_MATCHCASE        = $00000001;  // match case
+  EVERYTHING_IPC_MATCHPATH        = $00000004;  // include paths in search
+  EVERYTHING_IPC_REGEX            = $00000008;  // enable regex
 
 type
   PChangeFilterStruct = ^TChangeFilterStruct;
@@ -136,37 +140,41 @@ type
 type
   TFoundCallback = procedure(FileName: PWideChar);
 
-var
-  ChangeWindowMessageFilterEx: function(hWnd: HWND; message: UINT; action: DWORD; filter: PChangeFilterStruct): BOOL; stdcall;
-
 procedure Start(FileMask: String; Flags: Integer; pr: TFoundCallback);
 
 implementation
 
-function SendQuery(hwnd: HWND; num: DWORD; search_string: PWideChar; search_flags: integer): Boolean;
 var
-  query: ^TEVERYTHING_IPC_QUERYW;
+  ChangeWindowMessageFilterEx: function(hWnd: HWND; message: UINT; action: DWORD; filter: PChangeFilterStruct): BOOL; stdcall;
+
+function SendQuery(hwnd: HWND; num: DWORD; const search_string: UnicodeString; search_flags: integer): Boolean;
+var
   len: Int32;
   size: Int32;
-  everything_hwnd: HWND;
   cds: COPYDATASTRUCT;
+  everything_hwnd: HWND;
+  query: ^TEVERYTHING_IPC_QUERYW;
 begin
   everything_hwnd:= FindWindow(EVERYTHING_IPC_WNDCLASS, nil);
-  if (everything_hwnd <> 0) then
-  begin
-    len := StrLen(search_string);
+  if (everything_hwnd = 0) then
+    MessageBoxW(0, 'Everything not found!', nil, MB_OK or MB_ICONERROR)
+  else begin
+    len:= Length(search_string);
+    size := SizeOf(TEVERYTHING_IPC_QUERYW) + len * SizeOf(WideChar);
 
-    size := SizeOf(TEVERYTHING_IPC_QUERYW) - SizeOf(WideChar) + len * SizeOf(WideChar) + SizeOf(WideChar);
-
-    query := GetMem(size);
-    if Assigned(query) then
+    query:= GetMem(size);
+    if (query = nil) then
     begin
+      MessageBoxW(0, PWideChar(UnicodeString(SysErrorMessage(E_OUTOFMEMORY))), nil, MB_OK or MB_ICONERROR);
+      Exit(False);
+    end;
+    try
       query^.offset := 0;
       query^.max_results := num;
       query^.reply_copydata_message := COPYDATA_IPCTEST_QUERYCOMPLETEW;
       query^.search_flags := search_flags;
       query^.reply_hwnd := hwnd;
-      StrLCopy(@query^.search_string, search_string, len);
+      StrPLCopy(@query^.search_string, search_string, len);
 
       cds.cbData := size;
       cds.dwData := EVERYTHING_IPC_COPYDATAQUERYW;
@@ -174,134 +182,121 @@ begin
 
       if (SendMessage(everything_hwnd, WM_COPYDATA, WPARAM(hwnd), LPARAM(@cds)) <> 0) then
       begin
-	      //HeapFree(GetProcessHeap(),0,query);
-
-	      //return 1;
-      REsult:= True;
-      end
-      else
-      begin
-	      //write(L"Everything IPC service not running.\n");
+        Exit(True);
       end;
-
+    finally
       FreeMem(query);
     end;
   end;
-
   Result:= False;
 end;
 
-function EVERYTHING_IPC_ITEMPATHW(list: PEVERYTHING_IPC_LISTW; item: PEVERYTHING_IPC_ITEMW): PWideChar;
+function EVERYTHING_IPC_ITEMPATHW(AList: PEVERYTHING_IPC_LISTW; Item: PEVERYTHING_IPC_ITEMW): PWideChar; inline;
 begin
-  Result:= PWideChar(PByte(list) + item^.path_offset);
+  Result:= PWideChar(PByte(AList) + Item^.path_offset);
 end;
 
-function EVERYTHING_IPC_ITEMFILENAMEW(list: PEVERYTHING_IPC_LISTW; item: PEVERYTHING_IPC_ITEMW): PWideChar;
+function EVERYTHING_IPC_ITEMFILENAMEW(AList: PEVERYTHING_IPC_LISTW; Item: PEVERYTHING_IPC_ITEMW): PWideChar; inline;
 begin
-  Result:= PWideChar(PByte(list) + item^.filename_offset);
+  Result:= PWideChar(PByte(AList) + Item^.filename_offset);
 end;
 
-procedure listresultsW(hwnd2: HWND; list: PEVERYTHING_IPC_LISTW);
+procedure ListResults(hWnd: HWND; AList: PEVERYTHING_IPC_LISTW);
 var
-  I: Integer;
+  I: DWORD = 0;
+  Temp: UnicodeString;
+  FileName: PWideChar;
+  Callback: TFoundCallback;
   Item: PEVERYTHING_IPC_ITEMW;
-  CallB: TFoundCallback;
-  Result: PWideChar;
-  Res: UnicodeString;
+  dwOldLong: LONG_PTR absolute Callback;
 begin
-  CallB:= TFoundCallback(GetWindowLongPtr(hwnd2, GWL_USERDATA));
+  dwOldLong:= GetWindowLongPtr(hWnd, GWL_USERDATA);
 
-  for i:=0 to list^.numitems - 1 do
+  while I < AList^.numitems do
   begin
-          Item:= PEVERYTHING_IPC_ITEMW(@list^.items) + i;
-	  if (Item^.flags and EVERYTHING_IPC_DRIVE) <> 0 then
-	  begin
-		  //WriteLn(WideString(EVERYTHING_IPC_ITEMFILENAMEW(list, Item)));
-                  Result:= EVERYTHING_IPC_ITEMFILENAMEW(list, Item);
-	  end
-	  else
-	  begin
-		  //WriteLn(WideString(EVERYTHING_IPC_ITEMPATHW(list, Item)));
+    Item:= PEVERYTHING_IPC_ITEMW(@AList^.items) + I;
 
-		  //WriteLn(WideString(EVERYTHING_IPC_ITEMFILENAMEW(list, Item)));
-                  Res:= UnicodeString(EVERYTHING_IPC_ITEMPATHW(list, Item)) + PathDelim + UnicodeString(EVERYTHING_IPC_ITEMFILENAMEW(list, Item));
-                  Result:= PWideChar(Res);//EVERYTHING_IPC_ITEMFILENAMEW(list, Item);
-	  end;
-          CallB(REsult);
+    if (Item^.flags and EVERYTHING_IPC_DRIVE) <> 0 then
+    begin
+      FileName:= EVERYTHING_IPC_ITEMFILENAMEW(AList, Item);
+    end
+    else
+    begin
+      Temp:= UnicodeString(EVERYTHING_IPC_ITEMPATHW(AList, Item)) + PathDelim + UnicodeString(EVERYTHING_IPC_ITEMFILENAMEW(AList, Item));
+      FileName:= PWideChar(Temp);
+    end;
+
+    Callback(FileName);
+    Inc(I);
   end;
-  CallB(nil);
-  PostQuitMessage(0);
+  Callback(nil);
+  PostMessage(hWnd, WM_CLOSE, 0, 0);
 end;
 
-function window_proc(hwnd: HWND; msg: UINT; wParam: WPARAM; lParam: LPARAM): LRESULT; stdcall;
+function WindowProc(hwnd: HWND; msg: UINT; wParam: WPARAM; lParam: LPARAM): LRESULT; stdcall;
 var
-  cds: PCOPYDATASTRUCT;
+  cds: PCopyDataStruct absolute lParam;
 begin
+  Result:= 0;
   case msg of
     WM_COPYDATA:
     begin
-      cds := PCOPYDATASTRUCT(lParam);
       if cds^.dwData = COPYDATA_IPCTEST_QUERYCOMPLETEW then
       begin
-	listresultsW(hwnd, PEVERYTHING_IPC_LISTW(cds^.lpData));
-	Exit(1);
+        ListResults(hwnd, PEVERYTHING_IPC_LISTW(cds^.lpData));
+        Exit(1);
       end;
     end;
+    WM_CLOSE:
+      DestroyWindow(hwnd);
+    else
+      Result:= DefWindowProc(hwnd, msg, wParam, lParam);
   end;
-  Result:= DefWindowProc(hwnd, msg, wParam, lParam);
 end;
 
 procedure Start(FileMask: String; Flags: Integer; pr: TFoundCallback);
 var
-  wcex: WNDCLASSEX;
-  hwnd2: HWND;
-  HH: HMODULE;
-  lpMsg: TMsg;
+  hWnd: Windows.HWND;
+  dwNewLong: LONG_PTR absolute pr;
 begin
-  ZeroMemory(@wcex, SizeOf(wcex));
-  wcex.cbSize := sizeof(wcex);
-  wcex.hInstance := System.HINSTANCE;;
-  wcex.lpfnWndProc := @window_proc;
-  wcex.lpszClassName := 'IPCTEST';
+  hWnd := CreateWindow(EVERYTHING_DSX_WNDCLASS,
+                       '', 0, 0, 0, 0, 0, 0, 0, HINSTANCE,nil);
 
-  		if (RegisterClassEx(@wcex) = 0) then
-  		begin
-  			WriteLn('failed to register IPCTEST window class');
+  if Assigned(ChangeWindowMessageFilterEx) then
+  begin
+    ChangeWindowMessageFilterEx(hWnd, WM_COPYDATA, MSGFLT_ALLOW, nil);
+  end;
 
+  SetWindowLongPtr(hWnd, GWL_USERDATA, dwNewLong);
 
-                end;
-
-        	hwnd2 := CreateWindow(
-        		'IPCTEST',
-        		'',
-        		0,
-        		0,0,0,0,
-        		0,0,HINSTANCE,nil);
-
-HH:= LoadLibrary('user32.dll');
-Pointer(ChangeWindowMessageFilterEx) := GetProcAddress(HH, 'ChangeWindowMessageFilterEx');
-ChangeWindowMessageFilterEx(hwnd2, WM_COPYDATA, MSGFLT_ALLOW, nil);
-
-SetWindowLongPtr(hwnd2, GWL_USERDATA, LONG_PTR(pr));
-
-sendquery(hwnd2,EVERYTHING_IPC_ALLRESULTS,PWideChar(WideString(FileMask)), Flags);
-while (True) do
-                begin
-        	if (PeekMessage(lpmsg, 0,0,0,0)) then
-        	begin
-        		if not GetMessage(lpmsg,0,0,0) then Exit;
-
-        		// let windows handle it.
-        		TranslateMessage(lpmsg);
-        		DispatchMessage(lpmsg);
-                end
-        	else
-        	begin
-        		WaitMessage();
-        	end;
+  if not SendQuery(hWnd, EVERYTHING_IPC_ALLRESULTS, UnicodeString(FileMask), Flags) then
+  begin
+    pr(nil);
+    PostMessage(hWnd, WM_CLOSE, 0, 0);
+  end;
 end;
 
+procedure Initialize;
+var
+  hUser32: HMODULE;
+  wcex: TWndClassEx;
+begin
+  wcex:= Default(TWndClassEx);
+  wcex.cbSize:= SizeOf(TWndClassEx);
+  wcex.hInstance:= System.HINSTANCE;
+  wcex.lpfnWndProc:= @WindowProc;
+  wcex.lpszClassName:= EVERYTHING_DSX_WNDCLASS;
+
+  if (RegisterClassEx(@wcex) = 0) then
+  begin
+    // WriteLn('failed to register IPCTEST window class');
+  end;
+  hUser32:= GetModuleHandle(User32);
+  Pointer(ChangeWindowMessageFilterEx):= GetProcAddress(hUser32, 'ChangeWindowMessageFilterEx');
 end;
+
+initialization
+  Initialize;
 
 end.
 
