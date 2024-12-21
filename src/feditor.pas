@@ -59,6 +59,7 @@ type
     actEditGotoLine: TAction;
     actEditFindPrevious: TAction;
     actFileReload: TAction;
+    actEditTimeDate: TAction;
     ilBookmarks: TImageList;
     MainMenu1: TMainMenu;
     ActListEdit: TActionList;
@@ -73,6 +74,7 @@ type
     miFileReload: TMenuItem;
     miFindPrevious: TMenuItem;
     miGotoLine: TMenuItem;
+    miTimeDate: TMenuItem;
     miEditLineEndCr: TMenuItem;
     miEditLineEndLf: TMenuItem;
     miEditLineEndCrLf: TMenuItem;
@@ -204,6 +206,7 @@ type
      procedure cm_EditFindNext(const {%H-}Params:array of string);
      procedure cm_EditFindPrevious(const {%H-}Params:array of string);
      procedure cm_EditGotoLine(const {%H-}Params:array of string);
+     procedure cm_EditTimeDate(const {%H-}Params:array of string);
      procedure cm_EditLineEndCr(const {%H-}Params:array of string);
      procedure cm_EditLineEndCrLf(const {%H-}Params:array of string);
      procedure cm_EditLineEndLf(const {%H-}Params:array of string);
@@ -847,6 +850,11 @@ begin
     Editor.TopLine := NewTopLine;
     Editor.SetFocus;
   end;
+end;
+
+procedure TfrmEditor.cm_EditTimeDate(const Params:array of string);
+begin
+     Editor.InsertTextAtCaret (FormatDateTime ('hh:nn ddddd', Now));
 end;
 
 procedure TfrmEditor.cm_EditLineEndCr(const Params:array of string);
