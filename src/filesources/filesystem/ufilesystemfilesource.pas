@@ -1063,10 +1063,10 @@ var
     if isCompatibleFileSourceForCopyOperation( sourceFS, targetFS ) then begin
       params.resultFS:= sourceFS;
     end else if fsoCopyIn in targetFS.GetOperationsTypes then begin
-      params.operationType := fsoCopyIn;
+      params.resultOperationType:= fsoCopyIn;
       params.resultFS:= targetFS;
     end else if (fsoCopyOut in sourceFS.GetOperationsTypes) and (fsoCopyIn in targetFS.GetOperationsTypes) then begin
-      params.operationType:= fsoCopyOut;
+      params.resultOperationType:= fsoCopyOut;
       params.resultFS:= params.sourceFS;
       params.operationTemp:= True;
     end else begin
@@ -1076,13 +1076,11 @@ var
 
   procedure doTarget;
   begin
-    if params.resultFS <> nil then
-      Exit;
-
     if fsoCopyOut in sourceFS.GetOperationsTypes then begin
-      params.operationType:= fsoCopyOut;
-      params.resultFS:= sourceFS;
       params.consultResult:= fscrSuccess;
+      params.resultOperationType:= fsoCopyOut;
+      params.resultFS:= sourceFS;
+      params.operationTemp:= False;
     end
   end;
 

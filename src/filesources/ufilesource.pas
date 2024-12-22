@@ -21,11 +21,9 @@ type
   TFileSourceConsultResult = ( fscrSuccess, fscrNotImplemented, fscrNotSupported );
 
   TFileSourceConsultParams = Record
-    consultResult: TFileSourceConsultResult;
     handled: Boolean;
 
     operationType: TFileSourceOperationType;
-    operationTemp: Boolean;
     files: TFiles;
     targetPath: String;
 
@@ -34,7 +32,11 @@ type
 
     currentFS: IFileSource;
     partnerFS: IFileSource;
+
+    consultResult: TFileSourceConsultResult;
+    resultOperationType: TFileSourceOperationType;
     resultFS: IFileSource;
+    operationTemp: Boolean;
   end;
 
   TFileSourceProcessor = class

@@ -116,6 +116,7 @@ var
   processor: TFileSourceProcessor;
 begin
   params.consultResult:= fscrSuccess;
+  params.resultOperationType:= params.operationType;
   params.handled:= False;
 
   fs:= params.sourceFS;
@@ -156,7 +157,7 @@ begin
   if isCompatibleFileSourceForCopyOperation( sourceFS, targetFS ) then begin
     params.resultFS:= params.sourceFS;
   end else if (fsoCopyOut in sourceFS.GetOperationsTypes) and (fsoCopyIn in targetFS.GetOperationsTypes) then begin
-    params.operationType:= fsoCopyOut;
+    params.resultOperationType:= fsoCopyOut;
     params.operationTemp:= True;
     params.resultFS:= params.sourceFS;
   end else begin

@@ -3674,7 +3674,7 @@ begin
       end;
     end;
 
-    OperationClass:= params.resultFS.GetOperationClass( params.operationType );
+    OperationClass:= params.resultFS.GetOperationClass( params.resultOperationType );
 
     if (SourceFiles.Count = 1) and
        ((not (SourceFiles[0].IsDirectory or SourceFiles[0].IsLinkToDirectory)) or
@@ -3753,7 +3753,7 @@ begin
       ChangeFileListRoot(params.targetPath, TargetFiles);
     end;
 
-    case params.OperationType of
+    case params.resultOperationType of
       fsoCopy:
         begin
           // Copy within the same file source.
