@@ -16,6 +16,7 @@ type
   public
     function getDefaultPointForPath(const path: String): String; override;
     function GetRootDir(sPath : String): String; override;
+    function IsPathAtRoot(Path: String): Boolean; override;
   end;
 
 implementation
@@ -38,6 +39,19 @@ begin
   path:= uDCUtils.ReplaceTilde( iCLOUD_DRIVER_PATH );
   displayName:= getMacOSDisplayNameFromPath( path );
   Result:= PathDelim + PathDelim + PathDelim + displayName + PathDelim;
+end;
+
+function TiCloudDriverFileSource.IsPathAtRoot(Path: String): Boolean;
+var
+  iCloudPath: String;
+  testPath: String;
+begin
+  Result:= inherited;
+  if NOT Result then begin
+    iCloudPath:= uDCUtils.ReplaceTilde( iCLOUD_DRIVER_PATH );
+    testPath:= ExcludeTrailingPathDelimiter( Path );
+    Result:= ( testPath=iCloudPath );
+  end;
 end;
 
 end.

@@ -9,7 +9,7 @@ uses
   uFileSource, uFileSourceManager,
   uFileSystemFileSource, uFileSystemMoveOperation,
   uFileSourceOperation, uFileSourceOperationTypes,
-  uDCUtils;
+  uDCUtils, DCStrUtils;
 
 type
   { IMountedFileSource }
@@ -51,7 +51,9 @@ type
     function SetCurrentWorkingDirectory(NewDir: String): Boolean; override;
   public
     function GetProcessor: TFileSourceProcessor; override;
+    function GetParentDir(sPath : String): String; override;
     function GetRootDir(sPath : String): String; override;
+    function IsPathAtRoot(Path: String): Boolean; override;
     function CreateListOperation(TargetPath: String): TFileSourceOperation; override;
   public
     property mountPoints: TMountPoints read _mountPoints;
@@ -153,9 +155,19 @@ begin
   Result:= mountedFileSourceProcessor;
 end;
 
+function TMountedFileSource.GetParentDir(sPath : String): String;
+begin
+  Result := DCStrUtils.GetParentDir(sPath);
+end;
+
 function TMountedFileSource.GetRootDir(sPath: String): String;
 begin
   Result:= PathDelim + PathDelim + PathDelim + 'mount' + PathDelim;
+end;
+
+function TMountedFileSource.IsPathAtRoot(Path: String): Boolean;
+begin
+  Result:= ( IncludeTrailingPathDelimiter(Path)=self.GetRootDir );
 end;
 
 function TMountedFileSource.CreateListOperation(TargetPath: String): TFileSourceOperation;
