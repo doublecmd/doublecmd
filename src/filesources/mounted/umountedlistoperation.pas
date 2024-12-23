@@ -7,7 +7,7 @@ interface
 uses
   Classes, SysUtils,
   uFileSourceListOperation,
-  uFileSource, uMountedFileSource, uFileSystemFileSource,
+  uFileSource, uMountedFileSource, uFileSystemListOperation,
   uDCUtils, DCStrUtils;
 
 type
@@ -47,6 +47,19 @@ var
   logicPath: String;
   realPath: String;
 
+  function getFilesByFileSystemListOperation: TFiles;
+  var
+    listOperation: TFileSourceListOperation;
+  begin
+    listOperation:= TFileSystemListOperation.Create( mountedFS, realPath );
+    try
+      listOperation.Execute;
+      Result:= listOperation.ReleaseFiles;
+    finally
+      FreeAndNil( listOperation );
+    end;
+  end;
+
   procedure addMountedPaths;
   var
     mountPoint: TMountPoint;
@@ -61,7 +74,7 @@ var
       if logicPath <> mountPointParentPath then
         continue;
 
-      mountedTFile:= TFileSystemFileSource.CreateFileFromFile( mountedPath );
+      mountedTFile:= mountedFS.CreateFileFromFile( mountedPath );
       mountPointName:= mountedFS.getDefaultPointForPath( mountedPath );
       if NOT mountPointName.IsEmpty then
         mountedTFile.Name:= mountPointName;
@@ -70,11 +83,8 @@ var
   end;
 
   procedure addRegularFiles;
-  var
-    realFS: IFileSource;
   begin
-    realFS:= TFileSystemFileSource.Create;
-    FFiles.List.AddList( realFS.GetFiles(realPath).List );
+    FFiles.List.AddList( getFilesByFileSystemListOperation.List );
   end;
 
 begin
