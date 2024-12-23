@@ -70,7 +70,7 @@ type
   private
     procedure resolveRealPath( var params: TFileSourceConsultParams );
   public
-    procedure consultBeforeOperate( var params: TFileSourceConsultParams ); override;
+    procedure confirm( var params: TFileSourceConsultParams ); override;
   end;
 
 var
@@ -173,16 +173,16 @@ begin
     Exit;
 
   mountedFS:= params.currentFS as TMountedFileSource;
-  params.targetPath:= mountedFS.getRealPath(params.targetPath);
+  params.resultTargetPath:= mountedFS.getRealPath( params.targetPath );
 end;
 
-procedure TMountedFileSourceProcessor.consultBeforeOperate( var params: TFileSourceConsultParams );
+procedure TMountedFileSourceProcessor.confirm( var params: TFileSourceConsultParams );
 begin
   case params.operationType of
     fsoCopy, fsoMove:
       self.resolveRealPath( params );
   end;
-  Inherited;
+  inherited confirm( params);
 end;
 
 initialization
