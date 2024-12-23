@@ -3654,6 +3654,8 @@ begin
     if SourceFiles.Count = 0 then
       Exit;
 
+    params:= Default(TFileSourceConsultParams);
+
     params.operationType:= fsoCopy;
     params.sourceFS:= SourceFileSource;
     params.targetFS:= TargetFileSource;
@@ -3837,6 +3839,8 @@ var
 begin
   Result := False;
   try
+    params:= Default(TFileSourceConsultParams);
+  
     params.operationType:= fsoMove;
     params.sourceFS:= SourceFileSource;
     params.targetFS:= TargetFileSource;
