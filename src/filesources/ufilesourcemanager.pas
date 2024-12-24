@@ -24,8 +24,9 @@ type
     destructor Destroy; override;
 
     function Find(FileSourceClass: TClass; Address: String; CaseSensitive: Boolean = True): IFileSource;
-    procedure consultBeforeOperate( var params: TFileSourceConsultParams );
-    procedure confirm( var params: TFileSourceConsultParams );
+
+    procedure consultOperation( var params: TFileSourceConsultParams );
+    procedure confirmOperation( var params: TFileSourceConsultParams );
   end;
 
   { TDefaultFileSourceProcessor }
@@ -35,8 +36,8 @@ type
     procedure consultCopyOperation( var params: TFileSourceConsultParams );
     procedure consultMoveOperation( var params: TFileSourceConsultParams );
   public
-    procedure consultBeforeOperate( var params: TFileSourceConsultParams ); override;
-    procedure confirm( var params: TFileSourceConsultParams ); override;
+    procedure consultOperation( var params: TFileSourceConsultParams ); override;
+    procedure confirmOperation( var params: TFileSourceConsultParams ); override;
   end;
 
 var
@@ -112,7 +113,7 @@ begin
   Result := nil;
 end;
 
-procedure TFileSourceManager.consultBeforeOperate( var params: TFileSourceConsultParams);
+procedure TFileSourceManager.consultOperation( var params: TFileSourceConsultParams);
 var
   fs: IFileSource;
   processor: TFileSourceProcessor;
@@ -127,7 +128,7 @@ begin
   params.partnerFS:= params.targetFS;
   processor:= fs.GetProcessor;
   if processor <> nil then
-    processor.consultBeforeOperate( params );
+    processor.consultOperation( params );
 
   if params.handled then
     Exit;
@@ -140,10 +141,10 @@ begin
   params.partnerFS:= params.sourceFS;
   processor:= fs.GetProcessor;
   if processor <> nil then
-    processor.consultBeforeOperate( params );
+    processor.consultOperation( params );
 end;
 
-procedure TFileSourceManager.confirm(var params: TFileSourceConsultParams);
+procedure TFileSourceManager.confirmOperation(var params: TFileSourceConsultParams);
 var
   fs: IFileSource;
   processor: TFileSourceProcessor;
@@ -154,7 +155,7 @@ begin
   params.partnerFS:= params.targetFS;
   processor:= fs.GetProcessor;
   if processor <> nil then
-    processor.confirm( params );
+    processor.confirmOperation( params );
 
   if params.handled then
     Exit;
@@ -167,7 +168,7 @@ begin
   params.partnerFS:= params.sourceFS;
   processor:= fs.GetProcessor;
   if processor <> nil then
-    processor.confirm( params );
+    processor.confirmOperation( params );
 end;
 
 { TDefaultFileSourceProcessor }
@@ -225,7 +226,7 @@ begin
   end;
 end;
 
-procedure TDefaultFileSourceProcessor.consultBeforeOperate( var params: TFileSourceConsultParams );
+procedure TDefaultFileSourceProcessor.consultOperation( var params: TFileSourceConsultParams );
 begin
   case params.operationType of
     fsoCopy:
@@ -235,7 +236,7 @@ begin
   end;
 end;
 
-procedure TDefaultFileSourceProcessor.confirm( var params: TFileSourceConsultParams );
+procedure TDefaultFileSourceProcessor.confirmOperation( var params: TFileSourceConsultParams );
 begin
 end;
 

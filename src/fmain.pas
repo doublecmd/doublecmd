@@ -3659,7 +3659,7 @@ begin
     params.targetFS:= TargetFileSource;
     params.files:= SourceFiles;
     params.targetPath:= TargetPath;
-    FileSourceManager.consultBeforeOperate( params );
+    FileSourceManager.consultOperation( params );
 
     if params.consultResult <> fscrSuccess then begin
       msgWarning(rsMsgErrNotSupported);
@@ -3708,7 +3708,7 @@ begin
           Exit;
 
         params.targetPath := CopyDialog.edtDst.Text;
-        FileSourceManager.confirm( params );
+        FileSourceManager.confirmOperation( params );
 
         if SourceFileSource.IsClass(TArchiveFileSource) then
           BaseDir := ExtractFilePath(SourceFileSource.CurrentAddress)
@@ -3737,7 +3737,7 @@ begin
       QueueIdentifier := CopyDialog.QueueIdentifier;
     end
     else begin
-      FileSourceManager.confirm( params );
+      FileSourceManager.confirmOperation( params );
       GetDestinationPathAndMask(SourceFiles, TargetFileSource, params.resultTargetPath,
                                 SourceFiles.Path, params.resultTargetPath, sDstMaskTemp);
     end;
@@ -3846,7 +3846,7 @@ begin
     params.targetFS:= TargetFileSource;
     params.files:= SourceFiles;
     params.targetPath:= TargetPath;
-    FileSourceManager.consultBeforeOperate( params );
+    FileSourceManager.consultOperation( params );
 
     SourceFileSource:= params.sourceFS;
     bMove:= (params.consultResult = fscrSuccess);
@@ -3887,7 +3887,7 @@ begin
           Exit;
 
         params.targetPath := MoveDialog.edtDst.Text;
-        FileSourceManager.confirm( params );
+        FileSourceManager.confirmOperation( params );
 
         GetDestinationPathAndMask(SourceFiles, SourceFileSource,
                                   TargetFileSource, params.resultTargetPath,
@@ -3910,7 +3910,7 @@ begin
       QueueIdentifier := MoveDialog.QueueIdentifier;
     end
     else begin
-      FileSourceManager.confirm( params );
+      FileSourceManager.confirmOperation( params );
       GetDestinationPathAndMask(SourceFiles, TargetFileSource, params.resultTargetPath,
                                 SourceFiles.Path, params.resultTargetPath, sDstMaskTemp);
     end;

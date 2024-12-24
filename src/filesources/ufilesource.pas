@@ -41,8 +41,8 @@ type
   end;
 
   TFileSourceProcessor = class
-    procedure consultBeforeOperate( var params: TFileSourceConsultParams ); virtual; abstract;
-    procedure confirm( var params: TFileSourceConsultParams ); virtual; abstract;
+    procedure consultOperation( var params: TFileSourceConsultParams ); virtual; abstract;
+    procedure confirmOperation( var params: TFileSourceConsultParams ); virtual; abstract;
   end;
 
   TFileSourceField = record

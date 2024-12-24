@@ -72,7 +72,7 @@ type
   private
     procedure resolveRealPath( var params: TFileSourceConsultParams );
   public
-    procedure confirm( var params: TFileSourceConsultParams ); override;
+    procedure confirmOperation( var params: TFileSourceConsultParams ); override;
   end;
 
 var
@@ -188,13 +188,13 @@ begin
   params.resultTargetPath:= mountedFS.getRealPath( params.targetPath );
 end;
 
-procedure TMountedFileSourceProcessor.confirm( var params: TFileSourceConsultParams );
+procedure TMountedFileSourceProcessor.confirmOperation( var params: TFileSourceConsultParams );
 begin
   case params.operationType of
     fsoCopy, fsoMove:
       self.resolveRealPath( params );
   end;
-  inherited confirm( params);
+  inherited confirmOperation( params );
 end;
 
 initialization

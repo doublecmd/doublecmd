@@ -53,7 +53,7 @@ type
   private
     procedure consultMoveOperation( var params: TFileSourceConsultParams );
   public
-    procedure consultBeforeOperate( var params: TFileSourceConsultParams ); override;
+    procedure consultOperation( var params: TFileSourceConsultParams ); override;
   end;
 
 var
@@ -70,7 +70,7 @@ begin
   params.sourceFS:= searchResultFS.FileSource;
 end;
 
-procedure TSearchResultFileSourceProcessor.consultBeforeOperate( var params: TFileSourceConsultParams);
+procedure TSearchResultFileSourceProcessor.consultOperation( var params: TFileSourceConsultParams);
 begin
   case params.operationType of
     fsoMove:

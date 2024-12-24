@@ -125,7 +125,7 @@ type
   private
     procedure consultCopyOperation( var params: TFileSourceConsultParams );
   public
-    procedure consultBeforeOperate( var params: TFileSourceConsultParams ); override;
+    procedure consultOperation( var params: TFileSourceConsultParams ); override;
   end;
 
   { TFileSystemFileSourceConnection }
@@ -1094,7 +1094,7 @@ begin
     doTarget;
 end;
 
-procedure TFileSystemFileSourceProcessor.consultBeforeOperate( var params: TFileSourceConsultParams );
+procedure TFileSystemFileSourceProcessor.consultOperation( var params: TFileSourceConsultParams );
 begin
   case params.operationType of
     fsoCopy:
