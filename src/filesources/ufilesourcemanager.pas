@@ -7,7 +7,7 @@ interface
 uses
   Classes, SysUtils,
   uFileSource, uFileSourceOperationTypes, uFileSourceUtil,
-  uDebug;
+  uDebug, DCStrUtils;
 
 type
   { TFileSourceManager }
@@ -34,6 +34,7 @@ type
   TDefaultFileSourceProcessor = class( TFileSourceProcessor )
   private
     procedure consultCopyOperation( var params: TFileSourceConsultParams );
+    procedure confirmCopyOperation( var params: TFileSourceConsultParams );
     procedure consultMoveOperation( var params: TFileSourceConsultParams );
   public
     procedure consultOperation( var params: TFileSourceConsultParams ); override;
@@ -150,6 +151,8 @@ var
   processor: TFileSourceProcessor;
 begin
   params.resultTargetPath:= params.targetPath;
+  params.handled:= False;
+
   fs:= params.sourceFS;
   params.currentFS:= fs;
   params.partnerFS:= params.targetFS;
@@ -196,6 +199,20 @@ begin
   end;
 end;
 
+procedure TDefaultFileSourceProcessor.confirmCopyOperation( var params: TFileSourceConsultParams );
+begin
+  if params.currentFS <> params.sourceFS then
+    Exit;
+
+  if NOT StrBegins(params.targetPath, '..') then
+    Exit;
+
+  params.resultOperationType:= fsoCopy;
+  params.operationTemp:= False;
+  params.resultFS:= params.sourceFS;
+  params.handled:= True;
+end;
+
 procedure TDefaultFileSourceProcessor.consultMoveOperation( var params: TFileSourceConsultParams);
 var
   sourceFS: IFileSource;
@@ -238,6 +255,10 @@ end;
 
 procedure TDefaultFileSourceProcessor.confirmOperation( var params: TFileSourceConsultParams );
 begin
+  case params.operationType of
+    fsoCopy:
+      self.confirmCopyOperation( params );
+  end;
 end;
 
 initialization

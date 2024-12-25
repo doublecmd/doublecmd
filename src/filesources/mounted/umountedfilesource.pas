@@ -181,20 +181,20 @@ procedure TMountedFileSourceProcessor.resolveRealPath( var params: TFileSourceCo
 var
   mountedFS: TMountedFileSource;
 begin
-  if params.currentFS <> params.targetFS then
-    Exit;
-
-  mountedFS:= params.currentFS as TMountedFileSource;
-  params.resultTargetPath:= mountedFS.getRealPath( params.targetPath );
+  if ((params.currentFS=params.sourceFS) and StrBegins(params.targetPath,'..')) or
+     ((params.currentFS<>params.sourceFS) and NOT StrBegins(params.targetPath,'..')) then begin
+    mountedFS:= params.currentFS as TMountedFileSource;
+    params.resultTargetPath:= mountedFS.getRealPath( params.targetPath );
+  end;
 end;
 
 procedure TMountedFileSourceProcessor.confirmOperation( var params: TFileSourceConsultParams );
 begin
+  inherited confirmOperation( params );
   case params.operationType of
     fsoCopy, fsoMove:
       self.resolveRealPath( params );
   end;
-  inherited confirmOperation( params );
 end;
 
 initialization
