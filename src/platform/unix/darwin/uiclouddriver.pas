@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils,
-  uMountedFileSource,
+  uFile, uMountedFileSource,
   uDCUtils, uMyDarwin;
 
 type
@@ -16,6 +16,7 @@ type
   public
     function getDefaultPointForPath(const path: String): String; override;
     function GetRootDir(sPath : String): String; override;
+    function IsSystemFile(aFile: TFile): Boolean; override;
     function IsPathAtRoot(Path: String): Boolean; override;
   end;
 
@@ -39,6 +40,13 @@ begin
   path:= uDCUtils.ReplaceTilde( iCLOUD_DRIVER_PATH );
   displayName:= getMacOSDisplayNameFromPath( path );
   Result:= PathDelim + PathDelim + PathDelim + displayName + PathDelim;
+end;
+
+function TiCloudDriverFileSource.IsSystemFile(aFile: TFile): Boolean;
+begin
+  Result:= inherited;
+  if Result then
+    Result:= NOT aFile.Name.EndsWith( '.icloud', True );
 end;
 
 function TiCloudDriverFileSource.IsPathAtRoot(Path: String): Boolean;
