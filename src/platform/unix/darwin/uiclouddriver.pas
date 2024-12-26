@@ -18,6 +18,7 @@ type
     function GetRootDir(sPath : String): String; override;
     function IsSystemFile(aFile: TFile): Boolean; override;
     function IsPathAtRoot(Path: String): Boolean; override;
+    function GetDisplayFileName(aFile: TFile): String; override;
   end;
 
 implementation
@@ -60,6 +61,11 @@ begin
     testPath:= ExcludeTrailingPathDelimiter( Path );
     Result:= ( testPath=iCloudPath );
   end;
+end;
+
+function TiCloudDriverFileSource.GetDisplayFileName(aFile: TFile): String;
+begin
+  Result:= getMacOSDisplayNameFromPath( aFile.FullPath );
 end;
 
 end.
