@@ -1099,7 +1099,7 @@ begin
     FHashedFiles.Add(ADisplayFile, nil);
     FHashedNames.Add(AFileKey, ADisplayFile);
     InsertFile(ADisplayFile, FAllDisplayFiles, NewFilesPosition);
-    if not TFileListBuilder.MatchesFilter(ADisplayFile.FSFile, FileFilter, FFilterOptions) then
+    if not TFileListBuilder.MatchesFilter(FileSource, ADisplayFile.FSFile, FileFilter, FFilterOptions) then
     begin
       InsertFile(ADisplayFile, FFiles, NewFilesPosition);
       VisualizeFileUpdate(ADisplayFile);
@@ -2192,7 +2192,7 @@ var
   bFilterOut: Boolean;
   FilteredFilesIndex: Integer;
 begin
-  bFilterOut := TFileListBuilder.MatchesFilter(ADisplayFile.FSFile, FileFilter, FFilterOptions);
+  bFilterOut := TFileListBuilder.MatchesFilter(FileSource, ADisplayFile.FSFile, FileFilter, FFilterOptions);
   FilteredFilesIndex := FFiles.Find(ADisplayFile);
   if FilteredFilesIndex >= 0 then
   begin
@@ -3615,7 +3615,7 @@ begin
   // relatively short time, so the user usually won't notice it and it is
   // a bit faster this way.
   TFileListBuilder.MakeDisplayFileList(
-    FAllDisplayFiles, FFiles, FileFilter, FFilterOptions);
+    FileSource, FAllDisplayFiles, FFiles, FileFilter, FFilterOptions);
   Notify([fvnDisplayFileListChanged]);
 end;
 

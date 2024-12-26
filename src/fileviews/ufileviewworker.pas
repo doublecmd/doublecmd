@@ -105,12 +105,12 @@ type
     }
     procedure DoSetFileList;
 
-    class function InternalMatchesFilter(aFile: TFile;
+    class function InternalMatchesFilter(const fs: IFileSource; aFile: TFile;
                                          const aFileFilter: String;
                                          const aFilterOptions: TQuickSearchOptions): Boolean;overload;
 
 
-    class function InternalMatchesFilter(aFile: TFile;
+    class function InternalMatchesFilter(const fs: IFileSource; aFile: TFile;
       const aMasks: TMaskList; const aFilterOptions: TQuickSearchOptions): Boolean;overload;
 
 
@@ -149,23 +149,25 @@ type
        Fills aFiles with files from aFileSourceFiles.
        Filters out any files that shouldn't be shown using aFileFilter.
     }
-    class procedure MakeDisplayFileList(allDisplayFiles: TDisplayFiles;
+    class procedure MakeDisplayFileList(const fs: IFileSource;
+                                        allDisplayFiles: TDisplayFiles;
                                         filteredDisplayFiles: TDisplayFiles;
                                         aFileFilter: String;
                                         const aFilterOptions: TQuickSearchOptions);
 
-    class procedure MakeAllDisplayFileList(aFileSource: IFileSource;
+    class procedure MakeAllDisplayFileList(const fs: IFileSource;
                                            aFileSourceFiles: TFiles;
                                            aDisplayFiles: TDisplayFiles;
                                            const aSortings: TFileSortings);
 
-    class procedure MakeAllDisplayFileList(aFileSource: IFileSource;
+    class procedure MakeAllDisplayFileList(const fs: IFileSource;
                                            aFileSourceFiles: TFiles;
                                            aExistingDisplayFiles: TDisplayFiles;
                                            const aSortings: TFileSortings;
                                            aExistingDisplayFilesHashed: TStringHashListUtf8);
 
-    class function MatchesFilter(aFile: TFile;
+    class function MatchesFilter(const fs: IFileSource;
+                                 aFile: TFile;
                                  aFileFilter: String;
                                  const aFilterOptions: TQuickSearchOptions): Boolean;
   end;
@@ -550,7 +552,7 @@ begin
     {$ENDIF}
 
     FFilteredDisplayFiles := TDisplayFiles.Create(False);
-    MakeDisplayFileList(FAllDisplayFiles, FFilteredDisplayFiles, FFileFilter, FFilterOptions);
+    MakeDisplayFileList(FFileSource, FAllDisplayFiles, FFilteredDisplayFiles, FFileFilter, FFilterOptions);
 
     {$IFDEF timeFileView}
     filelistPrintTime('Made filtered list  : ');
@@ -577,13 +579,15 @@ begin
   end;
 end;
 
-class function TFileListBuilder.InternalMatchesFilter(aFile: TFile;
-                                                      const aFileFilter: String;
-                                                      const aFilterOptions: TQuickSearchOptions): Boolean;
+class function TFileListBuilder.InternalMatchesFilter(
+  const fs: IFileSource;
+  aFile: TFile;
+  const aFileFilter: String;
+  const aFilterOptions: TQuickSearchOptions): Boolean;
 const
   ACaseSensitive: array[Boolean] of TMaskOptions = ([], [moCaseSensitive]);
 begin
-  if (gShowSystemFiles = False) and AFile.IsSysFile and (AFile.Name <> '..') then
+  if (gShowSystemFiles = False) and fs.IsSystemFile(AFile) and (AFile.Name <> '..') then
     Result := True
 
   // Ignore list
@@ -618,10 +622,13 @@ begin
     Result := False;
 end;
 
-class function TFileListBuilder.InternalMatchesFilter(aFile: TFile;
-  const aMasks: TMaskList; const aFilterOptions: TQuickSearchOptions): Boolean;
+class function TFileListBuilder.InternalMatchesFilter(
+  const fs: IFileSource;
+  aFile: TFile;
+  const aMasks: TMaskList;
+  const aFilterOptions: TQuickSearchOptions): Boolean;
 begin
-  if (gShowSystemFiles = False) and AFile.IsSysFile and (AFile.Name <> '..') then
+  if (gShowSystemFiles = False) and fs.IsSystemFile(AFile) and (AFile.Name <> '..') then
     Result := True
 
   // Ignore list
@@ -686,6 +693,7 @@ end;
 
 
 class procedure TFileListBuilder.MakeDisplayFileList(
+  const fs: IFileSource;
   allDisplayFiles: TDisplayFiles;
   filteredDisplayFiles: TDisplayFiles;
   aFileFilter: String;
@@ -718,7 +726,7 @@ begin
       AFile := allDisplayFiles[I].FSFile;
 
       try
-        AFilter := InternalMatchesFilter(AFile, Masks, aFilterOptions);
+        AFilter := InternalMatchesFilter(fs, AFile, Masks, aFilterOptions);
       except
         on EConvertError do
           aFileFilter := EmptyStr;
@@ -733,7 +741,7 @@ begin
 end;
 
 class procedure TFileListBuilder.MakeAllDisplayFileList(
-  aFileSource: IFileSource;
+  const fs: IFileSource;
   aFileSourceFiles: TFiles;
   aDisplayFiles: TDisplayFiles;
   const aSortings: TFileSortings);
@@ -748,7 +756,7 @@ begin
   if Assigned(aFileSourceFiles) then
   begin
     HaveIcons := gShowIcons <> sim_none;
-    DirectAccess := fspDirectAccess in aFileSource.Properties;
+    DirectAccess := fspDirectAccess in fs.Properties;
     if HaveIcons and gIconsExclude and DirectAccess then
     begin
       DirectAccess := not IsInPathList(gIconsExcludeDirs, aFileSourceFiles.Path);
@@ -775,7 +783,7 @@ begin
 end;
 
 class procedure TFileListBuilder.MakeAllDisplayFileList(
-  aFileSource: IFileSource;
+  const fs: IFileSource;
   aFileSourceFiles: TFiles;
   aExistingDisplayFiles: TDisplayFiles;
   const aSortings: TFileSortings;
@@ -791,7 +799,7 @@ begin
   if Assigned(aFileSourceFiles) then
   begin
     HaveIcons := gShowIcons <> sim_none;
-    DirectAccess := fspDirectAccess in aFileSource.Properties;
+    DirectAccess := fspDirectAccess in fs.Properties;
     if HaveIcons and gIconsExclude and DirectAccess then
     begin
       DirectAccess := not IsInPathList(gIconsExcludeDirs, aFileSourceFiles.Path);
@@ -847,13 +855,15 @@ begin
   end;
 end;
 
-class function TFileListBuilder.MatchesFilter(aFile: TFile;
-                                              aFileFilter: String;
-                                              const aFilterOptions: TQuickSearchOptions): Boolean;
+class function TFileListBuilder.MatchesFilter(
+  const fs: IFileSource;
+  aFile: TFile;
+  aFileFilter: String;
+  const aFilterOptions: TQuickSearchOptions): Boolean;
 begin
   aFileFilter := PrepareFilter(aFileFilter, aFilterOptions);
   try
-    Result := InternalMatchesFilter(AFile, aFileFilter, aFilterOptions);
+    Result := InternalMatchesFilter(fs, AFile, aFileFilter, aFilterOptions);
   except
     on EConvertError do
       Result := False;

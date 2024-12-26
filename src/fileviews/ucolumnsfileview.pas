@@ -1577,7 +1577,7 @@ var
       // center icon vertically
       Y := aRect.Top + (aRect.Height - gIconsSize) div 2;
 
-      if gShowHiddenDimmed and AFile.FSFile.IsHidden then
+      if gShowHiddenDimmed and ColumnsView.FileSource.isHiddenFile(AFile.FSFile) then
         PixMapManager.DrawBitmapAlpha(IconID,
                                       Canvas,
                                       aRect.Left + CELL_PADDING,
