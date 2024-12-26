@@ -124,6 +124,7 @@ type
 
     function IsSystemFile(aFile: TFile): Boolean;
     function IsHiddenFile(aFile: TFile): Boolean;
+    function GetDisplayFileName(aFile: TFile): String; virtual;
 
     function IsPathAtRoot(Path: String): Boolean;
     function GetParentDir(sPath : String): String;
@@ -313,6 +314,7 @@ type
 
     function IsSystemFile(aFile: TFile): Boolean; virtual;
     function IsHiddenFile(aFile: TFile): Boolean; virtual;
+    function GetDisplayFileName(aFile: TFile): String; virtual;
 
     function IsPathAtRoot(Path: String): Boolean; virtual;
 
@@ -824,6 +826,11 @@ begin
       Result := (Length(aFile.Name) > 1) and (aFile.Name[1] = '.') and (aFile.Name <> '..');
     end;
   end;
+end;
+
+function TFileSource.GetDisplayFileName(aFile: TFile): String;
+begin
+  Result:= EmptyStr;
 end;
 
 function TFileSource.GetConnection(Operation: TFileSourceOperation): TFileSourceConnection;

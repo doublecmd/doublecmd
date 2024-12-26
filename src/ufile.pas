@@ -25,9 +25,6 @@ type
     FVariantProperties: TFileVariantProperties;
     FSupportedProperties: TFilePropertiesTypes;
 
-    procedure SplitIntoNameAndExtension(const FileName: string;
-                                        var aFileNameOnly: string;
-                                        var aExtension: string);
     procedure UpdateNameAndExtension(const FileName: string);
 
   protected
@@ -118,6 +115,10 @@ type
        May be extended to include other conditions.
     }
     function IsNameValid: Boolean;
+
+    class procedure SplitIntoNameAndExtension(const FileName: string;
+                                        var aFileNameOnly: string;
+                                        var aExtension: string);
 
     {en
        This list only contains pointers to TFileProperty objects.
@@ -830,7 +831,7 @@ begin
     Result := False;
 end;
 
-procedure TFile.SplitIntoNameAndExtension(const FileName: string;
+class procedure TFile.SplitIntoNameAndExtension(const FileName: string;
                                           var aFileNameOnly: string;
                                           var aExtension: string);
 var

@@ -189,6 +189,23 @@ var
   AType, AFunc, AParam: String;
   AFileProperty: TFileVariantProperty;
   FilePropertiesNeeded: TFilePropertiesTypes;
+
+  ADisplayName: String;
+  ADisplayNameNoExtension: String;
+  ADisplayExtension: String;
+
+  procedure prepareDisplayFileName;
+  begin
+    ADisplayName := AFileSource.GetDisplayFileName(AFile);
+    if ADisplayName = EmptyStr then begin
+      ADisplayName := AFile.Name;
+      ADisplayNameNoExtension := AFile.NameNoExt;
+      ADisplayExtension := AFile.Extension;
+    end else begin
+      TFile.SplitIntoNameAndExtension(ADisplayName, ADisplayNameNoExtension, ADisplayExtension);
+    end;
+  end;
+
 begin
   Result := EmptyStr;
   //---------------------
@@ -210,20 +227,21 @@ begin
       if aFileSource.CanRetrieveProperties(AFile, FilePropertiesNeeded) then
         aFileSource.RetrieveProperties(AFile, FilePropertiesNeeded, []);
     end;
+    prepareDisplayFileName;
     case FileFunction of
       fsfName:
         begin
           // Show square brackets around directories
           if gDirBrackets and (AFile.IsDirectory or
             AFile.IsLinkToDirectory) then
-            Result := gFolderPrefix + AFile.Name + gFolderPostfix
+            Result := gFolderPrefix + ADisplayName + gFolderPostfix
           else
-            Result := AFile.Name;
+            Result := ADisplayName;
         end;
 
       fsfExtension:
         begin
-          Result := AFile.Extension;
+          Result := ADisplayExtension;
         end;
 
       fsfSize:
@@ -333,9 +351,9 @@ begin
           // Show square brackets around directories
           if gDirBrackets and (AFile.IsDirectory or
             AFile.IsLinkToDirectory) then
-            Result := gFolderPrefix + AFile.NameNoExt + gFolderPostfix
+            Result := gFolderPrefix + ADisplayNameNoExtension + gFolderPostfix
           else
-            Result := AFile.NameNoExt;
+            Result := ADisplayNameNoExtension;
         end;
 
       fsfType:
