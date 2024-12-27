@@ -761,6 +761,7 @@ end;
 {$ELSEIF DEFINED(DARWIN)}
 var
   filepath: String;
+  contextFiles: TFiles;
 begin
   if Files.Count = 0 then
   begin
@@ -771,8 +772,10 @@ begin
   filepath:= Files[0].FullPath;
   try
     // Create new context menu
+    contextFiles:= Files;
     ShellContextMenu:= TShellContextMenu.Create(nil, Files, Background, UserWishForContextMenu);
     ShellContextMenu.OnClose := CloseEvent;
+    frmMain.ActiveFrame.FileSource.QueryContextMenu(contextFiles, TPopupMenu(ShellContextMenu));
     // Show context menu
     MacosServiceMenuHelper.PopUp( ShellContextMenu, rsMacOSMenuServices, filepath );
   finally
