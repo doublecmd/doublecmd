@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Double Commander 1.1.0 alpha\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-11-15 11:15+0300\n"
-"PO-Revision-Date: 2024-11-12 03:42+0900\n"
+"PO-Revision-Date: 2024-12-27 19:38+0900\n"
 "Last-Translator: VenusGirl: venusgirl@outlook.com/\n"
 "Language-Team: 비너스걸: https://venusgirls.tistory.com/\n"
 "Language: ko\n"
@@ -7837,7 +7837,7 @@ msgstr "현재 선택 바로 뒤"
 
 #: tfrmoptionstoolbarbase.rblinebreak.caption
 msgid "Line break"
-msgstr ""
+msgstr "줄 바꿈"
 
 #: tfrmoptionstoolbarbase.rbseparator.caption
 msgid "Separator"
@@ -14239,4 +14239,3 @@ msgstr "교체가 이루어지지 않았습니다."
 #, object-pascal-format
 msgid "No setup named \"%s\""
 msgstr "\"%s\"라는 이름의 설정 없음"
-
