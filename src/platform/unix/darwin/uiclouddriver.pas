@@ -121,7 +121,10 @@ end;
 
 function TiCloudDriverFileSource.GetDisplayFileName(aFile: TFile): String;
 begin
-  Result:= getMacOSDisplayNameFromPath( aFile.FullPath );
+  if aFile.Name = '..' then
+    Result:= Inherited
+  else
+    Result:= getMacOSDisplayNameFromPath( aFile.FullPath );
 end;
 
 function TiCloudDriverFileSource.QueryContextMenu(AFiles: TFiles; var AMenu: TPopupMenu): Boolean;
