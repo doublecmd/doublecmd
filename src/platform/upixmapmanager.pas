@@ -364,7 +364,7 @@ uses
   {$IFDEF MSWINDOWS}
     , ActiveX, CommCtrl, ShellAPI, Windows, DCFileAttributes, uBitmap, uGdiPlus,
       DCConvertEncoding, uShlObjAdditional, uShellFolder,
-      uShellFileSourceUtil
+      uShellFileSourceUtil, uMyWindows
   {$ELSE}
     , StrUtils, Types, DCBasicTypes
   {$ENDIF}
@@ -2128,7 +2128,7 @@ begin
       if (IconsMode = sim_standart) or
          // Directory has special icon only if it has "read only" or "system" attributes
          // and contains desktop.ini file
-         (not (DirectAccess and (IsSysFile or FileIsReadOnly(Attributes)) and mbFileExists(FullPath + '\desktop.ini'))) or
+         (not (DirectAccess and (mbWinIsSystemFile(aFile) or FileIsReadOnly(Attributes)) and mbFileExists(FullPath + '\desktop.ini'))) or
          (ScreenInfo.ColorDepth < 16) then
       {$ELSEIF DEFINED(UNIX) AND NOT (DEFINED(DARWIN) OR DEFINED(HAIKU))}
       if (IconsMode = sim_all_and_exe) and (DirectAccess) then

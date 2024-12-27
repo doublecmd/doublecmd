@@ -414,6 +414,9 @@ var
 implementation
 
 uses
+  {$IF DEFINED(MSWINDOWS)}
+  uMyWindows,
+  {$ENDIF}
   uDebug, uFileSourceManager, uFileSourceListOperation, uLng;
 
 { TFileSource }
@@ -800,10 +803,7 @@ end;
 function TFileSource.IsSystemFile(aFile: TFile): Boolean;
 begin
 {$IF DEFINED(MSWINDOWS)}
-  if fpAttributes in aFile.SupportedProperties then
-    Result := TFileAttributesProperty(aFile.Properties[fpAttributes]).IsSysFile
-  else
-    Result := False;
+  Result := mbWinIsSystemFile(aFile);
 {$ELSEIF DEFINED(DARWIN)}
   if (Length(aFile.Name) > 1) and (aFile.Name[1] = '.') and (aFile.Name <> '..') then exit(true);
   if aFile.Name='Icon'#$0D then exit(true);

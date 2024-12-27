@@ -26,7 +26,8 @@ unit uMyWindows;
 interface
 
 uses
-  Graphics, Classes, SysUtils, JwaWinType, JwaWinBase, JwaNative, Windows;
+  Graphics, Classes, SysUtils, JwaWinType, JwaWinBase, JwaNative, Windows,
+  uFile, uFileProperty;
 
 const
   // STORAGE_BUS_TYPE
@@ -111,6 +112,7 @@ function mbWinNetErrorMessage(dwError: DWORD): String;
 {en
    Retrieves the current status of the specified service
 }
+function mbWinIsSystemFile(const aFile: TFile): Boolean;
 function GetServiceStatus(const AName: String): DWORD;
 {en
    The QueryDirectoryFile routine returns various kinds of information
@@ -728,6 +730,14 @@ begin
     end;
   end;
   if (Length(Result) = 0) then Result:= Format(SUnknownErrorCode, [dwError]);
+end;
+
+function mbWinIsSystemFile(const aFile: TFile): Boolean;
+begin
+  if fpAttributes in aFile.SupportedProperties then
+    Result := TFileAttributesProperty(aFile.Properties[fpAttributes]).IsSysFile
+  else
+    Result := False;
 end;
 
 function GetServiceStatus(const AName: String): DWORD;
