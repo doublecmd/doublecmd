@@ -393,12 +393,15 @@ begin
       FreeAndNil(Header);
     end;
 
-    if (FExtractWithoutPath = False) then SetDirsAttributes(CreatedPaths);
-
   finally
     // Close archive, ignore function result, see:
     // https://www.ghisler.ch/board/viewtopic.php?p=299809#p299809
     iResult := WcxModule.CloseArchive(ArcHandle);
+    // Execute after CloseArchive
+    if (ExceptObject = nil) and (FExtractWithoutPath = False) then
+    begin
+      SetDirsAttributes(CreatedPaths);
+    end;
     // Free memory
     FreeAndNil(Files);
     FreeAndNil(MaskList);
