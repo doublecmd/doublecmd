@@ -3335,6 +3335,7 @@ end;
 procedure TFileView.EnableWatcher(Enable: Boolean);
 var
   WatchFilter: TFSWatchFilter;
+  realPath: String;
 begin
   if Enable then
   begin
@@ -3362,14 +3363,16 @@ begin
       if WatchFilter <> [] then
       begin
         FWatchPath := CurrentPath;
-        if TFileSystemWatcher.AddWatch(FWatchPath, WatchFilter, @WatcherEvent, self) = False then
+        realPath:= (FileSource as TFileSystemFileSource).GetRealPath(FWatchPath);
+        if TFileSystemWatcher.AddWatch(realPath, WatchFilter, @WatcherEvent, self) = False then
           FWatchPath := EmptyStr;
       end;
     end;
   end
   else
   begin
-    TFileSystemWatcher.RemoveWatch(FWatchPath, @WatcherEvent);
+    realPath:= (FileSource as TFileSystemFileSource).GetRealPath(FWatchPath);
+    TFileSystemWatcher.RemoveWatch(realPath, @WatcherEvent);
     FWatchPath := EmptyStr;
   end;
 end;
@@ -3451,6 +3454,7 @@ procedure TFileView.WatcherEvent(const EventData: TFSWatcherEventData);
 var
   CurrentTime: TDateTime;
   AddToPending: Boolean;
+  virtualPath: String;
 begin
   if (not FReloadNeeded) and CheckIfDelayReload then
   begin
@@ -3458,9 +3462,10 @@ begin
     FReloadNeeded:= True;
     Exit;
   end;
+  virtualPath:= (FileSource as TFileSystemFileSource).GetVirtualPath(EventData.Path);
   if not (csDestroying in ComponentState) and
      not FReloadNeeded and
-     String(IncludeTrailingPathDelimiter(EventData.Path)).StartsWith(CurrentPath) then
+     String(IncludeTrailingPathDelimiter(virtualPath)).StartsWith(CurrentPath) then
   begin
     if GetCurrentWorkType = fvwtCreate then
     begin

@@ -691,7 +691,6 @@ const
         'MainForm.HorzSplit',
         'MainForm.SwapPanels',
 
-        'MainForm.Cloud',
         'MainForm.ShowMode',
         'NSToolbarFlexibleSpaceItem',
         'MainForm.Share',
