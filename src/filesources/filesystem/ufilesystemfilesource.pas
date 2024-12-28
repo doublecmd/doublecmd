@@ -47,6 +47,8 @@ type
     destructor Destroy; override;
 
     function GetProcessor: TFileSourceProcessor; override;
+    function GetRealPath(const APath: String): String; virtual;
+    function GetVirtualPath(const APath: String): String; virtual;
 
     class function CreateFile(const APath: String): TFile; override;
     class function CreateFile(const APath: String; pSearchRecord: PSearchRecEx): TFile; overload;
@@ -335,6 +337,16 @@ end;
 function TFileSystemFileSource.GetProcessor: TFileSourceProcessor;
 begin
   Result:= fileSystemFileSourceProcessor;
+end;
+
+function TFileSystemFileSource.GetRealPath(const APath: String): String;
+begin
+  Result:= APath;
+end;
+
+function TFileSystemFileSource.GetVirtualPath(const APath: String): String;
+begin
+  Result:= APath;
 end;
 
 class function TFileSystemFileSource.CreateFile(const APath: String): TFile;
