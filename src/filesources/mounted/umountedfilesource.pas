@@ -46,11 +46,13 @@ type
     procedure mount( const path: String; const point: String );
     procedure mount( const path: String );
     function getDefaultPointForPath( const path: String ): String; virtual;
-    function getRealPath( const path: String ): String; virtual;
   protected
     function SetCurrentWorkingDirectory(NewDir: String): Boolean; override;
   public
     function GetProcessor: TFileSourceProcessor; override;
+    function GetRealPath(const APath: String): String; override;
+    function GetVirtualPath(const APath: String): String; override;
+
     function GetParentDir(sPath : String): String; override;
     function GetRootDir(sPath : String): String; override;
     function IsPathAtRoot(Path: String): Boolean; override;
@@ -131,20 +133,6 @@ begin
   Result:= String.Empty;
 end;
 
-function TMountedFileSource.getRealPath( const path: String ): String;
-var
-  mountPoint: TMountPoint;
-  logicPath: String;
-begin
-  logicPath:= Path.Substring( self.GetRootDir.Length - 1 );
-  for mountPoint in _mountPoints do begin
-    if logicPath.StartsWith(mountPoint.point) then begin
-      Result:= mountPoint.path + logicPath.Substring(mountPoint.point.Length);
-      Exit;
-    end;
-  end;
-end;
-
 function TMountedFileSource.SetCurrentWorkingDirectory(NewDir: String): Boolean;
 begin
   Result:= True;
@@ -153,6 +141,36 @@ end;
 function TMountedFileSource.GetProcessor: TFileSourceProcessor;
 begin
   Result:= mountedFileSourceProcessor;
+end;
+
+function TMountedFileSource.GetRealPath( const APath: String ): String;
+var
+  mountPoint: TMountPoint;
+  logicPath: String;
+begin
+  logicPath:= APath.Substring( self.GetRootDir.Length - 1 );
+  for mountPoint in _mountPoints do begin
+    if logicPath.StartsWith(mountPoint.point) then begin
+      Result:= mountPoint.path + logicPath.Substring(mountPoint.point.Length);
+      Exit;
+    end;
+  end;
+end;
+
+function TMountedFileSource.GetVirtualPath( const APath: String ): String;
+var
+  mountPoint: TMountPoint;
+  logicPath: String;
+begin
+  logicPath:= IncludeTrailingPathDelimiter( APath );
+  for mountPoint in _mountPoints do begin
+    if logicPath.StartsWith(mountPoint.path) then begin
+      Result:= self.GetRootDir() +
+               ExcludeLeadingPathDelimiter(mountPoint.point) +
+               APath.Substring(mountPoint.path.Length);
+      Exit;
+    end;
+  end;
 end;
 
 function TMountedFileSource.GetParentDir(sPath : String): String;
