@@ -3371,8 +3371,10 @@ begin
   end
   else
   begin
-    realPath:= (FileSource as TFileSystemFileSource).GetRealPath(FWatchPath);
-    TFileSystemWatcher.RemoveWatch(realPath, @WatcherEvent);
+    if FileSource.IsClass(TFileSystemFileSource) then begin
+      realPath:= (FileSource as TFileSystemFileSource).GetRealPath(FWatchPath);
+      TFileSystemWatcher.RemoveWatch(realPath, @WatcherEvent);
+    end;
     FWatchPath := EmptyStr;
   end;
 end;
