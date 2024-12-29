@@ -7,9 +7,9 @@ interface
 
 uses
   Classes, SysUtils, Menus,
-  uFile, uMountedFileSource,
+  uFile, uDisplayFile, uFileSource, uMountedFileSource,
   uDCUtils, uMyDarwin,
-  CocoaAll, CocoaUtils;
+  CocoaAll, CocoaUtils, Cocoa_Extra;
 
 type
   { TiCloudDriverFileSource }
@@ -25,6 +25,8 @@ type
   public
     destructor Destroy; override;
 
+    function GetUIHandler: TFileSourceUIHandler; override;
+
     function getDefaultPointForPath(const path: String): String; override;
     function GetRootDir(sPath : String): String; override;
     function IsSystemFile(aFile: TFile): Boolean; override;
@@ -38,12 +40,69 @@ implementation
 const
   iCLOUD_DRIVER_PATH = '~/Library/Mobile Documents/com~apple~CloudDocs';
 
+type
+  
+  { TiCloudDriverUIHandler }
+
+  TiCloudDriverUIHandler = class( TFileSourceUIHandler )
+    procedure draw(Sender: TObject; aCol, aRow: Integer;
+      aRect: TRect; focused: Boolean; aFile: TDisplayFile); override;
+  end;
+
+var
+  iCloudDriverUIProcessor: TiCloudDriverUIHandler;
+
+{ TiCloudDriverUIHandler }
+
+procedure TiCloudDriverUIHandler.draw(Sender: TObject; aCol,
+  aRow: Integer; aRect: TRect; focused: Boolean; aFile: TDisplayFile);
+var
+  image: NSImage;
+  destRect: NSRect;
+  graphicsContext: NSGraphicsContext;
+begin
+  if aCol <> 0 then
+    Exit;
+
+  if NOT TiCloudDriverFileSource.isSeedFile(aFile.FSFile) then
+    Exit;
+
+  image:= NSImage.imageWithSystemSymbolName_accessibilityDescription(
+    NSSTR('icloud.and.arrow.down'), nil );
+
+  destRect.size:= image.size;
+  destRect.origin.x:= aRect.Right - Round(image.size.width) - 8;
+  destRect.origin.y:= aRect.Top + (aRect.Height-Round(image.size.height))/2;
+
+  NSGraphicsContext.classSaveGraphicsState;
+  try
+    graphicsContext := NSGraphicsContext.graphicsContextWithCGContext_flipped(
+      NSGraphicsContext.currentContext.CGContext,
+      True );
+    NSGraphicsContext.setCurrentContext( graphicsContext );
+    image.drawInRect_fromRect_operation_fraction_respectFlipped_hints(
+      destRect,
+      NSZeroRect,
+      NSCompositeSourceOver,
+      0.5,
+      True,
+      nil );
+  finally
+    NSGraphicsContext.classRestoreGraphicsState;
+  end;
+end;
+
 { TiCloudDriverFileSource }
 
 destructor TiCloudDriverFileSource.Destroy;
 begin
   FreeAndNil( _files );
   inherited Destroy;
+end;
+
+function TiCloudDriverFileSource.GetUIHandler: TFileSourceUIHandler;
+begin
+  Result:= iCloudDriverUIProcessor;
 end;
 
 procedure TiCloudDriverFileSource.downloadAction(Sender: TObject);
@@ -151,6 +210,12 @@ begin
 
   Result:= True;
 end;
+
+initialization
+  iCloudDriverUIProcessor:= TiCloudDriverUIHandler.Create;
+
+finalization
+  FreeAndNil( iCloudDriverUIProcessor );
 
 end.
 
