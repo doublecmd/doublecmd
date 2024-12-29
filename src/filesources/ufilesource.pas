@@ -45,9 +45,18 @@ type
     procedure confirmOperation( var params: TFileSourceConsultParams ); virtual; abstract;
   end;
 
+  TFileSourceUIParams = record
+    sender: TObject;
+    col: Integer;
+    row: Integer;
+    drawingRect: TRect;
+    iconRect: TRect;
+    focused: Boolean;
+    displayFile: TDisplayFile;
+  end;
+
   TFileSourceUIHandler = class
-    procedure draw(Sender: TObject; aCol, aRow: Integer;
-      var aRect: TRect; focused: Boolean; aFile: TDisplayFile); virtual; abstract;
+    procedure draw( var params: TFileSourceUIParams ); virtual; abstract;
   end;
 
   TFileSourceField = record

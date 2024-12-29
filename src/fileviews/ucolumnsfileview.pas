@@ -1539,7 +1539,7 @@ var
   AFile: TDisplayFile;
   FileSourceDirectAccess: Boolean;
   ColumnsSet: TPanelColumnsClass;
-  onDrawCellFocused: Boolean;
+  params: TFileSourceUIParams;
 
   //------------------------------------------------------
   // begin subprocedures
@@ -1965,13 +1965,15 @@ var
     handler:= ColumnsView.FileSource.GetUIHandler;
     if handler = nil then
       Exit;
-    handler.draw(Self.ColumnsView,aCol,aRow,aRect,onDrawCellFocused,AFile);
+
+    params.drawingRect:= aRect;
+    handler.draw( params );
   end;
 
   procedure callOnDrawCell;
   begin
     if Assigned(OnDrawCell) and not(CsDesigning in ComponentState) then
-      OnDrawCell(Self.ColumnsView,aCol,aRow,aRect,onDrawCellFocused,AFile);
+      OnDrawCell(Self.ColumnsView,aCol,aRow,params.drawingRect,params.focused,AFile);
   end;
 
   //------------------------------------------------------
@@ -1995,6 +1997,12 @@ begin
     AFile := ColumnsView.FFiles[ARow - FixedRows]; // substract fixed rows (header)
     FileSourceDirectAccess := fspDirectAccess in ColumnsView.FileSource.Properties;
 
+    params:= Default( TFileSourceUIParams );
+    params.sender:= Self.ColumnsView;
+    params.col:= aCol;
+    params.row:= aRow;
+    params.displayFile:= aFile;
+
     if AFile.DisplayStrings.Count = 0 then
       ColumnsView.MakeColumnsStrings(AFile, ColumnsSet);
 
@@ -2012,7 +2020,7 @@ begin
         DrawOtherCell;
     end;
 
-    onDrawCellFocused:= (gdSelected in aState) and ColumnsView.Active;
+    params.focused:= (gdSelected in aState) and ColumnsView.Active;
     callFileSourceDrawCell;
     callOnDrawCell;
 

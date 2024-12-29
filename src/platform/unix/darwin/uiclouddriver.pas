@@ -45,8 +45,7 @@ type
   { TiCloudDriverUIHandler }
 
   TiCloudDriverUIHandler = class( TFileSourceUIHandler )
-    procedure draw(Sender: TObject; aCol, aRow: Integer;
-      var aRect: TRect; focused: Boolean; aFile: TDisplayFile); override;
+    procedure draw( var params: TFileSourceUIParams ); override;
   end;
 
 var
@@ -54,25 +53,24 @@ var
 
 { TiCloudDriverUIHandler }
 
-procedure TiCloudDriverUIHandler.draw(Sender: TObject; aCol,
-  aRow: Integer; var aRect: TRect; focused: Boolean; aFile: TDisplayFile);
+procedure TiCloudDriverUIHandler.draw( var params: TFileSourceUIParams );
 var
   image: NSImage;
   destRect: NSRect;
   graphicsContext: NSGraphicsContext;
 begin
-  if aCol <> 0 then
+  if params.col <> 0 then
     Exit;
 
-  if NOT TiCloudDriverFileSource.isSeedFile(aFile.FSFile) then
+  if NOT TiCloudDriverFileSource.isSeedFile(params.displayFile.FSFile) then
     Exit;
 
   image:= NSImage.imageWithSystemSymbolName_accessibilityDescription(
     NSSTR('icloud.and.arrow.down'), nil );
 
   destRect.size:= image.size;
-  destRect.origin.x:= aRect.Right - Round(image.size.width) - 8;
-  destRect.origin.y:= aRect.Top + (aRect.Height-Round(image.size.height))/2;
+  destRect.origin.x:= params.drawingRect.Right - Round(image.size.width) - 8;
+  destRect.origin.y:= params.drawingRect.Top + (params.drawingRect.Height-Round(image.size.height))/2;
 
   NSGraphicsContext.classSaveGraphicsState;
   try
@@ -91,7 +89,7 @@ begin
     NSGraphicsContext.classRestoreGraphicsState;
   end;
 
-  aRect.Right:= Round(destRect.origin.x) - 4;
+  params.drawingRect.Right:= Round(destRect.origin.x) - 4;
 end;
 
 { TiCloudDriverFileSource }
