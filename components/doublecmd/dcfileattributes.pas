@@ -189,13 +189,14 @@ function WinToUnixFileAttr(Attr: TFileAttrs): TFileAttrs;
 begin
   Result := S_IRUSR or S_IRGRP or S_IROTH;
 
-  if (Attr and faReadOnly) = 0 then
-    Result := Result or S_IWUSR;
-
   if (Attr and faDirectory) <> 0 then
-    Result := Result or S_IFDIR or S_IXUGO
-  else
+    Result := Result or S_IFDIR or S_IXUGO or S_IWUSR
+  else begin
     Result := Result or S_IFREG;
+
+    if (Attr and faReadOnly) = 0 then
+      Result := Result or S_IWUSR;
+  end;
 end;
 
 function UnixToWinFileAttr(Attr: TFileAttrs): TFileAttrs;
