@@ -3739,7 +3739,8 @@ begin
     else begin
       FileSourceManager.confirmOperation( params );
       GetDestinationPathAndMask(SourceFiles, TargetFileSource, params.resultTargetPath,
-                                SourceFiles.Path, params.resultTargetPath, sDstMaskTemp);
+                                SourceFiles.Path, TargetPath, sDstMaskTemp);
+      params.resultTargetPath:= TargetPath;
     end;
 
     // Copy via temp directory
@@ -3912,7 +3913,8 @@ begin
     else begin
       FileSourceManager.confirmOperation( params );
       GetDestinationPathAndMask(SourceFiles, TargetFileSource, params.resultTargetPath,
-                                SourceFiles.Path, params.resultTargetPath, sDstMaskTemp);
+                                SourceFiles.Path, TargetPath, sDstMaskTemp);
+      params.resultTargetPath:= TargetPath;
     end;
 
     if bMove then
