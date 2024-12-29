@@ -46,7 +46,7 @@ type
 
   TiCloudDriverUIHandler = class( TFileSourceUIHandler )
     procedure draw(Sender: TObject; aCol, aRow: Integer;
-      aRect: TRect; focused: Boolean; aFile: TDisplayFile); override;
+      var aRect: TRect; focused: Boolean; aFile: TDisplayFile); override;
   end;
 
 var
@@ -55,7 +55,7 @@ var
 { TiCloudDriverUIHandler }
 
 procedure TiCloudDriverUIHandler.draw(Sender: TObject; aCol,
-  aRow: Integer; aRect: TRect; focused: Boolean; aFile: TDisplayFile);
+  aRow: Integer; var aRect: TRect; focused: Boolean; aFile: TDisplayFile);
 var
   image: NSImage;
   destRect: NSRect;
@@ -90,6 +90,8 @@ begin
   finally
     NSGraphicsContext.classRestoreGraphicsState;
   end;
+
+  aRect.Right:= Round(destRect.origin.x) - 4;
 end;
 
 { TiCloudDriverFileSource }

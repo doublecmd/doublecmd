@@ -47,7 +47,7 @@ type
 
   TFileSourceUIHandler = class
     procedure draw(Sender: TObject; aCol, aRow: Integer;
-      aRect: TRect; focused: Boolean; aFile: TDisplayFile); virtual; abstract;
+      var aRect: TRect; focused: Boolean; aFile: TDisplayFile); virtual; abstract;
   end;
 
   TFileSourceField = record
