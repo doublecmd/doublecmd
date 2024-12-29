@@ -1,0 +1,159 @@
+<UniHighlighter version="1.8">
+  <Info>
+    <General Name="Kotlin" Extensions="kt,kts" Other="0"/>
+    <Author Name="Alexander V" Email="" Web="" Copyright="" Company="" Remark=""/>
+    <Version Version="1" Revision="0" Date="45654.5420000000"/>
+    <History>
+    </History>
+    <Sample>
+      <S>/**</S>
+      <S> * Syntax highlighting</S>
+      <S> */</S>
+      <S>@Test</S>
+      <S>fun main() {</S>
+      <S>    /* code example */</S>
+      <S>    val x = 1_000_000L // so much</S>
+      <S>    println("Much more $x")</S>
+      <S>}</S>
+    </Sample>
+  </Info>
+  <Scheme File="" Name=""/>
+  <Range Name="Root" Attributes="-2147483640,-2147483643;False:False." Style="" CaseSensitive="True"
+         Delimiters="!&quot;#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^`{|}~">
+    <Rule/>
+    <Set Name="Numbers" Attributes="$00B8AC2A,$80000005;False:True." Style="" Symbols="0123456789._fFL"/>
+    <Keywords Name="Keywords" Attributes="$006D8ECF,$80000005;False:True." Style="">
+      <Word Value="as"/>
+      <Word Value="as?"/>
+      <Word Value="break"/>
+      <Word Value="case"/>
+      <Word Value="class"/>
+      <Word Value="continue"/>
+      <Word Value="do"/>
+      <Word Value="else"/>
+      <Word Value="false"/>
+      <Word Value="for"/>
+      <Word Value="fun"/>
+      <Word Value="if"/>
+      <Word Value="in"/>
+      <Word Value="!in"/>
+      <Word Value="interface"/>
+      <Word Value="is"/>
+      <Word Value="!is"/>
+      <Word Value="null"/>
+      <Word Value="object"/>
+      <Word Value="package"/>
+      <Word Value="return"/>
+      <Word Value="super"/>
+      <Word Value="this"/>
+      <Word Value="throw"/>
+      <Word Value="true"/>
+      <Word Value="try"/>
+      <Word Value="typealias"/>
+      <Word Value="val"/>
+      <Word Value="var"/>
+      <Word Value="when"/>
+      <Word Value="while"/>
+    </Keywords>
+    <Keywords Name="Contextual keywords" Attributes="$006D8ECF,$80000005;False:True." Style="">
+      <Word Value="by"/>
+      <Word Value="catch"/>
+      <Word Value="constructor"/>
+      <Word Value="delegate"/>
+      <Word Value="dynamic"/>
+      <Word Value="field"/>
+      <Word Value="file"/>
+      <Word Value="finally"/>
+      <Word Value="get"/>
+      <Word Value="import"/>
+      <Word Value="init"/>
+      <Word Value="param"/>
+      <Word Value="property"/>
+      <Word Value="receiver"/>
+      <Word Value="set"/>
+      <Word Value="setparam"/>
+      <Word Value="where"/>
+    </Keywords>
+    <Keywords Name="Modifier keywords" Attributes="$006D8ECF,$80000005;False:True." Style="">
+      <Word Value="actual"/>
+      <Word Value="abstract"/>
+      <Word Value="annotation"/>
+      <Word Value="const"/>
+      <Word Value="companion"/>
+      <Word Value="crossinline"/>
+      <Word Value="data"/>
+      <Word Value="enum"/>
+      <Word Value="expect"/>
+      <Word Value="external"/>
+      <Word Value="final"/>
+      <Word Value="infix"/>
+      <Word Value="inline"/>
+      <Word Value="inner"/>
+      <Word Value="internal"/>
+      <Word Value="lateinit"/>
+      <Word Value="noinline"/>
+      <Word Value="open"/>
+      <Word Value="operator"/>
+      <Word Value="out"/>
+      <Word Value="override"/>
+      <Word Value="private"/>
+      <Word Value="protected"/>
+      <Word Value="public"/>
+      <Word Value="reified"/>
+      <Word Value="sealed"/>
+      <Word Value="suspend"/>
+      <Word Value="tailrec"/>
+      <Word Value="vararg"/>
+    </Keywords>
+    <Keywords Name="Special Identifiers" Attributes="$1FFFFFFF,$80000005;False:True.B" Style="">
+      <Word Value="field"/>
+      <Word Value="it"/>
+    </Keywords>
+    <Keywords Name="Basic data types" Attributes="$1FFFFFFF,$80000005;False:True." Style="">
+      <Word Value="Boolean"/>
+      <Word Value="Byte"/>
+      <Word Value="UByte"/>
+      <Word Value="Double"/>
+      <Word Value="Float"/>
+      <Word Value="Int"/>
+      <Word Value="UInt"/>
+      <Word Value="Long"/>
+      <Word Value="ULong"/>
+      <Word Value="Short"/>
+      <Word Value="UShort"/>
+    </Keywords>
+    <Range Name="@Annotation" Attributes="$0060AEB3,$80000005;False:True." Style=""
+           Delimiters="!&quot;#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^`{|}~">
+      <Rule OpenSymbol="@" CloseOnEol="True"/>
+    </Range>
+    <Range Name="Strings '..'" Attributes="$0073AB6A,$80000005;False:True." Style=""
+           Delimiters="!&quot;#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^`{|}~">
+      <Rule OpenSymbol="'" CloseSymbol="'"/>
+    </Range>
+    <Range Name="Strings &quot;..&quot;" Attributes="$0073AB6A,$80000005;False:True." Style=""
+           Delimiters="!&quot;#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^`{|}~">
+      <Rule OpenSymbol="&quot;" OpenSymbolPartOfTerm="Right" CloseSymbol="&quot;" CloseSymbolPartOfTerm="Right" CloseOnEol="True"/>
+      <Keywords Name="Escape" Attributes="$006D8ECF,$80000005;True:True." Style="">
+        <word value="$"/>
+        <word value="\'"/>
+        <word value="\&quot;"/>
+        <word value="\r"/>
+        <word value="\n"/>
+        <word value="\t"/>
+        <word value="\\"/>
+      </Keywords>
+    </Range>
+    <Range Name="Remarks //" Attributes="$00857E7A,$80000005;False:True." Style=""
+           Delimiters="!&quot;#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^`{|}~">
+      <Rule OpenSymbol="//" CloseOnEol="True"/>
+    </Range>
+    <Range Name="Remarks /*..*/" Attributes="$00857E7A,$80000005;False:True." Style=""
+           Delimiters="!&quot;#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^`{|}~">
+      <Rule OpenSymbol="/*" CloseSymbol="*/"/>
+    </Range>
+    <Range Name="Remarks /**..*/" Attributes="$006B825F,$80000005;False:True.I" Style=""
+           Delimiters="!&quot;#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^`{|}~">
+      <Rule OpenSymbol="/**" CloseSymbol="*/"/>
+    </Range>
+  </Range>
+</UniHighlighter>

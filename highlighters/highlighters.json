@@ -265,6 +265,75 @@
           ]
         },
         {
+          Name : "Kotlin",
+          Ranges : [
+            {
+              Name : "Root",
+              Attributes : "$80000008,$80000005;False:False.",
+              Sets : [
+                {
+                  Name : "Numbers",
+                  Attributes : "$00FF0000,$80000005;False:True."
+                }
+              ],
+              KeyLists : [
+                {
+                  Name : "Keywords",
+                  Attributes : "$00800000,$80000005;False:True.B"
+                },
+                {
+                  Name : "Contextual keywords",
+                  Attributes : "$00800000,$80000005;False:True.B"
+                },
+                {
+                  Name : "Modifier keywords",
+                  Attributes : "$00800000,$80000005;False:True.B"
+                },
+                {
+                  Name : "Special Identifiers",
+                  Attributes : "$00000000,$80000005;False:True.B"
+                },
+                {
+                  Name : "Basic data types",
+                  Attributes : "$1FFFFFFF,$80000005;False:True."
+                }
+              ],
+              Ranges : [
+                {
+                  Name : "@Annotation",
+                  Attributes : "$00008080,$80000005;False:True."
+                },
+                {
+                  Name : "Strings '..'",
+                  Attributes : "$00008000,$80000005;False:True.B"
+                },
+                {
+                  Name : "Strings \"..\"",
+                  Attributes : "$00008000,$80000005;False:True.B",
+                  KeyLists : [
+                    {
+                      Name : "Escape",
+                      Attributes : "$00800000,$80000005;True:True."
+                    }
+                  ]
+                },
+                {
+                  Name : "Remarks //",
+                  Attributes : "$00808080,$80000005;False:True."
+                },
+                {
+                  Name : "Remarks /*..*/",
+                  Attributes : "$00808080,$80000005;False:True."
+                },
+                {
+                  Name : "Remarks /**..*/",
+                  Attributes : "$00808080,$80000005;False:True.I"
+                }
+              ]
+            }
+          ]
+        },
+        {
           Name : "PowerShell",
           Ranges : [
             {
@@ -649,6 +718,75 @@
                       Attributes : "$00898BB9,$80000005;True:True."
                     }
                   ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          Name : "Kotlin",
+          Ranges : [
+            {
+              Name : "Root",
+              Attributes : "$80000008,$80000005;False:False.",
+              Sets : [
+                {
+                  Name : "Numbers",
+                  Attributes : "$00B8AC2A,$80000005;False:True."
+                }
+              ],
+              KeyLists : [
+                {
+                  Name : "Keywords",
+                  Attributes : "$006D8ECF,$80000005;False:True."
+                },
+                {
+                  Name : "Contextual keywords",
+                  Attributes : "$006D8ECF,$80000005;False:True."
+                },
+                {
+                  Name : "Modifier keywords",
+                  Attributes : "$006D8ECF,$80000005;False:True."
+                },
+                {
+                  Name : "Special Identifiers",
+                  Attributes : "$1FFFFFFF,$80000005;False:True.B"
+                },
+                {
+                  Name : "Basic data types",
+                  Attributes : "$1FFFFFFF,$80000005;False:True."
+                }
+              ],
+              Ranges : [
+                {
+                  Name : "@Annotation",
+                  Attributes : "$0060AEB3,$80000005;False:True."
+                },
+                {
+                  Name : "Strings '..'",
+                  Attributes : "$0073AB6A,$80000005;False:True."
+                },
+                {
+                  Name : "Strings \"..\"",
+                  Attributes : "$0073AB6A,$80000005;False:True.",
+                  KeyLists : [
+                    {
+                      Name : "Escape",
+                      Attributes : "$006D8ECF,$80000005;True:True."
+                    }
+                  ]
+                },
+                {
+                  Name : "Remarks //",
+                  Attributes : "$00857E7A,$80000005;False:True."
+                },
+                {
+                  Name : "Remarks /*..*/",
+                  Attributes : "$00857E7A,$80000005;False:True."
+                },
+                {
+                  Name : "Remarks /**..*/",
+                  Attributes : "$006B825F,$80000005;False:True.I"
                 }
               ]
             }
