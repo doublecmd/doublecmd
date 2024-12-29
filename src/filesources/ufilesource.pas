@@ -10,7 +10,7 @@ uses
   uFileSourceOperationTypes,
   uFileSourceProperty,
   uFileProperty,
-  uFile;
+  uFile, uDisplayFile;
 
 type
 
@@ -45,6 +45,11 @@ type
     procedure confirmOperation( var params: TFileSourceConsultParams ); virtual; abstract;
   end;
 
+  TFileSourceUIHandler = class
+    procedure draw(Sender: TObject; aCol, aRow: Integer;
+      aRect: TRect; focused: Boolean; aFile: TDisplayFile); virtual; abstract;
+  end;
+
   TFileSourceField = record
     Content: String;
     Header: String;
@@ -67,6 +72,7 @@ type
     ['{B7F0C4C8-59F6-4A35-A54C-E8242F4AD809}']
 
     function GetProcessor: TFileSourceProcessor;
+    function GetUIHandler: TFileSourceUIHandler;
 
     function Equals(aFileSource: IFileSource): Boolean;
     function IsInterface(InterfaceGuid: TGuid): Boolean;
@@ -246,6 +252,7 @@ type
     destructor Destroy; override;
 
     function GetProcessor: TFileSourceProcessor; virtual;
+    function GetUIHandler: TFileSourceUIHandler; virtual;
 
     function Equals(aFileSource: IFileSource): Boolean; overload;
     function IsInterface(InterfaceGuid: TGuid): Boolean;
@@ -495,6 +502,11 @@ end;
 function TFileSource.GetProcessor: TFileSourceProcessor;
 begin
   Result:= defaultFileSourceProcessor;
+end;
+
+function TFileSource.GetUIHandler: TFileSourceUIHandler;
+begin
+  Result:= nil;
 end;
 
 function TFileSource.Equals(aFileSource: IFileSource): Boolean;

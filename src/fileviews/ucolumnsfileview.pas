@@ -1957,6 +1957,23 @@ var
     aCol := CCell.Col;
     aRect := CCell.Rect;
   end;
+
+  procedure callFileSourceDrawCell;
+  var
+    handler: TFileSourceUIHandler;
+  begin
+    handler:= ColumnsView.FileSource.GetUIHandler;
+    if handler = nil then
+      Exit;
+    handler.draw(Self.ColumnsView,aCol,aRow,aRect,onDrawCellFocused,AFile);
+  end;
+
+  procedure callOnDrawCell;
+  begin
+    if Assigned(OnDrawCell) and not(CsDesigning in ComponentState) then
+      OnDrawCell(Self.ColumnsView,aCol,aRow,aRect,onDrawCellFocused,AFile);
+  end;
+
   //------------------------------------------------------
   //end of subprocedures
   //------------------------------------------------------
@@ -1995,10 +2012,9 @@ begin
         DrawOtherCell;
     end;
 
-    if Assigned(OnDrawCell) and not(CsDesigning in ComponentState) then begin
-      onDrawCellFocused:= (gdSelected in aState) and ColumnsView.Active;
-      OnDrawCell(Self.ColumnsView,aCol,aRow,aRect,onDrawCellFocused,AFile);
-    end;
+    onDrawCellFocused:= (gdSelected in aState) and ColumnsView.Active;
+    callFileSourceDrawCell;
+    callOnDrawCell;
 
     DrawCellGrid(aCol,aRow,aRect,aState);
     DrawLines;
