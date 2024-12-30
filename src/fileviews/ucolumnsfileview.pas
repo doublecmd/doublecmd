@@ -1564,8 +1564,8 @@ var
   procedure DrawIconCell;
   //------------------------------------------------------
   var
-    Y: Integer;
     IconID: PtrInt;
+    targetWidth: Integer;
   begin
     if (gShowIcons <> sim_none) then
     begin
@@ -1575,20 +1575,23 @@ var
         IconID := PixMapManager.GetDefaultIcon(AFile.FSFile);
 
       // center icon vertically
-      Y := aRect.Top + (aRect.Height - gIconsSize) div 2;
+      params.iconRect.Left:= aRect.Left + CELL_PADDING;
+      params.iconRect.Top:= aRect.Top + (aRect.Height - gIconsSize) div 2;
+      params.iconRect.Width:= gIconsSize;
+      params.iconRect.Height:= gIconsSize;
 
       if gShowHiddenDimmed and ColumnsView.FileSource.isHiddenFile(AFile.FSFile) then
         PixMapManager.DrawBitmapAlpha(IconID,
                                       Canvas,
-                                      aRect.Left + CELL_PADDING,
-                                      Y
+                                      params.iconRect.Left,
+                                      params.iconRect.Top
                                      )
       else
         // Draw icon for a file
         PixMapManager.DrawBitmap(IconID,
                                  Canvas,
-                                 aRect.Left + CELL_PADDING,
-                                 Y
+                                 params.iconRect.Left,
+                                 params.iconRect.Top
                                 );
 
       // Draw overlay icon for a file if needed
@@ -1597,8 +1600,8 @@ var
         PixMapManager.DrawBitmapOverlay(AFile,
                                         FileSourceDirectAccess,
                                         Canvas,
-                                        aRect.Left + CELL_PADDING,
-                                        Y
+                                        params.iconRect.Left,
+                                        params.iconRect.Top
                                         );
       end;
 
@@ -1608,9 +1611,9 @@ var
 
     if gCutTextToColWidth then
     begin
-      Y:= (aRect.Width) - 2*CELL_PADDING;
-      if (gShowIcons <> sim_none) then Y:= Y - gIconsSize - 2;
-      s:= FitFileName(s, Canvas, AFile.FSFile, Y);
+      targetWidth:= (aRect.Width) - 2*CELL_PADDING;
+      if (gShowIcons <> sim_none) then targetWidth:= targetWidth - gIconsSize - 2;
+      s:= FitFileName(s, Canvas, AFile.FSFile, targetWidth);
     end;
 
     if (gShowIcons <> sim_none) then
