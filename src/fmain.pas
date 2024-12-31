@@ -3804,7 +3804,7 @@ begin
     if params.operationTemp and Result and ((QueueIdentifier <> ModalQueueId) or FModalOperationResult) then
     begin
       // CopyIn from temp filesystem
-      Operation := params.resultFS.CreateCopyInOperation(
+      Operation := params.targetFS.CreateCopyInOperation(
                      TargetFileSource,
                      TargetFiles,
                      params.targetPath) as TFileSourceCopyOperation;
