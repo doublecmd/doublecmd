@@ -3717,7 +3717,7 @@ begin
         end;
 
         GetDestinationPathAndMask(SourceFiles, SourceFileSource,
-                                  params.resultFS, params.resultTargetPath,
+                                  params.targetFS, params.resultTargetPath,
                                   BaseDir, TargetPath, sDstMaskTemp);
         params.resultTargetPath:= TargetPath;
 
