@@ -47,6 +47,8 @@ type
 
   TFileSourceUIParams = record
     sender: TObject;
+    fs: IFileSource;
+
     col: Integer;
     row: Integer;
     drawingRect: TRect;

@@ -2002,6 +2002,7 @@ begin
 
     params:= Default( TFileSourceUIParams );
     params.sender:= Self.ColumnsView;
+    params.fs:= Self.ColumnsView.FileSource;
     params.col:= aCol;
     params.row:= aRow;
     params.displayFile:= aFile;
