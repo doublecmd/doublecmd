@@ -40,6 +40,7 @@ type
   TMountedFileSource = class(TFileSystemFileSource, IMountedFileSource)
   private
     _mountPoints: TMountPoints;
+    _currentPath: String;
   public
     constructor Create; override;
     destructor Destroy; override;
@@ -48,6 +49,7 @@ type
     function getDefaultPointForPath( const path: String ): String; virtual;
   protected
     function SetCurrentWorkingDirectory(NewDir: String): Boolean; override;
+    function GetCurrentWorkingDirectory: String; override;
   public
     function GetProcessor: TFileSourceProcessor; override;
     function GetRealPath(const APath: String): String; override;
@@ -94,7 +96,7 @@ constructor TMountedFileSource.Create;
 begin
   inherited Create;
   _mountPoints:= TMountPoints.Create;
-  FOperationsClasses[fsoMove]:= TFileSystemMoveOperation.GetOperationClass;
+  _currentPath:= self.GetRootDir;
 end;
 
 destructor TMountedFileSource.Destroy;
@@ -135,7 +137,13 @@ end;
 
 function TMountedFileSource.SetCurrentWorkingDirectory(NewDir: String): Boolean;
 begin
+  _currentPath:= NewDir;
   Result:= True;
+end;
+
+function TMountedFileSource.GetCurrentWorkingDirectory: String;
+begin
+  Result:= _currentPath;
 end;
 
 function TMountedFileSource.GetProcessor: TFileSourceProcessor;
