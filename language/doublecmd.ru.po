@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 1.2.0 alpha\n"
-"POT-Creation-Date: 2024-11-01 15:03+0300\n"
-"PO-Revision-Date: 2024-11-05 19:30+0300\n"
+"POT-Creation-Date: 2024-12-08 15:03+0300\n"
+"PO-Revision-Date: 2024-12-08 23:59+0300\n"
 "Last-Translator: Alexander Koblov <alexx2000@mail.ru>\n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -1152,7 +1152,7 @@ msgstr "Искать от &курсора"
 #: tfrmeditsearchreplace.cbsearchregexp.caption
 msgctxt "TFRMEDITSEARCHREPLACE.CBSEARCHREGEXP.CAPTION"
 msgid "&Regular expressions"
-msgstr "&Регулярные выражения"
+msgstr "&Регулярное выражение"
 
 #: tfrmeditsearchreplace.cbsearchselectedonly.caption
 msgctxt "TFRMEDITSEARCHREPLACE.CBSEARCHSELECTEDONLY.CAPTION"
@@ -1895,7 +1895,7 @@ msgstr "С учётом &регистра"
 #: tfrmfindview.cbregexp.caption
 msgctxt "tfrmfindview.cbregexp.caption"
 msgid "&Regular expressions"
-msgstr "&Регулярные выражения"
+msgstr "&Регулярное выражение"
 
 #: tfrmfindview.chkhex.caption
 msgctxt "tfrmfindview.chkhex.caption"
@@ -3184,7 +3184,7 @@ msgstr "&Настройки"
 
 #: tfrmmain.mnufavoritetabs.caption
 msgid "F&avorites"
-msgstr "Избранное"
+msgstr "&Избранное"
 
 #: tfrmmain.mnufiles.caption
 msgid "&Files"
@@ -3202,7 +3202,7 @@ msgstr "&Выделение"
 #: tfrmmain.mnunetwork.caption
 msgctxt "TFRMMAIN.MNUNETWORK.CAPTION"
 msgid "&Network"
-msgstr "Сеть"
+msgstr "&Сеть"
 
 #: tfrmmain.mnushow.caption
 msgid "&Show"
@@ -3692,7 +3692,7 @@ msgstr "Заменять только первое вхождение"
 #: tfrmmultirename.cbregexp.caption
 msgctxt "TFRMMULTIRENAME.CBREGEXP.CAPTION"
 msgid "Regular e&xpressions"
-msgstr "&Регулярные выражения"
+msgstr "&Регулярное выражение"
 
 #: tfrmmultirename.cbusesubs.caption
 msgid "&Use substitution"
