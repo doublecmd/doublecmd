@@ -29,6 +29,8 @@ type
     destructor Destroy; override;
     procedure mountAppPoint( const appName: String );
     function getAppIconByPath( const path: String ): NSImage;
+    procedure download( const aFile: TFile );
+    procedure download( const files: TFiles );
     function getDefaultPointForPath( const path: String ): String; override;
   public
     function GetUIHandler: TFileSourceUIHandler; override;
@@ -53,6 +55,7 @@ type
 
   TiCloudDriverUIHandler = class( TFileSourceUIHandler )
     procedure draw( var params: TFileSourceUIParams ); override;
+    procedure click( var params: TFileSourceUIParams); override;
   end;
 
 var
@@ -135,6 +138,23 @@ begin
   finally
     NSGraphicsContext.classRestoreGraphicsState;
   end;
+end;
+
+procedure TiCloudDriverUIHandler.click(var params: TFileSourceUIParams);
+var
+  aFile: TFile;
+begin
+  if params.col <> 0 then
+    Exit;
+
+  aFile:= params.displayFile.FSFile;
+  if NOT TiCloudDriverFileSource.isSeedFile(aFile) then
+    Exit;
+
+  if params.x < params.drawingRect.Right - 28 then
+    Exit;
+
+  (params.fs as TiCloudDriverFileSource).download( aFile );
 end;
 
 { TiCloudDriverFileSource }
@@ -227,31 +247,49 @@ begin
   Result:= _appIcons.valueForKey( StrToNSString(path) );
 end;
 
-function TiCloudDriverFileSource.GetUIHandler: TFileSourceUIHandler;
+procedure TiCloudDriverFileSource.download( const aFile: TFile );
+var
+  isSeed: Boolean;
+  manager: NSFileManager;
+  url: NSUrl;
 begin
-  Result:= iCloudDriverUIProcessor;
+  manager:= NSFileManager.defaultManager;
+  isSeed:= isSeedFile( aFile );
+  url:= NSUrl.fileURLWithPath( StrToNSString(aFile.FullPath) );
+  if isSeed then
+    manager.startDownloadingUbiquitousItemAtURL_error( url, nil )
+  else
+    manager.evictUbiquitousItemAtURL_error( url, nil );
 end;
 
-procedure TiCloudDriverFileSource.downloadAction(Sender: TObject);
+procedure TiCloudDriverFileSource.download( const files: TFiles );
 var
   isSeed: Boolean;
   i: Integer;
   manager: NSFileManager;
   url: NSUrl;
 begin
-  if _files = nil then
-    Exit;
-
   manager:= NSFileManager.defaultManager;
-  isSeed:= isSeedFiles( _files );
-  for i:= 0 to _files.Count-1 do begin
-    url:= NSUrl.fileURLWithPath( StrToNSString(_files[i].FullPath) );
+  isSeed:= isSeedFiles( files );
+  for i:= 0 to files.Count-1 do begin
+    url:= NSUrl.fileURLWithPath( StrToNSString(files[i].FullPath) );
     if isSeed then
       manager.startDownloadingUbiquitousItemAtURL_error( url, nil )
     else
       manager.evictUbiquitousItemAtURL_error( url, nil );
   end;
+end;
 
+function TiCloudDriverFileSource.GetUIHandler: TFileSourceUIHandler;
+begin
+  Result:= iCloudDriverUIProcessor;
+end;
+
+procedure TiCloudDriverFileSource.downloadAction(Sender: TObject);
+begin
+  if _files = nil then
+    Exit;
+  download( _files );
   FreeAndNil( _files );
 end;
 

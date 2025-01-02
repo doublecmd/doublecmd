@@ -48,17 +48,27 @@ type
   TFileSourceUIParams = record
     sender: TObject;
     fs: IFileSource;
+    displayFile: TDisplayFile;
 
     col: Integer;
     row: Integer;
     drawingRect: TRect;
-    iconRect: TRect;
-    focused: Boolean;
-    displayFile: TDisplayFile;
+
+    case Byte of
+      0: (
+           iconRect: TRect;
+           focused: Boolean
+         );
+      1: (
+           shift: TShiftState;
+           x: Integer;
+           y: Integer
+         );
   end;
 
   TFileSourceUIHandler = class
     procedure draw( var params: TFileSourceUIParams ); virtual; abstract;
+    procedure click( var  params: TFileSourceUIParams ); virtual; abstract;
   end;
 
   TFileSourceField = record

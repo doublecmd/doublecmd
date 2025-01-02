@@ -2061,6 +2061,34 @@ var
   MI: TMenuItem;
   FileSystem: String;
   Background: Boolean;
+
+  procedure handleMBLeft;
+  var
+    handler: TFileSourceUIHandler;
+    params: TFileSourceUIParams;
+  begin
+    params:= Default( TFileSourceUIParams );
+    params.sender:= self.ColumnsView;
+    params.fs:= self.ColumnsView.FileSource;
+
+    handler:= params.fs.GetUIHandler;
+    if handler = nil then
+      Exit;
+
+    params.shift:= Shift;
+    params.x:= X;
+    params.y:= Y;
+    MouseToCell( X, Y, params.col, params.row );
+    if NOT self.IsRowIndexValid(params.row) then
+      Exit;
+
+    ColRowToOffset(True, True, params.col, params.drawingRect.Left, params.drawingRect.Right );
+    ColRowToOffset(False, True, params.row, params.drawingRect.Top, params.drawingRect.Bottom );
+
+    params.displayFile:= ColumnsView.FFiles[params.row - FixedRows];
+    handler.click( params );
+  end;
+
 begin
   if ColumnsView.IsLoadingFileList then Exit;
 {$IFDEF LCLGTK2}
@@ -2080,7 +2108,10 @@ begin
 
   if ColumnsView.Demo then Exit;
 
-  if Button = mbRight then
+  if Button = mbLeft then
+  begin
+    handleMBLeft;
+  end else if Button = mbRight then
     begin
       { If right click on header }
       if (Y >= 0) and (Y < GetHeaderHeight) then
