@@ -180,6 +180,35 @@ begin
   end;
 end;
 
+function CalculateHeight(ComboBox: TCustomComboBox): Integer;
+var
+  DC: HDC;
+  R: TRect;
+  Flags: Cardinal;
+  OldFont: HGDIOBJ;
+  LabelText: String;
+  MaxHeight: Integer;
+begin
+  with ComboBox do
+  begin
+    MaxHeight:= Constraints.MinMaxHeight(10000);
+
+    DC := GetDC(Parent.Handle);
+    try
+      LabelText:= Items.Text;
+      R := Rect(0, 0, 10000, MaxHeight);
+      OldFont := SelectObject(DC, HGDIOBJ(Font.Reference.Handle));
+      Flags := DT_CALCRECT or DT_EXPANDTABS or DT_SINGLELINE;
+
+      DrawText(DC, PChar(LabelText), Length(LabelText), R, Flags);
+      SelectObject(DC, OldFont);
+      Result := (R.Bottom - R.Top);
+    finally
+      ReleaseDC(Parent.Handle, DC);
+    end;
+  end;
+end;
+
 { TComboBoxWithDelItems }
 
 procedure TComboBoxWithDelItems.KeyDown(var Key: Word; Shift: TShiftState);
@@ -257,6 +286,7 @@ begin
 
   if (csSubComponent in ComponentStyle) then
   begin
+    ItemHeight:= CalculateHeight(Self);
     if (Parent.Anchors * [akLeft, akRight] = [akLeft, akRight]) then
       Exit;
   end;
@@ -270,7 +300,8 @@ procedure TKASColorBox.DoAutoAdjustLayout(const AMode: TLayoutAdjustmentPolicy;
 begin
   if AMode in [lapAutoAdjustWithoutHorizontalScrolling, lapAutoAdjustForDPI] then
   begin
-    ColorRectWidth:= Round(ColorRectWidth * AXProportion);
+    if ColorRectWidthStored then
+      ColorRectWidth:= Round(ColorRectWidth * AXProportion);
   end;
   // Don't auto adjust horizontal layout
   inherited DoAutoAdjustLayout(AMode, 1.0, AYProportion);
