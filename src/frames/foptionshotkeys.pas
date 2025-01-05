@@ -88,7 +88,7 @@ type
     procedure lbSCFilesListChange(Sender: TObject);
     procedure lbxCategoriesChange(Sender: TObject);
     procedure stgCommandsDblClick(Sender: TObject);
-    procedure stgCommandsDrawCell(Sender: TObject; aCol, aRow: integer; aRect: TRect; {%H-}aState: TGridDrawState);
+    procedure stgCommandsPrepareCanvas(Sender: TObject; aCol, aRow: Integer; aState: TGridDrawState);
     procedure stgCommandsResize(Sender: TObject);
     procedure stgCommandsSelectCell(Sender: TObject; {%H-}aCol, aRow: integer; var {%H-}CanSelect: boolean);
     procedure stgHotkeysDblClick(Sender: TObject);
@@ -298,23 +298,18 @@ begin
   ShowEditHotkeyForm(False, GetSelectedForm, GetSelectedCommand, nil, nil);
 end;
 
-{ TfrmOptionsHotkeys.stgCommandsDrawCell }
-procedure TfrmOptionsHotkeys.stgCommandsDrawCell(Sender: TObject; aCol, aRow: integer; aRect: TRect; aState: TGridDrawState);
-var
-  OffsetY: integer;
+procedure TfrmOptionsHotkeys.stgCommandsPrepareCanvas(Sender: TObject; aCol, aRow: Integer; aState: TGridDrawState);
 begin
-  if aCol = stgCmdHotkeysIndex then
+  if (aCol = stgCmdHotkeysIndex) and (aRow > 0) then
   begin
-    if aRow > 0 then
+    with Sender as TStringGrid do
     begin
-      with Sender as TStringGrid do
+      if Cells[aCol, aRow] <> '' then
       begin
-        if Cells[aCol, aRow] <> '' then
+        if not (gdSelected in aState) then
         begin
-          OffsetY := (DefaultRowHeight - Canvas.TextHeight(Cells[aCol, aRow])) div 2;
-          if not (gdSelected in aState) then Canvas.Font.Color := clRed else Canvas.Font.Color := clWhite;
-          Canvas.TextOut(aRect.Left + 3, aRect.Top + OffsetY, Cells[aCol, aRow]);
-        end;
+          Canvas.Font.Color := clRed;
+        end
       end;
     end;
   end;

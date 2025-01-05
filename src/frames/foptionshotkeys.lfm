@@ -50,9 +50,9 @@ inherited frmOptionsHotkeys: TfrmOptionsHotkeys
     BorderSpacing.Left = 10
     BorderSpacing.Right = 6
     ItemHeight = 15
-    OnChange = lbxCategoriesChange
     Style = csDropDownList
     TabOrder = 1
+    OnChange = lbxCategoriesChange
   end
   object edtFilter: TEdit[3]
     AnchorSideLeft.Control = lbSCFilesList
@@ -66,8 +66,8 @@ inherited frmOptionsHotkeys: TfrmOptionsHotkeys
     Width = 283
     Anchors = [akTop, akLeft, akRight]
     BorderSpacing.Bottom = 4
-    OnChange = edtFilterChange
     TabOrder = 2
+    OnChange = edtFilterChange
   end
   object stgCommands: TStringGrid[4]
     AnchorSideLeft.Control = lbSCFilesList
@@ -109,8 +109,8 @@ inherited frmOptionsHotkeys: TfrmOptionsHotkeys
     TitleStyle = tsNative
     OnCompareCells = stgCommandsCompareCells
     OnDblClick = stgCommandsDblClick
-    OnDrawCell = stgCommandsDrawCell
     OnHeaderClick = stgCommandsHeaderClick
+    OnPrepareCanvas = stgCommandsPrepareCanvas
     OnResize = stgCommandsResize
     OnSelectCell = stgCommandsSelectCell
     ColWidths = (
@@ -233,9 +233,9 @@ inherited frmOptionsHotkeys: TfrmOptionsHotkeys
     Width = 258
     BorderSpacing.Left = 6
     ItemHeight = 15
-    OnChange = lbSCFilesListChange
     Style = csDropDownList
     TabOrder = 0
+    OnChange = lbSCFilesListChange
   end
   object lblSCFiles: TLabel[8]
     AnchorSideLeft.Control = lbSCFilesList
@@ -324,9 +324,9 @@ inherited frmOptionsHotkeys: TfrmOptionsHotkeys
     Width = 503
     Anchors = [akTop, akLeft, akRight]
     ItemHeight = 15
-    OnChange = cbCommandSortOrderChange
     Style = csDropDownList
     TabOrder = 3
+    OnChange = cbCommandSortOrderChange
   end
   object lblCommands: TLabel[12]
     AnchorSideLeft.Control = lbSCFilesList
@@ -341,8 +341,8 @@ inherited frmOptionsHotkeys: TfrmOptionsHotkeys
     ParentColor = False
   end
   object alMainActionList: TActionList[13]
-    left = 680
-    top = 240
+    Left = 680
+    Top = 240
     object actSaveNow: TAction
       Caption = 'Save now'
       OnExecute = actSaveNowExecute
@@ -418,8 +418,8 @@ inherited frmOptionsHotkeys: TfrmOptionsHotkeys
     end
   end
   object pmShortcutMenu: TPopupMenu[14]
-    left = 328
-    top = 216
+    Left = 328
+    Top = 216
     object miSaveNow: TMenuItem
       Action = actSaveNow
     end
