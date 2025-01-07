@@ -119,7 +119,7 @@ type
     // ------------------------------------------------------------------------
 
     procedure GetFont(const aNode: TXmlNode; Path: TXmlPath;
-                      out Name: String; out Size: Integer; out Style, Quality: Integer;
+                      var Name: String; var Size: Integer; var Style, Quality: Integer;
                       const DefName: String; const DefSize: Integer; const DefStyle, DefQuality: Integer);
 
     procedure SetFont(const aNode: TXmlNode; Path: TXmlPath;
@@ -788,8 +788,8 @@ begin
   end;
 end;
 
-procedure TXmlConfig.GetFont(const aNode: TXmlNode; Path: TXmlPath; out
-  Name: String; out Size: Integer; out Style, Quality: Integer;
+procedure TXmlConfig.GetFont(const aNode: TXmlNode; Path: TXmlPath; var
+  Name: String; var Size: Integer; var Style, Quality: Integer;
   const DefName: String; const DefSize: Integer; const DefStyle,
   DefQuality: Integer);
 begin
