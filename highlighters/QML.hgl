@@ -319,7 +319,6 @@
       <Word Value="TouchBlocker"/>
       <Word Value="ValueButton"/>
       <Word Value="VerticalScrollDecorator"/>
-      <Word Value="VerticalScrollDecorator"/>
     </Keywords>
     <Range Name="Strings '..'" Attributes="$00008000,$80000005;False:True." Style=""
            Delimiters="!&quot;#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^`{|}~">
