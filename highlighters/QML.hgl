@@ -1,0 +1,340 @@
+<UniHighlighter version="1.8">
+  <Info>
+    <General Name="QML" Extensions="qml" Other="0"/>
+    <Author Name="Alexander V" Email="" Web="" Copyright="" Company="" Remark=""/>
+    <Version Version="1" Revision="0" Date="45654.5420000000"/>
+    <History>
+    </History>
+    <Sample>
+      <S>import QtQuick 2.0</S>
+      <S></S>
+      <S>Item {</S>
+      <S>    id: rootItem</S>
+      <S>    anchors.fill: parent</S>
+      <S></S>
+      <S>    // useful properties</S>
+      <S>    readonly property string myString: "hello, world"</S>
+      <S>    readonly property int myValue: Math.floor(parent.height / 9) - 123</S>
+      <S></S>
+      <S>    /* base element */</S>
+      <S>    Rectangle { anchors.fill: parent; color: "black" }</S>
+      <S></S>
+      <S>    Column {</S>
+      <S>        spacing: myValue</S>
+      <S></S>
+      <S>        Repeater {</S>
+      <S>            model: [ "a", "b", "c" ]</S>
+      <S>        }</S>
+      <S>    }</S>
+      <S>}</S>
+    </Sample>
+  </Info>
+  <Scheme File="" Name=""/>
+  <Range Name="Root" Attributes="-2147483640,-2147483643;False:False." Style="" CaseSensitive="True"
+         Delimiters="!&quot;#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^`{|}~">
+    <Rule/>
+    <Keywords Name="Keywords" Attributes="$00808000,$80000005;False:True." Style="">
+      <Word Value="alias"/>
+      <Word Value="break"/>
+      <Word Value="case"/>
+      <Word Value="catch"/>
+      <Word Value="continue"/>
+      <Word Value="default"/>
+      <Word Value="delete"/>
+      <Word Value="do"/>
+      <Word Value="else"/>
+      <Word Value="enum"/>
+      <Word Value="finally"/>
+      <Word Value="for"/>
+      <Word Value="function"/>
+      <Word Value="if"/>
+      <Word Value="import"/>
+      <Word Value="in"/>
+      <Word Value="instanceof"/>
+      <Word Value="new"/>
+      <Word Value="on"/>
+      <Word Value="property"/>
+      <Word Value="readonly"/>
+      <Word Value="return"/>
+      <Word Value="signal"/>
+      <Word Value="switch"/>
+      <Word Value="this"/>
+      <Word Value="throw"/>
+      <Word Value="try"/>
+      <Word Value="typeof"/>
+      <Word Value="var"/>
+      <Word Value="void"/>
+      <Word Value="while"/>
+      <Word Value="with"/>
+    </Keywords>
+    <Keywords Name="Basic types" Attributes="$00808000,$80000005;False:True." Style="">
+      <Word Value="bool"/>
+      <Word Value="color"/>
+      <Word Value="date"/>
+      <Word Value="double"/>
+      <Word Value="enumeration"/>
+      <Word Value="font"/>
+      <Word Value="int"/>
+      <Word Value="list"/>
+      <Word Value="matrix4x4"/>
+      <Word Value="point"/>
+      <Word Value="quaternion"/>
+      <Word Value="real"/>
+      <Word Value="rect"/>
+      <Word Value="size"/>
+      <Word Value="string"/>
+      <Word Value="url"/>
+      <Word Value="vector2d"/>
+      <Word Value="vector3d"/>
+      <Word Value="vector4d"/>
+    </Keywords>
+    <Keywords Name="QtQuick Object Types" Attributes="$00800080,$80000005;False:True." Style="">
+      <Word Value="Accessible"/>
+      <Word Value="AnchorAnimation"/>
+      <Word Value="AnchorChanges"/>
+      <Word Value="AnimatedImage"/>
+      <Word Value="AnimatedSprite"/>
+      <Word Value="Animation"/>
+      <Word Value="AnimationController"/>
+      <Word Value="Animator"/>
+      <Word Value="Behavior"/>
+      <Word Value="BorderImage"/>
+      <Word Value="BorderImageMesh"/>
+      <Word Value="Canvas"/>
+      <Word Value="CanvasGradient"/>
+      <Word Value="CanvasImageData"/>
+      <Word Value="CanvasPixelArray"/>
+      <Word Value="ColorAnimation"/>
+      <Word Value="Column"/>
+      <Word Value="Context2D"/>
+      <Word Value="DoubleValidator"/>
+      <Word Value="Drag"/>
+      <Word Value="DragEvent"/>
+      <Word Value="DragHandler"/>
+      <Word Value="DropArea"/>
+      <Word Value="EnterKey"/>
+      <Word Value="EventPoint"/>
+      <Word Value="EventTouchPoint"/>
+      <Word Value="Flickable"/>
+      <Word Value="Flipable"/>
+      <Word Value="Flow"/>
+      <Word Value="FocusScope"/>
+      <Word Value="FontLoader"/>
+      <Word Value="FontMetrics"/>
+      <Word Value="GestureEvent"/>
+      <Word Value="Gradient"/>
+      <Word Value="GradientStop"/>
+      <Word Value="GraphicsInfo"/>
+      <Word Value="Grid"/>
+      <Word Value="GridMesh"/>
+      <Word Value="GridView"/>
+      <Word Value="HandlerPoint"/>
+      <Word Value="HoverHandler"/>
+      <Word Value="Image"/>
+      <Word Value="IntValidator"/>
+      <Word Value="Item"/>
+      <Word Value="ItemGrabResult"/>
+      <Word Value="KeyEvent"/>
+      <Word Value="KeyNavigation"/>
+      <Word Value="Keys"/>
+      <Word Value="LayoutMirroring"/>
+      <Word Value="ListView"/>
+      <Word Value="Loader"/>
+      <Word Value="Matrix4x4"/>
+      <Word Value="MouseArea"/>
+      <Word Value="MouseEvent"/>
+      <Word Value="MultiPointHandler"/>
+      <Word Value="MultiPointTouchArea"/>
+      <Word Value="NumberAnimation"/>
+      <Word Value="OpacityAnimator"/>
+      <Word Value="ParallelAnimation"/>
+      <Word Value="ParentAnimation"/>
+      <Word Value="ParentChange"/>
+      <Word Value="Path"/>
+      <Word Value="PathAngleArc"/>
+      <Word Value="PathAnimation"/>
+      <Word Value="PathArc"/>
+      <Word Value="PathAttribute"/>
+      <Word Value="PathCubic"/>
+      <Word Value="PathCurve"/>
+      <Word Value="PathElement"/>
+      <Word Value="PathInterpolator"/>
+      <Word Value="PathLine"/>
+      <Word Value="PathMove"/>
+      <Word Value="PathMultiline"/>
+      <Word Value="PathPercent"/>
+      <Word Value="PathPolyline"/>
+      <Word Value="PathQuad"/>
+      <Word Value="PathSvg"/>
+      <Word Value="PathText"/>
+      <Word Value="PathView"/>
+      <Word Value="PauseAnimation"/>
+      <Word Value="PinchArea"/>
+      <Word Value="PinchEvent"/>
+      <Word Value="PinchHandler"/>
+      <Word Value="PointHandler"/>
+      <Word Value="PointerDevice"/>
+      <Word Value="PointerDeviceHandler"/>
+      <Word Value="PointerEvent"/>
+      <Word Value="PointerHandler"/>
+      <Word Value="PointerScrollEvent"/>
+      <Word Value="Positioner"/>
+      <Word Value="PropertyAction"/>
+      <Word Value="PropertyAnimation"/>
+      <Word Value="PropertyChanges"/>
+      <Word Value="Rectangle"/>
+      <Word Value="RegularExpressionValidator"/>
+      <Word Value="Repeater"/>
+      <Word Value="Rotation"/>
+      <Word Value="RotationAnimation"/>
+      <Word Value="RotationAnimator"/>
+      <Word Value="Row"/>
+      <Word Value="Scale"/>
+      <Word Value="ScaleAnimator"/>
+      <Word Value="ScriptAction"/>
+      <Word Value="SequentialAnimation"/>
+      <Word Value="ShaderEffect"/>
+      <Word Value="ShaderEffectSource"/>
+      <Word Value="Shortcut"/>
+      <Word Value="SinglePointHandler"/>
+      <Word Value="SmoothedAnimation"/>
+      <Word Value="SpringAnimation"/>
+      <Word Value="Sprite"/>
+      <Word Value="SpriteSequence"/>
+      <Word Value="State"/>
+      <Word Value="StateChangeScript"/>
+      <Word Value="StateGroup"/>
+      <Word Value="SystemPalette"/>
+      <Word Value="TableView"/>
+      <Word Value="TapHandler"/>
+      <Word Value="Text"/>
+      <Word Value="TextEdit"/>
+      <Word Value="TextInput"/>
+      <Word Value="TextMetrics"/>
+      <Word Value="TouchPoint"/>
+      <Word Value="Transform"/>
+      <Word Value="Transition"/>
+      <Word Value="Translate"/>
+      <Word Value="UniformAnimator"/>
+      <Word Value="Vector3dAnimation"/>
+      <Word Value="ViewTransition"/>
+      <Word Value="WheelEvent"/>
+      <Word Value="WheelHandler"/>
+      <Word Value="XAnimator"/>
+      <Word Value="YAnimator"/>
+    </Keywords>
+    <Keywords Name="Aurora &amp; Sailfish Silica Types" Attributes="$00800080,$80000005;False:True." Style="">
+      <Word Value="AppBar"/>
+      <Word Value="AppBarButton"/>
+      <Word Value="AppBarSearchField"/>
+      <Word Value="AppBarSpacer"/>
+      <Word Value="PopupMenu"/>
+      <Word Value="PopupMenuCheckableItem"/>
+      <Word Value="PopupMenuDividerItem"/>
+      <Word Value="PopupMenuItem"/>
+      <Word Value="PopupSubMenuItem"/>
+      <Word Value="PopupToolMenu"/>
+      <Word Value="PopupToolMenuButton"/>
+      <Word Value="PullToRefresh"/>
+      <Word Value="SplitView"/>
+      <Word Value="AddAnimation"/>
+      <Word Value="ApplicationWindow"/>
+      <Word Value="BackgroundItem"/>
+      <Word Value="BusyIndicator"/>
+      <Word Value="BusyLabel"/>
+      <Word Value="Button"/>
+      <Word Value="ButtonLayout"/>
+      <Word Value="Clipboard"/>
+      <Word Value="ColorPicker"/>
+      <Word Value="ColorPickerDialog"/>
+      <Word Value="ColorPickerPage"/>
+      <Word Value="ColumnView"/>
+      <Word Value="ComboBox"/>
+      <Word Value="ContextMenu"/>
+      <Word Value="Cover"/>
+      <Word Value="CoverAction"/>
+      <Word Value="CoverActionList"/>
+      <Word Value="CoverBackground"/>
+      <Word Value="CoverPlaceholder"/>
+      <Word Value="CoverTemplate"/>
+      <Word Value="DatePicker"/>
+      <Word Value="DatePickerDialog"/>
+      <Word Value="DetailItem"/>
+      <Word Value="Dialog"/>
+      <Word Value="DialogHeader"/>
+      <Word Value="DockedPanel"/>
+      <Word Value="Drawer"/>
+      <Word Value="FadeAnimation"/>
+      <Word Value="FadeAnimator"/>
+      <Word Value="GridItem"/>
+      <Word Value="HighlightImage"/>
+      <Word Value="HorizontalScrollDecorator"/>
+      <Word Value="Icon"/>
+      <Word Value="IconButton"/>
+      <Word Value="IconTextSwitch"/>
+      <Word Value="Keypad"/>
+      <Word Value="Label"/>
+      <Word Value="LinkedLabel"/>
+      <Word Value="ListItem"/>
+      <Word Value="MenuItem"/>
+      <Word Value="MenuLabel"/>
+      <Word Value="OpacityRampEffect"/>
+      <Word Value="Page"/>
+      <Word Value="PageBusyIndicator"/>
+      <Word Value="PageHeader"/>
+      <Word Value="PageStack"/>
+      <Word Value="PagedView"/>
+      <Word Value="Palette"/>
+      <Word Value="PasswordField"/>
+      <Word Value="ProgressBar"/>
+      <Word Value="PullDownMenu"/>
+      <Word Value="PushUpMenu"/>
+      <Word Value="Remorse"/>
+      <Word Value="RemorseItem"/>
+      <Word Value="RemorsePopup"/>
+      <Word Value="RemoveAnimation"/>
+      <Word Value="SafeZoneRect"/>
+      <Word Value="SafeZoneRectInsets"/>
+      <Word Value="Screen"/>
+      <Word Value="ScrollDecorator"/>
+      <Word Value="SearchField"/>
+      <Word Value="SectionHeader"/>
+      <Word Value="Separator"/>
+      <Word Value="SilicaControl"/>
+      <Word Value="SilicaFlickable"/>
+      <Word Value="SilicaGridView"/>
+      <Word Value="SilicaItem"/>
+      <Word Value="SilicaListView"/>
+      <Word Value="SilicaWebView"/>
+      <Word Value="Slider"/>
+      <Word Value="SlideshowView"/>
+      <Word Value="StandardPaths"/>
+      <Word Value="Switch"/>
+      <Word Value="TextArea"/>
+      <Word Value="TextField"/>
+      <Word Value="TextSwitch"/>
+      <Word Value="Theme"/>
+      <Word Value="TimePicker"/>
+      <Word Value="TimePickerDialog"/>
+      <Word Value="TouchBlocker"/>
+      <Word Value="ValueButton"/>
+      <Word Value="VerticalScrollDecorator"/>
+    </Keywords>
+    <Range Name="Strings '..'" Attributes="$00008000,$80000005;False:True." Style=""
+           Delimiters="!&quot;#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^`{|}~">
+      <Rule OpenSymbol="'" CloseSymbol="'"/>
+    </Range>
+    <Range Name="Strings &quot;..&quot;" Attributes="$00008000,$80000005;False:True." Style=""
+           Delimiters="!&quot;#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^`{|}~">
+      <Rule OpenSymbol="&quot;" OpenSymbolPartOfTerm="Right" CloseSymbol="&quot;" CloseSymbolPartOfTerm="Right" CloseOnEol="True"/>
+    </Range>
+    <Range Name="Remarks //" Attributes="$00008000,$80000005;False:True." Style=""
+           Delimiters="!&quot;#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^`{|}~">
+      <Rule OpenSymbol="//" CloseOnEol="True"/>
+    </Range>
+    <Range Name="Remarks /*..*/" Attributes="$00008000,$80000005;False:True." Style=""
+           Delimiters="!&quot;#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^`{|}~">
+      <Rule OpenSymbol="/*" CloseSymbol="*/"/>
+    </Range>
+  </Range>
+</UniHighlighter>
