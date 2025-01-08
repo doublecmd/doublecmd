@@ -49,7 +49,7 @@ build_doublecmd()
 
   # Create *.dmg package
   HDI_TRY=0
-  HDI_MAX=3
+  HDI_MAX=5
   
   while true; do
 
