@@ -169,6 +169,10 @@ type
     }
     function CheckAddThemePixmap(const AIconName: String; AIconSize: Integer = 0) : PtrInt;
     {en
+       Loads an icon from default theme (DCTheme) and adds it to storage.
+    }
+    function AddDefaultThemePixmap(const AIconName: String; AIconSize: Integer = 0) : PtrInt;
+    {en
        Loads an icon from the theme
     }
     function LoadThemeIcon(AIconTheme: TIconTheme; const AIconName: String; AIconSize: Integer): TBitmap;
@@ -206,6 +210,7 @@ type
     function GetSystemExecutableIcon: PtrInt; inline;
   {$ENDIF}
   {$IF DEFINED(UNIX) AND NOT (DEFINED(DARWIN) OR DEFINED(HAIKU))}
+    function GetSystemFolderIcon: PtrInt;
     {en
        Loads MIME icons names and creates a mapping: file extension -> MIME icon name.
        Doesn't need to be synchronized as long as it's only called from Load().
@@ -1015,6 +1020,18 @@ begin
     end;
 end;
 
+function TPixMapManager.GetSystemFolderIcon: PtrInt;
+var
+  AIconName: String;
+begin
+  AIconName:= GioMimeGetIcon('inode/directory');
+  if Length(AIconName) = 0 then
+    Result:= -1
+  else begin
+    Result:= CheckAddThemePixmap(AIconName);
+  end;
+end;
+
 function TPixMapManager.GetIconByDesktopFile(sFileName: String; iDefaultIcon: PtrInt): PtrInt;
 var
   I: PtrInt;
@@ -1202,6 +1219,21 @@ begin
     end
   else
     Result := PtrInt(FThemePixmapsFileNames.List[fileIndex]^.Data);
+end;
+
+function TPixMapManager.AddDefaultThemePixmap(const AIconName: String;
+  AIconSize: Integer): PtrInt;
+var
+  bmpBitmap: Graphics.TBitmap;
+begin
+  if AIconSize = 0 then AIconSize := gIconsSize;
+  bmpBitmap := LoadThemeIcon(FDCIconTheme, AIconName, AIconSize);
+  if (bmpBitmap = nil) then
+    Result := -1
+  else begin
+    Result := FPixmapList.Add(bmpBitmap); // add to list
+    FThemePixmapsFileNames.Add(AIconName, Pointer(Result));
+  end;
 end;
 
 function TPixMapManager.LoadThemeIcon(AIconTheme: TIconTheme; const AIconName: String; AIconSize: Integer): Graphics.TBitmap;
@@ -1721,13 +1753,13 @@ begin
   if FiShortcutIconID = -1 then
     FiShortcutIconID := CheckAddThemePixmap('text-html');
   {$ENDIF}
-  {$IF DEFINED(MSWINDOWS) or DEFINED(DARWIN)}
+  {$IF NOT DEFINED(HAIKU)}
   FiDirIconID := -1;
   if (gShowIcons > sim_standart) and (not (cimFolder in gCustomIcons)) then
     FiDirIconID := GetSystemFolderIcon;
   if FiDirIconID = -1 then
   {$ENDIF}
-  FiDirIconID:= CheckAddThemePixmap('folder');
+  FiDirIconID:= AddDefaultThemePixmap('folder');
   FiDirLinkBrokenIconID:= AddSpecial(FiDirIconID, FiEmblemUnreadableID);
   FiLinkBrokenIconID:= AddSpecial(FiDefaultIconID, FiEmblemUnreadableID);
   FiUpDirIconID:= CheckAddThemePixmap('go-up');
@@ -2659,4 +2691,3 @@ finalization
   end;
 
 end.
-

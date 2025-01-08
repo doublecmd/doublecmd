@@ -4,7 +4,7 @@
    Interface to GIO - GLib Input, Output and Streaming Library
    This unit loads all libraries dynamically so it can work without it
 
-   Copyright (C) 2011-2021 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2011-2024 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -35,6 +35,7 @@ function GioOpen(const Uri: String): Boolean;
 function GioNewFile(const Address: String): PGFile;
 function GioGetIconTheme(const Scheme: String): String;
 function GioFileGetIcon(const FileName: String): String;
+function GioMimeGetIcon(const MimeType: String): String;
 function GioGetSetting(const Scheme, Key: String): String;
 function GioFileGetEmblem(const FileName: String): String;
 function GioMimeTypeGetActions(const MimeType: String): TDynamicStringArray;
@@ -139,11 +140,40 @@ begin
   Result:= GioGetSetting(Scheme, 'icon-theme');
 end;
 
+function GioGetIconName(GIcon: PGIcon): String;
+var
+  AIconList: PPgchar;
+begin
+  if g_type_check_instance_is_a(PGTypeInstance(GIcon), g_themed_icon_get_type()) then
+  begin
+    AIconList:= g_themed_icon_get_names(PGThemedIcon(GIcon));
+    if Assigned(AIconList) then Result:= AIconList[0];
+  end;
+end;
+
+function GioMimeGetIcon(const MimeType: String): String;
+var
+  GIcon: PGIcon;
+  ContentType: Pgchar;
+begin
+  Result:= EmptyStr;
+  ContentType:= g_content_type_from_mime_type(Pgchar(MimeType));
+  if Assigned(ContentType) then
+  begin
+    GIcon:= g_content_type_get_icon(ContentType);
+    if Assigned(GIcon) then
+    begin
+      Result:= GioGetIconName(GIcon);
+      g_object_unref(PGObject(GIcon));
+    end;
+    g_free(ContentType);
+  end;
+end;
+
 function GioFileGetIcon(const FileName: String): String;
 var
   GFile: PGFile;
   GIcon: PGIcon;
-  AIconList: PPgchar;
   GFileInfo: PGFileInfo;
 begin
   Result:= EmptyStr;
@@ -152,11 +182,7 @@ begin
   if Assigned(GFileInfo) then
   begin
     GIcon:= g_file_info_get_icon(GFileInfo);
-    if g_type_check_instance_is_a(PGTypeInstance(GIcon), g_themed_icon_get_type()) then
-    begin
-      AIconList:= g_themed_icon_get_names(PGThemedIcon(GIcon));
-      if Assigned(AIconList) then Result:= AIconList[0];
-    end;
+    Result:= GioGetIconName(GIcon);
     g_object_unref(GFileInfo);
   end;
   g_object_unref(PGObject(GFile));
