@@ -1,0 +1,53 @@
+<UniHighlighter version="1.8">
+  <Info>
+    <General Name="JSON" Extensions="json" Other="0"/>
+    <Author Name="" Email="" Web="" Copyright="" Company="" Remark=""/>
+    <Version Version="1" Revision="1" Date="45338,8541038426"/>
+    <History>
+    </History>
+    <Sample>
+      <S>{</S>
+      <S>  Styles : [</S>
+      <S>    {</S>
+      <S>      String: &quot;Light&quot;,</S>
+      <S>      Number: 1000,</S>
+      <S>      Boolean: true</S>
+      <S>    },</S>
+      <S>    {</S>
+      <S>      String: &quot;Dark&quot;,</S>
+      <S>      Number: 3000,</S>
+      <S>      Boolean: false</S>
+      <S>    }</S>
+      <S>  ]</S>
+      <S>}</S>
+    </Sample>
+  </Info>
+  <Scheme File="" Name=""/>
+  <Range Name="Root" Attributes="$80000008,$80000005;False:False." Style=""
+         Delimiters="!&quot;#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^`{|}~">
+    <Rule/>
+    <Keywords Name="Keywords" Attributes="$000080FF,$80000005;False:True." Style="">
+      <Word Value="false"/>
+      <Word Value="null"/>
+      <Word Value="true"/>
+    </Keywords>
+    <Keywords Name="Punctuators" Attributes="$00800000,$80000005;False:True." Style="">
+      <Word Value="["/>
+      <Word Value="]"/>
+      <Word Value="{"/>
+      <Word Value="}"/>
+      <Word Value=","/>
+      <Word Value=":"/>
+    </Keywords>
+    <Set Name="Numbers" Attributes="$00008000,$80000005;False:True." Style="" Symbols="0123456789"/>
+    <Range Name="Strings &quot;..&quot;" Attributes="$00000080,$80000005;False:True." Style=""
+           Delimiters="!&quot;#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^`{|}~">
+      <Rule OpenSymbol="&quot;" OpenSymbolPartOfTerm="Right" CloseSymbol="&quot;" CloseSymbolPartOfTerm="Right" CloseOnEol="True"/>
+      <Keywords Name="Escape" Attributes="$00000080,$80000005;True:True." Style="">
+        <Word Value="\&quot;"/>
+        <Word Value="\'"/>
+        <Word Value="\\"/>
+      </Keywords>
+    </Range>
+  </Range>
+</UniHighlighter>

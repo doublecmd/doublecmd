@@ -1,6 +1,6 @@
 <UniHighlighter version="1.8">
   <Info>
-    <General Name="Java script" Extensions="js,json" Other="0"/>
+    <General Name="Java script" Extensions="js" Other="0"/>
     <Author Name="Vitaly Nevzorov" Email="nevzorov@yahoo.com" Web="www.delphist.com" Copyright="Copyright (c) Vitaly Nevzorov, 2002" Company="N/A" Remark=""/>
     <Version Version="1" Revision="1" Date="45338,8541038426"/>
     <History>
