@@ -212,6 +212,43 @@
           ]
         },
         {
+          Name : "JSON",
+          Ranges : [
+            {
+              Name : "Root",
+              Attributes : "$80000008,$80000005;False:False.",
+              Sets : [
+                {
+                  Name : "Numbers",
+                  Attributes : "$00008000,$80000005;False:True."
+                }
+              ],
+              KeyLists : [
+                {
+                  Name : "Keywords",
+                  Attributes : "$000080FF,$80000005;False:True."
+                },
+                {
+                  Name : "Punctuators",
+                  Attributes : "$00800000,$80000005;False:True."
+                }
+              ],
+              Ranges : [
+                {
+                  Name : "Strings \"..\"",
+                  Attributes : "$00000080,$80000005;False:True.",
+                  KeyLists : [
+                    {
+                      Name : "Escape",
+                      Attributes : "$00000080,$80000005;True:True."
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
           Name : "Java script",
           Ranges : [
             {
@@ -710,6 +747,43 @@
                 {
                   Name : "Remarks /*..*/",
                   Attributes : "$008AD277,$80000005;False:True."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          Name : "JSON",
+          Ranges : [
+            {
+              Name : "Root",
+              Attributes : "$80000008,$80000005;False:False.",
+              Sets : [
+                {
+                  Name : "Numbers",
+                  Attributes : "$008AD277,$80000005;False:True."
+                }
+              ],
+              KeyLists : [
+                {
+                  Name : "Keywords",
+                  Attributes : "$007891E2,$80000005;False:True."
+                },
+                {
+                  Name : "Punctuators",
+                  Attributes : "$00C09B61,$80000005;False:True."
+                }
+              ],
+              Ranges : [
+                {
+                  Name : "Strings \"..\"",
+                  Attributes : "$00898BB9,$80000005;False:True.",
+                  KeyLists : [
+                    {
+                      Name : "Escape",
+                      Attributes : "$00898BB9,$80000005;True:True."
+                    }
+                  ]
                 }
               ]
             }
