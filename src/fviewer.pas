@@ -80,6 +80,8 @@ type
     procedure SetIndex(AValue: Integer);
   protected
     procedure MoveSelection; override;
+    procedure DoAutoAdjustLayout(const AMode: TLayoutAdjustmentPolicy;
+                const AXProportion, AYProportion: Double); override;
   public
     property Index: Integer read GetIndex write SetIndex;
   end;
@@ -632,6 +634,13 @@ begin
   finally
     Dec(FMutex)
   end;
+end;
+
+procedure TDrawGrid.DoAutoAdjustLayout(const AMode: TLayoutAdjustmentPolicy;
+  const AXProportion, AYProportion: Double);
+begin
+  // Don't auto adjust vertical layout
+  inherited DoAutoAdjustLayout(AMode, AXProportion, 1.0);
 end;
 
 { TThumbThread }
