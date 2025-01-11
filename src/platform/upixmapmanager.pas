@@ -1228,10 +1228,19 @@ end;
 function TPixMapManager.AddDefaultThemePixmap(const AIconName: String;
   AIconSize: Integer): PtrInt;
 var
-  bmpBitmap: Graphics.TBitmap;
+  bmpBitmap: Pointer;
+{$IF DEFINED(LCLGTK2)}
+  sIconFileName: String;
+{$ENDIF}
 begin
   if AIconSize = 0 then AIconSize := gIconsSize;
+{$IF DEFINED(LCLGTK2)}
+  sIconFileName := FDCIconTheme.FindIcon(AIconName, AIconSize);
+  if Length(sIconFileName) = 0 then Exit(-1);
+  bmpBitmap := gdk_pixbuf_new_from_file_at_size(PChar(sIconFileName), AIconSize, AIconSize, nil);
+{$ELSE}
   bmpBitmap := LoadThemeIcon(FDCIconTheme, AIconName, AIconSize);
+{$ENDIF}
   if (bmpBitmap = nil) then
     Result := -1
   else begin
