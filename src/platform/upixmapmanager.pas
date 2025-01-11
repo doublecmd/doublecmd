@@ -1030,6 +1030,10 @@ begin
   else begin
     Result:= CheckAddThemePixmap(AIconName);
   end;
+  if (Result < 0) and (AIconName <> 'folder') then
+  begin
+    Result:= CheckAddThemePixmap('folder');
+  end;
 end;
 
 function TPixMapManager.GetIconByDesktopFile(sFileName: String; iDefaultIcon: PtrInt): PtrInt;
