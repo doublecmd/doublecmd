@@ -4,7 +4,7 @@
    Fast pixmap memory manager and loader
 
    Copyright (C) 2004 Radek Cervinka (radek.cervinka@centrum.cz)
-   Copyright (C) 2006-2023 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2006-2025 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
@@ -37,6 +37,11 @@ interface
 }
 {$IF DEFINED(LCLGTK2) AND DEFINED(UNIX) AND NOT (DEFINED(DARWIN) OR DEFINED(HAIKU))}
   {$DEFINE GTK2_FIX}
+{$ENDIF}
+
+// Use freedesktop.org specifications
+{$IF DEFINED(UNIX) AND NOT (DEFINED(DARWIN) OR DEFINED(HAIKU))}
+  {$DEFINE XDG}
 {$ENDIF}
 
 uses
@@ -214,6 +219,7 @@ type
   {$ENDIF}
   {$IF DEFINED(UNIX) AND NOT (DEFINED(DARWIN) OR DEFINED(HAIKU))}
     function GetSystemFolderIcon: PtrInt;
+    function GetSystemArchiveIcon: PtrInt;
     {en
        Loads MIME icons names and creates a mapping: file extension -> MIME icon name.
        Doesn't need to be synchronized as long as it's only called from Load().
@@ -1039,6 +1045,11 @@ begin
   end;
 end;
 
+function TPixMapManager.GetSystemArchiveIcon: PtrInt;
+begin
+  Result:= CheckAddThemePixmap('package-x-generic');
+end;
+
 function TPixMapManager.GetIconByDesktopFile(sFileName: String; iDefaultIcon: PtrInt): PtrInt;
 var
   I: PtrInt;
@@ -1714,7 +1725,7 @@ begin
   // (via LoadPixMapManager in doublecmd.lpr).
 
   // Load icon themes.
-  {$IF DEFINED(UNIX) AND NOT (DEFINED(DARWIN) OR DEFINED(HAIKU))}
+  {$IF DEFINED(XDG)}
   if gShowIcons > sim_standart then
     begin
       LoadMimeIconNames; // For use with GetMimeIcon
@@ -1779,13 +1790,13 @@ begin
   FiDirLinkBrokenIconID:= AddSpecial(FiDirIconID, FiEmblemUnreadableID);
   FiLinkBrokenIconID:= AddSpecial(FiDefaultIconID, FiEmblemUnreadableID);
   FiUpDirIconID:= CheckAddThemePixmap('go-up');
-  {$IFDEF MSWINDOWS}
+  {$IF DEFINED(MSWINDOWS) OR DEFINED(XDG)}
   FiArcIconID := -1;
   if (gShowIcons > sim_standart) and (not (cimArchive in gCustomIcons)) then
     FiArcIconID := GetSystemArchiveIcon;
   if FiArcIconID = -1 then
   {$ENDIF}
-  FiArcIconID := CheckAddThemePixmap('package-x-generic');
+  FiArcIconID := AddDefaultThemePixmap('package-x-generic');
   {$IFDEF MSWINDOWS}
   FiExeIconID := -1;
   if gShowIcons > sim_standart then
