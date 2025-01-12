@@ -36,8 +36,8 @@ uses
   uQt5Workaround,
   {$ENDIF}
   {$ENDIF}
-  Interfaces,
   uSystem,
+  Interfaces,
   uMoveConfig,
   uEarlyConfig,
   DCConvertEncoding,
