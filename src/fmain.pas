@@ -4253,11 +4253,14 @@ begin
 
     VK_TAB:
       begin
-        // Select opposite panel.
-        case PanelSelected of
-          fpLeft: SetActiveFrame(fpRight);
-          fpRight: SetActiveFrame(fpLeft);
-        else SetActiveFrame(fpLeft);
+        if (QuickViewPanel = nil) then
+        begin
+          // Select opposite panel.
+          case PanelSelected of
+            fpLeft: SetActiveFrame(fpRight);
+            fpRight: SetActiveFrame(fpLeft);
+            else     SetActiveFrame(fpLeft);
+          end;
         end;
         Key := 0;
       end;
