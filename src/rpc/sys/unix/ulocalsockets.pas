@@ -366,7 +366,7 @@ begin
   if UserID = 0 then begin
     UserID:= GetProcessUserId(StrToInt(ParamStr(2)));
   end;
-  Result:= '/tmp/' + ApplicationName + '-' + IntToStr(UserID);
+  Result:= '/tmp/doublecmd' + '-' + IntToStr(UserID);
   // Verify directory owner
   if not DirectoryExists(Result) then
   begin
