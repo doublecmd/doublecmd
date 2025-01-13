@@ -234,8 +234,8 @@ Context=MimeTypes
 Type=Threshold
 
 [scalable/actions]
-Size=128
-MinSize=128
+Size=48
+MinSize=48
 MaxSize=512
 Context=Actions
 Type=Scalable
