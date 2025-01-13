@@ -132,6 +132,9 @@ begin
       try
         SvgReader.DrawImage(Image32, True);
 
+        AWidth:= Image32.Width;
+        AHeight:= Image32.Height;
+
         Image:= TLazIntfImage.Create(AWidth, AHeight);
         try
           Description.Init_BPP32_B8G8R8A8_BIO_TTB(AWidth, AHeight);
@@ -213,16 +216,13 @@ end;
 
 procedure TDCReaderSVG.InternalRead(Stream: TStream; Img: TFPCustomImage);
 var
-  ARect: TRect;
   Image32: TImage32;
   Description: TRawImageDescription;
 begin
-  ARect:= FSvgReader.GetViewbox(128, 128).Rect;
-
-  Image32:= TImage32.Create(ARect.Width, ARect.Height);
+  Image32:= TImage32.Create(0, 0);
   try
-    FSvgReader.DrawImage(Image32, True);
-    Description.Init_BPP32_B8G8R8A8_BIO_TTB(ARect.Width, ARect.Height);
+    FSvgReader.DrawImage(Image32, False);
+    Description.Init_BPP32_B8G8R8A8_BIO_TTB(Image32.Width, Image32.Height);
     TLazIntfImage(Img).DataDescription:= Description;
     Move(Image32.PixelBase^, TLazIntfImage(Img).PixelData^, Img.Width * Img.Height * SizeOf(TColor32));
   finally
