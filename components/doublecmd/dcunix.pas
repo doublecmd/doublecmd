@@ -417,6 +417,8 @@ function fallocate(fd: cint; mode: cint; offset, len: coff_t): cint; cdecl; exte
 {$ENDIF}
 
 procedure FileCloseOnExecAll;
+const
+  MAX_FD = 1024;
 var
   fd: cint;
   p: TRLimit;
@@ -429,8 +431,8 @@ begin
     fd_max:= sysconf(_SC_OPEN_MAX);
     {$ENDIF}
   end;
-  if fd_max = RLIM_INFINITY then
-    fd_max:= High(Byte);
+  if (fd_max = RLIM_INFINITY) or (fd_max > MAX_FD) then
+    fd_max:= MAX_FD;
   for fd:= 3 to cint(fd_max) do
     FileCloseOnExec(fd);
 end;
