@@ -1190,13 +1190,13 @@ end;
 procedure TfrmViewer.ImageMouseWheelDown(Sender: TObject; Shift: TShiftState;
   MousePos: TPoint; var Handled: Boolean);
 begin
-  if ssCtrl in Shift then cm_Zoom(['0.9']);
+  if ssCtrl in Shift then ZoomImage(0.9);
 end;
 
 procedure TfrmViewer.ImageMouseWheelUp(Sender: TObject; Shift: TShiftState;
   MousePos: TPoint; var Handled: Boolean);
 begin
-  if ssCtrl in Shift then cm_Zoom(['1.1']);
+  if ssCtrl in Shift then ZoomImage(1.1);
 end;
 
 procedure TfrmViewer.miPenClick(Sender: TObject);
