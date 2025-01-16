@@ -1242,7 +1242,6 @@ object frmViewer: TfrmViewer
       ScrollBars = ssAutoVertical
       TabOrder = 1
       TitleStyle = tsNative
-      OnDrawCell = DrawPreviewDrawCell
       OnSelection = DrawPreviewSelection
       OnTopleftChanged = DrawPreviewTopleftChanged
       ColWidths = (
