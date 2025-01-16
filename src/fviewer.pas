@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Build-in File Viewer.
 
-   Copyright (C) 2007-2024  Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2007-2025  Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -75,15 +75,25 @@ type
   TDrawGrid = class(Grids.TDrawGrid)
   private
     FMutex: Integer;
+    FFileList: TStringList;
   private
     function GetIndex: Integer;
     procedure SetIndex(AValue: Integer);
   protected
+    procedure CalculateColRowCount;
+    function MouseOnGrid(X, Y: LongInt): Boolean;
+    function  CellToIndex(ACol, ARow: Integer): Integer;
+    procedure IndexToCell(Index: Integer; out ACol, ARow: Integer);
+  protected
     procedure MoveSelection; override;
     procedure DoAutoAdjustLayout(const AMode: TLayoutAdjustmentPolicy;
                 const AXProportion, AYProportion: Double); override;
+    procedure KeyDown(var Key : Word; Shift : TShiftState); override;
+    procedure MouseDown(Button: TMouseButton; Shift:TShiftState; X,Y: Integer); override;
   public
+    procedure DrawCell(aCol, aRow: Integer; aRect: TRect; aState: TGridDrawState); override;
     property Index: Integer read GetIndex write SetIndex;
+    property FileList: TStringList write FFileList;
   end;
 
   { TfrmViewer }
@@ -280,8 +290,6 @@ type
     procedure btnRedEyeClick(Sender: TObject);
     procedure btnResizeClick(Sender: TObject);
     procedure btnSlideShowClick(Sender: TObject);
-    procedure DrawPreviewDrawCell(Sender: TObject; aCol, aRow: Integer;
-      aRect: TRect; aState: TGridDrawState);
     procedure DrawPreviewSelection(Sender: TObject; aCol, aRow: Integer);
     procedure DrawPreviewTopleftChanged(Sender: TObject);
     procedure FormCloseQuery(Sender: TObject; var CanClose: boolean);
@@ -581,7 +589,7 @@ begin
   //DCDebug('ShowViewer - Using Internal');
   Viewer := TfrmViewer.Create(Application, WaitData);
   Viewer.FileList.Assign(FilesToView);// Make a copy of the list
-  Viewer.DrawPreview.RowCount:= Viewer.FileList.Count;
+  Viewer.DrawPreview.FileList:= Viewer.FileList;
   Viewer.actMoveFile.Enabled := FilesToView.Count > 1;
   Viewer.actDeleteFile.Enabled := FilesToView.Count > 1;
   with Viewer.ViewerControl do
@@ -625,6 +633,56 @@ begin
   end;
 end;
 
+procedure TDrawGrid.CalculateColRowCount;
+begin
+  if ClientWidth div (DefaultColWidth + 6) > 0 then
+  begin
+    ColCount:= ClientWidth div (DefaultColWidth + 6);
+  end;
+  if Assigned(FFileList) then
+  begin
+    if FFileList.Count mod ColCount > 0 then
+      RowCount:= FFileList.Count div ColCount + 1
+    else begin
+      RowCount:= FFileList.Count div ColCount;
+    end;
+  end;
+end;
+
+function TDrawGrid.MouseOnGrid(X, Y: LongInt): Boolean;
+var
+  bTemp: Boolean;
+  iRow, iCol: LongInt;
+begin
+  bTemp:= AllowOutboundEvents;
+  AllowOutboundEvents:= False;
+  MouseToCell(X, Y, iCol, iRow);
+  AllowOutboundEvents:= bTemp;
+  Result:= not (CellToIndex(iCol, iRow) < 0);
+end;
+
+function TDrawGrid.CellToIndex(ACol, ARow: Integer): Integer;
+begin
+  if (ARow < 0) or (ARow >= RowCount) or (ACol <  0) or (ACol >= ColCount) then Exit(-1);
+  Result:= ARow * ColCount + ACol;
+  if (Result < 0) or (Result >= FFileList.Count) then
+    Result:= -1;
+end;
+
+procedure TDrawGrid.IndexToCell(Index: Integer; out ACol, ARow: Integer);
+begin
+  if (Index < 0) or (Index >= FFileList.Count) or (ColCount = 0) then
+    begin
+      ACol:= -1;
+      ARow:= -1;
+    end
+  else
+    begin
+      ARow:= Index div ColCount;
+      ACol:= Index mod ColCount;
+    end;
+end;
+
 procedure TDrawGrid.MoveSelection;
 begin
   if (FMutex = 0) then
@@ -641,6 +699,118 @@ procedure TDrawGrid.DoAutoAdjustLayout(const AMode: TLayoutAdjustmentPolicy;
 begin
   // Don't auto adjust vertical layout
   inherited DoAutoAdjustLayout(AMode, AXProportion, 1.0);
+end;
+
+procedure TDrawGrid.KeyDown(var Key: Word; Shift: TShiftState);
+var
+  ACol, ARow: Integer;
+begin
+  case Key of
+    VK_LEFT:
+      begin
+        if (Col - 1 < 0) and (Row > 0) then
+        begin
+          MoveExtend(False, ColCount - 1, Row - 1);
+          Key:= 0;
+        end;
+      end;
+    VK_RIGHT:
+      begin
+        if (CellToIndex(Col + 1, Row) < 0) then
+        begin
+          if (Row + 1 < RowCount) then
+            MoveExtend(False, 0, Row + 1)
+          else
+            begin
+              IndexToCell(FFileList.Count - 1, ACol, ARow);
+              MoveExtend(False, ACol, ARow);
+            end;
+          Key:= 0;
+        end;
+      end;
+    VK_HOME:
+      begin
+        MoveExtend(False, 0, 0);
+        Key:= 0;
+      end;
+    VK_END:
+      begin
+        IndexToCell(FFileList.Count - 1, ACol, ARow);
+        MoveExtend(False, ACol, ARow);
+        Key:= 0;
+      end;
+    VK_DOWN:
+      begin
+        if (CellToIndex(Col, Row + 1) < 0) then
+          begin
+            IndexToCell(FFileList.Count - 1, ACol, ARow);
+            MoveExtend(False, ACol, ARow);
+            Key:= 0;
+          end
+      end;
+  end;
+  inherited KeyDown(Key, Shift);
+end;
+
+procedure TDrawGrid.MouseDown(Button: TMouseButton; Shift: TShiftState; X,
+  Y: Integer);
+begin
+  if MouseOnGrid(X, Y) then
+    inherited MouseDown(Button, Shift, X, Y)
+  else begin
+    if Assigned(OnMouseDown) then
+    begin
+      OnMouseDown(Self, Button, Shift, X, Y);
+    end;
+    if not Focused then
+    begin
+      if CanSetFocus then SetFocus;
+    end;
+  end;
+end;
+
+procedure TDrawGrid.DrawCell(aCol, aRow: Integer; aRect: TRect;
+  aState: TGridDrawState);
+var
+  ATextSize: TSize;
+  sFileName: String;
+  bmpThumb: TBitmap;
+  AIndex, X, Y: Integer;
+begin
+  AIndex:= CellToIndex(aCol, aRow);
+
+  if InRange(AIndex, 0, FFileList.Count - 1) then
+  begin
+    PrepareCanvas(aCol, aRow, aState);
+    DefaultDrawCell(aCol, aRow, aRect, aState);
+
+    LCLIntf.InflateRect(aRect, -2, -2);
+    bmpThumb:= TBitmap(FFileList.Objects[AIndex]);
+    sFileName:= ExtractFileName(FFileList.Strings[AIndex]);
+    sFileName:= FitOtherCellText(sFileName, Canvas, aRect.Width);
+    ATextSize:= Canvas.TextExtent(sFileName);
+
+    if Assigned(bmpThumb) then
+    begin
+      // Draw thumbnail at center
+      X:= aRect.Left + (aRect.Width - bmpThumb.Width) div 2;
+      Y:= aRect.Top + (aRect.Height - bmpThumb.Height - ATextSize.Height - 4) div 2;
+      Canvas.Draw(X, Y, bmpThumb);
+    end;
+
+    // Draw file name at center
+    Y:= (aRect.Bottom - ATextSize.Height) - 2;
+    X:= aRect.Left + (aRect.Width - ATextSize.Width) div 2;
+    Canvas.TextOut(X, Y, sFileName);
+
+    // Draw grid
+    LCLIntf.InflateRect(aRect, 2, 2);
+    DrawCellGrid(aCol, aRow, aRect, aState);
+  end
+  else begin
+    Canvas.Brush.Color:= Color;
+    Canvas.FillRect(aRect);
+  end;
 end;
 
 { TThumbThread }
@@ -1928,12 +2098,7 @@ end;
 
 procedure TfrmViewer.SplitterChangeBounds;
 begin
-  if DrawPreview.Width div (DrawPreview.DefaultColWidth+6)>0 then
-    DrawPreview.ColCount:= DrawPreview.Width div (DrawPreview.DefaultColWidth + 6);
-  if FileList.Count mod DrawPreview.ColCount > 0 then
-    DrawPreview.RowCount:= FileList.Count div DrawPreview.ColCount + 1
-  else
-    DrawPreview.RowCount:= FileList.Count div DrawPreview.ColCount;
+  DrawPreview.CalculateColRowCount;
   if bPlugin then FWlxModule.ResizeWindow(GetListerRect);
 end;
 
@@ -1974,40 +2139,6 @@ begin
   TimerScreenshot.Enabled:=False;
   Application.Restore;
   Self.BringToFront;
-end;
-
-procedure TfrmViewer.DrawPreviewDrawCell(Sender: TObject; aCol, aRow: Integer;
-  aRect: TRect; aState: TGridDrawState);
-var
-  ATextSize: TSize;
-  sFileName: String;
-  bmpThumb: TBitmap;
-  Index, X, Y: Integer;
-begin
-  LCLIntf.InflateRect(aRect, -2, -2);
-  // Calculate FileList index
-  Index:= (aRow * DrawPreview.ColCount) + aCol;
-  if (Index >= 0) and (Index < FileList.Count) then
-  begin
-    DrawPreview.Canvas.FillRect(aRect);
-    bmpThumb:= TBitmap(FileList.Objects[Index]);
-    sFileName:= ExtractFileName(FileList.Strings[Index]);
-    sFileName:= FitOtherCellText(sFileName, DrawPreview.Canvas, aRect.Width);
-    ATextSize:= DrawPreview.Canvas.TextExtent(sFileName);
-
-    if Assigned(bmpThumb) then
-    begin
-      // Draw thumbnail at center
-      X:= aRect.Left + (aRect.Width - bmpThumb.Width) div 2;
-      Y:= aRect.Top + (aRect.Height - bmpThumb.Height - ATextSize.Height - 4) div 2;
-      DrawPreview.Canvas.Draw(X, Y, bmpThumb);
-    end;
-
-    // Draw file name at center
-    Y:= (aRect.Bottom - ATextSize.Height) - 2;
-    X:= aRect.Left + (aRect.Width - ATextSize.Width) div 2;
-    DrawPreview.Canvas.TextOut(X, Y, sFileName);
-  end;
 end;
 
 procedure TfrmViewer.DrawPreviewSelection(Sender: TObject; aCol, aRow: Integer);
