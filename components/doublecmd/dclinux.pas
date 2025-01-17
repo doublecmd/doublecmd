@@ -30,6 +30,9 @@ uses
   Classes, SysUtils, BaseUnix, Unix;
 
 const
+  CLOSE_RANGE_CLOEXEC = (1 << 2);
+
+const
   FS_IOC_GETFLAGS = $80086601;
   FS_IOC_SETFLAGS = $40086602;
   (*
@@ -75,7 +78,7 @@ function mbFileCopyXattr(const Source, Target: String): Boolean;
 implementation
 
 uses
-  InitC, DCUnix, DCConvertEncoding, DCOSUtils;
+  InitC, DCConvertEncoding, DCOSUtils;
 
 function lremovexattr(const path, name: PAnsiChar): cint; cdecl; external clib;
 function llistxattr(const path: PAnsiChar; list: PAnsiChar; size: csize_t): ssize_t; cdecl; external clib;

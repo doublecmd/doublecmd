@@ -45,6 +45,7 @@ const
 {$ELSEIF DEFINED(FREEBSD)}
   O_CLOEXEC  = &04000000;
   _SC_NPROCESSORS_ONLN = 58;
+  CLOSE_RANGE_CLOEXEC = (1 << 2);
 {$ELSEIF DEFINED(NETBSD)}
   O_CLOEXEC  = $00400000;
 {$ELSEIF DEFINED(HAIKU)}
@@ -267,6 +268,9 @@ function fpMkTime(tm: PTimeStruct): TTime;
 function fpLocalTime(timer: PTime; tp: PTimeStruct): PTimeStruct;
 
 {$IF DEFINED(LINUX)}
+var
+  KernVersion: UInt16;
+
 function fpFDataSync(fd: cint): cint;
 function fpCloneFile(src_fd, dst_fd: cint): Boolean;
 function fpFAllocate(fd: cint; mode: cint; offset, len: coff_t): cint;
@@ -280,8 +284,12 @@ implementation
 
 uses
   Unix, DCConvertEncoding, LazUTF8
-{$IFDEF DARWIN}
+{$IF DEFINED(DARWIN)}
   , DCDarwin
+{$ELSEIF DEFINED(LINUX)}
+  , Dos, DCLinux, DCOSUtils
+{$ELSEIF DEFINED(FREEBSD)}
+  , DCOSUtils
 {$ENDIF}
   ;
 
@@ -387,8 +395,6 @@ begin
   {$ENDIF}
 end;
 
-
-
 {$IF DEFINED(BSD)}
 type rlim_t = Int64;
 {$ENDIF}
@@ -416,6 +422,21 @@ function fdatasync(fd: cint): cint; cdecl; external clib;
 function fallocate(fd: cint; mode: cint; offset, len: coff_t): cint; cdecl; external clib;
 {$ENDIF}
 
+{$IF DEFINED(LINUX) OR DEFINED(FREEBSD)}
+var
+  hLibC: TLibHandle = NilHandle;
+
+procedure LoadCLibrary;
+begin
+  hLibC:= mbLoadLibrary(mbGetModuleName(@tzset));
+end;
+{$ENDIF}
+
+{$IF DEFINED(LINUX) OR DEFINED(BSD)}
+var
+  close_range: function(first: cuint; last: cuint; flags: cint): cint; cdecl = nil;
+{$ENDIF}
+
 procedure FileCloseOnExecAll;
 const
   MAX_FD = 1024;
@@ -424,6 +445,13 @@ var
   p: TRLimit;
   fd_max: rlim_t = RLIM_INFINITY;
 begin
+{$IF DEFINED(LINUX) OR DEFINED(BSD)}
+  if Assigned(close_range) then
+  begin
+    close_range(3, High(Int32), CLOSE_RANGE_CLOEXEC);
+    Exit;
+  end;
+{$ENDIF}
   if (FpGetRLimit(RLIMIT_NOFILE, @p) = 0) and (p.rlim_cur <> RLIM_INFINITY) then
     fd_max:= p.rlim_cur
   else begin
@@ -571,8 +599,26 @@ begin
 end;
 {$ENDIF}
 
-initialization
+procedure Initialize;
+begin
   tzset();
+{$IF DEFINED(LINUX) OR DEFINED(FREEBSD)}
+  LoadCLibrary;
+  {$IF DEFINED(LINUX)}
+  KernVersion:= BEtoN(DosVersion);
+  // Linux kernel >= 5.11
+  if KernVersion >= $50B then
+  {$ENDIF}
+  begin
+    Pointer(close_range):= GetProcAddress(hLibC, 'close_range');
+  end;
+{$ELSEIF DEFINED(DARWIN)}
+  close_range:= @CloseRange;
+{$ENDIF}
+end;
+
+initialization
+  Initialize;
 
 end.
 
