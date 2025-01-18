@@ -42,6 +42,8 @@ end;
 
 procedure LoadPaths;
 begin
+  OnGetApplicationName := @GetAppName;
+
   if gpCmdLineCfgDir <> EmptyStr then
   begin
     if GetPathType(gpCmdLineCfgDir) <> ptAbsolute then
@@ -84,7 +86,6 @@ end;
 procedure Initialize;
 begin
   gpExeFile := ParamStr(0);
-  OnGetApplicationName := @GetAppName;
   gpExeFile := TryReadAllLinks(gpExeFile);
   gpExePath := ExtractFilePath(gpExeFile);
   gpGlobalCfgDir := gpExePath + 'settings' + DirectorySeparator;
