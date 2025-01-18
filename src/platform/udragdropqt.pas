@@ -398,18 +398,18 @@ begin
   begin
     if QMimeData_hasFormat(MimeData, @uriListMimeW) then
 
-      uriList := URIDecode(Trim(GetMimeDataInFormat(MimeData, uriListMimeW)))
+      uriList := Trim(GetMimeDataInFormat(MimeData, uriListMimeW))
 
     else if QMimeData_hasFormat(MimeData, @textPlainMimeW) then
 
       // try decoding, as text/plain may also be percent-encoded
-      uriList := URIDecode(Trim(GetMimeDataInFormat(MimeData, textPlainMimeW)))
+      uriList := Trim(GetMimeDataInFormat(MimeData, textPlainMimeW))
 
     else
       Exit;  // reject the drop
 
     try
-      FileNamesList := ExtractFilenames(uriList);
+      FileNamesList := ExtractFilenames(uriList, True);
 
       if Assigned(FileNamesList) and (FileNamesList.Count > 0) then
         Result := GetDropEvent()(FileNamesList, DropEffect, CursorPosition);
