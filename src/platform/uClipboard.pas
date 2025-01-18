@@ -26,7 +26,7 @@ uses
   function URIEncode(path: String): String;
 
 {$IF DEFINED(UNIX_not_DARWIN)}
-  function ExtractFilenames(uriList: String): TStringList;
+  function ExtractFilenames(uriList: String; uriDec: Boolean): TStringList;
   function FileNameToURI(const FileName: String): String;
 
   function FormatUriList(FileNames: TStringList): String;
@@ -211,7 +211,7 @@ begin
        not (path[i] in allowed) then
     begin
       Result := Result + Copy(path, oldIndex, i-oldIndex)
-                       + '%' + Format('%2x', [Ord(path[i])]);
+                       + '%' + Format('%.2x', [Ord(path[i])]);
 
       oldIndex := i + 1;
     end;
@@ -260,7 +260,7 @@ begin
 end;
 
 { Retrieves file names delimited by line ending characters. }
-function ExtractFilenames(uriList: String): TStringList;
+function ExtractFilenames(uriList: String; uriDec: Boolean): TStringList;
 var
   i, oldIndex: Integer;
   len: Integer;
@@ -286,7 +286,12 @@ begin
       begin
         path := ExtractPath(Copy(uriList, oldIndex, i - oldIndex));
         if Length(path) > 0 then
+        begin
+          if uriDec then begin
+            path := URIDecode(path);
+          end;
           Result.Add(path);
+        end;
       end;
 
       oldIndex := i + 1;
@@ -298,7 +303,12 @@ begin
     // copy including 'i'th character
     path := ExtractPath(Copy(uriList, oldIndex, i - oldIndex + 1));
     if Length(path) > 0 then
+    begin
+      if uriDec then begin
+        path := URIDecode(path);
+      end;
       Result.Add(path);
+    end;
   end;
 end;
 
@@ -661,6 +671,7 @@ end;
 function PasteFromClipboard(out ClipboardOp: TClipboardOperation; out filenames:TStringList):Boolean;
 var
   formatId: TClipboardFormat;
+  uriDec: Boolean = False;
   uriList: String;
   s: String;
 begin
@@ -704,8 +715,8 @@ begin
         uriList := Copy(s, 1 + Length(CopyText), Length(s)-Length(CopyText));
     end;
 
-    if Length(uriList) > 0 then
-      uriList := URIDecode(Trim(uriList));
+    uriList := Trim(uriList);
+    uriDec := Length(uriList) > 0;
   end
 
   else
@@ -745,8 +756,8 @@ begin
     if uriList = '' then
     begin
       uriList := GetClipboardFormatAsString(uriListMime);
-      if Length(uriList) > 0 then
-        uriList := URIDecode(Trim(uriList));
+      uriList := Trim(uriList);
+      uriDec := Length(uriList) > 0;
     end;
 
     // Try plain texts now.
@@ -767,7 +778,7 @@ begin
     if uriList = '' then Exit;
   end;
 
-  filenames := ExtractFilenames(uriList);
+  filenames := ExtractFilenames(uriList, uriDec);
 
   if (filenames <> nil) and (filenames.Count > 0) then
     Result := True;
