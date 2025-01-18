@@ -54,7 +54,7 @@ build_doublecmd()
   # Create *.dmg package
   HDI_TRY=1
 
-  while [ $HDI_TRY -le 3 ]; do
+  while [ $HDI_TRY -le 5 ]; do
 
   echo "Try to create a package $HDI_TRY ..."
 
