@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    SevenZip archiver plugin
 
-   Copyright (C) 2017-2023 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2017-2025 Alexander Koblov (alexx2000@mail.ru)
 
    Based on Far Manager arclite plugin
 
@@ -246,6 +246,7 @@ var
   NumMethods: UInt32 = 1;
   ACodecInfo: TCodecInfo;
   ALibraryInfo: TLibraryInfo;
+  GetModuleProp: TGetModuleProp;
   ACompressInfo: ICompressCodecsInfo;
 begin
   AFiles:= FindAllFiles(ExtractFilePath(SevenzipLibraryName) + 'Codecs', '*.' + SharedSuffix);
@@ -254,6 +255,12 @@ begin
     Handle:= mbLoadLibrary(AFiles[Index]);
     if Handle <> 0 then
     begin
+      GetModuleProp:= GetProcAddress(Handle, 'GetModuleProp');
+      if not CheckModule(GetModuleProp) then
+      begin
+        FreeLibrary(Handle);
+        Continue;
+      end;
       ALibraryInfo:= TLibraryInfo.Create;
 
       ALibraryInfo.Handle:= Handle;

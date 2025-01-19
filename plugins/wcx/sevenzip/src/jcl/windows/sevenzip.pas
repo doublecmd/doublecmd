@@ -68,6 +68,7 @@ uses
   {$IFDEF UNITVERSIONING}
   JclUnitVersioning,
   {$ENDIF UNITVERSIONING}
+  SysUtils,
   DCJclAlternative;
 
 //DOM-IGNORE-BEGIN
@@ -431,6 +432,23 @@ const
   kDecoderIsAssigned = 7;
   kEncoderIsAssigned = 8;
 
+const
+  // namespace NModuleInterfaceType
+  (*
+    virtual destructor in IUnknown:
+    - no  : 7-Zip (Windows)
+    - no  : 7-Zip (Linux) (v23) in default mode
+    - yes : p7zip
+    - yes : 7-Zip (Linux) before v23
+    - yes : 7-Zip (Linux) (v23), if Z7_USE_VIRTUAL_DESTRUCTOR_IN_IUNKNOWN is defined
+  *)
+  k_IUnknown_VirtDestructor_No  = 0;
+  k_IUnknown_VirtDestructor_Yes = 1;
+
+  // namespace NModulePropID
+  kInterfaceType = 0;  // VT_UI4
+  kVersion       = 1;  // VT_UI4
+
 // IProgress.h
 type
   IProgress = interface(IUnknown)
@@ -438,7 +456,7 @@ type
     function SetTotal(Total: Int64): HRESULT; winapi;
     function SetCompleted(CompleteValue: PInt64): HRESULT; winapi;
   end;
-  
+
 // IArchive.h
 const
   // file time type
@@ -633,6 +651,7 @@ type
   TGetHandlerProperty2 = function (FormatIndex: Cardinal; PropID: TPropID; out Value: TPropVariant): HRESULT; winapi;
   TGetHandlerProperty = function (PropID: TPropID; out Value: TPropVariant): HRESULT; winapi;
   TGetMethodProperty = function (CodecIndex: Cardinal; PropID: TPropID; out Value: TPropVariant): HRESULT; winapi;
+  TGetModuleProp = function(PropID: TPropID; out Value: TPropVariant): HRESULT; winapi;
   TGetNumberOfFormatsFunc = function (NumFormats: PCardinal): HRESULT; winapi;
   TGetNumberOfMethodsFunc = function (NumMethods: PCardinal): HRESULT; winapi;
   TSetLargePageMode = function: HRESULT; winapi;
@@ -642,6 +661,7 @@ var
   GetHandlerProperty2: TGetHandlerProperty2 = nil;
   GetHandlerProperty: TGetHandlerProperty = nil;
   GetMethodProperty: TGetMethodProperty = nil;
+  GetModuleProp: TGetModuleProp = nil;
   GetNumberOfFormats: TGetNumberOfFormatsFunc = nil;
   GetNumberOfMethods: TGetNumberOfMethodsFunc = nil;
   SetLargePageMode: TSetLargePageMode = nil;
@@ -670,6 +690,7 @@ const
   GetHandlerProperty2DefaultExportName = 'GetHandlerProperty2';
   GetHandlerPropertyDefaultExportName = 'GetHandlerProperty';
   GetMethodPropertyDefaultExportName = 'GetMethodProperty';
+  GetModulePropDefaultExportName = 'GetModuleProp';
   GetNumberOfFormatsDefaultExportName = 'GetNumberOfFormats';
   GetNumberOfMethodsDefaultExportName = 'GetNumberOfMethods';
   SetLargePageModeDefaultExportName = 'SetLargePageMode';
@@ -681,6 +702,7 @@ var
   GetHandlerProperty2ExportName: string = GetHandlerProperty2DefaultExportName;
   GetHandlerPropertyExportName: string = GetHandlerPropertyDefaultExportName;
   GetMethodPropertyExportName: string = GetMethodPropertyDefaultExportName;
+  GetModulePropExportName: string = GetModulePropDefaultExportName;
   GetNumberOfFormatsExportName: string = GetNumberOfFormatsDefaultExportName;
   GetNumberOfMethodsExportName: string = GetNumberOfMethodsDefaultExportName;
   SetLargePageModeExportName: string = SetLargePageModeDefaultExportName;
@@ -690,6 +712,8 @@ var
 function Load7Zip: Boolean;
 function Is7ZipLoaded: Boolean;
 procedure Unload7Zip;
+
+function CheckModule(GetProp: TGetModuleProp): Boolean;
 
 {$IFDEF UNITVERSIONING}
 const
@@ -729,6 +753,7 @@ begin
     @GetHandlerProperty2 := GetModuleSymbol(SevenzipLibraryHandle, GetHandlerProperty2ExportName);
     @GetHandlerProperty := GetModuleSymbol(SevenzipLibraryHandle, GetHandlerPropertyExportName);
     @GetMethodProperty := GetModuleSymbol(SevenzipLibraryHandle, GetMethodPropertyExportName);
+    @GetModuleProp := GetModuleSymbol(SevenzipLibraryHandle, GetModulePropExportName);
     @GetNumberOfFormats := GetModuleSymbol(SevenzipLibraryHandle, GetNumberOfFormatsExportName);
     @GetNumberOfMethods := GetModuleSymbol(SevenzipLibraryHandle, GetNumberOfMethodsExportName);
     @SetLargePageMode := GetModuleSymbol(SevenzipLibraryHandle, SetLargePageModeExportName);
@@ -742,7 +767,14 @@ begin
     Result := Assigned(@CreateObject) and Assigned(@GetHandlerProperty2) and
       Assigned(@GetHandlerProperty) and Assigned(@GetMethodProperty) and
       Assigned(@GetNumberOfFormats) and Assigned(@GetNumberOfMethods) and
-      Assigned(@SetLargePageMode);
+      Assigned(@SetLargePageMode)
+{$IF DEFINED(UNIX)}
+      and Assigned(@SysAllocString) and Assigned(@SysFreeString)
+      and Assigned(@SysStringByteLen) and CheckModule(@GetModuleProp)
+{$ENDIF}
+      ;
+
+    if not Result then Unload7Zip;
   end;
 end;
 {$ELSE ~7ZIP_LINKONREQUEST}
@@ -773,6 +805,31 @@ begin
   JclSysUtils.UnloadModule(SevenzipLibraryHandle);
   {$ENDIF 7ZIP_LINKONREQUEST}
 end;
+
+function CheckModule(GetProp: TGetModuleProp): Boolean;
+{$IF DEFINED(MSWINDOWS)}
+begin
+  Result:= True;
+end;
+{$ELSE}
+var
+  This: UInt32;
+  Value: TPropVariant;
+begin
+  if (@GetProp = nil) then
+  begin
+    Value.ulVal:= k_IUnknown_VirtDestructor_Yes;
+  end
+  else begin
+    Value.vt:= VT_EMPTY;
+    if GetProp(kInterfaceType, Value) <> S_OK then
+      Exit(False);
+    if (Value.vt <> VT_UI4) then Exit(False);
+  end;
+  This:= Ord(not IsEqualGUID(IUnknown, System.IUnknown));
+  Result:= (Value.ulVal = This);
+end;
+{$ENDIF}
 
 {$IFDEF UNITVERSIONING}
 initialization
