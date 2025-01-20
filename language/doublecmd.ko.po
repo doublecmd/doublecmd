@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Double Commander 1.1.0 alpha\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-11-15 11:15+0300\n"
-"PO-Revision-Date: 2024-12-27 19:38+0900\n"
+"PO-Revision-Date: 2025-01-20 20:43+0900\n"
 "Last-Translator: VenusGirl: venusgirl@outlook.com/\n"
 "Language-Team: 비너스걸: https://venusgirls.tistory.com/\n"
 "Language: ko\n"
@@ -2083,7 +2083,7 @@ msgstr "다음 명령줄"
 
 #: tfrmmain.actcmdlinenext.hint
 msgid "Set command line to next command in history"
-msgstr "내역에서 명령줄을 다음 명령으로 설정"
+msgstr "기록에서 명령줄을 다음 명령으로 설정"
 
 #: tfrmmain.actcmdlineprev.caption
 msgid "Previous Command Line"
@@ -2091,7 +2091,7 @@ msgstr "이전 명령줄"
 
 #: tfrmmain.actcmdlineprev.hint
 msgid "Set command line to previous command in history"
-msgstr "내역에서 명령줄을 이전 명령으로 설정"
+msgstr "기록에서 명령줄을 이전 명령으로 설정"
 
 #: tfrmmain.actcolumnsview.caption
 msgid "Full"
@@ -2761,7 +2761,7 @@ msgstr "버튼 메뉴 표시"
 
 #: tfrmmain.actshowcmdlinehistory.caption
 msgid "Show command line history"
-msgstr "명령줄 내역 표시"
+msgstr "명령줄 기록 표시"
 
 #: tfrmmain.actshowmainmenu.caption
 msgid "Menu"
@@ -2883,15 +2883,15 @@ msgstr "보기"
 
 #: tfrmmain.actviewhistory.caption
 msgid "Show history of visited paths for active view"
-msgstr "활성 보기를 위해 방문한 경로 내역 표시"
+msgstr "활성 보기를 위해 방문한 경로 기록 표시"
 
 #: tfrmmain.actviewhistorynext.caption
 msgid "Go to next entry in history"
-msgstr "내역의 다음 항목으로 가기"
+msgstr "기록의 다음 항목으로 가기"
 
 #: tfrmmain.actviewhistoryprev.caption
 msgid "Go to previous entry in history"
-msgstr "내역의 이전 항목으로 가기"
+msgstr "기록의 이전 항목으로 가기"
 
 #: tfrmmain.actviewlogfile.caption
 msgid "View log file"
@@ -4287,15 +4287,15 @@ msgstr "편집(&E)"
 
 #: tfrmoptionsconfiguration.cbcmdlinehistory.caption
 msgid "Co&mmand line history"
-msgstr "명령줄 내역(&M)"
+msgstr "명령줄 기록(&M)"
 
 #: tfrmoptionsconfiguration.cbdirhistory.caption
 msgid "&Directory history"
-msgstr "디렉터리 내역(&D)"
+msgstr "디렉터리 기록(&D)"
 
 #: tfrmoptionsconfiguration.cbfilemaskhistory.caption
 msgid "&File mask history"
-msgstr "파일 마스크 내역(&F)"
+msgstr "파일 마스크 기록(&F)"
 
 #: tfrmoptionsconfiguration.chkfoldertabs.caption
 msgctxt "tfrmoptionsconfiguration.chkfoldertabs.caption"
@@ -4308,7 +4308,7 @@ msgstr "구성 저장(&V)"
 
 #: tfrmoptionsconfiguration.chksearchreplacehistory.caption
 msgid "Searc&h/Replace history"
-msgstr "검색/바꾸기 내역(&H)"
+msgstr "검색/바꾸기 기록(&H)"
 
 #: tfrmoptionsconfiguration.chkwindowstate.caption
 msgid "Main window state"
@@ -5538,7 +5538,7 @@ msgstr "유지하려는 기존 탭:"
 
 #: tfrmoptionsfavoritetabs.lblsavedirhistory.caption
 msgid "Save dir history:"
-msgstr "디렉터리 내역 저장:"
+msgstr "디렉터리 기록 저장:"
 
 #: tfrmoptionsfavoritetabs.lbltargetpanelleftsavedtabs.caption
 msgid "Tabs saved on left to be restored to:"
@@ -7337,7 +7337,7 @@ msgstr "오른쪽에 저장된 탭은 다음과 같이 복원:"
 #: tfrmoptionstabsextra.lblfavoritetabssavedirhistory.caption
 msgctxt "tfrmoptionstabsextra.lblfavoritetabssavedirhistory.caption"
 msgid "Keep saving dir history with Favorite Tabs:"
-msgstr "즐겨찾기 탭을 사용하여 디렉터리 내역 저장:"
+msgstr "즐겨찾기 탭을 사용하여 디렉터리 기록 저장:"
 
 #: tfrmoptionstabsextra.rgwheretoadd.caption
 msgid "Default position in menu when saving a new Favorite Tabs:"
@@ -8037,15 +8037,15 @@ msgstr "마우스 클릭 한 번으로 트리 선택 후 종료"
 
 #: tfrmoptionstreeviewmenu.ckbuseforcommandlinehistory.caption
 msgid "Use it for Command Line History"
-msgstr "명령줄 내역에 사용"
+msgstr "명령줄 기록에 사용"
 
 #: tfrmoptionstreeviewmenu.ckbusefordirhistory.caption
 msgid "Use it for the Dir History"
-msgstr "디렉터리 내역에 사용"
+msgstr "디렉터리 기록에 사용"
 
 #: tfrmoptionstreeviewmenu.ckbuseforviewhistory.caption
 msgid "Use it for the View History (Visited paths for active view)"
-msgstr "보기 내역 (활성 보기의 방문 경로)에 사용"
+msgstr "보기 기록 (활성 보기의 방문 경로)에 사용"
 
 #: tfrmoptionstreeviewmenu.gbbehavior.caption
 msgid "Behavior regarding selection:"
@@ -8073,7 +8073,7 @@ msgstr "즐겨찾기 탭 포함:"
 
 #: tfrmoptionstreeviewmenu.lblusewithhistory.caption
 msgid "With History:"
-msgstr "내역:"
+msgstr "기록:"
 
 #: tfrmoptionstreeviewmenucolor.btfont.caption
 msgctxt "tfrmoptionstreeviewmenucolor.btfont.caption"
@@ -10823,13 +10823,11 @@ msgid "AirDrop"
 msgstr "AirDrop"
 
 #: ulng.rsmfstbicommandmenudirectoryhotlist
-#, fuzzy
 msgctxt "ulng.rsmfstbicommandmenudirectoryhotlist"
 msgid "Directory Hotlist"
 msgstr "디렉터리 주요 목록"
 
 #: ulng.rsmfstbicommandmenufavoritetabs
-#, fuzzy
 msgctxt "ulng.rsmfstbicommandmenufavoritetabs"
 msgid "Favorite Tabs"
 msgstr "즐겨찾기 탭"
@@ -10839,7 +10837,6 @@ msgid "macOS QuickLook"
 msgstr "macOS QuickLook"
 
 #: ulng.rsmfstbicommandtitle
-#, fuzzy
 msgctxt "ulng.rsmfstbicommandtitle"
 msgid "Command"
 msgstr "명령"
@@ -10849,7 +10846,6 @@ msgid "Compare by Contents..."
 msgstr "내용별 비교..."
 
 #: ulng.rsmfstbicomparetitle
-#, fuzzy
 msgctxt "ulng.rsmfstbicomparetitle"
 msgid "Compare"
 msgstr "비교"
@@ -10868,7 +10864,6 @@ msgid "Edit..."
 msgstr "편집..."
 
 #: ulng.rsmfstbiedittitle
-#, fuzzy
 msgctxt "ulng.rsmfstbiedittitle"
 msgid "Edit"
 msgstr "편집"
@@ -10932,7 +10927,6 @@ msgid "Search Files..."
 msgstr "파일 검색..."
 
 #: ulng.rsmfstbisearchtitle
-#, fuzzy
 msgctxt "ulng.rsmfstbisearchtitle"
 msgid "Search"
 msgstr "검색"
@@ -10990,7 +10984,6 @@ msgid "Open in Terminal"
 msgstr "터미널에서 열기"
 
 #: ulng.rsmfstbiterminaltitle
-#, fuzzy
 msgctxt "ulng.rsmfstbiterminaltitle"
 msgid "Terminal"
 msgstr "터미널"
@@ -11444,7 +11437,7 @@ msgstr "성공적으로 내보낸 즐겨찾기 탭 수: %d / %d"
 
 #: ulng.rsmsgfavoritetabsextramode
 msgid "Default extra setting for save dir history for new Favorite Tabs:"
-msgstr "새 즐겨찾기 탭에 대한 디렉터리 내역 저장에 대한 기본 추가 설정:"
+msgstr "새 즐겨찾기 탭에 대한 디렉터리 기록 저장에 대한 기본 추가 설정:"
 
 #: ulng.rsmsgfavoritetabsimportedsuccessfully
 #, object-pascal-format
@@ -11466,7 +11459,7 @@ msgstr "마지막 즐겨찾기 탭 수정이 저장되었습니다. 계속하기
 #: ulng.rsmsgfavoritetabssimplemode
 msgctxt "ulng.rsmsgfavoritetabssimplemode"
 msgid "Keep saving dir history with Favorite Tabs:"
-msgstr "즐겨찾기 탭을 사용하여 디렉터리 내역 저장:"
+msgstr "즐겨찾기 탭을 사용하여 디렉터리 기록 저장:"
 
 #: ulng.rsmsgfavoritetabssubmenuname
 msgctxt "ulng.rsmsgfavoritetabssubmenuname"
@@ -12689,7 +12682,6 @@ msgid "Creating directory \"%s\""
 msgstr "\"%s\" 디렉터리를 만드는 중"
 
 #: ulng.rsoperdeleting
-msgctxt "ulng.rsoperdeleting"
 msgid "Deleting"
 msgstr "삭제 중"
 
@@ -13073,13 +13065,11 @@ msgstr "명령"
 
 #: ulng.rsopthotkeysdeletetrashcanoverrides
 #, object-pascal-format
-msgctxt "ulng.rsopthotkeysdeletetrashcanoverrides"
 msgid "Shortcut %s for cm_Delete has a parameter that overrides this setting. Do you want to change this parameter to use the global setting?"
 msgstr "cm_Delete의 바로 가기 %s에 이 설정을 재정의하는 매개 변수가 있습니다. 전역 설정을 사용하려면 이 매개 변수를 변경하시겠습니까?"
 
 #: ulng.rsopthotkeysdeletetrashcanparameterexists
 #, object-pascal-format
-msgctxt "ulng.rsopthotkeysdeletetrashcanparameterexists"
 msgid "Shortcut %s for cm_Delete needs to have a parameter changed to match shortcut %s. Do you want to change it?"
 msgstr "cm_Delete의 바로 가기 %s에 대해 바로 가기 %s와 일치하도록 매개 변수를 변경해야 합니다. 변경하시겠습니까?"
 
@@ -13154,27 +13144,22 @@ msgid "used for this command but with different parameters"
 msgstr "이 명령에 사용되지만 매개 변수가 다른 경우"
 
 #: ulng.rsoptionseditorarchivers
-msgctxt "ulng.rsoptionseditorarchivers"
 msgid "Archivers"
 msgstr "압축기"
 
 #: ulng.rsoptionseditorautorefresh
-msgctxt "ulng.rsoptionseditorautorefresh"
 msgid "Auto refresh"
 msgstr "자동 새로 고침"
 
 #: ulng.rsoptionseditorbehavior
-msgctxt "ulng.rsoptionseditorbehavior"
 msgid "Behaviors"
 msgstr "동작"
 
 #: ulng.rsoptionseditorbriefview
-msgctxt "ulng.rsoptionseditorbriefview"
 msgid "Brief"
 msgstr "간단히"
 
 #: ulng.rsoptionseditorcolors
-msgctxt "ulng.rsoptionseditorcolors"
 msgid "Colors"
 msgstr "색상"
 
@@ -13218,7 +13203,6 @@ msgid "File associations extra"
 msgstr "파일 연결 추가 기능"
 
 #: ulng.rsoptionseditorfileassoc
-msgctxt "ulng.rsoptionseditorfileassoc"
 msgid "File associations"
 msgstr "파일 연결"
 
@@ -13233,7 +13217,6 @@ msgid "File operations"
 msgstr "파일 작업"
 
 #: ulng.rsoptionseditorfilepanels
-msgctxt "ulng.rsoptionseditorfilepanels"
 msgid "File panels"
 msgstr "파일 패널"
 
@@ -13274,7 +13257,6 @@ msgid "Highlighters"
 msgstr "강조"
 
 #: ulng.rsoptionseditorhotkeys
-msgctxt "ulng.rsoptionseditorhotkeys"
 msgid "Hot keys"
 msgstr "단축키"
 
@@ -13284,7 +13266,6 @@ msgid "Icons"
 msgstr "아이콘"
 
 #: ulng.rsoptionseditorignorelist
-msgctxt "ulng.rsoptionseditorignorelist"
 msgid "Ignore list"
 msgstr "무시 목록"
 
@@ -13293,22 +13274,18 @@ msgid "Keys"
 msgstr "키"
 
 #: ulng.rsoptionseditorlanguage
-msgctxt "ulng.rsoptionseditorlanguage"
 msgid "Language"
 msgstr "언어"
 
 #: ulng.rsoptionseditorlayout
-msgctxt "ulng.rsoptionseditorlayout"
 msgid "Layout"
 msgstr "배치"
 
 #: ulng.rsoptionseditorlog
-msgctxt "ulng.rsoptionseditorlog"
 msgid "Log"
 msgstr "로그"
 
 #: ulng.rsoptionseditormiscellaneous
-msgctxt "ulng.rsoptionseditormiscellaneous"
 msgid "Miscellaneous"
 msgstr "기타 설정"
 
@@ -13338,7 +13315,6 @@ msgid "Plugins"
 msgstr "플러그인"
 
 #: ulng.rsoptionseditorquicksearch
-msgctxt "ulng.rsoptionseditorquicksearch"
 msgid "Quick search/filter"
 msgstr "빠른 검색/필터"
 
@@ -13360,12 +13336,10 @@ msgid "Toolbar Middle"
 msgstr "가운데 도구 모음"
 
 #: ulng.rsoptionseditortools
-msgctxt "ulng.rsoptionseditortools"
 msgid "Tools"
 msgstr "도구"
 
 #: ulng.rsoptionseditortooltips
-msgctxt "ulng.rsoptionseditortooltips"
 msgid "Tooltips"
 msgstr "도구 설명"
 
@@ -13636,7 +13610,6 @@ msgid "Can not change owner for \"%s\""
 msgstr "\"%s\"에 대한 소유자를 변경할 수 없음"
 
 #: ulng.rspropsfile
-msgctxt "ulng.rspropsfile"
 msgid "File"
 msgstr "파일"
 
@@ -13791,17 +13764,14 @@ msgid "Bytes"
 msgstr "바이트"
 
 #: ulng.rssizeunitgbytes
-msgctxt "ulng.rssizeunitgbytes"
 msgid "Gigabytes"
 msgstr "기가바이트"
 
 #: ulng.rssizeunitkbytes
-msgctxt "ulng.rssizeunitkbytes"
 msgid "Kilobytes"
 msgstr "킬로바이트"
 
 #: ulng.rssizeunitmbytes
-msgctxt "ulng.rssizeunitmbytes"
 msgid "Megabytes"
 msgstr "메가바이트"
 
@@ -13880,7 +13850,7 @@ msgstr "Tremendous-엄청난 VenusGirl"
 
 #: ulng.rsstrtvmchoosedirhistory
 msgid "Choose your directory from Dir History"
-msgstr "디렉터리 내역에서 디렉터리 선택"
+msgstr "디렉터리 기록에서 디렉터리 선택"
 
 #: ulng.rsstrtvmchoosefavoritetabs
 msgid "Choose you Favorite Tabs:"
@@ -13888,7 +13858,7 @@ msgstr "즐겨찾기 탭 선택:"
 
 #: ulng.rsstrtvmchoosefromcmdlinehistory
 msgid "Choose your command from Command Line History"
-msgstr "명령줄 내역에서 명령 선택"
+msgstr "명령줄 기록에서 명령 선택"
 
 #: ulng.rsstrtvmchoosefrommainmenu
 msgid "Choose your action from Main Menu"
@@ -13904,7 +13874,7 @@ msgstr "주요 디렉터리에서 디렉터리 선택:"
 
 #: ulng.rsstrtvmchooseviewhistory
 msgid "Choose your directory from File View History"
-msgstr "파일 보기 내역에서 디렉터리 선택"
+msgstr "파일 보기 기록에서 디렉터리 선택"
 
 #: ulng.rsstrtvmchooseyourfileordir
 msgid "Choose your file or your directory"
@@ -13915,12 +13885,10 @@ msgid "Error creating symlink."
 msgstr "심볼 링크를 만드는 동안 오류가 발생했습니다."
 
 #: ulng.rssyndefaulttext
-msgctxt "ulng.rssyndefaulttext"
 msgid "Default text"
 msgstr "기본 텍스트"
 
 #: ulng.rssynlangplaintext
-msgctxt "ulng.rssynlangplaintext"
 msgid "Plain text"
 msgstr "일반 텍스트"
 
@@ -13929,7 +13897,6 @@ msgid "Do nothing;Close tab;Access Favorite Tabs;Tabs popup menu"
 msgstr "아무것도 하지 않음;탭 닫기;즐겨찾기 탭 액세스;탭 팝업 메뉴"
 
 #: ulng.rstimeunitday
-msgctxt "ulng.rstimeunitday"
 msgid "Day(s)"
 msgstr "일"
 
