@@ -434,11 +434,11 @@ begin
     case TTargetId(info) of
 
       tidTextUriList:
-        uriList := URIDecode(Trim(uriList));
+        uriList := Trim(uriList);
 
       tidTextPlain:
         // try decoding, as text/plain may also be percent-encoded
-        uriList := URIDecode(Trim(uriList));
+        uriList := Trim(uriList);
 
       else
         Exit; // not what we hoped for
@@ -446,7 +446,7 @@ begin
     end;
 
     try
-      FileNamesList := ExtractFilenames(uriList);
+      FileNamesList := ExtractFilenames(uriList, True);
 
       if Assigned(FileNamesList) and (FileNamesList.Count > 0) then
         Result := DragDropTarget.GetDropEvent()(FileNamesList, DropEffect, CursorPosition);
