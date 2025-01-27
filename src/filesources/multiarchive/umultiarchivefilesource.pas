@@ -582,12 +582,14 @@ begin
     begin
       ArchiveItem:= TArchiveItem.Create;
       ArchiveItem.FileName := ExtractOnlyFileName(ArchiveFileName);
+      {
       ArchiveItem.Year:= ArchiveTime.Year;
       ArchiveItem.Month:= ArchiveTime.Month;
       ArchiveItem.Day:= ArchiveTime.Day;
       ArchiveItem.Hour:= ArchiveTime.Hour;
       ArchiveItem.Minute:= ArchiveTime.Minute;
       ArchiveItem.Second:= ArchiveTime.Second;
+      }
       ArchiveItem.Attributes := mbFileGetAttr(ArchiveFileName);
       ArchiveItem.UnpSize:= -1;
       ArchiveItem.PackSize:= mbFileSize(ArchiveFileName);
@@ -618,12 +620,14 @@ begin
           ArchiveItem:= TArchiveItem.Create;
           try
             ArchiveItem.FileName := FAllDirsList.List[I]^.Key;
+            {
             ArchiveItem.Year:= ArchiveTime.Year;
             ArchiveItem.Month:= ArchiveTime.Month;
             ArchiveItem.Day:= ArchiveTime.Day;
             ArchiveItem.Hour:= ArchiveTime.Hour;
             ArchiveItem.Minute:= ArchiveTime.Minute;
             ArchiveItem.Second:= ArchiveTime.Second;
+            }
             ArchiveItem.Attributes := FDirectoryAttribute;
             AFileList.Add(ArchiveItem);
           except
