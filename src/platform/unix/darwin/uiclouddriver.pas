@@ -39,6 +39,7 @@ type
     function IsSystemFile(aFile: TFile): Boolean; override;
     function IsPathAtRoot(Path: String): Boolean; override;
     function GetDisplayFileName(aFile: TFile): String; override;
+    function GetFileName(aFile: TFile): String; override;
     function QueryContextMenu(AFiles: TFiles; var AMenu: TPopupMenu): Boolean; override;
   end;
 
@@ -349,6 +350,11 @@ begin
     Result:= Inherited
   else
     Result:= getMacOSDisplayNameFromPath( aFile.FullPath );
+end;
+
+function TiCloudDriverFileSource.GetFileName(aFile: TFile): String;
+begin
+  Result:= self.GetDisplayFileName( aFile );
 end;
 
 function TiCloudDriverFileSource.QueryContextMenu(AFiles: TFiles; var AMenu: TPopupMenu): Boolean;

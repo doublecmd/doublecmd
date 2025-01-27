@@ -151,7 +151,8 @@ type
 
     function IsSystemFile(aFile: TFile): Boolean;
     function IsHiddenFile(aFile: TFile): Boolean;
-    function GetDisplayFileName(aFile: TFile): String; virtual;
+    function GetFileName(aFile: TFile): String;
+    function GetDisplayFileName(aFile: TFile): String;
 
     function IsPathAtRoot(Path: String): Boolean;
     function GetParentDir(sPath : String): String;
@@ -160,6 +161,7 @@ type
     function GetPathType(sPath : String): TPathType;
     function GetFreeSpace(Path: String; out FreeSize, TotalSize : Int64) : Boolean;
     function GetLocalName(var aFile: TFile): Boolean;
+
     function CreateDirectory(const Path: String): Boolean;
     function FileSystemEntryExists(const Path: String): Boolean;
     function GetDefaultView(out DefaultView: TFileSourceFields): Boolean;
@@ -343,6 +345,7 @@ type
     function IsSystemFile(aFile: TFile): Boolean; virtual;
     function IsHiddenFile(aFile: TFile): Boolean; virtual;
     function GetDisplayFileName(aFile: TFile): String; virtual;
+    function GetFileName(aFile: TFile): String; virtual;
 
     function IsPathAtRoot(Path: String): Boolean; virtual;
 
@@ -864,6 +867,11 @@ end;
 function TFileSource.GetDisplayFileName(aFile: TFile): String;
 begin
   Result:= EmptyStr;
+end;
+
+function TFileSource.GetFileName(aFile: TFile): String;
+begin
+  Result:= aFile.Name;
 end;
 
 function TFileSource.GetConnection(Operation: TFileSourceOperation): TFileSourceConnection;
