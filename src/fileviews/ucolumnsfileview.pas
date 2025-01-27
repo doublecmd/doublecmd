@@ -2085,6 +2085,9 @@ var
     ColRowToOffset(True, True, params.col, params.drawingRect.Left, params.drawingRect.Right );
     ColRowToOffset(False, True, params.row, params.drawingRect.Top, params.drawingRect.Bottom );
 
+    if params.row <= FixedRows then
+      Exit;
+
     params.displayFile:= ColumnsView.FFiles[params.row - FixedRows];
     handler.click( params );
   end;
