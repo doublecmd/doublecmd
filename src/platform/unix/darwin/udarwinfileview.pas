@@ -90,8 +90,11 @@ begin
   iCloudFS.mountAppPoint( 'com~apple~Pages' );
   iCloudFS.mountAppPoint( 'com~apple~Numbers' );
   iCloudFS.mountAppPoint( 'com~apple~Keynote' );
-  iCloudFS.mountAppPoint( 'iCloud~com~apple~Playgrounds' );
   iCloudFS.mountAppPoint( 'com~apple~ScriptEditor2' );
+  iCloudFS.mountAppPoint( 'iCloud~is~workflow~my~workflows' );
+  iCloudFS.mountAppPoint( 'iCloud~com~apple~Playgrounds' );
+  iCloudFS.mountAppPoint( 'iCloud~com~toketaware~ios~ithoughts' );
+  iCloudFS.mountAppPoint( 'iCloud~net~xmind~brownieapp' );
   iCloudFS.mount( '~/Library/Mobile Documents/com~apple~CloudDocs', '/' );
 
   NewPage.FileView.AddFileSource(iCloudFS, iCloudFS.GetRootDir);
