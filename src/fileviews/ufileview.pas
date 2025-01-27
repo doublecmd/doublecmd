@@ -2994,7 +2994,7 @@ begin
     if FileSource is TSearchResultFileSource then
       SetFileSystemPath(Self, aFile.FullPath)
     else
-      CurrentPath := CurrentPath + IncludeTrailingPathDelimiter(aFile.Name);
+      CurrentPath := CurrentPath + IncludeTrailingPathDelimiter(FileSource.GetFileName(aFile));
   end;
 end;
 

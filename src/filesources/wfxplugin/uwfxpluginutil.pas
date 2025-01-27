@@ -278,7 +278,7 @@ begin
     if FRenamingRootDir and (aFile = FRootDir) then
       TargetName := FRenameMask
     else if FRenamingFiles then
-      TargetName := ApplyRenameMask(aFile, FRenameNameMask, FRenameExtMask)
+      TargetName := ApplyRenameMask(FWfxPluginFileSource, aFile, FRenameNameMask, FRenameExtMask)
     else
       TargetName := aFile.Name;
 

@@ -3185,7 +3185,7 @@ begin
   if Files.Count > 1 then
     Result := Format(sLngMulti, [Files.Count])
   else
-    Result := Format(sLngOne, [Files[0].Name]);
+    Result := Format(sLngOne, [ActiveFrame.FileSource.GetFileName(Files[0])]);
 end;
 
 procedure TfrmMain.miHotAddOrConfigClick(Sender: TObject);

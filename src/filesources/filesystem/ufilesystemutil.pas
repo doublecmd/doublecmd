@@ -10,13 +10,14 @@ interface
 uses
   Classes, SysUtils, uDescr, uLog, uGlobs, DCOSUtils,
   uFile,
+  uFileSource,
   uFileSourceOperation,
   uFileSourceOperationOptions,
   uFileSourceOperationUI,
   uFileSourceCopyOperation,
   uFileSourceTreeBuilder;
 
-  function ApplyRenameMask(aFile: TFile; NameMask: String; ExtMask: String): String; overload;
+  function ApplyRenameMask(FileSource: IFileSource; aFile: TFile; NameMask: String; ExtMask: String): String; overload;
   procedure FillAndCount(Files: TFiles;
                          CountDirs: Boolean;
                          ExcludeRootDir: Boolean;
@@ -60,6 +61,7 @@ type
     FMode: TFileSystemOperationHelperMode;
     FBuffer: Pointer;
     FBufferSize: LongWord;
+    FFileSource: IFileSource;
     FRootTargetPath: String;
     FRenameMask: String;
     FRenameNameMask, FRenameExtMask: String;
@@ -151,6 +153,7 @@ type
 
                        OperationThread: TThread;
                        Mode: TFileSystemOperationHelperMode;
+                       FileSource: IFileSource;
                        TargetPath: String;
                        StartingStatistics: TFileSourceCopyOperationStatistics);
     destructor Destroy; override;
@@ -177,7 +180,7 @@ implementation
 
 uses
   uDebug, uDCUtils, uOSUtils, DCStrUtils, FileUtil, uFindEx, DCClassesUtf8, uFileProcs, uLng,
-  DCBasicTypes, uFileSource, uFileSystemFileSource, uFileProperty, uAdministrator,
+  DCBasicTypes, uFileSystemFileSource, uFileProperty, uAdministrator,
   StrUtils, DCDateTimeUtils, uShowMsg, Forms, LazUTF8, uHash, uFileCopyEx, SysConst,
   Math, DateUtils
 {$IFDEF UNIX}
@@ -188,13 +191,16 @@ uses
 const
   HASH_TYPE = HASH_BEST;
 
-function ApplyRenameMask(aFile: TFile; NameMask: String; ExtMask: String): String; overload;
+function ApplyRenameMask(FileSource: IFileSource; aFile: TFile; NameMask: String; ExtMask: String): String; overload;
+var
+  filename: String;
 begin
+  filename:= FileSource.GetFileName( aFile );
   // Only change name for files.
   if aFile.IsDirectory or aFile.IsLink then
-    Result := aFile.Name
+    Result := filename
   else
-    Result := ApplyRenameMask(aFile.Name, NameMask, ExtMask);
+    Result := ApplyRenameMask(filename, NameMask, ExtMask);
 end;
 
 procedure FillAndCount(Files: TFiles; CountDirs: Boolean; ExcludeRootDir: Boolean;
@@ -399,6 +405,7 @@ constructor TFileSystemOperationHelper.Create(
   UpdateStatisticsFunction: TUpdateStatisticsFunction;
   ShowCompareFilesUIFunction: TShowCompareFilesUIFunction;
   OperationThread: TThread; Mode: TFileSystemOperationHelperMode;
+  FileSource: IFileSource;
   TargetPath: String; StartingStatistics: TFileSourceCopyOperationStatistics);
 begin
   AskQuestion := AskQuestionFunction;
@@ -423,6 +430,7 @@ begin
   FDirExistsOption := fsoodeNone;
   FSetPropertyError := fsoospeNone;
   FRootTargetPath := TargetPath;
+  FFileSource := FileSource;
   FRenameMask := '';
   FStatistics := StartingStatistics;
   FRenamingFiles := False;
@@ -1090,9 +1098,9 @@ begin
     if FRenamingRootDir and (aFile = FRootDir) then
       TargetName := CurrentTargetPath + FRenameMask
     else if FRenamingFiles then
-      TargetName := CurrentTargetPath + ApplyRenameMask(aFile, FRenameNameMask, FRenameExtMask)
+      TargetName := CurrentTargetPath + ApplyRenameMask(FFileSource, aFile, FRenameNameMask, FRenameExtMask)
     else
-      TargetName := CurrentTargetPath + aFile.Name;
+      TargetName := CurrentTargetPath + FFileSource.GetFileName(aFile);
 
     with FStatistics do
     begin
@@ -1437,7 +1445,7 @@ begin
 {$ENDIF}
 
     if (aNode.TheFile.Size > GetDiskMaxFileSize(ExtractFileDir(AbsoluteTargetFileName))) then
-      case AskQuestion('', Format(rsMsgFileSizeTooBig, [aNode.TheFile.Name]),
+      case AskQuestion('', Format(rsMsgFileSizeTooBig, [FFileSource.GetFileName(aNode.TheFile)]),
                        [fsourSkip, fsourAbort],
                        fsourSkip, fsourAbort) of
         fsourSkip:

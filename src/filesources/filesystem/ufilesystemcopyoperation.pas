@@ -180,6 +180,7 @@ begin
                         @ShowCompareFilesUI,
                         Thread,
                         fsohmCopy,
+                        (FileSource as IFileSource),
                         TargetPath,
                         FStatistics);
 

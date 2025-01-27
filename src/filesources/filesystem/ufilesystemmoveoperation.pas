@@ -153,6 +153,7 @@ begin
                         @ShowCompareFilesUI,
                         Thread,
                         fsohmMove,
+                        FileSource,
                         TargetPath,
                         FStatistics);
 
