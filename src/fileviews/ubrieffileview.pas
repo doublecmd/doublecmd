@@ -27,6 +27,7 @@ type
     procedure DoMouseMoveScroll(X, Y: Integer);
   protected
     procedure KeyDown(var Key : Word; Shift : TShiftState); override;
+    procedure MouseUp(Button: TMouseButton; Shift: TShiftState; X, Y: Integer); override;
     procedure MouseMove(Shift: TShiftState; X, Y: Integer); override;
     function  DoMouseWheelDown(Shift: TShiftState; MousePos: TPoint): Boolean; override;
     function  DoMouseWheelUp(Shift: TShiftState; MousePos: TPoint): Boolean; override;
@@ -352,6 +353,48 @@ begin
     if FileIndex <> InvalidFileIndex then
       FBriefView.Selection(SavedKey, FileIndex);
   end;
+end;
+
+procedure TBriefDrawGrid.MouseUp(Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
+
+  procedure handleMBLeft;
+  var
+    handler: TFileSourceUIHandler;
+    params: TFileSourceUIParams;
+    index: Integer;
+  begin
+    params:= Default( TFileSourceUIParams );
+    params.sender:= FBriefView;
+    params.fs:= FBriefView.FileSource;
+    params.multiColumns:= False;
+
+    handler:= params.fs.GetUIHandler;
+    if handler = nil then
+      Exit;
+
+    params.shift:= Shift;
+    params.x:= X;
+    params.y:= Y;
+    MouseToCell( X, Y, params.col, params.row );
+    if NOT self.IsRowIndexValid(params.row) then
+      Exit;
+
+    index:= CellToIndex( params.col, params.row );
+    if index < 0 then
+      Exit;
+
+    ColRowToOffset(True, True, params.col, params.drawingRect.Left, params.drawingRect.Right );
+    ColRowToOffset(False, True, params.row, params.drawingRect.Top, params.drawingRect.Bottom );
+
+    params.displayFile:= FBriefView.FFiles[index];
+    handler.click( params );
+  end;
+
+begin
+  if Button = mbLeft then
+    handleMBLeft
+  else
+    inherited;
 end;
 
 procedure TBriefDrawGrid.MouseMove(Shift: TShiftState; X, Y: Integer);
