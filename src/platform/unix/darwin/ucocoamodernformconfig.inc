@@ -691,11 +691,16 @@ const
         'MainForm.HorzSplit',
         'MainForm.SwapPanels',
 
+        'MainForm.Cloud',
+        'NSToolbarFlexibleSpaceItem',
+
         'MainForm.ShowMode',
         'NSToolbarFlexibleSpaceItem',
+
         'MainForm.Share',
         'MainForm.AirDrop',
         'NSToolbarFlexibleSpaceItem',
+
         'MainForm.QuickLook',
         'MainForm.Tag',
         'MainForm.Go',
@@ -713,6 +718,7 @@ const
         'MainForm.HorzSplit',
         'MainForm.SwapPanels',
 
+        'MainForm.Cloud',
         'MainForm.ShowMode',
         'MainForm.Share',
         'MainForm.AirDrop',
@@ -730,9 +736,7 @@ const
         'MainForm.Refresh',
         'MainForm.Compare',
         'MainForm.Sync',
-        'MainForm.Edit',
-
-        'MainForm.Cloud'
+        'MainForm.Edit'
       );
       itemCreator: nil;      // default item Creator
     );
