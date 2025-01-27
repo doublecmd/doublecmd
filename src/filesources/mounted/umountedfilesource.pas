@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, Generics.Collections,
-  uFileSource, uFileSourceManager,
+  uFile, uFileSource, uFileSourceManager,
   uFileSystemFileSource, uFileSystemMoveOperation,
   uFileSourceOperation, uFileSourceOperationTypes,
   uDCUtils, DCStrUtils;
@@ -27,10 +27,12 @@ type
   strict private
     _path: String;
     _point: String;
+    _name: String;
   public
     constructor Create( const path: String; const point: String );
     property path: String read _path;
     property point: String read _point;
+    property name: String read _name;
   end;
 
   TMountPoints = specialize TList<TMountPoint>;
@@ -54,6 +56,7 @@ type
     function GetProcessor: TFileSourceProcessor; override;
     function GetRealPath(const APath: String): String; override;
     function GetVirtualPath(const APath: String): String; override;
+    function GetFileName(aFile: TFile): String; override;
 
     function GetParentDir(sPath : String): String; override;
     function GetRootDir(sPath : String): String; override;
@@ -88,6 +91,7 @@ constructor TMountPoint.Create(const path: String; const point: String);
 begin
   _path:= path;
   _point:= point;
+  _name:= ExcludeLeadingPathDelimiter(ExcludeTrailingPathDelimiter( _point ));
 end;
 
 { TMountedFileSource }
@@ -179,6 +183,21 @@ begin
       Exit;
     end;
   end;
+end;
+
+function TMountedFileSource.GetFileName(aFile: TFile): String;
+var
+  mountPoint: TMountPoint;
+  path: String;
+begin
+  path:= IncludeTrailingPathDelimiter( aFile.FullPath );
+  for mountPoint in _mountPoints do begin
+    if path.Equals(mountPoint.path) then begin
+      Result:= mountPoint.name;
+      Exit;
+    end;
+  end;
+  Result:= inherited;
 end;
 
 function TMountedFileSource.GetParentDir(sPath : String): String;
