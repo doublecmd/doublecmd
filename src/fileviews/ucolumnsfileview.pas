@@ -2003,6 +2003,7 @@ begin
     params:= Default( TFileSourceUIParams );
     params.sender:= Self.ColumnsView;
     params.fs:= Self.ColumnsView.FileSource;
+    params.multiColumns:= True;
     params.col:= aCol;
     params.row:= aRow;
     params.displayFile:= aFile;
@@ -2070,6 +2071,7 @@ var
     params:= Default( TFileSourceUIParams );
     params.sender:= self.ColumnsView;
     params.fs:= self.ColumnsView.FileSource;
+    params.multiColumns:= True;
 
     handler:= params.fs.GetUIHandler;
     if handler = nil then

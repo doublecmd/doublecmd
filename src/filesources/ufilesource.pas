@@ -50,6 +50,7 @@ type
     fs: IFileSource;
     displayFile: TDisplayFile;
 
+    multiColumns: Boolean;   // True for ColumnsView, False for BriefView
     col: Integer;
     row: Integer;
     drawingRect: TRect;

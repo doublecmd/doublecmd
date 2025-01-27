@@ -534,6 +534,7 @@ begin
       params:= Default( TFileSourceUIParams );
       params.sender:= FBriefView;
       params.fs:= FBriefView.FileSource;
+      params.multiColumns:= False;
       params.col:= aCol;
       params.row:= aRow;
       params.displayFile:= aFile;

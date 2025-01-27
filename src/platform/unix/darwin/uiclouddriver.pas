@@ -124,7 +124,7 @@ var
   end;
 
 begin
-  if params.col <> 0 then
+  if params.multiColumns AND (params.col<>0) then
     Exit;
 
   NSGraphicsContext.classSaveGraphicsState;
@@ -145,7 +145,7 @@ procedure TiCloudDriverUIHandler.click(var params: TFileSourceUIParams);
 var
   aFile: TFile;
 begin
-  if params.col <> 0 then
+  if params.multiColumns AND (params.col<>0) then
     Exit;
 
   aFile:= params.displayFile.FSFile;
