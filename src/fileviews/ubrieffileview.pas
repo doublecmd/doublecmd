@@ -429,7 +429,7 @@ var
   iTextTop: Integer;
   AFile: TDisplayFile;
   FileSourceDirectAccess: Boolean;
-  onDrawCellFocused: Boolean;
+  params: TFileSourceUIParams;
 
   //------------------------------------------------------
   //begin subprocedures
@@ -438,8 +438,8 @@ var
   procedure DrawIconCell;
     //------------------------------------------------------
     var
-      Y: Integer;
       IconID: PtrInt;
+      targetWidth: Integer;
     begin
       if (gShowIcons <> sim_none) then
       begin
@@ -449,20 +449,23 @@ var
           IconID := PixMapManager.GetDefaultIcon(AFile.FSFile);
 
         // center icon vertically
-        Y:= aRect.Top + (RowHeights[ARow] - gIconsSize) div 2;
+        params.iconRect.Left:= aRect.Left + CELL_PADDING;
+        params.iconRect.Top:= aRect.Top + (aRect.Height - gIconsSize) div 2;
+        params.iconRect.Width:= gIconsSize;
+        params.iconRect.Height:= gIconsSize;
 
         if gShowHiddenDimmed and FBriefView.FileSource.IsHiddenFile(AFile.FSFile) then
           PixMapManager.DrawBitmapAlpha(IconID,
                                         Canvas,
-                                        aRect.Left + CELL_PADDING,
-                                        Y
+                                        params.iconRect.Left,
+                                        params.iconRect.Top
                                        )
         else
           // Draw icon for a file
           PixMapManager.DrawBitmap(IconID,
                                    Canvas,
-                                   aRect.Left + CELL_PADDING,
-                                   Y
+                                   params.iconRect.Left,
+                                   params.iconRect.Top
                                    );
 
         // Draw overlay icon for a file if needed
@@ -471,19 +474,19 @@ var
           PixMapManager.DrawBitmapOverlay(AFile,
                                           FileSourceDirectAccess,
                                           Canvas,
-                                          aRect.Left + 1,
-                                          Y
+                                          params.iconRect.Left,
+                                          params.iconRect.Top
                                           );
         end;
 
       end;
       // Print filename with align
-      Y:= (DefaultColWidth - 2 - Canvas.TextWidth('I'));
-      if (gShowIcons <> sim_none) then Y:= Y - gIconsSize - 2;
+      targetWidth:= (DefaultColWidth - 2 - Canvas.TextWidth('I'));
+      if (gShowIcons <> sim_none) then targetWidth:= targetWidth - gIconsSize - 2;
       if (not gBriefViewFileExtAligned) or (AFile.FSFile.Extension = '') then
         begin
           s:= AFile.DisplayStrings[0];
-          s:= FitFileName(s, Canvas, AFile.FSFile, Y);
+          s:= FitFileName(s, Canvas, AFile.FSFile, targetWidth);
         end
       else
         begin
@@ -491,13 +494,31 @@ var
           s:= AFile.FSFile.Extension;
           Canvas.TextOut(aRect.Left + DefaultColWidth - Canvas.TextWidth(s + 'I'), iTextTop, s);
           s:= AFile.FSFile.NameNoExt;
-          s:= FitFileName(s, Canvas, AFile.FSFile, Y - Canvas.TextWidth(AFile.FSFile.Extension + 'I'));
+          s:= FitFileName(s, Canvas, AFile.FSFile, targetWidth - Canvas.TextWidth(AFile.FSFile.Extension + 'I'));
         end;
       if (gShowIcons <> sim_none) then
         Canvas.TextOut(aRect.Left + gIconsSize + 4, iTextTop, s)
       else
         Canvas.TextOut(aRect.Left + 2, iTextTop, s);
     end; //of DrawIconCell
+
+  procedure callFileSourceDrawCell;
+  var
+    handler: TFileSourceUIHandler;
+  begin
+    handler:= FBriefView.FileSource.GetUIHandler;
+    if handler = nil then
+      Exit;
+
+    params.drawingRect:= aRect;
+    handler.draw( params );
+  end;
+
+  procedure callOnDrawCell;
+  begin
+    if Assigned(OnDrawCell) and not(CsDesigning in ComponentState) then
+      OnDrawCell(FBriefView,aCol,aRow,params.drawingRect,params.focused,AFile);
+  end;
 
   //------------------------------------------------------
   //end of subprocedures
@@ -509,6 +530,14 @@ begin
     begin
       AFile:= FBriefView.FFiles[Idx];
       FileSourceDirectAccess:= fspDirectAccess in FBriefView.FileSource.Properties;
+
+      params:= Default( TFileSourceUIParams );
+      params.sender:= FBriefView;
+      params.fs:= FBriefView.FileSource;
+      params.col:= aCol;
+      params.row:= aRow;
+      params.displayFile:= aFile;
+
       if AFile.DisplayStrings.Count = 0 then
         FBriefView.MakeColumnsStrings(AFile);
 
@@ -518,10 +547,9 @@ begin
 
       DrawIconCell;
 
-      if Assigned(OnDrawCell) and not(CsDesigning in ComponentState) then begin
-        onDrawCellFocused:= (gdSelected in aState) and FFileView.Active;
-        OnDrawCell(FBriefView,aCol,aRow,aRect,onDrawCellFocused,AFile);
-      end;
+      params.focused:= (gdSelected in aState) and FBriefView.Active;
+      callFileSourceDrawCell;
+      callOnDrawCell;
     end
   else
     begin
