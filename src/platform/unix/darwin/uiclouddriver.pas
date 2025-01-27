@@ -75,10 +75,7 @@ var
     fs: TiCloudDriverFileSource;
   begin
     fs:= params.fs as TiCloudDriverFileSource;
-    if IncludeTrailingPathDelimiter(fs.GetCurrentWorkingDirectory) <> fs.GetRootDir then
-      Exit;
-
-    image:= fs.getAppIconByPath( params.displayFile.FSFile.Path );
+    image:= fs.getAppIconByPath( params.displayFile.FSFile.FullPath );
     if image = nil then
       Exit;
 

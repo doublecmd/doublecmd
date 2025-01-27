@@ -42,7 +42,6 @@ type
   TMountedFileSource = class(TFileSystemFileSource, IMountedFileSource)
   private
     _mountPoints: TMountPoints;
-    _currentPath: String;
   public
     constructor Create; override;
     destructor Destroy; override;
@@ -100,7 +99,6 @@ constructor TMountedFileSource.Create;
 begin
   inherited Create;
   _mountPoints:= TMountPoints.Create;
-  _currentPath:= self.GetRootDir;
 end;
 
 destructor TMountedFileSource.Destroy;
@@ -141,13 +139,12 @@ end;
 
 function TMountedFileSource.SetCurrentWorkingDirectory(NewDir: String): Boolean;
 begin
-  _currentPath:= NewDir;
   Result:= True;
 end;
 
 function TMountedFileSource.GetCurrentWorkingDirectory: String;
 begin
-  Result:= _currentPath;
+  Result:= '';
 end;
 
 function TMountedFileSource.GetProcessor: TFileSourceProcessor;
