@@ -350,7 +350,7 @@ begin
     if FRenamingRootDir and (aFile = FRootDir) then
       TargetName := CurrentTargetPath + FRenameMask
     else if FRenamingFiles then
-      TargetName := CurrentTargetPath + ApplyRenameMask(aFile, FRenameNameMask, FRenameExtMask)
+      TargetName := CurrentTargetPath + ApplyRenameMask(FGioFileSource, aFile, FRenameNameMask, FRenameExtMask)
     else
       TargetName := CurrentTargetPath + aFile.Name;
 
