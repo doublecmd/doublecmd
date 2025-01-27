@@ -267,6 +267,10 @@ begin
       FileTimeToDateTimeEx(pStatInfo^.ctime));
     LastAccessTimeProperty := TFileLastAccessDateTimeProperty.Create(
       FileTimeToDateTimeEx(pStatInfo^.atime));
+    {$IF DEFINED(DARWIN)}
+    CreationTimeProperty := TFileCreationDateTimeProperty.Create(
+      FileTimeToDateTimeEx(pStatInfo^.birthtime));
+    {$ENDIF}
 
     LinkProperty := TFileLinkProperty.Create;
 
