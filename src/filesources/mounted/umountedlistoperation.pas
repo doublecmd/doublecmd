@@ -76,8 +76,6 @@ var
 
       mountedTFile:= mountedFS.CreateFileFromFile( mountedPath );
       mountPointName:= mountedFS.getDefaultPointForPath( mountedPath );
-      if NOT mountPointName.IsEmpty then
-        mountedTFile.Name:= mountPointName;
       FFiles.Add( mountedTFile );
     end;
   end;
