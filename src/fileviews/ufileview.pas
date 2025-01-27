@@ -607,7 +607,8 @@ implementation
 uses
   Clipbrd, Dialogs, LCLProc, LCLType, Forms, dmCommonData,
   uShellExecute, fMaskInputDlg, uMasks, DCOSUtils, uOSUtils, DCStrUtils,
-  uDCUtils, uDebug, uLng, uShowMsg, uFileSystemFileSource, uiCloudDriver, uFileSourceUtil,
+  uDCUtils, uDebug, uLng, uShowMsg,
+  uFileSystemFileSource, uFileSourceUtil, {$IFDEF DARWIN}uiCloudDriver,{$ENDIF}
   uFileViewNotebook, uSearchTemplate, uKeyboard, uFileFunctions,
   fMain, uSearchResultFileSource, uFileSourceProperty, uVfsModule, uFileViewWithPanels;
 
@@ -2617,8 +2618,10 @@ begin
             // allow it to read its configuration from FSNode.
             if sFSType = 'FileSystem' then
               aFileSource := TFileSystemFileSource.GetFileSource
+            {$IFDEF DARWIN}
             else if sFSType = 'TiCloudDriverFileSource' then
               aFileSource := TiCloudDriverFileSource.GetFileSource
+            {$ENDIF}
             else begin
               FileSourceClass := gVfsModuleList.FindFileSource(sFSType);
               if Assigned(FileSourceClass) then aFileSource := FileSourceClass.Create;
