@@ -15,8 +15,8 @@
     </General>
     <VersionInfo>
       <UseVersionInfo Value="True"/>
-      <MinorVersionNr Value="2"/>
-      <StringTable FileDescription="ZIP WCX plugin for Double Commander" LegalCopyright="Copyright (C) 2006-2019 Alexander Koblov"/>
+      <MinorVersionNr Value="3"/>
+      <StringTable FileDescription="ZIP WCX plugin for Double Commander" LegalCopyright="Copyright (C) 2006-2025 Alexander Koblov"/>
     </VersionInfo>
     <BuildModes Count="2">
       <Item1 Name="Release" Default="True"/>
@@ -28,7 +28,7 @@
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir);../../../../sdk"/>
-            <OtherUnitFiles Value="fparchive;../../../../sdk;lzma/compression/LZ;lzma/compression/LZMA;lzma/compression/RangeCoder"/>
+            <OtherUnitFiles Value="fparchive;../../../../sdk;inflate64;lzma/compression/LZ;lzma/compression/LZMA;lzma/compression/RangeCoder"/>
             <UnitOutputDirectory Value="../lib"/>
           </SearchPaths>
           <Conditionals Value="if (TargetCPU &lt;> &apos;arm&apos;) then
@@ -114,7 +114,7 @@ end;"/>
     </Target>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir);../../../../sdk"/>
-      <OtherUnitFiles Value="fparchive;../../../../sdk;lzma/compression/LZ;lzma/compression/LZMA;lzma/compression/RangeCoder"/>
+      <OtherUnitFiles Value="fparchive;../../../../sdk;inflate64;lzma/compression/LZ;lzma/compression/LZMA;lzma/compression/RangeCoder"/>
       <UnitOutputDirectory Value="../lib"/>
     </SearchPaths>
     <Conditionals Value="if (TargetCPU &lt;> &apos;arm&apos;) then

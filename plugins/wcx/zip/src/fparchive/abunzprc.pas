@@ -151,7 +151,6 @@ uses
   AbConst,
   AbDfBase,
   AbDfCryS,
-  AbDfDec,
   AbExcept,
   AbSpanSt,
   AbSWStm,
@@ -159,6 +158,7 @@ uses
   AbUtils,
   AbZlibPrc,
   AbWinZipAes,
+  Inflate64Stream,
   DCOSUtils,
   DCClassesUtf8,
   DCConvertEncoding;
@@ -889,8 +889,6 @@ begin
     raise EAbZipInvalidPassword.Create;
   end;
 end;
-
-
 { -------------------------------------------------------------------------- }
 procedure DoInflate(Archive : TAbZipArchive; Item : TAbZipItem; InStream, OutStream : TStream);
 var
@@ -898,20 +896,23 @@ var
 begin
   Hlpr := TAbDeflateHelper.Create;
   try
-    if Item.CompressionMethod = cmEnhancedDeflated then
-    begin
-      Hlpr.Options := Hlpr.Options or dfc_UseDeflate64;
-      Hlpr.StreamSize := Item.CompressedSize;
+    Hlpr.NormalSize := Item.UncompressedSize;
 
-      AbDfDec.Inflate(InStream, OutStream, Hlpr)
-    end
-    else begin
-      Hlpr.NormalSize := Item.UncompressedSize;
-
-      AbZlibPrc.Inflate(InStream, OutStream, Hlpr);
-    end;
+    AbZlibPrc.Inflate(InStream, OutStream, Hlpr);
   finally
     Hlpr.Free;
+  end;
+end;
+{ -------------------------------------------------------------------------- }
+procedure DoInflate64(Archive : TAbZipArchive; Item : TAbZipItem; InStream, OutStream : TStream);
+var
+  Inflate64Stream: TInflate64Stream;
+begin
+  Inflate64Stream := TInflate64Stream.Create(InStream);
+  try
+    OutStream.CopyFrom(Inflate64Stream, Item.UncompressedSize);
+  finally
+    Inflate64Stream.Free;
   end;
 end;
 { -------------------------------------------------------------------------- }
@@ -1108,9 +1109,13 @@ begin
         { unstore aItem }
         OutStream.CopyFrom(aInStream, aItem.UncompressedSize);
       end;
-      cmDeflated, cmEnhancedDeflated: begin
+      cmDeflated: begin
         { inflate aItem }
         DoInflate(aZipArchive, aItem, aInStream, OutStream);
+      end;
+      cmEnhancedDeflated: begin
+        { inflate aItem }
+        DoInflate64(aZipArchive, aItem, aInStream, OutStream);
       end;
       {$IFDEF UnzipBzip2Support}
       cmBzip2: begin
