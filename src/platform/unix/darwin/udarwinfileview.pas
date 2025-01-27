@@ -86,17 +86,7 @@ begin
   Notebook := frmMain.ActiveNotebook;
   NewPage := Notebook.NewPage(Notebook.ActiveView);
 
-  iCloudFS := TiCloudDriverFileSource.Create;
-  iCloudFS.mountAppPoint( 'com~apple~Pages' );
-  iCloudFS.mountAppPoint( 'com~apple~Numbers' );
-  iCloudFS.mountAppPoint( 'com~apple~Keynote' );
-  iCloudFS.mountAppPoint( 'com~apple~ScriptEditor2' );
-  iCloudFS.mountAppPoint( 'iCloud~is~workflow~my~workflows' );
-  iCloudFS.mountAppPoint( 'iCloud~com~apple~Playgrounds' );
-  iCloudFS.mountAppPoint( 'iCloud~com~toketaware~ios~ithoughts' );
-  iCloudFS.mountAppPoint( 'iCloud~net~xmind~brownieapp' );
-  iCloudFS.mount( '~/Library/Mobile Documents/com~apple~CloudDocs', '/' );
-
+  iCloudFS := TiCloudDriverFileSource.GetFileSource;
   NewPage.FileView.AddFileSource(iCloudFS, iCloudFS.GetRootDir);
   NewPage.MakeActive;
 end;

@@ -7,7 +7,7 @@ interface
 
 uses
   Classes, SysUtils, Menus,
-  uFile, uDisplayFile, uFileSource, uMountedFileSource,
+  uFile, uDisplayFile, uFileSource, uMountedFileSource, uFileSourceManager,
   uDCUtils, uMyDarwin,
   CocoaAll, CocoaUtils, Cocoa_Extra;
 
@@ -33,6 +33,7 @@ type
     procedure download( const files: TFiles );
     function getDefaultPointForPath( const path: String ): String; override;
   public
+    class function GetFileSource: TiCloudDriverFileSource;
     function GetUIHandler: TFileSourceUIHandler; override;
 
     function GetRootDir(sPath : String): String; override;
@@ -162,7 +163,17 @@ end;
 constructor TiCloudDriverFileSource.Create;
 begin
   inherited Create;
+
   _appIcons:= NSMutableDictionary.new;
+  self.mountAppPoint( 'com~apple~Pages' );
+  self.mountAppPoint( 'com~apple~Numbers' );
+  self.mountAppPoint( 'com~apple~Keynote' );
+  self.mountAppPoint( 'com~apple~ScriptEditor2' );
+  self.mountAppPoint( 'iCloud~is~workflow~my~workflows' );
+  self.mountAppPoint( 'iCloud~com~apple~Playgrounds' );
+  self.mountAppPoint( 'iCloud~com~toketaware~ios~ithoughts' );
+  self.mountAppPoint( 'iCloud~net~xmind~brownieapp' );
+  self.mount( '~/Library/Mobile Documents/com~apple~CloudDocs', '/' );
 end;
 
 destructor TiCloudDriverFileSource.Destroy;
@@ -311,6 +322,17 @@ end;
 function TiCloudDriverFileSource.getDefaultPointForPath(const path: String): String;
 begin
   Result:= getMacOSDisplayNameFromPath( path );
+end;
+
+class function TiCloudDriverFileSource.GetFileSource: TiCloudDriverFileSource;
+var
+  aFileSource: IFileSource;
+begin
+  aFileSource := FileSourceManager.Find(TiCloudDriverFileSource, '');
+  if not Assigned(aFileSource) then
+    Result := TiCloudDriverFileSource.Create
+  else
+    Result := aFileSource as TiCloudDriverFileSource;
 end;
 
 function TiCloudDriverFileSource.GetRootDir(sPath: String): String;
