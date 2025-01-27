@@ -8,7 +8,7 @@ uses
   Classes, SysUtils,
   uFileSourceListOperation,
   uFileSource, uMountedFileSource, uFileSystemListOperation,
-  uDCUtils, DCStrUtils;
+  uDCUtils, DCOSUtils, DCStrUtils;
 
 type
 
@@ -64,7 +64,6 @@ var
   var
     mountPoint: TMountPoint;
     mountPointParentPath: String;
-    mountPointName: String;
     mountedPath: String;
     mountedTFile: TFile;
   begin
@@ -74,8 +73,10 @@ var
       if logicPath <> mountPointParentPath then
         continue;
 
+      if NOT mbDirectoryExists(mountedPath) then
+        continue;
+
       mountedTFile:= mountedFS.CreateFileFromFile( mountedPath );
-      mountPointName:= mountedFS.getDefaultPointForPath( mountedPath );
       FFiles.Add( mountedTFile );
     end;
   end;
