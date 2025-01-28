@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 1.2.0 alpha\n"
-"POT-Creation-Date: 2024-12-08 15:03+0300\n"
-"PO-Revision-Date: 2024-12-08 23:59+0300\n"
+"POT-Creation-Date: 2025-01-28 17:23+0300\n"
+"PO-Revision-Date: 2025-01-28 21:32+0300\n"
 "Last-Translator: Alexander Koblov <alexx2000@mail.ru>\n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -1013,7 +1013,7 @@ msgstr "Выделить всё"
 
 #: tfrmeditor.actedittimedate.caption
 msgid "Time/Date"
-msgstr ""
+msgstr "Время и дата"
 
 #: tfrmeditor.acteditundo.caption
 msgctxt "TFRMEDITOR.ACTEDITUNDO.CAPTION"
@@ -11160,12 +11160,12 @@ msgstr "Горизонтальное разделение"
 #: ulng.rsmfstbiiclouddrivertips
 msgctxt "ulng.rsmfstbiiclouddrivertips"
 msgid "iCloud Driver"
-msgstr ""
+msgstr "Диск iCloud"
 
 #: ulng.rsmfstbiiclouddrivertitle
 msgctxt "ulng.rsmfstbiiclouddrivertitle"
 msgid "iCloud Driver"
-msgstr ""
+msgstr "Диск iCloud"
 
 #: ulng.rsmfstbiprivilegetips
 msgid "As a file manager, Double Command requires full disk access permissions. Clicking this button will pop up the macOS system settings page. Please add \"Double Commander.app\" to the \"Full Disk Access\" list to complete the authorization."
@@ -11305,11 +11305,11 @@ msgstr "Распаковать здесь..."
 
 #: ulng.rsmnuiclouddriverdownloadnow
 msgid "Download Now"
-msgstr ""
+msgstr "Загрузить сейчас"
 
 #: ulng.rsmnuiclouddriverremovedownload
 msgid "Remove Download"
-msgstr ""
+msgstr "Удалить загрузку"
 
 #: ulng.rsmnumount
 msgid "Mount"
