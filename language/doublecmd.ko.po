@@ -1000,6 +1000,10 @@ msgctxt "tfrmeditor.acteditselectall.hint"
 msgid "Select All"
 msgstr "모두 선택"
 
+#: tfrmeditor.actedittimedate.caption
+msgid "Time/Date"
+msgstr ""
+
 #: tfrmeditor.acteditundo.caption
 msgctxt "TFRMEDITOR.ACTEDITUNDO.CAPTION"
 msgid "Undo"
@@ -10894,6 +10898,16 @@ msgstr "수평 분할 모드 전환"
 msgid "HorzSplit"
 msgstr "수평 분할"
 
+#: ulng.rsmfstbiiclouddrivertips
+msgctxt "ulng.rsmfstbiiclouddrivertips"
+msgid "iCloud Driver"
+msgstr ""
+
+#: ulng.rsmfstbiiclouddrivertitle
+msgctxt "ulng.rsmfstbiiclouddrivertitle"
+msgid "iCloud Driver"
+msgstr ""
+
 #: ulng.rsmfstbiprivilegetips
 msgid "As a file manager, Double Command requires full disk access permissions. Clicking this button will pop up the macOS system settings page. Please add \"Double Commander.app\" to the \"Full Disk Access\" list to complete the authorization."
 msgstr "파일 관리자인 Double Command에는 전체 디스크 액세스 권한이 필요합니다. 이 버튼을 클릭하면 macOS 시스템 설정 페이지가 나타납니다. “전체 디스크 액세스” 목록에 ‘Double Commander.app’을 추가하여 권한 부여를 완료하세요."
@@ -11029,6 +11043,14 @@ msgstr "꺼내기"
 #: ulng.rsmnuextracthere
 msgid "Extract here..."
 msgstr "여기에 추출..."
+
+#: ulng.rsmnuiclouddriverdownloadnow
+msgid "Download Now"
+msgstr ""
+
+#: ulng.rsmnuiclouddriverremovedownload
+msgid "Remove Download"
+msgstr ""
 
 #: ulng.rsmnumount
 msgid "Mount"
@@ -14206,3 +14228,4 @@ msgstr "교체가 이루어지지 않았습니다."
 #, object-pascal-format
 msgid "No setup named \"%s\""
 msgstr "\"%s\"라는 이름의 설정 없음"
+

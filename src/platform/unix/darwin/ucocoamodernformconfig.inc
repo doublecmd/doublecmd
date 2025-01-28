@@ -435,6 +435,18 @@ const
   );
 
 
+  cloudItemConfig: TCocoaConfigToolBarItem = (
+    identifier: 'MainForm.Cloud';
+    priority: NSToolbarItemVisibilityPriorityStandard;
+    navigational: False;
+    iconName: 'cloud';
+    title: rsMFSTBIiCloudDriverTitle;
+    tips: rsMFSTBIiCloudDriverTips;
+    bordered: True;
+    onAction: @cloudAction;
+  );
+
+
   showBriefItemConfig: TCocoaConfigToolBarItem = (
     identifier: 'MainForm.ShowMode.Brief';
     iconName: 'rectangle.split.3x1';
@@ -653,17 +665,6 @@ const
     tips: rsMFSTBIEditTips;
     bordered: True;
     onAction: @editAction;
-  );
-
-  cloudItemConfig: TCocoaConfigToolBarItem = (
-    identifier: 'MainForm.Cloud';
-    priority: NSToolbarItemVisibilityPriorityStandard;
-    navigational: False;
-    iconName: 'cloud';
-    title: 'iCloud Driver';
-    tips: 'iCloud Driver';
-    bordered: True;
-    onAction: @cloudAction;
   );
 
   mainFormConfig: TCocoaConfigForm = (

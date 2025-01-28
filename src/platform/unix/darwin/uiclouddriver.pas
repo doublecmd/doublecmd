@@ -8,7 +8,7 @@ interface
 uses
   Classes, SysUtils, Menus,
   uFile, uDisplayFile, uFileSource, uMountedFileSource, uFileSourceManager,
-  uDCUtils, uMyDarwin,
+  uDCUtils, uLng, uMyDarwin,
   CocoaAll, CocoaUtils, Cocoa_Extra;
 
 type
@@ -383,9 +383,9 @@ begin
 
   menuItem:= TMenuItem.Create( AMenu );
   if isSeedFile(AFiles[0]) then
-    menuItem.Caption:= 'Download Now'
+    menuItem.Caption:= rsMnuiCloudDriverDownloadNow
   else
-    menuItem.Caption:= 'Remove Download';
+    menuItem.Caption:= rsMnuiCloudDriverRemoveDownload;
   MenuItem.OnClick:= @self.downloadAction;
   AMenu.Items.Insert(0, menuItem);
   menuItem:= TMenuItem.Create( AMenu );

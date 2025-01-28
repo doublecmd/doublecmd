@@ -1001,6 +1001,10 @@ msgctxt "tfrmeditor.acteditselectall.hint"
 msgid "Select All"
 msgstr "Alle wählen"
 
+#: tfrmeditor.actedittimedate.caption
+msgid "Time/Date"
+msgstr ""
+
 #: tfrmeditor.acteditundo.caption
 msgctxt "TFRMEDITOR.ACTEDITUNDO.CAPTION"
 msgid "Undo"
@@ -10894,6 +10898,16 @@ msgstr "Horizontal geteilt ein- und ausschalten"
 msgid "HorzSplit"
 msgstr "Horizontal geteilt"
 
+#: ulng.rsmfstbiiclouddrivertips
+msgctxt "ulng.rsmfstbiiclouddrivertips"
+msgid "iCloud Driver"
+msgstr ""
+
+#: ulng.rsmfstbiiclouddrivertitle
+msgctxt "ulng.rsmfstbiiclouddrivertitle"
+msgid "iCloud Driver"
+msgstr ""
+
 #: ulng.rsmfstbiprivilegetips
 msgid "As a file manager, Double Command requires full disk access permissions. Clicking this button will pop up the macOS system settings page. Please add \"Double Commander.app\" to the \"Full Disk Access\" list to complete the authorization."
 msgstr "Als Dateimanager benötigt Double Commander volle Festplattenzugriffsrechte. Klicken Sie auf diese Schaltfläche, um die macOS-Systemeinstellungsseite zu öffnen. Bitte klicken Sie auf \"Datenschutz & Sicherheit\" und fügen Sie \"Double Commander.app\" zur Liste „Festplattenvollzugriff“ hinzu, um die Autorisierung abzuschließen."
@@ -11029,6 +11043,14 @@ msgstr "Auswerfen"
 #: ulng.rsmnuextracthere
 msgid "Extract here..."
 msgstr "Archiv hier entpacken ..."
+
+#: ulng.rsmnuiclouddriverdownloadnow
+msgid "Download Now"
+msgstr ""
+
+#: ulng.rsmnuiclouddriverremovedownload
+msgid "Remove Download"
+msgstr ""
 
 #: ulng.rsmnumount
 msgid "Mount"

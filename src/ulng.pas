@@ -362,6 +362,8 @@ resourcestring
   rsMnuOpen = 'Open';
   rsMnuView = 'View';
   rsMnuEdit = 'Edit';
+  rsMnuiCloudDriverDownloadNow = 'Download Now';
+  rsMnuiCloudDriverRemoveDownload = 'Remove Download';
   rsMnuOpenWith = 'Open with';
   rsMnuOpenWithOther = 'Other...';
   rsMenuMacOSShare = 'Share...';
@@ -999,13 +1001,17 @@ resourcestring
   rsMsgTCisRunning = 'Error! TC is still running but it should be closed for this operation.'+#$0A+'Close it and press OK or press CANCEL to abort.';
   rsMsgAllDCIntCmds = 'All Double Commander internal commands';
 
-  // macOS Modernn Form Sytle
+  // macOS Modern Form Sytle
   rsMFSTBITreeViewTitle = 'TreeView';
   rsMFSTBITreeViewTips = 'Show Tree View Panel';
   rsMFSTBIHorzSplitTitle = 'HorzSplit';
   rsMFSTBIHorzSplitTips = 'Toggle Horizontal Split Mode';
   rsMFSTBISwapPanelsTitle = 'SwapPanels';
   rsMFSTBISwapPanelsTips = 'Swap Panels';
+
+  rsMFSTBIiCloudDriverTitle = 'iCloud Driver';
+  rsMFSTBIiCloudDriverTips = 'iCloud Driver';
+
   rsMFSTBIShowModeTitle = 'ShowMode';
   rsMFSTBIShowModeTips = 'Show as Brief, Full or Thumbnails';
   rsMFSTBIShowBriefTitle = 'as Brief';
