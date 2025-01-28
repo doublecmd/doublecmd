@@ -1013,7 +1013,7 @@ msgstr "全選"
 
 #: tfrmeditor.actedittimedate.caption
 msgid "Time/Date"
-msgstr ""
+msgstr "時間/日期"
 
 #: tfrmeditor.acteditundo.caption
 msgctxt "TFRMEDITOR.ACTEDITUNDO.CAPTION"
@@ -8185,11 +8185,9 @@ msgid "General options about tooltips:"
 msgstr ""
 
 #: tfrmoptionstooltips.chkshowtooltip.caption
-#, fuzzy
-#| msgid "Show tool tip"
 msgctxt "tfrmoptionstooltips.chkshowtooltip.caption"
 msgid "&Show tooltip for files in the file panel"
-msgstr "顯示工具提示"
+msgstr "顯示檔案面板中的檔案的提示 (&S)"
 
 #: tfrmoptionstooltips.lblfieldslist.caption
 msgctxt "TFRMOPTIONSTOOLTIPS.LBLFIELDSLIST.CAPTION"
@@ -8394,8 +8392,6 @@ msgid "Pack files"
 msgstr "壓縮檔案"
 
 #: tfrmpackdlg.cbcreateseparatearchives.caption
-#, fuzzy
-#| msgid "Create separate archives, o&ne per selected file/dir"
 msgid "C&reate separate archives, one per selected file/dir"
 msgstr "替每個選取的檔案/資料夾建立各自的壓縮檔案 (&R)"
 
@@ -8409,8 +8405,6 @@ msgid "Encr&ypt"
 msgstr "加密 (&Y)"
 
 #: tfrmpackdlg.cbmovetoarchive.caption
-#, fuzzy
-#| msgid "M&ove to archive"
 msgid "Mo&ve to archive"
 msgstr "移動到壓縮檔 (&V)"
 
@@ -8439,8 +8433,6 @@ msgid "Packer"
 msgstr "壓縮程式"
 
 #: tfrmpackinfodlg.btnclose.caption
-#, fuzzy
-#| msgid "Close"
 msgctxt "TFRMPACKINFODLG.BTNCLOSE.CAPTION"
 msgid "&Close"
 msgstr "關閉 (&C)"
@@ -8595,13 +8587,11 @@ msgid "Use &content plugins, combine with:"
 msgstr ""
 
 #: tfrmsearchplugin.lblfield.caption
-#, fuzzy
 msgctxt "tfrmsearchplugin.lblfield.caption"
 msgid "Field"
 msgstr "欄位"
 
 #: tfrmsearchplugin.lbloperator.caption
-#, fuzzy
 msgctxt "tfrmsearchplugin.lbloperator.caption"
 msgid "Operator"
 msgstr "操作符"
@@ -8612,7 +8602,6 @@ msgid "Plugin"
 msgstr "插件"
 
 #: tfrmsearchplugin.lblvalue.caption
-#, fuzzy
 msgctxt "tfrmsearchplugin.lblvalue.caption"
 msgid "Value"
 msgstr "值"
@@ -8626,31 +8615,26 @@ msgid "&OR (any match)"
 msgstr ""
 
 #: tfrmselectduplicates.btnapply.caption
-#, fuzzy
 msgctxt "tfrmselectduplicates.btnapply.caption"
 msgid "&Apply"
 msgstr "套用 (&A)"
 
 #: tfrmselectduplicates.btncancel.caption
-#, fuzzy
 msgctxt "tfrmselectduplicates.btncancel.caption"
 msgid "&Cancel"
 msgstr "取消 (&C)"
 
 #: tfrmselectduplicates.btnexcludemask.hint
-#, fuzzy
 msgctxt "tfrmselectduplicates.btnexcludemask.hint"
 msgid "Template..."
 msgstr "範本..."
 
 #: tfrmselectduplicates.btnincludemask.hint
-#, fuzzy
 msgctxt "tfrmselectduplicates.btnincludemask.hint"
 msgid "Template..."
 msgstr "範本..."
 
 #: tfrmselectduplicates.btnok.caption
-#, fuzzy
 msgctxt "tfrmselectduplicates.btnok.caption"
 msgid "&OK"
 msgstr "確定 (&O)"
@@ -8664,7 +8648,6 @@ msgid "&Leave at least one file in each group unselected:"
 msgstr ""
 
 #: tfrmselectduplicates.cmbincludemask.text
-#, fuzzy
 msgctxt "tfrmselectduplicates.cmbincludemask.text"
 msgid "*"
 msgstr "*"
@@ -8750,8 +8733,6 @@ msgid "Result:"
 msgstr ""
 
 #: tfrmselecttextrange.lblselecttext.caption
-#, fuzzy
-#| msgid "Select the characters to insert:"
 msgid "&Select the characters to insert:"
 msgstr "選擇要插入的字元: (&S)"
 
@@ -8782,8 +8763,6 @@ msgid "The s&tart"
 msgstr ""
 
 #: tfrmsetfileproperties.btncancel.caption
-#, fuzzy
-#| msgid "Cancel"
 msgctxt "TFRMSETFILEPROPERTIES.BTNCANCEL.CAPTION"
 msgid "&Cancel"
 msgstr "取消 (&C)"
@@ -8794,7 +8773,6 @@ msgid "&OK"
 msgstr "確定 (&O)"
 
 #: tfrmsetfileproperties.caption
-#, fuzzy
 msgctxt "TFRMSETFILEPROPERTIES.CAPTION"
 msgid "Change attributes"
 msgstr "變更屬性"
@@ -8815,7 +8793,6 @@ msgid "SUID"
 msgstr "SUID"
 
 #: tfrmsetfileproperties.chkarchive.caption
-#, fuzzy
 msgctxt "TFRMSETFILEPROPERTIES.CHKARCHIVE.CAPTION"
 msgid "Archive"
 msgstr "封存"
@@ -8826,7 +8803,6 @@ msgid "Created:"
 msgstr "建立時間:"
 
 #: tfrmsetfileproperties.chkhidden.caption
-#, fuzzy
 msgctxt "TFRMSETFILEPROPERTIES.CHKHIDDEN.CAPTION"
 msgid "Hidden"
 msgstr "隱藏"
@@ -8842,7 +8818,6 @@ msgid "Modified:"
 msgstr "修改時間:"
 
 #: tfrmsetfileproperties.chkreadonly.caption
-#, fuzzy
 msgctxt "TFRMSETFILEPROPERTIES.CHKREADONLY.CAPTION"
 msgid "Read only"
 msgstr "唯讀"
@@ -8852,7 +8827,6 @@ msgid "Including subfolders"
 msgstr "包含子資料夾"
 
 #: tfrmsetfileproperties.chksystem.caption
-#, fuzzy
 msgctxt "TFRMSETFILEPROPERTIES.CHKSYSTEM.CAPTION"
 msgid "System"
 msgstr "系統"
@@ -8912,7 +8886,6 @@ msgid "Execute"
 msgstr "執行"
 
 #: tfrmsetfileproperties.lblmodeinfo.caption
-#, fuzzy
 msgctxt "tfrmsetfileproperties.lblmodeinfo.caption"
 msgid "(gray field means unchanged value)"
 msgstr "(灰色欄位代表不可改變的數值)"
@@ -8992,10 +8965,8 @@ msgid "Size and number of parts"
 msgstr "分割檔大小及數量"
 
 #: tfrmsplitter.lbdirtarget.caption
-#, fuzzy
-#| msgid "Directory &target"
 msgid "Split the file to directory:"
-msgstr "目標資料夾 (&T)"
+msgstr "分割檔案到資料夾:"
 
 #: tfrmsplitter.lblnumberparts.caption
 msgid "&Number of parts"
@@ -9031,7 +9002,6 @@ msgid "Build"
 msgstr "構建"
 
 #: tfrmstartingsplash.lblcommit.caption
-#, fuzzy
 msgctxt "tfrmstartingsplash.lblcommit.caption"
 msgid "Commit"
 msgstr "提交"
@@ -9074,8 +9044,6 @@ msgid "WidgetsetVer"
 msgstr ""
 
 #: tfrmsymlink.btncancel.caption
-#, fuzzy
-#| msgid "Cancel"
 msgctxt "TFRMSYMLINK.BTNCANCEL.CAPTION"
 msgid "&Cancel"
 msgstr "取消 (&C)"
@@ -11300,12 +11268,12 @@ msgstr "水平分隔"
 #: ulng.rsmfstbiiclouddrivertips
 msgctxt "ulng.rsmfstbiiclouddrivertips"
 msgid "iCloud Driver"
-msgstr ""
+msgstr "iCloud雲碟"
 
 #: ulng.rsmfstbiiclouddrivertitle
 msgctxt "ulng.rsmfstbiiclouddrivertitle"
 msgid "iCloud Driver"
-msgstr ""
+msgstr "iCloud雲碟"
 
 #: ulng.rsmfstbiprivilegetips
 msgid "As a file manager, Double Command requires full disk access permissions. Clicking this button will pop up the macOS system settings page. Please add \"Double Commander.app\" to the \"Full Disk Access\" list to complete the authorization."
@@ -11445,11 +11413,11 @@ msgstr "解壓縮到此處..."
 
 #: ulng.rsmnuiclouddriverdownloadnow
 msgid "Download Now"
-msgstr ""
+msgstr "現在下載"
 
 #: ulng.rsmnuiclouddriverremovedownload
 msgid "Remove Download"
-msgstr ""
+msgstr "移除下載項"
 
 #: ulng.rsmnumount
 msgid "Mount"
