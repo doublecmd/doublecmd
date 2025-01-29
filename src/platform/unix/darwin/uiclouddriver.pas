@@ -6,8 +6,9 @@ unit uiCloudDriver;
 interface
 
 uses
-  Classes, SysUtils, Menus,
-  uFile, uDisplayFile, uFileSource, uMountedFileSource, uFileSourceManager,
+  Classes, SysUtils, URIParser, Menus,
+  uFile, uDisplayFile,
+  uFileSource, uMountedFileSource, uFileSourceManager, uVfsModule,
   uDCUtils, uLng, uMyDarwin,
   CocoaAll, CocoaUtils, Cocoa_Extra;
 
@@ -26,6 +27,9 @@ type
     class function isSeedFiles(aFiles: TFiles): Boolean;
   public
     constructor Create; override;
+
+    class function IsSupportedPath(const Path: String): Boolean; override;
+
     destructor Destroy; override;
     procedure mountAppPoint( const appName: String );
     function getAppIconByPath( const path: String ): NSImage;
@@ -46,6 +50,7 @@ type
 implementation
 
 const
+  iCLOUD_SCHEME = 'iCloud://';
   iCLOUD_PATH = '~/Library/Mobile Documents';
   iCLOUD_DRIVER_PATH = iCLOUD_PATH + '/com~apple~CloudDocs';
   iCLOUD_CONTAINER_PATH = '~/Library/Application Support/CloudDocs/session/containers';
@@ -161,6 +166,8 @@ constructor TiCloudDriverFileSource.Create;
 begin
   inherited Create;
 
+  FCurrentAddress:= iCLOUD_SCHEME;
+
   _appIcons:= NSMutableDictionary.new;
   self.mountAppPoint( 'com~apple~Pages' );
   self.mountAppPoint( 'com~apple~Numbers' );
@@ -171,6 +178,11 @@ begin
   self.mountAppPoint( 'iCloud~com~toketaware~ios~ithoughts' );
   self.mountAppPoint( 'iCloud~net~xmind~brownieapp' );
   self.mount( '~/Library/Mobile Documents/com~apple~CloudDocs', '/' );
+end;
+
+class function TiCloudDriverFileSource.IsSupportedPath(const Path: String): Boolean;
+begin
+  Result:= Path.StartsWith( iCLOUD_SCHEME );
 end;
 
 destructor TiCloudDriverFileSource.Destroy;
@@ -327,9 +339,9 @@ var
 begin
   aFileSource := FileSourceManager.Find(TiCloudDriverFileSource, '');
   if not Assigned(aFileSource) then
-    Result := TiCloudDriverFileSource.Create
+    Result:= TiCloudDriverFileSource.Create
   else
-    Result := aFileSource as TiCloudDriverFileSource;
+    Result:= aFileSource as TiCloudDriverFileSource;
 end;
 
 function TiCloudDriverFileSource.GetRootDir(sPath: String): String;
@@ -339,7 +351,7 @@ var
 begin
   path:= uDCUtils.ReplaceTilde( iCLOUD_DRIVER_PATH );
   displayName:= getMacOSDisplayNameFromPath( path );
-  Result:= PathDelim + PathDelim + PathDelim + displayName + PathDelim;
+  Result:= PathDelim + displayName + PathDelim;
 end;
 
 function TiCloudDriverFileSource.IsSystemFile(aFile: TFile): Boolean;
@@ -397,6 +409,7 @@ end;
 
 initialization
   iCloudDriverUIProcessor:= TiCloudDriverUIHandler.Create;
+  RegisterVirtualFileSource( 'iCloud', TiCloudDriverFileSource, True );
 
 finalization
   FreeAndNil( iCloudDriverUIProcessor );
