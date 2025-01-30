@@ -308,7 +308,7 @@ end;
 
 class function TiCloudDriverFileSource.GetMainIcon(out Path: String): Boolean;
 begin
-  Path:= 'pixmaps/macOS/cloud.fill.png';
+  Path:= '$COMMANDER_PATH/pixmaps/macOS/cloud.fill.png';
   Result:= True;
 end;
 
