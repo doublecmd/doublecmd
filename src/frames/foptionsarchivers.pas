@@ -740,7 +740,7 @@ begin
             SaveArchiverDialog.FileName := rsOptArchiverDefaultExportFilename;
             if SaveArchiverDialog.Execute then
             begin
-              ExportedMultiArcList.SaveToFile(SaveArchiverDialog.FileName);
+              ExportedMultiArcList.SaveToFile(SaveArchiverDialog.FileName, True);
               msgOK(Format(rsOptArchiverExportDone, [ExportedMultiArcList.Count, SaveArchiverDialog.FileName]));
             end;
           end;
@@ -769,7 +769,7 @@ begin
   begin
     ImportedMultiArcList := TMultiArcList.Create;
     try
-      ImportedMultiArcList.LoadFromFile(OpenArchiverDialog.FileName);
+      ImportedMultiArcList.LoadFromFile(OpenArchiverDialog.FileName, True);
       if ImportedMultiArcList.Count > 0 then
       begin
         slValueList := TStringList.Create;
