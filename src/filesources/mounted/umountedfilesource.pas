@@ -77,6 +77,8 @@ type
 
   TMountedFileSourceProcessor = class( TFileSystemFileSourceProcessor )
   private
+    procedure consultCopyOperation(var params: TFileSourceConsultParams);
+    procedure consultMoveOperation(var params: TFileSourceConsultParams);
     procedure resolveRealPath( var params: TFileSourceConsultParams );
     procedure calcTargetPath( var params: TFileSourceConsultParams );
   public
@@ -282,13 +284,34 @@ begin
   params.targetPath:= IncludeTrailingPathDelimiter(params.targetPath) + mountPoint.name + PathDelim;
 end;
 
+procedure TMountedFileSourceProcessor.consultCopyOperation(var params: TFileSourceConsultParams);
+begin
+  inherited consultOperation( params );
+  self.calcTargetPath( params );
+end;
+
+procedure TMountedFileSourceProcessor.consultMoveOperation(var params: TFileSourceConsultParams);
+begin
+  params.consultResult:= fscrNotSupported;
+  params.handled:= True;
+  if params.currentFS = params.sourceFS then
+    Exit;
+  if params.sourceFS.GetClass.ClassType <> TFileSystemFileSource then
+    Exit;
+
+  params.consultResult:= fscrSuccess;
+end;
+
 procedure TMountedFileSourceProcessor.consultOperation(
   var params: TFileSourceConsultParams);
 begin
-  inherited consultOperation( params );
   case params.operationType of
-    fsoCopy, fsoMove:
-      self.calcTargetPath( params );
+    fsoCopy:
+      consultCopyOperation( params );
+    fsoMove:
+      consultMoveOperation( params );
+    else
+      inherited consultOperation( params );
   end;
 end;
 
