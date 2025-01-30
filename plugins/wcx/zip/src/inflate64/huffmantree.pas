@@ -88,8 +88,8 @@ end;
 
 class procedure THuffmanTree.FreeStaticTrees;
 begin
-  _StaticLiteralLengthTree.Free;
-  _StaticDistanceTree.Free;
+  _StaticLiteralLengthTree._Release;
+  _StaticDistanceTree._Release;
 end;
 
 class function THuffmanTree.GetStaticLiteralTreeLength: TBytes;
