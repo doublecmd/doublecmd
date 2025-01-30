@@ -6,7 +6,7 @@ unit uiCloudDriver;
 interface
 
 uses
-  Classes, SysUtils, URIParser, Menus,
+  Classes, SysUtils, Menus,
   uFile, uDisplayFile,
   uFileSource, uMountedFileSource, uFileSourceManager, uVfsModule,
   uDCUtils, uLng, uMyDarwin,
@@ -27,10 +27,10 @@ type
     class function isSeedFiles(aFiles: TFiles): Boolean;
   public
     constructor Create; override;
+    destructor Destroy; override;
 
     class function IsSupportedPath(const Path: String): Boolean; override;
 
-    destructor Destroy; override;
     procedure mountAppPoint( const appName: String );
     function getAppIconByPath( const path: String ): NSImage;
     procedure download( const aFile: TFile );
@@ -39,6 +39,7 @@ type
   public
     class function GetFileSource: TiCloudDriverFileSource;
     function GetUIHandler: TFileSourceUIHandler; override;
+    class function GetMainIcon(out Path: String): Boolean; override;
 
     function GetRootDir(sPath : String): String; override;
     function IsSystemFile(aFile: TFile): Boolean; override;
@@ -303,6 +304,12 @@ end;
 function TiCloudDriverFileSource.GetUIHandler: TFileSourceUIHandler;
 begin
   Result:= iCloudDriverUIProcessor;
+end;
+
+class function TiCloudDriverFileSource.GetMainIcon(out Path: String): Boolean;
+begin
+  Path:= 'pixmaps/macOS/cloud.fill.png';
+  Result:= True;
 end;
 
 procedure TiCloudDriverFileSource.downloadAction(Sender: TObject);
