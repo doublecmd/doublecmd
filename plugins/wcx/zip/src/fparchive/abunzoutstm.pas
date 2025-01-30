@@ -62,7 +62,7 @@ type
   TAbUnzipOutputStream = class( TStream )
   private
     FBytesWritten : Int64;
-    FCRC32 : LongInt;
+    FCRC32 : UInt32;
     FCurrentProgress : Byte;
     FStream : TStream;
     FUncompressedSize : Int64;
@@ -94,7 +94,7 @@ type
 implementation
 
 uses
-  Math, AbExcept, AbUtils;
+  Math, AbExcept, AbUtils, DCcrc32;
 
 { TAbUnzipSubsetStream implementation ====================================== }
 
@@ -153,7 +153,6 @@ constructor TAbUnzipOutputStream.Create(aStream: TStream);
 begin
   inherited Create;
   FStream := aStream;
-  FCRC32 := -1;
 end;
 { -------------------------------------------------------------------------- }
 function TAbUnzipOutputStream.Read(var Buffer; Count: Integer): Longint;
@@ -168,7 +167,7 @@ var
 begin
   Result := FStream.Write(Buffer, Count);
 
-  AbUpdateCRC( FCRC32, Buffer, Count );
+  FCRC32 := crc32_16bytes(@Buffer, Count, FCRC32);
 
   Inc( FBytesWritten, Result );
   if Assigned( FOnProgress ) then begin
@@ -190,7 +189,7 @@ end;
 { -------------------------------------------------------------------------- }
 function TAbUnzipOutputStream.GetCRC32: LongInt;
 begin
-  Result := not FCRC32;
+  Result := LongInt(FCRC32);
 end;
 
 end.
