@@ -48,6 +48,7 @@ type
     procedure mount( const path: String; const point: String );
     procedure mount( const path: String );
     function getDefaultPointForPath( const path: String ): String; virtual;
+    function getMountPointFromPath(const realPath: String): TMountPoint;
   protected
     function SetCurrentWorkingDirectory(NewDir: String): Boolean; override;
     function GetCurrentWorkingDirectory: String; override;
@@ -137,6 +138,21 @@ begin
   Result:= String.Empty;
 end;
 
+function TMountedFileSource.getMountPointFromPath(const realPath: String): TMountPoint;
+var
+  mountPoint: TMountPoint;
+  path: String;
+begin
+  Result:= nil;
+  path:= IncludeTrailingPathDelimiter( realPath );
+  for mountPoint in _mountPoints do begin
+    if path.Equals(mountPoint.path) then begin
+      Result:= mountPoint;
+      Exit;
+    end;
+  end;
+end;
+
 function TMountedFileSource.SetCurrentWorkingDirectory(NewDir: String): Boolean;
 begin
   Result:= True;
@@ -185,16 +201,12 @@ end;
 function TMountedFileSource.GetFileName(aFile: TFile): String;
 var
   mountPoint: TMountPoint;
-  path: String;
 begin
-  path:= IncludeTrailingPathDelimiter( aFile.FullPath );
-  for mountPoint in _mountPoints do begin
-    if path.Equals(mountPoint.path) then begin
-      Result:= mountPoint.name;
-      Exit;
-    end;
-  end;
-  Result:= inherited;
+  mountPoint:= self.getMountPointFromPath( aFile.FullPath );
+  if mountPoint <> nil then
+    Result:= mountPoint.name
+  else
+    Result:= inherited;
 end;
 
 function TMountedFileSource.GetParentDir(sPath : String): String;
