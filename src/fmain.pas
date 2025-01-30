@@ -3678,11 +3678,11 @@ begin
 
     if (SourceFiles.Count = 1) and
        ((not (SourceFiles[0].IsDirectory or SourceFiles[0].IsLinkToDirectory)) or
-        (TargetPath = ''))
+        (params.targetPath = ''))
     then
-      params.targetPath := TargetPath + ReplaceInvalidChars(SourceFiles[0].Name)
+      params.targetPath := params.targetPath + ReplaceInvalidChars(SourceFiles[0].Name)
     else
-      params.targetPath := TargetPath + '*.*';
+      params.targetPath := params.targetPath + '*.*';
 
     if bShowDialog then
     begin

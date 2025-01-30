@@ -7,8 +7,8 @@ interface
 uses
   Classes, SysUtils, Generics.Collections,
   uFile, uFileSource, uFileSourceManager,
-  uFileSystemFileSource, uFileSystemMoveOperation,
-  uFileSourceOperation, uFileSourceOperationTypes,
+  uFileSystemFileSource, uWcxArchiveFileSource,
+  uFileSourceOperation, uFileSourceOperationTypes, uFileSystemMoveOperation,
   uDCUtils, DCStrUtils;
 
 type
@@ -78,7 +78,9 @@ type
   TMountedFileSourceProcessor = class( TFileSystemFileSourceProcessor )
   private
     procedure resolveRealPath( var params: TFileSourceConsultParams );
+    procedure calcTargetPath( var params: TFileSourceConsultParams );
   public
+    procedure consultOperation(var params: TFileSourceConsultParams); override;
     procedure confirmOperation( var params: TFileSourceConsultParams ); override;
   end;
 
@@ -258,6 +260,36 @@ begin
 
   if params.currentFS = params.sourceFS then
     params.files.Path:= calcBasePath;
+end;
+
+procedure TMountedFileSourceProcessor.calcTargetPath(var params: TFileSourceConsultParams);
+var
+  mountedFS: TMountedFileSource;
+  mountPoint: TMountPoint;
+  realPath: String;
+begin
+  if params.currentFS <> params.sourceFS then
+    Exit;
+  if NOT params.partnerFS.IsClass(TWcxArchiveFileSource) then
+    Exit;
+
+  mountedFS:= params.currentFS as TMountedFileSource;
+  realPath:= params.files[0].FullPath;
+  mountPoint:= mountedFS.getMountPointFromPath( realPath );
+  if mountPoint = nil then
+    Exit;
+
+  params.targetPath:= IncludeTrailingPathDelimiter(params.targetPath) + mountPoint.name + PathDelim;
+end;
+
+procedure TMountedFileSourceProcessor.consultOperation(
+  var params: TFileSourceConsultParams);
+begin
+  inherited consultOperation( params );
+  case params.operationType of
+    fsoCopy, fsoMove:
+      self.calcTargetPath( params );
+  end;
 end;
 
 procedure TMountedFileSourceProcessor.confirmOperation( var params: TFileSourceConsultParams );
