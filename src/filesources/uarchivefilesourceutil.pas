@@ -308,7 +308,7 @@ begin
     end
     else if aFile.IsDirectory then
     begin
-      aFolderList.AddObject(aFile.Path + aFile.Name + DirectorySeparator, aFile.Clone);
+      aFolderList.AddObject( IncludeTrailingPathDelimiter(aFile.FullPath), aFile.Clone);
     end
     else
     begin

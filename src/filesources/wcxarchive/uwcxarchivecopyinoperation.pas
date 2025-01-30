@@ -316,6 +316,8 @@ begin
     begin
       // Filenames must be relative to the current directory.
       FileName := ExtractDirLevel(theFiles.Path, theFiles[I].FullPath);
+      if FileName = EmptyStr then
+        continue;
 
       // Special treatment of directories.
       if theFiles[i].IsDirectory then
