@@ -234,12 +234,30 @@ end;
 procedure TMountedFileSourceProcessor.resolveRealPath( var params: TFileSourceConsultParams);
 var
   mountedFS: TMountedFileSource;
+
+  function calcBasePath: String;
+  var
+    realPath: String;
+    mountPoint: TMountPoint;
+  begin
+    realPath:= params.files[0].FullPath;
+    mountPoint:= mountedFS.getMountPointFromPath( realPath );
+    if mountPoint <> nil then
+      Result:= mountPoint.path
+    else
+      Result:= GetParentDir( realPath );
+  end;
+
 begin
+  mountedFS:= params.currentFS as TMountedFileSource;
+
   if ((params.currentFS=params.sourceFS) and StrBegins(params.targetPath,'..')) or
      ((params.currentFS<>params.sourceFS) and NOT StrBegins(params.targetPath,'..')) then begin
-    mountedFS:= params.currentFS as TMountedFileSource;
     params.resultTargetPath:= mountedFS.getRealPath( params.targetPath );
   end;
+
+  if params.currentFS = params.sourceFS then
+    params.files.Path:= calcBasePath;
 end;
 
 procedure TMountedFileSourceProcessor.confirmOperation( var params: TFileSourceConsultParams );
