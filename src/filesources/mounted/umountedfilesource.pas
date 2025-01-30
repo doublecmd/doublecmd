@@ -8,7 +8,7 @@ uses
   Classes, SysUtils, Generics.Collections,
   uFile, uFileSource, uFileSourceManager,
   uFileSystemFileSource, uWcxArchiveFileSource,
-  uFileSourceOperation, uFileSourceOperationTypes, uFileSystemMoveOperation,
+  uFileSourceOperation, uFileSourceOperationTypes,
   uDCUtils, DCStrUtils;
 
 type
@@ -177,6 +177,7 @@ var
   mountPoint: TMountPoint;
   logicPath: String;
 begin
+  Result:= EmptyStr;
   logicPath:= APath.Substring( self.GetRootDir.Length - 1 );
   for mountPoint in _mountPoints do begin
     if logicPath.StartsWith(mountPoint.point) then begin
@@ -191,6 +192,7 @@ var
   mountPoint: TMountPoint;
   logicPath: String;
 begin
+  Result:= EmptyStr;
   logicPath:= IncludeTrailingPathDelimiter( APath );
   for mountPoint in _mountPoints do begin
     if logicPath.StartsWith(mountPoint.path) then begin
@@ -238,6 +240,8 @@ end;
 procedure TMountedFileSourceProcessor.resolveRealPath( var params: TFileSourceConsultParams);
 var
   mountedFS: TMountedFileSource;
+  pathType: TPathType;
+  targetPath: String;
 
   function calcBasePath: String;
   var
@@ -254,10 +258,16 @@ var
 
 begin
   mountedFS:= params.currentFS as TMountedFileSource;
+  targetPath:= params.targetPath;
+  pathType:= GetPathType( targetPath );
 
-  if ((params.currentFS=params.sourceFS) and StrBegins(params.targetPath,'..')) or
-     ((params.currentFS<>params.sourceFS) and NOT StrBegins(params.targetPath,'..')) then begin
-    params.resultTargetPath:= mountedFS.getRealPath( params.targetPath );
+  if ((params.currentFS=params.sourceFS) and (pathType<>ptAbsolute)) or
+     ((params.currentFS<>params.sourceFS) and (pathType=ptAbsolute)) then begin
+    if pathType <> ptAbsolute then begin
+      targetPath:= params.files.Path + targetPath;
+      targetPath:= ExpandAbsolutePath( targetPath );
+    end;
+    params.resultTargetPath:= mountedFS.getRealPath( targetPath );
   end;
 
   if params.currentFS = params.sourceFS then
