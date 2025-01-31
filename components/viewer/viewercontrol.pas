@@ -452,9 +452,7 @@ type
     function DoMouseWheelUp(Shift: TShiftState; MousePos: TPoint): Boolean; override;
     function DoMouseWheelLeft(Shift: TShiftState; MousePos: TPoint): Boolean; override;
     function DoMouseWheelRight(Shift: TShiftState; MousePos: TPoint): Boolean; override;
-{$if lcl_fullversion >= 1070000}
     procedure DoAutoAdjustLayout(const AMode: TLayoutAdjustmentPolicy; const AXProportion, AYProportion: Double); override;
-{$endif}
 
   public
     constructor Create(AOwner: TComponent); override;
@@ -556,6 +554,9 @@ implementation
 uses
   Math, LCLType, Graphics, Forms, LCLProc, Clipbrd, LConvEncoding,
   DCUnicodeUtils, LCLIntf, LazUTF8, DCOSUtils , DCConvertEncoding
+  {$IF LCL_FULLVERSION >= 4990000}
+  , LazUTF16
+  {$ENDIF}
   {$IF DEFINED(UNIX)}
   , BaseUnix, Unix, DCUnix
   {$ELSEIF DEFINED(WINDOWS)}
@@ -2745,14 +2746,12 @@ begin
     Result := HScroll(Mouse.WheelScrollLines);
 end;
 
-{$if lcl_fullversion >= 1070000}
 procedure TViewerControl.DoAutoAdjustLayout(const AMode: TLayoutAdjustmentPolicy; const AXProportion, AYProportion: Double);
 begin
   FScrollBarVert.Width  := LCLIntf.GetSystemMetrics(SM_CYVSCROLL);
   FScrollBarHorz.Height := LCLIntf.GetSystemMetrics(SM_CYHSCROLL);
   inherited DoAutoAdjustLayout(AMode, AXProportion, AYProportion);
 end;
-{$endif}
 
 function TViewerControl.XYPos2Adr(x, y: Integer; out CharSide: TCharSide): PtrInt;
 var
