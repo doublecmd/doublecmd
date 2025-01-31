@@ -208,7 +208,7 @@ begin
 end;
 
 procedure TKASPathEdit.AutoComplete(const Path: String);
-{$IF LCL_FULLVERSION >= 2020000}
+{$IF LCL_FULLVERSION < 4990000}
 const
   AFlags: array[Boolean] of TMaskOptions = (
     [moDisableSets], [moDisableSets, moCaseSensitive]
@@ -236,7 +236,7 @@ begin
       try
         // Check mask and make absolute file name
         AMask:= TMask.Create(ExtractFileName(Path) + '*',
-{$IF LCL_FULLVERSION >= 2020000}
+{$IF LCL_FULLVERSION < 4990000}
                              AFlags[FileNameCaseSensitive]
 {$ELSE}
                              FileNameCaseSensitive
