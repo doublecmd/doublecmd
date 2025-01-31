@@ -67,6 +67,7 @@ type
 
 var
   iCloudDriverUIProcessor: TiCloudDriverUIHandler;
+  iCloudArrowDownImage: NSImage;
 
 { TiCloudDriverUIHandler }
 
@@ -100,24 +101,22 @@ var
 
   procedure drawDownloadIcon;
   var
-    image: NSImage;
     destRect: NSRect;
   begin
     if NOT TiCloudDriverFileSource.isSeedFile(params.displayFile.FSFile) then
       Exit;
 
-    image:= NSImage.imageWithSystemSymbolName_accessibilityDescription(
-      NSSTR('icloud.and.arrow.down'), nil );
+    if iCloudArrowDownImage = nil then begin
+      iCloudArrowDownImage:= NSImage.alloc.initWithContentsOfFile( StrToNSString(mbExpandFileName('$COMMANDER_PATH/pixmaps/macOS/icloud.and.arrow.down.png')) );
+      iCloudArrowDownImage.setSize( NSMakeSize(16,16) );
+    end;
 
-    if image = nil then
-      Exit;
-
-    destRect.size:= image.size;
-    destRect.origin.x:= params.drawingRect.Right - Round(image.size.width) - 8;
-    destRect.origin.y:= params.drawingRect.Top + (params.drawingRect.Height-Round(image.size.height))/2;
+    destRect.size:= iCloudArrowDownImage.size;
+    destRect.origin.x:= params.drawingRect.Right - Round(iCloudArrowDownImage.size.width) - 8;
+    destRect.origin.y:= params.drawingRect.Top + (params.drawingRect.Height-Round(iCloudArrowDownImage.size.height))/2;
     params.drawingRect.Right:= Round(destRect.origin.x) - 4;
 
-    image.drawInRect_fromRect_operation_fraction_respectFlipped_hints(
+    iCloudArrowDownImage.drawInRect_fromRect_operation_fraction_respectFlipped_hints(
       destRect,
       NSZeroRect,
       NSCompositeSourceOver,
@@ -420,6 +419,7 @@ initialization
 
 finalization
   FreeAndNil( iCloudDriverUIProcessor );
+  iCloudArrowDownImage.release;
 
 end.
 
