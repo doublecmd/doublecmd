@@ -62,6 +62,7 @@ type
     function GetRootDir(sPath : String): String; override;
     function IsPathAtRoot(Path: String): Boolean; override;
     function CreateListOperation(TargetPath: String): TFileSourceOperation; override;
+    function CreateCreateDirectoryOperation(BasePath: String; DirectoryPath: String): TFileSourceOperation; override;
   public
     property mountPoints: TMountPoints read _mountPoints;
   end;
@@ -233,6 +234,14 @@ end;
 function TMountedFileSource.CreateListOperation(TargetPath: String): TFileSourceOperation;
 begin
   Result:= TMountedListOperation.Create( self, TargetPath );
+end;
+
+function TMountedFileSource.CreateCreateDirectoryOperation(BasePath: String; DirectoryPath: String): TFileSourceOperation;
+var
+  realPath: String;
+begin
+  realPath:= self.GetRealPath( BasePath );
+  Result:= inherited CreateCreateDirectoryOperation(realPath, DirectoryPath);
 end;
 
 { TMountedFileSourceProcessor }
