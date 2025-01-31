@@ -3848,6 +3848,7 @@ var
   sParams: string = '';
   sStartPath: string = '';
   AElevate: TDuplicates = dupIgnore;
+  fs: TFileSystemFileSource;
 begin
   frmMain.ActiveFrame.ExecuteCommand('cm_EditNew', Params);
 
@@ -3856,6 +3857,7 @@ begin
   with frmMain do
   if ActiveFrame.FileSource.IsClass(TFileSystemFileSource) then
   begin
+    fs:= ActiveFrame.FileSource as TFileSystemFileSource;
     aFile := ActiveFrame.CloneActiveFile;
     if Assigned(aFile) then
     try
@@ -3871,7 +3873,7 @@ begin
 
     // If user entered only a filename prepend it with current directory.
     if ExtractFilePath(sNewFile) = '' then
-      sNewFile:= ActiveFrame.CurrentPath + sNewFile;
+      sNewFile:= fs.GetRealPath(ActiveFrame.CurrentPath) + sNewFile;
 
     PushPop(AElevate);
     try
@@ -3886,7 +3888,7 @@ begin
           Exit;
         end;
         FileClose(hFile);
-        ActiveFrame.FileSource.Reload(ExtractFilePath(sNewFile));
+        fs.Reload(ExtractFilePath(sNewFile));
         ActiveFrame.SetActiveFile(sNewFile);
       end
       else if FPS_ISDIR(Attrs) then
