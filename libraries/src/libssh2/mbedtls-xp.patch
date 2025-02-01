@@ -1,0 +1,72 @@
+diff --git a/library/entropy_poll.c b/library/entropy_poll.c
+index 611768cd85..a3f7054042 100644
+--- a/library/entropy_poll.c
++++ b/library/entropy_poll.c
+@@ -39,34 +39,42 @@
+ #if defined(_WIN32) && !defined(EFIX64) && !defined(EFI32)
+ 
+ #include <windows.h>
+-#include <bcrypt.h>
+ #include <intsafe.h>
++#include <wincrypt.h>
+ 
+ int mbedtls_platform_entropy_poll(void *data, unsigned char *output, size_t len,
+                                   size_t *olen)
+ {
+-    ((void) data);
++    HCRYPTPROV hCryptProv;
++    int ret = 0;
+     *olen = 0;
+ 
++    if (!CryptAcquireContext(&hCryptProv, NULL, NULL, PROV_RSA_FULL, CRYPT_VERIFYCONTEXT))
++    {
++        return MBEDTLS_ERR_ENTROPY_SOURCE_FAILED;
++    }
++    ((void) data);
+     /*
+-     * BCryptGenRandom takes ULONG for size, which is smaller than size_t on
++     * CryptGenRandom takes DWORD for size, which is smaller than size_t on
+      * 64-bit Windows platforms. Extract entropy in chunks of len (dependent
+-     * on ULONG_MAX) size.
++     * on MAXDWORD) size.
+      */
+     while (len != 0) {
+-        unsigned long ulong_bytes =
+-            (len > ULONG_MAX) ? ULONG_MAX : (unsigned long) len;
++        DWORD dword_bytes =
++            (len > MAXDWORD) ? MAXDWORD : (DWORD) len;
+ 
+-        if (!BCRYPT_SUCCESS(BCryptGenRandom(NULL, output, ulong_bytes,
+-                                            BCRYPT_USE_SYSTEM_PREFERRED_RNG))) {
+-            return MBEDTLS_ERR_ENTROPY_SOURCE_FAILED;
++        if (!CryptGenRandom(hCryptProv, dword_bytes, output))
++        {
++            ret = MBEDTLS_ERR_ENTROPY_SOURCE_FAILED;
++            break;
+         }
+ 
+-        *olen += ulong_bytes;
+-        len -= ulong_bytes;
++        *olen += dword_bytes;
++        len -= dword_bytes;
+     }
++    CryptReleaseContext(hCryptProv, 0);
+ 
+-    return 0;
++    return ret;
+ }
+ #else /* _WIN32 && !EFIX64 && !EFI32 */
+ 
+diff --git a/library/platform.c b/library/platform.c
+index 890c4cbaba..42efc38bdd 100644
+--- a/library/platform.c
++++ b/library/platform.c
+@@ -121,7 +121,7 @@ int mbedtls_platform_win32_vsnprintf(char *s, size_t n, const char *fmt, va_list
+         return -1;
+     }
+ 
+-#if defined(_TRUNCATE)
++#if defined(_TRUNCATE) && !defined(__MINGW32__)
+     ret = vsnprintf_s(s, n, _TRUNCATE, fmt, arg);
+ #else
+     ret = vsnprintf(s, n, fmt, arg);
