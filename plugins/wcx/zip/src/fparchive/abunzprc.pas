@@ -149,7 +149,6 @@ uses
   {$ENDIF}
   AbBitBkt,
   AbConst,
-  AbDfBase,
   AbDfCryS,
   AbExcept,
   AbSpanSt,
@@ -892,15 +891,13 @@ end;
 { -------------------------------------------------------------------------- }
 procedure DoInflate(Archive : TAbZipArchive; Item : TAbZipItem; InStream, OutStream : TStream);
 var
-  Hlpr  : TAbDeflateHelper;
+  InflateStream: TInflateStream;
 begin
-  Hlpr := TAbDeflateHelper.Create;
+  InflateStream := TInflateStream.Create(InStream, False);
   try
-    Hlpr.NormalSize := Item.UncompressedSize;
-
-    AbZlibPrc.Inflate(InStream, OutStream, Hlpr);
+    OutStream.CopyFrom(InflateStream, Item.UncompressedSize);
   finally
-    Hlpr.Free;
+    InflateStream.Free;
   end;
 end;
 { -------------------------------------------------------------------------- }

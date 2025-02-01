@@ -54,7 +54,6 @@ uses
   AbUtils,
   AbDfCryS,
   AbVMStrm,
-  AbDfBase,
   AbZlibPrc,
   AbZipxPrc,
   DCcrc32,
@@ -81,29 +80,29 @@ begin
     Hlpr.StreamSize := InStream.Size;
 
     { set deflation level desired }
-    Hlpr.PKZipOption := '0';
+    Hlpr.CompressionLevel := clNone;
 
     case Archive.DeflationOption of
       doNormal    : begin
-        Hlpr.PKZipOption := 'n';
+        Hlpr.CompressionLevel := clNormal;
         Item.GeneralPurposeBitFlag :=
           Item.GeneralPurposeBitFlag or DEFLATE_NORMAL_MASK;
       end;
 
       doMaximum   : begin
-        Hlpr.PKZipOption := 'x';
+        Hlpr.CompressionLevel := clMaximum;
         Item.GeneralPurposeBitFlag :=
           Item.GeneralPurposeBitFlag or DEFLATE_MAXIMUM_MASK;
       end;
 
       doFast      : begin
-        Hlpr.PKZipOption := 'f';
+        Hlpr.CompressionLevel := clFast;
         Item.GeneralPurposeBitFlag :=
           Item.GeneralPurposeBitFlag or DEFLATE_FAST_MASK;
       end;
 
       doSuperFast : begin
-        Hlpr.PKZipOption := 's';
+        Hlpr.CompressionLevel := clSuperFast;
         Item.GeneralPurposeBitFlag :=
           Item.GeneralPurposeBitFlag or DEFLATE_SUPERFAST_MASK;
       end;

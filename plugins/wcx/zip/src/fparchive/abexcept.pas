@@ -384,6 +384,8 @@ type
     constructor Create;
   end;
 
+  EAbAbortProgress = class(Exception);
+
   procedure AbConvertException( const E : Exception;
                                 var eClass : TAbErrorClass;
                                 var eErrorCode : Integer );

@@ -610,7 +610,6 @@ uses
   RTLConsts,
   SysUtils,
   AbExcept,
-  AbDfBase,
   AbConst,
   AbResString,
   DCOSUtils,

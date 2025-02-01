@@ -294,7 +294,7 @@ implementation
 
 uses
   SysUtils, BufStream,
-  AbBitBkt, AbDfBase, AbGz, AbZlibPrc, AbExcept, AbResString, AbProgress,
+  AbBitBkt, AbGz, AbZlibPrc, AbExcept, AbResString, AbProgress,
   AbVMStrm, DCOSUtils, DCClassesUtf8, DCConvertEncoding;
 
 const
@@ -533,8 +533,7 @@ var
 begin
   Helper := TAbDeflateHelper.Create;
   try
-    if (AStream is TAbBitBucketStream) then
-      Helper.Options := Helper.Options or dfc_TestOnly;
+    Helper.InflateChecksum := True;
     FItem.CRC32 := Inflate(FStream, AStream, Helper);
     FItem.UncompressedSize := Helper.NormalSize;
   finally
@@ -582,12 +581,7 @@ var
 begin
   Helper := TAbDeflateHelper.Create;
   try
-    case FArchive.CompressionLevel of
-      1 : Helper.PKZipOption := 's';
-      3 : Helper.PKZipOption := 'f';
-      6 : Helper.PKZipOption := 'n';
-      9 : Helper.PKZipOption := 'x';
-    end;
+    Helper.CompressionLevel:= TCompressionLevel(FArchive.CompressionLevel);
     FItem.CRC32 := Deflate(AStream, FStream, Helper);
     FItem.UncompressedSize := AStream.Size;
   finally
