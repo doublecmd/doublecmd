@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Double Commander 1.1.0 alpha\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-11-15 11:15+0300\n"
-"PO-Revision-Date: 2024-11-01 18:01+0100\n"
+"PO-Revision-Date: 2025-01-30 15:15+0100\n"
 "Last-Translator:  ㋡  <braass@mail.de>\n"
 "Language-Team: Deutsch <braass@mail.de>\n"
 "Language: de\n"
@@ -1003,7 +1003,7 @@ msgstr "Alle wählen"
 
 #: tfrmeditor.actedittimedate.caption
 msgid "Time/Date"
-msgstr ""
+msgstr "Zeit/Datum"
 
 #: tfrmeditor.acteditundo.caption
 msgctxt "TFRMEDITOR.ACTEDITUNDO.CAPTION"
@@ -7841,7 +7841,7 @@ msgstr "direkt vor die aktuelle Markierung"
 
 #: tfrmoptionstoolbarbase.rblinebreak.caption
 msgid "Line break"
-msgstr ""
+msgstr "Zeilenumbruch"
 
 #: tfrmoptionstoolbarbase.rbseparator.caption
 msgid "Separator"
@@ -10901,12 +10901,12 @@ msgstr "Horizontal geteilt"
 #: ulng.rsmfstbiiclouddrivertips
 msgctxt "ulng.rsmfstbiiclouddrivertips"
 msgid "iCloud Driver"
-msgstr ""
+msgstr "iCloud Drive ist der Cloud-Speicher von Apple. Vergleichbar mit z.B. Dropbox, OneDrive oder Google Drive"
 
 #: ulng.rsmfstbiiclouddrivertitle
 msgctxt "ulng.rsmfstbiiclouddrivertitle"
 msgid "iCloud Driver"
-msgstr ""
+msgstr "iCloud Drive"
 
 #: ulng.rsmfstbiprivilegetips
 msgid "As a file manager, Double Command requires full disk access permissions. Clicking this button will pop up the macOS system settings page. Please add \"Double Commander.app\" to the \"Full Disk Access\" list to complete the authorization."
@@ -11046,11 +11046,11 @@ msgstr "Archiv hier entpacken ..."
 
 #: ulng.rsmnuiclouddriverdownloadnow
 msgid "Download Now"
-msgstr ""
+msgstr "Jetzt downloaden"
 
 #: ulng.rsmnuiclouddriverremovedownload
 msgid "Remove Download"
-msgstr ""
+msgstr "Download entfernen"
 
 #: ulng.rsmnumount
 msgid "Mount"
