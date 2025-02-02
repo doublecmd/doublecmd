@@ -3,7 +3,7 @@
     -------------------------------------------------------------------------
     Some useful functions for Unix icon theme implementation
 
-    Copyright (C) 2009-2023  Alexander Koblov (alexx2000@mail.ru)
+    Copyright (C) 2009-2025  Alexander Koblov (alexx2000@mail.ru)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -38,12 +38,16 @@ function GetUnixIconThemeBaseDirList: TDynamicStringArray;
 implementation
 
 uses
-  Laz2_DOM, Laz2_XMLRead, DCClassesUtf8, uMyUnix, DCOSUtils, uOSUtils, uGio,
+  Laz2_DOM, Laz2_XMLRead, DCClassesUtf8, uMyUnix, DCOSUtils, uGio,
   uSysFolders, uXdg
 {$IF DEFINED(LCLQT5)}
   , Qt5
 {$ELSEIF DEFINED(LCLQT6)}
   , Qt6
+{$ELSEIF DEFINED(LCLGTK2)}
+  , glib2, gdk2, gtk2
+{$ELSEIF DEFINED(LCLGTK3)}
+  , Glib2, LazGdk3, LazGtk3
 {$ENDIF}
   ;
 
@@ -54,6 +58,51 @@ var
 begin
   QIcon_themeName(@AValue);
   Result:= UTF8Encode(AValue);
+end;
+{$ELSEIF DEFINED(LCLGTK2) OR DEFINED(LCLGTK3)}
+function GetGtkIconTheme: String;
+var
+  ATheme: Pgchar;
+  AValue: TGValue;
+  ASettings: PGtkSettings;
+begin
+  AValue:= Default(TGValue);
+  g_value_init(@AValue, G_TYPE_STRING);
+  if gdk_setting_get('gtk-icon-theme-name',{$IFDEF LCLGTK3}@{$ENDIF}AValue) then
+    Result:= g_value_get_string(@AValue)
+  else begin
+    Result:= EmptyStr;
+  end;
+  g_value_unset(@AValue);
+
+  if Length(Result) = 0 then
+  begin
+    ASettings:= gtk_settings_get_default();
+
+    if Assigned(ASettings) then
+    begin
+      g_object_get(ASettings,
+         'gtk-icon-theme-name', [@ATheme, nil]);
+
+      if Assigned(ATheme) then
+      begin
+        Result:= StrPas(ATheme);
+        g_free(ATheme);
+      end;
+
+      if Length(Result) = 0 then
+      begin
+        g_object_get(ASettings,
+           'gtk-fallback-icon-theme', [@ATheme, nil]);
+
+        if Assigned(ATheme) then
+        begin
+          Result:= StrPas(ATheme);
+          g_free(ATheme);
+        end;
+      end;
+    end;
+  end;
 end;
 {$ENDIF}
 
@@ -226,6 +275,9 @@ begin
   begin
 {$IF DEFINED(LCLQT5) OR DEFINED(LCLQT6)}
     Result:= GetQtIconTheme;
+    if Result = EmptyStr then
+{$ELSEIF DEFINED(LCLGTK2) OR DEFINED(LCLGTK3)}
+    Result:= GetGtkIconTheme;
     if Result = EmptyStr then
 {$ENDIF}
     Result:= DEFAULT_THEME_NAME;
