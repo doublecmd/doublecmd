@@ -1,0 +1,40 @@
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: bn\n"
+
+#: tdialogbox.caption
+msgid "Zip plugin configuration"
+msgstr "জিপ প্লাগইন কনফিগারেশন"
+
+#: tdialogbox.lblAbout.caption
+msgid "Zip plugin supports PKZIP-compatible, TAR, XZ, GZip, Zstandard and BZip2 data compression and archiving."
+msgstr "জিপ প্লাগইন PKZIP-সামঞ্জস্যপূর্ণ, TAR, XZ, GZip, Zstandard এবং BZip2 ডেটা কম্প্রেশন এবং আর্কাইভিং সমর্থন করে।"
+
+#: tdialogbox.gbCompression.caption
+msgid "Compression"
+msgstr "সংকোচন"
+
+#: tdialogbox.gbCompression.lblArchiveFormat.caption
+msgid "Archive format:"
+msgstr "আর্কাইভ ফরম্যাট:"
+
+#: tdialogbox.gbCompression.lblCompressionMethod.caption
+msgid "Compression method:"
+msgstr "সংকোচন পদ্ধতি:"
+
+#: tdialogbox.gbCompression.lblCompressionLevel.caption
+msgid "Compression level:"
+msgstr "সংকোচন স্তর:"
+
+#: tdialogbox.chkTarAutoHandle.caption
+msgid "Open *.tar.xyz archives at one step (slowly with big archives)"
+msgstr "এক ধাপে *.tar.xyz আর্কাইভ খুলুন (বড় আর্কাইভের সাথে ধীরে ধীরে)"
+
+#: tdialogbox.btnCancel.caption
+msgid "Cancel"
+msgstr "বাতিল করুন"
+
+#: tdialogbox.btnOK.caption
+msgid "OK"
+msgstr "ঠিক আছে"

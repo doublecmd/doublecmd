@@ -1,0 +1,85 @@
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: bn\n"
+
+#: tdialogbox.caption
+msgid "Options"
+msgstr "বিকল্পগুলি"
+
+#: tdialogbox.lblpath.caption
+msgid "Path to Win&RAR executable"
+msgstr "Win&RAR এক্সিকিউটেবল ফাইলের পথ"
+
+#: tdialogbox.gboptions.caption
+msgid "Archiving options"
+msgstr "আর্কাইভিং বিকল্পগুলি"
+
+#: tdialogbox.gboptions.chkrecovery.caption
+msgid "Add r&ecovery record"
+msgstr "পুনরুদ্ধার রেকর্ড যোগ করুন"
+
+#: tdialogbox.gboptions.chkencrypt.caption
+msgid "Encrypt file &names"
+msgstr "ফাইল নামগুলি এনক্রিপ্ট করুন"
+
+#: tdialogbox.gboptions.chksolid.caption
+msgid "Create &solid archive"
+msgstr "সলিড আর্কাইভ তৈরি করুন"
+
+#: tdialogbox.lblmethod.caption
+msgid "&Compression method"
+msgstr "সংকোচন পদ্ধতি"
+
+#: tdialogbox.brncancel.caption
+msgid "Cancel"
+msgstr "বাতিল করুন"
+
+#: tdialogbox.btnsave.caption
+msgid "OK"
+msgstr "ঠিক আছে"
+
+#: tdialogbox.lblargs.caption
+msgid "Additional parameters"
+msgstr "অতিরিক্ত প্যারামিটারগুলি"
+
+#: rarlng.rsdictlargewarning
+msgid "Large dictionary warning"
+msgstr "বড় অভিধান সতর্কতা"
+
+#: rarlng.rsdictnotallowed
+#, object-pascal-format
+msgid "%u GB dictionary exceeds %u GB limit and needs more than %u GB memory to unpack."
+msgstr "%u GB অভিধান %u GB সীমা অতিক্রম করে এবং আনপ্যাক করতে %u GB মেমরি প্রয়োজন।"
+
+#: rarlng.rsmsgbuttoncancel
+msgid "&Cancel"
+msgstr "বাতিল করুন"
+
+#: rarlng.rsmsgbuttonextract
+msgid "&Extract"
+msgstr "উত্তোলন করুন"
+
+#: rarlng.rsmsgpasswordenter
+msgid "Please enter the password:"
+msgstr "অনুগ্রহ করে পাসওয়ার্ড লিখুন:"
+
+#: rarlng.rsmsgexecutablenotfound
+#, object-pascal-format
+msgid ""
+"Cannot find RAR executable!\n"
+"\n"
+"%s\n"
+"\n"
+"Please check the plugin settings."
+msgstr ""
+"RAR এক্সিকিউটেবল খুঁজে পাওয়া যাচ্ছে না!\n"
+"\n"
+"%s\n"
+"\n"
+"অনুগ্রহ করে প্লাগইন সেটিংস চেক করুন।"
+
+#: rarlng.rsmsglibrarynotfound
+#, object-pascal-format
+msgid "Cannot load library %s! Please check your installation."
+msgstr "লাইব্রেরি %s লোড করা যাচ্ছে না! অনুগ্রহ করে আপনার ইনস্টলেশন চেক করুন।"

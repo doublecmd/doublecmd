@@ -1,0 +1,155 @@
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: bn\n"
+
+#: tdialogbox.btnadd.caption
+msgid "+"
+msgstr "+"
+
+#: tdialogbox.btnanonymous.caption
+msgid "Anonymous"
+msgstr "বেনামী"
+
+#: tdialogbox.btncancel.caption
+msgid "Cancel"
+msgstr "বাতিল করুন"
+
+#: tdialogbox.btnchangepassword.caption
+msgid "Change password..."
+msgstr "পাসওয়ার্ড পরিবর্তন করুন..."
+
+#: tdialogbox.btndelete.caption
+msgid "-"
+msgstr "-"
+
+#: tdialogbox.btnok.caption
+msgid "&OK"
+msgstr "ঠিক আছে"
+
+#: tdialogbox.caption
+msgctxt "tdialogbox.caption"
+msgid "FTP"
+msgstr "এফটিপি"
+
+#: tdialogbox.chkagentssh.caption
+msgid "Use SSH-agent authentication"
+msgstr "এসএসএইচ-এজেন্ট প্রমাণীকরণ ব্যবহার করুন"
+
+#: tdialogbox.chkcopyscp.caption
+msgid "Copy using SCP protocol (faster)"
+msgstr "এসসিপি প্রোটোকল ব্যবহার করে কপি করুন (দ্রুত)"
+
+#: tdialogbox.chkkeepalivetransfer.caption
+msgid "Send keepalive during a transfer"
+msgstr "একটি স্থানান্তরের সময় কিপালাইভ পাঠান"
+
+#: tdialogbox.chkmasterpassword.caption
+msgid "Use master password to protect the password"
+msgstr "পাসওয়ার্ড রক্ষা করতে মাস্টার পাসওয়ার্ড ব্যবহার করুন"
+
+#: tdialogbox.chkpassivemode.caption
+msgid "Use passive mode for transfers (like a WWW browser)"
+msgstr "স্থানান্তরের জন্য প্যাসিভ মোড ব্যবহার করুন (একটি WWW ব্রাউজারের মতো)"
+
+#: tdialogbox.chkshowhidden.caption
+msgid "Use 'LIST -la' command to reveal hidden items"
+msgstr "'LIST -la' কমান্ড ব্যবহার করে লুকানো আইটেমগুলি প্রকাশ করুন"
+
+#: tdialogbox.cmbencoding.text
+msgid "Auto"
+msgstr "স্বয়ংক্রিয়"
+
+#: tdialogbox.dividerbevel.caption
+msgid "Client certificate for authentication:"
+msgstr "প্রমাণীকরণের জন্য ক্লায়েন্ট শংসাপত্র:"
+
+#: tdialogbox.gbftp.caption
+msgctxt "tdialogbox.gbftp.caption"
+msgid "FTP"
+msgstr "এফটিপি"
+
+#: tdialogbox.gblogon.caption
+msgid "Firewall logon"
+msgstr "ফায়ারওয়াল লগইন"
+
+#: tdialogbox.gbssh.caption
+msgctxt "tdialogbox.gbssh.caption"
+msgid "SSH"
+msgstr "এসএসএইচ"
+
+#: tdialogbox.lblencoding.caption
+msgid "Encoding:"
+msgstr "এনকোডিং:"
+
+#: tdialogbox.lblhost.caption
+msgid "Host[:Port]:"
+msgstr "হোস্ট [:পোর্ট]:"
+
+#: tdialogbox.lblinitcommands.caption
+msgid "Init commands:"
+msgstr "প্রাথমিক কমান্ড:"
+
+#: tdialogbox.lblname.caption
+msgid "Connection name:"
+msgstr "সংযোগের নাম:"
+
+#: tdialogbox.lblpassword.caption
+msgid "Password:"
+msgstr "পাসওয়ার্ড:"
+
+#: tdialogbox.lblprivatekey.caption
+msgid "Private key file (*.pem):"
+msgstr "প্রাইভেট কী ফাইল (*.pem):"
+
+#: tdialogbox.lblprotocol.caption
+msgid "Protocol:"
+msgstr "প্রোটোকল:"
+
+#: tdialogbox.lblproxy.caption
+msgid "Use firewall (proxy server)"
+msgstr "ফায়ারওয়াল (প্রক্সি সার্ভার) ব্যবহার করুন"
+
+#: tdialogbox.lblproxyhost.caption
+msgid "&Host name:"
+msgstr "হোস্টের নাম:"
+
+#: tdialogbox.lblproxypassword.caption
+msgid "&Password:"
+msgstr "পাসওয়ার্ড:"
+
+#: tdialogbox.lblproxyuser.caption
+msgid "&User name:"
+msgstr "ব্যবহারকারীর নাম:"
+
+#: tdialogbox.lblpublickey.caption
+msgid "Public key file (*.pub):"
+msgstr "পাবলিক কী ফাইল (*.pub):"
+
+#: tdialogbox.lblremotedir.caption
+msgid "Remote dir:"
+msgstr "দূরবর্তী ডিরেক্টরি:"
+
+#: tdialogbox.lblusername.caption
+msgid "User name:"
+msgstr "ব্যবহারকারীর নাম:"
+
+#: tdialogbox.rgproxytype.caption
+msgid "Connect method"
+msgstr "সংযোগ পদ্ধতি"
+
+#: tdialogbox.tsadvanced.caption
+msgid "Advanced"
+msgstr "উন্নত"
+
+#: tdialogbox.tsgeneral.caption
+msgid "General"
+msgstr "সাধারণ"
+
+#: tdialogbox.tsproxy.caption
+msgid "Proxy"
+msgstr "প্রক্সি"
+
+#: tfrmfileproperties.caption
+msgid "Properties"
+msgstr "বৈশিষ্ট্য"
