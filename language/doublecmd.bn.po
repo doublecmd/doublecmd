@@ -1,0 +1,127 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: doublecmd\n"
+"POT-Creation-Date: 2023-03-01 12:00+0000\n"
+"PO-Revision-Date: 2023-03-01 12:00+0000\n"
+"Last-Translator: <Your Name>\n"
+"Language-Team: Bangla\n"
+"Language: bn\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: doublecmd
+msgid "Double Commander"
+msgstr "ডাবল কমান্ডার"
+
+#: doublecmd
+msgid "File"
+msgstr "ফাইল"
+
+#: doublecmd
+msgid "Edit"
+msgstr "সম্পাদনা"
+
+#: doublecmd
+msgid "View"
+msgstr "দেখুন"
+
+#: doublecmd
+msgid "Search"
+msgstr "অনুসন্ধান"
+
+#: doublecmd
+msgid "Tools"
+msgstr "সরঞ্জাম"
+
+#: doublecmd
+msgid "Help"
+msgstr "সাহায্য"
+
+#: doublecmd
+msgid "Open"
+msgstr "খুলুন"
+
+#: doublecmd
+msgid "Save"
+msgstr "সংরক্ষণ করুন"
+
+#: doublecmd
+msgid "Save As"
+msgstr "নাম দিয়ে সংরক্ষণ করুন"
+
+#: doublecmd
+msgid "Close"
+msgstr "বন্ধ করুন"
+
+#: doublecmd
+msgid "Exit"
+msgstr "প্রস্থান"
+
+#: doublecmd
+msgid "Cut"
+msgstr "কাটুন"
+
+#: doublecmd
+msgid "Copy"
+msgstr "কপি করুন"
+
+#: doublecmd
+msgid "Paste"
+msgstr "পেস্ট করুন"
+
+#: doublecmd
+msgid "Delete"
+msgstr "মুছে ফেলুন"
+
+#: doublecmd
+msgid "Select All"
+msgstr "সব নির্বাচন করুন"
+
+#: doublecmd
+msgid "Deselect All"
+msgstr "সব নির্বাচন বাতিল করুন"
+
+#: doublecmd
+msgid "Find"
+msgstr "খুঁজুন"
+
+#: doublecmd
+msgid "Find Next"
+msgstr "পরবর্তী খুঁজুন"
+
+#: doublecmd
+msgid "Find Previous"
+msgstr "পূর্ববর্তী খুঁজুন"
+
+#: doublecmd
+msgid "Replace"
+msgstr "প্রতিস্থাপন করুন"
+
+#: doublecmd
+msgid "Go to Line"
+msgstr "লাইন এ যান"
+
+#: doublecmd
+msgid "Preferences"
+msgstr "পছন্দসমূহ"
+
+#: doublecmd
+msgid "About"
+msgstr "সম্পর্কে"
+
+#: doublecmd
+msgid "Documentation"
+msgstr "ডকুমেন্টেশন"
+
+#: doublecmd
+msgid "Check for Updates"
+msgstr "আপডেটের জন্য চেক করুন"
+
+#: doublecmd
+msgid "Report a Bug"
+msgstr "একটি বাগ রিপোর্ট করুন"
+
+#: doublecmd
+msgid "Quit"
+msgstr "প্রস্থান করুন"
