@@ -326,6 +326,8 @@ var
 begin
   if aFile.Name = '..' then
     Exit( False );
+  if aFile.Name.StartsWith('.') and aFile.Name.EndsWith('.icloud',True) then
+    Exit( True );
 
   url:= NSURL.fileURLWithPath( StrToNSString(aFile.FullPath) );
   url.getResourceValue_forKey_error( @status, NSURLUbiquitousItemDownloadingStatusKey, nil );
