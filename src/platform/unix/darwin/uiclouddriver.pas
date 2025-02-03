@@ -320,13 +320,16 @@ begin
 end;
 
 class function TiCloudDriverFileSource.isSeedFile(aFile: TFile): Boolean;
+var
+  url: NSURL;
+  status: NSString;
 begin
-  Result:= False;
-  if NOT aFile.Name.StartsWith( '.' ) then
-    Exit;
-  if NOT aFile.Name.EndsWith( '.icloud', True ) then
-    Exit;
-  Result:= True;
+  if aFile.Name = '..' then
+    Exit( False );
+
+  url:= NSURL.fileURLWithPath( StrToNSString(aFile.FullPath) );
+  url.getResourceValue_forKey_error( @status, NSURLUbiquitousItemDownloadingStatusKey, nil );
+  Result:= status.isEqualToString( NSURLUbiquitousItemDownloadingStatusNotDownloaded );
 end;
 
 class function TiCloudDriverFileSource.isSeedFiles(aFiles: TFiles): Boolean;
