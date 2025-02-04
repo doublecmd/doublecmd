@@ -86,13 +86,23 @@ begin
 end;
 
 class procedure TSeedFileUtil.doDownload(const aFile: TFile);
+var
+  url: NSUrl;
+  manager: NSFileManager;
 begin
-
+  url:= NSUrl.fileURLWithPath( StrToNSString(aFile.FullPath) );
+  manager:= NSFileManager.defaultManager;
+  manager.startDownloadingUbiquitousItemAtURL_error( url, nil )
 end;
 
 class procedure TSeedFileUtil.doEvict(const aFile: TFile);
+var
+  url: NSUrl;
+  manager: NSFileManager;
 begin
-
+  url:= NSUrl.fileURLWithPath( StrToNSString(aFile.FullPath) );
+  manager:= NSFileManager.defaultManager;
+  manager.evictUbiquitousItemAtURL_error( url, nil );
 end;
 
 class function TSeedFileUtil.isSeedFile(const aFile: TFile): Boolean;
@@ -117,35 +127,24 @@ begin
 end;
 
 class procedure TSeedFileUtil.download(const aFile: TFile);
-var
-  isSeed: Boolean;
-  manager: NSFileManager;
-  url: NSUrl;
 begin
-  manager:= NSFileManager.defaultManager;
-  isSeed:= isSeedFile( aFile );
-  url:= NSUrl.fileURLWithPath( StrToNSString(aFile.FullPath) );
-  if isSeed then
-    manager.startDownloadingUbiquitousItemAtURL_error( url, nil )
+  if isSeedFile( aFile ) then
+    doDownload( aFile )
   else
-    manager.evictUbiquitousItemAtURL_error( url, nil );
+    doEvict( aFile );
 end;
 
 class procedure TSeedFileUtil.download(const aFiles: TFiles);
 var
   isSeed: Boolean;
   i: Integer;
-  manager: NSFileManager;
-  url: NSUrl;
 begin
-  manager:= NSFileManager.defaultManager;
   isSeed:= isSeedFiles( aFiles );
   for i:= 0 to aFiles.Count-1 do begin
-    url:= NSUrl.fileURLWithPath( StrToNSString(aFiles[i].FullPath) );
     if isSeed then
-      manager.startDownloadingUbiquitousItemAtURL_error( url, nil )
+      doDownload( aFiles[i] )
     else
-      manager.evictUbiquitousItemAtURL_error( url, nil );
+      doEvict( aFiles[i] );
   end;
 end;
 
