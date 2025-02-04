@@ -64,14 +64,15 @@ type
 
   TSeedFileUtil = class
   private
-    class procedure doDownloadDirectory( const aFile: TFile );
-    class procedure doDownload( const aFile: TFile );
-    class procedure doEvict( const aFile: TFile );
+    class procedure doDownloadDirectory( const path: NSString );
+    class procedure doDownload( const path: NSString );
+    class procedure download( const aFile: TFile );
+    class procedure evict( const aFile: TFile );
   public
     class function isSeedFile( const aFile: TFile ): Boolean;
     class function isSeedFiles( const aFiles: TFiles): Boolean;
-    class procedure download( const aFile: TFile );
-    class procedure download( const aFiles: TFiles );
+    class procedure downloadOrEvict( const aFile: TFile );
+    class procedure downloadOrEvict( const aFiles: TFiles );
   end;
 
 var
@@ -80,22 +81,45 @@ var
 
 { TSeedFileUtil }
 
-class procedure TSeedFileUtil.doDownloadDirectory(const aFile: TFile);
-begin
-
-end;
-
-class procedure TSeedFileUtil.doDownload(const aFile: TFile);
+class procedure TSeedFileUtil.doDownloadDirectory(const path: NSString);
 var
-  url: NSUrl;
   manager: NSFileManager;
+  files: NSArray;
+  name: NSString;
 begin
-  url:= NSUrl.fileURLWithPath( StrToNSString(aFile.FullPath) );
   manager:= NSFileManager.defaultManager;
-  manager.startDownloadingUbiquitousItemAtURL_error( url, nil )
+  files:= manager.contentsOfDirectoryAtPath_error(
+    path, nil );
+  for name in files do begin
+    doDownload( path.stringByAppendingPathComponent(name) );
+  end;
 end;
 
-class procedure TSeedFileUtil.doEvict(const aFile: TFile);
+class procedure TSeedFileUtil.doDownload(const path: NSString);
+var
+  manager: NSFileManager;
+  isDirectory: ObjCBOOL;
+  url: NSURL;
+begin
+  manager:= NSFileManager.defaultManager;
+  manager.fileExistsAtPath_isDirectory( path, @isDirectory );
+  if isDirectory then begin
+    doDownloadDirectory( path );
+  end else begin
+    url:= NSUrl.fileURLWithPath( path );
+    manager.startDownloadingUbiquitousItemAtURL_error( url, nil );
+  end;
+end;
+
+class procedure TSeedFileUtil.download(const aFile: TFile);
+var
+  path: NSString;
+begin
+  path:= StrToNSString( aFile.FullPath );
+  doDownload( path );
+end;
+
+class procedure TSeedFileUtil.evict(const aFile: TFile);
 var
   url: NSUrl;
   manager: NSFileManager;
@@ -126,15 +150,15 @@ begin
   Result:= isSeedFile( aFiles[0] );
 end;
 
-class procedure TSeedFileUtil.download(const aFile: TFile);
+class procedure TSeedFileUtil.downloadOrEvict(const aFile: TFile);
 begin
   if isSeedFile( aFile ) then
-    doDownload( aFile )
+    download( aFile )
   else
-    doEvict( aFile );
+    evict( aFile );
 end;
 
-class procedure TSeedFileUtil.download(const aFiles: TFiles);
+class procedure TSeedFileUtil.downloadOrEvict(const aFiles: TFiles);
 var
   isSeed: Boolean;
   i: Integer;
@@ -142,9 +166,9 @@ begin
   isSeed:= isSeedFiles( aFiles );
   for i:= 0 to aFiles.Count-1 do begin
     if isSeed then
-      doDownload( aFiles[i] )
+      download( aFiles[i] )
     else
-      doEvict( aFiles[i] );
+      evict( aFiles[i] );
   end;
 end;
 
@@ -236,7 +260,7 @@ begin
   if params.x < params.drawingRect.Right - 28 then
     Exit;
 
-  TSeedFileUtil.download( aFile );
+  TSeedFileUtil.downloadOrEvict( aFile );
 end;
 
 { TiCloudDriverFileSource }
@@ -361,7 +385,7 @@ procedure TiCloudDriverFileSource.downloadAction(Sender: TObject);
 begin
   if _files = nil then
     Exit;
-  TSeedFileUtil.download( _files );
+  TSeedFileUtil.downloadOrEvict( _files );
   FreeAndNil( _files );
 end;
 
