@@ -10,7 +10,7 @@ uses
   uFile, uDisplayFile,
   uFileSource, uMountedFileSource, uFileSourceManager, uVfsModule,
   uDCUtils, uLng, uMyDarwin,
-  CocoaAll, CocoaUtils, Cocoa_Extra;
+  CocoaAll, CocoaUtils;
 
 type
   { TiCloudDriverFileSource }
@@ -23,9 +23,6 @@ type
     procedure addAppIcon( const path: String; const appName: String );
     procedure downloadAction(Sender: TObject);
   public
-    class function isSeedFile(aFile: TFile): Boolean;
-    class function isSeedFiles(aFiles: TFiles): Boolean;
-  public
     constructor Create; override;
     destructor Destroy; override;
 
@@ -33,8 +30,6 @@ type
 
     procedure mountAppPoint( const appName: String );
     function getAppIconByPath( const path: String ): NSImage;
-    procedure download( const aFile: TFile );
-    procedure download( const files: TFiles );
     function getDefaultPointForPath( const path: String ): String; override;
   public
     class function GetFileSource: TiCloudDriverFileSource;
@@ -65,9 +60,94 @@ type
     procedure click( var params: TFileSourceUIParams); override;
   end;
 
+  { TSeedFileUtil }
+
+  TSeedFileUtil = class
+  private
+    class procedure doDownloadDirectory( const aFile: TFile );
+    class procedure doDownload( const aFile: TFile );
+    class procedure doEvict( const aFile: TFile );
+  public
+    class function isSeedFile( const aFile: TFile ): Boolean;
+    class function isSeedFiles( const aFiles: TFiles): Boolean;
+    class procedure download( const aFile: TFile );
+    class procedure download( const aFiles: TFiles );
+  end;
+
 var
   iCloudDriverUIProcessor: TiCloudDriverUIHandler;
   iCloudArrowDownImage: NSImage;
+
+{ TSeedFileUtil }
+
+class procedure TSeedFileUtil.doDownloadDirectory(const aFile: TFile);
+begin
+
+end;
+
+class procedure TSeedFileUtil.doDownload(const aFile: TFile);
+begin
+
+end;
+
+class procedure TSeedFileUtil.doEvict(const aFile: TFile);
+begin
+
+end;
+
+class function TSeedFileUtil.isSeedFile(const aFile: TFile): Boolean;
+var
+  url: NSURL;
+  status: NSString;
+begin
+  if aFile.Name = '..' then
+    Exit( False );
+
+  if aFile.Name.StartsWith('.') and aFile.Name.EndsWith('.icloud',True) then
+    Exit( True );
+
+  url:= NSURL.fileURLWithPath( StrToNSString(aFile.FullPath) );
+  url.getResourceValue_forKey_error( @status, NSURLUbiquitousItemDownloadingStatusKey, nil );
+  Result:= status.isEqualToString( NSURLUbiquitousItemDownloadingStatusNotDownloaded );
+end;
+
+class function TSeedFileUtil.isSeedFiles(const aFiles: TFiles): Boolean;
+begin
+  Result:= isSeedFile( aFiles[0] );
+end;
+
+class procedure TSeedFileUtil.download(const aFile: TFile);
+var
+  isSeed: Boolean;
+  manager: NSFileManager;
+  url: NSUrl;
+begin
+  manager:= NSFileManager.defaultManager;
+  isSeed:= isSeedFile( aFile );
+  url:= NSUrl.fileURLWithPath( StrToNSString(aFile.FullPath) );
+  if isSeed then
+    manager.startDownloadingUbiquitousItemAtURL_error( url, nil )
+  else
+    manager.evictUbiquitousItemAtURL_error( url, nil );
+end;
+
+class procedure TSeedFileUtil.download(const aFiles: TFiles);
+var
+  isSeed: Boolean;
+  i: Integer;
+  manager: NSFileManager;
+  url: NSUrl;
+begin
+  manager:= NSFileManager.defaultManager;
+  isSeed:= isSeedFiles( aFiles );
+  for i:= 0 to aFiles.Count-1 do begin
+    url:= NSUrl.fileURLWithPath( StrToNSString(aFiles[i].FullPath) );
+    if isSeed then
+      manager.startDownloadingUbiquitousItemAtURL_error( url, nil )
+    else
+      manager.evictUbiquitousItemAtURL_error( url, nil );
+  end;
+end;
 
 { TiCloudDriverUIHandler }
 
@@ -103,7 +183,7 @@ var
   var
     destRect: NSRect;
   begin
-    if NOT TiCloudDriverFileSource.isSeedFile(params.displayFile.FSFile) then
+    if NOT TSeedFileUtil.isSeedFile(params.displayFile.FSFile) then
       Exit;
 
     if iCloudArrowDownImage = nil then begin
@@ -151,13 +231,13 @@ begin
     Exit;
 
   aFile:= params.displayFile.FSFile;
-  if NOT TiCloudDriverFileSource.isSeedFile(aFile) then
+  if NOT TSeedFileUtil.isSeedFile(aFile) then
     Exit;
 
   if params.x < params.drawingRect.Right - 28 then
     Exit;
 
-  (params.fs as TiCloudDriverFileSource).download( aFile );
+  TSeedFileUtil.download( aFile );
 end;
 
 { TiCloudDriverFileSource }
@@ -267,39 +347,6 @@ begin
   Result:= _appIcons.valueForKey( StrToNSString(path) );
 end;
 
-procedure TiCloudDriverFileSource.download( const aFile: TFile );
-var
-  isSeed: Boolean;
-  manager: NSFileManager;
-  url: NSUrl;
-begin
-  manager:= NSFileManager.defaultManager;
-  isSeed:= isSeedFile( aFile );
-  url:= NSUrl.fileURLWithPath( StrToNSString(aFile.FullPath) );
-  if isSeed then
-    manager.startDownloadingUbiquitousItemAtURL_error( url, nil )
-  else
-    manager.evictUbiquitousItemAtURL_error( url, nil );
-end;
-
-procedure TiCloudDriverFileSource.download( const files: TFiles );
-var
-  isSeed: Boolean;
-  i: Integer;
-  manager: NSFileManager;
-  url: NSUrl;
-begin
-  manager:= NSFileManager.defaultManager;
-  isSeed:= isSeedFiles( files );
-  for i:= 0 to files.Count-1 do begin
-    url:= NSUrl.fileURLWithPath( StrToNSString(files[i].FullPath) );
-    if isSeed then
-      manager.startDownloadingUbiquitousItemAtURL_error( url, nil )
-    else
-      manager.evictUbiquitousItemAtURL_error( url, nil );
-  end;
-end;
-
 function TiCloudDriverFileSource.GetUIHandler: TFileSourceUIHandler;
 begin
   Result:= iCloudDriverUIProcessor;
@@ -315,28 +362,8 @@ procedure TiCloudDriverFileSource.downloadAction(Sender: TObject);
 begin
   if _files = nil then
     Exit;
-  download( _files );
+  TSeedFileUtil.download( _files );
   FreeAndNil( _files );
-end;
-
-class function TiCloudDriverFileSource.isSeedFile(aFile: TFile): Boolean;
-var
-  url: NSURL;
-  status: NSString;
-begin
-  if aFile.Name = '..' then
-    Exit( False );
-  if aFile.Name.StartsWith('.') and aFile.Name.EndsWith('.icloud',True) then
-    Exit( True );
-
-  url:= NSURL.fileURLWithPath( StrToNSString(aFile.FullPath) );
-  url.getResourceValue_forKey_error( @status, NSURLUbiquitousItemDownloadingStatusKey, nil );
-  Result:= status.isEqualToString( NSURLUbiquitousItemDownloadingStatusNotDownloaded );
-end;
-
-class function TiCloudDriverFileSource.isSeedFiles(aFiles: TFiles): Boolean;
-begin
-  Result:= isSeedFile( aFiles[0] );
 end;
 
 function TiCloudDriverFileSource.getDefaultPointForPath(const path: String): String;
@@ -369,7 +396,7 @@ function TiCloudDriverFileSource.IsSystemFile(aFile: TFile): Boolean;
 begin
   Result:= inherited;
   if Result then
-    Result:= NOT isSeedFile( aFile );
+    Result:= NOT TSeedFileUtil.isSeedFile( aFile );
 end;
 
 function TiCloudDriverFileSource.IsPathAtRoot(Path: String): Boolean;
@@ -405,7 +432,7 @@ begin
   _files:= AFiles.clone;
 
   menuItem:= TMenuItem.Create( AMenu );
-  if isSeedFile(AFiles[0]) then
+  if TSeedFileUtil.isSeedFile(AFiles[0]) then
     menuItem.Caption:= rsMnuiCloudDriverDownloadNow
   else
     menuItem.Caption:= rsMnuiCloudDriverRemoveDownload;
