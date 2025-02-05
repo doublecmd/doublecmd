@@ -1969,7 +1969,6 @@ var
     if handler = nil then
       Exit;
 
-    params.drawingRect:= aRect;
     handler.draw( params );
   end;
 
@@ -2025,6 +2024,7 @@ begin
         DrawOtherCell;
     end;
 
+    params.drawingRect:= aRect;
     params.focused:= (gdSelected in aState) and ColumnsView.Active;
     callFileSourceDrawCell;
     callOnDrawCell;

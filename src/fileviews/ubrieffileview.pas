@@ -553,7 +553,6 @@ var
     if handler = nil then
       Exit;
 
-    params.drawingRect:= aRect;
     handler.draw( params );
   end;
 
@@ -591,6 +590,7 @@ begin
 
       DrawIconCell;
 
+      params.drawingRect:= aRect;
       params.focused:= (gdSelected in aState) and FBriefView.Active;
       callFileSourceDrawCell;
       callOnDrawCell;
