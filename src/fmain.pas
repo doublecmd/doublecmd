@@ -6250,14 +6250,17 @@ procedure TfrmMain.LoadTabsCommandLine(Params: TCommandLineParams);
     if Length(aPath) <> 0 then
     begin
       aPath:= ReplaceEnvVars(ReplaceTilde(aPath));
-      if not mbFileSystemEntryExists(aPath) then
+      if not mbFileSystemEntryExists(aPath) and not aPath.StartsWith('wfx://') then
         aPath:= GetDeepestExistingPath(aPath);
       if Length(aPath) <> 0 then
       begin
         if Params.NewTab then
           AddTab(aNoteBook, aPath)
         else
-          aNoteBook.ActivePage.FileView.ChangePathAndSetActiveFile(aPath)
+          if aPath.StartsWith('wfx://') then
+            Commands.cm_ChangeDir([aPath])
+          else
+            aNoteBook.ActivePage.FileView.ChangePathAndSetActiveFile(aPath);
       end;
     end;
   end;
