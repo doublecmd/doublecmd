@@ -6,6 +6,7 @@ interface
 
 uses
   Classes, SysUtils,
+  uFileSourceWatcher, uFileSystemFileSourceWatcher,
   uFileSourceOperation,
   uFileSourceOperationTypes,
   uLocalFileSource,
@@ -46,6 +47,7 @@ type
     constructor Create; override;
     destructor Destroy; override;
 
+    function GetWatcher: TFileSourceWatcher; override;
     function GetProcessor: TFileSourceProcessor; override;
     function GetRealPath(const APath: String): String; virtual;
     function GetVirtualPath(const APath: String): String; virtual;
@@ -168,6 +170,7 @@ uses
   uFileSystemSetFilePropertyOperation;
 
 var
+  fileSystemFileSourceWatcher: TFileSourceWatcher;
   fileSystemFileSourceProcessor: TFileSystemFileSourceProcessor;
 
 {$IF DEFINED(MSWINDOWS)}
@@ -336,6 +339,11 @@ destructor TFileSystemFileSource.Destroy;
 begin
   inherited Destroy;
   FDescr.Free;
+end;
+
+function TFileSystemFileSource.GetWatcher: TFileSourceWatcher;
+begin
+  Result:= fileSystemFileSourceWatcher;
 end;
 
 function TFileSystemFileSource.GetProcessor: TFileSourceProcessor;
@@ -1133,9 +1141,11 @@ begin
 end;
 
 initialization
+  fileSystemFileSourceWatcher:= TFileSystemFileSourceWatcher.Create;
   fileSystemFileSourceProcessor:= TFileSystemFileSourceProcessor.Create;
 
 finalization
+  FreeAndNil( fileSystemFileSourceWatcher );
   FreeAndNil( fileSystemFileSourceProcessor );
 
 end.

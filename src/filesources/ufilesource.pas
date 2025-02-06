@@ -6,11 +6,9 @@ interface
 
 uses
   Classes, SysUtils, DCStrUtils, syncobjs, LCLProc, URIParser, Menus,
-  uFileSourceOperation,
-  uFileSourceOperationTypes,
-  uFileSourceProperty,
-  uFileProperty,
-  uFile, uDisplayFile;
+  uFile, uDisplayFile, uFileProperty,
+  uFileSourceWatcher,
+  uFileSourceOperation, uFileSourceOperationTypes, uFileSourceProperty;
 
 type
 
@@ -93,6 +91,7 @@ type
   IFileSource = interface(IInterface)
     ['{B7F0C4C8-59F6-4A35-A54C-E8242F4AD809}']
 
+    function GetWatcher: TFileSourceWatcher;
     function GetProcessor: TFileSourceProcessor;
     function GetUIHandler: TFileSourceUIHandler;
 
@@ -275,6 +274,7 @@ type
     constructor Create(const URI: TURI); virtual; overload;
     destructor Destroy; override;
 
+    function GetWatcher: TFileSourceWatcher; virtual;
     function GetProcessor: TFileSourceProcessor; virtual;
     function GetUIHandler: TFileSourceUIHandler; virtual;
 
@@ -448,6 +448,9 @@ implementation
 uses
   uDebug, uFileSourceManager, uFileSourceListOperation, uLng;
 
+var
+  defaultFileSourceWatcher: TFileSourceWatcher;
+
 { TFileSource }
 
 constructor TFileSource.Create;
@@ -522,6 +525,11 @@ begin
   FreeAndNil(FReloadEventListeners);
 
   inherited Destroy;
+end;
+
+function TFileSource.GetWatcher: TFileSourceWatcher;
+begin
+  Result:= defaultFileSourceWatcher;
 end;
 
 function TFileSource.GetProcessor: TFileSourceProcessor;
@@ -1065,6 +1073,12 @@ begin
   FFilePath := AFilePath;
   inherited Create(Format(rsMsgFileNotFound, [aFilePath]));
 end;
+
+initialization
+  defaultFileSourceWatcher:= TDefaultFileSourceWatcher.Create;
+
+finalization
+  FreeAndNil( defaultFileSourceWatcher );
 
 end.
 

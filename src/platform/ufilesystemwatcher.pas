@@ -27,7 +27,8 @@ unit uFileSystemWatcher;
 interface
 
 uses
-  Classes, SysUtils, LCLVersion
+  Classes, SysUtils, LCLVersion,
+  uFileSourceWatcher
   {$IFDEF DARWIN}
   , uDarwinFSWatch
   {$ENDIF}
@@ -36,31 +37,7 @@ uses
 //{$DEFINE DEBUG_WATCHER}
 
 type
-  TFSWatchFilter = set of (wfFileNameChange, wfAttributesChange);
-
-  TFSWatcherEventType = (fswFileCreated,
-                         fswFileChanged,
-                         fswFileDeleted,
-                         fswFileRenamed,
-                         fswSelfDeleted,
-                         fswUnknownChange);
-  TFSWatcherEventTypes = set of TFSWatcherEventType;
-
   TFSFeatures = set of (fsfFlatView);
-
-  TFSWatcherEventData = record
-    Path: String;
-    EventType: TFSWatcherEventType;
-    FileName: String;    // Valid for fswFileCreated, fswFileChanged, fswFileDeleted, fswFileRenamed
-    NewFileName: String; // Valid for fswFileRenamed
-    UserData: Pointer;
-{$IFDEF DARWIN}
-    OriginalEvent: TDarwinFSWatchEvent;
-{$ENDIF}
-  end;
-  PFSWatcherEventData = ^TFSWatcherEventData;
-
-  TFSWatcherEvent = procedure(const EventData: TFSWatcherEventData) of object;
 
   { TFileSystemWatcher }
 

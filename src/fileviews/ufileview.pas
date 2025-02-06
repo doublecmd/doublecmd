@@ -31,7 +31,7 @@ uses
   uFindFiles, Classes, SysUtils, Controls, ExtCtrls, Graphics, ComCtrls, contnrs, fgl, LMessages,
   uFile, uDisplayFile, uFileSource, uFormCommands, uDragDropEx, DCXmlConfig, DCBasicTypes,
   DCClassesUtf8, uFileSorting, uFileViewHistory, uFileProperty, uFileViewWorker,
-  uFunctionThread, uFileSystemWatcher, fQuickSearch, DCStringHashListUtf8, uGlobs;
+  uFunctionThread, uFileSourceWatcher, fQuickSearch, DCStringHashListUtf8, uGlobs;
 
 type
 
@@ -1273,7 +1273,7 @@ var
     // there are two cases of file update
     // 1. modified: VisualizeFileUpdate() should be called
     // 2. no modified: need not Visual Blink
-    if TFileSystemWatcher.CanWatch(FWatchPath) and
+    if FileSource.GetWatcher.canWatch(FWatchPath) and
        ((propertiesChanged+[fpLastAccessTime,fpChangeTime])=[fpLastAccessTime,fpChangeTime]) then
          exit;
     VisualizeFileUpdate(ADisplayFile);
@@ -3364,7 +3364,7 @@ begin
       begin
         FWatchPath := CurrentPath;
         realPath:= (FileSource as TFileSystemFileSource).GetRealPath(FWatchPath);
-        if TFileSystemWatcher.AddWatch(realPath, WatchFilter, @WatcherEvent, self) = False then
+        if FileSource.GetWatcher.addPath(realPath, WatchFilter, @WatcherEvent, self) = False then
           FWatchPath := EmptyStr;
       end;
     end;
@@ -3373,7 +3373,7 @@ begin
   begin
     if FileSource.IsClass(TFileSystemFileSource) then begin
       realPath:= (FileSource as TFileSystemFileSource).GetRealPath(FWatchPath);
-      TFileSystemWatcher.RemoveWatch(realPath, @WatcherEvent);
+      FileSource.GetWatcher.removePath(realPath, @WatcherEvent);
     end;
     FWatchPath := EmptyStr;
   end;
@@ -3382,9 +3382,7 @@ end;
 procedure TFileView.SetFlatView(AFlatView: Boolean);
 begin
   FFlatView:= AFlatView;
-  {$IFDEF DARWIN}
-  TFileSystemWatcher.UpdateWatch;
-  {$ENDIF}
+  FileSource.GetWatcher.UpdateWatch;
 end;
 
 procedure TFileView.ActivateEvent(Sender: TObject);
@@ -3436,12 +3434,10 @@ var
 begin
   if aFileSource.Equals(FileSource) then
   begin
-    // Reload file view but only if the file source is
-    // currently viewed and FileSystemWatcher is not being used.
+    // Reload file view but only if the file source is currently viewed
+    // and FileSourceWatcher is not being used.
     NoWatcher:= not (WatcherActive and
-                     TFileSystemWatcher.CanWatch(ReloadedPaths) and
-                     TFileSystemFileSource.ClassNameIs(FileSource.ClassName)
-                     );
+                     FileSource.GetWatcher.canWatch(ReloadedPaths));
     if (NoWatcher or FlatView) then Reload(ReloadedPaths);
   end;
 end;
