@@ -31,6 +31,13 @@ uses
 
 type
 
+  { TCalcEdit }
+
+  TCalcEdit = class(EditBtn.TCalcEdit)
+  public
+    procedure RunDialog; override;
+  end;
+
   { TPluginPanel }
 
   TPluginPanel = class(TPanel)
@@ -78,7 +85,19 @@ type
 implementation
 
 uses
-  DateUtils, uLng, Variants, WdxPlugin, uGlobs, uWDXModule, Graphics, uShowMsg;
+  DateUtils, CalcForm, uLng, Variants, WdxPlugin, uGlobs, uWDXModule, Graphics,
+  uShowMsg;
+
+{ TCalcEdit }
+
+procedure TCalcEdit.RunDialog;
+begin
+  cColorBtnDigits:= ColorToRGB(clBtnText);
+  cColorBtnOthers:= cColorBtnDigits;
+  cColorDisplayText:= clWindowText;
+  cColorDisplayBack:= clWindow;
+  inherited RunDialog;
+end;
 
 { TPluginPanel }
 
