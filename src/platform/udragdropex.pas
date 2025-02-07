@@ -183,7 +183,7 @@ uses
 {$ELSEIF DEFINED(LCLCOCOA)}
 uses
   uDragDropCocoa;
-{$ELSEIF DEFINED(LCLGTK) or DEFINED(LCLGTK2)}
+{$ELSEIF DEFINED(LCLGTK) or DEFINED(LCLGTK2) or DEFINED(LCLGTK3)}
 uses
   uDragDropGtk;
 {$ELSEIF DEFINED(LCLQT) and DEFINED(DARWIN)}
@@ -351,7 +351,7 @@ begin
   Result := True;
 {$ELSEIF DEFINED(LCLCOCOA)}
   Result := True;
-{$ELSEIF DEFINED(LCLGTK) OR DEFINED(LCLGTK2)}
+{$ELSEIF DEFINED(LCLGTK) OR DEFINED(LCLGTK2) or DEFINED(LCLGTK3)}
   Result := True;
 {$ELSEIF DEFINED(LCLQT) or DEFINED(LCLQT5) OR DEFINED(LCLQT6)}
   Result := True;
@@ -366,7 +366,7 @@ begin
   Result := TDragDropSourceWindows.Create(Control);
 {$ELSEIF DEFINED(LCLCOCOA)}
   Result := TDragDropSourceCocoa.Create(Control);
-{$ELSEIF DEFINED(LCLGTK) or DEFINED(LCLGTK2)}
+{$ELSEIF DEFINED(LCLGTK) or DEFINED(LCLGTK2) or DEFINED(LCLGTK3)}
   Result := TDragDropSourceGTK.Create(Control);
 {$ELSEIF DEFINED(LCLQT) and DEFINED(DARWIN)}
   Result := TDragDropSourceCocoa.Create(Control);
@@ -381,14 +381,14 @@ function CreateDragDropTarget(Control: TWinControl): TDragDropTarget;
 begin
 {$IF DEFINED(MSWINDOWS)}
   Result := TDragDropTargetWindows.Create(Control);
-{$ELSEIF DEFINED(LCLGTK) or DEFINED(LCLGTK2)}
+{$ELSEIF DEFINED(LCLGTK) or DEFINED(LCLGTK2) or DEFINED(LCLGTK3)}
   Result := TDragDropTargetGTK.Create(Control);
 {$ELSEIF DEFINED(LCLQT) or DEFINED(LCLQT5) OR DEFINED(LCLQT6)}
   Result := TDragDropTargetQT.Create(Control);
 {$ELSE}
   Result := TDragDropTarget.Create(Control);   // Dummy
 {$ENDIF}
-end;
+ end;
 
 function GetDropEffectByKey(ShiftState: TShiftState;
                             DefaultEffect: Boolean): TDropEffect;

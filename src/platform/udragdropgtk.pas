@@ -14,10 +14,26 @@ uses
   ,GLib, Gtk, Gdk
 {$ELSEIF DEFINED(LCLGTK2)}
   ,GLib2, Gtk2, Gdk2
+{$ELSEIF DEFINED(LCLGTK3)}
+  ,GLib2, LazGtk3, LazGdk3, Gtk3Widgets
 {$ENDIF}
   ;
 
+{$IF DEFINED(LCLGTK3)}
+// LazGdk3 has a wrong TGdkDragAction definition
+const
+  GDK_ACTION_COPY = 2;
+  GDK_ACTION_MOVE = 4;
+  GDK_ACTION_LINK = 8;
+  GDK_ACTION_ASK  = 32;
 type
+  TGdkDragAction = gint;
+{$ENDIF}
+
+type
+
+  { TDragDropSourceGTK }
+
   TDragDropSourceGTK = class(TDragDropSource)
     constructor Create(TargetControl: TWinControl); override;
     destructor  Destroy; override;
@@ -35,7 +51,10 @@ type
   private
     procedure ConnectSignal(name: pgChar; func: Pointer);
     procedure DisconnectSignal(func: Pointer);
+    function GetWidget: PGtkWidget;
   end;
+
+  { TDragDropTargetGTK }
 
   TDragDropTargetGTK = class(TDragDropTarget)
   public
@@ -52,6 +71,7 @@ type
   private
     procedure ConnectSignal(name: pgChar; func: Pointer);
     procedure DisconnectSignal(func: Pointer);
+    function GetWidget: PGtkWidget;
   end;
 
   { Source events }
@@ -91,6 +111,13 @@ implementation
 uses
   uClipboard;     // URI handling
 
+{$IF DEFINED(LCLGTK3)}
+function gdk_drag_context_get_actions(context: PGdkDragContext): TGdkDragAction; cdecl; external LazGdk3_library;
+function gdk_drag_context_get_suggested_action(context: PGdkDragContext): TGdkDragAction; cdecl; external LazGdk3_library;
+procedure gdk_drag_status(context: PGdkDragContext; action: TGdkDragAction; time_: guint32); cdecl; external LazGdk3_library;
+procedure gtk_drag_dest_set(widget: PGtkWidget; flags: TGtkDestDefaults; targets: PGtkTargetEntry; n_targets: gint; actions: TGdkDragAction); cdecl; external LazGtk3_library;
+function gtk_drag_begin_with_coordinates(widget: PGtkWidget; targets: PGtkTargetList; actions: TGdkDragAction; button: gint; event: PGdkEvent; x: gint; y: gint): PGdkDragContext; cdecl; external LazGtk3_library;
+{$ENDIF}
 
 type
   // Order of these should be the same as in Targets array.
@@ -121,17 +148,41 @@ end;
 
 procedure TDragDropSourceGTK.ConnectSignal(name: pgChar; func: Pointer);
 begin
+{$IF DEFINED(LCLGTK3)}
+  g_signal_connect(GetWidget,
+                   name,
+                   TGCallback(func),
+                   gPointer(Self)); // Pointer to class instance
+{$ELSE}
   gtk_signal_connect(PGtkObject(GetControl.Handle),
                      name,
                      TGtkSignalFunc(func),
                      gPointer(Self)); // Pointer to class instance
+{$ENDIF}
 end;
 
 procedure TDragDropSourceGTK.DisconnectSignal(func: Pointer);
 begin
+{$IF DEFINED(LCLGTK3)}
+  g_signal_handlers_disconnect_by_func(GetWidget,
+                                       TGCallback(func),
+                                       gPointer(Self));
+{$ELSE}
   gtk_signal_disconnect_by_func(PGtkObject(GetControl.Handle),
                                 TGtkSignalFunc(func),
                                 gPointer(Self));
+{$ENDIF}
+end;
+
+function TDragDropSourceGTK.GetWidget: PGtkWidget;
+begin
+  Result :=
+  {$IF DEFINED(LCLGTK3)}
+    TGtk3Widget(GetControl.Handle).Widget
+  {$ELSE}
+    PGtkWidget(GetControl.Handle)
+  {$ENDIF}
+  ;
 end;
 
 function TDragDropSourceGTK.RegisterEvents(DragBeginEvent  : uDragDropEx.TDragBeginEvent;
@@ -188,15 +239,28 @@ begin
 
   if Assigned(PList) then
   begin
+{$IF DEFINED(LCLGTK3)}
+    context := gtk_drag_begin_with_coordinates(
+                   GetWidget,
+                   PList,
+                   // Allowed effects
+                   GDK_ACTION_COPY or GDK_ACTION_MOVE or GDK_ACTION_LINK or GDK_ACTION_ASK,
+                   ButtonNr,
+                   nil, // no event - we're starting manually
+                   ScreenStartPoint.X,
+                   ScreenStartPoint.Y
+                   );
+
+{$ELSE}
     context := gtk_drag_begin(
-                   PGtkWidget(GetControl.Handle),
+                   GetWidget,
                    PList,
                    // Allowed effects
                    GDK_ACTION_COPY or GDK_ACTION_MOVE or GDK_ACTION_LINK or GDK_ACTION_ASK,
                    ButtonNr,
                    nil // no event - we're starting manually
     );
-
+{$ENDIF}
     if Assigned(context) then
       Result:=True;
   end;
@@ -216,17 +280,41 @@ end;
 
 procedure TDragDropTargetGTK.ConnectSignal(name: pgChar; func: Pointer);
 begin
+{$IF DEFINED(LCLGTK3)}
+  g_signal_connect(GetWidget,
+                   name,
+                   TGCallback(func),
+                   gPointer(Self)); // Pointer to class instance
+{$ELSE}
   gtk_signal_connect(PGtkObject(GetControl.Handle),
                      name,
                      TGtkSignalFunc(func),
                      gPointer(Self)); // Pointer to class instance
+{$ENDIF}
 end;
 
 procedure TDragDropTargetGTK.DisconnectSignal(func: Pointer);
 begin
+{$IF DEFINED(LCLGTK3)}
+  g_signal_handlers_disconnect_by_func(GetWidget,
+                                       TGCallback(func),
+                                       gPointer(Self));
+{$ELSE}
   gtk_signal_disconnect_by_func(PGtkObject(GetControl.Handle),
                                 TGtkSignalFunc(func),
                                 gPointer(Self));
+{$ENDIF}
+end;
+
+function TDragDropTargetGTK.GetWidget: PGtkWidget;
+begin
+  Result :=
+  {$IF DEFINED(LCLGTK3)}
+    TGtk3Widget(GetControl.Handle).Widget
+  {$ELSE}
+    PGtkWidget(GetControl.Handle)
+  {$ENDIF}
+  ;
 end;
 
 function  TDragDropTargetGTK.RegisterEvents(
@@ -242,7 +330,7 @@ begin
   begin
     // Set up as drag target.
     gtk_drag_dest_set(
-             PGtkWidget(GetControl.Handle),
+             GetWidget,
              // default handling of some signals
              GTK_DEST_DEFAULT_ALL,
              // What targets the drag source promises to supply.
@@ -268,7 +356,7 @@ begin
   DisconnectSignal(@OnDragLeave);
 
   if GetControl.HandleAllocated = True then
-    gtk_drag_dest_unset(PGtkWidget(GetControl.Handle));
+    gtk_drag_dest_unset(GetWidget);
 
   inherited;
 end;
@@ -312,7 +400,12 @@ begin
                        DragDropSource.GetFileNamesList,
                        Targets[info].target,
                        // context^.action - the action chosen by the destination
-                       GtkActionToDropEffect(context^.action));
+{$IF DEFINED(LCLGTK3)}
+                       GtkActionToDropEffect(gdk_drag_context_get_actions(context))
+{$ELSE}
+                       GtkActionToDropEffect(context^.action)
+{$ENDIF}
+                       );
 
   end
 
@@ -378,7 +471,11 @@ begin
 //  context^.actions          - a bitmask of actions proposed by the source
 //                              when suggested_action is GDK_ACTION_ASK.
 
+{$IF DEFINED(LCLGTK3)}
+  DropEffect := GtkActionToDropEffect(gdk_drag_context_get_suggested_action(context));
+{$ELSE}
   DropEffect := GtkActionToDropEffect(context^.suggested_action);
+{$ENDIF}
 
   CursorPosition := DragDropTarget.GetControl.ClientToScreen(Point(X, Y));
 
@@ -410,25 +507,34 @@ function OnDataReceived(widget: PGtkWidget; context: PGdkDragContext; x, y: gint
                         selection: PGtkSelectionData; info, time: guint; param: gPointer): GBoolean; cdecl;
 var
   DragDropTarget: TDragDropTargetGTK;
+  FileNamesList: TStringList;
   DropEffect: TDropEffect;
-  FileNamesList: TStringList = nil;
   CursorPosition: TPoint;
   uriList: string;
+  AData: Pguint8;
+  ALen: gint;
 begin
+  Result := False;
+  if (selection = nil) then Exit;
   DragDropTarget := TDragDropTargetGTK(param);
 
+{$IF DEFINED(LCLGTK3)}
+  AData := selection^.get_data;
+  ALen := selection^.get_length;
+  DropEffect := GtkActionToDropEffect(gdk_drag_context_get_suggested_action(context));
+{$ELSE}
+  AData := selection^.data;
+  ALen := selection^.length;
   DropEffect := GtkActionToDropEffect(context^.suggested_action);
+{$ENDIF}
 
   CursorPosition := DragDropTarget.GetControl.ClientToScreen(Point(X, Y));
 
-  Result := False;
-
   if Assigned(DragDropTarget.GetDropEvent) and
-     Assigned(selection) and Assigned(selection^.data) and
-     (selection^.length > 0) // if selection length < 0 data is invalid
+     Assigned(AData) and (ALen > 0) // if selection length < 0 data is invalid
   then
   begin
-    SetString(uriList, PChar(selection^.data), selection^.length);
+    SetString(uriList, PAnsiChar(AData), ALen);
 
     // 'info' denotes which target was matched by gtk_drag_get_data
     case TTargetId(info) of
@@ -452,8 +558,7 @@ begin
         Result := DragDropTarget.GetDropEvent()(FileNamesList, DropEffect, CursorPosition);
 
     finally
-      if Assigned(FileNamesList) then
-        FreeAndNil(FileNamesList);
+      FileNamesList.Free;
     end;
 
   end;
