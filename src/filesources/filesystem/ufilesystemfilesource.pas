@@ -424,7 +424,8 @@ begin
 {$ENDIF}
     end;
     {$IFDEF DARWIN}
-    FinderTagProperty := uMyDarwin.getMacOSFinderTagFileProperty(AFilePath);
+    if pSearchRecord^.Name<>'..' then
+      FinderTagProperty := uMyDarwin.getMacOSFinderTagFileProperty(AFilePath);
     {$ENDIF}
   end;
 
@@ -752,9 +753,8 @@ begin
     end;
 
 {$IFDEF DARWIN}
-   if fpMacOSFinderTag in PropertiesToSet then begin
+   if (AFile.Name<>'..') and (fpMacOSFinderTag in PropertiesToSet) then
      FinderTagProperty := uMyDarwin.getMacOSFinderTagFileProperty(sFullPath);
-   end;
 {$ENDIF}
 
     PropertiesToSet:= PropertiesToSet * fpVariantAll;
