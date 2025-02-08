@@ -513,6 +513,7 @@ var
   AFile: TFile;
   AIcon: TIcon;
   iIndex : PtrInt;
+  FileExt: String;
   GraphicClass: TGraphicClass;
   bmStandartBitmap : Graphics.TBitMap = nil;
 begin
@@ -554,8 +555,9 @@ begin
   else
 {$ENDIF}
     begin
+      FileExt := ExtractOnlyFileExt(sFileName);
       // if file is graphic
-      GraphicClass:= GetGraphicClassForFileExtension(ExtractOnlyFileExt(sFileName));
+      GraphicClass:= GetGraphicClassForFileExtension(FileExt);
       if (GraphicClass <> nil) and mbFileExists(sFileName) then
       begin
         if (GraphicClass = TIcon) then
@@ -578,6 +580,11 @@ begin
               DCDebug(Format('Error: Cannot load icon [%s] : %s',[sFileName, E.Message]));
           end;
           AIcon.Free;
+        end
+        else if (GraphicClass = TScalableVectorGraphics) then
+        begin
+          Stretch := False;
+          bmStandartBitmap := TScalableVectorGraphics.CreateBitmap(sFileName, iIconSize, iIconSize)
         end
         else begin
           LoadBitmapFromFile(sFileName, bmStandartBitmap);
@@ -1037,7 +1044,7 @@ begin
   if Length(AIconName) = 0 then
     Result:= -1
   else begin
-    Result:= CheckAddThemePixmap(AIconName);
+    Result:= CheckAddPixmap(AIconName);
   end;
   if (Result < 0) and (AIconName <> 'folder') then
   begin
