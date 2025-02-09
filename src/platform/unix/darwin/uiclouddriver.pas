@@ -6,7 +6,7 @@ unit uiCloudDriver;
 interface
 
 uses
-  Classes, SysUtils, Menus, Forms, fgl,
+  Classes, SysUtils, syncobjs, fgl, LazMethodList, Menus, Forms,
   uFile, uDisplayFile,
   uFileSource, uFileSourceWatcher, uMountedFileSource, uFileSourceManager, uVfsModule,
   uDCUtils, uLng, uGlobs,
@@ -69,6 +69,8 @@ type
   { TiCloudDriverWatcher }
 
   TiCloudDriverWatcher = class( TDefaultFileSourceWatcher )
+  private
+    _lockObject: TCriticalSection;
   private
     _watcher: TSimpleDarwinFSWatcher;
     _watcherItems: TWatcherItems;
@@ -150,12 +152,20 @@ var
   i: Integer;
   item: TWatcherItem;
 begin
-  for i:= 0 to _watcherItems.Count-1 do begin
-    item:= _watcherItems[i];
-    if (item.path=path) and (item.eventHandler=event) then
+  _lockObject.Acquire;
+  try
+    for i:= 0 to _watcherItems.Count-1 do begin
+      item:= _watcherItems[i];
+      if item.path<>path then
+        continue;
+      if NOT SameMethod(TMethod(item.eventHandler), TMethod(event)) then
+        continue;
       Exit( i );
+    end;
+    Result:= -1;
+  finally
+    _lockObject.Release;
   end;
-  Result:= -1;
 end;
 
 // todo: refactor with TFileSystemWatcherImpl.handleFSEvent(event:TDarwinFSWatchEvent);
@@ -241,15 +251,20 @@ begin
   if NOT ok then
     Exit;
 
-  for item in _watcherItems do begin
-    if virtualPath = item.path then begin
-      if not Application.Terminated then begin
-        _currentItem:= item;
-        _currentFSEvent:= fileSourceEvent;
-        _currentFSEvent.UserData:= item.userData;
-        _watcher.Synchronize( _watcher, @handleEventInMainThread );
+  _lockObject.Acquire;
+  try
+    for item in _watcherItems do begin
+      if virtualPath = item.path then begin
+        if not Application.Terminated then begin
+          _currentItem:= item;
+          _currentFSEvent:= fileSourceEvent;
+          _currentFSEvent.UserData:= item.userData;
+          _watcher.Synchronize( _watcher, @handleEventInMainThread );
+        end;
       end;
     end;
+  finally
+    _lockObject.Release;
   end;
 end;
 
@@ -265,34 +280,44 @@ var
   watcherItem: TWatcherItem;
 begin
   Result:= True;
-  if self.findWatch(path,event) >= 0 then
-    Exit;
+  _lockObject.Acquire;
+  try
+    if self.findWatch(path,event) >= 0 then
+      Exit;
 
-  watcherItem:= TWatcherItem.Create;
-  watcherItem.path:= path;
-  watcherItem.filter:= filter;
-  watcherItem.eventHandler:= event;
-  watcherItem.userData:= UserData;
-  _watcherItems.Add( watcherItem );
-  createWatcher;
+    watcherItem:= TWatcherItem.Create;
+    watcherItem.path:= path;
+    watcherItem.filter:= filter;
+    watcherItem.eventHandler:= event;
+    watcherItem.userData:= UserData;
+    _watcherItems.Add( watcherItem );
+    createWatcher;
+  finally
+    _lockObject.Release;
+  end;
 end;
 
-procedure TiCloudDriverWatcher.removeWatch(const path: String;
-  const event: TFSWatcherEvent);
+procedure TiCloudDriverWatcher.removeWatch(const path: String; const event: TFSWatcherEvent);
 var
   index: Integer;
 begin
-  index:= self.findWatch( path, event );
-  if index < 0 then
-    Exit;
+  _lockObject.Acquire;
+  try
+    index:= self.findWatch( path, event );
+    if index < 0 then
+      Exit;
 
-  _watcherItems.Delete( index );
-  if _watcherItems.count = 0 then
-    destroyWatcher;
+    _watcherItems.Delete( index );
+    if _watcherItems.count = 0 then
+      destroyWatcher;
+  finally
+    _lockObject.Release;
+  end;
 end;
 
 constructor TiCloudDriverWatcher.Create;
 begin
+  _lockObject:= TCriticalSection.Create;;
   _watcherItems:= TWatcherItems.Create;
 end;
 
@@ -300,6 +325,7 @@ destructor TiCloudDriverWatcher.Destroy;
 begin
   destroyWatcher;
   FreeAndNil( _watcherItems );
+  FreeAndNil( _lockObject );
 end;
 
 { TSeedFileUtil }
