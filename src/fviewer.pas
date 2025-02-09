@@ -3783,6 +3783,8 @@ end;
 
 procedure TfrmViewer.cm_Preview(const Params: array of string);
 begin
+  if not actPreview.Enabled then Exit;
+
   miPreview.Checked:= not (miPreview.Checked);
   pnlPreview.Visible := miPreview.Checked;
   Splitter.Visible := pnlPreview.Visible;
