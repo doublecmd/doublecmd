@@ -80,6 +80,7 @@ type
     procedure ClearFilter;
     procedure CancelFilter;
     procedure SetFocus(Data: PtrInt);
+    procedure RestoreFocus(Data: PtrInt);
     procedure ProcessParams(const SearchMode: TQuickSearchMode; const Params: array of String);
   public
     LimitedAutoHide: Boolean;
@@ -558,6 +559,18 @@ begin
   if edtSearch.CanFocus then edtSearch.SetFocus;
 end;
 
+procedure TfrmQuickSearch.RestoreFocus(Data: PtrInt);
+begin
+  if Assigned(Screen.ActiveControl) then
+  begin
+    // The file panel has lost focus
+    if Screen.ActiveControl is TCustomForm then
+    begin
+      if Parent.CanSetFocus then Parent.SetFocus;
+    end;
+  end;
+end;
+
 procedure TfrmQuickSearch.CheckFilesOrDirectoriesDown;
 begin
   if not (sbFiles.Down or sbDirectories.Down) then
@@ -732,8 +745,10 @@ begin
 
     if (Mode = qsFilter) and (edtSearch.Text <> EmptyStr) then
       Self.Visible := DontHide or not gQuickFilterAutoHide
-    else
+    else begin
       if DontHide then Reset else Finalize;
+    end;
+    Application.QueueAsyncCall(@RestoreFocus, 0);
 
     Finalizing := False;
   end;
