@@ -128,6 +128,8 @@ public
   procedure stop();
   constructor Create( const path:String; const callback:TDarwinFSWatchCallBack );
   destructor Destroy; override;
+public
+  property monitor: TDarwinFSWatcher read _monitor;
 end;
 
 // MacOS Service Integration

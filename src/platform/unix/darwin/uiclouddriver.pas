@@ -6,10 +6,11 @@ unit uiCloudDriver;
 interface
 
 uses
-  Classes, SysUtils, Menus,
+  Classes, SysUtils, Menus, Forms, fgl,
   uFile, uDisplayFile,
-  uFileSource, uMountedFileSource, uFileSourceManager, uVfsModule,
-  uDCUtils, uLng, uMyDarwin,
+  uFileSource, uFileSourceWatcher, uMountedFileSource, uFileSourceManager, uVfsModule,
+  uDCUtils, uLng, uGlobs,
+  uMyDarwin, uDarwinFSWatch,
   CocoaAll, CocoaUtils;
 
 type
@@ -33,6 +34,8 @@ type
     function getDefaultPointForPath( const path: String ): String; override;
   public
     class function GetFileSource: TiCloudDriverFileSource;
+
+    function GetWatcher: TFileSourceWatcher; override;
     function GetUIHandler: TFileSourceUIHandler; override;
     class function GetMainIcon(out Path: String): Boolean; override;
 
@@ -52,6 +55,45 @@ const
   iCLOUD_CONTAINER_PATH = '~/Library/Application Support/CloudDocs/session/containers';
 
 type
+
+  TWatcherItem = class
+  public
+    path: String;
+    filter: TFSWatchFilter;
+    eventHandler: TFSWatcherEvent;
+    userData: Pointer;
+  end;
+
+  TWatcherItems = specialize TFPGObjectList<TWatcherItem>;
+
+  { TiCloudDriverWatcher }
+
+  TiCloudDriverWatcher = class( TDefaultFileSourceWatcher )
+  private
+    _watcher: TSimpleDarwinFSWatcher;
+    _watcherItems: TWatcherItems;
+    _currentItem: TWatcherItem;
+    _currentFSEvent: TFSWatcherEventData;
+  private
+    procedure createWatcher;
+    procedure destroyWatcher;
+    function findWatch(const path: String; const event: TFSWatcherEvent): Integer;
+  private
+    function toFileSourceEventCommon( event: TDarwinFSWatchEvent;
+      var fileSourceEvent: TFSWatcherEventData ): Boolean;
+    function toFileSourceEvent( event: TDarwinFSWatchEvent;
+      var fileSourceEvent: TFSWatcherEventData ): Boolean;
+    procedure handleEventInMainThread;
+    procedure handleEvent( event: TDarwinFSWatchEvent );
+  public
+    function canWatch(const path: String): Boolean; override;
+    function addWatch(const path: String; const filter: TFSWatchFilter;
+      const event: TFSWatcherEvent; const UserData: Pointer=nil): Boolean; override;
+    procedure removeWatch(const path: String; const event: TFSWatcherEvent); override;
+  public
+    constructor Create;
+    destructor Destroy; override;
+  end;
   
   { TiCloudDriverUIHandler }
 
@@ -76,8 +118,189 @@ type
   end;
 
 var
+  iCloudDriverWatcher: TiCloudDriverWatcher;
   iCloudDriverUIProcessor: TiCloudDriverUIHandler;
   iCloudArrowDownImage: NSImage;
+
+{ TiCloudDriverWatcher }
+
+procedure TiCloudDriverWatcher.createWatcher;
+begin
+  if _watcher <> nil then
+    Exit;
+
+  _watcher:= TSimpleDarwinFSWatcher.Create(
+    uDCUtils.ReplaceTilde(iCLOUD_PATH),
+    @handleEvent );
+  _watcher.monitor.watchSubtree:= True;
+  _watcher.Start;
+end;
+
+procedure TiCloudDriverWatcher.destroyWatcher;
+begin
+  if _watcher = nil then
+    Exit;
+
+  _watcher.stop();
+  FreeAndNil( _watcher );
+end;
+
+function TiCloudDriverWatcher.findWatch(const path: String; const event: TFSWatcherEvent): Integer;
+var
+  i: Integer;
+  item: TWatcherItem;
+begin
+  for i:= 0 to _watcherItems.Count-1 do begin
+    item:= _watcherItems[i];
+    if (item.path=path) and (item.eventHandler=event) then
+      Exit( i );
+  end;
+  Result:= -1;
+end;
+
+// todo: refactor with TFileSystemWatcherImpl.handleFSEvent(event:TDarwinFSWatchEvent);
+function TiCloudDriverWatcher.toFileSourceEventCommon(event: TDarwinFSWatchEvent;
+  var fileSourceEvent: TFSWatcherEventData ): Boolean;
+begin
+  Result:= False;
+  if [watch_file_name_change, watch_attributes_change] * gWatchDirs = [] then exit;
+  if event.isDropabled then exit;
+///  if (ecChildChanged in event.categories) and (not isWatchSubdir(event.watchPath) ) then exit;
+
+  fileSourceEvent.Path := event.watchPath;
+  fileSourceEvent.FileName := EmptyStr;
+  fileSourceEvent.NewFileName := EmptyStr;
+  fileSourceEvent.OriginalEvent := event;
+  fileSourceEvent.EventType := fswUnknownChange;
+
+  if TDarwinFSWatchEventCategory.ecRootChanged in event.categories then begin
+    fileSourceEvent.EventType := fswSelfDeleted;
+  end else if event.fullPath.Length >= event.watchPath.Length+2 then begin
+    // 1. file-level update only valid if there is a FileName,
+    //    otherwise keep directory-level update
+    // 2. the order of the following judgment conditions must be preserved
+    if (not (watch_file_name_change in gWatchDirs)) and
+       ([ecStructChanged, ecAttribChanged] * event.categories = [ecStructChanged])
+         then exit;
+    if (not (watch_attributes_change in gWatchDirs)) and
+       ([ecStructChanged, ecAttribChanged] * event.categories = [ecAttribChanged])
+         then exit;
+
+    fileSourceEvent.FileName := ExtractFileName( event.fullPath );
+
+    if TDarwinFSWatchEventCategory.ecRemoved in event.categories then
+      fileSourceEvent.EventType := fswFileDeleted
+    else if TDarwinFSWatchEventCategory.ecRenamed in event.categories then begin
+      if ExtractFilePath(event.fullPath)=ExtractFilePath(event.renamedPath) then begin
+        // fswFileRenamed only when FileName and NewFileName in the same dir
+        // otherwise keep fswUnknownChange
+        fileSourceEvent.EventType := fswFileRenamed;
+        fileSourceEvent.NewFileName := ExtractFileName( event.renamedPath );
+      end;
+    end else if TDarwinFSWatchEventCategory.ecCreated in event.categories then
+      fileSourceEvent.EventType := fswFileCreated
+    else if TDarwinFSWatchEventCategory.ecAttribChanged in event.categories then
+      fileSourceEvent.EventType := fswFileChanged
+    else
+      exit;
+  end;
+
+  Result:= True;
+end;
+
+function TiCloudDriverWatcher.toFileSourceEvent(event: TDarwinFSWatchEvent;
+  var fileSourceEvent: TFSWatcherEventData ): Boolean;
+begin
+  Result:= Self.toFileSourceEventCommon( event, fileSourceEvent );
+  if Result = false then
+    Exit;
+
+  if TiCloudDriverFileSource.GetFileSource.getMountPointFromPath(event.fullPath)<>nil then begin
+    fileSourceEvent.Path:= event.fullPath;
+    fileSourceEvent.FileName:= '';
+  end else begin
+    fileSourceEvent.Path:= ExtractFilePath( event.fullPath );
+  end;
+end;
+
+procedure TiCloudDriverWatcher.handleEventInMainThread;
+begin
+  _currentItem.eventHandler( _currentFSEvent );
+end;
+
+procedure TiCloudDriverWatcher.handleEvent(event: TDarwinFSWatchEvent);
+var
+  ok: Boolean;
+  virtualPath: String;
+  item: TWatcherItem;
+  fileSourceEvent: TFSWatcherEventData;
+begin
+  virtualPath:= TiCloudDriverFileSource.GetFileSource.GetVirtualPath( event.fullPath );
+  virtualPath:= ExtractFilePath( ExcludeTrailingPathDelimiter(virtualPath) );
+  ok:= Self.toFileSourceEvent( event, fileSourceEvent );
+  if NOT ok then
+    Exit;
+
+  for item in _watcherItems do begin
+    if virtualPath = item.path then begin
+      if not Application.Terminated then begin
+        _currentItem:= item;
+        _currentFSEvent:= fileSourceEvent;
+        _currentFSEvent.UserData:= item.userData;
+        _watcher.Synchronize( _watcher, @handleEventInMainThread );
+      end;
+    end;
+  end;
+end;
+
+function TiCloudDriverWatcher.canWatch(const path: String): Boolean;
+begin
+  Result:= True;
+end;
+
+function TiCloudDriverWatcher.addWatch(const path: String;
+  const filter: TFSWatchFilter; const event: TFSWatcherEvent;
+  const UserData: Pointer): Boolean;
+var
+  watcherItem: TWatcherItem;
+begin
+  Result:= True;
+  if self.findWatch(path,event) >= 0 then
+    Exit;
+
+  watcherItem:= TWatcherItem.Create;
+  watcherItem.path:= path;
+  watcherItem.filter:= filter;
+  watcherItem.eventHandler:= event;
+  watcherItem.userData:= UserData;
+  _watcherItems.Add( watcherItem );
+  createWatcher;
+end;
+
+procedure TiCloudDriverWatcher.removeWatch(const path: String;
+  const event: TFSWatcherEvent);
+var
+  index: Integer;
+begin
+  index:= self.findWatch( path, event );
+  if index < 0 then
+    Exit;
+
+  _watcherItems.Delete( index );
+  if _watcherItems.count = 0 then
+    destroyWatcher;
+end;
+
+constructor TiCloudDriverWatcher.Create;
+begin
+  _watcherItems:= TWatcherItems.Create;
+end;
+
+destructor TiCloudDriverWatcher.Destroy;
+begin
+  destroyWatcher;
+  FreeAndNil( _watcherItems );
+end;
 
 { TSeedFileUtil }
 
@@ -405,6 +628,11 @@ begin
     Result:= aFileSource as TiCloudDriverFileSource;
 end;
 
+function TiCloudDriverFileSource.GetWatcher: TFileSourceWatcher;
+begin
+  Result:= iCloudDriverWatcher;
+end;
+
 function TiCloudDriverFileSource.GetRootDir(sPath: String): String;
 var
   path: String;
@@ -469,10 +697,12 @@ begin
 end;
 
 initialization
+  iCloudDriverWatcher:= TiCloudDriverWatcher.Create;
   iCloudDriverUIProcessor:= TiCloudDriverUIHandler.Create;
   RegisterVirtualFileSource( 'iCloud', TiCloudDriverFileSource, True );
 
 finalization
+  FreeAndNil( iCloudDriverWatcher );
   FreeAndNil( iCloudDriverUIProcessor );
   iCloudArrowDownImage.release;
 
