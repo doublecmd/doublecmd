@@ -8,7 +8,7 @@ uses
   Classes, SysUtils, Generics.Collections,
   uFile, uFileSource, uFileSourceManager,
   uFileSystemFileSource, uWcxArchiveFileSource,
-  uFileSourceOperation, uFileSourceOperationTypes,
+  uFileSourceProperty, uFileSourceOperation, uFileSourceOperationTypes,
   uDCUtils, DCStrUtils;
 
 type
@@ -58,6 +58,7 @@ type
     function GetVirtualPath(const APath: String): String; override;
     function GetFileName(aFile: TFile): String; override;
 
+    function GetProperties: TFileSourceProperties; override;
     function GetParentDir(sPath : String): String; override;
     function GetRootDir(sPath : String): String; override;
     function IsPathAtRoot(Path: String): Boolean; override;
@@ -214,6 +215,12 @@ begin
     Result:= mountPoint.name
   else
     Result:= inherited;
+end;
+
+function TMountedFileSource.GetProperties: TFileSourceProperties;
+begin
+  Result:= inherited GetProperties;
+  Result:= Result + [fspMounted];
 end;
 
 function TMountedFileSource.GetParentDir(sPath : String): String;

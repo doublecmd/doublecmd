@@ -1062,12 +1062,12 @@ function TFileView.calcFileHashKey(const FileName, APath: String): String;
 var
   subPath: String;
 begin
-  if not FFlatView then begin
-    Result := FileName;
-  end else begin
+  if (fspMounted in FileSource.GetProperties) or FFlatView then begin
     subPath := APath.Substring( currentPath.Length );
     if subPath<>EmptyStr then subPath := IncludeTrailingPathDelimiter(subPath);
     Result := subPath + FileName;
+  end else begin
+    Result := FileName;
   end;
 end;
 
