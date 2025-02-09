@@ -7,7 +7,7 @@ interface
 
 uses
   Classes, SysUtils, LCLType,
-  sqldb, SQLite3Conn,
+  sqldb, SQLite3Conn, syncobjs,
   uDebug,
   MacOSAll, CocoaAll, CocoaConst, Cocoa_Extra;
 
@@ -38,8 +38,11 @@ type
 
   TFinderTags = class
   private class var
+    _lockObject: TCriticalSection;
     _tags: NSDictionary;
   public
+    class constructor Create;
+
     class function tags: NSDictionary;
     class procedure update;
     class function getTagOfName( tagName: NSString ): TFinderTag;
@@ -138,6 +141,11 @@ end;
 
 { TFinderTags }
 
+class constructor TFinderTags.Create;
+begin
+  _lockObject:= TCriticalSection.Create;
+end;
+
 class function TFinderTags.tags: NSDictionary;
 begin
   Result:= _tags;
@@ -159,11 +167,18 @@ end;
 class function TFinderTags.getTagOfName( tagName: NSString ): TFinderTag;
 begin
   Result:= nil;
-  if _tags = nil then
-    self.update;
-  if _tags = nil then
-    Exit;
-  Result:= _tags.objectForKey( tagName );
+
+  _lockObject.Acquire;
+  try
+    if _tags = nil then
+      self.update;
+
+    if _tags = nil then
+      Exit;
+    Result:= _tags.objectForKey( tagName );
+  finally
+    _lockObject.Release;
+  end;
 end;
 
 { TMacOSQueryHandler }
