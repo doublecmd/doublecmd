@@ -119,7 +119,7 @@ implementation
 
 uses
   //Lazarus, Free-Pascal, etc.
-  StrUtils, LCLProc,
+  StrUtils, LCLProc, IntegerList,
 
   //DC
   DCStrUtils, uShowMsg, uComponentsSignature, fMaskInputDlg, uLng, uGlobs,
@@ -544,14 +544,15 @@ end;
 { TfrmOptionsToolTips.miToolTipsFileTypeExportClick }
 procedure TfrmOptionsToolTips.miToolTipsFileTypeExportClick(Sender: TObject);
 var
-  slValueList, slOutputIndexSelected: TStringList;
+  slValueList: TStringList;
+  slOutputIndexSelected: TIntegerList;
   ExportedFileInfoToolTipTemp: TFileInfoToolTip;
   iIndex, iExportedIndex: integer;
 begin
   if FFileInfoToolTipTemp.HintItemList.Count > 0 then
   begin
     slValueList := TStringList.Create;
-    slOutputIndexSelected := TStringList.Create;
+    slOutputIndexSelected := TIntegerList.Create;
     try
       for iIndex := 0 to pred(FFileInfoToolTipTemp.HintItemList.Count) do
         slValueList.Add(FFileInfoToolTipTemp.HintItemList[iIndex].Name);
@@ -562,7 +563,7 @@ begin
         try
           for iIndex := 0 to pred(slOutputIndexSelected.Count) do
           begin
-            iExportedIndex := StrToIntDef(slOutputIndexSelected.Strings[iIndex], -1);
+            iExportedIndex := slOutputIndexSelected[iIndex];
             if iExportedIndex <> -1 then
               ExportedFileInfoToolTipTemp.HintItemList.Add(FFileInfoToolTipTemp.HintItemList[iExportedIndex].Clone);
           end;
@@ -593,9 +594,10 @@ end;
 { TfrmOptionsToolTips.miToolTipsFileTypeImportClick}
 procedure TfrmOptionsToolTips.miToolTipsFileTypeImportClick(Sender: TObject);
 var
+  slValueList: TStringList;
+  slOutputIndexSelected: TIntegerList;
+  iIndex, iImportedIndex, iNbImported: Integer;
   ImportedFileInfoToolTipTemp: TFileInfoToolTip;
-  slValueList, slOutputIndexSelected: TStringList;
-  iIndex, iImportedIndex, iNbImported: integer;
 begin
   OpenTooltipFileTypeDialog.DefaultExt := '*.tooltip';
   OpenTooltipFileTypeDialog.FilterIndex := 1;
@@ -608,7 +610,7 @@ begin
       if ImportedFileInfoToolTipTemp.HintItemList.Count > 0 then
       begin
         slValueList := TStringList.Create;
-        slOutputIndexSelected := TStringList.Create;
+        slOutputIndexSelected := TIntegerList.Create;
         try
           for iIndex := 0 to pred(ImportedFileInfoToolTipTemp.HintItemList.Count) do
             slValueList.Add(ImportedFileInfoToolTipTemp.HintItemList[iIndex].Name);
@@ -617,7 +619,7 @@ begin
             iNbImported := 0;
             for iIndex := 0 to pred(slOutputIndexSelected.Count) do
             begin
-              iImportedIndex := StrToIntDef(slOutputIndexSelected.Strings[iIndex], -1);
+              iImportedIndex := slOutputIndexSelected[iIndex];
               if iImportedIndex <> -1 then
               begin
                 FFileInfoToolTipTemp.HintItemList.Add(ImportedFileInfoToolTipTemp.HintItemList[iImportedIndex].Clone);

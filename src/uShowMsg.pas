@@ -40,7 +40,7 @@ unit uShowMsg;
 interface
 
 uses
-  Forms, Classes, DCBasicTypes;
+  Forms, Classes, IntegerList, DCBasicTypes;
 
 type
   TMyMsgResult=(mmrOK, mmrNo, mmrYes, mmrCancel, mmrNone,
@@ -131,7 +131,8 @@ function ShowInputQuery(Thread: TThread; const ACaption, APrompt: String; var Va
 
 function ShowInputComboBox(const sCaption, sPrompt : String; slValueList : TStringList; var sValue : String) : Boolean;
 function ShowInputListBox(const sCaption, sPrompt : String; slValueList : TStringList; var sValue : String; var SelectedChoice:integer) : Boolean;
-function ShowInputMultiSelectListBox(const sCaption, sPrompt : String; slValueList, slOutputIndexSelected : TStringList) : Boolean;
+function ShowInputMultiSelectListBox(const sCaption, sPrompt : String; slValueList, slOutputSelected: TStringList) : Boolean; overload;
+function ShowInputMultiSelectListBox(const sCaption, sPrompt : String; slValueList: TStringList; slOutputIndexSelected: TIntegerList) : Boolean; overload;
 
 procedure msgLoadLng;
 
@@ -442,7 +443,7 @@ begin
   end;
 end;
 
-Function MsgTest:TMyMsgResult;
+function MsgTest: TMyMsgResult;
 begin
   Result:= MsgBox('test language of msg subsystem'#10'Second line',[msmbOK, msmbNO, msmbYes, msmbCancel, msmbNone,
                        msmbAppend, msmbOverwrite, msmbOverwriteAll],msmbOK, msmbNO);
@@ -658,7 +659,7 @@ begin
   TForm(TComponent(Sender).Owner).ModalResult:=mrOk;
 end;
 
-function InnerShowInputListBox(const sCaption, sPrompt: String; bMultiSelect:boolean; slValueList,slOutputIndexSelected:TStringList; var sValue: String; var SelectedChoice:integer) : Boolean;
+function InnerShowInputListBox(const sCaption, sPrompt: String; bMultiSelect:boolean; slValueList, slOutputSelected: TStringList; slOutputIndexSelected: TIntegerList; var sValue: String; var SelectedChoice:integer) : Boolean;
 var
   frmDialog : TForm;
   lblPrompt : TLabel;
@@ -749,21 +750,27 @@ begin
           AnchorToNeighbour(akTop, 18, lbValue);
           AnchorToNeighbour(akRight, 6, bbtnCancel);
         end;
-      iModalResult:=ShowModal;
+      iModalResult:= ShowModal;
       Result := (iModalResult = mrOK) AND (lbValue.ItemIndex<>-1);
-      if (not Result) AND (bMultiSelect) AND (iModalResult = mrAll) then
-        begin
-          lbValue.SelectAll;
-          Result:=True;
-        end;
+      if (not Result) AND (bMultiSelect) then
+      begin
+        Result:= (iModalResult = mrAll) and (lbValue.Items.Count > 0);
+      end;
       if Result then
       begin
         sValue:=lbValue.Items.Strings[lbValue.ItemIndex];
         SelectedChoice:=lbValue.ItemIndex;
         if bMultiSelect then
-          for iIndex:=0 to pred(lbValue.Items.count) do
-            if lbValue.Selected[iIndex] then
-              slOutputIndexSelected.Add(IntToStr(iIndex));
+        begin
+          for iIndex:=0 to Pred(lbValue.Items.Count) do
+          begin
+            if (iModalResult = mrAll) or lbValue.Selected[iIndex] then
+            begin
+              if Assigned(slOutputSelected) then slOutputSelected.Add(lbValue.Items[iIndex]);
+              if Assigned(slOutputIndexSelected) then slOutputIndexSelected.Add(iIndex);
+            end;
+          end;
+        end;
       end;
     finally
       FreeAndNil(frmDialog);
@@ -776,16 +783,25 @@ end;
 
 function ShowInputListBox(const sCaption, sPrompt : String; slValueList : TStringList; var sValue : String; var SelectedChoice:integer) : Boolean;
 begin
-  result := InnerShowInputListBox(sCaption, sPrompt, False, slValueList, nil, sValue, SelectedChoice);
+  Result := InnerShowInputListBox(sCaption, sPrompt, False, slValueList, nil, nil, sValue, SelectedChoice);
 end;
 
-function ShowInputMultiSelectListBox(const sCaption, sPrompt : String; slValueList, slOutputIndexSelected : TStringList) : Boolean;
+function ShowInputMultiSelectListBox(const sCaption, sPrompt: String; slValueList, slOutputSelected: TStringList): Boolean;
 var
-  sDummyValue:string;
-  iDummySelectedChoice:integer;
+  sDummyValue: String;
+  iDummySelectedChoice: Integer = 0;
 begin
-  if slValueList.Count>0 then sDummyValue := slValueList.Strings[0];
-  result := InnerShowInputListBox(sCaption, sPrompt, True, slValueList, slOutputIndexSelected, sDummyValue, iDummySelectedChoice);
+  if slValueList.Count > 0 then sDummyValue := slValueList.Strings[0];
+  Result := InnerShowInputListBox(sCaption, sPrompt, True, slValueList, slOutputSelected, nil, sDummyValue, iDummySelectedChoice);
+end;
+
+function ShowInputMultiSelectListBox(const sCaption, sPrompt: String; slValueList: TStringList; slOutputIndexSelected: TIntegerList): Boolean;
+var
+  sDummyValue: String;
+  iDummySelectedChoice: Integer = 0;
+begin
+  if slValueList.Count > 0 then sDummyValue := slValueList.Strings[0];
+  Result := InnerShowInputListBox(sCaption, sPrompt, True, slValueList, nil, slOutputIndexSelected, sDummyValue, iDummySelectedChoice);
 end;
 
 function MsgChoiceBox(const Message: String; Buttons: TDynamicStringArray; BtnDef, BtnEsc: Integer): Integer;

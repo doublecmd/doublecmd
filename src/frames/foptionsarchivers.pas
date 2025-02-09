@@ -176,7 +176,7 @@ implementation
 
 uses
   //Lazarus, Free-Pascal, etc.
-
+  IntegerList,
   //DC
   DCStrUtils, uGlobs, uLng, uSpecialDir, uGlobsPaths, uShowMsg;
 
@@ -709,14 +709,15 @@ end;
 { TfrmOptionsArchivers.miArchiverExportClick }
 procedure TfrmOptionsArchivers.miArchiverExportClick(Sender: TObject);
 var
-  slValueList, slOutputIndexSelected: TStringList;
+  slValueList: TStringList;
+  slOutputIndexSelected: TIntegerList;
   ExportedMultiArcList: TMultiArcList;
   iIndex, iExportedIndex: integer;
 begin
   if MultiArcListTemp.Count > 0 then
   begin
     slValueList := TStringList.Create;
-    slOutputIndexSelected := TStringList.Create;
+    slOutputIndexSelected := TIntegerList.Create;
     try
       for iIndex := 0 to pred(MultiArcListTemp.Count) do
         slValueList.Add(MultiArcListTemp.FList.Strings[iIndex]);
@@ -727,7 +728,7 @@ begin
         try
           for iIndex := 0 to pred(slOutputIndexSelected.Count) do
           begin
-            iExportedIndex := StrToIntDef(slOutputIndexSelected.Strings[iIndex], -1);
+            iExportedIndex := slOutputIndexSelected[iIndex];
             if iExportedIndex <> -1 then
               ExportedMultiArcList.Add(MultiArcListTemp.FList.Strings[iExportedIndex], MultiArcListTemp.Items[iExportedIndex].Clone);
           end;
@@ -758,8 +759,9 @@ end;
 { TfrmOptionsArchivers.miArchiverImportClick }
 procedure TfrmOptionsArchivers.miArchiverImportClick(Sender: TObject);
 var
+  slValueList: TStringList;
   ImportedMultiArcList: TMultiArcList;
-  slValueList, slOutputIndexSelected: TStringList;
+  slOutputIndexSelected: TIntegerList;
   iIndex, iImportedIndex, iNbImported: integer;
 begin
   OpenArchiverDialog.DefaultExt := '*.ini';
@@ -773,16 +775,16 @@ begin
       if ImportedMultiArcList.Count > 0 then
       begin
         slValueList := TStringList.Create;
-        slOutputIndexSelected := TStringList.Create;
+        slOutputIndexSelected := TIntegerList.Create;
         try
           for iIndex := 0 to pred(ImportedMultiArcList.Count) do
             slValueList.Add(ImportedMultiArcList.FList.Strings[iIndex]);
           if ShowInputMultiSelectListBox(rsOptArchiverImportCaption, rsOptArchiverImportPrompt, slValueList, slOutputIndexSelected) then
           begin
             iNbImported := 0;
-            for iIndex := 0 to pred(slOutputIndexSelected.Count) do
+            for iIndex := 0 to Pred(slOutputIndexSelected.Count) do
             begin
-              iImportedIndex := StrToIntDef(slOutputIndexSelected.Strings[iIndex], -1);
+              iImportedIndex := slOutputIndexSelected[iIndex];
               if iImportedIndex <> -1 then
               begin
                 MultiArcListTemp.Add(ImportedMultiArcList.FList.Strings[iImportedIndex], ImportedMultiArcList.Items[iImportedIndex].Clone);
