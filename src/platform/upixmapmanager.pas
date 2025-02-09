@@ -164,6 +164,13 @@ type
     {en
        If path is absolute tries to load bitmap and add to storage.
        If path is relative it tries to load theme icon and add to storage.
+       This function should only be called under FPixmapLock.
+    }
+    function CheckAddPixmapLocked(AIconName: String; AIconSize : Integer): PtrInt;
+    {en
+       If path is absolute tries to load bitmap and add to storage.
+       If path is relative it tries to load theme icon and add to storage.
+       Safe to call without a lock.
     }
     function CheckAddPixmap(AIconName: String; AIconSize : Integer = 0): PtrInt;
     {en
@@ -653,7 +660,7 @@ begin
   end;
 end;
 
-function TPixMapManager.CheckAddPixmap(AIconName: String; AIconSize : Integer): PtrInt;
+function TPixMapManager.CheckAddPixmapLocked(AIconName: String; AIconSize: Integer): PtrInt;
 var
   fileIndex: PtrInt;
   {$IFDEF GTK2_FIX}
@@ -663,21 +670,14 @@ var
   {$ENDIF}
 begin
   Result:= -1;
-  if AIconName = EmptyStr then Exit;
-
-  if AIconSize = 0 then
-    AIconSize := gIconsSize;
-
-  AIconName := ReplaceEnvVars(AIconName);
+  if Length(AIconName) = 0 then Exit;
 
   if GetPathType(AIconName) = ptAbsolute then
     begin
-      FPixmapsLock.Acquire;
-      try
         // Determine if this file is already loaded.
         fileIndex := FPixmapsFileNames.Find(AIconName);
         if fileIndex < 0 then
-          begin
+        begin
         {$IFDEF GTK2_FIX}
             if not mbFileExists(AIconName) then
               begin
@@ -714,18 +714,26 @@ begin
             end;
         {$ENDIF}
           end
-        else
-          begin
+        else begin
             Result:= PtrInt(FPixmapsFileNames.List[fileIndex]^.Data);
-          end;
-      finally
-        FPixmapsLock.Release;
-      end;
+        end;
     end
-  else
-    begin
-      Result := CheckAddThemePixmap(AIconName, AIconSize);
-    end;
+  else begin
+      Result := CheckAddThemePixmapLocked(AIconName, AIconSize);
+  end;
+end;
+
+function TPixMapManager.CheckAddPixmap(AIconName: String; AIconSize : Integer): PtrInt;
+begin
+  AIconName := ReplaceEnvVars(AIconName);
+  if AIconSize = 0 then AIconSize := gIconsSize;
+
+  FPixmapsLock.Acquire;
+  try
+    Result := CheckAddPixmapLocked(AIconName, AIconSize);
+  finally
+    FPixmapsLock.Release;
+  end;
 end;
 
 procedure TPixMapManager.CreateIconTheme;
@@ -1030,7 +1038,7 @@ begin
       // Try to load one of the icons in the list.
       for I := 0 to iconList.Count - 1 do
         begin
-          Result := CheckAddThemePixmapLocked(iconList.Strings[I], AIconSize);
+          Result := CheckAddPixmapLocked(iconList.Strings[I], AIconSize);
           if Result <> -1 then break;
         end;
     end;
