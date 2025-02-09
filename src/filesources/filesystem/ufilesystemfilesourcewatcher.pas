@@ -16,11 +16,11 @@ type
     function canWatch( const path: String ): Boolean; override;
     function canWatch( const paths: array of String ): Boolean; override;
     procedure updateWatch; override;
-    function addPath( const path: String;
+    function addWatch( const path: String;
                       const filter: TFSWatchFilter;
                       const event: TFSWatcherEvent;
                       const UserData: Pointer = nil ): Boolean; override;
-    procedure removePath( const path: String;
+    procedure removeWatch( const path: String;
                           const event: TFSWatcherEvent); override;
   end;
 
@@ -45,14 +45,14 @@ begin
   {$ENDIF}
 end;
 
-function TFileSystemFileSourceWatcher.addPath(const path: String;
+function TFileSystemFileSourceWatcher.addWatch(const path: String;
   const filter: TFSWatchFilter; const event: TFSWatcherEvent;
   const UserData: Pointer): Boolean;
 begin
   Result:= TFileSystemWatcher.AddWatch( path, filter, event, UserData );
 end;
 
-procedure TFileSystemFileSourceWatcher.removePath(const path: String;
+procedure TFileSystemFileSourceWatcher.removeWatch(const path: String;
   const event: TFSWatcherEvent);
 begin
   TFileSystemWatcher.RemoveWatch( path, event );

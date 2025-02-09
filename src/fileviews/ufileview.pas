@@ -3335,7 +3335,6 @@ end;
 procedure TFileView.EnableWatcher(Enable: Boolean);
 var
   WatchFilter: TFSWatchFilter;
-  realPath: String;
 begin
   if Enable then
   begin
@@ -3363,18 +3362,14 @@ begin
       if WatchFilter <> [] then
       begin
         FWatchPath := CurrentPath;
-        realPath:= (FileSource as TFileSystemFileSource).GetRealPath(FWatchPath);
-        if FileSource.GetWatcher.addPath(realPath, WatchFilter, @WatcherEvent, self) = False then
+        if FileSource.GetWatcher.addWatch(FWatchPath, WatchFilter, @WatcherEvent, self) = False then
           FWatchPath := EmptyStr;
       end;
     end;
   end
   else
   begin
-    if FileSource.IsClass(TFileSystemFileSource) then begin
-      realPath:= (FileSource as TFileSystemFileSource).GetRealPath(FWatchPath);
-      FileSource.GetWatcher.removePath(realPath, @WatcherEvent);
-    end;
+    FileSource.GetWatcher.removeWatch(FWatchPath, @WatcherEvent);
     FWatchPath := EmptyStr;
   end;
 end;

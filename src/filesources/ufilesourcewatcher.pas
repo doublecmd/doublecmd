@@ -42,11 +42,11 @@ type
     function canWatch( const path: String ): Boolean; virtual; abstract;
     function canWatch( const paths: array of String ): Boolean; virtual; abstract;
     procedure updateWatch; virtual; abstract;
-    function addPath( const path: String;
+    function addWatch( const path: String;
                       const filter: TFSWatchFilter;
                       const event: TFSWatcherEvent;
                       const UserData: Pointer = nil ): Boolean; virtual; abstract;
-    procedure removePath( const path: String;
+    procedure removeWatch( const path: String;
                           const event: TFSWatcherEvent); virtual; abstract;
   end;
 
