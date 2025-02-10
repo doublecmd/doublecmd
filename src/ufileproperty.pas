@@ -438,6 +438,7 @@ type
 
   private
     FFinderTagPrimaryColors: TFileFinderTagPrimaryColors;
+    FIsiCloudSeedFile: Boolean;
 
   public
     constructor Create; override;
@@ -453,6 +454,7 @@ type
     function Format({%H-}Formatter: IFilePropertyFormatter): String; override;
 
     property FinderTagPrimaryColors: TFileFinderTagPrimaryColors read FFinderTagPrimaryColors write FFinderTagPrimaryColors;
+    property IsiCloudSeedFile: Boolean read FIsiCloudSeedFile write FIsiCloudSeedFile;
 
   end;
   {$ENDIF}
@@ -1266,6 +1268,7 @@ begin
     with FileProperty as TFileMacOSSpecificProperty do
     begin
       FFinderTagPrimaryColors := Self.FFinderTagPrimaryColors;
+      FIsiCloudSeedFile := Self.FIsiCloudSeedFile;
     end;
   end;
 end;
@@ -1285,6 +1288,7 @@ begin
   Result:= false;
   if not (p is TFileMacOSSpecificProperty) then exit;
   if self.FFinderTagPrimaryColors.intValue <> TFileMacOSSpecificProperty(p).FFinderTagPrimaryColors.intValue then exit;
+  if self.FIsiCloudSeedFile <> TFileMacOSSpecificProperty(p).FIsiCloudSeedFile then Exit;
   Result:= true;
 end;
 

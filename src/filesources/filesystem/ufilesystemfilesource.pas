@@ -490,6 +490,10 @@ begin
 
 {$ENDIF}
 
+  {$IFDEF DARWIN}
+  Result.MacOSSpecificProperty := uMyDarwin.getMacOSSpecificFileProperty(AFilePath);
+  {$ENDIF}
+
   // Set name after assigning Attributes property, because it is used to get extension.
   Result.FullPath := aFilePath;
 end;

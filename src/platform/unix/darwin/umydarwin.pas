@@ -902,11 +902,10 @@ end;
 function getMacOSSpecificFileProperty( const path: String ): TFileMacOSSpecificProperty;
 var
   url: NSURL;
-  tagNames: NSArray;
-  tagName: NSString;
 
-  function toPrimaryColors: TFileFinderTagPrimaryColors;
+  function toPrimaryColors(const tagNames: NSArray): TFileFinderTagPrimaryColors;
   var
+    tagName: NSString;
     tag: TFinderTag;
     iSource: NSUInteger;
     iDest: Integer;
@@ -927,16 +926,41 @@ var
     end;
   end;
 
+  function getTagPrimaryColors: TFileFinderTagPrimaryColors;
+  var
+    tagNames: NSArray;
+  begin
+    Result.intValue:= -1;
+    tagNames:= uDarwinFinderModelUtil.getTagNamesOfFile( url );
+    if tagNames = nil then
+      Exit;
+    Result:= toPrimaryColors( tagNames );
+  end;
+
+  function isSeedFile: Boolean;
+  var
+    name: NSString;
+    status: NSString;
+  begin
+    name:= url.lastPathComponent;
+    if name.isEqualToString(NSSTR('..')) then
+      Exit( False );
+    if name.hasPrefix(NSSTR('.')) and name.hasSuffix(NSSTR('.icloud')) then
+      Exit( True );
+
+    url.getResourceValue_forKey_error( @status, NSURLUbiquitousItemDownloadingStatusKey, nil );
+    if status = nil then
+      Exit( False );
+
+    Result:= NOT status.isEqualToString( NSURLUbiquitousItemDownloadingStatusCurrent );
+    Writeln( '??  ', path, ':', status.UTF8String );
+  end;
+
 begin
-  Result:= nil;
-  url:= NSURL.fileURLWithPath( StrToNSString(path) );
-  tagNames:= uDarwinFinderModelUtil.getTagNamesOfFile( url );
-
-  if tagNames = nil then
-    Exit;
-
   Result:= TFileMacOSSpecificProperty.Create;
-  Result.FinderTagPrimaryColors:= toPrimaryColors;
+  url:= NSURL.fileURLWithPath( StrToNSString(path) );
+  Result.FinderTagPrimaryColors:= getTagPrimaryColors;
+  Result.IsiCloudSeedFile:= isSeedFile;
 end;
 
 function getMacOSDisplayNameFromPath(const path: String): String;

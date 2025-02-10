@@ -379,19 +379,11 @@ begin
 end;
 
 class function TSeedFileUtil.isSeedFile(const aFile: TFile): Boolean;
-var
-  url: NSURL;
-  status: NSString;
 begin
-  if aFile.Name = '..' then
-    Exit( False );
-
-  if aFile.Name.StartsWith('.') and aFile.Name.EndsWith('.icloud',True) then
-    Exit( True );
-
-  url:= NSURL.fileURLWithPath( StrToNSString(aFile.FullPath) );
-  url.getResourceValue_forKey_error( @status, NSURLUbiquitousItemDownloadingStatusKey, nil );
-  Result:= status.isEqualToString( NSURLUbiquitousItemDownloadingStatusNotDownloaded );
+  if aFile.MacOSSpecificProperty <> nil then
+    Result:= aFile.MacOSSpecificProperty.IsiCloudSeedFile
+  else
+    Result:= False;
 end;
 
 class function TSeedFileUtil.isSeedFiles(const aFiles: TFiles): Boolean;
