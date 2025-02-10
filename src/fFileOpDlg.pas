@@ -946,6 +946,7 @@ end;
 
 procedure TfrmFileOp.UpdateCopyOperation(Operation: TFileSourceOperation);
 var
+  Speed: String;
   CopyOperation: TFileSourceCopyOperation;
   CopyStatistics: TFileSourceCopyOperationStatistics;
 begin
@@ -957,15 +958,21 @@ begin
     SetLabelCaption(lblFileNameFrom, CurrentFileFrom);
     SetLabelCaption(lblFileNameTo, CurrentFileTo);
 
+    if (TotalBytes < 0) then
+      Speed:= '?'
+    else begin
+      Speed:= cnvFormatFileSize(BytesPerSecond, uoscOperation);
+    end;
     SetProgressCount(Operation, DoneFiles, TotalFiles);
     SetProgressBytes(Operation, pbCurrent, CurrentFileDoneBytes, CurrentFileTotalBytes);
     SetProgressBytes(Operation, pbTotal, DoneBytes, TotalBytes);
-    SetSpeedAndTime(Operation, RemainingTime, cnvFormatFileSize(BytesPerSecond, uoscOperation));
+    SetSpeedAndTime(Operation, RemainingTime, Speed);
   end;
 end;
 
 procedure TfrmFileOp.UpdateMoveOperation(Operation: TFileSourceOperation);
 var
+  Speed: String;
   MoveOperation: TFileSourceMoveOperation;
   MoveStatistics: TFileSourceMoveOperationStatistics;
 begin
@@ -977,10 +984,15 @@ begin
     SetLabelCaption(lblFileNameFrom, CurrentFileFrom);
     SetLabelCaption(lblFileNameTo, CurrentFileTo);
 
+    if (TotalBytes < 0) then
+      Speed:= '?'
+    else begin
+      Speed:= cnvFormatFileSize(BytesPerSecond, uoscOperation);
+    end;
     SetProgressCount(Operation, DoneFiles, TotalFiles);
     SetProgressBytes(Operation, pbCurrent, CurrentFileDoneBytes, CurrentFileTotalBytes);
     SetProgressBytes(Operation, pbTotal, DoneBytes, TotalBytes);
-    SetSpeedAndTime(Operation, RemainingTime, cnvFormatFileSize(BytesPerSecond, uoscOperation));
+    SetSpeedAndTime(Operation, RemainingTime, Speed);
   end;
 end;
 
