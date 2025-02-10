@@ -362,7 +362,7 @@ function TFileOperationProgressSink.UpdateProgress(iWorkTotal: UINT;
 begin
   if Assigned(FCopyStatistics) then
   begin
-    FCopyStatistics^.TotalBytes:= iWorkTotal;
+    FCopyStatistics^.TotalBytes:= -Int64(iWorkTotal);
     FCopyStatistics^.DoneBytes:= iWorkSoFar;
 
     FUpdateCopyStatistics(FCopyStatistics^);
