@@ -433,7 +433,7 @@ begin
     end;
     {$IFDEF DARWIN}
     if pSearchRecord^.Name<>'..' then
-      FinderTagProperty := uMyDarwin.getMacOSFinderTagFileProperty(AFilePath);
+      MacOSSpecificProperty := uMyDarwin.getMacOSSpecificFileProperty(AFilePath);
     {$ENDIF}
   end;
 
@@ -761,8 +761,8 @@ begin
     end;
 
 {$IFDEF DARWIN}
-   if (AFile.Name<>'..') and (fpMacOSFinderTag in PropertiesToSet) then
-     FinderTagProperty := uMyDarwin.getMacOSFinderTagFileProperty(sFullPath);
+   if (AFile.Name<>'..') and (fpMacOSSpecific in PropertiesToSet) then
+     MacOSSpecificProperty := uMyDarwin.getMacOSSpecificFileProperty(sFullPath);
 {$ENDIF}
 
     PropertiesToSet:= PropertiesToSet * fpVariantAll;
@@ -908,7 +908,7 @@ begin
              fpLastAccessTime,
              uFileProperty.fpLink
              {$IF DEFINED(DARWIN)}
-             ,fpMacOSFinderTag
+             ,fpMacOSSpecific
              {$ENDIF}
             ];
 end;
@@ -932,7 +932,7 @@ begin
              , fpCompressedSize
              {$ENDIF}
              {$IF DEFINED(DARWIN)}
-             ,fpMacOSFinderTag
+             ,fpMacOSSpecific
              {$ENDIF}
              ] + fpVariantAll;
 {$IF DEFINED(LINUX)}

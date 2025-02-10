@@ -621,7 +621,7 @@ begin
              fpLink,              // For distinguishing directories (link to dir) and link icons
              fpModificationTime   // For selecting/coloring files (by SearchTemplate)
              {$IFDEF DARWIN}
-             ,fpMacOSFinderTag    // macOS finder tag
+             ,fpMacOSSpecific     // macOS
              {$ENDIF}
             ];
 

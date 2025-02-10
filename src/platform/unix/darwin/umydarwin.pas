@@ -179,7 +179,7 @@ procedure performMacOSService( serviceName: String );
 
 procedure showQuickLookPanel;
 procedure showEditFinderTagsPanel( const Sender: id; const control: TWinControl );
-function getMacOSFinderTagFileProperty( const path: String ): TFileFinderTagProperty;
+function getMacOSSpecificFileProperty( const path: String ): TFileMacOSSpecificProperty;
 
 // MacOS Sharing
 procedure showMacOSSharingServiceMenu;
@@ -358,16 +358,16 @@ end;
 procedure TDarwinFileViewDrawHelper.onDrawCell(Sender: TFileView; aCol, aRow: Integer;
   aRect: TRect; focused: Boolean; aFile: TDisplayFile);
 var
-  tagProperty: TFileFinderTagProperty;
+  macOSProperty: TFileMacOSSpecificProperty;
 begin
   if (Sender is TColumnsFileView) and (aCol<>0) then
     Exit;
 
-  tagProperty:= aFile.FSFile.FinderTagProperty;
-  if tagProperty = nil then
+  macOSProperty:= aFile.FSFile.MacOSSpecificProperty;
+  if macOSProperty = nil then
     Exit;
 
-  drawTagsAsDecoration( tagProperty.Colors, aRect, focused );
+  drawTagsAsDecoration( macOSProperty.FinderTagPrimaryColors, aRect, focused );
 end;
 
 procedure TDarwinFileViewDrawHelper.drawTagsAsDecoration(
@@ -899,7 +899,7 @@ begin
   uDarwinFinderUtil.popoverFileTagsEditor( filenames[0], handler.onClose, view , NSMaxYEdge );
 end;
 
-function getMacOSFinderTagFileProperty( const path: String ): TFileFinderTagProperty;
+function getMacOSSpecificFileProperty( const path: String ): TFileMacOSSpecificProperty;
 var
   url: NSURL;
   tagNames: NSArray;
@@ -935,8 +935,8 @@ begin
   if tagNames = nil then
     Exit;
 
-  Result:= TFileFinderTagProperty.Create;
-  Result.Colors:= toPrimaryColors;
+  Result:= TFileMacOSSpecificProperty.Create;
+  Result.FinderTagPrimaryColors:= toPrimaryColors;
 end;
 
 function getMacOSDisplayNameFromPath(const path: String): String;

@@ -87,8 +87,8 @@ type
     function GetCommentProperty: TFileCommentProperty;
     procedure SetCommentProperty(NewValue: TFileCommentProperty);
     {$IFDEF DARWIN}
-    function GetFinderTagProperty: TFileFinderTagProperty;
-    procedure SetFinderTagProperty(NewValue: TFileFinderTagProperty);
+    function GetMacOSSpecificProperty: TFileMacOSSpecificProperty;
+    procedure SetMacOSSpecificProperty(NewValue: TFileMacOSSpecificProperty);
     {$ENDIF}
   public
     constructor Create(const APath: String);
@@ -168,7 +168,7 @@ type
     property TypeProperty: TFileTypeProperty read GetTypeProperty write SetTypeProperty;
     property CommentProperty: TFileCommentProperty read GetCommentProperty write SetCommentProperty;
     {$IFDEF DARWIN}
-    property FinderTagProperty: TFileFinderTagProperty read GetFinderTagProperty write SetFinderTagProperty;
+    property MacOSSpecificProperty: TFileMacOSSpecificProperty read GetMacOSSpecificProperty write SetMacOSSpecificProperty;
     {$ENDIF}
 
     { Accessors to each property's value. }
@@ -768,14 +768,14 @@ begin
 end;
 
 {$IFDEF DARWIN}
-function TFile.GetFinderTagProperty: TFileFinderTagProperty;
+function TFile.GetMacOSSpecificProperty: TFileMacOSSpecificProperty;
 begin
-  Result := TFileFinderTagProperty(FProperties[fpMacOSFinderTag]);
+  Result := TFileMacOSSpecificProperty(FProperties[fpMacOSSpecific]);
 end;
 
-procedure TFile.SetFinderTagProperty(NewValue: TFileFinderTagProperty);
+procedure TFile.SetMacOSSpecificProperty(NewValue: TFileMacOSSpecificProperty);
 begin
-  Properties[fpMacOSFinderTag] := NewValue;
+  Properties[fpMacOSSpecific] := NewValue;
 end;
 {$ENDIF}
 
