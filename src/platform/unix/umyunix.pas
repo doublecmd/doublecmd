@@ -621,7 +621,7 @@ begin
     AFont:= FcFontMatch(nil, APattern, @Res);
     if Assigned(AFont) then
     begin
-      AFontName:= FcPatternFormat(AFont, '%{fullname}');
+      AFontName:= FcPatternFormat(AFont, '%{family}');
       if Assigned(AFontName) then
       begin
         Result:= StrPas(AFontName);
@@ -641,6 +641,7 @@ initialization
   if LoadFontConfigLib('libfontconfig.so.1') then
   begin
     MonoSpaceFont:= GetFontName(MonoSpaceFont);
+    DebugLn('Monospace: ', MonoSpaceFont);
     UnLoadFontConfigLib;
   end;
 {$ENDIF}
