@@ -56,6 +56,9 @@ type
     function canWatch( const path: String ): Boolean; override;
     function canWatch( const paths: array of String ): Boolean; override;
     procedure updateWatch; override;
+    function addWatch(const path: String; const filter: TFSWatchFilter;
+      const event: TFSWatcherEvent; const UserData: Pointer=nil): Boolean; override;
+    procedure removeWatch(const path: String; const event: TFSWatcherEvent); override;
   end;
 
 implementation
@@ -79,6 +82,18 @@ begin
 end;
 
 procedure TDefaultFileSourceWatcher.updateWatch;
+begin
+end;
+
+function TDefaultFileSourceWatcher.addWatch(const path: String;
+  const filter: TFSWatchFilter; const event: TFSWatcherEvent;
+  const UserData: Pointer): Boolean;
+begin
+  Result:= False;
+end;
+
+procedure TDefaultFileSourceWatcher.removeWatch(const path: String;
+  const event: TFSWatcherEvent);
 begin
 end;
 
