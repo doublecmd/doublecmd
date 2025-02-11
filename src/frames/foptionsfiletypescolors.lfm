@@ -81,6 +81,7 @@ inherited frmOptionsFileTypesColors: TfrmOptionsFileTypesColors
       Anchors = [akLeft, akRight, akBottom]
       BorderSpacing.Bottom = 8
       TabOrder = 1
+      OnChange = edtCategoryNameChange
     end
     object edtCategoryMask: TEdit
       AnchorSideTop.Side = asrBottom
@@ -95,12 +96,12 @@ inherited frmOptionsFileTypesColors: TfrmOptionsFileTypesColors
       BorderSpacing.Right = 6
       BorderSpacing.Bottom = 8
       TabOrder = 2
+      OnChange = edtCategoryMaskChange
     end
     object cbCategoryColor: TKASColorBoxButton
       AnchorSideTop.Side = asrBottom
       AnchorSideRight.Control = edtCategoryAttr
       AnchorSideRight.Side = asrBottom
-      AnchorSideBottom.Control = btnApplyCategory
       Left = 170
       Height = 25
       Top = 249
@@ -108,13 +109,13 @@ inherited frmOptionsFileTypesColors: TfrmOptionsFileTypesColors
       Anchors = [akLeft, akRight, akBottom]
       TabOrder = 5
       BorderSpacing.Bottom = 12
+      OnChange = cbCategoryColorChange
     end
     object btnAddCategory: TBitBtn
       AnchorSideTop.Side = asrBottom
       AnchorSideRight.Control = btnDeleteCategory
-      AnchorSideBottom.Control = btnApplyCategory
       AnchorSideBottom.Side = asrBottom
-      Left = 389
+      Left = 505
       Height = 32
       Top = 286
       Width = 110
@@ -126,15 +127,14 @@ inherited frmOptionsFileTypesColors: TfrmOptionsFileTypesColors
     end
     object btnDeleteCategory: TBitBtn
       AnchorSideTop.Side = asrBottom
-      AnchorSideRight.Control = btnApplyCategory
-      AnchorSideBottom.Control = btnApplyCategory
+      AnchorSideRight.Control = lbCategories
+      AnchorSideRight.Side = asrBottom
       AnchorSideBottom.Side = asrBottom
-      Left = 505
+      Left = 621
       Height = 32
       Top = 286
       Width = 110
       Anchors = [akRight, akBottom]
-      BorderSpacing.Right = 6
       Caption = 'D&elete'
       OnClick = btnDeleteCategoryClick
       TabOrder = 7
@@ -154,28 +154,12 @@ inherited frmOptionsFileTypesColors: TfrmOptionsFileTypesColors
       BorderSpacing.Bottom = 12
       DragMode = dmAutomatic
       ItemHeight = 0
-      OnClick = lbCategoriesClick
+      Style = lbOwnerDrawFixed
+      TabOrder = 0
       OnDragDrop = lbCategoriesDragDrop
       OnDragOver = lbCategoriesDragOver
       OnDrawItem = lbCategoriesDrawItem
-      Style = lbOwnerDrawFixed
-      TabOrder = 0
-    end
-    object btnApplyCategory: TBitBtn
-      AnchorSideTop.Side = asrBottom
-      AnchorSideRight.Control = lbCategories
-      AnchorSideRight.Side = asrBottom
-      AnchorSideBottom.Control = gbFileTypesColors
-      AnchorSideBottom.Side = asrBottom
-      Left = 621
-      Height = 32
-      Top = 286
-      Width = 110
-      Anchors = [akRight, akBottom]
-      BorderSpacing.Bottom = 8
-      Caption = 'A&pply'
-      OnClick = btnApplyCategoryClick
-      TabOrder = 8
+      OnSelectionChange = lbCategoriesSelectionChange
     end
     object edtCategoryAttr: TEdit
       AnchorSideTop.Side = asrBottom
@@ -189,6 +173,7 @@ inherited frmOptionsFileTypesColors: TfrmOptionsFileTypesColors
       Anchors = [akLeft, akRight, akBottom]
       BorderSpacing.Bottom = 8
       TabOrder = 4
+      OnChange = edtCategoryAttrChange
     end
     object btnSearchTemplate: TBitBtn
       AnchorSideTop.Control = edtCategoryMask
