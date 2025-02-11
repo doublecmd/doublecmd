@@ -74,6 +74,7 @@ type
     class function GetIconIndex: Integer; override;
     class function GetTitle: String; override;
     function IsSignatureComputedFromAllWindowComponents: Boolean; override;
+    function ExtraOptionsSignature(CurrentSignature: dword): dword; override;
   end;
 
 implementation
@@ -81,7 +82,7 @@ implementation
 {$R *.lfm}
 
 uses
-  Graphics, uLng, uGlobs, uColorExt, fMaskInputDlg, uSearchTemplate;
+  Graphics, CRC, uLng, uGlobs, uColorExt, fMaskInputDlg, uSearchTemplate;
 
 { TfrmOptionsFileTypesColors }
 
@@ -270,6 +271,30 @@ end;
 function TfrmOptionsFileTypesColors.IsSignatureComputedFromAllWindowComponents: Boolean;
 begin
   Result := False;
+end;
+
+function TfrmOptionsFileTypesColors.ExtraOptionsSignature(
+  CurrentSignature: dword): dword;
+var
+  I: Integer;
+  AColor: TColor;
+  MaskItem: TMaskItem;
+begin
+  Result:= CurrentSignature;
+
+  for I:= 0 to lbCategories.Count - 1 do
+  begin
+    if Assigned(lbCategories.Items.Objects[I]) then
+    begin
+      MaskItem:= TMaskItem(lbCategories.Items.Objects[I]);
+
+      AColor:= MaskItem.cColor;
+      Result:= CRC32(Result, @AColor, SizeOf(AColor));
+      Result:= CRC32(Result, Pointer(MaskItem.sExt), Length(MaskItem.sExt));
+      Result:= CRC32(Result, Pointer(MaskItem.sName), Length(MaskItem.sName));
+      Result:= CRC32(Result, Pointer(MaskItem.sModeStr), Length(MaskItem.sModeStr));
+    end;
+  end;
 end;
 
 procedure TfrmOptionsFileTypesColors.Load;
