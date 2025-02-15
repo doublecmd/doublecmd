@@ -114,12 +114,16 @@ var
   AFile: PGFile;
   ATarget: Pgchar;
   AFileType: TGFileType;
+  AFileTime: TFileTimeEx;
   ASymlinkInfo: PGFileInfo;
 begin
   Result:= CreateFile(APath);
   Result.Name:= g_file_info_get_name(AFileInfo);
   Result.Attributes:= g_file_info_get_attribute_uint32(AFileInfo, FILE_ATTRIBUTE_UNIX_MODE);
-  Result.ModificationTime:= UnixFileTimeToDateTime(g_file_info_get_attribute_uint64 (AFileInfo, FILE_ATTRIBUTE_TIME_MODIFIED));
+  AFileTime.sec:= Int64(g_file_info_get_attribute_uint64(AFileInfo, FILE_ATTRIBUTE_TIME_MODIFIED));
+  AFileTime.nanosec:= Int64(g_file_info_get_attribute_uint32(AFileInfo, FILE_ATTRIBUTE_TIME_MODIFIED_USEC)) * 1000;
+
+  Result.ModificationTime:= UnixFileTimeToDateTimeEx(AFileTime);
 
   if g_file_info_has_attribute(AFileInfo, FILE_ATTRIBUTE_STANDARD_SIZE) then
     Result.Size:= g_file_info_get_size(AFileInfo)

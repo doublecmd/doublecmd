@@ -14,6 +14,7 @@ const
   CONST_DEFAULT_QUERY_INFO_ATTRIBUTES = FILE_ATTRIBUTE_STANDARD_TYPE + ',' + FILE_ATTRIBUTE_STANDARD_NAME + ',' +
                                         FILE_ATTRIBUTE_STANDARD_DISPLAY_NAME + ',' + FILE_ATTRIBUTE_STANDARD_SIZE + ',' +
                                         FILE_ATTRIBUTE_STANDARD_SYMLINK_TARGET + ',' + FILE_ATTRIBUTE_TIME_MODIFIED + ',' +
+                                        FILE_ATTRIBUTE_TIME_MODIFIED_USEC + ',' +
                                         FILE_ATTRIBUTE_TIME_ACCESS + ',' + FILE_ATTRIBUTE_TIME_CREATED + ',' +
                                         FILE_ATTRIBUTE_UNIX_MODE + ',' + FILE_ATTRIBUTE_UNIX_UID + ',' +
                                         FILE_ATTRIBUTE_UNIX_GID + ',' + FILE_ATTRIBUTE_STANDARD_TARGET_URI;
@@ -62,6 +63,7 @@ type
 
     procedure ShowError(const Message: String; AError: PGError);
     procedure LogMessage(sMessage: String; logOptions: TLogOptions; logMsgType: TLogMsgType);
+    procedure CopyProperties(SourceFile: TFile; TargetFile: PGFile);
     function ProcessNode(aFileTreeNode: TFileTreeNode; CurrentTargetPath: String): Boolean;
     function ProcessDirectory(aNode: TFileTreeNode; AbsoluteTargetFileName: String): Boolean;
     function ProcessLink(aNode: TFileTreeNode; AbsoluteTargetFileName: String): Boolean;
@@ -111,7 +113,7 @@ procedure FillAndCount(Files: TFiles; CountDirs: Boolean; out NewFiles: TFiles;
 implementation
 
 uses
-  Forms, StrUtils, DCDateTimeUtils, uDCUtils, uFileProperty,
+  Forms, StrUtils, DCBasicTypes, DCDateTimeUtils, uDCUtils, uFileProperty,
   uShowMsg, uLng, uGObject2, uGio, DCFileAttributes;
 
 procedure ShowError(AError: PGError);
@@ -331,6 +333,18 @@ begin
   end;
 end;
 
+procedure TGioOperationHelper.CopyProperties(SourceFile: TFile;
+  TargetFile: PGFile);
+var
+  AFileTime: TFileTimeEx;
+begin
+  AFileTime:= DateTimeToUnixFileTimeEx(SourceFile.ModificationTime);
+  g_file_set_attribute_uint64(TargetFile, FILE_ATTRIBUTE_TIME_MODIFIED,
+                              guint64(AFileTime.sec), G_FILE_QUERY_INFO_NONE, nil, nil);
+  g_file_set_attribute_uint32(TargetFile, FILE_ATTRIBUTE_TIME_MODIFIED_USEC,
+                              guint32(Round(Extended(AFileTime.nanosec) / 1000.0)), G_FILE_QUERY_INFO_NONE, nil, nil);
+end;
+
 function TGioOperationHelper.ProcessNode(aFileTreeNode: TFileTreeNode;
   CurrentTargetPath: String): Boolean;
 var
@@ -423,6 +437,8 @@ begin
           begin
             // Copy/Move all files inside.
             Result := ProcessNode(aNode, IncludeTrailingPathDelimiter(AbsoluteTargetFileName));
+            // Copy attributes after copy/move directory contents, because this operation can change date/time
+            CopyProperties(aNode.TheFile, TargetFile);
           end
           else
           begin
