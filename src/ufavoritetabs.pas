@@ -892,8 +892,11 @@ begin
     while Assigned(ANode) do
     begin
       BNode := ANode.NextSibling;
-      if GetIndexForSuchUniqueID(XmlStringToGuid(ANode.NodeName)) = -1 then
-        AConfig.DeleteNode(ANode);
+      if StrBegins(ANode.NodeName, 'GUID') then
+      begin
+        if GetIndexForSuchUniqueID(XmlStringToGuid(ANode.NodeName)) = -1 then
+          AConfig.DeleteNode(ANode);
+      end;
       ANode := BNode;
     end;
   end;
