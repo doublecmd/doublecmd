@@ -292,7 +292,7 @@ implementation
 
 uses
   SysUtils, BufStream,
-  AbBitBkt, AbDfBase, AbDfDec, AbZlibPrc, AbExcept, AbResString, AbProgress,
+  AbBitBkt, AbDfBase, AbZlibPrc, AbExcept, AbResString, AbProgress,
   AbVMStrm, DCOSUtils, DCClassesUtf8, DCConvertEncoding;
 
 const
