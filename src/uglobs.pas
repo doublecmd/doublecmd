@@ -321,6 +321,7 @@ var
   gSortFolderMode: TSortFolderMode;
   gNewFilesPosition: TNewFilesPosition;
   gUpdatedFilesPosition: TUpdatedFilesPosition;
+  gSortClearVariant: Boolean;
   gLynxLike:Boolean;
   gFirstTextSearch: Boolean;
 
@@ -1704,6 +1705,7 @@ begin
   gSortFolderMode := sfmSortLikeFileShowFirst;
   gNewFilesPosition := nfpSortedPosition;
   gUpdatedFilesPosition := ufpNoChange;
+  gSortClearVariant := False;
   gFileSizeFormat := fsfFloat;
   gHeaderSizeFormat := fsfFloat;
   gFooterSizeFormat := fsfFloat;
@@ -2823,6 +2825,7 @@ begin
         gSortFolderMode:= TSortFolderMode(GetValue(SubNode, 'SortFolderMode', Integer(gSortFolderMode)));
         gNewFilesPosition := TNewFilesPosition(GetValue(SubNode, 'NewFilesPosition', Integer(gNewFilesPosition)));
         gUpdatedFilesPosition := TUpdatedFilesPosition(GetValue(SubNode, 'UpdatedFilesPosition', Integer(gUpdatedFilesPosition)));
+        gSortClearVariant := GetValue(SubNode, 'SortClearVariant', gSortClearVariant);
       end;
       SubNode := FindNode(Node, 'ColumnsView');
       if Assigned(SubNode) then
@@ -3525,6 +3528,7 @@ begin
     SetValue(SubNode, 'SortFolderMode', Integer(gSortFolderMode));
     SetValue(SubNode, 'NewFilesPosition', Integer(gNewFilesPosition));
     SetValue(SubNode, 'UpdatedFilesPosition', Integer(gUpdatedFilesPosition));
+    SetValue(SubNode, 'SortClearVariant', gSortClearVariant);
     SubNode := FindNode(Node, 'ColumnsView', True);
     SetValue(SubNode, 'LongInStatus', gColumnsLongInStatus);
     SetValue(SubNode, 'AutoSaveWidth', gColumnsAutoSaveWidth);
