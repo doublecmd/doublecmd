@@ -157,7 +157,7 @@ procedure TiCloudDriverProcessor.consultOperation( var params: TFileSourceConsul
     if dlgResult <> mrCancel then
       Exit;
 
-    params.consultResult:= fscrNotSupported;
+    params.consultResult:= fscrCancel;
     params.handled:= True;
   end;
 

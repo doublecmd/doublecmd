@@ -3661,6 +3661,9 @@ begin
     params.targetPath:= TargetPath;
     FileSourceManager.consultOperation( params );
 
+    if params.consultResult = fscrCancel then
+      Exit;
+
     if params.consultResult <> fscrSuccess then begin
       msgWarning(rsMsgErrNotSupported);
       Exit;

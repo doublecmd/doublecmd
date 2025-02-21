@@ -16,7 +16,7 @@ type
   TFileSourceConnection = class;
   IFileSource = interface;
 
-  TFileSourceConsultResult = ( fscrSuccess, fscrNotImplemented, fscrNotSupported );
+  TFileSourceConsultResult = ( fscrSuccess, fscrNotImplemented, fscrNotSupported, fscrCancel );
 
   TFileSourceConsultParams = Record
     handled: Boolean;
