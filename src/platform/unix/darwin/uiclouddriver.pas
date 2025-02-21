@@ -387,8 +387,15 @@ begin
 end;
 
 class function TSeedFileUtil.isSeedFiles(const aFiles: TFiles): Boolean;
+var
+  i: Integer;
 begin
-  Result:= isSeedFile( aFiles[0] );
+  Result:= False;
+  for i:=0 to aFiles.Count-1 do begin
+    Result:= isSeedFile( aFiles[i] );
+    if Result then
+      Exit;
+  end;
 end;
 
 class procedure TSeedFileUtil.downloadOrEvict(const aFile: TFile);
