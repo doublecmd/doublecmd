@@ -6,9 +6,11 @@ unit uiCloudDriver;
 interface
 
 uses
-  Classes, SysUtils, syncobjs, fgl, LazMethodList, Menus, Forms,
+  Classes, SysUtils, syncobjs, fgl, LazMethodList,
+  Menus, Forms, Dialogs, System.UITypes,
   uFile, uDisplayFile,
-  uFileSource, uFileSourceWatcher, uMountedFileSource, uFileSourceManager, uVfsModule,
+  uFileSource, uFileSourceOperationTypes, uFileSourceManager,
+  uFileSourceWatcher, uMountedFileSource, uVfsModule,
   uDCUtils, uLng, uGlobs,
   uMyDarwin, uDarwinFSWatch,
   CocoaAll, CocoaUtils;
@@ -36,6 +38,7 @@ type
     class function GetFileSource: TiCloudDriverFileSource;
 
     function GetWatcher: TFileSourceWatcher; override;
+    function GetProcessor: TFileSourceProcessor; override;
     function GetUIHandler: TFileSourceUIHandler; override;
     class function GetMainIcon(out Path: String): Boolean; override;
 
@@ -97,6 +100,13 @@ type
     destructor Destroy; override;
   end;
   
+  { TiCloudDriverProcessor }
+
+  TiCloudDriverProcessor = class( TMountedFileSourceProcessor )
+  public
+    procedure consultOperation(var params: TFileSourceConsultParams); override;
+  end;
+
   { TiCloudDriverUIHandler }
 
   TiCloudDriverUIHandler = class( TFileSourceUIHandler )
@@ -121,8 +131,45 @@ type
 
 var
   iCloudDriverWatcher: TiCloudDriverWatcher;
+  iCloudDriverProcessor: TiCloudDriverProcessor;
   iCloudDriverUIProcessor: TiCloudDriverUIHandler;
   iCloudArrowDownImage: NSImage;
+
+{ TiCloudDriverProcessor }
+
+procedure TiCloudDriverProcessor.consultOperation( var params: TFileSourceConsultParams );
+
+  procedure confirmIfSeedFiles;
+  var
+    dlgResult: TModalResult;
+  begin
+    if params.currentFS <> params.sourceFS then
+      Exit;
+    if NOT TSeedFileUtil.isSeedFiles(params.files) then
+      Exit;
+    dlgResult:= MessageDlg(
+      'The operation may contain files that were not downloaded, continue anyway?',
+      'It is recommended to complete the download before operating. Otherwise, what is copied is not the content of the files, but the corresponding placeholder files, which will result in hidden files with the .iCloud extension.',
+      mtConfirmation,
+      [mbCancel, mbYes],
+      -1 );
+
+    if dlgResult <> mrCancel then
+      Exit;
+
+    params.consultResult:= fscrNotSupported;
+    params.handled:= True;
+  end;
+
+begin
+  if params.operationType = fsoCopy then
+    confirmIfSeedFiles;
+
+  if params.handled then
+    Exit;
+
+  inherited consultOperation(params);
+end;
 
 { TiCloudDriverWatcher }
 
@@ -658,6 +705,11 @@ begin
   Result:= iCloudDriverWatcher;
 end;
 
+function TiCloudDriverFileSource.GetProcessor: TFileSourceProcessor;
+begin
+  Result:= iCloudDriverProcessor;
+end;
+
 function TiCloudDriverFileSource.GetRootDir(sPath: String): String;
 var
   path: String;
@@ -723,11 +775,13 @@ end;
 
 initialization
   iCloudDriverWatcher:= TiCloudDriverWatcher.Create;
+  iCloudDriverProcessor:= TiCloudDriverProcessor.Create;
   iCloudDriverUIProcessor:= TiCloudDriverUIHandler.Create;
   RegisterVirtualFileSource( 'iCloud', TiCloudDriverFileSource, True );
 
 finalization
   FreeAndNil( iCloudDriverWatcher );
+  FreeAndNil( iCloudDriverProcessor );
   FreeAndNil( iCloudDriverUIProcessor );
   iCloudArrowDownImage.release;
 

@@ -68,13 +68,6 @@ type
     property mountPoints: TMountPoints read _mountPoints;
   end;
 
-implementation
-
-uses
-  uMountedListOperation;
-
-type
-
   { TMountedFileSourceProcessor }
 
   TMountedFileSourceProcessor = class( TFileSystemFileSourceProcessor )
@@ -87,6 +80,11 @@ type
     procedure consultOperation(var params: TFileSourceConsultParams); override;
     procedure confirmOperation( var params: TFileSourceConsultParams ); override;
   end;
+
+implementation
+
+uses
+  uMountedListOperation;
 
 var
   mountedFileSourceProcessor: TMountedFileSourceProcessor;
