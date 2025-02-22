@@ -10730,11 +10730,11 @@ msgstr "按命令名称;按快捷键（分组）;按快捷键（每行一个）"
 
 #: ulng.rsiclouddrivercopyseedfileconfirmdlgmessage
 msgid "It is recommended to download the files first. Otherwise, what is copied is not the content of the files, but the corresponding placeholder files, which will result in hidden files with the .iCloud extension."
-msgstr ""
+msgstr "建议先完成文件下载后再操作。否则，复制的不是文件本身的内容，而是对应的占位符文件，这只会复制以.iCloud为扩展名的隐藏文件。"
 
 #: ulng.rsiclouddrivercopyseedfileconfirmdlgtitle
 msgid "The operation may contain files that were not downloaded, continue anyway?"
-msgstr ""
+msgstr "操作可能包含未下载的文件，仍然继续吗？"
 
 #: ulng.rsimporttoolbarproblem
 msgid "Cannot find reference to default bar file"
