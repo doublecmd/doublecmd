@@ -10,7 +10,7 @@ uses
   LCLType, Forms, Menus,
   fMain, uDCUtils, uLng,
   uFileView, uBriefFileView, uColumnsFileView, uThumbFileView,
-  uMyDarwin, uDarwinFinder, uDarwinFinderModel, uDarwinFileView,
+  uMyDarwin, uDarwinUtil, uDarwinFinder, uDarwinFinderModel, uDarwinFileView,
   CocoaAll, CocoaConfig, CocoaToolBar, Cocoa_Extra;
 
 procedure initCocoaModernFormConfig;

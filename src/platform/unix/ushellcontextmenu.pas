@@ -78,7 +78,7 @@ uses
   uOSUtils, uFileProcs, uShellExecute, uLng, uPixMapManager, uMyUnix, uOSForms,
   fMain, fFileProperties, DCOSUtils, DCStrUtils, uExts, uArchiveFileSourceUtil, uSysFolders
   {$IF DEFINED(DARWIN)}
-  , LCLStrConsts, MacOSAll, CocoaAll, uMyDarwin
+  , LCLStrConsts, MacOSAll, CocoaAll, uMyDarwin, uDarwinUtil
   {$ELSEIF NOT DEFINED(HAIKU)}
   , uKeyFile, uMimeActions
     {$IF DEFINED(LINUX)}

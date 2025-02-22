@@ -12,7 +12,7 @@ uses
 {$IF DEFINED(MSWINDOWS)}
   , MMSystem, LazUTF8
 {$ELSEIF DEFINED(DARWIN)}
-  , CocoaAll, uMyDarwin
+  , CocoaAll, uDarwinUtil
 {$ELSE}
   , LazLogger, sdl2
   {$IFNDEF HAIKU}

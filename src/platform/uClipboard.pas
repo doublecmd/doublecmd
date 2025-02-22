@@ -112,7 +112,7 @@ uses
 {$ELSEIF DEFINED(UNIX_not_DARWIN)}
   Clipbrd, LCLIntf
 {$ELSEIF DEFINED(DARWIN)}
-  DCStrUtils, CocoaAll, CocoaUtils, uMyDarwin
+  DCStrUtils, CocoaAll, CocoaUtils, uDarwinUtil
 {$ENDIF}
   ;
 

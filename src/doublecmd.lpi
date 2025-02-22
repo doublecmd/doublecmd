@@ -311,7 +311,7 @@ end;"/>
         <PackageName Value="Image32"/>
       </Item13>
     </RequiredPackages>
-    <Units Count="283">
+    <Units Count="284">
       <Unit0>
         <Filename Value="doublecmd.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -2047,6 +2047,11 @@ end;"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uFileSystemFileSourceWatcher"/>
       </Unit282>
+      <Unit283>
+        <Filename Value="platform\unix\darwin\udarwinutil.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uDarwinUtil"/>
+      </Unit283>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

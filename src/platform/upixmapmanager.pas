@@ -55,7 +55,7 @@ uses
   {$ELSEIF DEFINED(UNIX)}
   , DCFileAttributes
     {$IF DEFINED(DARWIN)}
-    , CocoaUtils, uMyDarwin
+    , CocoaUtils, uDarwinUtil
     {$ELSEIF NOT DEFINED(HAIKU)}
     , Math, Contnrs, uGio, uXdg
       {$IFDEF GTK2_FIX}

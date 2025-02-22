@@ -45,7 +45,7 @@ type
 implementation
 
 uses
-  CocoaAll, uMyDarwin;
+  CocoaAll, uDarwinUtil;
 
 { ---------- TDragDropSourceCocoa ---------- }
 

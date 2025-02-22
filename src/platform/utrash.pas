@@ -49,7 +49,7 @@ uses
   {$ELSEIF DEFINED(UNIX)}
   BaseUnix, DCUnix, uMyUnix, uOSUtils, FileUtil, uSysFolders
     {$IF DEFINED(DARWIN)}
-    , MacOSAll, DynLibs, CocoaAll, uMyDarwin
+    , MacOSAll, DynLibs, CocoaAll, uDarwinUtil
     {$ELSEIF DEFINED(HAIKU)}
     , DCHaiku, DCConvertEncoding
     {$ELSE}
