@@ -9057,15 +9057,11 @@ msgid "Use &relative path when possible"
 msgstr ""
 
 #: tfrmsymlink.lblexistingfile.caption
-#, fuzzy
-#| msgid "Destination that the link will point to"
 msgctxt "TFRMSYMLINK.LBLEXISTINGFILE.CAPTION"
 msgid "&Destination that the link will point to"
 msgstr "連結目標 (&D)"
 
 #: tfrmsymlink.lbllinktocreate.caption
-#, fuzzy
-#| msgid "Link name"
 msgctxt "TFRMSYMLINK.LBLLINKTOCREATE.CAPTION"
 msgid "&Link name"
 msgstr "連結名稱 (&L)"
@@ -9125,7 +9121,6 @@ msgid "Compare"
 msgstr "比較"
 
 #: tfrmsyncdirsdlg.btnsearchtemplate.hint
-#, fuzzy
 msgctxt "tfrmsyncdirsdlg.btnsearchtemplate.hint"
 msgid "Template..."
 msgstr "範本..."
@@ -9140,8 +9135,6 @@ msgid "Synchronize directories"
 msgstr "同步資料夾"
 
 #: tfrmsyncdirsdlg.cbextfilter.text
-#, fuzzy
-#| msgid "*.*"
 msgctxt "tfrmsyncdirsdlg.cbextfilter.text"
 msgid "*"
 msgstr "*.*"
@@ -9171,19 +9164,16 @@ msgid "Show:"
 msgstr ""
 
 #: tfrmsyncdirsdlg.headerdg.columns[0].title.caption
-#, fuzzy
 msgctxt "tfrmsyncdirsdlg.headerdg.columns[0].title.caption"
 msgid "Name"
 msgstr "名稱"
 
 #: tfrmsyncdirsdlg.headerdg.columns[1].title.caption
-#, fuzzy
 msgctxt "tfrmsyncdirsdlg.headerdg.columns[1].title.caption"
 msgid "Size"
 msgstr "大小"
 
 #: tfrmsyncdirsdlg.headerdg.columns[2].title.caption
-#, fuzzy
 msgctxt "tfrmsyncdirsdlg.headerdg.columns[2].title.caption"
 msgid "Date"
 msgstr "日期"
@@ -9193,19 +9183,16 @@ msgid "<=>"
 msgstr ""
 
 #: tfrmsyncdirsdlg.headerdg.columns[4].title.caption
-#, fuzzy
 msgctxt "tfrmsyncdirsdlg.headerdg.columns[4].title.caption"
 msgid "Date"
 msgstr "日期"
 
 #: tfrmsyncdirsdlg.headerdg.columns[5].title.caption
-#, fuzzy
 msgctxt "tfrmsyncdirsdlg.headerdg.columns[5].title.caption"
 msgid "Size"
 msgstr "大小"
 
 #: tfrmsyncdirsdlg.headerdg.columns[6].title.caption
-#, fuzzy
 msgctxt "tfrmsyncdirsdlg.headerdg.columns[6].title.caption"
 msgid "Name"
 msgstr "名稱"
@@ -9324,34 +9311,24 @@ msgid "Configuration of Tree View Menu Colors"
 msgstr "樹形檢視選單顏色配置"
 
 #: tfrmtweakplugin.btnadd.caption
-#, fuzzy
-#| msgid "Add new"
 msgid "A&dd new"
-msgstr "增加"
+msgstr "增加 (&D)"
 
 #: tfrmtweakplugin.btncancel.caption
-#, fuzzy
-#| msgid "Cancel"
 msgctxt "TFRMTWEAKPLUGIN.BTNCANCEL.CAPTION"
 msgid "&Cancel"
 msgstr "取消 (&C)"
 
 #: tfrmtweakplugin.btnchange.caption
-#, fuzzy
-#| msgid "Change"
 msgid "C&hange"
 msgstr "變更 (&H)"
 
 #: tfrmtweakplugin.btndefault.caption
-#, fuzzy
-#| msgid "Default"
 msgctxt "tfrmtweakplugin.btndefault.caption"
 msgid "De&fault"
 msgstr "預設值 (&F)"
 
 #: tfrmtweakplugin.btnok.caption
-#, fuzzy
-#| msgid "OK"
 msgctxt "TFRMTWEAKPLUGIN.BTNOK.CAPTION"
 msgid "&OK"
 msgstr "確定 (&O)"
@@ -9367,8 +9344,6 @@ msgid "Some functions to select appropriate path"
 msgstr ""
 
 #: tfrmtweakplugin.btnremove.caption
-#, fuzzy
-#| msgid "Remove"
 msgctxt "TFRMTWEAKPLUGIN.BTNREMOVE.CAPTION"
 msgid "&Remove"
 msgstr "移除 (&R)"
@@ -9379,56 +9354,38 @@ msgid "Tweak plugin"
 msgstr "調整插件"
 
 #: tfrmtweakplugin.cbpk_caps_by_content.caption
-#, fuzzy
-#| msgid "Detect archive type by content"
 msgid "De&tect archive type by content"
 msgstr "依內容檢測壓縮類型 (&T)"
 
 #: tfrmtweakplugin.cbpk_caps_delete.caption
-#, fuzzy
-#| msgid "Can delete files"
 msgid "Can de&lete files"
 msgstr "可以刪除檔案 (&L)"
 
 #: tfrmtweakplugin.cbpk_caps_encrypt.caption
-#, fuzzy
-#| msgid "Supports encryption"
 msgid "Supports e&ncryption"
 msgstr "支持加密 (&N)"
 
 #: tfrmtweakplugin.cbpk_caps_hide.caption
-#, fuzzy
-#| msgid "Show as normal files (hide packer icon)"
 msgid "Sho&w as normal files (hide packer icon)"
 msgstr "顯示為普通檔案 (隱藏壓縮器圖示) (&W)"
 
 #: tfrmtweakplugin.cbpk_caps_mempack.caption
-#, fuzzy
-#| msgid "Supports packing in memory"
 msgid "Supports pac&king in memory"
 msgstr "支持在記憶體進行壓縮 (&K)"
 
 #: tfrmtweakplugin.cbpk_caps_modify.caption
-#, fuzzy
-#| msgid "Can modify existing archives"
 msgid "Can &modify existing archives"
 msgstr "可以修改已存在的壓縮檔 (&M)"
 
 #: tfrmtweakplugin.cbpk_caps_multiple.caption
-#, fuzzy
-#| msgid "Archive can contain multiple files"
 msgid "&Archive can contain multiple files"
 msgstr "壓縮檔可包含複數檔案 (&A)"
 
 #: tfrmtweakplugin.cbpk_caps_new.caption
-#, fuzzy
-#| msgid "Can create new archives"
 msgid "Can create new archi&ves"
 msgstr "可以建立新壓縮檔 (&V)"
 
 #: tfrmtweakplugin.cbpk_caps_options.caption
-#, fuzzy
-#| msgid "Supports the options dialogbox"
 msgid "S&upports the options dialogbox"
 msgstr "支持選項對話盒 (&U)"
 
@@ -11100,11 +11057,11 @@ msgstr ""
 
 #: ulng.rsiclouddrivercopyseedfileconfirmdlgmessage
 msgid "It is recommended to download the files first. Otherwise, what is copied is not the content of the files, but the corresponding placeholder files, which will result in hidden files with the .iCloud extension."
-msgstr ""
+msgstr "建議先完成档案下載後再操作。否則，複製的不是档案本身的內容，而是對應的佔位符档案，這只會複製以.iCloud為擴展名的隱藏档案。"
 
 #: ulng.rsiclouddrivercopyseedfileconfirmdlgtitle
 msgid "The operation may contain files that were not downloaded, continue anyway?"
-msgstr ""
+msgstr "操作可能包含未下載的档案，仍然繼續嗎？"
 
 #: ulng.rsimporttoolbarproblem
 msgid "Cannot find reference to default bar file"
