@@ -148,11 +148,11 @@ procedure TiCloudDriverProcessor.consultOperation( var params: TFileSourceConsul
     if NOT TSeedFileUtil.isSeedFiles(params.files) then
       Exit;
     dlgResult:= MessageDlg(
-      'The operation may contain files that were not downloaded, continue anyway?',
-      'It is recommended to complete the download before operating. Otherwise, what is copied is not the content of the files, but the corresponding placeholder files, which will result in hidden files with the .iCloud extension.',
+      rsiCloudDriverCopySeedFileConfirmDlgTitle,
+      rsiCloudDriverCopySeedFileConfirmDlgMessage,
       mtConfirmation,
       [mbCancel, mbYes],
-      -1 );
+      0 );
 
     if dlgResult <> mrCancel then
       Exit;
