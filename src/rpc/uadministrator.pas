@@ -37,7 +37,7 @@ function CreateDirectoryUAC(const Directory: String): Boolean;
 function RemoveDirectoryUAC(const Directory: String): Boolean;
 function DirectoryExistsUAC(const Directory : String): Boolean;
 
-function CreateSymbolicLinkUAC(const Path, LinkName: String) : Boolean;
+function CreateSymbolicLinkUAC(const Path, LinkName: String; Attr: UInt32 = faInvalidAttributes) : Boolean;
 function CreateHardLinkUAC(const Path, LinkName: String) : Boolean;
 
 type
@@ -367,16 +367,16 @@ begin
   end;
 end;
 
-function CreateSymbolicLinkUAC(const Path, LinkName: String): Boolean;
+function CreateSymbolicLinkUAC(const Path, LinkName: String; Attr: UInt32): Boolean;
 var
   LastError: Integer;
 begin
-  Result:= CreateSymLink(Path, LinkName);
+  Result:= CreateSymLink(Path, LinkName, Attr);
   if (not Result) and ElevationRequired then
   begin
     LastError:= GetLastOSError;
     if RequestElevation(rsElevationRequiredSymLink, LinkName) then
-      Result:= TWorkerProxy.Instance.CreateSymbolicLink(Path, LinkName)
+      Result:= TWorkerProxy.Instance.CreateSymbolicLink(Path, LinkName, Attr)
     else
       SetLastOSError(LastError);
   end;
