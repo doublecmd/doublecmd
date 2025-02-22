@@ -95,7 +95,7 @@ type
    @param(ALinkName The name of the symbolic link)
    @returns(The function returns @true if successful, @false otherwise)
 }
-function CreateSymLink(const ATargetName, ALinkName: UnicodeString): Boolean;
+function CreateSymLink(const ATargetName, ALinkName: UnicodeString; Attr: UInt32): Boolean;
 {en
    Established a hard link beetwen an existing file and new file. This function
    is only supported on the NTFS file system, and only for files, not directories.
@@ -305,7 +305,7 @@ begin
   end;
 end;
 
-function CreateSymLink(const ATargetName, ALinkName: UnicodeString): Boolean;
+function CreateSymLink(const ATargetName, ALinkName: UnicodeString; Attr: UInt32): Boolean;
 var
   dwAttributes: DWORD;
   lpFilePart: LPWSTR = nil;
@@ -324,7 +324,11 @@ begin
       AFullPathName:= ATargetName;
     end;
   end;
-  dwAttributes:= Windows.GetFileAttributesW(PWideChar(AFullPathName));
+  if (Attr <> FILE_DOES_NOT_EXIST) then
+    dwAttributes:= Attr
+  else begin
+    dwAttributes:= Windows.GetFileAttributesW(PWideChar(AFullPathName));
+  end;
   if dwAttributes = FILE_DOES_NOT_EXIST then Exit;
   if HasNewApi = False then
   begin

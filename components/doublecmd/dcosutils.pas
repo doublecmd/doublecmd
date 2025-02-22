@@ -99,7 +99,7 @@ type
   PCopyAttributesResult = ^TCopyAttributesResult;
 
 const
-  faInvalidAttributes: TFileAttrs = TFileAttrs(-1);
+  faInvalidAttributes = TFileAttrs(-1);
   CopyAttributesOptionCopyAll = [caoCopyAttributes, caoCopyTime, caoCopyOwnership];
 
 {en
@@ -308,7 +308,7 @@ function CreateHardLink(const Path, LinkName: String) : Boolean;
    @param(LinkName Name of symbolic link)
    @returns(The function returns @true if successful, @false otherwise)
 }
-function CreateSymLink(const Path, LinkName: string) : Boolean;
+function CreateSymLink(const Path, LinkName: string; Attr: UInt32 = faInvalidAttributes) : Boolean;
 {en
    Read destination of symbolic link
    @param(LinkName Name of symbolic link)
@@ -2020,14 +2020,14 @@ begin
 end;
 {$ENDIF}
 
-function CreateSymLink(const Path, LinkName: string) : Boolean;
+function CreateSymLink(const Path, LinkName: string; Attr: UInt32): Boolean;
 {$IFDEF MSWINDOWS}
 var
   wsPath, wsLinkName: UnicodeString;
 begin
   wsPath:= CeUtf8ToUtf16(Path);
   wsLinkName:= UTF16LongName(LinkName);
-  Result:= DCNtfsLinks.CreateSymlink(wsPath, wsLinkName);
+  Result:= DCNtfsLinks.CreateSymlink(wsPath, wsLinkName, Attr);
 end;
 {$ELSE}
 begin

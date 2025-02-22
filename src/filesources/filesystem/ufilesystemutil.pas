@@ -1347,7 +1347,7 @@ begin
                 LinkTarget := CorrectedLink;
             end;
 
-            if CreateSymbolicLinkUAC(LinkTarget, AbsoluteTargetFileName) then
+            if CreateSymbolicLinkUAC(LinkTarget, AbsoluteTargetFileName, aFile.Attributes) then
             begin
               CopyProperties(aFile, AbsoluteTargetFileName);
               if (FMode = fsohmMove) then Result:= DeleteFile(aFile);

@@ -322,8 +322,9 @@ begin
     begin
       FileName:= ARequest.ReadAnsiString;
       NewName:= ARequest.ReadAnsiString;
+      Attr:= ARequest.ReadDWord;
       DCDebug('CreateSymbolicLink ', NewName);
-      Result:= CreateSymLink(FileName, NewName);
+      Result:= CreateSymLink(FileName, NewName, Attr);
       LastError:= GetLastOSError;
       ATransport.WriteBuffer(Result, SizeOf(Result));
       ATransport.WriteBuffer(LastError, SizeOf(LastError));
