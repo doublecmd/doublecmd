@@ -759,8 +759,19 @@ begin
   end;
 end;
 {$ELSEIF DEFINED(DARWIN)}
+  function getFilePaths( contextFiles: TFiles ): TStringArray;
+  var
+    i: Integer;
+    count: Integer;
+  begin
+    count:= contextFiles.Count;
+    SetLength( Result, count );
+    for i:=0 to count-1 do begin
+      Result[i]:= contextFiles[i].FullPath;
+    end;
+  end;
+
 var
-  filepath: String;
   contextFiles: TFiles;
 begin
   if Files.Count = 0 then
@@ -769,7 +780,6 @@ begin
     Exit;
   end;
 
-  filepath:= Files[0].FullPath;
   try
     // Create new context menu
     contextFiles:= Files;
@@ -777,7 +787,7 @@ begin
     ShellContextMenu.OnClose := CloseEvent;
     frmMain.ActiveFrame.FileSource.QueryContextMenu(contextFiles, TPopupMenu(ShellContextMenu));
     // Show context menu
-    MacosServiceMenuHelper.PopUp( ShellContextMenu, rsMacOSMenuServices, filepath );
+    MacosServiceMenuHelper.PopUp( ShellContextMenu, rsMacOSMenuServices, getFilepaths(contextFiles) );
   finally
     // Free created menu
     FreeAndNil(ShellContextMenu);

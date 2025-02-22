@@ -154,13 +154,13 @@ type
   private
     oldMenuPopupHandler: TNotifyEvent;
     serviceSubMenuCaption: String;
-    tagFilePath: String;
+    tagFilePaths: TStringArray;
     procedure attachSystemMenu( Sender: TObject );
     procedure attachServicesMenu( Sender: TObject );
     procedure attachFinderTagsMenu( Sender: TObject );
     procedure privilegeAction( Sender: TObject );
   public
-    procedure PopUp( const menu: TPopupMenu; const caption: String; const path: String );
+    procedure PopUp( const menu: TPopupMenu; const caption: String; const paths: TStringArray );
   end;
 
 procedure InitNSServiceProvider(
@@ -320,7 +320,7 @@ begin
   if menuIndex < 0 then
     Exit;
 
-  success:= uDarwinFinderUtil.attachFinderTagsMenu( self.tagFilePath, menu, menuIndex );
+  success:= uDarwinFinderUtil.attachFinderTagsMenu( self.tagFilePaths, menu, menuIndex );
   if success then
     Exit;
 
@@ -335,14 +335,14 @@ begin
 end;
 
 procedure TMacosServiceMenuHelper.PopUp( const menu: TPopupMenu;
-  const caption: String; const path: String );
+  const caption: String; const paths: TStringArray );
 begin
   // because the menu item handle will be destroyed in TPopupMenu.PopUp()
   // we can only call NSApplication.setServicesMenu() in OnMenuPopupHandler()
   oldMenuPopupHandler:= OnMenuPopupHandler;
   OnMenuPopupHandler:= attachSystemMenu;
   serviceSubMenuCaption:= caption;
-  tagFilePath:= path;
+  tagFilePaths:= paths;
   menu.PopUp();
 end;
 

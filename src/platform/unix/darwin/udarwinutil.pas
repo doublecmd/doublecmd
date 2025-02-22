@@ -7,7 +7,7 @@ interface
 
 uses
   Classes, SysUtils,
-  MacOSAll, CocoaAll, Cocoa_Extra, CocoaUtils;
+  MacOSAll, CocoaAll, CocoaUtils;
 
 // Darwin Util Function
 function StringToNSString(const S: String): NSString;
