@@ -691,6 +691,8 @@ begin
 end;
 
 procedure TViewerControl.Paint;
+var
+  AText: String;
 begin
   if not IsFileOpen then
   begin
@@ -714,8 +716,10 @@ begin
 
   if FViewerControlMode = vcmBook then
     FTextWidth := ((ClientWidth - (Canvas.TextWidth('W') * FColCount)) div FColCount)
-  else
-    FTextWidth := ClientWidth  div Canvas.TextWidth('W') - 2;
+  else begin
+    AText := StringOfChar('W', FMaxTextWidth);
+    FTextWidth := Canvas.TextFitInfo(AText, GetViewerRect.Width - FLeftMargin);
+  end;
 
   FLineList.Clear;
 
