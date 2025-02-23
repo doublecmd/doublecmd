@@ -340,6 +340,7 @@ begin
 
     params.consultResult:= fscrCancel;
     params.handled:= True;
+    Exit;
   end;
 end;
 
