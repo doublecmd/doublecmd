@@ -10,7 +10,7 @@ uses
   uFile, uFileSource, uFileSourceManager,
   uFileSystemFileSource, uWcxArchiveFileSource,
   uFileSourceProperty, uFileSourceOperation, uFileSourceOperationTypes,
-  uDCUtils, DCStrUtils;
+  uLng, uDCUtils, DCStrUtils;
 
 type
   { IMountedFileSource }
@@ -332,12 +332,8 @@ begin
       continue;
 
     MessageDlg(
-      'The operation is not supported',
-      'Some virtual filesystem contain specific directory structures. When copying from it to a compressed archive, only one directory can be selected at a time, unless the actual locations of the selected directories are all located under the same parent directory.'
-      + #13#13 +
-      'For example, for iCloud Drive, when copying directory from the root to a compressed archive, maybe only one directory should be selected.'
-      + #13#13 +
-      'It is recommended that you follow your usual practice and try to select only one directory when you receive this prompt.',
+      rsMountedFileSourceCopyMultiFilesToWcxDlgTitle,
+      rsMountedFileSourceCopyMultiFilesToWcxDlgMessage,
       mtInformation,
       [mbOK],
       0 );
