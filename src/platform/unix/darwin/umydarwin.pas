@@ -769,25 +769,63 @@ type
 
   TFinderTagsEditorPanelHandler = class
   private
-    _path: String;
+    _urls: NSArray;
+    _oldTagNames: NSArray;
   public
-    constructor Create( const path: String );
-    procedure onClose( const cancel: Boolean; const tagNames: NSArray );
+    constructor Create( const paths: TStringArray );
+    destructor Destroy; override;
+    procedure onClose( const cancel: Boolean; const newTagNames: NSArray );
   end;
 
-constructor TFinderTagsEditorPanelHandler.Create( const path: String );
+constructor TFinderTagsEditorPanelHandler.Create( const paths: TStringArray );
 begin
-  _path:= path;
+  _urls:= UrlArrayFromLCLToNS( paths );
+  _urls.retain;
+  _oldTagNames:= uDarwinFinderModelUtil.getTagNamesOfFiles( _urls );
+  _oldTagNames.retain;
 end;
 
-procedure TFinderTagsEditorPanelHandler.onClose( const cancel: Boolean; const tagNames: NSArray );
-var
-  url: NSURL;
+destructor TFinderTagsEditorPanelHandler.Destroy;
+begin
+  _oldTagNames.release;
+  _urls.release;
+end;
+
+procedure TFinderTagsEditorPanelHandler.onClose( const cancel: Boolean; const newTagNames: NSArray );
+
+  procedure processRemovedTags;
+  var
+    removedTagNames: NSMutableSet;
+    tagName: NSString;
+  begin
+    removedTagNames:= NSMutableSet.setWithArray( _oldTagNames );
+    removedTagNames.minusSet( NSSet.setWithArray(newTagNames) );
+    for tagName in removedTagNames do begin
+      uDarwinFinderModelUtil.removeTagForFiles( _urls, tagName );
+    end;
+  end;
+
+  procedure processAddedTags;
+  var
+    addedTagNames: NSMutableSet;
+    tagName: NSString;
+  begin
+    addedTagNames:= NSMutableSet.setWithArray( newTagNames );
+    addedTagNames.minusSet( NSSet.setWithArray(_oldTagNames) );
+    for tagName in addedTagNames do begin
+      uDarwinFinderModelUtil.addTagForFiles( _urls, tagName );
+    end;
+  end;
+
 begin
   if cancel then
     Exit;
-  url:= NSURL.fileURLWithPath( StrToNSString(_path) );
-  uDarwinFinderModelUtil.setTagNamesOfFile( url, tagNames );
+  if _urls.count = 1 then begin
+    uDarwinFinderModelUtil.setTagNamesOfFile( NSURL(_urls.objectAtIndex(0)), newTagNames );
+  end else begin
+    processRemovedTags;
+    processAddedTags;
+  end;
 end;
 
 procedure showEditFinderTagsPanel( const Sender: id; const control: TWinControl );
@@ -807,7 +845,7 @@ begin
   if (view=nil) or (view.window=nil) then
     view:= NSView( control.Handle );
 
-  handler:= TFinderTagsEditorPanelHandler.Create( filenames[0] );
+  handler:= TFinderTagsEditorPanelHandler.Create( filenames );
   uDarwinFinderUtil.popoverFileTagsEditor( filenames, handler.onClose, view , NSMaxYEdge );
 end;
 
