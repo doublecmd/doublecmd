@@ -808,7 +808,7 @@ begin
     view:= NSView( control.Handle );
 
   handler:= TFinderTagsEditorPanelHandler.Create( filenames[0] );
-  uDarwinFinderUtil.popoverFileTagsEditor( filenames[0], handler.onClose, view , NSMaxYEdge );
+  uDarwinFinderUtil.popoverFileTagsEditor( filenames, handler.onClose, view , NSMaxYEdge );
 end;
 
 function getMacOSSpecificFileProperty( const path: String ): TFileMacOSSpecificProperty;

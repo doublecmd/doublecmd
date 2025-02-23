@@ -42,7 +42,7 @@ type
     _menuTagRoundImages: TFinderTagMenuRoundImages;
   public
     class procedure popoverFileTagsEditor(
-      const path: String; onClose: TFinderEditorCloseHandler;
+      const paths: TStringArray; onClose: TFinderEditorCloseHandler;
       const positioningView: NSView; const edge: NSRectEdge );
     class procedure popoverTagsSelector(
       const title: String; onClose: TFinderEditorCloseHandler;
@@ -140,7 +140,7 @@ type
     _cancel: Boolean;
     _onClose: TFinderEditorCloseHandler;
   public
-    class function editorWithPath( const path: NSString ): id; message 'doublecmd_editorWithPath:';
+    class function editorWithPath( const urls: NSArray ): id; message 'doublecmd_editorWithPath:';
     class function selectorWithTitle( const titleString: NSString ): id; message 'doublecmd_editorWithTitle:';
     function init: id; override;
     procedure dealloc; override;
@@ -602,17 +602,20 @@ end;
 
 { TFinderTagsEditorPanel }
 
-class function TFinderTagsEditorPanel.editorWithPath( const path: NSString ): id;
+class function TFinderTagsEditorPanel.editorWithPath( const urls: NSArray ): id;
 var
   panel: TFinderTagsEditorPanel;
-  url: NSURL;
+  titleString: NSString;
 begin
-  url:= NSURL.fileURLWithPath( path );
   // release in popoverDidClose()
   panel:= TFinderTagsEditorPanel.new;
   panel.loadView;
-  panel.setTitle( url.lastPathComponent );
-  panel.setTagNames( uDarwinFinderModelUtil.getTagNamesOfFile(url) );
+  if urls.count = 1 then
+    titleString:= NSURL( urls.objectAtIndex(0) ).lastPathComponent
+  else
+    titleString:= StrToNSString( 'for ' + IntToStr(urls.count) + ' files' );
+  panel.setTitle( titleString );
+  panel.setTagNames( uDarwinFinderModelUtil.getTagNamesOfFiles(urls) );
   Result:= panel;
 end;
 
@@ -866,12 +869,12 @@ end;
 { uDarwinFinderUtil }
 
 class procedure uDarwinFinderUtil.popoverFileTagsEditor(
-  const path: String; onClose: TFinderEditorCloseHandler;
+  const paths: TStringArray; onClose: TFinderEditorCloseHandler;
   const positioningView: NSView ; const edge: NSRectEdge );
 var
   panel: TFinderTagsEditorPanel;
 begin
-  panel:= TFinderTagsEditorPanel.editorWithPath( StrToNSString(path) );
+  panel:= TFinderTagsEditorPanel.editorWithPath( UrlArrayFromLCLToNS(paths) );
   panel._onClose:= onClose;
   panel.showPopover( positioningView, edge );
 end;

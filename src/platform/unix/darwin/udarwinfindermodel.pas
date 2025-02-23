@@ -78,6 +78,7 @@ type
     class function getTagStateForFiles( const tagName: NSString ; const urls: NSArray ):
       TFinderFavoriteTagMenuItemState;
     class function getTagNamesOfFile( const url: NSURL ): NSArray;
+    class function getTagNamesOfFiles( const urls: NSArray ): NSArray;
     class procedure setTagNamesOfFile( const url: NSURL; const tagNames: NSArray );
     class procedure addTagForFile( const url: NSURL; const tagName: NSString );
     class procedure addTagForFiles( const urls: NSArray; const tagName: NSString );
@@ -256,6 +257,20 @@ begin
   ret:= url.getResourceValue_forKey_error( @tagNames, NSURLTagNamesKey, nil );
   if ret then
     Result:= tagNames;
+end;
+
+class function uDarwinFinderModelUtil.getTagNamesOfFiles(const urls: NSArray
+  ): NSArray;
+var
+  url: NSURL;
+  tagNames: NSMutableOrderedSet;
+begin
+  tagNames:= NSMutableOrderedSet.new;
+  for url in urls do begin
+    tagNames.addObjectsFromArray( getTagNamesOfFile(url) );
+  end;
+  Result:= NSArray.arrayWithArray( tagNames.array_ );
+  tagNames.release;
 end;
 
 class procedure uDarwinFinderModelUtil.setTagNamesOfFile(const url: NSURL;
