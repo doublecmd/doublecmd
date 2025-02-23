@@ -10765,6 +10765,11 @@ msgstr ""
 msgid "List of \"Find files\" windows"
 msgstr "<查找文件> 窗口列表"
 
+#: ulng.rsmacosassignfindertagstomultiitems
+#, object-pascal-format
+msgid "Assign tags to %d items"
+msgstr ""
+
 #: ulng.rsmarkminus
 msgid "Unselect mask"
 msgstr "不选择掩码"

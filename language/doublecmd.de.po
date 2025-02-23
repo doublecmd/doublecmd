@@ -10768,6 +10768,11 @@ msgstr "B"
 msgid "List of \"Find files\" windows"
 msgstr "Liste der 'Dateisuche'-Fenster"
 
+#: ulng.rsmacosassignfindertagstomultiitems
+#, object-pascal-format
+msgid "Assign tags to %d items"
+msgstr ""
+
 #: ulng.rsmarkminus
 msgid "Unselect mask"
 msgstr "Maske abwählen"

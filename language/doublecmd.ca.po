@@ -11748,6 +11748,11 @@ msgstr ""
 msgid "List of \"Find files\" windows"
 msgstr ""
 
+#: ulng.rsmacosassignfindertagstomultiitems
+#, object-pascal-format
+msgid "Assign tags to %d items"
+msgstr ""
+
 #: ulng.rsmarkminus
 msgid "Unselect mask"
 msgstr "Màscara a deselecció"

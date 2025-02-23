@@ -11288,6 +11288,11 @@ msgstr "B"
 msgid "List of \"Find files\" windows"
 msgstr "Liste med \"Søk...\" vinduer"
 
+#: ulng.rsmacosassignfindertagstomultiitems
+#, object-pascal-format
+msgid "Assign tags to %d items"
+msgstr ""
+
 #: ulng.rsmarkminus
 msgid "Unselect mask"
 msgstr "Innskrenk valg"

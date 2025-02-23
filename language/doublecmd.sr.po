@@ -11006,6 +11006,11 @@ msgstr "Б"
 msgid "List of \"Find files\" windows"
 msgstr "Списак прозора „пронађи датотеке“"
 
+#: ulng.rsmacosassignfindertagstomultiitems
+#, object-pascal-format
+msgid "Assign tags to %d items"
+msgstr ""
+
 #: ulng.rsmarkminus
 msgid "Unselect mask"
 msgstr "Одзначи маску"

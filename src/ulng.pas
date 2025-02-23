@@ -1060,6 +1060,7 @@ resourcestring
   // macOS
   rsiCloudDriverCopySeedFileConfirmDlgTitle = 'The operation may contain files that were not downloaded, continue anyway?';
   rsiCloudDriverCopySeedFileConfirmDlgMessage = 'It is recommended to download the files first. Otherwise, what is copied is not the content of the files, but the corresponding placeholder files, which will result in hidden files with the .iCloud extension.';
+  rsMacOSAssignFinderTagsToMultiItems = 'Assign tags to %d items';
 
   //Columns Menu
   rsMenuConfigureCustomColumns= 'Configure custom columns';

@@ -606,14 +606,17 @@ class function TFinderTagsEditorPanel.editorWithPath( const urls: NSArray ): id;
 var
   panel: TFinderTagsEditorPanel;
   titleString: NSString;
+  formatString: String;
 begin
   // release in popoverDidClose()
   panel:= TFinderTagsEditorPanel.new;
   panel.loadView;
-  if urls.count = 1 then
-    titleString:= NSURL( urls.objectAtIndex(0) ).lastPathComponent
-  else
-    titleString:= StrToNSString( 'for ' + IntToStr(urls.count) + ' files' );
+  if urls.count = 1 then begin
+    titleString:= NSURL( urls.objectAtIndex(0) ).lastPathComponent;
+  end else begin
+    formatString:= Format( rsMacOSAssignFinderTagsToMultiItems, [urls.count] );
+    titleString:= StrToNSString( formatString );
+  end;
   panel.setTitle( titleString );
   panel.setTagNames( uDarwinFinderModelUtil.getTagNamesOfFiles(urls) );
   Result:= panel;
@@ -1221,7 +1224,6 @@ var
   tagName: NSString;
 begin
   tagName:= tagMenuItem.finderTag.name;
-  Writeln( tagName.utf8string );
   if tagMenuItem.state = selectionAll then
     uDarwinFinderModelUtil.removeTagForFiles( _urls, tagName )
   else

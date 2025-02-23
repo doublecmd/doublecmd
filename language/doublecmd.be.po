@@ -10786,6 +10786,11 @@ msgstr "B"
 msgid "List of \"Find files\" windows"
 msgstr "Спіс акон \"Пошук файлаў\""
 
+#: ulng.rsmacosassignfindertagstomultiitems
+#, object-pascal-format
+msgid "Assign tags to %d items"
+msgstr ""
+
 #: ulng.rsmarkminus
 msgid "Unselect mask"
 msgstr "Скасаваць вылучэнне"

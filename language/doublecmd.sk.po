@@ -10767,6 +10767,11 @@ msgstr "B"
 msgid "List of \"Find files\" windows"
 msgstr "Zoznam okien \"Nájsť súbory\""
 
+#: ulng.rsmacosassignfindertagstomultiitems
+#, object-pascal-format
+msgid "Assign tags to %d items"
+msgstr ""
+
 #: ulng.rsmarkminus
 msgid "Unselect mask"
 msgstr "Maska zrušenia výberu"

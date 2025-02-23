@@ -903,7 +903,6 @@ var
       Exit( False );
 
     Result:= NOT status.isEqualToString( NSURLUbiquitousItemDownloadingStatusCurrent );
-    Writeln( '??  ', path, ':', status.UTF8String );
   end;
 
 begin

@@ -10896,6 +10896,11 @@ msgstr ""
 msgid "List of \"Find files\" windows"
 msgstr "Lista de ventanas de «Archivos encontrados»"
 
+#: ulng.rsmacosassignfindertagstomultiitems
+#, object-pascal-format
+msgid "Assign tags to %d items"
+msgstr ""
+
 #: ulng.rsmarkminus
 msgid "Unselect mask"
 msgstr "Deseleccionar máscara"
