@@ -11095,7 +11095,7 @@ msgstr ""
 #: ulng.rsmacosassignfindertagstomultiitems
 #, object-pascal-format
 msgid "Assign tags to %d items"
-msgstr ""
+msgstr "將標籤分配給%d個項目"
 
 #: ulng.rsmarkminus
 msgid "Unselect mask"
@@ -11447,10 +11447,15 @@ msgid ""
 "\n"
 "It is recommended that you follow your usual practice and try to select only one directory when you receive this prompt."
 msgstr ""
+"某些虛擬档案系統，內部包含異構的目錄結構。從中複製到壓縮檔案時，一次只能選中一個目錄。除非選中的目錄對應的實際位置，都位於相同的父目錄下。\n"
+"\n"
+"例如對於iCloud雲盤，在根目錄下複製目錄到壓縮檔案時，就有可能一次只能選中一個目錄。\n"
+"\n"
+"建議先按照您的習慣操作，在收到這個提示時，才嘗試一次只選中一個目錄。"
 
 #: ulng.rsmountedfilesourcecopymultifilestowcxdlgtitle
 msgid "The operation is not supported"
-msgstr ""
+msgstr "不支持該操作"
 
 #: ulng.rsmsgaccount
 msgid "Account:"
