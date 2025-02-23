@@ -6,6 +6,7 @@ interface
 
 uses
   Classes, SysUtils, Generics.Collections,
+  Dialogs,
   uFile, uFileSource, uFileSourceManager,
   uFileSystemFileSource, uWcxArchiveFileSource,
   uFileSourceProperty, uFileSourceOperation, uFileSourceOperationTypes,
@@ -72,6 +73,7 @@ type
 
   TMountedFileSourceProcessor = class( TFileSystemFileSourceProcessor )
   private
+    procedure detectIfSupportOperation(var params: TFileSourceConsultParams);
     procedure consultCopyOperation(var params: TFileSourceConsultParams);
     procedure consultMoveOperation(var params: TFileSourceConsultParams);
     procedure resolveRealPath( var params: TFileSourceConsultParams );
@@ -308,8 +310,49 @@ begin
   params.targetPath:= IncludeTrailingPathDelimiter(params.targetPath) + mountPoint.name + PathDelim;
 end;
 
+procedure TMountedFileSourceProcessor.detectIfSupportOperation(
+  var params: TFileSourceConsultParams);
+var
+  files: TFiles;
+  i: Integer;
+  path: String;
+begin
+  if params.currentFS <> params.sourceFS then
+    Exit;
+  if NOT params.partnerFS.IsClass(TWcxArchiveFileSource) then
+    Exit;
+
+  files:= params.files;
+  if files.Count = 1 then
+    Exit;
+
+  path:= files[0].Path;
+  for i:=1 to files.Count-1 do begin
+    if files[i].Path = path then
+      continue;
+
+    MessageDlg(
+      'The operation is not supported',
+      'Some virtual filesystem contain specific directory structures. When copying from it to a compressed archive, only one directory can be selected at a time, unless the actual locations of the selected directories are all located under the same parent directory.'
+      + #13#13 +
+      'For example, for iCloud Drive, when copying directory from the root to a compressed archive, maybe only one directory should be selected.'
+      + #13#13 +
+      'It is recommended that you follow your usual practice and try to select only one directory when you receive this prompt.',
+      mtInformation,
+      [mbOK],
+      0 );
+
+    params.consultResult:= fscrCancel;
+    params.handled:= True;
+  end;
+end;
+
 procedure TMountedFileSourceProcessor.consultCopyOperation(var params: TFileSourceConsultParams);
 begin
+  detectIfSupportOperation( params );
+  if params.handled then
+    Exit;
+
   inherited consultOperation( params );
   self.calcTargetPath( params );
 end;
