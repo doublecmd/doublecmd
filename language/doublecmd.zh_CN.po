@@ -10768,7 +10768,7 @@ msgstr "<查找文件> 窗口列表"
 #: ulng.rsmacosassignfindertagstomultiitems
 #, object-pascal-format
 msgid "Assign tags to %d items"
-msgstr ""
+msgstr "将标签分配给%d个项目"
 
 #: ulng.rsmarkminus
 msgid "Unselect mask"
@@ -11142,10 +11142,15 @@ msgid ""
 "\n"
 "It is recommended that you follow your usual practice and try to select only one directory when you receive this prompt."
 msgstr ""
+"某些虚拟文件系统，内部包含异构的目录结构。从中复制到压缩档案时，一次只能选中一个目录。除非选中的目录对应的实际位置，都位于相同的父目录下。\n"
+"\n"
+"例如对于iCloud云盘，在根目录下复制目录到压缩档案时，就有可能一次只能选中一个目录。\n"
+"\n"
+"建议先按照您的习惯操作，在收到这个提示时，才尝试一次只选中一个目录。"
 
 #: ulng.rsmountedfilesourcecopymultifilestowcxdlgtitle
 msgid "The operation is not supported"
-msgstr ""
+msgstr "不支持该操作"
 
 #: ulng.rsmsgaccount
 msgid "Account:"
