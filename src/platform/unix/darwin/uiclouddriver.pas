@@ -21,7 +21,6 @@ type
   TiCloudDriverFileSource = class( TMountedFileSource )
   private
     _appIcons: NSMutableDictionary;
-    _files: TFiles;
   private
     procedure addAppIcon( const path: String; const appName: String );
     procedure downloadAction(Sender: TObject);
@@ -586,7 +585,6 @@ end;
 destructor TiCloudDriverFileSource.Destroy;
 begin
   _appIcons.release;
-  FreeAndNil( _files );
   inherited Destroy;
 end;
 
@@ -677,11 +675,16 @@ begin
 end;
 
 procedure TiCloudDriverFileSource.downloadAction(Sender: TObject);
+var
+  item: TMenuItem absolute Sender;
+  files: TFiles;
 begin
-  if _files = nil then
+  files:= TFiles( item.Tag );
+  item.Tag:= 0;
+  if files = nil then
     Exit;
-  TSeedFileUtil.downloadOrEvict( _files );
-  FreeAndNil( _files );
+  TSeedFileUtil.downloadOrEvict( files );
+  FreeAndNil( files );
 end;
 
 function TiCloudDriverFileSource.getDefaultPointForPath(const path: String): String;
@@ -756,16 +759,16 @@ begin
   if AFiles.Count = 0 then
     Exit;
 
-  FreeAndNil( _files );
-  _files:= AFiles.clone;
-
   menuItem:= TMenuItem.Create( AMenu );
+
   if TSeedFileUtil.isSeedFile(AFiles[0]) then
     menuItem.Caption:= rsMnuiCloudDriverDownloadNow
   else
     menuItem.Caption:= rsMnuiCloudDriverRemoveDownload;
-  MenuItem.OnClick:= @self.downloadAction;
+  menuItem.OnClick:= @self.downloadAction;
+  menuItem.Tag:= PtrInt( AFiles.clone );
   AMenu.Items.Insert(0, menuItem);
+
   menuItem:= TMenuItem.Create( AMenu );
   menuItem.Caption:= '-';
   AMenu.Items.Insert(1, menuItem);
