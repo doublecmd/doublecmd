@@ -693,7 +693,7 @@ class function TiCloudDriverFileSource.GetFileSource: TiCloudDriverFileSource;
 var
   aFileSource: IFileSource;
 begin
-  aFileSource := FileSourceManager.Find(TiCloudDriverFileSource, '');
+  aFileSource := FileSourceManager.Find(TiCloudDriverFileSource, iCLOUD_SCHEME );
   if not Assigned(aFileSource) then
     Result:= TiCloudDriverFileSource.Create
   else
