@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Double Commander 1.1.0 alpha\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-11-15 11:15+0300\n"
-"PO-Revision-Date: 2025-01-30 15:15+0100\n"
+"PO-Revision-Date: 2025-02-23 23:33+0100\n"
 "Last-Translator:  ㋡  <braass@mail.de>\n"
 "Language-Team: Deutsch <braass@mail.de>\n"
 "Language: de\n"
@@ -10733,11 +10733,11 @@ msgstr "Nach Befehlsname;Nach Tastaturkürzel (gruppiert);Nach Tastaturkürzel (
 
 #: ulng.rsiclouddrivercopyseedfileconfirmdlgmessage
 msgid "It is recommended to download the files first. Otherwise, what is copied is not the content of the files, but the corresponding placeholder files, which will result in hidden files with the .iCloud extension."
-msgstr ""
+msgstr "Die Dateien sollten zuerst heruntergeladen werden. Andernfalls wird nicht der Inhalt der Dateien kopiert, sondern nur die jeweiligen Platzhalter-Dateien, was dann versteckte Dateien mit der Erweiterung ».iCloud« ergibt."
 
 #: ulng.rsiclouddrivercopyseedfileconfirmdlgtitle
 msgid "The operation may contain files that were not downloaded, continue anyway?"
-msgstr ""
+msgstr "Der Vorgang könnte Dateien enthalten, die noch nicht heruntergeladen wurden, trotzdem fortfahren?"
 
 #: ulng.rsimporttoolbarproblem
 msgid "Cannot find reference to default bar file"
@@ -10771,7 +10771,7 @@ msgstr "Liste der 'Dateisuche'-Fenster"
 #: ulng.rsmacosassignfindertagstomultiitems
 #, object-pascal-format
 msgid "Assign tags to %d items"
-msgstr ""
+msgstr "Tags %d Elementen zuordnen"
 
 #: ulng.rsmarkminus
 msgid "Unselect mask"
@@ -11122,10 +11122,15 @@ msgid ""
 "\n"
 "It is recommended that you follow your usual practice and try to select only one directory when you receive this prompt."
 msgstr ""
+"Etliche virtuelle Dateisysteme enthalten spezielle Verzeichnisstrukturen. Wenn daraus in ein komprimiertes Archiv kopiert wird, kann jeweils nur ein Verzeichnis ausgewählt werden, es sei denn, die Speicherorte der ausgewählten Verzeichnisse befinden sich alle unter demselben übergeordneten Verzeichnis.\n"
+"\n"
+"Bei iCloud Drive sollte z.B. beim Kopieren von Verzeichnissen aus dem Stammverzeichnis in ein komprimiertes Archiv möglichst nur ein Verzeichnis ausgewählt werden.\n"
+"\n"
+"Versuchen Sie bei diesem Vorgang gewöhnlich nur ein Verzeichnis auszuwählen, weil Sie sonst diese Meldung erhalten."
 
 #: ulng.rsmountedfilesourcecopymultifilestowcxdlgtitle
 msgid "The operation is not supported"
-msgstr ""
+msgstr "Der Vorgang wird nicht unterstützt"
 
 #: ulng.rsmsgaccount
 msgid "Account:"
