@@ -3,7 +3,7 @@
     -------------------------------------------------------------------------
     This unit contains platform dependent functions dealing with operating system.
 
-    Copyright (C) 2006-2024 Alexander Koblov (alexx2000@mail.ru)
+    Copyright (C) 2006-2025 Alexander Koblov (alexx2000@mail.ru)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -506,54 +506,59 @@ function mbFileCopyAttr(const sSrc, sDst: String;
   ): TCopyAttributesOptions;
 {$IFDEF MSWINDOWS}
 var
-  Attr : TFileAttrs;
+  Attr: TWin32FileAttributeData;
+  Option: TCopyAttributesOption;
   ModificationTime, CreationTime, LastAccessTime: DCBasicTypes.TFileTime;
 begin
   Result := [];
 
+  if not GetFileAttributesExW(PWideChar(UTF16LongName(sSrc)), GetFileExInfoStandard, @Attr) then
+  begin
+    Result := Options;
+    if Assigned(Errors) then
+    begin
+      for Option in Result do
+        Errors^[Option]:= GetLastOSError;
+    end;
+    Exit;
+  end;
+
   if [caoCopyAttributes, caoCopyAttrEx] * Options <> [] then
   begin
-    Attr := mbFileGetAttr(sSrc);
-    if Attr <> faInvalidAttributes then
+    if (not (caoCopyAttributes in Options)) and (Attr.dwFileAttributes and faDirectory = 0) then
+      Attr.dwFileAttributes := (Attr.dwFileAttributes or faArchive);
+    if (caoRemoveReadOnlyAttr in Options) and ((Attr.dwFileAttributes and faReadOnly) <> 0) then
+      Attr.dwFileAttributes := (Attr.dwFileAttributes and not faReadOnly);
+    if not mbFileSetAttr(sDst, Attr.dwFileAttributes) then
     begin
-      if (not (caoCopyAttributes in Options)) and (Attr and faDirectory = 0) then
-        Attr := (Attr or faArchive);
-      if (caoRemoveReadOnlyAttr in Options) and ((Attr and faReadOnly) <> 0) then
-        Attr := (Attr and not faReadOnly);
-      if not mbFileSetAttr(sDst, Attr) then
-      begin
-        Include(Result, caoCopyAttributes);
-        if Assigned(Errors) then Errors^[caoCopyAttributes]:= GetLastOSError;
-      end;
-    end
-    else begin
       Include(Result, caoCopyAttributes);
       if Assigned(Errors) then Errors^[caoCopyAttributes]:= GetLastOSError;
     end;
   end;
 
-  if caoCopyXattributes in Options then
+  if not FPS_ISLNK(Attr.dwFileAttributes) then
   begin
-    if not mbFileCopyXattr(sSrc, sDst) then
+    if (caoCopyXattributes in Options) then
     begin
-      Include(Result, caoCopyXattributes);
-      if Assigned(Errors) then Errors^[caoCopyXattributes]:= GetLastOSError;
+      if not mbFileCopyXattr(sSrc, sDst) then
+      begin
+        Include(Result, caoCopyXattributes);
+        if Assigned(Errors) then Errors^[caoCopyXattributes]:= GetLastOSError;
+      end;
     end;
-  end;
 
-  if [caoCopyTime, caoCopyTimeEx] * Options <> [] then
-  begin
-    if not mbFileGetTime(sSrc, ModificationTime, CreationTime, LastAccessTime) then
+    if ([caoCopyTime, caoCopyTimeEx] * Options <> []) then
     begin
-      Include(Result, caoCopyTime);
-      if Assigned(Errors) then Errors^[caoCopyTime]:= GetLastOSError;
-    end
-    else begin
       if not (caoCopyTime in Options) then
       begin
         CreationTime:= 0;
         LastAccessTime:= 0;
+      end
+      else begin
+        CreationTime:= DCBasicTypes.TFileTime(Attr.ftCreationTime);
+        LastAccessTime:= DCBasicTypes.TFileTime(Attr.ftLastAccessTime);
       end;
+      ModificationTime:= DCBasicTypes.TFileTime(Attr.ftLastWriteTime);
 
       if not mbFileSetTime(sDst, ModificationTime, CreationTime, LastAccessTime) then
       begin
