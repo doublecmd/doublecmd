@@ -16,6 +16,29 @@ uses
   CocoaAll, CocoaUtils;
 
 type
+  TiCloudDriverConfigPath = record
+    base: String;
+    driver: String;
+    container: String;
+  end;
+
+  TiCloudDriverConfigIcon = record
+    main: String;
+    download: String;
+  end;
+
+  TiCloudDriverConfigAppItem = record
+    name: String;
+    app: String;
+  end;
+
+  TiCloudDriverConfig = record
+    scheme: String;
+    path: TiCloudDriverConfigPath;
+    icon: TiCloudDriverConfigIcon;
+    apps: Array of TiCloudDriverConfigAppItem;
+  end;
+
   { TiCloudDriverFileSource }
 
   TiCloudDriverFileSource = class( TMountedFileSource )
@@ -48,13 +71,34 @@ type
     function QueryContextMenu(AFiles: TFiles; var AMenu: TPopupMenu): Boolean; override;
   end;
 
+var
+  iCloudDriverConfig: TiCloudDriverConfig;
+
 implementation
 
 const
-  iCLOUD_SCHEME = 'iCloud://';
-  iCLOUD_PATH = '~/Library/Mobile Documents';
-  iCLOUD_DRIVER_PATH = iCLOUD_PATH + '/com~apple~CloudDocs';
-  iCLOUD_CONTAINER_PATH = '~/Library/Application Support/CloudDocs/session/containers';
+  defaultiCloudDriverConfig: TiCloudDriverConfig = (
+    scheme: 'iCloud://';
+    path: (
+      base: '~/Library/Mobile Documents';
+      driver: '~/Library/Mobile Documents/com~apple~CloudDocs';
+      container: '~/Library/Application Support/CloudDocs/session/containers'
+    );
+    icon: (
+      main: '$COMMANDER_PATH/pixmaps/macOS/cloud.fill.png';
+      download: '$COMMANDER_PATH/pixmaps/macOS/icloud.and.arrow.down.png'
+    );
+    apps: (
+      ( name: 'Pages'; app: 'com~apple~Pages' ),
+      ( name: 'Numbers'; app: 'com~apple~Numbers' ),
+      ( name: 'Keynote'; app: 'com~apple~Keynote' ),
+      ( name: 'ScriptEditor'; app: 'com~apple~ScriptEditor2' ),
+      ( name: 'workflows'; app: 'iCloud~is~workflow~my~workflows' ),
+      ( name: 'Playgrounds'; app: 'iCloud~com~apple~Playgrounds' ),
+      ( name: 'iThoughts'; app: 'iCloud~com~toketaware~ios~ithoughts' ),
+      ( name: 'xmind'; app: 'iCloud~net~xmind~brownieapp' )
+    );
+  );
 
 type
 
@@ -178,7 +222,7 @@ begin
     Exit;
 
   _watcher:= TSimpleDarwinFSWatcher.Create(
-    uDCUtils.ReplaceTilde(iCLOUD_PATH),
+    uDCUtils.ReplaceTilde( iCloudDriverConfig.path.base ),
     @handleEvent );
   _watcher.monitor.watchSubtree:= True;
   _watcher.Start;
@@ -504,7 +548,7 @@ var
       Exit;
 
     if iCloudArrowDownImage = nil then begin
-      iCloudArrowDownImage:= NSImage.alloc.initWithContentsOfFile( StrToNSString(mbExpandFileName('$COMMANDER_PATH/pixmaps/macOS/icloud.and.arrow.down.png')) );
+      iCloudArrowDownImage:= NSImage.alloc.initWithContentsOfFile( StrToNSString(mbExpandFileName(iCloudDriverConfig.icon.download)) );
       iCloudArrowDownImage.setSize( NSMakeSize(16,16) );
     end;
 
@@ -560,26 +604,28 @@ end;
 { TiCloudDriverFileSource }
 
 constructor TiCloudDriverFileSource.Create;
+  procedure addApps;
+  var
+    i: Integer;
+    app: TiCloudDriverConfigAppItem;
+  begin
+    for i:=0 to Length(iCloudDriverConfig.apps)-1 do begin
+      app:= iCloudDriverConfig.apps[i];
+      self.mountAppPoint( app.app );
+    end;
+  end;
 begin
   inherited Create;
 
-  FCurrentAddress:= iCLOUD_SCHEME;
-
+  FCurrentAddress:= iCloudDriverConfig.scheme;
   _appIcons:= NSMutableDictionary.new;
-  self.mountAppPoint( 'com~apple~Pages' );
-  self.mountAppPoint( 'com~apple~Numbers' );
-  self.mountAppPoint( 'com~apple~Keynote' );
-  self.mountAppPoint( 'com~apple~ScriptEditor2' );
-  self.mountAppPoint( 'iCloud~is~workflow~my~workflows' );
-  self.mountAppPoint( 'iCloud~com~apple~Playgrounds' );
-  self.mountAppPoint( 'iCloud~com~toketaware~ios~ithoughts' );
-  self.mountAppPoint( 'iCloud~net~xmind~brownieapp' );
-  self.mount( '~/Library/Mobile Documents/com~apple~CloudDocs', '/' );
+  addApps;
+  self.mount( iCloudDriverConfig.path.driver, '/' );
 end;
 
 class function TiCloudDriverFileSource.IsSupportedPath(const Path: String): Boolean;
 begin
-  Result:= Path.StartsWith( iCLOUD_SCHEME );
+  Result:= Path.StartsWith( iCloudDriverConfig.scheme );
 end;
 
 destructor TiCloudDriverFileSource.Destroy;
@@ -623,12 +669,12 @@ procedure TiCloudDriverFileSource.addAppIcon( const path: String; const appName:
     Result:= nil;
 
     appFileName:= appName.Replace( '~', '.' );
-    appPlistPath:= iCLOUD_CONTAINER_PATH + '/' + appFileName + '.plist';
+    appPlistPath:= iCloudDriverConfig.path.container + '/' + appFileName + '.plist';
     appIconNames:= getPlistAppIconNames( appPlistPath );
     if appIconNames = nil then
       Exit;
 
-    appResourcePath:= StrToNSString( uDCUtils.ReplaceTilde(iCLOUD_CONTAINER_PATH) + '/' + appFileName + '/' );
+    appResourcePath:= StrToNSString( uDCUtils.ReplaceTilde(iCloudDriverConfig.path.container) + '/' + appFileName + '/' );
 
     appImage:= NSImage.new;
     for appIconName in appIconNames do begin
@@ -653,7 +699,7 @@ procedure TiCloudDriverFileSource.mountAppPoint( const appName: String );
 var
   path: String;
 begin
-  path:= uDCUtils.ReplaceTilde(iCLOUD_PATH) + '/' + appName + '/Documents/';
+  path:= uDCUtils.ReplaceTilde(iCloudDriverConfig.path.base) + '/' + appName + '/Documents/';
   self.mount( path );
   self.addAppIcon( path, appName );
 end;
@@ -670,7 +716,7 @@ end;
 
 class function TiCloudDriverFileSource.GetMainIcon(out Path: String): Boolean;
 begin
-  Path:= '$COMMANDER_PATH/pixmaps/macOS/cloud.fill.png';
+  Path:= iCloudDriverConfig.icon.main;
   Result:= True;
 end;
 
@@ -696,7 +742,7 @@ class function TiCloudDriverFileSource.GetFileSource: TiCloudDriverFileSource;
 var
   aFileSource: IFileSource;
 begin
-  aFileSource := FileSourceManager.Find(TiCloudDriverFileSource, iCLOUD_SCHEME );
+  aFileSource := FileSourceManager.Find(TiCloudDriverFileSource, iCloudDriverConfig.scheme );
   if not Assigned(aFileSource) then
     Result:= TiCloudDriverFileSource.Create
   else
@@ -718,7 +764,7 @@ var
   path: String;
   displayName: String;
 begin
-  path:= uDCUtils.ReplaceTilde( iCLOUD_DRIVER_PATH );
+  path:= uDCUtils.ReplaceTilde( iCloudDriverConfig.path.driver );
   displayName:= getMacOSDisplayNameFromPath( path );
   Result:= PathDelim + displayName + PathDelim;
 end;
@@ -737,7 +783,7 @@ var
 begin
   Result:= inherited;
   if NOT Result then begin
-    iCloudPath:= uDCUtils.ReplaceTilde( iCLOUD_DRIVER_PATH );
+    iCloudPath:= uDCUtils.ReplaceTilde( iCloudDriverConfig.path.driver );
     testPath:= ExcludeTrailingPathDelimiter( Path );
     Result:= ( testPath=iCloudPath );
   end;
@@ -777,6 +823,7 @@ begin
 end;
 
 initialization
+  iCloudDriverConfig:= defaultiCloudDriverConfig;
   iCloudDriverWatcher:= TiCloudDriverWatcher.Create;
   iCloudDriverProcessor:= TiCloudDriverProcessor.Create;
   iCloudDriverUIProcessor:= TiCloudDriverUIHandler.Create;
