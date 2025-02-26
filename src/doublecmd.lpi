@@ -311,7 +311,7 @@ end;"/>
         <PackageName Value="Image32"/>
       </Item13>
     </RequiredPackages>
-    <Units Count="284">
+    <Units Count="286">
       <Unit0>
         <Filename Value="doublecmd.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -2052,6 +2052,16 @@ end;"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uDarwinUtil"/>
       </Unit283>
+      <Unit284>
+        <Filename Value="platform\unix\darwin\uiclouddriverconfig.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uiCloudDriverConfig"/>
+      </Unit284>
+      <Unit285>
+        <Filename Value="platform\unix\darwin\udarwinfileview.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uDarwinFileView"/>
+      </Unit285>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

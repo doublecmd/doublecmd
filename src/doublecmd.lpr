@@ -50,6 +50,7 @@ uses
   {$IFDEF darwin}
   uAppleMagnifiedModeFix,
   uMyDarwin,
+  uiCloudDriverConfig,
   {$ENDIF}
   {$IFDEF LCLWIN32}
   uDClass,
@@ -228,6 +229,7 @@ begin
       LoadPixMapManager;
 {$IF DEFINED(DARWIN)}
       initCocoaModernFormConfig;
+      loadiCloudConfig;
 {$ENDIF}
       Application.CreateForm(TfrmMain, frmMain); // main form
       Application.CreateForm(TdmComData, dmComData); // common data

@@ -8,6 +8,7 @@ interface
 uses
   Classes, SysUtils, syncobjs, fgl, LazMethodList,
   Menus, Forms, Dialogs, System.UITypes,
+  uiCloudDriverConfig,
   uFile, uDisplayFile,
   uFileSource, uFileSourceOperationTypes, uFileSourceManager,
   uFileSourceWatcher, uMountedFileSource, uVfsModule,
@@ -16,28 +17,6 @@ uses
   CocoaAll, CocoaUtils;
 
 type
-  TiCloudDriverConfigPath = record
-    base: String;
-    driver: String;
-    container: String;
-  end;
-
-  TiCloudDriverConfigIcon = record
-    main: String;
-    download: String;
-  end;
-
-  TiCloudDriverConfigAppItem = record
-    name: String;
-    app: String;
-  end;
-
-  TiCloudDriverConfig = record
-    scheme: String;
-    path: TiCloudDriverConfigPath;
-    icon: TiCloudDriverConfigIcon;
-    apps: Array of TiCloudDriverConfigAppItem;
-  end;
 
   { TiCloudDriverFileSource }
 
@@ -71,34 +50,7 @@ type
     function QueryContextMenu(AFiles: TFiles; var AMenu: TPopupMenu): Boolean; override;
   end;
 
-var
-  iCloudDriverConfig: TiCloudDriverConfig;
-
 implementation
-
-const
-  defaultiCloudDriverConfig: TiCloudDriverConfig = (
-    scheme: 'iCloud://';
-    path: (
-      base: '~/Library/Mobile Documents';
-      driver: '~/Library/Mobile Documents/com~apple~CloudDocs';
-      container: '~/Library/Application Support/CloudDocs/session/containers'
-    );
-    icon: (
-      main: '$COMMANDER_PATH/pixmaps/macOS/cloud.fill.png';
-      download: '$COMMANDER_PATH/pixmaps/macOS/icloud.and.arrow.down.png'
-    );
-    apps: (
-      ( name: 'Pages'; app: 'com~apple~Pages' ),
-      ( name: 'Numbers'; app: 'com~apple~Numbers' ),
-      ( name: 'Keynote'; app: 'com~apple~Keynote' ),
-      ( name: 'ScriptEditor'; app: 'com~apple~ScriptEditor2' ),
-      ( name: 'workflows'; app: 'iCloud~is~workflow~my~workflows' ),
-      ( name: 'Playgrounds'; app: 'iCloud~com~apple~Playgrounds' ),
-      ( name: 'iThoughts'; app: 'iCloud~com~toketaware~ios~ithoughts' ),
-      ( name: 'xmind'; app: 'iCloud~net~xmind~brownieapp' )
-    );
-  );
 
 type
 
@@ -823,7 +775,6 @@ begin
 end;
 
 initialization
-  iCloudDriverConfig:= defaultiCloudDriverConfig;
   iCloudDriverWatcher:= TiCloudDriverWatcher.Create;
   iCloudDriverProcessor:= TiCloudDriverProcessor.Create;
   iCloudDriverUIProcessor:= TiCloudDriverUIHandler.Create;
