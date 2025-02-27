@@ -6,9 +6,9 @@ interface
 
 uses
   Classes, SysUtils, fpjson, Dialogs,
-  uGlobsPaths, uLng, DCJsonConfig, uDebug;
+  uGlobsPaths, uLng, DCJsonConfig, DCOSUtils;
 
-procedure loadiCloudConfig;
+procedure initiCloudConfig;
 
 type
   TiCloudDriverConfigPath = record
@@ -105,12 +105,41 @@ begin
   end;
 end;
 
+procedure saveiCloudConfigToJson( json: TJSONObject );
+var
+  jsonPath: TJSONObject;
+  jsonIcon: TJSONObject;
+  jsonApps: TJSONArray;
+  jsonApp: TJSONObject;
+  i: Integer;
+begin
+  json.Add( 'scheme', iCloudDriverConfig.scheme );
+
+  jsonPath:= TJSONObject.Create;
+  jsonPath.Add( 'base', iCloudDriverConfig.path.base );
+  jsonPath.Add( 'driver', iCloudDriverConfig.path.driver );
+  jsonPath.Add( 'container', iCloudDriverConfig.path.container );
+  json.Add( 'path', jsonPath );
+
+  jsonIcon:= TJSONObject.Create;
+  jsonIcon.Add( 'main', iCloudDriverConfig.icon.main );
+  jsonIcon.Add( 'download', iCloudDriverConfig.icon.download );
+  json.Add( 'icon', jsonIcon );
+
+  jsonApps:= TJSONArray.Create;
+  for i:=0 to Length(iCloudDriverConfig.apps) - 1 do begin
+    jsonApp:= TJSONObject.Create;
+    jsonApp.Add( 'name', iCloudDriverConfig.apps[i].name );
+    jsonApp.Add( 'app', iCloudDriverConfig.apps[i].app );
+    jsonApps.Add( jsonApp );
+  end;
+  json.Add( 'apps', jsonApps );
+end;
+
 procedure loadiCloudConfig;
 var
   config: TJsonConfig;
 begin
-  iCloudDriverConfig:= defaultiCloudDriverConfig;
-
   config:= TJsonConfig.Create;
   try
     try
@@ -124,6 +153,24 @@ begin
   finally
     FreeAndNil( config );
   end;
+end;
+
+procedure saveiCloudConfig;
+var
+  config: TJsonConfig;
+begin
+  config:= TJsonConfig.Create;
+  saveiCloudConfigToJson( config.Root );
+  config.SaveToFile( getJsonPath );
+end;
+
+procedure initiCloudConfig;
+begin
+  iCloudDriverConfig:= defaultiCloudDriverConfig;
+  if mbFileExists(getJsonPath) then
+    loadiCloudConfig
+  else
+    saveiCloudConfig;
 end;
 
 end.

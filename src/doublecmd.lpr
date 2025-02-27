@@ -229,7 +229,7 @@ begin
       LoadPixMapManager;
 {$IF DEFINED(DARWIN)}
       initCocoaModernFormConfig;
-      loadiCloudConfig;
+      initiCloudConfig;
 {$ENDIF}
       Application.CreateForm(TfrmMain, frmMain); // main form
       Application.CreateForm(TdmComData, dmComData); // common data
