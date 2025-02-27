@@ -757,7 +757,7 @@ begin
 
   menuItem:= TMenuItem.Create( AMenu );
 
-  if TSeedFileUtil.isSeedFile(AFiles[0]) then
+  if TSeedFileUtil.isSeedFiles(AFiles) then
     menuItem.Caption:= rsMnuiCloudDriverDownloadNow
   else
     menuItem.Caption:= rsMnuiCloudDriverRemoveDownload;
