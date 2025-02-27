@@ -678,11 +678,9 @@ var
   files: TFiles;
 begin
   files:= TFiles( item.Tag );
-  item.Tag:= 0;
   if files = nil then
     Exit;
   TSeedFileUtil.downloadOrEvict( files );
-  FreeAndNil( files );
 end;
 
 function TiCloudDriverFileSource.getDefaultPointForPath(const path: String): String;
@@ -764,7 +762,7 @@ begin
   else
     menuItem.Caption:= rsMnuiCloudDriverRemoveDownload;
   menuItem.OnClick:= @self.downloadAction;
-  menuItem.Tag:= PtrInt( AFiles.clone );
+  menuItem.Tag:= PtrInt( AFiles );
   AMenu.Items.Insert(0, menuItem);
 
   menuItem:= TMenuItem.Create( AMenu );
