@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    This unit contains Unix specific functions
 
-   Copyright (C) 2015-2023 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2015-2024 Alexander Koblov (alexx2000@mail.ru)
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Lesser General Public
@@ -41,13 +41,20 @@ const
   FD_CLOEXEC = 1;
   O_CLOEXEC  = &02000000;
   O_PATH     = &010000000;
+  _SC_NPROCESSORS_ONLN = 83;
 {$ELSEIF DEFINED(FREEBSD)}
   O_CLOEXEC  = &04000000;
+  _SC_NPROCESSORS_ONLN = 58;
+  CLOSE_RANGE_CLOEXEC = (1 << 2);
 {$ELSEIF DEFINED(NETBSD)}
   O_CLOEXEC  = $00400000;
 {$ELSEIF DEFINED(HAIKU)}
   FD_CLOEXEC = 1;
   O_CLOEXEC  = $00000040;
+{$ELSEIF DEFINED(DARWIN)}
+  F_NOCACHE  = 48;
+  O_CLOEXEC  = $1000000;
+  _SC_NPROCESSORS_ONLN = 58;
 {$ELSE}
   O_CLOEXEC  = 0;
 {$ENDIF}
@@ -250,6 +257,10 @@ function getgrgid(gid: gid_t): PGroupRecord; cdecl; external clib;
             fields of the record in the group database that matches the group name)
 }
 function getgrnam(name: PChar): PGroupRecord; cdecl; external clib;
+{en
+   Get configuration information at run time
+}
+function sysconf(name: cint): clong; cdecl; external clib;
 
 function FileLock(Handle: System.THandle; Mode: cInt): System.THandle;
 
@@ -257,6 +268,9 @@ function fpMkTime(tm: PTimeStruct): TTime;
 function fpLocalTime(timer: PTime; tp: PTimeStruct): PTimeStruct;
 
 {$IF DEFINED(LINUX)}
+var
+  KernVersion: UInt16;
+
 function fpFDataSync(fd: cint): cint;
 function fpCloneFile(src_fd, dst_fd: cint): Boolean;
 function fpFAllocate(fd: cint; mode: cint; offset, len: coff_t): cint;
@@ -270,8 +284,12 @@ implementation
 
 uses
   Unix, DCConvertEncoding, LazUTF8
-{$IFDEF DARWIN}
+{$IF DEFINED(DARWIN)}
   , DCDarwin
+{$ELSEIF DEFINED(LINUX)}
+  , Dos, DCLinux, DCOSUtils
+{$ELSEIF DEFINED(FREEBSD)}
+  , DCOSUtils
 {$ENDIF}
   ;
 
@@ -377,8 +395,6 @@ begin
   {$ENDIF}
 end;
 
-
-
 {$IF DEFINED(BSD)}
 type rlim_t = Int64;
 {$ENDIF}
@@ -398,13 +414,27 @@ const
   {$ENDIF}
 
 procedure tzset(); cdecl; external clib;
-function sysconf(name: cint): clong; cdecl; external clib;
 function mktime(tp: PTimeStruct): TTime; cdecl; external clib;
 function localtime_r(timer: PTime; tp: PTimeStruct): PTimeStruct; cdecl; external clib;
 function lchown(path : PChar; owner : TUid; group : TGid): cInt; cdecl; external clib;
 {$IF DEFINED(LINUX)}
 function fdatasync(fd: cint): cint; cdecl; external clib;
 function fallocate(fd: cint; mode: cint; offset, len: coff_t): cint; cdecl; external clib;
+{$ENDIF}
+
+{$IF DEFINED(LINUX) OR DEFINED(FREEBSD)}
+var
+  hLibC: TLibHandle = NilHandle;
+
+procedure LoadCLibrary;
+begin
+  hLibC:= mbLoadLibrary(mbGetModuleName(@tzset));
+end;
+{$ENDIF}
+
+{$IF DEFINED(LINUX) OR DEFINED(BSD)}
+var
+  close_range: function(first: cuint; last: cuint; flags: cint): cint; cdecl = nil;
 {$ENDIF}
 
 procedure FileCloseOnExecAll;
@@ -415,6 +445,13 @@ var
   p: TRLimit;
   fd_max: rlim_t = RLIM_INFINITY;
 begin
+{$IF DEFINED(LINUX) OR DEFINED(BSD)}
+  if Assigned(close_range) then
+  begin
+    close_range(3, High(Int32), CLOSE_RANGE_CLOEXEC);
+    Exit;
+  end;
+{$ENDIF}
   if (FpGetRLimit(RLIMIT_NOFILE, @p) = 0) and (p.rlim_cur <> RLIM_INFINITY) then
     fd_max:= p.rlim_cur
   else begin
@@ -506,6 +543,7 @@ begin
   if (fpFStatFS(Handle, @Sbfs) = 0) then
   begin
     case UInt32(Sbfs.fstype) of
+      NFS_SUPER_MAGIC,
       SMB_SUPER_MAGIC,
       SMB2_MAGIC_NUMBER,
       CIFS_MAGIC_NUMBER: Exit;
@@ -561,8 +599,26 @@ begin
 end;
 {$ENDIF}
 
-initialization
+procedure Initialize;
+begin
   tzset();
+{$IF DEFINED(LINUX) OR DEFINED(FREEBSD)}
+  LoadCLibrary;
+  {$IF DEFINED(LINUX)}
+  KernVersion:= BEtoN(DosVersion);
+  // Linux kernel >= 5.11
+  if KernVersion >= $50B then
+  {$ENDIF}
+  begin
+    Pointer(close_range):= GetProcAddress(hLibC, 'close_range');
+  end;
+{$ELSEIF DEFINED(DARWIN)}
+  close_range:= @CloseRange;
+{$ENDIF}
+end;
+
+initialization
+  Initialize;
 
 end.
 
