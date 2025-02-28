@@ -154,6 +154,9 @@ uses
   LazLogger, DCBasicTypes, DCOSUtils, DCClassesUtf8, URIParser;
 
 const
+  XML_READER_FLAGS = [xrfAllowSpecialCharsInAttributeValue];
+
+const
   BoolStrings: array[Boolean] of DOMString = ('False', 'True');
 
 constructor TXmlConfig.Create;
@@ -527,7 +530,7 @@ begin
   try
     if FileStream.Size = 0 then
       raise EXmlConfigEmpty.Create('');
-    ReadXMLFile(TmpDoc, FileStream, FilenameToURI(AFilename), []);
+    ReadXMLFile(TmpDoc, FileStream, FilenameToURI(AFilename), XML_READER_FLAGS);
     if TmpDoc.DocumentElement.NodeName <> ApplicationName then
       raise EXMLReadError.Create('Root element is not <' + ApplicationName + '>.');
     FDoc.Free;
@@ -543,7 +546,7 @@ var
 begin
   if AStream.Size = 0 then
     raise EXmlConfigEmpty.Create('');
-  ReadXMLFile(TmpDoc, AStream, []);
+  ReadXMLFile(TmpDoc, AStream, XML_READER_FLAGS);
   FDoc.Free;
   FDoc := TmpDoc;
 end;
