@@ -49,7 +49,6 @@ type
 
     function GetWatcher: TFileSourceWatcher; override;
     function GetProcessor: TFileSourceProcessor; override;
-    function GetRealPath(const APath: String): String; virtual;
     function GetVirtualPath(const APath: String): String; virtual;
 
     class function CreateFile(const APath: String): TFile; override;
@@ -361,11 +360,6 @@ end;
 function TFileSystemFileSource.GetProcessor: TFileSourceProcessor;
 begin
   Result:= fileSystemFileSourceProcessor;
-end;
-
-function TFileSystemFileSource.GetRealPath(const APath: String): String;
-begin
-  Result:= APath;
 end;
 
 function TFileSystemFileSource.GetVirtualPath(const APath: String): String;

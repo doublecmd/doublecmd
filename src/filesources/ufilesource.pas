@@ -160,6 +160,7 @@ type
     function GetRootDir: String; overload;
     function GetPathType(sPath : String): TPathType;
     function GetFreeSpace(Path: String; out FreeSize, TotalSize : Int64) : Boolean;
+    function GetRealPath(const path: String): String;
     function GetLocalName(var aFile: TFile): Boolean;
 
     function CreateDirectory(const Path: String): Boolean;
@@ -361,6 +362,7 @@ type
     function GetFreeSpace(Path: String; out FreeSize, TotalSize : Int64) : Boolean; virtual;
     function QueryContextMenu(AFiles: TFiles; var AMenu: TPopupMenu): Boolean; virtual;
     function GetDefaultView(out DefaultView: TFileSourceFields): Boolean; virtual;
+    function GetRealPath(const path: String): String; virtual;
     function GetLocalName(var aFile: TFile): Boolean; virtual;
 
     function GetConnection(Operation: TFileSourceOperation): TFileSourceConnection; virtual;
@@ -690,6 +692,11 @@ end;
 function TFileSource.GetDefaultView(out DefaultView: TFileSourceFields): Boolean;
 begin
   Result:= False;
+end;
+
+function TFileSource.GetRealPath(const path: String): String;
+begin
+  Result:= path;
 end;
 
 function TFileSource.GetLocalName(var aFile: TFile): Boolean;

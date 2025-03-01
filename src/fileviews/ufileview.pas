@@ -269,6 +269,7 @@ type
     }
     procedure FileSourceFileListUpdated; virtual;
     function GetCurrentPath: String; virtual;
+    function GetCurrentRealPath: String; virtual;
     procedure SetCurrentPath(NewPath: String); virtual;
     function GetActiveDisplayFile: TDisplayFile; virtual; abstract;
     function GetWorkersThread: TFunctionThread;
@@ -527,6 +528,7 @@ type
     property CurrentAddress: String read GetCurrentAddress;
     property CurrentFileSourceIndex: Integer read GetCurrentFileSourceIndex;
     property CurrentPath: String read GetCurrentPath write SetCurrentPath;
+    property CurrentRealPath: String read GetCurrentRealPath;
     property CurrentPathIndex: Integer read GetCurrentPathIndex;
     property CurrentLocation: String read GetCurrentLocation;
     property FileFilter: String read FFileFilter;
@@ -1575,6 +1577,11 @@ end;
 function TFileView.GetCurrentPath: String;
 begin
   Result := FHistory.CurrentPath;
+end;
+
+function TFileView.GetCurrentRealPath: String;
+begin
+  Result:= FileSource.GetRealPath( CurrentPath );
 end;
 
 procedure TFileView.SetCurrentPath(NewPath: String);

@@ -693,7 +693,7 @@ type
             begin
               state.files := leftFiles;
               state.fil := leftFile;
-              state.dir := frmMain.FrameLeft.CurrentPath;
+              state.dir := frmMain.FrameLeft.CurrentRealPath;
               state.address := frmMain.FrameLeft.CurrentAddress;
               state.pos := spSide;
               if sSourceStr[index] = 'b' then
@@ -707,7 +707,7 @@ type
             begin
               state.files := rightFiles;
               state.fil := rightFile;
-              state.dir := frmMain.FrameRight.CurrentPath;
+              state.dir := frmMain.FrameRight.CurrentRealPath;
               state.address := frmMain.FrameRight.CurrentAddress;
               state.pos := spSide;
             end;
@@ -908,10 +908,10 @@ begin
       activeFiles := leftFiles;
       activeFile:= leftFile;
       inactiveFile:= rightFile;
-      activeDir := frmMain.FrameLeft.CurrentPath;
+      activeDir := frmMain.FrameLeft.CurrentRealPath;
       activeAddress := frmMain.FrameLeft.CurrentAddress;
       inactiveFiles := rightFiles;
-      inactiveDir := frmMain.FrameRight.CurrentPath;
+      inactiveDir := frmMain.FrameRight.CurrentRealPath;
       inactiveAddress := frmMain.FrameRight.CurrentAddress;
     end
     else
@@ -919,10 +919,10 @@ begin
       activeFiles := rightFiles;
       activeFile:= rightFile;
       inactiveFile:= leftFile;
-      activeDir := frmMain.FrameRight.CurrentPath;
+      activeDir := frmMain.FrameRight.CurrentRealPath;
       activeAddress := frmMain.FrameRight.CurrentAddress;
       inactiveFiles := leftFiles;
-      inactiveDir := frmMain.FrameLeft.CurrentPath;
+      inactiveDir := frmMain.FrameLeft.CurrentRealPath;
       inactiveAddress := frmMain.FrameLeft.CurrentAddress;
     end;
 
