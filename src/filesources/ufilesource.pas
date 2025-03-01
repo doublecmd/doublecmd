@@ -80,11 +80,20 @@ type
 
   TFileSourceFields = array of TFileSourceField;
 
-  TPathsArray = array of string;
   TFileSourceOperationsClasses = array[TFileSourceOperationType] of TFileSourceOperationClass;
 
-  TFileSourceReloadEventNotify = procedure(const aFileSource: IFileSource;
-                                           const ReloadedPaths: TPathsArray) of object;
+  TPathsArray = array of string;
+
+  {$scopedEnums on}
+  TFileSourceEventType = ( reload, relocation );
+
+  TFileSourceEventParams = record
+    eventType: TFileSourceEventType;
+    fs: IFileSource;
+    paths: TPathsArray;
+  end;
+
+  TFileSourceEventListener = procedure(var params: TFileSourceEventParams) of object;
 
   { IFileSource }
 
@@ -174,8 +183,8 @@ type
     procedure AddChild(AFileSource: IFileSource);
     procedure Reload(const PathsToReload: TPathsArray);
     procedure Reload(const PathToReload: String);
-    procedure AddReloadEventListener(FunctionToCall: TFileSourceReloadEventNotify);
-    procedure RemoveReloadEventListener(FunctionToCall: TFileSourceReloadEventNotify);
+    procedure AddEventListener(FunctionToCall: TFileSourceEventListener);
+    procedure RemoveEventListener(FunctionToCall: TFileSourceEventListener);
 
     property URI: TURI read GetURI;
     property ClassName: String read GetClassName;
@@ -192,7 +201,7 @@ type
   TFileSource = class(TInterfacedObject, IFileSource)
 
   private
-    FReloadEventListeners: TMethodList;
+    FEventListeners: TMethodList;
     {en
        File source on which this file source is dependent on
        (files that it accesses are on the parent file source).
@@ -382,8 +391,8 @@ type
     procedure Reload(const PathsToReload: TPathsArray); virtual; overload;
     procedure Reload(const PathToReload: String); overload;
 
-    procedure AddReloadEventListener(FunctionToCall: TFileSourceReloadEventNotify);
-    procedure RemoveReloadEventListener(FunctionToCall: TFileSourceReloadEventNotify);
+    procedure AddEventListener(FunctionToCall: TFileSourceEventListener);
+    procedure RemoveEventListener(FunctionToCall: TFileSourceEventListener);
 
     property CurrentAddress: String read GetCurrentAddress;
     property ParentFileSource: IFileSource read GetParentFileSource write SetParentFileSource;
@@ -461,7 +470,7 @@ begin
     raise Exception.Create('Cannot construct abstract class');
   inherited Create;
 
-  FReloadEventListeners := TMethodList.Create;
+  FEventListeners := TMethodList.Create;
 
   FileSourceManager.Add(Self); // Increases RefCount
 
@@ -524,7 +533,7 @@ begin
     DCDebug('Error: Cannot remove file source - manager already destroyed!');
 
   FreeAndNil(FChildrenFileSource);
-  FreeAndNil(FReloadEventListeners);
+  FreeAndNil(FEventListeners);
 
   inherited Destroy;
 end;
@@ -953,15 +962,20 @@ end;
 procedure TFileSource.Reload(const PathsToReload: TPathsArray);
 var
   i: Integer;
-  FunctionToCall: TFileSourceReloadEventNotify;
+  params: TFileSourceEventParams;
+  FunctionToCall: TFileSourceEventListener;
 begin
   DoReload(PathsToReload);
 
-  if Assigned(FReloadEventListeners) then
-    for i := 0 to FReloadEventListeners.Count - 1 do
+  params.eventType:= TFileSourceEventType.reload;
+  params.fs:= Self;
+  params.paths:= PathsToReload;
+
+  if Assigned(FEventListeners) then
+    for i := 0 to FEventListeners.Count - 1 do
     begin
-      FunctionToCall := TFileSourceReloadEventNotify(FReloadEventListeners.Items[i]);
-      FunctionToCall(Self, PathsToReload);
+      FunctionToCall := TFileSourceEventListener(FEventListeners.Items[i]);
+      FunctionToCall(params);
     end;
 end;
 
@@ -974,14 +988,14 @@ begin
   Reload(PathsToReload);
 end;
 
-procedure TFileSource.AddReloadEventListener(FunctionToCall: TFileSourceReloadEventNotify);
+procedure TFileSource.AddEventListener(FunctionToCall: TFileSourceEventListener);
 begin
-  FReloadEventListeners.Add(TMethod(FunctionToCall));
+  FEventListeners.Add(TMethod(FunctionToCall));
 end;
 
-procedure TFileSource.RemoveReloadEventListener(FunctionToCall: TFileSourceReloadEventNotify);
+procedure TFileSource.RemoveEventListener(FunctionToCall: TFileSourceEventListener);
 begin
-  FReloadEventListeners.Remove(TMethod(FunctionToCall));
+  FEventListeners.Remove(TMethod(FunctionToCall));
 end;
 
 { TFileSourceConnection }

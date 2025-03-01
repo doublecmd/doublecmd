@@ -58,8 +58,7 @@ type
     }
     FFileSource: IFileSource;
 
-    procedure FileSourceReloadEvent(const aFileSource: IFileSource;
-                                    const ReloadedPaths: TPathsArray);
+    procedure FileSourceEventListener(var params: TFileSourceEventParams);
 
   protected
     function GetFileList: TFileTree;
@@ -129,7 +128,7 @@ end;
 destructor TMultiListFileSource.Destroy;
 begin
   if Assigned(FFileSource) then begin
-    FFileSource.RemoveReloadEventListener(@FileSourceReloadEvent);
+    FFileSource.RemoveEventListener(@FileSourceEventListener);
   end;
   inherited Destroy;
   FreeAndNil(FFileList);
@@ -145,7 +144,7 @@ begin
   aFileList := nil;
   FFileSource := aFileSource;
 
-  FFileSource.AddReloadEventListener(@FileSourceReloadEvent);
+  FFileSource.AddEventListener(@FileSourceEventListener);
 end;
 
 function TMultiListFileSource.GetSupportedFileProperties: TFilePropertiesTypes;
@@ -204,10 +203,10 @@ begin
   Result:= FFileSource.CanRetrieveProperties(AFile, PropertiesToSet);
 end;
 
-procedure TMultiListFileSource.FileSourceReloadEvent(
-  const aFileSource: IFileSource; const ReloadedPaths: TPathsArray);
+procedure TMultiListFileSource.FileSourceEventListener(var params: TFileSourceEventParams);
 begin
-  Reload(ReloadedPaths);
+  if params.eventType = TFileSourceEventType.reload then
+    Reload(params.paths);
 end;
 
 function TMultiListFileSource.GetFileList: TFileTree;

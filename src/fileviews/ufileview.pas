@@ -223,7 +223,7 @@ type
                                    NewFilesPosition: TNewFilesPosition;
                                    UpdatedFilesPosition: TUpdatedFilesPosition);
     procedure LoadingFileListTimer(Sender: TObject);
-    procedure ReloadEvent(const aFileSource: IFileSource; const ReloadedPaths: TPathsArray);
+    procedure FileSourceEventListener(var params: TFileSourceEventParams);
     procedure ReloadTimerEvent(Sender: TObject);
     procedure WatcherEvent(const EventData: TFSWatcherEventData);
 
@@ -626,7 +626,7 @@ begin
 
     FHistory.AddFileSource(AFileSource);
     ChangePathAndSetActiveFile(aPath);
-    FileSource.AddReloadEventListener(@ReloadEvent);
+    FileSource.AddEventListener(@FileSourceEventListener);
 
     // Update view before making file source file list,
     // so that file list isn't unnecessarily displayed twice.
@@ -645,7 +645,7 @@ begin
     CreateDefault(AOwner);
     AFileView.CloneTo(Self);
     if Assigned(FileSource) then
-      FileSource.AddReloadEventListener(@ReloadEvent);
+      FileSource.AddEventListener(@FileSourceEventListener);
     UpdateView;
   finally
     EnableAutoSizing;
@@ -1028,7 +1028,7 @@ begin
   StopWorkers;
 
   for i := 0 to FHistory.Count - 1 do
-    FHistory.FileSource[i].RemoveReloadEventListener(@ReloadEvent);
+    FHistory.FileSource[i].RemoveEventListener(@FileSourceEventListener);
 
   ClearRecentlyUpdatedFiles;
   ClearPendingFilesChanges;
@@ -2722,7 +2722,7 @@ begin
   if Assigned(aFileSource) then
   begin
     FSortingProperties := GetSortingProperties;
-    FileSource.AddReloadEventListener(@ReloadEvent);
+    FileSource.AddEventListener(@FileSourceEventListener);
   end;
 
   //TODO: probably it's not the best place for calling SetActiveFile() :
@@ -3024,7 +3024,7 @@ begin
     FFlatView := False;
 
     if Assigned(FileSource) and IsNewFileSource then
-      FileSource.RemoveReloadEventListener(@ReloadEvent);
+      FileSource.RemoveEventListener(@FileSourceEventListener);
 
     EnableWatcher(False);
 
@@ -3035,7 +3035,7 @@ begin
     if Assigned(FileSource) and IsNewFileSource then
     begin
       UpdatePath(True);
-      FileSource.AddReloadEventListener(@ReloadEvent);
+      FileSource.AddEventListener(@FileSourceEventListener);
     end;
 
     EnableWatcher(True);
@@ -3064,7 +3064,7 @@ begin
     PrevIndex := FHistory.CurrentFileSourceIndex - 1;
     if PrevIndex < 0 then
       begin
-        FileSource.RemoveReloadEventListener(@ReloadEvent);
+        FileSource.RemoveEventListener(@FileSourceEventListener);
         EnableWatcher(False);
 
         FHistory.Clear;
@@ -3080,7 +3080,7 @@ begin
           IsNewFileSource := not NewFileSource.Equals(FileSource);
 
           if IsNewFileSource then
-            FileSource.RemoveReloadEventListener(@ReloadEvent);
+            FileSource.RemoveEventListener(@FileSourceEventListener);
 
           EnableWatcher(False);
 
@@ -3091,7 +3091,7 @@ begin
           if Assigned(FileSource) and IsNewFileSource then
           begin
             UpdatePath(True);
-            FileSource.AddReloadEventListener(@ReloadEvent);
+            FileSource.AddEventListener(@FileSourceEventListener);
           end;
 
           EnableWatcher(True);
@@ -3110,7 +3110,7 @@ procedure TFileView.RemoveAllFileSources;
 begin
   if FileSourcesCount > 0 then
   begin
-    FileSource.RemoveReloadEventListener(@ReloadEvent);
+    FileSource.RemoveEventListener(@FileSourceEventListener);
     EnableWatcher(False);
     FHistory.Clear;
 
@@ -3124,11 +3124,11 @@ end;
 
 procedure TFileView.AssignFileSources(const otherFileView: TFileView);
 begin
-  FileSource.RemoveReloadEventListener(@ReloadEvent);
+  FileSource.RemoveEventListener(@FileSourceEventListener);
   EnableWatcher(False);
   FHistory.Assign(otherFileView.FHistory);
   UpdatePath(True);
-  FileSource.AddReloadEventListener(@ReloadEvent);
+  FileSource.AddEventListener(@FileSourceEventListener);
   AfterChangePath;
   EnableWatcher(True);
 end;
@@ -3432,17 +3432,17 @@ begin
   Key := 0;
 end;
 
-procedure TFileView.ReloadEvent(const aFileSource: IFileSource; const ReloadedPaths: TPathsArray);
+procedure TFileView.FileSourceEventListener(var params: TFileSourceEventParams);
 var
   NoWatcher: Boolean;
 begin
-  if aFileSource.Equals(FileSource) then
+  if params.fs.Equals(FileSource) then
   begin
     // Reload file view but only if the file source is currently viewed
     // and FileSourceWatcher is not being used.
     NoWatcher:= not (WatcherActive and
-                     FileSource.GetWatcher.canWatch(ReloadedPaths));
-    if (NoWatcher or FlatView) then Reload(ReloadedPaths);
+                     FileSource.GetWatcher.canWatch(params.paths));
+    if (NoWatcher or FlatView) then Reload(params.paths);
   end;
 end;
 
@@ -3539,7 +3539,7 @@ begin
     FilenameFromHistory := FHistory.Filename[aFileSourceIndex, aPathIndex];
 
     if Assigned(FileSource) and IsNewFileSource then
-      FileSource.RemoveReloadEventListener(@ReloadEvent);
+      FileSource.RemoveEventListener(@FileSourceEventListener);
     EnableWatcher(False);
 
     FHistory.SetIndexes(aFileSourceIndex, aPathIndex);
@@ -3547,7 +3547,7 @@ begin
     if Assigned(FileSource) and IsNewFileSource then
     begin
       UpdatePath(True);
-      FileSource.AddReloadEventListener(@ReloadEvent);
+      FileSource.AddEventListener(@FileSourceEventListener);
     end;
 
     AfterChangePath;
