@@ -482,19 +482,21 @@ end;
 
 procedure TColumnsFileView.ShowRenameFileEdit(var aFile: TFile);
 begin
-  if FFileNameColumn <> -1 then
+  if FFileNameColumn = -1 then
+    Exit;
+  if aFile.Name = EmptyStr then
+    Exit;;
+
+  if not edtRename.Visible then
   begin
-    if not edtRename.Visible then
-    begin
-      edtRename.Font.Name  := GetColumnsClass.GetColumnFontName(FFileNameColumn);
-      edtRename.Font.Size  := GetColumnsClass.GetColumnFontSize(FFileNameColumn);
-      edtRename.Font.Style := GetColumnsClass.GetColumnFontStyle(FFileNameColumn);
+    edtRename.Font.Name  := GetColumnsClass.GetColumnFontName(FFileNameColumn);
+    edtRename.Font.Size  := GetColumnsClass.GetColumnFontSize(FFileNameColumn);
+    edtRename.Font.Style := GetColumnsClass.GetColumnFontStyle(FFileNameColumn);
 
-      UpdateRenameFileEditPosition;
-    end;
-
-    inherited ShowRenameFileEdit(AFile);
+    UpdateRenameFileEditPosition;
   end;
+
+  inherited ShowRenameFileEdit(AFile);
 end;
 
 procedure TColumnsFileView.UpdateRenameFileEditPosition;
