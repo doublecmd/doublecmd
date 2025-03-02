@@ -120,8 +120,11 @@ type
   public
     class function isSeedFile( const aFile: TFile ): Boolean;
     class function isSeedFiles( const aFiles: TFiles): Boolean;
-    class procedure downloadOrEvict( const aFile: TFile );
-    class procedure downloadOrEvict( const aFiles: TFiles );
+    class procedure downloadOrEvict( const fs: IFileSource; const aFile: TFile );
+    class procedure downloadOrEvict( const fs: IFileSource; const aFiles: TFiles );
+  public
+    class function toSeedFilePath( const aFile: TFile ): String;
+    class function toNormalFilePath( const aFile: TFile ): String;
   end;
 
 var
@@ -440,26 +443,85 @@ begin
   end;
 end;
 
-class procedure TSeedFileUtil.downloadOrEvict(const aFile: TFile);
+class procedure TSeedFileUtil.downloadOrEvict(const fs: IFileSource;
+  const aFile: TFile);
+var
+  newPath: String;
+  params: TFileSourceEventParams;
 begin
-  if isSeedFile( aFile ) then
-    download( aFile )
-  else
+  if isSeedFile( aFile ) then begin
+    download( aFile );
+    newPath:= toNormalFilePath( aFile );
+  end else begin
     evict( aFile );
+    newPath:= toSeedFilePath( aFile );
+  end;
+
+  params.fs:= fs;
+  params.eventType:= TFileSourceEventType.queryActive;
+  fs.eventNotify( params );
+  if params.resultDisplayFile.FSFile.FullPath <> aFile.FullPath then
+    Exit;
+
+  params.eventType:= TFileSourceEventType.relocation;
+  params.newPath:= newPath;
+  fs.eventNotify( params );
 end;
 
-class procedure TSeedFileUtil.downloadOrEvict(const aFiles: TFiles);
+class procedure TSeedFileUtil.downloadOrEvict(const fs: IFileSource;
+  const aFiles: TFiles);
 var
   isSeed: Boolean;
   i: Integer;
+  oldPath: String;
+  newPath: String;
+  params: TFileSourceEventParams;
 begin
+  oldPath:= EmptyStr;
+  newPath:= EmptyStr;
+
+  params.fs:= fs;
+  params.eventType:= TFileSourceEventType.queryActive;
+  fs.eventNotify( params );
+  if params.resultDisplayFile <> nil then
+    oldPath:= params.resultDisplayFile.FSFile.FullPath;
+
   isSeed:= isSeedFiles( aFiles );
   for i:= 0 to aFiles.Count-1 do begin
-    if isSeed then
-      download( aFiles[i] )
-    else
+    if isSeed then begin
+      download( aFiles[i] );
+      if oldPath = aFiles[i].FullPath then
+        newPath:= toNormalFilePath( aFiles[i] );
+    end else begin
       evict( aFiles[i] );
+      if oldPath = aFiles[i].FullPath then
+        newPath:= toSeedFilePath( aFiles[i] );
+    end;
   end;
+
+  if newPath = EmptyStr then
+    Exit;
+
+  params.eventType:= TFileSourceEventType.relocation;
+  params.newPath:= newPath;
+  fs.eventNotify( params );
+end;
+
+class function TSeedFileUtil.toSeedFilePath(const aFile: TFile): String;
+var
+  name: String;
+begin
+  name:= aFile.Name;
+  Result:= aFile.Path + '.' + name + '.icloud';
+end;
+
+class function TSeedFileUtil.toNormalFilePath(const aFile: TFile): String;
+var
+  name: String;
+begin
+  name:= aFile.NameNoExt;
+  name:= name.Substring( 1 );
+  Result:= aFile.Path + name;
 end;
 
 { TiCloudDriverUIHandler }
@@ -550,7 +612,7 @@ begin
   if params.x < params.drawingRect.Right - 28 then
     Exit;
 
-  TSeedFileUtil.downloadOrEvict( aFile );
+  TSeedFileUtil.downloadOrEvict( params.fs, aFile );
 end;
 
 { TiCloudDriverFileSource }
@@ -680,7 +742,7 @@ begin
   files:= TFiles( item.Tag );
   if files = nil then
     Exit;
-  TSeedFileUtil.downloadOrEvict( files );
+  TSeedFileUtil.downloadOrEvict( Self, files );
 end;
 
 function TiCloudDriverFileSource.getDefaultPointForPath(const path: String): String;

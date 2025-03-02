@@ -85,12 +85,20 @@ type
   TPathsArray = array of string;
 
   {$scopedEnums on}
-  TFileSourceEventType = ( reload, relocation );
+  TFileSourceEventType = ( reload, relocation, queryActive );
 
   TFileSourceEventParams = record
     eventType: TFileSourceEventType;
     fs: IFileSource;
+
+    // reload input
     paths: TPathsArray;
+
+    // relocation input
+    newPath: String;
+
+    // queryActive output
+    resultDisplayFile: TDisplayFile;
   end;
 
   TFileSourceEventListener = procedure(var params: TFileSourceEventParams) of object;
@@ -181,6 +189,7 @@ type
     procedure RemoveOperationFromQueue(Operation: TFileSourceOperation);
 
     procedure AddChild(AFileSource: IFileSource);
+    procedure eventNotify( var params: TFileSourceEventParams );
     procedure Reload(const PathsToReload: TPathsArray);
     procedure Reload(const PathToReload: String);
     procedure AddEventListener(FunctionToCall: TFileSourceEventListener);
@@ -388,6 +397,7 @@ type
        This is used if a file source has any internal cache or file list.
        Overwrite DoReload in descendant classes.
     }
+    procedure eventNotify( var params: TFileSourceEventParams );
     procedure Reload(const PathsToReload: TPathsArray); virtual; overload;
     procedure Reload(const PathToReload: String); overload;
 
@@ -959,24 +969,30 @@ begin
   // Nothing by default.
 end;
 
-procedure TFileSource.Reload(const PathsToReload: TPathsArray);
+procedure TFileSource.eventNotify( var params: TFileSourceEventParams );
 var
   i: Integer;
-  params: TFileSourceEventParams;
   FunctionToCall: TFileSourceEventListener;
+begin
+  if FEventListeners = nil then
+    Exit;
+
+  for i := 0 to FEventListeners.Count - 1 do begin
+    FunctionToCall:= TFileSourceEventListener(FEventListeners.Items[i]);
+    FunctionToCall( params );
+  end;
+end;
+
+procedure TFileSource.Reload(const PathsToReload: TPathsArray);
+var
+  params: TFileSourceEventParams;
 begin
   DoReload(PathsToReload);
 
-  params.eventType:= TFileSourceEventType.reload;
   params.fs:= Self;
+  params.eventType:= TFileSourceEventType.reload;
   params.paths:= PathsToReload;
-
-  if Assigned(FEventListeners) then
-    for i := 0 to FEventListeners.Count - 1 do
-    begin
-      FunctionToCall := TFileSourceEventListener(FEventListeners.Items[i]);
-      FunctionToCall(params);
-    end;
+  eventNotify( params );
 end;
 
 procedure TFileSource.Reload(const PathToReload: String);

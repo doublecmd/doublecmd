@@ -3433,10 +3433,10 @@ begin
 end;
 
 procedure TFileView.FileSourceEventListener(var params: TFileSourceEventParams);
-var
-  NoWatcher: Boolean;
-begin
-  if params.fs.Equals(FileSource) then
+
+  procedure handleReload;
+  var
+    NoWatcher: Boolean;
   begin
     // Reload file view but only if the file source is currently viewed
     // and FileSourceWatcher is not being used.
@@ -3444,6 +3444,27 @@ begin
                      FileSource.GetWatcher.canWatch(params.paths));
     if (NoWatcher or FlatView) then Reload(params.paths);
   end;
+
+  procedure handleRelocation;
+  begin
+    RequestedActiveFile:= params.newPath;
+  end;
+
+  procedure handleQueryActive;
+  begin
+    params.resultDisplayFile:= GetActiveDisplayFile;
+  end;
+
+begin
+  if NOT params.fs.Equals(FileSource) then
+    Exit;
+
+  if params.eventType = TFileSourceEventType.reload then
+    handleReload
+  else if params.eventType = TFileSourceEventType.relocation then
+    handleRelocation
+  else if params.eventType = TFileSourceEventType.queryActive then
+    handleQueryActive;
 end;
 
 procedure TFileView.ReloadTimerEvent(Sender: TObject);
