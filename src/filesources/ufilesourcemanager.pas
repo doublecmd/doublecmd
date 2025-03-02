@@ -148,6 +148,7 @@ begin
   params.handled:= False;
 
   fs:= params.sourceFS;
+  params.phase:= TFileSourceConsultPhase.source;
   params.currentFS:= fs;
   params.partnerFS:= params.targetFS;
   processor:= fs.GetProcessor;
@@ -161,6 +162,7 @@ begin
     Exit;
 
   fs:= params.targetFS;
+  params.phase:= TFileSourceConsultPhase.target;
   params.currentFS:= fs;
   params.partnerFS:= params.sourceFS;
   processor:= fs.GetProcessor;
@@ -177,6 +179,7 @@ begin
   params.handled:= False;
 
   fs:= params.sourceFS;
+  params.phase:= TFileSourceConsultPhase.source;
   params.currentFS:= fs;
   params.partnerFS:= params.targetFS;
   processor:= fs.GetProcessor;
@@ -190,6 +193,7 @@ begin
     Exit;
 
   fs:= params.targetFS;
+  params.phase:= TFileSourceConsultPhase.target;
   params.currentFS:= fs;
   params.partnerFS:= params.sourceFS;
   processor:= fs.GetProcessor;
@@ -204,7 +208,7 @@ var
   sourceFS: IFileSource;
   targetFS: IFileSource;
 begin
-  if params.currentFS <> params.sourceFS then
+  if params.phase<>TFileSourceConsultPhase.source then
     Exit;
 
   sourceFS:= params.sourceFS;
@@ -224,7 +228,7 @@ end;
 
 procedure TDefaultFileSourceProcessor.confirmCopyOperation( var params: TFileSourceConsultParams );
 begin
-  if params.currentFS <> params.sourceFS then
+  if params.phase<>TFileSourceConsultPhase.source then
     Exit;
 
   if NOT StrBegins(params.targetPath, '..') then
@@ -241,7 +245,7 @@ var
   sourceFS: IFileSource;
   targetFS: IFileSource;
 begin
-  if params.currentFS <> params.sourceFS then
+  if params.phase<>TFileSourceConsultPhase.source then
     Exit;
 
   sourceFS:= params.sourceFS;

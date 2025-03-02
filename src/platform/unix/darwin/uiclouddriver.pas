@@ -141,7 +141,7 @@ procedure TiCloudDriverProcessor.consultOperation( var params: TFileSourceConsul
   var
     dlgResult: TModalResult;
   begin
-    if params.currentFS <> params.sourceFS then
+    if params.phase <> TFileSourceConsultPhase.source then
       Exit;
     if NOT TSeedFileUtil.isSeedFiles(params.files) then
       Exit;

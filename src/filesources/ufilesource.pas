@@ -18,8 +18,12 @@ type
 
   TFileSourceConsultResult = ( fscrSuccess, fscrNotImplemented, fscrNotSupported, fscrCancel );
 
+  {$scopedEnums on}
+  TFileSourceConsultPhase = ( source, target );
+
   TFileSourceConsultParams = Record
     handled: Boolean;
+    phase: TFileSourceConsultPhase;
 
     operationType: TFileSourceOperationType;
     files: TFiles;

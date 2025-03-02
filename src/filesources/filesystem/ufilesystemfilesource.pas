@@ -1114,7 +1114,7 @@ begin
   sourceFS:= params.sourceFS;
   targetFS:= params.targetFS;
 
-  if params.currentFS = params.sourceFS then
+  if params.phase=TFileSourceConsultPhase.source then
     doSource
   else
     doTarget;

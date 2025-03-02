@@ -277,8 +277,8 @@ begin
   targetPath:= params.targetPath;
   pathType:= GetPathType( targetPath );
 
-  if ((params.currentFS=params.sourceFS) and (pathType<>ptAbsolute)) or
-     ((params.currentFS<>params.sourceFS) and (pathType=ptAbsolute)) then begin
+  if ((params.phase=TFileSourceConsultPhase.source) and (pathType<>ptAbsolute)) or
+     ((params.phase=TFileSourceConsultPhase.target) and (pathType=ptAbsolute)) then begin
     if pathType <> ptAbsolute then begin
       targetPath:= params.files.Path + targetPath;
       targetPath:= ExpandAbsolutePath( targetPath );
@@ -286,7 +286,7 @@ begin
     params.resultTargetPath:= mountedFS.getRealPath( targetPath );
   end;
 
-  if params.currentFS = params.sourceFS then
+  if params.phase=TFileSourceConsultPhase.source then
     params.files.Path:= calcBasePath;
 end;
 
@@ -296,7 +296,7 @@ var
   mountPoint: TMountPoint;
   realPath: String;
 begin
-  if params.currentFS <> params.sourceFS then
+  if params.phase<>TFileSourceConsultPhase.source then
     Exit;
   if NOT params.partnerFS.IsClass(TWcxArchiveFileSource) then
     Exit;
@@ -317,7 +317,7 @@ var
   i: Integer;
   path: String;
 begin
-  if params.currentFS <> params.sourceFS then
+  if params.phase<>TFileSourceConsultPhase.source then
     Exit;
   if NOT params.partnerFS.IsClass(TWcxArchiveFileSource) then
     Exit;
@@ -358,7 +358,7 @@ procedure TMountedFileSourceProcessor.consultMoveOperation(var params: TFileSour
 begin
   params.consultResult:= fscrNotSupported;
   params.handled:= True;
-  if params.currentFS = params.sourceFS then
+  if params.phase=TFileSourceConsultPhase.source then
     Exit;
   if params.sourceFS.GetClass.ClassType <> TFileSystemFileSource then
     Exit;
