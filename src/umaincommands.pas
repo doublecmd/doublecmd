@@ -4415,7 +4415,7 @@ begin
               end;
 
               Operation := SourceFileSource.CreateMoveOperation(
-                             Files, ActiveFrame.CurrentPath);
+                             Files, ActiveFrame.CurrentRealPath);
             end
             else
             begin
@@ -4449,13 +4449,13 @@ begin
             begin
               Operation := SourceFileSource.CreateCopyOutOperation(
                              ActiveFrame.FileSource, Files,
-                             ActiveFrame.CurrentPath);
+                             ActiveFrame.CurrentRealPath);
             end
             else
             begin
               Operation := ActiveFrame.FileSource.CreateCopyInOperation(
                              SourceFileSource, Files,
-                             ActiveFrame.CurrentPath);
+                             ActiveFrame.CurrentRealPath);
             end;
           end;
 
