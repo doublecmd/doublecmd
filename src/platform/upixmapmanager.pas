@@ -372,8 +372,10 @@ function AdjustIconSize(ASize: Integer; APixelsPerInch: Integer): Integer;
 function StretchBitmap(var bmBitmap : Graphics.TBitmap; iIconSize : Integer;
                        clBackColor : TColor; bFreeAtEnd : Boolean = False) : Graphics.TBitmap;
 
+{$IF DEFINED(DARWIN)}
 function NSImageToTBitmap( const image:NSImage ): TBitmap;
 function getBestNSImageWithSize( const srcImage:NSImage; const size:Integer ): NSImage;
+{$ENDIF}
 
 implementation
 
