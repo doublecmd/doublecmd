@@ -500,8 +500,17 @@ resourcestring
   rsViewPaintToolsList = 'Pen;Rect;Ellipse';
 
   // Editor
+  rsEditStatSelModeCol = 'COL';
+  rsEditStatSelModeLine = 'LINE';
+  rsEditStatSelModeNorm = 'NORM';
+  rsEditStatInsertModeIns = 'INS';
+  rsEditStatInsertModeOvr = 'OVR';
   rsEditGotoLineTitle = 'Goto Line';
   rsEditGotoLineQuery = 'Goto line:';
+  rsEditHintModified = 'Modified';
+  rsEditHintCursorPos = 'Cursor Position';
+  rsEditHintInsertMode = 'Insert Mode';
+  rsEditHintSelectionMode = 'Selection Mode';
   rsEditAboutText = 'Internal Editor of Double Commander.';
   // Editor Highlighters
   rsSynLangPlainText = 'Plain text';

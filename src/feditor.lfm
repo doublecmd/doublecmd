@@ -53,12 +53,13 @@ object frmEditor: TfrmEditor
   OnCreate = FormCreate
   SessionProperties = 'Height;Width;WindowState;Left;Top'
   ShowInTaskBar = stAlways
-  LCLVersion = '2.2.3.0'
+  LCLVersion = '3.8.0.0'
   object StatusBar: TStatusBar
     Left = 0
     Height = 23
     Top = 437
     Width = 640
+    AutoHint = True
     Panels = <    
       item
         Width = 50
@@ -70,12 +71,21 @@ object frmEditor: TfrmEditor
         Width = 96
       end    
       item
-        Width = 50
+        Width = 64
+      end    
+      item
+        Width = 64
+      end    
+      item
+        Width = 64
       end    
       item
         Width = 128
       end>
+    ParentShowHint = False
     SimplePanel = False
+    ShowHint = True
+    OnMouseMove = StatusBarMouseMove
   end
   inline Editor: TSynEdit
     Left = 0

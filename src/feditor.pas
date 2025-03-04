@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Build-in Editor using SynEdit and his Highlighters
 
-   Copyright (C) 2006-2023  Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2006-2025  Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -145,8 +145,10 @@ type
     procedure EditorReplaceText(Sender: TObject; const ASearch, AReplace: string;
        {%H-}Line, {%H-}Column: integer; var ReplaceAction: TSynReplaceAction);
     procedure EditorChange(Sender: TObject);
-    procedure EditorStatusChange(Sender: TObject;
-      {%H-}Changes: TSynStatusChanges);
+    procedure EditorStatusChange(Sender: TObject; {%H-}Changes: TSynStatusChanges);
+    procedure StatusBarMouseMove(Sender: TObject; Shift: TShiftState; X,
+      Y: Integer);
+    procedure StatusBarShowHint(Sender: TObject; HintInfo: PHintInfo);
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
     procedure frmEditorClose(Sender: TObject; var CloseAction: TCloseAction);
   private
@@ -276,6 +278,7 @@ begin
   InitPropStorage(Self);
 
   Menu.Images:= dmComData.ilEditorImages;
+  StatusBar.OnShowHint:= @StatusBarShowHint;
 
   LoadGlobalOptions;
 
@@ -599,7 +602,7 @@ procedure TfrmEditor.CMThemeChanged(var Message: TLMessage);
 var
   Highlighter: TSynCustomHighlighter;
 begin
-  Highlighter:= TSynCustomHighlighter(dmHighl.SynHighlighterHashList.Data[StatusBar.Panels[4].Text]);
+  Highlighter:= TSynCustomHighlighter(dmHighl.SynHighlighterHashList.Data[StatusBar.Panels[6].Text]);
   if Assigned(Highlighter) then dmHighl.SetHighlighter(Editor, Highlighter);
 end;
 
@@ -732,15 +735,45 @@ end;
 procedure TfrmEditor.UpdateStatus;
 const
   BreakStyle: array[TTextLineBreakStyle] of String = ('LF', 'CRLF', 'CR');
+var
+  AText: String;
+  SelMod: TSynSelectionMode;
 begin
+  StatusBar.BeginUpdate;
+
   if Editor.Modified then
     StatusBar.Panels[0].Text:= '*'
   else begin
     StatusBar.Panels[0].Text:= '';
   end;
-  StatusBar.Panels[1].Text:= Format('%d:%d',[Editor.CaretX, Editor.CaretY]);
-  StatusBar.Panels[2].Text:= sEncodingStat;
-  StatusBar.Panels[3].Text:= BreakStyle[Editor.Lines.TextLineBreakStyle];
+
+  StatusBar.Panels[1].Text:= ' ' + Format('%d:%d',[Editor.CaretX, Editor.CaretY]);
+  StatusBar.Panels[2].Text:= ' ' + sEncodingStat;
+  StatusBar.Panels[3].Text:= ' ' + BreakStyle[Editor.Lines.TextLineBreakStyle];
+
+  if Editor.InsertMode then
+    StatusBar.Panels[4].Text:= ' ' + rsEditStatInsertModeIns
+  else begin
+    StatusBar.Panels[4].Text:= ' ' + rsEditStatInsertModeOvr;
+  end;
+
+  if Editor.SelAvail then
+    SelMod:= Editor.SelectionMode
+  else begin
+    SelMod:= Editor.DefaultSelectionMode;
+  end;
+  AText:= EmptyStr;
+  case SelMod of
+    smNormal:
+      if Editor.SelAvail then AText:= rsEditStatSelModeNorm;
+    smLine:
+      AText:= rsEditStatSelModeLine;
+    smColumn:
+      AText:= rsEditStatSelModeCol;
+  end;
+  StatusBar.Panels[5].Text := ' ' + AText;
+
+  StatusBar.EndUpdate;
 end;
 
 procedure TfrmEditor.SetEncodingIn(Sender: TObject);
@@ -765,10 +798,48 @@ begin
   miEncodingIn.Enabled := not Editor.Modified;
 end;
 
+procedure TfrmEditor.StatusBarMouseMove(Sender: TObject; Shift: TShiftState; X,
+  Y: Integer);
+begin
+  Application.CancelHint;
+  Application.ActivateHint(Mouse.CursorPos);
+end;
+
+procedure TfrmEditor.StatusBarShowHint(Sender: TObject; HintInfo: PHintInfo);
+var
+  AHint: String;
+  Index: Integer;
+begin
+  Index:= StatusBar.GetPanelIndexAt(HintInfo^.CursorPos.X, HintInfo^.CursorPos.Y);
+  if Index < 0 then
+    AHint := EmptyStr
+  else begin
+    case Index of
+      0:
+        AHint := rsEditHintModified;
+      1:
+        AHint := rsEditHintCursorPos;
+      2:
+        AHint := StripHotkey(miEncoding.Caption);
+      3:
+        AHint := StripHotkey(miLineEndType.Caption);
+      4:
+        AHint := rsEditHintInsertMode;
+      5:
+        AHint := rsEditHintSelectionMode;
+      6:
+        AHint := StripHotkey(miHighlight.Caption);
+      else
+        AHint := EmptyStr;
+    end;
+  end;
+  HintInfo^.HintStr:= AHint;
+end;
+
 procedure TfrmEditor.UpdateHighlighter(Highlighter: TSynCustomHighlighter);
 begin
   dmHighl.SetHighlighter(Editor, Highlighter);
-  StatusBar.Panels[4].Text:= Highlighter.LanguageName;
+  StatusBar.Panels[6].Text:= Highlighter.LanguageName;
 end;
 
 procedure TfrmEditor.FormCloseQuery(Sender: TObject;
