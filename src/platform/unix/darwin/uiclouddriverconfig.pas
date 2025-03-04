@@ -8,7 +8,6 @@ uses
   Classes, SysUtils, fpjson, Dialogs,
   uGlobsPaths, uLng, DCJsonConfig, DCOSUtils;
 
-procedure initiCloudConfig;
 
 type
   TiCloudDriverConfigPath = record
@@ -33,6 +32,15 @@ type
     icon: TiCloudDriverConfigIcon;
     apps: Array of TiCloudDriverConfigAppItem;
   end;
+
+  { iCloudDriverConfigUtil }
+
+  iCloudDriverConfigUtil = class
+  public
+    class procedure load;
+    class procedure save;
+  end;
+
 
 var
   iCloudDriverConfig: TiCloudDriverConfig;
@@ -155,22 +163,22 @@ begin
   end;
 end;
 
-procedure saveiCloudConfig;
+{ iCloudDriverConfigUtil }
+
+class procedure iCloudDriverConfigUtil.load;
+begin
+  iCloudDriverConfig:= defaultiCloudDriverConfig;
+  if mbFileExists(getJsonPath) then
+    loadiCloudConfig
+end;
+
+class procedure iCloudDriverConfigUtil.save;
 var
   config: TJsonConfig;
 begin
   config:= TJsonConfig.Create;
   saveiCloudConfigToJson( config.Root );
   config.SaveToFile( getJsonPath );
-end;
-
-procedure initiCloudConfig;
-begin
-  iCloudDriverConfig:= defaultiCloudDriverConfig;
-  if mbFileExists(getJsonPath) then
-    loadiCloudConfig
-  else
-    saveiCloudConfig;
 end;
 
 end.

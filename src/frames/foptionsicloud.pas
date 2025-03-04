@@ -8,7 +8,7 @@ interface
 uses
   Classes, SysUtils, Forms, Controls, ComCtrls, Graphics,
   fOptionsFrame, uPixMapManager,
-  uiCloudDriverUtil;
+  uiCloudDriver, uiCloudDriverConfig, uiCloudDriverUtil;
 
 type
 
@@ -22,6 +22,8 @@ type
   public
     class function GetTitle: String; override;
     class function GetIconIndex: Integer; override;
+  private
+    function isEnabledApp( const appName: String ): Boolean;
   public
     procedure Load; override;
     function Save: TOptionsEditorSaveFlags; override;
@@ -43,6 +45,17 @@ begin
   Result:= 43;
 end;
 
+function TfrmOptionsiCloud.isEnabledApp(const appName: String): Boolean;
+var
+  i: Integer;
+begin
+  for i:= 0 to Length(iCloudDriverConfig.apps)-1 do begin
+    if iCloudDriverConfig.apps[i].app = appName then
+      Exit( True );
+  end;
+  Result:= False;
+end;
+
 procedure TfrmOptionsiCloud.Load;
 var
   app: TiCloudApp;
@@ -54,7 +67,11 @@ begin
   for app in self.apps do begin
     item:= self.appsListView.Items.Add;
     item.Caption:= app.displayName;
+    item.Data:= Pointer( app.appName );
     item.SubItems.Add( IntToStr(app.contentCount) );
+
+    if isEnabledApp(app.appName) then
+      item.Checked:= True;
 
     if app.icon = nil then
       continue;
@@ -70,7 +87,25 @@ begin
 end;
 
 function TfrmOptionsiCloud.Save: TOptionsEditorSaveFlags;
+var
+  iAllApps: Integer;
+  iEnabledApps: Integer;
+  item: TiCloudDriverConfigAppItem;
 begin
+  SetLength( iCloudDriverConfig.apps, appsListView.Items.Count );
+  iEnabledApps:= 0;
+  for iAllApps:=0 to appsListView.Items.Count-1 do begin
+    if NOT appsListView.Items[iAllApps].Checked then
+      continue;
+
+    item.name:= appsListView.Items[iAllApps].Caption;
+    item.app:= String( appsListView.Items[iAllApps].Data );
+    iCloudDriverConfig.apps[iEnabledApps]:= item;
+    inc( iEnabledApps );
+  end;
+  SetLength( iCloudDriverConfig.apps, iEnabledApps );
+  iCloudDriverConfigUtil.save;
+
   Result:= [oesfNeedsRestart];
   FreeAndNil( self.apps );
 end;

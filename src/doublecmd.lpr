@@ -229,7 +229,7 @@ begin
       LoadPixMapManager;
 {$IF DEFINED(DARWIN)}
       initCocoaModernFormConfig;
-      initiCloudConfig;
+      iCloudDriverConfigUtil.load;
 {$ENDIF}
       Application.CreateForm(TfrmMain, frmMain); // main form
       Application.CreateForm(TdmComData, dmComData); // common data
