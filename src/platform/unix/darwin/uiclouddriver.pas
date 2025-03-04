@@ -8,7 +8,7 @@ interface
 uses
   Classes, SysUtils, syncobjs, fgl, LazMethodList,
   Menus, Forms, Dialogs, System.UITypes,
-  uiCloudDriverConfig,
+  uiCloudDriverConfig, uiCloudDriverUtil,
   uFile, uDisplayFile,
   uFileSource, uFileSourceOperationTypes, uFileSourceManager,
   uFileSourceWatcher, uMountedFileSource, uVfsModule,
@@ -649,60 +649,10 @@ begin
 end;
 
 procedure TiCloudDriverFileSource.addAppIcon( const path: String; const appName: String );
-  function getPlistAppIconNames( const path: String ): NSArray;
-  var
-    plistPath: NSString;
-    plistData: NSData;
-    plistProperties: id;
-  begin
-    Result:= nil;
-    plistPath:= StrToNSString( uDCUtils.ReplaceTilde(path) );
-
-    plistData:= NSData.dataWithContentsOfFile( plistPath );
-    if plistData = nil then
-      Exit;
-
-    plistProperties:= NSPropertyListSerialization.propertyListWithData_options_format_error(
-      plistData, NSPropertyListImmutable, nil, nil );
-    if plistProperties = nil then
-      Exit;
-
-    Result:= plistProperties.valueForKeyPath( NSSTR('BRContainerIcons') );
-  end;
-
-  function createAppImage: NSImage;
-  var
-    appImage: NSImage;
-    appFileName: String;
-    appPlistPath: String;
-    appResourcePath: NSString;
-    appIconNames: NSArray;
-    appIconName: NSString;
-    appIconPath: NSString;
-  begin
-    Result:= nil;
-
-    appFileName:= appName.Replace( '~', '.' );
-    appPlistPath:= iCloudDriverConfig.path.container + '/' + appFileName + '.plist';
-    appIconNames:= getPlistAppIconNames( appPlistPath );
-    if appIconNames = nil then
-      Exit;
-
-    appResourcePath:= StrToNSString( uDCUtils.ReplaceTilde(iCloudDriverConfig.path.container) + '/' + appFileName + '/' );
-
-    appImage:= NSImage.new;
-    for appIconName in appIconNames do begin
-      appIconPath:= appResourcePath.stringByAppendingString(appIconName);
-      appIconPath:= appIconPath.stringByAppendingString( NSSTR('.png') );
-      appImage.addRepresentation( NSImageRep.imageRepWithContentsOfFile(appIconPath) );
-    end;
-    Result:= appImage;
-  end;
-
 var
   image: NSImage;
 begin
-  image:= createAppImage;
+  image:= iCloudDriverUtil.createAppImage( appName );
   if image = nil then
     Exit;
   _appIcons.setValue_forKey( image, StrToNSString(path) );
