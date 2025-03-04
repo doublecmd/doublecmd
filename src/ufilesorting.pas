@@ -457,8 +457,18 @@ begin
 end;
 
 function ICompareByName(item1, item2: TFile; bSortNegative: Boolean):Integer;
+var
+  name1: String;
+  name2: String;
 begin
-  Result := CompareStrings(item1.Name, item2.Name, gSortNatural, gSortSpecial, gSortCaseSensitivity);
+  name1:= item1.Name;
+  name2:= item2.Name;
+  if (name1=EmptyStr) and (name2=EmptyStr) then begin
+    name1:= item1.FullPath;
+    name2:= item2.FullPath;
+  end;
+
+  Result := CompareStrings(name1, name2, gSortNatural, gSortSpecial, gSortCaseSensitivity);
 
   if bSortNegative then
     Result := -Result;
