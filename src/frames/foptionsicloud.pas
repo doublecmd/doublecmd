@@ -8,6 +8,7 @@ interface
 uses
   Classes, SysUtils, Forms, Controls, ComCtrls, Graphics,
   fOptionsFrame, uPixMapManager,
+  fMain, uFileSystemFileSource, uFileViewNotebook,
   uiCloudDriver, uiCloudDriverConfig, uiCloudDriverUtil;
 
 type
@@ -17,6 +18,7 @@ type
   TfrmOptionsiCloud = class(TOptionsEditor)
     appsImageList: TImageList;
     appsListView: TListView;
+    procedure appsListViewDblClick(Sender: TObject);
   public
     apps: TiCloudApps;
   public
@@ -34,6 +36,22 @@ implementation
 {$R *.lfm}
 
 { TfrmOptionsiCloud }
+
+procedure TfrmOptionsiCloud.appsListViewDblClick(Sender: TObject);
+var
+  fs: IFileSystemFileSource;
+  path: String;
+  notebook: TFileViewNotebook;
+  newPage: TFileViewPage;
+begin
+  notebook:= frmMain.ActiveNotebook;
+  newPage:= notebook.NewPage(Notebook.ActiveView);
+
+  fs:= TFileSystemFileSource.GetFileSource;
+  path:= iCloudDriverUtil.getAppFullPath( String(appsListView.Selected.Data) );
+  newPage.FileView.AddFileSource( fs, path );
+  notebook.PageIndex:= NewPage.PageIndex;
+end;
 
 class function TfrmOptionsiCloud.GetTitle: String;
 begin

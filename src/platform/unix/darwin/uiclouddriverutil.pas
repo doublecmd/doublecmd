@@ -35,6 +35,7 @@ type
   public
     class function createAppImage(const appName: String): NSImage;
     class function createAllApps: TiCloudApps;
+    class function getAppFullPath(const appName: String): String;
   end;
 
 implementation
@@ -146,6 +147,12 @@ begin
     app.icon:= createAppImage( app.appName );
     Result.Add( app );
   end;
+end;
+
+class function iCloudDriverUtil.getAppFullPath(const appName: String): String;
+begin
+  Result:= IncludeTrailingPathDelimiter(uDCUtils.ReplaceTilde(iCloudDriverConfig.path.base))
+         + appName + '/Documents';
 end;
 
 end.
