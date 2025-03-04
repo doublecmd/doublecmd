@@ -1,0 +1,4 @@
+{"version":1,"strings":[
+{"hash":218994851,"name":"tfrmoptionsicloud.appslistview.columns[0].caption","sourcebytes":[65,112,112,108,105,99,97,116,105,111,110,115],"value":"Applications"},
+{"hash":73756003,"name":"tfrmoptionsicloud.appslistview.columns[1].caption","sourcebytes":[67,111,117,110,116,32,111,102,32,67,111,110,116,101,110,116,115],"value":"Count of Contents"}
+]}

@@ -6515,6 +6515,16 @@ msgstr "Parametri"
 msgid "Controls"
 msgstr "Tipke"
 
+#: tfrmoptionsicloud.appslistview.columns[0].caption
+msgctxt "tfrmoptionsicloud.appslistview.columns[0].caption"
+msgid "Applications"
+msgstr ""
+
+#: tfrmoptionsicloud.appslistview.columns[1].caption
+msgctxt "tfrmoptionsicloud.appslistview.columns[1].caption"
+msgid "Count of Contents"
+msgstr ""
+
 #: tfrmoptionsicons.cbiconsexclude.caption
 msgctxt "TFRMOPTIONSICONS.CBICONSEXCLUDE.CAPTION"
 msgid "For the following &paths and their subdirectories:"

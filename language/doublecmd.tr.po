@@ -6909,6 +6909,16 @@ msgstr "Değişkenler"
 msgid "Controls"
 msgstr ""
 
+#: tfrmoptionsicloud.appslistview.columns[0].caption
+msgctxt "tfrmoptionsicloud.appslistview.columns[0].caption"
+msgid "Applications"
+msgstr ""
+
+#: tfrmoptionsicloud.appslistview.columns[1].caption
+msgctxt "tfrmoptionsicloud.appslistview.columns[1].caption"
+msgid "Count of Contents"
+msgstr ""
+
 #: tfrmoptionsicons.cbiconsexclude.caption
 msgctxt "tfrmoptionsicons.cbiconsexclude.caption"
 msgid "For the following &paths and their subdirectories:"

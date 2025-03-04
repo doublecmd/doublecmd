@@ -1,0 +1,37 @@
+inherited frmOptionsiCloud: TfrmOptionsiCloud
+  Width = 400
+  ClientWidth = 400
+  DesignLeft = 508
+  DesignTop = 25
+  object appsListView: TListView[0]
+    Left = 0
+    Height = 240
+    Top = 0
+    Width = 400
+    Align = alClient
+    AutoSortIndicator = True
+    Checkboxes = True
+    Columns = <    
+      item
+        Caption = 'Applications'
+        Width = 209
+      end    
+      item
+        Caption = 'Count of Contents'
+        Width = 106
+      end>
+    LargeImagesWidth = -1
+    SmallImages = appsImageList
+    SmallImagesWidth = 24
+    SortDirection = sdDescending
+    SortType = stText
+    TabOrder = 0
+    ViewStyle = vsReport
+  end
+  object appsImageList: TImageList[1]
+    Height = 128
+    Width = 128
+    Left = 328
+    Top = 176
+  end
+end

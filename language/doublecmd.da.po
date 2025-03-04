@@ -7136,6 +7136,16 @@ msgstr "Parametre"
 msgid "Controls"
 msgstr ""
 
+#: tfrmoptionsicloud.appslistview.columns[0].caption
+msgctxt "tfrmoptionsicloud.appslistview.columns[0].caption"
+msgid "Applications"
+msgstr ""
+
+#: tfrmoptionsicloud.appslistview.columns[1].caption
+msgctxt "tfrmoptionsicloud.appslistview.columns[1].caption"
+msgid "Count of Contents"
+msgstr ""
+
 # Opsætning - Indstillinger - Ikoner
 #: tfrmoptionsicons.cbiconsexclude.caption
 msgctxt "TFRMOPTIONSICONS.CBICONSEXCLUDE.CAPTION"
