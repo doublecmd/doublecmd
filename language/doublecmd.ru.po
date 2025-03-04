@@ -10554,6 +10554,22 @@ msgctxt "ulng.rseditgotolinetitle"
 msgid "Goto Line"
 msgstr "Переход к строке"
 
+#: ulng.rsedithintcursorpos
+msgid "Cursor Position"
+msgstr "Позиция курсора"
+
+#: ulng.rsedithintinsertmode
+msgid "Insert Mode"
+msgstr "Режим вставки"
+
+#: ulng.rsedithintmodified
+msgid "Modified"
+msgstr "Изменен"
+
+#: ulng.rsedithintselectionmode
+msgid "Selection Mode"
+msgstr "Режим выделения"
+
 #: ulng.rseditnewfile
 msgid "new.txt"
 msgstr "новый.txt"
@@ -10583,6 +10599,26 @@ msgstr "&Вперед"
 msgctxt "ulng.rseditsearchreplace"
 msgid "Replace"
 msgstr "Заменить"
+
+#: ulng.rseditstatinsertmodeins
+msgid "INS"
+msgstr "ВСТ"
+
+#: ulng.rseditstatinsertmodeovr
+msgid "OVR"
+msgstr "ЗАМ"
+
+#: ulng.rseditstatselmodecol
+msgid "COL"
+msgstr "СТЛБ"
+
+#: ulng.rseditstatselmodeline
+msgid "LINE"
+msgstr "СТРК"
+
+#: ulng.rseditstatselmodenorm
+msgid "NORM"
+msgstr "НОРМ"
 
 #: ulng.rseditwithexternaleditor
 msgid "with external editor"
