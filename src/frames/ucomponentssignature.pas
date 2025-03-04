@@ -127,6 +127,18 @@ begin
       end;
     end;
 
+    'TListView':
+    begin
+      if TListView(aComponent).Checkboxes then begin
+        for iIndex:=0 to TListView(aComponent).Items.Count-1 do begin
+          iSampleValue := 0;
+          if TListView(aComponent).Items[iIndex].Checked then
+            iSampleValue:= iIndex + 1;
+          Result := crc32(Result, @iSampleValue, sizeof(iSampleValue));
+        end;
+      end;
+    end;
+
     'TMemo':
     begin
       SampleValue := TMemo(aComponent).Lines.Count;

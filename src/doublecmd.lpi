@@ -311,7 +311,7 @@ end;"/>
         <PackageName Value="Image32"/>
       </Item13>
     </RequiredPackages>
-    <Units Count="286">
+    <Units Count="288">
       <Unit0>
         <Filename Value="doublecmd.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -1109,6 +1109,7 @@ end;"/>
       <Unit118>
         <Filename Value="filesources\ufilesourcemoveoperation.pas"/>
         <IsPartOfProject Value="True"/>
+        <UnitName Value="uFileSourceMoveOperation"/>
       </Unit118>
       <Unit119>
         <Filename Value="filesources\ufilesourceoperation.pas"/>
@@ -1159,6 +1160,7 @@ end;"/>
       <Unit128>
         <Filename Value="filesources\ufilesourcesplitoperation.pas"/>
         <IsPartOfProject Value="True"/>
+        <UnitName Value="uFileSourceSplitOperation"/>
       </Unit128>
       <Unit129>
         <Filename Value="filesources\ufilesourcetestarchiveoperation.pas"/>
@@ -1386,6 +1388,7 @@ end;"/>
       <Unit174>
         <Filename Value="filesources\wcxarchive\uwcxarchiveexecuteoperation.pas"/>
         <IsPartOfProject Value="True"/>
+        <UnitName Value="uWcxArchiveExecuteOperation"/>
       </Unit174>
       <Unit175>
         <Filename Value="filesources\wcxarchive\uwcxarchivefilesource.pas"/>
@@ -2062,6 +2065,20 @@ end;"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uDarwinFileView"/>
       </Unit285>
+      <Unit286>
+        <Filename Value="frames\foptionsicloud.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="frmOptionsiCloud"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Frame"/>
+        <UnitName Value="fOptionsiCloud"/>
+      </Unit286>
+      <Unit287>
+        <Filename Value="platform\unix\darwin\uiclouddriverutil.pas"/>
+        <IsPartOfProject Value="True"/>
+        <HasResources Value="True"/>
+        <UnitName Value="uiCloudDriverUtil"/>
+      </Unit287>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

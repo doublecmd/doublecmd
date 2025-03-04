@@ -155,6 +155,9 @@ uses
   fOptionsFonts,
   fOptionsGroups,
   fOptionsHotkeys,
+  {$IFDEF DARWIN}
+  fOptionsiCloud,
+  {$ENDIF}
   fOptionsIcons,
   fOptionsIgnoreList,
   fOptionsKeyboard,
@@ -407,6 +410,9 @@ begin
   Main.Add(TfrmOptionsQuickSearchFilter);
   Main.Add(TfrmOptionsMisc);
   Main.Add(TfrmOptionsAutoRefresh);
+  {$IFDEF DARWIN}
+  Main.Add(TfrmOptionsiCloud);
+  {$ENDIF}
   Main.Add(TfrmOptionsIcons);
   Main.Add(TfrmOptionsIgnoreList);
   Main.Add(TfrmOptionsArchivers);
