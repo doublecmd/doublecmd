@@ -55,7 +55,7 @@ uses
   {$ELSEIF DEFINED(UNIX)}
   , DCFileAttributes
     {$IF DEFINED(DARWIN)}
-    , CocoaUtils, uDarwinUtil
+    , CocoaAll, MacOSAll, CocoaUtils, uDarwinUtil, uClassesEx
     {$ELSEIF NOT DEFINED(HAIKU)}
     , Math, Contnrs, uGio, uXdg
       {$IFDEF GTK2_FIX}
@@ -372,6 +372,8 @@ function AdjustIconSize(ASize: Integer; APixelsPerInch: Integer): Integer;
 function StretchBitmap(var bmBitmap : Graphics.TBitmap; iIconSize : Integer;
                        clBackColor : TColor; bFreeAtEnd : Boolean = False) : Graphics.TBitmap;
 
+function NSImageToTBitmap( const image:NSImage ): TBitmap;
+function getBestNSImageWithSize( const srcImage:NSImage; const size:Integer ): NSImage;
 
 implementation
 
@@ -388,9 +390,6 @@ uses
       uShellFileSourceUtil
   {$ELSE}
     , StrUtils, Types, DCBasicTypes
-  {$ENDIF}
-  {$IFDEF DARWIN}
-    , CocoaAll, MacOSAll, uClassesEx
   {$ENDIF}
   {$IFDEF RabbitVCS}
   , uRabbitVCS

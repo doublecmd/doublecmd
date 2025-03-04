@@ -6,13 +6,27 @@ unit uiCloudDriverUtil;
 interface
 
 uses
-  Classes, SysUtils,
+  Classes, SysUtils, fgl, Graphics,
   CocoaAll, CocoaUtils,
-  uDCUtils,
+  uDCUtils, uMyDarwin,
   uiCloudDriverConfig;
 
 type
-  
+
+  { TiCloudApp }
+
+  TiCloudApp = class
+  public
+    appName: String;
+    displayName: String;
+    contentCount: Integer;
+    icon: NSImage;
+  public
+    destructor Destroy; override;
+  end;
+
+  TiCloudApps = specialize TFPGObjectList<TiCloudApp>;
+
   { iCloudDriverUtil }
 
   iCloudDriverUtil = class
@@ -20,9 +34,17 @@ type
     class function getPlistAppIconNames( const path: String ): NSArray;
   public
     class function createAppImage(const appName: String): NSImage;
+    class function createAllApps: TiCloudApps;
   end;
 
 implementation
+
+{ TiCloudApp }
+
+destructor TiCloudApp.Destroy;
+begin
+  icon.release;
+end;
 
 { iCloudDriverUtil }
 
@@ -74,6 +96,56 @@ begin
     appImage.addRepresentation( NSImageRep.imageRepWithContentsOfFile(appIconPath) );
   end;
   Result:= appImage;
+end;
+
+class function iCloudDriverUtil.createAllApps: TiCloudApps;
+var
+  manager: NSFileManager;
+  filesInBasePath: NSArray;
+  appName: NSString;
+  appPath: NSString;
+  appBasePath: NSString;
+  app: TiCloudApp;
+
+  function pass( appName: NSString ): Boolean;
+  var
+    driverName: NSString;
+  begin
+    Result:= True;
+    if appName.hasPrefix( NSSTR('.') ) then
+      Exit;
+    driverName:= NSSTR(iCloudDriverConfig.path.driver);
+    driverName:= driverName.lastPathComponent;
+    if appName.isEqualToString(driverName) then
+      Exit;
+    Result:= False;
+  end;
+
+  function contentCountOfApp( appPath: NSString ): Integer;
+  var
+    filesOfApp: NSArray;
+  begin
+    appPath:= appPath.stringByAppendingString( NSSTR('/Documents') );
+    filesOfApp:= manager.contentsOfDirectoryAtPath_error( appPath, nil );
+    Result:= filesOfApp.count;
+  end;
+
+begin
+  Result:= TiCloudApps.Create;
+  appBasePath:= NSSTR( IncludeTrailingPathDelimiter(uDCUtils.ReplaceTilde(iCloudDriverConfig.path.base)) );
+  manager:= NSFileManager.defaultManager;
+  filesInBasePath:= manager.contentsOfDirectoryAtPath_error( appBasePath, nil );
+  for appName in filesInBasePath do begin
+    if pass(appName) then
+      continue;
+    appPath:= appBasePath.stringByAppendingString( appName );
+    app:= TiCloudApp.Create;
+    app.appName:= appName.UTF8String;
+    app.displayName:= getMacOSDisplayNameFromPath( appPath.UTF8String );
+    app.contentCount:= contentCountOfApp( appPath );
+    app.icon:= createAppImage( app.appName );
+    Result.Add( app );
+  end;
 end;
 
 end.
