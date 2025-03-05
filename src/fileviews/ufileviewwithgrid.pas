@@ -7,7 +7,8 @@ interface
 uses
   Classes, SysUtils, Controls, Grids, Graphics, StdCtrls, LCLVersion,
   uDisplayFile, DCXmlConfig, uFileSorting, uFileProperty,
-  uFileViewWithMainCtrl, uFile, uFileViewHeader, uFileView, uFileSource;
+  uFileViewWithMainCtrl, uFile, uFileViewHeader, uFileView, uFileSource,
+  uSmoothScrollingGrid;
 
 type
 
@@ -15,7 +16,7 @@ type
 
   { TFileViewGrid }
 
-  TFileViewGrid = class(TDrawGrid)
+  TFileViewGrid = class(TSmoothScrollingGrid)
   protected
     FLastMouseMoveTime: QWord;
     FLastMouseScrollTime: QWord;

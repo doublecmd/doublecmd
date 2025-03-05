@@ -18,6 +18,7 @@ uses
   DCXmlConfig,
   DCBasicTypes,
   uTypes,
+  uSmoothScrollingGrid,
   uFileViewWithGrid;
 
 type
@@ -28,7 +29,7 @@ type
 
   { TDrawGridEx }
 
-  TDrawGridEx = class(TDrawGrid)
+  TDrawGridEx = class(TSmoothScrollingGrid)
   private
     FMouseDownY: Integer;
     FLastMouseMoveTime: QWord;
