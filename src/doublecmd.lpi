@@ -311,7 +311,7 @@ end;"/>
         <PackageName Value="Image32"/>
       </Item13>
     </RequiredPackages>
-    <Units Count="288">
+    <Units Count="289">
       <Unit0>
         <Filename Value="doublecmd.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -2079,6 +2079,11 @@ end;"/>
         <HasResources Value="True"/>
         <UnitName Value="uiCloudDriverUtil"/>
       </Unit287>
+      <Unit288>
+        <Filename Value="fileviews\usmoothscrollinggrid.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uSmoothScrollingGrid"/>
+      </Unit288>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
