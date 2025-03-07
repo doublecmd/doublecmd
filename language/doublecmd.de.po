@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Double Commander 1.1.0 alpha\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-11-15 11:15+0300\n"
-"PO-Revision-Date: 2025-02-23 23:33+0100\n"
+"PO-Revision-Date: 2025-03-05 19:34+0100\n"
 "Last-Translator:  ㋡  <braass@mail.de>\n"
 "Language-Team: Deutsch <braass@mail.de>\n"
 "Language: de\n"
@@ -6511,12 +6511,12 @@ msgstr "Kontrollelemente"
 #: tfrmoptionsicloud.appslistview.columns[0].caption
 msgctxt "tfrmoptionsicloud.appslistview.columns[0].caption"
 msgid "Applications"
-msgstr ""
+msgstr "Anwendungen (Apps)"
 
 #: tfrmoptionsicloud.appslistview.columns[1].caption
 msgctxt "tfrmoptionsicloud.appslistview.columns[1].caption"
 msgid "Count of Contents"
-msgstr ""
+msgstr "Anzahl der Inhalte"
 
 #: tfrmoptionsicons.cbiconsexclude.caption
 msgctxt "TFRMOPTIONSICONS.CBICONSEXCLUDE.CAPTION"
@@ -10299,19 +10299,19 @@ msgstr "Gehe zu Zeile"
 
 #: ulng.rsedithintcursorpos
 msgid "Cursor Position"
-msgstr ""
+msgstr "Position des Cursors"
 
 #: ulng.rsedithintinsertmode
 msgid "Insert Mode"
-msgstr ""
+msgstr "Einfügen-Modus"
 
 #: ulng.rsedithintmodified
 msgid "Modified"
-msgstr ""
+msgstr "Geändert"
 
 #: ulng.rsedithintselectionmode
 msgid "Selection Mode"
-msgstr ""
+msgstr "Auswahl-Modus"
 
 #: ulng.rseditnewfile
 msgid "new.txt"
@@ -10345,23 +10345,23 @@ msgstr "Ersetzen"
 
 #: ulng.rseditstatinsertmodeins
 msgid "INS"
-msgstr ""
+msgstr "EINFÜGEN"
 
 #: ulng.rseditstatinsertmodeovr
 msgid "OVR"
-msgstr ""
+msgstr "ÜBERSCHREIBEN"
 
 #: ulng.rseditstatselmodecol
 msgid "COL"
-msgstr ""
+msgstr "SPALTEN"
 
 #: ulng.rseditstatselmodeline
 msgid "LINE"
-msgstr ""
+msgstr "ZEILEN"
 
 #: ulng.rseditstatselmodenorm
 msgid "NORM"
-msgstr ""
+msgstr "NORM"
 
 #: ulng.rseditwithexternaleditor
 msgid "with external editor"
