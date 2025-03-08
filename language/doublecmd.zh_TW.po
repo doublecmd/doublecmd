@@ -6650,12 +6650,12 @@ msgstr ""
 #: tfrmoptionsicloud.appslistview.columns[0].caption
 msgctxt "tfrmoptionsicloud.appslistview.columns[0].caption"
 msgid "Applications"
-msgstr ""
+msgstr "應用程式"
 
 #: tfrmoptionsicloud.appslistview.columns[1].caption
 msgctxt "tfrmoptionsicloud.appslistview.columns[1].caption"
 msgid "Count of Contents"
-msgstr ""
+msgstr "包含的檔案數量"
 
 #: tfrmoptionsicons.cbiconsexclude.caption
 msgctxt "TFRMOPTIONSICONS.CBICONSEXCLUDE.CAPTION"
@@ -6673,7 +6673,7 @@ msgstr "16x16"
 
 #: tfrmoptionsicons.cbiconsonbuttons.caption
 msgid "Show icons on buttons"
-msgstr ""
+msgstr "在按鈕上顯示圖示"
 
 #: tfrmoptionsicons.cbiconsshowoverlay.caption
 msgctxt "TFRMOPTIONSICONS.CBICONSSHOWOVERLAY.CAPTION"
@@ -6682,7 +6682,7 @@ msgstr "顯示覆蓋圖示,例如捷徑 (&V)"
 
 #: tfrmoptionsicons.chkshowhiddendimmed.caption
 msgid "&Dimmed hidden files (slower)"
-msgstr ""
+msgstr "隱藏檔案變暗（較慢）"
 
 #: tfrmoptionsicons.gbdisablespecialicons.caption
 msgid "Disable special icons"
@@ -6695,11 +6695,11 @@ msgstr "圖示大小"
 
 #: tfrmoptionsicons.gbicontheme.caption
 msgid "Icon theme"
-msgstr ""
+msgstr "圖示主題"
 
 #: tfrmoptionsicons.gbshowicons.caption
 msgid "Show icons"
-msgstr ""
+msgstr "顯示圖示"
 
 #: tfrmoptionsicons.gbshowiconsmode.caption
 msgctxt "TFRMOPTIONSICONS.GBSHOWICONSMODE.CAPTION"
@@ -6708,11 +6708,11 @@ msgstr "顯示圖示在檔案名稱左邊"
 
 #: tfrmoptionsicons.lbldiskpanel.caption
 msgid "Disk panel:"
-msgstr ""
+msgstr "磁碟面板:"
 
 #: tfrmoptionsicons.lblfilepanel.caption
 msgid "File panel:"
-msgstr ""
+msgstr "檔案面板:"
 
 #: tfrmoptionsicons.rbiconsshowall.caption
 msgctxt "TFRMOPTIONSICONS.RBICONSSHOWALL.CAPTION"
@@ -6747,7 +6747,7 @@ msgstr "加入已選取項目的完整路徑名稱 (&F)"
 #: tfrmoptionsignorelist.btnrelativesavein.hint
 msgctxt "tfrmoptionsignorelist.btnrelativesavein.hint"
 msgid "Some functions to select appropriate path"
-msgstr ""
+msgstr "選擇合適路徑的功能"
 
 #: tfrmoptionsignorelist.chkignoreenable.caption
 msgctxt "TFRMOPTIONSIGNORELIST.CHKIGNOREENABLE.CAPTION"
@@ -9400,21 +9400,15 @@ msgid "S&upports the options dialogbox"
 msgstr "支持選項對話盒 (&U)"
 
 #: tfrmtweakplugin.cbpk_caps_searchtext.caption
-#, fuzzy
-#| msgid "Allow searching for text in archives"
 msgid "Allow searchin&g for text in archives"
-msgstr "允許在壓縮檔搜尋文字 (&G)"
+msgstr "允許在壓縮檔搜尋文字"
 
 #: tfrmtweakplugin.lbldescription.caption
-#, fuzzy
-#| msgid "Description:"
 msgctxt "TFRMTWEAKPLUGIN.LBLDESCRIPTION.CAPTION"
 msgid "&Description:"
 msgstr "描述 (&D):"
 
 #: tfrmtweakplugin.lbldetectstr.caption
-#, fuzzy
-#| msgid "Detect string:"
 msgid "D&etect string:"
 msgstr "檢測字串 (&E):"
 
@@ -9428,8 +9422,6 @@ msgid "Flags:"
 msgstr "旗標:"
 
 #: tfrmtweakplugin.lblname.caption
-#, fuzzy
-#| msgid "Name:"
 msgctxt "TFRMTWEAKPLUGIN.LBLNAME.CAPTION"
 msgid "&Name:"
 msgstr "名稱 (&N):"
@@ -9472,7 +9464,6 @@ msgid "Copy File"
 msgstr "複製檔案"
 
 #: tfrmviewer.actcopytoclipboard.caption
-#, fuzzy
 msgctxt "tfrmviewer.actcopytoclipboard.caption"
 msgid "Copy To Clipboard"
 msgstr "複製到剪貼簿"
@@ -9492,19 +9483,16 @@ msgid "Delete File"
 msgstr "刪除檔案"
 
 #: tfrmviewer.actexitviewer.caption
-#, fuzzy
 msgctxt "tfrmviewer.actexitviewer.caption"
 msgid "E&xit"
 msgstr "離開 (&X)"
 
 #: tfrmviewer.actfind.caption
-#, fuzzy
 msgctxt "tfrmviewer.actfind.caption"
 msgid "Find"
 msgstr "尋找"
 
 #: tfrmviewer.actfindnext.caption
-#, fuzzy
 msgctxt "tfrmviewer.actfindnext.caption"
 msgid "Find next"
 msgstr "找下一個"
@@ -9515,19 +9503,16 @@ msgid "Find previous"
 msgstr "找上一個"
 
 #: tfrmviewer.actfullscreen.caption
-#, fuzzy
 msgctxt "tfrmviewer.actfullscreen.caption"
 msgid "Full Screen"
 msgstr "全螢幕"
 
 #: tfrmviewer.actgotoline.caption
-#, fuzzy
 msgctxt "tfrmviewer.actgotoline.caption"
 msgid "Goto Line..."
 msgstr "跳轉到指定行..."
 
 #: tfrmviewer.actgotoline.hint
-#, fuzzy
 msgctxt "tfrmviewer.actgotoline.hint"
 msgid "Goto Line"
 msgstr "跳轉到指定行"
@@ -9560,7 +9545,6 @@ msgid "Mirror Horizontally"
 msgstr ""
 
 #: tfrmviewer.actmirrorhorz.hint
-#, fuzzy
 msgctxt "tfrmviewer.actmirrorhorz.hint"
 msgid "Mirror"
 msgstr "水平翻轉"
@@ -9580,7 +9564,6 @@ msgid "Move File"
 msgstr "移動檔案"
 
 #: tfrmviewer.actpreview.caption
-#, fuzzy
 msgctxt "tfrmviewer.actpreview.caption"
 msgid "Preview"
 msgstr "預覽"
@@ -9603,49 +9586,36 @@ msgid "Reload current file"
 msgstr "重新載入目前檔案"
 
 #: tfrmviewer.actrotate180.caption
-#, fuzzy
-#| msgid "Rotate 180"
 msgctxt "TFRMVIEWER.ACTROTATE180.CAPTION"
 msgid "+ 180"
-msgstr "旋轉180度"
+msgstr ""
 
 #: tfrmviewer.actrotate180.hint
-#, fuzzy
-#| msgid "Rotate 180"
 msgctxt "TFRMVIEWER.ACTROTATE180.HINT"
 msgid "Rotate 180 degrees"
 msgstr "旋轉180度"
 
 #: tfrmviewer.actrotate270.caption
-#, fuzzy
-#| msgid "Rotate 270"
 msgctxt "TFRMVIEWER.ACTROTATE270.CAPTION"
 msgid "- 90"
-msgstr "旋轉270度"
+msgstr ""
 
 #: tfrmviewer.actrotate270.hint
-#, fuzzy
-#| msgid "Rotate 270"
 msgctxt "TFRMVIEWER.ACTROTATE270.HINT"
 msgid "Rotate -90 degrees"
-msgstr "旋轉270度"
+msgstr "旋轉-90度"
 
 #: tfrmviewer.actrotate90.caption
-#, fuzzy
-#| msgid "Rotate 90"
 msgctxt "TFRMVIEWER.ACTROTATE90.CAPTION"
 msgid "+ 90"
-msgstr "旋轉90度"
+msgstr ""
 
 #: tfrmviewer.actrotate90.hint
-#, fuzzy
-#| msgid "Rotate 90"
 msgctxt "TFRMVIEWER.ACTROTATE90.HINT"
 msgid "Rotate +90 degrees"
 msgstr "旋轉90度"
 
 #: tfrmviewer.actsave.caption
-#, fuzzy
 msgctxt "tfrmviewer.actsave.caption"
 msgid "Save"
 msgstr "儲存"
@@ -9660,7 +9630,6 @@ msgid "Save File As..."
 msgstr "另存新檔..."
 
 #: tfrmviewer.actscreenshot.caption
-#, fuzzy
 msgctxt "tfrmviewer.actscreenshot.caption"
 msgid "Screenshot"
 msgstr "截圖"
@@ -9674,72 +9643,64 @@ msgid "Delay 5 sec"
 msgstr ""
 
 #: tfrmviewer.actselectall.caption
-#, fuzzy
 msgctxt "tfrmviewer.actselectall.caption"
 msgid "Select All"
 msgstr "全選"
 
 #: tfrmviewer.actshowasbin.caption
-#, fuzzy
 msgctxt "tfrmviewer.actshowasbin.caption"
 msgid "Show as &Bin"
 msgstr "顯示為二進制 (&B)"
 
 #: tfrmviewer.actshowasbook.caption
-#, fuzzy
 msgctxt "tfrmviewer.actshowasbook.caption"
 msgid "Show as B&ook"
 msgstr "顯示為閱讀模式 (&O)"
 
 #: tfrmviewer.actshowasdec.caption
 msgid "Show as &Dec"
-msgstr ""
+msgstr "顯示為十進制 (&D)"
 
 #: tfrmviewer.actshowashex.caption
-#, fuzzy
 msgctxt "tfrmviewer.actshowashex.caption"
 msgid "Show as &Hex"
 msgstr "顯示為十六進制 (&H)"
 
 #: tfrmviewer.actshowastext.caption
-#, fuzzy
 msgctxt "tfrmviewer.actshowastext.caption"
 msgid "Show as &Text"
 msgstr "顯示為文字 (&T)"
 
 #: tfrmviewer.actshowaswraptext.caption
-#, fuzzy
 msgctxt "tfrmviewer.actshowaswraptext.caption"
 msgid "Show as &Wrap text"
 msgstr "顯示為自動換行文字 (&W)"
 
 #: tfrmviewer.actshowcaret.caption
 msgid "Show text c&ursor"
-msgstr ""
+msgstr "顯示文字遊標 (&U)"
 
 #: tfrmviewer.actshowcode.caption
 msgid "Code"
-msgstr ""
+msgstr "程式碼"
 
 #: tfrmviewer.actshowgraphics.caption
-#, fuzzy
 msgctxt "tfrmviewer.actshowgraphics.caption"
 msgid "Graphics"
 msgstr "圖像"
 
 #: tfrmviewer.actshowoffice.caption
 msgid "Office XML (text only)"
-msgstr ""
+msgstr "Office XML (僅文本)"
 
 #: tfrmviewer.actshowplugins.caption
-#, fuzzy
 msgctxt "tfrmviewer.actshowplugins.caption"
 msgid "Plugins"
 msgstr "插件"
 
 #: tfrmviewer.actshowtransparency.caption
 msgid "Show transparenc&y"
-msgstr ""
+msgstr "顯示透明度 (&Y)"
 
 #: tfrmviewer.actstretchimage.caption
 msgctxt "TFRMVIEWER.ACTSTRETCHIMAGE.CAPTION"
@@ -10624,19 +10585,19 @@ msgstr "跳轉到指定行"
 
 #: ulng.rsedithintcursorpos
 msgid "Cursor Position"
-msgstr ""
+msgstr "遊標位置"
 
 #: ulng.rsedithintinsertmode
 msgid "Insert Mode"
-msgstr ""
+msgstr "插入模式"
 
 #: ulng.rsedithintmodified
 msgid "Modified"
-msgstr ""
+msgstr "已修改"
 
 #: ulng.rsedithintselectionmode
 msgid "Selection Mode"
-msgstr ""
+msgstr "選擇方式"
 
 #: ulng.rseditnewfile
 msgid "new.txt"
@@ -10670,31 +10631,31 @@ msgstr "取代"
 
 #: ulng.rseditstatinsertmodeins
 msgid "INS"
-msgstr ""
+msgstr "插入"
 
 #: ulng.rseditstatinsertmodeovr
 msgid "OVR"
-msgstr ""
+msgstr "覆蓋"
 
 #: ulng.rseditstatselmodecol
 msgid "COL"
-msgstr ""
+msgstr "欄"
 
 #: ulng.rseditstatselmodeline
 msgid "LINE"
-msgstr ""
+msgstr "行"
 
 #: ulng.rseditstatselmodenorm
 msgid "NORM"
-msgstr ""
+msgstr "常規"
 
 #: ulng.rseditwithexternaleditor
 msgid "with external editor"
-msgstr ""
+msgstr "使用外部編輯器"
 
 #: ulng.rseditwithinternaleditor
 msgid "with internal editor"
-msgstr ""
+msgstr "使用內部編輯器"
 
 #: ulng.rsexecuteviashell
 msgctxt "ulng.rsexecuteviashell"
