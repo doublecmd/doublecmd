@@ -4,7 +4,7 @@
    Interface to GIO - GLib Input, Output and Streaming Library
    This unit loads all libraries dynamically so it can work without it
 
-   Copyright (C) 2011-2024 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2011-2025 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -257,7 +257,7 @@ begin
         finally
           FileStream.Free;
         end;
-        MimeType:= g_content_type_guess(nil, @Buffer[0], Size, @Uncertain);
+        MimeType:= g_content_type_guess(Pgchar(FileName), @Buffer[0], Size, @Uncertain);
         if Assigned(MimeType) then
         begin
           Result:= StrPas(MimeType);
