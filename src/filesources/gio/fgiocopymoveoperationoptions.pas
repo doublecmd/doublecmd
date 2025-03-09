@@ -60,9 +60,10 @@ begin
 
   // Load default options.
   case gOperationOptionFileExists of
-    fsoofeNone     : cmbFileExists.ItemIndex := 0;
-    fsoofeOverwrite: cmbFileExists.ItemIndex := 1;
-    fsoofeSkip     : cmbFileExists.ItemIndex := 2;
+    fsoofeNone          : cmbFileExists.ItemIndex := 0;
+    fsoofeOverwrite     : cmbFileExists.ItemIndex := 1;
+    fsoofeOverwriteOlder: cmbFileExists.ItemIndex := 2;
+    fsoofeSkip          : cmbFileExists.ItemIndex := 3;
   end;
 
   case gOperationOptionDirectoryExists of
@@ -99,7 +100,8 @@ begin
     case cmbFileExists.ItemIndex of
       0: FileExistsOption := fsoofeNone;
       1: FileExistsOption := fsoofeOverwrite;
-      2: FileExistsOption := fsoofeSkip;
+      2: FileExistsOption := fsoofeOverwriteOlder;
+      3: FileExistsOption := fsoofeSkip;
     end;
 
     case cmbDirectoryExists.ItemIndex of

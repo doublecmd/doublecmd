@@ -113,7 +113,7 @@ procedure FillAndCount(Files: TFiles; CountDirs: Boolean; out NewFiles: TFiles;
 implementation
 
 uses
-  Forms, StrUtils, DCBasicTypes, DCDateTimeUtils, uDCUtils, uFileProperty,
+  Forms, Math, DateUtils, DCBasicTypes, DCDateTimeUtils, uDCUtils, uFileProperty,
   uShowMsg, uLng, uGObject2, uGio, DCFileAttributes;
 
 procedure ShowError(AError: PGError);
@@ -603,7 +603,7 @@ var
 
 begin
   repeat
-    AInfo:= g_file_query_info(aTargetFile, FILE_ATTRIBUTE_STANDARD_TYPE + ',' +  FILE_ATTRIBUTE_STANDARD_SIZE +','+ FILE_ATTRIBUTE_TIME_MODIFIED, G_FILE_QUERY_INFO_NOFOLLOW_SYMLINKS, nil, nil);
+    AInfo:= g_file_query_info(aTargetFile, FILE_ATTRIBUTE_STANDARD_TYPE + ',' +  FILE_ATTRIBUTE_STANDARD_SIZE +','+ FILE_ATTRIBUTE_TIME_MODIFIED + ',' + FILE_ATTRIBUTE_TIME_MODIFIED_USEC, G_FILE_QUERY_INFO_NOFOLLOW_SYMLINKS, nil, nil);
 
     if Assigned(AInfo) then
     begin
@@ -721,8 +721,23 @@ var
   Message: String;
 
   function OverwriteOlder: TFileSourceOperationOptionFileExists;
+  var
+    ATime: TDateTime;
+    AFileTime: TFileTimeEx;
   begin
-    if aFile.ModificationTime > UnixFileTimeToDateTime(g_file_info_get_attribute_uint64(aTargetInfo, FILE_ATTRIBUTE_TIME_MODIFIED)) then
+    ATime:= aFile.ModificationTime;
+    AFileTime.sec:= Int64(g_file_info_get_attribute_uint64(aTargetInfo, FILE_ATTRIBUTE_TIME_MODIFIED));
+    AFileTime.nanosec:= Int64(g_file_info_get_attribute_uint32(aTargetInfo, FILE_ATTRIBUTE_TIME_MODIFIED_USEC)) * 1000;
+    // Some file systems does not support milliseconds, compare only seconds in this case
+    if AFileTime.nanosec = 0 then
+    begin
+      ATime:= RecodeMilliSecond(ATime, 0);
+    end
+    else if (MilliSecondOfTheSecond(ATime) = 0) then
+    begin
+      AFileTime.nanosec:= 0;
+    end;
+    if CompareDateTime(ATime, UnixFileTimeToDateTimeEx(AFileTime)) = GreaterThanValue then
       Result := fsoofeOverwrite
     else
       Result := fsoofeSkip;
