@@ -215,6 +215,15 @@ begin
   if LowerCase(ExtractOnlyFileExt(FileName)) = 'lnk' then
     Result:= SHFileIsLinkToFolder(FileName, LinkTarget);
 end;
+{$ELSEIF DEFINED(DARWIN)}
+begin
+  LinkTarget:= ResolveAliasFile(FileName);
+  if mbCompareFileNames(FileName, LinkTarget) then
+    Result:= False
+  else begin
+    Result:= mbDirectoryExists(LinkTarget);
+  end;
+end;
 {$ELSEIF DEFINED(UNIX)}
 begin
   Result:= False;

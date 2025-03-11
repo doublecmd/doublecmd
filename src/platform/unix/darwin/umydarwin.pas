@@ -62,6 +62,8 @@ function MountNetworkDrive(const serverAddress: String): Boolean;
 
 function GetVolumeName(const Device: String): String;
 
+function ResolveAliasFile(const FileName: String): String;
+
 procedure openSystemSecurityPreferences_PrivacyAllFiles;
 
 function unmountAndEject(const path: String): Boolean;
@@ -631,6 +633,17 @@ begin
     end;
     CFRelease(ASession);
   end;
+end;
+
+function ResolveAliasFile(const FileName: String): String;
+var
+  ASource: NSURL;
+  ATarget: NSURL;
+begin
+  Result:= EmptyStr;
+  ASource:= NSURL.fileURLWithPath(StringToNSString(FileName));
+  ATarget:= NSURL(NSURL.URLByResolvingAliasFileAtURL_options_error(ASource, NSURLBookmarkResolutionWithoutUI, nil));
+  if Assigned(ATarget) then Result:= ATarget.fileSystemRepresentation;
 end;
 
 procedure openSystemSecurityPreferences_PrivacyAllFiles;
