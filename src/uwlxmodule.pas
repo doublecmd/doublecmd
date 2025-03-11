@@ -90,6 +90,7 @@ type
     FPluginWindow: HWND;
     function GetCanPreview: Boolean;
     function GetCanPrint: Boolean;
+    function GetCanSearch: Boolean;
     function GetDetectStr: String;
     function GIsLoaded: Boolean;
     procedure SetDetectStr(const AValue: String);
@@ -129,6 +130,7 @@ type
     property ModuleHandle: TLibHandle read FModuleHandle write FModuleHandle;
     property CanPreview: Boolean read GetCanPreview;
     property PluginWindow: HWND read FPluginWindow;
+    property CanSearch: Boolean read GetCanSearch;
     property CanPrint: Boolean read GetCanPrint;
   end;
 
@@ -254,6 +256,11 @@ end;
 function TWlxModule.GetCanPrint: Boolean;
 begin
   Result := Assigned(ListPrint) or Assigned(ListPrintW);
+end;
+
+function TWlxModule.GetCanSearch: Boolean;
+begin
+  Result:= Assigned(ListSearchText) or Assigned(ListSearchDialog) or Assigned(ListSearchTextW);
 end;
 
 function TWlxModule.GetDetectStr: String;

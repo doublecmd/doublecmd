@@ -424,6 +424,7 @@ type
     procedure ExitPluginMode;
     procedure DeleteCurrentFile;
     procedure EnablePrint(AEnabled: Boolean);
+    procedure EnableSearch(AEnabled: Boolean);
     procedure EnableActions(AEnabled: Boolean);
     procedure SavingProperties(Sender: TObject);
     procedure SetFileName(const AValue: String);
@@ -1594,6 +1595,17 @@ begin
   actPrint.Visible:= AEnabled;
   actPrintSetup.Enabled:= AEnabled;
   actPrintSetup.Visible:= AEnabled;
+end;
+
+procedure TfrmViewer.EnableSearch(AEnabled: Boolean);
+begin
+  actFind.Enabled:= AEnabled;
+  actFindNext.Enabled:= AEnabled;
+  actFindPrev.Enabled:= AEnabled;
+  actFind.Visible:= AEnabled;
+  actFindNext.Visible:= AEnabled;
+  actFindPrev.Visible:= AEnabled;
+  miDiv3.Visible:= actFind.Visible;;
 end;
 
 procedure TfrmViewer.EnableActions(AEnabled: Boolean);
@@ -3571,6 +3583,8 @@ begin
   miDiv5.Visible           := (Panel = pnlText) or (Panel = pnlCode);
   pmiSelectAll.Visible     := (Panel = pnlText) or (Panel = pnlCode);
   pmiCopyFormatted.Visible := (Panel = pnlText);
+
+  EnableSearch((Panel = pnlText) or (Panel = pnlCode) or (bPlugin and FWlxModule.CanSearch));
 
   if (Panel <> pnlText) and actAutoReload.Checked then
     cm_AutoReload([]);
