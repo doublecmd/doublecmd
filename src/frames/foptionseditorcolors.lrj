@@ -1,6 +1,5 @@
 {"version":1,"strings":[
 {"hash":5818820,"name":"tfrmoptionseditorcolors.btnresetmask.hint","sourcebytes":[82,101,115,101,116],"value":"Reset"},
-{"hash":366789,"name":"tfrmoptionseditorcolors.btnsavemask.hint","sourcebytes":[83,97,118,101],"value":"Save"},
 {"hash":195459012,"name":"tfrmoptionseditorcolors.foregroundlabel.caption","sourcebytes":[70,111,38,114,101,103,114,111,117,110,100],"value":"Fo&reground"},
 {"hash":27336596,"name":"tfrmoptionseditorcolors.backgroundlabel.caption","sourcebytes":[66,97,99,38,107,103,114,111,117,110,100],"value":"Bac&kground"},
 {"hash":195459012,"name":"tfrmoptionseditorcolors.foregroundusedefaultcheckbox.caption","sourcebytes":[70,111,38,114,101,103,114,111,117,110,100],"value":"Fo&reground"},
