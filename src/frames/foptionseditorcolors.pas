@@ -61,7 +61,6 @@ type
     pnlTop: TPanel;
     PnlTop2: TPanel;
     pnlUnderline: TPanel;
-    btnSaveMask: TSpeedButton;
     btnResetMask: TSpeedButton;
     Splitter1: TSplitter;
     pnlFileExtensions: TPanel;
@@ -90,7 +89,7 @@ type
     ToolBar1: TToolBar;
     ToolButton3: TToolButton;
     procedure btnResetMaskClick(Sender: TObject);
-    procedure btnSaveMaskClick(Sender: TObject);
+    procedure edtFileExtensionsChange(Sender: TObject);
     procedure FrameStyleBoxDrawItem(Control: TWinControl; Index: Integer;
       ARect: TRect; {%H-}State: TOwnerDrawState);
     procedure cmbLanguageChange(Sender: TObject);
@@ -236,7 +235,7 @@ begin
   end;
 end;
 
-procedure TfrmOptionsEditorColors.btnSaveMaskClick(Sender: TObject);
+procedure TfrmOptionsEditorColors.edtFileExtensionsChange(Sender: TObject);
 begin
   FCurrentHighlighter.DefaultFilter:= FCurrentHighlighter.LanguageName + ' (' + edtFileExtensions.Text + ')|' + edtFileExtensions.Text;
 end;
