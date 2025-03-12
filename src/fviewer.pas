@@ -3594,9 +3594,9 @@ begin
   EnableCopy((Panel = pnlText) or (Panel = pnlCode) or (bPlugin and FWlxModule.CanCommand));
   EnableSearch((Panel = pnlText) or (Panel = pnlCode) or (bPlugin and FWlxModule.CanSearch));
 
-  miDiv3.Visible:= actFind.Visible or actCopyToClipboard.Visible;
+  miDiv3.Visible:= actFind.Visible and actCopyToClipboard.Visible;
 
-  miEdit.Visible:= (Panel = pnlText) or (Panel = pnlCode) or (bPlugin and miDiv3.Visible);
+  miEdit.Visible:= (actFind.Visible or actCopyToClipboard.Visible);
 
   if (Panel <> pnlText) and actAutoReload.Checked then
     cm_AutoReload([]);
