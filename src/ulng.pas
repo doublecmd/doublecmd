@@ -802,6 +802,11 @@ resourcestring
   rsOptionsEditorMiscellaneous = 'Miscellaneous';
   rsOptionsEditorMouse = 'Mouse';
   rsOptionsEditorPlugins = 'Plugins';
+  rsOptionsEditorPluginsDsx = 'Search plugins';
+  rsOptionsEditorPluginsWcx = 'Packer plugins';
+  rsOptionsEditorPluginsWlx = 'Viewer plugins';
+  rsOptionsEditorPluginsWdx = 'Content plugins';
+  rsOptionsEditorPluginsWfx = 'File system plugins';
   rsOptionsEditorQuickSearch = 'Quick search/filter';
   rsOptionsEditorTerminal = 'Terminal';
   rsOptionsEditorToolbar = 'Toolbar';

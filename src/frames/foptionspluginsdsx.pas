@@ -110,7 +110,7 @@ end;
 { TfrmOptionsPluginsDSX.GetTitle }
 class function TfrmOptionsPluginsDSX.GetTitle: string;
 begin
-  Result := rsOptionsEditorPlugins + ' DSX';
+  Result := rsOptionsEditorPluginsDsx + ' (.DSX)';
 end;
 
 { TfrmOptionsPluginsDSX.ExtraOptionsSignature }

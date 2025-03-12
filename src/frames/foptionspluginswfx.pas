@@ -107,7 +107,7 @@ end;
 { TfrmOptionsPluginsWFX.GetTitle }
 class function TfrmOptionsPluginsWFX.GetTitle: string;
 begin
-  Result := rsOptionsEditorPlugins + ' WFX';
+  Result := rsOptionsEditorPluginsWfx + ' (.WFX)';
 end;
 
 { TfrmOptionsPluginsWFX.ExtraOptionsSignature }

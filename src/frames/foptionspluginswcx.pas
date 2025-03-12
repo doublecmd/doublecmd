@@ -112,7 +112,7 @@ end;
 { TfrmOptionsPluginsWCX.GetTitle }
 class function TfrmOptionsPluginsWCX.GetTitle: string;
 begin
-  Result := rsOptionsEditorPlugins + ' WCX';
+  Result := rsOptionsEditorPluginsWcx + ' (.WCX)';
 end;
 
 { TfrmOptionsPluginsWCX.ExtraOptionsSignature }

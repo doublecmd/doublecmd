@@ -113,7 +113,7 @@ end;
 { TfrmOptionsPluginsWDX.GetTitle }
 class function TfrmOptionsPluginsWDX.GetTitle: string;
 begin
-  Result := rsOptionsEditorPlugins + ' WDX';
+  Result := rsOptionsEditorPluginsWdx + ' (.WDX)';
 end;
 
 { TfrmOptionsPluginsWDX.ExtraOptionsSignature }
