@@ -7,7 +7,7 @@ inherited frmOptionsPluginsWFX: TfrmOptionsPluginsWFX
     AnchorSideLeft.Control = Owner
     AnchorSideTop.Control = Owner
     inherited lblPlugInDescription: TLabel
-      Caption = 'Fi&le system plugins allow access to disks inaccessible by operating system or to external devices like Palm/PocketPC.'
+      Caption = 'Fi&le system plugins allow access to disks inaccessible by operating system or to external devices like smartphones.'
     end
   end
   inherited pnlButton: TPanel
