@@ -88,6 +88,7 @@ type
     FModuleHandle: TLibHandle;  // Handle to .DLL or .so
     FParser: TParserControl;
     FPluginWindow: HWND;
+    function GetCanCommand: Boolean;
     function GetCanPreview: Boolean;
     function GetCanPrint: Boolean;
     function GetCanSearch: Boolean;
@@ -129,6 +130,7 @@ type
     property DetectStr: String read GetDetectStr write SetDetectStr;
     property ModuleHandle: TLibHandle read FModuleHandle write FModuleHandle;
     property CanPreview: Boolean read GetCanPreview;
+    property CanCommand: Boolean read GetCanCommand;
     property PluginWindow: HWND read FPluginWindow;
     property CanSearch: Boolean read GetCanSearch;
     property CanPrint: Boolean read GetCanPrint;
@@ -271,6 +273,11 @@ end;
 function TWlxModule.GetCanPreview: Boolean;
 begin
   Result:= Assigned(ListGetPreviewBitmap) or Assigned(ListGetPreviewBitmapW);
+end;
+
+function TWlxModule.GetCanCommand: Boolean;
+begin
+  Result := Assigned(ListSendCommand);
 end;
 
 constructor TWlxModule.Create;
