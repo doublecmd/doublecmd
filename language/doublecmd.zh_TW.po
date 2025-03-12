@@ -3926,9 +3926,10 @@ msgid "Oth&er..."
 msgstr "其他..."
 
 #: tfrmoptionsarchivers.btnarchiverrelativer.hint
+#, fuzzy
 msgctxt "tfrmoptionsarchivers.btnarchiverrelativer.hint"
 msgid "Some functions to select appropriate path"
-msgstr ""
+msgstr "選擇合適路徑的功能"
 
 #: tfrmoptionsarchivers.btnarchiverrename.caption
 msgctxt "tfrmoptionsarchivers.btnarchiverrename.caption"
@@ -5099,9 +5100,10 @@ msgid "&Miscellaneous..."
 msgstr ""
 
 #: tfrmoptionsdirectoryhotlist.btnrelativepath.hint
+#, fuzzy
 msgctxt "tfrmoptionsdirectoryhotlist.btnrelativepath.hint"
 msgid "Some functions to select appropriate path"
-msgstr ""
+msgstr "選擇合適路徑的功能"
 
 #: tfrmoptionsdirectoryhotlist.btnrelativetarget.hint
 msgctxt "tfrmoptionsdirectoryhotlist.btnrelativetarget.hint"
@@ -5451,11 +5453,6 @@ msgstr "背景色彩 (&K)"
 #: tfrmoptionseditorcolors.btnresetmask.hint
 msgid "Reset"
 msgstr ""
-
-#: tfrmoptionseditorcolors.btnsavemask.hint
-msgctxt "tfrmoptionseditorcolors.btnsavemask.hint"
-msgid "Save"
-msgstr "儲存"
 
 #: tfrmoptionseditorcolors.bvlattributesection.caption
 msgid "Element Attributes"
@@ -5830,9 +5827,10 @@ msgid "Variable reminder helper"
 msgstr ""
 
 #: tfrmoptionsfileassoc.btnrelativecommand.hint
+#, fuzzy
 msgctxt "tfrmoptionsfileassoc.btnrelativecommand.hint"
 msgid "Some functions to select appropriate path"
-msgstr ""
+msgstr "選擇合適路徑的功能"
 
 #: tfrmoptionsfileassoc.btnremoveact.caption
 msgctxt "tfrmoptionsfileassoc.btnremoveact.caption"
@@ -5855,9 +5853,10 @@ msgid "R&ename"
 msgstr "重新命名 (&E)"
 
 #: tfrmoptionsfileassoc.btnstartpathpathhelper.hint
+#, fuzzy
 msgctxt "tfrmoptionsfileassoc.btnstartpathpathhelper.hint"
 msgid "Some functions to select appropriate path"
-msgstr ""
+msgstr "選擇合適路徑的功能"
 
 #: tfrmoptionsfileassoc.btnstartpathvarhelper.hint
 msgctxt "tfrmoptionsfileassoc.btnstartpathvarhelper.hint"
@@ -6889,9 +6888,10 @@ msgid " Screen layout "
 msgstr " 畫面佈置 "
 
 #: tfrmoptionslog.btnrelativelogfile.hint
+#, fuzzy
 msgctxt "tfrmoptionslog.btnrelativelogfile.hint"
 msgid "Some functions to select appropriate path"
-msgstr ""
+msgstr "選擇合適路徑的功能"
 
 #: tfrmoptionslog.btnviewlogfile.hint
 msgctxt "tfrmoptionslog.btnviewlogfile.hint"
@@ -6980,19 +6980,22 @@ msgid ">>"
 msgstr ">>"
 
 #: tfrmoptionsmisc.btnrelativeoutputpathfortoolbar.hint
+#, fuzzy
 msgctxt "tfrmoptionsmisc.btnrelativeoutputpathfortoolbar.hint"
 msgid "Some functions to select appropriate path"
-msgstr ""
+msgstr "選擇合適路徑的功能"
 
 #: tfrmoptionsmisc.btnrelativetcconfigfile.hint
+#, fuzzy
 msgctxt "tfrmoptionsmisc.btnrelativetcconfigfile.hint"
 msgid "Some functions to select appropriate path"
-msgstr ""
+msgstr "選擇合適路徑的功能"
 
 #: tfrmoptionsmisc.btnrelativetcexecutablefile.hint
+#, fuzzy
 msgctxt "tfrmoptionsmisc.btnrelativetcexecutablefile.hint"
 msgid "Some functions to select appropriate path"
-msgstr ""
+msgstr "選擇合適路徑的功能"
 
 #: tfrmoptionsmisc.btnthumbcompactcache.caption
 msgid "&Remove thumbnails for no longer existing files"
@@ -7137,9 +7140,10 @@ msgid "Single click (opens folders, double click for files)"
 msgstr ""
 
 #: tfrmoptionsmultirename.btnmulrenlogfilenamerelative.hint
+#, fuzzy
 msgctxt "tfrmoptionsmultirename.btnmulrenlogfilenamerelative.hint"
 msgid "Some functions to select appropriate path"
-msgstr ""
+msgstr "選擇合適路徑的功能"
 
 #: tfrmoptionsmultirename.btnmulrenlogfilenameview.hint
 msgctxt "tfrmoptionsmultirename.btnmulrenlogfilenameview.hint"
@@ -7333,8 +7337,10 @@ msgid "File name"
 msgstr "檔案名稱"
 
 #: tfrmoptionspluginswfx.lblplugindescription.caption
+#, fuzzy
+#| msgid "Fi&le system plugins allow access to disks inaccessible by operating system or to external devices like Palm/PocketPC."
 msgctxt "tfrmoptionspluginswfx.lblplugindescription.caption"
-msgid "Fi&le system plugins allow access to disks inaccessible by operating system or to external devices like Palm/PocketPC."
+msgid "Fi&le system plugins allow access to disks inaccessible by operating system or to external devices like smartphones."
 msgstr "檔案系統插件可允許存取一些作業系統上罕見的檔案系統, 或是像 Palm/PocketPC 等外部裝置"
 
 #: tfrmoptionspluginswfx.stgplugins.columns[0].title.caption
@@ -8112,9 +8118,10 @@ msgid "Way to set paths when adding elements for icons, commands and starting pa
 msgstr ""
 
 #: tfrmoptionstoolbase.btnrelativetoolpath.hint
+#, fuzzy
 msgctxt "tfrmoptionstoolbase.btnrelativetoolpath.hint"
 msgid "Some functions to select appropriate path"
-msgstr ""
+msgstr "選擇合適路徑的功能"
 
 #: tfrmoptionstoolbase.cbtoolskeepterminalopen.caption
 msgctxt "TFRMOPTIONSTOOLBASE.CBTOOLSKEEPTERMINALOPEN.CAPTION"
@@ -8948,9 +8955,10 @@ msgid "Drag and drop elements to sort them"
 msgstr ""
 
 #: tfrmsplitter.btnrelativeftchoice.hint
+#, fuzzy
 msgctxt "tfrmsplitter.btnrelativeftchoice.hint"
 msgid "Some functions to select appropriate path"
-msgstr ""
+msgstr "選擇合適路徑的功能"
 
 #: tfrmsplitter.caption
 msgctxt "TFRMSPLITTER.CAPTION"
@@ -9344,14 +9352,16 @@ msgid "&OK"
 msgstr "確定 (&O)"
 
 #: tfrmtweakplugin.btnrelativeplugin1.hint
+#, fuzzy
 msgctxt "tfrmtweakplugin.btnrelativeplugin1.hint"
 msgid "Some functions to select appropriate path"
-msgstr ""
+msgstr "選擇合適路徑的功能"
 
 #: tfrmtweakplugin.btnrelativeplugin2.hint
+#, fuzzy
 msgctxt "tfrmtweakplugin.btnrelativeplugin2.hint"
 msgid "Some functions to select appropriate path"
-msgstr ""
+msgstr "選擇合適路徑的功能"
 
 #: tfrmtweakplugin.btnremove.caption
 msgctxt "TFRMTWEAKPLUGIN.BTNREMOVE.CAPTION"
@@ -13697,6 +13707,26 @@ msgstr ""
 msgctxt "ulng.rsoptionseditorplugins"
 msgid "Plugins"
 msgstr "插件"
+
+#: ulng.rsoptionseditorpluginsdsx
+msgid "Search plugins"
+msgstr ""
+
+#: ulng.rsoptionseditorpluginswcx
+msgid "Packer plugins"
+msgstr ""
+
+#: ulng.rsoptionseditorpluginswdx
+msgid "Content plugins"
+msgstr ""
+
+#: ulng.rsoptionseditorpluginswfx
+msgid "File system plugins"
+msgstr ""
+
+#: ulng.rsoptionseditorpluginswlx
+msgid "Viewer plugins"
+msgstr ""
 
 #: ulng.rsoptionseditorquicksearch
 msgctxt "ulng.rsoptionseditorquicksearch"
