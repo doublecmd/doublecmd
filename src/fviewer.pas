@@ -423,6 +423,7 @@ type
     procedure SynEditCaret;
     procedure ExitPluginMode;
     procedure DeleteCurrentFile;
+    procedure EnableCopy(AEnabled: Boolean);
     procedure EnablePrint(AEnabled: Boolean);
     procedure EnableSearch(AEnabled: Boolean);
     procedure EnableActions(AEnabled: Boolean);
@@ -1589,6 +1590,14 @@ begin
   SplitterChangeBounds;
 end;
 
+procedure TfrmViewer.EnableCopy(AEnabled: Boolean);
+begin
+  actSelectAll.Enabled:= AEnabled;
+  actCopyToClipboard.Enabled:= AEnabled;
+  actSelectAll.Visible:= AEnabled;
+  actCopyToClipboard.Visible:= AEnabled;
+end;
+
 procedure TfrmViewer.EnablePrint(AEnabled: Boolean);
 begin
   actPrint.Enabled:= AEnabled;
@@ -1605,7 +1614,6 @@ begin
   actFind.Visible:= AEnabled;
   actFindNext.Visible:= AEnabled;
   actFindPrev.Visible:= AEnabled;
-  miDiv3.Visible:= actFind.Visible;;
 end;
 
 procedure TfrmViewer.EnableActions(AEnabled: Boolean);
@@ -3561,10 +3569,9 @@ begin
 
   miPlugins.Checked    := (Panel = nil);
   miGraphics.Checked   := (Panel = pnlImage);
-  miEncoding.Visible   := (Panel = nil) or (Panel = pnlText) or (Panel = pnlCode);
+  miEncoding.Visible   := (Panel = pnlText) or (Panel = pnlCode) or (bPlugin and FWlxModule.CanCommand);
   miAutoReload.Visible := (Panel = pnlText);
-  miEdit.Visible       := (Panel = pnlText) or (Panel = pnlCode) or (Panel = nil);
-  miImage.Visible      := (bImage or bPlugin);
+  miImage.Visible      := (bImage or (bPlugin and FWlxModule.CanCommand));
   miRotate.Visible     := bImage;
   miZoomIn.Visible     := bImage;
   miZoomOut.Visible    := bImage;
@@ -3577,14 +3584,19 @@ begin
 
   actGotoLine.Enabled  := (Panel = pnlCode);
   actShowCaret.Enabled := (Panel = pnlText) or (Panel = pnlCode);
-  actWrapText.Enabled  := bPlugin or ((Panel = pnlText) and (ViewerControl.Mode in [vcmText, vcmWrap]));
+  actWrapText.Enabled  := (bPlugin and FWlxModule.CanCommand) or ((Panel = pnlText) and (ViewerControl.Mode in [vcmText, vcmWrap]));
 
   miGotoLine.Visible       := (Panel = pnlCode);
   miDiv5.Visible           := (Panel = pnlText) or (Panel = pnlCode);
   pmiSelectAll.Visible     := (Panel = pnlText) or (Panel = pnlCode);
   pmiCopyFormatted.Visible := (Panel = pnlText);
 
+  EnableCopy((Panel = pnlText) or (Panel = pnlCode) or (bPlugin and FWlxModule.CanCommand));
   EnableSearch((Panel = pnlText) or (Panel = pnlCode) or (bPlugin and FWlxModule.CanSearch));
+
+  miDiv3.Visible:= actFind.Visible or actCopyToClipboard.Visible;
+
+  miEdit.Visible:= (Panel = pnlText) or (Panel = pnlCode) or (bPlugin and miDiv3.Visible);
 
   if (Panel <> pnlText) and actAutoReload.Checked then
     cm_AutoReload([]);
