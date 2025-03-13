@@ -177,8 +177,12 @@ var
   config: TJsonConfig;
 begin
   config:= TJsonConfig.Create;
-  saveiCloudConfigToJson( config.Root );
-  config.SaveToFile( getJsonPath );
+  try
+    saveiCloudConfigToJson( config.Root );
+    config.SaveToFile( getJsonPath );
+  finally
+    FreeAndNil( config );
+  end;
 end;
 
 end.
