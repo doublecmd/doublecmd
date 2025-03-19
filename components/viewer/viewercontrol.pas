@@ -173,6 +173,9 @@ const
                     'UTF-32BE');
 
 const
+  ViewerEncodingOem: TViewerEncodings = [
+    veCp437, veCp850, veCp852, veCp866];
+
   ViewerEncodingMultiByte: TViewerEncodings = [
     veCp932, veCp936, veCp949, veCp950,
     veUtf8, veUtf8bom, veUcs2le, veUcs2be,
@@ -540,6 +543,13 @@ const
   // These strings must be Ascii only.
   sNonCharacter: string = ' !"#$%&''()*+,-./:;<=>?@[\]^`{|}~'#13#10#9;
   sWhiteSpace  : string = ' '#13#10#9#8;
+
+const
+  ASCII_TABLE: array[0..31] of String =
+  (
+    '.', '☺', '☻', '♥', '♦', '♣', '♠', '•', '◘', '○', '◙', '♂', '♀', '♪', '♫', '☼',
+    '►', '◄', '↕', '‼', '¶', '§', '▬', '↨', '↑', '↓', '→', '←', '∟', '↔', '▲', '▼'
+  );
 
 { TCustomCharsPresentation }
 
@@ -939,8 +949,10 @@ function TViewerControl.TransformText(const sText: String; const Xoffset: Intege
 var
   c: AnsiChar;
   i: Integer;
+  Dos: Boolean;
 begin
   Result := '';
+  Dos:= FEncoding in ViewerEncodingOem;
   for i := 1 to Length(sText) do
   begin
     c := sText[i];
@@ -952,7 +964,12 @@ begin
       else
         begin
           if c < ' ' then
-            Result := Result + ' '
+          begin
+            if Dos then
+              Result := Result + ASCII_TABLE[Ord(c)]
+            else
+              Result := Result + ' ';
+          end
           else
             Result := Result + c;
         end;
@@ -2877,6 +2894,7 @@ var
   function XYPos2AdrText: PtrInt;
   var
     i: PtrInt;
+    Dos: Boolean;
     charWidth: Integer;
     textWidth: Integer;
     len: Integer = 0;
@@ -2886,6 +2904,7 @@ var
   begin
     ss := '';
     i := StartLine;
+    Dos:= FEncoding in ViewerEncodingOem;
     while i < EndLine do
     begin
       s := GetNextCharAsUtf8(i, CharLenInBytes);
@@ -2912,7 +2931,10 @@ var
 
         if (CharLenInBytes = 1) and (s[1] < ' ') then
         begin
-          s := ' ';
+          if Dos then
+            s := ASCII_TABLE[Ord(s[1])]
+          else
+            s := ' ';
         end;
 
         ss := ss + s;
