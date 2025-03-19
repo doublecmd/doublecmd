@@ -380,13 +380,13 @@ var
   wsStartPath: UnicodeString;
   AppID, FileExt: UnicodeString;
 begin
-  cchOut:= MAX_PATH;
-  SetLength(AppID, cchOut);
   URL:= NormalizePathDelimiters(URL);
   FileExt:= CeUtf8ToUtf16(ExtractFileExt(URL));
 
   if CheckWin32Version(10) then
   begin
+    cchOut:= MAX_PATH;
+    SetLength(AppID, cchOut);
     if (AssocQueryStringW(ASSOCF_NONE, ASSOCSTR_APPID,
                           PWideChar(FileExt), nil, PWideChar(AppID), @cchOut) = S_OK) then
     begin
@@ -396,10 +396,16 @@ begin
         // Special case Microsoft Photos
         if (AppID = 'Microsoft.Windows.Photos_8wekyb3d8bbwe!App') then
         begin
-          if CheckPhotosVersion then
+          // https://blogs.windows.com/windowsdeveloper/2024/06/03/microsoft-photos-migrating-from-uwp-to-windows-app-sdk/
+          if CheckPhotosVersion(2024, 11050) then
           begin
-            URL:= URIEncode(URL);
-            URL:= 'ms-photos:viewer?fileName=' + StringReplace(URL, '%5C', '\', [rfReplaceAll]);
+            // https://github.com/doublecmd/doublecmd/issues/2188
+            if not CheckPhotosVersion(2025, 0) then
+            begin
+              URL:= URIEncode(URL);
+              URL:= StringReplace(URL, '%5C', '\', [rfReplaceAll]);
+            end;
+            URL:= 'ms-photos:viewer?fileName=' + URL;
           end
           // Microsoft Photos does not work correct
           // when process has administrator rights
