@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Double Commander 1.1.0 alpha\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-11-15 11:15+0300\n"
-"PO-Revision-Date: 2025-01-20 20:43+0900\n"
+"PO-Revision-Date: 2025-03-20 03:33+0900\n"
 "Last-Translator: VenusGirl: venusgirl@outlook.com/\n"
 "Language-Team: 비너스걸: https://venusgirls.tistory.com/\n"
 "Language: ko\n"
@@ -1002,7 +1002,7 @@ msgstr "모두 선택"
 
 #: tfrmeditor.actedittimedate.caption
 msgid "Time/Date"
-msgstr ""
+msgstr "시간/날짜"
 
 #: tfrmeditor.acteditundo.caption
 msgctxt "TFRMEDITOR.ACTEDITUNDO.CAPTION"
@@ -6506,12 +6506,12 @@ msgstr "제어"
 #: tfrmoptionsicloud.appslistview.columns[0].caption
 msgctxt "tfrmoptionsicloud.appslistview.columns[0].caption"
 msgid "Applications"
-msgstr ""
+msgstr "응용 프로그램"
 
 #: tfrmoptionsicloud.appslistview.columns[1].caption
 msgctxt "tfrmoptionsicloud.appslistview.columns[1].caption"
 msgid "Count of Contents"
-msgstr ""
+msgstr "콘텐츠 수"
 
 #: tfrmoptionsicons.cbiconsexclude.caption
 msgctxt "TFRMOPTIONSICONS.CBICONSEXCLUDE.CAPTION"
@@ -7140,11 +7140,9 @@ msgid "File name"
 msgstr "파일 이름"
 
 #: tfrmoptionspluginswfx.lblplugindescription.caption
-#, fuzzy
-#| msgid "Fi&le system plugins allow access to disks inaccessible by operating system or to external devices like Palm/PocketPC."
 msgctxt "tfrmoptionspluginswfx.lblplugindescription.caption"
 msgid "Fi&le system plugins allow access to disks inaccessible by operating system or to external devices like smartphones."
-msgstr "파일 시스템 플러그인을 사용하면 운영 체제에서 액세스할 수 없는 디스크나 Palm/PocketPC와 같은 외부 장치에 액세스할 수 있습니다(&L)."
+msgstr "파일 시스템 플러그인을 사용하면 운영 체제에서 액세스할 수 없는 디스크나 스마트폰과 같은 외부 장치에 액세스할 수 있습니다(&L)."
 
 #: tfrmoptionspluginswfx.stgplugins.columns[0].title.caption
 msgctxt "tfrmoptionspluginswfx.stgplugins.columns[0].title.caption"
@@ -10296,19 +10294,19 @@ msgstr "줄로 가기"
 
 #: ulng.rsedithintcursorpos
 msgid "Cursor Position"
-msgstr ""
+msgstr "커서 위치"
 
 #: ulng.rsedithintinsertmode
 msgid "Insert Mode"
-msgstr ""
+msgstr "삽입 모드"
 
 #: ulng.rsedithintmodified
 msgid "Modified"
-msgstr ""
+msgstr "수정한 날짜"
 
 #: ulng.rsedithintselectionmode
 msgid "Selection Mode"
-msgstr ""
+msgstr "선택 모드"
 
 #: ulng.rseditnewfile
 msgid "new.txt"
@@ -10342,23 +10340,23 @@ msgstr "바꾸기"
 
 #: ulng.rseditstatinsertmodeins
 msgid "INS"
-msgstr ""
+msgstr "INS"
 
 #: ulng.rseditstatinsertmodeovr
 msgid "OVR"
-msgstr ""
+msgstr "OVR"
 
 #: ulng.rseditstatselmodecol
 msgid "COL"
-msgstr ""
+msgstr "COL"
 
 #: ulng.rseditstatselmodeline
 msgid "LINE"
-msgstr ""
+msgstr "LINE"
 
 #: ulng.rseditstatselmodenorm
 msgid "NORM"
-msgstr ""
+msgstr "NORM"
 
 #: ulng.rseditwithexternaleditor
 msgid "with external editor"
@@ -10776,11 +10774,11 @@ msgstr "명령 이름별;바로 가기 키별 (그룹화);바로 가기 키별 (
 
 #: ulng.rsiclouddrivercopyseedfileconfirmdlgmessage
 msgid "It is recommended to download the files first. Otherwise, what is copied is not the content of the files, but the corresponding placeholder files, which will result in hidden files with the .iCloud extension."
-msgstr ""
+msgstr "먼저 파일을 다운로드하는 것이 좋습니다. 그렇지 않으면 복사되는 것은 파일의 콘텐츠가 아니라 해당 자리 표시자 파일로, 확장자가 .iCloud인 숨겨진 파일이 됩니다."
 
 #: ulng.rsiclouddrivercopyseedfileconfirmdlgtitle
 msgid "The operation may contain files that were not downloaded, continue anyway?"
-msgstr ""
+msgstr "다운로드하지 않은 파일이 포함되어 있을 수 있는데 계속 진행하시겠습니까?"
 
 #: ulng.rsimporttoolbarproblem
 msgid "Cannot find reference to default bar file"
@@ -10814,7 +10812,7 @@ msgstr "\"파일 찾기\" 창 목록"
 #: ulng.rsmacosassignfindertagstomultiitems
 #, object-pascal-format
 msgid "Assign tags to %d items"
-msgstr ""
+msgstr "%d 항목에 태그 할당"
 
 #: ulng.rsmarkminus
 msgid "Unselect mask"
@@ -10952,12 +10950,12 @@ msgstr "수평 분할"
 #: ulng.rsmfstbiiclouddrivertips
 msgctxt "ulng.rsmfstbiiclouddrivertips"
 msgid "iCloud Driver"
-msgstr ""
+msgstr "iCloud 드라이버"
 
 #: ulng.rsmfstbiiclouddrivertitle
 msgctxt "ulng.rsmfstbiiclouddrivertitle"
 msgid "iCloud Driver"
-msgstr ""
+msgstr "iCloud 드라이버"
 
 #: ulng.rsmfstbiprivilegetips
 msgid "As a file manager, Double Command requires full disk access permissions. Clicking this button will pop up the macOS system settings page. Please add \"Double Commander.app\" to the \"Full Disk Access\" list to complete the authorization."
@@ -11097,11 +11095,11 @@ msgstr "여기에 추출..."
 
 #: ulng.rsmnuiclouddriverdownloadnow
 msgid "Download Now"
-msgstr ""
+msgstr "지금 다운로드"
 
 #: ulng.rsmnuiclouddriverremovedownload
 msgid "Remove Download"
-msgstr ""
+msgstr "다운로드 제거"
 
 #: ulng.rsmnumount
 msgid "Mount"
@@ -11165,10 +11163,16 @@ msgid ""
 "\n"
 "It is recommended that you follow your usual practice and try to select only one directory when you receive this prompt."
 msgstr ""
+"일부 가상 파일시스템에는 특정 디렉터리 구조가 포함되어 있습니다. 이 시스템에서 압축 파일로 복사할 때는 선택한 디렉터리의 실제 위치가 모두 동일한 상위 디렉터리 아래에 있지 않는 한 한 번에 하나의 디렉터리만 선택할 수 있습니다.\n"
+"\n"
+"\n"
+"예를 들어, iCloud 드라이브의 경우 루트에서 압축 보관함으로 디렉터리를 복사할 때 하나의 디렉터리만 선택해야 할 수 있습니다.\n"
+"\n"
+"이 메시지가 표시되면 평소 관행에 따라 하나의 디렉터리만 선택하는 것이 좋습니다."
 
 #: ulng.rsmountedfilesourcecopymultifilestowcxdlgtitle
 msgid "The operation is not supported"
-msgstr ""
+msgstr "이 작업은 지원되지 않습니다"
 
 #: ulng.rsmsgaccount
 msgid "Account:"
@@ -11723,7 +11727,7 @@ msgstr "경로(&P):"
 
 #: ulng.rsmsghotdirlocatehotlistfile
 msgid "Locate \".hotlist\" file to import"
-msgstr "가져올 Locate \".hotlist\" 파일"
+msgstr "가져올 \".hotlist\" 파일 찾기"
 
 #: ulng.rsmsghotdirname
 msgid "Hotdir name"
@@ -12216,11 +12220,11 @@ msgstr "Windows 특수 폴더 (TC)를 기준으로 만들기..."
 
 #: ulng.rsmsgspecialdirmkwnrel
 msgid "Make relative to other Windows special folder..."
-msgstr "다른 윈도 특별 폴더 기준으로 상대 경로 만들기..."
+msgstr "다른 Windows 특수 폴더와 비교하여 만들기..."
 
 #: ulng.rsmsgspecialdirusedc
 msgid "Use Double Commander special path..."
-msgstr "다른 Windows 특수 폴더를 기준으로 만들기..."
+msgstr "Double Commander 특수 경로 사용..."
 
 #: ulng.rsmsgspecialdirusehotdir
 msgid "Use hotdir path"
@@ -12313,11 +12317,11 @@ msgstr "선택한 파일의 확장자가 인식된 파일 유형에 없습니다
 
 #: ulng.rsmsgtoolbarlocatedctoolbarfile
 msgid "Locate \".toolbar\" file to import"
-msgstr "가져올 Locate \".toolbar\" 파일"
+msgstr "가져올 \".toolbar\" 파일 찾기"
 
 #: ulng.rsmsgtoolbarlocatetctoolbarfile
 msgid "Locate \".BAR\" file to import"
-msgstr "가져올 Locate \".BAR\" 파일"
+msgstr "가져올 \".BAR\" 파일 찾기"
 
 #: ulng.rsmsgtoolbarrestorewhat
 msgid "Enter location and filename of Toolbar to restore"
@@ -12383,7 +12387,7 @@ msgstr "볼률 레이블:"
 
 #: ulng.rsmsgvolumesizeenter
 msgid "Please enter the volume size:"
-msgstr "볼륨 크기를 입력하십시오:"
+msgstr "볼륨 크기를 입력하세요:"
 
 #: ulng.rsmsgwanttoconfigurelibrarylocation
 msgid "Do you want to configure Lua library location?"
@@ -13402,23 +13406,23 @@ msgstr "플러그인"
 
 #: ulng.rsoptionseditorpluginsdsx
 msgid "Search plugins"
-msgstr ""
+msgstr "검색 플러그인"
 
 #: ulng.rsoptionseditorpluginswcx
 msgid "Packer plugins"
-msgstr ""
+msgstr "압축기 플러그인"
 
 #: ulng.rsoptionseditorpluginswdx
 msgid "Content plugins"
-msgstr ""
+msgstr "콘텐츠 플러그인"
 
 #: ulng.rsoptionseditorpluginswfx
 msgid "File system plugins"
-msgstr ""
+msgstr "파일 시스템 플러그인"
 
 #: ulng.rsoptionseditorpluginswlx
 msgid "Viewer plugins"
-msgstr ""
+msgstr "뷰어 플러그인"
 
 #: ulng.rsoptionseditorquicksearch
 msgid "Quick search/filter"
