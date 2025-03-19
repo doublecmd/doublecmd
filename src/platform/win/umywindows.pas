@@ -176,7 +176,7 @@ procedure CreateShortcut(const Target, Shortcut: String);
 }
 function ExtractFileAttributes(const FindData: TWin32FindDataW): DWORD;
 
-function CheckPhotosVersion: Boolean;
+function CheckPhotosVersion(ABuild, ARevision: UInt16): Boolean;
 
 procedure UpdateEnvironment;
 
@@ -1259,7 +1259,7 @@ var
                            bufferLength: PUINT32; buffer: PBYTE; count: PUINT32): LONG; stdcall;
   ClosePackageInfo: function(packageInfoReference: PACKAGE_INFO_REFERENCE): LONG; stdcall;
 
-function CheckPackageVersion(const Package: UnicodeString; Build, Revision: UInt16): Boolean;
+function GetPackageVersion(const Package: UnicodeString; out Build, Revision: UInt16): Boolean;
 var
   Ret: ULONG;
   Count: UINT32 = 0;
@@ -1290,7 +1290,9 @@ begin
           begin
             with PPACKAGE_INFO(@PackageBuffer[0])^.packageId do
             begin
-              Result:= (version.Build > Build) or ((version.Build = Build) and (version.Revision >= Revision));
+              Result:= True;
+              Build:= version.Build;
+              Revision:= version.Revision;
             end;
           end;
         end;
@@ -1300,20 +1302,21 @@ begin
   end;
 end;
 
-function CheckPhotosVersion: Boolean;
+function CheckPhotosVersion(ABuild, ARevision: UInt16): Boolean;
 const
+  Build: UInt16 = 0;
+  Revision: UInt16 = 0;
   PhotosNew: TDuplicates = dupIgnore;
 begin
   if (PhotosNew = dupIgnore) then
   begin
-    // https://blogs.windows.com/windowsdeveloper/2024/06/03/microsoft-photos-migrating-from-uwp-to-windows-app-sdk/
-    if CheckPackageVersion('Microsoft.Windows.Photos_8wekyb3d8bbwe', 2024, 11050) then
+    if GetPackageVersion('Microsoft.Windows.Photos_8wekyb3d8bbwe', Build, Revision) then
       PhotosNew:= dupAccept
     else begin
       PhotosNew:= dupError;
     end;
   end;
-  Result:= (PhotosNew = dupAccept);
+  Result:= (PhotosNew = dupAccept) and ((Build > ABuild) or ((Build = ABuild) and (Revision >= ARevision)));
 end;
 
 var
