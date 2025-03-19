@@ -1,49 +1,26 @@
 {
-   Component ViewerControl (Free Pascal)
-   show file in text (wraped or not) or bin or hex mode
+    Double Commander
+    -------------------------------------------------------------------------
+    Show file in the text, bin, hex or dec mode
 
-   This is part of Seksi Commander
+    Copyright (C) 2004 Radek Cervinka (radek.cervinka@centrum.cz)
+    Copyright (C) 2006-2025 Alexander Koblov (alexx2000@mail.ru)
 
-   To searching use uFindMmap,
-   to movement call Upxxxx, Downxxxx, or set Position
+    This program is free software; you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation; either version 2 of the License, or
+    (at your option) any later version.
 
-   Realised under GNU GPL 2
-   author Radek Cervinka (radek.cervinka@centrum.cz)
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
 
-   changes:
-   5.8
-     - customizable view area of transformed text(transformed Values per Line)
-     - customizable separators
-     - added view as decimal
-     - added class TCharToCustomValueTransformProc to handle parameters of customizable modes(at this time - Hex and Dec)
-     - Hex and Dec mode handled by the same mechanism(potentially can be added any additionsl custom mode)
-       so added properties FHex and FDec
-     - added property FCustom which is nil if current mode - not custom, or is equal to current customizable mode
-     - Added CopyToClipboardF which copy transformed text to clipboard
+    You should have received a copy of the GNU General Public License
+    along with this program. If not, see <http://www.gnu.org/licenses/>.
+}
 
-   5.7. (RC)
-     - selecting text with mouse
-     - CopyToclipBoard, SelectAll
-   ?.6. - LoadFromStdIn and loading first 64Kb of files with size=0 :) (/proc fs ..)
-   17.6. (RC)
-     - mapfile (in error set FMappedFile=nil)
-     - writetext TABs fixed (tab is replaced by 9 spaces)
-     - set correct position for modes hex, bin (SetPosition)
-   21.7
-     - wrap text on 80 character lines works better now (by Radek Polak)
-     - problems with function UpLine for specific lines:
-       (lines of 80(=cTextWidth) character ended with ENTER (=#10)
-   6.2. (RC)
-     - ported to fpc for linux (CustomControl and gtk)
-   7.2. (RC)
-     - use temp to new implementation of LoadFromStdIn (and mmap temp file)
-     - faster drawing of text (I hope)
-
-   contributors:
-
-   Copyright (C) 2006-2023 Alexander Koblov (alexx2000@mail.ru)
-
-
+(*
    TODO:
    a) File mapping blocks writing into file by other processes.
       Either:
@@ -51,17 +28,14 @@
       - Add optional custom loading/caching portions of file in memory
         and only reading from file when neccessary.
 
-   b) Searching in Unicode encodings and case-insensitive searching.
-
-   c) Selecting text does not work well with composed Unicode characters
+   b) Selecting text does not work well with composed Unicode characters
       (characters that are composed of multiple Unicode characters).
 
-   d) Drawing/selecting text does not work correctly with RTL (right to left) text.
+   c) Drawing/selecting text does not work correctly with RTL (right to left) text.
 
-   e) FTextHeight is unreliable with complex unicode characters. It should be
+   d) FTextHeight is unreliable with complex unicode characters. It should be
       calculated based on currently displayed text (get max from each line's height).
-
-}
+*)
 
 unit ViewerControl;
 
@@ -116,9 +90,6 @@ type
     constructor Create(APresentValuesPerLine,ACharMaxPresentWidth,AOffsetWidth,ACountSeparate:integer;AChrToValueProc:TCharToCustomValueTransformProc);
     destructor  Destroy();override;
   end;
-
-
-
 
 type
   // If additional encodings are added they should be also supported by:
@@ -562,7 +533,6 @@ uses
   {$ELSEIF DEFINED(WINDOWS)}
   , Windows, DCWindows
   {$ENDIF};
-
 
 const
   cBinWidth       = 80;
