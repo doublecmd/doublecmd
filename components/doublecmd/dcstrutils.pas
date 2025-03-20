@@ -1130,23 +1130,15 @@ begin
 end;
 
 procedure ParseLineToList(sLine: String; ssItems: TStrings);
-var
-  xPos: Integer;
 begin
-  ssItems.Clear;
-  while sLine <> '' do
+  with ssItems do
     begin
-      xPos:= Pos(';', sLine);
-      if xPos > 0 then
-        begin
-          ssItems.Add(Copy(sLine, 1, xPos - 1));
-          Delete(sLine, 1, xPos);
-        end
-      else
-        begin
-          ssItems.Add(sLine);
-          Exit;
-        end;
+      Clear;
+      StrictDelimiter := True;
+      Delimiter := ';';
+      if(sLine[Length(sLine)] = ';') then
+        sLine := Copy(sLine, 1, Length(sLine) - 1);
+      DelimitedText := sLine;
     end;
 end;
 
