@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Double Commander 1.1.0 alpha\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-11-15 11:15+0300\n"
-"PO-Revision-Date: 2025-03-05 19:34+0100\n"
+"PO-Revision-Date: 2025-03-13 00:17+0100\n"
 "Last-Translator:  ㋡  <braass@mail.de>\n"
 "Language-Team: Deutsch <braass@mail.de>\n"
 "Language: de\n"
@@ -7140,11 +7140,9 @@ msgid "File name"
 msgstr "Dateiname"
 
 #: tfrmoptionspluginswfx.lblplugindescription.caption
-#, fuzzy
-#| msgid "Fi&le system plugins allow access to disks inaccessible by operating system or to external devices like Palm/PocketPC."
 msgctxt "tfrmoptionspluginswfx.lblplugindescription.caption"
 msgid "Fi&le system plugins allow access to disks inaccessible by operating system or to external devices like smartphones."
-msgstr "Dateisystem-P&lugins erlauben auf Dateisysteme oder externe Laufwerke zuzugreifen, auf die das Betriebssystem nicht zugreifen kann (z.B. Palm oder Pocket-PCs)."
+msgstr "Dateisystem-P&lugins ermöglichen den Zugriff auf Datenträger, die für das Betriebssystem sonst nicht zugänglich sind, oder auf externe Geräte wie z.B. Smartphones."
 
 #: tfrmoptionspluginswfx.stgplugins.columns[0].title.caption
 msgctxt "tfrmoptionspluginswfx.stgplugins.columns[0].title.caption"
@@ -13410,23 +13408,23 @@ msgstr "Plugins"
 
 #: ulng.rsoptionseditorpluginsdsx
 msgid "Search plugins"
-msgstr ""
+msgstr "Such-Plugins"
 
 #: ulng.rsoptionseditorpluginswcx
 msgid "Packer plugins"
-msgstr ""
+msgstr "Packer-Plugins"
 
 #: ulng.rsoptionseditorpluginswdx
 msgid "Content plugins"
-msgstr ""
+msgstr "Inhalts-Plugins"
 
 #: ulng.rsoptionseditorpluginswfx
 msgid "File system plugins"
-msgstr ""
+msgstr "Dateisystem-Plugins"
 
 #: ulng.rsoptionseditorpluginswlx
 msgid "Viewer plugins"
-msgstr ""
+msgstr "Betrachter-Plugins"
 
 #: ulng.rsoptionseditorquicksearch
 msgid "Quick search/filter"
