@@ -97,7 +97,7 @@ uses
   , Unix, DCOSUtils, DCFileAttributes, DCConvertEncoding
   {$ENDIF};
 
-{$IF DEFINED(DARWIN)}
+{$IF DEFINED(DARWIN) AND DEFINED(CPUX86_64)}
 const
   DARWIN_MAXPATHLEN = 1024;
 
