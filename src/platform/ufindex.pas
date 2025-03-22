@@ -3,7 +3,7 @@
     -------------------------------------------------------------------------
     This unit contains UTF-8 versions of Find(First, Next, Close) functions
 
-    Copyright (C) 2006-2023 Alexander Koblov (alexx2000@mail.ru)
+    Copyright (C) 2006-2025 Alexander Koblov (alexx2000@mail.ru)
 
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Lesser General Public
@@ -87,12 +87,36 @@ implementation
 
 uses
   LazUTF8, uDebug
+  {$IFDEF LINUX}
+  , InitC
+  {$ENDIF}
   {$IFDEF MSWINDOWS}
   , DCWindows, DCDateTimeUtils, uMyWindows
   {$ENDIF}
   {$IFDEF UNIX}
-  , InitC, Unix, DCOSUtils, DCFileAttributes, DCConvertEncoding
+  , Unix, DCOSUtils, DCFileAttributes, DCConvertEncoding
   {$ENDIF};
+
+{$IF DEFINED(DARWIN) AND DEFINED(CPUX86_64)}
+const
+  DARWIN_MAXPATHLEN = 1024;
+
+{$push}{$packrecords c}
+type
+  dirent = record
+    d_ino: UInt64;
+    d_seekoff: UInt64;
+    d_reclen: UInt16;
+    d_namlen: UInt16;
+    d_type: UInt8;
+    d_name: array[0..Pred(DARWIN_MAXPATHLEN)] of AnsiChar;
+  end;
+  TDirent = dirent;
+  PDirent = ^TDirent;
+{$pop}
+
+  function fpReadDir(var dirp: TDir): PDirent; cdecl; external clib name 'readdir$INODE64';
+{$ENDIF}
 
 {$IF DEFINED(LINUX)}
   {$define fpgeterrno:= fpgetCerrno}
@@ -271,4 +295,3 @@ end;
 {$ENDIF}
 
 end.
-
