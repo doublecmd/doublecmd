@@ -17,6 +17,7 @@ const
   hClass                      = $E45C07DD;    // Class
   hClip_045_path              = $B6C7D97A;    // Clip-path
   hClippath                   = $241B0E0D;    // Clippath
+  hcollapse                   = $22A7B0EC;    // collapse
   hColor                      = $E953FD29;    // Color
   hCurrentColor               = $5B8F31B0;    // CurrentColor
   hCx                         = $B5177A89;    // Cx
@@ -45,6 +46,7 @@ const
   hfeFuncG                    = $E45FE81A;    // feFuncG
   hfeFuncR                    = $F8BB10C8;    // feFuncR
   hfeGaussianBlur             = $B2225552;    // feGaussianBlur
+  hfeImage                    = $905096A0;    // feImage
   hfeMerge                    = $A2C358C0;    // feMerge
   hfeMergeNode                = $F5F1E90F;    // feMergeNode
   hfeOffset                   = $04493A72;    // feOffset
@@ -70,12 +72,15 @@ const
   hGradientUnits              = $07DD34B6;    // GradientUnits
   hGramma                     = $302368DC;    // Gramma
   hHeight                     = $52FDF336;    // Height
+  hhidden                     = $4C4D777D;    // hidden
   hHref                       = $8E926F4B;    // Href
   hId                         = $1B60404D;    // Id
+  hImage                      = $D58C8637;    // Image
   hIn                         = $4D5FA44B;    // In
   hIn2                        = $FBFE02B1;    // In2
   hIntercept                  = $7CBB607F;    // Intercept
   hItalic                     = $F07E7786;    // Italic
+  hJustify                    = $13E85AB8;    // Justify
   hK1                         = $33176D43;    // K1
   hK2                         = $DD11C139;    // K2
   hK3                         = $CF4B25AC;    // K3
@@ -111,6 +116,7 @@ const
   hOrient                     = $EFF6C65A;    // Orient
   hOut                        = $12067E90;    // Out
   hOver                       = $C9B82D21;    // Over
+  hOverflow_045_Wrap          = $C0B6980D;    // Overflow-Wrap
   hOverlay                    = $383BEA5E;    // Overlay
   hPad                        = $4A0CAD48;    // Pad
   hPath                       = $AD8A7AB5;    // Path
@@ -129,6 +135,7 @@ const
   hRefY                       = $480CECDB;    // RefY
   hRepeat                     = $FF80069D;    // Repeat
   hResult                     = $47CD519F;    // Result
+  hRotate                     = $E8A48E19;    // Rotate
   hRound                      = $323B0E24;    // Round
   hRx                         = $3ABF70F3;    // Rx
   hRy                         = $0C7D9470;    // Ry
@@ -139,10 +146,12 @@ const
   hSlope                      = $4774735C;    // Slope
   hSourceAlpha                = $F891B958;    // SourceAlpha
   hSourceGraphic              = $A4DB1DC2;    // SourceGraphic
+  hspace                      = $488AD9F6;    // space
   hspecularExponent           = $93D520E8;    // specularExponent
   hSpreadMethod               = $A08CEB57;    // SpreadMethod
   hSquare                     = $20E48144;    // Square
   hStart                      = $84DC271F;    // Start
+  hStartOffset                = $688E51A0;    // StartOffset
   hstdDeviation               = $00D13F6A;    // stdDeviation
   hStop                       = $930CA7F2;    // Stop
   hStop_045_Color             = $9FD6E0BE;    // Stop-Color
@@ -167,6 +176,7 @@ const
   hText                       = $7F3B51AB;    // Text
   hText_045_Anchor            = $D0D82FE8;    // Text-Anchor
   hText_045_Decoration        = $3BC20862;    // Text-Decoration
+  hTextArea                   = $0A75EDBF;    // TextArea
   hTextLength                 = $DA75EDC0;    // TextLength
   hTextPath                   = $18F2748E;    // TextPath
   hTimes                      = $FF0E1FBE;    // Times
@@ -179,7 +189,11 @@ const
   hUserSpaceOnUse             = $3D19F8A4;    // UserSpaceOnUse
   hValues                     = $33429E55;    // Values
   hViewbox                    = $AEF665C8;    // Viewbox
+  hVisibility                 = $9F832B01;    // Visibility
+  hvisible                    = $96C79D31;    // visible
+  hWhite_045_Space            = $0A1C0679;    // White-Space
   hWidth                      = $96BEECA0;    // Width
+  hWord_045_Break             = $A99E7C27;    // Word-Break
   hX                          = $9303A5E5;    // X
   hX1                         = $74A7DE27;    // X1
   hX2                         = $168E21F1;    // X2
