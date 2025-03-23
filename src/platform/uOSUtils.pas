@@ -381,12 +381,12 @@ var
   AppID, FileExt: UnicodeString;
 begin
   URL:= NormalizePathDelimiters(URL);
-  FileExt:= CeUtf8ToUtf16(ExtractFileExt(URL));
 
   if CheckWin32Version(10) then
   begin
     cchOut:= MAX_PATH;
     SetLength(AppID, cchOut);
+    FileExt:= CeUtf8ToUtf16(ExtractFileExt(URL));
     if (AssocQueryStringW(ASSOCF_NONE, ASSOCSTR_APPID,
                           PWideChar(FileExt), nil, PWideChar(AppID), @cchOut) = S_OK) then
     begin
@@ -399,8 +399,9 @@ begin
           // https://blogs.windows.com/windowsdeveloper/2024/06/03/microsoft-photos-migrating-from-uwp-to-windows-app-sdk/
           if CheckPhotosVersion(2024, 11050) then
           begin
-            // https://github.com/doublecmd/doublecmd/issues/2188
-            if not CheckPhotosVersion(2025, 0) then
+            // Photos 2025.11010 and 2025.11020 had a bug:
+            // it did not understand an URL-encoded file name
+            if (not CheckPhotosVersion(2025, 0)) or CheckPhotosVersion(2025, 11030) then
             begin
               URL:= URIEncode(URL);
               URL:= StringReplace(URL, '%5C', '\', [rfReplaceAll]);
