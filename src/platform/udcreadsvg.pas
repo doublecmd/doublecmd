@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Scalable Vector Graphics reader implementation (via Image32 library)
 
-   Copyright (C) 2022 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2022-2025 Alexander Koblov (alexx2000@mail.ru)
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Lesser General Public
@@ -253,10 +253,8 @@ begin
   if (TScalableVectorGraphics.GetReaderClass = nil) then
   begin
 {$IF DEFINED(MSWINDOWS)}
-    FontManager.Load('Times New Roman');
-    FontManager.Load('Times New Roman Bold');
-    FontManager.Load('Times New Roman Italic');
-    FontManager.Load('Times New Roman Bold Italic');
+    FontManager.LoadFontReaderFamily('Arial');
+    FontManager.LoadFontReaderFamily('Times New Roman');
 {$ENDIF}
 
     // Register image handler and format

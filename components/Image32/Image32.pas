@@ -10,7 +10,8 @@ interface
 uses
   Img32.Draw, Img32.Extra, Img32.Fmt.SVG, Img32, Img32.Resamplers, 
   Img32.SVG.Core, Img32.SVG.Path, Img32.SVG.Reader, Img32.Text, 
-  Img32.Transform, Img32.Vector;
+  Img32.Transform, Img32.Vector, Clipper.Core, Clipper.Engine, 
+  Clipper.Minkowski, Clipper.Offset, Clipper, Clipper.RectClip;
 
 implementation
 

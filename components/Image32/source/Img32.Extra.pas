@@ -2,17 +2,12 @@ unit Img32.Extra;
 
 (*******************************************************************************
 * Author    :  Angus Johnson                                                   *
-* Version   :  4.3                                                             *
-* Date      :  27 September 2022                                               *
+* Version   :  4.8                                                             *
+* Date      :  10 January 2025                                                 *
 * Website   :  http://www.angusj.com                                           *
-* Copyright :  Angus Johnson 2019-2021                                         *
-*                                                                              *
-* Purpose   :  Miscellaneous routines for TImage32 that                        *
-*           :  don't obviously belong in other modules.                        *
-*                                                                              *
-* License   :  Use, modification & distribution is subject to                  *
-*              Boost Software License Ver 1                                    *
-*              http://www.boost.org/LICENSE_1_0.txt                            *
+* Copyright :  Angus Johnson 2019-2025                                         *
+* Purpose   :  Miscellaneous routines that don't belong in other modules.      *
+* License   :  http://www.boost.org/LICENSE_1_0.txt                            *
 *******************************************************************************)
 
 interface
@@ -26,46 +21,6 @@ type
   TButtonShape = (bsRound, bsSquare, bsDiamond);
   TButtonAttribute = (baShadow, ba3D, baEraseBeneath);
   TButtonAttributes = set of TButtonAttribute;
-
-type
-  PPt = ^TPt;
-  TPt = record
-    pt   : TPointD;
-    vec  : TPointD;
-    len  : double;
-    next : PPt;
-    prev : PPt;
-  end;
-
-  TFitCurveContainer = class
-  private
-    ppts      : PPt;
-    solution  : TPathD;
-    tolSqrd   : double;
-    function Count(first, last: PPt): integer;
-    function AddPt(const pt: TPointD): PPt;
-    procedure Clear;
-    function ComputeLeftTangent(p: PPt): TPointD;
-    function ComputeRightTangent(p: PPt): TPointD;
-    function ComputeCenterTangent(p: PPt): TPointD;
-    function ChordLengthParameterize(
-      first: PPt; cnt: integer): TArrayOfDouble;
-    function GenerateBezier(first, last: PPt; cnt: integer;
-      const u: TArrayOfDouble; const firstTan, lastTan: TPointD): TPathD;
-    function Reparameterize(first: PPt; cnt: integer;
-      const u: TArrayOfDouble; const bezier: TPathD): TArrayOfDouble;
-    function NewtonRaphsonRootFind(const q: TPathD;
-      const pt: TPointD; u: double): double;
-    function ComputeMaxErrorSqrd(first, last: PPt;
-      const bezier: TPathD; const u: TArrayOfDouble;
-      out SplitPoint: PPt): double;
-    function FitCubic(first, last: PPt;
-      firstTan, lastTan: TPointD): Boolean;
-    procedure AppendSolution(const bezier: TPathD);
-  public
-    function FitCurve(const path: TPathD; closed: Boolean;
-      tolerance: double; minSegLength: double): TPathD;
-  end;
 
 procedure DrawEdge(img: TImage32; const rec: TRect;
   topLeftColor, bottomRightColor: TColor32; penWidth: double = 1.0); overload;
@@ -90,16 +45,13 @@ procedure DrawGlow(img: TImage32; const polygon: TPathD;
 procedure DrawGlow(img: TImage32; const polygons: TPathsD;
   fillRule: TFillRule; color: TColor32; blurRadius: integer); overload;
 
-procedure TileImage(img: TImage32; const rec: TRect; tile: TImage32); overload;
-procedure TileImage(img: TImage32; const rec: TRect; tile: TImage32; const tileRec: TRect); overload;
-
 //FloodFill: If no CompareFunc is provided, FloodFill will fill whereever
 //adjoining pixels exactly match the starting pixel - Point(x,y).
 procedure FloodFill(img: TImage32; x, y: Integer; newColor: TColor32;
   tolerance: Byte = 0; compareFunc: TCompareFunctionEx = nil);
 
 procedure FastGaussianBlur(img: TImage32;
-  const rec: TRect; stdDev: integer; repeats: integer); overload;
+  const rec: TRect; stdDev: integer; repeats: integer = 2); overload;
 procedure FastGaussianBlur(img: TImage32;
   const rec: TRect; stdDevX, stdDevY: integer; repeats: integer); overload;
 
@@ -125,12 +77,20 @@ procedure GridBackground(img: TImage32; majorInterval, minorInterval: integer;
   fillColor: TColor32 = clWhite32;
   majColor: TColor32 = $30000000; minColor: TColor32 = $20000000);
 
-procedure ReplaceColor(img: TImage32; oldColor, newColor: TColor32);
+procedure ReplaceExactColor(img: TImage32; oldColor, newColor: TColor32);
 
-//EraseColor: Removes the specified color from the image, even from
+//RemoveColor: Removes the specified color from the image, even from
 //pixels that are a blend of colors including the specified color.<br>
 //see https://stackoverflow.com/questions/9280902/
-procedure EraseColor(img: TImage32; color: TColor32);
+procedure RemoveColor(img: TImage32; color: TColor32);
+
+//FilterOnColor: Removes everything not nearly matching 'color'
+//This uses an algorithm that's very similar to the one in RemoveColor.
+procedure FilterOnColor(img: TImage32; color: TColor32);
+
+procedure FilterOnExactColor(img: TImage32; color: TColor32);
+
+procedure FilterOnAlpha(img: TImage32; alpha: byte; tolerance: byte);
 
 //RedEyeRemove: Removes 'red eye' from flash photo images.
 procedure RedEyeRemove(img: TImage32; const rect: TRect);
@@ -147,7 +107,8 @@ procedure EraseInsidePaths(img: TImage32;
 procedure EraseOutsidePath(img: TImage32; const path: TPathD;
   fillRule: TFillRule; const outsideBounds: TRect);
 procedure EraseOutsidePaths(img: TImage32; const paths: TPathsD;
-  fillRule: TFillRule; const outsideBounds: TRect);
+  fillRule: TFillRule; const outsideBounds: TRect;
+  rendererCache: TCustomRendererCache = nil); overload;
 
 procedure Draw3D(img: TImage32; const polygon: TPathD;
   fillRule: TFillRule; height, blurRadius: double;
@@ -158,7 +119,7 @@ procedure Draw3D(img: TImage32; const polygons: TPathsD;
   colorLt: TColor32 = $DDFFFFFF; colorDk: TColor32 = $80000000;
   angleRads: double = angle225); overload;
 
-function RainbowColor(fraction: double): TColor32;
+function RainbowColor(fraction: double; luminance: byte = 128): TColor32;
 function GradientColor(color1, color2: TColor32; frac: single): TColor32;
 function MakeDarker(color: TColor32; percent: cardinal): TColor32;
 function MakeLighter(color: TColor32; percent: cardinal): TColor32;
@@ -168,13 +129,6 @@ function DrawButton(img: TImage32; const pt: TPointD;
   buttonShape: TButtonShape = bsRound;
   buttonAttributes: TButtonAttributes = [baShadow, ba3D, baEraseBeneath]): TPathD;
 
-//Vectorize: convert an image into polygon vectors
-function Vectorize(img: TImage32; compareColor: TColor32;
-  compareFunc: TCompareFunction; colorTolerance: Integer;
-  roundingTolerance: integer = 2): TPathsD;
-
-function VectorizeMask(const mask: TArrayOfByte; maskWidth: integer): TPathsD;
-
 // RamerDouglasPeucker: simplifies paths, recursively removing vertices where
 // they deviate no more than 'epsilon' from their adjacent vertices.
 function RamerDouglasPeucker(const path: TPathD;
@@ -182,15 +136,42 @@ function RamerDouglasPeucker(const path: TPathD;
 function RamerDouglasPeucker(const paths: TPathsD;
   epsilon: double): TPathsD; overload;
 
-// SmoothToCubicBezier - produces a series of cubic bezier control points.
-// This function is very useful in the following combination:
-// RamerDouglasPeucker(), SmoothToCubicBezier(), FlattenCBezier().
-function SmoothToCubicBezier(const path: TPathD;
-  pathIsClosed: Boolean; maxOffset: integer = 0): TPathD;
+{$IFDEF USE_OLD_SIMPLIFYPATHS}
+// SimplifyPath: Better than RDP when simplifying closed paths
+function SimplifyPath(const path: TPathD;
+  shapeTolerance: double = 0.1; isOpenPath: Boolean = false): TPathD;
+function SimplifyPaths(const paths: TPathsD;
+  shapeTolerance: double = 0.1; isOpenPath: Boolean = false): TPathsD;
+{$ELSE}
+// SimplifyPath: Better than RDP when simplifying closed paths
+function SimplifyPath(const path: TPathD;
+  shapeTolerance: double = 0.1; isClosedPath: Boolean = true): TPathD;
+function SimplifyPaths(const paths: TPathsD;
+  shapeTolerance: double = 0.1; isClosedPath: Boolean = true): TPathsD;
+{$ENDIF}
 
-//InterpolatePoints: smooths a simple line chart.
-//Points should be left to right and equidistant along the X axis
-function InterpolatePoints(const points: TPathD; tension: integer = 0): TPathD;
+// SimplifyPathEx: this is particularly useful following Vectorize()
+// because it also removes very short zig-zag segments
+function SimplifyPathEx(const path: TPathD; shapeTolerance: double): TPathD;
+function SimplifyPathsEx(const paths: TPathsD; shapeTolerance: double): TPathsD;
+
+// SmoothToCubicBezier and SmoothToCubicBezier2 have been deprecated in
+// favour of SmoothPath that's much simpler
+function SmoothToCubicBezier(const path: TPathD;
+  pathIsClosed: Boolean; maxOffset: integer = 0): TPathD; overload; deprecated;
+function SmoothToCubicBezier(const paths: TPathsD;
+  pathIsClosed: Boolean; maxOffset: integer = 0): TPathsD; overload; deprecated;
+function SmoothToCubicBezier2(const path: TPathD;
+  pathIsClosed: Boolean; maxOffset: integer = 0): TPathD; overload; deprecated;
+function SmoothToCubicBezier2(const paths: TPathsD;
+  pathIsClosed: Boolean; maxOffset: integer = 0): TPathsD; overload; deprecated;
+
+// SmoothPath - smooths a path using bicubic interpolation
+//   tension (range -1 to 1): from least to most curve constraint
+function SmoothPath(const path: TPathD; isClosedPath: Boolean;
+  tension: double = 0; shapeTolerance: double = 0.1): TPathD;
+function SmoothPaths(const paths: TPathsD; isClosedPath: Boolean;
+  tension: double = 0; shapeTolerance: double = 0.1): TPathsD;
 
 function GetFloodFillMask(imgIn, imgMaskOut: TImage32; x, y: Integer;
   tolerance: Byte; compareFunc: TCompareFunctionEx): Boolean;
@@ -202,24 +183,11 @@ function BlendAverage(bgColor, fgColor: TColor32): TColor32;
 function BlendLinearBurn(bgColor, fgColor: TColor32): TColor32;
 function BlendColorDodge(bgColor, fgColor: TColor32): TColor32;
 
-//CurveFit: this function is based on -
-//"An Algorithm for Automatically Fitting Digitized Curves"
-//by Philip J. Schneider in "Graphics Gems", Academic Press, 1990
-//Smooths out many very closely positioned points
-//tolerance range: 1..10 where 10 == max tolerance.
-
-function CurveFit(const path: TPathD; closed: Boolean;
-  tolerance: double; minSegLength: double = 2): TPathD; overload;
-function CurveFit(const paths: TPathsD; closed: Boolean;
-  tolerance: double; minSegLength: double = 2): TPathsD; overload;
-
 implementation
 
 uses
-  {$IFNDEF MSWINDOWS}
-  {$IFNDEF FPC}
+  {$IFDEF USING_FMX}
   Img32.FMX,
-  {$ENDIF}
   {$ENDIF}
   Img32.Transform;
 
@@ -233,8 +201,38 @@ type
   PWeightedColorArray = ^TWeightedColorArray;
   TWeightedColorArray = array [0.. $FFFFFF] of TWeightedColor;
 
+  // SimplifyPathsEx structures
+  PVertex = ^TVertex;
+  TVertex = record
+    pt    : TPointD;
+    uvec  : TPointD;
+    dist  : double;
+    perpD : double;
+    next  : PVertex;
+    prev:  PVertex;
+  end;
+  TArrayOfVertices = array of TVertex;
+
+
 //------------------------------------------------------------------------------
 // Miscellaneous functions
+//------------------------------------------------------------------------------
+
+function Clamp(val, endVal: integer): integer;
+  {$IFDEF INLINE} inline; {$ENDIF}
+begin
+  if val < 0 then Result := 0
+  else if val >= endVal then Result := endVal -1
+  else Result := val;
+end;
+//------------------------------------------------------------------------------
+
+function ModEx(val, endVal: integer): integer;
+  {$IFDEF INLINE} inline; {$ENDIF}
+begin
+  Result := val mod endVal;
+  if Result < 0 then Result := endVal + Result;
+end;
 //------------------------------------------------------------------------------
 
 function GetSymmetricCropTransparentRect(img: TImage32): TRect;
@@ -365,7 +363,7 @@ begin
   p := path;
   if closePath and not PointsNearEqual(p[0], p[highI], 0.01) then
   begin
-    AppendPath(p, p[0]);
+    AppendPoint(p, p[0]);
     inc(highI);
   end;
   for i := 1 to highI do
@@ -558,7 +556,9 @@ var
 begin
   rec := GetBounds(polygons);
   if IsEmptyRect(rec) or (depth < 1) then Exit;
-  if not ClockwiseRotationIsAnglePositive then angleRads := -angleRads;
+{$IFDEF CLOCKWISE_ROTATION_WITH_NEGATIVE_ANGLES}
+  angleRads := -angleRads;
+{$ENDIF}
   NormalizeAngle(angleRads);
   GetSinCos(angleRads, y, x);
   depth := depth * 0.5;
@@ -566,15 +566,15 @@ begin
   y := depth * y;
   blurSize := Max(1,Round(depth / 2));
   Img32.Vector.InflateRect(rec, Ceil(depth*2), Ceil(depth*2));
-  polys := OffsetPath(polygons, -rec.Left, -rec.Top);
-  shadowPolys := OffsetPath(polys, x, y);
+  polys := TranslatePath(polygons, -rec.Left, -rec.Top);
+  shadowPolys := TranslatePath(polys, x, y);
   RectWidthHeight(rec, w, h);
   shadowImg := TImage32.Create(w, h);
   try
     DrawPolygon(shadowImg, shadowPolys, fillRule, color);
     FastGaussianBlur(shadowImg, shadowImg.Bounds, blurSize, 1);
     if cutoutInsideShadow then EraseInsidePaths(shadowImg, polys, fillRule);
-    img.CopyBlend(shadowImg, shadowImg.Bounds, rec, BlendToAlpha);
+    img.CopyBlend(shadowImg, shadowImg.Bounds, rec, BlendToAlphaLine);
   finally
     shadowImg.Free;
   end;
@@ -601,7 +601,7 @@ var
   glowImg: TImage32;
 begin
   rec := GetBounds(polygons);
-  glowPolys := OffsetPath(polygons,
+  glowPolys := TranslatePath(polygons,
     blurRadius -rec.Left +1, blurRadius -rec.Top +1);
   Img32.Vector.InflateRect(rec, blurRadius +1, blurRadius +1);
   RectWidthHeight(rec, w, h);
@@ -610,44 +610,9 @@ begin
     DrawPolygon(glowImg, glowPolys, fillRule, color);
     FastGaussianBlur(glowImg, glowImg.Bounds, blurRadius, 2);
     glowImg.ScaleAlpha(4);
-    img.CopyBlend(glowImg, glowImg.Bounds, rec, BlendToAlpha);
+    img.CopyBlend(glowImg, glowImg.Bounds, rec, BlendToAlphaLine);
   finally
     glowImg.Free;
-  end;
-end;
-//------------------------------------------------------------------------------
-
-procedure TileImage(img: TImage32; const rec: TRect; tile: TImage32);
-begin
-  TileImage(img, rec, tile, tile.Bounds);
-end;
-//------------------------------------------------------------------------------
-
-procedure TileImage(img: TImage32;
-  const rec: TRect; tile: TImage32; const tileRec: TRect);
-var
-  i, dstW, dstH, srcW, srcH, cnt: integer;
-  dstRec, srcRec: TRect;
-begin
-  if tile.IsEmpty or IsEmptyRect(tileRec) then Exit;
-  RectWidthHeight(rec, dstW,dstH);
-  RectWidthHeight(tileRec, srcW, srcH);
-  cnt := Ceil(dstW / srcW);
-  dstRec := Img32.Vector.Rect(rec.Left, rec.Top,
-    rec.Left + srcW, rec.Top + srcH);
-  for i := 1 to cnt do
-  begin
-    img.Copy(tile, tileRec, dstRec);
-    Types.OffsetRect(dstRec, srcW, 0);
-  end;
-  cnt := Ceil(dstH / srcH) -1;
-  srcRec := Img32.Vector.Rect(rec.Left, rec.Top,
-    rec.Right, rec.Top + srcH);
-  dstRec := srcRec;
-  for i := 1 to cnt do
-  begin
-    Types.OffsetRect(dstRec, 0, srcH);
-    img.Copy(img, srcRec, dstRec);
   end;
 end;
 //------------------------------------------------------------------------------
@@ -686,31 +651,52 @@ begin
 end;
 //------------------------------------------------------------------------------
 
-procedure HatchBackground(img: TImage32; const rec: TRect;
-  color1: TColor32 = clWhite32; color2: TColor32= $FFE8E8E8;
-  hatchSize: Integer = 10); overload;
+procedure InternalHatchBackground(img: TImage32; const rec: TRect;
+  color1, color2: TColor32; hatchSize: Integer = 10);
 var
-  i,j: Integer;
+  i, j, imgWidth: Integer;
   pc: PColor32;
   colors: array[boolean] of TColor32;
   hatch: Boolean;
+  x: integer;
 begin
   colors[false] := color1;
   colors[true] := color2;
-  img.BeginUpdate;
-  try
-    for i := rec.Top to rec.Bottom -1 do
+  imgWidth := img.Width;
+
+  for i := rec.Top to rec.Bottom -1 do
+  begin
+    pc := @img.Pixels[i * imgWidth + rec.Left];
+    hatch := Odd(i div hatchSize);
+
+    x := (rec.Left + 1) mod hatchSize;
+    if x = 0 then hatch := not hatch;
+    for j := rec.Left to rec.Right -1 do
     begin
-      pc := img.PixelRow[i];
-      inc(pc, rec.Left);
-      hatch := Odd(i div hatchSize);
-      for j := rec.Left to rec.Right -1 do
+      if pc^ = 0 then
+        pc^ := colors[hatch]
+      else if GetAlpha(pc^) < 255 then
+        pc^ := BlendToOpaque(colors[hatch], pc^);
+      inc(pc);
+      inc(x);
+      if x >= hatchSize then
       begin
-        if (j + 1) mod hatchSize = 0 then hatch := not hatch;
-        pc^ := BlendToOpaque(pc^, colors[hatch]);
-       inc(pc);
+        x := 0;
+        hatch := not hatch;
       end;
     end;
+  end;
+end;
+//------------------------------------------------------------------------------
+
+procedure HatchBackground(img: TImage32; const rec: TRect;
+  color1: TColor32 = clWhite32; color2: TColor32= $FFE8E8E8;
+  hatchSize: Integer = 10); overload;
+begin
+  if (rec.Right <= rec.Left) or (rec.Bottom - rec.Top <= 0) then Exit;
+  img.BeginUpdate;
+  try
+    InternalHatchBackground(img, rec, color1, color2, hatchSize);
   finally
     img.EndUpdate;
   end;
@@ -729,47 +715,60 @@ procedure GridBackground(img: TImage32; majorInterval, minorInterval: integer;
 var
   i, x,y, w,h: integer;
   path: TPathD;
+  cr: TCustomColorRenderer;
 begin
   img.Clear(fillColor);
   w := img.Width; h := img.Height;
-  SetLength(path, 2);
-  if minorInterval > 0 then
-  begin
-    x := minorInterval;
-    path[0] := PointD(x, 0); path[1] := PointD(x, h);;
-    for i := 1 to (w div minorInterval) do
+  NewPointDArray(path, 2, True);
+
+  if img.AntiAliased then
+    cr := TColorRenderer.Create(minColor) else
+    cr := TAliasedColorRenderer.Create(minColor);
+  try
+    if minorInterval > 0 then
     begin
-      Img32.Draw.DrawLine(img, path, 1, minColor, esSquare);
-      path[0].X := path[0].X + minorInterval;
-      path[1].X := path[1].X + minorInterval;
+      //cr.SetColor(minColor);
+
+      x := minorInterval;
+      path[0] := PointD(x, 0); path[1] := PointD(x, h);;
+      for i := 1 to (w div minorInterval) do
+      begin
+        Img32.Draw.DrawLine(img, path, 1, cr, esSquare);
+        path[0].X := path[0].X + minorInterval;
+        path[1].X := path[1].X + minorInterval;
+      end;
+      y := minorInterval;
+      path[0] := PointD(0, y); path[1] := PointD(w, y);
+      for i := 1 to (h div minorInterval) do
+      begin
+        Img32.Draw.DrawLine(img, path, 1, cr, esSquare);
+        path[0].Y := path[0].Y + minorInterval;
+        path[1].Y := path[1].Y + minorInterval;
+      end;
     end;
-    y := minorInterval;
-    path[0] := PointD(0, y); path[1] := PointD(w, y);
-    for i := 1 to (h div minorInterval) do
+    if majorInterval > minorInterval then
     begin
-      Img32.Draw.DrawLine(img, path, 1, minColor, esSquare);
-      path[0].Y := path[0].Y + minorInterval;
-      path[1].Y := path[1].Y + minorInterval;
+      cr.SetColor(majColor);
+
+      x := majorInterval;
+      path[0] := PointD(x, 0); path[1] := PointD(x, h);;
+      for i := 1 to (w div majorInterval) do
+      begin
+        Img32.Draw.DrawLine(img, path, 1, cr, esSquare);
+        path[0].X := path[0].X + majorInterval;
+        path[1].X := path[1].X + majorInterval;
+      end;
+      y := majorInterval;
+      path[0] := PointD(0, y); path[1] := PointD(w, y);
+      for i := 1 to (h div majorInterval) do
+      begin
+        Img32.Draw.DrawLine(img, path, 1, cr, esSquare);
+        path[0].Y := path[0].Y + majorInterval;
+        path[1].Y := path[1].Y + majorInterval;
+      end;
     end;
-  end;
-  if majorInterval > minorInterval then
-  begin
-    x := majorInterval;
-    path[0] := PointD(x, 0); path[1] := PointD(x, h);;
-    for i := 1 to (w div majorInterval) do
-    begin
-      Img32.Draw.DrawLine(img, path, 1, majColor, esSquare);
-      path[0].X := path[0].X + majorInterval;
-      path[1].X := path[1].X + majorInterval;
-    end;
-    y := majorInterval;
-    path[0] := PointD(0, y); path[1] := PointD(w, y);
-    for i := 1 to (h div majorInterval) do
-    begin
-      Img32.Draw.DrawLine(img, path, 1, majColor, esSquare);
-      path[0].Y := path[0].Y + majorInterval;
-      path[1].Y := path[1].Y + majorInterval;
-    end;
+  finally
+    cr.Free;
   end;
 end;
 //------------------------------------------------------------------------------
@@ -785,7 +784,7 @@ begin
 end;
 //------------------------------------------------------------------------------
 
-procedure ReplaceColor(img: TImage32; oldColor, newColor: TColor32);
+procedure ReplaceExactColor(img: TImage32; oldColor, newColor: TColor32);
 var
   color: PColor32;
   i: Integer;
@@ -799,7 +798,7 @@ begin
 end;
 //------------------------------------------------------------------------------
 
-procedure EraseColor(img: TImage32; color: TColor32);
+procedure RemoveColor(img: TImage32; color: TColor32);
 var
   fg: TARGB absolute color;
   bg: PARGB;
@@ -812,22 +811,108 @@ begin
   begin
     if bg.A > 0 then
     begin
-      if (bg.R > fg.R) then Q := DivTable[bg.R - fg.R, not fg.R]
+      // red
+      if (bg.R > fg.R) then Q := bg.R - fg.R
       else if (bg.R < fg.R) then Q := DivTable[fg.R - bg.R, fg.R]
       else Q := 0;
-      if (bg.G > fg.G) then Q := Max(Q, DivTable[bg.G - fg.G, not fg.G])
+      // green
+      if (bg.G > fg.G) then Q := Max(Q, bg.G - fg.G)
       else if (bg.G < fg.G) then Q := Max(Q, DivTable[fg.G - bg.G, fg.G]);
-      if (bg.B > fg.B) then Q := Max(Q, DivTable[bg.B - fg.B, not fg.B])
+      // blue
+      if (bg.B > fg.B) then Q := Max(Q, bg.B - fg.B)
       else if (bg.B < fg.B) then Q := Max(Q, DivTable[fg.B - bg.B, fg.B]);
-      if (Q > 0) then
+
+      // weight Q toward either fully opaque or fully translucent
+      Q := Sigmoid[Q];
+
+      if (Q = 0) then
+        bg.Color := clNone32
+      else if (Q < 255) then
       begin
         bg.A := MulTable[bg.A, Q];
-        bg.R := DivTable[bg.R - MulTable[fg.R, not Q], Q];
-        bg.G := DivTable[bg.G - MulTable[fg.G, not Q], Q];
-        bg.B := DivTable[bg.B - MulTable[fg.B, not Q], Q];
-      end else
-        bg.Color := clNone32;
+        bg.R := DivTable[bg.R - MulTable[not Q, fg.R], Q];
+        bg.G := DivTable[bg.G - MulTable[not Q, fg.G], Q];
+        bg.B := DivTable[bg.B - MulTable[not Q, fg.B], Q];
+      end;
     end;
+    inc(bg);
+  end;
+end;
+//------------------------------------------------------------------------------
+
+procedure FilterOnColor(img: TImage32; color: TColor32);
+var
+  fg: TARGB absolute color;
+  bg: PARGB;
+  i: Integer;
+  Q: byte;
+begin
+  if fg.A = 0 then Exit;
+  bg := PARGB(img.PixelBase);
+  for i := 0 to img.Width * img.Height -1 do
+  begin
+    if bg.A > 0 then
+    begin
+      // red
+      if (bg.R > fg.R) then
+        Q := bg.R - fg.R
+      else if (bg.R < fg.R) then
+        Q := DivTable[fg.R - bg.R, fg.R]
+      else
+        Q := 0;
+
+      // green
+      if (bg.G > fg.G) then
+        Q := Max(Q, bg.G - fg.G)
+      else if (bg.G < fg.G) then
+        Q := Max(Q, DivTable[fg.G - bg.G, fg.G]);
+
+      // blue
+      if (bg.B > fg.B) then
+        Q := Max(Q, bg.B - fg.B)
+      else if (bg.B < fg.B) then
+        Q := Max(Q, DivTable[fg.B - bg.B, fg.B]);
+
+      // weight Q toward either fully opaque or fully translucent
+      Q := Sigmoid[Q];
+
+      Q := MulTable[bg.A, not Q];
+      bg.Color := color;
+      bg.A := Q; // note: fg.A is ignored
+    end;
+    inc(bg);
+  end;
+end;
+//------------------------------------------------------------------------------
+
+procedure FilterOnExactColor(img: TImage32; color: TColor32);
+var
+  pc: PColor32;
+  i: Integer;
+  mask: TColor32;
+begin
+  // alpha channel is ignored
+  mask := $FFFFFF;
+  color := color and mask;
+
+  pc := img.PixelBase;
+  for i := 0 to img.Width * img.Height -1 do
+  begin
+    if (pc^ and mask) <> color then pc^ := clNone32;
+    inc(pc);
+  end;
+end;
+//------------------------------------------------------------------------------
+
+procedure FilterOnAlpha(img: TImage32; alpha: byte; tolerance: byte);
+var
+  bg: PARGB;
+  i: Integer;
+begin
+  bg := PARGB(img.PixelBase);
+  for i := 0 to img.Width * img.Height -1 do
+  begin
+    if abs(bg.A - alpha) > tolerance then bg.A := 0;
     inc(bg);
   end;
 end;
@@ -865,9 +950,9 @@ begin
     path := Ellipse(cutoutRec);
     radGrad.SetParameters(rect3, clBlack32, clNone32);
     DrawPolygon(mask, path, frNonZero, radGrad);
-    cutout.CopyBlend(mask, mask.Bounds, cutout.Bounds, BlendMask);
+    cutout.CopyBlend(mask, mask.Bounds, cutout.Bounds, BlendMaskLine);
     // now remove red from the cutout
-    EraseColor(cutout, clRed32);
+    RemoveColor(cutout, clRed32);
     // finally replace the cutout ...
     img.CopyBlend(cutout, cutout.Bounds, cutoutRec, BlendToOpaque);
   finally
@@ -892,42 +977,86 @@ begin
 end;
 //------------------------------------------------------------------------------
 
+procedure EraseOutsideRect(img: TImage32; const r, outsideBounds: TRect);
+begin
+  // Fill the parts, that are in outsideBounds but not in r with zeros
+
+  // whole top block
+  if r.Top > outsideBounds.Top then
+    img.FillRect(Rect(outsideBounds.Left, outsideBounds.Top, outsideBounds.Right, r.Top - 1), 0);
+  // whole bottom block
+  if r.Bottom < outsideBounds.Bottom then
+    img.FillRect(Rect(outsideBounds.Left, r.Bottom + 1, outsideBounds.Right, outsideBounds.Bottom), 0);
+
+  // remaining left block
+  if r.Left > outsideBounds.Left then
+    img.FillRect(Rect(outsideBounds.Left, r.Top, r.Left - 1, r.Bottom), 0);
+  // remaining right block
+  if r.Right < outsideBounds.Right then
+    img.FillRect(Rect(r.Right + 1, r.Top, outsideBounds.Right, r.Bottom), 0);
+end;
+//------------------------------------------------------------------------------
+
 procedure EraseOutsidePath(img: TImage32; const path: TPathD;
   fillRule: TFillRule; const outsideBounds: TRect);
 var
-  mask: TImage32;
-  p: TPathD;
-  w,h: integer;
+  w, h: integer;
+  renderer: TMaskRenderer;
+  r: TRect;
+  polygons: TPathsD;
 begin
   if not assigned(path) then Exit;
-  RectWidthHeight(outsideBounds, w,h);
-  mask := TImage32.Create(w, h);
+  RectWidthHeight(outsideBounds, w, h);
+  if (w <= 0) or (h <= 0)  then Exit;
+
+  // We can skip the costly polygon rasterization if the path is
+  // a rectangle
+  if (fillRule in [frEvenOdd, frNonZero]) and IsSimpleRectanglePath(path, r) then
+  begin
+    EraseOutsideRect(img, r, outsideBounds);
+    Exit;
+  end;
+
+  renderer := TMaskRenderer.Create;
   try
-    p := OffsetPath(path, -outsideBounds.Left, -outsideBounds.top);
-    DrawPolygon(mask, p, fillRule, clBlack32);
-    img.CopyBlend(mask, mask.Bounds, outsideBounds, BlendMask);
+    SetLength(polygons, 1);
+    polygons[0] := path;
+    Rasterize(img, polygons, outsideBounds, fillRule, renderer);
   finally
-    mask.Free;
+    renderer.Free;
   end;
 end;
 //------------------------------------------------------------------------------
 
 procedure EraseOutsidePaths(img: TImage32; const paths: TPathsD;
-  fillRule: TFillRule; const outsideBounds: TRect);
+  fillRule: TFillRule; const outsideBounds: TRect;
+  rendererCache: TCustomRendererCache);
 var
-  mask: TImage32;
-  pp: TPathsD;
-  w,h: integer;
+  w, h: integer;
+  renderer: TMaskRenderer;
+  r: TRect;
 begin
   if not assigned(paths) then Exit;
-  RectWidthHeight(outsideBounds, w,h);
-  mask := TImage32.Create(w, h);
+  RectWidthHeight(outsideBounds, w, h);
+  if (w <= 0) or (h <= 0)  then Exit;
+
+  // We can skip the costly polygon rasterization if the path is
+  // a rectangle.
+  if (fillRule in [frEvenOdd, frNonZero]) and IsSimpleRectanglePath(paths, r) then
+  begin
+    EraseOutsideRect(img, r, outsideBounds);
+    Exit;
+  end;
+
+  if rendererCache = nil then
+    renderer := TMaskRenderer.Create
+  else
+    renderer := rendererCache.MaskRenderer;
   try
-    pp := OffsetPath(paths, -outsideBounds.Left, -outsideBounds.top);
-    DrawPolygon(mask, pp, fillRule, clBlack32);
-    img.CopyBlend(mask, mask.Bounds, outsideBounds, BlendMask);
+    Rasterize(img, paths, outsideBounds, fillRule, renderer);
   finally
-    mask.Free;
+    if rendererCache = nil then
+      renderer.Free;
   end;
 end;
 //------------------------------------------------------------------------------
@@ -956,29 +1085,31 @@ var
 begin
   rec := GetBounds(polygons);
   if IsEmptyRect(rec) then Exit;
-  if not ClockwiseRotationIsAnglePositive then angleRads := -angleRads;
+{$IFDEF CLOCKWISE_ROTATION_WITH_NEGATIVE_ANGLES}
+  angleRads := -angleRads;
+{$ENDIF}
   GetSinCos(angleRads, y, x);
-  paths := OffsetPath(polygons, -rec.Left, -rec.Top);
+  paths := TranslatePath(polygons, -rec.Left, -rec.Top);
   RectWidthHeight(rec, w, h);
   tmp := TImage32.Create(w, h);
   try
     if GetAlpha(colorLt) > 0 then
     begin
       tmp.Clear(colorLt);
-      paths2 := OffsetPath(paths, -height*x, -height*y);
+      paths2 := TranslatePath(paths, -height*x, -height*y);
       EraseInsidePaths(tmp, paths2, fillRule);
       FastGaussianBlur(tmp, tmp.Bounds, Round(blurRadius), 0);
       EraseOutsidePaths(tmp, paths, fillRule, tmp.Bounds);
-      img.CopyBlend(tmp, tmp.Bounds, rec, BlendToAlpha);
+      img.CopyBlend(tmp, tmp.Bounds, rec, BlendToAlphaLine);
     end;
     if GetAlpha(colorDk) > 0 then
     begin
       tmp.Clear(colorDk);
-      paths2 := OffsetPath(paths, height*x, height*y);
+      paths2 := TranslatePath(paths, height*x, height*y);
       EraseInsidePaths(tmp, paths2, fillRule);
       FastGaussianBlur(tmp, tmp.Bounds, Round(blurRadius), 0);
       EraseOutsidePaths(tmp, paths, fillRule, tmp.Bounds);
-      img.CopyBlend(tmp, tmp.Bounds, rec, BlendToAlpha);
+      img.CopyBlend(tmp, tmp.Bounds, rec, BlendToAlphaLine);
     end;
   finally
     tmp.Free;
@@ -986,19 +1117,18 @@ begin
 end;
 //------------------------------------------------------------------------------
 
-function RainbowColor(fraction: double): TColor32;
+function RainbowColor(fraction: double; luminance: byte = 128): TColor32;
 var
   hsl: THsl;
 begin
-  if (fraction > 0) and (fraction < 1) then
-  begin
-    hsl.hue := Round(fraction * 255);
-    hsl.sat := 255;
-    hsl.lum := 255;
-    hsl.alpha := 255;
-    Result := HslToRgb(hsl);
-  end else
-    result := clRed32
+  if (fraction < 0) or (fraction > 1) then
+    fraction := frac(fraction);
+
+  hsl.hue := Round(fraction * 255);
+  hsl.sat := 255;
+  hsl.lum := luminance;
+  hsl.alpha := 255;
+  Result := HslToRgb(hsl);
 end;
 //------------------------------------------------------------------------------
 
@@ -1058,7 +1188,7 @@ begin
   case buttonShape of
     bsDiamond:
       begin
-        SetLength(Result, 4);
+        NewPointDArray(Result, 4, True);
         for i := 0 to 3 do Result[i] := pt;
         Result[0].X := Result[0].X -radius;
         Result[1].Y := Result[1].Y -radius;
@@ -1169,8 +1299,8 @@ var
 begin
   w := img.Width; h := img.Height;
   if w * h = 0 then Exit;
-  SetLength(tmp, w * h);
-  SetLength(tmp2, w * h);
+  NewColor32Array(tmp, w * h);
+  NewColor32Array(tmp2, w * h);
   s := img.PixelRow[0]; d := @tmp[0];
   for j := 0 to h-1 do
   begin
@@ -1192,7 +1322,11 @@ begin
       inc(s, w); inc(s2, w); inc(d, w);
     end;
   end;
-  Move(tmp2[0], img.PixelBase^, w * h * sizeOf(TColor32));
+
+  img.BlockNotify;
+  img.AssignPixelArray(tmp2, w, h);
+  img.UnblockNotify;
+
   if intensity < 1 then Exit;
   if intensity > 10 then
     intensity := 10; // range = 1-10
@@ -1529,491 +1663,7 @@ begin
     inc(pc); inc(pw);
   end;
 end;
-//------------------------------------------------------------------------------
-// Structure and functions used by the Vectorize routine
-//------------------------------------------------------------------------------
-type
-  TPt2Container = class;
-  TPt2 = class
-    pt         : TPointD;
-    owner      : TPt2Container;
-    isStart    : Boolean;
-    isHole     : Boolean;
-    nextInPath : TPt2;
-    prevInPath : TPt2;
-    nextInRow  : TPt2;
-    prevInRow  : TPt2;
-    destructor Destroy; override;
-    procedure Update(x, y: double);
-    function GetCount: integer;
-    function GetPoints: TPathD;
-    property IsAscending: Boolean read isStart;
-  end;
-  TPt2Container = class
-    prevRight: integer;
-    leftMostPt, rightMost: TPt2;
-    solution: TPathsD;
-    procedure AddToSolution(const path: TPathD);
-    function StartNewPath(insertBefore: TPt2;
-      xLeft, xRight, y: integer; isHole: Boolean): TPt2;
-    procedure AddRange(var current: TPt2; xLeft, xRight, y: integer);
-    function JoinAscDesc(path1, path2: TPt2): TPt2;
-    function JoinDescAsc(path1, path2: TPt2): TPt2;
-    procedure CheckRowEnds(pt2Left, pt2Right: TPt2);
-  end;
-//------------------------------------------------------------------------------
-destructor TPt2.Destroy;
-var
-  startPt, endPt, pt: TPt2;
-begin
-  if not isStart then Exit;
-  startPt := self;
-  endPt := startPt.prevInPath;
-  // remove 'endPt' from double linked list
-  if endPt = owner.rightMost then
-    owner.rightMost := endPt.prevInRow
-  else if assigned(endPt.nextInRow) then
-    endPt.nextInRow.prevInRow := endPt.prevInRow;
-  if endPt = owner.leftMostPt then
-    owner.leftMostPt := endPt.nextInRow
-  else if assigned(endPt.prevInRow) then
-    endPt.prevInRow.nextInRow := endPt.nextInRow;
-  // remove 'startPt' from double linked list
-  if startPt = owner.leftMostPt then
-    owner.leftMostPt := startPt.nextInRow
-  else if assigned(startPt.prevInRow) then
-    startPt.prevInRow.nextInRow := startPt.nextInRow;
-  if assigned(startPt.nextInRow) then
-    startPt.nextInRow.prevInRow := startPt.prevInRow;
-  owner.AddToSolution(GetPoints);
-  // now Free the entire path (except self)
-  pt := startPt.nextInPath;
-  while pt <> startPt do
-  begin
-    endPt := pt;
-    pt := pt.nextInPath;
-    endPt.Free;
-  end;
-end;
-//------------------------------------------------------------------------------
 
-function IsColinear(const pt1, pt2, pt3: TPoint): Boolean; overload;
-begin
-  // cross product = 0
-  result := (pt1.X - pt2.X)*(pt2.Y - pt3.Y) = (pt2.X - pt3.X)*(pt1.Y - pt2.Y);
-end;
-//------------------------------------------------------------------------------
-
-function IsColinear(const pt1, pt2, pt3, pt4: TPoint): Boolean; overload;
-begin
-  result := (pt1.X - pt2.X)*(pt3.Y - pt4.Y) = (pt3.X - pt4.X)*(pt1.Y - pt2.Y);
-end;
-//------------------------------------------------------------------------------
-
-function CreatePt2After(pt: TPt2; const p: TPointD): TPt2;
-begin
-  Result := TPt2.Create;
-  Result.pt := p;
-  Result.nextInPath := pt.nextInPath;
-  Result.prevInPath := pt;
-  pt.nextInPath.prevInPath := Result;
-  pt.nextInPath := Result;
-end;
-//------------------------------------------------------------------------------
-
-procedure TPt2.Update(x, y: double);
-var
-  newPt2: TPt2;
-begin
-  if isStart then
-  begin
-    // just update self.pt when colinear
-    if (x = pt.X) and (pt.X = nextInPath.pt.X) then
-    begin
-      pt := PointD(x,y);
-      Exit;
-    end;
-    // self -> 2 -> 1 -> nip
-    CreatePt2After(self, pt);
-    if (x <> pt.X) or (x <> nextInPath.pt.X) then
-    begin
-      // add a pixel either below or beside
-      if IsAscending then
-        CreatePt2After(self, PointD(pt.X, y)) else
-        CreatePt2After(self, PointD(x, pt.Y));
-    end;
-    pt := PointD(x,y);
-  end else
-  begin
-    // just update self.pt when colinear
-    if (x = pt.X) and (pt.X = prevInPath.pt.X) then
-    begin
-      pt := PointD(x,y);
-      Exit;
-    end;
-    // self <- 2 <- 1 <- pip
-    newPt2 := CreatePt2After(prevInPath, pt);
-    if (x <> pt.X) or (x <> prevInPath.pt.X) then
-    begin
-      // add a pixel either below or beside
-      if IsAscending then
-        CreatePt2After(newPt2, PointD(x, pt.Y)) else
-        CreatePt2After(newPt2, PointD(pt.X, y));
-    end;
-    pt := PointD(x,y);
-  end;
-end;
-//------------------------------------------------------------------------------
-
-function TPt2.GetCount: integer;
-var
-  pt2: TPt2;
-begin
-  result := 1;
-  pt2 := nextInPath;
-  while pt2 <> self do
-  begin
-    inc(Result);
-    pt2 := pt2.nextInPath;
-  end;
-end;
-//------------------------------------------------------------------------------
-
-function TPt2.GetPoints: TPathD;
-var
-  i, count: integer;
-  pt2: TPt2;
-begin
-  Update(pt.X, pt.Y+1);
-  with prevInPath do Update(pt.X, pt.Y+1); // path 'end'
-  count := GetCount;
-  SetLength(Result, count);
-  pt2 := self;
-  for i := 0 to count -1 do
-  begin
-    Result[i] := pt2.pt;
-    pt2 := pt2.nextInPath;
-  end;
-end;
-//------------------------------------------------------------------------------
-
-procedure TPt2Container.AddToSolution(const path: TPathD);
-var
-  len: integer;
-begin
-  if Length(path) < 2 then Exit;
-  len := Length(solution);
-  SetLength(solution, len + 1);
-  solution[len] := path;
-end;
-//------------------------------------------------------------------------------
-
-function TPt2Container.StartNewPath(insertBefore: TPt2;
-  xLeft, xRight, y: integer; isHole: Boolean): TPt2;
-var
-  pt2Left, pt2Right: TPt2;
-begin
-  inc(xRight);
-  pt2Left := TPt2.Create;
-  pt2Left.owner := self;
-  pt2Left.isStart := not isHole;
-  pt2Left.isHole := isHole;
-  pt2Left.pt := PointD(xLeft, y);
-  pt2Right := TPt2.Create;
-  pt2Right.owner := self;
-  pt2Right.isStart := isHole;
-  pt2Right.isHole := isHole;
-  pt2Right.pt := PointD(xRight, y);
-  pt2Left.nextInPath := pt2Right;
-  pt2Left.prevInPath := pt2Right;
-  pt2Right.nextInPath := pt2Left;
-  pt2Right.prevInPath := pt2Left;
-  pt2Left.nextInRow := pt2Right;
-  pt2Right.prevInRow := pt2Left;
-  if not Assigned(insertBefore) then
-  begin
-    // must be a new rightMost path
-    pt2Left.prevInRow := rightMost;
-    if Assigned(rightMost) then rightMost.nextInRow := pt2Left;
-    pt2Right.nextInRow := nil;
-    rightMost := pt2Right;
-    if not Assigned(leftMostPt) then leftMostPt := pt2Left;
-  end else
-  begin
-    pt2Right.nextInRow := insertBefore;
-    if leftMostPt = insertBefore then
-    begin
-      // must be a new leftMostPt path
-      leftMostPt := pt2Left;
-      pt2Left.prevInRow := nil;
-    end else
-    begin
-      pt2Left.prevInRow := insertBefore.prevInRow;
-      insertBefore.prevInRow.nextInRow := pt2Left;
-    end;
-    insertBefore.prevInRow := pt2Right;
-  end;
-  result := pt2Right.nextInRow;
-end;
-//------------------------------------------------------------------------------
-
-procedure TPt2Container.CheckRowEnds(pt2Left, pt2Right: TPt2);
-begin
-  if pt2Left = leftMostPt then leftMostPt := pt2Right.nextInRow;
-  if pt2Right = rightMost then rightMost := pt2Left.prevInRow;
-end;
-//------------------------------------------------------------------------------
-
-function TPt2Container.JoinAscDesc(path1, path2: TPt2): TPt2;
-begin
-  result := path2.nextInRow;
-  CheckRowEnds(path1, path2);
-  if path2 = path1.prevInPath then
-  begin
-    path1.Free;
-    Exit;
-  end;
-  with path1 do Update(pt.X, pt.Y+1);
-  with path2 do Update(pt.X, pt.Y+1);
-  path1.isStart := false;
-  // remove path1 from double linked list
-  if assigned(path1.nextInRow) then
-    path1.nextInRow.prevInRow := path1.prevInRow;
-  if assigned(path1.prevInRow) then
-    path1.prevInRow.nextInRow := path1.nextInRow;
-  // remove path2 from double linked list
-  if assigned(path2.nextInRow) then
-    path2.nextInRow.prevInRow := path2.prevInRow;
-  if assigned(path2.prevInRow) then
-    path2.prevInRow.nextInRow := path2.nextInRow;
-  path1.prevInPath.nextInPath := path2.nextInPath;
-  path2.nextInPath.prevInPath := path1.prevInPath;
-  path2.nextInPath := path1;
-  path1.prevInPath := path2;
-end;
-//------------------------------------------------------------------------------
-
-function TPt2Container.JoinDescAsc(path1, path2: TPt2): TPt2;
-begin
-  result := path2.nextInRow;
-  CheckRowEnds(path1, path2);
-  if path1 = path2.prevInPath then
-  begin
-    path2.Free;
-    Exit;
-  end;
-  with path1 do Update(pt.X, pt.Y+1);
-  with path2 do Update(pt.X, pt.Y+1);
-  path2.isStart := false;
-  // remove path1 'end' from double linked list
-  if assigned(path1.nextInRow) then
-    path1.nextInRow.prevInRow := path1.prevInRow;
-  if assigned(path1.prevInRow) then
-    path1.prevInRow.nextInRow := path1.nextInRow;
-  // remove path2 'start' from double linked list
-  if assigned(path2.nextInRow) then
-    path2.nextInRow.prevInRow := path2.prevInRow;
-  if assigned(path2.prevInRow) then
-    path2.prevInRow.nextInRow := path2.nextInRow;
-  path1.nextInPath.prevInPath := path2.prevInPath;
-  path2.prevInPath.nextInPath := path1.nextInPath;
-  path1.nextInPath := path2;
-  path2.prevInPath := path1;
-end;
-//------------------------------------------------------------------------------
-
-function IsHeadingLeft(current: TPt2; r: integer): Boolean;
-  {$IFDEF INLINE} inline; {$ENDIF}
-begin
-  Result := r <= current.pt.X;
-end;
-//------------------------------------------------------------------------------
-
-procedure TPt2Container.AddRange(var current: TPt2;
-  xLeft, xRight, y: integer);
-begin
-  if (prevRight > 0) then
-  begin
-    // nb: prevRight always ends a range (whether a hole or an outer)
-    // check if we're about to start a hole
-    if xLeft < current.pt.X then
-    begin
-      //'current' must be descending and hence prevRight->xLeft a hole
-      current := StartNewPath(current, prevRight, xLeft -1, y, true);
-      prevRight := xRight;
-      Exit; // nb: it's possible for multiple holes
-    end;
-    // check if we're passing under a pending join
-    while assigned(current) and assigned(current.nextInRow) and
-      (prevRight > current.nextInRow.pt.X) do
-    begin
-      // Assert(not current.IsAscending, 'oops!');
-      // Assert(current.nextInRow.IsAscending, 'oops!');
-      current := JoinDescAsc(current, current.nextInRow);
-    end;
-    // check again for a new hole
-    if (xLeft < current.pt.X) then
-    begin
-      current := StartNewPath(current, prevRight, xLeft -1, y, true);
-      prevRight := xRight;
-      Exit;
-    end;
-    current.Update(prevRight, y);
-    current := current.nextInRow;
-    prevRight := 0;
-  end;
-  // check if we're passing under a pending join
-  while assigned(current) and assigned(current.nextInRow) and
-    (xLeft > current.nextInRow.pt.X) do
-      current := JoinAscDesc(current, current.nextInRow);
-  if not assigned(current) or (xRight < current.pt.X) then
-  begin
-    StartNewPath(current, xLeft, xRight -1, y, false);
-    // nb: current remains unchanged
-  end else
-  begin
-    //'range' must somewhat overlap one or more paths above
-    if IsHeadingLeft(current, xRight) then
-    begin
-      if current.isHole then
-      begin
-        current.Update(xLeft, y);
-        current := current.nextInRow;
-      end;
-      current.Update(xRight, y);
-      current.Update(xLeft, y);
-      if current.IsAscending then
-        prevRight := xRight else
-        prevRight := 0;
-      current := current.nextInRow;
-    end else
-    begin
-      current.Update(xLeft, y);
-      current := current.nextInRow;
-      prevRight := xRight;
-    end;
-  end
-end;
-//------------------------------------------------------------------------------
-
-function VectorizeMask(const mask: TArrayOfByte; maskWidth: integer): TPathsD;
-var
-  i,j, len, height, blockStart: integer;
-  current: TPt2;
-  ba: PByteArray;
-  pt2Container: TPt2Container;
-begin
-  Result := nil;
-  len := Length(mask);
-  if (len = 0) or (maskWidth = 0) or (len mod maskWidth <> 0) then Exit;
-  height := len div maskWidth;
-  pt2Container := TPt2Container.Create;
-  try
-    for i := 0 to height -1 do
-    begin
-      ba := @mask[maskWidth * i];
-      blockStart := -2;
-      current := pt2Container.leftMostPt;
-      for j := 0 to maskWidth -1 do
-      begin
-        if (ba[j] > 0) = (blockStart >= 0) then Continue;
-        if blockStart >= 0 then
-        begin
-          pt2Container.AddRange(current, blockStart, j, i);
-          blockStart := -1;
-        end else
-          blockStart := j;
-      end;
-      if blockStart >= 0 then
-        pt2Container.AddRange(current, blockStart, maskWidth, i);
-      if (pt2Container.prevRight > 0) then
-      begin
-        while Assigned(current.nextInRow) and
-          (pt2Container.prevRight >= current.nextInRow.pt.X) do
-        begin
-          if current.isStart then
-            current := pt2Container.JoinAscDesc(current, current.nextInRow)
-          else
-            current := pt2Container.JoinDescAsc(current, current.nextInRow);
-        end;
-        current.Update(pt2Container.prevRight, i);
-        current := current.nextInRow;
-        pt2Container.prevRight := 0;
-      end;
-      while assigned(current) do
-      begin
-        if current.isStart then
-          current := pt2Container.JoinAscDesc(current, current.nextInRow) else
-          current := pt2Container.JoinDescAsc(current, current.nextInRow);
-      end
-    end;
-    with pt2Container do
-      while Assigned(leftMostPt) do
-        if leftMostPt.isStart then
-          JoinAscDesc(leftMostPt, leftMostPt.nextInRow) else
-          JoinDescAsc(leftMostPt, leftMostPt.nextInRow);
-    Result := pt2Container.solution;
-  finally
-    pt2Container.Free;
-  end;
-end;
-//------------------------------------------------------------------------------
-
-function Tidy(const poly: TPathD; tolerance: integer): TPathD;
-var
-  i,j, highI: integer;
-  prev: TPointD;
-  tolSqrd: double;
-begin
-  Result := nil;
-  highI := High(poly);
-  while  (HighI >= 0) and PointsEqual(poly[highI], poly[0]) do dec(highI);
-  if highI < 1 then Exit;
-  tolSqrd := Sqr(Max(2.02, Min(16.1, tolerance + 0.01)));
-  SetLength(Result, highI +1);
-  prev := poly[highI];
-  Result[0] := prev;
-  Result[1] := poly[0];
-  j := 1;
-  for i := 1 to highI -1 do
-  begin
-    if ((DistanceSqrd(prev, Result[j]) > tolSqrd) and
-        (DistanceSqrd(Result[j], poly[i]) > tolSqrd)) or
-      (TurnsRight(prev, result[j], poly[i]) or
-        TurnsLeft(result[j], poly[i], poly[i+1])) then
-    begin
-      prev := result[j];
-      inc(j);
-    end;
-    result[j] := poly[i];
-  end;
-  if ((DistanceSqrd(prev, Result[j]) > tolSqrd) and
-    (DistanceSqrd(Result[j], Result[0]) > tolSqrd)) or
-    TurnsRight(prev, result[j], Result[0]) or
-    TurnsLeft(result[j], Result[0], Result[1]) then
-      SetLength(Result, j +1) else
-      SetLength(Result, j);
-  if Abs(Area(Result)) < Length(Result) * tolerance/2 then Result := nil;
-end;
-//------------------------------------------------------------------------------
-
-function Vectorize(img: TImage32; compareColor: TColor32;
-  compareFunc: TCompareFunction; colorTolerance: Integer;
-  roundingTolerance: integer): TPathsD;
-var
-  i,j: integer;
-  mask: TArrayOfByte;
-begin
-  mask := GetBoolMask(img, compareColor, compareFunc, colorTolerance);
-  Result := VectorizeMask(mask, img.Width);
-  j := 0;
-  for i := 0 to high(Result) do
-  begin
-    Result[j] := Tidy(Result[i], roundingTolerance);
-    if Assigned(Result[j]) then inc(j);
-  end;
-  SetLength(Result, j);
-end;
 //------------------------------------------------------------------------------
 // RamerDouglasPeucker - and support functions
 //------------------------------------------------------------------------------
@@ -2086,6 +1736,230 @@ begin
 end;
 //------------------------------------------------------------------------------
 
+function GetNext(current, high: integer; var flags: array of Boolean): integer;
+begin
+  Result := current +1;
+  while (Result <= high) and flags[Result] do inc(Result);
+  if (Result <= high) then Exit;
+  Result := 0;
+  while (flags[Result]) do inc(Result);
+end;
+//---------------------------------------------------------------------------
+
+function GetPrior(current, high: integer; var flags: array of Boolean): integer;
+begin
+  Result := current;
+  if (Result = 0) then Result := high
+  else dec(Result);
+  while (Result > 0) and flags[Result] do dec(Result);
+  if not flags[Result] then Exit;
+  Result := high;
+  while flags[Result] do dec(Result);
+end;
+//---------------------------------------------------------------------------
+
+type
+  PSimplifyRec = ^TSimplifyRec;
+  TSimplifyRec = record
+    pt      : TPointD;
+    pdSqrd  : double;
+    prev    : PSimplifyRec;
+    next    : PSimplifyRec;
+    isEndPt   : Boolean;
+  end;
+
+function SimplifyPath(const path: TPathD;
+  shapeTolerance: double; isClosedPath: Boolean): TPathD;
+var
+  i, iPrev, iNext, len, minLen: integer;
+  tolSqrd: double;
+  srArray: array of TSimplifyRec;
+  current, last: PSimplifyRec;
+begin
+  Result := nil;
+  len := Length(path);
+  if not isClosedPath then minLen := 2 else minLen := 3;
+  if len < minLen then Exit;
+
+  SetLength(srArray, len);
+  for i := 0 to len -1 do
+    with srArray[i] do
+    begin
+      iPrev := ModEx(i-1, len);
+      iNext := ModEx(i+1, len);
+      pt      := path[i];
+      prev    := @srArray[iPrev];
+      next    := @srArray[iNext];
+      pdSqrd  := PerpendicularDistSqrd(path[i], path[iPrev], path[iNext]);
+      isEndPt   := not isClosedPath and ((i = 0) or (i = len -1));
+    end;
+
+  current := @srArray[0];
+  last := current.prev;
+
+  tolSqrd := Sqr(shapeTolerance);
+  while current <> last do
+  begin
+    if not current.isEndPt and
+      ((current.pdSqrd < tolSqrd) and (current.next.pdSqrd > current.pdSqrd)) then
+    begin
+      current.prev.next := current.next;
+      current.next.prev := current.prev;
+      last := current.prev;
+      dec(len);
+      if last.next = last.prev then break;
+      last.pdSqrd := PerpendicularDistSqrd(last.pt, last.prev.pt, last.next.pt);
+      current := last.next;
+      current.pdSqrd := PerpendicularDistSqrd(current.pt, current.prev.pt, current.next.pt);
+    end
+    else
+      current := current.next;
+  end;
+
+  if len < minLen then Exit;
+  if not isClosedPath then current := @srArray[0];
+  NewPointDArray(Result, len, True);
+  for i := 0 to len -1 do
+  begin
+    Result[i] := current.pt;
+    current := current.next;
+  end;
+end;
+//------------------------------------------------------------------------------
+
+function SimplifyPaths(const paths: TPathsD;
+  shapeTolerance: double; isClosedPath: Boolean): TPathsD;
+var
+  i,j, len: integer;
+begin
+  len := Length(paths);
+  SetLength(Result, len);
+  j := 0;
+  for i := 0 to len -1 do
+  begin
+    result[j] := SimplifyPath(paths[i], shapeTolerance, isClosedPath);
+    if Length(result[j]) > 0 then inc(j);
+  end;
+  SetLength(Result, j);
+end;
+
+//---------------------------------------------------------------------------
+//---------------------------------------------------------------------------
+
+type
+  PSimplifyExRec = ^TSimplifyExRec;
+  TSimplifyExRec = record
+    pt        : TPointD;
+    pdSqrd    : double;
+    segLenSq  : double;
+    prev      : PSimplifyExRec;
+    next      : PSimplifyExRec;
+  end;
+
+function DeleteCurrent(var current: PSimplifyExRec): Boolean;
+var
+  next: PSimplifyExRec;
+begin
+  current.prev.next := current.next;
+  current.next.prev := current.prev;
+  current := current.prev;
+  next := current.next;
+  Result := next <> current.prev;
+  if not Result then Exit;
+  next.pdSqrd := PerpendicularDistSqrd(next.pt, next.prev.pt, next.next.pt);
+  current.segLenSq := DistanceSqrd(current.pt, current.next.pt);
+  current.pdSqrd := PerpendicularDistSqrd(current.pt, current.prev.pt, current.next.pt);
+end;
+//---------------------------------------------------------------------------
+
+function SimplifyPathEx(const path: TPathD; shapeTolerance: double): TPathD;
+var
+  i, prevI, nextI, len: integer;
+  shapeTolSqr: double;
+  srArray: array of TSimplifyExRec;
+  current, start: PSimplifyExRec;
+begin
+  Result := nil;
+  len := Length(path);
+  if len < 3 then Exit;
+
+  shapeTolSqr := Sqr(shapeTolerance);
+  SetLength(srArray, len);
+
+  for i := 0 to len -1 do
+  begin
+    prevI := i -1;
+    nextI := i +1;
+    if i = 0 then prevI := len -1
+    else if i = len -1 then nextI := 0;
+
+    with srArray[i] do
+    begin
+      pt      := path[i];
+      segLenSq:= DistanceSqrd(path[i], path[nextI]);
+      pdSqrd  := PerpendicularDistSqrd(path[i], path[prevI], path[nextI]);
+      prev    := @srArray[prevI];
+      next    := @srArray[nextI];
+    end;
+  end;
+
+  current := @srArray[0];
+  start := current.prev;
+
+  while current <> start do
+  begin
+    // Irrespective of segment length, remove vertices that deviate very little
+    // from imaginary lines that pass through their adjacent vertices.
+    // However, if the following vertex has an even sorter distance from its
+    // respective imaginary line, its important to remove that vertex first.
+    if ((current.pdSqrd < shapeTolSqr) and
+      (current.pdSqrd < current.next.pdSqrd)) then
+    begin
+      dec(len);
+      if not DeleteCurrent(current) then Break;
+      start := current.prev;
+    end
+    // also remove insignificant path zig-zags
+    else if (current.prev.segLenSq < shapeTolSqr) and
+      (current.segLenSq < shapeTolSqr) and
+      ((CrossProduct(current.prev.pt, current.pt, current.next.pt) > 0) <>
+      (CrossProduct(current.pt, current.next.pt, current.next.next.pt) > 0)) then
+    begin
+      dec(len);
+      if not DeleteCurrent(current) then Break;
+      start := current.prev;
+    end else
+      current := current.next;
+  end;
+
+  if len < 3 then Exit;
+  NewPointDArray(Result, len, True);
+  for i := 0 to len -1 do
+  begin
+    Result[i] := current.pt;
+    current := current.next;
+  end;
+end;
+//------------------------------------------------------------------------------
+
+function SimplifyPathsEx(const paths: TPathsD; shapeTolerance: double): TPathsD;
+var
+  i,j, len: integer;
+begin
+  len := Length(paths);
+  SetLength(Result, len);
+  j := 0;
+  for i := 0 to len -1 do
+  begin
+    Result[j] := SimplifyPathEx(paths[i], shapeTolerance);
+    if Length(Result[j]) > 0 then inc(j);
+  end;
+  SetLength(Result, len);
+end;
+//---------------------------------------------------------------------------
+//---------------------------------------------------------------------------
+
+
 function DotProdVecs(const vec1, vec2: TPointD): double;
   {$IFDEF INLINE} inline; {$ENDIF}
 begin
@@ -2107,7 +1981,7 @@ begin
   len := Length(path);
   if len < 3 then Exit;
 
-  SetLength(Result, len *3 +1);
+  NewPointDArray(Result, len *3 +1, True);
   prev := len-1;
   SetLength(pl, len);
   SetLength(unitVecs, len);
@@ -2138,11 +2012,11 @@ begin
     end;
 
     if i = 0 then
-      Result[len*3-1] := OffsetPoint(path[0], -vec.X * d1, -vec.Y * d1)
+      Result[len*3-1] := TranslatePoint(path[0], -vec.X * d1, -vec.Y * d1)
     else
-      Result[i*3-1] := OffsetPoint(path[i], -vec.X * d1, -vec.Y * d1);
+      Result[i*3-1] := TranslatePoint(path[i], -vec.X * d1, -vec.Y * d1);
     Result[i*3] := path[i];
-    Result[i*3+1] := OffsetPoint(path[i], vec.X * d2, vec.Y * d2);
+    Result[i*3+1] := TranslatePoint(path[i], vec.X * d2, vec.Y * d2);
   end;
   Result[len*3] := path[0];
 
@@ -2154,67 +2028,199 @@ begin
 end;
 //------------------------------------------------------------------------------
 
-function HermiteInterpolation(y1, y2, y3, y4: double;
-  mu, tension: double): double;
+function SmoothToCubicBezier(const paths: TPathsD;
+  pathIsClosed: Boolean; maxOffset: integer = 0): TPathsD;
 var
-   m0,m1,mu2,mu3: double;
-   a0,a1,a2,a3: double;
+  i, len: integer;
 begin
-  // http://paulbourke.net/miscellaneous/interpolation/
-  // nb: optional bias toward left or right has been disabled.
-	mu2 := mu * mu;
-	mu3 := mu2 * mu;
-   m0  := (y2-y1)*(1-tension)/2;
-   m0 := m0  + (y3-y2)*(1-tension)/2;
-   m1 := (y3-y2)*(1-tension)/2;
-   m1 := m1 + (y4-y3)*(1-tension)/2;
-   a0 :=  2*mu3 - 3*mu2 + 1;
-   a1 :=    mu3 - 2*mu2 + mu;
-   a2 :=    mu3 -   mu2;
-   a3 := -2*mu3 + 3*mu2;
-   Result := a0*y2+a1*m0+a2*m1+a3*y3;
+  len := Length(paths);
+  SetLength(Result, len);
+  for i := 0 to len -1 do
+    Result[i] := SmoothToCubicBezier(paths[i], pathIsClosed, maxOffset);
 end;
 //------------------------------------------------------------------------------
 
-function InterpolateY(const y1,y2,y3,y4: double;
-  dx: integer; tension: double): TArrayOfDouble;
+function SmoothToCubicBezier2(const path: TPathD;
+  pathIsClosed: Boolean; maxOffset: integer): TPathD;
 var
-  i: integer;
+  i, j, len, prev: integer;
+  vec: TPointD;
+  pl: TArrayOfDouble;
+  unitVecs: TPathD;
+  d1,d2: double;
 begin
-  SetLength(Result, dx);
-  if dx = 0 then Exit;
-  Result[0] := y2;
-  for i := 1 to dx-1 do
-    Result[i] := HermiteInterpolation(y1,y2,y3,y4, i/dx, tension);
-end;
-//------------------------------------------------------------------------------
-
-function InterpolatePoints(const points: TPathD; tension: integer): TPathD;
-var
-  i, j, len, len2: integer;
-  p, p2: TPathD;
-  ys: TArrayOfDouble;
-begin
-  if tension < -1 then tension := -1
-  else if tension > 1 then tension := 1;
+  // SmoothToCubicBezier2 - returns cubic bezier control points
   Result := nil;
-  len := Length(points);
-  if len < 2 then Exit;
-  SetLength(p, len +2);
-  p[0] := points[0];
-  p[len+1] := points[len -1];
-  Move(points[0],p[1], len * SizeOf(TPointD));
-  for i := 1 to len-1 do
+  len := Length(path);
+  if len < 3 then Exit;
+
+  NewPointDArray(Result, len *3 +1);
+  prev := len-1;
+  SetLength(pl, len);
+  SetLength(unitVecs, len);
+  pl[0] := Distance(path[prev], path[0]);
+  unitVecs[0] := GetUnitVector(path[prev], path[0]);
+  for i := 0 to len -1 do
   begin
-    ys := InterpolateY(p[i-1].Y,p[i].Y,p[i+1].Y,p[i+2].Y,
-      Trunc(p[i+1].X - p[i].X), tension);
-    len2 := Length(ys);
-    SetLength(p2, len2);
-    for j := 0 to len2 -1 do
-      p2[j] := PointD(p[i].X +j, ys[j]);
-    AppendPath(Result, p2);
+    if i = prev then
+    begin
+      j := 0;
+    end else
+    begin
+      j := i +1;
+      pl[j] := Distance(path[i], path[j]);
+      unitVecs[j] := GetUnitVector(path[i], path[j]);
+    end;
+    vec := GetAvgUnitVector(unitVecs[i], unitVecs[j]);
+
+    d1 := pl[i]/2;
+    d2 := pl[j]/2;
+
+    if maxOffset > 0 then
+    begin
+      d1 := Min(maxOffset, d1);
+      d2 := Min(maxOffset, d2);
+    end;
+
+    if i = 0 then
+      Result[len*3-1] := TranslatePoint(path[0], -vec.X * d1, -vec.Y * d1)
+    else
+      Result[i*3-1] := TranslatePoint(path[i], -vec.X * d1, -vec.Y * d1);
+    Result[i*3] := path[i];
+    Result[i*3+1] := TranslatePoint(path[i], vec.X * d2, vec.Y * d2);
   end;
-  AppendPoint(Result, p[len]);
+  Result[len*3] := path[0];
+
+  if pathIsClosed then Exit;
+  Result[1] := Result[0];
+  dec(len);
+  Result[len*3-1] := Result[len*3];
+  SetLength(Result, Len*3 +1);
+end;
+//------------------------------------------------------------------------------
+
+function SmoothToCubicBezier2(const paths: TPathsD;
+  pathIsClosed: Boolean; maxOffset: integer = 0): TPathsD;
+var
+  i, len: integer;
+begin
+  len := Length(paths);
+  SetLength(Result, len);
+  for i := 0 to len -1 do
+    Result[i] := SmoothToCubicBezier2(paths[i], pathIsClosed, maxOffset);
+end;
+//------------------------------------------------------------------------------
+
+function CubicInterpolate(v1, v2, v3, v4: double;
+  t: double; tension: double = 0): double;
+var
+   m0, m1, tt, ttt, tensionEx: double;
+   a, b: double;
+begin
+	tt := t * t;
+	ttt := tt * t;
+  tensionEx := (1-tension) * 0.5;
+  m0 := (v3 - v1)*tensionEx;
+  m1 := (v4 - v2)*tensionEx;
+  a :=  2*v2 - 2*v3 + m0 + m1;
+  b :=  3*v3 -3*v2 -2*m0 - m1;
+  Result := a*ttt + b*tt + m0*t + v2;
+end;
+//------------------------------------------------------------------------------
+
+procedure Append(var path: TPathD; const pt: TPointD);
+  {$IFDEF INLINE} inline; {$ENDIF}
+var
+  len: integer;
+begin
+  len := Length(path);
+  SetLengthUninit(path, len +1);
+  path[len] := pt;
+end;
+//------------------------------------------------------------------------------
+
+function SmoothPath(const path: TPathD; isClosedPath: Boolean;
+  tension: double; shapeTolerance: double): TPathD;
+var
+  i, j, highI, len, cnt: integer;
+  pt: TPointD;
+  dists: TArrayOfDouble;
+const
+  maxInterval = 1.5;
+begin
+  Result := nil;
+  len := Length(path);
+  if len < 3 then Exit;
+  SetLength(dists, len);
+  highI := len -1;
+  dists[highI] := Distance(path[highI], path[0]);
+  for i := 0 to highI-1 do
+    dists[i] := Distance(path[i], path[i+1]);
+
+  if tension > 1 then tension := 1
+  else if tension < -1 then tension := -1;
+  if tension > 0.9 then
+  begin
+    Result := path;
+    Exit;
+  end;
+
+  if isClosedPath then
+    for i := 0 to highI do
+    begin
+      cnt := Ceil(dists[i]/maxInterval);
+      Append(Result, path[i]);
+      for j := 1 to cnt -1 do
+      begin
+        pt.X := CubicInterpolate(
+          path[ModEx(i-1, len)].X,
+          path[i].X,
+          path[ModEx(i+1, len)].X,
+          path[ModEx(i+2, len)].X, j/cnt, tension);
+        pt.Y := CubicInterpolate(
+          path[ModEx(i-1, len)].Y,
+          path[i].Y,
+          path[ModEx(i+1, len)].Y,
+          path[ModEx(i+2, len)].Y, j/cnt, tension);
+        Append(Result, pt);
+      end;
+    end
+  else
+  begin
+    for i := 0 to highI -1 do
+    begin
+      cnt := Ceil(dists[i]/maxInterval);
+      Append(Result, path[i]);
+      for j := 1 to cnt -1 do
+      begin
+        pt.X := CubicInterpolate(
+          path[Clamp(i-1, len)].X,
+          path[Clamp(i, len)].X,
+          path[Clamp(i+1, len)].X,
+          path[Clamp(i+2, len)].X, j/cnt, tension);
+        pt.Y := CubicInterpolate(
+          path[Clamp(i-1, len)].Y,
+          path[Clamp(i, len)].Y,
+          path[Clamp(i+1, len)].Y,
+          path[Clamp(i+2, len)].Y, j/cnt, tension);
+        Append(Result, pt);
+      end;
+    end;
+    Append(Result, path[highi]);
+  end;
+  Result := SimplifyPath(Result, shapeTolerance, false);
+end;
+//------------------------------------------------------------------------------
+
+function SmoothPaths(const paths: TPathsD; isClosedPath: Boolean;
+  tension: double = 0; shapeTolerance: double = 0.1): TPathsD;
+var
+  i, len: integer;
+begin
+  len := Length(paths);
+  SetLength(Result, len);
+  for i := 0 to len -1 do
+    Result[i] := SmoothPath(paths[i], isClosedPath, tension, shapeTolerance);
 end;
 
 //------------------------------------------------------------------------------
@@ -2223,57 +2229,85 @@ end;
 
 procedure GaussianBlur(img: TImage32; rec: TRect; radius: Integer);
 var
-  i, w,h, x,y,yy,z: Integer;
-  gaussTable: array [-MaxBlur .. MaxBlur] of Cardinal;
+  i, w,h, highX, x,y,yy,z,startz: Integer;
+  expConst: double;
+  gaussTable: array [-MaxBlur .. MaxBlur] of integer;
   wc: TWeightedColor;
   wca: TArrayOfWeightedColor;
+  wcaColor: TArrayOfColor32;
   row: PColor32Array;
   wcRow: PWeightedColorArray;
+  imgWidth: Integer;
+  dst, pc: PColor32;
+const
+  tableConst = 1024;
+  sigma = 3;
 begin
   Types.IntersectRect(rec, rec, img.Bounds);
   if IsEmptyRect(rec) or (radius < 1) then Exit
   else if radius > MaxBlur then radius := MaxBlur;
-  for i := 0 to radius do
+
+  expConst := - 1 / (Sqr(radius) * 2 * Sqr(sigma));
+  gaussTable[0] := Round(tableConst * Exp(expConst));
+  for i := 1 to radius do
   begin
-    gaussTable[i] := Sqr(Radius - i +1);
+    gaussTable[i] := Round(tableConst * Exp(expConst * Sqr(i)));
     gaussTable[-i] := gaussTable[i];
   end;
+
   RectWidthHeight(rec, w, h);
   setLength(wca, w * h);
+  NewColor32Array(wcaColor, w * h, True);
+  imgWidth := img.Width;
+  highX := imgWidth -1;
   for y := 0 to h -1 do
   begin
-    row := PColor32Array(@img.Pixels[(y + rec.Top) * img.Width + rec.Left]);
+    row := PColor32Array(@img.Pixels[(y + rec.Top) * imgWidth + rec.Left]);
     wcRow := PWeightedColorArray(@wca[y * w]);
     for x := 0 to w -1 do
-      for z := max(0, x - radius) to min(img.Width -1, x + radius) do
+      for z := max(0, x - radius) to min(highX, x + radius) do
         wcRow[x].Add(row[z], gaussTable[x-z]);
   end;
+
+  // calculate colors
+  for x := 0 to w * h - 1 do
+    wcaColor[x] := wca[x].Color;
+
+  dst := @img.Pixels[rec.Left + rec.Top * imgWidth];
+  imgWidth := imgWidth * SizeOf(TColor32); // convert to byte size
   for x := 0 to w -1 do
   begin
+    pc := dst;
+    inc(pc, x);
     for y := 0 to h -1 do
     begin
       wc.Reset;
-      yy := max(0, y - radius) * w;
-      for z := max(0, y - radius) to min(h -1, y + radius) do
+      startz := max(0, y - radius);
+      yy := startz * w;
+      for z := startz to min(h -1, y + radius) do
       begin
-        wc.Add(wca[x + yy].Color, gaussTable[y-z]);
+        wc.Add(wcaColor[x + yy], gaussTable[y-z]);
         inc(yy, w);
       end;
-      img.Pixels[x + rec.Left + (y + rec.Top) * img.Width] := wc.Color;
+      pc^ := wc.Color;
+      inc(PByte(pc), imgWidth); // increment by byte size
     end;
   end;
 end;
+
 //------------------------------------------------------------------------------
 // FastGaussian blur - and support functions
 //------------------------------------------------------------------------------
+
 //http://blog.ivank.net/fastest-gaussian-blur.html
 //https://www.peterkovesi.com/papers/FastGaussianSmoothing.pdf
+
 function BoxesForGauss(stdDev, boxCnt: integer): TArrayOfInteger;
 var
   i, wl, wu, m: integer;
   wIdeal, mIdeal: double;
 begin
-  SetLength(Result, boxCnt);
+  NewIntegerArray(Result, boxCnt, True);
   wIdeal := Sqrt((12*stdDev*stdDev/boxCnt)+1); // Ideal averaging filter width
   wl := Floor(wIdeal); if not Odd(wl) then dec(wl);
   mIdeal :=
@@ -2288,11 +2322,71 @@ begin
 end;
 //------------------------------------------------------------------------------
 
-procedure BoxBlurH(var src, dst: TArrayOfColor32; w,h, stdDev: integer);
+procedure FastGaussianBlur(img: TImage32;
+  const rec: TRect; stdDev: integer; repeats: integer);
+begin
+  FastGaussianBlur(img, rec, stdDev, stdDev, repeats);
+end;
+//------------------------------------------------------------------------------
+
+procedure BoxBlurHLine(src, dst: PColor32; srcRiOffset: nativeint;
+  count, w: integer; dstLast: PColor32; var v: TWeightedColor);
+var
+  lastColor: TColor32;
+  val: PWeightedColor;
+  s, d: PColor32;
+begin
+  lastColor := v.Color;
+  if count > w then
+    count := w;
+  w := w - count;
+
+  // The Delphi compiler sometimes is really stupid with
+  // the CPU register allocation. With this, even if no actual
+  // code is produced, the compiler happens to make better
+  // decisions.
+  val := @v;
+  s := src;
+  d := dst;
+
+  if count > 0 then
+  begin
+    while count > 0 do
+    begin
+      if val.AddSubtract(PColor32Array(s)[srcRiOffset], s^) then
+        lastColor := val.Color;
+      inc(s);
+      d^ := lastColor;
+      inc(d);
+      dec(count);
+    end;
+
+    count := w;
+    while count > 0 do
+    begin
+      d^ := lastColor;
+      inc(d);
+      dec(count);
+    end;
+  end;
+
+  while PByte(d) <= PByte(dstLast) do
+  begin
+    if val.AddNoneSubtract(s^) then
+      lastColor := val.Color;
+    inc(s);
+    d^ := lastColor;
+    inc(d);
+  end;
+end;
+//------------------------------------------------------------------------------
+
+procedure BoxBlurH(const src, dst: TArrayOfColor32; w,h, stdDev: integer);
 var
   i,j, ti, li, ri, re, ovr: integer;
-  fv, lv, val: TWeightedColor;
-  rc: TColor32;
+  fv, val: TWeightedColor;
+  lastColor: TColor32;
+  stdDevW: integer;
 begin
   ovr := Max(0, stdDev - w);
   for i := 0 to h -1 do
@@ -2301,53 +2395,116 @@ begin
     li := ti;
     ri := ti +stdDev;
     re := ti +w -1; // idx of last pixel in row
-    rc := src[re];  // color of last pixel in row
-    fv.Reset;
-    lv.Reset;
-    val.Reset;
-    fv.Add(src[ti], 1);
-    lv.Add(rc, 1);
-    val.Add(src[ti], stdDev +1);
+    fv.Reset(src[ti]);
+    val.Reset(src[ti], stdDev +1);
     for j := 0 to stdDev -1 - ovr do
       val.Add(src[ti + j]);
-    if ovr > 0 then val.Add(rc, ovr);
+    if ovr > 0 then val.Add(clNone32, ovr);
     for j := 0 to stdDev do
     begin
-      if ri > re then
-        val.Add(rc) else
-        val.Add(src[ri]);
+      if ri <= re then
+        val.Add(src[ri]) else
+        val.Add(src[re]); // color of last pixel in row
       inc(ri);
       val.Subtract(fv);
       if ti <= re then
         dst[ti] := val.Color;
       inc(ti);
     end;
-    for j := stdDev +1 to w - stdDev -1 do
+
+    // Skip "val.Color" calculation if both for-loops are skipped anyway
+    stdDevW := w - stdDev*2 - 1;
+    if (ti <= re) or (stdDevW > 0) then
     begin
-      if ri <= re then
+      if w > 4 then // prevent the call-overhead if it would be slower than the inline version
+        BoxBlurHLine(@src[li], @dst[ti], ri - li, re - ri + 1, stdDevW, @dst[re], val)
+      else
       begin
-        val.Add(src[ri]); inc(ri);
-        val.Subtract(src[li]); inc(li);
+        lastColor := val.Color;
+        for j := stdDevW downto 1 do
+        begin
+          if ri <= re then
+          begin
+            if val.AddSubtract(src[ri], src[li]) then
+              lastColor := val.Color;
+            inc(ri);
+            inc(li);
+          end;
+          dst[ti] := lastColor;
+          inc(ti);
+        end;
+        while ti <= re do
+        begin
+          if val.AddNoneSubtract(src[li]) then
+            lastColor := val.Color;
+          inc(li);
+          dst[ti] := lastColor;
+          inc(ti);
+        end;
       end;
-      dst[ti] := val.Color; inc(ti);
-    end;
-    while ti <= re do
-    begin
-      if ti > re then Break;
-      val.Add(lv);
-      val.Subtract(src[li]); inc(li);
-      dst[ti] := val.Color;
-      inc(ti);
     end;
   end;
 end;
 //------------------------------------------------------------------------------
 
-procedure BoxBlurV(var src, dst: TArrayOfColor32; w, h, stdDev: integer);
+procedure BoxBlurVLine(src, dst: PColor32; srcRiOffset: nativeint;
+  widthBytes, count, h: integer; dstLast: PColor32; var v: TWeightedColor);
+var
+  lastColor: TColor32;
+  val: PWeightedColor;
+  s, d: PColor32;
+begin
+  lastColor := v.Color;
+  if count > h then
+    count := h;
+  h := h - count;
+
+  // The Delphi compiler sometimes is really stupid with
+  // the CPU register allocation. With this, even if no actual
+  // code is produced, the compiler happens to make better
+  // decisions.
+  val := @v;
+  s := src;
+  d := dst;
+
+  if count > 0 then
+  begin
+    while count > 0 do
+    begin
+      if val.AddSubtract(PColor32Array(s)[srcRiOffset], s^) then
+        lastColor := val.Color;
+      inc(PByte(s), widthBytes);
+      d^ := lastColor;
+      inc(PByte(d), widthBytes);
+      dec(count);
+    end;
+
+    count := h;
+    while count > 0 do
+    begin
+      d^ := lastColor;
+      inc(PByte(d), widthBytes);
+      dec(count);
+    end;
+  end;
+
+  while PByte(d) <= PByte(dstLast) do
+  begin
+    if val.AddNoneSubtract(s^) then
+      lastColor := val.Color;
+    inc(PByte(s), widthBytes);
+    d^ := lastColor;
+    inc(PByte(d), widthBytes);
+  end;
+end;
+//------------------------------------------------------------------------------
+
+procedure BoxBlurV(const src, dst: TArrayOfColor32; w, h, stdDev: integer);
 var
   i,j, ti, li, ri, re, ovr: integer;
-  fv, lv, val: TWeightedColor;
-  rc: TColor32;
+  fv, val: TWeightedColor;
+  lastColor: TColor32;
+  stdDevH: integer;
 begin
   ovr := Max(0, stdDev - h);
   for i := 0 to w -1 do
@@ -2355,52 +2512,57 @@ begin
     ti := i;
     li := ti;
     ri := ti + stdDev * w;
-    fv.Reset;
-    lv.Reset;
-    val.Reset;
     re := ti +w *(h-1); // idx of last pixel in column
-    rc := src[re];      // color of last pixel in column
-    fv.Add(src[ti]);
-    lv.Add(rc, 1);
-    val.Add(src[ti], stdDev +1);
+    fv.Reset(src[ti]);
+    val.Reset(src[ti], stdDev +1);
     for j := 0 to stdDev -1 -ovr do
       val.Add(src[ti + j *w]);
-    if ovr > 0 then val.Add(rc, ovr);
+    if ovr > 0 then val.Add(clNone32, ovr);
     for j := 0 to stdDev do
     begin
-      if ri > re then
-        val.Add(rc) else
-        val.Add(src[ri]);
+      if ri <= re then
+        val.Add(src[ri]) else
+        val.Add(src[re]); // color of last pixel in column
       inc(ri, w);
       val.Subtract(fv);
       if ti <= re then
         dst[ti] := val.Color;
       inc(ti, w);
     end;
-    for j := stdDev +1 to h - stdDev -1 do
+
+    // Skip "val.Color" calculation if both for-loops are skipped anyway
+    stdDevH := h - stdDev*2 - 1;
+    if (ti <= re) or (stdDevH > 0) then
     begin
-      if ri <= re then
+      if stdDevH > 4 then // prevent the call-overhead if it would be slower than the inline version
+        BoxBlurVLine(@src[li], @dst[ti], ri - li, w * SizeOf(TColor32), re - ri + 1, stdDevH, @dst[re], val)
+      else
       begin
-        val.Add(src[ri]); inc(ri, w);
-        val.Subtract(src[li]); inc(li, w);
+        lastColor := val.Color;
+        for j := stdDevH downto 1 do
+        begin
+          if ri <= re then
+          begin
+            if val.AddSubtract(src[ri], src[li]) then
+              lastColor := val.Color;
+            inc(ri, w);
+            inc(li, w);
+          end;
+
+          dst[ti] := lastColor;
+          inc(ti, w);
+        end;
+        while ti <= re do
+        begin
+          if val.AddNoneSubtract(src[li]) then
+            lastColor := val.Color;
+          inc(li, w);
+          dst[ti] := lastColor;
+          inc(ti, w);
+        end;
       end;
-      dst[ti] := val.Color; inc(ti, w);
-    end;
-    while ti <= re do
-    begin
-      val.Add(lv);
-      val.Subtract(src[li]); inc(li, w);
-      dst[ti] := val.Color;
-      inc(ti, w);
     end;
   end;
-end;
-//------------------------------------------------------------------------------
-
-procedure FastGaussianBlur(img: TImage32;
-  const rec: TRect; stdDev: integer; repeats: integer);
-begin
-  FastGaussianBlur(img, rec, stdDev, stdDev, repeats);
 end;
 //------------------------------------------------------------------------------
 
@@ -2422,15 +2584,17 @@ begin
   RectWidthHeight(rec2, w, h);
   if (Min(w, h) < 2) or ((stdDevX < 1) and (stdDevY < 1)) then Exit;
   len := w * h;
-  SetLength(src, len);
-  SetLength(dst, len);
+  NewColor32Array(src, len, True); // content is overwritten in BoxBlurH
   if blurFullImage then
   begin
-    // copy the entire image into 'dst'
-    Move(img.PixelBase^, dst[0], len * SizeOf(TColor32));
-  end else
+    // Use the img.Pixels directly instead of copying the entire image into 'dst'.
+    // The first thing the code does is BoxBlurH({source:=}dst, {dest:=}src, ...).
+    dst := img.Pixels;
+  end
+  else
   begin
     // copy a rectangular region into 'dst'
+    NewColor32Array(dst, len, True);
     pSrc := img.PixelRow[rec2.Top];
     inc(pSrc, rec2.Left);
     pDst := @dst[0];
@@ -2441,25 +2605,25 @@ begin
       inc(pDst, w);
     end;
   end;
+
   // do the blur
   inc(repeats); // now represents total iterations
   boxesH := BoxesForGauss(stdDevX, repeats);
   if stdDevY = stdDevX then
     boxesV := boxesH else
     boxesV := BoxesForGauss(stdDevY, repeats);
-  for j := 0 to repeats -1 do
+
+  img.BeginUpdate;
+  try
+    for j := 0 to repeats -1 do
     begin
       BoxBlurH(dst, src, w, h, boxesH[j]);
       BoxBlurV(src, dst, w, h, boxesV[j]);
     end;
-  // copy dst array back to image rect
-  img.BeginUpdate;
-  try
-    if blurFullImage then
+
+    if not blurFullImage then
     begin
-      Move(dst[0], img.PixelBase^, len * SizeOf(TColor32));
-    end else
-    begin
+      // copy dst array back to image rect
       pDst := img.PixelRow[rec2.Top];
       inc(pDst, rec2.Left);
       pSrc := @dst[0];
@@ -2475,596 +2639,5 @@ begin
   end;
 end;
 //------------------------------------------------------------------------------
-
-//------------------------------------------------------------------------------
-// CurveFit() support structures and functions
-//------------------------------------------------------------------------------
-
-//CurveFit: this function is based on -
-//"An Algorithm for Automatically Fitting Digitized Curves"
-//by Philip J. Schneider in "Graphics Gems", Academic Press, 1990
-//Smooths out many very closely positioned points
-//tolerance range: 1..10 where 10 == max tolerance.
-
-//This function has been archived as I believe that
-//RamerDouglasPeuker(), GetSmoothPath() and FlattenCBezier()
-//will usually achieve a better result
-
-function Scale(const vec: TPointD; newLen: double): TPointD;
-  {$IFDEF INLINE} inline; {$ENDIF}
-begin
-  Result.X := vec.X * newLen;
-  Result.Y := vec.Y * newLen;
-end;
-//------------------------------------------------------------------------------
-
-function Mul(const vec: TPointD; val: double): TPointD;
-  {$IFDEF INLINE} inline; {$ENDIF}
-begin
-  Result.X := vec.X * val;
-  Result.Y := vec.Y * val;
-end;
-//------------------------------------------------------------------------------
-
-function AddVecs(const vec1, vec2: TPointD): TPointD;
-  {$IFDEF INLINE} inline; {$ENDIF}
-begin
-  Result.X := vec1.X + vec2.X;
-  Result.Y := vec1.Y + vec2.Y;
-end;
-//------------------------------------------------------------------------------
-
-function SubVecs(const vec1, vec2: TPointD): TPointD;
-  {$IFDEF INLINE} inline; {$ENDIF}
-begin
-  Result.X := vec1.X - vec2.X;
-  Result.Y := vec1.Y - vec2.Y;
-end;
-//------------------------------------------------------------------------------
-
-function NormalizeVec(const vec: TPointD): TPointD;
-  {$IFDEF INLINE} inline; {$ENDIF}
-var
-  len: double;
-begin
-  len := Sqrt(vec.X * vec.X + vec.Y * vec.Y);
-  if len <> 0 then
-  begin
-    Result.X := vec.X / len;
-    Result.Y := vec.Y / len;
-  end else
-    result := vec;
-end;
-//------------------------------------------------------------------------------
-
-function NormalizeTPt(const pt: PPt): TPointD;
-  {$IFDEF INLINE} inline; {$ENDIF}
-begin
-  with pt^ do
-    if len <> 0 then
-    begin
-      Result.X := vec.X / len;
-      Result.Y := vec.Y / len;
-    end else
-      result := vec;
-end;
-//------------------------------------------------------------------------------
-
-function NegateVec(vec: TPointD): TPointD;
-  {$IFDEF INLINE} inline; {$ENDIF}
-begin
-  Result.X := -vec.X;
-  Result.Y := -vec.Y;
-end;
-//------------------------------------------------------------------------------
-
-function B0(u: double): double; {$IFDEF INLINE} inline; {$ENDIF}
-var
-  tmp: double;
-begin
-  tmp := 1.0 - u;
-  result := tmp * tmp * tmp;
-end;
-//------------------------------------------------------------------------------
-
-function B1(u: double): double; {$IFDEF INLINE} inline; {$ENDIF}
-var
-  tmp: double;
-begin
-  tmp := 1.0 - u;
-  result := 3 * u * tmp * tmp;
-end;
-//------------------------------------------------------------------------------
-
-function B2(u: double): double; {$IFDEF INLINE} inline; {$ENDIF}
-begin
-  result := 3 * u * u * (1.0 - u);
-end;
-//------------------------------------------------------------------------------
-
-function B3(u: double): double; {$IFDEF INLINE} inline; {$ENDIF}
-begin
-  result := u * u * u;
-end;
-//------------------------------------------------------------------------------
-
-function TFitCurveContainer.AddPt(const pt: TPointD): PPt;
-begin
-  new(Result);
-  Result.pt := pt;
-  if not assigned(ppts) then
-  begin
-    Result.prev := Result;
-    Result.next := Result;
-    ppts := Result;
-  end else
-  begin
-    Result.prev := ppts.prev;
-    ppts.prev.next := Result;
-    ppts.prev := Result;
-    Result.next := ppts;
-  end;
-end;
-//------------------------------------------------------------------------------
-
-procedure TFitCurveContainer.Clear;
-var
-  p: PPt;
-begin
-  solution := nil;
-  ppts.prev.next := nil; //break loop
-  while assigned(ppts) do
-  begin
-    p := ppts;
-    ppts := ppts.next;
-    Dispose(p);
-  end;
-end;
-//------------------------------------------------------------------------------
-
-function TFitCurveContainer.Count(first, last: PPt): integer;
-begin
-  if first = last then
-    result := 0 else
-    result := 1;
-  repeat
-    inc(Result);
-    first := first.next;
-  until (first = last);
-end;
-//------------------------------------------------------------------------------
-
-function TFitCurveContainer.ComputeLeftTangent(p: PPt): TPointD;
-begin
-  Result := NormalizeTPt(p);
-end;
-//------------------------------------------------------------------------------
-
-function TFitCurveContainer.ComputeRightTangent(p: PPt): TPointD;
-begin
-  Result := NegateVec(NormalizeTPt(p.prev));
-end;
-//------------------------------------------------------------------------------
-
-function TFitCurveContainer.ComputeCenterTangent(p: PPt): TPointD;
-var
-  v1, v2: TPointD;
-begin
-  v1 := SubVecs(p.pt, p.prev.pt);
-  v2 := SubVecs(p.next.pt, p.pt);
-  Result := AddVecs(v1, v2);
-  Result := NormalizeVec(Result);
-end;
-//------------------------------------------------------------------------------
-
-function TFitCurveContainer.ChordLengthParameterize(
-  first: PPt; cnt: integer): TArrayOfDouble;
-var
-  d: double;
-  i: integer;
-begin
-  SetLength(Result, cnt);
-  Result[0] := 0;
-  d := 0;
-  for i := 1 to cnt -1 do
-  begin
-    d := d + first.len;
-    Result[i] := d;
-    first := first.next;
-  end;
-  for i := 1 to cnt -1 do
-    Result[i] := Result[i] / d;
-end;
-//------------------------------------------------------------------------------
-
-function TFitCurveContainer.GenerateBezier(first, last: PPt; cnt: integer;
-  const u: TArrayOfDouble; const firstTan, lastTan: TPointD): TPathD;
-var
-  i: integer;
-  p: PPt;
-  dist, epsilon: double;
-  v1,v2, tmp: TPointD;
-  a0, a1: TPathD;
-  c: array [0..1, 0..1] of double;
-  x: array [0..1] of double;
-  det_c0_c1, det_c0_x, det_x_c1, alphaL, alphaR: double;
-begin
-  SetLength(a0, cnt);
-  SetLength(a1, cnt);
-  dist := Distance(first.pt, last.pt);
-  for i := 0 to cnt -1 do
-  begin
-		v1 := Scale(firstTan, B1(u[i]));
-		v2 := Scale(lastTan, B2(u[i]));
-		a0[i] := v1;
-		a1[i] := v2;
-  end;
-  FillChar(c[0][0], 4 * SizeOf(double), 0);
-  FillChar(x[0], 2 * SizeOf(double), 0);
-  p := first;
-  for i := 0 to cnt -1 do
-  begin
-		c[0][0] := c[0][0] + DotProdVecs(a0[i], (a0[i]));
-		c[0][1] := c[0][1] + DotProdVecs(a0[i], (a1[i]));
-		c[1][0] := c[0][1];
-		c[1][1] := c[1][1] + DotProdVecs(a1[i], (a1[i]));
-    tmp := SubVecs(p.pt,
-      AddVecs(Mul(first.pt, B0(u[i])),
-      AddVecs(Mul(first.pt, B1(u[i])),
-      AddVecs(Mul(last.pt, B2(u[i])),
-      Mul(last.pt, B3(u[i]))))));
-    x[0] := x[0] + DotProdVecs(a0[i], tmp);
-    x[1] := x[1] + DotProdVecs(a1[i], tmp);
-    p := p.next;
-  end;
-  det_c0_c1 := c[0][0] * c[1][1] - c[1][0] * c[0][1];
-	det_c0_x := c[0][0] * x[1] - c[1][0] * x[0];
-	det_x_c1 := x[0] * c[1][1] - x[1] * c[0][1];
-  if det_c0_c1 = 0 then
-    alphaL := 0 else
-    alphaL := det_x_c1 / det_c0_c1;
-  if det_c0_c1 = 0 then
-    alphaR := 0 else
-    alphaR := det_c0_x / det_c0_c1;
-  //check for unlikely fit
-  if (alphaL > dist * 2) then alphaL := 0
-  else if (alphaR > dist * 2) then alphaR := 0;
-  epsilon := 1.0e-6 * dist;
-  SetLength(Result, 4);
-  Result[0] := first.pt;
-  Result[3] := last.pt;
-  if (alphaL < epsilon) or (alphaR < epsilon) then
-  begin
-    dist := dist / 3;
-    Result[1] := AddVecs(Result[0], Scale(firstTan, dist));
-    Result[2] := AddVecs(Result[3], Scale(lastTan, dist));
-  end else
-  begin
-    Result[1] := AddVecs(Result[0], Scale(firstTan, alphaL));
-    Result[2] := AddVecs(Result[3], Scale(lastTan, alphaR));
-  end;
-end;
-//------------------------------------------------------------------------------
-
-function TFitCurveContainer.Reparameterize(first: PPt; cnt: integer;
-  const u: TArrayOfDouble; const bezier: TPathD): TArrayOfDouble;
-var
-  i: integer;
-begin
-  SetLength(Result, cnt);
-  for i := 0 to cnt -1 do
-  begin
-    Result[i] := NewtonRaphsonRootFind(bezier, first.pt, u[i]);
-    first := first.next;
-  end;
-end;
-//------------------------------------------------------------------------------
-
-function BezierII(degree: integer; const v: array of TPointD; t: double): TPointD;
-var
-  i,j: integer;
-  tmp: array[0..3] of TPointD;
-begin
-  Move(v[0], tmp[0], degree * sizeOf(TPointD));
-  for i := 1 to degree do
-    for j := 0 to degree - i do
-    begin
-      tmp[j].x := (1.0 - t) * tmp[j].x + t * tmp[j+1].x;
-      tmp[j].y := (1.0 - t) * tmp[j].y + t * tmp[j+1].y;
-    end;
-  Result := tmp[0];
-end;
-//------------------------------------------------------------------------------
-
-function TFitCurveContainer.ComputeMaxErrorSqrd(first, last: PPt;
-	const bezier: TPathD; const u: TArrayOfDouble;
-  out SplitPoint: PPt): double;
-var
-  i: integer;
-  distSqrd: double;
-  pt: TPointD;
-  p: PPt;
-begin
-	Result := 0;
-  i := 1;
-  SplitPoint := first.next;
-  p := first.next;
-	while p <> last do
-	begin
-		pt := BezierII(3, bezier, u[i]);
-		distSqrd := DistanceSqrd(pt, p.pt);
-		if (distSqrd >= Result) then
-    begin
-      Result := distSqrd;
-      SplitPoint := p;
-    end;
-    inc(i);
-    p := p.next;
-	end;
-end;
-//------------------------------------------------------------------------------
-
-function TFitCurveContainer.NewtonRaphsonRootFind(const q: TPathD;
-  const pt: TPointD; u: double): double;
-var
-  numerator, denominator: double;
-  qu, q1u, q2u: TPointD;
-  q1: array[0..2] of TPointD;
-  q2: array[0..1] of TPointD;
-begin
-  q1[0].x := (q[1].x - q[0].x) * 3.0;
-  q1[0].y := (q[1].y - q[0].y) * 3.0;
-  q1[1].x := (q[2].x - q[1].x) * 3.0;
-  q1[1].y := (q[2].y - q[1].y) * 3.0;
-  q1[2].x := (q[3].x - q[2].x) * 3.0;
-  q1[2].y := (q[3].y - q[2].y) * 3.0;
-  q2[0].x := (q1[1].x - q1[0].x) * 2.0;
-  q2[0].y := (q1[1].y - q1[0].y) * 2.0;
-  q2[1].x := (q1[2].x - q1[1].x) * 2.0;
-  q2[1].y := (q1[2].y - q1[1].y) * 2.0;
-  qu  := BezierII(3, q, u);
-  q1u := BezierII(2, q1, u);
-  q2u := BezierII(1, q2, u);
-  numerator := (qu.x - pt.x) * (q1u.x) + (qu.y - pt.y) * (q1u.y);
-  denominator := (q1u.x) * (q1u.x) + (q1u.y) * (q1u.y) +
-    (qu.x - pt.x) * (q2u.x) + (qu.y - pt.y) * (q2u.y);
-  if (denominator = 0) then
-    Result := u else
-    Result := u - (numerator / denominator);
-end;
-//------------------------------------------------------------------------------
-
-function TFitCurveContainer.FitCubic(first, last: PPt;
-  firstTan, lastTan: TPointD): Boolean;
-var
-  i, cnt: integer;
-  splitPoint: PPt;
-  centerTan: TPointD;
-  bezier: TPathD;
-  clps, uPrime: TArrayOfDouble;
-  maxErrorSqrd: double;
-const
-  maxRetries = 4;
-begin
-  Result := true;
-  cnt := Count(first, last);
-  if cnt = 2 then
-  begin
-    SetLength(bezier, 4);
-    bezier[0] := first.pt;
-    bezier[3] := last.pt;
-    bezier[1] := bezier[0];
-    bezier[2] := bezier[3];
-    AppendSolution(bezier);
-    Exit;
-  end
-  else if cnt = 3 then
-  begin
-    if TurnsLeft(first.prev.pt, first.pt, first.next.pt) =
-      TurnsLeft(first.pt, first.next.pt, last.pt) then
-        firstTan := ComputeCenterTangent(first);
-    if TurnsLeft(last.prev.pt, last.pt, last.next.pt) =
-      TurnsLeft(first.pt, first.next.pt, last.pt) then
-        lastTan := NegateVec(ComputeCenterTangent(last));
-  end;
-
-  clps := ChordLengthParameterize(first, cnt);
-  bezier := GenerateBezier(first, last, cnt, clps, firstTan, lastTan);
-  maxErrorSqrd := ComputeMaxErrorSqrd(first, last, bezier, clps, splitPoint);
-  if (maxErrorSqrd < tolSqrd) then
-  begin
-    AppendSolution(bezier);
-    Exit;
-  end;
-  if (maxErrorSqrd < tolSqrd * 4) then //close enough to try again
-  begin
-		for i := 1 to maxRetries do
-    begin
-      uPrime := Reparameterize(first, cnt, clps, bezier);
-      bezier := GenerateBezier(first, last, cnt, uPrime, firstTan, lastTan);
-      maxErrorSqrd :=
-        ComputeMaxErrorSqrd(first, last, bezier, uPrime, splitPoint);
-			if (maxErrorSqrd < tolSqrd) then
-      begin
-        AppendSolution(bezier);
-        Exit;
-			end;
-			clps := uPrime;
-		end;
-	end;
-  //We need to break the curve because it's too complex for a single Bezier.
-  //If we're changing direction then make this a 'hard' break (see below).
-  if TurnsLeft(splitPoint.prev.prev.pt, splitPoint.prev.pt, splitPoint.pt) <>
-    TurnsLeft(splitPoint.prev.pt, splitPoint.pt, splitPoint.next.pt) then
-  begin
-    centerTan := ComputeRightTangent(splitPoint);
-    FitCubic(first, splitPoint, firstTan, centerTan);
-    centerTan := ComputeLeftTangent(splitPoint);
-    FitCubic(splitPoint, last, centerTan, lastTan);
-  end else
-  begin
-    centerTan := ComputeCenterTangent(splitPoint);
-    FitCubic(first, splitPoint, firstTan, NegateVec(centerTan));
-    FitCubic(splitPoint, last, centerTan, lastTan);
-  end;
-end;
-//------------------------------------------------------------------------------
-
-function HardBreakCheck(ppt: PPt; compareLen: double): Boolean;
-var
-  q: double;
-const
-  longLen = 15;
-begin
-  //A 'break' means starting a new Bezier. A 'hard' break avoids smoothing
-  //whereas a 'soft' break will still be smoothed. There is as much art as
-  //science in determining where to smooth and where not to. For example,
-  //long edges should generally remain straight but how long does an edge
-  //have to be to be considered a 'long' edge?
-  if (ppt.prev.len * 4 < ppt.len) or (ppt.len * 4 < ppt.prev.len) then
-  begin
-    //We'll hard break whenever there's significant asymmetry between
-    //segment lengths because GenerateBezier() will perform poorly.
-    result := true;
-  end
-  else if ((ppt.prev.len > longLen) and (ppt.len > longLen)) then
-  begin
-    //hard break long segments only when turning by more than ~45 degrees
-    q := (Sqr(ppt.prev.len) + Sqr(ppt.len) - DistanceSqrd(ppt.prev.pt, ppt.next.pt)) /
-      (2 * ppt.prev.len * ppt.len); //Cosine Rule.
-    result := (1 - abs(q)) > 0.3;
-  end
-  else if ((TurnsLeft(ppt.prev.prev.pt, ppt.prev.pt, ppt.pt) =
-    TurnsRight(ppt.prev.pt, ppt.pt, ppt.next.pt)) and
-    (ppt.prev.len > compareLen) and (ppt.len > compareLen)) then
-  begin
-    //we'll also hard break whenever there's a significant inflection point
-    result := true;
-  end else
-  begin
-    //Finally, we'll also force a 'hard' break when there's a significant bend.
-    //Again uses the Cosine Rule.
-    q :=(Sqr(ppt.prev.len) + Sqr(ppt.len) -
-      DistanceSqrd(ppt.prev.pt, ppt.next.pt)) / (2 * ppt.prev.len * ppt.len);
-    Result := (q > -0.2); //ie more than 90%
-  end;
-end;
-//------------------------------------------------------------------------------
-
-function TFitCurveContainer.FitCurve(const path: TPathD;
-  closed: Boolean; tolerance: double; minSegLength: double): TPathD;
-var
-  i, highI: integer;
-  d: double;
-  p, p2, pEnd: PPt;
-begin
-  //tolerance: specifies the maximum allowed variance between the existing
-  //vertices and the new Bezier curves. More tolerance will produce
-  //fewer Beziers and simpler paths, but at the cost of less precison.
-  tolSqrd := Sqr(Max(1, Min(10, tolerance))); //range 1..10
-  //minSegLength: Typically when vectorizing raster images, the produced
-  //vector paths will have many series of axis aligned segments that trace
-  //pixel boundaries. These paths will also contain many 1 unit segments at
-  //right angles to adjacent segments. Importantly, these very short segments
-  //will cause artifacts in the solution unless they are trimmed.
-  highI     := High(path);
-  if closed then
-    while (highI > 0) and (Distance(path[highI], path[0]) < minSegLength) do
-      dec(highI);
-  p := AddPt(path[0]);
-  for i := 1 to highI do
-  begin
-    d := Distance(p.pt, path[i]);
-    //skip line segments with lengths less than 'minSegLength'
-    if d < minSegLength then Continue;
-    p := AddPt(path[i]);
-    p.prev.len := d;
-    p.prev.vec := SubVecs(p.pt, p.prev.pt);
-  end;
-  p.len := Distance(ppts.pt, p.pt);
-  p.vec := SubVecs(p.next.pt, p.pt);
-  p := ppts;
-  if (p.next = p) or (closed and (p.next = p.prev)) then
-  begin
-    Clear;
-    result := nil;
-    Exit;
-  end;
-  //for closed paths, find a good starting point
-  if closed then
-  begin
-    repeat
-      if HardBreakCheck(p, tolerance) then break;
-      p := p.next;
-    until p = ppts;
-    pEnd := p;
-  end else
-    pEnd := ppts.prev;
-  p2 := p.next;
-  repeat
-    if HardBreakCheck(p2, tolerance) then
-    begin
-      FitCubic(p, p2, ComputeLeftTangent(p), ComputeRightTangent(p2));
-      p := p2;
-    end;
-    p2 := p2.next;
-  until (p2 = pEnd);
-  FitCubic(p, p2, ComputeLeftTangent(p), ComputeRightTangent(p2));
-  Result := solution;
-  Clear;
-end;
-//------------------------------------------------------------------------------
-
-procedure TFitCurveContainer.AppendSolution(const bezier: TPathD);
-var
-  i, len: integer;
-begin
-  len := Length(solution);
-  if len > 0 then
-  begin
-    SetLength(solution, len + 3);
-    for i := 0 to 2 do
-      solution[len +i] := bezier[i +1];
-  end else
-    solution := bezier;
-end;
-//------------------------------------------------------------------------------
-
-function CurveFit(const path: TPathD; closed: Boolean;
-  tolerance: double; minSegLength: double): TPathD;
-var
-  paths, solution: TPathsD;
-begin
-  SetLength(paths, 1);
-  paths[0] := path;
-  solution := CurveFit(paths, closed, tolerance, minSegLength);
-  if solution <> nil then
-    Result := solution[0];
-end;
-//------------------------------------------------------------------------------
-
-function CurveFit(const paths: TPathsD; closed: Boolean;
-  tolerance: double; minSegLength: double): TPathsD;
-var
-  i,j, len: integer;
-begin
-  j := 0;
-  len := Length(paths);
-  SetLength(Result, len);
-  with TFitCurveContainer.Create do
-  try
-    for i := 0 to len -1 do
-      if (paths[i] <> nil) and (Abs(Area(paths[i])) > Sqr(tolerance)) then
-      begin
-        Result[j] := FitCurve(paths[i], closed, tolerance, minSegLength);
-        inc(j);
-      end;
-  finally
-    Free;
-  end;
-  SetLength(Result, j);
-end;
-//------------------------------------------------------------------------------
-
 
 end.

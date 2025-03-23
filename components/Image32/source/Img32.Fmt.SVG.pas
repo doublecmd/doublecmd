@@ -2,10 +2,10 @@ unit Img32.Fmt.SVG;
 
 (*******************************************************************************
 * Author    :  Angus Johnson                                                   *
-* Version   :  4.3.1                                                           *
-* Date      :  5 October 2022                                                  *
+* Version   :  4.7                                                             *
+* Date      :  6 January 2025                                                  *
 * Website   :  http://www.angusj.com                                           *
-* Copyright :  Angus Johnson 2019-2022                                         *
+* Copyright :  Angus Johnson 2019-2025                                         *
 * Purpose   :  SVG file format extension for TImage32                          *
 * License   :  http://www.boost.org/LICENSE_1_0.txt                            *
 *******************************************************************************)
@@ -15,16 +15,24 @@ interface
 {$I Img32.inc}
 
 uses
-  {$IFDEF MSWINDOWS} Windows, {$ENDIF} SysUtils, Classes, Math,
+  {$IFDEF MSWINDOWS} Windows, {$ENDIF}
+  {$IF NOT DEFINED(NEWPOSFUNC) OR DEFINED(FPC)} StrUtils, {$IFEND}
+  {$IFDEF UNICODE} AnsiStrings, {$ENDIF}
+  SysUtils, Classes, Math,
   {$IFDEF XPLAT_GENERICS} Generics.Collections, Generics.Defaults, {$ENDIF}
-  Img32, Img32.Vector, Img32.SVG.Reader;
+  Img32, Img32.Vector, Img32.SVG.Core, Img32.SVG.Reader
+  {$IF DEFINED(USING_LCL)}, Types{$IFEND}
+  ;
 
 type
   TImageFormat_SVG = class(TImageFormat)
   public
     class function IsValidImageStream(stream: TStream): Boolean; override;
-    function LoadFromStream(stream: TStream; img32: TImage32): Boolean; override;
-    procedure SaveToStream(stream: TStream; img32: TImage32); override;
+    function LoadFromStream(stream: TStream;
+      img32: TImage32; imgIndex: integer = 0): Boolean; override;
+    // SaveToStream: not implemented for SVG streams
+    procedure SaveToStream(stream: TStream;
+      img32: TImage32; quality: integer = 0); override;
     class function CanCopyToClipboard: Boolean; override;
     class function CopyToClipboard(img32: TImage32): Boolean; override;
     class function CanPasteFromClipboard: Boolean; override;
@@ -82,10 +90,6 @@ type
     property ResourceName: string read fResName write SetResName;
 {$ENDIF}
   end;
-
-var
-  defaultSvgWidth: integer = 800;
-  defaultSvgHeight: integer = 600;
 
 implementation
 
@@ -362,38 +366,38 @@ end;
 // Loading (reading) SVG images from file ...
 //------------------------------------------------------------------------------
 
-function TImageFormat_SVG.LoadFromStream(stream: TStream; img32: TImage32): Boolean;
+function TImageFormat_SVG.LoadFromStream(stream: TStream;
+  img32: TImage32; imgIndex: integer = 0): Boolean;
 var
   r: TRectWH;
-  w,h, sx,sy: double;
+  sx: double;
 begin
   with TSvgReader.Create do
   try
     Result := LoadFromStream(stream);
     if not Result then Exit;
-    r := GetViewbox(img32.Width, img32.Height);
 
+    r := RootElement.viewboxWH;
     img32.BeginUpdate;
     try
-      if img32.IsEmpty and not r.IsEmpty then
-        img32.SetSize(Round(r.Width), Round(r.Height))
+      if img32.IsEmpty then
+      begin
+        with RootElement do
+          if Width.IsValid and Height.IsValid then
+            img32.SetSize(
+              Round(Width.GetValue(defaultSvgWidth, 0)),
+              Round(Height.GetValue(defaultSvgHeight, 0)))
+          else if not r.IsEmpty then
+            img32.SetSize(Round(r.Width), Round(r.Height))
+          else
+            img32.SetSize(defaultSvgWidth, defaultSvgHeight);
+      end
       else if not r.IsEmpty then
       begin
-        //then scale the SVG to fit image
-        w := r.Width;
-        h := r.Height;
-        sx := img32.Width / w;
-        sy := img32.Height / h;
-        if sy < sx then sx := sy;
-        if not(SameValue(sx, 1, 0.00001)) then
-        begin
-          w := w * sx;
-          h := h * sx;
-        end;
-        img32.SetSize(Round(w), Round(h));
-      end
-      else
-        img32.SetSize(defaultSvgWidth, defaultSvgHeight);
+        // scale the SVG to best fit the image dimensions
+        sx := GetScaleForBestFit(r.Width, r.Height, img32.Width, img32.Height);
+        img32.SetSize(Round(r.Width * sx), Round(r.Height * sx));
+      end;
 
       //draw the SVG image to fit inside the canvas
       DrawImage(img32, True);
@@ -434,7 +438,8 @@ begin
 end;
 //------------------------------------------------------------------------------
 
-procedure TImageFormat_SVG.SaveToStream(stream: TStream; img32: TImage32);
+procedure TImageFormat_SVG.SaveToStream(stream: TStream;
+  img32: TImage32; quality: integer);
 begin
   //not enabled
 end;
