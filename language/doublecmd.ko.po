@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Double Commander 1.1.0 alpha\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-11-15 11:15+0300\n"
-"PO-Revision-Date: 2025-03-20 03:33+0900\n"
+"PO-Revision-Date: 2025-03-24 01:21+0900\n"
 "Last-Translator: VenusGirl: venusgirl@outlook.com/\n"
 "Language-Team: 비너스걸: https://venusgirls.tistory.com/\n"
 "Language: ko\n"
@@ -1195,7 +1195,7 @@ msgstr "파일 마스크와 일치하는 파일 추출(&E):"
 
 #: tfrmextractdlg.lblpassword.caption
 msgid "&Password for encrypted files:"
-msgstr "암호화된 파일의 암호:(&P):"
+msgstr "암호화된 파일의 암호(&P):"
 
 #: tfrmfileexecuteyourself.btnclose.caption
 msgctxt "TFRMFILEEXECUTEYOURSELF.BTNCLOSE.CAPTION"
@@ -1597,7 +1597,7 @@ msgstr "\"디렉터리에서 시작\"으로 저장(&V)"
 
 #: tfrmfinddlg.btnsearchsavewithstartingpath.hint
 msgid "If saved then \"Start in directory\" will be restored when loading template. Use it if you want to fix searching to a certain directory"
-msgstr "저장하면 템플릿을 불러올 때 \"디렉터리에서 시작\"이 복원됩니다. 특정 디렉터리에 대한 검색을 수정하려면 이를 사용하십시오"
+msgstr "저장하면 템플릿을 불러올 때 \"디렉터리에서 시작\"이 복원됩니다. 특정 디렉토리로 검색을 수정하려는 경우 사용하세요"
 
 #: tfrmfinddlg.btnusetemplate.caption
 msgid "Use template"
@@ -1630,7 +1630,7 @@ msgstr "다음 크기 이하(&Z):"
 
 #: tfrmfinddlg.cbfindinarchive.caption
 msgid "Search in &archives"
-msgstr "압축파일에서 찾기(&a)"
+msgstr "압축파일에서 찾기(&A)"
 
 #: tfrmfinddlg.cbfindtext.caption
 msgid "Find &text in file"
@@ -1715,11 +1715,11 @@ msgstr "16진수(&M)"
 
 #: tfrmfinddlg.cmbexcludedirectories.hint
 msgid "Enter directories names that should be excluded from search separated with \";\""
-msgstr "검색에서 제외할 디렉터리 이름을 \";\"으로 구분하여 입력"
+msgstr "검색에서 제외할 디렉터리 이름을 \";\"로 구분하여 입력"
 
 #: tfrmfinddlg.cmbexcludefiles.hint
 msgid "Enter files names that should be excluded from search separated with \";\""
-msgstr "검색에서 제외할 파일 이름을 \";\"으로 구분하여 입력"
+msgstr "검색에서 제외할 파일 이름을 \";\"로 구분하여 입력"
 
 #: tfrmfinddlg.cmbfindfilemask.hint
 msgid "Enter files names separated with \";\""
@@ -2059,7 +2059,7 @@ msgstr "디렉터리를 홈으로 변경"
 
 #: tfrmmain.actchangedirtoparent.caption
 msgid "Change Directory To Parent"
-msgstr "디렉터리를 상위 디렉터리로 변경"
+msgstr "디렉터리를 부모로 변경"
 
 #: tfrmmain.actchangedirtoroot.caption
 msgid "Change directory to root"
@@ -2349,7 +2349,7 @@ msgstr "트리 보기에 초점"
 
 #: tfrmmain.actfocustreeview.hint
 msgid "Switch between current file list and tree view (if enabled)"
-msgstr "현재 파일 목록 및 트리 보기 간 전환(활성화된 경우)"
+msgstr "현재 파일 목록 및 트리 보기 간 전환 (활성화된 경우)"
 
 #: tfrmmain.actgotofirstentry.caption
 msgid "Place cursor on first folder or file"
@@ -2712,7 +2712,7 @@ msgstr "선택 항목 저장(&V)"
 
 #: tfrmmain.actsaveselectiontofile.caption
 msgid "Save S&election to File..."
-msgstr "선택 항목을 파일에 저장...(&E)..."
+msgstr "선택 항목을 파일에 저장(&E)..."
 
 #: tfrmmain.actsavetabs.caption
 msgid "&Save Tabs to File"
@@ -3579,12 +3579,12 @@ msgstr "이름 바꾸기"
 #: tfrmmultirename.actresetall.caption
 msgctxt "tfrmmultirename.actresetall.caption"
 msgid "Reset &All"
-msgstr "모두 재설정(A)"
+msgstr "모두 재설정(&A)"
 
 #: tfrmmultirename.actsavepreset.caption
 msgctxt "tfrmmultirename.actsavepreset.caption"
 msgid "Save"
-msgstr "저장(S)"
+msgstr "저장"
 
 #: tfrmmultirename.actsavepresetas.caption
 msgctxt "tfrmmultirename.actsavepresetas.caption"
@@ -3825,7 +3825,7 @@ msgstr "옵션"
 
 #: tfrmoptions.lblemptyeditor.caption
 msgid "Please select one of the subpages, this page does not contain any settings."
-msgstr "하위 페이지 중 하나를 선택하십시오. 이 페이지에는 설정이 없습니다."
+msgstr "하위 페이지 중 하나를 선택하세요. 이 페이지에는 설정이 없습니다."
 
 #: tfrmoptionsarchivers.btnarchiveradd.caption
 msgctxt "tfrmoptionsarchivers.btnarchiveradd.caption"
@@ -3835,7 +3835,7 @@ msgstr "추가(&D)"
 #: tfrmoptionsarchivers.btnarchiveraddhelper.hint
 msgctxt "tfrmoptionsarchivers.btnarchiveraddhelper.hint"
 msgid "Variable reminder helper"
-msgstr "가변 알림 도우미"
+msgstr "변수 알림 도우미"
 
 #: tfrmoptionsarchivers.btnarchiverapply.caption
 msgctxt "tfrmoptionsarchivers.btnarchiverapply.caption"
@@ -3855,27 +3855,27 @@ msgstr "삭제(&E)"
 #: tfrmoptionsarchivers.btnarchiverdeletehelper.hint
 msgctxt "tfrmoptionsarchivers.btnarchiverdeletehelper.hint"
 msgid "Variable reminder helper"
-msgstr "가변 알림 도우미"
+msgstr "변수 알림 도우미"
 
 #: tfrmoptionsarchivers.btnarchiverextracthelper.hint
 msgctxt "tfrmoptionsarchivers.btnarchiverextracthelper.hint"
 msgid "Variable reminder helper"
-msgstr "가변 알림 도우미"
+msgstr "변수 알림 도우미"
 
 #: tfrmoptionsarchivers.btnarchiverextractwithoutpathhelper.hint
 msgctxt "tfrmoptionsarchivers.btnarchiverextractwithoutpathhelper.hint"
 msgid "Variable reminder helper"
-msgstr "가변 알림 도우미"
+msgstr "변수 알림 도우미"
 
 #: tfrmoptionsarchivers.btnarchiverlisthelper.hint
 msgctxt "tfrmoptionsarchivers.btnarchiverlisthelper.hint"
 msgid "Variable reminder helper"
-msgstr "가변 알림 도우미"
+msgstr "변수 알림 도우미"
 
 #: tfrmoptionsarchivers.btnarchiverother.caption
 msgctxt "tfrmoptionsarchivers.btnarchiverother.caption"
 msgid "Oth&er..."
-msgstr "기타..."
+msgstr "기타(&E)..."
 
 #: tfrmoptionsarchivers.btnarchiverrelativer.hint
 msgctxt "tfrmoptionsarchivers.btnarchiverrelativer.hint"
@@ -3890,12 +3890,12 @@ msgstr "이름 바꾸기(&R)"
 #: tfrmoptionsarchivers.btnarchiverselfextracthelper.hint
 msgctxt "tfrmoptionsarchivers.btnarchiverselfextracthelper.hint"
 msgid "Variable reminder helper"
-msgstr "가변 알림 도우미"
+msgstr "변수 알림 도우미"
 
 #: tfrmoptionsarchivers.btnarchivertesthelper.hint
 msgctxt "tfrmoptionsarchivers.btnarchivertesthelper.hint"
 msgid "Variable reminder helper"
-msgstr "가변 알림 도우미"
+msgstr "변수 알림 도우미"
 
 #: tfrmoptionsarchivers.bvlarchiverids.caption
 msgctxt "tfrmoptionsarchivers.bvlarchiverids.caption"
@@ -4003,7 +4003,7 @@ msgstr "압축기(&V):"
 #: tfrmoptionsarchivers.lblarchiverlistend.caption
 msgctxt "tfrmoptionsarchivers.lblarchiverlistend.caption"
 msgid "Listing &finish (optional):"
-msgstr "목록화 완료 (선택사항):(&F):"
+msgstr "목록화 완료 (선택사항)(&F):"
 
 #: tfrmoptionsarchivers.lblarchiverlistformat.caption
 msgctxt "tfrmoptionsarchivers.lblarchiverlistformat.caption"
@@ -4073,7 +4073,7 @@ msgstr "크기, 날짜 또는 속성이 변경될 때(&S)"
 #: tfrmoptionsautorefresh.cbwatchexcludedirs.caption
 msgctxt "tfrmoptionsautorefresh.cbwatchexcludedirs.caption"
 msgid "For the following &paths and their subdirectories:"
-msgstr "다음 경로 및 해당 하위 디렉터리에 대해:(&P):"
+msgstr "다음 경로 및 해당 하위 디렉터리에 대해(&P):"
 
 #: tfrmoptionsautorefresh.cbwatchfilenamechange.caption
 msgid "When &files are created, deleted or renamed"
@@ -5127,7 +5127,7 @@ msgstr "디렉터리 주요 목록 파일 (.hotlist)에서(&H)"
 
 #: tfrmoptionsdirectoryhotlist.miimporttotalcommander.caption
 msgid "from \"&wincmd.ini\" of TC"
-msgstr "TC의 \"wincmd.ini\"에서(W)"
+msgstr "TC의 \"wincmd.ini\"에서(&W)"
 
 #: tfrmoptionsdirectoryhotlist.minavigate.caption
 msgid "&Navigate..."
@@ -5312,7 +5312,7 @@ msgstr "탭 들여쓰기 블록"
 
 #: tfrmoptionseditor.chktabindent.hint
 msgid "When active <Tab> and <Shift+Tab> act as block indent, unindent when text is selected"
-msgstr "활성 <Tab> 상태일 때 <Shift+Tab>은 블록 들여쓰기 역할을 하고 텍스트를 선택하면 들여쓰기를 취소합니다"
+msgstr "<Tab> 및 <Shift+Tab>이 활성 상태일 때 블록 들여쓰기 역할을 하고 텍스트를 선택하면 들여쓰기를 취소합니다"
 
 #: tfrmoptionseditor.chktabstospaces.caption
 msgid "Use spaces instead tab characters"
@@ -5741,7 +5741,7 @@ msgstr "삽입(&I)"
 #: tfrmoptionsfileassoc.btnparametershelper.hint
 msgctxt "tfrmoptionsfileassoc.btnparametershelper.hint"
 msgid "Variable reminder helper"
-msgstr "가변 알림 도우미"
+msgstr "변수 알림 도우미"
 
 #: tfrmoptionsfileassoc.btnrelativecommand.hint
 msgctxt "tfrmoptionsfileassoc.btnrelativecommand.hint"
@@ -5774,7 +5774,7 @@ msgstr "적절한 경로를 선택하기 위한 몇 가지 기능"
 #: tfrmoptionsfileassoc.btnstartpathvarhelper.hint
 msgctxt "tfrmoptionsfileassoc.btnstartpathvarhelper.hint"
 msgid "Variable reminder helper"
-msgstr "가변 알림 도우미"
+msgstr "변수 알림 도우미"
 
 #: tfrmoptionsfileassoc.btnupact.caption
 msgctxt "TFRMOPTIONSFILEASSOC.BTNUPACT.CAPTION"
@@ -5783,11 +5783,11 @@ msgstr "위로(&U)"
 
 #: tfrmoptionsfileassoc.destartpath.hint
 msgid "Starting path of the command. Never quote this string."
-msgstr "명령의 시작 경로입니다. 이 문자열을 인용하지 마십시오."
+msgstr "명령의 시작 경로입니다. 이 문자열을 인용하지 마세요."
 
 #: tfrmoptionsfileassoc.edbactionname.hint
 msgid "Name of the action. It is never passed to the system, it's just a mnemonic name chosen by you, for you"
-msgstr "작업의 이름입니다. 이 이름은 시스템으로 전달되지 않으며, 사용자가 직접 선택한 니모닉 이름일 뿐입니다"
+msgstr "작업의 이름입니다. 시스템으로 전달되지 않으며, 사용자가 직접 선택한 니모닉 이름일 뿐입니다"
 
 #: tfrmoptionsfileassoc.edtparams.hint
 msgid "Parameter to pass to the command. Long filename with spaces should be quoted (manually entering)."
@@ -5795,7 +5795,7 @@ msgstr "명령에 전달할 매개 변수입니다. 공백이 있는 긴 파일 
 
 #: tfrmoptionsfileassoc.fnecommand.hint
 msgid "Command to execute. Never quote this string."
-msgstr "실행할 명령입니다. 이 문자열을 인용하지 마십시오."
+msgstr "실행할 명령입니다. 이 문자열을 인용하지 마세요."
 
 #: tfrmoptionsfileassoc.gbactiondescription.caption
 msgid "Action description"
@@ -6074,7 +6074,7 @@ msgstr "중복된 이름 자동 이름 바꾸기 스타일:"
 
 #: tfrmoptionsfileoperations.lblwipepassnumber.caption
 msgid "&Number of wipe passes:"
-msgstr "영구 삭제 통과 횟수:(&N):"
+msgstr "영구 삭제 통과 횟수(&N):"
 
 #: tfrmoptionsfilepanelscolors.btnresettodcdefault.caption
 msgid "Reset to DC default"
@@ -8777,7 +8777,7 @@ msgstr "커밋"
 #: tfrmstartingsplash.lblfreepascalver.caption
 msgctxt "TFRMSTARTINGSPLASH.LBLFREEPASCALVER.CAPTION"
 msgid "Free Pascal"
-msgstr "무료 Pascal"
+msgstr "Free Pascal"
 
 #: tfrmstartingsplash.lbllazarusver.caption
 msgctxt "TFRMSTARTINGSPLASH.LBLLAZARUSVER.CAPTION"
@@ -8886,7 +8886,7 @@ msgstr "삭제할 경우 선택 -> (오른쪽)"
 #: tfrmsyncdirsdlg.btnclose.caption
 msgctxt "TFRMSYNCDIRSDLG.BTNCLOSE.CAPTION"
 msgid "Close"
-msgstr "닫ㄱ"
+msgstr "닫기"
 
 #: tfrmsyncdirsdlg.btncompare.caption
 msgctxt "TFRMSYNCDIRSDLG.BTNCOMPARE.CAPTION"
@@ -8905,7 +8905,7 @@ msgstr "동기화"
 
 #: tfrmsyncdirsdlg.caption
 msgid "Synchronize directories"
-msgstr "디렉리 동기화"
+msgstr "디렉터리 동기화"
 
 #: tfrmsyncdirsdlg.cbextfilter.text
 msgctxt "TFRMSYNCDIRSDLG.CBEXTFILTER.TEXT"
@@ -9244,7 +9244,7 @@ msgstr "파일 삭제"
 #: tfrmviewer.actexitviewer.caption
 msgctxt "TFRMVIEWER.ACTEXITVIEWER.CAPTION"
 msgid "E&xit"
-msgstr "종료(&x)"
+msgstr "종료(&X)"
 
 #: tfrmviewer.actfind.caption
 msgctxt "TFRMVIEWER.ACTFIND.CAPTION"
@@ -11323,7 +11323,7 @@ msgid ""
 "%s\n"
 "Most programs will not be able to access a file/directory with such a long name!"
 msgstr ""
-"대상 이름 길이(%d)가 %d자를 초과합니다!\n"
+"대상 이름 길이 (%d)가 %d자를 초과합니다!\n"
 "%s\n"
 "대부분의 프로그램은 이렇게 긴 이름을 가진 파일/디렉터리에 액세스할 수 없습니다!"
 
@@ -11785,7 +11785,7 @@ msgstr "암호 (방화벽):"
 
 #: ulng.rsmsgpasswordverify
 msgid "Please re-enter the password for verification:"
-msgstr "검증을 위해 암호를 다시 입력하십시오:"
+msgstr "검증을 위해 암호를 다시 입력하세요:"
 
 #: ulng.rsmsgpopuphotdelete
 #, object-pascal-format
@@ -11844,7 +11844,7 @@ msgstr "이 텍스트를 바꾸시겠습니까?"
 
 #: ulng.rsmsgrestartforapplychanges
 msgid "Please, restart Double Commander in order to apply changes"
-msgstr "변경 사항을 적용하려면 Double Commander를 다시 시작하십시오"
+msgstr "변경 사항을 적용하려면 Double Commander를 다시 시작하세요"
 
 #: ulng.rsmsgscriptcantfindlibrary
 #, object-pascal-format
@@ -11867,11 +11867,11 @@ msgstr "실행할 파일 선택"
 
 #: ulng.rsmsgselectonlychecksumfiles
 msgid "Please select only checksum files!"
-msgstr "체크섬 파일만 선택하십시오!"
+msgstr "체크섬 파일만 선택하세요!"
 
 #: ulng.rsmsgsellocnextvol
 msgid "Please select location of next volume"
-msgstr "다음 볼륨의 위치를 선택하십시오"
+msgstr "다음 볼륨의 위치를 선택하세요"
 
 #: ulng.rsmsgsetvolumelabel
 msgid "Set volume label"
@@ -12604,7 +12604,7 @@ msgstr "시작"
 
 #: ulng.rsoperstopped
 msgid "Stopped"
-msgstr "정지됨"
+msgstr "중지됨"
 
 #: ulng.rsoperstopping
 msgid "Stopping"
@@ -12666,7 +12666,7 @@ msgstr "작업"
 
 #: ulng.rsoptaddfrommainpanel
 msgid "Add at &beginning;Add at the end;Smart add"
-msgstr "시작에 추가;끝에 추가;스마트 추가&B)"
+msgstr "시작에 추가;끝에 추가;스마트 추가(&B)"
 
 #: ulng.rsoptaddingtooltipfiletype
 msgid "Adding new tooltip file type"
@@ -12674,7 +12674,7 @@ msgstr "새 도구 설명 파일 유형 추가"
 
 #: ulng.rsoptarchiveconfiguresavetochange
 msgid "To change current editing archive configuration, either APPLY or DELETE current editing one"
-msgstr "현재 편집 압축파일 구성을 변경하려면 현재 편집을 적용하거나 삭제하십시오"
+msgstr "현재 편집 압축파일 구성을 변경하려면 현재 편집을 적용하거나 삭제하세요"
 
 #: ulng.rsoptarchiveradditonalcmd
 msgid "Mode dependent, additional command"
@@ -12754,7 +12754,7 @@ msgstr "압축기 구성을 가져올 파일 선택"
 #: ulng.rsoptarchiverimportprompt
 msgctxt "ulng.rsoptarchiverimportprompt"
 msgid "Select the one(s) you want to import"
-msgstr "가져올 항목을 선택하십시오"
+msgstr "가져올 항목을 선택하세요"
 
 #: ulng.rsoptarchiverjustname
 msgid "Use name only, without path"
@@ -12839,7 +12839,7 @@ msgstr "별도 창, 최소화된 별도 창, 작업 패널"
 
 #: ulng.rsoptfilesizefloat
 msgid "float"
-msgstr "float"
+msgstr "부동"
 
 #: ulng.rsopthotkeysadddeleteshortcutlong
 #, object-pascal-format
@@ -13300,7 +13300,7 @@ msgstr "%d 요소를 \"%s\" 파일로 내보내기가 완료되었습니다."
 #: ulng.rsopttooltipfiletypeexportprompt
 msgctxt "ulng.rsopttooltipfiletypeexportprompt"
 msgid "Select the one(s) you want to export"
-msgstr "Select the one(s) you want to export"
+msgstr "내보낼 항목을 선택하세요"
 
 #: ulng.rsopttooltipfiletypeimportcaption
 msgid "Import tooltip file type configuration"
@@ -13319,7 +13319,7 @@ msgstr "도구 설명 파일 형식 구성을 가져올 파일을 선택합니�
 #: ulng.rsopttooltipfiletypeimportprompt
 msgctxt "ulng.rsopttooltipfiletypeimportprompt"
 msgid "Select the one(s) you want to import"
-msgstr "가져올 항목을 선택하십시오"
+msgstr "가져올 항목을 선택하세요"
 
 #: ulng.rsopttooltipfiletypewheretosave
 msgid "Enter location and filename where to save tooltip file type configuration"
@@ -13469,7 +13469,7 @@ msgid ""
 "We need that one to be completed before to launch a new one."
 msgstr ""
 "DSX 플러그인을 사용한 파일 검색이 이미 진행 중입니다.\n"
-"새로운 것을 시작하기 전에 완료해야합니다."
+"새로운 것을 시작하기 전에 완료해야 합니다."
 
 #: ulng.rssearchwithwdxplugininprogress
 msgid ""
@@ -13477,7 +13477,7 @@ msgid ""
 "We need that one to be completed before to launch a new one."
 msgstr ""
 "WDX 플러그인을 사용한 파일 검색이 이미 진행 중입니다.\n"
-"새로운 것을 시작하기 전에 완료해야합니다."
+"새로운 것을 시작하기 전에 완료해야 합니다."
 
 #: ulng.rsselectdir
 msgid "Select a directory"
