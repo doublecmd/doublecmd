@@ -76,7 +76,7 @@ const
   RunTermCmd: String = 'xterm';  // default terminal
   RunTermParams: String = '';
   RunInTermStayOpenCmd: String = 'xterm'; // default run in terminal command AND Stay open after command
-  RunInTermStayOpenParams: String = '-e sh -c ''{command}; echo -n Press ENTER to exit... ; read a''';
+  RunInTermStayOpenParams: String = '-e sh -c ''"{command}"; echo -n Press ENTER to exit... ; read a''';
   RunInTermCloseCmd: String = 'xterm'; // default run in terminal command AND Close after command
   RunInTermCloseParams: String = '-e sh -c ''{command}''';
   MonoSpaceFont: String = 'Monospace';
