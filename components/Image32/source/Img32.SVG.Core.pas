@@ -932,7 +932,7 @@ begin
 end;
 //------------------------------------------------------------------------------
 
-{$PUSH}{$O-}{$R-}
+{$PUSH}{$Q-}{$R-}
 function GetHash(c: PUTF8Char; len: nativeint): cardinal;
 var
   i: integer;
@@ -961,7 +961,7 @@ begin
 end;
 //------------------------------------------------------------------------------
 
-{$PUSH}{$O-}{$R-}
+{$PUSH}{$Q-}{$R-}
 function GetHashCaseSensitive(name: PUTF8Char; nameLen: integer): cardinal;
 var
   i: integer;
