@@ -932,7 +932,7 @@ begin
 end;
 //------------------------------------------------------------------------------
 
-{$OVERFLOWCHECKS OFF}
+{$PUSH}{$O-}{$R-}
 function GetHash(c: PUTF8Char; len: nativeint): cardinal;
 var
   i: integer;
@@ -951,9 +951,7 @@ begin
   Result := Result xor (Result shr 11);
   Result := Result + (Result shl 15);
 end;
-{$IFDEF OVERFLOWCHECKS_ENABLED}
-  {$OVERFLOWCHECKS ON}
-{$ENDIF}
+{$POP}
 //------------------------------------------------------------------------------
 
 function GetHash(const name: UTF8String): cardinal;
@@ -963,7 +961,7 @@ begin
 end;
 //------------------------------------------------------------------------------
 
-{$OVERFLOWCHECKS OFF}
+{$PUSH}{$O-}{$R-}
 function GetHashCaseSensitive(name: PUTF8Char; nameLen: integer): cardinal;
 var
   i: integer;
@@ -980,9 +978,7 @@ begin
   Result := Result xor (Result shr 11);
   Result := Result + (Result shl 15);
 end;
-{$IFDEF OVERFLOWCHECKS_ENABLED}
-  {$OVERFLOWCHECKS ON}
-{$ENDIF}
+{$POP}
 //------------------------------------------------------------------------------
 
 function ParseNextWordHashed(var c: PUTF8Char; endC: PUTF8Char): cardinal;
