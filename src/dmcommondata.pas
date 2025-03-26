@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    General icons loaded at launch based on screen resolution
 
-   Copyright (C) 2009-2020 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2009-2025 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -51,7 +51,7 @@ var
 implementation
 
 uses
-  LCLVersion, Graphics, uPixMapManager;
+  LCLVersion, Graphics, uPixMapManager, uGlobs;
 
 {$R *.lfm}
 
@@ -147,27 +147,42 @@ end;
 
 procedure TdmComData.LoadImages(Images: TImageList; const ANames: array of String);
 var
+  I: Integer;
   AName: String;
-  ASize16, ASize24, ASize32: Integer;
-  ABitmap16, ABitmap24, ABitmap32: TCustomBitmap;
+  AResolutions: array of Integer;
+  ABitmaps: array of TCustomBitmap;
 begin
   Images.Clear;
-  ASize16:= 16; // AdjustIconSize(16, 96);
-  ASize24:= 24; // AdjustIconSize(24, 96);
-  ASize32:= 32; // AdjustIconSize(32, 96);
-  Images.RegisterResolutions([ASize16, ASize24, ASize32]);
+  SetLength(ABitmaps, 3);
+  SetLength(AResolutions, 3);
+
+  AResolutions[0]:= 16; // AdjustIconSize(16, 96);
+  AResolutions[1]:= 24; // AdjustIconSize(24, 96);
+  AResolutions[2]:= 32; // AdjustIconSize(32, 96);
+
+  if gToolIconsSize >= 48 then
+  begin
+    SetLength(ABitmaps, 4);
+    SetLength(AResolutions, 4);
+    AResolutions[3]:= gToolIconsSize;
+  end;
+
+  Images.RegisterResolutions(AResolutions);
+
   for AName in ANames do
   begin
-    ABitmap16:= PixMapManager.GetThemeIcon(AName, ASize16);
-    if (ABitmap16 = nil) then ABitmap16:= TBitmap.Create;
-    ABitmap24:= PixMapManager.GetThemeIcon(AName, ASize24);
-    if (ABitmap24 = nil) then ABitmap24:= TBitmap.Create;
-    ABitmap32:= PixMapManager.GetThemeIcon(AName, ASize32);
-    if (ABitmap32 = nil) then ABitmap32:= TBitmap.Create;
-    Images.AddMultipleResolutions([ABitmap16, ABitmap24, ABitmap32]);
-    ABitmap16.Free;
-    ABitmap24.Free;
-    ABitmap32.Free;
+    for I:= 0 to High(AResolutions) do
+    begin
+      ABitmaps[I]:= PixMapManager.GetThemeIcon(AName, AResolutions[I]);
+      if (ABitmaps[I] = nil) then ABitmaps[I]:= TBitmap.Create;
+    end;
+
+    Images.AddMultipleResolutions(ABitmaps);
+
+    for I:= 0 to High(ABitmaps) do
+    begin
+      ABitmaps[I].Free;
+    end;
   end;
 end;
 
