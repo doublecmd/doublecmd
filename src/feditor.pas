@@ -134,8 +134,10 @@ type
     tbUndo: TToolButton;
     tbRedo: TToolButton;
     tbSeparator3: TToolButton;
+    tbEditFind: TToolButton;
+    tbEditRplc: TToolButton;
+    tbSeparator4: TToolButton;
     tbConfig: TToolButton;
-    tbHelp: TToolButton;
     procedure actExecute(Sender: TObject);
     procedure EditorMouseWheelDown(Sender: TObject; Shift: TShiftState;
       {%H-}MousePos: TPoint; var Handled: Boolean);

@@ -738,15 +738,26 @@ object frmEditor: TfrmEditor
       Top = 2
       Style = tbsSeparator
     end
-    object tbConfig: TToolButton
+    object tbEditFind: TToolButton
       Left = 209
       Top = 2
-      Action = actConfHigh
+      Action = actEditFind
     end
-    object tbHelp: TToolButton
+    object tbEditRplc: TToolButton
       Left = 232
       Top = 2
-      Action = actAbout
+      Action = actEditRplc
+    end
+    object tbSeparator4: TToolButton
+      Left = 255
+      Height = 22
+      Top = 2
+      Style = tbsSeparator
+    end
+    object tbConfig: TToolButton
+      Left = 263
+      Top = 2
+      Action = actConfHigh
     end
   end
   object MainMenu1: TMainMenu
