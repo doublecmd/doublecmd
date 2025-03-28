@@ -2068,17 +2068,21 @@ begin
   if FShowCaret <> AValue then
   begin
     FShowCaret:= AValue;
-    if FShowCaret then
+
+    if HandleAllocated then
     begin
-      LCLIntf.CreateCaret(Handle, 0, 2, FTextHeight);
-      LCLIntf.ShowCaret(Handle);
-      FCaretVisible:= True;
-      Invalidate;
-    end
-    else begin
-      FCaretVisible:= False;
-      LCLIntf.HideCaret(Handle);
-      LCLIntf.DestroyCaret(Handle);
+      if FShowCaret then
+      begin
+        LCLIntf.CreateCaret(Handle, 0, 2, FTextHeight);
+        LCLIntf.ShowCaret(Handle);
+        FCaretVisible:= True;
+        Invalidate;
+      end
+      else begin
+        FCaretVisible:= False;
+        LCLIntf.HideCaret(Handle);
+        LCLIntf.DestroyCaret(Handle);
+      end;
     end;
   end;
 end;
