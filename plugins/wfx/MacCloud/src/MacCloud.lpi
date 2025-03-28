@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <ProjectOptions>
+    <Version Value="12"/>
+    <General>
+      <Flags>
+        <MainUnitHasCreateFormStatements Value="False"/>
+        <MainUnitHasTitleStatement Value="False"/>
+        <MainUnitHasScaledStatement Value="False"/>
+      </Flags>
+      <SessionStorage Value="InProjectDir"/>
+      <Title Value="MacCloud"/>
+      <UseAppBundle Value="False"/>
+      <ResourceType Value="res"/>
+    </General>
+    <BuildModes>
+      <Item Name="Default" Default="True"/>
+    </BuildModes>
+    <PublishOptions>
+      <Version Value="2"/>
+      <UseFileFilters Value="True"/>
+    </PublishOptions>
+    <RunParams>
+      <FormatVersion Value="2"/>
+    </RunParams>
+    <RequiredPackages>
+      <Item>
+        <PackageName Value="LazUtils"/>
+      </Item>
+    </RequiredPackages>
+    <Units>
+      <Unit>
+        <Filename Value="MacCloud.lpr"/>
+        <IsPartOfProject Value="True"/>
+      </Unit>
+      <Unit>
+        <Filename Value="dropbox/udropboxclient.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uDropBoxClient"/>
+      </Unit>
+      <Unit>
+        <Filename Value="maccloudfunc.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="MacCloudFunc"/>
+      </Unit>
+      <Unit>
+        <Filename Value="httpclient/uminihttpclient.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uMiniHttpClient"/>
+      </Unit>
+      <Unit>
+        <Filename Value="util/uminicocoa.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uMiniCocoa"/>
+      </Unit>
+      <Unit>
+        <Filename Value="util/uminiutil.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uMiniUtil"/>
+      </Unit>
+    </Units>
+  </ProjectOptions>
+  <CompilerOptions>
+    <Version Value="11"/>
+    <Target>
+      <Filename Value="../MacCloud.wfx" ApplyConventions="False"/>
+    </Target>
+    <SearchPaths>
+      <IncludeFiles Value="$(ProjOutDir)"/>
+      <OtherUnitFiles Value="../../../../sdk;dropbox;util;httpclient"/>
+      <UnitOutputDirectory Value="../lib/$(TargetCPU)-$(TargetOS)"/>
+    </SearchPaths>
+    <CodeGeneration>
+      <SmartLinkUnit Value="True"/>
+      <RelocatableUnit Value="True"/>
+    </CodeGeneration>
+    <Linking>
+      <Debugging>
+        <GenerateDebugInfo Value="False"/>
+        <RunWithoutDebug Value="True"/>
+      </Debugging>
+      <LinkSmart Value="True"/>
+      <Options>
+        <ExecutableType Value="Library"/>
+      </Options>
+    </Linking>
+  </CompilerOptions>
+</CONFIG>
