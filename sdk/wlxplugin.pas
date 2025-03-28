@@ -66,6 +66,7 @@ type ttimeformat=record
      ptimeformat=^ttimeformat;
 
 type HBITMAP = type THandle;
+     HWND = type THandle;
 
 
 { Function prototypes: Functions need to be defined exactly like this!}
