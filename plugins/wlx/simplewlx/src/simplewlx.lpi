@@ -1,34 +1,52 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CONFIG>
   <ProjectOptions>
-    <Version Value="9"/>
+    <Version Value="12"/>
     <General>
       <Flags>
+        <MainUnitHasCreateFormStatements Value="False"/>
+        <MainUnitHasTitleStatement Value="False"/>
+        <MainUnitHasScaledStatement Value="False"/>
         <LRSInOutputDirectory Value="False"/>
+        <CompatibilityMode Value="True"/>
       </Flags>
       <SessionStorage Value="InProjectDir"/>
-      <MainUnit Value="0"/>
     </General>
     <VersionInfo>
       <Language Value=""/>
       <CharSet Value=""/>
-      <StringTable ProductVersion=""/>
     </VersionInfo>
+    <MacroValues Count="1">
+      <Macro1 Name="LCLWidgetType" Value="gtk3"/>
+    </MacroValues>
     <BuildModes Count="1">
       <Item1 Name="default" Default="True"/>
+      <SharedMatrixOptions Count="2">
+        <Item1 ID="968855537398" Modes="default" Type="IDEMacro" MacroName="LCLWidgetType" Value="gtk3"/>
+        <Item2 ID="879531914067" Type="IDEMacro" MacroName="LCLWidgetType" Value="gtk2"/>
+      </SharedMatrixOptions>
     </BuildModes>
     <PublishOptions>
       <Version Value="2"/>
-      <IgnoreBinaries Value="False"/>
-      <IncludeFileFilter Value="*.(pas|pp|inc|lfm|lpr|lrs|lpi|lpk|sh|xml)"/>
-      <ExcludeFileFilter Value="*.(bak|ppu|ppw|o|so);*~;backup"/>
     </PublishOptions>
     <RunParams>
       <local>
-        <FormatVersion Value="1"/>
-        <LaunchingApplication PathPlusParams="/usr/X11R6/bin/xterm -T 'Lazarus Run Output' -e $(LazarusDir)/tools/runwait.sh $(TargetCmdLine)"/>
+        <LaunchingApplication PathPlusParams="/usr/X11R6/bin/xterm -T &apos;Lazarus Run Output&apos; -e $(LazarusDir)/tools/runwait.sh $(TargetCmdLine)"/>
       </local>
+      <FormatVersion Value="2"/>
+      <Modes Count="1">
+        <Mode0 Name="default">
+          <local>
+            <LaunchingApplication PathPlusParams="/usr/X11R6/bin/xterm -T &apos;Lazarus Run Output&apos; -e $(LazarusDir)/tools/runwait.sh $(TargetCmdLine)"/>
+          </local>
+        </Mode0>
+      </Modes>
     </RunParams>
+    <RequiredPackages Count="1">
+      <Item1>
+        <PackageName Value="LCL"/>
+      </Item1>
+    </RequiredPackages>
     <Units Count="1">
       <Unit0>
         <Filename Value="simplewlx.lpr"/>
@@ -44,21 +62,22 @@
     </Target>
     <SearchPaths>
       <IncludeFiles Value="../../../../sdk"/>
+      <OtherUnitFiles Value="../../../../sdk"/>
       <UnitOutputDirectory Value="../lib"/>
     </SearchPaths>
-    <Conditionals Value="if (TargetCPU &lt;> 'arm') then
+    <Conditionals Value="if (TargetCPU &lt;> &apos;arm&apos;) then
 begin
-  CustomOptions += '-fPIC';
+  CustomOptions += &apos;-fPIC&apos;;
 end;
 
-if (TargetOS = 'darwin') then
+if (TargetOS = &apos;darwin&apos;) then
 begin
-  LinkerOptions += ' -no_order_inits';
+  LinkerOptions += &apos; -no_order_inits&apos;;
 end;
 
-if (TargetOS = 'linux') then
+if (TargetOS = &apos;linux&apos;) then
 begin
-  LinkerOptions += ' -z relro --as-needed';
+  LinkerOptions += &apos; -z relro --as-needed&apos;;
 end;"/>
     <Parsing>
       <SyntaxOptions>
