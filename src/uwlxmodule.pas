@@ -4,7 +4,7 @@
    WLX-API implementation (TC WLX-API v2.0).
 
    Copyright (C) 2008  Dmitry Kolomiets (B4rr4cuda@rambler.ru)
-   Copyright (C) 2009-2023 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2009-2025 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -40,6 +40,9 @@ uses
   {$ENDIF}
   {$IFDEF LCLGTK2}
   , gtk2, glib2, gtk2proc
+  {$ENDIF}
+  {$IFDEF LCLGTK3}
+  , LazGtk3, Gtk3Widgets
   {$ENDIF}
   {$IFDEF LCLQT}
   , qt4, qtwidgets
@@ -87,6 +90,7 @@ type
   private
     FModuleHandle: TLibHandle;  // Handle to .DLL or .so
     FParser: TParserControl;
+    FParentWindow: HWND;
     FPluginWindow: HWND;
     function GetCanCommand: Boolean;
     function GetCanPreview: Boolean;
@@ -238,11 +242,14 @@ begin
   else begin
     ParentWin := Windows.GetAncestor(ParentWin, GA_ROOT);
   end;
+{$ELSEIF DEFINED(LCLGTK3)}
+  ParentWin := HWND(TGtk3Widget(ParentWin).GetContainerWidget);
 {$ELSEIF DEFINED(LCLGTK) or DEFINED(LCLGTK2)}
   ParentWin := HWND(GetFixedWidget(Pointer(ParentWin)));
 {$ELSEIF DEFINED(LCLQT) or DEFINED(LCLQT5) or DEFINED(LCLQT6)}
   ParentWin := HWND(TQtWidget(ParentWin).GetContainerWidget);
 {$ENDIF}
+  FParentWindow := ParentWin;
 end;
 
 function TWlxModule.GIsLoaded: Boolean;
@@ -433,7 +440,7 @@ begin
       ListCloseWindow(FPluginWindow)
 {$IF DEFINED(MSWINDOWS)}
     else DestroyWindow(FPluginWindow)
-{$ELSEIF DEFINED(LCLGTK) or DEFINED(LCLGTK2)}
+{$ELSEIF DEFINED(LCLGTK) or DEFINED(LCLGTK2) or DEFINED(LCLGTK3)}
     else gtk_widget_destroy(PGtkWidget(FPluginWindow));
 {$ELSEIF DEFINED(LCLQT) or DEFINED(LCLQT5) or DEFINED(LCLQT6)}
     else QWidget_Destroy(QWidgetH(FPluginWindow));
@@ -506,7 +513,7 @@ begin
   Windows.SetFocus(FPluginWindow);
   {$ELSEIF DEFINED(LCLQT) or DEFINED(LCLQT5) or DEFINED(LCLQT6)}
   QWidget_setFocus(QWidgetH(FPluginWindow));
-  {$ELSEIF DEFINED(LCLGTK2)}
+  {$ELSEIF DEFINED(LCLGTK2) or DEFINED(LCLGTK3)}
   gtk_widget_grab_focus(PGtkWidget(FPluginWindow));
   {$ENDIF}
 end;
@@ -526,6 +533,9 @@ begin
     {$ELSEIF DEFINED(LCLQT) or DEFINED(LCLQT5) or DEFINED(LCLQT6)}
     QWidget_move(QWidgetH(FPluginWindow), Left, Top);
     QWidget_resize(QWidgetH(FPluginWindow), Right - Left, Bottom - Top);
+    {$ELSEIF DEFINED(LCLGTK3)}
+    PGtkLayout(FParentWindow)^.move(PGtkWidget(FPluginWindow), Left, Top);
+    PGtkWidget(FPluginWindow)^.set_size_request(Width, Height);
     {$ELSEIF DEFINED(LCLGTK2)}
     gtk_widget_set_uposition(PGtkWidget(FPluginWindow), Left, -1);
     gtk_widget_set_usize(PGtkWidget(FPluginWindow), Right - Left, Bottom - Top);
