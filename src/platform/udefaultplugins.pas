@@ -315,6 +315,13 @@ begin
     gWFXPlugins.Add('FTP', Folder + 'ftp' + PathDelim + 'ftp.wfx');
   end;
 
+  {$IF DEFINED(DARWIN)}
+  if gWFXPlugins.IndexOfName('DropBox') < 0 then
+  begin
+    gWFXPlugins.Add('DropBox', Folder + 'MacCloud' + PathDelim + 'MacCloud.wfx');
+  end;
+  {$ENDIF}
+
   {$IF DEFINED(UNIX) AND NOT DEFINED(DARWIN)}
   I:= gWFXPlugins.IndexOfName('Windows Network');
   if I >= 0 then gWFXPlugins.Enabled[I]:= False;
