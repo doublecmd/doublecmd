@@ -417,7 +417,7 @@ object frmViewer: TfrmViewer
         OnMouseEnter = GifAnimMouseEnter
       end
     end
-    object ToolBar1: TToolBar
+    object ToolBar1: TToolBarAdv
       AnchorSideLeft.Control = pnlImage
       AnchorSideTop.Control = pnlImage
       AnchorSideRight.Control = pnlImage
@@ -621,16 +621,10 @@ object frmViewer: TfrmViewer
         Enabled = False
         Style = tbsButtonDrop
       end
-      object btnPenColor: TColorButton
-        Left = 87
-        Height = 32
-        Top = 66
-        Width = 75
-        BorderWidth = 2
-        ButtonColorSize = 16
-        ButtonColor = clRed
+      object btnPenColor: TToolButtonClr
+        Left = 97
+        Top = 2
         Enabled = False
-        ParentFont = False
       end
       object btnSeparator: TToolButton
         Left = 162
@@ -657,6 +651,7 @@ object frmViewer: TfrmViewer
         Tag = 1
         Left = 232
         Top = 66
+        AutoSize = True
         Caption = 'Slide Show'
         DropdownMenu = pmTimeShow
         OnClick = btnSlideShowClick
