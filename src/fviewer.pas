@@ -920,6 +920,7 @@ begin
   ToolBar1.ImagesWidth:= gToolIconsSize;
   ToolBar1.SetButtonSize(gToolIconsSize + ScaleX(6, 96),
                          gToolIconsSize + ScaleY(6, 96));
+  ToolBar1.Wrapable:= True;
 end;
 
 procedure TfrmViewer.LoadFile(const aFileName: String);
