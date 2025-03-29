@@ -87,11 +87,24 @@ begin
   LogProc( PluginNumber, MsgType, buffer );
 end;
 
+function exceptionToResult( const e: Exception ): Integer;
+begin
+  TLogUtil.log( msgtype_importanterror, e.ClassName + ': ' + e.Message );
+
+  if e is EAbort then
+    Result:= FS_FILE_USERABORT
+  else if e is EFileNotFoundException then
+    Result:= FS_FILE_NOTFOUND
+  else if e is EInOutError then
+    Result:= FS_FILE_WRITEERROR
+  else
+    Result:= FS_FILE_NOTSUPPORTED;
+end;
+
 function FsInitW(PluginNr:integer;pProgressProc:tProgressProcW;pLogProc:tLogProcW;
                 pRequestProc:tRequestProcW):integer; cdecl;
 var
   config: TDropBoxConfig;
-  ret: Boolean;
 begin
   PluginNumber:= PluginNr;
   ProgressProc:= pProgressProc;
@@ -102,7 +115,12 @@ begin
 
   config:= TDropBoxConfig.Create( '10mwuvryt76yise', 'dc-10mwuvryt76yise://dropbox/auth' );
   client:= TDropBoxClient.Create( config );
-  ret:= client.authorize;
+  try
+    client.authorize;
+  except
+    on e: Exception do
+      exceptionToResult( e );
+  end;
   Result:= 0
 end;
 
@@ -190,36 +208,50 @@ var
   totalBytes: Integer;
   li: ULARGE_INTEGER;
   exits: Boolean;
-  ret: Boolean;
+
+  function doGetFile: Integer;
+  begin
+    serverPath:= TStringUtil.widecharsToString( RemoteName );
+    localPath:= TStringUtil.widecharsToString( LocalName );
+    li.LowPart:= RemoteInfo^.SizeLow;
+    li.HighPart:= RemoteInfo^.SizeHigh;
+    totalBytes:= li.QuadPart;
+    exits:= TFileUtil.exists( localPath );
+
+    TLogUtil.logInformation(
+      'FsGetFileW: remote=' + serverPath + ', local=' + localPath +
+      ', CopyFlags=' + IntToStr(CopyFlags) + ', size=' + IntToStr(totalBytes) +
+      ', LocalFileExists=' + BoolToStr(exits,True) );
+
+    if (CopyFlags and FS_COPYFLAGS_RESUME <> 0) then
+      Exit( FS_FILE_NOTSUPPORTED );
+    if exits and (CopyFlags and FS_COPYFLAGS_OVERWRITE = 0) then
+      Exit( FS_FILE_EXISTS );
+
+    callback:= TProgressCallback.Create(
+      ProgressProc,
+      PluginNumber,
+      RemoteName,
+      LocalName,
+      totalBytes );
+
+    try
+      callback.progress( 0 );
+      client.download( serverPath, localPath, callback );
+    finally
+      callback.Free;
+    end;
+
+    Result:= FS_FILE_OK;
+  end;
+
 begin
-  serverPath:= TStringUtil.widecharsToString( RemoteName );
-  localPath:= TStringUtil.widecharsToString( LocalName );
-  li.LowPart:= RemoteInfo^.SizeLow;
-  li.HighPart:= RemoteInfo^.SizeHigh;
-  totalBytes:= li.QuadPart;
-  exits:= TFileUtil.exists( localPath );
-
-  TLogUtil.logInformation(
-    'FsGetFileW: remote=' + serverPath + ', local=' + localPath +
-    ', CopyFlags=' + IntToStr(CopyFlags) + ', size=' + IntToStr(totalBytes) +
-    ', LocalFileExists=' + BoolToStr(exits,True) );
-
-  if (CopyFlags and FS_COPYFLAGS_RESUME <> 0) then
-    Exit( FS_FILE_NOTSUPPORTED );
-  if exits and (CopyFlags and FS_COPYFLAGS_OVERWRITE = 0) then
-    Exit( FS_FILE_EXISTS );
-
-  callback:= TProgressCallback.Create(
-    ProgressProc,
-    PluginNumber,
-    RemoteName,
-    LocalName,
-    totalBytes );
-
-  callback.progress( 0 );
-  ret:= client.download( serverPath, localPath, callback );
-  callback.Free;
-  Result:= FS_FILE_OK;
+  try
+    Result:= doGetFile;
+  except
+    on e: Exception do
+      Result:= exceptionToResult( e );
+  end;
 end;
 
 function FsPutFileW(LocalName,RemoteName:pwidechar;CopyFlags:integer):integer; cdecl;
@@ -232,57 +264,96 @@ var
   totalBytes: Integer;
   exits: Boolean;
   ret: Boolean;
+
+  function doPutFile: Integer;
+  begin
+    serverPath:= TStringUtil.widecharsToString( RemoteName );
+    localPath:= TStringUtil.widecharsToString( LocalName );
+    totalBytes:= TFileUtil.filesize( localPath );
+    exits:= (CopyFlags and FS_EXISTS <> 0);
+
+    TLogUtil.logInformation(
+      'FsPutFileW: remote=' + serverPath + ', local=' + localPath +
+      ', CopyFlags=' + IntToStr(CopyFlags) + ', size=' + IntToStr(totalBytes) +
+      ', RemoteFileExists=' + BoolToStr(exits,True) );
+
+    if (CopyFlags and FS_COPYFLAGS_RESUME <> 0) then
+      Exit( FS_FILE_NOTSUPPORTED );
+    if exits and (CopyFlags and FS_COPYFLAGS_OVERWRITE = 0) then
+      Exit( FS_FILE_EXISTS );
+
+    callback:= TProgressCallback.Create(
+      ProgressProc,
+      PluginNumber,
+      RemoteName,
+      LocalName,
+      totalBytes );
+
+    try
+      callback.progress( 0 );
+      client.upload( serverPath, localPath, callback );
+    finally
+      callback.Free;
+    end;
+
+    Result:= FS_FILE_OK;
+  end;
+
 begin
-  serverPath:= TStringUtil.widecharsToString( RemoteName );
-  localPath:= TStringUtil.widecharsToString( LocalName );
-  totalBytes:= TFileUtil.filesize( localPath );
-  exits:= (CopyFlags and FS_EXISTS <> 0);
-
-  TLogUtil.logInformation(
-    'FsPutFileW: remote=' + serverPath + ', local=' + localPath +
-    ', CopyFlags=' + IntToStr(CopyFlags) + ', size=' + IntToStr(totalBytes) +
-    ', RemoteFileExists=' + BoolToStr(exits,True) );
-
-  if (CopyFlags and FS_COPYFLAGS_RESUME <> 0) then
-    Exit( FS_FILE_NOTSUPPORTED );
-  if exits and (CopyFlags and FS_COPYFLAGS_OVERWRITE = 0) then
-    Exit( FS_FILE_EXISTS );
-
-  callback:= TProgressCallback.Create(
-    ProgressProc,
-    PluginNumber,
-    RemoteName,
-    LocalName,
-    totalBytes );
-
-  callback.progress( 0 );
-  ret:= client.upload( serverPath, localPath, callback );
-  callback.Free;
-  Result:= FS_FILE_OK;
+  try
+    Result:= doPutFile;
+  except
+    on e: Exception do
+      Result:= exceptionToResult( e );
+  end;
 end;
 
 function FsMkDirW(RemoteDir: pwidechar): bool; cdecl;
 var
   path: String;
 begin
-  path:= TStringUtil.widecharsToString( RemoteDir );
-  Result:= client.createFolder( path );
+  try
+    path:= TStringUtil.widecharsToString( RemoteDir );
+    client.createFolder( path );
+    Result:= True;
+  except
+    on e: Exception do begin
+      exceptionToResult( e );
+      Result:= False;
+    end;
+  end;
 end;
 
 function FsDeleteFileW(RemoteName: pwidechar): bool; cdecl;
 var
   path: String;
 begin
-  path:= TStringUtil.widecharsToString( RemoteName );
-  Result:= client.delete( path );
+  try
+    path:= TStringUtil.widecharsToString( RemoteName );
+    client.delete( path );
+    Result:= True;
+  except
+    on e: Exception do begin
+      exceptionToResult( e );
+      Result:= False;
+    end;
+  end;
 end;
 
 function FsRemoveDirW(RemoteName: pwidechar): bool; cdecl;
 var
   path: String;
 begin
-  path:= TStringUtil.widecharsToString( RemoteName );
-  Result:= client.delete( path );
+  try
+    path:= TStringUtil.widecharsToString( RemoteName );
+    client.delete( path );
+    Result:= True;
+  except
+    on e: Exception do begin
+      exceptionToResult( e );
+      Result:= False;
+    end;
+  end;
 end;
 
 function FsRenMovFileW(OldName, NewName: pwidechar; Move, OverWrite: bool;
@@ -292,19 +363,21 @@ var
   newUtf8Path: String;
   ret: Boolean;
 begin
-  oldUtf8Path:= TStringUtil.widecharsToString( OldName );
-  newUtf8Path:= TStringUtil.widecharsToString( NewName );
+  try
+    oldUtf8Path:= TStringUtil.widecharsToString( OldName );
+    newUtf8Path:= TStringUtil.widecharsToString( NewName );
 
-  ret:= ProgressProc( PluginNumber, oldName, newName, 0 ) = 0;
-  if ret then begin
-    ret:= client.copyOrMove( oldUtf8Path, newUtf8Path, Move );
-    ProgressProc( PluginNumber, oldName, newName, 100 );
+    ret:= ProgressProc( PluginNumber, oldName, newName, 0 ) = 0;
+    if ret then begin
+      client.copyOrMove( oldUtf8Path, newUtf8Path, Move );
+      ProgressProc( PluginNumber, oldName, newName, 100 );
+      Result:= FS_FILE_OK
+    end else
+      Result:= FS_FILE_USERABORT;
+  except
+    on e: Exception do
+      Result:= exceptionToResult( e );
   end;
-
-  if ret then
-    Result:= FS_FILE_OK
-  else
-    Result:= FS_FILE_NOTSUPPORTED;
 end;
 
 function FsGetBackgroundFlags:integer; cdecl;

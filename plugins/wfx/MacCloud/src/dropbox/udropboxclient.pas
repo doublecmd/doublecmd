@@ -18,6 +18,21 @@ uses
 
 type
 
+  { TDropBoxResult }
+
+  TDropBoxResult = class
+  public
+    httpResult: TMiniHttpResult;
+    resultMessage: String;
+  end;
+
+  { EDropBoxException }
+
+  EDropBoxException = class( Exception );
+  EDropBoxConflictException = class( EDropBoxException );
+  EDropBoxPermissionException = class( EDropBoxException );
+  EDropBoxRateLimitException = class( EDropBoxException );
+
   { TDropBoxFile }
 
   TDropBoxFile = class
@@ -73,7 +88,7 @@ type
     procedure requestAuthorization;
     procedure waitAuthorizationAndPrompt;
     procedure closePrompt;
-    function requestToken: Boolean;
+    procedure requestToken;
     procedure onRedirect( const url: NSURL );
   public
     constructor Create( const config: TDropBoxConfig );
@@ -116,7 +131,7 @@ type
       const serverPath: String;
       const localPath: String;
       const callback: IDropBoxProgressCallback );
-    function download: Boolean;
+    procedure download;
   end;
 
   { TDropBoxUploadSession }
@@ -133,7 +148,7 @@ type
       const serverPath: String;
       const localPath: String;
       const callback: IDropBoxProgressCallback );
-    function upload: Boolean;
+    procedure upload;
   end;
 
   { TDropBoxCreateFolderSession }
@@ -144,7 +159,7 @@ type
     _path: String;
   public
     constructor Create( const authSession: TDropBoxAuthPKCESession; const path: String );
-    function createFolder: Boolean;
+    procedure createFolder;
   end;
 
   { TDropBoxDeleteSession }
@@ -155,7 +170,7 @@ type
     _path: String;
   public
     constructor Create( const authSession: TDropBoxAuthPKCESession; const path: String );
-    function delete: Boolean;
+    procedure delete;
   end;
 
   { TDropBoxCopyMoveSession }
@@ -168,9 +183,9 @@ type
   public
     constructor Create( const authSession: TDropBoxAuthPKCESession;
       const fromPath: String; const toPath: String );
-    function copyOrMove( const needToMove: Boolean ): Boolean;
-    function copy: Boolean;
-    function move: Boolean;
+    procedure copyOrMove( const needToMove: Boolean );
+    procedure copy;
+    procedure move;
   end;
 
   { TDropBoxClient }
@@ -190,17 +205,18 @@ type
     function  listFolderGetNextFile: TDropBoxFile;
     procedure listFolderEnd;
   public
-    function download(
+    procedure download(
       const serverPath: String;
       const localPath: String;
-      const callback: IDropBoxProgressCallback ): Boolean;
-    function upload(
+      const callback: IDropBoxProgressCallback );
+    procedure upload(
       const serverPath: String;
       const localPath: String;
-      const callback: IDropBoxProgressCallback ): Boolean;
-    function createFolder( const path: String ): Boolean;
-    function delete(  const path: String ): Boolean;
-    function copyOrMove( const fromPath: String; const toPath: String; const needToMove: Boolean ): Boolean;
+      const callback: IDropBoxProgressCallback );
+  public
+    procedure createFolder( const path: String );
+    procedure delete(  const path: String );
+    procedure copyOrMove( const fromPath: String; const toPath: String; const needToMove: Boolean );
   end;
 
 implementation
@@ -221,7 +237,8 @@ type
 
   TDropBoxConstHeader = record
     AUTH: String;
-    ARG: String
+    ARG: String;
+    RESULT: String;
   end;
 
   TDropBoxConst = record
@@ -246,8 +263,78 @@ const
     HEADER: (
       AUTH: 'Authorization';
       ARG: 'Dropbox-API-Arg';
+      RESULT: 'Dropbox-API-Result';
     );
   );
+
+// raise the corresponding exception if there are errors
+procedure DropBoxClientProcessResult( const dropBoxResult: TDropBoxResult );
+var
+  httpResult: TMiniHttpResult;
+  httpError: NSError;
+  httpErrorDescription: String;
+
+  procedure processHttpError;
+  begin
+    if Assigned(httpError) then begin
+      httpErrorDescription:= httpError.localizedDescription.UTF8String;
+      case httpError.code of
+        2: raise EFileNotFoundException.Create( httpErrorDescription );
+        -1001: raise EInOutError.Create( httpErrorDescription );
+      end;
+    end;
+  end;
+
+  procedure processDropBox409Error;
+  begin
+    if dropBoxResult.resultMessage.IndexOf('not_found') >= 0 then
+      raise EFileNotFoundException.Create( dropBoxResult.resultMessage );
+    if dropBoxResult.resultMessage.IndexOf('conflict') >= 0 then
+      raise EDropBoxConflictException.Create( dropBoxResult.resultMessage );
+    raise EDropBoxPermissionException.Create( dropBoxResult.resultMessage );
+  end;
+
+  procedure processDropBoxError;
+  begin
+    if (httpResult.resultCode>=200) and (httpResult.resultCode<=299) then
+      Exit;
+    case httpResult.resultCode of
+      409: processDropBox409Error;
+      403: raise EDropBoxPermissionException.Create( dropBoxResult.resultMessage );
+      429: raise EDropBoxRateLimitException.Create( dropBoxResult.resultMessage );
+      else raise EDropBoxException.Create( dropBoxResult.resultMessage );
+    end;
+  end;
+
+  procedure processError;
+  begin
+    httpResult:= dropBoxResult.httpResult;
+    httpError:= httpResult.error;
+
+    processHttpError;
+    processDropBoxError;
+  end;
+
+  procedure logException( const e: Exception );
+  var
+    message: String;
+  begin
+    message:= 'DropBox Error';
+    if e.Message <> EmptyStr then
+      message:= message + ': ' + e.Message;
+    TLogUtil.log( 6, message );
+  end;
+
+begin
+  try
+    processError;
+  except
+    on e: Exception do begin
+      logException( e );
+      raise;
+    end;
+  end;
+end;
 
 { TDropBoxFile }
 
@@ -309,10 +396,10 @@ begin
   button.performClick( nil );
 end;
 
-function TDropBoxAuthPKCESession.requestToken: Boolean;
+procedure TDropBoxAuthPKCESession.requestToken;
 var
   http: TMiniHttpClient;
-  requestResult: TMiniClientResult;
+  dropBoxResult: TDropBoxResult;
 
   procedure doRequest;
   var
@@ -324,33 +411,38 @@ var
     queryItems.Add( 'code', _code );
     queryItems.Add( 'code_verifier', _codeVerifier );
     queryItems.Add( 'grant_type', 'authorization_code' );
-    requestResult:= http.post( DropBoxConst.URI.TOKEN, queryItems );
+    dropBoxResult:= TDropBoxResult.Create;
+    dropBoxResult.httpResult:= http.post( DropBoxConst.URI.TOKEN, queryItems );
+    dropBoxResult.resultMessage:= dropBoxResult.httpResult.body;
+
+    DropBoxClientProcessResult( dropBoxResult );
   end;
 
   procedure analyseResult;
   var
     json: NSDictionary;
   begin
-    json:= TJsonUtil.parse( requestResult.responseBody );
+    json:= TJsonUtil.parse( dropBoxResult.httpResult.body );
     _token.access:= TJsonUtil.getString( json, 'access_token' );
     _token.refresh:= TJsonUtil.getString( json, 'refresh_token' );
     _accountID:= TJsonUtil.getString( json, 'account_id' );
   end;
 
 begin
-  Result:= False;
   if _code = EmptyStr then
     Exit;
 
-  http:= TMiniHttpClient.Create;
-  doRequest;
+  try
+    http:= TMiniHttpClient.Create;
+    doRequest;
 
-  if requestResult.statusCode <> 200 then
-    Exit;
-  analyseResult;
-  Result:= True;
-
-  http.Free;
+    if dropBoxResult.httpResult.resultCode <> 200 then
+      Exit;
+    analyseResult;
+  finally
+    FreeAndNil( dropBoxResult );
+    FreeAndNil( http );
+  end;
 end;
 
 procedure TDropBoxAuthPKCESession.onRedirect(const url: NSURL);
@@ -374,10 +466,10 @@ end;
 
 function TDropBoxAuthPKCESession.authorize: Boolean;
 begin
-  Result:= False;
   requestAuthorization;
   TThread.Synchronize( TThread.CurrentThread, @waitAuthorizationAndPrompt );
-  Result:= requestToken;
+  requestToken;
+  Result:= (_token.access <> EmptyStr);
 end;
 
 procedure TDropBoxAuthPKCESession.setAuthHeader(http: TMiniHttpClient);
@@ -392,38 +484,62 @@ end;
 procedure TDropBoxListFolderSession.listFolderFirst;
 var
   http: TMiniHttpClient;
-  requestResult: TMiniClientResult;
+  httpResult: TMiniHttpResult;
+  dropBoxResult: TDropBoxResult;
   body: String;
 begin
-  body:= TJsonUtil.dumps( ['path', _path] );
-  http:= TMiniHttpClient.Create;
-  _authSession.setAuthHeader( http );
-  http.setContentType( HttpConst.ContentType.JSON );
-  http.setBody( body );
-  requestResult:= http.post( DropBoxConst.URI.LIST_FOLDER, nil );
-  if Assigned(_files) then
-    _files.Free;
-  _files:= TDropBoxFiles.Create;
-  if requestResult.statusCode = 200 then
-    analyseListResult( requestResult.responseBody );
-  http.Free;
+  try
+    body:= TJsonUtil.dumps( ['path', _path] );
+    http:= TMiniHttpClient.Create;
+    _authSession.setAuthHeader( http );
+    http.setContentType( HttpConst.ContentType.JSON );
+    http.setBody( body );
+
+    dropBoxResult:= TDropBoxResult.Create;
+    httpResult:= http.post( DropBoxConst.URI.LIST_FOLDER, nil );
+    dropBoxResult.httpResult:= httpResult;
+    dropBoxResult.resultMessage:= httpResult.body;
+
+    if Assigned(_files) then
+      _files.Free;
+    _files:= TDropBoxFiles.Create;
+    if httpResult.resultCode = 200 then
+      analyseListResult( httpResult.body );
+
+    DropBoxClientProcessResult( dropBoxResult );
+  finally
+    FreeAndNil( dropBoxResult );
+    FreeAndNil( http );
+  end;
 end;
 
 procedure TDropBoxListFolderSession.listFolderContinue;
 var
   http: TMiniHttpClient;
-  requestResult: TMiniClientResult;
+  httpResult: TMiniHttpResult;
+  dropBoxResult: TDropBoxResult;
   body: String;
 begin
-  body:= TJsonUtil.dumps( ['cursor', _cursor] );
-  http:= TMiniHttpClient.Create;
-  _authSession.setAuthHeader( http );
-  http.setContentType( HttpConst.ContentType.JSON );
-  http.setBody( body );
-  requestResult:= http.post( DropBoxConst.URI.LIST_FOLDER_CONTINUE, nil );
-  if requestResult.statusCode = 200 then
-    analyseListResult( requestResult.responseBody );
-  http.Free;
+  try
+    body:= TJsonUtil.dumps( ['cursor', _cursor] );
+    http:= TMiniHttpClient.Create;
+    _authSession.setAuthHeader( http );
+    http.setContentType( HttpConst.ContentType.JSON );
+    http.setBody( body );
+
+    dropBoxResult:= TDropBoxResult.Create;
+    httpResult:= http.post( DropBoxConst.URI.LIST_FOLDER_CONTINUE, nil );
+    dropBoxResult.httpResult:= httpResult;
+    dropBoxResult.resultMessage:= httpResult.body;
+
+    if httpResult.resultCode = 200 then
+      analyseListResult( httpResult.body );
+
+    DropBoxClientProcessResult( dropBoxResult );
+  finally
+    FreeAndNil( dropBoxResult );
+    FreeAndNil( http );
+  end;
 end;
 
 procedure TDropBoxListFolderSession.analyseListResult(const jsonString: String);
@@ -507,19 +623,27 @@ begin
   _callback:= callback;
 end;
 
-function TDropBoxDownloadSession.download: Boolean;
+procedure TDropBoxDownloadSession.download;
 var
   http: TMiniHttpClient;
   argJsonString: String;
-  requestResult: TMiniClientResult;
+  dropBoxResult: TDropBoxResult;
 begin
-  argJsonString:= TJsonUtil.dumps( ['path', _serverPath], True );
-  http:= TMiniHttpClient.Create;
-  _authSession.setAuthHeader( http );
-  http.addHeader( DropBoxConst.HEADER.ARG, argJsonString );
-  requestResult:= http.download( DropBoxConst.URI.DOWNLOAD, _localPath, _callback );
-  Result:= (requestResult.statusCode = 200);
-  http.Free;
+  try
+    argJsonString:= TJsonUtil.dumps( ['path', _serverPath], True );
+    http:= TMiniHttpClient.Create;
+    _authSession.setAuthHeader( http );
+    http.addHeader( DropBoxConst.HEADER.ARG, argJsonString );
+
+    dropBoxResult:= TDropBoxResult.Create;
+    dropBoxResult.httpResult:= http.download( DropBoxConst.URI.DOWNLOAD, _localPath, _callback );
+    dropBoxResult.resultMessage:= dropBoxResult.httpResult.getHeader( DropBoxConst.HEADER.RESULT );
+
+    DropBoxClientProcessResult( dropBoxResult );
+  finally
+    FreeAndNil( dropBoxResult );
+    FreeAndNil( http );
+  end;
 end;
 
 { TDropBoxUploadSession }
@@ -534,19 +658,27 @@ begin
   _callback:= callback;
 end;
 
-function TDropBoxUploadSession.upload: Boolean;
+procedure TDropBoxUploadSession.upload;
 var
   http: TMiniHttpClient;
   argJsonString: String;
-  requestResult: TMiniClientResult;
+  dropBoxResult: TDropBoxResult;
 begin
-  argJsonString:= TJsonUtil.dumps( ['path', _serverPath], True );
-  http:= TMiniHttpClient.Create;
-  _authSession.setAuthHeader( http );
-  http.addHeader( DropBoxConst.HEADER.ARG, argJsonString );
-  requestResult:= http.upload( DropBoxConst.URI.UPLOAD_SMALL, _localPath, _callback );
-  Result:= (requestResult.statusCode = 200);
-  http.Free;
+  try
+    argJsonString:= TJsonUtil.dumps( ['path', _serverPath], True );
+    http:= TMiniHttpClient.Create;
+    _authSession.setAuthHeader( http );
+    http.addHeader( DropBoxConst.HEADER.ARG, argJsonString );
+
+    dropBoxResult:= TDropBoxResult.Create;
+    dropBoxResult.httpResult:= http.upload( DropBoxConst.URI.UPLOAD_SMALL, _localPath, _callback );
+    dropBoxResult.resultMessage:= dropBoxResult.httpResult.getHeader( DropBoxConst.HEADER.RESULT );
+
+    DropBoxClientProcessResult( dropBoxResult );
+  finally
+    FreeAndNil( dropBoxResult );
+    FreeAndNil( http );
+  end;
 end;
 
 { TDropBoxCreateFolderSession }
@@ -558,20 +690,28 @@ begin
   _path:= path;
 end;
 
-function TDropBoxCreateFolderSession.createFolder: Boolean;
+procedure TDropBoxCreateFolderSession.createFolder;
 var
   http: TMiniHttpClient;
+  dropBoxResult: TDropBoxResult;
   body: String;
-  requestResult: TMiniClientResult;
 begin
-  body:= TJsonUtil.dumps( ['path', _path] );
-  http:= TMiniHttpClient.Create;
-  http.setContentType( HttpConst.ContentType.JSON );
-  _authSession.setAuthHeader( http );
-  http.setBody( body );
-  requestResult:= http.post( DropBoxConst.URI.CREATE_FOLDER, nil );
-  Result:= (requestResult.statusCode = 200);
-  http.Free;
+  try
+    body:= TJsonUtil.dumps( ['path', _path] );
+    http:= TMiniHttpClient.Create;
+    http.setContentType( HttpConst.ContentType.JSON );
+    _authSession.setAuthHeader( http );
+    http.setBody( body );
+
+    dropBoxResult:= TDropBoxResult.Create;
+    dropBoxResult.httpResult:= http.post( DropBoxConst.URI.CREATE_FOLDER, nil );
+    dropBoxResult.resultMessage:= dropBoxResult.httpResult.body;
+
+    DropBoxClientProcessResult( dropBoxResult );
+  finally
+    FreeAndNil( dropBoxResult );
+    FreeAndNil( http );
+  end;
 end;
 
 { TDropBoxDeleteSession }
@@ -583,20 +723,28 @@ begin
   _path:= path;
 end;
 
-function TDropBoxDeleteSession.delete: Boolean;
+procedure TDropBoxDeleteSession.delete;
 var
   http: TMiniHttpClient;
   body: String;
-  requestResult: TMiniClientResult;
+  dropBoxResult: TDropBoxResult;
 begin
-  body:= TJsonUtil.dumps( ['path', _path] );
-  http:= TMiniHttpClient.Create;
-  http.setContentType( HttpConst.ContentType.JSON );
-  _authSession.setAuthHeader( http );
-  http.setBody( body );
-  requestResult:= http.post( DropBoxConst.URI.DELETE, nil );
-  Result:= (requestResult.statusCode = 200);
-  http.Free;
+  try
+    body:= TJsonUtil.dumps( ['path', _path] );
+    http:= TMiniHttpClient.Create;
+    http.setContentType( HttpConst.ContentType.JSON );
+    _authSession.setAuthHeader( http );
+    http.setBody( body );
+
+    dropBoxResult:= TDropBoxResult.Create;
+    dropBoxResult.httpResult:= http.post( DropBoxConst.URI.DELETE, nil );
+    dropBoxResult.resultMessage:= dropBoxResult.httpResult.body;
+
+    DropBoxClientProcessResult( dropBoxResult );
+  finally
+    FreeAndNil( dropBoxResult );
+    FreeAndNil( http );
+  end;
 end;
 
 { TDropBoxCopyMoveSession }
@@ -609,38 +757,45 @@ begin
   _toPath:= toPath;
 end;
 
-function TDropBoxCopyMoveSession.copyOrMove( const needToMove: Boolean ): Boolean;
+procedure TDropBoxCopyMoveSession.copyOrMove( const needToMove: Boolean );
 var
   uri: String;
   http: TMiniHttpClient;
+  dropBoxResult: TDropBoxResult;
   body: String;
-  requestResult: TMiniClientResult;
 begin
-  http:= TMiniHttpClient.Create;
-  http.setContentType( HttpConst.ContentType.JSON );
-  _authSession.setAuthHeader( http );
+  try
+    http:= TMiniHttpClient.Create;
+    http.setContentType( HttpConst.ContentType.JSON );
+    _authSession.setAuthHeader( http );
 
-  body:= TJsonUtil.dumps( ['from_path', _fromPath, 'to_path', _toPath] );
-  http.setBody( body );
+    body:= TJsonUtil.dumps( ['from_path', _fromPath, 'to_path', _toPath] );
+    http.setBody( body );
 
-  if needToMove then
-    uri:= DropBoxConst.URI.MOVE
-  else
-    uri:= DropBoxConst.URI.COPY;
+    if needToMove then
+      uri:= DropBoxConst.URI.MOVE
+    else
+      uri:= DropBoxConst.URI.COPY;
 
-  requestResult:= http.post( uri, nil );
-  Result:= (requestResult.statusCode = 200);
-  http.Free;
+    dropBoxResult:= TDropBoxResult.Create;
+    dropBoxResult.httpResult:= http.post( uri, nil );
+    dropBoxResult.resultMessage:= dropBoxResult.httpResult.body;
+
+    DropBoxClientProcessResult( dropBoxResult );
+  finally
+    FreeAndNil( dropBoxResult );
+    FreeAndNil( http );
+  end;
 end;
 
-function TDropBoxCopyMoveSession.copy: Boolean;
+procedure TDropBoxCopyMoveSession.copy;
 begin
-  Result:= copyOrMove( False );
+  copyOrMove( False );
 end;
 
-function TDropBoxCopyMoveSession.move: Boolean;
+procedure TDropBoxCopyMoveSession.move;
 begin
-  Result:= copyOrMove( True );
+  copyOrMove( True );
 end;
 
 { TDropBoxClient }
@@ -681,56 +836,71 @@ begin
   FreeAndNil( _listFolderSession );
 end;
 
-function TDropBoxClient.download(
+procedure TDropBoxClient.download(
   const serverPath: String;
   const localPath: String;
-  const callback: IDropBoxProgressCallback ): Boolean;
+  const callback: IDropBoxProgressCallback );
 var
   session: TDropBoxDownloadSession;
 begin
-  session:= TDropBoxDownloadSession.Create( _authSession, serverPath, localPath, callback );
-  Result:= session.download;
-  session.Free;
+  try
+    session:= TDropBoxDownloadSession.Create( _authSession, serverPath, localPath, callback );
+    session.download;
+  finally
+    FreeAndNil( session );
+  end;
 end;
 
-function TDropBoxClient.upload(
+procedure TDropBoxClient.upload(
   const serverPath: String;
   const localPath: String;
-  const callback: IDropBoxProgressCallback): Boolean;
+  const callback: IDropBoxProgressCallback);
 var
   session: TDropBoxUploadSession;
 begin
-  session:= TDropBoxUploadSession.Create( _authSession, serverPath, localPath, callback );
-  Result:= session.upload;
-  session.Free;
+  try
+    session:= TDropBoxUploadSession.Create( _authSession, serverPath, localPath, callback );
+    session.upload;
+  finally
+    FreeAndNil( session );
+  end;
 end;
 
-function TDropBoxClient.createFolder(const path: String): Boolean;
+procedure TDropBoxClient.createFolder(const path: String);
 var
   session: TDropBoxCreateFolderSession;
 begin
-  session:= TDropBoxCreateFolderSession.Create( _authSession, path );
-  Result:= session.createFolder;
-  session.Free;
+  try
+    session:= TDropBoxCreateFolderSession.Create( _authSession, path );
+    session.createFolder;
+  finally
+    FreeAndNil( session );
+  end;
 end;
 
-function TDropBoxClient.delete(const path: String): Boolean;
+procedure TDropBoxClient.delete(const path: String);
 var
   session: TDropBoxDeleteSession;
 begin
-  session:= TDropBoxDeleteSession.Create( _authSession, path );
-  Result:= session.delete;
-  session.Free;
+  try
+    session:= TDropBoxDeleteSession.Create( _authSession, path );
+    session.delete;
+  finally
+    FreeAndNil( session );
+  end;
 end;
 
-function TDropBoxClient.copyOrMove(const fromPath: String; const toPath: String;
-  const needToMove: Boolean ): Boolean;
+procedure TDropBoxClient.copyOrMove(const fromPath: String; const toPath: String;
+  const needToMove: Boolean );
 var
   session: TDropBoxCopyMoveSession;
 begin
-  session:= TDropBoxCopyMoveSession.Create( _authSession, fromPath, toPath );
-  Result:= session.copyOrMove( needToMove );
-  session.Free;
+  try
+    session:= TDropBoxCopyMoveSession.Create( _authSession, fromPath, toPath );
+    session.copyOrMove( needToMove );
+  finally
+    FreeAndNil( session );
+  end;
 end;
 
 end.

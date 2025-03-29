@@ -50,9 +50,18 @@ type
 
   TQueryItemsDictonary = specialize TDictionary<string, string>;
 
-  TMiniClientResult = class
-    statusCode: Integer;
-    responseBody: UTF8String;
+  { TMiniHttpResult }
+
+  TMiniHttpResult = class
+  public
+    response: NSHTTPURLResponse;
+    error: NSError;
+    resultCode: Integer;
+    body: String;
+  public
+    destructor Destroy; override;
+  public
+    function getHeader( const name: String ): String;
   end;
 
   IMiniHttpDataCallback = interface
@@ -68,7 +77,8 @@ type
     procedure complete( const response: NSURLResponse; const error: NSError ); virtual; abstract;
   end;
 
-  TMiniHttpConnectionState = ( running, canceled, success, fail );
+  {$scopedEnums on}
+  TMiniHttpConnectionState = ( running, aborted, successful, failed );
 
   { TMiniHttpConnectionDataDelegate }
 
@@ -76,10 +86,11 @@ type
   private
     _data: NSMutableData;
     _processor: TMiniHttpDataProcessor;
-    _result: TMiniClientResult;
-    _response: NSURLResponse;
+    _result: TMiniHttpResult;
     _runloop: CFRunLoopRef;
     _state: TMiniHttpConnectionState;
+  private
+    procedure cancelConnection( const connection: NSURLConnection; const name: NSString ); message 'HttpClient_cancelConnection:connection:';
   public
     function init: id; override;
     procedure dealloc; override;
@@ -92,7 +103,7 @@ type
     procedure setProcessor( const processor: TMiniHttpDataProcessor ); message 'HttpClient_setProcessor:';
     function state: TMiniHttpConnectionState; message 'HttpClient_state';
     function isRunning: Boolean; message 'HttpClient_isRunning';
-    function getResult: TMiniClientResult; message 'HttpClient_getResult';
+    function getResult: TMiniHttpResult; message 'HttpClient_getResult';
   end;
 
   { TMiniHttpClient }
@@ -112,11 +123,11 @@ type
   protected
     procedure doRunloop( const delegate: TMiniHttpConnectionDataDelegate );
     function doPost( const urlPart: String; lclItems: TQueryItemsDictonary;
-      const processor: TMiniHttpDataProcessor ): TMiniClientResult;
+      const processor: TMiniHttpDataProcessor ): TMiniHttpResult;
   public
-    function post( const urlPart: String; lclItems: TQueryItemsDictonary ): TMiniClientResult;
-    function download( const urlPart: String; const localPath: String; const callback: IMiniHttpDataCallback ): TMiniClientResult;
-    function upload( const urlPart: String; const localPath: String; const callback: IMiniHttpDataCallback ): TMiniClientResult;
+    function post( const urlPart: String; lclItems: TQueryItemsDictonary ): TMiniHttpResult;
+    function download( const urlPart: String; const localPath: String; const callback: IMiniHttpDataCallback ): TMiniHttpResult;
+    function upload( const urlPart: String; const localPath: String; const callback: IMiniHttpDataCallback ): TMiniHttpResult;
   end;
 
 implementation
@@ -276,14 +287,41 @@ begin
   _stream.close;
 end;
 
+{ TMiniHttpResult }
+
+destructor TMiniHttpResult.Destroy;
+begin
+  if Assigned(self.response) then
+    self.response.release;
+  if Assigned(self.error) then
+    self.error.release;
+end;
+
+function TMiniHttpResult.getHeader(const name: String): String;
+begin
+  if Assigned(self.response) then
+    Result:= NSString( self.response.allHeaderFields.objectForKey( NSSTR(name) ) ).UTF8String
+  else
+    Result:= EmptyStr;
+end;
 
 { TMiniHttpConnectionDataDelegate }
+
+procedure TMiniHttpConnectionDataDelegate.cancelConnection(
+  const connection: NSURLConnection; const name: NSString );
+begin
+  _state:= TMiniHttpConnectionState.aborted;
+  _result.resultCode:= -1;
+  TLogUtil.log( 6, 'HttpClient: Connection Canceled in ' + name.UTF8String );
+  connection.cancel;
+  CFRunLoopStop( _runloop );
+end;
 
 function TMiniHttpConnectionDataDelegate.init: id;
 begin
   Result:= Inherited init;
   _data:= NSMutableData.new;
-  _result:= TMiniClientResult.Create;
+  _result:= TMiniHttpResult.Create;
   _runloop:= CFRunLoopGetCurrent();
   _state:= TMiniHttpConnectionState.running;
 end;
@@ -292,8 +330,6 @@ procedure TMiniHttpConnectionDataDelegate.dealloc;
 begin
   if Assigned(_processor) then
     _processor.Free;
-  if Assigned(_response) then
-    _response.release;
   _data.release;
   _result.Free;
 end;
@@ -301,8 +337,8 @@ end;
 procedure TMiniHttpConnectionDataDelegate.connection_didReceiveResponse(
   connection: NSURLConnection; response: NSURLResponse);
 begin
-  _response:= response;
-  _response.retain;
+  _result.response:= NSHTTPURLResponse( response );
+  response.retain;
 end;
 
 procedure TMiniHttpConnectionDataDelegate.setProcessor( const processor: TMiniHttpDataProcessor );
@@ -320,11 +356,7 @@ begin
 
   ret:= _processor.receive( data, _data, connection );
   if NOT ret then begin
-    _state:= TMiniHttpConnectionState.canceled;
-    _result.statusCode:= -1;
-    connection.cancel;
-    TLogUtil.log( 6, 'HttpClient: Connection Canceled in connection_didReceiveData()' );
-    CFRunLoopStop( _runloop );
+    self.cancelConnection( connection , NSSTR('connection_didReceiveData()') );
   end;
 end;
 
@@ -339,52 +371,45 @@ begin
 
   ret:= _processor.send( totalBytesWritten, connection );
   if NOT ret then begin
-    _state:= TMiniHttpConnectionState.canceled;
-    _result.statusCode:= -1;
-    TLogUtil.log( 6, 'HttpClient: Connection Canceled in connection_didSendBodyData_totalBytesWritten_totalBytesExpectedToWrite()' );
-    connection.cancel;
-    CFRunLoopStop( _runloop );
+    self.cancelConnection( connection , NSSTR('connection_didSendBodyData_totalBytesWritten_totalBytesExpectedToWrite()') );
   end;
 end;
 
 procedure TMiniHttpConnectionDataDelegate.connectionDidFinishLoading
   (connection: NSURLConnection);
 var
-  response: NSHTTPURLResponse;
   dataString: NSString;
 begin
-  _state:= TMiniHttpConnectionState.success;
-  response:= NSHTTPURLResponse( _response );
-  _processor.complete( _response, nil );
-  _result.statusCode:= response.statusCode;
+  _state:= TMiniHttpConnectionState.successful;
+  _processor.complete( _result.response, nil );
+  _result.resultCode:= _result.response.statusCode;
   if (_data.length>0) then begin
     dataString:= NSString.alloc.initWithData_encoding( _data, NSUTF8StringEncoding );
-    _result.responseBody:= dataString.UTF8String;
+    _result.body:= dataString.UTF8String;
     dataString.release;
-  end else begin
-    _result.responseBody:= EmptyStr;
   end;
-  TLogUtil.logInformation( 'Http Client connectionDidFinishLoading' );
-  TLogUtil.logInformation( 'statusCode=' + IntToStr(response.statusCode) );
-  TLogUtil.logInformation( 'responseString=' + _result.responseBody );
+  TLogUtil.logInformation( 'HttpClient connectionDidFinishLoading' );
+  TLogUtil.logInformation( 'resultCode=' + IntToStr(_result.response.statusCode) );
+  TLogUtil.logInformation( 'body=' + _result.body );
   CFRunLoopStop( _runloop );
 end;
 
 procedure TMiniHttpConnectionDataDelegate.connection_didFailWithError(
   connection: NSURLConnection; error: NSError);
 begin
-  _state:= TMiniHttpConnectionState.fail;
-  _processor.complete( _response, error );
+  _state:= TMiniHttpConnectionState.failed;
+  _processor.complete( _result.response, error );
 
-  TLogUtil.log( 6, 'Http Client connection_didFailWithError !!!' );
+  TLogUtil.log( 6, 'HttpClient connection_didFailWithError !!!' );
   if Assigned(error) then begin
     TLogUtil.log( 6, 'error.code=' + IntToStr(error.code) );
     TLogUtil.log( 6, 'error.domain=' + error.domain.UTF8String );
     TLogUtil.log( 6, 'error.description=' + error.description.UTF8String );
   end;
 
-  _result.statusCode:= -1;
-  _result.responseBody:= error.localizedDescription.UTF8String;
+  _result.resultCode:= -1;
+  _result.error:= error;
+  error.retain;
 end;
 
 function TMiniHttpConnectionDataDelegate.state: TMiniHttpConnectionState;
@@ -397,7 +422,7 @@ begin
   Result:= (_state = TMiniHttpConnectionState.running);
 end;
 
-function TMiniHttpConnectionDataDelegate.getResult: TMiniClientResult;
+function TMiniHttpConnectionDataDelegate.getResult: TMiniHttpResult;
 begin
   Result:= _result;
 end;
@@ -449,19 +474,26 @@ procedure TMiniHttpClient.doRunloop(
 var
   connection: NSURLConnection;
 begin
-  connection:= NSURLConnection.alloc.initWithRequest_delegate(
-    _request, delegate );
-  connection.start;
-  repeat
-    CFRunLoopRun;
-  until NOT delegate.isRunning;
-  connection.release;
+  try
+    TLogUtil.logInformation( 'HttpClient start:' + _request.description.UTF8String );
+    connection:= NSURLConnection.alloc.initWithRequest_delegate(
+      _request, delegate );
+    connection.start;
+    repeat
+      CFRunLoopRun;
+    until NOT delegate.isRunning;
+  finally
+    connection.release;
+  end;
+
+  if delegate.state = TMiniHttpConnectionState.aborted then
+    raise EAbort.Create( 'Raised by HttpClient' );
 end;
 
 function TMiniHttpClient.doPost(
   const urlPart: String;
   lclItems: TQueryItemsDictonary;
-  const processor: TMiniHttpDataProcessor): TMiniClientResult;
+  const processor: TMiniHttpDataProcessor): TMiniHttpResult;
 var
   url: NSURL;
   delegate: TMiniHttpConnectionDataDelegate;
@@ -479,22 +511,25 @@ var
   end;
 
 begin
-  url:= NSURL.URLWithString( StringToNSString(urlPart) );
-  _request.setURL( url );
-  if lclItems <> nil then begin
-    self.setBody( getBody );
-    self.setContentType( HttpConst.ContentType.UrlEncoded );
-  end;
+  try
+    url:= NSURL.URLWithString( StringToNSString(urlPart) );
+    _request.setURL( url );
+    if lclItems <> nil then begin
+      self.setBody( getBody );
+      self.setContentType( HttpConst.ContentType.UrlEncoded );
+    end;
 
-  delegate:= TMiniHttpConnectionDataDelegate.new;
-  delegate.setProcessor( processor );
-  doRunloop( delegate );
-  Result:= delegate.getResult;
-  FreeAndNil( lclItems );
-  delegate.autorelease;
+    delegate:= TMiniHttpConnectionDataDelegate.new;
+    delegate.setProcessor( processor );
+    doRunloop( delegate );
+  finally
+    Result:= delegate.getResult;
+    FreeAndNil( lclItems );
+    delegate.autorelease;
+  end;
 end;
 
-function TMiniHttpClient.post( const urlPart: String; lclItems: TQueryItemsDictonary ): TMiniClientResult;
+function TMiniHttpClient.post( const urlPart: String; lclItems: TQueryItemsDictonary ): TMiniHttpResult;
 var
   processor: TMiniHttpDataProcessor;
 begin
@@ -505,7 +540,7 @@ end;
 function TMiniHttpClient.download(
   const urlPart: String;
   const localPath: String;
-  const callback: IMiniHttpDataCallback ): TMiniClientResult;
+  const callback: IMiniHttpDataCallback ): TMiniHttpResult;
 var
   processor: TMiniHttpDataProcessor;
 begin
@@ -518,7 +553,7 @@ end;
 function TMiniHttpClient.upload(
   const urlPart: String;
   const localPath: String;
-  const callback: IMiniHttpDataCallback): TMiniClientResult;
+  const callback: IMiniHttpDataCallback): TMiniHttpResult;
 var
   processor: TMiniHttpUploadProcessor;
 begin
