@@ -54,8 +54,8 @@ type
   TStringUtil = class
   public
     class function generateRandomString( const length: Integer ): String;
-    class function widecharsToString(const S: pwidechar): String;
-    class procedure stringToWidechars(const buffer: pwidechar; const S: String);
+    class function widecharsToString(const p: pwidechar): String;
+    class procedure stringToWidechars(const buffer: pwidechar; const s: String; const maxLength: Integer);
   end;
 
   { TJsonUtil }
@@ -186,21 +186,35 @@ begin
   randomString.Free;
 end;
 
-class function TStringUtil.widecharsToString(const S: pwidechar): String;
+class function TStringUtil.widecharsToString(const p: pwidechar): String;
 var
   str: NSString;
 begin
-  str:= NSString.stringWithCharacters_length( @s[0], StrLen(s) );
+  str:= NSString.stringWithCharacters_length( @p[0], StrLen(p) );
   Result:= str.UTF8String;
 end;
 
-class procedure TStringUtil.stringToWidechars(const buffer: pwidechar;
-  const S: String);
+class procedure TStringUtil.stringToWidechars(
+  const buffer: pwidechar;
+  const s: String;
+  const maxLength: Integer );
 var
   str: NSString;
+  range: NSRange;
+  usedLength: Integer;
 begin
-  str:= StringToNSString( S );
-  str.getCharacters( unicharPtr(buffer) );
+  str:= StringToNSString( s );
+  range.location:= 0;
+  range.length:= str.length;
+  str.getBytes_maxLength_usedLength_encoding_options_range_remainingRange(
+    pchar(buffer),
+    maxLength - 2,
+    @usedLength,
+    NSUnicodeStringEncoding,
+    0,
+    range,
+    nil );
+  buffer[usedLength div 2]:= #0;
 end;
 
 { TJsonUtil }

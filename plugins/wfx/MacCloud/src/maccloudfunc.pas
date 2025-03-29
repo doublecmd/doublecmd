@@ -81,11 +81,10 @@ end;
 
 procedure wfxLogProc( const MsgType: Integer; const message: String );
 var
-  buffer: Array [1..1024*10] of widechar;
+  buffer: Array [0..1024*10-1] of widechar;
 begin
-  FillChar( buffer{%H-}, SizeOf(buffer), #0 );
-  TStringUtil.stringToWidechars( @buffer[1], 'MacCloud: ' + message );
-  LogProc( PluginNumber, MsgType, @buffer[1] );
+  TStringUtil.stringToWidechars( buffer, 'MacCloud: ' + message, sizeof(buffer) );
+  LogProc( PluginNumber, MsgType, buffer );
 end;
 
 function FsInitW(PluginNr:integer;pProgressProc:tProgressProcW;pLogProc:tLogProcW;
@@ -122,7 +121,7 @@ begin
   FindData.nFileSizeHigh:= li.HighPart;
   FindData.ftCreationTime:= DateTimeToFileTime( dbFile.clientModified );
   FindData.ftLastWriteTime:= DateTimeToFileTime( dbFile.serverModified );
-  TStringUtil.stringToWidechars( @FindData.cFileName[0], dbFile.name );
+  TStringUtil.stringToWidechars( FindData.cFileName, dbFile.name, sizeof(FindData.cFileName) );
   dbFile.Free;
 end;
 
