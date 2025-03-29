@@ -71,7 +71,7 @@ type
     _alert: NSAlert;
   private
     procedure requestAuthorization;
-    function waitAuthorizationAndPrompt: Boolean;
+    procedure waitAuthorizationAndPrompt;
     procedure closePrompt;
     function requestToken: Boolean;
     procedure onRedirect( const url: NSURL );
@@ -286,7 +286,7 @@ begin
   THttpClientUtil.openInSafari( DropBoxConst.URI.OAUTH2, queryItems );
 end;
 
-function TDropBoxAuthPKCESession.waitAuthorizationAndPrompt: Boolean;
+procedure TDropBoxAuthPKCESession.waitAuthorizationAndPrompt;
 begin
   NSApplication(NSAPP).setOpenURLObserver( @self.onRedirect );
   _alert:= NSAlert.new;
@@ -296,7 +296,6 @@ begin
   _alert.runModal;
   _alert.release;
   _alert:= nil;
-  Result:= True;
 end;
 
 procedure TDropBoxAuthPKCESession.closePrompt;
@@ -377,7 +376,7 @@ function TDropBoxAuthPKCESession.authorize: Boolean;
 begin
   Result:= False;
   requestAuthorization;
-  waitAuthorizationAndPrompt;
+  TThread.Synchronize( TThread.CurrentThread, @waitAuthorizationAndPrompt );
   Result:= requestToken;
 end;
 
@@ -649,6 +648,7 @@ end;
 constructor TDropBoxClient.Create(const config: TDropBoxConfig);
 begin
   _config:= config;
+  _authSession:= TDropBoxAuthPKCESession.Create( _config );
 end;
 
 destructor TDropBoxClient.Destroy;
@@ -660,8 +660,6 @@ end;
 
 function TDropBoxClient.authorize: Boolean;
 begin
-  Result:= False;
-  _authSession:= TDropBoxAuthPKCESession.Create( _config );
   Result:= _authSession.authorize;
 end;
 
