@@ -1584,6 +1584,11 @@ function TViewerControl.MapFile(const sFileName: String): Boolean;
   begin
     FMappedFile := GetMem(FFileSize);
     Result := (FileRead(FFileHandle, FMappedFile^, FFileSize) = FFileSize);
+    if not Result then
+    begin
+      FLastError := mbSysErrorMessage;
+      FreeMemAndNil(FMappedFile);
+    end;
     FileClose(FFileHandle);
     FFileHandle := 0;
   end;
