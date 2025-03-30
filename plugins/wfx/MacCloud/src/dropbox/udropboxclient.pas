@@ -12,7 +12,7 @@ unit uDropBoxClient;
 interface
 
 uses
-  Classes, SysUtils, Generics.Collections, DateUtils,
+  Classes, SysUtils, syncobjs, Generics.Collections, DateUtils,
   CocoaAll, uMiniCocoa,
   uMiniHttpClient, uMiniUtil;
 
@@ -89,7 +89,7 @@ type
   { TDropBoxAuthPKCESession }
 
   TDropBoxAuthPKCESession = class
-  private
+  strict private
     _config: TDropBoxConfig;
     _codeVerifier: String;
     _state: String;
@@ -97,6 +97,7 @@ type
     _token: TDropBoxToken;
     _accountID: String;
     _alert: NSAlert;
+    _lockObject: TCriticalSection;
   private
     procedure requestAuthorization;
     procedure waitAuthorizationAndPrompt;
@@ -562,42 +563,59 @@ begin
 end;
 
 function TDropBoxAuthPKCESession.getAccessToken: String;
-begin
-  try
-    if NOT _token.isValidAccessToken then begin
-      if _token.isValidFreshToken then begin
-        self.refreshToken;
-      end else begin
+  procedure checkToken;
+  begin
+    try
+      if NOT _token.isValidAccessToken then begin
+        if _token.isValidFreshToken then begin
+          self.refreshToken;
+        end else begin
+          self.authorize;
+        end;
+      end;
+    except
+      on e: EDropBoxTokenException do begin
+        TLogUtil.log( 6, 'Token Error: ' + e.ClassName + ': ' + e.Message );
+        _token.invalid;
         self.authorize;
       end;
     end;
-  except
-    on e: EDropBoxTokenException do begin
-      TLogUtil.log( 6, 'Token Error: ' + e.ClassName + ': ' + e.Message );
-      _token.invalid;
-      self.authorize;
-    end;
   end;
-  Result:= _token.access;
+
+begin
+  _lockObject.Acquire;
+  try
+    checkToken;
+    Result:= _token.access;
+  finally
+    _lockObject.Release;
+  end;
 end;
 
 constructor TDropBoxAuthPKCESession.Create(const config: TDropBoxConfig);
 begin
   _config:= config;
   _token:= TDropBoxToken.Create;
+  _lockObject:= TCriticalSection.Create;
 end;
 
 destructor TDropBoxAuthPKCESession.Destroy;
 begin
   FreeAndNil( _token );
+  FreeAndNil( _lockObject );
 end;
 
 function TDropBoxAuthPKCESession.authorize: Boolean;
 begin
-  requestAuthorization;
-  TThread.Synchronize( TThread.CurrentThread, @waitAuthorizationAndPrompt );
-  requestToken;
-  Result:= (_token.access <> EmptyStr);
+  _lockObject.Acquire;
+  try
+    requestAuthorization;
+    TThread.Synchronize( TThread.CurrentThread, @waitAuthorizationAndPrompt );
+    requestToken;
+    Result:= (_token.access <> EmptyStr);
+  finally
+    _lockObject.Release;
+  end;
 end;
 
 procedure TDropBoxAuthPKCESession.setAuthHeader(http: TMiniHttpClient);
