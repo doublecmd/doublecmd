@@ -37,6 +37,9 @@ if [ -z $(uname | grep Darwin) ]; then
 
 else
 
+  # WFX plugins
+  $lazbuild wfx/MacCloud/src/MacCloud.lpi $DC_ARCH
+
   # WLX plugins
   $lazbuild wlx/MacPreview/src/MacPreview.lpi $DC_ARCH
 
