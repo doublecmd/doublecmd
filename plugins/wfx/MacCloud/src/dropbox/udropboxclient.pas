@@ -381,6 +381,7 @@ begin
   _alert.setInformativeText( StringToNSString('Please login your DropBox account in Safari and authorize Double Commander to access. '#13'The authorization is completed on the DropBox official website, Double Command will not get your password.') );
   _alert.addButtonWithTitle( NSSTR('Cancel') );
   _alert.runModal;
+  NSApplication(NSAPP).setOpenURLObserver( nil );
   _alert.release;
   _alert:= nil;
 end;
@@ -450,7 +451,6 @@ var
   components: NSURLComponents;
   state: String;
 begin
-  NSApplication(NSAPP).setOpenURLObserver( nil );
   components:= NSURLComponents.componentsWithURL_resolvingAgainstBaseURL( url, False );
   state:= THttpClientUtil.queryValue( components, 'state' );
   if state <> _state then
