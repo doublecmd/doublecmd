@@ -147,35 +147,55 @@ function FsFindFirstW(path:pwidechar;var FindData:tWIN32FINDDATAW):thandle; cdec
 var
   dbFile: TDropBoxFile;
 begin
-  client.listFolderBegin( TStringUtil.widecharsToString(path) );
-  dbFile:= client.listFolderGetNextFile;
-  if dbFile = nil then begin
-    Result:= wfxInvalidHandle;
-    Exit;
-  end;
+  try
+    client.listFolderBegin( TStringUtil.widecharsToString(path) );
+    dbFile:= client.listFolderGetNextFile;
+    if dbFile = nil then begin
+      Result:= wfxInvalidHandle;
+      Exit;
+    end;
 
-  DbFileToWinFindData( dbFile, FindData );
-  Result:= 0;
+    DbFileToWinFindData( dbFile, FindData );
+    Result:= 0;
+  except
+    on e: Exception do begin
+      exceptionToResult( e );
+      Result:= wfxInvalidHandle;
+    end;
+  end;
 end;
 
 function FsFindNextW(Hdl:thandle;var FindData:tWIN32FINDDATAW):bool; cdecl;
 var
   dbFile: TDropBoxFile;
 begin
-  dbFile:= client.listFolderGetNextFile;
-  if dbFile = nil then begin
-    Result:= False;
-    Exit;
-  end;
+  try
+    dbFile:= client.listFolderGetNextFile;
+    if dbFile = nil then begin
+      Result:= False;
+      Exit;
+    end;
 
-  DbFileToWinFindData( dbFile, FindData );
-  Result:= True;
+    DbFileToWinFindData( dbFile, FindData );
+    Result:= True;
+  except
+    on e: Exception do begin
+      exceptionToResult( e );
+      Result:= False;
+    end;
+  end;
 end;
 
 function FsFindClose(Hdl:thandle):integer; cdecl;
 begin
-  client.listFolderEnd;
   Result:= 0;
+  try
+    client.listFolderEnd;
+  except
+    on e: Exception do begin
+      exceptionToResult( e );
+    end;
+  end;
 end;
 
 type
