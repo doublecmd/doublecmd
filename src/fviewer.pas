@@ -62,7 +62,7 @@ uses
   uFileSource, fModView, Types, uThumbnails, uFormCommands, uOSForms,Clipbrd,
   uExifReader, KASStatusBar, SynEdit, uShowForm, uRegExpr, uRegExprU,
   Messages, fEditSearch, uMasks, uSearchTemplate, uFileSourceOperation,
-  uFileSourceCalcStatisticsOperation;
+  uFileSourceCalcStatisticsOperation, KASComCtrls;
 
 type
 
@@ -155,7 +155,7 @@ type
     btnDeleteFile1: TSpeedButton;
     btnMoveFile1: TSpeedButton;
     btnNext1: TSpeedButton;
-    btnPenColor: TColorButton;
+    btnPenColor: TToolButtonClr;
     btnPrev1: TSpeedButton;
     btnReload1: TSpeedButton;
     DrawPreview: TDrawGrid;
@@ -247,7 +247,7 @@ type
     TimerScreenshot: TTimer;
     TimerViewer: TTimer;
     tmUpdateFolderSize: TTimer;
-    ToolBar1: TToolBar;
+    ToolBar1: TToolBarAdv;
     btnReload: TToolButton;
     btn270: TToolButton;
     btn90: TToolButton;
@@ -920,7 +920,6 @@ begin
   ToolBar1.ImagesWidth:= gToolIconsSize;
   ToolBar1.SetButtonSize(gToolIconsSize + ScaleX(6, 96),
                          gToolIconsSize + ScaleY(6, 96));
-  ToolBar1.Wrapable:= True;
 end;
 
 procedure TfrmViewer.LoadFile(const aFileName: String);

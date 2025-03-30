@@ -10,7 +10,7 @@ interface
 uses
   KASToolBar, KASProgressBar, KASPathEdit, KASToolItems, KASComboBox, 
   KASCDEdit, KASStatusBar, KASToolPanel, KASButton, KASButtonPanel, 
-  LazarusPackageIntf;
+  KASComCtrls, LazarusPackageIntf;
 
 implementation
 
@@ -25,6 +25,7 @@ begin
   RegisterUnit('KASToolPanel', @KASToolPanel.Register);
   RegisterUnit('KASButton', @KASButton.Register);
   RegisterUnit('KASButtonPanel', @KASButtonPanel.Register);
+  RegisterUnit('KASComCtrls', @KASComCtrls.Register);
 end;
 
 initialization

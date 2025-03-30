@@ -290,7 +290,7 @@ end;"/>
       </Item7>
       <Item8>
         <PackageName Value="KASComp"/>
-        <MinVersion Major="1" Minor="9" Release="4" Valid="True"/>
+        <MinVersion Major="1" Minor="9" Release="5" Valid="True"/>
       </Item8>
       <Item9>
         <PackageName Value="LCL"/>
