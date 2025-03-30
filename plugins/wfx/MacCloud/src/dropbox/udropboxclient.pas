@@ -29,6 +29,7 @@ type
   { EDropBoxException }
 
   EDropBoxException = class( Exception );
+  EDropBoxTokenException = class( EDropBoxException );
   EDropBoxConflictException = class( EDropBoxException );
   EDropBoxPermissionException = class( EDropBoxException );
   EDropBoxRateLimitException = class( EDropBoxException );
@@ -79,9 +80,10 @@ type
     function isValidAccessToken: Boolean;
     function isValidFreshToken: Boolean;
   public
+    procedure setExpiration( const seconds: Integer );
+    procedure invalid;
     property access: String read _access write _access;
     property refresh: String read _refresh write _refresh;
-    procedure setExpiration( const seconds: Integer );
   end;
 
   { TDropBoxAuthPKCESession }
@@ -286,9 +288,13 @@ var
   httpResult: TMiniHttpResult;
   httpError: NSError;
   httpErrorDescription: String;
+  dropBoxMessage: String;
 
   procedure processHttpError;
   begin
+    httpResult:= dropBoxResult.httpResult;
+    httpError:= httpResult.error;
+
     if Assigned(httpError) then begin
       httpErrorDescription:= httpError.localizedDescription.UTF8String;
       case httpError.code of
@@ -298,34 +304,35 @@ var
     end;
   end;
 
+  procedure processDropBox401Error;
+  begin
+    if dropBoxMessage.IndexOf('access_token') >= 0 then
+      raise EDropBoxTokenException.Create( dropBoxMessage );
+    raise EDropBoxException.Create( dropBoxMessage );
+  end;
+
   procedure processDropBox409Error;
   begin
-    if dropBoxResult.resultMessage.IndexOf('not_found') >= 0 then
-      raise EFileNotFoundException.Create( dropBoxResult.resultMessage );
-    if dropBoxResult.resultMessage.IndexOf('conflict') >= 0 then
-      raise EDropBoxConflictException.Create( dropBoxResult.resultMessage );
-    raise EDropBoxPermissionException.Create( dropBoxResult.resultMessage );
+    if dropBoxMessage.IndexOf('not_found') >= 0 then
+      raise EFileNotFoundException.Create( dropBoxMessage );
+    if dropBoxMessage.IndexOf('conflict') >= 0 then
+      raise EDropBoxConflictException.Create( dropBoxMessage );
+    raise EDropBoxPermissionException.Create( dropBoxMessage );
   end;
 
   procedure processDropBoxError;
   begin
+    dropBoxMessage:= dropBoxResult.resultMessage;
+
     if (httpResult.resultCode>=200) and (httpResult.resultCode<=299) then
       Exit;
     case httpResult.resultCode of
+      401: processDropBox401Error;
       409: processDropBox409Error;
-      403: raise EDropBoxPermissionException.Create( dropBoxResult.resultMessage );
-      429: raise EDropBoxRateLimitException.Create( dropBoxResult.resultMessage );
-      else raise EDropBoxException.Create( dropBoxResult.resultMessage );
+      403: raise EDropBoxPermissionException.Create( dropBoxMessage );
+      429: raise EDropBoxRateLimitException.Create( dropBoxMessage );
+      else raise EDropBoxException.Create( dropBoxMessage );
     end;
-  end;
-
-  procedure processError;
-  begin
-    httpResult:= dropBoxResult.httpResult;
-    httpError:= httpResult.error;
-
-    processHttpError;
-    processDropBoxError;
   end;
 
   procedure logException( const e: Exception );
@@ -340,7 +347,8 @@ var
 
 begin
   try
-    processError;
+    processHttpError;
+    processDropBoxError;
   except
     on e: Exception do begin
       logException( e );
@@ -393,6 +401,12 @@ begin
   expirationDate:= now.dateByAddingTimeInterval( seconds - 300 );
   _accessExpirationTime:= expirationDate.timeIntervalSince1970;
   now.release;
+end;
+
+procedure TDropBoxToken.invalid;
+begin
+  _access:= EmptyStr;
+  _refresh:= EmptyStr;
 end;
 
 { TDropBoxAuthPKCESession }
@@ -549,10 +563,18 @@ end;
 
 function TDropBoxAuthPKCESession.getAccessToken: String;
 begin
-  if NOT _token.isValidAccessToken then begin
-    if _token.isValidFreshToken then begin
-      self.refreshToken;
-    end else begin
+  try
+    if NOT _token.isValidAccessToken then begin
+      if _token.isValidFreshToken then begin
+        self.refreshToken;
+      end else begin
+        self.authorize;
+      end;
+    end;
+  except
+    on e: EDropBoxTokenException do begin
+      TLogUtil.log( 6, 'Token Error: ' + e.ClassName + ': ' + e.Message );
+      _token.invalid;
       self.authorize;
     end;
   end;
