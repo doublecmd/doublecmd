@@ -113,7 +113,7 @@ begin
 
   TLogUtil.setLogProc( @wfxLogProc );
 
-  config:= TDropBoxConfig.Create( '10mwuvryt76yise', 'dc-10mwuvryt76yise://dropbox/auth' );
+  config:= TDropBoxConfig.Create( 'ahj0s9xia6i61gh', 'dc2ea085a05ac273a://dropbox/auth' );
   client:= TDropBoxClient.Create( config );
   try
     client.authorize;

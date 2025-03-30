@@ -77,6 +77,17 @@
         </array>
       </dict>
     </array>
+    <key>CFBundleURLTypes</key>
+    <array>
+      <dict>
+	<key>CFBundleURLName</key>
+	<string>DoubleCommand</string>
+	<key>CFBundleURLSchemes</key>
+	<array>
+          <string>dc2ea085a05ac273a</string>
+	</array>
+      </dict>
+    </array>
     <key>NSServices</key>
     <array>
       <dict>
