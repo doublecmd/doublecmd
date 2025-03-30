@@ -241,8 +241,8 @@ Context=Actions
 Type=Scalable
 
 [scalable/devices]
-Size=128
-MinSize=72
+Size=48
+MinSize=48
 MaxSize=512
 Context=Devices
 Type=Scalable
