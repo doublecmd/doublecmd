@@ -68,9 +68,20 @@ type
     property listenURI: String read _listenURI;
   end;
 
-  TDropBoxToken = record
-    access: String;
-    refresh: String;
+  { TDropBoxToken }
+
+  TDropBoxToken = class
+  private
+    _access: String;
+    _refresh: String;
+    _accessExpirationTime: NSTimeInterval;
+  private
+    function isValidAccessToken: Boolean;
+    function isValidFreshToken: Boolean;
+  public
+    property access: String read _access write _access;
+    property refresh: String read _refresh write _refresh;
+    procedure setExpiration( const seconds: Integer );
   end;
 
   { TDropBoxAuthPKCESession }
@@ -89,13 +100,15 @@ type
     procedure waitAuthorizationAndPrompt;
     procedure closePrompt;
     procedure requestToken;
+    procedure refreshToken;
     procedure onRedirect( const url: NSURL );
+    function getAccessToken: String;
   public
     constructor Create( const config: TDropBoxConfig );
+    destructor Destroy; override;
+  public
     function authorize: Boolean;
     procedure setAuthHeader( http: TMiniHttpClient );
-  public
-    property token: TDropBoxToken read _token;
   end;
 
   { TDropBoxListFolderSession }
@@ -351,6 +364,37 @@ begin
   _listenURI:= listenURI;
 end;
 
+{ TDropBoxToken }
+
+function TDropBoxToken.isValidAccessToken: Boolean;
+var
+  now: NSDate;
+begin
+  Result:= False;
+  if _access = EmptyStr then
+    Exit;
+  now:= NSDate.new;
+  if now.timeIntervalSince1970 < _accessExpirationTime then
+    Result:= True;
+  now.release;
+end;
+
+function TDropBoxToken.isValidFreshToken: Boolean;
+begin
+  Result:= _refresh <> EmptyStr;
+end;
+
+procedure TDropBoxToken.setExpiration(const seconds: Integer);
+var
+  now: NSDate;
+  expirationDate: NSDate;
+begin
+  now:= NSDate.new;
+  expirationDate:= now.dateByAddingTimeInterval( seconds - 300 );
+  _accessExpirationTime:= expirationDate.timeIntervalSince1970;
+  now.release;
+end;
+
 { TDropBoxAuthPKCESession }
 
 procedure TDropBoxAuthPKCESession.requestAuthorization;
@@ -426,6 +470,7 @@ var
     json:= TJsonUtil.parse( dropBoxResult.httpResult.body );
     _token.access:= TJsonUtil.getString( json, 'access_token' );
     _token.refresh:= TJsonUtil.getString( json, 'refresh_token' );
+    _token.setExpiration( TJsonUtil.getInteger( json, 'expires_in' ) );
     _accountID:= TJsonUtil.getString( json, 'account_id' );
   end;
 
@@ -433,6 +478,49 @@ begin
   if _code = EmptyStr then
     Exit;
 
+  try
+    http:= TMiniHttpClient.Create;
+    doRequest;
+
+    if dropBoxResult.httpResult.resultCode <> 200 then
+      Exit;
+    analyseResult;
+  finally
+    FreeAndNil( dropBoxResult );
+    FreeAndNil( http );
+  end;
+end;
+
+procedure TDropBoxAuthPKCESession.refreshToken;
+var
+  http: TMiniHttpClient;
+  dropBoxResult: TDropBoxResult;
+
+  procedure doRequest;
+  var
+    queryItems: TQueryItemsDictonary;
+  begin
+    queryItems:= TQueryItemsDictonary.Create;
+    queryItems.Add( 'client_id', _config.clientID );
+    queryItems.Add( 'grant_type', 'refresh_token' );
+    queryItems.Add( 'refresh_token', _token.refresh );
+    dropBoxResult:= TDropBoxResult.Create;
+    dropBoxResult.httpResult:= http.post( DropBoxConst.URI.TOKEN, queryItems );
+    dropBoxResult.resultMessage:= dropBoxResult.httpResult.body;
+
+    DropBoxClientProcessResult( dropBoxResult );
+  end;
+
+  procedure analyseResult;
+  var
+    json: NSDictionary;
+  begin
+    json:= TJsonUtil.parse( dropBoxResult.httpResult.body );
+    _token.access:= TJsonUtil.getString( json, 'access_token' );
+    _token.setExpiration( TJsonUtil.getInteger( json, 'expires_in' ) );
+  end;
+
+begin
   try
     http:= TMiniHttpClient.Create;
     doRequest;
@@ -459,9 +547,27 @@ begin
   closePrompt;
 end;
 
+function TDropBoxAuthPKCESession.getAccessToken: String;
+begin
+  if NOT _token.isValidAccessToken then begin
+    if _token.isValidFreshToken then begin
+      self.refreshToken;
+    end else begin
+      self.authorize;
+    end;
+  end;
+  Result:= _token.access;
+end;
+
 constructor TDropBoxAuthPKCESession.Create(const config: TDropBoxConfig);
 begin
   _config:= config;
+  _token:= TDropBoxToken.Create;
+end;
+
+destructor TDropBoxAuthPKCESession.Destroy;
+begin
+  FreeAndNil( _token );
 end;
 
 function TDropBoxAuthPKCESession.authorize: Boolean;
@@ -473,10 +579,11 @@ begin
 end;
 
 procedure TDropBoxAuthPKCESession.setAuthHeader(http: TMiniHttpClient);
+var
+  access: String;
 begin
-  if _token.access = EmptyStr then
-    self.authorize;
-  http.addHeader( DropBoxConst.HEADER.AUTH, 'Bearer ' + _token.access );
+  access:= self.getAccessToken;
+  http.addHeader( DropBoxConst.HEADER.AUTH, 'Bearer ' + access );
 end;
 
 { TDropBoxListFolderSession }
