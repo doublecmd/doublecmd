@@ -124,10 +124,16 @@ type
     procedure doRunloop( const delegate: TMiniHttpConnectionDataDelegate );
     function doPost( const urlPart: String; lclItems: TQueryItemsDictonary;
       const processor: TMiniHttpDataProcessor ): TMiniHttpResult;
+    function doUpload( const urlPart: String; const localPath: String;
+      const range: NSRangePtr; const callback: IMiniHttpDataCallback ): TMiniHttpResult;
   public
     function post( const urlPart: String; lclItems: TQueryItemsDictonary ): TMiniHttpResult;
-    function download( const urlPart: String; const localPath: String; const callback: IMiniHttpDataCallback ): TMiniHttpResult;
-    function upload( const urlPart: String; const localPath: String; const callback: IMiniHttpDataCallback ): TMiniHttpResult;
+    function download( const urlPart: String; const localPath: String;
+      const callback: IMiniHttpDataCallback ): TMiniHttpResult;
+    function upload( const urlPart: String; const localPath: String;
+      const callback: IMiniHttpDataCallback ): TMiniHttpResult;
+    function uploadRange( const urlPart: String; const localPath: String;
+      const range: NSRange; const callback: IMiniHttpDataCallback ): TMiniHttpResult;
   end;
 
 implementation
@@ -244,7 +250,7 @@ type
   private
     _callback: IMiniHttpDataCallback;
   public
-    constructor Create( const localPath: String; const callback: IMiniHttpDataCallback );
+    constructor Create( const localPath: String; const range: NSRangePtr; const callback: IMiniHttpDataCallback );
     destructor Destroy; override;
   public
     function send( const accumulatedBytes: Integer; const connection: NSURLConnection ): Boolean; override;
@@ -254,12 +260,17 @@ type
 
 { TMiniHttpUploadProcessor }
 
-constructor TMiniHttpUploadProcessor.Create(const localPath: String;
-  const callback: IMiniHttpDataCallback);
+constructor TMiniHttpUploadProcessor.Create(
+  const localPath: String;
+  const range: NSRangePtr;
+  const callback: IMiniHttpDataCallback );
 begin
   _localPath:= StringToNSString( localPath );
   _localPath.retain;
-  _stream:= NSInputStream.alloc.initWithFileAtPath( _localPath );
+  if Assigned(range) then
+    _stream:= NSFileRangeInputStream.alloc.initWithFileAtPath_Range( _localPath, range^ )
+  else
+    _stream:= NSInputStream.alloc.initWithFileAtPath( _localPath );
   _callback:= callback;
 end;
 
@@ -550,20 +561,38 @@ begin
   TLogUtil.logInformation( '<< HttpClient: Download file end' );
 end;
 
-function TMiniHttpClient.upload(
+function TMiniHttpClient.doUpload(
   const urlPart: String;
   const localPath: String;
+  const range: NSRangePtr;
   const callback: IMiniHttpDataCallback): TMiniHttpResult;
 var
   processor: TMiniHttpUploadProcessor;
 begin
   TLogUtil.logInformation( '>> HttpClient: Upload file start' );
-  processor:= TMiniHttpUploadProcessor.Create( localPath, callback );
+  processor:= TMiniHttpUploadProcessor.Create( localPath, range, callback );
   _request.setHTTPMethod( HttpConst.Method.POST );
   _request.setHTTPBodyStream( processor.getHttpBodyStream );
   self.setContentType( HttpConst.ContentType.OctetStream );
   Result:= self.doPost( urlPart, nil, processor );
   TLogUtil.logInformation( '<< HttpClient: Upload file end' );
+end;
+
+function TMiniHttpClient.upload(
+  const urlPart: String;
+  const localPath: String;
+  const callback: IMiniHttpDataCallback): TMiniHttpResult;
+begin
+  Result:= self.doUpload( urlPart, localPath, nil, callback );
+end;
+
+function TMiniHttpClient.uploadRange(
+  const urlPart: String;
+  const localPath: String;
+  const range: NSRange;
+  const callback: IMiniHttpDataCallback): TMiniHttpResult;
+begin
+  Result:= self.doUpload( urlPart, localPath, @range, callback );
 end;
 
 initialization
