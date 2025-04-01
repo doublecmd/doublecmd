@@ -525,6 +525,7 @@ begin
   try
     url:= NSURL.URLWithString( StringToNSString(urlPart) );
     _request.setURL( url );
+    _request.setHTTPMethod( HttpConst.Method.POST );
     if lclItems <> nil then begin
       self.setBody( getBody );
       self.setContentType( HttpConst.ContentType.UrlEncoded );
@@ -571,7 +572,6 @@ var
 begin
   TLogUtil.logInformation( '>> HttpClient: Upload file start' );
   processor:= TMiniHttpUploadProcessor.Create( localPath, range, callback );
-  _request.setHTTPMethod( HttpConst.Method.POST );
   _request.setHTTPBodyStream( processor.getHttpBodyStream );
   self.setContentType( HttpConst.ContentType.OctetStream );
   Result:= self.doPost( urlPart, nil, processor );
