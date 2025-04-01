@@ -157,7 +157,11 @@ type
     _authSession: TDropBoxAuthPKCESession;
     _serverPath: String;
     _localPath: String;
+    _localFileSize: Integer;
     _callback: IDropBoxProgressCallback;
+  private
+    procedure uploadSmall;
+    procedure uploadLarge;
   public
     constructor Create(
       const authSession: TDropBoxAuthPKCESession;
@@ -245,6 +249,9 @@ type
     LIST_FOLDER_CONTINUE: String;
     DOWNLOAD: String;
     UPLOAD_SMALL: String;
+    UPLOAD_LARGE_START: String;
+    UPLOAD_LARGE_APPEND: String;
+    UPLOAD_LARGE_FINISH: String;
     CREATE_FOLDER: String;
     DELETE: String;
     COPY: String;
@@ -257,9 +264,15 @@ type
     RESULT: String;
   end;
 
+  TDropBoxConstUpload = record
+    LARGE_FILE_SIZE: Integer;
+    SESSION_FILE_SIZE: Integer;
+  end;
+
   TDropBoxConst = record
     URI: TDropBoxConstURI;
     HEADER: TDropBoxConstHeader;
+    UPLOAD: TDropBoxConstUpload;
   end;
 
 const
@@ -271,6 +284,9 @@ const
       LIST_FOLDER_CONTINUE: 'https://api.dropboxapi.com/2/files/list_folder/continue';
       DOWNLOAD: 'https://content.dropboxapi.com/2/files/download';
       UPLOAD_SMALL: 'https://content.dropboxapi.com/2/files/upload';
+      UPLOAD_LARGE_START: 'https://content.dropboxapi.com/2/files/upload_session/start';
+      UPLOAD_LARGE_APPEND: 'https://content.dropboxapi.com/2/files/upload_session/append_v2';
+      UPLOAD_LARGE_FINISH: 'https://content.dropboxapi.com/2/files/upload_session/finish';
       CREATE_FOLDER: 'https://api.dropboxapi.com/2/files/create_folder_v2';
       DELETE: 'https://api.dropboxapi.com/2/files/delete_v2';
       COPY: 'https://api.dropboxapi.com/2/files/copy_v2';
@@ -280,6 +296,10 @@ const
       AUTH: 'Authorization';
       ARG: 'Dropbox-API-Arg';
       RESULT: 'Dropbox-API-Result';
+    );
+    UPLOAD: (
+      LARGE_FILE_SIZE: 1000*1000*150;   // 150M
+      SESSION_FILE_SIZE: 1024*1024*120; // 120MiB
     );
   );
 
@@ -805,7 +825,7 @@ begin
   _callback:= callback;
 end;
 
-procedure TDropBoxUploadSession.upload;
+procedure TDropBoxUploadSession.uploadSmall;
 var
   http: TMiniHttpClient;
   argJsonString: String;
@@ -826,6 +846,138 @@ begin
     FreeAndNil( dropBoxResult );
     FreeAndNil( http );
   end;
+end;
+
+procedure TDropBoxUploadSession.uploadLarge;
+var
+  sessionId: String;
+  offset: Integer;
+  sessionSize: Integer;
+
+  procedure uploadStart;
+  var
+    http: TMiniHttpClient;
+    dropBoxResult: TDropBoxResult;
+    json: NSDictionary;
+  begin
+    try
+      http:= TMiniHttpClient.Create;
+      _authSession.setAuthHeader( http );
+      http.setContentType( HttpConst.ContentType.OctetStream );
+
+      dropBoxResult:= TDropBoxResult.Create;
+      dropBoxResult.httpResult:= http.post( DropBoxConst.URI.UPLOAD_LARGE_START, nil );
+      dropBoxResult.resultMessage:= dropBoxResult.httpResult.body;
+
+      DropBoxClientProcessResult( dropBoxResult );
+
+      json:= TJsonUtil.parse( dropBoxResult.resultMessage );
+      sessionId:= TJsonUtil.getString( json, 'session_id' );
+      if sessionId = EmptyStr then
+        raise EDropBoxException.Create( 'can''t get session_id in TDropBoxUploadSession.uploadLarge()' );
+    finally
+      FreeAndNil( dropBoxResult );
+      FreeAndNil( http );
+    end;
+  end;
+
+  procedure uploadAppend( range: NSRange );
+    function getArgJsonString: String;
+    var
+      jsonCursor: NSMutableDictionary;
+    begin
+      jsonCursor:= NSMutableDictionary.new;
+      TJsonUtil.setString( jsonCursor, 'session_id', sessionId );
+      TJsonUtil.setInteger( jsonCursor, 'offset', offset );
+      Result:= TJsonUtil.dumps( ['cursor',jsonCursor] );
+      jsonCursor.release;
+    end;
+  var
+    http: TMiniHttpClient;
+    dropBoxResult: TDropBoxResult;
+  begin
+    try
+      http:= TMiniHttpClient.Create;
+      _authSession.setAuthHeader( http );
+      http.addHeader( DropBoxConst.HEADER.ARG, getArgJsonString );
+
+      dropBoxResult:= TDropBoxResult.Create;
+      dropBoxResult.httpResult:= http.uploadRange(
+        DropBoxConst.URI.UPLOAD_LARGE_APPEND,
+        _localPath,
+        range,
+        _callback );
+      dropBoxResult.resultMessage:= dropBoxResult.httpResult.body;
+
+      DropBoxClientProcessResult( dropBoxResult );
+    finally
+      FreeAndNil( dropBoxResult );
+      FreeAndNil( http );
+    end;
+  end;
+
+  procedure uploadFinish;
+    function getArgJsonString: String;
+    var
+      jsonCursor: NSMutableDictionary;
+      jsonCommit: NSMutableDictionary;
+    begin
+      jsonCursor:= NSMutableDictionary.new;
+      TJsonUtil.setString( jsonCursor, 'session_id', sessionId );
+      TJsonUtil.setInteger( jsonCursor, 'offset', offset );
+
+      jsonCommit:= NSMutableDictionary.new;
+      TJsonUtil.setString( jsonCommit, 'path', _serverPath );
+      TJsonUtil.setString( jsonCommit, 'mode', 'overwrite' );
+
+      Result:= TJsonUtil.dumps( ['cursor',jsonCursor, 'commit',jsonCommit] );
+
+      jsonCursor.release;
+      jsonCommit.release;
+    end;
+  var
+    http: TMiniHttpClient;
+    dropBoxResult: TDropBoxResult;
+  begin
+    try
+      http:= TMiniHttpClient.Create;
+      _authSession.setAuthHeader( http );
+      http.addHeader( DropBoxConst.HEADER.ARG, getArgJsonString );
+      http.setContentType( HttpConst.ContentType.OctetStream );
+
+      dropBoxResult:= TDropBoxResult.Create;
+      dropBoxResult.httpResult:= http.post( DropBoxConst.URI.UPLOAD_LARGE_FINISH, nil );
+      dropBoxResult.resultMessage:= dropBoxResult.httpResult.body;
+
+      DropBoxClientProcessResult( dropBoxResult );
+    finally
+      FreeAndNil( dropBoxResult );
+      FreeAndNil( http );
+    end;
+  end;
+
+begin
+  offset:= 0;
+  sessionSize:= 0;
+  uploadStart;
+  while offset < _localFileSize do begin
+    if offset + DropBoxConst.UPLOAD.SESSION_FILE_SIZE > _localFileSize then
+      sessionSize:= _localFileSize - offset
+    else
+      sessionSize:= DropBoxConst.UPLOAD.SESSION_FILE_SIZE;
+    uploadAppend( NSMakeRange(offset, sessionSize) );
+    inc( offset, sessionSize );
+  end;
+  uploadFinish;
+end;
+
+procedure TDropBoxUploadSession.upload;
+begin
+  _localFileSize:= TFileUtil.filesize( _localPath );
+  if _localFileSize < DropBoxConst.UPLOAD.LARGE_FILE_SIZE then
+    uploadSmall
+  else
+    uploadLarge;
 end;
 
 { TDropBoxCreateFolderSession }
