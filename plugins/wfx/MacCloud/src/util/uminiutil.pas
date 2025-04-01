@@ -64,6 +64,10 @@ type
   public
     class function dumps( const Elements: Array of Const; const ensureAscii: Boolean = False ): String;
     class function parse( const jsonString: String ): NSDictionary;
+    class procedure setString( const json: NSMutableDictionary; const key: String; const value: String );
+    class procedure setBoolean( const json: NSMutableDictionary; const key: String; const value: Boolean );
+    class procedure setInteger( const json: NSMutableDictionary; const key: String; const value: Integer );
+    class procedure setArray( const json: NSMutableDictionary; const key: String; const value: NSArray );
     class function getString( const json: NSDictionary; const key: String ): String;
     class function getBoolean( const json: NSDictionary; const key: String ): Boolean;
     class function getInteger( const json: NSDictionary; const key: String ): Integer;
@@ -247,6 +251,7 @@ var
         vtInteger    : Result:= NSNumber.numberWithLongLong( VInteger );
         vtInt64      : Result:= NSNumber.numberWithLongLong( VInt64^ );
         vtQWord      : Result:= NSNumber.numberWithLongLong( VQWord^ );
+        vtPointer    : Result:= NSObject( VPointer );
       end;
   end;
 
@@ -308,6 +313,30 @@ begin
   Result:= NSJSONSerialization.JSONObjectWithData_options_error( jsonData, 0, @error );
   if error <> nil then
     Result:= nil;
+end;
+
+class procedure TJsonUtil.setString(const json: NSMutableDictionary; const key: String;
+  const value: String);
+begin
+  json.setObject_forKey( StringToNSString(value), StringToNSString(key) );
+end;
+
+class procedure TJsonUtil.setBoolean(const json: NSMutableDictionary;
+  const key: String; const value: Boolean);
+begin
+  json.setObject_forKey( NSNumber.numberWithBool(value), StringToNSString(key) );
+end;
+
+class procedure TJsonUtil.setInteger(const json: NSMutableDictionary;
+  const key: String; const value: Integer);
+begin
+  json.setObject_forKey( NSNumber.numberWithLongLong(value), StringToNSString(key) );
+end;
+
+class procedure TJsonUtil.setArray(const json: NSMutableDictionary; const key: String;
+  const value: NSArray);
+begin
+  json.setObject_forKey( value, StringToNSString(key) );
 end;
 
 class function TJsonUtil.getString(const json: NSDictionary; const key: String ): String;
