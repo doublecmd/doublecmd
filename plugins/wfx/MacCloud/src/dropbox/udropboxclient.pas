@@ -720,7 +720,7 @@ var
   var
     str: String;
   begin
-    str:= TJsonUtil.getString( json, key );
+    str:= TJsonUtil.getString( jsonItem, key );
     if str = EmptyStr then
       Result:= 0
     else
@@ -832,14 +832,14 @@ var
   dropBoxResult: TDropBoxResult;
 begin
   try
-    argJsonString:= TJsonUtil.dumps( ['path', _serverPath], True );
+    argJsonString:= TJsonUtil.dumps( ['path',_serverPath, 'mode','overwrite'], True );
     http:= TMiniHttpClient.Create;
     _authSession.setAuthHeader( http );
     http.addHeader( DropBoxConst.HEADER.ARG, argJsonString );
 
     dropBoxResult:= TDropBoxResult.Create;
     dropBoxResult.httpResult:= http.upload( DropBoxConst.URI.UPLOAD_SMALL, _localPath, _callback );
-    dropBoxResult.resultMessage:= dropBoxResult.httpResult.getHeader( DropBoxConst.HEADER.RESULT );
+    dropBoxResult.resultMessage:= dropBoxResult.httpResult.body;
 
     DropBoxClientProcessResult( dropBoxResult );
   finally
