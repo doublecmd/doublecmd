@@ -7,7 +7,7 @@ interface
 uses
   Classes, SysUtils,
   WfxPlugin,
-  uDropBoxClient,
+  uMacCloudCore,
   uMiniUtil;
 
 type
@@ -21,24 +21,9 @@ type
        1: (QuadPart : ULONGLONG);
   end;
 
-  { TMacCloudPlugin }
-
-  TMacCloudPlugin = class
-  strict private
-    _pluginNumber: Integer;
-    _progressProc: TProgressProcW;
-    _logProc: TLogProcW;
-    procedure pluginLogProc( const MsgType: Integer; const message: String );
-  public
-    constructor Create( const pluginNumber: Integer; const progressProc: TProgressProcW; const logProc: TLogProcW );
-    function progress( const sourceName: pwidechar; const targetName: pwidechar; const percentDone: Integer ): Integer;
-  public
-    property pluginNumber: Integer read _pluginNumber;
-  end;
-
   { TProgressCallback }
 
-  TProgressCallback = class( IDropBoxProgressCallback )
+  TProgressCallback = class( ICloudProgressCallback )
   private
     _serverPath: pwidechar;
     _localPath: pwidechar;
@@ -53,9 +38,9 @@ type
 
   TMacCloudUtil = class
   public
-    class function FileTimeToDateTime(AFileTime: FILETIME): TDateTime;
-    class function DateTimeToFileTime(ADateTimeUTC: TDateTime): FILETIME;
-    class procedure DbFileToWinFindData( dbFile: TDropBoxFile; var FindData:tWIN32FINDDATAW );
+    class function fileTimeToDateTime(AFileTime: FILETIME): TDateTime;
+    class function dateTimeToFileTime(ADateTimeUTC: TDateTime): FILETIME;
+    class procedure cloudFileToWinFindData( cloudFile: TCloudFile; var FindData:tWIN32FINDDATAW );
     class function exceptionToResult( const e: Exception ): Integer;
   end;
 
@@ -63,30 +48,6 @@ var
   macCloudPlugin: TMacCloudPlugin;
 
 implementation
-
-{ TMacCloudPlugin }
-
-constructor TMacCloudPlugin.Create( const pluginNumber: Integer; const progressProc: TProgressProcW; const logProc: TLogProcW );
-begin
-  _pluginNumber:= pluginNumber;
-  _progressProc:= progressProc;
-  _logProc:= logProc;
-  TLogUtil.setLogProc( @self.pluginLogProc );
-end;
-
-function TMacCloudPlugin.progress(const sourceName: pwidechar;
-  const targetName: pwidechar; const percentDone: Integer): Integer;
-begin
-  Result:= _progressProc( _pluginNumber, sourceName, targetName, percentDone );
-end;
-
-procedure TMacCloudPlugin.pluginLogProc(const MsgType: Integer; const message: String);
-var
-  buffer: Array [0..1024*10-1] of widechar;
-begin
-  TStringUtil.stringToWidechars( buffer, 'MacCloud: ' + message, sizeof(buffer) );
-  _logProc( _pluginNumber, MsgType, buffer );
-end;
 
 { TProgressCallback }
 
@@ -158,22 +119,22 @@ begin
     Result:= FS_FILE_NOTSUPPORTED;
 end;
 
-class procedure TMacCloudUtil.DbFileToWinFindData( dbFile: TDropBoxFile; var FindData:tWIN32FINDDATAW );
+class procedure TMacCloudUtil.cloudFileToWinFindData( cloudFile: TCloudFile; var FindData:tWIN32FINDDATAW );
 var
   li: ULARGE_INTEGER;
 begin
   FillChar(FindData, SizeOf(FindData), 0);
-  if dbFile.isFolder then
+  if cloudFile.isFolder then
     FindData.dwFileAttributes:= FILE_ATTRIBUTE_DIRECTORY
   else
     FindData.dwFileAttributes:= 0;
-  li.QuadPart:= dbFile.size;
+  li.QuadPart:= cloudFile.size;
   FindData.nFileSizeLow:= li.LowPart;
   FindData.nFileSizeHigh:= li.HighPart;
-  FindData.ftCreationTime:= TMacCloudUtil.DateTimeToFileTime( dbFile.clientModified );
-  FindData.ftLastWriteTime:= TMacCloudUtil.DateTimeToFileTime( dbFile.serverModified );
-  TStringUtil.stringToWidechars( FindData.cFileName, dbFile.name, sizeof(FindData.cFileName) );
-  dbFile.Free;
+  FindData.ftCreationTime:= TMacCloudUtil.DateTimeToFileTime( cloudFile.creationTime );
+  FindData.ftLastWriteTime:= TMacCloudUtil.DateTimeToFileTime( cloudFile.modificationTime );
+  TStringUtil.stringToWidechars( FindData.cFileName, cloudFile.name, sizeof(FindData.cFileName) );
+  cloudFile.Free;
 end;
 
 end.

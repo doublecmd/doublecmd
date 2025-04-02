@@ -13,14 +13,14 @@ interface
 uses
   Classes, SysUtils,
   WfxPlugin,
+  uMacCloudCore, uMacCloudUtil,
   uDropBoxClient,
-  uMacCloudUtil,
   uMiniUtil;
 
 function FsInitW(PluginNr:integer;pProgressProc:tProgressProcW;pLogProc:tLogProcW;pRequestProc:tRequestProcW):integer; cdecl;
 function FsFindFirstW(path:pwidechar;var FindData:tWIN32FINDDATAW):thandle; cdecl;
-function FsFindNextW(Hdl:thandle;var FindData:tWIN32FINDDATAW):bool; cdecl;
-function FsFindClose(Hdl:thandle):integer; cdecl;
+function FsFindNextW(handle:thandle;var FindData:tWIN32FINDDATAW):bool; cdecl;
+function FsFindClose(handle:thandle):integer; cdecl;
 function FsGetFileW(RemoteName,LocalName:pwidechar;CopyFlags:integer;RemoteInfo:pRemoteInfo):integer; cdecl;
 function FsPutFileW(LocalName,RemoteName:pwidechar;CopyFlags:integer):integer; cdecl;
 function FsMkDirW(RemoteDir:pwidechar):bool; cdecl;
@@ -32,39 +32,36 @@ procedure FsGetDefRootName(DefRootName:pchar;maxlen:integer); cdecl;
 
 implementation
 
-var
-  client: TDropBoxClient;
+function client: TCloudDriver;
+begin
+  Result:= cloudConnectionManager.get('rich').driver;
+end;
 
-function FsInitW(PluginNr:integer;pProgressProc:tProgressProcW;pLogProc:tLogProcW;
-                pRequestProc:tRequestProcW):integer; cdecl;
-var
-  config: TDropBoxConfig;
+function FsInitW(
+  PluginNr: Integer;
+  pProgressProc: TProgressProcW;
+  pLogProc: TLogProcW;
+  pRequestProc: TRequestProcW ): Integer; cdecl;
 begin
   macCloudPlugin:= TMacCloudPlugin.Create( PluginNr, pProgressProc, pLogProc );
-  config:= TDropBoxConfig.Create( 'ahj0s9xia6i61gh', 'dc2ea085a05ac273a://dropbox/auth' );
-  client:= TDropBoxClient.Create( config );
-  try
-    client.authorize;
-  except
-    on e: Exception do
-      TMacCloudUtil.exceptionToResult( e );
-  end;
   Result:= 0
 end;
 
-function FsFindFirstW(path:pwidechar;var FindData:tWIN32FINDDATAW):thandle; cdecl;
+function FsFindFirstW(
+  path:pwidechar;
+  var FindData:tWIN32FINDDATAW ): THandle; cdecl;
 var
-  dbFile: TDropBoxFile;
+  cloudFile: TCloudFile;
 begin
   try
     client.listFolderBegin( TStringUtil.widecharsToString(path) );
-    dbFile:= client.listFolderGetNextFile;
-    if dbFile = nil then begin
+    cloudFile:= client.listFolderGetNextFile;
+    if cloudFile = nil then begin
       Result:= wfxInvalidHandle;
       Exit;
     end;
 
-    TMacCloudUtil.DbFileToWinFindData( dbFile, FindData );
+    TMacCloudUtil.cloudFileToWinFindData( cloudFile, FindData );
     Result:= 0;
   except
     on e: Exception do begin
@@ -74,18 +71,20 @@ begin
   end;
 end;
 
-function FsFindNextW(Hdl:thandle;var FindData:tWIN32FINDDATAW):bool; cdecl;
+function FsFindNextW(
+  handle: THandle;
+  var FindData:tWIN32FINDDATAW): Bool; cdecl;
 var
-  dbFile: TDropBoxFile;
+  cloudFile: TCloudFile;
 begin
   try
-    dbFile:= client.listFolderGetNextFile;
-    if dbFile = nil then begin
+    cloudFile:= client.listFolderGetNextFile;
+    if cloudFile = nil then begin
       Result:= False;
       Exit;
     end;
 
-    TMacCloudUtil.DbFileToWinFindData( dbFile, FindData );
+    TMacCloudUtil.cloudFileToWinFindData( cloudFile, FindData );
     Result:= True;
   except
     on e: Exception do begin
@@ -95,7 +94,7 @@ begin
   end;
 end;
 
-function FsFindClose(Hdl:thandle):integer; cdecl;
+function FsFindClose( handle: THandle ): Integer; cdecl;
 begin
   Result:= 0;
   try
@@ -107,8 +106,11 @@ begin
   end;
 end;
 
-function FsGetFileW(RemoteName,LocalName:pwidechar;CopyFlags:integer;
-  RemoteInfo:pRemoteInfo):integer; cdecl;
+function FsGetFileW(
+  RemoteName: pwidechar;
+  LocalName: pwidechar;
+  CopyFlags: Integer;
+  RemoteInfo: pRemoteInfo ): Integer; cdecl;
 var
   serverPath: String;
   localPath: String;
@@ -160,7 +162,10 @@ begin
   end;
 end;
 
-function FsPutFileW(LocalName,RemoteName:pwidechar;CopyFlags:integer):integer; cdecl;
+function FsPutFileW(
+  LocalName: pwidechar;
+  RemoteName: pwidechar;
+  CopyFlags: Integer ): Integer; cdecl;
 const
   FS_EXISTS = FS_COPYFLAGS_EXISTS_SAMECASE or FS_COPYFLAGS_EXISTS_DIFFERENTCASE;
 var
@@ -211,7 +216,7 @@ begin
   end;
 end;
 
-function FsMkDirW(RemoteDir: pwidechar): bool; cdecl;
+function FsMkDirW( RemoteDir: pwidechar ): Bool; cdecl;
 var
   path: String;
 begin
@@ -227,7 +232,7 @@ begin
   end;
 end;
 
-function FsDeleteFileW(RemoteName: pwidechar): bool; cdecl;
+function FsDeleteFileW( RemoteName: pwidechar ): Bool; cdecl;
 var
   path: String;
 begin
@@ -243,7 +248,7 @@ begin
   end;
 end;
 
-function FsRemoveDirW(RemoteName: pwidechar): bool; cdecl;
+function FsRemoveDirW( RemoteName: pwidechar ): Bool; cdecl;
 var
   path: String;
 begin
@@ -259,8 +264,11 @@ begin
   end;
 end;
 
-function FsRenMovFileW(OldName, NewName: pwidechar; Move, OverWrite: bool;
-  RemoteInfo: pRemoteInfo): integer; cdecl;
+function FsRenMovFileW(
+  OldName: pwidechar;
+  NewName: pwidechar;
+  Move, OverWrite: Bool;
+  RemoteInfo: pRemoteInfo ): Integer; cdecl;
 var
   oldUtf8Path: String;
   newUtf8Path: String;
@@ -283,14 +291,30 @@ begin
   end;
 end;
 
-function FsGetBackgroundFlags:integer; cdecl;
+function FsGetBackgroundFlags: Integer; cdecl;
 begin
   Result:= BG_DOWNLOAD or BG_UPLOAD{ or BG_ASK_USER};
 end;
 
-procedure FsGetDefRootName(DefRootName: pchar; maxlen: integer); cdecl;
+procedure FsGetDefRootName( DefRootName: pchar; maxlen: Integer ); cdecl;
 begin
   strlcopy( DefRootName, 'DropBox', maxlen );
 end;
+
+procedure init;
+var
+  driver: TCloudDriver;
+  connection: TCloudConnection;
+begin
+  dropBoxConfig:= TDropBoxConfig.Create( 'ahj0s9xia6i61gh', 'dc2ea085a05ac273a://dropbox/auth' );
+  cloudDriverManager.register( TDropBoxClient );
+
+  driver:= cloudDriverManager.createInstance( 'DropBox' );
+  connection:= TCloudConnection.Create( 'rich', driver );
+  cloudConnectionManager.add( connection );
+end;
+
+initialization
+  init;
 
 end.

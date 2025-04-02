@@ -14,7 +14,7 @@ interface
 uses
   Classes, SysUtils, syncobjs, Generics.Collections, DateUtils,
   CocoaAll, uMiniCocoa,
-  uMiniHttpClient, uMiniUtil;
+  uMacCloudCore, uMiniHttpClient, uMiniUtil;
 
 type
 
@@ -33,29 +33,6 @@ type
   EDropBoxConflictException = class( EDropBoxException );
   EDropBoxPermissionException = class( EDropBoxException );
   EDropBoxRateLimitException = class( EDropBoxException );
-
-  { TDropBoxFile }
-
-  TDropBoxFile = class
-  private
-    _dotTag: String;
-    _name: String;
-    _size: QWord;
-    _clientModified: TDateTime;
-    _serverModified: TDateTime;
-  public
-    function isFolder: Boolean;
-  public
-    property dotTag: String read _dotTag write _dotTag;
-    property name: String read _name write _name;
-    property size: QWord read _size write _size;
-    property clientModified: TDateTime read _clientModified write _clientModified;
-    property serverModified: TDateTime read _serverModified write _serverModified;
-  end;
-
-  TDropBoxFiles = specialize TList<TDropBoxFile>;
-
-  IDropBoxProgressCallback = IMiniHttpDataCallback;
 
   { TDropBoxConfig }
 
@@ -120,7 +97,7 @@ type
   private
     _authSession: TDropBoxAuthPKCESession;
     _path: String;
-    _files: TDropBoxFiles;
+    _files: TCloudFiles;
     _cursor: String;
     _hasMore: Boolean;
   private
@@ -130,7 +107,7 @@ type
   public
     constructor Create( const authSession: TDropBoxAuthPKCESession; const path: String );
     destructor Destroy; override;
-    function getNextFile: TDropBoxFile;
+    function getNextFile: TCloudFile;
   end;
 
   { TDropBoxDownloadSession }
@@ -140,13 +117,13 @@ type
     _authSession: TDropBoxAuthPKCESession;
     _serverPath: String;
     _localPath: String;
-    _callback: IDropBoxProgressCallback;
+    _callback: ICloudProgressCallback;
   public
     constructor Create(
       const authSession: TDropBoxAuthPKCESession;
       const serverPath: String;
       const localPath: String;
-      const callback: IDropBoxProgressCallback );
+      const callback: ICloudProgressCallback );
     procedure download;
   end;
 
@@ -158,7 +135,7 @@ type
     _serverPath: String;
     _localPath: String;
     _localFileSize: Integer;
-    _callback: IDropBoxProgressCallback;
+    _callback: ICloudProgressCallback;
   private
     procedure uploadSmall;
     procedure uploadLarge;
@@ -167,7 +144,7 @@ type
       const authSession: TDropBoxAuthPKCESession;
       const serverPath: String;
       const localPath: String;
-      const callback: IDropBoxProgressCallback );
+      const callback: ICloudProgressCallback );
     procedure upload;
   end;
 
@@ -210,34 +187,40 @@ type
 
   { TDropBoxClient }
 
-  TDropBoxClient = class
+  TDropBoxClient = class( TCloudDriver )
   private
     _config: TDropBoxConfig;
     _authSession: TDropBoxAuthPKCESession;
     _listFolderSession: TDropBoxListFolderSession;
   public
+    class function isMatched(const name: String): Boolean; override;
+    class function createInstance: TCloudDriver; override;
+  public
     constructor Create( const config: TDropBoxConfig );
     destructor Destroy; override;
   public
-    function authorize: Boolean;
+    function authorize: Boolean; override;
   public
-    procedure listFolderBegin( const path: String );
-    function  listFolderGetNextFile: TDropBoxFile;
-    procedure listFolderEnd;
+    procedure listFolderBegin( const path: String ); override;
+    function  listFolderGetNextFile: TCloudFile; override;
+    procedure listFolderEnd; override;
   public
     procedure download(
       const serverPath: String;
       const localPath: String;
-      const callback: IDropBoxProgressCallback );
+      const callback: ICloudProgressCallback ); override;
     procedure upload(
       const serverPath: String;
       const localPath: String;
-      const callback: IDropBoxProgressCallback );
+      const callback: ICloudProgressCallback ); override;
   public
-    procedure createFolder( const path: String );
-    procedure delete(  const path: String );
-    procedure copyOrMove( const fromPath: String; const toPath: String; const needToMove: Boolean );
+    procedure createFolder( const path: String ); override;
+    procedure delete( const path: String ); override;
+    procedure copyOrMove( const fromPath: String; const toPath: String; const needToMove: Boolean ); override;
   end;
+
+var
+  dropBoxConfig: TDropBoxConfig;
 
 implementation
 
@@ -376,13 +359,6 @@ begin
       raise;
     end;
   end;
-end;
-
-{ TDropBoxFile }
-
-function TDropBoxFile.isFolder: Boolean;
-begin
-  Result:= _dotTag = 'folder';
 end;
 
 { TDropBoxConfig }
@@ -669,7 +645,7 @@ begin
 
     if Assigned(_files) then
       _files.Free;
-    _files:= TDropBoxFiles.Create;
+    _files:= TCloudFiles.Create;
     if httpResult.resultCode = 200 then
       analyseListResult( httpResult.body );
 
@@ -714,7 +690,7 @@ var
   json: NSDictionary;
   jsonEntries: NSArray;
   jsonItem: NSDictionary;
-  dbFile: TDropBoxFile;
+  cloudFile: TCloudFile;
 
   function toDateTime( const key: String ): TDateTime;
   var
@@ -735,13 +711,13 @@ begin
   if jsonEntries = nil then
     Exit;
   for jsonItem in jsonEntries do begin
-    dbFile:= TDropBoxFile.Create;
-    dbFile.dotTag:= TJsonUtil.getString( jsonItem, '.tag' );
-    dbFile.name:= TJsonUtil.getString( jsonItem, 'name' );
-    dbFile.size:= TJsonUtil.getInteger( jsonItem, 'size' );
-    dbFile.clientModified:= toDateTime( 'client_modified' );
-    dbFile.serverModified:= toDateTime( 'server_modified' );
-    _files.Add( dbFile );
+    cloudFile:= TCloudFile.Create;
+    cloudFile.isFolder:= ( TJsonUtil.getString(jsonItem,'.tag')='folder' );
+    cloudFile.name:= TJsonUtil.getString( jsonItem, 'name' );
+    cloudFile.size:= TJsonUtil.getInteger( jsonItem, 'size' );
+    cloudFile.creationTime:= toDateTime( 'client_modified' );
+    cloudFile.modificationTime:= toDateTime( 'server_modified' );
+    _files.Add( cloudFile );
   end;
 end;
 
@@ -757,8 +733,8 @@ begin
   FreeAndNil( _files );
 end;
 
-function TDropBoxListFolderSession.getNextFile: TDropBoxFile;
-  function popFirst: TDropBoxFile;
+function TDropBoxListFolderSession.getNextFile: TCloudFile;
+  function popFirst: TCloudFile;
   begin
     if _files.Count > 0 then begin
       Result:= _files.First;
@@ -782,7 +758,7 @@ constructor TDropBoxDownloadSession.Create(
   const authSession: TDropBoxAuthPKCESession;
   const serverPath: String;
   const localPath: String;
-  const callback: IDropBoxProgressCallback );
+  const callback: ICloudProgressCallback );
 begin
   _authSession:= authSession;
   _serverPath:= serverPath;
@@ -817,7 +793,7 @@ end;
 
 constructor TDropBoxUploadSession.Create(
   const authSession: TDropBoxAuthPKCESession; const serverPath: String;
-  const localPath: String; const callback: IDropBoxProgressCallback);
+  const localPath: String; const callback: ICloudProgressCallback);
 begin
   _authSession:= authSession;
   _serverPath:= serverPath;
@@ -1099,6 +1075,16 @@ end;
 
 { TDropBoxClient }
 
+class function TDropBoxClient.isMatched(const name: String): Boolean;
+begin
+  Result:= name='DropBox';
+end;
+
+class function TDropBoxClient.createInstance: TCloudDriver;
+begin
+  Result:= TDropBoxClient.Create( dropBoxConfig );
+end;
+
 constructor TDropBoxClient.Create(const config: TDropBoxConfig);
 begin
   _config:= config;
@@ -1125,7 +1111,7 @@ begin
   _listFolderSession.listFolderFirst;
 end;
 
-function TDropBoxClient.listFolderGetNextFile: TDropBoxFile;
+function TDropBoxClient.listFolderGetNextFile: TCloudFile;
 begin
   Result:= _listFolderSession.getNextFile;
 end;
@@ -1138,7 +1124,7 @@ end;
 procedure TDropBoxClient.download(
   const serverPath: String;
   const localPath: String;
-  const callback: IDropBoxProgressCallback );
+  const callback: ICloudProgressCallback );
 var
   session: TDropBoxDownloadSession;
 begin
@@ -1153,7 +1139,7 @@ end;
 procedure TDropBoxClient.upload(
   const serverPath: String;
   const localPath: String;
-  const callback: IDropBoxProgressCallback);
+  const callback: ICloudProgressCallback);
 var
   session: TDropBoxUploadSession;
 begin

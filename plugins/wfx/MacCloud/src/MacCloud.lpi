@@ -58,6 +58,16 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="uMiniUtil"/>
       </Unit>
+      <Unit>
+        <Filename Value="umaccloudutil.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uMacCloudUtil"/>
+      </Unit>
+      <Unit>
+        <Filename Value="umaccloudcore.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uMacCloudCore"/>
+      </Unit>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
