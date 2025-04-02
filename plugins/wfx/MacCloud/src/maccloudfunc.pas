@@ -14,6 +14,7 @@ uses
   Classes, SysUtils,
   WfxPlugin,
   uDropBoxClient,
+  uMacCloudUtil,
   uMiniUtil;
 
 function FsInitW(PluginNr:integer;pProgressProc:tProgressProcW;pLogProc:tLogProcW;pRequestProc:tRequestProcW):integer; cdecl;
@@ -32,115 +33,23 @@ procedure FsGetDefRootName(DefRootName:pchar;maxlen:integer); cdecl;
 implementation
 
 var
-  PluginNumber: integer;
-  ProgressProc: TProgressProcW;
-  LogProc: TLogProcW;
-  RequestProc: TRequestProcW;
-
   client: TDropBoxClient;
-
-type
-
-  ULONGLONG  = qword;
-
-  ULARGE_INTEGER = record
-     case byte of
-       0: (LowPart : DWORD;
-           HighPart : DWORD);
-       1: (QuadPart : ULONGLONG);
-    end;
-
-function FileTimeToDateTime(AFileTime: FILETIME): TDateTime;
-var
-  li: ULARGE_INTEGER;
-const
-  OA_ZERO_TICKS = UInt64(94353120000000000);
-  TICKS_PER_DAY = UInt64(864000000000);
-begin
-  // Convert a FILETIME (which is UTC by definition), into a UTC TDateTime.
-
-  // Copy FILETIME into LARGE_INTEGER to allow UInt64 access without alignment faults.
-  li.LowPart := AFileTime.dwLowDateTime;
-  li.HighPart := AFileTime.dwHighDateTime;
-  Result := (Real(li.QuadPart) - OA_ZERO_TICKS) / TICKS_PER_DAY;
-end;
-
-function DateTimeToFileTime(ADateTimeUTC: TDateTime): FILETIME;
-var
-  li: ULARGE_INTEGER;
-const
-  OA_ZERO_TICKS = UInt64(94353120000000000);
-  TICKS_PER_DAY = UInt64(864000000000);
-begin
-  // Convert a UTC TDateTime into a FILETIME (which is UTC by definition).
-
-  li.QuadPart := Round(ADateTimeUtc*TICKS_PER_DAY + OA_ZERO_TICKS);
-  Result.dwLowDateTime := li.LowPart;
-  Result.dwHighDateTime := li.HighPart;
-end;
-
-procedure wfxLogProc( const MsgType: Integer; const message: String );
-var
-  buffer: Array [0..1024*10-1] of widechar;
-begin
-  TStringUtil.stringToWidechars( buffer, 'MacCloud: ' + message, sizeof(buffer) );
-  LogProc( PluginNumber, MsgType, buffer );
-end;
-
-function exceptionToResult( const e: Exception ): Integer;
-begin
-  TLogUtil.log( msgtype_importanterror, e.ClassName + ': ' + e.Message );
-
-  if e is EAbort then
-    Result:= FS_FILE_USERABORT
-  else if e is EFileNotFoundException then
-    Result:= FS_FILE_NOTFOUND
-  else if e is EInOutError then
-    Result:= FS_FILE_WRITEERROR
-  else
-    Result:= FS_FILE_NOTSUPPORTED;
-end;
 
 function FsInitW(PluginNr:integer;pProgressProc:tProgressProcW;pLogProc:tLogProcW;
                 pRequestProc:tRequestProcW):integer; cdecl;
 var
   config: TDropBoxConfig;
 begin
-  PluginNumber:= PluginNr;
-  ProgressProc:= pProgressProc;
-  LogProc:= pLogProc;
-  RequestProc:= pRequestProc;
-
-  TLogUtil.setLogProc( @wfxLogProc );
-
+  macCloudPlugin:= TMacCloudPlugin.Create( PluginNr, pProgressProc, pLogProc );
   config:= TDropBoxConfig.Create( 'ahj0s9xia6i61gh', 'dc2ea085a05ac273a://dropbox/auth' );
   client:= TDropBoxClient.Create( config );
   try
     client.authorize;
   except
     on e: Exception do
-      exceptionToResult( e );
+      TMacCloudUtil.exceptionToResult( e );
   end;
   Result:= 0
-end;
-
-
-procedure DbFileToWinFindData( dbFile: TDropBoxFile; var FindData:tWIN32FINDDATAW );
-var
-  li: ULARGE_INTEGER;
-begin
-  FillChar(FindData, SizeOf(FindData), 0);
-  if dbFile.isFolder then
-    FindData.dwFileAttributes:= FILE_ATTRIBUTE_DIRECTORY
-  else
-    FindData.dwFileAttributes:= 0;
-  li.QuadPart:= dbFile.size;
-  FindData.nFileSizeLow:= li.LowPart;
-  FindData.nFileSizeHigh:= li.HighPart;
-  FindData.ftCreationTime:= DateTimeToFileTime( dbFile.clientModified );
-  FindData.ftLastWriteTime:= DateTimeToFileTime( dbFile.serverModified );
-  TStringUtil.stringToWidechars( FindData.cFileName, dbFile.name, sizeof(FindData.cFileName) );
-  dbFile.Free;
 end;
 
 function FsFindFirstW(path:pwidechar;var FindData:tWIN32FINDDATAW):thandle; cdecl;
@@ -155,11 +64,11 @@ begin
       Exit;
     end;
 
-    DbFileToWinFindData( dbFile, FindData );
+    TMacCloudUtil.DbFileToWinFindData( dbFile, FindData );
     Result:= 0;
   except
     on e: Exception do begin
-      exceptionToResult( e );
+      TMacCloudUtil.exceptionToResult( e );
       Result:= wfxInvalidHandle;
     end;
   end;
@@ -176,11 +85,11 @@ begin
       Exit;
     end;
 
-    DbFileToWinFindData( dbFile, FindData );
+    TMacCloudUtil.DbFileToWinFindData( dbFile, FindData );
     Result:= True;
   except
     on e: Exception do begin
-      exceptionToResult( e );
+      TMacCloudUtil.exceptionToResult( e );
       Result:= False;
     end;
   end;
@@ -193,31 +102,10 @@ begin
     client.listFolderEnd;
   except
     on e: Exception do begin
-      exceptionToResult( e );
+      TMacCloudUtil.exceptionToResult( e );
     end;
   end;
 end;
-
-type
-
-  { TProgressCallback }
-
-  TProgressCallback = class( IDropBoxProgressCallback )
-  private
-    _progressProc: TProgressProcW;
-    _pluginNumber: Integer;
-    _serverPath: pwidechar;
-    _localPath: pwidechar;
-    _totalBytes: Integer;
-  public
-    constructor Create(
-      const progressProc: TProgressProcW;
-      const pluginNumber: Integer;
-      const serverPath: pwidechar;
-      const localPath: pwidechar;
-      const totalBytes: Integer );
-    function progress( const accumulatedBytes: Integer ): Boolean;
-  end;
 
 function FsGetFileW(RemoteName,LocalName:pwidechar;CopyFlags:integer;
   RemoteInfo:pRemoteInfo):integer; cdecl;
@@ -249,8 +137,6 @@ var
       Exit( FS_FILE_EXISTS );
 
     callback:= TProgressCallback.Create(
-      ProgressProc,
-      PluginNumber,
       RemoteName,
       LocalName,
       totalBytes );
@@ -270,7 +156,7 @@ begin
     Result:= doGetFile;
   except
     on e: Exception do
-      Result:= exceptionToResult( e );
+      Result:= TMacCloudUtil.exceptionToResult( e );
   end;
 end;
 
@@ -283,7 +169,6 @@ var
   callback: TProgressCallback;
   totalBytes: Integer;
   exits: Boolean;
-  ret: Boolean;
 
   function doPutFile: Integer;
   begin
@@ -303,8 +188,6 @@ var
       Exit( FS_FILE_EXISTS );
 
     callback:= TProgressCallback.Create(
-      ProgressProc,
-      PluginNumber,
       RemoteName,
       LocalName,
       totalBytes );
@@ -324,7 +207,7 @@ begin
     Result:= doPutFile;
   except
     on e: Exception do
-      Result:= exceptionToResult( e );
+      Result:= TMacCloudUtil.exceptionToResult( e );
   end;
 end;
 
@@ -338,7 +221,7 @@ begin
     Result:= True;
   except
     on e: Exception do begin
-      exceptionToResult( e );
+      TMacCloudUtil.exceptionToResult( e );
       Result:= False;
     end;
   end;
@@ -354,7 +237,7 @@ begin
     Result:= True;
   except
     on e: Exception do begin
-      exceptionToResult( e );
+      TMacCloudUtil.exceptionToResult( e );
       Result:= False;
     end;
   end;
@@ -370,7 +253,7 @@ begin
     Result:= True;
   except
     on e: Exception do begin
-      exceptionToResult( e );
+      TMacCloudUtil.exceptionToResult( e );
       Result:= False;
     end;
   end;
@@ -387,16 +270,16 @@ begin
     oldUtf8Path:= TStringUtil.widecharsToString( OldName );
     newUtf8Path:= TStringUtil.widecharsToString( NewName );
 
-    ret:= ProgressProc( PluginNumber, oldName, newName, 0 ) = 0;
+    ret:= macCloudPlugin.progress( oldName, newName, 0 ) = 0;
     if ret then begin
       client.copyOrMove( oldUtf8Path, newUtf8Path, Move );
-      ProgressProc( PluginNumber, oldName, newName, 100 );
+      macCloudPlugin.progress( oldName, newName, 100 );
       Result:= FS_FILE_OK
     end else
       Result:= FS_FILE_USERABORT;
   except
     on e: Exception do
-      Result:= exceptionToResult( e );
+      Result:= TMacCloudUtil.exceptionToResult( e );
   end;
 end;
 
@@ -408,36 +291,6 @@ end;
 procedure FsGetDefRootName(DefRootName: pchar; maxlen: integer); cdecl;
 begin
   strlcopy( DefRootName, 'DropBox', maxlen );
-end;
-
-
-{ TDownloadCallback }
-
-constructor TProgressCallback.Create(
-  const progressProc: TProgressProcW;
-  const pluginNumber: Integer;
-  const serverPath: pwidechar;
-  const localPath: pwidechar;
-  const totalBytes: Integer);
-begin
-  _progressProc:= progressProc;
-  _pluginNumber:= pluginNumber;
-  _serverPath:= serverPath;
-  _localPath:= localPath;
-  _totalBytes:= totalBytes;
-end;
-
-function TProgressCallback.progress(const accumulatedBytes: Integer): Boolean;
-var
-  percent: Integer;
-  ret: Integer;
-begin
-  if _totalBytes > 0 then
-    percent:= accumulatedBytes * 100 div _totalBytes
-  else
-    percent:= 50;
-  ret:= _progressProc( _pluginNumber, _serverPath, _localPath, percent );
-  Result:= (ret = 0);
 end;
 
 end.

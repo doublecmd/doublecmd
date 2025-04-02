@@ -82,14 +82,13 @@ type
     class function filesize( const path: String ): Integer;
   end;
 
-  TLogProc = procedure ( const MsgType: Integer; const message: String );
+  TLogProc = procedure ( const MsgType: Integer; const message: String ) of object;
 
   { TLogUtil }
 
   TLogUtil = class
   private class var
     _logProc: TLogProc;
-    _pluginNumber: Integer;
   public
     class procedure setLogProc( const logProc: TLogProc );
     class procedure log( const MsgType: Integer; const message: String );
@@ -103,6 +102,13 @@ const
 
   function CC_SHA256(data: Pointer; len: LongWord; md: Pointer): Pointer; cdecl; external;
 
+type
+  TConsoleLogger = class
+    procedure logProc( const MsgType: Integer; const message: String );
+  end;
+
+var
+  consoleLogger: TConsoleLogger;
 
 { THttpUtil }
 
@@ -362,7 +368,7 @@ begin
   Result:= NSArray( json.objectForKey( StringToNSString(key) ) );
 end;
 
-procedure defaultLogProc( const MsgType: Integer; const message: String );
+procedure TConsoleLogger.logProc( const MsgType: Integer; const message: String );
 begin
   Writeln( 'DefaultLogger: ', message );
 end;
@@ -458,7 +464,11 @@ begin
 end;
 
 initialization
-  TLogUtil.setLogProc( @defaultLogProc );
+  consoleLogger:= TConsoleLogger.Create;
+  TLogUtil.setLogProc( @consoleLogger.logProc );
+
+finalization
+  FreeAndNil( consoleLogger );
 
 end.
 
