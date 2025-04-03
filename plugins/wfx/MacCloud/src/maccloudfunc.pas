@@ -32,6 +32,20 @@ procedure FsGetDefRootName(DefRootName:pchar;maxlen:integer); cdecl;
 
 implementation
 
+type
+
+  { TCloudRootListFolder }
+
+  TCloudRootListFolder = class( TCloudListFolder )
+  private
+    _list: TFPList;
+  public
+    procedure listFolderBegin(const path: String); override;
+    function listFolderGetNextFile: TCloudFile; override;
+    procedure listFolderEnd; override;
+  end;
+
+
 function client: TCloudDriver;
 begin
   Result:= cloudConnectionManager.get('rich').driver;
@@ -48,19 +62,27 @@ begin
 end;
 
 function FsFindFirstW(
-  path:pwidechar;
-  var FindData:tWIN32FINDDATAW ): THandle; cdecl;
+  path: pwidechar;
+  var FindData: TWIN32FINDDATAW ): THandle; cdecl;
 var
+  utf8Path: String;
   cloudFile: TCloudFile;
+  listFolder: TCloudListFolder;
 begin
   try
-    client.listFolderBegin( TStringUtil.widecharsToString(path) );
-    cloudFile:= client.listFolderGetNextFile;
+    utf8Path:= TStringUtil.widecharsToString(path);
+    if utf8Path = PathDelim then begin
+      listFolder:= TCloudRootListFolder.Create;
+    end else begin
+      listFolder:= client;
+    end;
+    Result:= THandle( listFolder );
+    listFolder.listFolderBegin( utf8Path );
+    cloudFile:= listFolder.listFolderGetNextFile;
     if cloudFile = nil then
       Exit( wfxInvalidHandle );
 
     TMacCloudUtil.cloudFileToWinFindData( cloudFile, FindData );
-    Result:= 0;
   except
     on e: Exception do begin
       TMacCloudUtil.exceptionToResult( e );
@@ -73,10 +95,12 @@ function FsFindNextW(
   handle: THandle;
   var FindData:tWIN32FINDDATAW ): Bool; cdecl;
 var
+  listFolder: TCloudListFolder;
   cloudFile: TCloudFile;
 begin
   try
-    cloudFile:= client.listFolderGetNextFile;
+    listFolder:= TCloudListFolder( handle );
+    cloudFile:= listFolder.listFolderGetNextFile;
     if cloudFile = nil then
       Exit( False );
 
@@ -91,10 +115,13 @@ begin
 end;
 
 function FsFindClose( handle: THandle ): Integer; cdecl;
+var
+  listFolder: TCloudListFolder;
 begin
   Result:= 0;
   try
-    client.listFolderEnd;
+    listFolder:= TCloudListFolder( handle );
+    listFolder.listFolderEnd;
   except
     on e: Exception do begin
       TMacCloudUtil.exceptionToResult( e );
@@ -308,6 +335,40 @@ begin
   driver:= cloudDriverManager.createInstance( 'DropBox' );
   connection:= TCloudConnection.Create( 'rich', driver );
   cloudConnectionManager.add( connection );
+end;
+
+{ TCloudRootListFolder }
+
+procedure TCloudRootListFolder.listFolderBegin(const path: String);
+var
+  cloudFile: TCloudFile;
+begin
+  _list:= TFPList.Create;
+  cloudFile:= TCloudFile.Create;
+  cloudFile.isFolder:= True;
+  cloudFile.name:= '<Add Connections>';
+  _list.Add( cloudFile );
+
+  cloudFile:= TCloudFile.Create;
+  cloudFile.isFolder:= True;
+  cloudFile.name:= 'rich';
+  _list.Add( cloudFile );
+end;
+
+function TCloudRootListFolder.listFolderGetNextFile: TCloudFile;
+begin
+  if _list.Count > 0 then begin
+    Result:= TCloudFile( _list.First );
+    _list.Delete( 0 );
+  end else begin
+    Result:= nil;
+  end;
+end;
+
+procedure TCloudRootListFolder.listFolderEnd;
+begin
+  FreeAndNil( _list );
+  self.Free;
 end;
 
 initialization

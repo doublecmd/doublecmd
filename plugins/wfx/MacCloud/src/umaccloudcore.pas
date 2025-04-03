@@ -45,16 +45,19 @@ type
 
   TCloudFiles = specialize TList<TCloudFile>;
 
-  TCloudDriver = class
+  TCloudListFolder = class
+  public
+    procedure listFolderBegin( const path: String ); virtual; abstract;
+    function  listFolderGetNextFile: TCloudFile; virtual; abstract;
+    procedure listFolderEnd; virtual; abstract;
+  end;
+
+  TCloudDriver = class( TCloudListFolder )
   public
     class function isMatched( const name: String ): Boolean; virtual; abstract;
     class function createInstance: TCloudDriver; virtual; abstract;
   public
     function authorize: Boolean; virtual; abstract;
-  public
-    procedure listFolderBegin( const path: String ); virtual; abstract;
-    function  listFolderGetNextFile: TCloudFile; virtual; abstract;
-    procedure listFolderEnd; virtual; abstract;
   public
     procedure download(
       const serverPath: String;
