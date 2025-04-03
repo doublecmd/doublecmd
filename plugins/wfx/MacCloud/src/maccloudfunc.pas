@@ -56,10 +56,8 @@ begin
   try
     client.listFolderBegin( TStringUtil.widecharsToString(path) );
     cloudFile:= client.listFolderGetNextFile;
-    if cloudFile = nil then begin
-      Result:= wfxInvalidHandle;
-      Exit;
-    end;
+    if cloudFile = nil then
+      Exit( wfxInvalidHandle );
 
     TMacCloudUtil.cloudFileToWinFindData( cloudFile, FindData );
     Result:= 0;
@@ -73,16 +71,14 @@ end;
 
 function FsFindNextW(
   handle: THandle;
-  var FindData:tWIN32FINDDATAW): Bool; cdecl;
+  var FindData:tWIN32FINDDATAW ): Bool; cdecl;
 var
   cloudFile: TCloudFile;
 begin
   try
     cloudFile:= client.listFolderGetNextFile;
-    if cloudFile = nil then begin
-      Result:= False;
-      Exit;
-    end;
+    if cloudFile = nil then
+      Exit( False );
 
     TMacCloudUtil.cloudFileToWinFindData( cloudFile, FindData );
     Result:= True;

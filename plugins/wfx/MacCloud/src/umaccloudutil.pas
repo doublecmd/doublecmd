@@ -76,7 +76,7 @@ end;
 
 { TMacCloudUtil }
 
-class function TMacCloudUtil.FileTimeToDateTime(AFileTime: FILETIME): TDateTime;
+class function TMacCloudUtil.fileTimeToDateTime(AFileTime: FILETIME): TDateTime;
 var
   li: ULARGE_INTEGER;
 const
@@ -91,7 +91,7 @@ begin
   Result := (Real(li.QuadPart) - OA_ZERO_TICKS) / TICKS_PER_DAY;
 end;
 
-class function TMacCloudUtil.DateTimeToFileTime(ADateTimeUTC: TDateTime): FILETIME;
+class function TMacCloudUtil.dateTimeToFileTime(ADateTimeUTC: TDateTime): FILETIME;
 var
   li: ULARGE_INTEGER;
 const
@@ -99,10 +99,14 @@ const
   TICKS_PER_DAY = UInt64(864000000000);
 begin
   // Convert a UTC TDateTime into a FILETIME (which is UTC by definition).
-
-  li.QuadPart := Round(ADateTimeUtc*TICKS_PER_DAY + OA_ZERO_TICKS);
-  Result.dwLowDateTime := li.LowPart;
-  Result.dwHighDateTime := li.HighPart;
+  if ADateTimeUTC = 0 then begin
+    Result.dwLowDateTime:= $FFFFFFFE;
+    Result.dwHighDateTime:= $FFFFFFFF;
+  end else begin
+    li.QuadPart:= Round(ADateTimeUtc*TICKS_PER_DAY + OA_ZERO_TICKS);
+    Result.dwLowDateTime:= li.LowPart;
+    Result.dwHighDateTime:= li.HighPart;
+  end;
 end;
 
 class function TMacCloudUtil.exceptionToResult( const e: Exception ): Integer;
@@ -131,8 +135,9 @@ begin
   li.QuadPart:= cloudFile.size;
   FindData.nFileSizeLow:= li.LowPart;
   FindData.nFileSizeHigh:= li.HighPart;
-  FindData.ftCreationTime:= TMacCloudUtil.DateTimeToFileTime( cloudFile.creationTime );
-  FindData.ftLastWriteTime:= TMacCloudUtil.DateTimeToFileTime( cloudFile.modificationTime );
+  FindData.ftCreationTime:= TMacCloudUtil.dateTimeToFileTime( 0 );
+  FindData.ftLastWriteTime:= TMacCloudUtil.dateTimeToFileTime( cloudFile.modificationTime );
+  FindData.ftLastAccessTime:= TMacCloudUtil.dateTimeToFileTime( 0 );
   TStringUtil.stringToWidechars( FindData.cFileName, cloudFile.name, sizeof(FindData.cFileName) );
   cloudFile.Free;
 end;
