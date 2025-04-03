@@ -17,7 +17,7 @@ unit uMiniHttpClient;
 interface
 
 uses
-  Classes, SysUtils, Generics.Collections,
+  Classes, SysUtils,
   MacOSAll, CocoaAll, uMiniUtil, uMiniCocoa;
 
 type
@@ -47,8 +47,6 @@ type
     Header: HttpHeaderConst;
     ContentType: HttpContentTypeConst;
   end;
-
-  TQueryItemsDictonary = specialize TDictionary<string, string>;
 
   { TMiniHttpResult }
 
