@@ -13,7 +13,7 @@ interface
 uses
   Classes, SysUtils,
   WfxPlugin,
-  uMacCloudCore, uMacCloudUtil,
+  uMacCloudCore, uMacCloudUtil, uMacCloudOptions,
   uDropBoxClient,
   uMiniUtil;
 
@@ -27,6 +27,7 @@ function FsMkDirW(RemoteDir:pwidechar):bool; cdecl;
 function FsDeleteFileW(RemoteName:pwidechar):bool; cdecl;
 function FsRemoveDirW(RemoteName:pwidechar):bool; cdecl;
 function FsRenMovFileW(OldName,NewName:pwidechar;Move,OverWrite:bool;RemoteInfo:pRemoteInfo):integer; cdecl;
+function FsExecuteFileW(MainWin:HWND;RemoteName,Verb:pwidechar):integer; cdecl;
 function FsGetBackgroundFlags:integer; cdecl;
 procedure FsGetDefRootName(DefRootName:pchar;maxlen:integer); cdecl;
 
@@ -45,12 +46,6 @@ type
     procedure listFolderEnd; override;
   end;
 
-
-function client: TCloudDriver;
-begin
-  Result:= cloudConnectionManager.get('rich').driver;
-end;
-
 function FsInitW(
   PluginNr: Integer;
   pProgressProc: TProgressProcW;
@@ -58,37 +53,52 @@ function FsInitW(
   pRequestProc: TRequestProcW ): Integer; cdecl;
 begin
   macCloudPlugin:= TMacCloudPlugin.Create( PluginNr, pProgressProc, pLogProc );
-  Result:= 0
+  Result:= 0;
 end;
 
 function FsFindFirstW(
   path: pwidechar;
   var FindData: TWIN32FINDDATAW ): THandle; cdecl;
 var
-  utf8Path: String;
-  cloudFile: TCloudFile;
+  parser: TCloudPathParser;
   listFolder: TCloudListFolder;
-begin
-  try
+
+  function doFindFirst: THandle;
+  var
+    utf8Path: String;
+    cloudFile: TCloudFile;
+  begin
     utf8Path:= TStringUtil.widecharsToString(path);
-    if utf8Path = PathDelim then begin
-      listFolder:= TCloudRootListFolder.Create;
-    end else begin
-      listFolder:= client;
-    end;
+    parser:= TCloudPathParser.Create( utf8Path );
+    if utf8Path = PathDelim then
+      listFolder:= TCloudRootListFolder.Create
+    else
+      listFolder:= parser.driver;
     Result:= THandle( listFolder );
-    listFolder.listFolderBegin( utf8Path );
+    listFolder.listFolderBegin( parser.driverPath );
     cloudFile:= listFolder.listFolderGetNextFile;
     if cloudFile = nil then
       Exit( wfxInvalidHandle );
 
     TMacCloudUtil.cloudFileToWinFindData( cloudFile, FindData );
+  end;
+
+begin
+  try
+    try
+      Result:= doFindFirst;
+    finally
+      FreeAndNil( parser );
+    end;
   except
     on e: Exception do begin
       TMacCloudUtil.exceptionToResult( e );
       Result:= wfxInvalidHandle;
     end;
   end;
+
+  if (Result=wfxInvalidHandle) and Assigned(listFolder) then
+    listFolder.listFolderEnd;
 end;
 
 function FsFindNextW(
@@ -134,17 +144,21 @@ function FsGetFileW(
   LocalName: pwidechar;
   CopyFlags: Integer;
   RemoteInfo: pRemoteInfo ): Integer; cdecl;
+
 var
-  serverPath: String;
-  localPath: String;
-  callback: TProgressCallback;
-  totalBytes: Integer;
-  li: ULARGE_INTEGER;
-  exits: Boolean;
+  parser: TCloudPathParser;
+  callback: TCloudProgressCallback;
 
   function doGetFile: Integer;
+  var
+    serverPath: String;
+    localPath: String;
+    totalBytes: Integer;
+    li: ULARGE_INTEGER;
+    exits: Boolean;
   begin
-    serverPath:= TStringUtil.widecharsToString( RemoteName );
+    parser:= TCloudPathParser.Create( TStringUtil.widecharsToString(RemoteName) );
+    serverPath:= parser.driverPath;
     localPath:= TStringUtil.widecharsToString( LocalName );
     li.LowPart:= RemoteInfo^.SizeLow;
     li.HighPart:= RemoteInfo^.SizeHigh;
@@ -161,24 +175,24 @@ var
     if exits and (CopyFlags and FS_COPYFLAGS_OVERWRITE = 0) then
       Exit( FS_FILE_EXISTS );
 
-    callback:= TProgressCallback.Create(
+    callback:= TCloudProgressCallback.Create(
       RemoteName,
       LocalName,
       totalBytes );
-
-    try
-      callback.progress( 0 );
-      client.download( serverPath, localPath, callback );
-    finally
-      callback.Free;
-    end;
+    callback.progress( 0 );
+    parser.driver.download( serverPath, localPath, callback );
 
     Result:= FS_FILE_OK;
   end;
 
 begin
   try
-    Result:= doGetFile;
+    try
+      Result:= doGetFile;
+    finally
+      FreeAndNil( parser );
+      FreeAndNil( callback );
+    end;
   except
     on e: Exception do
       Result:= TMacCloudUtil.exceptionToResult( e );
@@ -192,15 +206,18 @@ function FsPutFileW(
 const
   FS_EXISTS = FS_COPYFLAGS_EXISTS_SAMECASE or FS_COPYFLAGS_EXISTS_DIFFERENTCASE;
 var
-  serverPath: String;
-  localPath: String;
-  callback: TProgressCallback;
-  totalBytes: Integer;
-  exits: Boolean;
+  parser: TCloudPathParser;
+  callback: TCloudProgressCallback;
 
   function doPutFile: Integer;
+  var
+    serverPath: String;
+    localPath: String;
+    totalBytes: Integer;
+    exits: Boolean;
   begin
-    serverPath:= TStringUtil.widecharsToString( RemoteName );
+    parser:= TCloudPathParser.Create( TStringUtil.widecharsToString(RemoteName) );
+    serverPath:= parser.driverPath;
     localPath:= TStringUtil.widecharsToString( LocalName );
     totalBytes:= TFileUtil.filesize( localPath );
     exits:= (CopyFlags and FS_EXISTS <> 0);
@@ -215,24 +232,24 @@ var
     if exits and (CopyFlags and FS_COPYFLAGS_OVERWRITE = 0) then
       Exit( FS_FILE_EXISTS );
 
-    callback:= TProgressCallback.Create(
+    callback:= TCloudProgressCallback.Create(
       RemoteName,
       LocalName,
       totalBytes );
-
-    try
-      callback.progress( 0 );
-      client.upload( serverPath, localPath, callback );
-    finally
-      callback.Free;
-    end;
+    callback.progress( 0 );
+    parser.driver.upload( serverPath, localPath, callback );
 
     Result:= FS_FILE_OK;
   end;
 
 begin
   try
-    Result:= doPutFile;
+    try
+      Result:= doPutFile;
+    finally
+      FreeAndNil( parser );
+      FreeAndNil( callback );
+    end;
   except
     on e: Exception do
       Result:= TMacCloudUtil.exceptionToResult( e );
@@ -241,12 +258,22 @@ end;
 
 function FsMkDirW( RemoteDir: pwidechar ): Bool; cdecl;
 var
-  path: String;
+  parser: TCloudPathParser;
+
+  procedure doCreateFolder;
+  begin
+    parser:= TCloudPathParser.Create( TStringUtil.widecharsToString(RemoteDir) );
+    parser.driver.createFolder( parser.driverPath );
+  end;
+
 begin
   try
-    path:= TStringUtil.widecharsToString( RemoteDir );
-    client.createFolder( path );
-    Result:= True;
+    try
+      doCreateFolder;
+      Result:= True;
+    finally
+      FreeAndNil( parser );
+    end;
   except
     on e: Exception do begin
       TMacCloudUtil.exceptionToResult( e );
@@ -257,12 +284,22 @@ end;
 
 function FsDeleteFileW( RemoteName: pwidechar ): Bool; cdecl;
 var
-  path: String;
+  parser: TCloudPathParser;
+
+  procedure doDelete;
+  begin
+    parser:= TCloudPathParser.Create( TStringUtil.widecharsToString(RemoteName) );
+    parser.driver.delete( parser.driverPath );
+  end;
+
 begin
   try
-    path:= TStringUtil.widecharsToString( RemoteName );
-    client.delete( path );
-    Result:= True;
+    try
+      doDelete;
+      Result:= True;
+    finally
+      FreeAndNil( parser );
+    end;
   except
     on e: Exception do begin
       TMacCloudUtil.exceptionToResult( e );
@@ -272,19 +309,8 @@ begin
 end;
 
 function FsRemoveDirW( RemoteName: pwidechar ): Bool; cdecl;
-var
-  path: String;
 begin
-  try
-    path:= TStringUtil.widecharsToString( RemoteName );
-    client.delete( path );
-    Result:= True;
-  except
-    on e: Exception do begin
-      TMacCloudUtil.exceptionToResult( e );
-      Result:= False;
-    end;
-  end;
+  FsDeleteFileW( RemoteName );
 end;
 
 function FsRenMovFileW(
@@ -293,25 +319,60 @@ function FsRenMovFileW(
   Move, OverWrite: Bool;
   RemoteInfo: pRemoteInfo ): Integer; cdecl;
 var
-  oldUtf8Path: String;
-  newUtf8Path: String;
-  ret: Boolean;
-begin
-  try
-    oldUtf8Path:= TStringUtil.widecharsToString( OldName );
-    newUtf8Path:= TStringUtil.widecharsToString( NewName );
+  parserOld: TCloudPathParser;
+  parserNew: TCloudPathParser;
+
+  function doCopyOrMove: Integer;
+  var
+    ret: Boolean;
+  begin
+    parserOld:= TCloudPathParser.Create( TStringUtil.widecharsToString(OldName) );
+    parserNew:= TCloudPathParser.Create( TStringUtil.widecharsToString(NewName) );
+
+    if parserOld.connection <> parserNew.connection then
+      raise ENotSupportedException.Create( 'Internal copy/move functions cannot be used between different accounts' );
 
     ret:= macCloudPlugin.progress( oldName, newName, 0 ) = 0;
     if ret then begin
-      client.copyOrMove( oldUtf8Path, newUtf8Path, Move );
+      parserNew.driver.copyOrMove( parserOld.driverPath, parserNew.driverPath, Move );
       macCloudPlugin.progress( oldName, newName, 100 );
-      Result:= FS_FILE_OK
+      Result:= FS_FILE_OK;
     end else
       Result:= FS_FILE_USERABORT;
+  end;
+
+begin
+  try
+    try
+      Result:= doCopyOrMove;
+    finally
+      FreeAndNil( parserOld );
+      FreeAndNil( parserNew );
+    end;
   except
     on e: Exception do
       Result:= TMacCloudUtil.exceptionToResult( e );
   end;
+end;
+
+function FsExecuteFileW(
+  MainWin: HWND;
+  RemoteName: pwidechar;
+  Verb: pwidechar ): Integer; cdecl;
+var
+  utf8Path: String;
+  utf8Verb: String;
+begin
+  Result:= FS_EXEC_OK;
+  utf8Path:= TStringUtil.widecharsToString( RemoteName );
+  utf8Verb:= TStringUtil.widecharsToString( Verb );
+
+  if utf8Verb = 'open' then begin
+    Result:= FS_EXEC_SYMLINK;
+  end else if utf8Verb = 'properties' then begin
+    TCloudOptionsUtil.show;
+  end;
+
 end;
 
 function FsGetBackgroundFlags: Integer; cdecl;
@@ -345,12 +406,10 @@ var
 begin
   _list:= TFPList.Create;
   cloudFile:= TCloudFile.Create;
-  cloudFile.isFolder:= True;
   cloudFile.name:= '<Add Connections>';
   _list.Add( cloudFile );
 
   cloudFile:= TCloudFile.Create;
-  cloudFile.isFolder:= True;
   cloudFile.name:= 'rich';
   _list.Add( cloudFile );
 end;

@@ -21,9 +21,9 @@ type
        1: (QuadPart : ULONGLONG);
   end;
 
-  { TProgressCallback }
+  { TCloudProgressCallback }
 
-  TProgressCallback = class( ICloudProgressCallback )
+  TCloudProgressCallback = class( ICloudProgressCallback )
   private
     _serverPath: pwidechar;
     _localPath: pwidechar;
@@ -34,6 +34,23 @@ type
       const localPath: pwidechar;
       const totalBytes: Integer );
     function progress( const accumulatedBytes: Integer ): Boolean;
+  end;
+
+  { TCloudPathParser }
+
+  TCloudPathParser = class
+  private
+    _connectionName: String;
+    _driverPath: String;
+  private
+    function getConnection: TCloudConnection;
+    function getDriver: TCloudDriver;
+  public
+    constructor Create( const path: String );
+    property connection: TCloudConnection read getConnection;
+    property driver: TCloudDriver read getDriver;
+    property connectonName: String read _connectionName;
+    property driverPath: String read _driverPath;
   end;
 
   TMacCloudUtil = class
@@ -49,9 +66,9 @@ var
 
 implementation
 
-{ TProgressCallback }
+{ TCloudProgressCallback }
 
-constructor TProgressCallback.Create(
+constructor TCloudProgressCallback.Create(
   const serverPath: pwidechar;
   const localPath: pwidechar;
   const totalBytes: Integer);
@@ -61,7 +78,7 @@ begin
   _totalBytes:= totalBytes;
 end;
 
-function TProgressCallback.progress(const accumulatedBytes: Integer): Boolean;
+function TCloudProgressCallback.progress(const accumulatedBytes: Integer): Boolean;
 var
   percent: Integer;
   ret: Integer;
@@ -72,6 +89,31 @@ begin
     percent:= 50;
   ret:= macCloudPlugin.progress( _serverPath, _localPath, percent );
   Result:= (ret = 0);
+end;
+
+{ TCloudPathParser }
+
+function TCloudPathParser.getConnection: TCloudConnection;
+begin
+  Result:= cloudConnectionManager.get( _connectionName );
+end;
+
+function TCloudPathParser.getDriver: TCloudDriver;
+begin
+  Result:= self.connection.driver;
+end;
+
+constructor TCloudPathParser.Create(const path: String);
+var
+  i: Integer;
+begin
+  i:= path.IndexOf( PathDelim , 1 );
+  if i < 0 then begin
+    _connectionName:= path.Substring( 1 );
+  end else begin
+    _connectionName:= path.Substring( 1, i-1 );
+    _driverPath:= path.Substring( i );
+  end;
 end;
 
 { TMacCloudUtil }

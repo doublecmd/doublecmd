@@ -49,6 +49,7 @@ exports
   FsDeleteFileW,
   FsRemoveDirW,
   FsRenMovFileW,
+  FsExecuteFileW,
   FsGetDefRootName,
   FsGetBackgroundFlags;
 
