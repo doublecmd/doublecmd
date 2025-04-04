@@ -33,6 +33,9 @@ procedure FsGetDefRootName(DefRootName:pchar;maxlen:integer); cdecl;
 
 implementation
 
+const
+  CONST_ADD_NEW_CONNECTION = '<Add New Connection>';
+
 type
 
   { TCloudRootListFolder }
@@ -360,17 +363,44 @@ function FsExecuteFileW(
   RemoteName: pwidechar;
   Verb: pwidechar ): Integer; cdecl;
 var
-  utf8Path: String;
-  utf8Verb: String;
-begin
-  Result:= FS_EXEC_OK;
-  utf8Path:= TStringUtil.widecharsToString( RemoteName );
-  utf8Verb:= TStringUtil.widecharsToString( Verb );
+  parser: TCloudPathParser;
 
-  if utf8Verb = 'open' then begin
-    Result:= FS_EXEC_SYMLINK;
-  end else if utf8Verb = 'properties' then begin
-    TCloudOptionsUtil.show;
+  function doExecute: Integer;
+  var
+    utf8Path: String;
+    utf8Verb: String;
+  begin
+    Result:= FS_EXEC_OK;
+    utf8Path:= TStringUtil.widecharsToString( RemoteName );
+    utf8Verb:= TStringUtil.widecharsToString( Verb );
+    parser:= TCloudPathParser.Create( utf8Path );
+
+    if parser.driverPath <> EmptyStr then
+      Exit( FS_EXEC_YOURSELF );
+
+    if utf8Verb = 'open' then begin
+      if parser.connectionName = CONST_ADD_NEW_CONNECTION then begin
+        TCloudOptionsUtil.show;
+      end else begin
+        Exit( FS_EXEC_SYMLINK );
+      end;
+    end else if utf8Verb = 'properties' then begin
+      TCloudOptionsUtil.show;
+    end;
+  end;
+
+begin
+  try
+    try
+      Result:= doExecute;
+    finally
+      FreeAndNil( parser );
+    end;
+  except
+    on e: Exception do begin
+      TMacCloudUtil.exceptionToResult( e );
+      Result:= FS_EXEC_ERROR;
+    end;
   end;
 
 end;
@@ -406,7 +436,7 @@ var
 begin
   _list:= TFPList.Create;
   cloudFile:= TCloudFile.Create;
-  cloudFile.name:= '<Add Connections>';
+  cloudFile.name:= CONST_ADD_NEW_CONNECTION;
   _list.Add( cloudFile );
 
   cloudFile:= TCloudFile.Create;

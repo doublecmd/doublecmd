@@ -49,7 +49,7 @@ type
     constructor Create( const path: String );
     property connection: TCloudConnection read getConnection;
     property driver: TCloudDriver read getDriver;
-    property connectonName: String read _connectionName;
+    property connectionName: String read _connectionName;
     property driverPath: String read _driverPath;
   end;
 
