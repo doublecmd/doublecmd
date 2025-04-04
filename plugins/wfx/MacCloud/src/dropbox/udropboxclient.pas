@@ -12,7 +12,7 @@ unit uDropBoxClient;
 interface
 
 uses
-  Classes, SysUtils, syncobjs, Generics.Collections, DateUtils,
+  Classes, SysUtils, syncobjs, DateUtils,
   CocoaAll, uMiniCocoa,
   uMacCloudCore, uMiniHttpClient, uMiniUtil;
 
@@ -737,7 +737,7 @@ function TDropBoxListFolderSession.getNextFile: TCloudFile;
   function popFirst: TCloudFile;
   begin
     if _files.Count > 0 then begin
-      Result:= _files.First;
+      Result:= TCloudFile( _files.First );
       _files.Delete( 0 );
     end else begin
       Result:= nil;

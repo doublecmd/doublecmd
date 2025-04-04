@@ -17,21 +17,31 @@ unit uMiniUtil;
 interface
 
 uses
-  Classes, SysUtils, Generics.Collections,
+  Classes, SysUtils,
   CocoaAll, uMiniCocoa;
 
 type
 
-  TQueryItemsDictonary = specialize TDictionary<string, string>;
+  { TFakeStringDictonary }
 
-  { THttpUtil }
-
-  THttpUtil = class
+  TFakeStringDictonary = class
+  private
+    _keys: TStringList;
+    _values: TStringList;
+  private
+    function getKey( const index: Integer ): String;
+    function getValue( const index: Integer ): String;
+    function getCount: Integer;
   public
-    class function toQueryItems( const lclItems: TQueryItemsDictonary ): NSArray;
-    class procedure openInSafari( const urlPart: String; lclItems: TQueryItemsDictonary );
-    class function queryValue( components: NSURLComponents; const name: String ): String;
+    constructor Create;
+    destructor Destroy; override;
+    procedure Add( const key: String; const value: String );
+    property Count: Integer read getCount;
+    property keys[ const index: Integer ]: String read getKey;
+    property values[ const index: Integer ]: String read getValue;
   end;
+
+  TQueryItemsDictonary = TFakeStringDictonary;
 
   { THttpClientUtil }
 
@@ -109,56 +119,6 @@ type
 
 var
   consoleLogger: TConsoleLogger;
-
-{ THttpUtil }
-
-class function THttpUtil.toQueryItems( const lclItems: TQueryItemsDictonary ): NSArray;
-var
-  lclItem: TQueryItemsDictonary.TDictionaryPair;
-  cocoaItem: NSURLQueryItem;
-  cocoaItems: NSMutableArray;
-begin
-  cocoaItems:= NSMutableArray.arrayWithCapacity( lclItems.Count );
-  for lclItem in lclItems do begin
-    cocoaItem:= NSURLQueryItem.queryItemWithName_value(
-      StringToNSString(lclItem.Key),
-      StringToNSString(lclItem.Value) );
-    cocoaItems.addObject( cocoaItem );
-  end;
-  Result:= cocoaItems;
-end;
-
-class procedure THttpUtil.openInSafari(
-  const urlPart: String; lclItems: TQueryItemsDictonary );
-var
-  urlComponents: NSURLComponents;
-begin
-  urlComponents:= NSURLComponents.componentsWithString( StringToNSString(urlPart) );
-  urlComponents.setQueryItems( toQueryItems(lclItems) );
-  NSWorkspace.sharedWorkspace.openURLs_withAppBundleIdentifier_options_additionalEventParamDescriptor_launchIdentifiers(
-    NSArray.arrayWithObject( urlComponents.url ),
-    NSSTR('com.apple.Safari'),
-    0,
-    nil,
-    nil );
-  FreeAndNil( lclItems );
-end;
-
-class function THttpUtil.queryValue(components: NSURLComponents;
-  const name: String): String;
-var
-  cocoaName: NSString;
-  queryItem: NSURLQueryItem;
-begin
-  cocoaName:= StringToNSString( name );
-  for queryItem in components.queryItems do begin
-    if queryItem.name.isEqualToString( cocoaName ) then begin
-      Result:= queryItem.value.UTF8String;
-      Exit;
-    end;
-  end;
-  Result:= EmptyStr;
-end;
 
 { THashUtil }
 
@@ -412,20 +372,55 @@ begin
   log( 3, message );
 end;
 
+{ TFakeStringDictonary }
+
+constructor TFakeStringDictonary.Create;
+begin
+  _keys:= TStringList.Create;
+  _values:= TStringList.Create;
+end;
+
+destructor TFakeStringDictonary.Destroy;
+begin
+  FreeAndNil( _keys );
+  FreeAndNil( _values );
+end;
+
+procedure TFakeStringDictonary.Add(const key: String; const value: String);
+begin
+  _keys.Add( key );
+  _values.Add( value );
+end;
+
+function TFakeStringDictonary.getKey( const index: Integer ): String;
+begin
+  Result:= _keys[index];
+end;
+
+function TFakeStringDictonary.getValue( const index: Integer ): String;
+begin
+  Result:= _values[index];
+end;
+
+function TFakeStringDictonary.getCount: Integer;
+begin
+  Result:= _keys.Count;
+end;
+
 { THttpClientUtil }
 
 class function THttpClientUtil.toQueryItems(
   const lclItems: TQueryItemsDictonary ): NSArray;
 var
-  lclItem: TQueryItemsDictonary.TDictionaryPair;
   cocoaItem: NSURLQueryItem;
   cocoaItems: NSMutableArray;
+  i: Integer;
 begin
   cocoaItems:= NSMutableArray.arrayWithCapacity( lclItems.Count );
-  for lclItem in lclItems do begin
+  for i:=0 to lclItems.Count-1 do begin
     cocoaItem:= NSURLQueryItem.queryItemWithName_value(
-      StringToNSString(lclItem.Key),
-      StringToNSString(lclItem.Value) );
+      StringToNSString( lclItems.keys[i] ),
+      StringToNSString( lclItems.values[i] ) );
     cocoaItems.addObject( cocoaItem );
   end;
   Result:= cocoaItems;

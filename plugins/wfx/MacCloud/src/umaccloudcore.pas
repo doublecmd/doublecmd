@@ -5,7 +5,7 @@ unit uMacCloudCore;
 interface
 
 uses
-  Classes, SysUtils, Generics.Collections,
+  Classes, SysUtils, Contnrs,
   WfxPlugin,
   uMiniHttpClient, uMiniUtil;
 
@@ -43,7 +43,7 @@ type
     property isFolder: Boolean read _isFolder write _isFolder;
   end;
 
-  TCloudFiles = specialize TList<TCloudFile>;
+  TCloudFiles = TFPList;
 
   TCloudListFolder = class
   public
@@ -75,7 +75,7 @@ type
 
   TCloudDriverClass = class of TCloudDriver;
 
-  TCloudDriverClasses = specialize TList<TCloudDriverClass>;
+  TCloudDriverClasses = TFPList;
 
   { TCloudDriverManager }
 
@@ -99,23 +99,25 @@ type
     _driver: TCloudDriver;
   public
     constructor Create( const name: String; const driver: TCloudDriver );
+    destructor Destroy; override;
     property name: String read _name;
     property driver: TCloudDriver read _driver;
   end;
 
-  TCloudConnections = specialize TList<TCloudConnection>;
+  TCloudConnections = TFPObjectList;
 
   { TCloudConnectionManager }
 
   TCloudConnectionManager = class
   private
-    _connections : TCloudConnections;
+    _connections: TCloudConnections;
   public
     constructor Create;
     destructor Destroy; override;
   public
     procedure add( const connection: TCloudConnection );
     function get( const name: String ): TCloudConnection;
+    property connections: TCloudConnections read _connections;
   end;
 
 var
@@ -171,7 +173,7 @@ var
   cloudDriverClass: TCloudDriverClass;
 begin
   for i:= 0 to classes.Count - 1 do begin
-    cloudDriverClass:= classes[i];
+    cloudDriverClass:= TCloudDriverClass( classes[i] );
     if NOT cloudDriverClass.isMatched(name) then
       continue;
     Exit( cloudDriverClass );
@@ -193,11 +195,16 @@ begin
   _driver:= driver;
 end;
 
+destructor TCloudConnection.Destroy;
+begin
+  FreeAndNil( _driver );
+end;
+
 { TCloudConnectionManager }
 
 constructor TCloudConnectionManager.Create;
 begin
-  _connections:= TCloudConnections.Create;
+  _connections:= TCloudConnections.Create( True );
 end;
 
 destructor TCloudConnectionManager.Destroy;
@@ -216,7 +223,7 @@ var
   connection: TCloudConnection;
 begin
   for i:= 0 to _connections.Count - 1 do begin
-    connection:= _connections[i];
+    connection:= TCloudConnection( _connections[i] );
     if connection.name <> name then
       continue;
     Exit( connection );
