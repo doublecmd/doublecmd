@@ -412,7 +412,7 @@ end;
 
 procedure FsGetDefRootName( DefRootName: pchar; maxlen: Integer ); cdecl;
 begin
-  strlcopy( DefRootName, 'DropBox', maxlen );
+  strlcopy( DefRootName, 'cloud', maxlen );
 end;
 
 procedure init;
