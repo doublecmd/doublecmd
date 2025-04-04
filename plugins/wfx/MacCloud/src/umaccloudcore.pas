@@ -197,7 +197,7 @@ end;
 
 constructor TCloudConnectionManager.Create;
 begin
-  _connections:= TCloudConnections.Create.Create;
+  _connections:= TCloudConnections.Create;
 end;
 
 destructor TCloudConnectionManager.Destroy;

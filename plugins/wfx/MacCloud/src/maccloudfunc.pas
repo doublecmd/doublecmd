@@ -313,7 +313,7 @@ end;
 
 function FsRemoveDirW( RemoteName: pwidechar ): Bool; cdecl;
 begin
-  FsDeleteFileW( RemoteName );
+  Result:= FsDeleteFileW( RemoteName );
 end;
 
 function FsRenMovFileW(
