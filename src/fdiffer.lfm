@@ -17,7 +17,7 @@ object frmDiffer: TfrmDiffer
   ShowHint = True
   ShowInTaskBar = stAlways
   LCLVersion = '2.2.0.4'
-  object ToolBar: TToolBar
+  object ToolBar: TToolBarAdv
     Left = 0
     Height = 22
     Top = 0
