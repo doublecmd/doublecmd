@@ -670,7 +670,7 @@ object frmEditor: TfrmEditor
       end
     end
   end
-  object tbToolBar: TToolBar
+  object tbToolBar: TToolBarAdv
     Left = 0
     Height = 26
     Top = 0

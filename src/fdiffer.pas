@@ -28,7 +28,7 @@ interface
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Dialogs, Menus, ComCtrls,
   ActnList, ExtCtrls, EditBtn, Buttons, SynEdit, uSynDiffControls, LMessages,
-  uPariterControls, uDiffOND, uFormCommands, uHotkeyManager, uOSForms,
+  KASComCtrls, uPariterControls, uDiffOND, uFormCommands, uHotkeyManager, uOSForms,
   uBinaryDiffViewer, uShowForm, KASStatusBar, Graphics, StdCtrls, fEditSearch;
 
 type
@@ -159,7 +159,7 @@ type
     Splitter: TSplitter;
     StatusBar: TStatusBar;
     tmProgress: TTimer;
-    ToolBar: TToolBar;
+    ToolBar: TToolBarAdv;
     btnSave: TToolButton;
     btnSaveAs: TToolButton;
     Divider1: TToolButton;
