@@ -416,9 +416,6 @@ begin
 end;
 
 procedure init;
-var
-  driver: TCloudDriver;
-  connection: TCloudConnection;
 begin
   dropBoxConfig:= TDropBoxConfig.Create( 'ahj0s9xia6i61gh', 'dc2ea085a05ac273a://dropbox/auth' );
   cloudDriverManager.register( TDropBoxClient );
@@ -433,6 +430,8 @@ procedure TCloudRootListFolder.listFolderBegin(const path: String);
   begin
     cloudFile:= TCloudFile.Create;
     cloudFile.name:= CONST_ADD_NEW_CONNECTION;
+    cloudFile.creationTime:= 4.5753942770578702E+004;
+    cloudFile.modificationTime:= cloudFile.creationTime;
     _list.Add( cloudFile );
   end;
 
@@ -446,6 +445,8 @@ procedure TCloudRootListFolder.listFolderBegin(const path: String);
       connection:= TCloudConnection( cloudConnectionManager.connections[i] );
       cloudFile:= TCloudFile.Create;
       cloudFile.name:= connection.name;
+      cloudFile.creationTime:= connection.creationTime;
+      cloudFile.modificationTime:= connection.modificationTime;
       _list.Add( cloudFile );
     end;
   end;

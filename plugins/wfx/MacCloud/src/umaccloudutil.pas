@@ -177,7 +177,7 @@ begin
   li.QuadPart:= cloudFile.size;
   FindData.nFileSizeLow:= li.LowPart;
   FindData.nFileSizeHigh:= li.HighPart;
-  FindData.ftCreationTime:= TMacCloudUtil.dateTimeToFileTime( 0 );
+  FindData.ftCreationTime:= TMacCloudUtil.dateTimeToFileTime( cloudFile.creationTime );
   FindData.ftLastWriteTime:= TMacCloudUtil.dateTimeToFileTime( cloudFile.modificationTime );
   FindData.ftLastAccessTime:= TMacCloudUtil.dateTimeToFileTime( 0 );
   TStringUtil.stringToWidechars( FindData.cFileName, cloudFile.name, sizeof(FindData.cFileName) );

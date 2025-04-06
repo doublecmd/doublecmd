@@ -101,11 +101,16 @@ type
   private
     _name: String;
     _driver: TCloudDriver;
+    _creationTime: TDateTime;
+    _modificationTime: TDateTime;
   public
-    constructor Create( const name: String; const driver: TCloudDriver );
+    constructor Create( const name: String; const driver: TCloudDriver;
+      const creationTime: TDateTime; const modificationTime: TDateTime );
     destructor Destroy; override;
     property name: String read _name;
     property driver: TCloudDriver read _driver;
+    property creationTime: TDateTime read _creationTime;
+    property modificationTime: TDateTime read _modificationTime;
   end;
 
   TCloudConnections = TFPObjectList;
@@ -195,10 +200,16 @@ end;
 
 { TCloudConnection }
 
-constructor TCloudConnection.Create( const name: String; const driver: TCloudDriver );
+constructor TCloudConnection.Create(
+  const name: String;
+  const driver: TCloudDriver;
+  const creationTime: TDateTime;
+  const modificationTime: TDateTime );
 begin
   _name:= name;
   _driver:= driver;
+  _creationTime:= creationTime;
+  _modificationTime:= modificationTime;
 end;
 
 destructor TCloudConnection.Destroy;

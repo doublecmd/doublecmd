@@ -6,7 +6,7 @@ unit uMacCloudOptions;
 interface
 
 uses
-  Classes, SysUtils,
+  Classes, SysUtils, DateUtils,
   CocoaAll, uMiniCocoa,
   uMacCloudCore,
   uMiniUtil;
@@ -41,20 +41,30 @@ type
     _name: NSString;
     _creating: Boolean;
     _driver: TCloudDriver;
+    _creationTime: TDateTime;
+    _modificationTime: TDateTime;
   public
     procedure dealloc; override;
     procedure setName( name: NSString );
       message 'TConnectionConfigItem_setName:';
-    procedure setDriver( driver: TCloudDriver );
-      message 'TConnectionConfigItem_setDriver:';
     procedure setCreating( creating: Boolean );
       message 'TConnectionConfigItem_setCreating:';
+    procedure setDriver( driver: TCloudDriver );
+      message 'TConnectionConfigItem_setDriver:';
+    procedure setCreationTime( creationTime: TDateTime );
+      message 'TConnectionConfigItem_setCreationTime:';
+    procedure setModificationTime( modificationTime: TDateTime );
+      message 'TConnectionConfigItem_setModificationTime:';
     function name: NSString;
       message 'TConnectionConfigItem_Name';
     function creating: Boolean;
       message 'TConnectionConfigItem_creating';
     function driver: TCloudDriver;
       message 'TConnectionConfigItem_driver';
+    function creationTime: TDateTime;
+      message 'TConnectionConfigItem_creationTime';
+    function modificationTime: TDateTime;
+      message 'TConnectionConfigItem_modificationTime';
   end;
 
   { TCloudConfigItemsController }
@@ -175,6 +185,17 @@ begin
   _driver:= driver;
 end;
 
+procedure TConnectionConfigItem.setCreationTime(creationTime: TDateTime);
+begin
+  _creationTime:= creationTime;
+end;
+
+procedure TConnectionConfigItem.setModificationTime(modificationTime: TDateTime
+  );
+begin
+  _modificationTime:= modificationTime;
+end;
+
 procedure TConnectionConfigItem.setCreating(creating: Boolean);
 begin
   _creating:= creating;
@@ -193,6 +214,16 @@ end;
 function TConnectionConfigItem.driver: TCloudDriver;
 begin
   Result:= _driver;
+end;
+
+function TConnectionConfigItem.creationTime: TDateTime;
+begin
+  Result:= _creationTime;
+end;
+
+function TConnectionConfigItem.modificationTime: TDateTime;
+begin
+  Result:= _modificationTime;
 end;
 
 { TCloudOptionsWindow }
@@ -221,6 +252,8 @@ begin
     configItem:= TConnectionConfigItem.new;
     configItem.setName( StringToNSString(connection.name));
     configItem.setDriver( connection.driver.clone );
+    configItem.setCreationTime( connection.creationTime );
+    configItem.setModificationTime( connection.modificationTime );
     self.configItems.addObject( configItem );
     configItem.release;
   end;
@@ -236,7 +269,11 @@ begin
   connections:= TCloudConnections.Create( True );
   for i:=0 to self.configItems.count-1 do begin
     configItem:= TConnectionConfigItem( self.configItems.objectAtIndex(i) );
-    connection:= TCloudConnection.Create( configItem.name.UTF8String, configItem.driver.clone  );
+    connection:= TCloudConnection.Create(
+      configItem.name.UTF8String,
+      configItem.driver.clone,
+      configItem.creationTime,
+      configItem.modificationTime );
     connections.Add( connection );
   end;
   cloudConnectionManager.connections:= connections;
@@ -263,6 +300,8 @@ begin
   configItem.setCreating( True );
   configItem.setName( StringToNSString( 'New Connection *' ) );
   configItem.setDriver( cloudDriverManager.createInstance('DropBox') );
+  configItem.setCreationTime( LocalTimeToUniversal(now) );
+  configItem.setModificationTime( configItem.creationTime );
   self.configItems.addObject( configItem );
   configItem.release;
   self.connectionListView.noteNumberOfRowsChanged;
@@ -290,6 +329,7 @@ var
 begin
   configItem:= self.currentConfigItem;
   configItem.setName( propertyView.nameTextField.stringValue );
+  configItem.setModificationTime( LocalTimeToUniversal(now) );
   currentIndex:= self.connectionListView.selectedRow;
   self.connectionListView.reloadData;
   self.connectionListView.selectRow_byExtendingSelection( currentIndex, False );
