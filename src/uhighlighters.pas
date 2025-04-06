@@ -118,14 +118,30 @@ type
   TSynHighlighterAttributesHelper = class helper for TSynHighlighterAttributes
   private
     function GetFeatures: TSynHighlighterAttrFeatures;
+{$if lcl_fullversion >= 4990000}
+    function GetName: String;
+    function GetStyleFromInt: Integer;
+    function GetStyleMaskFromInt: Integer;
+    procedure SetStyleFromInt(const Value: Integer);
+    procedure SetStyleMaskFromInt(const Value: Integer);
+{$endif}
   public
     property Features: TSynHighlighterAttrFeatures read GetFeatures;
+{$if lcl_fullversion >= 4990000}
+    property Name: String read GetName;
+    property IntegerStyle: Integer read GetStyleFromInt write SetStyleFromInt;
+    property IntegerStyleMask: Integer read GetStyleMaskFromInt write SetStyleMaskFromInt;
+{$endif}
   end;
 
 implementation
 
 uses
-  SynEditStrConst, SynUniHighlighter, SynUniClasses, uLng;
+  SynEditStrConst, SynUniHighlighter, SynUniClasses, uLng
+{$if lcl_fullversion >= 4990000}
+  , Graphics
+{$endif}
+  ;
 
 { TSynBatSynEx }
 
@@ -338,6 +354,46 @@ begin
       Result:= [hafBackColor, hafForeColor, hafFrameColor, hafStyle, hafFrameStyle, hafFrameEdges];
   end;
 end;
+
+{$if lcl_fullversion >= 4990000}
+function TSynHighlighterAttributesHelper.GetName: String;
+begin
+  Result:= Caption^;
+end;
+
+function TSynHighlighterAttributesHelper.GetStyleFromInt: Integer;
+begin
+  if fsBold in Style then Result:= 1 else Result:= 0;
+  if fsItalic in Style then Result:= Result + 2;
+  if fsUnderline in Style then Result:= Result + 4;
+  if fsStrikeout in Style then Result:= Result + 8;
+end;
+
+function TSynHighlighterAttributesHelper.GetStyleMaskFromInt: Integer;
+begin
+  if fsBold in StyleMask then Result:= 1 else Result:= 0;
+  if fsItalic in StyleMask then Result:= Result + 2;
+  if fsUnderline in StyleMask then Result:= Result + 4;
+  if fsStrikeout in StyleMask then Result:= Result + 8;
+end;
+
+procedure TSynHighlighterAttributesHelper.SetStyleFromInt(const Value: Integer);
+begin
+  if Value and $1 = 0 then  Style:= [] else Style:= [fsBold];
+  if Value and $2 <> 0 then Style:= Style + [fsItalic];
+  if Value and $4 <> 0 then Style:= Style + [fsUnderline];
+  if Value and $8 <> 0 then Style:= Style + [fsStrikeout];
+end;
+
+procedure TSynHighlighterAttributesHelper.SetStyleMaskFromInt(
+  const Value: Integer);
+begin
+  if Value and $1 = 0 then  StyleMask:= [] else StyleMask:= [fsBold];
+  if Value and $2 <> 0 then StyleMask:= StyleMask + [fsItalic];
+  if Value and $4 <> 0 then StyleMask:= StyleMask + [fsUnderline];
+  if Value and $8 <> 0 then StyleMask:= StyleMask + [fsStrikeout];
+end;
+{$endif}
 
 end.
 
