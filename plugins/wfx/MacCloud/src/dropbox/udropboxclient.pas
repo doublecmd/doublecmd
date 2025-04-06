@@ -82,6 +82,7 @@ type
     procedure waitAuthorizationAndPrompt;
     procedure closePrompt;
     procedure requestToken;
+    procedure revokeToken;
     procedure refreshToken;
     procedure onRedirect( const url: NSURL );
     function getAccessToken: String;
@@ -236,6 +237,7 @@ type
   TDropBoxConstURI = record
     OAUTH2: String;
     TOKEN: String;
+    REVOKE_TOKEN: String;
     LIST_FOLDER: String;
     LIST_FOLDER_CONTINUE: String;
     DOWNLOAD: String;
@@ -271,6 +273,7 @@ const
     URI: (
       OAUTH2: 'https://www.dropbox.com/oauth2/authorize';
       TOKEN: 'https://api.dropbox.com/oauth2/token';
+      REVOKE_TOKEN: 'https://api.dropboxapi.com/2/auth/token/revoke';
       LIST_FOLDER:  'https://api.dropboxapi.com/2/files/list_folder';
       LIST_FOLDER_CONTINUE: 'https://api.dropboxapi.com/2/files/list_folder/continue';
       DOWNLOAD: 'https://content.dropboxapi.com/2/files/download';
@@ -518,6 +521,20 @@ begin
   end;
 end;
 
+procedure TDropBoxAuthPKCESession.revokeToken;
+var
+  http: TMiniHttpClient;
+begin
+  try
+    http:= TMiniHttpClient.Create;
+    self.setAuthHeader( http );
+    http.post( DropBoxConst.URI.REVOKE_TOKEN, nil );
+  finally
+    _token.invalid;
+    FreeAndNil( http );
+  end;
+end;
+
 procedure TDropBoxAuthPKCESession.refreshToken;
 var
   http: TMiniHttpClient;
@@ -633,13 +650,21 @@ begin
     requestToken;
     Result:= self.authorized;
   finally
+    _codeVerifier:= EmptyStr;
+    _state:= EmptyStr;
+    _code:= EmptyStr;
     _lockObject.Release;
   end;
 end;
 
 procedure TDropBoxAuthPKCESession.unauthorize;
 begin
-  _token.invalid;
+  _lockObject.Acquire;
+  try
+    revokeToken;
+  finally
+    _lockObject.Release;
+  end;
 end;
 
 function TDropBoxAuthPKCESession.authorized: Boolean;

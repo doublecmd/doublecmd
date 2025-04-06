@@ -8,7 +8,8 @@ interface
 uses
   Classes, SysUtils,
   CocoaAll, uMiniCocoa,
-  uMacCloudCore;
+  uMacCloudCore,
+  uMiniUtil;
 
 type
 
@@ -299,13 +300,19 @@ var
   configItem: TConnectionConfigItem;
   driver: TCloudDriver;
 begin
-  configItem:= self.currentConfigItem;
-  driver:= configItem.driver;
-  if driver.authorized then
-    driver.unauthorize
-  else
-    driver.authorize;
-  self.propertyView.updateConnectStatus;
+  try
+    configItem:= self.currentConfigItem;
+    driver:= configItem.driver;
+    if driver.authorized then
+      driver.unauthorize
+    else
+      driver.authorize;
+    self.propertyView.updateConnectStatus;
+  except
+    on e: Exception do begin
+      TLogUtil.log( 6, 'in TCloudOptionsWindow: ' + e.Message );
+    end;
+  end;
 end;
 
 function TCloudOptionsWindow.currentConfigItem: TConnectionConfigItem;
