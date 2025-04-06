@@ -383,7 +383,7 @@ var
   contentView: NSView;
 
   splitView: NSSplitView;
-  leftView: NSView;
+  leftView: NSVisualEffectView;
   rightView: TPropertyView;
 
   frameRect: NSRect;
@@ -400,18 +400,21 @@ var
     addButton: NSButton;
     removeButton: NSButton;
   begin
-    leftView:= NSView.alloc.initWithFrame( leftRect );
-    leftView.setWantsLayer( True );
-    leftView.layer.setBackgroundColor( NSColor.windowBackgroundColor.CGColor );
+    leftView:= NSVisualEffectView.alloc.initWithFrame( leftRect );
+    leftView.setBlendingMode( NSVisualEffectBlendingModeBehindWindow );
+    leftView.setMaterial( NSVisualEffectMaterialPopover );
 
     connectionListView:= TConnectionListView.alloc.initWithFrame( NSZeroRect );
+    if NSAppKitVersionNumber >= NSAppKitVersionNumber11_0 then
+      connectionListView.setStyle( NSTableViewStyleSourceList );
+    connectionListView.setWantsLayer( True );
+    connectionListView.layer.setBackgroundColor( NSColor.clearColor.CGColor );
     connectionListView.controller:= win;
     connectionListView.setDataSource( connectionListView );
     connectionListView.setDelegate( connectionListView );
     connectionListView.setAllowsEmptySelection( False );
     connectionListView.setHeaderView( nil );
     connectionListView.setFocusRingType( NSFocusRingTypeNone );
-    connectionListView.setBackgroundColor( NSColor.windowBackgroundColor.colorWithAlphaComponent(1) );
     connectionListView.setIntercellSpacing( NSMakeSize(10,8) );
     connectionColumn:= NSTableColumn.alloc.initWithIdentifier( NSSTR('Column1') );
     connectionColumn.setWidth( leftRect.size.width-20-20 );

@@ -15,6 +15,43 @@ uses
   Classes, SysUtils,
   CocoaAll;
 
+const
+
+  NSAppKitVersionNumber11_0  = 2022;
+  NSAppKitVersionNumber12_0  = 2113;
+  NSAppKitVersionNumber13_0  = 2299;
+  NSAppKitVersionNumber14_0  = 2487;
+
+  // 11.0
+  NSTableViewStyleAutomatic = 0;
+  NSTableViewStyleFullWidth = 1;
+  NSTableViewStyleInset = 2;
+  NSTableViewStyleSourceList = 3;
+  NSTableViewStylePlain = 4;
+
+const
+  NSVisualEffectMaterialAppearanceBased = 0 deprecated;
+  NSVisualEffectMaterialLight = 1 deprecated;
+  NSVisualEffectMaterialDark = 2 deprecated;
+  NSVisualEffectMaterialTitlebar = 3;
+  NSVisualEffectMaterialSelection = 4;
+  // 10.11
+  NSVisualEffectMaterialMenu = 5;
+  NSVisualEffectMaterialPopover = 6;
+  NSVisualEffectMaterialSidebar =  7;
+  NSVisualEffectMaterialMediumLight = 8 deprecated;
+  NSVisualEffectMaterialUltraDark = 9 deprecated;
+  // 10.14
+  NSVisualEffectMaterialHeaderView = 10;
+  NSVisualEffectMaterialSheet = 11;
+  NSVisualEffectMaterialWindowBackground = 12;
+  NSVisualEffectMaterialHUDWindow = 13;
+  NSVisualEffectMaterialFullScreenUI = 15;
+  NSVisualEffectMaterialToolTip = 17;
+  NSVisualEffectMaterialContentBackground = 18;
+  NSVisualEffectMaterialUnderWindowBackground = 21;
+  NSVisualEffectMaterialUnderPageBackground = 22;
+
 type
 
   TCocoaAppOnOpenURLNotify = procedure (const url: NSURL) of object;
@@ -22,6 +59,12 @@ type
   NSApplication_FIX = objccategory external (NSApplication)
     procedure setOpenURLObserver( onOpenURLObserver: TCocoaAppOnOpenURLNotify );
       message 'lclSetOpenURLObserver:';
+  end;
+
+  NSTableViewStyle = NSInteger;
+
+  NSTableViewFix = objccategory external (NSTableView)
+    procedure setStyle(newValue: NSTableViewStyle); message 'setStyle:';  // 11.0
   end;
 
   { NSFileRangeInputStream }
