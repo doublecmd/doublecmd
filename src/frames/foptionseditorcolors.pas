@@ -31,7 +31,8 @@ interface
 uses
   Classes, SysUtils, FileUtil, SynEdit, Forms, Controls, StdCtrls, ExtCtrls,
   ColorBox, ComCtrls, Dialogs, Menus, Buttons, fOptionsFrame, DividerBevel, types,
-  LMessages, Graphics, SynEditHighlighter, SynUniClasses, SynUniRules, dmHigh;
+  LMessages, Graphics, SynEditHighlighter, SynUniClasses, SynUniRules, dmHigh,
+  LCLVersion;
 
 type
 
@@ -135,7 +136,11 @@ implementation
 
 uses
   LCLType, LCLIntf, SynEditTypes, SynUniHighlighter, GraphUtil, uLng, uGlobs,
-  uHighlighters;
+  uHighlighters
+{$if lcl_fullversion >= 4990000}
+  , LazEditTextAttributes
+{$endif}
+  ;
 
 const
   COLOR_NODE_PREFIX = ' abc  ';

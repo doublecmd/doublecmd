@@ -489,10 +489,16 @@ end;
 function TSynAttributes.GetHashCode: PtrInt;
 var
   ACrc: Cardinal = 0;
+  AStyle: TFontStyles;
+  ABackground: TColor;
+  AForeground: TColor;
 begin
-  ACrc:= CRC32(ACrc, @Background, SizeOf(TColor));
-  ACrc:= CRC32(ACrc, @Foreground, SizeOf(TColor));
-  ACrc:= CRC32(ACrc, @Style, SizeOf(TFontStyles));
+  AStyle:= Style;
+  ABackground:= Background;
+  AForeground:= Foreground;
+  ACrc:= CRC32(ACrc, @ABackground, SizeOf(TColor));
+  ACrc:= CRC32(ACrc, @AForeground, SizeOf(TColor));
+  ACrc:= CRC32(ACrc, @AStyle, SizeOf(TFontStyles));
   ACrc:= CRC32(ACrc, @ParentForeground, SizeOf(Boolean));
   Result:= PtrInt(CRC32(ACrc, @ParentBackground, SizeOf(Boolean)));
 end;
