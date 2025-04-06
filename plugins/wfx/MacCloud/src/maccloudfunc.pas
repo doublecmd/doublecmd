@@ -380,12 +380,12 @@ var
 
     if utf8Verb = 'open' then begin
       if parser.connectionName = CONST_ADD_NEW_CONNECTION then begin
-        TCloudOptionsUtil.show;
+        TCloudOptionsUtil.addAndShow;
       end else begin
         Exit( FS_EXEC_SYMLINK );
       end;
     end else if utf8Verb = 'properties' then begin
-      TCloudOptionsUtil.show;
+      TCloudOptionsUtil.show( parser.connectionName );
     end;
   end;
 

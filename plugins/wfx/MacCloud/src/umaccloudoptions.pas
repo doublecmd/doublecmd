@@ -18,7 +18,8 @@ type
   private
     class function createWindow: NSWindow;
   public
-    class procedure show;
+    class procedure show( const connectionName: String);
+    class procedure addAndShow;
   end;
 
 implementation
@@ -107,6 +108,7 @@ type
     function getConfigItems: NSArray;
     procedure loadConnections; message 'TCloudOptionsWindow_loadConnections';
     procedure saveConnections; message 'TCloudOptionsWindow_saveConnections';
+    procedure selectConnection( name: NSString ); message 'TCloudOptionsWindow_selectConnection:';
     procedure addConnection( sender: NSObject );
     procedure removeConnection( sender: NSObject );
     procedure saveConnection( sender: NSObject );
@@ -215,6 +217,19 @@ begin
     connections.Add( connection );
   end;
   cloudConnectionManager.connections:= connections;
+end;
+
+procedure TCloudOptionsWindow.selectConnection(name: NSString);
+var
+  configItem: TConnectionConfigItem;
+  i: Integer;
+begin
+  for i:=0 to configItems.count-1 do begin
+    configItem:= TConnectionConfigItem( self.configItems.objectAtIndex(i) );
+    if configItem.name.isEqualToString(name) then begin
+      self.connectionListView.selectRow_byExtendingSelection( i, False );
+    end;
+  end;
 end;
 
 procedure TCloudOptionsWindow.addConnection(sender: NSObject);
@@ -479,11 +494,21 @@ begin
   Result:= win;
 end;
 
-class procedure TCloudOptionsUtil.show;
+class procedure TCloudOptionsUtil.show( const connectionName: String );
 var
   win: NSWindow;
 begin
   win:= self.createWindow;
+  TCloudOptionsWindow(win).selectConnection( StringToNSString(connectionName) );
+  NSApplication(NSApp).runModalForWindow( win );
+end;
+
+class procedure TCloudOptionsUtil.addAndShow;
+var
+  win: NSWindow;
+begin
+  win:= self.createWindow;
+  TCloudOptionsWindow(win).addConnection( nil );
   NSApplication(NSApp).runModalForWindow( win );
 end;
 
