@@ -103,6 +103,7 @@ type
     class procedure setLogProc( const logProc: TLogProc );
     class procedure log( const MsgType: Integer; const message: String );
     class procedure logInformation( const message: String );
+    class procedure logError( const message: String );
   end;
 
 implementation
@@ -370,6 +371,11 @@ end;
 class procedure TLogUtil.logInformation( const message: String );
 begin
   log( 3, message );
+end;
+
+class procedure TLogUtil.logError(const message: String);
+begin
+  log( 6, message );
 end;
 
 { TFakeStringDictonary }

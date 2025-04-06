@@ -357,7 +357,7 @@ var
     message:= 'DropBox Error';
     if e.Message <> EmptyStr then
       message:= message + ': ' + e.Message;
-    TLogUtil.log( 6, message );
+    TLogUtil.logError( message );
   end;
 
 begin
@@ -604,7 +604,7 @@ function TDropBoxAuthPKCESession.getAccessToken: String;
       end;
     except
       on e: EDropBoxTokenException do begin
-        TLogUtil.log( 6, 'Token Error: ' + e.ClassName + ': ' + e.Message );
+        TLogUtil.logError( 'Token Error: ' + e.ClassName + ': ' + e.Message );
         _token.invalid;
         self.authorize;
       end;

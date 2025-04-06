@@ -321,7 +321,7 @@ procedure TMiniHttpConnectionDataDelegate.cancelConnection(
 begin
   _state:= TMiniHttpConnectionState.aborted;
   _result.resultCode:= -1;
-  TLogUtil.log( 6, 'HttpClient: Connection Canceled in ' + name.UTF8String );
+  TLogUtil.logError( 'HttpClient: Connection Canceled in ' + name.UTF8String );
   connection.cancel;
   CFRunLoopStop( _runloop );
 end;
@@ -409,11 +409,11 @@ begin
   _state:= TMiniHttpConnectionState.failed;
   _processor.complete( _result.response, error );
 
-  TLogUtil.log( 6, 'HttpClient connection_didFailWithError !!!' );
+  TLogUtil.logError( 'HttpClient connection_didFailWithError !!!' );
   if Assigned(error) then begin
-    TLogUtil.log( 6, 'error.code=' + IntToStr(error.code) );
-    TLogUtil.log( 6, 'error.domain=' + error.domain.UTF8String );
-    TLogUtil.log( 6, 'error.description=' + error.description.UTF8String );
+    TLogUtil.logError( 'error.code=' + IntToStr(error.code) );
+    TLogUtil.logError( 'error.domain=' + error.domain.UTF8String );
+    TLogUtil.logError( 'error.description=' + error.description.UTF8String );
   end;
 
   _result.resultCode:= -1;

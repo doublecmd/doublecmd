@@ -153,7 +153,7 @@ end;
 
 class function TMacCloudUtil.exceptionToResult( const e: Exception ): Integer;
 begin
-  TLogUtil.log( msgtype_importanterror, e.ClassName + ': ' + e.Message );
+  TLogUtil.logError( e.ClassName + ': ' + e.Message );
 
   if e is EAbort then
     Result:= FS_FILE_USERABORT

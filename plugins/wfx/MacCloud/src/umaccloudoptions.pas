@@ -310,7 +310,7 @@ begin
     self.propertyView.updateConnectStatus;
   except
     on e: Exception do begin
-      TLogUtil.log( 6, 'in TCloudOptionsWindow: ' + e.Message );
+      TLogUtil.logError( 'in TCloudOptionsWindow: ' + e.Message );
     end;
   end;
 end;
