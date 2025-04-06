@@ -57,6 +57,8 @@ type
     function isValidAccessToken: Boolean;
     function isValidFreshToken: Boolean;
   public
+    function clone: TDropBoxToken;
+  public
     procedure setExpiration( const seconds: Integer );
     procedure invalid;
     property access: String read _access write _access;
@@ -86,6 +88,7 @@ type
   public
     constructor Create( const config: TDropBoxConfig );
     destructor Destroy; override;
+    function clone: TDropBoxAuthPKCESession;
   public
     function authorize: Boolean;
     procedure setAuthHeader( http: TMiniHttpClient );
@@ -198,6 +201,7 @@ type
   public
     constructor Create( const config: TDropBoxConfig );
     destructor Destroy; override;
+    function clone: TCloudDriver; override;
   public
     function authorize: Boolean; override;
   public
@@ -387,6 +391,14 @@ end;
 function TDropBoxToken.isValidFreshToken: Boolean;
 begin
   Result:= _refresh <> EmptyStr;
+end;
+
+function TDropBoxToken.clone: TDropBoxToken;
+begin
+  Result:= TDropBoxToken.Create;
+  Result._access:= self._access;
+  Result._refresh:= self._refresh;
+  Result._accessExpirationTime:= self._accessExpirationTime;
 end;
 
 procedure TDropBoxToken.setExpiration(const seconds: Integer);
@@ -599,6 +611,13 @@ destructor TDropBoxAuthPKCESession.Destroy;
 begin
   FreeAndNil( _token );
   FreeAndNil( _lockObject );
+end;
+
+function TDropBoxAuthPKCESession.clone: TDropBoxAuthPKCESession;
+begin
+  Result:= TDropBoxAuthPKCESession.Create( _config );
+  Result._accountID:= self._accountID;
+  Result._token:= self._token.clone;
 end;
 
 function TDropBoxAuthPKCESession.authorize: Boolean;
@@ -1093,9 +1112,17 @@ end;
 
 destructor TDropBoxClient.Destroy;
 begin
-  FreeAndNil( _config );
   FreeAndNil( _authSession );
   FreeAndNil( _listFolderSession );
+end;
+
+function TDropBoxClient.clone: TCloudDriver;
+var
+  newClient: TDropBoxClient;
+begin
+  newClient:= TDropBoxClient.Create( _config );
+  newClient._authSession:= self._authSession.clone;
+  Result:= newClient;
 end;
 
 function TDropBoxClient.authorize: Boolean;
@@ -1187,6 +1214,9 @@ begin
     FreeAndNil( session );
   end;
 end;
+
+finalization
+  FreeAndNil( dropBoxConfig );
 
 end.
 

@@ -57,6 +57,8 @@ type
     class function isMatched( const name: String ): Boolean; virtual; abstract;
     class function createInstance: TCloudDriver; virtual; abstract;
   public
+    function clone: TCloudDriver; virtual; abstract;
+  public
     function authorize: Boolean; virtual; abstract;
   public
     procedure download(
