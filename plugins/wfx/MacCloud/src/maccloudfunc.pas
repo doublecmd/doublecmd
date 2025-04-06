@@ -422,26 +422,38 @@ var
 begin
   dropBoxConfig:= TDropBoxConfig.Create( 'ahj0s9xia6i61gh', 'dc2ea085a05ac273a://dropbox/auth' );
   cloudDriverManager.register( TDropBoxClient );
-
-  driver:= cloudDriverManager.createInstance( 'DropBox' );
-  connection:= TCloudConnection.Create( 'rich', driver );
-  cloudConnectionManager.add( connection );
 end;
 
 { TCloudRootListFolder }
 
 procedure TCloudRootListFolder.listFolderBegin(const path: String);
-var
-  cloudFile: TCloudFile;
+  procedure addNewCommand;
+  var
+    cloudFile: TCloudFile;
+  begin
+    cloudFile:= TCloudFile.Create;
+    cloudFile.name:= CONST_ADD_NEW_CONNECTION;
+    _list.Add( cloudFile );
+  end;
+
+  procedure addConnections;
+  var
+    cloudFile: TCloudFile;
+    connection: TCloudConnection;
+    i: Integer;
+  begin
+    for i:= 0 to cloudConnectionManager.connections.Count - 1 do begin;
+      connection:= TCloudConnection( cloudConnectionManager.connections[i] );
+      cloudFile:= TCloudFile.Create;
+      cloudFile.name:= connection.name;
+      _list.Add( cloudFile );
+    end;
+  end;
+
 begin
   _list:= TFPList.Create;
-  cloudFile:= TCloudFile.Create;
-  cloudFile.name:= CONST_ADD_NEW_CONNECTION;
-  _list.Add( cloudFile );
-
-  cloudFile:= TCloudFile.Create;
-  cloudFile.name:= 'rich';
-  _list.Add( cloudFile );
+  addNewCommand;
+  addConnections;
 end;
 
 function TCloudRootListFolder.listFolderGetNextFile: TCloudFile;

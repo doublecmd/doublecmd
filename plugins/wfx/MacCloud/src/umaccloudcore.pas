@@ -116,10 +116,12 @@ type
   public
     constructor Create;
     destructor Destroy; override;
+  private
+    procedure setConnections( const connections: TCloudConnections );
   public
     procedure add( const connection: TCloudConnection );
     function get( const name: String ): TCloudConnection;
-    property connections: TCloudConnections read _connections;
+    property connections: TCloudConnections read _connections write setConnections;
   end;
 
 var
@@ -212,6 +214,16 @@ end;
 destructor TCloudConnectionManager.Destroy;
 begin
   FreeAndNil( _connections );
+end;
+
+procedure TCloudConnectionManager.setConnections(
+  const connections: TCloudConnections);
+var
+  oldConnections: TCloudConnections;
+begin
+  oldConnections:= _connections;
+  _connections:= connections;
+  FreeAndNil( oldConnections );
 end;
 
 procedure TCloudConnectionManager.add(const connection: TCloudConnection);
