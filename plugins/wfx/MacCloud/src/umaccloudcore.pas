@@ -60,6 +60,8 @@ type
     function clone: TCloudDriver; virtual; abstract;
   public
     function authorize: Boolean; virtual; abstract;
+    procedure unauthorize; virtual; abstract;
+    function authorized: Boolean; virtual; abstract;
   public
     procedure download(
       const serverPath: String;

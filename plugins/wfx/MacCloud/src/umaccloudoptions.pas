@@ -63,7 +63,7 @@ type
     procedure addConnection( sender: NSObject ); message 'TCloudConfigItemsController_addConnection:';
     procedure removeConnection( sender: NSObject ); message 'TCloudConfigItemsController_removeConnection:';
     procedure saveConnection( sender: NSObject ); message 'TCloudConfigItemsController_saveConnection:';
-    procedure connect( sender: NSObject ); message 'TCloudConfigItemsController_connect:';
+    procedure connectOrDisconnect( sender: NSObject ); message 'TCloudConfigItemsController_connectOrDisconnect:';
     function currentConfigItem: TConnectionConfigItem; message 'TCloudConfigItemsController_currentConfigItem';
     procedure onSelectedConnectionChanged( const selectedIndex: Integer );
       message 'TCloudConfigItemsController_onSelectedConnectionChanged:';
@@ -89,8 +89,11 @@ type
   private
     controller: TCloudConfigItemsController;
     nameTextField: NSTextField;
+    connectButton: NSButton;
+    statusImageview: NSImageView;
   public
     procedure loadConnectionProperties( const index: Integer ); message 'TPropertyView_loadConnectionProperties:';
+    procedure updateConnectStatus; message 'TPropertyView_updateConnectStatus';
   end;
 
   { TCloudOptionsWindow }
@@ -112,7 +115,7 @@ type
     procedure addConnection( sender: NSObject );
     procedure removeConnection( sender: NSObject );
     procedure saveConnection( sender: NSObject );
-    procedure connect( sender: NSObject );
+    procedure connectOrDisconnect( sender: NSObject );
     function currentConfigItem: TConnectionConfigItem;
     procedure onSelectedConnectionChanged( const selectedIndex: Integer );
   public
@@ -129,6 +132,25 @@ begin
   if configItem = nil then
     Exit;
   self.nameTextField.setStringValue( configItem.name );
+  self.updateConnectStatus;
+end;
+
+procedure TPropertyView.updateConnectStatus;
+var
+  configItem: TConnectionConfigItem;
+  connectButtonText: String;
+  statusImageName: NSString;
+begin
+  configItem:= controller.currentConfigItem;
+  if configItem.driver.authorized then begin
+    statusImageName:= NSImageNameStatusAvailable;
+    connectButtonText:= 'Disconnect';
+  end else begin
+    statusImageName:= NSImageNameStatusUnavailable;
+    connectButtonText:= 'Connect';
+  end;
+  self.statusImageView.setImage( NSImage.imageNamed(statusImageName) );
+  self.connectButton.setTitle( StringToNSString(connectButtonText) );
 end;
 
 { TConnectionConfigItem }
@@ -272,12 +294,18 @@ begin
   self.connectionListView.selectRow_byExtendingSelection( currentIndex, False );
 end;
 
-procedure TCloudOptionsWindow.connect(sender: NSObject);
+procedure TCloudOptionsWindow.connectOrDisconnect(sender: NSObject);
 var
   configItem: TConnectionConfigItem;
+  driver: TCloudDriver;
 begin
   configItem:= self.currentConfigItem;
-  configItem.driver.authorize;
+  driver:= configItem.driver;
+  if driver.authorized then
+    driver.unauthorize
+  else
+    driver.authorize;
+  self.propertyView.updateConnectStatus;
 end;
 
 function TCloudOptionsWindow.currentConfigItem: TConnectionConfigItem;
@@ -413,7 +441,8 @@ var
   var
     nameLabel: NSTextField;
     nameTextField: NSTextField;
-    connectionButton: NSButton;
+    connectButton: NSButton;
+    statusImageView: NSImageView;
     saveButton: NSButton;
     noteTextView: NSTextView;
   begin
@@ -432,15 +461,20 @@ var
     rightView.addSubview( nameTextField );
     nameTextField.release;
 
-    connectionButton:= NSButton.alloc.initWithFrame( NSMakeRect(70,450,80,22) );
-    connectionButton.setBezelStyle( NSRoundedBezelStyle );
-    connectionButton.setTitle( NSSTR('Connect') );
-    connectionButton.setTarget( win );
-    connectionButton.setAction( ObjCSelector('TCloudConfigItemsController_connect:') );
-    rightView.addSubView( connectionButton );
-    connectionButton.release;
+    statusImageView:= NSImageView.alloc.initWithFrame( NSMakeRect(350,503,16,16) );
+    rightView.statusImageview:= statusImageView;
+    rightView.addSubview( statusImageView );
+    statusImageView.release;
 
-    saveButton:= NSButton.alloc.initWithFrame( NSMakeRect(200,450,80,22) );
+    connectButton:= NSButton.alloc.initWithFrame( NSMakeRect(80,450,100,22) );
+    connectButton.setBezelStyle( NSRoundedBezelStyle );
+    connectButton.setTarget( win );
+    connectButton.setAction( ObjCSelector('TCloudConfigItemsController_connectOrDisconnect:') );
+    rightView.connectButton:= connectButton;
+    rightView.addSubView( connectButton );
+    connectButton.release;
+
+    saveButton:= NSButton.alloc.initWithFrame( NSMakeRect(200,450,100,22) );
     saveButton.setBezelStyle( NSRoundedBezelStyle );
     saveButton.setTitle( NSSTR('Save') );
     saveButton.setTarget( win );

@@ -91,6 +91,8 @@ type
     function clone: TDropBoxAuthPKCESession;
   public
     function authorize: Boolean;
+    procedure unauthorize;
+    function authorized: Boolean;
     procedure setAuthHeader( http: TMiniHttpClient );
   end;
 
@@ -204,6 +206,8 @@ type
     function clone: TCloudDriver; override;
   public
     function authorize: Boolean; override;
+    procedure unauthorize; override;
+    function authorized: Boolean; override;
   public
     procedure listFolderBegin( const path: String ); override;
     function  listFolderGetNextFile: TCloudFile; override;
@@ -627,10 +631,20 @@ begin
     requestAuthorization;
     TThread.Synchronize( TThread.CurrentThread, @waitAuthorizationAndPrompt );
     requestToken;
-    Result:= (_token.access <> EmptyStr);
+    Result:= self.authorized;
   finally
     _lockObject.Release;
   end;
+end;
+
+procedure TDropBoxAuthPKCESession.unauthorize;
+begin
+  _token.invalid;
+end;
+
+function TDropBoxAuthPKCESession.authorized: Boolean;
+begin
+  Result:= (_token.access <> EmptyStr);
 end;
 
 procedure TDropBoxAuthPKCESession.setAuthHeader(http: TMiniHttpClient);
@@ -1128,6 +1142,16 @@ end;
 function TDropBoxClient.authorize: Boolean;
 begin
   Result:= _authSession.authorize;
+end;
+
+procedure TDropBoxClient.unauthorize;
+begin
+  _authSession.unauthorize;
+end;
+
+function TDropBoxClient.authorized: Boolean;
+begin
+  Result:= _authSession.authorized;
 end;
 
 procedure TDropBoxClient.listFolderBegin(const path: String);
