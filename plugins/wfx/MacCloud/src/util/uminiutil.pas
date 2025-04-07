@@ -81,10 +81,12 @@ type
     class procedure setString( const json: NSMutableDictionary; const key: String; const value: String );
     class procedure setBoolean( const json: NSMutableDictionary; const key: String; const value: Boolean );
     class procedure setInteger( const json: NSMutableDictionary; const key: String; const value: Integer );
+    class procedure setDateTime( const json: NSMutableDictionary; const key: String; const value: TDateTime );
     class procedure setArray( const json: NSMutableDictionary; const key: String; const value: NSArray );
     class function getString( const json: NSDictionary; const key: String ): String;
     class function getBoolean( const json: NSDictionary; const key: String ): Boolean;
     class function getInteger( const json: NSDictionary; const key: String ): Integer;
+    class function getDateTime( const json: NSDictionary; const key: String ): TDateTime;
     class function getArray( const json: NSDictionary; const key: String ): NSArray;
   end;
 
@@ -311,6 +313,12 @@ begin
   json.setObject_forKey( NSNumber.numberWithLongLong(value), StringToNSString(key) );
 end;
 
+class procedure TJsonUtil.setDateTime(const json: NSMutableDictionary;
+  const key: String; const value: TDateTime);
+begin
+  json.setObject_forKey( NSNumber.numberWithDouble(value), StringToNSString(key) );
+end;
+
 class procedure TJsonUtil.setArray(const json: NSMutableDictionary; const key: String;
   const value: NSArray);
 begin
@@ -332,6 +340,12 @@ class function TJsonUtil.getInteger(const json: NSDictionary; const key: String
   ): Integer;
 begin
   Result:= NSNumber( json.objectForKey( StringToNSString(key) ) ).longLongValue;
+end;
+
+class function TJsonUtil.getDateTime(const json: NSDictionary; const key: String
+  ): TDateTime;
+begin
+  Result:= NSNumber( json.objectForKey( StringToNSString(key) ) ).doubleValue;
 end;
 
 class function TJsonUtil.getArray(const json: NSDictionary; const key: String

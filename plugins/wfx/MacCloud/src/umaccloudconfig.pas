@@ -44,8 +44,8 @@ type
     destructor Destroy; override;
   public
     procedure register( const name: String; const config: TCloudDriverConfigClass );
-    procedure loadDriversConfigFromConfigFile( const path: String );
-    procedure saveDriversConfigToConfigFile( const path: String );
+    procedure loadFromConfigFile( const path: String );
+    procedure saveToConfigFile( const path: String );
   end;
 
 var
@@ -104,49 +104,106 @@ begin
   config.load( params );
 end;
 
-procedure TCloudConfigManager.loadDriversConfigFromConfigFile( const path: String );
+procedure TCloudConfigManager.loadFromConfigFile( const path: String );
+  procedure loadDrivers( const jsonDrivers: NSArray );
+  var
+    jsonDriver: NSDictionary;
+    driverName: String;
+  begin
+    for jsonDriver in jsonDrivers do begin
+      driverName:= TJsonUtil.getString( jsonDriver, 'name' );
+      self.loadDriverConfig( driverName, jsonDriver );
+    end;
+  end;
+
+  procedure loadConnections( const jsonConnections: NSArray );
+  var
+    jsonConnection: NSDictionary;
+    connections: TCloudConnections;
+    connection: TCloudConnection;
+    driverName: String;
+  begin
+    connections:= TCloudConnections.Create( True );
+    for jsonConnection in jsonConnections do begin
+      driverName:= TJsonUtil.getString( jsonConnection, 'driver' );
+      connection:= TCloudConnection.Create(
+        TJsonUtil.getString( jsonConnection, 'name' ),
+        cloudDriverManager.createInstance( driverName ),
+        TJsonUtil.getDateTime( jsonConnection, 'creationTime' ),
+        TJsonUtil.getDateTime( jsonConnection, 'modificationTime' ) );
+      connections.Add( connection );
+    end;
+    cloudConnectionManager.connections:= connections;
+  end;
 var
   jsonString: NSString;
   json: NSDictionary;
-  jsonDrivers: NSArray;
-  jsonDriver: NSDictionary;
-  driverName: String;
 begin
   jsonString:= NSString.stringWithContentsOfFile_encoding_error(
     StringToNSString(path), NSUTF8StringEncoding, nil );
   json:= TJsonUtil.parse( jsonString );
-  jsonDrivers:= TJsonUtil.getArray( json, 'drivers' );
-  for jsonDriver in jsonDrivers do begin
-    driverName:= TJsonUtil.getString( jsonDriver, 'name' );
-    self.loadDriverConfig( driverName, jsonDriver );
-  end;
+  loadDrivers( TJsonUtil.getArray(json, 'drivers') );
+  loadConnections( TJsonUtil.getArray(json, 'connections') );
 end;
 
-procedure TCloudConfigManager.saveDriversConfigToConfigFile(const path: String);
+procedure TCloudConfigManager.saveToConfigFile(const path: String);
+  function saveDrivers: NSArray;
+  var
+    json: NSMutableArray;
+    jsonDriver: NSMutableDictionary;
+    i: Integer;
+    driverClasses: TCloudDriverClasses;
+    driverName: String;
+    config: TCloudDriverConfigClass;
+  begin
+    json:= NSMutableArray.new.autorelease;
+    driverClasses:= cloudDriverManager.driverClasses;
+    for i:=0 to driverClasses.Count-1 do begin
+      jsonDriver:= NSMutableDictionary.new;
+      driverName:= TCloudDriverClass(driverClasses[i]).driverName;
+      config:= TCloudDriverConfigClass( _configItems[driverName] );
+      config.save( jsonDriver );
+      json.addObject( jsonDriver );
+      jsonDriver.release;
+    end;
+    Result:= json;
+  end;
+
+  function saveConnections: NSArray;
+  var
+    json: NSMutableArray;
+    jsonConnection: NSMutableDictionary;
+    i: Integer;
+    connections: TCloudConnections;
+    connection: TCloudConnection;
+  begin
+    json:= NSMutableArray.new.autorelease;
+    connections:= cloudConnectionManager.connections;
+    for i:=0 to connections.Count-1 do begin
+      jsonConnection:= NSMutableDictionary.new;
+      connection:= TCloudConnection( connections[i] );
+      TJsonUtil.setString( jsonConnection, 'name', connection.name );
+      TJsonUtil.setString( jsonConnection, 'driver', connection.driver.driverName );
+      TJsonUtil.setDateTime( jsonConnection, 'creationTime', connection.creationTime );
+      TJsonUtil.setDateTime( jsonConnection, 'modificationTime', connection.modificationTime );
+      json.addObject( jsonConnection );
+      jsonConnection.release;
+    end;
+    Result:= json;
+  end;
+
 var
   jsonString: String;
-  jsonDrivers: NSMutableArray;
-  jsonDriver: NSMutableDictionary;
-  i: Integer;
-  driverClasses: TCloudDriverClasses;
-  driverName: String;
-  config: TCloudDriverConfigClass;
+  jsonDrivers: NSArray;
+  jsonConnections: NSArray;
+
 begin
-  jsonDrivers:= NSMutableArray.new;
-  driverClasses:= cloudDriverManager.driverClasses;
-  for i:=0 to driverClasses.Count-1 do begin
-    jsonDriver:= NSMutableDictionary.new;
-    driverName:= TCloudDriverClass(driverClasses[i]).driverName;
-    config:= TCloudDriverConfigClass( _configItems[driverName] );
-    config.save( jsonDriver );
-    jsonDrivers.addObject( jsonDriver );
-    jsonDriver.release;
-  end;
+  jsonDrivers:= saveDrivers;
+  jsonConnections:= saveConnections;
   jsonString:= TJsonUtil.dumps(
-    ['drivers',jsonDrivers],
+    [ 'drivers',jsonDrivers, 'connections',jsonConnections ],
     False,
     NSJSONWritingWithoutEscapingSlashes or NSJSONWritingPrettyPrinted );
-  jsonDrivers.release;
 
   StringToNSString(jsonString).writeToFile_atomically_encoding_error(
     StringToNSString(path),
