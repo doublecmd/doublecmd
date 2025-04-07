@@ -56,6 +56,7 @@ type
 
   TCloudDriver = class( TCloudListFolder )
   public
+    class function driverName: String; virtual; abstract;
     class function isMatched( const name: String ): Boolean; virtual; abstract;
     class function createInstance: TCloudDriver; virtual; abstract;
   public
@@ -95,6 +96,8 @@ type
     procedure register( const cloudDriverClass: TCloudDriverClass );
     function find( const name: String ): TCloudDriverClass;
     function createInstance( const name: String ): TCloudDriver;
+  public
+    property driverClasses: TCloudDriverClasses read _classes;
   end;
 
   { TCloudConnection }

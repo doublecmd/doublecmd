@@ -30,6 +30,9 @@ const
   NSTableViewStylePlain = 4;
 
 const
+  NSJSONWritingWithoutEscapingSlashes = 1 shl 3;
+
+const
   NSVisualEffectMaterialAppearanceBased = 0 deprecated;
   NSVisualEffectMaterialLight = 1 deprecated;
   NSVisualEffectMaterialDark = 2 deprecated;

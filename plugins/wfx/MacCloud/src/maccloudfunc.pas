@@ -395,11 +395,13 @@ var
     if utf8Verb = 'open' then begin
       if parser.connectionName = CONST_ADD_NEW_CONNECTION then begin
         TCloudOptionsUtil.addAndShow;
+        macCloudDriverConfigManager.saveDriversConfigToConfigFile( macCloudPlugin.configPath );
       end else begin
         Exit( FS_EXEC_SYMLINK );
       end;
     end else if utf8Verb = 'properties' then begin
       TCloudOptionsUtil.show( parser.connectionName );
+      macCloudDriverConfigManager.saveDriversConfigToConfigFile( macCloudPlugin.configPath );
     end;
   end;
 

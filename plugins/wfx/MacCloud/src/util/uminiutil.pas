@@ -72,7 +72,10 @@ type
 
   TJsonUtil = class
   public
-    class function dumps( const Elements: Array of Const; const ensureAscii: Boolean = False ): String;
+    class function dumps(
+      const Elements: Array of Const;
+      const ensureAscii: Boolean = False;
+      const options: Integer = NSJSONWritingWithoutEscapingSlashes ): String;
     class function parse( const jsonString: String ): NSDictionary; overload;
     class function parse( const jsonString: NSString ): NSDictionary; overload;
     class procedure setString( const json: NSMutableDictionary; const key: String; const value: String );
@@ -194,7 +197,8 @@ end;
 
 class function TJsonUtil.dumps(
   const Elements: array of const;
-  const ensureAscii: Boolean = False ): String;
+  const ensureAscii: Boolean = False;
+  const options: Integer = NSJSONWritingWithoutEscapingSlashes ): String;
 var
   i: integer;
   jsonData: NSData;
@@ -259,7 +263,7 @@ begin
   end;
 
   error:= nil;
-  jsonData:= NSJSONSerialization.dataWithJSONObject_options_error( json, 1 shl 3, @error );
+  jsonData:= NSJSONSerialization.dataWithJSONObject_options_error( json, options, @error );
   if error <> nil then
     Result:= EmptyStr
   else begin

@@ -199,6 +199,7 @@ type
     _authSession: TDropBoxAuthPKCESession;
     _listFolderSession: TDropBoxListFolderSession;
   public
+    class function driverName: String; override;
     class function isMatched(const name: String): Boolean; override;
     class function createInstance: TCloudDriver; override;
   public
@@ -1132,6 +1133,11 @@ begin
 end;
 
 { TDropBoxClient }
+
+class function TDropBoxClient.driverName: String;
+begin
+  Result:= 'DropBox';
+end;
 
 class function TDropBoxClient.isMatched(const name: String): Boolean;
 begin
