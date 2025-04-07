@@ -73,6 +73,11 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="uMacCloudOptions"/>
       </Unit>
+      <Unit>
+        <Filename Value="umaccloudconfig.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uMacCloudConfig"/>
+      </Unit>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

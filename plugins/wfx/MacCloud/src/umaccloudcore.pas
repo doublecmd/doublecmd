@@ -18,12 +18,14 @@ type
     _pluginNumber: Integer;
     _progressProc: TProgressProcW;
     _logProc: TLogProcW;
+    _configPath: String;
     procedure pluginLogProc( const MsgType: Integer; const message: String );
   public
     constructor Create( const pluginNumber: Integer; const progressProc: TProgressProcW; const logProc: TLogProcW );
     function progress( const sourceName: pwidechar; const targetName: pwidechar; const percentDone: Integer ): Integer;
   public
     property pluginNumber: Integer read _pluginNumber;
+    property configPath: String read _configPath write _configPath;
   end;
 
   ICloudProgressCallback = IMiniHttpDataCallback;
@@ -85,7 +87,7 @@ type
 
   TCloudDriverManager = class
   private
-    classes: TCloudDriverClasses;
+    _classes: TCloudDriverClasses;
   public
     constructor Create;
     destructor Destroy; override;
@@ -165,17 +167,19 @@ end;
 
 constructor TCloudDriverManager.Create;
 begin
-  classes:= TCloudDriverClasses.Create;
+  _classes:= TCloudDriverClasses.Create;
 end;
 
 destructor TCloudDriverManager.Destroy;
 begin
-  classes.Free;
+  _classes.Free;
 end;
 
 procedure TCloudDriverManager.register( const cloudDriverClass: TCloudDriverClass );
 begin
-  classes.Add( cloudDriverClass );
+  if _classes.IndexOf(cloudDriverClass) >= 0 then
+    Exit;
+  _classes.Add( cloudDriverClass );
 end;
 
 function TCloudDriverManager.find( const name: String ): TCloudDriverClass;
@@ -183,8 +187,8 @@ var
   i: Integer;
   cloudDriverClass: TCloudDriverClass;
 begin
-  for i:= 0 to classes.Count - 1 do begin
-    cloudDriverClass:= TCloudDriverClass( classes[i] );
+  for i:= 0 to _classes.Count - 1 do begin
+    cloudDriverClass:= TCloudDriverClass( _classes[i] );
     if NOT cloudDriverClass.isMatched(name) then
       continue;
     Exit( cloudDriverClass );

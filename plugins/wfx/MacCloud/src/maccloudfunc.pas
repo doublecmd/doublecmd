@@ -13,11 +13,11 @@ interface
 uses
   Classes, SysUtils,
   WfxPlugin,
-  uMacCloudCore, uMacCloudUtil, uMacCloudOptions,
-  uDropBoxClient,
+  uMacCloudCore, uMacCloudConfig, uMacCloudUtil, uMacCloudOptions,
   uMiniUtil;
 
 function FsInitW(PluginNr:integer;pProgressProc:tProgressProcW;pLogProc:tLogProcW;pRequestProc:tRequestProcW):integer; cdecl;
+procedure FsSetDefaultParams(dps:pFsDefaultParamStruct); cdecl;
 function FsFindFirstW(path:pwidechar;var FindData:tWIN32FINDDATAW):thandle; cdecl;
 function FsFindNextW(handle:thandle;var FindData:tWIN32FINDDATAW):bool; cdecl;
 function FsFindClose(handle:thandle):integer; cdecl;
@@ -55,8 +55,22 @@ function FsInitW(
   pLogProc: TLogProcW;
   pRequestProc: TRequestProcW ): Integer; cdecl;
 begin
+  if Assigned(macCloudPlugin) then
+    macCloudPlugin.Free;
   macCloudPlugin:= TMacCloudPlugin.Create( PluginNr, pProgressProc, pLogProc );
   Result:= 0;
+end;
+
+procedure FsSetDefaultParams(dps: pFsDefaultParamStruct); cdecl;
+var
+  path: String;
+begin
+  path:= TFileUtil.parentPath( dps^.DefaultIniName );
+  path:= path + PathDelim + 'MacCloud.json';
+  if macCloudPlugin <> nil then
+    macCloudPlugin.configPath:= path;
+
+  macCloudDriverConfigManager.loadDriversConfigFromConfigFile( path );
 end;
 
 function FsFindFirstW(
@@ -415,12 +429,6 @@ begin
   strlcopy( DefRootName, 'cloud', maxlen );
 end;
 
-procedure init;
-begin
-  dropBoxConfig:= TDropBoxConfig.Create( 'ahj0s9xia6i61gh', 'dc2ea085a05ac273a://dropbox/auth' );
-  cloudDriverManager.register( TDropBoxClient );
-end;
-
 { TCloudRootListFolder }
 
 procedure TCloudRootListFolder.listFolderBegin(const path: String);
@@ -472,8 +480,5 @@ begin
   FreeAndNil( _list );
   self.Free;
 end;
-
-initialization
-  init;
 
 end.

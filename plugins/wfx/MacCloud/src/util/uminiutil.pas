@@ -73,7 +73,8 @@ type
   TJsonUtil = class
   public
     class function dumps( const Elements: Array of Const; const ensureAscii: Boolean = False ): String;
-    class function parse( const jsonString: String ): NSDictionary;
+    class function parse( const jsonString: String ): NSDictionary; overload;
+    class function parse( const jsonString: NSString ): NSDictionary; overload;
     class procedure setString( const json: NSMutableDictionary; const key: String; const value: String );
     class procedure setBoolean( const json: NSMutableDictionary; const key: String; const value: Boolean );
     class procedure setInteger( const json: NSMutableDictionary; const key: String; const value: Integer );
@@ -90,6 +91,7 @@ type
   public
     class function exists( const path: String ): Boolean;
     class function filesize( const path: String ): Integer;
+    class function parentPath( const path: String ): String;
   end;
 
   TLogProc = procedure ( const MsgType: Integer; const message: String ) of object;
@@ -271,12 +273,17 @@ begin
 end;
 
 class function TJsonUtil.parse(const jsonString: String): NSDictionary;
+begin
+  Result:= self.parse( StringToNSString(jsonString) );
+end;
+
+class function TJsonUtil.parse(const jsonString: NSString): NSDictionary;
 var
   jsonData: NSData;
   error: NSError;
 begin
   error:= nil;
-  jsonData:= StringToNSString(jsonString).dataUsingEncoding( NSUTF8StringEncoding );
+  jsonData:= jsonString.dataUsingEncoding( NSUTF8StringEncoding );
   Result:= NSJSONSerialization.JSONObjectWithData_options_error( jsonData, 0, @error );
   if error <> nil then
     Result:= nil;
@@ -354,6 +361,14 @@ begin
     nil );
   filesizeNumber:= fileAttributes.objectForKey( NSFileSize );
   Result:= filesizeNumber.longLongValue;
+end;
+
+class function TFileUtil.parentPath(const path: String): String;
+var
+  nsPath: NSString;
+begin
+  nsPath:= StringToNSString( path );
+  Result:= nsPath.stringByDeletingLastPathComponent.UTF8String;
 end;
 
 { TLogUtil }

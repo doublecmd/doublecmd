@@ -40,6 +40,7 @@ uses
 
 exports
   FsInitW,
+  FsSetDefaultParams,
   FsFindFirstW,
   FsFindNextW,
   FsFindClose,
