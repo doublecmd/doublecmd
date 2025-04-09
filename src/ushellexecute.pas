@@ -26,7 +26,7 @@ unit uShellExecute;
 interface
 
 uses
-  Classes, uFile, uFileView, fMain;
+  Classes, uFindFiles, uFile, uFileView, fMain;
 
 const
   ASCII_DLE = #16;
@@ -887,6 +887,7 @@ type
 
 begin
   result := '';
+
   try
     leftFiles := frmMain.FrameLeft.CloneSelectedOrActiveFiles;
     rightFiles := frmMain.FrameRight.CloneSelectedOrActiveFiles;
@@ -996,12 +997,30 @@ var
   sl: TStringList;
   bShowCommandLinePriorToExecute: boolean = False;
   bAbortOperationFlag: boolean = false;
+  Options: TTextSearchOptions;
+  FText : String = ' /FText=""';
+  FCase : String = ' /FCase=0';
+  FWords : String = ' /FWords=0';
+  FHex : String = ' /FHex=0';
+  addedCmdExternal : String = '';
 begin
   Result := False;
+  if True then
+  begin
+    FText:= Copy(FText, 1, Length(FText) - 2) + '"' + glsSearchHistory[0] + '"';
+    Options:= TTextSearchOptions(UInt32(UIntPtr(glsSearchHistory.Objects[0])));
+    if (tsoMatchCase in Options) then
+	  FCase:= Copy(FCase, 1, Length(FCase) - 1) + '1';
+    //if (tsoMatchWord in Options) then  // Not implemented at time
+	//  FWords:= Copy(FWords, 1, Length(FWords) - 1) + '1';
+    if (tsoHex in Options) then
+	  FHex:= Copy(FHex, 1, Length(FHex) - 1) + '1';
+    addedCmdExternal:= FText + FCase + FWords + FHex;
+  end;
 
   // 1. Parse the command, parameters and working directory for the percent-variable substitution.
   sCmd := PrepareParameter(sCmd, paramFile, [ppoReplaceTilde]);
-  sParams := PrepareParameter(sParams, paramFile, [], @bShowCommandLinePriorToExecute, @bTerm, @bKeepTerminalOpen, @bAbortOperationFlag);
+  sParams := PrepareParameter(sParams, paramFile, [], @bShowCommandLinePriorToExecute, @bTerm, @bKeepTerminalOpen, @bAbortOperationFlag) + addedCmdExternal;
   if not bAbortOperationFlag then sWorkPath := PrepareParameter(sWorkPath, paramFile, [ppoNormalizePathDelims, ppoReplaceTilde]);
 
   if not bAbortOperationFlag then
