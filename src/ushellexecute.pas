@@ -1005,7 +1005,7 @@ var
   addedCmdExternal : String = '';
 begin
   Result := False;
-  if True then
+  if Pos('view', LowerCase(sCmd)) > 0 then
   begin
     FText:= Copy(FText, 1, Length(FText) - 2) + '"' + glsSearchHistory[0] + '"';
     Options:= TTextSearchOptions(UInt32(UIntPtr(glsSearchHistory.Objects[0])));
