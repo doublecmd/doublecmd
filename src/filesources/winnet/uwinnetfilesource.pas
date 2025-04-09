@@ -196,7 +196,8 @@ begin
   if WNetGetProviderNameW(WNNC_NET_LANMAN, @FProviderName, dwBufferSize) <> NO_ERROR then
     raise EOSError.Create(mbWinNetErrorMessage(GetLastError));
 
-  FSamba1:= (Win32MajorVersion < 6) or (GetServiceStatus('mrxsmb10') = SERVICE_RUNNING);
+  FSamba1:= (Win32MajorVersion < 6) or ((Win32MajorVersion < 10) and
+                                        (GetServiceStatus('mrxsmb10') = SERVICE_RUNNING));
 end;
 
 class function TWinNetFileSource.IsSupportedPath(const Path: String): Boolean;
