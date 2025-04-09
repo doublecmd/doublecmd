@@ -3,6 +3,7 @@
    1. contains only the most basic util
    2. make full use of Cocoa native facilities:
       json serialization/deserialization
+      key chains
       hash
       string conversion
       file tools
@@ -18,7 +19,7 @@ interface
 
 uses
   Classes, SysUtils,
-  CocoaAll, uMiniCocoa;
+  MacOSAll, CocoaAll, uMiniCocoa;
 
 type
 
@@ -83,11 +84,21 @@ type
     class procedure setInteger( const json: NSMutableDictionary; const key: String; const value: Integer );
     class procedure setDateTime( const json: NSMutableDictionary; const key: String; const value: TDateTime );
     class procedure setArray( const json: NSMutableDictionary; const key: String; const value: NSArray );
+    class procedure setDictionary( const json: NSMutableDictionary; const key: String; const value: NSDictionary );
     class function getString( const json: NSDictionary; const key: String ): String;
     class function getBoolean( const json: NSDictionary; const key: String ): Boolean;
     class function getInteger( const json: NSDictionary; const key: String ): Integer;
     class function getDateTime( const json: NSDictionary; const key: String ): TDateTime;
     class function getArray( const json: NSDictionary; const key: String ): NSArray;
+    class function getDictionary( const json: NSDictionary; const key: String ): NSDictionary;
+  end;
+
+  { TSecUtil }
+
+  TSecUtil = class
+  public
+    class procedure saveValue( const service: String; const account: String; const value: String ); overload;
+    class function getValue( const service: String; const account: String ): String;
   end;
 
   { TFileUtil }
@@ -325,6 +336,12 @@ begin
   json.setObject_forKey( value, StringToNSString(key) );
 end;
 
+class procedure TJsonUtil.setDictionary(const json: NSMutableDictionary;
+  const key: String; const value: NSDictionary);
+begin
+  json.setObject_forKey( value , StringToNSString(key) );
+end;
+
 class function TJsonUtil.getString(const json: NSDictionary; const key: String ): String;
 begin
   Result:= NSString( json.objectForKey( StringToNSString(key) ) ).UTF8String;
@@ -353,6 +370,68 @@ class function TJsonUtil.getArray(const json: NSDictionary; const key: String
 begin
   Result:= NSArray( json.objectForKey( StringToNSString(key) ) );
 end;
+
+class function TJsonUtil.getDictionary(const json: NSDictionary;
+  const key: String): NSDictionary;
+begin
+  Result:= NSDictionary( json.objectForKey( StringToNSString(key) ) );
+end;
+
+{ TSecUtil }
+
+class procedure TSecUtil.saveValue(
+  const service: String;
+  const account: String;
+  const value: String );
+var
+  app: String;
+  data: NSData;
+  attributes: NSMutableDictionary;
+  status: OSStatus;
+begin
+  app:= NSBundle.mainBundle.bundleIdentifier.UTF8String;
+  data:= StringToNSString(value).dataUsingEncoding(NSUTF8StringEncoding);
+  attributes:= NSMutableDictionary.new;
+  attributes.setObject_forKey( kSecClassGenericPassword , kSecClass );
+  attributes.setObject_forKey( StringToNSString(app), kSecAttrLabel );
+  attributes.setObject_forKey( StringToNSString(service) , kSecAttrService );
+  attributes.setObject_forKey( StringToNSString(account) , kSecAttrAccount );
+  attributes.setObject_forKey( data , kSecValueData );
+  SecItemDelete( attributes );
+  status:= SecItemAdd( attributes, nil );
+  attributes.release;
+  if status <> errSecSuccess then
+    TLogUtil.logError( 'SecItemAdd() error in TSecUtil.saveValue(): ' + IntToStr(status) );
+end;
+
+class function TSecUtil.getValue(
+  const service: String;
+  const account: String ): String;
+var
+  attributes: NSMutableDictionary;
+  status: OSStatus;
+  item: NSDictionary;
+  data: NSData;
+  value: NSString;
+begin
+  attributes:= NSMutableDictionary.new;
+  attributes.setObject_forKey( kSecClassGenericPassword , kSecClass );
+  attributes.setObject_forKey( StringToNSString(service), kSecAttrService );
+  attributes.setObject_forKey( StringToNSString(account), kSecAttrAccount );
+  attributes.setObject_forKey( kSecMatchLimitOne, kSecMatchLimit );
+  attributes.setObject_forKey( NSNumber.numberWithBool(True), kSecReturnAttributes );
+  attributes.setObject_forKey( NSNumber.numberWithBool(True), kSecReturnData );
+  status:= SecItemCopyMatching( attributes, @item );
+  if status <> errSecSuccess then
+    TLogUtil.logError( 'SecItemCopyMatching() error in TSecUtil.getValue(): ' + IntToStr(status) );
+  attributes.release;
+  data:= NSData( item.valueForKey(kSecValueData) );
+  value:= NSString.alloc.initWithData_encoding(data, NSUTF8StringEncoding);
+  Result:= value.UTF8String;
+  value.release;
+end;
+
+{ TConsoleLogger }
 
 procedure TConsoleLogger.logProc( const MsgType: Integer; const message: String );
 begin

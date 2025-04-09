@@ -8,15 +8,15 @@ unit uMiniCocoa;
 
 {$mode ObjFPC}{$H+}
 {$modeswitch objectivec2}
+{$linkframework Security}
 
 interface
 
 uses
   Classes, SysUtils,
-  CocoaAll;
+  MacOSAll, CocoaAll;
 
 const
-
   NSAppKitVersionNumber11_0  = 2022;
   NSAppKitVersionNumber12_0  = 2113;
   NSAppKitVersionNumber13_0  = 2299;
@@ -54,6 +54,40 @@ const
   NSVisualEffectMaterialContentBackground = 18;
   NSVisualEffectMaterialUnderWindowBackground = 21;
   NSVisualEffectMaterialUnderPageBackground = 22;
+
+var
+  kSecClassGenericPassword: NSString; cvar; external;
+
+  kSecClass: NSString; cvar; external;
+  kSecAttrService: NSString; cvar; external;
+  kSecAttrAccount: NSString; cvar; external;
+  kSecValueData: NSString; cvar; external;
+  kSecAttrLabel: NSString; cvar; external;
+  kSecMatchLimit: NSString; cvar; external;
+  kSecMatchLimitOne: NSString; cvar; external;
+  kSecReturnAttributes: NSString; cvar; external;
+  kSecReturnData: NSString; cvar; external;
+  kSecUseAuthenticationUI: NSString; cvar; external;
+  kSecUseAuthenticationUISkip: NSString; cvar; external;
+  kSecAttrAccessible: NSString; cvar; external;
+  kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly: NSString; cvar; external;
+  kSecAttrAccessibleAlways: NSString; cvar; external;
+  kSecAttrAccessControl: NSString; cvar; external;
+
+  function SecItemAdd( attributes: NSDictionary; result: CFTypeRefPtr ): OSStatus; external name '_SecItemAdd';
+  function SecItemDelete( query: NSDictionary ): OSStatus; external name '_SecItemDelete';
+  function SecItemCopyMatching( query: NSDictionary; result: CFTypeRefPtr ): OSStatus; external name '_SecItemCopyMatching';
+
+const
+  kSecAccessControlUserPresence = 1 shl 0;
+  kSecAccessControlBiometryAny  = 1 shl 1;
+
+type
+  SecAccessControl = record end;
+  SecAccessControlRef = ^SecAccessControl;
+  SecAccessControlCreateFlags = NSUInteger;
+
+  function SecAccessControlCreateWithFlags(allocator: CFAllocatorRef; protection: CFTypeRef; flags: SecAccessControlCreateFlags; error: CFErrorRefPtr ): SecAccessControlRef; external name '_SecAccessControlCreateWithFlags';
 
 type
 
