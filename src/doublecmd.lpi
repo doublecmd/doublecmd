@@ -49,6 +49,10 @@
             <UnitOutputDirectory Value="..\units\$(TargetCPU)-$(TargetOS)-$(LCLWidgetType)"/>
             <SrcPath Value="$(LazarusDir)\lcl;$(LazarusDir)\lcl\interfaces\$(LCLWidgetType);$(fpcsrcdir)\packages\fcl-base\src"/>
           </SearchPaths>
+          <Conditionals Value="if (Laz_FullVersion >= 4990000) then
+begin
+  CustomOptions += &apos;-dLCL_VER_499&apos;;
+end;"/>
           <Parsing>
             <SyntaxOptions>
               <IncludeAssertionCode Value="True"/>
@@ -92,6 +96,10 @@
             <UnitOutputDirectory Value="..\units\$(TargetCPU)-$(TargetOS)-$(LCLWidgetType)"/>
             <SrcPath Value="$(LazarusDir)\lcl;$(LazarusDir)\lcl\interfaces\$(LCLWidgetType);$(fpcsrcdir)\packages\fcl-base\src"/>
           </SearchPaths>
+          <Conditionals Value="if (Laz_FullVersion >= 4990000) then
+begin
+  CustomOptions += &apos;-dLCL_VER_499&apos;;
+end;"/>
           <Parsing>
             <SyntaxOptions>
               <IncludeAssertionCode Value="True"/>
@@ -131,7 +139,12 @@
             <UnitOutputDirectory Value="..\units\$(TargetCPU)-$(TargetOS)-$(LCLWidgetType)"/>
             <SrcPath Value="$(LazarusDir)\lcl;$(LazarusDir)\lcl\interfaces\$(LCLWidgetType);$(fpcsrcdir)\packages\fcl-base\src"/>
           </SearchPaths>
-          <Conditionals Value="if (TargetOS = &apos;linux&apos;) then
+          <Conditionals Value="if (Laz_FullVersion >= 4990000) then
+begin
+  CustomOptions += &apos;-dLCL_VER_499&apos;;
+end;
+
+if (TargetOS = &apos;linux&apos;) then
 begin
   LinkerOptions += &apos; -z relro --as-needed&apos;;
 end;
@@ -205,6 +218,10 @@ end;"/>
             <UnitOutputDirectory Value="..\units\$(TargetCPU)-$(TargetOS)-$(LCLWidgetType)"/>
             <SrcPath Value="$(LazarusDir)\lcl;$(LazarusDir)\lcl\interfaces\$(LCLWidgetType);$(fpcsrcdir)\packages\fcl-base\src"/>
           </SearchPaths>
+          <Conditionals Value="if (Laz_FullVersion >= 4990000) then
+begin
+  CustomOptions += &apos;-dLCL_VER_499&apos;;
+end;"/>
           <Parsing>
             <SyntaxOptions>
               <IncludeAssertionCode Value="True"/>
@@ -2011,7 +2028,12 @@ end;"/>
       <UnitOutputDirectory Value="..\units\$(TargetCPU)-$(TargetOS)-$(LCLWidgetType)"/>
       <SrcPath Value="$(LazarusDir)\lcl;$(LazarusDir)\lcl\interfaces\$(LCLWidgetType);$(fpcsrcdir)\packages\fcl-base\src"/>
     </SearchPaths>
-    <Conditionals Value="if TargetOS = &apos;darwin&apos; then begin
+    <Conditionals Value="if (Laz_FullVersion >= 4990000) then
+begin
+  CustomOptions += &apos;-dLCL_VER_499&apos;;
+end;
+
+if TargetOS = &apos;darwin&apos; then begin
   UsageCustomOptions += &apos; -k-macosx_version_min -k10.5&apos;;
   UsageCustomOptions += &apos; -XR/Developer/SDKs/MacOSX10.5.sdk/&apos;;
 end;"/>

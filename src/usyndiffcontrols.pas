@@ -6,8 +6,14 @@ interface
 
 uses
   Classes, SysUtils, Graphics, SynEdit, LCLVersion,
-  SynEditMiscClasses, SynGutterBase, SynTextDrawer,
-  SynGutter, LazSynEditText, uDiffOND;
+  SynEditMiscClasses, SynGutterBase,
+  SynGutter, LazSynEditText, uDiffOND
+{$IF DEFINED(LCL_VER_499)}
+  , LazEditTextGridPainter, LazEditTextAttributes
+{$ELSE}
+  , SynTextDrawer
+{$ENDIF}
+  ;
 
 const
   { Default differ colors }
@@ -17,6 +23,11 @@ const
 
 type
   TPaintStyle = (psForeground, psBackground);
+
+{$IF NOT DEFINED(LCL_VER_499)}
+type
+  TLazEditTextGridPainter = TheTextDrawer;
+{$ENDIF}
 
 type
 
@@ -50,7 +61,7 @@ type
 
   TSynDiffGutterLineNumber = class(TSynGutterPartBase)
   private
-    FTextDrawer: TheTextDrawer;
+    FTextDrawer: TLazEditTextGridPainter;
 
     FDigitCount: integer;
     FAutoSizeDigitCount: integer;
@@ -64,7 +75,7 @@ type
     function  PreferedWidth: Integer; override;
     procedure LineCountChanged(Sender: TSynEditStrings; AIndex, ACount: Integer);
     procedure BufferChanged(Sender: TObject);
-    procedure FontChanged(Sender: TObject);
+    procedure FontChanged(Sender: TObject{$IF DEFINED(LCL_VER_499)}; Changes: TSynStatusChanges{$ENDIF});
   public
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
@@ -101,7 +112,7 @@ type
     procedure SetPaintStyle(const AValue: TPaintStyle);
   protected
     function CreateGutter(AOwner: TSynEditBase; ASide: TSynGutterSide;
-                          ATextDrawer: TheTextDrawer): TSynGutter; override;
+                          ATextDrawer: TLazEditTextGridPainter): TSynGutter; override;
     procedure SpecialLineMarkupEvent(Sender: TObject; Line: Integer;
                                      var Special: boolean; AMarkup: TSynSelectedColor);
   public
@@ -230,7 +241,7 @@ begin
 end;
 
 function TSynDiffEdit.CreateGutter(AOwner: TSynEditBase; ASide: TSynGutterSide;
-  ATextDrawer: TheTextDrawer): TSynGutter;
+  ATextDrawer: TLazEditTextGridPainter): TSynGutter;
 begin
   Result := TSynDiffGutter.Create(AOwner, ASide, ATextDrawer);
 end;
@@ -479,7 +490,7 @@ begin
   LineCountChanged(nil, 0, 0);
 end;
 
-procedure TSynDiffGutterLineNumber.FontChanged(Sender: TObject);
+procedure TSynDiffGutterLineNumber.FontChanged(Sender: TObject{$IF DEFINED(LCL_VER_499)}; Changes: TSynStatusChanges{$ENDIF});
 begin
   DoAutoSize;
 end;
@@ -490,7 +501,11 @@ begin
   FTextDrawer := Gutter.TextDrawer;
   ViewedTextBuffer.AddChangeHandler(senrLineCount, @LineCountChanged);
   ViewedTextBuffer.AddNotifyHandler(senrTextBufferChanged, @BufferChanged);
+{$IF DEFINED(LCL_VER_499)}
+  FriendEdit.RegisterStatusChangedHandler(@FontChanged, [scFontOrStyleChanged]);
+{$ELSE}
   FTextDrawer.RegisterOnFontChangeHandler(@FontChanged);
+{$ENDIF}
   LineCountchanged(nil, 0, 0);
 end;
 
@@ -504,8 +519,13 @@ end;
 
 destructor TSynDiffGutterLineNumber.Destroy;
 begin
+{$IF DEFINED(LCL_VER_499)}
+  ViewedTextBuffer.RemoveHandlers(Self);
+  FriendEdit.UnRegisterStatusChangedHandler(@FontChanged);
+{$ELSE}
   ViewedTextBuffer.RemoveHanlders(Self);
   FTextDrawer.UnRegisterOnFontChangeHandler(@FontChanged);
+{$ENDIF}
   inherited Destroy;
 end;
 
@@ -526,7 +546,6 @@ end;
 procedure TSynDiffGutterLineNumber.Paint(Canvas: TCanvas; AClip: TRect;
   FirstLine, LastLine: Integer);
 var
-  DC: HDC;
   S: String;
   rcLine: TRect;
   LineNumber: PtrInt;
@@ -546,26 +565,25 @@ begin
   // Changed to use fTextDrawer.BeginDrawing and fTextDrawer.EndDrawing only
   // when absolutely necessary.  Note: Never change brush / pen / font of the
   // canvas inside of this block (only through methods of fTextDrawer)!
-  if MarkupInfo.Background <> clNone then
-    Canvas.Brush.Color := MarkupInfo.Background
-  else begin
-    Canvas.Brush.Color := Gutter.Color;
-  end;
-
-  DC := Canvas.Handle;
-  LCLIntf.SetBkColor(DC, TColorRef(Canvas.Brush.Color));
-
-  FTextDrawer.BeginDrawing(DC);
+{$IF DEFINED(LCL_VER_499)}
+  FTextDrawer.BeginCustomCanvas(Canvas);
   try
-    if MarkupInfo.Background <> clNone then
-      FTextDrawer.SetBackColor(MarkupInfo.Background)
-    else
-      FTextDrawer.SetBackColor(Gutter.Color);
-    if MarkupInfo.Foreground <> clNone then
-      fTextDrawer.SetForeColor(MarkupInfo.Foreground)
-    else
-      fTextDrawer.SetForeColor(SynDiffEdit.Font.Color);
+    fTextDrawer.SetFrame(MarkupInfoInternal.FrameColor, slsSolid);
+{$ELSE}
+  FTextDrawer.BeginDrawing(Canvas.Handle);
+  try
     fTextDrawer.SetFrameColor(MarkupInfo.FrameColor);
+{$ENDIF}
+    if MarkupInfo.Background <> clNone then
+      FTextDrawer.BackColor := MarkupInfo.Background
+    else begin
+      FTextDrawer.BackColor := Gutter.Color;
+    end;
+    if MarkupInfo.Foreground <> clNone then
+      fTextDrawer.ForeColor := MarkupInfo.Foreground
+    else begin
+      fTextDrawer.ForeColor := SynDiffEdit.Font.Color;
+    end;
     fTextDrawer.Style := MarkupInfo.Style;
     // prepare the rect initially
     rcLine := AClip;
@@ -596,7 +614,11 @@ begin
         fTextDrawer.ExtTextOut(Left, Top, ETO_OPAQUE, rcLine, nil, 0);
     end;
   finally
+{$IF DEFINED(LCL_VER_499)}
+    fTextDrawer.EndCustomCanvas;
+{$ELSE}
     fTextDrawer.EndDrawing;
+{$ENDIF}
   end;
 end;
 
