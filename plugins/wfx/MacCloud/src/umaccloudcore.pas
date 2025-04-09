@@ -1,6 +1,7 @@
 unit uMacCloudCore;
 
 {$mode ObjFPC}{$H+}
+{$interfaces corba}
 
 interface
 
@@ -84,11 +85,16 @@ type
 
   TCloudDriverClasses = TFPList;
 
+  ICloudDriverObserver = interface
+    procedure driverUpdated( const driver: TCloudDriver );
+  end;
+
   { TCloudDriverManager }
 
   TCloudDriverManager = class
   private
     _classes: TCloudDriverClasses;
+    _observer: ICloudDriverObserver;
   public
     constructor Create;
     destructor Destroy; override;
@@ -97,7 +103,10 @@ type
     function find( const name: String ): TCloudDriverClass;
     function createInstance( const name: String ): TCloudDriver;
   public
+    procedure driverUpdated( const driver: TCloudDriver );
+  public
     property driverClasses: TCloudDriverClasses read _classes;
+    property observer: ICloudDriverObserver write _observer;
   end;
 
   { TCloudConnection }
@@ -203,6 +212,12 @@ end;
 function TCloudDriverManager.createInstance( const name: String ): TCloudDriver;
 begin
   Result:= self.find(name).createInstance;
+end;
+
+procedure TCloudDriverManager.driverUpdated(const driver: TCloudDriver);
+begin
+  if Assigned(_observer) then
+    _observer.driverUpdated( driver );
 end;
 
 { TCloudConnection }

@@ -57,12 +57,15 @@ type
     function isValidAccessToken: Boolean;
     function isValidFreshToken: Boolean;
   public
+    constructor Create;
+    constructor Create( const access: String; const refresh: String; const accessExpirationTime: NSTimeInterval );
     function clone: TDropBoxToken;
   public
     procedure setExpiration( const seconds: Integer );
     procedure invalid;
     property access: String read _access write _access;
     property refresh: String read _refresh write _refresh;
+    property accessExpirationTime: NSTimeInterval read _accessExpirationTime write _accessExpirationTime;
   end;
 
   { TDropBoxAuthPKCESession }
@@ -70,6 +73,7 @@ type
   TDropBoxAuthPKCESession = class
   strict private
     _config: TDropBoxConfig;
+    _dropBoxClient: TCloudDriver;
     _codeVerifier: String;
     _state: String;
     _code: String;
@@ -87,14 +91,17 @@ type
     procedure onRedirect( const url: NSURL );
     function getAccessToken: String;
   public
-    constructor Create( const config: TDropBoxConfig );
+    constructor Create( const config: TDropBoxConfig; const dropBoxClient: TCloudDriver );
     destructor Destroy; override;
-    function clone: TDropBoxAuthPKCESession;
+    function clone( const dropBoxClient: TCloudDriver ): TDropBoxAuthPKCESession;
   public
     function authorize: Boolean;
     procedure unauthorize;
     function authorized: Boolean;
     procedure setAuthHeader( http: TMiniHttpClient );
+  protected
+    procedure setToken( const token: TDropBoxToken );
+    function getToken: TDropBoxToken;
   end;
 
   { TDropBoxListFolderSession }
@@ -227,6 +234,9 @@ type
     procedure createFolder( const path: String ); override;
     procedure delete( const path: String ); override;
     procedure copyOrMove( const fromPath: String; const toPath: String; const needToMove: Boolean ); override;
+  public
+    function getToken: TDropBoxToken;
+    procedure setToken( const token: TDropBoxToken );
   end;
 
 var
@@ -401,12 +411,21 @@ begin
   Result:= _refresh <> EmptyStr;
 end;
 
+constructor TDropBoxToken.Create;
+begin
+end;
+
+constructor TDropBoxToken.Create(const access: String; const refresh: String;
+  const accessExpirationTime: NSTimeInterval);
+begin
+  _access:= access;
+  _refresh:= refresh;
+  _accessExpirationTime:= accessExpirationTime;
+end;
+
 function TDropBoxToken.clone: TDropBoxToken;
 begin
-  Result:= TDropBoxToken.Create;
-  Result._access:= self._access;
-  Result._refresh:= self._refresh;
-  Result._accessExpirationTime:= self._accessExpirationTime;
+  Result:= TDropBoxToken.Create( _access, _refresh, _accessExpirationTime );
 end;
 
 procedure TDropBoxToken.setExpiration(const seconds: Integer);
@@ -516,6 +535,8 @@ begin
     if dropBoxResult.httpResult.resultCode <> 200 then
       Exit;
     analyseResult;
+    Writeln( '???1 ', HexStr(cloudDriverManager) );
+    cloudDriverManager.driverUpdated( _dropBoxClient );
   finally
     FreeAndNil( dropBoxResult );
     FreeAndNil( http );
@@ -573,6 +594,8 @@ begin
     if dropBoxResult.httpResult.resultCode <> 200 then
       Exit;
     analyseResult;
+    Writeln( '???2 ', HexStr(cloudDriverManager) );
+    cloudDriverManager.driverUpdated( _dropBoxClient );
   finally
     FreeAndNil( dropBoxResult );
     FreeAndNil( http );
@@ -622,9 +645,10 @@ begin
   end;
 end;
 
-constructor TDropBoxAuthPKCESession.Create(const config: TDropBoxConfig);
+constructor TDropBoxAuthPKCESession.Create(const config: TDropBoxConfig; const dropBoxClient: TCloudDriver );
 begin
   _config:= config;
+  _dropBoxClient:= dropBoxClient;
   _token:= TDropBoxToken.Create;
   _lockObject:= TCriticalSection.Create;
 end;
@@ -635,9 +659,9 @@ begin
   FreeAndNil( _lockObject );
 end;
 
-function TDropBoxAuthPKCESession.clone: TDropBoxAuthPKCESession;
+function TDropBoxAuthPKCESession.clone( const dropBoxClient: TCloudDriver ): TDropBoxAuthPKCESession;
 begin
-  Result:= TDropBoxAuthPKCESession.Create( _config );
+  Result:= TDropBoxAuthPKCESession.Create( _config, dropBoxClient );
   Result._accountID:= self._accountID;
   Result._token:= self._token.clone;
 end;
@@ -679,6 +703,20 @@ var
 begin
   access:= self.getAccessToken;
   http.addHeader( DropBoxConst.HEADER.AUTH, 'Bearer ' + access );
+end;
+
+procedure TDropBoxAuthPKCESession.setToken(const token: TDropBoxToken);
+var
+  oldToken: TDropBoxToken;
+begin
+  oldToken:= _token;
+  _token:= token;
+  oldToken.Free;
+end;
+
+function TDropBoxAuthPKCESession.getToken: TDropBoxToken;
+begin
+  Result:= _token;
 end;
 
 { TDropBoxListFolderSession }
@@ -1152,7 +1190,7 @@ end;
 constructor TDropBoxClient.Create(const config: TDropBoxConfig);
 begin
   _config:= config;
-  _authSession:= TDropBoxAuthPKCESession.Create( _config );
+  _authSession:= TDropBoxAuthPKCESession.Create( _config, self );
 end;
 
 destructor TDropBoxClient.Destroy;
@@ -1166,7 +1204,7 @@ var
   newClient: TDropBoxClient;
 begin
   newClient:= TDropBoxClient.Create( _config );
-  newClient._authSession:= self._authSession.clone;
+  newClient._authSession:= self._authSession.clone( self );
   Result:= newClient;
 end;
 
@@ -1268,6 +1306,16 @@ begin
   finally
     FreeAndNil( session );
   end;
+end;
+
+function TDropBoxClient.getToken: TDropBoxToken;
+begin
+  Result:= _authSession.getToken;
+end;
+
+procedure TDropBoxClient.setToken(const token: TDropBoxToken);
+begin
+  _authSession.setToken( token );
 end;
 
 finalization
