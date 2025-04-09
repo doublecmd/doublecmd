@@ -49,6 +49,18 @@ type
     procedure listFolderEnd; override;
   end;
 
+procedure loadConfig( const path: String );
+begin
+  macCloudDriverConfigManager.loadFromCommon( path );
+  macCloudDriverConfigManager.loadFromSecurity;
+end;
+
+procedure saveConfig( const path: String );
+begin
+  macCloudDriverConfigManager.saveToCommon( path );
+  macCloudDriverConfigManager.saveToSecurity;
+end;
+
 function FsInitW(
   PluginNr: Integer;
   pProgressProc: TProgressProcW;
@@ -70,7 +82,7 @@ begin
   if macCloudPlugin <> nil then
     macCloudPlugin.configPath:= path;
 
-  macCloudDriverConfigManager.loadFromConfigFile( path );
+  loadConfig( path );
 end;
 
 function FsFindFirstW(
@@ -395,13 +407,13 @@ var
     if utf8Verb = 'open' then begin
       if parser.connectionName = CONST_ADD_NEW_CONNECTION then begin
         TCloudOptionsUtil.addAndShow;
-        macCloudDriverConfigManager.saveToConfigFile( macCloudPlugin.configPath );
+        saveConfig( macCloudPlugin.configPath );
       end else begin
         Exit( FS_EXEC_SYMLINK );
       end;
     end else if utf8Verb = 'properties' then begin
       TCloudOptionsUtil.show( parser.connectionName );
-      macCloudDriverConfigManager.saveToConfigFile( macCloudPlugin.configPath );
+      saveConfig( macCloudPlugin.configPath );
     end;
   end;
 

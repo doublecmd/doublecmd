@@ -17,15 +17,19 @@ type
   { TCloudDriverConfig }
 
   TCloudDriverConfig = class
-    class procedure load( const params: NSDictionary ); virtual; abstract;
-    class procedure save(const params: NSMutableDictionary); virtual; abstract;
+    class procedure loadCommon( const params: NSDictionary ); virtual; abstract;
+    class procedure saveCommon( const params: NSMutableDictionary ); virtual; abstract;
+    class procedure loadSecurity( const driver: TCloudDriver; const params: NSDictionary ); virtual; abstract;
+    class procedure saveSecurity( const driver: TCloudDriver; const params: NSMutableDictionary ); virtual; abstract;
   end;
 
   { TDropBoxCloudDriverConfig }
 
   TDropBoxCloudDriverConfig = class( TCloudDriverConfig )
-    class procedure load(const params: NSDictionary); override;
-    class procedure save(const params: NSMutableDictionary); override;
+    class procedure loadCommon( const params: NSDictionary ); override;
+    class procedure saveCommon( const params: NSMutableDictionary ); override;
+    class procedure loadSecurity( const driver: TCloudDriver; const params: NSDictionary ); override;
+    class procedure saveSecurity( const driver: TCloudDriver; const params: NSMutableDictionary ); override;
   end;
 
   TCloudDriverConfigClass = class of TCloudDriverConfig;
@@ -34,7 +38,7 @@ type
 
   { TCloudConfigManager }
 
-  TCloudConfigManager = class
+  TCloudConfigManager = class( ICloudDriverObserver )
   private
     _configItems: TCloudDriverConfigItems;
   private
@@ -43,9 +47,13 @@ type
     constructor Create;
     destructor Destroy; override;
   public
+    procedure driverUpdated( const driver: TCloudDriver );
+  public
     procedure register( const name: String; const config: TCloudDriverConfigClass );
-    procedure loadFromConfigFile( const path: String );
-    procedure saveToConfigFile( const path: String );
+    procedure loadFromCommon( const path: String );
+    procedure saveToCommon( const path: String );
+    procedure loadFromSecurity;
+    procedure saveToSecurity;
   end;
 
 var
@@ -55,7 +63,7 @@ implementation
 
 { TDropBoxCloudDriverConfig }
 
-class procedure TDropBoxCloudDriverConfig.load(const params: NSDictionary);
+class procedure TDropBoxCloudDriverConfig.loadCommon(const params: NSDictionary);
 var
   clientID: String;
   listenURI: String;
@@ -70,11 +78,42 @@ begin
   cloudDriverManager.register( TDropBoxClient );
 end;
 
-class procedure TDropBoxCloudDriverConfig.save(const params: NSMutableDictionary);
+class procedure TDropBoxCloudDriverConfig.saveCommon(const params: NSMutableDictionary);
 begin
   TJsonUtil.setString( params, 'name', 'DropBox' );
   TJsonUtil.setString( params, 'clientID', dropBoxConfig.clientID );
   TJsonUtil.setString( params, 'listenURI', dropBoxConfig.listenURI );
+end;
+
+class procedure TDropBoxCloudDriverConfig.loadSecurity(
+  const driver: TCloudDriver; const params: NSDictionary);
+var
+  dropBoxClient: TDropBoxClient absolute driver;
+  token: TDropBoxToken;
+  jsonToken: NSDictionary;
+begin
+  jsonToken:= TJsonUtil.getDictionary( params, 'token' );
+  token:= TDropBoxToken.Create(
+    TJsonUtil.getString( jsonToken, 'access' ),
+    TJsonUtil.getString( jsonToken, 'refresh' ),
+    TJsonUtil.getDateTime( jsonToken, 'accessExpirationTime' ) );
+  dropBoxClient.setToken( token );
+end;
+
+class procedure TDropBoxCloudDriverConfig.saveSecurity(
+  const driver: TCloudDriver; const params: NSMutableDictionary);
+var
+  dropBoxClient: TDropBoxClient absolute driver;
+  token: TDropBoxToken;
+  jsonToken: NSMutableDictionary;
+begin
+  token:= dropBoxClient.getToken;
+  jsonToken:= NSMutableDictionary.new;
+  TJsonUtil.setString( jsonToken, 'access', token.access );
+  TJsonUtil.setString( jsonToken, 'refresh', token.refresh );
+  TJsonUtil.setDateTime( jsonToken, 'accessExpirationTime', token.accessExpirationTime );
+  TJsonUtil.setDictionary( params, 'token', jsonToken );
+  jsonToken.release;
 end;
 
 { TCloudConfigManager }
@@ -82,11 +121,18 @@ end;
 constructor TCloudConfigManager.Create;
 begin
   _configItems:= TCloudDriverConfigItems.Create;
+  cloudDriverManager.observer:= self;
 end;
 
 destructor TCloudConfigManager.Destroy;
 begin
+  cloudDriverManager.observer:= nil;
   _configItems.Free;
+end;
+
+procedure TCloudConfigManager.driverUpdated(const driver: TCloudDriver);
+begin
+  saveToSecurity;
 end;
 
 procedure TCloudConfigManager.register(const name: String;
@@ -101,10 +147,75 @@ var
   config: TCloudDriverConfigClass;
 begin
   config:= TCloudDriverConfigClass( _configItems[name] );
-  config.load( params );
+  config.loadCommon( params );
 end;
 
-procedure TCloudConfigManager.loadFromConfigFile( const path: String );
+procedure TCloudConfigManager.loadFromSecurity;
+  procedure loadConnectionsSecurity( const jsonConnections: NSArray );
+  var
+    jsonConnection: NSMutableDictionary;
+    connectionName: String;
+    connection: TCloudConnection;
+    driverName: String;
+    config: TCloudDriverConfigClass;
+  begin
+    for jsonConnection in jsonConnections do begin
+      connectionName:= TJsonUtil.getString( jsonConnection, 'name' );
+      connection:= cloudConnectionManager.get( connectionName );
+      driverName:= connection.driver.driverName;
+      config:= TCloudDriverConfigClass( _configItems[driverName] );
+      config.loadSecurity( connection.driver, jsonConnection );
+    end;
+  end;
+
+var
+  jsonString: String;
+  json: NSDictionary;
+  jsonConnections: NSArray;
+begin
+  jsonString:= TSecUtil.getValue( 'MacCloud.wfx', 'all' );
+  json:= TJsonUtil.parse( jsonString );
+  jsonConnections:= TJsonUtil.getArray( json, 'connections' );
+  loadConnectionsSecurity( jsonConnections );
+end;
+
+procedure TCloudConfigManager.saveToSecurity;
+  function saveConnectionsSecurity: NSArray;
+  var
+    json: NSMutableArray;
+    jsonConnection: NSMutableDictionary;
+    i: Integer;
+    connections: TCloudConnections;
+    connection: TCloudConnection;
+    driverName: String;
+    config: TCloudDriverConfigClass;
+  begin
+    json:= NSMutableArray.new.autorelease;
+    connections:= cloudConnectionManager.connections;
+    for i:=0 to connections.Count-1 do begin
+      jsonConnection:= NSMutableDictionary.new;
+      connection:= TCloudConnection( connections[i] );
+      driverName:= connection.driver.driverName;
+      TJsonUtil.setString( jsonConnection, 'name', connection.name );
+      config:= TCloudDriverConfigClass( _configItems[driverName] );
+      config.saveSecurity( connection.driver, jsonConnection );
+      json.addObject( jsonConnection );
+      jsonConnection.release;
+    end;
+    Result:= json;
+  end;
+
+var
+  jsonString: String;
+  jsonConnectionsSecurity: NSArray;
+begin
+  jsonConnectionsSecurity:= saveConnectionsSecurity;
+  jsonString:= TJsonUtil.dumps(
+    [ 'connections', jsonConnectionsSecurity ] );
+  TSecUtil.saveValue( 'MacCloud.wfx', 'all', jsonString );
+end;
+
+procedure TCloudConfigManager.loadFromCommon( const path: String );
   procedure loadDrivers( const jsonDrivers: NSArray );
   var
     jsonDriver: NSDictionary;
@@ -146,7 +257,7 @@ begin
   loadConnections( TJsonUtil.getArray(json, 'connections') );
 end;
 
-procedure TCloudConfigManager.saveToConfigFile(const path: String);
+procedure TCloudConfigManager.saveToCommon(const path: String);
   function saveDrivers: NSArray;
   var
     json: NSMutableArray;
@@ -162,14 +273,14 @@ procedure TCloudConfigManager.saveToConfigFile(const path: String);
       jsonDriver:= NSMutableDictionary.new;
       driverName:= TCloudDriverClass(driverClasses[i]).driverName;
       config:= TCloudDriverConfigClass( _configItems[driverName] );
-      config.save( jsonDriver );
+      config.saveCommon( jsonDriver );
       json.addObject( jsonDriver );
       jsonDriver.release;
     end;
     Result:= json;
   end;
 
-  function saveConnections: NSArray;
+  function saveConnectionsCommon: NSArray;
   var
     json: NSMutableArray;
     jsonConnection: NSMutableDictionary;
@@ -195,13 +306,13 @@ procedure TCloudConfigManager.saveToConfigFile(const path: String);
 var
   jsonString: String;
   jsonDrivers: NSArray;
-  jsonConnections: NSArray;
-
+  jsonConnectionsCommon: NSArray;
 begin
   jsonDrivers:= saveDrivers;
-  jsonConnections:= saveConnections;
+  jsonConnectionsCommon:= saveConnectionsCommon;
+
   jsonString:= TJsonUtil.dumps(
-    [ 'drivers',jsonDrivers, 'connections',jsonConnections ],
+    [ 'drivers',jsonDrivers, 'connections',jsonConnectionsCommon ],
     False,
     NSJSONWritingWithoutEscapingSlashes or NSJSONWritingPrettyPrinted );
 
