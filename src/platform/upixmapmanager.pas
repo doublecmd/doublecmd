@@ -388,7 +388,7 @@ uses
   {$ENDIF}
   {$IFDEF MSWINDOWS}
     , ActiveX, CommCtrl, ShellAPI, Windows, DCFileAttributes, uBitmap, uGdiPlus,
-      DCConvertEncoding, uShlObjAdditional, uShellFolder,
+      DCConvertEncoding, uShlObjAdditional, uShellFolder, uMyWindows,
       uShellFileSourceUtil
   {$ELSE}
     , StrUtils, Types, DCBasicTypes
@@ -1658,7 +1658,6 @@ begin
   FSysImgList := SHGetSystemImageList(iIconSize);
 
   FOneDrivePath := TStringList.Create;
-  FOneDrivePath.CaseSensitive := FileNameCaseSensitive;
   {$ENDIF}
 
   {$IF DEFINED(MSWINDOWS) and DEFINED(LCLQT5)}
@@ -1793,20 +1792,7 @@ begin
     FiEmblemOnline:= CheckAddThemePixmap('emblem-cloud-online', I);
     FiEmblemOffline:= CheckAddThemePixmap('emblem-cloud-offline', I);
     // Microsoft OneDrive folders
-    if GetKnownFolderPath(FOLDERID_SkyDrive, sPixMap) then
-    begin
-      if (Length(sPixMap) > 0) then FOneDrivePath.Add(sPixMap);
-    end;
-    sPixMap:= mbGetEnvironmentVariable('OneDriveConsumer');
-    if (Length(sPixMap) > 0) and (FOneDrivePath.IndexOf(sPixMap) < 0) then
-    begin
-      FOneDrivePath.Add(sPixMap);
-    end;
-    sPixMap:= mbGetEnvironmentVariable('OneDriveCommercial');
-    if (Length(sPixMap) > 0) and (FOneDrivePath.IndexOf(sPixMap) < 0) then
-    begin
-      FOneDrivePath.Add(sPixMap);
-    end;
+    GetOneDriveFolders(FOneDrivePath);
   end;
   FiShortcutIconID := -1;
   if gShowIcons > sim_standart then
