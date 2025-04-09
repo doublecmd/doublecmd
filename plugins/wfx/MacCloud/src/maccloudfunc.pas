@@ -77,12 +77,16 @@ procedure FsSetDefaultParams(dps: pFsDefaultParamStruct); cdecl;
 var
   path: String;
 begin
-  path:= TFileUtil.parentPath( dps^.DefaultIniName );
-  path:= path + PathDelim + 'MacCloud.json';
-  if macCloudPlugin <> nil then
-    macCloudPlugin.configPath:= path;
-
-  loadConfig( path );
+  try
+    path:= TFileUtil.parentPath( dps^.DefaultIniName );
+    path:= path + PathDelim + 'MacCloud.json';
+    if macCloudPlugin <> nil then
+      macCloudPlugin.configPath:= path;
+    loadConfig( path );
+  except
+    on e: Exception do
+      TLogUtil.logError( 'error in FsSetDefaultParams(): ' + e.Message );
+  end;
 end;
 
 function FsFindFirstW(

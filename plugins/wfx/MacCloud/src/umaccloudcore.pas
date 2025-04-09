@@ -206,7 +206,7 @@ begin
     Exit( cloudDriverClass );
   end;
 
-  raise EArgumentException.Create( 'error when calling TCloudDriverManager.find(' + name + ')' );
+  raise EArgumentException.Create( 'CloudDriver not found in TCloudDriverManager.find(): ' + name );
 end;
 
 function TCloudDriverManager.createInstance( const name: String ): TCloudDriver;
@@ -278,7 +278,7 @@ begin
     Exit( connection );
   end;
 
-  raise EArgumentException.Create( 'error when calling TCloudDriverManager.find(' + name + ')' );
+  raise EArgumentException.Create( 'Connection not found in TCloudConnectionManager.get(): ' + name );
 end;
 
 initialization

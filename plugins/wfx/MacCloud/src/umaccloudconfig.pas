@@ -41,8 +41,6 @@ type
   TCloudConfigManager = class( ICloudDriverObserver )
   private
     _configItems: TCloudDriverConfigItems;
-  private
-    procedure loadDriverConfig( const name: String; const params: NSDictionary );
   public
     constructor Create;
     destructor Destroy; override;
@@ -141,15 +139,6 @@ begin
   _configItems.Add( name, config );
 end;
 
-procedure TCloudConfigManager.loadDriverConfig(const name: String;
-  const params: NSDictionary);
-var
-  config: TCloudDriverConfigClass;
-begin
-  config:= TCloudDriverConfigClass( _configItems[name] );
-  config.loadCommon( params );
-end;
-
 procedure TCloudConfigManager.loadFromSecurity;
   procedure loadConnectionsSecurity( const jsonConnections: NSArray );
   var
@@ -164,6 +153,8 @@ procedure TCloudConfigManager.loadFromSecurity;
       connection:= cloudConnectionManager.get( connectionName );
       driverName:= connection.driver.driverName;
       config:= TCloudDriverConfigClass( _configItems[driverName] );
+      if config = nil then
+        raise Exception.Create( 'driver not fount in loadFromSecurity.TCloudConfigManager(): ' + driverName );
       config.loadSecurity( connection.driver, jsonConnection );
     end;
   end;
@@ -173,7 +164,9 @@ var
   json: NSDictionary;
   jsonConnections: NSArray;
 begin
-  jsonString:= TSecUtil.getValue( 'MacCloud.wfx', 'all' );
+  jsonString:= TSecUtil.getValue( 'MacCloud.wfx', 'connections' );
+  if jsonString = EmptyStr then
+    Exit;
   json:= TJsonUtil.parse( jsonString );
   jsonConnections:= TJsonUtil.getArray( json, 'connections' );
   loadConnectionsSecurity( jsonConnections );
@@ -212,7 +205,7 @@ begin
   jsonConnectionsSecurity:= saveConnectionsSecurity;
   jsonString:= TJsonUtil.dumps(
     [ 'connections', jsonConnectionsSecurity ] );
-  TSecUtil.saveValue( 'MacCloud.wfx', 'all', jsonString );
+  TSecUtil.saveValue( 'MacCloud.wfx', 'connections', jsonString );
 end;
 
 procedure TCloudConfigManager.loadFromCommon( const path: String );
@@ -220,10 +213,12 @@ procedure TCloudConfigManager.loadFromCommon( const path: String );
   var
     jsonDriver: NSDictionary;
     driverName: String;
+    config: TCloudDriverConfigClass;
   begin
     for jsonDriver in jsonDrivers do begin
       driverName:= TJsonUtil.getString( jsonDriver, 'name' );
-      self.loadDriverConfig( driverName, jsonDriver );
+      config:= TCloudDriverConfigClass( _configItems[driverName] );
+      config.loadCommon( jsonDriver );
     end;
   end;
 
@@ -249,9 +244,13 @@ procedure TCloudConfigManager.loadFromCommon( const path: String );
 var
   jsonString: NSString;
   json: NSDictionary;
+  error: NSError;
 begin
+  error:= nil;
   jsonString:= NSString.stringWithContentsOfFile_encoding_error(
-    StringToNSString(path), NSUTF8StringEncoding, nil );
+    StringToNSString(path), NSUTF8StringEncoding, @error );
+  if error <> nil then
+    raise Exception.Create( error.localizedDescription.UTF8String );
   json:= TJsonUtil.parse( jsonString );
   loadDrivers( TJsonUtil.getArray(json, 'drivers') );
   loadConnections( TJsonUtil.getArray(json, 'connections') );

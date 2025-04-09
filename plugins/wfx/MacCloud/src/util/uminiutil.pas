@@ -299,11 +299,11 @@ var
   jsonData: NSData;
   error: NSError;
 begin
-  error:= nil;
   jsonData:= jsonString.dataUsingEncoding( NSUTF8StringEncoding );
+  error:= nil;
   Result:= NSJSONSerialization.JSONObjectWithData_options_error( jsonData, 0, @error );
   if error <> nil then
-    Result:= nil;
+    raise EArgumentException.Create( 'error in TJsonUtil.parse(): ' + error.localizedDescription.UTF8String );
 end;
 
 class procedure TJsonUtil.setString(const json: NSMutableDictionary; const key: String;
@@ -384,16 +384,16 @@ class procedure TSecUtil.saveValue(
   const account: String;
   const value: String );
 var
-  app: String;
+  appID: NSString;
   data: NSData;
   attributes: NSMutableDictionary;
   status: OSStatus;
 begin
-  app:= NSBundle.mainBundle.bundleIdentifier.UTF8String;
+  appID:= NSBundle.mainBundle.bundleIdentifier;
   data:= StringToNSString(value).dataUsingEncoding(NSUTF8StringEncoding);
   attributes:= NSMutableDictionary.new;
   attributes.setObject_forKey( kSecClassGenericPassword , kSecClass );
-  attributes.setObject_forKey( StringToNSString(app), kSecAttrLabel );
+  attributes.setObject_forKey( appID, kSecAttrLabel );
   attributes.setObject_forKey( StringToNSString(service) , kSecAttrService );
   attributes.setObject_forKey( StringToNSString(account) , kSecAttrAccount );
   attributes.setObject_forKey( data , kSecValueData );
@@ -425,7 +425,7 @@ begin
   if status <> errSecSuccess then
     TLogUtil.logError( 'SecItemCopyMatching() error in TSecUtil.getValue(): ' + IntToStr(status) );
   attributes.release;
-  data:= NSData( item.valueForKey(kSecValueData) );
+  data:= NSData( item.objectForKey(kSecValueData) );
   value:= NSString.alloc.initWithData_encoding(data, NSUTF8StringEncoding);
   Result:= value.UTF8String;
   value.release;

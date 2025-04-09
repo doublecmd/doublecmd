@@ -535,7 +535,6 @@ begin
     if dropBoxResult.httpResult.resultCode <> 200 then
       Exit;
     analyseResult;
-    Writeln( '???1 ', HexStr(cloudDriverManager) );
     cloudDriverManager.driverUpdated( _dropBoxClient );
   finally
     FreeAndNil( dropBoxResult );
@@ -594,7 +593,6 @@ begin
     if dropBoxResult.httpResult.resultCode <> 200 then
       Exit;
     analyseResult;
-    Writeln( '???2 ', HexStr(cloudDriverManager) );
     cloudDriverManager.driverUpdated( _dropBoxClient );
   finally
     FreeAndNil( dropBoxResult );
