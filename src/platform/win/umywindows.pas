@@ -166,6 +166,10 @@ function IsUserAdmin: TDuplicates;
 }
 function RemoteSession: Boolean;
 {en
+   Get OneDrive folders
+}
+procedure GetOneDriveFolders(AList: TStringList);
+{en
    Creates windows shortcut file (.lnk)
 }
 procedure CreateShortcut(const Target, Shortcut: String);
@@ -186,7 +190,8 @@ implementation
 
 uses
   JwaNtStatus, ShellAPI, MMSystem, JwaWinNetWk, JwaWinUser, JwaVista, LazUTF8,
-  SysConst, ActiveX, ShlObj, ComObj, DCWindows, DCConvertEncoding, uShlObjAdditional;
+  SysConst, ActiveX, ShlObj, ComObj, DCWindows, DCConvertEncoding, DCOSUtils,
+  Registry, uShellFolder, uShlObjAdditional;
 
 var
   Wow64DisableWow64FsRedirection: function(OldValue: PPointer): BOOL; stdcall;
@@ -1090,6 +1095,67 @@ begin
         RegCloseKey(AKey);
       end;
     end;
+  end;
+end;
+
+procedure GetOneDriveFolders(AList: TStringList);
+var
+  APath: String;
+  Index: Integer;
+  Value: UnicodeString;
+  List: TUnicodeStringArray;
+begin
+  AList.CaseSensitive:= FileNameCaseSensitive;
+
+  if GetKnownFolderPath(FOLDERID_SkyDrive, APath) then
+  begin
+    if (Length(APath) > 0) then AList.Add(APath);
+  end;
+  APath:= mbGetEnvironmentVariable('OneDriveConsumer');
+  if (Length(APath) > 0) and (AList.IndexOf(APath) < 0) then
+  begin
+    AList.Add(APath);
+  end;
+  APath:= mbGetEnvironmentVariable('OneDriveCommercial');
+  if (Length(APath) > 0) and (AList.IndexOf(APath) < 0) then
+  begin
+    AList.Add(APath);
+  end;
+
+  with TRegistry.Create(KEY_READ) do
+  try
+    RootKey:= HKEY_CURRENT_USER;
+    if OpenKey('Software\SyncEngines\Providers\OneDrive', False) then
+    begin
+      try
+        List:= GetKeyNames;
+        for Index:= 0 to High(List) do
+        begin
+          if OpenKey(List[Index], False) then
+          begin
+            try
+              Value:= ReadString(UnicodeString('MountPoint'));
+              if Length(Value) > 0 then
+              begin
+                APath:= CeUtf16ToUtf8(Value);
+                if (AList.IndexOf(APath) < 0) then
+                begin
+                  AList.Add(APath);
+                end;
+              end;
+            except
+              // Ignore
+            end;
+            CloseKey;
+          end;
+        end;
+      except
+        // Ignore
+      end;
+      CloseKey;
+    end;
+  finally
+    Free;
   end;
 end;
 
