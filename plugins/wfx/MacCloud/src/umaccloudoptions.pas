@@ -149,6 +149,8 @@ type
     procedure onSelectedConnectionChanged( const selectedIndex: Integer );
   public
     procedure windowWillClose (notification: NSNotification);
+    procedure cancelOperation(sender: id); override;
+    function performKeyEquivalent(theEvent: NSEvent): ObjCBOOL; override;
   end;
 
 { TConnectionConfigItems }
@@ -489,6 +491,21 @@ procedure TCloudOptionsWindow.windowWillClose(notification: NSNotification);
 begin
   self.saveConnections;
   NSApplication(NSAPP).stopModal;
+end;
+
+procedure TCloudOptionsWindow.cancelOperation(sender: id);
+begin
+  self.close;
+end;
+
+function TCloudOptionsWindow.performKeyEquivalent(theEvent: NSEvent): ObjCBOOL;
+begin
+  if theEvent.charactersIgnoringModifiers.isEqualToString(NSSTR('w')) and
+     ((theEvent.modifierFlags and NSCommandKeyMask) <> 0 ) then begin
+    self.close;
+    Result:= True;
+  end else
+    Result:= inherited;
 end;
 
 { TConnectionListView }
