@@ -361,6 +361,13 @@ begin
       driver.unauthorize
     else
       driver.authorize;
+  except
+    on e: Exception do begin
+      TLogUtil.logError( 'in TCloudOptionsWindow: ' + e.Message );
+    end;
+  end;
+
+  try
     self.propertyView.updateConnectStatus;
   except
     on e: Exception do begin

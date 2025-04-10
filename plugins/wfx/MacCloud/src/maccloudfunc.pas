@@ -59,10 +59,24 @@ begin
   macCloudDriverConfigManager.loadFromSecurity;
 end;
 
-procedure saveConfig( const path: String );
+procedure saveConfig( const path: String = '' );
+var
+  configPath: String;
 begin
-  macCloudDriverConfigManager.saveToCommon( path );
+  if path = EmptyStr then
+    configPath:= macCloudPlugin.configPath
+  else
+    configPath:= path;
+  macCloudDriverConfigManager.saveToCommon( configPath );
   macCloudDriverConfigManager.saveToSecurity;
+end;
+
+function getDriver( const parser: TCloudPathParser ): TCloudDriver;
+begin
+  if parser.driverPath = EmptyStr then
+    Result:= TCloudRootDriver.Create
+  else
+    Result:= parser.driver;
 end;
 
 procedure ExtensionInitialize(StartupInfo: PExtensionStartupInfo); cdecl;
@@ -305,16 +319,14 @@ var
 
   procedure doCreateFolder;
   var
-    driver: TCloudDriver;
+    folderName: String;
   begin
     parser:= TCloudPathParser.Create( TStringUtil.widecharsToString(RemoteDir) );
-    if parser.driverPath = EmptyStr then begin
-      driver:= TCloudRootDriver.Create;
-      driver.createFolder( parser.connectionName );
-    end else begin
-      driver:= parser.driver;
-      driver.createFolder( parser.driverPath );
-    end;
+    if parser.driverPath = EmptyStr then
+      folderName:= parser.connectionName
+    else
+      folderName:= parser.driverPath;
+    getDriver(parser).createFolder( folderName );
   end;
 
 begin
@@ -340,17 +352,14 @@ var
   procedure doDelete;
   var
     utf8Path: String;
-    driver: TCloudDriver;
   begin
     utf8Path:= TStringUtil.widecharsToString(RemoteName);
     parser:= TCloudPathParser.Create( utf8Path );
-    if parser.driverPath = EmptyStr then begin
-      driver:= TCloudRootDriver.Create;
-      driver.delete( parser.connectionName );
-    end else begin
-      driver:= parser.driver;
-      driver.delete( parser.driverPath );
-    end;
+    if parser.driverPath = EmptyStr then
+      utf8Path:= parser.connectionName
+    else
+      utf8Path:= parser.driverPath;
+    getDriver(parser).delete( utf8Path );
   end;
 
 begin
@@ -392,15 +401,14 @@ var
     if ret then begin
       parserOld:= TCloudPathParser.Create( TStringUtil.widecharsToString(OldName) );
       parserNew:= TCloudPathParser.Create( TStringUtil.widecharsToString(NewName) );
+      driver:= getDriver( parserOld );
       if parserOld.driverPath = EmptyStr then begin
         if parserNew.driverPath <> EmptyStr then
           raise ENotSupportedException.Create( 'Connection not support copying' );
-        driver:= TCloudRootDriver.Create;
         driver.copyOrMove( parserOld.connectionName, parserNew.connectionName, True );
       end else begin
         if parserOld.connection <> parserNew.connection then
           raise ENotSupportedException.Create( 'Internal copy/move functions cannot be used between different accounts' );
-        driver:= parserNew.driver;
         driver.copyOrMove( parserOld.driverPath, parserNew.driverPath, Move );
       end;
       macCloudPlugin.progress( oldName, newName, 100 );
@@ -446,13 +454,13 @@ var
     if utf8Verb = 'open' then begin
       if parser.connectionName = CONST_ADD_NEW_CONNECTION then begin
         TCloudOptionsUtil.addAndShow;
-        saveConfig( macCloudPlugin.configPath );
+        saveConfig;
       end else begin
         Exit( FS_EXEC_SYMLINK );
       end;
     end else if utf8Verb = 'properties' then begin
       TCloudOptionsUtil.show( parser.connectionName );
-      saveConfig( macCloudPlugin.configPath );
+      saveConfig;
     end;
   end;
 
@@ -537,7 +545,8 @@ end;
 procedure TCloudRootDriver.createFolder(const path: String);
 begin
   TCloudOptionsUtil.addAndShow( path );
-  saveConfig( macCloudPlugin.configPath );
+  saveConfig;
+  self.Free;
 end;
 
 procedure TCloudRootDriver.delete(const path: String);
@@ -546,7 +555,8 @@ var
 begin
   TLogUtil.logInformation( 'Connection Deleted: ' + connectionName );
   cloudConnectionManager.delete( connectionName );
-  saveConfig( macCloudPlugin.configPath );
+  saveConfig;
+  self.Free;
 end;
 
 procedure TCloudRootDriver.copyOrMove(const fromPath: String;
@@ -561,7 +571,8 @@ begin
   TLogUtil.logInformation( 'Connection Rename: ' + connectionOldName + ' --> ' + connectionNewName );
   connection:= cloudConnectionManager.get( connectionOldName );
   connection.name:= connectionNewName;
-  saveConfig( macCloudPlugin.configPath );
+  saveConfig;
+  self.Free;
 end;
 
 end.

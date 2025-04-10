@@ -53,7 +53,6 @@ type
   TCloudDriver = class
   public
     class function driverName: String; virtual; abstract;
-    class function isMatched( const name: String ): Boolean; virtual; abstract;
     class function createInstance: TCloudDriver; virtual; abstract;
   public
     function clone: TCloudDriver; virtual; abstract;
@@ -202,7 +201,7 @@ var
 begin
   for i:= 0 to _classes.Count - 1 do begin
     cloudDriverClass:= TCloudDriverClass( _classes[i] );
-    if NOT cloudDriverClass.isMatched(name) then
+    if cloudDriverClass.driverName <> name then
       continue;
     Exit( cloudDriverClass );
   end;

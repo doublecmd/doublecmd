@@ -207,7 +207,6 @@ type
     _listFolderSession: TDropBoxListFolderSession;
   public
     class function driverName: String; override;
-    class function isMatched(const name: String): Boolean; override;
     class function createInstance: TCloudDriver; override;
   public
     constructor Create( const config: TDropBoxConfig );
@@ -1173,11 +1172,6 @@ end;
 class function TDropBoxClient.driverName: String;
 begin
   Result:= 'DropBox';
-end;
-
-class function TDropBoxClient.isMatched(const name: String): Boolean;
-begin
-  Result:= name='DropBox';
 end;
 
 class function TDropBoxClient.createInstance: TCloudDriver;
