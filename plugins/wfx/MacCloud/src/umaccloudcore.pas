@@ -50,14 +50,7 @@ type
 
   TCloudFiles = TFPList;
 
-  TCloudListFolder = class
-  public
-    procedure listFolderBegin( const path: String ); virtual; abstract;
-    function  listFolderGetNextFile: TCloudFile; virtual; abstract;
-    procedure listFolderEnd; virtual; abstract;
-  end;
-
-  TCloudDriver = class( TCloudListFolder )
+  TCloudDriver = class
   public
     class function driverName: String; virtual; abstract;
     class function isMatched( const name: String ): Boolean; virtual; abstract;
@@ -68,6 +61,10 @@ type
     function authorize: Boolean; virtual; abstract;
     procedure unauthorize; virtual; abstract;
     function authorized: Boolean; virtual; abstract;
+  public
+    procedure listFolderBegin( const path: String ); virtual; abstract;
+    function  listFolderGetNextFile: TCloudFile; virtual; abstract;
+    procedure listFolderEnd; virtual; abstract;
   public
     procedure download(
       const serverPath: String;
@@ -123,7 +120,7 @@ type
     constructor Create( const name: String; const driver: TCloudDriver;
       const creationTime: TDateTime; const modificationTime: TDateTime );
     destructor Destroy; override;
-    property name: String read _name;
+    property name: String read _name write _name;
     property driver: TCloudDriver read _driver;
     property creationTime: TDateTime read _creationTime;
     property modificationTime: TDateTime read _modificationTime;
@@ -144,6 +141,7 @@ type
   public
     procedure add( const connection: TCloudConnection );
     function get( const name: String ): TCloudConnection;
+    procedure delete( const name: String );
     property connections: TCloudConnections read _connections write setConnections;
   end;
 
@@ -282,6 +280,14 @@ begin
   end;
 
   raise EArgumentException.Create( 'Connection not found in TCloudConnectionManager.get(): ' + name );
+end;
+
+procedure TCloudConnectionManager.delete(const name: String);
+var
+  connection: TCloudConnection;
+begin
+  connection:= self.get( name );
+  _connections.Remove( connection );
 end;
 
 initialization

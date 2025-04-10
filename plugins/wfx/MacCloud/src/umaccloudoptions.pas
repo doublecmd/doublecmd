@@ -19,8 +19,8 @@ type
   private
     class function createWindow: NSWindow;
   public
-    class procedure show( const connectionName: String);
-    class procedure addAndShow;
+    class procedure show( const connectionName: String );
+    class procedure addAndShow( const connectionName: String = '' );
   end;
 
 implementation
@@ -71,7 +71,7 @@ type
 
   TCloudConfigItemsController = objcprotocol
     function getConfigItems: NSArray; message 'TCloudConfigItemsController_getConfigItems';
-    procedure addConnection( sender: NSObject ); message 'TCloudConfigItemsController_addConnection:';
+    procedure newConnection( sender: NSObject ); message 'TCloudConfigItemsController_newConnection:';
     procedure removeConnection( sender: NSObject ); message 'TCloudConfigItemsController_removeConnection:';
     procedure saveConnection( sender: NSObject ); message 'TCloudConfigItemsController_saveConnection:';
     procedure connectOrDisconnect( sender: NSObject ); message 'TCloudConfigItemsController_connectOrDisconnect:';
@@ -121,10 +121,11 @@ type
   public
     procedure dealloc; override;
     function getConfigItems: NSArray;
+    procedure addConnection( connectionName: NSString ); message 'TCloudOptionsWindow_addConnection:';
     procedure loadConnections; message 'TCloudOptionsWindow_loadConnections';
     procedure saveConnections; message 'TCloudOptionsWindow_saveConnections';
     procedure selectConnection( name: NSString ); message 'TCloudOptionsWindow_selectConnection:';
-    procedure addConnection( sender: NSObject );
+    procedure newConnection( sender: NSObject );
     procedure removeConnection( sender: NSObject );
     procedure saveConnection( sender: NSObject );
     procedure connectOrDisconnect( sender: NSObject );
@@ -298,13 +299,15 @@ begin
   end;
 end;
 
-procedure TCloudOptionsWindow.addConnection(sender: NSObject);
+procedure TCloudOptionsWindow.addConnection( connectionName: NSString );
 var
   configItem: TConnectionConfigItem;
 begin
+  if connectionName.length = 0 then
+    connectionName:= StringToNSString( 'New Connection' );
   configItem:= TConnectionConfigItem.new;
   configItem.setCreating( True );
-  configItem.setName( StringToNSString( 'New Connection *' ) );
+  configItem.setName( connectionName );
   configItem.setDriver( cloudDriverManager.createInstance('DropBox') );
   configItem.setCreationTime( LocalTimeToUniversal(now) );
   configItem.setModificationTime( configItem.creationTime );
@@ -312,6 +315,11 @@ begin
   configItem.release;
   self.connectionListView.noteNumberOfRowsChanged;
   self.connectionListView.selectRow_byExtendingSelection( self.configItems.count-1, False );
+end;
+
+procedure TCloudOptionsWindow.newConnection(sender: NSObject);
+begin
+  self.addConnection( nil );
 end;
 
 procedure TCloudOptionsWindow.removeConnection(sender: NSObject);
@@ -493,7 +501,7 @@ var
     addButton.setBezelStyle( NSSmallSquareBezelStyle );
     addButton.setImage( NSImage.imageNamed(NSImageNameAddTemplate) );
     addButton.setTarget( win );
-    addButton.setAction( ObjCSelector('TCloudConfigItemsController_addConnection:') );
+    addButton.setAction( ObjCSelector('TCloudConfigItemsController_newConnection:') );
     leftView.addSubview( addButton );
     addButton.release;
 
@@ -614,12 +622,12 @@ begin
   NSApplication(NSApp).runModalForWindow( win );
 end;
 
-class procedure TCloudOptionsUtil.addAndShow;
+class procedure TCloudOptionsUtil.addAndShow( const connectionName: String = '' );
 var
   win: NSWindow;
 begin
   win:= self.createWindow;
-  TCloudOptionsWindow(win).addConnection( nil );
+  TCloudOptionsWindow(win).addConnection( StringToNSString(connectionName) );
   NSApplication(NSApp).runModalForWindow( win );
 end;
 

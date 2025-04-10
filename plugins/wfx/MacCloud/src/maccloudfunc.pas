@@ -38,15 +38,19 @@ const
 
 type
 
-  { TCloudRootListFolder }
+  { TCloudRootDriver }
 
-  TCloudRootListFolder = class( TCloudListFolder )
+  TCloudRootDriver = class( TCloudDriver )
   private
     _list: TFPList;
   public
     procedure listFolderBegin(const path: String); override;
     function listFolderGetNextFile: TCloudFile; override;
     procedure listFolderEnd; override;
+  public
+    procedure createFolder(const path: String); override;
+    procedure delete(const path: String); override;
+    procedure copyOrMove(const fromPath: String; const toPath: String; const needToMove: Boolean); override;
   end;
 
 procedure loadConfig( const path: String );
@@ -64,7 +68,6 @@ end;
 procedure ExtensionInitialize(StartupInfo: PExtensionStartupInfo); cdecl;
 var
   configPath: String;
-  pluginPath: String;
 begin
   try
     configPath:= StartupInfo^.PluginConfDir + 'MacCloud.json';
@@ -95,8 +98,8 @@ function FsFindFirstW(
   path: pwidechar;
   var FindData: TWIN32FINDDATAW ): THandle; cdecl;
 var
-  parser: TCloudPathParser;
-  listFolder: TCloudListFolder;
+  parser: TCloudPathParser = nil;
+  driver: TCloudDriver;
 
   function doFindFirst: THandle;
   var
@@ -106,12 +109,12 @@ var
     utf8Path:= TStringUtil.widecharsToString(path);
     parser:= TCloudPathParser.Create( utf8Path );
     if utf8Path = PathDelim then
-      listFolder:= TCloudRootListFolder.Create
+      driver:= TCloudRootDriver.Create
     else
-      listFolder:= parser.driver;
-    Result:= THandle( listFolder );
-    listFolder.listFolderBegin( parser.driverPath );
-    cloudFile:= listFolder.listFolderGetNextFile;
+      driver:= parser.driver;
+    Result:= THandle( driver );
+    driver.listFolderBegin( parser.driverPath );
+    cloudFile:= driver.listFolderGetNextFile;
     if cloudFile = nil then
       Exit( wfxInvalidHandle );
 
@@ -132,20 +135,20 @@ begin
     end;
   end;
 
-  if (Result=wfxInvalidHandle) and Assigned(listFolder) then
-    listFolder.listFolderEnd;
+  if (Result=wfxInvalidHandle) and Assigned(driver) then
+    driver.listFolderEnd;
 end;
 
 function FsFindNextW(
   handle: THandle;
   var FindData:tWIN32FINDDATAW ): Bool; cdecl;
 var
-  listFolder: TCloudListFolder;
+  driver: TCloudDriver;
   cloudFile: TCloudFile;
 begin
   try
-    listFolder:= TCloudListFolder( handle );
-    cloudFile:= listFolder.listFolderGetNextFile;
+    driver:= TCloudDriver( handle );
+    cloudFile:= driver.listFolderGetNextFile;
     if cloudFile = nil then
       Exit( False );
 
@@ -161,12 +164,12 @@ end;
 
 function FsFindClose( handle: THandle ): Integer; cdecl;
 var
-  listFolder: TCloudListFolder;
+  driver: TCloudDriver;
 begin
   Result:= 0;
   try
-    listFolder:= TCloudListFolder( handle );
-    listFolder.listFolderEnd;
+    driver:= TCloudDriver( handle );
+    driver.listFolderEnd;
   except
     on e: Exception do begin
       TMacCloudUtil.exceptionToResult( e );
@@ -181,8 +184,8 @@ function FsGetFileW(
   RemoteInfo: pRemoteInfo ): Integer; cdecl;
 
 var
-  parser: TCloudPathParser;
-  callback: TCloudProgressCallback;
+  parser: TCloudPathParser = nil;
+  callback: TCloudProgressCallback = nil;
 
   function doGetFile: Integer;
   var
@@ -194,6 +197,8 @@ var
   begin
     parser:= TCloudPathParser.Create( TStringUtil.widecharsToString(RemoteName) );
     serverPath:= parser.driverPath;
+    if serverPath = EmptyStr then
+      raise ENotSupportedException.Create( 'Connection not support copying' );
     localPath:= TStringUtil.widecharsToString( LocalName );
     li.LowPart:= RemoteInfo^.SizeLow;
     li.HighPart:= RemoteInfo^.SizeHigh;
@@ -241,8 +246,8 @@ function FsPutFileW(
 const
   FS_EXISTS = FS_COPYFLAGS_EXISTS_SAMECASE or FS_COPYFLAGS_EXISTS_DIFFERENTCASE;
 var
-  parser: TCloudPathParser;
-  callback: TCloudProgressCallback;
+  parser: TCloudPathParser = nil;
+  callback: TCloudProgressCallback = nil;
 
   function doPutFile: Integer;
   var
@@ -253,6 +258,9 @@ var
   begin
     parser:= TCloudPathParser.Create( TStringUtil.widecharsToString(RemoteName) );
     serverPath:= parser.driverPath;
+    if serverPath = EmptyStr then
+      raise ENotSupportedException.Create( 'Connection not support copying' );
+
     localPath:= TStringUtil.widecharsToString( LocalName );
     totalBytes:= TFileUtil.filesize( localPath );
     exits:= (CopyFlags and FS_EXISTS <> 0);
@@ -293,12 +301,20 @@ end;
 
 function FsMkDirW( RemoteDir: pwidechar ): Bool; cdecl;
 var
-  parser: TCloudPathParser;
+  parser: TCloudPathParser = nil;
 
   procedure doCreateFolder;
+  var
+    driver: TCloudDriver;
   begin
     parser:= TCloudPathParser.Create( TStringUtil.widecharsToString(RemoteDir) );
-    parser.driver.createFolder( parser.driverPath );
+    if parser.driverPath = EmptyStr then begin
+      driver:= TCloudRootDriver.Create;
+      driver.createFolder( parser.connectionName );
+    end else begin
+      driver:= parser.driver;
+      driver.createFolder( parser.driverPath );
+    end;
   end;
 
 begin
@@ -319,12 +335,22 @@ end;
 
 function FsDeleteFileW( RemoteName: pwidechar ): Bool; cdecl;
 var
-  parser: TCloudPathParser;
+  parser: TCloudPathParser = nil;
 
   procedure doDelete;
+  var
+    utf8Path: String;
+    driver: TCloudDriver;
   begin
-    parser:= TCloudPathParser.Create( TStringUtil.widecharsToString(RemoteName) );
-    parser.driver.delete( parser.driverPath );
+    utf8Path:= TStringUtil.widecharsToString(RemoteName);
+    parser:= TCloudPathParser.Create( utf8Path );
+    if parser.driverPath = EmptyStr then begin
+      driver:= TCloudRootDriver.Create;
+      driver.delete( parser.connectionName );
+    end else begin
+      driver:= parser.driver;
+      driver.delete( parser.driverPath );
+    end;
   end;
 
 begin
@@ -354,22 +380,29 @@ function FsRenMovFileW(
   Move, OverWrite: Bool;
   RemoteInfo: pRemoteInfo ): Integer; cdecl;
 var
-  parserOld: TCloudPathParser;
-  parserNew: TCloudPathParser;
+  parserOld: TCloudPathParser = nil;
+  parserNew: TCloudPathParser = nil;
 
   function doCopyOrMove: Integer;
   var
     ret: Boolean;
+    driver: TCloudDriver;
   begin
-    parserOld:= TCloudPathParser.Create( TStringUtil.widecharsToString(OldName) );
-    parserNew:= TCloudPathParser.Create( TStringUtil.widecharsToString(NewName) );
-
-    if parserOld.connection <> parserNew.connection then
-      raise ENotSupportedException.Create( 'Internal copy/move functions cannot be used between different accounts' );
-
     ret:= macCloudPlugin.progress( oldName, newName, 0 ) = 0;
     if ret then begin
-      parserNew.driver.copyOrMove( parserOld.driverPath, parserNew.driverPath, Move );
+      parserOld:= TCloudPathParser.Create( TStringUtil.widecharsToString(OldName) );
+      parserNew:= TCloudPathParser.Create( TStringUtil.widecharsToString(NewName) );
+      if parserOld.driverPath = EmptyStr then begin
+        if parserNew.driverPath <> EmptyStr then
+          raise ENotSupportedException.Create( 'Connection not support copying' );
+        driver:= TCloudRootDriver.Create;
+        driver.copyOrMove( parserOld.connectionName, parserNew.connectionName, True );
+      end else begin
+        if parserOld.connection <> parserNew.connection then
+          raise ENotSupportedException.Create( 'Internal copy/move functions cannot be used between different accounts' );
+        driver:= parserNew.driver;
+        driver.copyOrMove( parserOld.driverPath, parserNew.driverPath, Move );
+      end;
       macCloudPlugin.progress( oldName, newName, 100 );
       Result:= FS_FILE_OK;
     end else
@@ -395,7 +428,7 @@ function FsExecuteFileW(
   RemoteName: pwidechar;
   Verb: pwidechar ): Integer; cdecl;
 var
-  parser: TCloudPathParser;
+  parser: TCloudPathParser = nil;
 
   function doExecute: Integer;
   var
@@ -449,9 +482,9 @@ begin
   strlcopy( DefRootName, 'cloud', maxlen );
 end;
 
-{ TCloudRootListFolder }
+{ TCloudRootDriver }
 
-procedure TCloudRootListFolder.listFolderBegin(const path: String);
+procedure TCloudRootDriver.listFolderBegin(const path: String);
   procedure addNewCommand;
   var
     cloudFile: TCloudFile;
@@ -485,7 +518,7 @@ begin
   addConnections;
 end;
 
-function TCloudRootListFolder.listFolderGetNextFile: TCloudFile;
+function TCloudRootDriver.listFolderGetNextFile: TCloudFile;
 begin
   if _list.Count > 0 then begin
     Result:= TCloudFile( _list.First );
@@ -495,10 +528,40 @@ begin
   end;
 end;
 
-procedure TCloudRootListFolder.listFolderEnd;
+procedure TCloudRootDriver.listFolderEnd;
 begin
   FreeAndNil( _list );
   self.Free;
+end;
+
+procedure TCloudRootDriver.createFolder(const path: String);
+begin
+  TCloudOptionsUtil.addAndShow( path );
+  saveConfig( macCloudPlugin.configPath );
+end;
+
+procedure TCloudRootDriver.delete(const path: String);
+var
+  connectionName: String absolute path;
+begin
+  TLogUtil.logInformation( 'Connection Deleted: ' + connectionName );
+  cloudConnectionManager.delete( connectionName );
+  saveConfig( macCloudPlugin.configPath );
+end;
+
+procedure TCloudRootDriver.copyOrMove(const fromPath: String;
+  const toPath: String; const needToMove: Boolean);
+var
+  connectionOldName: String absolute fromPath;
+  connectionNewName: String absolute toPath;
+  connection: TCloudConnection;
+begin
+  if NOT needToMove then
+    raise ENotSupportedException.Create( 'Connection only support renaming' );
+  TLogUtil.logInformation( 'Connection Rename: ' + connectionOldName + ' --> ' + connectionNewName );
+  connection:= cloudConnectionManager.get( connectionOldName );
+  connection.name:= connectionNewName;
+  saveConfig( macCloudPlugin.configPath );
 end;
 
 end.
