@@ -34,11 +34,6 @@
         <IsPartOfProject Value="True"/>
       </Unit>
       <Unit>
-        <Filename Value="dropbox/udropboxclient.pas"/>
-        <IsPartOfProject Value="True"/>
-        <UnitName Value="uDropBoxClient"/>
-      </Unit>
-      <Unit>
         <Filename Value="maccloudfunc.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="MacCloudFunc"/>
@@ -78,6 +73,15 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="uMacCloudConfig"/>
       </Unit>
+      <Unit>
+        <Filename Value="drivers/dropbox/udropboxclient.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit>
+      <Unit>
+        <Filename Value="drivers/root/ucloudrootdriver.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uCloudRootDriver"/>
+      </Unit>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
@@ -87,7 +91,7 @@
     </Target>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir)"/>
-      <OtherUnitFiles Value="../../../../sdk;dropbox;util;httpclient"/>
+      <OtherUnitFiles Value="../../../../sdk;util;httpclient;drivers/dropbox;drivers/root"/>
       <UnitOutputDirectory Value="../lib/$(TargetCPU)-$(TargetOS)"/>
     </SearchPaths>
     <CodeGeneration>
