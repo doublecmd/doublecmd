@@ -67,10 +67,26 @@ type
       message 'TConnectionConfigItem_modificationTime';
   end;
 
+  { TConnectionConfigItems }
+
+  TConnectionConfigItems = class
+  private
+    _items: NSMutableArray;
+  public
+    constructor Create;
+    destructor Destroy; override;
+    function indexOf( const item: TConnectionConfigItem ): Integer; overload;
+    function indexOf( const name: NSString ): Integer; overload;
+    function addItem( const item: TConnectionConfigItem ): Integer;
+    function getItem( const index: Integer ): TConnectionConfigItem;
+    procedure removeItemAtIndex( const index: Integer );
+    function Count: Integer;
+  end;
+
   { TCloudConfigItemsController }
 
   TCloudConfigItemsController = objcprotocol
-    function getConfigItems: NSArray; message 'TCloudConfigItemsController_getConfigItems';
+    function getConfigItems: TConnectionConfigItems; message 'TCloudConfigItemsController_getConfigItems';
     procedure newConnection( sender: NSObject ); message 'TCloudConfigItemsController_newConnection:';
     procedure removeConnection( sender: NSObject ); message 'TCloudConfigItemsController_removeConnection:';
     procedure saveConnection( sender: NSObject ); message 'TCloudConfigItemsController_saveConnection:';
@@ -115,12 +131,12 @@ type
     NSWindowDelegateProtocol,
     TCloudConfigItemsController )
   private
-    configItems: NSMutableArray;
+    configItems: TConnectionConfigItems;
     connectionListView: TConnectionListView;
     propertyView: TPropertyView;
   public
     procedure dealloc; override;
-    function getConfigItems: NSArray;
+    function getConfigItems: TConnectionConfigItems;
     procedure addConnection( connectionName: NSString ); message 'TCloudOptionsWindow_addConnection:';
     procedure loadConnections; message 'TCloudOptionsWindow_loadConnections';
     procedure saveConnections; message 'TCloudOptionsWindow_saveConnections';
@@ -134,6 +150,61 @@ type
   public
     procedure windowWillClose (notification: NSNotification);
   end;
+
+{ TConnectionConfigItems }
+
+constructor TConnectionConfigItems.Create;
+begin
+  _items:= NSMutableArray.new;
+end;
+
+destructor TConnectionConfigItems.Destroy;
+begin
+  _items.release;
+end;
+
+function TConnectionConfigItems.indexOf( const item: TConnectionConfigItem ): Integer;
+begin
+  Result:= self.indexOf( item.name );
+end;
+
+function TConnectionConfigItems.indexOf(const name: NSString): Integer;
+var
+  i: Integer;
+  configItem: TConnectionConfigItem;
+begin
+  Result:= -1;
+  for i:= 0 to _items.Count-1 do begin
+    configItem:= TConnectionConfigItem( _items.objectAtIndex(i) );
+    if configItem.name.isEqualToString(name) then
+      Exit( i );
+  end;
+end;
+
+function TConnectionConfigItems.addItem( const item: TConnectionConfigItem ): Integer;
+begin
+  Result:= self.indexOf(item);
+  if Result >= 0 then
+    Exit;
+  _items.addObject( item );
+  Result:= _items.count - 1;
+end;
+
+function TConnectionConfigItems.getItem(const index: Integer
+  ): TConnectionConfigItem;
+begin
+  Result:= TConnectionConfigItem( _items.objectAtIndex(index) );
+end;
+
+procedure TConnectionConfigItems.removeItemAtIndex( const index: Integer );
+begin
+  _items.removeObjectAtIndex( index );
+end;
+
+function TConnectionConfigItems.Count: Integer;
+begin
+  Result:= _items.count;
+end;
 
 { TPropertyView }
 
@@ -237,10 +308,10 @@ end;
 
 procedure TCloudOptionsWindow.dealloc;
 begin
-  self.configItems.release;
+  FreeAndNil( self.configItems );
 end;
 
-function TCloudOptionsWindow.getConfigItems: NSArray;
+function TCloudOptionsWindow.getConfigItems: TConnectionConfigItems;
 begin
   Result:= self.configItems;
 end;
@@ -252,7 +323,7 @@ var
   connection: TCloudConnection;
   connections: TCloudConnections;
 begin
-  self.configItems:= NSMutableArray.new;
+  self.configItems:= TConnectionConfigItems.Create;
   connections:= cloudConnectionManager.connections;
   for i:=0 to connections.Count-1 do begin
     connection:= TCloudConnection( connections[i] );
@@ -261,7 +332,7 @@ begin
     configItem.setDriver( connection.driver.clone );
     configItem.setCreationTime( connection.creationTime );
     configItem.setModificationTime( connection.modificationTime );
-    self.configItems.addObject( configItem );
+    self.configItems.addItem( configItem );
     configItem.release;
   end;
 end;
@@ -275,7 +346,7 @@ var
 begin
   connections:= TCloudConnections.Create( True );
   for i:=0 to self.configItems.count-1 do begin
-    configItem:= TConnectionConfigItem( self.configItems.objectAtIndex(i) );
+    configItem:= TConnectionConfigItem( self.configItems.getItem(i) );
     connection:= TCloudConnection.Create(
       configItem.name.UTF8String,
       configItem.driver.clone,
@@ -292,7 +363,7 @@ var
   i: Integer;
 begin
   for i:=0 to configItems.count-1 do begin
-    configItem:= TConnectionConfigItem( self.configItems.objectAtIndex(i) );
+    configItem:= TConnectionConfigItem( self.configItems.getItem(i) );
     if configItem.name.isEqualToString(name) then begin
       self.connectionListView.selectRow_byExtendingSelection( i, False );
     end;
@@ -302,6 +373,7 @@ end;
 procedure TCloudOptionsWindow.addConnection( connectionName: NSString );
 var
   configItem: TConnectionConfigItem;
+  index: Integer;
 begin
   if connectionName.length = 0 then
     connectionName:= StringToNSString( 'New Connection' );
@@ -311,10 +383,10 @@ begin
   configItem.setDriver( cloudDriverManager.createInstance('DropBox') );
   configItem.setCreationTime( LocalTimeToUniversal(now) );
   configItem.setModificationTime( configItem.creationTime );
-  self.configItems.addObject( configItem );
+  index:= self.configItems.addItem( configItem );
   configItem.release;
   self.connectionListView.noteNumberOfRowsChanged;
-  self.connectionListView.selectRow_byExtendingSelection( self.configItems.count-1, False );
+  self.connectionListView.selectRow_byExtendingSelection( index, False );
 end;
 
 procedure TCloudOptionsWindow.newConnection(sender: NSObject);
@@ -329,7 +401,7 @@ begin
   currentIndex:= self.connectionListView.selectedRow;
   if (currentIndex<0) or (currentIndex>=self.configItems.count) then
     Exit;
-  self.configItems.removeObjectAtIndex( currentIndex );
+  self.configItems.removeItemAtIndex( currentIndex );
   self.connectionListView.reloadData;
   if currentIndex >= self.configItems.Count then
     currentIndex:= self.configItems.Count - 1;
@@ -340,9 +412,31 @@ procedure TCloudOptionsWindow.saveConnection(sender: NSObject);
 var
   configItem: TConnectionConfigItem;
   currentIndex: Integer;
+  connectionName: NSString;
+
+  procedure alertDuplicateName;
+  var
+    alert: NSAlert;
+  begin
+    alert:= NSAlert.new;
+    alert.setMessageText( StringToNSString('Duplicate Name') );
+    alert.setInformativeText( StringToNSString('Please rename the Connection before saving.') );
+    alert.addButtonWithTitle( NSSTR('OK') );
+    alert.runModal;
+    alert.release;
+  end;
+
 begin
+  connectionName:= propertyView.nameTextField.stringValue;
+  if connectionName.length = 0 then
+    Exit;
+  if self.configItems.indexOf(connectionName) >= 0 then begin
+    alertDuplicateName;
+    Exit;
+  end;
+
   configItem:= self.currentConfigItem;
-  configItem.setName( propertyView.nameTextField.stringValue );
+  configItem.setName( connectionName );
   configItem.setModificationTime( LocalTimeToUniversal(now) );
   currentIndex:= self.connectionListView.selectedRow;
   self.connectionListView.reloadData;
@@ -383,7 +477,7 @@ begin
   currentIndex:= connectionListView.selectedRow;
   if (currentIndex<0) or (currentIndex>=self.configItems.count) then
     Exit( nil );
-  Result:= TConnectionConfigItem( self.configItems.objectAtIndex(currentIndex) );
+  Result:= TConnectionConfigItem( self.configItems.getItem(currentIndex) );
 end;
 
 procedure TCloudOptionsWindow.onSelectedConnectionChanged( const selectedIndex: Integer );
@@ -416,7 +510,7 @@ var
   imageView: NSImageView;
   configItem: TConnectionConfigItem;
 begin
-  configItem:= TConnectionConfigItem( self.controller.getConfigItems.objectAtIndex(row) );
+  configItem:= TConnectionConfigItem( self.controller.getConfigItems.getItem(row) );
   cellView:= NSTableCellView.alloc.initWithFrame( NSZeroRect );
   cellView.autorelease;
 
