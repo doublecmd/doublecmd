@@ -8,7 +8,7 @@ interface
 uses
   Classes, SysUtils, DateUtils,
   CocoaAll, uMiniCocoa,
-  uMacCloudCore,
+  uMacCloudCore, uMacCloudUtil,
   uMiniUtil;
 
 type
@@ -99,6 +99,7 @@ type
   TPropertyView = objcclass( NSView )
   private
     controller: TCloudConfigItemsController;
+    logoImageView: NSImageView;
     nameTextField: NSTextField;
     connectButton: NSButton;
     statusImageview: NSImageView;
@@ -138,10 +139,15 @@ type
 procedure TPropertyView.loadConnectionProperties( const index: Integer );
 var
   configItem: TConnectionConfigItem;
+  logoPath: String;
+  logo: NSImage;
 begin
   configItem:= controller.currentConfigItem;
   if configItem = nil then
     Exit;
+  logoPath:= TMacCloudUtil.driverMainIcon( configItem.driver );
+  logo:= NSImage.alloc.initWithContentsOfFile( StringToNSString(logoPath) );
+  self.logoImageView.setImage( logo );
   self.nameTextField.setStringValue( configItem.name );
   self.updateConnectStatus;
 end;
@@ -388,14 +394,27 @@ function TConnectionListView.tableView_viewForTableColumn_row(
   tableView: NSTableView; tableColumn: NSTableColumn; row: NSInteger): NSView;
 var
   frameRect: NSRect;
+  logoPath: String;
+  logo: NSImage;
   cellView: NSTableCellView;
   textField: NSTextField;
+  imageView: NSImageView;
   configItem: TConnectionConfigItem;
 begin
   configItem:= TConnectionConfigItem( self.controller.getConfigItems.objectAtIndex(row) );
-  frameRect:= NSMakeRect( 0, 0, 100, 20 );
   cellView:= NSTableCellView.alloc.initWithFrame( NSZeroRect );
   cellView.autorelease;
+
+  frameRect:= NSMakeRect( 8, 4, 16, 16 );
+  imageView:= NSImageView.alloc.initWithFrame( frameRect);
+  logoPath:= TMacCloudUtil.driverMainIcon( configItem.driver);
+  logo:= NSImage.alloc.initWithContentsOfFile( StringToNSString(logoPath) );
+  imageView.setImage( logo );
+  cellView.setImageView( imageView );
+  cellView.addSubview( imageView );
+  imageView.release;
+
+  frameRect:= NSMakeRect( 32, 0, 100, 20 );
   textField:= NSTextField.alloc.initWithFrame( frameRect );
   textField.setEditable( False );
   textField.setStringValue( configItem.name );
@@ -406,6 +425,7 @@ begin
   cellView.setTextField( textField );
   cellView.addSubview( textField );
   textField.release;
+
   Result:= cellView;
 end;
 
@@ -489,6 +509,7 @@ var
 
   procedure createRightView;
   var
+    logoImageView: NSImageView;
     nameLabel: NSTextField;
     nameTextField: NSTextField;
     connectButton: NSButton;
@@ -498,7 +519,13 @@ var
   begin
     rightView:= TPropertyView.alloc.initWithFrame( rightRect ) ;
     rightView.controller:= win;;
-    nameLabel:= NSTextField.alloc.initWithFrame( NSMakeRect(20,500,50,20) );
+
+    logoImageView:= NSImageView.alloc.initWithFrame( NSMakeRect(200,530,32,32) );
+    rightView.logoImageView:= logoImageView;
+    rightView.addSubview( logoImageView );
+    logoImageView.release;
+
+    nameLabel:= NSTextField.alloc.initWithFrame( NSMakeRect(20,480,50,20) );
     nameLabel.setEditable( False );
     nameLabel.setDrawsBackground( False );
     nameLabel.setBordered( False );
@@ -506,17 +533,17 @@ var
     rightView.addSubview( nameLabel );
     nameLabel.release;
 
-    nameTextField:= NSTextField.alloc.initWithFrame( NSMakeRect(80,500,250,22) );
+    nameTextField:= NSTextField.alloc.initWithFrame( NSMakeRect(80,480,250,22) );
     rightView.nameTextField:= nameTextField;
     rightView.addSubview( nameTextField );
     nameTextField.release;
 
-    statusImageView:= NSImageView.alloc.initWithFrame( NSMakeRect(350,503,16,16) );
+    statusImageView:= NSImageView.alloc.initWithFrame( NSMakeRect(350,483,16,16) );
     rightView.statusImageview:= statusImageView;
     rightView.addSubview( statusImageView );
     statusImageView.release;
 
-    connectButton:= NSButton.alloc.initWithFrame( NSMakeRect(80,450,100,22) );
+    connectButton:= NSButton.alloc.initWithFrame( NSMakeRect(80,430,100,22) );
     connectButton.setBezelStyle( NSRoundedBezelStyle );
     connectButton.setTarget( win );
     connectButton.setAction( ObjCSelector('TCloudConfigItemsController_connectOrDisconnect:') );
@@ -524,7 +551,7 @@ var
     rightView.addSubView( connectButton );
     connectButton.release;
 
-    saveButton:= NSButton.alloc.initWithFrame( NSMakeRect(200,450,100,22) );
+    saveButton:= NSButton.alloc.initWithFrame( NSMakeRect(200,430,100,22) );
     saveButton.setBezelStyle( NSRoundedBezelStyle );
     saveButton.setTitle( NSSTR('Save') );
     saveButton.setTarget( win );

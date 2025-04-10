@@ -53,16 +53,16 @@ type
     property driverPath: String read _driverPath;
   end;
 
+  { TMacCloudUtil }
+
   TMacCloudUtil = class
   public
     class function fileTimeToDateTime(AFileTime: FILETIME): TDateTime;
     class function dateTimeToFileTime(ADateTimeUTC: TDateTime): FILETIME;
     class procedure cloudFileToWinFindData( cloudFile: TCloudFile; var FindData:tWIN32FINDDATAW );
     class function exceptionToResult( const e: Exception ): Integer;
+    class function driverMainIcon( const driver: TCloudDriver ): String;
   end;
-
-var
-  macCloudPlugin: TMacCloudPlugin;
 
 implementation
 
@@ -163,6 +163,11 @@ begin
     Result:= FS_FILE_WRITEERROR
   else
     Result:= FS_FILE_NOTSUPPORTED;
+end;
+
+class function TMacCloudUtil.driverMainIcon(const driver: TCloudDriver): String;
+begin
+  Result:= macCloudPlugin.pluginPath + 'drivers/' + driver.driverName + '/MainIcon.png';
 end;
 
 class procedure TMacCloudUtil.cloudFileToWinFindData( cloudFile: TCloudFile; var FindData:tWIN32FINDDATAW );

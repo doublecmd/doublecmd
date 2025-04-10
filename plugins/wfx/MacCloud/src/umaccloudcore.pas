@@ -148,6 +148,7 @@ type
   end;
 
 var
+  macCloudPlugin: TMacCloudPlugin;
   cloudDriverManager: TCloudDriverManager;
   cloudConnectionManager: TCloudConnectionManager;
 
