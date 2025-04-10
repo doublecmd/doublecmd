@@ -249,7 +249,7 @@
           ]
         },
         {
-          Name : "Java script",
+          Name : "JavaScript",
           Ranges : [
             {
               Name : "Root",
@@ -790,7 +790,7 @@
           ]
         },
         {
-          Name : "Java script",
+          Name : "JavaScript",
           Ranges : [
             {
               Name : "Root",
