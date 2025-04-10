@@ -50,7 +50,18 @@ type
 
   TCloudFiles = TFPList;
 
-  TCloudDriver = class
+  TCloudDriverBase = class
+  public
+    procedure listFolderBegin( const path: String ); virtual; abstract;
+    function  listFolderGetNextFile: TCloudFile; virtual; abstract;
+    procedure listFolderEnd; virtual; abstract;
+  public
+    procedure createFolder( const path: String ); virtual; abstract;
+    procedure delete( const path: String ); virtual; abstract;
+    procedure copyOrMove( const fromPath: String; const toPath: String; const needToMove: Boolean ); virtual; abstract;
+  end;
+
+  TCloudDriver = class( TCloudDriverBase )
   public
     class function driverName: String; virtual; abstract;
     class function createInstance: TCloudDriver; virtual; abstract;
@@ -61,10 +72,6 @@ type
     procedure unauthorize; virtual; abstract;
     function authorized: Boolean; virtual; abstract;
   public
-    procedure listFolderBegin( const path: String ); virtual; abstract;
-    function  listFolderGetNextFile: TCloudFile; virtual; abstract;
-    procedure listFolderEnd; virtual; abstract;
-  public
     procedure download(
       const serverPath: String;
       const localPath: String;
@@ -73,10 +80,6 @@ type
       const serverPath: String;
       const localPath: String;
       const callback: ICloudProgressCallback ); virtual; abstract;
-  public
-    procedure createFolder( const path: String ); virtual; abstract;
-    procedure delete( const path: String ); virtual; abstract;
-    procedure copyOrMove( const fromPath: String; const toPath: String; const needToMove: Boolean ); virtual; abstract;
   end;
 
   TCloudDriverClass = class of TCloudDriver;

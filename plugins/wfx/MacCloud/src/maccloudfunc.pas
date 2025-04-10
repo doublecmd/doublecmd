@@ -40,7 +40,7 @@ type
 
   { TCloudRootDriver }
 
-  TCloudRootDriver = class( TCloudDriver )
+  TCloudRootDriver = class( TCloudDriverBase )
   private
     _list: TFPList;
   public
@@ -71,7 +71,7 @@ begin
   macCloudDriverConfigManager.saveToSecurity;
 end;
 
-function getDriver( const parser: TCloudPathParser ): TCloudDriver;
+function getDriver( const parser: TCloudPathParser ): TCloudDriverBase;
 begin
   if parser.driverPath = EmptyStr then
     Result:= TCloudRootDriver.Create
@@ -113,7 +113,7 @@ function FsFindFirstW(
   var FindData: TWIN32FINDDATAW ): THandle; cdecl;
 var
   parser: TCloudPathParser = nil;
-  driver: TCloudDriver;
+  driver: TCloudDriverBase;
 
   function doFindFirst: THandle;
   var
@@ -157,11 +157,11 @@ function FsFindNextW(
   handle: THandle;
   var FindData:tWIN32FINDDATAW ): Bool; cdecl;
 var
-  driver: TCloudDriver;
+  driver: TCloudDriverBase;
   cloudFile: TCloudFile;
 begin
   try
-    driver:= TCloudDriver( handle );
+    driver:= TCloudDriverBase( handle );
     cloudFile:= driver.listFolderGetNextFile;
     if cloudFile = nil then
       Exit( False );
@@ -178,11 +178,11 @@ end;
 
 function FsFindClose( handle: THandle ): Integer; cdecl;
 var
-  driver: TCloudDriver;
+  driver: TCloudDriverBase;
 begin
   Result:= 0;
   try
-    driver:= TCloudDriver( handle );
+    driver:= TCloudDriverBase( handle );
     driver.listFolderEnd;
   except
     on e: Exception do begin
@@ -395,7 +395,7 @@ var
   function doCopyOrMove: Integer;
   var
     ret: Boolean;
-    driver: TCloudDriver;
+    driver: TCloudDriverBase;
   begin
     ret:= macCloudPlugin.progress( oldName, newName, 0 ) = 0;
     if ret then begin
