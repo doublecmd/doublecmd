@@ -12,12 +12,12 @@ interface
 
 uses
   Classes, SysUtils,
-  WfxPlugin,
+  WfxPlugin, Extension,
   uMacCloudCore, uMacCloudConfig, uMacCloudUtil, uMacCloudOptions,
   uMiniUtil;
 
+procedure ExtensionInitialize(StartupInfo: PExtensionStartupInfo); cdecl;
 function FsInitW(PluginNr:integer;pProgressProc:tProgressProcW;pLogProc:tLogProcW;pRequestProc:tRequestProcW):integer; cdecl;
-procedure FsSetDefaultParams(dps:pFsDefaultParamStruct); cdecl;
 function FsFindFirstW(path:pwidechar;var FindData:tWIN32FINDDATAW):thandle; cdecl;
 function FsFindNextW(handle:thandle;var FindData:tWIN32FINDDATAW):bool; cdecl;
 function FsFindClose(handle:thandle):integer; cdecl;
@@ -61,6 +61,24 @@ begin
   macCloudDriverConfigManager.saveToSecurity;
 end;
 
+procedure ExtensionInitialize(StartupInfo: PExtensionStartupInfo); cdecl;
+var
+  configPath: String;
+  pluginPath: String;
+begin
+  try
+    configPath:= StartupInfo^.PluginConfDir + 'MacCloud.json';
+    if macCloudPlugin <> nil then begin
+      macCloudPlugin.configPath:= configPath;
+      macCloudPlugin.pluginPath:= StartupInfo^.PluginDir;
+    end;
+    loadConfig( configPath );
+  except
+    on e: Exception do
+      TLogUtil.logError( 'error in ExtensionInitialize(): ' + e.Message );
+  end;
+end;
+
 function FsInitW(
   PluginNr: Integer;
   pProgressProc: TProgressProcW;
@@ -71,22 +89,6 @@ begin
     macCloudPlugin.Free;
   macCloudPlugin:= TMacCloudPlugin.Create( PluginNr, pProgressProc, pLogProc );
   Result:= 0;
-end;
-
-procedure FsSetDefaultParams(dps: pFsDefaultParamStruct); cdecl;
-var
-  path: String;
-begin
-  try
-    path:= TFileUtil.parentPath( dps^.DefaultIniName );
-    path:= path + PathDelim + 'MacCloud.json';
-    if macCloudPlugin <> nil then
-      macCloudPlugin.configPath:= path;
-    loadConfig( path );
-  except
-    on e: Exception do
-      TLogUtil.logError( 'error in FsSetDefaultParams(): ' + e.Message );
-  end;
 end;
 
 function FsFindFirstW(

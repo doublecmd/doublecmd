@@ -19,6 +19,7 @@ type
     _pluginNumber: Integer;
     _progressProc: TProgressProcW;
     _logProc: TLogProcW;
+    _pluginPath: String;
     _configPath: String;
     procedure pluginLogProc( const MsgType: Integer; const message: String );
   public
@@ -26,6 +27,7 @@ type
     function progress( const sourceName: pwidechar; const targetName: pwidechar; const percentDone: Integer ): Integer;
   public
     property pluginNumber: Integer read _pluginNumber;
+    property pluginPath: String read _pluginPath write _pluginPath;
     property configPath: String read _configPath write _configPath;
   end;
 

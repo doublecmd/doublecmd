@@ -39,8 +39,8 @@ uses
   MacCloudFunc;
 
 exports
+  ExtensionInitialize,
   FsInitW,
-  FsSetDefaultParams,
   FsFindFirstW,
   FsFindNextW,
   FsFindClose,
