@@ -421,14 +421,6 @@ begin
       libssh2_session_set_blocking(FSession, 1);
 
       FLastError:= libssh2_session_handshake(FSession, FSock.Socket);
-      if FLastError <> 0 then
-      begin
-        DoStatus(False, 'Cannot perform the SSH handshake ' + IntToStr(FLastError));
-        Exit(False);
-      end;
-      LogProc(PluginNumber, MSGTYPE_CONNECT, nil);
-
-      DoStatus(False, 'Connection established');
 
       DoStatus(False, 'Key exchange method: ' + libssh2_session_methods(FSession, LIBSSH2_METHOD_KEX));
 
@@ -442,6 +434,16 @@ begin
         DoStatus(False, 'Encryption method (server to client): ' + SC);
       end;
       DoStatus(False, 'Host key method: ' + libssh2_session_methods(FSession, LIBSSH2_METHOD_HOSTKEY));
+
+      if FLastError <> 0 then
+      begin
+        DoStatus(False, 'Cannot perform the SSH handshake ' + IntToStr(FLastError));
+        PrintLastError;
+        Exit(False);
+      end;
+      LogProc(PluginNumber, MSGTYPE_CONNECT, nil);
+
+      DoStatus(False, 'Connection established');
 
       if libssh2_version($010900) = nil then
         Finish:= LIBSSH2_HOSTKEY_HASH_SHA1
