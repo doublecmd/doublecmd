@@ -3820,6 +3820,7 @@ begin
       miStretchOnlyLarge.Checked:= False;
       if miPreview.Checked then cm_Preview(['']);
       actFullscreen.ImageIndex:= 25;
+      sboxImage.BorderStyle:= bsNone;
     end
   else
     begin
@@ -3834,6 +3835,7 @@ begin
 {$ENDIF}
       ToolBar1.Visible:= True;
       actFullscreen.ImageIndex:= 22;
+      sboxImage.BorderStyle:= bsSingle;
     end;
   if ExtractOnlyFileExt(FileList.Strings[iActiveFile]) <> 'gif' then
   begin
