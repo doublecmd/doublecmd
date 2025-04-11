@@ -115,7 +115,7 @@ type
   public
     procedure addHeader( const name: NSString; const value: NSString ); overload;
     procedure addHeader( const name: String; const value: String ); overload;
-    procedure setBody( const body: String );
+    procedure setBody( const body: NSString ); overload;
     procedure setContentType( const contentType: NSString );
     procedure setContentLength( const length: Integer );
   protected
@@ -458,13 +458,12 @@ begin
   self.addHeader( NSSTR(name), StringToNSString(value) );
 end;
 
-procedure TMiniHttpClient.setBody(const body: String);
+procedure TMiniHttpClient.setBody(const body: NSString);
 var
   bodyData: NSData;
 begin
-  bodyData:= StringToNSString(body).dataUsingEncoding( NSUTF8StringEncoding );
+  bodyData:= body.dataUsingEncoding( NSUTF8StringEncoding );
   _request.setHTTPBody( bodyData );
-  _request.setHTTPMethod( HttpConst.Method.POST );
   self.setContentLength( bodyData.length );
 end;
 
@@ -506,26 +505,13 @@ function TMiniHttpClient.doPost(
 var
   url: NSURL;
   delegate: TMiniHttpConnectionDataDelegate;
-
-  function getBody: String;
-  var
-    components: NSURLComponents;
-    cocoaItems: NSArray;
-  begin
-    components:= NSURLComponents.new;
-    cocoaItems:= THttpClientUtil.toQueryItems( lclItems );
-    components.setQueryItems( cocoaItems );
-    Result:= components.query.UTF8String;
-    components.release;
-  end;
-
 begin
   try
     url:= NSURL.URLWithString( StringToNSString(urlPart) );
     _request.setURL( url );
     _request.setHTTPMethod( HttpConst.Method.POST );
     if lclItems <> nil then begin
-      self.setBody( getBody );
+      self.setBody( THttpClientUtil.toNSString(lclItems) );
       self.setContentType( HttpConst.ContentType.UrlEncoded );
     end;
 

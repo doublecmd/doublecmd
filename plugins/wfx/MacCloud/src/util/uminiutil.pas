@@ -49,6 +49,7 @@ type
   THttpClientUtil = class
   public
     class function toQueryItems( const lclItems: TQueryItemsDictonary ): NSArray;
+    class function toNSString( const lclItems: TQueryItemsDictonary ): NSString;
     class procedure openInSafari( const urlPart: String; lclItems: TQueryItemsDictonary );
     class function queryValue( components: NSURLComponents; const name: String ): String;
   end;
@@ -76,7 +77,7 @@ type
     class function dumps(
       const Elements: Array of Const;
       const ensureAscii: Boolean = False;
-      const options: Integer = NSJSONWritingWithoutEscapingSlashes ): String;
+      const options: Integer = NSJSONWritingWithoutEscapingSlashes ): NSString;
     class function parse( const jsonString: String ): NSDictionary; overload;
     class function parse( const jsonString: NSString ): NSDictionary; overload;
     class procedure setString( const json: NSMutableDictionary; const key: String; const value: String );
@@ -97,7 +98,7 @@ type
 
   TSecUtil = class
   public
-    class procedure saveValue( const service: String; const account: String; const value: String ); overload;
+    class procedure saveValue( const service: String; const account: String; const value: NSString ); overload;
     class function getValue( const service: String; const account: String ): String;
   end;
 
@@ -211,7 +212,7 @@ end;
 class function TJsonUtil.dumps(
   const Elements: array of const;
   const ensureAscii: Boolean = False;
-  const options: Integer = NSJSONWritingWithoutEscapingSlashes ): String;
+  const options: Integer = NSJSONWritingWithoutEscapingSlashes ): NSString;
 var
   i: integer;
   jsonData: NSData;
@@ -248,6 +249,7 @@ var
     i: Integer;
   begin
     newString:= NSMutableString.new;
+    newString.autorelease;
     for i:=0 to oldString.length-1 do begin
       c:= oldString.characterAtIndex( i );
       if c > $7F then
@@ -256,11 +258,10 @@ var
         newString.appendFormat( NSSTR('%C'), c );
     end;
     Result:= newString;
-    newString.autorelease;
   end;
 
 begin
-  Result:= EmptyStr;
+  Result:= nil;
 
   if ((High(Elements)-Low(Elements)) mod 2)=0 then
     Exit;
@@ -278,12 +279,13 @@ begin
   error:= nil;
   jsonData:= NSJSONSerialization.dataWithJSONObject_options_error( json, options, @error );
   if error <> nil then
-    Result:= EmptyStr
+    Result:= nil
   else begin
     jsonString:= NSString.alloc.initWithData_encoding( jsonData, NSUTF8StringEncoding );
+    jsonString.autorelease;
     if ensureAscii then
       jsonString:= escapeUnicode( jsonString );
-    Result:= jsonString.UTF8String;
+    Result:= jsonString;
   end;
 
   json.release;
@@ -382,7 +384,7 @@ end;
 class procedure TSecUtil.saveValue(
   const service: String;
   const account: String;
-  const value: String );
+  const value: NSString );
 var
   appID: NSString;
   data: NSData;
@@ -390,7 +392,7 @@ var
   status: OSStatus;
 begin
   appID:= NSBundle.mainBundle.bundleIdentifier;
-  data:= StringToNSString(value).dataUsingEncoding(NSUTF8StringEncoding);
+  data:= value.dataUsingEncoding(NSUTF8StringEncoding);
   attributes:= NSMutableDictionary.new;
   attributes.setObject_forKey( kSecClassGenericPassword , kSecClass );
   attributes.setObject_forKey( appID, kSecAttrLabel );
@@ -542,6 +544,18 @@ begin
     cocoaItems.addObject( cocoaItem );
   end;
   Result:= cocoaItems;
+end;
+
+class function THttpClientUtil.toNSString(const lclItems: TQueryItemsDictonary ): NSString;
+var
+  components: NSURLComponents;
+  cocoaItems: NSArray;
+begin
+  components:= NSURLComponents.new;
+  cocoaItems:= THttpClientUtil.toQueryItems( lclItems );
+  components.setQueryItems( cocoaItems );
+  Result:= components.query;
+  components.release;
 end;
 
 class procedure THttpClientUtil.openInSafari(

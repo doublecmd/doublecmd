@@ -199,7 +199,7 @@ procedure TCloudConfigManager.saveToSecurity;
   end;
 
 var
-  jsonString: String;
+  jsonString: NSString;
   jsonConnectionsSecurity: NSArray;
 begin
   jsonConnectionsSecurity:= saveConnectionsSecurity;
@@ -303,7 +303,7 @@ procedure TCloudConfigManager.saveToCommon(const path: String);
   end;
 
 var
-  jsonString: String;
+  jsonString: NSString;
   jsonDrivers: NSArray;
   jsonConnectionsCommon: NSArray;
 begin
@@ -315,7 +315,7 @@ begin
     False,
     NSJSONWritingWithoutEscapingSlashes or NSJSONWritingPrettyPrinted );
 
-  StringToNSString(jsonString).writeToFile_atomically_encoding_error(
+  jsonString.writeToFile_atomically_encoding_error(
     StringToNSString(path),
     False,
     NSUTF8StringEncoding,

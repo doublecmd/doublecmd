@@ -76,6 +76,7 @@
       <Unit>
         <Filename Value="drivers/dropbox/udropboxclient.pas"/>
         <IsPartOfProject Value="True"/>
+        <UnitName Value="uDropBoxClient"/>
       </Unit>
       <Unit>
         <Filename Value="drivers/root/ucloudrootdriver.pas"/>

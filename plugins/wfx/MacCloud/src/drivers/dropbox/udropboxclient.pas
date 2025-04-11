@@ -723,7 +723,7 @@ var
   http: TMiniHttpClient;
   httpResult: TMiniHttpResult;
   dropBoxResult: TDropBoxResult;
-  body: String;
+  body: NSString;
 begin
   try
     body:= TJsonUtil.dumps( ['path', _path] );
@@ -755,7 +755,7 @@ var
   http: TMiniHttpClient;
   httpResult: TMiniHttpResult;
   dropBoxResult: TDropBoxResult;
-  body: String;
+  body: NSString;
 begin
   try
     body:= TJsonUtil.dumps( ['cursor', _cursor] );
@@ -863,14 +863,14 @@ end;
 procedure TDropBoxDownloadSession.download;
 var
   http: TMiniHttpClient;
-  argJsonString: String;
+  argJsonString: NSString;
   dropBoxResult: TDropBoxResult;
 begin
   try
     argJsonString:= TJsonUtil.dumps( ['path', _serverPath], True );
     http:= TMiniHttpClient.Create;
     _authSession.setAuthHeader( http );
-    http.addHeader( DropBoxConst.HEADER.ARG, argJsonString );
+    http.addHeader( NSSTR(DropBoxConst.HEADER.ARG), argJsonString );
 
     dropBoxResult:= TDropBoxResult.Create;
     dropBoxResult.httpResult:= http.download( DropBoxConst.URI.DOWNLOAD, _localPath, _callback );
@@ -898,14 +898,14 @@ end;
 procedure TDropBoxUploadSession.uploadSmall;
 var
   http: TMiniHttpClient;
-  argJsonString: String;
+  argJsonString: NSString;
   dropBoxResult: TDropBoxResult;
 begin
   try
     argJsonString:= TJsonUtil.dumps( ['path',_serverPath, 'mode','overwrite'], True );
     http:= TMiniHttpClient.Create;
     _authSession.setAuthHeader( http );
-    http.addHeader( DropBoxConst.HEADER.ARG, argJsonString );
+    http.addHeader( NSSTR(DropBoxConst.HEADER.ARG), argJsonString );
 
     dropBoxResult:= TDropBoxResult.Create;
     dropBoxResult.httpResult:= http.upload( DropBoxConst.URI.UPLOAD_SMALL, _localPath, _callback );
@@ -952,7 +952,7 @@ var
   end;
 
   procedure uploadAppend( range: NSRange );
-    function getArgJsonString: String;
+    function getArgJsonString: NSString;
     var
       jsonCursor: NSMutableDictionary;
     begin
@@ -969,7 +969,7 @@ var
     try
       http:= TMiniHttpClient.Create;
       _authSession.setAuthHeader( http );
-      http.addHeader( DropBoxConst.HEADER.ARG, getArgJsonString );
+      http.addHeader( NSSTR(DropBoxConst.HEADER.ARG), getArgJsonString );
 
       dropBoxResult:= TDropBoxResult.Create;
       dropBoxResult.httpResult:= http.uploadRange(
@@ -987,7 +987,7 @@ var
   end;
 
   procedure uploadFinish;
-    function getArgJsonString: String;
+    function getArgJsonString: NSString;
     var
       jsonCursor: NSMutableDictionary;
       jsonCommit: NSMutableDictionary;
@@ -1012,7 +1012,7 @@ var
     try
       http:= TMiniHttpClient.Create;
       _authSession.setAuthHeader( http );
-      http.addHeader( DropBoxConst.HEADER.ARG, getArgJsonString );
+      http.addHeader( NSSTR(DropBoxConst.HEADER.ARG), getArgJsonString );
       http.setContentType( HttpConst.ContentType.OctetStream );
 
       dropBoxResult:= TDropBoxResult.Create;
@@ -1063,7 +1063,7 @@ procedure TDropBoxCreateFolderSession.createFolder;
 var
   http: TMiniHttpClient;
   dropBoxResult: TDropBoxResult;
-  body: String;
+  body: NSString;
 begin
   try
     body:= TJsonUtil.dumps( ['path', _path] );
@@ -1095,7 +1095,7 @@ end;
 procedure TDropBoxDeleteSession.delete;
 var
   http: TMiniHttpClient;
-  body: String;
+  body: NSString;
   dropBoxResult: TDropBoxResult;
 begin
   try
@@ -1131,7 +1131,7 @@ var
   uri: String;
   http: TMiniHttpClient;
   dropBoxResult: TDropBoxResult;
-  body: String;
+  body: NSString;
 begin
   try
     http:= TMiniHttpClient.Create;
