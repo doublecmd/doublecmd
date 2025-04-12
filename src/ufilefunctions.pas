@@ -318,19 +318,25 @@ begin
       fsfCreationTime:
         if fpCreationTime in AFile.SupportedProperties then
         begin
-          if Length(AParam) > 0 then
-            Result := SysUtils.FormatDateTime(AParam, AFile.CreationTime)
-          else
-            Result := AFile.Properties[fpCreationTime].Format(DefaultFilePropertyFormatter);
+          if AFile.CreationTimeProperty.IsValid then
+          begin
+            if Length(AParam) > 0 then
+              Result := SysUtils.FormatDateTime(AParam, AFile.CreationTime)
+            else
+              Result := AFile.Properties[fpCreationTime].Format(DefaultFilePropertyFormatter);
+          end;
         end;
 
       fsfLastAccessTime:
         if fpLastAccessTime in AFile.SupportedProperties then
         begin
-          if Length(AParam) > 0 then
-            Result := SysUtils.FormatDateTime(AParam, AFile.LastAccessTime)
-          else
-            Result := AFile.Properties[fpLastAccessTime].Format(DefaultFilePropertyFormatter);
+          if AFile.LastAccessTimeProperty.IsValid then
+          begin
+            if Length(AParam) > 0 then
+              Result := SysUtils.FormatDateTime(AParam, AFile.LastAccessTime)
+            else
+              Result := AFile.Properties[fpLastAccessTime].Format(DefaultFilePropertyFormatter);
+          end;
         end;
 
       fsfChangeTime:

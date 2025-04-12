@@ -156,6 +156,7 @@ type
   private
     FIsValid: Boolean;
     FDateTime: TDateTime;
+    procedure SetDateTime(AValue: TDateTime);
 
   public
     constructor Create; override;
@@ -171,7 +172,7 @@ type
     function GetMaximumValue: TDateTime;
 
     property IsValid: Boolean read FIsValid write FIsValid;
-    property Value: TDateTime read FDateTime write FDateTime;
+    property Value: TDateTime read FDateTime write SetDateTime;
   end;
 
   TFileModificationDateTimeProperty = class(TFileDateTimeProperty)
@@ -690,6 +691,12 @@ end;
 
 // ----------------------------------------------------------------------------
 
+procedure TFileDateTimeProperty.SetDateTime(AValue: TDateTime);
+begin
+  FDateTime:= AValue;
+  FIsValid := (FDateTime <= SysUtils.MaxDateTime);
+end;
+
 constructor TFileDateTimeProperty.Create;
 begin
   Self.Create(SysUtils.Now);
@@ -704,7 +711,6 @@ constructor TFileDateTimeProperty.Create(DateTime: TDateTime);
 begin
   inherited Create;
   Value := DateTime;
-  FIsValid := True;
 end;
 
 procedure TFileDateTimeProperty.CloneTo(FileProperty: TFileProperty);

@@ -572,7 +572,6 @@ begin
     SizeProperty := TFileSizeProperty.Create(FindData.FileSize);
     SizeProperty.IsValid := (FindData.FileSize >= 0);
     ModificationTimeProperty := TFileModificationDateTimeProperty.Create(FindData.LastWriteTime);
-    ModificationTimeProperty.IsValid := (FindData.LastWriteTime <= SysUtils.MaxDateTime);
     LastAccessTimeProperty := TFileLastAccessDateTimeProperty.Create(FindData.LastAccessTime);
     CreationTimeProperty := TFileCreationDateTimeProperty.Create(FindData.CreationTime);
 
