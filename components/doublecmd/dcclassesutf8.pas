@@ -170,7 +170,7 @@ begin
     begin
       AHandle:= mbFileCreate(AFileName, Mode);
       if AHandle = feInvalidHandle then
-        raise EFCreateError.CreateFmt(SFCreateError, [AFileName])
+        raise EFCreateError.CreateFmt(SFCreateError + LineEnding + mbSysErrorMessage, [AFileName])
       else
         inherited Create(AHandle);
     end
@@ -178,7 +178,7 @@ begin
     begin 
       AHandle:= mbFileOpen(AFileName, Mode);
       if AHandle = feInvalidHandle then
-        raise EFOpenError.CreateFmt(SFOpenError, [AFilename])
+        raise EFOpenError.CreateFmt(SFOpenError + LineEnding + mbSysErrorMessage , [AFilename])
       else
         inherited Create(AHandle);
     end;
