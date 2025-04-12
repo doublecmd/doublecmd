@@ -234,7 +234,12 @@ begin
     IniFile.WriteBool('FTP', 'Connection' + sIndex + 'KeepAliveTransfer', Connection.KeepAliveTransfer);
   end;
   SaveProxyList(IniFile);
-  IniFile.UpdateFile;
+  try
+    IniFile.UpdateFile;
+  except
+    on E: Exception do
+      gStartupInfo.MessageBox(PAnsiChar(E.Message), nil, MB_OK or MB_ICONERROR);
+  end;
 end;
 
 procedure FreeConnectionList;
@@ -1171,15 +1176,20 @@ end;
 procedure ExtensionInitialize(StartupInfo: PExtensionStartupInfo);
 begin
   gStartupInfo:= StartupInfo^;
-
   DefaultIniName:= gStartupInfo.PluginConfDir + DefaultIniName;
-  IniFile := TIniFileEx.Create(DefaultIniName, fmOpenReadWrite);
 
-  // Use TCP keep alive for all connections: Useful for certain
-  // firewalls/router if the connection breaks very often.
-  TcpKeepAlive := IniFile.ReadBool('General', 'TcpKeepAlive', TcpKeepAlive);
+  try
+    IniFile := TIniFileEx.Create(DefaultIniName, fmOpenReadWrite);
 
-  ReadConnectionList;
+    // Use TCP keep alive for all connections: Useful for certain
+    // firewalls/router if the connection breaks very often.
+    TcpKeepAlive := IniFile.ReadBool('General', 'TcpKeepAlive', TcpKeepAlive);
+
+    ReadConnectionList;
+  except
+    on E: Exception do
+      gStartupInfo.MessageBox(PAnsiChar(E.Message), nil, MB_OK or MB_ICONERROR);
+  end;
 end;
 
 function ReadPassword(ConnectionName: AnsiString; out Password: AnsiString): Boolean;
