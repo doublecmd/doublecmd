@@ -28,10 +28,10 @@ type
   private
     _name: NSString;
   protected
+    constructor Create( const name: String );
     procedure setQueryToURL(const request: NSMutableURLRequest; const query: TQueryItemsDictonary);
     procedure setQueryToBody(const request: NSMutableURLRequest; const query: TQueryItemsDictonary);
   public
-    constructor Create( const name: String );
     procedure setQuery( const request: NSMutableURLRequest; const query: TQueryItemsDictonary ); virtual; abstract;
   public
     property name: NSString read _name;
@@ -40,9 +40,11 @@ type
   HttpMethodConst = class
   class var
     GET: TMiniHttpMethod;
-    POST: TMiniHttpMethod;
-    PUT: TMiniHttpMethod;
     DELETE: TMiniHttpMethod;
+    POST: TMiniHttpMethod;
+    POSTQueryString: TMiniHttpMethod;
+    PUT: TMiniHttpMethod;
+    PUTQueryString: TMiniHttpMethod;
   end;
 
   HttpHeaderConst = class
@@ -133,7 +135,7 @@ type
   public
     procedure addHeader( const name: NSString; const value: NSString ); overload;
     procedure addHeader( const name: String; const value: String ); overload;
-    procedure setQueryParams( const lclItems: TQueryItemsDictonary );
+    procedure setQueryParams( lclItems: TQueryItemsDictonary );
     procedure setBody( const body: NSString );
     procedure setContentType( const contentType: NSString );
     procedure setContentLength( const length: Integer );
@@ -155,19 +157,45 @@ implementation
 
 type
 
+  { TMiniHttpMethodGET }
+
   TMiniHttpMethodGET = class( TMiniHttpMethod )
+    constructor Create;
     procedure setQuery(const request: NSMutableURLRequest; const query: TQueryItemsDictonary); override;
   end;
+
+  { TMiniHttpMethodDELETE }
 
   TMiniHttpMethodDELETE = class( TMiniHttpMethod )
+    constructor Create;
     procedure setQuery(const request: NSMutableURLRequest; const query: TQueryItemsDictonary); override;
   end;
+
+  { TMiniHttpMethodPOST }
 
   TMiniHttpMethodPOST = class( TMiniHttpMethod )
+    constructor Create;
     procedure setQuery(const request: NSMutableURLRequest; const query: TQueryItemsDictonary); override;
   end;
 
+  { TMiniHttpMethodPOSTQueryString }
+
+  TMiniHttpMethodPOSTQueryString = class( TMiniHttpMethod )
+    constructor Create;
+    procedure setQuery(const request: NSMutableURLRequest; const query: TQueryItemsDictonary); override;
+  end;
+
+  { TMiniHttpMethodPUT }
+
   TMiniHttpMethodPUT = class( TMiniHttpMethod )
+    constructor Create;
+    procedure setQuery(const request: NSMutableURLRequest; const query: TQueryItemsDictonary); override;
+  end;
+
+  { TMiniHttpMethodPUTQueryString }
+
+  TMiniHttpMethodPUTQueryString = class( TMiniHttpMethod )
+    constructor Create;
     procedure setQuery(const request: NSMutableURLRequest; const query: TQueryItemsDictonary); override;
   end;
 
@@ -364,6 +392,36 @@ begin
   request.addValue_forHTTPHeaderField( HttpConst.Header.ContentLength, bodyLength );
 end;
 
+constructor TMiniHttpMethodGET.Create;
+begin
+  Inherited Create( 'GET' );
+end;
+
+constructor TMiniHttpMethodDELETE.Create;
+begin
+  Inherited Create( 'DELETE' );
+end;
+
+constructor TMiniHttpMethodPOST.Create;
+begin
+  Inherited Create( 'POST' );
+end;
+
+constructor TMiniHttpMethodPOSTQueryString.Create;
+begin
+  Inherited Create( 'POST' );
+end;
+
+constructor TMiniHttpMethodPUT.Create;
+begin
+  Inherited Create( 'PUT' );
+end;
+
+constructor TMiniHttpMethodPUTQueryString.Create;
+begin
+  Inherited Create( 'PUT' );
+end;
+
 procedure TMiniHttpMethodGET.setQuery(const request: NSMutableURLRequest;
   const query: TQueryItemsDictonary);
 begin
@@ -382,10 +440,22 @@ begin
   self.setQueryToBody( request, query );
 end;
 
+procedure TMiniHttpMethodPOSTQueryString.setQuery(
+  const request: NSMutableURLRequest; const query: TQueryItemsDictonary);
+begin
+  self.setQueryToURL( request, query );
+end;
+
 procedure TMiniHttpMethodPUT.setQuery(const request: NSMutableURLRequest;
   const query: TQueryItemsDictonary);
 begin
   self.setQueryToBody( request, query );
+end;
+
+procedure TMiniHttpMethodPUTQueryString.setQuery(
+  const request: NSMutableURLRequest; const query: TQueryItemsDictonary);
+begin
+  self.setQueryToURL( request, query );
 end;
 
 { TMiniHttpResult }
@@ -538,6 +608,7 @@ begin
   _request:= NSMutableURLRequest.new;
   _request.setURL( url );
   _method:= method;
+  _request.setHTTPMethod( _method.name );
 end;
 
 destructor TMiniHttpClient.Destroy;
@@ -564,9 +635,10 @@ begin
   self.setContentLength( bodyData.length );
 end;
 
-procedure TMiniHttpClient.setQueryParams(const lclItems: TQueryItemsDictonary);
+procedure TMiniHttpClient.setQueryParams(lclItems: TQueryItemsDictonary);
 begin
   _method.setQuery( _request, lclItems );
+  FreeAndNil( lclItems );
 end;
 
 procedure TMiniHttpClient.setContentType(const contentType: NSString);
@@ -586,6 +658,7 @@ var
 begin
   try
     TLogUtil.logInformation( 'HttpClient start:' + _request.description.UTF8String );
+    TLogUtil.logInformation( '  ' + _request.HTTPMethod.utf8String );
     connection:= NSURLConnection.alloc.initWithRequest_delegate(
       _request, delegate );
     connection.start;
@@ -665,10 +738,12 @@ begin
 end;
 
 initialization
-  HttpConst.Method.GET:= TMiniHttpMethodGET.Create( 'GET' );
-  HttpConst.Method.POST:= TMiniHttpMethodGET.Create( 'POST' );
-  HttpConst.Method.PUT:= TMiniHttpMethodGET.Create( 'PUT' );
-  HttpConst.Method.DELETE:= TMiniHttpMethodGET.Create( 'DELETE' );
+  HttpConst.Method.GET:= TMiniHttpMethodGET.Create;
+  HttpConst.Method.DELETE:= TMiniHttpMethodDELETE.Create;
+  HttpConst.Method.POST:= TMiniHttpMethodPOST.Create;
+  HttpConst.Method.POSTQueryString:= TMiniHttpMethodPOSTQueryString.Create;
+  HttpConst.Method.PUT:= TMiniHttpMethodPUT.Create;
+  HttpConst.Method.PUTQueryString:= TMiniHttpMethodPUTQueryString.Create;
 
   HttpConst.Header.ContentType:= NSSTR('content-type');
   HttpConst.Header.ContentLength:= NSSTR('content-length');
@@ -676,6 +751,14 @@ initialization
   HttpConst.ContentType.UrlEncoded:= NSSTR( 'application/x-www-form-urlencoded' );
   HttpConst.ContentType.JSON:= NSSTR( 'application/json' );
   HttpConst.ContentType.OctetStream:= NSSTR( 'application/octet-stream' );
+
+finalization
+  FreeAndNil( HttpConst.Method.GET );
+  FreeAndNil( HttpConst.Method.DELETE );
+  FreeAndNil( HttpConst.Method.POST );
+  FreeAndNil( HttpConst.Method.POSTQueryString );
+  FreeAndNil( HttpConst.Method.PUT );
+  FreeAndNil( HttpConst.Method.PUTQueryString );
 
 end.
 
