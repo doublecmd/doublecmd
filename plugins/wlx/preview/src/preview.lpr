@@ -24,7 +24,7 @@ library Preview;
 {$mode objfpc}{$H+}
 
 uses
-  SysUtils, JwaWinUser, Windows, Messages, WlxPlugin, uPreviewHandler;
+  SysUtils, JwaWinUser, WlxPlugin, Windows, Messages, uPreviewHandler;
 
 const
   WH_KEYBOARD_LL = 13;
