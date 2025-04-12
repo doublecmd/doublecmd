@@ -416,6 +416,12 @@ begin
     OleCheck(ImagingFactory.CreateComponentEnumerator(WICDecoder, dwOptions, ppIEnumUnknown));
     SetLength(wzFileExtensions, MaxSmallint + 1);
 
+    // Windows 11 24H2 includes a real built-in HEIC decoder
+    if (Win32MajorVersion > 10) or ((Win32MajorVersion = 10) and (Win32BuildNumber >= 26100)) then
+    begin
+      CLSID_WICHeicDecoder:= GUID_NULL;
+    end;
+
     while(ppIEnumUnknown.Next(1, ACodec, @cbActual) = S_OK) do
     begin
       if (ACodec.QueryInterface(IWICBitmapCodecInfo, AInfo) = S_OK) then
