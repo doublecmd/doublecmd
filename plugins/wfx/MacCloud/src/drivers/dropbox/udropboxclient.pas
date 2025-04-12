@@ -505,8 +505,9 @@ var
     queryItems.Add( 'code', _code );
     queryItems.Add( 'code_verifier', _codeVerifier );
     queryItems.Add( 'grant_type', 'authorization_code' );
+    http.setQueryParams( queryItems );
     dropBoxResult:= TDropBoxResult.Create;
-    dropBoxResult.httpResult:= http.post( DropBoxConst.URI.TOKEN, queryItems );
+    dropBoxResult.httpResult:= http.connect;
     dropBoxResult.resultMessage:= dropBoxResult.httpResult.body;
 
     DropBoxClientProcessResult( dropBoxResult );
@@ -528,7 +529,7 @@ begin
     Exit;
 
   try
-    http:= TMiniHttpClient.Create;
+    http:= TMiniHttpClient.Create( DropBoxConst.URI.TOKEN, HttpConst.Method.POST );
     doRequest;
 
     if dropBoxResult.httpResult.resultCode <> 200 then
@@ -546,9 +547,9 @@ var
   http: TMiniHttpClient;
 begin
   try
-    http:= TMiniHttpClient.Create;
+    http:= TMiniHttpClient.Create( DropBoxConst.URI.REVOKE_TOKEN, HttpConst.Method.POST );
     self.setAuthHeader( http );
-    http.post( DropBoxConst.URI.REVOKE_TOKEN, nil );
+    http.connect;
   finally
     _token.invalid;
     FreeAndNil( http );
@@ -568,8 +569,9 @@ var
     queryItems.Add( 'client_id', _config.clientID );
     queryItems.Add( 'grant_type', 'refresh_token' );
     queryItems.Add( 'refresh_token', _token.refresh );
+    http.setQueryParams( queryItems );
     dropBoxResult:= TDropBoxResult.Create;
-    dropBoxResult.httpResult:= http.post( DropBoxConst.URI.TOKEN, queryItems );
+    dropBoxResult.httpResult:= http.connect;
     dropBoxResult.resultMessage:= dropBoxResult.httpResult.body;
 
     DropBoxClientProcessResult( dropBoxResult );
@@ -586,7 +588,7 @@ var
 
 begin
   try
-    http:= TMiniHttpClient.Create;
+    http:= TMiniHttpClient.Create( DropBoxConst.URI.TOKEN, HttpConst.Method.POST );
     doRequest;
 
     if dropBoxResult.httpResult.resultCode <> 200 then
@@ -727,13 +729,13 @@ var
 begin
   try
     body:= TJsonUtil.dumps( ['path', _path] );
-    http:= TMiniHttpClient.Create;
+    http:= TMiniHttpClient.Create( DropBoxConst.URI.LIST_FOLDER, HttpConst.Method.POST );
     _authSession.setAuthHeader( http );
     http.setContentType( HttpConst.ContentType.JSON );
     http.setBody( body );
 
     dropBoxResult:= TDropBoxResult.Create;
-    httpResult:= http.post( DropBoxConst.URI.LIST_FOLDER, nil );
+    httpResult:= http.connect;
     dropBoxResult.httpResult:= httpResult;
     dropBoxResult.resultMessage:= httpResult.body;
 
@@ -759,13 +761,13 @@ var
 begin
   try
     body:= TJsonUtil.dumps( ['cursor', _cursor] );
-    http:= TMiniHttpClient.Create;
+    http:= TMiniHttpClient.Create( DropBoxConst.URI.LIST_FOLDER_CONTINUE, HttpConst.Method.POST );
     _authSession.setAuthHeader( http );
     http.setContentType( HttpConst.ContentType.JSON );
     http.setBody( body );
 
     dropBoxResult:= TDropBoxResult.Create;
-    httpResult:= http.post( DropBoxConst.URI.LIST_FOLDER_CONTINUE, nil );
+    httpResult:= http.connect;
     dropBoxResult.httpResult:= httpResult;
     dropBoxResult.resultMessage:= httpResult.body;
 
@@ -868,12 +870,12 @@ var
 begin
   try
     argJsonString:= TJsonUtil.dumps( ['path', _serverPath], True );
-    http:= TMiniHttpClient.Create;
+    http:= TMiniHttpClient.Create( DropBoxConst.URI.DOWNLOAD, HttpConst.Method.POST );
     _authSession.setAuthHeader( http );
     http.addHeader( NSSTR(DropBoxConst.HEADER.ARG), argJsonString );
 
     dropBoxResult:= TDropBoxResult.Create;
-    dropBoxResult.httpResult:= http.download( DropBoxConst.URI.DOWNLOAD, _localPath, _callback );
+    dropBoxResult.httpResult:= http.download( _localPath, _callback );
     dropBoxResult.resultMessage:= dropBoxResult.httpResult.getHeader( DropBoxConst.HEADER.RESULT );
 
     DropBoxClientProcessResult( dropBoxResult );
@@ -903,12 +905,12 @@ var
 begin
   try
     argJsonString:= TJsonUtil.dumps( ['path',_serverPath, 'mode','overwrite'], True );
-    http:= TMiniHttpClient.Create;
+    http:= TMiniHttpClient.Create( DropBoxConst.URI.UPLOAD_SMALL, HttpConst.Method.POST );
     _authSession.setAuthHeader( http );
     http.addHeader( NSSTR(DropBoxConst.HEADER.ARG), argJsonString );
 
     dropBoxResult:= TDropBoxResult.Create;
-    dropBoxResult.httpResult:= http.upload( DropBoxConst.URI.UPLOAD_SMALL, _localPath, _callback );
+    dropBoxResult.httpResult:= http.upload( _localPath, _callback );
     dropBoxResult.resultMessage:= dropBoxResult.httpResult.body;
 
     DropBoxClientProcessResult( dropBoxResult );
@@ -931,12 +933,12 @@ var
     json: NSDictionary;
   begin
     try
-      http:= TMiniHttpClient.Create;
+      http:= TMiniHttpClient.Create( DropBoxConst.URI.UPLOAD_LARGE_START, HttpConst.Method.POST );
       _authSession.setAuthHeader( http );
       http.setContentType( HttpConst.ContentType.OctetStream );
 
       dropBoxResult:= TDropBoxResult.Create;
-      dropBoxResult.httpResult:= http.post( DropBoxConst.URI.UPLOAD_LARGE_START, nil );
+      dropBoxResult.httpResult:= http.connect;
       dropBoxResult.resultMessage:= dropBoxResult.httpResult.body;
 
       DropBoxClientProcessResult( dropBoxResult );
@@ -967,13 +969,12 @@ var
     dropBoxResult: TDropBoxResult;
   begin
     try
-      http:= TMiniHttpClient.Create;
+      http:= TMiniHttpClient.Create( DropBoxConst.URI.UPLOAD_LARGE_APPEND, HttpConst.Method.POST );
       _authSession.setAuthHeader( http );
       http.addHeader( NSSTR(DropBoxConst.HEADER.ARG), getArgJsonString );
 
       dropBoxResult:= TDropBoxResult.Create;
       dropBoxResult.httpResult:= http.uploadRange(
-        DropBoxConst.URI.UPLOAD_LARGE_APPEND,
         _localPath,
         range,
         _callback );
@@ -1010,13 +1011,13 @@ var
     dropBoxResult: TDropBoxResult;
   begin
     try
-      http:= TMiniHttpClient.Create;
+      http:= TMiniHttpClient.Create( DropBoxConst.URI.UPLOAD_LARGE_FINISH, HttpConst.Method.POST );
       _authSession.setAuthHeader( http );
       http.addHeader( NSSTR(DropBoxConst.HEADER.ARG), getArgJsonString );
       http.setContentType( HttpConst.ContentType.OctetStream );
 
       dropBoxResult:= TDropBoxResult.Create;
-      dropBoxResult.httpResult:= http.post( DropBoxConst.URI.UPLOAD_LARGE_FINISH, nil );
+      dropBoxResult.httpResult:= http.connect;
       dropBoxResult.resultMessage:= dropBoxResult.httpResult.body;
 
       DropBoxClientProcessResult( dropBoxResult );
@@ -1067,13 +1068,13 @@ var
 begin
   try
     body:= TJsonUtil.dumps( ['path', _path] );
-    http:= TMiniHttpClient.Create;
+    http:= TMiniHttpClient.Create( DropBoxConst.URI.CREATE_FOLDER, HttpConst.Method.POST );
     http.setContentType( HttpConst.ContentType.JSON );
     _authSession.setAuthHeader( http );
     http.setBody( body );
 
     dropBoxResult:= TDropBoxResult.Create;
-    dropBoxResult.httpResult:= http.post( DropBoxConst.URI.CREATE_FOLDER, nil );
+    dropBoxResult.httpResult:= http.connect;
     dropBoxResult.resultMessage:= dropBoxResult.httpResult.body;
 
     DropBoxClientProcessResult( dropBoxResult );
@@ -1100,13 +1101,13 @@ var
 begin
   try
     body:= TJsonUtil.dumps( ['path', _path] );
-    http:= TMiniHttpClient.Create;
+    http:= TMiniHttpClient.Create( DropBoxConst.URI.DELETE, HttpConst.Method.POST );
     http.setContentType( HttpConst.ContentType.JSON );
     _authSession.setAuthHeader( http );
     http.setBody( body );
 
     dropBoxResult:= TDropBoxResult.Create;
-    dropBoxResult.httpResult:= http.post( DropBoxConst.URI.DELETE, nil );
+    dropBoxResult.httpResult:= http.connect;
     dropBoxResult.resultMessage:= dropBoxResult.httpResult.body;
 
     DropBoxClientProcessResult( dropBoxResult );
@@ -1134,20 +1135,20 @@ var
   body: NSString;
 begin
   try
-    http:= TMiniHttpClient.Create;
+    if needToMove then
+      uri:= DropBoxConst.URI.MOVE
+    else
+      uri:= DropBoxConst.URI.COPY;
+
+    http:= TMiniHttpClient.Create( uri, HttpConst.Method.POST );
     http.setContentType( HttpConst.ContentType.JSON );
     _authSession.setAuthHeader( http );
 
     body:= TJsonUtil.dumps( ['from_path', _fromPath, 'to_path', _toPath] );
     http.setBody( body );
 
-    if needToMove then
-      uri:= DropBoxConst.URI.MOVE
-    else
-      uri:= DropBoxConst.URI.COPY;
-
     dropBoxResult:= TDropBoxResult.Create;
-    dropBoxResult.httpResult:= http.post( uri, nil );
+    dropBoxResult.httpResult:= http.connect;
     dropBoxResult.resultMessage:= dropBoxResult.httpResult.body;
 
     DropBoxClientProcessResult( dropBoxResult );
