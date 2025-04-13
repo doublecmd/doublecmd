@@ -305,7 +305,8 @@ begin
   error:= nil;
   Result:= NSJSONSerialization.JSONObjectWithData_options_error( jsonData, 0, @error );
   if error <> nil then
-    raise EArgumentException.Create( 'error in TJsonUtil.parse(): ' + error.localizedDescription.UTF8String );
+    raise EArgumentException.Create( 'error in TJsonUtil.parse(): ' +
+      error.localizedDescription.UTF8String + ': ' + jsonString.UTF8String );
 end;
 
 class procedure TJsonUtil.setString(const json: NSMutableDictionary; const key: String;

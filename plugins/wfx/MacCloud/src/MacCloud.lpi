@@ -83,6 +83,16 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="uCloudRootDriver"/>
       </Unit>
+      <Unit>
+        <Filename Value="drivers/yandex/uyandexclient.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uYandexClient"/>
+      </Unit>
+      <Unit>
+        <Filename Value="drivers/uclouddriver.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uCloudDriver"/>
+      </Unit>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
@@ -92,7 +102,7 @@
     </Target>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir)"/>
-      <OtherUnitFiles Value="../../../../sdk;util;httpclient;drivers/dropbox;drivers/root"/>
+      <OtherUnitFiles Value="../../../../sdk;util;httpclient;drivers/dropbox;drivers/root;drivers/yandex;drivers"/>
       <UnitOutputDirectory Value="../lib/$(TargetCPU)-$(TargetOS)"/>
     </SearchPaths>
     <CodeGeneration>
