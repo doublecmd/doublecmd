@@ -658,7 +658,6 @@ var
 begin
   try
     TLogUtil.logInformation( 'HttpClient start:' + _request.description.UTF8String );
-    TLogUtil.logInformation( '  ' + _request.HTTPMethod.utf8String );
     connection:= NSURLConnection.alloc.initWithRequest_delegate(
       _request, delegate );
     connection.start;

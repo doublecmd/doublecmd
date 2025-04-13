@@ -340,8 +340,6 @@ var
   begin
     queryItems:= TQueryItemsDictonary.Create;
     queryItems.Add( 'client_id', _config.clientID );
-    if _config.clientSecret <> EmptyStr then
-      queryItems.Add( 'client_secret', _config.clientSecret );
     queryItems.Add( 'redirect_uri', _config.listenURI );
     queryItems.Add( 'code', _code );
     queryItems.Add( 'code_verifier', _codeVerifier );

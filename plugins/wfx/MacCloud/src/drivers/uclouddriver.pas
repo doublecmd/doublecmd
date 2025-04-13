@@ -33,12 +33,10 @@ type
   TCloudDriverConfig = class
   private
     _clientID: String;
-    _clientSecret: String;
     _listenURI: String;
   public
-    constructor Create( const clientID: String; const clientSecret: String; const listenURI: String );
+    constructor Create( const clientID: String; const listenURI: String );
     property clientID: String read _clientID;
-    property clientSecret: String read _clientSecret;
     property listenURI: String read _listenURI;
   end;
 
@@ -70,11 +68,9 @@ implementation
 
 constructor TCloudDriverConfig.Create(
   const clientID: String;
-  const clientSecret: String;
   const listenURI: String );
 begin
   _clientID:= clientID;
-  _clientSecret:= clientSecret;
   _listenURI:= listenURI;
 end;
 
