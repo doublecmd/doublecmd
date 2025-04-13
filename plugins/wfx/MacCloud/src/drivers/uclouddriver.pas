@@ -82,11 +82,16 @@ type
 
   ICloudProgressCallback = IMiniHttpDataCallback;
 
-  TCloudDriverBase = class
+  TCloudDriverLister = class
   public
-    procedure listFolderBegin( const path: String ); virtual; abstract;
+    procedure listFolderBegin; virtual; abstract;
     function  listFolderGetNextFile: TCloudFile; virtual; abstract;
     procedure listFolderEnd; virtual; abstract;
+  end;
+
+  TCloudDriverBase = class
+  public
+    function createLister( const path: String ): TCloudDriverLister; virtual; abstract;
   public
     procedure createFolder( const path: String ); virtual; abstract;
     procedure delete( const path: String ); virtual; abstract;

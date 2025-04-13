@@ -69,6 +69,7 @@ function FsFindFirstW(
   var FindData: TWIN32FINDDATAW ): THandle; cdecl;
 var
   parser: TCloudPathParser = nil;
+  lister: TCloudDriverLister = nil;
   driver: TCloudDriverBase;
 
   function doFindFirst: THandle;
@@ -82,9 +83,10 @@ var
       driver:= TCloudRootDriver.Create
     else
       driver:= parser.driver;
-    Result:= THandle( driver );
-    driver.listFolderBegin( parser.driverPath );
-    cloudFile:= driver.listFolderGetNextFile;
+    lister:= driver.createLister( parser.driverPath );
+    Result:= THandle( lister );
+    lister.listFolderBegin;
+    cloudFile:= lister.listFolderGetNextFile;
     if cloudFile = nil then
       Exit( wfxInvalidHandle );
 
@@ -105,20 +107,20 @@ begin
     end;
   end;
 
-  if (Result=wfxInvalidHandle) and Assigned(driver) then
-    driver.listFolderEnd;
+  if (Result=wfxInvalidHandle) and Assigned(lister) then
+    lister.listFolderEnd;
 end;
 
 function FsFindNextW(
   handle: THandle;
   var FindData:tWIN32FINDDATAW ): Bool; cdecl;
 var
-  driver: TCloudDriverBase;
+  lister: TCloudDriverLister;
   cloudFile: TCloudFile;
 begin
   try
-    driver:= TCloudDriverBase( handle );
-    cloudFile:= driver.listFolderGetNextFile;
+    lister:= TCloudDriverLister( handle );
+    cloudFile:= lister.listFolderGetNextFile;
     if cloudFile = nil then
       Exit( False );
 
@@ -134,12 +136,12 @@ end;
 
 function FsFindClose( handle: THandle ): Integer; cdecl;
 var
-  driver: TCloudDriverBase;
+  lister: TCloudDriverLister;
 begin
   Result:= 0;
   try
-    driver:= TCloudDriverBase( handle );
-    driver.listFolderEnd;
+    lister:= TCloudDriverLister( handle );
+    lister.listFolderEnd;
   except
     on e: Exception do begin
       TMacCloudUtil.exceptionToResult( e );

@@ -148,13 +148,25 @@ type
     procedure move;
   end;
 
+  { TYandexLister }
+
+  TYandexLister = class( TCloudDriverLister )
+  private
+    _listFolderSession: TCloudDriverListFolderSession;
+  public
+    constructor Create( const authSession: TCloudDriverAuthPKCESession; const path: String );
+    destructor Destroy; override;
+    procedure listFolderBegin; override;
+    function  listFolderGetNextFile: TCloudFile; override;
+    procedure listFolderEnd; override;
+  end;
+
   { TYandexClient }
 
   TYandexClient = class( TCloudDriver )
   private
     _config: TCloudDriverConfig;
     _authSession: TCloudDriverAuthPKCESession;
-    _listFolderSession: TCloudDriverListFolderSession;
   public
     class function driverName: String; override;
     class function createInstance: TCloudDriver; override;
@@ -167,9 +179,7 @@ type
     procedure unauthorize; override;
     function authorized: Boolean; override;
   public
-    procedure listFolderBegin( const path: String ); override;
-    function  listFolderGetNextFile: TCloudFile; override;
-    procedure listFolderEnd; override;
+    function createLister( const path: String ): TCloudDriverLister; override;
   public
     procedure download(
       const serverPath: String;
@@ -332,8 +342,8 @@ end;
 
 procedure TCloudDriverAuthPKCESession.requestToken;
 var
-  http: TMiniHttpClient;
-  cloudDriverResult: TCloudDriverResult;
+  http: TMiniHttpClient = nil;
+  cloudDriverResult: TCloudDriverResult = nil;
 
   procedure doRequest;
   var
@@ -384,7 +394,7 @@ end;
 
 procedure TCloudDriverAuthPKCESession.revokeToken;
 var
-  http: TMiniHttpClient;
+  http: TMiniHttpClient = nil;
 begin
   try
     http:= TMiniHttpClient.Create( YandexConst.URI.REVOKE_TOKEN, HttpConst.Method.POST );
@@ -398,8 +408,8 @@ end;
 
 procedure TCloudDriverAuthPKCESession.refreshToken;
 var
-  http: TMiniHttpClient;
-  cloudDriverResult: TCloudDriverResult;
+  http: TMiniHttpClient = nil;
+  cloudDriverResult: TCloudDriverResult = nil;
 
   procedure doRequest;
   var
@@ -569,8 +579,8 @@ end;
 procedure TCloudDriverListFolderSession.listFolderContinue;
 var
   http: TMiniHttpClient;
-  httpResult: TMiniHttpResult;
-  cloudDriverResult: TCloudDriverResult;
+  httpResult: TMiniHttpResult = nil;
+  cloudDriverResult: TCloudDriverResult = nil;
   queryItems: TQueryItemsDictonary;
 begin
   try
@@ -588,9 +598,6 @@ begin
     cloudDriverResult.httpResult:= httpResult;
     cloudDriverResult.resultMessage:= httpResult.body;
 
-    if Assigned(_files) then
-      _files.Free;
-    _files:= TCloudFiles.Create;
     if httpResult.resultCode = 200 then
       analyseListResult( httpResult.body );
 
@@ -644,6 +651,7 @@ end;
 constructor TCloudDriverListFolderSession.Create( const authSession: TCloudDriverAuthPKCESession; const path: String );
 begin
   _authSession:= authSession;
+  _files:= TCloudFiles.Create;
   _path:= path;
   if _path = EmptyStr then
     _path:= PathDelim;
@@ -690,9 +698,9 @@ end;
 procedure TYandexDownloadSession.download;
   function getDownloadHref: String;
   var
-    http: TMiniHttpClient;
+    http: TMiniHttpClient = nil;
     queryItems: TQueryItemsDictonary;
-    cloudDriverResult: TCloudDriverResult;
+    cloudDriverResult: TCloudDriverResult = nil;
     json: NSDictionary;
   begin
     try
@@ -717,8 +725,8 @@ procedure TYandexDownloadSession.download;
 
   procedure downloadHref( const href : String );
   var
-    http: TMiniHttpClient;
-    cloudDriverResult: TCloudDriverResult;
+    http: TMiniHttpClient = nil;
+    cloudDriverResult: TCloudDriverResult = nil;
   begin
     try
       http:= TMiniHttpClient.Create( href, HttpConst.Method.GET );
@@ -756,9 +764,9 @@ end;
 procedure TYandexUploadSession.upload;
   function getUploadHref: String;
   var
-    http: TMiniHttpClient;
+    http: TMiniHttpClient = nil;
     queryItems: TQueryItemsDictonary;
-    cloudDriverResult: TCloudDriverResult;
+    cloudDriverResult: TCloudDriverResult = nil;
     json: NSDictionary;
   begin
     try
@@ -783,8 +791,8 @@ procedure TYandexUploadSession.upload;
 
   procedure uploadHref( const href: String; const range: TMiniHttpContentRange );
   var
-    http: TMiniHttpClient;
-    cloudDriverResult: TCloudDriverResult;
+    http: TMiniHttpClient = nil;
+    cloudDriverResult: TCloudDriverResult = nil;
   begin
     try
       http:= TMiniHttpClient.Create( href, HttpConst.Method.PUT );
@@ -834,9 +842,9 @@ end;
 
 procedure TYandexCreateFolderSession.createFolder;
 var
-  http: TMiniHttpClient;
+  http: TMiniHttpClient = nil;
   queryItems: TQueryItemsDictonary;
-  cloudDriverResult: TCloudDriverResult;
+  cloudDriverResult: TCloudDriverResult = nil;
 begin
   try
     queryItems:= TQueryItemsDictonary.Create;
@@ -866,9 +874,9 @@ end;
 
 procedure TYandexDeleteSession.delete;
 var
-  http: TMiniHttpClient;
+  http: TMiniHttpClient = nil;
   queryItems: TQueryItemsDictonary;
-  cloudDriverResult: TCloudDriverResult;
+  cloudDriverResult: TCloudDriverResult = nil;
 begin
   try
     queryItems:= TQueryItemsDictonary.Create;
@@ -900,9 +908,9 @@ end;
 procedure TYandexCopyMoveSession.copyOrMove( const needToMove: Boolean );
 var
   uri: String;
-  http: TMiniHttpClient;
+  http: TMiniHttpClient = nil;
   queryItems: TQueryItemsDictonary;
-  cloudDriverResult: TCloudDriverResult;
+  cloudDriverResult: TCloudDriverResult = nil;
 begin
   try
     if needToMove then
@@ -938,6 +946,35 @@ begin
   copyOrMove( True );
 end;
 
+{ TYandexLister }
+
+constructor TYandexLister.Create(
+  const authSession: TCloudDriverAuthPKCESession;
+  const path: String);
+begin
+  _listFolderSession:= TCloudDriverListFolderSession.Create( authSession, path );
+end;
+
+destructor TYandexLister.Destroy;
+begin
+  FreeAndNil( _listFolderSession );
+end;
+
+procedure TYandexLister.listFolderBegin;
+begin
+  _listFolderSession.listFolderFirst;
+end;
+
+function TYandexLister.listFolderGetNextFile: TCloudFile;
+begin
+  Result:= _listFolderSession.getNextFile;
+end;
+
+procedure TYandexLister.listFolderEnd;
+begin
+  self.Free;
+end;
+
 { TYandexClient }
 
 class function TYandexClient.driverName: String;
@@ -959,7 +996,6 @@ end;
 destructor TYandexClient.Destroy;
 begin
   FreeAndNil( _authSession );
-  FreeAndNil( _listFolderSession );
 end;
 
 function TYandexClient.clone: TCloudDriver;
@@ -986,22 +1022,9 @@ begin
   Result:= _authSession.authorized;
 end;
 
-procedure TYandexClient.listFolderBegin(const path: String);
+function TYandexClient.createLister( const path: String ): TCloudDriverLister;
 begin
-  if Assigned(_listFolderSession) then
-    _listFolderSession.Free;
-  _listFolderSession:= TCloudDriverListFolderSession.Create( _authSession, path );
-  _listFolderSession.listFolderFirst;
-end;
-
-function TYandexClient.listFolderGetNextFile: TCloudFile;
-begin
-  Result:= _listFolderSession.getNextFile;
-end;
-
-procedure TYandexClient.listFolderEnd;
-begin
-  FreeAndNil( _listFolderSession );
+  Result:= TYandexLister.Create( _authSession, path );
 end;
 
 procedure TYandexClient.download(
@@ -1009,7 +1032,7 @@ procedure TYandexClient.download(
   const localPath: String;
   const callback: ICloudProgressCallback );
 var
-  session: TYandexDownloadSession;
+  session: TYandexDownloadSession = nil;
 begin
   try
     session:= TYandexDownloadSession.Create( _authSession, serverPath, localPath, callback );
@@ -1024,7 +1047,7 @@ procedure TYandexClient.upload(
   const localPath: String;
   const callback: ICloudProgressCallback);
 var
-  session: TYandexUploadSession;
+  session: TYandexUploadSession = nil;
 begin
   try
     session:= TYandexUploadSession.Create( _authSession, serverPath, localPath, callback );
@@ -1036,7 +1059,7 @@ end;
 
 procedure TYandexClient.createFolder(const path: String);
 var
-  session: TYandexCreateFolderSession;
+  session: TYandexCreateFolderSession = nil;
 begin
   try
     session:= TYandexCreateFolderSession.Create( _authSession, path );
@@ -1048,7 +1071,7 @@ end;
 
 procedure TYandexClient.delete(const path: String);
 var
-  session: TYandexDeleteSession;
+  session: TYandexDeleteSession = nil;
 begin
   try
     session:= TYandexDeleteSession.Create( _authSession, path );
@@ -1061,7 +1084,7 @@ end;
 procedure TYandexClient.copyOrMove(const fromPath: String; const toPath: String;
   const needToMove: Boolean );
 var
-  session: TYandexCopyMoveSession;
+  session: TYandexCopyMoveSession = nil;
 begin
   try
     session:= TYandexCopyMoveSession.Create( _authSession, fromPath, toPath );

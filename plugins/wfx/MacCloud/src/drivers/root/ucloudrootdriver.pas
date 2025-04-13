@@ -12,15 +12,24 @@ uses
 
 type
 
-  { TCloudRootDriver }
+  { TCloudRootDriverLister }
 
-  TCloudRootDriver = class( TCloudDriverBase )
+  TCloudRootDriverLister = class( TCloudDriverLister )
   private
     _list: TFPList;
   public
-    procedure listFolderBegin(const path: String); override;
-    function listFolderGetNextFile: TCloudFile; override;
+    constructor Create;
+    destructor Destroy; override;
+    procedure listFolderBegin; override;
+    function  listFolderGetNextFile: TCloudFile; override;
     procedure listFolderEnd; override;
+  end;
+
+  { TCloudRootDriver }
+
+  TCloudRootDriver = class( TCloudDriverBase )
+  public
+    function createLister( const path: String ): TCloudDriverLister; override;
   public
     procedure createFolder(const path: String); override;
     procedure delete(const path: String); override;
@@ -60,9 +69,19 @@ begin
     Result:= parser.driver;
 end;
 
-{ TCloudRootDriver }
+{ TCloudRootDriverLister }
 
-procedure TCloudRootDriver.listFolderBegin(const path: String);
+constructor TCloudRootDriverLister.Create;
+begin
+  _list:= TFPList.Create;
+end;
+
+destructor TCloudRootDriverLister.Destroy;
+begin
+  _list.Free;
+end;
+
+procedure TCloudRootDriverLister.listFolderBegin;
   procedure addNewCommand;
   var
     cloudFile: TCloudFile;
@@ -91,12 +110,11 @@ procedure TCloudRootDriver.listFolderBegin(const path: String);
   end;
 
 begin
-  _list:= TFPList.Create;
   addNewCommand;
   addConnections;
 end;
 
-function TCloudRootDriver.listFolderGetNextFile: TCloudFile;
+function TCloudRootDriverLister.listFolderGetNextFile: TCloudFile;
 begin
   if _list.Count > 0 then begin
     Result:= TCloudFile( _list.First );
@@ -106,9 +124,16 @@ begin
   end;
 end;
 
-procedure TCloudRootDriver.listFolderEnd;
+procedure TCloudRootDriverLister.listFolderEnd;
 begin
-  FreeAndNil( _list );
+  self.Free;
+end;
+
+{ TCloudRootDriver }
+
+function TCloudRootDriver.createLister( const path: String ): TCloudDriverLister;
+begin
+  Result:= TCloudRootDriverLister.Create;
   self.Free;
 end;
 

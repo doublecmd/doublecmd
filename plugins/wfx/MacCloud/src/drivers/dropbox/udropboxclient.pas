@@ -198,13 +198,25 @@ type
     procedure move;
   end;
 
+  { TDropBoxLister }
+
+  TDropBoxLister = class( TCloudDriverLister )
+  private
+    _listFolderSession: TDropBoxListFolderSession;
+  public
+    constructor Create( const authSession: TDropBoxAuthPKCESession; const path: String );
+    destructor Destroy; override;
+    procedure listFolderBegin; override;
+    function  listFolderGetNextFile: TCloudFile; override;
+    procedure listFolderEnd; override;
+  end;
+
   { TDropBoxClient }
 
   TDropBoxClient = class( TCloudDriver )
   private
     _config: TDropBoxConfig;
     _authSession: TDropBoxAuthPKCESession;
-    _listFolderSession: TDropBoxListFolderSession;
   public
     class function driverName: String; override;
     class function createInstance: TCloudDriver; override;
@@ -217,9 +229,7 @@ type
     procedure unauthorize; override;
     function authorized: Boolean; override;
   public
-    procedure listFolderBegin( const path: String ); override;
-    function  listFolderGetNextFile: TCloudFile; override;
-    procedure listFolderEnd; override;
+    function createLister( const path: String ): TCloudDriverLister; override;
   public
     procedure download(
       const serverPath: String;
@@ -492,8 +502,8 @@ end;
 
 procedure TDropBoxAuthPKCESession.requestToken;
 var
-  http: TMiniHttpClient;
-  dropBoxResult: TDropBoxResult;
+  http: TMiniHttpClient = nil;
+  dropBoxResult: TDropBoxResult = nil;
 
   procedure doRequest;
   var
@@ -544,7 +554,7 @@ end;
 
 procedure TDropBoxAuthPKCESession.revokeToken;
 var
-  http: TMiniHttpClient;
+  http: TMiniHttpClient = nil;
 begin
   try
     http:= TMiniHttpClient.Create( DropBoxConst.URI.REVOKE_TOKEN, HttpConst.Method.POST );
@@ -558,8 +568,8 @@ end;
 
 procedure TDropBoxAuthPKCESession.refreshToken;
 var
-  http: TMiniHttpClient;
-  dropBoxResult: TDropBoxResult;
+  http: TMiniHttpClient = nil;
+  dropBoxResult: TDropBoxResult = nil;
 
   procedure doRequest;
   var
@@ -722,9 +732,9 @@ end;
 
 procedure TDropBoxListFolderSession.listFolderFirst;
 var
-  http: TMiniHttpClient;
+  http: TMiniHttpClient = nil;
   httpResult: TMiniHttpResult;
-  dropBoxResult: TDropBoxResult;
+  dropBoxResult: TDropBoxResult = nil;
   body: NSString;
 begin
   try
@@ -739,9 +749,6 @@ begin
     dropBoxResult.httpResult:= httpResult;
     dropBoxResult.resultMessage:= httpResult.body;
 
-    if Assigned(_files) then
-      _files.Free;
-    _files:= TCloudFiles.Create;
     if httpResult.resultCode = 200 then
       analyseListResult( httpResult.body );
 
@@ -754,9 +761,9 @@ end;
 
 procedure TDropBoxListFolderSession.listFolderContinue;
 var
-  http: TMiniHttpClient;
+  http: TMiniHttpClient = nil;
   httpResult: TMiniHttpResult;
-  dropBoxResult: TDropBoxResult;
+  dropBoxResult: TDropBoxResult = nil;
   body: NSString;
 begin
   try
@@ -822,6 +829,7 @@ begin
   _authSession:= authSession;
   if path <> '/' then
     _path:= path;
+  _files:= TCloudFiles.Create;
 end;
 
 destructor TDropBoxListFolderSession.Destroy;
@@ -864,9 +872,9 @@ end;
 
 procedure TDropBoxDownloadSession.download;
 var
-  http: TMiniHttpClient;
+  http: TMiniHttpClient = nil;
   argJsonString: NSString;
-  dropBoxResult: TDropBoxResult;
+  dropBoxResult: TDropBoxResult = nil;
 begin
   try
     argJsonString:= TJsonUtil.dumps( ['path', _serverPath], True );
@@ -899,9 +907,9 @@ end;
 
 procedure TDropBoxUploadSession.uploadSmall;
 var
-  http: TMiniHttpClient;
+  http: TMiniHttpClient = nil;
   argJsonString: NSString;
-  dropBoxResult: TDropBoxResult;
+  dropBoxResult: TDropBoxResult = nil;
 begin
   try
     argJsonString:= TJsonUtil.dumps( ['path',_serverPath, 'mode','overwrite'], True );
@@ -929,8 +937,8 @@ var
 
   procedure uploadStart;
   var
-    http: TMiniHttpClient;
-    dropBoxResult: TDropBoxResult;
+    http: TMiniHttpClient = nil;
+    dropBoxResult: TDropBoxResult = nil;
     json: NSDictionary;
   begin
     try
@@ -966,8 +974,8 @@ var
       jsonCursor.release;
     end;
   var
-    http: TMiniHttpClient;
-    dropBoxResult: TDropBoxResult;
+    http: TMiniHttpClient = nil;
+    dropBoxResult: TDropBoxResult = nil;
   begin
     try
       http:= TMiniHttpClient.Create( DropBoxConst.URI.UPLOAD_LARGE_APPEND, HttpConst.Method.POST );
@@ -1008,8 +1016,8 @@ var
       jsonCommit.release;
     end;
   var
-    http: TMiniHttpClient;
-    dropBoxResult: TDropBoxResult;
+    http: TMiniHttpClient = nil;
+    dropBoxResult: TDropBoxResult = nil;
   begin
     try
       http:= TMiniHttpClient.Create( DropBoxConst.URI.UPLOAD_LARGE_FINISH, HttpConst.Method.POST );
@@ -1065,8 +1073,8 @@ end;
 
 procedure TDropBoxCreateFolderSession.createFolder;
 var
-  http: TMiniHttpClient;
-  dropBoxResult: TDropBoxResult;
+  http: TMiniHttpClient = nil;
+  dropBoxResult: TDropBoxResult = nil;
   body: NSString;
 begin
   try
@@ -1098,9 +1106,9 @@ end;
 
 procedure TDropBoxDeleteSession.delete;
 var
-  http: TMiniHttpClient;
+  http: TMiniHttpClient = nil;
   body: NSString;
-  dropBoxResult: TDropBoxResult;
+  dropBoxResult: TDropBoxResult = nil;
 begin
   try
     body:= TJsonUtil.dumps( ['path', _path] );
@@ -1133,8 +1141,8 @@ end;
 procedure TDropBoxCopyMoveSession.copyOrMove( const needToMove: Boolean );
 var
   uri: String;
-  http: TMiniHttpClient;
-  dropBoxResult: TDropBoxResult;
+  http: TMiniHttpClient = nil;
+  dropBoxResult: TDropBoxResult = nil;
   body: NSString;
 begin
   try
@@ -1171,6 +1179,35 @@ begin
   copyOrMove( True );
 end;
 
+{ TDropBoxLister }
+
+constructor TDropBoxLister.Create(
+  const authSession: TDropBoxAuthPKCESession;
+  const path: String );
+begin
+  _listFolderSession:= TDropBoxListFolderSession.Create( authSession, path );
+end;
+
+destructor TDropBoxLister.Destroy;
+begin
+  FreeAndNil( _listFolderSession );
+end;
+
+procedure TDropBoxLister.listFolderBegin;
+begin
+  _listFolderSession.listFolderFirst;
+end;
+
+function TDropBoxLister.listFolderGetNextFile: TCloudFile;
+begin
+  Result:= _listFolderSession.getNextFile;
+end;
+
+procedure TDropBoxLister.listFolderEnd;
+begin
+  self.Free;
+end;
+
 { TDropBoxClient }
 
 class function TDropBoxClient.driverName: String;
@@ -1192,7 +1229,6 @@ end;
 destructor TDropBoxClient.Destroy;
 begin
   FreeAndNil( _authSession );
-  FreeAndNil( _listFolderSession );
 end;
 
 function TDropBoxClient.clone: TCloudDriver;
@@ -1219,22 +1255,9 @@ begin
   Result:= _authSession.authorized;
 end;
 
-procedure TDropBoxClient.listFolderBegin(const path: String);
+function TDropBoxClient.createLister( const path: String ): TCloudDriverLister;
 begin
-  if Assigned(_listFolderSession) then
-    _listFolderSession.Free;
-  _listFolderSession:= TDropBoxListFolderSession.Create( _authSession, path );
-  _listFolderSession.listFolderFirst;
-end;
-
-function TDropBoxClient.listFolderGetNextFile: TCloudFile;
-begin
-  Result:= _listFolderSession.getNextFile;
-end;
-
-procedure TDropBoxClient.listFolderEnd;
-begin
-  FreeAndNil( _listFolderSession );
+  Result:= TDropBoxLister.Create( _authSession, path );
 end;
 
 procedure TDropBoxClient.download(
@@ -1242,7 +1265,7 @@ procedure TDropBoxClient.download(
   const localPath: String;
   const callback: ICloudProgressCallback );
 var
-  session: TDropBoxDownloadSession;
+  session: TDropBoxDownloadSession = nil;
 begin
   try
     session:= TDropBoxDownloadSession.Create( _authSession, serverPath, localPath, callback );
@@ -1257,7 +1280,7 @@ procedure TDropBoxClient.upload(
   const localPath: String;
   const callback: ICloudProgressCallback);
 var
-  session: TDropBoxUploadSession;
+  session: TDropBoxUploadSession = nil;
 begin
   try
     session:= TDropBoxUploadSession.Create( _authSession, serverPath, localPath, callback );
@@ -1269,7 +1292,7 @@ end;
 
 procedure TDropBoxClient.createFolder(const path: String);
 var
-  session: TDropBoxCreateFolderSession;
+  session: TDropBoxCreateFolderSession = nil;
 begin
   try
     session:= TDropBoxCreateFolderSession.Create( _authSession, path );
@@ -1281,7 +1304,7 @@ end;
 
 procedure TDropBoxClient.delete(const path: String);
 var
-  session: TDropBoxDeleteSession;
+  session: TDropBoxDeleteSession = nil;
 begin
   try
     session:= TDropBoxDeleteSession.Create( _authSession, path );
@@ -1294,7 +1317,7 @@ end;
 procedure TDropBoxClient.copyOrMove(const fromPath: String; const toPath: String;
   const needToMove: Boolean );
 var
-  session: TDropBoxCopyMoveSession;
+  session: TDropBoxCopyMoveSession = nil;
 begin
   try
     session:= TDropBoxCopyMoveSession.Create( _authSession, fromPath, toPath );
