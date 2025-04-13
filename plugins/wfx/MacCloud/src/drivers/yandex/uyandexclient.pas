@@ -58,7 +58,7 @@ type
 
   TCloudDriverListFolderSession = class
   const
-    LIMIT = 2;
+    LIMIT = 100;
   private
     _authSession: TCloudDriverAuthPKCESession;
     _path: String;
@@ -100,6 +100,7 @@ type
     _authSession: TCloudDriverAuthPKCESession;
     _serverPath: String;
     _localPath: String;
+    _localFileSize: Integer;
     _callback: ICloudProgressCallback;
   public
     constructor Create(
@@ -780,7 +781,7 @@ procedure TYandexUploadSession.upload;
     end;
   end;
 
-  procedure uploadHref( const href : String );
+  procedure uploadHref( const href: String; const range: TMiniHttpContentRange );
   var
     http: TMiniHttpClient;
     cloudDriverResult: TCloudDriverResult;
@@ -788,7 +789,7 @@ procedure TYandexUploadSession.upload;
     try
       http:= TMiniHttpClient.Create( href, HttpConst.Method.PUT );
       cloudDriverResult:= TCloudDriverResult.Create;
-      cloudDriverResult.httpResult:= http.upload( _localPath, _callback );
+      cloudDriverResult.httpResult:= http.uploadRange( _localPath, range, _callback );
       cloudDriverResult.resultMessage:= cloudDriverResult.httpResult.body;
       CloudDriverProcessResult( cloudDriverResult );
     finally
@@ -797,11 +798,29 @@ procedure TYandexUploadSession.upload;
     end;
   end;
 
+const
+  SESSION_FILE_SIZE = 1024*1024*2; // 2MB
 var
   href: String;
+  range: TMiniHttpContentRange;
+  offset: Integer;
+  sessionSize: Integer;
 begin
+  _localFileSize:= TFileUtil.filesize( _localPath );
   href:= getUploadHref;
-  uploadHref( href );
+
+  offset:= 0;
+  sessionSize:= 0;
+  while offset < _localFileSize do begin
+    if offset + SESSION_FILE_SIZE > _localFileSize then
+      sessionSize:= _localFileSize - offset
+    else
+      sessionSize:= SESSION_FILE_SIZE;
+    range:= TMiniHttpContentRange.Create( offset, offset+sessionSize-1 , _localFileSize );
+    uploadHref( href, range );
+    inc( offset, sessionSize );
+    range.Free;
+  end;
 end;
 
 { TYandexCreateFolderSession }

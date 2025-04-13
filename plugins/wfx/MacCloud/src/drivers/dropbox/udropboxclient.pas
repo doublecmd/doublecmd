@@ -923,6 +923,7 @@ end;
 procedure TDropBoxUploadSession.uploadLarge;
 var
   sessionId: String;
+  range: TMiniHttpContentRange;
   offset: Integer;
   sessionSize: Integer;
 
@@ -953,7 +954,7 @@ var
     end;
   end;
 
-  procedure uploadAppend( range: NSRange );
+  procedure uploadAppend( const range: TMiniHttpContentRange );
     function getArgJsonString: NSString;
     var
       jsonCursor: NSMutableDictionary;
@@ -1036,8 +1037,10 @@ begin
       sessionSize:= _localFileSize - offset
     else
       sessionSize:= DropBoxConst.UPLOAD.SESSION_FILE_SIZE;
-    uploadAppend( NSMakeRange(offset, sessionSize) );
+    range:= TMiniHttpContentRange.Create( offset, offset+sessionSize-1 , _localFileSize );
+    uploadAppend( range );
     inc( offset, sessionSize );
+    range.Free;
   end;
   uploadFinish;
 end;
