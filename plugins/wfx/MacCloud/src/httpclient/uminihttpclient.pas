@@ -520,7 +520,6 @@ begin
   else
     range:= '*';
   Result:= 'bytes ' + range + '/' + IntToStr(_total);
-  TLogUtil.logError( 'Range String: ' + Result );
 end;
 
 function TMiniHttpContentRange.toNSRange: NSRange;
@@ -575,12 +574,17 @@ procedure TMiniHttpConnectionDataDelegate.connection_didReceiveData
 var
   ret: Boolean;
 begin
-  if NOT isRunning then
-    Exit;
+  try
+    if NOT isRunning then
+      Exit;
 
-  ret:= _processor.receive( data, _data, connection );
-  if NOT ret then begin
-    self.cancelConnection( connection , NSSTR('connection_didReceiveData()') );
+    ret:= _processor.receive( data, _data, connection );
+    if NOT ret then begin
+      self.cancelConnection( connection , NSSTR('connection_didReceiveData()') );
+    end;
+  except
+    on e: Exception do
+      TLogUtil.logError( 'error in TMiniHttpConnectionDataDelegate.connection_didReceiveData(): ' + e.Message );
   end;
 end;
 
@@ -590,12 +594,17 @@ procedure TMiniHttpConnectionDataDelegate.connection_didSendBodyData_totalBytesW
 var
   ret: Boolean;
 begin
-  if NOT isRunning then
-    Exit;
+  try
+    if NOT isRunning then
+      Exit;
 
-  ret:= _processor.send( bytesWritten, connection );
-  if NOT ret then begin
-    self.cancelConnection( connection , NSSTR('connection_didSendBodyData_totalBytesWritten_totalBytesExpectedToWrite()') );
+    ret:= _processor.send( bytesWritten, connection );
+    if NOT ret then begin
+      self.cancelConnection( connection , NSSTR('connection_didSendBodyData_totalBytesWritten_totalBytesExpectedToWrite()') );
+    end;
+  except
+    on e: Exception do
+      TLogUtil.logError( 'error in TMiniHttpConnectionDataDelegate.connection_didSendBodyData_totalBytesWritten_totalBytesExpectedToWrite(): ' + e.Message );
   end;
 end;
 
@@ -604,36 +613,46 @@ procedure TMiniHttpConnectionDataDelegate.connectionDidFinishLoading
 var
   dataString: NSString;
 begin
-  _state:= TMiniHttpConnectionState.successful;
-  _processor.complete( _result.response, nil );
-  _result.resultCode:= _result.response.statusCode;
-  if (_data.length>0) then begin
-    dataString:= NSString.alloc.initWithData_encoding( _data, NSUTF8StringEncoding );
-    _result.body:= dataString.UTF8String;
-    dataString.release;
+  try
+    _state:= TMiniHttpConnectionState.successful;
+    _processor.complete( _result.response, nil );
+    _result.resultCode:= _result.response.statusCode;
+    if (_data.length>0) then begin
+      dataString:= NSString.alloc.initWithData_encoding( _data, NSUTF8StringEncoding );
+      _result.body:= dataString.UTF8String;
+      dataString.release;
+    end;
+    TLogUtil.logInformation( 'HttpClient connectionDidFinishLoading' );
+    TLogUtil.logInformation( 'resultCode=' + IntToStr(_result.response.statusCode) );
+    TLogUtil.logInformation( 'body=' + _result.body );
+    CFRunLoopStop( _runloop );
+  except
+    on e: Exception do
+      TLogUtil.logError( 'error in TMiniHttpConnectionDataDelegate.connectionDidFinishLoading(): ' + e.Message );
   end;
-  TLogUtil.logInformation( 'HttpClient connectionDidFinishLoading' );
-  TLogUtil.logInformation( 'resultCode=' + IntToStr(_result.response.statusCode) );
-  TLogUtil.logInformation( 'body=' + _result.body );
-  CFRunLoopStop( _runloop );
 end;
 
 procedure TMiniHttpConnectionDataDelegate.connection_didFailWithError(
   connection: NSURLConnection; error: NSError);
 begin
-  _state:= TMiniHttpConnectionState.failed;
-  _processor.complete( _result.response, error );
+  try
+    _state:= TMiniHttpConnectionState.failed;
+    _processor.complete( _result.response, error );
 
-  TLogUtil.logError( 'HttpClient connection_didFailWithError !!!' );
-  if Assigned(error) then begin
-    TLogUtil.logError( 'error.code=' + IntToStr(error.code) );
-    TLogUtil.logError( 'error.domain=' + error.domain.UTF8String );
-    TLogUtil.logError( 'error.description=' + error.description.UTF8String );
+    TLogUtil.logError( 'HttpClient connection_didFailWithError !!!' );
+    if Assigned(error) then begin
+      TLogUtil.logError( 'error.code=' + IntToStr(error.code) );
+      TLogUtil.logError( 'error.domain=' + error.domain.UTF8String );
+      TLogUtil.logError( 'error.description=' + error.description.UTF8String );
+    end;
+
+    _result.resultCode:= -1;
+    _result.error:= error;
+    error.retain;
+  except
+    on e: Exception do
+      TLogUtil.logError( 'error in TMiniHttpConnectionDataDelegate.connection_didFailWithError(): ' + e.Message );
   end;
-
-  _result.resultCode:= -1;
-  _result.error:= error;
-  error.retain;
 end;
 
 function TMiniHttpConnectionDataDelegate.state: TMiniHttpConnectionState;
