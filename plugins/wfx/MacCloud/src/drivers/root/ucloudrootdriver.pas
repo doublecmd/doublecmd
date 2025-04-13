@@ -6,6 +6,7 @@ interface
 
 uses
   Classes, SysUtils,
+  uCloudDriver,
   uMacCloudCore, uMacCloudUtil, uMacCloudConfig, uMacCloudOptions,
   uMiniUtil;
 

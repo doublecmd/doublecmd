@@ -8,7 +8,8 @@ interface
 uses
   Classes, SysUtils, Contnrs,
   WfxPlugin,
-  uMiniHttpClient, uMiniUtil;
+  uCloudDriver,
+  uMiniUtil;
 
 type
 
@@ -29,85 +30,6 @@ type
     property pluginNumber: Integer read _pluginNumber;
     property pluginPath: String read _pluginPath write _pluginPath;
     property configPath: String read _configPath write _configPath;
-  end;
-
-  ICloudProgressCallback = IMiniHttpDataCallback;
-
-  TCloudFile = class
-  private
-    _name: String;
-    _size: QWord;
-    _creationTime: TDateTime;
-    _modificationTime: TDateTime;
-    _isFolder: Boolean;
-  public
-    property name: String read _name write _name;
-    property size: QWord read _size write _size;
-    property creationTime: TDateTime read _creationTime write _creationTime;
-    property modificationTime: TDateTime read _modificationTime write _modificationTime;
-    property isFolder: Boolean read _isFolder write _isFolder;
-  end;
-
-  TCloudFiles = TFPList;
-
-  TCloudDriverBase = class
-  public
-    procedure listFolderBegin( const path: String ); virtual; abstract;
-    function  listFolderGetNextFile: TCloudFile; virtual; abstract;
-    procedure listFolderEnd; virtual; abstract;
-  public
-    procedure createFolder( const path: String ); virtual; abstract;
-    procedure delete( const path: String ); virtual; abstract;
-    procedure copyOrMove( const fromPath: String; const toPath: String; const needToMove: Boolean ); virtual; abstract;
-  end;
-
-  TCloudDriver = class( TCloudDriverBase )
-  public
-    class function driverName: String; virtual; abstract;
-    class function createInstance: TCloudDriver; virtual; abstract;
-  public
-    function clone: TCloudDriver; virtual; abstract;
-  public
-    function authorize: Boolean; virtual; abstract;
-    procedure unauthorize; virtual; abstract;
-    function authorized: Boolean; virtual; abstract;
-  public
-    procedure download(
-      const serverPath: String;
-      const localPath: String;
-      const callback: ICloudProgressCallback ); virtual; abstract;
-    procedure upload(
-      const serverPath: String;
-      const localPath: String;
-      const callback: ICloudProgressCallback ); virtual; abstract;
-  end;
-
-  TCloudDriverClass = class of TCloudDriver;
-
-  TCloudDriverClasses = TFPList;
-
-  ICloudDriverObserver = interface
-    procedure driverUpdated( const driver: TCloudDriver );
-  end;
-
-  { TCloudDriverManager }
-
-  TCloudDriverManager = class
-  private
-    _classes: TCloudDriverClasses;
-    _observer: ICloudDriverObserver;
-  public
-    constructor Create;
-    destructor Destroy; override;
-  public
-    procedure register( const cloudDriverClass: TCloudDriverClass );
-    function find( const name: String ): TCloudDriverClass;
-    function createInstance( const name: String ): TCloudDriver;
-  public
-    procedure driverUpdated( const driver: TCloudDriver );
-  public
-    property driverClasses: TCloudDriverClasses read _classes;
-    property observer: ICloudDriverObserver write _observer;
   end;
 
   { TCloudConnection }
@@ -149,7 +71,6 @@ type
 
 var
   macCloudPlugin: TMacCloudPlugin;
-  cloudDriverManager: TCloudDriverManager;
   cloudConnectionManager: TCloudConnectionManager;
 
 implementation
@@ -176,51 +97,6 @@ var
 begin
   TStringUtil.stringToWidechars( buffer, 'MacCloud: ' + message, sizeof(buffer) );
   _logProc( _pluginNumber, MsgType, buffer );
-end;
-
-{ TCloudDriverManager }
-
-constructor TCloudDriverManager.Create;
-begin
-  _classes:= TCloudDriverClasses.Create;
-end;
-
-destructor TCloudDriverManager.Destroy;
-begin
-  _classes.Free;
-end;
-
-procedure TCloudDriverManager.register( const cloudDriverClass: TCloudDriverClass );
-begin
-  if _classes.IndexOf(cloudDriverClass) >= 0 then
-    Exit;
-  _classes.Add( cloudDriverClass );
-end;
-
-function TCloudDriverManager.find( const name: String ): TCloudDriverClass;
-var
-  i: Integer;
-  cloudDriverClass: TCloudDriverClass;
-begin
-  for i:= 0 to _classes.Count - 1 do begin
-    cloudDriverClass:= TCloudDriverClass( _classes[i] );
-    if cloudDriverClass.driverName <> name then
-      continue;
-    Exit( cloudDriverClass );
-  end;
-
-  raise EArgumentException.Create( 'CloudDriver not found in TCloudDriverManager.find(): ' + name );
-end;
-
-function TCloudDriverManager.createInstance( const name: String ): TCloudDriver;
-begin
-  Result:= self.find(name).createInstance;
-end;
-
-procedure TCloudDriverManager.driverUpdated(const driver: TCloudDriver);
-begin
-  if Assigned(_observer) then
-    _observer.driverUpdated( driver );
 end;
 
 { TCloudConnection }

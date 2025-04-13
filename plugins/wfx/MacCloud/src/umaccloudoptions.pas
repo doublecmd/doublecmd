@@ -8,7 +8,7 @@ interface
 uses
   Classes, SysUtils, DateUtils,
   CocoaAll, uMiniCocoa,
-  uMacCloudCore, uMacCloudUtil,
+  uCloudDriver, uMacCloudCore, uMacCloudUtil,
   uMiniUtil;
 
 type

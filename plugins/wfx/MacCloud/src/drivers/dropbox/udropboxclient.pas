@@ -14,7 +14,7 @@ interface
 uses
   Classes, SysUtils, syncobjs, DateUtils,
   CocoaAll, uMiniCocoa,
-  uMacCloudCore, uMiniHttpClient, uMiniUtil;
+  uCloudDriver, uMiniHttpClient, uMiniUtil;
 
 type
 

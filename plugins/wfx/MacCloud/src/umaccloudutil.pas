@@ -7,7 +7,7 @@ interface
 uses
   Classes, SysUtils,
   WfxPlugin,
-  uMacCloudCore,
+  uCloudDriver, uMacCloudCore,
   uMiniUtil;
 
 type

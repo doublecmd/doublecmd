@@ -13,8 +13,8 @@ interface
 uses
   Classes, SysUtils,
   WfxPlugin, Extension,
-  uMacCloudCore, uCloudRootDriver, uMacCloudUtil,
-  uMacCloudConfig, uMacCloudOptions,
+  uCloudDriver, uCloudRootDriver,
+  uMacCloudCore, uMacCloudConfig, uMacCloudOptions, uMacCloudUtil,
   uMiniUtil;
 
 procedure ExtensionInitialize(StartupInfo: PExtensionStartupInfo); cdecl;
