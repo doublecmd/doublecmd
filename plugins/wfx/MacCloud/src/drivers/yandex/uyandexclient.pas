@@ -12,47 +12,11 @@ unit uYandexClient;
 interface
 
 uses
-  Classes, SysUtils, syncobjs, DateUtils,
-  CocoaAll, uMiniCocoa,
+  Classes, SysUtils, DateUtils,
+  CocoaAll,
   uCloudDriver, uMiniHttpClient, uMiniUtil;
 
 type
-
-  { TCloudDriverAuthPKCESession }
-
-  TCloudDriverAuthPKCESession = class
-  strict private
-    _config: TCloudDriverConfig;
-    _driver: TCloudDriver;
-    _codeVerifier: String;
-    _state: String;
-    _code: String;
-    _token: TCloudDriverToken;
-    _accountID: String;
-    _alert: NSAlert;
-    _lockObject: TCriticalSection;
-  private
-    procedure requestAuthorization;
-    procedure waitAuthorizationAndPrompt;
-    procedure closePrompt;
-    procedure requestToken;
-    procedure revokeToken;
-    procedure refreshToken;
-    procedure onRedirect( const url: NSURL );
-    function getAccessToken: String;
-  public
-    constructor Create( const config: TCloudDriverConfig; const driver: TCloudDriver );
-    destructor Destroy; override;
-    function clone( const driver: TCloudDriver ): TCloudDriverAuthPKCESession;
-  public
-    function authorize: Boolean;
-    procedure unauthorize;
-    function authorized: Boolean;
-    procedure setAuthHeader( http: TMiniHttpClient );
-  protected
-    procedure setToken( const token: TCloudDriverToken );
-    function getToken: TCloudDriverToken;
-  end;
 
   { TCloudDriverListFolderSession }
 
@@ -241,7 +205,7 @@ const
   );
 
 // raise the corresponding exception if there are errors
-procedure CloudDriverProcessResult( const cloudDriverResult: TCloudDriverResult );
+procedure YandexClientResultProcess( const cloudDriverResult: TCloudDriverResult );
 var
   httpResult: TMiniHttpResult;
   httpError: NSError;
@@ -293,281 +257,6 @@ begin
   end;
 end;
 
-{ TCloudDriverAuthPKCESession }
-
-procedure TCloudDriverAuthPKCESession.requestAuthorization;
-var
-  queryItems: TQueryItemsDictonary;
-  codeChallenge: String;
-begin
-  _codeVerifier:= TStringUtil.generateRandomString( 43 );
-  _state:= TStringUtil.generateRandomString( 10 );
-  codeChallenge:= THashUtil.sha256AndBase64( _codeVerifier ) ;
-
-  queryItems:= TQueryItemsDictonary.Create;
-  queryItems.Add( 'client_id', _config.clientID );
-  queryItems.Add( 'redirect_uri', _config.listenURI );
-  queryItems.Add( 'code_challenge', codeChallenge );
-  queryItems.Add( 'code_challenge_method', 'S256' );
-  queryItems.Add( 'response_type', 'code' );
-  queryItems.Add( 'token_access_type', 'offline' );
-  queryItems.Add( 'state', _state );
-  THttpClientUtil.openInSafari( YandexConst.URI.OAUTH2, queryItems );
-end;
-
-procedure TCloudDriverAuthPKCESession.waitAuthorizationAndPrompt;
-begin
-  NSApplication(NSAPP).setOpenURLObserver( @self.onRedirect );
-  _alert:= NSAlert.new;
-  _alert.setMessageText( StringToNSString('Waiting for ' + _driver.driverName + ' authorization') );
-  _alert.setInformativeText( StringToNSString('Please login your ' + _driver.driverName + ' account in Safari and authorize Double Commander to access. '#13'The authorization is completed on the ' + _driver.driverName + ' official website, Double Command will not get your password.') );
-  _alert.addButtonWithTitle( NSSTR('Cancel') );
-  _alert.runModal;
-  NSApplication(NSAPP).setOpenURLObserver( nil );
-  _alert.release;
-  _alert:= nil;
-end;
-
-procedure TCloudDriverAuthPKCESession.closePrompt;
-var
-  button: NSButton;
-begin
-  if _alert = nil then
-    Exit;
-
-  button:= NSButton( _alert.buttons.objectAtIndex(0) );
-  button.performClick( nil );
-end;
-
-procedure TCloudDriverAuthPKCESession.requestToken;
-var
-  http: TMiniHttpClient = nil;
-  cloudDriverResult: TCloudDriverResult = nil;
-
-  procedure doRequest;
-  var
-    queryItems: TQueryItemsDictonary;
-  begin
-    queryItems:= TQueryItemsDictonary.Create;
-    queryItems.Add( 'client_id', _config.clientID );
-    queryItems.Add( 'redirect_uri', _config.listenURI );
-    queryItems.Add( 'code', _code );
-    queryItems.Add( 'code_verifier', _codeVerifier );
-    queryItems.Add( 'grant_type', 'authorization_code' );
-    http.setQueryParams( queryItems );
-    http.setContentType( HttpConst.ContentType.UrlEncoded );
-    cloudDriverResult:= TCloudDriverResult.Create;
-    cloudDriverResult.httpResult:= http.connect;
-    cloudDriverResult.resultMessage:= cloudDriverResult.httpResult.body;
-    CloudDriverProcessResult( cloudDriverResult );
-  end;
-
-  procedure analyseResult;
-  var
-    json: NSDictionary;
-  begin
-    json:= TJsonUtil.parse( cloudDriverResult.httpResult.body );
-    _token.access:= TJsonUtil.getString( json, 'access_token' );
-    _token.refresh:= TJsonUtil.getString( json, 'refresh_token' );
-    _token.setExpiration( TJsonUtil.getInteger( json, 'expires_in' ) );
-    _accountID:= TJsonUtil.getString( json, 'account_id' );
-  end;
-
-begin
-  if _code = EmptyStr then
-    Exit;
-
-  try
-    http:= TMiniHttpClient.Create( YandexConst.URI.TOKEN, HttpConst.Method.POST );
-    doRequest;
-
-    if cloudDriverResult.httpResult.resultCode <> 200 then
-      Exit;
-    analyseResult;
-    cloudDriverManager.driverUpdated( _driver );
-  finally
-    FreeAndNil( cloudDriverResult );
-    FreeAndNil( http );
-  end;
-end;
-
-procedure TCloudDriverAuthPKCESession.revokeToken;
-var
-  http: TMiniHttpClient = nil;
-begin
-  try
-    http:= TMiniHttpClient.Create( YandexConst.URI.REVOKE_TOKEN, HttpConst.Method.POST );
-    self.setAuthHeader( http );
-    http.connect;
-  finally
-    _token.invalid;
-    FreeAndNil( http );
-  end;
-end;
-
-procedure TCloudDriverAuthPKCESession.refreshToken;
-var
-  http: TMiniHttpClient = nil;
-  cloudDriverResult: TCloudDriverResult = nil;
-
-  procedure doRequest;
-  var
-    queryItems: TQueryItemsDictonary;
-  begin
-    queryItems:= TQueryItemsDictonary.Create;
-    queryItems.Add( 'client_id', _config.clientID );
-    queryItems.Add( 'grant_type', 'refresh_token' );
-    queryItems.Add( 'refresh_token', _token.refresh );
-    http.setQueryParams( queryItems );
-    cloudDriverResult:= TCloudDriverResult.Create;
-    cloudDriverResult.httpResult:= http.connect;
-    cloudDriverResult.resultMessage:= cloudDriverResult.httpResult.body;
-    CloudDriverProcessResult( cloudDriverResult );
-  end;
-
-  procedure analyseResult;
-  var
-    json: NSDictionary;
-  begin
-    json:= TJsonUtil.parse( cloudDriverResult.httpResult.body );
-    _token.access:= TJsonUtil.getString( json, 'access_token' );
-    _token.setExpiration( TJsonUtil.getInteger( json, 'expires_in' ) );
-  end;
-
-begin
-  try
-    http:= TMiniHttpClient.Create( YandexConst.URI.TOKEN, HttpConst.Method.POST );
-    doRequest;
-
-    if cloudDriverResult.httpResult.resultCode <> 200 then
-      Exit;
-    analyseResult;
-    cloudDriverManager.driverUpdated( _driver );
-  finally
-    FreeAndNil( cloudDriverResult );
-    FreeAndNil( http );
-  end;
-end;
-
-procedure TCloudDriverAuthPKCESession.onRedirect(const url: NSURL);
-var
-  components: NSURLComponents;
-  state: String;
-begin
-  components:= NSURLComponents.componentsWithURL_resolvingAgainstBaseURL( url, False );
-  state:= THttpClientUtil.queryValue( components, 'state' );
-  if state <> _state then
-    Exit;
-  _code:= THttpClientUtil.queryValue( components, 'code' );
-  closePrompt;
-end;
-
-function TCloudDriverAuthPKCESession.getAccessToken: String;
-  procedure checkToken;
-  begin
-    try
-      if NOT _token.isValidAccessToken then begin
-        if _token.isValidFreshToken then begin
-          self.refreshToken;
-        end else begin
-          self.authorize;
-        end;
-      end;
-    except
-      on e: ECloudDriverTokenException do begin
-        TLogUtil.logError( 'Token Error: ' + e.ClassName + ': ' + e.Message );
-        _token.invalid;
-        self.authorize;
-      end;
-    end;
-  end;
-
-begin
-  _lockObject.Acquire;
-  try
-    checkToken;
-    Result:= _token.access;
-  finally
-    _lockObject.Release;
-  end;
-end;
-
-constructor TCloudDriverAuthPKCESession.Create(
-  const config: TCloudDriverConfig;
-  const driver: TCloudDriver );
-begin
-  _config:= config;
-  _driver:= driver;
-  _token:= TCloudDriverToken.Create;
-  _lockObject:= TCriticalSection.Create;
-end;
-
-destructor TCloudDriverAuthPKCESession.Destroy;
-begin
-  FreeAndNil( _token );
-  FreeAndNil( _lockObject );
-end;
-
-function TCloudDriverAuthPKCESession.clone( const driver: TCloudDriver ): TCloudDriverAuthPKCESession;
-begin
-  Result:= TCloudDriverAuthPKCESession.Create( _config, driver );
-  Result._accountID:= self._accountID;
-  Result._token:= self._token.clone;
-end;
-
-function TCloudDriverAuthPKCESession.authorize: Boolean;
-begin
-  _lockObject.Acquire;
-  try
-    requestAuthorization;
-    TThread.Synchronize( TThread.CurrentThread, @waitAuthorizationAndPrompt );
-    requestToken;
-    Result:= self.authorized;
-  finally
-    _codeVerifier:= EmptyStr;
-    _state:= EmptyStr;
-    _code:= EmptyStr;
-    _lockObject.Release;
-  end;
-end;
-
-procedure TCloudDriverAuthPKCESession.unauthorize;
-begin
-  _lockObject.Acquire;
-  try
-    revokeToken;
-  finally
-    _lockObject.Release;
-  end;
-end;
-
-function TCloudDriverAuthPKCESession.authorized: Boolean;
-begin
-  Result:= (_token.access <> EmptyStr);
-end;
-
-procedure TCloudDriverAuthPKCESession.setAuthHeader(http: TMiniHttpClient);
-var
-  access: String;
-begin
-  access:= self.getAccessToken;
-  http.addHeader( YandexConst.HEADER.AUTH, 'OAuth ' + access );
-end;
-
-procedure TCloudDriverAuthPKCESession.setToken(const token: TCloudDriverToken);
-var
-  oldToken: TCloudDriverToken;
-begin
-  oldToken:= _token;
-  _token:= token;
-  oldToken.Free;
-end;
-
-function TCloudDriverAuthPKCESession.getToken: TCloudDriverToken;
-begin
-  Result:= _token;
-end;
-
 { TCloudDriverListFolderSession }
 
 procedure TCloudDriverListFolderSession.listFolderFirst;
@@ -600,7 +289,7 @@ begin
     if httpResult.resultCode = 200 then
       analyseListResult( httpResult.body );
 
-    CloudDriverProcessResult( cloudDriverResult );
+    YandexClientResultProcess( cloudDriverResult );
   finally
     FreeAndNil( cloudDriverResult );
     FreeAndNil( http );
@@ -712,7 +401,7 @@ procedure TYandexDownloadSession.download;
       cloudDriverResult:= TCloudDriverResult.Create;
       cloudDriverResult.httpResult:= http.connect;
       cloudDriverResult.resultMessage:= cloudDriverResult.httpResult.body;
-      CloudDriverProcessResult( cloudDriverResult );
+      YandexClientResultProcess( cloudDriverResult );
 
       json:= TJsonUtil.parse( cloudDriverResult.resultMessage );
       Result:= TJsonUtil.getString( json, 'href' );
@@ -734,7 +423,7 @@ procedure TYandexDownloadSession.download;
       cloudDriverResult:= TCloudDriverResult.Create;
       cloudDriverResult.httpResult:= http.download( _localPath, _callback );
       cloudDriverResult.resultMessage:= cloudDriverResult.httpResult.body;
-      CloudDriverProcessResult( cloudDriverResult );
+      YandexClientResultProcess( cloudDriverResult );
     finally
       FreeAndNil( cloudDriverResult );
       FreeAndNil( http );
@@ -778,7 +467,7 @@ procedure TYandexUploadSession.upload;
       cloudDriverResult:= TCloudDriverResult.Create;
       cloudDriverResult.httpResult:= http.connect;
       cloudDriverResult.resultMessage:= cloudDriverResult.httpResult.body;
-      CloudDriverProcessResult( cloudDriverResult );
+      YandexClientResultProcess( cloudDriverResult );
 
       json:= TJsonUtil.parse( cloudDriverResult.resultMessage );
       Result:= TJsonUtil.getString( json, 'href' );
@@ -798,7 +487,7 @@ procedure TYandexUploadSession.upload;
       cloudDriverResult:= TCloudDriverResult.Create;
       cloudDriverResult.httpResult:= http.uploadRange( _localPath, range, _callback );
       cloudDriverResult.resultMessage:= cloudDriverResult.httpResult.body;
-      CloudDriverProcessResult( cloudDriverResult );
+      YandexClientResultProcess( cloudDriverResult );
     finally
       FreeAndNil( cloudDriverResult );
       FreeAndNil( http );
@@ -855,7 +544,7 @@ begin
     cloudDriverResult:= TCloudDriverResult.Create;
     cloudDriverResult.httpResult:= http.connect;
     cloudDriverResult.resultMessage:= cloudDriverResult.httpResult.body;
-    CloudDriverProcessResult( cloudDriverResult );
+    YandexClientResultProcess( cloudDriverResult );
   finally
     FreeAndNil( cloudDriverResult );
     FreeAndNil( http );
@@ -887,7 +576,7 @@ begin
     cloudDriverResult:= TCloudDriverResult.Create;
     cloudDriverResult.httpResult:= http.connect;
     cloudDriverResult.resultMessage:= cloudDriverResult.httpResult.body;
-    CloudDriverProcessResult( cloudDriverResult );
+    YandexClientResultProcess( cloudDriverResult );
   finally
     FreeAndNil( cloudDriverResult );
     FreeAndNil( http );
@@ -928,7 +617,7 @@ begin
     cloudDriverResult:= TCloudDriverResult.Create;
     cloudDriverResult.httpResult:= http.connect;
     cloudDriverResult.resultMessage:= cloudDriverResult.httpResult.body;
-    CloudDriverProcessResult( cloudDriverResult );
+    YandexClientResultProcess( cloudDriverResult );
   finally
     FreeAndNil( cloudDriverResult );
     FreeAndNil( http );
@@ -987,9 +676,18 @@ begin
 end;
 
 constructor TYandexClient.Create(const config: TCloudDriverConfig);
+var
+  params: TCloudDriverAuthPKCESessionParams;
 begin
   _config:= config;
-  _authSession:= TCloudDriverAuthPKCESession.Create( _config, self );
+  params.config:= config;
+  params.resultProcessFunc:= @YandexClientResultProcess;
+  params.OAUTH2_URI:= YandexConst.URI.OAUTH2;
+  params.TOKEN_URI:= YandexConst.URI.TOKEN;
+  params.REVOKE_TOKEN_URI:= YandexConst.URI.REVOKE_TOKEN;
+  params.AUTH_HEADER:= YandexConst.HEADER.AUTH;
+  params.AUTH_TYPE:= 'OAuth';
+  _authSession:= TCloudDriverAuthPKCESession.Create( self, params );
 end;
 
 destructor TYandexClient.Destroy;
@@ -1002,7 +700,7 @@ var
   newClient: TYandexClient;
 begin
   newClient:= TYandexClient.Create( _config );
-  newClient._authSession:= self._authSession.clone( self );
+  newClient._authSession:= self._authSession.clone( newClient );
   Result:= newClient;
 end;
 

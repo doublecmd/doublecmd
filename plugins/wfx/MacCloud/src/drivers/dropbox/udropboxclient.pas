@@ -12,53 +12,17 @@ unit uDropBoxClient;
 interface
 
 uses
-  Classes, SysUtils, syncobjs, DateUtils,
-  CocoaAll, uMiniCocoa,
+  Classes, SysUtils, DateUtils,
+  CocoaAll,
   uCloudDriver, uMiniHttpClient, uMiniUtil;
 
 type
-
-  { TDropBoxAuthPKCESession }
-
-  TDropBoxAuthPKCESession = class
-  strict private
-    _config: TCloudDriverConfig;
-    _dropBoxClient: TCloudDriver;
-    _codeVerifier: String;
-    _state: String;
-    _code: String;
-    _token: TCloudDriverToken;
-    _accountID: String;
-    _alert: NSAlert;
-    _lockObject: TCriticalSection;
-  private
-    procedure requestAuthorization;
-    procedure waitAuthorizationAndPrompt;
-    procedure closePrompt;
-    procedure requestToken;
-    procedure revokeToken;
-    procedure refreshToken;
-    procedure onRedirect( const url: NSURL );
-    function getAccessToken: String;
-  public
-    constructor Create( const config: TCloudDriverConfig; const dropBoxClient: TCloudDriver );
-    destructor Destroy; override;
-    function clone( const dropBoxClient: TCloudDriver ): TDropBoxAuthPKCESession;
-  public
-    function authorize: Boolean;
-    procedure unauthorize;
-    function authorized: Boolean;
-    procedure setAuthHeader( http: TMiniHttpClient );
-  protected
-    procedure setToken( const token: TCloudDriverToken );
-    function getToken: TCloudDriverToken;
-  end;
 
   { TDropBoxListFolderSession }
 
   TDropBoxListFolderSession = class
   private
-    _authSession: TDropBoxAuthPKCESession;
+    _authSession: TCloudDriverAuthPKCESession;
     _path: String;
     _files: TCloudFiles;
     _cursor: String;
@@ -68,7 +32,7 @@ type
     procedure listFolderContinue;
     procedure analyseListResult( const jsonString: String );
   public
-    constructor Create( const authSession: TDropBoxAuthPKCESession; const path: String );
+    constructor Create( const authSession: TCloudDriverAuthPKCESession; const path: String );
     destructor Destroy; override;
     function getNextFile: TCloudFile;
   end;
@@ -77,13 +41,13 @@ type
 
   TDropBoxDownloadSession = class
   private
-    _authSession: TDropBoxAuthPKCESession;
+    _authSession: TCloudDriverAuthPKCESession;
     _serverPath: String;
     _localPath: String;
     _callback: ICloudProgressCallback;
   public
     constructor Create(
-      const authSession: TDropBoxAuthPKCESession;
+      const authSession: TCloudDriverAuthPKCESession;
       const serverPath: String;
       const localPath: String;
       const callback: ICloudProgressCallback );
@@ -94,7 +58,7 @@ type
 
   TDropBoxUploadSession = class
   private
-    _authSession: TDropBoxAuthPKCESession;
+    _authSession: TCloudDriverAuthPKCESession;
     _serverPath: String;
     _localPath: String;
     _localFileSize: Integer;
@@ -104,7 +68,7 @@ type
     procedure uploadLarge;
   public
     constructor Create(
-      const authSession: TDropBoxAuthPKCESession;
+      const authSession: TCloudDriverAuthPKCESession;
       const serverPath: String;
       const localPath: String;
       const callback: ICloudProgressCallback );
@@ -115,10 +79,10 @@ type
 
   TDropBoxCreateFolderSession = class
   private
-    _authSession: TDropBoxAuthPKCESession;
+    _authSession: TCloudDriverAuthPKCESession;
     _path: String;
   public
-    constructor Create( const authSession: TDropBoxAuthPKCESession; const path: String );
+    constructor Create( const authSession: TCloudDriverAuthPKCESession; const path: String );
     procedure createFolder;
   end;
 
@@ -126,10 +90,10 @@ type
 
   TDropBoxDeleteSession = class
   private
-    _authSession: TDropBoxAuthPKCESession;
+    _authSession: TCloudDriverAuthPKCESession;
     _path: String;
   public
-    constructor Create( const authSession: TDropBoxAuthPKCESession; const path: String );
+    constructor Create( const authSession: TCloudDriverAuthPKCESession; const path: String );
     procedure delete;
   end;
 
@@ -137,11 +101,11 @@ type
 
   TDropBoxCopyMoveSession = class
   private
-    _authSession: TDropBoxAuthPKCESession;
+    _authSession: TCloudDriverAuthPKCESession;
     _fromPath: String;
     _toPath: String;
   public
-    constructor Create( const authSession: TDropBoxAuthPKCESession;
+    constructor Create( const authSession: TCloudDriverAuthPKCESession;
       const fromPath: String; const toPath: String );
     procedure copyOrMove( const needToMove: Boolean );
     procedure copy;
@@ -154,7 +118,7 @@ type
   private
     _listFolderSession: TDropBoxListFolderSession;
   public
-    constructor Create( const authSession: TDropBoxAuthPKCESession; const path: String );
+    constructor Create( const authSession: TCloudDriverAuthPKCESession; const path: String );
     destructor Destroy; override;
     procedure listFolderBegin; override;
     function  listFolderGetNextFile: TCloudFile; override;
@@ -166,7 +130,7 @@ type
   TDropBoxClient = class( TCloudDriver )
   private
     _config: TCloudDriverConfig;
-    _authSession: TDropBoxAuthPKCESession;
+    _authSession: TCloudDriverAuthPKCESession;
   public
     class function driverName: String; override;
     class function createInstance: TCloudDriver; override;
@@ -341,280 +305,6 @@ begin
   end;
 end;
 
-{ TDropBoxAuthPKCESession }
-
-procedure TDropBoxAuthPKCESession.requestAuthorization;
-var
-  queryItems: TQueryItemsDictonary;
-  codeChallenge: String;
-begin
-  _codeVerifier:= TStringUtil.generateRandomString( 43 );
-  _state:= TStringUtil.generateRandomString( 10 );
-  codeChallenge:= THashUtil.sha256AndBase64( _codeVerifier ) ;
-
-  queryItems:= TQueryItemsDictonary.Create;
-  queryItems.Add( 'client_id', _config.clientID );
-  queryItems.Add( 'redirect_uri', _config.listenURI );
-  queryItems.Add( 'code_challenge', codeChallenge );
-  queryItems.Add( 'code_challenge_method', 'S256' );
-  queryItems.Add( 'response_type', 'code' );
-  queryItems.Add( 'token_access_type', 'offline' );
-  queryItems.Add( 'state', _state );
-  THttpClientUtil.openInSafari( DropBoxConst.URI.OAUTH2, queryItems );
-end;
-
-procedure TDropBoxAuthPKCESession.waitAuthorizationAndPrompt;
-begin
-  NSApplication(NSAPP).setOpenURLObserver( @self.onRedirect );
-  _alert:= NSAlert.new;
-  _alert.setMessageText( StringToNSString('Waiting for DropBox authorization') );
-  _alert.setInformativeText( StringToNSString('Please login your DropBox account in Safari and authorize Double Commander to access. '#13'The authorization is completed on the DropBox official website, Double Command will not get your password.') );
-  _alert.addButtonWithTitle( NSSTR('Cancel') );
-  _alert.runModal;
-  NSApplication(NSAPP).setOpenURLObserver( nil );
-  _alert.release;
-  _alert:= nil;
-end;
-
-procedure TDropBoxAuthPKCESession.closePrompt;
-var
-  button: NSButton;
-begin
-  if _alert = nil then
-    Exit;
-
-  button:= NSButton( _alert.buttons.objectAtIndex(0) );
-  button.performClick( nil );
-end;
-
-procedure TDropBoxAuthPKCESession.requestToken;
-var
-  http: TMiniHttpClient = nil;
-  cloudDriverResult: TCloudDriverResult = nil;
-
-  procedure doRequest;
-  var
-    queryItems: TQueryItemsDictonary;
-  begin
-    queryItems:= TQueryItemsDictonary.Create;
-    queryItems.Add( 'client_id', _config.clientID );
-    queryItems.Add( 'redirect_uri', _config.listenURI );
-    queryItems.Add( 'code', _code );
-    queryItems.Add( 'code_verifier', _codeVerifier );
-    queryItems.Add( 'grant_type', 'authorization_code' );
-    http.setQueryParams( queryItems );
-    cloudDriverResult:= TCloudDriverResult.Create;
-    cloudDriverResult.httpResult:= http.connect;
-    cloudDriverResult.resultMessage:= cloudDriverResult.httpResult.body;
-
-    DropBoxClientProcessResult( cloudDriverResult );
-  end;
-
-  procedure analyseResult;
-  var
-    json: NSDictionary;
-  begin
-    json:= TJsonUtil.parse( cloudDriverResult.httpResult.body );
-    _token.access:= TJsonUtil.getString( json, 'access_token' );
-    _token.refresh:= TJsonUtil.getString( json, 'refresh_token' );
-    _token.setExpiration( TJsonUtil.getInteger( json, 'expires_in' ) );
-    _accountID:= TJsonUtil.getString( json, 'account_id' );
-  end;
-
-begin
-  if _code = EmptyStr then
-    Exit;
-
-  try
-    http:= TMiniHttpClient.Create( DropBoxConst.URI.TOKEN, HttpConst.Method.POST );
-    doRequest;
-
-    if cloudDriverResult.httpResult.resultCode <> 200 then
-      Exit;
-    analyseResult;
-    cloudDriverManager.driverUpdated( _dropBoxClient );
-  finally
-    FreeAndNil( cloudDriverResult );
-    FreeAndNil( http );
-  end;
-end;
-
-procedure TDropBoxAuthPKCESession.revokeToken;
-var
-  http: TMiniHttpClient = nil;
-begin
-  try
-    http:= TMiniHttpClient.Create( DropBoxConst.URI.REVOKE_TOKEN, HttpConst.Method.POST );
-    self.setAuthHeader( http );
-    http.connect;
-  finally
-    _token.invalid;
-    FreeAndNil( http );
-  end;
-end;
-
-procedure TDropBoxAuthPKCESession.refreshToken;
-var
-  http: TMiniHttpClient = nil;
-  cloudDriverResult: TCloudDriverResult = nil;
-
-  procedure doRequest;
-  var
-    queryItems: TQueryItemsDictonary;
-  begin
-    queryItems:= TQueryItemsDictonary.Create;
-    queryItems.Add( 'client_id', _config.clientID );
-    queryItems.Add( 'grant_type', 'refresh_token' );
-    queryItems.Add( 'refresh_token', _token.refresh );
-    http.setQueryParams( queryItems );
-    cloudDriverResult:= TCloudDriverResult.Create;
-    cloudDriverResult.httpResult:= http.connect;
-    cloudDriverResult.resultMessage:= cloudDriverResult.httpResult.body;
-
-    DropBoxClientProcessResult( cloudDriverResult );
-  end;
-
-  procedure analyseResult;
-  var
-    json: NSDictionary;
-  begin
-    json:= TJsonUtil.parse( cloudDriverResult.httpResult.body );
-    _token.access:= TJsonUtil.getString( json, 'access_token' );
-    _token.setExpiration( TJsonUtil.getInteger( json, 'expires_in' ) );
-  end;
-
-begin
-  try
-    http:= TMiniHttpClient.Create( DropBoxConst.URI.TOKEN, HttpConst.Method.POST );
-    doRequest;
-
-    if cloudDriverResult.httpResult.resultCode <> 200 then
-      Exit;
-    analyseResult;
-    cloudDriverManager.driverUpdated( _dropBoxClient );
-  finally
-    FreeAndNil( cloudDriverResult );
-    FreeAndNil( http );
-  end;
-end;
-
-procedure TDropBoxAuthPKCESession.onRedirect(const url: NSURL);
-var
-  components: NSURLComponents;
-  state: String;
-begin
-  components:= NSURLComponents.componentsWithURL_resolvingAgainstBaseURL( url, False );
-  state:= THttpClientUtil.queryValue( components, 'state' );
-  if state <> _state then
-    Exit;
-  _code:= THttpClientUtil.queryValue( components, 'code' );
-  closePrompt;
-end;
-
-function TDropBoxAuthPKCESession.getAccessToken: String;
-  procedure checkToken;
-  begin
-    try
-      if NOT _token.isValidAccessToken then begin
-        if _token.isValidFreshToken then begin
-          self.refreshToken;
-        end else begin
-          self.authorize;
-        end;
-      end;
-    except
-      on e: ECloudDriverTokenException do begin
-        TLogUtil.logError( 'Token Error: ' + e.ClassName + ': ' + e.Message );
-        _token.invalid;
-        self.authorize;
-      end;
-    end;
-  end;
-
-begin
-  _lockObject.Acquire;
-  try
-    checkToken;
-    Result:= _token.access;
-  finally
-    _lockObject.Release;
-  end;
-end;
-
-constructor TDropBoxAuthPKCESession.Create(const config: TCloudDriverConfig; const dropBoxClient: TCloudDriver );
-begin
-  _config:= config;
-  _dropBoxClient:= dropBoxClient;
-  _token:= TCloudDriverToken.Create;
-  _lockObject:= TCriticalSection.Create;
-end;
-
-destructor TDropBoxAuthPKCESession.Destroy;
-begin
-  FreeAndNil( _token );
-  FreeAndNil( _lockObject );
-end;
-
-function TDropBoxAuthPKCESession.clone( const dropBoxClient: TCloudDriver ): TDropBoxAuthPKCESession;
-begin
-  Result:= TDropBoxAuthPKCESession.Create( _config, dropBoxClient );
-  Result._accountID:= self._accountID;
-  Result._token:= self._token.clone;
-end;
-
-function TDropBoxAuthPKCESession.authorize: Boolean;
-begin
-  _lockObject.Acquire;
-  try
-    requestAuthorization;
-    TThread.Synchronize( TThread.CurrentThread, @waitAuthorizationAndPrompt );
-    requestToken;
-    Result:= self.authorized;
-  finally
-    _codeVerifier:= EmptyStr;
-    _state:= EmptyStr;
-    _code:= EmptyStr;
-    _lockObject.Release;
-  end;
-end;
-
-procedure TDropBoxAuthPKCESession.unauthorize;
-begin
-  _lockObject.Acquire;
-  try
-    revokeToken;
-  finally
-    _lockObject.Release;
-  end;
-end;
-
-function TDropBoxAuthPKCESession.authorized: Boolean;
-begin
-  Result:= (_token.access <> EmptyStr);
-end;
-
-procedure TDropBoxAuthPKCESession.setAuthHeader(http: TMiniHttpClient);
-var
-  access: String;
-begin
-  access:= self.getAccessToken;
-  http.addHeader( DropBoxConst.HEADER.AUTH, 'Bearer ' + access );
-end;
-
-procedure TDropBoxAuthPKCESession.setToken(const token: TCloudDriverToken);
-var
-  oldToken: TCloudDriverToken;
-begin
-  oldToken:= _token;
-  _token:= token;
-  oldToken.Free;
-end;
-
-function TDropBoxAuthPKCESession.getToken: TCloudDriverToken;
-begin
-  Result:= _token;
-end;
-
 { TDropBoxListFolderSession }
 
 procedure TDropBoxListFolderSession.listFolderFirst;
@@ -711,7 +401,7 @@ begin
   end;
 end;
 
-constructor TDropBoxListFolderSession.Create( const authSession: TDropBoxAuthPKCESession; const path: String );
+constructor TDropBoxListFolderSession.Create( const authSession: TCloudDriverAuthPKCESession; const path: String );
 begin
   _authSession:= authSession;
   if path <> '/' then
@@ -746,7 +436,7 @@ end;
 { TDropBoxDownloadSession }
 
 constructor TDropBoxDownloadSession.Create(
-  const authSession: TDropBoxAuthPKCESession;
+  const authSession: TCloudDriverAuthPKCESession;
   const serverPath: String;
   const localPath: String;
   const callback: ICloudProgressCallback );
@@ -783,7 +473,7 @@ end;
 { TDropBoxUploadSession }
 
 constructor TDropBoxUploadSession.Create(
-  const authSession: TDropBoxAuthPKCESession; const serverPath: String;
+  const authSession: TCloudDriverAuthPKCESession; const serverPath: String;
   const localPath: String; const callback: ICloudProgressCallback);
 begin
   _authSession:= authSession;
@@ -952,7 +642,7 @@ end;
 { TDropBoxCreateFolderSession }
 
 constructor TDropBoxCreateFolderSession.Create(
-  const authSession: TDropBoxAuthPKCESession; const path: String );
+  const authSession: TCloudDriverAuthPKCESession; const path: String );
 begin
   _authSession:= authSession;
   _path:= path;
@@ -985,7 +675,7 @@ end;
 { TDropBoxDeleteSession }
 
 constructor TDropBoxDeleteSession.Create(
-  const authSession: TDropBoxAuthPKCESession; const path: String);
+  const authSession: TCloudDriverAuthPKCESession; const path: String);
 begin
   _authSession:= authSession;
   _path:= path;
@@ -1017,7 +707,7 @@ end;
 
 { TDropBoxCopyMoveSession }
 
-constructor TDropBoxCopyMoveSession.Create( const authSession: TDropBoxAuthPKCESession;
+constructor TDropBoxCopyMoveSession.Create( const authSession: TCloudDriverAuthPKCESession;
   const fromPath: String; const toPath: String );
 begin
   _authSession:= authSession;
@@ -1069,7 +759,7 @@ end;
 { TDropBoxLister }
 
 constructor TDropBoxLister.Create(
-  const authSession: TDropBoxAuthPKCESession;
+  const authSession: TCloudDriverAuthPKCESession;
   const path: String );
 begin
   _listFolderSession:= TDropBoxListFolderSession.Create( authSession, path );
@@ -1108,9 +798,18 @@ begin
 end;
 
 constructor TDropBoxClient.Create(const config: TCloudDriverConfig);
+var
+  params: TCloudDriverAuthPKCESessionParams;
 begin
   _config:= config;
-  _authSession:= TDropBoxAuthPKCESession.Create( _config, self );
+  params.config:= config;
+  params.resultProcessFunc:= @DropBoxClientProcessResult;
+  params.OAUTH2_URI:= DropBoxConst.URI.OAUTH2;
+  params.TOKEN_URI:= DropBoxConst.URI.TOKEN;
+  params.REVOKE_TOKEN_URI:= DropBoxConst.URI.REVOKE_TOKEN;
+  params.AUTH_HEADER:= DropBoxConst.HEADER.AUTH;
+  params.AUTH_TYPE:= 'Bearer';
+  _authSession:= TCloudDriverAuthPKCESession.Create( self, params );
 end;
 
 destructor TDropBoxClient.Destroy;
@@ -1123,7 +822,7 @@ var
   newClient: TDropBoxClient;
 begin
   newClient:= TDropBoxClient.Create( _config );
-  newClient._authSession:= self._authSession.clone( self );
+  newClient._authSession:= self._authSession.clone( newClient );
   Result:= newClient;
 end;
 

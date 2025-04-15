@@ -7,9 +7,9 @@ unit uCloudDriver;
 interface
 
 uses
-  Classes, SysUtils,
-  CocoaAll,
-  uMiniHttpClient;
+  Classes, SysUtils, syncobjs,
+  CocoaAll, uMiniCocoa,
+  uMiniHttpClient, uMiniUtil;
 
 type
 
@@ -28,6 +28,8 @@ type
   ECloudDriverConflictException = class( ECloudDriverException );
   ECloudDriverPermissionException = class( ECloudDriverException );
   ECloudDriverRateLimitException = class( ECloudDriverException );
+
+  TCloudDriverResultProcessFunc = procedure ( const cloudDriverResult: TCloudDriverResult );
 
   { TCloudDriverConfig }
 
@@ -152,6 +154,54 @@ type
     property observer: ICloudDriverObserver write _observer;
   end;
 
+  { TCloudDriverAuthPKCESessionParams }
+
+  TCloudDriverAuthPKCESessionParams = record
+    config: TCloudDriverConfig;
+    resultProcessFunc: TCloudDriverResultProcessFunc;
+    OAUTH2_URI: String;
+    TOKEN_URI: String;
+    REVOKE_TOKEN_URI: String;
+    AUTH_HEADER: String;
+    AUTH_TYPE: String;
+  end;
+
+  { TCloudDriverAuthPKCESession }
+
+  TCloudDriverAuthPKCESession = class
+  strict private
+    _driver: TCloudDriver;
+    _params: TCloudDriverAuthPKCESessionParams;
+    _config: TCloudDriverConfig;
+    _codeVerifier: String;
+    _state: String;
+    _code: String;
+    _token: TCloudDriverToken;
+    _accountID: String;
+    _alert: NSAlert;
+    _lockObject: TCriticalSection;
+  private
+    procedure requestAuthorization;
+    procedure waitAuthorizationAndPrompt;
+    procedure closePrompt;
+    procedure requestToken;
+    procedure revokeToken;
+    procedure refreshToken;
+    procedure onRedirect( const url: NSURL );
+    function getAccessToken: String;
+  public
+    constructor Create( const driver: TCloudDriver; const params: TCloudDriverAuthPKCESessionParams );
+    destructor Destroy; override;
+    function clone( const driver: TCloudDriver ): TCloudDriverAuthPKCESession;
+  public
+    function authorize: Boolean;
+    procedure unauthorize;
+    function authorized: Boolean;
+    procedure setAuthHeader( http: TMiniHttpClient );
+    procedure setToken( const token: TCloudDriverToken );
+    function getToken: TCloudDriverToken;
+  end;
+
 var
   cloudDriverManager: TCloudDriverManager;
 
@@ -220,6 +270,282 @@ begin
   _access:= EmptyStr;
   _refresh:= EmptyStr;
   _accessExpirationTime:= 0;
+end;
+
+{ TCloudDriverAuthPKCESession }
+
+procedure TCloudDriverAuthPKCESession.requestAuthorization;
+var
+  queryItems: TQueryItemsDictonary;
+  codeChallenge: String;
+begin
+  _codeVerifier:= TStringUtil.generateRandomString( 43 );
+  _state:= TStringUtil.generateRandomString( 10 );
+  codeChallenge:= THashUtil.sha256AndBase64( _codeVerifier ) ;
+
+  queryItems:= TQueryItemsDictonary.Create;
+  queryItems.Add( 'client_id', _config.clientID );
+  queryItems.Add( 'redirect_uri', _config.listenURI );
+  queryItems.Add( 'code_challenge', codeChallenge );
+  queryItems.Add( 'code_challenge_method', 'S256' );
+  queryItems.Add( 'response_type', 'code' );
+  queryItems.Add( 'token_access_type', 'offline' );
+  queryItems.Add( 'state', _state );
+  THttpClientUtil.openInSafari( _params.OAUTH2_URI, queryItems );
+end;
+
+procedure TCloudDriverAuthPKCESession.waitAuthorizationAndPrompt;
+begin
+  NSApplication(NSAPP).setOpenURLObserver( @self.onRedirect );
+  _alert:= NSAlert.new;
+  _alert.setMessageText( StringToNSString('Waiting for ' + _driver.driverName + ' authorization') );
+  _alert.setInformativeText( StringToNSString('Please login your ' + _driver.driverName + ' account in Safari and authorize Double Commander to access. '#13'The authorization is completed on the ' + _driver.driverName + ' official website, Double Command will not get your password.') );
+  _alert.addButtonWithTitle( NSSTR('Cancel') );
+  _alert.runModal;
+  NSApplication(NSAPP).setOpenURLObserver( nil );
+  _alert.release;
+  _alert:= nil;
+end;
+
+procedure TCloudDriverAuthPKCESession.closePrompt;
+var
+  button: NSButton;
+begin
+  if _alert = nil then
+    Exit;
+
+  button:= NSButton( _alert.buttons.objectAtIndex(0) );
+  button.performClick( nil );
+end;
+
+procedure TCloudDriverAuthPKCESession.requestToken;
+var
+  http: TMiniHttpClient = nil;
+  cloudDriverResult: TCloudDriverResult = nil;
+
+  procedure doRequest;
+  var
+    queryItems: TQueryItemsDictonary;
+  begin
+    queryItems:= TQueryItemsDictonary.Create;
+    queryItems.Add( 'client_id', _config.clientID );
+    queryItems.Add( 'redirect_uri', _config.listenURI );
+    queryItems.Add( 'code', _code );
+    queryItems.Add( 'code_verifier', _codeVerifier );
+    queryItems.Add( 'grant_type', 'authorization_code' );
+    http.setQueryParams( queryItems );
+    http.setContentType( HttpConst.ContentType.UrlEncoded );
+    cloudDriverResult:= TCloudDriverResult.Create;
+    cloudDriverResult.httpResult:= http.connect;
+    cloudDriverResult.resultMessage:= cloudDriverResult.httpResult.body;
+    _params.resultProcessFunc( cloudDriverResult );
+  end;
+
+  procedure analyseResult;
+  var
+    json: NSDictionary;
+  begin
+    json:= TJsonUtil.parse( cloudDriverResult.httpResult.body );
+    _token.access:= TJsonUtil.getString( json, 'access_token' );
+    _token.refresh:= TJsonUtil.getString( json, 'refresh_token' );
+    _token.setExpiration( TJsonUtil.getInteger( json, 'expires_in' ) );
+    _accountID:= TJsonUtil.getString( json, 'account_id' );
+  end;
+
+begin
+  if _code = EmptyStr then
+    Exit;
+
+  try
+    http:= TMiniHttpClient.Create( _params.TOKEN_URI, HttpConst.Method.POST );
+    doRequest;
+
+    if cloudDriverResult.httpResult.resultCode <> 200 then
+      Exit;
+    analyseResult;
+    cloudDriverManager.driverUpdated( _driver );
+  finally
+    FreeAndNil( cloudDriverResult );
+    FreeAndNil( http );
+  end;
+end;
+
+procedure TCloudDriverAuthPKCESession.revokeToken;
+var
+  http: TMiniHttpClient = nil;
+begin
+  try
+    http:= TMiniHttpClient.Create( _params.REVOKE_TOKEN_URI, HttpConst.Method.POST );
+    self.setAuthHeader( http );
+    http.connect;
+  finally
+    _token.invalid;
+    FreeAndNil( http );
+  end;
+end;
+
+procedure TCloudDriverAuthPKCESession.refreshToken;
+var
+  http: TMiniHttpClient = nil;
+  cloudDriverResult: TCloudDriverResult = nil;
+
+  procedure doRequest;
+  var
+    queryItems: TQueryItemsDictonary;
+  begin
+    queryItems:= TQueryItemsDictonary.Create;
+    queryItems.Add( 'client_id', _config.clientID );
+    queryItems.Add( 'grant_type', 'refresh_token' );
+    queryItems.Add( 'refresh_token', _token.refresh );
+    http.setQueryParams( queryItems );
+    cloudDriverResult:= TCloudDriverResult.Create;
+    cloudDriverResult.httpResult:= http.connect;
+    cloudDriverResult.resultMessage:= cloudDriverResult.httpResult.body;
+    _params.resultProcessFunc( cloudDriverResult );
+  end;
+
+  procedure analyseResult;
+  var
+    json: NSDictionary;
+  begin
+    json:= TJsonUtil.parse( cloudDriverResult.httpResult.body );
+    _token.access:= TJsonUtil.getString( json, 'access_token' );
+    _token.setExpiration( TJsonUtil.getInteger( json, 'expires_in' ) );
+  end;
+
+begin
+  try
+    http:= TMiniHttpClient.Create( _params.TOKEN_URI, HttpConst.Method.POST );
+    doRequest;
+
+    if cloudDriverResult.httpResult.resultCode <> 200 then
+      Exit;
+    analyseResult;
+    cloudDriverManager.driverUpdated( _driver );
+  finally
+    FreeAndNil( cloudDriverResult );
+    FreeAndNil( http );
+  end;
+end;
+
+procedure TCloudDriverAuthPKCESession.onRedirect(const url: NSURL);
+var
+  components: NSURLComponents;
+  state: String;
+begin
+  components:= NSURLComponents.componentsWithURL_resolvingAgainstBaseURL( url, False );
+  state:= THttpClientUtil.queryValue( components, 'state' );
+  if state <> _state then
+    Exit;
+  _code:= THttpClientUtil.queryValue( components, 'code' );
+  closePrompt;
+end;
+
+function TCloudDriverAuthPKCESession.getAccessToken: String;
+  procedure checkToken;
+  begin
+    try
+      if NOT _token.isValidAccessToken then begin
+        if _token.isValidFreshToken then begin
+          self.refreshToken;
+        end else begin
+          self.authorize;
+        end;
+      end;
+    except
+      on e: ECloudDriverTokenException do begin
+        TLogUtil.logError( 'Token Error: ' + e.ClassName + ': ' + e.Message );
+        _token.invalid;
+        self.authorize;
+      end;
+    end;
+  end;
+
+begin
+  _lockObject.Acquire;
+  try
+    checkToken;
+    Result:= _token.access;
+  finally
+    _lockObject.Release;
+  end;
+end;
+
+constructor TCloudDriverAuthPKCESession.Create(
+  const driver: TCloudDriver;
+  const params: TCloudDriverAuthPKCESessionParams );
+begin
+  _driver:= driver;
+  _params:= params;
+  _config:= _params.config;
+  _token:= TCloudDriverToken.Create;
+  _lockObject:= TCriticalSection.Create;
+end;
+
+destructor TCloudDriverAuthPKCESession.Destroy;
+begin
+  FreeAndNil( _token );
+  FreeAndNil( _lockObject );
+end;
+
+function TCloudDriverAuthPKCESession.clone( const driver: TCloudDriver ): TCloudDriverAuthPKCESession;
+begin
+  Result:= TCloudDriverAuthPKCESession.Create( driver, _params );
+  Result._accountID:= _accountID;
+  Result._token:= _token.clone;
+end;
+
+function TCloudDriverAuthPKCESession.authorize: Boolean;
+begin
+  _lockObject.Acquire;
+  try
+    requestAuthorization;
+    TThread.Synchronize( TThread.CurrentThread, @waitAuthorizationAndPrompt );
+    requestToken;
+    Result:= self.authorized;
+  finally
+    _codeVerifier:= EmptyStr;
+    _state:= EmptyStr;
+    _code:= EmptyStr;
+    _lockObject.Release;
+  end;
+end;
+
+procedure TCloudDriverAuthPKCESession.unauthorize;
+begin
+  _lockObject.Acquire;
+  try
+    revokeToken;
+  finally
+    _lockObject.Release;
+  end;
+end;
+
+function TCloudDriverAuthPKCESession.authorized: Boolean;
+begin
+  Result:= (_token.access <> EmptyStr);
+end;
+
+procedure TCloudDriverAuthPKCESession.setAuthHeader(http: TMiniHttpClient);
+var
+  access: String;
+begin
+  access:= self.getAccessToken;
+  http.addHeader( _params.AUTH_HEADER, _params.AUTH_TYPE + ' ' + access );
+end;
+
+procedure TCloudDriverAuthPKCESession.setToken(const token: TCloudDriverToken);
+var
+  oldToken: TCloudDriverToken;
+begin
+  oldToken:= _token;
+  _token:= token;
+  oldToken.Free;
+end;
+
+function TCloudDriverAuthPKCESession.getToken: TCloudDriverToken;
+begin
+  Result:= _token;
 end;
 
 { TCloudDriverManager }
