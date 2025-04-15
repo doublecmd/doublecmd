@@ -18,14 +18,6 @@ uses
 
 type
 
-  { TDropBoxResult }
-
-  TDropBoxResult = class
-  public
-    httpResult: TMiniHttpResult;
-    resultMessage: String;
-  end;
-
   { EDropBoxException }
 
   EDropBoxException = class( Exception );
@@ -283,7 +275,7 @@ const
   );
 
 // raise the corresponding exception if there are errors
-procedure DropBoxClientProcessResult( const dropBoxResult: TDropBoxResult );
+procedure DropBoxClientProcessResult( const cloudDriverResult: TCloudDriverResult );
 var
   httpResult: TMiniHttpResult;
   httpError: NSError;
@@ -292,7 +284,7 @@ var
 
   procedure processHttpError;
   begin
-    httpResult:= dropBoxResult.httpResult;
+    httpResult:= cloudDriverResult.httpResult;
     httpError:= httpResult.error;
 
     if Assigned(httpError) then begin
@@ -322,7 +314,7 @@ var
 
   procedure processDropBoxError;
   begin
-    dropBoxMessage:= dropBoxResult.resultMessage;
+    dropBoxMessage:= cloudDriverResult.resultMessage;
 
     if (httpResult.resultCode>=200) and (httpResult.resultCode<=299) then
       Exit;
@@ -406,7 +398,7 @@ end;
 procedure TDropBoxAuthPKCESession.requestToken;
 var
   http: TMiniHttpClient = nil;
-  dropBoxResult: TDropBoxResult = nil;
+  cloudDriverResult: TCloudDriverResult = nil;
 
   procedure doRequest;
   var
@@ -419,18 +411,18 @@ var
     queryItems.Add( 'code_verifier', _codeVerifier );
     queryItems.Add( 'grant_type', 'authorization_code' );
     http.setQueryParams( queryItems );
-    dropBoxResult:= TDropBoxResult.Create;
-    dropBoxResult.httpResult:= http.connect;
-    dropBoxResult.resultMessage:= dropBoxResult.httpResult.body;
+    cloudDriverResult:= TCloudDriverResult.Create;
+    cloudDriverResult.httpResult:= http.connect;
+    cloudDriverResult.resultMessage:= cloudDriverResult.httpResult.body;
 
-    DropBoxClientProcessResult( dropBoxResult );
+    DropBoxClientProcessResult( cloudDriverResult );
   end;
 
   procedure analyseResult;
   var
     json: NSDictionary;
   begin
-    json:= TJsonUtil.parse( dropBoxResult.httpResult.body );
+    json:= TJsonUtil.parse( cloudDriverResult.httpResult.body );
     _token.access:= TJsonUtil.getString( json, 'access_token' );
     _token.refresh:= TJsonUtil.getString( json, 'refresh_token' );
     _token.setExpiration( TJsonUtil.getInteger( json, 'expires_in' ) );
@@ -445,12 +437,12 @@ begin
     http:= TMiniHttpClient.Create( DropBoxConst.URI.TOKEN, HttpConst.Method.POST );
     doRequest;
 
-    if dropBoxResult.httpResult.resultCode <> 200 then
+    if cloudDriverResult.httpResult.resultCode <> 200 then
       Exit;
     analyseResult;
     cloudDriverManager.driverUpdated( _dropBoxClient );
   finally
-    FreeAndNil( dropBoxResult );
+    FreeAndNil( cloudDriverResult );
     FreeAndNil( http );
   end;
 end;
@@ -472,7 +464,7 @@ end;
 procedure TDropBoxAuthPKCESession.refreshToken;
 var
   http: TMiniHttpClient = nil;
-  dropBoxResult: TDropBoxResult = nil;
+  cloudDriverResult: TCloudDriverResult = nil;
 
   procedure doRequest;
   var
@@ -483,18 +475,18 @@ var
     queryItems.Add( 'grant_type', 'refresh_token' );
     queryItems.Add( 'refresh_token', _token.refresh );
     http.setQueryParams( queryItems );
-    dropBoxResult:= TDropBoxResult.Create;
-    dropBoxResult.httpResult:= http.connect;
-    dropBoxResult.resultMessage:= dropBoxResult.httpResult.body;
+    cloudDriverResult:= TCloudDriverResult.Create;
+    cloudDriverResult.httpResult:= http.connect;
+    cloudDriverResult.resultMessage:= cloudDriverResult.httpResult.body;
 
-    DropBoxClientProcessResult( dropBoxResult );
+    DropBoxClientProcessResult( cloudDriverResult );
   end;
 
   procedure analyseResult;
   var
     json: NSDictionary;
   begin
-    json:= TJsonUtil.parse( dropBoxResult.httpResult.body );
+    json:= TJsonUtil.parse( cloudDriverResult.httpResult.body );
     _token.access:= TJsonUtil.getString( json, 'access_token' );
     _token.setExpiration( TJsonUtil.getInteger( json, 'expires_in' ) );
   end;
@@ -504,12 +496,12 @@ begin
     http:= TMiniHttpClient.Create( DropBoxConst.URI.TOKEN, HttpConst.Method.POST );
     doRequest;
 
-    if dropBoxResult.httpResult.resultCode <> 200 then
+    if cloudDriverResult.httpResult.resultCode <> 200 then
       Exit;
     analyseResult;
     cloudDriverManager.driverUpdated( _dropBoxClient );
   finally
-    FreeAndNil( dropBoxResult );
+    FreeAndNil( cloudDriverResult );
     FreeAndNil( http );
   end;
 end;
@@ -637,7 +629,7 @@ procedure TDropBoxListFolderSession.listFolderFirst;
 var
   http: TMiniHttpClient = nil;
   httpResult: TMiniHttpResult;
-  dropBoxResult: TDropBoxResult = nil;
+  cloudDriverResult: TCloudDriverResult = nil;
   body: NSString;
 begin
   try
@@ -647,17 +639,17 @@ begin
     http.setContentType( HttpConst.ContentType.JSON );
     http.setBody( body );
 
-    dropBoxResult:= TDropBoxResult.Create;
+    cloudDriverResult:= TCloudDriverResult.Create;
     httpResult:= http.connect;
-    dropBoxResult.httpResult:= httpResult;
-    dropBoxResult.resultMessage:= httpResult.body;
+    cloudDriverResult.httpResult:= httpResult;
+    cloudDriverResult.resultMessage:= httpResult.body;
 
     if httpResult.resultCode = 200 then
       analyseListResult( httpResult.body );
 
-    DropBoxClientProcessResult( dropBoxResult );
+    DropBoxClientProcessResult( cloudDriverResult );
   finally
-    FreeAndNil( dropBoxResult );
+    FreeAndNil( cloudDriverResult );
     FreeAndNil( http );
   end;
 end;
@@ -666,7 +658,7 @@ procedure TDropBoxListFolderSession.listFolderContinue;
 var
   http: TMiniHttpClient = nil;
   httpResult: TMiniHttpResult;
-  dropBoxResult: TDropBoxResult = nil;
+  cloudDriverResult: TCloudDriverResult = nil;
   body: NSString;
 begin
   try
@@ -676,17 +668,17 @@ begin
     http.setContentType( HttpConst.ContentType.JSON );
     http.setBody( body );
 
-    dropBoxResult:= TDropBoxResult.Create;
+    cloudDriverResult:= TCloudDriverResult.Create;
     httpResult:= http.connect;
-    dropBoxResult.httpResult:= httpResult;
-    dropBoxResult.resultMessage:= httpResult.body;
+    cloudDriverResult.httpResult:= httpResult;
+    cloudDriverResult.resultMessage:= httpResult.body;
 
     if httpResult.resultCode = 200 then
       analyseListResult( httpResult.body );
 
-    DropBoxClientProcessResult( dropBoxResult );
+    DropBoxClientProcessResult( cloudDriverResult );
   finally
-    FreeAndNil( dropBoxResult );
+    FreeAndNil( cloudDriverResult );
     FreeAndNil( http );
   end;
 end;
@@ -777,7 +769,7 @@ procedure TDropBoxDownloadSession.download;
 var
   http: TMiniHttpClient = nil;
   argJsonString: NSString;
-  dropBoxResult: TDropBoxResult = nil;
+  cloudDriverResult: TCloudDriverResult = nil;
 begin
   try
     argJsonString:= TJsonUtil.dumps( ['path', _serverPath], True );
@@ -785,13 +777,13 @@ begin
     _authSession.setAuthHeader( http );
     http.addHeader( NSSTR(DropBoxConst.HEADER.ARG), argJsonString );
 
-    dropBoxResult:= TDropBoxResult.Create;
-    dropBoxResult.httpResult:= http.download( _localPath, _callback );
-    dropBoxResult.resultMessage:= dropBoxResult.httpResult.getHeader( DropBoxConst.HEADER.RESULT );
+    cloudDriverResult:= TCloudDriverResult.Create;
+    cloudDriverResult.httpResult:= http.download( _localPath, _callback );
+    cloudDriverResult.resultMessage:= cloudDriverResult.httpResult.getHeader( DropBoxConst.HEADER.RESULT );
 
-    DropBoxClientProcessResult( dropBoxResult );
+    DropBoxClientProcessResult( cloudDriverResult );
   finally
-    FreeAndNil( dropBoxResult );
+    FreeAndNil( cloudDriverResult );
     FreeAndNil( http );
   end;
 end;
@@ -812,7 +804,7 @@ procedure TDropBoxUploadSession.uploadSmall;
 var
   http: TMiniHttpClient = nil;
   argJsonString: NSString;
-  dropBoxResult: TDropBoxResult = nil;
+  cloudDriverResult: TCloudDriverResult = nil;
 begin
   try
     argJsonString:= TJsonUtil.dumps( ['path',_serverPath, 'mode','overwrite'], True );
@@ -820,13 +812,13 @@ begin
     _authSession.setAuthHeader( http );
     http.addHeader( NSSTR(DropBoxConst.HEADER.ARG), argJsonString );
 
-    dropBoxResult:= TDropBoxResult.Create;
-    dropBoxResult.httpResult:= http.upload( _localPath, _callback );
-    dropBoxResult.resultMessage:= dropBoxResult.httpResult.body;
+    cloudDriverResult:= TCloudDriverResult.Create;
+    cloudDriverResult.httpResult:= http.upload( _localPath, _callback );
+    cloudDriverResult.resultMessage:= cloudDriverResult.httpResult.body;
 
-    DropBoxClientProcessResult( dropBoxResult );
+    DropBoxClientProcessResult( cloudDriverResult );
   finally
-    FreeAndNil( dropBoxResult );
+    FreeAndNil( cloudDriverResult );
     FreeAndNil( http );
   end;
 end;
@@ -841,7 +833,7 @@ var
   procedure uploadStart;
   var
     http: TMiniHttpClient = nil;
-    dropBoxResult: TDropBoxResult = nil;
+    cloudDriverResult: TCloudDriverResult = nil;
     json: NSDictionary;
   begin
     try
@@ -849,18 +841,18 @@ var
       _authSession.setAuthHeader( http );
       http.setContentType( HttpConst.ContentType.OctetStream );
 
-      dropBoxResult:= TDropBoxResult.Create;
-      dropBoxResult.httpResult:= http.connect;
-      dropBoxResult.resultMessage:= dropBoxResult.httpResult.body;
+      cloudDriverResult:= TCloudDriverResult.Create;
+      cloudDriverResult.httpResult:= http.connect;
+      cloudDriverResult.resultMessage:= cloudDriverResult.httpResult.body;
 
-      DropBoxClientProcessResult( dropBoxResult );
+      DropBoxClientProcessResult( cloudDriverResult );
 
-      json:= TJsonUtil.parse( dropBoxResult.resultMessage );
+      json:= TJsonUtil.parse( cloudDriverResult.resultMessage );
       sessionId:= TJsonUtil.getString( json, 'session_id' );
       if sessionId = EmptyStr then
         raise EDropBoxException.Create( 'can''t get session_id in TDropBoxUploadSession.uploadLarge()' );
     finally
-      FreeAndNil( dropBoxResult );
+      FreeAndNil( cloudDriverResult );
       FreeAndNil( http );
     end;
   end;
@@ -878,23 +870,23 @@ var
     end;
   var
     http: TMiniHttpClient = nil;
-    dropBoxResult: TDropBoxResult = nil;
+    cloudDriverResult: TCloudDriverResult = nil;
   begin
     try
       http:= TMiniHttpClient.Create( DropBoxConst.URI.UPLOAD_LARGE_APPEND, HttpConst.Method.POST );
       _authSession.setAuthHeader( http );
       http.addHeader( NSSTR(DropBoxConst.HEADER.ARG), getArgJsonString );
 
-      dropBoxResult:= TDropBoxResult.Create;
-      dropBoxResult.httpResult:= http.uploadRange(
+      cloudDriverResult:= TCloudDriverResult.Create;
+      cloudDriverResult.httpResult:= http.uploadRange(
         _localPath,
         range,
         _callback );
-      dropBoxResult.resultMessage:= dropBoxResult.httpResult.body;
+      cloudDriverResult.resultMessage:= cloudDriverResult.httpResult.body;
 
-      DropBoxClientProcessResult( dropBoxResult );
+      DropBoxClientProcessResult( cloudDriverResult );
     finally
-      FreeAndNil( dropBoxResult );
+      FreeAndNil( cloudDriverResult );
       FreeAndNil( http );
     end;
   end;
@@ -920,7 +912,7 @@ var
     end;
   var
     http: TMiniHttpClient = nil;
-    dropBoxResult: TDropBoxResult = nil;
+    cloudDriverResult: TCloudDriverResult = nil;
   begin
     try
       http:= TMiniHttpClient.Create( DropBoxConst.URI.UPLOAD_LARGE_FINISH, HttpConst.Method.POST );
@@ -928,13 +920,13 @@ var
       http.addHeader( NSSTR(DropBoxConst.HEADER.ARG), getArgJsonString );
       http.setContentType( HttpConst.ContentType.OctetStream );
 
-      dropBoxResult:= TDropBoxResult.Create;
-      dropBoxResult.httpResult:= http.connect;
-      dropBoxResult.resultMessage:= dropBoxResult.httpResult.body;
+      cloudDriverResult:= TCloudDriverResult.Create;
+      cloudDriverResult.httpResult:= http.connect;
+      cloudDriverResult.resultMessage:= cloudDriverResult.httpResult.body;
 
-      DropBoxClientProcessResult( dropBoxResult );
+      DropBoxClientProcessResult( cloudDriverResult );
     finally
-      FreeAndNil( dropBoxResult );
+      FreeAndNil( cloudDriverResult );
       FreeAndNil( http );
     end;
   end;
@@ -977,7 +969,7 @@ end;
 procedure TDropBoxCreateFolderSession.createFolder;
 var
   http: TMiniHttpClient = nil;
-  dropBoxResult: TDropBoxResult = nil;
+  cloudDriverResult: TCloudDriverResult = nil;
   body: NSString;
 begin
   try
@@ -987,13 +979,13 @@ begin
     _authSession.setAuthHeader( http );
     http.setBody( body );
 
-    dropBoxResult:= TDropBoxResult.Create;
-    dropBoxResult.httpResult:= http.connect;
-    dropBoxResult.resultMessage:= dropBoxResult.httpResult.body;
+    cloudDriverResult:= TCloudDriverResult.Create;
+    cloudDriverResult.httpResult:= http.connect;
+    cloudDriverResult.resultMessage:= cloudDriverResult.httpResult.body;
 
-    DropBoxClientProcessResult( dropBoxResult );
+    DropBoxClientProcessResult( cloudDriverResult );
   finally
-    FreeAndNil( dropBoxResult );
+    FreeAndNil( cloudDriverResult );
     FreeAndNil( http );
   end;
 end;
@@ -1011,7 +1003,7 @@ procedure TDropBoxDeleteSession.delete;
 var
   http: TMiniHttpClient = nil;
   body: NSString;
-  dropBoxResult: TDropBoxResult = nil;
+  cloudDriverResult: TCloudDriverResult = nil;
 begin
   try
     body:= TJsonUtil.dumps( ['path', _path] );
@@ -1020,13 +1012,13 @@ begin
     _authSession.setAuthHeader( http );
     http.setBody( body );
 
-    dropBoxResult:= TDropBoxResult.Create;
-    dropBoxResult.httpResult:= http.connect;
-    dropBoxResult.resultMessage:= dropBoxResult.httpResult.body;
+    cloudDriverResult:= TCloudDriverResult.Create;
+    cloudDriverResult.httpResult:= http.connect;
+    cloudDriverResult.resultMessage:= cloudDriverResult.httpResult.body;
 
-    DropBoxClientProcessResult( dropBoxResult );
+    DropBoxClientProcessResult( cloudDriverResult );
   finally
-    FreeAndNil( dropBoxResult );
+    FreeAndNil( cloudDriverResult );
     FreeAndNil( http );
   end;
 end;
@@ -1045,7 +1037,7 @@ procedure TDropBoxCopyMoveSession.copyOrMove( const needToMove: Boolean );
 var
   uri: String;
   http: TMiniHttpClient = nil;
-  dropBoxResult: TDropBoxResult = nil;
+  cloudDriverResult: TCloudDriverResult = nil;
   body: NSString;
 begin
   try
@@ -1061,13 +1053,13 @@ begin
     body:= TJsonUtil.dumps( ['from_path', _fromPath, 'to_path', _toPath] );
     http.setBody( body );
 
-    dropBoxResult:= TDropBoxResult.Create;
-    dropBoxResult.httpResult:= http.connect;
-    dropBoxResult.resultMessage:= dropBoxResult.httpResult.body;
+    cloudDriverResult:= TCloudDriverResult.Create;
+    cloudDriverResult.httpResult:= http.connect;
+    cloudDriverResult.resultMessage:= cloudDriverResult.httpResult.body;
 
-    DropBoxClientProcessResult( dropBoxResult );
+    DropBoxClientProcessResult( cloudDriverResult );
   finally
-    FreeAndNil( dropBoxResult );
+    FreeAndNil( cloudDriverResult );
     FreeAndNil( http );
   end;
 end;
