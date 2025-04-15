@@ -108,6 +108,8 @@ type
     function authorize: Boolean; virtual; abstract;
     procedure unauthorize; virtual; abstract;
     function authorized: Boolean; virtual; abstract;
+    function getToken: TCloudDriverToken; virtual; abstract;
+    procedure setToken( const token: TCloudDriverToken ); virtual; abstract;
   public
     procedure download(
       const serverPath: String;

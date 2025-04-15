@@ -178,6 +178,8 @@ type
     function authorize: Boolean; override;
     procedure unauthorize; override;
     function authorized: Boolean; override;
+    function getToken: TCloudDriverToken; override;
+    procedure setToken( const token: TCloudDriverToken ); override;
   public
     function createLister( const path: String ): TCloudDriverLister; override;
   public
@@ -193,9 +195,6 @@ type
     procedure createFolder( const path: String ); override;
     procedure delete( const path: String ); override;
     procedure copyOrMove( const fromPath: String; const toPath: String; const needToMove: Boolean ); override;
-  public
-    function getToken: TCloudDriverToken;
-    procedure setToken( const token: TCloudDriverToken );
   end;
 
 var

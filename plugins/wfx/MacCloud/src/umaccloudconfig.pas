@@ -52,23 +52,58 @@ implementation
 
 type
 
-  { TDropBoxCloudDriverConfig }
+  { TTokenCloudDriverConfig }
 
-  TDropBoxCloudDriverConfig = class( TMacCloudDriverConfig )
-    class procedure loadCommon( const params: NSDictionary ); override;
-    class procedure saveCommon( const params: NSMutableDictionary ); override;
+  TTokenCloudDriverConfig = class( TMacCloudDriverConfig )
     class procedure loadSecurity( const driver: TCloudDriver; const params: NSDictionary ); override;
     class procedure saveSecurity( const driver: TCloudDriver; const params: NSMutableDictionary ); override;
+  end;
+
+  { TDropBoxCloudDriverConfig }
+
+  TDropBoxCloudDriverConfig = class( TTokenCloudDriverConfig )
+    class procedure loadCommon( const params: NSDictionary ); override;
+    class procedure saveCommon( const params: NSMutableDictionary ); override;
   end;
 
   { TYandexCloudDriverConfig }
 
-  TYandexCloudDriverConfig = class( TMacCloudDriverConfig )
+  TYandexCloudDriverConfig = class( TTokenCloudDriverConfig )
     class procedure loadCommon( const params: NSDictionary ); override;
     class procedure saveCommon( const params: NSMutableDictionary ); override;
-    class procedure loadSecurity( const driver: TCloudDriver; const params: NSDictionary ); override;
-    class procedure saveSecurity( const driver: TCloudDriver; const params: NSMutableDictionary ); override;
   end;
+
+{ TTokenCloudDriverConfig }
+
+class procedure TTokenCloudDriverConfig.loadSecurity(
+  const driver: TCloudDriver; const params: NSDictionary);
+var
+  token: TCloudDriverToken;
+  jsonToken: NSDictionary;
+begin
+  jsonToken:= TJsonUtil.getDictionary( params, 'token' );
+  token:= TCloudDriverToken.Create(
+    TJsonUtil.getString( jsonToken, 'access' ),
+    TJsonUtil.getString( jsonToken, 'refresh' ),
+    TJsonUtil.getDateTime( jsonToken, 'accessExpirationTime' ) );
+  driver.setToken( token );
+end;
+
+class procedure TTokenCloudDriverConfig.saveSecurity(
+  const driver: TCloudDriver; const params: NSMutableDictionary);
+var
+  client: TDropBoxClient absolute driver;
+  token: TCloudDriverToken;
+  jsonToken: NSMutableDictionary;
+begin
+  token:= client.getToken;
+  jsonToken:= NSMutableDictionary.new;
+  TJsonUtil.setString( jsonToken, 'access', token.access );
+  TJsonUtil.setString( jsonToken, 'refresh', token.refresh );
+  TJsonUtil.setDateTime( jsonToken, 'accessExpirationTime', token.accessExpirationTime );
+  TJsonUtil.setDictionary( params, 'token', jsonToken );
+  jsonToken.release;
+end;
 
 { TDropBoxCloudDriverConfig }
 
@@ -93,37 +128,6 @@ begin
   TJsonUtil.setString( params, 'listenURI', dropBoxConfig.listenURI );
 end;
 
-class procedure TDropBoxCloudDriverConfig.loadSecurity(
-  const driver: TCloudDriver; const params: NSDictionary);
-var
-  dropBoxClient: TDropBoxClient absolute driver;
-  token: TDropBoxToken;
-  jsonToken: NSDictionary;
-begin
-  jsonToken:= TJsonUtil.getDictionary( params, 'token' );
-  token:= TDropBoxToken.Create(
-    TJsonUtil.getString( jsonToken, 'access' ),
-    TJsonUtil.getString( jsonToken, 'refresh' ),
-    TJsonUtil.getDateTime( jsonToken, 'accessExpirationTime' ) );
-  dropBoxClient.setToken( token );
-end;
-
-class procedure TDropBoxCloudDriverConfig.saveSecurity(
-  const driver: TCloudDriver; const params: NSMutableDictionary);
-var
-  dropBoxClient: TDropBoxClient absolute driver;
-  token: TDropBoxToken;
-  jsonToken: NSMutableDictionary;
-begin
-  token:= dropBoxClient.getToken;
-  jsonToken:= NSMutableDictionary.new;
-  TJsonUtil.setString( jsonToken, 'access', token.access );
-  TJsonUtil.setString( jsonToken, 'refresh', token.refresh );
-  TJsonUtil.setDateTime( jsonToken, 'accessExpirationTime', token.accessExpirationTime );
-  TJsonUtil.setDictionary( params, 'token', jsonToken );
-  jsonToken.release;
-end;
-
 { TYandexCloudDriverConfig }
 
 class procedure TYandexCloudDriverConfig.loadCommon(const params: NSDictionary);
@@ -145,37 +149,6 @@ class procedure TYandexCloudDriverConfig.saveCommon(const params: NSMutableDicti
 begin
   TJsonUtil.setString( params, 'clientID', yandexConfig.clientID );
   TJsonUtil.setString( params, 'listenURI', yandexConfig.listenURI );
-end;
-
-class procedure TYandexCloudDriverConfig.loadSecurity(
-  const driver: TCloudDriver; const params: NSDictionary);
-var
-  yandexClient: TYandexClient absolute driver;
-  token: TCloudDriverToken;
-  jsonToken: NSDictionary;
-begin
-  jsonToken:= TJsonUtil.getDictionary( params, 'token' );
-  token:= TCloudDriverToken.Create(
-    TJsonUtil.getString( jsonToken, 'access' ),
-    TJsonUtil.getString( jsonToken, 'refresh' ),
-    TJsonUtil.getDateTime( jsonToken, 'accessExpirationTime' ) );
-  yandexClient.setToken( token );
-end;
-
-class procedure TYandexCloudDriverConfig.saveSecurity(
-  const driver: TCloudDriver; const params: NSMutableDictionary);
-var
-  yandexClient: TYandexClient absolute driver;
-  token: TCloudDriverToken;
-  jsonToken: NSMutableDictionary;
-begin
-  token:= yandexClient.getToken;
-  jsonToken:= NSMutableDictionary.new;
-  TJsonUtil.setString( jsonToken, 'access', token.access );
-  TJsonUtil.setString( jsonToken, 'refresh', token.refresh );
-  TJsonUtil.setDateTime( jsonToken, 'accessExpirationTime', token.accessExpirationTime );
-  TJsonUtil.setDictionary( params, 'token', jsonToken );
-  jsonToken.release;
 end;
 
 { TMacCloudConfigManager }
