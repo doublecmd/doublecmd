@@ -41,6 +41,8 @@ type
     property listenURI: String read _listenURI;
   end;
 
+  TCloudDriverConfigPtr = ^TCloudDriverConfig;
+
   { TCloudDriverToken }
 
   TCloudDriverToken = class
@@ -217,6 +219,7 @@ procedure TCloudDriverToken.invalid;
 begin
   _access:= EmptyStr;
   _refresh:= EmptyStr;
+  _accessExpirationTime:= 0;
 end;
 
 { TCloudDriverManager }

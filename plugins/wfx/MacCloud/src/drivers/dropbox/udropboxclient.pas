@@ -34,23 +34,11 @@ type
   EDropBoxPermissionException = class( EDropBoxException );
   EDropBoxRateLimitException = class( EDropBoxException );
 
-  { TDropBoxConfig }
-
-  TDropBoxConfig = class
-  private
-    _clientID: String;
-    _listenURI: String;
-  public
-    constructor Create( const clientID: String; const listenURI: String );
-    property clientID: String read _clientID;
-    property listenURI: String read _listenURI;
-  end;
-
   { TDropBoxAuthPKCESession }
 
   TDropBoxAuthPKCESession = class
   strict private
-    _config: TDropBoxConfig;
+    _config: TCloudDriverConfig;
     _dropBoxClient: TCloudDriver;
     _codeVerifier: String;
     _state: String;
@@ -69,7 +57,7 @@ type
     procedure onRedirect( const url: NSURL );
     function getAccessToken: String;
   public
-    constructor Create( const config: TDropBoxConfig; const dropBoxClient: TCloudDriver );
+    constructor Create( const config: TCloudDriverConfig; const dropBoxClient: TCloudDriver );
     destructor Destroy; override;
     function clone( const dropBoxClient: TCloudDriver ): TDropBoxAuthPKCESession;
   public
@@ -193,13 +181,13 @@ type
 
   TDropBoxClient = class( TCloudDriver )
   private
-    _config: TDropBoxConfig;
+    _config: TCloudDriverConfig;
     _authSession: TDropBoxAuthPKCESession;
   public
     class function driverName: String; override;
     class function createInstance: TCloudDriver; override;
   public
-    constructor Create( const config: TDropBoxConfig );
+    constructor Create( const config: TCloudDriverConfig );
     destructor Destroy; override;
     function clone: TCloudDriver; override;
     function getToken: TCloudDriverToken; override;
@@ -226,7 +214,7 @@ type
   end;
 
 var
-  dropBoxConfig: TDropBoxConfig;
+  dropBoxConfig: TCloudDriverConfig;
 
 implementation
 
@@ -367,14 +355,6 @@ begin
       raise;
     end;
   end;
-end;
-
-{ TDropBoxConfig }
-
-constructor TDropBoxConfig.Create( const clientID: String; const listenURI: String );
-begin
-  _clientID:= clientID;
-  _listenURI:= listenURI;
 end;
 
 { TDropBoxAuthPKCESession }
@@ -577,7 +557,7 @@ begin
   end;
 end;
 
-constructor TDropBoxAuthPKCESession.Create(const config: TDropBoxConfig; const dropBoxClient: TCloudDriver );
+constructor TDropBoxAuthPKCESession.Create(const config: TCloudDriverConfig; const dropBoxClient: TCloudDriver );
 begin
   _config:= config;
   _dropBoxClient:= dropBoxClient;
@@ -1143,7 +1123,7 @@ begin
   Result:= TDropBoxClient.Create( dropBoxConfig );
 end;
 
-constructor TDropBoxClient.Create(const config: TDropBoxConfig);
+constructor TDropBoxClient.Create(const config: TCloudDriverConfig);
 begin
   _config:= config;
   _authSession:= TDropBoxAuthPKCESession.Create( _config, self );

@@ -57,23 +57,51 @@ type
   TTokenCloudDriverConfig = class( TMacCloudDriverConfig )
     class procedure loadSecurity( const driver: TCloudDriver; const params: NSDictionary ); override;
     class procedure saveSecurity( const driver: TCloudDriver; const params: NSMutableDictionary ); override;
+    class procedure loadCommon( const params: NSDictionary ); override;
+    class procedure saveCommon( const params: NSMutableDictionary ); override;
+    class function cloudDriverConfigPtr: TCloudDriverConfigPtr; virtual; abstract;
+    class function cloudDriverClass: TCloudDriverClass; virtual; abstract;
   end;
 
   { TDropBoxCloudDriverConfig }
 
   TDropBoxCloudDriverConfig = class( TTokenCloudDriverConfig )
-    class procedure loadCommon( const params: NSDictionary ); override;
-    class procedure saveCommon( const params: NSMutableDictionary ); override;
+    class function cloudDriverConfigPtr: TCloudDriverConfigPtr; override;
+    class function cloudDriverClass: TCloudDriverClass; override;
   end;
 
   { TYandexCloudDriverConfig }
 
   TYandexCloudDriverConfig = class( TTokenCloudDriverConfig )
-    class procedure loadCommon( const params: NSDictionary ); override;
-    class procedure saveCommon( const params: NSMutableDictionary ); override;
+    class function cloudDriverConfigPtr: TCloudDriverConfigPtr; override;
+    class function cloudDriverClass: TCloudDriverClass; override;
   end;
 
 { TTokenCloudDriverConfig }
+
+class procedure TTokenCloudDriverConfig.loadCommon(const params: NSDictionary);
+var
+  clientID: String;
+  listenURI: String;
+  oldCloudDriverConfig: TCloudDriverConfig;
+begin
+  clientID:= TJsonUtil.getString( params, 'clientID' );
+  listenURI:= TJsonUtil.getString( params, 'listenURI' );
+  oldCloudDriverConfig:= self.cloudDriverConfigPtr^;
+  self.cloudDriverConfigPtr^:= TCloudDriverConfig.Create( clientID, listenURI );
+  if Assigned(oldCloudDriverConfig) then
+    oldCloudDriverConfig.Free;
+  cloudDriverManager.register( self.cloudDriverClass );
+end;
+
+class procedure TTokenCloudDriverConfig.saveCommon(const params: NSMutableDictionary);
+var
+  cloudDriverConfig: TCloudDriverConfig;
+begin
+  cloudDriverConfig:= self.cloudDriverConfigPtr^;
+  TJsonUtil.setString( params, 'clientID', cloudDriverConfig.clientID );
+  TJsonUtil.setString( params, 'listenURI', cloudDriverConfig.listenURI );
+end;
 
 class procedure TTokenCloudDriverConfig.loadSecurity(
   const driver: TCloudDriver; const params: NSDictionary);
@@ -107,48 +135,26 @@ end;
 
 { TDropBoxCloudDriverConfig }
 
-class procedure TDropBoxCloudDriverConfig.loadCommon(const params: NSDictionary);
-var
-  clientID: String;
-  listenURI: String;
-  oldDropBoxConfig: TDropBoxConfig;
+class function TDropBoxCloudDriverConfig.cloudDriverConfigPtr: TCloudDriverConfigPtr;
 begin
-  clientID:= TJsonUtil.getString( params, 'clientID' );
-  listenURI:= TJsonUtil.getString( params, 'listenURI' );
-  oldDropBoxConfig:= dropBoxConfig;
-  dropBoxConfig:= TDropBoxConfig.Create( clientID, listenURI );
-  if Assigned(oldDropBoxConfig) then
-    oldDropBoxConfig.Free;
-  cloudDriverManager.register( TDropBoxClient );
+  Result:= @dropBoxConfig;
 end;
 
-class procedure TDropBoxCloudDriverConfig.saveCommon(const params: NSMutableDictionary);
+class function TDropBoxCloudDriverConfig.cloudDriverClass: TCloudDriverClass;
 begin
-  TJsonUtil.setString( params, 'clientID', dropBoxConfig.clientID );
-  TJsonUtil.setString( params, 'listenURI', dropBoxConfig.listenURI );
+  Result:= TDropBoxClient;
 end;
 
 { TYandexCloudDriverConfig }
 
-class procedure TYandexCloudDriverConfig.loadCommon(const params: NSDictionary);
-var
-  clientID: String;
-  listenURI: String;
-  oldYandexConfig: TCloudDriverConfig;
+class function TYandexCloudDriverConfig.cloudDriverConfigPtr: TCloudDriverConfigPtr;
 begin
-  clientID:= TJsonUtil.getString( params, 'clientID' );
-  listenURI:= TJsonUtil.getString( params, 'listenURI' );
-  oldYandexConfig:= yandexConfig;
-  yandexConfig:= TCloudDriverConfig.Create( clientID, listenURI );
-  if Assigned(oldYandexConfig) then
-    oldYandexConfig.Free;
-  cloudDriverManager.register( TYandexClient );
+  Result:= @yandexConfig;
 end;
 
-class procedure TYandexCloudDriverConfig.saveCommon(const params: NSMutableDictionary);
+class function TYandexCloudDriverConfig.cloudDriverClass: TCloudDriverClass;
 begin
-  TJsonUtil.setString( params, 'clientID', yandexConfig.clientID );
-  TJsonUtil.setString( params, 'listenURI', yandexConfig.listenURI );
+  Result:= TYandexClient;
 end;
 
 { TMacCloudConfigManager }
@@ -369,7 +375,7 @@ begin
   macCloudDriverConfigManager.register( TDropBoxClient.driverName, TDropBoxCloudDriverConfig );
   macCloudDriverConfigManager.register( TYandexClient.driverName, TYandexCloudDriverConfig );
 
-  dropBoxConfig:= TDropBoxConfig.Create( 'ahj0s9xia6i61gh', 'dc2ea085a05ac273a://dropbox/auth' );
+  dropBoxConfig:= TCloudDriverConfig.Create( 'ahj0s9xia6i61gh', 'dc2ea085a05ac273a://dropbox/auth' );
   cloudDriverManager.register( TDropBoxClient );
 
   yandexConfig:= TCloudDriverConfig.Create( 'eaf0c133568a46a0bd986bffb48c62b6', 'dc2ea085a05ac273a://yandex/auth' );
