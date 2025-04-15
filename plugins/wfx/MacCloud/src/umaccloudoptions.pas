@@ -27,10 +27,10 @@ implementation
 
 const
   CONST_AUTH_NOTES =
-    '1. Before successfully enabling the link, DC needs to obtain authorization from DropBox'#13#13 +
-    '2. Click the connect button to be redirected to the DropBox official website in the Safari browser'#13#13 +
-    '3. Please login your DropBox account in Safari and authorize Double Commander to access'#13#13 +
-    '4. The authorization is completed on the DropBox official website, Double Command will not get your password';
+    '1. Before successfully enabling the link, Double Command needs to obtain authorization from {driverName}'#13#13 +
+    '2. Click the connect button to be redirected to the {driverName} official website in the Safari browser'#13#13 +
+    '3. Please login your {driverName} account in Safari and authorize Double Commander to access'#13#13 +
+    '4. The authorization is completed on the {driverName} official website, Double Command will not get your password';
 
 type
 
@@ -119,6 +119,7 @@ type
     nameTextField: NSTextField;
     connectButton: NSButton;
     statusImageview: NSImageView;
+    noteTextView: NSTextView;
   public
     procedure loadConnectionProperties( const index: Integer ); message 'TPropertyView_loadConnectionProperties:';
     procedure updateConnectStatus; message 'TPropertyView_updateConnectStatus';
@@ -338,6 +339,7 @@ var
   configItem: TConnectionConfigItem;
   connectButtonText: String;
   statusImageName: NSString;
+  notes: String;
 begin
   configItem:= controller.currentConfigItem;
   if configItem.driver.authorized then begin
@@ -349,6 +351,8 @@ begin
   end;
   self.statusImageView.setImage( NSImage.imageNamed(statusImageName) );
   self.connectButton.setTitle( StringToNSString(connectButtonText) );
+  notes:= CONST_AUTH_NOTES.Replace( '{driverName}', configItem.driver.driverName );
+  self.noteTextView.setString( StringToNSString(notes) );
 end;
 
 { TConnectionConfigItem }
@@ -798,8 +802,8 @@ var
     noteTextView:= NSTextView.alloc.initWithFrame( NSMakeRect(20,100,400,100) );
     noteTextView.setFont( NSFont.systemFontOfSize(11));
     noteTextView.setEditable( False );
-    noteTextView.setString( StringToNSString(CONST_AUTH_NOTES) );
     noteTextView.setDrawsBackground( False );
+    rightView.noteTextView:= noteTextView;
     rightView.addSubView( noteTextView );
     noteTextView.release;
   end;
