@@ -153,6 +153,117 @@ type
     function performKeyEquivalent(theEvent: NSEvent): ObjCBOOL; override;
   end;
 
+  { TSelectDriverWindow }
+
+  TSelectDriverWindow = objcclass(
+    NSWindow,
+    NSWindowDelegateProtocol )
+  public
+    driversDropDown: NSPopUpButton;
+    selectedIndex: Integer;
+  public
+    procedure windowWillClose (notification: NSNotification);
+    procedure cancelOperation(sender: id); override;
+    function performKeyEquivalent(theEvent: NSEvent): ObjCBOOL; override;
+  public
+    class function showModal: Integer; message 'TSelectDriverWindow_showModal';
+  end;
+
+{ TSelectDriverWindow }
+
+procedure TSelectDriverWindow.windowWillClose(notification: NSNotification);
+begin
+  if self.selectedIndex = 0 then
+    self.selectedIndex:= self.driversDropDown.indexOfSelectedItem;
+  NSApplication(NSAPP).stopModal;
+end;
+
+procedure TSelectDriverWindow.cancelOperation(sender: id);
+begin
+  self.selectedIndex:= -1;
+  self.close;
+end;
+
+function TSelectDriverWindow.performKeyEquivalent(theEvent: NSEvent): ObjCBOOL;
+begin
+  if theEvent.charactersIgnoringModifiers.isEqualToString(NSSTR('w')) and
+     ((theEvent.modifierFlags and NSCommandKeyMask) <> 0 ) then begin
+    self.close;
+    Result:= True;
+  end else
+    Result:= inherited;
+end;
+
+class function TSelectDriverWindow.showModal: Integer;
+var
+  win: TSelectDriverWindow;
+  winContentView: NSView;
+  cancelButton: NSButton;
+  okButton: NSButton;
+  frameRect: NSRect;
+
+  function createDriverMenu: NSPopUpButton;
+  var
+    driver: TCloudDriverClass;
+    dropDown: NSPopUpButton;
+    icon: NSImage;
+    i: Integer;
+  begin
+    frameRect:= NSMakeRect( 30, 72, 250, 30 );
+    dropDown:= NSPopUpButton.alloc.initWithFrame( frameRect );
+    for i:=0 to cloudDriverManager.driverClasses.Count-1 do begin
+      driver:= TCloudDriverClass( cloudDriverManager.driverClasses[i] );
+      dropDown.addItemWithTitle( StringToNSString(driver.driverName) );
+      icon:= TMacCloudUtil.driverMainIcon( driver );
+      icon.setSize( NSMakeSize(16,16) );
+      dropDown.lastItem.setImage( icon );
+      icon.release;
+    end;
+    Result:= dropDown;
+  end;
+
+begin
+  frameRect:= NSMakeRect( 0, 0, 305, 140 );
+  win:= TSelectDriverWindow.alloc.initWithContentRect_styleMask_backing_defer(
+    frameRect,
+    NSTitledWindowMask or NSFullSizeContentViewWindowMask,
+    NSBackingStoreBuffered,
+    True );
+  winContentView:= NSView.alloc.initWithFrame( frameRect );
+  win.setContentView( winContentView );
+  winContentView.release;
+  win.setTitlebarAppearsTransparent( True );
+  win.setDelegate( win );
+
+  win.driversDropDown:= createDriverMenu;
+  winContentView.addSubview( win.driversDropDown );
+
+  frameRect:= NSMakeRect( 105, 25, 80, 22 );
+  cancelButton:= NSButton.alloc.initWithFrame( frameRect );
+  cancelButton.setTitle( StringToNSString('Cancel') );
+  cancelButton.setButtonType( NSMomentaryPushInButton );
+  cancelButton.setBezelStyle( NSRoundedBezelStyle );
+  cancelButton.setKeyEquivalent( NSSTR(#27) );
+  cancelButton.setTarget( win );
+  cancelButton.setAction( ObjcSelector('cancelOperation:') );
+  winContentView.addSubview( cancelButton );
+  cancelButton.release;
+
+  frameRect:= NSMakeRect( 200, 25, 80, 22 );
+  okButton:= NSButton.alloc.initWithFrame( frameRect );
+  okButton.setTitle( StringToNSString('OK') );
+  okButton.setButtonType( NSMomentaryPushInButton );
+  okButton.setBezelStyle( NSRoundedBezelStyle );
+  okButton.setKeyEquivalent( NSSTR(#13) );
+  okButton.setTarget( win );
+  okButton.setAction( ObjcSelector('close') );
+  winContentView.addSubview( okButton );
+  okButton.release;
+
+  NSApplication(NSApp).runModalForWindow( win );
+  Result:= win.selectedIndex;
+end;
+
 { TConnectionConfigItems }
 
 constructor TConnectionConfigItems.Create;
@@ -213,15 +324,11 @@ end;
 procedure TPropertyView.loadConnectionProperties( const index: Integer );
 var
   configItem: TConnectionConfigItem;
-  logoPath: String;
-  logo: NSImage;
 begin
   configItem:= controller.currentConfigItem;
   if configItem = nil then
     Exit;
-  logoPath:= TMacCloudUtil.driverMainIcon( configItem.driver );
-  logo:= NSImage.alloc.initWithContentsOfFile( StringToNSString(logoPath) );
-  self.logoImageView.setImage( logo );
+  self.logoImageView.setImage( TMacCloudUtil.driverMainIcon(configItem.driver) );
   self.nameTextField.setStringValue( configItem.name );
   self.updateConnectStatus;
 end;
@@ -374,15 +481,22 @@ end;
 
 procedure TCloudOptionsWindow.addConnection( connectionName: NSString );
 var
+  driverIndex: Integer;
+  driver: TCloudDriver;
   configItem: TConnectionConfigItem;
   index: Integer;
 begin
+  driverIndex:= TSelectDriverWindow.showModal;
+  if driverIndex < 0 then
+    Exit;
+
+  driver:= cloudDriverManager.createInstance( driverIndex );
   if connectionName.length = 0 then
-    connectionName:= StringToNSString( 'New Connection' );
+    connectionName:= StringToNSString( 'New (' + driver.driverName + ')' );
   configItem:= TConnectionConfigItem.new;
   configItem.setCreating( True );
   configItem.setName( connectionName );
-  configItem.setDriver( cloudDriverManager.createInstance('DropBox') );
+  configItem.setDriver( driver );
   configItem.setCreationTime( LocalTimeToUniversal(now) );
   configItem.setModificationTime( configItem.creationTime );
   index:= self.configItems.addItem( configItem );
@@ -520,8 +634,6 @@ function TConnectionListView.tableView_viewForTableColumn_row(
   tableView: NSTableView; tableColumn: NSTableColumn; row: NSInteger): NSView;
 var
   frameRect: NSRect;
-  logoPath: String;
-  logo: NSImage;
   cellView: NSTableCellView;
   textField: NSTextField;
   imageView: NSImageView;
@@ -533,9 +645,7 @@ begin
 
   frameRect:= NSMakeRect( 8, 4, 16, 16 );
   imageView:= NSImageView.alloc.initWithFrame( frameRect);
-  logoPath:= TMacCloudUtil.driverMainIcon( configItem.driver);
-  logo:= NSImage.alloc.initWithContentsOfFile( StringToNSString(logoPath) );
-  imageView.setImage( logo );
+  imageView.setImage( TMacCloudUtil.driverMainIcon(configItem.driver) );
   cellView.setImageView( imageView );
   cellView.addSubview( imageView );
   imageView.release;

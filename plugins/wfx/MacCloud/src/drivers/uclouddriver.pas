@@ -140,6 +140,7 @@ type
     procedure register( const cloudDriverClass: TCloudDriverClass );
     function find( const name: String ): TCloudDriverClass;
     function createInstance( const name: String ): TCloudDriver;
+    function createInstance( const index: Integer ): TCloudDriver;
   public
     procedure driverUpdated( const driver: TCloudDriver );
   public
@@ -253,6 +254,11 @@ end;
 function TCloudDriverManager.createInstance( const name: String ): TCloudDriver;
 begin
   Result:= self.find(name).createInstance;
+end;
+
+function TCloudDriverManager.createInstance(const index: Integer): TCloudDriver;
+begin
+  Result:= TCloudDriverClass( self.driverClasses[index] ).createInstance;
 end;
 
 procedure TCloudDriverManager.driverUpdated(const driver: TCloudDriver);

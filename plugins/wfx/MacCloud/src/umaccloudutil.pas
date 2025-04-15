@@ -1,12 +1,14 @@
 unit uMacCloudUtil;
 
 {$mode ObjFPC}{$H+}
+{$modeswitch objectivec2}
 
 interface
 
 uses
   Classes, SysUtils,
   WfxPlugin,
+  CocoaAll, uMiniCocoa,
   uCloudDriver, uMacCloudCore,
   uMiniUtil;
 
@@ -61,7 +63,10 @@ type
     class function dateTimeToFileTime(ADateTimeUTC: TDateTime): FILETIME;
     class procedure cloudFileToWinFindData( cloudFile: TCloudFile; var FindData:tWIN32FINDDATAW );
     class function exceptionToResult( const e: Exception ): Integer;
-    class function driverMainIcon( const driver: TCloudDriver ): String;
+    class function driverMainIconPath( const driver: TCloudDriver ): String; overload;
+    class function driverMainIconPath( const driver: TCloudDriverClass ): String; overload;
+    class function driverMainIcon( const driver: TCloudDriver ): NSImage; overload;
+    class function driverMainIcon( const driver: TCloudDriverClass ): NSImage; overload;
   end;
 
 implementation
@@ -165,9 +170,28 @@ begin
     Result:= FS_FILE_NOTSUPPORTED;
 end;
 
-class function TMacCloudUtil.driverMainIcon(const driver: TCloudDriver): String;
+class function TMacCloudUtil.driverMainIconPath( const driver: TCloudDriver ): String;
+begin
+  Result:= TMacCloudUtil.driverMainIconPath( TCloudDriverClass(driver.ClassType) );
+end;
+
+class function TMacCloudUtil.driverMainIconPath( const driver: TCloudDriverClass ): String;
 begin
   Result:= macCloudPlugin.pluginPath + 'drivers/' + driver.driverName + '/MainIcon.png';
+end;
+
+class function TMacCloudUtil.driverMainIcon( const driver: TCloudDriver ): NSImage;
+begin
+  Result:= TMacCloudUtil.driverMainIcon( TCloudDriverClass(driver.ClassType) );
+end;
+
+class function TMacCloudUtil.driverMainIcon( const driver: TCloudDriverClass ): NSImage;
+var
+  path: NSString;
+begin
+  path:= StringToNSString( TMacCloudUtil.driverMainIconPath(driver) );
+  Result:= NSImage.alloc.initWithContentsOfFile( path );
+  Result.autoRelease;
 end;
 
 class procedure TMacCloudUtil.cloudFileToWinFindData( cloudFile: TCloudFile; var FindData:tWIN32FINDDATAW );
