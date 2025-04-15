@@ -18,14 +18,6 @@ uses
 
 type
 
-  { EDropBoxException }
-
-  EDropBoxException = class( Exception );
-  EDropBoxTokenException = class( EDropBoxException );
-  EDropBoxConflictException = class( EDropBoxException );
-  EDropBoxPermissionException = class( EDropBoxException );
-  EDropBoxRateLimitException = class( EDropBoxException );
-
   { TDropBoxAuthPKCESession }
 
   TDropBoxAuthPKCESession = class
@@ -299,8 +291,8 @@ var
   procedure processDropBox401Error;
   begin
     if dropBoxMessage.IndexOf('access_token') >= 0 then
-      raise EDropBoxTokenException.Create( dropBoxMessage );
-    raise EDropBoxException.Create( dropBoxMessage );
+      raise ECloudDriverTokenException.Create( dropBoxMessage );
+    raise ECloudDriverException.Create( dropBoxMessage );
   end;
 
   procedure processDropBox409Error;
@@ -308,8 +300,8 @@ var
     if dropBoxMessage.IndexOf('not_found') >= 0 then
       raise EFileNotFoundException.Create( dropBoxMessage );
     if dropBoxMessage.IndexOf('conflict') >= 0 then
-      raise EDropBoxConflictException.Create( dropBoxMessage );
-    raise EDropBoxPermissionException.Create( dropBoxMessage );
+      raise ECloudDriverConflictException.Create( dropBoxMessage );
+    raise ECloudDriverPermissionException.Create( dropBoxMessage );
   end;
 
   procedure processDropBoxError;
@@ -321,9 +313,9 @@ var
     case httpResult.resultCode of
       401: processDropBox401Error;
       409: processDropBox409Error;
-      403: raise EDropBoxPermissionException.Create( dropBoxMessage );
-      429: raise EDropBoxRateLimitException.Create( dropBoxMessage );
-      else raise EDropBoxException.Create( dropBoxMessage );
+      403: raise ECloudDriverPermissionException.Create( dropBoxMessage );
+      429: raise ECloudDriverRateLimitException.Create( dropBoxMessage );
+      else raise ECloudDriverException.Create( dropBoxMessage );
     end;
   end;
 
@@ -531,7 +523,7 @@ function TDropBoxAuthPKCESession.getAccessToken: String;
         end;
       end;
     except
-      on e: EDropBoxTokenException do begin
+      on e: ECloudDriverTokenException do begin
         TLogUtil.logError( 'Token Error: ' + e.ClassName + ': ' + e.Message );
         _token.invalid;
         self.authorize;
@@ -850,7 +842,7 @@ var
       json:= TJsonUtil.parse( cloudDriverResult.resultMessage );
       sessionId:= TJsonUtil.getString( json, 'session_id' );
       if sessionId = EmptyStr then
-        raise EDropBoxException.Create( 'can''t get session_id in TDropBoxUploadSession.uploadLarge()' );
+        raise ECloudDriverException.Create( 'can''t get session_id in TDropBoxUploadSession.uploadLarge()' );
     finally
       FreeAndNil( cloudDriverResult );
       FreeAndNil( http );
