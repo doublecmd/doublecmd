@@ -248,8 +248,8 @@ var
       Exit( FS_FILE_EXISTS );
 
     callback:= TCloudProgressCallback.Create(
-      RemoteName,
       LocalName,
+      RemoteName,
       totalBytes );
     callback.progress( 0 );
     parser.driver.upload( serverPath, localPath, callback );
