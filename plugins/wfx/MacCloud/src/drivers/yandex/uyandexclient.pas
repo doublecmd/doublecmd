@@ -72,23 +72,13 @@ type
 
   { TYandexClient }
 
-  TYandexClient = class( TCloudDriver )
-  private
-    _config: TCloudDriverConfig;
-    _authSession: TCloudDriverAuthPKCESession;
+  TYandexClient = class( TAuthSessionCloudDriver )
   public
     class function driverName: String; override;
     class function createInstance: TCloudDriver; override;
   public
     constructor Create( const config: TCloudDriverConfig );
-    destructor Destroy; override;
     function clone: TCloudDriver; override;
-  public
-    function authorize: Boolean; override;
-    procedure unauthorize; override;
-    function authorized: Boolean; override;
-    function getToken: TCloudDriverToken; override;
-    procedure setToken( const token: TCloudDriverToken ); override;
   public
     function createLister( const path: String ): TCloudDriverLister; override;
   public
@@ -518,7 +508,6 @@ constructor TYandexClient.Create(const config: TCloudDriverConfig);
 var
   params: TCloudDriverAuthPKCESessionParams;
 begin
-  _config:= config;
   params.config:= config;
   params.resultProcessFunc:= @YandexClientResultProcess;
   params.OAUTH2_URI:= YandexConst.URI.OAUTH2;
@@ -526,12 +515,7 @@ begin
   params.REVOKE_TOKEN_URI:= YandexConst.URI.REVOKE_TOKEN;
   params.AUTH_HEADER:= YandexConst.HEADER.AUTH;
   params.AUTH_TYPE:= 'OAuth';
-  _authSession:= TCloudDriverAuthPKCESession.Create( self, params );
-end;
-
-destructor TYandexClient.Destroy;
-begin
-  FreeAndNil( _authSession );
+  Inherited Create( config, params );
 end;
 
 function TYandexClient.clone: TCloudDriver;
@@ -539,23 +523,8 @@ var
   newClient: TYandexClient;
 begin
   newClient:= TYandexClient.Create( _config );
-  newClient._authSession:= self._authSession.clone( newClient );
+  newClient._authSession:= _authSession.clone( newClient );
   Result:= newClient;
-end;
-
-function TYandexClient.authorize: Boolean;
-begin
-  Result:= _authSession.authorize;
-end;
-
-procedure TYandexClient.unauthorize;
-begin
-  _authSession.unauthorize;
-end;
-
-function TYandexClient.authorized: Boolean;
-begin
-  Result:= _authSession.authorized;
 end;
 
 function TYandexClient.createLister( const path: String ): TCloudDriverLister;
@@ -628,16 +597,6 @@ begin
   finally
     FreeAndNil( session );
   end;
-end;
-
-function TYandexClient.getToken: TCloudDriverToken;
-begin
-  Result:= _authSession.getToken;
-end;
-
-procedure TYandexClient.setToken(const token: TCloudDriverToken);
-begin
-  _authSession.setToken( token );
 end;
 
 finalization

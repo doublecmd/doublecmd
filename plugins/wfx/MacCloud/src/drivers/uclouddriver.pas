@@ -311,6 +311,25 @@ type
     procedure listFolderEnd; override;
   end;
 
+  { TAuthSessionCloudDriver }
+
+  TAuthSessionCloudDriver = class( TCloudDriver )
+  protected
+    _config: TCloudDriverConfig;
+    _authSession: TCloudDriverAuthPKCESession;
+  public
+    constructor Create(
+      const config: TCloudDriverConfig;
+      const authParams: TCloudDriverAuthPKCESessionParams );
+    destructor Destroy; override;
+  public
+    function authorize: Boolean; override;
+    procedure unauthorize; override;
+    function authorized: Boolean; override;
+    function getToken: TCloudDriverToken; override;
+    procedure setToken( const token: TCloudDriverToken ); override;
+  end;
+
 var
   cloudDriverManager: TCloudDriverManager;
 
@@ -838,6 +857,46 @@ procedure TCloudDriverManager.driverUpdated(const driver: TCloudDriver);
 begin
   if Assigned(_observer) then
     _observer.driverUpdated( driver );
+end;
+
+{ TAuthSessionCloudDriver }
+
+constructor TAuthSessionCloudDriver.Create(
+  const config: TCloudDriverConfig;
+  const authParams: TCloudDriverAuthPKCESessionParams );
+begin
+  _config:= config;
+  _authSession:= TCloudDriverAuthPKCESession.Create( self, authParams );
+end;
+
+destructor TAuthSessionCloudDriver.Destroy;
+begin
+  FreeAndNil( _authSession );
+end;
+
+function TAuthSessionCloudDriver.authorize: Boolean;
+begin
+  Result:= _authSession.authorize;
+end;
+
+procedure TAuthSessionCloudDriver.unauthorize;
+begin
+  _authSession.unauthorize;
+end;
+
+function TAuthSessionCloudDriver.authorized: Boolean;
+begin
+  Result:= _authSession.authorized;
+end;
+
+function TAuthSessionCloudDriver.getToken: TCloudDriverToken;
+begin
+  Result:= _authSession.getToken;
+end;
+
+procedure TAuthSessionCloudDriver.setToken(const token: TCloudDriverToken);
+begin
+  _authSession.setToken( token );
 end;
 
 end.

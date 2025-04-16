@@ -72,23 +72,13 @@ type
 
   { TDropBoxClient }
 
-  TDropBoxClient = class( TCloudDriver )
-  private
-    _config: TCloudDriverConfig;
-    _authSession: TCloudDriverAuthPKCESession;
+  TDropBoxClient = class( TAuthSessionCloudDriver )
   public
     class function driverName: String; override;
     class function createInstance: TCloudDriver; override;
   public
     constructor Create( const config: TCloudDriverConfig );
-    destructor Destroy; override;
     function clone: TCloudDriver; override;
-    function getToken: TCloudDriverToken; override;
-    procedure setToken( const token: TCloudDriverToken ); override;
-  public
-    function authorize: Boolean; override;
-    procedure unauthorize; override;
-    function authorized: Boolean; override;
   public
     function createLister( const path: String ): TCloudDriverLister; override;
   public
@@ -641,7 +631,6 @@ constructor TDropBoxClient.Create(const config: TCloudDriverConfig);
 var
   params: TCloudDriverAuthPKCESessionParams;
 begin
-  _config:= config;
   params.config:= config;
   params.resultProcessFunc:= @DropBoxClientProcessResult;
   params.OAUTH2_URI:= DropBoxConst.URI.OAUTH2;
@@ -649,12 +638,7 @@ begin
   params.REVOKE_TOKEN_URI:= DropBoxConst.URI.REVOKE_TOKEN;
   params.AUTH_HEADER:= DropBoxConst.HEADER.AUTH;
   params.AUTH_TYPE:= 'Bearer';
-  _authSession:= TCloudDriverAuthPKCESession.Create( self, params );
-end;
-
-destructor TDropBoxClient.Destroy;
-begin
-  FreeAndNil( _authSession );
+  Inherited Create( config, params );
 end;
 
 function TDropBoxClient.clone: TCloudDriver;
@@ -664,21 +648,6 @@ begin
   newClient:= TDropBoxClient.Create( _config );
   newClient._authSession:= self._authSession.clone( newClient );
   Result:= newClient;
-end;
-
-function TDropBoxClient.authorize: Boolean;
-begin
-  Result:= _authSession.authorize;
-end;
-
-procedure TDropBoxClient.unauthorize;
-begin
-  _authSession.unauthorize;
-end;
-
-function TDropBoxClient.authorized: Boolean;
-begin
-  Result:= _authSession.authorized;
 end;
 
 function TDropBoxClient.createLister( const path: String ): TCloudDriverLister;
@@ -751,16 +720,6 @@ begin
   finally
     FreeAndNil( session );
   end;
-end;
-
-function TDropBoxClient.getToken: TCloudDriverToken;
-begin
-  Result:= _authSession.getToken;
-end;
-
-procedure TDropBoxClient.setToken(const token: TCloudDriverToken);
-begin
-  _authSession.setToken( token );
 end;
 
 finalization
