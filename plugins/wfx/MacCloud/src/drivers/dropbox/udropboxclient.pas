@@ -20,21 +20,16 @@ type
 
   { TDropBoxListFolderSession }
 
-  TDropBoxListFolderSession = class
+  TDropBoxListFolderSession = class( TCloudDriverListFolderSession )
   private
-    _authSession: TCloudDriverAuthPKCESession;
-    _path: String;
-    _files: TCloudFiles;
     _cursor: String;
-    _hasMore: Boolean;
   private
-    procedure listFolderFirst;
-    procedure listFolderContinue;
     procedure analyseListResult( const jsonString: String );
+  protected
+    procedure listFolderFirst; override;
+    procedure listFolderContinue; override;
   public
-    constructor Create( const authSession: TCloudDriverAuthPKCESession; const path: String );
-    destructor Destroy; override;
-    function getNextFile: TCloudFile;
+    constructor Create( const authSession: TCloudDriverAuthPKCESession; const path: String ); override;
   end;
 
   { TDropBoxDownloadSession }
@@ -110,19 +105,6 @@ type
     procedure copyOrMove( const needToMove: Boolean );
     procedure copy;
     procedure move;
-  end;
-
-  { TDropBoxLister }
-
-  TDropBoxLister = class( TCloudDriverLister )
-  private
-    _listFolderSession: TDropBoxListFolderSession;
-  public
-    constructor Create( const authSession: TCloudDriverAuthPKCESession; const path: String );
-    destructor Destroy; override;
-    procedure listFolderBegin; override;
-    function  listFolderGetNextFile: TCloudFile; override;
-    procedure listFolderEnd; override;
   end;
 
   { TDropBoxClient }
@@ -402,35 +384,14 @@ begin
 end;
 
 constructor TDropBoxListFolderSession.Create( const authSession: TCloudDriverAuthPKCESession; const path: String );
+var
+  truePath: String;
 begin
-  _authSession:= authSession;
-  if path <> '/' then
-    _path:= path;
-  _files:= TCloudFiles.Create;
-end;
-
-destructor TDropBoxListFolderSession.Destroy;
-begin
-  FreeAndNil( _files );
-end;
-
-function TDropBoxListFolderSession.getNextFile: TCloudFile;
-  function popFirst: TCloudFile;
-  begin
-    if _files.Count > 0 then begin
-      Result:= TCloudFile( _files.First );
-      _files.Delete( 0 );
-    end else begin
-      Result:= nil;
-    end;
-  end;
-
-begin
-  Result:= popFirst;
-  if (Result=nil) and _hasMore then begin
-    listFolderContinue;
-    Result:= popFirst;
-  end;
+  if path = PathDelim then
+    truePath:= EmptyStr
+  else
+    truePath:= path;
+  Inherited Create( authSession, truePath );
 end;
 
 { TDropBoxDownloadSession }
@@ -756,35 +717,6 @@ begin
   copyOrMove( True );
 end;
 
-{ TDropBoxLister }
-
-constructor TDropBoxLister.Create(
-  const authSession: TCloudDriverAuthPKCESession;
-  const path: String );
-begin
-  _listFolderSession:= TDropBoxListFolderSession.Create( authSession, path );
-end;
-
-destructor TDropBoxLister.Destroy;
-begin
-  FreeAndNil( _listFolderSession );
-end;
-
-procedure TDropBoxLister.listFolderBegin;
-begin
-  _listFolderSession.listFolderFirst;
-end;
-
-function TDropBoxLister.listFolderGetNextFile: TCloudFile;
-begin
-  Result:= _listFolderSession.getNextFile;
-end;
-
-procedure TDropBoxLister.listFolderEnd;
-begin
-  self.Free;
-end;
-
 { TDropBoxClient }
 
 class function TDropBoxClient.driverName: String;
@@ -843,7 +775,7 @@ end;
 
 function TDropBoxClient.createLister( const path: String ): TCloudDriverLister;
 begin
-  Result:= TDropBoxLister.Create( _authSession, path );
+  Result:= TCloudDriverDefaultLister.Create( TDropBoxListFolderSession, _authSession, path );
 end;
 
 procedure TDropBoxClient.download(

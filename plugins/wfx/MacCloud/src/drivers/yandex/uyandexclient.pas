@@ -18,26 +18,21 @@ uses
 
 type
 
-  { TCloudDriverListFolderSession }
+  { TYandexListFolderSession }
 
-  TCloudDriverListFolderSession = class
-  const
+  TYandexListFolderSession = class( TCloudDriverListFolderSession )
+  private const
     LIMIT = 100;
   private
-    _authSession: TCloudDriverAuthPKCESession;
-    _path: String;
-    _files: TCloudFiles;
     _offset: Integer;
     _total: Integer;
-    _hasMore: Boolean;
   private
-    procedure listFolderFirst;
-    procedure listFolderContinue;
     procedure analyseListResult( const jsonString: String );
+  protected
+    procedure listFolderFirst; override;
+    procedure listFolderContinue; override;
   public
-    constructor Create( const authSession: TCloudDriverAuthPKCESession; const path: String );
-    destructor Destroy; override;
-    function getNextFile: TCloudFile;
+    constructor Create( const authSession: TCloudDriverAuthPKCESession; const path: String ); override;
   end;
 
   { TYandexDownloadSession }
@@ -110,19 +105,6 @@ type
     procedure copyOrMove( const needToMove: Boolean );
     procedure copy;
     procedure move;
-  end;
-
-  { TYandexLister }
-
-  TYandexLister = class( TCloudDriverLister )
-  private
-    _listFolderSession: TCloudDriverListFolderSession;
-  public
-    constructor Create( const authSession: TCloudDriverAuthPKCESession; const path: String );
-    destructor Destroy; override;
-    procedure listFolderBegin; override;
-    function  listFolderGetNextFile: TCloudFile; override;
-    procedure listFolderEnd; override;
   end;
 
   { TYandexClient }
@@ -257,14 +239,14 @@ begin
   end;
 end;
 
-{ TCloudDriverListFolderSession }
+{ TYandexListFolderSession }
 
-procedure TCloudDriverListFolderSession.listFolderFirst;
+procedure TYandexListFolderSession.listFolderFirst;
 begin
   listFolderContinue;
 end;
 
-procedure TCloudDriverListFolderSession.listFolderContinue;
+procedure TYandexListFolderSession.listFolderContinue;
 var
   http: TMiniHttpClient;
   httpResult: TMiniHttpResult = nil;
@@ -296,7 +278,7 @@ begin
   end;
 end;
 
-procedure TCloudDriverListFolderSession.analyseListResult(const jsonString: String);
+procedure TYandexListFolderSession.analyseListResult(const jsonString: String);
 var
   json: NSDictionary;
   jsonEmbedded: NSDictionary;
@@ -336,37 +318,15 @@ begin
   _hasMore:= ( _offset < _total );
 end;
 
-constructor TCloudDriverListFolderSession.Create( const authSession: TCloudDriverAuthPKCESession; const path: String );
+constructor TYandexListFolderSession.Create( const authSession: TCloudDriverAuthPKCESession; const path: String );
+var
+  truePath: String;
 begin
-  _authSession:= authSession;
-  _files:= TCloudFiles.Create;
-  _path:= path;
-  if _path = EmptyStr then
-    _path:= PathDelim;
-end;
-
-destructor TCloudDriverListFolderSession.Destroy;
-begin
-  FreeAndNil( _files );
-end;
-
-function TCloudDriverListFolderSession.getNextFile: TCloudFile;
-  function popFirst: TCloudFile;
-  begin
-    if _files.Count > 0 then begin
-      Result:= TCloudFile( _files.First );
-      _files.Delete( 0 );
-    end else begin
-      Result:= nil;
-    end;
-  end;
-
-begin
-  Result:= popFirst;
-  if (Result=nil) and _hasMore then begin
-    listFolderContinue;
-    Result:= popFirst;
-  end;
+  if path = EmptyStr then
+    truePath:= PathDelim
+  else
+    truePath:= path;
+  Inherited Create( authSession, truePath );
 end;
 
 { TYandexDownloadSession }
@@ -634,35 +594,6 @@ begin
   copyOrMove( True );
 end;
 
-{ TYandexLister }
-
-constructor TYandexLister.Create(
-  const authSession: TCloudDriverAuthPKCESession;
-  const path: String);
-begin
-  _listFolderSession:= TCloudDriverListFolderSession.Create( authSession, path );
-end;
-
-destructor TYandexLister.Destroy;
-begin
-  FreeAndNil( _listFolderSession );
-end;
-
-procedure TYandexLister.listFolderBegin;
-begin
-  _listFolderSession.listFolderFirst;
-end;
-
-function TYandexLister.listFolderGetNextFile: TCloudFile;
-begin
-  Result:= _listFolderSession.getNextFile;
-end;
-
-procedure TYandexLister.listFolderEnd;
-begin
-  self.Free;
-end;
-
 { TYandexClient }
 
 class function TYandexClient.driverName: String;
@@ -721,7 +652,7 @@ end;
 
 function TYandexClient.createLister( const path: String ): TCloudDriverLister;
 begin
-  Result:= TYandexLister.Create( _authSession, path );
+  Result:= TCloudDriverDefaultLister.Create( TYandexListFolderSession, _authSession, path );
 end;
 
 procedure TYandexClient.download(

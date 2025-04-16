@@ -202,6 +202,41 @@ type
     function getToken: TCloudDriverToken;
   end;
 
+  { TCloudDriverListFolderSession }
+
+  TCloudDriverListFolderSession = class
+  protected
+    _authSession: TCloudDriverAuthPKCESession;
+    _path: String;
+    _files: TCloudFiles;
+    _hasMore: Boolean;
+  protected
+    procedure listFolderFirst; virtual; abstract;
+    procedure listFolderContinue; virtual; abstract;
+  public
+    constructor Create( const authSession: TCloudDriverAuthPKCESession; const path: String ); virtual;
+    destructor Destroy; override;
+    function getNextFile: TCloudFile;
+  end;
+
+  TCloudDriverListFolderSessionClass = class of TCloudDriverListFolderSession;
+
+  { TCloudDriverDefaultLister }
+
+  TCloudDriverDefaultLister = class( TCloudDriverLister )
+  private
+    _listFolderSession: TCloudDriverListFolderSession;
+  public
+    constructor Create(
+      const sessionClass: TCloudDriverListFolderSessionClass;
+      const authSession: TCloudDriverAuthPKCESession;
+      const path: String );
+    destructor Destroy; override;
+    procedure listFolderBegin; override;
+    function  listFolderGetNextFile: TCloudFile; override;
+    procedure listFolderEnd; override;
+  end;
+
 var
   cloudDriverManager: TCloudDriverManager;
 
@@ -270,6 +305,70 @@ begin
   _access:= EmptyStr;
   _refresh:= EmptyStr;
   _accessExpirationTime:= 0;
+end;
+
+{ TCloudDriverListFolderSession }
+
+constructor TCloudDriverListFolderSession.Create(
+  const authSession: TCloudDriverAuthPKCESession; const path: String);
+begin
+  _authSession:= authSession;
+  _files:= TCloudFiles.Create;
+  _path:= path;
+end;
+
+destructor TCloudDriverListFolderSession.Destroy;
+begin
+  FreeAndNil( _files );
+end;
+
+function TCloudDriverListFolderSession.getNextFile: TCloudFile;
+  function popFirst: TCloudFile;
+  begin
+    if _files.Count > 0 then begin
+      Result:= TCloudFile( _files.First );
+      _files.Delete( 0 );
+    end else begin
+      Result:= nil;
+    end;
+  end;
+
+begin
+  Result:= popFirst;
+  if (Result=nil) and _hasMore then begin
+    listFolderContinue;
+    Result:= popFirst;
+  end;
+end;
+
+{ TCloudDriverDefaultLister }
+
+constructor TCloudDriverDefaultLister.Create(
+  const sessionClass: TCloudDriverListFolderSessionClass;
+  const authSession: TCloudDriverAuthPKCESession;
+  const path: String);
+begin
+  _listFolderSession:= sessionClass.Create( authSession, path );
+end;
+
+destructor TCloudDriverDefaultLister.Destroy;
+begin
+  FreeAndNil( _listFolderSession );
+end;
+
+procedure TCloudDriverDefaultLister.listFolderBegin;
+begin
+  _listFolderSession.listFolderFirst;
+end;
+
+function TCloudDriverDefaultLister.listFolderGetNextFile: TCloudFile;
+begin
+  Result:= _listFolderSession.getNextFile;
+end;
+
+procedure TCloudDriverDefaultLister.listFolderEnd;
+begin
+  self.Free;
 end;
 
 { TCloudDriverAuthPKCESession }
