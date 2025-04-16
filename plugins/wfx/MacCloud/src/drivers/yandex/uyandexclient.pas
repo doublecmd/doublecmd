@@ -37,74 +37,37 @@ type
 
   { TYandexDownloadSession }
 
-  TYandexDownloadSession = class
-  private
-    _authSession: TCloudDriverAuthPKCESession;
-    _serverPath: String;
-    _localPath: String;
-    _callback: ICloudProgressCallback;
+  TYandexDownloadSession = class( TCloudDriverDownloadSession )
   public
-    constructor Create(
-      const authSession: TCloudDriverAuthPKCESession;
-      const serverPath: String;
-      const localPath: String;
-      const callback: ICloudProgressCallback );
-    procedure download;
+    procedure download; override;
   end;
 
   { TYandexUploadSession }
 
-  TYandexUploadSession = class
-  private
-    _authSession: TCloudDriverAuthPKCESession;
-    _serverPath: String;
-    _localPath: String;
-    _localFileSize: Integer;
-    _callback: ICloudProgressCallback;
+  TYandexUploadSession = class( TCloudDriverUploadSession )
   public
-    constructor Create(
-      const authSession: TCloudDriverAuthPKCESession;
-      const serverPath: String;
-      const localPath: String;
-      const callback: ICloudProgressCallback );
-    procedure upload;
+    procedure upload; override;
   end;
 
   { TYandexCreateFolderSession }
 
-  TYandexCreateFolderSession = class
-  private
-    _authSession: TCloudDriverAuthPKCESession;
-    _path: String;
+  TYandexCreateFolderSession = class( TCloudDriverCreateFolderSession )
   public
-    constructor Create( const authSession: TCloudDriverAuthPKCESession; const path: String );
-    procedure createFolder;
+    procedure createFolder; override;
   end;
 
   { TYandexDeleteSession }
 
-  TYandexDeleteSession = class
-  private
-    _authSession: TCloudDriverAuthPKCESession;
-    _path: String;
+  TYandexDeleteSession = class( TCloudDriverDeleteSession )
   public
-    constructor Create( const authSession: TCloudDriverAuthPKCESession; const path: String );
-    procedure delete;
+    procedure delete; override;
   end;
 
   { TYandexCopyMoveSession }
 
-  TYandexCopyMoveSession = class
-  private
-    _authSession: TCloudDriverAuthPKCESession;
-    _fromPath: String;
-    _toPath: String;
+  TYandexCopyMoveSession = class( TCloudDriverCopyMoveSession )
   public
-    constructor Create( const authSession: TCloudDriverAuthPKCESession;
-      const fromPath: String; const toPath: String );
-    procedure copyOrMove( const needToMove: Boolean );
-    procedure copy;
-    procedure move;
+    procedure copyOrMove( const needToMove: Boolean ); override;
   end;
 
   { TYandexClient }
@@ -331,18 +294,6 @@ end;
 
 { TYandexDownloadSession }
 
-constructor TYandexDownloadSession.Create(
-  const authSession: TCloudDriverAuthPKCESession;
-  const serverPath: String;
-  const localPath: String;
-  const callback: ICloudProgressCallback );
-begin
-  _authSession:= authSession;
-  _serverPath:= serverPath;
-  _localPath:= localPath;
-  _callback:= callback;
-end;
-
 procedure TYandexDownloadSession.download;
   function getDownloadHref: String;
   var
@@ -399,16 +350,6 @@ end;
 
 { TYandexUploadSession }
 
-constructor TYandexUploadSession.Create(
-  const authSession: TCloudDriverAuthPKCESession; const serverPath: String;
-  const localPath: String; const callback: ICloudProgressCallback);
-begin
-  _authSession:= authSession;
-  _serverPath:= serverPath;
-  _localPath:= localPath;
-  _callback:= callback;
-end;
-
 procedure TYandexUploadSession.upload;
   function getUploadHref: String;
   var
@@ -462,7 +403,6 @@ var
   offset: Integer;
   sessionSize: Integer;
 begin
-  _localFileSize:= TFileUtil.filesize( _localPath );
   href:= getUploadHref;
 
   offset:= 0;
@@ -480,13 +420,6 @@ begin
 end;
 
 { TYandexCreateFolderSession }
-
-constructor TYandexCreateFolderSession.Create(
-  const authSession: TCloudDriverAuthPKCESession; const path: String );
-begin
-  _authSession:= authSession;
-  _path:= path;
-end;
 
 procedure TYandexCreateFolderSession.createFolder;
 var
@@ -513,13 +446,6 @@ end;
 
 { TYandexDeleteSession }
 
-constructor TYandexDeleteSession.Create(
-  const authSession: TCloudDriverAuthPKCESession; const path: String);
-begin
-  _authSession:= authSession;
-  _path:= path;
-end;
-
 procedure TYandexDeleteSession.delete;
 var
   http: TMiniHttpClient = nil;
@@ -544,14 +470,6 @@ begin
 end;
 
 { TYandexCopyMoveSession }
-
-constructor TYandexCopyMoveSession.Create( const authSession: TCloudDriverAuthPKCESession;
-  const fromPath: String; const toPath: String );
-begin
-  _authSession:= authSession;
-  _fromPath:= fromPath;
-  _toPath:= toPath;
-end;
 
 procedure TYandexCopyMoveSession.copyOrMove( const needToMove: Boolean );
 var
@@ -582,16 +500,6 @@ begin
     FreeAndNil( cloudDriverResult );
     FreeAndNil( http );
   end;
-end;
-
-procedure TYandexCopyMoveSession.copy;
-begin
-  copyOrMove( False );
-end;
-
-procedure TYandexCopyMoveSession.move;
-begin
-  copyOrMove( True );
 end;
 
 { TYandexClient }

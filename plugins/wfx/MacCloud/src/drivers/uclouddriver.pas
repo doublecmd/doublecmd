@@ -221,6 +221,80 @@ type
 
   TCloudDriverListFolderSessionClass = class of TCloudDriverListFolderSession;
 
+  { TCloudDriverDownloadSession }
+
+  TCloudDriverDownloadSession = class
+  protected
+    _authSession: TCloudDriverAuthPKCESession;
+    _serverPath: String;
+    _localPath: String;
+    _callback: ICloudProgressCallback;
+  public
+    constructor Create(
+      const authSession: TCloudDriverAuthPKCESession;
+      const serverPath: String;
+      const localPath: String;
+      const callback: ICloudProgressCallback );
+    procedure download; virtual; abstract;
+  end;
+
+  { TCloudDriverUploadSession }
+
+  TCloudDriverUploadSession = class
+  protected
+    _authSession: TCloudDriverAuthPKCESession;
+    _serverPath: String;
+    _localPath: String;
+    _localFileSize: Integer;
+    _callback: ICloudProgressCallback;
+  public
+    constructor Create(
+      const authSession: TCloudDriverAuthPKCESession;
+      const serverPath: String;
+      const localPath: String;
+      const callback: ICloudProgressCallback );
+    procedure upload; virtual; abstract;
+  end;
+
+  { TCloudDriverCreateFolderSession }
+
+  TCloudDriverCreateFolderSession = class
+  protected
+    _authSession: TCloudDriverAuthPKCESession;
+    _path: String;
+  public
+    constructor Create( const authSession: TCloudDriverAuthPKCESession; const path: String );
+    procedure createFolder; virtual; abstract;
+  end;
+
+  { TCloudDriverDeleteSession }
+
+  TCloudDriverDeleteSession = class
+  protected
+    _authSession: TCloudDriverAuthPKCESession;
+    _path: String;
+  public
+    constructor Create( const authSession: TCloudDriverAuthPKCESession; const path: String );
+    procedure delete; virtual; abstract;
+  end;
+
+  { TCloudDriverCopyMoveSession }
+
+  TCloudDriverCopyMoveSession = class
+  protected
+    _authSession: TCloudDriverAuthPKCESession;
+    _fromPath: String;
+    _toPath: String;
+  public
+    constructor Create(
+      const authSession: TCloudDriverAuthPKCESession;
+      const fromPath: String;
+      const toPath: String );
+    procedure copyOrMove( const needToMove: Boolean ); virtual; abstract;
+    procedure copy;
+    procedure move;
+  end;
+
   { TCloudDriverDefaultLister }
 
   TCloudDriverDefaultLister = class( TCloudDriverLister )
@@ -339,6 +413,75 @@ begin
     listFolderContinue;
     Result:= popFirst;
   end;
+end;
+
+{ TCloudDriverDownloadSession }
+
+constructor TCloudDriverDownloadSession.Create(
+  const authSession: TCloudDriverAuthPKCESession;
+  const serverPath: String;
+  const localPath: String;
+  const callback: ICloudProgressCallback );
+begin
+  _authSession:= authSession;
+  _serverPath:= serverPath;
+  _localPath:= localPath;
+  _callback:= callback;
+end;
+
+{ TCloudDriverUploadSession }
+
+constructor TCloudDriverUploadSession.Create(
+  const authSession: TCloudDriverAuthPKCESession;
+  const serverPath: String;
+  const localPath: String;
+  const callback: ICloudProgressCallback );
+begin
+  _authSession:= authSession;
+  _serverPath:= serverPath;
+  _localPath:= localPath;
+  _callback:= callback;
+  _localFileSize:= TFileUtil.filesize( _localPath );
+end;
+
+{ TCloudDriverCreateFolderSession }
+
+constructor TCloudDriverCreateFolderSession.Create(
+  const authSession: TCloudDriverAuthPKCESession; const path: String);
+begin
+  _authSession:= authSession;
+  _path:= path;
+end;
+
+{ TCloudDriverDeleteSession }
+
+constructor TCloudDriverDeleteSession.Create(
+  const authSession: TCloudDriverAuthPKCESession; const path: String);
+begin
+  _authSession:= authSession;
+  _path:= path;
+end;
+
+{ TCloudDriverCopyMoveSession }
+
+constructor TCloudDriverCopyMoveSession.Create(
+  const authSession: TCloudDriverAuthPKCESession;
+  const fromPath: String;
+  const toPath: String );
+begin
+  _authSession:= authSession;
+  _fromPath:= fromPath;
+  _toPath:= toPath;
+end;
+
+procedure TCloudDriverCopyMoveSession.copy;
+begin
+  copyOrMove( False );
+end;
+
+procedure TCloudDriverCopyMoveSession.move;
+begin
+  copyOrMove( True );
 end;
 
 { TCloudDriverDefaultLister }

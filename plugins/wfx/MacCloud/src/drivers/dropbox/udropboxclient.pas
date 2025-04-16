@@ -34,77 +34,40 @@ type
 
   { TDropBoxDownloadSession }
 
-  TDropBoxDownloadSession = class
-  private
-    _authSession: TCloudDriverAuthPKCESession;
-    _serverPath: String;
-    _localPath: String;
-    _callback: ICloudProgressCallback;
+  TDropBoxDownloadSession = class( TCloudDriverDownloadSession )
   public
-    constructor Create(
-      const authSession: TCloudDriverAuthPKCESession;
-      const serverPath: String;
-      const localPath: String;
-      const callback: ICloudProgressCallback );
-    procedure download;
+    procedure download; override;
   end;
 
   { TDropBoxUploadSession }
 
-  TDropBoxUploadSession = class
-  private
-    _authSession: TCloudDriverAuthPKCESession;
-    _serverPath: String;
-    _localPath: String;
-    _localFileSize: Integer;
-    _callback: ICloudProgressCallback;
+  TDropBoxUploadSession = class( TCloudDriverUploadSession )
   private
     procedure uploadSmall;
     procedure uploadLarge;
   public
-    constructor Create(
-      const authSession: TCloudDriverAuthPKCESession;
-      const serverPath: String;
-      const localPath: String;
-      const callback: ICloudProgressCallback );
-    procedure upload;
+    procedure upload; override;
   end;
 
   { TDropBoxCreateFolderSession }
 
-  TDropBoxCreateFolderSession = class
-  private
-    _authSession: TCloudDriverAuthPKCESession;
-    _path: String;
+  TDropBoxCreateFolderSession = class( TCloudDriverCreateFolderSession )
   public
-    constructor Create( const authSession: TCloudDriverAuthPKCESession; const path: String );
-    procedure createFolder;
+    procedure createFolder; override;
   end;
 
   { TDropBoxDeleteSession }
 
-  TDropBoxDeleteSession = class
-  private
-    _authSession: TCloudDriverAuthPKCESession;
-    _path: String;
+  TDropBoxDeleteSession = class( TCloudDriverDeleteSession )
   public
-    constructor Create( const authSession: TCloudDriverAuthPKCESession; const path: String );
-    procedure delete;
+    procedure delete; override;
   end;
 
   { TDropBoxCopyMoveSession }
 
-  TDropBoxCopyMoveSession = class
-  private
-    _authSession: TCloudDriverAuthPKCESession;
-    _fromPath: String;
-    _toPath: String;
+  TDropBoxCopyMoveSession = class( TCloudDriverCopyMoveSession )
   public
-    constructor Create( const authSession: TCloudDriverAuthPKCESession;
-      const fromPath: String; const toPath: String );
-    procedure copyOrMove( const needToMove: Boolean );
-    procedure copy;
-    procedure move;
+    procedure copyOrMove( const needToMove: Boolean ); override;
   end;
 
   { TDropBoxClient }
@@ -396,18 +359,6 @@ end;
 
 { TDropBoxDownloadSession }
 
-constructor TDropBoxDownloadSession.Create(
-  const authSession: TCloudDriverAuthPKCESession;
-  const serverPath: String;
-  const localPath: String;
-  const callback: ICloudProgressCallback );
-begin
-  _authSession:= authSession;
-  _serverPath:= serverPath;
-  _localPath:= localPath;
-  _callback:= callback;
-end;
-
 procedure TDropBoxDownloadSession.download;
 var
   http: TMiniHttpClient = nil;
@@ -432,16 +383,6 @@ begin
 end;
 
 { TDropBoxUploadSession }
-
-constructor TDropBoxUploadSession.Create(
-  const authSession: TCloudDriverAuthPKCESession; const serverPath: String;
-  const localPath: String; const callback: ICloudProgressCallback);
-begin
-  _authSession:= authSession;
-  _serverPath:= serverPath;
-  _localPath:= localPath;
-  _callback:= callback;
-end;
 
 procedure TDropBoxUploadSession.uploadSmall;
 var
@@ -593,7 +534,6 @@ end;
 
 procedure TDropBoxUploadSession.upload;
 begin
-  _localFileSize:= TFileUtil.filesize( _localPath );
   if _localFileSize < DropBoxConst.UPLOAD.LARGE_FILE_SIZE then
     uploadSmall
   else
@@ -601,13 +541,6 @@ begin
 end;
 
 { TDropBoxCreateFolderSession }
-
-constructor TDropBoxCreateFolderSession.Create(
-  const authSession: TCloudDriverAuthPKCESession; const path: String );
-begin
-  _authSession:= authSession;
-  _path:= path;
-end;
 
 procedure TDropBoxCreateFolderSession.createFolder;
 var
@@ -635,13 +568,6 @@ end;
 
 { TDropBoxDeleteSession }
 
-constructor TDropBoxDeleteSession.Create(
-  const authSession: TCloudDriverAuthPKCESession; const path: String);
-begin
-  _authSession:= authSession;
-  _path:= path;
-end;
-
 procedure TDropBoxDeleteSession.delete;
 var
   http: TMiniHttpClient = nil;
@@ -667,14 +593,6 @@ begin
 end;
 
 { TDropBoxCopyMoveSession }
-
-constructor TDropBoxCopyMoveSession.Create( const authSession: TCloudDriverAuthPKCESession;
-  const fromPath: String; const toPath: String );
-begin
-  _authSession:= authSession;
-  _fromPath:= fromPath;
-  _toPath:= toPath;
-end;
 
 procedure TDropBoxCopyMoveSession.copyOrMove( const needToMove: Boolean );
 var
@@ -705,16 +623,6 @@ begin
     FreeAndNil( cloudDriverResult );
     FreeAndNil( http );
   end;
-end;
-
-procedure TDropBoxCopyMoveSession.copy;
-begin
-  copyOrMove( False );
-end;
-
-procedure TDropBoxCopyMoveSession.move;
-begin
-  copyOrMove( True );
 end;
 
 { TDropBoxClient }
