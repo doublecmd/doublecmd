@@ -332,8 +332,6 @@ procedure TYandexDownloadSession.download;
   begin
     try
       http:= TMiniHttpClient.Create( href, HttpConst.Method.GET );
-      _authSession.setAuthHeader( http );
-
       cloudDriverResult:= TCloudDriverResult.Create;
       cloudDriverResult.httpResult:= http.download( _localPath, _callback );
       cloudDriverResult.resultMessage:= cloudDriverResult.httpResult.body;
