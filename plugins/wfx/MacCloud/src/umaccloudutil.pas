@@ -166,6 +166,8 @@ begin
     Result:= FS_FILE_NOTFOUND
   else if e is EInOutError then
     Result:= FS_FILE_WRITEERROR
+  else if e is ECloudDriverConflictException then
+    Result:= FS_FILE_EXISTS
   else
     Result:= FS_FILE_NOTSUPPORTED;
 end;

@@ -171,7 +171,7 @@ var
   httpResult: TMiniHttpResult;
   httpError: NSError;
   httpErrorDescription: String;
-  dropBoxMessage: String;
+  cloudDriverMessage: String;
 
   procedure processHttpError;
   begin
@@ -189,32 +189,32 @@ var
 
   procedure processDropBox401Error;
   begin
-    if dropBoxMessage.IndexOf('access_token') >= 0 then
-      raise ECloudDriverTokenException.Create( dropBoxMessage );
-    raise ECloudDriverException.Create( dropBoxMessage );
+    if cloudDriverMessage.IndexOf('access_token') >= 0 then
+      raise ECloudDriverTokenException.Create( cloudDriverMessage );
+    raise ECloudDriverException.Create( cloudDriverMessage );
   end;
 
   procedure processDropBox409Error;
   begin
-    if dropBoxMessage.IndexOf('not_found') >= 0 then
-      raise EFileNotFoundException.Create( dropBoxMessage );
-    if dropBoxMessage.IndexOf('conflict') >= 0 then
-      raise ECloudDriverConflictException.Create( dropBoxMessage );
-    raise ECloudDriverPermissionException.Create( dropBoxMessage );
+    if cloudDriverMessage.IndexOf('not_found') >= 0 then
+      raise EFileNotFoundException.Create( cloudDriverMessage );
+    if cloudDriverMessage.IndexOf('conflict') >= 0 then
+      raise ECloudDriverConflictException.Create( cloudDriverMessage );
+    raise ECloudDriverPermissionException.Create( cloudDriverMessage );
   end;
 
   procedure processDropBoxError;
   begin
-    dropBoxMessage:= cloudDriverResult.resultMessage;
+    cloudDriverMessage:= cloudDriverResult.resultMessage;
 
     if (httpResult.resultCode>=200) and (httpResult.resultCode<=299) then
       Exit;
     case httpResult.resultCode of
       401: processDropBox401Error;
       409: processDropBox409Error;
-      403: raise ECloudDriverPermissionException.Create( dropBoxMessage );
-      429: raise ECloudDriverRateLimitException.Create( dropBoxMessage );
-      else raise ECloudDriverException.Create( dropBoxMessage );
+      403: raise ECloudDriverPermissionException.Create( cloudDriverMessage );
+      429: raise ECloudDriverRateLimitException.Create( cloudDriverMessage );
+      else raise ECloudDriverException.Create( cloudDriverMessage );
     end;
   end;
 

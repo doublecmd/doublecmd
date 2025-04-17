@@ -167,7 +167,20 @@ var
 
     if (httpResult.resultCode>=200) and (httpResult.resultCode<=299) then
       Exit;
-    raise ECloudDriverException.Create( cloudDriverMessage );
+    case httpResult.resultCode of
+      401:
+        raise ECloudDriverTokenException.Create( cloudDriverMessage );
+      403, 507:
+        raise ECloudDriverQuotaException.Create( cloudDriverMessage );
+      404:
+        raise EFileNotFoundException.Create( cloudDriverMessage );
+      409:
+        raise ECloudDriverConflictException.Create( cloudDriverMessage );
+      429:
+        raise ECloudDriverRateLimitException.Create( cloudDriverMessage );
+      else
+        raise ECloudDriverException.Create( cloudDriverMessage );
+    end;
   end;
 
   procedure logException( const e: Exception );

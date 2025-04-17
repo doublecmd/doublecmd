@@ -26,6 +26,7 @@ type
   ECloudDriverException = class( Exception );
   ECloudDriverTokenException = class( ECloudDriverException );
   ECloudDriverConflictException = class( ECloudDriverException );
+  ECloudDriverQuotaException = class( ECloudDriverException );
   ECloudDriverPermissionException = class( ECloudDriverException );
   ECloudDriverRateLimitException = class( ECloudDriverException );
 
