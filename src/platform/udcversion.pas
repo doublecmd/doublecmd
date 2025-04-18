@@ -290,7 +290,7 @@ var
   hLib: HANDLE;
   GetNativeSystemInfoProc: TGetNativeSystemInfo;
 begin
-  hLib := LoadLibrary(LPCTSTR('kernel32.dll'));
+  hLib := GetModuleHandleW(Kernel32);
   if hLib <> 0 then
   begin
     try
