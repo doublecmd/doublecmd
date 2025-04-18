@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Scalable Vector Graphics reader implementation (via rsvg and cairo)
 
-   Copyright (C) 2012-2023 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2012-2025 Alexander Koblov (alexx2000@mail.ru)
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Lesser General Public
@@ -38,7 +38,7 @@ type
     FRsvgHandle: Pointer;
   protected
     function  InternalCheck (Stream: TStream): Boolean; override;
-    procedure InternalRead(Stream: TStream; Img: TFPCustomImage); override;
+    procedure InternalRead({%H}Stream: TStream; Img: TFPCustomImage); override;
   public
     class function CreateBitmap(const FileName: String; AWidth, AHeight: Integer): TBitmap; override;
   end;
@@ -253,39 +253,15 @@ const
 var
   libcairo, librsvg, libgobject: TLibHandle;
 
-procedure LoadLibraries;
-{$IF DEFINED(UNIX)}
-begin
-  libcairo:= LoadLibrary(cairolib);
-  librsvg:= LoadLibrary(rsvglib);
-  libgobject:= LoadLibrary(gobjectlib);
-end;
-{$ELSEIF DEFINED(MSWINDOWS)}
-var
-  I: Integer;
-  Path, FullName: String;
-  Value: TStringArray;
-begin
-  Path:= GetEnvironmentVariable('PATH');
-  Value:= Path.Split([PathSeparator], TStringSplitOptions.ExcludeEmpty);
-  for I:= Low(Value) to High(Value) do
-  begin
-    Path:= IncludeTrailingPathDelimiter(Value[I]);
-    FullName:= Path + rsvglib;
-    if mbFileExists(FullName)then
-    begin
-      librsvg:= mbLoadLibraryEx(FullName);
-      libcairo:= mbLoadLibraryEx(Path + cairolib);
-      libgobject:= mbLoadLibraryEx(Path + gobjectlib);
-      Break;
-    end;
-  end;
-end;
-{$ENDIF}
-
 procedure Initialize;
 begin
-  LoadLibraries;
+  librsvg:= mbLoadLibraryEx(rsvglib);
+
+  if (librsvg <> NilHandle) then
+  begin
+    libcairo:= mbLoadLibraryEx(cairolib);
+    libgobject:= mbLoadLibraryEx(gobjectlib);
+  end;
 
   if (libcairo <> NilHandle) and (librsvg <> NilHandle) and (libgobject <> NilHandle) then
   try
