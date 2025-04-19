@@ -14,7 +14,7 @@ jobs:
     runs-on: macos-13
     steps:
     - name: Install Free Pascal
-      uses: alexx2000/setup-fpc@master
+      uses: doublecmd/lazarus-install@mac
       with:
         lazarus-version: "stable"
 
