@@ -7137,11 +7137,9 @@ msgid "File name"
 msgstr "文件名"
 
 #: tfrmoptionspluginswfx.lblplugindescription.caption
-#, fuzzy
-#| msgid "Fi&le system plugins allow access to disks inaccessible by operating system or to external devices like Palm/PocketPC."
 msgctxt "tfrmoptionspluginswfx.lblplugindescription.caption"
 msgid "Fi&le system plugins allow access to disks inaccessible by operating system or to external devices like smartphones."
-msgstr "文件系统插件允许访问操作系统或 Palm/PocketPC 等外部设备中无法访问的磁盘。"
+msgstr "文件系统插件允许访问操作系统或智能手机等外部设备中无法访问的磁盘。"
 
 #: tfrmoptionspluginswfx.stgplugins.columns[0].title.caption
 msgctxt "tfrmoptionspluginswfx.stgplugins.columns[0].title.caption"
@@ -10964,12 +10962,12 @@ msgstr "iCloud云盘"
 #: ulng.rsmfstbinetworktips
 msgctxt "ulng.rsmfstbinetworktips"
 msgid "network"
-msgstr ""
+msgstr "网络连接"
 
 #: ulng.rsmfstbinetworktitle
 msgctxt "ulng.rsmfstbinetworktitle"
 msgid "network"
-msgstr ""
+msgstr "网络连接"
 
 #: ulng.rsmfstbiprivilegetips
 msgid "As a file manager, Double Command requires full disk access permissions. Clicking this button will pop up the macOS system settings page. Please add \"Double Commander.app\" to the \"Full Disk Access\" list to complete the authorization."
@@ -13437,23 +13435,23 @@ msgstr "插件"
 
 #: ulng.rsoptionseditorpluginsdsx
 msgid "Search plugins"
-msgstr ""
+msgstr "搜索插件"
 
 #: ulng.rsoptionseditorpluginswcx
 msgid "Packer plugins"
-msgstr ""
+msgstr "压缩插件"
 
 #: ulng.rsoptionseditorpluginswdx
 msgid "Content plugins"
-msgstr ""
+msgstr "内容插件"
 
 #: ulng.rsoptionseditorpluginswfx
 msgid "File system plugins"
-msgstr ""
+msgstr "文件系统插件"
 
 #: ulng.rsoptionseditorpluginswlx
 msgid "Viewer plugins"
-msgstr ""
+msgstr "查看器插件"
 
 #: ulng.rsoptionseditorquicksearch
 msgid "Quick search/filter"
