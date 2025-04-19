@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Push some useful functions to Lua
 
-   Copyright (C) 2016-2023 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2016-2025 Alexander Koblov (alexx2000@mail.ru)
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Lesser General Public
@@ -36,7 +36,7 @@ function ExecuteScript(const FileName: String; Args: array of String; var sError
 implementation
 
 uses
-  Forms, Dialogs, Clipbrd, LazUTF8, LCLVersion, uLng, DCOSUtils,
+  Forms, Dialogs, Clipbrd, LazUTF8, LConvEncoding, uLng, DCOSUtils,
   DCConvertEncoding, fMain, uFormCommands, uOSUtils, uGlobs, uLog,
   uClipboard, uShowMsg, uLuaStd, uFindEx, uConvEncoding, uFileProcs,
   uFilePanelSelect, uMasks, LazFileUtils, Character, UnicodeData,
@@ -392,7 +392,7 @@ var
 begin
   Result:= 1;
   S:= lua_tostring(L, 1);
-  lua_pushstring(L, DetectEncoding(S));
+  lua_pushstring(L, NormalizeEncoding(DetectEncoding(S)));
 end;
 
 function char_prepare(L : Plua_State; out Index: Integer): UnicodeString;
