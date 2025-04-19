@@ -3926,7 +3926,6 @@ msgid "Oth&er..."
 msgstr "其他..."
 
 #: tfrmoptionsarchivers.btnarchiverrelativer.hint
-#, fuzzy
 msgctxt "tfrmoptionsarchivers.btnarchiverrelativer.hint"
 msgid "Some functions to select appropriate path"
 msgstr "選擇合適路徑的功能"
@@ -4856,7 +4855,7 @@ msgstr "指標文字色彩:"
 
 #: tfrmoptionscustomcolumns.lblfilesystem.caption
 msgid "&File system:"
-msgstr ""
+msgstr "檔案系統 (&F):"
 
 #: tfrmoptionscustomcolumns.lblfontname.caption
 msgctxt "tfrmoptionscustomcolumns.lblfontname.caption"
@@ -5100,7 +5099,6 @@ msgid "&Miscellaneous..."
 msgstr ""
 
 #: tfrmoptionsdirectoryhotlist.btnrelativepath.hint
-#, fuzzy
 msgctxt "tfrmoptionsdirectoryhotlist.btnrelativepath.hint"
 msgid "Some functions to select appropriate path"
 msgstr "選擇合適路徑的功能"
@@ -5827,7 +5825,6 @@ msgid "Variable reminder helper"
 msgstr ""
 
 #: tfrmoptionsfileassoc.btnrelativecommand.hint
-#, fuzzy
 msgctxt "tfrmoptionsfileassoc.btnrelativecommand.hint"
 msgid "Some functions to select appropriate path"
 msgstr "選擇合適路徑的功能"
@@ -5853,7 +5850,6 @@ msgid "R&ename"
 msgstr "重新命名 (&E)"
 
 #: tfrmoptionsfileassoc.btnstartpathpathhelper.hint
-#, fuzzy
 msgctxt "tfrmoptionsfileassoc.btnstartpathpathhelper.hint"
 msgid "Some functions to select appropriate path"
 msgstr "選擇合適路徑的功能"
@@ -6888,7 +6884,6 @@ msgid " Screen layout "
 msgstr " 畫面佈置 "
 
 #: tfrmoptionslog.btnrelativelogfile.hint
-#, fuzzy
 msgctxt "tfrmoptionslog.btnrelativelogfile.hint"
 msgid "Some functions to select appropriate path"
 msgstr "選擇合適路徑的功能"
@@ -6980,19 +6975,16 @@ msgid ">>"
 msgstr ">>"
 
 #: tfrmoptionsmisc.btnrelativeoutputpathfortoolbar.hint
-#, fuzzy
 msgctxt "tfrmoptionsmisc.btnrelativeoutputpathfortoolbar.hint"
 msgid "Some functions to select appropriate path"
 msgstr "選擇合適路徑的功能"
 
 #: tfrmoptionsmisc.btnrelativetcconfigfile.hint
-#, fuzzy
 msgctxt "tfrmoptionsmisc.btnrelativetcconfigfile.hint"
 msgid "Some functions to select appropriate path"
 msgstr "選擇合適路徑的功能"
 
 #: tfrmoptionsmisc.btnrelativetcexecutablefile.hint
-#, fuzzy
 msgctxt "tfrmoptionsmisc.btnrelativetcexecutablefile.hint"
 msgid "Some functions to select appropriate path"
 msgstr "選擇合適路徑的功能"
@@ -7140,7 +7132,6 @@ msgid "Single click (opens folders, double click for files)"
 msgstr ""
 
 #: tfrmoptionsmultirename.btnmulrenlogfilenamerelative.hint
-#, fuzzy
 msgctxt "tfrmoptionsmultirename.btnmulrenlogfilenamerelative.hint"
 msgid "Some functions to select appropriate path"
 msgstr "選擇合適路徑的功能"
@@ -7337,11 +7328,9 @@ msgid "File name"
 msgstr "檔案名稱"
 
 #: tfrmoptionspluginswfx.lblplugindescription.caption
-#, fuzzy
-#| msgid "Fi&le system plugins allow access to disks inaccessible by operating system or to external devices like Palm/PocketPC."
 msgctxt "tfrmoptionspluginswfx.lblplugindescription.caption"
 msgid "Fi&le system plugins allow access to disks inaccessible by operating system or to external devices like smartphones."
-msgstr "檔案系統插件可允許存取一些作業系統上罕見的檔案系統, 或是像 Palm/PocketPC 等外部裝置"
+msgstr "檔案系統插件可允許存取一些作業系統上罕見的檔案系統, 或智慧型手機等外部裝置"
 
 #: tfrmoptionspluginswfx.stgplugins.columns[0].title.caption
 msgctxt "tfrmoptionspluginswfx.stgplugins.columns[0].title.caption"
@@ -8118,7 +8107,6 @@ msgid "Way to set paths when adding elements for icons, commands and starting pa
 msgstr ""
 
 #: tfrmoptionstoolbase.btnrelativetoolpath.hint
-#, fuzzy
 msgctxt "tfrmoptionstoolbase.btnrelativetoolpath.hint"
 msgid "Some functions to select appropriate path"
 msgstr "選擇合適路徑的功能"
@@ -8955,7 +8943,6 @@ msgid "Drag and drop elements to sort them"
 msgstr ""
 
 #: tfrmsplitter.btnrelativeftchoice.hint
-#, fuzzy
 msgctxt "tfrmsplitter.btnrelativeftchoice.hint"
 msgid "Some functions to select appropriate path"
 msgstr "選擇合適路徑的功能"
@@ -9352,13 +9339,11 @@ msgid "&OK"
 msgstr "確定 (&O)"
 
 #: tfrmtweakplugin.btnrelativeplugin1.hint
-#, fuzzy
 msgctxt "tfrmtweakplugin.btnrelativeplugin1.hint"
 msgid "Some functions to select appropriate path"
 msgstr "選擇合適路徑的功能"
 
 #: tfrmtweakplugin.btnrelativeplugin2.hint
-#, fuzzy
 msgctxt "tfrmtweakplugin.btnrelativeplugin2.hint"
 msgid "Some functions to select appropriate path"
 msgstr "選擇合適路徑的功能"
@@ -11260,12 +11245,12 @@ msgstr "iCloud雲碟"
 #: ulng.rsmfstbinetworktips
 msgctxt "ulng.rsmfstbinetworktips"
 msgid "network"
-msgstr ""
+msgstr "網路連接"
 
 #: ulng.rsmfstbinetworktitle
 msgctxt "ulng.rsmfstbinetworktitle"
 msgid "network"
-msgstr ""
+msgstr "網路連接"
 
 #: ulng.rsmfstbiprivilegetips
 msgid "As a file manager, Double Command requires full disk access permissions. Clicking this button will pop up the macOS system settings page. Please add \"Double Commander.app\" to the \"Full Disk Access\" list to complete the authorization."
@@ -13720,23 +13705,23 @@ msgstr "插件"
 
 #: ulng.rsoptionseditorpluginsdsx
 msgid "Search plugins"
-msgstr ""
+msgstr "搜尋插件"
 
 #: ulng.rsoptionseditorpluginswcx
 msgid "Packer plugins"
-msgstr ""
+msgstr "壓縮插件"
 
 #: ulng.rsoptionseditorpluginswdx
 msgid "Content plugins"
-msgstr ""
+msgstr "內容插件"
 
 #: ulng.rsoptionseditorpluginswfx
 msgid "File system plugins"
-msgstr ""
+msgstr "檔案系統插件"
 
 #: ulng.rsoptionseditorpluginswlx
 msgid "Viewer plugins"
-msgstr ""
+msgstr "檢視器插件"
 
 #: ulng.rsoptionseditorquicksearch
 msgctxt "ulng.rsoptionseditorquicksearch"
