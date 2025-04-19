@@ -399,11 +399,20 @@ procedure TMiniHttpMethod.setQueryToURL(const request: NSMutableURLRequest;
 var
   components: NSURLComponents;
   queryItems: NSArray;
+  queryString: NSString;
 begin
   queryItems:= THttpClientUtil.toQueryItems( query );
   components:= NSURLComponents.componentsWithURL_resolvingAgainstBaseURL(
     request.URL, False );
   components.setQueryItems( queryItems );
+
+  queryString:= components.percentEncodedQuery;
+  if queryString.containsString( NSSTR('+') ) then begin
+    queryString:= queryString.stringByReplacingOccurrencesOfString_withString(
+      NSSTR('+'), NSSTR('%2B') );
+    components.setPercentEncodedQuery( queryString );
+  end;
+
   request.setURL( components.URL );
 end;
 
