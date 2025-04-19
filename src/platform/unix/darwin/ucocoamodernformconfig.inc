@@ -375,9 +375,14 @@ begin
   createSearchFileMenuItem;
 end;
 
-procedure cloudAction( const Sender: id );
+procedure iCloudAction( const Sender: id );
 begin
   uDarwinFileViewUtil.addiCloudDriverPage;
+end;
+
+procedure networkAction( const Sender: id );
+begin
+  frmMain.Commands.DoOpenVirtualFileSystemList( frmMain.ActiveFrame );
 end;
 
 procedure terminalAction( const Sender: id );
@@ -435,15 +440,26 @@ const
   );
 
 
-  cloudItemConfig: TCocoaConfigToolBarItem = (
-    identifier: 'MainForm.Cloud';
+  iCloudItemConfig: TCocoaConfigToolBarItem = (
+    identifier: 'MainForm.iCloud';
     priority: NSToolbarItemVisibilityPriorityStandard;
     navigational: False;
     iconName: 'cloud';
     title: rsMFSTBIiCloudDriverTitle;
     tips: rsMFSTBIiCloudDriverTips;
     bordered: True;
-    onAction: @cloudAction;
+    onAction: @iCloudAction;
+  );
+
+  networkItemConfig: TCocoaConfigToolBarItem = (
+    identifier: 'MainForm.network';
+    priority: NSToolbarItemVisibilityPriorityStandard;
+    navigational: False;
+    iconName: 'network';
+    title: rsMFSTBINetworkTitle;
+    tips: rsMFSTBINetworkTips;
+    bordered: True;
+    onAction: @networkAction;
   );
 
 
@@ -692,7 +708,8 @@ const
         'MainForm.HorzSplit',
         'MainForm.SwapPanels',
 
-        'MainForm.Cloud',
+        'MainForm.iCloud',
+        'MainForm.network',
         'NSToolbarFlexibleSpaceItem',
 
         'MainForm.ShowMode',
@@ -719,7 +736,8 @@ const
         'MainForm.HorzSplit',
         'MainForm.SwapPanels',
 
-        'MainForm.Cloud',
+        'MainForm.iCloud',
+        'MainForm.network',
         'MainForm.ShowMode',
         'MainForm.Share',
         'MainForm.AirDrop',
@@ -774,7 +792,8 @@ begin
     TCocoaToolBarUtils.toClass(syncItemConfig),
     TCocoaToolBarUtils.toClass(editItemConfig),
 
-    TCocoaToolBarUtils.toClass(cloudItemConfig)
+    TCocoaToolBarUtils.toClass(iCloudItemConfig),
+    TCocoaToolBarUtils.toClass(networkItemConfig)
   ];
 
   CocoaConfigForms:= [ mainFormConfig ];

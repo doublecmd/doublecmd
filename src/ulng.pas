@@ -1026,6 +1026,9 @@ resourcestring
   rsMFSTBIiCloudDriverTitle = 'iCloud Driver';
   rsMFSTBIiCloudDriverTips = 'iCloud Driver';
 
+  rsMFSTBINetworkTitle = 'network';
+  rsMFSTBINetworkTips = 'network';
+
   rsMFSTBIShowModeTitle = 'ShowMode';
   rsMFSTBIShowModeTips = 'Show as Brief, Full or Thumbnails';
   rsMFSTBIShowBriefTitle = 'as Brief';

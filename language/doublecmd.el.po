@@ -11185,6 +11185,16 @@ msgctxt "ulng.rsmfstbiiclouddrivertitle"
 msgid "iCloud Driver"
 msgstr ""
 
+#: ulng.rsmfstbinetworktips
+msgctxt "ulng.rsmfstbinetworktips"
+msgid "network"
+msgstr ""
+
+#: ulng.rsmfstbinetworktitle
+msgctxt "ulng.rsmfstbinetworktitle"
+msgid "network"
+msgstr ""
+
 #: ulng.rsmfstbiprivilegetips
 msgid "As a file manager, Double Command requires full disk access permissions. Clicking this button will pop up the macOS system settings page. Please add \"Double Commander.app\" to the \"Full Disk Access\" list to complete the authorization."
 msgstr "Σαν διαχειριστής αρχείων, ο Double Commander απαιτεί πλήρεις άδειες δίσκου. Πατώντας αυτό το πλήκτρο θα εμφανιστεί σαν αναδυόμενο η καρτέλα ρυθμίσεων του συστήματος macOS. Παρακαλώ προσθέστε \"Double Commander.app\" στην λίστα \"Full Disk Access\" για ολοκλήρωση της αδειοδότησης."

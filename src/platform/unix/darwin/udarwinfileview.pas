@@ -80,15 +80,10 @@ end;
 class procedure uDarwinFileViewUtil.addiCloudDriverPage;
 var
   iCloudFS: TiCloudDriverFileSource;
-  Notebook: TFileViewNotebook;
-  NewPage: TFileViewPage;
 begin
-  Notebook := frmMain.ActiveNotebook;
-  NewPage := Notebook.NewPage(Notebook.ActiveView);
-
   iCloudFS := TiCloudDriverFileSource.GetFileSource;
-  NewPage.FileView.AddFileSource(iCloudFS, iCloudFS.GetRootDir);
-  NewPage.MakeActive;
+  frmMain.ActiveFrame.AddFileSource(iCloudFS, iCloudFS.GetRootDir);
+  frmMain.ActiveFrame.SetFocus;
 end;
 
 end.
