@@ -160,6 +160,7 @@ type
   TCloudDriverAuthPKCESessionParams = record
     config: TCloudDriverConfig;
     resultProcessFunc: TCloudDriverResultProcessFunc;
+    scope: String;
     OAUTH2_URI: String;
     TOKEN_URI: String;
     REVOKE_TOKEN_URI: String;
@@ -553,6 +554,8 @@ begin
   queryItems.Add( 'response_type', 'code' );
   queryItems.Add( 'token_access_type', 'offline' );
   queryItems.Add( 'state', _state );
+  if _params.scope <> EmptyStr then
+    queryItems.Add( 'scope', _params.scope );;
   THttpClientUtil.openInSafari( _params.OAUTH2_URI, queryItems );
 end;
 

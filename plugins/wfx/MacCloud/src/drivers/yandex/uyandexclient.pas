@@ -521,6 +521,7 @@ var
 begin
   params.config:= config;
   params.resultProcessFunc:= @YandexClientResultProcess;
+  params.scope:= EmptyStr;
   params.OAUTH2_URI:= YandexConst.URI.OAUTH2;
   params.TOKEN_URI:= YandexConst.URI.TOKEN;
   params.REVOKE_TOKEN_URI:= YandexConst.URI.REVOKE_TOKEN;

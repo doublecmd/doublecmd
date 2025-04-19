@@ -1,6 +1,6 @@
 {
    Notes:
-   1. the most basic DropBox Client
+   1. the basic DropBox Client
    2. no dependencies on other libraries
 }
 
@@ -633,6 +633,7 @@ var
 begin
   params.config:= config;
   params.resultProcessFunc:= @DropBoxClientProcessResult;
+  params.scope:= EmptyStr;
   params.OAUTH2_URI:= DropBoxConst.URI.OAUTH2;
   params.TOKEN_URI:= DropBoxConst.URI.TOKEN;
   params.REVOKE_TOKEN_URI:= DropBoxConst.URI.REVOKE_TOKEN;
