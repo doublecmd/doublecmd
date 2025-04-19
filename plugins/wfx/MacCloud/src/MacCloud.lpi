@@ -93,6 +93,11 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="uCloudDriver"/>
       </Unit>
+      <Unit>
+        <Filename Value="drivers/onedrive/uonedriveclient.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uOneDriveClient"/>
+      </Unit>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
@@ -102,7 +107,7 @@
     </Target>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir)"/>
-      <OtherUnitFiles Value="../../../../sdk;util;httpclient;drivers/dropbox;drivers/root;drivers/yandex;drivers"/>
+      <OtherUnitFiles Value="../../../../sdk;util;httpclient;drivers/dropbox;drivers/root;drivers/yandex;drivers;drivers/onedrive"/>
       <UnitOutputDirectory Value="../lib/$(TargetCPU)-$(TargetOS)"/>
     </SearchPaths>
     <CodeGeneration>
