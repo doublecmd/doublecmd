@@ -52,6 +52,7 @@ type
     class function toNSString( const lclItems: TQueryItemsDictonary ): NSString;
     class procedure openInSafari( const urlPart: String; lclItems: TQueryItemsDictonary );
     class function queryValue( components: NSURLComponents; const name: String ): String;
+    class function urlEncode( const urlString: String ): String;
   end;
 
   { THashUtil }
@@ -109,6 +110,7 @@ type
     class function exists( const path: String ): Boolean;
     class function filesize( const path: String ): Integer;
     class function parentPath( const path: String ): String;
+    class function filename( const path: String ): String;
   end;
 
   TLogProc = procedure ( const MsgType: Integer; const message: String ) of object;
@@ -471,6 +473,14 @@ begin
   Result:= nsPath.stringByDeletingLastPathComponent.UTF8String;
 end;
 
+class function TFileUtil.filename(const path: String): String;
+var
+  nsPath: NSString;
+begin
+  nsPath:= StringToNSString( path );
+  Result:= nsPath.lastPathComponent.UTF8String;
+end;
+
 { TLogUtil }
 
 class procedure TLogUtil.setLogProc( const logProc: TLogProc );
@@ -589,6 +599,15 @@ begin
     end;
   end;
   Result:= EmptyStr;
+end;
+
+class function THttpClientUtil.urlEncode(const urlString: String): String;
+var
+  nsUrlString: NSString;
+begin
+  nsUrlString:= StringToNSString(urlString).stringByAddingPercentEncodingWithAllowedCharacters(
+    NSCharacterSet.URLPathAllowedCharacterSet );
+  Result:= nsUrlString.UTF8String;
 end;
 
 initialization

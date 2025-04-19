@@ -1,6 +1,6 @@
 {
    Notes:
-   1. the most basic Http Client library
+   1. the basic Http Client library
    2. based on NSURLConnection and does not rely on third-party libraries
    3. and avoid falling into version hell on macOS of libcrypto, openssl, etc.
    4. NSURLSession is a better choice, but it is prone to problems when compiled
@@ -41,6 +41,7 @@ type
   class var
     GET: TMiniHttpMethod;
     DELETE: TMiniHttpMethod;
+    PATCH: TMiniHttpMethod;
     POST: TMiniHttpMethod;
     POSTQueryString: TMiniHttpMethod;
     PUT: TMiniHttpMethod;
@@ -93,6 +94,7 @@ type
     constructor Create( const first: Integer; const last: Integer; const total: Integer );
     function isNeeded: Boolean;
     function ToString: ansistring; override;
+    function length: Integer;
     function toNSRange: NSRange;
   end;
 
@@ -183,6 +185,13 @@ type
   { TMiniHttpMethodDELETE }
 
   TMiniHttpMethodDELETE = class( TMiniHttpMethod )
+    constructor Create;
+    procedure setQuery(const request: NSMutableURLRequest; const query: TQueryItemsDictonary); override;
+  end;
+
+  { TMiniHttpMethodDELETE }
+
+  TMiniHttpMethodPATCH = class( TMiniHttpMethod )
     constructor Create;
     procedure setQuery(const request: NSMutableURLRequest; const query: TQueryItemsDictonary); override;
   end;
@@ -422,6 +431,11 @@ begin
   Inherited Create( 'DELETE' );
 end;
 
+constructor TMiniHttpMethodPATCH.Create;
+begin
+  Inherited Create( 'PATCH' );
+end;
+
 constructor TMiniHttpMethodPOST.Create;
 begin
   Inherited Create( 'POST' );
@@ -452,6 +466,12 @@ procedure TMiniHttpMethodDELETE.setQuery(const request: NSMutableURLRequest;
   const query: TQueryItemsDictonary);
 begin
   self.setQueryToURL( request, query );
+end;
+
+procedure TMiniHttpMethodPATCH.setQuery(const request: NSMutableURLRequest;
+  const query: TQueryItemsDictonary);
+begin
+  self.setQueryToBody( request, query );
 end;
 
 procedure TMiniHttpMethodPOST.setQuery(const request: NSMutableURLRequest;
@@ -515,17 +535,19 @@ function TMiniHttpContentRange.ToString: ansistring;
 var
   range: String;
 begin
-  if isNeeded then
-    range:= IntToStr(_first) + '-' + IntToStr(_last)
-  else
-    range:= '*';
+  range:= IntToStr(_first) + '-' + IntToStr(_last);
   Result:= 'bytes ' + range + '/' + IntToStr(_total);
+end;
+
+function TMiniHttpContentRange.length: Integer;
+begin
+  Result:= _last - _first + 1;
 end;
 
 function TMiniHttpContentRange.toNSRange: NSRange;
 begin
   Result.location:= _first;
-  Result.length:= _last - _first + 1;
+  Result.length:= self.length;
 end;
 
 { TMiniHttpConnectionDataDelegate }
@@ -725,8 +747,6 @@ end;
 
 procedure TMiniHttpClient.setContentRange(const range: TMiniHttpContentRange);
 begin
-  if NOT range.isNeeded then
-    Exit;
   self.addHeader( HttpConst.Header.ContentRange, StringToNSString(range.toString) );
 end;
 
@@ -796,6 +816,7 @@ begin
   processor:= TMiniHttpUploadProcessor.Create( localPath, range, callback );
   _request.setHTTPBodyStream( processor.getHttpBodyStream );
   self.setContentType( HttpConst.ContentType.OctetStream );
+  self.setContentLength( range.length );
   self.setContentRange( range );
   Result:= self.doConnect( processor );
   TLogUtil.logInformation( '<< HttpClient: Upload file end' );
@@ -825,6 +846,7 @@ end;
 initialization
   HttpConst.Method.GET:= TMiniHttpMethodGET.Create;
   HttpConst.Method.DELETE:= TMiniHttpMethodDELETE.Create;
+  HttpConst.Method.PATCH:= TMiniHttpMethodPATCH.Create;
   HttpConst.Method.POST:= TMiniHttpMethodPOST.Create;
   HttpConst.Method.POSTQueryString:= TMiniHttpMethodPOSTQueryString.Create;
   HttpConst.Method.PUT:= TMiniHttpMethodPUT.Create;
@@ -841,6 +863,7 @@ initialization
 finalization
   FreeAndNil( HttpConst.Method.GET );
   FreeAndNil( HttpConst.Method.DELETE );
+  FreeAndNil( HttpConst.Method.PATCH );
   FreeAndNil( HttpConst.Method.POST );
   FreeAndNil( HttpConst.Method.POSTQueryString );
   FreeAndNil( HttpConst.Method.PUT );
