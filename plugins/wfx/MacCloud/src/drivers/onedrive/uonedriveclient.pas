@@ -298,7 +298,7 @@ begin
     truePath:= PathDelim
   end else begin
     truePath:= path;
-    if truePath.EndsWith( PathDelim ) then
+    if (truePath<>PathDelim) and truePath.EndsWith( PathDelim ) then
       truePath:= truePath.Substring( 0, truePath.Length-1 );
   end;
   Inherited Create( authSession, truePath );
