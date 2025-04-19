@@ -23,11 +23,6 @@
     <RunParams>
       <FormatVersion Value="2"/>
     </RunParams>
-    <RequiredPackages>
-      <Item>
-        <PackageName Value="LazUtils"/>
-      </Item>
-    </RequiredPackages>
     <Units>
       <Unit>
         <Filename Value="MacCloud.lpr"/>
