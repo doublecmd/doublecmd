@@ -57,7 +57,7 @@ jobs:
     runs-on: windows-latest
     steps:
     - name: Install Lazarus
-      uses: alexx2000/setup-fpc@win
+      uses: doublecmd/lazarus-install@win
       with:
         lazarus-version: "stable"
 
