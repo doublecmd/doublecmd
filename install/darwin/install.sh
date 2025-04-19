@@ -64,6 +64,7 @@ install -m 644 plugins/wfx/ftp/ftp.wfx              $DC_INSTALL_DIR/plugins/wfx/
 install -m 644 plugins/wfx/ftp/src/ftp.ico          $DC_INSTALL_DIR/plugins/wfx/ftp/
 cp -r plugins/wfx/MacCloud/drivers                  $DC_INSTALL_DIR/plugins/wfx/MacCloud
 install -m 644 plugins/wfx/MacCloud/MacCloud.wfx    $DC_INSTALL_DIR/plugins/wfx/MacCloud/
+install -m 644 plugins/wfx/MacCloud/MacCloud.ico    $DC_INSTALL_DIR/plugins/wfx/MacCloud/
 # WLX
 install -m 644 plugins/wlx/MacPreview/MacPreview.wlx $DC_INSTALL_DIR/plugins/wlx/MacPreview/
 
