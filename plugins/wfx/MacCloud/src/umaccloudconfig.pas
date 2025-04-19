@@ -9,7 +9,7 @@ uses
   Classes, SysUtils, Contnrs,
   CocoaAll, uMiniCocoa,
   uMacCloudCore,
-  uCloudDriver, uDropBoxClient, uYandexClient,
+  uCloudDriver, uDropBoxClient, uYandexClient, uOneDriveClient,
   uMiniUtil;
 
 type
@@ -73,6 +73,13 @@ type
   { TYandexCloudDriverConfig }
 
   TYandexCloudDriverConfig = class( TTokenCloudDriverConfig )
+    class function cloudDriverConfigPtr: TCloudDriverConfigPtr; override;
+    class function cloudDriverClass: TCloudDriverClass; override;
+  end;
+
+  { TOneDriveCloudDriverConfig }
+
+  TOneDriveCloudDriverConfig = class( TTokenCloudDriverConfig )
     class function cloudDriverConfigPtr: TCloudDriverConfigPtr; override;
     class function cloudDriverClass: TCloudDriverClass; override;
   end;
@@ -155,6 +162,18 @@ end;
 class function TYandexCloudDriverConfig.cloudDriverClass: TCloudDriverClass;
 begin
   Result:= TYandexClient;
+end;
+
+{ TOneDriveCloudDriverConfig }
+
+class function TOneDriveCloudDriverConfig.cloudDriverConfigPtr: TCloudDriverConfigPtr;
+begin
+  Result:= @oneDriveConfig;
+end;
+
+class function TOneDriveCloudDriverConfig.cloudDriverClass: TCloudDriverClass;
+begin
+  Result:= TOneDriveClient;
 end;
 
 { TMacCloudConfigManager }
@@ -372,14 +391,18 @@ begin
   // which would be overridden by MacCloud.json,
   // used when there is no MacCloud.json
   macCloudDriverConfigManager:= TMacCloudConfigManager.Create;
-  macCloudDriverConfigManager.register( TDropBoxClient.driverName, TDropBoxCloudDriverConfig );
-  macCloudDriverConfigManager.register( TYandexClient.driverName, TYandexCloudDriverConfig );
 
+  macCloudDriverConfigManager.register( TDropBoxClient.driverName, TDropBoxCloudDriverConfig );
   dropBoxConfig:= TCloudDriverConfig.Create( 'ahj0s9xia6i61gh', 'dc2ea085a05ac273a://dropbox/auth' );
   cloudDriverManager.register( TDropBoxClient );
 
+  macCloudDriverConfigManager.register( TYandexClient.driverName, TYandexCloudDriverConfig );
   yandexConfig:= TCloudDriverConfig.Create( 'eaf0c133568a46a0bd986bffb48c62b6', 'dc2ea085a05ac273a://yandex/auth' );
   cloudDriverManager.register( TYandexClient );
+
+  macCloudDriverConfigManager.register( TOneDriveClient.driverName, TOneDriveCloudDriverConfig );
+  oneDriveConfig:= TCloudDriverConfig.Create( '', 'dc2ea085a05ac273a://onedrive/auth' );
+  cloudDriverManager.register( TOneDriveClient );
 end;
 
 initialization
