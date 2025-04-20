@@ -2146,6 +2146,7 @@ var
   dwFileAttributes: DWORD;
   uFlags: UINT;
 const
+  FILE_ATTRIBUTE_ICON = FILE_ATTRIBUTE_READONLY or FILE_ATTRIBUTE_SYSTEM;
   FILE_ATTRIBUTE_SHELL = FILE_ATTRIBUTE_DEVICE or FILE_ATTRIBUTE_VIRTUAL;
 {$ENDIF}
 begin
@@ -2203,10 +2204,9 @@ begin
     if IsDirectory or IsLinkToDirectory then
     begin
       {$IF DEFINED(MSWINDOWS)}
-      if (IconsMode = sim_standart) or
-         // Directory has special icon only if it has "read only" or "system" attributes
-         // and contains desktop.ini file
-         (not (DirectAccess and (IsSysFile or FileIsReadOnly(Attributes)) and mbFileExists(FullPath + '\desktop.ini'))) or
+      if (IconsMode < sim_all_and_exe) or
+         // Directory can has a special icon only when it has a "read only" or "system" attribute
+         (not (DirectAccess and ((Attributes and FILE_ATTRIBUTE_ICON) <> 0))) or
          (ScreenInfo.ColorDepth < 16) then
       {$ELSEIF DEFINED(UNIX) AND NOT (DEFINED(DARWIN) OR DEFINED(HAIKU))}
       if (IconsMode = sim_all_and_exe) and (DirectAccess) then
