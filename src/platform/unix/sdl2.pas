@@ -122,7 +122,7 @@ begin
       Exit(False);
     end;
   end;
-  Result:= BeginThread(@Play, AudioData) > 0;
+  Result:= BeginThread(@Play, AudioData) > TThreadID(0);
 end;
 
 const
