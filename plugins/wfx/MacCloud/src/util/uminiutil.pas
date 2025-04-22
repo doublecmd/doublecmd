@@ -23,6 +23,23 @@ uses
 
 type
 
+  { TMiniContentRange }
+
+  TMiniContentRange = class
+  private
+    _first: Integer;
+    _last: Integer;
+    _total: Integer;
+  public
+    constructor Create( const first: Integer; const last: Integer; const total: Integer );
+    function isNeeded: Boolean;
+    function ToString: ansistring; override;
+    function length: Integer;
+    function toNSRange: NSRange;
+    property first: Integer read _first;
+    property last: Integer read _last;
+  end;
+
   { TFakeStringDictonary }
 
   TFakeStringDictonary = class
@@ -60,6 +77,7 @@ type
   THashUtil = class
   public
     class function sha256AndBase64( const input: String ): String;
+    class function sha1AndBase64( const inputStream: NSinputStream ): String;
   end;
 
   { TStringUtil }
@@ -75,6 +93,10 @@ type
 
   TJsonUtil = class
   public
+    class function dumps(
+      const json: NSDictionary;
+      const ensureAscii: Boolean = False;
+      const options: Integer = NSJSONWritingWithoutEscapingSlashes ): NSString;
     class function dumps(
       const Elements: Array of Const;
       const ensureAscii: Boolean = False;
@@ -111,6 +133,10 @@ type
     class function filesize( const path: String ): Integer;
     class function parentPath( const path: String ): String;
     class function filename( const path: String ): String;
+    class function extension( const path: String ): String;
+    class function allContent( const path: String ): NSData;
+    class function sha1( const path: String ): String; overload;
+    class function sha1( const path: String; const range:TMiniContentRange ): String; overload;
   end;
 
   TLogProc = procedure ( const MsgType: Integer; const message: String ) of object;
@@ -129,10 +155,31 @@ type
 
 implementation
 
+type
+  CC_LONG = uint32;
+
 const
+  CC_SHA1_BLOCK_BYTES = 64;
+  CC_SHA1_BLOCK_LONG = 16;
+
+  CC_SHA1_DIGEST_LENGTH = 20;
   CC_SHA256_DIGEST_LENGTH = 32;
 
+type
+  CC_SHA1_CTX = record
+    h0,h1,h2,h3,h4: CC_LONG;
+    Nl,Nh: CC_LONG;
+    data: Array[1..CC_SHA1_BLOCK_LONG] of CC_LONG;
+    num: Integer;
+  end;
+
+  CC_SHA1_CTX_PTR = ^CC_SHA1_CTX;
+
+
   function CC_SHA256(data: Pointer; len: LongWord; md: Pointer): Pointer; cdecl; external;
+  procedure CC_SHA1_Init(c: CC_SHA1_CTX_PTR); cdecl; external;
+  procedure CC_SHA1_Update(c: CC_SHA1_CTX_PTR; const data: Pointer; len: CC_LONG ); cdecl; external;
+  procedure CC_SHA1_Final(md: pchar; c: CC_SHA1_CTX_PTR); cdecl; external;
 
 type
   TConsoleLogger = class
@@ -156,6 +203,28 @@ begin
   base64String:= base64String.stringByReplacingOccurrencesOfString_withString( NSSTR('/'), NSSTR('_') );
   base64String:= base64String.stringByReplacingOccurrencesOfString_withString( NSSTR('+'), NSSTR('-') );
   base64String:= base64String.stringByReplacingOccurrencesOfString_withString( NSSTR('='), NSString.string_ );
+  Result:= base64String.UTF8String;
+end;
+
+class function THashUtil.sha1AndBase64(const inputStream: NSinputStream): String;
+var
+  ctx: CC_SHA1_CTX;
+  sha1Buf: array [1..CC_SHA1_DIGEST_LENGTH] of Byte;
+  sha1Data: NSData;
+  base64String: NSString;
+
+  dataBuf: array [1..1024*1024] of Byte;
+  length: Integer;
+begin
+  CC_SHA1_Init( @ctx );
+  while inputStream.hasBytesAvailable do begin
+    length:= inputStream.read_maxLength( @dataBuf, sizeof(dataBuf) );
+    CC_SHA1_Update( @ctx, @dataBuf, length );
+  end;
+  CC_SHA1_Final( @sha1Buf, @ctx);
+
+  sha1Data:= NSData.dataWithBytes_length( @sha1Buf, CC_SHA1_DIGEST_LENGTH );
+  base64String:= sha1Data.base64EncodedStringWithOptions( 0 );
   Result:= base64String.UTF8String;
 end;
 
@@ -212,17 +281,55 @@ end;
 { TJsonUtil }
 
 class function TJsonUtil.dumps(
+  const json: NSDictionary;
+  const ensureAscii: Boolean = False;
+  const options: Integer = NSJSONWritingWithoutEscapingSlashes ): NSString;
+
+  function escapeUnicode( oldString: NSString ): NSString;
+  var
+    newString: NSMutableString;
+    c: unichar;
+    i: Integer;
+  begin
+    newString:= NSMutableString.new;
+    newString.autorelease;
+    for i:=0 to oldString.length-1 do begin
+      c:= oldString.characterAtIndex( i );
+      if c > $7F then
+        newString.appendFormat( NSSTR('\u%04x'), c )
+      else
+        newString.appendFormat( NSSTR('%C'), c );
+    end;
+    Result:= newString;
+  end;
+
+var
+  jsonData: NSData;
+  jsonString: NSString;
+  error: NSError;
+begin
+  error:= nil;
+  jsonData:= NSJSONSerialization.dataWithJSONObject_options_error( json, options, @error );
+  if error <> nil then
+    Result:= nil
+  else begin
+    jsonString:= NSString.alloc.initWithData_encoding( jsonData, NSUTF8StringEncoding );
+    jsonString.autorelease;
+    if ensureAscii then
+      jsonString:= escapeUnicode( jsonString );
+    Result:= jsonString;
+  end;
+end;
+
+class function TJsonUtil.dumps(
   const Elements: array of const;
   const ensureAscii: Boolean = False;
   const options: Integer = NSJSONWritingWithoutEscapingSlashes ): NSString;
 var
   i: integer;
-  jsonData: NSData;
-  jsonString: NSString;
   json: NSMutableDictionary;
   key: NSString;
   value: NSObject;
-  error: NSError;
 
   function varToNSObject( const Element : TVarRec ): id;
   begin
@@ -244,24 +351,6 @@ var
       end;
   end;
 
-  function escapeUnicode( oldString: NSString ): NSString;
-  var
-    newString: NSMutableString;
-    c: unichar;
-    i: Integer;
-  begin
-    newString:= NSMutableString.new;
-    newString.autorelease;
-    for i:=0 to oldString.length-1 do begin
-      c:= oldString.characterAtIndex( i );
-      if c > $7F then
-        newString.appendFormat( NSSTR('\u%04x'), c )
-      else
-        newString.appendFormat( NSSTR('%C'), c );
-    end;
-    Result:= newString;
-  end;
-
 begin
   Result:= nil;
 
@@ -278,18 +367,7 @@ begin
     json.setValue_forKey( value, key );
   end;
 
-  error:= nil;
-  jsonData:= NSJSONSerialization.dataWithJSONObject_options_error( json, options, @error );
-  if error <> nil then
-    Result:= nil
-  else begin
-    jsonString:= NSString.alloc.initWithData_encoding( jsonData, NSUTF8StringEncoding );
-    jsonString.autorelease;
-    if ensureAscii then
-      jsonString:= escapeUnicode( jsonString );
-    Result:= jsonString;
-  end;
-
+  Result:= self.dumps( json, ensureAscii, options );
   json.release;
 end;
 
@@ -481,6 +559,42 @@ begin
   Result:= nsPath.lastPathComponent.UTF8String;
 end;
 
+class function TFileUtil.extension(const path: String): String;
+begin
+  Result:= StringToNSString(path).pathExtension.UTF8String;
+end;
+
+class function TFileUtil.allContent(const path: String): NSData;
+begin
+  Result:= NSData.dataWithContentsOfFile( StringToNSString(path) );
+end;
+
+class function TFileUtil.sha1(const path: String): String;
+var
+  range: TMiniContentRange;
+  size: Integer;
+begin
+  size:= TFileUtil.filesize( path );
+  range:= TMiniContentRange.Create( 0, size-1, size );
+  Result:= self.sha1( path, range );
+  range.Free;
+end;
+
+class function TFileUtil.sha1(const path: String; const range: TMiniContentRange): String;
+var
+  nsPath: NSString;
+  inputStream: NSInputStream;
+begin
+  nsPath:= StringToNSString(path);
+  if range.isNeeded then
+    inputStream:= NSFileRangeInputStream.alloc.initWithFileAtPath_Range( nsPath, range.toNSRange )
+  else
+    inputStream:= NSInputStream.inputStreamWithFileAtPath( nsPath );
+  inputStream.open;
+  Result:= THashUtil.sha1AndBase64( inputStream );
+  inputStream.close;
+end;
+
 { TLogUtil }
 
 class procedure TLogUtil.setLogProc( const logProc: TLogProc );
@@ -608,6 +722,40 @@ begin
   nsUrlString:= StringToNSString(urlString).stringByAddingPercentEncodingWithAllowedCharacters(
     NSCharacterSet.URLPathAllowedCharacterSet );
   Result:= nsUrlString.UTF8String;
+end;
+
+{ TMiniContentRange }
+
+constructor TMiniContentRange.Create(const first: Integer;
+  const last: Integer; const total: Integer);
+begin
+  _first:= first;
+  _last:= last;
+  _total:= total;
+end;
+
+function TMiniContentRange.isNeeded: Boolean;
+begin
+  Result:= (_first>0) OR (_last<_total-1);
+end;
+
+function TMiniContentRange.ToString: ansistring;
+var
+  range: String;
+begin
+  range:= IntToStr(_first) + '-' + IntToStr(_last);
+  Result:= 'bytes ' + range + '/' + IntToStr(_total);
+end;
+
+function TMiniContentRange.length: Integer;
+begin
+  Result:= _last - _first + 1;
+end;
+
+function TMiniContentRange.toNSRange: NSRange;
+begin
+  Result.location:= _first;
+  Result.length:= self.length;
 end;
 
 initialization
