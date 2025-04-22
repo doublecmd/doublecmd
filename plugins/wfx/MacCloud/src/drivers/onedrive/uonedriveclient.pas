@@ -29,7 +29,7 @@ type
     procedure listFolderFirst; override;
     procedure listFolderContinue; override;
   public
-    constructor Create( const authSession: TCloudDriverAuthPKCESession; const path: String ); override;
+    constructor Create( const authSession: TCloudDriverOAuth2Session; const path: String ); override;
   end;
 
   { TOneDriveDownloadSession }
@@ -69,7 +69,7 @@ type
 
   { TOneDriveClient }
 
-  TOneDriveClient = class( TAuthSessionCloudDriver )
+  TOneDriveClient = class( TOAuth2SessionCloudDriver )
   public
     class function driverName: String; override;
     class function createInstance: TCloudDriver; override;
@@ -89,8 +89,9 @@ type
       const callback: ICloudProgressCallback ); override;
   public
     procedure createFolder( const path: String ); override;
-    procedure delete( const path: String ); override;
-    procedure copyOrMove( const fromPath: String; const toPath: String; const needToMove: Boolean ); override;
+    procedure delete( const path: String; const isFolder: Boolean ); override;
+    procedure copyOrMove( const fromPath: String; const toPath: String;
+      const isFolder: Boolean; const needToMove: Boolean ); override;
   end;
 
 var
@@ -226,7 +227,7 @@ end;
 
 procedure TOneDriveListFolderSession.listFolderContinue;
 var
-  http: TMiniHttpClient;
+  http: TMiniHttpClient = nil;
   httpResult: TMiniHttpResult = nil;
   cloudDriverResult: TCloudDriverResult = nil;
   urlString: String;
@@ -290,7 +291,7 @@ begin
   _hasMore:= (_nextLink <> EmptyStr);
 end;
 
-constructor TOneDriveListFolderSession.Create( const authSession: TCloudDriverAuthPKCESession; const path: String );
+constructor TOneDriveListFolderSession.Create( const authSession: TCloudDriverOAuth2Session; const path: String );
 var
   truePath: String;
 begin
@@ -536,8 +537,9 @@ end;
 
 constructor TOneDriveClient.Create(const config: TCloudDriverConfig);
 var
-  params: TCloudDriverAuthPKCESessionParams;
+  params: TCloudDriverOAuth2SessionParams;
 begin
+  Inherited Create( config );
   params.config:= config;
   params.resultProcessFunc:= @OneDriveClientResultProcess;
   params.scope:= 'user.read+files.readwrite.all+offline_access';
@@ -546,7 +548,7 @@ begin
   params.REVOKE_TOKEN_URI:= OneDriveConst.URI.REVOKE_TOKEN;
   params.AUTH_HEADER:= OneDriveConst.HEADER.AUTH;
   params.AUTH_TYPE:= 'Bearer';
-  Inherited Create( config, params );
+  _authSession:= TCloudDriverOAuth2PKCESession.Create( self, params );
 end;
 
 function TOneDriveClient.clone: TCloudDriver;
@@ -605,12 +607,12 @@ begin
   end;
 end;
 
-procedure TOneDriveClient.delete(const path: String);
+procedure TOneDriveClient.delete( const path: String; const isFolder: Boolean );
 var
   session: TOneDriveDeleteSession = nil;
 begin
   try
-    session:= TOneDriveDeleteSession.Create( _authSession, path );
+    session:= TOneDriveDeleteSession.Create( _authSession, path, isFolder );
     session.delete;
   finally
     FreeAndNil( session );
@@ -618,12 +620,12 @@ begin
 end;
 
 procedure TOneDriveClient.copyOrMove(const fromPath: String; const toPath: String;
-  const needToMove: Boolean );
+  const isFolder: Boolean; const needToMove: Boolean );
 var
   session: TOneDriveCopyMoveSession = nil;
 begin
   try
-    session:= TOneDriveCopyMoveSession.Create( _authSession, fromPath, toPath );
+    session:= TOneDriveCopyMoveSession.Create( _authSession, fromPath, toPath, isFolder );
     session.copyOrMove( needToMove );
   finally
     FreeAndNil( session );

@@ -32,8 +32,9 @@ type
     function createLister( const path: String ): TCloudDriverLister; override;
   public
     procedure createFolder(const path: String); override;
-    procedure delete(const path: String); override;
-    procedure copyOrMove(const fromPath: String; const toPath: String; const needToMove: Boolean); override;
+    procedure delete( const path: String; const isFolder: Boolean ); override;
+    procedure copyOrMove( const fromPath: String; const toPath: String;
+      const isFolder: Boolean; const needToMove: Boolean ); override;
   end;
 
   TCloudRootHelper = class
@@ -144,7 +145,7 @@ begin
   self.Free;
 end;
 
-procedure TCloudRootDriver.delete(const path: String);
+procedure TCloudRootDriver.delete( const path: String; const isFolder: Boolean );
 var
   connectionName: String absolute path;
 begin
@@ -155,7 +156,7 @@ begin
 end;
 
 procedure TCloudRootDriver.copyOrMove(const fromPath: String;
-  const toPath: String; const needToMove: Boolean);
+  const toPath: String; const isFolder: Boolean; const needToMove: Boolean);
 var
   connectionOldName: String absolute fromPath;
   connectionNewName: String absolute toPath;

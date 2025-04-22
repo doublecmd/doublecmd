@@ -32,7 +32,7 @@ type
     procedure listFolderFirst; override;
     procedure listFolderContinue; override;
   public
-    constructor Create( const authSession: TCloudDriverAuthPKCESession; const path: String ); override;
+    constructor Create( const authSession: TCloudDriverOAuth2Session; const path: String ); override;
   end;
 
   { TYandexDownloadSession }
@@ -72,7 +72,7 @@ type
 
   { TYandexClient }
 
-  TYandexClient = class( TAuthSessionCloudDriver )
+  TYandexClient = class( TOAuth2SessionCloudDriver )
   public
     class function driverName: String; override;
     class function createInstance: TCloudDriver; override;
@@ -92,8 +92,9 @@ type
       const callback: ICloudProgressCallback ); override;
   public
     procedure createFolder( const path: String ); override;
-    procedure delete( const path: String ); override;
-    procedure copyOrMove( const fromPath: String; const toPath: String; const needToMove: Boolean ); override;
+    procedure delete( const path: String; const isFolder: Boolean ); override;
+    procedure copyOrMove( const fromPath: String; const toPath: String;
+      const isFolder: Boolean; const needToMove: Boolean ); override;
   end;
 
 var
@@ -214,7 +215,7 @@ end;
 
 procedure TYandexListFolderSession.listFolderContinue;
 var
-  http: TMiniHttpClient;
+  http: TMiniHttpClient = nil;
   httpResult: TMiniHttpResult = nil;
   cloudDriverResult: TCloudDriverResult = nil;
   queryItems: TQueryItemsDictonary;
@@ -284,7 +285,7 @@ begin
   _hasMore:= ( _offset < _total );
 end;
 
-constructor TYandexListFolderSession.Create( const authSession: TCloudDriverAuthPKCESession; const path: String );
+constructor TYandexListFolderSession.Create( const authSession: TCloudDriverOAuth2Session; const path: String );
 var
   truePath: String;
 begin
@@ -517,8 +518,9 @@ end;
 
 constructor TYandexClient.Create(const config: TCloudDriverConfig);
 var
-  params: TCloudDriverAuthPKCESessionParams;
+  params: TCloudDriverOAuth2SessionParams;
 begin
+  Inherited Create( config );
   params.config:= config;
   params.resultProcessFunc:= @YandexClientResultProcess;
   params.scope:= EmptyStr;
@@ -527,7 +529,7 @@ begin
   params.REVOKE_TOKEN_URI:= YandexConst.URI.REVOKE_TOKEN;
   params.AUTH_HEADER:= YandexConst.HEADER.AUTH;
   params.AUTH_TYPE:= 'OAuth';
-  Inherited Create( config, params );
+  _authSession:= TCloudDriverOAuth2PKCESession.Create( self, params );
 end;
 
 function TYandexClient.clone: TCloudDriver;
@@ -586,12 +588,12 @@ begin
   end;
 end;
 
-procedure TYandexClient.delete(const path: String);
+procedure TYandexClient.delete( const path: String; const isFolder: Boolean );
 var
   session: TYandexDeleteSession = nil;
 begin
   try
-    session:= TYandexDeleteSession.Create( _authSession, path );
+    session:= TYandexDeleteSession.Create( _authSession, path, isFolder );
     session.delete;
   finally
     FreeAndNil( session );
@@ -599,12 +601,12 @@ begin
 end;
 
 procedure TYandexClient.copyOrMove(const fromPath: String; const toPath: String;
-  const needToMove: Boolean );
+  const isFolder: Boolean; const needToMove: Boolean );
 var
   session: TYandexCopyMoveSession = nil;
 begin
   try
-    session:= TYandexCopyMoveSession.Create( _authSession, fromPath, toPath );
+    session:= TYandexCopyMoveSession.Create( _authSession, fromPath, toPath, isFolder );
     session.copyOrMove( needToMove );
   finally
     FreeAndNil( session );

@@ -29,6 +29,7 @@ type
   ECloudDriverQuotaException = class( ECloudDriverException );
   ECloudDriverPermissionException = class( ECloudDriverException );
   ECloudDriverRateLimitException = class( ECloudDriverException );
+  ECloudDriverNetworkException = class( ECloudDriverException );
 
   TCloudDriverResultProcessFunc = procedure ( const cloudDriverResult: TCloudDriverResult );
 
@@ -39,12 +40,22 @@ type
     _clientID: String;
     _listenURI: String;
   public
-    constructor Create( const clientID: String; const listenURI: String );
+    constructor Create( const aClientID: String; const aListenURI: String );
     property clientID: String read _clientID;
     property listenURI: String read _listenURI;
   end;
 
   TCloudDriverConfigPtr = ^TCloudDriverConfig;
+
+  { TCloudDriverConfigWithSecret }
+
+  TCloudDriverConfigWithSecret = class( TCloudDriverConfig )
+  private
+    _clientSecret: String;
+  public
+    constructor Create( const aClientID: String; const aClientSecret: String; const aListenURI: String );
+    property clientSecret: String read _clientSecret;
+  end;
 
   { TCloudDriverToken }
 
@@ -65,7 +76,7 @@ type
     property refresh: String read _refresh write _refresh;
     property accessExpirationTime: NSTimeInterval read _accessExpirationTime write _accessExpirationTime;
     function isValidAccessToken: Boolean;
-    function isValidFreshToken: Boolean;
+    function isValidRefreshToken: Boolean;
   end;
 
   TCloudFile = class
@@ -99,8 +110,9 @@ type
     function createLister( const path: String ): TCloudDriverLister; virtual; abstract;
   public
     procedure createFolder( const path: String ); virtual; abstract;
-    procedure delete( const path: String ); virtual; abstract;
-    procedure copyOrMove( const fromPath: String; const toPath: String; const needToMove: Boolean ); virtual; abstract;
+    procedure delete( const path: String; const isFolder: Boolean ); virtual; abstract;
+    procedure copyOrMove( const fromPath: String; const toPath: String;
+      const isFolder: Boolean; const needToMove: Boolean ); virtual; abstract;
   end;
 
   TCloudDriver = class( TCloudDriverBase )
@@ -155,9 +167,9 @@ type
     property observer: ICloudDriverObserver write _observer;
   end;
 
-  { TCloudDriverAuthPKCESessionParams }
+  { TCloudDriverOAuth2SessionParams }
 
-  TCloudDriverAuthPKCESessionParams = record
+  TCloudDriverOAuth2SessionParams = record
     config: TCloudDriverConfig;
     resultProcessFunc: TCloudDriverResultProcessFunc;
     scope: String;
@@ -168,33 +180,38 @@ type
     AUTH_TYPE: String;
   end;
 
-  { TCloudDriverAuthPKCESession }
+  { TCloudDriverOAuth2Session }
 
-  TCloudDriverAuthPKCESession = class
-  strict private
+  TCloudDriverOAuth2Session = class
+  strict protected
     _driver: TCloudDriver;
-    _params: TCloudDriverAuthPKCESessionParams;
+    _params: TCloudDriverOAuth2SessionParams;
     _config: TCloudDriverConfig;
-    _codeVerifier: String;
     _state: String;
     _code: String;
     _token: TCloudDriverToken;
     _accountID: String;
     _alert: NSAlert;
     _lockObject: TCriticalSection;
-  private
+  protected
+    procedure onAuthorize( const queryItems: TQueryItemsDictonary ); virtual; abstract;
+    procedure onRequestToken( const queryItems: TQueryItemsDictonary ); virtual; abstract;
+    procedure onRefreshToken( const queryItems: TQueryItemsDictonary ); virtual; abstract;
+    procedure onRevokeToken( const http: TMiniHttpClient ); virtual; abstract;
+  protected
     procedure requestAuthorization;
     procedure waitAuthorizationAndPrompt;
     procedure closePrompt;
     procedure requestToken;
     procedure revokeToken;
     procedure refreshToken;
+    procedure analyseTokenResult( const jsonString: String );
     procedure onRedirect( const url: NSURL );
     function getAccessToken: String;
   public
-    constructor Create( const driver: TCloudDriver; const params: TCloudDriverAuthPKCESessionParams );
+    constructor Create( const driver: TCloudDriver; const params: TCloudDriverOAuth2SessionParams );
     destructor Destroy; override;
-    function clone( const driver: TCloudDriver ): TCloudDriverAuthPKCESession;
+    function clone( const driver: TCloudDriver ): TCloudDriverOAuth2Session;
   public
     function authorize: Boolean;
     procedure unauthorize;
@@ -204,11 +221,33 @@ type
     function getToken: TCloudDriverToken;
   end;
 
+  { TCloudDriverOAuth2PKCESession }
+
+  TCloudDriverOAuth2PKCESession = class( TCloudDriverOAuth2Session )
+  strict private
+    _codeVerifier: String;
+  protected
+    procedure onAuthorize( const queryItems: TQueryItemsDictonary ); override;
+    procedure onRequestToken( const queryItems: TQueryItemsDictonary ); override;
+    procedure onRefreshToken( const queryItems: TQueryItemsDictonary ); override;
+    procedure onRevokeToken( const http: TMiniHttpClient ); override;
+  end;
+
+  { TCloudDriverOAuth2SecretSession }
+
+  TCloudDriverOAuth2SecretSession = class( TCloudDriverOAuth2Session )
+  protected
+    procedure onAuthorize( const queryItems: TQueryItemsDictonary ); override;
+    procedure onRequestToken( const queryItems: TQueryItemsDictonary ); override;
+    procedure onRefreshToken( const queryItems: TQueryItemsDictonary ); override;
+    procedure onRevokeToken( const http: TMiniHttpClient ); override;
+  end;
+
   { TCloudDriverListFolderSession }
 
   TCloudDriverListFolderSession = class
   protected
-    _authSession: TCloudDriverAuthPKCESession;
+    _authSession: TCloudDriverOAuth2Session;
     _path: String;
     _files: TCloudFiles;
     _hasMore: Boolean;
@@ -216,7 +255,7 @@ type
     procedure listFolderFirst; virtual; abstract;
     procedure listFolderContinue; virtual; abstract;
   public
-    constructor Create( const authSession: TCloudDriverAuthPKCESession; const path: String ); virtual;
+    constructor Create( const authSession: TCloudDriverOAuth2Session; const path: String ); virtual;
     destructor Destroy; override;
     function getNextFile: TCloudFile;
   end;
@@ -227,13 +266,13 @@ type
 
   TCloudDriverDownloadSession = class
   protected
-    _authSession: TCloudDriverAuthPKCESession;
+    _authSession: TCloudDriverOAuth2Session;
     _serverPath: String;
     _localPath: String;
     _callback: ICloudProgressCallback;
   public
     constructor Create(
-      const authSession: TCloudDriverAuthPKCESession;
+      const authSession: TCloudDriverOAuth2Session;
       const serverPath: String;
       const localPath: String;
       const callback: ICloudProgressCallback );
@@ -244,14 +283,14 @@ type
 
   TCloudDriverUploadSession = class
   protected
-    _authSession: TCloudDriverAuthPKCESession;
+    _authSession: TCloudDriverOAuth2Session;
     _serverPath: String;
     _localPath: String;
     _localFileSize: Integer;
     _callback: ICloudProgressCallback;
   public
     constructor Create(
-      const authSession: TCloudDriverAuthPKCESession;
+      const authSession: TCloudDriverOAuth2Session;
       const serverPath: String;
       const localPath: String;
       const callback: ICloudProgressCallback );
@@ -262,10 +301,10 @@ type
 
   TCloudDriverCreateFolderSession = class
   protected
-    _authSession: TCloudDriverAuthPKCESession;
+    _authSession: TCloudDriverOAuth2Session;
     _path: String;
   public
-    constructor Create( const authSession: TCloudDriverAuthPKCESession; const path: String );
+    constructor Create( const authSession: TCloudDriverOAuth2Session; const path: String );
     procedure createFolder; virtual; abstract;
   end;
 
@@ -273,10 +312,12 @@ type
 
   TCloudDriverDeleteSession = class
   protected
-    _authSession: TCloudDriverAuthPKCESession;
+    _authSession: TCloudDriverOAuth2Session;
     _path: String;
+    _isFolder: Boolean;
   public
-    constructor Create( const authSession: TCloudDriverAuthPKCESession; const path: String );
+    constructor Create( const authSession: TCloudDriverOAuth2Session;
+      const path: String; const isFolder: Boolean );
     procedure delete; virtual; abstract;
   end;
 
@@ -284,14 +325,16 @@ type
 
   TCloudDriverCopyMoveSession = class
   protected
-    _authSession: TCloudDriverAuthPKCESession;
+    _authSession: TCloudDriverOAuth2Session;
     _fromPath: String;
     _toPath: String;
+    _isFolder: Boolean;
   public
     constructor Create(
-      const authSession: TCloudDriverAuthPKCESession;
+      const authSession: TCloudDriverOAuth2Session;
       const fromPath: String;
-      const toPath: String );
+      const toPath: String;
+      const isFolder: Boolean );
     procedure copyOrMove( const needToMove: Boolean ); virtual; abstract;
     procedure copy;
     procedure move;
@@ -305,7 +348,7 @@ type
   public
     constructor Create(
       const sessionClass: TCloudDriverListFolderSessionClass;
-      const authSession: TCloudDriverAuthPKCESession;
+      const authSession: TCloudDriverOAuth2Session;
       const path: String );
     destructor Destroy; override;
     procedure listFolderBegin; override;
@@ -313,16 +356,15 @@ type
     procedure listFolderEnd; override;
   end;
 
-  { TAuthSessionCloudDriver }
+  { TOAuth2SessionCloudDriver }
 
-  TAuthSessionCloudDriver = class( TCloudDriver )
+  TOAuth2SessionCloudDriver = class( TCloudDriver )
   protected
     _config: TCloudDriverConfig;
-    _authSession: TCloudDriverAuthPKCESession;
+    _authSession: TCloudDriverOAuth2Session;
   public
     constructor Create(
-      const config: TCloudDriverConfig;
-      const authParams: TCloudDriverAuthPKCESessionParams );
+      const config: TCloudDriverConfig );
     destructor Destroy; override;
   public
     function authorize: Boolean; override;
@@ -340,11 +382,20 @@ implementation
 { TCloudDriverConfig }
 
 constructor TCloudDriverConfig.Create(
-  const clientID: String;
-  const listenURI: String );
+  const aClientID: String;
+  const aListenURI: String );
 begin
-  _clientID:= clientID;
-  _listenURI:= listenURI;
+  _clientID:= aClientID;
+  _listenURI:= aListenURI;
+end;
+
+{ TCloudDriverConfigWithSecret }
+
+constructor TCloudDriverConfigWithSecret.Create(const aClientID: String;
+  const aClientSecret: String; const aListenURI: String);
+begin
+  Inherited Create( aClientID, aListenURI );
+  _clientSecret:= aClientSecret;
 end;
 
 { TCloudDriverToken }
@@ -362,7 +413,7 @@ begin
   now.release;
 end;
 
-function TCloudDriverToken.isValidFreshToken: Boolean;
+function TCloudDriverToken.isValidRefreshToken: Boolean;
 begin
   Result:= _refresh <> EmptyStr;
 end;
@@ -405,7 +456,7 @@ end;
 { TCloudDriverListFolderSession }
 
 constructor TCloudDriverListFolderSession.Create(
-  const authSession: TCloudDriverAuthPKCESession; const path: String);
+  const authSession: TCloudDriverOAuth2Session; const path: String);
 begin
   _authSession:= authSession;
   _files:= TCloudFiles.Create;
@@ -439,7 +490,7 @@ end;
 { TCloudDriverDownloadSession }
 
 constructor TCloudDriverDownloadSession.Create(
-  const authSession: TCloudDriverAuthPKCESession;
+  const authSession: TCloudDriverOAuth2Session;
   const serverPath: String;
   const localPath: String;
   const callback: ICloudProgressCallback );
@@ -453,7 +504,7 @@ end;
 { TCloudDriverUploadSession }
 
 constructor TCloudDriverUploadSession.Create(
-  const authSession: TCloudDriverAuthPKCESession;
+  const authSession: TCloudDriverOAuth2Session;
   const serverPath: String;
   const localPath: String;
   const callback: ICloudProgressCallback );
@@ -468,7 +519,7 @@ end;
 { TCloudDriverCreateFolderSession }
 
 constructor TCloudDriverCreateFolderSession.Create(
-  const authSession: TCloudDriverAuthPKCESession; const path: String);
+  const authSession: TCloudDriverOAuth2Session; const path: String);
 begin
   _authSession:= authSession;
   _path:= path;
@@ -477,22 +528,26 @@ end;
 { TCloudDriverDeleteSession }
 
 constructor TCloudDriverDeleteSession.Create(
-  const authSession: TCloudDriverAuthPKCESession; const path: String);
+  const authSession: TCloudDriverOAuth2Session;
+  const path: String; const isFolder: Boolean );
 begin
   _authSession:= authSession;
   _path:= path;
+  _isFolder:= isFolder;
 end;
 
 { TCloudDriverCopyMoveSession }
 
 constructor TCloudDriverCopyMoveSession.Create(
-  const authSession: TCloudDriverAuthPKCESession;
+  const authSession: TCloudDriverOAuth2Session;
   const fromPath: String;
-  const toPath: String );
+  const toPath: String;
+  const isFolder: Boolean );
 begin
   _authSession:= authSession;
   _fromPath:= fromPath;
   _toPath:= toPath;
+  _isFolder:= isFolder;
 end;
 
 procedure TCloudDriverCopyMoveSession.copy;
@@ -509,7 +564,7 @@ end;
 
 constructor TCloudDriverDefaultLister.Create(
   const sessionClass: TCloudDriverListFolderSessionClass;
-  const authSession: TCloudDriverAuthPKCESession;
+  const authSession: TCloudDriverOAuth2Session;
   const path: String);
 begin
   _listFolderSession:= sessionClass.Create( authSession, path );
@@ -535,31 +590,26 @@ begin
   self.Free;
 end;
 
-{ TCloudDriverAuthPKCESession }
+{ TCloudDriverOAuth2Session }
 
-procedure TCloudDriverAuthPKCESession.requestAuthorization;
+procedure TCloudDriverOAuth2Session.requestAuthorization;
 var
   queryItems: TQueryItemsDictonary;
-  codeChallenge: String;
 begin
-  _codeVerifier:= TStringUtil.generateRandomString( 43 );
   _state:= TStringUtil.generateRandomString( 10 );
-  codeChallenge:= THashUtil.sha256AndBase64( _codeVerifier ) ;
-
   queryItems:= TQueryItemsDictonary.Create;
   queryItems.Add( 'client_id', _config.clientID );
   queryItems.Add( 'redirect_uri', _config.listenURI );
-  queryItems.Add( 'code_challenge', codeChallenge );
-  queryItems.Add( 'code_challenge_method', 'S256' );
   queryItems.Add( 'response_type', 'code' );
   queryItems.Add( 'token_access_type', 'offline' );
   queryItems.Add( 'state', _state );
   if _params.scope <> EmptyStr then
-    queryItems.Add( 'scope', _params.scope );;
+    queryItems.Add( 'scope', _params.scope );
+  self.onAuthorize( queryItems );
   THttpClientUtil.openInSafari( _params.OAUTH2_URI, queryItems );
 end;
 
-procedure TCloudDriverAuthPKCESession.waitAuthorizationAndPrompt;
+procedure TCloudDriverOAuth2Session.waitAuthorizationAndPrompt;
 begin
   NSApplication(NSAPP).setOpenURLObserver( @self.onRedirect );
   _alert:= NSAlert.new;
@@ -572,7 +622,7 @@ begin
   _alert:= nil;
 end;
 
-procedure TCloudDriverAuthPKCESession.closePrompt;
+procedure TCloudDriverOAuth2Session.closePrompt;
 var
   button: NSButton;
 begin
@@ -583,7 +633,7 @@ begin
   button.performClick( nil );
 end;
 
-procedure TCloudDriverAuthPKCESession.requestToken;
+procedure TCloudDriverOAuth2Session.requestToken;
 var
   http: TMiniHttpClient = nil;
   cloudDriverResult: TCloudDriverResult = nil;
@@ -596,25 +646,14 @@ var
     queryItems.Add( 'client_id', _config.clientID );
     queryItems.Add( 'redirect_uri', _config.listenURI );
     queryItems.Add( 'code', _code );
-    queryItems.Add( 'code_verifier', _codeVerifier );
     queryItems.Add( 'grant_type', 'authorization_code' );
+    self.onRequestToken( queryItems );
     http.setQueryParams( queryItems );
     http.setContentType( HttpConst.ContentType.UrlEncoded );
     cloudDriverResult:= TCloudDriverResult.Create;
     cloudDriverResult.httpResult:= http.connect;
     cloudDriverResult.resultMessage:= cloudDriverResult.httpResult.body;
     _params.resultProcessFunc( cloudDriverResult );
-  end;
-
-  procedure analyseResult;
-  var
-    json: NSDictionary;
-  begin
-    json:= TJsonUtil.parse( cloudDriverResult.httpResult.body );
-    _token.access:= TJsonUtil.getString( json, 'access_token' );
-    _token.refresh:= TJsonUtil.getString( json, 'refresh_token' );
-    _token.setExpiration( TJsonUtil.getInteger( json, 'expires_in' ) );
-    _accountID:= TJsonUtil.getString( json, 'account_id' );
   end;
 
 begin
@@ -627,7 +666,7 @@ begin
 
     if cloudDriverResult.httpResult.resultCode <> 200 then
       Exit;
-    analyseResult;
+    self.analyseTokenResult( cloudDriverResult.httpResult.body );
     cloudDriverManager.driverUpdated( _driver );
   finally
     FreeAndNil( cloudDriverResult );
@@ -635,12 +674,13 @@ begin
   end;
 end;
 
-procedure TCloudDriverAuthPKCESession.revokeToken;
+procedure TCloudDriverOAuth2Session.revokeToken;
 var
   http: TMiniHttpClient = nil;
 begin
   try
     http:= TMiniHttpClient.Create( _params.REVOKE_TOKEN_URI, HttpConst.Method.POST );
+    self.onRevokeToken( http );
     self.setAuthHeader( http );
     http.connect;
   finally
@@ -649,7 +689,7 @@ begin
   end;
 end;
 
-procedure TCloudDriverAuthPKCESession.refreshToken;
+procedure TCloudDriverOAuth2Session.refreshToken;
 var
   http: TMiniHttpClient = nil;
   cloudDriverResult: TCloudDriverResult = nil;
@@ -662,20 +702,11 @@ var
     queryItems.Add( 'client_id', _config.clientID );
     queryItems.Add( 'grant_type', 'refresh_token' );
     queryItems.Add( 'refresh_token', _token.refresh );
+    self.onRefreshToken( queryItems );
     http.setQueryParams( queryItems );
     cloudDriverResult:= TCloudDriverResult.Create;
     cloudDriverResult.httpResult:= http.connect;
     cloudDriverResult.resultMessage:= cloudDriverResult.httpResult.body;
-    _params.resultProcessFunc( cloudDriverResult );
-  end;
-
-  procedure analyseResult;
-  var
-    json: NSDictionary;
-  begin
-    json:= TJsonUtil.parse( cloudDriverResult.httpResult.body );
-    _token.access:= TJsonUtil.getString( json, 'access_token' );
-    _token.setExpiration( TJsonUtil.getInteger( json, 'expires_in' ) );
   end;
 
 begin
@@ -684,8 +715,8 @@ begin
     doRequest;
 
     if cloudDriverResult.httpResult.resultCode <> 200 then
-      Exit;
-    analyseResult;
+      raise ECloudDriverTokenException.Create( 'RefreshToken Error' );
+    self.analyseTokenResult( cloudDriverResult.httpResult.body );
     cloudDriverManager.driverUpdated( _driver );
   finally
     FreeAndNil( cloudDriverResult );
@@ -693,7 +724,19 @@ begin
   end;
 end;
 
-procedure TCloudDriverAuthPKCESession.onRedirect(const url: NSURL);
+procedure TCloudDriverOAuth2Session.analyseTokenResult( const jsonString: String );
+var
+  json: NSDictionary;
+begin
+  json:= TJsonUtil.parse( jsonString );
+  _token.access:= TJsonUtil.getString( json, 'access_token' );
+  _token.refresh:= TJsonUtil.getString( json, 'refresh_token' );
+  _token.setExpiration( TJsonUtil.getInteger( json, 'expires_in' ) );
+  _accountID:= TJsonUtil.getString( json, 'account_id' );
+end;
+
+
+procedure TCloudDriverOAuth2Session.onRedirect(const url: NSURL);
 var
   components: NSURLComponents;
   state: String;
@@ -706,12 +749,12 @@ begin
   closePrompt;
 end;
 
-function TCloudDriverAuthPKCESession.getAccessToken: String;
+function TCloudDriverOAuth2Session.getAccessToken: String;
   procedure checkToken;
   begin
     try
       if NOT _token.isValidAccessToken then begin
-        if _token.isValidFreshToken then begin
+        if _token.isValidRefreshToken then begin
           self.refreshToken;
         end else begin
           self.authorize;
@@ -736,9 +779,9 @@ begin
   end;
 end;
 
-constructor TCloudDriverAuthPKCESession.Create(
+constructor TCloudDriverOAuth2Session.Create(
   const driver: TCloudDriver;
-  const params: TCloudDriverAuthPKCESessionParams );
+  const params: TCloudDriverOAuth2SessionParams );
 begin
   _driver:= driver;
   _params:= params;
@@ -747,20 +790,20 @@ begin
   _lockObject:= TCriticalSection.Create;
 end;
 
-destructor TCloudDriverAuthPKCESession.Destroy;
+destructor TCloudDriverOAuth2Session.Destroy;
 begin
   FreeAndNil( _token );
   FreeAndNil( _lockObject );
 end;
 
-function TCloudDriverAuthPKCESession.clone( const driver: TCloudDriver ): TCloudDriverAuthPKCESession;
+function TCloudDriverOAuth2Session.clone( const driver: TCloudDriver ): TCloudDriverOAuth2Session;
 begin
-  Result:= TCloudDriverAuthPKCESession.Create( driver, _params );
+  Result:= TCloudDriverOAuth2PKCESession.Create( driver, _params );
   Result._accountID:= _accountID;
   Result._token:= _token.clone;
 end;
 
-function TCloudDriverAuthPKCESession.authorize: Boolean;
+function TCloudDriverOAuth2Session.authorize: Boolean;
 begin
   _lockObject.Acquire;
   try
@@ -769,14 +812,13 @@ begin
     requestToken;
     Result:= self.authorized;
   finally
-    _codeVerifier:= EmptyStr;
     _state:= EmptyStr;
     _code:= EmptyStr;
     _lockObject.Release;
   end;
 end;
 
-procedure TCloudDriverAuthPKCESession.unauthorize;
+procedure TCloudDriverOAuth2Session.unauthorize;
 begin
   _lockObject.Acquire;
   try
@@ -786,12 +828,12 @@ begin
   end;
 end;
 
-function TCloudDriverAuthPKCESession.authorized: Boolean;
+function TCloudDriverOAuth2Session.authorized: Boolean;
 begin
   Result:= (_token.access <> EmptyStr);
 end;
 
-procedure TCloudDriverAuthPKCESession.setAuthHeader(http: TMiniHttpClient);
+procedure TCloudDriverOAuth2Session.setAuthHeader(http: TMiniHttpClient);
 var
   access: String;
 begin
@@ -799,7 +841,7 @@ begin
   http.addHeader( _params.AUTH_HEADER, _params.AUTH_TYPE + ' ' + access );
 end;
 
-procedure TCloudDriverAuthPKCESession.setToken(const token: TCloudDriverToken);
+procedure TCloudDriverOAuth2Session.setToken(const token: TCloudDriverToken);
 var
   oldToken: TCloudDriverToken;
 begin
@@ -808,9 +850,70 @@ begin
   oldToken.Free;
 end;
 
-function TCloudDriverAuthPKCESession.getToken: TCloudDriverToken;
+function TCloudDriverOAuth2Session.getToken: TCloudDriverToken;
 begin
   Result:= _token;
+end;
+
+{ TCloudDriverOAuth2PKCESession }
+
+procedure TCloudDriverOAuth2PKCESession.onAuthorize( const queryItems: TQueryItemsDictonary );
+var
+  codeChallenge: String;
+begin
+  _codeVerifier:= TStringUtil.generateRandomString( 43 );
+  codeChallenge:= THashUtil.sha256AndBase64( _codeVerifier ) ;
+  queryItems.Add( 'code_challenge', codeChallenge );
+  queryItems.Add( 'code_challenge_method', 'S256' );
+end;
+
+procedure TCloudDriverOAuth2PKCESession.onRequestToken( const queryItems: TQueryItemsDictonary );
+begin
+  queryItems.Add( 'code_verifier', _codeVerifier );
+  _codeVerifier:= EmptyStr;
+end;
+
+procedure TCloudDriverOAuth2PKCESession.onRefreshToken( const queryItems: TQueryItemsDictonary );
+begin
+end;
+
+procedure TCloudDriverOAuth2PKCESession.onRevokeToken( const http: TMiniHttpClient );
+begin
+end;
+
+{ TCloudDriverOAuth2SecretSession }
+
+procedure TCloudDriverOAuth2SecretSession.onAuthorize(
+  const queryItems: TQueryItemsDictonary);
+begin
+  queryItems.Add( 'client_id', _config.clientID );
+  queryItems.Add( 'token', _token.access );
+end;
+
+procedure TCloudDriverOAuth2SecretSession.onRequestToken( const queryItems: TQueryItemsDictonary );
+var
+  secret: String;
+begin
+  secret:= TCloudDriverConfigWithSecret(_config).clientSecret;
+  queryItems.Add( 'client_secret', secret );
+end;
+
+procedure TCloudDriverOAuth2SecretSession.onRefreshToken( const queryItems: TQueryItemsDictonary );
+begin
+  self.onRequestToken( queryItems );
+end;
+
+procedure TCloudDriverOAuth2SecretSession.onRevokeToken( const http: TMiniHttpClient );
+var
+  queryItems: TQueryItemsDictonary;
+  secret: String;
+begin
+  secret:= TCloudDriverConfigWithSecret(_config).clientSecret;
+  queryItems:= TQueryItemsDictonary.Create;
+  queryItems.Add( 'client_id', _config.clientID );
+  queryItems.Add( 'client_secret', secret );
+  queryItems.Add( 'token', _token.access );
+  http.setQueryParams( queryItems );
 end;
 
 { TCloudDriverManager }
@@ -863,42 +966,40 @@ begin
     _observer.driverUpdated( driver );
 end;
 
-{ TAuthSessionCloudDriver }
+{ TOAuth2SessionCloudDriver }
 
-constructor TAuthSessionCloudDriver.Create(
-  const config: TCloudDriverConfig;
-  const authParams: TCloudDriverAuthPKCESessionParams );
+constructor TOAuth2SessionCloudDriver.Create(
+  const config: TCloudDriverConfig );
 begin
   _config:= config;
-  _authSession:= TCloudDriverAuthPKCESession.Create( self, authParams );
 end;
 
-destructor TAuthSessionCloudDriver.Destroy;
+destructor TOAuth2SessionCloudDriver.Destroy;
 begin
   FreeAndNil( _authSession );
 end;
 
-function TAuthSessionCloudDriver.authorize: Boolean;
+function TOAuth2SessionCloudDriver.authorize: Boolean;
 begin
   Result:= _authSession.authorize;
 end;
 
-procedure TAuthSessionCloudDriver.unauthorize;
+procedure TOAuth2SessionCloudDriver.unauthorize;
 begin
   _authSession.unauthorize;
 end;
 
-function TAuthSessionCloudDriver.authorized: Boolean;
+function TOAuth2SessionCloudDriver.authorized: Boolean;
 begin
   Result:= _authSession.authorized;
 end;
 
-function TAuthSessionCloudDriver.getToken: TCloudDriverToken;
+function TOAuth2SessionCloudDriver.getToken: TCloudDriverToken;
 begin
   Result:= _authSession.getToken;
 end;
 
-procedure TAuthSessionCloudDriver.setToken(const token: TCloudDriverToken);
+procedure TOAuth2SessionCloudDriver.setToken(const token: TCloudDriverToken);
 begin
   _authSession.setToken( token );
 end;

@@ -29,7 +29,7 @@ type
     procedure listFolderFirst; override;
     procedure listFolderContinue; override;
   public
-    constructor Create( const authSession: TCloudDriverAuthPKCESession; const path: String ); override;
+    constructor Create( const authSession: TCloudDriverOAuth2Session; const path: String ); override;
   end;
 
   { TDropBoxDownloadSession }
@@ -72,7 +72,7 @@ type
 
   { TDropBoxClient }
 
-  TDropBoxClient = class( TAuthSessionCloudDriver )
+  TDropBoxClient = class( TOAuth2SessionCloudDriver )
   public
     class function driverName: String; override;
     class function createInstance: TCloudDriver; override;
@@ -92,8 +92,9 @@ type
       const callback: ICloudProgressCallback ); override;
   public
     procedure createFolder( const path: String ); override;
-    procedure delete( const path: String ); override;
-    procedure copyOrMove( const fromPath: String; const toPath: String; const needToMove: Boolean ); override;
+    procedure delete( const path: String; const isFolder: Boolean ); override;
+    procedure copyOrMove( const fromPath: String; const toPath: String;
+      const isFolder: Boolean; const needToMove: Boolean ); override;
   end;
 
 var
@@ -166,7 +167,7 @@ const
   );
 
 // raise the corresponding exception if there are errors
-procedure DropBoxClientProcessResult( const cloudDriverResult: TCloudDriverResult );
+procedure DropBoxClientResultProcess( const cloudDriverResult: TCloudDriverResult );
 var
   httpResult: TMiniHttpResult;
   httpError: NSError;
@@ -264,7 +265,7 @@ begin
     if httpResult.resultCode = 200 then
       analyseListResult( httpResult.body );
 
-    DropBoxClientProcessResult( cloudDriverResult );
+    DropBoxClientResultProcess( cloudDriverResult );
   finally
     FreeAndNil( cloudDriverResult );
     FreeAndNil( http );
@@ -293,7 +294,7 @@ begin
     if httpResult.resultCode = 200 then
       analyseListResult( httpResult.body );
 
-    DropBoxClientProcessResult( cloudDriverResult );
+    DropBoxClientResultProcess( cloudDriverResult );
   finally
     FreeAndNil( cloudDriverResult );
     FreeAndNil( http );
@@ -336,7 +337,7 @@ begin
   end;
 end;
 
-constructor TDropBoxListFolderSession.Create( const authSession: TCloudDriverAuthPKCESession; const path: String );
+constructor TDropBoxListFolderSession.Create( const authSession: TCloudDriverOAuth2Session; const path: String );
 var
   truePath: String;
 begin
@@ -365,7 +366,7 @@ begin
     cloudDriverResult.httpResult:= http.download( _localPath, _callback );
     cloudDriverResult.resultMessage:= cloudDriverResult.httpResult.getHeader( DropBoxConst.HEADER.RESULT );
 
-    DropBoxClientProcessResult( cloudDriverResult );
+    DropBoxClientResultProcess( cloudDriverResult );
   finally
     FreeAndNil( cloudDriverResult );
     FreeAndNil( http );
@@ -390,7 +391,7 @@ begin
     cloudDriverResult.httpResult:= http.upload( _localPath, _callback );
     cloudDriverResult.resultMessage:= cloudDriverResult.httpResult.body;
 
-    DropBoxClientProcessResult( cloudDriverResult );
+    DropBoxClientResultProcess( cloudDriverResult );
   finally
     FreeAndNil( cloudDriverResult );
     FreeAndNil( http );
@@ -419,7 +420,7 @@ var
       cloudDriverResult.httpResult:= http.connect;
       cloudDriverResult.resultMessage:= cloudDriverResult.httpResult.body;
 
-      DropBoxClientProcessResult( cloudDriverResult );
+      DropBoxClientResultProcess( cloudDriverResult );
 
       json:= TJsonUtil.parse( cloudDriverResult.resultMessage );
       sessionId:= TJsonUtil.getString( json, 'session_id' );
@@ -458,7 +459,7 @@ var
         _callback );
       cloudDriverResult.resultMessage:= cloudDriverResult.httpResult.body;
 
-      DropBoxClientProcessResult( cloudDriverResult );
+      DropBoxClientResultProcess( cloudDriverResult );
     finally
       FreeAndNil( cloudDriverResult );
       FreeAndNil( http );
@@ -498,7 +499,7 @@ var
       cloudDriverResult.httpResult:= http.connect;
       cloudDriverResult.resultMessage:= cloudDriverResult.httpResult.body;
 
-      DropBoxClientProcessResult( cloudDriverResult );
+      DropBoxClientResultProcess( cloudDriverResult );
     finally
       FreeAndNil( cloudDriverResult );
       FreeAndNil( http );
@@ -549,7 +550,7 @@ begin
     cloudDriverResult.httpResult:= http.connect;
     cloudDriverResult.resultMessage:= cloudDriverResult.httpResult.body;
 
-    DropBoxClientProcessResult( cloudDriverResult );
+    DropBoxClientResultProcess( cloudDriverResult );
   finally
     FreeAndNil( cloudDriverResult );
     FreeAndNil( http );
@@ -575,7 +576,7 @@ begin
     cloudDriverResult.httpResult:= http.connect;
     cloudDriverResult.resultMessage:= cloudDriverResult.httpResult.body;
 
-    DropBoxClientProcessResult( cloudDriverResult );
+    DropBoxClientResultProcess( cloudDriverResult );
   finally
     FreeAndNil( cloudDriverResult );
     FreeAndNil( http );
@@ -608,7 +609,7 @@ begin
     cloudDriverResult.httpResult:= http.connect;
     cloudDriverResult.resultMessage:= cloudDriverResult.httpResult.body;
 
-    DropBoxClientProcessResult( cloudDriverResult );
+    DropBoxClientResultProcess( cloudDriverResult );
   finally
     FreeAndNil( cloudDriverResult );
     FreeAndNil( http );
@@ -629,17 +630,18 @@ end;
 
 constructor TDropBoxClient.Create(const config: TCloudDriverConfig);
 var
-  params: TCloudDriverAuthPKCESessionParams;
+  params: TCloudDriverOAuth2SessionParams;
 begin
+  Inherited Create( config );
   params.config:= config;
-  params.resultProcessFunc:= @DropBoxClientProcessResult;
+  params.resultProcessFunc:= @DropBoxClientResultProcess;
   params.scope:= EmptyStr;
   params.OAUTH2_URI:= DropBoxConst.URI.OAUTH2;
   params.TOKEN_URI:= DropBoxConst.URI.TOKEN;
   params.REVOKE_TOKEN_URI:= DropBoxConst.URI.REVOKE_TOKEN;
   params.AUTH_HEADER:= DropBoxConst.HEADER.AUTH;
   params.AUTH_TYPE:= 'Bearer';
-  Inherited Create( config, params );
+  _authSession:= TCloudDriverOAuth2PKCESession.Create( self, params );
 end;
 
 function TDropBoxClient.clone: TCloudDriver;
@@ -698,12 +700,12 @@ begin
   end;
 end;
 
-procedure TDropBoxClient.delete(const path: String);
+procedure TDropBoxClient.delete( const path: String; const isFolder: Boolean );
 var
   session: TDropBoxDeleteSession = nil;
 begin
   try
-    session:= TDropBoxDeleteSession.Create( _authSession, path );
+    session:= TDropBoxDeleteSession.Create( _authSession, path, isFolder );
     session.delete;
   finally
     FreeAndNil( session );
@@ -711,12 +713,12 @@ begin
 end;
 
 procedure TDropBoxClient.copyOrMove(const fromPath: String; const toPath: String;
-  const needToMove: Boolean );
+  const isFolder: Boolean; const needToMove: Boolean );
 var
   session: TDropBoxCopyMoveSession = nil;
 begin
   try
-    session:= TDropBoxCopyMoveSession.Create( _authSession, fromPath, toPath );
+    session:= TDropBoxCopyMoveSession.Create( _authSession, fromPath, toPath, isFolder );
     session.copyOrMove( needToMove );
   finally
     FreeAndNil( session );

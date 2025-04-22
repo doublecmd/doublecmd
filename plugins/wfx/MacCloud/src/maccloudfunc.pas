@@ -303,7 +303,8 @@ begin
   end;
 end;
 
-function FsDeleteFileW( RemoteName: pwidechar ): Bool; cdecl;
+
+function fsDelete( const RemoteName: pwidechar; const isFolder: Boolean ): Boolean;
 var
   parser: TCloudPathParser = nil;
 
@@ -317,7 +318,7 @@ var
       utf8Path:= parser.connectionName
     else
       utf8Path:= parser.driverPath;
-    TCloudRootHelper.getDriver(parser).delete( utf8Path );
+    TCloudRootHelper.getDriver(parser).delete( utf8Path, isFolder );
   end;
 
 begin
@@ -336,9 +337,14 @@ begin
   end;
 end;
 
+function FsDeleteFileW( RemoteName: pwidechar ): Bool; cdecl;
+begin
+  Result:= fsDelete( RemoteName, False );
+end;
+
 function FsRemoveDirW( RemoteName: pwidechar ): Bool; cdecl;
 begin
-  Result:= FsDeleteFileW( RemoteName );
+  Result:= fsDelete( RemoteName, True );
 end;
 
 function FsRenMovFileW(
@@ -347,6 +353,7 @@ function FsRenMovFileW(
   Move, OverWrite: Bool;
   RemoteInfo: pRemoteInfo ): Integer; cdecl;
 var
+  isFolder: Boolean;
   parserOld: TCloudPathParser = nil;
   parserNew: TCloudPathParser = nil;
 
@@ -357,17 +364,18 @@ var
   begin
     ret:= macCloudPlugin.progress( oldName, newName, 0 ) = 0;
     if ret then begin
+      isFolder:= (RemoteInfo^.Attr AND FILE_ATTRIBUTE_DIRECTORY) <> 0;
       parserOld:= TCloudPathParser.Create( TStringUtil.widecharsToString(OldName) );
       parserNew:= TCloudPathParser.Create( TStringUtil.widecharsToString(NewName) );
       driver:= TCloudRootHelper.getDriver( parserOld );
       if parserOld.driverPath = EmptyStr then begin
         if parserNew.driverPath <> EmptyStr then
           raise ENotSupportedException.Create( 'Connection not support copying' );
-        driver.copyOrMove( parserOld.connectionName, parserNew.connectionName, True );
+        driver.copyOrMove( parserOld.connectionName, parserNew.connectionName, isFolder, True );
       end else begin
         if parserOld.connection <> parserNew.connection then
           raise ENotSupportedException.Create( 'Internal copy/move functions cannot be used between different accounts' );
-        driver.copyOrMove( parserOld.driverPath, parserNew.driverPath, Move );
+        driver.copyOrMove( parserOld.driverPath, parserNew.driverPath, isFolder, Move );
       end;
       macCloudPlugin.progress( oldName, newName, 100 );
       Result:= FS_FILE_OK;
