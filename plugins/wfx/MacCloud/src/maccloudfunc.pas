@@ -1,6 +1,10 @@
 {
   Notes:
-  1. currently implementing DropBox / Yandex / One Drive
+  1. currently implementing:
+     DropBox
+     Yandex
+     One Drive
+     Box
   2. other cloud drivers will be gradually supported
 }
 
