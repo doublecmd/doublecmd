@@ -53,6 +53,7 @@ type
     ContentType: NSString;
     ContentLength: NSString;
     ContentRange: NSString;
+    Location: NSString;
   end;
 
   HttpContentTypeConst = class
@@ -60,6 +61,7 @@ type
     UrlEncoded: NSString;
     JSON: NSString;
     OctetStream: NSString;
+    MultipartFormData: NSString;
   end;
 
   HttpConst = class
@@ -80,22 +82,8 @@ type
   public
     destructor Destroy; override;
   public
+    function getHeader( const name: NSString ): String;
     function getHeader( const name: String ): String;
-  end;
-
-  { TMiniHttpContentRange }
-
-  TMiniHttpContentRange = class
-  private
-    _first: Integer;
-    _last: Integer;
-    _total: Integer;
-  public
-    constructor Create( const first: Integer; const last: Integer; const total: Integer );
-    function isNeeded: Boolean;
-    function ToString: ansistring; override;
-    function length: Integer;
-    function toNSRange: NSRange;
   end;
 
   IMiniHttpDataCallback = interface
@@ -156,19 +144,21 @@ type
     procedure setBody( const body: NSString );
     procedure setContentType( const contentType: NSString );
     procedure setContentLength( const length: Integer );
-    procedure setContentRange( const range: TMiniHttpContentRange );
+    procedure setContentRange( const range: TMiniContentRange );
   protected
     procedure doRunloop( const delegate: TMiniHttpConnectionDataDelegate );
     function doConnect( const processor: TMiniHttpDataProcessor ): TMiniHttpResult;
     function doUpload( const localPath: String;
-      const range: TMiniHttpContentRange; const callback: IMiniHttpDataCallback ): TMiniHttpResult;
+      const range: TMiniContentRange; const callback: IMiniHttpDataCallback ): TMiniHttpResult;
   public
     function connect: TMiniHttpResult;
     function download( const localPath: String; const callback: IMiniHttpDataCallback ): TMiniHttpResult;
     function upload( const localPath: String;
       const callback: IMiniHttpDataCallback ): TMiniHttpResult;
     function uploadRange( const localPath: String;
-      const range: TMiniHttpContentRange; const callback: IMiniHttpDataCallback ): TMiniHttpResult;
+      const range: TMiniContentRange; const callback: IMiniHttpDataCallback ): TMiniHttpResult;
+    function postMultiPart( const dataArray: TNSDataArray;
+      const callback: IMiniHttpDataCallback ): TMiniHttpResult;
   end;
 
 implementation
@@ -336,7 +326,7 @@ type
     _callback: IMiniHttpDataCallback;
     _accumulatedBytes: Integer;
   public
-    constructor Create( const localPath: String; const range: TMiniHttpContentRange; const callback: IMiniHttpDataCallback );
+    constructor Create( const localPath: String; const range: TMiniContentRange; const callback: IMiniHttpDataCallback );
     destructor Destroy; override;
   public
     function send( const bytesCount: Integer; const connection: NSURLConnection ): Boolean; override;
@@ -348,13 +338,13 @@ type
 
 constructor TMiniHttpUploadProcessor.Create(
   const localPath: String;
-  const range: TMiniHttpContentRange;
+  const range: TMiniContentRange;
   const callback: IMiniHttpDataCallback );
 begin
   _localPath:= StringToNSString( localPath );
   _localPath.retain;
   if range.isNeeded then begin
-    _accumulatedBytes:= range._first;
+    _accumulatedBytes:= range.first;
     _stream:= NSFileRangeInputStream.alloc.initWithFileAtPath_Range( _localPath, range.toNSRange );
   end else begin
     _stream:= NSInputStream.alloc.initWithFileAtPath( _localPath );
@@ -382,6 +372,95 @@ begin
 end;
 
 procedure TMiniHttpUploadProcessor.complete(const response: NSURLResponse;
+  const error: NSError);
+begin
+  _stream.close;
+end;
+
+type
+
+  { TMiniHttpMultipartProcessor }
+
+  TMiniHttpMultipartProcessor = class( TDefaultHttpDataProcessor )
+  private
+    _stream: NSInputStream;
+    _boundary: NSString;
+  private
+    _callback: IMiniHttpDataCallback;
+    _accumulatedBytes: Integer;
+  public
+    constructor Create( const dataArray: TNSDataArray; const callback: IMiniHttpDataCallback );
+    destructor Destroy; override;
+    function boundary: NSString;
+  public
+    function send( const bytesCount: Integer; const connection: NSURLConnection ): Boolean; override;
+    function getHttpBodyStream: NSInputStream; override;
+    procedure complete( const response: NSURLResponse; const error: NSError ); override;
+  end;
+
+{ TMiniHttpMultipartProcessor }
+
+constructor TMiniHttpMultipartProcessor.Create( const dataArray: TNSDataArray; const callback: IMiniHttpDataCallback );
+var
+  data: NSMutableData;
+  i: Integer;
+  delim: NSString;
+
+  function getNSData( const obj: NSObject ): NSData;
+  begin
+    if obj.isKindOfClass( NSString ) then
+      Result:= NSString(obj).dataUsingEncoding( NSUTF8StringEncoding )
+    else
+      Result:= NSData(obj);
+  end;
+
+begin
+  _callback:= callback;
+  _boundary:= NSSTR('----').stringByAppendingString( NSUUID.UUID.UUIDString );
+  delim:= NSSTR('--').stringByAppendingString(_boundary);
+  data:= NSMutableData.new;
+
+  i:= Low( dataArray );
+  while i < High(dataArray) do begin
+    data.appendData( getNSData(delim) );
+    data.appendData( getNSData(NSSTR(#13#10)) );
+    data.appendData( getNSData(dataArray[i]) );
+    inc( i );
+    data.appendData( getNSData(NSSTR(#13#10#13#10)) );
+    data.appendData( getNSData(dataArray[i]) );
+    inc( i );
+    data.appendData( getNSData(NSSTR(#13#10)) );
+  end;
+  data.appendData( getNSData(delim) );
+  data.appendData( getNSData(NSSTR('--'#13#10)) );
+  _stream:= NSInputStream.alloc.initWithData( data );
+  data.release;
+end;
+
+destructor TMiniHttpMultipartProcessor.Destroy;
+begin
+  inherited Destroy;
+  _stream.release;
+end;
+
+function TMiniHttpMultipartProcessor.boundary: NSString;
+begin
+  Result:= _boundary;
+end;
+
+function TMiniHttpMultipartProcessor.getHttpBodyStream: NSInputStream;
+begin
+  Result:= _stream;
+end;
+
+function TMiniHttpMultipartProcessor.send(const bytesCount: Integer;
+  const connection: NSURLConnection): Boolean;
+begin
+  inc( _accumulatedBytes, bytesCount );
+  Result:= _callback.progress( _accumulatedBytes );
+end;
+
+procedure TMiniHttpMultipartProcessor.complete(const response: NSURLResponse;
   const error: NSError);
 begin
   _stream.close;
@@ -517,46 +596,17 @@ begin
     self.error.release;
 end;
 
-function TMiniHttpResult.getHeader(const name: String): String;
+function TMiniHttpResult.getHeader(const name: NSString): String;
 begin
   if Assigned(self.response) then
-    Result:= NSString( self.response.allHeaderFields.objectForKey( NSSTR(name) ) ).UTF8String
+    Result:= NSString( self.response.allHeaderFields.objectForKey(name) ).UTF8String
   else
     Result:= EmptyStr;
 end;
 
-{ TMiniHttpContentRange }
-
-constructor TMiniHttpContentRange.Create(const first: Integer;
-  const last: Integer; const total: Integer);
+function TMiniHttpResult.getHeader(const name: String): String;
 begin
-  _first:= first;
-  _last:= last;
-  _total:= total;
-end;
-
-function TMiniHttpContentRange.isNeeded: Boolean;
-begin
-  Result:= (_first>0) OR (_last<_total-1);
-end;
-
-function TMiniHttpContentRange.ToString: ansistring;
-var
-  range: String;
-begin
-  range:= IntToStr(_first) + '-' + IntToStr(_last);
-  Result:= 'bytes ' + range + '/' + IntToStr(_total);
-end;
-
-function TMiniHttpContentRange.length: Integer;
-begin
-  Result:= _last - _first + 1;
-end;
-
-function TMiniHttpContentRange.toNSRange: NSRange;
-begin
-  Result.location:= _first;
-  Result.length:= self.length;
+  Result:= self.getHeader( NSSTR(name) );
 end;
 
 { TMiniHttpConnectionDataDelegate }
@@ -754,7 +804,7 @@ begin
   self.addHeader( HttpConst.Header.ContentLength, StringToNSString(IntToStr(length)) );
 end;
 
-procedure TMiniHttpClient.setContentRange(const range: TMiniHttpContentRange);
+procedure TMiniHttpClient.setContentRange(const range: TMiniContentRange);
 begin
   self.addHeader( HttpConst.Header.ContentRange, StringToNSString(range.toString) );
 end;
@@ -765,7 +815,9 @@ var
   connection: NSURLConnection;
 begin
   try
-    TLogUtil.logInformation( 'HttpClient start:' + _request.description.UTF8String );
+    TLogUtil.logInformation( 'HttpClient start: ' +
+      _request.HTTPMethod.UTF8String + ' ' +
+      _request.description.UTF8String );
     connection:= NSURLConnection.alloc.initWithRequest_delegate(
       _request, delegate );
     connection.start;
@@ -816,7 +868,7 @@ end;
 
 function TMiniHttpClient.doUpload(
   const localPath: String;
-  const range: TMiniHttpContentRange;
+  const range: TMiniContentRange;
   const callback: IMiniHttpDataCallback): TMiniHttpResult;
 var
   processor: TMiniHttpUploadProcessor;
@@ -836,38 +888,55 @@ function TMiniHttpClient.upload(
   const callback: IMiniHttpDataCallback): TMiniHttpResult;
 var
   size: Integer;
-  range: TMiniHttpContentRange;
+  range: TMiniContentRange;
 begin
   size:= TFileUtil.filesize( localPath );
-  range:= TMiniHttpContentRange.Create( 0, size-1, size );
+  range:= TMiniContentRange.Create( 0, size-1, size );
   Result:= self.doUpload( localPath, range, callback );
   range.Free;
 end;
 
 function TMiniHttpClient.uploadRange(
   const localPath: String;
-  const range: TMiniHttpContentRange;
+  const range: TMiniContentRange;
   const callback: IMiniHttpDataCallback): TMiniHttpResult;
 begin
   Result:= self.doUpload( localPath, range, callback );
 end;
 
+function TMiniHttpClient.postMultiPart(const dataArray: TNSDataArray;
+  const callback: IMiniHttpDataCallback): TMiniHttpResult;
+var
+  processor: TMiniHttpMultipartProcessor;
+  contentType: NSString;
+begin
+  TLogUtil.logInformation( '>> HttpClient: POST MutltiPart begin' );
+  processor:= TMiniHttpMultipartProcessor.Create( dataArray, callback );
+  _request.setHTTPBodyStream( processor.getHttpBodyStream );
+  contentType:= HttpConst.ContentType.MultipartFormData.stringByAppendingString( processor.boundary );
+  self.setContentType( contentType );
+  Result:= self.doConnect( processor );
+  TLogUtil.logInformation( '<< HttpClient: POST MutltiPart end' );
+end;
+
 initialization
-  HttpConst.Method.GET:= TMiniHttpMethodGET.Create;
-  HttpConst.Method.DELETE:= TMiniHttpMethodDELETE.Create;
-  HttpConst.Method.PATCH:= TMiniHttpMethodPATCH.Create;
-  HttpConst.Method.POST:= TMiniHttpMethodPOST.Create;
+  HttpConst.Method.GET:=             TMiniHttpMethodGET.Create;
+  HttpConst.Method.DELETE:=          TMiniHttpMethodDELETE.Create;
+  HttpConst.Method.PATCH:=           TMiniHttpMethodPATCH.Create;
+  HttpConst.Method.POST:=            TMiniHttpMethodPOST.Create;
   HttpConst.Method.POSTQueryString:= TMiniHttpMethodPOSTQueryString.Create;
-  HttpConst.Method.PUT:= TMiniHttpMethodPUT.Create;
-  HttpConst.Method.PUTQueryString:= TMiniHttpMethodPUTQueryString.Create;
+  HttpConst.Method.PUT:=             TMiniHttpMethodPUT.Create;
+  HttpConst.Method.PUTQueryString:=  TMiniHttpMethodPUTQueryString.Create;
 
   HttpConst.Header.ContentType:=   NSSTR('Content-Type');
   HttpConst.Header.ContentLength:= NSSTR('Content-Length');
   HttpConst.Header.ContentRange:=  NSSTR('Content-Range');
+  HttpConst.Header.Location:=      NSSTR('Location');
 
-  HttpConst.ContentType.UrlEncoded:= NSSTR( 'application/x-www-form-urlencoded' );
-  HttpConst.ContentType.JSON:= NSSTR( 'application/json' );
-  HttpConst.ContentType.OctetStream:= NSSTR( 'application/octet-stream' );
+  HttpConst.ContentType.UrlEncoded:=        NSSTR( 'application/x-www-form-urlencoded' );
+  HttpConst.ContentType.JSON:=              NSSTR( 'application/json' );
+  HttpConst.ContentType.OctetStream:=       NSSTR( 'application/octet-stream' );
+  HttpConst.ContentType.MultipartFormData:= NSSTR( 'multipart/form-data; boundary=' );
 
 finalization
   FreeAndNil( HttpConst.Method.GET );

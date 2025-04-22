@@ -128,6 +128,9 @@ type
 
   function StringToNSString(const S: String): NSString;
 
+type
+  TNSDataArray = array of NSObject;
+
 implementation
 
 { NSFileRangeInputStream }

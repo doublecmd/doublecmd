@@ -379,7 +379,7 @@ procedure TYandexUploadSession.upload;
     end;
   end;
 
-  procedure uploadHref( const href: String; const range: TMiniHttpContentRange );
+  procedure uploadHref( const href: String; const range: TMiniContentRange );
   var
     http: TMiniHttpClient = nil;
     cloudDriverResult: TCloudDriverResult = nil;
@@ -400,7 +400,7 @@ const
   SESSION_FILE_SIZE = 1024*1024*2; // 2MB
 var
   href: String;
-  range: TMiniHttpContentRange;
+  range: TMiniContentRange;
   offset: Integer;
   sessionSize: Integer;
 begin
@@ -413,7 +413,7 @@ begin
       sessionSize:= _localFileSize - offset
     else
       sessionSize:= SESSION_FILE_SIZE;
-    range:= TMiniHttpContentRange.Create( offset, offset+sessionSize-1 , _localFileSize );
+    range:= TMiniContentRange.Create( offset, offset+sessionSize-1 , _localFileSize );
     uploadHref( href, range );
     inc( offset, sessionSize );
     range.Free;
