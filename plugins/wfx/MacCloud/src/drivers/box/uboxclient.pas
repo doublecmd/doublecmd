@@ -24,11 +24,11 @@ type
   private
     _authSession: TCloudDriverOAuth2Session;
   private
-    function pathToID( const path: String; const uri: String ): String;
+    function pathToID( const path: String; const uri: String; const raiseException: Boolean ): String;
   public
     constructor Create( const authSession: TCloudDriverOAuth2Session );
-    function pathToFolderID( const path: String ): String;
-    function pathToFileID( const path: String ): String;
+    function pathToFolderID( const path: String; const raiseException: Boolean = True ): String;
+    function pathToFileID( const path: String; const raiseException: Boolean = True ): String;
   end;
 
   { TBoxListFolderSession }
@@ -236,19 +236,32 @@ begin
   _authSession:= authSession;
 end;
 
-function TBoxPathToIDSession.pathToFolderID(const path: String): String;
+function TBoxPathToIDSession.pathToFolderID(
+  const path: String;
+  const raiseException: Boolean ): String;
+var
+  truePath: String;
 begin
-  if path = PathDelim then
+  if (path=EmptyStr) or (path=PathDelim) then
     Exit( '0' );
-  Result:= pathToID( path, BoxConst.URI.FOLDERS );
+  truePath:= path;
+  if truePath.EndsWith( PathDelim ) then
+    truePath:= truePath.Substring( 0, truePath.Length-1 );
+  Result:= pathToID( truePath, BoxConst.URI.FOLDERS, raiseException );
 end;
 
-function TBoxPathToIDSession.pathToFileID(const path: String): String;
+function TBoxPathToIDSession.pathToFileID(
+  const path: String;
+  const raiseException: Boolean ): String;
 begin
-  Result:= pathToID( path, BoxConst.URI.FILES );
+  Result:= pathToID( path, BoxConst.URI.FILES, raiseException );
 end;
 
-function TBoxPathToIDSession.pathToID( const path: String; const uri: String ): String;
+function TBoxPathToIDSession.pathToID(
+  const path: String;
+  const uri: String;
+  const raiseException: Boolean ): String;
+
   function getIDByApi: NSArray;
   var
     http: TMiniHttpClient = nil;
@@ -282,33 +295,40 @@ var
   jsonItems: NSArray;
   jsonItem: NSDictionary;
 begin
-  Result:= '';
   jsonItems:= getIDByApi;
   if jsonItems.count = 1 then begin
     jsonItem:= NSDictionary( jsonItems.objectAtIndex(0) );
     Result:= TJsonUtil.getString( jsonItem, 'id' );
   end;
+  if raiseException and (Result=EmptyStr) then
+    raise EFileNotFoundException.Create( 'Box Error, Path Not Found: ' + path );
 end;
 
-function BoxPathToFolderID( const authSession: TCloudDriverOAuth2Session; const path: String ): String;
+function BoxPathToFolderID(
+  const authSession: TCloudDriverOAuth2Session;
+  const path: String;
+  const raiseException: Boolean = True ): String;
 var
   session: TBoxPathToIDSession = nil;
 begin
   try
     session:= TBoxPathToIDSession.Create( authSession );
-    Result:= session.pathToFolderID( path );
+    Result:= session.pathToFolderID( path, raiseException );
   finally
     session.Free;
   end;
 end;
 
-function BoxPathToFileID( const authSession: TCloudDriverOAuth2Session; const path: String ): String;
+function BoxPathToFileID(
+  const authSession: TCloudDriverOAuth2Session;
+  const path: String;
+  const raiseException: Boolean = True ): String;
 var
   session: TBoxPathToIDSession = nil;
 begin
   try
     session:= TBoxPathToIDSession.Create( authSession );
-    Result:= session.pathToFileID( path );
+    Result:= session.pathToFileID( path, raiseException );
   finally
     session.Free;
   end;
@@ -472,7 +492,7 @@ begin
       attribContentDisposition, attribString,
       fileContentDisposition, fileData ];
 
-    fileID:= BoxPathToFileID( _authSession, _serverPath );;
+    fileID:= BoxPathToFileID( _authSession, _serverPath, False );;
     if fileID = EmptyStr then
       urlString:= BoxConst.URI.UPLOAD_SMALL + '/content'
     else
@@ -508,7 +528,7 @@ var
     cloudDriverResult: TCloudDriverResult = nil;
     body: NSString;
     parentPath: String;
-    pathID: String;
+    parentID: String;
     filename: String;
     json: NSDictionary;
     jsonEndpoints: NSDictionary;
@@ -516,9 +536,9 @@ var
     try
       parentPath:= TFileUtil.parentPath( _serverPath );
       filename:= TFileUtil.filename( _serverPath );
-      pathID:= BoxPathToFolderID( _authSession, parentPath );
+      parentID:= BoxPathToFolderID( _authSession, parentPath );
       body:= TJsonUtil.dumps([
-        'folder_id', pathID,
+        'folder_id', parentID,
         'file_name', filename,
         'file_size', _localFileSize ]);
 
