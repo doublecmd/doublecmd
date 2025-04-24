@@ -98,6 +98,11 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="uBoxClient"/>
       </Unit>
+      <Unit>
+        <Filename Value="drivers/box/uboxclientutil.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uBoxClientUtil"/>
+      </Unit>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
