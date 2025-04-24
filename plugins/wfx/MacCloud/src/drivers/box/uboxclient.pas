@@ -70,8 +70,6 @@ type
   { TBoxCopyMoveSession }
 
   TBoxCopyMoveSession = class( TCloudDriverCopyMoveSession )
-  private
-    procedure doAction( const needToMove: Boolean );
   public
     procedure copyOrMove( const needToMove: Boolean ); override;
   end;
@@ -229,41 +227,24 @@ end;
 { TBoxUploadSession }
 
 procedure TBoxUploadSession.uploadSmall;
-
-  function getAttributesString: NSString;
-  var
-    jsonParent: NSMutableDictionary;
-    parentID: String;
-    parentPath: String;
-    filename: String;
-  begin
-    parentPath:= TFileUtil.parentPath( _serverPath );
-    filename:= TFileUtil.filename( _serverPath );
-    parentID:= TBoxClientUtil.pathToFolderID( _authSession, parentPath );
-    jsonParent:= NSMutableDictionary.new;
-    TJsonUtil.setString( jsonParent, 'id', parentID );
-    Result:= TJsonUtil.dumps( ['name',filename, 'parent',jsonParent] );
-    jsonParent.release;
-  end;
-
 var
   http: TMiniHttpClient = nil;
   cloudDriverResult: TCloudDriverResult = nil;
+  boxPath: TBoxPathComponents = nil;
   urlString: String;
   fileID: String;
   attribContentDisposition: NSString;
-  attribString: NSString;
   fileContentDisposition: NSString;
   fileData: NSData;
   dataArray: TNSDataArray;
 begin
   try
     attribContentDisposition:= NSSTR('Content-Disposition: form-data; name="attributes"');
-    attribString:= getAttributesString;
+    boxPath:= TBoxPathComponents.Create( _authSession, _serverPath );
     fileContentDisposition:= NSSTR('Content-Disposition: form-data; name="file"; filename=""');
     fileData:= TFileUtil.allContent( _localPath );
     dataArray:= [
-      attribContentDisposition, attribString,
+      attribContentDisposition, boxPath.toJsonString,
       fileContentDisposition, fileData ];
 
     fileID:= TBoxClientUtil.pathToFileID( _authSession, _serverPath, False );;
@@ -282,6 +263,7 @@ begin
   finally
     FreeAndNil( cloudDriverResult );
     FreeAndNil( http );
+    FreeAndNil( boxPath );
   end;
 end;
 
@@ -300,20 +282,16 @@ var
   var
     http: TMiniHttpClient = nil;
     cloudDriverResult: TCloudDriverResult = nil;
+    boxPath: TBoxPathComponents = nil;
     body: NSString;
-    parentPath: String;
-    parentID: String;
-    filename: String;
     json: NSDictionary;
     jsonEndpoints: NSDictionary;
   begin
     try
-      parentPath:= TFileUtil.parentPath( _serverPath );
-      filename:= TFileUtil.filename( _serverPath );
-      parentID:= TBoxClientUtil.pathToFolderID( _authSession, parentPath );
+      boxPath:= TBoxPathComponents.Create( _authSession, _serverPath );
       body:= TJsonUtil.dumps([
-        'folder_id', parentID,
-        'file_name', filename,
+        'folder_id', boxPath.parentID,
+        'file_name', boxPath.filename,
         'file_size', _localFileSize ]);
 
       http:= TMiniHttpClient.Create( BoxConst.URI.UPLOAD_LARGE, HttpConst.Method.POST );
@@ -338,6 +316,7 @@ var
     finally
       FreeAndNil( cloudDriverResult );
       FreeAndNil( http );
+      FreeAndNil( boxPath );
     end;
   end;
 
@@ -432,25 +411,14 @@ procedure TBoxCreateFolderSession.createFolder;
 var
   http: TMiniHttpClient = nil;
   cloudDriverResult: TCloudDriverResult = nil;
-  body: NSString;
-  parentID: String;
-  parentPath: String;
-  filename: String;
-  jsonParent: NSMutableDictionary;
+  boxPath: TBoxPathComponents = nil;
 begin
   try
-    jsonParent:= NSMutableDictionary.new;
-    parentPath:= TFileUtil.parentPath( _path );
-    filename:= TFileUtil.filename( _path );
-    parentID:= TBoxClientUtil.pathToFolderID( _authSession, parentPath );
-    TJsonUtil.setString( jsonParent, 'id', parentID );
-    body:= TJsonUtil.dumps( ['name',filename, 'parent',jsonParent] );
-    jsonParent.release;
-
+    boxPath:= TBoxPathComponents.Create( _authSession, _path );
     http:= TMiniHttpClient.Create( BoxConst.URI.FOLDERS, HttpConst.Method.POST );
     http.setContentType( HttpConst.ContentType.JSON );
     _authSession.setAuthHeader( http );
-    http.setBody( body );
+    http.setBody( boxPath.toJsonString );
 
     cloudDriverResult:= TCloudDriverResult.Create;
     cloudDriverResult.httpResult:= http.connect;
@@ -459,6 +427,7 @@ begin
   finally
     FreeAndNil( cloudDriverResult );
     FreeAndNil( http );
+    FreeAndNil( boxPath );
   end;
 end;
 
@@ -492,23 +461,16 @@ end;
 
 { TBoxCopyMoveSession }
 
-procedure TBoxCopyMoveSession.doAction(const needToMove: Boolean);
+procedure TBoxCopyMoveSession.copyOrMove( const needToMove: Boolean );
 var
-  urlString: String;
   http: TMiniHttpClient = nil;
   cloudDriverResult: TCloudDriverResult = nil;
-  body: NSString;
-  json: NSMutableDictionary;
-  jsonParent: NSMutableDictionary;
-  toParentPath: String;
-  toParentID: String;
-  toFilename: String;
+  boxPath: TBoxPathComponents = nil;
+  urlString: String;
   method: TMiniHttpMethod;
 begin
   try
-    toParentPath:= TFileUtil.parentPath( _toPath );
-    toFilename:= TFileUtil.filename( _toPath );
-    json:= NSMutableDictionary.new;
+    boxPath:= TBoxPathComponents.Create( _authSession, _toPath );
     if _isFolder then begin
       urlString:= BoxConst.URI.FOLDERS + '/' + TBoxClientUtil.pathToFolderID(_authSession,_fromPath);
     end else begin
@@ -521,36 +483,20 @@ begin
       method:= HttpConst.Method.POST;
     end;
 
-    json:= NSMutableDictionary.new;
-    TJsonUtil.setString( json, 'name', toFilename );
-    toParentID:= TBoxClientUtil.pathToFolderID( _authSession, toParentPath );
-    jsonParent:= NSMutableDictionary.new;
-    TJsonUtil.setString( jsonParent, 'id', toParentID );
-    TJsonUtil.setDictionary( json, 'parent', jsonParent );
-    jsonParent.release;
-
-    body:= TJsonUtil.dumps( json );
-    json.release;
-
     http:= TMiniHttpClient.Create( urlString, method );
     http.setContentType( HttpConst.ContentType.JSON );
     _authSession.setAuthHeader( http );
-    http.setBody( body );
+    http.setBody( boxPath.toJsonString );
 
     cloudDriverResult:= TCloudDriverResult.Create;
     cloudDriverResult.httpResult:= http.connect;
     cloudDriverResult.resultMessage:= cloudDriverResult.httpResult.body;
-
     BoxClientResultProcess( cloudDriverResult );
   finally
     FreeAndNil( cloudDriverResult );
     FreeAndNil( http );
+    FreeAndNil( boxPath );
   end;
-end;
-
-procedure TBoxCopyMoveSession.copyOrMove( const needToMove: Boolean );
-begin
-  doAction( needToMove );
 end;
 
 { TBoxClient }

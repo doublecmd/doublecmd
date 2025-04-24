@@ -7,10 +7,27 @@ interface
 
 uses
   Classes, SysUtils,
-  CocoaAll, uMiniCocoa,
+  CocoaAll,
   uCloudDriver, uMiniHttpClient, uMiniUtil;
 
 type
+
+  { TBoxPathComponents }
+
+  TBoxPathComponents = class
+  private
+    _fullPath: String;
+    _filename: String;
+    _parentPath: String;
+    _parentID: String;
+  public
+    constructor Create( const authSession: TCloudDriverOAuth2Session; const path: String );
+    function toJsonString: NSString;
+  public
+    property filename: String read _filename;
+    property parentPath: String read _parentPath;
+    property parentID: String read _parentID;
+  end;
 
   { TBoxClientUtil }
 
@@ -163,6 +180,27 @@ begin
   end;
   if raiseException and (Result=EmptyStr) then
     raise EFileNotFoundException.Create( 'Box Error, Path Not Found: ' + path );
+end;
+
+{ TBoxPathComponents }
+
+constructor TBoxPathComponents.Create(
+  const authSession: TCloudDriverOAuth2Session; const path: String);
+begin
+  _fullPath:= path;
+  _parentPath:= TFileUtil.parentPath( _fullPath );
+  _filename:= TFileUtil.filename( _fullPath );
+  _parentID:= TBoxClientUtil.pathToFolderID( authSession, _parentPath );
+end;
+
+function TBoxPathComponents.toJsonString: NSString;
+var
+  jsonParent: NSMutableDictionary;
+begin
+  jsonParent:= NSMutableDictionary.new;
+  TJsonUtil.setString( jsonParent, 'id', _parentID );
+  Result:= TJsonUtil.dumps( ['name',_filename, 'parent',jsonParent] );
+  jsonParent.release;
 end;
 
 class function TBoxClientUtil.pathToFolderID(
