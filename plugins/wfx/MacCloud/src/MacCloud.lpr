@@ -27,7 +27,6 @@
      (2) avoid version hell of libcrypto, openssl, etc.
      (3) minimal external dependencies, json / hash / string encoding / file utils, etc.
      (4) reduce unnecessary size of plugins
-   3. currently implementing DropBox only
 }
 
 library MacCloud;
