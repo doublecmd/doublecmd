@@ -211,7 +211,7 @@ type
   public
     constructor Create( const driver: TCloudDriver; const params: TCloudDriverOAuth2SessionParams );
     destructor Destroy; override;
-    function clone( const driver: TCloudDriver ): TCloudDriverOAuth2Session;
+    function clone( const driver: TCloudDriver ): TCloudDriverOAuth2Session; virtual; abstract;
   public
     function authorize: Boolean;
     procedure unauthorize;
@@ -231,6 +231,8 @@ type
     procedure onRequestToken( const queryItems: TQueryItemsDictonary ); override;
     procedure onRefreshToken( const queryItems: TQueryItemsDictonary ); override;
     procedure onRevokeToken( const http: TMiniHttpClient ); override;
+  public
+    function clone(const driver: TCloudDriver): TCloudDriverOAuth2Session; override;
   end;
 
   { TCloudDriverOAuth2SecretSession }
@@ -241,6 +243,8 @@ type
     procedure onRequestToken( const queryItems: TQueryItemsDictonary ); override;
     procedure onRefreshToken( const queryItems: TQueryItemsDictonary ); override;
     procedure onRevokeToken( const http: TMiniHttpClient ); override;
+  public
+    function clone(const driver: TCloudDriver): TCloudDriverOAuth2Session; override;
   end;
 
   { TCloudDriverListFolderSession }
@@ -796,13 +800,6 @@ begin
   FreeAndNil( _lockObject );
 end;
 
-function TCloudDriverOAuth2Session.clone( const driver: TCloudDriver ): TCloudDriverOAuth2Session;
-begin
-  Result:= TCloudDriverOAuth2PKCESession.Create( driver, _params );
-  Result._accountID:= _accountID;
-  Result._token:= _token.clone;
-end;
-
 function TCloudDriverOAuth2Session.authorize: Boolean;
 begin
   _lockObject.Acquire;
@@ -881,6 +878,13 @@ procedure TCloudDriverOAuth2PKCESession.onRevokeToken( const http: TMiniHttpClie
 begin
 end;
 
+function TCloudDriverOAuth2PKCESession.clone( const driver: TCloudDriver ): TCloudDriverOAuth2Session;
+begin
+  Result:= TCloudDriverOAuth2PKCESession.Create( driver, _params );
+  Result._accountID:= _accountID;
+  Result._token:= _token.clone;
+end;
+
 { TCloudDriverOAuth2SecretSession }
 
 procedure TCloudDriverOAuth2SecretSession.onAuthorize(
@@ -914,6 +918,13 @@ begin
   queryItems.Add( 'client_secret', secret );
   queryItems.Add( 'token', _token.access );
   http.setQueryParams( queryItems );
+end;
+
+function TCloudDriverOAuth2SecretSession.clone( const driver: TCloudDriver ): TCloudDriverOAuth2Session;
+begin
+  Result:= TCloudDriverOAuth2SecretSession.Create( driver, _params );
+  Result._accountID:= _accountID;
+  Result._token:= _token.clone;
 end;
 
 { TCloudDriverManager }
