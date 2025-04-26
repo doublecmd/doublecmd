@@ -42,6 +42,7 @@ type
     GET: TMiniHttpMethod;
     DELETE: TMiniHttpMethod;
     PATCH: TMiniHttpMethod;
+    HEAD: TMiniHttpMethod;
     POST: TMiniHttpMethod;
     POSTQueryString: TMiniHttpMethod;
     PUT: TMiniHttpMethod;
@@ -53,7 +54,10 @@ type
     ContentType: NSString;
     ContentLength: NSString;
     ContentRange: NSString;
+    Authorization: NSString;
     Location: NSString;
+    Date: NSString;
+    Host: NSString;
   end;
 
   HttpContentTypeConst = class
@@ -159,6 +163,8 @@ type
       const range: TMiniContentRange; const callback: IMiniHttpDataCallback ): TMiniHttpResult;
     function postMultiPart( const dataArray: TNSDataArray;
       const callback: IMiniHttpDataCallback ): TMiniHttpResult;
+  public
+    property request: NSMutableURLRequest read _request;
   end;
 
 implementation
@@ -182,6 +188,13 @@ type
   { TMiniHttpMethodDELETE }
 
   TMiniHttpMethodPATCH = class( TMiniHttpMethod )
+    constructor Create;
+    procedure setQuery(const request: NSMutableURLRequest; const query: TQueryItemsDictonary); override;
+  end;
+
+  { TMiniHttpMethodHEAD }
+
+  TMiniHttpMethodHEAD = class( TMiniHttpMethod )
     constructor Create;
     procedure setQuery(const request: NSMutableURLRequest; const query: TQueryItemsDictonary); override;
   end;
@@ -524,6 +537,11 @@ begin
   Inherited Create( 'PATCH' );
 end;
 
+constructor TMiniHttpMethodHEAD.Create;
+begin
+  Inherited Create( 'HEAD' );
+end;
+
 constructor TMiniHttpMethodPOST.Create;
 begin
   Inherited Create( 'POST' );
@@ -551,6 +569,12 @@ begin
 end;
 
 procedure TMiniHttpMethodDELETE.setQuery(const request: NSMutableURLRequest;
+  const query: TQueryItemsDictonary);
+begin
+  self.setQueryToURL( request, query );
+end;
+
+procedure TMiniHttpMethodHEAD.setQuery(const request: NSMutableURLRequest;
   const query: TQueryItemsDictonary);
 begin
   self.setQueryToURL( request, query );
@@ -923,6 +947,7 @@ initialization
   HttpConst.Method.GET:=             TMiniHttpMethodGET.Create;
   HttpConst.Method.DELETE:=          TMiniHttpMethodDELETE.Create;
   HttpConst.Method.PATCH:=           TMiniHttpMethodPATCH.Create;
+  HttpConst.Method.HEAD:=            TMiniHttpMethodHEAD.Create;
   HttpConst.Method.POST:=            TMiniHttpMethodPOST.Create;
   HttpConst.Method.POSTQueryString:= TMiniHttpMethodPOSTQueryString.Create;
   HttpConst.Method.PUT:=             TMiniHttpMethodPUT.Create;
@@ -931,7 +956,10 @@ initialization
   HttpConst.Header.ContentType:=   NSSTR('Content-Type');
   HttpConst.Header.ContentLength:= NSSTR('Content-Length');
   HttpConst.Header.ContentRange:=  NSSTR('Content-Range');
+  HttpConst.Header.Authorization:= NSSTR('Authorization');
   HttpConst.Header.Location:=      NSSTR('Location');
+  HttpConst.Header.Date:=          NSSTR('Date');
+  HttpConst.Header.Host:=          NSSTR('Host');
 
   HttpConst.ContentType.UrlEncoded:=        NSSTR( 'application/x-www-form-urlencoded' );
   HttpConst.ContentType.JSON:=              NSSTR( 'application/json' );
@@ -942,6 +970,7 @@ finalization
   FreeAndNil( HttpConst.Method.GET );
   FreeAndNil( HttpConst.Method.DELETE );
   FreeAndNil( HttpConst.Method.PATCH );
+  FreeAndNil( HttpConst.Method.HEAD );
   FreeAndNil( HttpConst.Method.POST );
   FreeAndNil( HttpConst.Method.POSTQueryString );
   FreeAndNil( HttpConst.Method.PUT );
