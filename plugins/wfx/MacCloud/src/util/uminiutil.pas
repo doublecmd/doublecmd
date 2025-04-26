@@ -18,7 +18,7 @@ unit uMiniUtil;
 interface
 
 uses
-  Classes, SysUtils,
+  Classes, SysUtils, DateUtils,
   MacOSAll, CocoaAll, uMiniCocoa;
 
 type
@@ -64,12 +64,17 @@ type
   { THttpClientUtil }
 
   THttpClientUtil = class
+  private const
+    AWS_URI_ENCODE_ALLOW_CHAR = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._~';
+  private class var
+    AWS_URI_ENCODE_CHARACTER_SET: NSCharacterSet;
   public
     class function toQueryItems( const lclItems: TQueryItemsDictonary ): NSArray;
     class function toNSString( const lclItems: TQueryItemsDictonary ): NSString;
     class procedure openInSafari( const urlPart: String; lclItems: TQueryItemsDictonary );
     class function queryValue( components: NSURLComponents; const name: String ): String;
     class function urlEncode( const urlString: String ): String;
+    class function awsUriEncode( const uriString: NSString ): NSString;
   end;
 
   { THashUtil }
@@ -77,7 +82,10 @@ type
   THashUtil = class
   public
     class function sha256AndBase64( const input: String ): String;
+    class function sha256AndHexStr( const input: NSString ): NSString;
     class function sha1AndBase64( const inputStream: NSinputStream ): String;
+    class function HmacSha256( const keyData: NSData; const text: NSString ): NSData;
+    class function HmacSha256AndHexStr( const keyData: NSData; const text: NSString ): NSString;
   end;
 
   { TStringUtil }
@@ -87,6 +95,8 @@ type
     class function generateRandomString( const length: Integer ): String;
     class function widecharsToString(const p: pwidechar): String;
     class procedure stringToWidechars(const buffer: pwidechar; const s: String; const maxLength: Integer);
+    class function hexstr( const buf: pbyte; const length: Integer ): NSString;
+    class function hexstr( const data: NSData ): NSString;
   end;
 
   { TJsonUtil }
@@ -139,6 +149,14 @@ type
     class function sha1( const path: String; const range:TMiniContentRange ): String; overload;
   end;
 
+  { TDateTimeUtil }
+
+  TDateTimeUtil = class
+  public
+    class function dateTimeToISO8601( const date: NSDate ): NSString;
+    class function nowToISO8601: NSString;
+  end;
+
   TLogProc = procedure ( const MsgType: Integer; const message: String ) of object;
 
   { TLogUtil }
@@ -175,11 +193,18 @@ type
 
   CC_SHA1_CTX_PTR = ^CC_SHA1_CTX;
 
+  CCHmacAlgorithm = NSInteger;
 
   function CC_SHA256(data: Pointer; len: LongWord; md: Pointer): Pointer; cdecl; external;
   procedure CC_SHA1_Init(c: CC_SHA1_CTX_PTR); cdecl; external;
   procedure CC_SHA1_Update(c: CC_SHA1_CTX_PTR; const data: Pointer; len: CC_LONG ); cdecl; external;
   procedure CC_SHA1_Final(md: pchar; c: CC_SHA1_CTX_PTR); cdecl; external;
+
+  procedure CCHmac( algorithm: CCHmacAlgorithm; key: Pointer; keyLength: Integer;
+    data: Pointer; dataLength: Integer; macOut: Pointer ); cdecl; external;
+
+const
+  kCCHmacAlgSHA256 = 2;
 
 type
   TConsoleLogger = class
@@ -206,6 +231,14 @@ begin
   Result:= base64String.UTF8String;
 end;
 
+class function THashUtil.sha256AndHexStr(const input: NSString): NSString;
+var
+  sha256Buf: array [1..CC_SHA256_DIGEST_LENGTH] of Byte;
+begin
+  CC_SHA256( input.cString, input.cStringLength, @sha256Buf );
+  TStringUtil.hexstr( @sha256Buf, CC_SHA256_DIGEST_LENGTH );
+end;
+
 class function THashUtil.sha1AndBase64(const inputStream: NSinputStream): String;
 var
   ctx: CC_SHA1_CTX;
@@ -226,6 +259,28 @@ begin
   sha1Data:= NSData.dataWithBytes_length( @sha1Buf, CC_SHA1_DIGEST_LENGTH );
   base64String:= sha1Data.base64EncodedStringWithOptions( 0 );
   Result:= base64String.UTF8String;
+end;
+
+class function THashUtil.HmacSha256( const keyData: NSData; const text: NSString ): NSData;
+var
+  hmacBuf: array [1..CC_SHA256_DIGEST_LENGTH] of Byte;
+  textData: NSData;
+begin
+  textData:= text.dataUsingEncoding( NSUTF8StringEncoding );
+  CCHmac( kCCHmacAlgSHA256,
+    keyData.bytes, keyData.length,
+    textData.bytes, textData.length,
+    @hmacBuf );
+  Result:= NSData.dataWithBytes_length( @hmacBuf, CC_SHA256_DIGEST_LENGTH );
+end;
+
+class function THashUtil.HmacSha256AndHexStr(
+  const keyData: NSData; const text: NSString): NSString;
+var
+  hmacData: NSData;
+begin
+  hmacData:= THashUtil.HmacSha256( keyData, text );
+  Result:= TStringUtil.hexstr( hmacData );
 end;
 
 { TStringUtil }
@@ -276,6 +331,23 @@ begin
     range,
     nil );
   buffer[usedLength div 2]:= #0;
+end;
+
+class function TStringUtil.hexstr( const buf: pbyte; const length: Integer ): NSString;
+var
+  hexString: NSMutableString;
+  i: Integer;
+begin
+  hexString:= NSMutableString.new.autorelease;
+  for i:=0 to length-1 do begin
+    hexString.appendFormat( NSSTR('%02x'), buf[i] );
+  end;
+  Result:= hexString;
+end;
+
+class function TStringUtil.hexstr(const data: NSData): NSString;
+begin
+  Result:= TStringUtil.hexstr( data.bytes, data.length );
 end;
 
 { TJsonUtil }
@@ -595,6 +667,28 @@ begin
   inputStream.close;
 end;
 
+{ TDateTimeUtil }
+
+class function TDateTimeUtil.dateTimeToISO8601( const date: NSDate ): NSString;
+var
+  formater: NSDateFormatter;
+begin
+  formater:= NSDateFormatter.new;
+  formater.setDateFormat( NSSTR('yyyyMMdd''T''HHmmss''Z''') );
+  formater.setTimeZone( NSTimeZone.timeZoneForSecondsFromGMT(0) );
+  Result:= formater.stringFromDate( date );
+  formater.release;
+end;
+
+class function TDateTimeUtil.nowToISO8601: NSString;
+var
+  nowDate: NSDate;
+begin
+  nowDate:= NSDate.new;
+  Result:= TDateTimeUtil.dateTimeToISO8601( nowDate );
+  nowDate.release;
+end;
+
 { TLogUtil }
 
 class procedure TLogUtil.setLogProc( const logProc: TLogProc );
@@ -724,6 +818,11 @@ begin
   Result:= nsUrlString.UTF8String;
 end;
 
+class function THttpClientUtil.awsUriEncode( const uriString: NSString ): NSString;
+begin
+  Result:= uriString.stringByAddingPercentEncodingWithAllowedCharacters( AWS_URI_ENCODE_CHARACTER_SET );
+end;
+
 { TMiniContentRange }
 
 constructor TMiniContentRange.Create(const first: Integer;
@@ -761,6 +860,9 @@ end;
 initialization
   consoleLogger:= TConsoleLogger.Create;
   TLogUtil.setLogProc( @consoleLogger.logProc );
+
+  THttpClientUtil.AWS_URI_ENCODE_CHARACTER_SET:= NSCharacterSet.characterSetWithCharactersInString(
+    NSSTR(THttpClientUtil.AWS_URI_ENCODE_ALLOW_CHAR) ).retain;
 
 finalization
   FreeAndNil( consoleLogger );
