@@ -34,7 +34,7 @@ type
   TBoxClientUtil = class
   public
     class function pathToFolderID(
-      const authSession: TCloudDriverOAuth2Session;
+      const authSession: TCloudDriverAuthSession;
       const path: String;
       const raiseException: Boolean = True ): String;
     class function pathToFileID(
@@ -47,11 +47,11 @@ type
 
   TBoxPathToIDSession = class
   private
-    _authSession: TCloudDriverOAuth2Session;
+    _authSession: TCloudDriverAuthSession;
   private
     function pathToID( const path: String; const uri: String; const raiseException: Boolean ): String;
   public
-    constructor Create( const authSession: TCloudDriverOAuth2Session );
+    constructor Create( const authSession: TCloudDriverAuthSession );
     function pathToFolderID( const path: String; const raiseException: Boolean = True ): String;
     function pathToFileID( const path: String; const raiseException: Boolean = True ): String;
   end;
@@ -109,7 +109,7 @@ implementation
 
 { TBoxPathToIDSession }
 
-constructor TBoxPathToIDSession.Create( const authSession: TCloudDriverOAuth2Session);
+constructor TBoxPathToIDSession.Create( const authSession: TCloudDriverAuthSession);
 begin
   _authSession:= authSession;
 end;
@@ -204,7 +204,7 @@ begin
 end;
 
 class function TBoxClientUtil.pathToFolderID(
-  const authSession: TCloudDriverOAuth2Session;
+  const authSession: TCloudDriverAuthSession;
   const path: String;
   const raiseException: Boolean ): String;
 var

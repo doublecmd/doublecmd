@@ -33,9 +33,9 @@ type
 
   TCloudDriverResultProcessFunc = procedure ( const cloudDriverResult: TCloudDriverResult );
 
-  { TCloudDriverConfig }
+  { TTokenCloudDriverConfig }
 
-  TCloudDriverConfig = class
+  TTokenCloudDriverConfig = class
   private
     _clientID: String;
     _listenURI: String;
@@ -45,11 +45,11 @@ type
     property listenURI: String read _listenURI;
   end;
 
-  TCloudDriverConfigPtr = ^TCloudDriverConfig;
+  TTokenCloudDriverConfigPtr = ^TTokenCloudDriverConfig;
 
-  { TCloudDriverConfigWithSecret }
+  { TTokenCloudDriverConfigWithSecret }
 
-  TCloudDriverConfigWithSecret = class( TCloudDriverConfig )
+  TTokenCloudDriverConfigWithSecret = class( TTokenCloudDriverConfig )
   private
     _clientSecret: String;
   public
@@ -125,8 +125,6 @@ type
     function authorize: Boolean; virtual; abstract;
     procedure unauthorize; virtual; abstract;
     function authorized: Boolean; virtual; abstract;
-    function getToken: TCloudDriverToken; virtual; abstract;
-    procedure setToken( const token: TCloudDriverToken ); virtual; abstract;
   public
     procedure download(
       const serverPath: String;
@@ -170,7 +168,7 @@ type
   { TCloudDriverOAuth2SessionParams }
 
   TCloudDriverOAuth2SessionParams = record
-    config: TCloudDriverConfig;
+    config: TTokenCloudDriverConfig;
     resultProcessFunc: TCloudDriverResultProcessFunc;
     scope: String;
     OAUTH2_URI: String;
@@ -180,13 +178,21 @@ type
     AUTH_TYPE: String;
   end;
 
+  { TCloudDriverAuthSession }
+
+  TCloudDriverAuthSession = class
+  public
+    procedure setAuthHeader( const http: TMiniHttpClient ); virtual; abstract;
+    function clone( const driver: TCloudDriver ): TCloudDriverAuthSession; virtual; abstract;
+  end;
+
   { TCloudDriverOAuth2Session }
 
-  TCloudDriverOAuth2Session = class
+  TCloudDriverOAuth2Session = class( TCloudDriverAuthSession )
   strict protected
     _driver: TCloudDriver;
     _params: TCloudDriverOAuth2SessionParams;
-    _config: TCloudDriverConfig;
+    _config: TTokenCloudDriverConfig;
     _state: String;
     _code: String;
     _token: TCloudDriverToken;
@@ -211,12 +217,11 @@ type
   public
     constructor Create( const driver: TCloudDriver; const params: TCloudDriverOAuth2SessionParams );
     destructor Destroy; override;
-    function clone( const driver: TCloudDriver ): TCloudDriverOAuth2Session; virtual; abstract;
   public
     function authorize: Boolean;
     procedure unauthorize;
     function authorized: Boolean;
-    procedure setAuthHeader( http: TMiniHttpClient );
+    procedure setAuthHeader( const http: TMiniHttpClient ); override;
     procedure setToken( const token: TCloudDriverToken );
     function getToken: TCloudDriverToken;
   end;
@@ -251,7 +256,7 @@ type
 
   TCloudDriverListFolderSession = class
   protected
-    _authSession: TCloudDriverOAuth2Session;
+    _authSession: TCloudDriverAuthSession;
     _path: String;
     _files: TCloudFiles;
     _hasMore: Boolean;
@@ -259,7 +264,7 @@ type
     procedure listFolderFirst; virtual; abstract;
     procedure listFolderContinue; virtual; abstract;
   public
-    constructor Create( const authSession: TCloudDriverOAuth2Session; const path: String ); virtual;
+    constructor Create( const authSession: TCloudDriverAuthSession; const path: String ); virtual;
     destructor Destroy; override;
     function getNextFile: TCloudFile;
   end;
@@ -352,7 +357,7 @@ type
   public
     constructor Create(
       const sessionClass: TCloudDriverListFolderSessionClass;
-      const authSession: TCloudDriverOAuth2Session;
+      const authSession: TCloudDriverAuthSession;
       const path: String );
     destructor Destroy; override;
     procedure listFolderBegin; override;
@@ -360,15 +365,24 @@ type
     procedure listFolderEnd; override;
   end;
 
+
+  { TTokenCloudDriver }
+
+  TTokenCloudDriver = class( TCloudDriver )
+  public
+    function getToken: TCloudDriverToken; virtual; abstract;
+    procedure setToken( const token: TCloudDriverToken ); virtual; abstract;
+  end;
+
   { TOAuth2SessionCloudDriver }
 
-  TOAuth2SessionCloudDriver = class( TCloudDriver )
+  TOAuth2SessionCloudDriver = class( TTokenCloudDriver )
   protected
-    _config: TCloudDriverConfig;
+    _config: TTokenCloudDriverConfig;
     _authSession: TCloudDriverOAuth2Session;
   public
     constructor Create(
-      const config: TCloudDriverConfig );
+      const config: TTokenCloudDriverConfig );
     destructor Destroy; override;
   public
     function authorize: Boolean; override;
@@ -383,9 +397,9 @@ var
 
 implementation
 
-{ TCloudDriverConfig }
+{ TTokenCloudDriverConfig }
 
-constructor TCloudDriverConfig.Create(
+constructor TTokenCloudDriverConfig.Create(
   const aClientID: String;
   const aListenURI: String );
 begin
@@ -393,9 +407,9 @@ begin
   _listenURI:= aListenURI;
 end;
 
-{ TCloudDriverConfigWithSecret }
+{ TTokenCloudDriverConfigWithSecret }
 
-constructor TCloudDriverConfigWithSecret.Create(const aClientID: String;
+constructor TTokenCloudDriverConfigWithSecret.Create(const aClientID: String;
   const aClientSecret: String; const aListenURI: String);
 begin
   Inherited Create( aClientID, aListenURI );
@@ -460,7 +474,7 @@ end;
 { TCloudDriverListFolderSession }
 
 constructor TCloudDriverListFolderSession.Create(
-  const authSession: TCloudDriverOAuth2Session; const path: String);
+  const authSession: TCloudDriverAuthSession; const path: String);
 begin
   _authSession:= authSession;
   _files:= TCloudFiles.Create;
@@ -568,7 +582,7 @@ end;
 
 constructor TCloudDriverDefaultLister.Create(
   const sessionClass: TCloudDriverListFolderSessionClass;
-  const authSession: TCloudDriverOAuth2Session;
+  const authSession: TCloudDriverAuthSession;
   const path: String);
 begin
   _listFolderSession:= sessionClass.Create( authSession, path );
@@ -830,7 +844,7 @@ begin
   Result:= (_token.access <> EmptyStr);
 end;
 
-procedure TCloudDriverOAuth2Session.setAuthHeader(http: TMiniHttpClient);
+procedure TCloudDriverOAuth2Session.setAuthHeader( const http: TMiniHttpClient );
 var
   access: String;
 begin
@@ -898,7 +912,7 @@ procedure TCloudDriverOAuth2SecretSession.onRequestToken( const queryItems: TQue
 var
   secret: String;
 begin
-  secret:= TCloudDriverConfigWithSecret(_config).clientSecret;
+  secret:= TTokenCloudDriverConfigWithSecret(_config).clientSecret;
   queryItems.Add( 'client_secret', secret );
 end;
 
@@ -912,7 +926,7 @@ var
   queryItems: TQueryItemsDictonary;
   secret: String;
 begin
-  secret:= TCloudDriverConfigWithSecret(_config).clientSecret;
+  secret:= TTokenCloudDriverConfigWithSecret(_config).clientSecret;
   queryItems:= TQueryItemsDictonary.Create;
   queryItems.Add( 'client_id', _config.clientID );
   queryItems.Add( 'client_secret', secret );
@@ -980,7 +994,7 @@ end;
 { TOAuth2SessionCloudDriver }
 
 constructor TOAuth2SessionCloudDriver.Create(
-  const config: TCloudDriverConfig );
+  const config: TTokenCloudDriverConfig );
 begin
   _config:= config;
 end;

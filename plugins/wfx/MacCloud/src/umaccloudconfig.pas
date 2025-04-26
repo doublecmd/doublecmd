@@ -52,80 +52,80 @@ implementation
 
 type
 
-  { TTokenCloudDriverConfig }
+  { TMacTokenCloudDriverConfig }
 
-  TTokenCloudDriverConfig = class( TMacCloudDriverConfig )
+  TMacTokenCloudDriverConfig = class( TMacCloudDriverConfig )
     class procedure loadSecurity( const driver: TCloudDriver; const params: NSDictionary ); override;
     class procedure saveSecurity( const driver: TCloudDriver; const params: NSMutableDictionary ); override;
     class procedure loadCommon( const params: NSDictionary ); override;
     class procedure saveCommon( const params: NSMutableDictionary ); override;
-    class function cloudDriverConfigPtr: TCloudDriverConfigPtr; virtual; abstract;
+    class function cloudDriverConfigPtr: TTokenCloudDriverConfigPtr; virtual; abstract;
     class function cloudDriverClass: TCloudDriverClass; virtual; abstract;
   end;
 
   { TDropBoxCloudDriverConfig }
 
-  TDropBoxCloudDriverConfig = class( TTokenCloudDriverConfig )
-    class function cloudDriverConfigPtr: TCloudDriverConfigPtr; override;
+  TDropBoxCloudDriverConfig = class( TMacTokenCloudDriverConfig )
+    class function cloudDriverConfigPtr: TTokenCloudDriverConfigPtr; override;
     class function cloudDriverClass: TCloudDriverClass; override;
   end;
 
   { TYandexCloudDriverConfig }
 
-  TYandexCloudDriverConfig = class( TTokenCloudDriverConfig )
-    class function cloudDriverConfigPtr: TCloudDriverConfigPtr; override;
+  TYandexCloudDriverConfig = class( TMacTokenCloudDriverConfig )
+    class function cloudDriverConfigPtr: TTokenCloudDriverConfigPtr; override;
     class function cloudDriverClass: TCloudDriverClass; override;
   end;
 
   { TOneDriveCloudDriverConfig }
 
-  TOneDriveCloudDriverConfig = class( TTokenCloudDriverConfig )
-    class function cloudDriverConfigPtr: TCloudDriverConfigPtr; override;
+  TOneDriveCloudDriverConfig = class( TMacTokenCloudDriverConfig )
+    class function cloudDriverConfigPtr: TTokenCloudDriverConfigPtr; override;
     class function cloudDriverClass: TCloudDriverClass; override;
   end;
 
   { TBoxCloudDriverConfig }
 
-  TBoxCloudDriverConfig = class( TTokenCloudDriverConfig )
-    class function cloudDriverConfigPtr: TCloudDriverConfigPtr; override;
+  TBoxCloudDriverConfig = class( TMacTokenCloudDriverConfig )
+    class function cloudDriverConfigPtr: TTokenCloudDriverConfigPtr; override;
     class function cloudDriverClass: TCloudDriverClass; override;
   end;
 
-{ TTokenCloudDriverConfig }
+{ TMacTokenCloudDriverConfig }
 
-class procedure TTokenCloudDriverConfig.loadCommon(const params: NSDictionary);
+class procedure TMacTokenCloudDriverConfig.loadCommon(const params: NSDictionary);
 var
   clientID: String;
   clientSecret: String;
   listenURI: String;
-  oldCloudDriverConfig: TCloudDriverConfig;
+  oldCloudDriverConfig: TTokenCloudDriverConfig;
 begin
   clientID:= TJsonUtil.getString( params, 'clientID' );
   clientSecret:= TJsonUtil.getString( params, 'clientSecret' );
   listenURI:= TJsonUtil.getString( params, 'listenURI' );
   oldCloudDriverConfig:= self.cloudDriverConfigPtr^;
   if clientSecret = EmptyStr then begin
-    self.cloudDriverConfigPtr^:= TCloudDriverConfig.Create( clientID, listenURI );
+    self.cloudDriverConfigPtr^:= TTokenCloudDriverConfig.Create( clientID, listenURI );
   end else begin
-    self.cloudDriverConfigPtr^:= TCloudDriverConfigWithSecret.Create( clientID, clientSecret, listenURI );
+    self.cloudDriverConfigPtr^:= TTokenCloudDriverConfigWithSecret.Create( clientID, clientSecret, listenURI );
   end;
   if Assigned(oldCloudDriverConfig) then
     oldCloudDriverConfig.Free;
   cloudDriverManager.register( self.cloudDriverClass );
 end;
 
-class procedure TTokenCloudDriverConfig.saveCommon(const params: NSMutableDictionary);
+class procedure TMacTokenCloudDriverConfig.saveCommon(const params: NSMutableDictionary);
 var
-  cloudDriverConfig: TCloudDriverConfig;
+  cloudDriverConfig: TTokenCloudDriverConfig;
 begin
   cloudDriverConfig:= self.cloudDriverConfigPtr^;
   TJsonUtil.setString( params, 'clientID', cloudDriverConfig.clientID );
   TJsonUtil.setString( params, 'listenURI', cloudDriverConfig.listenURI );
-  if cloudDriverConfig is TCloudDriverConfigWithSecret then
-    TJsonUtil.setString( params, 'clientSecret', TCloudDriverConfigWithSecret(cloudDriverConfig).clientSecret );
+  if cloudDriverConfig is TTokenCloudDriverConfigWithSecret then
+    TJsonUtil.setString( params, 'clientSecret', TTokenCloudDriverConfigWithSecret(cloudDriverConfig).clientSecret );
 end;
 
-class procedure TTokenCloudDriverConfig.loadSecurity(
+class procedure TMacTokenCloudDriverConfig.loadSecurity(
   const driver: TCloudDriver; const params: NSDictionary);
 var
   token: TCloudDriverToken;
@@ -136,10 +136,10 @@ begin
     TJsonUtil.getString( jsonToken, 'access' ),
     TJsonUtil.getString( jsonToken, 'refresh' ),
     TJsonUtil.getDateTime( jsonToken, 'accessExpirationTime' ) );
-  driver.setToken( token );
+  TTokenCloudDriver(driver).setToken( token );
 end;
 
-class procedure TTokenCloudDriverConfig.saveSecurity(
+class procedure TMacTokenCloudDriverConfig.saveSecurity(
   const driver: TCloudDriver; const params: NSMutableDictionary);
 var
   client: TDropBoxClient absolute driver;
@@ -157,7 +157,7 @@ end;
 
 { TDropBoxCloudDriverConfig }
 
-class function TDropBoxCloudDriverConfig.cloudDriverConfigPtr: TCloudDriverConfigPtr;
+class function TDropBoxCloudDriverConfig.cloudDriverConfigPtr: TTokenCloudDriverConfigPtr;
 begin
   Result:= @dropBoxConfig;
 end;
@@ -169,7 +169,7 @@ end;
 
 { TYandexCloudDriverConfig }
 
-class function TYandexCloudDriverConfig.cloudDriverConfigPtr: TCloudDriverConfigPtr;
+class function TYandexCloudDriverConfig.cloudDriverConfigPtr: TTokenCloudDriverConfigPtr;
 begin
   Result:= @yandexConfig;
 end;
@@ -181,7 +181,7 @@ end;
 
 { TOneDriveCloudDriverConfig }
 
-class function TOneDriveCloudDriverConfig.cloudDriverConfigPtr: TCloudDriverConfigPtr;
+class function TOneDriveCloudDriverConfig.cloudDriverConfigPtr: TTokenCloudDriverConfigPtr;
 begin
   Result:= @oneDriveConfig;
 end;
@@ -193,7 +193,7 @@ end;
 
 { TBoxCloudDriverConfig }
 
-class function TBoxCloudDriverConfig.cloudDriverConfigPtr: TCloudDriverConfigPtr;
+class function TBoxCloudDriverConfig.cloudDriverConfigPtr: TTokenCloudDriverConfigPtr;
 begin
   Result:= @boxConfig;
 end;
@@ -424,19 +424,19 @@ begin
   macCloudDriverConfigManager:= TMacCloudConfigManager.Create;
 
   macCloudDriverConfigManager.register( TDropBoxClient.driverName, TDropBoxCloudDriverConfig );
-  dropBoxConfig:= TCloudDriverConfig.Create( 'ahj0s9xia6i61gh', 'dc2ea085a05ac273a://dropbox/auth' );
+  dropBoxConfig:= TTokenCloudDriverConfig.Create( 'ahj0s9xia6i61gh', 'dc2ea085a05ac273a://dropbox/auth' );
   cloudDriverManager.register( TDropBoxClient );
 
   macCloudDriverConfigManager.register( TYandexClient.driverName, TYandexCloudDriverConfig );
-  yandexConfig:= TCloudDriverConfig.Create( 'eaf0c133568a46a0bd986bffb48c62b6', 'dc2ea085a05ac273a://yandex/auth' );
+  yandexConfig:= TTokenCloudDriverConfig.Create( 'eaf0c133568a46a0bd986bffb48c62b6', 'dc2ea085a05ac273a://yandex/auth' );
   cloudDriverManager.register( TYandexClient );
 
   macCloudDriverConfigManager.register( TOneDriveClient.driverName, TOneDriveCloudDriverConfig );
-  oneDriveConfig:= TCloudDriverConfig.Create( '', 'dc2ea085a05ac273a://onedrive/auth' );
+  oneDriveConfig:= TTokenCloudDriverConfig.Create( '', 'dc2ea085a05ac273a://onedrive/auth' );
   cloudDriverManager.register( TOneDriveClient );
 
   macCloudDriverConfigManager.register( TBoxClient.driverName, TBoxCloudDriverConfig );
-  boxConfig:= TCloudDriverConfigWithSecret.Create( '', '', 'dc2ea085a05ac273a://box/auth' );
+  boxConfig:= TTokenCloudDriverConfigWithSecret.Create( '', '', 'dc2ea085a05ac273a://box/auth' );
   cloudDriverManager.register( TBoxClient );
 end;
 

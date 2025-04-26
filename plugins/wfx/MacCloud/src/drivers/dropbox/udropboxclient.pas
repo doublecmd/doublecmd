@@ -29,7 +29,7 @@ type
     procedure listFolderFirst; override;
     procedure listFolderContinue; override;
   public
-    constructor Create( const authSession: TCloudDriverOAuth2Session; const path: String ); override;
+    constructor Create( const authSession: TCloudDriverAuthSession; const path: String ); override;
   end;
 
   { TDropBoxDownloadSession }
@@ -77,7 +77,7 @@ type
     class function driverName: String; override;
     class function createInstance: TCloudDriver; override;
   public
-    constructor Create( const config: TCloudDriverConfig );
+    constructor Create( const config: TTokenCloudDriverConfig );
     function clone: TCloudDriver; override;
   public
     function createLister( const path: String ): TCloudDriverLister; override;
@@ -98,7 +98,7 @@ type
   end;
 
 var
-  dropBoxConfig: TCloudDriverConfig;
+  dropBoxConfig: TTokenCloudDriverConfig;
 
 implementation
 
@@ -337,7 +337,7 @@ begin
   end;
 end;
 
-constructor TDropBoxListFolderSession.Create( const authSession: TCloudDriverOAuth2Session; const path: String );
+constructor TDropBoxListFolderSession.Create( const authSession: TCloudDriverAuthSession; const path: String );
 var
   truePath: String;
 begin
@@ -628,7 +628,7 @@ begin
   Result:= TDropBoxClient.Create( dropBoxConfig );
 end;
 
-constructor TDropBoxClient.Create(const config: TCloudDriverConfig);
+constructor TDropBoxClient.Create(const config: TTokenCloudDriverConfig);
 var
   params: TCloudDriverOAuth2SessionParams;
 begin
@@ -649,7 +649,7 @@ var
   newClient: TDropBoxClient;
 begin
   newClient:= TDropBoxClient.Create( _config );
-  newClient._authSession:= self._authSession.clone( newClient );
+  newClient._authSession:= TCloudDriverOAuth2Session( self._authSession.clone(newClient) );
   Result:= newClient;
 end;
 
