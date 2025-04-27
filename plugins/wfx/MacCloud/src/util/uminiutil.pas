@@ -3,6 +3,7 @@
    1. contains only the most basic util
    2. make full use of Cocoa native facilities:
       json serialization/deserialization
+      xml
       key chains
       hash
       string conversion
@@ -125,6 +126,17 @@ type
     class function getDateTime( const json: NSDictionary; const key: String ): TDateTime;
     class function getArray( const json: NSDictionary; const key: String ): NSArray;
     class function getDictionary( const json: NSDictionary; const key: String ): NSDictionary;
+  end;
+
+  { TXMLUtil }
+
+  TXmlUtil = class
+  public
+    class function parse( const xmlString: String ): NSXMLElement;
+    class function parse( const xmlString: NSString ): NSXMLElement;
+    class function getNSString( const xml: NSXMLElement; const name: String ): NSString;
+    class function getString( const xml: NSXMLElement; const name: String ): String;
+    class function getInteger( const xml: NSXMLElement; const name: String ): Integer;
   end;
 
   { TSecUtil }
@@ -451,10 +463,9 @@ end;
 class function TJsonUtil.parse(const jsonString: NSString): NSDictionary;
 var
   jsonData: NSData;
-  error: NSError;
+  error: NSError = nil;
 begin
   jsonData:= jsonString.dataUsingEncoding( NSUTF8StringEncoding );
-  error:= nil;
   Result:= NSJSONSerialization.JSONObjectWithData_options_error( jsonData, 0, @error );
   if error <> nil then
     raise EArgumentException.Create( 'error in TJsonUtil.parse(): ' +
@@ -530,6 +541,47 @@ class function TJsonUtil.getDictionary(const json: NSDictionary;
   const key: String): NSDictionary;
 begin
   Result:= NSDictionary( json.objectForKey( StringToNSString(key) ) );
+end;
+
+{ TXmlUtil }
+
+class function TXmlUtil.parse(const xmlString: String): NSXMLElement;
+begin
+  Result:= self.parse( StringToNSString(xmlString) );
+end;
+
+class function TXmlUtil.parse(const xmlString: NSString): NSXMLElement;
+var
+  doc: NSXMLDocument = nil;
+  error: NSError = nil;
+begin
+  doc:= NSXMLDocument.alloc.initWithXMLString_options_error(
+    xmlString,
+    0,
+    @error );
+  if error <> nil then
+    raise EArgumentException.Create( 'error in TXmlUtil.parse(): ' +
+      error.localizedDescription.UTF8String + ': ' + xmlString.UTF8String );
+  Result:= doc.rootElement;
+  doc.autorelease;
+end;
+
+class function TXmlUtil.getNSString(const xml: NSXMLElement; const name: String ): NSString;
+var
+  elements: NSArray;
+begin
+  elements:= xml.elementsForName( StringToNSString(name) );
+  Result:= elements.firstObject.stringValue;
+end;
+
+class function TXmlUtil.getString( const xml: NSXMLElement; const name: String ): String;
+begin
+  Result:= TXmlUtil.getNSString(xml,name).utf8String;
+end;
+
+class function TXmlUtil.getInteger(const xml: NSXMLElement; const name: String ): Integer;
+begin
+  Result:= TXmlUtil.getNSString(xml,name).longLongValue;
 end;
 
 { TSecUtil }
