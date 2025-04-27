@@ -114,13 +114,8 @@ type
     MOVE: String;
   end;
 
-  TYandexConstHeader = record
-    AUTH: String;
-  end;
-
   TYandexConst = record
     URI: TYandexConstURI;
-    HEADER: TYandexConstHeader;
   end;
 
 const
@@ -134,9 +129,6 @@ const
       UPLOAD:   'https://cloud-api.yandex.net/v1/disk/resources/upload';
       COPY: 'https://cloud-api.yandex.net/v1/disk/resources/copy';
       MOVE: 'https://cloud-api.yandex.net/v1/disk/resources/move';
-    );
-    HEADER: (
-      AUTH: 'Authorization';
     );
   );
 
@@ -170,7 +162,7 @@ var
       Exit;
     case httpResult.resultCode of
       401:
-        raise ECloudDriverTokenException.Create( cloudDriverMessage );
+        raise ECloudDriverAuthException.Create( cloudDriverMessage );
       403, 507:
         raise ECloudDriverQuotaException.Create( cloudDriverMessage );
       404:
@@ -527,7 +519,6 @@ begin
   params.OAUTH2_URI:= YandexConst.URI.OAUTH2;
   params.TOKEN_URI:= YandexConst.URI.TOKEN;
   params.REVOKE_TOKEN_URI:= YandexConst.URI.REVOKE_TOKEN;
-  params.AUTH_HEADER:= YandexConst.HEADER.AUTH;
   params.AUTH_TYPE:= 'OAuth';
   _authSession:= TCloudDriverOAuth2PKCESession.Create( self, params );
 end;

@@ -522,7 +522,6 @@ begin
   params.OAUTH2_URI:= BoxConst.URI.OAUTH2;
   params.TOKEN_URI:= BoxConst.URI.TOKEN;
   params.REVOKE_TOKEN_URI:= BoxConst.URI.REVOKE_TOKEN;
-  params.AUTH_HEADER:= BoxConst.HEADER.AUTH;
   params.AUTH_TYPE:= 'Bearer';
   _authSession:= TCloudDriverOAuth2SecretSession.Create( self, params );
 end;

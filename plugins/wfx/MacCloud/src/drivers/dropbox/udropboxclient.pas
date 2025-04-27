@@ -121,7 +121,6 @@ type
   end;
 
   TDropBoxConstHeader = record
-    AUTH: String;
     ARG: String;
     RESULT: String;
   end;
@@ -156,7 +155,6 @@ const
       MOVE: 'https://api.dropboxapi.com/2/files/move_v2';
     );
     HEADER: (
-      AUTH: 'Authorization';
       ARG: 'Dropbox-API-Arg';
       RESULT: 'Dropbox-API-Result';
     );
@@ -191,7 +189,7 @@ var
   procedure processDropBox401Error;
   begin
     if cloudDriverMessage.IndexOf('access_token') >= 0 then
-      raise ECloudDriverTokenException.Create( cloudDriverMessage );
+      raise ECloudDriverAuthException.Create( cloudDriverMessage );
     raise ECloudDriverException.Create( cloudDriverMessage );
   end;
 
@@ -639,7 +637,6 @@ begin
   params.OAUTH2_URI:= DropBoxConst.URI.OAUTH2;
   params.TOKEN_URI:= DropBoxConst.URI.TOKEN;
   params.REVOKE_TOKEN_URI:= DropBoxConst.URI.REVOKE_TOKEN;
-  params.AUTH_HEADER:= DropBoxConst.HEADER.AUTH;
   params.AUTH_TYPE:= 'Bearer';
   _authSession:= TCloudDriverOAuth2PKCESession.Create( self, params );
 end;

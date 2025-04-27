@@ -107,13 +107,8 @@ type
     RESOURCES: String;
   end;
 
-  TOneDriveConstHeader = record
-    AUTH: String;
-  end;
-
   TOneDriveConst = record
     URI: TOneDriveConstURI;
-    HEADER: TOneDriveConstHeader;
   end;
 
 const
@@ -123,9 +118,6 @@ const
       TOKEN: 'https://login.microsoftonline.com/common/oauth2/v2.0/token';
       REVOKE_TOKEN: 'https://login.microsoftonline.com/common/oauth2/v2.0/logout';
       RESOURCES:   'https://graph.microsoft.com/v1.0';
-    );
-    HEADER: (
-      AUTH: 'Authorization';
     );
   );
 
@@ -180,7 +172,7 @@ var
       Exit;
     case httpResult.resultCode of
       401:
-        raise ECloudDriverTokenException.Create( cloudDriverMessage );
+        raise ECloudDriverAuthException.Create( cloudDriverMessage );
       403:
         raise ECloudDriverPermissionException.Create( cloudDriverMessage );
       404:
@@ -546,7 +538,6 @@ begin
   params.OAUTH2_URI:= OneDriveConst.URI.OAUTH2;
   params.TOKEN_URI:= OneDriveConst.URI.TOKEN;
   params.REVOKE_TOKEN_URI:= OneDriveConst.URI.REVOKE_TOKEN;
-  params.AUTH_HEADER:= OneDriveConst.HEADER.AUTH;
   params.AUTH_TYPE:= 'Bearer';
   _authSession:= TCloudDriverOAuth2PKCESession.Create( self, params );
 end;

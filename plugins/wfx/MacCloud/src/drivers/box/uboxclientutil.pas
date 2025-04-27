@@ -21,7 +21,7 @@ type
     _parentPath: String;
     _parentID: String;
   public
-    constructor Create( const authSession: TCloudDriverOAuth2Session; const path: String );
+    constructor Create( const authSession: TCloudDriverAuthSession; const path: String );
     function toJsonString: NSString;
   public
     property filename: String read _filename;
@@ -38,7 +38,7 @@ type
       const path: String;
       const raiseException: Boolean = True ): String;
     class function pathToFileID(
-        const authSession: TCloudDriverOAuth2Session;
+        const authSession: TCloudDriverAuthSession;
         const path: String;
         const raiseException: Boolean = True ): String;
   end;
@@ -67,7 +67,6 @@ type
   end;
 
   TBoxConstHeader = record
-    AUTH: String;
     ARG: String;
     RESULT: String;
   end;
@@ -94,7 +93,6 @@ const
       UPLOAD_LARGE: 'https://upload.box.com/api/2.0/files/upload_sessions';
     );
     HEADER: (
-      AUTH: 'Authorization';
       ARG: 'Dropbox-API-Arg';
       RESULT: 'Dropbox-API-Result';
     );
@@ -185,7 +183,7 @@ end;
 { TBoxPathComponents }
 
 constructor TBoxPathComponents.Create(
-  const authSession: TCloudDriverOAuth2Session; const path: String);
+  const authSession: TCloudDriverAuthSession; const path: String);
 begin
   _fullPath:= path;
   _parentPath:= TFileUtil.parentPath( _fullPath );
@@ -219,7 +217,7 @@ begin
 end;
 
 class function TBoxClientUtil.pathToFileID(
-  const authSession: TCloudDriverOAuth2Session;
+  const authSession: TCloudDriverAuthSession;
   const path: String;
   const raiseException: Boolean ): String;
 var
@@ -267,7 +265,7 @@ var
       Exit;
 
     case httpResult.resultCode of
-      401: raise ECloudDriverTokenException.Create( cloudDriverMessage );
+      401: raise ECloudDriverAuthException.Create( cloudDriverMessage );
       else raise ECloudDriverException.Create( cloudDriverMessage );
     end;
   end;

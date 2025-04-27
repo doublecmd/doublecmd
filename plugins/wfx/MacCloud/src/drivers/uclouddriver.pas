@@ -24,7 +24,7 @@ type
   { ECloudDriverException }
 
   ECloudDriverException = class( Exception );
-  ECloudDriverTokenException = class( ECloudDriverException );
+  ECloudDriverAuthException = class( ECloudDriverException );
   ECloudDriverConflictException = class( ECloudDriverException );
   ECloudDriverQuotaException = class( ECloudDriverException );
   ECloudDriverPermissionException = class( ECloudDriverException );
@@ -174,7 +174,6 @@ type
     OAUTH2_URI: String;
     TOKEN_URI: String;
     REVOKE_TOKEN_URI: String;
-    AUTH_HEADER: String;
     AUTH_TYPE: String;
   end;
 
@@ -275,13 +274,13 @@ type
 
   TCloudDriverDownloadSession = class
   protected
-    _authSession: TCloudDriverOAuth2Session;
+    _authSession: TCloudDriverAuthSession;
     _serverPath: String;
     _localPath: String;
     _callback: ICloudProgressCallback;
   public
     constructor Create(
-      const authSession: TCloudDriverOAuth2Session;
+      const authSession: TCloudDriverAuthSession;
       const serverPath: String;
       const localPath: String;
       const callback: ICloudProgressCallback );
@@ -292,14 +291,14 @@ type
 
   TCloudDriverUploadSession = class
   protected
-    _authSession: TCloudDriverOAuth2Session;
+    _authSession: TCloudDriverAuthSession;
     _serverPath: String;
     _localPath: String;
     _localFileSize: Integer;
     _callback: ICloudProgressCallback;
   public
     constructor Create(
-      const authSession: TCloudDriverOAuth2Session;
+      const authSession: TCloudDriverAuthSession;
       const serverPath: String;
       const localPath: String;
       const callback: ICloudProgressCallback );
@@ -310,10 +309,10 @@ type
 
   TCloudDriverCreateFolderSession = class
   protected
-    _authSession: TCloudDriverOAuth2Session;
+    _authSession: TCloudDriverAuthSession;
     _path: String;
   public
-    constructor Create( const authSession: TCloudDriverOAuth2Session; const path: String );
+    constructor Create( const authSession: TCloudDriverAuthSession; const path: String );
     procedure createFolder; virtual; abstract;
   end;
 
@@ -321,11 +320,11 @@ type
 
   TCloudDriverDeleteSession = class
   protected
-    _authSession: TCloudDriverOAuth2Session;
+    _authSession: TCloudDriverAuthSession;
     _path: String;
     _isFolder: Boolean;
   public
-    constructor Create( const authSession: TCloudDriverOAuth2Session;
+    constructor Create( const authSession: TCloudDriverAuthSession;
       const path: String; const isFolder: Boolean );
     procedure delete; virtual; abstract;
   end;
@@ -334,13 +333,13 @@ type
 
   TCloudDriverCopyMoveSession = class
   protected
-    _authSession: TCloudDriverOAuth2Session;
+    _authSession: TCloudDriverAuthSession;
     _fromPath: String;
     _toPath: String;
     _isFolder: Boolean;
   public
     constructor Create(
-      const authSession: TCloudDriverOAuth2Session;
+      const authSession: TCloudDriverAuthSession;
       const fromPath: String;
       const toPath: String;
       const isFolder: Boolean );
@@ -508,7 +507,7 @@ end;
 { TCloudDriverDownloadSession }
 
 constructor TCloudDriverDownloadSession.Create(
-  const authSession: TCloudDriverOAuth2Session;
+  const authSession: TCloudDriverAuthSession;
   const serverPath: String;
   const localPath: String;
   const callback: ICloudProgressCallback );
@@ -522,7 +521,7 @@ end;
 { TCloudDriverUploadSession }
 
 constructor TCloudDriverUploadSession.Create(
-  const authSession: TCloudDriverOAuth2Session;
+  const authSession: TCloudDriverAuthSession;
   const serverPath: String;
   const localPath: String;
   const callback: ICloudProgressCallback );
@@ -537,7 +536,7 @@ end;
 { TCloudDriverCreateFolderSession }
 
 constructor TCloudDriverCreateFolderSession.Create(
-  const authSession: TCloudDriverOAuth2Session; const path: String);
+  const authSession: TCloudDriverAuthSession; const path: String);
 begin
   _authSession:= authSession;
   _path:= path;
@@ -546,7 +545,7 @@ end;
 { TCloudDriverDeleteSession }
 
 constructor TCloudDriverDeleteSession.Create(
-  const authSession: TCloudDriverOAuth2Session;
+  const authSession: TCloudDriverAuthSession;
   const path: String; const isFolder: Boolean );
 begin
   _authSession:= authSession;
@@ -557,7 +556,7 @@ end;
 { TCloudDriverCopyMoveSession }
 
 constructor TCloudDriverCopyMoveSession.Create(
-  const authSession: TCloudDriverOAuth2Session;
+  const authSession: TCloudDriverAuthSession;
   const fromPath: String;
   const toPath: String;
   const isFolder: Boolean );
@@ -733,7 +732,7 @@ begin
     doRequest;
 
     if cloudDriverResult.httpResult.resultCode <> 200 then
-      raise ECloudDriverTokenException.Create( 'RefreshToken Error' );
+      raise ECloudDriverAuthException.Create( 'RefreshToken Error' );
     self.analyseTokenResult( cloudDriverResult.httpResult.body );
     cloudDriverManager.driverUpdated( _driver );
   finally
@@ -779,7 +778,7 @@ function TCloudDriverOAuth2Session.getAccessToken: String;
         end;
       end;
     except
-      on e: ECloudDriverTokenException do begin
+      on e: ECloudDriverAuthException do begin
         TLogUtil.logError( 'Token Error: ' + e.ClassName + ': ' + e.Message );
         _token.invalid;
         self.authorize;
@@ -847,9 +846,11 @@ end;
 procedure TCloudDriverOAuth2Session.setAuthHeader( const http: TMiniHttpClient );
 var
   access: String;
+  authString: NSString;
 begin
   access:= self.getAccessToken;
-  http.addHeader( _params.AUTH_HEADER, _params.AUTH_TYPE + ' ' + access );
+  authString:= StringToNSString( _params.AUTH_TYPE + ' ' + access );
+  http.addHeader( HttpConst.Header.Authorization, authString );
 end;
 
 procedure TCloudDriverOAuth2Session.setToken(const token: TCloudDriverToken);
