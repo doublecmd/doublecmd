@@ -29,9 +29,9 @@
         <IsPartOfProject Value="True"/>
       </Unit>
       <Unit>
-        <Filename Value="maccloudfunc.pas"/>
+        <Filename Value="uwfxfunc.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="MacCloudFunc"/>
+        <UnitName Value="uWFXFunc"/>
       </Unit>
       <Unit>
         <Filename Value="httpclient/uminihttpclient.pas"/>
@@ -49,24 +49,24 @@
         <UnitName Value="uMiniUtil"/>
       </Unit>
       <Unit>
-        <Filename Value="umaccloudutil.pas"/>
+        <Filename Value="uwfxutil.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="uMacCloudUtil"/>
+        <UnitName Value="uWFXUtil"/>
       </Unit>
       <Unit>
-        <Filename Value="umaccloudcore.pas"/>
+        <Filename Value="uwfxplugin.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="uMacCloudCore"/>
+        <UnitName Value="uWFXPlugin"/>
       </Unit>
       <Unit>
-        <Filename Value="umaccloudoptions.pas"/>
+        <Filename Value="uwfxoptions.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="uMacCloudOptions"/>
+        <UnitName Value="uWFXOptions"/>
       </Unit>
       <Unit>
-        <Filename Value="umaccloudconfig.pas"/>
+        <Filename Value="uwfxconfig.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="uMacCloudConfig"/>
+        <UnitName Value="uWFXConfig"/>
       </Unit>
       <Unit>
         <Filename Value="drivers/dropbox/udropboxclient.pas"/>
@@ -103,6 +103,18 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="uBoxClientUtil"/>
       </Unit>
+      <Unit>
+        <Filename Value="drivers/aws/uawsauth.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit>
+      <Unit>
+        <Filename Value="drivers/aws/uawscore.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit>
+      <Unit>
+        <Filename Value="drivers/aws/us3client.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
@@ -112,7 +124,7 @@
     </Target>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir)"/>
-      <OtherUnitFiles Value="../../../../sdk;util;httpclient;drivers/dropbox;drivers/root;drivers/yandex;drivers;drivers/onedrive;drivers/box"/>
+      <OtherUnitFiles Value="../../../../sdk;util;httpclient;drivers/dropbox;drivers/root;drivers/yandex;drivers;drivers/onedrive;drivers/box;drivers/aws"/>
       <UnitOutputDirectory Value="../lib/$(TargetCPU)-$(TargetOS)"/>
     </SearchPaths>
     <CodeGeneration>

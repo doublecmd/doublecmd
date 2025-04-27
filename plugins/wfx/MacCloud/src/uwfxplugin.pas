@@ -1,4 +1,4 @@
-unit uMacCloudCore;
+unit uWFXPlugin;
 
 {$mode ObjFPC}{$H+}
 {$interfaces corba}
@@ -13,9 +13,9 @@ uses
 
 type
 
-  { TMacCloudPlugin }
+  { TWFXMacCloudPlugin }
 
-  TMacCloudPlugin = class
+  TWFXMacCloudPlugin = class
   strict private
     _pluginNumber: Integer;
     _progressProc: TProgressProcW;
@@ -32,9 +32,9 @@ type
     property configPath: String read _configPath write _configPath;
   end;
 
-  { TCloudConnection }
+  { TWFXConnection }
 
-  TCloudConnection = class
+  TWFXConnection = class
   private
     _name: String;
     _driver: TCloudDriver;
@@ -50,34 +50,34 @@ type
     property modificationTime: TDateTime read _modificationTime;
   end;
 
-  TCloudConnections = TFPObjectList;
+  TWFXConnections = TFPObjectList;
 
-  { TCloudConnectionManager }
+  { TWFXConnectionManager }
 
-  TCloudConnectionManager = class
+  TWFXConnectionManager = class
   private
-    _connections: TCloudConnections;
+    _connections: TWFXConnections;
   public
     constructor Create;
     destructor Destroy; override;
   private
-    procedure setConnections( const connections: TCloudConnections );
+    procedure setConnections( const connections: TWFXConnections );
   public
-    procedure add( const connection: TCloudConnection );
-    function get( const name: String ): TCloudConnection;
+    procedure add( const connection: TWFXConnection );
+    function get( const name: String ): TWFXConnection;
     procedure delete( const name: String );
-    property connections: TCloudConnections read _connections write setConnections;
+    property connections: TWFXConnections read _connections write setConnections;
   end;
 
 var
-  macCloudPlugin: TMacCloudPlugin;
-  cloudConnectionManager: TCloudConnectionManager;
+  WFXMacCloudPlugin: TWFXMacCloudPlugin;
+  WFXConnectionManager: TWFXConnectionManager;
 
 implementation
 
-{ TMacCloudPlugin }
+{ TWFXMacCloudPlugin }
 
-constructor TMacCloudPlugin.Create( const pluginNumber: Integer; const progressProc: TProgressProcW; const logProc: TLogProcW );
+constructor TWFXMacCloudPlugin.Create( const pluginNumber: Integer; const progressProc: TProgressProcW; const logProc: TLogProcW );
 begin
   _pluginNumber:= pluginNumber;
   _progressProc:= progressProc;
@@ -85,13 +85,13 @@ begin
   TLogUtil.setLogProc( @self.pluginLogProc );
 end;
 
-function TMacCloudPlugin.progress(const sourceName: pwidechar;
+function TWFXMacCloudPlugin.progress(const sourceName: pwidechar;
   const targetName: pwidechar; const percentDone: Integer): Integer;
 begin
   Result:= _progressProc( _pluginNumber, sourceName, targetName, percentDone );
 end;
 
-procedure TMacCloudPlugin.pluginLogProc(const MsgType: Integer; const message: String);
+procedure TWFXMacCloudPlugin.pluginLogProc(const MsgType: Integer; const message: String);
 var
   buffer: Array [0..1024*10-1] of widechar;
 begin
@@ -99,9 +99,9 @@ begin
   _logProc( _pluginNumber, MsgType, buffer );
 end;
 
-{ TCloudConnection }
+{ TWFXConnection }
 
-constructor TCloudConnection.Create(
+constructor TWFXConnection.Create(
   const name: String;
   const driver: TCloudDriver;
   const creationTime: TDateTime;
@@ -113,45 +113,45 @@ begin
   _modificationTime:= modificationTime;
 end;
 
-destructor TCloudConnection.Destroy;
+destructor TWFXConnection.Destroy;
 begin
   FreeAndNil( _driver );
 end;
 
-{ TCloudConnectionManager }
+{ TWFXConnectionManager }
 
-constructor TCloudConnectionManager.Create;
+constructor TWFXConnectionManager.Create;
 begin
-  _connections:= TCloudConnections.Create( True );
+  _connections:= TWFXConnections.Create( True );
 end;
 
-destructor TCloudConnectionManager.Destroy;
+destructor TWFXConnectionManager.Destroy;
 begin
   FreeAndNil( _connections );
 end;
 
-procedure TCloudConnectionManager.setConnections(
-  const connections: TCloudConnections);
+procedure TWFXConnectionManager.setConnections(
+  const connections: TWFXConnections);
 var
-  oldConnections: TCloudConnections;
+  oldConnections: TWFXConnections;
 begin
   oldConnections:= _connections;
   _connections:= connections;
   FreeAndNil( oldConnections );
 end;
 
-procedure TCloudConnectionManager.add(const connection: TCloudConnection);
+procedure TWFXConnectionManager.add(const connection: TWFXConnection);
 begin
   _connections.Add( connection );
 end;
 
-function TCloudConnectionManager.get(const name: String): TCloudConnection;
+function TWFXConnectionManager.get(const name: String): TWFXConnection;
 var
   i: Integer;
-  connection: TCloudConnection;
+  connection: TWFXConnection;
 begin
   for i:= 0 to _connections.Count - 1 do begin
-    connection:= TCloudConnection( _connections[i] );
+    connection:= TWFXConnection( _connections[i] );
     if connection.name <> name then
       continue;
     Exit( connection );
@@ -160,9 +160,9 @@ begin
   raise EArgumentException.Create( 'Connection not found in TCloudConnectionManager.get(): ' + name );
 end;
 
-procedure TCloudConnectionManager.delete(const name: String);
+procedure TWFXConnectionManager.delete(const name: String);
 var
-  connection: TCloudConnection;
+  connection: TWFXConnection;
 begin
   connection:= self.get( name );
   _connections.Remove( connection );
@@ -170,10 +170,10 @@ end;
 
 initialization
   cloudDriverManager:= TCloudDriverManager.Create;
-  cloudConnectionManager:= TCloudConnectionManager.Create;
+  WFXConnectionManager:= TWFXConnectionManager.Create;
 
 finalization
-  FreeAndNil( cloudConnectionManager );
+  FreeAndNil( WFXConnectionManager );
   FreeAndNil( cloudDriverManager );
 
 end.

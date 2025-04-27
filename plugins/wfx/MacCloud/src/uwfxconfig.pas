@@ -1,4 +1,4 @@
-unit uMacCloudConfig;
+unit uWFXConfig;
 
 {$mode ObjFPC}{$H+}
 {$modeswitch objectivec2}
@@ -8,37 +8,37 @@ interface
 uses
   Classes, SysUtils, Contnrs,
   CocoaAll, uMiniCocoa,
-  uMacCloudCore,
+  uWFXPlugin,
   uCloudDriver, uDropBoxClient, uYandexClient, uOneDriveClient, uBoxClient,
   uMiniUtil;
 
 type
 
-  { TMacCloudDriverConfig }
+  { TWFXCloudDriverConfig }
 
-  TMacCloudDriverConfig = class
+  TWFXCloudDriverConfig = class
     class procedure loadCommon( const params: NSDictionary ); virtual; abstract;
     class procedure saveCommon( const params: NSMutableDictionary ); virtual; abstract;
     class procedure loadSecurity( const driver: TCloudDriver; const params: NSDictionary ); virtual; abstract;
     class procedure saveSecurity( const driver: TCloudDriver; const params: NSMutableDictionary ); virtual; abstract;
   end;
 
-  TMacCloudDriverConfigClass = class of TMacCloudDriverConfig;
+  TWFXCloudDriverConfigClass = class of TWFXCloudDriverConfig;
 
-  TMacCloudDriverConfigItems = TFPDataHashTable;
+  TWFXCloudDriverConfigItems = TFPDataHashTable;
 
-  { TMacCloudConfigManager }
+  { TWFXCloudConfigManager }
 
-  TMacCloudConfigManager = class( ICloudDriverObserver )
+  TWFXCloudConfigManager = class( ICloudDriverObserver )
   private
-    _configItems: TMacCloudDriverConfigItems;
+    _configItems: TWFXCloudDriverConfigItems;
   public
     constructor Create;
     destructor Destroy; override;
   public
     procedure driverUpdated( const driver: TCloudDriver );
   public
-    procedure register( const name: String; const config: TMacCloudDriverConfigClass );
+    procedure register( const name: String; const config: TWFXCloudDriverConfigClass );
     procedure loadFromCommon( const path: String );
     procedure saveToCommon( const path: String );
     procedure loadFromSecurity;
@@ -46,15 +46,15 @@ type
   end;
 
 var
-  macCloudDriverConfigManager: TMacCloudConfigManager;
+  WFXCloudDriverConfigManager: TWFXCloudConfigManager;
 
 implementation
 
 type
 
-  { TMacTokenCloudDriverConfig }
+  { TWFXTokenCloudDriverConfig }
 
-  TMacTokenCloudDriverConfig = class( TMacCloudDriverConfig )
+  TWFXTokenCloudDriverConfig = class( TWFXCloudDriverConfig )
     class procedure loadSecurity( const driver: TCloudDriver; const params: NSDictionary ); override;
     class procedure saveSecurity( const driver: TCloudDriver; const params: NSMutableDictionary ); override;
     class procedure loadCommon( const params: NSDictionary ); override;
@@ -63,37 +63,37 @@ type
     class function cloudDriverClass: TCloudDriverClass; virtual; abstract;
   end;
 
-  { TDropBoxCloudDriverConfig }
+  { TWFXDropBoxConfig }
 
-  TDropBoxCloudDriverConfig = class( TMacTokenCloudDriverConfig )
+  TWFXDropBoxConfig = class( TWFXTokenCloudDriverConfig )
     class function cloudDriverConfigPtr: TTokenCloudDriverConfigPtr; override;
     class function cloudDriverClass: TCloudDriverClass; override;
   end;
 
-  { TYandexCloudDriverConfig }
+  { TWFXYandexConfig }
 
-  TYandexCloudDriverConfig = class( TMacTokenCloudDriverConfig )
+  TWFXYandexConfig = class( TWFXTokenCloudDriverConfig )
     class function cloudDriverConfigPtr: TTokenCloudDriverConfigPtr; override;
     class function cloudDriverClass: TCloudDriverClass; override;
   end;
 
-  { TOneDriveCloudDriverConfig }
+  { TWFXOneDriveConfig }
 
-  TOneDriveCloudDriverConfig = class( TMacTokenCloudDriverConfig )
+  TWFXOneDriveConfig = class( TWFXTokenCloudDriverConfig )
     class function cloudDriverConfigPtr: TTokenCloudDriverConfigPtr; override;
     class function cloudDriverClass: TCloudDriverClass; override;
   end;
 
-  { TBoxCloudDriverConfig }
+  { TWFXBoxConfig }
 
-  TBoxCloudDriverConfig = class( TMacTokenCloudDriverConfig )
+  TWFXBoxConfig = class( TWFXTokenCloudDriverConfig )
     class function cloudDriverConfigPtr: TTokenCloudDriverConfigPtr; override;
     class function cloudDriverClass: TCloudDriverClass; override;
   end;
 
-{ TMacTokenCloudDriverConfig }
+{ TWFXTokenCloudDriverConfig }
 
-class procedure TMacTokenCloudDriverConfig.loadCommon(const params: NSDictionary);
+class procedure TWFXTokenCloudDriverConfig.loadCommon(const params: NSDictionary);
 var
   clientID: String;
   clientSecret: String;
@@ -114,7 +114,7 @@ begin
   cloudDriverManager.register( self.cloudDriverClass );
 end;
 
-class procedure TMacTokenCloudDriverConfig.saveCommon(const params: NSMutableDictionary);
+class procedure TWFXTokenCloudDriverConfig.saveCommon(const params: NSMutableDictionary);
 var
   cloudDriverConfig: TTokenCloudDriverConfig;
 begin
@@ -125,7 +125,7 @@ begin
     TJsonUtil.setString( params, 'clientSecret', TTokenCloudDriverConfigWithSecret(cloudDriverConfig).clientSecret );
 end;
 
-class procedure TMacTokenCloudDriverConfig.loadSecurity(
+class procedure TWFXTokenCloudDriverConfig.loadSecurity(
   const driver: TCloudDriver; const params: NSDictionary);
 var
   token: TCloudDriverToken;
@@ -139,7 +139,7 @@ begin
   TTokenCloudDriver(driver).setToken( token );
 end;
 
-class procedure TMacTokenCloudDriverConfig.saveSecurity(
+class procedure TWFXTokenCloudDriverConfig.saveSecurity(
   const driver: TCloudDriver; const params: NSMutableDictionary);
 var
   client: TDropBoxClient absolute driver;
@@ -155,93 +155,93 @@ begin
   jsonToken.release;
 end;
 
-{ TDropBoxCloudDriverConfig }
+{ TWFXDropBoxConfig }
 
-class function TDropBoxCloudDriverConfig.cloudDriverConfigPtr: TTokenCloudDriverConfigPtr;
+class function TWFXDropBoxConfig.cloudDriverConfigPtr: TTokenCloudDriverConfigPtr;
 begin
   Result:= @dropBoxConfig;
 end;
 
-class function TDropBoxCloudDriverConfig.cloudDriverClass: TCloudDriverClass;
+class function TWFXDropBoxConfig.cloudDriverClass: TCloudDriverClass;
 begin
   Result:= TDropBoxClient;
 end;
 
-{ TYandexCloudDriverConfig }
+{ TWFXYandexConfig }
 
-class function TYandexCloudDriverConfig.cloudDriverConfigPtr: TTokenCloudDriverConfigPtr;
+class function TWFXYandexConfig.cloudDriverConfigPtr: TTokenCloudDriverConfigPtr;
 begin
   Result:= @yandexConfig;
 end;
 
-class function TYandexCloudDriverConfig.cloudDriverClass: TCloudDriverClass;
+class function TWFXYandexConfig.cloudDriverClass: TCloudDriverClass;
 begin
   Result:= TYandexClient;
 end;
 
-{ TOneDriveCloudDriverConfig }
+{ TWFXOneDriveConfig }
 
-class function TOneDriveCloudDriverConfig.cloudDriverConfigPtr: TTokenCloudDriverConfigPtr;
+class function TWFXOneDriveConfig.cloudDriverConfigPtr: TTokenCloudDriverConfigPtr;
 begin
   Result:= @oneDriveConfig;
 end;
 
-class function TOneDriveCloudDriverConfig.cloudDriverClass: TCloudDriverClass;
+class function TWFXOneDriveConfig.cloudDriverClass: TCloudDriverClass;
 begin
   Result:= TOneDriveClient;
 end;
 
-{ TBoxCloudDriverConfig }
+{ TWFXBoxConfig }
 
-class function TBoxCloudDriverConfig.cloudDriverConfigPtr: TTokenCloudDriverConfigPtr;
+class function TWFXBoxConfig.cloudDriverConfigPtr: TTokenCloudDriverConfigPtr;
 begin
   Result:= @boxConfig;
 end;
 
-class function TBoxCloudDriverConfig.cloudDriverClass: TCloudDriverClass;
+class function TWFXBoxConfig.cloudDriverClass: TCloudDriverClass;
 begin
   Result:= TBoxClient;
 end;
 
-{ TMacCloudConfigManager }
+{ TWFXCloudConfigManager }
 
-constructor TMacCloudConfigManager.Create;
+constructor TWFXCloudConfigManager.Create;
 begin
-  _configItems:= TMacCloudDriverConfigItems.Create;
+  _configItems:= TWFXCloudDriverConfigItems.Create;
   cloudDriverManager.observer:= self;
 end;
 
-destructor TMacCloudConfigManager.Destroy;
+destructor TWFXCloudConfigManager.Destroy;
 begin
   cloudDriverManager.observer:= nil;
   _configItems.Free;
 end;
 
-procedure TMacCloudConfigManager.driverUpdated(const driver: TCloudDriver);
+procedure TWFXCloudConfigManager.driverUpdated(const driver: TCloudDriver);
 begin
   saveToSecurity;
 end;
 
-procedure TMacCloudConfigManager.register(const name: String;
-  const config: TMacCloudDriverConfigClass);
+procedure TWFXCloudConfigManager.register(const name: String;
+  const config: TWFXCloudDriverConfigClass);
 begin
   _configItems.Add( name, config );
 end;
 
-procedure TMacCloudConfigManager.loadFromSecurity;
+procedure TWFXCloudConfigManager.loadFromSecurity;
   procedure loadConnectionsSecurity( const jsonConnections: NSArray );
   var
     jsonConnection: NSMutableDictionary;
     connectionName: String;
-    connection: TCloudConnection;
+    connection: TWFXConnection;
     driverName: String;
-    config: TMacCloudDriverConfigClass;
+    config: TWFXCloudDriverConfigClass;
   begin
     for jsonConnection in jsonConnections do begin
       connectionName:= TJsonUtil.getString( jsonConnection, 'name' );
-      connection:= cloudConnectionManager.get( connectionName );
+      connection:= WFXConnectionManager.get( connectionName );
       driverName:= connection.driver.driverName;
-      config:= TMacCloudDriverConfigClass( _configItems[driverName] );
+      config:= TWFXCloudDriverConfigClass( _configItems[driverName] );
       if config = nil then
         raise Exception.Create( 'driver not fount in loadFromSecurity.TCloudConfigManager(): ' + driverName );
       config.loadSecurity( connection.driver, jsonConnection );
@@ -261,25 +261,25 @@ begin
   loadConnectionsSecurity( jsonConnections );
 end;
 
-procedure TMacCloudConfigManager.saveToSecurity;
+procedure TWFXCloudConfigManager.saveToSecurity;
   function saveConnectionsSecurity: NSArray;
   var
     json: NSMutableArray;
     jsonConnection: NSMutableDictionary;
     i: Integer;
-    connections: TCloudConnections;
-    connection: TCloudConnection;
+    connections: TWFXConnections;
+    connection: TWFXConnection;
     driverName: String;
-    config: TMacCloudDriverConfigClass;
+    config: TWFXCloudDriverConfigClass;
   begin
     json:= NSMutableArray.new.autorelease;
-    connections:= cloudConnectionManager.connections;
+    connections:= WFXConnectionManager.connections;
     for i:=0 to connections.Count-1 do begin
       jsonConnection:= NSMutableDictionary.new;
-      connection:= TCloudConnection( connections[i] );
+      connection:= TWFXConnection( connections[i] );
       driverName:= connection.driver.driverName;
       TJsonUtil.setString( jsonConnection, 'name', connection.name );
-      config:= TMacCloudDriverConfigClass( _configItems[driverName] );
+      config:= TWFXCloudDriverConfigClass( _configItems[driverName] );
       if config = nil then begin
         TLogUtil.logError( 'Config Class for Driver Not Found: ' + driverName );
       end else begin
@@ -301,16 +301,16 @@ begin
   TSecUtil.saveValue( 'MacCloud.wfx', 'connections', jsonString );
 end;
 
-procedure TMacCloudConfigManager.loadFromCommon( const path: String );
+procedure TWFXCloudConfigManager.loadFromCommon( const path: String );
   procedure loadDrivers( const jsonDrivers: NSArray );
   var
     jsonDriver: NSDictionary;
     driverName: String;
-    config: TMacCloudDriverConfigClass;
+    config: TWFXCloudDriverConfigClass;
   begin
     for jsonDriver in jsonDrivers do begin
       driverName:= TJsonUtil.getString( jsonDriver, 'name' );
-      config:= TMacCloudDriverConfigClass( _configItems[driverName] );
+      config:= TWFXCloudDriverConfigClass( _configItems[driverName] );
       config.loadCommon( jsonDriver );
     end;
   end;
@@ -318,21 +318,21 @@ procedure TMacCloudConfigManager.loadFromCommon( const path: String );
   procedure loadConnections( const jsonConnections: NSArray );
   var
     jsonConnection: NSDictionary;
-    connections: TCloudConnections;
-    connection: TCloudConnection;
+    connections: TWFXConnections;
+    connection: TWFXConnection;
     driverName: String;
   begin
-    connections:= TCloudConnections.Create( True );
+    connections:= TWFXConnections.Create( True );
     for jsonConnection in jsonConnections do begin
       driverName:= TJsonUtil.getString( jsonConnection, 'driver' );
-      connection:= TCloudConnection.Create(
+      connection:= TWFXConnection.Create(
         TJsonUtil.getString( jsonConnection, 'name' ),
         cloudDriverManager.createInstance( driverName ),
         TJsonUtil.getDateTime( jsonConnection, 'creationTime' ),
         TJsonUtil.getDateTime( jsonConnection, 'modificationTime' ) );
       connections.Add( connection );
     end;
-    cloudConnectionManager.connections:= connections;
+    WFXConnectionManager.connections:= connections;
   end;
 var
   jsonString: NSString;
@@ -349,7 +349,7 @@ begin
   loadConnections( TJsonUtil.getArray(json, 'connections') );
 end;
 
-procedure TMacCloudConfigManager.saveToCommon(const path: String);
+procedure TWFXCloudConfigManager.saveToCommon(const path: String);
   function saveDrivers: NSArray;
   var
     json: NSMutableArray;
@@ -357,14 +357,14 @@ procedure TMacCloudConfigManager.saveToCommon(const path: String);
     i: Integer;
     driverClasses: TCloudDriverClasses;
     driverName: String;
-    config: TMacCloudDriverConfigClass;
+    config: TWFXCloudDriverConfigClass;
   begin
     json:= NSMutableArray.new.autorelease;
     driverClasses:= cloudDriverManager.driverClasses;
     for i:=0 to driverClasses.Count-1 do begin
       jsonDriver:= NSMutableDictionary.new;
       driverName:= TCloudDriverClass(driverClasses[i]).driverName;
-      config:= TMacCloudDriverConfigClass( _configItems[driverName] );
+      config:= TWFXCloudDriverConfigClass( _configItems[driverName] );
       TJsonUtil.setString( jsonDriver, 'name', driverName );
       config.saveCommon( jsonDriver );
       json.addObject( jsonDriver );
@@ -378,14 +378,14 @@ procedure TMacCloudConfigManager.saveToCommon(const path: String);
     json: NSMutableArray;
     jsonConnection: NSMutableDictionary;
     i: Integer;
-    connections: TCloudConnections;
-    connection: TCloudConnection;
+    connections: TWFXConnections;
+    connection: TWFXConnection;
   begin
     json:= NSMutableArray.new.autorelease;
-    connections:= cloudConnectionManager.connections;
+    connections:= WFXConnectionManager.connections;
     for i:=0 to connections.Count-1 do begin
       jsonConnection:= NSMutableDictionary.new;
-      connection:= TCloudConnection( connections[i] );
+      connection:= TWFXConnection( connections[i] );
       TJsonUtil.setString( jsonConnection, 'name', connection.name );
       TJsonUtil.setString( jsonConnection, 'driver', connection.driver.driverName );
       TJsonUtil.setDateTime( jsonConnection, 'creationTime', connection.creationTime );
@@ -421,21 +421,21 @@ begin
   // the following are internal default configurations,
   // which would be overridden by MacCloud.json,
   // used when there is no MacCloud.json
-  macCloudDriverConfigManager:= TMacCloudConfigManager.Create;
+  WFXCloudDriverConfigManager:= TWFXCloudConfigManager.Create;
 
-  macCloudDriverConfigManager.register( TDropBoxClient.driverName, TDropBoxCloudDriverConfig );
+  WFXCloudDriverConfigManager.register( TDropBoxClient.driverName, TWFXDropBoxConfig );
   dropBoxConfig:= TTokenCloudDriverConfig.Create( 'ahj0s9xia6i61gh', 'dc2ea085a05ac273a://dropbox/auth' );
   cloudDriverManager.register( TDropBoxClient );
 
-  macCloudDriverConfigManager.register( TYandexClient.driverName, TYandexCloudDriverConfig );
+  WFXCloudDriverConfigManager.register( TYandexClient.driverName, TWFXYandexConfig );
   yandexConfig:= TTokenCloudDriverConfig.Create( 'eaf0c133568a46a0bd986bffb48c62b6', 'dc2ea085a05ac273a://yandex/auth' );
   cloudDriverManager.register( TYandexClient );
 
-  macCloudDriverConfigManager.register( TOneDriveClient.driverName, TOneDriveCloudDriverConfig );
+  WFXCloudDriverConfigManager.register( TOneDriveClient.driverName, TWFXOneDriveConfig );
   oneDriveConfig:= TTokenCloudDriverConfig.Create( '', 'dc2ea085a05ac273a://onedrive/auth' );
   cloudDriverManager.register( TOneDriveClient );
 
-  macCloudDriverConfigManager.register( TBoxClient.driverName, TBoxCloudDriverConfig );
+  WFXCloudDriverConfigManager.register( TBoxClient.driverName, TWFXBoxConfig );
   boxConfig:= TTokenCloudDriverConfigWithSecret.Create( '', '', 'dc2ea085a05ac273a://box/auth' );
   cloudDriverManager.register( TBoxClient );
 end;
@@ -444,7 +444,7 @@ initialization
   initMacCloudDriverManager;
 
 finalization
-  FreeAndNil( macCloudDriverConfigManager );
+  FreeAndNil( WFXCloudDriverConfigManager );
 
 end.
 

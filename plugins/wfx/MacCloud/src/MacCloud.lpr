@@ -35,7 +35,7 @@ library MacCloud;
 
 uses
   cthreads, Classes, SysUtils,
-  MacCloudFunc;
+  uWFXFunc;
 
 exports
   ExtensionInitialize,

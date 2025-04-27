@@ -7,7 +7,7 @@ interface
 uses
   Classes, SysUtils,
   uCloudDriver,
-  uMacCloudCore, uMacCloudUtil, uMacCloudConfig, uMacCloudOptions,
+  uWFXPlugin, uWFXUtil, uWFXConfig, uWFXOptions,
   uMiniUtil;
 
 type
@@ -40,7 +40,7 @@ type
   TCloudRootHelper = class
   public
     class procedure saveConfig( const path: String = '' );
-    class function getDriver( const parser: TCloudPathParser ): TCloudDriverBase;
+    class function getDriver( const parser: TWFXPathParser ): TCloudDriverBase;
   end;
 
 const
@@ -55,14 +55,14 @@ var
   configPath: String;
 begin
   if path = EmptyStr then
-    configPath:= macCloudPlugin.configPath
+    configPath:= WFXMacCloudPlugin.configPath
   else
     configPath:= path;
-  macCloudDriverConfigManager.saveToCommon( configPath );
-  macCloudDriverConfigManager.saveToSecurity;
+  WFXCloudDriverConfigManager.saveToCommon( configPath );
+  WFXCloudDriverConfigManager.saveToSecurity;
 end;
 
-class function TCloudRootHelper.getDriver( const parser: TCloudPathParser ): TCloudDriverBase;
+class function TCloudRootHelper.getDriver( const parser: TWFXPathParser ): TCloudDriverBase;
 begin
   if parser.driverPath = EmptyStr then
     Result:= TCloudRootDriver.Create
@@ -97,11 +97,11 @@ procedure TCloudRootDriverLister.listFolderBegin;
   procedure addConnections;
   var
     cloudFile: TCloudFile;
-    connection: TCloudConnection;
+    connection: TWFXConnection;
     i: Integer;
   begin
-    for i:= 0 to cloudConnectionManager.connections.Count - 1 do begin;
-      connection:= TCloudConnection( cloudConnectionManager.connections[i] );
+    for i:= 0 to WFXConnectionManager.connections.Count - 1 do begin;
+      connection:= TWFXConnection( WFXConnectionManager.connections[i] );
       cloudFile:= TCloudFile.Create;
       cloudFile.name:= connection.name;
       cloudFile.creationTime:= connection.creationTime;
@@ -140,7 +140,7 @@ end;
 
 procedure TCloudRootDriver.createFolder(const path: String);
 begin
-  TCloudOptionsUtil.addAndShow( path );
+  TWFXOptionsUtil.addAndShow( path );
   TCloudRootHelper.saveConfig;
   self.Free;
 end;
@@ -150,7 +150,7 @@ var
   connectionName: String absolute path;
 begin
   TLogUtil.logInformation( 'Connection Deleted: ' + connectionName );
-  cloudConnectionManager.delete( connectionName );
+  WFXConnectionManager.delete( connectionName );
   TCloudRootHelper.saveConfig;
   self.Free;
 end;
@@ -160,12 +160,12 @@ procedure TCloudRootDriver.copyOrMove(const fromPath: String;
 var
   connectionOldName: String absolute fromPath;
   connectionNewName: String absolute toPath;
-  connection: TCloudConnection;
+  connection: TWFXConnection;
 begin
   if NOT needToMove then
     raise ENotSupportedException.Create( 'Connection only support renaming' );
   TLogUtil.logInformation( 'Connection Rename: ' + connectionOldName + ' --> ' + connectionNewName );
-  connection:= cloudConnectionManager.get( connectionOldName );
+  connection:= WFXConnectionManager.get( connectionOldName );
   connection.name:= connectionNewName;
   TCloudRootHelper.saveConfig;
   self.Free;

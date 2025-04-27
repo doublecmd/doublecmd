@@ -1,4 +1,4 @@
-unit uMacCloudOptions;
+unit uWFXOptions;
 
 {$mode ObjFPC}{$H+}
 {$modeswitch objectivec2}
@@ -8,14 +8,14 @@ interface
 uses
   Classes, SysUtils, DateUtils,
   CocoaAll, uMiniCocoa,
-  uCloudDriver, uMacCloudCore, uMacCloudUtil,
+  uCloudDriver, uWFXPlugin, uWFXUtil,
   uMiniUtil;
 
 type
 
-  { TCloudOptionsUtil }
+  { TWFXOptionsUtil }
 
-  TCloudOptionsUtil = class
+  TWFXOptionsUtil = class
   private
     class function createWindow: NSWindow;
   public
@@ -34,9 +34,9 @@ const
 
 type
 
-  { TConnectionConfigItem }
+  { TWFXConnectionConfigItem }
 
-  TConnectionConfigItem = objcclass( NSObject )
+  TWFXConnectionConfigItem = objcclass( NSObject )
   public
     _name: NSString;
     _creating: Boolean;
@@ -67,54 +67,54 @@ type
       message 'TConnectionConfigItem_modificationTime';
   end;
 
-  { TConnectionConfigItems }
+  { TWFXConnectionConfigItems }
 
-  TConnectionConfigItems = class
+  TWFXConnectionConfigItems = class
   private
     _items: NSMutableArray;
   public
     constructor Create;
     destructor Destroy; override;
-    function indexOf( const item: TConnectionConfigItem ): Integer; overload;
+    function indexOf( const item: TWFXConnectionConfigItem ): Integer; overload;
     function indexOf( const name: NSString ): Integer; overload;
-    function addItem( const item: TConnectionConfigItem ): Integer;
-    function getItem( const index: Integer ): TConnectionConfigItem;
+    function addItem( const item: TWFXConnectionConfigItem ): Integer;
+    function getItem( const index: Integer ): TWFXConnectionConfigItem;
     procedure removeItemAtIndex( const index: Integer );
     function Count: Integer;
   end;
 
-  { TCloudConfigItemsController }
+  { TWFXConfigItemsController }
 
-  TCloudConfigItemsController = objcprotocol
-    function getConfigItems: TConnectionConfigItems; message 'TCloudConfigItemsController_getConfigItems';
+  TWFXConfigItemsController = objcprotocol
+    function getConfigItems: TWFXConnectionConfigItems; message 'TCloudConfigItemsController_getConfigItems';
     procedure newConnection( sender: NSObject ); message 'TCloudConfigItemsController_newConnection:';
     procedure removeConnection( sender: NSObject ); message 'TCloudConfigItemsController_removeConnection:';
     procedure saveConnection( sender: NSObject ); message 'TCloudConfigItemsController_saveConnection:';
     procedure connectOrDisconnect( sender: NSObject ); message 'TCloudConfigItemsController_connectOrDisconnect:';
-    function currentConfigItem: TConnectionConfigItem; message 'TCloudConfigItemsController_currentConfigItem';
+    function currentConfigItem: TWFXConnectionConfigItem; message 'TCloudConfigItemsController_currentConfigItem';
     procedure onSelectedConnectionChanged( const selectedIndex: Integer );
       message 'TCloudConfigItemsController_onSelectedConnectionChanged:';
   end;
 
-  { TConnectionListView }
+  { TWFXConnectionListView }
 
-  TConnectionListView = objcclass(
+  TWFXConnectionListView = objcclass(
     NSTableView,
     NSTableViewDataSourceProtocol,
     NSTableViewDelegateProtocol )
   private
-    controller: TCloudConfigItemsController;
+    controller: TWFXConfigItemsController;
   public
     function numberOfRowsInTableView (tableView: NSTableView): NSInteger;
     function tableView_viewForTableColumn_row (tableView: NSTableView; tableColumn: NSTableColumn; row: NSInteger): NSView;
     procedure tableViewSelectionDidChange (notification: NSNotification);
   end;
 
-  { TPropertyView }
+  { TWFXPropertyView }
 
-  TPropertyView = objcclass( NSView )
+  TWFXPropertyView = objcclass( NSView )
   private
-    controller: TCloudConfigItemsController;
+    controller: TWFXConfigItemsController;
     logoImageView: NSImageView;
     nameTextField: NSTextField;
     connectButton: NSButton;
@@ -125,19 +125,19 @@ type
     procedure updateConnectStatus; message 'TPropertyView_updateConnectStatus';
   end;
 
-  { TCloudOptionsWindow }
+  { TWFXOptionsWindow }
 
-  TCloudOptionsWindow = objcclass(
+  TWFXOptionsWindow = objcclass(
     NSWindow,
     NSWindowDelegateProtocol,
-    TCloudConfigItemsController )
+    TWFXConfigItemsController )
   private
-    configItems: TConnectionConfigItems;
-    connectionListView: TConnectionListView;
-    propertyView: TPropertyView;
+    configItems: TWFXConnectionConfigItems;
+    connectionListView: TWFXConnectionListView;
+    propertyView: TWFXPropertyView;
   public
     procedure dealloc; override;
-    function getConfigItems: TConnectionConfigItems;
+    function getConfigItems: TWFXConnectionConfigItems;
     procedure addConnection( connectionName: NSString ); message 'TCloudOptionsWindow_addConnection:';
     procedure loadConnections; message 'TCloudOptionsWindow_loadConnections';
     procedure saveConnections; message 'TCloudOptionsWindow_saveConnections';
@@ -146,7 +146,7 @@ type
     procedure removeConnection( sender: NSObject );
     procedure saveConnection( sender: NSObject );
     procedure connectOrDisconnect( sender: NSObject );
-    function currentConfigItem: TConnectionConfigItem;
+    function currentConfigItem: TWFXConnectionConfigItem;
     procedure onSelectedConnectionChanged( const selectedIndex: Integer );
   public
     procedure windowWillClose (notification: NSNotification);
@@ -154,9 +154,9 @@ type
     function performKeyEquivalent(theEvent: NSEvent): ObjCBOOL; override;
   end;
 
-  { TSelectDriverWindow }
+  { TWFXSelectDriverWindow }
 
-  TSelectDriverWindow = objcclass(
+  TWFXSelectDriverWindow = objcclass(
     NSWindow,
     NSWindowDelegateProtocol )
   public
@@ -170,22 +170,22 @@ type
     class function showModal: Integer; message 'TSelectDriverWindow_showModal';
   end;
 
-{ TSelectDriverWindow }
+{ TWFXSelectDriverWindow }
 
-procedure TSelectDriverWindow.windowWillClose(notification: NSNotification);
+procedure TWFXSelectDriverWindow.windowWillClose(notification: NSNotification);
 begin
   if self.selectedIndex = 0 then
     self.selectedIndex:= self.driversDropDown.indexOfSelectedItem;
   NSApplication(NSAPP).stopModal;
 end;
 
-procedure TSelectDriverWindow.cancelOperation(sender: id);
+procedure TWFXSelectDriverWindow.cancelOperation(sender: id);
 begin
   self.selectedIndex:= -1;
   self.close;
 end;
 
-function TSelectDriverWindow.performKeyEquivalent(theEvent: NSEvent): ObjCBOOL;
+function TWFXSelectDriverWindow.performKeyEquivalent(theEvent: NSEvent): ObjCBOOL;
 begin
   if theEvent.charactersIgnoringModifiers.isEqualToString(NSSTR('w')) and
      ((theEvent.modifierFlags and NSCommandKeyMask) <> 0 ) then begin
@@ -195,9 +195,9 @@ begin
     Result:= inherited;
 end;
 
-class function TSelectDriverWindow.showModal: Integer;
+class function TWFXSelectDriverWindow.showModal: Integer;
 var
-  win: TSelectDriverWindow;
+  win: TWFXSelectDriverWindow;
   winContentView: NSView;
   cancelButton: NSButton;
   okButton: NSButton;
@@ -215,7 +215,7 @@ var
     for i:=0 to cloudDriverManager.driverClasses.Count-1 do begin
       driver:= TCloudDriverClass( cloudDriverManager.driverClasses[i] );
       dropDown.addItemWithTitle( StringToNSString(driver.driverName) );
-      icon:= TMacCloudUtil.driverMainIcon( driver );
+      icon:= TWFXPluginUtil.driverMainIcon( driver );
       icon.setSize( NSMakeSize(16,16) );
       dropDown.lastItem.setImage( icon );
       icon.release;
@@ -225,7 +225,7 @@ var
 
 begin
   frameRect:= NSMakeRect( 0, 0, 305, 140 );
-  win:= TSelectDriverWindow.alloc.initWithContentRect_styleMask_backing_defer(
+  win:= TWFXSelectDriverWindow.alloc.initWithContentRect_styleMask_backing_defer(
     frameRect,
     NSTitledWindowMask or NSFullSizeContentViewWindowMask,
     NSBackingStoreBuffered,
@@ -265,37 +265,37 @@ begin
   Result:= win.selectedIndex;
 end;
 
-{ TConnectionConfigItems }
+{ TWFXConnectionConfigItems }
 
-constructor TConnectionConfigItems.Create;
+constructor TWFXConnectionConfigItems.Create;
 begin
   _items:= NSMutableArray.new;
 end;
 
-destructor TConnectionConfigItems.Destroy;
+destructor TWFXConnectionConfigItems.Destroy;
 begin
   _items.release;
 end;
 
-function TConnectionConfigItems.indexOf( const item: TConnectionConfigItem ): Integer;
+function TWFXConnectionConfigItems.indexOf( const item: TWFXConnectionConfigItem ): Integer;
 begin
   Result:= self.indexOf( item.name );
 end;
 
-function TConnectionConfigItems.indexOf(const name: NSString): Integer;
+function TWFXConnectionConfigItems.indexOf(const name: NSString): Integer;
 var
   i: Integer;
-  configItem: TConnectionConfigItem;
+  configItem: TWFXConnectionConfigItem;
 begin
   Result:= -1;
   for i:= 0 to _items.Count-1 do begin
-    configItem:= TConnectionConfigItem( _items.objectAtIndex(i) );
+    configItem:= TWFXConnectionConfigItem( _items.objectAtIndex(i) );
     if configItem.name.isEqualToString(name) then
       Exit( i );
   end;
 end;
 
-function TConnectionConfigItems.addItem( const item: TConnectionConfigItem ): Integer;
+function TWFXConnectionConfigItems.addItem( const item: TWFXConnectionConfigItem ): Integer;
 begin
   Result:= self.indexOf(item);
   if Result >= 0 then
@@ -304,39 +304,39 @@ begin
   Result:= _items.count - 1;
 end;
 
-function TConnectionConfigItems.getItem(const index: Integer
-  ): TConnectionConfigItem;
+function TWFXConnectionConfigItems.getItem(const index: Integer
+  ): TWFXConnectionConfigItem;
 begin
-  Result:= TConnectionConfigItem( _items.objectAtIndex(index) );
+  Result:= TWFXConnectionConfigItem( _items.objectAtIndex(index) );
 end;
 
-procedure TConnectionConfigItems.removeItemAtIndex( const index: Integer );
+procedure TWFXConnectionConfigItems.removeItemAtIndex( const index: Integer );
 begin
   _items.removeObjectAtIndex( index );
 end;
 
-function TConnectionConfigItems.Count: Integer;
+function TWFXConnectionConfigItems.Count: Integer;
 begin
   Result:= _items.count;
 end;
 
-{ TPropertyView }
+{ TWFXPropertyView }
 
-procedure TPropertyView.loadConnectionProperties( const index: Integer );
+procedure TWFXPropertyView.loadConnectionProperties( const index: Integer );
 var
-  configItem: TConnectionConfigItem;
+  configItem: TWFXConnectionConfigItem;
 begin
   configItem:= controller.currentConfigItem;
   if configItem = nil then
     Exit;
-  self.logoImageView.setImage( TMacCloudUtil.driverMainIcon(configItem.driver) );
+  self.logoImageView.setImage( TWFXPluginUtil.driverMainIcon(configItem.driver) );
   self.nameTextField.setStringValue( configItem.name );
   self.updateConnectStatus;
 end;
 
-procedure TPropertyView.updateConnectStatus;
+procedure TWFXPropertyView.updateConnectStatus;
 var
-  configItem: TConnectionConfigItem;
+  configItem: TWFXConnectionConfigItem;
   connectButtonText: String;
   statusImageName: NSString;
   notes: String;
@@ -355,15 +355,15 @@ begin
   self.noteTextView.setString( StringToNSString(notes) );
 end;
 
-{ TConnectionConfigItem }
+{ TWFXConnectionConfigItem }
 
-procedure TConnectionConfigItem.dealloc;
+procedure TWFXConnectionConfigItem.dealloc;
 begin
   _name.release;
   FreeAndNil( _driver );
 end;
 
-procedure TConnectionConfigItem.setName(name: NSString);
+procedure TWFXConnectionConfigItem.setName(name: NSString);
 begin
   if Assigned(_name) then
     _name.release;
@@ -371,76 +371,76 @@ begin
   _name.retain;
 end;
 
-procedure TConnectionConfigItem.setDriver(driver: TCloudDriver);
+procedure TWFXConnectionConfigItem.setDriver(driver: TCloudDriver);
 begin
   _driver:= driver;
 end;
 
-procedure TConnectionConfigItem.setCreationTime(creationTime: TDateTime);
+procedure TWFXConnectionConfigItem.setCreationTime(creationTime: TDateTime);
 begin
   _creationTime:= creationTime;
 end;
 
-procedure TConnectionConfigItem.setModificationTime(modificationTime: TDateTime
+procedure TWFXConnectionConfigItem.setModificationTime(modificationTime: TDateTime
   );
 begin
   _modificationTime:= modificationTime;
 end;
 
-procedure TConnectionConfigItem.setCreating(creating: Boolean);
+procedure TWFXConnectionConfigItem.setCreating(creating: Boolean);
 begin
   _creating:= creating;
 end;
 
-function TConnectionConfigItem.name: NSString;
+function TWFXConnectionConfigItem.name: NSString;
 begin
   Result:= _name;
 end;
 
-function TConnectionConfigItem.creating: Boolean;
+function TWFXConnectionConfigItem.creating: Boolean;
 begin
   Result:= _creating;
 end;
 
-function TConnectionConfigItem.driver: TCloudDriver;
+function TWFXConnectionConfigItem.driver: TCloudDriver;
 begin
   Result:= _driver;
 end;
 
-function TConnectionConfigItem.creationTime: TDateTime;
+function TWFXConnectionConfigItem.creationTime: TDateTime;
 begin
   Result:= _creationTime;
 end;
 
-function TConnectionConfigItem.modificationTime: TDateTime;
+function TWFXConnectionConfigItem.modificationTime: TDateTime;
 begin
   Result:= _modificationTime;
 end;
 
-{ TCloudOptionsWindow }
+{ TWFXOptionsWindow }
 
-procedure TCloudOptionsWindow.dealloc;
+procedure TWFXOptionsWindow.dealloc;
 begin
   FreeAndNil( self.configItems );
 end;
 
-function TCloudOptionsWindow.getConfigItems: TConnectionConfigItems;
+function TWFXOptionsWindow.getConfigItems: TWFXConnectionConfigItems;
 begin
   Result:= self.configItems;
 end;
 
-procedure TCloudOptionsWindow.loadConnections;
+procedure TWFXOptionsWindow.loadConnections;
 var
   i: Integer;
-  configItem: TConnectionConfigItem;
-  connection: TCloudConnection;
-  connections: TCloudConnections;
+  configItem: TWFXConnectionConfigItem;
+  connection: TWFXConnection;
+  connections: TWFXConnections;
 begin
-  self.configItems:= TConnectionConfigItems.Create;
-  connections:= cloudConnectionManager.connections;
+  self.configItems:= TWFXConnectionConfigItems.Create;
+  connections:= WFXConnectionManager.connections;
   for i:=0 to connections.Count-1 do begin
-    connection:= TCloudConnection( connections[i] );
-    configItem:= TConnectionConfigItem.new;
+    connection:= TWFXConnection( connections[i] );
+    configItem:= TWFXConnectionConfigItem.new;
     configItem.setName( StringToNSString(connection.name));
     configItem.setDriver( connection.driver.clone );
     configItem.setCreationTime( connection.creationTime );
@@ -450,54 +450,54 @@ begin
   end;
 end;
 
-procedure TCloudOptionsWindow.saveConnections;
+procedure TWFXOptionsWindow.saveConnections;
 var
   i: Integer;
-  configItem: TConnectionConfigItem;
-  connection: TCloudConnection;
-  connections: TCloudConnections;
+  configItem: TWFXConnectionConfigItem;
+  connection: TWFXConnection;
+  connections: TWFXConnections;
 begin
-  connections:= TCloudConnections.Create( True );
+  connections:= TWFXConnections.Create( True );
   for i:=0 to self.configItems.count-1 do begin
-    configItem:= TConnectionConfigItem( self.configItems.getItem(i) );
-    connection:= TCloudConnection.Create(
+    configItem:= TWFXConnectionConfigItem( self.configItems.getItem(i) );
+    connection:= TWFXConnection.Create(
       configItem.name.UTF8String,
       configItem.driver.clone,
       configItem.creationTime,
       configItem.modificationTime );
     connections.Add( connection );
   end;
-  cloudConnectionManager.connections:= connections;
+  WFXConnectionManager.connections:= connections;
 end;
 
-procedure TCloudOptionsWindow.selectConnection(name: NSString);
+procedure TWFXOptionsWindow.selectConnection(name: NSString);
 var
-  configItem: TConnectionConfigItem;
+  configItem: TWFXConnectionConfigItem;
   i: Integer;
 begin
   for i:=0 to configItems.count-1 do begin
-    configItem:= TConnectionConfigItem( self.configItems.getItem(i) );
+    configItem:= TWFXConnectionConfigItem( self.configItems.getItem(i) );
     if configItem.name.isEqualToString(name) then begin
       self.connectionListView.selectRow_byExtendingSelection( i, False );
     end;
   end;
 end;
 
-procedure TCloudOptionsWindow.addConnection( connectionName: NSString );
+procedure TWFXOptionsWindow.addConnection( connectionName: NSString );
 var
   driverIndex: Integer;
   driver: TCloudDriver;
-  configItem: TConnectionConfigItem;
+  configItem: TWFXConnectionConfigItem;
   index: Integer;
 begin
-  driverIndex:= TSelectDriverWindow.showModal;
+  driverIndex:= TWFXSelectDriverWindow.showModal;
   if driverIndex < 0 then
     Exit;
 
   driver:= cloudDriverManager.createInstance( driverIndex );
   if connectionName.length = 0 then
     connectionName:= StringToNSString( 'New (' + driver.driverName + ')' );
-  configItem:= TConnectionConfigItem.new;
+  configItem:= TWFXConnectionConfigItem.new;
   configItem.setCreating( True );
   configItem.setName( connectionName );
   configItem.setDriver( driver );
@@ -509,12 +509,12 @@ begin
   self.connectionListView.selectRow_byExtendingSelection( index, False );
 end;
 
-procedure TCloudOptionsWindow.newConnection(sender: NSObject);
+procedure TWFXOptionsWindow.newConnection(sender: NSObject);
 begin
   self.addConnection( nil );
 end;
 
-procedure TCloudOptionsWindow.removeConnection(sender: NSObject);
+procedure TWFXOptionsWindow.removeConnection(sender: NSObject);
 var
   currentIndex: Integer;
 begin
@@ -528,9 +528,9 @@ begin
   self.connectionListView.selectRow_byExtendingSelection( currentIndex, False );
 end;
 
-procedure TCloudOptionsWindow.saveConnection(sender: NSObject);
+procedure TWFXOptionsWindow.saveConnection(sender: NSObject);
 var
-  configItem: TConnectionConfigItem;
+  configItem: TWFXConnectionConfigItem;
   currentIndex: Integer;
   connectionName: NSString;
 
@@ -563,9 +563,9 @@ begin
   self.connectionListView.selectRow_byExtendingSelection( currentIndex, False );
 end;
 
-procedure TCloudOptionsWindow.connectOrDisconnect(sender: NSObject);
+procedure TWFXOptionsWindow.connectOrDisconnect(sender: NSObject);
 var
-  configItem: TConnectionConfigItem;
+  configItem: TWFXConnectionConfigItem;
   driver: TCloudDriver;
 begin
   try
@@ -590,33 +590,33 @@ begin
   end;
 end;
 
-function TCloudOptionsWindow.currentConfigItem: TConnectionConfigItem;
+function TWFXOptionsWindow.currentConfigItem: TWFXConnectionConfigItem;
 var
   currentIndex: Integer;
 begin
   currentIndex:= connectionListView.selectedRow;
   if (currentIndex<0) or (currentIndex>=self.configItems.count) then
     Exit( nil );
-  Result:= TConnectionConfigItem( self.configItems.getItem(currentIndex) );
+  Result:= TWFXConnectionConfigItem( self.configItems.getItem(currentIndex) );
 end;
 
-procedure TCloudOptionsWindow.onSelectedConnectionChanged( const selectedIndex: Integer );
+procedure TWFXOptionsWindow.onSelectedConnectionChanged( const selectedIndex: Integer );
 begin
   self.propertyView.loadConnectionProperties( selectedIndex );
 end;
 
-procedure TCloudOptionsWindow.windowWillClose(notification: NSNotification);
+procedure TWFXOptionsWindow.windowWillClose(notification: NSNotification);
 begin
   self.saveConnections;
   NSApplication(NSAPP).stopModal;
 end;
 
-procedure TCloudOptionsWindow.cancelOperation(sender: id);
+procedure TWFXOptionsWindow.cancelOperation(sender: id);
 begin
   self.close;
 end;
 
-function TCloudOptionsWindow.performKeyEquivalent(theEvent: NSEvent): ObjCBOOL;
+function TWFXOptionsWindow.performKeyEquivalent(theEvent: NSEvent): ObjCBOOL;
 begin
   if theEvent.charactersIgnoringModifiers.isEqualToString(NSSTR('w')) and
      ((theEvent.modifierFlags and NSCommandKeyMask) <> 0 ) then begin
@@ -628,28 +628,28 @@ end;
 
 { TConnectionListView }
 
-function TConnectionListView.numberOfRowsInTableView(tableView: NSTableView
+function TWFXConnectionListView.numberOfRowsInTableView(tableView: NSTableView
   ): NSInteger;
 begin
   Result:= self.controller.getConfigItems.count;
 end;
 
-function TConnectionListView.tableView_viewForTableColumn_row(
+function TWFXConnectionListView.tableView_viewForTableColumn_row(
   tableView: NSTableView; tableColumn: NSTableColumn; row: NSInteger): NSView;
 var
   frameRect: NSRect;
   cellView: NSTableCellView;
   textField: NSTextField;
   imageView: NSImageView;
-  configItem: TConnectionConfigItem;
+  configItem: TWFXConnectionConfigItem;
 begin
-  configItem:= TConnectionConfigItem( self.controller.getConfigItems.getItem(row) );
+  configItem:= TWFXConnectionConfigItem( self.controller.getConfigItems.getItem(row) );
   cellView:= NSTableCellView.alloc.initWithFrame( NSZeroRect );
   cellView.autorelease;
 
   frameRect:= NSMakeRect( 8, 4, 16, 16 );
   imageView:= NSImageView.alloc.initWithFrame( frameRect);
-  imageView.setImage( TMacCloudUtil.driverMainIcon(configItem.driver) );
+  imageView.setImage( TWFXPluginUtil.driverMainIcon(configItem.driver) );
   cellView.setImageView( imageView );
   cellView.addSubview( imageView );
   imageView.release;
@@ -669,28 +669,28 @@ begin
   Result:= cellView;
 end;
 
-procedure TConnectionListView.tableViewSelectionDidChange(
+procedure TWFXConnectionListView.tableViewSelectionDidChange(
   notification: NSNotification);
 begin
   controller.onSelectedConnectionChanged( self.selectedRow );
 end;
 
-{ TCloudOptionsUtil }
+{ TWFXOptionsUtil }
 
-class function TCloudOptionsUtil.createWindow: NSWindow;
+class function TWFXOptionsUtil.createWindow: NSWindow;
 var
-  win: TCloudOptionsWindow;
+  win: TWFXOptionsWindow;
   contentView: NSView;
 
   splitView: NSSplitView;
   leftView: NSVisualEffectView;
-  rightView: TPropertyView;
+  rightView: TWFXPropertyView;
 
   frameRect: NSRect;
   leftRect: NSRect;
   rightRect: NSRect;
 
-  connectionListView: TConnectionListView;
+  connectionListView: TWFXConnectionListView;
 
   procedure createLeftView;
   var
@@ -704,7 +704,7 @@ var
     leftView.setBlendingMode( NSVisualEffectBlendingModeBehindWindow );
     leftView.setMaterial( NSVisualEffectMaterialPopover );
 
-    connectionListView:= TConnectionListView.alloc.initWithFrame( NSZeroRect );
+    connectionListView:= TWFXConnectionListView.alloc.initWithFrame( NSZeroRect );
     if NSAppKitVersionNumber >= NSAppKitVersionNumber11_0 then
       connectionListView.setStyle( NSTableViewStyleSourceList );
     connectionListView.setWantsLayer( True );
@@ -757,7 +757,7 @@ var
     saveButton: NSButton;
     noteTextView: NSTextView;
   begin
-    rightView:= TPropertyView.alloc.initWithFrame( rightRect ) ;
+    rightView:= TWFXPropertyView.alloc.initWithFrame( rightRect ) ;
     rightView.controller:= win;;
 
     logoImageView:= NSImageView.alloc.initWithFrame( NSMakeRect(200,530,32,32) );
@@ -814,7 +814,7 @@ begin
   rightRect:= NSMakeRect(0,0,440,600);
 
   contentView:= NSView.alloc.initWithFrame( frameRect );
-  win:= TCloudOptionsWindow.alloc.initWithContentRect_styleMask_backing_defer(
+  win:= TWFXOptionsWindow.alloc.initWithContentRect_styleMask_backing_defer(
     frameRect,
     NSFullSizeContentViewWindowMask or NSTitledWindowMask or NSClosableWindowMask,
     NSBackingStoreBuffered,
@@ -845,21 +845,21 @@ begin
   Result:= win;
 end;
 
-class procedure TCloudOptionsUtil.show( const connectionName: String );
+class procedure TWFXOptionsUtil.show( const connectionName: String );
 var
   win: NSWindow;
 begin
   win:= self.createWindow;
-  TCloudOptionsWindow(win).selectConnection( StringToNSString(connectionName) );
+  TWFXOptionsWindow(win).selectConnection( StringToNSString(connectionName) );
   NSApplication(NSApp).runModalForWindow( win );
 end;
 
-class procedure TCloudOptionsUtil.addAndShow( const connectionName: String = '' );
+class procedure TWFXOptionsUtil.addAndShow( const connectionName: String = '' );
 var
   win: NSWindow;
 begin
   win:= self.createWindow;
-  TCloudOptionsWindow(win).addConnection( StringToNSString(connectionName) );
+  TWFXOptionsWindow(win).addConnection( StringToNSString(connectionName) );
   NSApplication(NSApp).runModalForWindow( win );
 end;
 

@@ -8,7 +8,7 @@
   2. other cloud drivers will be gradually supported
 }
 
-unit MacCloudFunc;
+unit uWFXFunc;
 
 {$mode objfpc}{$H+}
 
@@ -18,7 +18,7 @@ uses
   Classes, SysUtils,
   WfxPlugin, Extension,
   uCloudDriver, uCloudRootDriver,
-  uMacCloudCore, uMacCloudConfig, uMacCloudOptions, uMacCloudUtil,
+  uWFXPlugin, uWFXConfig, uWFXOptions, uWFXUtil,
   uMiniUtil;
 
 procedure ExtensionInitialize(StartupInfo: PExtensionStartupInfo); cdecl;
@@ -44,12 +44,12 @@ var
 begin
   try
     configPath:= StartupInfo^.PluginConfDir + 'MacCloud.json';
-    if macCloudPlugin <> nil then begin
-      macCloudPlugin.configPath:= configPath;
-      macCloudPlugin.pluginPath:= StartupInfo^.PluginDir;
+    if WFXMacCloudPlugin <> nil then begin
+      WFXMacCloudPlugin.configPath:= configPath;
+      WFXMacCloudPlugin.pluginPath:= StartupInfo^.PluginDir;
     end;
-    macCloudDriverConfigManager.loadFromCommon( configPath );
-    macCloudDriverConfigManager.loadFromSecurity;
+    WFXCloudDriverConfigManager.loadFromCommon( configPath );
+    WFXCloudDriverConfigManager.loadFromSecurity;
   except
     on e: Exception do
       TLogUtil.logError( 'error in ExtensionInitialize(): ' + e.Message );
@@ -62,9 +62,9 @@ function FsInitW(
   pLogProc: TLogProcW;
   pRequestProc: TRequestProcW ): Integer; cdecl;
 begin
-  if Assigned(macCloudPlugin) then
-    macCloudPlugin.Free;
-  macCloudPlugin:= TMacCloudPlugin.Create( PluginNr, pProgressProc, pLogProc );
+  if Assigned(WFXMacCloudPlugin) then
+    WFXMacCloudPlugin.Free;
+  WFXMacCloudPlugin:= TWFXMacCloudPlugin.Create( PluginNr, pProgressProc, pLogProc );
   Result:= 0;
 end;
 
@@ -72,7 +72,7 @@ function FsFindFirstW(
   path: pwidechar;
   var FindData: TWIN32FINDDATAW ): THandle; cdecl;
 var
-  parser: TCloudPathParser = nil;
+  parser: TWFXPathParser = nil;
   lister: TCloudDriverLister = nil;
   driver: TCloudDriverBase;
 
@@ -82,7 +82,7 @@ var
     cloudFile: TCloudFile;
   begin
     utf8Path:= TStringUtil.widecharsToString(path);
-    parser:= TCloudPathParser.Create( utf8Path );
+    parser:= TWFXPathParser.Create( utf8Path );
     if utf8Path = PathDelim then
       driver:= TCloudRootDriver.Create
     else
@@ -94,7 +94,7 @@ var
     if cloudFile = nil then
       Exit( wfxInvalidHandle );
 
-    TMacCloudUtil.cloudFileToWinFindData( cloudFile, FindData );
+    TWFXPluginUtil.cloudFileToWinFindData( cloudFile, FindData );
   end;
 
 begin
@@ -106,7 +106,7 @@ begin
     end;
   except
     on e: Exception do begin
-      TMacCloudUtil.exceptionToResult( e );
+      TWFXPluginUtil.exceptionToResult( e );
       Result:= wfxInvalidHandle;
     end;
   end;
@@ -128,11 +128,11 @@ begin
     if cloudFile = nil then
       Exit( False );
 
-    TMacCloudUtil.cloudFileToWinFindData( cloudFile, FindData );
+    TWFXPluginUtil.cloudFileToWinFindData( cloudFile, FindData );
     Result:= True;
   except
     on e: Exception do begin
-      TMacCloudUtil.exceptionToResult( e );
+      TWFXPluginUtil.exceptionToResult( e );
       Result:= False;
     end;
   end;
@@ -148,7 +148,7 @@ begin
     lister.listFolderEnd;
   except
     on e: Exception do begin
-      TMacCloudUtil.exceptionToResult( e );
+      TWFXPluginUtil.exceptionToResult( e );
     end;
   end;
 end;
@@ -160,8 +160,8 @@ function FsGetFileW(
   RemoteInfo: pRemoteInfo ): Integer; cdecl;
 
 var
-  parser: TCloudPathParser = nil;
-  callback: TCloudProgressCallback = nil;
+  parser: TWFXPathParser = nil;
+  callback: TWFXProgressCallback = nil;
 
   function doGetFile: Integer;
   var
@@ -171,7 +171,7 @@ var
     li: ULARGE_INTEGER;
     exits: Boolean;
   begin
-    parser:= TCloudPathParser.Create( TStringUtil.widecharsToString(RemoteName) );
+    parser:= TWFXPathParser.Create( TStringUtil.widecharsToString(RemoteName) );
     serverPath:= parser.driverPath;
     if serverPath = EmptyStr then
       raise ENotSupportedException.Create( 'Connection not support copying' );
@@ -191,7 +191,7 @@ var
     if exits and (CopyFlags and FS_COPYFLAGS_OVERWRITE = 0) then
       Exit( FS_FILE_EXISTS );
 
-    callback:= TCloudProgressCallback.Create(
+    callback:= TWFXProgressCallback.Create(
       RemoteName,
       LocalName,
       totalBytes );
@@ -211,7 +211,7 @@ begin
     end;
   except
     on e: Exception do
-      Result:= TMacCloudUtil.exceptionToResult( e );
+      Result:= TWFXPluginUtil.exceptionToResult( e );
   end;
 end;
 
@@ -222,8 +222,8 @@ function FsPutFileW(
 const
   FS_EXISTS = FS_COPYFLAGS_EXISTS_SAMECASE or FS_COPYFLAGS_EXISTS_DIFFERENTCASE;
 var
-  parser: TCloudPathParser = nil;
-  callback: TCloudProgressCallback = nil;
+  parser: TWFXPathParser = nil;
+  callback: TWFXProgressCallback = nil;
 
   function doPutFile: Integer;
   var
@@ -232,7 +232,7 @@ var
     totalBytes: Integer;
     exits: Boolean;
   begin
-    parser:= TCloudPathParser.Create( TStringUtil.widecharsToString(RemoteName) );
+    parser:= TWFXPathParser.Create( TStringUtil.widecharsToString(RemoteName) );
     serverPath:= parser.driverPath;
     if serverPath = EmptyStr then
       raise ENotSupportedException.Create( 'Connection not support copying' );
@@ -251,7 +251,7 @@ var
     if exits and (CopyFlags and FS_COPYFLAGS_OVERWRITE = 0) then
       Exit( FS_FILE_EXISTS );
 
-    callback:= TCloudProgressCallback.Create(
+    callback:= TWFXProgressCallback.Create(
       LocalName,
       RemoteName,
       totalBytes );
@@ -271,19 +271,19 @@ begin
     end;
   except
     on e: Exception do
-      Result:= TMacCloudUtil.exceptionToResult( e );
+      Result:= TWFXPluginUtil.exceptionToResult( e );
   end;
 end;
 
 function FsMkDirW( RemoteDir: pwidechar ): Bool; cdecl;
 var
-  parser: TCloudPathParser = nil;
+  parser: TWFXPathParser = nil;
 
   procedure doCreateFolder;
   var
     folderName: String;
   begin
-    parser:= TCloudPathParser.Create( TStringUtil.widecharsToString(RemoteDir) );
+    parser:= TWFXPathParser.Create( TStringUtil.widecharsToString(RemoteDir) );
     if parser.driverPath = EmptyStr then
       folderName:= parser.connectionName
     else
@@ -301,7 +301,7 @@ begin
     end;
   except
     on e: Exception do begin
-      TMacCloudUtil.exceptionToResult( e );
+      TWFXPluginUtil.exceptionToResult( e );
       Result:= False;
     end;
   end;
@@ -310,14 +310,14 @@ end;
 
 function fsDelete( const RemoteName: pwidechar; const isFolder: Boolean ): Boolean;
 var
-  parser: TCloudPathParser = nil;
+  parser: TWFXPathParser = nil;
 
   procedure doDelete;
   var
     utf8Path: String;
   begin
     utf8Path:= TStringUtil.widecharsToString(RemoteName);
-    parser:= TCloudPathParser.Create( utf8Path );
+    parser:= TWFXPathParser.Create( utf8Path );
     if parser.driverPath = EmptyStr then
       utf8Path:= parser.connectionName
     else
@@ -335,7 +335,7 @@ begin
     end;
   except
     on e: Exception do begin
-      TMacCloudUtil.exceptionToResult( e );
+      TWFXPluginUtil.exceptionToResult( e );
       Result:= False;
     end;
   end;
@@ -358,19 +358,19 @@ function FsRenMovFileW(
   RemoteInfo: pRemoteInfo ): Integer; cdecl;
 var
   isFolder: Boolean;
-  parserOld: TCloudPathParser = nil;
-  parserNew: TCloudPathParser = nil;
+  parserOld: TWFXPathParser = nil;
+  parserNew: TWFXPathParser = nil;
 
   function doCopyOrMove: Integer;
   var
     ret: Boolean;
     driver: TCloudDriverBase;
   begin
-    ret:= macCloudPlugin.progress( oldName, newName, 0 ) = 0;
+    ret:= WFXMacCloudPlugin.progress( oldName, newName, 0 ) = 0;
     if ret then begin
       isFolder:= (RemoteInfo^.Attr AND FILE_ATTRIBUTE_DIRECTORY) <> 0;
-      parserOld:= TCloudPathParser.Create( TStringUtil.widecharsToString(OldName) );
-      parserNew:= TCloudPathParser.Create( TStringUtil.widecharsToString(NewName) );
+      parserOld:= TWFXPathParser.Create( TStringUtil.widecharsToString(OldName) );
+      parserNew:= TWFXPathParser.Create( TStringUtil.widecharsToString(NewName) );
       driver:= TCloudRootHelper.getDriver( parserOld );
       if parserOld.driverPath = EmptyStr then begin
         if parserNew.driverPath <> EmptyStr then
@@ -381,7 +381,7 @@ var
           raise ENotSupportedException.Create( 'Internal copy/move functions cannot be used between different accounts' );
         driver.copyOrMove( parserOld.driverPath, parserNew.driverPath, isFolder, Move );
       end;
-      macCloudPlugin.progress( oldName, newName, 100 );
+      WFXMacCloudPlugin.progress( oldName, newName, 100 );
       Result:= FS_FILE_OK;
     end else
       Result:= FS_FILE_USERABORT;
@@ -397,7 +397,7 @@ begin
     end;
   except
     on e: Exception do
-      Result:= TMacCloudUtil.exceptionToResult( e );
+      Result:= TWFXPluginUtil.exceptionToResult( e );
   end;
 end;
 
@@ -406,7 +406,7 @@ function FsExecuteFileW(
   RemoteName: pwidechar;
   Verb: pwidechar ): Integer; cdecl;
 var
-  parser: TCloudPathParser = nil;
+  parser: TWFXPathParser = nil;
 
   function doExecute: Integer;
   var
@@ -416,20 +416,20 @@ var
     Result:= FS_EXEC_OK;
     utf8Path:= TStringUtil.widecharsToString( RemoteName );
     utf8Verb:= TStringUtil.widecharsToString( Verb );
-    parser:= TCloudPathParser.Create( utf8Path );
+    parser:= TWFXPathParser.Create( utf8Path );
 
     if parser.driverPath <> EmptyStr then
       Exit( FS_EXEC_YOURSELF );
 
     if utf8Verb = 'open' then begin
       if parser.connectionName = CONST_ADD_NEW_CONNECTION then begin
-        TCloudOptionsUtil.addAndShow;
+        TWFXOptionsUtil.addAndShow;
         TCloudRootHelper.saveConfig;
       end else begin
         Exit( FS_EXEC_SYMLINK );
       end;
     end else if utf8Verb = 'properties' then begin
-      TCloudOptionsUtil.show( parser.connectionName );
+      TWFXOptionsUtil.show( parser.connectionName );
       TCloudRootHelper.saveConfig;
     end;
   end;
@@ -443,7 +443,7 @@ begin
     end;
   except
     on e: Exception do begin
-      TMacCloudUtil.exceptionToResult( e );
+      TWFXPluginUtil.exceptionToResult( e );
       Result:= FS_EXEC_ERROR;
     end;
   end;

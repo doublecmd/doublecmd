@@ -1,4 +1,4 @@
-unit uMacCloudUtil;
+unit uWFXUtil;
 
 {$mode ObjFPC}{$H+}
 {$modeswitch objectivec2}
@@ -9,7 +9,7 @@ uses
   Classes, SysUtils,
   WfxPlugin,
   CocoaAll, uMiniCocoa,
-  uCloudDriver, uMacCloudCore,
+  uCloudDriver, uWFXPlugin,
   uMiniUtil;
 
 type
@@ -23,9 +23,9 @@ type
        1: (QuadPart : ULONGLONG);
   end;
 
-  { TCloudProgressCallback }
+  { TWFXProgressCallback }
 
-  TCloudProgressCallback = class( ICloudProgressCallback )
+  TWFXProgressCallback = class( ICloudProgressCallback )
   private
     _serverPath: pwidechar;
     _localPath: pwidechar;
@@ -38,26 +38,26 @@ type
     function progress( const accumulatedBytes: Integer ): Boolean;
   end;
 
-  { TCloudPathParser }
+  { TWFXPathParser }
 
-  TCloudPathParser = class
+  TWFXPathParser = class
   private
     _connectionName: String;
     _driverPath: String;
   private
-    function getConnection: TCloudConnection;
+    function getConnection: TWFXConnection;
     function getDriver: TCloudDriver;
   public
     constructor Create( const path: String );
-    property connection: TCloudConnection read getConnection;
+    property connection: TWFXConnection read getConnection;
     property driver: TCloudDriver read getDriver;
     property connectionName: String read _connectionName;
     property driverPath: String read _driverPath;
   end;
 
-  { TMacCloudUtil }
+  { TWFXPluginUtil }
 
-  TMacCloudUtil = class
+  TWFXPluginUtil = class
   public
     class function fileTimeToDateTime(AFileTime: FILETIME): TDateTime;
     class function dateTimeToFileTime(ADateTimeUTC: TDateTime): FILETIME;
@@ -71,9 +71,9 @@ type
 
 implementation
 
-{ TCloudProgressCallback }
+{ TWFXProgressCallback }
 
-constructor TCloudProgressCallback.Create(
+constructor TWFXProgressCallback.Create(
   const serverPath: pwidechar;
   const localPath: pwidechar;
   const totalBytes: Integer);
@@ -83,7 +83,7 @@ begin
   _totalBytes:= totalBytes;
 end;
 
-function TCloudProgressCallback.progress(const accumulatedBytes: Integer): Boolean;
+function TWFXProgressCallback.progress(const accumulatedBytes: Integer): Boolean;
 var
   percent: Integer;
   ret: Integer;
@@ -92,23 +92,23 @@ begin
     percent:= accumulatedBytes * 100 div _totalBytes
   else
     percent:= 50;
-  ret:= macCloudPlugin.progress( _serverPath, _localPath, percent );
+  ret:= WFXMacCloudPlugin.progress( _serverPath, _localPath, percent );
   Result:= (ret = 0);
 end;
 
-{ TCloudPathParser }
+{ TWFXPathParser }
 
-function TCloudPathParser.getConnection: TCloudConnection;
+function TWFXPathParser.getConnection: TWFXConnection;
 begin
-  Result:= cloudConnectionManager.get( _connectionName );
+  Result:= WFXConnectionManager.get( _connectionName );
 end;
 
-function TCloudPathParser.getDriver: TCloudDriver;
+function TWFXPathParser.getDriver: TCloudDriver;
 begin
   Result:= self.connection.driver;
 end;
 
-constructor TCloudPathParser.Create(const path: String);
+constructor TWFXPathParser.Create(const path: String);
 var
   i: Integer;
 begin
@@ -121,9 +121,9 @@ begin
   end;
 end;
 
-{ TMacCloudUtil }
+{ TWFXPluginUtil }
 
-class function TMacCloudUtil.fileTimeToDateTime(AFileTime: FILETIME): TDateTime;
+class function TWFXPluginUtil.fileTimeToDateTime(AFileTime: FILETIME): TDateTime;
 var
   li: ULARGE_INTEGER;
 const
@@ -138,7 +138,7 @@ begin
   Result := (Real(li.QuadPart) - OA_ZERO_TICKS) / TICKS_PER_DAY;
 end;
 
-class function TMacCloudUtil.dateTimeToFileTime(ADateTimeUTC: TDateTime): FILETIME;
+class function TWFXPluginUtil.dateTimeToFileTime(ADateTimeUTC: TDateTime): FILETIME;
 var
   li: ULARGE_INTEGER;
 const
@@ -156,7 +156,7 @@ begin
   end;
 end;
 
-class function TMacCloudUtil.exceptionToResult( const e: Exception ): Integer;
+class function TWFXPluginUtil.exceptionToResult( const e: Exception ): Integer;
 begin
   TLogUtil.logError( e.ClassName + ': ' + e.Message );
 
@@ -172,31 +172,31 @@ begin
     Result:= FS_FILE_NOTSUPPORTED;
 end;
 
-class function TMacCloudUtil.driverMainIconPath( const driver: TCloudDriver ): String;
+class function TWFXPluginUtil.driverMainIconPath( const driver: TCloudDriver ): String;
 begin
-  Result:= TMacCloudUtil.driverMainIconPath( TCloudDriverClass(driver.ClassType) );
+  Result:= TWFXPluginUtil.driverMainIconPath( TCloudDriverClass(driver.ClassType) );
 end;
 
-class function TMacCloudUtil.driverMainIconPath( const driver: TCloudDriverClass ): String;
+class function TWFXPluginUtil.driverMainIconPath( const driver: TCloudDriverClass ): String;
 begin
-  Result:= macCloudPlugin.pluginPath + 'drivers/' + driver.driverName + '/MainIcon.png';
+  Result:= WFXMacCloudPlugin.pluginPath + 'drivers/' + driver.driverName + '/MainIcon.png';
 end;
 
-class function TMacCloudUtil.driverMainIcon( const driver: TCloudDriver ): NSImage;
+class function TWFXPluginUtil.driverMainIcon( const driver: TCloudDriver ): NSImage;
 begin
-  Result:= TMacCloudUtil.driverMainIcon( TCloudDriverClass(driver.ClassType) );
+  Result:= TWFXPluginUtil.driverMainIcon( TCloudDriverClass(driver.ClassType) );
 end;
 
-class function TMacCloudUtil.driverMainIcon( const driver: TCloudDriverClass ): NSImage;
+class function TWFXPluginUtil.driverMainIcon( const driver: TCloudDriverClass ): NSImage;
 var
   path: NSString;
 begin
-  path:= StringToNSString( TMacCloudUtil.driverMainIconPath(driver) );
+  path:= StringToNSString( TWFXPluginUtil.driverMainIconPath(driver) );
   Result:= NSImage.alloc.initWithContentsOfFile( path );
   Result.autoRelease;
 end;
 
-class procedure TMacCloudUtil.cloudFileToWinFindData( cloudFile: TCloudFile; var FindData:tWIN32FINDDATAW );
+class procedure TWFXPluginUtil.cloudFileToWinFindData( cloudFile: TCloudFile; var FindData:tWIN32FINDDATAW );
 var
   li: ULARGE_INTEGER;
 begin
@@ -208,9 +208,9 @@ begin
   li.QuadPart:= cloudFile.size;
   FindData.nFileSizeLow:= li.LowPart;
   FindData.nFileSizeHigh:= li.HighPart;
-  FindData.ftCreationTime:= TMacCloudUtil.dateTimeToFileTime( cloudFile.creationTime );
-  FindData.ftLastWriteTime:= TMacCloudUtil.dateTimeToFileTime( cloudFile.modificationTime );
-  FindData.ftLastAccessTime:= TMacCloudUtil.dateTimeToFileTime( 0 );
+  FindData.ftCreationTime:= TWFXPluginUtil.dateTimeToFileTime( cloudFile.creationTime );
+  FindData.ftLastWriteTime:= TWFXPluginUtil.dateTimeToFileTime( cloudFile.modificationTime );
+  FindData.ftLastAccessTime:= TWFXPluginUtil.dateTimeToFileTime( 0 );
   TStringUtil.stringToWidechars( FindData.cFileName, cloudFile.name, sizeof(FindData.cFileName) );
   cloudFile.Free;
 end;
