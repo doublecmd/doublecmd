@@ -380,8 +380,7 @@ type
     _config: TTokenCloudDriverConfig;
     _authSession: TCloudDriverOAuth2Session;
   public
-    constructor Create(
-      const config: TTokenCloudDriverConfig );
+    constructor Create( const config: TTokenCloudDriverConfig );
     destructor Destroy; override;
   public
     function authorize: Boolean; override;

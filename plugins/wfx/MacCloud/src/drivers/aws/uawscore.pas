@@ -5,7 +5,8 @@ unit uAWSCore;
 interface
 
 uses
-  Classes, SysUtils;
+  Classes, SysUtils,
+  uCloudDriver;
 
 type
 
@@ -13,15 +14,30 @@ type
 
   TAWSConfig = class
   public
-    accessKeyID: String;
-    accessKeySecret: String;
-    endPoint: String;
     credentialVersionAlgorithm: String;
     credentialPrefix: String;
-    credentialRegion: String;
     credentialService: String;
     credentialRequest: String;
-    credentialPrefixAndSecret: String;
+  end;
+
+  { TAWSAccessKey }
+
+  TAWSAccessKey = class
+  private
+    _id: String;
+    _secret: String;
+  public
+    constructor Create( const id: String; const secret: String );
+    property id: String read _id;
+    property secret: String read _secret;
+  end;
+
+  { TAWSCloudDriver }
+
+  TAWSCloudDriver = class( TCloudDriver )
+  public
+    function getAccessKey: TAWSAccessKey; virtual; abstract;
+    procedure setAccessKey( const accessKey: TAWSAccessKey ); virtual; abstract;
   end;
 
   { TAWSConstHeader }
@@ -48,6 +64,14 @@ const
   );
 
 implementation
+
+{ TAWSAccessKey }
+
+constructor TAWSAccessKey.Create(  const id: String; const secret: String );
+begin
+  _id:= id;
+  _secret:= secret;
+end;
 
 end.
 

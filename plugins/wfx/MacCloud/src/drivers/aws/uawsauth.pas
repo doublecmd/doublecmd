@@ -15,19 +15,60 @@ uses
 
 type
 
+  { TAWSAuthSessionParams }
+
+  TAWSAuthSessionParams = record
+    config: TAWSConfig;
+    resultProcessFunc: TCloudDriverResultProcessFunc;
+    region: String;
+    endPoint: String;
+    defaultBucket: String;
+  end;
+
+  { TAWSSigner }
+
+  TAWSSigner = class
+  strict private
+    _params: TAWSAuthSessionParams;
+    _config: TAWSConfig;
+    _accessKey: TAWSAccessKey;
+    _request: NSMutableURLRequest;
+  protected
+    constructor Create(
+      const params: TAWSAuthSessionParams;
+      const accessKey: TAWSAccessKey;
+      const request: NSMutableURLRequest );
+  protected
+    function buildDateYYYYMMDDString: NSString;
+    function buildTimeStampString: NSString;
+    function buildAuthString: NSString;
+    function buildSignature: NSString;
+    function buildSigningString: NSString;
+    function buildSigningKey: NSData;
+    function buildScopeString: NSString;
+    function buildCredentialString: NSString;
+    function buildHmacAlgorithmString: NSString;
+  end;
+
   { TAWSAuthSession }
 
   TAWSAuthSession = class( TCloudDriverAuthSession )
   strict protected
+    _params: TAWSAuthSessionParams;
     _config: TAWSConfig;
+    _accessKey: TAWSAccessKey;
+    _signer: TAWSSigner;
   private
     procedure addNeededHeader( const request: NSMutableURLRequest );
   public
-    constructor Create( const config: TAWSConfig );
+    constructor Create( const params: TAWSAuthSessionParams );
+    destructor Destroy; override;
+    procedure setAccessKey( const accessKey: TAWSAccessKey );
     function clone( const driver: TCloudDriver ): TCloudDriverAuthSession; override;
     procedure setAuthHeader( const http: TMiniHttpClient ); override;
   public
-    property config: TAWSConfig read _config;
+    property params: TAWSAuthSessionParams read _params;
+    property accessKey: TAWSAccessKey read _accessKey write setAccessKey;
   end;
 
 implementation
@@ -46,34 +87,6 @@ type
   protected
     class function buildSignedHeadersString( const request: NSMutableURLRequest ): NSString;
     class function build( const request: NSMutableURLRequest ): NSString;
-  end;
-
-  { TSignUtil }
-
-  TSignUtil = class
-  strict private
-    class function buildDateYYYYMMDDString( const request: NSMutableURLRequest ): NSString;
-    class function buildTimeStampString( const request: NSMutableURLRequest ): NSString;
-  protected
-    class function buildAuthString(
-      const config: TAWSConfig;
-      const request: NSMutableURLRequest ): NSString;
-    class function buildSignature(
-      const config: TAWSConfig;
-      const request: NSMutableURLRequest ): NSString;
-    class function buildSigningString(
-      const config: TAWSConfig;
-      const request: NSMutableURLRequest ): NSString;
-    class function buildSigningKey(
-      const config: TAWSConfig;
-      const request: NSMutableURLRequest ): NSData;
-    class function buildScopeString(
-      const config: TAWSConfig;
-      const request: NSMutableURLRequest ): NSString;
-    class function buildCredentialString(
-      const config: TAWSConfig;
-      const request: NSMutableURLRequest ): NSString;
-    class function buildHmacAlgorithmString( const config: TAWSConfig ): NSString;
   end;
 
 { TAWSAuthSession }
@@ -100,43 +113,86 @@ begin
   addHostHeaderIfNeeded;
 end;
 
-constructor TAWSAuthSession.Create(const config: TAWSConfig);
+constructor TAWSAuthSession.Create(  const params: TAWSAuthSessionParams );
 begin
-  _config:= config;
-  _config.credentialPrefixAndSecret:= _config.credentialPrefix + _config.accessKeySecret;
+  _params:= params;
+  _config:= params.config;
+end;
+
+destructor TAWSAuthSession.Destroy;
+begin
+  FreeAndNil( _accessKey );
 end;
 
 function TAWSAuthSession.clone( const driver: TCloudDriver ): TCloudDriverAuthSession;
+var
+  session: TAWSAuthSession;
 begin
-  Result:= TAWSAuthSession.Create( _config );
+  session:= TAWSAuthSession.Create( _params );
+  session.setAccessKey( TAWSCloudDriver(driver).getAccessKey );
+  Result:= session;
 end;
 
 procedure TAWSAuthSession.setAuthHeader( const http: TMiniHttpClient );
 var
   request: NSMutableURLRequest;
   authString: NSString;
+  signer: TAWSSigner = nil;
 begin
-  request:= http.request;
-  self.addNeededHeader( request );
-  authString:= TSignUtil.buildAuthString( _config, request );
-  http.addHeader( HttpConst.Header.Authorization, authString );
+  try
+    request:= http.request;
+    self.addNeededHeader( request );
+    signer:= TAWSSigner.Create( params, _accessKey, request );
+    authString:= signer.buildAuthString;
+    http.addHeader( HttpConst.Header.Authorization, authString );
+  finally
+    FreeAndNil( signer );
+  end;
 end;
 
-{ TSigningKey }
+procedure TAWSAuthSession.setAccessKey(const accessKey: TAWSAccessKey);
+var
+  oldAccessKey: TAWSAccessKey;
+begin
+  oldAccessKey:= _accessKey;
+  _accessKey:= accessKey;
+  oldAccessKey.Free;
+end;
 
-class function TSignUtil.buildAuthString(
-  const config: TAWSConfig;
-  const request: NSMutableURLRequest ): NSString;
+{ TAWSSigner }
+
+constructor TAWSSigner.Create(
+  const params: TAWSAuthSessionParams;
+  const accessKey: TAWSAccessKey;
+  const request: NSMutableURLRequest );
+begin
+  _params:= params;
+  _config:= _params.config;
+  _accessKey:= accessKey;
+  _request:= request;
+end;
+
+function TAWSSigner.buildDateYYYYMMDDString: NSString;
+begin
+  Result:= self.buildTimeStampString.substringToIndex( 8 );
+end;
+
+function TAWSSigner.buildTimeStampString: NSString;
+begin
+  Result:= NSString( _request.allHTTPHeaderFields.objectForKey(HttpConst.Header.Date) );
+end;
+
+function TAWSSigner.buildAuthString: NSString;
 var
   hmacAlgorithm: NSString;
   credential: NSString;
   signedHeader: NSString;
   signature: NSString;
 begin
-  hmacAlgorithm:= buildHmacAlgorithmString( config );
-  credential:= buildCredentialString( config, request );
-  signedHeader:= TCanonicalRequestUtil.buildSignedHeadersString( request );
-  signature:= buildSignature( config, request );
+  hmacAlgorithm:= buildHmacAlgorithmString;
+  credential:= buildCredentialString;
+  signedHeader:= TCanonicalRequestUtil.buildSignedHeadersString( _request );
+  signature:= buildSignature;
   Result:= NSString.stringWithFormat( NSSTR('%@ Credential=%@,SignedHeaders=%@,Signature=%@'),
     hmacAlgorithm,
     credential,
@@ -144,37 +200,31 @@ begin
     signature );
 end;
 
-class function TSignUtil.buildSignature(
-  const config: TAWSConfig;
-  const request: NSMutableURLRequest ): NSString;
+function TAWSSigner.buildSignature: NSString;
 var
   signingkeyData: NSData;
   signingString: NSString;
 begin
-  signingkeyData:= buildSigningKey( config, request );
-  signingString:= buildSigningString( config, request );
+  signingkeyData:= buildSigningKey;
+  signingString:= buildSigningString;
   Result:= THashUtil.HmacSha256AndHexStr( signingkeyData, signingString );
 end;
 
-class function TSignUtil.buildSigningString(
-  const config: TAWSConfig;
-  const request: NSMutableURLRequest ): NSString;
+function TAWSSigner.buildSigningString: NSString;
 var
   canonicalRequestString: NSString;
   canonicalRequestSha256HexString: NSString;
 begin
-  canonicalRequestString:= TCanonicalRequestUtil.build(request);
+  canonicalRequestString:= TCanonicalRequestUtil.build( _request );
   canonicalRequestSha256HexString:= THashUtil.sha256AndHexStr( canonicalRequestString );
   Result:= NSString.stringWithFormat( NSSTR('%@'#10'%@'#10'%@'#10'%@'),
-    buildHmacAlgorithmString( config ),
-    buildTimeStampString(request),
-    buildScopeString(config,request),
+    buildHmacAlgorithmString,
+    buildTimeStampString,
+    buildScopeString,
     canonicalRequestSha256HexString );
 end;
 
-class function TSignUtil.buildSigningKey(
-  const config: TAWSConfig;
-  const request: NSMutableURLRequest ): NSData;
+function TAWSSigner.buildSigningKey: NSData;
 var
   dateString: NSString;
   keyString: NSString;
@@ -183,43 +233,31 @@ var
   dateRegionKey: NSData;
   dateRegionServiceKey: NSData;
 begin
-  dateString:= self.buildDateYYYYMMDDString(request);
-  keyString:= StringToNSString( config.credentialPrefixAndSecret );
+  dateString:= buildDateYYYYMMDDString;
+  keyString:= StringToNSString( _config.credentialPrefix + _accessKey.secret );
   key:= keyString.dataUsingEncoding( NSUTF8StringEncoding );
   dateKey:= THashUtil.HmacSha256( key, dateString );
-  dateRegionKey:= THashUtil.HmacSha256( dateKey, NSSTR(config.credentialRegion) );
-  dateRegionServiceKey:= THashUtil.HmacSha256( dateRegionKey, NSSTR(config.credentialService) );
-  Result:= THashUtil.HmacSha256( dateRegionServiceKey, NSSTR(config.credentialRequest) );
+  dateRegionKey:= THashUtil.HmacSha256( dateKey, NSSTR(_params.region) );
+  dateRegionServiceKey:= THashUtil.HmacSha256( dateRegionKey, NSSTR(_config.credentialService) );
+  Result:= THashUtil.HmacSha256( dateRegionServiceKey, NSSTR(_config.credentialRequest) );
 end;
 
-class function TSignUtil.buildDateYYYYMMDDString( const request: NSMutableURLRequest ): NSString;
+function TAWSSigner.buildHmacAlgorithmString: NSString;
 begin
-  Result:= self.buildTimeStampString(request).substringToIndex( 8 );
+  Result:= NSSTR( _config.credentialVersionAlgorithm );
 end;
 
-class function TSignUtil.buildTimeStampString( const request: NSMutableURLRequest ): NSString;
-begin
-  Result:= NSString( request.allHTTPHeaderFields.objectForKey(HttpConst.Header.Date) );
-end;
-
-class function TSignUtil.buildHmacAlgorithmString( const config: TAWSConfig ): NSString;
-begin
-  Result:= NSSTR( config.credentialVersionAlgorithm );
-end;
-
-class function TSignUtil.buildScopeString(
-  const config: TAWSConfig;
-  const request: NSMutableURLRequest ): NSString;
+function TAWSSigner.buildScopeString: NSString;
 var
   signDate: NSString;
   signRegion: NSString;
   signService: NSString;
   signProduct: NSString;
 begin
-  signDate:= buildDateYYYYMMDDString( request );
-  signService:= NSSTR( config.credentialService );
-  signRegion:= NSSTR( config.credentialRegion );
-  signProduct:= NSSTR( config.credentialRequest );
+  signDate:= buildDateYYYYMMDDString;
+  signService:= NSSTR( _config.credentialService );
+  signRegion:= NSSTR( _params.region );
+  signProduct:= NSSTR( _config.credentialRequest );
   Result:= NSString.stringWithFormat( NSSTR('%@/%@/%@/%@'),
     signDate,
     signRegion,
@@ -227,13 +265,11 @@ begin
     signProduct );
 end;
 
-class function TSignUtil.buildCredentialString(
-  const config: TAWSConfig;
-  const request: NSMutableURLRequest ): NSString;
+function TAWSSigner.buildCredentialString: NSString;
 begin
   Result:= NSString.stringWithFormat( NSSTR('%@/%@'),
-    NSSTR( config.accessKeyID),
-    TSignUtil.buildScopeString(config,request) );
+    NSSTR( _accessKey.id ),
+    buildScopeString );
 end;
 
 { TCanonicalRequest }
