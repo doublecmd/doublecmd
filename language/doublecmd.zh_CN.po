@@ -8323,7 +8323,7 @@ msgstr ""
 #: tfrmquicksearch.sbfiles.hint
 msgctxt "tfrmquicksearch.sbfiles.hint"
 msgid "Files"
-msgstr "个文件"
+msgstr "文件"
 
 #: tfrmquicksearch.sbmatchbeginning.caption
 msgid "{"
@@ -11319,7 +11319,7 @@ msgstr "删除部分复制的文件？"
 #: ulng.rsmsgdelfldr
 #, object-pascal-format
 msgid "Delete %d selected files/directories?"
-msgstr "确定婪删除 %d 个选中的文件/文件夹吗？"
+msgstr "确定要删除 %d 个选中的文件/文件夹吗？"
 
 #: ulng.rsmsgdelfldrt
 #, object-pascal-format
