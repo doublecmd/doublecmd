@@ -8,8 +8,9 @@ interface
 uses
   Classes, SysUtils, Contnrs,
   CocoaAll, uMiniCocoa,
-  uWFXPlugin,
-  uCloudDriver, uDropBoxClient, uYandexClient, uOneDriveClient, uBoxClient,
+  uWFXPlugin, uCloudDriver,
+  uDropBoxClient, uYandexClient, uOneDriveClient, uBoxClient,
+  uAWSCore, uS3Client, uAliyunOSSClient,
   uMiniUtil;
 
 type
@@ -17,10 +18,12 @@ type
   { TWFXCloudDriverConfig }
 
   TWFXCloudDriverConfig = class
-    class procedure loadCommon( const params: NSDictionary ); virtual; abstract;
-    class procedure saveCommon( const params: NSMutableDictionary ); virtual; abstract;
-    class procedure loadSecurity( const driver: TCloudDriver; const params: NSDictionary ); virtual; abstract;
-    class procedure saveSecurity( const driver: TCloudDriver; const params: NSMutableDictionary ); virtual; abstract;
+    class procedure loadDriverCommon( const params: NSDictionary ); virtual; abstract;
+    class procedure saveDriverCommon( const params: NSMutableDictionary ); virtual; abstract;
+    class procedure loadConnectionCommon( const driver: TCloudDriver; const params: NSDictionary ); virtual; abstract;
+    class procedure saveConnectionCommon( const driver: TCloudDriver; const params: NSMutableDictionary ); virtual; abstract;
+    class procedure loadConnectionSecurity( const driver: TCloudDriver; const params: NSDictionary ); virtual; abstract;
+    class procedure saveConnectionSecurity( const driver: TCloudDriver; const params: NSMutableDictionary ); virtual; abstract;
   end;
 
   TWFXCloudDriverConfigClass = class of TWFXCloudDriverConfig;
@@ -55,10 +58,12 @@ type
   { TWFXTokenCloudDriverConfig }
 
   TWFXTokenCloudDriverConfig = class( TWFXCloudDriverConfig )
-    class procedure loadSecurity( const driver: TCloudDriver; const params: NSDictionary ); override;
-    class procedure saveSecurity( const driver: TCloudDriver; const params: NSMutableDictionary ); override;
-    class procedure loadCommon( const params: NSDictionary ); override;
-    class procedure saveCommon( const params: NSMutableDictionary ); override;
+    class procedure loadDriverCommon( const params: NSDictionary ); override;
+    class procedure saveDriverCommon( const params: NSMutableDictionary ); override;
+    class procedure loadConnectionCommon( const driver: TCloudDriver; const params: NSDictionary ); override;
+    class procedure saveConnectionCommon( const driver: TCloudDriver; const params: NSMutableDictionary ); override;
+    class procedure loadConnectionSecurity( const driver: TCloudDriver; const params: NSDictionary ); override;
+    class procedure saveConnectionSecurity( const driver: TCloudDriver; const params: NSMutableDictionary ); override;
     class function cloudDriverConfigPtr: TTokenCloudDriverConfigPtr; virtual; abstract;
     class function cloudDriverClass: TCloudDriverClass; virtual; abstract;
   end;
@@ -91,9 +96,41 @@ type
     class function cloudDriverClass: TCloudDriverClass; override;
   end;
 
+  { TWFXS3Config }
+
+  TWFXS3Config = class( TWFXCloudDriverConfig )
+    class procedure loadDriverCommon( const params: NSDictionary ); override;
+    class procedure saveDriverCommon( const params: NSMutableDictionary ); override;
+    class procedure loadConnectionCommon( const driver: TCloudDriver; const params: NSDictionary ); override;
+    class procedure saveConnectionCommon( const driver: TCloudDriver; const params: NSMutableDictionary ); override;
+    class procedure loadConnectionSecurity( const driver: TCloudDriver; const params: NSDictionary ); override;
+    class procedure saveConnectionSecurity( const driver: TCloudDriver; const params: NSMutableDictionary ); override;
+    class function cloudDriverConfigPtr: TS3ConfigPtr; virtual; abstract;
+    class function cloudDriverClass: TCloudDriverClass; virtual; abstract;
+  end;
+
+  { TWFXAliyunOSSConfig }
+
+  TWFXAliyunOSSConfig = class( TWFXS3Config )
+    class function cloudDriverConfigPtr: TS3ConfigPtr; override;
+    class function cloudDriverClass: TCloudDriverClass; override;
+  end;
+
+{ TWFXAliyunOSSConfig }
+
+class function TWFXAliyunOSSConfig.cloudDriverConfigPtr: TS3ConfigPtr;
+begin
+  Result:= @aliyunOSSConfig;
+end;
+
+class function TWFXAliyunOSSConfig.cloudDriverClass: TCloudDriverClass;
+begin
+  Result:= TAliyunOSSClient;
+end;
+
 { TWFXTokenCloudDriverConfig }
 
-class procedure TWFXTokenCloudDriverConfig.loadCommon(const params: NSDictionary);
+class procedure TWFXTokenCloudDriverConfig.loadDriverCommon(const params: NSDictionary);
 var
   clientID: String;
   clientSecret: String;
@@ -114,7 +151,7 @@ begin
   cloudDriverManager.register( self.cloudDriverClass );
 end;
 
-class procedure TWFXTokenCloudDriverConfig.saveCommon(const params: NSMutableDictionary);
+class procedure TWFXTokenCloudDriverConfig.saveDriverCommon(const params: NSMutableDictionary);
 var
   cloudDriverConfig: TTokenCloudDriverConfig;
 begin
@@ -125,7 +162,15 @@ begin
     TJsonUtil.setString( params, 'clientSecret', TTokenCloudDriverConfigWithSecret(cloudDriverConfig).clientSecret );
 end;
 
-class procedure TWFXTokenCloudDriverConfig.loadSecurity(
+class procedure TWFXTokenCloudDriverConfig.loadConnectionCommon( const driver: TCloudDriver; const params: NSDictionary );
+begin
+end;
+
+class procedure TWFXTokenCloudDriverConfig.saveConnectionCommon( const driver: TCloudDriver; const params: NSMutableDictionary );
+begin
+end;
+
+class procedure TWFXTokenCloudDriverConfig.loadConnectionSecurity(
   const driver: TCloudDriver; const params: NSDictionary);
 var
   token: TCloudDriverToken;
@@ -139,10 +184,10 @@ begin
   TTokenCloudDriver(driver).setToken( token );
 end;
 
-class procedure TWFXTokenCloudDriverConfig.saveSecurity(
+class procedure TWFXTokenCloudDriverConfig.saveConnectionSecurity(
   const driver: TCloudDriver; const params: NSMutableDictionary);
 var
-  client: TDropBoxClient absolute driver;
+  client: TOAuth2SessionCloudDriver absolute driver;
   token: TCloudDriverToken;
   jsonToken: NSMutableDictionary;
 begin
@@ -203,6 +248,108 @@ begin
   Result:= TBoxClient;
 end;
 
+{ TWFXS3Config }
+
+class procedure TWFXS3Config.loadDriverCommon( const params: NSDictionary );
+var
+  versionAlgorithm: String;
+  prefix: String;
+  service: String;
+  request: String;
+  oldCloudDriverConfig: TS3Config;
+  jsonCredential: NSDictionary;
+begin
+  jsonCredential:= TJsonUtil.getDictionary( params, 'credential' );
+  versionAlgorithm:= TJsonUtil.getString( jsonCredential, 'versionAlgorithm' );
+  prefix:= TJsonUtil.getString( jsonCredential, 'prefix' );
+  service:= TJsonUtil.getString( jsonCredential, 'service' );
+  request:= TJsonUtil.getString( jsonCredential, 'request' );
+  oldCloudDriverConfig:= self.cloudDriverConfigPtr^;
+  self.cloudDriverConfigPtr^:= TS3Config.Create(
+    versionAlgorithm,
+    prefix,
+    service,
+    request );
+  if Assigned(oldCloudDriverConfig) then
+    oldCloudDriverConfig.Free;
+  cloudDriverManager.register( self.cloudDriverClass );
+end;
+
+class procedure TWFXS3Config.saveDriverCommon( const params: NSMutableDictionary );
+var
+  cloudDriverConfig: TS3Config;
+  jsonCredential: NSMutableDictionary;
+begin
+  cloudDriverConfig:= self.cloudDriverConfigPtr^;
+  jsonCredential:= NSMutableDictionary.new;
+  TJsonUtil.setString( jsonCredential, 'versionAlgorithm', cloudDriverConfig.versionAlgorithm );
+  TJsonUtil.setString( jsonCredential, 'prefix', cloudDriverConfig.prefix );
+  TJsonUtil.setString( jsonCredential, 'service', cloudDriverConfig.service );
+  TJsonUtil.setString( jsonCredential, 'request', cloudDriverConfig.request );
+  TJsonUtil.setDictionary( params, 'credential', jsonCredential );
+  jsonCredential.release;
+end;
+
+class procedure TWFXS3Config.loadConnectionCommon( const driver: TCloudDriver; const params: NSDictionary );
+var
+  client: TAWSCloudDriver absolute driver;
+  connectionData: TAWSConnectionData;
+  jsonConnectionData: NSDictionary;
+begin
+  jsonConnectionData:= TJsonUtil.getDictionary( params, 'connectionData' );
+  connectionData:= Default( TAWSConnectionData );
+  connectionData.region:= TJsonUtil.getString( jsonConnectionData, 'region' );
+  connectionData.endPoint:= TJsonUtil.getString( jsonConnectionData, 'endPoint' );
+  connectionData.defaultBucket:= TJsonUtil.getString( jsonConnectionData, 'defaultBucket' );
+  client.setConnectionData( connectionData );
+end;
+
+class procedure TWFXS3Config.saveConnectionCommon( const driver: TCloudDriver; const params: NSMutableDictionary );
+var
+  client: TAWSCloudDriver absolute driver;
+  connectionData: TAWSConnectionData;
+  jsonConnectionData: NSMutableDictionary;
+begin
+  jsonConnectionData:= NSMutableDictionary.new;
+  connectionData:= client.getConnectionData;
+  TJsonUtil.setString( jsonConnectionData, 'region', connectionData.region );
+  TJsonUtil.setString( jsonConnectionData, 'endPoint', connectionData.endPoint );
+  TJsonUtil.setString( jsonConnectionData, 'defaultBucket', connectionData.defaultBucket );
+  TJsonUtil.setDictionary( params, 'connectionData', jsonConnectionData );
+  jsonConnectionData.release;
+end;
+
+class procedure TWFXS3Config.loadConnectionSecurity(
+  const driver: TCloudDriver;
+  const params: NSDictionary);
+var
+  accessKey: TS3AccessKey;
+  jsonAccessKey: NSDictionary;
+begin
+  jsonAccessKey:= TJsonUtil.getDictionary( params, 'accessKey' );
+  accessKey:= TS3AccessKey.Create(
+    TJsonUtil.getString( jsonAccessKey, 'id' ),
+    TJsonUtil.getString( jsonAccessKey, 'secret' )
+  );
+  TS3Client(driver).setAccessKey( accessKey );
+end;
+
+class procedure TWFXS3Config.saveConnectionSecurity(
+  const driver: TCloudDriver;
+  const params: NSMutableDictionary );
+var
+  client: TS3Client absolute driver;
+  accessKey: TAWSAccessKey;
+  jsonAccessKey: NSMutableDictionary;
+begin
+  accessKey:= client.getAccessKey;
+  jsonAccessKey:= NSMutableDictionary.new;
+  TJsonUtil.setString( jsonAccessKey, 'id', accessKey.id );
+  TJsonUtil.setString( jsonAccessKey, 'secret', accessKey.secret );
+  TJsonUtil.setDictionary( params, 'accessKey', jsonAccessKey );
+  jsonAccessKey.release;
+end;
+
 { TWFXCloudConfigManager }
 
 constructor TWFXCloudConfigManager.Create;
@@ -243,8 +390,8 @@ procedure TWFXCloudConfigManager.loadFromSecurity;
       driverName:= connection.driver.driverName;
       config:= TWFXCloudDriverConfigClass( _configItems[driverName] );
       if config = nil then
-        raise Exception.Create( 'driver not fount in loadFromSecurity.TCloudConfigManager(): ' + driverName );
-      config.loadSecurity( connection.driver, jsonConnection );
+        raise Exception.Create( 'driver not found in loadFromSecurity.TCloudConfigManager(): ' + driverName );
+      config.loadConnectionSecurity( connection.driver, jsonConnection );
     end;
   end;
 
@@ -283,7 +430,7 @@ procedure TWFXCloudConfigManager.saveToSecurity;
       if config = nil then begin
         TLogUtil.logError( 'Config Class for Driver Not Found: ' + driverName );
       end else begin
-        config.saveSecurity( connection.driver, jsonConnection );
+        config.saveConnectionSecurity( connection.driver, jsonConnection );
         json.addObject( jsonConnection );
       end;
       jsonConnection.release;
@@ -311,7 +458,7 @@ procedure TWFXCloudConfigManager.loadFromCommon( const path: String );
     for jsonDriver in jsonDrivers do begin
       driverName:= TJsonUtil.getString( jsonDriver, 'name' );
       config:= TWFXCloudDriverConfigClass( _configItems[driverName] );
-      config.loadCommon( jsonDriver );
+      config.loadDriverCommon( jsonDriver );
     end;
   end;
 
@@ -321,6 +468,7 @@ procedure TWFXCloudConfigManager.loadFromCommon( const path: String );
     connections: TWFXConnections;
     connection: TWFXConnection;
     driverName: String;
+    config: TWFXCloudDriverConfigClass;
   begin
     connections:= TWFXConnections.Create( True );
     for jsonConnection in jsonConnections do begin
@@ -330,6 +478,8 @@ procedure TWFXCloudConfigManager.loadFromCommon( const path: String );
         cloudDriverManager.createInstance( driverName ),
         TJsonUtil.getDateTime( jsonConnection, 'creationTime' ),
         TJsonUtil.getDateTime( jsonConnection, 'modificationTime' ) );
+      config:= TWFXCloudDriverConfigClass( _configItems[driverName] );
+      config.loadConnectionCommon( connection.driver, jsonConnection );
       connections.Add( connection );
     end;
     WFXConnectionManager.connections:= connections;
@@ -364,9 +514,9 @@ procedure TWFXCloudConfigManager.saveToCommon(const path: String);
     for i:=0 to driverClasses.Count-1 do begin
       jsonDriver:= NSMutableDictionary.new;
       driverName:= TCloudDriverClass(driverClasses[i]).driverName;
-      config:= TWFXCloudDriverConfigClass( _configItems[driverName] );
       TJsonUtil.setString( jsonDriver, 'name', driverName );
-      config.saveCommon( jsonDriver );
+      config:= TWFXCloudDriverConfigClass( _configItems[driverName] );
+      config.saveDriverCommon( jsonDriver );
       json.addObject( jsonDriver );
       jsonDriver.release;
     end;
@@ -380,6 +530,7 @@ procedure TWFXCloudConfigManager.saveToCommon(const path: String);
     i: Integer;
     connections: TWFXConnections;
     connection: TWFXConnection;
+    config: TWFXCloudDriverConfigClass;
   begin
     json:= NSMutableArray.new.autorelease;
     connections:= WFXConnectionManager.connections;
@@ -390,6 +541,8 @@ procedure TWFXCloudConfigManager.saveToCommon(const path: String);
       TJsonUtil.setString( jsonConnection, 'driver', connection.driver.driverName );
       TJsonUtil.setDateTime( jsonConnection, 'creationTime', connection.creationTime );
       TJsonUtil.setDateTime( jsonConnection, 'modificationTime', connection.modificationTime );
+      config:= TWFXCloudDriverConfigClass( _configItems[connection.driver.driverName] );
+      config.saveConnectionCommon( connection.driver, jsonConnection );
       json.addObject( jsonConnection );
       jsonConnection.release;
     end;
@@ -438,6 +591,14 @@ begin
   WFXCloudDriverConfigManager.register( TBoxClient.driverName, TWFXBoxConfig );
   boxConfig:= TTokenCloudDriverConfigWithSecret.Create( '', '', 'dc2ea085a05ac273a://box/auth' );
   cloudDriverManager.register( TBoxClient );
+
+  WFXCloudDriverConfigManager.register( TAliyunOSSClient.driverName, TWFXAliyunOSSConfig );
+  aliyunOSSConfig:= TS3Config.Create(
+    'AWS4-HMAC-SHA256',
+    'AWS4',
+    's3',
+    'aws4_request' );
+  cloudDriverManager.register( TAliyunOSSClient );
 end;
 
 initialization

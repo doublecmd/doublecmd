@@ -21,6 +21,8 @@ uses
 
 type
 
+  TS3AccessKey = TAWSAccessKey;
+
   TS3Config = TAWSCredentialConfig;
 
   TS3ConfigPtr = ^TS3Config;
