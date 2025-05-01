@@ -10,14 +10,24 @@ uses
 
 type
 
-  { TAWSConfig }
+  { TAWSCredentialConfig }
 
-  TAWSConfig = class
+  TAWSCredentialConfig = class
+  private
+    _versionAlgorithm: String;
+    _prefix: String;
+    _service: String;
+    _request: String;
   public
-    credentialVersionAlgorithm: String;
-    credentialPrefix: String;
-    credentialService: String;
-    credentialRequest: String;
+    constructor Create(
+      const versionAlgorithm: String;
+      const prefix: String;
+      const service: String;
+      const request: String );
+    property versionAlgorithm: String read _versionAlgorithm;
+    property prefix: String read _prefix;
+    property service: String read _service;
+    property request: String read _request;
   end;
 
   { TAWSAccessKey }
@@ -28,14 +38,25 @@ type
     _secret: String;
   public
     constructor Create( const id: String; const secret: String );
+    function clone: TAWSAccessKey;
     property id: String read _id;
     property secret: String read _secret;
+  end;
+
+  { TAWSConnectionData }
+
+  TAWSConnectionData = record
+    region: String;
+    endPoint: String;
+    defaultBucket: String;
   end;
 
   { TAWSCloudDriver }
 
   TAWSCloudDriver = class( TCloudDriver )
   public
+    function getConnectionData: TAWSConnectionData; virtual; abstract;
+    procedure setConnectionData( const connectionData: TAWSConnectionData ); virtual; abstract;
     function getAccessKey: TAWSAccessKey; virtual; abstract;
     procedure setAccessKey( const accessKey: TAWSAccessKey ); virtual; abstract;
   end;
@@ -65,12 +86,31 @@ const
 
 implementation
 
+{ TAWSCredentialConfig }
+
+constructor TAWSCredentialConfig.Create(
+  const versionAlgorithm: String;
+  const prefix: String;
+  const service: String;
+  const request: String);
+begin
+  _versionAlgorithm:= versionAlgorithm;
+  _prefix:= prefix;
+  _service:= service;
+  _request:= request;
+end;
+
 { TAWSAccessKey }
 
 constructor TAWSAccessKey.Create(  const id: String; const secret: String );
 begin
   _id:= id;
   _secret:= secret;
+end;
+
+function TAWSAccessKey.clone: TAWSAccessKey;
+begin
+  Result:= TAWSAccessKey.Create( _id, _secret );
 end;
 
 end.

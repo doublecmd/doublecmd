@@ -106,14 +106,17 @@
       <Unit>
         <Filename Value="drivers/aws/uawsauth.pas"/>
         <IsPartOfProject Value="True"/>
+        <UnitName Value="uAWSAuth"/>
       </Unit>
       <Unit>
         <Filename Value="drivers/aws/uawscore.pas"/>
         <IsPartOfProject Value="True"/>
+        <UnitName Value="uAWSCore"/>
       </Unit>
       <Unit>
         <Filename Value="drivers/aws/us3client.pas"/>
         <IsPartOfProject Value="True"/>
+        <UnitName Value="uS3Client"/>
       </Unit>
     </Units>
   </ProjectOptions>

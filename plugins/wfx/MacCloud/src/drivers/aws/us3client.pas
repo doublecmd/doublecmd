@@ -21,17 +21,15 @@ uses
 
 type
 
-  TS3AccessKey = TAWSAccessKey;
+  TS3Config = TAWSCredentialConfig;
 
-  TS3Config = TAWSConfig;
-
-  TS3AuthSessionParams = TAWSAuthSessionParams;
+  TS3ConfigPtr = ^TS3Config;
 
   { TS3ListFolderSession }
 
   TS3ListFolderSession = class( TCloudDriverListFolderSession )
   private
-    _params: TS3AuthSessionParams;
+    _connectionData: TAWSConnectionData;
     _continuationToken: String;
   private
     procedure analyseListResult( const listString: String );
@@ -96,6 +94,8 @@ type
     function authorized: Boolean; override;
     function getAccessKey: TAWSAccessKey; override;
     procedure setAccessKey(const accessKey: TAWSAccessKey); override;
+    function getConnectionData: TAWSConnectionData; override;
+    procedure setConnectionData(const connectionData: TAWSConnectionData); override;
   public
     procedure download(
       const serverPath: String;
@@ -248,7 +248,7 @@ var
   queryItems: TQueryItemsDictonary;
 begin
   try
-    urlString:= 'https://' + _params.defaultBucket + '.' + _params.endPoint + '/?';
+    urlString:= 'https://' + _connectionData.defaultBucket + '.' + _connectionData.endPoint + '/?';
     queryItems:= TQueryItemsDictonary.Create;
     queryItems.Add( 'list-type', '2' );
     queryItems.Add( 'delimiter', '/' );
@@ -279,7 +279,7 @@ constructor TS3ListFolderSession.Create( const authSession: TCloudDriverAuthSess
 var
   truePath: String;
 begin
-  _params:= TAWSAuthSession(authSession).params;
+  _connectionData:= TAWSAuthSession(authSession).connectionData;
   truePath:= path;
   if truePath.StartsWith( '/' ) then
     truePath:= truePath.Substring( 1 );
@@ -295,13 +295,13 @@ end;
 procedure TS3DownloadSession.download;
 var
   http: TMiniHttpClient = nil;
-  params: TS3AuthSessionParams;
+  connectionData: TAWSConnectionData;
   urlString: String;
   cloudDriverResult: TCloudDriverResult = nil;
 begin
   try
-    params:= TAWSAuthSession(_authSession).params;
-    urlString:= 'https://' + params.defaultBucket + '.' + params.endPoint + THttpClientUtil.urlEncode(_serverPath);
+    connectionData:= TAWSAuthSession(_authSession).connectionData;
+    urlString:= 'https://' + connectionData.defaultBucket + '.' + connectionData.endPoint + THttpClientUtil.urlEncode(_serverPath);
     http:= TMiniHttpClient.Create( urlString, HttpConst.Method.GET );
     http.addHeader( AWSConst.HEADER.CONTENT_SHA256, AWSConst.HEADER.CONTENT_SHA256_DEFAULT_VALUE );
     _authSession.setAuthHeader( http );
@@ -321,13 +321,13 @@ end;
 procedure TS3UploadSession.upload;
 var
   http: TMiniHttpClient = nil;
-  params: TS3AuthSessionParams;
+  connectionData: TAWSConnectionData;
   urlString: String;
   cloudDriverResult: TCloudDriverResult = nil;
 begin
   try
-    params:= TAWSAuthSession(_authSession).params;
-    urlString:= 'https://' + params.defaultBucket + '.' + params.endPoint + THttpClientUtil.urlEncode(_serverPath);
+    connectionData:= TAWSAuthSession(_authSession).connectionData;
+    urlString:= 'https://' + connectionData.defaultBucket + '.' + connectionData.endPoint + THttpClientUtil.urlEncode(_serverPath);
     http:= TMiniHttpClient.Create( urlString, HttpConst.Method.PUT );
     http.addHeader( AWSConst.HEADER.CONTENT_SHA256, AWSConst.HEADER.CONTENT_SHA256_DEFAULT_VALUE );
     _authSession.setAuthHeader( http );
@@ -347,13 +347,13 @@ end;
 procedure TS3CreateFolderSession.createFolder;
 var
   http: TMiniHttpClient = nil;
-  params: TS3AuthSessionParams;
+  connectionData: TAWSConnectionData;
   urlString: String;
   cloudDriverResult: TCloudDriverResult = nil;
 begin
   try
-    params:= TAWSAuthSession(_authSession).params;
-    urlString:= 'https://' + params.defaultBucket + '.' + params.endPoint + THttpClientUtil.urlEncode(_path+'/');
+    connectionData:= TAWSAuthSession(_authSession).connectionData;
+    urlString:= 'https://' + connectionData.defaultBucket + '.' + connectionData.endPoint + THttpClientUtil.urlEncode(_path+'/');
     http:= TMiniHttpClient.Create( urlString, HttpConst.Method.PUT );
     http.addHeader( AWSConst.HEADER.CONTENT_SHA256, AWSConst.HEADER.CONTENT_SHA256_DEFAULT_VALUE );
     _authSession.setAuthHeader( http );
@@ -373,13 +373,13 @@ end;
 procedure TS3DeleteSession.delete;
 var
   http: TMiniHttpClient = nil;
-  params: TS3AuthSessionParams;
+  connectionData: TAWSConnectionData;
   urlString: String;
   cloudDriverResult: TCloudDriverResult = nil;
 begin
   try
-    params:= TAWSAuthSession(_authSession).params;
-    urlString:= 'https://' + params.defaultBucket + '.' + params.endPoint + THttpClientUtil.urlEncode(_path);
+    connectionData:= TAWSAuthSession(_authSession).connectionData;
+    urlString:= 'https://' + connectionData.defaultBucket + '.' + connectionData.endPoint + THttpClientUtil.urlEncode(_path);
     if _isFolder then
       urlString:= urlString + '/';
     http:= TMiniHttpClient.Create( urlString, HttpConst.Method.DELETE );
@@ -401,15 +401,15 @@ end;
 procedure TS3CopyMoveSession.doCopyFile;
 var
   http: TMiniHttpClient = nil;
-  params: TS3AuthSessionParams;
+  connectionData: TAWSConnectionData;
   urlString: String;
   cloudDriverResult: TCloudDriverResult = nil;
   sourceHeaderString: String;
 begin
   try
-    params:= TAWSAuthSession(_authSession).params;
-    urlString:= 'https://' + params.defaultBucket + '.' + params.endPoint + THttpClientUtil.urlEncode(_toPath);
-    sourceHeaderString:= '/' + params.defaultBucket + THttpClientUtil.urlEncode(_fromPath);
+    connectionData:= TAWSAuthSession(_authSession).connectionData;
+    urlString:= 'https://' + connectionData.defaultBucket + '.' + connectionData.endPoint + THttpClientUtil.urlEncode(_toPath);
+    sourceHeaderString:= '/' + connectionData.defaultBucket + THttpClientUtil.urlEncode(_fromPath);
     http:= TMiniHttpClient.Create( urlString, HttpConst.Method.PUT );
     http.addHeader( AWSConst.HEADER.CONTENT_SHA256, AWSConst.HEADER.CONTENT_SHA256_DEFAULT_VALUE );
     http.addHeader( AWSConst.HEADER.COPY_SOURCE, sourceHeaderString );
@@ -474,6 +474,16 @@ end;
 procedure TS3Client.setAccessKey(const accessKey: TAWSAccessKey);
 begin
   _authSession.accessKey:= accessKey;
+end;
+
+function TS3Client.getConnectionData: TAWSConnectionData;
+begin
+  Result:= _authSession.connectionData;
+end;
+
+procedure TS3Client.setConnectionData(const connectionData: TAWSConnectionData);
+begin
+  _authSession.connectionData:= connectionData;
 end;
 
 procedure TS3Client.download(

@@ -18,11 +18,9 @@ type
   { TAWSAuthSessionParams }
 
   TAWSAuthSessionParams = record
-    config: TAWSConfig;
+    config: TAWSCredentialConfig;
+    connectionData: TAWSConnectionData;
     resultProcessFunc: TCloudDriverResultProcessFunc;
-    region: String;
-    endPoint: String;
-    defaultBucket: String;
   end;
 
   { TAWSSigner }
@@ -30,7 +28,8 @@ type
   TAWSSigner = class
   strict private
     _params: TAWSAuthSessionParams;
-    _config: TAWSConfig;
+    _config: TAWSCredentialConfig;
+    _connectionData: TAWSConnectionData;
     _accessKey: TAWSAccessKey;
     _request: NSMutableURLRequest;
   protected
@@ -55,9 +54,7 @@ type
   TAWSAuthSession = class( TCloudDriverAuthSession )
   strict protected
     _params: TAWSAuthSessionParams;
-    _config: TAWSConfig;
     _accessKey: TAWSAccessKey;
-    _signer: TAWSSigner;
   private
     procedure addNeededHeader( const request: NSMutableURLRequest );
   public
@@ -69,6 +66,7 @@ type
   public
     property params: TAWSAuthSessionParams read _params;
     property accessKey: TAWSAccessKey read _accessKey write setAccessKey;
+    property connectionData: TAWSConnectionData read _params.connectionData write _params.connectionData;
   end;
 
 implementation
@@ -113,10 +111,10 @@ begin
   addHostHeaderIfNeeded;
 end;
 
-constructor TAWSAuthSession.Create(  const params: TAWSAuthSessionParams );
+constructor TAWSAuthSession.Create( const params: TAWSAuthSessionParams );
 begin
   _params:= params;
-  _config:= params.config;
+  _accessKey:= TAWSAccessKey.Create( '', '' );
 end;
 
 destructor TAWSAuthSession.Destroy;
@@ -129,7 +127,7 @@ var
   session: TAWSAuthSession;
 begin
   session:= TAWSAuthSession.Create( _params );
-  session.setAccessKey( TAWSCloudDriver(driver).getAccessKey );
+  session.setAccessKey( _accessKey.clone );
   Result:= session;
 end;
 
@@ -168,6 +166,7 @@ constructor TAWSSigner.Create(
 begin
   _params:= params;
   _config:= _params.config;
+  _connectionData:= _params.connectionData;
   _accessKey:= accessKey;
   _request:= request;
 end;
@@ -234,17 +233,17 @@ var
   dateRegionServiceKey: NSData;
 begin
   dateString:= buildDateYYYYMMDDString;
-  keyString:= StringToNSString( _config.credentialPrefix + _accessKey.secret );
+  keyString:= StringToNSString( _config.prefix + _accessKey.secret );
   key:= keyString.dataUsingEncoding( NSUTF8StringEncoding );
   dateKey:= THashUtil.HmacSha256( key, dateString );
-  dateRegionKey:= THashUtil.HmacSha256( dateKey, NSSTR(_params.region) );
-  dateRegionServiceKey:= THashUtil.HmacSha256( dateRegionKey, NSSTR(_config.credentialService) );
-  Result:= THashUtil.HmacSha256( dateRegionServiceKey, NSSTR(_config.credentialRequest) );
+  dateRegionKey:= THashUtil.HmacSha256( dateKey, NSSTR(_connectionData.region) );
+  dateRegionServiceKey:= THashUtil.HmacSha256( dateRegionKey, NSSTR(_config.service) );
+  Result:= THashUtil.HmacSha256( dateRegionServiceKey, NSSTR(_config.request) );
 end;
 
 function TAWSSigner.buildHmacAlgorithmString: NSString;
 begin
-  Result:= NSSTR( _config.credentialVersionAlgorithm );
+  Result:= NSSTR( _config.versionAlgorithm );
 end;
 
 function TAWSSigner.buildScopeString: NSString;
@@ -255,9 +254,9 @@ var
   signProduct: NSString;
 begin
   signDate:= buildDateYYYYMMDDString;
-  signService:= NSSTR( _config.credentialService );
-  signRegion:= NSSTR( _params.region );
-  signProduct:= NSSTR( _config.credentialRequest );
+  signService:= NSSTR( _config.service );
+  signRegion:= NSSTR( _connectionData.region );
+  signProduct:= NSSTR( _config.request );
   Result:= NSString.stringWithFormat( NSSTR('%@/%@/%@/%@'),
     signDate,
     signRegion,
