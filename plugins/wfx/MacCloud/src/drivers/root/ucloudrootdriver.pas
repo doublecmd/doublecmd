@@ -7,7 +7,7 @@ interface
 uses
   Classes, SysUtils,
   uCloudDriver,
-  uWFXPlugin, uWFXUtil, uWFXConfig, uWFXOptions,
+  uWFXPlugin, uWFXUtil, uWFXConfig, uWFXOptionsWindow,
   uMiniUtil;
 
 type

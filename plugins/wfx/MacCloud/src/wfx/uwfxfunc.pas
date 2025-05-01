@@ -18,7 +18,7 @@ uses
   Classes, SysUtils,
   WfxPlugin, Extension,
   uCloudDriver, uCloudRootDriver,
-  uWFXPlugin, uWFXConfig, uWFXOptions, uWFXUtil,
+  uWFXPlugin, uWFXConfig, uWFXOptionsWindow, uWFXUtil,
   uMiniUtil;
 
 procedure ExtensionInitialize(StartupInfo: PExtensionStartupInfo); cdecl;

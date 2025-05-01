@@ -1,4 +1,4 @@
-unit uWFXOptions;
+unit uWFXOptionsWindow;
 
 {$mode ObjFPC}{$H+}
 {$modeswitch objectivec2}
@@ -9,6 +9,7 @@ uses
   Classes, SysUtils, DateUtils,
   CocoaAll, uMiniCocoa,
   uCloudDriver, uWFXPlugin, uWFXUtil,
+  uWFXOptionsCore, uWFXOptionsFrame,
   uMiniUtil;
 
 type
@@ -25,76 +26,7 @@ type
 
 implementation
 
-const
-  CONST_AUTH_NOTES =
-    '1. Before successfully enabling the link, Double Command needs to obtain authorization from {driverName}'#13#13 +
-    '2. Click the connect button to be redirected to the {driverName} official website in the Safari browser'#13#13 +
-    '3. Please login your {driverName} account in Safari and authorize Double Commander to access'#13#13 +
-    '4. The authorization is completed on the {driverName} official website, Double Command will not get your password';
-
 type
-
-  { TWFXConnectionConfigItem }
-
-  TWFXConnectionConfigItem = objcclass( NSObject )
-  public
-    _name: NSString;
-    _creating: Boolean;
-    _driver: TCloudDriver;
-    _creationTime: TDateTime;
-    _modificationTime: TDateTime;
-  public
-    procedure dealloc; override;
-    procedure setName( name: NSString );
-      message 'TConnectionConfigItem_setName:';
-    procedure setCreating( creating: Boolean );
-      message 'TConnectionConfigItem_setCreating:';
-    procedure setDriver( driver: TCloudDriver );
-      message 'TConnectionConfigItem_setDriver:';
-    procedure setCreationTime( creationTime: TDateTime );
-      message 'TConnectionConfigItem_setCreationTime:';
-    procedure setModificationTime( modificationTime: TDateTime );
-      message 'TConnectionConfigItem_setModificationTime:';
-    function name: NSString;
-      message 'TConnectionConfigItem_Name';
-    function creating: Boolean;
-      message 'TConnectionConfigItem_creating';
-    function driver: TCloudDriver;
-      message 'TConnectionConfigItem_driver';
-    function creationTime: TDateTime;
-      message 'TConnectionConfigItem_creationTime';
-    function modificationTime: TDateTime;
-      message 'TConnectionConfigItem_modificationTime';
-  end;
-
-  { TWFXConnectionConfigItems }
-
-  TWFXConnectionConfigItems = class
-  private
-    _items: NSMutableArray;
-  public
-    constructor Create;
-    destructor Destroy; override;
-    function indexOf( const item: TWFXConnectionConfigItem ): Integer; overload;
-    function indexOf( const name: NSString ): Integer; overload;
-    function addItem( const item: TWFXConnectionConfigItem ): Integer;
-    function getItem( const index: Integer ): TWFXConnectionConfigItem;
-    procedure removeItemAtIndex( const index: Integer );
-    function Count: Integer;
-  end;
-
-  { TWFXConfigItemsController }
-
-  TWFXConfigItemsController = objcprotocol
-    function getConfigItems: TWFXConnectionConfigItems; message 'TCloudConfigItemsController_getConfigItems';
-    procedure newConnection( sender: NSObject ); message 'TCloudConfigItemsController_newConnection:';
-    procedure removeConnection( sender: NSObject ); message 'TCloudConfigItemsController_removeConnection:';
-    procedure saveConnection( sender: NSObject ); message 'TCloudConfigItemsController_saveConnection:';
-    procedure connectOrDisconnect( sender: NSObject ); message 'TCloudConfigItemsController_connectOrDisconnect:';
-    function currentConfigItem: TWFXConnectionConfigItem; message 'TCloudConfigItemsController_currentConfigItem';
-    procedure onSelectedConnectionChanged( const selectedIndex: Integer );
-      message 'TCloudConfigItemsController_onSelectedConnectionChanged:';
-  end;
 
   { TWFXConnectionListView }
 
@@ -110,21 +42,6 @@ type
     procedure tableViewSelectionDidChange (notification: NSNotification);
   end;
 
-  { TWFXPropertyView }
-
-  TWFXPropertyView = objcclass( NSView )
-  private
-    controller: TWFXConfigItemsController;
-    logoImageView: NSImageView;
-    nameTextField: NSTextField;
-    connectButton: NSButton;
-    statusImageview: NSImageView;
-    noteTextView: NSTextView;
-  public
-    procedure loadConnectionProperties( const index: Integer ); message 'TPropertyView_loadConnectionProperties:';
-    procedure updateConnectStatus; message 'TPropertyView_updateConnectStatus';
-  end;
-
   { TWFXOptionsWindow }
 
   TWFXOptionsWindow = objcclass(
@@ -133,6 +50,7 @@ type
     TWFXConfigItemsController )
   private
     configItems: TWFXConnectionConfigItems;
+    splitView: NSSplitView;
     connectionListView: TWFXConnectionListView;
     propertyView: TWFXPropertyView;
   public
@@ -144,8 +62,7 @@ type
     procedure selectConnection( name: NSString ); message 'TCloudOptionsWindow_selectConnection:';
     procedure newConnection( sender: NSObject );
     procedure removeConnection( sender: NSObject );
-    procedure saveConnection( sender: NSObject );
-    procedure connectOrDisconnect( sender: NSObject );
+    procedure saveConnection( name: NSString );
     function currentConfigItem: TWFXConnectionConfigItem;
     procedure onSelectedConnectionChanged( const selectedIndex: Integer );
   public
@@ -265,158 +182,6 @@ begin
   Result:= win.selectedIndex;
 end;
 
-{ TWFXConnectionConfigItems }
-
-constructor TWFXConnectionConfigItems.Create;
-begin
-  _items:= NSMutableArray.new;
-end;
-
-destructor TWFXConnectionConfigItems.Destroy;
-begin
-  _items.release;
-end;
-
-function TWFXConnectionConfigItems.indexOf( const item: TWFXConnectionConfigItem ): Integer;
-begin
-  Result:= self.indexOf( item.name );
-end;
-
-function TWFXConnectionConfigItems.indexOf(const name: NSString): Integer;
-var
-  i: Integer;
-  configItem: TWFXConnectionConfigItem;
-begin
-  Result:= -1;
-  for i:= 0 to _items.Count-1 do begin
-    configItem:= TWFXConnectionConfigItem( _items.objectAtIndex(i) );
-    if configItem.name.isEqualToString(name) then
-      Exit( i );
-  end;
-end;
-
-function TWFXConnectionConfigItems.addItem( const item: TWFXConnectionConfigItem ): Integer;
-begin
-  Result:= self.indexOf(item);
-  if Result >= 0 then
-    Exit;
-  _items.addObject( item );
-  Result:= _items.count - 1;
-end;
-
-function TWFXConnectionConfigItems.getItem(const index: Integer
-  ): TWFXConnectionConfigItem;
-begin
-  Result:= TWFXConnectionConfigItem( _items.objectAtIndex(index) );
-end;
-
-procedure TWFXConnectionConfigItems.removeItemAtIndex( const index: Integer );
-begin
-  _items.removeObjectAtIndex( index );
-end;
-
-function TWFXConnectionConfigItems.Count: Integer;
-begin
-  Result:= _items.count;
-end;
-
-{ TWFXPropertyView }
-
-procedure TWFXPropertyView.loadConnectionProperties( const index: Integer );
-var
-  configItem: TWFXConnectionConfigItem;
-begin
-  configItem:= controller.currentConfigItem;
-  if configItem = nil then
-    Exit;
-  self.logoImageView.setImage( TWFXPluginUtil.driverMainIcon(configItem.driver) );
-  self.nameTextField.setStringValue( configItem.name );
-  self.updateConnectStatus;
-end;
-
-procedure TWFXPropertyView.updateConnectStatus;
-var
-  configItem: TWFXConnectionConfigItem;
-  connectButtonText: String;
-  statusImageName: NSString;
-  notes: String;
-begin
-  configItem:= controller.currentConfigItem;
-  if configItem.driver.authorized then begin
-    statusImageName:= NSImageNameStatusAvailable;
-    connectButtonText:= 'Disconnect';
-  end else begin
-    statusImageName:= NSImageNameStatusUnavailable;
-    connectButtonText:= 'Connect';
-  end;
-  self.statusImageView.setImage( NSImage.imageNamed(statusImageName) );
-  self.connectButton.setTitle( StringToNSString(connectButtonText) );
-  notes:= CONST_AUTH_NOTES.Replace( '{driverName}', configItem.driver.driverName );
-  self.noteTextView.setString( StringToNSString(notes) );
-end;
-
-{ TWFXConnectionConfigItem }
-
-procedure TWFXConnectionConfigItem.dealloc;
-begin
-  _name.release;
-  FreeAndNil( _driver );
-end;
-
-procedure TWFXConnectionConfigItem.setName(name: NSString);
-begin
-  if Assigned(_name) then
-    _name.release;
-  _name:= name;
-  _name.retain;
-end;
-
-procedure TWFXConnectionConfigItem.setDriver(driver: TCloudDriver);
-begin
-  _driver:= driver;
-end;
-
-procedure TWFXConnectionConfigItem.setCreationTime(creationTime: TDateTime);
-begin
-  _creationTime:= creationTime;
-end;
-
-procedure TWFXConnectionConfigItem.setModificationTime(modificationTime: TDateTime
-  );
-begin
-  _modificationTime:= modificationTime;
-end;
-
-procedure TWFXConnectionConfigItem.setCreating(creating: Boolean);
-begin
-  _creating:= creating;
-end;
-
-function TWFXConnectionConfigItem.name: NSString;
-begin
-  Result:= _name;
-end;
-
-function TWFXConnectionConfigItem.creating: Boolean;
-begin
-  Result:= _creating;
-end;
-
-function TWFXConnectionConfigItem.driver: TCloudDriver;
-begin
-  Result:= _driver;
-end;
-
-function TWFXConnectionConfigItem.creationTime: TDateTime;
-begin
-  Result:= _creationTime;
-end;
-
-function TWFXConnectionConfigItem.modificationTime: TDateTime;
-begin
-  Result:= _modificationTime;
-end;
-
 { TWFXOptionsWindow }
 
 procedure TWFXOptionsWindow.dealloc;
@@ -528,11 +293,10 @@ begin
   self.connectionListView.selectRow_byExtendingSelection( currentIndex, False );
 end;
 
-procedure TWFXOptionsWindow.saveConnection(sender: NSObject);
+procedure TWFXOptionsWindow.saveConnection( name: NSString );
 var
   configItem: TWFXConnectionConfigItem;
   currentIndex: Integer;
-  connectionName: NSString;
 
   procedure alertDuplicateName;
   var
@@ -547,47 +311,19 @@ var
   end;
 
 begin
-  connectionName:= propertyView.nameTextField.stringValue;
-  if connectionName.length = 0 then
+  if name.length = 0 then
     Exit;
-  if self.configItems.indexOf(connectionName) >= 0 then begin
+  if self.configItems.indexOf(name) >= 0 then begin
     alertDuplicateName;
     Exit;
   end;
 
   configItem:= self.currentConfigItem;
-  configItem.setName( connectionName );
+  configItem.setName( name );
   configItem.setModificationTime( LocalTimeToUniversal(now) );
   currentIndex:= self.connectionListView.selectedRow;
   self.connectionListView.reloadData;
   self.connectionListView.selectRow_byExtendingSelection( currentIndex, False );
-end;
-
-procedure TWFXOptionsWindow.connectOrDisconnect(sender: NSObject);
-var
-  configItem: TWFXConnectionConfigItem;
-  driver: TCloudDriver;
-begin
-  try
-    configItem:= self.currentConfigItem;
-    driver:= configItem.driver;
-    if driver.authorized then
-      driver.unauthorize
-    else
-      driver.authorize;
-  except
-    on e: Exception do begin
-      TLogUtil.logError( 'in TCloudOptionsWindow: ' + e.Message );
-    end;
-  end;
-
-  try
-    self.propertyView.updateConnectStatus;
-  except
-    on e: Exception do begin
-      TLogUtil.logError( 'in TCloudOptionsWindow: ' + e.Message );
-    end;
-  end;
 end;
 
 function TWFXOptionsWindow.currentConfigItem: TWFXConnectionConfigItem;
@@ -601,8 +337,19 @@ begin
 end;
 
 procedure TWFXOptionsWindow.onSelectedConnectionChanged( const selectedIndex: Integer );
+var
+  newView: TWFXPropertyView;
+  rightRect: NSRect;
 begin
-  self.propertyView.loadConnectionProperties( selectedIndex );
+  rightRect:= NSMakeRect(0,0,440,600);
+  newView:= TWFXOAuth2PropertyView.alloc.initWithFrame( rightRect ) ;
+  newView.setController( self );
+  if Assigned(self.propertyView) then
+    self.propertyView.removeFromSuperview;
+  self.propertyView:= newView;
+  self.splitView.addSubview( newView );
+  newView.loadConnectionProperties( selectedIndex );
+  newView.release;
 end;
 
 procedure TWFXOptionsWindow.windowWillClose(notification: NSNotification);
@@ -682,13 +429,10 @@ var
   win: TWFXOptionsWindow;
   contentView: NSView;
 
-  splitView: NSSplitView;
   leftView: NSVisualEffectView;
-  rightView: TWFXPropertyView;
 
   frameRect: NSRect;
   leftRect: NSRect;
-  rightRect: NSRect;
 
   connectionListView: TWFXConnectionListView;
 
@@ -747,71 +491,9 @@ var
     removeButton.release;
   end;
 
-  procedure createRightView;
-  var
-    logoImageView: NSImageView;
-    nameLabel: NSTextField;
-    nameTextField: NSTextField;
-    connectButton: NSButton;
-    statusImageView: NSImageView;
-    saveButton: NSButton;
-    noteTextView: NSTextView;
-  begin
-    rightView:= TWFXPropertyView.alloc.initWithFrame( rightRect ) ;
-    rightView.controller:= win;;
-
-    logoImageView:= NSImageView.alloc.initWithFrame( NSMakeRect(200,530,32,32) );
-    rightView.logoImageView:= logoImageView;
-    rightView.addSubview( logoImageView );
-    logoImageView.release;
-
-    nameLabel:= NSTextField.alloc.initWithFrame( NSMakeRect(20,480,50,20) );
-    nameLabel.setEditable( False );
-    nameLabel.setDrawsBackground( False );
-    nameLabel.setBordered( False );
-    nameLabel.setStringValue( NSSTR('Name:') );
-    rightView.addSubview( nameLabel );
-    nameLabel.release;
-
-    nameTextField:= NSTextField.alloc.initWithFrame( NSMakeRect(80,480,250,22) );
-    rightView.nameTextField:= nameTextField;
-    rightView.addSubview( nameTextField );
-    nameTextField.release;
-
-    statusImageView:= NSImageView.alloc.initWithFrame( NSMakeRect(350,483,16,16) );
-    rightView.statusImageview:= statusImageView;
-    rightView.addSubview( statusImageView );
-    statusImageView.release;
-
-    connectButton:= NSButton.alloc.initWithFrame( NSMakeRect(80,430,100,22) );
-    connectButton.setBezelStyle( NSRoundedBezelStyle );
-    connectButton.setTarget( win );
-    connectButton.setAction( ObjCSelector('TCloudConfigItemsController_connectOrDisconnect:') );
-    rightView.connectButton:= connectButton;
-    rightView.addSubView( connectButton );
-    connectButton.release;
-
-    saveButton:= NSButton.alloc.initWithFrame( NSMakeRect(200,430,100,22) );
-    saveButton.setBezelStyle( NSRoundedBezelStyle );
-    saveButton.setTitle( NSSTR('Save') );
-    saveButton.setTarget( win );
-    saveButton.setAction( ObjCSelector('TCloudConfigItemsController_saveConnection:') );
-    rightView.addSubView( saveButton );
-    saveButton.release;
-
-    noteTextView:= NSTextView.alloc.initWithFrame( NSMakeRect(20,100,400,100) );
-    noteTextView.setFont( NSFont.systemFontOfSize(11));
-    noteTextView.setEditable( False );
-    noteTextView.setDrawsBackground( False );
-    rightView.noteTextView:= noteTextView;
-    rightView.addSubView( noteTextView );
-    noteTextView.release;
-  end;
-
 begin
   frameRect:= NSMakeRect(0,0,680,600);
   leftRect:= NSMakeRect(0,0,240,600);
-  rightRect:= NSMakeRect(0,0,440,600);
 
   contentView:= NSView.alloc.initWithFrame( frameRect );
   win:= TWFXOptionsWindow.alloc.initWithContentRect_styleMask_backing_defer(
@@ -825,20 +507,16 @@ begin
   win.setContentView( contentView );
   contentView.release;
 
-  splitView:= NSSplitView.alloc.initWithFrame( frameRect );
-  splitView.setVertical( True );
-  splitView.setDividerStyle( NSSplitViewDividerStyleThin );
-  contentView.addSubview( splitView );
-  splitView.release;
+  win.splitView:= NSSplitView.alloc.initWithFrame( frameRect );
+  win.splitView.setVertical( True );
+  win.splitView.setDividerStyle( NSSplitViewDividerStyleThin );
+  contentView.addSubview( win.splitView );
+  win.splitView.release;
 
-  createRightView;
-  win.propertyView:= rightView;
   createLeftView;
   win.connectionListView:= connectionListView;
-  splitView.addSubview( leftView );
-  splitView.addSubview( rightView );
+  win.splitView.addSubview( leftView );
   leftView.release;
-  rightView.release;
 
   win.makeFirstResponder( connectionListView );
   connectionListView.selectRow_byExtendingSelection( 0, False );

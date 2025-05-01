@@ -97,9 +97,9 @@
         <UnitName Value="uYandexClient"/>
       </Unit>
       <Unit>
-        <Filename Value="wfx/ui/uwfxoptions.pas"/>
+        <Filename Value="wfx/ui/uwfxoptionswindow.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="uWFXOptions"/>
+        <UnitName Value="uWFXOptionsWindow"/>
       </Unit>
       <Unit>
         <Filename Value="wfx/uwfxconfig.pas"/>
@@ -134,6 +134,15 @@
         <Filename Value="drivers/oauth2/uoauth2client.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uOAuth2Client"/>
+      </Unit>
+      <Unit>
+        <Filename Value="wfx/ui/uwfxoptionscore.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uWFXOptionsCore"/>
+      </Unit>
+      <Unit>
+        <Filename Value="wfx/ui/uwfxoptionsoauth2.pas"/>
+        <IsPartOfProject Value="True"/>
       </Unit>
     </Units>
   </ProjectOptions>
