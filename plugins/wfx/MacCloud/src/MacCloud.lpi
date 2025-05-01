@@ -29,16 +29,6 @@
         <IsPartOfProject Value="True"/>
       </Unit>
       <Unit>
-        <Filename Value="uwfxfunc.pas"/>
-        <IsPartOfProject Value="True"/>
-        <UnitName Value="uWFXFunc"/>
-      </Unit>
-      <Unit>
-        <Filename Value="httpclient/uminihttpclient.pas"/>
-        <IsPartOfProject Value="True"/>
-        <UnitName Value="uMiniHttpClient"/>
-      </Unit>
-      <Unit>
         <Filename Value="util/uminicocoa.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uMiniCocoa"/>
@@ -49,59 +39,14 @@
         <UnitName Value="uMiniUtil"/>
       </Unit>
       <Unit>
-        <Filename Value="uwfxutil.pas"/>
-        <IsPartOfProject Value="True"/>
-        <UnitName Value="uWFXUtil"/>
-      </Unit>
-      <Unit>
-        <Filename Value="uwfxplugin.pas"/>
-        <IsPartOfProject Value="True"/>
-        <UnitName Value="uWFXPlugin"/>
-      </Unit>
-      <Unit>
-        <Filename Value="uwfxoptions.pas"/>
-        <IsPartOfProject Value="True"/>
-        <UnitName Value="uWFXOptions"/>
-      </Unit>
-      <Unit>
-        <Filename Value="uwfxconfig.pas"/>
-        <IsPartOfProject Value="True"/>
-        <UnitName Value="uWFXConfig"/>
-      </Unit>
-      <Unit>
-        <Filename Value="drivers/dropbox/udropboxclient.pas"/>
-        <IsPartOfProject Value="True"/>
-        <UnitName Value="uDropBoxClient"/>
-      </Unit>
-      <Unit>
         <Filename Value="drivers/root/ucloudrootdriver.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uCloudRootDriver"/>
       </Unit>
       <Unit>
-        <Filename Value="drivers/yandex/uyandexclient.pas"/>
-        <IsPartOfProject Value="True"/>
-        <UnitName Value="uYandexClient"/>
-      </Unit>
-      <Unit>
         <Filename Value="drivers/uclouddriver.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uCloudDriver"/>
-      </Unit>
-      <Unit>
-        <Filename Value="drivers/onedrive/uonedriveclient.pas"/>
-        <IsPartOfProject Value="True"/>
-        <UnitName Value="uOneDriveClient"/>
-      </Unit>
-      <Unit>
-        <Filename Value="drivers/box/uboxclient.pas"/>
-        <IsPartOfProject Value="True"/>
-        <UnitName Value="uBoxClient"/>
-      </Unit>
-      <Unit>
-        <Filename Value="drivers/box/uboxclientutil.pas"/>
-        <IsPartOfProject Value="True"/>
-        <UnitName Value="uBoxClientUtil"/>
       </Unit>
       <Unit>
         <Filename Value="drivers/aws/uawsauth.pas"/>
@@ -118,6 +63,59 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="uS3Client"/>
       </Unit>
+      <Unit>
+        <Filename Value="drivers/aws/aliyunoss/ualiyunossclient.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uAliyunOSSClient"/>
+      </Unit>
+      <Unit>
+        <Filename Value="util/uminihttpclient.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit>
+      <Unit>
+        <Filename Value="drivers/oauth2/box/uboxclient.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit>
+      <Unit>
+        <Filename Value="drivers/oauth2/box/uboxclientutil.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit>
+      <Unit>
+        <Filename Value="drivers/oauth2/dropbox/udropboxclient.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit>
+      <Unit>
+        <Filename Value="drivers/oauth2/onedrive/uonedriveclient.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit>
+      <Unit>
+        <Filename Value="drivers/oauth2/yandex/uyandexclient.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit>
+      <Unit>
+        <Filename Value="wfx/ui/uwfxoptions.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uWFXOptions"/>
+      </Unit>
+      <Unit>
+        <Filename Value="wfx/uwfxconfig.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uWFXConfig"/>
+      </Unit>
+      <Unit>
+        <Filename Value="wfx/uwfxfunc.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uWFXFunc"/>
+      </Unit>
+      <Unit>
+        <Filename Value="wfx/uwfxplugin.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uWFXPlugin"/>
+      </Unit>
+      <Unit>
+        <Filename Value="wfx/uwfxutil.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
@@ -127,7 +125,7 @@
     </Target>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir)"/>
-      <OtherUnitFiles Value="../../../../sdk;util;httpclient;drivers/dropbox;drivers/root;drivers/yandex;drivers;drivers/onedrive;drivers/box;drivers/aws"/>
+      <OtherUnitFiles Value="../../../../sdk;util;drivers/root;drivers;drivers/aws;drivers/aws/aliyunoss;drivers/oauth2/box;drivers/oauth2/dropbox;drivers/oauth2/onedrive;drivers/oauth2/yandex;wfx/ui;wfx"/>
       <UnitOutputDirectory Value="../lib/$(TargetCPU)-$(TargetOS)"/>
     </SearchPaths>
     <CodeGeneration>
