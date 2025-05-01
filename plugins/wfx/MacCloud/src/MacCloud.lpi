@@ -75,6 +75,7 @@
       <Unit>
         <Filename Value="drivers/oauth2/box/uboxclient.pas"/>
         <IsPartOfProject Value="True"/>
+        <UnitName Value="uBoxClient"/>
       </Unit>
       <Unit>
         <Filename Value="drivers/oauth2/box/uboxclientutil.pas"/>
@@ -83,14 +84,17 @@
       <Unit>
         <Filename Value="drivers/oauth2/dropbox/udropboxclient.pas"/>
         <IsPartOfProject Value="True"/>
+        <UnitName Value="uDropBoxClient"/>
       </Unit>
       <Unit>
         <Filename Value="drivers/oauth2/onedrive/uonedriveclient.pas"/>
         <IsPartOfProject Value="True"/>
+        <UnitName Value="uOneDriveClient"/>
       </Unit>
       <Unit>
         <Filename Value="drivers/oauth2/yandex/uyandexclient.pas"/>
         <IsPartOfProject Value="True"/>
+        <UnitName Value="uYandexClient"/>
       </Unit>
       <Unit>
         <Filename Value="wfx/ui/uwfxoptions.pas"/>
@@ -116,6 +120,21 @@
         <Filename Value="wfx/uwfxutil.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit>
+      <Unit>
+        <Filename Value="drivers/oauth2/uoauth2core.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uOAuth2Core"/>
+      </Unit>
+      <Unit>
+        <Filename Value="drivers/oauth2/uoauth2auth.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uOAuth2Auth"/>
+      </Unit>
+      <Unit>
+        <Filename Value="drivers/oauth2/uoauth2client.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uOAuth2Client"/>
+      </Unit>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
@@ -125,7 +144,7 @@
     </Target>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir)"/>
-      <OtherUnitFiles Value="../../../../sdk;util;drivers/root;drivers;drivers/aws;drivers/aws/aliyunoss;drivers/oauth2/box;drivers/oauth2/dropbox;drivers/oauth2/onedrive;drivers/oauth2/yandex;wfx/ui;wfx"/>
+      <OtherUnitFiles Value="../../../../sdk;util;drivers/root;drivers;drivers/aws;drivers/aws/aliyunoss;drivers/oauth2/box;drivers/oauth2/dropbox;drivers/oauth2/onedrive;drivers/oauth2/yandex;wfx/ui;wfx;drivers/oauth2"/>
       <UnitOutputDirectory Value="../lib/$(TargetCPU)-$(TargetOS)"/>
     </SearchPaths>
     <CodeGeneration>

@@ -9,7 +9,7 @@ uses
   Classes, SysUtils, Contnrs,
   CocoaAll, uMiniCocoa,
   uWFXPlugin, uCloudDriver,
-  uDropBoxClient, uYandexClient, uOneDriveClient, uBoxClient,
+  uOAuth2Core, uOAuth2Client, uDropBoxClient, uYandexClient, uOneDriveClient, uBoxClient,
   uAWSCore, uS3Client, uAliyunOSSClient,
   uMiniUtil;
 

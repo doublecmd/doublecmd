@@ -14,7 +14,8 @@ interface
 uses
   Classes, SysUtils, DateUtils,
   CocoaAll,
-  uCloudDriver, uMiniHttpClient, uMiniUtil;
+  uCloudDriver, uOAuth2Core, uOAuth2Auth, uOAuth2Client,
+  uMiniHttpClient, uMiniUtil;
 
 type
 
