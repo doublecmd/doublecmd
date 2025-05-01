@@ -532,7 +532,8 @@ var
   newClient: TBoxClient;
 begin
   newClient:= TBoxClient.Create( _config );
-  newClient._authSession:= TCloudDriverOAuth2Session( self._authSession.clone(newClient) );
+  newClient._authSession.Free;
+  newClient._authSession:= TCloudDriverOAuth2Session( _authSession.clone(newClient) );
   Result:= newClient;
 end;
 

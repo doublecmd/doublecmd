@@ -52,6 +52,7 @@ var
   newClient: TAliyunOSSClient;
 begin
   newClient:= TAliyunOSSClient.Create( _config );
+  newClient._authSession.Free;
   newClient._authSession:= TAWSAuthSession( _authSession.clone(newClient) );
   Result:= newClient;
 end;
