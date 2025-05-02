@@ -487,7 +487,7 @@ var
     addButton.setBezelStyle( NSSmallSquareBezelStyle );
     addButton.setImage( NSImage.imageNamed(NSImageNameAddTemplate) );
     addButton.setTarget( win );
-    addButton.setAction( ObjCSelector('TCloudConfigItemsController_newConnection:') );
+    addButton.setAction( ObjCSelector('TWFXConfigItemsController_newConnection:') );
     leftView.addSubview( addButton );
     addButton.release;
 
@@ -496,7 +496,7 @@ var
     removeButton.setBezelStyle( NSSmallSquareBezelStyle );
     removeButton.setImage( NSImage.imageNamed(NSImageNameRemoveTemplate) );
     removeButton.setTarget( win );
-    removeButton.setAction( ObjCSelector('TCloudConfigItemsController_removeConnection:') );
+    removeButton.setAction( ObjCSelector('TWFXConfigItemsController_removeConnection:') );
     leftView.addSubview( removeButton );
     removeButton.release;
   end;
@@ -525,7 +525,7 @@ begin
 
   createLeftView;
   win.connectionListView:= connectionListView;
-  win.splitView.addSubview( leftView );
+  win.splitView.insertArrangedSubview( leftView, 0 );
   leftView.release;
 
   win.makeFirstResponder( connectionListView );
