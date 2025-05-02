@@ -80,7 +80,6 @@ type
     _controller: TWFXConfigItemsController;
     _logoImageView: NSImageView;
     _nameTextField: NSTextField;
-    _statusImageview: NSImageView;
     _saveButton: NSButton;
     _noteTextView: NSTextView;
   public

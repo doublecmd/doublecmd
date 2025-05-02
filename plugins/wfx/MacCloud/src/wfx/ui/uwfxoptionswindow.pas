@@ -8,8 +8,9 @@ interface
 uses
   Classes, SysUtils, DateUtils,
   CocoaAll, uMiniCocoa,
-  uCloudDriver, uWFXPlugin, uWFXUtil,
-  uWFXOptionsCore, uWFXOptionsFrame,
+  uCloudDriver, uOAuth2Client,
+  uWFXPlugin, uWFXUtil,
+  uWFXOptionsCore, uWFXOptionsOAuth2, uWFXOptionsS3,
   uMiniUtil;
 
 type
@@ -297,6 +298,7 @@ procedure TWFXOptionsWindow.saveConnection( name: NSString );
 var
   configItem: TWFXConnectionConfigItem;
   currentIndex: Integer;
+  nameIndex: Integer;
 
   procedure alertDuplicateName;
   var
@@ -313,7 +315,11 @@ var
 begin
   if name.length = 0 then
     Exit;
-  if self.configItems.indexOf(name) >= 0 then begin
+
+  currentIndex:= self.connectionListView.selectedRow;
+  nameIndex:= self.configItems.indexOf( name );
+
+  if (nameIndex>=0) and (nameIndex<>currentIndex) then begin
     alertDuplicateName;
     Exit;
   end;
@@ -321,7 +327,6 @@ begin
   configItem:= self.currentConfigItem;
   configItem.setName( name );
   configItem.setModificationTime( LocalTimeToUniversal(now) );
-  currentIndex:= self.connectionListView.selectedRow;
   self.connectionListView.reloadData;
   self.connectionListView.selectRow_byExtendingSelection( currentIndex, False );
 end;
@@ -338,11 +343,16 @@ end;
 
 procedure TWFXOptionsWindow.onSelectedConnectionChanged( const selectedIndex: Integer );
 var
+  configItem: TWFXConnectionConfigItem;
   newView: TWFXPropertyView;
   rightRect: NSRect;
 begin
   rightRect:= NSMakeRect(0,0,440,600);
-  newView:= TWFXOAuth2PropertyView.alloc.initWithFrame( rightRect ) ;
+  configItem:= self.currentConfigItem;
+  if configItem.driver is TOAuth2SessionCloudDriver then
+    newView:= TWFXOAuth2PropertyView.alloc.initWithFrame( rightRect )
+  else
+    newView:= TWFXS3PropertyView.alloc.initWithFrame( rightRect ) ;
   newView.setController( self );
   if Assigned(self.propertyView) then
     self.propertyView.removeFromSuperview;

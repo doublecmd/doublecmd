@@ -18,6 +18,7 @@ type
     class function createInstance: TCloudDriver; override;
     constructor Create( const config: TS3Config );
     function clone: TCloudDriver; override;
+    function getEndPointByRegion(const region: String): String; override;
   end;
 
 var
@@ -55,6 +56,11 @@ begin
   newClient._authSession.Free;
   newClient._authSession:= TAWSAuthSession( _authSession.clone(newClient) );
   Result:= newClient;
+end;
+
+function TAliyunOSSClient.getEndPointByRegion( const region: String ): String;
+begin
+  Result:= 'oss-' + region + '.aliyuncs.com';
 end;
 
 end.

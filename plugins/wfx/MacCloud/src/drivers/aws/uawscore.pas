@@ -59,6 +59,7 @@ type
     procedure setConnectionData( const connectionData: TAWSConnectionData ); virtual; abstract;
     function getAccessKey: TAWSAccessKey; virtual; abstract;
     procedure setAccessKey( const accessKey: TAWSAccessKey ); virtual; abstract;
+    function getEndPointByRegion( const region: String ): String; virtual; abstract;
   end;
 
   { TAWSConstHeader }

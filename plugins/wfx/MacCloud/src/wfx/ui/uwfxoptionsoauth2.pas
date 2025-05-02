@@ -18,6 +18,7 @@ type
 
   TWFXOAuth2PropertyView = objcclass( TWFXPropertyView )
   protected
+    _statusImageview: NSImageView;
     _connectButton: NSButton;
   private
     procedure connectOrDisconnect( sender: NSObject ); message 'TWFXOAuth2PropertyView_connectOrDisconnect:';

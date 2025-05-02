@@ -143,6 +143,12 @@
       <Unit>
         <Filename Value="wfx/ui/uwfxoptionsoauth2.pas"/>
         <IsPartOfProject Value="True"/>
+        <UnitName Value="uWFXOptionsOAuth2"/>
+      </Unit>
+      <Unit>
+        <Filename Value="wfx/ui/uwfxoptionss3.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uWFXOptionsS3"/>
       </Unit>
     </Units>
   </ProjectOptions>
