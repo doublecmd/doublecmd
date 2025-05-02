@@ -21,10 +21,13 @@ type
     _regionTextField: NSTextField;
     _accessKeyIDTextField: NSTextField;
     _accessKeySecretTextField: NSTextField;
+    _accessKeySecretPlainTextField: NSTextField;
     _bucketTextField: NSTextField;
+    _secretButton: NSButton;
   private
     procedure saveConnection( sender: NSObject ); message 'TWFXS3PropertyView_saveConnection:';
     procedure initPropertyView; message 'TWFXS3PropertyView_initPropertyView';
+    procedure togglePassword( sender: NSObject ); message 'TWFXS3PropertyView_togglePassword:';
   public
     procedure loadConnectionProperties( const index: Integer ); override;
     function initWithFrame(frameRect: NSRect): id; override;
@@ -70,6 +73,9 @@ begin
   configItem:= _controller.currentConfigItem;
   if configItem = nil then
     Exit;
+
+  if _secretButton.state = NSOnState then
+    _accessKeySecretTextField.setStringValue( _accessKeySecretPlainTextField.stringValue );
 
   client:= TAWSCloudDriver( configItem.driver );
 
@@ -123,9 +129,22 @@ begin
   _accessKeyIDTextField.release;
 
   addLabel( 'Serect Access Key:', NSMakeRect(20,360,120,20) );
-  _accessKeySecretTextField:= NSTextField.alloc.initWithFrame( NSMakeRect(146,360,250,22) );
+  _accessKeySecretTextField:= NSSecureTextField.alloc.initWithFrame( NSMakeRect(146,360,250,22) );
   self.addSubview( _accessKeySecretTextField );
   _accessKeySecretTextField.release;
+  _accessKeySecretPlainTextField:= NSTextField.alloc.initWithFrame( NSMakeRect(146,360,250,22) );
+  _accessKeySecretPlainTextField.setHidden( True );
+  self.addSubview( _accessKeySecretPlainTextField );
+  _accessKeySecretPlainTextField.release;
+
+  _secretButton:= NSButton.alloc.initWithFrame( NSMakeRect(405,363,16,16) );
+  _secretButton.setButtonType( NSToggleButton );
+  _secretButton.setImage( NSImage.imageNamed( NSImageNameQuickLookTemplate ));
+  _secretButton.setBordered( False );
+  _secretButton.setTarget( self );
+  _secretButton.setAction( ObjCSelector('TWFXS3PropertyView_togglePassword:') );
+  self.addSubview( _secretButton );
+  _secretButton.release;
 
   addLabel( 'Bucket:', NSMakeRect(20,320,120,20) );
   _bucketTextField:= NSTextField.alloc.initWithFrame( NSMakeRect(146,320,250,22) );
@@ -147,6 +166,19 @@ begin
   _noteTextView.setString( StringToNSString(CONST_AUTH_NOTES) );
   self.addSubView( _noteTextView );
   _noteTextView.release;
+end;
+
+procedure TWFXS3PropertyView.togglePassword(sender: NSObject);
+begin
+  if _secretButton.state = NSOnState then begin
+    _accessKeySecretTextField.setHidden( True );
+    _accessKeySecretPlainTextField.setHidden( False );
+    _accessKeySecretPlainTextField.setStringValue( _accessKeySecretTextField.stringValue );
+  end else begin
+    _accessKeySecretTextField.setHidden( False );
+    _accessKeySecretPlainTextField.setHidden( True );
+    _accessKeySecretTextField.setStringValue( _accessKeySecretPlainTextField.stringValue );
+  end;
 end;
 
 function TWFXS3PropertyView.initWithFrame(frameRect: NSRect): id;
