@@ -1,0 +1,149 @@
+{
+  "regions": [
+  {
+    "name": "cn-hangzhou",
+    "displayName": "华东1（杭州）",
+    "endPoint": "oss-cn-hangzhou.aliyuncs.com"
+  },
+  {
+    "name": "cn-shanghai",
+    "displayName": "华东2（上海)",
+    "endPoint": "oss-cn-shanghai.aliyuncs.com"
+  },
+  {
+    "name": "cn-nanjing",
+    "displayName": "华东5（南京）",
+    "endPoint": "oss-cn-nanjing.aliyuncs.com"
+  },
+  {
+    "name": "cn-fuzhou",
+    "displayName": "华东6（福州）",
+    "endPoint": "oss-cn-fuzhou.aliyuncs.com"
+  },
+  {
+    "name": "cn-wuhan-lr",
+    "displayName": "华中1（武汉）",
+    "endPoint": "oss-cn-wuhan-lr.aliyuncs.com"
+  },
+  {
+    "name": "cn-qingdao",
+    "displayName": "华北1（青岛）",
+    "endPoint": "oss-cn-qingdao.aliyuncs.com"
+  },
+  {
+    "name": "cn-beijing",
+    "displayName": "华北2（北京）",
+    "endPoint": "oss-cn-beijing.aliyuncs.com"
+  },
+  {
+    "name": "cn-zhangjiakou",
+    "displayName": "华北3（张家口）",
+    "endPoint": "oss-cn-zhangjiakou.aliyuncs.com"
+  },
+  {
+    "name": "cn-huhehaote",
+    "displayName": "华北5（呼和浩特）",
+    "endPoint": "oss-cn-huhehaote.aliyuncs.com"
+  },
+  {
+    "name": "cn-wulanchabu",
+    "displayName": "华北6（乌兰察布）",
+    "endPoint": "oss-cn-wulanchabu.aliyuncs.com"
+  },
+  {
+    "name": "cn-shenzhen",
+    "displayName": "华南1（深圳）",
+    "endPoint": "oss-cn-shenzhen.aliyuncs.com"
+  },
+  {
+    "name": "cn-heyuan",
+    "displayName": "华南2（河源）",
+    "endPoint": "oss-cn-heyuan.aliyuncs.com"
+  },
+  {
+    "name": "cn-guangzhou",
+    "displayName": "华南3（广州）",
+    "endPoint": "oss-cn-guangzhou.aliyuncs.com"
+  },
+  {
+    "name": "cn-chengdu",
+    "displayName": "西南1（成都）",
+    "endPoint": "oss-cn-chengdu.aliyuncs.com"
+  },
+  {
+    "name": "cn-hongkong",
+    "displayName": "中国香港",
+    "endPoint": "oss-cn-hongkong.aliyuncs.com"
+  },
+  {
+    "name": "rg-china-mainland",
+    "displayName": "中国大陆",
+    "endPoint": "oss-rg-china-mainland.aliyuncs.com"
+  },
+  {
+    "name": "ap-northeast-1",
+    "displayName": "日本（东京）",
+    "endPoint": "oss-ap-northeast-1.aliyuncs.com"
+  },
+  {
+    "name": "ap-northeast-2",
+    "displayName": "韩国（首尔）",
+    "endPoint": "oss-ap-northeast-2.aliyuncs.com"
+  },
+  {
+    "name": "ap-southeast-1",
+    "displayName": "新加坡",
+    "endPoint": "oss-ap-southeast-1.aliyuncs.com"
+  },
+  {
+    "name": "ap-southeast-3",
+    "displayName": "马来西亚（吉隆坡）",
+    "endPoint": "oss-ap-southeast-3.aliyuncs.com"
+  },
+  {
+    "name": "ap-southeast-5",
+    "displayName": "印度尼西亚（雅加达）",
+    "endPoint": "oss-ap-southeast-5.aliyuncs.com"
+  },
+  {
+    "name": "ap-southeast-6",
+    "displayName": "菲律宾（马尼拉）",
+    "endPoint": "oss-ap-southeast-6.aliyuncs.com"
+  },
+  {
+    "name": "ap-southeast-7",
+    "displayName": "泰国（曼谷）",
+    "endPoint": "oss-ap-southeast-7.aliyuncs.com"
+  },
+  {
+    "name": "eu-central-1",
+    "displayName": "德国（法兰克福）",
+    "endPoint": "oss-eu-central-1.aliyuncs.com"
+  },
+  {
+    "name": "eu-west-1",
+    "displayName": "英国（伦敦）",
+    "endPoint": "oss-eu-west-1.aliyuncs.com"
+  },
+  {
+    "name": "us-west-1",
+    "displayName": "美国（硅谷）",
+    "endPoint": "oss-us-west-1.aliyuncs.com"
+  },
+  {
+    "name": "us-east-1",
+    "displayName": "美国（弗吉尼亚）",
+    "endPoint": "oss-us-east-1.aliyuncs.com"
+  },
+  {
+    "name": "na-south-1",
+    "displayName": "墨西哥",
+    "endPoint": "oss-na-south-1.aliyuncs.com"
+  },
+  {
+    "name": "me-east-1",
+    "displayName": "阿联酋（迪拜）",
+    "endPoint": "oss-me-east-1.aliyuncs.com"
+  }
+  ]
+}
