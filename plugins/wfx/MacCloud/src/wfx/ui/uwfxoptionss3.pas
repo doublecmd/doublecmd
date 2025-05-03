@@ -150,7 +150,7 @@ begin
     if item.regionName.isEqualToString(region) then
       Exit( i );
   end;
-  Result:= -1;
+  Result:= _items.Count;     // (User Custom)
 end;
 
 { TWFXS3PropertyView }
@@ -210,6 +210,10 @@ begin
   client:= TAWSCloudDriver( configItem.driver );
 
   self.loadRegionItems( client );
+  if _regionDropDown.itemArray.count = 0 then
+    _regionDropDown.setEnabled( False );
+  _regionDropDown.addItemWithTitle( StringToNSString('(User Custom)') );
+
   connectionData:= client.getConnectionData;
   accessKey:= client.getAccessKey;
   _logoImageView.setImage( TWFXPluginUtil.driverMainIcon(configItem.driver) );
