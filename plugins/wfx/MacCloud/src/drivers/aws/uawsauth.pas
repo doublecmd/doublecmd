@@ -20,7 +20,6 @@ type
   TAWSAuthSessionParams = record
     config: TAWSCredentialConfig;
     connectionData: TAWSConnectionData;
-    resultProcessFunc: TCloudDriverResultProcessFunc;
   end;
 
   { TAWSSigner }
