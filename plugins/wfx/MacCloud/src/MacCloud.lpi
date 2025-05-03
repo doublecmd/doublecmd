@@ -119,6 +119,7 @@
       <Unit>
         <Filename Value="wfx/uwfxutil.pas"/>
         <IsPartOfProject Value="True"/>
+        <UnitName Value="uWFXUtil"/>
       </Unit>
       <Unit>
         <Filename Value="drivers/oauth2/uoauth2core.pas"/>

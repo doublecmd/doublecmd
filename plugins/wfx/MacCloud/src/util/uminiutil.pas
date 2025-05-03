@@ -120,6 +120,7 @@ type
     class procedure setDateTime( const json: NSMutableDictionary; const key: String; const value: TDateTime );
     class procedure setArray( const json: NSMutableDictionary; const key: String; const value: NSArray );
     class procedure setDictionary( const json: NSMutableDictionary; const key: String; const value: NSDictionary );
+    class function getNSString( const json: NSDictionary; const key: String ): NSString;
     class function getString( const json: NSDictionary; const key: String ): String;
     class function getBoolean( const json: NSDictionary; const key: String ): Boolean;
     class function getInteger( const json: NSDictionary; const key: String ): Integer;
@@ -157,6 +158,7 @@ type
     class function filename( const path: String ): String;
     class function extension( const path: String ): String;
     class function allContent( const path: String ): NSData;
+    class function contentAsUTF8String( const path: String ): NSString;
     class function sha1( const path: String ): String; overload;
     class function sha1( const path: String; const range:TMiniContentRange ): String; overload;
   end;
@@ -508,9 +510,14 @@ begin
   json.setObject_forKey( value , StringToNSString(key) );
 end;
 
-class function TJsonUtil.getString(const json: NSDictionary; const key: String ): String;
+class function TJsonUtil.getNSString( const json: NSDictionary; const key: String ): NSString;
 begin
-  Result:= NSString( json.objectForKey( StringToNSString(key) ) ).UTF8String;
+  Result:= NSString( json.objectForKey( StringToNSString(key) ) );
+end;
+
+class function TJsonUtil.getString( const json: NSDictionary; const key: String ): String;
+begin
+  Result:= TJsonUtil.getNSString(json,key).UTF8String;
 end;
 
 class function TJsonUtil.getBoolean(const json: NSDictionary; const key: String
@@ -691,6 +698,15 @@ end;
 class function TFileUtil.allContent(const path: String): NSData;
 begin
   Result:= NSData.dataWithContentsOfFile( StringToNSString(path) );
+end;
+
+class function TFileUtil.contentAsUTF8String(const path: String): NSString;
+var
+  data: NSData;
+begin
+  data:= TFileUtil.allContent( path );
+  Result:= NSString.alloc.initWithData_encoding( data, NSUTF8StringEncoding );
+  Result.autorelease;
 end;
 
 class function TFileUtil.sha1(const path: String): String;

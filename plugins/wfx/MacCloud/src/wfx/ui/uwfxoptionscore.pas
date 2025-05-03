@@ -15,7 +15,7 @@ type
   { TWFXConnectionConfigItem }
 
   TWFXConnectionConfigItem = objcclass( NSObject )
-  public
+  private
     _name: NSString;
     _creating: Boolean;
     _driver: TCloudDriver;
