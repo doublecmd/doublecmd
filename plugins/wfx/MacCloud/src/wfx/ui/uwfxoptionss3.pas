@@ -273,15 +273,22 @@ procedure TWFXS3PropertyView.initPropertyView;
     nsLabel.release;
   end;
 
+  function addTextField( const rect: NSRect ): NSTextField;
+  begin
+    Result:= NSTextField.alloc.initWithFrame( rect );
+    Result.cell.setScrollable( True );
+    Result.cell.setWraps( False );
+    self.addSubview( Result );
+    Result.release;
+  end;
+
 begin
   _logoImageView:= NSImageView.alloc.initWithFrame( NSMakeRect(200,530,32,32) );
   self.addSubview( _logoImageView );
   _logoImageView.release;
 
   addLabel( 'Name:', NSMakeRect(20,480,120,20) );
-  _nameTextField:= NSTextField.alloc.initWithFrame( NSMakeRect(146,480,250,22) );
-  self.addSubview( _nameTextField );
-  _nameTextField.release;
+  _nameTextField:= addTextField( NSMakeRect(146,480,250,22) );
 
   addLabel( 'Region List:', NSMakeRect(20,440,120,20) );
   _regionDropDown:= NSPopUpButton.alloc.initWithFrame( NSMakeRect(146,440,250,22) );
@@ -291,28 +298,22 @@ begin
   _regionDropDown.release;
 
   addLabel( 'Region:', NSMakeRect(20,400,120,20) );
-  _regionTextField:= NSTextField.alloc.initWithFrame( NSMakeRect(146,400,250,22) );
-  self.addSubview( _regionTextField );
-  _regionTextField.release;
+  _regionTextField:= addTextField( NSMakeRect(146,400,250,22) );
 
   addLabel( 'Endpoint:', NSMakeRect(20,360,120,20) );
-  _endPointTextField:= NSTextField.alloc.initWithFrame( NSMakeRect(146,360,250,22) );
-  self.addSubview( _endPointTextField );
-  _endPointTextField.release;
+  _endPointTextField:= addTextField( NSMakeRect(146,360,250,22) );
 
   addLabel( 'Access Key ID:', NSMakeRect(20,320,120,20) );
-  _accessKeyIDTextField:= NSTextField.alloc.initWithFrame( NSMakeRect(146,320,250,22) );
-  self.addSubview( _accessKeyIDTextField );
-  _accessKeyIDTextField.release;
+  _accessKeyIDTextField:= addTextField( NSMakeRect(146,320,250,22) );
 
   addLabel( 'Serect Access Key:', NSMakeRect(20,280,120,20) );
   _accessKeySecretTextField:= NSSecureTextField.alloc.initWithFrame( NSMakeRect(146,280,250,22) );
+  _accessKeySecretTextField.cell.setScrollable( True );
+  _accessKeySecretTextField.cell.setWraps( False );
   self.addSubview( _accessKeySecretTextField );
   _accessKeySecretTextField.release;
-  _accessKeySecretPlainTextField:= NSTextField.alloc.initWithFrame( NSMakeRect(146,280,250,22) );
+  _accessKeySecretPlainTextField:= addTextField( NSMakeRect(146,280,250,22) );
   _accessKeySecretPlainTextField.setHidden( True );
-  self.addSubview( _accessKeySecretPlainTextField );
-  _accessKeySecretPlainTextField.release;
 
   _secretButton:= NSButton.alloc.initWithFrame( NSMakeRect(405,283,16,16) );
   _secretButton.setButtonType( NSToggleButton );
@@ -324,9 +325,7 @@ begin
   _secretButton.release;
 
   addLabel( 'Bucket:', NSMakeRect(20,240,120,20) );
-  _bucketTextField:= NSTextField.alloc.initWithFrame( NSMakeRect(146,240,250,22) );
-  self.addSubview( _bucketTextField );
-  _bucketTextField.release;
+  _bucketTextField:= addTextField( NSMakeRect(146,240,250,22) );
 
   _saveButton:= NSButton.alloc.initWithFrame( NSMakeRect(200,200,100,22) );
   _saveButton.setBezelStyle( NSRoundedBezelStyle );
