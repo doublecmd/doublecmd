@@ -83,10 +83,9 @@ type
 
   TS3Client = class( TAWSCloudDriver )
   protected
-    _config: TS3Config;
     _authSession: TAWSAuthSession;
   public
-    constructor Create( const config: TS3Config );
+    constructor Create;
     destructor Destroy; override;
   public
     function createLister( const path: String ): TCloudDriverLister; override;
@@ -115,6 +114,9 @@ type
   end;
 
 implementation
+
+var
+  s3CloudDriverConfig: TS3Config;
 
 // raise the corresponding exception if there are errors
 procedure S3ClientResultProcess( const cloudDriverResult: TCloudDriverResult );
@@ -439,9 +441,13 @@ end;
 
 { TS3Client }
 
-constructor TS3Client.Create( const config: TS3Config );
+constructor TS3Client.Create;
+var
+  params: TAWSAuthSessionParams;
 begin
-  _config:= config;
+  params:= Default( TAWSAuthSessionParams );
+  params.config:= s3CloudDriverConfig;
+  _authSession:= TAWSAuthSession.Create( params );
 end;
 
 destructor TS3Client.Destroy;
@@ -554,6 +560,16 @@ begin
     FreeAndNil( session );
   end;
 end;
+
+initialization
+  s3CloudDriverConfig:= TS3Config.Create(
+    'AWS4-HMAC-SHA256',
+    'AWS4',
+    's3',
+    'aws4_request' );
+
+finalization
+  FreeAndNil( s3CloudDriverConfig );
 
 end.
 
