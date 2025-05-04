@@ -902,7 +902,6 @@ begin
   _request.setHTTPBodyStream( processor.getHttpBodyStream );
   self.setContentType( HttpConst.ContentType.OctetStream );
   self.setContentLength( range.length );
-  self.setContentRange( range );
   Result:= self.doConnect( processor );
   TLogUtil.logInformation( '<< HttpClient: Upload file end' );
 end;

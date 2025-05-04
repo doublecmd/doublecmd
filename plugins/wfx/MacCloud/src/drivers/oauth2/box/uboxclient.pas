@@ -332,6 +332,7 @@ var
     try
       digest:= TFileUtil.sha1( _localPath, range );
       http:= TMiniHttpClient.Create( uploadURI, HttpConst.Method.PUT );
+      http.setContentRange( range );
       http.addHeader( 'digest', 'sha=' + digest );
       _authSession.setAuthHeader( http );
 

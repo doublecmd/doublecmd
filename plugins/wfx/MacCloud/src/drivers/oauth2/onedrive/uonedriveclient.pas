@@ -385,6 +385,7 @@ procedure TOneDriveUploadSession.upload;
   begin
     try
       http:= TMiniHttpClient.Create( href, HttpConst.Method.PUT );
+      http.setContentRange( range );
       cloudDriverResult:= TCloudDriverResult.Create;
       cloudDriverResult.httpResult:= http.uploadRange( _localPath, range, _callback );
       cloudDriverResult.resultMessage:= cloudDriverResult.httpResult.body;

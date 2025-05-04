@@ -81,6 +81,7 @@
       <Unit>
         <Filename Value="drivers/oauth2/box/uboxclientutil.pas"/>
         <IsPartOfProject Value="True"/>
+        <UnitName Value="uBoxClientUtil"/>
       </Unit>
       <Unit>
         <Filename Value="drivers/oauth2/dropbox/udropboxclient.pas"/>
