@@ -1,0 +1,184 @@
+{
+  "regions": [
+  {
+    "name": "us-east-2",
+    "displayName": "US East (Ohio)",
+    "endPoint": "s3.us-east-2.amazonaws.com"
+  },
+  {
+    "name": "us-east-1",
+    "displayName": "US East (N. Virginia)",
+    "endPoint": "s3.us-east-1.amazonaws.com"
+  },
+  {
+    "name": "us-west-1",
+    "displayName": "US West (N. California)",
+    "endPoint": "s3.us-west-1.amazonaws.com"
+  },
+  {
+    "name": "us-west-2",
+    "displayName": "US West (Oregon)",
+    "endPoint": "s3.us-west-2.amazonaws.com"
+  },
+  {
+    "name": "af-south-1",
+    "displayName": "Africa (Cape Town)",
+    "endPoint": "s3.af-south-1.amazonaws.com"
+  },
+  {
+    "name": "ap-east-1",
+    "displayName": "Asia Pacific (Hong Kong)",
+    "endPoint": "s3.ap-east-1.amazonaws.com"
+  },
+  {
+    "name": "ap-south-2",
+    "displayName": "Asia Pacific (Hyderabad)",
+    "endPoint": "s3.ap-south-2.amazonaws.com"
+  },
+  {
+    "name": "ap-southeast-3",
+    "displayName": "Asia Pacific (Jakarta)",
+    "endPoint": "s3.ap-southeast-3.amazonaws.com"
+  },
+  {
+    "name": "ap-southeast-5",
+    "displayName": "Asia Pacific (Malaysia)",
+    "endPoint": "s3.ap-southeast-5.amazonaws.com"
+  },
+  {
+    "name": "ap-southeast-4",
+    "displayName": "Asia Pacific (Melbourne)",
+    "endPoint": "s3.ap-southeast-4.amazonaws.com"
+  },
+  {
+    "name": "ap-south-1",
+    "displayName": "Asia Pacific (Mumbai)",
+    "endPoint": "s3.ap-south-1.amazonaws.com"
+  },
+  {
+    "name": "ap-northeast-3",
+    "displayName": "Asia Pacific (Osaka)",
+    "endPoint": "s3.ap-northeast-3.amazonaws.com"
+  },
+  {
+    "name": "ap-northeast-2",
+    "displayName": "Asia Pacific (Seoul)",
+    "endPoint": "s3.ap-northeast-2.amazonaws.com"
+  },
+  {
+    "name": "ap-southeast-1",
+    "displayName": "Asia Pacific (Singapore)",
+    "endPoint": "s3.ap-southeast-1.amazonaws.com"
+  },
+  {
+    "name": "ap-southeast-2",
+    "displayName": "Asia Pacific (Sydney)",
+    "endPoint": "s3.ap-southeast-2.amazonaws.com"
+  },
+  {
+    "name": "ap-southeast-7",
+    "displayName": "Asia Pacific (Thailand)",
+    "endPoint": "s3.ap-southeast-7.amazonaws.com"
+  },
+  {
+    "name": "ap-northeast-1",
+    "displayName": "Asia Pacific (Tokyo)",
+    "endPoint": "s3.ap-northeast-1.amazonaws.com"
+  },
+  {
+    "name": "ca-central-1",
+    "displayName": "Canada (Central)",
+    "endPoint": "s3.ca-central-1.amazonaws.com"
+  },
+  {
+    "name": "ca-west-1",
+    "displayName": "Canada West (Calgary)",
+    "endPoint": "s3.ca-west-1.amazonaws.com"
+  },
+  {
+    "name": "cn-north-1",
+    "displayName": "China (Bejing)",
+    "endPoint": "s3.cn-north-1.amazonaws.com"
+  },
+  {
+    "name": "cn-northwest-1",
+    "displayName": "China (Ningxia)",
+    "endPoint": "s3.cn-northwest-1.amazonaws.com"
+  },
+  {
+    "name": "eu-central-1",
+    "displayName": "Europe (Frankfurt)",
+    "endPoint": "s3.eu-central-1.amazonaws.com"
+  },
+  {
+    "name": "eu-west-1",
+    "displayName": "Europe (Ireland)",
+    "endPoint": "s3.eu-west-1.amazonaws.com"
+  },
+  {
+    "name": "eu-west-2",
+    "displayName": "Europe (London)",
+    "endPoint": "s3.eu-west-2.amazonaws.com"
+  },
+  {
+    "name": "eu-south-1",
+    "displayName": "Europe (Milan)",
+    "endPoint": "s3.eu-south-1.amazonaws.com"
+  },
+  {
+    "name": "eu-west-3",
+    "displayName": "Europe (Paris)",
+    "endPoint": "s3.eu-west-3.amazonaws.com"
+  },
+  {
+    "name": "eu-south-2",
+    "displayName": "Europe (Spain)",
+    "endPoint": "s3.eu-south-2.amazonaws.com"
+  },
+  {
+    "name": "eu-north-1",
+    "displayName": "Europe (Stockholm)",
+    "endPoint": "s3.eu-north-1.amazonaws.com"
+  },
+  {
+    "name": "eu-central-2",
+    "displayName": "Europe (Zurich)",
+    "endPoint": "s3.eu-central-2.amazonaws.com"
+  },
+  {
+    "name": "il-central-1",
+    "displayName": "Israel (Tel Aviv)",
+    "endPoint": "s3.il-central-1.amazonaws.com"
+  },
+  {
+    "name": "mx-central-1",
+    "displayName": "Mexico (Central)",
+    "endPoint": "s3.mx-central-1.amazonaws.com"
+  },
+  {
+    "name": "me-south-1",
+    "displayName": "Middle East (Bahrain)",
+    "endPoint": "s3.me-south-1.amazonaws.com"
+  },
+  {
+    "name": "me-central-1",
+    "displayName": "Middle East (UAE)",
+    "endPoint": "s3.me-central-1.amazonaws.com"
+  },
+  {
+    "name": "sa-east-1",
+    "displayName": "South America (São Paulo)",
+    "endPoint": "s3.sa-east-1.amazonaws.com"
+  },
+  {
+    "name": "us-gov-east-1",
+    "displayName": "AWS GovCloud (US-East)",
+    "endPoint": "s3.us-gov-east-1.amazonaws.com"
+  },
+  {
+    "name": "us-gov-west-1",
+    "displayName": "AWS GovCloud (US-West)",
+    "endPoint": "s3.us-gov-west-1.amazonaws.com"
+  }
+  ]
+}
