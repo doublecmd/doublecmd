@@ -163,6 +163,11 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="uAmazonS3Client"/>
       </Unit>
+      <Unit>
+        <Filename Value="drivers/aws/s3compatible/us3compatibleclient.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uS3CompatibleClient"/>
+      </Unit>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
@@ -172,7 +177,7 @@
     </Target>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir)"/>
-      <OtherUnitFiles Value="../../../../sdk;util;drivers/root;drivers;drivers/aws;drivers/aws/aliyunoss;drivers/oauth2/box;drivers/oauth2/dropbox;drivers/oauth2/onedrive;drivers/oauth2/yandex;wfx/ui;wfx;drivers/oauth2;drivers/aws/tencentcos;drivers/aws/amazons3"/>
+      <OtherUnitFiles Value="../../../../sdk;util;drivers/root;drivers;drivers/aws;drivers/aws/aliyunoss;drivers/oauth2/box;drivers/oauth2/dropbox;drivers/oauth2/onedrive;drivers/oauth2/yandex;wfx/ui;wfx;drivers/oauth2;drivers/aws/tencentcos;drivers/aws/amazons3;drivers/aws/s3compatible"/>
       <UnitOutputDirectory Value="../lib/$(TargetCPU)-$(TargetOS)"/>
     </SearchPaths>
     <CodeGeneration>
