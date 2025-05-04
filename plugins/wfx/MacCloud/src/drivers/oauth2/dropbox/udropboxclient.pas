@@ -479,7 +479,7 @@ var
       TJsonUtil.setString( jsonCommit, 'path', _serverPath );
       TJsonUtil.setString( jsonCommit, 'mode', 'overwrite' );
 
-      Result:= TJsonUtil.dumps( ['cursor',jsonCursor, 'commit',jsonCommit] );
+      Result:= TJsonUtil.dumps( ['cursor',jsonCursor, 'commit',jsonCommit], True );
 
       jsonCursor.release;
       jsonCommit.release;
