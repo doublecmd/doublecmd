@@ -64,6 +64,7 @@ type
   { TAWSConstHeader }
 
   TAWSConstHeader = record
+    DATE: String;
     COPY_SOURCE: String;
     CONTENT_SHA256: String;
     CONTENT_SHA256_DEFAULT_VALUE: String;
@@ -78,6 +79,7 @@ type
 const
   AWSConst: TAWSConst = (
     HEADER: (
+      DATE: 'x-amz-date';
       COPY_SOURCE: 'x-amz-copy-source';
       CONTENT_SHA256: 'x-amz-content-sha256';
       CONTENT_SHA256_DEFAULT_VALUE: 'UNSIGNED-PAYLOAD';

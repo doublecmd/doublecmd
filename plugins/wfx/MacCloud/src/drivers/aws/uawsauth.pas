@@ -93,10 +93,10 @@ procedure TAWSAuthSession.addNeededHeader( const request: NSMutableURLRequest );
   var
     nowString: NSString;
   begin
-    if request.valueForHTTPHeaderField(HttpConst.Header.Date) <> nil then
+    if request.valueForHTTPHeaderField(NSSTR(AWSConst.Header.Date)) <> nil then
       Exit;
     nowString:= TDateTimeUtil.nowToISO8601;
-    request.addValue_forHTTPHeaderField( nowString, HttpConst.Header.Date );
+    request.addValue_forHTTPHeaderField( nowString, NSSTR(AWSConst.Header.Date) );
   end;
 
   procedure addHostHeaderIfNeeded;
@@ -177,7 +177,7 @@ end;
 
 function TAWSSigner.buildTimeStampString: NSString;
 begin
-  Result:= NSString( _request.allHTTPHeaderFields.objectForKey(HttpConst.Header.Date) );
+  Result:= NSString( _request.allHTTPHeaderFields.objectForKey(NSSTR(AWSConst.Header.Date)) );
 end;
 
 function TAWSSigner.buildAuthString: NSString;

@@ -71,6 +71,7 @@
       <Unit>
         <Filename Value="util/uminihttpclient.pas"/>
         <IsPartOfProject Value="True"/>
+        <UnitName Value="uMiniHttpClient"/>
       </Unit>
       <Unit>
         <Filename Value="drivers/oauth2/box/uboxclient.pas"/>
