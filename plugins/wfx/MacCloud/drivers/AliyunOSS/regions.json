@@ -144,6 +144,26 @@
     "name": "me-east-1",
     "displayName": "阿联酋（迪拜）",
     "endPoint": "oss-me-east-1.aliyuncs.com"
+  },
+  {
+    "name": "cn-hangzhou-finance",
+    "displayName": "杭州金融云公网",
+    "endPoint": "oss-cn-hzfinance.aliyuncs.com"
+  },
+  {
+    "name": "cn-shanghai-finance-1",
+    "displayName": "上海金融云公网",
+    "endPoint": "oss-cn-shanghai-finance-1-pub.aliyuncs.com"
+  },
+  {
+    "name": "cn-shenzhen-finance-1",
+    "displayName": "深圳金融云公网",
+    "endPoint": "oss-cn-szfinance.aliyuncs.com"
+  },
+  {
+    "name": "cn-beijing-finance-1",
+    "displayName": "北京金融云公网",
+    "endPoint": "oss-cn-beijing-finance-1-pub.aliyuncs.com"
   }
   ]
 }
