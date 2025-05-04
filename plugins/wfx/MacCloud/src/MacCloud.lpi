@@ -152,6 +152,11 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="uWFXOptionsS3"/>
       </Unit>
+      <Unit>
+        <Filename Value="drivers/aws/tencentcos/utencentcosclient.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uTencentCOSClient"/>
+      </Unit>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
@@ -161,7 +166,7 @@
     </Target>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir)"/>
-      <OtherUnitFiles Value="../../../../sdk;util;drivers/root;drivers;drivers/aws;drivers/aws/aliyunoss;drivers/oauth2/box;drivers/oauth2/dropbox;drivers/oauth2/onedrive;drivers/oauth2/yandex;wfx/ui;wfx;drivers/oauth2"/>
+      <OtherUnitFiles Value="../../../../sdk;util;drivers/root;drivers;drivers/aws;drivers/aws/aliyunoss;drivers/oauth2/box;drivers/oauth2/dropbox;drivers/oauth2/onedrive;drivers/oauth2/yandex;wfx/ui;wfx;drivers/oauth2;drivers/aws/tencentcos"/>
       <UnitOutputDirectory Value="../lib/$(TargetCPU)-$(TargetOS)"/>
     </SearchPaths>
     <CodeGeneration>

@@ -10,7 +10,7 @@ uses
   CocoaAll, uMiniCocoa,
   uWFXPlugin, uCloudDriver,
   uOAuth2Core, uOAuth2Client, uDropBoxClient, uYandexClient, uOneDriveClient, uBoxClient,
-  uAWSCore, uS3Client, uAliyunOSSClient,
+  uAWSCore, uS3Client, uAliyunOSSClient, uTencentCOSClient,
   uMiniUtil;
 
 type
@@ -541,6 +541,9 @@ begin
 
   WFXCloudDriverConfigManager.register( TAliyunOSSClient.driverName, TWFXS3Config );
   cloudDriverManager.register( TAliyunOSSClient );
+
+  WFXCloudDriverConfigManager.register( TTencentCOSClient.driverName, TWFXS3Config );
+  cloudDriverManager.register( TTencentCOSClient );
 end;
 
 initialization
