@@ -16,7 +16,7 @@ type
   public
     class function driverName: String; override;
     class function createInstance: TCloudDriver; override;
-    function clone: TCloudDriver; override;
+    function getConcreteClass: TCloudDriverClass; override;
   end;
 
 implementation
@@ -33,14 +33,9 @@ begin
   Result:= TTencentCOSClient.Create;
 end;
 
-function TTencentCOSClient.clone: TCloudDriver;
-var
-  newClient: TTencentCOSClient;
+function TTencentCOSClient.getConcreteClass: TCloudDriverClass;
 begin
-  newClient:= TTencentCOSClient.Create;
-  newClient._authSession.Free;
-  newClient._authSession:= TAWSAuthSession( _authSession.clone(newClient) );
-  Result:= newClient;
+  Result:= TTencentCOSClient;
 end;
 
 end.

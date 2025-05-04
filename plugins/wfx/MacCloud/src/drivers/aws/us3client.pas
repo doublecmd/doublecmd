@@ -88,6 +88,9 @@ type
     constructor Create;
     destructor Destroy; override;
   public
+    function getConcreteClass: TCloudDriverClass; virtual; abstract;
+    function clone: TCloudDriver; override;
+  public
     function createLister( const path: String ): TCloudDriverLister; override;
   public
     function authorize: Boolean; override;
@@ -453,6 +456,16 @@ end;
 destructor TS3Client.Destroy;
 begin
   FreeAndNil( _authSession );
+end;
+
+function TS3Client.clone: TCloudDriver;
+var
+  newClient: TS3Client;
+begin
+  newClient:= TS3Client( self.getConcreteClass.Create );
+  newClient._authSession.Free;
+  newClient._authSession:= TAWSAuthSession( _authSession.clone(newClient) );
+  Result:= newClient;
 end;
 
 function TS3Client.createLister(const path: String): TCloudDriverLister;

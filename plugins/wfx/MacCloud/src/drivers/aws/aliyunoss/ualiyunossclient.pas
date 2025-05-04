@@ -16,7 +16,7 @@ type
   public
     class function driverName: String; override;
     class function createInstance: TCloudDriver; override;
-    function clone: TCloudDriver; override;
+    function getConcreteClass: TCloudDriverClass; override;
   end;
 
 implementation
@@ -33,14 +33,9 @@ begin
   Result:= TAliyunOSSClient.Create;
 end;
 
-function TAliyunOSSClient.clone: TCloudDriver;
-var
-  newClient: TAliyunOSSClient;
+function TAliyunOSSClient.getConcreteClass: TCloudDriverClass;
 begin
-  newClient:= TAliyunOSSClient.Create;
-  newClient._authSession.Free;
-  newClient._authSession:= TAWSAuthSession( _authSession.clone(newClient) );
-  Result:= newClient;
+  Result:= TAliyunOSSClient;
 end;
 
 end.
