@@ -158,6 +158,11 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="uTencentCOSClient"/>
       </Unit>
+      <Unit>
+        <Filename Value="drivers/aws/amazons3/uamazons3client.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uAmazonS3Client"/>
+      </Unit>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
@@ -167,7 +172,7 @@
     </Target>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir)"/>
-      <OtherUnitFiles Value="../../../../sdk;util;drivers/root;drivers;drivers/aws;drivers/aws/aliyunoss;drivers/oauth2/box;drivers/oauth2/dropbox;drivers/oauth2/onedrive;drivers/oauth2/yandex;wfx/ui;wfx;drivers/oauth2;drivers/aws/tencentcos"/>
+      <OtherUnitFiles Value="../../../../sdk;util;drivers/root;drivers;drivers/aws;drivers/aws/aliyunoss;drivers/oauth2/box;drivers/oauth2/dropbox;drivers/oauth2/onedrive;drivers/oauth2/yandex;wfx/ui;wfx;drivers/oauth2;drivers/aws/tencentcos;drivers/aws/amazons3"/>
       <UnitOutputDirectory Value="../lib/$(TargetCPU)-$(TargetOS)"/>
     </SearchPaths>
     <CodeGeneration>

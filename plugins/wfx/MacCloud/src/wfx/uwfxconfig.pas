@@ -10,7 +10,7 @@ uses
   CocoaAll, uMiniCocoa,
   uWFXPlugin, uCloudDriver,
   uOAuth2Core, uOAuth2Client, uDropBoxClient, uYandexClient, uOneDriveClient, uBoxClient,
-  uAWSCore, uS3Client, uAliyunOSSClient, uTencentCOSClient,
+  uAWSCore, uS3Client, uAmazonS3Client, uAliyunOSSClient, uTencentCOSClient,
   uMiniUtil;
 
 type
@@ -538,6 +538,9 @@ begin
   WFXCloudDriverConfigManager.register( TBoxClient.driverName, TWFXBoxConfig );
   boxConfig:= TTokenCloudDriverConfigWithSecret.Create( '', '', 'dc2ea085a05ac273a://box/auth' );
   cloudDriverManager.register( TBoxClient );
+
+  WFXCloudDriverConfigManager.register( TAmazonS3Client.driverName, TWFXS3Config );
+  cloudDriverManager.register( TAmazonS3Client );
 
   WFXCloudDriverConfigManager.register( TAliyunOSSClient.driverName, TWFXS3Config );
   cloudDriverManager.register( TAliyunOSSClient );
