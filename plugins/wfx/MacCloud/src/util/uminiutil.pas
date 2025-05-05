@@ -69,6 +69,7 @@ type
     AWS_URI_ENCODE_ALLOW_CHAR = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._~';
   private class var
     AWS_URI_ENCODE_CHARACTER_SET: NSCharacterSet;
+    PATH_ENCODE_CHARACTER_SET: NSCharacterSet;
   public
     class function toQueryItems( const lclItems: TQueryItemsDictonary ): NSArray;
     class function toNSString( const lclItems: TQueryItemsDictonary ): NSString;
@@ -882,7 +883,7 @@ var
   nsUrlString: NSString;
 begin
   nsUrlString:= StringToNSString(urlString).stringByAddingPercentEncodingWithAllowedCharacters(
-    NSCharacterSet.URLPathAllowedCharacterSet );
+    PATH_ENCODE_CHARACTER_SET );
   Result:= nsUrlString.UTF8String;
 end;
 
@@ -925,12 +926,24 @@ begin
   Result.length:= self.length;
 end;
 
+function createPathEncodeCharacterSet: NSCharacterSet;
+var
+  cs: NSMutableCharacterSet;
+begin
+  cs:= NSMutableCharacterSet.new;
+  cs.formUnionWithCharacterSet( NSCharacterSet.URLPathAllowedCharacterSet );
+  cs.removeCharactersInString( NSSTR('+') );
+  Result:= cs;
+end;
+
 initialization
   consoleLogger:= TConsoleLogger.Create;
   TLogUtil.setLogProc( @consoleLogger.logProc );
 
   THttpClientUtil.AWS_URI_ENCODE_CHARACTER_SET:= NSCharacterSet.characterSetWithCharactersInString(
     NSSTR(THttpClientUtil.AWS_URI_ENCODE_ALLOW_CHAR) ).retain;
+
+  THttpClientUtil.PATH_ENCODE_CHARACTER_SET:= createPathEncodeCharacterSet;
 
 finalization
   FreeAndNil( consoleLogger );
