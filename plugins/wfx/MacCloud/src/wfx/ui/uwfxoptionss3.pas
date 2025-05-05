@@ -56,6 +56,7 @@ type
     _endPointTextField: NSTextField;
     _accessKeyIDTextField: NSTextField;
     _accessKeySecretTextField: NSTextField;
+    _accessKeyTokenTextField: NSTextField;
     _accessKeySecretPlainTextField: NSTextField;
     _bucketTextField: NSTextField;
     _secretButton: NSButton;
@@ -222,6 +223,7 @@ begin
   _endPointTextField.setStringValue( StringToNSString(connectionData.endPoint) );
   _accessKeyIDTextField.setStringValue( StringToNSString(accessKey.id) );
   _accessKeySecretTextField.setStringValue( StringToNSString(accessKey.secret) );
+  _accessKeyTokenTextField.setStringValue( StringToNSString(accessKey.token) );
   _bucketTextField.setStringValue( StringToNSString(connectionData.defaultBucket) );
   regionIndex:= _regionItems.indexOfRegion( _regionTextField.stringValue );
   if regionIndex >= 0 then
@@ -251,7 +253,8 @@ begin
 
   accessKey:= TAWSAccessKey.Create(
     _accessKeyIDTextField.stringValue.UTF8String,
-    _accessKeySecretTextField.stringValue.UTF8String );
+    _accessKeySecretTextField.stringValue.UTF8String,
+    _accessKeyTokenTextField.stringValue.UTF8String );
   client.setAccessKey( accessKey );
 
   _controller.saveConnection( _nameTextField.stringValue );
@@ -324,10 +327,13 @@ begin
   self.addSubview( _secretButton );
   _secretButton.release;
 
-  addLabel( 'Bucket:', NSMakeRect(20,240,120,20) );
-  _bucketTextField:= addTextField( NSMakeRect(146,240,250,22) );
+  addLabel( 'Temporary Token:', NSMakeRect(20,240,120,20) );
+  _accessKeyTokenTextField:= addTextField( NSMakeRect(146,240,250,22) );
 
-  _saveButton:= NSButton.alloc.initWithFrame( NSMakeRect(200,200,100,22) );
+  addLabel( 'Bucket:', NSMakeRect(20,200,120,20) );
+  _bucketTextField:= addTextField( NSMakeRect(146,200,250,22) );
+
+  _saveButton:= NSButton.alloc.initWithFrame( NSMakeRect(200,160,100,22) );
   _saveButton.setBezelStyle( NSRoundedBezelStyle );
   _saveButton.setTitle( NSSTR('Save') );
   _saveButton.setTarget( self );

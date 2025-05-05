@@ -5,6 +5,7 @@
      Yandex
      One Drive
      Box
+     Amazon S3 and Compatible
   2. other cloud drivers will be gradually supported
 }
 

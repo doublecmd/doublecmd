@@ -36,11 +36,13 @@ type
   private
     _id: String;
     _secret: String;
+    _token: String;
   public
-    constructor Create( const id: String; const secret: String );
+    constructor Create( const id: String; const secret: String; const token: String );
     function clone: TAWSAccessKey;
     property id: String read _id;
     property secret: String read _secret;
+    property token: String read _token;
   end;
 
   { TAWSConnectionData }
@@ -65,6 +67,7 @@ type
 
   TAWSConstHeader = record
     DATE: String;
+    SECURITY_TOKEN: String;
     COPY_SOURCE: String;
     CONTENT_SHA256: String;
     CONTENT_SHA256_DEFAULT_VALUE: String;
@@ -80,6 +83,7 @@ const
   AWSConst: TAWSConst = (
     HEADER: (
       DATE: 'x-amz-date';
+      SECURITY_TOKEN: 'x-amz-security-token';
       COPY_SOURCE: 'x-amz-copy-source';
       CONTENT_SHA256: 'x-amz-content-sha256';
       CONTENT_SHA256_DEFAULT_VALUE: 'UNSIGNED-PAYLOAD';
@@ -104,15 +108,16 @@ end;
 
 { TAWSAccessKey }
 
-constructor TAWSAccessKey.Create(  const id: String; const secret: String );
+constructor TAWSAccessKey.Create( const id: String; const secret: String; const token: String );
 begin
   _id:= id;
   _secret:= secret;
+  _token:= token;
 end;
 
 function TAWSAccessKey.clone: TAWSAccessKey;
 begin
-  Result:= TAWSAccessKey.Create( _id, _secret );
+  Result:= TAWSAccessKey.Create( _id, _secret, _token );
 end;
 
 end.

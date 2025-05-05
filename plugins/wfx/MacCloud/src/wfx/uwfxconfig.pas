@@ -278,7 +278,8 @@ begin
   jsonAccessKey:= TJsonUtil.getDictionary( params, 'accessKey' );
   accessKey:= TS3AccessKey.Create(
     TJsonUtil.getString( jsonAccessKey, 'id' ),
-    TJsonUtil.getString( jsonAccessKey, 'secret' )
+    TJsonUtil.getString( jsonAccessKey, 'secret' ),
+    TJsonUtil.getString( jsonAccessKey, 'token' )
   );
   TS3Client(driver).setAccessKey( accessKey );
 end;
@@ -295,6 +296,7 @@ begin
   jsonAccessKey:= NSMutableDictionary.new;
   TJsonUtil.setString( jsonAccessKey, 'id', accessKey.id );
   TJsonUtil.setString( jsonAccessKey, 'secret', accessKey.secret );
+  TJsonUtil.setString( jsonAccessKey, 'token', accessKey.token );
   TJsonUtil.setDictionary( params, 'accessKey', jsonAccessKey );
   jsonAccessKey.release;
 end;

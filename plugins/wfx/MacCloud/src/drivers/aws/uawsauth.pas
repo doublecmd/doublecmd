@@ -105,15 +105,26 @@ procedure TAWSAuthSession.addNeededHeader( const request: NSMutableURLRequest );
       Exit;
     request.addValue_forHTTPHeaderField( request.URL.host, HttpConst.Header.Host );
   end;
+
+  procedure addTokenHeaderIfNeeded;
+  begin
+    if _accessKey.token = EmptyStr then
+      Exit;
+    request.addValue_forHTTPHeaderField(
+      StringToNSString(_accessKey.token),
+      NSSTR(AWSConst.Header.SECURITY_TOKEN) );
+  end;
+
 begin
   addDateHeaderIfNeeded;
   addHostHeaderIfNeeded;
+  addTokenHeaderIfNeeded;
 end;
 
 constructor TAWSAuthSession.Create( const params: TAWSAuthSessionParams );
 begin
   _params:= params;
-  _accessKey:= TAWSAccessKey.Create( '', '' );
+  _accessKey:= TAWSAccessKey.Create( '', '', '' );
 end;
 
 destructor TAWSAuthSession.Destroy;
