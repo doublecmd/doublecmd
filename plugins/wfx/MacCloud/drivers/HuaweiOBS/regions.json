@@ -1,0 +1,94 @@
+{
+  "regions": [
+  {
+    "name": "cn-east-3",
+    "displayName": "华东（上海一）",
+    "endPoint": "obs.cn-east-3.myhuaweicloud.com"
+  },
+  {
+    "name": "cn-east-2",
+    "displayName": "华东（上海二）",
+    "endPoint": "obs.cn-east-2.myhuaweicloud.com"
+  },
+  {
+    "name": "cn-north-1",
+    "displayName": "华北（北京一）",
+    "endPoint": "obs.cn-north-1.myhuaweicloud.com"
+  },
+  {
+    "name": "cn-north-4",
+    "displayName": "华北（北京四）",
+    "endPoint": "obs.cn-north-4.myhuaweicloud.com"
+  },
+  {
+    "name": "cn-north-9",
+    "displayName": "华北（乌兰察布一）",
+    "endPoint": "obs.cn-north-9.myhuaweicloud.com"
+  },
+  {
+    "name": "cn-south-1",
+    "displayName": "华南（广州）",
+    "endPoint": "obs.cn-south-1.myhuaweicloud.com"
+  },
+  {
+    "name": "cn-south-2",
+    "displayName": "华南（深圳）",
+    "endPoint": "obs.cn-south-2.myhuaweicloud.com"
+  },
+  {
+    "name": "cn-southwest-2",
+    "displayName": "西南（贵阳一）",
+    "endPoint": "obs.cn-southwest-2.myhuaweicloud.com"
+  },
+  {
+    "name": "ap-southeast-1",
+    "displayName": "亚太（香港）",
+    "endPoint": "obs.ap-southeast-1.myhuaweicloud.com"
+  },
+  {
+    "name": "ap-southeast-2",
+    "displayName": "亚太（曼谷）",
+    "endPoint": "obs.ap-southeast-2.myhuaweicloud.com"
+  },
+  {
+    "name": "ap-southeast-3",
+    "displayName": "亚太（新加坡）",
+    "endPoint": "obs.ap-southeast-3.myhuaweicloud.com"
+  },
+  {
+    "name": "ap-southeast-4",
+    "displayName": "亚太（雅加达）",
+    "endPoint": "obs.ap-southeast-4.myhuaweicloud.com"
+  },
+  {
+    "name": "af-south-1",
+    "displayName": "非洲（约翰内斯堡）",
+    "endPoint": "obs.af-south-1.myhuaweicloud.com"
+  },
+  {
+    "name": "na-mexico-1",
+    "displayName": "拉美（墨西哥城一）",
+    "endPoint": "obs.na-mexico-1.myhuaweicloud.com"
+  },
+  {
+    "name": "la-north-2",
+    "displayName": "拉美（墨西哥城二）",
+    "endPoint": "obs.la-north-2.myhuaweicloud.com"
+  },
+  {
+    "name": "la-south-2",
+    "displayName": "拉美（圣地亚哥）",
+    "endPoint": "obs.la-south-2.myhuaweicloud.com"
+  },
+  {
+    "name": "sa-brazil-1",
+    "displayName": "拉美（圣保罗一）",
+    "endPoint": "obs.sa-brazil-1.myhuaweicloud.com"
+  },
+  {
+    "name": "tr-west-1",
+    "displayName": "土耳其（伊斯坦布尔）",
+    "endPoint": "obs.tr-west-1.myhuaweicloud.com"
+  }
+  ]
+}
