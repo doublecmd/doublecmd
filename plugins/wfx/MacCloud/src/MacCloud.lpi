@@ -168,6 +168,11 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="uS3CompatibleClient"/>
       </Unit>
+      <Unit>
+        <Filename Value="drivers/aws/huaweiobs/uhuaweiobsclient.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uHuaweiOBSClient"/>
+      </Unit>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
@@ -177,7 +182,7 @@
     </Target>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir)"/>
-      <OtherUnitFiles Value="../../../../sdk;util;drivers/root;drivers;drivers/aws;drivers/aws/aliyunoss;drivers/oauth2/box;drivers/oauth2/dropbox;drivers/oauth2/onedrive;drivers/oauth2/yandex;wfx/ui;wfx;drivers/oauth2;drivers/aws/tencentcos;drivers/aws/amazons3;drivers/aws/s3compatible"/>
+      <OtherUnitFiles Value="../../../../sdk;util;drivers/root;drivers;drivers/aws;drivers/aws/aliyunoss;drivers/oauth2/box;drivers/oauth2/dropbox;drivers/oauth2/onedrive;drivers/oauth2/yandex;wfx/ui;wfx;drivers/oauth2;drivers/aws/tencentcos;drivers/aws/amazons3;drivers/aws/s3compatible;drivers/aws/huaweiobs"/>
       <UnitOutputDirectory Value="../lib/$(TargetCPU)-$(TargetOS)"/>
     </SearchPaths>
     <CodeGeneration>

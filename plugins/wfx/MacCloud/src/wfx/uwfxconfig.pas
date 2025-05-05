@@ -11,7 +11,8 @@ uses
   uWFXPlugin, uCloudDriver,
   uOAuth2Core, uOAuth2Client, uDropBoxClient, uYandexClient, uOneDriveClient, uBoxClient,
   uAWSCore, uS3Client,
-  uAmazonS3Client, uS3CompatibleClient, uAliyunOSSClient, uTencentCOSClient,
+  uAmazonS3Client, uS3CompatibleClient,
+  uAliyunOSSClient, uTencentCOSClient, uHuaweiOBSClient,
   uMiniUtil;
 
 type
@@ -563,6 +564,10 @@ begin
   WFXCloudDriverConfigManager.register( TTencentCOSClient.driverName, TWFXS3Config );
   cloudDriverManager.register( TTencentCOSClient );
   WFXCloudDriverMenuItems.add( TTencentCOSClient.driverName, 'Tencent Cloud COS' );
+
+  WFXCloudDriverConfigManager.register( THuaweiOBSClient.driverName, TWFXS3Config );
+  cloudDriverManager.register( THuaweiOBSClient );
+  WFXCloudDriverMenuItems.add( THuaweiOBSClient.driverName, 'Huawei Cloud OBS' );
 end;
 
 initialization
