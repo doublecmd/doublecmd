@@ -527,30 +527,42 @@ begin
   WFXCloudDriverConfigManager.register( TDropBoxClient.driverName, TWFXDropBoxConfig );
   dropBoxConfig:= TTokenCloudDriverConfig.Create( 'ahj0s9xia6i61gh', 'dc2ea085a05ac273a://dropbox/auth' );
   cloudDriverManager.register( TDropBoxClient );
+  WFXCloudDriverMenuItems.add( TDropBoxClient.driverName, 'DropBox' );
 
   WFXCloudDriverConfigManager.register( TYandexClient.driverName, TWFXYandexConfig );
   yandexConfig:= TTokenCloudDriverConfig.Create( 'eaf0c133568a46a0bd986bffb48c62b6', 'dc2ea085a05ac273a://yandex/auth' );
   cloudDriverManager.register( TYandexClient );
+  WFXCloudDriverMenuItems.add( TYandexClient.driverName, 'Yandex' );
 
   WFXCloudDriverConfigManager.register( TOneDriveClient.driverName, TWFXOneDriveConfig );
   oneDriveConfig:= TTokenCloudDriverConfig.Create( '', 'dc2ea085a05ac273a://onedrive/auth' );
   cloudDriverManager.register( TOneDriveClient );
+  WFXCloudDriverMenuItems.add( TOneDriveClient.driverName, 'OneDrive' );
 
   WFXCloudDriverConfigManager.register( TBoxClient.driverName, TWFXBoxConfig );
   boxConfig:= TTokenCloudDriverConfigWithSecret.Create( '', '', 'dc2ea085a05ac273a://box/auth' );
   cloudDriverManager.register( TBoxClient );
+  WFXCloudDriverMenuItems.add( TBoxClient.driverName, 'Box' );
+
+  WFXCloudDriverMenuItems.addSeparator;
 
   WFXCloudDriverConfigManager.register( TAmazonS3Client.driverName, TWFXS3Config );
   cloudDriverManager.register( TAmazonS3Client );
+  WFXCloudDriverMenuItems.add( TAmazonS3Client.driverName, 'Amazon S3' );
 
   WFXCloudDriverConfigManager.register( TS3CompatibleClient.driverName, TWFXS3Config );
   cloudDriverManager.register( TS3CompatibleClient );
+  WFXCloudDriverMenuItems.add( TS3CompatibleClient.driverName, 'S3 Compatible' );
+
+  WFXCloudDriverMenuItems.addSeparator;
 
   WFXCloudDriverConfigManager.register( TAliyunOSSClient.driverName, TWFXS3Config );
   cloudDriverManager.register( TAliyunOSSClient );
+  WFXCloudDriverMenuItems.add( TAliyunOSSClient.driverName, 'Alibaba Cloud OSS' );
 
   WFXCloudDriverConfigManager.register( TTencentCOSClient.driverName, TWFXS3Config );
   cloudDriverManager.register( TTencentCOSClient );
+  WFXCloudDriverMenuItems.add( TTencentCOSClient.driverName, 'Tencent Cloud COS' );
 end;
 
 initialization

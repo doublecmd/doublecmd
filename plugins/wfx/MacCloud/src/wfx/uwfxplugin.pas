@@ -69,9 +69,39 @@ type
     property connections: TWFXConnections read _connections write setConnections;
   end;
 
+  { TWFXCloudDriverMenuItem }
+
+  TWFXCloudDriverMenuItem = class
+  private
+    _name: String;
+    _displayName: String;
+  public
+    constructor Create( const name: String; const displayName: String );
+    property name: String read _name;
+    property displayName: String read _displayName;
+  end;
+
+  { TWFXCloudDriverMenuItems }
+
+  TWFXCloudDriverMenuItems = class
+  private
+    _items: TFPObjectList;
+  public
+    constructor Create;
+    destructor Destroy; override;
+  public
+    procedure add( const item: TWFXCloudDriverMenuItem ); overload;
+    procedure add( const name: String; const displayName: String ); overload;
+    procedure addSeparator;
+    function count: Integer;
+    function getItem( index: Integer ): TWFXCloudDriverMenuItem;
+    property Items[Index: Integer]: TWFXCloudDriverMenuItem read getItem; default;
+  end;
+
 var
   WFXMacCloudPlugin: TWFXMacCloudPlugin;
   WFXConnectionManager: TWFXConnectionManager;
+  WFXCloudDriverMenuItems: TWFXCloudDriverMenuItems;
 
 implementation
 
@@ -168,13 +198,63 @@ begin
   _connections.Remove( connection );
 end;
 
+{ TWFXCloudDriverMenuItem }
+
+constructor TWFXCloudDriverMenuItem.Create(const name: String;
+  const displayName: String);
+begin
+  _name:= name;
+  _displayName:= displayName;
+end;
+
+{ TWFXCloudDriverMenuItems }
+
+constructor TWFXCloudDriverMenuItems.Create;
+begin
+  _items:= TFPObjectList.Create;
+end;
+
+destructor TWFXCloudDriverMenuItems.Destroy;
+begin
+  FreeAndNil( _items );
+end;
+
+procedure TWFXCloudDriverMenuItems.add(const item: TWFXCloudDriverMenuItem);
+begin
+  _items.Add( item );
+end;
+
+procedure TWFXCloudDriverMenuItems.add(const name: String;
+  const displayName: String);
+begin
+  self.add( TWFXCloudDriverMenuItem.Create(name, displayName ) );
+end;
+
+procedure TWFXCloudDriverMenuItems.addSeparator;
+begin
+  self.add( EmptyStr, EmptyStr );
+end;
+
+function TWFXCloudDriverMenuItems.count: Integer;
+begin
+  Result:= _items.Count;
+end;
+
+function TWFXCloudDriverMenuItems.getItem(index: Integer
+  ): TWFXCloudDriverMenuItem;
+begin
+  Result:= TWFXCloudDriverMenuItem( _items[index] );
+end;
+
 initialization
   cloudDriverManager:= TCloudDriverManager.Create;
   WFXConnectionManager:= TWFXConnectionManager.Create;
+  WFXCloudDriverMenuItems:= TWFXCloudDriverMenuItems.Create;
 
 finalization
   FreeAndNil( WFXConnectionManager );
   FreeAndNil( cloudDriverManager );
+  FreeAndNil( WFXCloudDriverMenuItems );
 
 end.
 

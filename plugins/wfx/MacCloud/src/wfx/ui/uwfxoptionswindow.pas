@@ -123,6 +123,7 @@ var
 
   function createDriverMenu: NSPopUpButton;
   var
+    menuItem: TWFXCloudDriverMenuItem;
     driver: TCloudDriverClass;
     dropDown: NSPopUpButton;
     icon: NSImage;
@@ -130,13 +131,18 @@ var
   begin
     frameRect:= NSMakeRect( 30, 72, 250, 30 );
     dropDown:= NSPopUpButton.alloc.initWithFrame( frameRect );
-    for i:=0 to cloudDriverManager.driverClasses.Count-1 do begin
-      driver:= TCloudDriverClass( cloudDriverManager.driverClasses[i] );
-      dropDown.addItemWithTitle( StringToNSString(driver.driverName) );
-      icon:= TWFXPluginUtil.driverMainIcon( driver );
-      icon.setSize( NSMakeSize(16,16) );
-      dropDown.lastItem.setImage( icon );
-      icon.release;
+    for i:=0 to WFXCloudDriverMenuItems.Count-1 do begin
+      menuItem:= WFXCloudDriverMenuItems[i];
+      if menuItem.name <> EmptyStr then begin
+        dropDown.addItemWithTitle( StringToNSString(menuItem.displayName) );
+        driver:= cloudDriverManager.find( menuItem.name );
+        icon:= TWFXPluginUtil.driverMainIcon( driver );
+        icon.setSize( NSMakeSize(16,16) );
+        dropDown.lastItem.setImage( icon );
+        icon.release;
+      end else begin
+        dropDown.menu.addItem( NSMenuItem.separatorItem );
+      end;
     end;
     Result:= dropDown;
   end;
@@ -254,15 +260,17 @@ var
   driverIndex: Integer;
   driver: TCloudDriver;
   configItem: TWFXConnectionConfigItem;
+  menuItem: TWFXCloudDriverMenuItem;
   index: Integer;
 begin
   driverIndex:= TWFXSelectDriverWindow.showModal;
   if driverIndex < 0 then
     Exit;
 
-  driver:= cloudDriverManager.createInstance( driverIndex );
+  menuItem:= WFXCloudDriverMenuItems[driverIndex];
+  driver:= cloudDriverManager.createInstance( menuItem.name );
   if connectionName.length = 0 then
-    connectionName:= StringToNSString( 'New (' + driver.driverName + ')' );
+    connectionName:= StringToNSString( menuItem.displayName + ' (New)' );
   configItem:= TWFXConnectionConfigItem.new;
   configItem.setCreating( True );
   configItem.setName( connectionName );
