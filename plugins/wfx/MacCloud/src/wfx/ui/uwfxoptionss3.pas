@@ -150,7 +150,7 @@ begin
     if item.regionName.isEqualToString(region) then
       Exit( i );
   end;
-  Result:= _items.Count;     // (User Custom)
+  Result:= -1;     // (User Custom)
 end;
 
 { TWFXS3PropertyView }
@@ -187,7 +187,7 @@ var
   index: Integer;
   configItem: TWFXS3RegionConfigItem;
 begin
-  index:= _regionDropDown.indexOfSelectedItem;
+  index:= _regionDropDown.indexOfSelectedItem - 1;
   if (index<0) OR (index>=_regionItems.Count) then
     Exit;
 
@@ -209,10 +209,10 @@ begin
     Exit;
   client:= TAWSCloudDriver( configItem.driver );
 
-  self.loadRegionItems( client );
-  if _regionDropDown.itemArray.count = 0 then
-    _regionDropDown.setEnabled( False );
   _regionDropDown.addItemWithTitle( StringToNSString('(User Custom)') );
+  self.loadRegionItems( client );
+  if _regionDropDown.itemArray.count = 1 then
+    _regionDropDown.setEnabled( False );
 
   connectionData:= client.getConnectionData;
   accessKey:= client.getAccessKey;
@@ -225,7 +225,7 @@ begin
   _bucketTextField.setStringValue( StringToNSString(connectionData.defaultBucket) );
   regionIndex:= _regionItems.indexOfRegion( _regionTextField.stringValue );
   if regionIndex >= 0 then
-    _regionDropDown.selectItemAtIndex( regionIndex );
+    _regionDropDown.selectItemAtIndex( regionIndex + 1 );
 end;
 
 procedure TWFXS3PropertyView.saveConnection(sender: NSObject);
