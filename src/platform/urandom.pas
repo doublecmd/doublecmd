@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Cryptographically secure pseudo-random number generator
 
-   Copyright (C) 2017 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2017-2025 Alexander Koblov (alexx2000@mail.ru)
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Lesser General Public
@@ -50,8 +50,11 @@ threadvar
   Context: isaac_ctx;
 
 {$IF DEFINED(MSWINDOWS)}
+const
+  BCRYPT_USE_SYSTEM_PREFERRED_RNG = $00000002;
 var
   RtlGenRandom: function(RandomBuffer: PByte; RandomBufferLength: ULONG): LongBool; stdcall;
+  BCryptGenRandom: function(hAlgorithm: Pointer; pbBuffer: PByte; cbBuffer, dwFlags: ULONG): LONG; stdcall;
 {$ELSEIF DEFINED(UNIX)}
 const
   random_dev = '/dev/urandom';
@@ -71,8 +74,14 @@ var
   Result: Boolean = False;
 begin
 {$IF DEFINED(MSWINDOWS)}
-  Result:= Assigned(RtlGenRandom);
-  if Result then Result:= RtlGenRandom(ABlock, ACount);
+  if (Win32MajorVersion > 5) and Assigned(BCryptGenRandom) then
+  begin
+    Result:= BCryptGenRandom(nil, ABlock, ACount, BCRYPT_USE_SYSTEM_PREFERRED_RNG) = 0;
+  end
+  else begin
+    Result:= Assigned(RtlGenRandom);
+    if Result then Result:= RtlGenRandom(ABlock, ACount);
+  end;
 {$ELSEIF DEFINED(UNIX)} {$IF DEFINED(LINUX)}
   if Assigned(getrandom) then
   begin
@@ -109,6 +118,10 @@ end;
 
 initialization
 {$IF DEFINED(MSWINDOWS)}
+  if (Win32MajorVersion > 5) then
+  begin
+    @BCryptGenRandom:= GetProcAddress(LoadLibraryExW('bcrypt.dll', 0, LOAD_LIBRARY_SEARCH_SYSTEM32), 'BCryptGenRandom');
+  end;
   @RtlGenRandom:= GetProcAddress(GetModuleHandle('advapi32.dll'), 'SystemFunction036');
 {$ELSEIF DEFINED(UNIX)}
   HasRandom:= mbFileAccess(random_dev, fmOpenRead);
