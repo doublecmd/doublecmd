@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Useful functions dealing with strings.
    
-   Copyright (C) 2006-2023  Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2006-2025  Alexander Koblov (alexx2000@mail.ru)
    Copyright (C) 2012       Przemyslaw Nagay (cobines@gmail.com)
 
    This program is free software; you can redistribute it and/or modify
@@ -650,7 +650,7 @@ end;
 function ReplaceInvalidChars(const FileName: String): String;
 const
 {$IFDEF MSWINDOWS}
-  ForbiddenChars : set of char = ['<','>',':','"','/','|','?','*'];
+  ForbiddenChars : set of char = [#00..#31, '<','>',':','"','/','|','?','*'];
 {$ELSE}
   ForbiddenChars : set of char = [#0];
 {$ENDIF}
@@ -671,7 +671,7 @@ end;
 function RemoveInvalidCharsFromFileName(const FileName: String): String;
 const
 {$IFDEF MSWINDOWS}
-  ForbiddenChars : set of char = ['<','>',':','"','/','\','|','?','*'];
+  ForbiddenChars : set of char = [#00..#31, '<','>',':','"','/','\','|','?','*'];
 {$ELSE}
   ForbiddenChars : set of char = ['/'];
 {$ENDIF}
