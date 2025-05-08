@@ -68,7 +68,7 @@ type
   { TCloudDriverOAuth2PKCESession }
 
   TCloudDriverOAuth2PKCESession = class( TCloudDriverOAuth2Session )
-  strict private
+  strict protected
     _codeVerifier: String;
   protected
     procedure onAuthorize( const queryItems: TQueryItemsDictonary ); override;
@@ -82,12 +82,18 @@ type
   { TCloudDriverOAuth2SecretSession }
 
   TCloudDriverOAuth2SecretSession = class( TCloudDriverOAuth2Session )
+  strict protected
+    _clientSecret: String;
   protected
     procedure onAuthorize( const queryItems: TQueryItemsDictonary ); override;
     procedure onRequestToken( const queryItems: TQueryItemsDictonary ); override;
     procedure onRefreshToken( const queryItems: TQueryItemsDictonary ); override;
     procedure onRevokeToken( const http: TMiniHttpClient ); override;
   public
+    constructor Create(
+      const driver: TCloudDriver;
+      const params: TCloudDriverOAuth2SessionParams;
+      const clientSecret: String );
     function clone(const driver: TCloudDriver): TCloudDriverOAuth2Session; override;
   end;
 
@@ -391,7 +397,6 @@ end;
 procedure TCloudDriverOAuth2SecretSession.onAuthorize(
   const queryItems: TQueryItemsDictonary);
 begin
-  queryItems.Add( 'client_id', _config.clientID );
   queryItems.Add( 'token', _token.access );
 end;
 
@@ -399,7 +404,7 @@ procedure TCloudDriverOAuth2SecretSession.onRequestToken( const queryItems: TQue
 var
   secret: String;
 begin
-  secret:= TTokenCloudDriverConfigWithSecret(_config).clientSecret;
+  secret:= _clientSecret;
   queryItems.Add( 'client_secret', secret );
 end;
 
@@ -413,7 +418,7 @@ var
   queryItems: TQueryItemsDictonary;
   secret: String;
 begin
-  secret:= TTokenCloudDriverConfigWithSecret(_config).clientSecret;
+  secret:= _clientSecret;
   queryItems:= TQueryItemsDictonary.Create;
   queryItems.Add( 'client_id', _config.clientID );
   queryItems.Add( 'client_secret', secret );
@@ -421,9 +426,16 @@ begin
   http.setQueryParams( queryItems );
 end;
 
+constructor TCloudDriverOAuth2SecretSession.Create(const driver: TCloudDriver;
+  const params: TCloudDriverOAuth2SessionParams; const clientSecret: String);
+begin
+  Inherited Create( driver, params );
+  _clientSecret:= clientSecret;
+end;
+
 function TCloudDriverOAuth2SecretSession.clone( const driver: TCloudDriver ): TCloudDriverOAuth2Session;
 begin
-  Result:= TCloudDriverOAuth2SecretSession.Create( driver, _params );
+  Result:= TCloudDriverOAuth2SecretSession.Create( driver, _params, _clientSecret );
   Result._accountID:= _accountID;
   Result._token:= _token.clone;
 end;

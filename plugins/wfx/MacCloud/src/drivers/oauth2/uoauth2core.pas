@@ -27,16 +27,6 @@ type
 
   TTokenCloudDriverConfigPtr = ^TTokenCloudDriverConfig;
 
-  { TTokenCloudDriverConfigWithSecret }
-
-  TTokenCloudDriverConfigWithSecret = class( TTokenCloudDriverConfig )
-  private
-    _clientSecret: String;
-  public
-    constructor Create( const aClientID: String; const aClientSecret: String; const aListenURI: String );
-    property clientSecret: String read _clientSecret;
-  end;
-
   { TCloudDriverToken }
 
   TCloudDriverToken = class
@@ -77,15 +67,6 @@ constructor TTokenCloudDriverConfig.Create(
 begin
   _clientID:= aClientID;
   _listenURI:= aListenURI;
-end;
-
-{ TTokenCloudDriverConfigWithSecret }
-
-constructor TTokenCloudDriverConfigWithSecret.Create(const aClientID: String;
-  const aClientSecret: String; const aListenURI: String);
-begin
-  Inherited Create( aClientID, aListenURI );
-  _clientSecret:= aClientSecret;
 end;
 
 { TCloudDriverToken }

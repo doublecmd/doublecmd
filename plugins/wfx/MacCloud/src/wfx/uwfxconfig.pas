@@ -114,19 +114,13 @@ type
 class procedure TWFXTokenCloudDriverConfig.loadDriverCommon(const params: NSDictionary);
 var
   clientID: String;
-  clientSecret: String;
   listenURI: String;
   oldCloudDriverConfig: TTokenCloudDriverConfig;
 begin
   clientID:= TJsonUtil.getString( params, 'clientID' );
-  clientSecret:= TJsonUtil.getString( params, 'clientSecret' );
   listenURI:= TJsonUtil.getString( params, 'listenURI' );
   oldCloudDriverConfig:= self.cloudDriverConfigPtr^;
-  if clientSecret = EmptyStr then begin
-    self.cloudDriverConfigPtr^:= TTokenCloudDriverConfig.Create( clientID, listenURI );
-  end else begin
-    self.cloudDriverConfigPtr^:= TTokenCloudDriverConfigWithSecret.Create( clientID, clientSecret, listenURI );
-  end;
+  self.cloudDriverConfigPtr^:= TTokenCloudDriverConfig.Create( clientID, listenURI );
   if Assigned(oldCloudDriverConfig) then
     oldCloudDriverConfig.Free;
   cloudDriverManager.register( self.cloudDriverClass );
@@ -139,8 +133,6 @@ begin
   cloudDriverConfig:= self.cloudDriverConfigPtr^;
   TJsonUtil.setString( params, 'clientID', cloudDriverConfig.clientID );
   TJsonUtil.setString( params, 'listenURI', cloudDriverConfig.listenURI );
-  if cloudDriverConfig is TTokenCloudDriverConfigWithSecret then
-    TJsonUtil.setString( params, 'clientSecret', TTokenCloudDriverConfigWithSecret(cloudDriverConfig).clientSecret );
 end;
 
 class procedure TWFXTokenCloudDriverConfig.loadConnectionCommon( const driver: TCloudDriver; const params: NSDictionary );
@@ -543,7 +535,7 @@ begin
   WFXCloudDriverMenuItems.add( TOneDriveClient.driverName, 'OneDrive' );
 
   WFXCloudDriverConfigManager.register( TBoxClient.driverName, TWFXBoxConfig );
-  boxConfig:= TTokenCloudDriverConfigWithSecret.Create( '', '', 'dc2ea085a05ac273a://box/auth' );
+  boxConfig:= TTokenCloudDriverConfig.Create( 'rtm1apih0scrk1we9dnzej7fezd9t2xb', 'dc2ea085a05ac273a://box/auth' );
   cloudDriverManager.register( TBoxClient );
   WFXCloudDriverMenuItems.add( TBoxClient.driverName, 'Box' );
 

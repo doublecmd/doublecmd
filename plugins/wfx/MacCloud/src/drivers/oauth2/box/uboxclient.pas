@@ -107,6 +107,9 @@ var
 
 implementation
 
+const
+  BOX_CLIENT_SECRET = '*';
+
 { TBoxListFolderSession }
 
 procedure TBoxListFolderSession.listFolderFirst;
@@ -525,7 +528,7 @@ begin
   params.TOKEN_URI:= BoxConst.URI.TOKEN;
   params.REVOKE_TOKEN_URI:= BoxConst.URI.REVOKE_TOKEN;
   params.AUTH_TYPE:= 'Bearer';
-  _authSession:= TCloudDriverOAuth2SecretSession.Create( self, params );
+  _authSession:= TCloudDriverOAuth2SecretSession.Create( self, params, BOX_CLIENT_SECRET );
 end;
 
 function TBoxClient.clone: TCloudDriver;
