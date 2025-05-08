@@ -43,6 +43,11 @@ jobs:
       with:
         fetch-depth: 0
 
+    - name: Prepare source
+      run: sed -i -e "s|BOX_CLIENT_SECRET = '\*'|BOX_CLIENT_SECRET = '$BOX_CLIENT_SECRET'|g" plugins/wfx/MacCloud/src/drivers/oauth2/box/uboxclient.pas
+      env:
+        BOX_CLIENT_SECRET: ${{ secrets.BOX_CLIENT_SECRET }}
+
     - name: Build packages
       run: ./.github/scripts/create_snapshot.sh
 
