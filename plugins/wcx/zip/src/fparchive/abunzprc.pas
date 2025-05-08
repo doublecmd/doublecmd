@@ -1214,7 +1214,7 @@ begin
           finally {OutStream}
             OutStream.Free;
           end;   {OutStream}
-          if not CreateSymLink(LinkTarget, UseName) then
+          if not CreateSymLink(LinkTarget, UseName, UInt32(Item.NativeFileAttributes)) then
             RaiseLastOSError;
         except
           if ExceptObject is EAbUserAbort then
