@@ -3527,17 +3527,17 @@ end;
 
 procedure TMainCommands.cm_SymLink(const Params: array of string);
 var
-  sExistingFile, sLinkToCreate: String;
+  AFile: TFile;
   SelectedFiles: TFiles;
+  sExistingFile, sLinkToCreate: String;
 begin
   with frmMain do
   begin
-    // Symlinks work only for file system.
-    if not (ActiveFrame.FileSource.IsClass(TFileSystemFileSource)) then
+    // Symlinks works only for local file system
+    if ([fspDirectAccess, fspLinksToLocalFiles] * ActiveFrame.FileSource.Properties = []) then
     begin
       msgWarning(rsMsgErrNotSupported);
       Exit;
-      // Or create a symlink in temp filesystem and CopyIn to target file source.
     end;
 
     SelectedFiles := ActiveFrame.CloneSelectedOrActiveFiles;
@@ -3548,7 +3548,14 @@ begin
         msgWarning(rsMsgNoFilesSelected)
       else
       begin
-        sExistingFile := SelectedFiles[0].Path + SelectedFiles[0].Name;
+        AFile:= SelectedFiles[0];
+
+        if fspLinksToLocalFiles in ActiveFrame.FileSource.Properties then
+        begin
+          ActiveFrame.FileSource.GetLocalName(AFile);
+        end;
+
+        sExistingFile := AFile.FullPath;
 
         if Length(Params) > 0 then
           sLinkToCreate := Params[0]
@@ -3560,7 +3567,7 @@ begin
             sLinkToCreate := ActiveFrame.CurrentPath;
         end;
 
-        sLinkToCreate := sLinkToCreate + SelectedFiles[0].Name;
+        sLinkToCreate := sLinkToCreate + AFile.Name;
 
         if ShowSymLinkForm(frmMain, sExistingFile, sLinkToCreate, ActiveFrame.CurrentPath) then
         begin
@@ -3578,13 +3585,14 @@ end;
 
 procedure TMainCommands.cm_HardLink(const Params: array of string);
 var
-  sExistingFile, sLinkToCreate: String;
+  AFile: TFile;
   SelectedFiles: TFiles;
+  sExistingFile, sLinkToCreate: String;
 begin
   with frmMain do
   begin
-    // Hard links work only for file system.
-    if not (ActiveFrame.FileSource.IsClass(TFileSystemFileSource)) then
+    // Hard links works only for local file system
+    if ([fspDirectAccess, fspLinksToLocalFiles] * ActiveFrame.FileSource.Properties = []) then
     begin
       msgWarning(rsMsgErrNotSupported);
       Exit;
@@ -3598,7 +3606,14 @@ begin
         msgWarning(rsMsgNoFilesSelected)
       else
       begin
-        sExistingFile := SelectedFiles[0].Path + SelectedFiles[0].Name;
+        AFile:= SelectedFiles[0];
+
+        if fspLinksToLocalFiles in ActiveFrame.FileSource.Properties then
+        begin
+          ActiveFrame.FileSource.GetLocalName(AFile);
+        end;
+
+        sExistingFile := AFile.FullPath;
 
         if Length(Params) > 0 then
           sLinkToCreate := Params[0]
@@ -3610,7 +3625,7 @@ begin
             sLinkToCreate := ActiveFrame.CurrentPath;
         end;
 
-        sLinkToCreate := sLinkToCreate + SelectedFiles[0].Name;
+        sLinkToCreate := sLinkToCreate + AFile.Name;
 
         if ShowHardLinkForm(frmMain, sExistingFile, sLinkToCreate, ActiveFrame.CurrentPath) then
         begin
