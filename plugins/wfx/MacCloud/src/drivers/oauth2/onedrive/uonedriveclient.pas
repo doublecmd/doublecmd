@@ -555,8 +555,11 @@ begin
 end;
 
 function TOneDriveClient.createLister( const path: String ): TCloudDriverLister;
+var
+  session: TCloudDriverListFolderSession;
 begin
-  Result:= TCloudDriverDefaultLister.Create( TOneDriveListFolderSession, _authSession, path );
+  session:=  TOneDriveListFolderSession.Create( _authSession, path );
+  Result:= TCloudDriverDefaultLister.Create( session );
 end;
 
 procedure TOneDriveClient.download(

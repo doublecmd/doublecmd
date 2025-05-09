@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils,
-  uCloudDriver, uAWSAuth, uS3Client;
+  uCloudDriver, uS3Client;
 
 type
   

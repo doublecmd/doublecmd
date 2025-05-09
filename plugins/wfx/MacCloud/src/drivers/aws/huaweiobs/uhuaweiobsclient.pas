@@ -6,9 +6,19 @@ interface
 
 uses
   Classes, SysUtils,
-  uCloudDriver, uAWSAuth, uS3Client;
+  CocoaAll,
+  uCloudDriver, uS3Client,
+  uMiniUtil;
 
 type
+
+  { THuaweiOBSGetAllBucketsSession }
+
+  THuaweiOBSGetAllBucketsSession = class( TS3GetAllBucketsSession )
+  protected
+    procedure constructBucket( const bucket: TS3Bucket; const xmlBucket: NSXMLElement ); override;
+    function getEndPointOfRegion(const region: String): String; override;
+  end;
 
   { THuaweiOBSClient }
 
@@ -17,9 +27,26 @@ type
     class function driverName: String; override;
     class function createInstance: TCloudDriver; override;
     function getConcreteClass: TCloudDriverClass; override;
+    function getAllBuckets: TS3Buckets; override;
   end;
 
 implementation
+
+{ THuaweiOBSGetAllBucketsSession }
+
+procedure THuaweiOBSGetAllBucketsSession.constructBucket( const bucket: TS3Bucket; const xmlBucket: NSXMLElement );
+begin
+  bucket.connectionData.region:= TXmlUtil.getString( xmlBucket, 'Location' );
+  bucket.connectionData.endPoint:= self.getEndPointOfRegion( bucket.connectionData.region );
+end;
+
+function THuaweiOBSGetAllBucketsSession.getEndPointOfRegion( const region: String ): String;
+begin
+  if region = EmptyStr then
+    Result:= 'obs.myhuaweicloud.com'
+  else
+    Result:= 'obs.' + region + '.myhuaweicloud.com';
+end;
 
 { THuaweiOBSClient }
 
@@ -36,6 +63,18 @@ end;
 function THuaweiOBSClient.getConcreteClass: TCloudDriverClass;
 begin
   Result:= THuaweiOBSClient;
+end;
+
+function THuaweiOBSClient.getAllBuckets: TS3Buckets;
+var
+  session: TS3GetAllBucketsSession = nil;
+begin
+  try
+    session:= THuaweiOBSGetAllBucketsSession.Create( _authSession );
+    Result:= session.listBuckets;
+  finally
+    FreeAndNil( session );
+  end;
 end;
 
 end.

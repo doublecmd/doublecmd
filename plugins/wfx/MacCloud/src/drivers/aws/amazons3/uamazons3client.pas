@@ -1,25 +1,79 @@
 unit uAmazonS3Client;
 
 {$mode ObjFPC}{$H+}
+{$modeswitch objectivec2}
 
 interface
 
 uses
   Classes, SysUtils,
-  uCloudDriver, uAWSAuth, uS3Client;
+  CocoaAll,
+  uCloudDriver, uAWSCore, uS3Client,
+  uMiniHttpClient, uMiniUtil;
 
 type
   
+  { TAmazonS3GetAllBucketsSession }
+
+  TAmazonS3GetAllBucketsSession = class( TS3GetAllBucketsSession )
+  protected
+    procedure constructBucket( const bucket: TS3Bucket; const xmlBucket: NSXMLElement ); override;
+    function getEndPointOfRegion(const region: String): String; override;
+    function getRegionOfBucket(const name: String): String;
+  end;
+
   { TAmazonS3Client }
 
   TAmazonS3Client = class( TS3Client )
   public
     class function driverName: String; override;
     class function createInstance: TCloudDriver; override;
+  protected
     function getConcreteClass: TCloudDriverClass; override;
+    function getAllBuckets: TS3Buckets; override;
   end;
 
 implementation
+
+{ TAmazonS3GetAllBucketsSession }
+
+procedure TAmazonS3GetAllBucketsSession.constructBucket( const bucket: TS3Bucket; const xmlBucket: NSXMLElement );
+begin
+  bucket.connectionData.region:= self.getRegionOfBucket( bucket.connectionData.bucketName );
+  bucket.connectionData.endPoint:= self.getEndPointOfRegion( bucket.connectionData.region );
+end;
+
+function TAmazonS3GetAllBucketsSession.getEndPointOfRegion( const region: String ): String;
+begin
+  if region = EmptyStr then
+    Result:= 's3.us-east-1.amazonaws.com'
+  else
+    Result:= 's3.' + region + '.amazonaws.com';
+end;
+
+function TAmazonS3GetAllBucketsSession.getRegionOfBucket( const name: String ): String;
+var
+  http: TMiniHttpClient = nil;
+  httpResult: TMiniHttpResult = nil;
+  cloudDriverResult: TCloudDriverResult = nil;
+  urlString: String;
+begin
+  try
+    urlString:= 'https://' + name + '.' + self.getEndPointOfRegion('') + '/';
+    http:= TMiniHttpClient.Create( urlString, HttpConst.Method.HEAD );
+    http.addHeader( AWSConst.HEADER.CONTENT_SHA256, AWSConst.HEADER.CONTENT_SHA256_DEFAULT_VALUE );
+    _authSession.setAuthHeader( http );
+
+    cloudDriverResult:= TCloudDriverResult.Create;
+    httpResult:= http.connect;
+    cloudDriverResult.httpResult:= httpResult;
+    cloudDriverResult.resultMessage:= httpResult.body;
+    Result:= httpResult.getHeader( AWSConst.HEADER.BUCKET_REGION );
+  finally
+    FreeAndNil( cloudDriverResult );
+    FreeAndNil( http );
+  end;
+end;
 
 { TAmazonS3Client }
 
@@ -36,6 +90,18 @@ end;
 function TAmazonS3Client.getConcreteClass: TCloudDriverClass;
 begin
   Result:= TAmazonS3Client;
+end;
+
+function TAmazonS3Client.getAllBuckets: TS3Buckets;
+var
+  session: TS3GetAllBucketsSession = nil;
+begin
+  try
+    session:= TAmazonS3GetAllBucketsSession.Create( _authSession );
+    Result:= session.listBuckets;
+  finally
+    FreeAndNil( session );
+  end;
 end;
 
 end.

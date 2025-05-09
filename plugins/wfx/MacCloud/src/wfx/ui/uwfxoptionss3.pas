@@ -215,7 +215,7 @@ begin
   if _regionDropDown.itemArray.count = 1 then
     _regionDropDown.setEnabled( False );
 
-  connectionData:= client.getConnectionData;
+  connectionData:= client.getDefaultConnectionData;
   accessKey:= client.getAccessKey;
   _logoImageView.setImage( TWFXPluginUtil.driverMainIcon(configItem.driver) );
   _nameTextField.setStringValue( configItem.name );
@@ -224,7 +224,7 @@ begin
   _accessKeyIDTextField.setStringValue( StringToNSString(accessKey.id) );
   _accessKeySecretTextField.setStringValue( StringToNSString(accessKey.secret) );
   _accessKeyTokenTextField.setStringValue( StringToNSString(accessKey.token) );
-  _bucketTextField.setStringValue( StringToNSString(connectionData.defaultBucket) );
+  _bucketTextField.setStringValue( StringToNSString(connectionData.bucketName) );
   regionIndex:= _regionItems.indexOfRegion( _regionTextField.stringValue );
   if regionIndex >= 0 then
     _regionDropDown.selectItemAtIndex( regionIndex + 1 );
@@ -248,8 +248,8 @@ begin
 
   data.region:= _regionTextField.stringValue.UTF8String;
   data.endPoint:= _endPointTextField.stringValue.UTF8String;
-  data.defaultBucket:= _bucketTextField.stringValue.UTF8String;;
-  client.setConnectionData( data );
+  data.bucketName:= _bucketTextField.stringValue.UTF8String;;
+  client.setDefaultConnectionData( data );
 
   accessKey:= TAWSAccessKey.Create(
     _accessKeyIDTextField.stringValue.UTF8String,

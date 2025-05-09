@@ -241,8 +241,8 @@ begin
   connectionData:= Default( TAWSConnectionData );
   connectionData.region:= TJsonUtil.getString( jsonConnectionData, 'region' );
   connectionData.endPoint:= TJsonUtil.getString( jsonConnectionData, 'endPoint' );
-  connectionData.defaultBucket:= TJsonUtil.getString( jsonConnectionData, 'defaultBucket' );
-  client.setConnectionData( connectionData );
+  connectionData.bucketName:= TJsonUtil.getString( jsonConnectionData, 'bucket' );
+  client.setDefaultConnectionData( connectionData );
 end;
 
 class procedure TWFXS3Config.saveConnectionCommon( const driver: TCloudDriver; const params: NSMutableDictionary );
@@ -252,10 +252,10 @@ var
   jsonConnectionData: NSMutableDictionary;
 begin
   jsonConnectionData:= NSMutableDictionary.new;
-  connectionData:= client.getConnectionData;
+  connectionData:= client.getDefaultConnectionData;
   TJsonUtil.setString( jsonConnectionData, 'region', connectionData.region );
   TJsonUtil.setString( jsonConnectionData, 'endPoint', connectionData.endPoint );
-  TJsonUtil.setString( jsonConnectionData, 'defaultBucket', connectionData.defaultBucket );
+  TJsonUtil.setString( jsonConnectionData, 'bucket', connectionData.bucketName );
   TJsonUtil.setDictionary( params, 'connectionData', jsonConnectionData );
   jsonConnectionData.release;
 end;

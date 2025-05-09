@@ -29,7 +29,6 @@ type
 
   TCloudDriverOAuth2Session = class( TCloudDriverAuthSession )
   strict protected
-    _driver: TCloudDriver;
     _params: TCloudDriverOAuth2SessionParams;
     _config: TTokenCloudDriverConfig;
     _state: String;
@@ -122,8 +121,8 @@ procedure TCloudDriverOAuth2Session.waitAuthorizationAndPrompt;
 begin
   NSApplication(NSAPP).setOpenURLObserver( @self.onRedirect );
   _alert:= NSAlert.new;
-  _alert.setMessageText( StringToNSString('Waiting for ' + _driver.driverName + ' authorization') );
-  _alert.setInformativeText( StringToNSString('Please login your ' + _driver.driverName + ' account in Safari and authorize Double Commander to access. '#13'The authorization is completed on the ' + _driver.driverName + ' official website, Double Command will not get your password.') );
+  _alert.setMessageText( StringToNSString('Waiting for ' + _cloudDriver.driverName + ' authorization') );
+  _alert.setInformativeText( StringToNSString('Please login your ' + _cloudDriver.driverName + ' account in Safari and authorize Double Commander to access. '#13'The authorization is completed on the ' + _cloudDriver.driverName + ' official website, Double Command will not get your password.') );
   _alert.addButtonWithTitle( NSSTR('Cancel') );
   _alert.runModal;
   NSApplication(NSAPP).setOpenURLObserver( nil );
@@ -176,7 +175,7 @@ begin
     if cloudDriverResult.httpResult.resultCode <> 200 then
       Exit;
     self.analyseTokenResult( cloudDriverResult.httpResult.body );
-    cloudDriverManager.driverUpdated( _driver );
+    cloudDriverManager.driverUpdated( _cloudDriver );
   finally
     FreeAndNil( cloudDriverResult );
     FreeAndNil( http );
@@ -226,7 +225,7 @@ begin
     if cloudDriverResult.httpResult.resultCode <> 200 then
       raise ECloudDriverAuthException.Create( 'RefreshToken Error' );
     self.analyseTokenResult( cloudDriverResult.httpResult.body );
-    cloudDriverManager.driverUpdated( _driver );
+    cloudDriverManager.driverUpdated( _cloudDriver );
   finally
     FreeAndNil( cloudDriverResult );
     FreeAndNil( http );
@@ -292,7 +291,7 @@ constructor TCloudDriverOAuth2Session.Create(
   const driver: TCloudDriver;
   const params: TCloudDriverOAuth2SessionParams );
 begin
-  _driver:= driver;
+  Inherited Create( driver );
   _params:= params;
   _config:= _params.config;
   _token:= TCloudDriverToken.Create;

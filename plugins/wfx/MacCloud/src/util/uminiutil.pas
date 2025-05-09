@@ -136,6 +136,7 @@ type
   public
     class function parse( const xmlString: String ): NSXMLElement;
     class function parse( const xmlString: NSString ): NSXMLElement;
+    class function getElement( const xml: NSXMLElement; const name: String ): NSXMLElement;
     class function getNSString( const xml: NSXMLElement; const name: String ): NSString;
     class function getString( const xml: NSXMLElement; const name: String ): String;
     class function getInteger( const xml: NSXMLElement; const name: String ): Integer;
@@ -574,7 +575,15 @@ begin
   doc.autorelease;
 end;
 
-class function TXmlUtil.getNSString(const xml: NSXMLElement; const name: String ): NSString;
+class function TXmlUtil.getElement( const xml: NSXMLElement; const name: String ): NSXMLElement;
+var
+  elements: NSArray;
+begin
+  elements:= xml.elementsForName( StringToNSString(name) );
+  Result:= NSXMLElement( elements.firstObject );
+end;
+
+class function TXmlUtil.getNSString( const xml: NSXMLElement; const name: String ): NSString;
 var
   elements: NSArray;
 begin

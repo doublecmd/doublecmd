@@ -6,10 +6,20 @@ interface
 
 uses
   Classes, SysUtils,
-  uCloudDriver, uAWSAuth, uS3Client;
+  CocoaAll,
+  uCloudDriver, uS3Client,
+  uMiniUtil;
 
 type
   
+  { TAliyunOSSGetAllBucketsSession }
+
+  TAliyunOSSGetAllBucketsSession = class( TS3GetAllBucketsSession )
+  protected
+    procedure constructBucket( const bucket: TS3Bucket; const xmlBucket: NSXMLElement ); override;
+    function getEndPointOfRegion(const region: String): String; override;
+  end;
+
   { TAliyunOSSClient }
 
   TAliyunOSSClient = class( TS3Client )
@@ -17,9 +27,26 @@ type
     class function driverName: String; override;
     class function createInstance: TCloudDriver; override;
     function getConcreteClass: TCloudDriverClass; override;
+    function getAllBuckets: TS3Buckets; override;
   end;
 
 implementation
+
+{ TAliyunOSSGetAllBucketsSession }
+
+procedure TAliyunOSSGetAllBucketsSession.constructBucket( const bucket: TS3Bucket; const xmlBucket: NSXMLElement );
+begin
+  bucket.connectionData.region:= TXmlUtil.getString( xmlBucket, 'Region' );
+  bucket.connectionData.endPoint:= TXmlUtil.getString( xmlBucket, 'ExtranetEndpoint' );
+end;
+
+function TAliyunOSSGetAllBucketsSession.getEndPointOfRegion( const region: String ): String;
+begin
+  if region = EmptyStr then
+    Result:= 'oss.aliyuncs.com'
+  else
+    Result:= 'oss-' + region + '.aliyuncs.com';
+end;
 
 { TAliyunOSSClient }
 
@@ -36,6 +63,18 @@ end;
 function TAliyunOSSClient.getConcreteClass: TCloudDriverClass;
 begin
   Result:= TAliyunOSSClient;
+end;
+
+function TAliyunOSSClient.getAllBuckets: TS3Buckets;
+var
+  session: TS3GetAllBucketsSession = nil;
+begin
+  try
+    session:= TAliyunOSSGetAllBucketsSession.Create( _authSession );
+    Result:= session.listBuckets;
+  finally
+    FreeAndNil( session );
+  end;
 end;
 
 end.

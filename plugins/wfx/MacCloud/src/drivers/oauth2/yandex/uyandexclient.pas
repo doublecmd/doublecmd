@@ -536,8 +536,11 @@ begin
 end;
 
 function TYandexClient.createLister( const path: String ): TCloudDriverLister;
+var
+  session: TCloudDriverListFolderSession;
 begin
-  Result:= TCloudDriverDefaultLister.Create( TYandexListFolderSession, _authSession, path );
+  session:=  TYandexListFolderSession.Create( _authSession, path );
+  Result:= TCloudDriverDefaultLister.Create( session );
 end;
 
 procedure TYandexClient.download(

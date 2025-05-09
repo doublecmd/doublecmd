@@ -653,8 +653,11 @@ begin
 end;
 
 function TDropBoxClient.createLister( const path: String ): TCloudDriverLister;
+var
+  session: TCloudDriverListFolderSession;
 begin
-  Result:= TCloudDriverDefaultLister.Create( TDropBoxListFolderSession, _authSession, path );
+  session:=  TDropBoxListFolderSession.Create( _authSession, path );
+  Result:= TCloudDriverDefaultLister.Create( session );
 end;
 
 procedure TDropBoxClient.download(

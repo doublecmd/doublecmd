@@ -120,9 +120,13 @@ type
   { TCloudDriverAuthSession }
 
   TCloudDriverAuthSession = class
+  strict protected
+    _cloudDriver: TCloudDriver;
   public
+    constructor Create( const driver: TCloudDriver );
     procedure setAuthHeader( const http: TMiniHttpClient ); virtual; abstract;
     function clone( const driver: TCloudDriver ): TCloudDriverAuthSession; virtual; abstract;
+    property cloudDriver: TCloudDriver read _cloudDriver;
   end;
 
   { TCloudDriverListFolderSession }
@@ -226,12 +230,9 @@ type
 
   TCloudDriverDefaultLister = class( TCloudDriverLister )
   private
-    _listFolderSession: TCloudDriverListFolderSession;
+    _session: TCloudDriverListFolderSession;
   public
-    constructor Create(
-      const sessionClass: TCloudDriverListFolderSessionClass;
-      const authSession: TCloudDriverAuthSession;
-      const path: String );
+    constructor Create( const session: TCloudDriverListFolderSession );
     destructor Destroy; override;
     procedure listFolderBegin; override;
     function  listFolderGetNextFile: TCloudFile; override;
@@ -352,27 +353,24 @@ end;
 
 { TCloudDriverDefaultLister }
 
-constructor TCloudDriverDefaultLister.Create(
-  const sessionClass: TCloudDriverListFolderSessionClass;
-  const authSession: TCloudDriverAuthSession;
-  const path: String);
+constructor TCloudDriverDefaultLister.Create( const session: TCloudDriverListFolderSession );
 begin
-  _listFolderSession:= sessionClass.Create( authSession, path );
+  _session:= session;
 end;
 
 destructor TCloudDriverDefaultLister.Destroy;
 begin
-  FreeAndNil( _listFolderSession );
+  FreeAndNil( _session );
 end;
 
 procedure TCloudDriverDefaultLister.listFolderBegin;
 begin
-  _listFolderSession.listFolderFirst;
+  _session.listFolderFirst;
 end;
 
 function TCloudDriverDefaultLister.listFolderGetNextFile: TCloudFile;
 begin
-  Result:= _listFolderSession.getNextFile;
+  Result:= _session.getNextFile;
 end;
 
 procedure TCloudDriverDefaultLister.listFolderEnd;
@@ -428,6 +426,13 @@ procedure TCloudDriverManager.driverUpdated(const driver: TCloudDriver);
 begin
   if Assigned(_observer) then
     _observer.driverUpdated( driver );
+end;
+
+{ TCloudDriverAuthSession }
+
+constructor TCloudDriverAuthSession.Create(const driver: TCloudDriver);
+begin
+  _cloudDriver:= driver;
 end;
 
 end.

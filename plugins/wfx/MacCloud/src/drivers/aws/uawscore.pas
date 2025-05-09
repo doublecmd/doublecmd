@@ -50,15 +50,15 @@ type
   TAWSConnectionData = record
     region: String;
     endPoint: String;
-    defaultBucket: String;
+    bucketName: String;
   end;
 
   { TAWSCloudDriver }
 
   TAWSCloudDriver = class( TCloudDriver )
   public
-    function getConnectionData: TAWSConnectionData; virtual; abstract;
-    procedure setConnectionData( const connectionData: TAWSConnectionData ); virtual; abstract;
+    function getDefaultConnectionData: TAWSConnectionData; virtual; abstract;
+    procedure setDefaultConnectionData( const connectionData: TAWSConnectionData ); virtual; abstract;
     function getAccessKey: TAWSAccessKey; virtual; abstract;
     procedure setAccessKey( const accessKey: TAWSAccessKey ); virtual; abstract;
   end;
@@ -67,6 +67,7 @@ type
 
   TAWSConstHeader = record
     DATE: String;
+    BUCKET_REGION: String;
     SECURITY_TOKEN: String;
     COPY_SOURCE: String;
     CONTENT_SHA256: String;
@@ -83,6 +84,7 @@ const
   AWSConst: TAWSConst = (
     HEADER: (
       DATE: 'x-amz-date';
+      BUCKET_REGION: 'x-amz-bucket-region';
       SECURITY_TOKEN: 'x-amz-security-token';
       COPY_SOURCE: 'x-amz-copy-source';
       CONTENT_SHA256: 'x-amz-content-sha256';

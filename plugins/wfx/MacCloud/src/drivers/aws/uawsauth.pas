@@ -19,7 +19,7 @@ type
 
   TAWSAuthSessionParams = record
     config: TAWSCredentialConfig;
-    connectionData: TAWSConnectionData;
+    defaultConnectionData: TAWSConnectionData;
   end;
 
   { TAWSSigner }
@@ -35,6 +35,7 @@ type
     constructor Create(
       const params: TAWSAuthSessionParams;
       const accessKey: TAWSAccessKey;
+      const connectionData: TAWSConnectionData;
       const request: NSMutableURLRequest );
   protected
     function buildDateYYYYMMDDString: NSString;
@@ -57,15 +58,16 @@ type
   private
     procedure addNeededHeader( const request: NSMutableURLRequest );
   public
-    constructor Create( const params: TAWSAuthSessionParams );
+    constructor Create( const driver: TCloudDriver; const params: TAWSAuthSessionParams );
     destructor Destroy; override;
     procedure setAccessKey( const accessKey: TAWSAccessKey );
     function clone( const driver: TCloudDriver ): TCloudDriverAuthSession; override;
-    procedure setAuthHeader( const http: TMiniHttpClient ); override;
+    procedure setAuthHeader(const http: TMiniHttpClient); override;
+    procedure setAuthHeader( const http: TMiniHttpClient; const connectionData: TAWSConnectionData ); virtual; overload;
   public
     property params: TAWSAuthSessionParams read _params;
     property accessKey: TAWSAccessKey read _accessKey write setAccessKey;
-    property connectionData: TAWSConnectionData read _params.connectionData write _params.connectionData;
+    property defaultConnectionData: TAWSConnectionData read _params.defaultConnectionData write _params.defaultConnectionData;
   end;
 
 implementation
@@ -121,8 +123,11 @@ begin
   addTokenHeaderIfNeeded;
 end;
 
-constructor TAWSAuthSession.Create( const params: TAWSAuthSessionParams );
+constructor TAWSAuthSession.Create(
+  const driver: TCloudDriver;
+  const params: TAWSAuthSessionParams);
 begin
+  Inherited Create( driver );
   _params:= params;
   _accessKey:= TAWSAccessKey.Create( '', '', '' );
 end;
@@ -136,12 +141,19 @@ function TAWSAuthSession.clone( const driver: TCloudDriver ): TCloudDriverAuthSe
 var
   session: TAWSAuthSession;
 begin
-  session:= TAWSAuthSession.Create( _params );
+  session:= TAWSAuthSession.Create( driver, _params );
   session.setAccessKey( _accessKey.clone );
   Result:= session;
 end;
 
-procedure TAWSAuthSession.setAuthHeader( const http: TMiniHttpClient );
+procedure TAWSAuthSession.setAuthHeader(const http: TMiniHttpClient);
+begin
+  self.setAuthHeader( http, self.defaultConnectionData );
+end;
+
+procedure TAWSAuthSession.setAuthHeader(
+  const http: TMiniHttpClient;
+  const connectionData: TAWSConnectionData );
 var
   request: NSMutableURLRequest;
   authString: NSString;
@@ -150,7 +162,7 @@ begin
   try
     request:= http.request;
     self.addNeededHeader( request );
-    signer:= TAWSSigner.Create( params, _accessKey, request );
+    signer:= TAWSSigner.Create( params, _accessKey, connectionData, request );
     authString:= signer.buildAuthString;
     http.addHeader( HttpConst.Header.Authorization, authString );
   finally
@@ -172,11 +184,12 @@ end;
 constructor TAWSSigner.Create(
   const params: TAWSAuthSessionParams;
   const accessKey: TAWSAccessKey;
+  const connectionData: TAWSConnectionData;
   const request: NSMutableURLRequest );
 begin
   _params:= params;
   _config:= _params.config;
-  _connectionData:= _params.connectionData;
+  _connectionData:= connectionData;
   _accessKey:= accessKey;
   _request:= request;
 end;

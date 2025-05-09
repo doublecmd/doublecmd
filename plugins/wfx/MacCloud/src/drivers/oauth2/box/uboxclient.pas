@@ -542,8 +542,11 @@ begin
 end;
 
 function TBoxClient.createLister( const path: String ): TCloudDriverLister;
+var
+  session: TCloudDriverListFolderSession;
 begin
-  Result:= TCloudDriverDefaultLister.Create( TBoxListFolderSession, _authSession, path );
+  session:=  TBoxListFolderSession.Create( _authSession, path );
+  Result:= TCloudDriverDefaultLister.Create( session );
 end;
 
 procedure TBoxClient.download(

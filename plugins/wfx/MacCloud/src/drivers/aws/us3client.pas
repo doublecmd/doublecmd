@@ -14,7 +14,7 @@ unit uS3Client;
 interface
 
 uses
-  Classes, SysUtils, DateUtils,
+  Classes, SysUtils, Contnrs, DateUtils,
   CocoaAll,
   uCloudDriver, uAWSCore, uAWSAuth,
   uMiniHttpClient, uMiniUtil;
@@ -26,6 +26,57 @@ type
   TS3Config = TAWSCredentialConfig;
 
   TS3ConfigPtr = ^TS3Config;
+
+  { TS3Bucket }
+
+  TS3Bucket = class
+  public
+    connectionData: TAWSConnectionData;
+    creationTime: TDateTime;
+  end;
+
+  { TS3Buckets }
+
+  TS3Buckets = class
+  private
+    _items: TFPObjectList;
+  public
+    constructor Create;
+    destructor Destroy; override;
+    procedure add( const bucket: TS3Bucket );
+    function get( const name: String ): TS3Bucket; overload;
+    function get( const index: Integer ): TS3Bucket; overload; inline;
+    function Count: Integer; inline;
+    property items[const index: Integer]: TS3Bucket read get; default;
+  end;
+
+  { TS3GetAllBucketsSession }
+
+  TS3GetAllBucketsSession = class
+  protected
+    _authSession: TCloudDriverAuthSession;
+  private
+    function analyseListResult( const listString: String ): TS3Buckets;
+  protected
+    procedure constructBucket( const bucket: TS3Bucket; const xmlBucket: NSXMLElement ); virtual; abstract;
+    function getEndPointOfRegion( const region: String ): String; virtual; abstract;
+  public
+    constructor Create( const authSession: TCloudDriverAuthSession );
+    function listBuckets: TS3Buckets;
+  end;
+
+  { TS3BucketsLister }
+
+  TS3BucketsLister = class( TCloudDriverLister )
+  private
+    _buckets: TS3Buckets;
+    _currentIndex: Integer;
+  public
+    constructor Create( const buckets: TS3Buckets );
+    procedure listFolderBegin; override;
+    function  listFolderGetNextFile: TCloudFile; override;
+    procedure listFolderEnd; override;
+  end;
 
   { TS3ListFolderSession }
 
@@ -39,7 +90,10 @@ type
     procedure listFolderFirst; override;
     procedure listFolderContinue; override;
   public
-    constructor Create( const authSession: TCloudDriverAuthSession; const path: String ); override;
+    constructor Create(
+      const authSession: TCloudDriverAuthSession;
+      const connectionData: TAWSConnectionData;
+      const path: String ); overload;
   end;
 
   { TS3DownloadSession }
@@ -79,16 +133,34 @@ type
     procedure copyOrMove( const needToMove: Boolean ); override;
   end;
 
+  { TS3PathParser }
+
+  TS3PathParser = class
+  private
+    _bucketName: String;
+    _bucketPath: String;
+    _connetionData: TAWSConnectionData;
+  public
+    constructor Create( const fullpath: String );
+    property bucketName: String read _bucketName;
+    property bucketPath: String read _bucketPath;
+    property connetionData: TAWSConnectionData read _connetionData;
+  end;
+
   { TS3Client }
 
   TS3Client = class( TAWSCloudDriver )
   protected
     _authSession: TAWSAuthSession;
+    _buckets: TS3Buckets;
+  protected
+    function getAllBuckets: TS3Buckets; virtual; abstract;
+    function getConcreteClass: TCloudDriverClass; virtual; abstract;
+    function getConnectionDataOfBucket( const name: String ): TAWSConnectionData;
   public
     constructor Create;
     destructor Destroy; override;
   public
-    function getConcreteClass: TCloudDriverClass; virtual; abstract;
     function clone: TCloudDriver; override;
   public
     function createLister( const path: String ): TCloudDriverLister; override;
@@ -98,8 +170,8 @@ type
     function authorized: Boolean; override;
     function getAccessKey: TAWSAccessKey; override;
     procedure setAccessKey(const accessKey: TAWSAccessKey); override;
-    function getConnectionData: TAWSConnectionData; override;
-    procedure setConnectionData(const connectionData: TAWSConnectionData); override;
+    function getDefaultConnectionData: TAWSConnectionData; override;
+    procedure setDefaultConnectionData(const connectionData: TAWSConnectionData); override;
   public
     procedure download(
       const serverPath: String;
@@ -255,7 +327,7 @@ var
   queryItems: TQueryItemsDictonary;
 begin
   try
-    urlString:= 'https://' + _connectionData.defaultBucket + '.' + _connectionData.endPoint + '/?';
+    urlString:= 'https://' + _connectionData.bucketName + '.' + _connectionData.endPoint + '/?';
     queryItems:= TQueryItemsDictonary.Create;
     queryItems.Add( 'list-type', '2' );
     queryItems.Add( 'delimiter', '/' );
@@ -282,11 +354,14 @@ begin
   end;
 end;
 
-constructor TS3ListFolderSession.Create( const authSession: TCloudDriverAuthSession; const path: String );
+constructor TS3ListFolderSession.Create(
+  const authSession: TCloudDriverAuthSession;
+  const connectionData: TAWSConnectionData;
+  const path: String );
 var
   truePath: String;
 begin
-  _connectionData:= TAWSAuthSession(authSession).connectionData;
+  _connectionData:= connectionData;
   truePath:= path;
   if truePath.StartsWith( '/' ) then
     truePath:= truePath.Substring( 1 );
@@ -307,8 +382,8 @@ var
   cloudDriverResult: TCloudDriverResult = nil;
 begin
   try
-    connectionData:= TAWSAuthSession(_authSession).connectionData;
-    urlString:= 'https://' + connectionData.defaultBucket + '.' + connectionData.endPoint + THttpClientUtil.urlEncode(_serverPath);
+    connectionData:= TAWSAuthSession(_authSession).defaultConnectionData;
+    urlString:= 'https://' + connectionData.bucketName + '.' + connectionData.endPoint + THttpClientUtil.urlEncode(_serverPath);
     http:= TMiniHttpClient.Create( urlString, HttpConst.Method.GET );
     http.addHeader( AWSConst.HEADER.CONTENT_SHA256, AWSConst.HEADER.CONTENT_SHA256_DEFAULT_VALUE );
     _authSession.setAuthHeader( http );
@@ -333,8 +408,8 @@ var
   cloudDriverResult: TCloudDriverResult = nil;
 begin
   try
-    connectionData:= TAWSAuthSession(_authSession).connectionData;
-    urlString:= 'https://' + connectionData.defaultBucket + '.' + connectionData.endPoint + THttpClientUtil.urlEncode(_serverPath);
+    connectionData:= TAWSAuthSession(_authSession).defaultConnectionData;
+    urlString:= 'https://' + connectionData.bucketName + '.' + connectionData.endPoint + THttpClientUtil.urlEncode(_serverPath);
     http:= TMiniHttpClient.Create( urlString, HttpConst.Method.PUT );
     http.addHeader( AWSConst.HEADER.CONTENT_SHA256, AWSConst.HEADER.CONTENT_SHA256_DEFAULT_VALUE );
     _authSession.setAuthHeader( http );
@@ -359,8 +434,8 @@ var
   cloudDriverResult: TCloudDriverResult = nil;
 begin
   try
-    connectionData:= TAWSAuthSession(_authSession).connectionData;
-    urlString:= 'https://' + connectionData.defaultBucket + '.' + connectionData.endPoint + THttpClientUtil.urlEncode(_path+'/');
+    connectionData:= TAWSAuthSession(_authSession).defaultConnectionData;
+    urlString:= 'https://' + connectionData.bucketName + '.' + connectionData.endPoint + THttpClientUtil.urlEncode(_path+'/');
     http:= TMiniHttpClient.Create( urlString, HttpConst.Method.PUT );
     http.addHeader( AWSConst.HEADER.CONTENT_SHA256, AWSConst.HEADER.CONTENT_SHA256_DEFAULT_VALUE );
     _authSession.setAuthHeader( http );
@@ -385,8 +460,8 @@ var
   cloudDriverResult: TCloudDriverResult = nil;
 begin
   try
-    connectionData:= TAWSAuthSession(_authSession).connectionData;
-    urlString:= 'https://' + connectionData.defaultBucket + '.' + connectionData.endPoint + THttpClientUtil.urlEncode(_path);
+    connectionData:= TAWSAuthSession(_authSession).defaultConnectionData;
+    urlString:= 'https://' + connectionData.bucketName + '.' + connectionData.endPoint + THttpClientUtil.urlEncode(_path);
     if _isFolder then
       urlString:= urlString + '/';
     http:= TMiniHttpClient.Create( urlString, HttpConst.Method.DELETE );
@@ -414,9 +489,9 @@ var
   sourceHeaderString: String;
 begin
   try
-    connectionData:= TAWSAuthSession(_authSession).connectionData;
-    urlString:= 'https://' + connectionData.defaultBucket + '.' + connectionData.endPoint + THttpClientUtil.urlEncode(_toPath);
-    sourceHeaderString:= '/' + connectionData.defaultBucket + THttpClientUtil.urlEncode(_fromPath);
+    connectionData:= TAWSAuthSession(_authSession).defaultConnectionData;
+    urlString:= 'https://' + connectionData.bucketName + '.' + connectionData.endPoint + THttpClientUtil.urlEncode(_toPath);
+    sourceHeaderString:= '/' + connectionData.bucketName + THttpClientUtil.urlEncode(_fromPath);
     http:= TMiniHttpClient.Create( urlString, HttpConst.Method.PUT );
     http.addHeader( AWSConst.HEADER.CONTENT_SHA256, AWSConst.HEADER.CONTENT_SHA256_DEFAULT_VALUE );
     http.addHeader( AWSConst.HEADER.COPY_SOURCE, sourceHeaderString );
@@ -442,6 +517,161 @@ begin
   self.doCopyFile;
 end;
 
+{ TS3PathParser }
+
+constructor TS3PathParser.Create(const fullpath: String);
+var
+  i: Integer;
+begin
+  i:= fullpath.IndexOf( PathDelim , 1 );
+  if i < 0 then begin
+    _bucketName:= fullpath.Substring( 1 );
+  end else begin
+    _bucketName:= fullpath.Substring( 1, i-1 );
+    _bucketPath:= fullpath.Substring( i );
+    if _bucketPath = EmptyStr then
+      _bucketPath:= PathDelim;
+  end;
+end;
+
+{ TS3Buckets }
+
+constructor TS3Buckets.Create;
+begin
+  _items:= TFPObjectList.Create;
+end;
+
+destructor TS3Buckets.Destroy;
+begin
+  FreeAndNil( _items );
+end;
+
+procedure TS3Buckets.add( const bucket: TS3Bucket );
+begin
+  _items.Add( bucket );
+end;
+
+function TS3Buckets.get( const name: String ): TS3Bucket;
+var
+  bucket: TS3Bucket;
+  i: Integer;
+begin
+  for i:=0 to _items.Count-1 do begin
+    bucket:= TS3Bucket( _items[i] );
+    if bucket.connectionData.bucketName = name then begin
+      Result:= bucket;
+      Exit;
+    end;
+  end;
+  Result:= nil;
+end;
+
+function TS3Buckets.get(const index: Integer): TS3Bucket;
+begin
+  Result:= TS3Bucket( _items[index] );
+end;
+
+function TS3Buckets.Count: Integer;
+begin
+  Result:= _items.Count;
+end;
+
+{ TS3GetAllBucketsSession }
+
+function TS3GetAllBucketsSession.analyseListResult( const listString: String ): TS3Buckets;
+var
+  xml: NSXMLElement;
+  xmlBuckets: NSXMLElement;
+  xmlBucketArray: NSArray;
+  xmlBucket: NSXMLElement;
+  bucket: TS3Bucket;
+  buckets: TS3Buckets;
+begin
+  buckets:= TS3Buckets.Create;
+  xml:= TXmlUtil.parse( listString );
+  xmlBuckets:=  TXMLUtil.getElement( xml, 'Buckets' );
+  xmlBucketArray:= xmlBuckets.elementsForName( NSSTR('Bucket') );
+  for xmlBucket in xmlBucketArray do begin
+    bucket:= TS3Bucket.Create;
+    bucket.connectionData.bucketName:= TXmlUtil.getString( xmlBucket, 'Name' );
+    bucket.creationTime:= ISO8601ToDate( TXmlUtil.getString( xmlBucket, 'CreationDate' ) );
+    self.constructBucket( bucket, xmlBucket );
+    buckets.Add( bucket );
+    Writeln( '>> ', bucket.connectionData.bucketName, ',', bucket.connectionData.region, ',', bucket.connectionData.endPoint, ',', bucket.creationTime );
+  end;
+  Result:= buckets;
+end;
+
+constructor TS3GetAllBucketsSession.Create( const authSession: TCloudDriverAuthSession );
+begin
+  _authSession:= authSession;
+end;
+
+function TS3GetAllBucketsSession.listBuckets: TS3Buckets;
+var
+  http: TMiniHttpClient = nil;
+  httpResult: TMiniHttpResult = nil;
+  cloudDriverResult: TCloudDriverResult = nil;
+  connectionData: TAWSConnectionData;
+  urlString: String;
+  queryItems: TQueryItemsDictonary;
+begin
+  Result:= nil;
+  try
+    connectionData:= TAWSAuthSession(_authSession).defaultConnectionData;
+    urlString:= 'https://' + connectionData.endPoint + '/';
+    queryItems:= TQueryItemsDictonary.Create;
+    queryItems.Add( 'max-keys', '1000' );
+    http:= TMiniHttpClient.Create( urlString, HttpConst.Method.GET );
+    http.setQueryParams( queryItems );
+    http.addHeader( AWSConst.HEADER.CONTENT_SHA256, AWSConst.HEADER.CONTENT_SHA256_DEFAULT_VALUE );
+    _authSession.setAuthHeader( http );
+
+    cloudDriverResult:= TCloudDriverResult.Create;
+    httpResult:= http.connect;
+    cloudDriverResult.httpResult:= httpResult;
+    cloudDriverResult.resultMessage:= httpResult.body;
+
+    if httpResult.resultCode = 200 then
+      Result:= analyseListResult( httpResult.body );
+
+    S3ClientResultProcess( cloudDriverResult );
+  finally
+    FreeAndNil( cloudDriverResult );
+    FreeAndNil( http );
+  end;
+end;
+
+{ TS3BucketsLister }
+
+constructor TS3BucketsLister.Create( const buckets: TS3Buckets );
+begin
+  _buckets:= buckets;
+end;
+
+procedure TS3BucketsLister.listFolderBegin;
+begin
+end;
+
+function TS3BucketsLister.listFolderGetNextFile: TCloudFile;
+var
+  bucket: TS3Bucket;
+begin
+  if _currentIndex >= _buckets.Count then
+    Exit( nil );
+  bucket:= _buckets[_currentIndex];
+  Result:= TCloudFile.Create;
+  Result.name:= bucket.connectionData.bucketName;
+  Result.creationTime:= bucket.creationTime;
+  Result.isFolder:= True;
+  inc( _currentIndex );
+end;
+
+procedure TS3BucketsLister.listFolderEnd;
+begin
+  self.Free;
+end;
+
 { TS3Client }
 
 constructor TS3Client.Create;
@@ -450,12 +680,24 @@ var
 begin
   params:= Default( TAWSAuthSessionParams );
   params.config:= s3CloudDriverConfig;
-  _authSession:= TAWSAuthSession.Create( params );
+  _authSession:= TAWSAuthSession.Create( self, params );
 end;
 
 destructor TS3Client.Destroy;
 begin
   FreeAndNil( _authSession );
+  FreeAndNil( _buckets );
+end;
+
+function TS3Client.getConnectionDataOfBucket( const name: String ): TAWSConnectionData;
+var
+  bucket: TS3Bucket;
+begin
+  bucket:= _buckets.get( name );
+  if bucket <> nil then
+    Result:= bucket.connectionData
+  else
+    Result:= self.getDefaultConnectionData;
 end;
 
 function TS3Client.clone: TCloudDriver;
@@ -469,8 +711,27 @@ begin
 end;
 
 function TS3Client.createLister(const path: String): TCloudDriverLister;
+var
+  parser: TS3PathParser;
+  connectionData: TAWSConnectionData;
+  listFolderSession: TCloudDriverListFolderSession;
 begin
-  Result:= TCloudDriverDefaultLister.Create( TS3ListFolderSession, _authSession, path );
+  parser:= TS3PathParser.Create( path );
+  try
+    // todo: multi thread
+    if _buckets = nil then
+      _buckets:= self.getAllBuckets;
+
+    if Path = EmptyStr then begin
+      Result:= TS3BucketsLister.Create( _buckets );
+    end else begin
+      connectionData:= _buckets.get(parser.bucketName).connectionData;
+      listFolderSession:= TS3ListFolderSession.Create( _authSession, connectionData, parser.bucketPath );
+      Result:= TCloudDriverDefaultLister.Create( listFolderSession );
+    end;
+  finally
+    FreeAndNil( parser );
+  end;
 end;
 
 function TS3Client.authorize: Boolean;
@@ -497,14 +758,14 @@ begin
   _authSession.accessKey:= accessKey;
 end;
 
-function TS3Client.getConnectionData: TAWSConnectionData;
+function TS3Client.getDefaultConnectionData: TAWSConnectionData;
 begin
-  Result:= _authSession.connectionData;
+  Result:= _authSession.defaultConnectionData;
 end;
 
-procedure TS3Client.setConnectionData(const connectionData: TAWSConnectionData);
+procedure TS3Client.setDefaultConnectionData(const connectionData: TAWSConnectionData);
 begin
-  _authSession.connectionData:= connectionData;
+  _authSession.defaultConnectionData:= connectionData;
 end;
 
 procedure TS3Client.download(
