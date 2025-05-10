@@ -514,19 +514,25 @@ end;
 procedure TS3CopyMoveSession.doCopyFile;
 var
   http: TMiniHttpClient = nil;
-  connectionData: TAWSConnectionData;
+  toBucketPath: String;
+  toConnectionData: TAWSConnectionData;
+  fromBucketPath: String;
+  fromConnectionData: TAWSConnectionData;
   urlString: String;
   cloudDriverResult: TCloudDriverResult = nil;
   sourceHeaderString: String;
 begin
   try
-    connectionData:= TAWSAuthSession(_authSession).defaultConnectionData;
-    urlString:= 'https://' + connectionData.bucketName + '.' + connectionData.endPoint + THttpClientUtil.urlEncode(_toPath);
-    sourceHeaderString:= '/' + connectionData.bucketName + THttpClientUtil.urlEncode(_fromPath);
+    s3BuckPathHelper( _authSession, _toPath, toBucketPath, toConnectionData );
+    s3BuckPathHelper( _authSession, _fromPath, fromBucketPath, fromConnectionData );
+    if (toBucketPath=EmptyStr) or (fromBucketPath=EmptyStr) then
+      raise ENotSupportedException.Create( 'Does not support coping S3 bucket' );
+    urlString:= 'https://' + toConnectionData.bucketName + '.' + toConnectionData.endPoint + THttpClientUtil.urlEncode(toBucketPath);
+    sourceHeaderString:= '/' + fromConnectionData.bucketName + THttpClientUtil.urlEncode(fromBucketPath);
     http:= TMiniHttpClient.Create( urlString, HttpConst.Method.PUT );
     http.addHeader( AWSConst.HEADER.CONTENT_SHA256, AWSConst.HEADER.CONTENT_SHA256_DEFAULT_VALUE );
     http.addHeader( AWSConst.HEADER.COPY_SOURCE, sourceHeaderString );
-    _authSession.setAuthHeader( http );
+    TAWSAuthSession(_authSession).setAuthHeader( http, fromConnectionData );
 
     cloudDriverResult:= TCloudDriverResult.Create;
     cloudDriverResult.httpResult:= http.connect;
