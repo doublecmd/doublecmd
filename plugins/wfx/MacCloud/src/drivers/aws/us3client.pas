@@ -396,16 +396,19 @@ end;
 procedure TS3DownloadSession.download;
 var
   http: TMiniHttpClient = nil;
+  bucketPath: String;
   connectionData: TAWSConnectionData;
   urlString: String;
   cloudDriverResult: TCloudDriverResult = nil;
 begin
   try
-    connectionData:= TAWSAuthSession(_authSession).defaultConnectionData;
-    urlString:= 'https://' + connectionData.bucketName + '.' + connectionData.endPoint + THttpClientUtil.urlEncode(_serverPath);
+    s3BuckPathHelper( _authSession, _serverPath, bucketPath, connectionData );
+    if bucketPath = EmptyStr then
+      raise ENotSupportedException.Create( 'Does not support downloading without S3 bucket' );
+    urlString:= 'https://' + connectionData.bucketName + '.' + connectionData.endPoint + THttpClientUtil.urlEncode(bucketPath);
     http:= TMiniHttpClient.Create( urlString, HttpConst.Method.GET );
     http.addHeader( AWSConst.HEADER.CONTENT_SHA256, AWSConst.HEADER.CONTENT_SHA256_DEFAULT_VALUE );
-    _authSession.setAuthHeader( http );
+    TAWSAuthSession(_authSession).setAuthHeader( http, connectionData );
 
     cloudDriverResult:= TCloudDriverResult.Create;
     cloudDriverResult.httpResult:= http.download( _localPath, _callback );
