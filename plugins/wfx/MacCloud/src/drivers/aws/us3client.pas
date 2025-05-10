@@ -193,6 +193,25 @@ implementation
 var
   s3CloudDriverConfig: TS3Config;
 
+procedure s3BuckPathHelper(
+  const authSession: TCloudDriverAuthSession;
+  const path: String;
+  var bucketPath: String;
+  var connectionData: TAWSConnectionData );
+var
+  parser: TS3PathParser = nil;
+  driver: TS3Client;
+begin
+  try
+    parser:= TS3PathParser.Create( path );
+    driver:= TS3Client( authSession.cloudDriver );
+    bucketPath:= parser.bucketPath;
+    connectionData:= driver.getConnectionDataOfBucket( parser.bucketName );
+  finally
+    FreeAndNil( parser );
+  end;
+end;
+
 // raise the corresponding exception if there are errors
 procedure S3ClientResultProcess( const cloudDriverResult: TCloudDriverResult );
 var
