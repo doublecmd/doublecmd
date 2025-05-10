@@ -483,18 +483,21 @@ end;
 procedure TS3DeleteSession.delete;
 var
   http: TMiniHttpClient = nil;
+  bucketPath: String;
   connectionData: TAWSConnectionData;
   urlString: String;
   cloudDriverResult: TCloudDriverResult = nil;
 begin
   try
-    connectionData:= TAWSAuthSession(_authSession).defaultConnectionData;
-    urlString:= 'https://' + connectionData.bucketName + '.' + connectionData.endPoint + THttpClientUtil.urlEncode(_path);
+    s3BuckPathHelper( _authSession, _path, bucketPath, connectionData );
+    if bucketPath = EmptyStr then
+      raise ENotSupportedException.Create( 'Does not support deleting S3 bucket' );
+    urlString:= 'https://' + connectionData.bucketName + '.' + connectionData.endPoint + THttpClientUtil.urlEncode(bucketPath);
     if _isFolder then
       urlString:= urlString + '/';
     http:= TMiniHttpClient.Create( urlString, HttpConst.Method.DELETE );
     http.addHeader( AWSConst.HEADER.CONTENT_SHA256, AWSConst.HEADER.CONTENT_SHA256_DEFAULT_VALUE );
-    _authSession.setAuthHeader( http );
+    TAWSAuthSession(_authSession).setAuthHeader( http, connectionData );
 
     cloudDriverResult:= TCloudDriverResult.Create;
     cloudDriverResult.httpResult:= http.connect;
