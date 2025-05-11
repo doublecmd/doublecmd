@@ -530,7 +530,7 @@ begin
   WFXCloudDriverMenuItems.add( TYandexClient.driverName, 'Yandex' );
 
   WFXCloudDriverConfigManager.register( TOneDriveClient.driverName, TWFXOneDriveConfig );
-  oneDriveConfig:= TTokenCloudDriverConfig.Create( '', 'dc2ea085a05ac273a://onedrive/auth' );
+  oneDriveConfig:= TTokenCloudDriverConfig.Create( 'ceb7b2ed-b0cf-43e9-ade5-2e8ed9cfa3c0', 'dc2ea085a05ac273a://onedrive/auth' );
   cloudDriverManager.register( TOneDriveClient );
   WFXCloudDriverMenuItems.add( TOneDriveClient.driverName, 'OneDrive' );
 
