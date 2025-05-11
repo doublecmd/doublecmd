@@ -1460,6 +1460,10 @@ begin
     end;
   end;
 
+  if Length(Result) > 0 then begin
+    Delete(Result, High(Result), 1);
+  end;
+
   if Length(Result) = 0 then Result:= AList.Text;
 end;
 
@@ -1470,7 +1474,12 @@ var
   I, Index, ACount: Integer;
 begin
   ACount:= 0;
-  S:= SplitString(AEncodings, '|');
+  S:= AEncodings.Split(['|'], TStringSplitOptions.ExcludeEmpty);
+
+  for I:= 0 to AList.Items.Count - 1 do
+  begin
+    AList.Items.Objects[I]:= TObject(PtrInt(False));
+  end;
 
   for Index:= 0 to High(S) do
   begin
@@ -1481,6 +1490,14 @@ begin
       AList.Items.Objects[I]:= TObject(PtrInt(True));
     end;
   end;
+
+  if ACount = 0 then
+  begin
+    I:= 0;
+    ACount:= 1;
+    AList.Items.Objects[I]:= TObject(PtrInt(True));
+  end;
+
   AList.Tag:= ACount;
   if ACount = 1 then AList.ItemIndex:= I;
 end;
