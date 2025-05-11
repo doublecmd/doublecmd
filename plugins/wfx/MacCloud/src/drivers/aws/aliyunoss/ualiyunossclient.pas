@@ -7,7 +7,7 @@ interface
 uses
   Classes, SysUtils,
   CocoaAll,
-  uCloudDriver, uS3Client,
+  uCloudDriver, uAWSCore, uS3Client,
   uMiniUtil;
 
 type
@@ -17,6 +17,7 @@ type
   TAliyunOSSGetAllBucketsSession = class( TS3GetAllBucketsSession )
   protected
     procedure constructBucket( const bucket: TS3Bucket; const xmlBucket: NSXMLElement ); override;
+    function getConnectionDataOfService: TAWSConnectionData; override;
     function getEndPointOfRegion(const region: String): String; override;
   end;
 
@@ -40,12 +41,16 @@ begin
   bucket.connectionData.endPoint:= TXmlUtil.getString( xmlBucket, 'ExtranetEndpoint' );
 end;
 
+function TAliyunOSSGetAllBucketsSession.getConnectionDataOfService: TAWSConnectionData;
+begin
+  Result.region:= '';
+  Result.endPoint:= 'oss.aliyuncs.com';
+  Result.bucketName:= '';
+end;
+
 function TAliyunOSSGetAllBucketsSession.getEndPointOfRegion( const region: String ): String;
 begin
-  if region = EmptyStr then
-    Result:= 'oss.aliyuncs.com'
-  else
-    Result:= 'oss-' + region + '.aliyuncs.com';
+  Result:= 'oss-' + region + '.aliyuncs.com';
 end;
 
 { TAliyunOSSClient }

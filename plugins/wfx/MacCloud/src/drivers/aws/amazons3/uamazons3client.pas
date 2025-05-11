@@ -18,6 +18,7 @@ type
   TAmazonS3GetAllBucketsSession = class( TS3GetAllBucketsSession )
   protected
     procedure constructBucket( const bucket: TS3Bucket; const xmlBucket: NSXMLElement ); override;
+    function getConnectionDataOfService: TAWSConnectionData; override;
     function getEndPointOfRegion(const region: String): String; override;
     function getRegionOfBucket(const name: String): String;
   end;
@@ -43,23 +44,31 @@ begin
   bucket.connectionData.endPoint:= self.getEndPointOfRegion( bucket.connectionData.region );
 end;
 
+function TAmazonS3GetAllBucketsSession.getConnectionDataOfService: TAWSConnectionData;
+begin
+  Result.region:= 'us-east-1';
+  Result.endPoint:= 's3.amazonaws.com';
+  Result.bucketName:= '';
+end;
+
 function TAmazonS3GetAllBucketsSession.getEndPointOfRegion( const region: String ): String;
 begin
-  if region = EmptyStr then
-    Result:= 's3.us-east-1.amazonaws.com'
-  else
-    Result:= 's3.' + region + '.amazonaws.com';
+  Result:= 's3.' + region + '.amazonaws.com';
 end;
 
 function TAmazonS3GetAllBucketsSession.getRegionOfBucket( const name: String ): String;
 var
+  connectionData: TAWSConnectionData;
+  endPoint: String;
   http: TMiniHttpClient = nil;
   httpResult: TMiniHttpResult = nil;
   cloudDriverResult: TCloudDriverResult = nil;
   urlString: String;
 begin
   try
-    urlString:= 'https://' + name + '.' + self.getEndPointOfRegion('') + '/';
+    connectionData:= self.getConnectionDataOfService;
+    endPoint:= self.getEndPointOfRegion( connectionData.region );
+    urlString:= 'https://' + name + '.' + endPoint + '/';
     http:= TMiniHttpClient.Create( urlString, HttpConst.Method.HEAD );
     http.addHeader( AWSConst.HEADER.CONTENT_SHA256, AWSConst.HEADER.CONTENT_SHA256_DEFAULT_VALUE );
     _authSession.setAuthHeader( http );

@@ -16,7 +16,9 @@ type
   public
     class function driverName: String; override;
     class function createInstance: TCloudDriver; override;
+  protected
     function getConcreteClass: TCloudDriverClass; override;
+    function getAllBuckets: TS3Buckets; override;
   end;
 
 implementation
@@ -36,6 +38,16 @@ end;
 function TS3CompatibleClient.getConcreteClass: TCloudDriverClass;
 begin
   Result:= TS3CompatibleClient;
+end;
+
+function TS3CompatibleClient.getAllBuckets: TS3Buckets;
+var
+  bucket: TS3Bucket;
+begin
+  bucket:= TS3Bucket.Create;
+  bucket.connectionData:= self.getDefaultConnectionData;
+  Result:= TS3Buckets.Create;
+  Result.add( bucket );
 end;
 
 end.

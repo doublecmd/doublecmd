@@ -59,6 +59,7 @@ type
     function analyseListResult( const listString: String ): TS3Buckets;
   protected
     procedure constructBucket( const bucket: TS3Bucket; const xmlBucket: NSXMLElement ); virtual; abstract;
+    function getConnectionDataOfService: TAWSConnectionData; virtual; abstract;
     function getEndPointOfRegion( const region: String ): String; virtual; abstract;
   public
     constructor Create( const authSession: TCloudDriverAuthSession );
@@ -356,7 +357,7 @@ begin
     http:= TMiniHttpClient.Create( urlString, HttpConst.Method.GET );
     http.setQueryParams( queryItems );
     http.addHeader( AWSConst.HEADER.CONTENT_SHA256, AWSConst.HEADER.CONTENT_SHA256_DEFAULT_VALUE );
-    _authSession.setAuthHeader( http );
+    TAWSAuthSession(_authSession).setAuthHeader( http, _connectionData );
 
     cloudDriverResult:= TCloudDriverResult.Create;
     httpResult:= http.connect;
@@ -634,7 +635,6 @@ begin
     bucket.creationTime:= ISO8601ToDate( TXmlUtil.getString( xmlBucket, 'CreationDate' ) );
     self.constructBucket( bucket, xmlBucket );
     buckets.Add( bucket );
-    Writeln( '>> ', bucket.connectionData.bucketName, ',', bucket.connectionData.region, ',', bucket.connectionData.endPoint, ',', bucket.creationTime );
   end;
   Result:= buckets;
 end;
@@ -646,23 +646,19 @@ end;
 
 function TS3GetAllBucketsSession.listBuckets: TS3Buckets;
 var
+  connectionData: TAWSConnectionData;
   http: TMiniHttpClient = nil;
   httpResult: TMiniHttpResult = nil;
   cloudDriverResult: TCloudDriverResult = nil;
-  connectionData: TAWSConnectionData;
   urlString: String;
-  queryItems: TQueryItemsDictonary;
 begin
   Result:= nil;
   try
-    connectionData:= TAWSAuthSession(_authSession).defaultConnectionData;
+    connectionData:= self.getConnectionDataOfService;
     urlString:= 'https://' + connectionData.endPoint + '/';
-    queryItems:= TQueryItemsDictonary.Create;
-    queryItems.Add( 'max-keys', '1000' );
     http:= TMiniHttpClient.Create( urlString, HttpConst.Method.GET );
-    http.setQueryParams( queryItems );
     http.addHeader( AWSConst.HEADER.CONTENT_SHA256, AWSConst.HEADER.CONTENT_SHA256_DEFAULT_VALUE );
-    _authSession.setAuthHeader( http );
+    TAWSAuthSession(_authSession).setAuthHeader( http, connectionData );
 
     cloudDriverResult:= TCloudDriverResult.Create;
     httpResult:= http.connect;
@@ -752,13 +748,35 @@ var
   parser: TS3PathParser;
   connectionData: TAWSConnectionData;
   listFolderSession: TCloudDriverListFolderSession;
+
+  procedure createBucketList;
+  var
+    bucket: TS3Bucket;
+  begin
+    // todo: multi thread
+    if _buckets <> nil then
+      Exit;
+    _buckets:= self.getAllBuckets;
+    if _buckets.Count > 0 then
+      Exit;
+
+    bucket:= TS3Bucket.Create;
+    bucket.connectionData:= self.getDefaultConnectionData;
+    if (bucket.connectionData.bucketName=EmptyStr) or
+       (bucket.connectionData.region=EmptyStr) or
+       (bucket.connectionData.endPoint=EmptyStr)
+    then begin
+      bucket.Free;
+      Exit;
+    end;
+
+    _buckets.add( bucket );
+  end;
+
 begin
   parser:= TS3PathParser.Create( path );
   try
-    // todo: multi thread
-    if _buckets = nil then
-      _buckets:= self.getAllBuckets;
-
+    createBucketList;
     if Path = EmptyStr then begin
       Result:= TS3BucketsLister.Create( _buckets );
     end else begin

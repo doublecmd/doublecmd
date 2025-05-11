@@ -7,7 +7,7 @@ interface
 uses
   Classes, SysUtils,
   CocoaAll,
-  uCloudDriver, uS3Client,
+  uCloudDriver, uAWSCore, uS3Client,
   uMiniUtil;
 
 type
@@ -17,6 +17,7 @@ type
   THuaweiOBSGetAllBucketsSession = class( TS3GetAllBucketsSession )
   protected
     procedure constructBucket( const bucket: TS3Bucket; const xmlBucket: NSXMLElement ); override;
+    function getConnectionDataOfService: TAWSConnectionData; override;
     function getEndPointOfRegion(const region: String): String; override;
   end;
 
@@ -40,12 +41,16 @@ begin
   bucket.connectionData.endPoint:= self.getEndPointOfRegion( bucket.connectionData.region );
 end;
 
+function THuaweiOBSGetAllBucketsSession.getConnectionDataOfService: TAWSConnectionData;
+begin
+  Result.region:= '';
+  Result.endPoint:= 'obs.myhuaweicloud.com';
+  Result.bucketName:= '';
+end;
+
 function THuaweiOBSGetAllBucketsSession.getEndPointOfRegion( const region: String ): String;
 begin
-  if region = EmptyStr then
-    Result:= 'obs.myhuaweicloud.com'
-  else
-    Result:= 'obs.' + region + '.myhuaweicloud.com';
+  Result:= 'obs.' + region + '.myhuaweicloud.com';
 end;
 
 { THuaweiOBSClient }
