@@ -355,7 +355,7 @@ var
   newView: TWFXPropertyView;
   rightRect: NSRect;
 begin
-  rightRect:= NSMakeRect(0,0,440,600);
+  rightRect:= NSMakeRect(0,0,480,600);
   configItem:= self.currentConfigItem;
   if configItem.driver is TOAuth2SessionCloudDriver then
     newView:= TWFXOAuth2PropertyView.alloc.initWithFrame( rightRect )
@@ -510,8 +510,8 @@ var
   end;
 
 begin
-  frameRect:= NSMakeRect(0,0,680,600);
-  leftRect:= NSMakeRect(0,0,240,600);
+  frameRect:= NSMakeRect(0,0,720,640);
+  leftRect:= NSMakeRect(0,0,240,640);
 
   contentView:= NSView.alloc.initWithFrame( frameRect );
   win:= TWFXOptionsWindow.alloc.initWithContentRect_styleMask_backing_defer(

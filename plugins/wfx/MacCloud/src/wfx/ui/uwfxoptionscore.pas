@@ -82,6 +82,9 @@ type
     _nameTextField: NSTextField;
     _saveButton: NSButton;
     _noteTextView: NSTextView;
+  protected
+    procedure addLabel( const title: NSString; const rect: NSRect ); message 'TWFXPropertyView_addLabel::';
+    function addTextField( const rect: NSRect ): NSTextField; message 'TWFXPropertyView_addTextField:';
   public
     procedure setController( const controller: TWFXConfigItemsController ); message 'TWFXPropertyView_setController:';
     procedure loadConnectionProperties( const index: Integer ); message 'TWFXPropertyView_loadConnectionProperties:';
@@ -207,6 +210,29 @@ begin
 end;
 
 { TWFXPropertyView }
+
+procedure TWFXPropertyView.addLabel( const title: NSString; const rect: NSRect );
+var
+  nsLabel: NSTextField;
+begin
+  nsLabel:= NSTextField.alloc.initWithFrame( rect );
+  nsLabel.setEditable( False );
+  nsLabel.setDrawsBackground( False );
+  nsLabel.setBordered( False );
+  nsLabel.setStringValue( title );
+  nsLabel.setAlignment( 2 );
+  self.addSubview( nsLabel );
+  nsLabel.release;
+end;
+
+function TWFXPropertyView.addTextField( const rect: NSRect ): NSTextField;
+begin
+  Result:= NSTextField.alloc.initWithFrame( rect );
+  Result.cell.setScrollable( True );
+  Result.cell.setWraps( False );
+  self.addSubview( Result );
+  Result.release;
+end;
 
 procedure TWFXPropertyView.setController(const controller: TWFXConfigItemsController);
 begin

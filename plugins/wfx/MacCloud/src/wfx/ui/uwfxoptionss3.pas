@@ -76,8 +76,8 @@ implementation
 
 const
   CONST_AUTH_NOTES =
-    '1. AccessKeyID and SerectAccessKey will be saved in the macOS KeyChains to obtain system-level security.'#13#13 +
-    '2. The confidential information can only be read by your own macOS permissions.';
+    '1. AccessKeyID and SerectAccessKey will be saved in the macOS KeyChains to obtain system-level security. The confidential data can only be read by your own macOS permissions.'#13#13 +
+    '2. Access Key ID and Secret Access Key are required, and the others are optional. Double Commander can usually automatically obtain others such as Buckets. Therefore, Region / EndPoint / Bucket are only required if Access Key permissions are insufficient.';
 
 { TWFXS3RegionConfigItem }
 
@@ -262,63 +262,27 @@ end;
 
 procedure TWFXS3PropertyView.initPropertyView;
 
-  procedure addLabel( const title: String; const rect: NSRect );
-  var
-    nsLabel: NSTextField;
-  begin
-    nsLabel:= NSTextField.alloc.initWithFrame( rect );
-    nsLabel.setEditable( False );
-    nsLabel.setDrawsBackground( False );
-    nsLabel.setBordered( False );
-    nsLabel.setStringValue( StringToNSString(title) );
-    nsLabel.setAlignment( 2 );
-    self.addSubview( nsLabel );
-    nsLabel.release;
-  end;
-
-  function addTextField( const rect: NSRect ): NSTextField;
-  begin
-    Result:= NSTextField.alloc.initWithFrame( rect );
-    Result.cell.setScrollable( True );
-    Result.cell.setWraps( False );
-    self.addSubview( Result );
-    Result.release;
-  end;
-
 begin
-  _logoImageView:= NSImageView.alloc.initWithFrame( NSMakeRect(200,530,32,32) );
+  _logoImageView:= NSImageView.alloc.initWithFrame( NSMakeRect(224,560,32,32) );
   self.addSubview( _logoImageView );
   _logoImageView.release;
 
-  addLabel( 'Name:', NSMakeRect(20,480,120,20) );
-  _nameTextField:= addTextField( NSMakeRect(146,480,250,22) );
+  addLabel( StringToNSString('Name:'), NSMakeRect(20,510,120,20) );
+  _nameTextField:= addTextField( NSMakeRect(146,510,290,22) );
 
-  addLabel( 'Region List:', NSMakeRect(20,440,120,20) );
-  _regionDropDown:= NSPopUpButton.alloc.initWithFrame( NSMakeRect(146,440,250,22) );
-  _regionDropDown.setTarget( self );
-  _regionDropDown.setAction( ObjCSelector('TWFXS3PropertyView_regionDropDownChanged:') );
-  self.addSubview( _regionDropDown );
-  _regionDropDown.release;
+  addLabel( StringToNSString('Access Key ID:'), NSMakeRect(20,470,120,20) );
+  _accessKeyIDTextField:= addTextField( NSMakeRect(146,470,290,22) );
 
-  addLabel( 'Region:', NSMakeRect(20,400,120,20) );
-  _regionTextField:= addTextField( NSMakeRect(146,400,250,22) );
-
-  addLabel( 'Endpoint:', NSMakeRect(20,360,120,20) );
-  _endPointTextField:= addTextField( NSMakeRect(146,360,250,22) );
-
-  addLabel( 'Access Key ID:', NSMakeRect(20,320,120,20) );
-  _accessKeyIDTextField:= addTextField( NSMakeRect(146,320,250,22) );
-
-  addLabel( 'Serect Access Key:', NSMakeRect(20,280,120,20) );
-  _accessKeySecretTextField:= NSSecureTextField.alloc.initWithFrame( NSMakeRect(146,280,250,22) );
+  addLabel( StringToNSString('Serect Access Key:'), NSMakeRect(20,430,120,20) );
+  _accessKeySecretTextField:= NSSecureTextField.alloc.initWithFrame( NSMakeRect(146,430,290,22) );
   _accessKeySecretTextField.cell.setScrollable( True );
   _accessKeySecretTextField.cell.setWraps( False );
   self.addSubview( _accessKeySecretTextField );
   _accessKeySecretTextField.release;
-  _accessKeySecretPlainTextField:= addTextField( NSMakeRect(146,280,250,22) );
+  _accessKeySecretPlainTextField:= addTextField( NSMakeRect(146,430,290,22) );
   _accessKeySecretPlainTextField.setHidden( True );
 
-  _secretButton:= NSButton.alloc.initWithFrame( NSMakeRect(405,283,16,16) );
+  _secretButton:= NSButton.alloc.initWithFrame( NSMakeRect(445,433,16,16) );
   _secretButton.setButtonType( NSToggleButton );
   _secretButton.setImage( NSImage.imageNamed( NSImageNameQuickLookTemplate ));
   _secretButton.setBordered( False );
@@ -327,21 +291,34 @@ begin
   self.addSubview( _secretButton );
   _secretButton.release;
 
-  addLabel( 'Temporary Token:', NSMakeRect(20,240,120,20) );
-  _accessKeyTokenTextField:= addTextField( NSMakeRect(146,240,250,22) );
+  addLabel( StringToNSString('Temporary Token:'), NSMakeRect(20,390,120,20) );
+  _accessKeyTokenTextField:= addTextField( NSMakeRect(146,390,290,22) );
 
-  addLabel( 'Bucket:', NSMakeRect(20,200,120,20) );
-  _bucketTextField:= addTextField( NSMakeRect(146,200,250,22) );
+  addLabel( StringToNSString('Region List:'), NSMakeRect(20,350,120,20) );
+  _regionDropDown:= NSPopUpButton.alloc.initWithFrame( NSMakeRect(146,350,290,22) );
+  _regionDropDown.setTarget( self );
+  _regionDropDown.setAction( ObjCSelector('TWFXS3PropertyView_regionDropDownChanged:') );
+  self.addSubview( _regionDropDown );
+  _regionDropDown.release;
 
-  _saveButton:= NSButton.alloc.initWithFrame( NSMakeRect(200,160,100,22) );
+  addLabel( StringToNSString('Region:'), NSMakeRect(20,310,120,20) );
+  _regionTextField:= addTextField( NSMakeRect(146,310,290,22) );
+
+  addLabel( StringToNSString('Endpoint:'), NSMakeRect(20,270,120,20) );
+  _endPointTextField:= addTextField( NSMakeRect(146,270,290,22) );
+
+  addLabel( StringToNSString('Bucket:'), NSMakeRect(20,230,120,20) );
+  _bucketTextField:= addTextField( NSMakeRect(146,230,290,22) );
+
+  _saveButton:= NSButton.alloc.initWithFrame( NSMakeRect(190,190,100,22) );
   _saveButton.setBezelStyle( NSRoundedBezelStyle );
-  _saveButton.setTitle( NSSTR('Save') );
+  _saveButton.setTitle( StringToNSString('Save') );
   _saveButton.setTarget( self );
   _saveButton.setAction( ObjCSelector('TWFXS3PropertyView_saveConnection:') );
   self.addSubView( _saveButton );
   _saveButton.release;
 
-  _noteTextView:= NSTextView.alloc.initWithFrame( NSMakeRect(20,50,400,50) );
+  _noteTextView:= NSTextView.alloc.initWithFrame( NSMakeRect(20,50,440,100) );
   _noteTextView.setFont( NSFont.systemFontOfSize(11));
   _noteTextView.setEditable( False );
   _noteTextView.setDrawsBackground( False );

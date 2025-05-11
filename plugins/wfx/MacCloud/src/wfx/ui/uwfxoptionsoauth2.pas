@@ -34,7 +34,7 @@ implementation
 
 const
   CONST_AUTH_NOTES =
-    '1. Before successfully enabling the link, Double Command needs to obtain authorization from {driverName}'#13#13 +
+    '1. Before successfully enabling the connection, Double Command needs to obtain authorization from {driverName}'#13#13 +
     '2. Click the connect button to be redirected to the {driverName} official website in the Safari browser'#13#13 +
     '3. Please login your {driverName} account in Safari and authorize Double Commander to access'#13#13 +
     '4. The authorization is completed on the {driverName} official website, Double Command will not get your password';
@@ -110,45 +110,34 @@ begin
 end;
 
 procedure TWFXOAuth2PropertyView.initPropertyView;
-var
-  nameLabel: NSTextField;
 begin
-  _logoImageView:= NSImageView.alloc.initWithFrame( NSMakeRect(200,530,32,32) );
+  _logoImageView:= NSImageView.alloc.initWithFrame( NSMakeRect(224,560,32,32) );
   self.addSubview( _logoImageView );
   _logoImageView.release;
 
-  nameLabel:= NSTextField.alloc.initWithFrame( NSMakeRect(20,480,50,20) );
-  nameLabel.setEditable( False );
-  nameLabel.setDrawsBackground( False );
-  nameLabel.setBordered( False );
-  nameLabel.setStringValue( NSSTR('Name:') );
-  self.addSubview( nameLabel );
-  nameLabel.release;
+  addLabel( StringToNSString('Name:'), NSMakeRect(20,510,80,20) );
+  _nameTextField:= addTextField( NSMakeRect(106,510,290,22) );
 
-  _nameTextField:= NSTextField.alloc.initWithFrame( NSMakeRect(80,480,250,22) );
-  self.addSubview( _nameTextField );
-  _nameTextField.release;
-
-  _statusImageview:= NSImageView.alloc.initWithFrame( NSMakeRect(350,483,16,16) );
+  _statusImageview:= NSImageView.alloc.initWithFrame( NSMakeRect(406,513,16,16) );
   self.addSubview( _statusImageview );
   _statusImageview.release;
 
-  _connectButton:= NSButton.alloc.initWithFrame( NSMakeRect(80,430,100,22) );
+  _connectButton:= NSButton.alloc.initWithFrame( NSMakeRect(120,440,120,22) );
   _connectButton.setBezelStyle( NSRoundedBezelStyle );
   _connectButton.setTarget( self );
   _connectButton.setAction( ObjCSelector('TWFXOAuth2PropertyView_connectOrDisconnect:') );
   self.addSubView( _connectButton );
   _connectButton.release;
 
-  _saveButton:= NSButton.alloc.initWithFrame( NSMakeRect(200,430,100,22) );
+  _saveButton:= NSButton.alloc.initWithFrame( NSMakeRect(260,440,120,22) );
   _saveButton.setBezelStyle( NSRoundedBezelStyle );
-  _saveButton.setTitle( NSSTR('Save') );
+  _saveButton.setTitle( StringToNSString('Save') );
   _saveButton.setTarget( self );
   _saveButton.setAction( ObjCSelector('TWFXOAuth2PropertyView_saveConnection:') );
   self.addSubView( _saveButton );
   _saveButton.release;
 
-  _noteTextView:= NSTextView.alloc.initWithFrame( NSMakeRect(20,100,400,100) );
+  _noteTextView:= NSTextView.alloc.initWithFrame( NSMakeRect(20,100,440,100) );
   _noteTextView.setFont( NSFont.systemFontOfSize(11));
   _noteTextView.setEditable( False );
   _noteTextView.setDrawsBackground( False );
