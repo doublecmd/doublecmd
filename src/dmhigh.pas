@@ -8,7 +8,7 @@ uses
   Classes, SysUtils, Forms, Controls, SynEdit, DCStringHashListUtf8, LCLVersion,
   SynEditHighlighter, SynHighlighterJava, SynHighlighterXML, SynHighlighterLFM,
   SynHighlighterPHP, SynHighlighterSQL, SynHighlighterCss, SynHighlighterPython,
-  SynHighlighterVB, SynHighlighterLua, SynUniHighlighter,
+  SynHighlighterYAML, SynHighlighterLua, SynUniHighlighter,
   uHighlighters, uColors, fpJson;
 
 const
@@ -88,7 +88,7 @@ const
     TSynBatSynEx, TSynCppSynEx, TSynCssSyn, TSynDiffSynEx,
     TSynHTMLSynEx, TSynIniSynEx, TSynJavaSyn, TSynLFMSyn,
     TSynPasSynEx, TSynPHPSyn, TSynPoSynEx, TSynSQLSyn,
-    TSynTeXSynEx, TSynVBSyn, TSynLuaSyn
+    TSynTeXSynEx, TSynYAMLSyn, TSynLuaSyn
   );
 
 function SynHighlighterSortCompare(List: TStringList; Index1, Index2: Integer): Integer;
