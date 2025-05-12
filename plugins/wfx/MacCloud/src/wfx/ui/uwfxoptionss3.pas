@@ -242,9 +242,14 @@ var
     count: Integer;
     alert: NSAlert;
   begin
-    count:= client.getAllBuckets.Count;
-    if count > 0 then
-      Exit;
+    try
+      count:= client.getAllBuckets.Count;
+      if count > 0 then
+        Exit;
+    except
+      on e: Exception do
+        TLogUtil.logError( 'in TWFXS3PropertyView.saveConnection: ' + e.Message );
+    end;
 
     alert:= NSAlert.new;
     alert.setMessageText( StringToNSString('Incomplete Parameters') );
