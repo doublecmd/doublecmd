@@ -8,7 +8,7 @@ interface
 uses
   Classes, SysUtils,
   CocoaAll, uMiniCocoa,
-  uAWSCore,
+  uAWSCore, uS3Client,
   uWFXPlugin, uWFXUtil, uWFXOptionsCore,
   uMiniUtil;
 
@@ -233,9 +233,27 @@ end;
 procedure TWFXS3PropertyView.saveConnection(sender: NSObject);
 var
   configItem: TWFXConnectionConfigItem;
-  client: TAWSCloudDriver;
+  client: TS3Client;
   data: TAWSConnectionData;
   accessKey: TAWSAccessKey;
+
+  procedure checkConnectionParams;
+  var
+    count: Integer;
+    alert: NSAlert;
+  begin
+    count:= client.getAllBuckets.Count;
+    if count > 0 then
+      Exit;
+
+    alert:= NSAlert.new;
+    alert.setMessageText( StringToNSString('Incomplete Parameters') );
+    alert.setInformativeText( StringToNSString('Access Key ID and Secret Access Key are required, please make sure they are correct. If permissions are insufficient or you are setting "S3 Compatible", Region / Endpoint / Bucket is also required.') );
+    alert.addButtonWithTitle( StringToNSString('OK') );
+    alert.runModal;
+    alert.release;
+  end;
+
 begin
   configItem:= _controller.currentConfigItem;
   if configItem = nil then
@@ -244,7 +262,7 @@ begin
   if _secretButton.state = NSOnState then
     _accessKeySecretTextField.setStringValue( _accessKeySecretPlainTextField.stringValue );
 
-  client:= TAWSCloudDriver( configItem.driver );
+  client:= TS3Client( configItem.driver );
 
   data.region:= _regionTextField.stringValue.UTF8String;
   data.endPoint:= _endPointTextField.stringValue.UTF8String;
@@ -258,6 +276,7 @@ begin
   client.setAccessKey( accessKey );
 
   _controller.saveConnection( _nameTextField.stringValue );
+  checkConnectionParams;
 end;
 
 procedure TWFXS3PropertyView.initPropertyView;

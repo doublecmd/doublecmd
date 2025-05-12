@@ -155,16 +155,15 @@ type
     _authSession: TAWSAuthSession;
     _buckets: TS3Buckets;
   protected
-    function getAllBuckets: TS3Buckets; virtual; abstract;
     function getConcreteClass: TCloudDriverClass; virtual; abstract;
     function getConnectionDataOfBucket( const name: String ): TAWSConnectionData;
   public
     constructor Create;
     destructor Destroy; override;
-  public
     function clone: TCloudDriver; override;
   public
     function createLister( const path: String ): TCloudDriverLister; override;
+    function getAllBuckets: TS3Buckets; virtual; abstract;
   public
     function authorize: Boolean; override;
     procedure unauthorize; override;
@@ -586,6 +585,14 @@ end;
 
 procedure TS3Buckets.add( const bucket: TS3Bucket );
 begin
+  if (bucket.connectionData.bucketName=EmptyStr) or
+     (bucket.connectionData.region=EmptyStr) or
+     (bucket.connectionData.endPoint=EmptyStr)
+  then begin
+    bucket.Free;
+    Exit;
+  end;
+
   _items.Add( bucket );
 end;
 
@@ -762,14 +769,6 @@ var
 
     bucket:= TS3Bucket.Create;
     bucket.connectionData:= self.getDefaultConnectionData;
-    if (bucket.connectionData.bucketName=EmptyStr) or
-       (bucket.connectionData.region=EmptyStr) or
-       (bucket.connectionData.endPoint=EmptyStr)
-    then begin
-      bucket.Free;
-      Exit;
-    end;
-
     _buckets.add( bucket );
   end;
 
@@ -811,6 +810,7 @@ end;
 procedure TS3Client.setAccessKey(const accessKey: TAWSAccessKey);
 begin
   _authSession.accessKey:= accessKey;
+  FreeAndNil( _buckets );
 end;
 
 function TS3Client.getDefaultConnectionData: TAWSConnectionData;

@@ -315,7 +315,7 @@ var
     alert:= NSAlert.new;
     alert.setMessageText( StringToNSString('Duplicate Name') );
     alert.setInformativeText( StringToNSString('Please rename the Connection before saving.') );
-    alert.addButtonWithTitle( NSSTR('OK') );
+    alert.addButtonWithTitle( StringToNSString('OK') );
     alert.runModal;
     alert.release;
   end;
