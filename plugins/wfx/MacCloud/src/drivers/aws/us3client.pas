@@ -155,6 +155,7 @@ type
     _authSession: TAWSAuthSession;
     _buckets: TS3Buckets;
   protected
+    function autoBuildBuckets: TS3Buckets; virtual; abstract;
     function getConcreteClass: TCloudDriverClass; virtual; abstract;
     function getConnectionDataOfBucket( const name: String ): TAWSConnectionData;
   public
@@ -162,8 +163,8 @@ type
     destructor Destroy; override;
     function clone: TCloudDriver; override;
   public
+    function getAllBuckets: TS3Buckets;
     function createLister( const path: String ): TCloudDriverLister; override;
-    function getAllBuckets: TS3Buckets; virtual; abstract;
   public
     function authorize: Boolean; override;
     procedure unauthorize; override;
@@ -750,20 +751,15 @@ begin
   Result:= newClient;
 end;
 
-function TS3Client.createLister(const path: String): TCloudDriverLister;
-var
-  parser: TS3PathParser;
-  connectionData: TAWSConnectionData;
-  listFolderSession: TCloudDriverListFolderSession;
-
-  procedure createBucketList;
+function TS3CLient.getAllBuckets: TS3Buckets;
+  procedure createBuckets;
   var
     bucket: TS3Bucket;
   begin
     // todo: multi thread
     if _buckets <> nil then
       Exit;
-    _buckets:= self.getAllBuckets;
+    _buckets:= self.autoBuildBuckets;
     if _buckets.Count > 0 then
       Exit;
 
@@ -771,11 +767,20 @@ var
     bucket.connectionData:= self.getDefaultConnectionData;
     _buckets.add( bucket );
   end;
+begin
+  createBuckets;
+  Result:= _buckets;
+end;
 
+function TS3Client.createLister(const path: String): TCloudDriverLister;
+var
+  parser: TS3PathParser;
+  connectionData: TAWSConnectionData;
+  listFolderSession: TCloudDriverListFolderSession;
 begin
   parser:= TS3PathParser.Create( path );
   try
-    createBucketList;
+    self.getAllBuckets;
     if Path = EmptyStr then begin
       Result:= TS3BucketsLister.Create( _buckets );
     end else begin

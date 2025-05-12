@@ -31,7 +31,7 @@ type
     class function createInstance: TCloudDriver; override;
   protected
     function getConcreteClass: TCloudDriverClass; override;
-    function getAllBuckets: TS3Buckets; override;
+    function autoBuildBuckets: TS3Buckets; override;
   end;
 
 implementation
@@ -101,7 +101,7 @@ begin
   Result:= TAmazonS3Client;
 end;
 
-function TAmazonS3Client.getAllBuckets: TS3Buckets;
+function TAmazonS3Client.autoBuildBuckets: TS3Buckets;
 var
   session: TS3GetAllBucketsSession = nil;
 begin

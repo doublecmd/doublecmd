@@ -28,7 +28,7 @@ type
     class function driverName: String; override;
     class function createInstance: TCloudDriver; override;
     function getConcreteClass: TCloudDriverClass; override;
-    function getAllBuckets: TS3Buckets; override;
+    function autoBuildBuckets: TS3Buckets; override;
   end;
 
 implementation
@@ -43,7 +43,7 @@ end;
 
 function THuaweiOBSGetAllBucketsSession.getConnectionDataOfService: TAWSConnectionData;
 begin
-  Result.region:= '';
+  Result.region:= 'cn-north-1';
   Result.endPoint:= 'obs.myhuaweicloud.com';
   Result.bucketName:= '';
 end;
@@ -70,7 +70,7 @@ begin
   Result:= THuaweiOBSClient;
 end;
 
-function THuaweiOBSClient.getAllBuckets: TS3Buckets;
+function THuaweiOBSClient.autoBuildBuckets: TS3Buckets;
 var
   session: TS3GetAllBucketsSession = nil;
 begin

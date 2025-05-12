@@ -28,7 +28,7 @@ type
     class function driverName: String; override;
     class function createInstance: TCloudDriver; override;
     function getConcreteClass: TCloudDriverClass; override;
-    function getAllBuckets: TS3Buckets; override;
+    function autoBuildBuckets: TS3Buckets; override;
   end;
 
 implementation
@@ -70,7 +70,7 @@ begin
   Result:= TAliyunOSSClient;
 end;
 
-function TAliyunOSSClient.getAllBuckets: TS3Buckets;
+function TAliyunOSSClient.autoBuildBuckets: TS3Buckets;
 var
   session: TS3GetAllBucketsSession = nil;
 begin

@@ -18,7 +18,7 @@ type
     class function createInstance: TCloudDriver; override;
   protected
     function getConcreteClass: TCloudDriverClass; override;
-    function getAllBuckets: TS3Buckets; override;
+    function autoBuildBuckets: TS3Buckets; override;
   end;
 
 implementation
@@ -40,7 +40,7 @@ begin
   Result:= TS3CompatibleClient;
 end;
 
-function TS3CompatibleClient.getAllBuckets: TS3Buckets;
+function TS3CompatibleClient.autoBuildBuckets: TS3Buckets;
 var
   bucket: TS3Bucket;
 begin
