@@ -316,9 +316,9 @@ begin
   end;
 
   {$IF DEFINED(DARWIN)}
-  if gWFXPlugins.IndexOfName('DropBox') < 0 then
+  if gWFXPlugins.IndexOfName('cloud') < 0 then
   begin
-    gWFXPlugins.Add('DropBox', Folder + 'MacCloud' + PathDelim + 'MacCloud.wfx');
+    gWFXPlugins.Add('cloud', Folder + 'MacCloud' + PathDelim + 'MacCloud.wfx');
   end;
   {$ENDIF}
 
