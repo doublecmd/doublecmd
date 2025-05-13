@@ -1,7 +1,6 @@
 unit uAmazonS3Client;
 
 {$mode ObjFPC}{$H+}
-{$modeswitch objectivec2}
 
 interface
 
@@ -9,18 +8,17 @@ uses
   Classes, SysUtils,
   CocoaAll,
   uCloudDriver, uAWSCore, uS3Client,
-  uMiniHttpClient, uMiniUtil;
+  uMiniUtil;
 
 type
   
   { TAmazonS3GetAllBucketsSession }
 
-  TAmazonS3GetAllBucketsSession = class( TS3GetAllBucketsSession )
+  TAmazonS3GetAllBucketsSession = class( TS3GetAllBucketsWithRegionFunctionSession )
   protected
     procedure constructBucket( const bucket: TS3Bucket; const xmlBucket: NSXMLElement ); override;
     function getConnectionDataOfService: TAWSConnectionData; override;
     function getEndPointOfRegion(const region: String): String; override;
-    function getRegionOfBucket(const name: String): String;
   end;
 
   { TAmazonS3Client }
@@ -54,34 +52,6 @@ end;
 function TAmazonS3GetAllBucketsSession.getEndPointOfRegion( const region: String ): String;
 begin
   Result:= 's3.' + region + '.amazonaws.com';
-end;
-
-function TAmazonS3GetAllBucketsSession.getRegionOfBucket( const name: String ): String;
-var
-  connectionData: TAWSConnectionData;
-  endPoint: String;
-  http: TMiniHttpClient = nil;
-  httpResult: TMiniHttpResult = nil;
-  cloudDriverResult: TCloudDriverResult = nil;
-  urlString: String;
-begin
-  try
-    connectionData:= self.getConnectionDataOfService;
-    endPoint:= self.getEndPointOfRegion( connectionData.region );
-    urlString:= 'https://' + name + '.' + endPoint + '/';
-    http:= TMiniHttpClient.Create( urlString, HttpConst.Method.HEAD );
-    http.addHeader( AWSConst.HEADER.CONTENT_SHA256, AWSConst.HEADER.CONTENT_SHA256_DEFAULT_VALUE );
-    _authSession.setAuthHeader( http );
-
-    cloudDriverResult:= TCloudDriverResult.Create;
-    httpResult:= http.connect;
-    cloudDriverResult.httpResult:= httpResult;
-    cloudDriverResult.resultMessage:= httpResult.body;
-    Result:= httpResult.getHeader( AWSConst.HEADER.BUCKET_REGION );
-  finally
-    FreeAndNil( cloudDriverResult );
-    FreeAndNil( http );
-  end;
 end;
 
 { TAmazonS3Client }

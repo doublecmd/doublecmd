@@ -66,6 +66,13 @@ type
     function listBuckets: TS3Buckets;
   end;
 
+  { TS3GetAllBucketsWithRegionFunctionSession }
+
+  TS3GetAllBucketsWithRegionFunctionSession = class( TS3GetAllBucketsSession )
+  protected
+    function getRegionOfBucket( const name: String ): String;
+  end;
+
   { TS3BucketsLister }
 
   TS3BucketsLister = class( TCloudDriverLister )
@@ -677,6 +684,36 @@ begin
       Result:= analyseListResult( httpResult.body );
 
     S3ClientResultProcess( cloudDriverResult );
+  finally
+    FreeAndNil( cloudDriverResult );
+    FreeAndNil( http );
+  end;
+end;
+
+{ TS3GetAllBucketsWithRegionFunctionSession }
+
+function TS3GetAllBucketsWithRegionFunctionSession.getRegionOfBucket( const name: String ): String;
+var
+  connectionData: TAWSConnectionData;
+  endPoint: String;
+  http: TMiniHttpClient = nil;
+  httpResult: TMiniHttpResult = nil;
+  cloudDriverResult: TCloudDriverResult = nil;
+  urlString: String;
+begin
+  try
+    connectionData:= self.getConnectionDataOfService;
+    endPoint:= self.getEndPointOfRegion( connectionData.region );
+    urlString:= 'https://' + name + '.' + endPoint + '/';
+    http:= TMiniHttpClient.Create( urlString, HttpConst.Method.HEAD );
+    http.addHeader( AWSConst.HEADER.CONTENT_SHA256, AWSConst.HEADER.CONTENT_SHA256_DEFAULT_VALUE );
+    _authSession.setAuthHeader( http );
+
+    cloudDriverResult:= TCloudDriverResult.Create;
+    httpResult:= http.connect;
+    cloudDriverResult.httpResult:= httpResult;
+    cloudDriverResult.resultMessage:= httpResult.body;
+    Result:= httpResult.getHeader( AWSConst.HEADER.BUCKET_REGION );
   finally
     FreeAndNil( cloudDriverResult );
     FreeAndNil( http );

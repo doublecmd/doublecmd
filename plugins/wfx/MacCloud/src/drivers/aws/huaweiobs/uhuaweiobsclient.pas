@@ -14,7 +14,7 @@ type
 
   { THuaweiOBSGetAllBucketsSession }
 
-  THuaweiOBSGetAllBucketsSession = class( TS3GetAllBucketsSession )
+  THuaweiOBSGetAllBucketsSession = class( TS3GetAllBucketsWithRegionFunctionSession )
   protected
     procedure constructBucket( const bucket: TS3Bucket; const xmlBucket: NSXMLElement ); override;
     function getConnectionDataOfService: TAWSConnectionData; override;
@@ -38,19 +38,24 @@ implementation
 procedure THuaweiOBSGetAllBucketsSession.constructBucket( const bucket: TS3Bucket; const xmlBucket: NSXMLElement );
 begin
   bucket.connectionData.region:= TXmlUtil.getString( xmlBucket, 'Location' );
+  if bucket.connectionData.region = EmptyStr then
+    bucket.connectionData.region:= self.getRegionOfBucket( bucket.connectionData.bucketName );
   bucket.connectionData.endPoint:= self.getEndPointOfRegion( bucket.connectionData.region );
 end;
 
 function THuaweiOBSGetAllBucketsSession.getConnectionDataOfService: TAWSConnectionData;
 begin
-  Result.region:= 'cn-north-1';
+  Result.region:= '';
   Result.endPoint:= 'obs.myhuaweicloud.com';
   Result.bucketName:= '';
 end;
 
 function THuaweiOBSGetAllBucketsSession.getEndPointOfRegion( const region: String ): String;
 begin
-  Result:= 'obs.' + region + '.myhuaweicloud.com';
+  if region = EmptyStr then
+    Result:= 'obs.myhuaweicloud.com'
+  else
+    Result:= 'obs.' + region + '.myhuaweicloud.com';
 end;
 
 { THuaweiOBSClient }
