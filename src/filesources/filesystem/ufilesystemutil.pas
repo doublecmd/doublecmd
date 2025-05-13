@@ -520,7 +520,8 @@ var
   SourceFileStream, TargetFileStream: TFileStreamUAC;
   iTotalDiskSize, iFreeDiskSize: Int64;
   bRetryRead, bRetryWrite: Boolean;
-  BytesRead, BytesToRead, BytesWrittenTry, BytesWritten: Int64;
+  BytesRead, BytesToRead, BytesToWrite,
+  BytesWrittenTry, BytesWritten: Int64;
   TotalBytesToRead: Int64 = 0;
   NewPos: Int64;
   Hash: String;
@@ -819,27 +820,29 @@ begin
             if FVerify then HashUpdate(Context, FBuffer^, BytesRead);
 
             TotalBytesToRead := TotalBytesToRead - BytesRead;
+            BytesToWrite := BytesRead;
             BytesWritten := 0;
 
             repeat
               try
                 bRetryWrite := False;
-                BytesWrittenTry := TargetFileStream.Write((FBuffer + BytesWritten)^, BytesRead);
+                BytesWrittenTry := TargetFileStream.Write((FBuffer + BytesWritten)^, BytesToWrite);
                 BytesWritten := BytesWritten + BytesWrittenTry;
                 if BytesWrittenTry = 0 then
                 begin
                   Raise EWriteError.Create(mbSysErrorMessage(GetLastOSError));
                 end
-                else if BytesWritten < BytesRead then
+                else if BytesWrittenTry < BytesToWrite then
                 begin
-                  bRetryWrite := True;   // repeat and try to write the rest
-                  Dec(BytesRead, BytesWrittenTry);
+                  bRetryWrite := True;
+                  // Repeat and try to write the rest
+                  Dec(BytesToWrite, BytesWrittenTry);
                 end;
               except
                 on E: EWriteError do
                   begin
                     { Check disk free space }
-                    if GetDiskFreeSpace(ExtractFilePath(TargetFileName), iFreeDiskSize, iTotalDiskSize) and (BytesRead > iFreeDiskSize) then
+                    if GetDiskFreeSpace(ExtractFilePath(TargetFileName), iFreeDiskSize, iTotalDiskSize) and (BytesToWrite > iFreeDiskSize) then
                       begin
                         case AskQuestion(rsMsgNoFreeSpaceRetry, '',
                                          [fsourYes, fsourNo, fsourSkip],
