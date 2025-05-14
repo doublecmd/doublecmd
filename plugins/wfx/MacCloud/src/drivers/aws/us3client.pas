@@ -14,7 +14,7 @@ unit uS3Client;
 interface
 
 uses
-  Classes, SysUtils, Contnrs, DateUtils,
+  Classes, SysUtils, syncobjs, Contnrs, DateUtils,
   CocoaAll,
   uCloudDriver, uAWSCore, uAWSAuth,
   uMiniHttpClient, uMiniUtil;
@@ -33,16 +33,20 @@ type
   public
     connectionData: TAWSConnectionData;
     creationTime: TDateTime;
+  public
+    function clone: TS3Bucket;
   end;
 
   { TS3Buckets }
 
   TS3Buckets = class
-  private
+  strict private
     _items: TFPObjectList;
   public
     constructor Create;
     destructor Destroy; override;
+    function clone: TS3Buckets;
+  public
     procedure add( const bucket: TS3Bucket );
     function get( const name: String ): TS3Bucket; overload;
     function get( const index: Integer ): TS3Bucket; overload; inline;
@@ -81,6 +85,7 @@ type
     _currentIndex: Integer;
   public
     constructor Create( const buckets: TS3Buckets );
+    destructor Destroy; override;
     procedure listFolderBegin; override;
     function  listFolderGetNextFile: TCloudFile; override;
     procedure listFolderEnd; override;
@@ -158,6 +163,8 @@ type
   { TS3Client }
 
   TS3Client = class( TAWSCloudDriver )
+  strict protected
+    _lockObject: TCriticalSection;
   protected
     _authSession: TAWSAuthSession;
     _buckets: TS3Buckets;
@@ -579,6 +586,15 @@ begin
   end;
 end;
 
+{ TS3Bucket }
+
+function TS3Bucket.clone: TS3Bucket;
+begin
+  Result:= TS3Bucket.Create;
+  Result.connectionData:= self.connectionData;
+  Result.creationTime:= self.creationTime;
+end;
+
 { TS3Buckets }
 
 constructor TS3Buckets.Create;
@@ -627,6 +643,16 @@ end;
 function TS3Buckets.Count: Integer;
 begin
   Result:= _items.Count;
+end;
+
+function TS3Buckets.clone: TS3Buckets;
+var
+  i: Integer;
+begin
+  Result:= TS3Buckets.Create;
+  for i:=0 to _items.Count-1 do begin
+    Result.add( self.get(i).clone );
+  end;
 end;
 
 { TS3GetAllBucketsSession }
@@ -727,6 +753,11 @@ begin
   _buckets:= buckets;
 end;
 
+destructor TS3BucketsLister.Destroy;
+begin
+  FreeAndNil( _buckets );
+end;
+
 procedure TS3BucketsLister.listFolderBegin;
 begin
 end;
@@ -759,23 +790,31 @@ begin
   params:= Default( TAWSAuthSessionParams );
   params.config:= s3CloudDriverConfig;
   _authSession:= TAWSAuthSession.Create( self, params );
+  _lockObject:= TCriticalSection.Create;
 end;
 
 destructor TS3Client.Destroy;
 begin
   FreeAndNil( _authSession );
   FreeAndNil( _buckets );
+  FreeAndNil( _lockObject );
 end;
 
 function TS3Client.getConnectionDataOfBucket( const name: String ): TAWSConnectionData;
 var
   bucket: TS3Bucket;
 begin
-  bucket:= _buckets.get( name );
-  if bucket <> nil then
-    Result:= bucket.connectionData
-  else
-    Result:= self.getDefaultConnectionData;
+  _lockObject.Acquire;
+  try
+    self.getAllBuckets;
+    bucket:= _buckets.get( name );
+    if bucket <> nil then
+      Result:= bucket.connectionData
+    else
+      Result:= self.getDefaultConnectionData;
+  finally
+    _lockObject.Release;
+  end;
 end;
 
 function TS3Client.clone: TCloudDriver;
@@ -793,7 +832,6 @@ function TS3CLient.getAllBuckets: TS3Buckets;
   var
     bucket: TS3Bucket;
   begin
-    // todo: multi thread
     if _buckets <> nil then
       Exit;
     _buckets:= self.autoBuildBuckets;
@@ -805,8 +843,13 @@ function TS3CLient.getAllBuckets: TS3Buckets;
     _buckets.add( bucket );
   end;
 begin
-  createBuckets;
-  Result:= _buckets;
+  _lockObject.Acquire;
+  try
+    createBuckets;
+    Result:= _buckets;
+  finally
+    _lockObject.Release;
+  end;
 end;
 
 function TS3Client.createLister(const path: String): TCloudDriverLister;
@@ -816,10 +859,11 @@ var
   listFolderSession: TCloudDriverListFolderSession;
 begin
   parser:= TS3PathParser.Create( path );
+  _lockObject.Acquire;
   try
     self.getAllBuckets;
     if Path = EmptyStr then begin
-      Result:= TS3BucketsLister.Create( _buckets );
+      Result:= TS3BucketsLister.Create( _buckets.clone );
     end else begin
       connectionData:= _buckets.get(parser.bucketName).connectionData;
       listFolderSession:= TS3ListFolderSession.Create( _authSession, connectionData, parser.bucketPath );
@@ -827,6 +871,7 @@ begin
     end;
   finally
     FreeAndNil( parser );
+    _lockObject.Release;
   end;
 end;
 
@@ -852,7 +897,12 @@ end;
 procedure TS3Client.setAccessKey(const accessKey: TAWSAccessKey);
 begin
   _authSession.accessKey:= accessKey;
-  FreeAndNil( _buckets );
+  _lockObject.Acquire;
+  try
+    FreeAndNil( _buckets );
+  finally
+    _lockObject.Release;
+  end;
 end;
 
 function TS3Client.getDefaultConnectionData: TAWSConnectionData;
