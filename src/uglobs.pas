@@ -2378,8 +2378,8 @@ begin
   { Favorite Tabs }
   gFavoriteTabsList.LoadAllListFromXml;
 
-  // Update plugins if DC version or plugins list version is changed
-  if (gPreviousVersion <> dcVersion) or (PluginsVersion <> pdVersion) then UpdatePlugins;
+  // Update plugins if default plugins list version is changed
+  if (PluginsVersion <> pdVersion) then UpdatePlugins;
 
   // Adjust icons size
   gIconsSize:= AdjustIconSize(gIconsSize, gPixelsPerInch);
