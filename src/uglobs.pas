@@ -758,6 +758,8 @@ type
   TLoadConfigProc = function(var ErrorMessage: String): Boolean;
 
 var
+  // Plugins list version
+  PluginsVersion: Integer;
   // Double Commander version
   // loaded from configuration file
   gPreviousVersion: String = '';
@@ -2376,8 +2378,8 @@ begin
   { Favorite Tabs }
   gFavoriteTabsList.LoadAllListFromXml;
 
-  // Update plugins if DC version is changed
-  if (gPreviousVersion <> dcVersion) then UpdatePlugins;
+  // Update plugins if DC version or plugins list version is changed
+  if (gPreviousVersion <> dcVersion) or (PluginsVersion <> pdVersion) then UpdatePlugins;
 
   // Adjust icons size
   gIconsSize:= AdjustIconSize(gIconsSize, gPixelsPerInch);
@@ -3310,6 +3312,7 @@ begin
   Node := gConfig.FindNode(Root, 'Plugins');
   if Assigned(Node) then
   begin
+    PluginsVersion:= gConfig.GetAttr(Node, 'Version', 0);
     gDSXPlugins.Load(gConfig, Node);
     gWCXPlugins.Load(gConfig, Node);
     gWDXPlugins.Load(gConfig, Node);
@@ -3878,6 +3881,7 @@ begin
 
   { Plugins }
   Node := gConfig.FindNode(Root, 'Plugins', True);
+  gConfig.SetAttr(Node, 'Version', pdVersion);
   gDSXPlugins.Save(gConfig, Node);
   gWCXPlugins.Save(gConfig, Node);
   gWDXPlugins.Save(gConfig, Node);

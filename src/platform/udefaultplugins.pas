@@ -30,6 +30,10 @@ uses
   Classes, SysUtils; 
 
 const
+  { Default plugins list version number }
+  pdVersion = 1;
+
+const
   WcxMask = '*.wcx'{$IFDEF CPU64} + ';*.wcx64'{$ENDIF};
   WdxMask = '*.wdx'{$IFDEF CPU64} + ';*.wdx64'{$ENDIF};
   WfxMask = '*.wfx'{$IFDEF CPU64} + ';*.wfx64'{$ENDIF};
