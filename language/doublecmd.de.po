@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Double Commander 1.1.0 alpha\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-11-15 11:15+0300\n"
-"PO-Revision-Date: 2025-03-13 00:17+0100\n"
+"PO-Revision-Date: 2025-05-14 21:16+0200\n"
 "Last-Translator:  ㋡  <braass@mail.de>\n"
 "Language-Team: Deutsch <braass@mail.de>\n"
 "Language: de\n"
@@ -10960,12 +10960,12 @@ msgstr "iCloud Drive"
 #: ulng.rsmfstbinetworktips
 msgctxt "ulng.rsmfstbinetworktips"
 msgid "network"
-msgstr ""
+msgstr "Netzwerk"
 
 #: ulng.rsmfstbinetworktitle
 msgctxt "ulng.rsmfstbinetworktitle"
 msgid "network"
-msgstr ""
+msgstr "Netzwerk"
 
 #: ulng.rsmfstbiprivilegetips
 msgid "As a file manager, Double Command requires full disk access permissions. Clicking this button will pop up the macOS system settings page. Please add \"Double Commander.app\" to the \"Full Disk Access\" list to complete the authorization."
