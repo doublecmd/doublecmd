@@ -170,7 +170,6 @@ type
     _buckets: TS3Buckets;
   protected
     function autoBuildBuckets: TS3Buckets; virtual; abstract;
-    function getConcreteClass: TCloudDriverClass; virtual; abstract;
     function getConnectionDataOfBucket( const name: String ): TAWSConnectionData;
   public
     constructor Create;
@@ -560,7 +559,6 @@ begin
 end;
 
 procedure TS3CopyMoveSession.copyOrMove(const needToMove: Boolean);
-
 begin
   if needToMove then
     raise ENotSupportedException.Create( 'Move / Rename not supported' );
@@ -821,7 +819,7 @@ function TS3Client.clone: TCloudDriver;
 var
   newClient: TS3Client;
 begin
-  newClient:= TS3Client( self.getConcreteClass.Create );
+  newClient:= TS3Client( self.createInstance );
   newClient._authSession.Free;
   newClient._authSession:= TAWSAuthSession( _authSession.clone(newClient) );
   Result:= newClient;

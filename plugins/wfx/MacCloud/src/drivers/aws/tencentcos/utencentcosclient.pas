@@ -27,7 +27,6 @@ type
   public
     class function driverName: String; override;
     class function createInstance: TCloudDriver; override;
-    function getConcreteClass: TCloudDriverClass; override;
     function autoBuildBuckets: TS3Buckets; override;
   end;
 
@@ -63,11 +62,6 @@ end;
 class function TTencentCOSClient.createInstance: TCloudDriver;
 begin
   Result:= TTencentCOSClient.Create;
-end;
-
-function TTencentCOSClient.getConcreteClass: TCloudDriverClass;
-begin
-  Result:= TTencentCOSClient;
 end;
 
 function TTencentCOSClient.autoBuildBuckets: TS3Buckets;

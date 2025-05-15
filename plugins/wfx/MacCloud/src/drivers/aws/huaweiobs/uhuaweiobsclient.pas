@@ -27,7 +27,6 @@ type
   public
     class function driverName: String; override;
     class function createInstance: TCloudDriver; override;
-    function getConcreteClass: TCloudDriverClass; override;
     function autoBuildBuckets: TS3Buckets; override;
   end;
 
@@ -68,11 +67,6 @@ end;
 class function THuaweiOBSClient.createInstance: TCloudDriver;
 begin
   Result:= THuaweiOBSClient.Create;
-end;
-
-function THuaweiOBSClient.getConcreteClass: TCloudDriverClass;
-begin
-  Result:= THuaweiOBSClient;
 end;
 
 function THuaweiOBSClient.autoBuildBuckets: TS3Buckets;

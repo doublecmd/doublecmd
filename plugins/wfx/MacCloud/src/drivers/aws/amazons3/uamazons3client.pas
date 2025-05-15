@@ -28,7 +28,6 @@ type
     class function driverName: String; override;
     class function createInstance: TCloudDriver; override;
   protected
-    function getConcreteClass: TCloudDriverClass; override;
     function autoBuildBuckets: TS3Buckets; override;
   end;
 
@@ -64,11 +63,6 @@ end;
 class function TAmazonS3Client.createInstance: TCloudDriver;
 begin
   Result:= TAmazonS3Client.Create;
-end;
-
-function TAmazonS3Client.getConcreteClass: TCloudDriverClass;
-begin
-  Result:= TAmazonS3Client;
 end;
 
 function TAmazonS3Client.autoBuildBuckets: TS3Buckets;
