@@ -3,8 +3,9 @@
     -------------------------------------------------------------------------
     Simple implementation of Icon Theme based on FreeDesktop.org specification
     (http://standards.freedesktop.org/icon-theme-spec/icon-theme-spec-latest.html)
+    (https://gitlab.gnome.org/GNOME/gtk/blob/main/docs/iconcache.txt)
 
-    Copyright (C) 2009-2024 Alexander Koblov (alexx2000@mail.ru)
+    Copyright (C) 2009-2025 Alexander Koblov (alexx2000@mail.ru)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -28,7 +29,23 @@ unit uIconTheme;
 interface
 
 uses
-  SysUtils, Classes, DCStringHashListUtf8, DCClassesUtf8;
+  SysUtils, Classes, DCOSUtils, DCStringHashListUtf8, DCClassesUtf8;
+
+type
+
+  { TIconCache }
+
+  TIconCache = class
+  private
+    FFile: TFileMapRec;
+    function Validate: Boolean;
+    function LoadFromFile(const FileName: String): Boolean;
+    function GetDirectoryIndex(const Name: PAnsiChar): Integer;
+  public
+    destructor Destroy; override;
+    function GetIcons(const Directory: String): TStringHashListUtf8;
+    class function CreateFrom(const Directory: String): TIconCache;
+  end;
 
 type
   TIconType = (itFixed, itScalable, itThreshold);
@@ -63,6 +80,8 @@ type
     FTheme,
     FThemeName: String;
     FComment: String;
+    FCache: TIconCache;
+    FCacheIndex: Integer;
     FDefaultTheme: String;
     FInherits: TStringList;
     FOwnsInheritsObject: Boolean;
@@ -94,26 +113,238 @@ type
 implementation
 
 uses
-  LCLProc, StrUtils, uDebug, uFindEx, DCBasicTypes, DCOSUtils, DCStrUtils;
+  LCLProc, StrUtils, uDebug, uFindEx, DCBasicTypes, DCStrUtils;
+
+const
+  EXT_IDX_PNG = 0;
+  EXT_IDX_XPM = 1;
+  EXT_IDX_SVG = 2;
+
+const
+  HAS_SUFFIX_XPM = 1;
+  HAS_SUFFIX_SVG = 2;
+  HAS_SUFFIX_PNG = 4;
 
 var
   IconExtensionList: TDynamicStringArray;
 
-{ TIconTheme }
-
-function LookupFallbackIcon (AIconName: String): String;
+function ReadUInt16(const P: Pointer; Offset: UInt32): UInt16; inline;
 begin
-(*
-  for each directory in $(basename list) {
-    for extension in ("png", "svg", "xpm") {
-      if exists directory/iconname.extension
-        return directory/iconname.extension
-    }
-  }
-*)
-  Result := EmptyStr;
+  Result:= BEtoN(PUInt16(PByte(P) + Offset)^);
 end;
 
+function ReadUInt32(const P: Pointer; Offset: UInt32): UInt32; inline;
+begin
+  Result:= BEtoN(PUInt32(PByte(P) + Offset)^);
+end;
+
+{ TIconCache }
+
+function TIconCache.Validate: Boolean;
+var
+  I, J: Integer;
+  Offset: UInt32;
+  ACount: UInt32;
+  AVersion: UInt16;
+  HashOffset, HashCount: UInt32;
+  ImageOffset, ImageCount: UInt32;
+  ChainOffset, NameOffset: UInt32;
+
+  function CheckString(S: PAnsiChar): Boolean; inline;
+  begin
+    Result:= (IndexByte(S^, 1024, 0) > -1);
+  end;
+
+  function CheckOffset(AOffset, ASize: UInt32): Boolean; inline;
+  begin
+    Result:= (AOffset + ASize < FFile.FileSize);
+  end;
+
+begin
+  Result:= False;
+
+  if FFile.FileSize < 12 then Exit;
+
+  AVersion:= ReadUInt16(FFile.MappedFile, 0);
+  if AVersion <> 1 then Exit;
+  AVersion:= ReadUInt16(FFile.MappedFile, 2);
+  if AVersion <> 0 then Exit;
+
+  Offset:= ReadUInt32(FFile.MappedFile, 8);
+  if not CheckOffset(Offset, 4) then Exit;
+  ACount:= ReadUInt32(FFile.MappedFile, Offset);
+
+  for I:= 0 to Int32(ACount) - 1 do
+  begin
+    if not CheckOffset(Offset + 4 + I * 4, 4) then Exit;
+    NameOffset:= ReadUInt32(FFile.MappedFile, Offset + 4 + I * 4);
+    if not CheckOffset(NameOffset, 0) then Exit;
+    CheckString(PAnsiChar(FFile.MappedFile) + NameOffset)
+  end;
+
+  HashOffset:= ReadUInt32(FFile.MappedFile, 4);
+  if not CheckOffset(HashOffset, 4) then Exit;
+  HashCount:= ReadUInt32(FFile.MappedFile, HashOffset);
+
+  for I:= 0 to Int32(HashCount) - 1 do
+  begin
+    if not CheckOffset(HashOffset + 4 + I * 4, 4) then Exit(False);
+    ChainOffset:= ReadUInt32(FFile.MappedFile, HashOffset + 4 + I * 4);
+
+    while (ChainOffset <> $FFFFFFFF) do
+    begin
+      if not CheckOffset(ChainOffset + 8, 4) then Exit;
+
+      NameOffset:= ReadUInt32(FFile.MappedFile, ChainOffset + 4);
+      if not CheckOffset(NameOffset, 0) then Exit(False);
+      CheckString(PAnsiChar(FFile.MappedFile) + NameOffset);
+
+      ImageOffset:= ReadUInt32(FFile.MappedFile, ChainOffset + 8);
+      if not CheckOffset(ImageOffset, 4) then Exit(False);
+      ImageCount:= ReadUInt32(FFile.MappedFile, ImageOffset);
+
+      for J:= 0 to Int32(ImageCount) - 1 do
+      begin
+        if not CheckOffset(ImageOffset + 4 + J * 8 + 2, 2) then Exit;
+      end;
+
+      ChainOffset:= ReadUInt32(FFile.MappedFile, ChainOffset);
+    end;
+  end;
+
+  Result:= True;
+end;
+
+function TIconCache.LoadFromFile(const FileName: String): Boolean;
+begin
+  Result:= MapFile(FileName, FFile);
+  if Result and not Validate then
+  begin
+    Result:= False;
+    UnMapFile(FFile);
+  end;
+end;
+
+function TIconCache.GetDirectoryIndex(const Name: PAnsiChar): Integer;
+var
+  Index: Integer;
+  Offset: UInt32;
+  ACount: UInt32;
+  NameOffset: UInt32;
+  DirectoryName: PAnsiChar;
+begin
+  // Directory list offset
+  Offset:= ReadUInt32(FFile.MappedFile, 8);
+  ACount:= ReadUInt32(FFile.MappedFile, Offset);
+  Offset:= Offset + 4;
+
+  for Index:= 0 to Int32(ACount) - 1 do
+  begin
+    NameOffset:= ReadUInt32(FFile.MappedFile, Offset + Index * 4);
+    DirectoryName:= PAnsiChar(FFile.MappedFile) + NameOffset;
+    if StrComp(Name, DirectoryName) = 0 then Exit(Index);
+  end;
+  Result:= -1;
+end;
+
+destructor TIconCache.Destroy;
+begin
+  UnMapFile(FFile);
+  inherited Destroy;
+end;
+
+function TIconCache.GetIcons(const Directory: String): TStringHashListUtf8;
+var
+  I, J: Integer;
+  Flags: UInt16;
+  ExtIdx: IntPtr;
+  NameValue: PAnsiChar;
+  DirectoryIndex: Integer;
+  HashOffset, HashCount: UInt32;
+  ImageOffset, ImageCount: UInt32;
+  ChainOffset, NameOffset: UInt32;
+begin
+  DirectoryIndex:= GetDirectoryIndex(PAnsiChar(Directory));
+
+  if DirectoryIndex < 0 then
+  begin
+    // DCDebug('Not found in cache ', Directory);
+    Exit(nil);
+  end;
+
+  HashOffset:= ReadUInt32(FFile.MappedFile, 4);
+  HashCount:= ReadUInt32(FFile.MappedFile, HashOffset);
+
+  Result:= TStringHashListUtf8.Create(FileNameCaseSensitive);
+
+  for I:= 0 to Int32(HashCount) - 1 do
+  begin
+    ChainOffset:= ReadUInt32(FFile.MappedFile, HashOffset + 4 + I * 4);
+
+    while (ChainOffset <> $FFFFFFFF) do
+    begin
+      ImageOffset:= ReadUInt32(FFile.MappedFile, ChainOffset + 8);
+      ImageCount:= ReadUInt32(FFile.MappedFile, ImageOffset);
+
+      for J:= 0 to Int32(ImageCount) - 1 do
+      begin
+        if (DirectoryIndex = ReadUInt16(FFile.MappedFile, ImageOffset + 4 + J * 8)) then
+        begin
+          Flags:= ReadUInt16(FFile.MappedFile, ImageOffset + 4 + J * 8 + 2);
+
+          if (Flags <> 0) then
+          begin
+            if (Flags and HAS_SUFFIX_SVG <> 0) then
+              ExtIdx:= EXT_IDX_SVG
+            else if (Flags and HAS_SUFFIX_PNG <> 0) then
+              ExtIdx:= EXT_IDX_PNG
+            else if (Flags and HAS_SUFFIX_XPM <> 0) then
+              ExtIdx:= EXT_IDX_XPM
+            else begin
+              Break;
+            end;
+
+            NameOffset:= ReadUInt32(FFile.MappedFile, ChainOffset + 4);
+            NameValue:= PAnsiChar(FFile.MappedFile) + NameOffset;
+            Result.Add(StrPas(NameValue), Pointer(ExtIdx));
+          end;
+
+          Break;
+        end;
+      end;
+
+      ChainOffset:= ReadUInt32(FFile.MappedFile, ChainOffset);
+    end;
+  end;
+end;
+
+class function TIconCache.CreateFrom(const Directory: String): TIconCache;
+var
+  FileName: String;
+  CacheTime: DCBasicTypes.TFileTime;
+begin
+  Result:= nil;
+  FileName:= Directory + PathDelim + 'icon-theme.cache';
+
+  CacheTime:= mbFileAge(FileName);
+
+  if (CacheTime <> DCBasicTypes.TFileTime(-1)) then
+  begin
+     if (CacheTime < mbFileAge(Directory)) then
+     begin
+       DCDebug('Icon cache outdated');
+     end
+     else begin
+       Result:= TIconCache.Create;
+       if not Result.LoadFromFile(FileName) then
+       begin
+         FreeAndNil(Result);
+       end;
+     end;
+  end;
+end;
+
+{ TIconTheme }
 
 function TIconTheme.DirectoryMatchesSize(SubDirIndex: Integer; AIconSize,
   AIconScale: Integer): Boolean;
@@ -198,6 +429,7 @@ begin
   begin
     FInherits.Free;
   end;
+  FCache.Free;
   FreeAndNil(FDirectories);
   inherited Destroy;
 end;
@@ -230,7 +462,10 @@ begin
        sElement:= FBaseDirList[I] + PathDelim + FTheme + PathDelim + 'index.theme';
        if mbFileExists(sElement) then
          begin
+           DCDebug('Loading icon theme ', FTheme);
+           FCache:= TIconCache.CreateFrom(FBaseDirList[I] + PathDelim + FTheme);
            sThemeName:= sElement;
+           FCacheIndex:= I;
            Result:= True;
            Break;
          end;
@@ -239,7 +474,7 @@ begin
    // theme not found
    if Result = False then
      begin
-       DCDebug('Theme ', FTheme, ' not found.');
+       DCDebug('Theme ', FTheme, ' not found');
        Exit;
      end;
 
@@ -260,8 +495,6 @@ begin
      FThemeName:= IniFile.ReadString('Icon Theme', 'Name', EmptyStr);
      FComment:= IniFile.ReadString('Icon Theme', 'Comment', EmptyStr);
 
-     DCDebug('Loading icon theme ', FThemeName);
-
      // read theme directories
      sValue:= IniFile.ReadString('Icon Theme', 'Directories', EmptyStr);
      repeat
@@ -269,6 +502,17 @@ begin
        IconDirInfo:= LoadIconDirInfo(IniFile, sElement);
        if Assigned(IconDirInfo) then FDirectories.Add(sElement, IconDirInfo);
      until sValue = EmptyStr;
+
+     // load icons from cache
+     if Assigned(FCache) then
+     begin
+       DCDebug('Loading theme icons from cache');
+
+       for I:= 0 to FDirectories.Count - 1 do
+       begin
+         FDirectories.Items[I]^.FileListCache[FCacheIndex]:= FCache.GetIcons(FDirectories[I]);
+       end;
+     end;
 
      // read parent themes
      sValue:= IniFile.ReadString('Icon Theme', 'Inherits', EmptyStr);
@@ -311,18 +555,9 @@ end;
 
 function TIconTheme.LookupIcon(AIconName: String; AIconSize, AIconScale: Integer): String;
 var
+  ExtIdx: PtrInt;
   I, J, FoundIndex: Integer;
-  MinimalSize,
-  NewSize: Integer;
-
-  procedure MakeResult; inline;
-  begin
-    Result:= FBaseDirList[J] + PathDelim + FTheme + PathDelim +
-             FDirectories.Strings[I] + PathDelim +
-             AIconName + '.' +
-             IconExtensionList[PtrInt(FDirectories.Items[I]^.FileListCache[J].List[FoundIndex]^.Data)];
-  end;
-
+  MinimalSize, NewSize: Integer;
 begin
   Result:= EmptyStr;
 
@@ -345,9 +580,15 @@ begin
           CacheDirectoryFiles(I, J);
 
         FoundIndex:= FDirectories.Items[I]^.FileListCache[J].Find(AIconName);
+
         if FoundIndex >= 0 then
         begin
-          MakeResult;
+          ExtIdx:= PtrInt(FDirectories.Items[I]^.FileListCache[J].List[FoundIndex]^.Data);
+
+          Result:= FBaseDirList[J] + PathDelim + FTheme + PathDelim +
+                   FDirectories.Strings[I] + PathDelim +
+                   AIconName + '.' + IconExtensionList[ExtIdx];
+
           // Exact match
           if (NewSize = 0) and (AIconScale = FDirectories.Items[I]^.IconScale) then
             Exit
@@ -514,7 +755,7 @@ begin
 end;
 
 initialization
-  AddString(IconExtensionList, 'png');
-  AddString(IconExtensionList, 'xpm');
+  AddString(IconExtensionList, 'png'); // EXT_IDX_PNG
+  AddString(IconExtensionList, 'xpm'); // EXT_IDX_XPM
 
 end.
