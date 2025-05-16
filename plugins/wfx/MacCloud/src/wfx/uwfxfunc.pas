@@ -293,6 +293,11 @@ var
   end;
 
 begin
+  if TThread.CurrentThread.ThreadID <> MainThreadID then begin
+    TLogUtil.logError( 'Not Called in Main Thread!' );
+    Exit( False );
+  end;
+
   try
     try
       doCreateFolder;
@@ -376,10 +381,12 @@ var
       if parserOld.driverPath = EmptyStr then begin
         if parserNew.driverPath <> EmptyStr then
           raise ENotSupportedException.Create( 'Connection not support copying' );
-        driver.copyOrMove( parserOld.connectionName, parserNew.connectionName, isFolder, True );
+        driver.copyOrMove( parserOld.connectionName, parserNew.connectionName, isFolder, Move );
       end else begin
+        if parserNew.driverPath = EmptyStr then
+          raise ENotSupportedException.Create( 'not support copying/moving to Connection' );
         if parserOld.connection <> parserNew.connection then
-          raise ENotSupportedException.Create( 'Internal copy/move functions cannot be used between different accounts' );
+          raise ENotSupportedException.Create( 'not support copying/moving between different Connections' );
         driver.copyOrMove( parserOld.driverPath, parserNew.driverPath, isFolder, Move );
       end;
       WFXMacCloudPlugin.progress( oldName, newName, 100 );
