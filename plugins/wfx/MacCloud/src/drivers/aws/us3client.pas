@@ -560,11 +560,13 @@ end;
 
 procedure TS3CopyMoveSession.copyOrMove(const needToMove: Boolean);
 begin
-  if needToMove then
-    raise ENotSupportedException.Create( 'Move / Rename not supported' );
   if _isFolder then
-    raise ENotSupportedException.Create( 'Copy Folder not supported' );
+    raise ENotSupportedException.Create( 'Rename Folder not supported' );
+
   self.doCopyFile;
+
+  if needToMove then
+    _authSession.cloudDriver.delete( _fromPath, False );
 end;
 
 { TS3PathParser }
