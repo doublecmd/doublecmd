@@ -53,9 +53,6 @@ uses
   {$ENDIF}
   {$IFDEF LCLWIN32}
   uDClass,
-  {$IF NOT DEFINED(DARKWIN)}
-  uWin32WidgetSetFix,
-  {$ENDIF}
   {$ENDIF}
   LCLProc,
   Classes,
