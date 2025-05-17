@@ -18,7 +18,8 @@ unit fFindView;
 interface
 
 uses
-  SysUtils, Classes, Controls, Forms, StdCtrls, Buttons, uOSForms;
+  SysUtils, Classes, Controls, Forms, StdCtrls, Buttons, KASButtonPanel,
+  uOSForms;
 
 type
 
@@ -32,6 +33,7 @@ type
     cbBackwards: TCheckBox;
     chkHex: TCheckBox;
     cbRegExp: TCheckBox;
+    KASButtonPanel: TKASButtonPanel;
     procedure cbBackwardsChange(Sender: TObject);
     procedure cbRegExpChange(Sender: TObject);
     procedure chkHexChange(Sender: TObject);
