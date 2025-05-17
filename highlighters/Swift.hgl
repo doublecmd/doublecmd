@@ -1,0 +1,134 @@
+<UniHighlighter version="1.8">
+  <Info>
+    <General Name="Swift" Extensions="SWIFT" Other="0"/>
+    <Author Name="" Email="" Web="" Copyright="" Company="" Remark=""/>
+    <Version Version="1" Revision="0" Date="45794,6870897801"/>
+    <History>
+    </History>
+    <Sample>
+      <S>// Syntax highlighting</S>
+      <S>var myVariable = 42</S>
+      <S>let myConstant = 42</S>
+      <S>let explicitDouble: Double = 70</S>
+      <S></S>
+      <S>// Prints &quot;Hello, world!&quot;</S>
+      <S>print(&quot;Hello, world!&quot;)</S>
+      <S></S>
+      <S>let individualScores = [75, 43, 103, 87, 12]</S>
+      <S>var teamScore = 0</S>
+      <S>for score in individualScores {</S>
+      <S>    if score &gt; 50 {</S>
+      <S>        teamScore += 3</S>
+      <S>    } else {</S>
+      <S>        teamScore += 1</S>
+      <S>    }</S>
+      <S>}</S>
+      <S>// Prints &quot;11&quot;</S>
+      <S>print(teamScore)</S>
+    </Sample>
+  </Info>
+  <Scheme File="" Name=""/>
+  <Range Name="Root" Attributes="$80000008,$80000005;False:False." Style=""
+         Delimiters="!&quot;#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^`{|}~">
+    <Rule/>
+    <Keywords Name="Keywords" Attributes="$00FF0000,$00FFFFFF;False:True." Style="">
+      <Word Value="class"/>
+      <Word Value="deinit"/>
+      <Word Value="enum"/>
+      <Word Value="extension"/>
+      <Word Value="func"/>
+      <Word Value="import"/>
+      <Word Value="init"/>
+      <Word Value="internal"/>
+      <Word Value="let"/>
+      <Word Value="operator"/>
+      <Word Value="private"/>
+      <Word Value="protocol"/>
+      <Word Value="public"/>
+      <Word Value="static"/>
+      <Word Value="struct"/>
+      <Word Value="subscript"/>
+      <Word Value="typealias"/>
+      <Word Value="var"/>
+      <Word Value="break"/>
+      <Word Value="case"/>
+      <Word Value="continue"/>
+      <Word Value="default"/>
+      <Word Value="do"/>
+      <Word Value="else"/>
+      <Word Value="fallthrough"/>
+      <Word Value="for"/>
+      <Word Value="if"/>
+      <Word Value="in"/>
+      <Word Value="return"/>
+      <Word Value="switch"/>
+      <Word Value="where"/>
+      <Word Value="while"/>
+    </Keywords>
+    <Keywords Name="Operators" Attributes="$00CC3299,$80000005;False:True." Style="">
+      <Word Value="!"/>
+      <Word Value="%"/>
+      <Word Value="&amp;"/>
+      <Word Value="*"/>
+      <Word Value="+"/>
+      <Word Value="-"/>
+      <Word Value="/"/>
+      <Word Value="&lt;"/>
+      <Word Value="="/>
+      <Word Value="&gt;"/>
+      <Word Value="?"/>
+      <Word Value="\"/>
+      <Word Value="^"/>
+      <Word Value="|"/>
+    </Keywords>
+    <Keywords Name="Punctuators" Attributes="$000000FF,$80000005;False:True." Style="">
+      <Word Value="("/>
+      <Word Value=")"/>
+      <Word Value="["/>
+      <Word Value="]"/>
+      <Word Value="{"/>
+      <Word Value="}"/>
+      <Word Value=","/>
+      <Word Value="."/>
+      <Word Value=":"/>
+      <Word Value=";"/>
+    </Keywords>
+    <Keywords Name="Types" Attributes="$00000080,$00FFFFFF;False:True." Style="">
+      <Word Value="Bool"/>
+      <Word Value="Int"/>
+      <Word Value="Int8"/>
+      <Word Value="Int16"/>
+      <Word Value="Int32"/>
+      <Word Value="Int64"/>
+      <Word Value="UInt"/>
+      <Word Value="UInt8"/>
+      <Word Value="UInt16"/>
+      <Word Value="UInt32"/>
+      <Word Value="UInt64"/>
+      <Word Value="Double"/>
+      <Word Value="Float"/>
+      <Word Value="String"/>
+      <Word Value="Character"/>
+    </Keywords>
+    <Range Name="Remarks //" Attributes="$00008000,$00FFFFFF;False:True." Style=""
+           Delimiters="!&quot;#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^`{|}~">
+      <Rule OpenSymbol="//" CloseOnEol="True"/>
+    </Range>
+    <Range Name="Remarks /*..*/" Attributes="$00008000,$00FFFFFF;False:True." Style=""
+           Delimiters="!&quot;#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^`{|}~">
+      <Rule OpenSymbol="/*" CloseSymbol="*/"/>
+    </Range>
+    <Range Name="Strings &quot;..&quot;" Attributes="$00696969,$00FFFFFF;False:True." Style=""
+           Delimiters="!&quot;#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^`{|}~">
+      <Rule OpenSymbol="&quot;" CloseSymbol="&quot;"/>
+      <Keywords Name="Escape" Attributes="$00696969,$00FFFFFF;True:True." Style="">
+        <Word Value="\&quot;"/>
+        <Word Value="\\"/>
+      </Keywords>
+    </Range>
+    <Range Name="Strings &quot;&quot;&quot;...&quot;&quot;&quot;" Attributes="$00696969,$00FFFFFF;False:True." Style=""
+           Delimiters="!&quot;#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^`{|}~">
+      <Rule OpenSymbol="&quot;&quot;&quot;" CloseSymbol="&quot;&quot;&quot;"/>
+    </Range>
+  </Range>
+</UniHighlighter>
