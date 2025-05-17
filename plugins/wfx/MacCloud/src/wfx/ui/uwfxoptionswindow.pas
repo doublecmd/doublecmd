@@ -251,8 +251,10 @@ begin
     configItem:= TWFXConnectionConfigItem( self.configItems.getItem(i) );
     if configItem.name.isEqualToString(name) then begin
       self.connectionListView.selectRow_byExtendingSelection( i, False );
+      Exit;
     end;
   end;
+  self.onSelectedConnectionChanged( i );
 end;
 
 procedure TWFXOptionsWindow.addConnection( connectionName: NSString );
@@ -264,8 +266,10 @@ var
   index: Integer;
 begin
   driverIndex:= TWFXSelectDriverWindow.showModal;
-  if driverIndex < 0 then
+  if driverIndex < 0 then begin
+    self.onSelectedConnectionChanged( driverIndex );
     Exit;
+  end;
 
   menuItem:= WFXCloudDriverMenuItems[driverIndex];
   driver:= cloudDriverManager.createInstance( menuItem.name );
@@ -299,7 +303,11 @@ begin
   self.connectionListView.reloadData;
   if currentIndex >= self.configItems.Count then
     currentIndex:= self.configItems.Count - 1;
-  self.connectionListView.selectRow_byExtendingSelection( currentIndex, False );
+  if currentIndex >= 0 then begin
+    self.connectionListView.selectRow_byExtendingSelection( currentIndex, False );
+  end else begin
+    self.onSelectedConnectionChanged( currentIndex );
+  end;
 end;
 
 procedure TWFXOptionsWindow.saveConnection( name: NSString );
@@ -355,9 +363,11 @@ var
   newView: TWFXPropertyView;
   rightRect: NSRect;
 begin
-  rightRect:= NSMakeRect(0,0,480,600);
+  rightRect:= NSMakeRect(0,0,480,640);
   configItem:= self.currentConfigItem;
-  if configItem.driver is TOAuth2SessionCloudDriver then
+  if configItem = nil then
+    newView:= TWFXPropertyView.alloc.initWithFrame( rightRect )
+  else if configItem.driver is TOAuth2SessionCloudDriver then
     newView:= TWFXOAuth2PropertyView.alloc.initWithFrame( rightRect )
   else
     newView:= TWFXS3PropertyView.alloc.initWithFrame( rightRect ) ;
@@ -366,6 +376,8 @@ begin
     self.propertyView.removeFromSuperview;
   self.propertyView:= newView;
   self.splitView.addSubview( newView );
+  self.splitView.setPosition_ofDividerAtIndex( 240, 0 );
+  newView.setFrame( rightRect );
   newView.loadConnectionProperties( selectedIndex );
   newView.release;
 end;
