@@ -162,11 +162,11 @@ var
 
 procedure Initialize;
 begin
-  libturbo:= SafeLoadLibrary(turbolib);
+  libturbo:= mbLoadLibraryEx(turbolib);
 
   if (libturbo <> NilHandle) then
   try
-    @tjInitDecompress:= GetProcAddress(libturbo, 'tjInitDecompress');
+    @tjInitDecompress:= SafeGetProcAddress(libturbo, 'tjInitDecompress');
     @tjDestroy:= SafeGetProcAddress(libturbo, 'tjDestroy');
     @tjGetErrorStr2:= SafeGetProcAddress(libturbo, 'tjGetErrorStr2');
     @tjDecompressHeader3:= SafeGetProcAddress(libturbo, 'tjDecompressHeader3');
