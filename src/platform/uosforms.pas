@@ -154,7 +154,7 @@ uses
     , uDCReadRSVG, uMagickWand, uGio, uGioFileSource, uVfsModule, uVideoThumb
     , uDCReadWebP, uFolderThumb, uAudioThumb, uDefaultTerminal, uDCReadHEIF
     , uTrashFileSource, uFileManager, uFileSystemFileSource, fOpenWith
-    , uFileSourceUtil, uNetworkFileSource
+    , uDCReadJXL, uFileSourceUtil, uNetworkFileSource
     {$ENDIF}
     {$IF DEFINED(LINUX)}
     , uFlatpak
