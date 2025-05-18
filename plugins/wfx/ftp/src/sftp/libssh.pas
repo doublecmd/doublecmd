@@ -142,6 +142,9 @@ const
   LIBSSH2_FXF_TRUNC           = $00000010;
   LIBSSH2_FXF_EXCL            = $00000020;
 
+  //* This is the amount of data sent in each FXP_WRITE packet */
+  MAX_SFTP_OUTGOING_SIZE      = 30000;
+
 type
   //* Session API */
   PLIBSSH2_SESSION = type Pointer;

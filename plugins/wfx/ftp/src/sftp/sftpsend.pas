@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Wfx plugin for working with File Transfer Protocol
 
-   Copyright (C) 2013-2024 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2013-2025 Alexander Koblov (alexx2000@mail.ru)
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Lesser General Public
@@ -68,11 +68,12 @@ type
 implementation
 
 uses
-  LazUTF8, DCBasicTypes, DCDateTimeUtils, DCStrUtils, DCOSUtils, FtpFunc, CTypes,
+  LazUTF8, DCBasicTypes, DCDateTimeUtils, DCStrUtils, DCOSUtils, CTypes,
   DCClassesUtf8, DCFileAttributes, DCConvertEncoding;
 
 const
-  SMB_BUFFER_SIZE = 131072;
+  READ_BUFFER_SIZE  = 131072;
+  WRITE_BUFFER_SIZE = MAX_SFTP_OUTGOING_SIZE * 20;
 
 type
   PFindRec = ^TFindRec;
@@ -239,7 +240,7 @@ begin
   SourceName:= PWideChar(CeUtf8ToUtf16(FDirectFileName));
 
   FileSize:= SendStream.Size;
-  FBuffer:= GetMem(SMB_BUFFER_SIZE);
+  FBuffer:= GetMem(WRITE_BUFFER_SIZE);
   libssh2_session_set_blocking(FSession, 0);
   try
     if not Restore then
@@ -270,7 +271,7 @@ begin
       end;
     until not ((TargetHandle = nil) and (FLastError = LIBSSH2_ERROR_EAGAIN));
 
-    BytesToRead:= SMB_BUFFER_SIZE;
+    BytesToRead:= WRITE_BUFFER_SIZE;
     while (TotalBytesToWrite > 0) do
     begin
       if (BytesToRead > TotalBytesToWrite) then begin
@@ -294,7 +295,7 @@ begin
         Dec(TotalBytesToWrite, BytesWritten);
         Dec(BytesToWrite, BytesWritten);
         Inc(Index, BytesWritten);
-      end;
+        end;
       DoProgress((FileSize - TotalBytesToWrite) * 100 div FileSize);
     end;
     Result:= True;
@@ -350,13 +351,13 @@ begin
       libssh2_sftp_seek64(SourceHandle, TotalBytesToRead);
     end;
 
-    FBuffer:= GetMem(SMB_BUFFER_SIZE);
+    FBuffer:= GetMem(READ_BUFFER_SIZE);
     TotalBytesToRead:= FileSize - TotalBytesToRead;
     try
       while TotalBytesToRead > 0 do
       begin
         repeat
-          BytesRead := libssh2_sftp_read(SourceHandle, PAnsiChar(FBuffer), SMB_BUFFER_SIZE);
+          BytesRead := libssh2_sftp_read(SourceHandle, PAnsiChar(FBuffer), READ_BUFFER_SIZE);
           if BytesRead = LIBSSH2_ERROR_EAGAIN then begin
             DoProgress((FileSize - TotalBytesToRead) * 100 div FileSize);
             FSock.CanRead(10);
