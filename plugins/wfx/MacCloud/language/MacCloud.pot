@@ -1,0 +1,136 @@
+msgid ""
+msgstr "Content-Type: text/plain; charset=UTF-8"
+
+#: uwfxconfig.rsaliyunossdisplayname
+msgctxt "uwfxconfig.rsaliyunossdisplayname"
+msgid "Alibaba Cloud OSS"
+msgstr ""
+
+#: uwfxconfig.rsamazons3displayname
+msgctxt "uwfxconfig.rsamazons3displayname"
+msgid "Amazon S3"
+msgstr ""
+
+#: uwfxconfig.rsboxdisplayname
+msgctxt "uwfxconfig.rsboxdisplayname"
+msgid "Box"
+msgstr ""
+
+#: uwfxconfig.rsdropboxdisplayname
+msgctxt "uwfxconfig.rsdropboxdisplayname"
+msgid "DropBox"
+msgstr ""
+
+#: uwfxconfig.rshuaweiobsdisplayname
+msgctxt "uwfxconfig.rshuaweiobsdisplayname"
+msgid "Huawei Cloud OBS"
+msgstr ""
+
+#: uwfxconfig.rsonedrivedisplayname
+msgctxt "uwfxconfig.rsonedrivedisplayname"
+msgid "OneDrive"
+msgstr ""
+
+#: uwfxconfig.rss3compatibledisplayname
+msgctxt "uwfxconfig.rss3compatibledisplayname"
+msgid "S3 Compatible"
+msgstr ""
+
+#: uwfxconfig.rstencentcosdisplayname
+msgctxt "uwfxconfig.rstencentcosdisplayname"
+msgid "Tencent Cloud COS"
+msgstr ""
+
+#: uwfxconfig.rsyandexdisplayname
+msgctxt "uwfxconfig.rsyandexdisplayname"
+msgid "Yandex"
+msgstr ""
+
+#: uwfxoptionscommonrs.rscancelbuttontitle
+msgctxt "uwfxoptionscommonrs.rscancelbuttontitle"
+msgid "Cancel"
+msgstr ""
+
+#: uwfxoptionscommonrs.rsconnectbuttontitle
+msgctxt "uwfxoptionscommonrs.rsconnectbuttontitle"
+msgid "Connect"
+msgstr ""
+
+#: uwfxoptionscommonrs.rsdisconnectbuttontitle
+msgctxt "uwfxoptionscommonrs.rsdisconnectbuttontitle"
+msgid "Disconnect"
+msgstr ""
+
+#: uwfxoptionscommonrs.rsnamelabel
+msgctxt "uwfxoptionscommonrs.rsnamelabel"
+msgid "Name:"
+msgstr ""
+
+#: uwfxoptionscommonrs.rsokbuttontitle
+msgctxt "uwfxoptionscommonrs.rsokbuttontitle"
+msgid "OK"
+msgstr ""
+
+#: uwfxoptionscommonrs.rssavebuttontitle
+msgctxt "uwfxoptionscommonrs.rssavebuttontitle"
+msgid "Save"
+msgstr ""
+
+#: uwfxoptionsoauth2.rsauthnotes
+msgid ""
+"1. Before successfully enabling the connection, Double Commander needs to obtain authorization from {driverName}\n"
+"\n"
+"2. Click the connect button to be redirected to the {driverName} official website in the Safari browser\n"
+"\n"
+"3. Please login your {driverName} account in Safari and authorize Double Commander to access\n"
+"\n"
+"4. The authorization is completed on the {driverName} official website, Double Commander will not get your password"
+msgstr ""
+
+#: uwfxoptionss3.rsaccesskeyidlabel
+msgid "Access Key ID:"
+msgstr ""
+
+#: uwfxoptionss3.rsauthnotes
+msgid ""
+"1. AccessKeyID and SerectAccessKey will be saved in the macOS KeyChains to obtain system-level security. The confidential data can only be read by your own macOS permissions.\n"
+"\n"
+"2. Access Key ID and Secret Access Key are required, and the others are optional. Double Commander can usually automatically obtain others such as Buckets. Therefore, Region / EndPoint / Bucket are only required if Access Key permissions are insufficient."
+msgstr ""
+
+#: uwfxoptionss3.rsbucketlabel
+msgid "Bucket:"
+msgstr ""
+
+#: uwfxoptionss3.rsendpointlabel
+msgid "Endpoint:"
+msgstr ""
+
+#: uwfxoptionss3.rsparamsalerttext
+msgid "Access Key ID and Secret Access Key are required, please make sure they are correct. If permissions are insufficient or you are setting \"S3 Compatible\", Region / Endpoint / Bucket is also required."
+msgstr ""
+
+#: uwfxoptionss3.rsparamsalerttitle
+msgid "Incomplete Parameters"
+msgstr ""
+
+#: uwfxoptionss3.rsregionlabel
+msgid "Region:"
+msgstr ""
+
+#: uwfxoptionss3.rsregionlistlabel
+msgid "Region List:"
+msgstr ""
+
+#: uwfxoptionss3.rsregionusercustom
+msgid "(User Custom)"
+msgstr ""
+
+#: uwfxoptionss3.rssecretaccesskeylabel
+msgid "Secret Access Key:"
+msgstr ""
+
+#: uwfxoptionss3.rstemporarytokenlabel
+msgid "Temporary Token:"
+msgstr ""
+

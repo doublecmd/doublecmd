@@ -1,0 +1,146 @@
+msgid ""
+msgstr "Content-Type: text/plain; charset=UTF-8"
+
+#: uwfxconfig.rsaliyunossdisplayname
+msgctxt "uwfxconfig.rsaliyunossdisplayname"
+msgid "Alibaba Cloud OSS"
+msgstr "阿里云OSS"
+
+#: uwfxconfig.rsamazons3displayname
+msgctxt "uwfxconfig.rsamazons3displayname"
+msgid "Amazon S3"
+msgstr "亚马逊S3"
+
+#: uwfxconfig.rsboxdisplayname
+msgctxt "uwfxconfig.rsboxdisplayname"
+msgid "Box"
+msgstr ""
+
+#: uwfxconfig.rsdropboxdisplayname
+msgctxt "uwfxconfig.rsdropboxdisplayname"
+msgid "DropBox"
+msgstr ""
+
+#: uwfxconfig.rshuaweiobsdisplayname
+msgctxt "uwfxconfig.rshuaweiobsdisplayname"
+msgid "Huawei Cloud OBS"
+msgstr "华为云OBS"
+
+#: uwfxconfig.rsonedrivedisplayname
+msgctxt "uwfxconfig.rsonedrivedisplayname"
+msgid "OneDrive"
+msgstr ""
+
+#: uwfxconfig.rss3compatibledisplayname
+msgctxt "uwfxconfig.rss3compatibledisplayname"
+msgid "S3 Compatible"
+msgstr "S3兼容"
+
+#: uwfxconfig.rstencentcosdisplayname
+msgctxt "uwfxconfig.rstencentcosdisplayname"
+msgid "Tencent Cloud COS"
+msgstr "腾讯云COS"
+
+#: uwfxconfig.rsyandexdisplayname
+msgctxt "uwfxconfig.rsyandexdisplayname"
+msgid "Yandex"
+msgstr ""
+
+#: uwfxoptionscommonrs.rscancelbuttontitle
+msgctxt "uwfxoptionscommonrs.rscancelbuttontitle"
+msgid "Cancel"
+msgstr "取消"
+
+#: uwfxoptionscommonrs.rsconnectbuttontitle
+msgctxt "uwfxoptionscommonrs.rsconnectbuttontitle"
+msgid "Connect"
+msgstr "连接"
+
+#: uwfxoptionscommonrs.rsdisconnectbuttontitle
+msgctxt "uwfxoptionscommonrs.rsdisconnectbuttontitle"
+msgid "Disconnect"
+msgstr "断开"
+
+#: uwfxoptionscommonrs.rsnamelabel
+msgctxt "uwfxoptionscommonrs.rsnamelabel"
+msgid "Name:"
+msgstr "名称："
+
+#: uwfxoptionscommonrs.rsokbuttontitle
+msgctxt "uwfxoptionscommonrs.rsokbuttontitle"
+msgid "OK"
+msgstr "确定"
+
+#: uwfxoptionscommonrs.rssavebuttontitle
+msgctxt "uwfxoptionscommonrs.rssavebuttontitle"
+msgid "Save"
+msgstr "保存"
+
+#: uwfxoptionsoauth2.rsauthnotes
+msgid ""
+"1. Before successfully enabling the connection, Double Commander needs to obtain authorization from {driverName}\n"
+"\n"
+"2. Click the connect button to be redirected to the {driverName} official website in the Safari browser\n"
+"\n"
+"3. Please login your {driverName} account in Safari and authorize Double Commander to access\n"
+"\n"
+"4. The authorization is completed on the {driverName} official website, Double Commander will not get your password"
+msgstr ""
+"1. 在成功激活之前，Double Commander 需要先从 {driverName} 获得授权\n"
+"\n"
+"2. 点击“连接”按钮，将在Safari浏览器中重定向至 {driverName} 官方网站\n"
+"\n"
+"3. 请在Safari浏览器中登录你的{driverName}账户，并授权 Double Commander 访问\n"
+"\n"
+"4. 授权完全在 {driverName} 官方网站完成，Double Commander 不会获得你的账户密码"
+
+#: uwfxoptionss3.rsaccesskeyidlabel
+msgid "Access Key ID:"
+msgstr "账户ID："
+
+#: uwfxoptionss3.rsauthnotes
+msgid ""
+"1. AccessKeyID and SerectAccessKey will be saved in the macOS KeyChains to obtain system-level security. The confidential data can only be read by your own macOS permissions.\n"
+"\n"
+"2. Access Key ID and Secret Access Key are required, and the others are optional. Double Commander can usually automatically obtain others such as Buckets. Therefore, Region / EndPoint / Bucket are only required if Access Key permissions are insufficient."
+msgstr ""
+"1. 账户ID和密钥将被保存在 macOS KeyChains 中，从而获得系统级的安全保护。只有你的macOS权限，才能获取这些机密数据。\n"
+"\n"
+"2. 账户ID和密钥是必填的，其他项都是可选的。Double Commander 通常能自动获取其他项，例如储存桶。因此, 区域 / 端点 / 储存桶 仅在你的账户权限不足时才需要填写。"
+
+#: uwfxoptionss3.rsbucketlabel
+msgid "Bucket:"
+msgstr "储存桶："
+
+#: uwfxoptionss3.rsendpointlabel
+msgid "Endpoint:"
+msgstr "端点："
+
+#: uwfxoptionss3.rsparamsalerttext
+msgid "Access Key ID and Secret Access Key are required, please make sure they are correct. If permissions are insufficient or you are setting \"S3 Compatible\", Region / Endpoint / Bucket is also required."
+msgstr ""
+
+#: uwfxoptionss3.rsparamsalerttitle
+msgid "Incomplete Parameters"
+msgstr ""
+
+#: uwfxoptionss3.rsregionlabel
+msgid "Region:"
+msgstr "区域："
+
+#: uwfxoptionss3.rsregionlistlabel
+msgid "Region List:"
+msgstr "区域列表："
+
+#: uwfxoptionss3.rsregionusercustom
+msgid "(User Custom)"
+msgstr "（用户自定义）"
+
+#: uwfxoptionss3.rssecretaccesskeylabel
+msgid "Secret Access Key:"
+msgstr "访问密钥："
+
+#: uwfxoptionss3.rstemporarytokenlabel
+msgid "Temporary Token:"
+msgstr "会话令牌："
+
