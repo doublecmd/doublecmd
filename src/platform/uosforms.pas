@@ -136,8 +136,8 @@ uses
   , uWinNetFileSource, uVfsModule, uMyWindows, DCStrUtils, uOleDragDrop
   , uDCReadRSVG, uFileSourceUtil, uGdiPlusJPEG, uListGetPreviewBitmap
   , Dialogs, Clipbrd, JwaDbt, uThumbnailProvider, uShellFolder
-  , uRecycleBinFileSource, uWslFileSource, uDCReadHEIF, uDCReadWIC
-  , uShellFileSource, uPixMapManager
+  , uRecycleBinFileSource, uWslFileSource, uDCReadHEIF, uDCReadJXL
+  , uDCReadWIC, uShellFileSource, uPixMapManager
     {$IF DEFINED(DARKWIN)}
     , uDarkStyle
     {$ELSEIF DEFINED(LCLQT5)}
