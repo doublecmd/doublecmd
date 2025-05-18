@@ -41,6 +41,9 @@ uses
   uMoveConfig,
   uEarlyConfig,
   DCConvertEncoding,
+  {$IF DEFINED(MSWINDOWS)}
+  uLibraryPath,
+  {$ENDIF}
   {$IF DEFINED(LCLWIN32) and DEFINED(DARKWIN)}
   uWin32WidgetSetDark,
   {$ENDIF}
