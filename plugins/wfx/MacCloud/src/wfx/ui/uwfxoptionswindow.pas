@@ -10,7 +10,7 @@ uses
   CocoaAll, uMiniCocoa,
   uCloudDriver, uOAuth2Client,
   uWFXPlugin, uWFXUtil,
-  uWFXOptionsCore, uWFXOptionsOAuth2, uWFXOptionsS3,
+  uWFXOptionsCore, uWFXOptionsCommonRS, uWFXOptionsOAuth2, uWFXOptionsS3,
   uMiniUtil;
 
 type
@@ -165,7 +165,7 @@ begin
 
   frameRect:= NSMakeRect( 105, 25, 80, 22 );
   cancelButton:= NSButton.alloc.initWithFrame( frameRect );
-  cancelButton.setTitle( StringToNSString('Cancel') );
+  cancelButton.setTitle( StringToNSString(rsCancelButtonTitle) );
   cancelButton.setButtonType( NSMomentaryPushInButton );
   cancelButton.setBezelStyle( NSRoundedBezelStyle );
   cancelButton.setKeyEquivalent( NSSTR(#27) );
@@ -176,7 +176,7 @@ begin
 
   frameRect:= NSMakeRect( 200, 25, 80, 22 );
   okButton:= NSButton.alloc.initWithFrame( frameRect );
-  okButton.setTitle( StringToNSString('OK') );
+  okButton.setTitle( StringToNSString(rsOkButtonTitle) );
   okButton.setButtonType( NSMomentaryPushInButton );
   okButton.setBezelStyle( NSRoundedBezelStyle );
   okButton.setKeyEquivalent( NSSTR(#13) );
@@ -323,7 +323,7 @@ var
     alert:= NSAlert.new;
     alert.setMessageText( StringToNSString('Duplicate Name') );
     alert.setInformativeText( StringToNSString('Please rename the Connection before saving.') );
-    alert.addButtonWithTitle( StringToNSString('OK') );
+    alert.addButtonWithTitle( StringToNSString(rsOkButtonTitle) );
     alert.runModal;
     alert.release;
   end;

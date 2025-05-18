@@ -9,7 +9,8 @@ uses
   Classes, SysUtils,
   CocoaAll, uMiniCocoa,
   uAWSCore, uS3Client,
-  uWFXPlugin, uWFXUtil, uWFXOptionsCore,
+  uWFXPlugin, uWFXUtil,
+  uWFXOptionsCore, uWFXOptionsCommonRS,
   uMiniUtil;
 
 type
@@ -74,8 +75,18 @@ type
 
 implementation
 
-const
-  CONST_AUTH_NOTES =
+resourcestring
+  rsAccessKeyIDLabel = 'Access Key ID:';
+  rsSecretAccessKeyLabel = 'Secret Access Key:';
+  rsTemporaryTokenLabel = 'Temporary Token:';
+  rsRegionListLabel = 'Region List:';
+  rsRegionLabel = 'Region:';
+  rsBucketLabel = 'Bucket:';
+  rsEndpointLabel = 'Endpoint:';
+  rsRegionUserCustom = '(User Custom)';
+  rsParamsAlertTitle = 'Incomplete Parameters';
+  rsParamsAlertText = 'Access Key ID and Secret Access Key are required, please make sure they are correct. If permissions are insufficient or you are setting "S3 Compatible", Region / Endpoint / Bucket is also required.';
+  rsAuthNotes =
     '1. AccessKeyID and SerectAccessKey will be saved in the macOS KeyChains to obtain system-level security. The confidential data can only be read by your own macOS permissions.'#13#13 +
     '2. Access Key ID and Secret Access Key are required, and the others are optional. Double Commander can usually automatically obtain others such as Buckets. Therefore, Region / EndPoint / Bucket are only required if Access Key permissions are insufficient.';
 
@@ -210,7 +221,7 @@ begin
     Exit;
   client:= TAWSCloudDriver( configItem.driver );
 
-  _regionDropDown.addItemWithTitle( StringToNSString('(User Custom)') );
+  _regionDropDown.addItemWithTitle( StringToNSString(rsRegionUserCustom) );
   self.loadRegionItems( client );
   if _regionDropDown.itemArray.count = 1 then
     _regionDropDown.setEnabled( False );
@@ -252,9 +263,9 @@ var
     end;
 
     alert:= NSAlert.new;
-    alert.setMessageText( StringToNSString('Incomplete Parameters') );
-    alert.setInformativeText( StringToNSString('Access Key ID and Secret Access Key are required, please make sure they are correct. If permissions are insufficient or you are setting "S3 Compatible", Region / Endpoint / Bucket is also required.') );
-    alert.addButtonWithTitle( StringToNSString('OK') );
+    alert.setMessageText( StringToNSString(rsParamsAlertTitle) );
+    alert.setInformativeText( StringToNSString(rsParamsAlertText) );
+    alert.addButtonWithTitle( StringToNSString(rsOkButtonTitle) );
     alert.runModal;
     alert.release;
   end;
@@ -291,13 +302,13 @@ begin
   self.addSubview( _logoImageView );
   _logoImageView.release;
 
-  addLabel( StringToNSString('Name:'), NSMakeRect(20,510,120,20) );
+  addLabel( StringToNSString(rsNameLabel), NSMakeRect(20,510,120,20) );
   _nameTextField:= addTextField( NSMakeRect(146,510,290,22) );
 
-  addLabel( StringToNSString('Access Key ID:'), NSMakeRect(20,470,120,20) );
+  addLabel( StringToNSString(rsAccessKeyIDLabel), NSMakeRect(20,470,120,20) );
   _accessKeyIDTextField:= addTextField( NSMakeRect(146,470,290,22) );
 
-  addLabel( StringToNSString('Serect Access Key:'), NSMakeRect(20,430,120,20) );
+  addLabel( StringToNSString(rsSecretAccessKeyLabel), NSMakeRect(20,430,120,20) );
   _accessKeySecretTextField:= NSSecureTextField.alloc.initWithFrame( NSMakeRect(146,430,290,22) );
   _accessKeySecretTextField.cell.setScrollable( True );
   _accessKeySecretTextField.cell.setWraps( False );
@@ -315,28 +326,28 @@ begin
   self.addSubview( _secretButton );
   _secretButton.release;
 
-  addLabel( StringToNSString('Temporary Token:'), NSMakeRect(20,390,120,20) );
+  addLabel( StringToNSString(rsTemporaryTokenLabel), NSMakeRect(20,390,120,20) );
   _accessKeyTokenTextField:= addTextField( NSMakeRect(146,390,290,22) );
 
-  addLabel( StringToNSString('Region List:'), NSMakeRect(20,350,120,20) );
+  addLabel( StringToNSString(rsRegionListLabel), NSMakeRect(20,350,120,20) );
   _regionDropDown:= NSPopUpButton.alloc.initWithFrame( NSMakeRect(146,350,290,22) );
   _regionDropDown.setTarget( self );
   _regionDropDown.setAction( ObjCSelector('TWFXS3PropertyView_regionDropDownChanged:') );
   self.addSubview( _regionDropDown );
   _regionDropDown.release;
 
-  addLabel( StringToNSString('Region:'), NSMakeRect(20,310,120,20) );
+  addLabel( StringToNSString(rsRegionLabel), NSMakeRect(20,310,120,20) );
   _regionTextField:= addTextField( NSMakeRect(146,310,290,22) );
 
-  addLabel( StringToNSString('Endpoint:'), NSMakeRect(20,270,120,20) );
+  addLabel( StringToNSString(rsEndpointLabel), NSMakeRect(20,270,120,20) );
   _endPointTextField:= addTextField( NSMakeRect(146,270,290,22) );
 
-  addLabel( StringToNSString('Bucket:'), NSMakeRect(20,230,120,20) );
+  addLabel( StringToNSString(rsBucketLabel), NSMakeRect(20,230,120,20) );
   _bucketTextField:= addTextField( NSMakeRect(146,230,290,22) );
 
   _saveButton:= NSButton.alloc.initWithFrame( NSMakeRect(190,190,100,22) );
   _saveButton.setBezelStyle( NSRoundedBezelStyle );
-  _saveButton.setTitle( StringToNSString('Save') );
+  _saveButton.setTitle( StringToNSString(rsSaveButtonTitle) );
   _saveButton.setTarget( self );
   _saveButton.setAction( ObjCSelector('TWFXS3PropertyView_saveConnection:') );
   self.addSubView( _saveButton );
@@ -346,7 +357,7 @@ begin
   _noteTextView.setFont( NSFont.systemFontOfSize(11));
   _noteTextView.setEditable( False );
   _noteTextView.setDrawsBackground( False );
-  _noteTextView.setString( StringToNSString(CONST_AUTH_NOTES) );
+  _noteTextView.setString( StringToNSString(rsAuthNotes) );
   self.addSubView( _noteTextView );
   _noteTextView.release;
 end;

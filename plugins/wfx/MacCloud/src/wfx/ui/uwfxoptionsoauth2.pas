@@ -9,7 +9,7 @@ uses
   Classes, SysUtils,
   CocoaAll, uMiniCocoa,
   uCloudDriver, uWFXPlugin, uWFXUtil,
-  uWFXOptionsCore,
+  uWFXOptionsCore, uWFXOptionsCommonRS,
   uMiniUtil;
 
 type
@@ -32,12 +32,12 @@ type
 
 implementation
 
-const
-  CONST_AUTH_NOTES =
-    '1. Before successfully enabling the connection, Double Command needs to obtain authorization from {driverName}'#13#13 +
+resourcestring
+  rsAuthNotes =
+    '1. Before successfully enabling the connection, Double Commander needs to obtain authorization from {driverName}'#13#13 +
     '2. Click the connect button to be redirected to the {driverName} official website in the Safari browser'#13#13 +
     '3. Please login your {driverName} account in Safari and authorize Double Commander to access'#13#13 +
-    '4. The authorization is completed on the {driverName} official website, Double Command will not get your password';
+    '4. The authorization is completed on the {driverName} official website, Double Commander will not get your password';
 
 { TWFXOAuth2PropertyView }
 
@@ -63,14 +63,14 @@ begin
   configItem:= _controller.currentConfigItem;
   if configItem.driver.authorized then begin
     statusImageName:= NSImageNameStatusAvailable;
-    connectButtonText:= 'Disconnect';
+    connectButtonText:= rsDisconnectButtonTitle;
   end else begin
     statusImageName:= NSImageNameStatusUnavailable;
-    connectButtonText:= 'Connect';
+    connectButtonText:= rsConnectButtonTitle;
   end;
   _statusImageview.setImage( NSImage.imageNamed(statusImageName) );
   _connectButton.setTitle( StringToNSString(connectButtonText) );
-  notes:= CONST_AUTH_NOTES.Replace( '{driverName}', configItem.driver.driverName );
+  notes:= rsAuthNotes.Replace( '{driverName}', configItem.driver.driverName );
   _noteTextView.setString( StringToNSString(notes) );
 end;
 
@@ -115,7 +115,7 @@ begin
   self.addSubview( _logoImageView );
   _logoImageView.release;
 
-  addLabel( StringToNSString('Name:'), NSMakeRect(20,510,80,20) );
+  addLabel( StringToNSString(rsNameLabel), NSMakeRect(20,510,80,20) );
   _nameTextField:= addTextField( NSMakeRect(106,510,290,22) );
 
   _statusImageview:= NSImageView.alloc.initWithFrame( NSMakeRect(406,513,16,16) );
@@ -131,7 +131,7 @@ begin
 
   _saveButton:= NSButton.alloc.initWithFrame( NSMakeRect(260,440,120,22) );
   _saveButton.setBezelStyle( NSRoundedBezelStyle );
-  _saveButton.setTitle( StringToNSString('Save') );
+  _saveButton.setTitle( StringToNSString(rsSaveButtonTitle) );
   _saveButton.setTarget( self );
   _saveButton.setAction( ObjCSelector('TWFXOAuth2PropertyView_saveConnection:') );
   self.addSubView( _saveButton );

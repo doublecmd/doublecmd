@@ -55,6 +55,17 @@ var
 
 implementation
 
+resourcestring
+  rsDropBoxDisplayName = 'DropBox';
+  rsYandexDisplayName = 'Yandex';
+  rsOneDriveDisplayName = 'OneDrive';
+  rsBoxDisplayName = 'Box';
+  rsAmazonS3DisplayName = 'Amazon S3';
+  rsS3CompatibleDisplayName = 'S3 Compatible';
+  rsAliyunOSSDisplayName = 'Alibaba Cloud OSS';
+  rsTencentCOSDisplayName = 'Tencent Cloud COS';
+  rsHuaweiOBSDisplayName = 'Huawei Cloud OBS';
+
 type
 
   { TWFXTokenCloudDriverConfig }
@@ -522,46 +533,46 @@ begin
   WFXCloudDriverConfigManager.register( TDropBoxClient.driverName, TWFXDropBoxConfig );
   dropBoxConfig:= TTokenCloudDriverConfig.Create( 'ahj0s9xia6i61gh', 'dc2ea085a05ac273a://dropbox/auth' );
   cloudDriverManager.register( TDropBoxClient );
-  WFXCloudDriverMenuItems.add( TDropBoxClient.driverName, 'DropBox' );
+  WFXCloudDriverMenuItems.add( TDropBoxClient.driverName, rsDropBoxDisplayName );
 
   WFXCloudDriverConfigManager.register( TYandexClient.driverName, TWFXYandexConfig );
   yandexConfig:= TTokenCloudDriverConfig.Create( 'eaf0c133568a46a0bd986bffb48c62b6', 'dc2ea085a05ac273a://yandex/auth' );
   cloudDriverManager.register( TYandexClient );
-  WFXCloudDriverMenuItems.add( TYandexClient.driverName, 'Yandex' );
+  WFXCloudDriverMenuItems.add( TYandexClient.driverName, rsYandexDisplayName );
 
   WFXCloudDriverConfigManager.register( TOneDriveClient.driverName, TWFXOneDriveConfig );
   oneDriveConfig:= TTokenCloudDriverConfig.Create( 'ceb7b2ed-b0cf-43e9-ade5-2e8ed9cfa3c0', 'dc2ea085a05ac273a://onedrive/auth' );
   cloudDriverManager.register( TOneDriveClient );
-  WFXCloudDriverMenuItems.add( TOneDriveClient.driverName, 'OneDrive' );
+  WFXCloudDriverMenuItems.add( TOneDriveClient.driverName, rsOneDriveDisplayName );
 
   WFXCloudDriverConfigManager.register( TBoxClient.driverName, TWFXBoxConfig );
   boxConfig:= TTokenCloudDriverConfig.Create( 'rtm1apih0scrk1we9dnzej7fezd9t2xb', 'dc2ea085a05ac273a://box/auth' );
   cloudDriverManager.register( TBoxClient );
-  WFXCloudDriverMenuItems.add( TBoxClient.driverName, 'Box' );
+  WFXCloudDriverMenuItems.add( TBoxClient.driverName, rsBoxDisplayName );
 
   WFXCloudDriverMenuItems.addSeparator;
 
   WFXCloudDriverConfigManager.register( TAmazonS3Client.driverName, TWFXS3Config );
   cloudDriverManager.register( TAmazonS3Client );
-  WFXCloudDriverMenuItems.add( TAmazonS3Client.driverName, 'Amazon S3' );
+  WFXCloudDriverMenuItems.add( TAmazonS3Client.driverName, rsAmazonS3DisplayName );
 
   WFXCloudDriverConfigManager.register( TS3CompatibleClient.driverName, TWFXS3Config );
   cloudDriverManager.register( TS3CompatibleClient );
-  WFXCloudDriverMenuItems.add( TS3CompatibleClient.driverName, 'S3 Compatible' );
+  WFXCloudDriverMenuItems.add( TS3CompatibleClient.driverName, rsS3CompatibleDisplayName );
 
   WFXCloudDriverMenuItems.addSeparator;
 
   WFXCloudDriverConfigManager.register( TAliyunOSSClient.driverName, TWFXS3Config );
   cloudDriverManager.register( TAliyunOSSClient );
-  WFXCloudDriverMenuItems.add( TAliyunOSSClient.driverName, 'Alibaba Cloud OSS' );
+  WFXCloudDriverMenuItems.add( TAliyunOSSClient.driverName, rsAliyunOSSDisplayName );
 
   WFXCloudDriverConfigManager.register( TTencentCOSClient.driverName, TWFXS3Config );
   cloudDriverManager.register( TTencentCOSClient );
-  WFXCloudDriverMenuItems.add( TTencentCOSClient.driverName, 'Tencent Cloud COS' );
+  WFXCloudDriverMenuItems.add( TTencentCOSClient.driverName, rsTencentCOSDisplayName );
 
   WFXCloudDriverConfigManager.register( THuaweiOBSClient.driverName, TWFXS3Config );
   cloudDriverManager.register( THuaweiOBSClient );
-  WFXCloudDriverMenuItems.add( THuaweiOBSClient.driverName, 'Huawei Cloud OBS' );
+  WFXCloudDriverMenuItems.add( THuaweiOBSClient.driverName, rsHuaweiOBSDisplayName );
 end;
 
 initialization

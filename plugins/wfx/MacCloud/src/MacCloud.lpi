@@ -13,6 +13,10 @@
       <UseAppBundle Value="False"/>
       <ResourceType Value="res"/>
     </General>
+    <i18n>
+      <EnableI18N Value="True" LFM="False"/>
+      <OutDir Value="../language"/>
+    </i18n>
     <BuildModes>
       <Item Name="Default" Default="True"/>
     </BuildModes>
@@ -172,6 +176,11 @@
         <Filename Value="drivers/aws/huaweiobs/uhuaweiobsclient.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uHuaweiOBSClient"/>
+      </Unit>
+      <Unit>
+        <Filename Value="wfx/ui/uwfxoptionscommonrs.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uWFXOptionsCommonRS"/>
       </Unit>
     </Units>
   </ProjectOptions>
