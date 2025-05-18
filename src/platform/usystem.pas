@@ -25,13 +25,20 @@ begin
 {$IF DEFINED(MSWINDOWS)}
   SetErrorMode(SEM_FAILCRITICALERRORS or SEM_NOOPENFILEERRORBOX);
 {$ENDIF}
-{$IF DEFINED(LCLQT6)}
-  QCoreApplication_setAttribute(QtAA_ShareOpenGLContexts, True);
-{$ENDIF}
 end;
+
+{$IF DEFINED(LCLQT6)}
+procedure InitializeOnce;
+begin
+  QCoreApplication_setAttribute(QtAA_ShareOpenGLContexts, True);
+end;
+{$ENDIF}
 
 initialization
   Initialize;
+{$IF DEFINED(LCLQT6)}
+  InitializeOnce;
+{$ENDIF}
 
 end.
 
