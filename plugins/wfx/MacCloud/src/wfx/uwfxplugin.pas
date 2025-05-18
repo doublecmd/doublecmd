@@ -7,7 +7,7 @@ interface
 
 uses
   Classes, SysUtils, Contnrs,
-  WfxPlugin,
+  WfxPlugin, Extension,
   uCloudDriver,
   uMiniUtil;
 
@@ -26,6 +26,7 @@ type
   public
     constructor Create( const pluginNumber: Integer; const progressProc: TProgressProcW; const logProc: TLogProcW );
     function progress( const sourceName: pwidechar; const targetName: pwidechar; const percentDone: Integer ): Integer;
+    procedure translateResourceStrings(StartupInfo: PExtensionStartupInfo);
   public
     property pluginNumber: Integer read _pluginNumber;
     property pluginPath: String read _pluginPath write _pluginPath;
@@ -119,6 +120,28 @@ function TWFXMacCloudPlugin.progress(const sourceName: pwidechar;
   const targetName: pwidechar; const percentDone: Integer): Integer;
 begin
   Result:= _progressProc( _pluginNumber, sourceName, targetName, percentDone );
+end;
+
+function Translate(Name, Value: AnsiString; Hash: LongInt; Arg: Pointer): AnsiString;
+var
+  ALen: Integer;
+  StartupInfo: PExtensionStartupInfo absolute Arg;
+begin
+  with StartupInfo^ do
+  begin
+    SetLength(Result, MaxSmallint);
+    ALen:= TranslateString(Translation, PAnsiChar(Name), PAnsiChar(Value), PAnsiChar(Result), MaxSmallint);
+    SetLength(Result, ALen);
+  end;
+end;
+
+procedure TWFXMacCloudPlugin.translateResourceStrings(
+  StartupInfo: PExtensionStartupInfo);
+begin
+  if Assigned(StartupInfo^.Translation) then
+  begin
+    SetResourceStrings(@Translate, StartupInfo);
+  end;
 end;
 
 procedure TWFXMacCloudPlugin.pluginLogProc(const MsgType: Integer; const message: String);

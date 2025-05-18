@@ -48,6 +48,7 @@ begin
     if WFXMacCloudPlugin <> nil then begin
       WFXMacCloudPlugin.configPath:= configPath;
       WFXMacCloudPlugin.pluginPath:= StartupInfo^.PluginDir;
+      WFXMacCloudPlugin.TranslateResourceStrings(StartupInfo);
     end;
     WFXCloudDriverConfigManager.loadFromCommon( configPath );
     WFXCloudDriverConfigManager.loadFromSecurity;
