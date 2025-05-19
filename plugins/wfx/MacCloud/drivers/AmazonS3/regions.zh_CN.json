@@ -1,0 +1,184 @@
+{
+  "regions": [
+  {
+    "name": "us-east-2",
+    "displayName": "美国东部（俄亥俄州）",
+    "endPoint": "s3.us-east-2.amazonaws.com"
+  },
+  {
+    "name": "us-east-1",
+    "displayName": "美国东部（弗吉尼亚北部）",
+    "endPoint": "s3.us-east-1.amazonaws.com"
+  },
+  {
+    "name": "us-west-1",
+    "displayName": "美国西部（加利福尼亚北部）",
+    "endPoint": "s3.us-west-1.amazonaws.com"
+  },
+  {
+    "name": "us-west-2",
+    "displayName": "美国西部（俄勒冈）",
+    "endPoint": "s3.us-west-2.amazonaws.com"
+  },
+  {
+    "name": "cn-north-1",
+    "displayName": "中国（北京）",
+    "endPoint": "s3.cn-north-1.amazonaws.com"
+  },
+  {
+    "name": "cn-northwest-1",
+    "displayName": "中国（宁夏）",
+    "endPoint": "s3.cn-northwest-1.amazonaws.com"
+  },
+  {
+    "name": "ap-east-1",
+    "displayName": "亚太（香港）",
+    "endPoint": "s3.ap-east-1.amazonaws.com"
+  },
+  {
+    "name": "ap-northeast-1",
+    "displayName": "亚太（东京）",
+    "endPoint": "s3.ap-northeast-1.amazonaws.com"
+  },
+  {
+    "name": "ap-northeast-3",
+    "displayName": "亚太（大阪）",
+    "endPoint": "s3.ap-northeast-3.amazonaws.com"
+  },
+  {
+    "name": "ap-south-2",
+    "displayName": "亚太（印度）",
+    "endPoint": "s3.ap-south-2.amazonaws.com"
+  },
+  {
+    "name": "ap-southeast-3",
+    "displayName": "亚太（雅加达）",
+    "endPoint": "s3.ap-southeast-3.amazonaws.com"
+  },
+  {
+    "name": "ap-southeast-5",
+    "displayName": "亚太（马来西亚）",
+    "endPoint": "s3.ap-southeast-5.amazonaws.com"
+  },
+  {
+    "name": "ap-southeast-4",
+    "displayName": "亚太（墨尔本）",
+    "endPoint": "s3.ap-southeast-4.amazonaws.com"
+  },
+  {
+    "name": "ap-south-1",
+    "displayName": "亚太（孟买）",
+    "endPoint": "s3.ap-south-1.amazonaws.com"
+  },
+  {
+    "name": "ap-northeast-2",
+    "displayName": "亚太（首尔）",
+    "endPoint": "s3.ap-northeast-2.amazonaws.com"
+  },
+  {
+    "name": "ap-southeast-1",
+    "displayName": "亚太（新加坡）",
+    "endPoint": "s3.ap-southeast-1.amazonaws.com"
+  },
+  {
+    "name": "ap-southeast-2",
+    "displayName": "亚太（悉尼）",
+    "endPoint": "s3.ap-southeast-2.amazonaws.com"
+  },
+  {
+    "name": "ap-southeast-7",
+    "displayName": "亚太（泰国）",
+    "endPoint": "s3.ap-southeast-7.amazonaws.com"
+  },
+  {
+    "name": "il-central-1",
+    "displayName": "以色列（特拉维夫）",
+    "endPoint": "s3.il-central-1.amazonaws.com"
+  },
+  {
+    "name": "me-south-1",
+    "displayName": "中东（巴林）",
+    "endPoint": "s3.me-south-1.amazonaws.com"
+  },
+  {
+    "name": "me-central-1",
+    "displayName": "中东（阿联酋）",
+    "endPoint": "s3.me-central-1.amazonaws.com"
+  },
+  {
+    "name": "eu-central-1",
+    "displayName": "欧洲（法兰克福）",
+    "endPoint": "s3.eu-central-1.amazonaws.com"
+  },
+  {
+    "name": "eu-west-1",
+    "displayName": "欧洲（爱尔兰）",
+    "endPoint": "s3.eu-west-1.amazonaws.com"
+  },
+  {
+    "name": "eu-west-2",
+    "displayName": "欧洲（伦敦）",
+    "endPoint": "s3.eu-west-2.amazonaws.com"
+  },
+  {
+    "name": "eu-south-1",
+    "displayName": "欧洲（米兰）",
+    "endPoint": "s3.eu-south-1.amazonaws.com"
+  },
+  {
+    "name": "eu-west-3",
+    "displayName": "欧洲（巴黎）",
+    "endPoint": "s3.eu-west-3.amazonaws.com"
+  },
+  {
+    "name": "eu-south-2",
+    "displayName": "欧洲（西班牙）",
+    "endPoint": "s3.eu-south-2.amazonaws.com"
+  },
+  {
+    "name": "eu-north-1",
+    "displayName": "欧洲（斯德哥尔摩）",
+    "endPoint": "s3.eu-north-1.amazonaws.com"
+  },
+  {
+    "name": "eu-central-2",
+    "displayName": "欧洲（苏黎世）",
+    "endPoint": "s3.eu-central-2.amazonaws.com"
+  },
+  {
+    "name": "ca-central-1",
+    "displayName": "加拿大（中部）",
+    "endPoint": "s3.ca-central-1.amazonaws.com"
+  },
+  {
+    "name": "ca-west-1",
+    "displayName": "加拿大（西部）",
+    "endPoint": "s3.ca-west-1.amazonaws.com"
+  },
+  {
+    "name": "mx-central-1",
+    "displayName": "南美（墨西哥）",
+    "endPoint": "s3.mx-central-1.amazonaws.com"
+  },
+  {
+    "name": "sa-east-1",
+    "displayName": "南美（圣保罗）",
+    "endPoint": "s3.sa-east-1.amazonaws.com"
+  },
+  {
+    "name": "af-south-1",
+    "displayName": "非洲（开普敦）",
+    "endPoint": "s3.af-south-1.amazonaws.com"
+  },
+  {
+    "name": "us-gov-east-1",
+    "displayName": "AWS GovCloud（美国东部）",
+    "endPoint": "s3.us-gov-east-1.amazonaws.com"
+  },
+  {
+    "name": "us-gov-west-1",
+    "displayName": "AWS GovCloud（美国西部）",
+    "endPoint": "s3.us-gov-west-1.amazonaws.com"
+  }
+  ]
+}
