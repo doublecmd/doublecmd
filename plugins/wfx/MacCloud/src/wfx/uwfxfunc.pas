@@ -49,9 +49,10 @@ begin
       WFXMacCloudPlugin.configPath:= configPath;
       WFXMacCloudPlugin.pluginPath:= StartupInfo^.PluginDir;
       WFXMacCloudPlugin.TranslateResourceStrings(StartupInfo);
+      TWFXCloudDriverConfigManager.initMacCloudDriverManager;
+      WFXCloudDriverConfigManager.loadFromCommon( configPath );
+      WFXCloudDriverConfigManager.loadFromSecurity;
     end;
-    WFXCloudDriverConfigManager.loadFromCommon( configPath );
-    WFXCloudDriverConfigManager.loadFromSecurity;
   except
     on e: Exception do
       TLogUtil.logError( 'error in ExtensionInitialize(): ' + e.Message );

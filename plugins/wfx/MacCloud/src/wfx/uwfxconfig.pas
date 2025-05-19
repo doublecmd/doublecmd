@@ -32,9 +32,9 @@ type
 
   TWFXCloudDriverConfigItems = TFPDataHashTable;
 
-  { TWFXCloudConfigManager }
+  { TWFXCloudDriverConfigManager }
 
-  TWFXCloudConfigManager = class( ICloudDriverObserver )
+  TWFXCloudDriverConfigManager = class( ICloudDriverObserver )
   private
     _configItems: TWFXCloudDriverConfigItems;
   public
@@ -43,6 +43,7 @@ type
   public
     procedure driverUpdated( const driver: TCloudDriver );
   public
+    class procedure initMacCloudDriverManager;
     procedure register( const name: String; const config: TWFXCloudDriverConfigClass );
     procedure loadFromCommon( const path: String );
     procedure saveToCommon( const path: String );
@@ -51,7 +52,7 @@ type
   end;
 
 var
-  WFXCloudDriverConfigManager: TWFXCloudConfigManager;
+  WFXCloudDriverConfigManager: TWFXCloudDriverConfigManager;
 
 implementation
 
@@ -304,32 +305,87 @@ begin
   jsonAccessKey.release;
 end;
 
-{ TWFXCloudConfigManager }
+{ TWFXCloudDriverConfigManager }
 
-constructor TWFXCloudConfigManager.Create;
+constructor TWFXCloudDriverConfigManager.Create;
 begin
   _configItems:= TWFXCloudDriverConfigItems.Create;
   cloudDriverManager.observer:= self;
 end;
 
-destructor TWFXCloudConfigManager.Destroy;
+destructor TWFXCloudDriverConfigManager.Destroy;
 begin
   cloudDriverManager.observer:= nil;
   _configItems.Free;
 end;
 
-procedure TWFXCloudConfigManager.driverUpdated(const driver: TCloudDriver);
+procedure TWFXCloudDriverConfigManager.driverUpdated(const driver: TCloudDriver);
 begin
   saveToSecurity;
 end;
 
-procedure TWFXCloudConfigManager.register(const name: String;
+class procedure TWFXCloudDriverConfigManager.initMacCloudDriverManager;
+begin
+  // the following are internal default configurations,
+  // which would be overridden by MacCloud.json,
+  // used when there is no MacCloud.json
+  if Assigned(WFXCloudDriverConfigManager) then
+    Exit;
+
+  WFXCloudDriverConfigManager:= TWFXCloudDriverConfigManager.Create;
+
+  WFXCloudDriverConfigManager.register( TDropBoxClient.driverName, TWFXDropBoxConfig );
+  dropBoxConfig:= TTokenCloudDriverConfig.Create( 'ahj0s9xia6i61gh', 'dc2ea085a05ac273a://dropbox/auth' );
+  cloudDriverManager.register( TDropBoxClient );
+  WFXCloudDriverMenuItems.add( TDropBoxClient.driverName, rsDropBoxDisplayName );
+
+  WFXCloudDriverConfigManager.register( TYandexClient.driverName, TWFXYandexConfig );
+  yandexConfig:= TTokenCloudDriverConfig.Create( 'eaf0c133568a46a0bd986bffb48c62b6', 'dc2ea085a05ac273a://yandex/auth' );
+  cloudDriverManager.register( TYandexClient );
+  WFXCloudDriverMenuItems.add( TYandexClient.driverName, rsYandexDisplayName );
+
+  WFXCloudDriverConfigManager.register( TOneDriveClient.driverName, TWFXOneDriveConfig );
+  oneDriveConfig:= TTokenCloudDriverConfig.Create( 'ceb7b2ed-b0cf-43e9-ade5-2e8ed9cfa3c0', 'dc2ea085a05ac273a://onedrive/auth' );
+  cloudDriverManager.register( TOneDriveClient );
+  WFXCloudDriverMenuItems.add( TOneDriveClient.driverName, rsOneDriveDisplayName );
+
+  WFXCloudDriverConfigManager.register( TBoxClient.driverName, TWFXBoxConfig );
+  boxConfig:= TTokenCloudDriverConfig.Create( 'rtm1apih0scrk1we9dnzej7fezd9t2xb', 'dc2ea085a05ac273a://box/auth' );
+  cloudDriverManager.register( TBoxClient );
+  WFXCloudDriverMenuItems.add( TBoxClient.driverName, rsBoxDisplayName );
+
+  WFXCloudDriverMenuItems.addSeparator;
+
+  WFXCloudDriverConfigManager.register( TAmazonS3Client.driverName, TWFXS3Config );
+  cloudDriverManager.register( TAmazonS3Client );
+  WFXCloudDriverMenuItems.add( TAmazonS3Client.driverName, rsAmazonS3DisplayName );
+
+  WFXCloudDriverConfigManager.register( TS3CompatibleClient.driverName, TWFXS3Config );
+  cloudDriverManager.register( TS3CompatibleClient );
+  WFXCloudDriverMenuItems.add( TS3CompatibleClient.driverName, rsS3CompatibleDisplayName );
+
+  WFXCloudDriverMenuItems.addSeparator;
+
+  WFXCloudDriverConfigManager.register( TAliyunOSSClient.driverName, TWFXS3Config );
+  cloudDriverManager.register( TAliyunOSSClient );
+  WFXCloudDriverMenuItems.add( TAliyunOSSClient.driverName, rsAliyunOSSDisplayName );
+
+  WFXCloudDriverConfigManager.register( TTencentCOSClient.driverName, TWFXS3Config );
+  cloudDriverManager.register( TTencentCOSClient );
+  WFXCloudDriverMenuItems.add( TTencentCOSClient.driverName, rsTencentCOSDisplayName );
+
+  WFXCloudDriverConfigManager.register( THuaweiOBSClient.driverName, TWFXS3Config );
+  cloudDriverManager.register( THuaweiOBSClient );
+  WFXCloudDriverMenuItems.add( THuaweiOBSClient.driverName, rsHuaweiOBSDisplayName );
+end;
+
+procedure TWFXCloudDriverConfigManager.register(const name: String;
   const config: TWFXCloudDriverConfigClass);
 begin
   _configItems.Add( name, config );
 end;
 
-procedure TWFXCloudConfigManager.loadFromSecurity;
+procedure TWFXCloudDriverConfigManager.loadFromSecurity;
   procedure loadConnectionsSecurity( const jsonConnections: NSArray );
   var
     jsonConnection: NSMutableDictionary;
@@ -362,7 +418,7 @@ begin
   loadConnectionsSecurity( jsonConnections );
 end;
 
-procedure TWFXCloudConfigManager.saveToSecurity;
+procedure TWFXCloudDriverConfigManager.saveToSecurity;
   function saveConnectionsSecurity: NSArray;
   var
     json: NSMutableArray;
@@ -402,7 +458,7 @@ begin
   TSecUtil.saveValue( 'MacCloud.wfx', 'connections', jsonString );
 end;
 
-procedure TWFXCloudConfigManager.loadFromCommon( const path: String );
+procedure TWFXCloudDriverConfigManager.loadFromCommon( const path: String );
   procedure loadDrivers( const jsonDrivers: NSArray );
   var
     jsonDriver: NSDictionary;
@@ -453,7 +509,7 @@ begin
   loadConnections( TJsonUtil.getArray(json, 'connections') );
 end;
 
-procedure TWFXCloudConfigManager.saveToCommon(const path: String);
+procedure TWFXCloudDriverConfigManager.saveToCommon(const path: String);
   function saveDrivers: NSArray;
   var
     json: NSMutableArray;
@@ -522,61 +578,6 @@ begin
     NSUTF8StringEncoding,
     nil );
 end;
-
-procedure initMacCloudDriverManager;
-begin
-  // the following are internal default configurations,
-  // which would be overridden by MacCloud.json,
-  // used when there is no MacCloud.json
-  WFXCloudDriverConfigManager:= TWFXCloudConfigManager.Create;
-
-  WFXCloudDriverConfigManager.register( TDropBoxClient.driverName, TWFXDropBoxConfig );
-  dropBoxConfig:= TTokenCloudDriverConfig.Create( 'ahj0s9xia6i61gh', 'dc2ea085a05ac273a://dropbox/auth' );
-  cloudDriverManager.register( TDropBoxClient );
-  WFXCloudDriverMenuItems.add( TDropBoxClient.driverName, rsDropBoxDisplayName );
-
-  WFXCloudDriverConfigManager.register( TYandexClient.driverName, TWFXYandexConfig );
-  yandexConfig:= TTokenCloudDriverConfig.Create( 'eaf0c133568a46a0bd986bffb48c62b6', 'dc2ea085a05ac273a://yandex/auth' );
-  cloudDriverManager.register( TYandexClient );
-  WFXCloudDriverMenuItems.add( TYandexClient.driverName, rsYandexDisplayName );
-
-  WFXCloudDriverConfigManager.register( TOneDriveClient.driverName, TWFXOneDriveConfig );
-  oneDriveConfig:= TTokenCloudDriverConfig.Create( 'ceb7b2ed-b0cf-43e9-ade5-2e8ed9cfa3c0', 'dc2ea085a05ac273a://onedrive/auth' );
-  cloudDriverManager.register( TOneDriveClient );
-  WFXCloudDriverMenuItems.add( TOneDriveClient.driverName, rsOneDriveDisplayName );
-
-  WFXCloudDriverConfigManager.register( TBoxClient.driverName, TWFXBoxConfig );
-  boxConfig:= TTokenCloudDriverConfig.Create( 'rtm1apih0scrk1we9dnzej7fezd9t2xb', 'dc2ea085a05ac273a://box/auth' );
-  cloudDriverManager.register( TBoxClient );
-  WFXCloudDriverMenuItems.add( TBoxClient.driverName, rsBoxDisplayName );
-
-  WFXCloudDriverMenuItems.addSeparator;
-
-  WFXCloudDriverConfigManager.register( TAmazonS3Client.driverName, TWFXS3Config );
-  cloudDriverManager.register( TAmazonS3Client );
-  WFXCloudDriverMenuItems.add( TAmazonS3Client.driverName, rsAmazonS3DisplayName );
-
-  WFXCloudDriverConfigManager.register( TS3CompatibleClient.driverName, TWFXS3Config );
-  cloudDriverManager.register( TS3CompatibleClient );
-  WFXCloudDriverMenuItems.add( TS3CompatibleClient.driverName, rsS3CompatibleDisplayName );
-
-  WFXCloudDriverMenuItems.addSeparator;
-
-  WFXCloudDriverConfigManager.register( TAliyunOSSClient.driverName, TWFXS3Config );
-  cloudDriverManager.register( TAliyunOSSClient );
-  WFXCloudDriverMenuItems.add( TAliyunOSSClient.driverName, rsAliyunOSSDisplayName );
-
-  WFXCloudDriverConfigManager.register( TTencentCOSClient.driverName, TWFXS3Config );
-  cloudDriverManager.register( TTencentCOSClient );
-  WFXCloudDriverMenuItems.add( TTencentCOSClient.driverName, rsTencentCOSDisplayName );
-
-  WFXCloudDriverConfigManager.register( THuaweiOBSClient.driverName, TWFXS3Config );
-  cloudDriverManager.register( THuaweiOBSClient );
-  WFXCloudDriverMenuItems.add( THuaweiOBSClient.driverName, rsHuaweiOBSDisplayName );
-end;
-
-initialization
-  initMacCloudDriverManager;
 
 finalization
   FreeAndNil( WFXCloudDriverConfigManager );
