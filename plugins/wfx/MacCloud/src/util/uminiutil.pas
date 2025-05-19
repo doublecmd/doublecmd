@@ -159,6 +159,7 @@ type
     class function parentPath( const path: String ): String;
     class function filename( const path: String ): String;
     class function extension( const path: String ): String;
+    class function pathWithLanguageID( const path: String; const languageID: String ): String;
     class function allContent( const path: String ): NSData;
     class function contentAsUTF8String( const path: String ): NSString;
     class function sha1( const path: String ): String; overload;
@@ -703,6 +704,21 @@ end;
 class function TFileUtil.extension(const path: String): String;
 begin
   Result:= StringToNSString(path).pathExtension.UTF8String;
+end;
+
+class function TFileUtil.pathWithLanguageID( const path: String; const languageID: String ): String;
+var
+  basePath: NSString;
+  languagePath: String;
+begin
+  basePath:= StringToNSString( path );
+  languagePath:= basePath.stringByDeletingPathExtension.
+           stringByAppendingString( StringToNSString(languageID) ).
+           stringByAppendingPathExtension( basePath.pathExtension ).UTF8String;
+  if TFileUtil.exists( languagePath ) then
+    Result:= languagePath
+  else
+    Result:= path;
 end;
 
 class function TFileUtil.allContent(const path: String): NSData;

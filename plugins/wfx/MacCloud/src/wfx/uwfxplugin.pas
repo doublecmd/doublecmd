@@ -22,6 +22,7 @@ type
     _logProc: TLogProcW;
     _pluginPath: String;
     _configPath: String;
+    _languageID: String;
     procedure pluginLogProc( const MsgType: Integer; const message: String );
   public
     constructor Create( const pluginNumber: Integer; const progressProc: TProgressProcW; const logProc: TLogProcW );
@@ -31,6 +32,7 @@ type
     property pluginNumber: Integer read _pluginNumber;
     property pluginPath: String read _pluginPath write _pluginPath;
     property configPath: String read _configPath write _configPath;
+    property languageID: String read _languageID write _languageID;
   end;
 
   { TWFXConnection }

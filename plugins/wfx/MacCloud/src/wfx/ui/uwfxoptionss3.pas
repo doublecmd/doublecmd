@@ -177,6 +177,7 @@ var
   jsonRegion: NSDictionary;
 begin
   path:= TWFXPluginUtil.driverDataPath(driver) + 'regions.json';
+  path:= TFileUtil.pathWithLanguageID( path, WFXMacCloudPlugin.languageID );
   jsonString:= TFileUtil.contentAsUTF8String( path );
   if jsonString.length = 0 then
     Exit;
