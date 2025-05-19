@@ -19,7 +19,7 @@ uses
   Classes, SysUtils,
   WfxPlugin, Extension,
   uCloudDriver, uCloudRootDriver,
-  uWFXPlugin, uWFXConfig, uWFXOptionsWindow, uWFXUtil,
+  uWFXPlugin, uWFXConfig, uWFXOptionsCommonRS, uWFXOptionsWindow, uWFXUtil,
   uMiniUtil;
 
 procedure ExtensionInitialize(StartupInfo: PExtensionStartupInfo); cdecl;
@@ -432,7 +432,7 @@ var
       Exit( FS_EXEC_YOURSELF );
 
     if utf8Verb = 'open' then begin
-      if parser.connectionName = CONST_ADD_NEW_CONNECTION then begin
+      if parser.connectionName = rsAddNewConnection then begin
         TWFXOptionsUtil.addAndShow;
         TCloudRootHelper.saveConfig;
       end else begin

@@ -7,7 +7,7 @@ interface
 uses
   Classes, SysUtils,
   uCloudDriver,
-  uWFXPlugin, uWFXUtil, uWFXConfig, uWFXOptionsWindow,
+  uWFXPlugin, uWFXUtil, uWFXConfig, uWFXOptionsCommonRS, uWFXOptionsWindow,
   uMiniUtil;
 
 type
@@ -42,9 +42,6 @@ type
     class procedure saveConfig( const path: String = '' );
     class function getDriver( const parser: TWFXPathParser ): TCloudDriverBase;
   end;
-
-const
-  CONST_ADD_NEW_CONNECTION = '<Add New Connection>';
 
 implementation
 
@@ -88,7 +85,7 @@ procedure TCloudRootDriverLister.listFolderBegin;
     cloudFile: TCloudFile;
   begin
     cloudFile:= TCloudFile.Create;
-    cloudFile.name:= CONST_ADD_NEW_CONNECTION;
+    cloudFile.name:= rsAddNewConnection;
     cloudFile.creationTime:= 4.5753942770578702E+004;
     cloudFile.modificationTime:= cloudFile.creationTime;
     _list.Add( cloudFile );

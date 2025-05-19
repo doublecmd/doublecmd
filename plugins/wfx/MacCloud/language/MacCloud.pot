@@ -46,6 +46,11 @@ msgctxt "uwfxconfig.rsyandexdisplayname"
 msgid "Yandex"
 msgstr ""
 
+#: uwfxoptionscommonrs.rsaddnewconnection
+msgctxt "uwfxoptionscommonrs.rsaddnewconnection"
+msgid "<Add New Connection>"
+msgstr ""
+
 #: uwfxoptionscommonrs.rscancelbuttontitle
 msgctxt "uwfxoptionscommonrs.rscancelbuttontitle"
 msgid "Cancel"

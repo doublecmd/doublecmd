@@ -12,6 +12,9 @@ resourcestring
   rsConnectButtonTitle = 'Connect';
   rsDisconnectButtonTitle = 'Disconnect';
 
+resourcestring
+  rsAddNewConnection = '<Add New Connection>';
+
 implementation
 
 end.
