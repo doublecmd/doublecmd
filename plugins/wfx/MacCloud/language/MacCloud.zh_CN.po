@@ -46,6 +46,11 @@ msgctxt "uwfxconfig.rsyandexdisplayname"
 msgid "Yandex"
 msgstr ""
 
+#: uwfxoptionscommonrs.rsaddnewconnection
+msgctxt "uwfxoptionscommonrs.rsaddnewconnection"
+msgid "<Add New Connection>"
+msgstr "<增加新连接>"
+
 #: uwfxoptionscommonrs.rscancelbuttontitle
 msgctxt "uwfxoptionscommonrs.rscancelbuttontitle"
 msgid "Cancel"
@@ -118,11 +123,11 @@ msgstr "端点："
 
 #: uwfxoptionss3.rsparamsalerttext
 msgid "Access Key ID and Secret Access Key are required, please make sure they are correct. If permissions are insufficient or you are setting \"S3 Compatible\", Region / Endpoint / Bucket is also required."
-msgstr ""
+msgstr "账户ID和密钥是必填的，请确保正确无误。如果你的账户权限不足，或者你正在设置“S3兼容”的连接，那么 区域 / 端点 / 储存桶 也是必须填写的。"
 
 #: uwfxoptionss3.rsparamsalerttitle
 msgid "Incomplete Parameters"
-msgstr ""
+msgstr "参数未完整"
 
 #: uwfxoptionss3.rsregionlabel
 msgid "Region:"
