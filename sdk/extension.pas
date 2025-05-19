@@ -153,8 +153,9 @@ type
     SetProperty: TSetProperty;
     GetProperty: TGetProperty;
     CreateComponent: TCreateComponent;
+    LanguageID: packed array [0..15] of AnsiChar;
     // Reserved for future API extension
-    Reserved: packed array [0..Pred(4088 * SizeOf(Pointer))] of Byte;
+    Reserved: packed array [0..Pred(4086 * SizeOf(Pointer))] of Byte;
   end;
 
 type

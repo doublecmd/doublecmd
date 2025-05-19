@@ -106,6 +106,7 @@ begin
     DialogBoxParam:= @fDialogBox.DialogBoxParam;
     SetProperty:= @fDialogBox.SetProperty;
     GetProperty:= @fDialogBox.GetProperty;
+    LanguageID:= Language;
     CreateComponent:= @fDialogBox.CreateComponent;
   end;
 end;
