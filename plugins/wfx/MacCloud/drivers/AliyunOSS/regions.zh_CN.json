@@ -2,167 +2,167 @@
   "regions": [
   {
     "name": "cn-hangzhou",
-    "displayName": "Hang Zhou (CN)",
+    "displayName": "华东1（杭州）",
     "endPoint": "oss-cn-hangzhou.aliyuncs.com"
   },
   {
     "name": "cn-shanghai",
-    "displayName": "Shang Hai (CN)",
+    "displayName": "华东2（上海)",
     "endPoint": "oss-cn-shanghai.aliyuncs.com"
   },
   {
     "name": "cn-nanjing",
-    "displayName": "Nan Jing (CN)",
+    "displayName": "华东5（南京）",
     "endPoint": "oss-cn-nanjing.aliyuncs.com"
   },
   {
     "name": "cn-fuzhou",
-    "displayName": "Fu Zhou (CN)",
+    "displayName": "华东6（福州）",
     "endPoint": "oss-cn-fuzhou.aliyuncs.com"
   },
   {
     "name": "cn-wuhan-lr",
-    "displayName": "Wu Han (CN)",
+    "displayName": "华中1（武汉）",
     "endPoint": "oss-cn-wuhan-lr.aliyuncs.com"
   },
   {
     "name": "cn-qingdao",
-    "displayName": "Qing Dao (CN)",
+    "displayName": "华北1（青岛）",
     "endPoint": "oss-cn-qingdao.aliyuncs.com"
   },
   {
     "name": "cn-beijing",
-    "displayName": "Bei Jing (CN)",
+    "displayName": "华北2（北京）",
     "endPoint": "oss-cn-beijing.aliyuncs.com"
   },
   {
     "name": "cn-zhangjiakou",
-    "displayName": "Zhang Jia Kou (CN)",
+    "displayName": "华北3（张家口）",
     "endPoint": "oss-cn-zhangjiakou.aliyuncs.com"
   },
   {
     "name": "cn-huhehaote",
-    "displayName": "Hohhot (CN)",
+    "displayName": "华北5（呼和浩特）",
     "endPoint": "oss-cn-huhehaote.aliyuncs.com"
   },
   {
     "name": "cn-wulanchabu",
-    "displayName": "Ulanqab (CN)",
+    "displayName": "华北6（乌兰察布）",
     "endPoint": "oss-cn-wulanchabu.aliyuncs.com"
   },
   {
     "name": "cn-shenzhen",
-    "displayName": "Shen Zhen (CN)",
+    "displayName": "华南1（深圳）",
     "endPoint": "oss-cn-shenzhen.aliyuncs.com"
   },
   {
     "name": "cn-heyuan",
-    "displayName": "He Yuan (CN)",
+    "displayName": "华南2（河源）",
     "endPoint": "oss-cn-heyuan.aliyuncs.com"
   },
   {
     "name": "cn-guangzhou",
-    "displayName": "Guang Zhou (CN)",
+    "displayName": "华南3（广州）",
     "endPoint": "oss-cn-guangzhou.aliyuncs.com"
   },
   {
     "name": "cn-chengdu",
-    "displayName": "Cheng Du (CN)",
+    "displayName": "西南1（成都）",
     "endPoint": "oss-cn-chengdu.aliyuncs.com"
   },
   {
     "name": "cn-hongkong",
-    "displayName": "Hong Kong (CN)",
+    "displayName": "中国香港",
     "endPoint": "oss-cn-hongkong.aliyuncs.com"
   },
   {
     "name": "rg-china-mainland",
-    "displayName": "China Mainland (CN)",
+    "displayName": "中国大陆",
     "endPoint": "oss-rg-china-mainland.aliyuncs.com"
   },
   {
     "name": "ap-northeast-1",
-    "displayName": "Japan (Tokyo)",
+    "displayName": "日本（东京）",
     "endPoint": "oss-ap-northeast-1.aliyuncs.com"
   },
   {
     "name": "ap-northeast-2",
-    "displayName": "South Korea (Seoul)",
+    "displayName": "韩国（首尔）",
     "endPoint": "oss-ap-northeast-2.aliyuncs.com"
   },
   {
     "name": "ap-southeast-1",
-    "displayName": "Singapore",
+    "displayName": "新加坡",
     "endPoint": "oss-ap-southeast-1.aliyuncs.com"
   },
   {
     "name": "ap-southeast-3",
-    "displayName": "Malaysia (Kuala Lumpur)",
+    "displayName": "马来西亚（吉隆坡）",
     "endPoint": "oss-ap-southeast-3.aliyuncs.com"
   },
   {
     "name": "ap-southeast-5",
-    "displayName": "Indonesia (Jakarta)",
+    "displayName": "印度尼西亚（雅加达）",
     "endPoint": "oss-ap-southeast-5.aliyuncs.com"
   },
   {
     "name": "ap-southeast-6",
-    "displayName": "Philippines (Manila)",
+    "displayName": "菲律宾（马尼拉）",
     "endPoint": "oss-ap-southeast-6.aliyuncs.com"
   },
   {
     "name": "ap-southeast-7",
-    "displayName": "Thailand (Bangkok)",
+    "displayName": "泰国（曼谷）",
     "endPoint": "oss-ap-southeast-7.aliyuncs.com"
   },
   {
     "name": "eu-central-1",
-    "displayName": "Germany (Frankfurt)",
+    "displayName": "德国（法兰克福）",
     "endPoint": "oss-eu-central-1.aliyuncs.com"
   },
   {
     "name": "eu-west-1",
-    "displayName": "UK (London)",
+    "displayName": "英国（伦敦）",
     "endPoint": "oss-eu-west-1.aliyuncs.com"
   },
   {
     "name": "us-west-1",
-    "displayName": "USA (Silicon Valley)",
+    "displayName": "美国（硅谷）",
     "endPoint": "oss-us-west-1.aliyuncs.com"
   },
   {
     "name": "us-east-1",
-    "displayName": "USA (Virginia)",
+    "displayName": "美国（弗吉尼亚）",
     "endPoint": "oss-us-east-1.aliyuncs.com"
   },
   {
     "name": "na-south-1",
-    "displayName": "Mexico",
+    "displayName": "墨西哥",
     "endPoint": "oss-na-south-1.aliyuncs.com"
   },
   {
     "name": "me-east-1",
-    "displayName": "UAE (Dubai)",
+    "displayName": "阿联酋（迪拜）",
     "endPoint": "oss-me-east-1.aliyuncs.com"
   },
   {
     "name": "cn-hangzhou-finance",
-    "displayName": "Hangzhou Finance (CN)",
+    "displayName": "杭州金融云公网",
     "endPoint": "oss-cn-hzfinance.aliyuncs.com"
   },
   {
     "name": "cn-shanghai-finance-1",
-    "displayName": "Shanghai Finance (CN)",
+    "displayName": "上海金融云公网",
     "endPoint": "oss-cn-shanghai-finance-1-pub.aliyuncs.com"
   },
   {
     "name": "cn-shenzhen-finance-1",
-    "displayName": "Shenzhen Finance (CN)",
+    "displayName": "深圳金融云公网",
     "endPoint": "oss-cn-szfinance.aliyuncs.com"
   },
   {
     "name": "cn-beijing-finance-1",
-    "displayName": "Beijing Finance (CN)",
+    "displayName": "北京金融云公网",
     "endPoint": "oss-cn-beijing-finance-1-pub.aliyuncs.com"
   }
   ]
