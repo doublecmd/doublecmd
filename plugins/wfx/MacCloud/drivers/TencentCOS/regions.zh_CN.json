@@ -2,112 +2,112 @@
   "regions": [
   {
     "name": "ap-beijing",
-    "displayName": "Bei Jing (CN)",
+    "displayName": "中国（北京）",
     "endPoint": "cos.ap-beijing.myqcloud.com"
   },
   {
     "name": "ap-beijing-1",
-    "displayName": "Bei Jing-1 (CN)",
+    "displayName": "中国（北京一区）",
     "endPoint": "cos.ap-beijing-1.myqcloud.com"
   },
   {
     "name": "ap-nanjing",
-    "displayName": "Nan Jing (CN)",
+    "displayName": "中国（南京）",
     "endPoint": "cos.ap-nanjing.myqcloud.com"
   },
   {
     "name": "ap-shanghai",
-    "displayName": "Shang Hai (CN)",
+    "displayName": "中国（上海）",
     "endPoint": "cos.ap-shanghai.myqcloud.com"
   },
   {
     "name": "ap-guangzhou",
-    "displayName": "Guang Zhou (CN)",
+    "displayName": "中国（广州）",
     "endPoint": "cos.ap-guangzhou.myqcloud.com"
   },
   {
     "name": "ap-shenzhen",
-    "displayName": "Shen Zhen (CN)",
+    "displayName": "中国（深圳）",
     "endPoint": "cos.ap-shenzhen.myqcloud.com"
   },
   {
     "name": "ap-chengdu",
-    "displayName": "Cheng Du (CN)",
+    "displayName": "中国（成都）",
     "endPoint": "cos.ap-chengdu.myqcloud.com"
   },
   {
     "name": "ap-chongqing",
-    "displayName": "Chong Qing (CN)",
+    "displayName": "中国（重庆）",
     "endPoint": "cos.ap-chongqing.myqcloud.com"
   },
   {
     "name": "ap-shenzhen-fsi",
-    "displayName": "Shen Zhen Finance (CN)",
+    "displayName": "中国（深圳金融）",
     "endPoint": "cos.ap-shenzhen-fsi.myqcloud.com"
   },
   {
     "name": "ap-shanghai-fsi",
-    "displayName": "Shang Hai Finance (CN)",
+    "displayName": "中国（上海金融）",
     "endPoint": "cos.ap-shanghai-fsi.myqcloud.com"
   },
   {
     "name": "ap-beijing-fsi",
-    "displayName": "Bei Jing Finance (CN)",
+    "displayName": "中国（北京金融）",
     "endPoint": "cos.ap-beijing-fsi.myqcloud.com"
   },
   {
     "name": "ap-hongkong",
-    "displayName": "Hong Kong (CN)",
+    "displayName": "中国（香港）",
     "endPoint": "cos.ap-hongkong.myqcloud.com"
   },
   {
     "name": "ap-singapore",
-    "displayName": "Singapore (Asia Pacific)",
+    "displayName": "亚太（新加坡）",
     "endPoint": "cos.ap-singapore.myqcloud.com"
   },
   {
     "name": "ap-jakarta",
-    "displayName": "Jakarta (Asia Pacific)",
+    "displayName": "亚太（印尼雅加达）",
     "endPoint": "cos.ap-jakarta.myqcloud.com"
   },
   {
     "name": "ap-seoul",
-    "displayName": "Seoul (Asia Pacific)",
+    "displayName": "亚太（韩国首尔）",
     "endPoint": "cos.ap-seoul.myqcloud.com"
   },
   {
     "name": "ap-bangkok",
-    "displayName": "Bangkok (Asia Pacific)",
+    "displayName": "亚太（泰国曼谷）",
     "endPoint": "cos.ap-bangkok.myqcloud.com"
   },
   {
     "name": "ap-tokyo",
-    "displayName": "Tokyo (Asia Pacific)",
+    "displayName": "亚太（日本东京）",
     "endPoint": "cos.ap-tokyo.myqcloud.com"
   },
   {
     "name": "na-siliconvalley",
-    "displayName": "Silicon Valley (US)",
+    "displayName": "北美（美国硅谷）",
     "endPoint": "cos.na-siliconvalley.myqcloud.com"
   },
   {
     "name": "na-ashburn",
-    "displayName": "Ashburn (US)",
+    "displayName": "北美（美国弗吉尼亚）",
     "endPoint": "cos.na-ashburn.myqcloud.com"
   },
   {
     "name": "sa-saopaulo",
-    "displayName": "Saopaulo (South America)",
+    "displayName": "南美（巴西圣保罗）",
     "endPoint": "cos.sa-saopaulo.myqcloud.com"
   },
   {
     "name": "eu-frankfurt",
-    "displayName": "Frankfurt (Europe)",
+    "displayName": "欧洲（德国法兰克福）",
     "endPoint": "cos.eu-frankfurt.myqcloud.com"
   },
   {
     "name": "eu-moscow",
-    "displayName": "Moscow (Europe)",
+    "displayName": "欧洲（俄罗斯莫斯科）",
     "endPoint": "cos.eu-moscow.myqcloud.com"
   }
   ]
