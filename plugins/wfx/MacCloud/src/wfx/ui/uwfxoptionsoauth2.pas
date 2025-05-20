@@ -134,6 +134,7 @@ begin
   _saveButton.setTitle( StringToNSString(rsSaveButtonTitle) );
   _saveButton.setTarget( self );
   _saveButton.setAction( ObjCSelector('TWFXOAuth2PropertyView_saveConnection:') );
+  _saveButton.setKeyEquivalent( NSSTR(#13) );
   self.addSubView( _saveButton );
   _saveButton.release;
 

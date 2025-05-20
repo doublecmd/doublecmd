@@ -297,7 +297,6 @@ begin
 end;
 
 procedure TWFXS3PropertyView.initPropertyView;
-
 begin
   _logoImageView:= NSImageView.alloc.initWithFrame( NSMakeRect(224,560,32,32) );
   self.addSubview( _logoImageView );
@@ -346,11 +345,12 @@ begin
   addLabel( StringToNSString(rsBucketLabel), NSMakeRect(20,230,120,20) );
   _bucketTextField:= addTextField( NSMakeRect(146,230,290,22) );
 
-  _saveButton:= NSButton.alloc.initWithFrame( NSMakeRect(190,190,100,22) );
+  _saveButton:= NSButton.alloc.initWithFrame( NSMakeRect(200,190,100,22) );
   _saveButton.setBezelStyle( NSRoundedBezelStyle );
   _saveButton.setTitle( StringToNSString(rsSaveButtonTitle) );
   _saveButton.setTarget( self );
   _saveButton.setAction( ObjCSelector('TWFXS3PropertyView_saveConnection:') );
+  _saveButton.setKeyEquivalent( NSSTR(#13) );
   self.addSubView( _saveButton );
   _saveButton.release;
 

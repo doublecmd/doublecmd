@@ -531,6 +531,7 @@ begin
     NSFullSizeContentViewWindowMask or NSTitledWindowMask or NSClosableWindowMask,
     NSBackingStoreBuffered,
     True );
+  win.setAutorecalculatesKeyViewLoop( True );
   win.loadConnections;
   win.setDelegate( win );
   win.setTitlebarAppearsTransparent( True );
