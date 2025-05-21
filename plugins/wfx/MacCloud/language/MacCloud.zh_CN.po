@@ -31,6 +31,10 @@ msgctxt "uwfxconfig.rsonedrivedisplayname"
 msgid "OneDrive"
 msgstr ""
 
+#: uwfxconfig.rsqiniukododisplayname
+msgid "Qiniu Cloud KODO"
+msgstr "七牛云KODO"
+
 #: uwfxconfig.rss3compatibledisplayname
 msgctxt "uwfxconfig.rss3compatibledisplayname"
 msgid "S3 Compatible"
@@ -49,7 +53,7 @@ msgstr ""
 #: uwfxoptionscommonrs.rsaddnewconnection
 msgctxt "uwfxoptionscommonrs.rsaddnewconnection"
 msgid "<Add New Connection>"
-msgstr "<增加新连接>"
+msgstr "<创建新连接>"
 
 #: uwfxoptionscommonrs.rscancelbuttontitle
 msgctxt "uwfxoptionscommonrs.rscancelbuttontitle"

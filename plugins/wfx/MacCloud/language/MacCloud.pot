@@ -31,6 +31,10 @@ msgctxt "uwfxconfig.rsonedrivedisplayname"
 msgid "OneDrive"
 msgstr ""
 
+#: uwfxconfig.rsqiniukododisplayname
+msgid "Qiniu Cloud KODO"
+msgstr ""
+
 #: uwfxconfig.rss3compatibledisplayname
 msgctxt "uwfxconfig.rss3compatibledisplayname"
 msgid "S3 Compatible"
