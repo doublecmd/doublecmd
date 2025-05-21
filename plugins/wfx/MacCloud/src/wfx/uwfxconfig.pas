@@ -12,7 +12,7 @@ uses
   uOAuth2Core, uOAuth2Client, uDropBoxClient, uYandexClient, uOneDriveClient, uBoxClient,
   uAWSCore, uS3Client,
   uAmazonS3Client, uS3CompatibleClient,
-  uAliyunOSSClient, uTencentCOSClient, uHuaweiOBSClient, uQiniuKODOClient,
+  uAliyunOSSClient, uTencentCOSClient, uHuaweiOBSClient, uQiniuKODOClient, uUpyunUSSClient,
   uMiniUtil;
 
 type
@@ -67,6 +67,7 @@ resourcestring
   rsTencentCOSDisplayName = 'Tencent Cloud COS';
   rsHuaweiOBSDisplayName = 'Huawei Cloud OBS';
   rsQiniuKODODisplayName = 'Qiniu Cloud KODO';
+  rsUpyunUSSDisplayName = 'Upyun USS';
 
 type
 
@@ -384,6 +385,10 @@ begin
   WFXCloudDriverConfigManager.register( TQiniuKODOClient.driverName, TWFXS3Config );
   cloudDriverManager.register( TQiniuKODOClient );
   WFXCloudDriverMenuItems.add( TQiniuKODOClient.driverName, rsQiniuKODODisplayName );
+
+  WFXCloudDriverConfigManager.register( TUpyunUSSClient.driverName, TWFXS3Config );
+  cloudDriverManager.register( TUpyunUSSClient );
+  WFXCloudDriverMenuItems.add( TUpyunUSSClient.driverName, rsUpyunUSSDisplayName );
 end;
 
 procedure TWFXCloudDriverConfigManager.register(const name: String;

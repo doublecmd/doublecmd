@@ -14,7 +14,7 @@ type
 
   { TQiniuKODOGetAllBucketsSession }
 
-  TQiniuKODOGetAllBucketsSession = class( TS3GetAllBucketsWithRegionFunctionSession )
+  TQiniuKODOGetAllBucketsSession = class( TS3GetAllBucketsSession )
   protected
     procedure constructBucket( const bucket: TS3Bucket; const xmlBucket: NSXMLElement ); override;
     function getConnectionDataOfService: TAWSConnectionData; override;
