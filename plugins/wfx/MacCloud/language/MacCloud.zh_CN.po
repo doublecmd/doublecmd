@@ -45,6 +45,10 @@ msgctxt "uwfxconfig.rstencentcosdisplayname"
 msgid "Tencent Cloud COS"
 msgstr "腾讯云COS"
 
+#: uwfxconfig.rsupyunussdisplayname
+msgid "Upyun USS"
+msgstr "又拍云USS"
+
 #: uwfxconfig.rsyandexdisplayname
 msgctxt "uwfxconfig.rsyandexdisplayname"
 msgid "Yandex"
