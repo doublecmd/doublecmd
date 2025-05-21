@@ -281,15 +281,15 @@ begin
 
   client:= TS3Client( configItem.driver );
 
-  data.region:= _regionTextField.stringValue.UTF8String;
-  data.endPoint:= _endPointTextField.stringValue.UTF8String;
-  data.bucketName:= _bucketTextField.stringValue.UTF8String;;
+  data.region:= TStringUtil.removeSpace( _regionTextField.stringValue );
+  data.endPoint:= TStringUtil.removeSpace( _endPointTextField.stringValue );
+  data.bucketName:= TStringUtil.removeSpace( _bucketTextField.stringValue );
   client.setDefaultConnectionData( data );
 
   accessKey:= TAWSAccessKey.Create(
-    _accessKeyIDTextField.stringValue.UTF8String,
-    _accessKeySecretTextField.stringValue.UTF8String,
-    _accessKeyTokenTextField.stringValue.UTF8String );
+    TStringUtil.removeSpace( _accessKeyIDTextField.stringValue ),
+    TStringUtil.removeSpace( _accessKeySecretTextField.stringValue ),
+    TStringUtil.removeSpace( _accessKeyTokenTextField.stringValue ) );
   client.setAccessKey( accessKey );
 
   _controller.saveConnection( _nameTextField.stringValue );

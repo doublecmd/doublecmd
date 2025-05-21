@@ -99,6 +99,7 @@ type
     class procedure stringToWidechars(const buffer: pwidechar; const s: String; const maxLength: Integer);
     class function hexstr( const buf: pbyte; const length: Integer ): NSString;
     class function hexstr( const data: NSData ): NSString;
+    class function removeSpace( const s: NSString ): String;
   end;
 
   { TJsonUtil }
@@ -365,6 +366,11 @@ end;
 class function TStringUtil.hexstr(const data: NSData): NSString;
 begin
   Result:= TStringUtil.hexstr( data.bytes, data.length );
+end;
+
+class function TStringUtil.removeSpace(const s: NSString): String;
+begin
+  Result:= s.stringByReplacingOccurrencesOfString_withString( NSSTR(' '), NSString.string_ ).UTF8String;
 end;
 
 { TJsonUtil }

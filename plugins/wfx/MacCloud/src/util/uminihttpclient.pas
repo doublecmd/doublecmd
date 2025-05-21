@@ -493,6 +493,9 @@ var
   queryItems: NSArray;
   queryString: NSString;
 begin
+  if request.URL.absoluteString.length = 0 then
+    raise EArgumentException.Create( 'in TMiniHttpMethod.setQueryToURL: request.URL is empty' );
+
   queryItems:= THttpClientUtil.toQueryItems( query );
   components:= NSURLComponents.componentsWithURL_resolvingAgainstBaseURL(
     request.URL, False );
