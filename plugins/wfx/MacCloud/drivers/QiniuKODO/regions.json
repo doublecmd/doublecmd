@@ -1,0 +1,49 @@
+{
+  "regions": [
+  {
+    "name": "cn-east-1",
+    "displayName": "Zhe Jiang (CN)",
+    "endPoint": "s3.cn-east-1.qiniucs.com"
+  },
+  {
+    "name": "cn-east-2",
+    "displayName": "Zhe Jiang 2 (CN)",
+    "endPoint": "s3.cn-east-2.qiniucs.com"
+  },
+  {
+    "name": "cn-south-1",
+    "displayName": "Guang Dong (CN)",
+    "endPoint": "s3.cn-south-1.qiniucs.com"
+  },
+  {
+    "name": "cn-north-1",
+    "displayName": "He Bei (CN)",
+    "endPoint": "s3.cn-north-1.qiniucs.com"
+  },
+  {
+    "name": "cn-northwest-1",
+    "displayName": "Shan Xi (CN)",
+    "endPoint": "s3.cn-northwest-1.qiniucs.com"
+  },
+  {
+    "name": "us-north-1",
+    "displayName": "Los Angeles (US)",
+    "endPoint": "s3.us-north-1.qiniucs.com"
+  },
+  {
+    "name": "ap-southeast-1",
+    "displayName": "Singapore (Asia Pacific)",
+    "endPoint": "s3.ap-southeast-1.qiniucs.com"
+  },
+  {
+    "name": "ap-southeast-2",
+    "displayName": "Hanoi (Asia Pacific)",
+    "endPoint": "s3.ap-southeast-2.qiniucs.com"
+  },
+  {
+    "name": "ap-southeast-3",
+    "displayName": "Ho Chi Minh (Asia Pacific)",
+    "endPoint": "s3.ap-southeast-3.qiniucs.com"
+  }
+  ]
+}

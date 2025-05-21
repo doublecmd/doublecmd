@@ -1,0 +1,49 @@
+{
+  "regions": [
+  {
+    "name": "cn-east-1",
+    "displayName": "华东（浙江）",
+    "endPoint": "s3.cn-east-1.qiniucs.com"
+  },
+  {
+    "name": "cn-east-2",
+    "displayName": "华东（浙江2）",
+    "endPoint": "s3.cn-east-2.qiniucs.com"
+  },
+  {
+    "name": "cn-south-1",
+    "displayName": "华南（广东）",
+    "endPoint": "s3.cn-south-1.qiniucs.com"
+  },
+  {
+    "name": "cn-north-1",
+    "displayName": "华北（河北）",
+    "endPoint": "s3.cn-north-1.qiniucs.com"
+  },
+  {
+    "name": "cn-northwest-1",
+    "displayName": "西北（陕西）",
+    "endPoint": "s3.cn-northwest-1.qiniucs.com"
+  },
+  {
+    "name": "us-north-1",
+    "displayName": "北美（洛杉矶）",
+    "endPoint": "s3.us-north-1.qiniucs.com"
+  },
+  {
+    "name": "ap-southeast-1",
+    "displayName": "亚太（新加坡）",
+    "endPoint": "s3.ap-southeast-1.qiniucs.com"
+  },
+  {
+    "name": "ap-southeast-2",
+    "displayName": "亚太（河内）",
+    "endPoint": "s3.ap-southeast-2.qiniucs.com"
+  },
+  {
+    "name": "ap-southeast-3",
+    "displayName": "亚太（胡志明）",
+    "endPoint": "s3.ap-southeast-3.qiniucs.com"
+  }
+  ]
+}
