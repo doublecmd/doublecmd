@@ -706,11 +706,14 @@ begin
     cloudDriverResult.httpResult:= httpResult;
     cloudDriverResult.resultMessage:= httpResult.body;
 
-    if httpResult.resultCode = 200 then
+    if httpResult.resultCode = 200 then begin
       Result:= analyseListResult( httpResult.body );
-
-    S3ClientResultProcess( cloudDriverResult );
+    end else begin
+      TLogUtil.logError( 'Error in TS3GetAllBucketsSession.listBuckets(): ' + cloudDriverResult.resultMessage );
+    end;
   finally
+    if Result = nil then
+      Result:= TS3Buckets.Create;
     FreeAndNil( cloudDriverResult );
     FreeAndNil( http );
   end;
