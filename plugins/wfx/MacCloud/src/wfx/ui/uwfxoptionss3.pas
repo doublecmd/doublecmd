@@ -86,9 +86,6 @@ resourcestring
   rsRegionUserCustom = '(User Custom)';
   rsParamsAlertTitle = 'Incomplete Parameters';
   rsParamsAlertText = 'Access Key ID and Secret Access Key are required, please make sure they are correct. If permissions are insufficient or you are setting "S3 Compatible", Region / Endpoint / Bucket is also required.';
-  rsAuthNotes =
-    '1. AccessKeyID and SerectAccessKey will be saved in the macOS KeyChains to obtain system-level security. The confidential data can only be read by your own macOS permissions.'#13#13 +
-    '2. Access Key ID and Secret Access Key are required, and the others are optional. Double Commander can usually automatically obtain others such as Buckets. Therefore, Region / EndPoint / Bucket are only required if Access Key permissions are insufficient.';
 
 { TWFXS3RegionConfigItem }
 
@@ -240,6 +237,7 @@ begin
   regionIndex:= _regionItems.indexOfRegion( _regionTextField.stringValue );
   if regionIndex >= 0 then
     _regionDropDown.selectItemAtIndex( regionIndex + 1 );
+  _noteTextView.setString( configItem.getNotes );
 end;
 
 procedure TWFXS3PropertyView.saveConnection(sender: NSObject);
@@ -358,7 +356,6 @@ begin
   _noteTextView.setFont( NSFont.systemFontOfSize(11));
   _noteTextView.setEditable( False );
   _noteTextView.setDrawsBackground( False );
-  _noteTextView.setString( StringToNSString(rsAuthNotes) );
   self.addSubView( _noteTextView );
   _noteTextView.release;
 end;

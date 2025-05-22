@@ -7,8 +7,8 @@ interface
 
 uses
   Classes, SysUtils,
-  CocoaAll,
-  uCloudDriver;
+  CocoaAll, uMiniCocoa,
+  uCloudDriver, uWFXConfig;
 
 type
 
@@ -43,6 +43,8 @@ type
       message 'TConnectionConfigItem_creationTime';
     function modificationTime: TDateTime;
       message 'TConnectionConfigItem_modificationTime';
+    function getNotes: NSString;
+      message 'TConnectionConfigItem_getNotes';
   end;
 
   { TWFXConnectionConfigItems }
@@ -152,6 +154,16 @@ end;
 function TWFXConnectionConfigItem.modificationTime: TDateTime;
 begin
   Result:= _modificationTime;
+end;
+
+function TWFXConnectionConfigItem.getNotes: NSString;
+var
+  configClass: TWFXCloudDriverConfigClass;
+  notes: String;
+begin
+  configClass:= WFXCloudDriverConfigManager.get( _driver.driverName );
+  notes:= configClass.getNotes.Replace( '{driverName}', _driver.driverName );
+  Result:= StringToNSString( notes );
 end;
 
 { TWFXConnectionConfigItems }

@@ -26,6 +26,7 @@ type
     class procedure saveConnectionCommon( const driver: TCloudDriver; const params: NSMutableDictionary ); virtual; abstract;
     class procedure loadConnectionSecurity( const driver: TCloudDriver; const params: NSDictionary ); virtual; abstract;
     class procedure saveConnectionSecurity( const driver: TCloudDriver; const params: NSMutableDictionary ); virtual; abstract;
+    class function getNotes: String; virtual; abstract;
   end;
 
   TWFXCloudDriverConfigClass = class of TWFXCloudDriverConfig;
@@ -45,6 +46,7 @@ type
   public
     class procedure initMacCloudDriverManager;
     procedure register( const name: String; const config: TWFXCloudDriverConfigClass );
+    function get( const name: String ): TWFXCloudDriverConfigClass;
     procedure loadFromCommon( const path: String );
     procedure saveToCommon( const path: String );
     procedure loadFromSecurity;
@@ -70,6 +72,15 @@ resourcestring
   rsQiniuKODODisplayName = 'Qiniu Cloud KODO';
   rsUpyunUSSDisplayName = 'Upyun USS';
 
+  rsOAuth2AuthNotes =
+    '1. Before successfully enabling the connection, Double Commander needs to obtain authorization from {driverName}'#13#13 +
+    '2. Click the connect button to be redirected to the {driverName} official website in the Safari browser'#13#13 +
+    '3. Please login your {driverName} account in Safari and authorize Double Commander to access'#13#13 +
+    '4. The authorization is completed on the {driverName} official website, Double Commander will not get your password';
+  rsS3AuthNotes =
+    '1. AccessKeyID and SerectAccessKey will be saved in the macOS KeyChains to obtain system-level security. The confidential data can only be read by your own macOS permissions.'#13#13 +
+    '2. Access Key ID and Secret Access Key are required, and the others are optional. Double Commander can usually automatically obtain others such as Buckets. Therefore, Region / EndPoint / Bucket are only required if Access Key permissions are insufficient.';
+
 type
 
   { TWFXTokenCloudDriverConfig }
@@ -81,6 +92,7 @@ type
     class procedure saveConnectionCommon( const driver: TCloudDriver; const params: NSMutableDictionary ); override;
     class procedure loadConnectionSecurity( const driver: TCloudDriver; const params: NSDictionary ); override;
     class procedure saveConnectionSecurity( const driver: TCloudDriver; const params: NSMutableDictionary ); override;
+    class function getNotes: String; override;
     class function cloudDriverConfigPtr: TTokenCloudDriverConfigPtr; virtual; abstract;
     class function cloudDriverClass: TCloudDriverClass; virtual; abstract;
   end;
@@ -122,6 +134,7 @@ type
     class procedure saveConnectionCommon( const driver: TCloudDriver; const params: NSMutableDictionary ); override;
     class procedure loadConnectionSecurity( const driver: TCloudDriver; const params: NSDictionary ); override;
     class procedure saveConnectionSecurity( const driver: TCloudDriver; const params: NSMutableDictionary ); override;
+    class function getNotes: String; override;
   end;
 
 { TWFXTokenCloudDriverConfig }
@@ -186,6 +199,11 @@ begin
   TJsonUtil.setDateTime( jsonToken, 'accessExpirationTime', token.accessExpirationTime );
   TJsonUtil.setDictionary( params, 'token', jsonToken );
   jsonToken.release;
+end;
+
+class function TWFXTokenCloudDriverConfig.getNotes: String;
+begin
+  Result:= rsOAuth2AuthNotes;
 end;
 
 { TWFXDropBoxConfig }
@@ -308,6 +326,11 @@ begin
   jsonAccessKey.release;
 end;
 
+class function TWFXS3Config.getNotes: String;
+begin
+  Result:= rsS3AuthNotes;
+end;
+
 { TWFXCloudDriverConfigManager }
 
 constructor TWFXCloudDriverConfigManager.Create;
@@ -400,6 +423,11 @@ procedure TWFXCloudDriverConfigManager.register(const name: String;
   const config: TWFXCloudDriverConfigClass);
 begin
   _configItems.Add( name, config );
+end;
+
+function TWFXCloudDriverConfigManager.get( const name: String ): TWFXCloudDriverConfigClass;
+begin
+  Result:= TWFXCloudDriverConfigClass( _configItems[name] );
 end;
 
 procedure TWFXCloudDriverConfigManager.loadFromSecurity;

@@ -32,13 +32,6 @@ type
 
 implementation
 
-resourcestring
-  rsAuthNotes =
-    '1. Before successfully enabling the connection, Double Commander needs to obtain authorization from {driverName}'#13#13 +
-    '2. Click the connect button to be redirected to the {driverName} official website in the Safari browser'#13#13 +
-    '3. Please login your {driverName} account in Safari and authorize Double Commander to access'#13#13 +
-    '4. The authorization is completed on the {driverName} official website, Double Commander will not get your password';
-
 { TWFXOAuth2PropertyView }
 
 procedure TWFXOAuth2PropertyView.loadConnectionProperties( const index: Integer );
@@ -50,6 +43,7 @@ begin
     Exit;
   _logoImageView.setImage( TWFXPluginUtil.driverMainIcon(configItem.driver) );
   _nameTextField.setStringValue( configItem.name );
+  _noteTextView.setString( configItem.getNotes );
   self.updateConnectStatus;
 end;
 
@@ -58,7 +52,6 @@ var
   configItem: TWFXConnectionConfigItem;
   connectButtonText: String;
   statusImageName: NSString;
-  notes: String;
 begin
   configItem:= _controller.currentConfigItem;
   if configItem.driver.authorized then begin
@@ -70,8 +63,6 @@ begin
   end;
   _statusImageview.setImage( NSImage.imageNamed(statusImageName) );
   _connectButton.setTitle( StringToNSString(connectButtonText) );
-  notes:= rsAuthNotes.Replace( '{driverName}', configItem.driver.driverName );
-  _noteTextView.setString( StringToNSString(notes) );
 end;
 
 procedure TWFXOAuth2PropertyView.connectOrDisconnect(sender: NSObject);
