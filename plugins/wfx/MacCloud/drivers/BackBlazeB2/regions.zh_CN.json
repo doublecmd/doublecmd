@@ -1,0 +1,34 @@
+{
+  "regions": [
+  {
+    "name": "us-west-000",
+    "displayName": "美国西部",
+    "endPoint": "s3.us-west-000.backblazeb2.com"
+  },
+  {
+    "name": "us-west-001",
+    "displayName": "美国西部1",
+    "endPoint": "s3.us-west-001.backblazeb2.com"
+  },
+  {
+    "name": "us-west-002",
+    "displayName": "美国西部2",
+    "endPoint": "s3.us-west-002.backblazeb2.com"
+  },
+  {
+    "name": "us-west-004",
+    "displayName": "美国西部4",
+    "endPoint": "s3.us-west-004.backblazeb2.com"
+  },
+  {
+    "name": "us-east-005",
+    "displayName": "美国东部",
+    "endPoint": "s3.us-east-005.backblazeb2.com"
+  },
+  {
+    "name": "eu-central-001",
+    "displayName": "欧洲中部（荷兰阿姆斯特丹）",
+    "endPoint": "s3.eu-central-001.backblazeb2.com"
+  }
+  ]
+}
