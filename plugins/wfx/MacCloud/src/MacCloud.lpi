@@ -192,6 +192,11 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="uUpyunUSSClient"/>
       </Unit>
+      <Unit>
+        <Filename Value="drivers/aws/backblazeb2/ubackblazeb2client.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uBackBlazeB2Client"/>
+      </Unit>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
@@ -201,7 +206,7 @@
     </Target>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir)"/>
-      <OtherUnitFiles Value="../../../../sdk;util;drivers/root;drivers;drivers/aws;drivers/aws/aliyunoss;drivers/oauth2/box;drivers/oauth2/dropbox;drivers/oauth2/onedrive;drivers/oauth2/yandex;wfx/ui;wfx;drivers/oauth2;drivers/aws/tencentcos;drivers/aws/amazons3;drivers/aws/s3compatible;drivers/aws/huaweiobs;drivers/qiniukodo;drivers/aws/qiniukodo;drivers/aws/upyunuss"/>
+      <OtherUnitFiles Value="../../../../sdk;util;drivers/root;drivers;drivers/aws;drivers/aws/aliyunoss;drivers/oauth2/box;drivers/oauth2/dropbox;drivers/oauth2/onedrive;drivers/oauth2/yandex;wfx/ui;wfx;drivers/oauth2;drivers/aws/tencentcos;drivers/aws/amazons3;drivers/aws/s3compatible;drivers/aws/huaweiobs;drivers/qiniukodo;drivers/aws/qiniukodo;drivers/aws/upyunuss;drivers/aws/backblazeb2"/>
       <UnitOutputDirectory Value="../lib/$(TargetCPU)-$(TargetOS)"/>
     </SearchPaths>
     <CodeGeneration>

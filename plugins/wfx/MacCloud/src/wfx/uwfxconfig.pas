@@ -11,7 +11,7 @@ uses
   uWFXPlugin, uCloudDriver,
   uOAuth2Core, uOAuth2Client, uDropBoxClient, uYandexClient, uOneDriveClient, uBoxClient,
   uAWSCore, uS3Client,
-  uAmazonS3Client, uS3CompatibleClient,
+  uAmazonS3Client, uBackBlazeB2Client, uS3CompatibleClient,
   uAliyunOSSClient, uTencentCOSClient, uHuaweiOBSClient, uQiniuKODOClient, uUpyunUSSClient,
   uMiniUtil;
 
@@ -62,6 +62,7 @@ resourcestring
   rsOneDriveDisplayName = 'OneDrive';
   rsBoxDisplayName = 'Box';
   rsAmazonS3DisplayName = 'Amazon S3';
+  rsBackBlazeB2DisplayName = 'BackBlaze B2';
   rsS3CompatibleDisplayName = 'S3 Compatible';
   rsAliyunOSSDisplayName = 'Alibaba Cloud OSS';
   rsTencentCOSDisplayName = 'Tencent Cloud COS';
@@ -361,6 +362,10 @@ begin
   WFXCloudDriverConfigManager.register( TAmazonS3Client.driverName, TWFXS3Config );
   cloudDriverManager.register( TAmazonS3Client );
   WFXCloudDriverMenuItems.add( TAmazonS3Client.driverName, rsAmazonS3DisplayName );
+
+  WFXCloudDriverConfigManager.register( TBackBlazeB2Client.driverName, TWFXS3Config );
+  cloudDriverManager.register( TBackBlazeB2Client );
+  WFXCloudDriverMenuItems.add( TBackBlazeB2Client.driverName, rsBackBlazeB2DisplayName );
 
   WFXCloudDriverConfigManager.register( TS3CompatibleClient.driverName, TWFXS3Config );
   cloudDriverManager.register( TS3CompatibleClient );

@@ -11,6 +11,10 @@ msgctxt "uwfxconfig.rsamazons3displayname"
 msgid "Amazon S3"
 msgstr ""
 
+#: uwfxconfig.rsbackblazeb2displayname
+msgid "BackBlaze B2"
+msgstr ""
+
 #: uwfxconfig.rsboxdisplayname
 msgctxt "uwfxconfig.rsboxdisplayname"
 msgid "Box"
