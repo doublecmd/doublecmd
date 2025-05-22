@@ -77,9 +77,12 @@ resourcestring
     '2. Click the connect button to be redirected to the {driverName} official website in the Safari browser'#13#13 +
     '3. Please login your {driverName} account in Safari and authorize Double Commander to access'#13#13 +
     '4. The authorization is completed on the {driverName} official website, Double Commander will not get your password';
-  rsS3AuthNotes =
+  rsS3AutoConfigNotes =
     '1. AccessKeyID and SerectAccessKey will be saved in the macOS KeyChains to obtain system-level security. The confidential data can only be read by your own macOS permissions.'#13#13 +
     '2. Access Key ID and Secret Access Key are required, and the others are optional. Double Commander can usually automatically obtain others such as Buckets. Therefore, Region / EndPoint / Bucket are only required if Access Key permissions are insufficient.';
+  rsS3ManualConfigNotes =
+    '1. AccessKeyID and SerectAccessKey will be saved in the macOS KeyChains to obtain system-level security. The confidential data can only be read by your own macOS permissions.'#13#13 +
+    '2. Access Key ID / Secret Access Key / Region / EndPoint / Bucket are required for {driverName}';
 
 type
 
@@ -134,6 +137,17 @@ type
     class procedure saveConnectionCommon( const driver: TCloudDriver; const params: NSMutableDictionary ); override;
     class procedure loadConnectionSecurity( const driver: TCloudDriver; const params: NSDictionary ); override;
     class procedure saveConnectionSecurity( const driver: TCloudDriver; const params: NSMutableDictionary ); override;
+  end;
+
+  { TWFXS3AutoConfig }
+
+  TWFXS3AutoConfig = class( TWFXS3Config )
+    class function getNotes: String; override;
+  end;
+
+  { TWFXS3ManualConfig }
+
+  TWFXS3ManualConfig = class( TWFXS3Config )
     class function getNotes: String; override;
   end;
 
@@ -326,9 +340,18 @@ begin
   jsonAccessKey.release;
 end;
 
-class function TWFXS3Config.getNotes: String;
+{ TWFXS3AutoConfig }
+
+class function TWFXS3AutoConfig.getNotes: String;
 begin
-  Result:= rsS3AuthNotes;
+  Result:= rsS3AutoConfigNotes;
+end;
+
+{ TWFXS3ManualConfig }
+
+class function TWFXS3ManualConfig.getNotes: String;
+begin
+  Result:= rsS3ManualConfigNotes;
 end;
 
 { TWFXCloudDriverConfigManager }
@@ -382,39 +405,39 @@ begin
 
   WFXCloudDriverMenuItems.addSeparator;
 
-  WFXCloudDriverConfigManager.register( TAmazonS3Client.driverName, TWFXS3Config );
+  WFXCloudDriverConfigManager.register( TAmazonS3Client.driverName, TWFXS3AutoConfig );
   cloudDriverManager.register( TAmazonS3Client );
   WFXCloudDriverMenuItems.add( TAmazonS3Client.driverName, rsAmazonS3DisplayName );
 
-  WFXCloudDriverConfigManager.register( TBackBlazeB2Client.driverName, TWFXS3Config );
+  WFXCloudDriverConfigManager.register( TBackBlazeB2Client.driverName, TWFXS3ManualConfig );
   cloudDriverManager.register( TBackBlazeB2Client );
   WFXCloudDriverMenuItems.add( TBackBlazeB2Client.driverName, rsBackBlazeB2DisplayName );
 
-  WFXCloudDriverConfigManager.register( TS3CompatibleClient.driverName, TWFXS3Config );
+  WFXCloudDriverConfigManager.register( TS3CompatibleClient.driverName, TWFXS3ManualConfig );
   cloudDriverManager.register( TS3CompatibleClient );
   WFXCloudDriverMenuItems.add( TS3CompatibleClient.driverName, rsS3CompatibleDisplayName );
 
   WFXCloudDriverMenuItems.addSeparator;
 
-  WFXCloudDriverConfigManager.register( TAliyunOSSClient.driverName, TWFXS3Config );
+  WFXCloudDriverConfigManager.register( TAliyunOSSClient.driverName, TWFXS3AutoConfig );
   cloudDriverManager.register( TAliyunOSSClient );
   WFXCloudDriverMenuItems.add( TAliyunOSSClient.driverName, rsAliyunOSSDisplayName );
 
-  WFXCloudDriverConfigManager.register( TTencentCOSClient.driverName, TWFXS3Config );
+  WFXCloudDriverConfigManager.register( TTencentCOSClient.driverName, TWFXS3AutoConfig );
   cloudDriverManager.register( TTencentCOSClient );
   WFXCloudDriverMenuItems.add( TTencentCOSClient.driverName, rsTencentCOSDisplayName );
 
-  WFXCloudDriverConfigManager.register( THuaweiOBSClient.driverName, TWFXS3Config );
+  WFXCloudDriverConfigManager.register( THuaweiOBSClient.driverName, TWFXS3AutoConfig );
   cloudDriverManager.register( THuaweiOBSClient );
   WFXCloudDriverMenuItems.add( THuaweiOBSClient.driverName, rsHuaweiOBSDisplayName );
 
   WFXCloudDriverMenuItems.addSeparator;
 
-  WFXCloudDriverConfigManager.register( TQiniuKODOClient.driverName, TWFXS3Config );
+  WFXCloudDriverConfigManager.register( TQiniuKODOClient.driverName, TWFXS3AutoConfig );
   cloudDriverManager.register( TQiniuKODOClient );
   WFXCloudDriverMenuItems.add( TQiniuKODOClient.driverName, rsQiniuKODODisplayName );
 
-  WFXCloudDriverConfigManager.register( TUpyunUSSClient.driverName, TWFXS3Config );
+  WFXCloudDriverConfigManager.register( TUpyunUSSClient.driverName, TWFXS3AutoConfig );
   cloudDriverManager.register( TUpyunUSSClient );
   WFXCloudDriverMenuItems.add( TUpyunUSSClient.driverName, rsUpyunUSSDisplayName );
 end;

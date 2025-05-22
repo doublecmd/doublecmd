@@ -30,6 +30,25 @@ msgctxt "uwfxconfig.rshuaweiobsdisplayname"
 msgid "Huawei Cloud OBS"
 msgstr "华为云OBS"
 
+#: uwfxconfig.rsoauth2authnotes
+msgctxt "uwfxconfig.rsoauth2authnotes"
+msgid ""
+"1. Before successfully enabling the connection, Double Commander needs to obtain authorization from {driverName}\n"
+"\n"
+"2. Click the connect button to be redirected to the {driverName} official website in the Safari browser\n"
+"\n"
+"3. Please login your {driverName} account in Safari and authorize Double Commander to access\n"
+"\n"
+"4. The authorization is completed on the {driverName} official website, Double Commander will not get your password"
+msgstr ""
+"1. 在成功激活之前，Double Commander 需要先从 {driverName} 获得授权\n"
+"\n"
+"2. 点击“连接”按钮，将在Safari浏览器中重定向至 {driverName} 官方网站\n"
+"\n"
+"3. 请在Safari浏览器中登录你的{driverName}账户，并授权 Double Commander 访问\n"
+"\n"
+"4. 授权完全在 {driverName} 官方网站完成，Double Commander 不会获得你的账户密码"
+
 #: uwfxconfig.rsonedrivedisplayname
 msgctxt "uwfxconfig.rsonedrivedisplayname"
 msgid "OneDrive"
@@ -39,10 +58,30 @@ msgstr ""
 msgid "Qiniu Cloud KODO"
 msgstr "七牛云KODO"
 
+#: uwfxconfig.rss3autoconfignotes
+msgid ""
+"1. AccessKeyID and SerectAccessKey will be saved in the macOS KeyChains to obtain system-level security. The confidential data can only be read by your own macOS permissions.\n"
+"\n"
+"2. Access Key ID and Secret Access Key are required, and the others are optional. Double Commander can usually automatically obtain others such as Buckets. Therefore, Region / EndPoint / Bucket are only required if Access Key permissions are insufficient."
+msgstr ""
+"1. 账户ID和密钥将被保存在 macOS KeyChains 中，从而获得系统级的安全保护。只有你的macOS权限，才能获取这些机密数据。\n"
+"\n"
+"2. 账户ID和密钥是必填的，其他项都是可选的。Double Commander 通常能自动获取其他项，例如储存桶。因此, 区域 / 端点 / 储存桶 仅在你的账户权限不足时才需要填写。"
+
 #: uwfxconfig.rss3compatibledisplayname
 msgctxt "uwfxconfig.rss3compatibledisplayname"
 msgid "S3 Compatible"
 msgstr "S3兼容"
+
+#: uwfxconfig.rss3manualconfignotes
+msgid ""
+"1. AccessKeyID and SerectAccessKey will be saved in the macOS KeyChains to obtain system-level security. The confidential data can only be read by your own macOS permissions.\n"
+"\n"
+"2. Access Key ID / Secret Access Key / Region / EndPoint / Bucket are required for {driverName}"
+msgstr ""
+"1. 账户ID和密钥将被保存在 macOS KeyChains 中，从而获得系统级的安全保护。只有你的macOS权限，才能获取这些机密数据。\n"
+"\n"
+"2. 对于 {driverName}，账户ID / 密钥 / 区域 / 端点 / 储存桶 都是必填的。"
 
 #: uwfxconfig.rstencentcosdisplayname
 msgctxt "uwfxconfig.rstencentcosdisplayname"
@@ -93,37 +132,9 @@ msgctxt "uwfxoptionscommonrs.rssavebuttontitle"
 msgid "Save"
 msgstr "保存"
 
-#: uwfxoptionsoauth2.rsauthnotes
-msgid ""
-"1. Before successfully enabling the connection, Double Commander needs to obtain authorization from {driverName}\n"
-"\n"
-"2. Click the connect button to be redirected to the {driverName} official website in the Safari browser\n"
-"\n"
-"3. Please login your {driverName} account in Safari and authorize Double Commander to access\n"
-"\n"
-"4. The authorization is completed on the {driverName} official website, Double Commander will not get your password"
-msgstr ""
-"1. 在成功激活之前，Double Commander 需要先从 {driverName} 获得授权\n"
-"\n"
-"2. 点击“连接”按钮，将在Safari浏览器中重定向至 {driverName} 官方网站\n"
-"\n"
-"3. 请在Safari浏览器中登录你的{driverName}账户，并授权 Double Commander 访问\n"
-"\n"
-"4. 授权完全在 {driverName} 官方网站完成，Double Commander 不会获得你的账户密码"
-
 #: uwfxoptionss3.rsaccesskeyidlabel
 msgid "Access Key ID:"
 msgstr "账户ID："
-
-#: uwfxoptionss3.rsauthnotes
-msgid ""
-"1. AccessKeyID and SerectAccessKey will be saved in the macOS KeyChains to obtain system-level security. The confidential data can only be read by your own macOS permissions.\n"
-"\n"
-"2. Access Key ID and Secret Access Key are required, and the others are optional. Double Commander can usually automatically obtain others such as Buckets. Therefore, Region / EndPoint / Bucket are only required if Access Key permissions are insufficient."
-msgstr ""
-"1. 账户ID和密钥将被保存在 macOS KeyChains 中，从而获得系统级的安全保护。只有你的macOS权限，才能获取这些机密数据。\n"
-"\n"
-"2. 账户ID和密钥是必填的，其他项都是可选的。Double Commander 通常能自动获取其他项，例如储存桶。因此, 区域 / 端点 / 储存桶 仅在你的账户权限不足时才需要填写。"
 
 #: uwfxoptionss3.rsbucketlabel
 msgid "Bucket:"

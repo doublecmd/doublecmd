@@ -30,6 +30,18 @@ msgctxt "uwfxconfig.rshuaweiobsdisplayname"
 msgid "Huawei Cloud OBS"
 msgstr ""
 
+#: uwfxconfig.rsoauth2authnotes
+msgctxt "uwfxconfig.rsoauth2authnotes"
+msgid ""
+"1. Before successfully enabling the connection, Double Commander needs to obtain authorization from {driverName}\n"
+"\n"
+"2. Click the connect button to be redirected to the {driverName} official website in the Safari browser\n"
+"\n"
+"3. Please login your {driverName} account in Safari and authorize Double Commander to access\n"
+"\n"
+"4. The authorization is completed on the {driverName} official website, Double Commander will not get your password"
+msgstr ""
+
 #: uwfxconfig.rsonedrivedisplayname
 msgctxt "uwfxconfig.rsonedrivedisplayname"
 msgid "OneDrive"
@@ -39,9 +51,23 @@ msgstr ""
 msgid "Qiniu Cloud KODO"
 msgstr ""
 
+#: uwfxconfig.rss3autoconfignotes
+msgid ""
+"1. AccessKeyID and SerectAccessKey will be saved in the macOS KeyChains to obtain system-level security. The confidential data can only be read by your own macOS permissions.\n"
+"\n"
+"2. Access Key ID and Secret Access Key are required, and the others are optional. Double Commander can usually automatically obtain others such as Buckets. Therefore, Region / EndPoint / Bucket are only required if Access Key permissions are insufficient."
+msgstr ""
+
 #: uwfxconfig.rss3compatibledisplayname
 msgctxt "uwfxconfig.rss3compatibledisplayname"
 msgid "S3 Compatible"
+msgstr ""
+
+#: uwfxconfig.rss3manualconfignotes
+msgid ""
+"1. AccessKeyID and SerectAccessKey will be saved in the macOS KeyChains to obtain system-level security. The confidential data can only be read by your own macOS permissions.\n"
+"\n"
+"2. Access Key ID / Secret Access Key / Region / EndPoint / Bucket are required for {driverName}"
 msgstr ""
 
 #: uwfxconfig.rstencentcosdisplayname
@@ -93,26 +119,8 @@ msgctxt "uwfxoptionscommonrs.rssavebuttontitle"
 msgid "Save"
 msgstr ""
 
-#: uwfxoptionsoauth2.rsauthnotes
-msgid ""
-"1. Before successfully enabling the connection, Double Commander needs to obtain authorization from {driverName}\n"
-"\n"
-"2. Click the connect button to be redirected to the {driverName} official website in the Safari browser\n"
-"\n"
-"3. Please login your {driverName} account in Safari and authorize Double Commander to access\n"
-"\n"
-"4. The authorization is completed on the {driverName} official website, Double Commander will not get your password"
-msgstr ""
-
 #: uwfxoptionss3.rsaccesskeyidlabel
 msgid "Access Key ID:"
-msgstr ""
-
-#: uwfxoptionss3.rsauthnotes
-msgid ""
-"1. AccessKeyID and SerectAccessKey will be saved in the macOS KeyChains to obtain system-level security. The confidential data can only be read by your own macOS permissions.\n"
-"\n"
-"2. Access Key ID and Secret Access Key are required, and the others are optional. Double Commander can usually automatically obtain others such as Buckets. Therefore, Region / EndPoint / Bucket are only required if Access Key permissions are insufficient."
 msgstr ""
 
 #: uwfxoptionss3.rsbucketlabel
