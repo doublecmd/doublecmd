@@ -295,6 +295,8 @@ begin
   // Workaround: TWinControl.WMSize loop detected
   Constraints.MaxWidth:= Screen.Width;
   Constraints.MaxHeight:= Screen.Height;
+  // Workaround: TControl.InvalidatePreferredSize loop detected
+  pnlButtons.Constraints.MinWidth:= Constraints.MinWidth;
 end;
 
 function TfrmFileOp.GetFirstOperationHandle(QueueIdentifier: TOperationsManagerQueueIdentifier): TOperationHandle;
