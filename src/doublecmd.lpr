@@ -36,8 +36,8 @@ uses
   gtk2,
   Gtk2Int,
   {$ENDIF}
-  {$IF DEFINED(LCLQT5) and not DEFINED(DARWIN)}
-  uQt5Workaround,
+  {$IF DEFINED(LCLQT5) or DEFINED(LCLQT6)}
+  uQtWorkaround,
   {$ENDIF}
   {$ENDIF}
   uSystem,
