@@ -207,6 +207,20 @@ type
   HICON = THandle;
   HWND = THandle;
 
+const
+  FS_ICON_FORMAT_HICON  = 0; // Load icon from HICON (Windows only)
+  FS_ICON_FORMAT_FILE   = 1; // Load icon from file name returned by plugin in the RemoteName
+  FS_ICON_FORMAT_BINARY = 2; // Load icon from Data byte array (PNG or ICO), destroy data using Free if FS_ICON_EXTRACTED_DESTROY returned
+
+type
+  PWfxIcon = ^TWfxIcon;
+  TWfxIcon = packed record
+    Data: Pointer;   // Icon data
+    Size: UIntPtr;   // Input: suggested icon size (width/height), output: size of Data byte array
+    Format: UIntPtr; // See FS_ICON_FORMAT_*
+    Free: procedure(Data: Pointer); {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF}; // Procedure used to destroy Data byte array
+  end;
+
 type
 {$IFDEF MSWINDOWS}
   FILETIME = Windows.FILETIME;
@@ -407,21 +421,21 @@ procedure FsGetDefRootName(DefRootName:pchar;maxlen:integer); {$IFDEF MSWINDOWS}
 
 function FsExtractCustomIcon(RemoteName:pchar;ExtractFlags:integer;
 
-  var TheIcon:hicon):integer; {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
+  TheIcon: PWfxIcon):integer; {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
 
 function FsExtractCustomIconW(RemoteName:pwidechar;ExtractFlags:integer;
 
-  var TheIcon:hicon):integer; {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
+  TheIcon: PWfxIcon):integer; {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
 
 procedure FsSetDefaultParams(dps:pFsDefaultParamStruct); {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
 
 function FsGetPreviewBitmap(RemoteName:pchar;width,height:integer,
 
-  var ReturnedBitmap:hbitmap):integer; {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
+  ReturnedBitmap: PWfxIcon):integer; {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
 
 function FsGetPreviewBitmapW(RemoteName:pwidechar;width,height:integer,
 
-  var ReturnedBitmap:hbitmap):integer; {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
+  ReturnedBitmap: PWfxIcon):integer; {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
 
 function FsLinksToLocalFiles:bool; {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
 

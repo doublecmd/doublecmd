@@ -5,7 +5,7 @@ unit uFileSource;
 interface
 
 uses
-  Classes, SysUtils, DCStrUtils, syncobjs, LCLProc, URIParser, Menus,
+  Classes, SysUtils, DCStrUtils, syncobjs, LCLProc, URIParser, Menus, Graphics,
   uFile, uDisplayFile, uFileProperty,
   uFileSourceWatcher,
   uFileSourceOperation, uFileSourceOperationTypes, uFileSourceProperty;
@@ -180,6 +180,7 @@ type
     function GetRootDir(sPath : String): String; overload;
     function GetRootDir: String; overload;
     function GetPathType(sPath : String): TPathType;
+    function GetCustomIcon(aFile: TFile; AIconSize: Integer; out AIcon: TBitmap): IntPtr;
     function GetFreeSpace(Path: String; out FreeSize, TotalSize : Int64) : Boolean;
     function GetRealPath(const path: String): String;
     function GetLocalName(var aFile: TFile): Boolean;
@@ -381,6 +382,7 @@ type
 
     function CreateDirectory(const Path: String): Boolean; virtual;
     function FileSystemEntryExists(const Path: String): Boolean; virtual;
+    function GetCustomIcon(aFile: TFile; AIconSize: Integer; out AIcon: TBitmap): PtrInt; virtual;
     function GetFreeSpace(Path: String; out FreeSize, TotalSize : Int64) : Boolean; virtual;
     function QueryContextMenu(AFiles: TFiles; var AMenu: TPopupMenu): Boolean; virtual;
     function GetDefaultView(out DefaultView: TFileSourceFields): Boolean; virtual;
@@ -700,6 +702,13 @@ end;
 function TFileSource.FileSystemEntryExists(const Path: String): Boolean;
 begin
   Result := True;
+end;
+
+function TFileSource.GetCustomIcon(aFile: TFile; AIconSize: Integer; out
+  AIcon: TBitmap): PtrInt;
+begin
+  AIcon:= nil;
+  Result:= -1;
 end;
 
 function TFileSource.GetFreeSpace(Path: String; out FreeSize, TotalSize : Int64) : Boolean;

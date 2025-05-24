@@ -31,6 +31,7 @@ type
     FTag: PtrInt;            //<en File view related info
     FSelected: Boolean;      //<en If is selected
     FBusy: TDisplayFileBusy; //<en File properties is busy
+    FIcon: TBitmap;          //<en File icon (local cache)
     FIconID: PtrInt;         //<en Icon ID for PixmapManager
     FIconOverlayID: PtrInt;  //<en Overlay icon ID for PixmapManager
     FTextColor: TColor;      //<en Text color in file list
@@ -42,6 +43,7 @@ type
 
     // Cache of displayed strings.
     FDisplayStrings: TStringList;
+    procedure SetIcon(AValue: TBitmap);
 
   public
     {en
@@ -72,6 +74,7 @@ type
     property FSFile: TFile read FFSFile write FFSFile;
     property DisplayItem: TDisplayItemPtr read FDisplayItem write FDisplayItem;
     property Selected: Boolean read FSelected write FSelected;
+    property Icon: TBitmap read FIcon write SetIcon;
     property IconID: PtrInt read FIconID write FIconID;
     property IconOverlayID: PtrInt read FIconOverlayID write FIconOverlayID;
     property TextColor: TColor read FTextColor write FTextColor;
@@ -126,6 +129,12 @@ type
 
 implementation
 
+procedure TDisplayFile.SetIcon(AValue: TBitmap);
+begin
+  FIcon.Free;
+  FIcon:= AValue;
+end;
+
 constructor TDisplayFile.Create(ReferenceFile: TFile);
 begin
   FTag := -1;
@@ -141,6 +150,7 @@ begin
   inherited Destroy;
   FDisplayStrings.Free;
   FSFile.Free;
+  FIcon.Free;
 end;
 
 function TDisplayFile.Clone(NewReferenceFile: TFile): TDisplayFile;
@@ -169,6 +179,13 @@ begin
     AFile.FIconID := FIconID;
     AFile.FIconOverlayID := FIconOverlayID;
     AFile.FTextColor := FTextColor;
+
+    if (FIcon = nil) then
+      AFile.Icon:= nil
+    else begin
+      AFile.Icon:= TBitmap.Create;
+      AFile.FIcon.Assign(FIcon);
+    end;
 
     if Assigned(AFile.FFSFile) then
     begin

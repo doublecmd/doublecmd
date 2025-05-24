@@ -73,7 +73,11 @@ type
     {en
        Set, if the file source supports custom context menu.
     }
-    fspContextMenu
+    fspContextMenu,
+    {en
+       Set, if the file source supports custom file icons.
+    }
+    fspCustomIcon
   );
 
   TFileSourceProperties = set of TFileSourceProperty;

@@ -399,6 +399,7 @@ var
   AFile: TDisplayFile;
   HaveIcons: Boolean;
   DirectAccess: Boolean;
+  AFileSource: IFileSource;
   AFilePropertiesNeeded: TFilePropertiesTypes;
 begin
   if (csDestroying in ComponentState) or
@@ -406,10 +407,11 @@ begin
      IsEmpty then
     Exit;
 
+  AFileSource := FileSource;
   HaveIcons := gShowIcons <> sim_none;
   VisibleFiles := GetVisibleFilesIndexes;
   AFilePropertiesNeeded := FilePropertiesNeeded;
-  DirectAccess := fspDirectAccess in FileSource.Properties;
+  DirectAccess := fspDirectAccess in AFileSource.Properties;
 
   // Property fpComment should be retrieved in main thread
   if gListFilesInThread and (fpComment in AFilePropertiesNeeded) then
@@ -417,9 +419,9 @@ begin
     for i := VisibleFiles.First to VisibleFiles.Last do
     begin
       AFile := FFiles[i];
-      if FileSource.CanRetrieveProperties(AFile.FSFile, [fpComment]) then
+      if AFileSource.CanRetrieveProperties(AFile.FSFile, [fpComment]) then
       try
-        FileSource.RetrieveProperties(AFile.FSFile, [fpComment], []);
+        AFileSource.RetrieveProperties(AFile.FSFile, [fpComment], []);
       except
         on EFileNotFound do;
       end;
@@ -442,20 +444,20 @@ begin
       begin
         if HaveIcons then
         begin
-          if AFile.IconID < 0 then
-            AFile.IconID := PixMapManager.GetIconByFile(AFile.FSFile,
-              DirectAccess, True, gShowIcons, not gIconOverlays);
+          if (AFile.IconID < 0) and (AFile.Icon = nil) then
+          begin
+            AFile.IconID := PixMapManager.GetIconByFile(AFileSource, AFile, DirectAccess, True, gShowIcons, not gIconOverlays);
+          end;
           {$IF DEFINED(MSWINDOWS) OR DEFINED(RabbitVCS)}
           if gIconOverlays and (AFile.IconOverlayID < 0) then
           begin
-            AFile.IconOverlayID := PixMapManager.GetIconOverlayByFile(AFile.FSFile,
-                                                                      DirectAccess);
+            AFile.IconOverlayID := PixMapManager.GetIconOverlayByFile(AFile.FSFile, DirectAccess);
           end;
           {$ENDIF}
         end;
-        if FileSource.CanRetrieveProperties(AFile.FSFile, FilePropertiesNeeded) then
+        if AFileSource.CanRetrieveProperties(AFile.FSFile, FilePropertiesNeeded) then
         try
-          FileSource.RetrieveProperties(AFile.FSFile, FilePropertiesNeeded, GetVariantFileProperties);
+          AFileSource.RetrieveProperties(AFile.FSFile, FilePropertiesNeeded, GetVariantFileProperties);
         except
           on EFileNotFound do;
         end;
@@ -469,9 +471,9 @@ begin
       begin
         AFile := FFiles[i];
         if (AFile.FSFile.Name <> '..') and (AFile.Busy * [bsProp] = []) and
-           (FileSource.CanRetrieveProperties(AFile.FSFile, AFilePropertiesNeeded) or
+           (AFileSource.CanRetrieveProperties(AFile.FSFile, AFilePropertiesNeeded) or
            (AFile.TextColor = clNone) or
-           (HaveIcons and ((AFile.IconID < 0)
+           (HaveIcons and ( ((AFile.IconID < 0) and (AFile.Icon = nil))
              {$IF DEFINED(MSWINDOWS) OR DEFINED(RabbitVCS)}
              or (gIconOverlays and (AFile.IconOverlayID < 0))
              {$ENDIF}
@@ -487,7 +489,7 @@ begin
       if Assigned(AFileList) and (AFileList.Count > 0) then
       begin
         Worker := TFilePropertiesRetriever.Create(
-          FileSource,
+          AFileSource,
           WorkersThread,
           AFilePropertiesNeeded,
           GetVariantFileProperties,

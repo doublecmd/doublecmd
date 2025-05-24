@@ -1156,6 +1156,7 @@ begin
       FHashedNames.Remove(OldFileKey);
       FHashedNames.Add(NewFileKey, ADisplayFile);
       ADisplayFile.Busy:= [];
+      ADisplayFile.Icon:= nil;
       ADisplayFile.IconID := -1;
       ADisplayFile.Selected := False;
       ADisplayFile.IconOverlayID := -1;
@@ -2031,6 +2032,12 @@ begin
     begin
       aFile.Properties[propType] := UpdatedFile.FSFile.ReleaseProperty(propType);
     end;
+
+  if UpdatedFile.Icon <> nil then
+  begin
+    OrigDisplayFile.Icon := TBitmap.Create;
+    OrigDisplayFile.Icon.Assign(UpdatedFile.Icon);
+  end;
 
   if UpdatedFile.IconID <> -1 then
     OrigDisplayFile.IconID := UpdatedFile.IconID;

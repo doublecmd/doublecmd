@@ -32,10 +32,10 @@ type
 //------------------------------------------------------
 {R}  TFsSetAttr=function (RemoteName:pansichar;NewAttr:integer):bool;
 {R}  TFsSetTime=Function(RemoteName:pansichar;CreationTime,LastAccessTime,LastWriteTime:PWfxFileTime):bool;
-{U}  TFsExtractCustomIcon=function(RemoteName:pansichar;ExtractFlags:integer;var TheIcon:hicon):integer;
+{U}  TFsExtractCustomIcon=function(RemoteName:pansichar;ExtractFlags:integer; TheIcon: PWfxIcon):integer;
 {R}  TFsRenMovFile= function(OldName,NewName:pansichar;  Move, OverWrite:bool; ri:pRemoteInfo):Integer;
 {U}  TFsDisconnect = function (DisconnectRoot:pansichar):bool;
-{U}  TFsGetPreviewBitmap = function ( RemoteName:pansichar; width,height:integer; ReturnedBitmap:HBITMAP):integer;
+{U}  TFsGetPreviewBitmap = function ( RemoteName:pansichar; width,height:integer; ReturnedBitmap: PWfxIcon):integer;
 {R}  TFsLinksToLocalFiles = function:bool;
 {R}  TFsGetLocalName = function (RemoteName:pansichar;maxlen:integer):bool;
 //------------------------------------------------------
@@ -68,8 +68,8 @@ type
      TFsSetAttrW = function(RemoteName:pwidechar;NewAttr:integer):bool;
      TFsSetTimeW = function(RemoteName:pwidechar;CreationTime,LastAccessTime, LastWriteTime:PWfxFileTime):bool;
      TFsStatusInfoW = procedure(RemoteDir:pwidechar;InfoStartEnd,InfoOperation:integer);
-     TFsExtractCustomIconW = function(RemoteName:pwidechar;ExtractFlags:integer; var TheIcon:hicon):integer;
-     TFsGetPreviewBitmapW = function(RemoteName:pwidechar;width,height:integer; var ReturnedBitmap:hbitmap):integer;
+     TFsExtractCustomIconW = function(RemoteName:pwidechar;ExtractFlags:integer; TheIcon: PWfxIcon):integer;
+     TFsGetPreviewBitmapW = function(RemoteName:pwidechar;width,height:integer; ReturnedBitmap: PWfxIcon):integer;
      TFsGetLocalNameW = function(RemoteName:pwidechar;maxlen:integer):bool;
 //------------------------------------------------------
      TFsContentGetValueW = function(FileName:pwidechar;FieldIndex,UnitIndex:integer;FieldValue:pbyte; maxlen,flags:integer):integer;

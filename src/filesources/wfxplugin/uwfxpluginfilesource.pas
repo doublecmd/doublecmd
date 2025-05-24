@@ -6,7 +6,7 @@ unit uWfxPluginFileSource;
 interface
 
 uses
-  Classes, SysUtils, URIParser, uWFXModule, WfxPlugin,
+  Classes, SysUtils, URIParser, Graphics, uWFXModule, WfxPlugin,
   uFile, uFileSourceProperty, uFileSourceOperationTypes,
   uFileProperty, uFileSource, uFileSourceOperation;
 
@@ -129,6 +129,7 @@ type
     function GetLocalName(var aFile: TFile): Boolean; override;
     function CreateDirectory(const Path: String): Boolean; override;
     function GetDefaultView(out DefaultView: TFileSourceFields): Boolean; override;
+    function GetCustomIcon(aFile: TFile; AIconSize: Integer; out AIcon: TBitmap): PtrInt; override;
 
     class function IsSupportedPath(const Path: String): Boolean; override;
     class function CreateByRootName(aRootName: String): IWfxPluginFileSource;
@@ -170,7 +171,7 @@ uses
   uWfxPluginCopyInOperation, uWfxPluginCopyOutOperation,  uWfxPluginMoveOperation, uVfsModule,
   uWfxPluginExecuteOperation, uWfxPluginListOperation, uWfxPluginCreateDirectoryOperation,
   uWfxPluginDeleteOperation, uWfxPluginSetFilePropertyOperation, uWfxPluginCopyOperation,
-  DCConvertEncoding, uWfxPluginCalcStatisticsOperation, uFileFunctions;
+  DCConvertEncoding, uWfxPluginCalcStatisticsOperation, uFileFunctions, uPixMapManager;
 
 const
   connCopyIn      = 0;
@@ -642,6 +643,8 @@ begin
       if (BackgroundFlags and BG_DOWNLOAD = 0) then
         Result:= Result + [fspCopyOutOnMainThread];
     end;
+    if Assigned(FsExtractCustomIcon) or Assigned(FsExtractCustomIconW) then
+      Result := Result + [fspCustomIcon];
     if Assigned(FsContentGetDefaultView) or Assigned(FsContentGetDefaultViewW) then
       Result := Result + [fspDefaultView];
   end;
@@ -947,6 +950,29 @@ end;
 function TWfxPluginFileSource.GetDefaultView(out DefaultView: TFileSourceFields): Boolean;
 begin
   Result:= FWFXModule.WfxContentGetDefaultView(DefaultView);
+end;
+
+function TWfxPluginFileSource.GetCustomIcon(aFile: TFile; AIconSize: Integer;
+  out AIcon: TBitmap): PtrInt;
+var
+  Status: Integer;
+  TheIcon: TWfxIcon;
+  AIconName: String;
+  UniqueName: String;
+begin
+  AIconName:= aFile.FullPath;
+  Status:= FWfxModule.WfxExtractCustomIcon(AIconName, AIconSize, TheIcon);
+
+  if Status in [FS_ICON_EXTRACTED, FS_ICON_EXTRACTED_DESTROY] then
+  begin
+    if AIconName <> aFile.FullPath then
+      UniqueName:= AIconName
+    else begin
+      UniqueName:= EmptyStr;
+    end;
+    Result:= PixmapManager.CheckAddPixmap(UniqueName, AIconSize, (Status = FS_ICON_EXTRACTED_DESTROY), @TheIcon, AIcon);
+  end;
+
 end;
 
 class function TWfxPluginFileSource.IsSupportedPath(const Path: String): Boolean;

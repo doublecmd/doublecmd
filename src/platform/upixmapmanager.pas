@@ -47,7 +47,7 @@ interface
 uses
   Classes, SysUtils, Graphics, syncobjs, uFileSorting, DCStringHashListUtf8,
   uFile, uIconTheme, uDrive, uDisplayFile, uGlobs, uDCReadPSD, uOSUtils, FPImage,
-  LCLVersion, uVectorImage, uMultiArc
+  LCLVersion, uVectorImage, uMultiArc, uFileSource, WfxPlugin
   {$IF DEFINED(MSWINDOWS)}
   , ShlObj
   {$ELSEIF DEFINED(MSWINDOWS) and DEFINED(LCLQT5)}
@@ -289,7 +289,8 @@ type
     }
     function GetBitmap(iIndex : PtrInt) : TBitmap;
     function DrawBitmap(iIndex: PtrInt; Canvas : TCanvas; X, Y: Integer) : Boolean;
-    function DrawBitmapAlpha(iIndex: PtrInt; Canvas : TCanvas; X, Y: Integer) : Boolean;
+    function DrawBitmap(AFile: TDisplayFile; Canvas : TCanvas; X, Y: Integer) : Boolean;
+    function DrawBitmapAlpha(AFile: TDisplayFile; Canvas : TCanvas; X, Y: Integer) : Boolean;
     {en
        Draws bitmap stretching it if needed to Width x Height.
        If Width is 0 then full bitmap width is used.
@@ -298,6 +299,7 @@ type
               Index of pixmap manager's bitmap.)
     }
     function DrawBitmap(iIndex: PtrInt; Canvas : TCanvas; X, Y, Width, Height: Integer) : Boolean;
+    function DrawBitmap(AFile: TDisplayFile; Canvas : TCanvas; X, Y, Width, Height: Integer) : Boolean;
     {en
        Draws overlay bitmap for a file.
        @param(AFile
@@ -306,6 +308,7 @@ type
               Whether the file is on a directly accessible file source.)
     }
     function DrawBitmapOverlay(AFile: TDisplayFile; DirectAccess: Boolean; Canvas : TCanvas; X, Y: Integer) : Boolean;
+    function CheckAddPixmap(AUniqueName: String; AIconSize: Integer; ADestroy: Boolean; TheIcon: PWfxIcon; out AIcon: TBitmap): PtrInt;
     function GetIconBySortingDirection(SortingDirection: TSortDirection): PtrInt;
     {en
        Retrieves icon index in FPixmapList table for a file.
@@ -330,6 +333,8 @@ type
     }
     function GetIconByFile(AFile: TFile; DirectAccess: Boolean; LoadIcon: Boolean;
                            IconsMode: TShowIconsMode; GetIconWithLink: Boolean): PtrInt;
+    function GetIconByFile(constref AFileSource: IFileSource; AFile: TDisplayFile; DirectAccess: Boolean; LoadIcon: Boolean;
+                           IconsMode: TShowIconsMode; GetIconWithLink: Boolean): PtrInt; overload;
     {$IF DEFINED(MSWINDOWS) OR DEFINED(RabbitVCS)}
     {en
        Retrieves overlay icon index for a file.
@@ -380,8 +385,8 @@ function getBestNSImageWithSize( const srcImage:NSImage; const size:Integer ): N
 implementation
 
 uses
-  GraphType, LCLIntf, LCLType, LCLProc, Forms, uGlobsPaths, WcxPlugin,
-  DCStrUtils, uDCUtils, uFileSystemFileSource, uReSample, uDebug,
+  GraphType, LCLIntf, LCLType, LCLProc, Forms, uGlobsPaths, WcxPlugin, uClassesEx,
+  DCStrUtils, uDCUtils, uFileSystemFileSource, uReSample, uDebug, uFileSourceProperty,
   IntfGraphics, DCOSUtils, DCClassesUtf8, LazUTF8, uGraphics, uHash, uSysFolders
   {$IFDEF GTK2_FIX}
     , uPixMapGtk, gdk2pixbuf, gdk2, glib2
@@ -1984,12 +1989,30 @@ begin
   Result := DrawBitmap(iIndex, Canvas, X, Y, gIconsSize, gIconsSize); // No bitmap stretching.
 end;
 
-function TPixMapManager.DrawBitmapAlpha(iIndex: PtrInt; Canvas: TCanvas; X, Y: Integer): Boolean;
+function TPixMapManager.DrawBitmap(AFile: TDisplayFile; Canvas: TCanvas; X, Y: Integer): Boolean;
+begin
+  Result := DrawBitmap(AFile, Canvas, X, Y, gIconsSize, gIconsSize); // No bitmap stretching.
+end;
+
+function TPixMapManager.DrawBitmapAlpha(AFile: TDisplayFile; Canvas: TCanvas; X, Y: Integer): Boolean;
 var
   ARect: TRect;
+  IconID: PtrInt;
   ABitmap: Graphics.TBitmap;
 begin
-  ABitmap:= GetBitmap(iIndex);
+  if Assigned(AFile.Icon) then
+  begin
+    ABitmap:= TBitmap.Create;
+    ABitmap.Assign(AFile.Icon);
+  end
+  else begin
+    if AFile.IconID < 0 then
+      IconID:= GetDefaultIcon(AFile.FSFile)
+    else begin
+      IconID:= AFile.IconID;
+    end;
+    ABitmap:= GetBitmap(IconID);
+  end;
   Result := Assigned(ABitmap);
   if Result then
   begin
@@ -2098,6 +2121,29 @@ begin
   {$ENDIF}
 end;
 
+function TPixMapManager.DrawBitmap(AFile: TDisplayFile; Canvas: TCanvas; X, Y, Width, Height: Integer): Boolean;
+var
+  aRect: TRect;
+  IconID: PtrInt;
+begin
+  if (AFile.Icon = nil) then
+  begin
+    // Draw default icon if there is no icon for the file
+    if AFile.IconID < 0 then
+      IconID:= GetDefaultIcon(AFile.FSFile)
+    else begin
+      IconID:= AFile.IconID;
+    end;
+    Result:= DrawBitmap(IconID, Canvas, X, Y, Width, Height);
+  end
+  else begin
+    if Width = 0 then Width:= AFile.Icon.Width;
+    if Height = 0 then Height:= AFile.Icon.Height;
+    aRect:= Classes.Bounds(X, Y, Width, Height);
+    Canvas.StretchDraw(aRect, AFile.Icon);
+  end;
+end;
+
 function TPixMapManager.DrawBitmapOverlay(AFile: TDisplayFile; DirectAccess: Boolean; Canvas: TCanvas; X, Y: Integer): Boolean;
 var
   I: Integer;
@@ -2133,6 +2179,84 @@ begin
     ;
 end;
 
+function TPixMapManager.CheckAddPixmap(AUniqueName: String; AIconSize: Integer;
+  ADestroy: Boolean; TheIcon: PWfxIcon; out AIcon: TBitmap): PtrInt;
+var
+  Index: PtrInt;
+  Picture: TPicture;
+  Stream: TBlobStream;
+begin
+  AIcon:= nil;
+  // Icon has a unique name
+  if Length(AUniqueName) > 0 then
+  begin
+    FPixmapsLock.Acquire;
+    try
+      // Try to find in the cache
+      Index:= FPixmapsFileNames.Find(AUniqueName);
+      if (Index >= 0) then
+      begin
+        if ADestroy then
+        begin
+          case TheIcon^.Format of
+{$IF DEFINED(MSWINDOWS)}
+            FS_ICON_FORMAT_HICON: DestroyIcon(HICON(TheIcon^.Data));
+{$ENDIF}
+            FS_ICON_FORMAT_BINARY: TheIcon^.Free(TheIcon^.Data);
+          end;
+        end;
+        Exit(PtrInt(FPixmapsFileNames.List[Index]^.Data));
+      end;
+    finally
+      FPixmapsLock.Release;
+    end;
+  end;
+  Result:= -1;
+
+  case TheIcon^.Format of
+{$IF DEFINED(MSWINDOWS)}
+    FS_ICON_FORMAT_HICON:
+    begin
+      AIcon:= BitmapCreateFromHICON(HICON(TheIcon^.Data));
+      if ADestroy then DestroyIcon(HICON(TheIcon^.Data));
+    end;
+{$ENDIF}
+    FS_ICON_FORMAT_FILE:
+    begin
+      Result:= CheckAddPixmap(AUniqueName, AIconSize);
+    end;
+    FS_ICON_FORMAT_BINARY:
+    begin
+      Picture:= TPicture.Create;
+      try
+        Stream:= TBlobStream.Create(TheIcon^.Data, TheIcon^.Size);
+        try
+          Picture.LoadFromStream(Stream);
+          AIcon:= Graphics.TBitmap.Create;
+          BitmapAssign(AIcon, TRasterImage(Picture.Graphic));
+        finally
+          Stream.Free;
+        end;
+      except
+        // Ignore;
+      end;
+      Picture.Free;
+      if ADestroy then TheIcon^.Free(TheIcon^.Data);
+    end;
+  end;
+  // Icon has a unique name, save to the cache
+  if Assigned(AIcon) and (Length(AUniqueName) > 0) then
+  begin
+    FPixmapsLock.Acquire;
+    try
+      Result := FPixmapList.Add(AIcon);
+      FPixmapsFileNames.Add(AUniqueName, Pointer(Result));
+    finally
+      FPixmapsLock.Release;
+    end;
+  end;
+end;
+
 function TPixMapManager.GetIconBySortingDirection(SortingDirection: TSortDirection): PtrInt;
 begin
   case SortingDirection of
@@ -2150,7 +2274,7 @@ begin
 end;
 
 function TPixMapManager.GetIconByFile(AFile: TFile; DirectAccess: Boolean; LoadIcon: Boolean;
-  IconsMode: TShowIconsMode; GetIconWithLink: Boolean): PtrInt;
+                                      IconsMode: TShowIconsMode; GetIconWithLink: Boolean): PtrInt;
 var
   Ext: String;
 {$IFDEF MSWINDOWS}
@@ -2434,6 +2558,33 @@ begin
 
     {$ENDIF}
   end;
+end;
+
+function TPixMapManager.GetIconByFile(constref AFileSource: IFileSource; AFile: TDisplayFile;
+  DirectAccess: Boolean; LoadIcon: Boolean; IconsMode: TShowIconsMode; GetIconWithLink: Boolean): PtrInt;
+var
+  ABitmap: TBitmap;
+begin
+  if Assigned(AFile.Icon) then Exit(-1);
+
+  if (fspCustomIcon in AFileSource.Properties) and AFileSource.IsPathAtRoot(AFile.FSFile.Path) then
+  begin
+    if AFile.FSFile.Name = '..' then
+    begin
+      Result := FiUpDirIconID;
+      Exit;
+    end;
+
+    Result:= AFileSource.GetCustomIcon(AFile.FSFile, gIconsSize, ABitmap);
+    if (Result >= 0) then Exit;
+    if Assigned(ABitmap) then
+    begin
+      AFile.Icon:= ABitmap;
+      Exit(-1);
+    end;
+  end;
+
+  Result:= GetIconByFile(AFile.FSFile, DirectAccess, LoadIcon, IconsMode, GetIconWithLink);
 end;
 
 {$IF DEFINED(MSWINDOWS)}

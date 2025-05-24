@@ -1567,16 +1567,10 @@ var
   procedure DrawIconCell;
   //------------------------------------------------------
   var
-    IconID: PtrInt;
     targetWidth: Integer;
   begin
     if (gShowIcons <> sim_none) then
     begin
-      IconID := AFile.IconID;
-      // Draw default icon if there is no icon for the file.
-      if IconID = -1 then
-        IconID := PixMapManager.GetDefaultIcon(AFile.FSFile);
-
       // center icon vertically
       params.iconRect.Left:= aRect.Left + CELL_PADDING;
       params.iconRect.Top:= aRect.Top + (aRect.Height - gIconsSize) div 2;
@@ -1584,14 +1578,14 @@ var
       params.iconRect.Height:= gIconsSize;
 
       if gShowHiddenDimmed and ColumnsView.FileSource.isHiddenFile(AFile.FSFile) then
-        PixMapManager.DrawBitmapAlpha(IconID,
+        PixMapManager.DrawBitmapAlpha(AFile,
                                       Canvas,
                                       params.iconRect.Left,
                                       params.iconRect.Top
                                      )
       else
         // Draw icon for a file
-        PixMapManager.DrawBitmap(IconID,
+        PixMapManager.DrawBitmap(AFile,
                                  Canvas,
                                  params.iconRect.Left,
                                  params.iconRect.Top

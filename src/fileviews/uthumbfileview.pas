@@ -489,17 +489,12 @@ var
       end
     else
       begin
-        IconID := AFile.IconID;
-        // Draw default icon if there is no icon for the file.
-        if IconID = -1 then
-          IconID := PixMapManager.GetDefaultIcon(AFile.FSFile);
-
         // Center icon
         X:= aRect.Left + (aRect.Right - aRect.Left - gIconsSize) div 2;
         Y:= aRect.Top + (iTextTop - aRect.Top - gIconsSize) div 2;
 
         // Draw icon for a file
-        PixMapManager.DrawBitmap(IconID, Canvas, X, Y);
+        PixMapManager.DrawBitmap(AFile, Canvas, X, Y);
       end;
 
     // Draw overlay icon for a file if needed

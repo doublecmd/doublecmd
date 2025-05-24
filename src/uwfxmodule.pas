@@ -30,7 +30,7 @@ unit uWFXmodule;
 interface
 
 uses
-  SysUtils, Classes, WfxPlugin, uWFXprototypes,
+  SysUtils, Classes, Graphics, WfxPlugin, uWFXprototypes,
   dynlibs, DCClassesUtf8, Extension, DCBasicTypes, DCXmlConfig,
   uWdxPrototypes, uWdxModule, uFileSource;
 
@@ -63,6 +63,7 @@ type
   TWFXModule = class(TPluginWDX)
   private
     FBackgroundFlags: Integer;
+    FIconMutex: TRTLCriticalSection;
   public
   { Mandatory }
     FsInit : TFsInit;
@@ -137,6 +138,7 @@ type
     function WfxGetLocalName(var sFileName: String): Boolean;
     function WfxDisconnect(const DisconnectRoot: String): Boolean;
     function WfxContentGetDefaultView(out DefaultView: TFileSourceFields): Boolean;
+    function WfxExtractCustomIcon(var RemoteName: String; AIconSize: Integer; out TheIcon: TWfxIcon): Integer;
   private
     function LoadModule(const sName: String):Boolean; overload; {Load plugin}
     procedure UnloadModule; override;
@@ -191,7 +193,7 @@ uses
   LazUTF8, FileUtil,
 
   //DC
-  uDCUtils, uLng, uGlobsPaths, uOSUtils, uWfxPluginUtil, fDialogBox, DCOSUtils,
+  uDCUtils, uLng, uGlobsPaths, uOSUtils, uWfxPluginUtil, DCOSUtils,
   DCStrUtils, DCConvertEncoding, uComponentsSignature, uOSForms, uExtension;
 
 const
@@ -614,10 +616,48 @@ begin
   end;
 end;
 
+function TWFXModule.WfxExtractCustomIcon(var RemoteName: String; AIconSize: Integer; out TheIcon: TWfxIcon): Integer;
+var
+  Flags: Integer = FS_ICONFLAG_BACKGROUND;
+  asFileName: array[0..MAX_PATH] of AnsiChar;
+  wsFileName: array[0..MAX_PATH] of WideChar;
+begin
+  TheIcon:= Default(TWfxIcon);
+
+  if (AIconSize = 16) then begin
+    Flags:= Flags or FS_ICONFLAG_SMALL;
+  end;
+  TheIcon.Size:= AIconSize;
+
+  EnterCriticalSection(FIconMutex);
+  try
+    if Assigned(FsExtractCustomIconW) then
+    begin
+      StrPLCopy(wsFileName, CeUtf8ToUtf16(RemoteName), MAX_PATH);
+      Result:= FsExtractCustomIconW(wsFileName, Flags, @TheIcon);
+      if Result in [FS_ICON_EXTRACTED, FS_ICON_EXTRACTED_DESTROY] then
+        RemoteName:= CeUtf16ToUtf8(UnicodeString(wsFileName));
+    end
+    else if Assigned(FsExtractCustomIcon) then
+    begin
+      StrPLCopy(asFileName, CeUtf8ToSys(RemoteName), MAX_PATH);
+      Result:= FsExtractCustomIcon(asFileName, Flags, @TheIcon);
+      if Result in [FS_ICON_EXTRACTED, FS_ICON_EXTRACTED_DESTROY] then
+        RemoteName:= CeSysToUtf8(StrPas(asFileName));
+    end
+    else begin
+      Result:= FS_ICON_USEDEFAULT;
+    end;
+  finally
+    LeaveCriticalSection(FIconMutex);
+  end;
+end;
+
 constructor TWFXModule.Create;
 begin
   inherited;
   FName:= 'FS';
+  InitCriticalSection(FIconMutex);
 end;
 
 destructor TWFXModule.Destroy;
@@ -630,6 +670,7 @@ begin
       ExtensionFinalize(nil);
   end;
   inherited Destroy;
+  DoneCriticalSection(FIconMutex);
 end;
 
 function TWFXModule.LoadModule(const sName: String): Boolean;

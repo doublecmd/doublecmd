@@ -777,7 +777,8 @@ begin
 
       if HaveIcons then
       begin
-        AFile.IconID := PixMapManager.GetIconByFile(AFile.FSFile,
+        AFile.IconID := PixMapManager.GetIconByFile(fs,
+                                                    AFile,
                                                     DirectAccess,
                                                     not gLoadIconsSeparately,
                                                     gShowIcons,
@@ -831,7 +832,8 @@ begin
 
           if HaveIcons then
           begin
-            AFile.IconID := PixMapManager.GetIconByFile(AFile.FSFile,
+            AFile.IconID := PixMapManager.GetIconByFile(fs,
+                                                        AFile,
                                                         DirectAccess,
                                                         not gLoadIconsSeparately,
                                                         gShowIcons,
@@ -947,9 +949,10 @@ begin
 
       if HaveIcons then
       begin
-        if FWorkingFile.IconID < 0 then
+        if (FWorkingFile.IconID < 0) and (FWorkingFile.Icon = nil) then
           FWorkingFile.IconID := PixMapManager.GetIconByFile(
-              FWorkingFile.FSFile,
+              FFileSource,
+              FWorkingFile,
               DirectAccess,
               True,
               gShowIcons,
