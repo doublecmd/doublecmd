@@ -859,7 +859,7 @@ begin
       if (fspLinksToLocalFiles in SourcePage.FileView.FileSource.GetProperties) and
          (SourcePage.FileView.FileSource.GetLocalName(aFile)) then
         begin
-          if aFile.IsDirectory then
+          if aFile.IsDirectory or aFile.IsLinkToDirectory then
             ChooseFileSource(TargetPage.FileView, aFile.FullPath)
           else if not ChooseFileSource(TargetPage.FileView, TargetPage.FileView.FileSource, aFile) then
             begin
@@ -867,7 +867,7 @@ begin
               TargetPage.FileView.SetActiveFile(aFile.Name);
             end;
         end
-      else if aFile.IsDirectory then
+      else if aFile.IsDirectory or aFile.IsLinkToDirectory then
       begin
         if aFile.Name = '..' then
         begin
