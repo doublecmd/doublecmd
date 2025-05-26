@@ -160,7 +160,7 @@ begin
     FViewer.Show;
   end;
   // Viewer can steal focus, so restore it
-  if Assigned(FLastFocusedControl) then
+  if Assigned(FLastFocusedControl) and FLastFocusedControl.CanSetFocus then
     FLastFocusedControl.SetFocus
   else if not FFileView.Focused then
     FFileView.SetFocus;
