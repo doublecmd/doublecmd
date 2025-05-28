@@ -106,31 +106,34 @@ install -m 644 plugins/dsx/DSXLocate/dsxlocate.dsx    $DC_INSTALL_DIR/plugins/ds
 
 if [ -z $CK_PORTABLE ]
   then
+    # Share directory
+    DC_USR_SHARE=$DC_INSTALL_PREFIX/usr/share/doublecmd
     # Copy libraries
     install -d                $DC_INSTALL_PREFIX/usr/lib$LIB_SUFFIX
     if [ "$(echo *.so*)" != "*.so*" ]; then
       install -m 644 *.so*    $DC_INSTALL_PREFIX/usr/lib$LIB_SUFFIX
     fi
     # Create directory for platform independed files
-    install -d                $DC_INSTALL_PREFIX/usr/share/doublecmd
+    install -d                $DC_USR_SHARE
     # Copy man files
     install -d -m 755                      $DC_INSTALL_PREFIX/usr/share/man/man1
     install -c -m 644 install/linux/*.1    $DC_INSTALL_PREFIX/usr/share/man/man1
     # Copy documentation
-    install -d                $DC_INSTALL_PREFIX/usr/share/doublecmd/doc
-    install -m 644 doc/*.txt  $DC_INSTALL_PREFIX/usr/share/doublecmd/doc
+    install -d                $DC_USR_SHARE/doc
+    install -m 644 doc/*.txt  $DC_USR_SHARE/doc
     ln -sf ../../share/doublecmd/doc $DC_INSTALL_DIR/doc
     # Copy scripts
     install -d         $DC_INSTALL_DIR/scripts
     cp -a scripts/*.py $DC_INSTALL_DIR/scripts/
     # Copy languages
-    cp -r language $DC_INSTALL_PREFIX/usr/share/doublecmd
+    cp -r language $DC_USR_SHARE
     ln -sf ../../share/doublecmd/language $DC_INSTALL_DIR/language
     # Copy pixmaps
-    cp -r pixmaps $DC_INSTALL_PREFIX/usr/share/doublecmd
+    cp -r pixmaps $DC_USR_SHARE
     ln -sf ../../share/doublecmd/pixmaps $DC_INSTALL_DIR/pixmaps
+    touch -r $DC_USR_SHARE/pixmaps/dctheme $DC_USR_SHARE/pixmaps/dctheme/icon-theme.cache
     # Copy highlighters
-    cp -r highlighters $DC_INSTALL_PREFIX/usr/share/doublecmd
+    cp -r highlighters $DC_USR_SHARE
     ln -sf ../../share/doublecmd/highlighters $DC_INSTALL_DIR/highlighters
     # Create symlink and desktop files
     install -d $DC_INSTALL_PREFIX/usr/bin
