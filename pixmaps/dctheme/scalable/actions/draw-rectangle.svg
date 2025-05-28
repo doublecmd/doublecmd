@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24" height="24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:xlink="http://www.w3.org/1999/xlink">
+ <defs>
+  <linearGradient id="linearGradient5397" x1="24" x2="24" y1="6.5909" y2="41.414" gradientTransform="matrix(.45946 0 0 .45946 .97422 .97175)" gradientUnits="userSpaceOnUse">
+   <stop stop-color="#fff" offset="0"/>
+   <stop stop-color="#fff" stop-opacity=".23529" offset="0"/>
+   <stop stop-color="#fff" stop-opacity=".15686" offset="1"/>
+   <stop stop-color="#fff" stop-opacity=".39216" offset="1"/>
+  </linearGradient>
+  <radialGradient id="radialGradient3082-6" cx="4.993" cy="43.5" r="2.5" gradientTransform="matrix(2.0038 0 0 1.4 27.988 -17.4)" gradientUnits="userSpaceOnUse">
+   <stop stop-color="#181818" offset="0"/>
+   <stop stop-color="#181818" stop-opacity="0" offset="1"/>
+  </radialGradient>
+  <radialGradient id="radialGradient3084-4" cx="4.993" cy="43.5" r="2.5" gradientTransform="matrix(2.0038 0 0 1.4 -20.012 -104.4)" gradientUnits="userSpaceOnUse">
+   <stop stop-color="#181818" offset="0"/>
+   <stop stop-color="#181818" stop-opacity="0" offset="1"/>
+  </radialGradient>
+  <linearGradient id="linearGradient3086-8" x1="25.058" x2="25.058" y1="47.028" y2="39.999" gradientUnits="userSpaceOnUse">
+   <stop stop-color="#181818" stop-opacity="0" offset="0"/>
+   <stop stop-color="#181818" offset=".5"/>
+   <stop stop-color="#181818" stop-opacity="0" offset="1"/>
+  </linearGradient>
+  <linearGradient id="linearGradient872" x1="13.608" x2="13.608" y1="2.5455" y2="21.532" gradientUnits="userSpaceOnUse">
+   <stop stop-color="#cd9ef7" offset="0"/>
+   <stop stop-color="#a56de2" offset="1"/>
+  </linearGradient>
+ </defs>
+ <metadata>
+  <rdf:RDF>
+   <cc:Work rdf:about="">
+    <dc:format>image/svg+xml</dc:format>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:title/>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <g transform="matrix(.55 0 0 .33333 -1.2 7.3333)">
+  <g transform="matrix(1.0526 0 0 1.2857 -1.2632 -13.429)" opacity=".4">
+   <rect x="38" y="40" width="5" height="7" fill="url(#radialGradient3082-6)"/>
+   <rect transform="scale(-1)" x="-10" y="-47" width="5" height="7" fill="url(#radialGradient3084-4)"/>
+   <rect x="10" y="40" width="28" height="7" fill="url(#linearGradient3086-8)"/>
+  </g>
+ </g>
+ <rect x="2.5" y="2.5" width="19" height="19" rx="1" ry="1" color="#000000" fill="url(#linearGradient872)"/>
+ <rect x="3.5012" y="3.4988" width="17" height="17" fill="none" opacity=".5" stroke="url(#linearGradient5397)" stroke-linecap="round" stroke-linejoin="round"/>
+ <rect x="2.5" y="2.5" width="19" height="19" rx="1" ry="1" color="#000000" fill="none" opacity=".5" stroke="#7239b3" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
