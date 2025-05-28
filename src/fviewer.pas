@@ -1624,8 +1624,9 @@ end;
 
 procedure TfrmViewer.EnableActions(AEnabled: Boolean);
 begin
-  actSave.Enabled:= AEnabled;
   actCopyFile.Enabled:= AEnabled;
+  actSave.Enabled:= AEnabled and bImage;
+  actSaveAs.Enabled:= AEnabled and bImage;
   actMoveFile.Enabled:= AEnabled and (FileList.Count > 1);
   actDeleteFile.Enabled:= AEnabled and (FileList.Count > 1);
 end;
@@ -3589,7 +3590,9 @@ begin
   miFullScreen.Visible := (bImage and not bQuickView);
   miScreenshot.Visible := (bImage and not bQuickView);
   miSave.Visible       := bImage;
+  actSave.Enabled      := bImage;
   miSaveAs.Visible     := bImage;
+  actSaveAs.Enabled    := bImage;
 
   miShowTransparency.Visible := bImage;
 
