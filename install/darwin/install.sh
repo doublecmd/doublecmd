@@ -89,3 +89,5 @@ cp -a *.dylib             $DC_INSTALL_DIR/
 # Install instruction
 cp -r install/darwin/dmg/. $1
 
+# Update icon-theme.cache time
+touch -r $DC_INSTALL_DIR/pixmaps/dctheme $DC_INSTALL_DIR/pixmaps/dctheme/icon-theme.cache
