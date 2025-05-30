@@ -28,6 +28,8 @@ interface
 
 uses
   Classes, SysUtils, Extension, Translations;
+const
+  VERSION_API = 5;
 
 type
 
@@ -74,8 +76,6 @@ begin
 end;
 
 procedure TDcxModule.InitializeExtension(StartupInfo: PExtensionStartupInfo);
-const
-  VERSION_API = 4;
 var
   Language: String;
   AFileName, APath: String;
