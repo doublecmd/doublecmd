@@ -23,12 +23,18 @@ update_icons() {
 
 }
 
+update_cache() {
+	touch /usr/share/doublecmd/pixmaps/dctheme/icon-theme.cache
+}
+
 post_install() {
 	update_icons
+	update_cache
 }
 
 post_upgrade() {
 	update_icons
+	update_cache
 }
 
 post_remove() {
