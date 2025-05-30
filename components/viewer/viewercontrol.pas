@@ -209,6 +209,7 @@ type
     FBlockBeg:           PtrInt;
     FBlockEnd:           PtrInt;
     FCaretPos:           PtrInt;
+    FCaretPoint:         TPoint;
     FMouseBlockBeg:      PtrInt;
     FMouseBlockSide:     TCharSide;
     FSelecting:          Boolean;
@@ -682,6 +683,7 @@ begin
 
   if FShowCaret and FCaretVisible then
   begin
+    FCaretPoint.X := -1;
     FCaretVisible := not LCLIntf.HideCaret(Handle);
   end;
 
@@ -709,6 +711,12 @@ begin
     vcmWrap: WriteText;
     vcmBook: WriteText;
     vcmDec,vcmHex : WriteCustom;
+  end;
+
+  if FShowCaret and (FCaretPoint.X > -1) then
+  begin
+    LCLIntf.SetCaretPos(FCaretPoint.X, FCaretPoint.Y);
+    if not FCaretVisible then FCaretVisible:= LCLIntf.ShowCaret(Handle);
   end;
 end;
 
@@ -1779,8 +1787,8 @@ var
   begin
     if FShowCaret and (FCaretPos = LinePos) then
     begin
-      LCLIntf.SetCaretPos(X, Y);
-      if not FCaretVisible then FCaretVisible:= LCLIntf.ShowCaret(Handle);
+      FCaretPoint.X:= X;
+      FCaretPoint.Y:= Y;
     end;
   end;
 
@@ -2152,8 +2160,8 @@ begin
 
   if FShowCaret and (FCaretPos >= pBegLine) and (FCaretPos <= pEndLine) then
   begin
-    LCLIntf.SetCaretPos(X + Canvas.TextWidth(GetText(StartPos, FCaretPos - pBegLine, 0)), Y);
-    if not FCaretVisible then FCaretVisible:= LCLIntf.ShowCaret(Handle);
+    FCaretPoint.Y:= Y;
+    FCaretPoint.X:= X + Canvas.TextWidth(GetText(StartPos, FCaretPos - pBegLine, 0));
   end;
 
   // Out of selection, draw normal
@@ -2208,8 +2216,8 @@ begin
 
   if FShowCaret and (FCaretPos >= pBegLine) and (FCaretPos <= pEndLine) then
   begin
-    LCLIntf.SetCaretPos(X + Canvas.TextWidth(Copy(sText, 1, FCustom.StartAscii + (FCaretPos - pBegLine))), Y);
-    if not FCaretVisible then FCaretVisible:= LCLIntf.ShowCaret(Handle);
+    FCaretPoint.Y:= Y;
+    FCaretPoint.X:= X + Canvas.TextWidth(Copy(sText, 1, FCustom.StartAscii + (FCaretPos - pBegLine)));
   end;
 
   // Out of selection, draw normal
@@ -2307,8 +2315,8 @@ begin
 
   if FShowCaret and (FCaretPos >= pBegLine) and (FCaretPos <= pEndLine) then
   begin
-    LCLIntf.SetCaretPos(X + Canvas.TextWidth(Copy(sText, 1, FCaretPos - pBegLine)), Y);
-    if not FCaretVisible then FCaretVisible:= LCLIntf.ShowCaret(Handle);
+    FCaretPoint.Y:= Y;
+    FCaretPoint.X:= X + Canvas.TextWidth(Copy(sText, 1, FCaretPos - pBegLine));
   end;
 
   // Out of selection, draw normal
