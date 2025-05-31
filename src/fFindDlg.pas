@@ -1729,6 +1729,8 @@ begin
   Self.Repaint;
   Application.ProcessMessages;
 
+  if InvalidRegExpr then Exit;
+
   if cbFindInArchive.Enabled then
   begin
     if (cmbFindPathStart.Text = '') then begin
