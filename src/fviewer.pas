@@ -3353,8 +3353,16 @@ begin
     if FFindDialog.cbRegExp.Checked then
     begin
       FRegExp.ModifierI:= not FFindDialog.cbCaseSens.Checked;
-      FRegExp.Expression:= sSearchTextU;
-      bTextFound:= FRegExp.Exec(FLastSearchPos + FLastMatchLength + 1);
+      try
+        FRegExp.Expression:= sSearchTextU;
+        bTextFound:= FRegExp.Exec(FLastSearchPos + FLastMatchLength + 1);
+      except
+        on E: Exception do
+        begin
+          msgError(StripHotkey(FFindDialog.cbRegExp.Caption) + ': ' + E.Message);
+          Exit;
+        end;
+      end;
       if bTextFound then
       begin
         FLastMatchLength:= FRegExp.MatchLen[0];
