@@ -2732,11 +2732,11 @@ procedure LoadPixMapManager;
 var
   Q: QWord;
 begin
-  Q:= GetTickCount64;
+  Q:= SysUtils.GetTickCount64;
   DCDebug('Creating PixmapManager');
   PixMapManager:=TPixMapManager.Create;
   PixMapManager.Load(gpCfgDir + 'pixmaps.txt');
-  DCDebug('Creating PixmapManager done '+ IntToStr(GetTickCount64 - Q));
+  DCDebug('Creating PixmapManager done '+ IntToStr(SysUtils.GetTickCount64 - Q));
 end;
 
 initialization
