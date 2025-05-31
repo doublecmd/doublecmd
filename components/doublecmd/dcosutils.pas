@@ -941,24 +941,23 @@ var
   Handle: System.THandle;
   FindData: TWin32FindDataW;
 begin
-  Handle := FindFirstFileW(PWideChar(UTF16LongName(FileName)), FindData);
+  Handle:= FindFirstFileW(PWideChar(UTF16LongName(FileName)), FindData);
   if Handle <> INVALID_HANDLE_VALUE then
-    begin
-      Windows.FindClose(Handle);
-      if (FindData.dwFileAttributes and FILE_ATTRIBUTE_DIRECTORY) = 0 then
-        Exit(DCBasicTypes.TWinFileTime(FindData.ftLastWriteTime));
-    end;
+  begin
+    Windows.FindClose(Handle);
+    Exit(DCBasicTypes.TFileTime(FindData.ftLastWriteTime));
+  end;
   Result:= DCBasicTypes.TFileTime(-1);
 end;
 {$ELSE}
 var
   Info: BaseUnix.Stat;
 begin
-  Result:= DCBasicTypes.TFileTime(-1);
   if fpStat(UTF8ToSys(FileName), Info) >= 0 then
-{$PUSH}{$R-}
-    Result := Info.st_mtime;
-{$POP}
+    Result:= DCBasicTypes.TFileTime(Info.st_mtime)
+  else begin
+    Result:= DCBasicTypes.TFileTime(-1);
+  end;
 end;
 {$ENDIF}
 
