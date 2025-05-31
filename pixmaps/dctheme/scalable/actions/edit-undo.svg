@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="48px" height="48px" xmlns="http://www.w3.org/2000/svg" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:xlink="http://www.w3.org/1999/xlink">
+ <defs>
+  <radialGradient id="radialGradient8668" cx="24.837" cy="36.421" r="15.645" gradientTransform="matrix(1 0 0 .53672 -6.2273e-14 16.873)" gradientUnits="userSpaceOnUse">
+   <stop offset="0"/>
+   <stop stop-opacity="0" offset="1"/>
+  </radialGradient>
+  <linearGradient id="linearGradient1764" x1="17.061" x2="12.624" y1="11.395" y2="12.584" gradientTransform="matrix(-1.8135e-16 -1.1719 -1.1719 1.8135e-16 46.174 54.101)" gradientUnits="userSpaceOnUse">
+   <stop stop-color="#fff" offset="0"/>
+   <stop stop-color="#fff" stop-opacity="0" offset="1"/>
+  </linearGradient>
+  <linearGradient id="linearGradient2314" x1="26.5" x2="26.25" y1="34.25" y2="43.572" gradientUnits="userSpaceOnUse">
+   <stop stop-color="#edd400" offset="0"/>
+   <stop stop-color="#edd400" stop-opacity="0" offset="1"/>
+  </linearGradient>
+  <linearGradient id="linearGradient2322" x1="26.5" x2="26.25" y1="34.25" y2="43.572" gradientUnits="userSpaceOnUse">
+   <stop stop-color="#c4a000" offset="0"/>
+   <stop stop-color="#c4a000" stop-opacity="0" offset="1"/>
+  </linearGradient>
+  <radialGradient id="radialGradient2332" cx="15.094" cy="13.283" r="10.165" gradientTransform="matrix(2.496 -1.1519e-16 1.0618e-16 2.3007 -25.124 -17.826)" gradientUnits="userSpaceOnUse">
+   <stop stop-color="#fff" offset="0"/>
+   <stop stop-color="#fff" stop-opacity="0" offset="1"/>
+  </radialGradient>
+ </defs>
+ <metadata>
+  <rdf:RDF>
+   <cc:Work rdf:about="">
+    <dc:format>image/svg+xml</dc:format>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:creator>
+     <cc:Agent>
+      <dc:title>Jakub Steiner</dc:title>
+     </cc:Agent>
+    </dc:creator>
+    <dc:source>http://jimmac.musichall.cz</dc:source>
+    <cc:license rdf:resource="http://creativecommons.org/licenses/publicdomain/"/>
+    <dc:title>Edit Undo</dc:title>
+    <dc:subject>
+     <rdf:Bag>
+      <rdf:li>edit</rdf:li>
+      <rdf:li>undo</rdf:li>
+      <rdf:li>revert</rdf:li>
+     </rdf:Bag>
+    </dc:subject>
+   </cc:Work>
+   <cc:License rdf:about="http://creativecommons.org/licenses/publicdomain/">
+    <cc:permits rdf:resource="http://creativecommons.org/ns#Reproduction"/>
+    <cc:permits rdf:resource="http://creativecommons.org/ns#Distribution"/>
+    <cc:permits rdf:resource="http://creativecommons.org/ns#DerivativeWorks"/>
+   </cc:License>
+  </rdf:RDF>
+ </metadata>
+ <g>
+  <path transform="matrix(-1.4897 0 0 -1.0013 60.604 75.313)" d="m40.482 36.421a15.645 8.3969 0 1 1-31.289 0 15.645 8.3969 0 1 1 31.289 0z" color="#000000" fill="url(#radialGradient8668)" fill-rule="evenodd" opacity=".14118"/>
+  <path d="m9.5824 45.034c40.026 1.3211 33.7-32.741 12.88-32.537v-9.3754l-16.648 14.587 16.648 15.298v-9.6684c14.063-0.58597 18.178 21.433-12.88 21.696z" color="#000000" display="block" fill="url(#linearGradient2314)" stroke="url(#linearGradient2322)"/>
+  <path d="m31.032 39.316c11.723-6.0796 8.1878-26.228-9.5836-25.766v-8.0991l-14.048 12.264 14.048 12.944v-8.2776c14.84-0.34827 14.16 12.758 9.5836 16.935z" color="#000000" display="block" fill="none" opacity=".69886" stroke="url(#linearGradient1764)" stroke-miterlimit="10"/>
+  <path d="m6.6291 17.683 5.6569 5.3917c6.2756-0.17678 3.4471-6.364 14.672-9.4576l-4.9497-0.61872-0.088389-8.6621-15.291 13.347z" color="#000000" fill="url(#radialGradient2332)" fill-rule="evenodd" opacity=".51136"/>
+ </g>
+</svg>

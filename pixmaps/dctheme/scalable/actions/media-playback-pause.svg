@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="48px" height="48px" xmlns="http://www.w3.org/2000/svg" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:xlink="http://www.w3.org/1999/xlink">
+ <defs>
+  <linearGradient id="linearGradient2817">
+   <stop offset="0"/>
+   <stop stop-color="#fff" stop-opacity=".48454" offset="1"/>
+  </linearGradient>
+  <linearGradient id="linearGradient2697">
+   <stop stop-color="#babdb6" offset="0"/>
+   <stop stop-color="#555753" offset="1"/>
+  </linearGradient>
+  <linearGradient id="linearGradient2679">
+   <stop stop-color="#f7f7f7" offset="0"/>
+   <stop stop-color="#ccd0c7" offset="1"/>
+  </linearGradient>
+  <linearGradient id="linearGradient3081">
+   <stop stop-color="#fff" offset="0"/>
+   <stop stop-color="#fff" stop-opacity="0" offset="1"/>
+  </linearGradient>
+  <linearGradient id="linearGradient2800" x1="15.09" x2="14" y1="15.292" y2="52.511" gradientTransform="translate(-4e-4 -.09426)" gradientUnits="userSpaceOnUse" xlink:href="#linearGradient3081"/>
+  <linearGradient id="linearGradient2803" x1="169" x2="169" y1="110.34" y2="93.205" gradientTransform="matrix(1 0 0 1.0044 -145 -71.462)" gradientUnits="userSpaceOnUse" xlink:href="#linearGradient2697"/>
+  <radialGradient id="radialGradient2809" cx="169.77" cy="100.2" r="11" gradientTransform="matrix(3.5623e-6 -1.072 1.9921 -1.2507e-6 -175.61 212.69)" gradientUnits="userSpaceOnUse" xlink:href="#linearGradient2679"/>
+  <linearGradient id="linearGradient2823" x1="174.83" x2="174.75" y1="84.263" y2="105.49" gradientTransform="matrix(1.1033 0 0 1.0549 -163.12 -76.311)" gradientUnits="userSpaceOnUse" xlink:href="#linearGradient2817"/>
+ </defs>
+ <metadata>
+  <rdf:RDF>
+   <cc:Work rdf:about="">
+    <dc:format>image/svg+xml</dc:format>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:title>Media Playback Pause</dc:title>
+    <dc:creator>
+     <cc:Agent>
+      <dc:title>Lapo Calamandrei</dc:title>
+     </cc:Agent>
+    </dc:creator>
+    <cc:license rdf:resource="http://creativecommons.org/licenses/publicdomain/"/>
+    <dc:subject>
+     <rdf:Bag>
+      <rdf:li>media</rdf:li>
+      <rdf:li>pause</rdf:li>
+      <rdf:li>playback</rdf:li>
+      <rdf:li>video</rdf:li>
+      <rdf:li>music</rdf:li>
+     </rdf:Bag>
+    </dc:subject>
+    <dc:contributor>
+     <cc:Agent>
+      <dc:title>Jakub Steiner</dc:title>
+     </cc:Agent>
+    </dc:contributor>
+   </cc:Work>
+   <cc:License rdf:about="http://creativecommons.org/licenses/publicdomain/">
+    <cc:permits rdf:resource="http://creativecommons.org/ns#Reproduction"/>
+    <cc:permits rdf:resource="http://creativecommons.org/ns#Distribution"/>
+    <cc:permits rdf:resource="http://creativecommons.org/ns#DerivativeWorks"/>
+   </cc:License>
+  </rdf:RDF>
+ </metadata>
+ <g>
+  <path d="m26.087 12.829v22.153h8.8261v-22.153h-8.8261z" color="#000000" fill="none" opacity=".15" stroke="url(#linearGradient2823)" stroke-linecap="square" stroke-linejoin="round" stroke-width="2"/>
+  <path d="m26.5 13.406v21h8v-21h-8z" color="#000000" fill="url(#radialGradient2809)" fill-rule="evenodd"/>
+  <path d="m26.5 13.408v21.092h8v-21.092h-8z" color="#000000" fill="none" stroke="url(#linearGradient2803)" stroke-linecap="square" stroke-linejoin="round"/>
+  <path d="m27.5 14.406v19h6v-19h-6z" color="#000000" fill="none" stroke="url(#linearGradient2800)" stroke-linecap="square"/>
+  <path d="m28.019 14.943v8.3856l4.9939-0.61872v-7.8553l-4.9939 0.088388z" color="#000000" display="block" fill="#f7f7f7" opacity=".5"/>
+  <g transform="translate(-12.972)">
+   <path d="m26.087 12.829v22.153h8.8261v-22.153h-8.8261z" color="#000000" fill="none" opacity=".15" stroke="url(#linearGradient2823)" stroke-linecap="square" stroke-linejoin="round" stroke-width="2"/>
+   <path d="m26.5 13.406v21h8v-21h-8z" color="#000000" fill="url(#radialGradient2809)" fill-rule="evenodd"/>
+   <path d="m26.5 13.408v21.092h8v-21.092h-8z" color="#000000" fill="none" stroke="url(#linearGradient2803)" stroke-linecap="square" stroke-linejoin="round"/>
+   <path d="m27.5 14.406v19h6v-19h-6z" color="#000000" fill="none" stroke="url(#linearGradient2800)" stroke-linecap="square"/>
+   <path d="m28.019 14.943v10.065l4.9939-0.61872v-9.5347l-4.9939 0.088388z" color="#000000" display="block" fill="#f7f7f7" opacity=".5"/>
+  </g>
+ </g>
+</svg>

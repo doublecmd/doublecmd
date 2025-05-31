@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="48px" height="48px" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:xlink="http://www.w3.org/1999/xlink">
+ <defs>
+  <linearGradient id="linearGradient2259">
+   <stop stop-color="#fff" offset="0"/>
+   <stop stop-color="#fff" stop-opacity="0" offset="1"/>
+  </linearGradient>
+  <linearGradient id="linearGradient2230" x1="35.997" x2="33.665" y1="40.458" y2="37.771" gradientTransform="translate(6.1618 4.0334)" gradientUnits="userSpaceOnUse">
+   <stop stop-color="#7c7c7c" offset="0"/>
+   <stop stop-color="#b8b8b8" offset="1"/>
+  </linearGradient>
+  <linearGradient id="linearGradient2257" x1="33.396" x2="34.17" y1="36.921" y2="38.07" gradientTransform="translate(6.1618 3.6584)" gradientUnits="userSpaceOnUse">
+   <stop stop-color="#fff" offset="0"/>
+   <stop stop-color="#fff" stop-opacity="0" offset="1"/>
+  </linearGradient>
+  <linearGradient id="linearGradient13651" x1="26.076" x2="30.811" y1="26.697" y2="42.007" gradientTransform="matrix(.99942 0 0 1 5.9913 4.0334)" gradientUnits="userSpaceOnUse" xlink:href="#linearGradient2259"/>
+  <linearGradient id="linearGradient13653" x1="22.308" x2="35.785" y1="18.992" y2="39.498" gradientTransform="matrix(1.0672 0 0 .98928 4.3917 4.0352)" gradientUnits="userSpaceOnUse">
+   <stop stop-color="#f0f0ef" offset="0"/>
+   <stop stop-color="#e8e8e8" offset=".59929"/>
+   <stop stop-color="#fff" offset=".82759"/>
+   <stop stop-color="#d8d8d3" offset="1"/>
+  </linearGradient>
+  <radialGradient id="radialGradient8668" cx="24.837" cy="36.421" r="15.645" gradientTransform="matrix(1 0 0 .53672 0 16.873)" gradientUnits="userSpaceOnUse">
+   <stop stop-color="#282828" offset="0"/>
+   <stop stop-color="#282828" stop-opacity="0" offset="1"/>
+  </radialGradient>
+  <radialGradient id="radialGradient2597" cx="22.292" cy="32.798" r="16.956" gradientTransform="matrix(.84302 0 0 1.0202 4.4993 1.382)" gradientUnits="userSpaceOnUse">
+   <stop stop-color="#eb514a" offset="0"/>
+   <stop stop-color="#e41309" offset="1"/>
+  </radialGradient>
+  <radialGradient id="radialGradient8656" cx="19.701" cy="2.8969" r="17.171" gradientTransform="matrix(2.0467 0 0 1.5576 -19.518 3.4521)" gradientUnits="userSpaceOnUse" xlink:href="#linearGradient2259"/>
+  <clipPath id="clipPath1178">
+   <rect x="7.1577" y="-3.6674" width="22.981" height="75.13" rx="66.452" ry="8.1317" fill="#ffd255" stroke="#733a04"/>
+  </clipPath>
+ </defs>
+ <metadata>
+  <rdf:RDF>
+   <cc:Work rdf:about="">
+    <dc:format>image/svg+xml</dc:format>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:date>2005-10-15</dc:date>
+    <dc:creator>
+     <cc:Agent>
+      <dc:title>Andreas Nilsson</dc:title>
+     </cc:Agent>
+    </dc:creator>
+    <dc:subject>
+     <rdf:Bag>
+      <rdf:li>edit</rdf:li>
+      <rdf:li>copy</rdf:li>
+     </rdf:Bag>
+    </dc:subject>
+    <cc:license rdf:resource="http://creativecommons.org/publicdomain/zero/1.0/"/>
+    <dc:contributor>
+     <cc:Agent>
+      <dc:title>Jakub Steiner</dc:title>
+     </cc:Agent>
+    </dc:contributor>
+   </cc:Work>
+   <cc:License rdf:about="http://creativecommons.org/publicdomain/zero/1.0/">
+    <cc:permits rdf:resource="http://creativecommons.org/ns#Reproduction"/>
+    <cc:permits rdf:resource="http://creativecommons.org/ns#Distribution"/>
+    <cc:permits rdf:resource="http://creativecommons.org/ns#DerivativeWorks"/>
+   </cc:License>
+  </rdf:RDF>
+ </metadata>
+ <g transform="matrix(-1.1155 0 0 1 37.734 -8.0009)" clip-path="url(#clipPath1178)">
+  <path d="m15.073 10.501h29.856c0.31574 0 0.56993 0.25309 0.56993 0.56747v27.167c0 2.4765-6.8798 8.3031-9.2679 8.3031h-21.158c-0.31574 0-0.56993-0.25309-0.56993-0.56747v-34.903c0-0.31438 0.25419-0.56747 0.56993-0.56747z" fill="url(#linearGradient13653)" fill-rule="evenodd" stroke="#888a85"/>
+  <g>
+   <rect x="15.503" y="11.5" width="28.997" height="34.041" rx="0" ry="0" fill="none" stroke="url(#linearGradient13651)"/>
+   <path d="m36.221 46.537c2.0304 0.3299 9.5888-4.5299 9.2844-8.4978-1.5633 2.4231-4.7585 1.2867-8.8673 1.4457 0 0 0.39537 6.5521-0.41713 7.0521z" color="#000000" fill="url(#linearGradient2230)" fill-rule="evenodd" stroke="#868a84"/>
+   <path d="m37.671 44.345c1.3698-0.68383 4.4282-2.1465 5.7276-4.0275-1.5961 0.68006-2.9478 0.2095-5.7023 0.1904 0 0 0.16232 3.0621-0.0253 3.8371z" color="#000000" fill="none" opacity=".36932" stroke="url(#linearGradient2257)"/>
+  </g>
+  <g fill-rule="evenodd">
+   <rect x="20" y="19.033" width="21" height="2" color="#000000" opacity=".17045"/>
+   <rect x="20" y="23.033" width="19.992" height="2" color="#000000" opacity=".17045"/>
+   <rect x="20" y="27.033" width="17.977" height="2" color="#000000" opacity=".17045"/>
+   <rect x="20" y="31.033" width="21" height="2" color="#000000" opacity=".17045"/>
+  </g>
+ </g>
+ <g transform="matrix(-1 0 0 1 49.566 -.24771)">
+  <g fill-rule="evenodd">
+   <ellipse transform="matrix(1.2712 0 0 1.2712 -8.1194 -15.102)" cx="24.837" cy="36.421" rx="15.645" ry="8.3969" color="#000000" fill="url(#radialGradient8668)" opacity=".29946"/>
+   <path d="m8.5542 15.517v16.994h12.984v8.545l19.96-16.906-20.079-17.025v8.3975z" color="#000000" fill="url(#radialGradient2597)" stroke="#bd0f06" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10"/>
+   <path d="m21.962 8.2485v7.8065h-12.817v9.0407c17.75 2 16.634-7.4553 31.384-0.95529z" color="#000000" fill="url(#radialGradient8656)" opacity=".50802"/>
+  </g>
+  <path d="m9.5377 16.562v14.984h12.985v7.3952l17.478-14.796-17.494-14.78v7.2014z" color="#000000" fill="none" opacity=".48128" stroke="#fff" stroke-miterlimit="10"/>
+ </g>
+</svg>

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24" height="24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:xlink="http://www.w3.org/1999/xlink">
+ <defs>
+  <linearGradient id="linearGradient15559" x1="91.92" x2="97.698" y1="117.01" y2="121.86" gradientTransform="matrix(.97493 -.20909 .21779 1.0054 -101.79 -93.512)" gradientUnits="userSpaceOnUse">
+   <stop stop-color="#8cd5ff" offset="0"/>
+   <stop stop-color="#3689e6" offset="1"/>
+  </linearGradient>
+  <linearGradient id="linearGradient15561" x1="1310.4" x2="1313.3" y1="762.42" y2="764.3" gradientTransform="matrix(1 0 0 .9927 -1296 -746.33)" gradientUnits="userSpaceOnUse">
+   <stop stop-color="#fff394" offset="0"/>
+   <stop stop-color="#f9c440" offset="1"/>
+  </linearGradient>
+  <linearGradient id="linearGradient905" x1="2" x2="2" y1="21" y2="22" gradientUnits="userSpaceOnUse">
+   <stop stop-color="#fff" offset="0"/>
+   <stop stop-color="#fff" stop-opacity=".23529" offset="0"/>
+   <stop stop-color="#fff" stop-opacity=".15686" offset="1"/>
+   <stop stop-color="#fff" stop-opacity=".39216" offset="1"/>
+  </linearGradient>
+  <linearGradient id="linearGradient1003" x1="16.195" x2="21.646" y1="5.3468" y2="7.6825" gradientUnits="userSpaceOnUse">
+   <stop stop-color="#fff" offset="0"/>
+   <stop stop-color="#fff" stop-opacity=".23529" offset=".042046"/>
+   <stop stop-color="#fff" stop-opacity=".15686" offset="1"/>
+   <stop stop-color="#fff" stop-opacity=".39216" offset="1"/>
+  </linearGradient>
+  <linearGradient id="linearGradient1021" x1="14.948" x2="17.554" y1="12.211" y2="13.151" gradientUnits="userSpaceOnUse">
+   <stop stop-color="#fff" offset="0"/>
+   <stop stop-color="#fff" stop-opacity=".23529" offset=".11457"/>
+   <stop stop-color="#fff" stop-opacity=".15686" offset="1"/>
+   <stop stop-color="#fff" stop-opacity=".39216" offset="1"/>
+  </linearGradient>
+ </defs>
+ <metadata>
+  <rdf:RDF>
+   <cc:Work rdf:about="">
+    <dc:format>image/svg+xml</dc:format>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:title/>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <g fill-rule="evenodd">
+  <path d="m14.745 13.73-2.0166 5.2806c-0.4181 1.2153 1.2963 1.8649 1.7312 0.60477l2.0668-5.1846" fill="#d3d7cf" stroke="#484a47" stroke-linecap="square" stroke-linejoin="round"/>
+  <path d="m13.306 8.5265 0.7913 1.1721 5.9084 2.4043 1.5569-0.50531 1.9838-5.4602c-2.4933 0-0.4986-5.954-6.9812-5.954z" fill="url(#linearGradient15559)"/>
+  <path d="m14.208 9.8169-0.9086 3.2756 4.9866 1.8846 1.9099-3.0506" fill="url(#linearGradient15561)" stroke="#ad5f00" stroke-linecap="square" stroke-linejoin="round" stroke-opacity=".7"/>
+ </g>
+ <g fill="none">
+  <path d="m15.259 9.8169-0.7539 2.6614 3.3779 1.2704 1.384-2.2521" stroke="url(#linearGradient1021)" stroke-opacity=".5431"/>
+  <path d="m23.546 6.6336-1.7345 4.2698c-0.2305 0.74498-1.1836 1.3453-1.6748 1.0261-1.8094-1.176-3.7727-1.9811-5.9696-2.2351-0.4209-0.048642-0.907-1.1693-0.7171-1.6684l3.1148-7.3463" opacity=".5" stroke="#002e99" stroke-linecap="round" stroke-linejoin="round" stroke-width=".98228"/>
+  <rect x=".0361" y=".19222" width="23.936" height="23.68"/>
+  <path d="m13.001 13.589 4.4879 1.9847 1.496-2.977-4.488-1.4885z"/>
+  <path d="m15.993 7.6347 2.4933-5.954" stroke="#fff" stroke-linecap="round" stroke-width="1px"/>
+  <g stroke-linejoin="round">
+   <path d="m22.802 6.2599-1.7091 3.7035c-0.1747 0.6765-0.2825 1.2888-0.9638 0.84487-1.6648-1.0849-3.7359-1.9293-5.4457-1.9862-0.3221-0.010721 0.1-0.28005-0.2376-0.47266l3.1934-7.6698" stroke="url(#linearGradient1003)" stroke-linecap="round" stroke-opacity=".5431"/>
+   <path d="m3.5234 20.799c13.604-9.7524-1.997-19.142-1.997-19.142l10.078 0.016876" stroke="#0e141f" stroke-opacity=".8" stroke-width="3"/>
+   <path d="m3.4797 20.842c13.604-9.7524-1.997-19.142-1.997-19.142l10.078 0.016876" stroke="#95a3ab" stroke-width="1.0029"/>
+  </g>
+ </g>
+ <rect x="12.5" y="20.5" width="2" height="2" fill="#fff" stroke="#555761"/>
+ <path d="m12.346 21.531h-7.3464" stroke="#555761" stroke-width="1px"/>
+ <path d="m1 20h3v3h-3z" fill="#fafafa"/>
+ <path d="m0.5 19.5h4v4h-4z" fill="none" opacity=".8" stroke="#555761" stroke-linecap="round" stroke-linejoin="round"/>
+ <path d="m1.5 20.5h2v2h-2z" fill="none" stroke="url(#linearGradient905)" stroke-linecap="round"/>
+</svg>

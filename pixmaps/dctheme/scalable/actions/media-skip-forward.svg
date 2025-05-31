@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="48px" height="48px" xmlns="http://www.w3.org/2000/svg" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:xlink="http://www.w3.org/1999/xlink">
+ <defs>
+  <linearGradient id="linearGradient5075">
+   <stop stop-color="#adb0a8" offset="0"/>
+   <stop stop-color="#464744" offset="1"/>
+  </linearGradient>
+  <linearGradient id="linearGradient2679">
+   <stop stop-color="#fff" offset="0"/>
+   <stop stop-color="#d3d7cf" offset="1"/>
+  </linearGradient>
+  <linearGradient id="linearGradient1401" x1="55.614" x2="55.772" y1="157.57" y2="140.31" gradientTransform="matrix(-1 0 0 1 94 -121)" gradientUnits="userSpaceOnUse" xlink:href="#linearGradient5075"/>
+  <linearGradient id="linearGradient1426" x1="49.43" x2="49.667" y1="112.95" y2="115.14" gradientTransform="matrix(-1 0 0 1 90.991 -97.262)" gradientUnits="userSpaceOnUse">
+   <stop offset="0"/>
+   <stop stop-color="#fff" stop-opacity="0" offset="1"/>
+  </linearGradient>
+  <radialGradient id="radialGradient1436" cx="64.227" cy="147.99" r="8.75" gradientTransform="matrix(-.22266 -.99627 -2.13 .47604 336.95 20.852)" gradientUnits="userSpaceOnUse" xlink:href="#linearGradient2679"/>
+  <radialGradient id="radialGradient1439" cx="64.227" cy="147.99" r="8.75" gradientTransform="matrix(-.22266 -.99627 -2.13 .47604 354.95 20.852)" gradientUnits="userSpaceOnUse" xlink:href="#linearGradient2679"/>
+  <linearGradient id="linearGradient2322" x1="24.476" x2="23.75" y1="13.659" y2="36" gradientTransform="matrix(-1 0 0 1 46 0)" gradientUnits="userSpaceOnUse">
+   <stop offset="0"/>
+   <stop stop-color="#fff" stop-opacity=".65979" offset="1"/>
+  </linearGradient>
+  <radialGradient id="radialGradient4375" cx="64.227" cy="147.99" r="8.75" gradientTransform="matrix(-.22266 -.99627 -2.13 .47604 371.95 20.852)" gradientUnits="userSpaceOnUse" xlink:href="#linearGradient2679"/>
+  <linearGradient id="linearGradient4413" x1="54" x2="54" y1="132.5" y2="145" gradientTransform="matrix(-1 4.681e-17 -4.681e-17 -1 93 169)" gradientUnits="userSpaceOnUse" xlink:href="#linearGradient5075"/>
+ </defs>
+ <metadata>
+  <rdf:RDF>
+   <cc:Work rdf:about="">
+    <dc:format>image/svg+xml</dc:format>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:title>Media Skip Forward</dc:title>
+    <dc:creator>
+     <cc:Agent>
+      <dc:title>Lapo Calamandrei</dc:title>
+     </cc:Agent>
+    </dc:creator>
+    <cc:license rdf:resource="http://creativecommons.org/licenses/publicdomain/"/>
+    <dc:contributor>
+     <cc:Agent>
+      <dc:title>Jakub Steiner</dc:title>
+     </cc:Agent>
+    </dc:contributor>
+   </cc:Work>
+   <cc:License rdf:about="http://creativecommons.org/licenses/publicdomain/">
+    <cc:permits rdf:resource="http://creativecommons.org/ns#Reproduction"/>
+    <cc:permits rdf:resource="http://creativecommons.org/ns#Distribution"/>
+    <cc:permits rdf:resource="http://creativecommons.org/ns#DerivativeWorks"/>
+   </cc:License>
+  </rdf:RDF>
+ </metadata>
+ <g>
+  <path d="m4.5 13.5v21l17.5-10.5-17.5-10.5zm18 0v21l17-10.188v10.188h5v-21h-5v10.188l-17-10.188z" color="#000000" fill="none" opacity=".15" stroke="url(#linearGradient2322)" stroke-linecap="square" stroke-linejoin="round" stroke-width="3"/>
+  <g fill-rule="evenodd">
+   <path d="m22.5 13.5 17.5 10.5-17.5 10.5v-21z" color="#000000" fill="url(#radialGradient1439)"/>
+   <path d="m4.4999 13.5 17.5 10.5-17.5 10.5v-21z" color="#000000" fill="url(#radialGradient1436)"/>
+   <path d="m4.4999 13.5 1.1875 0.71875-1.1875-0.125v-0.59375zm18 0.25 0.46875 0.03125 3.9688 2.375-4.4375-0.40625v-2z" color="#000000" fill="url(#linearGradient1426)" opacity=".07027"/>
+  </g>
+  <path d="m22.5 13.5 17.5 10.5-17.5 10.5v-21zm-18 0 17.5 10.5-17.5 10.5v-21z" color="#000000" fill="none" stroke="url(#linearGradient1401)" stroke-linecap="square" stroke-linejoin="round"/>
+  <g fill="#fff" fill-rule="evenodd">
+   <path d="m23 14.375 16.031 9.625-16.031 9.625v-19.25zm-18 0 16.031 9.625-16.031 9.625v-19.25zm19 1.7812v15.688l13.094-7.8438-13.094-7.8438zm-18 0v15.688l13.094-7.8438-13.094-7.8438z" color="#000000"/>
+   <path d="m33.588 21.784-9.5251-5.5965v6.0429l9.5251-0.44638z" color="#000000" opacity=".56111"/>
+   <path d="m18.279 23.207-12.278-7.0196v7.8713l12.278-0.85171z" color="#000000" opacity=".56111"/>
+  </g>
+  <path d="m39.5 13.5h5v21h-5v-21z" color="#000000" fill="url(#radialGradient4375)" fill-rule="evenodd"/>
+  <rect transform="scale(-1)" x="-43.5" y="-33.5" width="3" height="19" color="#000000" fill="none" stroke="#fff" stroke-linecap="square"/>
+  <path d="m44.5 34.5v-21h-5v21h5z" color="#000000" fill="none" stroke="url(#linearGradient4413)" stroke-linecap="square" stroke-linejoin="round"/>
+  <path d="m41 22 1.9567-0.16295v-6.8059h-2.0329l0.076195 6.9689z" color="#000000" fill="#fff" fill-rule="evenodd" opacity=".56111"/>
+ </g>
+</svg>
