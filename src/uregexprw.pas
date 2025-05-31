@@ -1,4 +1,4 @@
-{$define unicode}
+{$define UnicodeRE}
 {$macro on}
 {$define FastUnicodeData}
 {$define uRegExprA := uRegExprW}
