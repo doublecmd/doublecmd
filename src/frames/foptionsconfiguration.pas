@@ -184,6 +184,7 @@ begin
   edtHighlighters.Text:= edtHighlighters.Text + ExcludeTrailingPathDelimiter(gpHighPath);
 
   chkSaveConfiguration.Checked:= gSaveConfiguration;
+  chkSaveConfigurationChange(chkSaveConfiguration);
   chkWindowState.Checked:= gSaveWindowState;
   chkFolderTabs.Checked:= gSaveFolderTabs;
   chkSearchReplaceHistory.Checked:= gSaveSearchReplaceHistory;
