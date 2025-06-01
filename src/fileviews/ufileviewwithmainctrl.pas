@@ -50,7 +50,7 @@ type
     LenExt:integer;    // length of renaming file ext
     LenFul:integer;    // full length of renaming file name with ext and dot
 
-    CylceFinished:boolean;
+    CycleFinished: Boolean;
     UserManualEdit:boolean; // true if user press a key or click/select part of filename, false - if pressed F2(or assigned key)
 
     LastAction:TRenameFileActionType;  // need for organize correct cycle Name-FullName-Ext (or FullName-Name-Ext)
@@ -1750,9 +1750,9 @@ begin
   if edtRename.Visible and (edtRename.Tag < 2) then
   begin
     if AFile.IsDirectory or AFile.IsLinkToDirectory then Exit;
-    if FRenFile.UserManualEdit then FRenFile.CylceFinished:=True;
+    if FRenFile.UserManualEdit then FRenFile.CycleFinished:= True;
 
-    if not FRenFile.CylceFinished then
+    if not FRenFile.CycleFinished then
     begin
       if gRenameSelOnlyName then
       begin
@@ -1760,7 +1760,7 @@ begin
            RenameSelectPart(rfatFull)
         else begin
            RenameSelectPart(rfatExt);
-           FRenFile.CylceFinished:= True;
+           FRenFile.CycleFinished:= True;
            Exit;
         end;
       end else
@@ -1769,7 +1769,7 @@ begin
            RenameSelectPart(rfatName)
         else begin
            RenameSelectPart(rfatExt);
-           FRenFile.CylceFinished:= True;
+           FRenFile.CycleFinished:= True;
            Exit;
         end;
       end;
@@ -1795,8 +1795,10 @@ begin
 
     FRenTags:= ' -_.';  // separator set
 
-    FRenFile.CylceFinished:= False; // cycle of selection Name-FullName-Ext of FullName-Name-Ext, after finish this cycle will be part selection mechanism
-    if FRenFile.LenExt = 0 then FRenFile.CylceFinished:= True;  // don't need cycle if no extension
+    FRenFile.UserManualEdit:= False;
+    // cycle of selection Name-FullName-Ext or FullName-Name-Ext,
+    // after finish this cycle will be part selection mechanism, don't need cycle if no extension
+    FRenFile.CycleFinished:= (FRenFile.LenExt = 0);
 
     Application.QueueAsyncCall(@ShowRenameFileEditInitSelect, 0);
 
