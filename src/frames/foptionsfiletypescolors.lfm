@@ -102,6 +102,7 @@ inherited frmOptionsFileTypesColors: TfrmOptionsFileTypesColors
       AnchorSideTop.Side = asrBottom
       AnchorSideRight.Control = edtCategoryAttr
       AnchorSideRight.Side = asrBottom
+      AnchorSideBottom.Control = btnDeleteCategory
       Left = 170
       Height = 25
       Top = 249
