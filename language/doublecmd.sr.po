@@ -11463,6 +11463,10 @@ msgstr ""
 msgid "Are you sure that you want to cancel this operation?"
 msgstr "Да ли сте сигурни да желите отказати ову обраду?"
 
+#: ulng.rsmsgcannotchangetarget
+msgid "You cannot change a target location!"
+msgstr ""
+
 #: ulng.rsmsgcannotcopymoveitself
 #, object-pascal-format
 msgid "You can not copy/move a file \"%s\" to itself!"
