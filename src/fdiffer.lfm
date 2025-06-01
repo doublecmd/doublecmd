@@ -29,6 +29,11 @@ object frmDiffer: TfrmDiffer
     ParentShowHint = False
     ShowHint = True
     TabOrder = 0
+    object btnReload: TToolButton
+      Left = 1
+      Top = 2
+      Action = actReload
+    end
     object btnSave: TToolButton
       Left = 21
       Top = 2
@@ -50,10 +55,16 @@ object frmDiffer: TfrmDiffer
       Top = 2
       Action = actStartCompare
     end
-    object btnLast: TToolButton
-      Left = 156
+    object btnCancelCompare: TToolButton
+      Left = 86
       Top = 2
-      Action = actLastDifference
+      Action = actCancelCompare
+    end
+    object Divider2: TToolButton
+      Left = 106
+      Height = 20
+      Top = 2
+      Style = tbsDivider
     end
     object btnNext: TToolButton
       Left = 111
@@ -65,38 +76,27 @@ object frmDiffer: TfrmDiffer
       Top = 2
       Action = actPrevDifference
     end
-    object btnFirst: TToolButton
-      Left = 176
-      Top = 2
-      Action = actFirstDifference
-    end
-    object Divider2: TToolButton
-      Left = 106
-      Height = 20
-      Top = 2
-      Style = tbsDivider
-    end
     object Divider3: TToolButton
       Left = 151
       Height = 20
       Top = 2
       Style = tbsDivider
     end
-    object btnCancelCompare: TToolButton
-      Left = 86
+    object btnLast: TToolButton
+      Left = 156
       Top = 2
-      Action = actCancelCompare
+      Action = actLastDifference
+    end
+    object btnFirst: TToolButton
+      Left = 176
+      Top = 2
+      Action = actFirstDifference
     end
     object Divider4: TToolButton
       Left = 196
       Height = 20
       Top = 2
       Style = tbsDivider
-    end
-    object btnReload: TToolButton
-      Left = 1
-      Top = 2
-      Action = actReload
     end
     object btnCopyRightToLeft: TToolButton
       Left = 201
