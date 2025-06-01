@@ -386,13 +386,13 @@ inherited frmOptionsHotkeys: TfrmOptionsHotkeys
     end
     object actPreviousCategory: TAction
       Caption = 'Previous category'
+      ShortCut = 16493
       OnExecute = actPreviousCategoryExecute
-      ShortCut = 109
     end
     object actNextCategory: TAction
       Caption = 'Next category'
+      ShortCut = 16491
       OnExecute = actNextCategoryExecute
-      ShortCut = 107
     end
     object actSortByCommand: TAction
       Caption = 'Sort by command name'
