@@ -3711,6 +3711,15 @@ begin
           Exit;
 
         params.targetPath := CopyDialog.edtDst.Text;
+        BaseDir := ExtractFilePath(params.targetPath);
+
+        // Path was removed and target filesource is not equal to source filesource
+        if (Length(BaseDir) = 0) and (not params.targetFS.Equals(params.sourceFS)) then
+        begin
+          MessageDlg(rsMsgInvalidPath, rsMsgCannotChangeTarget, mtError, [mbOK], 0);
+          Exit;
+        end;
+
         FileSourceManager.confirmOperation( params );
 
         if SourceFileSource.IsClass(TArchiveFileSource) then
@@ -3724,7 +3733,7 @@ begin
                                   BaseDir, TargetPath, sDstMaskTemp);
         params.resultTargetPath:= TargetPath;
 
-        if (TargetFileSource = nil) or (Length(params.resultTargetPath) = 0) then
+        if (params.targetFS = nil) or (Length(params.resultTargetPath) = 0) then
         begin
           MessageDlg(rsMsgInvalidPath, rsMsgErrNotSupported, mtWarning, [mbOK], 0);
           Continue;
