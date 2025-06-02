@@ -61,6 +61,7 @@ type
     procedure loadConnections; message 'TCloudOptionsWindow_loadConnections';
     procedure saveConnections; message 'TCloudOptionsWindow_saveConnections';
     procedure selectConnection( name: NSString ); message 'TCloudOptionsWindow_selectConnection:';
+    procedure selectConnectionIndex( index: Integer ); message 'TCloudOptionsWindow_selectConnectionIndex:';
     procedure newConnection( sender: NSObject );
     procedure removeConnection( sender: NSObject );
     procedure saveConnection( name: NSString );
@@ -250,11 +251,19 @@ begin
   for i:=0 to configItems.count-1 do begin
     configItem:= TWFXConnectionConfigItem( self.configItems.getItem(i) );
     if configItem.name.isEqualToString(name) then begin
-      self.connectionListView.selectRow_byExtendingSelection( i, False );
+      self.selectConnectionIndex( i );
       Exit;
     end;
   end;
   self.onSelectedConnectionChanged( i );
+end;
+
+procedure TWFXOptionsWindow.selectConnectionIndex( index: Integer );
+var
+  indexSet: NSIndexSet;
+begin
+  indexSet:= NSIndexSet.indexSetWithIndex( index );
+  self.connectionListView.selectRowIndexes_byExtendingSelection( indexSet , False );
 end;
 
 procedure TWFXOptionsWindow.addConnection( connectionName: NSString );
@@ -284,7 +293,7 @@ begin
   index:= self.configItems.addItem( configItem );
   configItem.release;
   self.connectionListView.noteNumberOfRowsChanged;
-  self.connectionListView.selectRow_byExtendingSelection( index, False );
+  self.selectConnectionIndex( index );
 end;
 
 procedure TWFXOptionsWindow.newConnection(sender: NSObject);
@@ -304,7 +313,7 @@ begin
   if currentIndex >= self.configItems.Count then
     currentIndex:= self.configItems.Count - 1;
   if currentIndex >= 0 then begin
-    self.connectionListView.selectRow_byExtendingSelection( currentIndex, False );
+    self.selectConnectionIndex( currentIndex );
   end else begin
     self.onSelectedConnectionChanged( currentIndex );
   end;
@@ -344,7 +353,7 @@ begin
   configItem.setName( name );
   configItem.setModificationTime( LocalTimeToUniversal(now) );
   self.connectionListView.reloadData;
-  self.connectionListView.selectRow_byExtendingSelection( currentIndex, False );
+  self.selectConnectionIndex( currentIndex );
 end;
 
 function TWFXOptionsWindow.currentConfigItem: TWFXConnectionConfigItem;
@@ -550,7 +559,7 @@ begin
   leftView.release;
 
   win.makeFirstResponder( connectionListView );
-  connectionListView.selectRow_byExtendingSelection( 0, False );
+  win.selectConnectionIndex( 0 );
   Result:= win;
 end;
 
