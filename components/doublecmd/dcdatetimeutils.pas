@@ -499,6 +499,43 @@ end;
 
 
 {$IF DEFINED(UNIX)}
+procedure NormalizeFileTime(var UnixTime: DCBasicTypes.TFileTimeEx);
+const
+  NSecsPerSec = 1000000000;
+begin
+  while UnixTime.nanosec <= -NSecsPerSec do
+  begin
+    if (UnixTime.sec = Low(Int64)) then
+    begin
+      UnixTime.nanosec:= 0;
+      Exit;
+    end;
+    Dec(UnixTime.sec);
+    Inc(UnixTime.nanosec, NSecsPerSec);
+  end;
+  while UnixTime.nanosec >= NSecsPerSec do
+  begin
+    if (UnixTime.sec = High(Int64)) then
+    begin
+      UnixTime.nanosec:= NSecsPerSec - 1;
+      Exit;
+    end;
+    Inc(UnixTime.sec);
+    Dec(UnixTime.nanosec, NSecsPerSec);
+  end;
+  if (UnixTime.nanosec < 0) then
+  begin
+    if (UnixTime.sec = Low(Int64)) then
+    begin
+      UnixTime.nanosec:= 0;
+    end
+    else begin
+      Dec(UnixTime.sec);
+      Inc(UnixTime.nanosec, NSecsPerSec);
+    end;
+  end;
+end;
+
 function UnixFileTimeToDateTime(UnixTime: TUnixFileTime) : TDateTime;
 var
   filetime: DCBasicTypes.TFileTimeEx;
@@ -512,6 +549,8 @@ var
   ATime: TTimeStruct;
   Milliseconds: Word;
 begin
+  NormalizeFileTime(UnixTime);
+
   if (fpLocalTime(@UnixTime.sec, @ATime) = nil) then
     Exit(UnixEpoch);
 
