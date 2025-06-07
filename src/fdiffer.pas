@@ -902,7 +902,7 @@ var
   DlgType: TMsgDlgType = mtInformation;
 begin
   Message:= rsDiffFilesIdentical + LineEnding + LineEnding;
-  Message+= edtFileNameLeft.Text + LineEnding + edtFileNameRight.Text;
+  Message+= ReplaceHome(edtFileNameLeft.Text) + LineEnding + ReplaceHome(edtFileNameRight.Text);
   if not actBinaryCompare.Checked then
   begin
     Encoding:= (SynDiffEditLeft.Encoding <> SynDiffEditRight.Encoding);
