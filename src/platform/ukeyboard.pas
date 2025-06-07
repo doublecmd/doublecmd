@@ -755,7 +755,9 @@ begin
   case Key of
     QtKey_Bar:         KeySym := XK_bar;                 // VK_F13
     QtKey_Underscore:  KeySym := XK_underscore;          // VK_SLEEP
+{$IF DEFINED(LCLQT)}
     QtKey_QuoteLeft:   KeySym := XK_quoteleft;
+{$ENDIF}
     else               KeySym := 0;
   end;
 
