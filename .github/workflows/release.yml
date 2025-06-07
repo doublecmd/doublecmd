@@ -22,7 +22,7 @@ jobs:
       uses: actions/checkout@v4
       with:
             repository: 'fpc/Lazarus'
-            ref: 'fixes_3_0'
+            ref: 'fixes_4'
 
     - name: Build and install Lazarus
       run: make all install
