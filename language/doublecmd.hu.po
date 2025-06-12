@@ -3156,6 +3156,7 @@ msgid "&Network"
 msgstr "Hálózat"
 
 #: tfrmmain.mnushow.caption
+msgctxt "tfrmmain.mnushow.caption"
 msgid "&Show"
 msgstr "&Nézet"
 
@@ -10086,6 +10087,12 @@ msgstr " Egyező: "
 #: ulng.rsdiffmodifies
 msgid " Modifies: "
 msgstr " Eltérő: "
+
+#: ulng.rsdiffshow
+#, fuzzy
+msgctxt "ulng.rsdiffshow"
+msgid "&Show"
+msgstr "&Nézet"
 
 #: ulng.rsdifftextdifferenceencoding
 msgctxt "ulng.rsdifftextdifferenceencoding"

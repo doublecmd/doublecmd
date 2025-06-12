@@ -3172,6 +3172,7 @@ msgid "&Network"
 msgstr "Síť"
 
 #: tfrmmain.mnushow.caption
+msgctxt "tfrmmain.mnushow.caption"
 msgid "&Show"
 msgstr "&Zobrazit"
 
@@ -10126,6 +10127,12 @@ msgstr " Shodných: "
 #: ulng.rsdiffmodifies
 msgid " Modifies: "
 msgstr " Upravených: "
+
+#: ulng.rsdiffshow
+#, fuzzy
+msgctxt "ulng.rsdiffshow"
+msgid "&Show"
+msgstr "&Zobrazit"
 
 #: ulng.rsdifftextdifferenceencoding
 #, fuzzy

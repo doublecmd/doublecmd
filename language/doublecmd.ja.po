@@ -3226,6 +3226,7 @@ msgid "&Network"
 msgstr "ネットワーク(&N)"
 
 #: tfrmmain.mnushow.caption
+msgctxt "tfrmmain.mnushow.caption"
 msgid "&Show"
 msgstr "表示(&S)"
 
@@ -10335,6 +10336,12 @@ msgstr " 一致: "
 #: ulng.rsdiffmodifies
 msgid " Modifies: "
 msgstr " 変更: "
+
+#: ulng.rsdiffshow
+#, fuzzy
+msgctxt "ulng.rsdiffshow"
+msgid "&Show"
+msgstr "表示(&S)"
 
 #: ulng.rsdifftextdifferenceencoding
 #, fuzzy

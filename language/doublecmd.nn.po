@@ -3240,6 +3240,7 @@ msgid "&Network"
 msgstr "&Nettverk"
 
 #: tfrmmain.mnushow.caption
+msgctxt "tfrmmain.mnushow.caption"
 msgid "&Show"
 msgstr "&Vis"
 
@@ -10602,6 +10603,12 @@ msgstr " Matcher: "
 #: ulng.rsdiffmodifies
 msgid " Modifies: "
 msgstr " Endrar: "
+
+#: ulng.rsdiffshow
+#, fuzzy
+msgctxt "ulng.rsdiffshow"
+msgid "&Show"
+msgstr "&Vis"
 
 #: ulng.rsdifftextdifferenceencoding
 #, fuzzy

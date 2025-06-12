@@ -3157,6 +3157,7 @@ msgid "&Network"
 msgstr "&Rete"
 
 #: tfrmmain.mnushow.caption
+msgctxt "tfrmmain.mnushow.caption"
 msgid "&Show"
 msgstr "&Visualizzazione"
 
@@ -10087,6 +10088,12 @@ msgstr " Corrispondenze: "
 #: ulng.rsdiffmodifies
 msgid " Modifies: "
 msgstr " Modifiche: "
+
+#: ulng.rsdiffshow
+#, fuzzy
+msgctxt "ulng.rsdiffshow"
+msgid "&Show"
+msgstr "&Visualizzazione"
 
 #: ulng.rsdifftextdifferenceencoding
 msgctxt "ulng.rsdifftextdifferenceencoding"

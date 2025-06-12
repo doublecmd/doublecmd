@@ -3209,6 +3209,7 @@ msgid "&Network"
 msgstr "&Сеть"
 
 #: tfrmmain.mnushow.caption
+msgctxt "tfrmmain.mnushow.caption"
 msgid "&Show"
 msgstr "Ви&д"
 
@@ -10339,6 +10340,11 @@ msgstr " Совпало: "
 #: ulng.rsdiffmodifies
 msgid " Modifies: "
 msgstr " Изменено: "
+
+#: ulng.rsdiffshow
+msgctxt "ulng.rsdiffshow"
+msgid "&Show"
+msgstr "&Показать"
 
 #: ulng.rsdifftextdifferenceencoding
 msgctxt "ulng.rsdifftextdifferenceencoding"

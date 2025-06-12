@@ -3182,6 +3182,7 @@ msgid "&Network"
 msgstr "Red"
 
 #: tfrmmain.mnushow.caption
+msgctxt "tfrmmain.mnushow.caption"
 msgid "&Show"
 msgstr "&Vista"
 
@@ -10215,6 +10216,12 @@ msgstr " Coincidentes: "
 #: ulng.rsdiffmodifies
 msgid " Modifies: "
 msgstr " Modificados: "
+
+#: ulng.rsdiffshow
+#, fuzzy
+msgctxt "ulng.rsdiffshow"
+msgid "&Show"
+msgstr "&Vista"
 
 #: ulng.rsdifftextdifferenceencoding
 #, fuzzy

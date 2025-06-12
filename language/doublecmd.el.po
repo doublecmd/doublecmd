@@ -3217,6 +3217,7 @@ msgid "&Network"
 msgstr "Δίκτυο"
 
 #: tfrmmain.mnushow.caption
+msgctxt "tfrmmain.mnushow.caption"
 msgid "&Show"
 msgstr "Εμφάνιση"
 
@@ -10306,6 +10307,12 @@ msgstr " Αντιστοιχίσεις: "
 #: ulng.rsdiffmodifies
 msgid " Modifies: "
 msgstr " Μεταβολές: "
+
+#: ulng.rsdiffshow
+#, fuzzy
+msgctxt "ulng.rsdiffshow"
+msgid "&Show"
+msgstr "Εμφάνιση"
 
 #: ulng.rsdifftextdifferenceencoding
 msgctxt "ulng.rsdifftextdifferenceencoding"

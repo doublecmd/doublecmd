@@ -3237,6 +3237,7 @@ msgid "&Network"
 msgstr "Rețea"
 
 #: tfrmmain.mnushow.caption
+msgctxt "tfrmmain.mnushow.caption"
 msgid "&Show"
 msgstr "Arată (&s)"
 
@@ -10409,6 +10410,12 @@ msgstr ""
 #: ulng.rsdiffmodifies
 msgid " Modifies: "
 msgstr ""
+
+#: ulng.rsdiffshow
+#, fuzzy
+msgctxt "ulng.rsdiffshow"
+msgid "&Show"
+msgstr "Arată (&s)"
 
 #: ulng.rsdifftextdifferenceencoding
 #, fuzzy

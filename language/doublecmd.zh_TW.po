@@ -3202,6 +3202,7 @@ msgid "&Network"
 msgstr "網路"
 
 #: tfrmmain.mnushow.caption
+msgctxt "tfrmmain.mnushow.caption"
 msgid "&Show"
 msgstr "顯示 (&S)"
 
@@ -10363,6 +10364,12 @@ msgstr ""
 #: ulng.rsdiffmodifies
 msgid " Modifies: "
 msgstr ""
+
+#: ulng.rsdiffshow
+#, fuzzy
+msgctxt "ulng.rsdiffshow"
+msgid "&Show"
+msgstr "顯示 (&S)"
 
 #: ulng.rsdifftextdifferenceencoding
 #, fuzzy

@@ -3169,6 +3169,7 @@ msgid "&Network"
 msgstr "Netwerk"
 
 #: tfrmmain.mnushow.caption
+msgctxt "tfrmmain.mnushow.caption"
 msgid "&Show"
 msgstr "&Tonen"
 
@@ -10122,6 +10123,12 @@ msgstr " Overeenkomend: "
 #: ulng.rsdiffmodifies
 msgid " Modifies: "
 msgstr " Wijzigt: "
+
+#: ulng.rsdiffshow
+#, fuzzy
+msgctxt "ulng.rsdiffshow"
+msgid "&Show"
+msgstr "&Tonen"
 
 #: ulng.rsdifftextdifferenceencoding
 msgctxt "ulng.rsdifftextdifferenceencoding"

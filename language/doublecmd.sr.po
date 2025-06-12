@@ -3216,6 +3216,7 @@ msgid "&Network"
 msgstr "Мрежа"
 
 #: tfrmmain.mnushow.caption
+msgctxt "tfrmmain.mnushow.caption"
 msgid "&Show"
 msgstr "Прикажи&"
 
@@ -10318,6 +10319,12 @@ msgstr " Поклапања: "
 #: ulng.rsdiffmodifies
 msgid " Modifies: "
 msgstr " Измене: "
+
+#: ulng.rsdiffshow
+#, fuzzy
+msgctxt "ulng.rsdiffshow"
+msgid "&Show"
+msgstr "Прикажи&"
 
 #: ulng.rsdifftextdifferenceencoding
 msgctxt "ulng.rsdifftextdifferenceencoding"

@@ -3390,6 +3390,7 @@ msgid "&Network"
 msgstr "Ağ"
 
 #: tfrmmain.mnushow.caption
+msgctxt "tfrmmain.mnushow.caption"
 msgid "&Show"
 msgstr "&Görünüm"
 
@@ -10755,6 +10756,12 @@ msgstr ""
 #: ulng.rsdiffmodifies
 msgid " Modifies: "
 msgstr ""
+
+#: ulng.rsdiffshow
+#, fuzzy
+msgctxt "ulng.rsdiffshow"
+msgid "&Show"
+msgstr "&Görünüm"
 
 #: ulng.rsdifftextdifferenceencoding
 #, fuzzy

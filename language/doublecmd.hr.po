@@ -10778,6 +10778,12 @@ msgstr "Usklađivanje"
 msgid " Modifies: "
 msgstr "Modificira"
 
+#: ulng.rsdiffshow
+#, fuzzy
+msgctxt "ulng.rsdiffshow"
+msgid "&Show"
+msgstr "Prikaži&"
+
 #: ulng.rsdifftextdifferenceencoding
 #, fuzzy
 msgctxt "ulng.rsdifftextdifferenceencoding"

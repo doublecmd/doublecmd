@@ -3163,6 +3163,7 @@ msgid "&Network"
 msgstr "Omrežje"
 
 #: tfrmmain.mnushow.caption
+msgctxt "tfrmmain.mnushow.caption"
 msgid "&Show"
 msgstr "&Pokaži"
 
@@ -10093,6 +10094,12 @@ msgstr " Število razlik: "
 #: ulng.rsdiffmodifies
 msgid " Modifies: "
 msgstr " Spremenjeno: "
+
+#: ulng.rsdiffshow
+#, fuzzy
+msgctxt "ulng.rsdiffshow"
+msgid "&Show"
+msgstr "&Pokaži"
 
 #: ulng.rsdifftextdifferenceencoding
 msgctxt "ulng.rsdifftextdifferenceencoding"

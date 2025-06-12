@@ -3470,6 +3470,7 @@ msgid "&Network"
 msgstr "Xarxa"
 
 #: tfrmmain.mnushow.caption
+msgctxt "tfrmmain.mnushow.caption"
 msgid "&Show"
 msgstr "&Visualització"
 
@@ -11059,6 +11060,12 @@ msgstr ""
 #: ulng.rsdiffmodifies
 msgid " Modifies: "
 msgstr ""
+
+#: ulng.rsdiffshow
+#, fuzzy
+msgctxt "ulng.rsdiffshow"
+msgid "&Show"
+msgstr "&Visualització"
 
 #: ulng.rsdifftextdifferenceencoding
 #, fuzzy
