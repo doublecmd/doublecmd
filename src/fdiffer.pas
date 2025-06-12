@@ -297,7 +297,7 @@ implementation
 uses
   Math, LCLType, LazFileUtils, LConvEncoding, SynEditTypes, uHash, uLng, uGlobs,
   uShowMsg, DCClassesUtf8, dmCommonData, uDCUtils, uConvEncoding, uAdministrator,
-  uFileProcs;
+  LCLStrConsts, uFileProcs;
 
 const
   HotkeysCategory = 'Differ';
@@ -931,7 +931,7 @@ begin
       end;
     end;
   end;
-  if MessageDlg(rsToolDiffer, Message, DlgType, [mbIgnore, mbCancel], 0, mbIgnore) = mrCancel then
+  if MsgChoiceBox(Message, rsToolDiffer, DlgType, [rsMbClose, rsDiffShow], 0, 1) = 0 then
     Close
   else begin
     FShowIdentical:= False;

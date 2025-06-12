@@ -40,7 +40,7 @@ unit uShowMsg;
 interface
 
 uses
-  Forms, Classes, IntegerList, DCBasicTypes;
+  Forms, Dialogs, Classes, IntegerList, DCBasicTypes;
 
 type
   TMyMsgResult=(mmrOK, mmrNo, mmrYes, mmrCancel, mmrNone,
@@ -117,6 +117,7 @@ function MsgTest:TMyMsgResult;
 
 function MsgChoiceBox(const Message: String; Buttons: TDynamicStringArray; BtnDef, BtnEsc: Integer): Integer; overload;
 function MsgChoiceBox(const Message, ACaption: String; Buttons: TDynamicStringArray; BtnDef, BtnEsc: Integer): Integer; overload;
+function MsgChoiceBox(const Message, ACaption: String; DlgType: TMsgDlgType; Buttons: TDynamicStringArray; BtnDef, BtnEsc: Integer): Integer; overload;
 function MsgChoiceBox(Thread: TThread; const Message: String; Buttons: TDynamicStringArray; BtnDef, BtnEsc: Integer): Integer; overload;
 function MsgChoiceBox(Thread: TThread; const Message, ACaption: String; Buttons: TDynamicStringArray; BtnDef, BtnEsc: Integer): Integer; overload;
 
@@ -806,10 +807,15 @@ end;
 
 function MsgChoiceBox(const Message: String; Buttons: TDynamicStringArray; BtnDef, BtnEsc: Integer): Integer;
 begin
-  Result:= MsgChoiceBox(Message, EmptyStr, Buttons, BtnDef, BtnEsc);
+  Result:= MsgChoiceBox(Message, EmptyStr, mtCustom, Buttons, BtnDef, BtnEsc);
 end;
 
 function MsgChoiceBox(const Message, ACaption: String; Buttons: TDynamicStringArray; BtnDef, BtnEsc: Integer): Integer;
+begin
+  Result:= MsgChoiceBox(Message, ACaption, mtCustom, Buttons, BtnDef, BtnEsc);
+end;
+
+function MsgChoiceBox(const Message, ACaption: String; DlgType: TMsgDlgType; Buttons: TDynamicStringArray; BtnDef, BtnEsc: Integer): Integer;
 const
   cButtonSpace = 8;
 var
