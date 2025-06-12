@@ -13861,7 +13861,7 @@ msgstr "檔案 (&F);資料夾 (&R);檔案及資料夾 (&N)"
 #: ulng.rsoptsearchopt
 #, fuzzy
 #| msgid "&Hide filter panel when not focused"
-msgid "&Hide filter panel when not focused;Keep saving setting modifications for next session"
+msgid "Ignore &diacritics and ligatures;&Hide filter panel when not focused;Keep saving setting modifications for next session"
 msgstr "當不在焦點時隱藏篩選面板 (&H)"
 
 #: ulng.rsoptsortcasesens

@@ -13809,7 +13809,9 @@ msgid "&Files;Di&rectories;Files a&nd Directories"
 msgstr "Αρχεία;Κατάλογοι;Αρχεία και Κατάλογοι"
 
 #: ulng.rsoptsearchopt
-msgid "&Hide filter panel when not focused;Keep saving setting modifications for next session"
+#, fuzzy
+#| msgid "&Hide filter panel when not focused;Keep saving setting modifications for next session"
+msgid "Ignore &diacritics and ligatures;&Hide filter panel when not focused;Keep saving setting modifications for next session"
 msgstr "&Κρύψιμο του πάνελ φίλτρου όταν δεν είναι εστιασμένο;συνέχιση αποθήκευσης ρυθμίσεων μετατροπών για την επόμενη συνεδρία"
 
 #: ulng.rsoptsortcasesens

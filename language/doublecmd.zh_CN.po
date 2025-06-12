@@ -13586,7 +13586,9 @@ msgid "&Files;Di&rectories;Files a&nd Directories"
 msgstr "文件(&F);文件夹(&R);文件和文件夹(&N)"
 
 #: ulng.rsoptsearchopt
-msgid "&Hide filter panel when not focused;Keep saving setting modifications for next session"
+#, fuzzy
+#| msgid "&Hide filter panel when not focused;Keep saving setting modifications for next session"
+msgid "Ignore &diacritics and ligatures;&Hide filter panel when not focused;Keep saving setting modifications for next session"
 msgstr "未聚焦时隐藏过滤器面板(&H);为下一会话保留设置修改"
 
 #: ulng.rsoptsortcasesens

@@ -14295,7 +14295,9 @@ msgid "&Files;Di&rectories;Files a&nd Directories"
 msgstr "&Datoteke;&Kazala;Datoteke i Kazala"
 
 #: ulng.rsoptsearchopt
-msgid "&Hide filter panel when not focused;Keep saving setting modifications for next session"
+#, fuzzy
+#| msgid "&Hide filter panel when not focused;Keep saving setting modifications for next session"
+msgid "Ignore &diacritics and ligatures;&Hide filter panel when not focused;Keep saving setting modifications for next session"
 msgstr "&Skriva ploču uvjeta kada on nije u fokusu;Zadržava promjene prilagodbi postavki za drugi period rada"
 
 #: ulng.rsoptsortcasesens

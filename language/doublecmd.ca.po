@@ -14556,7 +14556,7 @@ msgstr "&Fitxers;Di&rectoris;Fitxers &i Directoris"
 #: ulng.rsoptsearchopt
 #, fuzzy
 #| msgid "&Hide filter panel when not focused"
-msgid "&Hide filter panel when not focused;Keep saving setting modifications for next session"
+msgid "Ignore &diacritics and ligatures;&Hide filter panel when not focused;Keep saving setting modifications for next session"
 msgstr "&amaga el panell de filtre quan no se centra"
 
 #: ulng.rsoptsortcasesens

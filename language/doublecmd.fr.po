@@ -13995,7 +13995,9 @@ msgid "&Files;Di&rectories;Files a&nd Directories"
 msgstr "Fichiers;Dossiers;Fichiers et Dossiers"
 
 #: ulng.rsoptsearchopt
-msgid "&Hide filter panel when not focused;Keep saving setting modifications for next session"
+#, fuzzy
+#| msgid "&Hide filter panel when not focused;Keep saving setting modifications for next session"
+msgid "Ignore &diacritics and ligatures;&Hide filter panel when not focused;Keep saving setting modifications for next session"
 msgstr "Cacher le panneau de filtre s'il n'est pas actif;conserver ces options pour les prochaines sessions"
 
 #: ulng.rsoptsortcasesens

@@ -14127,7 +14127,7 @@ msgstr "&Datoteke;&Fascikle;Datoteke i fascikle"
 #: ulng.rsoptsearchopt
 #, fuzzy
 #| msgid "&Hide filter panel when not focused"
-msgid "&Hide filter panel when not focused;Keep saving setting modifications for next session"
+msgid "Ignore &diacritics and ligatures;&Hide filter panel when not focused;Keep saving setting modifications for next session"
 msgstr "&Skriva površ uslova kada on nije u žiži"
 
 #: ulng.rsoptsortcasesens

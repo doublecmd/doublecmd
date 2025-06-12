@@ -14748,7 +14748,9 @@ msgstr "&Filer;Mappe&r;Filer og &mapper"
 
 # Opsætning - Indstillinger - Hurtig søgning
 #: ulng.rsoptsearchopt
-msgid "&Hide filter panel when not focused;Keep saving setting modifications for next session"
+#, fuzzy
+#| msgid "&Hide filter panel when not focused;Keep saving setting modifications for next session"
+msgid "Ignore &diacritics and ligatures;&Hide filter panel when not focused;Keep saving setting modifications for next session"
 msgstr "Skjul filterpanelet, n&år det ikke er valgt;Bevarer indstillingerne til n&æste session"
 
 # Indstillinger - Visning

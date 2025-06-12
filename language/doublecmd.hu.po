@@ -13569,7 +13569,9 @@ msgid "&Files;Di&rectories;Files a&nd Directories"
 msgstr "&Fájlok;&Mappák;Fájlok é&s Mappák"
 
 #: ulng.rsoptsearchopt
-msgid "&Hide filter panel when not focused;Keep saving setting modifications for next session"
+#, fuzzy
+#| msgid "&Hide filter panel when not focused;Keep saving setting modifications for next session"
+msgid "Ignore &diacritics and ligatures;&Hide filter panel when not focused;Keep saving setting modifications for next session"
 msgstr "Szűrőpanel elrejtése, &ha nem fókuszált;Beállításmódosítások megtartása a következő munkamenetre"
 
 #: ulng.rsoptsortcasesens
