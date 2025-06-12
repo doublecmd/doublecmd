@@ -44,7 +44,8 @@ type
   { TMask }
   TMask = class
   private
-    FTemplate:string;
+    FTemplate: String;
+    FOriginal: String;
     FMask: TMaskString;
     FUsePinyin: Boolean;
     FCaseSensitive: Boolean;
@@ -53,6 +54,7 @@ type
 
     procedure SetCaseSence(ACaseSence:boolean);
     procedure SetTemplate(AValue: String);
+    procedure UpdateTemplate;
     procedure Update;
   public
     constructor Create(const AValue: string; const AOptions: TMaskOptions = []);
@@ -60,7 +62,7 @@ type
     function LegacyMatches(const AFileName: string): boolean;
     function WindowsMatches(const AFileName: string): boolean;
     property CaseSensitive:boolean read FCaseSensitive write SetCaseSence;
-    property Template:string read FTemplate write SetTemplate;
+    property Template: String read FOriginal write SetTemplate;
   end;
 
   { TParseStringList }
@@ -139,27 +141,38 @@ end;
 { TMask.Create }
 constructor TMask.Create(const AValue: string; const AOptions: TMaskOptions);
 begin
+  FOriginal:= AValue;
   FTemplate:= AValue;
   FUsePinyin:= moPinyin in AOptions;
   FCaseSensitive := moCaseSensitive in AOptions;
   fIgnoreAccents := moIgnoreAccents in AOptions;
   fWindowsInterpretation := moWindowsMask in AOptions;
-  if FIgnoreAccents then FTemplate := NormalizeAccentedChar(FTemplate); //Let's set the mask early in straight letters if match attempt has to be with accent and ligature removed.
-  if not FCaseSensitive then FTemplate := UTF8LowerCase(FTemplate); //Let's set the mask early in lowercase if match attempt has to be case insensitive.
-  Update;
+  UpdateTemplate;
 end;
 
 { TMask.SetCaseSence }
-procedure TMask.SetCaseSence(ACaseSence:boolean);
+procedure TMask.SetCaseSence(ACaseSence: Boolean);
 begin
-  FCaseSensitive:=ACaseSence;
-  Update;
+  FCaseSensitive:= ACaseSence;
+  FTemplate:= FOriginal;
+  UpdateTemplate;
 end;
 
 { TMask.SetTemplate }
 procedure TMask.SetTemplate(AValue: String);
 begin
-  FTemplate:=AValue;
+  FOriginal:= AValue;
+  FTemplate:= AValue;
+  UpdateTemplate;
+end;
+
+procedure TMask.UpdateTemplate;
+begin
+  // Let's set the mask early in straight letters if match attempt has to be with accent and ligature removed.
+  if FIgnoreAccents then FTemplate := NormalizeAccentedChar(FTemplate);
+  // Let's set the mask early in lowercase if match attempt has to be case insensitive.
+  if not FCaseSensitive then FTemplate := UTF8LowerCase(FTemplate);
+
   Update;
 end;
 
@@ -169,7 +182,6 @@ var
   I: Integer;
   S: UnicodeString;
   SkipAnyText: Boolean;
-  AValue:string;
 
   procedure AddAnyText;
   begin
@@ -218,13 +230,11 @@ var
   end;
 
 begin
-  AValue:=FTemplate;
-
   SetLength(FMask.Chars, 0);
   FMask.MinLength := 0;
   FMask.MaxLength := 0;
   SkipAnyText := False;
-  S := CeUtf8ToUtf16(AValue);
+  S := CeUtf8ToUtf16(FTemplate);
 
   I := 1;
   while I <= Length(S) do
@@ -337,11 +347,10 @@ end;
 // foo.* -> match either foo or foo.*
 function TMask.WindowsMatches(const AFileName: string): boolean;
 var
-  Ext, sInitialTemplate: string;
-  sInitialMask: UnicodeString;
-
+  sInitialMask: String;
+  Ext, sInitialTemplate: String;
 begin
-  sInitialMask := CeUtf8ToUtf16(FTemplate);
+  sInitialMask := FTemplate;
 
   if (Length(sInitialMask) > 2) and (RightStr(sInitialMask, 3) = '*.*') then // foo*.*
   begin
