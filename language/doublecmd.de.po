@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Double Commander 1.1.0 alpha\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-11-15 11:15+0300\n"
-"PO-Revision-Date: 2025-05-14 21:16+0200\n"
+"PO-Revision-Date: 2025-06-02 18:43+0200\n"
 "Last-Translator:  ㋡  <braass@mail.de>\n"
 "Language-Team: Deutsch <braass@mail.de>\n"
 "Language: de\n"
@@ -11223,7 +11223,7 @@ msgstr "Sicher, dass Sie die Operation Abbrechen wollen?"
 
 #: ulng.rsmsgcannotchangetarget
 msgid "You cannot change a target location!"
-msgstr ""
+msgstr "Sie können einen Zielort nicht ändern!"
 
 #: ulng.rsmsgcannotcopymoveitself
 #, object-pascal-format
