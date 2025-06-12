@@ -59,6 +59,7 @@ begin
   slTempoAccents := TStringList.Create;
   slTempoAccentsStripped := TStringList.Create;
   try
+    slTempoAccents.CaseSensitive := True;
     ParseLineToList(cStrAccents, slTempoAccents);
     ParseLineToList(cStrAccentsStripped, slTempoAccentsStripped);
 
@@ -67,6 +68,7 @@ begin
 
     gslAccents := TStringList.Create;
     gslAccents.Assign(slTempoAccents);
+    gslAccents.CaseSensitive := True;
     gslAccents.Sort;
     gslAccentsStripped := TStringList.Create;
 
