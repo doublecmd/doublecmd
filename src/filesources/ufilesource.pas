@@ -71,7 +71,7 @@ type
 
   TFileSourceUIHandler = class
     procedure draw( var params: TFileSourceUIParams ); virtual; abstract;
-    procedure click( var  params: TFileSourceUIParams ); virtual; abstract;
+    function click( var  params: TFileSourceUIParams ): Boolean; virtual; abstract;
   end;
 
   TFileSourceField = record

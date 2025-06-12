@@ -357,12 +357,14 @@ end;
 
 procedure TBriefDrawGrid.MouseUp(Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
 
-  procedure handleMBLeft;
+  function handleMBLeft: Boolean;
   var
     handler: TFileSourceUIHandler;
     params: TFileSourceUIParams;
     index: Integer;
   begin
+    Result:= False;
+
     params:= Default( TFileSourceUIParams );
     params.sender:= FBriefView;
     params.fs:= FBriefView.FileSource;
@@ -387,14 +389,16 @@ procedure TBriefDrawGrid.MouseUp(Button: TMouseButton; Shift: TShiftState; X, Y:
     ColRowToOffset(False, True, params.row, params.drawingRect.Top, params.drawingRect.Bottom );
 
     params.displayFile:= FBriefView.FFiles[index];
-    handler.click( params );
+    Result:= handler.click( params );
   end;
 
 begin
-  if Button = mbLeft then
-    handleMBLeft
-  else
-    inherited;
+  if (Button = mbLeft) and handleMBLeft then
+  begin
+    FBriefView.tmRenameFile.Enabled := False;
+    FBriefView.FRenameFileIndex := -1;
+  end;
+  inherited MouseUp(Button, Shift, X, Y);
 end;
 
 procedure TBriefDrawGrid.MouseMove(Shift: TShiftState; X, Y: Integer);

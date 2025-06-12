@@ -106,7 +106,7 @@ type
 
   TiCloudDriverUIHandler = class( TFileSourceUIHandler )
     procedure draw( var params: TFileSourceUIParams ); override;
-    procedure click( var params: TFileSourceUIParams); override;
+    function click( var params: TFileSourceUIParams): Boolean; override;
   end;
 
   { TSeedFileUtil }
@@ -598,10 +598,12 @@ begin
   end;
 end;
 
-procedure TiCloudDriverUIHandler.click(var params: TFileSourceUIParams);
+function TiCloudDriverUIHandler.click(var params: TFileSourceUIParams): Boolean;
 var
   aFile: TFile;
 begin
+  Result:= False;
+
   if params.multiColumns AND (params.col<>0) then
     Exit;
 
@@ -613,6 +615,8 @@ begin
     Exit;
 
   TSeedFileUtil.downloadOrEvict( params.fs, aFile );
+
+  Result:= True;
 end;
 
 { TiCloudDriverFileSource }
