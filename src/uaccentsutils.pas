@@ -37,9 +37,9 @@ function PosOfSubstrWithVersatileOptions(sSubString, sWholeString: string; bCase
 var
   gslAccents, gslAccentsStripped: TStringList;
 
-resourcestring
-  rsStrAccents = 'á;â;à;å;ã;ä;ç;é;ê;è;ë;í;î;ì;ï;ñ;ó;ô;ò;ø;õ;ö;ú;û;ù;ü;ÿ;Á;Â;À;Å;Ã;Ä;Ç;É;Ê;È;Ë;Í;Í;Ì;Ï;Ñ;Ó;Ô;Ø;Õ;Ö;ß;Ú;Û;Ù;Ü;Ÿ;¿;¡;œ;æ;Æ;Œ';
-  rsStrAccentsStripped = 'a;a;a;a;a;a;c;e;e;e;e;i;i;i;i;n;o;o;o;o;o;o;u;u;u;u;y;A;A;A;A;A;A;C;E;E;E;E;I;I;I;I;N;O;O;O;O;O;B;U;U;U;U;Y;?;!;oe;ae;AE;OE';
+const
+  cStrAccents = 'á;â;à;å;ã;ä;ç;é;ê;è;ë;í;î;ì;ï;ñ;ó;ô;ò;ø;õ;ö;ú;û;ù;ü;ÿ;Á;Â;À;Å;Ã;Ä;Ç;É;Ê;È;Ë;Í;Í;Ì;Ï;Ñ;Ó;Ô;Ø;Õ;Ö;ß;Ú;Û;Ù;Ü;Ÿ;¿;¡;œ;æ;Æ;Œ;ě;š;č;ř;ž;ý;ň;ď;ť;ů;Ě;Š;Č;Ř;Ž;Ý;Ň;Ď;Ť;Ů';
+  cStrAccentsStripped = 'a;a;a;a;a;a;c;e;e;e;e;i;i;i;i;n;o;o;o;o;o;o;u;u;u;u;y;A;A;A;A;A;A;C;E;E;E;E;I;I;I;I;N;O;O;O;O;O;B;U;U;U;U;Y;?;!;oe;ae;AE;OE;e;s;c;r;z;y;n;d;t;u;E;S;C;R;Z;Y;N;D;T;U';
 
 implementation
 
@@ -59,8 +59,8 @@ begin
   slTempoAccents := TStringList.Create;
   slTempoAccentsStripped := TStringList.Create;
   try
-    ParseLineToList(rsStrAccents, slTempoAccents);
-    ParseLineToList(rsStrAccentsStripped, slTempoAccentsStripped);
+    ParseLineToList(cStrAccents, slTempoAccents);
+    ParseLineToList(cStrAccentsStripped, slTempoAccentsStripped);
 
     if slTempoAccents.Count <> slTempoAccentsStripped.Count then
       raise Exception.Create('Unexpected situation in LoadInMemoryOurAccentLookupTableList!' + #$0A + 'Most probably problem in language file regarding conversion string with accents...');
