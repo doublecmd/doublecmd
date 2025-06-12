@@ -122,7 +122,7 @@ inherited frmOptionsQuickSearchFilter: TfrmOptionsQuickSearchFilter
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
     Left = 6
-    Height = 68
+    Height = 109
     Top = 229
     Width = 690
     Anchors = [akTop, akLeft, akRight]
@@ -137,15 +137,16 @@ inherited frmOptionsQuickSearchFilter: TfrmOptionsQuickSearchFilter
     ChildSizing.ShrinkVertical = crsScaleChilds
     ChildSizing.Layout = cclLeftToRightThenTopToBottom
     ChildSizing.ControlsPerLine = 1
-    ClientHeight = 50
+    ClientHeight = 84
     ClientWidth = 686
     Items.Strings = (
+      'Ignore &diacritics and ligatures'
       'Hide filter panel when not focused'
       'Keep saving setting modifications for next session'
     )
     TabOrder = 3
     Data = {
-      020000000202
+      03000000020202
     }
   end
 end

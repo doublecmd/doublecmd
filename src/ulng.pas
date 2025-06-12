@@ -1000,7 +1000,7 @@ resourcestring
   // Quick Search/Filter
   rsOptSearchItems = '&Files;Di&rectories;Files a&nd Directories';
   rsOptSearchCase = '&Sensitive;&Insensitive';
-  rsOptSearchOpt = '&Hide filter panel when not focused;Keep saving setting modifications for next session';
+  rsOptSearchOpt = 'Ignore &diacritics and ligatures;&Hide filter panel when not focused;Keep saving setting modifications for next session';
 
   // Toolbar
   rsOptToolbarButtonType = 'S&eparator;Inte&rnal command;E&xternal command;Men&u';

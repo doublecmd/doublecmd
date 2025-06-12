@@ -57,8 +57,9 @@ uses
   DCStrUtils, uGlobs, uLng, fQuickSearch;
 
 const
-  OPTION_AUTOHIDE_POSITION = 0;
-  OPTION_SAVE_SESSION_MODIFICATIONS = 1;
+  OPTION_IGNORE_DIACRITICS = 0;
+  OPTION_AUTOHIDE_POSITION = 1;
+  OPTION_SAVE_SESSION_MODIFICATIONS = 2;
 
 { TfrmOptionsQuickSearchFilter }
 
@@ -87,6 +88,7 @@ begin
   rgpSearchItems.ItemIndex := Integer(gQuickSearchOptions.Items);
   rgpSearchCase.ItemIndex := Integer(gQuickSearchOptions.SearchCase);
   cgpOptions.Checked[OPTION_AUTOHIDE_POSITION] := gQuickFilterAutoHide;
+  cgpOptions.Checked[OPTION_IGNORE_DIACRITICS] := not gQuickSearchOptions.Diacritics;
   cgpOptions.Checked[OPTION_SAVE_SESSION_MODIFICATIONS] := gQuickFilterSaveSessionModifications;
 end;
 
@@ -107,6 +109,7 @@ begin
   gQuickSearchOptions.Items := TQuickSearchItems(rgpSearchItems.ItemIndex);
   gQuickSearchOptions.SearchCase := TQuickSearchCase(rgpSearchCase.ItemIndex);
   gQuickFilterAutoHide := cgpOptions.Checked[OPTION_AUTOHIDE_POSITION];
+  gQuickSearchOptions.Diacritics := not cgpOptions.Checked[OPTION_IGNORE_DIACRITICS];
   gQuickFilterSaveSessionModifications := cgpOptions.Checked[OPTION_SAVE_SESSION_MODIFICATIONS];
 end;
 
