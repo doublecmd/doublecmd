@@ -2018,6 +2018,7 @@ begin
   gWCXConfigViewMode := wcvmByPlugin;
 
   { Quick Search/Filter page }
+  gQuickSearchOptions.Diacritics := True;
   gQuickSearchOptions.Match := [qsmBeginning, qsmEnding];
   gQuickSearchOptions.Items := qsiFilesAndDirectories;
   gQuickSearchOptions.SearchCase := qscInsensitive;

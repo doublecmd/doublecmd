@@ -584,8 +584,8 @@ class function TFileListBuilder.InternalMatchesFilter(
   aFile: TFile;
   const aFileFilter: String;
   const aFilterOptions: TQuickSearchOptions): Boolean;
-const
-  ACaseSensitive: array[Boolean] of TMaskOptions = ([], [moCaseSensitive]);
+var
+  AOptions: TMaskOptions = [];
 begin
   if (gShowSystemFiles = False) and fs.IsSystemFile(AFile) and (AFile.Name <> '..') then
     Result := True
@@ -611,9 +611,15 @@ begin
       Result := False
     else
     begin
+      if (not aFilterOptions.Diacritics) then
+        AOptions += [moIgnoreAccents];
+
+      if (aFilterOptions.SearchCase = qscSensitive) then
+        AOptions += [moCaseSensitive];
+
       if MatchesMask(AFile.Name,
                      aFileFilter,
-                     ACaseSensitive[aFilterOptions.SearchCase = qscSensitive])
+                     AOptions)
       then
         Result := False;
     end;
@@ -707,6 +713,8 @@ var
   AOptions: TMaskOptions = [moPinyin];
 begin
   filteredDisplayFiles.Clear;
+  if (not aFilterOptions.Diacritics) then
+    AOptions += [moIgnoreAccents];
   if qscSensitive in [aFilterOptions.SearchCase] then
     AOptions += [moCaseSensitive];
 

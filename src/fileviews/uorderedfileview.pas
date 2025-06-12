@@ -670,6 +670,9 @@ begin
 
   StopIndex := Index;
   try
+    if (not SearchOptions.Diacritics) then
+      AOptions += [moIgnoreAccents];
+
     if (SearchOptions.SearchCase = qscSensitive) then
       AOptions += [moCaseSensitive];
 

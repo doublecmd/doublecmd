@@ -20,6 +20,7 @@ type
     Match: set of TQuickSearchMatch;
     SearchCase: TQuickSearchCase;
     Items: TQuickSearchItems;
+    Diacritics: Boolean;
     Direction: TQuickSearchDirection;
     LastSearchMode: TQuickSearchMode;
     CancelSearchMode: TQuickSearchCancelMode;
@@ -36,6 +37,7 @@ type
     btnCancel: TButton;
     edtSearch: TEdit;
     pnlOptions: TPanel;
+    sbDiacritics: TSpeedButton;
     sbMatchBeginning: TSpeedButton;
     sbMatchEnding: TSpeedButton;
     sbCaseSensitive: TSpeedButton;
@@ -47,6 +49,7 @@ type
     procedure edtSearchKeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
     procedure FrameExit(Sender: TObject);
+    procedure sbDiacriticsClick(Sender: TObject);
     procedure sbCaseSensitiveClick(Sender: TObject);
     procedure sbFilesAndDirectoriesClick(Sender: TObject);
     procedure sbMatchBeginningClick(Sender: TObject);
@@ -163,6 +166,9 @@ begin
     Result := False;
 
   if qsOptions1.SearchCase <> qsOptions2.SearchCase then
+    Result := False;
+
+  if qsOptions1.Diacritics <> qsOptions2.Diacritics then
     Result := False;
 end;
 
@@ -510,6 +516,7 @@ begin
   sbCaseSensitive.Down := Options.SearchCase = qscSensitive;
   sbMatchBeginning.Down := qsmBeginning in Options.Match;
   sbMatchEnding.Down := qsmEnding in Options.Match;
+  sbDiacritics.Down := Options.Diacritics;
 end;
 
 procedure TfrmQuickSearch.PushFilter;
@@ -752,6 +759,17 @@ begin
 
     Finalizing := False;
   end;
+end;
+
+procedure TfrmQuickSearch.sbDiacriticsClick(Sender: TObject);
+begin
+  Options.Diacritics := sbDiacritics.Down;
+
+  if gQuickFilterSaveSessionModifications then gQuickSearchOptions.Diacritics := Options.Diacritics;
+
+  Options.Direction := qsdNone;
+
+  DoOnChangeSearch;
 end;
 
 procedure TfrmQuickSearch.sbCaseSensitiveClick(Sender: TObject);

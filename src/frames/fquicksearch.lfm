@@ -6,8 +6,8 @@ object frmQuickSearch: TfrmQuickSearch
   AutoSize = True
   ClientHeight = 43
   ClientWidth = 436
-  OnExit = FrameExit
   TabOrder = 0
+  OnExit = FrameExit
   DesignLeft = 134
   DesignTop = 120
   object edtSearch: TEdit
@@ -15,39 +15,39 @@ object frmQuickSearch: TfrmQuickSearch
     AnchorSideTop.Control = Owner
     AnchorSideRight.Control = tglFilter
     Left = 2
-    Height = 23
+    Height = 28
     Hint = 'Enter text to search for or filter by'
     Top = 2
-    Width = 211
+    Width = 176
     Anchors = [akTop, akLeft, akRight]
     AutoSelect = False
     BorderSpacing.Around = 2
-    OnChange = edtSearchChange
-    OnKeyDown = edtSearchKeyDown
     ParentShowHint = False
     ShowHint = True
     TabOrder = 0
+    OnChange = edtSearchChange
+    OnKeyDown = edtSearchKeyDown
   end
   object tglFilter: TToggleBox
     AnchorSideTop.Control = edtSearch
     AnchorSideRight.Control = pnlOptions
     AnchorSideBottom.Control = edtSearch
     AnchorSideBottom.Side = asrBottom
-    Left = 215
-    Height = 23
+    Left = 180
+    Height = 28
     Hint = 'Toggle between search or filter'
     Top = 2
-    Width = 46
+    Width = 51
     Anchors = [akTop, akRight, akBottom]
     AutoSize = True
     BorderSpacing.Right = 2
     Caption = 'Filter'
-    OnChange = tglFilterChange
-    OnMouseUp = btnMouseUp
     ParentShowHint = False
     ShowHint = True
     TabOrder = 1
     TabStop = False
+    OnChange = tglFilterChange
+    OnMouseUp = btnMouseUp
   end
   object btnCancel: TButton
     AnchorSideTop.Control = edtSearch
@@ -55,37 +55,37 @@ object frmQuickSearch: TfrmQuickSearch
     AnchorSideRight.Side = asrBottom
     AnchorSideBottom.Control = edtSearch
     AnchorSideBottom.Side = asrBottom
-    Left = 399
-    Height = 23
+    Left = 397
+    Height = 28
     Hint = 'Close filter panel'
     Top = 2
-    Width = 33
+    Width = 35
     Anchors = [akTop, akRight, akBottom]
     AutoSize = True
     BorderSpacing.Right = 4
     Caption = 'X'
-    OnClick = btnCancelClick
-    OnMouseUp = btnCancelMouseUp
     ParentShowHint = False
     ShowHint = True
     TabOrder = 3
     TabStop = False
+    OnClick = btnCancelClick
+    OnMouseUp = btnCancelMouseUp
   end
   object pnlOptions: TPanel
     AnchorSideTop.Control = edtSearch
     AnchorSideRight.Control = btnCancel
     AnchorSideBottom.Control = edtSearch
     AnchorSideBottom.Side = asrBottom
-    Left = 263
-    Height = 23
+    Left = 233
+    Height = 28
     Top = 2
-    Width = 132
+    Width = 160
     Anchors = [akTop, akRight, akBottom]
     AutoSize = True
     BorderSpacing.Right = 4
     BevelOuter = bvNone
-    ClientHeight = 23
-    ClientWidth = 132
+    ClientHeight = 28
+    ClientWidth = 160
     TabOrder = 2
     object sbMatchBeginning: TSpeedButton
       AnchorSideLeft.Control = pnlOptions
@@ -94,14 +94,14 @@ object frmQuickSearch: TfrmQuickSearch
       Left = 0
       Height = 24
       Hint = 'Match Beginning'
-      Top = -1
+      Top = 2
       Width = 24
       AllowAllUp = True
       Caption = '{'
       GroupIndex = 1
-      OnClick = sbMatchBeginningClick
       ShowHint = True
       ParentShowHint = False
+      OnClick = sbMatchBeginningClick
     end
     object sbMatchEnding: TSpeedButton
       AnchorSideLeft.Control = sbMatchBeginning
@@ -112,16 +112,16 @@ object frmQuickSearch: TfrmQuickSearch
       Left = 26
       Height = 24
       Hint = 'Match Ending'
-      Top = -1
+      Top = 2
       Width = 24
       AllowAllUp = True
       Anchors = [akTop, akLeft, akBottom]
       BorderSpacing.Left = 2
       Caption = '}'
       GroupIndex = 2
-      OnClick = sbMatchEndingClick
       ShowHint = True
       ParentShowHint = False
+      OnClick = sbMatchEndingClick
     end
     object sbCaseSensitive: TSpeedButton
       AnchorSideLeft.Control = sbMatchEnding
@@ -132,18 +132,18 @@ object frmQuickSearch: TfrmQuickSearch
       Left = 54
       Height = 24
       Hint = 'Case Sensitive'
-      Top = -1
+      Top = 2
       Width = 24
       AllowAllUp = True
       Anchors = [akTop, akLeft, akBottom]
       BorderSpacing.Left = 4
       Caption = 'Aa'
       GroupIndex = 3
-      OnClick = sbCaseSensitiveClick
       ShowHint = True
       ParentShowHint = False
+      OnClick = sbCaseSensitiveClick
     end
-    object sbFiles: TSpeedButton
+    object sbDiacritics: TSpeedButton
       AnchorSideLeft.Control = sbCaseSensitive
       AnchorSideLeft.Side = asrBottom
       AnchorSideTop.Control = sbMatchBeginning
@@ -151,17 +151,37 @@ object frmQuickSearch: TfrmQuickSearch
       AnchorSideBottom.Side = asrBottom
       Left = 82
       Height = 24
+      Hint = 'Diacritics and ligatures'
+      Top = 2
+      Width = 24
+      AllowAllUp = True
+      Anchors = [akTop, akLeft, akBottom]
+      BorderSpacing.Left = 4
+      Caption = 'Ďï'
+      GroupIndex = 4
+      ShowHint = True
+      ParentShowHint = False
+      OnClick = sbDiacriticsClick
+    end
+    object sbFiles: TSpeedButton
+      AnchorSideLeft.Control = sbDiacritics
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = sbMatchBeginning
+      AnchorSideBottom.Control = sbMatchBeginning
+      AnchorSideBottom.Side = asrBottom
+      Left = 110
+      Height = 24
       Hint = 'Files'
-      Top = -1
+      Top = 2
       Width = 24
       AllowAllUp = True
       Anchors = [akTop, akLeft, akBottom]
       BorderSpacing.Left = 4
       Caption = 'F'
-      GroupIndex = 4
-      OnClick = sbFilesAndDirectoriesClick
+      GroupIndex = 5
       ShowHint = True
       ParentShowHint = False
+      OnClick = sbFilesAndDirectoriesClick
     end
     object sbDirectories: TSpeedButton
       AnchorSideLeft.Control = sbFiles
@@ -169,19 +189,19 @@ object frmQuickSearch: TfrmQuickSearch
       AnchorSideTop.Control = sbMatchBeginning
       AnchorSideBottom.Control = sbMatchBeginning
       AnchorSideBottom.Side = asrBottom
-      Left = 108
+      Left = 136
       Height = 24
       Hint = 'Directories'
-      Top = -1
+      Top = 2
       Width = 24
       AllowAllUp = True
       Anchors = [akTop, akLeft, akBottom]
       BorderSpacing.Left = 2
       Caption = 'D'
-      GroupIndex = 5
-      OnClick = sbFilesAndDirectoriesClick
+      GroupIndex = 6
       ShowHint = True
       ParentShowHint = False
+      OnClick = sbFilesAndDirectoriesClick
     end
   end
 end
