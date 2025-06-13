@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 1.2.0 alpha\n"
-"POT-Creation-Date: 2025-03-12 13:47+0300\n"
-"PO-Revision-Date: 2025-03-12 17:40+0300\n"
+"POT-Creation-Date: 2025-06-12 01:47+0300\n"
+"PO-Revision-Date: 2025-06-13 11:30+0300\n"
 "Last-Translator: Alexander Koblov <alexx2000@mail.ru>\n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -8538,11 +8538,11 @@ msgstr "Учитывать регистр"
 
 #: tfrmquicksearch.sbdiacritics.caption
 msgid "Ďï"
-msgstr ""
+msgstr "Ďï"
 
 #: tfrmquicksearch.sbdiacritics.hint
 msgid "Diacritics and ligatures"
-msgstr ""
+msgstr "Диакритика и лигатуры"
 
 #: tfrmquicksearch.sbdirectories.caption
 msgid "D"
@@ -11133,12 +11133,12 @@ msgstr "Поделиться..."
 #: ulng.rsmfstbiairdroptips
 msgctxt "ulng.rsmfstbiairdroptips"
 msgid "AirDrop"
-msgstr ""
+msgstr "AirDrop"
 
 #: ulng.rsmfstbiairdroptitle
 msgctxt "ulng.rsmfstbiairdroptitle"
 msgid "AirDrop"
-msgstr ""
+msgstr "AirDrop"
 
 #: ulng.rsmfstbicommandmenudirectoryhotlist
 msgctxt "ulng.rsmfstbicommandmenudirectoryhotlist"
@@ -11192,7 +11192,7 @@ msgstr "Открыть в Finder"
 
 #: ulng.rsmfstbifinderrevealtitle
 msgid "Finder"
-msgstr ""
+msgstr "Finder"
 
 #: ulng.rsmfstbigotips
 msgctxt "ulng.rsmfstbigotips"
@@ -11488,7 +11488,7 @@ msgstr "Вы действительно хотите отменить опера
 
 #: ulng.rsmsgcannotchangetarget
 msgid "You cannot change a target location!"
-msgstr ""
+msgstr "Вы не можете изменить целевой каталог!"
 
 #: ulng.rsmsgcannotcopymoveitself
 #, object-pascal-format
@@ -13849,10 +13849,8 @@ msgid "&Files;Di&rectories;Files a&nd Directories"
 msgstr "&Файлы;Катало&ги;Ф&айлы и каталоги"
 
 #: ulng.rsoptsearchopt
-#, fuzzy
-#| msgid "&Hide filter panel when not focused;Keep saving setting modifications for next session"
 msgid "Ignore &diacritics and ligatures;&Hide filter panel when not focused;Keep saving setting modifications for next session"
-msgstr "Ск&рывать панель фильтра, когда она не в фокусе;Сохранять настройки, изменённые через панель фильтра"
+msgstr "Игнорировать &диакритические знаки и лигатуры;Ск&рывать панель фильтра, когда она не в фокусе;Сохранять настройки, изменённые через панель фильтра"
 
 #: ulng.rsoptsortcasesens
 msgid "not case sensitive;according to locale settings (aAbBcC);first upper then lower case (ABCabc)"
@@ -14237,7 +14235,7 @@ msgstr "Другие"
 
 #: ulng.rsstrpreviewsearchingletters
 msgid "OU"
-msgstr ""
+msgstr "OU"
 
 #: ulng.rsstrpreviewsidenote
 msgid "Side note"
