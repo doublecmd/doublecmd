@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Modified version of standard Masks unit
 
-   Copyright (C) 2010-2021 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2010-2025 Alexander Koblov (alexx2000@mail.ru)
 
    This file is based on masks.pas from the Lazarus Component Library (LCL)
 
@@ -59,7 +59,7 @@ type
   public
     constructor Create(const AValue: string; const AOptions: TMaskOptions = []);
     function Matches(const AFileName: string): boolean;
-    function LegacyMatches(const AFileName: string): boolean;
+    function RegularMatches(const AFileName: string): boolean;
     function WindowsMatches(const AFileName: string): boolean;
     property CaseSensitive:boolean read FCaseSensitive write SetCaseSence;
     property Template: String read FOriginal write SetTemplate;
@@ -97,7 +97,7 @@ uses
   LazUTF8,
 
   //DC
-  DCConvertEncoding, uPinyin, uAccentsUtils;
+  DCConvertEncoding, DCStrUtils, uPinyin, uAccentsUtils;
 
 { MatchesMask }
 function MatchesMask(const FileName, Mask: String; const AOptions: TMaskOptions): Boolean;
@@ -172,6 +172,26 @@ begin
   if FIgnoreAccents then FTemplate := NormalizeAccentedChar(FTemplate);
   // Let's set the mask early in lowercase if match attempt has to be case insensitive.
   if not FCaseSensitive then FTemplate := UTF8LowerCase(FTemplate);
+
+  // Treat mask differently for special cases:
+  // 1. foo*.* -> foo*
+  // 2. foo*. -> match foo*, but must not have an extension
+  //    foo*. -> any file without extension ( .foo is a filename without extension according to Windows)
+  // 3. foo. matches only foo but not foo.txt
+  // 4. foo.* -> match either foo or foo.*
+  if FWindowsInterpretation then
+  begin
+    // Mask: foo*.*
+    if StrEnds(FTemplate, '*.*') then
+    begin
+      FTemplate := Copy(FTemplate, 1, Length(FTemplate) - 2);
+    end
+    // Mask: foo*. or *. or foo.
+    else if (Length(FTemplate) > 1) and (StrEnds(FTemplate, '.')) then
+    begin
+      FTemplate := Copy(FTemplate, 1, Length(FTemplate) - 1);
+    end;
+  end;
 
   Update;
 end;
@@ -263,13 +283,13 @@ begin
     sFilename := UTF8LowerCase(sFilename);
 
   if not fWindowsInterpretation then
-    Result := LegacyMatches(sFileName)
+    Result := RegularMatches(sFileName)
   else
     Result := WindowsMatches(sFileName);
 end;
 
-{ TMask.LegacyMatches }
-function TMask.LegacyMatches(const AFileName: string): boolean;
+{ TMask.RegularMatches }
+function TMask.RegularMatches(const AFileName: string): boolean;
 var
   L: Integer;
   S: UnicodeString;
@@ -339,56 +359,35 @@ begin
 end;
 
 { TMask.WindowsMatches }
-// treat initial mask differently for special cases:
-// foo*.* -> foo*
-// foo*. -> match foo*, but muts not have an extension
-// *. -> any file without extension ( .foo is a filename without extension according to Windows)
-// foo. matches only foo but not foo.txt
-// foo.* -> match either foo or foo.*
 function TMask.WindowsMatches(const AFileName: string): boolean;
 var
-  sInitialMask: String;
-  Ext, sInitialTemplate: String;
+  Ext: String;
 begin
-  sInitialMask := FTemplate;
-
-  if (Length(sInitialMask) > 2) and (RightStr(sInitialMask, 3) = '*.*') then // foo*.*
+  // Mask: foo*. or *. or foo.
+  if (Length(FOriginal) > 1) and (StrEnds(FOriginal, '.')) then
   begin
-    sInitialTemplate := FTemplate; //Preserve initial state of FTemplate
-    FTemplate := Copy(sInitialMask, 1, Length(sInitialMask) - 2);
-    Update;
-    Result := LegacyMatches(AFileName);
-    FTemplate := sInitialTemplate; //Restore initial state of FTemplate
-    Update;
-  end
-  else if (Length(sInitialMask) > 1) and (RightStr(sInitialMask, 1) = '.') then //foo*. or *. or foo.
-  begin
-    //if AFileName has an extension then Result is False, otherwise see if it LegacyMatches foo*/foo
-    //a filename like .foo under Windows is considered to be a file without an extension
+    // if AFileName has an extension then Result is False, otherwise see if it RegularMatches foo*/foo
+    // a filename like .foo under Windows is considered to be a file without an extension
     Ext := ExtractFileExt(AFileName);
     if (Ext = '') or (Ext = AFileName) then
     begin
-      sInitialTemplate := FTemplate; //Preserve initial state of FTemplate
-      FTemplate := Copy(sInitialMask, 1, Length(sInitialMask) - 1);
-      Update;
-      Result := LegacyMatches(AFileName);
-      FTemplate := sInitialTemplate; //Restore initial state of FTemplate
-      Update;
+      Result := RegularMatches(AFileName);
     end
     else
     begin
       Result := False;
     end;
   end
-  else if (Length(sInitialMask) > 2) and (RightStr(sInitialMask, 2) = '.*') then //foo.*  (but not '.*')
+  // Mask: foo.* (but not '.*')
+  else if (Length(FTemplate) > 2) and (StrEnds(FTemplate, '.*')) then
   begin
-    //First see if we have 'foo'
-    Result := (AFileName = Copy(sInitialMask, 1, Length(sInitialMask) - 2));
-    if not Result then Result := LegacyMatches(AFileName);
+    // First see if we have 'foo'
+    Result := (AFileName = Copy(FTemplate, 1, Length(FTemplate) - 2));
+    if not Result then Result := RegularMatches(AFileName);
   end
-  else
-  begin
-    Result := LegacyMatches(AFileName); //all other cases just call LegacyMatches()
+  // All other cases just call RegularMatches()
+  else begin
+    Result := RegularMatches(AFileName);
   end;
 end;
 
