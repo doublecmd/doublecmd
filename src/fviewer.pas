@@ -1757,7 +1757,7 @@ begin
     begin
       if WlxPlugins.GetWlxModule(I).FileParamVSDetectStr(AFileName, bForce) then
       begin
-        if LoadPlugin(AFileName, I, ShowFlags) then Exit(True);
+        if LoadPlugin(sFileName, I, ShowFlags) then Exit(True);
       end;
     end;
   end;
