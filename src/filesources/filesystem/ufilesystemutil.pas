@@ -986,19 +986,12 @@ begin
     end;
     if ACopyTime then
     try
-      if not (caoCopyTimeEx in CopyAttributesOptionEx) then
-      begin
-        if fpCreationTime in SourceFile.AssignedProperties then
-          CreationTime:= DateTimeToFileTimeEx(SourceFile.CreationTime)
-        else begin
-          CreationTime:= TFileTimeExNull;
-        end;
-        LastAccessTime:= DateTimeToFileTimeEx(SourceFile.LastAccessTime);
-      end
+      if fpCreationTime in SourceFile.AssignedProperties then
+        CreationTime:= DateTimeToFileTimeEx(SourceFile.CreationTime)
       else begin
         CreationTime:= TFileTimeExNull;
-        LastAccessTime:= TFileTimeExNull;
       end;
+      LastAccessTime:= DateTimeToFileTimeEx(SourceFile.LastAccessTime);
       // Copy time from properties because move operation change time of original folder
       if not FileSetTimeUAC(TargetFileName, DateTimeToFileTimeEx(SourceFile.ModificationTime),
                                             CreationTime, LastAccessTime) then
