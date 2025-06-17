@@ -55,7 +55,7 @@ uses
   {$ELSEIF DEFINED(UNIX)}
   , DCFileAttributes
     {$IF DEFINED(DARWIN)}
-    , CocoaAll, MacOSAll, CocoaUtils, uDarwinUtil, uClassesEx
+    , CocoaAll, MacOSAll, CocoaUtils, uDarwinUtil, uMyDarwin, uClassesEx
     {$ELSEIF NOT DEFINED(HAIKU)}
     , Math, Contnrs, uGio, uXdg
       {$IFDEF GTK2_FIX}
@@ -248,6 +248,7 @@ type
     function GetSystemFolderIcon: PtrInt;
     function GetMimeIcon(AFileExt: String; AIconSize: Integer): PtrInt;
     function LoadImageFileBitmap( const filename:String; const size:Integer ): TBitmap;
+    function CheckAddFileUniqueIcon(AFullPath: String; AIconSize : Integer = 0): PtrInt;
   {$ENDIF}
     function GetBuiltInDriveIcon(Drive : PDrive; IconSize : Integer; clBackColor : TColor) : Graphics.TBitmap;
 
@@ -1199,6 +1200,37 @@ begin
   sIconName:= getAppIconFilename(sFileName);
   I:= GetIconByName(sIconName);
   if I >= 0 then Result:= I;
+end;
+
+function TPixMapManager.CheckAddFileUniqueIcon(AFullPath: String;
+  AIconSize: Integer): PtrInt;
+var
+  fileIndex: PtrInt;
+  image: NSImage;
+  bmpBitmap: Graphics.TBitmap;
+begin
+  Result:= -1;
+  if AIconSize = 0 then AIconSize := gIconsSize;
+
+  FPixmapsLock.Acquire;
+  try
+    fileIndex := FPixmapsFileNames.Find(AFullPath);
+    if fileIndex >= 0 then begin
+      Result:= PtrInt(FPixmapsFileNames.List[fileIndex]^.Data);
+      Exit;
+    end;
+
+    image:= getMacOSFileUniqueIcon(AFullPath);
+    if image = nil then
+      Exit;
+
+    image:= getBestNSImageWithSize(image, AIconSize);
+    bmpBitmap:= NSImageToTBitmap(image);
+    Result := FPixmapList.Add(bmpBitmap);
+    FPixmapsFileNames.Add(AFullPath, Pointer(Result));
+  finally
+    FPixmapsLock.Release;
+  end;
 end;
 
 {$ENDIF} // Unix
@@ -2201,6 +2233,15 @@ begin
       end;
       {$ENDIF}
     end;
+
+    {$IF DEFINED(DARWIN)}
+    if DirectAccess and (IconsMode = sim_all_and_exe) then
+    begin
+      Result:= checkAddFileUniqueIcon(FullPath);
+      if Result >= 0 then
+        Exit;
+    end;
+    {$ENDIF}
 
     if IsDirectory or IsLinkToDirectory then
     begin
