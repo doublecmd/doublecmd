@@ -72,6 +72,8 @@ procedure openNewInstance();
 
 function getMacOSDisplayNameFromPath(const path: String): String;
 
+function getMacOSFileUniqueIcon(const path: String ): NSImage;
+
 // Workarounds for FPC RTL Bug
 // copied from ptypes.inc and modified fstypename only
 {$if defined(cpuarm) or defined(cpuaarch64) or defined(iphonesim)}
@@ -933,6 +935,25 @@ begin
   cocoaPath:= StringToNSString(path).stringByStandardizingPath;
   displayName:= NSFileManager.defaultManager.displayNameAtPath( cocoaPath );
   Result:= displayName.UTF8String;
+end;
+
+function hasUniqueIcon( const path: String ): Boolean;
+var
+  pathRef: FSRef;
+  catalogInfo: FSCatalogInfo;
+  pFinderInfo: FileInfoPtr;
+begin
+  FSPathMakeRef( pchar(path), pathRef, nil );
+  FSGetCatalogInfo( pathRef, kFSCatInfoFinderInfo, @catalogInfo, nil, nil, nil );
+  pFinderInfo:= FileInfoPtr( @catalogInfo.finderInfo );
+  Result:= (pFinderInfo^.finderFlags and kHasCustomIcon) <> 0;
+end;
+
+function getMacOSFileUniqueIcon( const path: String ): NSImage;
+begin
+  Result:= nil;
+  if hasUniqueIcon(path) then
+    Result:= NSWorkspace.sharedWorkspace.iconForFile( StringToNSString(path) );
 end;
 
 initialization
