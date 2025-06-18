@@ -525,7 +525,7 @@ begin
       mi:= TMenuItem.Create( miOpenWith );
       mi.Caption:= NSFileManager.defaultManager.displayNameAtPath(appUrl.path).UTF8String;
       mi.Hint := appUrl.path.UTF8String;
-      ImageIndex:= PixMapManager.GetApplicationBundleIcon(appUrl.path.UTF8String, -1);
+      ImageIndex:= PixMapManager.CheckAddFileUniqueIcon(appUrl.path.UTF8String);
       if ImageIndex >= 0 then begin
         bmpTemp:= PixMapManager.GetBitmap(ImageIndex);
         if Assigned(bmpTemp) then begin

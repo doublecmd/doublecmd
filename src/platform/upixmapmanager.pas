@@ -248,7 +248,6 @@ type
     function GetSystemFolderIcon: PtrInt;
     function GetMimeIcon(AFileExt: String; AIconSize: Integer): PtrInt;
     function LoadImageFileBitmap( const filename:String; const size:Integer ): TBitmap;
-    function CheckAddFileUniqueIcon(AFullPath: String; AIconSize : Integer = 0): PtrInt;
   {$ENDIF}
     function GetBuiltInDriveIcon(Drive : PDrive; IconSize : Integer; clBackColor : TColor) : Graphics.TBitmap;
 
@@ -342,7 +341,7 @@ type
     }
     function GetIconOverlayByFile(AFile: TFile; DirectAccess: Boolean): PtrInt;
     {$ELSEIF DEFINED(DARWIN)}
-    function GetApplicationBundleIcon(sFileName: String; iDefaultIcon: PtrInt): PtrInt;
+    function CheckAddFileUniqueIcon(AFullPath: String; AIconSize : Integer = 0): PtrInt;
     {$ENDIF}
     function GetIconByName(const AIconName: String): PtrInt;
     function GetThemeIcon(const AIconName: String; AIconSize: Integer) : Graphics.TBitmap;
@@ -1101,21 +1100,6 @@ end;
 
 {$ELSEIF DEFINED(DARWIN)}
 
-function getAppIconFilename( appName: String ) : String;
-var
-  appBundle : NSBundle;
-  infoDict : NSDictionary;
-  iconTag : NSString;
-begin
-  Result := '';
-  appBundle := NSBundle.bundleWithPath( StringToNSString(appName) );
-  if appBundle=nil then exit;
-  infoDict := appBundle.infoDictionary;
-  if infoDict=nil then exit;
-  iconTag := NSString( infoDict.valueForKey( StringToNSString('CFBundleIconFile')) );
-  Result := NSStringToString( appBundle.pathForImageResource( iconTag ) );
-end;
-
 function getBestNSImageWithSize( const srcImage:NSImage; const size:Integer ): NSImage;
 var
   bestRect: NSRect;
@@ -1188,18 +1172,6 @@ begin
   finally
     if Assigned(image) then image.release;
   end;
-end;
-
-function TPixMapManager.GetApplicationBundleIcon(sFileName: String;
-  iDefaultIcon: PtrInt): PtrInt;
-var
-  I: PtrInt;
-  sIconName: String;
-begin
-  Result:= iDefaultIcon;
-  sIconName:= getAppIconFilename(sFileName);
-  I:= GetIconByName(sIconName);
-  if I >= 0 then Result:= I;
 end;
 
 function TPixMapManager.CheckAddFileUniqueIcon(AFullPath: String;
@@ -2275,17 +2247,6 @@ begin
         end
         else Exit(FiDirIconID);
       end
-      else
-      {$ELSEIF DEFINED(DARWIN)}
-      if (IconsMode = sim_all_and_exe) and
-         (DirectAccess and (ExtractFileExt(FullPath) = '.app')) then
-        begin
-          if LoadIcon then
-            Result := GetApplicationBundleIcon(FullPath, FiDirIconID)
-          else
-            Result := -1;
-          Exit;
-        end
       else
       {$ENDIF}
         begin

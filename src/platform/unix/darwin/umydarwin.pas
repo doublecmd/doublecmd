@@ -949,10 +949,17 @@ begin
   Result:= (pFinderInfo^.finderFlags and kHasCustomIcon) <> 0;
 end;
 
+function isExtUniqueIcon( const path: String ): Boolean;
+begin
+  Result:= False;
+  if path.EndsWith('.app') or path.EndsWith('.fcpbundle') or path.EndsWith('.fcpxmld') then
+    Result:= True;
+end;
+
 function getMacOSFileUniqueIcon( const path: String ): NSImage;
 begin
   Result:= nil;
-  if hasUniqueIcon(path) then
+  if hasUniqueIcon(path) or isExtUniqueIcon(path) then
     Result:= NSWorkspace.sharedWorkspace.iconForFile( StringToNSString(path) );
 end;
 
