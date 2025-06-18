@@ -1924,26 +1924,34 @@ begin
   end;
 
   (* Set archive icons *)
-  
-  for I:=0 to gWCXPlugins.Count - 1 do
-    begin
-      if gWCXPlugins.Enabled[I] and ((gWCXPlugins.Flags[I] and PK_CAPS_HIDE) <> PK_CAPS_HIDE) then
-        begin
-          sExt := gWCXPlugins.Ext[I];
-          if (Length(sExt) > 0) and (FExtList.Find(sExt) < 0) then
-            FExtList.Add(sExt, TObject(FiArcIconID));
-        end;
-    end; //for
 
-  for I:= 0 to gMultiArcList.Count - 1 do
-    begin
-      if gMultiArcList.Items[I].FEnabled and not (mafHide in gMultiArcList.Items[I].FFlags) then
-        begin
-          sExt := gMultiArcList.Items[I].FExtension;
-          if (Length(sExt) > 0) and (FExtList.Find(sExt) < 0) then
-            FExtList.Add(sExt, TObject(FiArcIconID));
-        end;
-    end;
+  {$IF DEFINED(DARWIN)}
+  if gShowIcons <> sim_all_and_exe then begin
+  {$ENDIF}
+  
+    for I:=0 to gWCXPlugins.Count - 1 do
+      begin
+        if gWCXPlugins.Enabled[I] and ((gWCXPlugins.Flags[I] and PK_CAPS_HIDE) <> PK_CAPS_HIDE) then
+          begin
+            sExt := gWCXPlugins.Ext[I];
+            if (Length(sExt) > 0) and (FExtList.Find(sExt) < 0) then
+              FExtList.Add(sExt, TObject(FiArcIconID));
+          end;
+      end; //for
+
+    for I:= 0 to gMultiArcList.Count - 1 do
+      begin
+        if gMultiArcList.Items[I].FEnabled and not (mafHide in gMultiArcList.Items[I].FFlags) then
+          begin
+            sExt := gMultiArcList.Items[I].FExtension;
+            if (Length(sExt) > 0) and (FExtList.Find(sExt) < 0) then
+              FExtList.Add(sExt, TObject(FiArcIconID));
+          end;
+      end;
+
+  {$IF DEFINED(DARWIN)}
+  end;
+  {$ENDIF}
 
   (* /Set archive icons *)
 
