@@ -971,8 +971,11 @@ begin
       UniqueName:= EmptyStr;
     end;
     Result:= PixmapManager.CheckAddPixmap(UniqueName, AIconSize, (Status = FS_ICON_EXTRACTED_DESTROY), @TheIcon, AIcon);
+  end
+  else begin
+    Result:= -1;
+    AIcon:= nil;
   end;
-
 end;
 
 class function TWfxPluginFileSource.IsSupportedPath(const Path: String): Boolean;
