@@ -4,24 +4,25 @@ library Sample;
 {$include calling.inc}
 
 uses
-{$IFDEF MSWINDOWS}
-   Windows,
-{$ENDIF}
-{$IFDEF unix}
-   baseunix,
-{$ENDIF}
   Classes,
-  WfxPlugin,
-  SysUtils;
+  Extension,
+  SysUtils,
+  WfxPlugin;
 
-{$E wfx}
 {$R *.res}
+
+const
+  FILE_NAME_1 = 'file1.wav';
+  FILE_NAME_2 = 'file2.log';
 
 var
   gPluginNr: integer;
   gProgressProc: tProgressProc;
   gLogProc: tLogProc;
   gRequestProc: tRequestProc;
+  gStartupInfo: TExtensionStartupInfo;
+
+  TestIcon: TMemoryStream;
 
 function FsInit(PluginNr:integer;pProgressProc:tProgressProc;pLogProc:tLogProc;
                 pRequestProc:tRequestProc):integer; dcpcall;
@@ -34,21 +35,32 @@ begin
 end;
 
 function FsFindFirst(path :pchar;var FindData:tWIN32FINDDATA):thandle; dcpcall;
+var
+  Handle: PInteger absolute Result;
 begin
-  FillChar(FindData, SizeOf(FindData), 0);
-  FindData.dwFileAttributes :=0; //0 - обычный файл без каких-либо атрибутов
-  StrPCopy(FindData.cFileName,'Hello, world.txt'); //имя файла
-  Result:= 1985; //функция нормально отработала}
+  FindData.dwFileAttributes:= 0;
+  StrPCopy(FindData.cFileName, FILE_NAME_1);
+  New(Handle);
+  Handle^:= 1;
 end;
 
 function FsFindNext(Hdl:thandle;var FindData:tWIN32FINDDATA): BOOL; dcpcall;
+var
+  Handle: PInteger absolute Hdl;
 begin
-//  gRequestProc(gPluginNr, RT_URL, nil, nil, nil, 0);
-  Result:= False;
+  Result:= (Handle^ < 2);
+  if Result then
+  begin
+    StrPCopy(FindData.cFileName, FILE_NAME_2);
+  end;
+  Inc(Handle^);
 end;
 
 function FsFindClose(Hdl:thandle):integer; dcpcall;
+var
+  Handle: PInteger absolute Hdl;
 begin
+  Dispose(Handle);
   Result:= 0;
 end;
 
@@ -65,6 +77,40 @@ begin
   Result:= FS_EXEC_OK;
 end;
 
+function FsExtractCustomIcon(RemoteName:pansichar;ExtractFlags:integer; TheIcon: PWfxIcon):integer; dcpcall;
+begin
+  if RemoteName = PathDelim + FILE_NAME_1 then
+  begin
+    Result:= FS_ICON_EXTRACTED;
+    TheIcon^.Format:= FS_ICON_FORMAT_FILE;
+    StrPLCopy(RemoteName, gStartupInfo.PluginDir + 'file1.png', MAX_PATH);
+  end
+  else if RemoteName = PathDelim + FILE_NAME_2 then
+  begin
+    Result:= FS_ICON_EXTRACTED;
+    TheIcon^.Format:= FS_ICON_FORMAT_BINARY;
+    TheIcon^.Data:= TestIcon.Memory;
+    TheIcon^.Size:= TestIcon.Size;
+    // Copy to RemoteName a unique name, so icon will be cached by DC
+    StrPLCopy(RemoteName, '{2B5653E2-818D-4B35-8EDD-6CDE45C86B49}', MAX_PATH);
+  end
+  else begin
+    Result:= FS_ICON_USEDEFAULT;
+  end;
+end;
+
+procedure ExtensionInitialize(StartupInfo: PExtensionStartupInfo); dcpcall;
+begin
+  gStartupInfo:= StartupInfo^;
+  TestIcon:= TMemoryStream.Create;
+  TestIcon.LoadFromFile(gStartupInfo.PluginDir + 'file2.png');
+end;
+
+procedure ExtensionFinalize(Reserved: Pointer); dcpcall;
+begin
+  TestIcon.Free;
+end;
+
 exports
       // mandatory
       FsInit,
@@ -73,7 +119,10 @@ exports
       FsFindClose,
       // optional
       FsRenMovFile,
-      FsExecuteFile;
+      FsExecuteFile,
+      FsExtractCustomIcon,
+      // extension
+      ExtensionInitialize,
+      ExtensionFinalize;
 
-begin
 end.
