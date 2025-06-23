@@ -34,6 +34,7 @@ function FsDeleteFileW(RemoteName:pwidechar):bool; cdecl;
 function FsRemoveDirW(RemoteName:pwidechar):bool; cdecl;
 function FsRenMovFileW(OldName,NewName:pwidechar;Move,OverWrite:bool;RemoteInfo:pRemoteInfo):integer; cdecl;
 function FsExecuteFileW(MainWin:HWND;RemoteName,Verb:pwidechar):integer; cdecl;
+function FsExtractCustomIconW(RemoteName:pwidechar;ExtractFlags:integer;TheIcon:PWfxIcon):integer; cdecl;
 function FsGetBackgroundFlags:integer; cdecl;
 procedure FsGetDefRootName(DefRootName:pchar;maxlen:integer); cdecl;
 
@@ -316,7 +317,6 @@ begin
   end;
 end;
 
-
 function fsDelete( const RemoteName: pwidechar; const isFolder: Boolean ): Boolean;
 var
   parser: TWFXPathParser = nil;
@@ -458,17 +458,54 @@ begin
       Result:= FS_EXEC_ERROR;
     end;
   end;
-
 end;
 
-function FsGetBackgroundFlags: Integer; cdecl;
+function FsExtractCustomIconW( RemoteName: pwidechar; ExtractFlags:integer;
+  TheIcon: PWfxIcon ): Integer; cdecl;
+var
+  parser: TWFXPathParser = nil;
+  iconPath: String;
+
+  function getIconPath: String;
+  var
+    utf8Path: String;
+  begin
+    Result:= EmptyStr;
+    utf8Path:= TStringUtil.widecharsToString( RemoteName );
+    parser:= TWFXPathParser.Create( utf8Path );
+    if parser.driverPath = EmptyStr then begin
+      Result:= TWFXPluginUtil.driverMainIconPath( parser.driver );
+    end;
+  end;
+
 begin
-  Result:= BG_DOWNLOAD or BG_UPLOAD{ or BG_ASK_USER};
+  Result:= FS_ICON_USEDEFAULT;
+  try
+    try
+      iconPath:= getIconPath;
+      if iconPath <> EmptyStr then begin
+        TheIcon^.Format:= FS_ICON_FORMAT_FILE;
+        TStringUtil.stringToWidechars( RemoteName, iconPath, MAX_PATH );
+        Result:= FS_ICON_EXTRACTED;
+      end;
+    finally
+      FreeAndNil( parser );
+    end;
+  except
+    on e: Exception do begin
+      TWFXPluginUtil.exceptionToResult( e );
+    end;
+  end;
 end;
 
 procedure FsGetDefRootName( DefRootName: pchar; maxlen: Integer ); cdecl;
 begin
   strlcopy( DefRootName, 'cloud', maxlen );
+end;
+
+function FsGetBackgroundFlags: Integer; cdecl;
+begin
+  Result:= BG_DOWNLOAD or BG_UPLOAD{ or BG_ASK_USER};
 end;
 
 end.

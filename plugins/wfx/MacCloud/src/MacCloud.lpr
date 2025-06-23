@@ -50,6 +50,7 @@ exports
   FsRemoveDirW,
   FsRenMovFileW,
   FsExecuteFileW,
+  FsExtractCustomIconW,
   FsGetDefRootName,
   FsGetBackgroundFlags;
 

@@ -65,6 +65,8 @@ type
     class function exceptionToResult( const e: Exception ): Integer;
     class function driverDataPath( const driver: TCloudDriver ): String; overload;
     class function driverDataPath( const driver: TCloudDriverClass ): String; overload;
+    class function driverMainIconPath( const driver: TCloudDriver ): String; overload;
+    class function driverMainIconPath( const driver: TCloudDriverClass ): String; overload;
     class function driverMainIcon( const driver: TCloudDriver ): NSImage; overload;
     class function driverMainIcon( const driver: TCloudDriverClass ): NSImage; overload;
   end;
@@ -182,6 +184,16 @@ begin
   Result:= WFXMacCloudPlugin.pluginPath + 'drivers/' + driver.driverName + '/';
 end;
 
+class function TWFXPluginUtil.driverMainIconPath( const driver: TCloudDriver ): String;
+begin
+  Result:= TWFXPluginUtil.driverMainIconPath( TCloudDriverClass(driver.ClassType) );
+end;
+
+class function TWFXPluginUtil.driverMainIconPath( const driver: TCloudDriverClass ): String;
+begin
+  Result:= TWFXPluginUtil.driverDataPath(driver) + 'MainIcon.png';
+end;
+
 class function TWFXPluginUtil.driverMainIcon( const driver: TCloudDriver ): NSImage;
 begin
   Result:= TWFXPluginUtil.driverMainIcon( TCloudDriverClass(driver.ClassType) );
@@ -191,7 +203,7 @@ class function TWFXPluginUtil.driverMainIcon( const driver: TCloudDriverClass ):
 var
   path: NSString;
 begin
-  path:= StringToNSString( TWFXPluginUtil.driverDataPath(driver) + 'MainIcon.png' );
+  path:= StringToNSString( TWFXPluginUtil.driverMainIconPath(driver) );
   Result:= NSImage.alloc.initWithContentsOfFile( path );
   Result.autoRelease;
 end;
