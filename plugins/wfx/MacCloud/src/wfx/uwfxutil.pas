@@ -63,6 +63,7 @@ type
     class function dateTimeToFileTime(ADateTimeUTC: TDateTime): FILETIME;
     class procedure cloudFileToWinFindData( cloudFile: TCloudFile; var FindData:tWIN32FINDDATAW );
     class function exceptionToResult( const e: Exception ): Integer;
+    class function driverBasePath: String;
     class function driverDataPath( const driver: TCloudDriver ): String; overload;
     class function driverDataPath( const driver: TCloudDriverClass ): String; overload;
     class function driverMainIconPath( const driver: TCloudDriver ): String; overload;
@@ -174,6 +175,11 @@ begin
     Result:= FS_FILE_NOTSUPPORTED;
 end;
 
+class function TWFXPluginUtil.driverBasePath: String;
+begin
+  Result:= WFXMacCloudPlugin.pluginPath + 'drivers/';
+end;
+
 class function TWFXPluginUtil.driverDataPath( const driver: TCloudDriver ): String;
 begin
   Result:= TWFXPluginUtil.driverDataPath( TCloudDriverClass(driver.ClassType) );
@@ -181,7 +187,7 @@ end;
 
 class function TWFXPluginUtil.driverDataPath( const driver: TCloudDriverClass ): String;
 begin
-  Result:= WFXMacCloudPlugin.pluginPath + 'drivers/' + driver.driverName + '/';
+  Result:= TWFXPluginUtil.driverBasePath + driver.driverName + '/';
 end;
 
 class function TWFXPluginUtil.driverMainIconPath( const driver: TCloudDriver ): String;

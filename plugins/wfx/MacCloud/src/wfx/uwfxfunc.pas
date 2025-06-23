@@ -474,7 +474,10 @@ var
     utf8Path:= TStringUtil.widecharsToString( RemoteName );
     parser:= TWFXPathParser.Create( utf8Path );
     if parser.driverPath = EmptyStr then begin
-      Result:= TWFXPluginUtil.driverMainIconPath( parser.driver );
+      if parser.connectionName = rsAddNewConnection then
+        Result:= TWFXPluginUtil.driverBasePath + 'addConnection.png'
+      else
+        Result:= TWFXPluginUtil.driverMainIconPath( parser.driver );
     end;
   end;
 
