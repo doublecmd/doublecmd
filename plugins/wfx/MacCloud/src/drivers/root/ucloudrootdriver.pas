@@ -88,6 +88,7 @@ procedure TCloudRootDriverLister.listFolderBegin;
     cloudFile.name:= rsAddNewConnection;
     cloudFile.creationTime:= 4.5753942770578702E+004;
     cloudFile.modificationTime:= cloudFile.creationTime;
+    cloudFile.size:= TQWordHelper.MaxValue;
     _list.Add( cloudFile );
   end;
 
@@ -103,6 +104,7 @@ procedure TCloudRootDriverLister.listFolderBegin;
       cloudFile.name:= connection.name;
       cloudFile.creationTime:= connection.creationTime;
       cloudFile.modificationTime:= connection.modificationTime;
+      cloudFile.size:= TQWordHelper.MaxValue;
       _list.Add( cloudFile );
     end;
   end;
