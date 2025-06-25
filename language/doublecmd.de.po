@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Double Commander 1.1.0 alpha\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-11-15 11:15+0300\n"
-"PO-Revision-Date: 2025-06-02 18:43+0200\n"
+"PO-Revision-Date: 2025-06-13 09:34+0200\n"
 "Last-Translator:  ㋡  <braass@mail.de>\n"
 "Language-Team: Deutsch <braass@mail.de>\n"
 "Language: de\n"
@@ -8311,11 +8311,11 @@ msgstr "Abhängig von Groß-/Kleinschreibung"
 
 #: tfrmquicksearch.sbdiacritics.caption
 msgid "Ďï"
-msgstr ""
+msgstr "Ďï"
 
 #: tfrmquicksearch.sbdiacritics.hint
 msgid "Diacritics and ligatures"
-msgstr ""
+msgstr "Diakritika und Ligaturen (z.B. \"`\" und \"ß\")"
 
 #: tfrmquicksearch.sbdirectories.caption
 msgid "D"
@@ -10087,10 +10087,9 @@ msgid " Modifies: "
 msgstr " Unterschiedlich: "
 
 #: ulng.rsdiffshow
-#, fuzzy
 msgctxt "ulng.rsdiffshow"
 msgid "&Show"
-msgstr "&Ansicht"
+msgstr "&Anzeigen"
 
 #: ulng.rsdifftextdifferenceencoding
 msgctxt "ulng.rsdifftextdifferenceencoding"
@@ -13569,10 +13568,8 @@ msgid "&Files;Di&rectories;Files a&nd Directories"
 msgstr "&Dateien;Ve&rzeichnisse;Dateien u&nd Verzeichnisse"
 
 #: ulng.rsoptsearchopt
-#, fuzzy
-#| msgid "&Hide filter panel when not focused;Keep saving setting modifications for next session"
 msgid "Ignore &diacritics and ligatures;&Hide filter panel when not focused;Keep saving setting modifications for next session"
-msgstr "Filterdialog verbergen, wenn im Hintergrund;Änderungen der Einstellung für die nächste Sitzung speichern"
+msgstr "Diakritika und Ligaturen (z.B. \"`\" und \"ß\") ignorieren;Filterdialog verbergen, wenn im Hintergrund;Änderungen der Einstellungen für die nächste Sitzung speichern"
 
 #: ulng.rsoptsortcasesens
 msgid "not case sensitive;according to locale settings (aAbBcC);first upper then lower case (ABCabc)"
