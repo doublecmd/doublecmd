@@ -961,12 +961,24 @@ var
   UniqueName: String;
 begin
   AIconName:= aFile.FullPath;
+  if aFile.IsDirectory then AIconName+= PathDelim;
   Status:= FWfxModule.WfxExtractCustomIcon(AIconName, AIconSize, TheIcon);
 
   if Status in [FS_ICON_EXTRACTED, FS_ICON_EXTRACTED_DESTROY] then
   begin
     if AIconName <> aFile.FullPath then
-      UniqueName:= AIconName
+    begin
+      case TheIcon.Format of
+        FS_ICON_FORMAT_HICON,
+        FS_ICON_FORMAT_BINARY:
+        begin
+          UniqueName:= FPluginRootName + AIconName;
+        end
+        else begin
+          UniqueName:= AIconName
+        end;
+      end;
+    end
     else begin
       UniqueName:= EmptyStr;
     end;
