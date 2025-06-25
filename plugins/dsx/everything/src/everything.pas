@@ -138,9 +138,13 @@ type
   {$pop}
 
 type
-  TFoundCallback = procedure(FileName: PWideChar);
+  TFindData = class
+    Cancel: Boolean;
+    PluginNumber: Integer;
+    FoundCallback: procedure(FileName: PWideChar; UserData: Pointer);
+  end;
 
-procedure Start(FileMask: String; Flags: Integer; pr: TFoundCallback);
+procedure Start(FileMask: String; Flags: Integer; FindData: TFindData);
 
 implementation
 
@@ -206,9 +210,9 @@ var
   I: DWORD = 0;
   Temp: UnicodeString;
   FileName: PWideChar;
-  Callback: TFoundCallback;
+  FindData: TFindData;
   Item: PEVERYTHING_IPC_ITEMW;
-  dwOldLong: LONG_PTR absolute Callback;
+  dwOldLong: LONG_PTR absolute FindData;
 begin
   dwOldLong:= GetWindowLongPtr(hWnd, GWL_USERDATA);
 
@@ -226,10 +230,12 @@ begin
       FileName:= PWideChar(Temp);
     end;
 
-    Callback(FileName);
+    if (FindData.Cancel) then Break;
+
+    FindData.FoundCallback(FileName, FindData);
     Inc(I);
   end;
-  Callback(nil);
+  FindData.FoundCallback(nil, FindData);
   PostMessage(hWnd, WM_CLOSE, 0, 0);
 end;
 
@@ -254,10 +260,10 @@ begin
   end;
 end;
 
-procedure Start(FileMask: String; Flags: Integer; pr: TFoundCallback);
+procedure Start(FileMask: String; Flags: Integer; FindData: TFindData);
 var
   hWnd: Windows.HWND;
-  dwNewLong: LONG_PTR absolute pr;
+  dwNewLong: LONG_PTR absolute FindData;
 begin
   hWnd := CreateWindow(EVERYTHING_DSX_WNDCLASS,
                        '', 0, 0, 0, 0, 0, 0, 0, HINSTANCE,nil);
@@ -271,7 +277,7 @@ begin
 
   if not SendQuery(hWnd, EVERYTHING_IPC_ALLRESULTS, UnicodeString(FileMask), Flags) then
   begin
-    pr(nil);
+    FindData.FoundCallback(nil, FindData);
     PostMessage(hWnd, WM_CLOSE, 0, 0);
   end;
 end;
