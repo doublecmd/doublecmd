@@ -235,12 +235,18 @@ end;
 procedure TCloudDriverOAuth2Session.analyseTokenResult( const jsonString: String );
 var
   json: NSDictionary;
+  retRefreshToken: String;
+  retAccountID: String;
 begin
   json:= TJsonUtil.parse( jsonString );
   _token.access:= TJsonUtil.getString( json, 'access_token' );
-  _token.refresh:= TJsonUtil.getString( json, 'refresh_token' );
+  retRefreshToken:= TJsonUtil.getString( json, 'refresh_token' );
+  if retRefreshToken <> EmptyStr then
+    _token.refresh:= retRefreshToken;
   _token.setExpiration( TJsonUtil.getInteger( json, 'expires_in' ) );
-  _accountID:= TJsonUtil.getString( json, 'account_id' );
+  retAccountID:= TJsonUtil.getString( json, 'account_id' );
+  if retAccountID <> EmptyStr then
+    _accountID:= retAccountID;
 end;
 
 
