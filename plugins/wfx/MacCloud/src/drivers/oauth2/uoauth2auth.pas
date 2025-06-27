@@ -187,6 +187,8 @@ var
   http: TMiniHttpClient = nil;
 begin
   try
+    if NOT _token.isValidAccessToken then
+      Exit;
     http:= TMiniHttpClient.Create( _params.REVOKE_TOKEN_URI, HttpConst.Method.POST );
     self.onRevokeToken( http );
     self.setAuthHeader( http );
