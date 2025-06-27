@@ -357,7 +357,10 @@ begin
   // not watchSubtree, and startsWith watchPath
   // detect if fullPath and watchPath in the same level
   fullPathDeep:= fullPath.CountChar(PathDelim);
-  watchPathDeep:= watchPath.CountChar(PathDelim)+1;
+  if watchPath = PathDelim then
+    watchPathDeep:= 1
+  else
+    watchPathDeep:= watchPath.CountChar(PathDelim)+1;
   Result:= fullPathDeep=watchPathDeep;
 end;
 
