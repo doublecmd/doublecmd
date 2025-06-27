@@ -65,7 +65,7 @@ uses
    , uUDisks, uUDev, uMountWatcher, DCStrUtils, uOSUtils, FileUtil, uGVolume, DCOSUtils
    {$ENDIF}
    {$IFDEF DARWIN}
-   , StrUtils, uMyDarwin, uDarwinFSWatch
+   , StrUtils, uMyDarwin, uDarwinFSWatch, ExtCtrls
    {$ENDIF}
    {$IFDEF HAIKU}
    , BaseUnix, DCHaiku
@@ -104,7 +104,11 @@ type
   TDarwinDriverWatcher = class
   private
     _monitor: TSimpleDarwinFSWatcher;
+    _drivePath: String;
+    _timer: TTimer;
     procedure handleEvent( event:TDarwinFSWatchEvent );
+    procedure createTimer;
+    procedure tryAddDrive( Sender: TObject );
   public
     constructor Create;
     destructor Destroy; override;
@@ -214,14 +218,60 @@ procedure TDarwinDriverWatcher.handleEvent( event:TDarwinFSWatchEvent );
 var
   drive: TDrive;
 begin
-  Sleep( 1*1000 ); // wait so drive gets available in MacOSX
   drive.Path:= event.fullPath;
   if ecCreated in event.categories then begin
-    DoDriveAdded( @drive );
+    _drivePath:= drive.Path;
+    _timer.Interval:= 1*1000;
+    _timer.Enabled:= True;
   end else if ecRemoved in event.categories then begin
     DoDriveRemoved( @drive );
   end else if not event.fullPath.IsEmpty then begin
     DoDriveChanged( @drive );
+  end;
+end;
+
+procedure TDarwinDriverWatcher.createTimer;
+begin
+  _timer:= TTimer.Create( nil );
+  _timer.Enabled:= False;
+  _timer.OnTimer:= @tryAddDrive;
+end;
+
+procedure TDarwinDriverWatcher.tryAddDrive( Sender: TObject );
+  function driveReady: Boolean;
+  var
+    driveList: TDrivesList = nil;
+    i: Integer;
+  begin
+    Result:= False;
+    driveList:= TDriveWatcher.GetDrivesList;
+    try
+      for i:=0 to driveList.Count-1 do begin
+        if _drivePath = driveList[i]^.Path then
+          Exit( True );
+      end;
+    finally
+      FreeAndNil( driveList );
+    end;
+  end;
+var
+  drive: TDrive;
+  action: Boolean;
+begin
+  action:= False;
+  if driveReady then begin
+    action:= True;
+  end else begin
+    _timer.Interval:= _timer.Interval + 1*1000;
+    if _timer.Interval > 10*1000 then
+      action:= True;
+  end;
+
+  if action then begin
+    _timer.Enabled:= False;
+    drive.Path:= _drivePath;
+    _drivePath:= EmptyStr;
+    DoDriveAdded( @drive );
   end;
 end;
 
@@ -231,10 +281,12 @@ const
 begin
   Inherited;
   _monitor:= TSimpleDarwinFSWatcher.Create( VOLUME_PATH , @handleEvent );
+  self.createTimer;
 end;
 
 destructor TDarwinDriverWatcher.Destroy;
 begin
+  FreeAndNil( _timer );
   FreeAndNil( _monitor );
   inherited Destroy;
 end;
