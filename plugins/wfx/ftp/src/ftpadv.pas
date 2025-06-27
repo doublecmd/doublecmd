@@ -686,6 +686,7 @@ end;
 function TFTPSendEx.Login: Boolean;
 var
   Index: Integer;
+  Client: Boolean = False;
 begin
   Result:= inherited Login;
   if Result then
@@ -700,10 +701,16 @@ begin
     begin
       for Index:= 0 to FFullResult.Count - 1 do
       begin
+        if not Client   then Client  := Pos('CLNT', FFullResult[Index]) > 0;
         if not FMachine then FMachine:= Pos('MLST', FFullResult[Index]) > 0;
         if not FMachine then FMachine:= Pos('MLSD', FFullResult[Index]) > 0;
         if not FUnicode then FUnicode:= Pos('UTF8', FFullResult[Index]) > 0;
         if not FSetTime then FSetTime:= Pos('MFMT', FFullResult[Index]) > 0;
+      end;
+      // Some servers refuse to enable UTF-8 if client does not send CLNT command
+      if Client then
+      begin
+        FTPCommand('CLNT Double Commander (UTF-8)');
       end;
       if FUnicode and FAuto then
       begin
