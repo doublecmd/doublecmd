@@ -41,6 +41,7 @@ type
     function numberOfRowsInTableView (tableView: NSTableView): NSInteger;
     function tableView_viewForTableColumn_row (tableView: NSTableView; tableColumn: NSTableColumn; row: NSInteger): NSView;
     procedure tableViewSelectionDidChange (notification: NSNotification);
+    procedure setFrameSize(newSize: NSSize); override;
   end;
 
   { TWFXOptionsWindow }
@@ -461,6 +462,12 @@ begin
   controller.onSelectedConnectionChanged( self.selectedRow );
 end;
 
+procedure TWFXConnectionListView.setFrameSize(newSize: NSSize);
+begin
+  inherited setFrameSize(newSize);
+  self.sizeLastColumnToFit;
+end;
+
 { TWFXOptionsUtil }
 
 class function TWFXOptionsUtil.createWindow: NSWindow;
@@ -506,6 +513,7 @@ var
       NSMakeRect(10, 60, connectionColumn.width+10+10, leftRect.size.height-60-40) );
     connectionScrollView.setDocumentView( connectionListView );
     connectionScrollView.setFocusRingType( NSFocusRingTypeNone );
+    connectionScrollView.setAutoresizingMask( NSViewWidthSizable);
 
     leftView.addSubview( connectionScrollView );
     connectionColumn.release;
