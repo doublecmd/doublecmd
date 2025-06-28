@@ -1,0 +1,47 @@
+diff --git a/isnt.cpp b/isnt.cpp
+index b89b2ce..42b231c 100644
+--- a/isnt.cpp
++++ b/isnt.cpp
+@@ -23,6 +23,9 @@ DWORD WinNT()
+ }
+ 
+ 
++#ifdef __GNUC__
++  #define WMI_IsWindows10() false
++#else
+ // Replace it with documented Windows 11 check when available.
+ #include <comdef.h>
+ #include <Wbemidl.h>
+@@ -89,6 +92,7 @@ static bool WMI_IsWindows10()
+ 
+   return Win10;
+ }
++#endif
+ 
+ 
+ // Replace it with actual check when available.
+diff --git a/os.hpp b/os.hpp
+index f7e841b..78c5751 100644
+--- a/os.hpp
++++ b/os.hpp
+@@ -37,6 +37,7 @@
+ #define _UNICODE // Set _T() macro to convert from narrow to wide strings.
+ #endif
+ 
++#undef _WIN32_WINNT
+ #define WINVER _WIN32_WINNT_WINXP
+ #define _WIN32_WINNT _WIN32_WINNT_WINXP
+ 
+diff --git a/system.cpp b/system.cpp
+index b8f96cb..08c6139 100644
+--- a/system.cpp
++++ b/system.cpp
+@@ -126,7 +126,7 @@ bool SetPrivilege(LPCTSTR PrivName)
+ #endif
+ 
+ 
+-#if defined(_WIN_ALL) && !defined(SFX_MODULE)
++#if defined(_WIN_ALL) && !defined(SFX_MODULE) && !defined(RARDLL)
+ void Shutdown(POWER_MODE Mode)
+ {
+   SetPrivilege(SE_SHUTDOWN_NAME);
