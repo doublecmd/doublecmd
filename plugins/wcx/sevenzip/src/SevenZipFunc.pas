@@ -225,6 +225,7 @@ begin
     else begin
       HeaderData.FileAttr:= FILE_ATTRIBUTE_ARCHIVE;
     end;
+    HeaderData.MfileTime:= UInt64(Item.LastWriteTime);
     WinToDosTime(Item.LastWriteTime, LongWord(HeaderData.FileTime));
     if Item.Encrypted then begin
       HeaderData.Flags:= RHDF_ENCRYPTED;
