@@ -36,7 +36,7 @@ interface
 uses
   Classes, SysUtils, UnixType,
   InterfaceBase, Menus, Controls, Forms,
-  uFileProperty, uFileSourceProperty, uDisplayFile, uFileView, uColumnsFileView,
+  uFileProperty, uDisplayFile, uFileView, uColumnsFileView,
   uLng,
   Cocoa_Extra, MacOSAll, CocoaAll, QuickLookUI,
   CocoaUtils, CocoaInt, CocoaPrivate, CocoaConst, CocoaMenus,
@@ -211,6 +211,9 @@ implementation
 
 uses
   DynLibs;
+
+var
+  ICON_SPECIAL_FOLDER_EXT: NSString;
 
 procedure onMainMenuCreate( menu: NSMenu );
 var
@@ -711,6 +714,7 @@ begin
   HasMountURL:= Assigned(NetFSMountURLSync) or Assigned(FSMountServerVolumeSync);
   MacosServiceMenuHelper:= TMacosServiceMenuHelper.Create;
   DarwinFileViewDrawHelper:= TDarwinFileViewDrawHelper.Create;
+  ICON_SPECIAL_FOLDER_EXT:= NSSTR( '.app;.fcpbundle;.fcpxmld;.musiclibrary;.imovielibrary;.tvlibrary;.photoslibrary;.theater;' );
 end;
 
 procedure Finalize;
@@ -949,17 +953,20 @@ begin
   Result:= (pFinderInfo^.finderFlags and kHasCustomIcon) <> 0;
 end;
 
-function isExtUniqueIcon( const path: String ): Boolean;
+function hasSpecialFolderExt( const path: String ): Boolean;
+var
+  ext: NSString;
 begin
   Result:= False;
-  if path.EndsWith('.app') or path.EndsWith('.fcpbundle') or path.EndsWith('.fcpxmld') then
-    Result:= True;
+  ext:= StringToNSString(path).pathExtension;
+  ext:= NSSTR('.').stringByAppendingString(ext).stringByAppendingString(NSSTR(';'));
+  Result:= ICON_SPECIAL_FOLDER_EXT.containsString( ext );
 end;
 
 function getMacOSFileUniqueIcon( const path: String ): NSImage;
 begin
   Result:= nil;
-  if hasUniqueIcon(path) or isExtUniqueIcon(path) then
+  if hasUniqueIcon(path) or hasSpecialFolderExt(path) then
     Result:= NSWorkspace.sharedWorkspace.iconForFile( StringToNSString(path) );
 end;
 
