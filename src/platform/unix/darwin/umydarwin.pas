@@ -214,6 +214,7 @@ uses
 
 var
   ICON_SPECIAL_FOLDER_EXT: NSString;
+  ICON_SPECIAL_PARENT_FOLDER: NSString;
 
 procedure onMainMenuCreate( menu: NSMenu );
 var
@@ -714,7 +715,11 @@ begin
   HasMountURL:= Assigned(NetFSMountURLSync) or Assigned(FSMountServerVolumeSync);
   MacosServiceMenuHelper:= TMacosServiceMenuHelper.Create;
   DarwinFileViewDrawHelper:= TDarwinFileViewDrawHelper.Create;
-  ICON_SPECIAL_FOLDER_EXT:= NSSTR( '.app;.fcpbundle;.fcpxmld;.musiclibrary;.imovielibrary;.tvlibrary;.photoslibrary;.theater;' );
+  ICON_SPECIAL_FOLDER_EXT:= StringToNSString( '.app;.fcpbundle;.fcpxmld;.musiclibrary;.imovielibrary;.tvlibrary;.photoslibrary;.theater;' );
+  ICON_SPECIAL_FOLDER_EXT.retain;
+  ICON_SPECIAL_PARENT_FOLDER:= StringToNSString( '/;/System;/Volumes;/Users;~;~/Music;~/Pictures;~/Movies;' );
+  ICON_SPECIAL_PARENT_FOLDER:= ICON_SPECIAL_PARENT_FOLDER.stringByReplacingOccurrencesOfString_withString( NSSTR('~'), NSHomeDirectory );
+  ICON_SPECIAL_PARENT_FOLDER.retain;
 end;
 
 procedure Finalize;
@@ -957,16 +962,24 @@ function hasSpecialFolderExt( const path: String ): Boolean;
 var
   ext: NSString;
 begin
-  Result:= False;
   ext:= StringToNSString(path).pathExtension;
   ext:= NSSTR('.').stringByAppendingString(ext).stringByAppendingString(NSSTR(';'));
   Result:= ICON_SPECIAL_FOLDER_EXT.containsString( ext );
 end;
 
+function inSpecialParentFolder( const path: String ): Boolean;
+var
+  parentPath: NSString;
+begin
+  parentPath:= StringToNSString(path).stringByDeletingLastPathComponent;
+  parentPath:= parentPath.stringByAppendingString(NSSTR(';'));
+  Result:= ICON_SPECIAL_PARENT_FOLDER.containsString( parentPath );
+end;
+
 function getMacOSFileUniqueIcon( const path: String ): NSImage;
 begin
   Result:= nil;
-  if hasUniqueIcon(path) or hasSpecialFolderExt(path) then
+  if hasUniqueIcon(path) or hasSpecialFolderExt(path) or inSpecialParentFolder(path) then
     Result:= NSWorkspace.sharedWorkspace.iconForFile( StringToNSString(path) );
 end;
 
