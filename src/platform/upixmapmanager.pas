@@ -246,6 +246,7 @@ type
   {$ENDIF}
   {$IF DEFINED(DARWIN)}
     function GetSystemFolderIcon: PtrInt;
+    function GetSystemExecutableIcon: PtrInt;
     function GetMimeIcon(AFileExt: String; AIconSize: Integer): PtrInt;
     function LoadImageFileBitmap( const filename:String; const size:Integer ): TBitmap;
   {$ENDIF}
@@ -1432,6 +1433,11 @@ begin
   Result:= GetMimeIcon(FileType, gIconsSize);
 end;
 
+function TPixMapManager.GetSystemExecutableIcon: PtrInt;
+begin
+  Result:= GetMimeIcon('public.unix-executable', gIconsSize);
+end;
+
 function TPixMapManager.GetMimeIcon(AFileExt: String; AIconSize: Integer): PtrInt;
 var
   I: Integer;
@@ -1826,7 +1832,7 @@ begin
   if FiArcIconID = -1 then
   {$ENDIF}
   FiArcIconID := AddDefaultThemePixmap('package-x-generic');
-  {$IFDEF MSWINDOWS}
+  {$IF DEFINED(MSWINDOWS) OR DEFINED(DARWIN)}
   FiExeIconID := -1;
   if gShowIcons > sim_standart then
     FiExeIconID := GetSystemExecutableIcon;
@@ -2387,7 +2393,7 @@ begin
 
       if (Extension = '') then
       begin
-        {$IF DEFINED(UNIX) AND NOT (DEFINED(DARWIN) OR DEFINED(HAIKU))}
+        {$IF DEFINED(UNIX) AND NOT DEFINED(HAIKU)}
         if IconsMode = sim_all_and_exe then
         begin
           if DirectAccess and (Attributes and S_IXUGO <> 0) then
@@ -2395,11 +2401,15 @@ begin
             if not LoadIcon then
               Result := -1
             else begin
-              Ext := GioFileGetIcon(FullPath);
-              if Ext = 'application-x-sharedlib' then
-                Result := FiExeIconID
-              else
-                Result := CheckAddThemePixmap(Ext);
+              {$IF DEFINED(DARWIN)}
+                Result := FiExeIconID;
+              {$ELSE}
+                Ext := GioFileGetIcon(FullPath);
+                if Ext = 'application-x-sharedlib' then
+                  Result := FiExeIconID
+                else
+                  Result := CheckAddThemePixmap(Ext);
+              {$ENDIF}
             end;
             Exit;
           end;
