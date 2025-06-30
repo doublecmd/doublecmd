@@ -13,7 +13,7 @@ lazbuild doublecmd\doublecmd_common.lpk %DC_ARCH%
 lazbuild Image32\Image32.lpk %DC_ARCH%
 lazbuild KASToolBar\kascomp.lpk %DC_ARCH%
 lazbuild viewer\viewerpackage.lpk %DC_ARCH%
-lazbuild gifanim\pkg_gifanim.lpk %DC_ARCH%
+lazbuild gifview\gifview.lpk %DC_ARCH%
 lazbuild synunihighlighter\synuni.lpk %DC_ARCH%
 lazbuild virtualterminal\virtualterminal.lpk %DC_ARCH%
 popd

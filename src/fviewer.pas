@@ -58,7 +58,7 @@ interface
 uses
   SysUtils, Classes, Graphics, Controls, Forms, ExtCtrls, ComCtrls, LMessages,
   LCLProc, Menus, Dialogs, ExtDlgs, StdCtrls, Buttons, SynEditHighlighter,
-  Grids, ActnList, viewercontrol, GifAnim, fFindView, WLXPlugin, uWLXModule,
+  Grids, ActnList, viewercontrol, uGifViewer, fFindView, WLXPlugin, uWLXModule,
   uFileSource, fModView, Types, uThumbnails, uFormCommands, uOSForms,Clipbrd,
   uExifReader, KASStatusBar, SynEdit, uShowForm, uRegExpr, uRegExprU,
   Messages, fEditSearch, uMasks, uSearchTemplate, uFileSourceOperation,
@@ -159,7 +159,7 @@ type
     btnPrev1: TSpeedButton;
     btnReload1: TSpeedButton;
     DrawPreview: TDrawGrid;
-    GifAnim: TGifAnim;
+    GifAnim: TGIFView;
     memFolder: TMemo;
     mnuPlugins: TMenuItem;
     miCode: TMenuItem;
@@ -315,7 +315,6 @@ type
     procedure miPenClick(Sender: TObject);
     procedure miLookBookClick(Sender: TObject);
     procedure pmEditMenuPopup(Sender: TObject);
-    procedure pnlImageResize(Sender: TObject);
     procedure miPluginsClick(Sender: TObject);
 
     procedure pnlTextMouseWheelUp(Sender: TObject; Shift: TShiftState;
@@ -325,6 +324,7 @@ type
     procedure sboxImageMouseMove(Sender: TObject; Shift: TShiftState; X,
       Y: Integer);
     procedure btnNextGifFrameClick(Sender: TObject);
+    procedure sboxImageResize(Sender: TObject);
     procedure SplitterChangeBounds;
     procedure TimerReloadTimer(Sender: TObject);
     procedure TimerScreenshotTimer(Sender: TObject);
@@ -351,6 +351,7 @@ type
     procedure UpdateImagePlacement;
     procedure StartCalcFolderSize;
     procedure StopCalcFolderSize;
+    procedure UpdateAnimState;
 
   private
     FFileName: String;
@@ -2061,11 +2062,6 @@ begin
   end;
 end;
 
-procedure TfrmViewer.pnlImageResize(Sender: TObject);
-begin
-  if bImage then AdjustImageSize;
-end;
-
 procedure TfrmViewer.miPluginsClick(Sender: TObject);
 var
   ShowFlags: Integer;
@@ -2117,10 +2113,27 @@ begin
   end;
 end;
 
+procedure TfrmViewer.UpdateAnimState;
+begin
+  btnPrevGifFrame.Enabled:= GifAnim.Paused and (GifAnim.CurrentFrameIndex > 0);
+  btnNextGifFrame.Enabled:= GifAnim.Paused and (GifAnim.CurrentFrameIndex < GifAnim.FrameCount - 1);
+end;
+
+procedure TfrmViewer.btnPrevGifFrameClick(Sender: TObject);
+begin
+  GifAnim.PriorFrame;
+  UpdateAnimState;
+end;
+
 procedure TfrmViewer.btnNextGifFrameClick(Sender: TObject);
 begin
-  GifAnim.Animate:=false;
   GifAnim.NextFrame;
+  UpdateAnimState;
+end;
+
+procedure TfrmViewer.sboxImageResize(Sender: TObject);
+begin
+  if bImage or bAnimation then AdjustImageSize;
 end;
 
 procedure TfrmViewer.SplitterChangeBounds;
@@ -2289,6 +2302,10 @@ begin
       UndoTmp;
     end;
     AdjustImageSize;
+  end
+  else if bAnimation then
+  begin
+    AdjustImageSize;
   end;
 end;
 
@@ -2414,8 +2431,6 @@ begin
 
   FixFormIcon(Handle);
 
-  GifAnim.Align:=alClient;
-
   for Index:= 1 to 25 do
   begin
     MenuItem:= TMenuItem.Create(btnPenWidth);
@@ -2521,24 +2536,26 @@ end;
 
 procedure TfrmViewer.btnGifMoveClick(Sender: TObject);
 begin
-  GifAnim.Animate:=not GifAnim.Animate;
-  btnNextGifFrame.Enabled:= not GifAnim.Animate;
-  btnPrevGifFrame.Enabled:= not GifAnim.Animate;
-  if GifAnim.Animate then
-    btnGifMove.ImageIndex:= 11
+  if GifAnim.Paused then
+    GifAnim.Start
   else begin
-    btnGifMove.ImageIndex:= 12
+    GifAnim.Pause;
   end;
+  if GifAnim.Paused then
+    btnGifMove.ImageIndex:= 12
+  else begin
+    btnGifMove.ImageIndex:= 11
+  end;
+  UpdateAnimState;
 end;
 
 procedure TfrmViewer.btnGifToBmpClick(Sender: TObject);
 begin
-  GifAnim.Animate:=False;
-  Image.Picture.Bitmap.Create;
-  Image.Picture.Bitmap.Width := GifAnim.Width;
-  Image.Picture.Bitmap.Height := GifAnim.Height;
-  Image.Picture.Bitmap.Canvas.CopyRect(Rect(0,0,GifAnim.Width,GifAnim.Height),GifAnim.Canvas,Rect(0,0,GifAnim.Width,GifAnim.Height));
+  GifAnim.Pause;
+  btnGifMove.ImageIndex:= 12;
+  Image.Picture.Bitmap:= GifAnim.CurrentView;
   cm_SaveAs(['']);
+  UpdateAnimState;
 end;
 
 procedure TfrmViewer.btnPaintHightlight(Sender: TObject);
@@ -2600,12 +2617,6 @@ end;
 procedure TfrmViewer.btnPenModeClick(Sender: TObject);
 begin
   btnPenMode.Down:= not btnPenMode.Down;
-end;
-
-procedure TfrmViewer.btnPrevGifFrameClick(Sender: TObject);
-begin
-  GifAnim.Animate:=False;
-  GifAnim.PriorFrame;
 end;
 
 procedure TfrmViewer.btnRedEyeClick(Sender: TObject);
@@ -2829,23 +2840,42 @@ procedure TfrmViewer.AdjustImageSize;
 const
   fmtImageInfo = '%dx%d (%.0f %%)';
 var
+  AControl: TControl;
   dScaleFactor : Double;
+  ImgWidth, ImgHeight : Integer;
   iLeft, iTop, iWidth, iHeight : Integer;
 begin
-  if (Image.Picture = nil) then Exit;
-  if (Image.Picture.Width = 0) or (Image.Picture.Height = 0) then Exit;
+  if not (bImage or bAnimation) then
+    Exit;
+
+  if bImage then
+  begin
+    if (Image.Picture = nil) then Exit;
+    ImgHeight:= Image.Picture.Height;
+    ImgWidth:= Image.Picture.Width;
+    AControl:= Image;
+  end
+  else if (bAnimation) then
+  begin
+    if GifAnim.CurrentView = nil then Exit;
+    ImgHeight:= GifAnim.CurrentView.Height;
+    ImgWidth:= GifAnim.CurrentView.Width;
+    AControl:= GifAnim;
+  end;
+
+  if (ImgWidth = 0) or (ImgHeight = 0) then Exit;
 
   dScaleFactor:= FZoomFactor / 100;
 
   // Place and resize image
   if (FZoomFactor = 100) and (miStretch.Checked or miStretchOnlyLarge.Checked) then
   begin
-    dScaleFactor:= Min(sboxImage.ClientWidth / Image.Picture.Width ,sboxImage.ClientHeight / Image.Picture.Height);
+    dScaleFactor:= Min(sboxImage.ClientWidth / ImgWidth, sboxImage.ClientHeight / ImgHeight);
     dScaleFactor:= IfThen((miStretchOnlyLarge.Checked) and (dScaleFactor > 1.0), 1.0, dScaleFactor);
   end;
 
-  iWidth:= Trunc(Image.Picture.Width * dScaleFactor);
-  iHeight:= Trunc(Image.Picture.Height * dScaleFactor);
+  iWidth:= Trunc(ImgWidth * dScaleFactor);
+  iHeight:= Trunc(ImgHeight * dScaleFactor);
   if (miCenter.Checked) then
   begin
     iLeft:= (sboxImage.ClientWidth - iWidth) div 2;
@@ -2856,7 +2886,7 @@ begin
     iLeft:= 0;
     iTop:= 0;
   end;
-  Image.SetBounds(Max(iLeft,0), Max(iTop,0), iWidth , iHeight);
+  AControl.SetBounds(Max(iLeft,0), Max(iTop,0), iWidth , iHeight);
 
   // Update scrollbars
   // TODO: fix - calculations are correct but it seems like scroll bars
@@ -2870,8 +2900,8 @@ begin
   end;
 
   // Update status bar
-  Status.Panels[sbpCurrentResolution].Text:= Format(fmtImageInfo, [iWidth,iHeight,  100.0 * dScaleFactor]);
-  Status.Panels[sbpFullResolution].Text:= Format(fmtImageInfo, [Image.Picture.Width,Image.Picture.Height, 100.0]);
+  Status.Panels[sbpCurrentResolution].Text:= Format(fmtImageInfo, [iWidth, iHeight,  100.0 * dScaleFactor]);
+  Status.Panels[sbpFullResolution].Text:= Format(fmtImageInfo, [ImgWidth, ImgHeight, 100.0]);
 end;
 
 function TfrmViewer.GetListerRect: TRect;
@@ -2957,7 +2987,6 @@ function TfrmViewer.LoadGraphics(const sFileName:String): Boolean;
     btnHightlight.Enabled:= bImage and (not miFullScreen.Checked);
     btnPaint.Enabled:= bImage and (not miFullScreen.Checked);
     btnResize.Enabled:= bImage and (not miFullScreen.Checked);
-    miImage.Visible:= bImage;
     btnZoomIn.Enabled:= bImage;
     btnZoomOut.Enabled:= bImage;
     btn270.Enabled:= bImage;
@@ -2973,23 +3002,13 @@ function TfrmViewer.LoadGraphics(const sFileName:String): Boolean;
 
 var
   sExt: String;
-  fsFileHandle: System.THandle;
-  fsFileStream: TFileStreamEx = nil;
-  gifHeader: array[0..5] of AnsiChar;
+  fsFileStream: TFileStreamEx;
 begin
   Result:= True;
   FZoomFactor:= 100;
   sExt:= ExtractOnlyFileExt(sFilename);
-  if SameText(sExt, 'gif') then
+  if not SameText(sExt, 'gif') then
   begin
-    fsFileHandle:= mbFileOpen(sFileName, fmOpenRead or fmShareDenyNone);
-    if (fsFileHandle = feInvalidHandle) then Exit(False);
-    FileRead(fsFileHandle, gifHeader, SizeOf(gifHeader));
-    FileClose(fsFileHandle);
-  end;
-  // GifAnim supports only GIF89a
-  if gifHeader <> 'GIF89a' then
-    begin
       Image.Visible:= True;
       GifAnim.Visible:= False;
       try
@@ -3008,6 +3027,8 @@ begin
             end;
           end;
 {$ENDIF}
+          bImage:= True;
+          bAnimation:= False;
           UpdateToolbar(True);
         finally
           FreeAndNil(fsFileStream);
@@ -3016,7 +3037,6 @@ begin
         begin
           if FExif.LoadFromFile(sFileName) then
           begin
-            bImage:= True;
             case FExif.Orientation of
               2: cm_MirrorHorz([]);
               3: cm_Rotate180([]);
@@ -3040,8 +3060,18 @@ begin
       GifAnim.Visible:= True;
       Image.Visible:= False;
       try
-        GifAnim.FileName:= sFileName;
-        UpdateToolbar(False);
+        fsFileStream:= TFileStreamEx.Create(sFileName, fmOpenRead or fmShareDenyNone);
+        try
+          GifAnim.LoadFromStream(fsFileStream);
+          bImage:= False;
+          bAnimation:= True;
+          UpdateToolbar(False);
+          AdjustImageSize;
+          GifAnim.Start;
+          UpdateAnimState;
+        finally
+          fsFileStream.Free;
+        end;
       except
         on E: Exception do
         begin
@@ -3591,7 +3621,7 @@ begin
   miGraphics.Checked   := (Panel = pnlImage);
   miEncoding.Visible   := (Panel = pnlText) or (Panel = pnlCode) or (bPlugin and FWlxModule.CanCommand);
   miAutoReload.Visible := (Panel = pnlText);
-  miImage.Visible      := (bImage or (bPlugin and FWlxModule.CanCommand));
+  miImage.Visible      := (bImage or bAnimation or (bPlugin and FWlxModule.CanCommand));
   miRotate.Visible     := bImage;
   miZoomIn.Visible     := bImage;
   miZoomOut.Visible    := bImage;
@@ -3968,7 +3998,7 @@ begin
       if not bAnimation then
         Clipboard.Assign(Image.Picture)
       else
-        Clipboard.Assign(GifAnim.GifBitmaps[GifAnim.GifIndex].Bitmap);
+        Clipboard.Assign(GifAnim.CurrentView);
     end else
        ViewerControl.CopyToClipboard;
   end;

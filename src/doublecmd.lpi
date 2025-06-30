@@ -299,8 +299,7 @@ end;"/>
         <MinVersion Valid="True"/>
       </Item5>
       <Item6>
-        <PackageName Value="pkg_gifanim"/>
-        <MinVersion Major="1" Minor="5" Valid="True"/>
+        <PackageName Value="GifView"/>
       </Item6>
       <Item7>
         <PackageName Value="VirtualTerminal"/>
