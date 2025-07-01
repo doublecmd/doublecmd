@@ -186,6 +186,9 @@ uses
 {$IFDEF UNIX}
   , BaseUnix, Unix, DCUnix
 {$ENDIF}
+{$IFDEF DARWIN}
+  , uDarwinFileUtil
+{$ENDIF}
   ;
 
 const
@@ -640,7 +643,29 @@ var
     if not Assigned(TargetFileStream) and (log_errors in gLogOptions) then
       logWrite(FOperationThread, rsMsgLogError + GetMsgByMode + ': ' + TargetFileName, lmtError, True);
   end;
+
+  procedure doUpdate;
+  begin
+    with FStatistics do
+    begin
+      CurrentFileDoneBytes := CurrentFileDoneBytes + BytesRead;
+      DoneBytes := DoneBytes + BytesRead;
+      UpdateStatistics(FStatistics);
+    end;
+  end;
+
 begin
+{$IFDEF DARWIN}
+  if Mode = fsohcmDefault then begin
+    Result:= TDarwinFileUtil.cloneFile( SourceFile.FullPath, TargetFileName );
+    if Result then begin
+      BytesRead:= SourceFile.Size;
+      doUpdate;
+      Exit;
+    end;
+  end;
+{$ENDIF}
+
   Result := False;
 
   { Check disk free space }
@@ -907,13 +932,7 @@ begin
           end;
         until not bRetryRead;
 
-        with FStatistics do
-        begin
-          CurrentFileDoneBytes := CurrentFileDoneBytes + BytesRead;
-          DoneBytes := DoneBytes + BytesRead;
-
-          UpdateStatistics(FStatistics);
-        end;
+        doUpdate;
 
         AppProcessMessages;
         CheckOperationState; // check pause and stop
