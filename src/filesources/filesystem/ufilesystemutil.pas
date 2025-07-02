@@ -654,17 +654,26 @@ var
     end;
   end;
 
-begin
-{$IFDEF DARWIN}
-  if Mode = fsohcmDefault then begin
-    Result:= TDarwinFileUtil.cloneFile( SourceFile.FullPath, TargetFileName );
-    if Result then begin
-      BytesRead:= SourceFile.Size;
-      doUpdate;
-      Exit;
+  {$IFDEF DARWIN}
+  function tryCloneFirst: Boolean;
+  begin
+    Result:= False;
+    if Mode = fsohcmDefault then begin
+      Result:= TDarwinFileUtil.cloneFile( SourceFile.FullPath, TargetFileName, SourceFile.Size );
+      if Result then begin
+        BytesRead:= SourceFile.Size;
+        doUpdate;
+      end;
     end;
   end;
-{$ENDIF}
+  {$ENDIF}
+
+begin
+  {$IFDEF DARWIN}
+    Result:= tryCloneFirst;
+    if Result then
+      Exit;
+  {$ENDIF}
 
   Result := False;
 
