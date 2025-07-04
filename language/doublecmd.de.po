@@ -10954,13 +10954,17 @@ msgid "HorzSplit"
 msgstr "Horizontal geteilt"
 
 #: ulng.rsmfstbiiclouddrivertips
+#, fuzzy
+#| msgid "iCloud Driver"
 msgctxt "ulng.rsmfstbiiclouddrivertips"
-msgid "iCloud Driver"
+msgid "iCloud Drive"
 msgstr "iCloud Drive ist der Cloud-Speicher von Apple. Vergleichbar mit z.B. Dropbox, OneDrive oder Google Drive"
 
 #: ulng.rsmfstbiiclouddrivertitle
+#, fuzzy
+#| msgid "iCloud Driver"
 msgctxt "ulng.rsmfstbiiclouddrivertitle"
-msgid "iCloud Driver"
+msgid "iCloud Drive"
 msgstr "iCloud Drive"
 
 #: ulng.rsmfstbinetworktips

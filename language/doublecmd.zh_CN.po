@@ -10957,13 +10957,17 @@ msgid "HorzSplit"
 msgstr "水平分隔"
 
 #: ulng.rsmfstbiiclouddrivertips
+#, fuzzy
+#| msgid "iCloud Driver"
 msgctxt "ulng.rsmfstbiiclouddrivertips"
-msgid "iCloud Driver"
+msgid "iCloud Drive"
 msgstr "iCloud云盘"
 
 #: ulng.rsmfstbiiclouddrivertitle
+#, fuzzy
+#| msgid "iCloud Driver"
 msgctxt "ulng.rsmfstbiiclouddrivertitle"
-msgid "iCloud Driver"
+msgid "iCloud Drive"
 msgstr "iCloud云盘"
 
 #: ulng.rsmfstbinetworktips

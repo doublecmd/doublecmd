@@ -11213,13 +11213,17 @@ msgid "HorzSplit"
 msgstr "Горизонтальное разделение"
 
 #: ulng.rsmfstbiiclouddrivertips
+#, fuzzy
+#| msgid "iCloud Driver"
 msgctxt "ulng.rsmfstbiiclouddrivertips"
-msgid "iCloud Driver"
+msgid "iCloud Drive"
 msgstr "Диск iCloud"
 
 #: ulng.rsmfstbiiclouddrivertitle
+#, fuzzy
+#| msgid "iCloud Driver"
 msgctxt "ulng.rsmfstbiiclouddrivertitle"
-msgid "iCloud Driver"
+msgid "iCloud Drive"
 msgstr "Диск iCloud"
 
 #: ulng.rsmfstbinetworktips

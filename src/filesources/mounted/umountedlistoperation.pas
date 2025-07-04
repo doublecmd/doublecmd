@@ -35,7 +35,7 @@ end;
 
 {
   self.Path
-    ///iCloud Drivers/Pages Documents
+    /iCloud Drive/Pages Documents
   logicPath
     /Pages Documents
   realPath
