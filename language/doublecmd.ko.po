@@ -10955,15 +10955,11 @@ msgid "HorzSplit"
 msgstr "수평 분할"
 
 #: ulng.rsmfstbiiclouddrivertips
-#, fuzzy
-#| msgid "iCloud Driver"
 msgctxt "ulng.rsmfstbiiclouddrivertips"
 msgid "iCloud Drive"
 msgstr "iCloud 드라이버"
 
 #: ulng.rsmfstbiiclouddrivertitle
-#, fuzzy
-#| msgid "iCloud Driver"
 msgctxt "ulng.rsmfstbiiclouddrivertitle"
 msgid "iCloud Drive"
 msgstr "iCloud 드라이버"
