@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Double Commander 1.1.0 alpha\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-11-15 11:15+0300\n"
-"PO-Revision-Date: 2025-06-26 07:26+0200\n"
+"PO-Revision-Date: 2025-06-29 03:29+0200\n"
 "Last-Translator:  ㋡  <braass@mail.de>\n"
 "Language-Team: Deutsch <braass@mail.de>\n"
 "Language: de\n"
@@ -3304,7 +3304,7 @@ msgstr "Groß-/Kleinschreibung beachten"
 
 #: tfrmmaskinputdlg.chkignoreaccentsandligatures.caption
 msgid "Ignore accents and ligatures"
-msgstr "Diakritika und Ligaturen (z.B. `˛´¸¨ˍˆ ˇ … und ß, æ, œ) ignorieren"
+msgstr "Diakritika und Ligaturen (z.B. `˛´¸¨ˍˆ ˇ und ß, æ, œ) ignorieren"
 
 #: tfrmmaskinputdlg.lblattributes.caption
 msgid "Attri&butes:"
@@ -8066,7 +8066,7 @@ msgstr "Wofür das Baumansicht-Menü verwenden:"
 
 #: tfrmoptionstreeviewmenu.lblnote.caption
 msgid "*NOTE: Regarding the options like the case sensitivity, ignoring accents or not, these are saved and restored individually for each context from a usage and session to another."
-msgstr "*HINWEIS: Die Optionen für die Groß-/Kleinschreibung und Diakritika und Ligaturen werden für jeden Kontext einzeln gespeichert und von einer Sitzung zur nächsten wiederhergestellt."
+msgstr "*HINWEIS: Die Optionen für die Groß-/Kleinschreibung und Diakritika und Ligaturen werden für jeden Kontext einzeln gespeichert und bei der nächsten Verwendung wiederhergestellt, bis der Double Commander geschlossen wird."
 
 #: tfrmoptionstreeviewmenu.lbluseindirectoryhotlist.caption
 msgid "With Directory Hotlist:"
@@ -8315,7 +8315,7 @@ msgstr "Ďï"
 
 #: tfrmquicksearch.sbdiacritics.hint
 msgid "Diacritics and ligatures"
-msgstr "Diakritika und Ligaturen (z.B. `˛´¸¨ˍˆ ˇ … und ß, æ, œ)"
+msgstr "Diakritika und Ligaturen (z.B. `˛´¸¨ˍˆ ˇ und ß, æ, œ)"
 
 #: tfrmquicksearch.sbdirectories.caption
 msgid "D"
@@ -9060,7 +9060,7 @@ msgstr "Komplett ausgeklappt"
 
 #: tfrmtreeviewmenu.pmiignoreaccents.caption
 msgid "Search ignore accents and ligatures"
-msgstr "Akzente und Ligaturen bei Suche ignorieren"
+msgstr "Diakritika und Ligaturen (z.B. `˛´¸¨ˍˆ ˇ und ß, æ, œ) bei Suche ignorieren"
 
 #: tfrmtreeviewmenu.pminotcasesensitive.caption
 msgid "Search is not case sensitive"
@@ -9068,7 +9068,7 @@ msgstr "Groß-/Kleinschreibung bei Suche ignorieren"
 
 #: tfrmtreeviewmenu.pminotignoreaccents.caption
 msgid "Search is strict regarding accents and ligatures"
-msgstr "Akzente und Ligaturen bei Suche beachten"
+msgstr "Diakritika und Ligaturen (z.B. `˛´¸¨ˍˆ ˇ und ß, æ, œ) bei Suche beachten"
 
 #: tfrmtreeviewmenu.pminotshowwholebranchifmatch.caption
 msgid "Don't show the branch content \"just\" because the searched string is found in the branche name"
@@ -12492,7 +12492,7 @@ msgstr "Unverändert;ALLES GROẞGESCHRIEBEN;alles kleingeschrieben;Erster buchs
 
 #: ulng.rsmulrenlastpreset
 msgid "[The last used]"
-msgstr "»Das zuletzt verwendete«"
+msgstr "<Wie zuletzt verwendet>"
 
 #: ulng.rsmulrenlaunchbehavioroptions
 msgid "Last masks under [Last One] preset;Last preset;New fresh masks"
@@ -13569,7 +13569,7 @@ msgstr "&Dateien;Ve&rzeichnisse;Dateien u&nd Verzeichnisse"
 
 #: ulng.rsoptsearchopt
 msgid "Ignore &diacritics and ligatures;&Hide filter panel when not focused;Keep saving setting modifications for next session"
-msgstr "Diakritika und Ligaturen (z.B. `˛´¸¨ˍˆ ˇ … und ß, æ, œ) ignorieren;Filterdialog verbergen, wenn im Hintergrund;Änderungen der Einstellungen für die nächste Sitzung speichern"
+msgstr "Diakritika und Ligaturen (z.B. `˛´¸¨ˍˆ ˇ und ß, æ, œ) ignorieren;Filterdialog verbergen, wenn im Hintergrund;Änderungen der Einstellungen für die nächste Verwendung speichern"
 
 #: ulng.rsoptsortcasesens
 msgid "not case sensitive;according to locale settings (aAbBcC);first upper then lower case (ABCabc)"
@@ -13581,7 +13581,7 @@ msgstr "Nach Namen sortieren und zuerst anzeigen;Wie Dateien sortieren und zuers
 
 #: ulng.rsoptsortmethod
 msgid "Alphabetical, considering accents;Alphabetical with special characters sort;Natural sorting: alphabetical and numbers;Natural with special characters sort"
-msgstr "Alphabetisch (= Ziffern einzeln -> 19 vor 2), Akzente beachten -> aàáâäbcd;Alphabetisch, Sonderzeichen beachten -> (@§€19.20.3.4abcd;Natürliche Sortierung: alphabetisch und mehrstellige Zahlen nach ihrem Wert -> 8.9.10.11abcd;Natürliche Sortierung, Sonderzeichen beachten -> (@§€8.9.10.11abcd"
+msgstr "Alphabetisch (= Ziffern einzeln -> 19 vor 2), Diakritika beachten -> aàáâäbcd;Alphabetisch, Sonderzeichen beachten -> (@§€19.20.3.4abcd;Natürliche Sortierung: alphabetisch und mehrstellige Zahlen nach ihrem Wert -> 8.9.10.11abcd;Natürliche Sortierung, Sonderzeichen beachten -> (@§€8.9.10.11abcd"
 
 #: ulng.rsopttabsposition
 msgid "Top;Bottom;"
