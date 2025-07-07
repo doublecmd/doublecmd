@@ -371,7 +371,6 @@ object frmViewer: TfrmViewer
     ParentFont = False
     TabOrder = 3
     Visible = False
-    OnResize = pnlImageResize
     object sboxImage: TScrollBox
       Left = 0
       Height = 307
@@ -389,6 +388,7 @@ object frmViewer: TfrmViewer
       OnMouseEnter = sboxImageMouseEnter
       OnMouseLeave = sboxImageMouseLeave
       OnMouseMove = sboxImageMouseMove
+      OnResize = sboxImageResize
       object Image: TImage
         Left = 56
         Height = 288
@@ -407,12 +407,22 @@ object frmViewer: TfrmViewer
         OnMouseWheelUp = ImageMouseWheelUp
         Proportional = True
       end
-      object GifAnim: TGifAnim
+      object GifAnim: TGIFView
         Left = 0
         Height = 90
         Top = 0
         Width = 106
-        AutoSize = False
+        Border = False
+        BorderColor = clBlack
+        BorderWidth = 0
+        BevelOuter = bvNone
+        AutoPlay = False
+        Transparent = True
+        Center = False
+        AutoStretchMode = smManual
+        Stretch = True
+        DisplayInvalidFrames = False
+        AutoRemoveInvalidFrame = True
         OnMouseDown = GifAnimMouseDown
         OnMouseEnter = GifAnimMouseEnter
       end

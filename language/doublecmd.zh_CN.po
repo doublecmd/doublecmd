@@ -8312,7 +8312,7 @@ msgstr ""
 
 #: tfrmquicksearch.sbdiacritics.hint
 msgid "Diacritics and ligatures"
-msgstr ""
+msgstr "音标和连字"
 
 #: tfrmquicksearch.sbdirectories.caption
 msgid "D"
@@ -10084,7 +10084,6 @@ msgid " Modifies: "
 msgstr " 修改："
 
 #: ulng.rsdiffshow
-#, fuzzy
 msgctxt "ulng.rsdiffshow"
 msgid "&Show"
 msgstr "显示(&S)"
@@ -10958,12 +10957,12 @@ msgstr "水平分隔"
 
 #: ulng.rsmfstbiiclouddrivertips
 msgctxt "ulng.rsmfstbiiclouddrivertips"
-msgid "iCloud Driver"
+msgid "iCloud Drive"
 msgstr "iCloud云盘"
 
 #: ulng.rsmfstbiiclouddrivertitle
 msgctxt "ulng.rsmfstbiiclouddrivertitle"
-msgid "iCloud Driver"
+msgid "iCloud Drive"
 msgstr "iCloud云盘"
 
 #: ulng.rsmfstbinetworktips
@@ -11250,7 +11249,7 @@ msgstr "确定要取消此操作吗？"
 
 #: ulng.rsmsgcannotchangetarget
 msgid "You cannot change a target location!"
-msgstr ""
+msgstr "不能修改目标位置！"
 
 #: ulng.rsmsgcannotcopymoveitself
 #, object-pascal-format
@@ -13586,10 +13585,8 @@ msgid "&Files;Di&rectories;Files a&nd Directories"
 msgstr "文件(&F);文件夹(&R);文件和文件夹(&N)"
 
 #: ulng.rsoptsearchopt
-#, fuzzy
-#| msgid "&Hide filter panel when not focused;Keep saving setting modifications for next session"
 msgid "Ignore &diacritics and ligatures;&Hide filter panel when not focused;Keep saving setting modifications for next session"
-msgstr "未聚焦时隐藏过滤器面板(&H);为下一会话保留设置修改"
+msgstr "忽略音标和连字(&D);未聚焦时隐藏过滤器面板(&H);为下一会话保留设置修改"
 
 #: ulng.rsoptsortcasesens
 msgid "not case sensitive;according to locale settings (aAbBcC);first upper then lower case (ABCabc)"

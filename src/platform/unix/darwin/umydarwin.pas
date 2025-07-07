@@ -212,6 +212,10 @@ implementation
 uses
   DynLibs;
 
+const
+  ICON_SPECIAL_FOLDER_EXT_STRING = '.app;.musiclibrary;.imovielibrary;.tvlibrary;.photoslibrary;.theater;.saver;.xcode;.xcodeproj;.xcworkspace;.playground;.scptd;.action;.workflow;.prefpane;.appex;.kext;.xpc;.bundle;.qlgenerator;.mdimporter;.systemextension;.fcpbundle;.fcpxmld;';
+  ICON_SPECIAL_PARENT_FOLDER_STRING = '/;/System;/Applications;/Volumes;/Users;~;~/Music;~/Pictures;~/Movies;';
+
 var
   ICON_SPECIAL_FOLDER_EXT: NSString;
   ICON_SPECIAL_PARENT_FOLDER: NSString;
@@ -715,9 +719,9 @@ begin
   HasMountURL:= Assigned(NetFSMountURLSync) or Assigned(FSMountServerVolumeSync);
   MacosServiceMenuHelper:= TMacosServiceMenuHelper.Create;
   DarwinFileViewDrawHelper:= TDarwinFileViewDrawHelper.Create;
-  ICON_SPECIAL_FOLDER_EXT:= StringToNSString( '.app;.fcpbundle;.fcpxmld;.musiclibrary;.imovielibrary;.tvlibrary;.photoslibrary;.theater;' );
+  ICON_SPECIAL_FOLDER_EXT:= StringToNSString( ICON_SPECIAL_FOLDER_EXT_STRING );
   ICON_SPECIAL_FOLDER_EXT.retain;
-  ICON_SPECIAL_PARENT_FOLDER:= StringToNSString( '/;/System;/Volumes;/Users;~;~/Music;~/Pictures;~/Movies;' );
+  ICON_SPECIAL_PARENT_FOLDER:= StringToNSString( ICON_SPECIAL_PARENT_FOLDER_STRING );
   ICON_SPECIAL_PARENT_FOLDER:= ICON_SPECIAL_PARENT_FOLDER.stringByReplacingOccurrencesOfString_withString( NSSTR('~'), NSHomeDirectory );
   ICON_SPECIAL_PARENT_FOLDER.retain;
 end;
@@ -962,7 +966,7 @@ function hasSpecialFolderExt( const path: String ): Boolean;
 var
   ext: NSString;
 begin
-  ext:= StringToNSString(path).pathExtension;
+  ext:= StringToNSString(path).pathExtension.lowercaseString;
   ext:= NSSTR('.').stringByAppendingString(ext).stringByAppendingString(NSSTR(';'));
   Result:= ICON_SPECIAL_FOLDER_EXT.containsString( ext );
 end;

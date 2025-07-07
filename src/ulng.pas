@@ -1025,8 +1025,8 @@ resourcestring
   rsMFSTBISwapPanelsTitle = 'SwapPanels';
   rsMFSTBISwapPanelsTips = 'Swap Panels';
 
-  rsMFSTBIiCloudDriverTitle = 'iCloud Driver';
-  rsMFSTBIiCloudDriverTips = 'iCloud Driver';
+  rsMFSTBIiCloudDriverTitle = 'iCloud Drive';
+  rsMFSTBIiCloudDriverTips = 'iCloud Drive';
 
   rsMFSTBINetworkTitle = 'network';
   rsMFSTBINetworkTips = 'network';

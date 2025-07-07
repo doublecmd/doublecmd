@@ -19,7 +19,7 @@ const
     'components\Image32\Image32.lpk',
     'components\KASToolBar\kascomp.lpk',
     'components\viewer\viewerpackage.lpk',
-    'components\gifanim\pkg_gifanim.lpk',
+    'components\gifview\gifview.lpk',
     'components\synunihighlighter\synuni.lpk',
     'components\virtualterminal\virtualterminal.lpk'
   );

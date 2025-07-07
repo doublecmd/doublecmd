@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <Package Version="5">
+    <PathDelim Value="\"/>
+    <Name Value="GifView"/>
+    <Type Value="RunAndDesignTime"/>
+    <Author Value="Jérôme Delauney (BeanzMaster), Alexander Koblov"/>
+    <CompilerOptions>
+      <Version Value="11"/>
+      <PathDelim Value="\"/>
+      <SearchPaths>
+        <OtherUnitFiles Value="source"/>
+        <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
+      </SearchPaths>
+      <Linking>
+        <Debugging>
+          <DebugInfoType Value="dsDwarf2Set"/>
+        </Debugging>
+      </Linking>
+    </CompilerOptions>
+    <Description Value="GIF Viewer"/>
+    <License Value="MPL-2.0"/>
+    <Version Major="1"/>
+    <Files>
+      <Item>
+        <Filename Value="source\GifViewerStrConsts.pas"/>
+        <UnitName Value="GifViewerStrConsts"/>
+      </Item>
+      <Item>
+        <Filename Value="source\uFastBitmap.pas"/>
+        <UnitName Value="uFastBitmap"/>
+      </Item>
+      <Item>
+        <Filename Value="source\uGifViewer.pas"/>
+        <HasRegisterProc Value="True"/>
+        <UnitName Value="uGifViewer"/>
+      </Item>
+    </Files>
+    <RequiredPkgs>
+      <Item>
+        <PackageName Value="LCL"/>
+        <MinVersion Major="2" Minor="2" Valid="True"/>
+      </Item>
+      <Item>
+        <PackageName Value="FCL"/>
+      </Item>
+    </RequiredPkgs>
+    <UsageOptions>
+      <UnitPath Value="$(PkgOutDir)"/>
+    </UsageOptions>
+    <PublishOptions>
+      <Version Value="2"/>
+      <UseFileFilters Value="True"/>
+    </PublishOptions>
+  </Package>
+</CONFIG>

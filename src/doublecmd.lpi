@@ -299,8 +299,7 @@ end;"/>
         <MinVersion Valid="True"/>
       </Item5>
       <Item6>
-        <PackageName Value="pkg_gifanim"/>
-        <MinVersion Major="1" Minor="5" Valid="True"/>
+        <PackageName Value="GifView"/>
       </Item6>
       <Item7>
         <PackageName Value="VirtualTerminal"/>
@@ -328,7 +327,7 @@ end;"/>
         <PackageName Value="Image32"/>
       </Item13>
     </RequiredPackages>
-    <Units Count="289">
+    <Units Count="290">
       <Unit0>
         <Filename Value="doublecmd.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -2101,6 +2100,11 @@ end;"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uSmoothScrollingGrid"/>
       </Unit288>
+      <Unit289>
+        <Filename Value="platform\unix\darwin\udarwinfileutil.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uDarwinFileUtil"/>
+      </Unit289>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

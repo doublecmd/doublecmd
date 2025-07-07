@@ -2,20 +2,21 @@
   This source is only used to compile and install the package.
  }
 
-unit pkg_gifanim_dsgn;
+unit GifView;
 
+{$warn 5023 off : no warning about unused units}
 interface
 
 uses
-  GifAnimDsgn, LazarusPackageIntf;
+  GifViewerStrConsts, uFastBitmap, uGifViewer, LazarusPackageIntf;
 
 implementation
 
 procedure Register;
 begin
-  RegisterUnit('GifAnimDsgn', @GifAnimDsgn.Register);
+  RegisterUnit('uGifViewer', @uGifViewer.Register);
 end;
 
 initialization
-  RegisterPackage('pkg_gifanim_dsgn', @Register);
+  RegisterPackage('GifView', @Register);
 end.
