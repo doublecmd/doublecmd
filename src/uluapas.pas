@@ -42,7 +42,20 @@ uses
   uFilePanelSelect, uMasks, LazFileUtils, Character, UnicodeData,
   DCBasicTypes, Variants, uFile, uFileProperty, uFileSource,
   uFileSourceProperty, uFileSourceUtil, uFileSystemFileSource,
-  uDefaultFilePropertyFormatter, DCDateTimeUtils, uShellExecute;
+  uDefaultFilePropertyFormatter, DCDateTimeUtils, uShellExecute,
+  fDialogBox, Extension, uExtension, LCLProc, Types, uGlobsPaths;
+
+const
+  VERSION_API = 1;
+
+type
+  PLDLGUserData = ^DLGUserData;
+  DLGUserData = record
+    L: Plua_State;
+    FuncName: PAnsiChar;
+    FuncRef: Integer;
+    DataRef: Integer;
+  end;
 
 procedure luaPushSearchRec(L : Plua_State; Rec: PSearchRecEx);
 begin
@@ -588,6 +601,553 @@ begin
   AStringList.Free;
 end;
 
+function luaMsgChoiceBox(L : Plua_State) : Integer; cdecl;
+var
+  AIndex, ACount, Args, BtnDef, BtnEsc, Ret: integer;
+  AStringList: TStringList;
+  AText, ACaption: String;
+begin
+  Result:= 1;
+  Args:= lua_gettop(L);
+  if (Args < 3) or (not lua_istable(L, 3)) then
+  begin
+    lua_pushnil(L);
+    Exit;
+  end;
+  AText:= lua_tostring(L, 1);
+  ACaption:= lua_tostring(L, 2);
+  ACount:= lua_objlen(L, 3);
+  AStringList:= TStringList.Create;
+  for AIndex := 1 to ACount do
+  begin
+    lua_rawgeti(L, 3, AIndex);
+    AStringList.Add(luaL_checkstring(L, -1));
+    lua_pop(L, 1);
+  end;
+  if (Args > 3) then
+    BtnDef:= lua_tointeger(L, 4) - 1
+  else
+    BtnDef:= -1;
+  if (Args = 5) then
+    BtnEsc:= lua_tointeger(L, 5) - 1
+  else
+    BtnEsc:= -1;
+  Ret:= uShowMsg.MsgChoiceBox(AText, ACaption, AStringList.ToStringArray, BtnDef, BtnEsc);
+  lua_pushinteger(L, Ret + 1);
+  AStringList.Free;
+end;
+
+function luaDlgProc(pDlg: PtrUInt; DlgItemName: PAnsiChar; Msg, wParam, lParam: PtrInt): PtrInt; {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
+var
+  L: Plua_State;
+  Data: PLDLGUserData;
+  Args: Integer;
+begin
+  Result:= 0;
+  Data:= PLDLGUserData(SendDlgMsg(pDlg, nil, DM_GETDLGDATA, 0, 0));
+  if not Assigned(Data) then
+  begin
+    logWrite('Data not assigned Msg = 0x' + IntToHex(Msg), lmtError, True, False);
+    Exit;
+  end;
+
+  L:= Data^.L;
+  lua_getglobal(L, Data^.FuncName);
+
+  if not lua_isfunction(L, -1) then
+  begin
+    logWrite(Data^.FuncName + ' not a function', lmtError, True, False);
+    Exit;
+  end;
+  Args:= 5;
+  lua_pushinteger(L, pDlg);
+  if (DlgItemName = nil) then
+    lua_pushnil(L)
+  else
+    lua_pushstring(L, DlgItemName);
+  lua_pushinteger(L, Msg);
+  lua_pushinteger(L, wParam);
+  lua_pushinteger(L, lParam);
+  if (Data^.DataRef <> 0) then
+  begin
+    lua_rawgeti(L, LUA_REGISTRYINDEX,Data^.DataRef);
+    Args:= Args + 1;
+  end;
+  LuaPCall(L, Args, 1);
+  if not lua_isnil(L, -1) and (lua_type(L, -1) = LUA_TNUMBER) then
+    Result := PtrInt(lua_tointeger(L, -1));
+  lua_pop(L, 1);
+  if (Msg = DN_CLOSE) then
+  begin
+    if (Data^.FuncRef > 0) then
+    begin
+      lual_unref(L, LUA_REGISTRYINDEX, Data^.FuncRef);
+    end;
+    if (Data^.DataRef > 0) then
+    begin
+      lual_unref(L, LUA_REGISTRYINDEX, Data^.DataRef);
+    end;
+  end;
+end;
+
+function luaDlgParamsToKeyStr(L : Plua_State) : Integer; cdecl;
+var
+  wParam, lParam: PtrInt;
+  Key: ^Word absolute wParam;
+begin
+  Result:= 1;
+  wParam:= PtrInt(lua_tointeger(L, 1));
+  lParam:= PtrInt(lua_tointeger(L, 2));
+  lua_pushstring(L, PAnsiChar(KeyAndShiftStateToKeyString(Key^, TShiftState(Integer(lParam)))));
+end;
+
+function luaDlgParamKeyHandled(L : Plua_State) : Integer; cdecl;
+var
+  Param: PtrInt;
+  Key: ^Word absolute Param;
+begin
+  Result:= 0;
+  Param:= PtrInt(lua_tointeger(L, 1));
+  Key^:=0;
+end;
+
+function luaDlgParamToKeyCode(L : Plua_State) : Integer; cdecl;
+var
+  Param: PtrInt;
+  Key: ^Word absolute Param;
+begin
+  Result:= 1;
+  Param:= PtrInt(lua_tointeger(L, 1));
+  lua_pushinteger(L, Key^);
+end;
+
+function luaDlgParamToStr(L : Plua_State) : Integer; cdecl;
+var
+  Param: PtrInt;
+begin
+  Result:= 1;
+  Param:= PtrInt(lua_tointeger(L, 1));
+  lua_pushstring(L, PAnsiChar(Param));
+end;
+
+function luaGetProperty(L : Plua_State) : Integer; cdecl;
+const
+  MAX_STRING = 1024;
+var
+  pDlg: PtrUInt;
+  DlgItemName, PropName: PAnsiChar;
+  PropType, PropSize, Args: Integer;
+  iValue: Int32;
+  iValue64: Int64;
+  fValue: Double;
+  sValue:array [0..MAX_STRING] of char;
+  Ret: PtrInt;
+  PropValue: Pointer = nil;
+begin
+  Result:= 1;
+  Args:= lua_gettop(L);
+  if (Args < 4) then
+  begin
+    logWrite('GetProperty: missing arguments', lmtError, True, False);
+    lua_pushnil(L);
+    Exit;
+  end;
+  if (lua_type(L, 3) <> LUA_TSTRING) or (lua_type(L, 4) <> LUA_TNUMBER) then
+  begin
+    logWrite('GetProperty: invalid argument', lmtError, True, False);
+    lua_pushnil(L);
+    Exit;
+  end;
+  PropSize:= -1;
+  DlgItemName:= nil;
+  pDlg := PtrUInt(Integer(lua_tointeger(L, 1)));
+  if (lua_type(L, 2) = LUA_TSTRING) then
+    DlgItemName:= lua_tocstring(L, 2);
+  PropName:= lua_tocstring(L, 3);
+  PropType:= lua_tointeger(L, 4);
+  case PropType of
+    TK_STRING:
+      begin
+        PropValue:= @sValue;
+        PropSize:= SizeOf(sValue);
+      end;
+    TK_FLOAT:
+      begin
+        PropValue:= @fValue;
+        PropSize:= SizeOf(fValue);
+      end;
+    TK_INT32:
+      begin
+        PropValue:= @iValue;
+        PropSize:= SizeOf(iValue);
+      end;
+    TK_INT64:
+      begin
+        PropValue:= @iValue64;
+        PropSize:= SizeOf(iValue64);
+      end;
+    TK_BOOL:
+      begin
+        PropValue:= @iValue;
+        PropSize:= SizeOf(iValue);
+      end;
+    else
+      begin
+        logWrite('GetProperty: invalid argument', lmtError, True, False);
+        lua_pushnil(L);
+        Exit;
+      end
+  end;
+
+  Ret:= GetProperty(pDlg, DlgItemName, PropName, PropValue, PropType, PropSize);
+
+  if (Ret < 1) then
+  begin
+    lua_pushnil(L);
+    Exit;
+  end;
+  case PropType of
+    TK_STRING:
+      lua_pushstring(L, PChar(sValue));
+    TK_FLOAT:
+      lua_pushnumber(L, Double(PropValue^));
+    TK_INT32:
+      lua_pushinteger(L, Int32(PropValue^));
+    TK_INT64:
+      lua_pushinteger(L, Int64(PropValue^));
+    TK_BOOL:
+      lua_pushboolean(L, Boolean(PropValue^));
+    else
+      lua_pushnil(L);
+  end;
+end;
+
+function luaSetProperty(L : Plua_State) : Integer; cdecl;
+var
+  pDlg: PtrUInt;
+  DlgItemName, PropName: PAnsiChar;
+  PropType, Args: Integer;
+  iValue: Int32;
+  iValue64: Int64;
+  fValue: Double;
+  sValue:string;
+  Ret: PtrInt;
+  PropValue: Pointer = nil;
+begin
+  Result:= 1;
+  Args:= lua_gettop(L);
+  if (Args < 5) then
+  begin
+    logWrite('SetProperty: missing arguments', lmtError, True, False);
+    lua_pushboolean(L, False);
+    Exit;
+  end;
+  if (lua_type(L, 3) <> LUA_TSTRING) or (lua_type(L, 5) <> LUA_TNUMBER) then
+  begin
+    logWrite('SetProperty: invalid argument', lmtError, True, False);
+    lua_pushboolean(L, False);
+    Exit;
+  end;
+  DlgItemName:= nil;
+  pDlg := PtrUInt(Integer(lua_tointeger(L, 1)));
+  if (lua_type(L, 2) = LUA_TSTRING) then
+    DlgItemName:= lua_tocstring(L, 2);
+  PropName:= lua_tocstring(L, 3);
+  PropType:= lua_tointeger(L, 5);
+  case PropType of
+    TK_STRING:
+      begin
+        sValue:= lua_tostring(L, 4);
+        PropValue:= Pointer(sValue);
+      end;
+    TK_FLOAT:
+      begin
+        fValue:= Double(lua_tonumber(L, 4));
+        PropValue:= @fValue;
+      end;
+    TK_INT32:
+      begin
+        iValue:= Int32(lua_tointeger(L, 4));
+        PropValue:= @iValue;
+      end;
+    TK_INT64:
+      begin
+        iValue64:= Int64(lua_tonumber(L, 4));
+        PropValue:= @iValue64;
+      end;
+    TK_BOOL:
+      begin
+        iValue:= Int32(lua_toboolean(L, 4));
+        PropValue:= @iValue;
+      end;
+    else
+      begin
+        logWrite('SetProperty: invalid argument', lmtError, True, False);
+        lua_pushboolean(L, False);
+        Exit;
+      end
+  end;
+
+  Ret:= SetProperty(pDlg, DlgItemName, PropName, PropValue, PropType);
+
+  lua_pushboolean(L, (Ret = 1));
+end;
+
+function luaCreateComponent(L : Plua_State) : Integer; cdecl;
+var
+  pDlg: PtrUInt;
+  sParent, sComponent, sClass: PAnsiChar;
+  Ret, Args: Integer;
+begin
+  Result:= 1;
+  Args:= lua_gettop(L);
+  if (Args < 3) then
+  begin
+    logWrite('CreateComponent: missing arguments', lmtError, True, False);
+    lua_pushboolean(L, False);
+    Exit;
+  end;
+  if (lua_type(L, 3) <> LUA_TSTRING) or (lua_type(L, 4) <> LUA_TSTRING) then
+  begin
+    logWrite('CreateComponent: invalid argument', lmtError, True, False);
+    lua_pushboolean(L, False);
+    Exit;
+  end;
+  sParent:= nil;
+  pDlg := PtrUInt(Integer(lua_tointeger(L, 1)));
+  if (lua_type(L, 2) = LUA_TSTRING) then
+    sParent:= lua_tocstring(L, 2);
+  sComponent:= lua_tocstring(L, 3);
+  sClass:= lua_tocstring(L, 4);
+  try
+    Ret:= CreateComponent(pDlg, sParent, sComponent, sClass, nil);
+  except
+  begin
+    lua_pushboolean(L, False);
+    Exit;
+  end
+  end;
+  lua_pushboolean(L, (Ret <> 0));
+end;
+
+function luaSendDlgMsg(L : Plua_State) : Integer; cdecl;
+var
+  pDlg: PtrUInt;
+  DlgItemName: PAnsiChar;
+  Bounds: TRect;
+  Text: String;
+  pRet, Msg, wParam, lParam: PtrInt;
+  wType, lType, Index, Args: Integer;
+  I, Count: Longint;
+  Data: PLDLGUserData;
+begin
+  Result:= 1;
+  Args:= lua_gettop(L);
+  if (Args < 3) then
+  begin
+    logWrite('SendDlgMsg: missing arguments', lmtError, True, False);
+    lua_pushnil(L);
+    Exit;
+  end;
+  DlgItemName:= nil;
+  pDlg := PtrUInt(Integer(lua_tointeger(L, 1)));
+  if (lua_type(L, 2) = LUA_TSTRING) then
+    DlgItemName:= lua_tocstring(L, 2);
+  Msg:= PtrInt(lua_tointeger(L, 3));
+  wParam:= 0;
+  lParam:= 0;
+
+  if (Msg = DM_GETDLGDATA) then
+  begin
+    Data:= PLDLGUserData(SendDlgMsg(pDlg, DlgItemName, DM_GETDLGDATA, 0, 0));
+    lua_rawgeti(L, LUA_REGISTRYINDEX, Data^.DataRef);
+    Exit;
+  end
+  else if (Msg = DM_SETDLGDATA) then
+  begin
+    Data:= PLDLGUserData(SendDlgMsg(pDlg, DlgItemName, DM_GETDLGDATA, 0, 0));
+    for I:= 1 to 3 do
+      lua_remove(L, 1);
+    Index:= Data^.DataRef;
+    Data^.DataRef:= luaL_ref(L, LUA_REGISTRYINDEX);
+    lua_rawgeti(L, LUA_REGISTRYINDEX, Index);
+    lual_unref(L, LUA_REGISTRYINDEX, Integer(Index));
+    Exit;
+  end;
+
+  wType:= lua_type(L, 4);
+  lType:= lua_type(L, 5);
+  if (Args > 3) then
+  begin
+    if (wType = LUA_TSTRING) then
+      wParam := PtrInt(lua_tocstring(L, 4))
+    else if (wType = LUA_TBOOLEAN) then
+    begin
+      if (Boolean(lua_toboolean(L, 4)) = True) then
+        wParam := 1;
+    end
+    else
+    begin
+      case Msg of
+      DM_SETDLGBOUNDS,
+      DM_SETITEMBOUNDS:
+       begin
+         if (wType = LUA_TTABLE) then
+         begin
+           lua_getfield(L, 4, 'Left');
+           if (lua_type(L, -1) = LUA_TNUMBER) then
+             Bounds.Left:= Longint(lua_tointeger(L, -1));
+           lua_pop(L, 1);
+           lua_getfield(L, 4, 'Right');
+           if (lua_type(L, -1) = LUA_TNUMBER) then
+             Bounds.Right:= Longint(lua_tointeger(L, -1));
+           lua_pop(L, 1);
+           lua_getfield(L, 4, 'Top');
+           if (lua_type(L, -1) = LUA_TNUMBER) then
+             Bounds.Top:= Longint(lua_tointeger(L, -1));
+           lua_pop(L, 1);
+           lua_getfield(L, 4, 'Bottom');
+           if (lua_type(L, -1) = LUA_TNUMBER) then
+             Bounds.Bottom:= Longint(lua_tointeger(L, -1));
+           lua_pop(L, 1);
+
+           wParam:= PtrInt(@Bounds);
+         end;
+       end;
+      DM_SETTEXT,
+      DM_LISTADD,
+      DM_LISTADDSTR:
+       wParam := PtrInt(lua_tocstring(L, 4));
+      else if (wType = LUA_TNUMBER) then
+            wParam := PtrInt(lua_tointeger(L, 4));
+      end;
+    end;
+  end;
+
+  if (Msg = DM_LISTDELETE) then
+  begin
+    pRet:= SendDlgMsg(pDlg, DlgItemName, DM_LISTGETDATA, wParam, lParam);
+    if (pRet > 0) then
+    begin
+      lual_unref(L, LUA_REGISTRYINDEX, Integer(pRet));
+    end;
+  end
+  else if (Msg = DM_LISTCLEAR) then
+  begin
+    Count:= longint(SendDlgMsg(pDlg, DlgItemName, DM_LISTGETCOUNT, wParam, lParam));
+    for I:= 0 to Count-1 do
+    begin
+      pRet:= SendDlgMsg(pDlg, DlgItemName, DM_LISTGETDATA, I, lParam);
+      if (pRet > 0) then
+      begin
+        lual_unref(L, LUA_REGISTRYINDEX, Integer(pRet));
+      end;
+    end;
+  end;
+
+  if (Args = 5) then
+  begin
+    if (Msg = DM_LISTADD) or (Msg = DM_LISTSETDATA)then
+    begin
+      for Index:= 1 to 4 do
+        lua_remove(L, 1);
+      lParam:= PtrInt(luaL_ref(L, LUA_REGISTRYINDEX));
+    end
+    else if (lType = LUA_TSTRING) then
+      lParam := PtrInt(lua_tocstring(L, 5))
+    else if (lType = LUA_TBOOLEAN) then
+    begin
+      if (Boolean(lua_toboolean(L, 5)) = True) then
+        lParam := 1;
+    end
+    else
+    begin
+      case Msg of
+      DM_LISTINDEXOF,
+      DM_LISTINSERT,
+      DM_LISTUPDATE:
+        lParam := PtrInt(lua_tocstring(L, 4));
+      else if (lType = LUA_TNUMBER) then
+        lParam := PtrInt(lua_tointeger(L, 5));
+      end;
+    end;
+  end;
+
+  pRet:= SendDlgMsg(pDlg, DlgItemName, Msg, wParam, lParam);
+
+  case Msg of
+  DM_ENABLE,
+  DM_GETDROPPEDDOWN,
+  DM_SHOWITEM:
+   begin
+     lua_pushboolean(L, Boolean(pRet));
+   end;
+  DM_GETTEXT,
+  DM_LISTGETITEM:
+   begin
+     Text:= PAnsiChar(pRet);
+     lua_pushstring(L, Text);
+   end;
+  DM_GETITEMBOUNDS,
+  DM_GETDLGBOUNDS:
+   begin
+     Bounds:= PRect(pRet)^;
+     lua_newtable(L);
+     lua_pushinteger(L, Bounds.Left);
+     lua_setfield(L, -2, 'Left');
+     lua_pushinteger(L, Bounds.Right);
+     lua_setfield(L, -2, 'Right');
+     lua_pushinteger(L, Bounds.Top);
+     lua_setfield(L, -2, 'Top');
+     lua_pushinteger(L, Bounds.Bottom);
+     lua_setfield(L, -2, 'Bottom');
+   end;
+  DM_LISTGETDATA:
+   begin
+     lua_rawgeti(L, LUA_REGISTRYINDEX, Integer(pRet));
+   end;
+  else
+    lua_pushinteger(L, pRet);
+  end;
+end;
+
+function luaDialogBoxLFM(L : Plua_State) : Integer; cdecl;
+var
+  pRet: PtrUInt;
+  sData: String;
+  iFlags: UInt32;
+  pReserved: Pointer;
+  UserData: DLGUserData;
+  Args: Integer;
+begin
+  Result:= 1;
+  Args:= lua_gettop(L);
+  if (Args < 3) or (not lua_isstring(L, 1) or not lua_isstring(L, 3)) then
+  begin
+    logWrite('SendDlgMsg: missing or insufficient arguments', lmtError, True, False);
+    lua_pushnil(L);
+    Exit;
+  end;
+  UserData.L:= L;
+  UserData.FuncRef:= 0;
+  UserData.DataRef:= 0;
+  UserData.FuncName:= '';
+  sData:= lua_tostring(L, 1);
+  lua_remove(L, 1);
+  iFlags:= DB_FILENAME;
+  if lua_isboolean(L, 1) and (not lua_toboolean(L, 1)) then
+    iFlags:= DB_LFM;
+  lua_remove(L, 1);
+  UserData.FuncName:= lua_tocstring(L, 1);
+  if (Args = 4) then
+  begin
+    lua_remove(L, 1);
+    UserData.DataRef:= luaL_ref(L, LUA_REGISTRYINDEX);
+  end;
+  pRet:= DialogBoxParam(PAnsiChar(sData), LongWord(Length(sData)), @luaDlgProc, iFlags, @UserData, pReserved);
+  lua_pushinteger(L, Integer(pRet));
+end;
+
 function luaLogWrite(L : Plua_State) : Integer; cdecl;
 var
   sText: String;
@@ -920,6 +1480,16 @@ begin
     luaP_register(L, 'MessageBox', @luaMessageBox);
     luaP_register(L, 'InputQuery', @luaInputQuery);
     luaP_register(L, 'InputListBox', @luaInputListBox);
+    luaP_register(L, 'MsgChoiceBox', @luaMsgChoiceBox);
+    luaP_register(L, 'ParamKeyHandled', @luaDlgParamKeyHandled);
+    luaP_register(L, 'ParamsToKeyStr', @luaDlgParamsToKeyStr);
+    luaP_register(L, 'ParamToKeyCode', @luaDlgParamToKeyCode);
+    luaP_register(L, 'ParamToStr', @luaDlgParamToStr);
+    luaP_register(L, 'SendDlgMsg', @luaSendDlgMsg);
+    luaP_register(L, 'CreateComponent', @luaCreateComponent);
+    luaP_register(L, 'GetProperty', @luaGetProperty);
+    luaP_register(L, 'SetProperty', @luaSetProperty);
+    luaP_register(L, 'DialogBoxLFM', @luaDialogBoxLFM);
   lua_setglobal(L, 'Dialogs');
 
   lua_newtable(L);
@@ -929,6 +1499,10 @@ begin
     luaP_register(L, 'ExpandVar', @luaExpandVar);
     luaP_register(L, 'GetPluginField', @luaGetPluginField);
     luaP_register(L, 'GoToFile', @luaGoToFile);
+    lua_pushinteger(L, VERSION_API);
+    lua_setfield(L, -2, 'LuaAPI');
+    lua_pushinteger(L, uExtension.VERSION_API);
+    lua_setfield(L, -2, 'ExtensionAPI');
   lua_setglobal(L, 'DC');
 
   ReplaceLibrary(L);
@@ -936,13 +1510,16 @@ end;
 
 procedure SetPackagePath(L: Plua_State; const Path: String);
 var
-  APath: String;
+  APath, ANewPath: String;
+const
+  COMMON_FILES = 'scripts' + PathDelim + 'lua' + PathDelim + '?.lua;';
 begin
   lua_getglobal(L, 'package');
     // Set package.path
     lua_getfield(L, -1, 'path');
       APath := lua_tostring(L, -1);
-      APath := StringReplace(APath, '.' + PathDelim, Path, []);
+      ANewPath := gpExePath + COMMON_FILES + Path;
+      APath := StringReplace(APath, '.' + PathDelim, ANewPath, []);
     lua_pop(L, 1);
     lua_pushstring(L, APath);
     lua_setfield(L, -2, 'path');
@@ -1017,8 +1594,9 @@ begin
 
     // Check execution result
     if Status <> 0 then begin
-      Script:= lua_tostring(L, -1);
-      MessageDlg(CeRawToUtf8(Script), mtError, [mbOK], 0);
+      Script:= CeRawToUtf8(lua_tostring(L, -1));
+      UTF8FixBroken(PChar(Script));
+      MessageDlg(Script, mtError, [mbOK], 0);
     end;
 
     lua_close(L);
