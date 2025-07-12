@@ -383,11 +383,8 @@ begin
   if not IsLoadingFileList then
   begin
 
-    if (Shift=[ssCtrl])and(gFonts[dcfMain].Size < gFonts[dcfMain].MaxValue) then
+    if (Shift=[ssCtrl])and(frmMain.Commands.MainFontZoomIn()) then
     begin
-      gFonts[dcfMain].Size:=gFonts[dcfMain].Size+1;
-      frmMain.FrameLeft.UpdateView;
-      frmMain.FrameRight.UpdateView;
       Handled:=True;
       Exit;
     end;
@@ -414,11 +411,8 @@ begin
   if not IsLoadingFileList then
   begin
 
-    if (Shift=[ssCtrl])and(gFonts[dcfMain].Size > gFonts[dcfMain].MinValue) then
+    if (Shift=[ssCtrl])and(frmMain.Commands.MainFontZoomOut()) then
     begin
-      gFonts[dcfMain].Size:=gFonts[dcfMain].Size-1;
-      frmMain.FrameLeft.UpdateView;
-      frmMain.FrameRight.UpdateView;
       Handled:=True;
       Exit;
     end;
