@@ -2516,7 +2516,6 @@ msgid "&Load Tabs from File"
 msgstr "Завантажити вкладки &з файлу"
 
 #: tfrmmain.actmainfontzoomin.caption
-#, fuzzy
 msgctxt "tfrmmain.actmainfontzoomin.caption"
 msgid "Zoom In"
 msgstr "Збільшити"
@@ -9837,7 +9836,6 @@ msgid "Zoom In"
 msgstr "Збільшити"
 
 #: tfrmviewer.actzoomin.hint
-#, fuzzy
 msgctxt "tfrmviewer.actzoomin.hint"
 msgid "Zoom In"
 msgstr "Збільшити"
@@ -9848,7 +9846,6 @@ msgid "Zoom Out"
 msgstr "Зменшити"
 
 #: tfrmviewer.actzoomout.hint
-#, fuzzy
 msgctxt "tfrmviewer.actzoomout.hint"
 msgid "Zoom Out"
 msgstr "Зменшити"

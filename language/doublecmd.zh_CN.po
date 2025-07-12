@@ -2451,13 +2451,11 @@ msgid "&Load Tabs from File"
 msgstr "从文件加载标签(&L)"
 
 #: tfrmmain.actmainfontzoomin.caption
-#, fuzzy
 msgctxt "tfrmmain.actmainfontzoomin.caption"
 msgid "Zoom In"
 msgstr "放大"
 
 #: tfrmmain.actmainfontzoomout.caption
-#, fuzzy
 msgctxt "tfrmmain.actmainfontzoomout.caption"
 msgid "Zoom Out"
 msgstr "缩小"

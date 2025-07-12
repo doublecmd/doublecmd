@@ -2526,13 +2526,11 @@ msgid "&Load Tabs from File"
 msgstr "Hent faner frå fil"
 
 #: tfrmmain.actmainfontzoomin.caption
-#, fuzzy
 msgctxt "tfrmmain.actmainfontzoomin.caption"
 msgid "Zoom In"
 msgstr "Zoom inn"
 
 #: tfrmmain.actmainfontzoomout.caption
-#, fuzzy
 msgctxt "tfrmmain.actmainfontzoomout.caption"
 msgid "Zoom Out"
 msgstr "Zoom ut"
@@ -10002,7 +10000,6 @@ msgid "Zoom In"
 msgstr "Zoom inn"
 
 #: tfrmviewer.actzoomin.hint
-#, fuzzy
 msgctxt "tfrmviewer.actzoomin.hint"
 msgid "Zoom In"
 msgstr "Zoom inn"
@@ -10013,7 +10010,6 @@ msgid "Zoom Out"
 msgstr "Zoom ut"
 
 #: tfrmviewer.actzoomout.hint
-#, fuzzy
 msgctxt "tfrmviewer.actzoomout.hint"
 msgid "Zoom Out"
 msgstr "Zoom ut"

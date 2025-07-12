@@ -2452,13 +2452,11 @@ msgid "&Load Tabs from File"
 msgstr "Načítať karty zo súboru"
 
 #: tfrmmain.actmainfontzoomin.caption
-#, fuzzy
 msgctxt "tfrmmain.actmainfontzoomin.caption"
 msgid "Zoom In"
 msgstr "Priblížiť"
 
 #: tfrmmain.actmainfontzoomout.caption
-#, fuzzy
 msgctxt "tfrmmain.actmainfontzoomout.caption"
 msgid "Zoom Out"
 msgstr "Oddialiť"

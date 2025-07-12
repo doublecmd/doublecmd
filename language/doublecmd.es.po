@@ -2479,13 +2479,11 @@ msgid "&Load Tabs from File"
 msgstr "&Cargar pestañas desde archivo"
 
 #: tfrmmain.actmainfontzoomin.caption
-#, fuzzy
 msgctxt "tfrmmain.actmainfontzoomin.caption"
 msgid "Zoom In"
 msgstr "Acercar"
 
 #: tfrmmain.actmainfontzoomout.caption
-#, fuzzy
 msgctxt "tfrmmain.actmainfontzoomout.caption"
 msgid "Zoom Out"
 msgstr "Alejar"
@@ -9611,7 +9609,6 @@ msgid "Zoom In"
 msgstr "Acercar"
 
 #: tfrmviewer.actzoomin.hint
-#, fuzzy
 msgctxt "tfrmviewer.actzoomin.hint"
 msgid "Zoom In"
 msgstr "Acercar"
@@ -9622,7 +9619,6 @@ msgid "Zoom Out"
 msgstr "Alejar"
 
 #: tfrmviewer.actzoomout.hint
-#, fuzzy
 msgctxt "tfrmviewer.actzoomout.hint"
 msgid "Zoom Out"
 msgstr "Alejar"

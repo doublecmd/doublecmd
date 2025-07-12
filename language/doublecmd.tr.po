@@ -2661,12 +2661,12 @@ msgstr ""
 #: tfrmmain.actmainfontzoomin.caption
 msgctxt "tfrmmain.actmainfontzoomin.caption"
 msgid "Zoom In"
-msgstr ""
+msgstr "Yakınlaştır"
 
 #: tfrmmain.actmainfontzoomout.caption
 msgctxt "tfrmmain.actmainfontzoomout.caption"
 msgid "Zoom Out"
-msgstr ""
+msgstr "Uzaklaştır"
 
 #: tfrmmain.actmakedir.caption
 #, fuzzy
@@ -10144,7 +10144,6 @@ msgid "Zoom"
 msgstr ""
 
 #: tfrmviewer.actzoomin.caption
-#, fuzzy
 msgctxt "tfrmviewer.actzoomin.caption"
 msgid "Zoom In"
 msgstr "Yakınlaştır"
@@ -10152,10 +10151,9 @@ msgstr "Yakınlaştır"
 #: tfrmviewer.actzoomin.hint
 msgctxt "tfrmviewer.actzoomin.hint"
 msgid "Zoom In"
-msgstr ""
+msgstr "Yakınlaştır"
 
 #: tfrmviewer.actzoomout.caption
-#, fuzzy
 msgctxt "tfrmviewer.actzoomout.caption"
 msgid "Zoom Out"
 msgstr "Uzaklaştır"
@@ -10163,7 +10161,7 @@ msgstr "Uzaklaştır"
 #: tfrmviewer.actzoomout.hint
 msgctxt "tfrmviewer.actzoomout.hint"
 msgid "Zoom Out"
-msgstr ""
+msgstr "Uzaklaştır"
 
 #: tfrmviewer.btncuttuimage.hint
 msgctxt "TFRMVIEWER.BTNCUTTUIMAGE.HINT"

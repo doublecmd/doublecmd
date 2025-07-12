@@ -2522,13 +2522,11 @@ msgid "&Load Tabs from File"
 msgstr "Încarcă fi&le din fișier"
 
 #: tfrmmain.actmainfontzoomin.caption
-#, fuzzy
 msgctxt "tfrmmain.actmainfontzoomin.caption"
 msgid "Zoom In"
 msgstr "Mărește"
 
 #: tfrmmain.actmainfontzoomout.caption
-#, fuzzy
 msgctxt "tfrmmain.actmainfontzoomout.caption"
 msgid "Zoom Out"
 msgstr "Micșorează"
@@ -9804,7 +9802,6 @@ msgid "Zoom In"
 msgstr "Mărește"
 
 #: tfrmviewer.actzoomin.hint
-#, fuzzy
 msgctxt "tfrmviewer.actzoomin.hint"
 msgid "Zoom In"
 msgstr "Mărește"
@@ -9815,7 +9812,6 @@ msgid "Zoom Out"
 msgstr "Micșorează"
 
 #: tfrmviewer.actzoomout.hint
-#, fuzzy
 msgctxt "tfrmviewer.actzoomout.hint"
 msgid "Zoom Out"
 msgstr "Micșorează"

@@ -2601,13 +2601,11 @@ msgid "&Load Tabs from File"
 msgstr "Ind&læs faneblade fra fil"
 
 #: tfrmmain.actmainfontzoomin.caption
-#, fuzzy
 msgctxt "tfrmmain.actmainfontzoomin.caption"
 msgid "Zoom In"
 msgstr "Zoom ind"
 
 #: tfrmmain.actmainfontzoomout.caption
-#, fuzzy
 msgctxt "tfrmmain.actmainfontzoomout.caption"
 msgid "Zoom Out"
 msgstr "Zoom ud"
@@ -10542,7 +10540,6 @@ msgid "Zoom In"
 msgstr "Zoom ind"
 
 #: tfrmviewer.actzoomin.hint
-#, fuzzy
 msgctxt "tfrmviewer.actzoomin.hint"
 msgid "Zoom In"
 msgstr "Zoom ind"
@@ -10553,7 +10550,6 @@ msgid "Zoom Out"
 msgstr "Zoom ud"
 
 #: tfrmviewer.actzoomout.hint
-#, fuzzy
 msgctxt "tfrmviewer.actzoomout.hint"
 msgid "Zoom Out"
 msgstr "Zoom ud"

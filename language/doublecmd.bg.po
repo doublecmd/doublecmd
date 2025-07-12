@@ -2542,13 +2542,11 @@ msgid "&Load Tabs from File"
 msgstr "&Зареждане на подпрозорци от файл"
 
 #: tfrmmain.actmainfontzoomin.caption
-#, fuzzy
 msgctxt "tfrmmain.actmainfontzoomin.caption"
 msgid "Zoom In"
 msgstr "Увеличаване"
 
 #: tfrmmain.actmainfontzoomout.caption
-#, fuzzy
 msgctxt "tfrmmain.actmainfontzoomout.caption"
 msgid "Zoom Out"
 msgstr "Смаляване"
@@ -9974,7 +9972,6 @@ msgid "Zoom In"
 msgstr "Увеличаване"
 
 #: tfrmviewer.actzoomin.hint
-#, fuzzy
 msgctxt "tfrmviewer.actzoomin.hint"
 msgid "Zoom In"
 msgstr "Увеличаване"

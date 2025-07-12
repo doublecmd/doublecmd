@@ -2492,13 +2492,11 @@ msgid "&Load Tabs from File"
 msgstr "从档案载入分頁 (&L)"
 
 #: tfrmmain.actmainfontzoomin.caption
-#, fuzzy
 msgctxt "tfrmmain.actmainfontzoomin.caption"
 msgid "Zoom In"
 msgstr "放大"
 
 #: tfrmmain.actmainfontzoomout.caption
-#, fuzzy
 msgctxt "tfrmmain.actmainfontzoomout.caption"
 msgid "Zoom Out"
 msgstr "縮小"
@@ -9756,7 +9754,6 @@ msgid "Zoom In"
 msgstr "放大"
 
 #: tfrmviewer.actzoomin.hint
-#, fuzzy
 msgctxt "tfrmviewer.actzoomin.hint"
 msgid "Zoom In"
 msgstr "放大"
@@ -9767,7 +9764,6 @@ msgid "Zoom Out"
 msgstr "縮小"
 
 #: tfrmviewer.actzoomout.hint
-#, fuzzy
 msgctxt "tfrmviewer.actzoomout.hint"
 msgid "Zoom Out"
 msgstr "縮小"
