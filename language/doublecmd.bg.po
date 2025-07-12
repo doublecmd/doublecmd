@@ -2541,6 +2541,18 @@ msgstr "&Зареждане на отбелязването от файл"
 msgid "&Load Tabs from File"
 msgstr "&Зареждане на подпрозорци от файл"
 
+#: tfrmmain.actmainfontzoomin.caption
+#, fuzzy
+msgctxt "tfrmmain.actmainfontzoomin.caption"
+msgid "Zoom In"
+msgstr "Увеличаване"
+
+#: tfrmmain.actmainfontzoomout.caption
+#, fuzzy
+msgctxt "tfrmmain.actmainfontzoomout.caption"
+msgid "Zoom Out"
+msgstr "Смаляване"
+
 #: tfrmmain.actmakedir.caption
 msgid "Create &Directory"
 msgstr "&Нова папка"

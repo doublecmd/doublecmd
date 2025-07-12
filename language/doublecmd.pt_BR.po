@@ -2555,6 +2555,16 @@ msgstr "Carregar se&leção de arquivo."
 msgid "&Load Tabs from File"
 msgstr "&Carregar guias de Arquivo."
 
+#: tfrmmain.actmainfontzoomin.caption
+msgctxt "tfrmmain.actmainfontzoomin.caption"
+msgid "Zoom In"
+msgstr ""
+
+#: tfrmmain.actmainfontzoomout.caption
+msgctxt "tfrmmain.actmainfontzoomout.caption"
+msgid "Zoom Out"
+msgstr ""
+
 #: tfrmmain.actmakedir.caption
 msgid "Create &Directory"
 msgstr "Criar &Pasta"

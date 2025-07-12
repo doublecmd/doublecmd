@@ -2478,6 +2478,18 @@ msgstr "Cargar se&lección desde archi&vo..."
 msgid "&Load Tabs from File"
 msgstr "&Cargar pestañas desde archivo"
 
+#: tfrmmain.actmainfontzoomin.caption
+#, fuzzy
+msgctxt "tfrmmain.actmainfontzoomin.caption"
+msgid "Zoom In"
+msgstr "Acercar"
+
+#: tfrmmain.actmainfontzoomout.caption
+#, fuzzy
+msgctxt "tfrmmain.actmainfontzoomout.caption"
+msgid "Zoom Out"
+msgstr "Alejar"
+
 #: tfrmmain.actmakedir.caption
 msgid "Create &Directory"
 msgstr "Crear carpeta"

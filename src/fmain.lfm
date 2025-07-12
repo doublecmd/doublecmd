@@ -2857,6 +2857,20 @@ object frmMain: TfrmMain
       Caption = 'Map Network Drive...'
       OnExecute = actExecute
     end
+    object actMainFontZoomOut: TAction
+      Tag = 7
+      Category = 'Miscellaneous'
+      Caption = 'Zoom Out'
+      HelpType = htKeyword
+      OnExecute = actExecute
+    end
+    object actMainFontZoomIn: TAction
+      Tag = 7
+      Category = 'Miscellaneous'
+      Caption = 'Zoom In'
+      HelpType = htKeyword
+      OnExecute = actExecute
+    end
   end
   object pmHotList: TPopupMenu
     Images = imgLstDirectoryHotlist

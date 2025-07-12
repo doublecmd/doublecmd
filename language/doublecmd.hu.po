@@ -2451,6 +2451,18 @@ msgstr "Kijelölés betöltése fájlból..."
 msgid "&Load Tabs from File"
 msgstr "Lapok betöltése fájlból"
 
+#: tfrmmain.actmainfontzoomin.caption
+#, fuzzy
+msgctxt "tfrmmain.actmainfontzoomin.caption"
+msgid "Zoom In"
+msgstr "Nagyítás"
+
+#: tfrmmain.actmainfontzoomout.caption
+#, fuzzy
+msgctxt "tfrmmain.actmainfontzoomout.caption"
+msgid "Zoom Out"
+msgstr "Kicsinyítés"
+
 #: tfrmmain.actmakedir.caption
 msgid "Create &Directory"
 msgstr "&Mappa létrehozása"
@@ -3155,6 +3167,7 @@ msgid "&Network"
 msgstr "Háló&zat"
 
 #: tfrmmain.mnushow.caption
+msgctxt "tfrmmain.mnushow.caption"
 msgid "&Show"
 msgstr "Megjele&ntés"
 
@@ -3531,7 +3544,6 @@ msgid "Load Preset 7"
 msgstr "7. sablon betöltése"
 
 #: tfrmmultirename.actloadpreset8.caption
-#: tfrmmultirename.actloadpreset8.caption
 msgid "Load Preset 8"
 msgstr "8. sablon betöltése"
 
@@ -3900,13 +3912,15 @@ msgctxt "tfrmoptionsarchivers.bvlarchiveroptions.caption"
 msgid "Options:"
 msgstr "Beállítások:"
 
-#: tfrmoptionsarchivers.bvlarchiveparsingmode.caption
-msgctxt "tfrmoptionsarchiveparsingmode.bvlarchiveparsingmode.caption"
+#: tfrmoptionsarchivers.bvlarchiverparsingmode.caption
+#, fuzzy
+msgctxt "tfrmoptionsarchivers.bvlarchiverparsingmode.caption"
 msgid "Format parsing mode:"
 msgstr "Formátumelemzés módja:"
 
-#: tfrmoptionarchive.chkarchiveenabled.caption
-msgctxt "tfromoptionarchive.chkarchiveenabled.capton"
+#: tfrmoptionsarchivers.chkarchiverenabled.caption
+#, fuzzy
+msgctxt "tfrmoptionsarchivers.chkarchiverenabled.caption"
 msgid "E&nabled"
 msgstr "Bekapcsol&va"
 
@@ -4459,9 +4473,10 @@ msgid "All"
 msgstr "Mind"
 
 #: tfrmoptionscustomcolumns.btnallmarkcolor.hint
+#, fuzzy
 msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.BTNALLMARKCOLOR.HINT"
 msgid "Apply modification to all columns"
-msgstr ""
+msgstr "Módosítás alkalmazása minden oszlopra"
 
 #: tfrmoptionscustomcolumns.btnalluseinactiveselcolor.caption
 msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.BTNALLUSEINACTIVESELCOLOR.CAPTION"
@@ -8308,6 +8323,14 @@ msgstr "Aa"
 msgid "Case Sensitive"
 msgstr "Nagy- és kisbetű érzékeny"
 
+#: tfrmquicksearch.sbdiacritics.caption
+msgid "Ďï"
+msgstr ""
+
+#: tfrmquicksearch.sbdiacritics.hint
+msgid "Diacritics and ligatures"
+msgstr ""
+
 #: tfrmquicksearch.sbdirectories.caption
 msgid "D"
 msgstr "D"
@@ -9771,14 +9794,6 @@ msgctxt "TWFXPLUGINCOPYMOVEOPERATIONOPTIONSUI.LBLFILEEXISTS.CAPTION"
 msgid "When file exists"
 msgstr "Ha a fájl már létezik"
 
-#: uaccentsutils.rsstraccents
-msgid "á;â;à;å;ã;ä;ç;é;ê;è;ë;í;î;ì;ï;ñ;ó;ô;ò;ø;õ;ö;ú;û;ù;ü;ÿ;Á;Â;À;Å;Ã;Ä;Ç;É;Ê;È;Ë;Í;Í;Ì;Ï;Ñ;Ó;Ô;Ø;Õ;Ö;ß;Ú;Û;Ù;Ü;Ÿ;¿;¡;œ;æ;Æ;Œ"
-msgstr "á;â;à;å;ã;ä;ç;é;ê;è;ë;í;î;ì;ï;ñ;ó;ô;ò;ø;õ;ö;ú;û;ù;ü;ÿ;Á;Â;À;Å;Ã;Ä;Ç;É;Ê;È;Ë;Í;Í;Ì;Ï;Ñ;Ó;Ô;Ø;Õ;Ö;ß;Ú;Û;Ù;Ü;Ÿ;¿;¡;œ;æ;Æ;Œ"
-
-#: uaccentsutils.rsstraccentsstripped
-msgid "a;a;a;a;a;a;c;e;e;e;e;i;i;i;i;n;o;o;o;o;o;o;u;u;u;u;y;A;A;A;A;A;A;C;E;E;E;E;I;I;I;I;N;O;O;O;O;O;B;U;U;U;U;Y;?;!;oe;ae;AE;OE"
-msgstr "a;a;a;a;a;a;c;e;e;e;e;i;i;i;i;n;o;o;o;o;o;o;u;u;u;u;y;A;A;A;A;A;A;C;E;E;E;E;I;I;I;I;N;O;O;O;O;O;B;U;U;U;U;Y;?;!;oe;ae;AE;OE"
-
 #: uadministrator.rselevationrequired
 msgid "You need to provide administrator permission"
 msgstr "Rendszergazdai jogosultság szükséges"
@@ -9847,12 +9862,14 @@ msgstr "Tájolás"
 
 #: ulng.msgtrytolocatecrcfile
 #, object-pascal-format
-msgid "This file cannot be found and could help to validate final combination of files:\n"
+msgid ""
+"This file cannot be found and could help to validate final combination of files:\n"
 "%s\n"
 "\n"
 "Could you make it available and press \"OK\" when ready,\n"
 "or press \"CANCEL\" to continue without it?"
-msgstr "Ez a fájl nem található, és segíthet a fájlok végleges kombinációjának ellenőrzésében:\n"
+msgstr ""
+"Ez a fájl nem található, és segíthet a fájlok végleges kombinációjának ellenőrzésében:\n"
 "%s\n"
 "\n"
 "Kérjük, tegye elérhetővé, és nyomja meg az \"OK\" gombot, ha kész,\n"
@@ -10083,6 +10100,12 @@ msgstr " Egyezések: "
 msgid " Modifies: "
 msgstr " Módosítások: "
 
+#: ulng.rsdiffshow
+#, fuzzy
+msgctxt "ulng.rsdiffshow"
+msgid "&Show"
+msgstr "Megjele&ntés"
+
 #: ulng.rsdifftextdifferenceencoding
 msgctxt "ulng.rsdifftextdifferenceencoding"
 msgid "Encoding"
@@ -10097,9 +10120,11 @@ msgid "The text is identical, but the following options are used:"
 msgstr "A szöveg megegyezik, de a következő beállítások érvényesek:"
 
 #: ulng.rsdifftextidenticalnotmatch
-msgid "The text is identical, but the files do not match!\n"
+msgid ""
+"The text is identical, but the files do not match!\n"
 "The following differences were found:"
-msgstr "A szöveg megegyezik, de a fájlok nem!\n"
+msgstr ""
+"A szöveg megegyezik, de a fájlok nem!\n"
 "A következő különbségeket találtuk:"
 
 #: ulng.rsdlgbuttonabort
@@ -10667,10 +10692,12 @@ msgid "none;Name, a-z;Name, z-a;Ext, a-z;Ext, z-a;Size 9-0;Size 0-9;Date 9-0;Dat
 msgstr "nincs;Név, a-z;Név, z-a;Kit, a-z;Kit, z-a;Méret 9-0;Méret 0-9;Dátum 9-0;Dátum 0-9"
 
 #: ulng.rshotdirwarningabortrestorebackup
-msgid "Warning! When restoring a .hotlist backup file, this will erase existing list to replace by the imported one.\n"
+msgid ""
+"Warning! When restoring a .hotlist backup file, this will erase existing list to replace by the imported one.\n"
 "\n"
 "Are you sure you want to proceed?"
-msgstr "Figyelem! A .hotlist biztonsági másolat visszaállítása felülírja a meglévő listát az importálttal.\n"
+msgstr ""
+"Figyelem! A .hotlist biztonsági másolat visszaállítása felülírja a meglévő listát az importálttal.\n"
 "\n"
 "Biztosan folytatja?"
 
@@ -10716,9 +10743,11 @@ msgid "Viewer"
 msgstr "Nézőke"
 
 #: ulng.rshotkeyfilealreadyexists
-msgid "A setup with that name already exists.\n"
+msgid ""
+"A setup with that name already exists.\n"
 "Do you want to overwrite it?"
-msgstr "Egy beállítás ezzel a névvel már létezik.\n"
+msgstr ""
+"Egy beállítás ezzel a névvel már létezik.\n"
 "Felül akarja írni?"
 
 #: ulng.rshotkeyfileconfirmdefault
@@ -10749,9 +10778,11 @@ msgstr "Új név"
 
 #: ulng.rshotkeyfilesavemodified
 #, object-pascal-format
-msgid "\"%s\" setup has been modified.\n"
+msgid ""
+"\"%s\" setup has been modified.\n"
 "Do you want to save it now?"
-msgstr "A(z) \"%s\" beállítás módosítva lett.\n"
+msgstr ""
+"A(z) \"%s\" beállítás módosítva lett.\n"
 "Most menti?"
 
 #: ulng.rshotkeynoscenter
@@ -11156,12 +11187,14 @@ msgid "View"
 msgstr "Nézet"
 
 #: ulng.rsmountedfilesourcecopymultifilestowcxdlgmessage
-msgid "Some virtual filesystem contain specific directory structures. When copying from it to a compressed archive, only one directory can be selected at a time, unless the actual locations of the selected directories are all located under the same parent directory.\n"
+msgid ""
+"Some virtual filesystem contain specific directory structures. When copying from it to a compressed archive, only one directory can be selected at a time, unless the actual locations of the selected directories are all located under the same parent directory.\n"
 "\n"
 "For example, for iCloud Drive, when copying directory from the root to a compressed archive, maybe only one directory should be selected.\n"
 "\n"
 "It is recommended that you follow your usual practice and try to select only one directory when you receive this prompt."
-msgstr "Egyes virtuális fájlrendszerek sajátos könyvtárszerkezettel rendelkeznek. Tömörített archívumba másoláskor egyszerre csak egy könyvtár választható ki, kivéve ha a kiválasztott könyvtárak valódi helye ugyanazon szülőkönyvtár alatt található.\n"
+msgstr ""
+"Egyes virtuális fájlrendszerek sajátos könyvtárszerkezettel rendelkeznek. Tömörített archívumba másoláskor egyszerre csak egy könyvtár választható ki, kivéve ha a kiválasztott könyvtárak valódi helye ugyanazon szülőkönyvtár alatt található.\n"
 "\n"
 "Például az iCloud Drive esetében, gyökérkönyvtárból tömörített archívumba másoláskor csak egy könyvtárat érdemes kiválasztani.\n"
 "\n"
@@ -11194,11 +11227,13 @@ msgstr "Idézőjelek közé szeretné tenni?"
 
 #: ulng.rsmsgbadcrc32
 #, object-pascal-format
-msgid "Bad CRC32 for resulting file:\n"
+msgid ""
+"Bad CRC32 for resulting file:\n"
 "\"%s\"\n"
 "\n"
 "Do you want to keep the resulting corrupted file anyway?"
-msgstr "Hibás CRC32 az eredményül kapott fájlhoz:\n"
+msgstr ""
+"Hibás CRC32 az eredményül kapott fájlhoz:\n"
 "\"%s\"\n"
 "\n"
 "Mindenképp meg akarja tartani a sérült eredményfájlt?"
@@ -11206,6 +11241,10 @@ msgstr "Hibás CRC32 az eredményül kapott fájlhoz:\n"
 #: ulng.rsmsgcanceloperation
 msgid "Are you sure that you want to cancel this operation?"
 msgstr "Biztosan megszakítja ezt a műveletet?"
+
+#: ulng.rsmsgcannotchangetarget
+msgid "You cannot change a target location!"
+msgstr ""
 
 #: ulng.rsmsgcannotcopymoveitself
 #, object-pascal-format
@@ -11262,21 +11301,6 @@ msgstr "A(z) %s fájl megváltozott. Visszafelé szeretné másolni?"
 #: ulng.rsmsgcouldnotcopybackward
 msgid "Could not copy backward - do you want to keep the changed file?"
 msgstr "Nem sikerült visszafelé másolni - meg akarja tartani a módosított fájlt?"
-
-#: ulng.rsmsgcpfldr
-#, object-pascal-format
-msgid "Copy %d selected files/directories?"
-msgstr "Másolja a kiválasztott %d fájlt/könyvtárat?"
-
-#: ulng.rsmsgcpsel
-#, object-pascal-format
-msgid "Copy selected \"%s\"?"
-msgstr "Másolja a kiválasztott \"%s\" elemet?"
-
-#: ulng.rsmsgcreateanewfiletype
-#, object-pascal-format
-msgid "< Create a new file type \"%s files\" >"
-msgstr "< Új fájltípus létrehozása \"%s fájlok\" >"
 
 #: ulng.rsmsgcpfldr
 #, object-pascal-format
@@ -11613,10 +11637,12 @@ msgstr "Néhány fájlművelet még nem fejeződött be. A Double Commander bez�
 
 #: ulng.rsmsgfilepathovermaxpath
 #, object-pascal-format
-msgid "The target name length (%d) is more than %d characters!\n"
+msgid ""
+"The target name length (%d) is more than %d characters!\n"
 "%s\n"
 "Most programs will not be able to access a file/directory with such a long name!"
-msgstr "A cél név hossza (%d) több mint %d karakter!\n"
+msgstr ""
+"A cél név hossza (%d) több mint %d karakter!\n"
 "%s\n"
 "A legtöbb program nem fogja tudni elérni egy ilyen hosszú nevű fájlt/könyvtárat!"
 
@@ -11697,6 +11723,10 @@ msgstr "És az inaktív keret a következő útvonalra változna:"
 #: ulng.rsmsghotdirerrorbackuping
 msgid "Error backuping entries..."
 msgstr "Hiba a bejegyzések biztonsági mentésekor..."
+
+#: ulng.rsmsghotdirerrorexporting
+msgid "Error exporting entries..."
+msgstr ""
 
 #: ulng.rsmsghotdirexportall
 msgid "Export all!"
@@ -11810,10 +11840,12 @@ msgstr "Néhány funkció a megfelelő relatív, abszolút útvonal, Windows spe
 
 #: ulng.rsmsghotdirtotalbackuped
 #, object-pascal-format
-msgid "Total entries saved: %d\n"
+msgid ""
+"Total entries saved: %d\n"
 "\n"
 "Backup filename: %s"
-msgstr "Összes mentett bejegyzés: %d\n"
+msgstr ""
+"Összes mentett bejegyzés: %d\n"
 "\n"
 "Biztonsági mentés fájlneve: %s"
 
@@ -11823,9 +11855,11 @@ msgstr "Összes exportált bejegyzés: "
 
 #: ulng.rsmsghotdirwhattodelete
 #, object-pascal-format
-msgid "Do you want to delete all elements inside the sub-menu [%s]?\n"
+msgid ""
+"Do you want to delete all elements inside the sub-menu [%s]?\n"
 "Answering NO will delete only menu delimiters but will keep element inside sub-menu."
-msgstr "Törli az összes elemet a(z) [%s] almenüben?\n"
+msgstr ""
+"Törli az összes elemet a(z) [%s] almenüben?\n"
 "A NEM válasszal csak a menü elválasztókat törli, de az almenü elemeit megtartja."
 
 #: ulng.rsmsghotdirwheretosave
@@ -11839,13 +11873,15 @@ msgstr "Helytelen eredményül kapott fájlméret a(z) \"%s\" fájlhoz"
 
 #: ulng.rsmsginsertnextdisk
 #, object-pascal-format
-msgid "Please insert next disk or something similar.\n"
+msgid ""
+"Please insert next disk or something similar.\n"
 "\n"
 "It is to allow writing this file:\n"
 "\"%s\"\n"
 "\n"
 "Number of bytes still to write: %d"
-msgstr "Kérjük, helyezze be a következő lemezt vagy valami hasonlót.\n"
+msgstr ""
+"Kérjük, helyezze be a következő lemezt vagy valami hasonlót.\n"
 "\n"
 "Ez lehetővé teszi a következő fájl írását:\n"
 "\"%s\"\n"
@@ -12255,29 +12291,37 @@ msgstr "Cél útvonal:"
 
 #: ulng.rsmsgtcconfignotfound
 #, object-pascal-format
-msgid "Error! Cannot find the TC configuration file:\n"
+msgid ""
+"Error! Cannot find the TC configuration file:\n"
 "%s"
-msgstr "Hiba! Nem található a TC konfigurációs fájl:\n"
+msgstr ""
+"Hiba! Nem található a TC konfigurációs fájl:\n"
 "%s"
 
 #: ulng.rsmsgtcexecutablenotfound
 #, object-pascal-format
-msgid "Error! Cannot find the TC configuration executable:\n"
+msgid ""
+"Error! Cannot find the TC configuration executable:\n"
 "%s"
-msgstr "Hiba! Nem található a TC konfigurációs végrehajtható fájl:\n"
+msgstr ""
+"Hiba! Nem található a TC konfigurációs végrehajtható fájl:\n"
 "%s"
 
 #: ulng.rsmsgtcisrunning
-msgid "Error! TC is still running but it should be closed for this operation.\n"
+msgid ""
+"Error! TC is still running but it should be closed for this operation.\n"
 "Close it and press OK or press CANCEL to abort."
-msgstr "Hiba! A TC még fut, de le kellene zárni ehhez a művelethez.\n"
+msgstr ""
+"Hiba! A TC még fut, de le kellene zárni ehhez a művelethez.\n"
 "Zárja be és nyomja meg az OK gombot, vagy a MÉGSE gombot a megszakításhoz."
 
 #: ulng.rsmsgtctoolbarnotfound
 #, object-pascal-format
-msgid "Error! Cannot find the desired wanted TC toolbar output folder:\n"
+msgid ""
+"Error! Cannot find the desired wanted TC toolbar output folder:\n"
 "%s"
-msgstr "Hiba! Nem található a kívánt TC eszköztár kimeneti mappa:\n"
+msgstr ""
+"Hiba! Nem található a kívánt TC eszköztár kimeneti mappa:\n"
 "%s"
 
 #: ulng.rsmsgtctoolbarwheretosave
@@ -12319,9 +12363,11 @@ msgstr "Adja meg a helyet és fájlnevet a visszaállítandó eszköztárhoz"
 
 #: ulng.rsmsgtoolbarsaved
 #, object-pascal-format
-msgid "Saved!\n"
+msgid ""
+"Saved!\n"
 "Toolbar filename: %s"
-msgstr "Mentve!\n"
+msgstr ""
+"Mentve!\n"
 "Eszköztár fájlnév: %s"
 
 #: ulng.rsmsgtoomanyfilesselected
@@ -12396,9 +12442,11 @@ msgid "with"
 msgstr "ezzel"
 
 #: ulng.rsmsgwrongpasswordtryagain
-msgid "Wrong password!\n"
+msgid ""
+"Wrong password!\n"
 "Please try again!"
-msgstr "Hibás jelszó!\n"
+msgstr ""
+"Hibás jelszó!\n"
 "Kérem próbálja újra!"
 
 #: ulng.rsmulrenautorename
@@ -12601,9 +12649,11 @@ msgstr "Adja meg az új előbeállítás nevét"
 
 #: ulng.rsmulrensavemodifiedpreset
 #, object-pascal-format
-msgid "\"%s\" preset has been modified.\n"
+msgid ""
+"\"%s\" preset has been modified.\n"
 "Do you want to save it now?"
-msgstr "\"%s\" előbeállítás módosítva.\n"
+msgstr ""
+"\"%s\" előbeállítás módosítva.\n"
 "Most menteni szeretné?"
 
 #: ulng.rsmulrensortingpresets
@@ -13374,10 +13424,12 @@ msgstr "Többszörös átnevező eszköz"
 
 #: ulng.rsoptionseditoroptionschanged
 #, object-pascal-format
-msgid "Options have changed in \"%s\"\n"
+msgid ""
+"Options have changed in \"%s\"\n"
 "\n"
 "Do you want to save modifications?"
-msgstr "A beállítások megváltoztak itt: \"%s\"\n"
+msgstr ""
+"A beállítások megváltoztak itt: \"%s\"\n"
 "\n"
 "Menti a módosításokat?"
 
@@ -13528,7 +13580,9 @@ msgid "&Files;Di&rectories;Files a&nd Directories"
 msgstr "&Fájlok;M&appák;Fájlok é&s mappák"
 
 #: ulng.rsoptsearchopt
-msgid "&Hide filter panel when not focused;Keep saving setting modifications for next session"
+#, fuzzy
+#| msgid "&Hide filter panel when not focused;Keep saving setting modifications for next session"
+msgid "Ignore &diacritics and ligatures;&Hide filter panel when not focused;Keep saving setting modifications for next session"
 msgstr "&Szűrőpanel elrejtése ha nincs fókuszban;Beállítás módosítások mentése a következő munkamenethez"
 
 #: ulng.rsoptsortcasesens
@@ -13751,15 +13805,19 @@ msgid "<unnamed template>"
 msgstr "<névtelen sablon>"
 
 #: ulng.rssearchwithdsxplugininprogress
-msgid "A file search using DSX plugin is already in progress.\n"
+msgid ""
+"A file search using DSX plugin is already in progress.\n"
 "We need that one to be completed before to launch a new one."
-msgstr "Egy DSX bővítményt használó fájlkeresés már folyamatban van.\n"
+msgstr ""
+"Egy DSX bővítményt használó fájlkeresés már folyamatban van.\n"
 "Várni kell a befejezésére, mielőtt új keresést indítanánk."
 
 #: ulng.rssearchwithwdxplugininprogress
-msgid "A file search using WDX plugin is already in progress.\n"
+msgid ""
+"A file search using WDX plugin is already in progress.\n"
 "We need that one to be completed before to launch a new one."
-msgstr "Egy WDX bővítményt használó fájlkeresés már folyamatban van.\n"
+msgstr ""
+"Egy WDX bővítményt használó fájlkeresés már folyamatban van.\n"
 "Várni kell a befejezésére, mielőtt új keresést indítanánk."
 
 #: ulng.rsselectdir

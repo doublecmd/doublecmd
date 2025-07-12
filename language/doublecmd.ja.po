@@ -2510,6 +2510,18 @@ msgstr "ファイルから選択した項目を開く(&L)…"
 msgid "&Load Tabs from File"
 msgstr "ファイルからタブを読み込む(&L)"
 
+#: tfrmmain.actmainfontzoomin.caption
+#, fuzzy
+msgctxt "tfrmmain.actmainfontzoomin.caption"
+msgid "Zoom In"
+msgstr "ズームイン"
+
+#: tfrmmain.actmainfontzoomout.caption
+#, fuzzy
+msgctxt "tfrmmain.actmainfontzoomout.caption"
+msgid "Zoom Out"
+msgstr "ズームアウト"
+
 #: tfrmmain.actmakedir.caption
 msgid "Create &Directory"
 msgstr "ディレクトリを作成(&D)"

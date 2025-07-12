@@ -2452,6 +2452,18 @@ msgstr "Auswah&l aus Datei laden …"
 msgid "&Load Tabs from File"
 msgstr "&Lade Tabs aus Datei"
 
+#: tfrmmain.actmainfontzoomin.caption
+#, fuzzy
+msgctxt "tfrmmain.actmainfontzoomin.caption"
+msgid "Zoom In"
+msgstr "Vergrößern"
+
+#: tfrmmain.actmainfontzoomout.caption
+#, fuzzy
+msgctxt "tfrmmain.actmainfontzoomout.caption"
+msgid "Zoom Out"
+msgstr "Verkleinern"
+
 #: tfrmmain.actmakedir.caption
 msgid "Create &Directory"
 msgstr "&Verzeichnis erstellen"

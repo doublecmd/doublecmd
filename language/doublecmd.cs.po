@@ -2468,6 +2468,18 @@ msgstr "&Načíst výběr ze souboru..."
 msgid "&Load Tabs from File"
 msgstr "Načíst zá&ložky ze souboru"
 
+#: tfrmmain.actmainfontzoomin.caption
+#, fuzzy
+msgctxt "tfrmmain.actmainfontzoomin.caption"
+msgid "Zoom In"
+msgstr "Přiblížit"
+
+#: tfrmmain.actmainfontzoomout.caption
+#, fuzzy
+msgctxt "tfrmmain.actmainfontzoomout.caption"
+msgid "Zoom Out"
+msgstr "Oddálit"
+
 #: tfrmmain.actmakedir.caption
 msgid "Create &Directory"
 msgstr "Vytvořit složku"

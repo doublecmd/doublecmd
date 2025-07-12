@@ -2458,6 +2458,18 @@ msgstr "&Загрузіць вылучэнне з файла..."
 msgid "&Load Tabs from File"
 msgstr "&Загрузіць укладкі з файла"
 
+#: tfrmmain.actmainfontzoomin.caption
+#, fuzzy
+msgctxt "tfrmmain.actmainfontzoomin.caption"
+msgid "Zoom In"
+msgstr "Наблізіць"
+
+#: tfrmmain.actmainfontzoomout.caption
+#, fuzzy
+msgctxt "tfrmmain.actmainfontzoomout.caption"
+msgid "Zoom Out"
+msgstr "Аддаліць"
+
 #: tfrmmain.actmakedir.caption
 msgid "Create &Directory"
 msgstr "Стварыць &каталог"

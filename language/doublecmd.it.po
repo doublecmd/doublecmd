@@ -2451,6 +2451,18 @@ msgstr "Carica selezione da &file..."
 msgid "&Load Tabs from File"
 msgstr "&Carica le schede da un file"
 
+#: tfrmmain.actmainfontzoomin.caption
+#, fuzzy
+msgctxt "tfrmmain.actmainfontzoomin.caption"
+msgid "Zoom In"
+msgstr "Ingrandisci"
+
+#: tfrmmain.actmainfontzoomout.caption
+#, fuzzy
+msgctxt "tfrmmain.actmainfontzoomout.caption"
+msgid "Zoom Out"
+msgstr "Riduci"
+
 #: tfrmmain.actmakedir.caption
 msgid "Create &Directory"
 msgstr "Crea &Cartella"

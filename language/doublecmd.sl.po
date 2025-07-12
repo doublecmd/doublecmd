@@ -2459,6 +2459,18 @@ msgstr "&Naloži izbor iz datoteke ..."
 msgid "&Load Tabs from File"
 msgstr "&Naloži nastavitve zavihkov iz datoteke"
 
+#: tfrmmain.actmainfontzoomin.caption
+#, fuzzy
+msgctxt "tfrmmain.actmainfontzoomin.caption"
+msgid "Zoom In"
+msgstr "Približaj"
+
+#: tfrmmain.actmainfontzoomout.caption
+#, fuzzy
+msgctxt "tfrmmain.actmainfontzoomout.caption"
+msgid "Zoom Out"
+msgstr "Oddalji"
+
 #: tfrmmain.actmakedir.caption
 msgid "Create &Directory"
 msgstr "Ustvari &mapo"

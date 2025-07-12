@@ -2445,6 +2445,18 @@ msgstr "Wczytaj zaznaczenie z &pliku..."
 msgid "&Load Tabs from File"
 msgstr "Wczytaj zakładki z p&liku"
 
+#: tfrmmain.actmainfontzoomin.caption
+#, fuzzy
+msgctxt "tfrmmain.actmainfontzoomin.caption"
+msgid "Zoom In"
+msgstr "Powiększ"
+
+#: tfrmmain.actmainfontzoomout.caption
+#, fuzzy
+msgctxt "tfrmmain.actmainfontzoomout.caption"
+msgid "Zoom Out"
+msgstr "Zmniejsz"
+
 #: tfrmmain.actmakedir.caption
 msgid "Create &Directory"
 msgstr "Utwórz &katalog"

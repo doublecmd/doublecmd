@@ -2620,6 +2620,16 @@ msgctxt "tfrmmain.actloadtabs.caption"
 msgid "&Load Tabs from File"
 msgstr "&Učitaj kartice iz datoteke"
 
+#: tfrmmain.actmainfontzoomin.caption
+msgctxt "tfrmmain.actmainfontzoomin.caption"
+msgid "Zoom In"
+msgstr ""
+
+#: tfrmmain.actmainfontzoomout.caption
+msgctxt "tfrmmain.actmainfontzoomout.caption"
+msgid "Zoom Out"
+msgstr ""
+
 #: tfrmmain.actmakedir.caption
 msgctxt "tfrmmain.actmakedir.caption"
 msgid "Create &Directory"

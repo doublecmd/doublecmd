@@ -2600,6 +2600,18 @@ msgstr "&Hent valg fra fil"
 msgid "&Load Tabs from File"
 msgstr "Ind&læs faneblade fra fil"
 
+#: tfrmmain.actmainfontzoomin.caption
+#, fuzzy
+msgctxt "tfrmmain.actmainfontzoomin.caption"
+msgid "Zoom In"
+msgstr "Zoom ind"
+
+#: tfrmmain.actmainfontzoomout.caption
+#, fuzzy
+msgctxt "tfrmmain.actmainfontzoomout.caption"
+msgid "Zoom Out"
+msgstr "Zoom ud"
+
 # Filer
 #: tfrmmain.actmakedir.caption
 msgid "Create &Directory"

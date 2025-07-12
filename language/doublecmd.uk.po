@@ -2515,6 +2515,18 @@ msgstr "Завантажити виділенння з ф&айлу..."
 msgid "&Load Tabs from File"
 msgstr "Завантажити вкладки &з файлу"
 
+#: tfrmmain.actmainfontzoomin.caption
+#, fuzzy
+msgctxt "tfrmmain.actmainfontzoomin.caption"
+msgid "Zoom In"
+msgstr "Збільшити"
+
+#: tfrmmain.actmainfontzoomout.caption
+#, fuzzy
+msgctxt "tfrmmain.actmainfontzoomout.caption"
+msgid "Zoom Out"
+msgstr "Зменшити"
+
 #: tfrmmain.actmakedir.caption
 msgid "Create &Directory"
 msgstr "Створити ката&лог"

@@ -2503,6 +2503,18 @@ msgstr "Carregar se&lecção de ficheiro..."
 msgid "&Load Tabs from File"
 msgstr "Carregar &separadores de ficheiro"
 
+#: tfrmmain.actmainfontzoomin.caption
+#, fuzzy
+msgctxt "tfrmmain.actmainfontzoomin.caption"
+msgid "Zoom In"
+msgstr "Ampliar"
+
+#: tfrmmain.actmainfontzoomout.caption
+#, fuzzy
+msgctxt "tfrmmain.actmainfontzoomout.caption"
+msgid "Zoom Out"
+msgstr "Reduzir"
+
 #: tfrmmain.actmakedir.caption
 msgid "Create &Directory"
 msgstr "Criar &pasta"

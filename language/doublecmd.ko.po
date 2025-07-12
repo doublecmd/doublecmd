@@ -2451,6 +2451,18 @@ msgstr "파일에서 선택 항목 불러오기(&L)..."
 msgid "&Load Tabs from File"
 msgstr "파일에서 탭 불러오기(&L)"
 
+#: tfrmmain.actmainfontzoomin.caption
+#, fuzzy
+msgctxt "tfrmmain.actmainfontzoomin.caption"
+msgid "Zoom In"
+msgstr "확대"
+
+#: tfrmmain.actmainfontzoomout.caption
+#, fuzzy
+msgctxt "tfrmmain.actmainfontzoomout.caption"
+msgid "Zoom Out"
+msgstr "축소"
+
 #: tfrmmain.actmakedir.caption
 msgid "Create &Directory"
 msgstr "디렉터리 만들기(&D)"

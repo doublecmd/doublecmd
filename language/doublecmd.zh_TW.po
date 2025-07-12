@@ -2491,6 +2491,18 @@ msgstr "從檔案載入所選項目 (&L)..."
 msgid "&Load Tabs from File"
 msgstr "从档案载入分頁 (&L)"
 
+#: tfrmmain.actmainfontzoomin.caption
+#, fuzzy
+msgctxt "tfrmmain.actmainfontzoomin.caption"
+msgid "Zoom In"
+msgstr "放大"
+
+#: tfrmmain.actmainfontzoomout.caption
+#, fuzzy
+msgctxt "tfrmmain.actmainfontzoomout.caption"
+msgid "Zoom Out"
+msgstr "縮小"
+
 #: tfrmmain.actmakedir.caption
 msgid "Create &Directory"
 msgstr "建立資料夾"
@@ -9744,9 +9756,10 @@ msgid "Zoom In"
 msgstr "放大"
 
 #: tfrmviewer.actzoomin.hint
+#, fuzzy
 msgctxt "tfrmviewer.actzoomin.hint"
 msgid "Zoom In"
-msgstr ""
+msgstr "放大"
 
 #: tfrmviewer.actzoomout.caption
 msgctxt "tfrmviewer.actzoomout.caption"
@@ -9754,9 +9767,10 @@ msgid "Zoom Out"
 msgstr "縮小"
 
 #: tfrmviewer.actzoomout.hint
+#, fuzzy
 msgctxt "tfrmviewer.actzoomout.hint"
 msgid "Zoom Out"
-msgstr ""
+msgstr "縮小"
 
 #: tfrmviewer.btncuttuimage.hint
 msgid "Crop"
@@ -9786,9 +9800,10 @@ msgid "Paint"
 msgstr "繪圖"
 
 #: tfrmviewer.btnpenwidth.caption
+#, fuzzy
 msgctxt "tfrmviewer.btnpenwidth.caption"
 msgid "1"
-msgstr ""
+msgstr "1"
 
 #: tfrmviewer.btnprevgifframe.hint
 msgid "Previous Frame"

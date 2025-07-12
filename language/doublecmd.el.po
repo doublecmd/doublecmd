@@ -2501,6 +2501,18 @@ msgstr "Φόρτωση Επιλογής από το Αρχείο..."
 msgid "&Load Tabs from File"
 msgstr "Φόρτωση Καρτελών από το Αρχείο"
 
+#: tfrmmain.actmainfontzoomin.caption
+#, fuzzy
+msgctxt "tfrmmain.actmainfontzoomin.caption"
+msgid "Zoom In"
+msgstr "Μεγέθυνση"
+
+#: tfrmmain.actmainfontzoomout.caption
+#, fuzzy
+msgctxt "tfrmmain.actmainfontzoomout.caption"
+msgid "Zoom Out"
+msgstr "Μίκρυνση"
+
 #: tfrmmain.actmakedir.caption
 msgid "Create &Directory"
 msgstr "Δημιουργία Καταλόγου"

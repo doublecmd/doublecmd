@@ -2521,6 +2521,18 @@ msgstr "Încarcă Se&lecția din Fișier..."
 msgid "&Load Tabs from File"
 msgstr "Încarcă fi&le din fișier"
 
+#: tfrmmain.actmainfontzoomin.caption
+#, fuzzy
+msgctxt "tfrmmain.actmainfontzoomin.caption"
+msgid "Zoom In"
+msgstr "Mărește"
+
+#: tfrmmain.actmainfontzoomout.caption
+#, fuzzy
+msgctxt "tfrmmain.actmainfontzoomout.caption"
+msgid "Zoom Out"
+msgstr "Micșorează"
+
 #: tfrmmain.actmakedir.caption
 msgid "Create &Directory"
 msgstr "Creează &dosar"
