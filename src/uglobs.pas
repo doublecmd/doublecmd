@@ -173,7 +173,8 @@ type
 
 const
   { Default hotkey list version number }
-  hkVersion = 64;
+  hkVersion = 65;
+  // 65 - In "Files Panel", for macOS, added the "Cmd+=" for "cm_MainFontZoomIn", "Cmd+-" for "cm_MainFontZoomOut"
   // 54 - In "Viewer" context, added the "W" for "cm_WrapText", "4" for "cm_ShowAsDec", "8" for "cm_ShowOffice".
   // 53 - In "Main" context, change shortcut "Alt+`" to "Alt+0" for the "cm_ActivateTabByIndex".
   // 52 - In "Main" context, add shortcut "Ctrl+Shift+B" for "cm_FlatViewSel".
@@ -1218,6 +1219,11 @@ begin
       AddIfNotExists(VK_C, [ssModifier], 'cm_CopyToClipboard');
       AddIfNotExists(VK_V, [ssModifier], 'cm_PasteFromClipboard');
       AddIfNotExists(VK_X, [ssModifier], 'cm_CutToClipboard');
+
+      {$IFDEF DARWIN}
+      AddIfNotExists(['Cmd+='],[],'cm_MainFontZoomIn');
+      AddIfNotExists(['Cmd+-'],[],'cm_MainFontZoomOut');
+      {$ENDIF}
     end;
 
   HMForm := HotMan.Forms.FindOrCreate('Viewer');
