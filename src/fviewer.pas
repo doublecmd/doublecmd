@@ -2320,6 +2320,7 @@ begin
   if Assigned(FFileSourceCalcStatisticsOperation) then
   begin
     tmUpdateFolderSize.Enabled:= False;
+    FFileSourceCalcStatisticsOperation.RemoveStateChangedListener([fsosStopped], @FileSourceOperationStateChangedNotify);
     FFileSourceCalcStatisticsOperation.Stop;
   end;
   FFileSourceCalcStatisticsOperation:= nil;
