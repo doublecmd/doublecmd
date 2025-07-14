@@ -6932,7 +6932,6 @@ msgid "Selection"
 msgstr "선택"
 
 #: tfrmoptionsmouse.gbzoom.caption
-#, fuzzy
 msgctxt "tfrmoptionsmouse.gbzoom.caption"
 msgid "Zoom"
 msgstr "확대/축소"

@@ -2547,13 +2547,11 @@ msgid "&Load Tabs from File"
 msgstr "&Učitaj kartice iz datoteke"
 
 #: tfrmmain.actmainfontzoomin.caption
-#, fuzzy
 msgctxt "tfrmmain.actmainfontzoomin.caption"
 msgid "Zoom In"
 msgstr "Približi"
 
 #: tfrmmain.actmainfontzoomout.caption
-#, fuzzy
 msgctxt "tfrmmain.actmainfontzoomout.caption"
 msgid "Zoom Out"
 msgstr "Udalji"
@@ -9992,7 +9990,6 @@ msgid "Zoom In"
 msgstr "Približi"
 
 #: tfrmviewer.actzoomin.hint
-#, fuzzy
 msgctxt "tfrmviewer.actzoomin.hint"
 msgid "Zoom In"
 msgstr "Približi"
@@ -10003,7 +10000,6 @@ msgid "Zoom Out"
 msgstr "Udalji"
 
 #: tfrmviewer.actzoomout.hint
-#, fuzzy
 msgctxt "tfrmviewer.actzoomout.hint"
 msgid "Zoom Out"
 msgstr "Udalji"

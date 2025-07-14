@@ -2705,13 +2705,11 @@ msgid "&Load Tabs from File"
 msgstr ""
 
 #: tfrmmain.actmainfontzoomin.caption
-#, fuzzy
 msgctxt "tfrmmain.actmainfontzoomin.caption"
 msgid "Zoom In"
 msgstr "Apropar"
 
 #: tfrmmain.actmainfontzoomout.caption
-#, fuzzy
 msgctxt "tfrmmain.actmainfontzoomout.caption"
 msgid "Zoom Out"
 msgstr "Allunya"
@@ -10462,7 +10460,6 @@ msgid "Zoom In"
 msgstr "Apropar"
 
 #: tfrmviewer.actzoomin.hint
-#, fuzzy
 msgctxt "tfrmviewer.actzoomin.hint"
 msgid "Zoom In"
 msgstr "Apropar"
@@ -10473,7 +10470,6 @@ msgid "Zoom Out"
 msgstr "Allunya"
 
 #: tfrmviewer.actzoomout.hint
-#, fuzzy
 msgctxt "tfrmviewer.actzoomout.hint"
 msgid "Zoom Out"
 msgstr "Allunya"

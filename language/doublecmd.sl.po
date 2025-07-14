@@ -6939,7 +6939,6 @@ msgid "Selection"
 msgstr "Izbor"
 
 #: tfrmoptionsmouse.gbzoom.caption
-#, fuzzy
 msgctxt "tfrmoptionsmouse.gbzoom.caption"
 msgid "Zoom"
 msgstr "Približanje"
