@@ -413,11 +413,8 @@ begin
   if not FBriefView.IsLoadingFileList then
   begin
 
-    if (Shift=[ssCtrl])and(gFonts[dcfMain].Size > gFonts[dcfMain].MinValue) then
+    if gZoomWithCtrlWheel and(Shift=[ssCtrl])and(frmMain.Commands.MainFontZoomOut()) then
     begin
-      gFonts[dcfMain].Size:=gFonts[dcfMain].Size-1;
-      frmMain.FrameLeft.UpdateView;
-      frmMain.FrameRight.UpdateView;
       Result:=True;
       Exit;
     end;
@@ -435,15 +432,11 @@ begin
   if not FBriefView.IsLoadingFileList then
   begin
 
-    if (Shift=[ssCtrl])and(gFonts[dcfMain].Size < gFonts[dcfMain].MaxValue) then
+    if gZoomWithCtrlWheel and(Shift=[ssCtrl])and(frmMain.Commands.MainFontZoomIn()) then
     begin
-      gFonts[dcfMain].Size:=gFonts[dcfMain].Size+1;
-      frmMain.FrameLeft.UpdateView;
-      frmMain.FrameRight.UpdateView;
       Result:=True;
       Exit;
     end;
-
 
     Result:= inherited DoMouseWheelUp(Shift, MousePos);
     Result:= Perform(LM_HSCROLL, SB_LINELEFT, 0) = 0;

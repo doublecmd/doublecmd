@@ -383,12 +383,11 @@ begin
   if not IsLoadingFileList then
   begin
 
-    if (Shift=[ssCtrl])and(frmMain.Commands.MainFontZoomIn()) then
+    if gZoomWithCtrlWheel and(Shift=[ssCtrl])and(frmMain.Commands.MainFontZoomIn()) then
     begin
       Handled:=True;
       Exit;
     end;
-
 
     case gScrollMode of
       smLineByLine:
@@ -411,7 +410,7 @@ begin
   if not IsLoadingFileList then
   begin
 
-    if (Shift=[ssCtrl])and(frmMain.Commands.MainFontZoomOut()) then
+    if gZoomWithCtrlWheel and(Shift=[ssCtrl])and(frmMain.Commands.MainFontZoomOut()) then
     begin
       Handled:=True;
       Exit;
