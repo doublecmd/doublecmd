@@ -287,10 +287,10 @@ begin
     begin
       OnMouseDown(Self, Button, Shift, X, Y);
     end;
-    if not Focused then
-    begin
-      if CanSetFocus then SetFocus;
-    end;
+  end;
+  if not Focused then
+  begin
+    if CanSetFocus then SetFocus;
   end;
 end;
 
