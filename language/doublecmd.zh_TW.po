@@ -7099,7 +7099,7 @@ msgstr ""
 #: tfrmoptionsmouse.chkzoomwithctrlwheel.caption
 msgctxt "tfrmoptionsmouse.chkzoomwithctrlwheel.caption"
 msgid "Zoom with Ctrl + Scroll Wheel"
-msgstr ""
+msgstr "使用 Ctrl + 滾輪縮放"
 
 #: tfrmoptionsmouse.gbopenwith.caption
 msgctxt "tfrmoptionsmouse.gbopenwith.caption"
@@ -7118,7 +7118,7 @@ msgstr "選取項目"
 #: tfrmoptionsmouse.gbzoom.caption
 msgctxt "tfrmoptionsmouse.gbzoom.caption"
 msgid "Zoom"
-msgstr ""
+msgstr "縮放"
 
 #: tfrmoptionsmouse.lblmousemode.caption
 msgctxt "TFRMOPTIONSMOUSE.LBLMOUSEMODE.CAPTION"
@@ -9757,7 +9757,7 @@ msgstr ""
 #: tfrmviewer.actzoom.caption
 msgctxt "tfrmviewer.actzoom.caption"
 msgid "Zoom"
-msgstr ""
+msgstr "縮放"
 
 #: tfrmviewer.actzoomin.caption
 msgctxt "tfrmviewer.actzoomin.caption"
@@ -9807,10 +9807,9 @@ msgid "Paint"
 msgstr "繪圖"
 
 #: tfrmviewer.btnpenwidth.caption
-#, fuzzy
 msgctxt "tfrmviewer.btnpenwidth.caption"
 msgid "1"
-msgstr "1"
+msgstr ""
 
 #: tfrmviewer.btnprevgifframe.hint
 msgid "Previous Frame"
@@ -10419,10 +10418,8 @@ msgid "&Merge"
 msgstr "合併 (&M)"
 
 #: ulng.rsdlgbuttoncopyintoall
-#, fuzzy
-#| msgid "Copy Into &All"
 msgid "Mer&ge All"
-msgstr "全部複製進去 (&A)"
+msgstr "全部合併 (&G)"
 
 #: ulng.rsdlgbuttonexitprogram
 msgid "E&xit program"
@@ -10474,8 +10471,6 @@ msgid "Overwrite All S&maller"
 msgstr ""
 
 #: ulng.rsdlgbuttonrename
-#, fuzzy
-#| msgid "Rename"
 msgctxt "ulng.rsdlgbuttonrename"
 msgid "R&ename"
 msgstr "重新命名 (&E)"
@@ -10859,12 +10854,12 @@ msgid "Viewer&Book Font"
 msgstr "檢視器閱讀模式字型 (&B)"
 
 #: ulng.rsfreemsg
-#, object-pascal-format, fuzzy
+#, object-pascal-format
 msgid "%s of %s free"
-msgstr "可用 %s，容量 %s"
+msgstr "可用 %s，總容量 %s"
 
 #: ulng.rsfreemsgshort
-#, object-pascal-format, fuzzy
+#, object-pascal-format
 msgid "%s free"
 msgstr "%s 可用"
 
@@ -11894,10 +11889,9 @@ msgid ""
 msgstr ""
 
 #: ulng.rsmsgfilereadonly
-#, object-pascal-format, fuzzy
-#| msgid "File %s is marked as read-only. Delete it?"
+#, object-pascal-format
 msgid "File %s is marked as read-only/hidden/system. Delete it?"
-msgstr "檔案 %s 是唯讀檔。仍要刪除嗎？"
+msgstr "檔案 %s 是唯讀/隱藏/系統檔。仍要刪除嗎？"
 
 #: ulng.rsmsgfilereloadwarning
 msgid "Are you sure you want to reload the current file and lose the changes?"
@@ -11909,10 +11903,9 @@ msgid "The file size of \"%s\" is too big for destination file system!"
 msgstr "這個檔案【%s】的容量對於目標檔案系統來說太大!"
 
 #: ulng.rsmsgfolderexistsrwrt
-#, object-pascal-format, fuzzy
-#| msgid "Folder %s exists, overwrite?"
+#, object-pascal-format
 msgid "Folder %s exists, merge?"
-msgstr "資料夾 %s 已存在, 是否要覆蓋?"
+msgstr "資料夾 %s 已存在, 是否要合併?"
 
 #: ulng.rsmsgfollowsymlink
 #, object-pascal-format
@@ -12042,7 +12035,6 @@ msgid "Enter location and filename of Directory Hotlist to restore"
 msgstr ""
 
 #: ulng.rsmsghotdirsimplecommand
-#, fuzzy
 msgctxt "ulng.rsmsghotdirsimplecommand"
 msgid "Command:"
 msgstr "指令:"
@@ -12424,8 +12416,6 @@ msgid "Select executable file for"
 msgstr ""
 
 #: ulng.rsmsgselectonlychecksumfiles
-#, fuzzy
-#| msgid "Please select only check sum files!"
 msgid "Please select only checksum files!"
 msgstr "請僅選擇驗證碼檔案!"
 
@@ -12614,7 +12604,6 @@ msgid "ERROR: Unexpected Tree View Menu usage!"
 msgstr ""
 
 #: ulng.rsmsgurl
-#, fuzzy
 msgid "URL:"
 msgstr "網址:"
 
@@ -12729,8 +12718,6 @@ msgid "Name"
 msgstr "名稱"
 
 #: ulng.rsmulrenfilenamestylelist
-#, fuzzy
-#| msgid "No change;UPPERCASE;lowercase;First Char Big;"
 msgid "No change;UPPERCASE;lowercase;First char uppercase;First Char Of Every Word Uppercase;"
 msgstr "不變更;大寫;小寫;首字大寫;每個單字首字大寫;"
 
@@ -12933,7 +12920,6 @@ msgid "Games"
 msgstr ""
 
 #: ulng.rsopenwithgraphics
-#, fuzzy
 msgctxt "ulng.rsopenwithgraphics"
 msgid "Graphics"
 msgstr "圖像"
@@ -12947,7 +12933,6 @@ msgid "Multimedia"
 msgstr ""
 
 #: ulng.rsopenwithnetwork
-#, fuzzy
 msgctxt "ulng.rsopenwithnetwork"
 msgid "Network"
 msgstr "網路"
@@ -12957,7 +12942,6 @@ msgid "Office"
 msgstr ""
 
 #: ulng.rsopenwithother
-#, fuzzy
 msgctxt "ulng.rsopenwithother"
 msgid "Other"
 msgstr "其他"
@@ -12971,7 +12955,6 @@ msgid "Settings"
 msgstr ""
 
 #: ulng.rsopenwithsystem
-#, fuzzy
 msgctxt "ulng.rsopenwithsystem"
 msgid "System"
 msgstr "系統"
@@ -12985,20 +12968,16 @@ msgid "Aborted"
 msgstr "已放棄"
 
 #: ulng.rsopercalculatingchecksum
-#, fuzzy
-#| msgid "Calculating check sum"
 msgid "Calculating checksum"
 msgstr "正在計算驗證碼"
 
 #: ulng.rsopercalculatingchecksumin
-#, object-pascal-format, fuzzy
-#| msgid "Calculating check sum in \"%s\""
+#, object-pascal-format
 msgid "Calculating checksum in \"%s\""
 msgstr "正在【%s】計算驗證碼"
 
 #: ulng.rsopercalculatingchecksumof
-#, object-pascal-format, fuzzy
-#| msgid "Calculating check sum of \"%s\""
+#, object-pascal-format
 msgid "Calculating checksum of \"%s\""
 msgstr "正在計算【%s】的驗證碼"
 
@@ -13184,20 +13163,16 @@ msgid "Testing \"%s\""
 msgstr "正在測試【%s】"
 
 #: ulng.rsoperverifyingchecksum
-#, fuzzy
-#| msgid "Verifying check sum"
 msgid "Verifying checksum"
 msgstr "正在校驗驗證碼"
 
 #: ulng.rsoperverifyingchecksumin
-#, object-pascal-format, fuzzy
-#| msgid "Verifying check sum in \"%s\""
+#, object-pascal-format
 msgid "Verifying checksum in \"%s\""
 msgstr "正在【%s】校驗驗證碼"
 
 #: ulng.rsoperverifyingchecksumof
-#, object-pascal-format, fuzzy
-#| msgid "Verifying check sum of \"%s\""
+#, object-pascal-format
 msgid "Verifying checksum of \"%s\""
 msgstr "正在校驗【%s】的驗證碼"
 
@@ -13582,7 +13557,6 @@ msgid "File associations"
 msgstr "檔案關聯"
 
 #: ulng.rsoptionseditorfilenewfiletypes
-#, fuzzy
 msgctxt "ulng.rsoptionseditorfilenewfiletypes"
 msgid "New"
 msgstr "新增"
@@ -13851,10 +13825,8 @@ msgid "sort by name and show first;sort like files and show first;sort like file
 msgstr "依名稱排序並優先顯示;依類似檔案排序並優先顯示;依類似檔案排序"
 
 #: ulng.rsoptsortmethod
-#, fuzzy
-#| msgid "Alphabetical, considering accents;Natural sorting: alphabetical and numbers"
 msgid "Alphabetical, considering accents;Alphabetical with special characters sort;Natural sorting: alphabetical and numbers;Natural with special characters sort"
-msgstr "依字母順序排序, 考慮重音;依自然順序排序, 考慮字母和數字"
+msgstr "按字母順序：考慮重音;按字母順序：考慮特殊字符;按自然順序排序：考慮字母和數字;按自然順序排序：考慮特殊字符"
 
 #: ulng.rsopttabsposition
 msgid "Top;Bottom;"
@@ -14108,7 +14080,6 @@ msgid "Column"
 msgstr ""
 
 #: ulng.rssimplewordcommand
-#, fuzzy
 msgctxt "ulng.rssimplewordcommand"
 msgid "Command"
 msgstr "指令"
@@ -14581,7 +14552,6 @@ msgid "Image Type"
 msgstr ""
 
 #: ulng.rsviewnewsize
-#, fuzzy
 msgctxt "ulng.rsviewnewsize"
 msgid "New Size"
 msgstr "新的大小"
