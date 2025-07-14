@@ -7621,6 +7621,11 @@ msgstr "Tekstmarkøren følger ikke længere musemarkøren"
 msgid "By clic&king on icon"
 msgstr "Ved &klik på ikon"
 
+#: tfrmoptionsmouse.chkzoomwithctrlwheel.caption
+msgctxt "tfrmoptionsmouse.chkzoomwithctrlwheel.caption"
+msgid "Zoom with Ctrl + Scroll Wheel"
+msgstr ""
+
 # Opsætning  - Indstillinger - Mus
 #: tfrmoptionsmouse.gbopenwith.caption
 msgctxt "tfrmoptionsmouse.gbopenwith.caption"
@@ -7636,6 +7641,12 @@ msgstr "Rulning med musehjul"
 #: tfrmoptionsmouse.gbselection.caption
 msgid "Selection"
 msgstr "Valg"
+
+#: tfrmoptionsmouse.gbzoom.caption
+#, fuzzy
+msgctxt "tfrmoptionsmouse.gbzoom.caption"
+msgid "Zoom"
+msgstr "Zoom"
 
 # Opsætning  - Indstillinger - Mus
 #: tfrmoptionsmouse.lblmousemode.caption
@@ -10531,6 +10542,7 @@ msgid "&Wrap text"
 msgstr ""
 
 #: tfrmviewer.actzoom.caption
+msgctxt "tfrmviewer.actzoom.caption"
 msgid "Zoom"
 msgstr "Zoom"
 

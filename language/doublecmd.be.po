@@ -6928,6 +6928,11 @@ msgstr "Тэкставы курсор не перамяшчаецца за ку�
 msgid "By clic&king on icon"
 msgstr "&Пстрычкай па значку"
 
+#: tfrmoptionsmouse.chkzoomwithctrlwheel.caption
+msgctxt "tfrmoptionsmouse.chkzoomwithctrlwheel.caption"
+msgid "Zoom with Ctrl + Scroll Wheel"
+msgstr ""
+
 #: tfrmoptionsmouse.gbopenwith.caption
 msgctxt "tfrmoptionsmouse.gbopenwith.caption"
 msgid "Open with"
@@ -6940,6 +6945,12 @@ msgstr "Пракрутка"
 #: tfrmoptionsmouse.gbselection.caption
 msgid "Selection"
 msgstr "Вылучэнне"
+
+#: tfrmoptionsmouse.gbzoom.caption
+#, fuzzy
+msgctxt "tfrmoptionsmouse.gbzoom.caption"
+msgid "Zoom"
+msgstr "Маштаб"
 
 #: tfrmoptionsmouse.lblmousemode.caption
 msgid "&Mode:"
@@ -9512,6 +9523,7 @@ msgid "&Wrap text"
 msgstr "&Перанос тэксту"
 
 #: tfrmviewer.actzoom.caption
+msgctxt "tfrmviewer.actzoom.caption"
 msgid "Zoom"
 msgstr "Маштаб"
 

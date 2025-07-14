@@ -7086,6 +7086,11 @@ msgstr "O cursor de texto já não segue o cursor do rato"
 msgid "By clic&king on icon"
 msgstr "Ao &clicar no ícone"
 
+#: tfrmoptionsmouse.chkzoomwithctrlwheel.caption
+msgctxt "tfrmoptionsmouse.chkzoomwithctrlwheel.caption"
+msgid "Zoom with Ctrl + Scroll Wheel"
+msgstr ""
+
 #: tfrmoptionsmouse.gbopenwith.caption
 msgctxt "tfrmoptionsmouse.gbopenwith.caption"
 msgid "Open with"
@@ -7098,6 +7103,12 @@ msgstr "Rolar"
 #: tfrmoptionsmouse.gbselection.caption
 msgid "Selection"
 msgstr "Selecção"
+
+#: tfrmoptionsmouse.gbzoom.caption
+#, fuzzy
+msgctxt "tfrmoptionsmouse.gbzoom.caption"
+msgid "Zoom"
+msgstr "Ampliação"
 
 #: tfrmoptionsmouse.lblmousemode.caption
 msgid "&Mode:"
@@ -9720,6 +9731,7 @@ msgid "&Wrap text"
 msgstr "Cortar te&xto"
 
 #: tfrmviewer.actzoom.caption
+msgctxt "tfrmviewer.actzoom.caption"
 msgid "Zoom"
 msgstr "Ampliação"
 

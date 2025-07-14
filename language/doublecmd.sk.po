@@ -6912,6 +6912,11 @@ msgstr "Textový kurzor už nesleduje kurzor myši"
 msgid "By clic&king on icon"
 msgstr "Kliknutím na ikonu"
 
+#: tfrmoptionsmouse.chkzoomwithctrlwheel.caption
+msgctxt "tfrmoptionsmouse.chkzoomwithctrlwheel.caption"
+msgid "Zoom with Ctrl + Scroll Wheel"
+msgstr ""
+
 #: tfrmoptionsmouse.gbopenwith.caption
 msgctxt "tfrmoptionsmouse.gbopenwith.caption"
 msgid "Open with"
@@ -6924,6 +6929,12 @@ msgstr "Skrolovanie"
 #: tfrmoptionsmouse.gbselection.caption
 msgid "Selection"
 msgstr "Výber"
+
+#: tfrmoptionsmouse.gbzoom.caption
+#, fuzzy
+msgctxt "tfrmoptionsmouse.gbzoom.caption"
+msgid "Zoom"
+msgstr "Priblíženie"
 
 #: tfrmoptionsmouse.lblmousemode.caption
 msgid "&Mode:"
@@ -9493,6 +9504,7 @@ msgid "&Wrap text"
 msgstr "&Zalomiť text"
 
 #: tfrmviewer.actzoom.caption
+msgctxt "tfrmviewer.actzoom.caption"
 msgid "Zoom"
 msgstr "Priblíženie"
 

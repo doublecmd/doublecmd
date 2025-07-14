@@ -2547,14 +2547,16 @@ msgid "&Load Tabs from File"
 msgstr "&Učitaj kartice iz datoteke"
 
 #: tfrmmain.actmainfontzoomin.caption
+#, fuzzy
 msgctxt "tfrmmain.actmainfontzoomin.caption"
 msgid "Zoom In"
-msgstr ""
+msgstr "Približi"
 
 #: tfrmmain.actmainfontzoomout.caption
+#, fuzzy
 msgctxt "tfrmmain.actmainfontzoomout.caption"
 msgid "Zoom Out"
-msgstr ""
+msgstr "Udalji"
 
 #: tfrmmain.actmakedir.caption
 msgid "Create &Directory"
@@ -7257,6 +7259,11 @@ msgstr ""
 msgid "By clic&king on icon"
 msgstr ""
 
+#: tfrmoptionsmouse.chkzoomwithctrlwheel.caption
+msgctxt "tfrmoptionsmouse.chkzoomwithctrlwheel.caption"
+msgid "Zoom with Ctrl + Scroll Wheel"
+msgstr ""
+
 #: tfrmoptionsmouse.gbopenwith.caption
 msgctxt "tfrmoptionsmouse.gbopenwith.caption"
 msgid "Open with"
@@ -7269,6 +7276,11 @@ msgstr "Klizanje"
 #: tfrmoptionsmouse.gbselection.caption
 msgid "Selection"
 msgstr "Izbor"
+
+#: tfrmoptionsmouse.gbzoom.caption
+msgctxt "tfrmoptionsmouse.gbzoom.caption"
+msgid "Zoom"
+msgstr ""
 
 #: tfrmoptionsmouse.lblmousemode.caption
 msgid "&Mode:"
@@ -9970,6 +9982,7 @@ msgid "&Wrap text"
 msgstr ""
 
 #: tfrmviewer.actzoom.caption
+msgctxt "tfrmviewer.actzoom.caption"
 msgid "Zoom"
 msgstr ""
 
@@ -9979,9 +9992,10 @@ msgid "Zoom In"
 msgstr "Približi"
 
 #: tfrmviewer.actzoomin.hint
+#, fuzzy
 msgctxt "tfrmviewer.actzoomin.hint"
 msgid "Zoom In"
-msgstr ""
+msgstr "Približi"
 
 #: tfrmviewer.actzoomout.caption
 msgctxt "tfrmviewer.actzoomout.caption"
@@ -9989,9 +10003,10 @@ msgid "Zoom Out"
 msgstr "Udalji"
 
 #: tfrmviewer.actzoomout.hint
+#, fuzzy
 msgctxt "tfrmviewer.actzoomout.hint"
 msgid "Zoom Out"
-msgstr ""
+msgstr "Udalji"
 
 #: tfrmviewer.btncuttuimage.hint
 msgctxt "TFRMVIEWER.BTNCUTTUIMAGE.HINT"

@@ -6888,6 +6888,11 @@ msgstr "Kursor tekstowy przestaje podążać za kursorem myszy"
 msgid "By clic&king on icon"
 msgstr "Przez &kliknięcie na ikonę"
 
+#: tfrmoptionsmouse.chkzoomwithctrlwheel.caption
+msgctxt "tfrmoptionsmouse.chkzoomwithctrlwheel.caption"
+msgid "Zoom with Ctrl + Scroll Wheel"
+msgstr ""
+
 #: tfrmoptionsmouse.gbopenwith.caption
 msgctxt "tfrmoptionsmouse.gbopenwith.caption"
 msgid "Open with"
@@ -6900,6 +6905,12 @@ msgstr "Przewijanie"
 #: tfrmoptionsmouse.gbselection.caption
 msgid "Selection"
 msgstr "Zaznaczenie"
+
+#: tfrmoptionsmouse.gbzoom.caption
+#, fuzzy
+msgctxt "tfrmoptionsmouse.gbzoom.caption"
+msgid "Zoom"
+msgstr "Powiększenia"
 
 #: tfrmoptionsmouse.lblmousemode.caption
 msgid "&Mode:"
@@ -9463,6 +9474,7 @@ msgid "&Wrap text"
 msgstr "&Zawijaj tekst"
 
 #: tfrmviewer.actzoom.caption
+msgctxt "tfrmviewer.actzoom.caption"
 msgid "Zoom"
 msgstr "Powiększenia"
 

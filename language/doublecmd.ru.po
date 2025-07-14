@@ -7105,6 +7105,11 @@ msgstr "Текстовый курсор не следует за курсоро�
 msgid "By clic&king on icon"
 msgstr "Щелч&ком по значку"
 
+#: tfrmoptionsmouse.chkzoomwithctrlwheel.caption
+msgctxt "tfrmoptionsmouse.chkzoomwithctrlwheel.caption"
+msgid "Zoom with Ctrl + Scroll Wheel"
+msgstr ""
+
 #: tfrmoptionsmouse.gbopenwith.caption
 msgctxt "tfrmoptionsmouse.gbopenwith.caption"
 msgid "Open with"
@@ -7117,6 +7122,12 @@ msgstr "Прокрутка"
 #: tfrmoptionsmouse.gbselection.caption
 msgid "Selection"
 msgstr "Выделение"
+
+#: tfrmoptionsmouse.gbzoom.caption
+#, fuzzy
+msgctxt "tfrmoptionsmouse.gbzoom.caption"
+msgid "Zoom"
+msgstr "Увеличение"
 
 #: tfrmoptionsmouse.lblmousemode.caption
 msgid "&Mode:"
@@ -9745,6 +9756,7 @@ msgid "&Wrap text"
 msgstr "&Переносить строки"
 
 #: tfrmviewer.actzoom.caption
+msgctxt "tfrmviewer.actzoom.caption"
 msgid "Zoom"
 msgstr "Увеличение"
 

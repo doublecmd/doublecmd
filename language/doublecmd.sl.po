@@ -6920,6 +6920,11 @@ msgstr "Besedilna kazalka ne sledi več kazalki miške"
 msgid "By clic&king on icon"
 msgstr "S klikom na &ikono"
 
+#: tfrmoptionsmouse.chkzoomwithctrlwheel.caption
+msgctxt "tfrmoptionsmouse.chkzoomwithctrlwheel.caption"
+msgid "Zoom with Ctrl + Scroll Wheel"
+msgstr ""
+
 #: tfrmoptionsmouse.gbopenwith.caption
 msgctxt "tfrmoptionsmouse.gbopenwith.caption"
 msgid "Open with"
@@ -6932,6 +6937,12 @@ msgstr "Drsenje"
 #: tfrmoptionsmouse.gbselection.caption
 msgid "Selection"
 msgstr "Izbor"
+
+#: tfrmoptionsmouse.gbzoom.caption
+#, fuzzy
+msgctxt "tfrmoptionsmouse.gbzoom.caption"
+msgid "Zoom"
+msgstr "Približanje"
 
 #: tfrmoptionsmouse.lblmousemode.caption
 msgid "&Mode:"
@@ -9501,6 +9512,7 @@ msgid "&Wrap text"
 msgstr "&Prelomi besedilo"
 
 #: tfrmviewer.actzoom.caption
+msgctxt "tfrmviewer.actzoom.caption"
 msgid "Zoom"
 msgstr "Približanje"
 

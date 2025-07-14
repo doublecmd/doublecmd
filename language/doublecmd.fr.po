@@ -7174,6 +7174,11 @@ msgstr "Le curseur de texte ne suit plus le curseur de la souris"
 msgid "By clic&king on icon"
 msgstr "En cliquant sur l'icône"
 
+#: tfrmoptionsmouse.chkzoomwithctrlwheel.caption
+msgctxt "tfrmoptionsmouse.chkzoomwithctrlwheel.caption"
+msgid "Zoom with Ctrl + Scroll Wheel"
+msgstr ""
+
 #: tfrmoptionsmouse.gbopenwith.caption
 msgctxt "tfrmoptionsmouse.gbopenwith.caption"
 msgid "Open with"
@@ -7187,6 +7192,12 @@ msgstr "Défilement"
 #: tfrmoptionsmouse.gbselection.caption
 msgid "Selection"
 msgstr "Sélection"
+
+#: tfrmoptionsmouse.gbzoom.caption
+#, fuzzy
+msgctxt "tfrmoptionsmouse.gbzoom.caption"
+msgid "Zoom"
+msgstr "Zoom"
 
 #: tfrmoptionsmouse.lblmousemode.caption
 msgctxt "TFRMOPTIONSMOUSE.LBLMOUSEMODE.CAPTION"
@@ -9820,6 +9831,7 @@ msgid "&Wrap text"
 msgstr "Envelopper le texte"
 
 #: tfrmviewer.actzoom.caption
+msgctxt "tfrmviewer.actzoom.caption"
 msgid "Zoom"
 msgstr "Zoom"
 

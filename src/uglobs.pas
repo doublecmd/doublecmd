@@ -377,6 +377,7 @@ var
   gSpaceMovesDown: Boolean;
   gScrollMode: TScrollMode;
   gWheelScrollLines: Integer;
+  gZoomWithCtrlWheel: Boolean;
   gAlwaysShowTrayIcon: Boolean;
   gMinimizeToTray: Boolean;
   gConfirmQuit: Boolean;
@@ -1731,6 +1732,7 @@ begin
   gMouseSelectionIconClick := 0;
   gScrollMode := smLineByLine;
   gWheelScrollLines:= Mouse.WheelScrollLines;
+  gZoomWithCtrlWheel:= {$ifdef DARWIN}False{$else}True{$endif};
   gAutoFillColumns := False;
   gAutoSizeColumn := 1;
   gColumnsLongInStatus := False;
@@ -2681,6 +2683,7 @@ begin
       gMouseSelectionIconClick := GetValue(Node, 'Mouse/Selection/IconClick', gMouseSelectionIconClick);
       gScrollMode := TScrollMode(GetValue(Node, 'Mouse/ScrollMode', Integer(gScrollMode)));
       gWheelScrollLines:= GetValue(Node, 'Mouse/WheelScrollLines', gWheelScrollLines);
+      gZoomWithCtrlWheel:= GetValue(Node, 'Mouse/ZoomWithCtrlWheel', gZoomWithCtrlWheel);
       gAutoFillColumns := GetValue(Node, 'AutoFillColumns', gAutoFillColumns);
       gAutoSizeColumn := GetValue(Node, 'AutoSizeColumn', gAutoSizeColumn);
       gDateTimeFormat := GetValidDateTimeFormat(GetValue(Node, 'DateTimeFormat', gDateTimeFormat), DefaultDateTimeFormat);
@@ -3413,6 +3416,7 @@ begin
     SetValue(SubNode, 'Selection/IconClick', gMouseSelectionIconClick);
     SetValue(SubNode, 'ScrollMode', Integer(gScrollMode));
     SetValue(SubNode, 'WheelScrollLines', gWheelScrollLines);
+    SetValue(SubNode, 'ZoomWithCtrlWheel', gZoomWithCtrlWheel);
     SetValue(Node, 'AutoFillColumns', gAutoFillColumns);
     SetValue(Node, 'AutoSizeColumn', gAutoSizeColumn);
     SetValue(Node, 'CustomColumnsChangeAllColumns', gCustomColumnsChangeAllColumns);

@@ -6978,6 +6978,11 @@ msgstr ""
 msgid "By clic&king on icon"
 msgstr ""
 
+#: tfrmoptionsmouse.chkzoomwithctrlwheel.caption
+msgctxt "tfrmoptionsmouse.chkzoomwithctrlwheel.caption"
+msgid "Zoom with Ctrl + Scroll Wheel"
+msgstr ""
+
 #: tfrmoptionsmouse.gbopenwith.caption
 msgctxt "tfrmoptionsmouse.gbopenwith.caption"
 msgid "Open with"
@@ -6990,6 +6995,12 @@ msgstr "Desplazamiento"
 #: tfrmoptionsmouse.gbselection.caption
 msgid "Selection"
 msgstr "Selección"
+
+#: tfrmoptionsmouse.gbzoom.caption
+#, fuzzy
+msgctxt "tfrmoptionsmouse.gbzoom.caption"
+msgid "Zoom"
+msgstr "Zoom"
 
 #: tfrmoptionsmouse.lblmousemode.caption
 msgid "&Mode:"
@@ -9600,6 +9611,7 @@ msgid "&Wrap text"
 msgstr ""
 
 #: tfrmviewer.actzoom.caption
+msgctxt "tfrmviewer.actzoom.caption"
 msgid "Zoom"
 msgstr "Zoom"
 

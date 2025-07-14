@@ -6913,6 +6913,11 @@ msgstr "텍스트 커서가 더 이상 마우스 커서를 따르지 않음"
 msgid "By clic&king on icon"
 msgstr "아이콘을 클릭하여 선택(&K)"
 
+#: tfrmoptionsmouse.chkzoomwithctrlwheel.caption
+msgctxt "tfrmoptionsmouse.chkzoomwithctrlwheel.caption"
+msgid "Zoom with Ctrl + Scroll Wheel"
+msgstr ""
+
 #: tfrmoptionsmouse.gbopenwith.caption
 msgctxt "tfrmoptionsmouse.gbopenwith.caption"
 msgid "Open with"
@@ -6925,6 +6930,12 @@ msgstr "스크롤"
 #: tfrmoptionsmouse.gbselection.caption
 msgid "Selection"
 msgstr "선택"
+
+#: tfrmoptionsmouse.gbzoom.caption
+#, fuzzy
+msgctxt "tfrmoptionsmouse.gbzoom.caption"
+msgid "Zoom"
+msgstr "확대/축소"
 
 #: tfrmoptionsmouse.lblmousemode.caption
 msgid "&Mode:"
@@ -9492,6 +9503,7 @@ msgid "&Wrap text"
 msgstr "텍스트 줄 바꿈(&W)"
 
 #: tfrmviewer.actzoom.caption
+msgctxt "tfrmviewer.actzoom.caption"
 msgid "Zoom"
 msgstr "확대/축소"
 

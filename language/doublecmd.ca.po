@@ -2705,14 +2705,16 @@ msgid "&Load Tabs from File"
 msgstr ""
 
 #: tfrmmain.actmainfontzoomin.caption
+#, fuzzy
 msgctxt "tfrmmain.actmainfontzoomin.caption"
 msgid "Zoom In"
-msgstr ""
+msgstr "Apropar"
 
 #: tfrmmain.actmainfontzoomout.caption
+#, fuzzy
 msgctxt "tfrmmain.actmainfontzoomout.caption"
 msgid "Zoom Out"
-msgstr ""
+msgstr "Allunya"
 
 #: tfrmmain.actmakedir.caption
 #, fuzzy
@@ -7626,6 +7628,11 @@ msgstr ""
 msgid "By clic&king on icon"
 msgstr ""
 
+#: tfrmoptionsmouse.chkzoomwithctrlwheel.caption
+msgctxt "tfrmoptionsmouse.chkzoomwithctrlwheel.caption"
+msgid "Zoom with Ctrl + Scroll Wheel"
+msgstr ""
+
 #: tfrmoptionsmouse.gbopenwith.caption
 msgctxt "tfrmoptionsmouse.gbopenwith.caption"
 msgid "Open with"
@@ -7639,6 +7646,11 @@ msgstr "Desplaçament"
 #: tfrmoptionsmouse.gbselection.caption
 msgid "Selection"
 msgstr "Selecció"
+
+#: tfrmoptionsmouse.gbzoom.caption
+msgctxt "tfrmoptionsmouse.gbzoom.caption"
+msgid "Zoom"
+msgstr ""
 
 #: tfrmoptionsmouse.lblmousemode.caption
 #, fuzzy
@@ -10440,6 +10452,7 @@ msgid "&Wrap text"
 msgstr ""
 
 #: tfrmviewer.actzoom.caption
+msgctxt "tfrmviewer.actzoom.caption"
 msgid "Zoom"
 msgstr ""
 
@@ -10449,9 +10462,10 @@ msgid "Zoom In"
 msgstr "Apropar"
 
 #: tfrmviewer.actzoomin.hint
+#, fuzzy
 msgctxt "tfrmviewer.actzoomin.hint"
 msgid "Zoom In"
-msgstr ""
+msgstr "Apropar"
 
 #: tfrmviewer.actzoomout.caption
 msgctxt "tfrmviewer.actzoomout.caption"
@@ -10459,9 +10473,10 @@ msgid "Zoom Out"
 msgstr "Allunya"
 
 #: tfrmviewer.actzoomout.hint
+#, fuzzy
 msgctxt "tfrmviewer.actzoomout.hint"
 msgid "Zoom Out"
-msgstr ""
+msgstr "Allunya"
 
 #: tfrmviewer.btncuttuimage.hint
 msgctxt "TFRMVIEWER.BTNCUTTUIMAGE.HINT"

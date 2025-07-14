@@ -6913,6 +6913,11 @@ msgstr "und der Textcursor folgt nicht mehr dem Mauszeiger"
 msgid "By clic&king on icon"
 msgstr "auch durch klicken auf das Icon des Elements"
 
+#: tfrmoptionsmouse.chkzoomwithctrlwheel.caption
+msgctxt "tfrmoptionsmouse.chkzoomwithctrlwheel.caption"
+msgid "Zoom with Ctrl + Scroll Wheel"
+msgstr ""
+
 #: tfrmoptionsmouse.gbopenwith.caption
 msgctxt "tfrmoptionsmouse.gbopenwith.caption"
 msgid "Open with"
@@ -6925,6 +6930,12 @@ msgstr "Bildlauf"
 #: tfrmoptionsmouse.gbselection.caption
 msgid "Selection"
 msgstr "Auswahl/Markieren"
+
+#: tfrmoptionsmouse.gbzoom.caption
+#, fuzzy
+msgctxt "tfrmoptionsmouse.gbzoom.caption"
+msgid "Zoom"
+msgstr "Zoom"
 
 #: tfrmoptionsmouse.lblmousemode.caption
 msgid "&Mode:"
@@ -9492,6 +9503,7 @@ msgid "&Wrap text"
 msgstr "Text umbrechen"
 
 #: tfrmviewer.actzoom.caption
+msgctxt "tfrmviewer.actzoom.caption"
 msgid "Zoom"
 msgstr "Zoom"
 

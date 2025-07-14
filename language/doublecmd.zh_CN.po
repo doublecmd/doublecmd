@@ -6910,6 +6910,11 @@ msgstr "文本光标不再跟随鼠标光标"
 msgid "By clic&king on icon"
 msgstr "通过点击图标(&K)"
 
+#: tfrmoptionsmouse.chkzoomwithctrlwheel.caption
+msgctxt "tfrmoptionsmouse.chkzoomwithctrlwheel.caption"
+msgid "Zoom with Ctrl + Scroll Wheel"
+msgstr ""
+
 #: tfrmoptionsmouse.gbopenwith.caption
 msgctxt "tfrmoptionsmouse.gbopenwith.caption"
 msgid "Open with"
@@ -6922,6 +6927,12 @@ msgstr "滚动"
 #: tfrmoptionsmouse.gbselection.caption
 msgid "Selection"
 msgstr "选择"
+
+#: tfrmoptionsmouse.gbzoom.caption
+#, fuzzy
+msgctxt "tfrmoptionsmouse.gbzoom.caption"
+msgid "Zoom"
+msgstr "缩放"
 
 #: tfrmoptionsmouse.lblmousemode.caption
 msgid "&Mode:"
@@ -9489,6 +9500,7 @@ msgid "&Wrap text"
 msgstr "文本换行(&W)"
 
 #: tfrmviewer.actzoom.caption
+msgctxt "tfrmviewer.actzoom.caption"
 msgid "Zoom"
 msgstr "缩放"
 

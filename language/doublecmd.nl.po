@@ -6949,6 +6949,11 @@ msgstr "De tekstaanwijzer volgt niet langer de muispijl"
 msgid "By clic&king on icon"
 msgstr "Door te klikken op pictogram"
 
+#: tfrmoptionsmouse.chkzoomwithctrlwheel.caption
+msgctxt "tfrmoptionsmouse.chkzoomwithctrlwheel.caption"
+msgid "Zoom with Ctrl + Scroll Wheel"
+msgstr ""
+
 #: tfrmoptionsmouse.gbopenwith.caption
 msgctxt "tfrmoptionsmouse.gbopenwith.caption"
 msgid "Open with"
@@ -6961,6 +6966,12 @@ msgstr "Schuiven"
 #: tfrmoptionsmouse.gbselection.caption
 msgid "Selection"
 msgstr "Selectie"
+
+#: tfrmoptionsmouse.gbzoom.caption
+#, fuzzy
+msgctxt "tfrmoptionsmouse.gbzoom.caption"
+msgid "Zoom"
+msgstr "Vergroten/verkleinen"
 
 #: tfrmoptionsmouse.lblmousemode.caption
 msgid "&Mode:"
@@ -9533,6 +9544,7 @@ msgid "&Wrap text"
 msgstr ""
 
 #: tfrmviewer.actzoom.caption
+msgctxt "tfrmviewer.actzoom.caption"
 msgid "Zoom"
 msgstr "Vergroten/verkleinen"
 
