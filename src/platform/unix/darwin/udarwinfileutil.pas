@@ -7,7 +7,11 @@ interface
 
 uses
   Classes, SysUtils,
-  CocoaAll, Cocoa_Extra;
+  CocoaAll, Cocoa_Extra
+  {$IFDEF DARWIN}
+  , MacOSAll
+  {$ENDIF}
+  ;
 
 type
 
@@ -42,6 +46,25 @@ const
   COPYFILE_CLONE       = 1 shl 24;
   COPYFILE_CLONE_FORCE = 1 shl 25;
 
+{$IFDEF DARWIN}
+function IsAPFS(const Path: String): Boolean;
+var
+  statfsBuf: statfs;
+  dir: String;
+begin
+  // We check the folder, not the file
+  if DirectoryExists(Path) then
+    dir := Path
+  else
+    dir := ExtractFilePath(Path);
+  if dir = '' then
+    dir := '/';
+  Result := False;
+  if fpStatFS(PChar(dir), @statfsBuf) = 0 then
+    Result := string(statfsBuf.f_fstypename) = 'apfs';
+end;
+{$ENDIF}
+
 { TDarwinFileUtil }
 
 // the copyfile() api has two advantages:
@@ -57,6 +80,12 @@ var
 begin
   Result:= False;
   flags:= COPYFILE_ALL;
+
+  {$IFDEF DARWIN}
+  // We check that both folders (source and target) are on APFS
+  if not IsAPFS(fromPath) or not IsAPFS(toPath) then
+    Exit(False);
+  {$ENDIF}
 
   // call copyfile() when:
   // 1. macOS < 10.13 and filesize <= MAX_SIZE (copy only)
@@ -77,4 +106,3 @@ begin
 end;
 
 end.
-
