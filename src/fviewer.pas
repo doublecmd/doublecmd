@@ -462,6 +462,9 @@ type
     procedure ShowTextViewer(AMode: TViewerControlMode);
     procedure CopyMoveFile(AViewerAction:TViewerCopyMoveAction);
     procedure ZoomImage(ADelta: Double);
+    function DoZoom( const delta: Double; const inc: Integer ): Boolean;
+    function DoZoomIn: Boolean;
+    function DoZoomOut: Boolean;
     procedure RotateImage(AGradus:integer);
     procedure MirrorImage(AVertically:boolean=False);
 
@@ -1863,6 +1866,45 @@ procedure TfrmViewer.ZoomImage(ADelta: Double);
 begin
   FZoomFactor := Round(FZoomFactor * ADelta);
   AdjustImageSize;
+end;
+
+function TfrmViewer.DoZoom( const delta: Double; const inc: Integer ): Boolean;
+var
+  ALine: Integer;
+begin
+  Result:= False;
+  if miGraphics.Checked then begin
+    ZoomImage( delta );
+    Result:= True;
+    Exit;
+  end;
+
+  if (inc>0) and (gFonts[dcfViewer].Size>=gFonts[dcfViewer].MaxValue) then
+    Exit;
+  if (inc<0) and (gFonts[dcfViewer].Size<=gFonts[dcfViewer].MinValue) then
+    Exit;
+  gFonts[dcfViewer].Size:= gFonts[dcfViewer].Size + inc;
+  Result:= True;
+
+  if miCode.Checked then begin
+    ALine:= SynEdit.TopLine;
+    FontOptionsToFont(gFonts[dcfViewer], SynEdit.Font);
+    SynEdit.TopLine:= ALine;
+    SynEdit.Refresh;
+  end else begin
+    ViewerControl.Font.Size:= gFonts[dcfViewer].Size;
+    ViewerControl.Repaint;
+  end;
+end;
+
+function TfrmViewer.DoZoomIn: Boolean;
+begin
+  DoZoom( 1.1, 1 );
+end;
+
+function TfrmViewer.DoZoomOut: Boolean;
+begin
+  DoZoom( 0.909, -1 );
 end;
 
 procedure TfrmViewer.RotateImage(AGradus: integer);
