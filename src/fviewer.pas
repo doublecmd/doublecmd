@@ -2833,53 +2833,36 @@ end;
 procedure TfrmViewer.SynEditMouseWheel(Sender: TObject; Shift: TShiftState;
   WheelDelta: Integer; MousePos: TPoint; var Handled: Boolean);
 var
-  ALine: Integer;
+  inc: Integer;
 begin
-  if (Shift = [ssCtrl]) then
+  if WheelDelta = 0 then
+    Exit;
+
+  if gZoomWithCtrlWheel and (Shift = [ssCtrl]) then
   begin
-    if (WheelDelta > 0) and (gFonts[dcfViewer].Size < gFonts[dcfViewer].MaxValue) then
-    begin
-      Handled:= True;
-      Inc(gFonts[dcfViewer].Size);
-    end
-    else if (WheelDelta < 0) and (gFonts[dcfViewer].Size > gFonts[dcfViewer].MinValue) then
-    begin
-      Handled:= True;
-      Dec(gFonts[dcfViewer].Size);
-    end;
-    if Handled then
-    begin
-      ALine:= SynEdit.TopLine;
-      FontOptionsToFont(gFonts[dcfViewer], SynEdit.Font);
-      SynEdit.TopLine:= ALine;
-      SynEdit.Refresh;
-    end;
+    if WheelDelta > 0 then
+      inc:= 1
+    else
+      inc:= -1;
+    self.DoZoom( 1, inc );
   end;
 end;
 
 procedure TfrmViewer.ViewerControlMouseWheelDown(Sender: TObject;
   Shift: TShiftState; MousePos: TPoint; var Handled: Boolean);
 begin
-  if (Shift=[ssCtrl])and(gFonts[dcfViewer].Size > gFonts[dcfViewer].MinValue) then
-  begin
-    gFonts[dcfViewer].Size:=gFonts[dcfViewer].Size-1;
-    ViewerControl.Font.Size:=gFonts[dcfViewer].Size;
-    ViewerControl.Repaint;
-    Handled:=True;
-    Exit;
+  if gZoomWithCtrlWheel and (Shift=[ssCtrl]) then begin
+    if self.DoZoomOut then
+      Handled:= True;
   end;
 end;
 
 procedure TfrmViewer.ViewerControlMouseWheelUp(Sender: TObject;
   Shift: TShiftState; MousePos: TPoint; var Handled: Boolean);
 begin
-  if (Shift=[ssCtrl])and(gFonts[dcfViewer].Size < gFonts[dcfViewer].MaxValue) then
-  begin
-    gFonts[dcfViewer].Size:=gFonts[dcfViewer].Size+1;
-    ViewerControl.Font.Size:=gFonts[dcfViewer].Size;
-    ViewerControl.Repaint;
-    Handled:=True;
-    Exit;
+  if gZoomWithCtrlWheel and (Shift=[ssCtrl]) then begin
+    if self.DoZoomIn then
+      Handled:= True;
   end;
 end;
 
@@ -2929,6 +2912,8 @@ begin
     dScaleFactor:= Min(sboxImage.ClientWidth / ImgWidth, sboxImage.ClientHeight / ImgHeight);
     dScaleFactor:= IfThen((miStretchOnlyLarge.Checked) and (dScaleFactor > 1.0), 1.0, dScaleFactor);
   end;
+
+  FZoomFactor:= Round( dScaleFactor * 100 );
 
   iWidth:= Trunc(ImgWidth * dScaleFactor);
   iHeight:= Trunc(ImgHeight * dScaleFactor);
@@ -3888,26 +3873,12 @@ end;
 
 procedure TfrmViewer.cm_ZoomIn(const Params: array of string);
 begin
-  if miGraphics.Checked then
-     ZoomImage(1.1)
-  else
-  begin
-    gFonts[dcfViewer].Size:=gFonts[dcfViewer].Size+1;
-    ViewerControl.Font.Size:=gFonts[dcfViewer].Size;
-    ViewerControl.Repaint;
-  end;
+  self.DoZoomIn;
 end;
 
 procedure TfrmViewer.cm_ZoomOut(const Params: array of string);
 begin
-  if miGraphics.Checked then
-     ZoomImage(0.9)
-  else
-  begin
-    gFonts[dcfViewer].Size:=gFonts[dcfViewer].Size-1;
-    ViewerControl.Font.Size:=gFonts[dcfViewer].Size;
-    ViewerControl.Repaint;
-  end;
+  self.DoZoomOut;
 end;
 
 procedure TfrmViewer.cm_Fullscreen(const Params: array of string);
