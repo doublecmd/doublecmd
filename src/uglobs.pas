@@ -173,7 +173,7 @@ type
 
 const
   { Default hotkey list version number }
-  hkVersion = 65;
+  hkVersion = 66;
   // 65 - In "Files Panel", for macOS, added the "Cmd+=" for "cm_MainFontZoomIn", "Cmd+-" for "cm_MainFontZoomOut"
   // 54 - In "Viewer" context, added the "W" for "cm_WrapText", "4" for "cm_ShowAsDec", "8" for "cm_ShowOffice".
   // 53 - In "Main" context, change shortcut "Alt+`" to "Alt+0" for the "cm_ActivateTabByIndex".
@@ -1297,6 +1297,10 @@ begin
 
       AddIfNotExists(['Num+'],[],'cm_ZoomIn');
       AddIfNotExists(['Num-'],[],'cm_ZoomOut');
+      {$IFDEF DARWIN}
+      AddIfNotExists(['Cmd+='],'cm_ZoomIn',['Num+'],[]);
+      AddIfNotExists(['Cmd+-'],'cm_ZoomOut',['Num-'],[]);
+      {$ENDIF}
 
       AddIfNotExists(['Alt+Enter'],[],'cm_Fullscreen');
 
