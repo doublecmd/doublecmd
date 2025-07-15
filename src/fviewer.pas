@@ -786,6 +786,19 @@ var
   bmpThumb: TBitmap;
   AIndex, X, Y: Integer;
 begin
+
+  // in TfrmOptionsHotkeys.FillCommandList(), a TfrmViewer instance may be created
+  // to obtain Hotkeys.
+  // in this case, the TfrmViewer is not initialized normally, and an exception
+  // may occur in some WidgetSets due to the Paint event.
+  // therefore, the code is added here.
+  // this is a hack-like patch, and the root cause is that the implementation of
+  // TfrmOptionsHotkeys.FillCommandList() is unreasonable.
+  // to completely avoid such issue, TfrmOptionsHotkeys.FillCommandList() should
+  // be reimplemented in the future.
+  if FFileList = nil then
+    Exit;
+
   AIndex:= CellToIndex(aCol, aRow);
 
   if InRange(AIndex, 0, FFileList.Count - 1) then
