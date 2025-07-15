@@ -317,8 +317,6 @@ type
     procedure pmEditMenuPopup(Sender: TObject);
     procedure miPluginsClick(Sender: TObject);
 
-    procedure pnlTextMouseWheelUp(Sender: TObject; Shift: TShiftState;
-      MousePos: TPoint; var Handled: Boolean);
     procedure sboxImageMouseEnter(Sender: TObject);
     procedure sboxImageMouseLeave(Sender: TObject);
     procedure sboxImageMouseMove(Sender: TObject; Shift: TShiftState; X,
@@ -2131,19 +2129,6 @@ begin
   end
   else begin
     LoadFile(FFileName);
-  end;
-end;
-
-procedure TfrmViewer.pnlTextMouseWheelUp(Sender: TObject; Shift: TShiftState;
-  MousePos: TPoint; var Handled: Boolean);
-begin
-  if Shift=[ssCtrl] then
-  begin
-    gFonts[dcfMain].Size:=gFonts[dcfMain].Size+1;
-    pnlText.Font.Size:=gFonts[dcfMain].Size;
-    pnlText.Repaint;
-    Handled:=True;
-    Exit;
   end;
 end;
 

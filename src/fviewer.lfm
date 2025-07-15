@@ -331,7 +331,6 @@ object frmViewer: TfrmViewer
     ParentFont = False
     TabOrder = 2
     Visible = False
-    OnMouseWheelUp = pnlTextMouseWheelUp
     object ViewerControl: TViewerControl
       Left = 0
       Height = 343
