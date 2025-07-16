@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 1.2.0 alpha\n"
-"POT-Creation-Date: 2025-06-12 01:47+0300\n"
-"PO-Revision-Date: 2025-06-13 11:30+0300\n"
+"POT-Creation-Date: 2025-07-14 19:30+0300\n"
+"PO-Revision-Date: 2025-07-14 21:33+0300\n"
 "Last-Translator: Alexander Koblov <alexx2000@mail.ru>\n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -7108,7 +7108,7 @@ msgstr "Щелч&ком по значку"
 #: tfrmoptionsmouse.chkzoomwithctrlwheel.caption
 msgctxt "tfrmoptionsmouse.chkzoomwithctrlwheel.caption"
 msgid "Zoom with Ctrl + Scroll Wheel"
-msgstr ""
+msgstr "Масштабирование с Ctrl+колесо мыши"
 
 #: tfrmoptionsmouse.gbopenwith.caption
 msgctxt "tfrmoptionsmouse.gbopenwith.caption"
@@ -7124,10 +7124,9 @@ msgid "Selection"
 msgstr "Выделение"
 
 #: tfrmoptionsmouse.gbzoom.caption
-#, fuzzy
 msgctxt "tfrmoptionsmouse.gbzoom.caption"
 msgid "Zoom"
-msgstr "Увеличение"
+msgstr "Масштабирование"
 
 #: tfrmoptionsmouse.lblmousemode.caption
 msgid "&Mode:"
