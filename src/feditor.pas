@@ -390,36 +390,20 @@ end;
 
 procedure TfrmEditor.EditorMouseWheelDown(Sender: TObject; Shift: TShiftState;
   MousePos: TPoint; var Handled: Boolean);
-var
-   t:integer;
 begin
-  if (Shift=[ssCtrl])and(gFonts[dcfEditor].Size > gFonts[dcfEditor].MinValue) then
-  begin
-    t:=Editor.TopLine;
-    gFonts[dcfEditor].Size:=gFonts[dcfEditor].Size-1;
-    FontOptionsToFont(gFonts[dcfEditor], Editor.Font);
-    Editor.TopLine:=t;
-    Editor.Refresh;
-    Handled:=True;
+  if gZoomWithCtrlWheel and (Shift=[ssCtrl]) then begin
+    if self.DoZoomOut then
+      Handled:= True;
   end;
-
 end;
 
 procedure TfrmEditor.EditorMouseWheelUp(Sender: TObject; Shift: TShiftState;
   MousePos: TPoint; var Handled: Boolean);
-var
-   t:integer;
 begin
-  if (Shift=[ssCtrl])and(gFonts[dcfEditor].Size < gFonts[dcfEditor].MaxValue) then
-  begin
-    t:=Editor.TopLine;
-    gFonts[dcfEditor].Size:=gFonts[dcfEditor].Size+1;
-    FontOptionsToFont(gFonts[dcfEditor], Editor.Font);
-    Editor.TopLine:=t;
-    Editor.Refresh;
-    Handled:=True;
+  if gZoomWithCtrlWheel and (Shift=[ssCtrl]) then begin
+    if self.DoZoomIn then
+      Handled:= True;
   end;
-
 end;
 
 function TfrmEditor.OpenFile(const aFileName: String): Boolean;
