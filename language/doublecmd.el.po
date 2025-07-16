@@ -1094,6 +1094,18 @@ msgstr "Αποθήκευση ως..."
 msgid "Save As"
 msgstr "Αποθήκευση ως"
 
+#: tfrmeditor.actzoomin.caption
+#, fuzzy
+msgctxt "tfrmeditor.actzoomin.caption"
+msgid "Zoom In"
+msgstr "Μεγέθυνση"
+
+#: tfrmeditor.actzoomout.caption
+#, fuzzy
+msgctxt "tfrmeditor.actzoomout.caption"
+msgid "Zoom Out"
+msgstr "Μίκρυνση"
+
 #: tfrmeditor.caption
 msgctxt "TFRMEDITOR.CAPTION"
 msgid "Editor"

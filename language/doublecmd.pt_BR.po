@@ -1107,6 +1107,18 @@ msgstr "Sal&var como..."
 msgid "Save As"
 msgstr "Salvar como"
 
+#: tfrmeditor.actzoomin.caption
+#, fuzzy
+msgctxt "tfrmeditor.actzoomin.caption"
+msgid "Zoom In"
+msgstr "Ampliar"
+
+#: tfrmeditor.actzoomout.caption
+#, fuzzy
+msgctxt "tfrmeditor.actzoomout.caption"
+msgid "Zoom Out"
+msgstr "Reduzir"
+
 #: tfrmeditor.caption
 msgctxt "TFRMEDITOR.CAPTION"
 msgid "Editor"

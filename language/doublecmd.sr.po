@@ -1092,6 +1092,18 @@ msgstr "Сачувај &као..."
 msgid "Save As"
 msgstr "Сачувај као"
 
+#: tfrmeditor.actzoomin.caption
+#, fuzzy
+msgctxt "tfrmeditor.actzoomin.caption"
+msgid "Zoom In"
+msgstr "Приближи"
+
+#: tfrmeditor.actzoomout.caption
+#, fuzzy
+msgctxt "tfrmeditor.actzoomout.caption"
+msgid "Zoom Out"
+msgstr "Удаљи"
+
 #: tfrmeditor.caption
 msgctxt "TFRMEDITOR.CAPTION"
 msgid "Editor"

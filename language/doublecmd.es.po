@@ -1090,6 +1090,18 @@ msgstr "Guardar &como..."
 msgid "Save As"
 msgstr "Guardar como"
 
+#: tfrmeditor.actzoomin.caption
+#, fuzzy
+msgctxt "tfrmeditor.actzoomin.caption"
+msgid "Zoom In"
+msgstr "Acercar"
+
+#: tfrmeditor.actzoomout.caption
+#, fuzzy
+msgctxt "tfrmeditor.actzoomout.caption"
+msgid "Zoom Out"
+msgstr "Alejar"
+
 #: tfrmeditor.caption
 msgctxt "tfrmeditor.caption"
 msgid "Editor"

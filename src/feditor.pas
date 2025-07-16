@@ -60,6 +60,8 @@ type
     actEditFindPrevious: TAction;
     actFileReload: TAction;
     actEditTimeDate: TAction;
+    actZoomOut: TAction;
+    actZoomIn: TAction;
     ilBookmarks: TImageList;
     MainMenu1: TMainMenu;
     ActListEdit: TActionList;

@@ -1073,6 +1073,18 @@ msgstr "Zapisz j&ako..."
 msgid "Save As"
 msgstr "Zapisz jako"
 
+#: tfrmeditor.actzoomin.caption
+#, fuzzy
+msgctxt "tfrmeditor.actzoomin.caption"
+msgid "Zoom In"
+msgstr "Powiększ"
+
+#: tfrmeditor.actzoomout.caption
+#, fuzzy
+msgctxt "tfrmeditor.actzoomout.caption"
+msgid "Zoom Out"
+msgstr "Zmniejsz"
+
 #: tfrmeditor.caption
 msgctxt "tfrmeditor.caption"
 msgid "Editor"

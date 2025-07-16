@@ -1072,6 +1072,14 @@ object frmEditor: TfrmEditor
       ImageIndex = 17
       OnExecute = actExecute
     end
+    object actZoomIn: TAction
+      Caption = 'Zoom In'
+      OnExecute = actExecute
+    end
+    object actZoomOut: TAction
+      Caption = 'Zoom Out'
+      OnExecute = actExecute
+    end
   end
   object pmContextMenu: TPopupMenu
     Images = dmComData.ilEditorImages

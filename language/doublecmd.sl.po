@@ -1083,6 +1083,18 @@ msgstr "Shrani &kot ..."
 msgid "Save As"
 msgstr "Shrani kot"
 
+#: tfrmeditor.actzoomin.caption
+#, fuzzy
+msgctxt "tfrmeditor.actzoomin.caption"
+msgid "Zoom In"
+msgstr "Približaj"
+
+#: tfrmeditor.actzoomout.caption
+#, fuzzy
+msgctxt "tfrmeditor.actzoomout.caption"
+msgid "Zoom Out"
+msgstr "Oddalji"
+
 #: tfrmeditor.caption
 msgctxt "tfrmeditor.caption"
 msgid "Editor"
