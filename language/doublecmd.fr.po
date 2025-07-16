@@ -1151,13 +1151,11 @@ msgid "Save As"
 msgstr "Enregistrer sous"
 
 #: tfrmeditor.actzoomin.caption
-#, fuzzy
 msgctxt "tfrmeditor.actzoomin.caption"
 msgid "Zoom In"
 msgstr "Agrandir"
 
 #: tfrmeditor.actzoomout.caption
-#, fuzzy
 msgctxt "tfrmeditor.actzoomout.caption"
 msgid "Zoom Out"
 msgstr "Réduire"

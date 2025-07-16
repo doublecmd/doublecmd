@@ -1088,13 +1088,11 @@ msgid "Save As"
 msgstr "另存新檔"
 
 #: tfrmeditor.actzoomin.caption
-#, fuzzy
 msgctxt "tfrmeditor.actzoomin.caption"
 msgid "Zoom In"
 msgstr "放大"
 
 #: tfrmeditor.actzoomout.caption
-#, fuzzy
 msgctxt "tfrmeditor.actzoomout.caption"
 msgid "Zoom Out"
 msgstr "縮小"
@@ -9819,10 +9817,9 @@ msgid "Paint"
 msgstr "繪圖"
 
 #: tfrmviewer.btnpenwidth.caption
-#, fuzzy
 msgctxt "tfrmviewer.btnpenwidth.caption"
 msgid "1"
-msgstr "1"
+msgstr ""
 
 #: tfrmviewer.btnprevgifframe.hint
 msgid "Previous Frame"

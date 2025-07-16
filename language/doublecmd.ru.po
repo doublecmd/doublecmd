@@ -1088,13 +1088,11 @@ msgid "Save As"
 msgstr "Сохранить как..."
 
 #: tfrmeditor.actzoomin.caption
-#, fuzzy
 msgctxt "tfrmeditor.actzoomin.caption"
 msgid "Zoom In"
 msgstr "Увеличить"
 
 #: tfrmeditor.actzoomout.caption
-#, fuzzy
 msgctxt "tfrmeditor.actzoomout.caption"
 msgid "Zoom Out"
 msgstr "Уменьшить"

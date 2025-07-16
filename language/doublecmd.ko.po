@@ -1076,13 +1076,11 @@ msgid "Save As"
 msgstr "다음으로 저장"
 
 #: tfrmeditor.actzoomin.caption
-#, fuzzy
 msgctxt "tfrmeditor.actzoomin.caption"
 msgid "Zoom In"
 msgstr "확대"
 
 #: tfrmeditor.actzoomout.caption
-#, fuzzy
 msgctxt "tfrmeditor.actzoomout.caption"
 msgid "Zoom Out"
 msgstr "축소"
