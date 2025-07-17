@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Double Commander 1.1.0 alpha\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-11-15 11:15+0300\n"
-"PO-Revision-Date: 2025-06-02 00:02+0900\n"
+"PO-Revision-Date: 2025-07-17 15:45+0900\n"
 "Last-Translator: VenusGirl: venusgirl@outlook.com/\n"
 "Language-Team: 비너스걸: https://venusgirls.tistory.com/\n"
 "Language: ko\n"
@@ -820,7 +820,7 @@ msgstr "옵션(&O)"
 
 #: tfrmedithotkey.btnaddshortcut.hint
 msgid "Add new shortcut to sequence"
-msgstr "시퀀스에 새 바로 가기 추가"
+msgstr "시퀀스에 새 바로가기 추가"
 
 #: tfrmedithotkey.btncancel.caption
 msgctxt "TFRMEDITHOTKEY.BTNCANCEL.CAPTION"
@@ -834,11 +834,11 @@ msgstr "확인(&O)"
 
 #: tfrmedithotkey.btnremoveshortcut.hint
 msgid "Remove last shortcut from sequence"
-msgstr "시퀀스에서 마지막 바로 가기 제거"
+msgstr "시퀀스에서 마지막 바로가기 제거"
 
 #: tfrmedithotkey.btnselectfromlist.hint
 msgid "Select shortcut from list of remaining free available keys"
-msgstr "사용 가능한 나머지 키 목록에서 바로 가기 선택"
+msgstr "사용 가능한 나머지 키 목록에서 바로가기 선택"
 
 #: tfrmedithotkey.cghkcontrols.caption
 msgid "Only for these controls"
@@ -850,7 +850,7 @@ msgstr "매개변수 (각각 별도의 행에 있음)(&P):"
 
 #: tfrmedithotkey.lblshortcuts.caption
 msgid "Shortcuts:"
-msgstr "바로 가기:"
+msgstr "바로가기:"
 
 #: tfrmeditor.actabout.caption
 msgctxt "TFRMEDITOR.ACTABOUT.CAPTION"
@@ -5527,7 +5527,7 @@ msgstr "항상 트리 확장"
 #: tfrmoptionsfavoritetabs.cbsavedirhistory.text
 msgctxt "tfrmoptionsfavoritetabs.cbsavedirhistory.text"
 msgid "No"
-msgstr "아니오"
+msgstr "아니요"
 
 #: tfrmoptionsfavoritetabs.cbtargetpanelleftsavedtabs.text
 msgctxt "tfrmoptionsfavoritetabs.cbtargetpanelleftsavedtabs.text"
@@ -6476,7 +6476,7 @@ msgstr "명령(&M):"
 
 #: tfrmoptionshotkeys.lblscfiles.caption
 msgid "&Shortcut files:"
-msgstr "바로 가기 파일(&S):"
+msgstr "바로가기 파일(&S):"
 
 #: tfrmoptionshotkeys.lblsortorder.caption
 msgid "So&rt order:"
@@ -6926,7 +6926,7 @@ msgstr "아이콘을 클릭하여 선택(&K)"
 #: tfrmoptionsmouse.chkzoomwithctrlwheel.caption
 msgctxt "tfrmoptionsmouse.chkzoomwithctrlwheel.caption"
 msgid "Zoom with Ctrl + Scroll Wheel"
-msgstr ""
+msgstr "Ctrl + 스크롤 휠로 확대/축소"
 
 #: tfrmoptionsmouse.gbopenwith.caption
 msgctxt "tfrmoptionsmouse.gbopenwith.caption"
@@ -7325,7 +7325,7 @@ msgstr "없음"
 #: tfrmoptionstabsextra.cbdefaultsavedirhistory.text
 msgctxt "TFRMOPTIONSTABSEXTRA.CBDEFAULTSAVEDIRHISTORY.TEXT"
 msgid "No"
-msgstr "아니오"
+msgstr "아니요"
 
 #: tfrmoptionstabsextra.cbdefaulttargetpanelleftsaved.text
 msgctxt "TFRMOPTIONSTABSEXTRA.CBDEFAULTTARGETPANELLEFTSAVED.TEXT"
@@ -8117,7 +8117,7 @@ msgstr "..."
 
 #: tfrmoptionstreeviewmenucolor.cbkusagekeyboardshortcut.caption
 msgid "Use and display keyboard shortcut for choosing items"
-msgstr "항목 선택을 위한 키보드 바로 가기 사용 및 표시"
+msgstr "항목 선택을 위한 키보드 바로가기 사용 및 표시"
 
 #: tfrmoptionstreeviewmenucolor.gbfont.caption
 msgid "Font"
@@ -8165,11 +8165,11 @@ msgstr "커서 아래 보조 텍스트:"
 
 #: tfrmoptionstreeviewmenucolor.lblshortcutcolor.caption
 msgid "Shortcut color:"
-msgstr "바로 가기 색상:"
+msgstr "바로가기 색상:"
 
 #: tfrmoptionstreeviewmenucolor.lblshortcutundercursor.caption
 msgid "Shortcut under cursor:"
-msgstr "커서 아래 바로 가기:"
+msgstr "커서 아래 바로가기:"
 
 #: tfrmoptionstreeviewmenucolor.lblunselectabletextcolor.caption
 msgid "Unselectable text color:"
@@ -8345,7 +8345,7 @@ msgstr ""
 
 #: tfrmquicksearch.sbdiacritics.hint
 msgid "Diacritics and ligatures"
-msgstr ""
+msgstr "음운 기호 및 결합 문자"
 
 #: tfrmquicksearch.sbdirectories.caption
 msgid "D"
@@ -10118,7 +10118,6 @@ msgid " Modifies: "
 msgstr " 수정: "
 
 #: ulng.rsdiffshow
-#, fuzzy
 msgctxt "ulng.rsdiffshow"
 msgid "&Show"
 msgstr "표시(&S)"
@@ -10200,7 +10199,7 @@ msgstr "모두 무시(&G)"
 
 #: ulng.rsdlgbuttonno
 msgid "&No"
-msgstr "아니오(&N)"
+msgstr "아니요(&N)"
 
 #: ulng.rsdlgbuttonnone
 msgid "Non&e"
@@ -10435,7 +10434,7 @@ msgstr "왼쪽;오른쪽;활성;비활성;양쪽;없음"
 
 #: ulng.rsfavtabssavedirhistory
 msgid "No;Yes"
-msgstr "아니오;예"
+msgstr "아니요;예"
 
 #: ulng.rsfilenameexportedtcbarprefix
 msgid "Exported_from_DC"
@@ -10787,7 +10786,7 @@ msgstr "새 이름 입력"
 
 #: ulng.rshotkeyfilemustkeepone
 msgid "You must keep at least one shortcut file."
-msgstr "하나 이상의 바로 가기 파일을 유지해야 합니다."
+msgstr "하나 이상의 바로가기 파일을 유지해야 합니다."
 
 #: ulng.rshotkeyfilenewname
 msgid "New name"
@@ -10804,11 +10803,11 @@ msgstr ""
 
 #: ulng.rshotkeynoscenter
 msgid "No shortcut with \"ENTER\""
-msgstr "\"ENTER\"로 바로 가기 없음"
+msgstr "\"ENTER\"로 바로가기 없음"
 
 #: ulng.rshotkeysortorder
 msgid "By command name;By shortcut key (grouped);By shortcut key (one per row)"
-msgstr "명령 이름별;바로 가기 키별 (그룹화);바로 가기 키별 (행당 1개)"
+msgstr "명령 이름별;바로가기 키별 (그룹화);바로가기 키별 (행당 1개)"
 
 #: ulng.rsiclouddrivercopyseedfileconfirmdlgmessage
 msgid "It is recommended to download the files first. Otherwise, what is copied is not the content of the files, but the corresponding placeholder files, which will result in hidden files with the .iCloud extension."
@@ -11122,7 +11121,7 @@ msgstr "8진수"
 
 #: ulng.rsmnucreateshortcut
 msgid "Create Shortcut..."
-msgstr "바로 가기 만들기..."
+msgstr "바로가기 만들기..."
 
 #: ulng.rsmnudisconnectnetworkdrive
 msgid "Disconnect Network Drive..."
@@ -11878,7 +11877,7 @@ msgid ""
 "Answering NO will delete only menu delimiters but will keep element inside sub-menu."
 msgstr ""
 "하위 메뉴 [%s]의 모든 요소를 삭제하시겠습니까?\n"
-"아니오로 응답하면 메뉴 구분 기호만 삭제되지만 요소는 하위 메뉴 내에 유지됩니다."
+"아니요로 응답하면 메뉴 구분 기호만 삭제되지만 요소는 하위 메뉴 내에 유지됩니다."
 
 #: ulng.rsmsghotdirwheretosave
 msgid "Enter location and filename where to save a Directory Hotlist file"
@@ -13176,12 +13175,12 @@ msgstr "별도 창, 최소화된 별도 창, 작업 패널"
 
 #: ulng.rsoptfilesizefloat
 msgid "float"
-msgstr "float"
+msgstr "부동"
 
 #: ulng.rsopthotkeysadddeleteshortcutlong
 #, object-pascal-format
 msgid "Shortcut %s for cm_Delete will be registered, so it can be used to reverse this setting."
-msgstr "cm_Delete의 바로 가기 %s이(가) 등록되므로 이 설정을 되돌리는 데 사용할 수 있습니다."
+msgstr "cm_Delete의 바로가기 %s이(가) 등록되므로 이 설정을 되돌리는 데 사용할 수 있습니다."
 
 #: ulng.rsopthotkeysaddhotkey
 #, object-pascal-format
@@ -13190,15 +13189,15 @@ msgstr "%s에 대한 단축키 추가"
 
 #: ulng.rsopthotkeysaddshortcutbutton
 msgid "Add shortcut"
-msgstr "바로 가기 추가"
+msgstr "바로가기 추가"
 
 #: ulng.rsopthotkeyscannotsetshortcut
 msgid "Cannot set shortcut"
-msgstr "바로 가기를 설정할 수 없음"
+msgstr "바로가기를 설정할 수 없음"
 
 #: ulng.rsopthotkeyschangeshortcut
 msgid "Change shortcut"
-msgstr "바로 가기 변경"
+msgstr "바로가기 변경"
 
 #: ulng.rsopthotkeyscommand
 msgctxt "ulng.rsopthotkeyscommand"
@@ -13208,12 +13207,12 @@ msgstr "명령"
 #: ulng.rsopthotkeysdeletetrashcanoverrides
 #, object-pascal-format
 msgid "Shortcut %s for cm_Delete has a parameter that overrides this setting. Do you want to change this parameter to use the global setting?"
-msgstr "cm_Delete의 바로 가기 %s에 이 설정을 재정의하는 매개 변수가 있습니다. 전역 설정을 사용하려면 이 매개 변수를 변경하시겠습니까?"
+msgstr "cm_Delete의 바로가기 %s에 이 설정을 재정의하는 매개 변수가 있습니다. 전역 설정을 사용하려면 이 매개 변수를 변경하시겠습니까?"
 
 #: ulng.rsopthotkeysdeletetrashcanparameterexists
 #, object-pascal-format
 msgid "Shortcut %s for cm_Delete needs to have a parameter changed to match shortcut %s. Do you want to change it?"
-msgstr "cm_Delete의 바로 가기 %s에 대해 바로 가기 %s와 일치하도록 매개 변수를 변경해야 합니다. 변경하시겠습니까?"
+msgstr "cm_Delete의 바로가기 %s에 대해 바로가기 %s와 일치하도록 매개 변수를 변경해야 합니다. 변경하시겠습니까?"
 
 #: ulng.rsopthotkeysdescription
 msgctxt "ulng.rsopthotkeysdescription"
@@ -13250,7 +13249,7 @@ msgstr "매개변수"
 
 #: ulng.rsopthotkeyssetdeleteshortcut
 msgid "Set shortcut to delete file"
-msgstr "파일 삭제 바로 가기 설정"
+msgstr "파일 삭제 바로가기 설정"
 
 #: ulng.rsopthotkeysshortcutfordeletealreadyassigned
 #, object-pascal-format
@@ -13260,16 +13259,16 @@ msgstr "이 설정이 %s 단축키로 작동하려면 단축키 %s을(를) cm_De
 #: ulng.rsopthotkeysshortcutfordeleteissequence
 #, object-pascal-format
 msgid "Shortcut %s for cm_Delete is a sequence shortcut for which a hotkey with reversed Shift cannot be assigned. This setting might not work."
-msgstr "cm_Delete의 바로 가기 %s은 Shift가 반대인 단축키를 할당할 수 없는 시퀀스 단축키입니다. 이 설정이 작동하지 않을 수 있습니다."
+msgstr "cm_Delete의 바로가기 %s은 Shift가 반대인 단축키를 할당할 수 없는 시퀀스 단축키입니다. 이 설정이 작동하지 않을 수 있습니다."
 
 #: ulng.rsopthotkeysshortcutused
 msgid "Shortcut in use"
-msgstr "사용 중인 바로 가기"
+msgstr "사용 중인 바로가기"
 
 #: ulng.rsopthotkeysshortcutusedtext1
 #, object-pascal-format
 msgid "Shortcut %s is already used."
-msgstr "바로 가기 %s이(가) 이미 사용되고 있습니다."
+msgstr "바로가기 %s이(가) 이미 사용되고 있습니다."
 
 #: ulng.rsopthotkeysshortcutusedtext2
 #, object-pascal-format
@@ -13598,10 +13597,8 @@ msgid "&Files;Di&rectories;Files a&nd Directories"
 msgstr "파일(&F);디렉터리(&R);파일 및 디렉터리(&N)"
 
 #: ulng.rsoptsearchopt
-#, fuzzy
-#| msgid "&Hide filter panel when not focused;Keep saving setting modifications for next session"
 msgid "Ignore &diacritics and ligatures;&Hide filter panel when not focused;Keep saving setting modifications for next session"
-msgstr "초점이 맞지 않을 때는 필터 패널 숨기기(&H);다음 세션의 설정 수정사항 저장"
+msgstr "음운 기호 및 결합 문자 무시(&D);초점이 맞지 않을 때는 필터 패널 숨기기(&H);다음 세션의 설정 수정사항 저장"
 
 #: ulng.rsoptsortcasesens
 msgid "not case sensitive;according to locale settings (aAbBcC);first upper then lower case (ABCabc)"
@@ -14370,4 +14367,3 @@ msgstr "교체가 이루어지지 않았습니다."
 #, object-pascal-format
 msgid "No setup named \"%s\""
 msgstr "\"%s\"라는 이름의 설정 없음"
-
