@@ -1360,6 +1360,7 @@ begin
 
   Options := [goFixedVertLine, goFixedHorzLine, goTabs, goRowSelect, goColSizing,
               goThumbTracking, goSmoothScroll, goHeaderHotTracking, goHeaderPushedLook];
+  MouseWheelOption:= mwGrid;
 
   TitleStyle := gColumnsTitleStyle;
   TabStop := False;
