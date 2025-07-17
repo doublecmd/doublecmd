@@ -173,7 +173,12 @@ type
 
 const
   { Default hotkey list version number }
-  hkVersion = 67;
+  hkVersion = 68;
+  // 68 - In "Main" context, for macOS, added:
+  //      "Shift+Cmd+." for "cm_ShowSysFiles"
+  //      "Cmd+," for "cm_Options"
+  //      "Cmd+Down" for "cm_Open"
+  //      "Cmd+Up," for "cm_ChangeDirToParent"
   // 67 - In "Editor" context, for macOS, added the "Cmd+=" for "cm_ZoomIn", "Cmd+-" for "cm_ZoomOut"
   // 66 - In "Viewer" context, for macOS, added the "Cmd+=" for "cm_ZoomIn", "Cmd+-" for "cm_ZoomOut"
   // 65 - In "Files Panel", for macOS, added the "Cmd+=" for "cm_MainFontZoomIn", "Cmd+-" for "cm_MainFontZoomOut"
@@ -1184,6 +1189,13 @@ begin
         'Ctrl+8','','index=8','',
         'Ctrl+9','','index=9',''],
       'cm_OpenDriveByIndex');
+
+      {$IFDEF DARWIN}
+      AddIfNotExists(['Shift+Cmd+.'],'cm_ShowSysFiles',['Ctrl+.'],[]);
+      AddIfNotExists(['Cmd+,'],[],'cm_Options');
+      AddIfNotExists(['Cmd+Down'],[],'cm_Open');
+      AddIfNotExists(['Cmd+Up'],'cm_ChangeDirToParent',['Ctrl+PgUp'],[]);
+      {$ENDIF}
 
       if HotMan.Version < 38 then
       begin
