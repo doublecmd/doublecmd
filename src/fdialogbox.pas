@@ -1069,7 +1069,7 @@ var
 begin
   if Assigned(fDlgProc) then
     begin
-      sText:= (Sender as TEdit).Text;
+      sText:= TControlProtected(Sender).Text;
       fDlgProc(FSelf, PAnsiChar((Sender as TControl).Name), DN_CHANGE, PtrInt(PAnsiChar(sText)), 0);
     end;
 end;
