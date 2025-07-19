@@ -1923,8 +1923,8 @@ begin
   TargetImg:= TLazIntfImage.Create(0, 0);
   SourceImg := TLazIntfImage.Create(TRasterImage(Image.Picture.Graphic).RawImage, False);
   TargetImg.DataDescription:= SourceImg.DataDescription; // use the same image format
-  xWidth:= Image.Picture.Bitmap.Width - 1;
-  yHeight:= Image.Picture.Bitmap.Height - 1;
+  xWidth:= SourceImg.Width - 1;
+  yHeight:= SourceImg.Height - 1;
 
   if AGradus = 90 then
   begin
@@ -1968,7 +1968,7 @@ begin
     Image.Height:= x;
   end;
 
-  Image.Picture.Bitmap.LoadFromIntfImage(TargetImg);
+  TRasterImage(Image.Picture.Graphic).LoadFromIntfImage(TargetImg);
   FreeAndNil(SourceImg);
   FreeAndNil(TargetImg);
   AdjustImageSize;
@@ -1986,9 +1986,8 @@ begin
   TargetImg:= TLazIntfImage.Create(0, 0);
   SourceImg := TLazIntfImage.Create(TRasterImage(Image.Picture.Graphic).RawImage, False);
   TargetImg.DataDescription:= SourceImg.DataDescription; // use the same image format
-  xWidth:= Image.Picture.Bitmap.Width - 1;
-  yHeight:= Image.Picture.Bitmap.Height - 1;
-  TargetImg.SetSize(xWidth + 1, yHeight + 1);
+  xWidth:= SourceImg.Width - 1;
+  yHeight:= SourceImg.Height - 1;
 
   if not AVertically then
     for y:= 0 to yHeight do
@@ -2007,8 +2006,7 @@ begin
       end;
     end;
 
-
-  Image.Picture.Bitmap.LoadFromIntfImage(TargetImg);
+  TRasterImage(Image.Picture.Graphic).LoadFromIntfImage(TargetImg);
   FreeAndNil(SourceImg);
   FreeAndNil(TargetImg);
   AdjustImageSize;
