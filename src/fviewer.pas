@@ -375,6 +375,7 @@ type
     FThumbnailManager: TThumbnailManager;
     FFileSourceCalcStatisticsOperation: TFileSourceCalcStatisticsOperation;
     FCommands: TFormCommands;
+    FScaleFactor: Double;
     FZoomFactor: Integer;
     FExif: TExifReader;
     FWindowState: TWindowState;
@@ -1862,6 +1863,11 @@ end;
 
 procedure TfrmViewer.ZoomImage(ADelta: Double);
 begin
+  if (FZoomFactor = 100) and (miStretch.Checked or miStretchOnlyLarge.Checked) then
+  begin
+    // Calculate zoom factor at first zoom
+    FZoomFactor:= Round(FScaleFactor * 100);
+  end;
   FZoomFactor := Round(FZoomFactor * ADelta);
   AdjustImageSize;
 end;
@@ -2865,7 +2871,6 @@ const
   fmtImageInfo = '%dx%d (%.0f %%)';
 var
   AControl: TControl;
-  dScaleFactor : Double;
   ImgWidth, ImgHeight : Integer;
   iLeft, iTop, iWidth, iHeight : Integer;
 begin
@@ -2889,19 +2894,17 @@ begin
 
   if (ImgWidth = 0) or (ImgHeight = 0) then Exit;
 
-  dScaleFactor:= FZoomFactor / 100;
+  FScaleFactor:= FZoomFactor / 100;
 
   // Place and resize image
   if (FZoomFactor = 100) and (miStretch.Checked or miStretchOnlyLarge.Checked) then
   begin
-    dScaleFactor:= Min(sboxImage.ClientWidth / ImgWidth, sboxImage.ClientHeight / ImgHeight);
-    dScaleFactor:= IfThen((miStretchOnlyLarge.Checked) and (dScaleFactor > 1.0), 1.0, dScaleFactor);
+    FScaleFactor:= Min(sboxImage.ClientWidth / ImgWidth, sboxImage.ClientHeight / ImgHeight);
+    FScaleFactor:= IfThen((miStretchOnlyLarge.Checked) and (FScaleFactor > 1.0), 1.0, FScaleFactor);
   end;
 
-  FZoomFactor:= Round( dScaleFactor * 100 );
-
-  iWidth:= Trunc(ImgWidth * dScaleFactor);
-  iHeight:= Trunc(ImgHeight * dScaleFactor);
+  iWidth:= Trunc(ImgWidth * FScaleFactor);
+  iHeight:= Trunc(ImgHeight * FScaleFactor);
   if (miCenter.Checked) then
   begin
     iLeft:= (sboxImage.ClientWidth - iWidth) div 2;
@@ -2926,7 +2929,7 @@ begin
   end;
 
   // Update status bar
-  Status.Panels[sbpCurrentResolution].Text:= Format(fmtImageInfo, [iWidth, iHeight,  100.0 * dScaleFactor]);
+  Status.Panels[sbpCurrentResolution].Text:= Format(fmtImageInfo, [iWidth, iHeight,  100.0 * FScaleFactor]);
   Status.Panels[sbpFullResolution].Text:= Format(fmtImageInfo, [ImgWidth, ImgHeight, 100.0]);
 end;
 
