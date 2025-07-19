@@ -1917,11 +1917,11 @@ var
   x, y: Integer;
   xWidth,
   yHeight: Integer;
-  SourceImg: TLazIntfImage = nil;
-  TargetImg: TLazIntfImage = nil;
+  SourceImg: TLazIntfImage;
+  TargetImg: TLazIntfImage;
 begin
   TargetImg:= TLazIntfImage.Create(0, 0);
-  SourceImg:= Image.Picture.Bitmap.CreateIntfImage;
+  SourceImg := TLazIntfImage.Create(TRasterImage(Image.Picture.Graphic).RawImage, False);
   TargetImg.DataDescription:= SourceImg.DataDescription; // use the same image format
   xWidth:= Image.Picture.Bitmap.Width - 1;
   yHeight:= Image.Picture.Bitmap.Height - 1;
@@ -1980,11 +1980,11 @@ var
   x, y: Integer;
   xWidth,
   yHeight: Integer;
-  SourceImg: TLazIntfImage = nil;
-  TargetImg: TLazIntfImage = nil;
+  SourceImg: TLazIntfImage;
+  TargetImg: TLazIntfImage;
 begin
   TargetImg:= TLazIntfImage.Create(0, 0);
-  SourceImg:= Image.Picture.Bitmap.CreateIntfImage;
+  SourceImg := TLazIntfImage.Create(TRasterImage(Image.Picture.Graphic).RawImage, False);
   TargetImg.DataDescription:= SourceImg.DataDescription; // use the same image format
   xWidth:= Image.Picture.Bitmap.Width - 1;
   yHeight:= Image.Picture.Bitmap.Height - 1;
