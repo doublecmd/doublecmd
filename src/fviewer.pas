@@ -1903,12 +1903,12 @@ end;
 
 function TfrmViewer.DoZoomIn: Boolean;
 begin
-  DoZoom( 1.1, 1 );
+  Result:= DoZoom( 1.1, 1 );
 end;
 
 function TfrmViewer.DoZoomOut: Boolean;
 begin
-  DoZoom( 0.909, -1 );
+  Result:= DoZoom( 0.909, -1 );
 end;
 
 procedure TfrmViewer.RotateImage(AGradus: integer);
