@@ -1279,7 +1279,7 @@ end;
 procedure TfrmMain.btnF3MouseWheelDown(Sender: TObject; Shift: TShiftState;
   MousePos: TPoint; var Handled: Boolean);
 begin
-  if (ssCtrl in Shift) and (gFonts[dcfFunctionButtons].Size > gFonts[dcfFunctionButtons].MinValue) then
+  if gZoomWithCtrlWheel and (ssCtrl in Shift) and (gFonts[dcfFunctionButtons].Size > gFonts[dcfFunctionButtons].MinValue) then
   begin
     Dec(gFonts[dcfFunctionButtons].Size);
     UpdateGUIFunctionKeys;
@@ -1289,7 +1289,7 @@ end;
 procedure TfrmMain.btnF3MouseWheelUp(Sender: TObject; Shift: TShiftState;
   MousePos: TPoint; var Handled: Boolean);
 begin
-  if (ssCtrl in Shift) and (gFonts[dcfFunctionButtons].Size < gFonts[dcfFunctionButtons].MaxValue) then
+  if gZoomWithCtrlWheel and (ssCtrl in Shift) and (gFonts[dcfFunctionButtons].Size < gFonts[dcfFunctionButtons].MaxValue) then
   begin
     Inc(gFonts[dcfFunctionButtons].Size);
     UpdateGUIFunctionKeys;

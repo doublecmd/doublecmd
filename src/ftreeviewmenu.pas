@@ -675,7 +675,7 @@ end;
 procedure TfrmTreeViewMenu.tvMainMenuMouseWheelDown(Sender: TObject;
   Shift: TShiftState; MousePos: TPoint; var Handled: Boolean);
 begin
-  if (Shift = [ssCtrl]) and (gFonts[dcfTreeViewMenu].Size > gFonts[dcfTreeViewMenu].MinValue) then
+  if gZoomWithCtrlWheel and (Shift = [ssCtrl]) and (gFonts[dcfTreeViewMenu].Size > gFonts[dcfTreeViewMenu].MinValue) then
   begin
     dec(gFonts[dcfTreeViewMenu].Size);
     tvMainMenu.Font.Size := gFonts[dcfTreeViewMenu].Size;
@@ -686,7 +686,7 @@ end;
 { TfrmTreeViewMenu.tvMainMenuMouseWheelUp }
 procedure TfrmTreeViewMenu.tvMainMenuMouseWheelUp(Sender: TObject; Shift: TShiftState; MousePos: TPoint; var Handled: Boolean);
 begin
-  if (Shift = [ssCtrl]) and (gFonts[dcfTreeViewMenu].Size < gFonts[dcfTreeViewMenu].MaxValue) then
+  if gZoomWithCtrlWheel and (Shift = [ssCtrl]) and (gFonts[dcfTreeViewMenu].Size < gFonts[dcfTreeViewMenu].MaxValue) then
   begin
     inc(gFonts[dcfTreeViewMenu].Size);
     tvMainMenu.Font.Size := gFonts[dcfTreeViewMenu].Size;

@@ -211,7 +211,7 @@ end;
 { TfrmOptionsFonts.edtMouseWheelDown }
 procedure TfrmOptionsFonts.edtMouseWheelDown(Sender: TObject; Shift: TShiftState; MousePos: TPoint; var Handled: boolean);
 begin
-  if (ssCtrl in Shift) and (LocalVisualFontElements[TEdit(Sender).Tag].FontSpindEdit.Value > gFonts[TDCFont(TEdit(Sender).Tag)].MinValue) then
+  if gZoomWithCtrlWheel and (ssCtrl in Shift) and (LocalVisualFontElements[TEdit(Sender).Tag].FontSpindEdit.Value > gFonts[TDCFont(TEdit(Sender).Tag)].MinValue) then
   begin
     TEdit(Sender).Font.Size := TEdit(Sender).Font.Size - 1;
     LocalVisualFontElements[TEdit(Sender).Tag].FontSpindEdit.Value := TEdit(Sender).Font.Size;
@@ -221,7 +221,7 @@ end;
 { TfrmOptionsFonts.edtMouseWheelUp }
 procedure TfrmOptionsFonts.edtMouseWheelUp(Sender: TObject; Shift: TShiftState; MousePos: TPoint; var Handled: boolean);
 begin
-  if (ssCtrl in Shift) and (LocalVisualFontElements[TEdit(Sender).Tag].FontSpindEdit.Value < gFonts[TDCFont(TEdit(Sender).Tag)].MaxValue) then
+  if gZoomWithCtrlWheel and (ssCtrl in Shift) and (LocalVisualFontElements[TEdit(Sender).Tag].FontSpindEdit.Value < gFonts[TDCFont(TEdit(Sender).Tag)].MaxValue) then
   begin
     TEdit(Sender).Font.Size := TEdit(Sender).Font.Size + 1;
     LocalVisualFontElements[TEdit(Sender).Tag].FontSpindEdit.Value := TEdit(Sender).Font.Size;

@@ -301,19 +301,18 @@ end;
 { TfrmOptionsTreeViewMenuColor.TreeViewMenuSampleMouseWheelDown }
 procedure TfrmOptionsTreeViewMenuColor.TreeViewMenuSampleMouseWheelDown(Sender: TObject; Shift: TShiftState; MousePos: TPoint; var Handled: Boolean);
 begin
-  if (Shift = [ssCtrl]) and (TempoFont.Size > TempoFont.MinValue) then
+  if gZoomWithCtrlWheel and (Shift = [ssCtrl]) and (TempoFont.Size > TempoFont.MinValue) then
   begin
     dec(TempoFont.Size);
     ApplyTempoFontToVisual;
     Handled := True;
   end;
-
 end;
 
 { TfrmOptionsTreeViewMenuColor.TreeViewMenuSampleMouseWheelUp }
 procedure TfrmOptionsTreeViewMenuColor.TreeViewMenuSampleMouseWheelUp(Sender: TObject; Shift: TShiftState; MousePos: TPoint; var Handled: Boolean);
 begin
-  if (Shift = [ssCtrl]) and (TempoFont.Size < TempoFont.MaxValue) then
+  if gZoomWithCtrlWheel and (Shift = [ssCtrl]) and (TempoFont.Size < TempoFont.MaxValue) then
   begin
     inc(TempoFont.Size);
     ApplyTempoFontToVisual;
