@@ -553,11 +553,12 @@ end;
 
 procedure TXmlConfig.WriteToFile(const AFilename: String);
 var
-  FileStream: TStream;
+  FileStream: TFileStreamEx;
 begin
   FileStream := TFileStreamEx.Create(AFilename, fmCreate or fmShareDenyWrite);
   try
     WriteToStream(FileStream);
+    FileStream.Flush;
   finally
     FileStream.Free;
   end;
