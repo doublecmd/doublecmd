@@ -195,6 +195,7 @@ begin
   LoadWindowsSpecialDir; // Load the list with special path. *Must* be located AFTER "LoadPaths" and BEFORE "InitGlobs"
 
   if InitGlobs then
+  begin
     //-- NOTE: before, only IsInstanceAllowed was called, and all the magic on creation
     //         new instance or sending params to the existing server happened inside 
     //         IsInstanceAllowed() function as a side effect.
@@ -238,7 +239,7 @@ begin
     begin
       DCDebug('Another instance of DC is already running. Exiting.');
     end;
-
+  end;
   uKeyboard.CleanupKeyboard;
   DCDebug('Finished Double Commander');
 end.
