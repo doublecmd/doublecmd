@@ -750,7 +750,7 @@ uses
    uGlobsPaths, uLng, uShowMsg, uFileProcs, uOSUtils, uFindFiles, uEarlyConfig,
    dmHigh, uDCUtils, fMultiRename, uDCVersion, uDebug, uFileFunctions,
    uDefaultPlugins, Lua, uKeyboard, DCOSUtils, DCStrUtils, uPixMapManager,
-   FileUtil, uSynDiffControls
+   FileUtil, uSynDiffControls, InterfaceBase
    {$IF DEFINED(MSWINDOWS)}
     , ShlObj
    {$ENDIF}
@@ -853,14 +853,30 @@ begin
 end;
 
 function AskUserOnError(var ErrorMessage: String): Boolean;
+var
+  Button: TDialogButton;
+  Buttons: TDialogButtons;
 begin
   // Show error messages.
   if ErrorMessage <> EmptyStr then
   begin
-    Result := QuestionDlg(Application.Title + ' - ' + rsMsgErrorLoadingConfiguration,
-                          ErrorMessage, mtWarning,
-                          [1, rsDlgButtonContinue, 'isdefault',
-                           2, rsDlgButtonExitProgram], 0) = 1;
+    Buttons:= TDialogButtons.Create(TDialogButton);
+    try
+      Button:= Buttons.Add;
+      Button.Default:= True;
+      Button.ModalResult:= mrOK;
+      Button.Caption:= rsDlgButtonContinue;
+
+      Button:= Buttons.Add;
+      Button.Cancel:= True;
+      Button.ModalResult:= mrAbort;
+      Button.Caption:= rsDlgButtonExitProgram;
+
+      Result := DefaultQuestionDialog(Application.Title + ' - ' + rsMsgErrorLoadingConfiguration,
+                                      ErrorMessage, idDialogWarning, Buttons, 0) = mrOK;
+    finally
+      Buttons.Free;
+    end;
     // Reset error message.
     ErrorMessage := '';
   end
@@ -2304,8 +2320,11 @@ begin
       begin
         if mbFileAccess(gpGlobalCfgDir + 'doublecmd.xml', fmOpenRead or fmShareDenyWrite) then
         begin
-          LoadConfigCheckErrors(@LoadGlobalConfig, gpGlobalCfgDir + 'doublecmd.xml', ErrorMessage);
-          if gConfig.TryGetValue(gConfig.RootNode, 'Configuration/UseConfigInProgramDir', gUseConfigInProgramDir) then
+          if not LoadConfigCheckErrors(@LoadGlobalConfig, gpGlobalCfgDir + 'doublecmd.xml', ErrorMessage) then
+          begin
+            if not gUseConfigInProgramDir then ErrorMessage := EmptyStr;
+          end
+          else if gConfig.TryGetValue(gConfig.RootNode, 'Configuration/UseConfigInProgramDir', gUseConfigInProgramDir) then
           begin
             gConfig.DeleteNode(gConfig.RootNode, 'Configuration/UseConfigInProgramDir');
             if not gUseConfigInProgramDir then
