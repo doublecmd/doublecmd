@@ -47,6 +47,7 @@ type
     procedure DragCanceled; override;
     procedure DoMouseMoveScroll(X, Y: Integer);
     procedure KeyDown(var Key: Word; Shift: TShiftState); override;
+    function DoMouseWheelHorz(Shift: TShiftState; WheelDelta: Integer; MousePos: TPoint): Boolean; override;
     procedure MouseDown(Button: TMouseButton; Shift: TShiftState; X,Y: Integer); override;
     procedure MouseMove(Shift: TShiftState; X, Y: Integer); override;
     procedure MouseUp(Button: TMouseButton; Shift:TShiftState; X,Y:Integer); override;
@@ -1360,7 +1361,6 @@ begin
 
   Options := [goFixedVertLine, goFixedHorzLine, goTabs, goRowSelect, goColSizing,
               goThumbTracking, goSmoothScroll, goHeaderHotTracking, goHeaderPushedLook];
-  MouseWheelOption:= mwGrid;
 
   TitleStyle := gColumnsTitleStyle;
   TabStop := False;
@@ -2399,6 +2399,18 @@ begin
 
   if (ColumnsView.FRangeSelecting) and (Row >= FixedRows) then
     ColumnsView.Selection(SavedKey, Row - FixedRows);
+end;
+
+function TDrawGridEx.DoMouseWheelHorz(Shift: TShiftState; WheelDelta: Integer;
+  MousePos: TPoint): Boolean;
+begin
+  Result:= AutoFillColumns;
+  if not Result then
+  begin
+    MouseWheelOption:= mwGrid;
+    Result:= inherited DoMouseWheelHorz(Shift, WheelDelta, MousePos);
+    MouseWheelOption:= mwCursor;
+  end;
 end;
 
 procedure TDrawGridEx.ScrollHorizontally(ForwardDirection: Boolean);
