@@ -30,7 +30,7 @@
       <UseVersionInfo Value="True"/>
       <MajorVersionNr Value="1"/>
       <MinorVersionNr Value="1"/>
-      <RevisionNr Value="27"/>
+      <RevisionNr Value="28"/>
       <Attributes pvaPreRelease="True"/>
       <StringTable FileDescription="Double Commander" InternalName="DOUBLECMD" LegalCopyright="Copyright (C) 2006-2025 Alexander Koblov" ProductName="Double Commander"/>
     </VersionInfo>
