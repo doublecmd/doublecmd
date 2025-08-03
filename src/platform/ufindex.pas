@@ -86,7 +86,7 @@ procedure FindCloseEx(var SearchRec: TSearchRecEx);
 implementation
 
 uses
-  LazUTF8, uDebug
+  LazUTF8, DCConvertEncoding, uDebug
   {$IFDEF LINUX}
   , InitC
   {$ENDIF}
@@ -94,7 +94,7 @@ uses
   , DCWindows, DCDateTimeUtils, uMyWindows
   {$ENDIF}
   {$IFDEF UNIX}
-  , Unix, DCOSUtils, DCFileAttributes, DCConvertEncoding
+  , Unix, DCOSUtils, DCFileAttributes
   {$ENDIF};
 
 {$IF DEFINED(DARWIN) AND DEFINED(CPUX86_64)}
@@ -137,7 +137,7 @@ begin
     end;
     FindData.dwFileAttributes:= ExtractFileAttributes(FindData);
     Size:= (Int64(FindData.nFileSizeHigh) shl 32) + FindData.nFileSizeLow;
-    Name:= UTF16ToUTF8(UnicodeString(FindData.cFileName));
+    Name:= CeUtf16ToUtf8(UnicodeString(FindData.cFileName));
     Attr:= FindData.dwFileAttributes;
   end;
   Result:= 0;
