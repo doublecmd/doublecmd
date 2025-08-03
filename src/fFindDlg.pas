@@ -952,7 +952,10 @@ begin
   if OldIndex < lbSearchTemplates.Count then
     lbSearchTemplates.ItemIndex := OldIndex
   else if lbSearchTemplates.Count > 0 then
-    lbSearchTemplates.ItemIndex := lbSearchTemplates.Count - 1;
+    lbSearchTemplates.ItemIndex := lbSearchTemplates.Count - 1
+  else begin
+    lblSearchContents.Caption := EmptyStr;
+  end;
 end;
 
 { TfrmFindDlg.btnAttrsHelpClick }
