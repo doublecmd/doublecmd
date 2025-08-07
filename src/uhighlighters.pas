@@ -8,7 +8,11 @@ uses
   Classes, SysUtils, SynEditHighlighter, SynHighlighterPas, SynHighlighterCPP,
   SynHighlighterHTML, SynHighlighterUNIXShellScript, SynHighlighterPerl,
   SynHighlighterDiff, SynHighlighterPo, SynHighlighterIni, SynHighlighterBat,
-  SynHighlighterTeX, LCLVersion;
+  SynHighlighterTeX, LCLVersion
+{$IF DEFINED(LCL_VER_499)}
+  , LazEditTextAttributes
+{$ENDIF}
+  ;
 
 const
   SYNS_XML_DefaultText = 'Default text';
@@ -106,6 +110,10 @@ type
     function Other: Boolean;
   end;
 
+{$if lcl_fullversion < 4990000}
+  TLazEditTextAttribute = TSynHighlighterAttributes;
+{$endif}
+
   TSynHighlighterAttrFeature =
     ( hafBackColor, hafForeColor, hafFrameColor,
       hafStyle, hafStyleMask,
@@ -115,7 +123,7 @@ type
 
   { TSynHighlighterAttributesHelper }
 
-  TSynHighlighterAttributesHelper = class helper for TSynHighlighterAttributes
+  TSynHighlighterAttributesHelper = class helper for TLazEditTextAttribute
   private
     function GetFeatures: TSynHighlighterAttrFeatures;
 {$if lcl_fullversion >= 4990000}
