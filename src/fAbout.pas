@@ -154,7 +154,7 @@ end;
 
 procedure TfrmAbout.btnCopyToClipboardClick(Sender: TObject);
 begin
-  ClipboardSetText(GetVersionInformation);
+  ClipboardSetText(GetVersionInformation + LineEnding);
 end;
 
 procedure TfrmAbout.FormCreate(Sender: TObject);
