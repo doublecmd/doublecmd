@@ -5267,7 +5267,7 @@ begin
       AFileViewFlags := [fvfDelayLoadingFiles]
     else
       AFileViewFlags := [];
-    AFileView := TColumnsFileView.Create(Page, aFileSource, gpExePath, AFileViewFlags);
+    AFileView := TColumnsFileView.Create(Page, aFileSource, {$IFDEF DARWIN}GetHomeDir{$ELSE}gpExePath{$ENDIF}, AFileViewFlags);
     Commands.DoSortByFunctions(AFileView, ColSet.GetColumnSet('Default').GetColumnFunctions(0));
     AssignEvents(AFileView);
   end
