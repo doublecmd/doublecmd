@@ -6,5 +6,7 @@
 {"hash":136754340,"name":"tfrmchecksumcalc.lblfileformat.caption","sourcebytes":[70,105,108,101,32,38,102,111,114,109,97,116],"value":"File &format"},
 {"hash":235189939,"name":"tfrmchecksumcalc.rbwindows.caption","sourcebytes":[87,105,110,100,111,119,115],"value":"Windows"},
 {"hash":378120,"name":"tfrmchecksumcalc.rbunix.caption","sourcebytes":[85,110,105,120],"value":"Unix"},
-{"hash":75632937,"name":"tfrmchecksumcalc.cbseparatefolder.caption","sourcebytes":[67,114,101,97,116,101,32,115,101,112,97,114,97,116,101,32,99,104,101,99,107,115,117,109,32,102,105,108,101,32,102,111,114,32,101,97,99,104,32,38,100,105,114,101,99,116,111,114,121],"value":"Create separate checksum file for each &directory"}
+{"hash":75632937,"name":"tfrmchecksumcalc.cbseparatefolder.caption","sourcebytes":[67,114,101,97,116,101,32,115,101,112,97,114,97,116,101,32,99,104,101,99,107,115,117,109,32,102,105,108,101,32,102,111,114,32,101,97,99,104,32,38,100,105,114,101,99,116,111,114,121],"value":"Create separate checksum file for each &directory"},
+{"hash":241779405,"name":"tfrmchecksumcalc.rghashalgorithm.caption","sourcebytes":[65,108,103,111,114,105,116,104,109],"value":"Algorithm"},
+{"hash":1038,"name":"tfrmchecksumcalc.cbhashalgorithm.caption","sourcebytes":[61,62],"value":"=>"}
 ]}

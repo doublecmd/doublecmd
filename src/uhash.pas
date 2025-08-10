@@ -54,6 +54,13 @@ var
                  'sha3_384', 'sha3_512', 'tiger', 'xxh3_128'
                );
 
+  HashFirst: array[0..11] of THashAlgorithm = (
+               HASH_SFV,      HASH_SHA224, HASH_SHA3_224,
+               HASH_BLAKE3,   HASH_SHA256, HASH_SHA3_256,
+               HASH_XXH3_128, HASH_SHA384, HASH_SHA3_384,
+               HASH_SHA1,     HASH_SHA512, HASH_SHA3_512
+             );
+
 procedure HashInit(out Context: THashContext; Algorithm: THashAlgorithm);
 procedure HashUpdate(var Context: THashContext; const Buffer; BufLen: LongWord);
 procedure HashFinal(var Context: THashContext; out Hash: String);
