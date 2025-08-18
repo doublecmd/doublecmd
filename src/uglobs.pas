@@ -609,6 +609,8 @@ var
   {Extract dialog options}
   gExtractOverwrite: Boolean;
 
+  gSetNewestFileTime: Boolean;
+
   {Error file}
   gErrorFile: String;
 
@@ -2017,6 +2019,9 @@ begin
   // Extract
   gExtractOverwrite := False;
 
+  // Pack
+  gSetNewestFileTime := False;
+
   { Tabs page }
   gDirTabOptions := [tb_always_visible,
                      tb_confirm_close_all,
@@ -2746,6 +2751,7 @@ begin
       if LoadedConfigVersion < 8 then begin
         gBriefViewFileExtAligned := GetValue(Node, 'BriefViewFileExtAligned', gBriefViewFileExtAligned);
       end;
+      gSetNewestFileTime := GetValue(Node, 'SetArchiveNewestFileTime', gSetNewestFileTime);
     end;
 
     { Tools page }
@@ -3478,6 +3484,7 @@ begin
     SetValue(Node, 'HighlightUpdatedFiles', gHighlightUpdatedFiles);
     SetValue(Node, 'DriveBlackList', gDriveBlackList);
     SetValue(Node, 'DriveBlackListUnmounted', gDriveBlackListUnmounted);
+    SetValue(Node, 'SetArchiveNewestFileTime', gSetNewestFileTime);
 
     { Tools page }
     SetExtTool(gConfig.FindNode(Root, 'Tools/Viewer', True), gExternalTools[etViewer]);
