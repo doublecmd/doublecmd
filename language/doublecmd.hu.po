@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Double Commander 1.1.0 alpha\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-11-15 11:15+0300\n"
-"PO-Revision-Date: 2025-06-30 10:27+0200\n"
+"PO-Revision-Date: 2025-09-06 08:42+0200\n"
 "Last-Translator: Mihaly Nyilas <dr.dabzse@gmail.com>\n"
 "Language-Team: dabzse.net | nyilas.dev <dr.dabzse@gmail.com>\n"
 "Language: hu_HU\n"
@@ -11,7 +11,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Native-Language: Magyar\n"
-"X-Generator: Poedit 3.6\n"
+"X-Generator: Poedit 3.7\n"
 
 #: fsyncdirsdlg.rscomparingpercent
 #, object-pascal-format
@@ -139,7 +139,7 @@ msgstr "Névjegy"
 #: tfrmabout.lblbuild.caption
 msgctxt "tfrmabout.lblbuild.caption"
 msgid "Build"
-msgstr "Build"
+msgstr "Összeállítás"
 
 #: tfrmabout.lblcommit.caption
 msgctxt "tfrmabout.lblcommit.caption"
@@ -3921,13 +3921,11 @@ msgid "Options:"
 msgstr "Beállítások:"
 
 #: tfrmoptionsarchivers.bvlarchiverparsingmode.caption
-#, fuzzy
 msgctxt "tfrmoptionsarchivers.bvlarchiverparsingmode.caption"
 msgid "Format parsing mode:"
-msgstr "Formátumelemzés módja:"
+msgstr "Formátumelemzési mód:"
 
 #: tfrmoptionsarchivers.chkarchiverenabled.caption
-#, fuzzy
 msgctxt "tfrmoptionsarchivers.chkarchiverenabled.caption"
 msgid "E&nabled"
 msgstr "Bekapcsol&va"
@@ -4481,10 +4479,9 @@ msgid "All"
 msgstr "Mind"
 
 #: tfrmoptionscustomcolumns.btnallmarkcolor.hint
-#, fuzzy
 msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.BTNALLMARKCOLOR.HINT"
 msgid "Apply modification to all columns"
-msgstr "Módosítás alkalmazása minden oszlopra"
+msgstr "Módosítás alkalmazása az összes oszlopra"
 
 #: tfrmoptionscustomcolumns.btnalluseinactiveselcolor.caption
 msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.BTNALLUSEINACTIVESELCOLOR.CAPTION"
@@ -6928,7 +6925,7 @@ msgstr "Iko&nra kattintva"
 #: tfrmoptionsmouse.chkzoomwithctrlwheel.caption
 msgctxt "tfrmoptionsmouse.chkzoomwithctrlwheel.caption"
 msgid "Zoom with Ctrl + Scroll Wheel"
-msgstr ""
+msgstr "Nagyítás a Ctrl + görgő kombinációval"
 
 #: tfrmoptionsmouse.gbopenwith.caption
 msgctxt "tfrmoptionsmouse.gbopenwith.caption"
@@ -6944,7 +6941,6 @@ msgid "Selection"
 msgstr "Kijelölés"
 
 #: tfrmoptionsmouse.gbzoom.caption
-#, fuzzy
 msgctxt "tfrmoptionsmouse.gbzoom.caption"
 msgid "Zoom"
 msgstr "Nagyítás"
@@ -8344,11 +8340,11 @@ msgstr "Nagy- és kisbetű érzékeny"
 
 #: tfrmquicksearch.sbdiacritics.caption
 msgid "Ďï"
-msgstr ""
+msgstr "Ďï"
 
 #: tfrmquicksearch.sbdiacritics.hint
 msgid "Diacritics and ligatures"
-msgstr ""
+msgstr "Diakritikusok és ligatúrák"
 
 #: tfrmquicksearch.sbdirectories.caption
 msgid "D"
@@ -8809,7 +8805,7 @@ msgstr "Double Commander"
 #: tfrmstartingsplash.lblbuild.caption
 msgctxt "TFRMSTARTINGSPLASH.LBLBUILD.CAPTION"
 msgid "Build"
-msgstr "Verzió"
+msgstr "Összeállítás"
 
 #: tfrmstartingsplash.lblcommit.caption
 msgctxt "tfrmstartingsplash.lblcommit.caption"
@@ -10121,10 +10117,9 @@ msgid " Modifies: "
 msgstr " Módosítások: "
 
 #: ulng.rsdiffshow
-#, fuzzy
 msgctxt "ulng.rsdiffshow"
 msgid "&Show"
-msgstr "Megjele&ntés"
+msgstr "Megjele&nítés"
 
 #: ulng.rsdifftextdifferenceencoding
 msgctxt "ulng.rsdifftextdifferenceencoding"
@@ -11001,12 +10996,12 @@ msgstr "iCloud meghajtó"
 #: ulng.rsmfstbinetworktips
 msgctxt "ulng.rsmfstbinetworktips"
 msgid "network"
-msgstr ""
+msgstr "hálózat"
 
 #: ulng.rsmfstbinetworktitle
 msgctxt "ulng.rsmfstbinetworktitle"
 msgid "network"
-msgstr ""
+msgstr "hálózat"
 
 #: ulng.rsmfstbiprivilegetips
 msgid "As a file manager, Double Command requires full disk access permissions. Clicking this button will pop up the macOS system settings page. Please add \"Double Commander.app\" to the \"Full Disk Access\" list to complete the authorization."
@@ -11264,7 +11259,7 @@ msgstr "Biztosan megszakítja ezt a műveletet?"
 
 #: ulng.rsmsgcannotchangetarget
 msgid "You cannot change a target location!"
-msgstr ""
+msgstr "A célhelyet nem lehet megváltoztatni!"
 
 #: ulng.rsmsgcannotcopymoveitself
 #, object-pascal-format
@@ -11746,7 +11741,7 @@ msgstr "Hiba a bejegyzések biztonsági mentésekor..."
 
 #: ulng.rsmsghotdirerrorexporting
 msgid "Error exporting entries..."
-msgstr ""
+msgstr "Hiba a bejegyzések exportálásakor..."
 
 #: ulng.rsmsghotdirexportall
 msgid "Export all!"
@@ -13600,10 +13595,8 @@ msgid "&Files;Di&rectories;Files a&nd Directories"
 msgstr "&Fájlok;M&appák;Fájlok é&s mappák"
 
 #: ulng.rsoptsearchopt
-#, fuzzy
-#| msgid "&Hide filter panel when not focused;Keep saving setting modifications for next session"
 msgid "Ignore &diacritics and ligatures;&Hide filter panel when not focused;Keep saving setting modifications for next session"
-msgstr "&Szűrőpanel elrejtése ha nincs fókuszban;Beállítás módosítások mentése a következő munkamenethez"
+msgstr "&Diakritikusok és ligatúrák figyelmen kívül hagyása;&Szűrőpanel elrejtése ha nincs fókuszban;Beállítás módosítások mentése a következő munkamenethez"
 
 #: ulng.rsoptsortcasesens
 msgid "not case sensitive;according to locale settings (aAbBcC);first upper then lower case (ABCabc)"
@@ -14372,4 +14365,3 @@ msgstr "Nem történt csere."
 #, object-pascal-format
 msgid "No setup named \"%s\""
 msgstr "Nincs \"%s\" nevű beállítás"
-
