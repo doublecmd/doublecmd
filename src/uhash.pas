@@ -80,15 +80,16 @@ uses
 
 procedure HashInit(out Context: THashContext; Algorithm: THashAlgorithm);
 begin
-{$PUSH}{$WARNINGS OFF}
   if (Algorithm = HASH_BEST) then
   begin
-    if SizeOf(UIntPtr) = Sizeof(UInt64) then
-      Algorithm:= HASH_BLAKE2B
-    else
-      Algorithm:= HASH_BLAKE2S;
+{$IF DEFINED(CPUX86_64)}
+    Algorithm:= HASH_BLAKE3;
+{$ELSEIF DEFINED(CPU64)}
+    Algorithm:= HASH_BLAKE2B;
+{$ELSE}
+    Algorithm:= HASH_BLAKE2S;
+{$ENDIF}
   end;
-{$POP}
   case Algorithm of
     HASH_BLAKE2S:    Context:= TDCP_blake2s.Create(nil);
     HASH_BLAKE2SP:   Context:= TDCP_blake2sp.Create(nil);
