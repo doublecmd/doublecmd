@@ -338,6 +338,12 @@ msgctxt "TFRMCHECKSUMCALC.CAPTION"
 msgid "Calculate checksum..."
 msgstr "Υπολογισμός αθροίσματος ελέγχου..."
 
+#: tfrmchecksumcalc.cbhashalgorithm.caption
+#, fuzzy
+msgctxt "tfrmchecksumcalc.cbhashalgorithm.caption"
+msgid "=>"
+msgstr "=>"
+
 #: tfrmchecksumcalc.cbopenafterjobiscomplete.caption
 msgid "Open checksum file after job is completed"
 msgstr "Άνοιγμα αρχείου αθροίσματος ελέγχου μετά την ολοκλήρωση της εργασίας"
@@ -365,6 +371,10 @@ msgstr "Unix"
 #: tfrmchecksumcalc.rbwindows.caption
 msgid "Windows"
 msgstr "Windows"
+
+#: tfrmchecksumcalc.rghashalgorithm.caption
+msgid "Algorithm"
+msgstr ""
 
 #: tfrmchecksumverify.btnclose.caption
 msgctxt "TFRMCHECKSUMVERIFY.BTNCLOSE.CAPTION"
@@ -8407,6 +8417,7 @@ msgid "&Multiple disk archive"
 msgstr "Πολλαπλή αρχειοθήκη δίσκου"
 
 #: tfrmpackdlg.cbotherplugins.caption
+msgctxt "tfrmpackdlg.cbotherplugins.caption"
 msgid "=>"
 msgstr "=>"
 
@@ -14619,3 +14630,4 @@ msgstr "Δεν πραγματοποιήθηκε καμία αντικατάστ�
 #, object-pascal-format
 msgid "No setup named \"%s\""
 msgstr "Δεν υπάρχει διαμόρφωση με το όνομα \"%s\""
+

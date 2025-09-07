@@ -324,6 +324,12 @@ msgstr "Szybkość (MB/s)"
 msgid "Calculate checksum..."
 msgstr "Oblicz sumę kontrolną..."
 
+#: tfrmchecksumcalc.cbhashalgorithm.caption
+#, fuzzy
+msgctxt "tfrmchecksumcalc.cbhashalgorithm.caption"
+msgid "=>"
+msgstr "=>"
+
 #: tfrmchecksumcalc.cbopenafterjobiscomplete.caption
 msgid "Open checksum file after job is completed"
 msgstr "Otwórz plik sumy kontrolnej po zakończeniu pracy"
@@ -351,6 +357,10 @@ msgstr "Unix"
 #: tfrmchecksumcalc.rbwindows.caption
 msgid "Windows"
 msgstr "Windows"
+
+#: tfrmchecksumcalc.rghashalgorithm.caption
+msgid "Algorithm"
+msgstr ""
 
 #: tfrmchecksumverify.btnclose.caption
 msgctxt "tfrmchecksumverify.btnclose.caption"
@@ -8194,6 +8204,7 @@ msgid "&Multiple disk archive"
 msgstr "Archiwum &wieloczęściowe"
 
 #: tfrmpackdlg.cbotherplugins.caption
+msgctxt "tfrmpackdlg.cbotherplugins.caption"
 msgid "=>"
 msgstr "=>"
 
