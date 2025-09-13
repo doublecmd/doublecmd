@@ -66,7 +66,7 @@ begin
 end;
 {$ELSEIF DEFINED(LINUX) OR DEFINED(DARWIN) OR DEFINED(FREEBSD)}
 begin
-  Result:= sysconf(_SC_NPROCESSORS_ONLN);
+  Result:= sysconf(_SC_NPROCESSORS_CONF);
 end;
 {$ELSE}
 begin
