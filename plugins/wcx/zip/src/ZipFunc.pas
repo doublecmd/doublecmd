@@ -694,7 +694,7 @@ begin
   if Assigned(FProcessDataProcW) then
   begin
     ASize := Item.UncompressedSize;
-    if ASize = 0 then
+    if ASize <= 0 then
       ASize := -Progress
     else if FItemProgress = Progress then
       ASize := 0
@@ -719,7 +719,7 @@ begin
     else begin
       if Item.IsDirectory then
         ASize:= 0
-      else if Item.UncompressedSize = 0 then
+      else if Item.UncompressedSize <= 0 then
         ASize:= -(Progress + 1000)
       else begin
         if FItem <> Item then
