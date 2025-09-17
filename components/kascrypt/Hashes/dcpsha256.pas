@@ -80,9 +80,13 @@ implementation
 
 {$IF DEFINED(CPUX86_64)}
 uses
-  CPU;
+  CPU, KAScpu;
   {$include sha256_sse.inc}
   {$include sha256_avx.inc}
+{$ELSEIF DEFINED(CPUAARCH64)}
+uses
+  KAScpu;
+  {$include sha256_arm.inc}
 {$ENDIF}
 
 procedure sha256_compress_pas(CurrentHash: PLongWord; HashBuffer: PByte; BufferCount: UIntPtr); register;
@@ -212,6 +216,10 @@ begin
     FCompress:= @sha256_compress_avx
   else if SSSE3Support then
     FCompress:= @sha256_compress_sse
+  else
+{$ELSEIF DEFINED(CPUAARCH64)}
+  if SHA256Support then
+    FCompress:= @sha256_compress_arm
   else
 {$ENDIF}
   FCompress:= @sha256_compress_pas;

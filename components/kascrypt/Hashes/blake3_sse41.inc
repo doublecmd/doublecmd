@@ -2086,14 +2086,3 @@ asm
 {$ENDIF}
     ret
 end;
-
-function SSE41Support: LongBool; assembler;
-asm
-  push  rbx
-  mov   eax, 1
-  cpuid
-  and   ecx, $80000
-  mov   eax, ecx
-  pop   rbx
-end;
-

@@ -88,7 +88,7 @@ implementation
 
 {$IF DEFINED(CPUX86_64)}
 uses
-  CPU;
+  CPU, KAScpu;
 {$ENDIF}
 
 type

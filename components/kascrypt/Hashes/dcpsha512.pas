@@ -75,6 +75,8 @@ implementation
 {$R-}{$Q-}
 
 {$IF DEFINED(CPUX86_64)}
+uses
+  KAScpu;
   {$include sha512_sse.inc}
 {$ENDIF}
 
