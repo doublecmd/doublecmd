@@ -8,10 +8,10 @@ under x86_64 and aarch64 platforms:
 
   | Function | Acceleration             |
   | ---------| ------------------------ |
-  | SHA224   | SSSE3, AVX2              |
+  | SHA224   | SSSE3, AVX2, ARM64CE     |
   | SHA256   | SSSE3, AVX2, ARM64CE     |
-  | SHA384   | SSSE3                    |
-  | SHA512   | SSSE3                    |
+  | SHA384   | SSSE3, AVX2              |
+  | SHA512   | SSSE3, AVX2              |
   | SHA3-224 |                          |
   | SHA3-256 |                          |
   | SHA3-384 |                          |
