@@ -97,7 +97,8 @@ const
 type
   TAbArchiveType = (atUnknown, atZip, atSpannedZip, atSelfExtZip,
                     atTar, atGzip, atGzippedTar, atCab, atBzip2, atBzippedTar,
-                    atXz, atXzippedTar, atLzma, atLzmaTar, atZstd, atZstdTar);
+                    atXz, atXzippedTar, atLzma, atLzmaTar, atZstd, atZstdTar,
+                    atBrotli, atBrotliTar);
 
 
 {$IF NOT DECLARED(DWORD)}

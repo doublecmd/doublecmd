@@ -191,7 +191,7 @@ begin
     Arc.TarAutoHandle := gTarAutoHandle;
     Arc.OpenArchive(UTF16ToUTF8(UnicodeString(ArchiveData.ArcName)));
 
-    if Arc.ArchiveType in [atGzip, atBzip2, atXz, atLzma, atZstd] then
+    if Arc.ArchiveType in [atGzip, atBzip2, atXz, atLzma, atZstd, atBrotli] then
       Arc.OnArchiveItemProgress := @Arc.AbOneItemProgressEvent
     else begin
       Arc.OnArchiveItemProgress := @Arc.AbArchiveItemProgressEvent;
@@ -462,7 +462,7 @@ begin
         Inc(AddList, Length(FileName) + 1);
       end;
 
-      if Arc.ArchiveType in [atGzip, atBzip2, atXz, atLzma, atZstd] then
+      if Arc.ArchiveType in [atGzip, atBzip2, atXz, atLzma, atZstd, atBrotli] then
       begin
         with Arc.Archive.ItemList[0] do
         begin

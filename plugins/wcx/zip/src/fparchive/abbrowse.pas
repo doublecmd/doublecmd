@@ -235,6 +235,7 @@ uses
   AbLzmaTyp,
   AbXzTyp,
   AbZstdTyp,
+  AbBrotliTyp,
   DCOSUtils,
   DCClassesUtf8;
 
@@ -559,7 +560,11 @@ begin
     else if (Ext = '.ZST') then
       Result := atZstd
     else if (Ext = '.TZST') then
-      Result := atZstdTar;
+      Result := atZstdTar
+    else if (Ext = '.BR') then
+      Result := atBrotli
+    else if (Ext = '.TBR') then
+      Result := atBrotliTar;
   end;
   {$IF NOT DEFINED(ExtractCabSupport)}
   if Result = atCab then
@@ -601,6 +606,9 @@ begin
             end;
             atZstd, atZStdTar: begin
               Result := VerifyZstd(FS);
+            end;
+            atBrotli, atBrotliTar: begin
+              Result := VerifyBrotli(FS);
             end;
           end;
         end;

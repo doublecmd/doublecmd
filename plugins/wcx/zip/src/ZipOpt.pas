@@ -16,7 +16,8 @@ type
     afBzip2,
     afXzip,
     afLzma,
-    afZstd
+    afZstd,
+    afBrotli
   );
 
   TFormatOptions = record
@@ -28,7 +29,8 @@ const
   ARCHIVE_FORMAT: array[TAbArchiveType] of TArchiveFormat =
   (
     afNil, afZip, afZip, afZip, afNil, afGzip, afGzip, afNil,
-    afBzip2, afBzip2, afXzip, afXzip, afLzma, afLzma, afZstd, afZstd
+    afBzip2, afBzip2, afXzip, afXzip, afLzma, afLzma, afZstd, afZstd,
+    afBrotli, afBrotli
   );
 
 const
@@ -41,7 +43,8 @@ const
    (Level: 9; Method: PtrInt(cmBzip2);),
    (Level: 7; Method: PtrInt(cmXz);),
    (Level: 7; Method: PtrInt(cmLZMA);),
-   (Level: 11; Method: PtrInt(cmZstd);)
+   (Level: 11; Method: PtrInt(cmZstd);),
+   (Level: 11; Method: PtrInt(cmBrotli);)
   );
 
 var
