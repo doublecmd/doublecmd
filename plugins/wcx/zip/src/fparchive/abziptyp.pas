@@ -189,7 +189,7 @@ type
      cmReduced4, cmImploded, cmTokenized, cmDeflated,
      cmEnhancedDeflated, cmDCLImploded, cmBzip2 = 12, cmLZMA = 14,
      cmIBMTerse = 18, cmLZ77, cmZstd = 93, cmXz = 95, cmJPEG = 96,
-     cmWavPack = 97, cmPPMd);
+     cmWavPack = 97, cmPPMd, cmBrotli = 129);
 
   TAbZipSupportedMethod =
     (smStored, smDeflated, smBestMethod);
