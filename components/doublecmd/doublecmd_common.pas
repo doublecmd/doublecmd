@@ -10,7 +10,7 @@ interface
 uses
   DCClassesUtf8, DCOSUtils, DCStrUtils, DCBasicTypes, DCFileAttributes, 
   DCConvertEncoding, DCDateTimeUtils, DCXmlConfig, DCProcessUtf8, 
-  DCUnicodeUtils, DCStringHashListUtf8, DCJsonConfig;
+  DCUnicodeUtils, DCStringHashListUtf8, DCJsonConfig, DCClasses;
 
 implementation
 
