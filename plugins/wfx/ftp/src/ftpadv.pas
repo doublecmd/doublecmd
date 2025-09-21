@@ -476,6 +476,8 @@ begin
   if Result then
   begin
     pdir := False;
+    pcdir := False;
+    option := EmptyStr;
     FDataStream.Position := 0;
     FFTPList.Lines.LoadFromStream(FDataStream);
     for x:= 0 to FFTPList.Lines.Count - 1 do
