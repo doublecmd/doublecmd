@@ -187,7 +187,7 @@ uses
   , BaseUnix, Unix, DCUnix
 {$ENDIF}
 {$IFDEF DARWIN}
-  , uDarwinFileUtil
+  , DCDarwin
 {$ENDIF}
   ;
 
