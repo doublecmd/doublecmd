@@ -844,6 +844,7 @@ begin
       Message:= UnicodeString(FSock.RecvPacket(1000));
       LogProc(PluginNumber, msgtype_importanterror, PWideChar(Message));
     end;
+    FTPCommand('TYPE I');
   end;
 end;
 
