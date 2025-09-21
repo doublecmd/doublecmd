@@ -34,6 +34,9 @@ uses
 {$IFDEF LINUX}
   , DCLinux
 {$ENDIF}
+{$IFDEF DARWIN}
+  , DCDarwin
+{$ENDIF}
 {$IFDEF HAIKU}
   , DCHaiku
 {$ENDIF}
@@ -654,7 +657,7 @@ begin
         end;
       end;
 
-{$IF DEFINED(LINUX) or DEFINED(HAIKU)}
+{$IF DEFINED(LINUX) or DEFINED(DARWIN) or DEFINED(HAIKU)}
       if caoCopyXattributes in Options then
       begin
         if not mbFileCopyXattr(sSrc, sDst) then

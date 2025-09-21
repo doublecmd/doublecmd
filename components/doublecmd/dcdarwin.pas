@@ -14,6 +14,7 @@ const
   CLOSE_RANGE_CLOEXEC = (1 << 2);
 
 function CloseRange(first: cuint; last: cuint; flags: cint): cint; cdecl;
+function mbFileCopyXattr(const Source, Target: String): Boolean;
 
 // MacOS File Utils
 function MacosFileSetCreationTime( const path:String; const birthtime:TFileTimeEx ): Boolean;
@@ -30,9 +31,32 @@ type
   end;
   Pproc_fdinfo = ^proc_fdinfo;
 
+type
+  copyfile_state_t_o = record
+  end;
+  copyfile_state_t = ^copyfile_state_t_o;
+  copyfile_flags_t = UInt32;
+
+function copyfile( const fromPath: pchar; const toPath: pchar; state: copyfile_state_t; flags: copyfile_flags_t ): Integer;
+  cdecl; external name 'copyfile';
+
 const
   PROC_PIDLISTFDS = 1;
   PROC_PIDLISTFD_SIZE = SizeOf(proc_fdinfo);
+
+const
+  COPYFILE_ACL   = 1 shl 0;
+  COPYFILE_STAT	 = 1 shl 1;
+  COPYFILE_XATTR = 1 shl 2;
+  COPYFILE_DATA	 = 1 shl 3;
+
+  COPYFILE_SECURITY = COPYFILE_STAT or COPYFILE_ACL;
+  COPYFILE_METADATA = COPYFILE_SECURITY or COPYFILE_XATTR;
+  COPYFILE_ALL	    = COPYFILE_METADATA or COPYFILE_DATA;
+
+  COPYFILE_UNLINK      = 1 shl 21;
+  COPYFILE_CLONE       = 1 shl 24;
+  COPYFILE_CLONE_FORCE = 1 shl 25;
 
 function proc_pidinfo(pid: cint; flavor: cint; arg: cuint64; buffer: pointer; buffersize: cint): cint; cdecl; external 'proc';
 
@@ -66,6 +90,16 @@ begin
     Result:= 0;
     FreeMem(pidInfo);
   end;
+end;
+
+function mbFileCopyXattr(const Source, Target: String): Boolean;
+var
+  ret: Integer;
+begin
+  Writeln( '>>3> mbFileCopyXattr' );
+  ret:= copyfile( pchar(Source), pchar(Target), nil, COPYFILE_XATTR );
+  fpseterrno( ret );
+  Result:= (ret=0);
 end;
 
 function StringToNSString(const S: String): NSString;
