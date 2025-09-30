@@ -806,6 +806,46 @@ begin
           TargetFileStream.Seek(0, fsFromBeginning);
         end;
       end else
+{$ELSEIF DEFINED(DARWIN)}
+      if (Mode = fsohcmDefault) then
+      begin
+        FReserveSpace:= False;
+
+        OpenTargetFile;
+        if not Assigned(TargetFileStream) then
+          Exit;
+
+        Result:= CopyFileF(SourceFileStream.Handle, TargetFileStream.Handle, Options, @FileCopyProgress, Self);
+
+        if Result then
+        begin
+          FreeAndNil(SourceFileStream);
+          FreeAndNil(TargetFileStream);
+
+          if FVerify then
+          begin
+            Result:= CompareFiles(SourceFile.FullPath, TargetFileName, SourceFile.Size);
+          end;
+          if Result then begin
+            CopyProperties(SourceFile, TargetFileName);
+          end;
+        end
+        else begin
+          bDeleteFile := True;
+          if FSkipCopyError then Exit;
+          case AskQuestion('',
+                           Format(rsMsgErrCannotCopyFile, [WrapTextSimple(SourceFile.FullPath, 64), WrapTextSimple(TargetFileName, 64)]) +
+                           LineEnding + LineEnding + mbSysErrorMessage,
+                           [fsourSkip, fsourSkipAll, fsourAbort],
+                           fsourSkip, fsourAbort) of
+            fsourAbort:
+              AbortOperation;
+            fsourSkipAll:
+              FSkipCopyError := True;
+          end; // case
+        end;
+        Exit;
+      end;
 {$ENDIF}
 
       OpenTargetFile;
