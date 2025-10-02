@@ -19,7 +19,7 @@ var
   FileCopyEx: TFileCopyEx = nil;
   CopyAttributesOptionEx: TCopyAttributesOptions = [];
 
-{$IF DEFINED(DARWIN)}
+{$IF DEFINED(DARWIN_COPY)}
   function CopyFileF(Source, Target: THandle; Options: UInt32; UpdateProgress: TFileCopyProgress; UserData: Pointer): LongBool;
 {$ENDIF}
 
@@ -67,7 +67,7 @@ end;
 initialization
   FileCopyEx:= @CopyFile;
   CopyAttributesOptionEx:= [caoCopyTimeEx, caoCopyAttrEx];
-{$ELSEIF DEFINED(DARWIN)}
+{$ELSEIF DEFINED(DARWIN_COPY)}
 uses
   InitC, CTypes;
 

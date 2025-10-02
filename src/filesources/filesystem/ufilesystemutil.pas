@@ -806,7 +806,7 @@ begin
           TargetFileStream.Seek(0, fsFromBeginning);
         end;
       end else
-{$ELSEIF DEFINED(DARWIN)}
+{$ELSEIF DEFINED(DARWIN_COPY)}
       if (Mode = fsohcmDefault) then
       begin
         FReserveSpace:= False;
