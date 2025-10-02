@@ -889,7 +889,6 @@ begin
       end;
     end;
 {$ENDIF}
-    Result:= FileLock(Result, Mode and $FF);
   end;
 end;
 {$ENDIF}
@@ -930,7 +929,6 @@ begin
       end;
     end;
 {$ENDIF}
-    Result:= FileLock(Result, Mode and $FF);
   end;
 end;
 {$ENDIF}
