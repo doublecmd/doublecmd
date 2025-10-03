@@ -272,7 +272,7 @@ begin
   except
     on EFileNotFound do
       begin
-        AddString(FResult.Missing, FileName);
+        FResult.Missing.Add(FileName);
       end
     else
       begin
@@ -484,13 +484,13 @@ begin
   sFileName:= ExtractDirLevel(FFullFilesTree.Path, aFile.Path) + aFile.Name;
 
   if (CheckSumCalc(aFile, sCheckSum) = False) then
-    AddString(FResult.ReadError, sFileName)
+    FResult.ReadError.Add(sFileName)
   else
     begin
       if (CompareText(sCheckSum, ExpectedChecksum) = 0) then
-        AddString(FResult.Success, sFileName)
+        FResult.Success.Add(sFileName)
       else
-        AddString(FResult.Broken, sFileName);
+        FResult.Broken.Add(sFileName);
     end;
 end;
 
