@@ -35,7 +35,9 @@ procedure CallLocalProc(AProc, Frame: Pointer; Param1: PtrInt;
 implementation
 
 {$IFDEF Linux}
-const _SC_NPROCESSORS_ONLN = 84;
+const
+  _SC_NPROCESSORS_CONF = 83;
+  _SC_NPROCESSORS_ONLN = 84;
 function sysconf(i: cint): clong; cdecl; external name 'sysconf';
 {$ENDIF}
 
@@ -83,7 +85,7 @@ begin
 end;
 {$ELSEIF defined(linux)}
   begin
-    Result:=sysconf(_SC_NPROCESSORS_ONLN);
+    Result:=sysconf(_SC_NPROCESSORS_CONF);
   end;
 
 {$ELSE}
