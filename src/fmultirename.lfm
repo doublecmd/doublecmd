@@ -397,9 +397,9 @@ object frmMultiRename: TfrmMultiRename
           AnchorSideRight.Control = edReplace
           AnchorSideRight.Side = asrBottom
           Left = 4
-          Height = 46
-          Top = 86
-          Width = 318
+          Height = 56
+          Top = 98
+          Width = 351
           Anchors = [akTop, akLeft, akRight]
           AutoSize = True
           BevelOuter = bvNone
@@ -407,53 +407,63 @@ object frmMultiRename: TfrmMultiRename
           ChildSizing.HorizontalSpacing = 12
           ChildSizing.VerticalSpacing = 2
           ChildSizing.Layout = cclLeftToRightThenTopToBottom
-          ChildSizing.ControlsPerLine = 2
-          ClientHeight = 46
-          ClientWidth = 318
+          ChildSizing.ControlsPerLine = 3
+          ClientHeight = 56
+          ClientWidth = 351
           TabOrder = 2
           object cbRegExp: TCheckBox
             Left = 0
-            Height = 19
+            Height = 24
             Top = 4
-            Width = 124
+            Width = 150
             BorderSpacing.Top = 4
             Caption = 'Regular e&xpressions'
-            OnChange = cbRegExpChange
             ParentFont = False
             TabOrder = 0
+            OnChange = cbRegExpChange
           end
           object cbCaseSens: TCheckBox
-            Left = 136
-            Height = 19
+            Left = 162
+            Height = 24
             Hint = 'Case sensitive'
             Top = 4
-            Width = 42
+            Width = 53
             Caption = 'A≠a'
-            OnChange = cbNameStyleChange
             TabOrder = 2
+            OnChange = cbNameStyleChange
+          end
+          object cbRepExt: TCheckBox
+            Left = 227
+            Height = 24
+            Hint = 'Replace also in file extensions'
+            Top = 4
+            Width = 34
+            Caption = 'E'
+            TabOrder = 4
+            OnChange = cbNameStyleChange
           end
           object cbUseSubs: TCheckBox
             AnchorSideBottom.Side = asrBottom
             Left = 0
-            Height = 19
-            Top = 25
-            Width = 124
+            Height = 24
+            Top = 30
+            Width = 150
             BorderSpacing.Top = 2
             Caption = '&Use substitution'
             Enabled = False
-            OnChange = cbNameStyleChange
             ParentFont = False
             TabOrder = 1
+            OnChange = cbNameStyleChange
           end
           object cbOnlyFirst: TCheckBox
-            Left = 136
-            Height = 19
+            Left = 162
+            Height = 24
             Hint = 'Replace only once per file'
-            Top = 25
-            Width = 42
+            Top = 30
+            Width = 53
             Caption = '1x'
-            OnChange = cbNameStyleChange
             TabOrder = 3
+            OnChange = cbNameStyleChange
           end
         end
       end
