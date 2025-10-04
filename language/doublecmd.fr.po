@@ -3651,6 +3651,10 @@ msgstr "Afficher le sous-menu de chemin relatif"
 msgid "Load Last Preset"
 msgstr "Charger la dernière configuration"
 
+#: tfrmmultirename.actloadnamesfromclipboard.caption
+msgid "Load Names from Clipboard"
+msgstr ""
+
 #: tfrmmultirename.actloadnamesfromfile.caption
 msgid "Load Names from File..."
 msgstr "Charger les noms depuis un fichier..."
@@ -3798,6 +3802,14 @@ msgstr "N'en remplacer qu'un par fichier"
 msgctxt "TFRMMULTIRENAME.CBREGEXP.CAPTION"
 msgid "Regular e&xpressions"
 msgstr "E&xpression régulière"
+
+#: tfrmmultirename.cbrepext.caption
+msgid "E"
+msgstr ""
+
+#: tfrmmultirename.cbrepext.hint
+msgid "Replace also in file extensions"
+msgstr ""
 
 #: tfrmmultirename.cbusesubs.caption
 msgid "&Use substitution"

@@ -3533,6 +3533,10 @@ msgstr "Zaženi meni relativnih poti"
 msgid "Load Last Preset"
 msgstr "Naloži zadnjo predlogo"
 
+#: tfrmmultirename.actloadnamesfromclipboard.caption
+msgid "Load Names from Clipboard"
+msgstr ""
+
 #: tfrmmultirename.actloadnamesfromfile.caption
 msgid "Load Names from File..."
 msgstr "Naloži imena iz datoteke ..."
@@ -3677,6 +3681,14 @@ msgstr "Zamenjaj le enkrat na datoteko"
 #: tfrmmultirename.cbregexp.caption
 msgid "Regular e&xpressions"
 msgstr "Logični &izrazi"
+
+#: tfrmmultirename.cbrepext.caption
+msgid "E"
+msgstr ""
+
+#: tfrmmultirename.cbrepext.hint
+msgid "Replace also in file extensions"
+msgstr ""
 
 #: tfrmmultirename.cbusesubs.caption
 msgid "&Use substitution"

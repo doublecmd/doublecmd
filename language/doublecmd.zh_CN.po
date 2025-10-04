@@ -3523,6 +3523,10 @@ msgstr "调用相对路径菜单"
 msgid "Load Last Preset"
 msgstr "加载上次预设"
 
+#: tfrmmultirename.actloadnamesfromclipboard.caption
+msgid "Load Names from Clipboard"
+msgstr ""
+
 #: tfrmmultirename.actloadnamesfromfile.caption
 msgid "Load Names from File..."
 msgstr "从文件加载名称..."
@@ -3667,6 +3671,14 @@ msgstr "每个文件仅替换一次"
 #: tfrmmultirename.cbregexp.caption
 msgid "Regular e&xpressions"
 msgstr "正则表达式(&R)"
+
+#: tfrmmultirename.cbrepext.caption
+msgid "E"
+msgstr ""
+
+#: tfrmmultirename.cbrepext.hint
+msgid "Replace also in file extensions"
+msgstr ""
 
 #: tfrmmultirename.cbusesubs.caption
 msgid "&Use substitution"

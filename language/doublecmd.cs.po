@@ -3542,6 +3542,10 @@ msgstr "Menu pro výběr obecných cest"
 msgid "Load Last Preset"
 msgstr "Nahrát poslední nastavení"
 
+#: tfrmmultirename.actloadnamesfromclipboard.caption
+msgid "Load Names from Clipboard"
+msgstr ""
+
 #: tfrmmultirename.actloadnamesfromfile.caption
 msgid "Load Names from File..."
 msgstr "Načíst jména ze souboru..."
@@ -3687,6 +3691,14 @@ msgstr ""
 #: tfrmmultirename.cbregexp.caption
 msgid "Regular e&xpressions"
 msgstr "&Regulární výrazy"
+
+#: tfrmmultirename.cbrepext.caption
+msgid "E"
+msgstr ""
+
+#: tfrmmultirename.cbrepext.hint
+msgid "Replace also in file extensions"
+msgstr ""
 
 #: tfrmmultirename.cbusesubs.caption
 msgid "&Use substitution"

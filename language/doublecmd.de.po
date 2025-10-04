@@ -3526,6 +3526,10 @@ msgstr "Menü \"Relativer Pfad\" aufrufen"
 msgid "Load Last Preset"
 msgstr "Letzte Voreinstellung laden"
 
+#: tfrmmultirename.actloadnamesfromclipboard.caption
+msgid "Load Names from Clipboard"
+msgstr ""
+
 #: tfrmmultirename.actloadnamesfromfile.caption
 msgid "Load Names from File..."
 msgstr "Namen laden von Datei …"
@@ -3670,6 +3674,14 @@ msgstr "Nur einmal pro Datei ersetzen"
 #: tfrmmultirename.cbregexp.caption
 msgid "Regular e&xpressions"
 msgstr "&Reguläre Ausdrücke"
+
+#: tfrmmultirename.cbrepext.caption
+msgid "E"
+msgstr ""
+
+#: tfrmmultirename.cbrepext.hint
+msgid "Replace also in file extensions"
+msgstr ""
 
 #: tfrmmultirename.cbusesubs.caption
 msgid "&Use substitution"

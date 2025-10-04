@@ -3532,6 +3532,10 @@ msgstr "Выклікаць меню адноснага шляху"
 msgid "Load Last Preset"
 msgstr "Загрузіць апошнія перадналады"
 
+#: tfrmmultirename.actloadnamesfromclipboard.caption
+msgid "Load Names from Clipboard"
+msgstr ""
+
 #: tfrmmultirename.actloadnamesfromfile.caption
 msgid "Load Names from File..."
 msgstr "Загрузіць назвы з файла..."
@@ -3676,6 +3680,14 @@ msgstr "Замяняць толькі адзін раз для кожнага ф
 #: tfrmmultirename.cbregexp.caption
 msgid "Regular e&xpressions"
 msgstr "Рэгулярныя &выразы"
+
+#: tfrmmultirename.cbrepext.caption
+msgid "E"
+msgstr ""
+
+#: tfrmmultirename.cbrepext.hint
+msgid "Replace also in file extensions"
+msgstr ""
 
 #: tfrmmultirename.cbusesubs.caption
 msgid "&Use substitution"

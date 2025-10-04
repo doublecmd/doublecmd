@@ -3527,6 +3527,10 @@ msgstr "Invoca il Menù del Percorso Relativo"
 msgid "Load Last Preset"
 msgstr "Carica Ultima Preimpostazione"
 
+#: tfrmmultirename.actloadnamesfromclipboard.caption
+msgid "Load Names from Clipboard"
+msgstr ""
+
 #: tfrmmultirename.actloadnamesfromfile.caption
 msgid "Load Names from File..."
 msgstr "Carica nomi da file..."
@@ -3671,6 +3675,14 @@ msgstr "Sostituisci solo una volta per file"
 #: tfrmmultirename.cbregexp.caption
 msgid "Regular e&xpressions"
 msgstr "E&spressioni Regolari"
+
+#: tfrmmultirename.cbrepext.caption
+msgid "E"
+msgstr ""
+
+#: tfrmmultirename.cbrepext.hint
+msgid "Replace also in file extensions"
+msgstr ""
 
 #: tfrmmultirename.cbusesubs.caption
 msgid "&Use substitution"

@@ -3767,6 +3767,10 @@ msgstr ""
 msgid "Load Last Preset"
 msgstr ""
 
+#: tfrmmultirename.actloadnamesfromclipboard.caption
+msgid "Load Names from Clipboard"
+msgstr ""
+
 #: tfrmmultirename.actloadnamesfromfile.caption
 msgid "Load Names from File..."
 msgstr ""
@@ -3923,6 +3927,14 @@ msgstr ""
 #: tfrmmultirename.cbregexp.caption
 msgid "Regular e&xpressions"
 msgstr "Regulære &udtryk"
+
+#: tfrmmultirename.cbrepext.caption
+msgid "E"
+msgstr ""
+
+#: tfrmmultirename.cbrepext.hint
+msgid "Replace also in file extensions"
+msgstr ""
 
 #: tfrmmultirename.cbusesubs.caption
 msgid "&Use substitution"

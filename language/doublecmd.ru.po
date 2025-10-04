@@ -3581,6 +3581,10 @@ msgstr "Вызвать меню относительного пути"
 msgid "Load Last Preset"
 msgstr "Загрузить последний шаблон"
 
+#: tfrmmultirename.actloadnamesfromclipboard.caption
+msgid "Load Names from Clipboard"
+msgstr "Загрузить имена из буфера обмена"
+
 #: tfrmmultirename.actloadnamesfromfile.caption
 msgid "Load Names from File..."
 msgstr "Загрузить имена из файла..."
@@ -3727,6 +3731,14 @@ msgstr "Заменять только первое вхождение"
 msgctxt "TFRMMULTIRENAME.CBREGEXP.CAPTION"
 msgid "Regular e&xpressions"
 msgstr "&Регулярное выражение"
+
+#: tfrmmultirename.cbrepext.caption
+msgid "E"
+msgstr "E"
+
+#: tfrmmultirename.cbrepext.hint
+msgid "Replace also in file extensions"
+msgstr "Заменять также в расширениях файлов"
 
 #: tfrmmultirename.cbusesubs.caption
 msgid "&Use substitution"

@@ -3525,6 +3525,10 @@ msgstr "상대 경로 호출 메뉴"
 msgid "Load Last Preset"
 msgstr "마지막 사전 설정 불러오기"
 
+#: tfrmmultirename.actloadnamesfromclipboard.caption
+msgid "Load Names from Clipboard"
+msgstr ""
+
 #: tfrmmultirename.actloadnamesfromfile.caption
 msgid "Load Names from File..."
 msgstr "파일에서 이름 불러오기..."
@@ -3669,6 +3673,14 @@ msgstr "파일당 한 번만 바꾸기"
 #: tfrmmultirename.cbregexp.caption
 msgid "Regular e&xpressions"
 msgstr "정규식(&X)"
+
+#: tfrmmultirename.cbrepext.caption
+msgid "E"
+msgstr ""
+
+#: tfrmmultirename.cbrepext.hint
+msgid "Replace also in file extensions"
+msgstr ""
 
 #: tfrmmultirename.cbusesubs.caption
 msgid "&Use substitution"

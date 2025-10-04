@@ -3590,6 +3590,10 @@ msgstr "Επίκληση Μενού Σχετικής Διαδρομής"
 msgid "Load Last Preset"
 msgstr "Φόρτωση Τελευταίου Ορίσματος"
 
+#: tfrmmultirename.actloadnamesfromclipboard.caption
+msgid "Load Names from Clipboard"
+msgstr ""
+
 #: tfrmmultirename.actloadnamesfromfile.caption
 msgid "Load Names from File..."
 msgstr "Φόρτωμα ονομάτων από το αρχείο..."
@@ -3736,6 +3740,14 @@ msgstr "Αντικατάσταση μια φορά μόνο σε κάθε αρχ
 msgctxt "TFRMMULTIRENAME.CBREGEXP.CAPTION"
 msgid "Regular e&xpressions"
 msgstr "Συνήθεις φράσεις"
+
+#: tfrmmultirename.cbrepext.caption
+msgid "E"
+msgstr ""
+
+#: tfrmmultirename.cbrepext.hint
+msgid "Replace also in file extensions"
+msgstr ""
 
 #: tfrmmultirename.cbusesubs.caption
 msgid "&Use substitution"

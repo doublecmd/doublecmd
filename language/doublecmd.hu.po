@@ -3525,6 +3525,10 @@ msgstr "Relatív útvonal menü megnyitása"
 msgid "Load Last Preset"
 msgstr "Utolsó sablon betöltése"
 
+#: tfrmmultirename.actloadnamesfromclipboard.caption
+msgid "Load Names from Clipboard"
+msgstr ""
+
 #: tfrmmultirename.actloadnamesfromfile.caption
 msgid "Load Names from File..."
 msgstr "Nevek betöltése fájlból..."
@@ -3669,6 +3673,14 @@ msgstr "Csak egyszer cseréljen fájlonként"
 #: tfrmmultirename.cbregexp.caption
 msgid "Regular e&xpressions"
 msgstr "Reguláris kifejezése&k"
+
+#: tfrmmultirename.cbrepext.caption
+msgid "E"
+msgstr ""
+
+#: tfrmmultirename.cbrepext.hint
+msgid "Replace also in file extensions"
+msgstr ""
 
 #: tfrmmultirename.cbusesubs.caption
 msgid "&Use substitution"

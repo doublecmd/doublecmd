@@ -3516,6 +3516,10 @@ msgstr "Wywołaj menu ścieżki względnej"
 msgid "Load Last Preset"
 msgstr "Załaduj ostatnie ustawienie wstępne"
 
+#: tfrmmultirename.actloadnamesfromclipboard.caption
+msgid "Load Names from Clipboard"
+msgstr ""
+
 #: tfrmmultirename.actloadnamesfromfile.caption
 msgid "Load Names from File..."
 msgstr "Wczytaj nazwy z pliku..."
@@ -3659,6 +3663,14 @@ msgstr "Zastąp tylko pierwsze wystąpienie w pliku"
 #: tfrmmultirename.cbregexp.caption
 msgid "Regular e&xpressions"
 msgstr "Wyrażenia &regularne"
+
+#: tfrmmultirename.cbrepext.caption
+msgid "E"
+msgstr ""
+
+#: tfrmmultirename.cbrepext.hint
+msgid "Replace also in file extensions"
+msgstr ""
 
 #: tfrmmultirename.cbusesubs.caption
 msgid "&Use substitution"
