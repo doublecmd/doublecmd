@@ -90,6 +90,8 @@ type
   TKASToolLabel = class(TKASToolButton)
   protected
     procedure Paint; override;
+  public
+    constructor Create(AOwner: TComponent; Item: TKASToolItem); override;
   end;
 
   { TKASToolBar }
@@ -863,6 +865,10 @@ begin
     begin
       Result := TKASToolDivider.Create(Self, Item);
     end
+    else if Item is TKASLabelItem then
+    begin
+      Result := TKASToolLabel.Create(Self, Item);
+    end
     else
     begin
       Result := TKASToolButton.Create(Self, Item);
@@ -1256,6 +1262,12 @@ begin
   Flags:= Flags or cAlignment[BidiFlipAlignment(Self.Alignment, UseRightToLeftAlignment)];
 
   DrawText(Canvas.Handle, PAnsiChar(LabelText), Length(LabelText), R, Flags or DT_NOCLIP);
+end;
+
+constructor TKASToolLabel.Create(AOwner: TComponent; Item: TKASToolItem);
+begin
+  inherited Create(AOwner, Item);
+  AutoSize:= True;
 end;
 
 end.
