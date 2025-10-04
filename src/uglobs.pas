@@ -277,6 +277,7 @@ var
   gDriveBar1,
   gDriveBar2,
   gDriveBarFlat,
+  gDriveBarFreeSpace,
   gDriveBarSyncWidth,
   gDrivesListButton,
   gDirectoryTabs,
@@ -1924,6 +1925,7 @@ begin
   gDriveBar2 := True;
   gDriveBarFlat := True;
   gDrivesListButton := True;
+  gDriveBarFreeSpace := False;
   gDriveBarSyncWidth := False;
   gDirectoryTabs := True;
   gCurDir := True;
@@ -2831,6 +2833,7 @@ begin
       gDriveBar1 := GetValue(Node, 'DriveBar1', gDriveBar1);
       gDriveBar2 := GetValue(Node, 'DriveBar2', gDriveBar2);
       gDriveBarFlat := GetValue(Node, 'DriveBarFlat', gDriveBarFlat);
+      gDriveBarFreeSpace := GetValue(Node, 'DriveBarFreeSpace', gDriveBarFreeSpace);
       if LoadedConfigVersion < 3 then
         gDrivesListButton := GetValue(Node, 'DriveMenuButton', gDrivesListButton)
       else
@@ -3548,6 +3551,7 @@ begin
     SetValue(Node, 'DriveBar1', gDriveBar1);
     SetValue(Node, 'DriveBar2', gDriveBar2);
     SetValue(Node, 'DriveBarFlat', gDriveBarFlat);
+    SetValue(Node, 'DriveBarFreeSpace', gDriveBarFreeSpace);
     SubNode := FindNode(Node, 'DrivesListButton', True);
     SetAttr(SubNode, 'Enabled', gDrivesListButton);
     SetValue(SubNode, 'ShowLabel', dlbShowLabel in gDrivesListButtonOptions);
