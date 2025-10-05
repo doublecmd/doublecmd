@@ -3,6 +3,9 @@
 
 {---------------------------------------------------------------------------}
 const
+  cKeccakNumberOfRounds = 24;
+
+const
   KeccakF1600RoundConstants_int2: array[0..2*24-1] of longint =
     (longint($00000001), longint($00000000),
      longint($00000000), longint($00000089),

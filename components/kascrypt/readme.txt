@@ -12,10 +12,10 @@ under x86_64 and aarch64 platforms:
   | SHA256   | SSSE3, AVX2, ARM64CE     |
   | SHA384   | SSSE3, AVX2              |
   | SHA512   | SSSE3, AVX2              |
-  | SHA3-224 |                          |
-  | SHA3-256 |                          |
-  | SHA3-384 |                          |
-  | SHA3-512 |                          |
+  | SHA3-224 | AVX2                     |
+  | SHA3-256 | AVX2                     |
+  | SHA3-384 | AVX2                     |
+  | SHA3-512 | AVX2                     |
   | BLAKE2s  | SSE2, AVX                |
   | BLAKE2sp | SSE2, AVX                |
   | BLAKE2b  | SSE2, AVX                |

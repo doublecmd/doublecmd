@@ -6,19 +6,6 @@ interface
 
 {$i STD.INC}
 
-{$ifdef FPC}
-  {$ifdef CPUI386}
-    {$define USE_MMXCODE}
-  {$endif}
-  {$ifdef CPU64}
-    {$define USE_64BITCODE}
-  {$endif}
-{$endif}
-
-{.$define USE_64BITCODE}   {Use 64-bit for Keccak permutation}
-{.$define USE_MMXCODE  }   {Use MMX for Keccak permutation, contributed by Eric Grange}
-{.$define USE_MMX_AKP  }   {Use MMX for Keccak permutation, contributed by Anna Kaliszewicz / payl}
-
 (*************************************************************************
 
  DESCRIPTION     :  SHA3 functions (including SHAKE) based on Keccak
@@ -86,7 +73,8 @@ interface
 
 
 (*-------------------------------------------------------------------------
- (C) Copyright 2012-2016 Wolfgang Ehrhardt
+ Copyright (C) 2012-2016 Wolfgang Ehrhardt
+ Copyright (C) 2025 Alexander Koblov (alexx2000@mail.ru)
 
  This software is provided 'as-is', without any express or implied warranty.
  In no event will the authors be held liable for any damages arising from
@@ -194,14 +182,15 @@ function SHA3_FinalBit(var state: TSHA3State; bits: byte; bitlen: integer; hashv
 {0=no error during context initialization.}
 
 var
-  SHA3_LastError: integer;
+  SHA3_LastError: integer = 0;
 
 
 implementation
 
-
-const
-  cKeccakNumberOfRounds = 24;
+{$IF DEFINED(CPUX86_64)}
+uses
+  CPU;
+{$ENDIF}
 
 {---------------------------------------------------------------------------}
 {Helper types}
@@ -219,43 +208,26 @@ type
 
 
 {---------------------------------------------------------------------------}
-{$ifndef BIT16}
-  {$ifdef BIT64}
-    {$define USE_64BITCODE}
-  {$else}
-    {$ifndef FPC}
-      {$ifndef CONDITIONALEXPRESSIONS}
-        {Delphi 5 or lower}
-        {$undef USE_MMXCODE}
-        {$undef USE_MMX_AKP}
-      {$endif}
-    {$endif}
-  {$endif}
-  {$ifdef USE_64BITCODE}
-    {$i kperm_64.inc}
-    {$ifdef HAS_MSG}
-      {.$message '* using 64-bit code'}
-    {$endif}
-  {$else}
-    {$ifdef USE_MMXCODE}
-      {$i kperm_mx.inc}
-      {$ifdef HAS_MSG}
-        {$message '* using mmx code (32Bit/eg)'}
-      {$endif}
-    {$else}
-      {$ifdef USE_MMX_AKP}
-        {$i kperm_mp.inc}
-        {$ifdef HAS_MSG}
-          {$message '* using mmx code (32Bit/akp)'}
-        {$endif}
-      {$else}
-        {$i kperm_32.inc}
-      {$endif}
-    {$endif}
-  {$endif}
-{$else}
-  {$i kperm_16.inc}
-{$endif}
+{$IF DEFINED(CPUX86_64)}
+  {$include kperm_ax.inc}
+var
+  KeccakPermutation: procedure(var state: TState_L);
+  xorIntoState: procedure(var state: TState_L; inp: PLongint; laneCount: integer);
+  extractFromState: procedure(outp: pointer; const state: TState_L; laneCount: integer);
+{$ELSEIF DEFINED(CPU64)}
+  {$MACRO ON}
+  {$DEFINE xorIntoState64:= xorIntoState}
+  {$DEFINE extractFromState64:= extractFromState}
+  {$DEFINE KeccakPermutation64:= KeccakPermutation}
+{$ENDIF}
+
+{$IF DEFINED(CPUI386)}
+  {$include kperm_mx.inc}
+{$ELSEIF DEFINED(CPU64)}
+  {$include kperm_64.inc}
+{$ELSE}
+  {$include kperm_32.inc}
+{$ENDIF}
 
 
 {---------------------------------------------------------------------------}
@@ -570,10 +542,19 @@ end;
 
 
 begin
-  {$ifdef HAS_ASSERT}
-    assert(sizeof(TSHA3State)=HASHCTXSIZE , '** Invalid sizeof(TSHA3State)');
-  {$else}
-    if sizeof(THashContext)<>HASHCTXSIZE then RunError(227);
-  {$endif}
-  SHA3_LastError := 0;
+{$IF DEFINED(CPUX86_64)}
+  if AVX2Support then
+  begin
+    xorIntoState:= xorIntoStateAVX;
+    extractFromState:= extractFromStateAVX;
+    KeccakPermutation:= KeccakPermutationAVX;
+  end
+  else begin
+    xorIntoState:= xorIntoState64;
+    extractFromState:= extractFromState64;
+    KeccakPermutation:= KeccakPermutation64;
+  end;
+{$ENDIF}
+  Assert(SizeOf(TSHA3State) = HASHCTXSIZE , '** Invalid sizeof(TSHA3State)');
 end.
+

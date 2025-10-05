@@ -37,7 +37,7 @@
 "/>
     <License Value="KAScrypt is open source software (released under the MIT license) and as such there is no charge for inclusion in other software.
 "/>
-    <Version Major="3" Minor="4"/>
+    <Version Major="3" Minor="5"/>
     <Files Count="32">
       <Item1>
         <Filename Value="dcpbase64.pas"/>

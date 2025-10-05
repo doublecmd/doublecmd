@@ -33,18 +33,7 @@ const
 
 
 {---------------------------------------------------------------------------}
-{$IFDEF FPC}
-  {$MACRO ON} {$DEFINE RotL:= RolQWord}
-{$ELSE}
-function RotL(x: u64bit; c: integer): u64bit; {$ifdef HAS_INLINE} inline; {$endif}
-begin
-  RotL := (x shl c) or (x shr (64-c));
-end;
-{$ENDIF}
-
-
-{---------------------------------------------------------------------------}
-procedure KeccakPermutation(var state: TState_L);
+procedure KeccakPermutation64(var state: TState_L);
 {$ifdef USE_LOCALA}
  var A: array[0..24] of u64bit;
 {$else}
@@ -65,37 +54,37 @@ begin
     C3 := A[03] xor A[08] xor A[13] xor A[18] xor A[23];
     C4 := A[04] xor A[09] xor A[14] xor A[19] xor A[24];
 
-    D0 := RotL(C0, 1) xor C3;
-    D1 := RotL(C1, 1) xor C4;
-    D2 := RotL(C2, 1) xor C0;
-    D3 := RotL(C3, 1) xor C1;
-    D4 := RotL(C4, 1) xor C2;
+    D0 := RolQWord(C0, 1) xor C3;
+    D1 := RolQWord(C1, 1) xor C4;
+    D2 := RolQWord(C2, 1) xor C0;
+    D3 := RolQWord(C3, 1) xor C1;
+    D4 := RolQWord(C4, 1) xor C2;
 
     B[00] := A[00] xor D1;
-    B[01] := RotL(A[06] xor D2, 44);
-    B[02] := RotL(A[12] xor D3, 43);
-    B[03] := RotL(A[18] xor D4, 21);
-    B[04] := RotL(A[24] xor D0, 14);
-    B[05] := RotL(A[03] xor D4, 28);
-    B[06] := RotL(A[09] xor D0, 20);
-    B[07] := RotL(A[10] xor D1, 3);
-    B[08] := RotL(A[16] xor D2, 45);
-    B[09] := RotL(A[22] xor D3, 61);
-    B[10] := RotL(A[01] xor D2, 1);
-    B[11] := RotL(A[07] xor D3, 6);
-    B[12] := RotL(A[13] xor D4, 25);
-    B[13] := RotL(A[19] xor D0, 8);
-    B[14] := RotL(A[20] xor D1, 18);
-    B[15] := RotL(A[04] xor D0, 27);
-    B[16] := RotL(A[05] xor D1, 36);
-    B[17] := RotL(A[11] xor D2, 10);
-    B[18] := RotL(A[17] xor D3, 15);
-    B[19] := RotL(A[23] xor D4, 56);
-    B[20] := RotL(A[02] xor D3, 62);
-    B[21] := RotL(A[08] xor D4, 55);
-    B[22] := RotL(A[14] xor D0, 39);
-    B[23] := RotL(A[15] xor D1, 41);
-    B[24] := RotL(A[21] xor D2, 2);
+    B[01] := RolQWord(A[06] xor D2, 44);
+    B[02] := RolQWord(A[12] xor D3, 43);
+    B[03] := RolQWord(A[18] xor D4, 21);
+    B[04] := RolQWord(A[24] xor D0, 14);
+    B[05] := RolQWord(A[03] xor D4, 28);
+    B[06] := RolQWord(A[09] xor D0, 20);
+    B[07] := RolQWord(A[10] xor D1, 3);
+    B[08] := RolQWord(A[16] xor D2, 45);
+    B[09] := RolQWord(A[22] xor D3, 61);
+    B[10] := RolQWord(A[01] xor D2, 1);
+    B[11] := RolQWord(A[07] xor D3, 6);
+    B[12] := RolQWord(A[13] xor D4, 25);
+    B[13] := RolQWord(A[19] xor D0, 8);
+    B[14] := RolQWord(A[20] xor D1, 18);
+    B[15] := RolQWord(A[04] xor D0, 27);
+    B[16] := RolQWord(A[05] xor D1, 36);
+    B[17] := RolQWord(A[11] xor D2, 10);
+    B[18] := RolQWord(A[17] xor D3, 15);
+    B[19] := RolQWord(A[23] xor D4, 56);
+    B[20] := RolQWord(A[02] xor D3, 62);
+    B[21] := RolQWord(A[08] xor D4, 55);
+    B[22] := RolQWord(A[14] xor D0, 39);
+    B[23] := RolQWord(A[15] xor D1, 41);
+    B[24] := RolQWord(A[21] xor D2, 2);
 
     A[00] := B[00] xor ((not B[01]) and B[02]);
     A[01] := B[01] xor ((not B[02]) and B[03]);
@@ -131,7 +120,7 @@ end;
 
 
 {---------------------------------------------------------------------------}
-procedure extractFromState(outp: pointer; const state: TState_L; laneCount: integer);
+procedure extractFromState64(outp: pointer; const state: TState_L; laneCount: integer);
 var
   pI, pS: pu64bit;
   i: integer;
@@ -147,7 +136,7 @@ end;
 
 
 {---------------------------------------------------------------------------}
-procedure xorIntoState(var state: TState_L; inp: PLongint; laneCount: integer);
+procedure xorIntoState64(var state: TState_L; inp: PLongint; laneCount: integer);
   {-Include input message data bits into the sponge state}
 var
   pI, pS: pu64bit;
