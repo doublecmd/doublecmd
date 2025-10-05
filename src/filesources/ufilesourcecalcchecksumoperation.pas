@@ -17,11 +17,17 @@ type
 
   TCalcCheckSumOperationMode = (checksum_calc, checksum_verify);
 
-  TVerifyChecksumResult = record
-    Success: TDynamicStringArray;
-    Broken: TDynamicStringArray;
-    Missing: TDynamicStringArray;
-    ReadError: TDynamicStringArray;
+  { TVerifyChecksumResult }
+
+  TVerifyChecksumResult = class
+  public
+    Broken: TStringList;
+    Success: TStringList;
+    Missing: TStringList;
+    ReadError: TStringList;
+  public
+    constructor Create;
+    destructor Destroy; override;
   end;
 
   TFileSourceCalcChecksumOperationStatistics = record
@@ -56,6 +62,7 @@ type
     FAlgorithm: THashAlgorithm;
     FOneFile, FSeparateFolder: Boolean;
     FOpenFileAfterOperationCompleted: Boolean;
+    procedure SetMode(AValue: TCalcCheckSumOperationMode);
 
   protected
     FResult: TVerifyChecksumResult;
@@ -83,7 +90,7 @@ type
     function GetDescription(Details: TFileSourceOperationDescriptionDetails): String; override;
     function RetrieveStatistics: TFileSourceCalcChecksumOperationStatistics;
 
-    property Mode: TCalcCheckSumOperationMode read FMode write FMode;
+    property Mode: TCalcCheckSumOperationMode read FMode write SetMode;
     property Algorithm: THashAlgorithm read FAlgorithm write FAlgorithm;
     property OneFile: Boolean read FOneFile write FOneFile;
     property SeparateFolder: Boolean read FSeparateFolder write FSeparateFolder;
@@ -96,6 +103,27 @@ implementation
 
 uses
   uDCUtils, uLng, uShowForm;
+
+{ TVerifyChecksumResult }
+
+constructor TVerifyChecksumResult.Create;
+begin
+  Broken:= TStringList.Create;
+  Success:= TStringList.Create;
+  Missing:= TStringList.Create;
+  ReadError:= TStringList.Create;
+end;
+
+destructor TVerifyChecksumResult.Destroy;
+begin
+  inherited Destroy;
+  Broken.Free;
+  Success.Free;
+  Missing.Free;
+  ReadError.Free;
+end;
+
+{ TFileSourceCalcChecksumOperation }
 
 constructor TFileSourceCalcChecksumOperation.Create(
                 aTargetFileSource: IFileSource;
@@ -135,10 +163,9 @@ destructor TFileSourceCalcChecksumOperation.Destroy;
 begin
   inherited Destroy;
 
-  if Assigned(FStatisticsLock) then
-    FreeAndNil(FStatisticsLock);
-  if Assigned(FFiles) then
-    FreeAndNil(FFiles);
+  FreeAndNil(FStatisticsLock);
+  FreeAndNil(FResult);
+  FreeAndNil(FFiles);
 end;
 
 function TFileSourceCalcChecksumOperation.GetDescription(Details: TFileSourceOperationDescriptionDetails): String;
@@ -170,6 +197,21 @@ begin
       end;
     else
       Result := inherited GetDescription(Details);
+  end;
+end;
+
+procedure TFileSourceCalcChecksumOperation.SetMode(
+  AValue: TCalcCheckSumOperationMode);
+begin
+  if FMode <> AValue then
+  begin
+    if (AValue = checksum_calc) then
+      FreeAndNil(FResult)
+    else if (AValue = checksum_verify) then
+    begin
+      FResult:= TVerifyChecksumResult.Create;
+    end;
+    FMode:= AValue;
   end;
 end;
 

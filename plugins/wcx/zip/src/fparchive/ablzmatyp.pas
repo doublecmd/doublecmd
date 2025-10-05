@@ -299,8 +299,7 @@ begin
     FStream.Read(Header, SizeOf(Header));
     Item := TAbLzmaItem.Create;
     Item.Action := aaNone;
-    if Header.UncompressedSize <> -1 then
-      Item.UncompressedSize := Header.UncompressedSize;
+    Item.UncompressedSize := Header.UncompressedSize;
     { Filename isn't stored, so constuct one based on the archive name }
     ItemName := ExtractFileName(ArchiveName);
     if ItemName = '' then

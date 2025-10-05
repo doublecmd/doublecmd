@@ -22,6 +22,9 @@
 unit uSysFolders;
 
 {$mode ObjFPC}{$H+}
+{$IFDEF DARWIN}
+{$modeswitch objectivec2}
+{$ENDIF}
 
 interface
 
@@ -69,20 +72,20 @@ uses
   ;
 
 function GetHomeDir : String;
-{$IFDEF MSWINDOWS}
 begin
+{$IF DEFINED(MSWINDOWS)}
   Result:= ExcludeBackPathDelimiter(mbGetEnvironmentVariable('USERPROFILE'));
-end;
+{$ELSEIF DEFINED(DARWIN)}
+  Result:= NSHomeDirectory.UTF8String;
 {$ELSE}
-begin
   {$IF DEFINED(HAIKU)}
   if mbFindDirectory(B_USER_DIRECTORY, -1, True, Result) then
     Result:= ExcludeBackPathDelimiter(Result)
   else
   {$ENDIF}
   Result:= ExcludeBackPathDelimiter(SysToUTF8(GetEnvironmentVariable('HOME')));
-end;
 {$ENDIF}
+end;
 
 function GetAppConfigDir: String;
 {$IF DEFINED(MSWINDOWS)}

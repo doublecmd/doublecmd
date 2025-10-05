@@ -85,6 +85,15 @@ type
     constructor Create(AOwner: TComponent; Item: TKASToolItem); override;
   end;
 
+  { TKASToolLabel }
+
+  TKASToolLabel = class(TKASToolButton)
+  protected
+    procedure Paint; override;
+  public
+    constructor Create(AOwner: TComponent; Item: TKASToolItem); override;
+  end;
+
   { TKASToolBar }
 
   TKASToolBar = class(TToolBar, IToolOwner)
@@ -206,7 +215,7 @@ procedure Register;
 implementation
 
 uses
-  Themes, Types, Math, ActnList, DCOSUtils;
+  Themes, Types, Math, ActnList, LCLType, LCLIntf, DCOSUtils;
 
 type
   PToolItemExecutor = ^TToolItemExecutor;
@@ -856,6 +865,10 @@ begin
     begin
       Result := TKASToolDivider.Create(Self, Item);
     end
+    else if Item is TKASLabelItem then
+    begin
+      Result := TKASToolLabel.Create(Self, Item);
+    end
     else
     begin
       Result := TKASToolButton.Create(Self, Item);
@@ -1220,6 +1233,41 @@ constructor TKASToolDivider.Create(AOwner: TComponent; Item: TKASToolItem);
 begin
   inherited Create(AOwner, Item);
   ControlStyle:= ControlStyle + [csAutoSize0x0];
+end;
+
+{ TKASToolLabel }
+
+procedure TKASToolLabel.Paint;
+const
+  cAlignment: array[TAlignment] of Longint = (DT_LEFT, DT_RIGHT, DT_CENTER);
+var
+  R: TRect;
+  Flags: Longint;
+  LabelText: String;
+begin
+  R:= ClientRect;
+  Canvas.Font:= Font;
+  LabelText:= Caption;
+  InflateRect(R, -8, 0);
+  Canvas.Brush.Color:= Color;
+  Canvas.Brush.Style:= bsClear;
+
+  Flags:= DT_EXPANDTABS or DT_VCENTER;
+  Flags:= Flags or DT_SINGLELINE or DT_NOPREFIX;
+
+  if UseRightToLeftReading then
+  begin
+    Flags:= Flags or DT_RTLREADING;
+  end;
+  Flags:= Flags or cAlignment[BidiFlipAlignment(Self.Alignment, UseRightToLeftAlignment)];
+
+  DrawText(Canvas.Handle, PAnsiChar(LabelText), Length(LabelText), R, Flags or DT_NOCLIP);
+end;
+
+constructor TKASToolLabel.Create(AOwner: TComponent; Item: TKASToolItem);
+begin
+  inherited Create(AOwner, Item);
+  AutoSize:= True;
 end;
 
 end.

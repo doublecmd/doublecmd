@@ -327,7 +327,7 @@ end;"/>
         <PackageName Value="Image32"/>
       </Item13>
     </RequiredPackages>
-    <Units Count="290">
+    <Units Count="289">
       <Unit0>
         <Filename Value="doublecmd.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -2100,11 +2100,6 @@ end;"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uSmoothScrollingGrid"/>
       </Unit288>
-      <Unit289>
-        <Filename Value="platform\unix\darwin\udarwinfileutil.pas"/>
-        <IsPartOfProject Value="True"/>
-        <UnitName Value="uDarwinFileUtil"/>
-      </Unit289>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

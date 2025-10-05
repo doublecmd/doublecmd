@@ -138,7 +138,7 @@ type
 implementation
 
 uses
-  Laz2_XMLRead;
+  CRC, Laz2_XMLRead;
 
 //==== TSynUniSyn ============================================================
 constructor TSynUniSyn.Create(AOwner: TComponent);
@@ -175,8 +175,10 @@ function TSynUniSyn.GetHashCode: PtrInt;
   function Update(ACrc: PtrInt; ARule: TSynRule): PtrInt;
   var
     Index: Integer;
+    AValue: Cardinal;
   begin
-    Result:= ACrc xor ARule.Attribs.GetHashCode;
+    AValue:= Cardinal(ARule.Attribs.GetHashCode);
+    Result:= PtrInt(CRC32(Cardinal(ACrc), @AValue, SizeOf(AValue)));
 
     if ARule is TSynRange then
     begin

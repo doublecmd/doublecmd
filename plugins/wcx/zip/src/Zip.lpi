@@ -15,7 +15,7 @@
     </General>
     <VersionInfo>
       <UseVersionInfo Value="True"/>
-      <MinorVersionNr Value="3"/>
+      <MinorVersionNr Value="4"/>
       <StringTable FileDescription="ZIP WCX plugin for Double Commander" LegalCopyright="Copyright (C) 2006-2025 Alexander Koblov"/>
     </VersionInfo>
     <BuildModes Count="2">

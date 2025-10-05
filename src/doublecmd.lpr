@@ -183,19 +183,7 @@ begin
   {$ENDIF}
   FixDateNamesToUTF8;
 
-  DCDebug('Double Commander ' + dcVersion);
-  DCDebug('Revision: ' + dcRevision);
-  DCDebug('Commit: ' + dcCommit);
-  DCDebug('Build: ' + dcBuildDate);
-  DCDebug('Lazarus: ' + lazVersion);
-  DCDebug('Free Pascal: ' + fpcVersion);
-  DCDebug('Platform: ' + TargetCPU + '-' + TargetOS + '-' + TargetWS);
-  DCDebug('System: ' + OSVersion);
-  {$IF DEFINED(UNIX) AND NOT (DEFINED(DARWIN) OR DEFINED(HAIKU))}
-  DCDebug('Desktop Environment: ' + DesktopName[DesktopEnv]);
-  {$ENDIF}
-  if WSVersion <> EmptyStr then
-    DCDebug('Widgetset library: ' + WSVersion);
+  DCDebug(GetVersionInformation);
   DCDebug('This program is free software released under terms of GNU GPL 2');
   DCDebug(Copyright + LineEnding + '   and contributors (see about dialog)');
 
@@ -215,6 +203,7 @@ begin
   LoadWindowsSpecialDir; // Load the list with special path. *Must* be located AFTER "LoadPaths" and BEFORE "InitGlobs"
 
   if InitGlobs then
+  begin
     //-- NOTE: before, only IsInstanceAllowed was called, and all the magic on creation
     //         new instance or sending params to the existing server happened inside 
     //         IsInstanceAllowed() function as a side effect.
@@ -262,7 +251,7 @@ begin
     begin
       DCDebug('Another instance of DC is already running. Exiting.');
     end;
-
+  end;
   uKeyboard.CleanupKeyboard;
   DCDebug('Finished Double Commander');
 end.

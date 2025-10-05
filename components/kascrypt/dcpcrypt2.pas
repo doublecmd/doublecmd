@@ -4,7 +4,6 @@
 {* Main component definitions *************************************************}
 {******************************************************************************}
 {* Copyright (C) 1999-2003 David Barton                                       *}
-{* Copyright (C) 2018 Alexander Koblov (alexx2000@mail.ru)                    *}
 {* Permission is hereby granted, free of charge, to any person obtaining a    *}
 {* copy of this software and associated documentation files (the "Software"), *}
 {* to deal in the Software without restriction, including without limitation  *}
@@ -254,13 +253,6 @@ procedure XorBlockEx(var InData1, InData2; Size: longword);
 procedure dcpFillChar(out x; count: SizeInt; Value: Byte); overload;
 procedure dcpFillChar(out x; count: SizeInt; Value: Char); overload;
 procedure ZeroMemory(Destination: Pointer; Length: PtrUInt);
-
-{$IF DEFINED(CPUX86_64)}
-
-function BMI2Support: LongBool;
-function SSSE3Support: LongBool;
-
-{$ENDIF}
 
 implementation
 
@@ -703,31 +695,6 @@ begin
       b1[i] := b1[i] xor b2[i];
   end;
 end;
-
-{$IF DEFINED(CPUX86_64)}
-
-function BMI2Support: LongBool; assembler; nostackframe;
-asm
-  pushq %rbx
-  movl $7,%eax
-  movl $0,%ecx
-  cpuid
-  andl $256,%ebx
-  movl %ebx,%eax
-  popq %rbx
-end;
-
-function SSSE3Support: LongBool; assembler; nostackframe;
-asm
-  pushq %rbx
-  movl $1,%eax
-  cpuid
-  andl $512,%ecx
-  movl %ecx,%eax
-  popq %rbx
-end;
-
-{$ENDIF}
 
 end.
 

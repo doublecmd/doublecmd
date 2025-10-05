@@ -19,7 +19,7 @@ jobs:
         lazarus-version: "stable"
 
     - name: Get Lazarus source
-      uses: actions/checkout@v4
+      uses: actions/checkout@v5
       with:
             repository: 'fpc/Lazarus'
             ref: 'fixes_4'
@@ -34,7 +34,7 @@ jobs:
            sudo sed -i -e "s|_PPCARCH_|fpc|g; s|/Developer/lazarus|/usr/local/share/lazarus|g" /etc/lazarus/environmentoptions.xml
 
     - name: Checkout source
-      uses: actions/checkout@v4
+      uses: actions/checkout@v5
       with:
         fetch-depth: 0
 

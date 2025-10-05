@@ -477,6 +477,8 @@ begin
   if Result then
   begin
     pdir := False;
+    pcdir := False;
+    option := EmptyStr;
     FDataStream.Position := 0;
     FFTPList.Lines.LoadFromStream(FDataStream);
     for x:= 0 to FFTPList.Lines.Count - 1 do
@@ -848,6 +850,7 @@ begin
       Message:= UnicodeString(FSock.RecvPacket(1000));
       LogProc(PluginNumber, msgtype_importanterror, PWideChar(Message));
     end;
+    FTPCommand('TYPE I');
   end;
 end;
 

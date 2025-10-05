@@ -310,6 +310,7 @@ begin
     SwapToBzip2;
     Item := TAbBzip2Item.Create;
     Item.Action := aaNone;
+    Item.UncompressedSize := -1;
     { Filename isn't stored, so constuct one based on the archive name }
     ItemName := ExtractFileName(ArchiveName);
     if ItemName = '' then

@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Some useful functions to work with plugins
 
-   Copyright (C) 2011-2021 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2011-2025 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -31,7 +31,7 @@ uses
 
 const
   { Default plugins list version number }
-  pdVersion = 1;
+  pdVersion = 2;
 
 const
   WcxMask = '*.wcx'{$IFDEF CPU64} + ';*.wcx64'{$ENDIF};
@@ -165,6 +165,10 @@ begin
   I:= gWCXPlugins.IndexOfName('xz');
   if I < 0 then
     gWCXPlugins.Add('xz', 91, Folder + 'zip' + PathDelim + 'zip.wcx');
+
+  I:= gWCXPlugins.IndexOfName('br');
+  if I < 0 then
+    gWCXPlugins.Add('br', 64, Folder + 'zip' + PathDelim + 'zip.wcx');
 
   I:= gWCXPlugins.IndexOfName('zst');
   if I < 0 then

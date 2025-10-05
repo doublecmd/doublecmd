@@ -54,7 +54,7 @@ type
 implementation
 {$R-}{$Q-}
 
-{$INCLUDE DCPtiger.inc}
+{$INCLUDE dcptiger.inc}
 
 procedure TDCP_tiger.Compress;
 var

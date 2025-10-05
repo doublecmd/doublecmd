@@ -32,7 +32,11 @@ uses
   Classes, SysUtils, FileUtil, SynEdit, Forms, Controls, StdCtrls, ExtCtrls,
   ColorBox, ComCtrls, Dialogs, Menus, Buttons, fOptionsFrame, DividerBevel, types,
   LMessages, Graphics, SynEditHighlighter, SynUniClasses, SynUniRules, dmHigh,
-  LCLVersion;
+  LCLVersion, uHighlighters
+{$IF DEFINED(LCL_VER_499)}
+  , LazEditTextAttributes
+{$ENDIF}
+  ;
 
 type
 
@@ -108,7 +112,7 @@ type
   private
     FHighl: TdmHighl;
     FDefHighlightElement,
-    FCurHighlightElement: TSynHighlighterAttributes;
+    FCurHighlightElement: TLazEditTextAttribute;
     FCurrentHighlighter: TSynCustomHighlighter;
     FCurHighlightRule: TSynRule;
     FIsEditingDefaults: Boolean;
@@ -135,12 +139,7 @@ implementation
 {$R *.lfm}
 
 uses
-  LCLType, LCLIntf, SynEditTypes, SynUniHighlighter, GraphUtil, uLng, uGlobs,
-  uHighlighters
-{$if lcl_fullversion >= 4990000}
-  , LazEditTextAttributes
-{$endif}
-  ;
+  LCLType, LCLIntf, SynEditTypes, SynUniHighlighter, GraphUtil, uLng, uGlobs;
 
 const
   COLOR_NODE_PREFIX = ' abc  ';
@@ -299,7 +298,7 @@ end;
 
 procedure TfrmOptionsEditorColors.ForegroundColorBoxChange(Sender: TObject); //+++
 var
-  AttrToEdit: TSynHighlighterAttributes;
+  AttrToEdit: TLazEditTextAttribute;
 begin
   if (FCurHighlightElement = nil) or UpdatingColor then
     Exit;
@@ -352,13 +351,13 @@ procedure TfrmOptionsEditorColors.ColorElementTreeAdvancedCustomDrawItem(Sender:
 var
   NodeRect: TRect;
   FullAbcWidth, AbcWidth: Integer;
-  Attri: TSynHighlighterAttributes;
+  Attri: TLazEditTextAttribute;
   TextY: Integer;
   AText: String;
   c: TColor;
   s: String;
 begin
-  if not (TObject(Node.Data) is TSynHighlighterAttributes) then
+  if not (TObject(Node.Data) is TLazEditTextAttribute) then
   begin
     AText:= TSynRule(Node.Data).Name;
     Attri := TSynRule(Node.Data).Attribs;
@@ -367,7 +366,7 @@ begin
     if (ColorElementTree.Items.GetFirstNode = Node) and FIsEditingDefaults then
       Attri := FDefHighlightElement
     else begin
-      Attri := TSynHighlighterAttributes(Node.Data);
+      Attri := TLazEditTextAttribute(Node.Data);
     end;
     AText:= Attri.Name;
   end;
@@ -436,7 +435,7 @@ end;
 
 procedure TfrmOptionsEditorColors.SynPlainTextHighlighterChange(Sender: TObject);
 var
-  SynPlainTextHighlighter: TSynHighlighterAttributes absolute Sender;
+  SynPlainTextHighlighter: TLazEditTextAttribute absolute Sender;
 begin
   ColorPreview.Color:= SynPlainTextHighlighter.Background;
   ColorPreview.Font.Color:= SynPlainTextHighlighter.Foreground;
@@ -445,15 +444,15 @@ end;
 procedure TfrmOptionsEditorColors.ColorElementTreeChange(Sender: TObject; Node: TTreeNode); //+++
 var
   ParentFore, ParentBack: Boolean;
-  AttrToShow: TSynHighlighterAttributes;
+  AttrToShow: TLazEditTextAttribute;
   IsDefault, CanGlobal: Boolean;
 begin
   if UpdatingColor or (ColorElementTree.Selected = nil) or (ColorElementTree.Selected.Data = nil) then
     Exit;
 
-  if (TObject(ColorElementTree.Selected.Data) is TSynHighlighterAttributes) then
+  if (TObject(ColorElementTree.Selected.Data) is TLazEditTextAttribute) then
   begin
-    FCurHighlightElement:= TSynHighlighterAttributes(ColorElementTree.Selected.Data);
+    FCurHighlightElement:= TLazEditTextAttribute(ColorElementTree.Selected.Data);
     IsDefault := SameText(rsSynDefaultText, FCurHighlightElement.Name);
     CanGlobal := (cmbLanguage.ItemIndex > 0) and IsDefault;
     ParentFore:= False;
@@ -621,7 +620,7 @@ end;
 procedure TfrmOptionsEditorColors.GeneralCheckBoxOnChange(Sender: TObject);
 var
   TheColorBox: TColorBox;
-  AttrToEdit: TSynHighlighterAttributes;
+  AttrToEdit: TLazEditTextAttribute;
 
   procedure SetCheckBoxStyle(CheckBox: TCheckBox; style: TFontStyle);
   begin
@@ -767,7 +766,7 @@ end;
 
 procedure TfrmOptionsEditorColors.TextStyleRadioOnChange(Sender: TObject); //+++
 var
-  AttrToEdit: TSynHighlighterAttributes;
+  AttrToEdit: TLazEditTextAttribute;
 
   procedure CalcNewStyle(CheckBox: TCheckBox; RadioOn, RadioOff,
                          RadioInvert: TRadioButton; fs : TFontStyle;

@@ -1099,7 +1099,12 @@ begin
         FGzStream.Seek(-SizeOf(TAbGzTailRec), soEnd);
         GZHelp.ReadTail;
         Item.CRC32 := GZHelp.TailCRC;
-        Item.UncompressedSize := GZHelp.TailSize;
+
+        if FGzStream.Size > High(UInt32) then
+          Item.UncompressedSize := -1
+        else begin
+          Item.UncompressedSize := GZHelp.TailSize;
+        end;
 
         Item.Action := aaNone;
         FGZItem.Add(Item);

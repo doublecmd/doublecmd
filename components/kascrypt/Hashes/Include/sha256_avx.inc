@@ -46,7 +46,6 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; This code schedules 2 blocks at a time, with 4 lanes per block
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-*/
 /*
  * Conversion to GAS assembly and integration to libgcrypt
  *  by Jussi Kivilinna <jussi.kivilinna@iki.fi>
@@ -56,12 +55,12 @@
 {$CODEALIGN CONSTMIN=32}
 
 const
-  _BYTE_FLIP_MASK: array [0..7] of UInt32 = (66051, 67438087, 134810123, 202182159,
-                                             66051, 67438087, 134810123, 202182159);
-  _SHUF_00BA: array [0..7] of UInt32 = (50462976, 185207048, $FFFFFFFF, $FFFFFFFF,
-                                        50462976, 185207048, $FFFFFFFF, $FFFFFFFF);
-  _SHUF_DC00: array [0..7] of UInt32 = ($FFFFFFFF, $FFFFFFFF, 50462976, 185207048,
-                                        $FFFFFFFF, $FFFFFFFF, 50462976, 185207048);
+  _FLIP_MASK: array [0..7] of UInt32 = ($00010203, $04050607, $08090A0B, $0C0D0E0F,
+                                        $00010203, $04050607, $08090A0B, $0C0D0E0F);
+  _SHUF_00BA: array [0..7] of UInt32 = ($03020100, $0B0A0908, $FFFFFFFF, $FFFFFFFF,
+                                        $03020100, $0B0A0908, $FFFFFFFF, $FFFFFFFF);
+  _SHUF_DC00: array [0..7] of UInt32 = ($FFFFFFFF, $FFFFFFFF, $03020100, $0B0A0908,
+                                        $FFFFFFFF, $FFFFFFFF, $03020100, $0B0A0908);
 
 procedure sha256_compress_avx(CurrentHash: PLongWord; HashBuffer: PByte; BufferCount: UIntPtr); assembler; nostackframe;
 // UNIX    RDI, RSI, RDX
@@ -97,7 +96,7 @@ asm
   push   %r14
   push   %r15
   vzeroupper
-  vmovdqa _BYTE_FLIP_MASK(%rip),%ymm13
+  vmovdqa _FLIP_MASK(%rip),%ymm13
   vmovdqa _SHUF_00BA(%rip),%ymm10
   vmovdqa _SHUF_DC00(%rip),%ymm12
   mov    %rsp,%rax
@@ -1385,7 +1384,7 @@ asm
   mov    0x14(%rsi),%r9d
   mov    0x18(%rsi),%r10d
   mov    0x1c(%rsi),%r11d
-  vmovdqa _BYTE_FLIP_MASK(%rip),%ymm13
+  vmovdqa _FLIP_MASK(%rip),%ymm13
   vmovdqa _SHUF_00BA(%rip),%ymm10
   vmovdqa _SHUF_DC00(%rip),%ymm12
   mov    %rsi,0x210(%rsp)

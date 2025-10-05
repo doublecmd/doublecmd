@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Version information about DC, building tools and running environment.
 
-   Copyright (C) 2006-2023  Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2006-2025  Alexander Koblov (alexx2000@mail.ru)
    Copyright (C) 2010       Przemyslaw Nagay (cobines@gmail.com)
 
    This program is free software; you can redistribute it and/or modify
@@ -17,8 +17,7 @@
    GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   along with this program; if not, write to the Free Software
-   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+   along with this program. If not, see <http://www.gnu.org/licenses/>.
 }
 
 unit uDCVersion;
@@ -48,6 +47,7 @@ var
   : String;
 
 procedure InitializeVersionInfo;
+function GetVersionInformation: String;
 
 implementation
 
@@ -55,8 +55,10 @@ uses
   InterfaceBase, FileInfo, VersionConsts
   {$IF DEFINED(UNIX)}
   , BaseUnix, DCOSUtils, uDCUtils, DCClassesUtf8
-    {$IFDEF DARWIN}
+    {$IF DEFINED(DARWIN)}
     , MacOSAll
+    {$ELSEIF NOT DEFINED(HAIKU)}
+    , StrUtils
     {$ENDIF}
   {$ENDIF}
   {$IFDEF LCLQT}
@@ -77,9 +79,7 @@ uses
   {$IFDEF MSWINDOWS}
   , Windows, JwaNative, JwaNtStatus, JwaWinType, uMyWindows
   {$ENDIF}
-  {$if lcl_fullversion >= 1070000}
   , LCLPlatformDef
-  {$endif}
   ;
 
 {$IF DEFINED(UNIX)}
@@ -205,6 +205,7 @@ begin
     Result := EmptyStr;
 end;
 
+{$IF DEFINED(LINUX)}
 function GetDebianVersion: String;
 var
   s: String;
@@ -252,6 +253,7 @@ begin
   else
     Result := EmptyStr;
 end;
+{$ENDIF}
 
 function GetVersionNumber: String;
 var
@@ -468,6 +470,7 @@ begin
   // Try using linux standard base.
   OSVersion := GetOsFromLsbRelease;
 
+  {$IF DEFINED(LINUX)}
   // Try some distribution-specific files.
   if OSVersion = EmptyStr then
     OSVersion := GetDebianVersion;
@@ -477,6 +480,7 @@ begin
     OSVersion := GetSuseVersion;
   if OSVersion = EmptyStr then
     OSVersion := GetMandrakeVersion;
+  {$ENDIF}
 
   {$IFDEF DARWIN}
   if OSVersion = EmptyStr then
@@ -524,6 +528,42 @@ begin
                         IntToStr(gtk_get_minor_version) + '.' +
                         IntToStr(gtk_get_micro_version);
   {$ENDIF}
+end;
+
+function GetVersionInformation: String;
+{$IF DEFINED(UNIX) AND NOT (DEFINED(DARWIN) OR DEFINED(HAIKU))}
+var
+  S: String;
+{$ENDIF}
+begin
+  Result:= Format('Double Commander' + LineEnding +
+                  'Version: %s' + LineEnding +
+                  'Revision: %s' + LineEnding +
+                  'Commit: %s' + LineEnding +
+                  'Build: %s' + LineEnding +
+                  'Lazarus: %s' + LineEnding +
+                  'Free Pascal: %s' + LineEnding +
+                  'Platform: %s' + LineEnding +
+                  'System: %s',
+                  [dcVersion, dcRevision, dcCommit, dcBuildDate,
+                   lazVersion, fpcVersion,
+                   TargetCPU + '-' + TargetOS + '-' + TargetWS,
+                   OSVersion
+                  ]);
+{$IF DEFINED(UNIX) AND NOT (DEFINED(DARWIN) OR DEFINED(HAIKU))}
+  S:= GetEnvironmentVariable('XDG_CURRENT_DESKTOP');
+  if (Length(S) > 0) then
+  begin
+    Result += LineEnding + 'Desktop Environment: ' + Copy2Symb(S, ':');
+    S:= GetEnvironmentVariable('XDG_SESSION_TYPE');
+    if (Length(S) > 0) then
+    begin
+      Result += ' (' + S + ')';
+    end;
+  end;
+{$ENDIF}
+  if WSVersion <> EmptyStr then
+    Result += LineEnding + 'Widgetset library: ' + WSVersion;
 end;
 
 procedure Initialize;

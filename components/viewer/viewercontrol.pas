@@ -1673,7 +1673,12 @@ begin
     begin
       FMappedFile := GetMem(MaxMemSize - 1);
       FFileSize := FileRead(FFileHandle, FMappedFile^, MaxMemSize - 1);
-      Result := (FFileSize > 0);
+      Result := (FFileSize >= 0);
+      if not Result then
+      begin
+        FLastError := mbSysErrorMessage;
+        FreeMemAndNil(FMappedFile);
+      end;
       FileClose(FFileHandle);
       FFileHandle := 0;
       Exit;

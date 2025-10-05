@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Multi-Rename Tool dialog window
 
-   Copyright (C) 2007-2023 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2007-2025 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -64,6 +64,7 @@ type
     FExtensionStyle: integer;
     FFind: string;
     FReplace: string;
+    FRepExt: Boolean;
     FRegExp: boolean;
     FUseSubs: boolean;
     FCaseSens: Boolean;
@@ -82,6 +83,7 @@ type
     property ExtensionStyle: integer read FExtensionStyle write FExtensionStyle;
     property Find: string read FFind write FFind;
     property Replace: string read FReplace write FReplace;
+    property RepExt: boolean read FRepExt write FRepExt;
     property RegExp: boolean read FRegExp write FRegExp;
     property UseSubs: boolean read FUseSubs write FUseSubs;
     property CaseSens: Boolean read FCaseSens write FCaseSens;
@@ -128,6 +130,7 @@ type
     cbRegExp: TCheckBox;
     cbUseSubs: TCheckBox;
     cbOnlyFirst: TCheckBox;
+    cbRepExt: TCheckBox;
     pnlFindReplace: TPanel;
     pnlButtons: TPanel;
     StringGrid: TStringGrid;
@@ -469,6 +472,7 @@ begin
   FExtensionStyle := 0;
   FFind := '';
   FReplace := '';
+  FRepExt := True;
   FRegExp := False;
   FUseSubs := False;
   FCaseSens := False;
@@ -1001,6 +1005,7 @@ begin
             AMultiRenamePreset.ExtensionStyle := AConfig.GetValue(ANode, 'ExtensionStyle', 0);
             AMultiRenamePreset.Find := AConfig.GetValue(ANode, 'Find', '');
             AMultiRenamePreset.Replace := AConfig.GetValue(ANode, 'Replace', '');
+            AMultiRenamePreset.RepExt := AConfig.GetValue(ANode, 'RepExt', True);
             AMultiRenamePreset.RegExp := AConfig.GetValue(ANode, 'RegExp', False);
             AMultiRenamePreset.UseSubs := AConfig.GetValue(ANode, 'UseSubs', False);
             AMultiRenamePreset.CaseSens := AConfig.GetValue(ANode, 'CaseSensitive', False);
@@ -1101,6 +1106,7 @@ begin
     FMultiRenamePresetList.MultiRenamePreset[PresetIndex].ExtensionStyle := cmbExtensionStyle.ItemIndex;
     FMultiRenamePresetList.MultiRenamePreset[PresetIndex].Find := edFind.Text;
     FMultiRenamePresetList.MultiRenamePreset[PresetIndex].Replace := edReplace.Text;
+    FMultiRenamePresetList.MultiRenamePreset[PresetIndex].RepExt := cbRepExt.Checked;
     FMultiRenamePresetList.MultiRenamePreset[PresetIndex].RegExp := cbRegExp.Checked;
     FMultiRenamePresetList.MultiRenamePreset[PresetIndex].UseSubs := cbUseSubs.Checked;
     FMultiRenamePresetList.MultiRenamePreset[PresetIndex].CaseSens := cbCaseSens.Checked;
@@ -1155,6 +1161,7 @@ begin
     AConfig.AddValue(SubNode, 'ExtensionStyle', FMultiRenamePresetList.MultiRenamePreset[i].ExtensionStyle);
     AConfig.AddValue(SubNode, 'Find', FMultiRenamePresetList.MultiRenamePreset[i].Find);
     AConfig.AddValue(SubNode, 'Replace', FMultiRenamePresetList.MultiRenamePreset[i].Replace);
+    AConfig.AddValue(SubNode, 'RepExt', FMultiRenamePresetList.MultiRenamePreset[i].RepExt);
     AConfig.AddValue(SubNode, 'RegExp', FMultiRenamePresetList.MultiRenamePreset[i].RegExp);
     AConfig.AddValue(SubNode, 'UseSubs', FMultiRenamePresetList.MultiRenamePreset[i].UseSubs);
     AConfig.AddValue(SubNode, 'CaseSensitive', FMultiRenamePresetList.MultiRenamePreset[i].CaseSens);
@@ -2092,15 +2099,21 @@ begin
   // Find and replace
   if (edFind.Text <> '') then
   begin
+    if cbRepExt.Checked then
+      sTmpName := Result
+    else begin
+      sTmpExt := ExtractFileExt(Result);
+      sTmpName := Copy(Result, 1, Length(Result) - Length(sTmpExt));
+    end;
     if cbRegExp.Checked then
     try
-      wsText:= CeUtf8ToUtf16(Result);
+      wsText:= CeUtf8ToUtf16(sTmpName);
       wsReplace:= CeUtf8ToUtf16(edReplace.Text);
       FRegExp.ModifierI := not cbCaseSens.Checked;
 
       if not cbOnlyFirst.Checked then
       begin
-        Result := CeUtf16ToUtf8(FRegExp.Replace(wsText, wsReplace, cbUseSubs.Checked));
+        sTmpName := CeUtf16ToUtf8(FRegExp.Replace(wsText, wsReplace, cbUseSubs.Checked));
       end
       else if FRegExp.Exec(wsText) then
       begin
@@ -2110,7 +2123,7 @@ begin
         else begin
           Insert(wsReplace, wsText, FRegExp.MatchPos[0]);
         end;
-        Result:= CeUtf16ToUtf8(wsText);
+        sTmpName:= CeUtf16ToUtf8(wsText);
       end;
     except
       Result := rsMsgErrRegExpSyntax;
@@ -2125,20 +2138,32 @@ begin
       if (FReplaceText.Count = 0) then
         FReplaceText.Add('');
       for I := 0 to FFindText.Count - 1 do
-        Result := UTF8StringReplace(Result, FFindText[I], FReplaceText[Min(I, FReplaceText.Count - 1)], Flags);
+        sTmpName := UTF8StringReplace(sTmpName, FFindText[I], FReplaceText[Min(I, FReplaceText.Count - 1)], Flags);
+    end;
+    if not bError then
+    begin
+      if cbRepExt.Checked then
+        Result := sTmpName
+      else begin
+        Result := sTmpName + sTmpExt;
+      end;
     end;
   end;
 
-  // File name style
-  sTmpExt := ExtractFileExt(Result);
-  sTmpName := Copy(Result, 1, Length(Result) - Length(sTmpExt));
+  if not bError then
+  begin
+    // File name style
+    sTmpExt := ExtractFileExt(Result);
+    sTmpName := Copy(Result, 1, Length(Result) - Length(sTmpExt));
 
-  sTmpName := ApplyStyle(sTmpName, cbNameMaskStyle.ItemIndex);
-  sTmpExt := ApplyStyle(sTmpExt, cmbExtensionStyle.ItemIndex);
+    sTmpName := ApplyStyle(sTmpName, cbNameMaskStyle.ItemIndex);
+    sTmpExt := ApplyStyle(sTmpExt, cmbExtensionStyle.ItemIndex);
 
-  Result := sTmpName + sTmpExt;
+    Result := sTmpName + sTmpExt;
+  end;
 
   actRename.Enabled := not bError;
+
   if bError then
   begin
     edFind.Color := clRed;
@@ -2294,6 +2319,7 @@ begin
   cbExt.SelStart := UTF8Length(cbExt.Text);
   edFind.Text := '';
   edReplace.Text := '';
+  cbRepExt.Checked := True;
   cbRegExp.Checked := False;
   cbUseSubs.Checked := False;
   cbCaseSens.Checked := False;
@@ -2646,6 +2672,7 @@ begin
         cmbExtensionStyle.ItemIndex := FMultiRenamePresetList.MultiRenamePreset[PresetIndex].ExtensionStyle;
         edFind.Text := FMultiRenamePresetList.MultiRenamePreset[PresetIndex].Find;
         edReplace.Text := FMultiRenamePresetList.MultiRenamePreset[PresetIndex].Replace;
+        cbRepExt.Checked := FMultiRenamePresetList.MultiRenamePreset[PresetIndex].RepExt;
         cbRegExp.Checked := FMultiRenamePresetList.MultiRenamePreset[PresetIndex].RegExp;
         cbUseSubs.Checked := FMultiRenamePresetList.MultiRenamePreset[PresetIndex].UseSubs;
         cbCaseSens.Checked := FMultiRenamePresetList.MultiRenamePreset[PresetIndex].CaseSens;

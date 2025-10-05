@@ -592,13 +592,13 @@ var
 begin
   Result := False;
   if (ExtractFileDir(sPath) = PathDelim) then Exit;
-  sConnName := ExtractConnectionName(UTF16ToUTF8(sPath));
   if Assigned(ThreadCon) then
   begin
     Result:= True;
     FtpSend:= ThreadCon;
   end
   else begin
+    sConnName:= ExtractConnectionName(UTF16ToUTF8(sPath));
     Result:= FtpConnect(sConnName, FtpSend);
   end;
   if Result then begin

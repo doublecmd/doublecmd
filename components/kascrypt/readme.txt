@@ -1,25 +1,26 @@
 KAScrypt Cryptographic Component Library
 
-Copyright (C) 2011-2023 Alexander Koblov
+Copyright (C) 2011-2025 Alexander Koblov
 
 KAScrypt library implements a modern cryptographic hash functions
-with hardware acceleration using SIMD instructions under x86_64 platform:
+with hardware acceleration using SIMD instructions
+under x86_64 and aarch64 platforms:
 
-  | Function | Acceleration       |
-  | ---------| -------------------|
-  | SHA224   | SSSE3, AVX2        |
-  | SHA256   | SSSE3, AVX2        |
-  | SHA384   | SSSE3              |
-  | SHA512   | SSSE3              |
-  | SHA3-224 |                    |
-  | SHA3-256 |                    |
-  | SHA3-384 |                    |
-  | SHA3-512 |                    |
-  | BLAKE2s  | SSE2, AVX          |
-  | BLAKE2sp | SSE2, AVX          |
-  | BLAKE2b  | SSE2, AVX          |
-  | BLAKE2bp | SSE2, AVX          |
-  | BLAKE3   | SSE2, SSE4.1, AVX2 |
+  | Function | Acceleration             |
+  | ---------| ------------------------ |
+  | SHA224   | SSSE3, AVX2, ARM64CE     |
+  | SHA256   | SSSE3, AVX2, ARM64CE     |
+  | SHA384   | SSSE3, AVX2              |
+  | SHA512   | SSSE3, AVX2              |
+  | SHA3-224 |                          |
+  | SHA3-256 |                          |
+  | SHA3-384 |                          |
+  | SHA3-512 |                          |
+  | BLAKE2s  | SSE2, AVX                |
+  | BLAKE2sp | SSE2, AVX                |
+  | BLAKE2b  | SSE2, AVX                |
+  | BLAKE2bp | SSE2, AVX                |
+  | BLAKE3   | SSE2, SSE4.1, AVX2, NEON |
 
 Based on:
   DCPcrypt Cryptographic Component Library

@@ -75,7 +75,11 @@ implementation
 uses
   Graphics, SynEditTypes, SynUniClasses, FileUtil, uHighlighterProcs, DCXmlConfig,
   LCLType, DCJsonConfig, uGlobsPaths, DCClassesUtf8, DCOSUtils, DCStrUtils, uLng,
-  uGlobs, uSysFolders, SynUniRules;
+  uGlobs, uSysFolders, SynUniRules
+{$if lcl_fullversion >= 4990000}
+  , LazEditTextAttributes
+{$endif}
+  ;
 
 const
   ConfigVersion = 2;
@@ -109,9 +113,9 @@ var
   AName, AValue: String;
   AValues: TStringArray;
   AList, Attributes: TJSONArray;
+  Attribute: TLazEditTextAttribute;
   AItem, AttributeNode: TJSONObject;
   Highlighter: TSynCustomHighlighter;
-  Attribute: TSynHighlighterAttributes;
 begin
   if AConfig.Find('Highlighters', AList) then
   begin
@@ -164,8 +168,8 @@ var
   AttributeNode: TJSONObject;
   HighlighterNode: TJSONObject;
   AList, Attributes: TJSONArray;
+  Attribute: TLazEditTextAttribute;
   Highlighter: TSynCustomHighlighter;
-  Attribute: TSynHighlighterAttributes;
 begin
   if AConfig.Find('Highlighters', AList) then
     AList.Clear
@@ -611,7 +615,7 @@ end;
 procedure TdmHighl.SetHighlighter(SynEdit: TCustomSynEdit; Highlighter: TSynCustomHighlighter);
 var
   I: LongInt;
-  Attribute: TSynHighlighterAttributes;
+  Attribute: TLazEditTextAttribute;
 begin
   if (Highlighter is TSynPlainTextHighlighter) then
     SynEdit.Highlighter:= nil
@@ -840,10 +844,10 @@ procedure THighlighters.Load(const FileName: String);
 var
   J: LongInt;
   Config: TXmlConfig;
+  Attribute: TLazEditTextAttribute;
   AVersion: Integer = ConfigVersion;
   Highlighter: TSynCustomHighlighter;
   LanguageName, AttributeName: String;
-  Attribute: TSynHighlighterAttributes;
   Root, FormNode, AttributeNode: TXmlNode;
 begin
   Config := TXmlConfig.Create(FileName, True);

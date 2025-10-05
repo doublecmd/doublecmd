@@ -236,6 +236,7 @@ var
   Buffer: array of Byte;
   FileStream: TFileStreamEx;
 begin
+  Result:= EmptyStr;
   // First check by file name (fast)
   MimeType:= g_content_type_guess(Pgchar(FileName), nil, 0, @Uncertain);
   if Assigned(MimeType) then
@@ -247,7 +248,10 @@ begin
   if Uncertain then
   begin
     if MaxExtent = 0 then
-      Result:= 'text/plain'
+    begin
+      if Length(Result) = 0 then
+        Result:= 'text/plain';
+    end
     else begin
       SetLength(Buffer, MaxExtent);
       try

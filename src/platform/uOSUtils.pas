@@ -281,9 +281,10 @@ begin
   if sStartPath='' then
     sStartPath:=mbGetCurrentDir;
 
-  sCmd:= NormalizePathDelimiters(sCmd);
+  if not bTerm then
+    sCmd:= NormalizePathDelimiters(sCmd)
 
-  if bTerm then
+  else // if bTerm then
     begin
       sCmd := ConcatenateStrWithSpace(sCmd,sParams);
       if bKeepTerminalOpen = termStayOpen then

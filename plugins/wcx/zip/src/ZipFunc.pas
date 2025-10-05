@@ -191,7 +191,7 @@ begin
     Arc.TarAutoHandle := gTarAutoHandle;
     Arc.OpenArchive(UTF16ToUTF8(UnicodeString(ArchiveData.ArcName)));
 
-    if Arc.ArchiveType in [atGzip, atBzip2, atXz, atLzma, atZstd] then
+    if Arc.ArchiveType in [atGzip, atBzip2, atXz, atLzma, atZstd, atBrotli] then
       Arc.OnArchiveItemProgress := @Arc.AbOneItemProgressEvent
     else begin
       Arc.OnArchiveItemProgress := @Arc.AbArchiveItemProgressEvent;
@@ -462,7 +462,7 @@ begin
         Inc(AddList, Length(FileName) + 1);
       end;
 
-      if Arc.ArchiveType in [atGzip, atBzip2, atXz, atLzma, atZstd] then
+      if Arc.ArchiveType in [atGzip, atBzip2, atXz, atLzma, atZstd, atBrotli] then
       begin
         with Arc.Archive.ItemList[0] do
         begin
@@ -694,7 +694,7 @@ begin
   if Assigned(FProcessDataProcW) then
   begin
     ASize := Item.UncompressedSize;
-    if ASize = 0 then
+    if ASize <= 0 then
       ASize := -Progress
     else if FItemProgress = Progress then
       ASize := 0
@@ -719,7 +719,7 @@ begin
     else begin
       if Item.IsDirectory then
         ASize:= 0
-      else if Item.UncompressedSize = 0 then
+      else if Item.UncompressedSize <= 0 then
         ASize:= -(Progress + 1000)
       else begin
         if FItem <> Item then

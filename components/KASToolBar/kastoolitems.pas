@@ -142,6 +142,10 @@ type
     property SubItems: TKASToolBarItems read FItems;
   end;
 
+  { TKASLabelItem }
+
+  TKASLabelItem = class(TKASNormalItem);
+
   { TKASToolBarItems }
 
   TKASToolBarItems = class

@@ -147,6 +147,9 @@ uses
   {$IFDEF UnzipZstdSupport}
   AbZstd,
   {$ENDIF}
+  {$IFDEF UnzipBrotliSupport}
+  AbBrotli,
+  {$ENDIF}
   AbBitBkt,
   AbConst,
   AbDfCryS,
@@ -994,6 +997,20 @@ begin
 end;
 {$ENDIF}
 { -------------------------------------------------------------------------- }
+{$IFDEF UnzipBrotliSupport}
+procedure DoExtractBrotli(Archive : TAbZipArchive; Item : TAbZipItem; InStream, OutStream : TStream);
+var
+  BrotliStream: TStream;
+begin
+  BrotliStream := TBrotliDecompressionStream.Create(InStream);
+  try
+    OutStream.CopyFrom(BrotliStream, Item.UncompressedSize);
+  finally
+    BrotliStream.Free;
+  end;
+end;
+{$ENDIF}
+{ -------------------------------------------------------------------------- }
 function ExtractPrep(ZipArchive: TAbZipArchive; Item: TAbZipItem): TStream;
 var
   LFH         : TAbZipLocalFileHeader;
@@ -1142,6 +1159,11 @@ begin
       {$IFDEF UnzipZstdSupport}
       cmZstd: begin
         DoExtractZstd(aZipArchive, aItem, aInStream, OutStream);
+      end;
+      {$ENDIF}
+      {$IFDEF UnzipBrotliSupport}
+      cmBrotli: begin
+        DoExtractBrotli(aZipArchive, aItem, aInStream, OutStream);
       end;
       {$ENDIF}
       cmShrunk..cmImploded: begin

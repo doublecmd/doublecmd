@@ -54,6 +54,13 @@ var
                  'sha3_384', 'sha3_512', 'tiger', 'xxh3_128'
                );
 
+  HashFirst: array[0..11] of THashAlgorithm = (
+               HASH_SFV,      HASH_SHA224, HASH_SHA3_224,
+               HASH_BLAKE3,   HASH_SHA256, HASH_SHA3_256,
+               HASH_XXH3_128, HASH_SHA384, HASH_SHA3_384,
+               HASH_SHA1,     HASH_SHA512, HASH_SHA3_512
+             );
+
 procedure HashInit(out Context: THashContext; Algorithm: THashAlgorithm);
 procedure HashUpdate(var Context: THashContext; const Buffer; BufLen: LongWord);
 procedure HashFinal(var Context: THashContext; out Hash: String);
@@ -73,15 +80,16 @@ uses
 
 procedure HashInit(out Context: THashContext; Algorithm: THashAlgorithm);
 begin
-{$PUSH}{$WARNINGS OFF}
   if (Algorithm = HASH_BEST) then
   begin
-    if SizeOf(UIntPtr) = Sizeof(UInt64) then
-      Algorithm:= HASH_BLAKE2B
-    else
-      Algorithm:= HASH_BLAKE2S;
+{$IF DEFINED(CPUX86_64)}
+    Algorithm:= HASH_BLAKE3;
+{$ELSEIF DEFINED(CPU64)}
+    Algorithm:= HASH_BLAKE2B;
+{$ELSE}
+    Algorithm:= HASH_BLAKE2S;
+{$ENDIF}
   end;
-{$POP}
   case Algorithm of
     HASH_BLAKE2S:    Context:= TDCP_blake2s.Create(nil);
     HASH_BLAKE2SP:   Context:= TDCP_blake2sp.Create(nil);

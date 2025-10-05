@@ -43,7 +43,7 @@ type
       var Special: boolean; var FG, BG: TColor);
   private
     procedure AddHeader(const aText: String; aCount: Integer; aColor: TColor);
-    procedure ProcessResult(const aResult: TDynamicStringArray;
+    procedure ProcessResult(const aResult: TStringList;
                             const aText: String; aColor: TColor);
   protected
     procedure CMThemeChanged(var Message: TLMessage); message CM_THEMECHANGED;
@@ -69,15 +69,15 @@ begin
     seCheckSumVerify.Lines.BeginUpdate;
     try
       seCheckSumVerify.Lines.AddObject(rsCheckSumVerifyGeneral, TObject(PtrInt(clWindowText)));
-      aTotalCount:= Length(VerifyResult.Success) + Length(VerifyResult.ReadError) +
-                    Length(VerifyResult.Broken) + Length(VerifyResult.Missing);
+      aTotalCount:= VerifyResult.Success.Count + VerifyResult.ReadError.Count +
+                    VerifyResult.Broken.Count + VerifyResult.Missing.Count;
 
       // Add header information
       AddHeader(rsCheckSumVerifyTotal, aTotalCount, clWindowText);
-      AddHeader(rsCheckSumVerifySuccess, Length(VerifyResult.Success), Ord(lmtSuccess));
-      AddHeader(rsCheckSumVerifyMissing, Length(VerifyResult.Missing), Ord(lmtError));
-      AddHeader(rsCheckSumVerifyBroken, Length(VerifyResult.Broken), Ord(lmtError));
-      AddHeader(rsCheckSumVerifyReadError, Length(VerifyResult.ReadError), Ord(lmtError));
+      AddHeader(rsCheckSumVerifySuccess, VerifyResult.Success.Count, Ord(lmtSuccess));
+      AddHeader(rsCheckSumVerifyMissing, VerifyResult.Missing.Count, Ord(lmtError));
+      AddHeader(rsCheckSumVerifyBroken, VerifyResult.Broken.Count, Ord(lmtError));
+      AddHeader(rsCheckSumVerifyReadError, VerifyResult.ReadError.Count, Ord(lmtError));
 
       // Add broken files
       ProcessResult(VerifyResult.Broken, rsCheckSumVerifyBroken, Ord(lmtError));
@@ -135,16 +135,16 @@ begin
   seCheckSumVerify.Lines.AddObject(#32 + aText + #32 + IntToStr(aCount), TObject(PtrInt(aColor)));
 end;
 
-procedure TfrmCheckSumVerify.ProcessResult(const aResult: TDynamicStringArray;
+procedure TfrmCheckSumVerify.ProcessResult(const aResult: TStringList;
                                            const aText: String; aColor: TColor);
 var
   I: Integer;
 begin
-  if Length(aResult) > 0 then
+  if aResult.Count > 0 then
   begin
     seCheckSumVerify.Lines.Add(EmptyStr);
     seCheckSumVerify.Lines.AddObject(aText, TObject(PtrInt(aColor)));
-    for I:= Low(aResult) to High(aResult) do
+    for I:= 0 to aResult.Count - 1 do
     begin
       seCheckSumVerify.Lines.AddObject(#32 + aResult[I], TObject(PtrInt(aColor)));
     end;

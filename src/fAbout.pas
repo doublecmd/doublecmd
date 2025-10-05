@@ -153,25 +153,8 @@ begin
 end;
 
 procedure TfrmAbout.btnCopyToClipboardClick(Sender: TObject);
-var
-  StrInfo: String;
 begin
-  StrInfo := Format('Double Commander' + LineEnding +
-                    'Version: %s' + LineEnding +
-                    'Revision: %s' + LineEnding +
-                    'Commit: %s' + LineEnding +
-                    'Build date: %s' + LineEnding +
-                    'Lazarus: %s' + LineEnding +
-                    'FPC: %s' + LineEnding +
-                    'Platform: %s' + LineEnding +
-                    'OS version: %s' + LineEnding,
-                    [dcVersion, dcRevision, dcCommit, dcBuildDate,
-                    lazVersion, fpcVersion,
-                    TargetCPU + '-' + TargetOS + '-' + TargetWS,
-                    OSVersion]);
-  if WSVersion <> EmptyStr then
-    StrInfo := StrInfo + LineEnding + 'Widgetset library: ' + WSVersion;
-  ClipboardSetText(StrInfo);
+  ClipboardSetText(GetVersionInformation + LineEnding);
 end;
 
 procedure TfrmAbout.FormCreate(Sender: TObject);

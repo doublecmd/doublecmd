@@ -30,6 +30,8 @@ const
 
 {$if defined(CPUX86_64)}
   MAX_SIMD_DEGREE = 16;
+{$elseif defined(CPUAARCH64)}
+  MAX_SIMD_DEGREE = 4;
 {$else}
   MAX_SIMD_DEGREE = 1;
 {$endif}
@@ -86,7 +88,7 @@ implementation
 
 {$IF DEFINED(CPUX86_64)}
 uses
-  CPU;
+  CPU, KAScpu;
 {$ENDIF}
 
 type
@@ -201,6 +203,10 @@ end;
   {$include blake3_avx2.inc}
 {$ELSE}
   {$include blake3_pas.inc}
+{$ENDIF}
+
+{$IF DEFINED(CPUAARCH64)}
+  {$include blake3_neon.inc}
 {$ENDIF}
 
 var
@@ -732,6 +738,11 @@ initialization
     blake3_compress_xof:= @blake3_compress_xof_sse2;
     blake3_hash_many:= @blake3_hash_many_sse2;
   end;
+{$ELSEIF DEFINED(CPUAARCH64)}
+  blake3_simd_degree:= 4;
+  blake3_compress_in_place:= @blake3_compress_in_place_portable;
+  blake3_compress_xof:= @blake3_compress_xof_portable;
+  blake3_hash_many:= @blake3_hash_many_neon;
 {$ELSE}
   blake3_simd_degree:= 1;
   blake3_compress_in_place:= @blake3_compress_in_place_portable;
@@ -739,4 +750,3 @@ initialization
   blake3_hash_many:= @blake3_hash_many_portable;
 {$ENDIF}
 end.
-

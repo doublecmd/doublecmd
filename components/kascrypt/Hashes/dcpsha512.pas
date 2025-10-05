@@ -4,7 +4,7 @@
 {* A binary compatible implementation of SHA512 *******************************}
 {******************************************************************************}
 {* Copyright (C) 1999-2002 David Barton                                       *}
-{* Copyright (C) 2018 Alexander Koblov (alexx2000@mail.ru)                    *}
+{* Copyright (C) 2018-2025 Alexander Koblov (alexx2000@mail.ru)               *}
 {* Permission is hereby granted, free of charge, to any person obtaining a    *}
 {* copy of this software and associated documentation files (the "Software"), *}
 {* to deal in the Software without restriction, including without limitation  *}
@@ -75,7 +75,10 @@ implementation
 {$R-}{$Q-}
 
 {$IF DEFINED(CPUX86_64)}
+uses
+  CPU, KAScpu;
   {$include sha512_sse.inc}
+  {$include sha512_avx.inc}
 {$ENDIF}
 
 procedure sha512_compress_pas(HashBuffer: PByte; CurrentHash: PInt64; BufferCount: UIntPtr); register;
@@ -218,7 +221,9 @@ end;
 procedure TDCP_sha512base.Init;
 begin
 {$IF DEFINED(CPUX86_64)}
-  if SSSE3Support then
+  if AVX2Support and BMI2Support then
+    FCompress:= @sha512_compress_avx
+  else if SSSE3Support then
     FCompress:= @sha512_compress_sse
   else
 {$ENDIF}

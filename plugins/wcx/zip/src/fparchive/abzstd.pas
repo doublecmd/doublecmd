@@ -100,7 +100,7 @@ type
     function Seek(const Offset: Int64; Origin: TSeekOrigin): Int64; override;
   end;
 
-function ZSTD_FileSize(const InStream: TStream): UInt64;
+function ZSTD_FileSize(const InStream: TStream): Int64;
 
 implementation
 
@@ -202,8 +202,9 @@ begin
     raise EZstdError.Create(ZSTD_getErrorName(code))
 end;
 
-function ZSTD_FileSize(const InStream: TStream): UInt64;
+function ZSTD_FileSize(const InStream: TStream): Int64;
 var
+  ASize: UInt64;
   APosition: Int64;
   ABuffer: array[1..ZSTD_FRAMEHEADERSIZE_MAX] of Byte;
 begin
@@ -214,10 +215,13 @@ begin
   InStream.Read(ABuffer[1], ZSTD_FRAMEHEADERSIZE_MAX);
   InStream.Seek(APosition, soBeginning);
 
-  Result:= ZSTD_getFrameContentSize(@ABuffer[1], ZSTD_FRAMEHEADERSIZE_MAX);
+  ASize:= ZSTD_getFrameContentSize(@ABuffer[1], ZSTD_FRAMEHEADERSIZE_MAX);
 
-  if (Result = ZSTD_CONTENTSIZE_UNKNOWN) or (Result = ZSTD_CONTENTSIZE_ERROR) then
-    Result:= 0;
+  if (ASize = ZSTD_CONTENTSIZE_UNKNOWN) or (ASize = ZSTD_CONTENTSIZE_ERROR) then
+    Result:= -1
+  else begin
+    Result:= Int64(ASize);
+  end;
 end;
 
 { TZstdDecompressionStream }
